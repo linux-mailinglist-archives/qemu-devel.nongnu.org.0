@@ -2,50 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 42576B3F5
-	for <lists+qemu-devel@lfdr.de>; Sat, 27 Apr 2019 18:40:29 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:34060 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86F32B3F8
+	for <lists+qemu-devel@lfdr.de>; Sat, 27 Apr 2019 18:41:04 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:34066 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hKQNI-0002cn-2K
-	for lists+qemu-devel@lfdr.de; Sat, 27 Apr 2019 12:40:28 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33748)
+	id 1hKQNr-00034d-LG
+	for lists+qemu-devel@lfdr.de; Sat, 27 Apr 2019 12:41:03 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33815)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <samuel.thibault@ens-lyon.org>) id 1hKQKi-00017k-4j
+	(envelope-from <samuel.thibault@ens-lyon.org>) id 1hKQKi-0001Ae-4Q
 	for qemu-devel@nongnu.org; Sat, 27 Apr 2019 12:37:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <samuel.thibault@ens-lyon.org>) id 1hKQDb-00059W-89
+	(envelope-from <samuel.thibault@ens-lyon.org>) id 1hKQDb-00059r-8m
 	for qemu-devel@nongnu.org; Sat, 27 Apr 2019 12:30:28 -0400
-Received: from hera.aquilenet.fr ([185.233.100.1]:39202)
+Received: from hera.aquilenet.fr ([2a0c:e300::1]:47178)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <samuel.thibault@ens-lyon.org>)
-	id 1hKQDZ-0004TJ-8w
+	id 1hKQDZ-0004UD-FG
 	for qemu-devel@nongnu.org; Sat, 27 Apr 2019 12:30:27 -0400
 Received: from localhost (localhost [127.0.0.1])
-	by hera.aquilenet.fr (Postfix) with ESMTP id 68C683D59;
-	Sat, 27 Apr 2019 18:30:12 +0200 (CEST)
+	by hera.aquilenet.fr (Postfix) with ESMTP id 6DC163DA4;
+	Sat, 27 Apr 2019 18:30:13 +0200 (CEST)
 X-Virus-Scanned: Debian amavisd-new at aquilenet.fr
 Received: from hera.aquilenet.fr ([127.0.0.1])
 	by localhost (hera.aquilenet.fr [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id MiOmbn4vIOOu; Sat, 27 Apr 2019 18:30:11 +0200 (CEST)
+	with ESMTP id yUhBorprDrsA; Sat, 27 Apr 2019 18:30:11 +0200 (CEST)
 Received: from function (105.251.129.77.rev.sfr.net [77.129.251.105])
-	by hera.aquilenet.fr (Postfix) with ESMTPSA id EFCC53D9F;
+	by hera.aquilenet.fr (Postfix) with ESMTPSA id DEB6A3D9E;
 	Sat, 27 Apr 2019 18:30:10 +0200 (CEST)
 Received: from samy by function with local (Exim 4.92)
 	(envelope-from <samuel.thibault@ens-lyon.org>)
-	id 1hKQDI-0001LG-FA; Sat, 27 Apr 2019 18:30:08 +0200
+	id 1hKQDI-0001LI-I5; Sat, 27 Apr 2019 18:30:08 +0200
 From: Samuel Thibault <samuel.thibault@ens-lyon.org>
 To: qemu-devel@nongnu.org
-Date: Sat, 27 Apr 2019 18:30:05 +0200
-Message-Id: <20190427163007.5113-2-samuel.thibault@ens-lyon.org>
+Date: Sat, 27 Apr 2019 18:30:06 +0200
+Message-Id: <20190427163007.5113-3-samuel.thibault@ens-lyon.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190427163007.5113-1-samuel.thibault@ens-lyon.org>
 References: <20190427163007.5113-1-samuel.thibault@ens-lyon.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 185.233.100.1
-Subject: [Qemu-devel] [PATCH] curses: do not assume wchar_t contains unicode
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2a0c:e300::1
+Subject: [Qemu-devel] [PATCHv3 1/2] ui/curses: Do not assume wchar_t
+ contains unicode
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
