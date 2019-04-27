@@ -2,51 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 072A6B3BA
-	for <lists+qemu-devel@lfdr.de>; Sat, 27 Apr 2019 16:17:33 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60850 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B44AB3BD
+	for <lists+qemu-devel@lfdr.de>; Sat, 27 Apr 2019 16:20:24 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60891 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hKO8y-0007PZ-4L
-	for lists+qemu-devel@lfdr.de; Sat, 27 Apr 2019 10:17:32 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39546)
+	id 1hKOBj-0001Lb-PN
+	for lists+qemu-devel@lfdr.de; Sat, 27 Apr 2019 10:20:23 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40616)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hKO6r-0006Ln-90
-	for qemu-devel@nongnu.org; Sat, 27 Apr 2019 10:15:22 -0400
+	(envelope-from <philmd@redhat.com>) id 1hKOAh-0000o3-Rb
+	for qemu-devel@nongnu.org; Sat, 27 Apr 2019 10:19:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hKO6q-0000cF-Dx
-	for qemu-devel@nongnu.org; Sat, 27 Apr 2019 10:15:21 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37830)
+	(envelope-from <philmd@redhat.com>) id 1hKOAg-0004vC-Si
+	for qemu-devel@nongnu.org; Sat, 27 Apr 2019 10:19:19 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59828)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <philmd@redhat.com>)
-	id 1hKO6o-0000aQ-Cy; Sat, 27 Apr 2019 10:15:18 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
+	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hKOAg-0004uS-NE
+	for qemu-devel@nongnu.org; Sat, 27 Apr 2019 10:19:18 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id A569E12FE2;
-	Sat, 27 Apr 2019 14:15:17 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 02335308AA12;
+	Sat, 27 Apr 2019 14:19:18 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-83.brq.redhat.com [10.40.204.83])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 867E750A63;
-	Sat, 27 Apr 2019 14:15:15 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 17B875D70A;
+	Sat, 27 Apr 2019 14:19:06 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Date: Sat, 27 Apr 2019 16:14:59 +0200
-Message-Id: <20190427141459.19728-4-philmd@redhat.com>
-In-Reply-To: <20190427141459.19728-1-philmd@redhat.com>
-References: <20190427141459.19728-1-philmd@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Sat, 27 Apr 2019 16:19:04 +0200
+Message-Id: <20190427141905.20393-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.28]);
-	Sat, 27 Apr 2019 14:15:17 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.41]);
+	Sat, 27 Apr 2019 14:19:18 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 3/3] hw/dma: Do not build the xlnx_dpdma device
- for the MicroBlaze machines
+Subject: [Qemu-devel] [PATCH] hw/i386: The i440fx is not a machine,
+ remove it from the machine list
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,35 +55,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
-	Alistair Francis <alistair@alistair23.me>,
-	"Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+	Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The xlnx_dpdma device is only used by the ZynqMP AArch64 machine
-(not the MicroBlaze PMU). Remove it from the ZynqMP generic objects.
-(Note, this entry was duplicated for the AArch64).
+When building with CONFIG_ISAPC=3Dn and CONFIG_I440FX=3Dy we get:
+
+  $ make subdir-x86_64-softmmu
+  [...]
+  /usr/bin/ld: hw/i386/pc_piix.o: in function `pc_init1':
+  /source/qemu/hw/i386/pc_piix.c:261: undefined reference to `isa_ide_ini=
+t'
+  /usr/bin/ld: /source/qemu/hw/i386/pc_piix.c:261: undefined reference to=
+ `isa_ide_init'
+  collect2: error: ld returned 1 exit status
+  make[1]: *** [Makefile:204: qemu-system-x86_64] Error 1
+
+This is because the I440FX device is a North Bridge, not a machine.
+It is however used by the ISAPC machine.
+
+Correct the dependency in the ISAPC Kconfig.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/dma/Makefile.objs | 1 -
- 1 file changed, 1 deletion(-)
+ default-configs/i386-softmmu.mak | 1 -
+ hw/i386/Kconfig                  | 2 +-
+ 2 files changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/hw/dma/Makefile.objs b/hw/dma/Makefile.objs
-index 79affecc390..a5b1276f52a 100644
---- a/hw/dma/Makefile.objs
-+++ b/hw/dma/Makefile.objs
-@@ -8,7 +8,6 @@ common-obj-$(CONFIG_XILINX_AXI) +=3D xilinx_axidma.o
- common-obj-$(CONFIG_ZYNQ_DEVCFG) +=3D xlnx-zynq-devcfg.o
- common-obj-$(CONFIG_ETRAXFS) +=3D etraxfs_dma.o
- common-obj-$(CONFIG_STP2000) +=3D sparc32_dma.o
--obj-$(CONFIG_XLNX_ZYNQMP) +=3D xlnx_dpdma.o
- obj-$(CONFIG_XLNX_ZYNQMP_ARM) +=3D xlnx_dpdma.o
- common-obj-$(CONFIG_XLNX_ZYNQMP_ARM) +=3D xlnx-zdma.o
+diff --git a/default-configs/i386-softmmu.mak b/default-configs/i386-soft=
+mmu.mak
+index ba3fb3ff50a..b33f5952128 100644
+--- a/default-configs/i386-softmmu.mak
++++ b/default-configs/i386-softmmu.mak
+@@ -23,5 +23,4 @@
+ # Boards:
+ #
+ CONFIG_ISAPC=3Dy
+-CONFIG_I440FX=3Dy
+ CONFIG_Q35=3Dy
+diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
+index a6aed7c1313..9211adf2bb3 100644
+--- a/hw/i386/Kconfig
++++ b/hw/i386/Kconfig
+@@ -69,7 +69,7 @@ config ISAPC
+     select VGA_ISA
+     # FIXME: it is in the same file as i440fx, and does not compile
+     # if separated
+-    depends on I440FX
++    select I440FX
 =20
+ config Q35
+     bool
 --=20
 2.20.1
 
