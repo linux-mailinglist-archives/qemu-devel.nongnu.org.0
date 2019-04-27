@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8AA6FB3C7
-	for <lists+qemu-devel@lfdr.de>; Sat, 27 Apr 2019 16:47:48 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:32902 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A6764B3CF
+	for <lists+qemu-devel@lfdr.de>; Sat, 27 Apr 2019 16:52:13 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33005 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hKOcE-0007Da-Je
-	for lists+qemu-devel@lfdr.de; Sat, 27 Apr 2019 10:47:46 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43514)
+	id 1hKOgW-0002wK-Uf
+	for lists+qemu-devel@lfdr.de; Sat, 27 Apr 2019 10:52:12 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44243)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hKOZi-0005dm-NC
-	for qemu-devel@nongnu.org; Sat, 27 Apr 2019 10:45:11 -0400
+	(envelope-from <thuth@redhat.com>) id 1hKObJ-0007Mq-Mg
+	for qemu-devel@nongnu.org; Sat, 27 Apr 2019 10:46:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hKOYS-0000wF-9N
-	for qemu-devel@nongnu.org; Sat, 27 Apr 2019 10:43:53 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36390)
+	(envelope-from <thuth@redhat.com>) id 1hKObH-0003K1-P0
+	for qemu-devel@nongnu.org; Sat, 27 Apr 2019 10:46:49 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51628)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <thuth@redhat.com>)
-	id 1hKOYR-0000vJ-2K; Sat, 27 Apr 2019 10:43:51 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
+	id 1hKObF-0003EQ-Ei; Sat, 27 Apr 2019 10:46:45 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 7C169811D5;
-	Sat, 27 Apr 2019 14:43:49 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 97B40142BEC;
+	Sat, 27 Apr 2019 14:46:44 +0000 (UTC)
 Received: from thuth.remote.csb (ovpn-116-26.ams2.redhat.com [10.36.116.26])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 7697E1001E81;
-	Sat, 27 Apr 2019 14:43:45 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id D6B235D70A;
+	Sat, 27 Apr 2019 14:46:39 +0000 (UTC)
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
 	qemu-arm@nongnu.org, qemu-devel@nongnu.org
 References: <20190427141459.19728-1-philmd@redhat.com>
-	<20190427141459.19728-3-philmd@redhat.com>
+	<20190427141459.19728-4-philmd@redhat.com>
 From: Thomas Huth <thuth@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=thuth@redhat.com; keydata=
@@ -78,23 +78,23 @@ Autocrypt: addr=thuth@redhat.com; keydata=
 	rCELuGwT9hsYkUPjVd4lfylN3mzEc6iAv/wwjsc0DRTSQCpXT3v2ymTAsRKrVaEZLibTXaf+
 	WslxWek3xNYRiqwwWAJuL652eAlxUgQ5ZS+fXBRTiQpJ+F26I/2lccScRd9G5w==
 Organization: Red Hat
-Message-ID: <9c902821-137a-1727-0353-033773e9b895@redhat.com>
-Date: Sat, 27 Apr 2019 16:43:44 +0200
+Message-ID: <bb31dd2a-8cd6-0dfe-a71f-4c47ec3d9687@redhat.com>
+Date: Sat, 27 Apr 2019 16:46:38 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190427141459.19728-3-philmd@redhat.com>
+In-Reply-To: <20190427141459.19728-4-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.27]);
-	Sat, 27 Apr 2019 14:43:49 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.38]);
+	Sat, 27 Apr 2019 14:46:44 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 2/3] hw/intc: Only build the
- xlnx-iomod-intc device for the MicroBlaze PMU
+Subject: Re: [Qemu-devel] [PATCH 3/3] hw/dma: Do not build the xlnx_dpdma
+ device for the MicroBlaze machines
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -106,7 +106,7 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
 	Alistair Francis <alistair@alistair23.me>,
 	"Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
 	Peter Maydell <peter.maydell@linaro.org>
@@ -114,28 +114,27 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 27/04/2019 16.14, Philippe Mathieu-Daud=C3=A9 wrote:
-> The Xilinx I/O Module Interrupt Controller is only used by the
-> MicroBlaze PMU, not by the AArch64 machine.
-> Move it from the generic ZynqMP object list to the PMU specific.
+> The xlnx_dpdma device is only used by the ZynqMP AArch64 machine
+> (not the MicroBlaze PMU). Remove it from the ZynqMP generic objects.
+> (Note, this entry was duplicated for the AArch64).
 >=20
 > Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
->  hw/intc/Makefile.objs | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  hw/dma/Makefile.objs | 1 -
+>  1 file changed, 1 deletion(-)
 >=20
-> diff --git a/hw/intc/Makefile.objs b/hw/intc/Makefile.objs
-> index df712c3e6c9..247e8016cb8 100644
-> --- a/hw/intc/Makefile.objs
-> +++ b/hw/intc/Makefile.objs
-> @@ -3,7 +3,7 @@ common-obj-$(CONFIG_I8259) +=3D i8259_common.o i8259.o
->  common-obj-$(CONFIG_PL190) +=3D pl190.o
->  common-obj-$(CONFIG_PUV3) +=3D puv3_intc.o
->  common-obj-$(CONFIG_XILINX) +=3D xilinx_intc.o
-> -common-obj-$(CONFIG_XLNX_ZYNQMP) +=3D xlnx-pmu-iomod-intc.o
-> +common-obj-$(CONFIG_XLNX_ZYNQMP_PMU) +=3D xlnx-pmu-iomod-intc.o
->  common-obj-$(CONFIG_XLNX_ZYNQMP) +=3D xlnx-zynqmp-ipi.o
->  common-obj-$(CONFIG_ETRAXFS) +=3D etraxfs_pic.o
->  common-obj-$(CONFIG_IMX) +=3D imx_avic.o imx_gpcv2.o
+> diff --git a/hw/dma/Makefile.objs b/hw/dma/Makefile.objs
+> index 79affecc390..a5b1276f52a 100644
+> --- a/hw/dma/Makefile.objs
+> +++ b/hw/dma/Makefile.objs
+> @@ -8,7 +8,6 @@ common-obj-$(CONFIG_XILINX_AXI) +=3D xilinx_axidma.o
+>  common-obj-$(CONFIG_ZYNQ_DEVCFG) +=3D xlnx-zynq-devcfg.o
+>  common-obj-$(CONFIG_ETRAXFS) +=3D etraxfs_dma.o
+>  common-obj-$(CONFIG_STP2000) +=3D sparc32_dma.o
+> -obj-$(CONFIG_XLNX_ZYNQMP) +=3D xlnx_dpdma.o
+>  obj-$(CONFIG_XLNX_ZYNQMP_ARM) +=3D xlnx_dpdma.o
+>  common-obj-$(CONFIG_XLNX_ZYNQMP_ARM) +=3D xlnx-zdma.o
+> =20
 >=20
 
 Reviewed-by: Thomas Huth <thuth@redhat.com>
