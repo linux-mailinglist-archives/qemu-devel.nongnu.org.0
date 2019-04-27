@@ -2,54 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A6EFBB3DB
-	for <lists+qemu-devel@lfdr.de>; Sat, 27 Apr 2019 18:12:12 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33824 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6207B3DE
+	for <lists+qemu-devel@lfdr.de>; Sat, 27 Apr 2019 18:14:46 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33848 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hKPvv-0003Xb-Cq
-	for lists+qemu-devel@lfdr.de; Sat, 27 Apr 2019 12:12:11 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57530)
+	id 1hKPyQ-0005P3-59
+	for lists+qemu-devel@lfdr.de; Sat, 27 Apr 2019 12:14:46 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58389)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <samuel.thibault@ens-lyon.org>) id 1hKPuu-0002sh-GU
-	for qemu-devel@nongnu.org; Sat, 27 Apr 2019 12:11:10 -0400
+	(envelope-from <philmd@redhat.com>) id 1hKPxC-0004rY-SN
+	for qemu-devel@nongnu.org; Sat, 27 Apr 2019 12:13:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <samuel.thibault@ens-lyon.org>) id 1hKPjG-0004CH-HC
-	for qemu-devel@nongnu.org; Sat, 27 Apr 2019 11:59:08 -0400
-Received: from hera.aquilenet.fr ([2a0c:e300::1]:46672)
+	(envelope-from <philmd@redhat.com>) id 1hKPxC-0000BX-30
+	for qemu-devel@nongnu.org; Sat, 27 Apr 2019 12:13:30 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43664)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <samuel.thibault@ens-lyon.org>)
-	id 1hKPjE-000488-I5
-	for qemu-devel@nongnu.org; Sat, 27 Apr 2019 11:59:06 -0400
-Received: from localhost (localhost [127.0.0.1])
-	by hera.aquilenet.fr (Postfix) with ESMTP id B3FED3D11;
-	Sat, 27 Apr 2019 17:59:01 +0200 (CEST)
-X-Virus-Scanned: Debian amavisd-new at aquilenet.fr
-Received: from hera.aquilenet.fr ([127.0.0.1])
-	by localhost (hera.aquilenet.fr [127.0.0.1]) (amavisd-new, port 10024)
-	with ESMTP id uGeONcvy8uzh; Sat, 27 Apr 2019 17:59:00 +0200 (CEST)
-Received: from function (105.251.129.77.rev.sfr.net [77.129.251.105])
-	by hera.aquilenet.fr (Postfix) with ESMTPSA id 7E92E3D0C;
-	Sat, 27 Apr 2019 17:59:00 +0200 (CEST)
-Received: from samy by function with local (Exim 4.92)
-	(envelope-from <samuel.thibault@ens-lyon.org>)
-	id 1hKPj8-00082m-9X; Sat, 27 Apr 2019 17:58:58 +0200
-Date: Sat, 27 Apr 2019 17:58:58 +0200
-From: Samuel Thibault <samuel.thibault@gnu.org>
+	(Exim 4.71) (envelope-from <philmd@redhat.com>)
+	id 1hKPxB-0000B8-U1; Sat, 27 Apr 2019 12:13:30 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+	[10.5.11.12])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 1501E308FF0E;
+	Sat, 27 Apr 2019 16:13:29 +0000 (UTC)
+Received: from x1w.redhat.com (ovpn-204-83.brq.redhat.com [10.40.204.83])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id D6F89382C;
+	Sat, 27 Apr 2019 16:13:24 +0000 (UTC)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Message-ID: <20190427155858.3thq4lpbrkzgn2rh@function>
-References: <20190427155807.30820-1-samuel.thibault@ens-lyon.org>
+Date: Sat, 27 Apr 2019 18:13:22 +0200
+Message-Id: <20190427161322.24642-1-philmd@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190427155807.30820-1-samuel.thibault@ens-lyon.org>
-Organization: I am not organized
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a0c:e300::1
-Subject: Re: [Qemu-devel] [PATCH] curses: Do not assume wchar_t contains
- unicode
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.49]);
+	Sat, 27 Apr 2019 16:13:29 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH] Makefile: Let the 'clean' rule remove
+ qemu-ga.exe on Windows hosts
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,259 +55,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kamil@netbsd.org, kraxel@redhat.com
+Cc: qemu-trivial@nongnu.org, Stefan Weil <sw@weilnetz.de>,
+	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+	Michael Roth <mdroth@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ah, sorry, I missed putting v2 above and the change summary: I fixed an
-uninitalized value in an error message.
+Commit 48ff7a625b36 added the QEMU Guest Agent tool with the
+optional ".exe" suffix for Windows hosts, but forgot to use
+this suffix in the 'clean' rule. Calling this rule let a dangling
+executable in the build directory.
+Correct this by using the proper optional suffix.
 
-Samuel
+Fixes: 48ff7a625b36
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+---
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Samuel Thibault, le sam. 27 avril 2019 17:58:07 +0200, a ecrit:
-> E.g. BSD and Solaris even use locale-specific encoding there.
-> 
-> We thus have to go through the native multibyte representation and use
-> mbtowc/wctomb to make a proper conversion.
-> 
-> Signed-off-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
-> ---
->  ui/curses.c | 151 ++++++++++++++++++++++++++++++++--------------------
->  1 file changed, 94 insertions(+), 57 deletions(-)
-> 
-> diff --git a/ui/curses.c b/ui/curses.c
-> index fb63945188..395f9545e9 100644
-> --- a/ui/curses.c
-> +++ b/ui/curses.c
-> @@ -400,65 +400,102 @@ static void curses_atexit(void)
->      endwin();
->  }
->  
-> +/*
-> + * In the following:
-> + * - fch is the font glyph number
-> + * - uch is the unicode value
-> + * - wch is the wchar_t value (may not be unicode, e.g. on BSD/solaris)
-> + * - mbch is the native local-dependent multibyte representation
-> + */
-> +
->  /* Setup wchar glyph for one UCS-2 char */
-> -static void convert_ucs(int glyph, uint16_t ch, iconv_t conv)
-> +static void convert_ucs(unsigned char fch, uint16_t uch, iconv_t conv)
->  {
-> +    char mbch[MB_CUR_MAX];
->      wchar_t wch;
-> -    char *pch, *pwch;
-> -    size_t sch, swch;
-> -
-> -    pch = (char *) &ch;
-> -    pwch = (char *) &wch;
-> -    sch = sizeof(ch);
-> -    swch = sizeof(wch);
-> +    char *puch, *pmbch;
-> +    size_t such, smbch;
-> +
-> +    puch = (char *) &uch;
-> +    pmbch = (char *) mbch;
-> +    such = sizeof(uch);
-> +    smbch = sizeof(mbch);
-> +
-> +    if (iconv(conv, &puch, &such, &pmbch, &smbch) == (size_t) -1) {
-> +        fprintf(stderr, "Could not convert 0x%04x "
-> +                        "from UCS-2 to a multibyte character: %s\n",
-> +                        uch, strerror(errno));
-> +        return;
-> +    }
->  
-> -    if (iconv(conv, &pch, &sch, &pwch, &swch) == (size_t) -1) {
-> -        fprintf(stderr, "Could not convert 0x%04x from UCS-2 to WCHAR_T: %s\n",
-> -                        ch, strerror(errno));
-> -    } else {
-> -        vga_to_curses[glyph].chars[0] = wch;
-> +    if (mbtowc(&wch, mbch, sizeof(mbch) - smbch) == -1) {
-> +        fprintf(stderr, "Could not convert 0x%04x "
-> +                        "from a multibyte character to wchar_t: %s\n",
-> +                        uch, strerror(errno));
-> +        return;
->      }
-> +    vga_to_curses[fch].chars[0] = wch;
->  }
->  
->  /* Setup wchar glyph for one font character */
-> -static void convert_font(unsigned char ch, iconv_t conv)
-> +static void convert_font(unsigned char fch, iconv_t conv)
->  {
-> +    char mbch[MB_CUR_MAX];
->      wchar_t wch;
-> -    char *pch, *pwch;
-> -    size_t sch, swch;
-> -
-> -    pch = (char *) &ch;
-> -    pwch = (char *) &wch;
-> -    sch = sizeof(ch);
-> -    swch = sizeof(wch);
-> +    char *pfch, *pmbch;
-> +    size_t sfch, smbch;
-> +
-> +    pfch = (char *) &fch;
-> +    pmbch = (char *) &mbch;
-> +    sfch = sizeof(fch);
-> +    smbch = sizeof(mbch);
-> +
-> +    if (iconv(conv, &pfch, &sfch, &pmbch, &smbch) == (size_t) -1) {
-> +        fprintf(stderr, "Could not convert font glyph 0x%02x "
-> +                        "from %s to a multibyte character: %s\n",
-> +                        fch, font_charset, strerror(errno));
-> +        return;
-> +    }
->  
-> -    if (iconv(conv, &pch, &sch, &pwch, &swch) == (size_t) -1) {
-> -        fprintf(stderr, "Could not convert 0x%02x from %s to WCHAR_T: %s\n",
-> -                        ch, font_charset, strerror(errno));
-> -    } else {
-> -        vga_to_curses[ch].chars[0] = wch;
-> +    if (mbtowc(&wch, mbch, sizeof(mbch) - smbch) == -1) {
-> +        fprintf(stderr, "Could not convert font glyph 0x%02x "
-> +                        "from a multibyte character to wchar_t: %s\n",
-> +                        fch, strerror(errno));
-> +        return;
->      }
-> +    vga_to_curses[fch].chars[0] = wch;
->  }
->  
->  /* Convert one wchar to UCS-2 */
->  static uint16_t get_ucs(wchar_t wch, iconv_t conv)
->  {
-> -    uint16_t ch;
-> -    char *pch, *pwch;
-> -    size_t sch, swch;
-> -
-> -    pch = (char *) &ch;
-> -    pwch = (char *) &wch;
-> -    sch = sizeof(ch);
-> -    swch = sizeof(wch);
-> -
-> -    if (iconv(conv, &pwch, &swch, &pch, &sch) == (size_t) -1) {
-> -        fprintf(stderr, "Could not convert 0x%02lx from WCHAR_T to UCS-2: %s\n",
-> -                (unsigned long)wch, strerror(errno));
-> +    char mbch[MB_CUR_MAX];
-> +    uint16_t uch;
-> +    char *pmbch, *puch;
-> +    size_t smbch, such;
-> +    int ret;
-> +
-> +    ret = wctomb(mbch, wch);
-> +    if (ret == -1) {
-> +        fprintf(stderr, "Could not convert 0x%04x "
-> +                        "from wchar_t to a multibyte character: %s\n",
-> +                        wch, strerror(errno));
-> +        return 0xFFFD;
-> +    }
-> +
-> +    pmbch = (char *) mbch;
-> +    puch = (char *) &uch;
-> +    smbch = ret;
-> +    such = sizeof(uch);
-> +
-> +    if (iconv(conv, &pmbch, &smbch, &puch, &such) == (size_t) -1) {
-> +        fprintf(stderr, "Could not convert 0x%04x "
-> +                        "from a multibyte character to UCS-2 : %s\n",
-> +                        wch, strerror(errno));
->          return 0xFFFD;
->      }
->  
-> -    return ch;
-> +    return uch;
->  }
->  
->  /*
-> @@ -466,6 +503,11 @@ static uint16_t get_ucs(wchar_t wch, iconv_t conv)
->   */
->  static void font_setup(void)
->  {
-> +    iconv_t ucs2_to_nativecharset;
-> +    iconv_t nativecharset_to_ucs2;
-> +    iconv_t font_conv;
-> +    int i;
-> +
->      /*
->       * Control characters are normally non-printable, but VGA does have
->       * well-known glyphs for them.
-> @@ -505,30 +547,25 @@ static void font_setup(void)
->        0x25bc
->      };
->  
-> -    iconv_t ucs_to_wchar_conv;
-> -    iconv_t wchar_to_ucs_conv;
-> -    iconv_t font_conv;
-> -    int i;
-> -
-> -    ucs_to_wchar_conv = iconv_open("WCHAR_T", "UCS-2");
-> -    if (ucs_to_wchar_conv == (iconv_t) -1) {
-> +    ucs2_to_nativecharset = iconv_open(nl_langinfo(CODESET), "UCS-2");
-> +    if (ucs2_to_nativecharset == (iconv_t) -1) {
->          fprintf(stderr, "Could not convert font glyphs from UCS-2: '%s'\n",
->                          strerror(errno));
->          exit(1);
->      }
->  
-> -    wchar_to_ucs_conv = iconv_open("UCS-2", "WCHAR_T");
-> -    if (wchar_to_ucs_conv == (iconv_t) -1) {
-> -        iconv_close(ucs_to_wchar_conv);
-> +    nativecharset_to_ucs2 = iconv_open("UCS-2", nl_langinfo(CODESET));
-> +    if (nativecharset_to_ucs2 == (iconv_t) -1) {
-> +        iconv_close(ucs2_to_nativecharset);
->          fprintf(stderr, "Could not convert font glyphs to UCS-2: '%s'\n",
->                          strerror(errno));
->          exit(1);
->      }
->  
-> -    font_conv = iconv_open("WCHAR_T", font_charset);
-> +    font_conv = iconv_open(nl_langinfo(CODESET), font_charset);
->      if (font_conv == (iconv_t) -1) {
-> -        iconv_close(ucs_to_wchar_conv);
-> -        iconv_close(wchar_to_ucs_conv);
-> +        iconv_close(ucs2_to_nativecharset);
-> +        iconv_close(nativecharset_to_ucs2);
->          fprintf(stderr, "Could not convert font glyphs from %s: '%s'\n",
->                          font_charset, strerror(errno));
->          exit(1);
-> @@ -536,7 +573,7 @@ static void font_setup(void)
->  
->      /* Control characters */
->      for (i = 0; i <= 0x1F; i++) {
-> -        convert_ucs(i, control_characters[i], ucs_to_wchar_conv);
-> +        convert_ucs(i, control_characters[i], ucs2_to_nativecharset);
->      }
->  
->      for (i = 0x20; i <= 0xFF; i++) {
-> @@ -544,12 +581,12 @@ static void font_setup(void)
->      }
->  
->      /* DEL */
-> -    convert_ucs(0x7F, 0x2302, ucs_to_wchar_conv);
-> +    convert_ucs(0x7F, 0x2302, ucs2_to_nativecharset);
->  
->      if (strcmp(nl_langinfo(CODESET), "UTF-8")) {
->          /* Non-Unicode capable, use termcap equivalents for those available */
->          for (i = 0; i <= 0xFF; i++) {
-> -            switch (get_ucs(vga_to_curses[i].chars[0], wchar_to_ucs_conv)) {
-> +            switch (get_ucs(vga_to_curses[i].chars[0], nativecharset_to_ucs2)) {
->              case 0x00a3:
->                  vga_to_curses[i] = *WACS_STERLING;
->                  break;
-> @@ -649,8 +686,8 @@ static void font_setup(void)
->              }
->          }
->      }
-> -    iconv_close(ucs_to_wchar_conv);
-> -    iconv_close(wchar_to_ucs_conv);
-> +    iconv_close(ucs2_to_nativecharset);
-> +    iconv_close(nativecharset_to_ucs2);
->      iconv_close(font_conv);
->  }
->  
-> -- 
-> 2.20.1
-> 
+diff --git a/Makefile b/Makefile
+index 626a04d305c..07bfa26536a 100644
+--- a/Makefile
++++ b/Makefile
+@@ -639,7 +639,7 @@ clean:
+ 		! -path ./roms/edk2/BaseTools/Source/Python/UPT/Dll/sqlite3.dll \
+ 		-exec rm {} +
+ 	rm -f $(edk2-decompressed)
+-	rm -f $(filter-out %.tlb,$(TOOLS)) $(HELPERS-y) qemu-ga TAGS cscope.* *=
+.pod *~ */*~
++	rm -f $(filter-out %.tlb,$(TOOLS)) $(HELPERS-y) qemu-ga$(EXESUF) TAGS c=
+scope.* *.pod *~ */*~
+ 	rm -f fsdev/*.pod scsi/*.pod
+ 	rm -f qemu-img-cmds.h
+ 	rm -f ui/shader/*-vert.h ui/shader/*-frag.h
+--=20
+2.20.1
+
 
