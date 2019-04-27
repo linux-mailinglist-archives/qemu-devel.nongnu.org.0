@@ -2,98 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E401B3CE
-	for <lists+qemu-devel@lfdr.de>; Sat, 27 Apr 2019 16:51:31 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:32995 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8649B3D4
+	for <lists+qemu-devel@lfdr.de>; Sat, 27 Apr 2019 17:31:45 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33319 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hKOfq-0002AB-MZ
-	for lists+qemu-devel@lfdr.de; Sat, 27 Apr 2019 10:51:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46100)
+	id 1hKPIm-0001Bs-IA
+	for lists+qemu-devel@lfdr.de; Sat, 27 Apr 2019 11:31:44 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51683)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hKOe6-0001Bb-HQ
-	for qemu-devel@nongnu.org; Sat, 27 Apr 2019 10:49:43 -0400
+	(envelope-from <samuel.thibault@ens-lyon.org>) id 1hKPHk-0000Vp-Nm
+	for qemu-devel@nongnu.org; Sat, 27 Apr 2019 11:30:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hKOe5-0006sI-MV
-	for qemu-devel@nongnu.org; Sat, 27 Apr 2019 10:49:42 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37178)
+	(envelope-from <samuel.thibault@ens-lyon.org>) id 1hKPHj-0002Lj-8T
+	for qemu-devel@nongnu.org; Sat, 27 Apr 2019 11:30:40 -0400
+Received: from hera.aquilenet.fr ([2a0c:e300::1]:46208)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <thuth@redhat.com>) id 1hKOe5-0006rT-E3
-	for qemu-devel@nongnu.org; Sat, 27 Apr 2019 10:49:41 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id B4D0F811DC;
-	Sat, 27 Apr 2019 14:49:40 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-116-26.ams2.redhat.com [10.36.116.26])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 287D46729B;
-	Sat, 27 Apr 2019 14:49:33 +0000 (UTC)
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
-	qemu-devel@nongnu.org
-References: <20190427141905.20393-1-philmd@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=thuth@redhat.com; keydata=
-	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
-Organization: Red Hat
-Message-ID: <2f8710be-0005-a8dc-ac28-c572e55f2d20@redhat.com>
-Date: Sat, 27 Apr 2019 16:49:33 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(Exim 4.71) (envelope-from <samuel.thibault@ens-lyon.org>)
+	id 1hKPHi-0002KH-Um
+	for qemu-devel@nongnu.org; Sat, 27 Apr 2019 11:30:39 -0400
+Received: from localhost (localhost [127.0.0.1])
+	by hera.aquilenet.fr (Postfix) with ESMTP id 8D4D43CD7;
+	Sat, 27 Apr 2019 17:30:34 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at aquilenet.fr
+Received: from hera.aquilenet.fr ([127.0.0.1])
+	by localhost (hera.aquilenet.fr [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id Jxmc6zWDN_pP; Sat, 27 Apr 2019 17:30:33 +0200 (CEST)
+Received: from function (105.251.129.77.rev.sfr.net [77.129.251.105])
+	by hera.aquilenet.fr (Postfix) with ESMTPSA id 179823CD0;
+	Sat, 27 Apr 2019 17:30:33 +0200 (CEST)
+Received: from samy by function with local (Exim 4.92)
+	(envelope-from <samuel.thibault@ens-lyon.org>)
+	id 1hKPHc-0001LH-2q; Sat, 27 Apr 2019 17:30:32 +0200
+From: Samuel Thibault <samuel.thibault@ens-lyon.org>
+To: qemu-devel@nongnu.org
+Date: Sat, 27 Apr 2019 17:30:31 +0200
+Message-Id: <20190427153031.5119-1-samuel.thibault@ens-lyon.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20190427141905.20393-1-philmd@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.27]);
-	Sat, 27 Apr 2019 14:49:40 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] hw/i386: The i440fx is not a machine,
- remove it from the machine list
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2a0c:e300::1
+Subject: [Qemu-devel] [PATCH] curses: Do not assume wchar_t contains unicode
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -105,29 +56,262 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
-	Eduardo Habkost <ehabkost@redhat.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>
+Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>, kamil@netbsd.org,
+	kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 27/04/2019 16.19, Philippe Mathieu-Daud=C3=A9 wrote:
-> When building with CONFIG_ISAPC=3Dn and CONFIG_I440FX=3Dy we get:
->=20
->   $ make subdir-x86_64-softmmu
->   [...]
->   /usr/bin/ld: hw/i386/pc_piix.o: in function `pc_init1':
->   /source/qemu/hw/i386/pc_piix.c:261: undefined reference to `isa_ide_i=
-nit'
->   /usr/bin/ld: /source/qemu/hw/i386/pc_piix.c:261: undefined reference =
-to `isa_ide_init'
->   collect2: error: ld returned 1 exit status
->   make[1]: *** [Makefile:204: qemu-system-x86_64] Error 1
->=20
-> This is because the I440FX device is a North Bridge, not a machine.
+E.g. BSD and Solaris even use locale-specific encoding there.
 
-Really? I thought CONFIG_I440FX was there to configure the
-"pc-i440fx-x.y" machine types?
+We thus have to go through the native multibyte representation and use
+mbtowc/wctomb to make a proper conversion.
 
- Thomas
+Signed-off-by: Samuel Thibault <samuel.thibault@ens-lyon.org>
+---
+ ui/curses.c | 151 ++++++++++++++++++++++++++++++++--------------------
+ 1 file changed, 94 insertions(+), 57 deletions(-)
+
+diff --git a/ui/curses.c b/ui/curses.c
+index fb63945188..4414399e73 100644
+--- a/ui/curses.c
++++ b/ui/curses.c
+@@ -400,65 +400,102 @@ static void curses_atexit(void)
+     endwin();
+ }
+=20
++/*
++ * In the following:
++ * - fch is the font glyph number
++ * - uch is the unicode value
++ * - wch is the wchar_t value (may not be unicode, e.g. on BSD/solaris)
++ * - mbch is the native local-dependent multibyte representation
++ */
++
+ /* Setup wchar glyph for one UCS-2 char */
+-static void convert_ucs(int glyph, uint16_t ch, iconv_t conv)
++static void convert_ucs(unsigned char fch, uint16_t uch, iconv_t conv)
+ {
++    char mbch[MB_CUR_MAX];
+     wchar_t wch;
+-    char *pch, *pwch;
+-    size_t sch, swch;
+-
+-    pch =3D (char *) &ch;
+-    pwch =3D (char *) &wch;
+-    sch =3D sizeof(ch);
+-    swch =3D sizeof(wch);
++    char *puch, *pmbch;
++    size_t such, smbch;
++
++    puch =3D (char *) &uch;
++    pmbch =3D (char *) mbch;
++    such =3D sizeof(uch);
++    smbch =3D sizeof(mbch);
++
++    if (iconv(conv, &puch, &such, &pmbch, &smbch) =3D=3D (size_t) -1) {
++        fprintf(stderr, "Could not convert 0x%04x "
++                        "from UCS-2 to a multibyte character: %s\n",
++                        uch, strerror(errno));
++        return;
++    }
+=20
+-    if (iconv(conv, &pch, &sch, &pwch, &swch) =3D=3D (size_t) -1) {
+-        fprintf(stderr, "Could not convert 0x%04x from UCS-2 to WCHAR_T:=
+ %s\n",
+-                        ch, strerror(errno));
+-    } else {
+-        vga_to_curses[glyph].chars[0] =3D wch;
++    if (mbtowc(&wch, mbch, sizeof(mbch) - smbch) =3D=3D -1) {
++        fprintf(stderr, "Could not convert 0x%04x "
++                        "from a multibyte character to wchar_t: %s\n",
++                        uch, strerror(errno));
++        return;
+     }
++    vga_to_curses[fch].chars[0] =3D wch;
+ }
+=20
+ /* Setup wchar glyph for one font character */
+-static void convert_font(unsigned char ch, iconv_t conv)
++static void convert_font(unsigned char fch, iconv_t conv)
+ {
++    char mbch[MB_CUR_MAX];
+     wchar_t wch;
+-    char *pch, *pwch;
+-    size_t sch, swch;
+-
+-    pch =3D (char *) &ch;
+-    pwch =3D (char *) &wch;
+-    sch =3D sizeof(ch);
+-    swch =3D sizeof(wch);
++    char *pfch, *pmbch;
++    size_t sfch, smbch;
++
++    pfch =3D (char *) &fch;
++    pmbch =3D (char *) &mbch;
++    sfch =3D sizeof(fch);
++    smbch =3D sizeof(mbch);
++
++    if (iconv(conv, &pfch, &sfch, &pmbch, &smbch) =3D=3D (size_t) -1) {
++        fprintf(stderr, "Could not convert font glyph 0x%02x "
++                        "from %s to a multibyte character: %s\n",
++                        fch, font_charset, strerror(errno));
++        return;
++    }
+=20
+-    if (iconv(conv, &pch, &sch, &pwch, &swch) =3D=3D (size_t) -1) {
+-        fprintf(stderr, "Could not convert 0x%02x from %s to WCHAR_T: %s=
+\n",
+-                        ch, font_charset, strerror(errno));
+-    } else {
+-        vga_to_curses[ch].chars[0] =3D wch;
++    if (mbtowc(&wch, mbch, sizeof(mbch) - smbch) =3D=3D -1) {
++        fprintf(stderr, "Could not convert font glyph 0x%02x "
++                        "from a multibyte character to wchar_t: %s\n",
++                        fch, strerror(errno));
++        return;
+     }
++    vga_to_curses[fch].chars[0] =3D wch;
+ }
+=20
+ /* Convert one wchar to UCS-2 */
+ static uint16_t get_ucs(wchar_t wch, iconv_t conv)
+ {
+-    uint16_t ch;
+-    char *pch, *pwch;
+-    size_t sch, swch;
+-
+-    pch =3D (char *) &ch;
+-    pwch =3D (char *) &wch;
+-    sch =3D sizeof(ch);
+-    swch =3D sizeof(wch);
+-
+-    if (iconv(conv, &pwch, &swch, &pch, &sch) =3D=3D (size_t) -1) {
+-        fprintf(stderr, "Could not convert 0x%02lx from WCHAR_T to UCS-2=
+: %s\n",
+-                (unsigned long)wch, strerror(errno));
++    char mbch[MB_CUR_MAX];
++    uint16_t uch;
++    char *pmbch, *puch;
++    size_t smbch, such;
++    int ret;
++
++    ret =3D wctomb(mbch, wch);
++    if (ret =3D=3D -1) {
++        fprintf(stderr, "Could not convert 0x%04x "
++                        "from wchar_t to a multibyte character: %s\n",
++                        uch, strerror(errno));
++        return 0xFFFD;
++    }
++
++    pmbch =3D (char *) mbch;
++    puch =3D (char *) &uch;
++    smbch =3D ret;
++    such =3D sizeof(uch);
++
++    if (iconv(conv, &pmbch, &smbch, &puch, &such) =3D=3D (size_t) -1) {
++        fprintf(stderr, "Could not convert 0x%04x "
++                        "from a multibyte character to UCS-2 : %s\n",
++                        uch, strerror(errno));
+         return 0xFFFD;
+     }
+=20
+-    return ch;
++    return uch;
+ }
+=20
+ /*
+@@ -466,6 +503,11 @@ static uint16_t get_ucs(wchar_t wch, iconv_t conv)
+  */
+ static void font_setup(void)
+ {
++    iconv_t ucs2_to_nativecharset;
++    iconv_t nativecharset_to_ucs2;
++    iconv_t font_conv;
++    int i;
++
+     /*
+      * Control characters are normally non-printable, but VGA does have
+      * well-known glyphs for them.
+@@ -505,30 +547,25 @@ static void font_setup(void)
+       0x25bc
+     };
+=20
+-    iconv_t ucs_to_wchar_conv;
+-    iconv_t wchar_to_ucs_conv;
+-    iconv_t font_conv;
+-    int i;
+-
+-    ucs_to_wchar_conv =3D iconv_open("WCHAR_T", "UCS-2");
+-    if (ucs_to_wchar_conv =3D=3D (iconv_t) -1) {
++    ucs2_to_nativecharset =3D iconv_open(nl_langinfo(CODESET), "UCS-2");
++    if (ucs2_to_nativecharset =3D=3D (iconv_t) -1) {
+         fprintf(stderr, "Could not convert font glyphs from UCS-2: '%s'\=
+n",
+                         strerror(errno));
+         exit(1);
+     }
+=20
+-    wchar_to_ucs_conv =3D iconv_open("UCS-2", "WCHAR_T");
+-    if (wchar_to_ucs_conv =3D=3D (iconv_t) -1) {
+-        iconv_close(ucs_to_wchar_conv);
++    nativecharset_to_ucs2 =3D iconv_open("UCS-2", nl_langinfo(CODESET));
++    if (nativecharset_to_ucs2 =3D=3D (iconv_t) -1) {
++        iconv_close(ucs2_to_nativecharset);
+         fprintf(stderr, "Could not convert font glyphs to UCS-2: '%s'\n"=
+,
+                         strerror(errno));
+         exit(1);
+     }
+=20
+-    font_conv =3D iconv_open("WCHAR_T", font_charset);
++    font_conv =3D iconv_open(nl_langinfo(CODESET), font_charset);
+     if (font_conv =3D=3D (iconv_t) -1) {
+-        iconv_close(ucs_to_wchar_conv);
+-        iconv_close(wchar_to_ucs_conv);
++        iconv_close(ucs2_to_nativecharset);
++        iconv_close(nativecharset_to_ucs2);
+         fprintf(stderr, "Could not convert font glyphs from %s: '%s'\n",
+                         font_charset, strerror(errno));
+         exit(1);
+@@ -536,7 +573,7 @@ static void font_setup(void)
+=20
+     /* Control characters */
+     for (i =3D 0; i <=3D 0x1F; i++) {
+-        convert_ucs(i, control_characters[i], ucs_to_wchar_conv);
++        convert_ucs(i, control_characters[i], ucs2_to_nativecharset);
+     }
+=20
+     for (i =3D 0x20; i <=3D 0xFF; i++) {
+@@ -544,12 +581,12 @@ static void font_setup(void)
+     }
+=20
+     /* DEL */
+-    convert_ucs(0x7F, 0x2302, ucs_to_wchar_conv);
++    convert_ucs(0x7F, 0x2302, ucs2_to_nativecharset);
+=20
+     if (strcmp(nl_langinfo(CODESET), "UTF-8")) {
+         /* Non-Unicode capable, use termcap equivalents for those availa=
+ble */
+         for (i =3D 0; i <=3D 0xFF; i++) {
+-            switch (get_ucs(vga_to_curses[i].chars[0], wchar_to_ucs_conv=
+)) {
++            switch (get_ucs(vga_to_curses[i].chars[0], nativecharset_to_=
+ucs2)) {
+             case 0x00a3:
+                 vga_to_curses[i] =3D *WACS_STERLING;
+                 break;
+@@ -649,8 +686,8 @@ static void font_setup(void)
+             }
+         }
+     }
+-    iconv_close(ucs_to_wchar_conv);
+-    iconv_close(wchar_to_ucs_conv);
++    iconv_close(ucs2_to_nativecharset);
++    iconv_close(nativecharset_to_ucs2);
+     iconv_close(font_conv);
+ }
+=20
+--=20
+2.20.1
+
 
