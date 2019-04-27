@@ -2,58 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D074B3FA
-	for <lists+qemu-devel@lfdr.de>; Sat, 27 Apr 2019 18:43:24 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:34124 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 963AEB3F6
+	for <lists+qemu-devel@lfdr.de>; Sat, 27 Apr 2019 18:40:44 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:34062 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hKQQ7-0005RZ-KS
-	for lists+qemu-devel@lfdr.de; Sat, 27 Apr 2019 12:43:23 -0400
+	id 1hKQNX-0002nd-OV
+	for lists+qemu-devel@lfdr.de; Sat, 27 Apr 2019 12:40:43 -0400
 Received: from eggs.gnu.org ([209.51.188.92]:33815)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <philippe.mathieu.daude@gmail.com>)
-	id 1hKQKw-0001Ae-7h
-	for qemu-devel@nongnu.org; Sat, 27 Apr 2019 12:38:03 -0400
+	id 1hKQKj-0001Ae-W9
+	for qemu-devel@nongnu.org; Sat, 27 Apr 2019 12:37:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
 	(envelope-from <philippe.mathieu.daude@gmail.com>)
-	id 1hKQAX-00057R-8F
-	for qemu-devel@nongnu.org; Sat, 27 Apr 2019 12:27:17 -0400
-Received: from mail-yw1-f50.google.com ([209.85.161.50]:39213)
+	id 1hKQCk-0002Zn-6A
+	for qemu-devel@nongnu.org; Sat, 27 Apr 2019 12:29:35 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:34915)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
-	id 1hKQAV-0004ye-5b; Sat, 27 Apr 2019 12:27:15 -0400
-Received: by mail-yw1-f50.google.com with SMTP id x204so2270796ywg.6;
-	Sat, 27 Apr 2019 09:27:12 -0700 (PDT)
+	id 1hKQCg-0002DN-Fw; Sat, 27 Apr 2019 12:29:32 -0400
+Received: by mail-wr1-x444.google.com with SMTP id f7so401194wrs.2;
+	Sat, 27 Apr 2019 09:29:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=sender:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=cM53TFy+cLxuAVp+u99gBNQH0UQPiHbTPlBKpdnp7e8=;
+	b=fzYMbmKjZa8mj9y7ezoteOVuh8SiF2cXtkvEtoccGxHAtWOBpIoPWccHqXIkZ4m/hX
+	+XWhw9WeAR+YW52m60qHR9JKLIieOvhRhvs+XhZQH48ZZ7LEsTBD4R0m2+ThT6SIdeHM
+	o7Mnl+gsQ7EvoKiFYL2rSYWVCmld7GW7b7nVJRMs+rp9CTsBqTIBloO8WPAVy8U5PgAX
+	sOeaiprh1VeeW+rN792bCp8hfQvqdBdrECnClvZ171KoxcZTfXJFMZ5khA02+UuFMOrb
+	gFZqP+RpK99SbukXkqrEwjHgwSqtm0O6zLtidRKO+SU2wMps+OSweRQC3+AEqPaMq+G8
+	gcjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=uqoxPsgFwcAEy1xyP9m8aUmcsILjiHBcVsasaxC7RrY=;
-	b=NYo4QQ0CpsQKKjB9a6Tvp3c/8ciL9eYFiYFD0btKLCjFoUV7qMENmMle8FNngw7zAj
-	qipCmMq+3UTAjAkY60+Gdb/CuSFy9Dri9ZS6yBxprx2SNXTNzi1+97UkMcXZaBJkuOYc
-	r2Tn/mjgUAQ7Z9JAbc3zeae61LuOX67xfoKfLYnhMUz2VWplTEUXE2XBb56357SAnqxm
-	E1uMHFLn8uQB0snVsxaFGeZ6YzrTQ9pAG3Hh14Sni5V0whYfgAWsScdNDMqUbRISgDbi
-	Wxw0deAF3f6O+tt3s24fu4fnHQ1b00xpIfkZ5oYZVqh81wRj855WunxooHGs4VmmZJta
-	PPZg==
-X-Gm-Message-State: APjAAAXgp2zWjGgQiTfN3DfK4HTpCrLzgkir07sSqytPunyqm97bJBnr
-	FiRUUcAFdl+kFhpgTf/KzPkxVMW2AqQCyqR52o0ZavDr
-X-Google-Smtp-Source: APXvYqzBKZNoT3lk/JLlaxpyFByjBjqZI7zgCFTikVv3EDy+ZgIp3r8pjJpwHa3AlDjgvR8pO9+/tvbO+DaKAtIIaTQ=
-X-Received: by 2002:a0d:d547:: with SMTP id x68mr30755670ywd.356.1556382431231;
-	Sat, 27 Apr 2019 09:27:11 -0700 (PDT)
+	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding;
+	bh=cM53TFy+cLxuAVp+u99gBNQH0UQPiHbTPlBKpdnp7e8=;
+	b=Y7xOEP8tx5/CbnALxTOFXCUINuodFrgnH17VI7KK39I1REbAG9K5AZ6Zle1joprhxF
+	/2gyoaEy+VKUXKu9V/BQ4dQNDfXcBwMFgGwkfa8k0U6oyJhffrGB8ItBRuWoU7PYFLjl
+	Ops4IPs+nbBKi1OD300qVn0Lm28DVzSRii5xXedo0i0gpsXN9t9WhXkxXNn024zOu/pT
+	OYuvO+0WA5NAiI2Ld04cP3m4UzJZYjacM7KvrG7BjJgxi4fZwBSzzZm59KlO35JyY1e6
+	ffLnaBfUi9SmjP6s6UL3VqBZV5aOYP8Ygg/qp6yRox3IvjT940rKi6xJwps2+33rojn4
+	ocGA==
+X-Gm-Message-State: APjAAAVHx2rTUcPSSPEG0QYlK9gQHqCbemoVkMyp2pD1SD1c3Ctg5rwc
+	961TYMfupZCmQ+aeh9MAdyLoZqftGQg=
+X-Google-Smtp-Source: APXvYqzHSQerxUooMq92BVnN+0DIwngNkW7/wCnuHXmE1nEIJC98tzGCvkLnqbfHu9itmhv5KHcxVA==
+X-Received: by 2002:adf:edc8:: with SMTP id v8mr4588408wro.206.1556382563905; 
+	Sat, 27 Apr 2019 09:29:23 -0700 (PDT)
+Received: from x1.local (193.red-88-21-103.staticip.rima-tde.net.
+	[88.21.103.193]) by smtp.gmail.com with ESMTPSA id
+	s12sm24733986wmj.42.2019.04.27.09.29.22
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 27 Apr 2019 09:29:23 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+To: qemu-trivial@nongnu.org,
+	qemu-devel@nongnu.org
+Date: Sat, 27 Apr 2019 18:29:21 +0200
+Message-Id: <20190427162922.4207-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-References: <20190427162429.3617-1-f4bug@amsat.org>
-In-Reply-To: <20190427162429.3617-1-f4bug@amsat.org>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
-Date: Sat, 27 Apr 2019 18:27:00 +0200
-Message-ID: <CAAdtpL5=iiuD4ifCzs_kRE3LTq_u11z2J9qa=K8TpOHvxdBy+A@mail.gmail.com>
-To: QEMU Trivial <qemu-trivial@nongnu.org>, 
-	"qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.161.50
-Subject: Re: [Qemu-devel] [PATCH] hw/sparc/leon3: Allow load of uImage
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2a00:1450:4864:20::444
+Subject: [Qemu-devel] [PATCH v2] hw/sparc/leon3: Allow load of uImage
  firmwares
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
@@ -67,19 +81,69 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
-	=?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
 	Fabien Chouteau <chouteau@adacore.com>,
 	KONRAD Frederic <frederic.konrad@adacore.com>,
 	Stefan Hajnoczi <stefanha@redhat.com>,
-	=?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
 	Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Apr 27, 2019 at 6:24 PM Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.or=
-g> wrote:
->
-> From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Currently the Leon3 machine doesn't allow to load legacy u-boot images:
 
-Grrr sent from wrong computer.
+  $ qemu-system-sparc -M leon3_generic -d in_asm \
+      -kernel HelenOS-0.6.0-sparc32-leon3.bin
+  qemu-system-sparc: could not load kernel 'HelenOS-0.6.0-sparc32-leon3.bin'
+
+  $ file HelenOS-0.6.0-sparc32-leon3.bin
+  HelenOS-0.6.0-sparc32-leon3.bin: u-boot legacy uImage, HelenOS-0.6.0,\
+    Linux/ARM, OS Kernel Image (Not compressed), 2424229 bytes,\
+    Sun Dec 21 19:18:09 2014,\
+    Load Address: 0x40000000, Entry Point: 0x40000000,\
+    Header CRC: 0x8BCFA236, Data CRC: 0x37AD87DF
+
+Since QEMU can load uImages, add the necessary code,
+so the Leon3 machine can load these images:
+
+  $ qemu-system-sparc -M leon3_generic -d in_asm \
+      -kernel HelenOS-0.6.0-sparc32-leon3.bin
+  ----------------
+  IN:
+  0x40000000:  b  0x400007a8
+  0x40000004:  nop
+  ----------------
+  IN:
+  0x400007a8:  save  %sp, -136, %sp
+  0x400007ac:  call  0x40000020
+  0x400007b0:  sethi  %hi(0x4000b800), %i1
+  ...
+
+Tested with the following firmware:
+http://www.helenos.org/releases/HelenOS-0.6.0-sparc32-leon3.bin
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+v2: Fixed GIT_AUTHOR_EMAIL
+---
+ hw/sparc/leon3.c | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/hw/sparc/leon3.c b/hw/sparc/leon3.c
+index 774639af33..0383b17c29 100644
+--- a/hw/sparc/leon3.c
++++ b/hw/sparc/leon3.c
+@@ -193,6 +193,10 @@ static void leon3_generic_hw_init(MachineState *machine)
+         kernel_size = load_elf(kernel_filename, NULL, NULL, NULL,
+                                &entry, NULL, NULL,
+                                1 /* big endian */, EM_SPARC, 0, 0);
++        if (kernel_size < 0) {
++            kernel_size = load_uimage(kernel_filename, NULL, &entry,
++                                      NULL, NULL, NULL);
++        }
+         if (kernel_size < 0) {
+             error_report("could not load kernel '%s'", kernel_filename);
+             exit(1);
+-- 
+2.19.1
+
 
