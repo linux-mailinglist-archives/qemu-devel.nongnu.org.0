@@ -2,47 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D6E4B622
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Apr 2019 17:08:27 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:45272 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63530B61C
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Apr 2019 16:55:57 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:45136 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hKlPm-0003qo-C4
-	for lists+qemu-devel@lfdr.de; Sun, 28 Apr 2019 11:08:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34905)
+	id 1hKlDg-0006en-LM
+	for lists+qemu-devel@lfdr.de; Sun, 28 Apr 2019 10:55:56 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:32855)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hKlMG-00017B-QB
-	for qemu-devel@nongnu.org; Sun, 28 Apr 2019 11:04:50 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hKlBK-0005WD-Gg
+	for qemu-devel@nongnu.org; Sun, 28 Apr 2019 10:53:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hKlME-0008IF-QO
-	for qemu-devel@nongnu.org; Sun, 28 Apr 2019 11:04:48 -0400
-Received: from mail.ilande.co.uk ([46.43.2.167]:53050
-	helo=mail.default.ilande.uk0.bigv.io)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
-	id 1hKlME-0008Hp-Ht; Sun, 28 Apr 2019 11:04:46 -0400
-Received: from host86-175-31-255.range86-175.btcentralplus.com
-	([86.175.31.255] helo=kentang.home)
-	by mail.default.ilande.uk0.bigv.io with esmtpsa
-	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
-	(envelope-from <mark.cave-ayland@ilande.co.uk>)
-	id 1hKkxM-0005tp-7b; Sun, 28 Apr 2019 15:39:04 +0100
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-To: qemu-devel@nongnu.org, qemu-ppc@nongnu.org, david@gibson.dropbear.id.au,
-	rth@twiddle.net, gkurz@kaod.org
-Date: Sun, 28 Apr 2019 15:38:45 +0100
-Message-Id: <20190428143845.11810-15-mark.cave-ayland@ilande.co.uk>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20190428143845.11810-1-mark.cave-ayland@ilande.co.uk>
-References: <20190428143845.11810-1-mark.cave-ayland@ilande.co.uk>
-X-SA-Exim-Connect-IP: 86.175.31.255
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.43.2.167
-Subject: [Qemu-devel] [PATCH 14/14] target/ppc: improve VSX_FMADD with new
- GEN_VSX_HELPER_VSX_MADD macro
+	(envelope-from <peter.maydell@linaro.org>) id 1hKlBJ-0002ZN-AQ
+	for qemu-devel@nongnu.org; Sun, 28 Apr 2019 10:53:30 -0400
+Received: from mail-ot1-x32c.google.com ([2607:f8b0:4864:20::32c]:39615)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hKlBI-0002Z8-Vx
+	for qemu-devel@nongnu.org; Sun, 28 Apr 2019 10:53:29 -0400
+Received: by mail-ot1-x32c.google.com with SMTP id o39so6551272ota.6
+	for <qemu-devel@nongnu.org>; Sun, 28 Apr 2019 07:53:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=knfDboze1yL9LZpqRb0mBdEU12Qtwc3mPrS6JgKVUaE=;
+	b=V9bahf7hdkAcGUvj9NKKFSSI/TFm4gli8/4HPcCpqVyFjXEo9fXpK2nKX9jt9fQhwQ
+	yHKp8oVCACpbz6omE837TrNBqdd31RcgvfXi1glhCpEZ45DjU1R4waYRBnqABbcE6eOc
+	7fGsBO5fJdwP/pcio8GdlS9EACUqucoDPL+tY8BytfmPbFWn5AgE8wJ/IstO8Fbpgp/h
+	gGXAOTjsl5b4vb+tDR34SZ7COmOsb/v7rVzh2WWtij86ohBATnX/VA5AaRsXvE5OXAfC
+	MjtrzEcI185nKAGI45EIB/FDOREEACNHjTD6oP1ieMBeoA3p4qCEAKonfup/yjnySmu5
+	fQNw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=knfDboze1yL9LZpqRb0mBdEU12Qtwc3mPrS6JgKVUaE=;
+	b=Jrljp4j1h+7epJJOm0sfKYyNyDkl3VCVjdX64B4fBDWJNzmhUjKKhFYLnbwD+tRGtt
+	03J31T58qCiKO8RIVU8pbm96SRl5J0qKfccdyX/EMesiw/F8yhCqWt3Pw5gxNR72bXdo
+	IA6zPO9dvp+pIyyZlIos9gy1dqyEa3PII498B6xPnvzc3WhmpZ2ZvQHK+jGm8zsDsjQ7
+	37GCWlRB2/HJC1SVwW5nwaO7m0QQnDTfIY+vfu4XqvhT3NK5FtNffDHojm8wFAg86avW
+	I6+anP8i9k7bw8yoEFr7eBkoxSVFBl+wuGGp88QC1+ystrZbzHsIM657tKiJI1Cm3h69
+	WZYA==
+X-Gm-Message-State: APjAAAVtSzVAMvPWUK55DE/bnc5lbzBLwfrBvrgMDFcqH1/1WFWcFYlH
+	BqvV1avjpDvrJ15Dotl24PYuDnf5SPtYPqyZJ0u6kQ==
+X-Google-Smtp-Source: APXvYqwkF8Aj5qnKOBilX5llzBsPqPAXSMSvycvhEEq7NDOytJ8PalQP9FlJ80OL2MsiSYo015I5GDbWnoPkh71bDwQ=
+X-Received: by 2002:a9d:360b:: with SMTP id w11mr8918401otb.238.1556463207726; 
+	Sun, 28 Apr 2019 07:53:27 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190426172421.27133-1-richard.henderson@linaro.org>
+In-Reply-To: <20190426172421.27133-1-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sun, 28 Apr 2019 15:53:16 +0100
+Message-ID: <CAFEAcA_iXkJVSgYmkBui0-PXBXqrNFnonaxsRo7gwGNHL1e3yA@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::32c
+Subject: Re: [Qemu-devel] [PULL 00/15] tcg patch queue
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -54,293 +71,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Introduce a new GEN_VSX_HELPER_VSX_MADD macro for the generator function which
-enables the source and destination registers to be decoded at translation time.
+On Fri, 26 Apr 2019 at 18:24, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> The following changes since commit 3284aa128153750f14a61e8a96fd085e6f2999b6:
+>
+>   Merge remote-tracking branch 'remotes/lersek/tags/edk2-pull-2019-04-22' into staging (2019-04-24 13:19:41 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/rth7680/qemu.git tags/pull-tcg-20190426
+>
+> for you to fetch changes up to ef5dae6805cce7b59d129d801bdc5db71bcbd60d:
+>
+>   cputlb: Fix io_readx() to respect the access_type (2019-04-25 10:40:06 -0700)
+>
+> ----------------------------------------------------------------
+> Add tcg_gen_extract2_*.
+> Deal with overflow of TranslationBlocks.
+> Respect access_type in io_readx.
+>
+> ----------------------------------------------------------------
 
-Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
----
- target/ppc/fpu_helper.c             |  12 +----
- target/ppc/helper.h                 |  64 +++++++++++------------
- target/ppc/translate/vsx-impl.inc.c | 101 ++++++++++++++++++++++++------------
- 3 files changed, 101 insertions(+), 76 deletions(-)
 
-diff --git a/target/ppc/fpu_helper.c b/target/ppc/fpu_helper.c
-index 357be25867..6b5293495f 100644
---- a/target/ppc/fpu_helper.c
-+++ b/target/ppc/fpu_helper.c
-@@ -2270,19 +2270,11 @@ VSX_TSQRT(xvtsqrtsp, 4, float32, VsrW(i), -126, 23)
-  */
- #define VSX_MADD(op, nels, tp, fld, maddflgs, afrm, sfprf, r2sp)              \
- void helper_##op(CPUPPCState *env, uint32_t opcode,                           \
--                 ppc_vsr_t *xt, ppc_vsr_t *xa, ppc_vsr_t *xb)                 \
-+                 ppc_vsr_t *xt, ppc_vsr_t *xa,                                \
-+                 ppc_vsr_t *b, ppc_vsr_t *c)                                  \
- {                                                                             \
--    ppc_vsr_t *b, *c;                                                         \
-     int i;                                                                    \
-                                                                               \
--    if (afrm) { /* AxB + T */                                                 \
--        b = xb;                                                               \
--        c = xt;                                                               \
--    } else { /* AxT + B */                                                    \
--        b = xt;                                                               \
--        c = xb;                                                               \
--    }                                                                         \
--                                                                              \
-     helper_reset_fpstatus(env);                                               \
-                                                                               \
-     for (i = 0; i < nels; i++) {                                              \
-diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-index cd97fae438..5db6dc0797 100644
---- a/target/ppc/helper.h
-+++ b/target/ppc/helper.h
-@@ -389,14 +389,14 @@ DEF_HELPER_4(xssqrtdp, void, env, i32, vsr, vsr)
- DEF_HELPER_4(xsrsqrtedp, void, env, i32, vsr, vsr)
- DEF_HELPER_4(xstdivdp, void, env, i32, vsr, vsr)
- DEF_HELPER_3(xstsqrtdp, void, env, i32, vsr)
--DEF_HELPER_5(xsmaddadp, void, env, i32, vsr, vsr, vsr)
--DEF_HELPER_5(xsmaddmdp, void, env, i32, vsr, vsr, vsr)
--DEF_HELPER_5(xsmsubadp, void, env, i32, vsr, vsr, vsr)
--DEF_HELPER_5(xsmsubmdp, void, env, i32, vsr, vsr, vsr)
--DEF_HELPER_5(xsnmaddadp, void, env, i32, vsr, vsr, vsr)
--DEF_HELPER_5(xsnmaddmdp, void, env, i32, vsr, vsr, vsr)
--DEF_HELPER_5(xsnmsubadp, void, env, i32, vsr, vsr, vsr)
--DEF_HELPER_5(xsnmsubmdp, void, env, i32, vsr, vsr, vsr)
-+DEF_HELPER_6(xsmaddadp, void, env, i32, vsr, vsr, vsr, vsr)
-+DEF_HELPER_6(xsmaddmdp, void, env, i32, vsr, vsr, vsr, vsr)
-+DEF_HELPER_6(xsmsubadp, void, env, i32, vsr, vsr, vsr, vsr)
-+DEF_HELPER_6(xsmsubmdp, void, env, i32, vsr, vsr, vsr, vsr)
-+DEF_HELPER_6(xsnmaddadp, void, env, i32, vsr, vsr, vsr, vsr)
-+DEF_HELPER_6(xsnmaddmdp, void, env, i32, vsr, vsr, vsr, vsr)
-+DEF_HELPER_6(xsnmsubadp, void, env, i32, vsr, vsr, vsr, vsr)
-+DEF_HELPER_6(xsnmsubmdp, void, env, i32, vsr, vsr, vsr, vsr)
- DEF_HELPER_5(xscmpeqdp, void, env, i32, vsr, vsr, vsr)
- DEF_HELPER_5(xscmpgtdp, void, env, i32, vsr, vsr, vsr)
- DEF_HELPER_5(xscmpgedp, void, env, i32, vsr, vsr, vsr)
-@@ -456,14 +456,14 @@ DEF_HELPER_4(xsresp, void, env, i32, vsr, vsr)
- DEF_HELPER_2(xsrsp, i64, env, i64)
- DEF_HELPER_4(xssqrtsp, void, env, i32, vsr, vsr)
- DEF_HELPER_4(xsrsqrtesp, void, env, i32, vsr, vsr)
--DEF_HELPER_5(xsmaddasp, void, env, i32, vsr, vsr, vsr)
--DEF_HELPER_5(xsmaddmsp, void, env, i32, vsr, vsr, vsr)
--DEF_HELPER_5(xsmsubasp, void, env, i32, vsr, vsr, vsr)
--DEF_HELPER_5(xsmsubmsp, void, env, i32, vsr, vsr, vsr)
--DEF_HELPER_5(xsnmaddasp, void, env, i32, vsr, vsr, vsr)
--DEF_HELPER_5(xsnmaddmsp, void, env, i32, vsr, vsr, vsr)
--DEF_HELPER_5(xsnmsubasp, void, env, i32, vsr, vsr, vsr)
--DEF_HELPER_5(xsnmsubmsp, void, env, i32, vsr, vsr, vsr)
-+DEF_HELPER_6(xsmaddasp, void, env, i32, vsr, vsr, vsr, vsr)
-+DEF_HELPER_6(xsmaddmsp, void, env, i32, vsr, vsr, vsr, vsr)
-+DEF_HELPER_6(xsmsubasp, void, env, i32, vsr, vsr, vsr, vsr)
-+DEF_HELPER_6(xsmsubmsp, void, env, i32, vsr, vsr, vsr, vsr)
-+DEF_HELPER_6(xsnmaddasp, void, env, i32, vsr, vsr, vsr, vsr)
-+DEF_HELPER_6(xsnmaddmsp, void, env, i32, vsr, vsr, vsr, vsr)
-+DEF_HELPER_6(xsnmsubasp, void, env, i32, vsr, vsr, vsr, vsr)
-+DEF_HELPER_6(xsnmsubmsp, void, env, i32, vsr, vsr, vsr, vsr)
- 
- DEF_HELPER_5(xvadddp, void, env, i32, vsr, vsr, vsr)
- DEF_HELPER_5(xvsubdp, void, env, i32, vsr, vsr, vsr)
-@@ -474,14 +474,14 @@ DEF_HELPER_4(xvsqrtdp, void, env, i32, vsr, vsr)
- DEF_HELPER_4(xvrsqrtedp, void, env, i32, vsr, vsr)
- DEF_HELPER_4(xvtdivdp, void, env, i32, vsr, vsr)
- DEF_HELPER_3(xvtsqrtdp, void, env, i32, vsr)
--DEF_HELPER_5(xvmaddadp, void, env, i32, vsr, vsr, vsr)
--DEF_HELPER_5(xvmaddmdp, void, env, i32, vsr, vsr, vsr)
--DEF_HELPER_5(xvmsubadp, void, env, i32, vsr, vsr, vsr)
--DEF_HELPER_5(xvmsubmdp, void, env, i32, vsr, vsr, vsr)
--DEF_HELPER_5(xvnmaddadp, void, env, i32, vsr, vsr, vsr)
--DEF_HELPER_5(xvnmaddmdp, void, env, i32, vsr, vsr, vsr)
--DEF_HELPER_5(xvnmsubadp, void, env, i32, vsr, vsr, vsr)
--DEF_HELPER_5(xvnmsubmdp, void, env, i32, vsr, vsr, vsr)
-+DEF_HELPER_6(xvmaddadp, void, env, i32, vsr, vsr, vsr, vsr)
-+DEF_HELPER_6(xvmaddmdp, void, env, i32, vsr, vsr, vsr, vsr)
-+DEF_HELPER_6(xvmsubadp, void, env, i32, vsr, vsr, vsr, vsr)
-+DEF_HELPER_6(xvmsubmdp, void, env, i32, vsr, vsr, vsr, vsr)
-+DEF_HELPER_6(xvnmaddadp, void, env, i32, vsr, vsr, vsr, vsr)
-+DEF_HELPER_6(xvnmaddmdp, void, env, i32, vsr, vsr, vsr, vsr)
-+DEF_HELPER_6(xvnmsubadp, void, env, i32, vsr, vsr, vsr, vsr)
-+DEF_HELPER_6(xvnmsubmdp, void, env, i32, vsr, vsr, vsr, vsr)
- DEF_HELPER_5(xvmaxdp, void, env, i32, vsr, vsr, vsr)
- DEF_HELPER_5(xvmindp, void, env, i32, vsr, vsr, vsr)
- DEF_HELPER_5(xvcmpeqdp, void, env, i32, vsr, vsr, vsr)
-@@ -512,14 +512,14 @@ DEF_HELPER_4(xvsqrtsp, void, env, i32, vsr, vsr)
- DEF_HELPER_4(xvrsqrtesp, void, env, i32, vsr, vsr)
- DEF_HELPER_4(xvtdivsp, void, env, i32, vsr, vsr)
- DEF_HELPER_3(xvtsqrtsp, void, env, i32, vsr)
--DEF_HELPER_5(xvmaddasp, void, env, i32, vsr, vsr, vsr)
--DEF_HELPER_5(xvmaddmsp, void, env, i32, vsr, vsr, vsr)
--DEF_HELPER_5(xvmsubasp, void, env, i32, vsr, vsr, vsr)
--DEF_HELPER_5(xvmsubmsp, void, env, i32, vsr, vsr, vsr)
--DEF_HELPER_5(xvnmaddasp, void, env, i32, vsr, vsr, vsr)
--DEF_HELPER_5(xvnmaddmsp, void, env, i32, vsr, vsr, vsr)
--DEF_HELPER_5(xvnmsubasp, void, env, i32, vsr, vsr, vsr)
--DEF_HELPER_5(xvnmsubmsp, void, env, i32, vsr, vsr, vsr)
-+DEF_HELPER_6(xvmaddasp, void, env, i32, vsr, vsr, vsr, vsr)
-+DEF_HELPER_6(xvmaddmsp, void, env, i32, vsr, vsr, vsr, vsr)
-+DEF_HELPER_6(xvmsubasp, void, env, i32, vsr, vsr, vsr, vsr)
-+DEF_HELPER_6(xvmsubmsp, void, env, i32, vsr, vsr, vsr, vsr)
-+DEF_HELPER_6(xvnmaddasp, void, env, i32, vsr, vsr, vsr, vsr)
-+DEF_HELPER_6(xvnmaddmsp, void, env, i32, vsr, vsr, vsr, vsr)
-+DEF_HELPER_6(xvnmsubasp, void, env, i32, vsr, vsr, vsr, vsr)
-+DEF_HELPER_6(xvnmsubmsp, void, env, i32, vsr, vsr, vsr, vsr)
- DEF_HELPER_5(xvmaxsp, void, env, i32, vsr, vsr, vsr)
- DEF_HELPER_5(xvminsp, void, env, i32, vsr, vsr, vsr)
- DEF_HELPER_5(xvcmpeqsp, void, env, i32, vsr, vsr, vsr)
-diff --git a/target/ppc/translate/vsx-impl.inc.c b/target/ppc/translate/vsx-impl.inc.c
-index 03b342a2fb..18b5f5a917 100644
---- a/target/ppc/translate/vsx-impl.inc.c
-+++ b/target/ppc/translate/vsx-impl.inc.c
-@@ -1090,14 +1090,6 @@ GEN_VSX_HELPER_X2(xssqrtdp, 0x16, 0x04, 0, PPC2_VSX)
- GEN_VSX_HELPER_X2(xsrsqrtedp, 0x14, 0x04, 0, PPC2_VSX)
- GEN_VSX_HELPER_X2_AB(xstdivdp, 0x14, 0x07, 0, PPC2_VSX)
- GEN_VSX_HELPER_X1(xstsqrtdp, 0x14, 0x06, 0, PPC2_VSX)
--GEN_VSX_HELPER_X3(xsmaddadp, 0x04, 0x04, 0, PPC2_VSX)
--GEN_VSX_HELPER_X3(xsmaddmdp, 0x04, 0x05, 0, PPC2_VSX)
--GEN_VSX_HELPER_X3(xsmsubadp, 0x04, 0x06, 0, PPC2_VSX)
--GEN_VSX_HELPER_X3(xsmsubmdp, 0x04, 0x07, 0, PPC2_VSX)
--GEN_VSX_HELPER_X3(xsnmaddadp, 0x04, 0x14, 0, PPC2_VSX)
--GEN_VSX_HELPER_X3(xsnmaddmdp, 0x04, 0x15, 0, PPC2_VSX)
--GEN_VSX_HELPER_X3(xsnmsubadp, 0x04, 0x16, 0, PPC2_VSX)
--GEN_VSX_HELPER_X3(xsnmsubmdp, 0x04, 0x17, 0, PPC2_VSX)
- GEN_VSX_HELPER_X3(xscmpeqdp, 0x0C, 0x00, 0, PPC2_ISA300)
- GEN_VSX_HELPER_X3(xscmpgtdp, 0x0C, 0x01, 0, PPC2_ISA300)
- GEN_VSX_HELPER_X3(xscmpgedp, 0x0C, 0x02, 0, PPC2_ISA300)
-@@ -1140,12 +1132,10 @@ GEN_VSX_HELPER_X2(xsrdpim, 0x12, 0x07, 0, PPC2_VSX)
- GEN_VSX_HELPER_X2(xsrdpip, 0x12, 0x06, 0, PPC2_VSX)
- GEN_VSX_HELPER_X2(xsrdpiz, 0x12, 0x05, 0, PPC2_VSX)
- GEN_VSX_HELPER_XT_XB_ENV(xsrsp, 0x12, 0x11, 0, PPC2_VSX207)
--
- GEN_VSX_HELPER_R2(xsrqpi, 0x05, 0x00, 0, PPC2_ISA300)
- GEN_VSX_HELPER_R2(xsrqpxp, 0x05, 0x01, 0, PPC2_ISA300)
- GEN_VSX_HELPER_R2(xssqrtqp, 0x04, 0x19, 0x1B, PPC2_ISA300)
- GEN_VSX_HELPER_R3(xssubqp, 0x04, 0x10, 0, PPC2_ISA300)
--
- GEN_VSX_HELPER_X3(xsaddsp, 0x00, 0x00, 0, PPC2_VSX207)
- GEN_VSX_HELPER_X3(xssubsp, 0x00, 0x01, 0, PPC2_VSX207)
- GEN_VSX_HELPER_X3(xsmulsp, 0x00, 0x02, 0, PPC2_VSX207)
-@@ -1153,14 +1143,6 @@ GEN_VSX_HELPER_X3(xsdivsp, 0x00, 0x03, 0, PPC2_VSX207)
- GEN_VSX_HELPER_X2(xsresp, 0x14, 0x01, 0, PPC2_VSX207)
- GEN_VSX_HELPER_X2(xssqrtsp, 0x16, 0x00, 0, PPC2_VSX207)
- GEN_VSX_HELPER_X2(xsrsqrtesp, 0x14, 0x00, 0, PPC2_VSX207)
--GEN_VSX_HELPER_X3(xsmaddasp, 0x04, 0x00, 0, PPC2_VSX207)
--GEN_VSX_HELPER_X3(xsmaddmsp, 0x04, 0x01, 0, PPC2_VSX207)
--GEN_VSX_HELPER_X3(xsmsubasp, 0x04, 0x02, 0, PPC2_VSX207)
--GEN_VSX_HELPER_X3(xsmsubmsp, 0x04, 0x03, 0, PPC2_VSX207)
--GEN_VSX_HELPER_X3(xsnmaddasp, 0x04, 0x10, 0, PPC2_VSX207)
--GEN_VSX_HELPER_X3(xsnmaddmsp, 0x04, 0x11, 0, PPC2_VSX207)
--GEN_VSX_HELPER_X3(xsnmsubasp, 0x04, 0x12, 0, PPC2_VSX207)
--GEN_VSX_HELPER_X3(xsnmsubmsp, 0x04, 0x13, 0, PPC2_VSX207)
- GEN_VSX_HELPER_X2(xscvsxdsp, 0x10, 0x13, 0, PPC2_VSX207)
- GEN_VSX_HELPER_X2(xscvuxdsp, 0x10, 0x12, 0, PPC2_VSX207)
- GEN_VSX_HELPER_X1(xststdcsp, 0x14, 0x12, 0, PPC2_ISA300)
-@@ -1176,14 +1158,6 @@ GEN_VSX_HELPER_X2(xvsqrtdp, 0x16, 0x0C, 0, PPC2_VSX)
- GEN_VSX_HELPER_X2(xvrsqrtedp, 0x14, 0x0C, 0, PPC2_VSX)
- GEN_VSX_HELPER_X2_AB(xvtdivdp, 0x14, 0x0F, 0, PPC2_VSX)
- GEN_VSX_HELPER_X1(xvtsqrtdp, 0x14, 0x0E, 0, PPC2_VSX)
--GEN_VSX_HELPER_X3(xvmaddadp, 0x04, 0x0C, 0, PPC2_VSX)
--GEN_VSX_HELPER_X3(xvmaddmdp, 0x04, 0x0D, 0, PPC2_VSX)
--GEN_VSX_HELPER_X3(xvmsubadp, 0x04, 0x0E, 0, PPC2_VSX)
--GEN_VSX_HELPER_X3(xvmsubmdp, 0x04, 0x0F, 0, PPC2_VSX)
--GEN_VSX_HELPER_X3(xvnmaddadp, 0x04, 0x1C, 0, PPC2_VSX)
--GEN_VSX_HELPER_X3(xvnmaddmdp, 0x04, 0x1D, 0, PPC2_VSX)
--GEN_VSX_HELPER_X3(xvnmsubadp, 0x04, 0x1E, 0, PPC2_VSX)
--GEN_VSX_HELPER_X3(xvnmsubmdp, 0x04, 0x1F, 0, PPC2_VSX)
- GEN_VSX_HELPER_X3(xvmaxdp, 0x00, 0x1C, 0, PPC2_VSX)
- GEN_VSX_HELPER_X3(xvmindp, 0x00, 0x1D, 0, PPC2_VSX)
- GEN_VSX_HELPER_X3(xvcmpeqdp, 0x0C, 0x0C, 0, PPC2_VSX)
-@@ -1214,14 +1188,6 @@ GEN_VSX_HELPER_X2(xvsqrtsp, 0x16, 0x08, 0, PPC2_VSX)
- GEN_VSX_HELPER_X2(xvrsqrtesp, 0x14, 0x08, 0, PPC2_VSX)
- GEN_VSX_HELPER_X2_AB(xvtdivsp, 0x14, 0x0B, 0, PPC2_VSX)
- GEN_VSX_HELPER_X1(xvtsqrtsp, 0x14, 0x0A, 0, PPC2_VSX)
--GEN_VSX_HELPER_X3(xvmaddasp, 0x04, 0x08, 0, PPC2_VSX)
--GEN_VSX_HELPER_X3(xvmaddmsp, 0x04, 0x09, 0, PPC2_VSX)
--GEN_VSX_HELPER_X3(xvmsubasp, 0x04, 0x0A, 0, PPC2_VSX)
--GEN_VSX_HELPER_X3(xvmsubmsp, 0x04, 0x0B, 0, PPC2_VSX)
--GEN_VSX_HELPER_X3(xvnmaddasp, 0x04, 0x18, 0, PPC2_VSX)
--GEN_VSX_HELPER_X3(xvnmaddmsp, 0x04, 0x19, 0, PPC2_VSX)
--GEN_VSX_HELPER_X3(xvnmsubasp, 0x04, 0x1A, 0, PPC2_VSX)
--GEN_VSX_HELPER_X3(xvnmsubmsp, 0x04, 0x1B, 0, PPC2_VSX)
- GEN_VSX_HELPER_X3(xvmaxsp, 0x00, 0x18, 0, PPC2_VSX)
- GEN_VSX_HELPER_X3(xvminsp, 0x00, 0x19, 0, PPC2_VSX)
- GEN_VSX_HELPER_X3(xvcmpeqsp, 0x0C, 0x08, 0, PPC2_VSX)
-@@ -1249,6 +1215,73 @@ GEN_VSX_HELPER_X2(xvtstdcdp, 0x14, 0x1E, 0, PPC2_VSX)
- GEN_VSX_HELPER_X3(xxperm, 0x08, 0x03, 0, PPC2_ISA300)
- GEN_VSX_HELPER_X3(xxpermr, 0x08, 0x07, 0, PPC2_ISA300)
- 
-+#define GEN_VSX_HELPER_VSX_MADD(name, op1, op2, inval, type)                  \
-+static void gen_##name(DisasContext *ctx)                                     \
-+{                                                                             \
-+    TCGv_i32 opc;                                                             \
-+    TCGv_ptr xt, xa, b, c;                                                    \
-+    if (unlikely(!ctx->vsx_enabled)) {                                        \
-+        gen_exception(ctx, POWERPC_EXCP_VSXU);                                \
-+        return;                                                               \
-+    }                                                                         \
-+    opc = tcg_const_i32(ctx->opcode);                                         \
-+    xt = gen_vsr_ptr(xT(ctx->opcode));                                        \
-+    xa = gen_vsr_ptr(xA(ctx->opcode));                                        \
-+    if (ctx->opcode & PPC_BIT(25)) {                                          \
-+        /*                                                                    \
-+         * AxT + B                                                            \
-+         */                                                                   \
-+        b = gen_vsr_ptr(xT(ctx->opcode));                                     \
-+        c = gen_vsr_ptr(xB(ctx->opcode));                                     \
-+    } else {                                                                  \
-+        /*                                                                    \
-+         * AxB + T                                                            \
-+         */                                                                   \
-+        b = gen_vsr_ptr(xB(ctx->opcode));                                     \
-+        c = gen_vsr_ptr(xT(ctx->opcode));                                     \
-+    }                                                                         \
-+    gen_helper_##name(cpu_env, opc, xt, xa, b, c);                            \
-+    tcg_temp_free_i32(opc);                                                   \
-+    tcg_temp_free_ptr(xt);                                                    \
-+    tcg_temp_free_ptr(xa);                                                    \
-+    tcg_temp_free_ptr(b);                                                     \
-+    tcg_temp_free_ptr(c);                                                     \
-+}
-+
-+GEN_VSX_HELPER_VSX_MADD(xsmaddmdp, 0x04, 0x05, 0, PPC2_VSX)
-+GEN_VSX_HELPER_VSX_MADD(xsmsubmdp, 0x04, 0x07, 0, PPC2_VSX)
-+GEN_VSX_HELPER_VSX_MADD(xsnmaddmdp, 0x04, 0x15, 0, PPC2_VSX)
-+GEN_VSX_HELPER_VSX_MADD(xsnmsubmdp, 0x04, 0x17, 0, PPC2_VSX)
-+GEN_VSX_HELPER_VSX_MADD(xsmaddmsp, 0x04, 0x01, 0, PPC2_VSX207)
-+GEN_VSX_HELPER_VSX_MADD(xsmsubmsp, 0x04, 0x03, 0, PPC2_VSX207)
-+GEN_VSX_HELPER_VSX_MADD(xsnmaddmsp, 0x04, 0x11, 0, PPC2_VSX207)
-+GEN_VSX_HELPER_VSX_MADD(xsnmsubmsp, 0x04, 0x13, 0, PPC2_VSX207)
-+GEN_VSX_HELPER_VSX_MADD(xvmaddmdp, 0x04, 0x0D, 0, PPC2_VSX)
-+GEN_VSX_HELPER_VSX_MADD(xvmsubmdp, 0x04, 0x0F, 0, PPC2_VSX)
-+GEN_VSX_HELPER_VSX_MADD(xvnmaddmdp, 0x04, 0x1D, 0, PPC2_VSX)
-+GEN_VSX_HELPER_VSX_MADD(xvnmsubmdp, 0x04, 0x1F, 0, PPC2_VSX)
-+GEN_VSX_HELPER_VSX_MADD(xvmaddmsp, 0x04, 0x09, 0, PPC2_VSX)
-+GEN_VSX_HELPER_VSX_MADD(xvmsubmsp, 0x04, 0x0B, 0, PPC2_VSX)
-+GEN_VSX_HELPER_VSX_MADD(xvnmaddmsp, 0x04, 0x19, 0, PPC2_VSX)
-+GEN_VSX_HELPER_VSX_MADD(xvnmsubmsp, 0x04, 0x1B, 0, PPC2_VSX)
-+
-+GEN_VSX_HELPER_VSX_MADD(xsmaddadp, 0x04, 0x04, 0, PPC2_VSX)
-+GEN_VSX_HELPER_VSX_MADD(xsmsubadp, 0x04, 0x06, 0, PPC2_VSX)
-+GEN_VSX_HELPER_VSX_MADD(xsnmaddadp, 0x04, 0x14, 0, PPC2_VSX)
-+GEN_VSX_HELPER_VSX_MADD(xsnmsubadp, 0x04, 0x16, 0, PPC2_VSX)
-+GEN_VSX_HELPER_VSX_MADD(xsmaddasp, 0x04, 0x00, 0, PPC2_VSX207)
-+GEN_VSX_HELPER_VSX_MADD(xsmsubasp, 0x04, 0x02, 0, PPC2_VSX207)
-+GEN_VSX_HELPER_VSX_MADD(xsnmaddasp, 0x04, 0x10, 0, PPC2_VSX207)
-+GEN_VSX_HELPER_VSX_MADD(xsnmsubasp, 0x04, 0x12, 0, PPC2_VSX207)
-+GEN_VSX_HELPER_VSX_MADD(xvmaddadp, 0x04, 0x0C, 0, PPC2_VSX)
-+GEN_VSX_HELPER_VSX_MADD(xvmsubadp, 0x04, 0x0E, 0, PPC2_VSX)
-+GEN_VSX_HELPER_VSX_MADD(xvnmaddadp, 0x04, 0x1C, 0, PPC2_VSX)
-+GEN_VSX_HELPER_VSX_MADD(xvnmsubadp, 0x04, 0x1E, 0, PPC2_VSX)
-+GEN_VSX_HELPER_VSX_MADD(xvmaddasp, 0x04, 0x08, 0, PPC2_VSX)
-+GEN_VSX_HELPER_VSX_MADD(xvmsubasp, 0x04, 0x0A, 0, PPC2_VSX)
-+GEN_VSX_HELPER_VSX_MADD(xvnmaddasp, 0x04, 0x18, 0, PPC2_VSX)
-+GEN_VSX_HELPER_VSX_MADD(xvnmsubasp, 0x04, 0x1A, 0, PPC2_VSX)
-+
- static void gen_xxbrd(DisasContext *ctx)
- {
-     TCGv_i64 xth;
--- 
-2.11.0
 
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
+for any user-visible changes.
+
+-- PMM
 
