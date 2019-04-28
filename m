@@ -2,50 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E745B576
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Apr 2019 08:53:28 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40674 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0683B5CF
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Apr 2019 12:02:59 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:42055 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hKdgl-0004K4-Oh
-	for lists+qemu-devel@lfdr.de; Sun, 28 Apr 2019 02:53:27 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57185)
+	id 1hKgeA-0008SS-K7
+	for lists+qemu-devel@lfdr.de; Sun, 28 Apr 2019 06:02:58 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50385)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hKdbj-0000OR-Q9
-	for qemu-devel@nongnu.org; Sun, 28 Apr 2019 02:48:16 -0400
+	(envelope-from <liliangleo@didiglobal.com>) id 1hKgcv-00087s-3H
+	for qemu-devel@nongnu.org; Sun, 28 Apr 2019 06:01:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hKdbi-0006Nf-TI
-	for qemu-devel@nongnu.org; Sun, 28 Apr 2019 02:48:15 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41252)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hKdbi-0006KE-NK
-	for qemu-devel@nongnu.org; Sun, 28 Apr 2019 02:48:14 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id EE77C81F35;
-	Sun, 28 Apr 2019 06:48:13 +0000 (UTC)
-Received: from x1w.redhat.com (ovpn-204-62.brq.redhat.com [10.40.204.62])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 430EC171EE;
-	Sun, 28 Apr 2019 06:48:09 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Sun, 28 Apr 2019 08:47:31 +0200
-Message-Id: <20190428064731.29913-7-philmd@redhat.com>
-In-Reply-To: <20190428064731.29913-1-philmd@redhat.com>
-References: <20190428064731.29913-1-philmd@redhat.com>
+	(envelope-from <liliangleo@didiglobal.com>) id 1hKgct-0004pd-Us
+	for qemu-devel@nongnu.org; Sun, 28 Apr 2019 06:01:41 -0400
+Received: from mx2.didichuxing.com ([36.110.17.22]:27867
+	helo=bsf02.didichuxing.com) by eggs.gnu.org with smtp (Exim 4.71)
+	(envelope-from <liliangleo@didiglobal.com>) id 1hKgcs-0004ml-6L
+	for qemu-devel@nongnu.org; Sun, 28 Apr 2019 06:01:39 -0400
+X-ASG-Debug-ID: 1556445690-0e41087d3ba24550001-jgbH7p
+Received: from BJEXCAS01.didichuxing.com (bogon [172.20.36.235]) by
+	bsf02.didichuxing.com with ESMTP id Rz9F7CnSQkZZLQnb;
+	Sun, 28 Apr 2019 18:01:30 +0800 (CST)
+X-Barracuda-Envelope-From: liliangleo@didiglobal.com
+Received: from localhost (172.30.32.122) by BJSGEXMBX04.didichuxing.com
+	(172.20.15.134) with Microsoft SMTP Server (TLS) id 15.0.1263.5;
+	Sun, 28 Apr 2019 18:01:29 +0800
+Date: Sun, 28 Apr 2019 18:01:17 +0800
+From: Liang Li <liliangleo@didiglobal.com>
+To: <qemu-block@nongnu.org>, <qemu-devel@nongnu.org>
+Message-ID: <20190428100052.GA63525@localhost>
+X-ASG-Orig-Subj: [PATCH 0/2] buffer and delay backup COW write operation
+Mail-Followup-To: qemu-block@nongnu.org, qemu-devel@nongnu.org,
+	John Snow <jsnow@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+	Max Reitz <mreitz@redhat.com>,
+	Wen Congyang <wencongyang2@huawei.com>,
+	Xie Changlong <xiechanglong.d@gmail.com>,
+	Markus Armbruster <armbru@redhat.com>,
+	Eric Blake <eblake@redhat.com>, Fam Zheng <fam@euphon.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.25]);
-	Sun, 28 Apr 2019 06:48:14 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 6/6] vl: Do not set acpi_enabled when ACPI
- is disabled at build time
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
+User-Agent: Mutt/1.7.2 (2016-11-26)
+X-Originating-IP: [172.30.32.122]
+X-ClientProxiedBy: BJEXCAS06.didichuxing.com (172.20.36.207) To
+	BJSGEXMBX04.didichuxing.com (172.20.15.134)
+X-Barracuda-Connect: bogon[172.20.36.235]
+X-Barracuda-Start-Time: 1556445690
+X-Barracuda-URL: https://bsf02.didichuxing.com:443/cgi-mod/mark.cgi
+X-Virus-Scanned: by bsmtpd at didichuxing.com
+X-Barracuda-Scan-Msg-Size: 1851
+X-Barracuda-BRTS-Status: 1
+X-Barracuda-Bayes: INNOCENT GLOBAL 0.0000 1.0000 -2.0210
+X-Barracuda-Spam-Score: -2.02
+X-Barracuda-Spam-Status: No,
+	SCORE=-2.02 using global scores of TAG_LEVEL=1000.0
+	QUARANTINE_LEVEL=1000.0 KILL_LEVEL=1000.0 tests=
+X-Barracuda-Spam-Report: Code version 3.2, rules version 3.2.3.70512
+	Rule breakdown below
+	pts rule name              description
+	---- ----------------------
+	--------------------------------------------------
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 36.110.17.22
+Subject: [Qemu-devel] [PATCH 0/2] buffer and delay backup COW write operation
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -57,67 +78,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Corey Minyard <minyard@acm.org>, "Michael S. Tsirkin" <mst@redhat.com>,
-	Aleksandar Rikalo <arikalo@wavecomp.com>,
-	Aleksandar Markovic <amarkovic@wavecomp.com>,
-	Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
-	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
-	Aurelien Jarno <aurelien@aurel32.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Fam Zheng <fam@euphon.net>,
+	Wen Congyang <wencongyang2@huawei.com>,
+	Xie Changlong <xiechanglong.d@gmail.com>,
+	Markus Armbruster <armbru@redhat.com>,
+	Max Reitz <mreitz@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When building with CONFIG_ACPI disabled, the 'acpi_enabled' is
-still initialized to '1' (enabled).
+If the backup target is a slow device like ceph rbd, the backup
+process will affect guest BLK write IO performance seriously,
+it's cause by the drawback of COW mechanism, if guest overwrite the
+backup BLK area, the IO can only be processed after the data has
+been written to backup target.
+The impact can be relieved by buffering data read from backup
+source and writing to backup target later, so the guest BLK write
+IO can be processed in time.
+Data area with no overwrite will be process like before without
+buffering, in most case, we don't need a very large buffer.
 
-Remove the confusion by moving the variable to hw/core/acpi.c,
-and adding a similar stub.
+An fio test was done when the backup was going on, the test resut
+show a obvious performance improvement by buffering.
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- hw/acpi/core.c | 1 +
- stubs/acpi.c   | 2 ++
- vl.c           | 1 -
- 3 files changed, 3 insertions(+), 1 deletion(-)
+Test result(1GB buffer):
+========================
+fio setting:
+[random-writers]
+ioengine=libaio
+iodepth=8
+rw=randwrite
+bs=32k
+direct=1
+size=1G
+numjobs=1
 
-diff --git a/hw/acpi/core.c b/hw/acpi/core.c
-index 9ed1629f367..b2730aec8a0 100644
---- a/hw/acpi/core.c
-+++ b/hw/acpi/core.c
-@@ -59,6 +59,7 @@ static const char unsigned dfl_hdr[ACPI_TABLE_HDR_SIZE =
-- ACPI_TABLE_PFX_SIZE] =3D
-     "QEMU\1\0\0\0"           /* ASL compiler ID (4), version (4) */
-     ;
-=20
-+int acpi_enabled =3D 1;
- char unsigned *acpi_tables;
- size_t acpi_tables_len;
-=20
-diff --git a/stubs/acpi.c b/stubs/acpi.c
-index cd0119f9fb1..f1ef6b8e795 100644
---- a/stubs/acpi.c
-+++ b/stubs/acpi.c
-@@ -23,6 +23,8 @@
- #include "qapi/qmp/qerror.h"
- #include "hw/acpi/acpi.h"
-=20
-+int acpi_enabled;
-+
- size_t acpi_tables_len;
-=20
- char unsigned *acpi_tables;
-diff --git a/vl.c b/vl.c
-index ff5dfb6fbc3..c9364b4ec10 100644
---- a/vl.c
-+++ b/vl.c
-@@ -166,7 +166,6 @@ int smp_cpus;
- unsigned int max_cpus;
- int smp_cores =3D 1;
- int smp_threads =3D 1;
--int acpi_enabled =3D 1;
- int no_hpet =3D 0;
- int fd_bootchk =3D 1;
- static int no_reboot;
---=20
-2.20.1
+result:
+                      IOPS        AVG latency
+       no backup:     19389         410 us
+          backup:      1402        5702 us
+backup w/ buffer:      8684         918 us
+==============================================
+
+Cc: John Snow <jsnow@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>
+Cc: Max Reitz <mreitz@redhat.com>
+Cc: Wen Congyang <wencongyang2@huawei.com>
+Cc: Xie Changlong <xiechanglong.d@gmail.com>
+Cc: Markus Armbruster <armbru@redhat.com>
+Cc: Eric Blake <eblake@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>
+
+Liang Li (2):
+  backup: buffer COW request and delay the write operation
+  qapi: add interface for setting backup cow buffer size
+
+ block/backup.c            | 118 +++++++++++++++++++++++++++++++++++++++++-----
+ block/replication.c       |   2 +-
+ blockdev.c                |   5 ++
+ include/block/block_int.h |   2 +
+ qapi/block-core.json      |   5 ++
+ 5 files changed, 118 insertions(+), 14 deletions(-)
+
+-- 
+2.14.1
 
 
