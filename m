@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C3F8B632
-	for <lists+qemu-devel@lfdr.de>; Sun, 28 Apr 2019 17:57:48 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:45708 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97623B635
+	for <lists+qemu-devel@lfdr.de>; Sun, 28 Apr 2019 18:00:14 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:45734 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hKmBX-0000lP-CF
-	for lists+qemu-devel@lfdr.de; Sun, 28 Apr 2019 11:57:47 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52398)
+	id 1hKmDt-0002wj-IO
+	for lists+qemu-devel@lfdr.de; Sun, 28 Apr 2019 12:00:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52432)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hKm94-0007h5-N4
-	for qemu-devel@nongnu.org; Sun, 28 Apr 2019 11:55:15 -0400
+	(envelope-from <thuth@redhat.com>) id 1hKm97-0007ju-KG
+	for qemu-devel@nongnu.org; Sun, 28 Apr 2019 11:55:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hKm93-0004rj-MF
-	for qemu-devel@nongnu.org; Sun, 28 Apr 2019 11:55:14 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52146)
+	(envelope-from <thuth@redhat.com>) id 1hKm96-0004t7-Nk
+	for qemu-devel@nongnu.org; Sun, 28 Apr 2019 11:55:17 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33670)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <thuth@redhat.com>)
-	id 1hKm91-0004qC-JU; Sun, 28 Apr 2019 11:55:11 -0400
+	id 1hKm94-0004rp-BV; Sun, 28 Apr 2019 11:55:14 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
 	[10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id BE6DA81DE6;
-	Sun, 28 Apr 2019 15:55:10 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 9341F3086203;
+	Sun, 28 Apr 2019 15:55:13 +0000 (UTC)
 Received: from thuth.com (ovpn-116-50.ams2.redhat.com [10.36.116.50])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 38BDA28577;
-	Sun, 28 Apr 2019 15:55:08 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 1411628577;
+	Sun, 28 Apr 2019 15:55:10 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Sun, 28 Apr 2019 17:54:45 +0200
-Message-Id: <20190428155451.15653-3-thuth@redhat.com>
+Date: Sun, 28 Apr 2019 17:54:46 +0200
+Message-Id: <20190428155451.15653-4-thuth@redhat.com>
 In-Reply-To: <20190428155451.15653-1-thuth@redhat.com>
 References: <20190428155451.15653-1-thuth@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.25]);
-	Sun, 28 Apr 2019 15:55:10 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.42]);
+	Sun, 28 Apr 2019 15:55:13 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 2/8] tests/qemu-iotests/005: Add a sanity
- check for large sparse file support
+Subject: [Qemu-devel] [PATCH v2 3/8] tests/qemu-iotests/check: Pick a
+ default machine if necessary
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -67,39 +67,48 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-"check -raw 005" fails when running on ext4 filesystems - these do not
-support such large sparse files. Use the same check as in test 220 to
-skip the test in this case.
+qemu-system-arm, qemu-system-aarch64 and qemu-system-tricore do not have
+a default machine, so when running the qemu-iotests with such a binary,
+lots of tests are failing. Fix it by picking a default machine in the
+"check" script instead.
 
-Suggested-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qemu-iotests/005 | 9 +++++++++
- 1 file changed, 9 insertions(+)
+ tests/qemu-iotests/check | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/tests/qemu-iotests/005 b/tests/qemu-iotests/005
-index 2fef63af88..6136ced5c8 100755
---- a/tests/qemu-iotests/005
-+++ b/tests/qemu-iotests/005
-@@ -55,6 +55,15 @@ if [ "$IMGPROTO" =3D "sheepdog" ]; then
-     _notrun "image protocol $IMGPROTO does not support large image sizes=
-"
+diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
+index f9c24b6753..922c5d1d3d 100755
+--- a/tests/qemu-iotests/check
++++ b/tests/qemu-iotests/check
+@@ -130,7 +130,6 @@ export CACHEMODE=3D"writeback"
+ export QEMU_IO_OPTIONS=3D""
+ export QEMU_IO_OPTIONS_NO_FMT=3D""
+ export CACHEMODE_IS_DEFAULT=3Dtrue
+-export QEMU_OPTIONS=3D"-nodefaults -machine accel=3Dqtest"
+ export VALGRIND_QEMU=3D
+ export IMGKEYSECRET=3D
+ export IMGOPTSSYNTAX=3Dfalse
+@@ -564,6 +563,18 @@ then
  fi
+ export QEMU_PROG=3D"$(type -p "$QEMU_PROG")"
 =20
-+# Sanity check: For raw, we require a file system that permits the creat=
-ion
-+# of a HUGE (but very sparse) file.  tmpfs works, ext4 does not.
-+if [ "$IMGFMT" =3D "raw" ]; then
-+    if ! truncate --size=3D5T "$TEST_IMG"; then
-+        _notrun "file system on $TEST_DIR does not support large enough =
-files"
-+    fi
-+    rm "$TEST_IMG"
-+fi
++case "$QEMU_PROG" in
++    *qemu-system-arm|*qemu-system-aarch64)
++        export QEMU_OPTIONS=3D"-nodefaults -machine virt,accel=3Dqtest"
++        ;;
++    *qemu-system-tricore)
++        export QEMU_OPTIONS=3D"-nodefaults -machine tricore_testboard,ac=
+cel=3Dqtest"
++        ;;
++    *)
++        export QEMU_OPTIONS=3D"-nodefaults -machine accel=3Dqtest"
++        ;;
++esac
 +
- echo
- echo "creating large image"
- _make_test_img 5000G
+ if [ -z "$QEMU_IMG_PROG" ]; then
+     if [ -x "$build_iotests/qemu-img" ]; then
+         export QEMU_IMG_PROG=3D"$build_iotests/qemu-img"
 --=20
 2.21.0
 
