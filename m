@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 89D9EE905
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:28:21 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60982 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B40FDE887
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:13:26 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60756 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLA4i-0002GG-JY
-	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:28:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34671)
+	id 1hL9qH-0005tP-Oy
+	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:13:25 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34361)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hL9fM-0005Om-BP
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:02:09 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hL9er-0004r4-3J
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hL9fH-0006zA-2a
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:02:06 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:40394)
+	(envelope-from <peter.maydell@linaro.org>) id 1hL9eo-0006kA-1z
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:35 -0400
+Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:44818)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hL9fD-0006bs-T7
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:02:01 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id h11so155332wmb.5
-	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 10:01:16 -0700 (PDT)
+	id 1hL9em-0006cV-Rc
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:33 -0400
+Received: by mail-wr1-x436.google.com with SMTP id c5so17086369wrs.11
+	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 10:01:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=Kg2YYRuF9GcEYqzRNytFiB3KVAriQjQeVWin+mjaTaQ=;
-	b=wi2nUQqhBBF7Z+/CwXHm3bcU+DnFRqapzYPNlhGB5jZZxHEM2ibbWhUlHnrDTjQH1l
-	8AijtCx4HSZFLvxo1OiVNHiQWd61EHV0Pb0MG9tbYwtJROArzguFzyxWzK5PwgqxTneb
-	T0QvCm/6bvGqVQTOXvo26yqjd46ayG89y4gBpEX5iLi6jfUtw+JjsMA/ljt4zc3/difs
-	NURRfGM0onxUCim55fC92gAfk0vTXcxWs45Ff58u/HZpfsyiXaytdmOIViBpcnKkw3s1
-	kh9cIA69hpnhNpoMiujZsLC6iNa6/3yhTnY0bv3orNomcyCPvecRMKrPnygLtbOlzZTE
-	mZKA==
+	bh=2w1w44sHa+uGj5LPkXGrx5V7+QcLrNYXNtLTn7rWBUg=;
+	b=wCCTAaRBwxllhOkltURIAQRY0ESCgvD21au8gnkNMCuvo31ypW1FimSakFu2zamD2L
+	+aKQzv0VTGsc5bMhiw49Da2hXLGYmdN+EmApeEKuzI93YBkx/26X96mPRLtHRvkooKMZ
+	OrlDEpyuY2zHp7ErM7buNpARisgPzMZjOTfYVYE9RRU/n8rxQgL6tLf8Ku8vYxrszapL
+	ffg7heLgc3wHUUy2cRNimMeaMcf0c9WKdP09L92rFQ3XH9SyLjBrkPKeyaIAP1ApHpdu
+	Gh8VON4DqfN+zy6tCxEBiR1CbJqWVcz5O/2vRS8Jwwj51Fp5kTdz42iV+YFHa+EKBCE/
+	Fr5A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=Kg2YYRuF9GcEYqzRNytFiB3KVAriQjQeVWin+mjaTaQ=;
-	b=WPu8ilGk7RMeBX+TvFEhc9OfS6m860THFtm10LrcKtVdiqZpDf3c1NfLLMiGBNS6oT
-	l+4bm/RkMmcXTK1b2Hs+xyhJyHdpSbjt8q3m+mF079P1EFDWER2ymPX03596Vy5Usw94
-	lT3XLME5rI7HRqizBwNDgTt7Dx77cbWJT5IDfsNbB2TV7BzNTFrPnIrsYOlyrcyUICkv
-	rA7uwGhxcvua9eztnoLwD6oWA6ZZiMaL3WWZkSR0a3baVaMlG3dRrwh2xauLVX3rcvro
-	UWIXUb0pGI3Hm51TN12Yh/lECr5PxVIfuEs8VvQCi8VlSQrVtOFctFaFq2kAyEaQoIGY
-	kfSA==
-X-Gm-Message-State: APjAAAUoZiJdPFrrqekb89qu9aE9My4Jgeltdpj7kL9VNT1k2jL/VG0R
-	P9WK7oWDTjUck29mIfi1dzjLgRUKrrI=
-X-Google-Smtp-Source: APXvYqzffY3KLG9vGZcE77iWCJ8vEX8xQw345mc/cPwgncWfQSrypSIc/49fgr6BMAxfVLmKEDGHhQ==
-X-Received: by 2002:a1c:7512:: with SMTP id o18mr58806wmc.68.1556557274988;
-	Mon, 29 Apr 2019 10:01:14 -0700 (PDT)
+	bh=2w1w44sHa+uGj5LPkXGrx5V7+QcLrNYXNtLTn7rWBUg=;
+	b=Xu8EVohGvxwNKCEgqVvOB1lXV8/qiwmn7TaUey4HYv9HtsQt1sYK0gvb6YNGL3O9zq
+	fNyT6DV54XvOdGHxWLVKqZE46unmmLCrV3nIQxIY0sTZtOnNYZ7NeLrSrdV5oAjGFqRB
+	SXqD57g16iurQ9SXmtx8KluSjji3ytvwjOHh2oWC1gi2kKo/HoPWNd+o5ijAXRptIXqM
+	QkNxxMdJnKwd/Xk6k5npCHe8TXReqPa76zJ5gUFlbet3UIzNlUYizR6AY9jZNjzPy1Ev
+	a0qLstVbuUxFwKEsC4IZyop2kOzKl0A6r5UCuXpxpOw389yLRdrR3Mg8Qikacl05WAAS
+	Q9SQ==
+X-Gm-Message-State: APjAAAUYnWiOPbHZDW2H5jC7mOITDM2Ccu/wSioJWZUB81u7KcLPg8xt
+	CEg4ZnWfUl3Bkqyh67oXQ+IOSyWzuoE=
+X-Google-Smtp-Source: APXvYqwqq17zDjXVIiweWdAykw64lKdyLDPBcM2IFqR/Lt6u3w45UIZxynbJZgHvBOu05oyNiPvYmA==
+X-Received: by 2002:a5d:66c3:: with SMTP id k3mr5832383wrw.104.1556557276407; 
+	Mon, 29 Apr 2019 10:01:16 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
-	by smtp.gmail.com with ESMTPSA id a13sm36896wmj.39.2019.04.29.10.01.13
+	by smtp.gmail.com with ESMTPSA id a13sm36896wmj.39.2019.04.29.10.01.15
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 29 Apr 2019 10:01:14 -0700 (PDT)
+	Mon, 29 Apr 2019 10:01:15 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 29 Apr 2019 18:00:21 +0100
-Message-Id: <20190429170030.11323-34-peter.maydell@linaro.org>
+Date: Mon, 29 Apr 2019 18:00:22 +0100
+Message-Id: <20190429170030.11323-35-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190429170030.11323-1-peter.maydell@linaro.org>
 References: <20190429170030.11323-1-peter.maydell@linaro.org>
@@ -66,9 +66,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::32b
-Subject: [Qemu-devel] [PULL 33/42] hw/display/tc6393xb: Remove unused
- functions
+X-Received-From: 2a00:1450:4864:20::436
+Subject: [Qemu-devel] [PULL 34/42] hw/devices: Move TC6393XB declarations
+ into a new header
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -85,68 +85,105 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-No code used the tc6393xb_gpio_in_get() and tc6393xb_gpio_out_set()
-functions since their introduction in commit 88d2c950b002. Time to
-remove them.
-
-Suggested-by: Markus Armbruster <armbru@redhat.com>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20190412165416.7977-4-philmd@redhat.com
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-id: 20190412165416.7977-5-philmd@redhat.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/devices.h  |  3 ---
- hw/display/tc6393xb.c | 16 ----------------
- 2 files changed, 19 deletions(-)
+ include/hw/devices.h          |  6 ------
+ include/hw/display/tc6393xb.h | 24 ++++++++++++++++++++++++
+ hw/arm/tosa.c                 |  2 +-
+ hw/display/tc6393xb.c         |  2 +-
+ MAINTAINERS                   |  1 +
+ 5 files changed, 27 insertions(+), 8 deletions(-)
+ create mode 100644 include/hw/display/tc6393xb.h
 
 diff --git a/include/hw/devices.h b/include/hw/devices.h
-index 1ed5be32967..0850f697451 100644
+index 0850f697451..1e2141caad1 100644
 --- a/include/hw/devices.h
 +++ b/include/hw/devices.h
-@@ -54,9 +54,6 @@ void retu_key_event(void *retu, int state);
- typedef struct TC6393xbState TC6393xbState;
- TC6393xbState *tc6393xb_init(struct MemoryRegion *sysmem,
-                              uint32_t base, qemu_irq irq);
--void tc6393xb_gpio_out_set(TC6393xbState *s, int line,
--                    qemu_irq handler);
--qemu_irq *tc6393xb_gpio_in_get(TC6393xbState *s);
- qemu_irq tc6393xb_l3v_get(TC6393xbState *s);
+@@ -50,10 +50,4 @@ void *tahvo_init(qemu_irq irq, int betty);
  
+ void retu_key_event(void *retu, int state);
+ 
+-/* tc6393xb.c */
+-typedef struct TC6393xbState TC6393xbState;
+-TC6393xbState *tc6393xb_init(struct MemoryRegion *sysmem,
+-                             uint32_t base, qemu_irq irq);
+-qemu_irq tc6393xb_l3v_get(TC6393xbState *s);
+-
  #endif
+diff --git a/include/hw/display/tc6393xb.h b/include/hw/display/tc6393xb.h
+new file mode 100644
+index 00000000000..5c4da91f80d
+--- /dev/null
++++ b/include/hw/display/tc6393xb.h
+@@ -0,0 +1,24 @@
++/*
++ * Toshiba TC6393XB I/O Controller.
++ * Found in Sharp Zaurus SL-6000 (tosa) or some
++ * Toshiba e-Series PDAs.
++ *
++ * Copyright (c) 2007 Hervé Poussineau
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
++
++#ifndef HW_DISPLAY_TC6393XB_H
++#define HW_DISPLAY_TC6393XB_H
++
++#include "exec/memory.h"
++#include "hw/irq.h"
++
++typedef struct TC6393xbState TC6393xbState;
++
++TC6393xbState *tc6393xb_init(struct MemoryRegion *sysmem,
++                             uint32_t base, qemu_irq irq);
++qemu_irq tc6393xb_l3v_get(TC6393xbState *s);
++
++#endif
+diff --git a/hw/arm/tosa.c b/hw/arm/tosa.c
+index eef9d427e76..9a1247797fe 100644
+--- a/hw/arm/tosa.c
++++ b/hw/arm/tosa.c
+@@ -16,10 +16,10 @@
+ #include "hw/hw.h"
+ #include "hw/arm/pxa.h"
+ #include "hw/arm/arm.h"
+-#include "hw/devices.h"
+ #include "hw/arm/sharpsl.h"
+ #include "hw/pcmcia.h"
+ #include "hw/boards.h"
++#include "hw/display/tc6393xb.h"
+ #include "hw/i2c/i2c.h"
+ #include "hw/ssi/ssi.h"
+ #include "hw/sysbus.h"
 diff --git a/hw/display/tc6393xb.c b/hw/display/tc6393xb.c
-index e1b1e302f23..6d133d9a66c 100644
+index 6d133d9a66c..0b7c59cde7d 100644
 --- a/hw/display/tc6393xb.c
 +++ b/hw/display/tc6393xb.c
-@@ -137,11 +137,6 @@ struct TC6393xbState {
-              blanked : 1;
- };
+@@ -14,7 +14,7 @@
+ #include "qapi/error.h"
+ #include "qemu/host-utils.h"
+ #include "hw/hw.h"
+-#include "hw/devices.h"
++#include "hw/display/tc6393xb.h"
+ #include "hw/block/flash.h"
+ #include "ui/console.h"
+ #include "ui/pixel_ops.h"
+diff --git a/MAINTAINERS b/MAINTAINERS
+index dabbfccf9c5..51eecd0ac19 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -714,6 +714,7 @@ F: hw/misc/mst_fpga.c
+ F: hw/misc/max111x.c
+ F: include/hw/arm/pxa.h
+ F: include/hw/arm/sharpsl.h
++F: include/hw/display/tc6393xb.h
  
--qemu_irq *tc6393xb_gpio_in_get(TC6393xbState *s)
--{
--    return s->gpio_in;
--}
--
- static void tc6393xb_gpio_set(void *opaque, int line, int level)
- {
- //    TC6393xbState *s = opaque;
-@@ -154,17 +149,6 @@ static void tc6393xb_gpio_set(void *opaque, int line, int level)
-     // FIXME: how does the chip reflect the GPIO input level change?
- }
- 
--void tc6393xb_gpio_out_set(TC6393xbState *s, int line,
--                    qemu_irq handler)
--{
--    if (line >= TC6393XB_GPIOS) {
--        fprintf(stderr, "TC6393xb: no GPIO pin %d\n", line);
--        return;
--    }
--
--    s->handler[line] = handler;
--}
--
- static void tc6393xb_gpio_handler_update(TC6393xbState *s)
- {
-     uint32_t level, diff;
+ SABRELITE / i.MX6
+ M: Peter Maydell <peter.maydell@linaro.org>
 -- 
 2.20.1
 
