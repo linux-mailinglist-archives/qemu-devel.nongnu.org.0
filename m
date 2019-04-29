@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0505E92C
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:34:05 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:32836 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29ECCE908
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:29:12 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60987 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLAAG-0007SE-Cx
-	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:34:04 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34672)
+	id 1hLA5X-0003DP-6h
+	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:29:11 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34429)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hL9fM-0005On-6e
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:02:09 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hL9et-0004uX-AG
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hL9fH-0006zK-2y
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:02:06 -0400
-Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:38628)
+	(envelope-from <peter.maydell@linaro.org>) id 1hL9er-0006mr-OU
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:39 -0400
+Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:40485)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hL9fD-0006fd-Qz
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:02:01 -0400
-Received: by mail-wr1-x42b.google.com with SMTP id k16so17123991wrn.5
-	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 10:01:24 -0700 (PDT)
+	id 1hL9eq-0006fx-6N
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:36 -0400
+Received: by mail-wr1-x42e.google.com with SMTP id h4so17116702wre.7
+	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 10:01:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=csK17uX4zEJUIr2MrElaSeoN3nAbg+cexz+KK3ZxpK4=;
-	b=Tm6yIhCZZJFDqhuB+8ysUVKeZC22lYqdVJb7vyeXej927VSjp0TN3XArXTNdfpvBmS
-	6gDOxdif6o3es1D4jp7mNsuFJRfLaxei9vSkK5f/Qqq2Z+EFiHmlD89+dpy7WGVZ85Tr
-	yBvmFQSXeTOEcVwShzZdF07EG/t13yqMfS/+MW0sQEA6uYSOF2/erbnlyTIwes6HdINL
-	d/VTm7iEOpfGTMqTR9O5EZ2LsmnK4gpqlfhlV/lFsJ25rKh+YCaeIV2Vg5QOsq9rgAq2
-	KLYlMBO8icJilE92TgfIFOQoqbazjU0GZmjL5qDF73aVQEztWKrVbw2WGB0CvRaxJDQl
-	XD+g==
+	bh=dtay1t/8F0wroE/4gRl+DMjWaRAg1S7IMqSKkwsLaCo=;
+	b=kG1MXo4S3I1ItrI3uyPt/Hj6W21N7HbTD9J7HHhFeC0tBAcCvNsImuMAmnETWXcwfQ
+	oCmjxudfPApUFH1g3pv5o2PfaWJKwQJZIn8UXg2eckn+aLFWgNqUc3jmIwB3vs1REqWI
+	gcPykMS2Vw9HoGbdSY/QSWthnl2d7IirC3riEeuvcpAYJ/HI3bmXym4c8CQLxfc7gp/P
+	6i/gI34DAElDG/P2n0zXoZOebsZPCPCLhsIVParDdqHrvuXvswxhdZVwLqeaiQQEU7pA
+	cyYZxEnJLhsqhs21gxTeoDCdcsJyn+EG5j4gzwVhpJHpDiPhix0qMJ+Fu0GtiYNPfCCl
+	G6Pg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=csK17uX4zEJUIr2MrElaSeoN3nAbg+cexz+KK3ZxpK4=;
-	b=KzeidImxOrIwCJOjdF9kwP/L6FWCqvqLUkFaYB8IvGBvsUthWuLxhSybaAvieVFJZr
-	jhQbwbtPcdGtNaNDOyTSsDfjvjkCUeDIsld97ilSl37Qpy5hfeSwX/Z32AhFnFTtys0i
-	ngkjwbc2iO+xQHh9YonQj3xCw1eZg51xjBjBV45knTMOpE57TxC0P64FfNr7dS4cQ3T9
-	dXo867cJSNlzlTMXS7RGn4g9u7wgxCSBmKyjcxC5BKQfxZUAPNVuS4q1Q4YTY7QQx9GI
-	HHA+SvV7wRpu600pYfo5jBDBfHMIzpERv9C18DFMLnaZQ0l28dfAkMavMokeSfOjY8yw
-	UL4Q==
-X-Gm-Message-State: APjAAAXXmzemndEQpdq41wkQKD+oC6c66pWJRw4wMHCTtQQ3fPGJCfNa
-	S89D8tgckF7VJLDHCSMEZqkg0LQ2qDE=
-X-Google-Smtp-Source: APXvYqzFD1drwjRAA3qP8+cRJNsgjnozZqIt1k/XuNAcCGFaWEi4OmRqKPcC8GpYeInV0h2O3ysMWw==
-X-Received: by 2002:adf:f102:: with SMTP id r2mr13262873wro.136.1556557283919; 
-	Mon, 29 Apr 2019 10:01:23 -0700 (PDT)
+	bh=dtay1t/8F0wroE/4gRl+DMjWaRAg1S7IMqSKkwsLaCo=;
+	b=Vfw8EjJxT13n09CTHnA3F+vSUR5SDmac1TsoyjeGAeAVwxn8e1o58m0RY6Rhsx/AfY
+	kXEIGv21IE/BL4y27uaAnxNLPJGCoOVSD/6yPpV4CkKWBmDHm66DTcrvzqc+splrPBNf
+	NxLvj9RIpNF8ad9TWpWejXEVUnwSHToTtKJkWZhd2IAfARrTA4xcj6C+mkoRWWuQYT8b
+	z8eTEg8l2SxjJy5P3WyI78jGAj78ZUMAjgdo+rWR5MDxb2Bba7yZaTr4Cp2wFGl1UpHx
+	j4PrHZLkuLfb9+Rqb1lIgf/x1lLRLEQgj8CBKIWYUf0j2DIZAOyZ+oOlSWVag8+rk3Pf
+	DI8Q==
+X-Gm-Message-State: APjAAAUloQhlhsrsameaoBQQFvNvJRfVKYBkiLu4ZICf5RCO+DByoCe7
+	4Wh0+DoyDrEUAxKpNyJJC8y5xS0/iw4=
+X-Google-Smtp-Source: APXvYqxL0dUPCywfeqB1pvGKiX0JjqbiYDcPGNmoDgbMFGWFIKSkGYPAjRWiwl6VEKXMhQzeGNrq+g==
+X-Received: by 2002:adf:f14e:: with SMTP id y14mr25310800wro.276.1556557285145;
+	Mon, 29 Apr 2019 10:01:25 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
-	by smtp.gmail.com with ESMTPSA id a13sm36896wmj.39.2019.04.29.10.01.22
+	by smtp.gmail.com with ESMTPSA id a13sm36896wmj.39.2019.04.29.10.01.23
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 29 Apr 2019 10:01:23 -0700 (PDT)
+	Mon, 29 Apr 2019 10:01:24 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 29 Apr 2019 18:00:28 +0100
-Message-Id: <20190429170030.11323-41-peter.maydell@linaro.org>
+Date: Mon, 29 Apr 2019 18:00:29 +0100
+Message-Id: <20190429170030.11323-42-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190429170030.11323-1-peter.maydell@linaro.org>
 References: <20190429170030.11323-1-peter.maydell@linaro.org>
@@ -66,9 +66,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::42b
-Subject: [Qemu-devel] [PULL 40/42] hw/net/ne2000-isa: Add guards to the
- header
+X-Received-From: 2a00:1450:4864:20::42e
+Subject: [Qemu-devel] [PULL 41/42] hw/net/lan9118: Export TYPE_LAN9118 and
+ use it instead of hardcoded string
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -85,36 +85,84 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20190412165416.7977-11-philmd@redhat.com
+Message-id: 20190412165416.7977-12-philmd@redhat.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/net/ne2000-isa.h | 6 ++++++
- 1 file changed, 6 insertions(+)
+ include/hw/net/lan9118.h | 2 ++
+ hw/arm/exynos4_boards.c  | 3 ++-
+ hw/arm/mps2-tz.c         | 3 ++-
+ hw/net/lan9118.c         | 1 -
+ 4 files changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/include/hw/net/ne2000-isa.h b/include/hw/net/ne2000-isa.h
-index ff2bed9c95d..527337c4548 100644
---- a/include/hw/net/ne2000-isa.h
-+++ b/include/hw/net/ne2000-isa.h
-@@ -6,6 +6,10 @@
-  * This work is licensed under the terms of the GNU GPL, version 2 or later.
-  * See the COPYING file in the top-level directory.
-  */
+diff --git a/include/hw/net/lan9118.h b/include/hw/net/lan9118.h
+index d13d8cd3d22..500acb4c143 100644
+--- a/include/hw/net/lan9118.h
++++ b/include/hw/net/lan9118.h
+@@ -14,6 +14,8 @@
+ #include "hw/irq.h"
+ #include "net/net.h"
+ 
++#define TYPE_LAN9118 "lan9118"
 +
-+#ifndef HW_NET_NE2K_ISA_H
-+#define HW_NET_NE2K_ISA_H
-+
- #include "hw/hw.h"
- #include "hw/qdev.h"
- #include "hw/isa/isa.h"
-@@ -31,3 +35,5 @@ static inline ISADevice *isa_ne2000_init(ISABus *bus, int base, int irq,
+ void lan9118_init(NICInfo *, uint32_t, qemu_irq);
+ 
+ #endif
+diff --git a/hw/arm/exynos4_boards.c b/hw/arm/exynos4_boards.c
+index 750162cc95a..ea8100f65a8 100644
+--- a/hw/arm/exynos4_boards.c
++++ b/hw/arm/exynos4_boards.c
+@@ -32,6 +32,7 @@
+ #include "hw/arm/arm.h"
+ #include "exec/address-spaces.h"
+ #include "hw/arm/exynos4210.h"
++#include "hw/net/lan9118.h"
+ #include "hw/boards.h"
+ 
+ #undef DEBUG
+@@ -92,7 +93,7 @@ static void lan9215_init(uint32_t base, qemu_irq irq)
+     /* This should be a 9215 but the 9118 is close enough */
+     if (nd_table[0].used) {
+         qemu_check_nic_model(&nd_table[0], "lan9118");
+-        dev = qdev_create(NULL, "lan9118");
++        dev = qdev_create(NULL, TYPE_LAN9118);
+         qdev_set_nic_properties(dev, &nd_table[0]);
+         qdev_prop_set_uint32(dev, "mode_16bit", 1);
+         qdev_init_nofail(dev);
+diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
+index f79f090a4ac..7832408bb70 100644
+--- a/hw/arm/mps2-tz.c
++++ b/hw/arm/mps2-tz.c
+@@ -56,6 +56,7 @@
+ #include "hw/arm/armsse.h"
+ #include "hw/dma/pl080.h"
+ #include "hw/ssi/pl022.h"
++#include "hw/net/lan9118.h"
+ #include "net/net.h"
+ #include "hw/core/split-irq.h"
+ 
+@@ -244,7 +245,7 @@ static MemoryRegion *make_eth_dev(MPS2TZMachineState *mms, void *opaque,
+      * except that it doesn't support the checksum-offload feature.
+      */
+     qemu_check_nic_model(nd, "lan9118");
+-    mms->lan9118 = qdev_create(NULL, "lan9118");
++    mms->lan9118 = qdev_create(NULL, TYPE_LAN9118);
+     qdev_set_nic_properties(mms->lan9118, nd);
+     qdev_init_nofail(mms->lan9118);
+ 
+diff --git a/hw/net/lan9118.c b/hw/net/lan9118.c
+index a428b16eda5..b29e3fee49f 100644
+--- a/hw/net/lan9118.c
++++ b/hw/net/lan9118.c
+@@ -175,7 +175,6 @@ static const VMStateDescription vmstate_lan9118_packet = {
      }
-     return d;
- }
-+
-+#endif
+ };
+ 
+-#define TYPE_LAN9118 "lan9118"
+ #define LAN9118(obj) OBJECT_CHECK(lan9118_state, (obj), TYPE_LAN9118)
+ 
+ typedef struct {
 -- 
 2.20.1
 
