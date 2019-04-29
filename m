@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B34F4E870
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:10:37 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60699 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09532E906
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:28:35 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60985 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hL9nY-00033G-Og
-	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:10:36 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34188)
+	id 1hLA4w-0002Vl-3S
+	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:28:34 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34538)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hL9eV-0004Wh-N8
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:16 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hL9ex-000504-Az
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hL9eS-0006aN-4K
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:14 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:51173)
+	(envelope-from <peter.maydell@linaro.org>) id 1hL9eu-0006op-35
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:42 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:40399)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hL9eK-0006RW-GN
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:06 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id p21so186918wmc.0
-	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 10:00:55 -0700 (PDT)
+	id 1hL9et-0006SV-CU
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:39 -0400
+Received: by mail-wm1-x333.google.com with SMTP id h11so153997wmb.5
+	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 10:00:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=LNk5BgsGn2MS4PJAKvZ63GneIJcCBb8awXqH/62zPxI=;
-	b=lLskodHS+aoOfkWKD38C0roDblJkHi/RdukuFq2vlmfq48r2N40TwKRZgnclcoN3ID
-	6HVMqwg4pGY4e73ceQ+FERdAiyzF4S5M7lboW5YqC4W/ikeEtl674k1jJfLRVqrUA+Mg
-	XDkHWm9z6nMaZOcmFz9X3j6GVF8ihFiX3PvE4V6YlxfUxcC70A+/qEb7QIe1+gAl43zI
-	QhkQW4RR7qtBLwUNd+3D8oDtvasDV49QpLUq5GbpC8UEYblOei/h1tc5rwDOHYcUXSSn
-	E4hoCsEFmJSD7OFmj8M9Xz1rSx0s5NcvVjPUkyB8lI2lNG+OUb2KJ7fhVrN3L8RZBkzq
-	sJUg==
+	bh=4NCuKYdU/5uBNbCdep+D4E0qb4uFtn4WI3o3KSNsLEM=;
+	b=nduZnefLRFJp0hARyji3cfZKzuHDb9IzyE7NLUwOWvNQQtpawAwXXzSNIwRQ+/oKKF
+	0EYPpHT6A0zzhQu0TKp8cHfDVebMM8zkv/GzahSvUk0ULDCKYeNmtrvWu1s8oloNAns4
+	yVC5uLW2D0lxqRQV56mNImioP3aqfmCGlbg0RfkV/RtbipTLZTvA40y067WbHsMC3w22
+	cshPPAvWe7f6wkZRU+Hql1XltxHmn/yRQ0bR5r0u5vVjBSa5mcq1//sPfa9DsNovfI+n
+	C9rmlUiik8WIZ8ET0JpF9RwR0W9sTpZ6+ARuKHFeLqsXcpFhTDbXL9mdlAorwJeRXFmv
+	ut+Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=LNk5BgsGn2MS4PJAKvZ63GneIJcCBb8awXqH/62zPxI=;
-	b=Mn5v2g+oWkYhVAUeKD+H7m0v12c6CeYE5AYLIQ+Yro1p9INg6+gqYgj8IoVy/3h2Rk
-	CS0xOU8pVV5+r+HUwBmzzfB5/pS+Gg62HI3dO2h70XgNu8qHtGDWVas0nfAIxUueYb9L
-	iSeIw3RmdNDsrTDD0WLE/V3NMTvygDpwvDa6dll9qIlNWNsaIc9I8Wzeitkz5UId+7WO
-	UCxpOhZXJD8rEs+m+qH5cSns0pWf2L7K0+Bhi3xyxfsARdPM86/ZyyFOVPRYVp4dZ0Uo
-	LXzwTy0/uwqSLsu3lvaU7W7N6U/kAodAW4IS3zN1SSEzdUvLULhR6II9Xzr4426E+suN
-	6D6Q==
-X-Gm-Message-State: APjAAAWJM5uTJ8Ojx4EiutzknGxX6yguzfqvn9a7FTLUhcV3/pXJZpYr
-	QBhBpk6Ok6JPeKMff7xVnVcRv5MgMW0=
-X-Google-Smtp-Source: APXvYqwOH2QNhUFXSsmZnz1V0Qpsl6XWpFY/4HerxeIeilWt3+Ln15hMkd7dAQ1Ghy8egJ7LQF+9cg==
-X-Received: by 2002:a1c:4d04:: with SMTP id o4mr44261wmh.126.1556557254084;
-	Mon, 29 Apr 2019 10:00:54 -0700 (PDT)
+	bh=4NCuKYdU/5uBNbCdep+D4E0qb4uFtn4WI3o3KSNsLEM=;
+	b=nnC7nh88f0EY4JbyV74IyY4kOHtUh2ISqt3Y8K9lzuAcKYfX3x/NAi5viTorPw396f
+	49fyYhSur0uypdDbqXHU7z4sWi8Z4Uyg2WEPPpfMAtOS6ccNr3/xOKf63XQq32cw3/Ud
+	ao8jwvMRHbGMobgNl03+gKepyPCxGwOZxIHnnmL/XLPY7EbDQCNivBRLSRQ5iiJUj6YI
+	OwrPAAqyb9yD7YZhCRPdLLxQHLbCK2ApaqFfOgfSMaUPmYr2QQjpiQkJB20mGoDfGTFb
+	V0xMbNFKpNw36gE3dbKSEqjdhhXbA4wmjT+7Tpn3Au6RfJ392aYv7bV2J7tuNRPAvgTq
+	b74g==
+X-Gm-Message-State: APjAAAUGmEa9Cct7BgZw6v37vQ2sM42RuvC3Onc0zNfzvGaroColb82x
+	WZZ6bIiYN4xxdv8ubpv8n7C8dOd4VZI=
+X-Google-Smtp-Source: APXvYqyu3vUuKmpgRT4AhKHRbaHRDy9KhQ5+vrqiydpqsVgLeKn2rh1k0oPzp56YTls+zl4YTUraYg==
+X-Received: by 2002:a7b:ce06:: with SMTP id m6mr52633wmc.62.1556557255429;
+	Mon, 29 Apr 2019 10:00:55 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
-	by smtp.gmail.com with ESMTPSA id a13sm36896wmj.39.2019.04.29.10.00.53
+	by smtp.gmail.com with ESMTPSA id a13sm36896wmj.39.2019.04.29.10.00.54
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 29 Apr 2019 10:00:53 -0700 (PDT)
+	Mon, 29 Apr 2019 10:00:54 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 29 Apr 2019 18:00:05 +0100
-Message-Id: <20190429170030.11323-18-peter.maydell@linaro.org>
+Date: Mon, 29 Apr 2019 18:00:06 +0100
+Message-Id: <20190429170030.11323-19-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190429170030.11323-1-peter.maydell@linaro.org>
 References: <20190429170030.11323-1-peter.maydell@linaro.org>
@@ -65,9 +65,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::32b
-Subject: [Qemu-devel] [PULL 17/42] target/arm: Allow for floating point in
- callee stack integrity check
+X-Received-From: 2a00:1450:4864:20::333
+Subject: [Qemu-devel] [PULL 18/42] target/arm: Handle floating point
+ registers in exception return
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,75 +82,200 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The magic value pushed onto the callee stack as an integrity
-check is different if floating point is present.
+Handle floating point registers in exception return.
+This corresponds to pseudocode functions ValidateExceptionReturn(),
+ExceptionReturn(), PopStack() and ConsumeExcStackFrame().
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20190416125744.27770-15-peter.maydell@linaro.org
+Message-id: 20190416125744.27770-16-peter.maydell@linaro.org
 ---
- target/arm/helper.c | 22 +++++++++++++++++++---
- 1 file changed, 19 insertions(+), 3 deletions(-)
+ target/arm/helper.c | 142 +++++++++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 141 insertions(+), 1 deletion(-)
 
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index da0b6202400..c7b1a8d231d 100644
+index c7b1a8d231d..14604f49a4c 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -7979,6 +7979,21 @@ load_fail:
-     return false;
- }
+@@ -8447,6 +8447,8 @@ static void do_v7m_exception_exit(ARMCPU *cpu)
+     bool rettobase = false;
+     bool exc_secure = false;
+     bool return_to_secure;
++    bool ftype;
++    bool restore_s16_s31;
  
-+static uint32_t v7m_integrity_sig(CPUARMState *env, uint32_t lr)
-+{
-+    /*
-+     * Return the integrity signature value for the callee-saves
-+     * stack frame section. @lr is the exception return payload/LR value
-+     * whose FType bit forms bit 0 of the signature if FP is present.
-+     */
-+    uint32_t sig = 0xfefa125a;
+     /* If we're not in Handler mode then jumps to magic exception-exit
+      * addresses don't have magic behaviour. However for the v8M
+@@ -8484,6 +8486,16 @@ static void do_v7m_exception_exit(ARMCPU *cpu)
+                       excret);
+     }
+ 
++    ftype = excret & R_V7M_EXCRET_FTYPE_MASK;
 +
-+    if (!arm_feature(env, ARM_FEATURE_VFP) || (lr & R_V7M_EXCRET_FTYPE_MASK)) {
-+        sig |= 1;
++    if (!arm_feature(env, ARM_FEATURE_VFP) && !ftype) {
++        qemu_log_mask(LOG_GUEST_ERROR, "M profile: zero FTYPE in exception "
++                      "exit PC value 0x%" PRIx32 " is UNPREDICTABLE "
++                      "if FPU not present\n",
++                      excret);
++        ftype = true;
 +    }
-+    return sig;
-+}
 +
- static bool v7m_push_callee_stack(ARMCPU *cpu, uint32_t lr, bool dotailchain,
-                                   bool ignore_faults)
- {
-@@ -7993,6 +8008,7 @@ static bool v7m_push_callee_stack(ARMCPU *cpu, uint32_t lr, bool dotailchain,
-     bool stacked_ok;
-     uint32_t limit;
-     bool want_psp;
-+    uint32_t sig;
- 
-     if (dotailchain) {
-         bool mode = lr & R_V7M_EXCRET_MODE_MASK;
-@@ -8034,8 +8050,9 @@ static bool v7m_push_callee_stack(ARMCPU *cpu, uint32_t lr, bool dotailchain,
-     /* Write as much of the stack frame as we can. A write failure may
-      * cause us to pend a derived exception.
+     if (arm_feature(env, ARM_FEATURE_M_SECURITY)) {
+         /* EXC_RETURN.ES validation check (R_SMFL). We must do this before
+          * we pick which FAULTMASK to clear.
+@@ -8584,6 +8596,30 @@ static void do_v7m_exception_exit(ARMCPU *cpu)
       */
-+    sig = v7m_integrity_sig(env, lr);
-     stacked_ok =
--        v7m_stack_write(cpu, frameptr, 0xfefa125b, mmu_idx, ignore_faults) &&
-+        v7m_stack_write(cpu, frameptr, sig, mmu_idx, ignore_faults) &&
-         v7m_stack_write(cpu, frameptr + 0x8, env->regs[4], mmu_idx,
-                         ignore_faults) &&
-         v7m_stack_write(cpu, frameptr + 0xc, env->regs[5], mmu_idx,
-@@ -8640,12 +8657,11 @@ static void do_v7m_exception_exit(ARMCPU *cpu)
-         if (return_to_secure &&
-             ((excret & R_V7M_EXCRET_ES_MASK) == 0 ||
-              (excret & R_V7M_EXCRET_DCRS_MASK) == 0)) {
--            uint32_t expected_sig = 0xfefa125b;
-             uint32_t actual_sig;
+     write_v7m_control_spsel_for_secstate(env, return_to_sp_process, exc_secure);
  
-             pop_ok = v7m_stack_read(cpu, &actual_sig, frameptr, mmu_idx);
++    /*
++     * Clear scratch FP values left in caller saved registers; this
++     * must happen before any kind of tail chaining.
++     */
++    if ((env->v7m.fpccr[M_REG_S] & R_V7M_FPCCR_CLRONRET_MASK) &&
++        (env->v7m.control[M_REG_S] & R_V7M_CONTROL_FPCA_MASK)) {
++        if (env->v7m.fpccr[M_REG_S] & R_V7M_FPCCR_LSPACT_MASK) {
++            env->v7m.sfsr |= R_V7M_SFSR_LSERR_MASK;
++            armv7m_nvic_set_pending(env->nvic, ARMV7M_EXCP_SECURE, false);
++            qemu_log_mask(CPU_LOG_INT, "...taking SecureFault on existing "
++                          "stackframe: error during lazy state deactivation\n");
++            v7m_exception_taken(cpu, excret, true, false);
++            return;
++        } else {
++            /* Clear s0..s15 and FPSCR */
++            int i;
++
++            for (i = 0; i < 16; i += 2) {
++                *aa32_vfp_dreg(env, i / 2) = 0;
++            }
++            vfp_set_fpscr(env, 0);
++        }
++    }
++
+     if (sfault) {
+         env->v7m.sfsr |= R_V7M_SFSR_INVER_MASK;
+         armv7m_nvic_set_pending(env->nvic, ARMV7M_EXCP_SECURE, false);
+@@ -8745,8 +8781,105 @@ static void do_v7m_exception_exit(ARMCPU *cpu)
+             }
+         }
  
--            if (pop_ok && expected_sig != actual_sig) {
-+            if (pop_ok && v7m_integrity_sig(env, excret) != actual_sig) {
-                 /* Take a SecureFault on the current stack */
-                 env->v7m.sfsr |= R_V7M_SFSR_INVIS_MASK;
-                 armv7m_nvic_set_pending(env->nvic, ARMV7M_EXCP_SECURE, false);
++        if (!ftype) {
++            /* FP present and we need to handle it */
++            if (!return_to_secure &&
++                (env->v7m.fpccr[M_REG_S] & R_V7M_FPCCR_LSPACT_MASK)) {
++                armv7m_nvic_set_pending(env->nvic, ARMV7M_EXCP_SECURE, false);
++                env->v7m.sfsr |= R_V7M_SFSR_LSERR_MASK;
++                qemu_log_mask(CPU_LOG_INT,
++                              "...taking SecureFault on existing stackframe: "
++                              "Secure LSPACT set but exception return is "
++                              "not to secure state\n");
++                v7m_exception_taken(cpu, excret, true, false);
++                return;
++            }
++
++            restore_s16_s31 = return_to_secure &&
++                (env->v7m.fpccr[M_REG_S] & R_V7M_FPCCR_TS_MASK);
++
++            if (env->v7m.fpccr[return_to_secure] & R_V7M_FPCCR_LSPACT_MASK) {
++                /* State in FPU is still valid, just clear LSPACT */
++                env->v7m.fpccr[return_to_secure] &= ~R_V7M_FPCCR_LSPACT_MASK;
++            } else {
++                int i;
++                uint32_t fpscr;
++                bool cpacr_pass, nsacr_pass;
++
++                cpacr_pass = v7m_cpacr_pass(env, return_to_secure,
++                                            return_to_priv);
++                nsacr_pass = return_to_secure ||
++                    extract32(env->v7m.nsacr, 10, 1);
++
++                if (!cpacr_pass) {
++                    armv7m_nvic_set_pending(env->nvic, ARMV7M_EXCP_USAGE,
++                                            return_to_secure);
++                    env->v7m.cfsr[return_to_secure] |= R_V7M_CFSR_NOCP_MASK;
++                    qemu_log_mask(CPU_LOG_INT,
++                                  "...taking UsageFault on existing "
++                                  "stackframe: CPACR.CP10 prevents unstacking "
++                                  "FP regs\n");
++                    v7m_exception_taken(cpu, excret, true, false);
++                    return;
++                } else if (!nsacr_pass) {
++                    armv7m_nvic_set_pending(env->nvic, ARMV7M_EXCP_USAGE, true);
++                    env->v7m.cfsr[M_REG_S] |= R_V7M_CFSR_INVPC_MASK;
++                    qemu_log_mask(CPU_LOG_INT,
++                                  "...taking Secure UsageFault on existing "
++                                  "stackframe: NSACR.CP10 prevents unstacking "
++                                  "FP regs\n");
++                    v7m_exception_taken(cpu, excret, true, false);
++                    return;
++                }
++
++                for (i = 0; i < (restore_s16_s31 ? 32 : 16); i += 2) {
++                    uint32_t slo, shi;
++                    uint64_t dn;
++                    uint32_t faddr = frameptr + 0x20 + 4 * i;
++
++                    if (i >= 16) {
++                        faddr += 8; /* Skip the slot for the FPSCR */
++                    }
++
++                    pop_ok = pop_ok &&
++                        v7m_stack_read(cpu, &slo, faddr, mmu_idx) &&
++                        v7m_stack_read(cpu, &shi, faddr + 4, mmu_idx);
++
++                    if (!pop_ok) {
++                        break;
++                    }
++
++                    dn = (uint64_t)shi << 32 | slo;
++                    *aa32_vfp_dreg(env, i / 2) = dn;
++                }
++                pop_ok = pop_ok &&
++                    v7m_stack_read(cpu, &fpscr, frameptr + 0x60, mmu_idx);
++                if (pop_ok) {
++                    vfp_set_fpscr(env, fpscr);
++                }
++                if (!pop_ok) {
++                    /*
++                     * These regs are 0 if security extension present;
++                     * otherwise merely UNKNOWN. We zero always.
++                     */
++                    for (i = 0; i < (restore_s16_s31 ? 32 : 16); i += 2) {
++                        *aa32_vfp_dreg(env, i / 2) = 0;
++                    }
++                    vfp_set_fpscr(env, 0);
++                }
++            }
++        }
++        env->v7m.control[M_REG_S] = FIELD_DP32(env->v7m.control[M_REG_S],
++                                               V7M_CONTROL, FPCA, !ftype);
++
+         /* Commit to consuming the stack frame */
+         frameptr += 0x20;
++        if (!ftype) {
++            frameptr += 0x48;
++            if (restore_s16_s31) {
++                frameptr += 0x40;
++            }
++        }
+         /* Undo stack alignment (the SPREALIGN bit indicates that the original
+          * pre-exception SP was not 8-aligned and we added a padding word to
+          * align it, so we undo this by ORing in the bit that increases it
+@@ -8759,7 +8892,14 @@ static void do_v7m_exception_exit(ARMCPU *cpu)
+         *frame_sp_p = frameptr;
+     }
+     /* This xpsr_write() will invalidate frame_sp_p as it may switch stack */
+-    xpsr_write(env, xpsr, ~XPSR_SPREALIGN);
++    xpsr_write(env, xpsr, ~(XPSR_SPREALIGN | XPSR_SFPA));
++
++    if (env->v7m.secure) {
++        bool sfpa = xpsr & XPSR_SFPA;
++
++        env->v7m.control[M_REG_S] = FIELD_DP32(env->v7m.control[M_REG_S],
++                                               V7M_CONTROL, SFPA, sfpa);
++    }
+ 
+     /* The restored xPSR exception field will be zero if we're
+      * resuming in Thread mode. If that doesn't match what the
 -- 
 2.20.1
 
