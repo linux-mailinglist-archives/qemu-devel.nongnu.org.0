@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65BEFE942
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:36:34 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:32891 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E8D7E8C4
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:25:27 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60926 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLACf-0001BH-GH
-	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:36:33 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34567)
+	id 1hLA1u-0007iZ-5T
+	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:25:26 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34515)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hL9f0-00051j-7q
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:47 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hL9eu-0006pP-T4
+	(envelope-from <peter.maydell@linaro.org>) id 1hL9ew-0004yK-9K
 	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:43 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:37706)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+	(envelope-from <peter.maydell@linaro.org>) id 1hL9et-0006o0-Ac
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:41 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:45471)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hL9et-0006Wp-H5
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:40 -0400
-Received: by mail-wm1-x344.google.com with SMTP id y5so180812wma.2
-	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 10:01:07 -0700 (PDT)
+	id 1hL9er-0006Y3-O8
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:39 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id s15so17081739wra.12
+	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 10:01:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=Vf7R2RwCYAshlSRjEKse6IoPkJ0uTt0nIYFS/RJnJjk=;
-	b=nubkNp29cxmmmYygaoC2BIvNg/kn/Dk/fAA9pb6Q1OoRXQrBCL0HcgvEbEQ+fyP66c
-	Zr2V5L17X2pGIYRqRsWHptRtW1g5j5ddJbJs6hyphG+++JCud+7n2rkV4kDpRGMAAuFT
-	BGw5qEB6Cl1ttd4MIzMErzx8vA2MYVn8nlBFx4pdbEnoRwdaVN0rQ/PQWPSPaFGJRnI4
-	Tg/laPBWkyTH1yyIOdKmJwNpMxIf8MO7F0bBdWSYPv+hdw0XCC9ZFwg4XngYJQ6h8oqU
-	6WV9VmKotUq2fbH36Pao4PDaRUbJebx3+lHDgr2wuWtC5lLXKd0cfAM21UE3NCptW+BW
-	Xb5w==
+	bh=GBDO/4e++xgCc/SivTvk9ncGYDexkFJwWQi8bM72ET4=;
+	b=pkhs7dw2mqrIPbt68ipaCRJY3OmAp/AU0h+n8XhyeAGWSH0nKGETaTEO6WXPej6lJC
+	hwodlcDOYfq3/XoIgz8CcMQ7Pgc9TGNzp7dDFo98/PVzFFxS+jMN1zwX+qbA1DiazZHZ
+	BC9jCmeaZ8RekEs9zstsnhK5rx8xlWYry0A+GtjhT5rg1S2wpA3fHsdoBnB7pcMAuhwG
+	7t58lNxUJqonVhS2GnXFYDxpGwz58J8Ptk7uYnDrPctMj/cq+JjsCDw02SgwpLN/HfYF
+	DT2IhUC5n9swi0BI5D+A44z6yOaOTkqCD7QBk3nvxJmRV3CkZMpa4MrgCaRRWklyxp5R
+	AYfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=Vf7R2RwCYAshlSRjEKse6IoPkJ0uTt0nIYFS/RJnJjk=;
-	b=HPiF8EN0/Zr0ouyGmlCT+ruhWhIRn62tcpfpDjzzg49xwlDm4pTrJKmTOZRG/p0l1q
-	//HQxeMMcFhWC412cUS2qa0er1R6bIJfB+lr1K3mjexrRSQPsY5lzij6KjRrW4uYkOmt
-	cRf1nFo7qsl6fXNlggXpLz6szJ34nNfFMDu80UHUzXeRVbRwvbgAwAWTaIRHH1ZlIpc6
-	8CKhMhnwaC7M2k++Dlg/EkrBR3gD/Ra44qg3awXUBGX+uM+MkTaGSIeS0oJm/cnkO8Qz
-	ThBPztxR+MgddZTLz+09H6/SaCtnMNJBFh0E//njmPdc+m9/+sMRQFIs89SirFXPg+ES
-	IwDA==
-X-Gm-Message-State: APjAAAUo7OCHSZPnZ4jyhfY++r7Qk1//x2049LHtsT3lqh22aU8hIQto
-	gWAmRyWOTiV0B3xDKPWls1+ktqxrrX8=
-X-Google-Smtp-Source: APXvYqwJV54NAGgnKiqc/VZzebiLgwX43u+64TEJ5YmJfiekB3ulc2caj063BNi2WZNJpkVDp4mL4w==
-X-Received: by 2002:a1c:5543:: with SMTP id j64mr32801wmb.37.1556557265866;
-	Mon, 29 Apr 2019 10:01:05 -0700 (PDT)
+	bh=GBDO/4e++xgCc/SivTvk9ncGYDexkFJwWQi8bM72ET4=;
+	b=CFzYvr5eqHrOl/JOgGLXKfwziyoCT4Q+ZEzSad5whkel3DJcH7DN5nFqItvDmYev+1
+	QXHE5pbvx3P8ngu5EFzh9PCnG0j5ZO2e0gZEA6MaUzCUU2sQfFKhIR7r1McPm0HG+HFd
+	WBxHSY6EDhARA6qks4FroRfPCZ83PPvVNV/gkIhHNNwy+mXEwB3dK/UqZgqZJVZZ/cZQ
+	X9FSFI/Bldxb51ghKOjH9LWQKAOy166aIQTQEqrBQymWH6kfE887ESG7UjF8o4ANMvUQ
+	2TVdyEGgJkPVE43eZlorEsNT7WFEec+jD739hmJax3kIBBQudozHBeG2HxG1app0Tez5
+	4bRw==
+X-Gm-Message-State: APjAAAVt6sagHv1XM6MLxsQDgR54q+kGvAiIIzBWldb6sPQ8scbk+cd0
+	JwCqI71i4A74wAtRDoyY74mPn4I3ZuA=
+X-Google-Smtp-Source: APXvYqwItw1G2xidHiCAgKbVYVAgmS8SLBXZAe4aYKAH72zkli1vL99EbRYNA9o1qGl2r+ao0U7iFA==
+X-Received: by 2002:adf:dd46:: with SMTP id u6mr3733211wrm.228.1556557267596; 
+	Mon, 29 Apr 2019 10:01:07 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
-	by smtp.gmail.com with ESMTPSA id a13sm36896wmj.39.2019.04.29.10.01.04
+	by smtp.gmail.com with ESMTPSA id a13sm36896wmj.39.2019.04.29.10.01.05
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 29 Apr 2019 10:01:04 -0700 (PDT)
+	Mon, 29 Apr 2019 10:01:06 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 29 Apr 2019 18:00:14 +0100
-Message-Id: <20190429170030.11323-27-peter.maydell@linaro.org>
+Date: Mon, 29 Apr 2019 18:00:15 +0100
+Message-Id: <20190429170030.11323-28-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190429170030.11323-1-peter.maydell@linaro.org>
 References: <20190429170030.11323-1-peter.maydell@linaro.org>
@@ -65,9 +65,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::344
-Subject: [Qemu-devel] [PULL 26/42] target/arm: Implement M-profile lazy FP
- state preservation
+X-Received-From: 2a00:1450:4864:20::42b
+Subject: [Qemu-devel] [PULL 27/42] target/arm: Implement VLSTM for v7M CPUs
+ with an FPU
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,79 +82,53 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The M-profile architecture floating point system supports
-lazy FP state preservation, where FP registers are not
-pushed to the stack when an exception occurs but are instead
-only saved if and when the first FP instruction in the exception
-handler is executed. Implement this in QEMU, corresponding
-to the check of LSPACT in the pseudocode ExecuteFPCheck().
+Implement the VLSTM instruction for v7M for the FPU present case.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20190416125744.27770-24-peter.maydell@linaro.org
+Message-id: 20190416125744.27770-25-peter.maydell@linaro.org
 ---
- target/arm/cpu.h       |   3 ++
- target/arm/helper.h    |   2 +
- target/arm/translate.h |   1 +
- target/arm/helper.c    | 112 +++++++++++++++++++++++++++++++++++++++++
- target/arm/translate.c |  22 ++++++++
- 5 files changed, 140 insertions(+)
+ target/arm/cpu.h       |  2 +
+ target/arm/helper.h    |  2 +
+ target/arm/helper.c    | 84 ++++++++++++++++++++++++++++++++++++++++++
+ target/arm/translate.c | 15 +++++++-
+ 4 files changed, 102 insertions(+), 1 deletion(-)
 
 diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index ed3069341d2..0b10aefb93d 100644
+index 0b10aefb93d..22bc6e00ab9 100644
 --- a/target/arm/cpu.h
 +++ b/target/arm/cpu.h
-@@ -57,6 +57,7 @@
- #define EXCP_NOCP           17   /* v7M NOCP UsageFault */
+@@ -58,6 +58,8 @@
  #define EXCP_INVSTATE       18   /* v7M INVSTATE UsageFault */
  #define EXCP_STKOF          19   /* v8M STKOF UsageFault */
-+#define EXCP_LAZYFP         20   /* v7M fault during lazy FP stacking */
+ #define EXCP_LAZYFP         20   /* v7M fault during lazy FP stacking */
++#define EXCP_LSERR          21   /* v8M LSERR SecureFault */
++#define EXCP_UNALIGNED      22   /* v7M UNALIGNED UsageFault */
  /* NB: add new EXCP_ defines to the array in arm_log_exception() too */
  
  #define ARMV7M_EXCP_RESET   1
-@@ -3172,6 +3173,8 @@ FIELD(TBFLAG_A32, NS, 6, 1)
- FIELD(TBFLAG_A32, VFPEN, 7, 1)
- FIELD(TBFLAG_A32, CONDEXEC, 8, 8)
- FIELD(TBFLAG_A32, SCTLR_B, 16, 1)
-+/* For M profile only, set if FPCCR.LSPACT is set */
-+FIELD(TBFLAG_A32, LSPACT, 18, 1)
- /* For M profile only, set if we must create a new FP context */
- FIELD(TBFLAG_A32, NEW_FP_CTXT_NEEDED, 19, 1)
- /* For M profile only, set if FPCCR.S does not match current security state */
 diff --git a/target/arm/helper.h b/target/arm/helper.h
-index a09566f795c..0a3a80528c7 100644
+index 0a3a80528c7..62051ae6d51 100644
 --- a/target/arm/helper.h
 +++ b/target/arm/helper.h
-@@ -69,6 +69,8 @@ DEF_HELPER_2(v7m_blxns, void, env, i32)
+@@ -71,6 +71,8 @@ DEF_HELPER_3(v7m_tt, i32, env, i32, i32)
  
- DEF_HELPER_3(v7m_tt, i32, env, i32, i32)
+ DEF_HELPER_1(v7m_preserve_fp_state, void, env)
  
-+DEF_HELPER_1(v7m_preserve_fp_state, void, env)
++DEF_HELPER_2(v7m_vlstm, void, env, i32)
 +
  DEF_HELPER_2(v8m_stackcheck, void, env, i32)
  
  DEF_HELPER_4(access_check_cp_reg, void, env, ptr, i32, i32)
-diff --git a/target/arm/translate.h b/target/arm/translate.h
-index ed8ae2e7e3b..c2348def0d1 100644
---- a/target/arm/translate.h
-+++ b/target/arm/translate.h
-@@ -42,6 +42,7 @@ typedef struct DisasContext {
-     bool v8m_stackcheck; /* true if we need to perform v8M stack limit checks */
-     bool v8m_fpccr_s_wrong; /* true if v8M FPCCR.S != v8m_secure */
-     bool v7m_new_fp_ctxt_needed; /* ASPEN set but no active FP context */
-+    bool v7m_lspact; /* FPCCR.LSPACT set */
-     /* Immediate value in AArch32 SVC insn; must be set if is_jmp == DISAS_SWI
-      * so that top level loop can generate correct syndrome information.
-      */
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 41531390853..b11f8aa14df 100644
+index b11f8aa14df..b821037c3b6 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -7378,6 +7378,12 @@ void HELPER(v7m_blxns)(CPUARMState *env, uint32_t dest)
+@@ -7384,6 +7384,12 @@ void HELPER(v7m_preserve_fp_state)(CPUARMState *env)
      g_assert_not_reached();
  }
  
-+void HELPER(v7m_preserve_fp_state)(CPUARMState *env)
++void HELPER(v7m_vlstm)(CPUARMState *env, uint32_t fptr)
 +{
 +    /* translate.c should never generate calls here in user-only mode */
 +    g_assert_not_reached();
@@ -163,180 +137,131 @@ index 41531390853..b11f8aa14df 100644
  uint32_t HELPER(v7m_tt)(CPUARMState *env, uint32_t addr, uint32_t op)
  {
      /* The TT instructions can be used by unprivileged code, but in
-@@ -7737,6 +7743,97 @@ pend_fault:
-     return false;
+@@ -8400,6 +8406,74 @@ static void v7m_update_fpccr(CPUARMState *env, uint32_t frameptr,
+     }
  }
  
-+void HELPER(v7m_preserve_fp_state)(CPUARMState *env)
++void HELPER(v7m_vlstm)(CPUARMState *env, uint32_t fptr)
 +{
-+    /*
-+     * Preserve FP state (because LSPACT was set and we are about
-+     * to execute an FP instruction). This corresponds to the
-+     * PreserveFPState() pseudocode.
-+     * We may throw an exception if the stacking fails.
-+     */
-+    ARMCPU *cpu = arm_env_get_cpu(env);
-+    bool is_secure = env->v7m.fpccr[M_REG_S] & R_V7M_FPCCR_S_MASK;
-+    bool negpri = !(env->v7m.fpccr[M_REG_S] & R_V7M_FPCCR_HFRDY_MASK);
-+    bool is_priv = !(env->v7m.fpccr[is_secure] & R_V7M_FPCCR_USER_MASK);
-+    bool splimviol = env->v7m.fpccr[is_secure] & R_V7M_FPCCR_SPLIMVIOL_MASK;
-+    uint32_t fpcar = env->v7m.fpcar[is_secure];
-+    bool stacked_ok = true;
-+    bool ts = is_secure && (env->v7m.fpccr[M_REG_S] & R_V7M_FPCCR_TS_MASK);
-+    bool take_exception;
++    /* fptr is the value of Rn, the frame pointer we store the FP regs to */
++    bool s = env->v7m.fpccr[M_REG_S] & R_V7M_FPCCR_S_MASK;
++    bool lspact = env->v7m.fpccr[s] & R_V7M_FPCCR_LSPACT_MASK;
 +
-+    /* Take the iothread lock as we are going to touch the NVIC */
-+    qemu_mutex_lock_iothread();
++    assert(env->v7m.secure);
 +
-+    /* Check the background context had access to the FPU */
-+    if (!v7m_cpacr_pass(env, is_secure, is_priv)) {
-+        armv7m_nvic_set_pending_lazyfp(env->nvic, ARMV7M_EXCP_USAGE, is_secure);
-+        env->v7m.cfsr[is_secure] |= R_V7M_CFSR_NOCP_MASK;
-+        stacked_ok = false;
-+    } else if (!is_secure && !extract32(env->v7m.nsacr, 10, 1)) {
-+        armv7m_nvic_set_pending_lazyfp(env->nvic, ARMV7M_EXCP_USAGE, M_REG_S);
-+        env->v7m.cfsr[M_REG_S] |= R_V7M_CFSR_NOCP_MASK;
-+        stacked_ok = false;
++    if (!(env->v7m.control[M_REG_S] & R_V7M_CONTROL_SFPA_MASK)) {
++        return;
 +    }
 +
-+    if (!splimviol && stacked_ok) {
-+        /* We only stack if the stack limit wasn't violated */
-+        int i;
-+        ARMMMUIdx mmu_idx;
++    /* Check access to the coprocessor is permitted */
++    if (!v7m_cpacr_pass(env, true, arm_current_el(env) != 0)) {
++        raise_exception_ra(env, EXCP_NOCP, 0, 1, GETPC());
++    }
 +
-+        mmu_idx = arm_v7m_mmu_idx_all(env, is_secure, is_priv, negpri);
++    if (lspact) {
++        /* LSPACT should not be active when there is active FP state */
++        raise_exception_ra(env, EXCP_LSERR, 0, 1, GETPC());
++    }
++
++    if (fptr & 7) {
++        raise_exception_ra(env, EXCP_UNALIGNED, 0, 1, GETPC());
++    }
++
++    /*
++     * Note that we do not use v7m_stack_write() here, because the
++     * accesses should not set the FSR bits for stacking errors if they
++     * fail. (In pseudocode terms, they are AccType_NORMAL, not AccType_STACK
++     * or AccType_LAZYFP). Faults in cpu_stl_data() will throw exceptions
++     * and longjmp out.
++     */
++    if (!(env->v7m.fpccr[M_REG_S] & R_V7M_FPCCR_LSPEN_MASK)) {
++        bool ts = env->v7m.fpccr[M_REG_S] & R_V7M_FPCCR_TS_MASK;
++        int i;
++
 +        for (i = 0; i < (ts ? 32 : 16); i += 2) {
 +            uint64_t dn = *aa32_vfp_dreg(env, i / 2);
-+            uint32_t faddr = fpcar + 4 * i;
++            uint32_t faddr = fptr + 4 * i;
 +            uint32_t slo = extract64(dn, 0, 32);
 +            uint32_t shi = extract64(dn, 32, 32);
 +
 +            if (i >= 16) {
 +                faddr += 8; /* skip the slot for the FPSCR */
 +            }
-+            stacked_ok = stacked_ok &&
-+                v7m_stack_write(cpu, faddr, slo, mmu_idx, STACK_LAZYFP) &&
-+                v7m_stack_write(cpu, faddr + 4, shi, mmu_idx, STACK_LAZYFP);
++            cpu_stl_data(env, faddr, slo);
++            cpu_stl_data(env, faddr + 4, shi);
 +        }
++        cpu_stl_data(env, fptr + 0x40, vfp_get_fpscr(env));
 +
-+        stacked_ok = stacked_ok &&
-+            v7m_stack_write(cpu, fpcar + 0x40,
-+                            vfp_get_fpscr(env), mmu_idx, STACK_LAZYFP);
-+    }
-+
-+    /*
-+     * We definitely pended an exception, but it's possible that it
-+     * might not be able to be taken now. If its priority permits us
-+     * to take it now, then we must not update the LSPACT or FP regs,
-+     * but instead jump out to take the exception immediately.
-+     * If it's just pending and won't be taken until the current
-+     * handler exits, then we do update LSPACT and the FP regs.
-+     */
-+    take_exception = !stacked_ok &&
-+        armv7m_nvic_can_take_pending_exception(env->nvic);
-+
-+    qemu_mutex_unlock_iothread();
-+
-+    if (take_exception) {
-+        raise_exception_ra(env, EXCP_LAZYFP, 0, 1, GETPC());
-+    }
-+
-+    env->v7m.fpccr[is_secure] &= ~R_V7M_FPCCR_LSPACT_MASK;
-+
-+    if (ts) {
-+        /* Clear s0 to s31 and the FPSCR */
-+        int i;
-+
-+        for (i = 0; i < 32; i += 2) {
-+            *aa32_vfp_dreg(env, i / 2) = 0;
++        /*
++         * If TS is 0 then s0 to s15 and FPSCR are UNKNOWN; we choose to
++         * leave them unchanged, matching our choice in v7m_preserve_fp_state.
++         */
++        if (ts) {
++            for (i = 0; i < 32; i += 2) {
++                *aa32_vfp_dreg(env, i / 2) = 0;
++            }
++            vfp_set_fpscr(env, 0);
 +        }
-+        vfp_set_fpscr(env, 0);
++    } else {
++        v7m_update_fpccr(env, fptr, false);
 +    }
-+    /*
-+     * Otherwise s0 to s15 and FPSCR are UNKNOWN; we choose to leave them
-+     * unchanged.
-+     */
++
++    env->v7m.control[M_REG_S] &= ~R_V7M_CONTROL_FPCA_MASK;
 +}
 +
- /* Write to v7M CONTROL.SPSEL bit for the specified security bank.
-  * This may change the current stack pointer between Main and Process
-  * stack pointers if it is done for the CONTROL register for the current
-@@ -9062,6 +9159,7 @@ static void arm_log_exception(int idx)
-             [EXCP_NOCP] = "v7M NOCP UsageFault",
+ static bool v7m_push_stack(ARMCPU *cpu)
+ {
+     /* Do the "set up stack frame" part of exception entry,
+@@ -9160,6 +9234,8 @@ static void arm_log_exception(int idx)
              [EXCP_INVSTATE] = "v7M INVSTATE UsageFault",
              [EXCP_STKOF] = "v8M STKOF UsageFault",
-+            [EXCP_LAZYFP] = "v7M exception during lazy FP stacking",
+             [EXCP_LAZYFP] = "v7M exception during lazy FP stacking",
++            [EXCP_LSERR] = "v8M LSERR UsageFault",
++            [EXCP_UNALIGNED] = "v7M UNALIGNED UsageFault",
          };
  
          if (idx >= 0 && idx < ARRAY_SIZE(excnames)) {
-@@ -9355,6 +9453,12 @@ void arm_v7m_cpu_do_interrupt(CPUState *cs)
-             return;
-         }
+@@ -9334,6 +9410,14 @@ void arm_v7m_cpu_do_interrupt(CPUState *cs)
+         armv7m_nvic_set_pending(env->nvic, ARMV7M_EXCP_USAGE, env->v7m.secure);
+         env->v7m.cfsr[env->v7m.secure] |= R_V7M_CFSR_STKOF_MASK;
          break;
-+    case EXCP_LAZYFP:
-+        /*
-+         * We already pended the specific exception in the NVIC in the
-+         * v7m_preserve_fp_state() helper function.
-+         */
++    case EXCP_LSERR:
++        armv7m_nvic_set_pending(env->nvic, ARMV7M_EXCP_SECURE, false);
++        env->v7m.sfsr |= R_V7M_SFSR_LSERR_MASK;
 +        break;
-     default:
-         cpu_abort(cs, "Unhandled exception 0x%x\n", cs->exception_index);
-         return; /* Never happens.  Keep compiler happy.  */
-@@ -13483,6 +13587,14 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
-         flags = FIELD_DP32(flags, TBFLAG_A32, NEW_FP_CTXT_NEEDED, 1);
-     }
- 
-+    if (arm_feature(env, ARM_FEATURE_M)) {
-+        bool is_secure = env->v7m.fpccr[M_REG_S] & R_V7M_FPCCR_S_MASK;
-+
-+        if (env->v7m.fpccr[is_secure] & R_V7M_FPCCR_LSPACT_MASK) {
-+            flags = FIELD_DP32(flags, TBFLAG_A32, LSPACT, 1);
-+        }
-+    }
-+
-     *pflags = flags;
-     *cs_base = 0;
- }
++    case EXCP_UNALIGNED:
++        armv7m_nvic_set_pending(env->nvic, ARMV7M_EXCP_USAGE, env->v7m.secure);
++        env->v7m.cfsr[env->v7m.secure] |= R_V7M_CFSR_UNALIGNED_MASK;
++        break;
+     case EXCP_SWI:
+         /* The PC already points to the next instruction.  */
+         armv7m_nvic_set_pending(env->nvic, ARMV7M_EXCP_SVC, env->v7m.secure);
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index edb66e7be8e..4f29d09a28a 100644
+index 4f29d09a28a..99b38dd5f2b 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -3424,6 +3424,27 @@ static int disas_vfp_insn(DisasContext *s, uint32_t insn)
-     if (arm_dc_feature(s, ARM_FEATURE_M)) {
-         /* Handle M-profile lazy FP state mechanics */
- 
-+        /* Trigger lazy-state preservation if necessary */
-+        if (s->v7m_lspact) {
-+            /*
-+             * Lazy state saving affects external memory and also the NVIC,
-+             * so we must mark it as an IO operation for icount.
-+             */
-+            if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
-+                gen_io_start();
-+            }
-+            gen_helper_v7m_preserve_fp_state(cpu_env);
-+            if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
-+                gen_io_end();
-+            }
-+            /*
-+             * If the preserve_fp_state helper doesn't throw an exception
-+             * then it will clear LSPACT; we don't need to repeat this for
-+             * any further FP insns in this TB.
-+             */
-+            s->v7m_lspact = false;
-+        }
+@@ -11818,7 +11818,20 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
+                 if (!s->v8m_secure || (insn & 0x0040f0ff)) {
+                     goto illegal_op;
+                 }
+-                /* Just NOP since FP support is not implemented */
 +
-         /* Update ownership of FP context: set FPCCR.S to match current state */
-         if (s->v8m_fpccr_s_wrong) {
-             TCGv_i32 tmp;
-@@ -13390,6 +13411,7 @@ static void arm_tr_init_disas_context(DisasContextBase *dcbase, CPUState *cs)
-     dc->v8m_fpccr_s_wrong = FIELD_EX32(tb_flags, TBFLAG_A32, FPCCR_S_WRONG);
-     dc->v7m_new_fp_ctxt_needed =
-         FIELD_EX32(tb_flags, TBFLAG_A32, NEW_FP_CTXT_NEEDED);
-+    dc->v7m_lspact = FIELD_EX32(tb_flags, TBFLAG_A32, LSPACT);
-     dc->cp_regs = cpu->cp_regs;
-     dc->features = env->features;
- 
++                if (arm_dc_feature(s, ARM_FEATURE_VFP)) {
++                    TCGv_i32 fptr = load_reg(s, rn);
++
++                    if (extract32(insn, 20, 1)) {
++                        /* VLLDM */
++                    } else {
++                        gen_helper_v7m_vlstm(cpu_env, fptr);
++                    }
++                    tcg_temp_free_i32(fptr);
++
++                    /* End the TB, because we have updated FP control bits */
++                    s->base.is_jmp = DISAS_UPDATE;
++                }
+                 break;
+             }
+             if (arm_dc_feature(s, ARM_FEATURE_VFP) &&
 -- 
 2.20.1
 
