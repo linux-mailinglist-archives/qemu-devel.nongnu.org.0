@@ -2,51 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74801DCB2
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 09:14:50 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53272 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8362CDD10
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 09:44:45 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53529 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hL0Uz-0002zp-Lo
-	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 03:14:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41977)
+	id 1hL0xw-0000Ua-MF
+	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 03:44:44 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45975)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <cohuck@redhat.com>) id 1hL0TW-0002OG-46
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 03:13:19 -0400
+	(envelope-from <mkletzan@redhat.com>) id 1hL0vw-0007am-H2
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 03:42:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <cohuck@redhat.com>) id 1hL0TV-0000GH-3o
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 03:13:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42126)
+	(envelope-from <mkletzan@redhat.com>) id 1hL0hP-000725-P0
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 03:27:41 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53448)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1hL0TU-0000Fv-UO
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 03:13:17 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
+	(Exim 4.71) (envelope-from <mkletzan@redhat.com>) id 1hL0hP-00070y-GR
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 03:27:39 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 4B53E307D92F;
-	Mon, 29 Apr 2019 07:13:15 +0000 (UTC)
-Received: from gondolin (dhcp-192-187.str.redhat.com [10.33.192.187])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 3B989608C2;
-	Mon, 29 Apr 2019 07:13:11 +0000 (UTC)
-Date: Mon, 29 Apr 2019 09:13:09 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
-Message-ID: <20190429091309.24c240d4.cohuck@redhat.com>
-In-Reply-To: <20190427135642.16464-1-philmd@redhat.com>
-References: <20190427135642.16464-1-philmd@redhat.com>
-Organization: Red Hat GmbH
+	by mx1.redhat.com (Postfix) with ESMTPS id E0B583082162;
+	Mon, 29 Apr 2019 07:27:36 +0000 (UTC)
+Received: from caroline (unknown [10.43.2.67])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 88CB216E4A;
+	Mon, 29 Apr 2019 07:27:36 +0000 (UTC)
+Received: by caroline (Postfix, from userid 1000)
+	id D8642120066; Mon, 29 Apr 2019 09:27:34 +0200 (CEST)
+Date: Mon, 29 Apr 2019 09:27:34 +0200
+From: Martin Kletzander <mkletzan@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Message-ID: <20190429072734.GC8818@wheatley>
+References: <20190423113028.GD30014@wheatley>
+	<20190423121218.GF9041@localhost.localdomain>
+	<20190423142648.GA2967@wheatley>
+	<20190423150845.GG9041@localhost.localdomain>
+	<aeb62174-5aad-676e-792d-e71d694dbd1e@virtuozzo.com>
+	<20190424071917.GA15891@linux.fritz.box>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="H+4ONPRPur6+Ovig"
+Content-Disposition: inline
+In-Reply-To: <20190424071917.GA15891@linux.fritz.box>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.48]);
-	Mon, 29 Apr 2019 07:13:15 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.47]);
+	Mon, 29 Apr 2019 07:27:36 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] qom/object: Display more helpful message
- when an object type is missing
+Subject: Re: [Qemu-devel] Possibly incorrect data sparsification by qemu-img
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,64 +65,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>,
-	Eduardo Habkost <ehabkost@redhat.com>,
-	Andreas =?UTF-8?B?RsOkcmJlcg==?= <afaerber@suse.de>, qemu-devel@nongnu.org
+Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+	Richard Jones <rjones@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, 27 Apr 2019 15:56:42 +0200
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
 
-> When writing a new board, adding device which uses other devices
-> (container) or simply refactoring, one can discover the hard way
-> his machine misses some devices. In the case of containers, the
-> error is not obvious:
->=20
->   $ qemu-system-microblaze -M xlnx-zynqmp-pmu
->   **
->   ERROR:/source/qemu/qom/object.c:454:object_initialize_with_type: assert=
-ion failed: (type !=3D NULL)
->   Aborted (core dumped)
->=20
-> And we have to look at the coredump to figure the error:
->=20
->   (gdb) bt
->   #1  0x00007f84773cf895 in abort () at /lib64/libc.so.6
->   #2  0x00007f847961fb53 in  () at /lib64/libglib-2.0.so.0
->   #3  0x00007f847967a4de in g_assertion_message_expr () at /lib64/libglib=
--2.0.so.0
->   #4  0x000055c4bcac6c11 in object_initialize_with_type (data=3Ddata@entr=
-y=3D0x55c4bdf239e0, size=3Dsize@entry=3D2464, type=3D<optimized out>) at /s=
-ource/qemu/qom/object.c:454
->   #5  0x000055c4bcac6e6d in object_initialize (data=3Ddata@entry=3D0x55c4=
-bdf239e0, size=3Dsize@entry=3D2464, typename=3Dtypename@entry=3D0x55c4bcc7c=
-643 "xlnx.zynqmp_ipi") at /source/qemu/qom/object.c:474
->   #6  0x000055c4bc9ea474 in xlnx_zynqmp_pmu_init (machine=3D0x55c4bdd4600=
-0) at /source/qemu/hw/microblaze/xlnx-zynqmp-pmu.c:176
->   #7  0x000055c4bca3b6cb in machine_run_board_init (machine=3D0x55c4bdd46=
-000) at /source/qemu/hw/core/machine.c:1030
->   #8  0x000055c4bc95f6d2 in main (argc=3D<optimized out>, argv=3D<optimiz=
-ed out>, envp=3D<optimized out>) at /source/qemu/vl.c:4479
->=20
-> Since the caller knows the type name requested, we can simply display it
-> to ease development.
->=20
-> With this patch applied we get:
->=20
->   $ qemu-system-microblaze -M xlnx-zynqmp-pmu
->   qemu-system-microblaze: missing object type 'xlnx.zynqmp_ipi'
->   Aborted (core dumped)
->=20
-> Since the assert(type) check in object_initialize_with_type() is
-> now impossible, remove it.
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  qom/object.c | 7 ++++++-
->  1 file changed, 6 insertions(+), 1 deletion(-)
+--H+4ONPRPur6+Ovig
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
 
-Way more helpful error message :)
+On Wed, Apr 24, 2019 at 09:19:17AM +0200, Kevin Wolf wrote:
+>Am 24.04.2019 um 08:40 hat Vladimir Sementsov-Ogievskiy geschrieben:
+>> 23.04.2019 18:08, Kevin Wolf wrote:
+>> > Am 23.04.2019 um 16:26 hat Martin Kletzander geschrieben:
+>> >> On Tue, Apr 23, 2019 at 02:12:18PM +0200, Kevin Wolf wrote:
+>> >>> Am 23.04.2019 um 13:30 hat Martin Kletzander geschrieben:
+>> >>>> Hi,
+>> >>>>
+>> >>>> I am using qemu-img with nbdkit to transfer a disk image and the update it with
+>> >>>> extra data from newer snapshots.  The end image cannot be transferred because
+>> >>>> the snapshots will be created later than the first transfer and we want to save
+>> >>>> some time up front.  You might think of it as a continuous synchronisation.  It
+>> >>>> looks something like this:
+>> >>>>
+>> >>>> I first transfer the whole image:
+>> >>>>
+>> >>>>   qemu-img convert -p $nbd disk.raw
+>> >>>>
+>> >>>> Where `$nbd` is something along the lines of `nbd+unix:///?socket=nbdkit.sock`
+>> >>>>
+>> >>>> Then, after the next snapshot is created, I can update it thanks to the `-n`
+>> >>>> parameter (the $nbd now points to the newer snapshot with unchanged data looking
+>> >>>> like holes in the file):
+>> >>>>
+>> >>>>   qemu-img convert -p -n $nbd disk.raw
+>> >>>>
+>> >>>> This is fast and efficient as it uses block status nbd extension, so it only
+>> >>>> transfers new data.
+>> >>>
+>> >>> This is an implementation detail. Don't rely on it. What you're doing is
+>> >>> abusing 'qemu-img convert', so problems like what you describe are to be
+>> >>> expected.
+>> >>>
+>> >>>> This can be done over and over again to keep the local
+>> >>>> `disk.raw` image up to date with the latest remote snapshot.
+>> >>>>
+>> >>>> However, when the guest OS zeroes some of the data and it gets written into the
+>> >>>> snapshot, qemu-img scans for those zeros and does not write them to the
+>> >>>> destination image.  Checking the output of `qemu-img map --output=json $nbd`
+>> >>>> shows that the zeroed data is properly marked as `data: true`.
+>> >>>>
+>> >>>> Using `-S 0` would write zeros even where the holes are, effectively overwriting
+>> >>>> the data from the last snapshot even though they should not be changed.
+>> >>>>
+>> >>>> Having gone through some workarounds I would like there to be another way.  I
+>> >>>> know this is far from the typical usage of qemu-img, but is this really the
+>> >>>> expected behaviour or is this just something nobody really needed before?  If it
+>> >>>> is the former, would it be possible to have a parameter that would control this
+>> >>>> behaviour?  If the latter is the case, can that behaviour be changed so that it
+>> >>>> properly replicates the data when `-n` parameter is used?
+>> >>>>
+>> >>>> Basically the only thing we need is to either:
+>> >>>>
+>> >>>> 1) write zeros where they actually are or
+>> >>>>
+>> >>>> 2) turn off explicit sparsification without requesting dense image (basically
+>> >>>>     sparsify only the par that is reported as hole on the source) or
+>> >>>>
+>> >>>> 3) ideally, just FALLOC_FL_PUNCH_HOLE in places where source did report data,
+>> >>>>     but qemu-img found they are all zeros (or source reported HOLE+ZERO which, I
+>> >>>>     believe, is effectively the same)
+>> >>>>
+>> >>>> If you want to try this out, I found the easiest reproducible way is using
+>> >>>> nbdkit's data plugin, which can simulate whatever source image you like.
+>> >>>
+>> >>> I think what you _really_ want is a commit block job. The problem is
+>> >>> just that you don't have a proper backing file chain, but just a bunch
+>> >>> of NBD connections.
+>> >>>
+>> >>> Can't you get an NBD connection that already provides the condensed form
+>> >>> of the whole snapshot chain directly at the source? If the NBD server
+>> >>> was QEMU, this would actually be easier than providing each snapshot
+>> >>> individually.
+>> >>>
+>> >>> If this isn't possible, I think you need to replicate the backing chain
+>> >>> on the destination instead of converting into the same image again and
+>> >>> again so that qemu-img knows that it must take existing data of the
+>> >>> backing file into consideration:
+>> >>>
+>> >>>     qemu-img convert -O qcow2 nbd://... base.qcow2
+>> >>>     qemu-img convert -O qcow2 -F qcow2 -B base.qcow2 nbd://... overlay1.qcow2
+>> >>>     qemu-img convert -O qcow2 -F qcow2 -B overlay1.qcow2 nbd://... overlay2.qcow2
+>> >>>     ...
+>>
 
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
+So I spoke too soon.  This approach fixed the one thing that I was struggling with, but broke the rest, because it completely replicates the last image even when the source provides proper allocation data.  Best to show with an illustration:
+
+  $ rm -f disk.img snap.img
+  $ dd if=/dev/urandom of=disk.img bs=2M count=1
+  $ dd if=/dev/zero of=snap.img bs=1M count=1
+  $ truncate -s 2M snap.img
+  $ qemu-img map --output=json snap.img
+  [{ "start": 0, "length": 1048576, "depth": 0, "zero": false, "data": true, "offset": 0},
+  { "start": 1048576, "length": 1048576, "depth": 0, "zero": true, "data": false, "offset": 1048576}]
+  $ qemu-img convert -f raw -O qcow2 disk.img disk.qcow2
+  $ qemu-img convert -f raw -O qcow2 -B disk.qcow2 snap.img snap.qcow2
+  $ qemu-img convert -f qcow2 -O raw snap.qcow2 output.raw
+  $ hexdump -C output.raw
+  00000000  00 00 00 00 00 00 00 00  00 00 00 00 00 00 00 00  |................|
+  *
+  00200000
+
+And qemu-img convert from qcow2 to raw is not broken
+
+So it looks like either we add support for this specific feature in qemu-img or
+we need to use our own client that does that.
+
+Unless someone has other ideas, that is.
+
+Martin
+
+--H+4ONPRPur6+Ovig
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCAAdFiEEiXAnXDYdKAaCyvS1CB/CnyQXht0FAlzGp2YACgkQCB/CnyQX
+ht0m0xAAhQMSPQFZAilRTr3WeoaiAjzk+ugbPJhebhFGzisnBHUCFJW55BMj88NE
+uNsUa/NNwdwj26MDWKIz69V3NMcQd4yR2hzThZWzg8yipJzBLxIQI1hYIMx2HQid
+gYL2qnKG9WjKo0BE4zO/Lg8T/nICnyQLH3gfiQAEvUTwEyp0gQiMdL91WZdrK16l
+UUcwtYcg1Mn2sljwAJ4L+gpBZCRmRsx2dAlRaAyHKLb6/fE8OCpPEMMAv8TfBdUf
+NHShd2FZSB6V7yhg9atAjdxTlApw9RH27Y6ibDfe6B4PVrWtE3hEUG9pYHEKi+xp
+PkzsjtpJ3Bo5vnakn/QnpoDb1q10Wm/vIESEQ+k/JpP3iwhFmt5ckwOrAjrpwX3h
+LqLtzqtVxO6wmtMAC93/mqROgM8xzkv7MaddIMnp+G/ZvgQRXmSuVa7Y8zuyU5gS
+La0r/LtMY21N9vjTAKJK8Itl9f4+nqdEvv70DQvxb5W/bI8Q8KICuVnyJ87Jr2kl
+1UgAu+IyFFJio8HSqdjci9jF+6n2X0XJQNA990K0e9X4lsUuul8lCOMujcBhHGPU
+rz6BtsuBRnTV/2yrXncGLG+fFfXWEcdUhf0bOshlgaR4lP/culytEPwk/PlPDqfl
+qPE1iBHPbo1DA7ii1ipZWBnkXam6SLNdTcbjrGdah2LgKuRAQSA=
+=L6Cz
+-----END PGP SIGNATURE-----
+
+--H+4ONPRPur6+Ovig--
 
