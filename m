@@ -2,136 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7656DEFE
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 11:14:05 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54429 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 82E76DED1
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 11:10:57 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54367 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hL2MO-0006M3-TQ
-	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 05:14:04 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33322)
+	id 1hL2JM-0003Le-Iy
+	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 05:10:56 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33382)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <borntraeger@de.ibm.com>) id 1hL2Gs-0001VE-2I
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 05:08:23 -0400
+	(envelope-from <vsementsov@virtuozzo.com>) id 1hL2Gp-0001YM-9L
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 05:08:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <borntraeger@de.ibm.com>) id 1hL24x-00062R-R6
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 04:56:04 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:40126)
+	(envelope-from <vsementsov@virtuozzo.com>) id 1hL27V-0006qa-Mi
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 04:58:43 -0400
+Received: from mail-eopbgr90102.outbound.protection.outlook.com
+	([40.107.9.102]:13280
+	helo=FRA01-MR2-obe.outbound.protection.outlook.com)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
-	id 1hL24x-000622-GW
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 04:56:03 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
-	x3T8rlCm049534
-	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 04:56:00 -0400
-Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
-	by mx0a-001b2d01.pphosted.com with ESMTP id 2s5vdqm58j-1
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 04:56:00 -0400
-Received: from localhost
-	by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use
-	Only! Violators will be prosecuted
-	for <qemu-devel@nongnu.org> from <borntraeger@de.ibm.com>;
-	Mon, 29 Apr 2019 09:55:58 +0100
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
-	by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway:
-	Authorized Use Only! Violators will be prosecuted; 
-	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-	Mon, 29 Apr 2019 09:55:55 +0100
-Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
-	[9.149.105.232])
-	by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with
-	ESMTP id x3T8ts5750200728
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK); Mon, 29 Apr 2019 08:55:54 GMT
-Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7410C52050;
-	Mon, 29 Apr 2019 08:55:54 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.152.96.198])
-	by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id 1FEA85204E;
-	Mon, 29 Apr 2019 08:55:54 +0000 (GMT)
-To: Cornelia Huck <cohuck@redhat.com>
-References: <20190426111003.21246-1-borntraeger@de.ibm.com>
-	<20190426111003.21246-11-borntraeger@de.ibm.com>
-	<71955bba-ef04-1677-b7f0-bb1675bad12a@redhat.com>
-	<07252560-1eed-8fd5-ee94-6bcea6cf99bc@de.ibm.com>
-	<10d43e6e-ee8c-cd65-e724-354e0f40c79f@redhat.com>
-	<057d438c-2062-1aa7-887a-918f076911c5@de.ibm.com>
-	<93f0ecac-47cc-c791-9e32-ad5743489bf3@redhat.com>
-	<20190426145506.409b53cf.cohuck@redhat.com>
-	<7157e9b3-4432-32cc-9327-22e0d0124987@de.ibm.com>
-	<20190429105332.14434866.cohuck@redhat.com>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
-	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
-	syiRa+UVlsKmx1hsEg==
-Date: Mon, 29 Apr 2019 10:55:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <20190429105332.14434866.cohuck@redhat.com>
-Content-Type: text/plain; charset=utf-8
+	(Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+	id 1hL27V-0006qO-FL
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 04:58:41 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+	s=selector1;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=Si1kY3+O+a96siVqjzprlahGtKNNS5YBpnSm0CoJNKM=;
+	b=ic/4agU1q4lKBN118Dks8J+Kd438qyNEvSNmFETijlf9Mslz1ESioiqA95WoafTZ6Ddyt4zRB9ANLxIFZw1/UhOoYw7C5urAULpSC+NKO3op0TokmxzV3Mwy+SKHpYezrvFo03Ctb1bhRy5gj7KUJVSZjAAAEQSSPAYxaxSEBnA=
+Received: from PR2PR08MB4684.eurprd08.prod.outlook.com (52.133.109.209) by
+	PR2PR08MB4827.eurprd08.prod.outlook.com (52.133.108.141) with Microsoft
+	SMTP
+	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.1835.13; Mon, 29 Apr 2019 08:58:37 +0000
+Received: from PR2PR08MB4684.eurprd08.prod.outlook.com
+	([fe80::88d7:ecf0:1120:f1a1]) by
+	PR2PR08MB4684.eurprd08.prod.outlook.com
+	([fe80::88d7:ecf0:1120:f1a1%3]) with mapi id 15.20.1835.018;
+	Mon, 29 Apr 2019 08:58:37 +0000
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: Martin Kletzander <mkletzan@redhat.com>, Kevin Wolf <kwolf@redhat.com>
+Thread-Topic: [Qemu-devel] Possibly incorrect data sparsification by qemu-img
+Thread-Index: AQHU+cg/x9u6pQM730uOb2lCE8MzcKZJqAYAgAAllACAAAu5gIABBDIAgAAK+ICAB934AIAAGW6A
+Date: Mon, 29 Apr 2019 08:58:37 +0000
+Message-ID: <ccc8393b-8b59-63ce-c3c3-618d52cfca3e@virtuozzo.com>
+References: <20190423113028.GD30014@wheatley>
+	<20190423121218.GF9041@localhost.localdomain>
+	<20190423142648.GA2967@wheatley>
+	<20190423150845.GG9041@localhost.localdomain>
+	<aeb62174-5aad-676e-792d-e71d694dbd1e@virtuozzo.com>
+	<20190424071917.GA15891@linux.fritz.box>
+	<20190429072734.GC8818@wheatley>
+In-Reply-To: <20190429072734.GC8818@wheatley>
+Accept-Language: ru-RU, en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 19042908-0016-0000-0000-00000276698F
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19042908-0017-0000-0000-000032D2EE32
-Message-Id: <b3e4dda2-2a74-718e-102d-14532607ddb3@de.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
-	definitions=2019-04-29_04:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
-	priorityscore=1501
-	malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
-	clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
-	mlxlogscore=996 adultscore=0 classifier=spam adjust=0 reason=mlx
-	scancount=1 engine=8.0.1-1810050000 definitions=main-1904290066
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.156.1
-Subject: Re: [Qemu-devel] [qemu-s390x] [PATCH v2 10/10] s390x/cpumodel: wire
- up 8561 and 8562 as gen15 machines
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR09CA0067.eurprd09.prod.outlook.com
+	(2603:10a6:7:3d::11) To PR2PR08MB4684.eurprd08.prod.outlook.com
+	(2603:10a6:101:22::17)
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20190429115835275
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: aef28d1a-bcef-47b2-40ae-08d6cc80ddff
+x-microsoft-antispam: BCL:0; PCL:0;
+	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(2017052603328)(7193020);
+	SRVR:PR2PR08MB4827; 
+x-ms-traffictypediagnostic: PR2PR08MB4827:
+x-microsoft-antispam-prvs: <PR2PR08MB48275B6B55DDA752D26ED622C1390@PR2PR08MB4827.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:5516;
+x-forefront-prvs: 0022134A87
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10019020)(346002)(366004)(39840400004)(136003)(376002)(396003)(199004)(189003)(5660300002)(14444005)(2906002)(8936002)(81156014)(73956011)(476003)(66446008)(64756008)(66556008)(66476007)(66066001)(81166006)(8676002)(478600001)(68736007)(14454004)(3846002)(6116002)(446003)(2616005)(66946007)(11346002)(110136005)(54906003)(316002)(25786009)(6506007)(6512007)(386003)(4326008)(53936002)(6436002)(305945005)(6486002)(7736002)(76176011)(36756003)(229853002)(6246003)(93886005)(99286004)(86362001)(186003)(26005)(52116002)(256004)(31686004)(97736004)(31696002)(71190400001)(486006)(71200400001)(102836004)(33290500001)(505234006);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:PR2PR08MB4827;
+	H:PR2PR08MB4684.eurprd08.prod.outlook.com; FPR:; SPF:None;
+	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+	permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: /x/3hgoHknbYkzcNVJTTOe5vzSOrMbn28bxsANxSSDvG4yzN+k4b76iPZua2t1NrN0j9Io/hreM7JTgmIxAADohIYkQeaM7G6fso8Ot/jsZAm87jIV9KXBfD42g1Gc1O813/3YftAHU3AyPH2lekX8n29f9VIpvJu+//j3C1KI/6FR44TmY60yAC42rb81yfvI8P+BsizAL/jjQGkgJcLBqPb/CSOBx1p/Ws8sRkUEP1RiVPN6LIEdPIypZ5e0qtw/OFjJsad475YKQ9uSeOys2vXUZ7mT6WYAb3EgdGK6qO9cgOUWSrpp4eYvC/Dbs+2nKzhtL6Zlw/rkQaIpMSwvOXAYhaiX/jPAtFGWCJfK7l0+0B040KYeZPPS8fRYtIGxPUUklRqodnnWmHywUv8+0hmadzOKskbTfE7te5Msg=
+Content-Type: text/plain; charset="Windows-1252"
+Content-ID: <19541D4B6E50424AB46AFCE1AE986AC4@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: aef28d1a-bcef-47b2-40ae-08d6cc80ddff
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Apr 2019 08:58:37.4068 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR2PR08MB4827
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.9.102
+Subject: Re: [Qemu-devel] Possibly incorrect data sparsification by qemu-img
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -143,95 +107,177 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Jason J . Herne" <jjherne@linux.ibm.com>,
-	Collin Walling <walling@linux.ibm.com>,
-	David Hildenbrand <david@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
-	Halil Pasic <pasic@linux.ibm.com>, qemu-s390x <qemu-s390x@nongnu.org>,
-	Richard Henderson <rth@twiddle.net>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+	Richard Jones <rjones@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 29.04.19 10:53, Cornelia Huck wrote:
-> On Mon, 29 Apr 2019 09:51:39 +0200
-> Christian Borntraeger <borntraeger@de.ibm.com> wrote:
-> 
->> On 26.04.19 14:55, Cornelia Huck wrote:
->>> On Fri, 26 Apr 2019 14:05:30 +0200
->>> David Hildenbrand <david@redhat.com> wrote:
->>>   
->>>> On 26.04.19 14:01, Christian Borntraeger wrote:  
->>>>>
->>>>>
->>>>> On 26.04.19 13:52, David Hildenbrand wrote:    
->>>>>> On 26.04.19 13:36, Christian Borntraeger wrote:    
->>>>>>>
->>>>>>>
->>>>>>> On 26.04.19 13:32, David Hildenbrand wrote:    
->>>>>>>> On 26.04.19 13:10, Christian Borntraeger wrote:    
->>>>>>>>> 8561 and 8562 will be gen15 machines. There is no name yet, lets us use
->>>>>>>>> the cpu id as base name. Later on we can provide aliases with the proper
->>>>>>>>> name.
->>>>>>>>>
->>>>>>>>> Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
->>>>>>>>> ---
->>>>>>>>>  target/s390x/cpu_models.c | 2 ++
->>>>>>>>>  1 file changed, 2 insertions(+)
->>>>>>>>>
->>>>>>>>> diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
->>>>>>>>> index d683635eb5..dd6415103f 100644
->>>>>>>>> --- a/target/s390x/cpu_models.c
->>>>>>>>> +++ b/target/s390x/cpu_models.c
->>>>>>>>> @@ -83,6 +83,8 @@ static S390CPUDef s390_cpu_defs[] = {
->>>>>>>>>      CPUDEF_INIT(0x3906, 14, 1, 47, 0x08000000U, "z14", "IBM z14 GA1"),
->>>>>>>>>      CPUDEF_INIT(0x3906, 14, 2, 47, 0x08000000U, "z14.2", "IBM z14 GA2"),
->>>>>>>>>      CPUDEF_INIT(0x3907, 14, 1, 47, 0x08000000U, "z14ZR1", "IBM z14 Model ZR1 GA1"),
->>>>>>>>> +    CPUDEF_INIT(0x8561, 15, 1, 47, 0x08000000U, "8561", "IBM 8561 GA1"),
->>>>>>>>> +    CPUDEF_INIT(0x8562, 15, 1, 47, 0x08000000U, "8562", "IBM 8562 GA1"),
->>>>>>>>>  };    
->>>>>>>>
->>>>>>>> Thinking out loud, I know that official names are not published yet.
->>>>>>>> Looking at the recent history (z13, z14), my educated guess would be
->>>>>>>> z15. I guess pretty much everybody would guess that.    
->>>>>>>
->>>>>>> Not sure about trademark aspects - especially if this really becomes z15. The smaller
->>>>>>> machine has no real history (ZR1 vs. s vs BC). So I think I would rather have a correct
->>>>>>> number than a partially correct name.    
->>>>>>
->>>>>> We could also use "gen15a" and "gen15b", still better to get than magic
->>>>>> numbers. (yeah well, they are not magic)
->>>>>>
->>>>>> If you want to stick with numbers, be aware that cpu numbers are not
->>>>>> injective, so at some point we will need e.g. "8561.2", just so you're
->>>>>> aware of the implications.    
->>>>>
->>>>> I think whatever we have here is only used internally for expansion (host-model)
->>>>> and the user will use later the real name when available. (custom). So probably this
->>>>> does not matter for a long time. But I might be wrong.
->>>>> I tend to prefer gen15 over z15 but 856x has also its charm.  
+29.04.2019 10:27, Martin Kletzander wrote:
+> On Wed, Apr 24, 2019 at 09:19:17AM +0200, Kevin Wolf wrote:
+>> Am 24.04.2019 um 08:40 hat Vladimir Sementsov-Ogievskiy geschrieben:
+>>> 23.04.2019 18:08, Kevin Wolf wrote:
+>>> > Am 23.04.2019 um 16:26 hat Martin Kletzander geschrieben:
+>>> >> On Tue, Apr 23, 2019 at 02:12:18PM +0200, Kevin Wolf wrote:
+>>> >>> Am 23.04.2019 um 13:30 hat Martin Kletzander geschrieben:
+>>> >>>> Hi,
+>>> >>>>
+>>> >>>> I am using qemu-img with nbdkit to transfer a disk image and the u=
+pdate it with
+>>> >>>> extra data from newer snapshots.=A0 The end image cannot be transf=
+erred because
+>>> >>>> the snapshots will be created later than the first transfer and we=
+ want to save
+>>> >>>> some time up front.=A0 You might think of it as a continuous synch=
+ronisation.=A0 It
+>>> >>>> looks something like this:
+>>> >>>>
+>>> >>>> I first transfer the whole image:
+>>> >>>>
+>>> >>>>=A0=A0 qemu-img convert -p $nbd disk.raw
+>>> >>>>
+>>> >>>> Where `$nbd` is something along the lines of `nbd+unix:///?socket=
+=3Dnbdkit.sock`
+>>> >>>>
+>>> >>>> Then, after the next snapshot is created, I can update it thanks t=
+o the `-n`
+>>> >>>> parameter (the $nbd now points to the newer snapshot with unchange=
+d data looking
+>>> >>>> like holes in the file):
+>>> >>>>
+>>> >>>>=A0=A0 qemu-img convert -p -n $nbd disk.raw
+>>> >>>>
+>>> >>>> This is fast and efficient as it uses block status nbd extension, =
+so it only
+>>> >>>> transfers new data.
+>>> >>>
+>>> >>> This is an implementation detail. Don't rely on it. What you're doi=
+ng is
+>>> >>> abusing 'qemu-img convert', so problems like what you describe are =
+to be
+>>> >>> expected.
+>>> >>>
+>>> >>>> This can be done over and over again to keep the local
+>>> >>>> `disk.raw` image up to date with the latest remote snapshot.
+>>> >>>>
+>>> >>>> However, when the guest OS zeroes some of the data and it gets wri=
+tten into the
+>>> >>>> snapshot, qemu-img scans for those zeros and does not write them t=
+o the
+>>> >>>> destination image.=A0 Checking the output of `qemu-img map --outpu=
+t=3Djson $nbd`
+>>> >>>> shows that the zeroed data is properly marked as `data: true`.
+>>> >>>>
+>>> >>>> Using `-S 0` would write zeros even where the holes are, effective=
+ly overwriting
+>>> >>>> the data from the last snapshot even though they should not be cha=
+nged.
+>>> >>>>
+>>> >>>> Having gone through some workarounds I would like there to be anot=
+her way.=A0 I
+>>> >>>> know this is far from the typical usage of qemu-img, but is this r=
+eally the
+>>> >>>> expected behaviour or is this just something nobody really needed =
+before?=A0 If it
+>>> >>>> is the former, would it be possible to have a parameter that would=
+ control this
+>>> >>>> behaviour?=A0 If the latter is the case, can that behaviour be cha=
+nged so that it
+>>> >>>> properly replicates the data when `-n` parameter is used?
+>>> >>>>
+>>> >>>> Basically the only thing we need is to either:
+>>> >>>>
+>>> >>>> 1) write zeros where they actually are or
+>>> >>>>
+>>> >>>> 2) turn off explicit sparsification without requesting dense image=
+ (basically
+>>> >>>>=A0=A0=A0=A0 sparsify only the par that is reported as hole on the =
+source) or
+>>> >>>>
+>>> >>>> 3) ideally, just FALLOC_FL_PUNCH_HOLE in places where source did r=
+eport data,
+>>> >>>>=A0=A0=A0=A0 but qemu-img found they are all zeros (or source repor=
+ted HOLE+ZERO which, I
+>>> >>>>=A0=A0=A0=A0 believe, is effectively the same)
+>>> >>>>
+>>> >>>> If you want to try this out, I found the easiest reproducible way =
+is using
+>>> >>>> nbdkit's data plugin, which can simulate whatever source image you=
+ like.
+>>> >>>
+>>> >>> I think what you _really_ want is a commit block job. The problem i=
+s
+>>> >>> just that you don't have a proper backing file chain, but just a bu=
+nch
+>>> >>> of NBD connections.
+>>> >>>
+>>> >>> Can't you get an NBD connection that already provides the condensed=
+ form
+>>> >>> of the whole snapshot chain directly at the source? If the NBD serv=
+er
+>>> >>> was QEMU, this would actually be easier than providing each snapsho=
+t
+>>> >>> individually.
+>>> >>>
+>>> >>> If this isn't possible, I think you need to replicate the backing c=
+hain
+>>> >>> on the destination instead of converting into the same image again =
+and
+>>> >>> again so that qemu-img knows that it must take existing data of the
+>>> >>> backing file into consideration:
+>>> >>>
+>>> >>>=A0=A0=A0=A0 qemu-img convert -O qcow2 nbd://... base.qcow2
+>>> >>>=A0=A0=A0=A0 qemu-img convert -O qcow2 -F qcow2 -B base.qcow2 nbd://=
+... overlay1.qcow2
+>>> >>>=A0=A0=A0=A0 qemu-img convert -O qcow2 -F qcow2 -B overlay1.qcow2 nb=
+d://... overlay2.qcow2
+>>> >>>=A0=A0=A0=A0 ...
 >>>
->>> FWIW, I'd prefer gen15 over 856x, but...  
->>
->> I actually think that the cpu id would be a nice name for expansion because it is
->> guarenteed to stay and it is unique and it allows to have a different content (if
->> that would be necessary) for 2 gen15 machines.
->>>   
->>>>>     
->>>>
->>>> Another question would be, can we rename before the next QEMU release,
->>>> so it will never be officially part of QEMU? Then we don't need aliases
->>>> after all. Of course, distros have to take care of that as well, but
->>>> that shouldn't be upstream QEMUs business.  
->>>
->>> ...if we could do that, I'd like that even better.  
->>
->> I dont think that I know the name in time before the next release.
->> So lets go with gen15a/gen15b or 8561/8562?
-> 
-> I always have trouble remembering number combinations, so I'd vote for
-> gen15a/gen15b if the official names are not an option.
+>=20
+> So I spoke too soon.=A0 This approach fixed the one thing that I was stru=
+ggling with, but broke the rest, because it completely replicates the last =
+image even when the source provides proper allocation data.=A0 Best to show=
+ with an illustration:
+>=20
+>  =A0$ rm -f disk.img snap.img
+>  =A0$ dd if=3D/dev/urandom of=3Ddisk.img bs=3D2M count=3D1
+>  =A0$ dd if=3D/dev/zero of=3Dsnap.img bs=3D1M count=3D1
+>  =A0$ truncate -s 2M snap.img
+>  =A0$ qemu-img map --output=3Djson snap.img
+>  =A0[{ "start": 0, "length": 1048576, "depth": 0, "zero": false, "data": =
+true, "offset": 0},
+>  =A0{ "start": 1048576, "length": 1048576, "depth": 0, "zero": true, "dat=
+a": false, "offset": 1048576}]
+>  =A0$ qemu-img convert -f raw -O qcow2 disk.img disk.qcow2
+>  =A0$ qemu-img convert -f raw -O qcow2 -B disk.qcow2 snap.img snap.qcow2
+>  =A0$ qemu-img convert -f qcow2 -O raw snap.qcow2 output.raw
+>  =A0$ hexdump -C output.raw
+>  =A000000000=A0 00 00 00 00 00 00 00 00=A0 00 00 00 00 00 00 00 00=A0 |..=
+..............|
+>  =A0*
+>  =A000200000
+>=20
 
-OK, I will respin with gen15a/gen15b.
 
+Raw file holes and qcow2 unallocated clusters are not the same thing. Raw h=
+oles are reported
+as zero=3Dtrue (as we see in map output), and this considered "allocated" i=
+n terms of backing-chain.
+And convert will mark corresponding clusters to be ZERO (not UNALLOCATED) i=
+n target qcow2.
+
+But when you export qcow2 with unallocated clusters through NBD, unallocate=
+d clusters should be
+reported as zero=3Dfalse data=3Dfalse, and qemu-img will convert them to UN=
+ALLOCATED (not ZERO)
+clusters in target qcow2 and it should work.
+
+In qcow2 ZERO and UNALLOCATED clusters works like this:
+ZERO: on write - allocate clusters and write data, on read - return zeroes
+UNALLOCATED: on write -allocate clusters and write data, on read - read fro=
+m backing file if we have it, otherwise return zeroes
+
+
+--=20
+Best regards,
+Vladimir
 
