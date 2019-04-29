@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF0BFE92F
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:34:39 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:32838 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD367E924
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:33:19 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:32834 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLAAo-0007zo-R8
-	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:34:38 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34618)
+	id 1hLA9W-0006rv-Tu
+	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:33:19 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34579)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hL9f8-00058q-N4
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:55 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hL9f0-00051m-MS
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hL9f3-0006tm-AV
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:51 -0400
-Received: from mail-wm1-x336.google.com ([2a00:1450:4864:20::336]:38467)
+	(envelope-from <peter.maydell@linaro.org>) id 1hL9ew-0006q4-8L
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:44 -0400
+Received: from mail-wr1-x431.google.com ([2a00:1450:4864:20::431]:37591)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hL9ey-0006dc-Ti
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:46 -0400
-Received: by mail-wm1-x336.google.com with SMTP id w15so171782wmc.3
-	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 10:01:19 -0700 (PDT)
+	id 1hL9eu-0006e7-38
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:40 -0400
+Received: by mail-wr1-x431.google.com with SMTP id r6so17129580wrm.4
+	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 10:01:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=jYLkzbonDQxvT0W1x+t6S0N7WJMb4KWntTYWFTkmg9A=;
-	b=vtvtmgie/WKEoEh9zohH3M1WJtRSslNEQfddcFe/DZQBiPl0MjWMzTtd7LTqdrHH4N
-	AVDguiC1R/VAG8zu4HAfiIetQKUbhEq09VruaB4tDiY6LW02WPYx7M9MnGU8nyycWNI5
-	9MWsPFK6AwiLHHBoFHGqf1rn4gicUWT8hb9hxXzT5mw+i5ZtmRPWGYgJo6n6rzDqycgg
-	NJbQyrRO8U6nQw6xxf0Xi4JfcpJuNk+CandALJuMIn92Lrk2CYtQtEoahI52IaPYpwxz
-	qV98MpcZ+Kq0seyPBNjIkW7IzUVtiiJ/D39YuJyTltjYUjo9JUo3TvLSPFrZ0A8q71rs
-	OLdw==
+	bh=g5HKQFfTMD1ezkdR00l6pHrV/C/KHIBl0/6EieG5feg=;
+	b=E2pam2AFxd1hSrxjVPjVoKpwarLSKlo1Gvi11W7XKTSwmD7s0KcC+T/+b+IBlXhfxY
+	c8COn+TxJg8xSQYSOjvSHb3HTvIWo248CutcEqL37D/4C1ulVyilXyGM9Ia4MIl672QF
+	JzH3Skh7mXBRJyC+6Q+Luuf4372GKssmedq0Xj+Vgj8ukDNMee5U9bbJX13rbDM/EMal
+	6IjoDItsO8KMmCnTkzl+ejvn53TFR/ILtqFwTBwayL6jYw0mb6az9/t0Aj/NQAtY5mym
+	iWSPEMMDP3JUjSbkb0+teKkrWvM8YY9C+gBZclF9E3oPs4zvr+6WitWyr4Rl+3Blw4Lr
+	SjJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=jYLkzbonDQxvT0W1x+t6S0N7WJMb4KWntTYWFTkmg9A=;
-	b=paLQQmH4PqUIPzTnJow1aeMtzEfPQjLi8vLjCUhlF9UN7Wc8oVCJTFym0Qk9HryAUK
-	JurG5YuTP5Nhm0ORjUMnhJI/cPFCHdeYIUxK8RIBbb851AeCCUXmIuCx1Dw55zjavosc
-	IvKw78FyJBSydeKU6zg2v5aAQa28UzPyHRm3+GG78HWh1z1O1UYLSR4Ob2T9DFwzVugh
-	px3ObTVnwJGMpifnMXCbfhBbzITB5cCJ/6esxoL6OnNMDXViv31DlbxkdfEY3tEypM/q
-	vl/FJYT1VDe8O2UP+Jv37fv3JZkwgZ5TVxGnpkPFK8wZmtn8A/9IWo4T6FFKowZuim8i
-	Qw8g==
-X-Gm-Message-State: APjAAAU/CAS6VhOHi8nC2q1nV0s80qeeRYqgvmhLrBn/J1MNcoHVPYWG
-	lN/fnWzVtyYTvOkadg+5K/iXAxdfmF4=
-X-Google-Smtp-Source: APXvYqx4KeJ0G3vNf7WmT96KuYW1bShvXGO0PoDIFVByFHDeo+dvoiKGygUSQBg3BO+REJcaqxpi4g==
-X-Received: by 2002:a1c:2350:: with SMTP id j77mr53988wmj.84.1556557278763;
-	Mon, 29 Apr 2019 10:01:18 -0700 (PDT)
+	bh=g5HKQFfTMD1ezkdR00l6pHrV/C/KHIBl0/6EieG5feg=;
+	b=pdxxsvgaXwZIHaZu/UhKimT0++GBt1VAX4TtvEW6O0Sw9Z/Q+3lw425klF3TnynpmD
+	XRqF5upRc64ZZTBqpZhu0MhoI67OTqFgVQlDIEqeXW4ZBxhvaYN7fAWamT1MQfHR6El2
+	vqbowN5BfYpfzRJ1e94KPCij+0Va61NFGKmcAzpwyd8uz9s6rmiykdj8DfSRfQDeBhNk
+	9KDoQuxC2MUCN4HJyKO6zCM69cfzGNxZvWNr2yu1jRnrA+FtXzTsJeBqgRUXtq6MsnNa
+	mZXTCALez8Xr8Y5BLO3mRLza4KWH9sJcYpSuhrra+vW0iUqD3U4b/eR0Ei2NgZVyjafi
+	37Mw==
+X-Gm-Message-State: APjAAAWgLWWNg0TscLMNqagmJXyHGKhqnf2HJG73nBT18OZYbyn+gMN9
+	C6coFcWuRuoHZbOymMPWkj5PtCCLTII=
+X-Google-Smtp-Source: APXvYqz1rG3qPDf0m3OrxjhLvdYK3/uCSSBkLTB/Pg4O/nMgTYLZKB4rz0OlQda4rEJj+thKCzDqnw==
+X-Received: by 2002:a5d:4308:: with SMTP id h8mr30659199wrq.22.1556557280138; 
+	Mon, 29 Apr 2019 10:01:20 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
-	by smtp.gmail.com with ESMTPSA id a13sm36896wmj.39.2019.04.29.10.01.17
+	by smtp.gmail.com with ESMTPSA id a13sm36896wmj.39.2019.04.29.10.01.18
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 29 Apr 2019 10:01:18 -0700 (PDT)
+	Mon, 29 Apr 2019 10:01:19 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 29 Apr 2019 18:00:24 +0100
-Message-Id: <20190429170030.11323-37-peter.maydell@linaro.org>
+Date: Mon, 29 Apr 2019 18:00:25 +0100
+Message-Id: <20190429170030.11323-38-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190429170030.11323-1-peter.maydell@linaro.org>
 References: <20190429170030.11323-1-peter.maydell@linaro.org>
@@ -66,9 +66,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::336
-Subject: [Qemu-devel] [PULL 36/42] hw/devices: Move CBus declarations into a
- new header
+X-Received-From: 2a00:1450:4864:20::431
+Subject: [Qemu-devel] [PULL 37/42] hw/devices: Move Gamepad declarations
+ into a new header
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -85,118 +85,101 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20190412165416.7977-7-philmd@redhat.com
+Message-id: 20190412165416.7977-8-philmd@redhat.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/devices.h   | 14 --------------
- include/hw/misc/cbus.h | 32 ++++++++++++++++++++++++++++++++
- hw/arm/nseries.c       |  1 +
- hw/misc/cbus.c         |  2 +-
- MAINTAINERS            |  1 +
- 5 files changed, 35 insertions(+), 15 deletions(-)
- create mode 100644 include/hw/misc/cbus.h
+ include/hw/devices.h       |  3 ---
+ include/hw/input/gamepad.h | 19 +++++++++++++++++++
+ hw/arm/stellaris.c         |  2 +-
+ hw/input/stellaris_input.c |  2 +-
+ MAINTAINERS                |  1 +
+ 5 files changed, 22 insertions(+), 5 deletions(-)
+ create mode 100644 include/hw/input/gamepad.h
 
 diff --git a/include/hw/devices.h b/include/hw/devices.h
-index 77d66113021..e400f9eac09 100644
+index e400f9eac09..7a630da47f7 100644
 --- a/include/hw/devices.h
 +++ b/include/hw/devices.h
-@@ -29,18 +29,4 @@ void tsc2005_set_transform(void *opaque, MouseTransformInfo *info);
- /* stellaris_input.c */
- void stellaris_gamepad_init(int n, qemu_irq *irq, const int *keycode);
+@@ -26,7 +26,4 @@ void *tsc2005_init(qemu_irq pintdav);
+ uint32_t tsc2005_txrx(void *opaque, uint32_t value, int len);
+ void tsc2005_set_transform(void *opaque, MouseTransformInfo *info);
  
--/* cbus.c */
--typedef struct {
--    qemu_irq clk;
--    qemu_irq dat;
--    qemu_irq sel;
--} CBus;
--CBus *cbus_init(qemu_irq dat_out);
--void cbus_attach(CBus *bus, void *slave_opaque);
--
--void *retu_init(qemu_irq irq, int vilma);
--void *tahvo_init(qemu_irq irq, int betty);
--
--void retu_key_event(void *retu, int state);
+-/* stellaris_input.c */
+-void stellaris_gamepad_init(int n, qemu_irq *irq, const int *keycode);
 -
  #endif
-diff --git a/include/hw/misc/cbus.h b/include/hw/misc/cbus.h
+diff --git a/include/hw/input/gamepad.h b/include/hw/input/gamepad.h
 new file mode 100644
-index 00000000000..c899943e035
+index 00000000000..e20211baef8
 --- /dev/null
-+++ b/include/hw/misc/cbus.h
-@@ -0,0 +1,32 @@
++++ b/include/hw/input/gamepad.h
+@@ -0,0 +1,19 @@
 +/*
-+ * CBUS three-pin bus and the Retu / Betty / Tahvo / Vilma / Avilma /
-+ * Hinku / Vinku / Ahne / Pihi chips used in various Nokia platforms.
-+ * Based on reverse-engineering of a linux driver.
++ * Gamepad style buttons connected to IRQ/GPIO lines
 + *
-+ * Copyright (C) 2008 Nokia Corporation
-+ * Written by Andrzej Zaborowski
++ * Copyright (c) 2007 CodeSourcery.
++ * Written by Paul Brook
 + *
 + * This work is licensed under the terms of the GNU GPL, version 2 or later.
 + * See the COPYING file in the top-level directory.
 + */
 +
-+#ifndef HW_MISC_CBUS_H
-+#define HW_MISC_CBUS_H
++#ifndef HW_INPUT_GAMEPAD_H
++#define HW_INPUT_GAMEPAD_H
 +
 +#include "hw/irq.h"
 +
-+typedef struct {
-+    qemu_irq clk;
-+    qemu_irq dat;
-+    qemu_irq sel;
-+} CBus;
-+
-+CBus *cbus_init(qemu_irq dat_out);
-+void cbus_attach(CBus *bus, void *slave_opaque);
-+
-+void *retu_init(qemu_irq irq, int vilma);
-+void *tahvo_init(qemu_irq irq, int betty);
-+
-+void retu_key_event(void *retu, int state);
++/* stellaris_input.c */
++void stellaris_gamepad_init(int n, qemu_irq *irq, const int *keycode);
 +
 +#endif
-diff --git a/hw/arm/nseries.c b/hw/arm/nseries.c
-index ef09b3bf79f..6889f13d699 100644
---- a/hw/arm/nseries.c
-+++ b/hw/arm/nseries.c
-@@ -32,6 +32,7 @@
+diff --git a/hw/arm/stellaris.c b/hw/arm/stellaris.c
+index 05f86749f40..5059aedbaa2 100644
+--- a/hw/arm/stellaris.c
++++ b/hw/arm/stellaris.c
+@@ -12,7 +12,6 @@
+ #include "hw/sysbus.h"
+ #include "hw/ssi/ssi.h"
+ #include "hw/arm/arm.h"
+-#include "hw/devices.h"
+ #include "qemu/timer.h"
  #include "hw/i2c/i2c.h"
- #include "hw/devices.h"
- #include "hw/display/blizzard.h"
-+#include "hw/misc/cbus.h"
- #include "hw/misc/tmp105.h"
- #include "hw/block/flash.h"
- #include "hw/hw.h"
-diff --git a/hw/misc/cbus.c b/hw/misc/cbus.c
-index 25e337ea77a..16ee704bcaa 100644
---- a/hw/misc/cbus.c
-+++ b/hw/misc/cbus.c
-@@ -23,7 +23,7 @@
+ #include "net/net.h"
+@@ -22,6 +21,7 @@
+ #include "sysemu/sysemu.h"
+ #include "hw/arm/armv7m.h"
+ #include "hw/char/pl011.h"
++#include "hw/input/gamepad.h"
+ #include "hw/watchdog/cmsdk-apb-watchdog.h"
+ #include "hw/misc/unimp.h"
+ #include "cpu.h"
+diff --git a/hw/input/stellaris_input.c b/hw/input/stellaris_input.c
+index 99168bfeef1..20c87d86f40 100644
+--- a/hw/input/stellaris_input.c
++++ b/hw/input/stellaris_input.c
+@@ -8,7 +8,7 @@
+  */
  #include "qemu/osdep.h"
  #include "hw/hw.h"
- #include "hw/irq.h"
 -#include "hw/devices.h"
-+#include "hw/misc/cbus.h"
- #include "sysemu/sysemu.h"
++#include "hw/input/gamepad.h"
+ #include "ui/console.h"
  
- //#define DEBUG
+ typedef struct {
 diff --git a/MAINTAINERS b/MAINTAINERS
-index c069c274ec0..4e6fd82c664 100644
+index 4e6fd82c664..39a3216e1c4 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -669,6 +669,7 @@ F: hw/input/tsc2005.c
- F: hw/misc/cbus.c
- F: hw/timer/twl92230.c
- F: include/hw/display/blizzard.h
-+F: include/hw/misc/cbus.h
+@@ -744,6 +744,7 @@ M: Peter Maydell <peter.maydell@linaro.org>
+ L: qemu-arm@nongnu.org
+ S: Maintained
+ F: hw/*/stellaris*
++F: include/hw/input/gamepad.h
  
- Palm
- M: Andrzej Zaborowski <balrogg@gmail.com>
+ Versatile Express
+ M: Peter Maydell <peter.maydell@linaro.org>
 -- 
 2.20.1
 
