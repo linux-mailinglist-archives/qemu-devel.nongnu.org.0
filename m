@@ -2,55 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4C4BE5C4
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 17:07:01 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58920 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FA6BE5D8
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 17:11:42 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:59008 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hL7rx-0004Sd-1N
-	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 11:07:01 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54101)
+	id 1hL7wT-0007yI-HM
+	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 11:11:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54782)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <no-reply@patchew.org>) id 1hL7qY-0003hU-Ry
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 11:05:37 -0400
+	(envelope-from <philmd@redhat.com>) id 1hL7tN-0005tL-Ob
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 11:08:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <no-reply@patchew.org>) id 1hL7qX-0004mz-GL
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 11:05:34 -0400
-Resent-Date: Mon, 29 Apr 2019 11:05:34 -0400
-Resent-Message-Id: <E1hL7qX-0004mz-GL@eggs.gnu.org>
-Received: from sender-of-o53.zoho.com ([135.84.80.218]:21845)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <no-reply@patchew.org>)
-	id 1hL7qV-0004gD-Eb
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 11:05:32 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1556550308; cv=none; d=zoho.com; s=zohoarc; 
-	b=Zug8XO2tHcekxeu5vyITVZ3IDM5GBeWzr31iwCH2aRE4Ynmz8nF/9spPjyWIJ8xennfigVkePQMBdQEs/LOVcKZdVbmwgDV6/WoMZxfiXfMAiXltNwzaLjo8sJix7/VtILbJYxmObt0M8rFQv7esFItcsBTl4hD/ScKhEiDSXS8=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
-	s=zohoarc; t=1556550308;
-	h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
-	bh=H0ubxXvYGfmUxhDKhLXmUsiNJbuT5bJsvUs+qo7iljw=; 
-	b=R+xYz21Nh0DrsUpfpIJ09fZlAf4Sajw3fAZAiOuu6VUB+Iu8qjrIr/8wTol2Vzo4P8+rpDUBN2Y6IY7s0HaOCoLhQyU77SMhAf36FuSccpR5xVPSTYhZQT/7wofOxVnPfL/iPrSY+t1mqZUnuXln6FXkUoVGlUTmWyosBrzVr5A=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
-	spf=pass  smtp.mailfrom=no-reply@patchew.org;
-	dmarc=pass header.from=<no-reply@patchew.org>
-	header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
-	mx.zohomail.com with SMTPS id 15565503068331010.1197245218011;
-	Mon, 29 Apr 2019 08:05:06 -0700 (PDT)
-In-Reply-To: <1556523569-44480-1-git-send-email-longpeng2@huawei.com>
-Message-ID: <155655030568.10667.13700938703853199260@c2072b67cc0c>
+	(envelope-from <philmd@redhat.com>) id 1hL7tM-00076a-9m
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 11:08:29 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:44213)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hL7tM-0006Q1-0Z
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 11:08:28 -0400
+Received: by mail-wr1-f68.google.com with SMTP id c5so16545119wrs.11
+	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 08:07:54 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=MpDgiLgJ9RRXgUs7sB2muXL9gf9ys+AyRP6KFcSBe2g=;
+	b=kLHCIdByFmmVtsLYYWaSabMcAze9VneUmhG3X3EEsMpjSwuztKOPxIktkbqa3dif2W
+	+JanifTTZY90BbTrhS6lvxrRij03SVewvexs0jNZU6yQJsF/05vwWQ2BoBVyJrrkI/wT
+	e4GOHy4ps/aPBM0lsdEysxqGy+9Jm6xtOiGu4yYUEtcEitmnvmLKMksFyum06dHMugsR
+	6mjilEOoff7hy95sez9i9LhG1yd2PJ3a1KOh4lAYGxd+WWZL4E3ZnmFB+alHdErZxeJj
+	qu5aAyHLypOplF6cbOQhuScMHA0CYCssT9MATlB4QJtvgJUSQdQ9OH4Vt1tG2nS88lEJ
+	ntMw==
+X-Gm-Message-State: APjAAAXT4QRBDVCY7wOjiW6XJR6VwVmkvNBqfu1NKyPG966yOTif/jXd
+	icGk0ke4r2vTMdx+rOYu8KU6Mg==
+X-Google-Smtp-Source: APXvYqwjTrm88f5VUi+f7MCLkauYaswQp2D7ydZ4HwTVXJDIPPRndQ17lyHzANbbwqmfVbzTqp7ETQ==
+X-Received: by 2002:adf:f749:: with SMTP id z9mr25511737wrp.218.1556550473246; 
+	Mon, 29 Apr 2019 08:07:53 -0700 (PDT)
+Received: from [192.168.1.33] (193.red-88-21-103.staticip.rima-tde.net.
+	[88.21.103.193]) by smtp.gmail.com with ESMTPSA id
+	10sm32295838wmd.23.2019.04.29.08.07.52
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Mon, 29 Apr 2019 08:07:52 -0700 (PDT)
+To: Stefan Hajnoczi <stefanha@redhat.com>,
+	Peter Maydell <peter.maydell@linaro.org>
+References: <20190103144124.18917-1-stefanha@redhat.com>
+	<CAFEAcA-B_T9E3ezWFXg-wp3RotMjv3-z3qY7hSJZEoqFBqCWnQ@mail.gmail.com>
+	<62b29bc1-cc78-cd64-4377-fc4007ba7189@redhat.com>
+	<20190426091702.GA2071@stefanha-x1.localdomain>
+	<CAFEAcA8OVKO087uiNvwDGObiaxHAPYHwoXLEN1t5Y4v9B43r9A@mail.gmail.com>
+	<20190429122819.GB7587@stefanha-x1.localdomain>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <738394de-bd75-4ef3-10ef-de8cd07891de@redhat.com>
+Date: Mon, 29 Apr 2019 17:07:51 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: longpeng2@huawei.com
-Date: Mon, 29 Apr 2019 08:05:06 -0700 (PDT)
-X-ZohoMailClient: External
+In-Reply-To: <20190429122819.GB7587@stefanha-x1.localdomain>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 135.84.80.218
-Subject: Re: [Qemu-devel] [PATCH] usb/xchi: avoid trigger assertion if guest
- write wrong epid
+	[fuzzy]
+X-Received-From: 209.85.221.68
+Subject: Re: [Qemu-devel] [PATCH] Revert "armv7m: Guard against no -kernel
+ argument"
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,23 +80,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: fam@euphon.net, longpeng2@huawei.com, arei.gonglei@huawei.com,
-	kraxel@redhat.com, qemu-devel@nongnu.org
+Cc: Jim Mussared <jim@groklearning.com>,
+	=?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+	QEMU Developers <qemu-devel@nongnu.org>,
+	Steffen Gortz <qemu.ml@steffen-goertz.de>,
+	qemu-arm <qemu-arm@nongnu.org>, Joel Stanley <joel@jms.id.au>,
+	Thomas Huth <thuth@redhat.com>, Julia Suvorova <jusual@mail.ru>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8xNTU2NTIzNTY5LTQ0NDgwLTEt
-Z2l0LXNlbmQtZW1haWwtbG9uZ3BlbmcyQGh1YXdlaS5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMg
-ZmFpbGVkIHRoZSBkb2NrZXItbWluZ3dAZmVkb3JhIGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRo
-ZSB0ZXN0aW5nIGNvbW1hbmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERv
-Y2tlciBpbnN0YWxsZWQsIHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9
-PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCnRpbWUgbWFrZSBkb2NrZXItdGVz
-dC1taW5nd0BmZWRvcmEgU0hPV19FTlY9MSBKPTE0IE5FVFdPUks9MQo9PT0gVEVTVCBTQ1JJUFQg
-RU5EID09PQoKCgoKVGhlIGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5v
-cmcvbG9ncy8xNTU2NTIzNTY5LTQ0NDgwLTEtZ2l0LXNlbmQtZW1haWwtbG9uZ3BlbmcyQGh1YXdl
-aS5jb20vdGVzdGluZy5kb2NrZXItbWluZ3dAZmVkb3JhLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFp
-bCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3Jn
-L10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
+
+On 4/29/19 2:28 PM, Stefan Hajnoczi wrote:
+> On Fri, Apr 26, 2019 at 12:45:37PM +0100, Peter Maydell wrote:
+>> On Fri, 26 Apr 2019 at 10:17, Stefan Hajnoczi <stefanha@redhat.com> wrote:
+>>> On Thu, Apr 25, 2019 at 08:07:06PM +0200, Philippe Mathieu-Daudé wrote:
+>>> Old boards probably want to continue using -kernel.  New boards like
+>>> microbit may use just -device loader.  Perhaps there is even a group
+>>> that wants both options.
+>>>
+>>> A solution is to introduce explicit checks so that we can tell the user
+>>> the appropriate option for the machine type.  I can work on this if you
+>>> like, but probably won't be able to send a patch until Tuesday.
+>>
+>> But it's difficult to tell how to identify whether there's really
+>> any guest code there. For instance the user might want to start
+>> QEMU, connect via the gdbstub and load guest code from gdb.
+>> Or they might be using the generic-loader device. Or they might
+>> really be using -kernel but with a broken guest image which doesn't
+>> have a vector table in it, which will result in the same message.
+>> I guess you could have a heuristic for "if an M-profile CPU is in reset
+>> and the value it loads for the starting PC is zero and the gdb
+>> stub is not connected, then print a warning that the guest image
+>> is missing or there's no vector table" but I'm not a big fan of
+>> heuristics...
+> 
+> I was going to add a function to check kernel_filename and the presence
+> of -device loader.  Then each machine type init function would call the
+> function with flags indicating which modes are allowed:
+> 
+>   /* Allow both -kernel and -device loader */
+>   check_kernel_loaded(KERNEL_CMDLINE | KERNEL_LOADER);
+> 
+>   /* Allow only -kernel */
+>   check_kernel_loaded(KERNEL_CMDLINE);
+> 
+>   /* Allow only -device loader */
+>   check_kernel_loaded(KERNEL_LOADER);
+> 
+> This doesn't support the gdbstub use case you've described though.  No
+> heuristics but a bit inflexible.
+> What do you think?
+
+We can check for QEMU_OPTION_gdb/QEMU_OPTION_s, if present display
+warning, else display error? Or no warning at all...
 
