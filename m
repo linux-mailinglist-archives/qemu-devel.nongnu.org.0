@@ -2,87 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C870E5C8
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 17:07:56 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58928 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7A97DB87
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 07:32:16 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52368 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hL7sp-00054h-Hi
-	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 11:07:55 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51705)
+	id 1hKytk-0005vn-2x
+	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 01:32:16 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51947)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alistair@alistair23.me>) id 1hKyrI-00055g-Jw
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 01:29:45 -0400
+	(envelope-from <thuth@redhat.com>) id 1hKysT-0005ac-5g
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 01:30:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alistair@alistair23.me>) id 1hKyrG-0003Ye-N6
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 01:29:44 -0400
-Received: from mail-oln040092255032.outbound.protection.outlook.com
-	([40.92.255.32]:33703
-	helo=APC01-HK2-obe.outbound.protection.outlook.com)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <alistair@alistair23.me>)
-	id 1hKyrF-0003WF-1K
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 01:29:42 -0400
-Received: from SG2APC01FT020.eop-APC01.prod.protection.outlook.com
-	(10.152.250.56) by SG2APC01HT181.eop-APC01.prod.protection.outlook.com
-	(10.152.251.194) with Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.1835.13;
-	Mon, 29 Apr 2019 05:29:31 +0000
-Received: from PSXP216MB0277.KORP216.PROD.OUTLOOK.COM (10.152.250.59) by
-	SG2APC01FT020.mail.protection.outlook.com (10.152.250.219) with
-	Microsoft SMTP Server (version=TLS1_2,
-	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
-	15.20.1835.13 via Frontend Transport; Mon, 29 Apr 2019 05:29:31 +0000
-Received: from PSXP216MB0277.KORP216.PROD.OUTLOOK.COM
-	([fe80::d5cf:d2af:3aea:e2a3]) by PSXP216MB0277.KORP216.PROD.OUTLOOK.COM
-	([fe80::d5cf:d2af:3aea:e2a3%3]) with mapi id 15.20.1835.018;
-	Mon, 29 Apr 2019 05:29:30 +0000
-From: Alistair Francis <alistair@alistair23.me>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Thread-Topic: [PATCH v1 1/5] armv7m: Allow entry information to be returned
-Thread-Index: AQHU/kyF1rnXY4JySUKixW4VXk8aZg==
-Date: Mon, 29 Apr 2019 05:29:30 +0000
-Message-ID: <PSXP216MB0277DF1EDB800674F0611482DD390@PSXP216MB0277.KORP216.PROD.OUTLOOK.COM>
-References: <cover.1556515687.git.alistair@alistair23.me>
-In-Reply-To: <cover.1556515687.git.alistair@alistair23.me>
-Accept-Language: en-AU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: BYAPR11CA0090.namprd11.prod.outlook.com
-	(2603:10b6:a03:f4::31) To PSXP216MB0277.KORP216.PROD.OUTLOOK.COM
-	(2603:1096:300:a::18)
-x-incomingtopheadermarker: OriginalChecksum:56D9B9B2E0BA3A449027E937B7C764445B33B59F63AE801007351B0C289C39C4;
-	UpperCasedChecksum:884B2AD11162C6EB5DFBF265CC251FD0CC9B69B524EE90D5EA4F2CCCE595ADA7;
-	SizeAsReceived:7532; Count:50
-x-ms-exchange-messagesentrepresentingtype: 1
-x-mailer: git-send-email 2.21.0
-x-tmn: [aycWjdaP8jTN8GXxmC1IXRSLkRuWg8dtyDIFgNpfSLuAoJxH+N9d2tKJF4wum6R7]
-x-microsoft-original-message-id: <114729bb106dbc14480880ca4b91c3fbe8eb3783.1556515687.git.alistair@alistair23.me>
-x-ms-publictraffictype: Email
-x-incomingheadercount: 50
-x-eopattributedmessage: 0
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(5050001)(7020095)(20181119110)(201702061078)(5061506573)(5061507331)(1603103135)(2017031320274)(2017031323274)(2017031324274)(2017031322404)(1601125500)(1603101475)(1701031045);
-	SRVR:SG2APC01HT181; 
-x-ms-traffictypediagnostic: SG2APC01HT181:
-x-microsoft-antispam-message-info: wV+9BNVt3n8x1BtgMEKIKfECMHoRQkP/F7lgCxA52ZYCAqNgt2YGaXud00B98EW6/WOF64GMjd53YdnXQ8zsJu3NTZ9WUKA0GrxmTZZA0obAZ6bWE743CoDn+5FRZX6lgZFAmuojE7pXjGiFzgyE0+n8Jt1uYL6Rlc1pvJxTmFrAgSSjL7+woOCvse8ixHnD
-Content-Type: text/plain; charset="iso-8859-1"
-Content-Transfer-Encoding: quoted-printable
+	(envelope-from <thuth@redhat.com>) id 1hKysS-0004E8-0L
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 01:30:57 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52452)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <thuth@redhat.com>)
+	id 1hKysP-0004CN-Hh; Mon, 29 Apr 2019 01:30:53 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+	[10.5.11.12])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 35B46308425C;
+	Mon, 29 Apr 2019 05:30:52 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-116-111.ams2.redhat.com [10.36.116.111])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id E98B36B48E;
+	Mon, 29 Apr 2019 05:30:43 +0000 (UTC)
+To: qemu-devel@nongnu.org
+References: <155650963851.10667.10736189532511840020@c2072b67cc0c>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=thuth@redhat.com; keydata=
+	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
+Organization: Red Hat
+Message-ID: <ec0fad50-140c-0bf4-3421-d4e3d2d12dea@redhat.com>
+Date: Mon, 29 Apr 2019 07:30:42 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-X-OriginatorOrg: outlook.com
-X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-Network-Message-Id: bfe6c694-6e89-454d-2a11-08d6cc63a777
-X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Apr 2019 05:29:30.8541 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Internet
-X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2APC01HT181
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.92.255.32
-X-Mailman-Approved-At: Mon, 29 Apr 2019 11:06:13 -0400
-Subject: [Qemu-devel] [PATCH v1 1/5] armv7m: Allow entry information to be
- returned
+In-Reply-To: <155650963851.10667.10736189532511840020@c2072b67cc0c>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.40]);
+	Mon, 29 Apr 2019 05:30:52 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 0/8] tests/qemu-iotests: Run basic
+ iotests during "make check"
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -94,180 +104,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "alistair23@gmail.com" <alistair23@gmail.com>
+Cc: fam@euphon.net, kwolf@redhat.com, emaste@freebsd.org, qemu-block@nongnu.org,
+	alex.bennee@linaro.org, armbru@redhat.com, cfergeau@redhat.com,
+	mreitz@redhat.com, wainersm@redhat.com, philmd@redhat.com,
+	lwhsu@freebsd.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allow the kernel's entry point information to be returned when loading a
-kernel.
+On 29/04/2019 05.47, no-reply@patchew.org wrote:
+> Patchew URL: https://patchew.org/QEMU/20190428155451.15653-1-thuth@redhat.com/
+> 
+> This series failed the asan build test. Please find the testing commands and
+> their output below. If you have Docker installed, you can probably reproduce it
+> locally.
+> 
+> === TEST SCRIPT BEGIN ===
+> #!/bin/bash
+> time make docker-test-debug@fedora TARGET_LIST=x86_64-softmmu J=14 NETWORK=1
+> === TEST SCRIPT END ===
+> 
+> The full log is available at
+> http://patchew.org/logs/20190428155451.15653-1-thuth@redhat.com/testing.asan/?type=message.
 
-Signed-off-by: Alistair Francis <alistair@alistair23.me>
----
- hw/arm/armv7m.c      | 6 +++---
- hw/arm/microbit.c    | 2 +-
- hw/arm/mps2-tz.c     | 3 ++-
- hw/arm/mps2.c        | 2 +-
- hw/arm/msf2-som.c    | 2 +-
- hw/arm/musca.c       | 3 ++-
- hw/arm/netduino2.c   | 2 +-
- hw/arm/stellaris.c   | 3 ++-
- include/hw/arm/arm.h | 4 +++-
- 9 files changed, 16 insertions(+), 11 deletions(-)
+The asan test failed since it could not check out the repository ...
+a networking problem?
 
-diff --git a/hw/arm/armv7m.c b/hw/arm/armv7m.c
-index c4b2a9a1f5..a52328f188 100644
---- a/hw/arm/armv7m.c
-+++ b/hw/arm/armv7m.c
-@@ -286,10 +286,10 @@ static void armv7m_reset(void *opaque)
-     cpu_reset(CPU(cpu));
- }
-=20
--void armv7m_load_kernel(ARMCPU *cpu, const char *kernel_filename, int mem_=
-size)
-+void armv7m_load_kernel(ARMCPU *cpu, const char *kernel_filename, int mem_=
-size,
-+                        uint64_t *entry)
- {
-     int image_size;
--    uint64_t entry;
-     uint64_t lowaddr;
-     int big_endian;
-     AddressSpace *as;
-@@ -311,7 +311,7 @@ void armv7m_load_kernel(ARMCPU *cpu, const char *kernel=
-_filename, int mem_size)
-=20
-     if (kernel_filename) {
-         image_size =3D load_elf_as(kernel_filename, NULL, NULL, NULL,
--                                 &entry, &lowaddr,
-+                                 entry, &lowaddr,
-                                  NULL, big_endian, EM_ARM, 1, 0, as);
-         if (image_size < 0) {
-             image_size =3D load_image_targphys_as(kernel_filename, 0,
-diff --git a/hw/arm/microbit.c b/hw/arm/microbit.c
-index da67bf6d9d..03147750f1 100644
---- a/hw/arm/microbit.c
-+++ b/hw/arm/microbit.c
-@@ -58,7 +58,7 @@ static void microbit_init(MachineState *machine)
-                                         mr, -1);
-=20
-     armv7m_load_kernel(ARM_CPU(first_cpu), machine->kernel_filename,
--                       NRF51_SOC(soc)->flash_size);
-+                       NRF51_SOC(soc)->flash_size, NULL);
- }
-=20
- static void microbit_machine_class_init(ObjectClass *oc, void *data)
-diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
-index f79f090a4a..f6dc7dce2a 100644
---- a/hw/arm/mps2-tz.c
-+++ b/hw/arm/mps2-tz.c
-@@ -613,7 +613,8 @@ static void mps2tz_common_init(MachineState *machine)
-=20
-     create_unimplemented_device("FPGA NS PC", 0x48007000, 0x1000);
-=20
--    armv7m_load_kernel(ARM_CPU(first_cpu), machine->kernel_filename, 0x400=
-000);
-+    armv7m_load_kernel(ARM_CPU(first_cpu), machine->kernel_filename, 0x400=
-000,
-+                       NULL);
- }
-=20
- static void mps2_tz_idau_check(IDAUInterface *ii, uint32_t address,
-diff --git a/hw/arm/mps2.c b/hw/arm/mps2.c
-index e3d698ba6c..55d2273a54 100644
---- a/hw/arm/mps2.c
-+++ b/hw/arm/mps2.c
-@@ -328,7 +328,7 @@ static void mps2_common_init(MachineState *machine)
-     system_clock_scale =3D NANOSECONDS_PER_SECOND / SYSCLK_FRQ;
-=20
-     armv7m_load_kernel(ARM_CPU(first_cpu), machine->kernel_filename,
--                       0x400000);
-+                       0x400000, NULL);
- }
-=20
- static void mps2_class_init(ObjectClass *oc, void *data)
-diff --git a/hw/arm/msf2-som.c b/hw/arm/msf2-som.c
-index 2432b5e935..f81be74716 100644
---- a/hw/arm/msf2-som.c
-+++ b/hw/arm/msf2-som.c
-@@ -92,7 +92,7 @@ static void emcraft_sf2_s2s010_init(MachineState *machine=
-)
-     sysbus_connect_irq(SYS_BUS_DEVICE(&soc->spi[0]), 1, cs_line);
-=20
-     armv7m_load_kernel(ARM_CPU(first_cpu), machine->kernel_filename,
--                       soc->envm_size);
-+                       soc->envm_size, NULL);
- }
-=20
- static void emcraft_sf2_machine_init(MachineClass *mc)
-diff --git a/hw/arm/musca.c b/hw/arm/musca.c
-index 23aff43f4b..59460ba090 100644
---- a/hw/arm/musca.c
-+++ b/hw/arm/musca.c
-@@ -589,7 +589,8 @@ static void musca_init(MachineState *machine)
-                                                      "cfg_sec_resp", 0));
-     }
-=20
--    armv7m_load_kernel(ARM_CPU(first_cpu), machine->kernel_filename, 0x200=
-0000);
-+    armv7m_load_kernel(ARM_CPU(first_cpu), machine->kernel_filename, 0x200=
-0000,
-+                       NULL);
- }
-=20
- static void musca_class_init(ObjectClass *oc, void *data)
-diff --git a/hw/arm/netduino2.c b/hw/arm/netduino2.c
-index f936017d4a..38a6d8fdd1 100644
---- a/hw/arm/netduino2.c
-+++ b/hw/arm/netduino2.c
-@@ -38,7 +38,7 @@ static void netduino2_init(MachineState *machine)
-     object_property_set_bool(OBJECT(dev), true, "realized", &error_fatal);
-=20
-     armv7m_load_kernel(ARM_CPU(first_cpu), machine->kernel_filename,
--                       FLASH_SIZE);
-+                       FLASH_SIZE, NULL);
- }
-=20
- static void netduino2_machine_init(MachineClass *mc)
-diff --git a/hw/arm/stellaris.c b/hw/arm/stellaris.c
-index 05f86749f4..276b1acc46 100644
---- a/hw/arm/stellaris.c
-+++ b/hw/arm/stellaris.c
-@@ -1459,7 +1459,8 @@ static void stellaris_init(MachineState *ms, stellari=
-s_board_info *board)
-     create_unimplemented_device("hibernation", 0x400fc000, 0x1000);
-     create_unimplemented_device("flash-control", 0x400fd000, 0x1000);
-=20
--    armv7m_load_kernel(ARM_CPU(first_cpu), ms->kernel_filename, flash_size=
-);
-+    armv7m_load_kernel(ARM_CPU(first_cpu), ms->kernel_filename, flash_size=
-,
-+                       NULL);
- }
-=20
- /* FIXME: Figure out how to generate these from stellaris_boards.  */
-diff --git a/include/hw/arm/arm.h b/include/hw/arm/arm.h
-index ffed39252d..10f7e10d95 100644
---- a/include/hw/arm/arm.h
-+++ b/include/hw/arm/arm.h
-@@ -28,12 +28,14 @@ typedef enum {
-  * @cpu: CPU
-  * @kernel_filename: file to load
-  * @mem_size: mem_size: maximum image size to load
-+ * @entry: location of the kernel's entry point
-  *
-  * Load the guest image for an ARMv7M system. This must be called by
-  * any ARMv7M board. (This is necessary to ensure that the CPU resets
-  * correctly on system reset, as well as for kernel loading.)
-  */
--void armv7m_load_kernel(ARMCPU *cpu, const char *kernel_filename, int mem_=
-size);
-+void armv7m_load_kernel(ARMCPU *cpu, const char *kernel_filename, int mem_=
-size,
-+                        uint64_t *entry);
-=20
- /* arm_boot.c */
- struct arm_boot_info {
---=20
-2.21.0
+Anyway, looks like there was a real bug here:
 
+ https://patchew.org/logs/20190428155451.15653-1-thuth@redhat.com/testing.docker-clang@ubuntu/?type=message
+
+Test 162 failed with:
+
+162         - output mismatch (see 162.out.bad)
+--- /tmp/qemu-test/src/tests/qemu-iotests/162.out	2019-04-28 16:09:31.000000000 +0000
++++ /tmp/qemu-test/build/tests/qemu-iotests/162.out.bad	2019-04-28 16:24:21.669646149 +0000
+@@ -6,7 +6,9 @@
+ image: nbd+unix://?socket=42
+ 
+ === SSH ===
++qemu-img: warning: GLib: getpwuid_r(): failed due to unknown user id (1003)
+ qemu-img: Could not open 'json:{"driver": "ssh", "host": "localhost", "port": "0", "path": "/foo"}': Failed to connect socket: Connection refused
++qemu-img: warning: GLib: getpwuid_r(): failed due to unknown user id (1003)
+ qemu-img: Could not open 'driver=ssh,host=localhost,port=0,path=/foo': Failed to connect socket: Connection refused
+ qemu-img: Could not open 'json:{"driver": "ssh", "host": "localhost", "port": 0.42, "path": "/foo"}': Parameter 'port' expects a number
+ qemu-img: Could not open 'driver=ssh,host=localhost,port=0.42,path=/foo': Parameter 'port' expects a number
+
+... I think I'll remove 162 from the "auto" group to avoid this.
+
+ Thomas
 
