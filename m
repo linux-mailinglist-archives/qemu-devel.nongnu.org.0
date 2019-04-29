@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B62ECE894
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:15:37 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60775 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C4E2E89A
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:16:44 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60815 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hL9sO-0007u9-RX
-	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:15:36 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34234)
+	id 1hL9tT-0000GC-Ex
+	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:16:43 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34425)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hL9ee-0004fW-HB
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:25 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hL9et-0004uU-9a
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hL9eX-0006cb-4c
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:19 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:37585)
+	(envelope-from <peter.maydell@linaro.org>) id 1hL9er-0006m1-3F
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:39 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:55633)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hL9eV-0006Ev-UJ
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:16 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id r6so17126930wrm.4
-	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 10:00:45 -0700 (PDT)
+	id 1hL9eo-0006IG-LZ
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:35 -0400
+Received: by mail-wm1-x334.google.com with SMTP id o25so148750wmf.5
+	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 10:00:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=C5ELT6YRQDH3x2HFJvJf8ZZNn5ZtD6+g/82yTJwrTMg=;
-	b=RDK1iSCqOVSkW7h/LXdUrXuItYxD3n7vLCbzGI+wtiG+GE5fy48rFHdbFOGxnnXhya
-	HYq5sP9mNXwXPJ8/AI3mNv6PIR15x71ctk5bHiAMQBMnUVK97vWkW/ikXtMNXA9PpNsn
-	0Oijn99zC7G8X4WOG+y4ao9qjWGuwTT2VOQUEXlP7ZVFR93PNBm4k9vPEHM6O69lA4sD
-	I0OnUuKPvuxRYWkbH0NWxxtZOK0bpSSaVGDnY4tLa9Kq7gv4DD8JmgIfGJXacptpqxAb
-	MuDC794LiS/ifKKVytSIw7/KITyEwZVLNwzWUxBnDjQth1IS1KsErSaUJd7BHICSF2hg
-	KrOw==
+	bh=C5QzvnZSqvAHI4meFaiTxEyfhM2e9uuOHfPDatPGWdU=;
+	b=t/CRAFLx+KIdfIfSE/4paSxRpvQPoOvlIwt0/1Zuc7Ud4ldevhlvVLeJLD4PjdYUAq
+	JW0TnibQzkEBjzpQKZMwhMTCKXjCIYxHXzt8IA9Lohn4L3gQSbRKv3GxYhZSFB7UqaTx
+	w0dt4IagzvcZrDL7hhHd5WvjhQROB3gpupNsMIRJDLmrxap835ltiZbMH1bp4k0falZm
+	xbcXOP8XspLSXA31kuRf4aafVaEOsNvGsJ0xwKP7PbaZj0KktH1/hGR138wSUuLzfX1c
+	ehisxtkAnMgJMw/M/eF30ldpZHpAwr4Bz7L2U0475FsijhzZtABeouqB3tCxcIgZns4U
+	fqUw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=C5ELT6YRQDH3x2HFJvJf8ZZNn5ZtD6+g/82yTJwrTMg=;
-	b=dkdFB4vaVYbbRV3+Y4eEAvawZiobwXTElMPIO165HBqvZ9ZJ7bMotNg3BSJgmu4GZG
-	bqtI9Fjta5MSSb/I/ktxM5AnFVZuYxARPoAIEUmF9Q+RUPFawOcR2hc1rmIgc7CuSf2t
-	WJ5aZaFWIoF0wDSekd9EYN5MIgjZJYKhpjPt2FhIvx9ylu32gPZoDf4QkwPnEjEIwJwb
-	hWLtm1pqRxmpA5G7z0/ifcWTrUrZ2tHanVHp2mbTWXcgN/s50+i3tL/k3DNjXzrUSEa2
-	8jqMm2AhkTFSqvBW/i5Do3H8OINPEJX+WZRBLKhOCC5O8zEFQgKdHO91cGaJM08EiO44
-	TDdA==
-X-Gm-Message-State: APjAAAVam6fnY+50aNfpzKsJtJagJyFJaKJuGS4iBequIJeULVEhGZ8m
-	5d98NTdaF1bGt+VmOBR3kiBN8u3eZ3g=
-X-Google-Smtp-Source: APXvYqwLKxKdXANomuDhpHUIro0omoF7DXuLBgWyRqZCPotw/A6GHhPQRJj5YpgUB1G8qMaKiG9m1g==
-X-Received: by 2002:a5d:4a4f:: with SMTP id v15mr15335188wrs.5.1556557244189; 
-	Mon, 29 Apr 2019 10:00:44 -0700 (PDT)
+	bh=C5QzvnZSqvAHI4meFaiTxEyfhM2e9uuOHfPDatPGWdU=;
+	b=EYQn359VvvgmKAUuqjJd6Nyi/P9Lm9j7xXN7emTRdQI5ps/Znwboc/66OdrYqBzgC5
+	EFn/bmcWq8BgCKMcY+OFQLm2rjtlk/5DC/8HKg+uhbbXuqlVjzJ6X1iI9E/cbokWy9Dk
+	J0KlC6ZVxZttOHHhoAbCOHwigeOoQLBhK4cRcP7WDvjK2zi1MHJn2rokWHlFc5xuvQMg
+	Sw2KROSx8nlpaodVAiM9FvHJJ8+TnUb4GWv5nETd8v7kTf2zdgv2JmPU/R0haUZPPqfi
+	ZAqqkuRrIytZgKngenWIBxyXvMB5UrJ6wQYgVC2gt+3/0XmCi8hEZaPq2ESl2MuzZiCk
+	U4CA==
+X-Gm-Message-State: APjAAAUGt6PqI/3OQlAGUHQQNaSGLuhB3SNYxwh0GwOPWTjQOs4szCdm
+	i3EZL/ldwI9ZhOZELGsRaTmi1l1fDoI=
+X-Google-Smtp-Source: APXvYqziWLyG+ytkZUkcqS96aowud8RJB6RrMVoHZQ+y6XAMGsCeU/rLVHWTJokE7QFKQPYouB9RwA==
+X-Received: by 2002:a7b:cc12:: with SMTP id f18mr61347wmh.40.1556557245309;
+	Mon, 29 Apr 2019 10:00:45 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
-	by smtp.gmail.com with ESMTPSA id a13sm36896wmj.39.2019.04.29.10.00.43
+	by smtp.gmail.com with ESMTPSA id a13sm36896wmj.39.2019.04.29.10.00.44
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 29 Apr 2019 10:00:43 -0700 (PDT)
+	Mon, 29 Apr 2019 10:00:44 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 29 Apr 2019 17:59:57 +0100
-Message-Id: <20190429170030.11323-10-peter.maydell@linaro.org>
+Date: Mon, 29 Apr 2019 17:59:58 +0100
+Message-Id: <20190429170030.11323-11-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190429170030.11323-1-peter.maydell@linaro.org>
 References: <20190429170030.11323-1-peter.maydell@linaro.org>
@@ -65,9 +65,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::42f
-Subject: [Qemu-devel] [PULL 09/42] target/arm: Decode FP instructions for M
- profile
+X-Received-From: 2a00:1450:4864:20::334
+Subject: [Qemu-devel] [PULL 10/42] target/arm: Clear CONTROL_S.SFPA in SG
+ insn if FPU present
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,67 +82,31 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Correct the decode of the M-profile "coprocessor and
-floating-point instructions" space:
- * op0 == 0b11 is always unallocated
- * if the CPU has an FPU then all insns with op1 == 0b101
-   are floating point and go to disas_vfp_insn()
+If the floating point extension is present, then the SG instruction
+must clear the CONTROL_S.SFPA bit. Implement this.
 
-For the moment we leave VLLDM and VLSTM as NOPs; in
-a later commit we will fill in the proper implementation
-for the case where an FPU is present.
+(On a no-FPU system the bit will always be zero, so we don't need
+to make the clearing of the bit conditional on ARM_FEATURE_VFP.)
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20190416125744.27770-7-peter.maydell@linaro.org
+Message-id: 20190416125744.27770-8-peter.maydell@linaro.org
 ---
- target/arm/translate.c | 26 ++++++++++++++++++++++----
- 1 file changed, 22 insertions(+), 4 deletions(-)
+ target/arm/helper.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 6a11921d0b8..0747f7847a9 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -11728,10 +11728,19 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
-     case 6: case 7: case 14: case 15:
-         /* Coprocessor.  */
-         if (arm_dc_feature(s, ARM_FEATURE_M)) {
--            /* We don't currently implement M profile FP support,
--             * so this entire space should give a NOCP fault, with
--             * the exception of the v8M VLLDM and VLSTM insns, which
--             * must be NOPs in Secure state and UNDEF in Nonsecure state.
-+            /* 0b111x_11xx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx */
-+            if (extract32(insn, 24, 2) == 3) {
-+                goto illegal_op; /* op0 = 0b11 : unallocated */
-+            }
-+
-+            /*
-+             * Decode VLLDM and VLSTM first: these are nonstandard because:
-+             *  * if there is no FPU then these insns must NOP in
-+             *    Secure state and UNDEF in Nonsecure state
-+             *  * if there is an FPU then these insns do not have
-+             *    the usual behaviour that disas_vfp_insn() provides of
-+             *    being controlled by CPACR/NSACR enable bits or the
-+             *    lazy-stacking logic.
-              */
-             if (arm_dc_feature(s, ARM_FEATURE_V8) &&
-                 (insn & 0xffa00f00) == 0xec200a00) {
-@@ -11745,6 +11754,15 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
-                 /* Just NOP since FP support is not implemented */
-                 break;
-             }
-+            if (arm_dc_feature(s, ARM_FEATURE_VFP) &&
-+                ((insn >> 8) & 0xe) == 10) {
-+                /* FP, and the CPU supports it */
-+                if (disas_vfp_insn(s, insn)) {
-+                    goto illegal_op;
-+                }
-+                break;
-+            }
-+
-             /* All other insns: NOCP */
-             gen_exception_insn(s, 4, EXCP_NOCP, syn_uncategorized(),
-                                default_exception_el(s));
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index c3d5fe09cdc..45a9d92e505 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -8804,6 +8804,7 @@ static bool v7m_handle_execute_nsc(ARMCPU *cpu)
+     qemu_log_mask(CPU_LOG_INT, "...really an SG instruction at 0x%08" PRIx32
+                   ", executing it\n", env->regs[15]);
+     env->regs[14] &= ~1;
++    env->v7m.control[M_REG_S] &= ~R_V7M_CONTROL_SFPA_MASK;
+     switch_v7m_security_state(env, true);
+     xpsr_write(env, 0, XPSR_IT);
+     env->regs[15] += 4;
 -- 
 2.20.1
 
