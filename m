@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B40FDE887
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:13:26 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60756 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 65434E8C6
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:25:56 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60930 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hL9qH-0005tP-Oy
-	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:13:25 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34361)
+	id 1hLA2N-0008BH-Db
+	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:25:55 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34516)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hL9er-0004r4-3J
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:38 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hL9ew-0004yL-9Q
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hL9eo-0006kA-1z
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:35 -0400
-Received: from mail-wr1-x436.google.com ([2a00:1450:4864:20::436]:44818)
+	(envelope-from <peter.maydell@linaro.org>) id 1hL9eu-0006oi-2a
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:41 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:35942)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hL9em-0006cV-Rc
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:33 -0400
-Received: by mail-wr1-x436.google.com with SMTP id c5so17086369wrs.11
-	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 10:01:17 -0700 (PDT)
+	id 1hL9et-0006dD-D2
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:39 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id o4so5180747wra.3
+	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 10:01:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=2w1w44sHa+uGj5LPkXGrx5V7+QcLrNYXNtLTn7rWBUg=;
-	b=wCCTAaRBwxllhOkltURIAQRY0ESCgvD21au8gnkNMCuvo31ypW1FimSakFu2zamD2L
-	+aKQzv0VTGsc5bMhiw49Da2hXLGYmdN+EmApeEKuzI93YBkx/26X96mPRLtHRvkooKMZ
-	OrlDEpyuY2zHp7ErM7buNpARisgPzMZjOTfYVYE9RRU/n8rxQgL6tLf8Ku8vYxrszapL
-	ffg7heLgc3wHUUy2cRNimMeaMcf0c9WKdP09L92rFQ3XH9SyLjBrkPKeyaIAP1ApHpdu
-	Gh8VON4DqfN+zy6tCxEBiR1CbJqWVcz5O/2vRS8Jwwj51Fp5kTdz42iV+YFHa+EKBCE/
-	Fr5A==
+	bh=LFxDP5DlLX7UdxaNBUv4+0seLwMZU662ZJKbH+YTDbw=;
+	b=SK6/ZGP+QY6T7j4UMqwdE8DfxWEFEoypywWGy5kkAULh7CvkjIZr+rhafL1DG06nI4
+	TIcixZQf7xlT8mo0D848du94qKkBqp9lIXG0e29/hzxke4ZMPfC0xKYGsBt7BUybDZQX
+	kbsDq8XGhmB7WHFpfgBvdtaUJdI+rzal9TeXKJZye9fM5fh59HpzWWI54u9HdjtLvBN/
+	2G/cy7tDYozzXiNxXrGpb2D7mo+52YtByzR8iyKl/Jxwf41l4IG9D6ZRPMDA0HDZY9tB
+	7G7OhMde51rU6bt9gYpxI6e5ZDmlATtVZyefq1VsdhNu1rPYQ4y0Yuq6/oKzkryTvzt7
+	JPEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=2w1w44sHa+uGj5LPkXGrx5V7+QcLrNYXNtLTn7rWBUg=;
-	b=Xu8EVohGvxwNKCEgqVvOB1lXV8/qiwmn7TaUey4HYv9HtsQt1sYK0gvb6YNGL3O9zq
-	fNyT6DV54XvOdGHxWLVKqZE46unmmLCrV3nIQxIY0sTZtOnNYZ7NeLrSrdV5oAjGFqRB
-	SXqD57g16iurQ9SXmtx8KluSjji3ytvwjOHh2oWC1gi2kKo/HoPWNd+o5ijAXRptIXqM
-	QkNxxMdJnKwd/Xk6k5npCHe8TXReqPa76zJ5gUFlbet3UIzNlUYizR6AY9jZNjzPy1Ev
-	a0qLstVbuUxFwKEsC4IZyop2kOzKl0A6r5UCuXpxpOw389yLRdrR3Mg8Qikacl05WAAS
-	Q9SQ==
-X-Gm-Message-State: APjAAAUYnWiOPbHZDW2H5jC7mOITDM2Ccu/wSioJWZUB81u7KcLPg8xt
-	CEg4ZnWfUl3Bkqyh67oXQ+IOSyWzuoE=
-X-Google-Smtp-Source: APXvYqwqq17zDjXVIiweWdAykw64lKdyLDPBcM2IFqR/Lt6u3w45UIZxynbJZgHvBOu05oyNiPvYmA==
-X-Received: by 2002:a5d:66c3:: with SMTP id k3mr5832383wrw.104.1556557276407; 
-	Mon, 29 Apr 2019 10:01:16 -0700 (PDT)
+	bh=LFxDP5DlLX7UdxaNBUv4+0seLwMZU662ZJKbH+YTDbw=;
+	b=Ipt6QwbgJUEPUCVxHqt07prIJrOF0IKDLSnkrAncksDV4j3EtZsfrNwyqPRmofadrZ
+	swocE7y81NBExcpLCzAVPgkGbVPIJRf9wr/EcEha6JvwB+g5J0dg996g18k+DYDPFKuh
+	O1naWEB+xNTQ6KNqBwpfAvpGfLtYe/ylGTy4He/Ad/MXvS111p/5RjHcumX9YQFBK8P8
+	sCJtT+IECVsOmW8VAVAKGSeguohplOr0WwKUEKouDipAA55WjRC1sn8jwHpXOSWAnTSJ
+	Nm2wZ2mkWDED9gNCZKjdaviXmk55K68X1ggynBX40o59gk6PHI1iVvfOOzm/3JP5O2sj
+	NZpg==
+X-Gm-Message-State: APjAAAXyZQ88+7REum5FIzPQCJUBDKcNKdUW6ZW4WwgkfEO9O4EjaOFi
+	aia2Pt2Gay+jp0goL3KG6uf4CRDWr+Q=
+X-Google-Smtp-Source: APXvYqycj5gPELn7A6KH8SoMmKdftzxSZFCARvRlNJeQ7gI33k5hPboVdTYEgtfHfOvGUWvPRP/MJg==
+X-Received: by 2002:adf:dbc1:: with SMTP id e1mr25434481wrj.203.1556557277646; 
+	Mon, 29 Apr 2019 10:01:17 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
-	by smtp.gmail.com with ESMTPSA id a13sm36896wmj.39.2019.04.29.10.01.15
+	by smtp.gmail.com with ESMTPSA id a13sm36896wmj.39.2019.04.29.10.01.16
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 29 Apr 2019 10:01:15 -0700 (PDT)
+	Mon, 29 Apr 2019 10:01:16 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 29 Apr 2019 18:00:22 +0100
-Message-Id: <20190429170030.11323-35-peter.maydell@linaro.org>
+Date: Mon, 29 Apr 2019 18:00:23 +0100
+Message-Id: <20190429170030.11323-36-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190429170030.11323-1-peter.maydell@linaro.org>
 References: <20190429170030.11323-1-peter.maydell@linaro.org>
@@ -66,8 +66,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::436
-Subject: [Qemu-devel] [PULL 34/42] hw/devices: Move TC6393XB declarations
+X-Received-From: 2a00:1450:4864:20::42d
+Subject: [Qemu-devel] [PULL 35/42] hw/devices: Move Blizzard declarations
  into a new header
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
@@ -85,105 +85,110 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
+Add an entries the Blizzard device in MAINTAINERS.
+
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20190412165416.7977-5-philmd@redhat.com
+Message-id: 20190412165416.7977-6-philmd@redhat.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/devices.h          |  6 ------
- include/hw/display/tc6393xb.h | 24 ++++++++++++++++++++++++
- hw/arm/tosa.c                 |  2 +-
- hw/display/tc6393xb.c         |  2 +-
- MAINTAINERS                   |  1 +
- 5 files changed, 27 insertions(+), 8 deletions(-)
- create mode 100644 include/hw/display/tc6393xb.h
+ include/hw/devices.h          |  7 -------
+ include/hw/display/blizzard.h | 22 ++++++++++++++++++++++
+ hw/arm/nseries.c              |  1 +
+ hw/display/blizzard.c         |  2 +-
+ MAINTAINERS                   |  2 ++
+ 5 files changed, 26 insertions(+), 8 deletions(-)
+ create mode 100644 include/hw/display/blizzard.h
 
 diff --git a/include/hw/devices.h b/include/hw/devices.h
-index 0850f697451..1e2141caad1 100644
+index 1e2141caad1..77d66113021 100644
 --- a/include/hw/devices.h
 +++ b/include/hw/devices.h
-@@ -50,10 +50,4 @@ void *tahvo_init(qemu_irq irq, int betty);
+@@ -29,13 +29,6 @@ void tsc2005_set_transform(void *opaque, MouseTransformInfo *info);
+ /* stellaris_input.c */
+ void stellaris_gamepad_init(int n, qemu_irq *irq, const int *keycode);
  
- void retu_key_event(void *retu, int state);
- 
--/* tc6393xb.c */
--typedef struct TC6393xbState TC6393xbState;
--TC6393xbState *tc6393xb_init(struct MemoryRegion *sysmem,
--                             uint32_t base, qemu_irq irq);
--qemu_irq tc6393xb_l3v_get(TC6393xbState *s);
+-/* blizzard.c */
+-void *s1d13745_init(qemu_irq gpio_int);
+-void s1d13745_write(void *opaque, int dc, uint16_t value);
+-void s1d13745_write_block(void *opaque, int dc,
+-                void *buf, size_t len, int pitch);
+-uint16_t s1d13745_read(void *opaque, int dc);
 -
- #endif
-diff --git a/include/hw/display/tc6393xb.h b/include/hw/display/tc6393xb.h
+ /* cbus.c */
+ typedef struct {
+     qemu_irq clk;
+diff --git a/include/hw/display/blizzard.h b/include/hw/display/blizzard.h
 new file mode 100644
-index 00000000000..5c4da91f80d
+index 00000000000..ef72bbc1865
 --- /dev/null
-+++ b/include/hw/display/tc6393xb.h
-@@ -0,0 +1,24 @@
++++ b/include/hw/display/blizzard.h
+@@ -0,0 +1,22 @@
 +/*
-+ * Toshiba TC6393XB I/O Controller.
-+ * Found in Sharp Zaurus SL-6000 (tosa) or some
-+ * Toshiba e-Series PDAs.
++ * Epson S1D13744/S1D13745 (Blizzard/Hailstorm/Tornado) LCD/TV controller.
 + *
-+ * Copyright (c) 2007 Hervé Poussineau
++ * Copyright (C) 2008 Nokia Corporation
++ * Written by Andrzej Zaborowski
 + *
 + * This work is licensed under the terms of the GNU GPL, version 2 or later.
 + * See the COPYING file in the top-level directory.
 + */
 +
-+#ifndef HW_DISPLAY_TC6393XB_H
-+#define HW_DISPLAY_TC6393XB_H
++#ifndef HW_DISPLAY_BLIZZARD_H
++#define HW_DISPLAY_BLIZZARD_H
 +
-+#include "exec/memory.h"
 +#include "hw/irq.h"
 +
-+typedef struct TC6393xbState TC6393xbState;
-+
-+TC6393xbState *tc6393xb_init(struct MemoryRegion *sysmem,
-+                             uint32_t base, qemu_irq irq);
-+qemu_irq tc6393xb_l3v_get(TC6393xbState *s);
++void *s1d13745_init(qemu_irq gpio_int);
++void s1d13745_write(void *opaque, int dc, uint16_t value);
++void s1d13745_write_block(void *opaque, int dc,
++                          void *buf, size_t len, int pitch);
++uint16_t s1d13745_read(void *opaque, int dc);
 +
 +#endif
-diff --git a/hw/arm/tosa.c b/hw/arm/tosa.c
-index eef9d427e76..9a1247797fe 100644
---- a/hw/arm/tosa.c
-+++ b/hw/arm/tosa.c
-@@ -16,10 +16,10 @@
- #include "hw/hw.h"
- #include "hw/arm/pxa.h"
- #include "hw/arm/arm.h"
--#include "hw/devices.h"
- #include "hw/arm/sharpsl.h"
- #include "hw/pcmcia.h"
+diff --git a/hw/arm/nseries.c b/hw/arm/nseries.c
+index 2b710c3d49f..ef09b3bf79f 100644
+--- a/hw/arm/nseries.c
++++ b/hw/arm/nseries.c
+@@ -31,6 +31,7 @@
  #include "hw/boards.h"
-+#include "hw/display/tc6393xb.h"
  #include "hw/i2c/i2c.h"
- #include "hw/ssi/ssi.h"
- #include "hw/sysbus.h"
-diff --git a/hw/display/tc6393xb.c b/hw/display/tc6393xb.c
-index 6d133d9a66c..0b7c59cde7d 100644
---- a/hw/display/tc6393xb.c
-+++ b/hw/display/tc6393xb.c
-@@ -14,7 +14,7 @@
- #include "qapi/error.h"
- #include "qemu/host-utils.h"
- #include "hw/hw.h"
--#include "hw/devices.h"
-+#include "hw/display/tc6393xb.h"
+ #include "hw/devices.h"
++#include "hw/display/blizzard.h"
+ #include "hw/misc/tmp105.h"
  #include "hw/block/flash.h"
+ #include "hw/hw.h"
+diff --git a/hw/display/blizzard.c b/hw/display/blizzard.c
+index 291abe6fcae..471bd0ed997 100644
+--- a/hw/display/blizzard.c
++++ b/hw/display/blizzard.c
+@@ -21,7 +21,7 @@
+ #include "qemu/osdep.h"
+ #include "qemu-common.h"
  #include "ui/console.h"
+-#include "hw/devices.h"
++#include "hw/display/blizzard.h"
  #include "ui/pixel_ops.h"
+ 
+ typedef void (*blizzard_fn_t)(uint8_t *, const uint8_t *, unsigned int);
 diff --git a/MAINTAINERS b/MAINTAINERS
-index dabbfccf9c5..51eecd0ac19 100644
+index 51eecd0ac19..c069c274ec0 100644
 --- a/MAINTAINERS
 +++ b/MAINTAINERS
-@@ -714,6 +714,7 @@ F: hw/misc/mst_fpga.c
- F: hw/misc/max111x.c
- F: include/hw/arm/pxa.h
- F: include/hw/arm/sharpsl.h
-+F: include/hw/display/tc6393xb.h
+@@ -663,10 +663,12 @@ M: Peter Maydell <peter.maydell@linaro.org>
+ L: qemu-arm@nongnu.org
+ S: Odd Fixes
+ F: hw/arm/nseries.c
++F: hw/display/blizzard.c
+ F: hw/input/lm832x.c
+ F: hw/input/tsc2005.c
+ F: hw/misc/cbus.c
+ F: hw/timer/twl92230.c
++F: include/hw/display/blizzard.h
  
- SABRELITE / i.MX6
- M: Peter Maydell <peter.maydell@linaro.org>
+ Palm
+ M: Andrzej Zaborowski <balrogg@gmail.com>
 -- 
 2.20.1
 
