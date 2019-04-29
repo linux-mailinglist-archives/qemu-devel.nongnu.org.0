@@ -2,73 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71C31E76D
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 18:15:48 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60133 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 338A3109CB
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 May 2019 17:08:40 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60657 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hL8wV-0004i9-LA
-	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 12:15:47 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49175)
+	id 1hLqqd-0003tZ-6v
+	for lists+qemu-devel@lfdr.de; Wed, 01 May 2019 11:08:39 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58251)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <stefanha@gmail.com>) id 1hL8sJ-0001Z4-2n
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 12:11:28 -0400
+	(envelope-from <stefanha@gmail.com>) id 1hLqpU-0003X8-WE
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 11:07:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <stefanha@gmail.com>) id 1hL8sI-0004VQ-6V
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 12:11:27 -0400
-Received: from mail-it1-x143.google.com ([2607:f8b0:4864:20::143]:37567)
+	(envelope-from <stefanha@gmail.com>) id 1hLqpP-00064L-15
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 11:07:26 -0400
+Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:34139)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1hL8sI-0004Un-1d
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 12:11:26 -0400
-Received: by mail-it1-x143.google.com with SMTP id r85so8493596itc.2
-	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 09:11:25 -0700 (PDT)
+	(Exim 4.71) (envelope-from <stefanha@gmail.com>)
+	id 1hLqoz-0005LV-VE; Wed, 01 May 2019 11:06:58 -0400
+Received: by mail-io1-xd43.google.com with SMTP id h26so15071736ioj.1;
+	Wed, 01 May 2019 08:06:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=date:from:to:cc:subject:message-id:references:mime-version
 	:content-disposition:in-reply-to:user-agent;
-	bh=qfVDCsu8q5X01ghIvQbPmo5XumATtaSnQ0L+C0TQ9d4=;
-	b=FhbbIkQiJhfQVqOO/R4Ipy1yczIJRP3uI2FlLGlWHw+C0ZTfrAFhmHCTRpfqljTOB+
-	N5BBdju9kjVawpnKtr+v2tvxfhaFozjkNn/S/stjq47O8tdaJTlFj0vcoVR9tODmHxXe
-	ZGFmBdAph5Uj4MxqCcLG3l4I4OFVdMVbiBa9zeYRwSfusvG4pqNmR8nyjebS764CG2st
-	4RLLm7WJL6OxkAOHudMqRUPC/jx3BMujvVTSzxMx3TFZjZLeUE5E/LOA4IUhyCJZjzBX
-	XxsXnQz1C9VmWJiRSASj2j2dFBOpIFNfFAKyAutLUIrKBxvgVLKUZEQ8IBXyn4yDIU5n
-	/4mQ==
+	bh=3Z6DGwCQpGYfMCcsBq7/VlNUnGULfRlUtb0lybxTfR0=;
+	b=gnEzxzKNZieokzjlGVwpu2Jnttsn1lcrmOsKu23DeoqBkIcPONKDCDDwN8mkmodIA3
+	8yFFfYNJ/XbQ0fL4A7C9tJ2SKyrDtqcLCIkRFsuPKxL5O4LHEP8XVBtiRrKjbKUIfOhh
+	Mi411sYNpAirQU7iwc3RidcvS8WF281WvHn4xVZuqruRBF/jvMx7AMvgv9TODzeqJsBh
+	L+Y0NsJ+V5O9chbfeCmAe2gciltc1vr+2TZWM/hqA91RL+O1zwPVqvUiqGJZsSi03l/J
+	+ffsNjW+gUwrLpkP1n0M+lFJ2hjJa5zAS8772pJK7czgbBTAczFzCF/5QMlQ5h7mAu+G
+	msnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
 	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=qfVDCsu8q5X01ghIvQbPmo5XumATtaSnQ0L+C0TQ9d4=;
-	b=LaKrjy3ZqCzRT7tzyI9O9BAx730SvyKHV/5H8saw/belI3vlDXJmTfjuxerX5cVr5C
-	WQ6/tFFzBto7VMGqZ9pYXHV2K1eo4FdB8Sbx6kEnCwGNJaBcjjq7yzFZGy573ujMVGx9
-	1PbaYgAATsiIcDy4hUuCtbNpT/vlhvfVnLRadAg6L/5FkqAyH226IKeY4WiUWn7/mGIx
-	Rc136wkcsTJVnTAHhQ48pE3sTMChzlewpptceFaDX5kcnHdI9XnBiT25Bunwkmpklh6z
-	5rZjdGzMsqWJVNUahYrAuuajmfxGb8cwqcX50wgL3q9aiy9/QYUpvogl1lMLh1ZPHiIB
-	xzOA==
-X-Gm-Message-State: APjAAAVIUwAbI+SRTTi/wtTYXl5N+wRZTpUUqxxZ6is9BfzTrWMnXelc
-	Pp4i90tYdcATCfz+VxNL5wdyIYjPklQ=
-X-Google-Smtp-Source: APXvYqxhq5u1Y9H/Lc7FAwixaBiMcE24Oir+8PAwlZfOwB23jBc4dEgjYI1x84nto7oBLSDVKDus1w==
-X-Received: by 2002:a24:6e01:: with SMTP id w1mr20523170itc.15.1556554285318; 
-	Mon, 29 Apr 2019 09:11:25 -0700 (PDT)
+	bh=3Z6DGwCQpGYfMCcsBq7/VlNUnGULfRlUtb0lybxTfR0=;
+	b=i/uZzDBSdmhtUAbmKeFPLVgk8EeUUZk6ifw/2vFZNekg2mjEUzBwx01Yqoz7CO/pbt
+	4adM2RVoUnfk4L6xmluzOSKpggyh1VZu5MX4uHzhjogMKkBsD9wg+lG6ofmE5crKL4dQ
+	N2A1oqTR0PCpWU3VHJshMngSk6s2ntKz8j7f444UPBKM0U0Lwp79ynssDZGlC4Df36sV
+	bBRUPeSJHUJKVLtvp5OSiZ677QXZAmlK4p9mTVSEZyxftdkiNYXQwKDL9keq13HvKO2t
+	aDjsVCRdxNnI+gkzTC+1dRjI6RNUXTUf37GoreBHB3jgoleoW9Ue2fNdJCJ+bMSUwAV1
+	wC6Q==
+X-Gm-Message-State: APjAAAX5w5Fl8Tkj9RO4Kgwhn0E4Opuc1SIylaMn+G5nHAu6vMKJnjsD
+	E4V2yHHVCR11cALPe+RSMAs=
+X-Google-Smtp-Source: APXvYqwkofFS/e2hWWVe72ubXiLSQZedIE9gR9XPsYxtppJLqbvsXxYuEc7P0xsmze7eJmRcv1cBRw==
+X-Received: by 2002:a6b:fd10:: with SMTP id c16mr33930371ioi.172.1556723202404;
+	Wed, 01 May 2019 08:06:42 -0700 (PDT)
 Received: from localhost
 	(CPE64777d5479c3-CM64777d5479c0.cpe.net.cable.rogers.com.
 	[99.228.64.175]) by smtp.gmail.com with ESMTPSA id
-	b72sm15493135itc.30.2019.04.29.09.11.21
+	t127sm3198015itb.32.2019.05.01.08.06.40
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 29 Apr 2019 09:11:24 -0700 (PDT)
-Date: Mon, 29 Apr 2019 12:11:20 -0400
+	Wed, 01 May 2019 08:06:41 -0700 (PDT)
+Date: Mon, 29 Apr 2019 12:13:31 -0400
 From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Yury Kotov <yury-kotov@yandex-team.ru>
-Message-ID: <20190429161120.GB13640@stefanha-x1.localdomain>
-References: <20190426102115.30002-1-yury-kotov@yandex-team.ru>
+To: Kevin Wolf <kwolf@redhat.com>
+Message-ID: <20190429161331.GC13640@stefanha-x1.localdomain>
+References: <20190429105741.31033-1-kwolf@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="0ntfKIWw70PvrIHh"
+	protocol="application/pgp-signature"; boundary="MnLPg7ZWsaic7Fhd"
 Content-Disposition: inline
-In-Reply-To: <20190426102115.30002-1-yury-kotov@yandex-team.ru>
+In-Reply-To: <20190429105741.31033-1-kwolf@redhat.com>
 User-Agent: Mutt/1.11.3 (2019-02-01)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::143
-Subject: Re: [Qemu-devel] [PATCH] trace: fix runstate tracing
+X-Received-From: 2607:f8b0:4864:20::d43
+Subject: Re: [Qemu-devel] [Qemu-block] [PATCH] qcow2: Fix qcow2_make_empty()
+ with external data file
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -80,41 +81,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
-	Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
-	qemu-devel@nongnu.org
+Cc: mreitz@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+	qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---0ntfKIWw70PvrIHh
+--MnLPg7ZWsaic7Fhd
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Fri, Apr 26, 2019 at 01:21:15PM +0300, Yury Kotov wrote:
-> Signed-off-by: Yury Kotov <yury-kotov@yandex-team.ru>
+On Mon, Apr 29, 2019 at 12:57:41PM +0200, Kevin Wolf wrote:
+> make_completely_empty() is an optimisated path for bdrv_make_empty()
+> where completely new metadata is created inside the image file instead
+> of going through all clusters and discarding them. For an external data
+> file, however, we actually need to do discard operations on the data
+> file; just overwriting the qcow2 file doesn't get rid of the data.
+>=20
+> The necessary slow path with an explicit discard operation already
+> exists for other cases. Use it for external data files, too.
+>=20
+> Cc: qemu-stable@nongnu.org
+> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 > ---
->  vl.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  block/qcow2.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
 
-Thanks, applied to my tracing tree:
-https://github.com/stefanha/qemu/commits/tracing
+Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 
-Stefan
-
---0ntfKIWw70PvrIHh
+--MnLPg7ZWsaic7Fhd
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEcBAEBAgAGBQJcxyIoAAoJEJykq7OBq3PIg3YIAMLlT+gFEqniDXEKkxbgx/TW
-6xHsK4UAjWJoArZNOU5O2OTeQnePER5H7OaxamBANxEcfUpNruQ/kYpB+42ckv8i
-f4zCIOkDawvR7fAAEERtHoyzjTvFrLD89MLFfPulPXJXTSe7Td/d2idwrnVWWXZZ
-qojQmNtftU3txc0+m5jZjHeLwnUeXSsEr9qAFziEHvd9Sr0x8/EOmM4sM1NUzSMu
-BucSVueEi91kkiHPGk0YXWr1Z1F3VCDhFUCemr+4jT2DpZ8coO4+IhlOMWBYgKfZ
-vwWI3Yb6OyZVaKukmAxW/avxa9pczL7V+enV2Lo/Gq6LWjXVrk53+ZSjW1YEBng=
-=V70O
+iQEcBAEBAgAGBQJcxyKrAAoJEJykq7OBq3PIU8cH/Rp4YpsMyrtD9O2KA5mvpEcB
+JutWX3bfCQxwPfT49VwhL2beKHLoc4sLlh+t4K6kyB4TIoK/GHGQFKN9/La6waTy
+yUg4YJ74O9Ir/Cny9Q+ht1HdqWJ/1FRPulNwJENwAQ4UbBp0vL3KrUe6VDX2aRgC
+vSGnqlKE+IGJz+qHOWkIP3csgsyFWc7i7GCT9z11mP7LAjoZf8NETz2D53RoT2/N
+/9gLXONIoAMpr+SJWUv/NUH60ZtDWYfDPwztYmziY5syHd0L4j3l29sT3aW+MFEH
+c8qMctinA3E+JqIr0cs8/BSZLxkgBdRDIxa5S57haNf3b7XZx4XXDJfzXWCtKC0=
+=pAiJ
 -----END PGP SIGNATURE-----
 
---0ntfKIWw70PvrIHh--
+--MnLPg7ZWsaic7Fhd--
 
