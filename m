@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09532E906
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:28:35 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60985 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7792EE8B5
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:22:54 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60901 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLA4w-0002Vl-3S
-	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:28:34 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34538)
+	id 1hL9zR-0005Mj-Kj
+	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:22:53 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34511)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hL9ex-000504-Az
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:46 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hL9ew-0004yH-8r
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hL9eu-0006op-35
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:42 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:40399)
+	(envelope-from <peter.maydell@linaro.org>) id 1hL9et-0006oJ-J0
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:41 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:40638)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hL9et-0006SV-CU
+	id 1hL9et-0006Sz-9G
 	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:39 -0400
-Received: by mail-wm1-x333.google.com with SMTP id h11so153997wmb.5
-	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 10:00:56 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id h11so154063wmb.5
+	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 10:00:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=4NCuKYdU/5uBNbCdep+D4E0qb4uFtn4WI3o3KSNsLEM=;
-	b=nduZnefLRFJp0hARyji3cfZKzuHDb9IzyE7NLUwOWvNQQtpawAwXXzSNIwRQ+/oKKF
-	0EYPpHT6A0zzhQu0TKp8cHfDVebMM8zkv/GzahSvUk0ULDCKYeNmtrvWu1s8oloNAns4
-	yVC5uLW2D0lxqRQV56mNImioP3aqfmCGlbg0RfkV/RtbipTLZTvA40y067WbHsMC3w22
-	cshPPAvWe7f6wkZRU+Hql1XltxHmn/yRQ0bR5r0u5vVjBSa5mcq1//sPfa9DsNovfI+n
-	C9rmlUiik8WIZ8ET0JpF9RwR0W9sTpZ6+ARuKHFeLqsXcpFhTDbXL9mdlAorwJeRXFmv
-	ut+Q==
+	bh=gOSZFXq2rEJgzYuKCOmuQOc1oajgGdbAZM9qUX5r8OI=;
+	b=IJ/EDS1EmZ3ZPBupqIIoYvleiQ7hgYvA7cd4FaNtqH0OWRUgdkKCw2eWb56SjiqkVI
+	2lOcRTCYkJ1k/bFDO1fZMhjnBtzdztB7hvlBD/7UlGlan/sJ/Ul09YpvzPiSzEPKpzCQ
+	oRlQWde5sx++hoC60sO3a8UJoq7SjpjonoejNnFaxVDHTFVOfa1PvbpZwRtXzQ04jBC3
+	T4VCzAgWQRKCWUKVKpKu2HVF2bQ94392WnP0C1jTLaSQMUqTs/EHwpsABXbWYaBnIlvy
+	5fYhrkmxKm2c7qn+/RatM6A/Tu1o9tv+q8UoF9y1sTbazNGKCkkXWrIDoYXd8cXOAutL
+	yr3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=4NCuKYdU/5uBNbCdep+D4E0qb4uFtn4WI3o3KSNsLEM=;
-	b=nnC7nh88f0EY4JbyV74IyY4kOHtUh2ISqt3Y8K9lzuAcKYfX3x/NAi5viTorPw396f
-	49fyYhSur0uypdDbqXHU7z4sWi8Z4Uyg2WEPPpfMAtOS6ccNr3/xOKf63XQq32cw3/Ud
-	ao8jwvMRHbGMobgNl03+gKepyPCxGwOZxIHnnmL/XLPY7EbDQCNivBRLSRQ5iiJUj6YI
-	OwrPAAqyb9yD7YZhCRPdLLxQHLbCK2ApaqFfOgfSMaUPmYr2QQjpiQkJB20mGoDfGTFb
-	V0xMbNFKpNw36gE3dbKSEqjdhhXbA4wmjT+7Tpn3Au6RfJ392aYv7bV2J7tuNRPAvgTq
-	b74g==
-X-Gm-Message-State: APjAAAUGmEa9Cct7BgZw6v37vQ2sM42RuvC3Onc0zNfzvGaroColb82x
-	WZZ6bIiYN4xxdv8ubpv8n7C8dOd4VZI=
-X-Google-Smtp-Source: APXvYqyu3vUuKmpgRT4AhKHRbaHRDy9KhQ5+vrqiydpqsVgLeKn2rh1k0oPzp56YTls+zl4YTUraYg==
-X-Received: by 2002:a7b:ce06:: with SMTP id m6mr52633wmc.62.1556557255429;
-	Mon, 29 Apr 2019 10:00:55 -0700 (PDT)
+	bh=gOSZFXq2rEJgzYuKCOmuQOc1oajgGdbAZM9qUX5r8OI=;
+	b=tT0ldFT/XBQadN95j61L6xHoV355SS4hDHqNyRe2qaQ0Bl8QqIbATAG96VwbnjPHEy
+	HG6IVZgi7e9lZvgozcVEQJI/65R0Vl6MAfgmhKDKj0UPDCr0iSgzfeKLNLCnrEBjxTwu
+	4s5o8rTSL0CIoGOqbtfBPoASlNkZYmvBv3lLAXDGr00knr/kyuT4mSzbt+ayguToicnR
+	dAR9JvAJZk4qkEjEywvjPo9W6zQNh6U+1wTmwCuP2/xDNwt04DGGls2DSFySXUnS7bGs
+	cvZxMScrGJKf0v4dqEjLNJRetDDQhdYwKKDrReRci9Zzvu8k/5FHDtWRcykietYkhtym
+	KeWw==
+X-Gm-Message-State: APjAAAW7cc/ME/BQ0H7LFCj1whh86PlXWgmhyN7ElTYF0KeVRSH/3Qdp
+	9zpSHh5oH92L8Mm1VEoSVBpXNnMTwQ4=
+X-Google-Smtp-Source: APXvYqzALKASsVWLxbqd6P/UjfN3Ck3OXAiwH5El1G7Xq6IYI6rWwpHl6i9O3e+PxlAsjTxCt8wHlg==
+X-Received: by 2002:a1c:ed12:: with SMTP id l18mr40998wmh.13.1556557256508;
+	Mon, 29 Apr 2019 10:00:56 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
-	by smtp.gmail.com with ESMTPSA id a13sm36896wmj.39.2019.04.29.10.00.54
+	by smtp.gmail.com with ESMTPSA id a13sm36896wmj.39.2019.04.29.10.00.55
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 29 Apr 2019 10:00:54 -0700 (PDT)
+	Mon, 29 Apr 2019 10:00:55 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 29 Apr 2019 18:00:06 +0100
-Message-Id: <20190429170030.11323-19-peter.maydell@linaro.org>
+Date: Mon, 29 Apr 2019 18:00:07 +0100
+Message-Id: <20190429170030.11323-20-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190429170030.11323-1-peter.maydell@linaro.org>
 References: <20190429170030.11323-1-peter.maydell@linaro.org>
@@ -65,9 +65,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::333
-Subject: [Qemu-devel] [PULL 18/42] target/arm: Handle floating point
- registers in exception return
+X-Received-From: 2a00:1450:4864:20::341
+Subject: [Qemu-devel] [PULL 19/42] target/arm: Move NS TBFLAG from bit 19 to
+ bit 6
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,200 +82,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Handle floating point registers in exception return.
-This corresponds to pseudocode functions ValidateExceptionReturn(),
-ExceptionReturn(), PopStack() and ConsumeExcStackFrame().
+Move the NS TBFLAG down from bit 19 to bit 6, which has not
+been used since commit c1e3781090b9d36c60 in 2015, when we
+started passing the entire MMU index in the TB flags rather
+than just a 'privilege level' bit.
+
+This rearrangement is not strictly necessary, but means that
+we can put M-profile-only bits next to each other rather
+than scattered across the flag word.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20190416125744.27770-16-peter.maydell@linaro.org
+Message-id: 20190416125744.27770-17-peter.maydell@linaro.org
 ---
- target/arm/helper.c | 142 +++++++++++++++++++++++++++++++++++++++++++-
- 1 file changed, 141 insertions(+), 1 deletion(-)
+ target/arm/cpu.h | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index c7b1a8d231d..14604f49a4c 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -8447,6 +8447,8 @@ static void do_v7m_exception_exit(ARMCPU *cpu)
-     bool rettobase = false;
-     bool exc_secure = false;
-     bool return_to_secure;
-+    bool ftype;
-+    bool restore_s16_s31;
- 
-     /* If we're not in Handler mode then jumps to magic exception-exit
-      * addresses don't have magic behaviour. However for the v8M
-@@ -8484,6 +8486,16 @@ static void do_v7m_exception_exit(ARMCPU *cpu)
-                       excret);
-     }
- 
-+    ftype = excret & R_V7M_EXCRET_FTYPE_MASK;
-+
-+    if (!arm_feature(env, ARM_FEATURE_VFP) && !ftype) {
-+        qemu_log_mask(LOG_GUEST_ERROR, "M profile: zero FTYPE in exception "
-+                      "exit PC value 0x%" PRIx32 " is UNPREDICTABLE "
-+                      "if FPU not present\n",
-+                      excret);
-+        ftype = true;
-+    }
-+
-     if (arm_feature(env, ARM_FEATURE_M_SECURITY)) {
-         /* EXC_RETURN.ES validation check (R_SMFL). We must do this before
-          * we pick which FAULTMASK to clear.
-@@ -8584,6 +8596,30 @@ static void do_v7m_exception_exit(ARMCPU *cpu)
-      */
-     write_v7m_control_spsel_for_secstate(env, return_to_sp_process, exc_secure);
- 
-+    /*
-+     * Clear scratch FP values left in caller saved registers; this
-+     * must happen before any kind of tail chaining.
-+     */
-+    if ((env->v7m.fpccr[M_REG_S] & R_V7M_FPCCR_CLRONRET_MASK) &&
-+        (env->v7m.control[M_REG_S] & R_V7M_CONTROL_FPCA_MASK)) {
-+        if (env->v7m.fpccr[M_REG_S] & R_V7M_FPCCR_LSPACT_MASK) {
-+            env->v7m.sfsr |= R_V7M_SFSR_LSERR_MASK;
-+            armv7m_nvic_set_pending(env->nvic, ARMV7M_EXCP_SECURE, false);
-+            qemu_log_mask(CPU_LOG_INT, "...taking SecureFault on existing "
-+                          "stackframe: error during lazy state deactivation\n");
-+            v7m_exception_taken(cpu, excret, true, false);
-+            return;
-+        } else {
-+            /* Clear s0..s15 and FPSCR */
-+            int i;
-+
-+            for (i = 0; i < 16; i += 2) {
-+                *aa32_vfp_dreg(env, i / 2) = 0;
-+            }
-+            vfp_set_fpscr(env, 0);
-+        }
-+    }
-+
-     if (sfault) {
-         env->v7m.sfsr |= R_V7M_SFSR_INVER_MASK;
-         armv7m_nvic_set_pending(env->nvic, ARMV7M_EXCP_SECURE, false);
-@@ -8745,8 +8781,105 @@ static void do_v7m_exception_exit(ARMCPU *cpu)
-             }
-         }
- 
-+        if (!ftype) {
-+            /* FP present and we need to handle it */
-+            if (!return_to_secure &&
-+                (env->v7m.fpccr[M_REG_S] & R_V7M_FPCCR_LSPACT_MASK)) {
-+                armv7m_nvic_set_pending(env->nvic, ARMV7M_EXCP_SECURE, false);
-+                env->v7m.sfsr |= R_V7M_SFSR_LSERR_MASK;
-+                qemu_log_mask(CPU_LOG_INT,
-+                              "...taking SecureFault on existing stackframe: "
-+                              "Secure LSPACT set but exception return is "
-+                              "not to secure state\n");
-+                v7m_exception_taken(cpu, excret, true, false);
-+                return;
-+            }
-+
-+            restore_s16_s31 = return_to_secure &&
-+                (env->v7m.fpccr[M_REG_S] & R_V7M_FPCCR_TS_MASK);
-+
-+            if (env->v7m.fpccr[return_to_secure] & R_V7M_FPCCR_LSPACT_MASK) {
-+                /* State in FPU is still valid, just clear LSPACT */
-+                env->v7m.fpccr[return_to_secure] &= ~R_V7M_FPCCR_LSPACT_MASK;
-+            } else {
-+                int i;
-+                uint32_t fpscr;
-+                bool cpacr_pass, nsacr_pass;
-+
-+                cpacr_pass = v7m_cpacr_pass(env, return_to_secure,
-+                                            return_to_priv);
-+                nsacr_pass = return_to_secure ||
-+                    extract32(env->v7m.nsacr, 10, 1);
-+
-+                if (!cpacr_pass) {
-+                    armv7m_nvic_set_pending(env->nvic, ARMV7M_EXCP_USAGE,
-+                                            return_to_secure);
-+                    env->v7m.cfsr[return_to_secure] |= R_V7M_CFSR_NOCP_MASK;
-+                    qemu_log_mask(CPU_LOG_INT,
-+                                  "...taking UsageFault on existing "
-+                                  "stackframe: CPACR.CP10 prevents unstacking "
-+                                  "FP regs\n");
-+                    v7m_exception_taken(cpu, excret, true, false);
-+                    return;
-+                } else if (!nsacr_pass) {
-+                    armv7m_nvic_set_pending(env->nvic, ARMV7M_EXCP_USAGE, true);
-+                    env->v7m.cfsr[M_REG_S] |= R_V7M_CFSR_INVPC_MASK;
-+                    qemu_log_mask(CPU_LOG_INT,
-+                                  "...taking Secure UsageFault on existing "
-+                                  "stackframe: NSACR.CP10 prevents unstacking "
-+                                  "FP regs\n");
-+                    v7m_exception_taken(cpu, excret, true, false);
-+                    return;
-+                }
-+
-+                for (i = 0; i < (restore_s16_s31 ? 32 : 16); i += 2) {
-+                    uint32_t slo, shi;
-+                    uint64_t dn;
-+                    uint32_t faddr = frameptr + 0x20 + 4 * i;
-+
-+                    if (i >= 16) {
-+                        faddr += 8; /* Skip the slot for the FPSCR */
-+                    }
-+
-+                    pop_ok = pop_ok &&
-+                        v7m_stack_read(cpu, &slo, faddr, mmu_idx) &&
-+                        v7m_stack_read(cpu, &shi, faddr + 4, mmu_idx);
-+
-+                    if (!pop_ok) {
-+                        break;
-+                    }
-+
-+                    dn = (uint64_t)shi << 32 | slo;
-+                    *aa32_vfp_dreg(env, i / 2) = dn;
-+                }
-+                pop_ok = pop_ok &&
-+                    v7m_stack_read(cpu, &fpscr, frameptr + 0x60, mmu_idx);
-+                if (pop_ok) {
-+                    vfp_set_fpscr(env, fpscr);
-+                }
-+                if (!pop_ok) {
-+                    /*
-+                     * These regs are 0 if security extension present;
-+                     * otherwise merely UNKNOWN. We zero always.
-+                     */
-+                    for (i = 0; i < (restore_s16_s31 ? 32 : 16); i += 2) {
-+                        *aa32_vfp_dreg(env, i / 2) = 0;
-+                    }
-+                    vfp_set_fpscr(env, 0);
-+                }
-+            }
-+        }
-+        env->v7m.control[M_REG_S] = FIELD_DP32(env->v7m.control[M_REG_S],
-+                                               V7M_CONTROL, FPCA, !ftype);
-+
-         /* Commit to consuming the stack frame */
-         frameptr += 0x20;
-+        if (!ftype) {
-+            frameptr += 0x48;
-+            if (restore_s16_s31) {
-+                frameptr += 0x40;
-+            }
-+        }
-         /* Undo stack alignment (the SPREALIGN bit indicates that the original
-          * pre-exception SP was not 8-aligned and we added a padding word to
-          * align it, so we undo this by ORing in the bit that increases it
-@@ -8759,7 +8892,14 @@ static void do_v7m_exception_exit(ARMCPU *cpu)
-         *frame_sp_p = frameptr;
-     }
-     /* This xpsr_write() will invalidate frame_sp_p as it may switch stack */
--    xpsr_write(env, xpsr, ~XPSR_SPREALIGN);
-+    xpsr_write(env, xpsr, ~(XPSR_SPREALIGN | XPSR_SFPA));
-+
-+    if (env->v7m.secure) {
-+        bool sfpa = xpsr & XPSR_SFPA;
-+
-+        env->v7m.control[M_REG_S] = FIELD_DP32(env->v7m.control[M_REG_S],
-+                                               V7M_CONTROL, SFPA, sfpa);
-+    }
- 
-     /* The restored xPSR exception field will be zero if we're
-      * resuming in Thread mode. If that doesn't match what the
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index eb989d773af..0ea448034b3 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -3138,6 +3138,12 @@ FIELD(TBFLAG_ANY, BE_DATA, 23, 1)
+ FIELD(TBFLAG_A32, THUMB, 0, 1)
+ FIELD(TBFLAG_A32, VECLEN, 1, 3)
+ FIELD(TBFLAG_A32, VECSTRIDE, 4, 2)
++/*
++ * Indicates whether cp register reads and writes by guest code should access
++ * the secure or nonsecure bank of banked registers; note that this is not
++ * the same thing as the current security state of the processor!
++ */
++FIELD(TBFLAG_A32, NS, 6, 1)
+ FIELD(TBFLAG_A32, VFPEN, 7, 1)
+ FIELD(TBFLAG_A32, CONDEXEC, 8, 8)
+ FIELD(TBFLAG_A32, SCTLR_B, 16, 1)
+@@ -3145,11 +3151,6 @@ FIELD(TBFLAG_A32, SCTLR_B, 16, 1)
+  * checks on the other bits at runtime
+  */
+ FIELD(TBFLAG_A32, XSCALE_CPAR, 17, 2)
+-/* Indicates whether cp register reads and writes by guest code should access
+- * the secure or nonsecure bank of banked registers; note that this is not
+- * the same thing as the current security state of the processor!
+- */
+-FIELD(TBFLAG_A32, NS, 19, 1)
+ /* For M profile only, Handler (ie not Thread) mode */
+ FIELD(TBFLAG_A32, HANDLER, 21, 1)
+ /* For M profile only, whether we should generate stack-limit checks */
 -- 
 2.20.1
 
