@@ -2,81 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DB3CFDA3E
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 02:40:25 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50071 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B2D11DA6D
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 04:16:32 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50810 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hKuLJ-0003ok-4d
-	for lists+qemu-devel@lfdr.de; Sun, 28 Apr 2019 20:40:25 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34123)
+	id 1hKvqJ-0007ck-FL
+	for lists+qemu-devel@lfdr.de; Sun, 28 Apr 2019 22:16:31 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45423)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hKuK0-0003Ec-Fa
-	for qemu-devel@nongnu.org; Sun, 28 Apr 2019 20:39:05 -0400
+	(envelope-from <programmingkidx@gmail.com>) id 1hKvpJ-0006zk-0W
+	for qemu-devel@nongnu.org; Sun, 28 Apr 2019 22:15:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hKuJz-0005oC-E2
-	for qemu-devel@nongnu.org; Sun, 28 Apr 2019 20:39:04 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35712)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hKuJw-0005mb-6v; Sun, 28 Apr 2019 20:39:00 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
-	[10.5.11.12])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 706B57EBA9;
-	Mon, 29 Apr 2019 00:38:59 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-204-32.brq.redhat.com
-	[10.40.204.32])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id A9D8918BBC;
-	Mon, 29 Apr 2019 00:38:57 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
-	qemu-devel@nongnu.org, qemu-block@nongnu.org
-References: <20190402153730.54145-1-vsementsov@virtuozzo.com>
-	<2292e073-b32e-a2db-59d5-755ddcf31417@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
-	mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
-	/PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
-	U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
-	mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
-	awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
-	AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
-	CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
-	B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
-	2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
-	AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
-	8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
-	4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
-	BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
-	xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
-	W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
-	DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
-	64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
-	ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
-	sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
-	alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
-	/ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
-	bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
-	R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <4b9a1a65-6107-ceec-8da8-acfe0d95a151@redhat.com>
-Date: Mon, 29 Apr 2019 02:38:56 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <2292e073-b32e-a2db-59d5-755ddcf31417@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature";
-	boundary="Qsj9sux6gNz1BcXq7mdyuUd9HGDfgRGNz"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.27]);
-	Mon, 29 Apr 2019 00:38:59 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PATCH v5 00/10] qcow2: encryption threads
+	(envelope-from <programmingkidx@gmail.com>) id 1hKvpD-0002yh-7Y
+	for qemu-devel@nongnu.org; Sun, 28 Apr 2019 22:15:25 -0400
+Received: from mail-io1-xd2f.google.com ([2607:f8b0:4864:20::d2f]:36006)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <programmingkidx@gmail.com>)
+	id 1hKvp8-0002xT-Jq
+	for qemu-devel@nongnu.org; Sun, 28 Apr 2019 22:15:20 -0400
+Received: by mail-io1-xd2f.google.com with SMTP id d19so7670973ioc.3
+	for <qemu-devel@nongnu.org>; Sun, 28 Apr 2019 19:15:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:content-transfer-encoding:mime-version:subject:message-id:date
+	:to; bh=KalMcbKxXJjEaHl1hOhkuxc8SYQKK5v0xpapbUI+UMw=;
+	b=UbEDkgi4F6HcsO5yt6CSqyL610vZBY00T+k5kvwsN+0F28tXDdtnWBn4OycsvL0+sM
+	KoUo6JytgaBHpd7wAIJWWin5ePeVqvNHhP5Z0T9qBo3MQ0ArJm66SxFOlrq3fc/WgjEp
+	28vR/FpU6npuIxQ9tZy89L2Ujpg34U8JqVynW1PSs+zpCPYAA7JdToN3zK9GrPx3yZ+Q
+	cDeSaeJ4191iSUFDjjbdHUOheHEOk9NdhbjEiJJFGrSYLCZVl1WlGzE/gRBXFQvmY9wq
+	0tgHtP+rPxufgUqSazfI2Y1FA9v5r1bHeY2Y+sHZ89q/SCb2RY7ZeTOAUa2NkhNJOh54
+	hlhw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:content-transfer-encoding:mime-version
+	:subject:message-id:date:to;
+	bh=KalMcbKxXJjEaHl1hOhkuxc8SYQKK5v0xpapbUI+UMw=;
+	b=tnSLYTVGqMxiYhskiZKXCtlGKGMa7gFFlNcaRlX7VxyJtwQUPH2SY7FRKGUzrvkqwM
+	KYbrQBMrDON3CvvWwmXlnbYPBIfrXfWw84m+7/PFRLBHm9akiEG5EmoWCS/mRcfYN9aJ
+	t4nGKe6fU228RNqPt1ZrXUqFcEMm4FC/RJyC1O5Mo5iXwoLial1qsL6bpORABGEiOp5l
+	Um1h0D0+Bdr8zJjx8OT0fOq63s7Is8hLKCJSLG7LNs9aBCgXHnepMBLRDrYWITAN+sug
+	OJXkt0UPgDLFiyU6Qb/eln3XdkDhlzn4764uFAUOOhbJ6yIHf2AP3Z6hMFezAgfaFsuK
+	is0A==
+X-Gm-Message-State: APjAAAUJVTs3kR2ROLECGcrzWowW+XcSdvRBvhZCjHYU41UUFkbKcu+H
+	bDB6k/AyB48o2I5Ml5+WHBc6wCCY
+X-Google-Smtp-Source: APXvYqzcm1RtLdiypxFv5ZtfsUtAyWR0nhU/mycQ15PwW81pc67rxgpgV/H4XqP/P54xhkrIo2dNGQ==
+X-Received: by 2002:a5e:d505:: with SMTP id e5mr12588947iom.99.1556504116688; 
+	Sun, 28 Apr 2019 19:15:16 -0700 (PDT)
+Received: from [192.168.0.2] (d14-69-20-184.try.wideopenwest.com.
+	[69.14.184.20]) by smtp.gmail.com with ESMTPSA id
+	e19sm9463643ioc.13.2019.04.28.19.15.15 for <qemu-devel@nongnu.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 28 Apr 2019 19:15:15 -0700 (PDT)
+From: Programmingkid <programmingkidx@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: quoted-printable
+Mime-Version: 1.0 (Mac OS X Mail 10.3 \(3273\))
+Message-Id: <47019F45-9440-44BF-BFEF-0A35F7F230E3@gmail.com>
+Date: Sun, 28 Apr 2019 22:15:13 -0400
+To: QEMU Developers <qemu-devel@nongnu.org>
+X-Mailer: Apple Mail (2.3273)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::d2f
+Subject: [Qemu-devel] Apple Hypervisor - unimplemented handler
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -88,50 +76,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, pbonzini@redhat.com, berto@igalia.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---Qsj9sux6gNz1BcXq7mdyuUd9HGDfgRGNz
-From: Max Reitz <mreitz@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
-Cc: kwolf@redhat.com, berto@igalia.com, pbonzini@redhat.com, den@openvz.org,
- berrange@redhat.com
-Message-ID: <4b9a1a65-6107-ceec-8da8-acfe0d95a151@redhat.com>
-Subject: Re: [PATCH v5 00/10] qcow2: encryption threads
-References: <20190402153730.54145-1-vsementsov@virtuozzo.com>
- <2292e073-b32e-a2db-59d5-755ddcf31417@redhat.com>
-In-Reply-To: <2292e073-b32e-a2db-59d5-755ddcf31417@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+When running Windows 7 using "-M accel=3Dhvf --cpu host", Windows 7 =
+would crash. What was printed to the console was this:
 
-On 29.04.19 02:37, Max Reitz wrote:
-> On 02.04.19 17:37, Vladimir Sementsov-Ogievskiy wrote:
->> v5: rebase on master, some conflicts resolved due to data-file feature=
+Unimplemented handler (fffff8000c0c2050) for 0 (f c3)=20
 
+This message is from target/i386/hvf/x86_emu.c. The c3 seems to indicate =
+this is a problem with the MOVNTI or RETN instruction.
 
-(Forgot to note that I'll look at the more interesting patches in this
-series later today.  I just got so hung up on the benchmark...)
+This is the webpage I used for figuring out this: =
+http://ref.x86asm.net/coder32.html. A search of the page shows another =
+instruction with the c3 opcode called RETN. So I'm not 100% sure which =
+instruction is the problem instruction.
 
+In the file target/i386/hvf/x86_decode.c, this line of code makes me =
+think it is RETN:
 
---Qsj9sux6gNz1BcXq7mdyuUd9HGDfgRGNz
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+{0xc3, X86_DECODE_RET_NEAR, 0, false, NULL,
+     NULL, NULL, NULL, NULL, RFLAGS_MASK_NONE}
 
------BEGIN PGP SIGNATURE-----
+Any help with this issue would be appreciated.
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAlzGR6AACgkQ9AfbAGHV
-z0Dw4gf/fgdDNz/mahIMu6tMOu+Ns7bORjmpGBu9q4vbLolurLdBBi0ZwE+QaCkm
-R0aoBCwygppK5yd5EOTdQmzrWbjlZXWzfWMBgNHazJl0d2KMGw4VoBKadcpOZ54x
-3VH042vpWem0c0Tw5h65hIdi2h0bw+GadadidclTKAALs/XvjPQVBcglfWXg97Bs
-Sm7ZTLFphT/qNBm2d524YGhoVkMrQP7nh92SQzwHG52jploUpbjjay4huOenEXxs
-eK7NbYMexLH+kg+iyTQvr6sIX/XvpnXHb5sDScO60AAJBT1+oItEpCxfmZ1hskH7
-2p9GwShKH80Z2/1ApJ4pDJEK81tTWQ==
-=mTPv
------END PGP SIGNATURE-----
-
---Qsj9sux6gNz1BcXq7mdyuUd9HGDfgRGNz--
+Thank you.=
 
