@@ -2,46 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98BC2E5D2
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 17:09:58 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58944 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24E49DCAF
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 09:14:13 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53268 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hL7un-0006TJ-NR
-	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 11:09:57 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38041)
+	id 1hL0UO-0002XD-2e
+	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 03:14:12 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41909)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <yangchuanlong@huawei.com>) id 1hL094-0007eR-8q
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 02:52:11 -0400
+	(envelope-from <kraxel@redhat.com>) id 1hL0T5-00029x-M5
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 03:12:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <yangchuanlong@huawei.com>) id 1hL093-0005AQ-9z
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 02:52:10 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:37822 helo=huawei.com)
+	(envelope-from <kraxel@redhat.com>) id 1hL0T4-000068-PM
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 03:12:51 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45648)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <yangchuanlong@huawei.com>)
-	id 1hL092-00056G-W7
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 02:52:09 -0400
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.59])
-	by Forcepoint Email with ESMTP id E8C37CE312D4E3B86315
-	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 14:51:57 +0800 (CST)
-Received: from huawei.com (10.143.28.114) by DGGEMS402-HUB.china.huawei.com
-	(10.3.19.202) with Microsoft SMTP Server id 14.3.439.0; Mon, 29 Apr 2019
-	14:51:57 +0800
-From: Yang Chuanlong <yangchuanlong@huawei.com>
-To: <qemu-devel@nongnu.org>
-Date: Mon, 29 Apr 2019 14:48:30 +0800
-Message-ID: <20190429064830.12213-1-yangchuanlong@huawei.com>
-X-Mailer: git-send-email 2.21.0
+	(Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hL0T3-0008UJ-Vm
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 03:12:50 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id E18BF308425C;
+	Mon, 29 Apr 2019 07:12:46 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-45.ams2.redhat.com
+	[10.36.116.45])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 1212845B5;
+	Mon, 29 Apr 2019 07:12:44 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+	id 41EA011AAA; Mon, 29 Apr 2019 09:12:43 +0200 (CEST)
+Date: Mon, 29 Apr 2019 09:12:43 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@gmail.com>
+Message-ID: <20190429071243.icqw3qbzcxbcz7ph@sirius.home.kraxel.org>
+References: <20190423132004.13725-1-marcandre.lureau@redhat.com>
+	<20190423132004.13725-6-marcandre.lureau@redhat.com>
+	<20190426072446.r7b7wsm4qghd7pzr@sirius.home.kraxel.org>
+	<CAJ+F1CKbgb_TkoS_a10qGw7kkTO+EkC4uhreCkOu=k2ut5CAig@mail.gmail.com>
+	<20190426120558.vh66gugqtvcc6tm5@sirius.home.kraxel.org>
+	<CAJ+F1CLE-iwZu4oX69P3r0v_94L+gJEhZH0-U0iYag=oYNN4pg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.143.28.114]
-X-CFilter-Loop: Reflected
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAJ+F1CLE-iwZu4oX69P3r0v_94L+gJEhZH0-U0iYag=oYNN4pg@mail.gmail.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.40]);
+	Mon, 29 Apr 2019 07:12:47 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 45.249.212.32
-X-Mailman-Approved-At: Mon, 29 Apr 2019 11:06:13 -0400
-Subject: [Qemu-devel] [PATCH v1] target/arm/arm-powerctl: mask the cpuid
- with affinity bits when get cpu
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v6 05/11] vhost-user: add
+ vhost_user_gpu_set_socket()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -53,39 +66,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently, the cpuid passed from the device tree may still contain
-non-affinity fields, which will cause arm_set_cpu_on failure.
-Therefore, we mask the cpuid with affinity fields here to
-improve qemu compatibility.
+  Hi,
 
-Signed-off-by: Yang Chuanlong <yangchuanlong@huawei.com>
----
- target/arm/arm-powerctl.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+> > What questions for example?
+> 
+> This opens up different kind of possible replies, and error handling.
+> 
+> With current proposal and needs, the reply (or absence of reply) is
+> entirely driven by the request.
+> 
+> With your proposal, should all request have a reply?
 
-diff --git a/target/arm/arm-powerctl.c b/target/arm/arm-powerctl.c
-index f77a950db6..ef9fec0b4d 100644
---- a/target/arm/arm-powerctl.c
-+++ b/target/arm/arm-powerctl.c
-@@ -31,7 +31,13 @@ CPUState *arm_get_cpu_by_id(uint64_t id)
- {
-     CPUState *cpu;
-=20
--    DPRINTF("cpu %" PRId64 "\n", id);
-+#ifdef TARGET_AARCH64
-+    id &=3D ARM64_AFFINITY_MASK;
-+#else
-+    id &=3D ARM32_AFFINITY_MASK;
-+#endif
-+
-+    DPRINTF("cpu %" PRId64 " after mask affinity\n", id);
-=20
-     CPU_FOREACH(cpu) {
-         ARMCPU *armcpu =3D ARM_CPU(cpu);
---=20
-2.21.0
+Yes.
+
+> which makes a lot
+> more code synchronous,
+
+Why?  You don't have to wait for the reply before sending the next
+request.
+
+Adding a request id to the messages might be useful, so it is possible
+to wait for a reply to a specific message without having to keeping
+track of all in-flight messages.
+
+> and complicates both sides unnecessarily.
+
+Having headers in the reply allows it to process them in generic code.
+There is a size header for the reply, so you can parse the stream
+without knowing what replay to expect.  You can use the status field to
+indicate the payload, simliar to virtio-gpu which has response code
+OK_NODATA, some OK_$whatpayload and some ERR_$failure codes.
+
+You can dispatch based on the response/status code and run *fully*
+asynchronous without too much trouble.
+
+> > > Can we leave that for future protocol extensions negotiated with
+> > > GET/SET_PROTOCOL_FEATURES ?
+> >
+> > I don't think negotiating such a basic protocol change is a good idea.
+> 
+> Well, then I would rather focus on improving protocol negociation,
+> rather than adding unnecessary protocol changes.
+> 
+> Given that GET/SET_PROTOCOL_FEATURES is the first messages being sent,
+> why couldn't it have flags indicating new protocol revision?
+
+A properly structed reply allows a different approach in reply
+processing (see above).  But that only works if it is in the protocol
+right from the start.  As add-on feature it can't provide the benefits
+because the reply parser must be able to handle both protocol variants.
+
+cheers,
+  Gerd
 
 
