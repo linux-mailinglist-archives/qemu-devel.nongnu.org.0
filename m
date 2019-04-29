@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C88CCE8C7
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:26:35 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60962 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7582E8AB
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:19:55 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60843 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLA30-0000Pl-V7
-	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:26:35 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34377)
+	id 1hL9wY-0002kP-VW
+	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:19:55 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34428)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hL9er-0004rg-Hk
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:38 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hL9et-0004uW-A3
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hL9eo-0006kd-Gr
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:36 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:51172)
+	(envelope-from <peter.maydell@linaro.org>) id 1hL9er-0006mW-HO
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:39 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:52919)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hL9eo-0006NL-1h
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:34 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id p21so186402wmc.0
-	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 10:00:47 -0700 (PDT)
+	id 1hL9ep-0006Oe-IN
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:36 -0400
+Received: by mail-wm1-x334.google.com with SMTP id j13so174106wmh.2
+	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 10:00:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=aRW2k9Bx9SmwGykwzikVBcj0TPSJbJZ0vG2+ZFO8UMs=;
-	b=wLLvNVonfMOdE5NK01+FeJefR2LEdhlmaHSblf/41ORtcHH2wIU7LiI19j1r15NOc+
-	Vckz6RbsacvtlHEjY0ZtRqktYWSkZOxOHcfjpEYj0i+G4U0XRcGxrt7GKUhB/r2mnWg2
-	FsxlzWqwq2C9qWTjq1Ku1vG+IvmIB6ihEZX+RLv/IgGnRmrdTusoxQhz+ezNnCsDCs5q
-	C4g2wsghmYNLD+R3K1+NfByhp3yIf65ERfrLwerU44yNv1HYwvdFQDmh6dWMHmrKgQ2/
-	bErIEYe7amlyDkBv0DP2jWn1cYyvmDMTvluflcRMp+rFLuSGzDGvlr0X2krVx/9HnJfk
-	HL+A==
+	bh=RtlQ82TUzUcT8MTo+xmZT8H33g6MULgoaobSGr/GhBo=;
+	b=R3Fg1kr+/bJywVAVh9UhQ8ebU3OSEpENcab8BviRt55TtFIDzvOwqo3x08XJ67D9vV
+	AVjWnUvLu34OmfrKgANyEQgOTrDaa/JA0y/JdHPMS2NKX+XCdK1YBi+BXtbcdYNkcNR2
+	7/alVBz+u/8jiL/dGOXGdR5o9xBElnvWP5fXtV0HlWc5viwck4Uk7ubUgyNzlxx3PDFB
+	lbMlChWHU0YjEd94qOlrUor4kskfbmSJvXpPYUcVTdIqpHGPuDBL0yZb1KnGVdGhPG7S
+	S9cgtb31QXdtrMr2GKlzvzA8gWUdipt5M3QrgXL1v0ztnRBAmTkoK265hrmcPRJO3vhP
+	dWWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=aRW2k9Bx9SmwGykwzikVBcj0TPSJbJZ0vG2+ZFO8UMs=;
-	b=qoOHGtrdMMWOFpvQ8ZErVzeC5rVwyf3SLtCFRPdipT1Rg9QWPXcpI165qMR6oZVZ0D
-	HR8Kro1lBiSbvuhZeLBzrwTugLZvbiI4DWD21jliUswutBpipNAw0bLVCOoT3nw1NsxK
-	cHEiEB5EIOntRCvkB5hrRkuDtlsg1PNS5gYuMlA1BsImrMfMk0yLpuCCd+sHVN5sTlTS
-	EfU4Xe8ld+EaG227zTZMswfweMf+RGoawTrQJ94QxTE2uli/DZRGqpCf+j/Q3uNO2N0F
-	WCaEjj0W2qhEjLcykFD5LhquPl7ffLkzzv4lxeoE0j/jXdcMsUBZxP3aOMnb50+6Ezoh
-	WGcA==
-X-Gm-Message-State: APjAAAXPKpAWaJaMRWGUkiE1iIiEmcamc1ey9DRTzhBEiETaKFQbEh1e
-	zSsCf1UZos5Frz9HCveGzvmAxokX8GQ=
-X-Google-Smtp-Source: APXvYqyT2bc8/CokJXAb3SzQ8KNXk8rd1XS7VRaLkY7fyfQ3Zbtgq+wBVlDxG09t0TdTxsT+E/NBIQ==
-X-Received: by 2002:a1c:dc84:: with SMTP id t126mr15391wmg.143.1556557246599; 
-	Mon, 29 Apr 2019 10:00:46 -0700 (PDT)
+	bh=RtlQ82TUzUcT8MTo+xmZT8H33g6MULgoaobSGr/GhBo=;
+	b=IgEiLrwGslaelWSeavytNEJ4wMzOvDYHi06EBtXtglQ1zWItB2CVk8esP2Qcn3zxos
+	e6nsGeF9HAO0xUodyQdzxsxubrALXGBAFaA5aCl6jJhZr3VwzFdyXzOD22tdBIAMUds+
+	p6E+oyViFExl3Mw1F8vWoTnOIGRIB49rBlEIB0uX15a/E0Wm/BJHW+N2WPhWzMssw6zo
+	LYS2p+4MjuLC5y2AxXAMW400qB58wK9X9Nq2ZY0ifPqPU+yjb3xCf/dffbmcT06BiMXC
+	JWUBCxo0TsyzYsybGSupJHRGf4jD5hoUm4TbVd6ZMG54RRnR7tCYwt5NeqHiDF89QI1u
+	AyZQ==
+X-Gm-Message-State: APjAAAWRlA1l2SqzNIkWuL2mnUiqeSD4HP4raCovS2qL2cpHAcHHvdbN
+	AtH2wrsvnvW0MZmO9A1YK7AlKkO55rE=
+X-Google-Smtp-Source: APXvYqxxTFAkopmCTUUoFcydbxxlgbQUF7+iwJlCT9rIUJDq2bFr8V65T1iwvj4fKr+2fITLga0llg==
+X-Received: by 2002:a1c:7008:: with SMTP id l8mr29807wmc.49.1556557247875;
+	Mon, 29 Apr 2019 10:00:47 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
-	by smtp.gmail.com with ESMTPSA id a13sm36896wmj.39.2019.04.29.10.00.45
+	by smtp.gmail.com with ESMTPSA id a13sm36896wmj.39.2019.04.29.10.00.46
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 29 Apr 2019 10:00:45 -0700 (PDT)
+	Mon, 29 Apr 2019 10:00:46 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 29 Apr 2019 17:59:59 +0100
-Message-Id: <20190429170030.11323-12-peter.maydell@linaro.org>
+Date: Mon, 29 Apr 2019 18:00:00 +0100
+Message-Id: <20190429170030.11323-13-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190429170030.11323-1-peter.maydell@linaro.org>
 References: <20190429170030.11323-1-peter.maydell@linaro.org>
@@ -65,9 +65,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::32b
-Subject: [Qemu-devel] [PULL 11/42] target/arm: Handle SFPA and FPCA bits in
- reads and writes of CONTROL
+X-Received-From: 2a00:1450:4864:20::334
+Subject: [Qemu-devel] [PULL 12/42] target/arm/helper: don't return early for
+ STKOF faults during stacking
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,127 +82,77 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The M-profile CONTROL register has two bits -- SFPA and FPCA --
-which relate to floating-point support, and should be RES0 otherwise.
-Handle them correctly in the MSR/MRS register access code.
-Neither is banked between security states, so they are stored
-in v7m.control[M_REG_S] regardless of current security state.
+Currently the code in v7m_push_stack() which detects a violation
+of the v8M stack limit simply returns early if it does so. This
+is OK for the current integer-only code, but won't work for the
+floating point handling we're about to add. We need to continue
+executing the rest of the function so that we check for other
+exceptions like not having permission to use the FPU and so
+that we correctly set the FPCCR state if we are doing lazy
+stacking. Refactor to avoid the early return.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20190416125744.27770-9-peter.maydell@linaro.org
+Message-id: 20190416125744.27770-10-peter.maydell@linaro.org
 ---
- target/arm/helper.c | 57 ++++++++++++++++++++++++++++++++++++++-------
- 1 file changed, 49 insertions(+), 8 deletions(-)
+ target/arm/helper.c | 23 ++++++++++++++++++-----
+ 1 file changed, 18 insertions(+), 5 deletions(-)
 
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 45a9d92e505..e801744673f 100644
+index e801744673f..142d301b651 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -12027,7 +12027,14 @@ uint32_t HELPER(v7m_mrs)(CPUARMState *env, uint32_t reg)
-         return xpsr_read(env) & mask;
-         break;
-     case 20: /* CONTROL */
--        return env->v7m.control[env->v7m.secure];
-+    {
-+        uint32_t value = env->v7m.control[env->v7m.secure];
-+        if (!env->v7m.secure) {
-+            /* SFPA is RAZ/WI from NS; FPCA is stored in the M_REG_S bank */
-+            value |= env->v7m.control[M_REG_S] & R_V7M_CONTROL_FPCA_MASK;
-+        }
-+        return value;
-+    }
-     case 0x94: /* CONTROL_NS */
-         /* We have to handle this here because unprivileged Secure code
-          * can read the NS CONTROL register.
-@@ -12035,7 +12042,8 @@ uint32_t HELPER(v7m_mrs)(CPUARMState *env, uint32_t reg)
-         if (!env->v7m.secure) {
-             return 0;
-         }
--        return env->v7m.control[M_REG_NS];
-+        return env->v7m.control[M_REG_NS] |
-+            (env->v7m.control[M_REG_S] & R_V7M_CONTROL_FPCA_MASK);
-     }
- 
-     if (el == 0) {
-@@ -12141,9 +12149,13 @@ void HELPER(v7m_msr)(CPUARMState *env, uint32_t maskreg, uint32_t val)
+@@ -8182,7 +8182,7 @@ static bool v7m_push_stack(ARMCPU *cpu)
+      * should ignore further stack faults trying to process
+      * that derived exception.)
       */
-     uint32_t mask = extract32(maskreg, 8, 4);
-     uint32_t reg = extract32(maskreg, 0, 8);
-+    int cur_el = arm_current_el(env);
- 
--    if (arm_current_el(env) == 0 && reg > 7) {
--        /* only xPSR sub-fields may be written by unprivileged */
-+    if (cur_el == 0 && reg > 7 && reg != 20) {
-+        /*
-+         * only xPSR sub-fields and CONTROL.SFPA may be written by
-+         * unprivileged code
-+         */
-         return;
+-    bool stacked_ok;
++    bool stacked_ok = true, limitviol = false;
+     CPUARMState *env = &cpu->env;
+     uint32_t xpsr = xpsr_read(env);
+     uint32_t frameptr = env->regs[13];
+@@ -8213,7 +8213,14 @@ static bool v7m_push_stack(ARMCPU *cpu)
+             armv7m_nvic_set_pending(env->nvic, ARMV7M_EXCP_USAGE,
+                                     env->v7m.secure);
+             env->regs[13] = limit;
+-            return true;
++            /*
++             * We won't try to perform any further memory accesses but
++             * we must continue through the following code to check for
++             * permission faults during FPU state preservation, and we
++             * must update FPCCR if lazy stacking is enabled.
++             */
++            limitviol = true;
++            stacked_ok = false;
+         }
      }
  
-@@ -12202,6 +12214,15 @@ void HELPER(v7m_msr)(CPUARMState *env, uint32_t maskreg, uint32_t val)
-                 env->v7m.control[M_REG_NS] &= ~R_V7M_CONTROL_NPRIV_MASK;
-                 env->v7m.control[M_REG_NS] |= val & R_V7M_CONTROL_NPRIV_MASK;
-             }
-+            /*
-+             * SFPA is RAZ/WI from NS. FPCA is RO if NSACR.CP10 == 0,
-+             * RES0 if the FPU is not present, and is stored in the S bank
-+             */
-+            if (arm_feature(env, ARM_FEATURE_VFP) &&
-+                extract32(env->v7m.nsacr, 10, 1)) {
-+                env->v7m.control[M_REG_S] &= ~R_V7M_CONTROL_FPCA_MASK;
-+                env->v7m.control[M_REG_S] |= val & R_V7M_CONTROL_FPCA_MASK;
-+            }
-             return;
-         case 0x98: /* SP_NS */
-         {
-@@ -12304,21 +12325,41 @@ void HELPER(v7m_msr)(CPUARMState *env, uint32_t maskreg, uint32_t val)
-         env->v7m.faultmask[env->v7m.secure] = val & 1;
-         break;
-     case 20: /* CONTROL */
--        /* Writing to the SPSEL bit only has an effect if we are in
-+        /*
-+         * Writing to the SPSEL bit only has an effect if we are in
-          * thread mode; other bits can be updated by any privileged code.
-          * write_v7m_control_spsel() deals with updating the SPSEL bit in
-          * env->v7m.control, so we only need update the others.
-          * For v7M, we must just ignore explicit writes to SPSEL in handler
-          * mode; for v8M the write is permitted but will have no effect.
-+         * All these bits are writes-ignored from non-privileged code,
-+         * except for SFPA.
-          */
--        if (arm_feature(env, ARM_FEATURE_V8) ||
--            !arm_v7m_is_handler_mode(env)) {
-+        if (cur_el > 0 && (arm_feature(env, ARM_FEATURE_V8) ||
-+                           !arm_v7m_is_handler_mode(env))) {
-             write_v7m_control_spsel(env, (val & R_V7M_CONTROL_SPSEL_MASK) != 0);
-         }
--        if (arm_feature(env, ARM_FEATURE_M_MAIN)) {
-+        if (cur_el > 0 && arm_feature(env, ARM_FEATURE_M_MAIN)) {
-             env->v7m.control[env->v7m.secure] &= ~R_V7M_CONTROL_NPRIV_MASK;
-             env->v7m.control[env->v7m.secure] |= val & R_V7M_CONTROL_NPRIV_MASK;
-         }
-+        if (arm_feature(env, ARM_FEATURE_VFP)) {
-+            /*
-+             * SFPA is RAZ/WI from NS or if no FPU.
-+             * FPCA is RO if NSACR.CP10 == 0, RES0 if the FPU is not present.
-+             * Both are stored in the S bank.
-+             */
-+            if (env->v7m.secure) {
-+                env->v7m.control[M_REG_S] &= ~R_V7M_CONTROL_SFPA_MASK;
-+                env->v7m.control[M_REG_S] |= val & R_V7M_CONTROL_SFPA_MASK;
-+            }
-+            if (cur_el > 0 &&
-+                (env->v7m.secure || !arm_feature(env, ARM_FEATURE_M_SECURITY) ||
-+                 extract32(env->v7m.nsacr, 10, 1))) {
-+                env->v7m.control[M_REG_S] &= ~R_V7M_CONTROL_FPCA_MASK;
-+                env->v7m.control[M_REG_S] |= val & R_V7M_CONTROL_FPCA_MASK;
-+            }
-+        }
-         break;
-     default:
-     bad_reg:
+@@ -8222,7 +8229,7 @@ static bool v7m_push_stack(ARMCPU *cpu)
+      * (which may be taken in preference to the one we started with
+      * if it has higher priority).
+      */
+-    stacked_ok =
++    stacked_ok = stacked_ok &&
+         v7m_stack_write(cpu, frameptr, env->regs[0], mmu_idx, false) &&
+         v7m_stack_write(cpu, frameptr + 4, env->regs[1], mmu_idx, false) &&
+         v7m_stack_write(cpu, frameptr + 8, env->regs[2], mmu_idx, false) &&
+@@ -8232,8 +8239,14 @@ static bool v7m_push_stack(ARMCPU *cpu)
+         v7m_stack_write(cpu, frameptr + 24, env->regs[15], mmu_idx, false) &&
+         v7m_stack_write(cpu, frameptr + 28, xpsr, mmu_idx, false);
+ 
+-    /* Update SP regardless of whether any of the stack accesses failed. */
+-    env->regs[13] = frameptr;
++    /*
++     * If we broke a stack limit then SP was already updated earlier;
++     * otherwise we update SP regardless of whether any of the stack
++     * accesses failed or we took some other kind of fault.
++     */
++    if (!limitviol) {
++        env->regs[13] = frameptr;
++    }
+ 
+     return !stacked_ok;
+ }
 -- 
 2.20.1
 
