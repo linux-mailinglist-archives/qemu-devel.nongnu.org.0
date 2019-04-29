@@ -2,95 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35EA2D9F2
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 01:36:00 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49627 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31FC2DA45
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 02:52:50 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50195 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hKtKs-0004VS-1r
-	for lists+qemu-devel@lfdr.de; Sun, 28 Apr 2019 19:35:54 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55084)
+	id 1hKuXJ-0001Qc-Ci
+	for lists+qemu-devel@lfdr.de; Sun, 28 Apr 2019 20:52:49 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33681)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <stefanb@linux.ibm.com>) id 1hKtJr-00047G-In
-	for qemu-devel@nongnu.org; Sun, 28 Apr 2019 19:34:52 -0400
+	(envelope-from <driver1998@foxmail.com>) id 1hKuIi-0007js-BJ
+	for qemu-devel@nongnu.org; Sun, 28 Apr 2019 20:37:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <stefanb@linux.ibm.com>) id 1hKtJn-0002PS-OY
-	for qemu-devel@nongnu.org; Sun, 28 Apr 2019 19:34:51 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:49252)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <stefanb@linux.ibm.com>)
-	id 1hKtJm-0002OG-54
-	for qemu-devel@nongnu.org; Sun, 28 Apr 2019 19:34:47 -0400
-Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
-	x3SNYK8R048954
-	for <qemu-devel@nongnu.org>; Sun, 28 Apr 2019 19:34:40 -0400
-Received: from e32.co.us.ibm.com (e32.co.us.ibm.com [32.97.110.150])
-	by mx0a-001b2d01.pphosted.com with ESMTP id 2s5efbvgvt-1
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <qemu-devel@nongnu.org>; Sun, 28 Apr 2019 19:34:40 -0400
-Received: from localhost
-	by e32.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
-	Violators will be prosecuted
-	for <qemu-devel@nongnu.org> from <stefanb@linux.ibm.com>;
-	Mon, 29 Apr 2019 00:34:40 +0100
-Received: from b03cxnp08027.gho.boulder.ibm.com (9.17.130.19)
-	by e32.co.us.ibm.com (192.168.1.132) with IBM ESMTP SMTP Gateway:
-	Authorized Use Only! Violators will be prosecuted; 
-	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-	Mon, 29 Apr 2019 00:34:37 +0100
-Received: from b03ledav002.gho.boulder.ibm.com
-	(b03ledav002.gho.boulder.ibm.com [9.17.130.233])
-	by b03cxnp08027.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with
-	ESMTP id x3SNYaZn63438910
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK); Sun, 28 Apr 2019 23:34:37 GMT
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id DD85513604F;
-	Sun, 28 Apr 2019 23:34:36 +0000 (GMT)
-Received: from b03ledav002.gho.boulder.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 70ED0136055;
-	Sun, 28 Apr 2019 23:34:36 +0000 (GMT)
-Received: from sbct-3.pok.ibm.com (unknown [9.47.158.153])
-	by b03ledav002.gho.boulder.ibm.com (Postfix) with ESMTP;
-	Sun, 28 Apr 2019 23:34:36 +0000 (GMT)
-To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
-	=?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-References: <20190427131857.11600-1-philmd@redhat.com>
-	<CAMxuvayZ-woUZPxnav8EXSVGGADxeJjhDs1bgzPAzNLMGFgTsA@mail.gmail.com>
-From: Stefan Berger <stefanb@linux.ibm.com>
-Date: Sun, 28 Apr 2019 19:34:35 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.3.1
-MIME-Version: 1.0
-In-Reply-To: <CAMxuvayZ-woUZPxnav8EXSVGGADxeJjhDs1bgzPAzNLMGFgTsA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-MW
-X-TM-AS-GCONF: 00
-x-cbid: 19042823-0004-0000-0000-0000150510B6
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00011013; HX=3.00000242; KW=3.00000007;
-	PH=3.00000004; SC=3.00000285; SDB=6.01195805; UDB=6.00627064;
-	IPR=6.00976654; 
-	MB=3.00026638; MTD=3.00000008; XFM=3.00000015; UTC=2019-04-28 23:34:39
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19042823-0005-0000-0000-00008B7083D6
-Message-Id: <173af15e-881e-89a0-77c5-a937abc682cb@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
-	definitions=2019-04-28_15:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
-	priorityscore=1501
-	malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
-	clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
-	mlxlogscore=967 adultscore=0 classifier=spam adjust=0 reason=mlx
-	scancount=1 engine=8.0.1-1810050000 definitions=main-1904280172
-Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by
-	mx0a-001b2d01.pphosted.com id x3SNYK8R048954
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.156.1
-Subject: Re: [Qemu-devel] [PATCH] hw/tpm: Only build tpm_ppi.o if any of
- TPM_TIS/TPM_CRB is built
+	(envelope-from <driver1998@foxmail.com>) id 1hKuD7-0001yY-HK
+	for qemu-devel@nongnu.org; Sun, 28 Apr 2019 20:31:59 -0400
+Received: from smtpbgbr2.qq.com ([54.207.22.56]:50330)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <driver1998@foxmail.com>)
+	id 1hKuD4-0001j8-8I
+	for qemu-devel@nongnu.org; Sun, 28 Apr 2019 20:31:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+	s=s201512; t=1556497901;
+	bh=6oRnU2BcdGDtPE9iy7KsdHPQRg/PEb0sJ/jEVMvHFo0=;
+	h=From:To:Subject:Date:Message-Id;
+	b=aZIPijFX0X/7CgEsEL90yjccURgwOM/+A1pKpFOr9q319um6UeNaR2VG4TdbWPxw+
+	dYERMorMMhBsKk+uElURgIbYk5NAdtZC/DuGSxeI4riCv7uVMtE0dEgords5UTBRwp
+	4rGvJPYhaXMttx3hLVOPr04myk0QH+mGYaXAFeME=
+X-QQ-mid: esmtp6t1556497899t8yxfv82s
+Received: from localhost (unknown [183.63.119.27])
+	by esmtp4.qq.com (ESMTP) with 
+	id ; Mon, 29 Apr 2019 08:31:39 +0800 (CST)
+X-QQ-SSF: B100000000000030F7F00F00000000O
+X-QQ-FEAT: WzbxStTePJ13/a+InIYkATG89/rAYwUtroxFcvvVFG3Fyfhd+dJNlSIBtHQV4
+	bq/AIZaiNF8g0CUXwhq1Cxg2SAklzBRnAfmoe6lXpa7DhcBpHFZ2G6dez5WkjpwTeo2PBBd
+	2Son0pXglRkFQa1NVqIKwXL81JQ6M7La0leU7zKxRVaTmnZQMdauJehF0O0yHGXNP1IC43U
+	qMo71gvSkKCjzxE0MHwtmtsJSAkvtkg3EGKs2TxvZOGJpPP9kqxsDoLYTaWSQS6VgO55ECA
+	Ir2POVmy7y+ebaso1CrMi4KUp452oD+JO8UohQLcfPptsb
+X-QQ-GoodBg: 0
+From: driver1998 <driver1998@foxmail.com>
+To: samuel.thibault@ens-lyon.org,
+	mst@redhat.com
+Date: Mon, 29 Apr 2019 00:31:12 +0000
+Message-Id: <20190429003112.22808-1-driver1998@foxmail.com>
+X-Mailer: git-send-email 2.17.1
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtp:foxmail.com:bgforeign:bgforeign4
+X-QQ-Bgrelay: 1
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 54.207.22.56
+X-Mailman-Approved-At: Sun, 28 Apr 2019 20:49:05 -0400
+Subject: [Qemu-devel] [PATCH 1/4] Initial Windows on ARM (AArch64 64-Bit)
+ host support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -102,28 +64,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: driver1998 <driver1998@foxmail.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/27/19 11:49 AM, Marc-Andr=C3=A9 Lureau wrote:
-> Hi
->
-> On Sat, Apr 27, 2019 at 3:19 PM Philippe Mathieu-Daud=C3=A9
-> <philmd@redhat.com> wrote:
->> The TPM Physical Presence Interface routines are only used
->> by the CRB/TIS interfaces. Do not compile this file if any
->> of them is built.
->>
->> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
->
->> ---
->> Marc-Andr=C3=A9:
->>    You might want to add yourself as reviewer/maintainer of TPM ;)
-> yes, I suppose Stefan wouldn't mind having me as R: :)
+This series of patches is for initial support of Windows 10 on ARM as a QEMU host.
+Currently only TCG intepreter is working correctly, it crashes when TCG JIT is enabled.
+For now we assume it is built using the clang aarch64-w64-mingw32 toolchain, you can get a prebuilt toolchain at https://github.com/mstorsjo/llvm-mingw.
 
-I don't mind.
+QEMU_PACKED: Remove gcc_struct attribute in Windows non x86 targets
+This attribute is for x86 only, and it generates an warning on ARM64 Clang/MinGW targets.
+
+Signed-off-by: driver1998 <driver1998@foxmail.com>
+---
+ contrib/libvhost-user/libvhost-user.h | 2 +-
+ include/qemu/compiler.h               | 2 +-
+ scripts/cocci-macro-file.h            | 7 ++++++-
+ slirp/src/util.h                      | 2 +-
+ 4 files changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/contrib/libvhost-user/libvhost-user.h b/contrib/libvhost-user/libvhost-user.h
+index 414ceb0a2f..78b33306e8 100644
+--- a/contrib/libvhost-user/libvhost-user.h
++++ b/contrib/libvhost-user/libvhost-user.h
+@@ -148,7 +148,7 @@ typedef struct VhostUserInflight {
+     uint16_t queue_size;
+ } VhostUserInflight;
+ 
+-#if defined(_WIN32)
++#if defined(_WIN32) && (defined(__x86_64__) || defined(__i386__))
+ # define VU_PACKED __attribute__((gcc_struct, packed))
+ #else
+ # define VU_PACKED __attribute__((packed))
+diff --git a/include/qemu/compiler.h b/include/qemu/compiler.h
+index 296b2fd572..09fc44cca4 100644
+--- a/include/qemu/compiler.h
++++ b/include/qemu/compiler.h
+@@ -28,7 +28,7 @@
+ 
+ #define QEMU_SENTINEL __attribute__((sentinel))
+ 
+-#if defined(_WIN32)
++#if defined(_WIN32) && (defined(__x86_64__) || defined(__i386__))
+ # define QEMU_PACKED __attribute__((gcc_struct, packed))
+ #else
+ # define QEMU_PACKED __attribute__((packed))
+diff --git a/scripts/cocci-macro-file.h b/scripts/cocci-macro-file.h
+index e485cdccae..c6bbc05ba3 100644
+--- a/scripts/cocci-macro-file.h
++++ b/scripts/cocci-macro-file.h
+@@ -23,7 +23,12 @@
+ #define QEMU_NORETURN __attribute__ ((__noreturn__))
+ #define QEMU_WARN_UNUSED_RESULT __attribute__((warn_unused_result))
+ #define QEMU_SENTINEL __attribute__((sentinel))
+-#define QEMU_PACKED __attribute__((gcc_struct, packed))
++
++#if defined(_WIN32) && (defined(__x86_64__) || defined(__i386__))
++# define QEMU_PACKED __attribute__((gcc_struct, packed))
++#else
++# define QEMU_PACKED __attribute__((packed))
++#endif
+ 
+ #define cat(x,y) x ## y
+ #define cat2(x,y) cat(x,y)
+diff --git a/slirp/src/util.h b/slirp/src/util.h
+index 01f1e0e068..278828fe3f 100644
+--- a/slirp/src/util.h
++++ b/slirp/src/util.h
+@@ -43,7 +43,7 @@
+ #include <netinet/in.h>
+ #endif
+ 
+-#if defined(_WIN32)
++#if defined(_WIN32) && (defined(__x86_64__) || defined(__i386__))
+ # define SLIRP_PACKED __attribute__((gcc_struct, packed))
+ #else
+ # define SLIRP_PACKED __attribute__((packed))
+-- 
+2.17.1
+
 
 
 
