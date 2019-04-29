@@ -2,68 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39E6AEA05
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 20:20:59 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33459 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 90A6AEA7A
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 20:49:28 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33777 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLAte-00078Y-DF
-	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 14:20:58 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51986)
+	id 1hLBLD-00083Y-R2
+	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 14:49:27 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56766)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hLAsO-0006Ta-Fy
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 14:19:41 -0400
+	(envelope-from <berto@igalia.com>) id 1hLBF2-0003Hg-3E
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 14:43:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hLAsN-00017D-L5
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 14:19:40 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:42260)
+	(envelope-from <berto@igalia.com>) id 1hLBF1-0002Qt-2w
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 14:43:03 -0400
+Received: from fanzine.igalia.com ([91.117.99.155]:54747)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hLAsN-00016u-8K
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 14:19:39 -0400
-Received: by mail-wr1-f66.google.com with SMTP id l2so1778636wrb.9
-	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 11:19:39 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=b8JrVvmhx3q26IahqjD6E/5G69SfIzP3Kim3EOowCVU=;
-	b=XY2/TPs4jZnJbNXIdP+sVdqyxIlJfWJoQFtfMW9/vRCXebnnWecbmfJrc7U+YIAsrH
-	NXnitqFfuX7Q7ZpGN4GWw0v3Kvm6sC2QN8P9ATdj81ysg2DSHkljn+osyL0BsHBDn3CE
-	tHnybFRhA6KdKipyIg4vGDPlWyBJKA1OVESM4d5NURBTQfrke7TOiAB5tdgMEtpn2mFh
-	z0sl4r2sELHlYgP9alDjgN/DQfxgimq4e3ToGeFK7xavmP0TrU1/l9FRcgdKDVEjsjYo
-	P4NJV/iQrNjciNoZECZoYXMRU7OBeGQO7cPBUV5A/yQUswIK5xBrmSH0lYBtvkBtAyvB
-	gBAg==
-X-Gm-Message-State: APjAAAXCPbZa88zoCcHj+mmhd2f6WxWO7zdwup+ADx0RYBQuSmCoVygN
-	oPmbcTsjw3MB42OX5VsrQkBItg==
-X-Google-Smtp-Source: APXvYqyEuqHPju9Rtbx3VhVmXLstxB/H3C8kzfLB42m/o7r+PmJo9AXB1izqtxVMBOEeDVgtisdrqg==
-X-Received: by 2002:adf:b64e:: with SMTP id i14mr19509426wre.72.1556561978272; 
-	Mon, 29 Apr 2019 11:19:38 -0700 (PDT)
-Received: from [192.168.1.33] (193.red-88-21-103.staticip.rima-tde.net.
-	[88.21.103.193]) by smtp.gmail.com with ESMTPSA id
-	e6sm25705557wrc.96.2019.04.29.11.19.37
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Mon, 29 Apr 2019 11:19:37 -0700 (PDT)
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20190412165416.7977-1-philmd@redhat.com>
-	<CAFEAcA90Pv=zEqaonGV=c022T=CYMo11nkqNwBnGgocESnBNmA@mail.gmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
-	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <f56687f4-434e-0e6d-77a8-fec6c33c9a62@redhat.com>
-Date: Mon, 29 Apr 2019 20:19:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <CAFEAcA90Pv=zEqaonGV=c022T=CYMo11nkqNwBnGgocESnBNmA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.221.66
-Subject: Re: [Qemu-devel] [Qemu-arm] [PATCH v3 00/12] hw: Remove
- "hw/devices.h"
+	(Exim 4.71) (envelope-from <berto@igalia.com>)
+	id 1hLBF0-0002Pf-QS; Mon, 29 Apr 2019 14:43:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; h=Message-Id:Date:Subject:Cc:To:From;
+	bh=Wgj5uF7kqUZ1VqMW90TBeCP0doa49kZO3PSioGbmiB0=; 
+	b=ssLJo+eI9OaLRQNzOwUFq9uJVdyzO3e1/NIe+RjpsQoU8ggBgaKqmZOjUhYcLZeu64QWJGCylQuv/3yfiV1eRh9aPpAalP0yX1CSBJVRLAHpAa4ZNoevc+NhSkfRAqoE4GxSwmxih2pc/f5b7TLkkDPZdnO7lepljOx6YBeqjBbgt+ptyBaO1l8L/DoGbnxlXkbglsoT44wjXQpNtYrdfVdBy4TRxq7f2+CW+f2asF54dxklXHQ2o2yDpqbDIEGMxHUkOIltljP2qd0aRYWsWKCTtBfwmQugve9XUK9f/XAkN78oUqO/nHtBLyVYWQz5U6IrgPxd0VSwBFkpIeWM+A==;
+Received: from static-191-95-145-212.ipcom.comunitel.net ([212.145.95.191]
+	helo=perseus.local) by fanzine.igalia.com with esmtpsa 
+	(Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
+	id 1hLBEx-0006XF-Iu; Mon, 29 Apr 2019 20:42:59 +0200
+Received: from berto by perseus.local with local (Exim 4.89)
+	(envelope-from <berto@igalia.com>)
+	id 1hLBEk-0002ZJ-UR; Mon, 29 Apr 2019 21:42:46 +0300
+From: Alberto Garcia <berto@igalia.com>
+To: qemu-devel@nongnu.org
+Date: Mon, 29 Apr 2019 20:42:35 +0200
+Message-Id: <cover.1556562150.git.berto@igalia.com>
+X-Mailer: git-send-email 2.11.0
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
+	timestamps) [generic] [fuzzy]
+X-Received-From: 91.117.99.155
+Subject: [Qemu-devel] [PATCH 0/5] Remove bdrv_read() and bdrv_write()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -75,33 +51,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Igor Mitsyanko <i.mitsyanko@gmail.com>,
-	QEMU Developers <qemu-devel@nongnu.org>,
-	Markus Armbruster <armbru@redhat.com>,
-	qemu-arm <qemu-arm@nongnu.org>, Jan Kiszka <jan.kiszka@web.de>
+Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
+	qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/29/19 6:51 PM, Peter Maydell wrote:
-> On Fri, 12 Apr 2019 at 17:55, Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
->>
->> Hi,
->>
->> As his first comment describes itself, the "hw/devices.h" contains
->> declarations for "Devices that have nowhere better to go."
->> This series remove it, creating new headers for devices covered there.
->> MAINTAINERS is updated.
->> I also included 2 cleanups while working on this, in "qemu/typedefs.h"
->> and "hw/net/ne2000-isa.h" header guard.
->>
->> v3:
->> - rebased
->> - added 2 patches suggested by Markus
->> - addressed Markus review comments
->> - added Markus's R-b
-> 
-> Since these are almost all arm devices I'll take this via the
-> target-arm tree (I'm going to make a pullreq later today).
+Hi,
 
-Thanks Peter!
+this API only had a few users left so it can be easily removed.
+
+Regards,
+
+Berto
+
+Alberto Garcia (5):
+  qcow2: Replace bdrv_write() with bdrv_pwrite()
+  vdi: Replace bdrv_{read,write}() with bdrv_{pread,pwrite}()
+  vvfat: Replace bdrv_{read,write}() with bdrv_{pread,pwrite}()
+  block: Remove bdrv_read() and bdrv_write()
+  qcow2: Remove BDRVQcow2State.cluster_sectors
+
+ block/io.c             | 36 ------------------------------------
+ block/qcow2-refcount.c |  4 ++--
+ block/qcow2.c          |  1 -
+ block/qcow2.h          |  1 -
+ block/vdi.c            | 11 ++++++-----
+ block/vvfat.c          | 10 ++++++----
+ include/block/block.h  |  4 ----
+ 7 files changed, 14 insertions(+), 53 deletions(-)
+
+-- 
+2.11.0
+
 
