@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8BE3E904
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:28:06 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60980 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0505E92C
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:34:05 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:32836 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLA4U-00020I-1D
-	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:28:06 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34513)
+	id 1hLAAG-0007SE-Cx
+	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:34:04 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34672)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hL9ew-0004yJ-96
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:44 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hL9fM-0005On-6e
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:02:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hL9et-0006o5-Bi
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:41 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:33206)
+	(envelope-from <peter.maydell@linaro.org>) id 1hL9fH-0006zK-2y
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:02:06 -0400
+Received: from mail-wr1-x42b.google.com ([2a00:1450:4864:20::42b]:38628)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hL9er-0006f8-Nv
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:39 -0400
-Received: by mail-wr1-x432.google.com with SMTP id s18so17188172wrp.0
-	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 10:01:23 -0700 (PDT)
+	id 1hL9fD-0006fd-Qz
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:02:01 -0400
+Received: by mail-wr1-x42b.google.com with SMTP id k16so17123991wrn.5
+	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 10:01:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=e6cX6fnSzBtaurvS4e29cr5VA7TdSpTfD1NyQiLf/7M=;
-	b=rWFRK2G/5uqhuxn77SyShKkdIykaLClZYB5eDyJRo/DtXcL3p63cVBaUjEtPlOJssB
-	AI/udNnicsi3zQ8HEjRNFpHMSiurroOOK6D341CNeQkCpqqKfpwAMiPFRITuTEdRi/BG
-	GXnIVIdg+UTzLcB/3Kkc2az+bFHae42R0QLMMajXeeTKzfS8gZNqusnUEZxK8RZM0aoh
-	1nDG5cKBr9d8MAySOFCA4GR4PemiJxW0/Urxbecrrvgh3E22gRYI7BE0Z8vjBRkINJqc
-	zwPZVR8QEPHrV7GImtKGsID1TcwHSJdgNGNXhBPiH6v1vcWW+51d3vv4eXhMm8GdCrH2
-	Purw==
+	bh=csK17uX4zEJUIr2MrElaSeoN3nAbg+cexz+KK3ZxpK4=;
+	b=Tm6yIhCZZJFDqhuB+8ysUVKeZC22lYqdVJb7vyeXej927VSjp0TN3XArXTNdfpvBmS
+	6gDOxdif6o3es1D4jp7mNsuFJRfLaxei9vSkK5f/Qqq2Z+EFiHmlD89+dpy7WGVZ85Tr
+	yBvmFQSXeTOEcVwShzZdF07EG/t13yqMfS/+MW0sQEA6uYSOF2/erbnlyTIwes6HdINL
+	d/VTm7iEOpfGTMqTR9O5EZ2LsmnK4gpqlfhlV/lFsJ25rKh+YCaeIV2Vg5QOsq9rgAq2
+	KLYlMBO8icJilE92TgfIFOQoqbazjU0GZmjL5qDF73aVQEztWKrVbw2WGB0CvRaxJDQl
+	XD+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=e6cX6fnSzBtaurvS4e29cr5VA7TdSpTfD1NyQiLf/7M=;
-	b=k4u5VqgEXBDxHvvHNs8YbMlbm2tQ5PULcpnr86TzorcqYHZ88ymwNR5+oa8i33Xv8x
-	s6DghFecTRIqs4Qc38/w5E2YcPCw01w7fQeEAMkwQE5XtYz2E8uSIVUENoDmdy8UdESv
-	MSoML50FwkpCUWCBc3Nw1ziXNCT1Y1RBDhrxaGnkslMrt1fRyE33gP5t2LXa2pp+Lb1g
-	MPSBQFDdOmMjsoQxF+HriI6qcRmlhBxX0BEvy4mGTn7mCho+XILEgLsA6qFnCD7UkZwP
-	caSBImm5+uktA7fi2/BHJUYCDp/Zq/0dzCfMXC37UZSlbkCz+1UIzSeYqWrchRpbF+fx
-	/HLA==
-X-Gm-Message-State: APjAAAXASLJSsYiJpPkzM5YeAXbwhmpyExzt+qzOdJ9xtXfNkPJw/AaH
-	r8sK+jC8ZteVKalkEMqQh9rude73e5Y=
-X-Google-Smtp-Source: APXvYqy3A+j6hv+NMPBgBlIkqLPHVs0vBgJ1HMhmhmezZbUWhp+BHUipJovEgWJns4dq4a3Pfy77VA==
-X-Received: by 2002:a5d:4e86:: with SMTP id e6mr4845305wru.59.1556557282488;
-	Mon, 29 Apr 2019 10:01:22 -0700 (PDT)
+	bh=csK17uX4zEJUIr2MrElaSeoN3nAbg+cexz+KK3ZxpK4=;
+	b=KzeidImxOrIwCJOjdF9kwP/L6FWCqvqLUkFaYB8IvGBvsUthWuLxhSybaAvieVFJZr
+	jhQbwbtPcdGtNaNDOyTSsDfjvjkCUeDIsld97ilSl37Qpy5hfeSwX/Z32AhFnFTtys0i
+	ngkjwbc2iO+xQHh9YonQj3xCw1eZg51xjBjBV45knTMOpE57TxC0P64FfNr7dS4cQ3T9
+	dXo867cJSNlzlTMXS7RGn4g9u7wgxCSBmKyjcxC5BKQfxZUAPNVuS4q1Q4YTY7QQx9GI
+	HHA+SvV7wRpu600pYfo5jBDBfHMIzpERv9C18DFMLnaZQ0l28dfAkMavMokeSfOjY8yw
+	UL4Q==
+X-Gm-Message-State: APjAAAXXmzemndEQpdq41wkQKD+oC6c66pWJRw4wMHCTtQQ3fPGJCfNa
+	S89D8tgckF7VJLDHCSMEZqkg0LQ2qDE=
+X-Google-Smtp-Source: APXvYqzFD1drwjRAA3qP8+cRJNsgjnozZqIt1k/XuNAcCGFaWEi4OmRqKPcC8GpYeInV0h2O3ysMWw==
+X-Received: by 2002:adf:f102:: with SMTP id r2mr13262873wro.136.1556557283919; 
+	Mon, 29 Apr 2019 10:01:23 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
-	by smtp.gmail.com with ESMTPSA id a13sm36896wmj.39.2019.04.29.10.01.21
+	by smtp.gmail.com with ESMTPSA id a13sm36896wmj.39.2019.04.29.10.01.22
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 29 Apr 2019 10:01:21 -0700 (PDT)
+	Mon, 29 Apr 2019 10:01:23 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 29 Apr 2019 18:00:27 +0100
-Message-Id: <20190429170030.11323-40-peter.maydell@linaro.org>
+Date: Mon, 29 Apr 2019 18:00:28 +0100
+Message-Id: <20190429170030.11323-41-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190429170030.11323-1-peter.maydell@linaro.org>
 References: <20190429170030.11323-1-peter.maydell@linaro.org>
@@ -66,9 +66,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::432
-Subject: [Qemu-devel] [PULL 39/42] hw/devices: Move LAN9118 declarations
- into a new header
+X-Received-From: 2a00:1450:4864:20::42b
+Subject: [Qemu-devel] [PULL 40/42] hw/net/ne2000-isa: Add guards to the
+ header
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -85,122 +85,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20190412165416.7977-10-philmd@redhat.com
+Message-id: 20190412165416.7977-11-philmd@redhat.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/devices.h     |  3 ---
- include/hw/net/lan9118.h | 19 +++++++++++++++++++
- hw/arm/kzm.c             |  2 +-
- hw/arm/mps2.c            |  2 +-
- hw/arm/realview.c        |  1 +
- hw/arm/vexpress.c        |  2 +-
- hw/net/lan9118.c         |  2 +-
- 7 files changed, 24 insertions(+), 7 deletions(-)
- create mode 100644 include/hw/net/lan9118.h
+ include/hw/net/ne2000-isa.h | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/include/hw/devices.h b/include/hw/devices.h
-index ba9034050b4..ebc45c87997 100644
---- a/include/hw/devices.h
-+++ b/include/hw/devices.h
-@@ -8,7 +8,4 @@
- /* smc91c111.c */
- void smc91c111_init(NICInfo *, uint32_t, qemu_irq);
- 
--/* lan9118.c */
--void lan9118_init(NICInfo *, uint32_t, qemu_irq);
--
- #endif
-diff --git a/include/hw/net/lan9118.h b/include/hw/net/lan9118.h
-new file mode 100644
-index 00000000000..d13d8cd3d22
---- /dev/null
-+++ b/include/hw/net/lan9118.h
-@@ -0,0 +1,19 @@
-+/*
-+ * SMSC LAN9118 Ethernet interface emulation
-+ *
-+ * Copyright (c) 2009 CodeSourcery, LLC.
-+ * Written by Paul Brook
-+ *
-+ * This work is licensed under the terms of the GNU GPL, version 2 or later.
-+ * See the COPYING file in the top-level directory.
-+ */
+diff --git a/include/hw/net/ne2000-isa.h b/include/hw/net/ne2000-isa.h
+index ff2bed9c95d..527337c4548 100644
+--- a/include/hw/net/ne2000-isa.h
++++ b/include/hw/net/ne2000-isa.h
+@@ -6,6 +6,10 @@
+  * This work is licensed under the terms of the GNU GPL, version 2 or later.
+  * See the COPYING file in the top-level directory.
+  */
 +
-+#ifndef HW_NET_LAN9118_H
-+#define HW_NET_LAN9118_H
++#ifndef HW_NET_NE2K_ISA_H
++#define HW_NET_NE2K_ISA_H
 +
-+#include "hw/irq.h"
-+#include "net/net.h"
-+
-+void lan9118_init(NICInfo *, uint32_t, qemu_irq);
+ #include "hw/hw.h"
+ #include "hw/qdev.h"
+ #include "hw/isa/isa.h"
+@@ -31,3 +35,5 @@ static inline ISADevice *isa_ne2000_init(ISABus *bus, int base, int irq,
+     }
+     return d;
+ }
 +
 +#endif
-diff --git a/hw/arm/kzm.c b/hw/arm/kzm.c
-index 864c7bd4114..139934c4ecf 100644
---- a/hw/arm/kzm.c
-+++ b/hw/arm/kzm.c
-@@ -22,7 +22,7 @@
- #include "qemu/error-report.h"
- #include "exec/address-spaces.h"
- #include "net/net.h"
--#include "hw/devices.h"
-+#include "hw/net/lan9118.h"
- #include "hw/char/serial.h"
- #include "sysemu/qtest.h"
- 
-diff --git a/hw/arm/mps2.c b/hw/arm/mps2.c
-index e3d698ba6c4..54b7395849f 100644
---- a/hw/arm/mps2.c
-+++ b/hw/arm/mps2.c
-@@ -36,7 +36,7 @@
- #include "hw/timer/cmsdk-apb-timer.h"
- #include "hw/timer/cmsdk-apb-dualtimer.h"
- #include "hw/misc/mps2-scc.h"
--#include "hw/devices.h"
-+#include "hw/net/lan9118.h"
- #include "net/net.h"
- 
- typedef enum MPS2FPGAType {
-diff --git a/hw/arm/realview.c b/hw/arm/realview.c
-index 242f5a87b6a..e9983c87639 100644
---- a/hw/arm/realview.c
-+++ b/hw/arm/realview.c
-@@ -15,6 +15,7 @@
- #include "hw/arm/arm.h"
- #include "hw/arm/primecell.h"
- #include "hw/devices.h"
-+#include "hw/net/lan9118.h"
- #include "hw/pci/pci.h"
- #include "net/net.h"
- #include "sysemu/sysemu.h"
-diff --git a/hw/arm/vexpress.c b/hw/arm/vexpress.c
-index f07134c4245..d8634f3dd29 100644
---- a/hw/arm/vexpress.c
-+++ b/hw/arm/vexpress.c
-@@ -28,7 +28,7 @@
- #include "hw/sysbus.h"
- #include "hw/arm/arm.h"
- #include "hw/arm/primecell.h"
--#include "hw/devices.h"
-+#include "hw/net/lan9118.h"
- #include "hw/i2c/i2c.h"
- #include "net/net.h"
- #include "sysemu/sysemu.h"
-diff --git a/hw/net/lan9118.c b/hw/net/lan9118.c
-index a6269d9463b..a428b16eda5 100644
---- a/hw/net/lan9118.c
-+++ b/hw/net/lan9118.c
-@@ -14,7 +14,7 @@
- #include "hw/sysbus.h"
- #include "net/net.h"
- #include "net/eth.h"
--#include "hw/devices.h"
-+#include "hw/net/lan9118.h"
- #include "sysemu/sysemu.h"
- #include "hw/ptimer.h"
- #include "qemu/log.h"
 -- 
 2.20.1
 
