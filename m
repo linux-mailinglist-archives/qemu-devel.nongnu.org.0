@@ -2,84 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B868DDF53
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 11:23:24 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54596 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2084DF3F
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 11:18:07 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54503 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hL2VP-0005le-Ub
-	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 05:23:23 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33382)
+	id 1hL2QI-0001KN-Uq
+	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 05:18:07 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33257)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <borntraeger@de.ibm.com>) id 1hL2GX-0001YM-FU
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 05:08:04 -0400
+	(envelope-from <borntraeger@de.ibm.com>) id 1hL2GT-0001Sg-P4
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 05:07:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <borntraeger@de.ibm.com>) id 1hL2Bf-0000Lo-Lb
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 05:03:00 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:34690
-	helo=mx0a-001b2d01.pphosted.com)
+	(envelope-from <borntraeger@de.ibm.com>) id 1hL2Bg-0000M9-0A
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 05:03:04 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:45484)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
-	id 1hL2Bf-0000LA-GR
+	id 1hL2Bf-0000L5-MK
 	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 05:02:59 -0400
-Received: from pps.filterd (m0098416.ppops.net [127.0.0.1])
-	by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
-	x3T8rauS193912
-	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 05:02:56 -0400
-Received: from e34.co.us.ibm.com (e34.co.us.ibm.com [32.97.110.152])
-	by mx0b-001b2d01.pphosted.com with ESMTP id 2s5vh6md90-1
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+	x3T8rfCI018987
+	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 05:02:57 -0400
+Received: from e36.co.us.ibm.com (e36.co.us.ibm.com [32.97.110.154])
+	by mx0a-001b2d01.pphosted.com with ESMTP id 2s5vpxbrkg-1
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 05:02:55 -0400
+	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 05:02:57 -0400
 Received: from localhost
-	by e34.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+	by e36.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
 	Violators will be prosecuted
 	for <qemu-devel@nongnu.org> from <borntraeger@de.ibm.com>;
-	Mon, 29 Apr 2019 10:02:54 +0100
-Received: from b03cxnp07028.gho.boulder.ibm.com (9.17.130.15)
-	by e34.co.us.ibm.com (192.168.1.134) with IBM ESMTP SMTP Gateway:
+	Mon, 29 Apr 2019 10:02:56 +0100
+Received: from b03cxnp07029.gho.boulder.ibm.com (9.17.130.16)
+	by e36.co.us.ibm.com (192.168.1.136) with IBM ESMTP SMTP Gateway:
 	Authorized Use Only! Violators will be prosecuted; 
 	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-	Mon, 29 Apr 2019 10:02:52 +0100
+	Mon, 29 Apr 2019 10:02:53 +0100
 Received: from b03ledav006.gho.boulder.ibm.com
 	(b03ledav006.gho.boulder.ibm.com [9.17.130.237])
-	by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with
-	ESMTP id x3T92pRO61603852
+	by b03cxnp07029.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with
+	ESMTP id x3T92q8e46137446
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK); Mon, 29 Apr 2019 09:02:51 GMT
+	verify=OK); Mon, 29 Apr 2019 09:02:52 GMT
 Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 726BBC605A;
+	by IMSVA (Postfix) with ESMTP id 5AEFBC6057;
+	Mon, 29 Apr 2019 09:02:52 +0000 (GMT)
+Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 9891FC605D;
 	Mon, 29 Apr 2019 09:02:51 +0000 (GMT)
-Received: from b03ledav006.gho.boulder.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id AECA1C6059;
-	Mon, 29 Apr 2019 09:02:50 +0000 (GMT)
 Received: from localhost.localdomain (unknown [9.114.17.106])
 	by b03ledav006.gho.boulder.ibm.com (Postfix) with ESMTP;
-	Mon, 29 Apr 2019 09:02:50 +0000 (GMT)
+	Mon, 29 Apr 2019 09:02:51 +0000 (GMT)
 From: Christian Borntraeger <borntraeger@de.ibm.com>
 To: Cornelia Huck <cohuck@redhat.com>
-Date: Mon, 29 Apr 2019 05:02:41 -0400
+Date: Mon, 29 Apr 2019 05:02:42 -0400
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190429090250.7648-1-borntraeger@de.ibm.com>
+References: <20190429090250.7648-1-borntraeger@de.ibm.com>
 X-TM-AS-GCONF: 00
-x-cbid: 19042909-0016-0000-0000-000009A833CF
+x-cbid: 19042909-0020-0000-0000-00000EDE30A7
 X-IBM-SpamModules-Scores: 
 X-IBM-SpamModules-Versions: BY=3.00011015; HX=3.00000242; KW=3.00000007;
 	PH=3.00000004; SC=3.00000285; SDB=6.01195994; UDB=6.00627178;
-	IPR=6.00976844; 
-	MB=3.00026644; MTD=3.00000008; XFM=3.00000015; UTC=2019-04-29 09:02:54
+	IPR=6.00976843; 
+	MB=3.00026644; MTD=3.00000008; XFM=3.00000015; UTC=2019-04-29 09:02:55
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19042909-0017-0000-0000-000042FFA099
-Message-Id: <20190429090250.7648-1-borntraeger@de.ibm.com>
+x-cbparentid: 19042909-0021-0000-0000-0000659B7DAA
+Message-Id: <20190429090250.7648-2-borntraeger@de.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
 	definitions=2019-04-29_04:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
 	priorityscore=1501
 	malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
 	clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
-	mlxlogscore=755 adultscore=0 classifier=spam adjust=0 reason=mlx
+	mlxlogscore=832 adultscore=0 classifier=spam adjust=0 reason=mlx
 	scancount=1 engine=8.0.1-1810050000 definitions=main-1904290066
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
-Subject: [Qemu-devel] [PATCH v3 0/9] s390x: new guest features
+X-Received-From: 148.163.156.1
+Subject: [Qemu-devel] [PATCH v3 1/9] linux header sync
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -99,35 +100,29 @@ Cc: "Jason J . Herne" <jjherne@linux.ibm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Adding gen15.
+to be replaced by a proper one
 
-v2->v3: - merge  deprecation patch into gen 15 patch
-	- fix comments
-	- use gen15a and gen15b instead of cpuid
-v1->v2: - rework csske deprecation
-	- white space fixes
-	- also require msa4 for msa9
+Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
+---
+ linux-headers/asm-s390/kvm.h | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-Christian Borntraeger (9):
-  linux header sync
-  s390x/cpumodel: ignore csske for expansion
-  s390x/cpumodel: Miscellaneous-Instruction-Extensions Facility 3
-  s390x/cpumodel: msa9 facility
-  s390x/cpumodel: vector enhancements
-  s390x/cpumodel: enhanced sort facility
-  s390x/cpumodel: add Deflate-conversion facility
-  s390x/cpumodel: add gen15 defintions
-  s390x/cpumodel: wire up 8561 and 8562 as gen15 machines
-
- linux-headers/asm-s390/kvm.h    |   5 +-
- target/s390x/cpu_features.c     |  54 ++++++++++++++++
- target/s390x/cpu_features.h     |   3 +
- target/s390x/cpu_features_def.h |  49 +++++++++++++++
- target/s390x/cpu_models.c       |  13 ++--
- target/s390x/gen-features.c     | 105 ++++++++++++++++++++++++++++++++
- target/s390x/kvm.c              |  18 ++++++
- 7 files changed, 242 insertions(+), 5 deletions(-)
-
+diff --git a/linux-headers/asm-s390/kvm.h b/linux-headers/asm-s390/kvm.h
+index 0265482f8f..03ab5968c7 100644
+--- a/linux-headers/asm-s390/kvm.h
++++ b/linux-headers/asm-s390/kvm.h
+@@ -152,7 +152,10 @@ struct kvm_s390_vm_cpu_subfunc {
+ 	__u8 pcc[16];		/* with MSA4 */
+ 	__u8 ppno[16];		/* with MSA5 */
+ 	__u8 kma[16];		/* with MSA8 */
+-	__u8 reserved[1808];
++	__u8 kdsa[16];		/* with MSA9 */
++	__u8 sortl[32];		/* with STFLE.150 */
++	__u8 dfltcc[32];	/* with STFLE.151 */
++	__u8 reserved[1728];
+ };
+ 
+ /* kvm attributes for crypto */
 -- 
 2.17.1
 
