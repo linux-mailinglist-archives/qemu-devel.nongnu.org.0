@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56423E94C
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:37:44 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:32895 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88BF5E8AE
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:20:56 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60847 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLADn-0002J5-Gj
-	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:37:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34754)
+	id 1hL9xX-0003ZE-K8
+	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:20:55 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34363)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hL9fQ-0005WK-Ab
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:02:13 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hL9er-0004r5-3R
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hL9fO-00075R-78
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:02:12 -0400
-Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:55632)
+	(envelope-from <peter.maydell@linaro.org>) id 1hL9en-0006jr-Ps
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:35 -0400
+Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:55173)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hL9fM-0006ao-5N
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:02:10 -0400
-Received: by mail-wm1-x32e.google.com with SMTP id o25so150876wmf.5
-	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 10:01:13 -0700 (PDT)
+	id 1hL9em-0006bE-CE
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:32 -0400
+Received: by mail-wm1-x32d.google.com with SMTP id b10so156608wmj.4
+	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 10:01:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=lwRLvPOYXyQlnpWWoMVUzPzdVHw8aYM3HaWE/wvgSrI=;
-	b=pX0mHP6ETodKIkkgksVjb5SEiHgIBuWUA8bKgd3cNb2xH4oi/0bN+DVm9XA0UN3pK3
-	2MOmscfvEv7DIWsl4b4rFle3OZwrZ6WaYTbhKgQa9/SJMZIUipi1z26IK8IHorqYdiLj
-	GHEABOe8g4TEPuEtvVWL7cmPF1sltZs9aUYqgP40hS6ho5uWshxnmiq+Qp3LAMefrB3F
-	83r3EB1WehQHUFm4OkY9IjW3DeuBU9L6Nco2BAZEgTHoOQlYUg++Fo/B1edy1IvHPjX0
-	FlbV0i8/Pm2kw4XcuPcBP8i7nBoRlFDiOSLNjRHGsC3mHcKWMiiDbNY7KJ7WFNWTg0rt
-	GLnw==
+	bh=DpCWA8urHehTaRg7N5jOwEu2yGv1l6Iqr2FRMYJg3yk=;
+	b=gePcBw+qc5KffZy+qTTKFjdLV51AwS2TCH7UMiUIzbRpQd0TVAGfOtlZL1EcBeQUn0
+	GG3cW74LJnWw7fhor7osnevDBnAJUtK+jkw1B7pHgILoDwOUI61hKisHYZ5N8limKhrR
+	vNTpNimpxoUu1rHmyGH8miLRfLUHJeaTHbJ0PTVxm/N/n86HhqvgEzoDy9rCpwnDNu8+
+	/1Y9cf5iC5b1uCg8Re7bfsxtaijDvAq3ZKAL8X53LYKNrO47H7k+5N9rSWc31dZqbscU
+	LJVLjrsSkk1V4HXWGZs2r6IBxs36s5C6TjcphqLoULuN/wfulxwzSSoCniHW4LmFp5Rv
+	4YHQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=lwRLvPOYXyQlnpWWoMVUzPzdVHw8aYM3HaWE/wvgSrI=;
-	b=ou30xp7hlMeE3zIbVXhJkEjEw/xyJ/s4xad96YCD2Rsm/fcahrBehN2slcMR/LxzSt
-	XJKX7/a52e+q95puAFxnF4hHE4oA7U3Ymm9p2O8LGkZ80tVWvRY53bemfDFZuOTFsY6K
-	YT2hA1GbBafZ2ahrq/gWm6fRBs/N8hOedzaRxoAlkKUhVEYDNDDNOYNC86XFLkemXAoK
-	32deLWFKbMjgb8SZw6Jw/dvd6NEWpuULjACxJSMcpyHpaTuhwbtzOeAp/FSz1PpvNm8z
-	SxHe2KtGAT8BDMzP9DBb2wXTaD8utBreFofnf4pC4Tlc/ROpyoWW5c5aKOw/38tHQ09P
-	f06A==
-X-Gm-Message-State: APjAAAVzAqLxZ0t5bmBpJFtqV03EiJA+1SSHWjhHbruCGyjbQyATRPci
-	QSKKtHhOGr6e3AvGHqA9PjHBgbUAd2g=
-X-Google-Smtp-Source: APXvYqyAAMds9QL0dafQ7K4/pYGcoc4ySpVQL5fJO8aJeKYgZj9oJYGtEa7SwCJLAdAl/ZDvkC4mkQ==
-X-Received: by 2002:a1c:4e0a:: with SMTP id g10mr46263wmh.128.1556557272577;
-	Mon, 29 Apr 2019 10:01:12 -0700 (PDT)
+	bh=DpCWA8urHehTaRg7N5jOwEu2yGv1l6Iqr2FRMYJg3yk=;
+	b=gAdz8ckZ4CFqgROUr0R3EXLVb3i63kVfCxgnp+oFMiNZzYkg9euTXQgLYzkZTRy9xH
+	huwcgEQyjEott1bN+NuAUW4+6WqYLPUYnTvjFM1aawufzb6iKVWPzxJ2UnEkhLZaWOm+
+	5+JMJKXNB2PAk1RlqjrZWvVDYaxc9zGaf+qDc1y3tVwRGaBD3mjW5MAX5CADUXcQ3wQl
+	ZbGWIqx24ZvXKcsRvRZDd/tbRHadaNiUtIHM5KTpSl7EJ+WETcBEPureRi3Rv6Vrm9Ra
+	qIJBRMmRgPZT6g17dAHxLXC4PvqJK6kW3Y9AeqJiF+w8+Z/6HimHlL5YC3Q6YgilERV5
+	qw6Q==
+X-Gm-Message-State: APjAAAVyg4RoCHmvb65OcUh1aa9U5ADytFGpBMx6ojTYqRwz//L0DvSw
+	h12NvhT6VnW4y5ZkhRuQSFf4CvYqLJ0=
+X-Google-Smtp-Source: APXvYqx7rSbbzZVEe+odfUnubBCi3kb2rpJIWNul8PTd3L0RuDRGmXh1bcY7ClVh4G+T4eonhK9AmQ==
+X-Received: by 2002:a7b:c086:: with SMTP id r6mr19955wmh.123.1556557273675;
+	Mon, 29 Apr 2019 10:01:13 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
-	by smtp.gmail.com with ESMTPSA id a13sm36896wmj.39.2019.04.29.10.01.11
+	by smtp.gmail.com with ESMTPSA id a13sm36896wmj.39.2019.04.29.10.01.12
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 29 Apr 2019 10:01:11 -0700 (PDT)
+	Mon, 29 Apr 2019 10:01:12 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 29 Apr 2019 18:00:19 +0100
-Message-Id: <20190429170030.11323-32-peter.maydell@linaro.org>
+Date: Mon, 29 Apr 2019 18:00:20 +0100
+Message-Id: <20190429170030.11323-33-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190429170030.11323-1-peter.maydell@linaro.org>
 References: <20190429170030.11323-1-peter.maydell@linaro.org>
@@ -66,9 +66,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::32e
-Subject: [Qemu-devel] [PULL 31/42] hw/arm/aspeed: Use
- TYPE_TMP105/TYPE_PCA9552 instead of hardcoded string
+X-Received-From: 2a00:1450:4864:20::32d
+Subject: [Qemu-devel] [PULL 32/42] hw/arm/nseries: Use TYPE_TMP105 instead
+ of hardcoded string
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -85,64 +85,34 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Cédric Le Goater <clg@kaod.org>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
+Suggested-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20190412165416.7977-2-philmd@redhat.com
+Message-id: 20190412165416.7977-3-philmd@redhat.com
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/arm/aspeed.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ hw/arm/nseries.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index 996812498dc..1c23ebd9925 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -19,6 +19,8 @@
- #include "hw/arm/aspeed_soc.h"
+diff --git a/hw/arm/nseries.c b/hw/arm/nseries.c
+index 906b7ca22d4..2b710c3d49f 100644
+--- a/hw/arm/nseries.c
++++ b/hw/arm/nseries.c
+@@ -31,6 +31,7 @@
  #include "hw/boards.h"
- #include "hw/i2c/smbus_eeprom.h"
-+#include "hw/misc/pca9552.h"
+ #include "hw/i2c/i2c.h"
+ #include "hw/devices.h"
 +#include "hw/misc/tmp105.h"
- #include "qemu/log.h"
- #include "sysemu/block-backend.h"
- #include "hw/loader.h"
-@@ -267,7 +269,8 @@ static void ast2500_evb_i2c_init(AspeedBoardState *bmc)
-                           eeprom_buf);
+ #include "hw/block/flash.h"
+ #include "hw/hw.h"
+ #include "hw/bt.h"
+@@ -218,7 +219,7 @@ static void n8x0_i2c_setup(struct n800_s *s)
+     qemu_register_powerdown_notifier(&n8x0_system_powerdown_notifier);
  
-     /* The AST2500 EVB expects a LM75 but a TMP105 is compatible */
--    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 7), "tmp105", 0x4d);
-+    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 7),
-+                     TYPE_TMP105, 0x4d);
- 
-     /* The AST2500 EVB does not have an RTC. Let's pretend that one is
-      * plugged on the I2C bus header */
-@@ -288,13 +291,15 @@ static void witherspoon_bmc_i2c_init(AspeedBoardState *bmc)
-     AspeedSoCState *soc = &bmc->soc;
-     uint8_t *eeprom_buf = g_malloc0(8 * 1024);
- 
--    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 3), "pca9552", 0x60);
-+    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 3), TYPE_PCA9552,
-+                     0x60);
- 
-     i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 4), "tmp423", 0x4c);
-     i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 5), "tmp423", 0x4c);
- 
-     /* The Witherspoon expects a TMP275 but a TMP105 is compatible */
--    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 9), "tmp105", 0x4a);
-+    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 9), TYPE_TMP105,
-+                     0x4a);
- 
-     /* The witherspoon board expects Epson RX8900 I2C RTC but a ds1338 is
-      * good enough */
-@@ -302,7 +307,7 @@ static void witherspoon_bmc_i2c_init(AspeedBoardState *bmc)
- 
-     smbus_eeprom_init_one(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 11), 0x51,
-                           eeprom_buf);
--    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 11), "pca9552",
-+    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 11), TYPE_PCA9552,
-                      0x60);
+     /* Attach a TMP105 PM chip (A0 wired to ground) */
+-    dev = i2c_create_slave(i2c, "tmp105", N8X0_TMP105_ADDR);
++    dev = i2c_create_slave(i2c, TYPE_TMP105, N8X0_TMP105_ADDR);
+     qdev_connect_gpio_out(dev, 0, tmp_irq);
  }
  
 -- 
