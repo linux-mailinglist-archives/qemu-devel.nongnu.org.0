@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29ECCE908
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:29:12 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60987 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6AD90E912
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:31:22 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:32805 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLA5X-0003DP-6h
-	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:29:11 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34429)
+	id 1hLA7d-0005Fk-HC
+	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:31:21 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34512)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hL9et-0004uX-AG
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:40 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hL9ew-0004yI-8s
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hL9er-0006mr-OU
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:39 -0400
-Received: from mail-wr1-x42e.google.com ([2a00:1450:4864:20::42e]:40485)
+	(envelope-from <peter.maydell@linaro.org>) id 1hL9et-0006ng-8i
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:41 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:34431)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hL9eq-0006fx-6N
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:36 -0400
-Received: by mail-wr1-x42e.google.com with SMTP id h4so17116702wre.7
-	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 10:01:26 -0700 (PDT)
+	id 1hL9er-0006gT-Mq
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:38 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id v16so14714668wrp.1
+	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 10:01:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=dtay1t/8F0wroE/4gRl+DMjWaRAg1S7IMqSKkwsLaCo=;
-	b=kG1MXo4S3I1ItrI3uyPt/Hj6W21N7HbTD9J7HHhFeC0tBAcCvNsImuMAmnETWXcwfQ
-	oCmjxudfPApUFH1g3pv5o2PfaWJKwQJZIn8UXg2eckn+aLFWgNqUc3jmIwB3vs1REqWI
-	gcPykMS2Vw9HoGbdSY/QSWthnl2d7IirC3riEeuvcpAYJ/HI3bmXym4c8CQLxfc7gp/P
-	6i/gI34DAElDG/P2n0zXoZOebsZPCPCLhsIVParDdqHrvuXvswxhdZVwLqeaiQQEU7pA
-	cyYZxEnJLhsqhs21gxTeoDCdcsJyn+EG5j4gzwVhpJHpDiPhix0qMJ+Fu0GtiYNPfCCl
-	G6Pg==
+	bh=2DwQZ6cqfQHoMxgvU29bcGwE5/erOlHteqQaEyRX6QU=;
+	b=ErCXmxJdDSYZsngtvofqo6MYNMXE7g550w26jOzcmleRnx1HuWCwPjuqGLb+ayxrt0
+	hXH6j6vTzBTp7EHFXy8NxjVtMKK0OMcdO/QEHKg90LtFIlbto1z+M49ejzHuMM8Giq+W
+	p1EUd4p0wLQIUEN46EPIPY+2h1oMRIZV7hJmXm8XLIPKFXwD0e8GZLt9q9oDKVEEXgQo
+	UquvZVWk86oTmgwc7zODgspJCR5cK17W9kVUC2W7aqGygGLB/LLBlmwlOmbeXmYf8fE0
+	SyCf79QSrrupeoTo7MPVxYbwZCln3lhwu1sU1bIZ0dnMHX/q8jnfpllIKw0xeZ0DhSLM
+	NjIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=dtay1t/8F0wroE/4gRl+DMjWaRAg1S7IMqSKkwsLaCo=;
-	b=Vfw8EjJxT13n09CTHnA3F+vSUR5SDmac1TsoyjeGAeAVwxn8e1o58m0RY6Rhsx/AfY
-	kXEIGv21IE/BL4y27uaAnxNLPJGCoOVSD/6yPpV4CkKWBmDHm66DTcrvzqc+splrPBNf
-	NxLvj9RIpNF8ad9TWpWejXEVUnwSHToTtKJkWZhd2IAfARrTA4xcj6C+mkoRWWuQYT8b
-	z8eTEg8l2SxjJy5P3WyI78jGAj78ZUMAjgdo+rWR5MDxb2Bba7yZaTr4Cp2wFGl1UpHx
-	j4PrHZLkuLfb9+Rqb1lIgf/x1lLRLEQgj8CBKIWYUf0j2DIZAOyZ+oOlSWVag8+rk3Pf
-	DI8Q==
-X-Gm-Message-State: APjAAAUloQhlhsrsameaoBQQFvNvJRfVKYBkiLu4ZICf5RCO+DByoCe7
-	4Wh0+DoyDrEUAxKpNyJJC8y5xS0/iw4=
-X-Google-Smtp-Source: APXvYqxL0dUPCywfeqB1pvGKiX0JjqbiYDcPGNmoDgbMFGWFIKSkGYPAjRWiwl6VEKXMhQzeGNrq+g==
-X-Received: by 2002:adf:f14e:: with SMTP id y14mr25310800wro.276.1556557285145;
-	Mon, 29 Apr 2019 10:01:25 -0700 (PDT)
+	bh=2DwQZ6cqfQHoMxgvU29bcGwE5/erOlHteqQaEyRX6QU=;
+	b=GmOpc5rcVHaB2/GQ+ZHeiBJT9ICC/TrthFOis80pARaOyFJnlgz161DGR1SpD2UCca
+	FZPj1FLSjnB7YeLQVCfNbl+v9CHzUtl+jrbyGuPkiWRnYHEXbDABwNMtrj8wDMmgoIsM
+	PqXiSn4vgLPeAXgr2ciDZOmCAwF/Wicmh71CzLlH1JTS22U0d9HmKye4afZvk8otKBox
+	97F0oALaMJqFTh0j7FhBB8joVWgLzFB0xNlOjsuN3Nie0EUdxj8L8BZIyCI0qC4t/WfH
+	aZg2X/l3hJgKNJBclGOl5qAFMI9XzG3xAWjObmWHpbeiLJNZl2dgIbSPL1kCXDG3iuVD
+	TtdA==
+X-Gm-Message-State: APjAAAWPD+IVlTI3mu1EUUcS6SL6D+lAtebtM6UCTBh/Mp24YktjFlbb
+	3mWtMzHhyff1RhzbChykLRC79Qu5hiE=
+X-Google-Smtp-Source: APXvYqxENjmB3uQfGWAFKMrDGdSFJH1Xp3BX+QWfwYBKMC0UWBoZi/94Y4ce2ai50uFqk6WIqzdIfA==
+X-Received: by 2002:a5d:4a4f:: with SMTP id v15mr15337695wrs.5.1556557286401; 
+	Mon, 29 Apr 2019 10:01:26 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
-	by smtp.gmail.com with ESMTPSA id a13sm36896wmj.39.2019.04.29.10.01.23
+	by smtp.gmail.com with ESMTPSA id a13sm36896wmj.39.2019.04.29.10.01.25
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 29 Apr 2019 10:01:24 -0700 (PDT)
+	Mon, 29 Apr 2019 10:01:25 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 29 Apr 2019 18:00:29 +0100
-Message-Id: <20190429170030.11323-42-peter.maydell@linaro.org>
+Date: Mon, 29 Apr 2019 18:00:30 +0100
+Message-Id: <20190429170030.11323-43-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190429170030.11323-1-peter.maydell@linaro.org>
 References: <20190429170030.11323-1-peter.maydell@linaro.org>
@@ -66,9 +66,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::42e
-Subject: [Qemu-devel] [PULL 41/42] hw/net/lan9118: Export TYPE_LAN9118 and
- use it instead of hardcoded string
+X-Received-From: 2a00:1450:4864:20::42a
+Subject: [Qemu-devel] [PULL 42/42] hw/devices: Move SMSC 91C111 declaration
+ into a new header
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -85,84 +85,149 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
+This commit finally deletes "hw/devices.h".
+
 Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20190412165416.7977-12-philmd@redhat.com
+Message-id: 20190412165416.7977-13-philmd@redhat.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/net/lan9118.h | 2 ++
- hw/arm/exynos4_boards.c  | 3 ++-
- hw/arm/mps2-tz.c         | 3 ++-
- hw/net/lan9118.c         | 1 -
- 4 files changed, 6 insertions(+), 3 deletions(-)
+ include/hw/devices.h       | 11 -----------
+ include/hw/net/smc91c111.h | 19 +++++++++++++++++++
+ hw/arm/gumstix.c           |  2 +-
+ hw/arm/integratorcp.c      |  2 +-
+ hw/arm/mainstone.c         |  2 +-
+ hw/arm/realview.c          |  2 +-
+ hw/arm/versatilepb.c       |  2 +-
+ hw/net/smc91c111.c         |  2 +-
+ 8 files changed, 25 insertions(+), 17 deletions(-)
+ delete mode 100644 include/hw/devices.h
+ create mode 100644 include/hw/net/smc91c111.h
 
-diff --git a/include/hw/net/lan9118.h b/include/hw/net/lan9118.h
-index d13d8cd3d22..500acb4c143 100644
---- a/include/hw/net/lan9118.h
-+++ b/include/hw/net/lan9118.h
-@@ -14,6 +14,8 @@
- #include "hw/irq.h"
- #include "net/net.h"
- 
-+#define TYPE_LAN9118 "lan9118"
+diff --git a/include/hw/devices.h b/include/hw/devices.h
+deleted file mode 100644
+index ebc45c87997..00000000000
+--- a/include/hw/devices.h
++++ /dev/null
+@@ -1,11 +0,0 @@
+-#ifndef QEMU_DEVICES_H
+-#define QEMU_DEVICES_H
+-
+-/* Devices that have nowhere better to go.  */
+-
+-#include "hw/hw.h"
+-
+-/* smc91c111.c */
+-void smc91c111_init(NICInfo *, uint32_t, qemu_irq);
+-
+-#endif
+diff --git a/include/hw/net/smc91c111.h b/include/hw/net/smc91c111.h
+new file mode 100644
+index 00000000000..a66ba4112f8
+--- /dev/null
++++ b/include/hw/net/smc91c111.h
+@@ -0,0 +1,19 @@
++/*
++ * SMSC 91C111 Ethernet interface emulation
++ *
++ * Copyright (c) 2005 CodeSourcery, LLC.
++ * Written by Paul Brook
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or later.
++ * See the COPYING file in the top-level directory.
++ */
 +
- void lan9118_init(NICInfo *, uint32_t, qemu_irq);
- 
- #endif
-diff --git a/hw/arm/exynos4_boards.c b/hw/arm/exynos4_boards.c
-index 750162cc95a..ea8100f65a8 100644
---- a/hw/arm/exynos4_boards.c
-+++ b/hw/arm/exynos4_boards.c
-@@ -32,6 +32,7 @@
- #include "hw/arm/arm.h"
- #include "exec/address-spaces.h"
- #include "hw/arm/exynos4210.h"
-+#include "hw/net/lan9118.h"
- #include "hw/boards.h"
- 
- #undef DEBUG
-@@ -92,7 +93,7 @@ static void lan9215_init(uint32_t base, qemu_irq irq)
-     /* This should be a 9215 but the 9118 is close enough */
-     if (nd_table[0].used) {
-         qemu_check_nic_model(&nd_table[0], "lan9118");
--        dev = qdev_create(NULL, "lan9118");
-+        dev = qdev_create(NULL, TYPE_LAN9118);
-         qdev_set_nic_properties(dev, &nd_table[0]);
-         qdev_prop_set_uint32(dev, "mode_16bit", 1);
-         qdev_init_nofail(dev);
-diff --git a/hw/arm/mps2-tz.c b/hw/arm/mps2-tz.c
-index f79f090a4ac..7832408bb70 100644
---- a/hw/arm/mps2-tz.c
-+++ b/hw/arm/mps2-tz.c
-@@ -56,6 +56,7 @@
- #include "hw/arm/armsse.h"
- #include "hw/dma/pl080.h"
- #include "hw/ssi/pl022.h"
-+#include "hw/net/lan9118.h"
++#ifndef HW_NET_SMC91C111_H
++#define HW_NET_SMC91C111_H
++
++#include "hw/irq.h"
++#include "net/net.h"
++
++void smc91c111_init(NICInfo *, uint32_t, qemu_irq);
++
++#endif
+diff --git a/hw/arm/gumstix.c b/hw/arm/gumstix.c
+index 79886ce3787..343cbfd7da8 100644
+--- a/hw/arm/gumstix.c
++++ b/hw/arm/gumstix.c
+@@ -40,7 +40,7 @@
+ #include "hw/arm/pxa.h"
  #include "net/net.h"
- #include "hw/core/split-irq.h"
- 
-@@ -244,7 +245,7 @@ static MemoryRegion *make_eth_dev(MPS2TZMachineState *mms, void *opaque,
-      * except that it doesn't support the checksum-offload feature.
-      */
-     qemu_check_nic_model(nd, "lan9118");
--    mms->lan9118 = qdev_create(NULL, "lan9118");
-+    mms->lan9118 = qdev_create(NULL, TYPE_LAN9118);
-     qdev_set_nic_properties(mms->lan9118, nd);
-     qdev_init_nofail(mms->lan9118);
- 
-diff --git a/hw/net/lan9118.c b/hw/net/lan9118.c
-index a428b16eda5..b29e3fee49f 100644
---- a/hw/net/lan9118.c
-+++ b/hw/net/lan9118.c
-@@ -175,7 +175,6 @@ static const VMStateDescription vmstate_lan9118_packet = {
-     }
- };
- 
--#define TYPE_LAN9118 "lan9118"
- #define LAN9118(obj) OBJECT_CHECK(lan9118_state, (obj), TYPE_LAN9118)
- 
- typedef struct {
+ #include "hw/block/flash.h"
+-#include "hw/devices.h"
++#include "hw/net/smc91c111.h"
+ #include "hw/boards.h"
+ #include "exec/address-spaces.h"
+ #include "sysemu/qtest.h"
+diff --git a/hw/arm/integratorcp.c b/hw/arm/integratorcp.c
+index 4eceebb9ea7..0b6f24465e4 100644
+--- a/hw/arm/integratorcp.c
++++ b/hw/arm/integratorcp.c
+@@ -12,10 +12,10 @@
+ #include "qemu-common.h"
+ #include "cpu.h"
+ #include "hw/sysbus.h"
+-#include "hw/devices.h"
+ #include "hw/boards.h"
+ #include "hw/arm/arm.h"
+ #include "hw/misc/arm_integrator_debug.h"
++#include "hw/net/smc91c111.h"
+ #include "net/net.h"
+ #include "exec/address-spaces.h"
+ #include "sysemu/sysemu.h"
+diff --git a/hw/arm/mainstone.c b/hw/arm/mainstone.c
+index e96738ad267..c1cec590379 100644
+--- a/hw/arm/mainstone.c
++++ b/hw/arm/mainstone.c
+@@ -18,7 +18,7 @@
+ #include "hw/arm/pxa.h"
+ #include "hw/arm/arm.h"
+ #include "net/net.h"
+-#include "hw/devices.h"
++#include "hw/net/smc91c111.h"
+ #include "hw/boards.h"
+ #include "hw/block/flash.h"
+ #include "hw/sysbus.h"
+diff --git a/hw/arm/realview.c b/hw/arm/realview.c
+index e9983c87639..05a244df255 100644
+--- a/hw/arm/realview.c
++++ b/hw/arm/realview.c
+@@ -14,8 +14,8 @@
+ #include "hw/sysbus.h"
+ #include "hw/arm/arm.h"
+ #include "hw/arm/primecell.h"
+-#include "hw/devices.h"
+ #include "hw/net/lan9118.h"
++#include "hw/net/smc91c111.h"
+ #include "hw/pci/pci.h"
+ #include "net/net.h"
+ #include "sysemu/sysemu.h"
+diff --git a/hw/arm/versatilepb.c b/hw/arm/versatilepb.c
+index d67181810a6..25166e15171 100644
+--- a/hw/arm/versatilepb.c
++++ b/hw/arm/versatilepb.c
+@@ -13,7 +13,7 @@
+ #include "cpu.h"
+ #include "hw/sysbus.h"
+ #include "hw/arm/arm.h"
+-#include "hw/devices.h"
++#include "hw/net/smc91c111.h"
+ #include "net/net.h"
+ #include "sysemu/sysemu.h"
+ #include "hw/pci/pci.h"
+diff --git a/hw/net/smc91c111.c b/hw/net/smc91c111.c
+index 99da2d92973..d19ea0750d3 100644
+--- a/hw/net/smc91c111.c
++++ b/hw/net/smc91c111.c
+@@ -10,7 +10,7 @@
+ #include "qemu/osdep.h"
+ #include "hw/sysbus.h"
+ #include "net/net.h"
+-#include "hw/devices.h"
++#include "hw/net/smc91c111.h"
+ #include "qemu/log.h"
+ /* For crc32 */
+ #include <zlib.h>
 -- 
 2.20.1
 
