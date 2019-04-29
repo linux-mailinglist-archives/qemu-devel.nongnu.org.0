@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0397EA5F
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 20:45:20 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33706 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 696A0EA73
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 20:47:41 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33757 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLBHD-0004KU-Da
-	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 14:45:19 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56764)
+	id 1hLBJU-0006O0-Jb
+	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 14:47:40 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56808)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <berto@igalia.com>) id 1hLBF2-0003Hf-18
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 14:43:04 -0400
+	(envelope-from <berto@igalia.com>) id 1hLBF4-0003Ig-OR
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 14:43:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <berto@igalia.com>) id 1hLBF0-0002Qg-Th
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 14:43:03 -0400
-Received: from fanzine.igalia.com ([91.117.99.155]:54752)
+	(envelope-from <berto@igalia.com>) id 1hLBF0-0002QU-Od
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 14:43:06 -0400
+Received: from fanzine.igalia.com ([91.117.99.155]:54753)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <berto@igalia.com>)
-	id 1hLBF0-0002Pd-IN; Mon, 29 Apr 2019 14:43:02 -0400
+	id 1hLBF0-0002Pe-5t; Mon, 29 Apr 2019 14:43:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
 	s=20170329; 
 	h=References:In-Reply-To:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
-	bh=DSgYzoTxyKoJ5zGTX00jdWTyzuRuzs/sQOg2O0JISzQ=; 
-	b=gPuqG02RLH23nNeWN2QQB0IglKKnbfRIkr+y/aYbwjnVDKpIIC5YDYNTWobA0eejIpZ4AdxTM408HPmZtpfAfci29gsn5SQMN+ronAICUPiAArsgmn4xUNh6sJp8eA9ZkKlDXYqlWhY//YrZh6DPHJhFamuoWLUfhVLtVibEGqgJgr3tNjugEUoAVaxxsKNggRPZwhbAgMwDadMCoxROogAmSktUJoc3NUj8C/mEZd0Uo4S3DUrunmNEShhp6+RXFAdWi80p6ptK/6VqqTUz/tBVB9l3qVcIn1aEBxIRWq7cTifk+8t43GvERP2mZml/lNKzdi7z4wCyH4wheN6Nnw==;
+	bh=N9Ijrdys9rcn5uS4tPdtWX/PEwV61+M0Lnq/0LHPSa4=; 
+	b=bFZ5AH9H+7FNi5Bx/jXnw/r89Hqs+y9rSbVehFhSif8nojjtW0xrVF95poZUWJb+djIatNocG0i1wwd83BSpPISnBjP/2Wtw1XXc9l11wiqbGG9GHecO+cKeuWGufDPw2XgVH9qcot8YX1jaqPcgm9kX2Jij9065bNRfAvBnLhQlMNlb/Jr2dyhtwMsX9/Ssav1trYYGI7fpZbd5slBqMdlK5DVB+oRc1g0oGwrYVN3jvmD+sRcbGnPVRKvrsNl0jilIPI50F6/CY+E2vpNQbtAjtkbSAGsLFgHhea7QdlD+JUTAXkxPPmgO5oNyOJAOSHXwYfslsMHtiMSA7D+/kA==;
 Received: from static-191-95-145-212.ipcom.comunitel.net ([212.145.95.191]
 	helo=perseus.local) by fanzine.igalia.com with esmtpsa 
 	(Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
-	id 1hLBEx-0006XM-Ov; Mon, 29 Apr 2019 20:42:59 +0200
+	id 1hLBEx-0006XN-Rd; Mon, 29 Apr 2019 20:42:59 +0200
 Received: from berto by perseus.local with local (Exim 4.89)
 	(envelope-from <berto@igalia.com>)
-	id 1hLBEl-0002ZU-8R; Mon, 29 Apr 2019 21:42:47 +0300
+	id 1hLBEl-0002ZX-Ax; Mon, 29 Apr 2019 21:42:47 +0300
 From: Alberto Garcia <berto@igalia.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 29 Apr 2019 20:42:39 +0200
-Message-Id: <1e84aa54bf7ac50636308384ac13ee89c4a1c850.1556562150.git.berto@igalia.com>
+Date: Mon, 29 Apr 2019 20:42:40 +0200
+Message-Id: <e823a4cb62ef8ab37d3e30773052a5f69393f06c.1556562150.git.berto@igalia.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1556562150.git.berto@igalia.com>
 References: <cover.1556562150.git.berto@igalia.com>
@@ -44,7 +44,8 @@ References: <cover.1556562150.git.berto@igalia.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
 	timestamps) [generic] [fuzzy]
 X-Received-From: 91.117.99.155
-Subject: [Qemu-devel] [PATCH 4/5] block: Remove bdrv_read() and bdrv_write()
+Subject: [Qemu-devel] [PATCH 5/5] qcow2: Remove
+ BDRVQcow2State.cluster_sectors
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,77 +62,39 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-No one is using these functions anymore, all callers have switched to
-the byte-based bdrv_pread() and bdrv_pwrite()
+The last user of this field disappeared when we replace the
+sector-based bdrv_write() with the byte-based bdrv_pwrite().
 
 Signed-off-by: Alberto Garcia <berto@igalia.com>
 ---
- block/io.c            | 36 ------------------------------------
- include/block/block.h |  4 ----
- 2 files changed, 40 deletions(-)
+ block/qcow2.c | 1 -
+ block/qcow2.h | 1 -
+ 2 files changed, 2 deletions(-)
 
-diff --git a/block/io.c b/block/io.c
-index dfc153b8d8..adf759171a 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -837,42 +837,6 @@ static int bdrv_prwv_co(BdrvChild *child, int64_t offset,
-     return rwco.ret;
- }
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 3ace3b2209..3a3240fcca 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -1259,7 +1259,6 @@ static int coroutine_fn qcow2_do_open(BlockDriverState *bs, QDict *options,
  
--/*
-- * Process a synchronous request using coroutines
-- */
--static int bdrv_rw_co(BdrvChild *child, int64_t sector_num, uint8_t *buf,
--                      int nb_sectors, bool is_write, BdrvRequestFlags flags)
--{
--    QEMUIOVector qiov = QEMU_IOVEC_INIT_BUF(qiov, buf,
--                                            nb_sectors * BDRV_SECTOR_SIZE);
--
--    if (nb_sectors < 0 || nb_sectors > BDRV_REQUEST_MAX_SECTORS) {
--        return -EINVAL;
--    }
--
--    return bdrv_prwv_co(child, sector_num << BDRV_SECTOR_BITS,
--                        &qiov, is_write, flags);
--}
--
--/* return < 0 if error. See bdrv_write() for the return codes */
--int bdrv_read(BdrvChild *child, int64_t sector_num,
--              uint8_t *buf, int nb_sectors)
--{
--    return bdrv_rw_co(child, sector_num, buf, nb_sectors, false, 0);
--}
--
--/* Return < 0 if error. Important errors are:
--  -EIO         generic I/O error (may happen for all errors)
--  -ENOMEDIUM   No media inserted.
--  -EINVAL      Invalid sector number or nb_sectors
--  -EACCES      Trying to write a read-only device
--*/
--int bdrv_write(BdrvChild *child, int64_t sector_num,
--               const uint8_t *buf, int nb_sectors)
--{
--    return bdrv_rw_co(child, sector_num, (uint8_t *)buf, nb_sectors, true, 0);
--}
--
- int bdrv_pwrite_zeroes(BdrvChild *child, int64_t offset,
-                        int bytes, BdrvRequestFlags flags)
- {
-diff --git a/include/block/block.h b/include/block/block.h
-index c7a26199aa..5e2b98b0ee 100644
---- a/include/block/block.h
-+++ b/include/block/block.h
-@@ -316,10 +316,6 @@ int bdrv_reopen_prepare(BDRVReopenState *reopen_state,
-                         BlockReopenQueue *queue, Error **errp);
- void bdrv_reopen_commit(BDRVReopenState *reopen_state);
- void bdrv_reopen_abort(BDRVReopenState *reopen_state);
--int bdrv_read(BdrvChild *child, int64_t sector_num,
--              uint8_t *buf, int nb_sectors);
--int bdrv_write(BdrvChild *child, int64_t sector_num,
--               const uint8_t *buf, int nb_sectors);
- int bdrv_pwrite_zeroes(BdrvChild *child, int64_t offset,
-                        int bytes, BdrvRequestFlags flags);
- int bdrv_make_zero(BdrvChild *child, BdrvRequestFlags flags);
+     s->cluster_bits = header.cluster_bits;
+     s->cluster_size = 1 << s->cluster_bits;
+-    s->cluster_sectors = 1 << (s->cluster_bits - BDRV_SECTOR_BITS);
+ 
+     /* Initialise version 3 header fields */
+     if (header.version == 2) {
+diff --git a/block/qcow2.h b/block/qcow2.h
+index fdee297f33..e62508d1ce 100644
+--- a/block/qcow2.h
++++ b/block/qcow2.h
+@@ -266,7 +266,6 @@ typedef struct Qcow2BitmapHeaderExt {
+ typedef struct BDRVQcow2State {
+     int cluster_bits;
+     int cluster_size;
+-    int cluster_sectors;
+     int l2_slice_size;
+     int l2_bits;
+     int l2_size;
 -- 
 2.11.0
 
