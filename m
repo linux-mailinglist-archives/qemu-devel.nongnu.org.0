@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4E86E850
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:07:02 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60669 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C5D1E8A1
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:17:48 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60822 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hL9k6-0000EZ-2j
-	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:07:02 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34170)
+	id 1hL9uV-00016G-5V
+	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:17:47 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34360)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hL9eS-0004Sl-Br
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:13 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hL9er-0004r3-3L
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hL9eM-0006We-7d
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:11 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:35880)
+	(envelope-from <peter.maydell@linaro.org>) id 1hL9eo-0006kV-BP
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:35 -0400
+Received: from mail-wr1-x42d.google.com ([2a00:1450:4864:20::42d]:41684)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hL9eI-0006Qc-FT
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:02 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id h18so189194wml.1
-	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 10:00:52 -0700 (PDT)
+	id 1hL9eo-0006R7-08
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:34 -0400
+Received: by mail-wr1-x42d.google.com with SMTP id c12so17089247wrt.8
+	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 10:00:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=Rv9idA66U0R3da/ng9l1sXaK23Zu2IQFWoWn3MV0yck=;
-	b=e7rIDARkQlswB+K4yyeHwsM5VJ1v1gWkRdrp7S4ViJtg8krnJrGFDW1JxfKhCJp84+
-	YwrsZbx6/cBnzSEecmm+/1w+yBpiPywCFU9daUtrRaJOUK1CQNYgFGDOXXmPbDedalUE
-	188IGa0yhNPGfE3i5Ko6Sr81+kUD5CBGI1Z56Kiri2tdUMX2Z490ejs+tGJlCQSRsXPz
-	A1jytr6ee+XDr+mj6Hdg9trdggq0wycUjLgz0Ndgjask276bQUVkVAZLf2teQL60IuEA
-	gQX3HIaG1yqMhrmFvCIyRfLX5l5RuJod//wQXQj1qXrqdUshETYMADn9m9fUcqKyqVBl
-	HAPw==
+	bh=BkAjqGaX0B2OxEPEkgjNPx5AhDVspw6+QJQ8/auHQ9M=;
+	b=XYI8mMwFFqY3hfdHQbRv5xTBpJSGaPcyTIAOnDBB/8rzZ5mUdesczoxV0DFATMDiBk
+	sUwR3Pc7aTXjYBjpg6GKxUMFzGBu/GISZWdu3/MK/EETz92lce2OYbBJuVSCUlY5CpOl
+	P2misckoZlUc3EpM/efkXl9aeHx9uk3ys86cGQvrhzcq6JuOkhlG9Ktnt5WeW2LDRoHF
+	+EDo08vOGBGXwIyEHm8f4gsiJzkzqOentvk/eNlxDeU2hyokAdufPXDBj6HlAZVvNsBN
+	bAdbpALqBWg7QbW3Ge8zhkNyoZZa1PSDTEcYvXSx+5QC11g88JpSTvmJSUwdVPZQkDYl
+	6BAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=Rv9idA66U0R3da/ng9l1sXaK23Zu2IQFWoWn3MV0yck=;
-	b=Ktk1aLRpA2NjKhJtidUVSCsrRppXhWtDnv00v1OxrgiySUZBj04Mvz8yHaL7YoZVaB
-	avFyQT/BJ6uYLZKzDro1S8+7QuAUTl8JX30Hb5mrwjPyYJv2LKycTnoEWORymUfdtgSj
-	0Q2+J9Xhsc83VMM7R7xKmHsmZnH1Fji7rnyX32vf2J27K1r/uSVHBsGHva62Ajl5hgGk
-	NCL0QGaabrbIFcp1ptAC4f/YlBTWpURkDYuVDHVCa3U0o0JsA81P7gWiwSQKFmdW95x3
-	MP8Htdp7EgCWDlpQ3sXyFR3pxhs+kjaGSB3zz/FbmpdCMFia29HsGejYPsrtrj+2adFe
-	7Jbg==
-X-Gm-Message-State: APjAAAV0PzzYBRHkO7oWiXYmWBUU7BgTjeWa/VJ2cAL+TondyDddNm8z
-	h7tpVt0bJhI87LDkwTLwRAm5GKHdMoM=
-X-Google-Smtp-Source: APXvYqwsON+Gd5pBYahcX+Ha7Bkl5oFmHzdPPtx41akjLA86E/X9V7qYqV62/QG04owTTmEhjGdtqQ==
-X-Received: by 2002:a1c:ef10:: with SMTP id n16mr57476wmh.70.1556557251610;
-	Mon, 29 Apr 2019 10:00:51 -0700 (PDT)
+	bh=BkAjqGaX0B2OxEPEkgjNPx5AhDVspw6+QJQ8/auHQ9M=;
+	b=pNaMP5uv02IBb0AULX/Me5OsxL0C8MxWmDLmjZgDG4v5xlYvl7TghbIHp3gzCXhXyU
+	B3y1N/AAwknqDaTuvvulA4RuTIxdUTeiTkatKZZRNdAFDSoL89560F6dZRyG2a8CH+I8
+	5hJCVSV6gNmGP+pAii3cM2pr/ZUrmq/OHFl6JRve6osWU2ewva9SoDLRJ3HGGUTWs9/B
+	b1zLew/q7jVFetK9dWx5zlw1RReU40F8RmzedOIcfZlzk5u1gXRWT0kW5vujyKccd1nf
+	ojIYQLQkyq1ZDsEVF9SZ7AqgYOO8kciMny67sdhydZ+t1GsapoUg3p05Dt6sfgh3R/X5
+	1uhg==
+X-Gm-Message-State: APjAAAVPb13PsAwN/BvieodhQT/xTvXCQC+RVvrU0Wgrm7dU409pgyMQ
+	c47JmkaEcXTc+Elb5hgLraGIp9Q0WoQ=
+X-Google-Smtp-Source: APXvYqxp+8XJskD7/f3IN6qiZJrhICmv27BD0/zoJcP+fRknlWyrsrDsAuWaBr9FOHE+7PPTv1ygrA==
+X-Received: by 2002:adf:c002:: with SMTP id z2mr42931189wre.177.1556557252960; 
+	Mon, 29 Apr 2019 10:00:52 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
-	by smtp.gmail.com with ESMTPSA id a13sm36896wmj.39.2019.04.29.10.00.50
+	by smtp.gmail.com with ESMTPSA id a13sm36896wmj.39.2019.04.29.10.00.51
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 29 Apr 2019 10:00:50 -0700 (PDT)
+	Mon, 29 Apr 2019 10:00:52 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 29 Apr 2019 18:00:03 +0100
-Message-Id: <20190429170030.11323-16-peter.maydell@linaro.org>
+Date: Mon, 29 Apr 2019 18:00:04 +0100
+Message-Id: <20190429170030.11323-17-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190429170030.11323-1-peter.maydell@linaro.org>
 References: <20190429170030.11323-1-peter.maydell@linaro.org>
@@ -65,9 +65,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::32f
-Subject: [Qemu-devel] [PULL 15/42] target/arm: Clear CONTROL.SFPA in BXNS
- and BLXNS
+X-Received-From: 2a00:1450:4864:20::42d
+Subject: [Qemu-devel] [PULL 16/42] target/arm: Clean excReturn bits when
+ tail chaining
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,40 +82,37 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For v8M floating point support, transitions from Secure
-to Non-secure state via BLNS and BLXNS must clear the
-CONTROL.SFPA bit. (This corresponds to the pseudocode
-BranchToNS() function.)
+The TailChain() pseudocode specifies that a tail chaining
+exception should sanitize the excReturn all-ones bits and
+(if there is no FPU) the excReturn FType bits; we weren't
+doing this.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20190416125744.27770-13-peter.maydell@linaro.org
+Message-id: 20190416125744.27770-14-peter.maydell@linaro.org
 ---
- target/arm/helper.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ target/arm/helper.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 547898581a2..088852ceb96 100644
+index 088852ceb96..da0b6202400 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -7819,6 +7819,9 @@ void HELPER(v7m_bxns)(CPUARMState *env, uint32_t dest)
-     /* translate.c should have made BXNS UNDEF unless we're secure */
-     assert(env->v7m.secure);
+@@ -8076,6 +8076,14 @@ static void v7m_exception_taken(ARMCPU *cpu, uint32_t lr, bool dotailchain,
+     qemu_log_mask(CPU_LOG_INT, "...taking pending %s exception %d\n",
+                   targets_secure ? "secure" : "nonsecure", exc);
  
-+    if (!(dest & 1)) {
-+        env->v7m.control[M_REG_S] &= ~R_V7M_CONTROL_SFPA_MASK;
++    if (dotailchain) {
++        /* Sanitize LR FType and PREFIX bits */
++        if (!arm_feature(env, ARM_FEATURE_VFP)) {
++            lr |= R_V7M_EXCRET_FTYPE_MASK;
++        }
++        lr = deposit32(lr, 24, 8, 0xff);
 +    }
-     switch_v7m_security_state(env, dest & 1);
-     env->thumb = 1;
-     env->regs[15] = dest & ~1;
-@@ -7876,6 +7879,7 @@ void HELPER(v7m_blxns)(CPUARMState *env, uint32_t dest)
-          */
-         write_v7m_exception(env, 1);
-     }
-+    env->v7m.control[M_REG_S] &= ~R_V7M_CONTROL_SFPA_MASK;
-     switch_v7m_security_state(env, 0);
-     env->thumb = 1;
-     env->regs[15] = dest;
++
+     if (arm_feature(env, ARM_FEATURE_V8)) {
+         if (arm_feature(env, ARM_FEATURE_M_SECURITY) &&
+             (lr & R_V7M_EXCRET_S_MASK)) {
 -- 
 2.20.1
 
