@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 364E9E8BD
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:23:51 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60905 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B235E8C5
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:25:43 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60928 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLA0M-0006BS-6g
-	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:23:50 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34359)
+	id 1hLA2A-0007x6-L1
+	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:25:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34628)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hL9er-0004r2-3K
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:38 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hL9fD-0005Id-Q4
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:02:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hL9en-0006jp-Pz
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:35 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:40395)
+	(envelope-from <peter.maydell@linaro.org>) id 1hL9f5-0006uc-Jq
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:54 -0400
+Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:55636)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hL9el-0006ZN-7e
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:32 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id h11so154899wmb.5
-	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 10:01:10 -0700 (PDT)
+	id 1hL9f0-0006Zq-6w
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:47 -0400
+Received: by mail-wm1-x333.google.com with SMTP id o25so150674wmf.5
+	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 10:01:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=lJUudDaDiId6vq4HrX2mxmCThhHruq8pKrvlbVUyK2U=;
-	b=t+SwSahCawCOpjr0YYmfOwihSyKCmueeHtMqtL0bmeY5I/VbgSQEu9v5G0ajUxseM9
-	rgsEJI8W15al+V0naZBb1jYTpy0rkCjGdAV4bppYRzjEqcgiSM1awu30C+K73hj0tymj
-	a6PWbMq+W9IGCkrPVEQ5owudlW0iDa2mAebAOWqYdafm0Bmcg7Mf4dQ1Txuz3T9DPSxp
-	R4Ql9usadujPXnR3J5w2fKDGiJ4f6ildOq66EIJ4Na0ZFFygf+kXL4GqZQUbuPNufJ6R
-	LkhmwKsaA7R/518COfgSU8RpD6+nbcwXy+31iSwwAdkSQnMCrsq8ER3KKKpf8HkujEFI
-	hj3g==
+	bh=eTbZj0yNxBgy+nnqwFFdjnetdUZKzGCHFuJh3epfaNs=;
+	b=w0oXvjuNrBmN3lwaqC091UnPSA+Nip6L1D1gNhXabdyOVWLqgwM2ZepC/QlQytehDC
+	/0reAkO4mgWAD0wt334tCQ6ZAiA1nWuhGT1O/XWrnQZflAuN1caZsUPN5qnQgyBTQUun
+	trdJp0Phz0LW6IRjmPuZPwfZRrPTZ3QSHcNum3jty62mvpbOm09HW1eTYZuCFPR9d8wF
+	yY3/tqQ5dd9QkK0kQkKCKyZHAianqZMD/rj7kTThIOTa2S+PEBu4QOi6pmYVzlKTluuZ
+	oMa07i0fechMDRRzGZxDNDFoWDo2+whe5w77yKS+/1ihR/5QntW6VH8g5EyvIAOvzLLy
+	y74w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=lJUudDaDiId6vq4HrX2mxmCThhHruq8pKrvlbVUyK2U=;
-	b=rRyb2oypwFeW0F0XagZ/v5H6VanEwvyAofABFv7moDXTtQ7EVDTwVLEO5GVJRz3loi
-	4NddGrdtweV1GEppvXMCFmCjS5Sln6TOJ3e2oVkkryCssXTHZDOV07JOJgfI+q7QQBRf
-	pYqDqxbAOJyt6aVuDBN3wmDsYajeKiPaKzLBZb1VgigQyjoTo5f8KjD+GuyIYwa9JwY/
-	/n049WskcHpGhM+FJq63b9zG3he5Yhd/F+iEGT+26STf6SnJCW65BYKUsrP4crKvZrbG
-	kltZmDl/4Mu0MIX1hs2YERWuU2qwJb4FY0LPl1ztc/M1+Rsim6FVuKzvWxQtlqdNv+SO
-	Vqhg==
-X-Gm-Message-State: APjAAAXWA33MZMLXi7HGMxdrZK0SaJ+XWmcQzFkKTZb+wXhryhWXuO2f
-	STAPPQgoNmxE9fVXjP8Vo1pawWT5YFo=
-X-Google-Smtp-Source: APXvYqxnjsfsqkN2rCl0yW/fQnrTD2y+uLbbNzXLt8nN00ofQN16BgFab9ZrRdueDDpIGXnWOFFoAg==
-X-Received: by 2002:a1c:ef08:: with SMTP id n8mr27597wmh.85.1556557268940;
-	Mon, 29 Apr 2019 10:01:08 -0700 (PDT)
+	bh=eTbZj0yNxBgy+nnqwFFdjnetdUZKzGCHFuJh3epfaNs=;
+	b=Er2cjoTmD1ZuG+aCmxMKIc9ur+3yoYdor1bFJoRr8yHCrV+XjdsVxTTMRCGusJ0hlM
+	Z1pM2dOKJYTPf+OW4kP1H3YyYi8awhWoLJC0SVUsjxr8Jfa5sofiGDPbRV/llARsPGpq
+	PzLORwvo6KlDif517eOTa6kG6icjX/FNQs8G/fEBt8nhZGerS23P3pjSnuaYw52IS2cz
+	9jAQLjvFxoPdXOsVcHFnXdlFk1q7oBYtX73ODnblqKR7W8vnz2g0V5G9zNsOrCJDF5Z1
+	lRXTbo/ygqbcLLRrHKzF5u153eyIY7eknsS+HV2JWJehOozmu7qHUki/iqOHcNGfjrQg
+	HT2A==
+X-Gm-Message-State: APjAAAW9RVtYlPKY6BClPO54MMpvp+RyWxfJ8rhvd+2ClJbkHyhvRXQ3
+	blI/AlTBfH0LU/gG26kF6ZyBQP/EfQM=
+X-Google-Smtp-Source: APXvYqwZ+C8OmR/drQxNnKAaRy9LnIaH9CKL3JPw75SK4gPFRZvAZygzt88Bum9vEfOpV4Dtp4RK8A==
+X-Received: by 2002:a1c:4c09:: with SMTP id z9mr24312wmf.87.1556557270116;
+	Mon, 29 Apr 2019 10:01:10 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
-	by smtp.gmail.com with ESMTPSA id a13sm36896wmj.39.2019.04.29.10.01.07
+	by smtp.gmail.com with ESMTPSA id a13sm36896wmj.39.2019.04.29.10.01.08
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 29 Apr 2019 10:01:08 -0700 (PDT)
+	Mon, 29 Apr 2019 10:01:09 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 29 Apr 2019 18:00:16 +0100
-Message-Id: <20190429170030.11323-29-peter.maydell@linaro.org>
+Date: Mon, 29 Apr 2019 18:00:17 +0100
+Message-Id: <20190429170030.11323-30-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190429170030.11323-1-peter.maydell@linaro.org>
 References: <20190429170030.11323-1-peter.maydell@linaro.org>
@@ -65,9 +65,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::32d
-Subject: [Qemu-devel] [PULL 28/42] target/arm: Implement VLLDM for v7M CPUs
- with an FPU
+X-Received-From: 2a00:1450:4864:20::333
+Subject: [Qemu-devel] [PULL 29/42] target/arm: Enable FPU for Cortex-M4 and
+ Cortex-M33
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,114 +82,46 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement the VLLDM instruction for v7M for the FPU present cas.
+Enable the FPU by default for the Cortex-M4 and Cortex-M33.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20190416125744.27770-26-peter.maydell@linaro.org
+Message-id: 20190416125744.27770-27-peter.maydell@linaro.org
 ---
- target/arm/helper.h    |  1 +
- target/arm/helper.c    | 54 ++++++++++++++++++++++++++++++++++++++++++
- target/arm/translate.c |  2 +-
- 3 files changed, 56 insertions(+), 1 deletion(-)
+ target/arm/cpu.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/target/arm/helper.h b/target/arm/helper.h
-index 62051ae6d51..50cb036378b 100644
---- a/target/arm/helper.h
-+++ b/target/arm/helper.h
-@@ -72,6 +72,7 @@ DEF_HELPER_3(v7m_tt, i32, env, i32, i32)
- DEF_HELPER_1(v7m_preserve_fp_state, void, env)
- 
- DEF_HELPER_2(v7m_vlstm, void, env, i32)
-+DEF_HELPER_2(v7m_vlldm, void, env, i32)
- 
- DEF_HELPER_2(v8m_stackcheck, void, env, i32)
- 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index b821037c3b6..81a92ab4911 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -7390,6 +7390,12 @@ void HELPER(v7m_vlstm)(CPUARMState *env, uint32_t fptr)
-     g_assert_not_reached();
- }
- 
-+void HELPER(v7m_vlldm)(CPUARMState *env, uint32_t fptr)
-+{
-+    /* translate.c should never generate calls here in user-only mode */
-+    g_assert_not_reached();
-+}
-+
- uint32_t HELPER(v7m_tt)(CPUARMState *env, uint32_t addr, uint32_t op)
- {
-     /* The TT instructions can be used by unprivileged code, but in
-@@ -8474,6 +8480,54 @@ void HELPER(v7m_vlstm)(CPUARMState *env, uint32_t fptr)
-     env->v7m.control[M_REG_S] &= ~R_V7M_CONTROL_FPCA_MASK;
- }
- 
-+void HELPER(v7m_vlldm)(CPUARMState *env, uint32_t fptr)
-+{
-+    /* fptr is the value of Rn, the frame pointer we load the FP regs from */
-+    assert(env->v7m.secure);
-+
-+    if (!(env->v7m.control[M_REG_S] & R_V7M_CONTROL_SFPA_MASK)) {
-+        return;
-+    }
-+
-+    /* Check access to the coprocessor is permitted */
-+    if (!v7m_cpacr_pass(env, true, arm_current_el(env) != 0)) {
-+        raise_exception_ra(env, EXCP_NOCP, 0, 1, GETPC());
-+    }
-+
-+    if (env->v7m.fpccr[M_REG_S] & R_V7M_FPCCR_LSPACT_MASK) {
-+        /* State in FP is still valid */
-+        env->v7m.fpccr[M_REG_S] &= ~R_V7M_FPCCR_LSPACT_MASK;
-+    } else {
-+        bool ts = env->v7m.fpccr[M_REG_S] & R_V7M_FPCCR_TS_MASK;
-+        int i;
-+        uint32_t fpscr;
-+
-+        if (fptr & 7) {
-+            raise_exception_ra(env, EXCP_UNALIGNED, 0, 1, GETPC());
-+        }
-+
-+        for (i = 0; i < (ts ? 32 : 16); i += 2) {
-+            uint32_t slo, shi;
-+            uint64_t dn;
-+            uint32_t faddr = fptr + 4 * i;
-+
-+            if (i >= 16) {
-+                faddr += 8; /* skip the slot for the FPSCR */
-+            }
-+
-+            slo = cpu_ldl_data(env, faddr);
-+            shi = cpu_ldl_data(env, faddr + 4);
-+
-+            dn = (uint64_t) shi << 32 | slo;
-+            *aa32_vfp_dreg(env, i / 2) = dn;
-+        }
-+        fpscr = cpu_ldl_data(env, fptr + 0x40);
-+        vfp_set_fpscr(env, fpscr);
-+    }
-+
-+    env->v7m.control[M_REG_S] |= R_V7M_CONTROL_FPCA_MASK;
-+}
-+
- static bool v7m_push_stack(ARMCPU *cpu)
- {
-     /* Do the "set up stack frame" part of exception entry,
-diff --git a/target/arm/translate.c b/target/arm/translate.c
-index 99b38dd5f2b..10bc53f91c6 100644
---- a/target/arm/translate.c
-+++ b/target/arm/translate.c
-@@ -11823,7 +11823,7 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
-                     TCGv_i32 fptr = load_reg(s, rn);
- 
-                     if (extract32(insn, 20, 1)) {
--                        /* VLLDM */
-+                        gen_helper_v7m_vlldm(cpu_env, fptr);
-                     } else {
-                         gen_helper_v7m_vlstm(cpu_env, fptr);
-                     }
+diff --git a/target/arm/cpu.c b/target/arm/cpu.c
+index 7deccda2404..a181fa8dc1a 100644
+--- a/target/arm/cpu.c
++++ b/target/arm/cpu.c
+@@ -1493,8 +1493,12 @@ static void cortex_m4_initfn(Object *obj)
+     set_feature(&cpu->env, ARM_FEATURE_M);
+     set_feature(&cpu->env, ARM_FEATURE_M_MAIN);
+     set_feature(&cpu->env, ARM_FEATURE_THUMB_DSP);
++    set_feature(&cpu->env, ARM_FEATURE_VFP4);
+     cpu->midr = 0x410fc240; /* r0p0 */
+     cpu->pmsav7_dregion = 8;
++    cpu->isar.mvfr0 = 0x10110021;
++    cpu->isar.mvfr1 = 0x11000011;
++    cpu->isar.mvfr2 = 0x00000000;
+     cpu->id_pfr0 = 0x00000030;
+     cpu->id_pfr1 = 0x00000200;
+     cpu->id_dfr0 = 0x00100000;
+@@ -1521,9 +1525,13 @@ static void cortex_m33_initfn(Object *obj)
+     set_feature(&cpu->env, ARM_FEATURE_M_MAIN);
+     set_feature(&cpu->env, ARM_FEATURE_M_SECURITY);
+     set_feature(&cpu->env, ARM_FEATURE_THUMB_DSP);
++    set_feature(&cpu->env, ARM_FEATURE_VFP4);
+     cpu->midr = 0x410fd213; /* r0p3 */
+     cpu->pmsav7_dregion = 16;
+     cpu->sau_sregion = 8;
++    cpu->isar.mvfr0 = 0x10110021;
++    cpu->isar.mvfr1 = 0x11000011;
++    cpu->isar.mvfr2 = 0x00000040;
+     cpu->id_pfr0 = 0x00000030;
+     cpu->id_pfr1 = 0x00000210;
+     cpu->id_dfr0 = 0x00200000;
 -- 
 2.20.1
 
