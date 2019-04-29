@@ -2,131 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CB4AE3F0
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 15:47:50 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57841 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C47DDE3F4
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 15:49:54 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57865 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hL6dJ-0001mb-B4
-	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 09:47:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34725)
+	id 1hL6fK-0003HR-0h
+	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 09:49:54 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34872)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <borntraeger@de.ibm.com>) id 1hL6bJ-0000g2-2Q
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 09:45:45 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hL6be-0001IM-Vs
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 09:46:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <borntraeger@de.ibm.com>) id 1hL6bH-000421-2f
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 09:45:44 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:39510
-	helo=mx0a-001b2d01.pphosted.com)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
-	id 1hL6bF-00040g-8t
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 09:45:42 -0400
-Received: from pps.filterd (m0098420.ppops.net [127.0.0.1])
-	by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
-	x3TDiTTN102683
-	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 09:45:39 -0400
-Received: from e06smtp04.uk.ibm.com (e06smtp04.uk.ibm.com [195.75.94.100])
-	by mx0b-001b2d01.pphosted.com with ESMTP id 2s61tq9sh7-1
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 09:45:39 -0400
-Received: from localhost
-	by e06smtp04.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use
-	Only! Violators will be prosecuted
-	for <qemu-devel@nongnu.org> from <borntraeger@de.ibm.com>;
-	Mon, 29 Apr 2019 14:45:37 +0100
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
-	by e06smtp04.uk.ibm.com (192.168.101.134) with IBM ESMTP SMTP Gateway:
-	Authorized Use Only! Violators will be prosecuted; 
-	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-	Mon, 29 Apr 2019 14:45:35 +0100
-Received: from d06av24.portsmouth.uk.ibm.com (d06av24.portsmouth.uk.ibm.com
-	[9.149.105.60])
-	by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with
-	ESMTP id x3TDjYGZ50593886
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK); Mon, 29 Apr 2019 13:45:34 GMT
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id E7FF742059;
-	Mon, 29 Apr 2019 13:45:33 +0000 (GMT)
-Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0C01F42045;
-	Mon, 29 Apr 2019 13:45:33 +0000 (GMT)
-Received: from oc7455500831.ibm.com (unknown [9.152.96.198])
-	by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-	Mon, 29 Apr 2019 13:45:32 +0000 (GMT)
-To: Cornelia Huck <cohuck@redhat.com>, "Jason J. Herne" <jjherne@linux.ibm.com>
-References: <1556543381-12671-1-git-send-email-jjherne@linux.ibm.com>
-	<20190429154003.7f8fc423.cohuck@redhat.com>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
-	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
-	syiRa+UVlsKmx1hsEg==
-Date: Mon, 29 Apr 2019 15:45:31 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <peter.maydell@linaro.org>) id 1hL6be-0004DS-5u
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 09:46:06 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:37238)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hL6be-0004D1-1b
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 09:46:06 -0400
+Received: by mail-oi1-x243.google.com with SMTP id k6so8316457oic.4
+	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 06:46:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=6wTVpL+XmlLaM1Wd2Sj2ryiW9cRqs6MJOd+5+IrcM38=;
+	b=jKqKiKFBQqZ7NoIcjtWY+gykII9kHulkVqZWlXpt09TQQzpZoQnfYcLUnZXglZWp9O
+	ooVr/wj2Y9Xeep8M+2EITRoY9t1gtaZ52xMa0pJLBEbmukJivu0ws4R9oqnI1PIzIzYW
+	gXCJKjnoy5LDcrfIeVfjhvjBM7PoapMY7xHDFf7nGbyibKSEDX9idI9EQQp/d4f968xN
+	/3w790RAqHP9fXKrRHoD/pusw7E81TrT+IqE/j+suDiXkkJyaFC0z4FbxIihJBlepRTu
+	hB3mUIIMgwe56d2GPIf9/YihiSKPjn6riEQYq1DyoUruktsDZucFivGr0NCARur/e2OR
+	QKMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=6wTVpL+XmlLaM1Wd2Sj2ryiW9cRqs6MJOd+5+IrcM38=;
+	b=Blzvsr2pUTTFw3+ARKPT6jYWLQbGEhSBEehGRJ+LD8opb56jGkuF0mGuD82AtdRu/4
+	Y6gGjB+//b6NYTc70sU6fs1KwuFHIiY/uhApWeOGKyjLdavdKSp9qsahz7+WU54t7XPp
+	5GmYLvefkz7HLH0XGBhtZdkGuBOt9svQJkH1/ilTJO0LsucPlUe6tJ8PrNPF842Uy7cH
+	P0s+p7piOKJs3jInF+B1nmxu5b7EbW8AtsJmqqVcsO+aH8HBrjD1DvgKXagjb28v0Blr
+	O1Hbd162pMH+H2zNpQxqmfTdRB2gRcUFVjgEpgNMTdWyATCEiyWG/lOHXssImXiZaFmj
+	pkNA==
+X-Gm-Message-State: APjAAAXkYXuzzs+ijC6mEPxEc8bD4idBuKrcliLW8YVygSx2TKsDoyS2
+	x9RDYXIWb5LfLUQS9S2OZTywdoHsETpxTbw54yw3yk9LuG0=
+X-Google-Smtp-Source: APXvYqzFdIhCDzPbQKWnDS1kjdoe+z3YBvVpM4Dt97PWWcBB+vz/9VFgnRhmh9l8X+pJaS2mzZOaBcr1tzJ/HlQvrhA=
+X-Received: by 2002:a05:6808:301:: with SMTP id
+	i1mr12984099oie.163.1556545565116; 
+	Mon, 29 Apr 2019 06:46:05 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190429154003.7f8fc423.cohuck@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-TM-AS-GCONF: 00
-x-cbid: 19042913-0016-0000-0000-0000027683F3
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19042913-0017-0000-0000-000032D30A72
-Message-Id: <ef10a003-3eb8-df60-bfb1-bc99bfd6b7af@de.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
-	definitions=2019-04-29_07:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
-	priorityscore=1501
-	malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
-	clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
-	mlxlogscore=986 adultscore=0 classifier=spam adjust=0 reason=mlx
-	scancount=1 engine=8.0.1-1810050000 definitions=main-1904290098
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
-Subject: Re: [Qemu-devel] [PATCH] s390-bios: Skip bootmap signature entries
+References: <20190328230404.12909-1-richard.henderson@linaro.org>
+	<20190328230404.12909-7-richard.henderson@linaro.org>
+In-Reply-To: <20190328230404.12909-7-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 29 Apr 2019 14:45:53 +0100
+Message-ID: <CAFEAcA8Hou2fB6VsP9fOe0EE9b6-R6_8AZWtLWFTKADQtKDJVQ@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::243
+Subject: Re: [Qemu-devel] [PATCH for-4.1 v2 06/36] cpu: Replace ENV_GET_CPU
+ with env_cpu
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -138,36 +74,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, Stefan Haberland <sth@linux.vnet.ibm.com>,
-	alifm@linux.ibm.com, qemu-devel@nongnu.org,
-	Peter Oberparleiter <oberpar@linux.ibm.com>, qemu-s390x@nongnu.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, 28 Mar 2019 at 23:41, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Now that we have both ArchCPU and CPUArchState, we can define
+> this generically instead of via macro in each target's cpu.h.
+>
+> Acked-by: Alistair Francis <alistair.francis@wdc.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
 
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-On 29.04.19 15:40, Cornelia Huck wrote:
-> On Mon, 29 Apr 2019 09:09:41 -0400
-> "Jason J. Herne" <jjherne@linux.ibm.com> wrote:
-> 
->> Newer versions of zipl have the ability to write signature entries to the boot
->> script for secure boot. We don't yet support secure boot, but we need to skip
->> over signature entries while reading the boot script in order to maintain our
->> ability to boot guest operating systems that have a secure bootloader.
->>
->> Signed-off-by: Jason J. Herne <jjherne@linux.ibm.com>
->> Reviewed-by: Farhan Ali <alifm@linux.ibm.com>
->> ---
->>  pc-bios/s390-ccw/bootmap.c | 19 +++++++++++++++++--
->>  pc-bios/s390-ccw/bootmap.h | 10 ++++++----
->>  2 files changed, 23 insertions(+), 6 deletions(-)
-> 
-> Skipping something that we don't have support for yet, but that doesn't
-> hinder normal operation sounds reasonable; but can you point me to the
-> relevant commit implementing this in zipl or some documentation? I
-> haven't been able to find something like that in the s390-tools git
-> tree.
-
-the s390-tools update is currently in preparation, adding Stefan and Peter.
-
+thanks
+-- PMM
 
