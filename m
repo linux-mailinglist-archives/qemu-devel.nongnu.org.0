@@ -2,60 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBC2CE98B
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:53:06 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33153 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 86667E974
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:46:28 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33068 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLASg-0005ps-2D
-	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:53:06 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46728)
+	id 1hLAMF-0001G4-NI
+	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:46:27 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44847)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hLAQS-0004YQ-PW
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:50:49 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hLAI4-00070j-Jo
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:42:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hLAQR-0002lv-Hy
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:50:48 -0400
-Received: from indium.canonical.com ([91.189.90.7]:33612)
+	(envelope-from <peter.maydell@linaro.org>) id 1hLAI3-0005EH-HP
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:42:08 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:35257)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hLAQR-0002lO-CE
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:50:47 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
-	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hLAQM-00027G-Vr
-	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 17:50:43 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id 7052D2E80EB
-	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 17:50:40 +0000 (UTC)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hLAI3-00059s-Ak
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:42:07 -0400
+Received: by mail-oi1-x243.google.com with SMTP id w197so9021900oia.2
+	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 10:42:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=TbQQeoVuWlL6uw2HCqjR19lGYYJs6/Qda8ZujnN+WTE=;
+	b=sVSsBnJIZdtEkNJqyy8kSb4Nxfk/4XrReh3QV/xtufqirBPjEqSu/B5BAqSWQIiRmT
+	7wFWcg5euStqe0d1X8FU5MFpjh+vQSI9MzhY+XkWV4IpOCOBb/iK83qxc0Ug4SFmzHNB
+	e6/xIcrGgAFQg+HVNZupGOLKtx1nB2rfxg+hrbYT6r55RBLDQt6cRCdBh5VBCU2TX9va
+	KRzo34Kwv3aYK6xOkqxxPZMV9/5X2q0r++8UO9ugTXj4OsbcQvt5mmrGhDWoPpKZL0rX
+	xVMIrJB0wPOu1MMbKhUXbMeSsGjVLUuyxBh4apryJ9ZVV2etePuGCLU3uV9s5cyerciX
+	+uyA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=TbQQeoVuWlL6uw2HCqjR19lGYYJs6/Qda8ZujnN+WTE=;
+	b=PYdaX2sZ3i1ZsGPD8WkZLXw/bJ//cz+R4JvAJY0zr4IrEj1VPC7j36VY3mTrt9qZ/E
+	HVpnyUEox3nSnTkc+U3doQH7hJQo1w1hrOqx3O5EWlqTszGqD0Ciw191+wTwjaYyf4g3
+	+UheUpmjHMX6uREhhquOJN/h4dMmfB6VXk6zww4udbOC3q4RQWU/gPfZehN8YSJ1B208
+	c9hdMDmO24IR9C5u/GywvcUpRSgm9RFq8AwmuBnCGJexqjk66ZcaWYrnrVHfBRrktHeA
+	aFA/iWD9WjIRE0preo9kCwv5mK2+YhJzqDygwHZw9Zb6vyig7TDI8gpnfrPl9aS0WQYp
+	k5zA==
+X-Gm-Message-State: APjAAAX4Ad7AdhxSOtH8Bka1KKDnpy//WeVOYm0ZmkYEmqLvLwarW3MT
+	hrgXqISsUNA1pHroLA8cvtTurfqsE3zBaPKPmxs6jsFoRd8=
+X-Google-Smtp-Source: APXvYqzyTYQjBXy2JLivoUHD3pBz2VE+Vv5rXzaBJUDA5R0z3NeZYxiCZ+6sJ64zIFcRwGhiH++gxV9+j5ghqD0s+OA=
+X-Received: by 2002:a05:6808:301:: with SMTP id
+	i1mr148150oie.163.1556559720863; 
+	Mon, 29 Apr 2019 10:42:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 29 Apr 2019 17:40:52 -0000
-From: Ben Wibking <1818937@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: crash hvf macos
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bwibking cuser2
-X-Launchpad-Bug-Reporter: Chen Zhang (cuser2)
-X-Launchpad-Bug-Modifier: Ben Wibking (bwibking)
-References: <155192472106.28960.15645485731508389788.malonedeb@chaenomeles.canonical.com>
-Message-Id: <155655965273.7051.11571422786261284957.malone@chaenomeles.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18928";
-	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 84ebde4dbad0eff55bc49bf4918db67d232a43f4
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1818937] Re: Crash with HV_ERROR on macOS host
+References: <20190403034358.21999-1-richard.henderson@linaro.org>
+	<20190403034358.21999-27-richard.henderson@linaro.org>
+In-Reply-To: <20190403034358.21999-27-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 29 Apr 2019 18:41:49 +0100
+Message-ID: <CAFEAcA_TJJ7V3apxmGvhoiRk2dxzT77SapcyMuopGwqmeQoosw@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::243
+Subject: Re: [Qemu-devel] [PATCH 26/26] tcg: Use tlb_fill probe from
+ tlb_vaddr_to_host
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,88 +74,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1818937 <1818937@bugs.launchpad.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-^This is on version:
+On Wed, 3 Apr 2019 at 05:05, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Most of the existing users would continue around a loop which
+> would fault the tlb entry in via a normal load/store.  But for
+> SVE we have a true non-faulting case which requires the new
+> probing form of tlb_fill.
 
-% qemu-system-x86_64 --version
-QEMU emulator version 4.0.50 (v4.0.0-rc4-52-g3284aa1281-dirty)
-Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developers
+So am I right in thinking that this fixes a bug where we
+previously would mark a load as faulted if the memory happened
+not to be in the TLB, whereas now we will correctly pull in the
+TLB entry and do the load ?
 
--- =
+(Since guest code ought to be handling the "non-first-load
+faulted" case by looping round or otherwise arranging to
+retry, nothing in practice would have noticed this bug, right?)
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1818937
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  include/exec/cpu_ldst.h | 40 ++++--------------------
+>  accel/tcg/cputlb.c      | 69 ++++++++++++++++++++++++++++++++++++-----
+>  target/arm/sve_helper.c |  6 +---
+>  3 files changed, 68 insertions(+), 47 deletions(-)
+>
+> diff --git a/include/exec/cpu_ldst.h b/include/exec/cpu_ldst.h
+> index d78041d7a0..be8c3f4da2 100644
+> --- a/include/exec/cpu_ldst.h
+> +++ b/include/exec/cpu_ldst.h
+> @@ -440,43 +440,15 @@ static inline CPUTLBEntry *tlb_entry(CPUArchState *env, uintptr_t mmu_idx,
+>   * This is the equivalent of the initial fast-path code used by
+>   * TCG backends for guest load and store accesses.
+>   */
 
-Title:
-  Crash with HV_ERROR on macOS host
+The doc comment which this is the last two lines of needs
+updating, I think -- with the changed implementation it's
+no longer just the equivalent of the fast-path bit of code,
+and it doesn't return NULL on a TLB miss any more.
 
-Status in QEMU:
-  New
+Otherwise
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-Bug description:
-  On macOS host running Windows 10 guest, qemu crashed with error
-  message: Error: HV_ERROR.
-
-  Host: macOS Mojave 10.14.3 (18D109) Late 2014 Mac mini presumably Core i5=
- 4278U.
-  QEMU: git commit a3e3b0a7bd5de211a62cdf2d6c12b96d3c403560
-  QEMU parameter: qemu-system-x86_64 -m 3000 -drive file=3Ddisk.img,if=3Dvi=
-rtio,discard=3Dunmap -accel hvf -soundhw hda -smp 3
-
-  thread list
-  Process 56054 stopped
-    thread #1: tid =3D 0x2ffec8, 0x00007fff48d0805a vImage`vLookupTable_Pla=
-nar16 + 970, queue =3D 'com.apple.main-thread'
-    thread #2: tid =3D 0x2ffecc, 0x00007fff79d6d7de libsystem_kernel.dylib`=
-__psynch_cvwait + 10
-    thread #3: tid =3D 0x2ffecd, 0x00007fff79d715aa libsystem_kernel.dylib`=
-__select + 10
-    thread #4: tid =3D 0x2ffece, 0x00007fff79d71d9a libsystem_kernel.dylib`=
-__sigwait + 10
-  * thread #6: tid =3D 0x2ffed0, 0x00007fff79d7023e libsystem_kernel.dylib`=
-__pthread_kill + 10, stop reason =3D signal SIGABRT
-    thread #7: tid =3D 0x2ffed1, 0x00007fff79d6d7de libsystem_kernel.dylib`=
-__psynch_cvwait + 10
-    thread #8: tid =3D 0x2ffed2, 0x00007fff79d6d7de libsystem_kernel.dylib`=
-__psynch_cvwait + 10
-    thread #11: tid =3D 0x2fff34, 0x00007fff79d6a17a libsystem_kernel.dylib=
-`mach_msg_trap + 10, name =3D 'com.apple.NSEventThread'
-    thread #30: tid =3D 0x300c04, 0x00007fff79e233f8 libsystem_pthread.dyli=
-b`start_wqthread
-    thread #31: tid =3D 0x300c16, 0x00007fff79e233f8 libsystem_pthread.dyli=
-b`start_wqthread
-    thread #32: tid =3D 0x300c17, 0x0000000000000000
-    thread #33: tid =3D 0x300c93, 0x00007fff79d6d7de libsystem_kernel.dylib=
-`__psynch_cvwait + 10
-
-  =
-
-  Crashed thread:
-
-  * thread #6, stop reason =3D signal SIGABRT
-    * frame #0: 0x00007fff79d7023e libsystem_kernel.dylib`__pthread_kill + =
-10
-      frame #1: 0x00007fff79e26c1c libsystem_pthread.dylib`pthread_kill + 2=
-85
-      frame #2: 0x00007fff79cd91c9 libsystem_c.dylib`abort + 127
-      frame #3: 0x000000010baa476d qemu-system-x86_64`assert_hvf_ok(ret=3D<=
-unavailable>) at hvf.c:106 [opt]
-      frame #4: 0x000000010baa4c8f qemu-system-x86_64`hvf_vcpu_exec(cpu=3D0=
-x00007f8e5283de00) at hvf.c:681 [opt]
-      frame #5: 0x000000010b988423 qemu-system-x86_64`qemu_hvf_cpu_thread_f=
-n(arg=3D0x00007f8e5283de00) at cpus.c:1636 [opt]
-      frame #6: 0x000000010bd9dfce qemu-system-x86_64`qemu_thread_start(arg=
-s=3D<unavailable>) at qemu-thread-posix.c:502 [opt]
-      frame #7: 0x00007fff79e24305 libsystem_pthread.dylib`_pthread_body + =
-126
-      frame #8: 0x00007fff79e2726f libsystem_pthread.dylib`_pthread_start +=
- 70
-      frame #9: 0x00007fff79e23415 libsystem_pthread.dylib`thread_start + 13
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1818937/+subscriptions
+thanks
+-- PMM
 
