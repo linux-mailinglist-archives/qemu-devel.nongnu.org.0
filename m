@@ -2,44 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBD3DE080
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 12:27:20 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55305 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7578E079
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 12:25:08 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:55245 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hL3VI-0001ng-1h
-	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 06:27:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48530)
+	id 1hL3T9-0007iq-W0
+	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 06:25:08 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48263)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <david@redhat.com>) id 1hL3R9-0006gF-Ch
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 06:23:04 -0400
+	(envelope-from <david@redhat.com>) id 1hL3R8-0006RN-AJ
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 06:23:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <david@redhat.com>) id 1hL3Kn-0005oO-Qe
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 06:16:30 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33743)
+	(envelope-from <david@redhat.com>) id 1hL3M2-0006QZ-JL
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 06:17:47 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52562)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <david@redhat.com>)
-	id 1hL3Kn-0005na-IT; Mon, 29 Apr 2019 06:16:29 -0400
+	id 1hL3M2-0006QI-Au; Mon, 29 Apr 2019 06:17:46 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
 	[10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 96E50C0B2004;
-	Mon, 29 Apr 2019 10:16:26 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 624F33084242;
+	Mon, 29 Apr 2019 10:17:45 +0000 (UTC)
 Received: from [10.36.118.17] (unknown [10.36.118.17])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 4EFD85D71D;
-	Mon, 29 Apr 2019 10:16:23 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id C99275D6A9;
+	Mon, 29 Apr 2019 10:17:39 +0000 (UTC)
 To: Christian Borntraeger <borntraeger@de.ibm.com>,
 	Cornelia Huck <cohuck@redhat.com>
-References: <20190426111003.21246-1-borntraeger@de.ibm.com>
-	<20190426111003.21246-11-borntraeger@de.ibm.com>
-	<71955bba-ef04-1677-b7f0-bb1675bad12a@redhat.com>
-	<07252560-1eed-8fd5-ee94-6bcea6cf99bc@de.ibm.com>
-	<10d43e6e-ee8c-cd65-e724-354e0f40c79f@redhat.com>
-	<057d438c-2062-1aa7-887a-918f076911c5@de.ibm.com>
-	<93f0ecac-47cc-c791-9e32-ad5743489bf3@redhat.com>
-	<20190426145506.409b53cf.cohuck@redhat.com>
-	<7157e9b3-4432-32cc-9327-22e0d0124987@de.ibm.com>
+References: <20190429090250.7648-1-borntraeger@de.ibm.com>
+	<20190429090250.7648-10-borntraeger@de.ibm.com>
 From: David Hildenbrand <david@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
@@ -86,23 +79,23 @@ Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
 	+8Umfre0Xt4713VxMygW0PnQt5aSQdMD58jHFxTk092mU+yIHj5LeYgvwSgZN4airXk5yRXl
 	SE+xAvmumFBY
 Organization: Red Hat GmbH
-Message-ID: <fcf4a57e-efa5-557e-e38a-6ad2c253ef14@redhat.com>
-Date: Mon, 29 Apr 2019 12:16:22 +0200
+Message-ID: <e04f4b12-1dae-d14d-0d73-364b465806c3@redhat.com>
+Date: Mon, 29 Apr 2019 12:17:37 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <7157e9b3-4432-32cc-9327-22e0d0124987@de.ibm.com>
+In-Reply-To: <20190429090250.7648-10-borntraeger@de.ibm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.31]);
-	Mon, 29 Apr 2019 10:16:26 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.40]);
+	Mon, 29 Apr 2019 10:17:45 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [qemu-s390x] [PATCH v2 10/10] s390x/cpumodel: wire
- up 8561 and 8562 as gen15 machines
+Subject: Re: [Qemu-devel] [PATCH v3 9/9] s390x/cpumodel: wire up 8561 and
+ 8562 as gen15 machines
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -121,11 +114,49 @@ Cc: "Jason J . Herne" <jjherne@linux.ibm.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-> I dont think that I know the name in time before the next release.
-> So lets go with gen15a/gen15b or 8561/8562?
+On 29.04.19 11:02, Christian Borntraeger wrote:
+> 8561 and 8562 will be gen15 machines. There is no name yet, lets us use
+> gen15a and gen15tb as base name. Later on we can provide aliases with
+
+nit: gen15b
+
+> the proper name.
+> 
+> Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
+> ---
+>  target/s390x/cpu_models.c | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
+> 
+> diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
+> index d683635eb5..21ea819483 100644
+> --- a/target/s390x/cpu_models.c
+> +++ b/target/s390x/cpu_models.c
+> @@ -43,10 +43,9 @@
+>      }
+>  
+>  /*
+> - * CPU definiton list in order of release. For now, base features of a
+> - * following release are always a subset of base features of the previous
+> - * release. Same is correct for the other feature sets.
+> - * A BC release always follows the corresponding EC release.
+> + * CPU definition list in order of release. Up to generation 14 base features
+> + * of a following release have been a superset of the previous release. With
+> + * generation 15 one base feature and one optional feature have been deprecated.
+>   */
+>  static S390CPUDef s390_cpu_defs[] = {
+>      CPUDEF_INIT(0x2064, 7, 1, 38, 0x00000000U, "z900", "IBM zSeries 900 GA1"),
+> @@ -83,6 +82,8 @@ static S390CPUDef s390_cpu_defs[] = {
+>      CPUDEF_INIT(0x3906, 14, 1, 47, 0x08000000U, "z14", "IBM z14 GA1"),
+>      CPUDEF_INIT(0x3906, 14, 2, 47, 0x08000000U, "z14.2", "IBM z14 GA2"),
+>      CPUDEF_INIT(0x3907, 14, 1, 47, 0x08000000U, "z14ZR1", "IBM z14 Model ZR1 GA1"),
+> +    CPUDEF_INIT(0x8561, 15, 1, 47, 0x08000000U, "gen15a", "IBM 8561 GA1"),
+> +    CPUDEF_INIT(0x8562, 15, 1, 47, 0x08000000U, "gen15b", "IBM 8562 GA1"),
+>  };
+>  
+>  #define QEMU_MAX_CPU_TYPE 0x2827
 > 
 
-We can still fixup if the names happen to be known earlier.
+Reviewed-by: David Hildenbrand <david@redhat.com>
 
 -- 
 
