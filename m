@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0F95E934
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:34:44 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:32840 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D7E6AE950
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:37:49 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:32897 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLAAt-00083d-Sj
-	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:34:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41846)
+	id 1hLADt-0002O5-1U
+	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:37:49 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41878)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alistair23@gmail.com>) id 1hLA6L-000527-7m
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:30:02 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hLA6R-000588-6f
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:30:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alistair23@gmail.com>) id 1hLA6K-0006OM-C9
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:30:01 -0400
-Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:35827)
+	(envelope-from <peter.maydell@linaro.org>) id 1hLA6Q-0006Rk-Cs
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:30:07 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:40714)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <alistair23@gmail.com>)
-	id 1hLA6I-0006NG-59; Mon, 29 Apr 2019 13:29:58 -0400
-Received: by mail-lj1-x244.google.com with SMTP id z26so10164142ljj.2;
-	Mon, 29 Apr 2019 10:29:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hLA6Q-0006RO-8L
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:30:06 -0400
+Received: by mail-ot1-x343.google.com with SMTP id w6so9374706otl.7
+	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 10:30:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=a3DPUEIRyecRUGS47p5FmLdqBTx4B9Jqf0Eml2oDI5A=;
-	b=dvO7IKoZ/NCO+KgP0M4oOoruQBLoRFLX1iMYIYIUw9QZYvvR51PPyysV0U0D1qWosQ
-	sbBLKj1kOjyhx/Q1u7aSYImkJcElfBLLGNeydnYaBmQSOH0nmNYYC5qtXm6O6L7LDhIc
-	oyebTT9bkwxWruARMnVSyPoqYFYsO1HG0N1RJzylSvk7pZK1ee0OGChereLdE9DKuzq9
-	DsDmuwkX6KAtxLzJArG8Rjdff9ZsVenXrLT+O6WyBAbuOkJU2O8aNPxTWqh0S68HtwMF
-	wRB/WxbVYkOmKODoQtXqfSjw6NsJzMXv9NeUDI43v3/s5jSJ6wzCaUEDePeThR4aduvY
-	oGnQ==
+	:cc; bh=rVNgDqFtIwPC4jl9v/zGxM1VA6C5kpz++/BT4KoJZa0=;
+	b=SfmDq0rTa+JK6NmWXNmiYs7l1eMyx/C3GvnX9Bay2pag2cBlqIh03Ke6XlTyvcYPRh
+	gTEBTaKNYrt6ddeYUzrgP1OE3HMVweKGfrz0X9vaunTuCwo9qhhMJtkUvnQy4ZzNjVnR
+	sO40ONZL1D+waaXs1cksrOzlrJMvzVpblHaIi7raWHa7iLWg679lLpl4xN5Utl5OSvcN
+	BadoTxEepCIjMFQW09nJ35PSiYn3GahUWyzRxpIUPAM+QRiN+dR/qcF+UzMyH838+k7K
+	VMF9ZtrxGF02X5Rdbd/qJkQxWMD1bMNFd5XhW/ePBKe5U9k3+MnsH+cAbWz2IDvjKCMq
+	xfkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=a3DPUEIRyecRUGS47p5FmLdqBTx4B9Jqf0Eml2oDI5A=;
-	b=iIVi9dPT0gIhWTHN7E9kuP8zJOcFatwHR4GkyxPcj/TgXH31QBE5QUP58PPizK7l6E
-	NKxNEZZ7rOFYpueu/DCVYUUBgkK+XdgHJoikJbnui0uqAQBOjvn/5a60Hz5kfFmZ9M04
-	SNoq5onJKttNX9ErT6UEuNGNMhPyMRPrlP+fISi1x3daqQwLXugADu991fzG4k4tPQZ/
-	AyGWsVhMBHpAUHAJtSjEmeWekPTnLG239w6jhMG6VqucFzPzCFbZlBSQFlJtC2tCLFXn
-	ypOKCFOc+Pk8ZcplYNyCNFKovsM2APR359AecCCJQEFwnjSZQ1vqe8mPd/hwVskenMdh
-	s3RQ==
-X-Gm-Message-State: APjAAAXp6AchYIdKK/WUvW35H6JI4lhIf8UA37pObuqdwsBA6My1LXpb
-	CY3LKC6govP/IfkOAuiFh9+k29yIoVNmri+Ydrs=
-X-Google-Smtp-Source: APXvYqxjg+46dKjNOMsJigUvEunR5+STr7yycBYH8zZj8mniMwmerkLHCPahociWWSlRqSUzDhRCRaVhVvATCwkgP7g=
-X-Received: by 2002:a2e:9ed3:: with SMTP id h19mr33593853ljk.129.1556558996905;
-	Mon, 29 Apr 2019 10:29:56 -0700 (PDT)
+	:message-id:subject:to:cc;
+	bh=rVNgDqFtIwPC4jl9v/zGxM1VA6C5kpz++/BT4KoJZa0=;
+	b=MPhQXRbQPWctOyoypsTOa/AsdlBhBVLmKUbp0pe+g4055yVR3VR1gHHt7nIR8GCCi9
+	kVOZ/jvmxBMLfS8mFY1sZvqzImaJoEqFD4cITatnDnXYJNuk+iEtZDhMyYDv+2+fKT+n
+	LCvu+qv3Fzu4SfgpAL7BwCKROfGaHKdCp5PW82fQeaECoUTAi3axxQvLwTmv7dXGrAYn
+	8u1v3AcQagjLEhNhNejigOLCsigX9zmVRvbbPnVXylVtmx/xtBqDFHx2Lf1XO1LQeIdw
+	Peiz/lKyEdlQZ1INAf8Dc4YRj/or1rYH7/oPbxCeMqWL3D7sgviRcLgeJJtmlv180vYw
+	+kng==
+X-Gm-Message-State: APjAAAXvbyaTJzUrfi/krNxKImz2PQWJLdlUHLOpR2cIL6rJ5p+8QfiF
+	ReQkgqueGy6X1oZGuzVoITr1a5EgzESyqiX727CycQ==
+X-Google-Smtp-Source: APXvYqxMqcf260wZKAqOL7YWJCuj/JQLUSX9jcx9LO2IaSq3COuUoITESfMo/XGRXl+3Rmz7/lxqspkPjcO2kJ8QzzA=
+X-Received: by 2002:a9d:360b:: with SMTP id w11mr12926445otb.238.1556559005160;
+	Mon, 29 Apr 2019 10:30:05 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190427141459.19728-1-philmd@redhat.com>
-	<20190427141459.19728-3-philmd@redhat.com>
-In-Reply-To: <20190427141459.19728-3-philmd@redhat.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 29 Apr 2019 10:29:28 -0700
-Message-ID: <CAKmqyKMMTQtq2sxSH85oPzsK-vVX1jELaQALPhAEJ6EpTSD66g@mail.gmail.com>
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+References: <20190403034358.21999-1-richard.henderson@linaro.org>
+	<20190403034358.21999-26-richard.henderson@linaro.org>
+In-Reply-To: <20190403034358.21999-26-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 29 Apr 2019 18:29:53 +0100
+Message-ID: <CAFEAcA-FYom0R+LgxHKGUJUpKyb4xFJdWzjsgh8s+aO20P3Pag@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::244
-Subject: Re: [Qemu-devel] [PATCH 2/3] hw/intc: Only build the
- xlnx-iomod-intc device for the MicroBlaze PMU
+X-Received-From: 2607:f8b0:4864:20::343
+Subject: Re: [Qemu-devel] [PATCH 25/26] tcg: Remove
+ CPUClass::handle_mmu_fault
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -74,46 +73,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
-	Alistair Francis <alistair@alistair23.me>,
-	"qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
-	qemu-arm <qemu-arm@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
-	"Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, Apr 27, 2019 at 7:17 AM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
+On Wed, 3 Apr 2019 at 05:03, Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> The Xilinx I/O Module Interrupt Controller is only used by the
-> MicroBlaze PMU, not by the AArch64 machine.
-> Move it from the generic ZynqMP object list to the PMU specific.
+> This hook is now completely replaced by tlb_fill.
 >
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-Alistair
-
-> ---
->  hw/intc/Makefile.objs | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/hw/intc/Makefile.objs b/hw/intc/Makefile.objs
-> index df712c3e6c9..247e8016cb8 100644
-> --- a/hw/intc/Makefile.objs
-> +++ b/hw/intc/Makefile.objs
-> @@ -3,7 +3,7 @@ common-obj-$(CONFIG_I8259) +=3D i8259_common.o i8259.o
->  common-obj-$(CONFIG_PL190) +=3D pl190.o
->  common-obj-$(CONFIG_PUV3) +=3D puv3_intc.o
->  common-obj-$(CONFIG_XILINX) +=3D xilinx_intc.o
-> -common-obj-$(CONFIG_XLNX_ZYNQMP) +=3D xlnx-pmu-iomod-intc.o
-> +common-obj-$(CONFIG_XLNX_ZYNQMP_PMU) +=3D xlnx-pmu-iomod-intc.o
->  common-obj-$(CONFIG_XLNX_ZYNQMP) +=3D xlnx-zynqmp-ipi.o
->  common-obj-$(CONFIG_ETRAXFS) +=3D etraxfs_pic.o
->  common-obj-$(CONFIG_IMX) +=3D imx_avic.o imx_gpcv2.o
-> --
-> 2.20.1
->
->
+thanks
+-- PMM
 
