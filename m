@@ -2,50 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5A2A0E754
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 18:10:19 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60017 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14062E75D
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 18:12:29 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60071 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hL8rC-0000PE-Gq
-	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 12:10:18 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47537)
+	id 1hL8tI-0001n9-71
+	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 12:12:28 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48668)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <cohuck@redhat.com>) id 1hL8pZ-000839-EY
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 12:08:38 -0400
+	(envelope-from <stefanha@gmail.com>) id 1hL8rk-0001BH-Sn
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 12:10:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <cohuck@redhat.com>) id 1hL8pY-0001YO-HW
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 12:08:37 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44052)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <cohuck@redhat.com>)
-	id 1hL8pY-0001Ta-AN; Mon, 29 Apr 2019 12:08:36 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 9C2BD7FDE5;
-	Mon, 29 Apr 2019 16:08:23 +0000 (UTC)
-Received: from gondolin (dhcp-192-187.str.redhat.com [10.33.192.187])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 1058817A64;
-	Mon, 29 Apr 2019 16:08:19 +0000 (UTC)
-Date: Mon, 29 Apr 2019 18:08:17 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Christian Borntraeger <borntraeger@de.ibm.com>
-Message-ID: <20190429180817.540c2f82.cohuck@redhat.com>
-In-Reply-To: <20190429090250.7648-1-borntraeger@de.ibm.com>
-References: <20190429090250.7648-1-borntraeger@de.ibm.com>
-Organization: Red Hat GmbH
+	(envelope-from <stefanha@gmail.com>) id 1hL8rj-0003qM-Ty
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 12:10:52 -0400
+Received: from mail-it1-x136.google.com ([2607:f8b0:4864:20::136]:40012)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1hL8rj-0003pL-Md
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 12:10:51 -0400
+Received: by mail-it1-x136.google.com with SMTP id k64so9777174itb.5
+	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 09:10:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=3t8thYSykPOt3evLHsj2Me359Tq+7SnvH1AtuRkDAoI=;
+	b=ipfEL11jzs82Frpm2omtLpEsaA1SdoRmY+4+TNvIR61IAc1P+qMU+QHQRI3mU9pn+P
+	0amqrspqXgsag1eYZXPzeZ+8RyrNdx+Y8vpgZv9v+GBBxa0Mjd8oRGEAkPFQlVRtoMOw
+	KhRDyFvorEAkA/vBib/03XVj+5sXqF8jAlvz1avQMGDLao1n8MBLnNjfjKuSEXpoP1Zh
+	rvi4yFEN5sIjD+JLWDz6FK5pIa4BQYz/0mA3UTjYqA1LEhL5irBE6qZ+f0anBWVYs3VP
+	xn3RIE4L3+WodCHBnqyD2LsU87UDYiRk97Is5ZHq8hjzebUvXmmlUBlu5Rw6GAaPRnhj
+	2diw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=3t8thYSykPOt3evLHsj2Me359Tq+7SnvH1AtuRkDAoI=;
+	b=dlcNpHqLvQ9zMQVApnT5PVpzgKd6s/MIou8BMiH5wVHlAEpA5jdyb3yC+o8sZbT3fd
+	tmVDc3LnZ+oQWH/nBA2RxeaIYM+Bt0FGBeLm1Mza0yRgqK4qaLCsi8erwi1kgRTYKzLI
+	ki75wJihjLax2k6gVC9vCkQPFKQK57iGlC60bJLTwIhvzuOYiOyEDJAxvYY8hAsny3p7
+	bZZHJFA1thO4hk7MIrMu72Mr5Z362Sba7mtB9AhcSCcGAeNdAHWFzzK0l1CHFEyscfkT
+	xQL51FRxFNWYGkmhX+p/54o3CBOdRNX9RpwfNd7v+kiqy8yiPnmWOMU2Vm1Hh4J5wYe/
+	+gNw==
+X-Gm-Message-State: APjAAAWzyoc7kGXuU6p7OyZa/Jj4FmTHqOJCtSs+717X7tiOodrpOIia
+	lb1u5v7yrKTwjKS9iaYr2WCVqEGpktE=
+X-Google-Smtp-Source: APXvYqxXWBFM0CKSf0BcE/68lR7YePynb5mh2HHBS3Caalv1d1lHcrTKLpkFkYNK66ZD460FYITeHA==
+X-Received: by 2002:a24:4d06:: with SMTP id l6mr18718224itb.140.1556554249996; 
+	Mon, 29 Apr 2019 09:10:49 -0700 (PDT)
+Received: from localhost
+	(CPE64777d5479c3-CM64777d5479c0.cpe.net.cable.rogers.com.
+	[99.228.64.175])
+	by smtp.gmail.com with ESMTPSA id 15sm16278734itm.6.2019.04.29.09.10.48
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 29 Apr 2019 09:10:49 -0700 (PDT)
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: qemu-devel@nongnu.org
+Date: Mon, 29 Apr 2019 12:10:45 -0400
+Message-Id: <20190429161046.10527-1-stefanha@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.27]);
-	Mon, 29 Apr 2019 16:08:23 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 0/9] s390x: new guest features
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::136
+Subject: [Qemu-devel] [PULL 0/1] Tracing patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -57,55 +76,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Jason J . Herne" <jjherne@linux.ibm.com>,
-	Collin Walling <walling@linux.ibm.com>,
-	David Hildenbrand <david@redhat.com>, qemu-devel <qemu-devel@nongnu.org>,
-	Halil Pasic <pasic@linux.ibm.com>, qemu-s390x <qemu-s390x@nongnu.org>,
-	Richard Henderson <rth@twiddle.net>
+Cc: Stefan Hajnoczi <stefanha@gmail.com>, Paolo Bonzini <pbonzini@redhat.com>,
+	Peter Maydell <peter.maydell@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 29 Apr 2019 05:02:41 -0400
-Christian Borntraeger <borntraeger@de.ibm.com> wrote:
+The following changes since commit e0fb2c3d89aa77057ac4aa073e01f4ca484449b0:
 
-> Adding gen15.
-> 
-> v2->v3: - merge  deprecation patch into gen 15 patch
-> 	- fix comments
-> 	- use gen15a and gen15b instead of cpuid
-> v1->v2: - rework csske deprecation
-> 	- white space fixes
-> 	- also require msa4 for msa9
-> 
-> Christian Borntraeger (9):
->   linux header sync
+  Merge remote-tracking branch 'remotes/rth/tags/pull-tcg-20190426' into staging (2019-04-28 11:43:10 +0100)
 
-I think we can do that sync once the companion kernel series hits the
-kvm next branch.
+are available in the Git repository at:
 
->   s390x/cpumodel: ignore csske for expansion
->   s390x/cpumodel: Miscellaneous-Instruction-Extensions Facility 3
->   s390x/cpumodel: msa9 facility
+  https://github.com/stefanha/qemu.git tags/tracing-pull-request
 
-This seems to be the only patch that does not yet have a R-b from David
--- David, do you plan to review this one as well?
+for you to fetch changes up to b1939fcd438b7140cb8f2685dee026bb112819d7:
 
->   s390x/cpumodel: vector enhancements
->   s390x/cpumodel: enhanced sort facility
->   s390x/cpumodel: add Deflate-conversion facility
->   s390x/cpumodel: add gen15 defintions
->   s390x/cpumodel: wire up 8561 and 8562 as gen15 machines
-> 
->  linux-headers/asm-s390/kvm.h    |   5 +-
->  target/s390x/cpu_features.c     |  54 ++++++++++++++++
->  target/s390x/cpu_features.h     |   3 +
->  target/s390x/cpu_features_def.h |  49 +++++++++++++++
->  target/s390x/cpu_models.c       |  13 ++--
->  target/s390x/gen-features.c     | 105 ++++++++++++++++++++++++++++++++
->  target/s390x/kvm.c              |  18 ++++++
->  7 files changed, 242 insertions(+), 5 deletions(-)
-> 
+  trace: fix runstate tracing (2019-04-29 11:57:19 -0400)
 
-Only thing I noticed were some minor typos in some commit messages, I
-can fix up while applying.
+----------------------------------------------------------------
+Pull request
+
+----------------------------------------------------------------
+
+Yury Kotov (1):
+  trace: fix runstate tracing
+
+ vl.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+-- 
+2.20.1
+
 
