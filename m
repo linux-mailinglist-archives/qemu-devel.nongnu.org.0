@@ -2,69 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E396DE708
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 17:57:47 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:59628 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CA5DE75E
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 18:12:31 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60074 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hL8f5-0000fk-5p
-	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 11:57:47 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39098)
+	id 1hL8tK-0001p2-Ae
+	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 12:12:30 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48741)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <sgarzare@redhat.com>) id 1hL8dI-0007tu-GM
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 11:55:57 -0400
+	(envelope-from <bounces@canonical.com>) id 1hL8rl-0001BQ-Vw
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 12:10:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <sgarzare@redhat.com>) id 1hL8dH-0007sC-8Z
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 11:55:56 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:33776)
+	(envelope-from <bounces@canonical.com>) id 1hL8rk-0003r3-HR
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 12:10:53 -0400
+Received: from indium.canonical.com ([91.189.90.7]:54294)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1hL8dD-0007oc-Fu
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 11:55:53 -0400
-Received: by mail-wr1-f65.google.com with SMTP id s18so16881220wrp.0
-	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 08:55:50 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=ILsergqfW1RQzuTYl5lwHg1XTor6XjOtRRu8lmYrI4U=;
-	b=bkgAsehNtCmE/car3FCVyrRiJRfvrA8wjqjoRStLixxchQetxBobxmuxj0nNyudg5W
-	4q838q88ennRa1w9QH0W2G9PJmo14NkRVdh1cYslliDvmzxXGVjgyCCDjZMHHIe/pK0D
-	DWd0GD1pXtRW/nCKZbadPQbUd1jjdM1NqOIpsjdPOddnQ6CcS2WONR+/S75puBtulIUW
-	zygzfAtjpOCyhnXUM2L2vQKVrdOzlS0YZtMVK0PnRsZRqVNWeQyZw990Sk1U6HKmBWGL
-	h6cjy+VGxOBFyV+69BXH9FZm5+pHCj2gTi+BJutivzvwdHlSxDrq0PP5XKKEMu1K9OnX
-	rmug==
-X-Gm-Message-State: APjAAAVqGbL4leAQUN5Tr1BClxCsOUxzle/Ag0V9QgIPjP8IXHV1D6FB
-	5uQYi+upmK+QxZ1a/u/VMtwvuw==
-X-Google-Smtp-Source: APXvYqwi9lONC53YyQdyfXy/VCVPri6iN5LIQU4vQWYZTTjEqDI/WruIyQcFNK9kGnkpLxZ+VyJ2yg==
-X-Received: by 2002:adf:dbc1:: with SMTP id e1mr25216406wrj.203.1556553349585; 
-	Mon, 29 Apr 2019 08:55:49 -0700 (PDT)
-Received: from steredhat (host35-203-static.12-87-b.business.telecomitalia.it.
-	[87.12.203.35]) by smtp.gmail.com with ESMTPSA id
-	c11sm25122530wrs.86.2019.04.29.08.55.48
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 29 Apr 2019 08:55:48 -0700 (PDT)
-Date: Mon, 29 Apr 2019 17:55:46 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Message-ID: <20190429155546.3yous37l7vokkutb@steredhat>
-References: <20190411105025.97397-1-sgarzare@redhat.com>
-	<20190411105025.97397-2-sgarzare@redhat.com>
-	<20190429102510.GD8492@localhost.localdomain>
-	<20190429140427.6tfpvdzza3io46g5@steredhat>
-	<20190429143014.GG8492@localhost.localdomain>
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hL8rk-0003pY-Bo
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 12:10:52 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hL8rj-0000ie-4c
+	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 16:10:51 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id 1BF2B2E80C0
+	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 16:10:51 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190429143014.GG8492@localhost.localdomain>
-User-Agent: NeoMutt/20180716
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 29 Apr 2019 15:59:17 -0000
+From: Saverio Miroddi <1826422@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: alex-l-williamson saveriomiroddi
+X-Launchpad-Bug-Reporter: Saverio Miroddi (saveriomiroddi)
+X-Launchpad-Bug-Modifier: Saverio Miroddi (saveriomiroddi)
+References: <155620554968.6380.13610580395862407350.malonedeb@chaenomeles.canonical.com>
+Message-Id: <155655355758.13521.14088057509460114159.malone@gac.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18928";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 2e134f1d120829fe2d23a87e9e65b6e3efb0f047
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.221.65
-Subject: Re: [Qemu-devel] [PATCH RFC 1/1] block/rbd: increase dynamically
- the image size
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1826422] Re: Regression: QEMU 4.0 hangs the host
+ (*bisect included*)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,109 +64,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Josh Durgin <jdurgin@redhat.com>, qemu-devel@nongnu.org,
-	qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Reply-To: Bug 1826422 <1826422@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, Apr 29, 2019 at 04:30:14PM +0200, Kevin Wolf wrote:
-> Am 29.04.2019 um 16:04 hat Stefano Garzarella geschrieben:
-> > On Mon, Apr 29, 2019 at 12:25:10PM +0200, Kevin Wolf wrote:
-> > > Am 11.04.2019 um 12:50 hat Stefano Garzarella geschrieben:
-> > > > RBD APIs don't allow us to write more than the size set with rbd_create()
-> > > > or rbd_resize().
-> > > > In order to support growing images (eg. qcow2), we resize the image
-> > > > before RW operations that exceed the current size.
-> > > > 
-> > > > Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1171007
-> > > > Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
-> > > > ---
-> > > >  block/rbd.c | 25 +++++++++++++++++++++++++
-> > > >  1 file changed, 25 insertions(+)
-> > > > 
-> > > > diff --git a/block/rbd.c b/block/rbd.c
-> > > > index 0c549c9935..228658e20a 100644
-> > > > --- a/block/rbd.c
-> > > > +++ b/block/rbd.c
-> > > > @@ -102,6 +102,7 @@ typedef struct BDRVRBDState {
-> > > >      rbd_image_t image;
-> > > >      char *image_name;
-> > > >      char *snap;
-> > > > +    uint64_t image_size;
-> > > >  } BDRVRBDState;
-> > > 
-> > > Can't we use bs->total_sectors instead of adding a new image_size field?
-> > 
-> > I'm not sure we can use bs->total_sectors. IIUC, for example, it doesn't
-> > take care of bytes used by QCOW2 metadata.
-> 
-> bs->total_sectors for the rbd BLockDriverState is the image file size,
-> not the virtual disk size.
-> 
-> The only reason not to use it would be if we need byte granularity
-> rather than 512 byte granularity. But I don't think it's a problem to
-> round up offsets to the next 512 bytes (BDRV_SECTOR_SIZE) boundary.
-> 
+> The change in QEMU 4.0 is only a change in defaults of the machine
+type, it can be entirely reverted in the VM config with
+kernel_irqchip=3Don or <ioapic driver=3D'kvm'/> with libvirt. Using a
+machine type prior to the q35 4.0 machine type would also avoid it.
+There are no performance issues with these configurations that would
+favor using 3.1 over 4.0.
 
-I tried and it works as you told me :) I'll remove the image_size in the
-v2.
+Thanks for the detailed answer :-)
 
-> > > >  static int qemu_rbd_connect(rados_t *cluster, rados_ioctx_t *io_ctx,
-> > > > @@ -777,6 +778,14 @@ static int qemu_rbd_open(BlockDriverState *bs, QDict *options, int flags,
-> > > >          goto failed_open;
-> > > >      }
-> > > >  
-> > > > +    r = rbd_get_size(s->image, &s->image_size);
-> > > > +    if (r < 0) {
-> > > > +        error_setg_errno(errp, -r, "error reading image size from %s",
-> > > > +                         s->image_name);
-> > > > +        rbd_close(s->image);
-> > > > +        goto failed_open;
-> > > > +    }
-> > > > +
-> > > >      /* If we are using an rbd snapshot, we must be r/o, otherwise
-> > > >       * leave as-is */
-> > > >      if (s->snap != NULL) {
-> > > > @@ -921,6 +930,20 @@ static BlockAIOCB *rbd_start_aio(BlockDriverState *bs,
-> > > >          rcb->buf = acb->bounce;
-> > > >      }
-> > > >  
-> > > > +    /*
-> > > > +     * RBD APIs don't allow us to write more than actual size, so in order
-> > > > +     * to support growing images, we resize the image before RW operations
-> > > > +     * that exceed the current size.
-> > > > +     */
-> > > > +    if (s->image_size < off + size) {
-> > > > +        r = rbd_resize(s->image, off + size);
-> > > > +        if (r < 0) {
-> > > > +            goto failed;
-> > > > +        }
-> > > > +
-> > > > +        s->image_size = off + size;
-> > > > +    }
-> > > 
-> > > This doesn't check the request type, so it's actually not limited to RW
-> > > operations, but even reads will try to resize the image. This is at
-> > > least surprising. For regular files, file-posix extends the file for
-> > > write requests, but for reads it returns a zeroed buffer without
-> > > actually changing the file size.
-> > 
-> > Yes, I'll change the behaviour in the v2.
-> > 
-> > I did some tries (i.e. using qemu-io and reading more than bytes used) and
-> > the RBD driver didn't receive 'read' requests that exceed the current
-> > size, maybe because it is managed in the QCOW2 protocol, but of course
-> > I'll handle also in the RBD driver.
-> 
-> I don't remember the exact scenario where it happened, but I know I
-> implemented it for file-posix to fix a bug. Maybe it actually doesn't
-> happen any more because we have made other changes in the meantime, but
-> I'm not sure.
-> 
+-- =
 
-Thanks for the details, I'll check better if we can avoid it, otherwise
-I'll take care of this in the RBD driver.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1826422
 
-Cheers,
-Stefano
+Title:
+  Regression: QEMU 4.0 hangs the host (*bisect included*)
+
+Status in QEMU:
+  New
+
+Bug description:
+  The commit b2fc91db84470a78f8e93f5b5f913c17188792c8 seemingly
+  introduced a regression on my system.
+
+  When I start QEMU, the guest and the host hang (I need a hard reset to
+  get back to a working system), before anything shows on the guest.
+
+  I use QEMU with GPU passthrough (which worked perfectly until the
+  commit above). This is the command I use:
+
+  ```
+  /path/to/qemu-system-x86_64
+    -drive if=3Dpflash,format=3Draw,readonly,file=3D/path/to/OVMF_CODE.fd
+    -drive if=3Dpflash,format=3Draw,file=3D/tmp/OVMF_VARS.fd.tmp
+    -enable-kvm
+    -machine q35,accel=3Dkvm,mem-merge=3Doff
+    -cpu host,kvm=3Doff,hv_vendor_id=3Dvgaptrocks,hv_relaxed,hv_spinlocks=
+=3D0x1fff,hv_vapic,hv_time
+    -smp 4,cores=3D4,sockets=3D1,threads=3D1
+    -m 10240
+    -vga none
+    -rtc base=3Dlocaltime
+    -serial none
+    -parallel none
+    -usb
+    -device usb-tablet
+    -device vfio-pci,host=3D01:00.0,multifunction=3Don
+    -device vfio-pci,host=3D01:00.1
+    -device usb-host,vendorid=3D<vid>,productid=3D<pid>
+    -device usb-host,vendorid=3D<vid>,productid=3D<pid>
+    -device usb-host,vendorid=3D<vid>,productid=3D<pid>
+    -device usb-host,vendorid=3D<vid>,productid=3D<pid>
+    -device usb-host,vendorid=3D<vid>,productid=3D<pid>
+    -device usb-host,vendorid=3D<vid>,productid=3D<pid>
+    -device virtio-scsi-pci,id=3Dscsi
+    -drive file=3D/path/to/guest.img,id=3Dhdd1,format=3Dqcow2,if=3Dnone,cac=
+he=3Dwriteback
+    -device scsi-hd,drive=3Dhdd1
+    -net nic,model=3Dvirtio
+    -net user,smb=3D/path/to/shared
+  ```
+
+  If I run QEMU without GPU passthrough, it runs fine.
+
+  Some details about my system:
+
+  - O/S: Mint 19.1 x86-64 (it's based on Ubuntu 18.04)
+  - Kernel: 4.15
+  - `configure` options: `--target-list=3Dx86_64-softmmu --enable-gtk --ena=
+ble-spice --audio-drv-list=3Dpa`
+  - EDK2 version: 1a734ed85fda71630c795832e6d24ea560caf739 (20/Apr/2019)
+  - CPU: i7-6700k
+  - Motherboard: ASRock Z170 Gaming-ITX/ac
+  - VGA: Gigabyte GTX 960 Mini-ITX
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1826422/+subscriptions
 
