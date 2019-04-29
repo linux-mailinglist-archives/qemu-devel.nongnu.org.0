@@ -2,51 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4DC5E0B9
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 12:44:38 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55491 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5D41E0DA
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 12:51:31 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:55605 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hL3m1-0005tR-KK
-	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 06:44:37 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52214)
+	id 1hL3sh-0000ay-34
+	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 06:51:31 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54179)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hL3kJ-00051C-TH
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 06:42:53 -0400
+	(envelope-from <marcandre.lureau@gmail.com>) id 1hL3rc-00006l-CL
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 06:50:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hL3fx-0004TZ-Tp
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 06:38:22 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57486)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <kwolf@redhat.com>)
-	id 1hL3fw-0004SV-O1; Mon, 29 Apr 2019 06:38:20 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 022A359454;
-	Mon, 29 Apr 2019 10:38:20 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-116-63.ams2.redhat.com
-	[10.36.116.63])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5D42117257;
-	Mon, 29 Apr 2019 10:38:18 +0000 (UTC)
-Date: Mon, 29 Apr 2019 12:38:16 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Anton Kuchin <antonkuchin@yandex-team.ru>
-Message-ID: <20190429103816.GE8492@localhost.localdomain>
-References: <57c36dca-c4d6-9b70-7799-0be96325d7c5@yandex-team.ru>
+	(envelope-from <marcandre.lureau@gmail.com>) id 1hL3rb-0003q8-8a
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 06:50:24 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:39815)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+	id 1hL3rb-0003pX-2i
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 06:50:23 -0400
+Received: by mail-wr1-x443.google.com with SMTP id a9so15321307wrp.6
+	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 03:50:22 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=uPSd818pSqzfEXz0p9PHhagxPmZBZ7lZB5ef4ssA7U4=;
+	b=L9mX/Ar7FAUzTZQi3EhpkToozNuKDbkZDxS1vGEJBV6MCMMpqxh5MtqzgDzEtza0RL
+	7R1o2bpmyisvL59aae4SLpeSDpHz+t71tz2EhJGLHy7p9ZhRcY8Ra5hj4uApDyrT+G0m
+	1wWGcMymnR1vedxsosj6D9P+KV4ybJb7DJbSRLE5MNKVHKftYhGzrq1U9UNMvmV4Fj7a
+	iuDs/wplWFJZD+0f0N9Jp+f4z9rWVyIPnXTMSz3C9EImOSjpnCbDre76PODM58FfxWDL
+	iW/QPIMY6iaxxEAdrEPDblOWMDM0n1UVEUYrTZ72mEJt22J6Mme8oZQeIHSvVafWli7m
+	cPfQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=uPSd818pSqzfEXz0p9PHhagxPmZBZ7lZB5ef4ssA7U4=;
+	b=efMQSBgnksBnf6GdVDbc2MxKXws+bOw9dTkVMPlpe7xepgCTO2yIJAbgQqnItn++CJ
+	oUxG1qURyvucctJZszyOw2phwbpU2N3oiM+0S5DpDSN+BUEyA5hv1qWCji4/RJ4s/zA4
+	7AnK2P3IvryiL0/GyqeLmJKjF03+N+uUSTgbMm0xakrQUgyym7Dvz9YSHK/od5vLHCQY
+	V1AksWqiO3qSHBotsF3D45hhWeZbSkcoci7Yf4cLvWPe3dFLvpruJfOkdqXej0vxJOex
+	QcbaKHYsz2jumAXX+MTlwRwhNgEiFOgyY/KhuMBLxOF+njoh+77Yg2QGQnX0YnHU9F7g
+	k3YA==
+X-Gm-Message-State: APjAAAVadtkA4F5zPabf1xxvOfOXAoeIbxIb3H1gZ9HFM4hmBO48o9FI
+	36NIDUzoU30Te6u9EK8vx+xsOmQZK6WvulZGrHI=
+X-Google-Smtp-Source: APXvYqxPAZIq10uAuiz4n5/oWmqedv24oj5JHURepiCXeMuBxlCvZWN1EuovhQNU58hI+SCqXvXCdH3nf8YIMObg1Kg=
+X-Received: by 2002:adf:9042:: with SMTP id h60mr5175709wrh.248.1556535021008; 
+	Mon, 29 Apr 2019 03:50:21 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <57c36dca-c4d6-9b70-7799-0be96325d7c5@yandex-team.ru>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.39]);
-	Mon, 29 Apr 2019 10:38:20 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] aio context ownership during bdrv_close()
+References: <20190423132004.13725-1-marcandre.lureau@redhat.com>
+	<20190423132004.13725-6-marcandre.lureau@redhat.com>
+	<20190426072446.r7b7wsm4qghd7pzr@sirius.home.kraxel.org>
+	<CAJ+F1CKbgb_TkoS_a10qGw7kkTO+EkC4uhreCkOu=k2ut5CAig@mail.gmail.com>
+	<20190426120558.vh66gugqtvcc6tm5@sirius.home.kraxel.org>
+	<CAJ+F1CLE-iwZu4oX69P3r0v_94L+gJEhZH0-U0iYag=oYNN4pg@mail.gmail.com>
+	<20190429071243.icqw3qbzcxbcz7ph@sirius.home.kraxel.org>
+In-Reply-To: <20190429071243.icqw3qbzcxbcz7ph@sirius.home.kraxel.org>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Mon, 29 Apr 2019 12:50:09 +0200
+Message-ID: <CAJ+F1CJx3qTNGL4u+pMHFC-LRhfPtn8WF3O=i2nW25dbgcV7tQ@mail.gmail.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2a00:1450:4864:20::443
+Subject: Re: [Qemu-devel] [PATCH v6 05/11] vhost-user: add
+ vhost_user_gpu_set_socket()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,53 +80,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yc-core =?utf-8?B?KNGA0LDRgdGB0YvQu9C60LAp?= <yc-core@yandex-team.ru>,
-	qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: QEMU <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 26.04.2019 um 14:24 hat Anton Kuchin geschrieben:
-> I can't figure out ownership of aio context during bdrv_close().
-> 
-> As far as I understand bdrv_unref() shold be called with acquired aio
-> context to prevent concurrent operations (at least most usages in blockdev.c
-> explicitly acquire and release context, but not all).
+Hi
 
-I think the theory is like this:
+On Mon, Apr 29, 2019 at 9:12 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+>   Hi,
+>
+> > > What questions for example?
+> >
+> > This opens up different kind of possible replies, and error handling.
+> >
+> > With current proposal and needs, the reply (or absence of reply) is
+> > entirely driven by the request.
+> >
+> > With your proposal, should all request have a reply?
+>
+> Yes.
+>
+> > which makes a lot
+> > more code synchronous,
+>
+> Why?  You don't have to wait for the reply before sending the next
+> request.
+>
+> Adding a request id to the messages might be useful, so it is possible
+> to wait for a reply to a specific message without having to keeping
+> track of all in-flight messages.
+>
+> > and complicates both sides unnecessarily.
+>
+> Having headers in the reply allows it to process them in generic code.
+> There is a size header for the reply, so you can parse the stream
+> without knowing what replay to expect.  You can use the status field to
+> indicate the payload, simliar to virtio-gpu which has response code
+> OK_NODATA, some OK_$whatpayload and some ERR_$failure codes.
+>
+> You can dispatch based on the response/status code and run *fully*
+> asynchronous without too much trouble.
 
-1. bdrv_unref() can only be called from the main thread
+It's really a different level of complexity than what I needed so far.
 
-2. A block node for which bdrv_close() is called has no references. If
-   there are no more parents that keep it in a non-default iothread,
-   they should be in the main AioContext. So no locks need to be taken
-   during bdrv_close().
+>
+> > > > Can we leave that for future protocol extensions negotiated with
+> > > > GET/SET_PROTOCOL_FEATURES ?
+> > >
+> > > I don't think negotiating such a basic protocol change is a good idea=
+.
+> >
+> > Well, then I would rather focus on improving protocol negociation,
+> > rather than adding unnecessary protocol changes.
+> >
+> > Given that GET/SET_PROTOCOL_FEATURES is the first messages being sent,
+> > why couldn't it have flags indicating new protocol revision?
+>
+> A properly structed reply allows a different approach in reply
+> processing (see above).  But that only works if it is in the protocol
+> right from the start.  As add-on feature it can't provide the benefits
+> because the reply parser must be able to handle both protocol variants.
 
-In practice, 2. is not fully true today, even though block devices do
-stop their dataplane and move the block nodes back to the main
-AioContext on shutdown. I am currently working on some fixes related to
-this, afterwards the situation should be better.
+You are asking for a full-blown protocol... could we take DBus as an
+alternative instead?
 
-> But if refcount reaches zero and bs is going to be deleted in bdrv_close()
-> we need to ensure that drain is finished data is flushed and there are no
-> more pending coroutines and bottomhalves, so drain and flush functions can
-> enter coroutine and perform yield in several places. As a result control
-> returns to coroutine caller that will release aio context and when
-> completion bh will continue cleanup process it will be executed without
-> ownership of context. Is this a valid situation?
-
-Do you have an example where this happens?
-
-Normally, leaving the coroutine means that the AioContext lock is
-released, but it is later reentered from the same AioContext, so the
-lock will be taken again.
-
-> Moreover if yield happens bs that is being deleted has zero refcount but is
-> still present in lists graph_bdrv_states and all_bdrv_states and can be
-> accidentally accessed. Shouldn't we remove it from these lists ASAP when
-> deletion process starts as we do from monitor_bdrv_states?
-
-Hm, I think it should only disappear when the image file is actually
-closed. But in practice, it probably makes little difference either way.
-
-Kevin
+--=20
+Marc-Andr=C3=A9 Lureau
 
