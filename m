@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D76F8E8B6
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:23:10 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60903 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 20E56E949
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:37:15 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:32893 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hL9zh-0005dO-T8
-	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:23:09 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34315)
+	id 1hLADK-0001lR-7J
+	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:37:14 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34669)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hL9eo-0004pl-9r
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:36 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hL9fM-0005Ol-CM
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:02:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hL9em-0006jI-R6
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:34 -0400
-Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:38459)
+	(envelope-from <peter.maydell@linaro.org>) id 1hL9fG-0006yu-Jz
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:02:06 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:33805)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hL9ej-0006Vi-F4
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:30 -0400
-Received: by mail-wm1-x32f.google.com with SMTP id w15so170689wmc.3
-	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 10:01:04 -0700 (PDT)
+	id 1hL9fD-0006W5-Pp
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:02:00 -0400
+Received: by mail-wm1-x335.google.com with SMTP id b67so384646wmg.1
+	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 10:01:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=wfZGjZjpdLCjdXEeesmFo4Ry2RVknHweQyO88Vd/F6I=;
-	b=JyNEaW5i6k6vLDovHLir1Bw4x8hXLDVsGq30R1yzxG+BoRcCcjgEMjal4hew92jufi
-	aXfYvaGGu6g105YSqJJavyrfdm6/QkKUX195FXcBIeqxQgyPkOpxkHnVxNmTsfn5tLpU
-	8y3VcWsHcpb9yqjIlOAJDwmOzeZbqCJuRBo4QqRgqQfPG86RW02oN9dowfF++xOFZoAX
-	A1Brhe6ZrV9I8iWvwMZQeLen6jfS6ZRJZWwKfwSoVD9fKqzItcHmN7yckN8SjqP/IpLU
-	nK4IWJT6qQ8My6/1e7vOP2y2EZG2QHPlGqmSjqM97Gcut/C2a1jA1plr0EoiSz+Ll4f/
-	RkHw==
+	bh=GydPbjq4QwRBu7NG0utx7owAOc/2rEZdZZRAnMhUElc=;
+	b=PXnymNQJq/KZbmVyPM4o9uiNAVZCsuyCW0cy2S1E3WTc7BzGhA9aMaPRwXdlW0vrzJ
+	z0ZvKdwUpJ8VwAfzyPcdgyvqCO3hinPCzyJ8hCAHKtOotoEAM6uf9FOTtXNtpm6nuUke
+	k0GczDnuX0rJZ5b7alsLycmNpJR+aFIqfPn/Xgw8n+xbGU7+EKhOxAASiCHY77nuhmx/
+	8muOMyZ4xKq0xii/JBzmaGUpGVg35gpcV/pvrcsHbjTvG6iOimq6cZZlE4zKqqMSiELA
+	MfDAlzu8moekWIYRUG0GLuApeuehwZfnbEKM3b2eIYIIzZrZLFmnWw9Dphq/q0WPPGCB
+	Wqcg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=wfZGjZjpdLCjdXEeesmFo4Ry2RVknHweQyO88Vd/F6I=;
-	b=FkXDNbSCwycZELRlEIWxXACIS/AW+ANKPCYIt7nCQrBlXCcXYKA6DmZq9ktmA1OxQ/
-	TXckgCJZ1Lh0QaVn4hd3oV3f6GZcV4Jh4HZ+QuqEEIuSjccpScjZfVl+LQTM+Pip75Fu
-	GdqF2fXLEAkQXnUPfRprpwlQwxwkGgqLodQYTyfve7Kn+6rAYDVmkI1SywtQrDFhUKkc
-	WdHoLBUjaCRSWxn6o7TnMCyZs5Wb3u7XwO2BfLN/LCnogvnOGnirEl7wuS/iS/yuQW3e
-	dw0b9fXDEZSbR1IHkFDogWFyU6EDvj19X3WM/7WYrt8EWVNRT5d0yipSfoiu1elvfkEc
-	zACw==
-X-Gm-Message-State: APjAAAXlLY1JqAmWdHjhT+S1HbLAjrsQSkMvQjE5KXtAkxin7ZNhhuRB
-	sSi+xE3QAJEUauInFhLgDCSVGN9oGTE=
-X-Google-Smtp-Source: APXvYqzoeCZT2XbD5LIetFWsCV9MmLA2GHpHv5d21zNWL4MHVgS788GRsO6A+DPj0T3H/G9ST8L/+Q==
-X-Received: by 2002:a7b:cb04:: with SMTP id u4mr66761wmj.0.1556557263111;
-	Mon, 29 Apr 2019 10:01:03 -0700 (PDT)
+	bh=GydPbjq4QwRBu7NG0utx7owAOc/2rEZdZZRAnMhUElc=;
+	b=SKiJyRHAvK+07ExKjkdiwavvTe5RZj/1TVP6dRHlUBTskMmrHU6lyFsuGZQNh/3oKi
+	X0sovySF91Kt3n63XhNc58kL3DgU8Gwy0bn5Y/N5TVIot1k2lTAczqXu37F17V5pztC9
+	wfGX1xS/k0HumLN7jspPKtRUoBJ60vmnUjWTZbCk/U9uxlSy7IyIdRvq9UjVR/frIORP
+	/0sHMjpIqCo2MdCc7nQShOXdr5urbG3Kzoy5/ueiWqU3p3y4r7zYwbthMpzY4P62WX+P
+	6zA8ylRCIepzIKz5mbFVqDIbDF1A8sYQxyvTte7S3qo9zUYHx6WF0XqTYhVeajhJF7qW
+	/IqQ==
+X-Gm-Message-State: APjAAAVOt1qrsEdp9il9dsz6zX9sN6/BMC45KNnHe2Y/IqeeLcZmqUUS
+	VnIG2PYbYvmH9wQRtQLEL2Fum+hMRrQ=
+X-Google-Smtp-Source: APXvYqynv0yfexfUICvTkRib04QlVKYoiPVFbl6MziK9f4sGtCS0oVoiRsei9KGpWr9ZpdTkeasfTw==
+X-Received: by 2002:a1c:dc84:: with SMTP id t126mr16363wmg.143.1556557264358; 
+	Mon, 29 Apr 2019 10:01:04 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
-	by smtp.gmail.com with ESMTPSA id a13sm36896wmj.39.2019.04.29.10.01.01
+	by smtp.gmail.com with ESMTPSA id a13sm36896wmj.39.2019.04.29.10.01.03
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 29 Apr 2019 10:01:02 -0700 (PDT)
+	Mon, 29 Apr 2019 10:01:03 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 29 Apr 2019 18:00:12 +0100
-Message-Id: <20190429170030.11323-25-peter.maydell@linaro.org>
+Date: Mon, 29 Apr 2019 18:00:13 +0100
+Message-Id: <20190429170030.11323-26-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190429170030.11323-1-peter.maydell@linaro.org>
 References: <20190429170030.11323-1-peter.maydell@linaro.org>
@@ -65,9 +65,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::32f
-Subject: [Qemu-devel] [PULL 24/42] target/arm: New function
- armv7m_nvic_set_pending_lazyfp()
+X-Received-From: 2a00:1450:4864:20::335
+Subject: [Qemu-devel] [PULL 25/42] target/arm: Add lazy-FP-stacking support
+ to v7m_stack_write()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,155 +82,213 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the v7M architecture, if an exception is generated in the process
-of doing the lazy stacking of FP registers, the handling of
-possible escalation to HardFault is treated differently to the normal
-approach: it works based on the saved information about exception
-readiness that was stored in the FPCCR when the stack frame was
-created. Provide a new function armv7m_nvic_set_pending_lazyfp()
-which pends exceptions during lazy stacking, and implements
-this logic.
+Pushing registers to the stack for v7M needs to handle three cases:
+ * the "normal" case where we pend exceptions
+ * an "ignore faults" case where we set FSR bits but
+   do not pend exceptions (this is used when we are
+   handling some kinds of derived exception on exception entry)
+ * a "lazy FP stacking" case, where different FSR bits
+   are set and the exception is pended differently
 
-This corresponds to the pseudocode TakePreserveFPException().
+Implement this by changing the existing flag argument that
+tells us whether to ignore faults or not into an enum that
+specifies which of the 3 modes we should handle.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20190416125744.27770-22-peter.maydell@linaro.org
+Message-id: 20190416125744.27770-23-peter.maydell@linaro.org
 ---
- target/arm/cpu.h      | 12 ++++++
- hw/intc/armv7m_nvic.c | 96 +++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 108 insertions(+)
+ target/arm/helper.c | 118 +++++++++++++++++++++++++++++---------------
+ 1 file changed, 79 insertions(+), 39 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 920cf367020..ed3069341d2 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -2008,6 +2008,18 @@ void armv7m_nvic_set_pending(void *opaque, int irq, bool secure);
-  * a different exception).
-  */
- void armv7m_nvic_set_pending_derived(void *opaque, int irq, bool secure);
-+/**
-+ * armv7m_nvic_set_pending_lazyfp: mark this lazy FP exception as pending
-+ * @opaque: the NVIC
-+ * @irq: the exception number to mark pending
-+ * @secure: false for non-banked exceptions or for the nonsecure
-+ * version of a banked exception, true for the secure version of a banked
-+ * exception.
-+ *
-+ * Similar to armv7m_nvic_set_pending(), but specifically for exceptions
-+ * generated in the course of lazy stacking of FP registers.
-+ */
-+void armv7m_nvic_set_pending_lazyfp(void *opaque, int irq, bool secure);
- /**
-  * armv7m_nvic_get_pending_irq_info: return highest priority pending
-  *    exception, and whether it targets Secure state
-diff --git a/hw/intc/armv7m_nvic.c b/hw/intc/armv7m_nvic.c
-index 53b4631dace..fff6e694e60 100644
---- a/hw/intc/armv7m_nvic.c
-+++ b/hw/intc/armv7m_nvic.c
-@@ -655,6 +655,102 @@ void armv7m_nvic_set_pending_derived(void *opaque, int irq, bool secure)
-     do_armv7m_nvic_set_pending(opaque, irq, secure, true);
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 1ed5f1a2513..41531390853 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -7575,8 +7575,18 @@ static bool v7m_cpacr_pass(CPUARMState *env, bool is_secure, bool is_priv)
+     }
  }
  
-+void armv7m_nvic_set_pending_lazyfp(void *opaque, int irq, bool secure)
-+{
-+    /*
-+     * Pend an exception during lazy FP stacking. This differs
-+     * from the usual exception pending because the logic for
-+     * whether we should escalate depends on the saved context
-+     * in the FPCCR register, not on the current state of the CPU/NVIC.
-+     */
-+    NVICState *s = (NVICState *)opaque;
-+    bool banked = exc_is_banked(irq);
-+    VecInfo *vec;
-+    bool targets_secure;
-+    bool escalate = false;
-+    /*
-+     * We will only look at bits in fpccr if this is a banked exception
-+     * (in which case 'secure' tells us whether it is the S or NS version).
-+     * All the bits for the non-banked exceptions are in fpccr_s.
-+     */
-+    uint32_t fpccr_s = s->cpu->env.v7m.fpccr[M_REG_S];
-+    uint32_t fpccr = s->cpu->env.v7m.fpccr[secure];
++/*
++ * What kind of stack write are we doing? This affects how exceptions
++ * generated during the stacking are treated.
++ */
++typedef enum StackingMode {
++    STACK_NORMAL,
++    STACK_IGNFAULTS,
++    STACK_LAZYFP,
++} StackingMode;
 +
-+    assert(irq > ARMV7M_EXCP_RESET && irq < s->num_irq);
-+    assert(!secure || banked);
-+
-+    vec = (banked && secure) ? &s->sec_vectors[irq] : &s->vectors[irq];
-+
-+    targets_secure = banked ? secure : exc_targets_secure(s, irq);
-+
-+    switch (irq) {
-+    case ARMV7M_EXCP_DEBUG:
-+        if (!(fpccr_s & R_V7M_FPCCR_MONRDY_MASK)) {
-+            /* Ignore DebugMonitor exception */
-+            return;
-+        }
-+        break;
-+    case ARMV7M_EXCP_MEM:
-+        escalate = !(fpccr & R_V7M_FPCCR_MMRDY_MASK);
-+        break;
-+    case ARMV7M_EXCP_USAGE:
-+        escalate = !(fpccr & R_V7M_FPCCR_UFRDY_MASK);
-+        break;
-+    case ARMV7M_EXCP_BUS:
-+        escalate = !(fpccr_s & R_V7M_FPCCR_BFRDY_MASK);
-+        break;
-+    case ARMV7M_EXCP_SECURE:
-+        escalate = !(fpccr_s & R_V7M_FPCCR_SFRDY_MASK);
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
-+
-+    if (escalate) {
-+        /*
-+         * Escalate to HardFault: faults that initially targeted Secure
-+         * continue to do so, even if HF normally targets NonSecure.
-+         */
-+        irq = ARMV7M_EXCP_HARD;
-+        if (arm_feature(&s->cpu->env, ARM_FEATURE_M_SECURITY) &&
-+            (targets_secure ||
-+             !(s->cpu->env.v7m.aircr & R_V7M_AIRCR_BFHFNMINS_MASK))) {
-+            vec = &s->sec_vectors[irq];
-+        } else {
-+            vec = &s->vectors[irq];
-+        }
-+    }
-+
-+    if (!vec->enabled ||
-+        nvic_exec_prio(s) <= exc_group_prio(s, vec->prio, secure)) {
-+        if (!(fpccr_s & R_V7M_FPCCR_HFRDY_MASK)) {
-+            /*
-+             * We want to escalate to HardFault but the context the
-+             * FP state belongs to prevents the exception pre-empting.
-+             */
-+            cpu_abort(&s->cpu->parent_obj,
-+                      "Lockup: can't escalate to HardFault during "
-+                      "lazy FP register stacking\n");
-+        }
-+    }
-+
-+    if (escalate) {
-+        s->cpu->env.v7m.hfsr |= R_V7M_HFSR_FORCED_MASK;
-+    }
-+    if (!vec->pending) {
-+        vec->pending = 1;
-+        /*
-+         * We do not call nvic_irq_update(), because we know our caller
-+         * is going to handle causing us to take the exception by
-+         * raising EXCP_LAZYFP, so raising the IRQ line would be
-+         * pointless extra work. We just need to recompute the
-+         * priorities so that armv7m_nvic_can_take_pending_exception()
-+         * returns the right answer.
-+         */
-+        nvic_recompute_state(s);
-+    }
-+}
-+
- /* Make pending IRQ active.  */
- void armv7m_nvic_acknowledge_irq(void *opaque)
+ static bool v7m_stack_write(ARMCPU *cpu, uint32_t addr, uint32_t value,
+-                            ARMMMUIdx mmu_idx, bool ignfault)
++                            ARMMMUIdx mmu_idx, StackingMode mode)
  {
+     CPUState *cs = CPU(cpu);
+     CPUARMState *env = &cpu->env;
+@@ -7594,15 +7604,31 @@ static bool v7m_stack_write(ARMCPU *cpu, uint32_t addr, uint32_t value,
+                       &attrs, &prot, &page_size, &fi, NULL)) {
+         /* MPU/SAU lookup failed */
+         if (fi.type == ARMFault_QEMU_SFault) {
+-            qemu_log_mask(CPU_LOG_INT,
+-                          "...SecureFault with SFSR.AUVIOL during stacking\n");
+-            env->v7m.sfsr |= R_V7M_SFSR_AUVIOL_MASK | R_V7M_SFSR_SFARVALID_MASK;
++            if (mode == STACK_LAZYFP) {
++                qemu_log_mask(CPU_LOG_INT,
++                              "...SecureFault with SFSR.LSPERR "
++                              "during lazy stacking\n");
++                env->v7m.sfsr |= R_V7M_SFSR_LSPERR_MASK;
++            } else {
++                qemu_log_mask(CPU_LOG_INT,
++                              "...SecureFault with SFSR.AUVIOL "
++                              "during stacking\n");
++                env->v7m.sfsr |= R_V7M_SFSR_AUVIOL_MASK;
++            }
++            env->v7m.sfsr |= R_V7M_SFSR_SFARVALID_MASK;
+             env->v7m.sfar = addr;
+             exc = ARMV7M_EXCP_SECURE;
+             exc_secure = false;
+         } else {
+-            qemu_log_mask(CPU_LOG_INT, "...MemManageFault with CFSR.MSTKERR\n");
+-            env->v7m.cfsr[secure] |= R_V7M_CFSR_MSTKERR_MASK;
++            if (mode == STACK_LAZYFP) {
++                qemu_log_mask(CPU_LOG_INT,
++                              "...MemManageFault with CFSR.MLSPERR\n");
++                env->v7m.cfsr[secure] |= R_V7M_CFSR_MLSPERR_MASK;
++            } else {
++                qemu_log_mask(CPU_LOG_INT,
++                              "...MemManageFault with CFSR.MSTKERR\n");
++                env->v7m.cfsr[secure] |= R_V7M_CFSR_MSTKERR_MASK;
++            }
+             exc = ARMV7M_EXCP_MEM;
+             exc_secure = secure;
+         }
+@@ -7612,8 +7638,13 @@ static bool v7m_stack_write(ARMCPU *cpu, uint32_t addr, uint32_t value,
+                          attrs, &txres);
+     if (txres != MEMTX_OK) {
+         /* BusFault trying to write the data */
+-        qemu_log_mask(CPU_LOG_INT, "...BusFault with BFSR.STKERR\n");
+-        env->v7m.cfsr[M_REG_NS] |= R_V7M_CFSR_STKERR_MASK;
++        if (mode == STACK_LAZYFP) {
++            qemu_log_mask(CPU_LOG_INT, "...BusFault with BFSR.LSPERR\n");
++            env->v7m.cfsr[M_REG_NS] |= R_V7M_CFSR_LSPERR_MASK;
++        } else {
++            qemu_log_mask(CPU_LOG_INT, "...BusFault with BFSR.STKERR\n");
++            env->v7m.cfsr[M_REG_NS] |= R_V7M_CFSR_STKERR_MASK;
++        }
+         exc = ARMV7M_EXCP_BUS;
+         exc_secure = false;
+         goto pend_fault;
+@@ -7628,11 +7659,19 @@ pend_fault:
+      * later if we have two derived exceptions.
+      * The only case when we must not pend the exception but instead
+      * throw it away is if we are doing the push of the callee registers
+-     * and we've already generated a derived exception. Even in this
+-     * case we will still update the fault status registers.
++     * and we've already generated a derived exception (this is indicated
++     * by the caller passing STACK_IGNFAULTS). Even in this case we will
++     * still update the fault status registers.
+      */
+-    if (!ignfault) {
++    switch (mode) {
++    case STACK_NORMAL:
+         armv7m_nvic_set_pending_derived(env->nvic, exc, exc_secure);
++        break;
++    case STACK_LAZYFP:
++        armv7m_nvic_set_pending_lazyfp(env->nvic, exc, exc_secure);
++        break;
++    case STACK_IGNFAULTS:
++        break;
+     }
+     return false;
+ }
+@@ -8009,6 +8048,7 @@ static bool v7m_push_callee_stack(ARMCPU *cpu, uint32_t lr, bool dotailchain,
+     uint32_t limit;
+     bool want_psp;
+     uint32_t sig;
++    StackingMode smode = ignore_faults ? STACK_IGNFAULTS : STACK_NORMAL;
+ 
+     if (dotailchain) {
+         bool mode = lr & R_V7M_EXCRET_MODE_MASK;
+@@ -8052,23 +8092,15 @@ static bool v7m_push_callee_stack(ARMCPU *cpu, uint32_t lr, bool dotailchain,
+      */
+     sig = v7m_integrity_sig(env, lr);
+     stacked_ok =
+-        v7m_stack_write(cpu, frameptr, sig, mmu_idx, ignore_faults) &&
+-        v7m_stack_write(cpu, frameptr + 0x8, env->regs[4], mmu_idx,
+-                        ignore_faults) &&
+-        v7m_stack_write(cpu, frameptr + 0xc, env->regs[5], mmu_idx,
+-                        ignore_faults) &&
+-        v7m_stack_write(cpu, frameptr + 0x10, env->regs[6], mmu_idx,
+-                        ignore_faults) &&
+-        v7m_stack_write(cpu, frameptr + 0x14, env->regs[7], mmu_idx,
+-                        ignore_faults) &&
+-        v7m_stack_write(cpu, frameptr + 0x18, env->regs[8], mmu_idx,
+-                        ignore_faults) &&
+-        v7m_stack_write(cpu, frameptr + 0x1c, env->regs[9], mmu_idx,
+-                        ignore_faults) &&
+-        v7m_stack_write(cpu, frameptr + 0x20, env->regs[10], mmu_idx,
+-                        ignore_faults) &&
+-        v7m_stack_write(cpu, frameptr + 0x24, env->regs[11], mmu_idx,
+-                        ignore_faults);
++        v7m_stack_write(cpu, frameptr, sig, mmu_idx, smode) &&
++        v7m_stack_write(cpu, frameptr + 0x8, env->regs[4], mmu_idx, smode) &&
++        v7m_stack_write(cpu, frameptr + 0xc, env->regs[5], mmu_idx, smode) &&
++        v7m_stack_write(cpu, frameptr + 0x10, env->regs[6], mmu_idx, smode) &&
++        v7m_stack_write(cpu, frameptr + 0x14, env->regs[7], mmu_idx, smode) &&
++        v7m_stack_write(cpu, frameptr + 0x18, env->regs[8], mmu_idx, smode) &&
++        v7m_stack_write(cpu, frameptr + 0x1c, env->regs[9], mmu_idx, smode) &&
++        v7m_stack_write(cpu, frameptr + 0x20, env->regs[10], mmu_idx, smode) &&
++        v7m_stack_write(cpu, frameptr + 0x24, env->regs[11], mmu_idx, smode);
+ 
+     /* Update SP regardless of whether any of the stack accesses failed. */
+     *frame_sp_p = frameptr;
+@@ -8347,14 +8379,20 @@ static bool v7m_push_stack(ARMCPU *cpu)
+      * if it has higher priority).
+      */
+     stacked_ok = stacked_ok &&
+-        v7m_stack_write(cpu, frameptr, env->regs[0], mmu_idx, false) &&
+-        v7m_stack_write(cpu, frameptr + 4, env->regs[1], mmu_idx, false) &&
+-        v7m_stack_write(cpu, frameptr + 8, env->regs[2], mmu_idx, false) &&
+-        v7m_stack_write(cpu, frameptr + 12, env->regs[3], mmu_idx, false) &&
+-        v7m_stack_write(cpu, frameptr + 16, env->regs[12], mmu_idx, false) &&
+-        v7m_stack_write(cpu, frameptr + 20, env->regs[14], mmu_idx, false) &&
+-        v7m_stack_write(cpu, frameptr + 24, env->regs[15], mmu_idx, false) &&
+-        v7m_stack_write(cpu, frameptr + 28, xpsr, mmu_idx, false);
++        v7m_stack_write(cpu, frameptr, env->regs[0], mmu_idx, STACK_NORMAL) &&
++        v7m_stack_write(cpu, frameptr + 4, env->regs[1],
++                        mmu_idx, STACK_NORMAL) &&
++        v7m_stack_write(cpu, frameptr + 8, env->regs[2],
++                        mmu_idx, STACK_NORMAL) &&
++        v7m_stack_write(cpu, frameptr + 12, env->regs[3],
++                        mmu_idx, STACK_NORMAL) &&
++        v7m_stack_write(cpu, frameptr + 16, env->regs[12],
++                        mmu_idx, STACK_NORMAL) &&
++        v7m_stack_write(cpu, frameptr + 20, env->regs[14],
++                        mmu_idx, STACK_NORMAL) &&
++        v7m_stack_write(cpu, frameptr + 24, env->regs[15],
++                        mmu_idx, STACK_NORMAL) &&
++        v7m_stack_write(cpu, frameptr + 28, xpsr, mmu_idx, STACK_NORMAL);
+ 
+     if (env->v7m.control[M_REG_S] & R_V7M_CONTROL_FPCA_MASK) {
+         /* FPU is active, try to save its registers */
+@@ -8404,12 +8442,14 @@ static bool v7m_push_stack(ARMCPU *cpu)
+                         faddr += 8; /* skip the slot for the FPSCR */
+                     }
+                     stacked_ok = stacked_ok &&
+-                        v7m_stack_write(cpu, faddr, slo, mmu_idx, false) &&
+-                        v7m_stack_write(cpu, faddr + 4, shi, mmu_idx, false);
++                        v7m_stack_write(cpu, faddr, slo,
++                                        mmu_idx, STACK_NORMAL) &&
++                        v7m_stack_write(cpu, faddr + 4, shi,
++                                        mmu_idx, STACK_NORMAL);
+                 }
+                 stacked_ok = stacked_ok &&
+                     v7m_stack_write(cpu, frameptr + 0x60,
+-                                    vfp_get_fpscr(env), mmu_idx, false);
++                                    vfp_get_fpscr(env), mmu_idx, STACK_NORMAL);
+                 if (cpacr_pass) {
+                     for (i = 0; i < ((framesize == 0xa8) ? 32 : 16); i += 2) {
+                         *aa32_vfp_dreg(env, i / 2) = 0;
 -- 
 2.20.1
 
