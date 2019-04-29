@@ -2,74 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 338A3109CB
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 May 2019 17:08:40 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60657 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 31D73E776
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 18:17:19 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60151 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLqqd-0003tZ-6v
-	for lists+qemu-devel@lfdr.de; Wed, 01 May 2019 11:08:39 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58251)
+	id 1hL8xy-00065y-CN
+	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 12:17:18 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52969)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <stefanha@gmail.com>) id 1hLqpU-0003X8-WE
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 11:07:32 -0400
+	(envelope-from <dgilbert@redhat.com>) id 1hL8vt-0004bu-Dg
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 12:15:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <stefanha@gmail.com>) id 1hLqpP-00064L-15
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 11:07:26 -0400
-Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:34139)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <stefanha@gmail.com>)
-	id 1hLqoz-0005LV-VE; Wed, 01 May 2019 11:06:58 -0400
-Received: by mail-io1-xd43.google.com with SMTP id h26so15071736ioj.1;
-	Wed, 01 May 2019 08:06:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=3Z6DGwCQpGYfMCcsBq7/VlNUnGULfRlUtb0lybxTfR0=;
-	b=gnEzxzKNZieokzjlGVwpu2Jnttsn1lcrmOsKu23DeoqBkIcPONKDCDDwN8mkmodIA3
-	8yFFfYNJ/XbQ0fL4A7C9tJ2SKyrDtqcLCIkRFsuPKxL5O4LHEP8XVBtiRrKjbKUIfOhh
-	Mi411sYNpAirQU7iwc3RidcvS8WF281WvHn4xVZuqruRBF/jvMx7AMvgv9TODzeqJsBh
-	L+Y0NsJ+V5O9chbfeCmAe2gciltc1vr+2TZWM/hqA91RL+O1zwPVqvUiqGJZsSi03l/J
-	+ffsNjW+gUwrLpkP1n0M+lFJ2hjJa5zAS8772pJK7czgbBTAczFzCF/5QMlQ5h7mAu+G
-	msnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=3Z6DGwCQpGYfMCcsBq7/VlNUnGULfRlUtb0lybxTfR0=;
-	b=i/uZzDBSdmhtUAbmKeFPLVgk8EeUUZk6ifw/2vFZNekg2mjEUzBwx01Yqoz7CO/pbt
-	4adM2RVoUnfk4L6xmluzOSKpggyh1VZu5MX4uHzhjogMKkBsD9wg+lG6ofmE5crKL4dQ
-	N2A1oqTR0PCpWU3VHJshMngSk6s2ntKz8j7f444UPBKM0U0Lwp79ynssDZGlC4Df36sV
-	bBRUPeSJHUJKVLtvp5OSiZ677QXZAmlK4p9mTVSEZyxftdkiNYXQwKDL9keq13HvKO2t
-	aDjsVCRdxNnI+gkzTC+1dRjI6RNUXTUf37GoreBHB3jgoleoW9Ue2fNdJCJ+bMSUwAV1
-	wC6Q==
-X-Gm-Message-State: APjAAAX5w5Fl8Tkj9RO4Kgwhn0E4Opuc1SIylaMn+G5nHAu6vMKJnjsD
-	E4V2yHHVCR11cALPe+RSMAs=
-X-Google-Smtp-Source: APXvYqwkofFS/e2hWWVe72ubXiLSQZedIE9gR9XPsYxtppJLqbvsXxYuEc7P0xsmze7eJmRcv1cBRw==
-X-Received: by 2002:a6b:fd10:: with SMTP id c16mr33930371ioi.172.1556723202404;
-	Wed, 01 May 2019 08:06:42 -0700 (PDT)
-Received: from localhost
-	(CPE64777d5479c3-CM64777d5479c0.cpe.net.cable.rogers.com.
-	[99.228.64.175]) by smtp.gmail.com with ESMTPSA id
-	t127sm3198015itb.32.2019.05.01.08.06.40
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 01 May 2019 08:06:41 -0700 (PDT)
-Date: Mon, 29 Apr 2019 12:13:31 -0400
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Message-ID: <20190429161331.GC13640@stefanha-x1.localdomain>
-References: <20190429105741.31033-1-kwolf@redhat.com>
+	(envelope-from <dgilbert@redhat.com>) id 1hL8vr-0008Ky-RR
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 12:15:09 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58274)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hL8vr-0008Hj-Ct
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 12:15:07 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+	[10.5.11.16])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id D596230833BF;
+	Mon, 29 Apr 2019 16:15:05 +0000 (UTC)
+Received: from work-vm (ovpn-117-192.ams2.redhat.com [10.36.117.192])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 300F61712E;
+	Mon, 29 Apr 2019 16:15:05 +0000 (UTC)
+Date: Mon, 29 Apr 2019 17:15:02 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: fengyd <fengyd81@gmail.com>
+Message-ID: <20190429161502.GI2748@work-vm>
+References: <CACnvu8YKqaZA7XSD41=SQrUL7h9YafJMgKPe5cJZd3XZ3zrSNw@mail.gmail.com>
+	<20190415145358.GA2893@work-vm>
+	<CACnvu8a5DjAUhfAGmi6GtpD1V2hfoNLTkKEgbsFuL_6GrRc+pg@mail.gmail.com>
+	<CACnvu8Y9Ub5PAOt18ukzvOoDxmfzwvygWWwOZaT5Q2Eig6YFTw@mail.gmail.com>
+	<20190416084738.GA3123@work-vm>
+	<CACnvu8Y7OQSYgGUXm5+bdB0owwmm+gSDpuaGQn=5QNhB5wcjvQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="MnLPg7ZWsaic7Fhd"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190429105741.31033-1-kwolf@redhat.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::d43
-Subject: Re: [Qemu-devel] [Qemu-block] [PATCH] qcow2: Fix qcow2_make_empty()
- with external data file
+In-Reply-To: <CACnvu8Y7OQSYgGUXm5+bdB0owwmm+gSDpuaGQn=5QNhB5wcjvQ@mail.gmail.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.44]);
+	Mon, 29 Apr 2019 16:15:05 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] Fwd: How live migration work for vhost-user
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -81,48 +62,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mreitz@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
-	qemu-stable@nongnu.org
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+* fengyd (fengyd81@gmail.com) wrote:
+> Hi,
+> 
+> I want to add some log to qemu-kvm-ev.
+> Do you know how to compile qemu-kvm-ev from source code?
 
---MnLPg7ZWsaic7Fhd
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+That's our downstream package build; it should build fine with rpmbuild,
+or you can configure and build it like any other qemu.
 
-On Mon, Apr 29, 2019 at 12:57:41PM +0200, Kevin Wolf wrote:
-> make_completely_empty() is an optimisated path for bdrv_make_empty()
-> where completely new metadata is created inside the image file instead
-> of going through all clusters and discarding them. For an external data
-> file, however, we actually need to do discard operations on the data
-> file; just overwriting the qcow2 file doesn't get rid of the data.
->=20
-> The necessary slow path with an explicit discard operation already
-> exists for other cases. Use it for external data files, too.
->=20
-> Cc: qemu-stable@nongnu.org
-> Signed-off-by: Kevin Wolf <kwolf@redhat.com>
-> ---
->  block/qcow2.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+Dave
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-
---MnLPg7ZWsaic7Fhd
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEcBAEBAgAGBQJcxyKrAAoJEJykq7OBq3PIU8cH/Rp4YpsMyrtD9O2KA5mvpEcB
-JutWX3bfCQxwPfT49VwhL2beKHLoc4sLlh+t4K6kyB4TIoK/GHGQFKN9/La6waTy
-yUg4YJ74O9Ir/Cny9Q+ht1HdqWJ/1FRPulNwJENwAQ4UbBp0vL3KrUe6VDX2aRgC
-vSGnqlKE+IGJz+qHOWkIP3csgsyFWc7i7GCT9z11mP7LAjoZf8NETz2D53RoT2/N
-/9gLXONIoAMpr+SJWUv/NUH60ZtDWYfDPwztYmziY5syHd0L4j3l29sT3aW+MFEH
-c8qMctinA3E+JqIr0cs8/BSZLxkgBdRDIxa5S57haNf3b7XZx4XXDJfzXWCtKC0=
-=pAiJ
------END PGP SIGNATURE-----
-
---MnLPg7ZWsaic7Fhd--
+> Thanks
+> 
+> Yafeng
+> 
+> On Tue, 16 Apr 2019 at 16:47, Dr. David Alan Gilbert <dgilbert@redhat.com>
+> wrote:
+> 
+> > * fengyd (fengyd81@gmail.com) wrote:
+> > > ---------- Forwarded message ---------
+> > > From: fengyd <fengyd81@gmail.com>
+> > > Date: Tue, 16 Apr 2019 at 09:17
+> > > Subject: Re: [Qemu-devel] How live migration work for vhost-user
+> > > To: Dr. David Alan Gilbert <dgilbert@redhat.com>
+> > >
+> > >
+> > > Hi,
+> > >
+> > > Any special feature needs to be supported on guest driver?
+> > > Because it's OK for standard Linux VM, but not OK for our VM where virtio
+> > > is  implemented by ourself.
+> >
+> > I'm not sure; you do have to support that 'log' mechanism but I don't
+> > know what else is needed.
+> >
+> > > And with qemu-kvm-ev-2.6, live migration can work with our VM where
+> > virtio
+> > > is  implemented by ourself.
+> >
+> > 2.6 is pretty old, so there's a lot of changes - not sure what's
+> > relevant.
+> >
+> > Dave
+> >
+> > > Thanks
+> > > Yafeng
+> > >
+> > > On Mon, 15 Apr 2019 at 22:54, Dr. David Alan Gilbert <
+> > dgilbert@redhat.com>
+> > > wrote:
+> > >
+> > > > * fengyd (fengyd81@gmail.com) wrote:
+> > > > > Hi,
+> > > > >
+> > > > > During live migration,  the folloing log can see in nova-compute.log
+> > in
+> > > > my
+> > > > > environment:
+> > > > >  ERROR nova.virt.libvirt.driver
+> > [req-039a85e1-e7a1-4a63-bc6d-c4b9a044aab6
+> > > > > 0cdab20dc79f4bc6ae5790e7b4a898ac 3363c319773549178acc67f32c78310e -
+> > > > default
+> > > > > default] [instance: 5ec719f4-1865-4afe-a207-3d9fae22c410] Live
+> > Migration
+> > > > > failure: internal error: qemu unexpectedly closed the monitor:
+> > > > > 2019-04-15T02:58:22.213897Z qemu-kvm: VQ 0
+> > > > > size 0x100 < last_avail_idx 0x1e - used_idx 0x23
+> > > > >
+> > > > > It's OK for standard Linux VM, but not OK for our VM where virtio is
+> > > > > implemented by ourself.
+> > > > > KVM version as follow:
+> > > > > qemu-kvm-common-ev-2.12.0-18.el7_6.3.1.x86_64
+> > > > > qemu-kvm-ev-2.12.0-18.el7_6.3.1.x86_64
+> > > > > libvirt-daemon-kvm-3.9.0-14.2.el7.centos.ncir.8.x86_64
+> > > > >
+> > > > > Do you know what's the difference between virtio and vhost-user
+> > during
+> > > > > migration?
+> > > > > The function virtio_load in Qemu is called for virtio and vhost-user
+> > > > during
+> > > > > migration.
+> > > > > For virtio,  last_avail_idx  and used_idx are stored in Qemu, Qemu is
+> > > > > responsible for updating their values accordingly
+> > > > > For vhost-user, last_avail_idx  and used_idx are stored in vhost-user
+> > > > app,
+> > > > > eg. DPDK, not in Qemu?
+> > > > > How does migration work for vhost-user?
+> > > >
+> > > > I don't know the details, but my understanding is that vhost-user
+> > > > tells the vhost-user client about an area of 'log' memory, where the
+> > > > vhost-user client must mark pages as dirty.
+> > > >
+> > > > In the qemu source, see docs/interop/vhost-user.txt and see
+> > > > the VHOST_SET_LOG_BASE and VHOST_USER_SET_LOG_FD calls.
+> > > >
+> > > > If the client correctly marks the areas as dirty, then qemu
+> > > > should resend those pages across.
+> > > >
+> > > >
+> > > > Dave
+> > > >
+> > > > > Thanks in advance
+> > > > > Yafeng
+> > > > --
+> > > > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> > > >
+> > --
+> > Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> >
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
