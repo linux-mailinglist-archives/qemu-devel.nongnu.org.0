@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C4E2E89A
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:16:44 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60815 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C88CCE8C7
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:26:35 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60962 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hL9tT-0000GC-Ex
-	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:16:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34425)
+	id 1hLA30-0000Pl-V7
+	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:26:35 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34377)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hL9et-0004uU-9a
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:40 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hL9er-0004rg-Hk
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hL9er-0006m1-3F
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:39 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:55633)
+	(envelope-from <peter.maydell@linaro.org>) id 1hL9eo-0006kd-Gr
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:36 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:51172)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hL9eo-0006IG-LZ
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:35 -0400
-Received: by mail-wm1-x334.google.com with SMTP id o25so148750wmf.5
-	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 10:00:46 -0700 (PDT)
+	id 1hL9eo-0006NL-1h
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:34 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id p21so186402wmc.0
+	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 10:00:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=C5QzvnZSqvAHI4meFaiTxEyfhM2e9uuOHfPDatPGWdU=;
-	b=t/CRAFLx+KIdfIfSE/4paSxRpvQPoOvlIwt0/1Zuc7Ud4ldevhlvVLeJLD4PjdYUAq
-	JW0TnibQzkEBjzpQKZMwhMTCKXjCIYxHXzt8IA9Lohn4L3gQSbRKv3GxYhZSFB7UqaTx
-	w0dt4IagzvcZrDL7hhHd5WvjhQROB3gpupNsMIRJDLmrxap835ltiZbMH1bp4k0falZm
-	xbcXOP8XspLSXA31kuRf4aafVaEOsNvGsJ0xwKP7PbaZj0KktH1/hGR138wSUuLzfX1c
-	ehisxtkAnMgJMw/M/eF30ldpZHpAwr4Bz7L2U0475FsijhzZtABeouqB3tCxcIgZns4U
-	fqUw==
+	bh=aRW2k9Bx9SmwGykwzikVBcj0TPSJbJZ0vG2+ZFO8UMs=;
+	b=wLLvNVonfMOdE5NK01+FeJefR2LEdhlmaHSblf/41ORtcHH2wIU7LiI19j1r15NOc+
+	Vckz6RbsacvtlHEjY0ZtRqktYWSkZOxOHcfjpEYj0i+G4U0XRcGxrt7GKUhB/r2mnWg2
+	FsxlzWqwq2C9qWTjq1Ku1vG+IvmIB6ihEZX+RLv/IgGnRmrdTusoxQhz+ezNnCsDCs5q
+	C4g2wsghmYNLD+R3K1+NfByhp3yIf65ERfrLwerU44yNv1HYwvdFQDmh6dWMHmrKgQ2/
+	bErIEYe7amlyDkBv0DP2jWn1cYyvmDMTvluflcRMp+rFLuSGzDGvlr0X2krVx/9HnJfk
+	HL+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=C5QzvnZSqvAHI4meFaiTxEyfhM2e9uuOHfPDatPGWdU=;
-	b=EYQn359VvvgmKAUuqjJd6Nyi/P9Lm9j7xXN7emTRdQI5ps/Znwboc/66OdrYqBzgC5
-	EFn/bmcWq8BgCKMcY+OFQLm2rjtlk/5DC/8HKg+uhbbXuqlVjzJ6X1iI9E/cbokWy9Dk
-	J0KlC6ZVxZttOHHhoAbCOHwigeOoQLBhK4cRcP7WDvjK2zi1MHJn2rokWHlFc5xuvQMg
-	Sw2KROSx8nlpaodVAiM9FvHJJ8+TnUb4GWv5nETd8v7kTf2zdgv2JmPU/R0haUZPPqfi
-	ZAqqkuRrIytZgKngenWIBxyXvMB5UrJ6wQYgVC2gt+3/0XmCi8hEZaPq2ESl2MuzZiCk
-	U4CA==
-X-Gm-Message-State: APjAAAUGt6PqI/3OQlAGUHQQNaSGLuhB3SNYxwh0GwOPWTjQOs4szCdm
-	i3EZL/ldwI9ZhOZELGsRaTmi1l1fDoI=
-X-Google-Smtp-Source: APXvYqziWLyG+ytkZUkcqS96aowud8RJB6RrMVoHZQ+y6XAMGsCeU/rLVHWTJokE7QFKQPYouB9RwA==
-X-Received: by 2002:a7b:cc12:: with SMTP id f18mr61347wmh.40.1556557245309;
-	Mon, 29 Apr 2019 10:00:45 -0700 (PDT)
+	bh=aRW2k9Bx9SmwGykwzikVBcj0TPSJbJZ0vG2+ZFO8UMs=;
+	b=qoOHGtrdMMWOFpvQ8ZErVzeC5rVwyf3SLtCFRPdipT1Rg9QWPXcpI165qMR6oZVZ0D
+	HR8Kro1lBiSbvuhZeLBzrwTugLZvbiI4DWD21jliUswutBpipNAw0bLVCOoT3nw1NsxK
+	cHEiEB5EIOntRCvkB5hrRkuDtlsg1PNS5gYuMlA1BsImrMfMk0yLpuCCd+sHVN5sTlTS
+	EfU4Xe8ld+EaG227zTZMswfweMf+RGoawTrQJ94QxTE2uli/DZRGqpCf+j/Q3uNO2N0F
+	WCaEjj0W2qhEjLcykFD5LhquPl7ffLkzzv4lxeoE0j/jXdcMsUBZxP3aOMnb50+6Ezoh
+	WGcA==
+X-Gm-Message-State: APjAAAXPKpAWaJaMRWGUkiE1iIiEmcamc1ey9DRTzhBEiETaKFQbEh1e
+	zSsCf1UZos5Frz9HCveGzvmAxokX8GQ=
+X-Google-Smtp-Source: APXvYqyT2bc8/CokJXAb3SzQ8KNXk8rd1XS7VRaLkY7fyfQ3Zbtgq+wBVlDxG09t0TdTxsT+E/NBIQ==
+X-Received: by 2002:a1c:dc84:: with SMTP id t126mr15391wmg.143.1556557246599; 
+	Mon, 29 Apr 2019 10:00:46 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
-	by smtp.gmail.com with ESMTPSA id a13sm36896wmj.39.2019.04.29.10.00.44
+	by smtp.gmail.com with ESMTPSA id a13sm36896wmj.39.2019.04.29.10.00.45
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 29 Apr 2019 10:00:44 -0700 (PDT)
+	Mon, 29 Apr 2019 10:00:45 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 29 Apr 2019 17:59:58 +0100
-Message-Id: <20190429170030.11323-11-peter.maydell@linaro.org>
+Date: Mon, 29 Apr 2019 17:59:59 +0100
+Message-Id: <20190429170030.11323-12-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190429170030.11323-1-peter.maydell@linaro.org>
 References: <20190429170030.11323-1-peter.maydell@linaro.org>
@@ -65,9 +65,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::334
-Subject: [Qemu-devel] [PULL 10/42] target/arm: Clear CONTROL_S.SFPA in SG
- insn if FPU present
+X-Received-From: 2a00:1450:4864:20::32b
+Subject: [Qemu-devel] [PULL 11/42] target/arm: Handle SFPA and FPCA bits in
+ reads and writes of CONTROL
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,31 +82,127 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the floating point extension is present, then the SG instruction
-must clear the CONTROL_S.SFPA bit. Implement this.
-
-(On a no-FPU system the bit will always be zero, so we don't need
-to make the clearing of the bit conditional on ARM_FEATURE_VFP.)
+The M-profile CONTROL register has two bits -- SFPA and FPCA --
+which relate to floating-point support, and should be RES0 otherwise.
+Handle them correctly in the MSR/MRS register access code.
+Neither is banked between security states, so they are stored
+in v7m.control[M_REG_S] regardless of current security state.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20190416125744.27770-8-peter.maydell@linaro.org
+Message-id: 20190416125744.27770-9-peter.maydell@linaro.org
 ---
- target/arm/helper.c | 1 +
- 1 file changed, 1 insertion(+)
+ target/arm/helper.c | 57 ++++++++++++++++++++++++++++++++++++++-------
+ 1 file changed, 49 insertions(+), 8 deletions(-)
 
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index c3d5fe09cdc..45a9d92e505 100644
+index 45a9d92e505..e801744673f 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -8804,6 +8804,7 @@ static bool v7m_handle_execute_nsc(ARMCPU *cpu)
-     qemu_log_mask(CPU_LOG_INT, "...really an SG instruction at 0x%08" PRIx32
-                   ", executing it\n", env->regs[15]);
-     env->regs[14] &= ~1;
-+    env->v7m.control[M_REG_S] &= ~R_V7M_CONTROL_SFPA_MASK;
-     switch_v7m_security_state(env, true);
-     xpsr_write(env, 0, XPSR_IT);
-     env->regs[15] += 4;
+@@ -12027,7 +12027,14 @@ uint32_t HELPER(v7m_mrs)(CPUARMState *env, uint32_t reg)
+         return xpsr_read(env) & mask;
+         break;
+     case 20: /* CONTROL */
+-        return env->v7m.control[env->v7m.secure];
++    {
++        uint32_t value = env->v7m.control[env->v7m.secure];
++        if (!env->v7m.secure) {
++            /* SFPA is RAZ/WI from NS; FPCA is stored in the M_REG_S bank */
++            value |= env->v7m.control[M_REG_S] & R_V7M_CONTROL_FPCA_MASK;
++        }
++        return value;
++    }
+     case 0x94: /* CONTROL_NS */
+         /* We have to handle this here because unprivileged Secure code
+          * can read the NS CONTROL register.
+@@ -12035,7 +12042,8 @@ uint32_t HELPER(v7m_mrs)(CPUARMState *env, uint32_t reg)
+         if (!env->v7m.secure) {
+             return 0;
+         }
+-        return env->v7m.control[M_REG_NS];
++        return env->v7m.control[M_REG_NS] |
++            (env->v7m.control[M_REG_S] & R_V7M_CONTROL_FPCA_MASK);
+     }
+ 
+     if (el == 0) {
+@@ -12141,9 +12149,13 @@ void HELPER(v7m_msr)(CPUARMState *env, uint32_t maskreg, uint32_t val)
+      */
+     uint32_t mask = extract32(maskreg, 8, 4);
+     uint32_t reg = extract32(maskreg, 0, 8);
++    int cur_el = arm_current_el(env);
+ 
+-    if (arm_current_el(env) == 0 && reg > 7) {
+-        /* only xPSR sub-fields may be written by unprivileged */
++    if (cur_el == 0 && reg > 7 && reg != 20) {
++        /*
++         * only xPSR sub-fields and CONTROL.SFPA may be written by
++         * unprivileged code
++         */
+         return;
+     }
+ 
+@@ -12202,6 +12214,15 @@ void HELPER(v7m_msr)(CPUARMState *env, uint32_t maskreg, uint32_t val)
+                 env->v7m.control[M_REG_NS] &= ~R_V7M_CONTROL_NPRIV_MASK;
+                 env->v7m.control[M_REG_NS] |= val & R_V7M_CONTROL_NPRIV_MASK;
+             }
++            /*
++             * SFPA is RAZ/WI from NS. FPCA is RO if NSACR.CP10 == 0,
++             * RES0 if the FPU is not present, and is stored in the S bank
++             */
++            if (arm_feature(env, ARM_FEATURE_VFP) &&
++                extract32(env->v7m.nsacr, 10, 1)) {
++                env->v7m.control[M_REG_S] &= ~R_V7M_CONTROL_FPCA_MASK;
++                env->v7m.control[M_REG_S] |= val & R_V7M_CONTROL_FPCA_MASK;
++            }
+             return;
+         case 0x98: /* SP_NS */
+         {
+@@ -12304,21 +12325,41 @@ void HELPER(v7m_msr)(CPUARMState *env, uint32_t maskreg, uint32_t val)
+         env->v7m.faultmask[env->v7m.secure] = val & 1;
+         break;
+     case 20: /* CONTROL */
+-        /* Writing to the SPSEL bit only has an effect if we are in
++        /*
++         * Writing to the SPSEL bit only has an effect if we are in
+          * thread mode; other bits can be updated by any privileged code.
+          * write_v7m_control_spsel() deals with updating the SPSEL bit in
+          * env->v7m.control, so we only need update the others.
+          * For v7M, we must just ignore explicit writes to SPSEL in handler
+          * mode; for v8M the write is permitted but will have no effect.
++         * All these bits are writes-ignored from non-privileged code,
++         * except for SFPA.
+          */
+-        if (arm_feature(env, ARM_FEATURE_V8) ||
+-            !arm_v7m_is_handler_mode(env)) {
++        if (cur_el > 0 && (arm_feature(env, ARM_FEATURE_V8) ||
++                           !arm_v7m_is_handler_mode(env))) {
+             write_v7m_control_spsel(env, (val & R_V7M_CONTROL_SPSEL_MASK) != 0);
+         }
+-        if (arm_feature(env, ARM_FEATURE_M_MAIN)) {
++        if (cur_el > 0 && arm_feature(env, ARM_FEATURE_M_MAIN)) {
+             env->v7m.control[env->v7m.secure] &= ~R_V7M_CONTROL_NPRIV_MASK;
+             env->v7m.control[env->v7m.secure] |= val & R_V7M_CONTROL_NPRIV_MASK;
+         }
++        if (arm_feature(env, ARM_FEATURE_VFP)) {
++            /*
++             * SFPA is RAZ/WI from NS or if no FPU.
++             * FPCA is RO if NSACR.CP10 == 0, RES0 if the FPU is not present.
++             * Both are stored in the S bank.
++             */
++            if (env->v7m.secure) {
++                env->v7m.control[M_REG_S] &= ~R_V7M_CONTROL_SFPA_MASK;
++                env->v7m.control[M_REG_S] |= val & R_V7M_CONTROL_SFPA_MASK;
++            }
++            if (cur_el > 0 &&
++                (env->v7m.secure || !arm_feature(env, ARM_FEATURE_M_SECURITY) ||
++                 extract32(env->v7m.nsacr, 10, 1))) {
++                env->v7m.control[M_REG_S] &= ~R_V7M_CONTROL_FPCA_MASK;
++                env->v7m.control[M_REG_S] |= val & R_V7M_CONTROL_FPCA_MASK;
++            }
++        }
+         break;
+     default:
+     bad_reg:
 -- 
 2.20.1
 
