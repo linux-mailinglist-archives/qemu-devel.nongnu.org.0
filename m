@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E44C3E8AC
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:20:11 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60845 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B62ECE894
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:15:37 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60775 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hL9wp-0002zQ-23
-	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:20:11 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34251)
+	id 1hL9sO-0007u9-RX
+	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:15:36 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34234)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hL9ei-0004jG-BK
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:29 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hL9ee-0004fW-HB
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hL9eb-0006ec-Ju
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:24 -0400
-Received: from mail-wr1-x430.google.com ([2a00:1450:4864:20::430]:40481)
+	(envelope-from <peter.maydell@linaro.org>) id 1hL9eX-0006cb-4c
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:19 -0400
+Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:37585)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hL9eX-0006Cj-79
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:17 -0400
-Received: by mail-wr1-x430.google.com with SMTP id h4so17113350wre.7
-	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 10:00:44 -0700 (PDT)
+	id 1hL9eV-0006Ev-UJ
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:16 -0400
+Received: by mail-wr1-x42f.google.com with SMTP id r6so17126930wrm.4
+	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 10:00:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=P8reak3ogb1Qxpz+d0u/xqb5x//CQHx7bZQj2MKrEhc=;
-	b=ZzHKH8GFK5bWapOarjb8h9I+cLEbBFOxKUjSqDGLBOZrNnGFg5qrGMsvfyjBcXp/WC
-	IEdX81GF1vG8SVy5U19O9mnUoVCeCsoQMUW0QAA0x9+0lZadkD+a3ksThPEiFZbRTFK6
-	HyhpXi+GFFUL0hyQR5NjH8h/KE+qqAcEKw50Mws6WL01ScFfs+rAJ4v287CfdL9WRg3I
-	JF0d6xGBctmgMjrxVGC9ME6SEpvx5H/VoA73zakZ6clj6VTw6qmB0eU0vDuhBb4Qd9XR
-	m/FPhIzIkdwJPyerqQ/o36kMKTh2kezgWg2JtWw4YwPCxQOtMHyQJ5ar0yPg1u4c7Mjr
-	413A==
+	bh=C5ELT6YRQDH3x2HFJvJf8ZZNn5ZtD6+g/82yTJwrTMg=;
+	b=RDK1iSCqOVSkW7h/LXdUrXuItYxD3n7vLCbzGI+wtiG+GE5fy48rFHdbFOGxnnXhya
+	HYq5sP9mNXwXPJ8/AI3mNv6PIR15x71ctk5bHiAMQBMnUVK97vWkW/ikXtMNXA9PpNsn
+	0Oijn99zC7G8X4WOG+y4ao9qjWGuwTT2VOQUEXlP7ZVFR93PNBm4k9vPEHM6O69lA4sD
+	I0OnUuKPvuxRYWkbH0NWxxtZOK0bpSSaVGDnY4tLa9Kq7gv4DD8JmgIfGJXacptpqxAb
+	MuDC794LiS/ifKKVytSIw7/KITyEwZVLNwzWUxBnDjQth1IS1KsErSaUJd7BHICSF2hg
+	KrOw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=P8reak3ogb1Qxpz+d0u/xqb5x//CQHx7bZQj2MKrEhc=;
-	b=toyxFUTyHdw2gOanFf1ybr6HrlbCY7OovX71q3tXl19bhFXAciDm90d2ttrXRNPBUo
-	tW1kYiIgNUrOdI8lYQ23ILFcutPwjRGvO060kt19Z1j+xtHTm0OPd2WIaS/9nSBo1qx5
-	LGM7Mm5cA6pAXMQ9yX/Tt+lj00nSSWp5LQm95mr3BpmXmeVQ3HxxT1NSjZXcKZe+XHYX
-	4IeARHTQ/alvJVIsgjcNiG4h2ov1J3VJnnOk+Djs/gv5+uDXXcFM3KyUJUVGfKi9ENye
-	2dLmvfCiD+2W808FlRZX7/09ImBX57NlxzGvEA/SuGoIGHbLPCNLF4zklvQHnFNonipx
-	oyBw==
-X-Gm-Message-State: APjAAAUzfdCdQZ9fu61b9ds3s5nSsdoklIYAtQszPRlAzA5RDUOw9kAO
-	m/6SL9S0HmiNQY0gNKdLOTpy39XBDyo=
-X-Google-Smtp-Source: APXvYqx2xJNnXdrkWNnU+3t7yinzLYX64pExm0dsqA4bNE1wrl/VRpS5J5GAEXi8EoWWFNBKz2jRxw==
-X-Received: by 2002:a5d:4989:: with SMTP id r9mr18216781wrq.173.1556557243071; 
-	Mon, 29 Apr 2019 10:00:43 -0700 (PDT)
+	bh=C5ELT6YRQDH3x2HFJvJf8ZZNn5ZtD6+g/82yTJwrTMg=;
+	b=dkdFB4vaVYbbRV3+Y4eEAvawZiobwXTElMPIO165HBqvZ9ZJ7bMotNg3BSJgmu4GZG
+	bqtI9Fjta5MSSb/I/ktxM5AnFVZuYxARPoAIEUmF9Q+RUPFawOcR2hc1rmIgc7CuSf2t
+	WJ5aZaFWIoF0wDSekd9EYN5MIgjZJYKhpjPt2FhIvx9ylu32gPZoDf4QkwPnEjEIwJwb
+	hWLtm1pqRxmpA5G7z0/ifcWTrUrZ2tHanVHp2mbTWXcgN/s50+i3tL/k3DNjXzrUSEa2
+	8jqMm2AhkTFSqvBW/i5Do3H8OINPEJX+WZRBLKhOCC5O8zEFQgKdHO91cGaJM08EiO44
+	TDdA==
+X-Gm-Message-State: APjAAAVam6fnY+50aNfpzKsJtJagJyFJaKJuGS4iBequIJeULVEhGZ8m
+	5d98NTdaF1bGt+VmOBR3kiBN8u3eZ3g=
+X-Google-Smtp-Source: APXvYqwLKxKdXANomuDhpHUIro0omoF7DXuLBgWyRqZCPotw/A6GHhPQRJj5YpgUB1G8qMaKiG9m1g==
+X-Received: by 2002:a5d:4a4f:: with SMTP id v15mr15335188wrs.5.1556557244189; 
+	Mon, 29 Apr 2019 10:00:44 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
-	by smtp.gmail.com with ESMTPSA id a13sm36896wmj.39.2019.04.29.10.00.41
+	by smtp.gmail.com with ESMTPSA id a13sm36896wmj.39.2019.04.29.10.00.43
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 29 Apr 2019 10:00:42 -0700 (PDT)
+	Mon, 29 Apr 2019 10:00:43 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 29 Apr 2019 17:59:56 +0100
-Message-Id: <20190429170030.11323-9-peter.maydell@linaro.org>
+Date: Mon, 29 Apr 2019 17:59:57 +0100
+Message-Id: <20190429170030.11323-10-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190429170030.11323-1-peter.maydell@linaro.org>
 References: <20190429170030.11323-1-peter.maydell@linaro.org>
@@ -65,9 +65,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::430
-Subject: [Qemu-devel] [PULL 08/42] target/arm: Honour M-profile FP enable
- bits
+X-Received-From: 2a00:1450:4864:20::42f
+Subject: [Qemu-devel] [PULL 09/42] target/arm: Decode FP instructions for M
+ profile
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,138 +82,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Like AArch64, M-profile floating point has no FPEXC enable
-bit to gate floating point; so always set the VFPEN TB flag.
+Correct the decode of the M-profile "coprocessor and
+floating-point instructions" space:
+ * op0 == 0b11 is always unallocated
+ * if the CPU has an FPU then all insns with op1 == 0b101
+   are floating point and go to disas_vfp_insn()
 
-M-profile also has CPACR and NSACR similar to A-profile;
-they behave slightly differently:
- * the CPACR is banked between Secure and Non-Secure
- * if the NSACR forces a trap then this is taken to
-   the Secure state, not the Non-Secure state
-
-Honour the CPACR and NSACR settings. The NSACR handling
-requires us to borrow the exception.target_el field
-(usually meaningless for M profile) to distinguish the
-NOCP UsageFault taken to Secure state from the more
-usual fault taken to the current security state.
+For the moment we leave VLLDM and VLSTM as NOPs; in
+a later commit we will fill in the proper implementation
+for the case where an FPU is present.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20190416125744.27770-6-peter.maydell@linaro.org
+Message-id: 20190416125744.27770-7-peter.maydell@linaro.org
 ---
- target/arm/helper.c    | 55 +++++++++++++++++++++++++++++++++++++++---
- target/arm/translate.c | 10 ++++++--
- 2 files changed, 60 insertions(+), 5 deletions(-)
+ target/arm/translate.c | 26 ++++++++++++++++++++++----
+ 1 file changed, 22 insertions(+), 4 deletions(-)
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 57ef75b3fcb..c3d5fe09cdc 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -7556,6 +7556,25 @@ uint32_t arm_phys_excp_target_el(CPUState *cs, uint32_t excp_idx,
-     return target_el;
- }
- 
-+/*
-+ * Return true if the v7M CPACR permits access to the FPU for the specified
-+ * security state and privilege level.
-+ */
-+static bool v7m_cpacr_pass(CPUARMState *env, bool is_secure, bool is_priv)
-+{
-+    switch (extract32(env->v7m.cpacr[is_secure], 20, 2)) {
-+    case 0:
-+    case 2: /* UNPREDICTABLE: we treat like 0 */
-+        return false;
-+    case 1:
-+        return is_priv;
-+    case 3:
-+        return true;
-+    default:
-+        g_assert_not_reached();
-+    }
-+}
-+
- static bool v7m_stack_write(ARMCPU *cpu, uint32_t addr, uint32_t value,
-                             ARMMMUIdx mmu_idx, bool ignfault)
- {
-@@ -8815,9 +8834,23 @@ void arm_v7m_cpu_do_interrupt(CPUState *cs)
-         env->v7m.cfsr[env->v7m.secure] |= R_V7M_CFSR_UNDEFINSTR_MASK;
-         break;
-     case EXCP_NOCP:
--        armv7m_nvic_set_pending(env->nvic, ARMV7M_EXCP_USAGE, env->v7m.secure);
--        env->v7m.cfsr[env->v7m.secure] |= R_V7M_CFSR_NOCP_MASK;
-+    {
-+        /*
-+         * NOCP might be directed to something other than the current
-+         * security state if this fault is because of NSACR; we indicate
-+         * the target security state using exception.target_el.
-+         */
-+        int target_secstate;
-+
-+        if (env->exception.target_el == 3) {
-+            target_secstate = M_REG_S;
-+        } else {
-+            target_secstate = env->v7m.secure;
-+        }
-+        armv7m_nvic_set_pending(env->nvic, ARMV7M_EXCP_USAGE, target_secstate);
-+        env->v7m.cfsr[target_secstate] |= R_V7M_CFSR_NOCP_MASK;
-         break;
-+    }
-     case EXCP_INVSTATE:
-         armv7m_nvic_set_pending(env->nvic, ARMV7M_EXCP_USAGE, env->v7m.secure);
-         env->v7m.cfsr[env->v7m.secure] |= R_V7M_CFSR_INVSTATE_MASK;
-@@ -12751,6 +12784,22 @@ int fp_exception_el(CPUARMState *env, int cur_el)
-         return 0;
-     }
- 
-+    if (arm_feature(env, ARM_FEATURE_M)) {
-+        /* CPACR can cause a NOCP UsageFault taken to current security state */
-+        if (!v7m_cpacr_pass(env, env->v7m.secure, cur_el != 0)) {
-+            return 1;
-+        }
-+
-+        if (arm_feature(env, ARM_FEATURE_M_SECURITY) && !env->v7m.secure) {
-+            if (!extract32(env->v7m.nsacr, 10, 1)) {
-+                /* FP insns cause a NOCP UsageFault taken to Secure */
-+                return 3;
-+            }
-+        }
-+
-+        return 0;
-+    }
-+
-     /* The CPACR controls traps to EL1, or PL1 if we're 32 bit:
-      * 0, 2 : trap EL0 and EL1/PL1 accesses
-      * 1    : trap only EL0 accesses
-@@ -12938,7 +12987,7 @@ void cpu_get_tb_cpu_state(CPUARMState *env, target_ulong *pc,
-         flags = FIELD_DP32(flags, TBFLAG_A32, SCTLR_B, arm_sctlr_b(env));
-         flags = FIELD_DP32(flags, TBFLAG_A32, NS, !access_secure_reg(env));
-         if (env->vfp.xregs[ARM_VFP_FPEXC] & (1 << 30)
--            || arm_el_is_aa64(env, 1)) {
-+            || arm_el_is_aa64(env, 1) || arm_feature(env, ARM_FEATURE_M)) {
-             flags = FIELD_DP32(flags, TBFLAG_A32, VFPEN, 1);
-         }
-         flags = FIELD_DP32(flags, TBFLAG_A32, XSCALE_CPAR, env->cp15.c15_cpar);
 diff --git a/target/arm/translate.c b/target/arm/translate.c
-index a9784535069..6a11921d0b8 100644
+index 6a11921d0b8..0747f7847a9 100644
 --- a/target/arm/translate.c
 +++ b/target/arm/translate.c
-@@ -3399,8 +3399,14 @@ static int disas_vfp_insn(DisasContext *s, uint32_t insn)
-      * for attempts to execute invalid vfp/neon encodings with FP disabled.
-      */
-     if (s->fp_excp_el) {
--        gen_exception_insn(s, 4, EXCP_UDEF,
--                           syn_fp_access_trap(1, 0xe, false), s->fp_excp_el);
-+        if (arm_dc_feature(s, ARM_FEATURE_M)) {
-+            gen_exception_insn(s, 4, EXCP_NOCP, syn_uncategorized(),
-+                               s->fp_excp_el);
-+        } else {
-+            gen_exception_insn(s, 4, EXCP_UDEF,
-+                               syn_fp_access_trap(1, 0xe, false),
-+                               s->fp_excp_el);
-+        }
-         return 0;
-     }
- 
+@@ -11728,10 +11728,19 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
+     case 6: case 7: case 14: case 15:
+         /* Coprocessor.  */
+         if (arm_dc_feature(s, ARM_FEATURE_M)) {
+-            /* We don't currently implement M profile FP support,
+-             * so this entire space should give a NOCP fault, with
+-             * the exception of the v8M VLLDM and VLSTM insns, which
+-             * must be NOPs in Secure state and UNDEF in Nonsecure state.
++            /* 0b111x_11xx_xxxx_xxxx_xxxx_xxxx_xxxx_xxxx */
++            if (extract32(insn, 24, 2) == 3) {
++                goto illegal_op; /* op0 = 0b11 : unallocated */
++            }
++
++            /*
++             * Decode VLLDM and VLSTM first: these are nonstandard because:
++             *  * if there is no FPU then these insns must NOP in
++             *    Secure state and UNDEF in Nonsecure state
++             *  * if there is an FPU then these insns do not have
++             *    the usual behaviour that disas_vfp_insn() provides of
++             *    being controlled by CPACR/NSACR enable bits or the
++             *    lazy-stacking logic.
+              */
+             if (arm_dc_feature(s, ARM_FEATURE_V8) &&
+                 (insn & 0xffa00f00) == 0xec200a00) {
+@@ -11745,6 +11754,15 @@ static void disas_thumb2_insn(DisasContext *s, uint32_t insn)
+                 /* Just NOP since FP support is not implemented */
+                 break;
+             }
++            if (arm_dc_feature(s, ARM_FEATURE_VFP) &&
++                ((insn >> 8) & 0xe) == 10) {
++                /* FP, and the CPU supports it */
++                if (disas_vfp_insn(s, insn)) {
++                    goto illegal_op;
++                }
++                break;
++            }
++
+             /* All other insns: NOCP */
+             gen_exception_insn(s, 4, EXCP_NOCP, syn_uncategorized(),
+                                default_exception_el(s));
 -- 
 2.20.1
 
