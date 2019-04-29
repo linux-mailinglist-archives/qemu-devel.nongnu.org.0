@@ -2,57 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 31FC2DA45
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 02:52:50 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50195 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FC0FDA41
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 02:50:55 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50169 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hKuXJ-0001Qc-Ci
-	for lists+qemu-devel@lfdr.de; Sun, 28 Apr 2019 20:52:49 -0400
+	id 1hKuVS-0007lU-GD
+	for lists+qemu-devel@lfdr.de; Sun, 28 Apr 2019 20:50:54 -0400
 Received: from eggs.gnu.org ([209.51.188.92]:33681)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <driver1998@foxmail.com>) id 1hKuIi-0007js-BJ
-	for qemu-devel@nongnu.org; Sun, 28 Apr 2019 20:37:45 -0400
+	(envelope-from <driver1998@foxmail.com>) id 1hKuIg-0007js-4z
+	for qemu-devel@nongnu.org; Sun, 28 Apr 2019 20:37:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <driver1998@foxmail.com>) id 1hKuD7-0001yY-HK
-	for qemu-devel@nongnu.org; Sun, 28 Apr 2019 20:31:59 -0400
-Received: from smtpbgbr2.qq.com ([54.207.22.56]:50330)
+	(envelope-from <driver1998@foxmail.com>) id 1hKuDu-0002s6-SY
+	for qemu-devel@nongnu.org; Sun, 28 Apr 2019 20:32:47 -0400
+Received: from smtpbgau1.qq.com ([54.206.16.166]:60015)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <driver1998@foxmail.com>)
-	id 1hKuD4-0001j8-8I
-	for qemu-devel@nongnu.org; Sun, 28 Apr 2019 20:31:56 -0400
+	id 1hKuDu-0002qf-7N
+	for qemu-devel@nongnu.org; Sun, 28 Apr 2019 20:32:46 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1556497901;
-	bh=6oRnU2BcdGDtPE9iy7KsdHPQRg/PEb0sJ/jEVMvHFo0=;
+	s=s201512; t=1556497956;
+	bh=gerxQDe02AMpDBIHhMgCswR4djHrmypAHaU/w5+GbGc=;
 	h=From:To:Subject:Date:Message-Id;
-	b=aZIPijFX0X/7CgEsEL90yjccURgwOM/+A1pKpFOr9q319um6UeNaR2VG4TdbWPxw+
-	dYERMorMMhBsKk+uElURgIbYk5NAdtZC/DuGSxeI4riCv7uVMtE0dEgords5UTBRwp
-	4rGvJPYhaXMttx3hLVOPr04myk0QH+mGYaXAFeME=
-X-QQ-mid: esmtp6t1556497899t8yxfv82s
+	b=OAr3Lks0NwAd7taLLL3ZNiXCJyrsdwpVOEdE3X6L6Z9IIUFywNyq8w2CSwfnWAzY4
+	yyxg2WR9awFNbXxIUc9mNkcsRaSPQq1kORe5ol4cSmLJza7YN3qXrw6+YJXkU+jh3T
+	7askQ0heK/7wiqLYOzPsapIahOoy40GIPVFiDJNI=
+X-QQ-mid: esmtp5t1556497955tpz6kda8i
 Received: from localhost (unknown [183.63.119.27])
 	by esmtp4.qq.com (ESMTP) with 
-	id ; Mon, 29 Apr 2019 08:31:39 +0800 (CST)
+	id ; Mon, 29 Apr 2019 08:32:34 +0800 (CST)
 X-QQ-SSF: B100000000000030F7F00F00000000O
-X-QQ-FEAT: WzbxStTePJ13/a+InIYkATG89/rAYwUtroxFcvvVFG3Fyfhd+dJNlSIBtHQV4
-	bq/AIZaiNF8g0CUXwhq1Cxg2SAklzBRnAfmoe6lXpa7DhcBpHFZ2G6dez5WkjpwTeo2PBBd
-	2Son0pXglRkFQa1NVqIKwXL81JQ6M7La0leU7zKxRVaTmnZQMdauJehF0O0yHGXNP1IC43U
-	qMo71gvSkKCjzxE0MHwtmtsJSAkvtkg3EGKs2TxvZOGJpPP9kqxsDoLYTaWSQS6VgO55ECA
-	Ir2POVmy7y+ebaso1CrMi4KUp452oD+JO8UohQLcfPptsb
+X-QQ-FEAT: 6ugjij1k5i+U+MtU1Gig6Z/DKHduD8fjPl7gcoOWmCmUcIse7eLArPs2XM3wB
+	QS7xxcEWrxf2j9+s40N2P68zs1u1sY9+IiGHZLP/aAj4c64RVyq16iN7RG/fHu8bAfALdo7
+	+paxam6vKJl/GsCxXRhXl8m9xicMNcGC/zH+D2m6h2P4wZuIv1HkKfAzxuFnZM9mTHFM7I5
+	0//U932Ihh6d0x6fBtlYrwLsPSVbKs84p4bFLEvhAvUy2o8d1A+Pt/67iIs6JPx9hmdEkun
+	zrI++UTjH0DdEgwd6FqTBjrKaxIR5lmMplXg==
 X-QQ-GoodBg: 0
 From: driver1998 <driver1998@foxmail.com>
-To: samuel.thibault@ens-lyon.org,
-	mst@redhat.com
-Date: Mon, 29 Apr 2019 00:31:12 +0000
-Message-Id: <20190429003112.22808-1-driver1998@foxmail.com>
+To: mdroth@linux.vnet.ibm.com
+Date: Mon, 29 Apr 2019 00:32:23 +0000
+Message-Id: <20190429003223.22856-1-driver1998@foxmail.com>
 X-Mailer: git-send-email 2.17.1
 X-QQ-SENDSIZE: 520
 Feedback-ID: esmtp:foxmail.com:bgforeign:bgforeign4
 X-QQ-Bgrelay: 1
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 54.207.22.56
-X-Mailman-Approved-At: Sun, 28 Apr 2019 20:49:05 -0400
-Subject: [Qemu-devel] [PATCH 1/4] Initial Windows on ARM (AArch64 64-Bit)
- host support
+X-Received-From: 54.206.16.166
+X-Mailman-Approved-At: Sun, 28 Apr 2019 20:49:03 -0400
+Subject: [Qemu-devel] [PATCH 2/4] qga: Fix an enum conversion warning in
+ commands-win32.c, hit by clang.
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -68,78 +67,65 @@ Cc: driver1998 <driver1998@foxmail.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series of patches is for initial support of Windows 10 on ARM as a QEMU host.
-Currently only TCG intepreter is working correctly, it crashes when TCG JIT is enabled.
-For now we assume it is built using the clang aarch64-w64-mingw32 toolchain, you can get a prebuilt toolchain at https://github.com/mstorsjo/llvm-mingw.
-
-QEMU_PACKED: Remove gcc_struct attribute in Windows non x86 targets
-This attribute is for x86 only, and it generates an warning on ARM64 Clang/MinGW targets.
-
 Signed-off-by: driver1998 <driver1998@foxmail.com>
 ---
- contrib/libvhost-user/libvhost-user.h | 2 +-
- include/qemu/compiler.h               | 2 +-
- scripts/cocci-macro-file.h            | 7 ++++++-
- slirp/src/util.h                      | 2 +-
- 4 files changed, 9 insertions(+), 4 deletions(-)
+ qga/commands-win32.c | 35 ++++++++++++++++++-----------------
+ 1 file changed, 18 insertions(+), 17 deletions(-)
 
-diff --git a/contrib/libvhost-user/libvhost-user.h b/contrib/libvhost-user/libvhost-user.h
-index 414ceb0a2f..78b33306e8 100644
---- a/contrib/libvhost-user/libvhost-user.h
-+++ b/contrib/libvhost-user/libvhost-user.h
-@@ -148,7 +148,7 @@ typedef struct VhostUserInflight {
-     uint16_t queue_size;
- } VhostUserInflight;
+diff --git a/qga/commands-win32.c b/qga/commands-win32.c
+index d40d61f605..4cdd2950bf 100644
+--- a/qga/commands-win32.c
++++ b/qga/commands-win32.c
+@@ -458,23 +458,24 @@ void qmp_guest_file_flush(int64_t handle, Error **errp)
+ #ifdef CONFIG_QGA_NTDDSCSI
  
--#if defined(_WIN32)
-+#if defined(_WIN32) && (defined(__x86_64__) || defined(__i386__))
- # define VU_PACKED __attribute__((gcc_struct, packed))
- #else
- # define VU_PACKED __attribute__((packed))
-diff --git a/include/qemu/compiler.h b/include/qemu/compiler.h
-index 296b2fd572..09fc44cca4 100644
---- a/include/qemu/compiler.h
-+++ b/include/qemu/compiler.h
-@@ -28,7 +28,7 @@
- 
- #define QEMU_SENTINEL __attribute__((sentinel))
- 
--#if defined(_WIN32)
-+#if defined(_WIN32) && (defined(__x86_64__) || defined(__i386__))
- # define QEMU_PACKED __attribute__((gcc_struct, packed))
- #else
- # define QEMU_PACKED __attribute__((packed))
-diff --git a/scripts/cocci-macro-file.h b/scripts/cocci-macro-file.h
-index e485cdccae..c6bbc05ba3 100644
---- a/scripts/cocci-macro-file.h
-+++ b/scripts/cocci-macro-file.h
-@@ -23,7 +23,12 @@
- #define QEMU_NORETURN __attribute__ ((__noreturn__))
- #define QEMU_WARN_UNUSED_RESULT __attribute__((warn_unused_result))
- #define QEMU_SENTINEL __attribute__((sentinel))
--#define QEMU_PACKED __attribute__((gcc_struct, packed))
-+
-+#if defined(_WIN32) && (defined(__x86_64__) || defined(__i386__))
-+# define QEMU_PACKED __attribute__((gcc_struct, packed))
-+#else
-+# define QEMU_PACKED __attribute__((packed))
-+#endif
- 
- #define cat(x,y) x ## y
- #define cat2(x,y) cat(x,y)
-diff --git a/slirp/src/util.h b/slirp/src/util.h
-index 01f1e0e068..278828fe3f 100644
---- a/slirp/src/util.h
-+++ b/slirp/src/util.h
-@@ -43,7 +43,7 @@
- #include <netinet/in.h>
+ static STORAGE_BUS_TYPE win2qemu[] = {
+-    [BusTypeUnknown] = GUEST_DISK_BUS_TYPE_UNKNOWN,
+-    [BusTypeScsi] = GUEST_DISK_BUS_TYPE_SCSI,
+-    [BusTypeAtapi] = GUEST_DISK_BUS_TYPE_IDE,
+-    [BusTypeAta] = GUEST_DISK_BUS_TYPE_IDE,
+-    [BusType1394] = GUEST_DISK_BUS_TYPE_IEEE1394,
+-    [BusTypeSsa] = GUEST_DISK_BUS_TYPE_SSA,
+-    [BusTypeFibre] = GUEST_DISK_BUS_TYPE_SSA,
+-    [BusTypeUsb] = GUEST_DISK_BUS_TYPE_USB,
+-    [BusTypeRAID] = GUEST_DISK_BUS_TYPE_RAID,
+-    [BusTypeiScsi] = GUEST_DISK_BUS_TYPE_ISCSI,
+-    [BusTypeSas] = GUEST_DISK_BUS_TYPE_SAS,
+-    [BusTypeSata] = GUEST_DISK_BUS_TYPE_SATA,
+-    [BusTypeSd] =  GUEST_DISK_BUS_TYPE_SD,
+-    [BusTypeMmc] = GUEST_DISK_BUS_TYPE_MMC,
++    [BusTypeUnknown] = (STORAGE_BUS_TYPE)GUEST_DISK_BUS_TYPE_UNKNOWN,
++    [BusTypeScsi] = (STORAGE_BUS_TYPE)GUEST_DISK_BUS_TYPE_SCSI,
++    [BusTypeAtapi] = (STORAGE_BUS_TYPE)GUEST_DISK_BUS_TYPE_IDE,
++    [BusTypeAta] = (STORAGE_BUS_TYPE)GUEST_DISK_BUS_TYPE_IDE,
++    [BusType1394] = (STORAGE_BUS_TYPE)GUEST_DISK_BUS_TYPE_IEEE1394,
++    [BusTypeSsa] = (STORAGE_BUS_TYPE)GUEST_DISK_BUS_TYPE_SSA,
++    [BusTypeFibre] = (STORAGE_BUS_TYPE)GUEST_DISK_BUS_TYPE_SSA,
++    [BusTypeUsb] = (STORAGE_BUS_TYPE)GUEST_DISK_BUS_TYPE_USB,
++    [BusTypeRAID] = (STORAGE_BUS_TYPE)GUEST_DISK_BUS_TYPE_RAID,
++    [BusTypeiScsi] = (STORAGE_BUS_TYPE)GUEST_DISK_BUS_TYPE_ISCSI,
++    [BusTypeSas] = (STORAGE_BUS_TYPE)GUEST_DISK_BUS_TYPE_SAS,
++    [BusTypeSata] = (STORAGE_BUS_TYPE)GUEST_DISK_BUS_TYPE_SATA,
++    [BusTypeSd] =  (STORAGE_BUS_TYPE)GUEST_DISK_BUS_TYPE_SD,
++    [BusTypeMmc] = (STORAGE_BUS_TYPE)GUEST_DISK_BUS_TYPE_MMC,
+ #if (_WIN32_WINNT >= 0x0601)
+-    [BusTypeVirtual] = GUEST_DISK_BUS_TYPE_VIRTUAL,
+-    [BusTypeFileBackedVirtual] = GUEST_DISK_BUS_TYPE_FILE_BACKED_VIRTUAL,
++    [BusTypeVirtual] = (STORAGE_BUS_TYPE)GUEST_DISK_BUS_TYPE_VIRTUAL,
++    [BusTypeFileBackedVirtual] =
++        (STORAGE_BUS_TYPE)GUEST_DISK_BUS_TYPE_FILE_BACKED_VIRTUAL,
  #endif
+ };
  
--#if defined(_WIN32)
-+#if defined(_WIN32) && (defined(__x86_64__) || defined(__i386__))
- # define SLIRP_PACKED __attribute__((gcc_struct, packed))
- #else
- # define SLIRP_PACKED __attribute__((packed))
+@@ -483,7 +484,7 @@ static GuestDiskBusType find_bus_type(STORAGE_BUS_TYPE bus)
+     if (bus >= ARRAY_SIZE(win2qemu) || (int)bus < 0) {
+         return GUEST_DISK_BUS_TYPE_UNKNOWN;
+     }
+-    return win2qemu[(int)bus];
++    return (GuestDiskBusType)win2qemu[(int)bus];
+ }
+ 
+ DEFINE_GUID(GUID_DEVINTERFACE_DISK,
 -- 
 2.17.1
 
