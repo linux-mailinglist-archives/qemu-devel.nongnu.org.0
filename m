@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F6D7EA5E
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 20:45:20 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33704 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A9B2EA74
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 20:47:41 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33759 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLBHD-0004K9-AV
-	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 14:45:19 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56769)
+	id 1hLBJU-0006Oa-LK
+	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 14:47:40 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56762)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <berto@igalia.com>) id 1hLBF2-0003Hh-6G
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 14:43:05 -0400
+	(envelope-from <berto@igalia.com>) id 1hLBF1-0003Hc-Om
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 14:43:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <berto@igalia.com>) id 1hLBF1-0002R2-68
+	(envelope-from <berto@igalia.com>) id 1hLBF0-0002Qa-QX
 	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 14:43:03 -0400
-Received: from fanzine.igalia.com ([91.117.99.155]:54755)
+Received: from fanzine.igalia.com ([91.117.99.155]:54751)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <berto@igalia.com>)
-	id 1hLBF0-0002Pb-TA; Mon, 29 Apr 2019 14:43:03 -0400
+	id 1hLBF0-0002Pa-8l; Mon, 29 Apr 2019 14:43:02 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
 	s=20170329; 
 	h=References:In-Reply-To:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
-	bh=ewSLV48hoUTk5bwPLhqgyOC8xegkUkvaV7q8eMrrfkw=; 
-	b=C5LAPP+I6VxpVwkmSs92sv7+41O2du5DOgNaIb8FvBK25UhTuwBvzhFf3jWyZ1y0LbZ2Z/YzsbaCQKm7qDvm1bpM3dN0WW6o5A7phJGUBlEJ2+bhx6Rfq6HqI6RWsjrB9Q3VV1hQZl6ELoewumeQZ8rvQRUHB0gt0tUnoTBQPoLW7JdCsrlOADPMpYQPmhhwoEDSdugA1jnAXRoBD2uPdgr+gq8y1dGHu+5qYBAK+rNpsnzpcz/3xmO/cWiQvesuumUAduJafJRMD+VPsNYCzunI87vHxJpey4sjfOK0H8BdoXR+nj8zL3vLHrjzYFMOj/vgAEHsexOkH5dqTBa4nA==;
+	bh=qPSLlGkl+4wX47R8brHXCYj560PZNri44VYQ96nZux4=; 
+	b=rUGhH5aBf1WaCUoEjvQwM0uDYSFgpkM08IKZOXSwlq3/teR/c032IDFtKxrQ6Ax8/5alASLtcZlMh/itWU5CYTgx/nj3stQq9Q5WoPb4AG+r2vbrf23VNGvGpexxoGX9olSgJIA/XbCH1E+Woio/Y29Z95vq8Z/bMxDu4qd00lj/WnYbfEW+rbRj5vzmYSr769Rg96S2YGoOiomzHGDEAn4rGRFQWWey1BpkVaPp5tW59tNOWSkxwFQy/3gGRs2WbxMlLZZhGcIk2DLnY9xGI4FpR9+0ziD4f5XnzrZZ1qaXyjZKyVjhxn+VKWcMpisFKcggkkgsQGCacALdTdBZbg==;
 Received: from static-191-95-145-212.ipcom.comunitel.net ([212.145.95.191]
 	helo=perseus.local) by fanzine.igalia.com with esmtpsa 
 	(Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
-	id 1hLBEx-0006XE-It; Mon, 29 Apr 2019 20:42:59 +0200
+	id 1hLBEx-0006XG-Jk; Mon, 29 Apr 2019 20:42:59 +0200
 Received: from berto by perseus.local with local (Exim 4.89)
 	(envelope-from <berto@igalia.com>)
-	id 1hLBEl-0002ZL-0q; Mon, 29 Apr 2019 21:42:47 +0300
+	id 1hLBEl-0002ZN-3P; Mon, 29 Apr 2019 21:42:47 +0300
 From: Alberto Garcia <berto@igalia.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 29 Apr 2019 20:42:36 +0200
-Message-Id: <74e443f4cd78fb5afa8d184af5be19de3691af38.1556562150.git.berto@igalia.com>
+Date: Mon, 29 Apr 2019 20:42:37 +0200
+Message-Id: <e5e1571c583874454760dc738ef3ea3470ea96e7.1556562150.git.berto@igalia.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <cover.1556562150.git.berto@igalia.com>
 References: <cover.1556562150.git.berto@igalia.com>
@@ -44,8 +44,8 @@ References: <cover.1556562150.git.berto@igalia.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
 	timestamps) [generic] [fuzzy]
 X-Received-From: 91.117.99.155
-Subject: [Qemu-devel] [PATCH 1/5] qcow2: Replace bdrv_write() with
- bdrv_pwrite()
+Subject: [Qemu-devel] [PATCH 2/5] vdi: Replace bdrv_{read,
+ write}() with bdrv_{pread, pwrite}()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,29 +62,58 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There's only one bdrv_write() call left in the qcow2 code, and it can
-be trivially replaced with the byte-based bdrv_pwrite().
+There's only a couple of bdrv_read() and bdrv_write() calls left in
+the vdi code, and they can be trivially replaced with the byte-based
+bdrv_pread() and bdrv_pwrite().
 
 Signed-off-by: Alberto Garcia <berto@igalia.com>
 ---
- block/qcow2-refcount.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ block/vdi.c | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
 
-diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
-index e0fe322500..83f66eed7a 100644
---- a/block/qcow2-refcount.c
-+++ b/block/qcow2-refcount.c
-@@ -2409,8 +2409,8 @@ write_refblocks:
-         on_disk_refblock = (void *)((char *) *refcount_table +
-                                     refblock_index * s->cluster_size);
+diff --git a/block/vdi.c b/block/vdi.c
+index e1c42ad732..8d849b2754 100644
+--- a/block/vdi.c
++++ b/block/vdi.c
+@@ -384,7 +384,7 @@ static int vdi_open(BlockDriverState *bs, QDict *options, int flags,
  
--        ret = bdrv_write(bs->file, refblock_offset / BDRV_SECTOR_SIZE,
--                         on_disk_refblock, s->cluster_sectors);
-+        ret = bdrv_pwrite(bs->file, refblock_offset, on_disk_refblock,
-+                          s->cluster_size);
-         if (ret < 0) {
-             fprintf(stderr, "ERROR writing refblock: %s\n", strerror(-ret));
-             goto fail;
+     logout("\n");
+ 
+-    ret = bdrv_read(bs->file, 0, (uint8_t *)&header, 1);
++    ret = bdrv_pread(bs->file, 0, (uint8_t *)&header, sizeof(header));
+     if (ret < 0) {
+         goto fail;
+     }
+@@ -484,8 +484,8 @@ static int vdi_open(BlockDriverState *bs, QDict *options, int flags,
+         goto fail;
+     }
+ 
+-    ret = bdrv_read(bs->file, s->bmap_sector, (uint8_t *)s->bmap,
+-                    bmap_size);
++    ret = bdrv_pread(bs->file, header.offset_bmap, (uint8_t *)s->bmap,
++                     bmap_size * SECTOR_SIZE);
+     if (ret < 0) {
+         goto fail_free_bmap;
+     }
+@@ -704,7 +704,7 @@ nonallocating_write:
+         assert(VDI_IS_ALLOCATED(bmap_first));
+         *header = s->header;
+         vdi_header_to_le(header);
+-        ret = bdrv_write(bs->file, 0, block, 1);
++        ret = bdrv_pwrite(bs->file, 0, block, sizeof(*block));
+         g_free(block);
+         block = NULL;
+ 
+@@ -722,7 +722,8 @@ nonallocating_write:
+         base = ((uint8_t *)&s->bmap[0]) + bmap_first * SECTOR_SIZE;
+         logout("will write %u block map sectors starting from entry %u\n",
+                n_sectors, bmap_first);
+-        ret = bdrv_write(bs->file, offset, base, n_sectors);
++        ret = bdrv_pwrite(bs->file, offset * SECTOR_SIZE, base,
++                          n_sectors * SECTOR_SIZE);
+     }
+ 
+     return ret;
 -- 
 2.11.0
 
