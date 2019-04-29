@@ -2,66 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D7E6AE950
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:37:49 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:32897 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06407E97A
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:48:28 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33082 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLADt-0002O5-1U
-	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:37:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41878)
+	id 1hLAOB-0002nL-6y
+	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:48:27 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42068)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hLA6R-000588-6f
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:30:07 -0400
+	(envelope-from <alistair23@gmail.com>) id 1hLA74-0005jz-Oy
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:30:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hLA6Q-0006Rk-Cs
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:30:07 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:40714)
+	(envelope-from <alistair23@gmail.com>) id 1hLA73-0006lQ-Qh
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:30:46 -0400
+Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:40418)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hLA6Q-0006RO-8L
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:30:06 -0400
-Received: by mail-ot1-x343.google.com with SMTP id w6so9374706otl.7
-	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 10:30:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	(Exim 4.71) (envelope-from <alistair23@gmail.com>)
+	id 1hLA71-0006k7-LP; Mon, 29 Apr 2019 13:30:43 -0400
+Received: by mail-lj1-x244.google.com with SMTP id t10so9102007ljg.7;
+	Mon, 29 Apr 2019 10:30:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=rVNgDqFtIwPC4jl9v/zGxM1VA6C5kpz++/BT4KoJZa0=;
-	b=SfmDq0rTa+JK6NmWXNmiYs7l1eMyx/C3GvnX9Bay2pag2cBlqIh03Ke6XlTyvcYPRh
-	gTEBTaKNYrt6ddeYUzrgP1OE3HMVweKGfrz0X9vaunTuCwo9qhhMJtkUvnQy4ZzNjVnR
-	sO40ONZL1D+waaXs1cksrOzlrJMvzVpblHaIi7raWHa7iLWg679lLpl4xN5Utl5OSvcN
-	BadoTxEepCIjMFQW09nJ35PSiYn3GahUWyzRxpIUPAM+QRiN+dR/qcF+UzMyH838+k7K
-	VMF9ZtrxGF02X5Rdbd/qJkQxWMD1bMNFd5XhW/ePBKe5U9k3+MnsH+cAbWz2IDvjKCMq
-	xfkQ==
+	:cc:content-transfer-encoding;
+	bh=D0CsyVuEeijjtNrn3BRdbHVTNz74u9iotAEhTxxMyXM=;
+	b=uYus/O/JfNBTN/acpE1d/z1mxuuuypqXzI7iegKxHMRGiUhFfMJ+iQehbIK2KRO5qk
+	NJe8Lvr+0bj98gF4ww0qMwRG7FIJnw3pULMkPVFZypDLBPATY2HTiT2y9LzYwuvicn83
+	CVPDHiv2E+Awgn5Qkii/kC3cgZxR+SU1xSs+60FRpiz8LgW3VjcSBv0zaW4Qj3Kx3uHe
+	S0OSRcusH1imkaoCgFLOVFXd6OnJ4cuz05szWixL0uRzyEA+Q13dntbz/9QxXsk6vBjK
+	6tRLKGaZcfjap6MnOWhrJwLSiogND1A9gp4zHXKMupIQyhj1moDhEnppbpVfEpXlsxOO
+	SW2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=rVNgDqFtIwPC4jl9v/zGxM1VA6C5kpz++/BT4KoJZa0=;
-	b=MPhQXRbQPWctOyoypsTOa/AsdlBhBVLmKUbp0pe+g4055yVR3VR1gHHt7nIR8GCCi9
-	kVOZ/jvmxBMLfS8mFY1sZvqzImaJoEqFD4cITatnDnXYJNuk+iEtZDhMyYDv+2+fKT+n
-	LCvu+qv3Fzu4SfgpAL7BwCKROfGaHKdCp5PW82fQeaECoUTAi3axxQvLwTmv7dXGrAYn
-	8u1v3AcQagjLEhNhNejigOLCsigX9zmVRvbbPnVXylVtmx/xtBqDFHx2Lf1XO1LQeIdw
-	Peiz/lKyEdlQZ1INAf8Dc4YRj/or1rYH7/oPbxCeMqWL3D7sgviRcLgeJJtmlv180vYw
-	+kng==
-X-Gm-Message-State: APjAAAXvbyaTJzUrfi/krNxKImz2PQWJLdlUHLOpR2cIL6rJ5p+8QfiF
-	ReQkgqueGy6X1oZGuzVoITr1a5EgzESyqiX727CycQ==
-X-Google-Smtp-Source: APXvYqxMqcf260wZKAqOL7YWJCuj/JQLUSX9jcx9LO2IaSq3COuUoITESfMo/XGRXl+3Rmz7/lxqspkPjcO2kJ8QzzA=
-X-Received: by 2002:a9d:360b:: with SMTP id w11mr12926445otb.238.1556559005160;
-	Mon, 29 Apr 2019 10:30:05 -0700 (PDT)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=D0CsyVuEeijjtNrn3BRdbHVTNz74u9iotAEhTxxMyXM=;
+	b=mRvZ0GDoIKnsWNlNgE06zY4IwjGE4YOG0wSV3H4L38+Yx/ut2blsMTxMX1HfntzTr0
+	OSJhwIkm05AlH8RTcAidLC4tqf1/Z6JNlV+PuWBFHfgOBJ0TpA5GrFBchG4mdA37DkAe
+	La+UW0YI3A2lHSA0XXQanXfrUUreZuewpYFBkgldOhluxwcHpm2zShpL9LHKV9yyCp5y
+	g2oBtmLm9SOG4yEohM3WXD1aB46nypM4ILtsz6RrVRLsoj/rUH+o3F7NKsC+iF07Lpc9
+	skdOKmNJjsnIOlwp44xYDGgIFYdcpE+fswZ9t9ScZRKI/cugQqHDT7+yNHgylQ++cV9w
+	hLIg==
+X-Gm-Message-State: APjAAAWSftElRvP0smBOWuwf4s6eAMkpY8eMoWviEDZjBKThBuU2BVEe
+	O81as/BGTLikMAc2fXXKcWX/+z2NJSBDejNK5g5WIX91
+X-Google-Smtp-Source: APXvYqyFNaAZT8rDRO+Sgxic7DRX0iIDQVrmY1xV35w8UuXxRyQl/r/I7M5ZKnx59LMGuHs5VaDQ5jyP/QjU/mtXeZ8=
+X-Received: by 2002:a2e:824b:: with SMTP id j11mr6798990ljh.197.1556559042610; 
+	Mon, 29 Apr 2019 10:30:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190403034358.21999-1-richard.henderson@linaro.org>
-	<20190403034358.21999-26-richard.henderson@linaro.org>
-In-Reply-To: <20190403034358.21999-26-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 29 Apr 2019 18:29:53 +0100
-Message-ID: <CAFEAcA-FYom0R+LgxHKGUJUpKyb4xFJdWzjsgh8s+aO20P3Pag@mail.gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
+References: <20190427141459.19728-1-philmd@redhat.com>
+	<20190427141459.19728-4-philmd@redhat.com>
+In-Reply-To: <20190427141459.19728-4-philmd@redhat.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Mon, 29 Apr 2019 10:30:12 -0700
+Message-ID: <CAKmqyKN=WFU3fGDM_t1tnwH6E7dPSpHBUBoWSzZiLe7tf7p8FA@mail.gmail.com>
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::343
-Subject: Re: [Qemu-devel] [PATCH 25/26] tcg: Remove
- CPUClass::handle_mmu_fault
+X-Received-From: 2a00:1450:4864:20::244
+Subject: Re: [Qemu-devel] [PATCH 3/3] hw/dma: Do not build the xlnx_dpdma
+ device for the MicroBlaze machines
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -73,19 +74,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+	Alistair Francis <alistair@alistair23.me>,
+	"qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+	qemu-arm <qemu-arm@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
+	"Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 3 Apr 2019 at 05:03, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Sat, Apr 27, 2019 at 7:15 AM Philippe Mathieu-Daud=C3=A9
+<philmd@redhat.com> wrote:
 >
-> This hook is now completely replaced by tlb_fill.
+> The xlnx_dpdma device is only used by the ZynqMP AArch64 machine
+> (not the MicroBlaze PMU). Remove it from the ZynqMP generic objects.
+> (Note, this entry was duplicated for the AArch64).
 >
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-thanks
--- PMM
+Alistair
+
+> ---
+>  hw/dma/Makefile.objs | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/hw/dma/Makefile.objs b/hw/dma/Makefile.objs
+> index 79affecc390..a5b1276f52a 100644
+> --- a/hw/dma/Makefile.objs
+> +++ b/hw/dma/Makefile.objs
+> @@ -8,7 +8,6 @@ common-obj-$(CONFIG_XILINX_AXI) +=3D xilinx_axidma.o
+>  common-obj-$(CONFIG_ZYNQ_DEVCFG) +=3D xlnx-zynq-devcfg.o
+>  common-obj-$(CONFIG_ETRAXFS) +=3D etraxfs_dma.o
+>  common-obj-$(CONFIG_STP2000) +=3D sparc32_dma.o
+> -obj-$(CONFIG_XLNX_ZYNQMP) +=3D xlnx_dpdma.o
+>  obj-$(CONFIG_XLNX_ZYNQMP_ARM) +=3D xlnx_dpdma.o
+>  common-obj-$(CONFIG_XLNX_ZYNQMP_ARM) +=3D xlnx-zdma.o
+>
+> --
+> 2.20.1
+>
+>
 
