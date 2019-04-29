@@ -2,80 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D750AE961
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:41:18 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:32971 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3496FE966
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:43:20 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33007 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLAHF-0005jr-RV
-	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:41:17 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35519)
+	id 1hLAJD-0007OC-Dw
+	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:43:19 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40668)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hL9iH-0007zJ-FK
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:05:10 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hLA2I-0000eF-UP
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:25:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hL9iG-0000J5-J2
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:05:09 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51520)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hL9iE-0000Et-D6; Mon, 29 Apr 2019 13:05:06 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 9C7333199367;
-	Mon, 29 Apr 2019 17:05:05 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-204-144.brq.redhat.com
-	[10.40.204.144])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id CBAE95D720;
-	Mon, 29 Apr 2019 17:05:03 +0000 (UTC)
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
-	qemu-devel@nongnu.org, qemu-block@nongnu.org
-References: <20190402153730.54145-1-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
-	mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
-	/PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
-	U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
-	mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
-	awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
-	AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
-	CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
-	B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
-	2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
-	AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
-	8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
-	4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
-	BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
-	xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
-	W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
-	DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
-	64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
-	ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
-	sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
-	alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
-	/ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
-	bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
-	R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <66eb4e1a-7fad-a531-aa11-bff9429be87a@redhat.com>
-Date: Mon, 29 Apr 2019 19:05:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <peter.maydell@linaro.org>) id 1hLA2H-00041L-P9
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:25:50 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:38403)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hLA2H-00040w-CZ
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:25:49 -0400
+Received: by mail-oi1-x243.google.com with SMTP id t70so3400603oif.5
+	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 10:25:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=YSKpVbzfQ0fIqgDUYvjBXbgcoHsBD+WCXb+cktmGkgg=;
+	b=Fxfv8wYhWL2syRtiXB1zvBjs6OKkfWtzZPj1efa2kHFQ6+hdUEUoigqA3ZqwQzUWcn
+	AsiWOOdBhq7hjOZQdxTXsai3WTV9JO+vmrEvugwXpwF64uCUEQ/LQ2VbUwhnwo0WXsaf
+	7ssJ/YtYZnZdhcPgXSRWK7iaOWg0x670zhK1vmsk8comekiKAjzeHEaYUrWQMqJuSXsE
+	8VkfGFUXtRY2e4J5G3NSgEG3llovaq3zC6qIOoMwdJ/dDSZOK0/bXVmttKb+gfRC4mSm
+	rzu8XfA5OGn1IVpABKWIE3TXeLzAJJYcCG7/jmQEHPN+B4pHcRbkITypBVBry4AvDo95
+	Svew==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=YSKpVbzfQ0fIqgDUYvjBXbgcoHsBD+WCXb+cktmGkgg=;
+	b=CaEpU8h2vRSB1jYEmQ0bS+sr5D2dfTlTVj5zrBwkSuGcgd6kb8DsGjbTr79TZPLZaj
+	RtiR5fnWntSJmUeUtYqcXcD6aEQb0kfRY+ObEFdCEOQX9y50Hm45Cjsy58Rae7SLR3pi
+	wS7oovLl4T0Tzn9kyuhy3advA7vOfjywC80hd0eRnfCJQfRWkizKTQMpjqOUWJgvG+y5
+	SnLQWhJ/J7sHjyL7jwFOf9cMh66KDSDhIHZvzbyFHM/sihG4lxT9vqc13tbwXXPDtax+
+	63GxqfKR7lZHGoqwLK8+8uPgXegk41tMF98Ao9bSx6O55LqTKJp/dV1b08ggn1TlJ27J
+	fs6g==
+X-Gm-Message-State: APjAAAUDPC05KXOe9KRHCTE6DqPiq72MlpOp/en/nWhwMmqmKJYni7SV
+	Fb7U0culOjc1kQeEr3XG2hMsk4K5HusMjZDsGi9f+ToCXDk=
+X-Google-Smtp-Source: APXvYqzyccXSQc3Ek/cM7fL9oK2IDkNpEGe9LkXAVrpjK6BDysH+4OheQXjkjIvmtbdHnX70hxLKl0lTSOZO3qNeT7M=
+X-Received: by 2002:aca:e054:: with SMTP id x81mr129996oig.146.1556558748484; 
+	Mon, 29 Apr 2019 10:25:48 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190402153730.54145-1-vsementsov@virtuozzo.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature";
-	boundary="u6ltYODhI1fzReeYF1TLjqIMZkgEwcjRU"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.41]);
-	Mon, 29 Apr 2019 17:05:05 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PATCH v5 00/10] qcow2: encryption threads
+References: <20190403034358.21999-1-richard.henderson@linaro.org>
+	<20190403034358.21999-3-richard.henderson@linaro.org>
+In-Reply-To: <20190403034358.21999-3-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 29 Apr 2019 18:25:37 +0100
+Message-ID: <CAFEAcA_=PiLXOn+H9=VAdXx-YKDbh0eZ83NDWw=TmbrqTmGn7g@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::243
+Subject: Re: [Qemu-devel] [PATCH 02/26] tcg: Add CPUClass::tlb_fill
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -87,62 +72,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, pbonzini@redhat.com, berto@igalia.com, den@openvz.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---u6ltYODhI1fzReeYF1TLjqIMZkgEwcjRU
-From: Max Reitz <mreitz@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
-Cc: kwolf@redhat.com, berto@igalia.com, pbonzini@redhat.com, den@openvz.org,
- berrange@redhat.com
-Message-ID: <66eb4e1a-7fad-a531-aa11-bff9429be87a@redhat.com>
-Subject: Re: [PATCH v5 00/10] qcow2: encryption threads
-References: <20190402153730.54145-1-vsementsov@virtuozzo.com>
-In-Reply-To: <20190402153730.54145-1-vsementsov@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+On Wed, 3 Apr 2019 at 04:49, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> This hook will replace the (user-only mode specific) handle_mmu_fault
+> hook, and the (system mode specific) tlb_fill function.
+>
+> The handle_mmu_fault hook was written as if there was a valid
+> way to recover from an mmu fault, and had 3 possible return states.
+> In reality, the only valid action is to raise an exception,
+> return to the main loop, and delver the SIGSEGV to the guest.
 
-On 02.04.19 17:37, Vladimir Sementsov-Ogievskiy wrote:
-> v5: rebase on master, some conflicts resolved due to data-file feature
->=20
-> 01: new patch, just move test from cover letter to a file. I really hop=
-e that it
->     will not hang the whole series, so, if we don't want it as is or wi=
-th really
->     tiny improvements, I'd prefer to skip it and queue 02-10 first.
-> 09: "true" parameter added to moved qcow2_pre_write_overlap_check() cal=
-l due to
->     rebase on master (both before and after patch). Seems OK, so keep A=
-lberto's r-b.
+"deliver"
 
-Patches 2 =E2=80=93 6, 8 =E2=80=93 10:
+You might also mention here that all of the implementations
+of handle_mmu_fault for guest architectures which support
+linux-user do in fact only ever return 1.
 
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+>
+> Using the hook for system mode requires that all targets be converted,
+> so for now the hook is (optionally) used only from user-only mode.
+>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  include/qom/cpu.h     |  9 +++++++++
+>  accel/tcg/user-exec.c | 42 ++++++++++++++----------------------------
+>  2 files changed, 23 insertions(+), 28 deletions(-)
+>
+> diff --git a/include/qom/cpu.h b/include/qom/cpu.h
+> index 1d6099e5d4..7e96a0aed3 100644
+> --- a/include/qom/cpu.h
+> +++ b/include/qom/cpu.h
+> @@ -119,6 +119,12 @@ struct TranslationBlock;
+>   *       will need to do more. If this hook is not implemented then the
+>   *       default is to call @set_pc(tb->pc).
+>   * @handle_mmu_fault: Callback for handling an MMU fault.
+> + * @tlb_fill: Callback for handling a softmmu tlb miss or user-only
+> + *       address fault.  For system mode, if the access is valid, call
+> + *       tlb_set_page and return true; if the access is invalid, and
+> + *       probe is true, return false; otherwise raise an exception and
+> + *       do not return.  For user-only mode, always raise an exception
+> + *       and do not return.
+>   * @get_phys_page_debug: Callback for obtaining a physical address.
+>   * @get_phys_page_attrs_debug: Callback for obtaining a physical address and the
+>   *       associated memory transaction attributes to use for the access.
+> @@ -194,6 +200,9 @@ typedef struct CPUClass {
+>      void (*synchronize_from_tb)(CPUState *cpu, struct TranslationBlock *tb);
+>      int (*handle_mmu_fault)(CPUState *cpu, vaddr address, int size, int rw,
+>                              int mmu_index);
+> +    bool (*tlb_fill)(CPUState *cpu, vaddr address, int size,
+> +                     MMUAccessType access_type, int mmu_idx,
+> +                     bool probe, uintptr_t retaddr);
+>      hwaddr (*get_phys_page_debug)(CPUState *cpu, vaddr addr);
+>      hwaddr (*get_phys_page_attrs_debug)(CPUState *cpu, vaddr addr,
+>                                          MemTxAttrs *attrs);
+> diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
+> index fa9380a380..f13c0b2b67 100644
+> --- a/accel/tcg/user-exec.c
+> +++ b/accel/tcg/user-exec.c
+> @@ -65,6 +65,7 @@ static inline int handle_cpu_signal(uintptr_t pc, siginfo_t *info,
+>      CPUClass *cc;
+>      int ret;
+>      unsigned long address = (unsigned long)info->si_addr;
+> +    MMUAccessType access_type;
+>
+>      /* We must handle PC addresses from two different sources:
+>       * a call return address and a signal frame address.
+> @@ -151,40 +152,25 @@ static inline int handle_cpu_signal(uintptr_t pc, siginfo_t *info,
+>  #if TARGET_LONG_BITS == 32 && HOST_LONG_BITS == 64
+>      g_assert(h2g_valid(address));
+>  #endif
+> -
+> -    /* Convert forcefully to guest address space, invalid addresses
+> -       are still valid segv ones */
 
-For 7 I wonder whether the locking can be even tighter.
+This comment is still valid so I don't think it should be deleted.
 
-Max
+>      address = h2g_nocheck(address);
 
+Otherwise
 
---u6ltYODhI1fzReeYF1TLjqIMZkgEwcjRU
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAlzHLr4ACgkQ9AfbAGHV
-z0D+dQgAtYLEy6I8TMhoePg8fXiaSaJ2Pq2e+3JfZPVamr7LwwDEYrbpVXTIUxSB
-DFtZZVp7ZybN0IHYg1XdzoKU4Pge8UaawJeNLRhVf5zvTYDDVniTMMUOJNGED5QK
-ZBHZAEwUTDhIbolKZmVQmF8S1XEGkTMDnP3MlnXZ64m+FDDFbYmB4uUKDlwWzcUH
-aiveWqxUrg+1twMDTZqBWsA02oE1pvs41Ejl4GbIma29BNdZsrru894KOEfnx2ik
-3uJnD/GSRj16Fd2EbxqDo5JgJ5F2sDsK3rni8HtM53xFXr+ncqNnfzZzspvq+KWT
-h9wiOvtN/hmqgx+pPg60dFgrAJ1WMw==
-=xjVr
------END PGP SIGNATURE-----
-
---u6ltYODhI1fzReeYF1TLjqIMZkgEwcjRU--
+thanks
+-- PMM
 
