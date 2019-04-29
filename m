@@ -2,60 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FA5EDB99
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 07:42:57 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52499 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BB9AE5CD
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 17:08:52 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58930 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hKz44-00042M-Bo
-	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 01:42:56 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55162)
+	id 1hL7tj-0005eA-Bd
+	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 11:08:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51632)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hKz2d-0003Rg-73
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 01:41:28 -0400
+	(envelope-from <alistair@alistair23.me>) id 1hKyqx-0004vT-Qt
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 01:29:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hKz2b-00027O-0h
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 01:41:26 -0400
-Received: from indium.canonical.com ([91.189.90.7]:57452)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hKz2U-0001tC-Ic
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 01:41:20 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
-	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hKz23-0002T3-S6
-	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 05:40:51 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id C3C4B2E80CB
-	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 05:40:51 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+	(envelope-from <alistair@alistair23.me>) id 1hKyqw-0003QC-VR
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 01:29:23 -0400
+Received: from mail-oln040092255024.outbound.protection.outlook.com
+	([40.92.255.24]:6038
+	helo=APC01-HK2-obe.outbound.protection.outlook.com)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <alistair@alistair23.me>)
+	id 1hKyqw-0003Ow-KT
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 01:29:22 -0400
+Received: from SG2APC01FT020.eop-APC01.prod.protection.outlook.com
+	(10.152.250.57) by SG2APC01HT231.eop-APC01.prod.protection.outlook.com
+	(10.152.251.148) with Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id 15.20.1835.13;
+	Mon, 29 Apr 2019 05:29:17 +0000
+Received: from PSXP216MB0277.KORP216.PROD.OUTLOOK.COM (10.152.250.59) by
+	SG2APC01FT020.mail.protection.outlook.com (10.152.250.219) with
+	Microsoft SMTP Server (version=TLS1_2,
+	cipher=TLS_ECDHE_RSA_WITH_AES_256_CBC_SHA384) id
+	15.20.1835.13 via Frontend Transport; Mon, 29 Apr 2019 05:29:17 +0000
+Received: from PSXP216MB0277.KORP216.PROD.OUTLOOK.COM
+	([fe80::d5cf:d2af:3aea:e2a3]) by PSXP216MB0277.KORP216.PROD.OUTLOOK.COM
+	([fe80::d5cf:d2af:3aea:e2a3%3]) with mapi id 15.20.1835.018;
+	Mon, 29 Apr 2019 05:29:17 +0000
+From: Alistair Francis <alistair@alistair23.me>
+To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Thread-Topic: [PATCH v1 0/5]  Add the STM32F405 and Netduino Plus 2 machine
+Thread-Index: AQHU/kx98lxpsFcXPEO6CkIYnLWicQ==
+Date: Mon, 29 Apr 2019 05:29:17 +0000
+Message-ID: <PSXP216MB0277275ABAB6858751227C2ADD390@PSXP216MB0277.KORP216.PROD.OUTLOOK.COM>
+Accept-Language: en-AU, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: BYAPR07CA0083.namprd07.prod.outlook.com
+	(2603:10b6:a03:12b::24) To PSXP216MB0277.KORP216.PROD.OUTLOOK.COM
+	(2603:1096:300:a::18)
+x-incomingtopheadermarker: OriginalChecksum:4344F94F421F530330C84692A83D2BD39EC109CB0DD852495B599C9E5D21BB0E;
+	UpperCasedChecksum:D2EAB23E7D37661470319283C12C52711F7214C02B5FC2E9A08AEA43FDC1E7BE;
+	SizeAsReceived:7373; Count:48
+x-ms-exchange-messagesentrepresentingtype: 1
+x-mailer: git-send-email 2.21.0
+x-tmn: [fxKJ+OzIh6f9qwWM8Y2heMKkxeIFP2yVcHJ4rIjKbUTExHB2ksLJHq90u4+XWdL7]
+x-microsoft-original-message-id: <cover.1556515687.git.alistair@alistair23.me>
+x-ms-publictraffictype: Email
+x-incomingheadercount: 48
+x-eopattributedmessage: 0
+x-microsoft-antispam: BCL:0; PCL:0;
+	RULEID:(2390118)(5050001)(7020095)(20181119110)(201702061078)(5061506573)(5061507331)(1603103135)(2017031320274)(2017031323274)(2017031324274)(2017031322404)(1601125500)(1603101475)(1701031045);
+	SRVR:SG2APC01HT231; 
+x-ms-traffictypediagnostic: SG2APC01HT231:
+x-microsoft-antispam-message-info: THN5Vg+tnOWQo8N+sjir461t1oWrC8zSseWwedchART/yPTLHxTJsWV4Gg2cl7W/1Pda3Z/dT+BceY3nYG4MqPqNw/qzJhiZZ19VMOXXd8sTICngR6Dt7+LTHPZ2FL5H8+cjzXS/ddjZmzhT62MKD4LEcn0sSMrvgTtW6NI4UPn4pZWG3aRcmEzjfo10qkJi
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 29 Apr 2019 05:27:16 -0000
-From: Amol Surati <1826827@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: asurati
-X-Launchpad-Bug-Reporter: Amol Surati (asurati)
-X-Launchpad-Bug-Modifier: Amol Surati (asurati)
-References: <155651553398.6774.264581366962353554.malonedeb@chaenomeles.canonical.com>
-Message-Id: <155651563682.16851.8355822594995728428.malone@soybean.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18928";
-	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: f45a5de5198d4dca91904390cf05286ce38482c9
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1826827] Re: dtc crash;
- pnv_dt_serial cannot find lpc's phandle
+MIME-Version: 1.0
+X-OriginatorOrg: outlook.com
+X-MS-Exchange-CrossTenant-RMS-PersistedConsumerOrg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-Network-Message-Id: 742fa9be-f221-43c7-12fe-08d6cc639f98
+X-MS-Exchange-CrossTenant-rms-persistedconsumerorg: 00000000-0000-0000-0000-000000000000
+X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Apr 2019 05:29:17.7161 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Internet
+X-MS-Exchange-CrossTenant-id: 84df9e7f-e9f6-40af-b435-aaaaaaaaaaaa
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SG2APC01HT231
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.92.255.24
+X-Mailman-Approved-At: Mon, 29 Apr 2019 11:06:13 -0400
+Subject: [Qemu-devel] [PATCH v1 0/5] Add the STM32F405 and Netduino Plus 2
+ machine
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,224 +92,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1826827 <1826827@bugs.launchpad.net>
+Cc: "alistair23@gmail.com" <alistair23@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Attachment added: "the powernv dtb"
-   https://bugs.launchpad.net/qemu/+bug/1826827/+attachment/5259834/+files/=
-dtb
 
-** Description changed:
+Now that the Arm-M4 CPU has been added to QEMU we can add the Netduino
+Plus 2 machine. This is very similar to the STM32F205 and Netduino 2 SoC
+and machine.
 
-- pnv_dt_serial has a line which is supposed to set the interrupt-parent
-- of the "isa-serial@i3f8" node to the phandle of "lpc@0".
-+ Qemu version:
-+ QEMU emulator version 4.0.50 (v4.0.0-142-ge0fb2c3d89)
-+ Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developers
-+ =
 
-+ dtc version:
-+ Version: DTC 1.5.0-g5c3513f6
-+ =
+Alistair Francis (5):
+  armv7m: Allow entry information to be returned
+  hw/misc: Add the STM32F4xx Sysconfig device
+  hw/misc: Add the STM32F4xx EXTI device
+  hw/arm: Add the STM32F4xx SoC
+  hw/arm: Add the Netduino Plus 2
 
-+ =
+ MAINTAINERS                        |  14 ++
+ default-configs/arm-softmmu.mak    |   4 +
+ hw/arm/Kconfig                     |   6 +
+ hw/arm/Makefile.objs               |   2 +
+ hw/arm/armv7m.c                    |   6 +-
+ hw/arm/microbit.c                  |   2 +-
+ hw/arm/mps2-tz.c                   |   3 +-
+ hw/arm/mps2.c                      |   2 +-
+ hw/arm/msf2-som.c                  |   2 +-
+ hw/arm/musca.c                     |   3 +-
+ hw/arm/netduino2.c                 |   2 +-
+ hw/arm/netduinoplus2.c             |  77 ++++++++
+ hw/arm/stellaris.c                 |   3 +-
+ hw/arm/stm32f405_soc.c             | 292 +++++++++++++++++++++++++++++
+ hw/misc/Kconfig                    |   6 +
+ hw/misc/Makefile.objs              |   2 +
+ hw/misc/stm32f4xx_exti.c           | 175 +++++++++++++++++
+ hw/misc/stm32f4xx_syscfg.c         | 275 +++++++++++++++++++++++++++
+ include/hw/arm/arm.h               |   4 +-
+ include/hw/arm/stm32f405_soc.h     |  70 +++++++
+ include/hw/misc/stm32f4xx_exti.h   |  57 ++++++
+ include/hw/misc/stm32f4xx_syscfg.h |  62 ++++++
+ 22 files changed, 1058 insertions(+), 11 deletions(-)
+ create mode 100644 hw/arm/netduinoplus2.c
+ create mode 100644 hw/arm/stm32f405_soc.c
+ create mode 100644 hw/misc/stm32f4xx_exti.c
+ create mode 100644 hw/misc/stm32f4xx_syscfg.c
+ create mode 100644 include/hw/arm/stm32f405_soc.h
+ create mode 100644 include/hw/misc/stm32f4xx_exti.h
+ create mode 100644 include/hw/misc/stm32f4xx_syscfg.h
 
-+ -------------------------------------------------------------------------
-+ pnv_dt_serial has a line which is supposed to set the interrupt-parent of=
- the "isa-serial@i3f8" node to the phandle of "lpc@0".
-  =
+--=20
+2.21.0
 
-  To that end, it calls fdt_get_phandle as shown below:
-  _FDT((fdt_setprop_cell(fdt, node, "interrupt-parent", fdt_get_phandle(fdt=
-, lpc_off))));
-  =
-
-  The function fdt_get_phandle fails to find the property "phandle" (or
-  "linux,phandle") for the lpc node. Consequently, pnv_dt_serial sets the
-  interrupt-parent to 0.
-  =
-
-- =
-
-- =
-
-  Now boot the qemu-system-ppc64 powernv machine, and extract the fdt by
-  using the qemu monitor's pmemsave command, taking help of the OPAL
-  firmware's messages to locate the fdt in the physical ram.
-  =
-
-- qemu-system-ppc64 -m 1g -machine powernv,num-chips=3D1 \  =
-
-- -cpu power9 -smp 2,cores=3D2,threads=3D1 -accel tcg,thread=3Dmulti \     =
-             =
-
-- -kernel ./vmlinux \                                                      =
-       =
-
-- -append 'disable_radix' \                                                =
-       =
-
-- -serial mon:stdio -nographic -nodefaults =
-
-+ qemu-system-ppc64 -m 1g -machine powernv,num-chips=3D1 \
-+ -cpu power9 -smp 2,cores=3D2,threads=3D1 -accel tcg,thread=3Dmulti \
-+ -kernel ./vmlinux \
-+ -append 'disable_radix' \
-+ -serial mon:stdio -nographic -nodefaults
-  =
-
-  The kernel vmlinux contains nothing but a single instruction which loops
-  infintely, so that we can gather OPAL's messages, especially the one
-  below:
-  =
-
-  [    0.168845963,5] INIT: Starting kernel at 0x20000000, fdt at
-  0x304b0b70 14404 bytes
-  =
-
-- =
-
-- =
-
-  Once the fdt is dumped to a file, run the following:
-  =
-
-  'dtc -O dtb -I dts -o out.dts dtb'
-  =
-
-- =
-
-- After a few warnings, the dtc application crashes because an assertion wa=
-s fired.
-+ After a few warnings, the dtc application crashes because an assertion
-+ was fired.
-  =
-
-  1.dts: Warning (unit_address_vs_reg): /lpcm-opb@6030000000000/lpc@0: node=
- has a unit name, but no reg property
-  1.dts: Warning (simple_bus_reg): /lpcm-opb@6030000000000/lpc@0: missing o=
-r empty reg/ranges property
-  1.dts: Warning (avoid_unnecessary_addr_size): /ibm,opal: unnecessary #add=
-ress-cells/#size-cells without "ranges" or child "reg" property
-  1.dts: Warning (unique_unit_address): /interrupt-controller@0: duplicate =
-unit-address (also used in node /memory@0)
-  1.dts: Warning (chosen_node_stdout_path): /chosen:linux,stdout-path: Use =
-'stdout-path' instead
-  dtc: livetree.c:575: get_node_by_phandle: Assertion `generate_fixups' fai=
-led.
-  Aborted (core dumped)
-  =
-
-- =
-
-  The assertion is fired because get_node_by_phandle receives a phandle
-  value of 0, which is unexpected, unless fixups are needed (They are not,
-  when running the dtc command).
-  =
-
-- =
-
-- =
-
-- Back inside pnv_dt_serial, if the line that sets "interrupt-parent" for t=
-he serial device node is commented out, the dtc crash is prevented. Looking=
- at hw/ppc/e500.c, it takes care of allocating necessary phandle values in =
-the nodes, so a similar method can be adopted for powernv.
-- =
-
-+ Back inside pnv_dt_serial, if the line that sets "interrupt-parent" for
-+ the serial device node is commented out, the dtc crash is prevented.
-+ Looking at hw/ppc/e500.c, it takes care of allocating necessary phandle
-+ values in the nodes, so a similar method can be adopted for powernv.
-  =
-
-  The dtb is attached.
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1826827
-
-Title:
-  dtc crash; pnv_dt_serial cannot find lpc's phandle
-
-Status in QEMU:
-  New
-
-Bug description:
-  Qemu version:
-  QEMU emulator version 4.0.50 (v4.0.0-142-ge0fb2c3d89)
-  Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developers
-
-  dtc version:
-  Version: DTC 1.5.0-g5c3513f6
-
-  -------------------------------------------------------------------------
-  pnv_dt_serial has a line which is supposed to set the interrupt-parent of=
- the "isa-serial@i3f8" node to the phandle of "lpc@0".
-
-  To that end, it calls fdt_get_phandle as shown below:
-  _FDT((fdt_setprop_cell(fdt, node, "interrupt-parent", fdt_get_phandle(fdt=
-, lpc_off))));
-
-  The function fdt_get_phandle fails to find the property "phandle" (or
-  "linux,phandle") for the lpc node. Consequently, pnv_dt_serial sets
-  the interrupt-parent to 0.
-
-  Now boot the qemu-system-ppc64 powernv machine, and extract the fdt by
-  using the qemu monitor's pmemsave command, taking help of the OPAL
-  firmware's messages to locate the fdt in the physical ram.
-
-  qemu-system-ppc64 -m 1g -machine powernv,num-chips=3D1 \
-  -cpu power9 -smp 2,cores=3D2,threads=3D1 -accel tcg,thread=3Dmulti \
-  -kernel ./vmlinux \
-  -append 'disable_radix' \
-  -serial mon:stdio -nographic -nodefaults
-
-  The kernel vmlinux contains nothing but a single instruction which
-  loops infintely, so that we can gather OPAL's messages, especially the
-  one below:
-
-  [    0.168845963,5] INIT: Starting kernel at 0x20000000, fdt at
-  0x304b0b70 14404 bytes
-
-  Once the fdt is dumped to a file, run the following:
-
-  'dtc -O dtb -I dts -o out.dts dtb'
-
-  After a few warnings, the dtc application crashes because an assertion
-  was fired.
-
-  out.dts: Warning (unit_address_vs_reg): /lpcm-opb@6030000000000/lpc@0: no=
-de has a unit name, but no reg property
-  out.dts: Warning (simple_bus_reg): /lpcm-opb@6030000000000/lpc@0: missing=
- or empty reg/ranges property
-  out.dts: Warning (avoid_unnecessary_addr_size): /ibm,opal: unnecessary #a=
-ddress-cells/#size-cells without "ranges" or child "reg" property
-  out.dts: Warning (unique_unit_address): /interrupt-controller@0: duplicat=
-e unit-address (also used in node /memory@0)
-  out.dts: Warning (chosen_node_stdout_path): /chosen:linux,stdout-path: Us=
-e 'stdout-path' instead
-  dtc: livetree.c:575: get_node_by_phandle: Assertion `generate_fixups' fai=
-led.
-  Aborted (core dumped)
-
-  The assertion is fired because get_node_by_phandle receives a phandle
-  value of 0, which is unexpected, unless fixups are needed (They are
-  not, when running the dtc command).
-
-  Back inside pnv_dt_serial, if the line that sets "interrupt-parent"
-  for the serial device node is commented out, the dtc crash is
-  prevented. Looking at hw/ppc/e500.c, it takes care of allocating
-  necessary phandle values in the nodes, so a similar method can be
-  adopted for powernv.
-
-  The dtb is attached.
-
-  Edit: Add version, Correct filenames.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1826827/+subscriptions
 
