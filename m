@@ -2,97 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29C39E830
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 18:55:27 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60516 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8542E851
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:07:11 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60671 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hL9Ys-0002OJ-DH
-	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 12:55:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:32952)
+	id 1hL9kE-0000KG-ON
+	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:07:10 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34101)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <brijesh.singh@amd.com>) id 1hL9Xj-00020F-U9
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 12:54:17 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hL9eB-0004Da-SH
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:00:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <brijesh.singh@amd.com>) id 1hL9Xi-00035Q-0c
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 12:54:15 -0400
-Received: from mail-eopbgr800081.outbound.protection.outlook.com
-	([40.107.80.81]:19482
-	helo=NAM03-DM3-obe.outbound.protection.outlook.com)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <brijesh.singh@amd.com>)
-	id 1hL9Xf-00033y-3h
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 12:54:12 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=amdcloud.onmicrosoft.com; s=selector1-amd-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=2cS2Tbwu5wABgFx0DVz1/x77dFfsdmtrFruoRp8B/4w=;
-	b=Di1LCS3UX5gmP54Vvo90HrLKB2MsVQXglntN3QkDijA+1I6lrYVkSJGYwKjdd0Qe8ZyEbEoIeoYU2UJ2euHrtVUlx9y1avuYOuoo6pl/V8Sta3THuW1okLpYGabi8y2/7N3tcaUCCcErP6y+SRNhlg1NVvDhzFE2jVPMb+kjJxM=
-Received: from DM6PR12MB2682.namprd12.prod.outlook.com (20.176.116.31) by
-	DM6PR12MB3354.namprd12.prod.outlook.com (20.178.31.225) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.1835.15; Mon, 29 Apr 2019 16:54:08 +0000
-Received: from DM6PR12MB2682.namprd12.prod.outlook.com
-	([fe80::9183:846f:a93e:9a43]) by
-	DM6PR12MB2682.namprd12.prod.outlook.com
-	([fe80::9183:846f:a93e:9a43%5]) with mapi id 15.20.1835.016;
-	Mon, 29 Apr 2019 16:54:08 +0000
-From: "Singh, Brijesh" <brijesh.singh@amd.com>
-To: "Lendacky, Thomas" <Thomas.Lendacky@amd.com>, "kvm@vger.kernel.org"
-	<kvm@vger.kernel.org>
-Thread-Topic: [RFC PATCH v1 02/10] KVM: SVM: Add KVM_SEND_UPDATE_DATA command
-Thread-Index: AQHU+rgr5ZWFEHS1e0SVdIqZ4Ix/v6ZO6KyAgAR6MoA=
-Date: Mon, 29 Apr 2019 16:54:08 +0000
-Message-ID: <0883651a-ac95-022a-1a16-978ddb2cc35d@amd.com>
-References: <20190424160942.13567-1-brijesh.singh@amd.com>
-	<20190424160942.13567-3-brijesh.singh@amd.com>
-	<c0cf8d9b-4b47-f578-bc51-29739a3c2f8d@amd.com>
-In-Reply-To: <c0cf8d9b-4b47-f578-bc51-29739a3c2f8d@amd.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: SN2PR01CA0002.prod.exchangelabs.com (2603:10b6:804:2::12)
-	To DM6PR12MB2682.namprd12.prod.outlook.com (2603:10b6:5:4a::31)
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=brijesh.singh@amd.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [165.204.77.1]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 41c6f68c-7ab1-49bd-870b-08d6ccc34baf
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);
-	SRVR:DM6PR12MB3354; 
-x-ms-traffictypediagnostic: DM6PR12MB3354:
-x-microsoft-antispam-prvs: <DM6PR12MB3354911405F54EB45C998513E5390@DM6PR12MB3354.namprd12.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-forefront-prvs: 0022134A87
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10009020)(396003)(39860400002)(366004)(136003)(346002)(376002)(189003)(199004)(43544003)(14454004)(186003)(2906002)(110136005)(478600001)(11346002)(2616005)(81166006)(6506007)(53546011)(386003)(8676002)(81156014)(446003)(7416002)(8936002)(76176011)(102836004)(36756003)(26005)(6116002)(3846002)(54906003)(316002)(5660300002)(2501003)(68736007)(66066001)(229853002)(4326008)(86362001)(6246003)(31686004)(476003)(97736004)(31696002)(256004)(6486002)(14444005)(53936002)(6436002)(6512007)(25786009)(73956011)(66946007)(66446008)(64756008)(66556008)(66476007)(71190400001)(305945005)(71200400001)(7736002)(52116002)(99286004)(486006);
-	DIR:OUT; SFP:1101; SCL:1; SRVR:DM6PR12MB3354;
-	H:DM6PR12MB2682.namprd12.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: amd.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: cIYiNpj+sh30PnY0uxvSpRgiQuNu+gOitxpV5wRvpFMM6yMugvxkiq2wV9JKlIrLKW73hztg0v/C05yGOE7uzYF0wzvqkHmh/gXsep3P3ddKza6wxQYlTvOmWkoiT012tRF1KNjjEjvO+asiPH9JDpx8ssb7FR6dmHcR6UlDvDI2cY85SzIywzcmzgPr0cFKciPvju7/EMT18V2ophTUmvWzkH+qmdOB1ULVvrPAkWvt50xSaEWbVqGD2od61hm6TivoATjn571ZYylzIGeGtdaYrK4g1OiuFn28Gq9a2t1JEA/81EY47KkrTmQbrc/U1dzLH2otjsf63q9MCCE+V/HFeIRsq9dwsJ2bWEI5QdCmPLTY+gwZelbyTfMKZjI7TxHDFowpn2X4FqaoMIQ/SgWt8eM8f6whMS0kyC9dCRc=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <ED6640A095C20241AFFA51CB3FF8F15E@namprd12.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	(envelope-from <peter.maydell@linaro.org>) id 1hL9e7-0006Pf-Cd
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:00:54 -0400
+Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:41680)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hL9e4-00068b-1z
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:00:49 -0400
+Received: by mail-wr1-x42c.google.com with SMTP id c12so17087604wrt.8
+	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 10:00:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=MNPuYmpOcrKFa8E6aO40xbafYWEXZClIWnbAp0wuycw=;
+	b=NWJaQKHJL8mgTbeuetug8tz0zEXGEniN3dI/B+lt2+1UvaZ587TGKwvFaEYqtCEcQ+
+	PnqK8Wd1PxCxFt0Qw3ME1rfiFyAwL61Kicd+rFQ1TDdxi6hNAhLmsmy+tqV6rLSj+eUo
+	acAb30f6Sy8doCv3bFAvz4w8m/ZtRbCPKylwe/zo2cX2Gbnb+eV8Oe7Z3I96GsPbzKdK
+	RcAxMZQhQB9JL6I/4FcyeKsZjvPk+llQ0gEev/bb9NXvEIIteha4G4S9ZSUTnbOUYVZA
+	e3oCT0oJlUFuGWF10zL/y/zNih1f+FhIl4pL0XqrGV7fIHxLB6LFz5u5qI1ZkGsaMj/2
+	Y/6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=MNPuYmpOcrKFa8E6aO40xbafYWEXZClIWnbAp0wuycw=;
+	b=WrkcyKoMSB1Qz3JwTC0yaISM1Icg8DY6Lq6emtDWVim/ia3ZzkTmIJtKAabFiSK2fh
+	SlXJMFmfH8xhU7CvlfSf+JdvCzc4LhpYoUIqxRu1fVZYnk7KrmrkgooxWa2bzFbbiyaX
+	JYqwFa1v3t/tfN27AwYyVELX/1HKiI8usG52hOSLuSrFfEgSSDVNvRXuXN+qlO0ZsqaD
+	3mMMI8720wujqWtnf9+eIlhLXLMfIOjXTYRGzR93QoWABvYqiXaZq9qVFdhYYxON+d4c
+	LJ31n1WQEL/19vM9c+DZpYt+RoR4VoudifqMXe96UE3M9gsyVMtjd/2AzUCW1g5dSQ/4
+	5+5A==
+X-Gm-Message-State: APjAAAWcsucb1/IPYFrY1PYBCYlbSdEGP31AwBvPFtn4XeWeXTgj7vTi
+	GeJF3wKjKtmj8dQkbWZcAMJJP3m1j60=
+X-Google-Smtp-Source: APXvYqxpbUl8STNREabMMA1UcL7+WyAM75EIQRXupzCW3hkr3Og/TfLN+JMDdFnHK7glbrum6gyiMw==
+X-Received: by 2002:adf:f14e:: with SMTP id y14mr25307509wro.276.1556557233086;
+	Mon, 29 Apr 2019 10:00:33 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+	by smtp.gmail.com with ESMTPSA id a13sm36896wmj.39.2019.04.29.10.00.31
+	for <qemu-devel@nongnu.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 29 Apr 2019 10:00:32 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+Date: Mon, 29 Apr 2019 17:59:48 +0100
+Message-Id: <20190429170030.11323-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 41c6f68c-7ab1-49bd-870b-08d6ccc34baf
-X-MS-Exchange-CrossTenant-originalarrivaltime: 29 Apr 2019 16:54:08.3670 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR12MB3354
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.80.81
-Subject: Re: [Qemu-devel] [RFC PATCH v1 02/10] KVM: SVM: Add
- KVM_SEND_UPDATE_DATA command
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2a00:1450:4864:20::42c
+Subject: [Qemu-devel] [PULL 00/42] target-arm queue
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -104,78 +77,145 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Singh, Brijesh" <brijesh.singh@amd.com>,
-	=?utf-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@redhat.com>,
-	Joerg Roedel <joro@8bytes.org>, "x86@kernel.org" <x86@kernel.org>,
-	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	Ingo Molnar <mingo@redhat.com>, "H. Peter Anvin" <hpa@zytor.com>,
-	Paolo Bonzini <pbonzini@redhat.com>, Thomas Gleixner <tglx@linutronix.de>,
-	Borislav Petkov <bp@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-DQoNCk9uIDQvMjYvMTkgMzozMSBQTSwgTGVuZGFja3ksIFRob21hcyB3cm90ZToNCi4uLg0KDQo+
-PiAgIA0KPj4gICBzdGF0aWMgdW5zaWduZWQgaW50IG1heF9zZXZfYXNpZDsNCj4+ICAgc3RhdGlj
-IHVuc2lnbmVkIGludCBtaW5fc2V2X2FzaWQ7DQo+PiArc3RhdGljIHVuc2lnbmVkIGxvbmcgbWVf
-bWFzazsNCj4gDQo+IHNldl9tZV9tYXNrID8NCj4gDQoNCkFncmVlZC4NCg0KPj4gICBzdGF0aWMg
-dW5zaWduZWQgbG9uZyAqc2V2X2FzaWRfYml0bWFwOw0KPj4gICAjZGVmaW5lIF9fc21lX3BhZ2Vf
-cGEoeCkgX19zbWVfc2V0KHBhZ2VfdG9fcGZuKHgpIDw8IFBBR0VfU0hJRlQpDQo+PiAgIA0KPj4g
-QEAgLTEyMTYsMTUgKzEyMTcsMjEgQEAgc3RhdGljIGludCBhdmljX2dhX2xvZ19ub3RpZmllcih1
-MzIgZ2FfdGFnKQ0KPj4gICBzdGF0aWMgX19pbml0IGludCBzZXZfaGFyZHdhcmVfc2V0dXAodm9p
-ZCkNCj4+ICAgew0KPj4gICAJc3RydWN0IHNldl91c2VyX2RhdGFfc3RhdHVzICpzdGF0dXM7DQo+
-PiArCWludCBlYXgsIGVieDsNCj4+ICAgCWludCByYzsNCj4+ICAgDQo+PiAtCS8qIE1heGltdW0g
-bnVtYmVyIG9mIGVuY3J5cHRlZCBndWVzdHMgc3VwcG9ydGVkIHNpbXVsdGFuZW91c2x5ICovDQo+
-PiAtCW1heF9zZXZfYXNpZCA9IGNwdWlkX2VjeCgweDgwMDAwMDFGKTsNCj4+ICsJLyoNCj4+ICsJ
-ICogUXVlcnkgdGhlIG1lbW9yeSBlbmNyeXB0aW9uIGluZm9ybWF0aW9uLg0KPj4gKwkgKiAgRUJY
-OiAgQml0IDA6NSBQYWdldGFibGUgYml0IHBvc2l0aW9uIHVzZWQgdG8gaW5kaWNhdGUgZW5jcnlw
-dGlvbiAoYWthIENiaXQpLg0KPj4gKwkgKiAgRUNYOiAgTWF4aW11bSBudW1iZXIgb2YgZW5jcnlw
-dGVkIGd1ZXN0cyBzdXBwb3J0ZWQgc2ltdWx0YW5lb3VzbHkuDQo+PiArCSAqICBFRFg6ICBNaW5p
-bXVtIEFTSUQgdmFsdWUgdGhhdCBzaG91bGQgYmUgdXNlZCBmb3IgU0VWIGd1ZXN0Lg0KPj4gKwkg
-Ki8NCj4+ICsJY3B1aWQoMHg4MDAwMDAxZiwgJmVheCwgJmVieCwgJm1heF9zZXZfYXNpZCwgJm1p
-bl9zZXZfYXNpZCk7DQo+PiAgIA0KPj4gICAJaWYgKCFtYXhfc2V2X2FzaWQpDQo+PiAgIAkJcmV0
-dXJuIDE7DQo+PiAgIA0KPj4gLQkvKiBNaW5pbXVtIEFTSUQgdmFsdWUgdGhhdCBzaG91bGQgYmUg
-dXNlZCBmb3IgU0VWIGd1ZXN0ICovDQo+PiArCW1lX21hc2sgPSAxVUwgPDwgKGVieCAmIDB4M2Yp
-Ow0KPj4gICAJbWluX3Nldl9hc2lkID0gY3B1aWRfZWR4KDB4ODAwMDAwMUYpOw0KPiANCj4gWW91
-IGNhbiByZW1vdmUgdGhpcyBzaW5jZSB5b3Ugb2J0YWluZWQgaXQgd2l0aCB0aGUgY3B1aWQoKSBj
-YWxsIGFib3ZlLg0KPiANCg0KSSB0aG91Z2h0IEkgcmVtb3ZlZCBpdCBidXQuLiBJIHdpbGwgdGFr
-ZSBjYXJlIGluIG5leHQgcmV2Lg0KDQo+PiAgIA0KPj4gICAJLyogSW5pdGlhbGl6ZSBTRVYgQVNJ
-RCBiaXRtYXAgKi8NCj4+IEBAIC03MDUzLDYgKzcwNjAsMTE4IEBAIHN0YXRpYyBpbnQgc2V2X3Nl
-bmRfc3RhcnQoc3RydWN0IGt2bSAqa3ZtLCBzdHJ1Y3Qga3ZtX3Nldl9jbWQgKmFyZ3ApDQo+PiAg
-IAlyZXR1cm4gcmV0Ow0KPj4gICB9DQo+PiAgIA0KPj4gK3N0YXRpYyBpbnQgc2V2X3NlbmRfdXBk
-YXRlX2RhdGEoc3RydWN0IGt2bSAqa3ZtLCBzdHJ1Y3Qga3ZtX3Nldl9jbWQgKmFyZ3ApDQo+PiAr
-ew0KPj4gKwlzdHJ1Y3Qga3ZtX3Nldl9pbmZvICpzZXYgPSAmdG9fa3ZtX3N2bShrdm0pLT5zZXZf
-aW5mbzsNCj4+ICsJc3RydWN0IHNldl9kYXRhX3NlbmRfdXBkYXRlX2RhdGEgKmRhdGE7DQo+PiAr
-CXN0cnVjdCBrdm1fc2V2X3NlbmRfdXBkYXRlX2RhdGEgcGFyYW1zOw0KPj4gKwl2b2lkICpoZHIg
-PSBOVUxMLCAqdHJhbnNfZGF0YSA9IE5VTEw7DQo+PiArCXN0cnVjdCBwYWdlICoqZ3Vlc3RfcGFn
-ZSA9IE5VTEw7DQo+PiArCXVuc2lnbmVkIGxvbmcgbjsNCj4+ICsJaW50IHJldCwgb2Zmc2V0Ow0K
-Pj4gKw0KPj4gKwlpZiAoIXNldl9ndWVzdChrdm0pKQ0KPj4gKwkJcmV0dXJuIC1FTk9UVFk7DQo+
-PiArDQo+PiArCWlmIChjb3B5X2Zyb21fdXNlcigmcGFyYW1zLCAodm9pZCBfX3VzZXIgKikodWlu
-dHB0cl90KWFyZ3AtPmRhdGEsDQo+PiArCQkJc2l6ZW9mKHN0cnVjdCBrdm1fc2V2X3NlbmRfdXBk
-YXRlX2RhdGEpKSkNCj4+ICsJCXJldHVybiAtRUZBVUxUOw0KPj4gKw0KPj4gKwlkYXRhID0ga3ph
-bGxvYyhzaXplb2YoKmRhdGEpLCBHRlBfS0VSTkVMKTsNCj4+ICsJaWYgKCFkYXRhKQ0KPj4gKwkJ
-cmV0dXJuIC1FTk9NRU07DQo+PiArDQo+PiArCS8qIHVzZXJzcGFjZSB3YW50cyB0byBxdWVyeSBl
-aXRoZXIgaGVhZGVyIG9yIHRyYW5zIGxlbmd0aCAqLw0KPj4gKwlpZiAoIXBhcmFtcy50cmFuc19s
-ZW4gfHwgIXBhcmFtcy5oZHJfbGVuKQ0KPj4gKwkJZ290byBjbWQ7DQo+PiArDQo+PiArCXJldCA9
-IC1FSU5WQUw7DQo+PiArCWlmICghcGFyYW1zLnRyYW5zX3VhZGRyIHx8ICFwYXJhbXMuZ3Vlc3Rf
-dWFkZHIgfHwNCj4+ICsJICAgICFwYXJhbXMuZ3Vlc3RfbGVuIHx8ICFwYXJhbXMuaGRyX3VhZGRy
-KQ0KPj4gKwkJZ290byBlX2ZyZWU7DQo+PiArDQo+PiArCS8qIENoZWNrIGlmIHdlIGFyZSBjcm9z
-c2luZyB0aGUgcGFnZSBib3VuZHJ5ICovDQo+PiArCXJldCA9IC1FSU5WQUw7DQo+PiArCW9mZnNl
-dCA9IHBhcmFtcy5ndWVzdF91YWRkciAmIChQQUdFX1NJWkUgLSAxKTsNCj4+ICsJaWYgKChwYXJh
-bXMuZ3Vlc3RfbGVuICsgb2Zmc2V0ID4gUEFHRV9TSVpFKSkNCj4+ICsJCWdvdG8gZV9mcmVlOw0K
-Pj4gKw0KPj4gKwlyZXQgPSAtRU5PTUVNOw0KPj4gKwloZHIgPSBrbWFsbG9jKHBhcmFtcy5oZHJf
-bGVuLCBHRlBfS0VSTkVMKTsNCj4+ICsJaWYgKCFoZHIpDQo+PiArCQlnb3RvIGVfZnJlZTsNCj4+
-ICsNCj4+ICsJZGF0YS0+aGRyX2FkZHJlc3MgPSBfX3BzcF9wYShoZHIpOw0KPj4gKwlkYXRhLT5o
-ZHJfbGVuID0gcGFyYW1zLmhkcl9sZW47DQo+PiArDQo+PiArCXJldCA9IC1FTk9NRU07DQo+PiAr
-CXRyYW5zX2RhdGEgPSBrbWFsbG9jKHBhcmFtcy50cmFuc19sZW4sIEdGUF9LRVJORUwpOw0KPj4g
-KwlpZiAoIXRyYW5zX2RhdGEpDQo+PiArCQlnb3RvIGVfZnJlZTsNCj4+ICsNCj4+ICsJZGF0YS0+
-dHJhbnNfYWRkcmVzcyA9IF9fcHNwX3BhKHRyYW5zX2RhdGEpOw0KPj4gKwlkYXRhLT50cmFuc19s
-ZW4gPSBwYXJhbXMudHJhbnNfbGVuOw0KPj4gKw0KPj4gKwkvKiBQaW4gZ3Vlc3QgbWVtb3J5ICov
-DQo+PiArCXJldCA9IC1FRkFVTFQ7DQo+PiArCWd1ZXN0X3BhZ2UgPSBzZXZfcGluX21lbW9yeShr
-dm0sIHBhcmFtcy5ndWVzdF91YWRkciAmIFBBR0VfTUFTSywNCj4+ICsJCQkJICAgIFBBR0VfU0la
-RSwgJm4sIDApOw0KPj4gKwlpZiAoIWd1ZXN0X3BhZ2UpDQo+PiArCQlnb3RvIGVfZnJlZTsNCj4+
-ICsNCj4+ICsJZGF0YS0+Z3Vlc3RfYWRkcmVzcyA9IF9fc21lX3BhZ2VfcGEoZ3Vlc3RfcGFnZVsw
-XSkgKyBvZmZzZXQ7DQo+IA0KPiBJZiB0aGUgQy1iaXQgbmVlZHMgdG8gYmUgc2V0IHJlZ2FyZGxl
-c3MgYmVsb3csIHRoZW4geW91IGRvbid0IG5lZWQgdGhlDQo+IF9fc21lIHZlcnNpb24gb2YgdGhp
-cy4NCj4gDQoNCk5vdGVkLg0KDQo=
+First pullreq for arm of the 4.1 series, since I'm back from
+holiday now. This is mostly my M-profile FPU series and Philippe's
+devices.h cleanup. I have a pile of other patchsets to work through
+in my to-review folder, but 42 patches is definitely quite
+big enough to send now...
+
+thanks
+-- PMM
+
+The following changes since commit 413a99a92c13ec408dcf2adaa87918dc81e890c8:
+
+  Add Nios II semihosting support. (2019-04-29 16:09:51 +0100)
+
+are available in the Git repository at:
+
+  https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20190429
+
+for you to fetch changes up to 437cc27ddfded3bbab6afd5ac1761e0e195edba7:
+
+  hw/devices: Move SMSC 91C111 declaration into a new header (2019-04-29 17:57:21 +0100)
+
+----------------------------------------------------------------
+target-arm queue:
+ * remove "bag of random stuff" hw/devices.h header
+ * implement FPU for Cortex-M and enable it for Cortex-M4 and -M33
+ * hw/dma: Compile the bcm2835_dma device as common object
+ * configure: Remove --source-path option
+ * hw/ssi/xilinx_spips: Avoid variable length array
+ * hw/arm/smmuv3: Remove SMMUNotifierNode
+
+----------------------------------------------------------------
+Eric Auger (1):
+      hw/arm/smmuv3: Remove SMMUNotifierNode
+
+Peter Maydell (28):
+      hw/ssi/xilinx_spips: Avoid variable length array
+      configure: Remove --source-path option
+      target/arm: Make sure M-profile FPSCR RES0 bits are not settable
+      hw/intc/armv7m_nvic: Allow reading of M-profile MVFR* registers
+      target/arm: Implement dummy versions of M-profile FP-related registers
+      target/arm: Disable most VFP sysregs for M-profile
+      target/arm: Honour M-profile FP enable bits
+      target/arm: Decode FP instructions for M profile
+      target/arm: Clear CONTROL_S.SFPA in SG insn if FPU present
+      target/arm: Handle SFPA and FPCA bits in reads and writes of CONTROL
+      target/arm/helper: don't return early for STKOF faults during stacking
+      target/arm: Handle floating point registers in exception entry
+      target/arm: Implement v7m_update_fpccr()
+      target/arm: Clear CONTROL.SFPA in BXNS and BLXNS
+      target/arm: Clean excReturn bits when tail chaining
+      target/arm: Allow for floating point in callee stack integrity check
+      target/arm: Handle floating point registers in exception return
+      target/arm: Move NS TBFLAG from bit 19 to bit 6
+      target/arm: Overlap VECSTRIDE and XSCALE_CPAR TB flags
+      target/arm: Set FPCCR.S when executing M-profile floating point insns
+      target/arm: Activate M-profile floating point context when FPCCR.ASPEN is set
+      target/arm: New helper function arm_v7m_mmu_idx_all()
+      target/arm: New function armv7m_nvic_set_pending_lazyfp()
+      target/arm: Add lazy-FP-stacking support to v7m_stack_write()
+      target/arm: Implement M-profile lazy FP state preservation
+      target/arm: Implement VLSTM for v7M CPUs with an FPU
+      target/arm: Implement VLLDM for v7M CPUs with an FPU
+      target/arm: Enable FPU for Cortex-M4 and Cortex-M33
+
+Philippe Mathieu-Daudé (13):
+      hw/dma: Compile the bcm2835_dma device as common object
+      hw/arm/aspeed: Use TYPE_TMP105/TYPE_PCA9552 instead of hardcoded string
+      hw/arm/nseries: Use TYPE_TMP105 instead of hardcoded string
+      hw/display/tc6393xb: Remove unused functions
+      hw/devices: Move TC6393XB declarations into a new header
+      hw/devices: Move Blizzard declarations into a new header
+      hw/devices: Move CBus declarations into a new header
+      hw/devices: Move Gamepad declarations into a new header
+      hw/devices: Move TI touchscreen declarations into a new header
+      hw/devices: Move LAN9118 declarations into a new header
+      hw/net/ne2000-isa: Add guards to the header
+      hw/net/lan9118: Export TYPE_LAN9118 and use it instead of hardcoded string
+      hw/devices: Move SMSC 91C111 declaration into a new header
+
+ configure                     |  10 +-
+ hw/dma/Makefile.objs          |   2 +-
+ include/hw/arm/omap.h         |   6 +-
+ include/hw/arm/smmu-common.h  |   8 +-
+ include/hw/devices.h          |  62 ---
+ include/hw/display/blizzard.h |  22 ++
+ include/hw/display/tc6393xb.h |  24 ++
+ include/hw/input/gamepad.h    |  19 +
+ include/hw/input/tsc2xxx.h    |  36 ++
+ include/hw/misc/cbus.h        |  32 ++
+ include/hw/net/lan9118.h      |  21 +
+ include/hw/net/ne2000-isa.h   |   6 +
+ include/hw/net/smc91c111.h    |  19 +
+ include/qemu/typedefs.h       |   1 -
+ target/arm/cpu.h              |  95 ++++-
+ target/arm/helper.h           |   5 +
+ target/arm/translate.h        |   3 +
+ hw/arm/aspeed.c               |  13 +-
+ hw/arm/exynos4_boards.c       |   3 +-
+ hw/arm/gumstix.c              |   2 +-
+ hw/arm/integratorcp.c         |   2 +-
+ hw/arm/kzm.c                  |   2 +-
+ hw/arm/mainstone.c            |   2 +-
+ hw/arm/mps2-tz.c              |   3 +-
+ hw/arm/mps2.c                 |   2 +-
+ hw/arm/nseries.c              |   7 +-
+ hw/arm/palm.c                 |   2 +-
+ hw/arm/realview.c             |   3 +-
+ hw/arm/smmu-common.c          |   6 +-
+ hw/arm/smmuv3.c               |  28 +-
+ hw/arm/stellaris.c            |   2 +-
+ hw/arm/tosa.c                 |   2 +-
+ hw/arm/versatilepb.c          |   2 +-
+ hw/arm/vexpress.c             |   2 +-
+ hw/display/blizzard.c         |   2 +-
+ hw/display/tc6393xb.c         |  18 +-
+ hw/input/stellaris_input.c    |   2 +-
+ hw/input/tsc2005.c            |   2 +-
+ hw/input/tsc210x.c            |   4 +-
+ hw/intc/armv7m_nvic.c         | 261 +++++++++++++
+ hw/misc/cbus.c                |   2 +-
+ hw/net/lan9118.c              |   3 +-
+ hw/net/smc91c111.c            |   2 +-
+ hw/ssi/xilinx_spips.c         |   6 +-
+ target/arm/cpu.c              |  20 +
+ target/arm/helper.c           | 873 +++++++++++++++++++++++++++++++++++++++---
+ target/arm/machine.c          |  16 +
+ target/arm/translate.c        | 150 +++++++-
+ target/arm/vfp_helper.c       |   8 +
+ MAINTAINERS                   |   7 +
+ 50 files changed, 1595 insertions(+), 235 deletions(-)
+ delete mode 100644 include/hw/devices.h
+ create mode 100644 include/hw/display/blizzard.h
+ create mode 100644 include/hw/display/tc6393xb.h
+ create mode 100644 include/hw/input/gamepad.h
+ create mode 100644 include/hw/input/tsc2xxx.h
+ create mode 100644 include/hw/misc/cbus.h
+ create mode 100644 include/hw/net/lan9118.h
+ create mode 100644 include/hw/net/smc91c111.h
 
