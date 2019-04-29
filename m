@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0858DE891
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:14:37 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60764 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56423E94C
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:37:44 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:32895 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hL9rQ-00073a-4E
-	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:14:36 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34286)
+	id 1hLADn-0002J5-Gj
+	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:37:43 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34754)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hL9em-0004oY-Rj
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:35 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hL9fQ-0005WK-Ab
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:02:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hL9ej-0006hs-Fm
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:30 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:37625)
+	(envelope-from <peter.maydell@linaro.org>) id 1hL9fO-00075R-78
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:02:12 -0400
+Received: from mail-wm1-x32e.google.com ([2a00:1450:4864:20::32e]:55632)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hL9ee-0006aF-G3
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:26 -0400
-Received: by mail-wm1-x329.google.com with SMTP id y5so181206wma.2
-	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 10:01:12 -0700 (PDT)
+	id 1hL9fM-0006ao-5N
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:02:10 -0400
+Received: by mail-wm1-x32e.google.com with SMTP id o25so150876wmf.5
+	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 10:01:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=luU30WIV4J70vMiJWjUk2cVkk2BUzHZfTmZdJYfZNRI=;
-	b=APVdDphlXN56H1vcwX09xSQeXPcdxeoQ+qrfEaW4qiONKp9xA6n96xTXKkOm8O5WyD
-	gOsrctD4pl+Nu10OmNh4iQDuWAF7RJIljMse31kn8PeqLy9qjJuZYII1uWGBdQtTsIqI
-	rMRGKP0+4FbfDL/y6NygX5PdP4xCjYo8VHovqyJ7IncttJVzcjARWxhskBq4UzDX2nK7
-	0gTOUVYDIS0fYOMOuH5Uh/WL0dVhEYZvQZ1DPr3SAZXGhqoonA/j78vR6umy3tvD7ibY
-	XLkGnjDTic7YS7uD24XvenK7EqFbQ5gDxQ5ul62m3sJpGgQU4BFKOExByPRKCVlcgcJp
-	XfBA==
+	bh=lwRLvPOYXyQlnpWWoMVUzPzdVHw8aYM3HaWE/wvgSrI=;
+	b=pX0mHP6ETodKIkkgksVjb5SEiHgIBuWUA8bKgd3cNb2xH4oi/0bN+DVm9XA0UN3pK3
+	2MOmscfvEv7DIWsl4b4rFle3OZwrZ6WaYTbhKgQa9/SJMZIUipi1z26IK8IHorqYdiLj
+	GHEABOe8g4TEPuEtvVWL7cmPF1sltZs9aUYqgP40hS6ho5uWshxnmiq+Qp3LAMefrB3F
+	83r3EB1WehQHUFm4OkY9IjW3DeuBU9L6Nco2BAZEgTHoOQlYUg++Fo/B1edy1IvHPjX0
+	FlbV0i8/Pm2kw4XcuPcBP8i7nBoRlFDiOSLNjRHGsC3mHcKWMiiDbNY7KJ7WFNWTg0rt
+	GLnw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=luU30WIV4J70vMiJWjUk2cVkk2BUzHZfTmZdJYfZNRI=;
-	b=ahtwe9Kqdzd8SMZlwCBhAk5BvWzq3dDYL5/JIhpfWmP9VXztWydv3WlPgdB5YjFM62
-	bV56EXMZ4ct2oCleTEBc6NNJ/bYhJrYF6YmJk75yKpjcsf0Lg0LAkTQ2zylf29AWegdp
-	if9fmOibD2hYC/11SGsImMO5SRO3SoSeWn1S97SnP99esELnKkQ8vIlvYWrED5FQE4xp
-	MKzrZRZvZZyXep3l+5aHGhiz/MjBK84+t2P+IN6m3InuUwCZ+Zlrmq76M4rxKOB4vsHL
-	klRwpsSguhUFNYHolyzlMqIqOYWS5T6CSe9bU1Jyz9lpcFWR3kJwIfqb27DXaRE0Mrpz
-	e2mQ==
-X-Gm-Message-State: APjAAAXSCzqG1OTi8ctTjM8tQpjQ2A/kcv9VhMxte/w+Ciipeh4zLqeQ
-	0I91e9q13uQ1xgPC2Y8O3YwDQisIYkI=
-X-Google-Smtp-Source: APXvYqwnc2FzJkeC+BzdiaFIKDMdHCBEKzW671Q1QNVQyS21VmH3dbxgLG0BcOJ4AVCalFQb5XSL5g==
-X-Received: by 2002:a7b:ce06:: with SMTP id m6mr53541wmc.62.1556557271360;
-	Mon, 29 Apr 2019 10:01:11 -0700 (PDT)
+	bh=lwRLvPOYXyQlnpWWoMVUzPzdVHw8aYM3HaWE/wvgSrI=;
+	b=ou30xp7hlMeE3zIbVXhJkEjEw/xyJ/s4xad96YCD2Rsm/fcahrBehN2slcMR/LxzSt
+	XJKX7/a52e+q95puAFxnF4hHE4oA7U3Ymm9p2O8LGkZ80tVWvRY53bemfDFZuOTFsY6K
+	YT2hA1GbBafZ2ahrq/gWm6fRBs/N8hOedzaRxoAlkKUhVEYDNDDNOYNC86XFLkemXAoK
+	32deLWFKbMjgb8SZw6Jw/dvd6NEWpuULjACxJSMcpyHpaTuhwbtzOeAp/FSz1PpvNm8z
+	SxHe2KtGAT8BDMzP9DBb2wXTaD8utBreFofnf4pC4Tlc/ROpyoWW5c5aKOw/38tHQ09P
+	f06A==
+X-Gm-Message-State: APjAAAVzAqLxZ0t5bmBpJFtqV03EiJA+1SSHWjhHbruCGyjbQyATRPci
+	QSKKtHhOGr6e3AvGHqA9PjHBgbUAd2g=
+X-Google-Smtp-Source: APXvYqyAAMds9QL0dafQ7K4/pYGcoc4ySpVQL5fJO8aJeKYgZj9oJYGtEa7SwCJLAdAl/ZDvkC4mkQ==
+X-Received: by 2002:a1c:4e0a:: with SMTP id g10mr46263wmh.128.1556557272577;
+	Mon, 29 Apr 2019 10:01:12 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
-	by smtp.gmail.com with ESMTPSA id a13sm36896wmj.39.2019.04.29.10.01.10
+	by smtp.gmail.com with ESMTPSA id a13sm36896wmj.39.2019.04.29.10.01.11
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 29 Apr 2019 10:01:10 -0700 (PDT)
+	Mon, 29 Apr 2019 10:01:11 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 29 Apr 2019 18:00:18 +0100
-Message-Id: <20190429170030.11323-31-peter.maydell@linaro.org>
+Date: Mon, 29 Apr 2019 18:00:19 +0100
+Message-Id: <20190429170030.11323-32-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190429170030.11323-1-peter.maydell@linaro.org>
 References: <20190429170030.11323-1-peter.maydell@linaro.org>
@@ -66,9 +66,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::329
-Subject: [Qemu-devel] [PULL 30/42] hw/dma: Compile the bcm2835_dma device as
- common object
+X-Received-From: 2a00:1450:4864:20::32e
+Subject: [Qemu-devel] [PULL 31/42] hw/arm/aspeed: Use
+ TYPE_TMP105/TYPE_PCA9552 instead of hardcoded string
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -85,28 +85,66 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-This device is used by both ARM (BCM2836, for raspi2) and AArch64
-(BCM2837, for raspi3) targets, and is not CPU-specific.
-Move it to common object, so we build it once for all targets.
-
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Cédric Le Goater <clg@kaod.org>
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20190427133028.12874-1-philmd@redhat.com
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Message-id: 20190412165416.7977-2-philmd@redhat.com
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/dma/Makefile.objs | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/arm/aspeed.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/hw/dma/Makefile.objs b/hw/dma/Makefile.objs
-index 79affecc390..8b39f9c6004 100644
---- a/hw/dma/Makefile.objs
-+++ b/hw/dma/Makefile.objs
-@@ -14,4 +14,4 @@ common-obj-$(CONFIG_XLNX_ZYNQMP_ARM) += xlnx-zdma.o
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index 996812498dc..1c23ebd9925 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -19,6 +19,8 @@
+ #include "hw/arm/aspeed_soc.h"
+ #include "hw/boards.h"
+ #include "hw/i2c/smbus_eeprom.h"
++#include "hw/misc/pca9552.h"
++#include "hw/misc/tmp105.h"
+ #include "qemu/log.h"
+ #include "sysemu/block-backend.h"
+ #include "hw/loader.h"
+@@ -267,7 +269,8 @@ static void ast2500_evb_i2c_init(AspeedBoardState *bmc)
+                           eeprom_buf);
  
- obj-$(CONFIG_OMAP) += omap_dma.o soc_dma.o
- obj-$(CONFIG_PXA2XX) += pxa2xx_dma.o
--obj-$(CONFIG_RASPI) += bcm2835_dma.o
-+common-obj-$(CONFIG_RASPI) += bcm2835_dma.o
+     /* The AST2500 EVB expects a LM75 but a TMP105 is compatible */
+-    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 7), "tmp105", 0x4d);
++    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 7),
++                     TYPE_TMP105, 0x4d);
+ 
+     /* The AST2500 EVB does not have an RTC. Let's pretend that one is
+      * plugged on the I2C bus header */
+@@ -288,13 +291,15 @@ static void witherspoon_bmc_i2c_init(AspeedBoardState *bmc)
+     AspeedSoCState *soc = &bmc->soc;
+     uint8_t *eeprom_buf = g_malloc0(8 * 1024);
+ 
+-    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 3), "pca9552", 0x60);
++    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 3), TYPE_PCA9552,
++                     0x60);
+ 
+     i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 4), "tmp423", 0x4c);
+     i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 5), "tmp423", 0x4c);
+ 
+     /* The Witherspoon expects a TMP275 but a TMP105 is compatible */
+-    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 9), "tmp105", 0x4a);
++    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 9), TYPE_TMP105,
++                     0x4a);
+ 
+     /* The witherspoon board expects Epson RX8900 I2C RTC but a ds1338 is
+      * good enough */
+@@ -302,7 +307,7 @@ static void witherspoon_bmc_i2c_init(AspeedBoardState *bmc)
+ 
+     smbus_eeprom_init_one(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 11), 0x51,
+                           eeprom_buf);
+-    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 11), "pca9552",
++    i2c_create_slave(aspeed_i2c_get_bus(DEVICE(&soc->i2c), 11), TYPE_PCA9552,
+                      0x60);
+ }
+ 
 -- 
 2.20.1
 
