@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2A3AE8AA
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:19:39 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60841 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5382CE84B
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:03:58 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60614 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hL9wI-0002VK-RE
-	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:19:38 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34374)
+	id 1hL9h6-00068N-Pl
+	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:03:56 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34094)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hL9er-0004re-HB
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:38 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hL9eB-0004DU-OT
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:00:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hL9eo-0006kj-HI
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:36 -0400
-Received: from mail-wm1-x333.google.com ([2a00:1450:4864:20::333]:39766)
+	(envelope-from <peter.maydell@linaro.org>) id 1hL9e7-0006Pz-D2
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:00:54 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:44415)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hL9eo-0006A7-2D
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:01:34 -0400
-Received: by mail-wm1-x333.google.com with SMTP id n25so161295wmk.4
-	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 10:00:39 -0700 (PDT)
+	id 1hL9e4-0006Ab-1N
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:00:49 -0400
+Received: by mail-wr1-x444.google.com with SMTP id c5so17083544wrs.11
+	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 10:00:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=S6YGUPrZb+xu8faTD0l3bzQsRZcNjA+xFgUKebYVi8Q=;
-	b=HG/W47iAG3JKUM2CErCJc6Hv+xR0WIi3N3YEQt8NKcWchnDBriQs45eRcs8hx09LIX
-	agfqckyOCqK4oqzwwQKwcMWlLz/SC+VCPIVSO3dygOm9jJjfJdNL0YStntekuD/pqoKU
-	M70cE2HJ4UCfbrtsQkq6BXUu2FDWN5mMge7/WwNo/Me7U93cybLzoY8cxnkfKNU3yfot
-	bR84OZJB+vutz7dWK1oDP3fScqI2txhCCNE/G2evJkTEfNj5rv95NmznVNOeTbVHpN7G
-	4LfVF4JNCeWt2RNGZGLvF8+MCV85VGHgeIHOrRl376Ic1zzmkOrudQMsAcnbIOYxbfzW
-	iYow==
+	bh=Wb8cdfa9Eg5s6gQ+eGcSDonY8jBmo6zWITaft2LP+dI=;
+	b=AxRYUzr9xp5HZfTOCh8LBE+GLlPULMeI9OmJ8bZCEGhHDJ+RKnhdO7TCArlzSN/Ony
+	/Ktd3LUblYXsqFpksyprLI0oRNj+VKe4ufCUcPssA/DWAqtrRvpkLXe71iufj89jHFcw
+	dVqocCBcHvW3iBds8sHseH43xAAFsK03MmhEsg3mmrfByTXyjEbv0vseEPAWNViil9er
+	PWv8apmbohiHfUuTz8AcXyIU9o3o6XKGBb5R8bXjZLbEgRll81zw2HYuLzVwHXoqPh7z
+	x9Cg0alMGh6lxp2SKpsTmrrogxQ7YaYin5oiN6PnOLCbae9/XlgWV1yaxfJvd/pMRMBq
+	i/Ug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=S6YGUPrZb+xu8faTD0l3bzQsRZcNjA+xFgUKebYVi8Q=;
-	b=a63k9rw1ObT2k/aYSNxDErlZs0IWJH3ojTGZErdVP0NfDz/HYTYHNFTa/GtPVDInDC
-	w/6jN4vbsKS0nZylWWywbGdXrgIbd2HMtswYMz6phxLMJb6JV4w/I2LhMIh5Dl6I2DSi
-	BldTAVoD5qUzdyuL2R+O1UodWsahk8vxKlZrbDjJLWiCklNBKdFABvhvRH7ZHEjA1Ike
-	dcqQJdc7VaFdwAwIrisAcFergzqMD+9Q8hcGqFUNx5pT5dazI9zqhYDhUT2OOvIy1OvR
-	tFQoKBtpO2le8TIjTygPXxrqMd2l5ylii20Y2ivNR6DVmHu4rqIeVOq0+quDsgVhiqqM
-	qilA==
-X-Gm-Message-State: APjAAAWpY6t9/QfEPwqRJRTOGwZElAQbXq7qX8jHrn2xo5jxHs1aJIkl
-	on7hrAUGBMRgUptbDNhGUMyjdbV1DvM=
-X-Google-Smtp-Source: APXvYqwcmd80JjmsS49QpgvVjv3x4wZ7iMXzlzgPPLGaIRrp0B5cs4zkN4noZwZckAvoFZqgJ+WfOA==
-X-Received: by 2002:a1c:be0e:: with SMTP id o14mr35391wmf.11.1556557238029;
-	Mon, 29 Apr 2019 10:00:38 -0700 (PDT)
+	bh=Wb8cdfa9Eg5s6gQ+eGcSDonY8jBmo6zWITaft2LP+dI=;
+	b=CMWSb5TzqHiH/JvDmKWx/o0rspIedpBv9plA1MCut55U0a1nfPcqBqiSBsGuaAe9hF
+	2GXkfWcowcwmAo7tNjGgIvMPxltLoP22ZALhZEllya5NYv7WoiOtVti18bRoeuUPh5+y
+	G6yGnGwrrODPhZWn1OzF4Xo1kFiNmWPF78+zPpKPv+qq70jElkBXTjoXxxOb+F96fJr0
+	kM3g4CjaSv9O/UGXEDwShjfkhfArcEUuvtKpvuQnVQp433jdAILD44R0hYa0H1OP4tj8
+	eWT4Y+KGBNgbDQlT+LUlgfCw8dMBc+D1k//WSAUBHan18lc5ouhXvKoVF833hThGQmEl
+	Qv0g==
+X-Gm-Message-State: APjAAAU81BYR8LDRTHyhHYG4F58Y1/YV6xLkkbT4GG2W+33uH2dhg1aA
+	4CaE1DeyKcLWmWLjVaLifkdOYJeecG0=
+X-Google-Smtp-Source: APXvYqx+tuZAMeWTmA0tC5iOMcf7MV2sFwWJQmFLJF4Wy27Ihyk+y5CVwLP8fuOdChmeHWxWRxSk9g==
+X-Received: by 2002:adf:c002:: with SMTP id z2mr42930314wre.177.1556557239207; 
+	Mon, 29 Apr 2019 10:00:39 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
-	by smtp.gmail.com with ESMTPSA id a13sm36896wmj.39.2019.04.29.10.00.36
+	by smtp.gmail.com with ESMTPSA id a13sm36896wmj.39.2019.04.29.10.00.38
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 29 Apr 2019 10:00:37 -0700 (PDT)
+	Mon, 29 Apr 2019 10:00:38 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 29 Apr 2019 17:59:52 +0100
-Message-Id: <20190429170030.11323-5-peter.maydell@linaro.org>
+Date: Mon, 29 Apr 2019 17:59:53 +0100
+Message-Id: <20190429170030.11323-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190429170030.11323-1-peter.maydell@linaro.org>
 References: <20190429170030.11323-1-peter.maydell@linaro.org>
@@ -65,9 +65,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::333
-Subject: [Qemu-devel] [PULL 04/42] target/arm: Make sure M-profile FPSCR
- RES0 bits are not settable
+X-Received-From: 2a00:1450:4864:20::444
+Subject: [Qemu-devel] [PULL 05/42] hw/intc/armv7m_nvic: Allow reading of
+ M-profile MVFR* registers
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,37 +82,34 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Enforce that for M-profile various FPSCR bits which are RES0 there
-but have defined meanings on A-profile are never settable. This
-ensures that M-profile code can't enable the A-profile behaviour
-(notably vector length/stride handling) by accident.
+For M-profile the MVFR* ID registers are memory mapped, in the
+range we implement via the NVIC. Allow them to be read.
+(If the CPU has no FPU, these registers are defined to be RAZ.)
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20190416125744.27770-2-peter.maydell@linaro.org
+Message-id: 20190416125744.27770-3-peter.maydell@linaro.org
 ---
- target/arm/vfp_helper.c | 8 ++++++++
- 1 file changed, 8 insertions(+)
+ hw/intc/armv7m_nvic.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/target/arm/vfp_helper.c b/target/arm/vfp_helper.c
-index 2468fc16294..7a46d991486 100644
---- a/target/arm/vfp_helper.c
-+++ b/target/arm/vfp_helper.c
-@@ -105,6 +105,14 @@ void HELPER(vfp_set_fpscr)(CPUARMState *env, uint32_t val)
-         val &= ~FPCR_FZ16;
-     }
- 
-+    if (arm_feature(env, ARM_FEATURE_M)) {
-+        /*
-+         * M profile FPSCR is RES0 for the QC, STRIDE, FZ16, LEN bits
-+         * and also for the trapped-exception-handling bits IxE.
-+         */
-+        val &= 0xf7c0009f;
-+    }
-+
-     /*
-      * We don't implement trapped exception handling, so the
-      * trap enable bits, IDE|IXE|UFE|OFE|DZE|IOE are all RAZ/WI (not RES0!)
+diff --git a/hw/intc/armv7m_nvic.c b/hw/intc/armv7m_nvic.c
+index ab822f42514..45d72f86bdf 100644
+--- a/hw/intc/armv7m_nvic.c
++++ b/hw/intc/armv7m_nvic.c
+@@ -1222,6 +1222,12 @@ static uint32_t nvic_readl(NVICState *s, uint32_t offset, MemTxAttrs attrs)
+             return 0;
+         }
+         return cpu->env.v7m.sfar;
++    case 0xf40: /* MVFR0 */
++        return cpu->isar.mvfr0;
++    case 0xf44: /* MVFR1 */
++        return cpu->isar.mvfr1;
++    case 0xf48: /* MVFR2 */
++        return cpu->isar.mvfr2;
+     default:
+     bad_offset:
+         qemu_log_mask(LOG_GUEST_ERROR, "NVIC: Bad read offset 0x%x\n", offset);
 -- 
 2.20.1
 
