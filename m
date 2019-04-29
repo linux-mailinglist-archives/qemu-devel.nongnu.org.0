@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E24FAE98A
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:53:04 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33151 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DBC2CE98B
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 19:53:06 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33153 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLASe-0005ob-2s
-	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:53:04 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46712)
+	id 1hLASg-0005ps-2D
+	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 13:53:06 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46728)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hLAQR-0004Wz-7v
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:50:48 -0400
+	(envelope-from <bounces@canonical.com>) id 1hLAQS-0004YQ-PW
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:50:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hLAQQ-0002lU-1p
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:50:47 -0400
-Received: from indium.canonical.com ([91.189.90.7]:33528)
+	(envelope-from <bounces@canonical.com>) id 1hLAQR-0002lv-Hy
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:50:48 -0400
+Received: from indium.canonical.com ([91.189.90.7]:33612)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hLAQP-0002lA-RR
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:50:46 -0400
+	id 1hLAQR-0002lO-CE
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 13:50:47 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
 	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hLAQM-00021q-CK
-	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 17:50:42 +0000
+	id 1hLAQM-00027G-Vr
+	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 17:50:43 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id EC6062E80E2
-	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 17:50:39 +0000 (UTC)
+	by loganberry.canonical.com (Postfix) with ESMTP id 7052D2E80EB
+	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 17:50:40 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 29 Apr 2019 17:38:23 -0000
+Date: Mon, 29 Apr 2019 17:40:52 -0000
 From: Ben Wibking <1818937@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -44,13 +44,13 @@ X-Launchpad-Bug-Commenters: bwibking cuser2
 X-Launchpad-Bug-Reporter: Chen Zhang (cuser2)
 X-Launchpad-Bug-Modifier: Ben Wibking (bwibking)
 References: <155192472106.28960.15645485731508389788.malonedeb@chaenomeles.canonical.com>
-Message-Id: <155655950451.13953.11840871425905318524.malone@wampee.canonical.com>
+Message-Id: <155655965273.7051.11571422786261284957.malone@chaenomeles.canonical.com>
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="18928";
 	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: eea1533c79dfd9f8f2bc180d042d149f4078a3b0
+X-Launchpad-Hash: 84ebde4dbad0eff55bc49bf4918db67d232a43f4
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 Subject: [Qemu-devel] [Bug 1818937] Re: Crash with HV_ERROR on macOS host
@@ -68,33 +68,11 @@ Reply-To: Bug 1818937 <1818937@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I can reproduce this by booting the Windows 10 x64 install ISO with the
-command line:
+^This is on version:
 
-+ WINIMG=3DWin10.iso
-+ VIRTIMG=3Dvirtio-win-0.1.164.iso
-+ qemu-system-x86_64 -accel hvf -drive driver=3Draw,file=3DWin10.img,if=3Dv=
-irtio -m 1536 -net nic,model=3Dvirtio -net user -cdrom Win10.iso -drive fil=
-e=3Dvirtio-win-0.1.164.iso,index=3D3,media=3Dcdrom -rtc base=3Dlocaltime,cl=
-ock=3Dhost -smp cores=3D2 -usb -device usb-tablet -net user
-qemu-system-x86_64: warning: host doesn't support requested feature: CPUID.=
-80000001H:ECX.svm [bit 2]
-qemu-system-x86_64: warning: host doesn't support requested feature: CPUID.=
-80000001H:ECX.svm [bit 2]
-Unimplemented handler (fffff80641601c38) for 0 (f 11) =
-
-Unimplemented handler (fffff8064160192f) for 0 (f 7f) =
-
-qemu-system-x86_64: Error: HV_ERROR
-./qemu-boot.sh: line 20: 32294 Abort trap: 6           qemu-system-x86_64 -=
-accel hvf -drive driver=3Draw,file=3DWin10.img,if=3Dvirtio -m 1536 -net nic=
-,model=3Dvirtio -net user -cdrom ${WINIMG} -drive file=3D${VIRTIMG},index=
-=3D3,media=3Dcdrom -rtc base=3Dlocaltime,clock=3Dhost -smp cores=3D2 -usb -=
-device usb-tablet -net user
-
-** Attachment added: "Crash log"
-   https://bugs.launchpad.net/qemu/+bug/1818937/+attachment/5260023/+files/=
-crash_log.txt
+% qemu-system-x86_64 --version
+QEMU emulator version 4.0.50 (v4.0.0-rc4-52-g3284aa1281-dirty)
+Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developers
 
 -- =
 
