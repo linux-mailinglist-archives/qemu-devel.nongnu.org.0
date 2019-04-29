@@ -2,60 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24FBBDBAB
-	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 07:51:47 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52595 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98BC2E5D2
+	for <lists+qemu-devel@lfdr.de>; Mon, 29 Apr 2019 17:09:58 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58944 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hKzCb-0006RX-V3
-	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 01:51:45 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57569)
+	id 1hL7un-0006TJ-NR
+	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 11:09:57 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38041)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hKzBW-00066R-T8
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 01:50:40 -0400
+	(envelope-from <yangchuanlong@huawei.com>) id 1hL094-0007eR-8q
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 02:52:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hKzBV-0001A9-89
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 01:50:38 -0400
-Received: from indium.canonical.com ([91.189.90.7]:57918)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hKzBV-00019f-1N
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 01:50:37 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
-	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hKzBT-0002tX-T0
-	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 05:50:35 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id A36E62E80CB
-	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 05:50:35 +0000 (UTC)
+	(envelope-from <yangchuanlong@huawei.com>) id 1hL093-0005AQ-9z
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 02:52:10 -0400
+Received: from szxga06-in.huawei.com ([45.249.212.32]:37822 helo=huawei.com)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <yangchuanlong@huawei.com>)
+	id 1hL092-00056G-W7
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 02:52:09 -0400
+Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.59])
+	by Forcepoint Email with ESMTP id E8C37CE312D4E3B86315
+	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 14:51:57 +0800 (CST)
+Received: from huawei.com (10.143.28.114) by DGGEMS402-HUB.china.huawei.com
+	(10.3.19.202) with Microsoft SMTP Server id 14.3.439.0; Mon, 29 Apr 2019
+	14:51:57 +0800
+From: Yang Chuanlong <yangchuanlong@huawei.com>
+To: <qemu-devel@nongnu.org>
+Date: Mon, 29 Apr 2019 14:48:30 +0800
+Message-ID: <20190429064830.12213-1-yangchuanlong@huawei.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain
+X-Originating-IP: [10.143.28.114]
+X-CFilter-Loop: Reflected
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 29 Apr 2019 05:36:23 -0000
-From: Amol Surati <1826827@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: asurati
-X-Launchpad-Bug-Reporter: Amol Surati (asurati)
-X-Launchpad-Bug-Modifier: Amol Surati (asurati)
-References: <155651553398.6774.264581366962353554.malonedeb@chaenomeles.canonical.com>
-Message-Id: <155651618362.14488.15083403461318761015.launchpad@gac.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18928";
-	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: ae074dc601e87be53ed2e2fd9dc4b65c022ffea9
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1826827] Re: dtc crash;
- pnv_dt_serial cannot find lpc's phandle
+X-Received-From: 45.249.212.32
+X-Mailman-Approved-At: Mon, 29 Apr 2019 11:06:13 -0400
+Subject: [Qemu-devel] [PATCH v1] target/arm/arm-powerctl: mask the cpuid
+ with affinity bits when get cpu
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,194 +53,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1826827 <1826827@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Description changed:
+Currently, the cpuid passed from the device tree may still contain
+non-affinity fields, which will cause arm_set_cpu_on failure.
+Therefore, we mask the cpuid with affinity fields here to
+improve qemu compatibility.
 
-  Qemu version:
-  QEMU emulator version 4.0.50 (v4.0.0-142-ge0fb2c3d89)
-  Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developers
-  =
+Signed-off-by: Yang Chuanlong <yangchuanlong@huawei.com>
+---
+ target/arm/arm-powerctl.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
-  dtc version:
-  Version: DTC 1.5.0-g5c3513f6
-- =
+diff --git a/target/arm/arm-powerctl.c b/target/arm/arm-powerctl.c
+index f77a950db6..ef9fec0b4d 100644
+--- a/target/arm/arm-powerctl.c
++++ b/target/arm/arm-powerctl.c
+@@ -31,7 +31,13 @@ CPUState *arm_get_cpu_by_id(uint64_t id)
+ {
+     CPUState *cpu;
+=20
+-    DPRINTF("cpu %" PRId64 "\n", id);
++#ifdef TARGET_AARCH64
++    id &=3D ARM64_AFFINITY_MASK;
++#else
++    id &=3D ARM32_AFFINITY_MASK;
++#endif
++
++    DPRINTF("cpu %" PRId64 " after mask affinity\n", id);
+=20
+     CPU_FOREACH(cpu) {
+         ARMCPU *armcpu =3D ARM_CPU(cpu);
+--=20
+2.21.0
 
-  =
-
-  -------------------------------------------------------------------------
-  pnv_dt_serial has a line which is supposed to set the interrupt-parent of=
- the "isa-serial@i3f8" node to the phandle of "lpc@0".
-  =
-
-  To that end, it calls fdt_get_phandle as shown below:
-  _FDT((fdt_setprop_cell(fdt, node, "interrupt-parent", fdt_get_phandle(fdt=
-, lpc_off))));
-  =
-
-  The function fdt_get_phandle fails to find the property "phandle" (or
-  "linux,phandle") for the lpc node. Consequently, pnv_dt_serial sets the
-  interrupt-parent to 0.
-  =
-
-  Now boot the qemu-system-ppc64 powernv machine, and extract the fdt by
-  using the qemu monitor's pmemsave command, taking help of the OPAL
-  firmware's messages to locate the fdt in the physical ram.
-  =
-
-  qemu-system-ppc64 -m 1g -machine powernv,num-chips=3D1 \
-  -cpu power9 -smp 2,cores=3D2,threads=3D1 -accel tcg,thread=3Dmulti \
-  -kernel ./vmlinux \
-  -append 'disable_radix' \
-  -serial mon:stdio -nographic -nodefaults
-  =
-
-  The kernel vmlinux contains nothing but a single instruction which loops
-  infintely, so that we can gather OPAL's messages, especially the one
-  below:
-  =
-
-  [    0.168845963,5] INIT: Starting kernel at 0x20000000, fdt at
-  0x304b0b70 14404 bytes
-  =
-
-  Once the fdt is dumped to a file, run the following:
-  =
-
-  'dtc -O dtb -I dts -o out.dts dtb'
-  =
-
-  After a few warnings, the dtc application crashes because an assertion
-  was fired.
-  =
-
-- 1.dts: Warning (unit_address_vs_reg): /lpcm-opb@6030000000000/lpc@0: node=
- has a unit name, but no reg property
-- 1.dts: Warning (simple_bus_reg): /lpcm-opb@6030000000000/lpc@0: missing o=
-r empty reg/ranges property
-- 1.dts: Warning (avoid_unnecessary_addr_size): /ibm,opal: unnecessary #add=
-ress-cells/#size-cells without "ranges" or child "reg" property
-- 1.dts: Warning (unique_unit_address): /interrupt-controller@0: duplicate =
-unit-address (also used in node /memory@0)
-- 1.dts: Warning (chosen_node_stdout_path): /chosen:linux,stdout-path: Use =
-'stdout-path' instead
-+ out.dts: Warning (unit_address_vs_reg): /lpcm-opb@6030000000000/lpc@0: no=
-de has a unit name, but no reg property
-+ out.dts: Warning (simple_bus_reg): /lpcm-opb@6030000000000/lpc@0: missing=
- or empty reg/ranges property
-+ out.dts: Warning (avoid_unnecessary_addr_size): /ibm,opal: unnecessary #a=
-ddress-cells/#size-cells without "ranges" or child "reg" property
-+ out.dts: Warning (unique_unit_address): /interrupt-controller@0: duplicat=
-e unit-address (also used in node /memory@0)
-+ out.dts: Warning (chosen_node_stdout_path): /chosen:linux,stdout-path: Us=
-e 'stdout-path' instead
-  dtc: livetree.c:575: get_node_by_phandle: Assertion `generate_fixups' fai=
-led.
-  Aborted (core dumped)
-  =
-
-  The assertion is fired because get_node_by_phandle receives a phandle
-  value of 0, which is unexpected, unless fixups are needed (They are not,
-  when running the dtc command).
-  =
-
-  Back inside pnv_dt_serial, if the line that sets "interrupt-parent" for
-  the serial device node is commented out, the dtc crash is prevented.
-  Looking at hw/ppc/e500.c, it takes care of allocating necessary phandle
-  values in the nodes, so a similar method can be adopted for powernv.
-  =
-
-  The dtb is attached.
-+ =
-
-+ Edit: Add version, Correct filenames.
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1826827
-
-Title:
-  dtc crash; pnv_dt_serial cannot find lpc's phandle
-
-Status in QEMU:
-  New
-
-Bug description:
-  Qemu version:
-  QEMU emulator version 4.0.50 (v4.0.0-142-ge0fb2c3d89)
-  Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developers
-
-  dtc version:
-  Version: DTC 1.5.0-g5c3513f6
-
-  -------------------------------------------------------------------------
-  pnv_dt_serial has a line which is supposed to set the interrupt-parent of=
- the "isa-serial@i3f8" node to the phandle of "lpc@0".
-
-  To that end, it calls fdt_get_phandle as shown below:
-  _FDT((fdt_setprop_cell(fdt, node, "interrupt-parent", fdt_get_phandle(fdt=
-, lpc_off))));
-
-  The function fdt_get_phandle fails to find the property "phandle" (or
-  "linux,phandle") for the lpc node. Consequently, pnv_dt_serial sets
-  the interrupt-parent to 0.
-
-  Now boot the qemu-system-ppc64 powernv machine, and extract the fdt by
-  using the qemu monitor's pmemsave command, taking help of the OPAL
-  firmware's messages to locate the fdt in the physical ram.
-
-  qemu-system-ppc64 -m 1g -machine powernv,num-chips=3D1 \
-  -cpu power9 -smp 2,cores=3D2,threads=3D1 -accel tcg,thread=3Dmulti \
-  -kernel ./vmlinux \
-  -append 'disable_radix' \
-  -serial mon:stdio -nographic -nodefaults
-
-  The kernel vmlinux contains nothing but a single instruction which
-  loops infintely, so that we can gather OPAL's messages, especially the
-  one below:
-
-  [    0.168845963,5] INIT: Starting kernel at 0x20000000, fdt at
-  0x304b0b70 14404 bytes
-
-  Once the fdt is dumped to a file, run the following:
-
-  'dtc -O dtb -I dts -o out.dts dtb'
-
-  After a few warnings, the dtc application crashes because an assertion
-  was fired.
-
-  out.dts: Warning (unit_address_vs_reg): /lpcm-opb@6030000000000/lpc@0: no=
-de has a unit name, but no reg property
-  out.dts: Warning (simple_bus_reg): /lpcm-opb@6030000000000/lpc@0: missing=
- or empty reg/ranges property
-  out.dts: Warning (avoid_unnecessary_addr_size): /ibm,opal: unnecessary #a=
-ddress-cells/#size-cells without "ranges" or child "reg" property
-  out.dts: Warning (unique_unit_address): /interrupt-controller@0: duplicat=
-e unit-address (also used in node /memory@0)
-  out.dts: Warning (chosen_node_stdout_path): /chosen:linux,stdout-path: Us=
-e 'stdout-path' instead
-  dtc: livetree.c:575: get_node_by_phandle: Assertion `generate_fixups' fai=
-led.
-  Aborted (core dumped)
-
-  The assertion is fired because get_node_by_phandle receives a phandle
-  value of 0, which is unexpected, unless fixups are needed (They are
-  not, when running the dtc command).
-
-  Back inside pnv_dt_serial, if the line that sets "interrupt-parent"
-  for the serial device node is commented out, the dtc crash is
-  prevented. Looking at hw/ppc/e500.c, it takes care of allocating
-  necessary phandle values in the nodes, so a similar method can be
-  adopted for powernv.
-
-  The dtb is attached.
-
-  Edit: Add version, Correct filenames.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1826827/+subscriptions
 
