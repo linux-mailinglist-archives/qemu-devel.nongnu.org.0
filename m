@@ -2,66 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C63DF50D
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 13:06:56 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43236 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D39CF51F
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 13:10:40 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43355 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLQb9-0004hf-E3
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 07:06:55 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43795)
+	id 1hLQel-0007YL-RB
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 07:10:39 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45146)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hLQZJ-0003q8-G6
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 07:05:02 -0400
+	(envelope-from <kwolf@redhat.com>) id 1hLQdc-00077H-Ue
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 07:09:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hLQZH-0000B9-J6
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 07:05:00 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:43239)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hLQZH-00009h-13
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 07:04:59 -0400
-Received: by mail-oi1-x244.google.com with SMTP id t81so10850720oig.10
-	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 04:04:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=MxGDNdWQZ8/DgUDV0PBRLPM9gCCe2QynjGytKO5kQ7A=;
-	b=fnHetVwzW+miYzszrcvg9mpHk6k7rJo37tl5cRQykD3YheAK4QgIPBF+8L3nejPKPe
-	mG5v2VgOSnfvygd8TsEa6VLvl2DI1oG6XPF7Tf4ccX35rzeTdCFALRh0rOhFdjhk5RsB
-	SFWrlglehBh85XyP6bPi7VkHMRuMloHC87ZE64QT2EUna9ocu4rjUc0Omu7zLRBzI5h0
-	fFlcq/X9Oj3r5s7T0q/njQ/X/OGdg9gDLtsBqEjEVLb4+R+nWE1t2EYehhWNa4S1xIl/
-	P8zmWjyM3p+LgPrd68hEaEUhj/LRnb8kNiWbigQ8leqmVK+zPsufNRmOKWppHsUXEqhX
-	jufw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=MxGDNdWQZ8/DgUDV0PBRLPM9gCCe2QynjGytKO5kQ7A=;
-	b=Tyoi/921MMUJWBwfiulJog6orX0KpjS10s69miHFtfhGnRkgzUovkYOSL2XYGZDK0l
-	h+fnmMnnDgfSfCkIssROh9JNI0901ge6MIa2oSP7JzxLPvmsVYJDrIWxImJ0uuL+TdnM
-	u7nQxyRLbVoY4FOSP1ok2M767kWcOzhaksIBK7tWLiCeEUPimDKBvDfEUc/4EVd6KOhh
-	TEefPbwf6zHL1adISVlmkZQOmjDAIcf8Ys9jgPFFI+a2yh2tFJ+MHrHoINDloYH4SDTh
-	ueI4kivrTGwUjdD+wd1/XO8TaD/Ar3qxq9Mxfdaw0Wb9DU1WnEsKcvQc0dROjxJDz//X
-	IRug==
-X-Gm-Message-State: APjAAAWYScpM2QHP95ZvRwxn6WVc1m0rcDagLRXgQRErVCDONY/yLMSt
-	+YjOUX0SdRfRbDw16XWQw7T8ewqGIHFRwG681gZGuA==
-X-Google-Smtp-Source: APXvYqzSPuOGJWY5AdYc6fKe0woKs2c5+i689tiACrB2d6f7+XfVvcyUT+WGaS9rtnPZayiobdcF646fDziFCeRTOuA=
-X-Received: by 2002:aca:4b04:: with SMTP id y4mr2369808oia.170.1556622297572; 
-	Tue, 30 Apr 2019 04:04:57 -0700 (PDT)
+	(envelope-from <kwolf@redhat.com>) id 1hLQdb-0003J7-Tu
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 07:09:28 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51510)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <kwolf@redhat.com>)
+	id 1hLQdZ-0003F5-9d; Tue, 30 Apr 2019 07:09:25 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+	[10.5.11.14])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 3D2E481F0E;
+	Tue, 30 Apr 2019 11:09:24 +0000 (UTC)
+Received: from linux.fritz.box (unknown [10.36.118.15])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 392466C21E;
+	Tue, 30 Apr 2019 11:09:20 +0000 (UTC)
+Date: Tue, 30 Apr 2019 13:09:18 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <20190430110918.GF5607@linux.fritz.box>
+References: <20190423125706.26989-1-vsementsov@virtuozzo.com>
+	<20190423125706.26989-3-vsementsov@virtuozzo.com>
+	<20190430092437.jbecehdkqa4zdavd@steredhat>
+	<4dabb261-f2d1-b6e0-8d97-ace159b87a54@virtuozzo.com>
 MIME-Version: 1.0
-References: <20190403034358.21999-1-richard.henderson@linaro.org>
-	<20190403034358.21999-11-richard.henderson@linaro.org>
-In-Reply-To: <20190403034358.21999-11-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 30 Apr 2019 12:04:46 +0100
-Message-ID: <CAFEAcA8RQt83x008=+6J2ijUomL=7Ou3qF-=2sWmp9-K57sS-w@mail.gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::244
-Subject: Re: [Qemu-devel] [PATCH 10/26] target/microblaze: Convert to
- CPUClass::tlb_fill
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <4dabb261-f2d1-b6e0-8d97-ace159b87a54@virtuozzo.com>
+User-Agent: Mutt/1.11.3 (2019-02-01)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.27]);
+	Tue, 30 Apr 2019 11:09:24 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v5 2/3] block/io: bdrv_pdiscard: support
+ int64_t bytes parameter
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -73,100 +61,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
-	QEMU Developers <qemu-devel@nongnu.org>
+Cc: "fam@euphon.net" <fam@euphon.net>, Denis Lunev <den@virtuozzo.com>,
+	"qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+	"mreitz@redhat.com" <mreitz@redhat.com>,
+	"stefanha@redhat.com" <stefanha@redhat.com>,
+	Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 3 Apr 2019 at 04:52, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> Cc: Edgar E. Iglesias <edgar.iglesias@gmail.com>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Am 30.04.2019 um 12:03 hat Vladimir Sementsov-Ogievskiy geschrieben:
+> 30.04.2019 12:24, Stefano Garzarella wrote:
+> > On Tue, Apr 23, 2019 at 03:57:05PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> >> This fixes at least one overflow in qcow2_process_discards, which
+> >> passes 64bit region length to bdrv_pdiscard where bytes (or sectors in
+> >> the past) parameter is int since its introduction in 0b919fae.
+> >>
+> >> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> >> ---
+> >>   include/block/block.h |  4 ++--
+> >>   block/io.c            | 16 ++++++++--------
+> >>   2 files changed, 10 insertions(+), 10 deletions(-)
+> >>
+> >> diff --git a/include/block/block.h b/include/block/block.h
+> >> index c7a26199aa..69fa18867e 100644
+> >> --- a/include/block/block.h
+> >> +++ b/include/block/block.h
+> >> @@ -432,8 +432,8 @@ void bdrv_drain_all(void);
+> >>       AIO_WAIT_WHILE(bdrv_get_aio_context(bs_),              \
+> >>                      cond); })
+> >>   
+> >> -int bdrv_pdiscard(BdrvChild *child, int64_t offset, int bytes);
+> >> -int bdrv_co_pdiscard(BdrvChild *child, int64_t offset, int bytes);
+> >> +int bdrv_pdiscard(BdrvChild *child, int64_t offset, int64_t bytes);
+> >> +int bdrv_co_pdiscard(BdrvChild *child, int64_t offset, int64_t bytes);
+> >>   int bdrv_has_zero_init_1(BlockDriverState *bs);
+> >>   int bdrv_has_zero_init(BlockDriverState *bs);
+> >>   bool bdrv_unallocated_blocks_are_zero(BlockDriverState *bs);
+> >> diff --git a/block/io.c b/block/io.c
+> >> index dfc153b8d8..16b6c5d855 100644
+> >> --- a/block/io.c
+> >> +++ b/block/io.c
+> >> @@ -2653,7 +2653,7 @@ int bdrv_flush(BlockDriverState *bs)
+> >>   typedef struct DiscardCo {
+> >>       BdrvChild *child;
+> >>       int64_t offset;
+> >> -    int bytes;
+> >> +    int64_t bytes;
+> >>       int ret;
+> >>   } DiscardCo;
+> >>   static void coroutine_fn bdrv_pdiscard_co_entry(void *opaque)
+> >> @@ -2664,14 +2664,15 @@ static void coroutine_fn bdrv_pdiscard_co_entry(void *opaque)
+> >>       aio_wait_kick();
+> >>   }
+> >>   
+> >> -int coroutine_fn bdrv_co_pdiscard(BdrvChild *child, int64_t offset, int bytes)
+> >> +int coroutine_fn bdrv_co_pdiscard(BdrvChild *child, int64_t offset,
+> >> +                                  int64_t bytes)
+> >>   {
+> >>       BdrvTrackedRequest req;
+> >>       int max_pdiscard, ret;
+> >>       int head, tail, align;
+> >>       BlockDriverState *bs = child->bs;
+> >>   
+> >> -    if (!bs || !bs->drv) {
+> >> +    if (!bs || !bs->drv || !bdrv_is_inserted(bs)) {
+> > 
+> > Should we describe this change in the commit message?
+> 
+> Honestly, don't want to resend the series for this.
 
+I haven't reviewed the patches yet, but if this remains the only thing
+to change, it can be updated while applying the series if we have a
+specific proposal for a new commit message.
 
-
-> -#if defined(CONFIG_USER_ONLY)
-> +bool mb_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-> +                     MMUAccessType access_type, int mmu_idx,
-> +                     bool probe, uintptr_t retaddr)
-> +{
-> +    MicroBlazeCPU *cpu = MICROBLAZE_CPU(cs);
-> +    CPUMBState *env = &cpu->env;
-> +
-> +#ifndef CONFIG_USER_ONLY
-> +    uint32_t vaddr, paddr;
-> +    struct microblaze_mmu_lookup lu;
-> +    unsigned int hit;
-> +    int prot;
-> +
-> +    if (mmu_idx == MMU_NOMMU_IDX) {
-> +        /* MMU disabled or not available.  */
-> +        address &= TARGET_PAGE_MASK;
-> +        prot = PAGE_BITS;
-> +        tlb_set_page(cs, address, address, prot, mmu_idx, TARGET_PAGE_SIZE);
-> +        return true;
-> +    }
-> +
-> +    hit = mmu_translate(&env->mmu, &lu, address, access_type, mmu_idx);
-> +    if (likely(hit)) {
-> +        vaddr = address & TARGET_PAGE_MASK;
-> +        paddr = lu.paddr + vaddr - lu.vaddr;
-> +
-> +        qemu_log_mask(CPU_LOG_MMU, "MMU map mmu=%d v=%x p=%x prot=%x\n",
-> +                      mmu_idx, vaddr, paddr, lu.prot);
-> +        tlb_set_page(cs, vaddr, paddr, lu.prot, mmu_idx, TARGET_PAGE_SIZE);
-> +        return true;
-> +    }
-> +
-> +    /* TLB miss.  */
-> +    if (probe) {
-> +        return false;
-> +    }
-> +
-> +    qemu_log_mask(CPU_LOG_MMU, "mmu=%d miss v=%" VADDR_PRIx "\n",
-> +                  mmu_idx, address);
-> +
-> +    switch (lu.err) {
-> +    case ERR_PROT:
-> +        env->sregs[SR_ESR] = access_type == MMU_INST_FETCH ? 17 : 16;
-> +        env->sregs[SR_ESR] |= (access_type == MMU_DATA_STORE) << 10;
-> +        break;
-> +    case ERR_MISS:
-> +        env->sregs[SR_ESR] = access_type == MMU_INST_FETCH ? 19 : 18;
-> +        env->sregs[SR_ESR] |= (access_type == MMU_DATA_STORE) << 10;
-> +        break;
-> +    default:
-> +        g_assert_not_reached();
-> +    }
-> +
-> +    if (cs->exception_index == EXCP_MMU) {
-> +        cpu_abort(cs, "recursive faults\n");
-> +    }
-> +#endif
-> +
-> +    env->sregs[SR_EAR] = address;
-> +    cs->exception_index = EXCP_MMU;
-> +    cpu_loop_exit_restore(cs, retaddr);
-> +}
-
-
-> -int mb_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size, int rw,
-> -                            int mmu_idx)
-> -{
-> -    cs->exception_index = 0xaa;
-> -    cpu_dump_state(cs, stderr, fprintf, 0);
-> -    return 1;
-> -}
-> -
-> -#else /* !CONFIG_USER_ONLY */
-
-For the user-mode case we used to set cs->exception_state to 0xaa,
-but now we set it to EXCP_MMU. We also set SR_EAR which we didn't
-previously.
-
-Otherwise the refactoring looks ok.
-
-thanks
--- PMM
+Kevin
 
