@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D592BFE93
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 19:13:40 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50448 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 35B52FE5D
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 19:03:50 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50284 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLWK3-00024Q-SI
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 13:13:39 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40451)
+	id 1hLWAX-00028s-Bg
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 13:03:49 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39137)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hLW5U-0007Cl-Uu
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:58:37 -0400
+	(envelope-from <alex.bennee@linaro.org>) id 1hLW29-00048d-1Y
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:55:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hLW5T-0003mO-0A
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:58:36 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:39618)
+	(envelope-from <alex.bennee@linaro.org>) id 1hLVzp-0000oo-Lw
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:52:46 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:35791)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hLW5S-0003lo-Pt
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:58:34 -0400
-Received: by mail-wr1-x442.google.com with SMTP id a9so21866015wrp.6
-	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 09:58:34 -0700 (PDT)
+	id 1hLVzp-0000oO-FR
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:52:45 -0400
+Received: by mail-wm1-x344.google.com with SMTP id y197so4621953wmd.0
+	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 09:52:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=gmFGO18R6wc6UEhG3xXAtJADNbztJhPGG+6VZwVsHPk=;
-	b=YjeWPiwAXRvrcBmrLLYDDjlVMW5moWokvU97lMeQOX+3HCKRB89ZgJVXul9/mlsCf5
-	0C2OQyCZOgeTnQGN8n9d7gqkvYoIb0xYBExs6O+Hn7so22xk5qu1qgIW0RV+OpjCop92
-	DKRkxCEHQcLs91RIbVbkc6iP/fs3fDpMNuMAwUEHB6Z6/ZoSQujVKSIrw9D53WugfWI8
-	VciEi+lG8dRP/P/+dwoaRM3SgW/B+5YO+STK6sI35fHygUd72SN2bL/d5BPbcK4WdDAN
-	B0iAiD/061jH9FRH6ySZOdCJJzweYIYcQqaYyeImdPtwxN8aAv2HnT4Yx+fi9fVkcjsf
-	VB5g==
+	bh=6QQdh13NNxE5UoxkV4nhJZifhNMFpyl1bUv+VGDgceM=;
+	b=s7zetStyMVwOtgGHGCMZPOj51UB3ZdZUA+KwqJGKu83xP/Svqk7SH/x0GdfLOs46xb
+	K1VAxh6NDZ8cxDCmuioNfgw1p7D6pmD8ijRq5ne5Z5CkwNGp++ZwFjUdVtNgLCoSPXRZ
+	7w+Fa+jsK3DnoUVyjMqGdUJs7dVpu8LaDmi5fr4SrSI2t+850M+7QhjQUFb14Mr5hjqf
+	HJDAHYHwG8yHiOUoGyH3EW8cBWUDs6N4fNcxHW5pkzBdsACvGt6iGTX4Jjt2xoi7ptw6
+	DC3rqCBuuqIjD/cDn5srCuiEoddyGWhj2t6dBb8ZLeE+0JqH2ukGHvtYgMiBksl90Rr7
+	PP+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=gmFGO18R6wc6UEhG3xXAtJADNbztJhPGG+6VZwVsHPk=;
-	b=JpurGdDDDYSPntvMI/nMgSC9rDfuQCYVlF/etOKvtpSK+NGp7mKmU6Ae0oiFYlDWJK
-	eUJIOyggBsqSL34ZgilYdLdOxdgRKDR3HSOXDEuo8BQRvx15l2SbJ8VzO59IiHD6RdK9
-	SIlkIzDBV3vOnRquGNK0WLP8ncqMrjddmwpfxrwYOBVfexo10p1SaEU51kg/rh8C214f
-	od/8fXKSChcf14LbK9cThmuR/aOUlaZac4kwwOepmwMtHE83hJictmxHvKr38Jr/F/cv
-	DoSFNmNIAQ1AO/skIPkv12QhfLb8ocLsXpmRbIbOfEtkrNRczj8r5Q1f6OK+sSJtmGX/
-	BKLw==
-X-Gm-Message-State: APjAAAXiEjfPwcRWNndfqsnRSMy67y5ltteXCeuQ6RN9W/hqE8kyzKE6
-	QpeCtWP2mAzhf88I4tjhZYtRBw==
-X-Google-Smtp-Source: APXvYqzYmPi4oXC/xqlVJ6QawC+b6wq3Q591rynNBiTp/TUbkVhbT0A0FX2Npms753llnHJM+KYAeA==
-X-Received: by 2002:adf:a202:: with SMTP id p2mr11994920wra.166.1556643513135; 
-	Tue, 30 Apr 2019 09:58:33 -0700 (PDT)
+	bh=6QQdh13NNxE5UoxkV4nhJZifhNMFpyl1bUv+VGDgceM=;
+	b=JLFy39PR0/clgOKNUQ2pseiYEbvOCD1QQ9ls6Dvvq5GGrkwIeBS4BZi9fmc1slaj8m
+	nTNdfNrqao7VC4w3R1cv6rWjrwpS43jgikAlRa7RQ8QxRCx7zXmi2Apmpqi37PgQssc/
+	kp4X3zJ9J3RFNMgdAUYHFiYhJBLSvU2zq3eMX/IWQHtxrE2MPDS3EKuPQs3PbTURbXu1
+	sbCAXjaowq6bkAC3ekp2sz5hasFxp13RCr1CfbGAqd2k9hTo9SWX+lDnX8dJ9hG8grRZ
+	lRvQZQtLNyJj/RFjmg99xyUHyDo4d4d7dqnANhKl0Hea1QkWooLGkA/tWuYVPfEY0ER/
+	zuYg==
+X-Gm-Message-State: APjAAAUtZVGXmOu4HVX5vYWssAG6q3V5utKZiSM+Ciq642/HOFHYsFe1
+	lVskK86aj1mP5YC72O2qREbBP8nW47U=
+X-Google-Smtp-Source: APXvYqwW/q2Shp69TsVLH43g5nVAeSN7lBMPWr6jWrZTckKSDSl8xb13o1bboWrWSmMuzdmA7JHooQ==
+X-Received: by 2002:a1c:c012:: with SMTP id q18mr3813035wmf.140.1556643164460; 
+	Tue, 30 Apr 2019 09:52:44 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
 	by smtp.gmail.com with ESMTPSA id
-	w10sm3496524wrv.90.2019.04.30.09.58.32
+	d10sm3595630wmb.15.2019.04.30.09.52.38
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 30 Apr 2019 09:58:32 -0700 (PDT)
+	Tue, 30 Apr 2019 09:52:43 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id 1B1311FF9C;
+	by zen.linaroharston (Postfix) with ESMTP id 26AA41FF9D;
 	Tue, 30 Apr 2019 17:52:35 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue, 30 Apr 2019 17:52:31 +0100
-Message-Id: <20190430165234.32272-13-alex.bennee@linaro.org>
+Date: Tue, 30 Apr 2019 17:52:32 +0100
+Message-Id: <20190430165234.32272-14-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190430165234.32272-1-alex.bennee@linaro.org>
 References: <20190430165234.32272-1-alex.bennee@linaro.org>
@@ -69,9 +69,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::442
-Subject: [Qemu-devel] [PATCH v5 12/15] cputlb: Do unaligned store recursion
- to outermost function
+X-Received-From: 2a00:1450:4864:20::344
+Subject: [Qemu-devel] [PATCH v5 13/15] Makefile: fix coverage-report
+ reference to BUILD_DIR
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -84,48 +84,31 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
-	Richard Henderson <richard.henderson@linaro.org>,
 	qemu-arm@nongnu.org, mark.cave-ayland@ilande.co.uk, cota@braap.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+Commit 337f2311f actually claimed to do this in the commit log but
+didn't actually. Oops.
 
-This is less tricky than for loads, because we always fall
-back to single byte stores to implement unaligned stores.
-
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- accel/tcg/cputlb.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index e4d0c94301..a083324768 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -1413,9 +1413,9 @@ tcg_target_ulong helper_be_ldsl_mmu(CPUArchState *env, target_ulong addr,
-  * Store Helpers
-  */
+diff --git a/Makefile b/Makefile
+index 626a04d305..45dfe1b585 100644
+--- a/Makefile
++++ b/Makefile
+@@ -992,7 +992,7 @@ $(filter %.1 %.7 %.8,$(DOCS)): scripts/texi2pod.pl
+ %/coverage-report.html:
+ 	@mkdir -p $*
+ 	$(call quiet-command,\
+-		gcovr -r $(SRC_PATH) --object-directory $(BUILD_PATH) \
++		gcovr -r $(SRC_PATH) --object-directory $(BUILD_DIR) \
+ 		-p --html --html-details -o $@, \
+ 		"GEN", "coverage-report.html")
  
--static void store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
--                         TCGMemOpIdx oi, uintptr_t retaddr, size_t size,
--                         bool big_endian)
-+static inline void __attribute__((always_inline))
-+store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
-+             TCGMemOpIdx oi, uintptr_t retaddr, size_t size, bool big_endian)
- {
-     uintptr_t mmu_idx = get_mmuidx(oi);
-     uintptr_t index = tlb_index(env, mmu_idx, addr);
-@@ -1514,7 +1514,7 @@ static void store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
-                 /* Little-endian extract.  */
-                 val8 = val >> (i * 8);
-             }
--            store_helper(env, addr + i, val8, oi, retaddr, 1, big_endian);
-+            helper_ret_stb_mmu(env, addr + i, val8, oi, retaddr);
-         }
-         return;
-     }
 -- 
 2.20.1
 
