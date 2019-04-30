@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0F30FE77
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 19:06:52 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50341 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93370FE9F
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 19:15:39 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50471 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLWDS-0004nX-Po
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 13:06:50 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39172)
+	id 1hLWLy-0003aP-Lu
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 13:15:38 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39122)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hLW2I-000490-NJ
+	(envelope-from <alex.bennee@linaro.org>) id 1hLW2I-00048Z-NP
 	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:55:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hLVzh-0000bx-Sh
+	(envelope-from <alex.bennee@linaro.org>) id 1hLVzh-0000c7-T5
 	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:52:39 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:38047)
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:37651)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hLVzh-0000Y1-KD
+	id 1hLVzh-0000XL-Kx
 	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:52:37 -0400
-Received: by mail-wr1-x442.google.com with SMTP id k16so21859501wrn.5
+Received: by mail-wm1-x343.google.com with SMTP id y5so4628095wma.2
 	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 09:52:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=jqIW+C//ILq0mPvR3tHEO6y3NilaIZi0x1cwBliIiU4=;
-	b=YMilLvXFW+VGXCXfzig8+SpsUAk77R9SzLcDWqXChV1mJVk8u6hkjAP9p0R4sC05DN
-	3nWZd/zZYyTH4eo2KMmSbTkSpSRDGnZjTDDB33Jq9b1TyJ8mNckAUqF8v0lElX6afYTV
-	/hL2x2snu/iNM/nD5uf8G72aBFesw+3GLy8Ufk19wLbi4rOv8iFooaUQgaU2Z+kpy+mc
-	LXL1c1PPJdScWoFyWd+0BZpQrckgkFQp9BTWksmroXwx5K/IAlwuH0Z+FuijbxXe75DM
-	p2NXMQTZ2UugBmNcJG2GlByv63lfnEM6Gk2XGIf/vwEV3SUtzak3PWXimlAHeqvIC59z
-	6UVg==
+	bh=ggkcaTzzuYDH/ZORZV/VDUHUFe6Rd9N+H9lpwdVyMAg=;
+	b=PnRP5CJPQirK1eiz/A/lQjSnl72phKg1YZ34xlaiUGLcVZ7Eu1KTcYklLsS0Jc/XUR
+	AvJCfKef7aX0YU5v/jOzQ6AQG10eaHqcAchAoQS66b/ljsuZKF/O0DHHyCbpxPjzMp7u
+	86/8gsTblHe5780Lnwt67cgZHbx9/jjCiIaiBQvu55O93koRL+ZtT3C0s9xpj/x9kOKm
+	EgFneaoyJhqmEN72OMqFiCrZZwbGUZByxunFQBdv6wd7rT6WTOEl1X+XY1s6JbHJ2Clf
+	BMb28o0SDSPRW2WPzz5pv6z6NB76rnMLvoEfy3rOp/YJ+kQ0vOTBMH+1dhAnaVvhVjva
+	HhAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=jqIW+C//ILq0mPvR3tHEO6y3NilaIZi0x1cwBliIiU4=;
-	b=WxAfRcjSCqKKF4pWpzl1zRlNrO4c7BIjxznptF/BdzfgrMIXeUFZ97PqUwmm3oUBjk
-	xdhMIbcDxCLMypcHgMQUXpw8S8WBrOgWe13vOE9yPOKsMVtbw/GEgCofN/oaMZPaaMPn
-	smd/pbhxzLrO1+BjXbmqewwVPEAHlu0QI/8DAM7dHLo7TUllCWTWAIY17eQBzOKDCXFg
-	pI33wyH51vOM3ieobE+xQ7M90m2nBmqR6xPLQnduMQ7HiiH7N0Hz/CKEtQIfH9oYoyeP
-	uUgX/k2qBlceeXnDHpelFgtHtA1h2R+AMkOT+tIZpWigWkKJGwEWYvJZJgweSzgky6JY
-	CMSw==
-X-Gm-Message-State: APjAAAWyVJSW6gNrxUhB6IQvI8xGk20UQDvTeSJXt75nDrGUdFNzD4ww
-	dAkBUvLLejoDQPKpRWN0Yn3uFA==
-X-Google-Smtp-Source: APXvYqwTTbjRQ7ofVZPa4oi4LYoLoyzXKFeDZ+8+8/yle1ZAQ0RYGBsu82aZAblJTfFSxZpJu86lXQ==
-X-Received: by 2002:adf:ba93:: with SMTP id p19mr16401378wrg.195.1556643156546;
+	bh=ggkcaTzzuYDH/ZORZV/VDUHUFe6Rd9N+H9lpwdVyMAg=;
+	b=JeeZmyy25j3vNgDxL1PX2efOEMK0zr5MRSCKgjvJ+T9uJJ6daMdHs5XP5BKvTd0oFF
+	GzR0ElBY+KdTPqhNYke3qbwqxt1TPb8Ak9dDlU5S4Jj68rmMNVCx3RjHbfIY+3s1WibB
+	1XCBhMIUU4IP/zDWN0Hd+h+wpxcKrdpQcpk4stdQNl5fK0wIUa39a0SmHtTK3Edrg07W
+	14lFU92tuBaq1XQiUQ91bMRZDUVz3HTCDwc4Xbokwt4CP7jJ6nqFcXSNaDw3podclPZT
+	z2dw/D74ROwRdbqgt6cXOfL7I/PofS+O7MsFTvMUjpmmPFIsq0XZh+wDQ9Du6SheDQbw
+	VqaQ==
+X-Gm-Message-State: APjAAAU7kmQX6P0MVbJ9mMa+pUPB1rGIQ1FKRv41BbtobzNurFAI0ok3
+	1b+5Sjj+u8EgdDZwax9wMKCdJg==
+X-Google-Smtp-Source: APXvYqyax06AvIqIALNOJE/SFwPoYeHnxYxtyqbsuBfctbSoO65WeYoqRO9WyVOxYHD3ov6N7FKSYA==
+X-Received: by 2002:a7b:c087:: with SMTP id r7mr3951584wmh.137.1556643156031; 
 	Tue, 30 Apr 2019 09:52:36 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
-	by smtp.gmail.com with ESMTPSA id
-	s17sm8463236wra.94.2019.04.30.09.52.34
+	by smtp.gmail.com with ESMTPSA id z74sm3674409wmc.2.2019.04.30.09.52.34
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
 	Tue, 30 Apr 2019 09:52:35 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id 8C6CE1FF8C;
+	by zen.linaroharston (Postfix) with ESMTP id 981791FF8F;
 	Tue, 30 Apr 2019 17:52:34 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue, 30 Apr 2019 17:52:20 +0100
-Message-Id: <20190430165234.32272-2-alex.bennee@linaro.org>
+Date: Tue, 30 Apr 2019 17:52:21 +0100
+Message-Id: <20190430165234.32272-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190430165234.32272-1-alex.bennee@linaro.org>
 References: <20190430165234.32272-1-alex.bennee@linaro.org>
@@ -69,9 +68,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::442
-Subject: [Qemu-devel] [PATCH v5 01/15] tests/tcg/multiarch: add support for
- multiarch system tests
+X-Received-From: 2a00:1450:4864:20::343
+Subject: [Qemu-devel] [PATCH v5 02/15] tests/tcg/multiarch: add hello world
+ system test
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -88,50 +87,33 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can certainly support some common tests for system emulation that
-make use of our minimal defined boot.S support. It will still be up to
-individual architectures to ensure they build so we provide a
-MULTIARCH_TESTS variable that they can tack onto TESTS themselves.
+This is not really i386 only, we can have the same test for all
+architectures supporting system tests.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/tcg/Makefile                                 |  1 +
- tests/tcg/multiarch/system/Makefile.softmmu-target | 14 ++++++++++++++
- 2 files changed, 15 insertions(+)
- create mode 100644 tests/tcg/multiarch/system/Makefile.softmmu-target
+ tests/tcg/i386/Makefile.softmmu-target       | 2 +-
+ tests/tcg/{i386 => multiarch}/system/hello.c | 0
+ 2 files changed, 1 insertion(+), 1 deletion(-)
+ rename tests/tcg/{i386 => multiarch}/system/hello.c (100%)
 
-diff --git a/tests/tcg/Makefile b/tests/tcg/Makefile
-index 1cdd628e96..6fa63cc8d5 100644
---- a/tests/tcg/Makefile
-+++ b/tests/tcg/Makefile
-@@ -96,6 +96,7 @@ else
- # build options for bare programs are usually pretty different. They
- # are expected to provide their own build recipes.
- -include $(SRC_PATH)/tests/tcg/minilib/Makefile.target
-+-include $(SRC_PATH)/tests/tcg/multiarch/system/Makefile.softmmu-target
- -include $(SRC_PATH)/tests/tcg/$(TARGET_BASE_ARCH)/Makefile.softmmu-target
- ifneq ($(TARGET_BASE_ARCH),$(TARGET_NAME))
- -include $(SRC_PATH)/tests/tcg/$(TARGET_NAME)/Makefile.softmmu-target
-diff --git a/tests/tcg/multiarch/system/Makefile.softmmu-target b/tests/tcg/multiarch/system/Makefile.softmmu-target
-new file mode 100644
-index 0000000000..db4bbeda44
---- /dev/null
-+++ b/tests/tcg/multiarch/system/Makefile.softmmu-target
-@@ -0,0 +1,14 @@
-+# -*- Mode: makefile -*-
-+#
-+# Multiarch system tests
-+#
-+# We just collect the tests together here and rely on the actual guest
-+# architecture to add to the test dependancies and deal with the
-+# complications of building.
-+#
-+
-+MULTIARCH_SYSTEM_SRC=$(SRC_PATH)/tests/tcg/multiarch/system
-+VPATH+=$(MULTIARCH_SYSTEM_SRC)
-+
-+MULTIARCH_TEST_SRCS=$(wildcard $(MULTIARCH_SYSTEM_SRC)/*.c)
-+MULTIARCH_TESTS = $(patsubst $(MULTIARCH_SYSTEM_SRC)/%.c, %, $(MULTIARCH_TEST_SRCS))
+diff --git a/tests/tcg/i386/Makefile.softmmu-target b/tests/tcg/i386/Makefile.softmmu-target
+index 53c9c5ece0..c31bbbf39a 100644
+--- a/tests/tcg/i386/Makefile.softmmu-target
++++ b/tests/tcg/i386/Makefile.softmmu-target
+@@ -27,7 +27,7 @@ CFLAGS+=-m32
+ LINK_SCRIPT=$(I386_SYSTEM_SRC)/kernel.ld
+ LDFLAGS=-Wl,-T$(LINK_SCRIPT) -Wl,-melf_i386
+ # FIXME: move to common once x86_64 is bootstrapped
+-TESTS+=$(X86_TESTS)
++TESTS+=$(X86_TESTS) $(MULTIARCH_TESTS)
+ endif
+ CFLAGS+=-nostdlib -ggdb -O0 $(MINILIB_INC)
+ LDFLAGS+=-static -nostdlib $(CRT_OBJS) $(MINILIB_OBJS) -lgcc
+diff --git a/tests/tcg/i386/system/hello.c b/tests/tcg/multiarch/system/hello.c
+similarity index 100%
+rename from tests/tcg/i386/system/hello.c
+rename to tests/tcg/multiarch/system/hello.c
 -- 
 2.20.1
 
