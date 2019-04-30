@@ -2,66 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B79DAF419
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 12:20:21 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:42597 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 75E0FF424
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 12:23:42 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:42662 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLPs1-0002UU-Fn
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 06:20:17 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34750)
+	id 1hLPvJ-0005gt-I3
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 06:23:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35215)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hLPpW-0001Py-Ih
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 06:17:43 -0400
+	(envelope-from <berrange@redhat.com>) id 1hLPqU-00027N-Dz
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 06:18:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hLPn4-0000of-Hf
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 06:15:11 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:54168)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hLPn4-0000mV-Au
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 06:15:10 -0400
-Received: by mail-wm1-f66.google.com with SMTP id 26so3147055wmj.3
-	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 03:15:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=vvtW2+DlGMzRrVAEZmue76zD40mUirIvX8ZgKXUJnjY=;
-	b=oCxo7ZMqPQ6EVyUKZo/szwFYfrQ/vTAVdt7gnOXefK5W+EjhF3+EYIZeyJKau2NnT1
-	a8Eq6xWWJbnZRLrBJqw2JkO5JDpZTIyptOV9/yrAAKw6Uy50flZ/shd5dmfmk3UPBR+I
-	X3kNBk1qQjg48MbfgsliBikC8F3nGJSiTRpUM1IujWX4QqqwqvyN9Mm3vdl2qpR/jhX4
-	l//95mu2kDtrMf85isRyhU+jVmhUHHX9xZePAaSzbd3Q8VkE4crTgi8CqnQjUQSuNkFN
-	HJiT/b7vv/RTGkuk1wJ1bK7Jkk13uV2dYiUL4sbFe3vn90Ln1yF2WjnwSi1k8CesJES7
-	o4YQ==
-X-Gm-Message-State: APjAAAXv8x27fyN962EOAtQFrIRhhZQhMI+Axwk+ZJGL7u8MSDhn1sEn
-	HwXDzPXitt25RsEX7I2BMlDZVQ==
-X-Google-Smtp-Source: APXvYqyVXyLI5X4Up6tt0be8rWJoQWfL04KeZ8N7cjzGmc0ycehfrgO+ztDaYBFCNW7a9GTavYlrvQ==
-X-Received: by 2002:a1c:2087:: with SMTP id g129mr2716664wmg.114.1556619309294;
-	Tue, 30 Apr 2019 03:15:09 -0700 (PDT)
-Received: from [192.168.1.33] (193.red-88-21-103.staticip.rima-tde.net.
-	[88.21.103.193]) by smtp.gmail.com with ESMTPSA id
-	g28sm9300670wrb.50.2019.04.30.03.15.08
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Tue, 30 Apr 2019 03:15:08 -0700 (PDT)
-To: Boxuan Li <liboxuan@connect.hku.hk>, qemu-devel@nongnu.org
-References: <20190428110258.86681-1-liboxuan@connect.hku.hk>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
-	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <a683a29f-ea7b-aaf9-258f-68f4ffcd9b96@redhat.com>
-Date: Tue, 30 Apr 2019 12:15:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <berrange@redhat.com>) id 1hLPqT-000353-8X
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 06:18:42 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42768)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hLPqT-00034Y-2X
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 06:18:41 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 086B830BC665;
+	Tue, 30 Apr 2019 10:18:40 +0000 (UTC)
+Received: from redhat.com (unknown [10.42.22.189])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 9D7E82AA8C;
+	Tue, 30 Apr 2019 10:18:35 +0000 (UTC)
+Date: Tue, 30 Apr 2019 11:18:33 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Message-ID: <20190430101833.GC6818@redhat.com>
+References: <20190427135642.16464-1-philmd@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190428110258.86681-1-liboxuan@connect.hku.hk>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <20190427135642.16464-1-philmd@redhat.com>
+User-Agent: Mutt/1.11.3 (2019-02-01)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.46]);
+	Tue, 30 Apr 2019 10:18:40 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.128.66
-Subject: Re: [Qemu-devel] [PATCH] virtio-mmio: Always compile debug prints
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH] qom/object: Display more helpful message
+ when an object type is missing
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -73,75 +59,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>,
+	Eduardo Habkost <ehabkost@redhat.com>,
+	Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Li,
+On Sat, Apr 27, 2019 at 03:56:42PM +0200, Philippe Mathieu-Daud=C3=A9 wro=
+te:
+> When writing a new board, adding device which uses other devices
+> (container) or simply refactoring, one can discover the hard way
+> his machine misses some devices. In the case of containers, the
+> error is not obvious:
+>=20
+>   $ qemu-system-microblaze -M xlnx-zynqmp-pmu
+>   **
+>   ERROR:/source/qemu/qom/object.c:454:object_initialize_with_type: asse=
+rtion failed: (type !=3D NULL)
+>   Aborted (core dumped)
+>=20
+> And we have to look at the coredump to figure the error:
+>=20
+>   (gdb) bt
+>   #1  0x00007f84773cf895 in abort () at /lib64/libc.so.6
+>   #2  0x00007f847961fb53 in  () at /lib64/libglib-2.0.so.0
+>   #3  0x00007f847967a4de in g_assertion_message_expr () at /lib64/libgl=
+ib-2.0.so.0
+>   #4  0x000055c4bcac6c11 in object_initialize_with_type (data=3Ddata@en=
+try=3D0x55c4bdf239e0, size=3Dsize@entry=3D2464, type=3D<optimized out>) a=
+t /source/qemu/qom/object.c:454
+>   #5  0x000055c4bcac6e6d in object_initialize (data=3Ddata@entry=3D0x55=
+c4bdf239e0, size=3Dsize@entry=3D2464, typename=3Dtypename@entry=3D0x55c4b=
+cc7c643 "xlnx.zynqmp_ipi") at /source/qemu/qom/object.c:474
+>   #6  0x000055c4bc9ea474 in xlnx_zynqmp_pmu_init (machine=3D0x55c4bdd46=
+000) at /source/qemu/hw/microblaze/xlnx-zynqmp-pmu.c:176
+>   #7  0x000055c4bca3b6cb in machine_run_board_init (machine=3D0x55c4bdd=
+46000) at /source/qemu/hw/core/machine.c:1030
+>   #8  0x000055c4bc95f6d2 in main (argc=3D<optimized out>, argv=3D<optim=
+ized out>, envp=3D<optimized out>) at /source/qemu/vl.c:4479
+>=20
+> Since the caller knows the type name requested, we can simply display i=
+t
+> to ease development.
+>=20
+> With this patch applied we get:
+>=20
+>   $ qemu-system-microblaze -M xlnx-zynqmp-pmu
+>   qemu-system-microblaze: missing object type 'xlnx.zynqmp_ipi'
+>   Aborted (core dumped)
+>=20
+> Since the assert(type) check in object_initialize_with_type() is
+> now impossible, remove it.
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  qom/object.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
 
-On 4/28/19 1:02 PM, Boxuan Li wrote:
-> Wrap printf calls inside debug macros (DPRINTF) in `if` statement, and
-> change output to stderr as well. This will ensure that printf function
-> will always compile and prevent bitrot of the format strings.
+Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
-There is an effort in QEMU to replace the obsolete DPRINTF() macros by
-trace events (which prevent format strings bitroting).
-
-You can read more about tracing in docs/devel/tracing.txt,
-
-and I recomment you to look at the following recent convertions in the
-repository history:
-
-commit 8d83cbf1015f547cd9336881e6b62ae2ca293849
-Author: Greg Kurz <groug@kaod.org>
-Date:   Fri Apr 5 10:05:24 2019 +0200
-
-    target/ppc/kvm: Convert DPRINTF to traces
-
-commit dd849ef2c9d57a329c6001c58dbdf49de712349c
-Author: Peter Maydell <peter.maydell@linaro.org>
-Date:   Thu Feb 21 18:17:46 2019 +0000
-
-    hw/timer/pl031: Convert to using trace events
-
-    Convert the debug printing in the PL031 device to use trace events,
 
 Regards,
-
-Phil.
-
-> Signed-off-by: Boxuan Li <liboxuan@connect.hku.hk>
-> ---
->  hw/virtio/virtio-mmio.c | 17 ++++++++---------
->  1 file changed, 8 insertions(+), 9 deletions(-)
-> 
-> diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
-> index 5807aa87fe..693b3c9eb4 100644
-> --- a/hw/virtio/virtio-mmio.c
-> +++ b/hw/virtio/virtio-mmio.c
-> @@ -28,15 +28,14 @@
->  #include "hw/virtio/virtio-bus.h"
->  #include "qemu/error-report.h"
->  
-> -/* #define DEBUG_VIRTIO_MMIO */
-> -
-> -#ifdef DEBUG_VIRTIO_MMIO
-> -
-> -#define DPRINTF(fmt, ...) \
-> -do { printf("virtio_mmio: " fmt , ## __VA_ARGS__); } while (0)
-> -#else
-> -#define DPRINTF(fmt, ...) do {} while (0)
-> -#endif
-> +#define DEBUG_VIRTIO_MMIO 0
-> +
-> +#define DPRINTF(fmt, ...)                                            \
-> +    do {                                                             \
-> +        if (DEBUG_VIRTIO_MMIO) {                                     \
-> +            fprintf(stderr, "virtio_mmio: " fmt , ## __VA_ARGS__);   \
-> +        }                                                            \
-> +    } while (0)
->  
->  /* QOM macros */
->  /* virtio-mmio-bus */
-> 
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 
