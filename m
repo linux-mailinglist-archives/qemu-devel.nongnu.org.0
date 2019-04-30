@@ -2,62 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61F1BFF01
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 19:39:00 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50879 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EB82FEE3
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 19:33:41 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50794 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLWiZ-0004sr-K2
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 13:38:59 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48225)
+	id 1hLWdQ-00012q-3n
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 13:33:40 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49104)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hLWXE-0005MF-Pe
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 13:27:18 -0400
+	(envelope-from <liboxuan@connect.hku.hk>) id 1hLWac-0007yv-Nr
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 13:30:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hLWXD-0003lI-JU
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 13:27:16 -0400
-Received: from mail-ot1-x330.google.com ([2607:f8b0:4864:20::330]:38999)
+	(envelope-from <liboxuan@connect.hku.hk>) id 1hLWab-0005og-Oz
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 13:30:46 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:45192)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hLWXD-0003kn-Eu
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 13:27:15 -0400
-Received: by mail-ot1-x330.google.com with SMTP id o39so1398561ota.6
-	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 10:27:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:from:date:message-id:subject:to:cc;
-	bh=Mv7L6YH1vwZQ5V0voouf7+D+RgJo7sqyvVYumdefQKQ=;
-	b=BNRqMV+YmaffJXJohfdLj3Kf+EfqgRNq4Fmz92bGWeMJb6FHIWnpIuYsFAsHJDqUGY
-	ckcBCEdkQMWntKcPHRYStLEIC0ZmWzaThEjDrRkGTQ3RROJNL8i5LOv4meNfylAT5ALJ
-	bHOyB7j0rXjnYIV+oZTmksNT8hOHBLAU52pRyunPN4fqR1NMTG1lzX9oWpoljRqqt+iA
-	6S1w6hMmZCVp8ORB0UMuRf2iJWoQD6aTr+bnH1WidmQ2oophUYVREyhqVgKneT+eoN41
-	2cXY6L6zOQ9tdQ+f2vvYTSjhGt6dFWqwQWmxFcYp8vQcXxjzcR157jwVjS9MdedVcBSR
-	Z5Kg==
+	(Exim 4.71) (envelope-from <liboxuan@connect.hku.hk>)
+	id 1hLWaa-0005mQ-BR
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 13:30:45 -0400
+Received: by mail-pl1-x642.google.com with SMTP id o5so7039185pls.12
+	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 10:30:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=connect-hku-hk.20150623.gappssmtp.com; s=20150623;
+	h=from:to:cc:subject:date:message-id;
+	bh=uihYHrYj3HakLhRkBBdSUDTDHGZaCyGKyU0mzSpESvQ=;
+	b=mCDQBdunO0hUngRO5ZFWMRAjbF81vr8Bgn/0CTyWhREDYSg451LHElqXYoX9LqR/Tx
+	72O+yUOHH1XIAMZztm3MzrIkJi2Ay3MT1xV1q4B8PlvR3Z9zPjE2ncs/EXovH1hidaju
+	Nl8+DaTTshFZ36ftBLGA1JV27PhbYnz2/cRjaud+rFto0iaO0tfZOv901S3fDezVNwiu
+	bigZsA2l277flNS3XhgkYGD4Z4kt0ZMIQkR28fw29of2jN1kHMmo0DDdkVw2eVorzx2d
+	oPnhxjSRlse+3T7qGwn01OvFdhT87jOzbVVJ1nylQ2hGQB1+V/Vtsr2Th09I6T+EDeyd
+	3JJg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-	bh=Mv7L6YH1vwZQ5V0voouf7+D+RgJo7sqyvVYumdefQKQ=;
-	b=cRXjuOOgPtObO84/9nBtRkWUGjekJXzfWyjsS0yrqfmqEEqlMqnxUTFcdGZw2jR86g
-	wBWsacfz+TmGQVhigAc0Kx1yBt3lhXtW9Nz+ooetw7+dZPPaM6/U2smuEsBEodL/0qn/
-	8GyrttIQk1fbK9GmfiHb0EC6hSKOEfQJHbs4onX8F+G4hA2SrrVGXS65FSYMD5z+wsCU
-	S85MrsoH8NVuRdjW65Ve308m+zOTWHxY1x3mzdaxyTFPXw7W/Y95p0GY5blVqDjhq98w
-	MaLyWt7LzcEDsz0qTGcjmx6sf+tL7N9NuFKJ3vkpwU15NCL3AY9df2wtjBkU1WpLJuDq
-	J9iw==
-X-Gm-Message-State: APjAAAVug3XmtBjEjJZERmb6JkTNduHpxnsJJ+co1klHrS6K56k0FcFb
-	X0K7ZCDgI+d8Kt1k++hijSnjpGtbMrySSESledUb+7mbx/U=
-X-Google-Smtp-Source: APXvYqwg4f1CA+m9N5f1xVF3svKdrdiPI907amvbFSrA2G4oAyPjxLx11puFmhtTBVIHy4ceKzT9kM3whAURRLwVV4A=
-X-Received: by 2002:a9d:360b:: with SMTP id w11mr16964946otb.238.1556645234272;
-	Tue, 30 Apr 2019 10:27:14 -0700 (PDT)
-MIME-Version: 1.0
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 30 Apr 2019 18:27:03 +0100
-Message-ID: <CAFEAcA9BCXuOxaFaHvT0bDnb+7e_vYuhxspjokRp19G+SUf+MA@mail.gmail.com>
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=uihYHrYj3HakLhRkBBdSUDTDHGZaCyGKyU0mzSpESvQ=;
+	b=k3mMecc2yJBfvF9od0TZEvpzrkMmVN+RsrY9nm/crbPe9D3mPVGWCHaiVgXQsSIaUq
+	QhY+pqvB/LT4kJhyXvc7Fvj+Ib3ZU8jhUeKchUQTsEWrawU7F1qepF2Xq0yZFwhCV6Lo
+	oZAIOxJ968r0Q+QXEM7B5jE8cSFccaB0OsrmMFjP7muzgzNRe4KadsJfQrQBMZ64qug6
+	eJO60otdkWgKLWlNcWoFlEfIPNbYgAyWIm8fPz2fhMZIRW8F6gBzD3EOQ0BBrmr1DMgF
+	uwTLk4zU1jl4QJsEGQJ5L2uMAiSDSvGQ5Li4GGoTMXiZ9mzuwPV+05n/8/kIAAa8iVY9
+	6Eqg==
+X-Gm-Message-State: APjAAAU0yUZ0AHbuIYuF1v2yXuZpj5WU18nlx8rApIWKwoVUjwAnnyo6
+	pqWLNntmI3C7CtxuvFSj0/7YlTivqZk=
+X-Google-Smtp-Source: APXvYqx6/LFfPEs0Dp5RlilHCosSrXJ38nNHAZ4al6ZrPwF3s57vL3GxCnkJ4dpv2ncX7/uTttysLA==
+X-Received: by 2002:a17:902:26b:: with SMTP id
+	98mr41541345plc.30.1556645442060; 
+	Tue, 30 Apr 2019 10:30:42 -0700 (PDT)
+Received: from MBP.local.hk ([175.159.180.1]) by smtp.gmail.com with ESMTPSA id
+	y23sm52407101pfn.25.2019.04.30.10.30.39
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Tue, 30 Apr 2019 10:30:41 -0700 (PDT)
+From: Boxuan Li <liboxuan@connect.hku.hk>
+To: qemu-devel@nongnu.org
+Date: Wed,  1 May 2019 01:28:42 +0800
+Message-Id: <20190430172842.27369-1-liboxuan@connect.hku.hk>
+X-Mailer: git-send-email 2.13.2
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::330
-Subject: [Qemu-devel] Spreading the load on QEMU pullreq handling and
- release work
+X-Received-From: 2607:f8b0:4864:20::642
+Subject: [Qemu-devel] [PATCH] target/ppc/kvm: Fix trace typo
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -69,91 +73,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
-	Michael Roth <mdroth@linux.vnet.ibm.com>,
-	Markus Armbruster <armbru@redhat.com>,
-	Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
-	=?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Cc: qemu-trivial@nongnu.org, Boxuan Li <liboxuan@connect.hku.hk>,
+	"open list:PowerPC" <qemu-ppc@nongnu.org>,
+	David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For most releases in the past five years, I've been handling the
-work of applying pull requests, tagging release candidates, and
-so on. (For one or two releases somebody else has done this when
-I've been off on holiday.) This takes up a fair chunk of my time
-during the actual "release" phase of a cycle, and it also
-represents a "bus factor" issue for the project if I'm the only
-person doing this. I'd like to try to spread this work out a bit
-between more people.
+Signed-off-by: Boxuan Li <liboxuan@connect.hku.hk>
+---
+ target/ppc/kvm.c        | 2 +-
+ target/ppc/trace-events | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-Specifically, where I'd like to get to is that we have a rota of
-three people doing this, which at our "three releases a year"
-pace means any one person only has to handle one release cycle
-a year.
+diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+index 02e22e2017..1a9caf8f40 100644
+--- a/target/ppc/kvm.c
++++ b/target/ppc/kvm.c
+@@ -1721,7 +1721,7 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
+             trace_kvm_handle_dcr_write();
+             ret = kvmppc_handle_dcr_write(env, run->dcr.dcrn, run->dcr.data);
+         } else {
+-            trace_kvm_handle_drc_read();
++            trace_kvm_handle_dcr_read();
+             ret = kvmppc_handle_dcr_read(env, run->dcr.dcrn, &run->dcr.data);
+         }
+         break;
+diff --git a/target/ppc/trace-events b/target/ppc/trace-events
+index 7b3cfe11fd..3dc6740706 100644
+--- a/target/ppc/trace-events
++++ b/target/ppc/trace-events
+@@ -22,7 +22,7 @@ kvm_failed_put_vpa(void) "Warning: Unable to set VPA information to KVM"
+ kvm_failed_get_vpa(void) "Warning: Unable to get VPA information from KVM"
+ kvm_injected_interrupt(int irq) "injected interrupt %d"
+ kvm_handle_dcr_write(void) "handle dcr write"
+-kvm_handle_drc_read(void) "handle dcr read"
++kvm_handle_dcr_read(void) "handle dcr read"
+ kvm_handle_halt(void) "handle halt"
+ kvm_handle_papr_hcall(void) "handle PAPR hypercall"
+ kvm_handle_epr(void) "handle epr"
+-- 
+2.13.2
 
-Part of this move is going to require moving away from some of the
-ad-hoc scripting and testing that I currently do on a selection of
-personal and work machines and instead using machines that can be
-used by other project members.  (One recent suggestion is that
-perhaps the gitlab CI might be a useful place to start, since it
-allows us to provide custom build workers rather than only doing
-x86 host testing.)
-
-For the moment I'd like to ask for in-principle volunteers
-to be on the release-handling rota.
-
-The work involves:
- * the mechanical process of actually processing pullreq
-   emails and applying them
- * letting people know about failures, which can mean some
-   investigation of exactly why something has failed to
-   distinguish problems with the pull from preexisting
-   intermittent failures from infrastructure issues
- * more careful by-hand scrutiny of pull requests from
-   submaintainers who haven't done it before or who don't make
-   pull requests often (checking for missing signoffs, weirdly
-   malformed pull requests, patches that shouldn't be in the
-   pull, etc)
- * maintenance of what I guess will need to be a shared
-   project GPG keyring to add submaintainer keys (there's
-   a judgement call required for whether a new key is
-   sufficiently trusted, working with the submaintainer to
-   ask them to try to get more signatures if possible, etc)
- * curating the "Planning" wiki page where we record things
-   not yet fixed in the current release, including chasing
-   people for fixes for RC bugs, asking around if anything
-   ought to go in, tracking potential RC issues that crop up
-   on the mailing list, etc
- * making sure we correctly raise the "is this important
-   enough to go in" bar for pull requests during the release
-   candidate phase by scrutinizing pull requests and if
-   necessary pushing back on submaintainers
- * likely some other things I have forgotten
-
-Since there is a definite human judgement required here, this
-isn't going to be a fully automatable process[*], and it would
-be best done by people who've got a reasonably long history of
-working with the project (both from a trust perspective and
-because they have the experience to make the judgement calls
-required).
-
-[*] It could quite possibly be automated a bit more than I
-currently do it, though. I'm also open to the idea that maybe we
-should do less gatekeeping at the apply-pull stage and instead
-delegate to submaintainers to make the right judgements, though
-in my experience there is usually at least one pullreq
-submitted late in the rc process which has stuff in it that
-should not go in at that point...
-
-NB: at the moment there is a split in handling of release
-candidates and the release, where I do the tagging of an rc in
-git, and Michael Roth then rolls tarballs and makes
-announcements of the rc or final release. Michael -- is that
-work something you'd like to spread around between more people
-or are you happy to continue to do it all?
-
-So, any volunteers (from anybody, not just people on the cc list) ?
-
-thanks
--- PMM
 
