@@ -2,51 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A1D7F15A
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 09:34:25 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40623 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF1DDF0FD
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 09:15:40 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40272 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLNHU-0005GV-5Y
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 03:34:24 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56053)
+	id 1hLMzL-0005ZM-SP
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 03:15:39 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54568)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hLN1U-0008Qo-8i
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 03:17:53 -0400
+	(envelope-from <cohuck@redhat.com>) id 1hLMxm-00057g-Ne
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 03:14:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hLN1T-0005Fh-BD
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 03:17:52 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45092)
+	(envelope-from <cohuck@redhat.com>) id 1hLMxl-0003qY-Py
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 03:14:02 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60554)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <thuth@redhat.com>)
-	id 1hLN1P-0005EM-69; Tue, 30 Apr 2019 03:17:47 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
+	(Exim 4.71) (envelope-from <cohuck@redhat.com>)
+	id 1hLMxl-0003q6-JY; Tue, 30 Apr 2019 03:14:01 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 31C8330833A3;
-	Tue, 30 Apr 2019 07:17:46 +0000 (UTC)
-Received: from thuth.com (ovpn-116-190.ams2.redhat.com [10.36.116.190])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 1CFC7100200A;
-	Tue, 30 Apr 2019 07:17:35 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: yang.zhong@intel.com, Peter Maydell <peter.maydell@linaro.org>,
-	qemu-devel@nongnu.org, pbonzini@redhat.com
+	by mx1.redhat.com (Postfix) with ESMTPS id D7D093086201;
+	Tue, 30 Apr 2019 07:13:59 +0000 (UTC)
+Received: from gondolin (dhcp-192-187.str.redhat.com [10.33.192.187])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 7B2AA79BD;
+	Tue, 30 Apr 2019 07:13:55 +0000 (UTC)
 Date: Tue, 30 Apr 2019 09:13:54 +0200
-Message-Id: <20190430071405.16714-20-thuth@redhat.com>
-In-Reply-To: <20190430071405.16714-1-thuth@redhat.com>
-References: <20190430071405.16714-1-thuth@redhat.com>
+From: Cornelia Huck <cohuck@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Message-ID: <20190430091354.23c9aca0.cohuck@redhat.com>
+In-Reply-To: <6e6c4b4e-4d08-b4fa-1092-06567a6473da@redhat.com>
+References: <20190429090250.7648-1-borntraeger@de.ibm.com>
+	<20190429090250.7648-5-borntraeger@de.ibm.com>
+	<0ad32bcf-0132-3905-3220-0f50e26937c3@redhat.com>
+	<b0b0ec8f-d5ee-c08f-11dd-894d9433159f@de.ibm.com>
+	<6e6c4b4e-4d08-b4fa-1092-06567a6473da@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.44]);
-	Tue, 30 Apr 2019 07:17:46 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+	(mx1.redhat.com [10.5.110.42]);
+	Tue, 30 Apr 2019 07:13:59 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v6 19/30] hw/arm: Express dependencies of
- allwinner / cubieboard with Kconfig
+Subject: Re: [Qemu-devel] [PATCH v3 4/9] s390x/cpumodel: msa9 facility
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,93 +61,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
-	"Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
-	Subbaraya Sundeep <sundeep.lkml@gmail.com>,
-	Rob Herring <robh@kernel.org>, qemu-block@nongnu.org,
-	Andrey Smirnov <andrew.smirnov@gmail.com>,
-	Antony Pavlov <antonynpavlov@gmail.com>, Joel Stanley <joel@jms.id.au>,
-	Alistair Francis <alistair@alistair23.me>,
-	Beniamino Galvani <b.galvani@gmail.com>, qemu-arm@nongnu.org,
-	Jan Kiszka <jan.kiszka@web.de>, Cedric Le Goater <clg@kaod.org>,
-	John Snow <jsnow@redhat.com>, Igor Mitsyanko <i.mitsyanko@gmail.com>,
-	Philippe Mathieu-Daude <f4bug@amsat.org>,
-	Jean-Christophe Dubois <jcd@tribudubois.net>,
-	Andrew Jeffery <andrew@aj.id.au>, Peter Chubb <peter.chubb@nicta.com.au>,
-	Aurelien Jarno <aurelien@aurel32.net>
+Cc: "Jason J . Herne" <jjherne@linux.ibm.com>,
+	Collin Walling <walling@linux.ibm.com>, qemu-devel <qemu-devel@nongnu.org>,
+	Halil Pasic <pasic@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@de.ibm.com>,
+	qemu-s390x <qemu-s390x@nongnu.org>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add dependencies for the Cubitech Cubieboard.
+On Tue, 30 Apr 2019 09:00:56 +0200
+David Hildenbrand <david@redhat.com> wrote:
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- default-configs/arm-softmmu.mak | 6 +-----
- hw/arm/Kconfig                  | 9 +++++++++
- 2 files changed, 10 insertions(+), 5 deletions(-)
+> On 30.04.19 07:41, Christian Borntraeger wrote:
+> > 
+> > 
+> > On 29.04.19 21:24, David Hildenbrand wrote:  
 
-diff --git a/default-configs/arm-softmmu.mak b/default-configs/arm-softmm=
-u.mak
-index c86a9f5427..a0b9016e3a 100644
---- a/default-configs/arm-softmmu.mak
-+++ b/default-configs/arm-softmmu.mak
-@@ -7,6 +7,7 @@ CONFIG_ARM_V7M=3Dy
- # CONFIG_TEST_DEVICES=3Dn
-=20
- CONFIG_ARM_VIRT=3Dy
-+CONFIG_CUBIEBOARD=3Dy
- CONFIG_EXYNOS4=3Dy
- CONFIG_HIGHBANK=3Dy
- CONFIG_INTEGRATOR=3Dy
-@@ -32,7 +33,6 @@ CONFIG_NETDUINO2=3Dy
-=20
- CONFIG_VGA=3Dy
- CONFIG_SSI_M25P80=3Dy
--CONFIG_ALLWINNER_EMAC=3Dy
- CONFIG_IMX_FEC=3Dy
-=20
- CONFIG_FRAMEBUFFER=3Dy
-@@ -60,10 +60,6 @@ CONFIG_IOTKIT_SYSINFO=3Dy
- CONFIG_ARMSSE_CPUID=3Dy
- CONFIG_ARMSSE_MHU=3Dy
-=20
--CONFIG_ALLWINNER_A10_PIT=3Dy
--CONFIG_ALLWINNER_A10_PIC=3Dy
--CONFIG_ALLWINNER_A10=3Dy
--
- CONFIG_FSL_IMX6=3Dy
- CONFIG_FSL_IMX25=3Dy
- CONFIG_FSL_IMX7=3Dy
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 25ba109773..0e89383f50 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -25,6 +25,10 @@ config CHEETAH
-     select OMAP
-     select TSC210X
-=20
-+config CUBIEBOARD
-+    bool
-+    select ALLWINNER_A10
-+
- config DIGIC
-     bool
-     select PTIMER
-@@ -246,6 +250,11 @@ config ARM_V7M
-=20
- config ALLWINNER_A10
-     bool
-+    select AHCI
-+    select ALLWINNER_A10_PIT
-+    select ALLWINNER_A10_PIC
-+    select ALLWINNER_EMAC
-+    select SERIAL
-=20
- config RASPI
-     bool
---=20
-2.21.0
+> >> Just wondering, why keep the PCKMO ones separate, but not e.g. PCC ?  
+> > 
+> > Because those can be disabled at the HMC. It is painful to disable 5 elements
+> > for LPARs that are configured that way. So I created a group for those. That
+> > will allow to disable the full group.
+> > (we have the same issue with the  exisiting AES and DEA pckmo functions).  
+> 
+> Rings a bell, maybe that information would be good to have in the cover
+> letter. I guess Conny might want to change the description when picking up:
+> 
+> "Provide the MSA9 facility (stfle.155). This also contains pckmo
+> subfunctions for key wrapping. Keep them in a separate group to disable
+> those as a block if necessary. This is for example needed when disabling
+> key wrapping via the HMC."
 
+Sure, makes sense to fold that in.
 
