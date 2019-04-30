@@ -2,43 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 601F31000B
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 21:02:37 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:51911 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5822210051
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 21:31:19 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52256 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLY1U-0007Cb-Kf
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 15:02:36 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36888)
+	id 1hLYTG-00080x-Fi
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 15:31:18 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40850)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <paul.c.lai@intel.com>) id 1hLY01-0006UH-Nb
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 15:01:06 -0400
+	(envelope-from <philmd@redhat.com>) id 1hLYNE-0003MD-81
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 15:25:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <paul.c.lai@intel.com>) id 1hLY00-0004eQ-Ef
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 15:01:05 -0400
-Received: from mga02.intel.com ([134.134.136.20]:29737)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <paul.c.lai@intel.com>)
-	id 1hLY00-0004bB-60
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 15:01:04 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	30 Apr 2019 12:01:00 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.60,414,1549958400"; d="scan'208";a="147079588"
-Received: from pclaidev.sc.intel.com ([143.183.85.146])
-	by orsmga003.jf.intel.com with ESMTP; 30 Apr 2019 12:00:59 -0700
-From: Paul Lai <paul.c.lai@intel.com>
-To: qemu-devel@nongnu.org
-Date: Tue, 30 Apr 2019 11:59:18 -0700
-Message-Id: <20190430185918.14937-1-paul.c.lai@intel.com>
-X-Mailer: git-send-email 2.17.2
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 134.134.136.20
-Subject: [Qemu-devel] [Qemu-devel v2] Introduce SnowRidge CPU model
+	(envelope-from <philmd@redhat.com>) id 1hLYAl-0004dG-I2
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 15:12:12 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:35145)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hLYAl-0004cR-Cn
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 15:12:11 -0400
+Received: by mail-wm1-f66.google.com with SMTP id y197so5003693wmd.0
+	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 12:12:10 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=2RDFs8S85oa4FrDYgpGFvUVS8sKHDV8ZSoNqkO72bts=;
+	b=KaNpgWS2onIDH8A/A54TS/7ax70tY8WpyOkXPAtDVux30gNx9iDf8NADhLQu2Rtq7V
+	zs4TVANOUXGd7uL8w8FPLU4T8pxySJol2u5rfhpSW5jAixgCpBJzfU2J1aRSlTJFNoc6
+	mWMnvlZ0HdHOoIWmy4Q/Pqy+fU142k7svhuklvvaNKOb5BJvEfl+2Bq7c9nHsfbu0yWK
+	5rpssPx4AyyogwYbU68CocQPRK7fu78kS1PSR60hKHK19Ni0VzWxp4FTypYv9NSw7EJN
+	jGx5PoNNcc7OjWf59Bgbs5pjPGRhSZFmKghnEtRjy9vtu3ei2vOIISXZ7rj1gz0nAys4
+	IItg==
+X-Gm-Message-State: APjAAAW3tsNrREZuuY87bi7ntShxI8Az5O8v+xhBSIDnumrncQOllNY/
+	He0cyBmF5G41hTSfefuomx426A==
+X-Google-Smtp-Source: APXvYqw3iMMwWaW4Nx9uueZLulrqgxagqxHHOd4+aABdr8mP5BRUtP+THtHGyPkJXq09F4IW7G0AXg==
+X-Received: by 2002:a1c:44d7:: with SMTP id r206mr3996708wma.129.1556651529913;
+	Tue, 30 Apr 2019 12:12:09 -0700 (PDT)
+Received: from [192.168.1.33] (193.red-88-21-103.staticip.rima-tde.net.
+	[88.21.103.193]) by smtp.gmail.com with ESMTPSA id
+	u17sm4256862wmu.36.2019.04.30.12.12.09
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Tue, 30 Apr 2019 12:12:09 -0700 (PDT)
+To: Cao Jiaxi <driver1998@foxmail.com>, qemu-devel@nongnu.org,
+	qemu-arm <qemu-arm@nongnu.org>
+References: <20190430181326.1314-1-driver1998@foxmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <c794f5a4-470a-3f49-c5df-bd37d97d711a@redhat.com>
+Date: Tue, 30 Apr 2019 21:12:08 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <20190430181326.1314-1-driver1998@foxmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+	[fuzzy]
+X-Received-From: 209.85.128.66
+Subject: Re: [Qemu-devel] [PATCH v2 3/4] util/cacheinfo.c: Use uintptr_t
+ instead of unsigned long in AArch64 arch_cache_info()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -50,107 +75,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wei.w.wang@intel.com, luwei.kang@intel.com, tao3.xu@intel.com,
-	paul.c.lai@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SnowRidge CPU supports Accelerator Infrastrcture Architecture (MOVDIRI,
-MOVDIR64B), CLDEMOTE and SPLIT_LOCK_DISABLE.
+On 4/30/19 8:13 PM, Cao Jiaxi wrote:
+> Windows ARM64 uses LLP64 model, which breaks current assumptions.
+> 
+> Signed-off-by: Cao Jiaxi <driver1998@foxmail.com>
+> ---
+>  util/cacheinfo.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/util/cacheinfo.c b/util/cacheinfo.c
+> index 3cd080b83d..ce6f0dbf6a 100644
+> --- a/util/cacheinfo.c
+> +++ b/util/cacheinfo.c
+> @@ -107,7 +107,7 @@ static void sys_cache_info(int *isize, int *dsize)
+>  static void arch_cache_info(int *isize, int *dsize)
+>  {
+>      if (*isize == 0 || *dsize == 0) {
+> -        unsigned long ctr;
+> +        uintptr_t ctr;
+>  
+>          /* The real cache geometry is in CCSIDR_EL1/CLIDR_EL1/CSSELR_EL1,
+>             but (at least under Linux) these are marked protected by the
+> 
 
-MOVDIRI, MOVDIR64B, and CLDEMOTE are found via CPUID.
-The availability of SPLIT_LOCK_DISABLE is check via msr access
-
-References can be found in either:
- https://software.intel.com/en-us/articles/intel-sdm
- https://software.intel.com/en-us/download/intel-architecture-instruction-set-extensions-and-future-features-programming-reference
-
-Signed-off-by: Paul Lai <paul.c.lai@intel.com>
-Tested-by: Tao3 Xu <tao3.xu@intel.com>
----
- target/i386/cpu.c | 68 +++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 68 insertions(+)
-
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index d6bb57d210..1c03d9f6b4 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -2663,6 +2663,74 @@ static X86CPUDefinition builtin_x86_defs[] = {
-         .xlevel = 0x80000008,
-         .model_id = "Intel Xeon Processor (Icelake)",
-     },
-+    {
-+        .name = "SnowRidge",
-+        .level = 27,
-+        .vendor = CPUID_VENDOR_INTEL,
-+        .family = 6,
-+        .model = 134,
-+        .stepping = 1,
-+        .features[FEAT_1_EDX] =
-+            /* missing: CPUID_PN CPUID_IA64 */
-+            /* missing: CPUID_DTS, CPUID_HT, CPUID_TM, CPUID_PBE */
-+            CPUID_FP87 | CPUID_VME | CPUID_DE | CPUID_PSE |
-+            CPUID_TSC | CPUID_MSR | CPUID_PAE | CPUID_MCE |
-+            CPUID_CX8 | CPUID_APIC | CPUID_SEP |
-+            CPUID_MTRR | CPUID_PGE | CPUID_MCA | CPUID_CMOV |
-+            CPUID_PAT | CPUID_PSE36 | CPUID_CLFLUSH |
-+            CPUID_MMX |
-+            CPUID_FXSR | CPUID_SSE | CPUID_SSE2,
-+        .features[FEAT_1_ECX] =
-+            CPUID_EXT_SSE3 | CPUID_EXT_PCLMULQDQ | CPUID_EXT_MONITOR |
-+            CPUID_EXT_VMX |
-+            CPUID_EXT_SSSE3 |
-+            CPUID_EXT_CX16 |
-+            CPUID_EXT_SSE41 |
-+            CPUID_EXT_SSE42 | CPUID_EXT_X2APIC | CPUID_EXT_MOVBE |
-+            CPUID_EXT_POPCNT |
-+            CPUID_EXT_TSC_DEADLINE_TIMER | CPUID_EXT_AES | CPUID_EXT_XSAVE |
-+            CPUID_EXT_RDRAND,
-+        .features[FEAT_8000_0001_EDX] =
-+            CPUID_EXT2_SYSCALL |
-+            CPUID_EXT2_NX |
-+            CPUID_EXT2_PDPE1GB | CPUID_EXT2_RDTSCP |
-+            CPUID_EXT2_LM,
-+        .features[FEAT_8000_0001_ECX] =
-+            CPUID_EXT3_LAHF_LM |
-+            CPUID_EXT3_3DNOWPREFETCH,
-+        .features[FEAT_7_0_EBX] =
-+            CPUID_7_0_EBX_FSGSBASE |
-+            CPUID_7_0_EBX_SMEP |
-+            CPUID_7_0_EBX_ERMS |
-+            CPUID_7_0_EBX_MPX |  /* missing bits 13, 15 */
-+            CPUID_7_0_EBX_RDSEED |
-+            CPUID_7_0_EBX_SMAP | CPUID_7_0_EBX_CLFLUSHOPT |
-+            CPUID_7_0_EBX_CLWB |
-+            CPUID_7_0_EBX_SHA_NI,
-+        .features[FEAT_7_0_ECX] =
-+            CPUID_7_0_ECX_UMIP |
-+            /* missing bit 5 */
-+            CPUID_7_0_ECX_GFNI |
-+            CPUID_7_0_ECX_MOVDIRI | CPUID_7_0_ECX_CLDEMOTE |
-+            CPUID_7_0_ECX_MOVDIR64B,
-+        .features[FEAT_7_0_EDX] =
-+            CPUID_7_0_EDX_SPEC_CTRL |
-+            CPUID_7_0_EDX_ARCH_CAPABILITIES | CPUID_7_0_EDX_SPEC_CTRL_SSBD,
-+        /*
-+         * Missing: XSAVES (not supported by some Linux versions,
-+         * including v4.1 to v4.12).
-+         * KVM doesn't yet expose any XSAVES state save component,
-+         * and the only one defined in Skylake (processor tracing)
-+         * probably will block migration anyway.
-+         */
-+        .features[FEAT_XSAVE] =
-+            CPUID_XSAVE_XSAVEOPT | CPUID_XSAVE_XSAVEC |
-+            CPUID_XSAVE_XGETBV1,
-+        .features[FEAT_6_EAX] =
-+            CPUID_6_EAX_ARAT,
-+        .xlevel = 0x80000008,
-+        .model_id = "Intel Atom Processor (SnowRidge)",
-+    },
-     {
-         .name = "KnightsMill",
-         .level = 0xd,
--- 
-2.17.2
-
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
