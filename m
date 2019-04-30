@@ -2,63 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3CCDAF2C5
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 11:26:16 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:42076 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E937AF2FB
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 11:32:45 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:42139 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLP1j-0000wI-Da
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 05:26:15 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53820)
+	id 1hLP81-0003nt-5Q
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 05:32:45 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55341)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <sgarzare@redhat.com>) id 1hLP0P-0000MK-Gs
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 05:24:54 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hLP6u-0003SP-IP
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 05:31:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <sgarzare@redhat.com>) id 1hLP0O-0002A3-9n
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 05:24:53 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:36687)
+	(envelope-from <peter.maydell@linaro.org>) id 1hLP6t-0006SG-Lp
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 05:31:36 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:41219)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1hLP0N-00029S-OB
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 05:24:51 -0400
-Received: by mail-wm1-f67.google.com with SMTP id h18so3041093wml.1
-	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 02:24:51 -0700 (PDT)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hLP6t-0006Rb-Bf
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 05:31:35 -0400
+Received: by mail-oi1-x241.google.com with SMTP id v23so10528177oif.8
+	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 02:31:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=ngfCwlYAJnrB4SwxhdmvY3jAzbIU+2IQncHAnt3Ac6E=;
+	b=I0mc3jxhRPDAArwJWiyMk5jQQc18sVpeTouhSbkCUe/reyZ4SYUhrScMPSmi7c/MEZ
+	LA+mtGCNgrN/SmugKQ+ypGoTykpcfVX9tfksJHzUXccdQqBkTErXsmBcbHZFb2Q78rNu
+	9cT9PVqw34Q9uXaj9QPopva1VZpEZQsCBU5BC/rKJaqGTT0mFFJA4I8sUWfLUBIs8p1l
+	59UUDVabouzzozLal6GtSyryXEXXboEpw9A6RVGr+657oGqSw7b2EEYi1kFlFqrqtMkv
+	AiqCPMjhRYwEMmJ5IPclfF3dJz/SUroYgxT/S/PvUlsLW54VEXdPLT1+SvRwPakNhjdt
+	jYRQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=b+iiayVemfzXRQEyfpx3MyjTGylx/7rlkIflGUJQ0GE=;
-	b=ZmUXLYfVKtO/IofNbboM8b7/yG+DeDG0GMOgyE9mKOoPiMEokEqMu2GcwbtF5IQQWG
-	BPul+fkxLs9E1IjJiJZQIpX8xu2HfBWYtFAfNZNpn3CMK4mqfh4WlNqyNlCaugMrE+i2
-	nz6T6bqrQ3oaXm9eu1GxL6cQwbGgPDj9xMqGWstO6sc1nn67CHxv9Ndyd5Vo4mgH9wdv
-	XqUu0G6vonuP6Lo/o4NSKh/bPJLQIERu0vbCT0kYoQhjhZRl2UsIuHu/AlswpbeNtomq
-	jjbHZWqPLXqs3wclFjpLHiAyNIUh1eZ8C/1L4fXnvueafy7EWCP5u80YL0iKB0+fSr+K
-	+MgQ==
-X-Gm-Message-State: APjAAAWr3tGUSLkOw9pVFJOGa4wLckaPqD6R7S4Wj3vXqzSzfqUMxx9U
-	5ZxHnAqkrseoElE0YOuuoLOlAg==
-X-Google-Smtp-Source: APXvYqwkHsKdLjjHpVJrHHBK43q21s5w409pI5P6rSvJ5NNvOLJvkKlgPcyiOjFx2yYD0FQLKP2JHA==
-X-Received: by 2002:a1c:a384:: with SMTP id m126mr2174175wme.99.1556616290617; 
-	Tue, 30 Apr 2019 02:24:50 -0700 (PDT)
-Received: from steredhat (host35-203-static.12-87-b.business.telecomitalia.it.
-	[87.12.203.35])
-	by smtp.gmail.com with ESMTPSA id y4sm1776189wmj.20.2019.04.30.02.24.49
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 30 Apr 2019 02:24:49 -0700 (PDT)
-Date: Tue, 30 Apr 2019 11:24:37 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-ID: <20190430092437.jbecehdkqa4zdavd@steredhat>
-References: <20190423125706.26989-1-vsementsov@virtuozzo.com>
-	<20190423125706.26989-3-vsementsov@virtuozzo.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=ngfCwlYAJnrB4SwxhdmvY3jAzbIU+2IQncHAnt3Ac6E=;
+	b=kjCzxgzQUb9BmIHQOHmOALzdikCB8OfB636hoYiGh4O3e+zVYbSwPuqsyzPd+L3sma
+	WlmpbDfq9TRfWwUe43t5OMN3Bid26bPULNy3OIvQwDG+ktSgP5CBvQ/06a9hT4d1avEY
+	UdK9863+2/reirkdYuSTvf6SwYLLPJZ7sPeGoTRbY2/Wf4SmlvDFzAU0eEz87TqLHIKM
+	0fVA/84KMZk94eZjB89T2X8CICRS5LF4VWG/k7itGkEpgWV46iYHgpDAbrEuAChKP6kR
+	BtHQ4KSQ8xEL55hk/X7UfWMezBujzECgMQbk8eoHP7VEOedhP0kJHevGBrE3qHztjft4
+	YX3Q==
+X-Gm-Message-State: APjAAAWZh4Bmk/YT9gSjffJq0n36Tdjh/WDIgjaSoza3YIFD85fONDO4
+	giw/XyykSMRlcgtHND7LwrMqW+q6CgAdLHubecSTfQ==
+X-Google-Smtp-Source: APXvYqz3v9y2w3BywpAI994NI11EAZMmrGzOCZTE+YBwkbJxpUc8GTTxezxTVUzUlIedg4PW2Js7fQfh17FZ0P8NjjA=
+X-Received: by 2002:aca:b3c2:: with SMTP id c185mr2487069oif.98.1556616694338; 
+	Tue, 30 Apr 2019 02:31:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190423125706.26989-3-vsementsov@virtuozzo.com>
-User-Agent: NeoMutt/20180716
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.128.67
-Subject: Re: [Qemu-devel] [PATCH v5 2/3] block/io: bdrv_pdiscard: support
- int64_t bytes parameter
+References: <20190403034358.21999-1-richard.henderson@linaro.org>
+	<20190403034358.21999-15-richard.henderson@linaro.org>
+In-Reply-To: <20190403034358.21999-15-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 30 Apr 2019 10:31:23 +0100
+Message-ID: <CAFEAcA8PzZV0yDY6gONx+wwN8j52yPi6bEAM5C0NwVCkxd_Hxg@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::241
+Subject: Re: [Qemu-devel] [PATCH 14/26] target/openrisc: Convert to
+ CPUClass::tlb_fill
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -70,90 +73,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, den@virtuozzo.com, qemu-block@nongnu.org,
-	qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com
+Cc: Stafford Horne <shorne@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Apr 23, 2019 at 03:57:05PM +0300, Vladimir Sementsov-Ogievskiy wrote:
-> This fixes at least one overflow in qcow2_process_discards, which
-> passes 64bit region length to bdrv_pdiscard where bytes (or sectors in
-> the past) parameter is int since its introduction in 0b919fae.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  include/block/block.h |  4 ++--
->  block/io.c            | 16 ++++++++--------
->  2 files changed, 10 insertions(+), 10 deletions(-)
-> 
-> diff --git a/include/block/block.h b/include/block/block.h
-> index c7a26199aa..69fa18867e 100644
-> --- a/include/block/block.h
-> +++ b/include/block/block.h
-> @@ -432,8 +432,8 @@ void bdrv_drain_all(void);
->      AIO_WAIT_WHILE(bdrv_get_aio_context(bs_),              \
->                     cond); })
->  
-> -int bdrv_pdiscard(BdrvChild *child, int64_t offset, int bytes);
-> -int bdrv_co_pdiscard(BdrvChild *child, int64_t offset, int bytes);
-> +int bdrv_pdiscard(BdrvChild *child, int64_t offset, int64_t bytes);
-> +int bdrv_co_pdiscard(BdrvChild *child, int64_t offset, int64_t bytes);
->  int bdrv_has_zero_init_1(BlockDriverState *bs);
->  int bdrv_has_zero_init(BlockDriverState *bs);
->  bool bdrv_unallocated_blocks_are_zero(BlockDriverState *bs);
-> diff --git a/block/io.c b/block/io.c
-> index dfc153b8d8..16b6c5d855 100644
-> --- a/block/io.c
-> +++ b/block/io.c
-> @@ -2653,7 +2653,7 @@ int bdrv_flush(BlockDriverState *bs)
->  typedef struct DiscardCo {
->      BdrvChild *child;
->      int64_t offset;
-> -    int bytes;
-> +    int64_t bytes;
->      int ret;
->  } DiscardCo;
->  static void coroutine_fn bdrv_pdiscard_co_entry(void *opaque)
-> @@ -2664,14 +2664,15 @@ static void coroutine_fn bdrv_pdiscard_co_entry(void *opaque)
->      aio_wait_kick();
+On Wed, 3 Apr 2019 at 04:55, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Cc: Stafford Horne <shorne@gmail.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+> --- a/target/openrisc/mmu.c
+> +++ b/target/openrisc/mmu.c
+> @@ -107,16 +107,42 @@ static void raise_mmu_exception(OpenRISCCPU *cpu, target_ulong address,
+>      cpu->env.lock_addr = -1;
 >  }
->  
-> -int coroutine_fn bdrv_co_pdiscard(BdrvChild *child, int64_t offset, int bytes)
-> +int coroutine_fn bdrv_co_pdiscard(BdrvChild *child, int64_t offset,
-> +                                  int64_t bytes)
+>
+> -int openrisc_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size,
+> -                                  int rw, int mmu_idx)
+> +bool openrisc_cpu_tlb_fill(CPUState *cs, vaddr addr, int size,
+> +                           MMUAccessType access_type, int mmu_idx,
+> +                           bool probe, uintptr_t retaddr)
 >  {
->      BdrvTrackedRequest req;
->      int max_pdiscard, ret;
->      int head, tail, align;
->      BlockDriverState *bs = child->bs;
->  
-> -    if (!bs || !bs->drv) {
-> +    if (!bs || !bs->drv || !bdrv_is_inserted(bs)) {
+> -#ifdef CONFIG_USER_ONLY
+>      OpenRISCCPU *cpu = OPENRISC_CPU(cs);
+> -    raise_mmu_exception(cpu, address, EXCP_DPF);
+> -    return 1;
+> -#else
+> -    g_assert_not_reached();
+> +    int excp = EXCP_DPF;
 
-Should we describe this change in the commit message?
-IIUC you added this check because you removed bdrv_check_byte_request()
-below,
+Let's hope no compilers complain that this assignment is
+never used in the softmmu configuration (where the following
+code always sets it to something else)...
 
-Maybe we can also remove '!bs->drv', since it is checked in
-bdrv_is_inserted().
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
->          return -ENOMEDIUM;
->      }
->  
-> @@ -2679,9 +2680,8 @@ int coroutine_fn bdrv_co_pdiscard(BdrvChild *child, int64_t offset, int bytes)
->          return -EPERM;
->      }
->  
-> -    ret = bdrv_check_byte_request(bs, offset, bytes);
-> -    if (ret < 0) {
-> -        return ret;
-> +    if (offset < 0 || bytes < 0 || bytes > INT64_MAX - offset) {
-> +        return -EIO;
->      }
-
-Should we check if 'bytes' is greater than
-'BDRV_REQUEST_MAX_SECTORS << BDRV_SECTOR_BITS'?
-
-Thanks,
-Stefano
+thanks
+-- PMM
 
