@@ -2,80 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C17B4FE06
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 18:39:57 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50021 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BB05DFEC8
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 19:25:38 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50638 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLVnR-0001cq-0R
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 12:39:57 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36674)
+	id 1hLWVd-0002tV-Fl
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 13:25:37 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39265)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hLVmF-0001Dh-Pm
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:38:44 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hLW2T-0004E1-Se
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:55:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hLVmE-0002MF-Ub
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:38:43 -0400
-Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:41681)
+	(envelope-from <richard.henderson@linaro.org>) id 1hLVpA-0003du-9E
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:41:45 -0400
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:40295)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hLVmE-0002Lt-PC
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:38:42 -0400
-Received: by mail-pf1-x42b.google.com with SMTP id 188so7323719pfd.8
-	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 09:38:42 -0700 (PDT)
+	id 1hLVpA-0003dI-2F
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:41:44 -0400
+Received: by mail-pl1-x644.google.com with SMTP id b3so6985171plr.7
+	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 09:41:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=subject:to:references:from:openpgp:message-id:date:user-agent
 	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=B21XwZ0YpozH12LTfCkW5cuuBFrg8tjpj+grwGv52GI=;
-	b=oylFkfB+k3czNCChQYEXvU+Dum1lDnlgVxWPAsDW1XDBL99UDPvtymdiszFi/A+x7Q
-	Gl5TqiDiapvpzP1nw5UeowyAXu2B/fnaiXib68poVCnmWSJekBtTtj72YPSjwaUPN4mK
-	bEHZNx/P2DXWDlgZdIwy9IK8ytCj1IQRSWx28PM5It8wr6kDtz0oMtA1fWsvDA0wmaJk
-	vd2jtIhan10iVbDHVj7UjUCtcK8zgDbWEsfDThakfFbqIfEQS/AjAe6+eAl42Tz/UszN
-	WJBp9Vpq33ky+sC/RLu7ujujBCuDpKvwbS0+j5t+Dw3LOeMYK0moRC9U6oy5QBNmKl1d
-	2veA==
+	bh=KUfa5TqCx+4F2JQgH2WYJB8zju0Y14R/MZldH9NG4OU=;
+	b=wG7DauBNoQSyUE22ZzMvwM7uZG+nl2pXCJQQyC6+xOT3AF+AJxzqxRHJXU589itC7B
+	tiTImH5tpoFoHGMNwSdD/hdWwn7sLvXHhXrJNWHrEvaI0AllWZ8DniVtRizWXpj5D+Y8
+	hG1FUdwYt1pOS1Qti8AA2oibVEnGR1MWRFNuOd/ka+h+grAyEM3RWXTR7QvNCACeCpxO
+	4yO/bwT3sqkv/F9XIMzhXdwZFbQ95ibUv1K0Y8PI4XOHLvgOObR7dZqulaLU4kuoJoed
+	hxroIattA6KU4BqpVgivMKosMppn+x+x31Fv3Gs7WKwiUYHLPIR3Z0NswTbH0lkSVQFr
+	KF4A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:references:from:openpgp:message-id
 	:date:user-agent:mime-version:in-reply-to:content-language
 	:content-transfer-encoding;
-	bh=B21XwZ0YpozH12LTfCkW5cuuBFrg8tjpj+grwGv52GI=;
-	b=ZPrwC/rbMG2U5Wm1dXh0j89KBa6+99CqWjd5ZFQlhDz37xK5OLnVevzZI/MVHexXsq
-	0hJYUhxqbbjEto5+UG0bGWQUAxeYK37P73PMilh46Xiyxvl3V6A9MZWa9nBXVVnzvz+d
-	0NVyZ3QCntysKeFIW5g14PExEQovq1qTWr6YqqQgeADG+HAIsyd4IYngAudea3PIdtUI
-	+W8J2fw4YAWF5VXPiD+MNjhc4qUqNOwMg9iBSNBJAg/Afo+dpYFbh1MtvMJ6a+DquRj1
-	iO11/PcA2JpROjLcjOiRYz0UG0ifmGCNIAO5gqbzmMT695fEXIiE+6LyPf3zRHOeGAtK
-	zG0w==
-X-Gm-Message-State: APjAAAXMQuW1C/OtvG+andIBDGK+iKdXUUa1Gdme2DI7NtMrQVZUyAwq
-	zRs0SEV77RBhh1HJ05PjaS9S/w==
-X-Google-Smtp-Source: APXvYqw0Yxta39QXl+y2CarpLzxL0XRNG0KcPegOuywoGRShdw5M2S7VbjloUPSv8oADTYpt34cnXg==
-X-Received: by 2002:aa7:8ac8:: with SMTP id b8mr27932683pfd.234.1556642321610; 
-	Tue, 30 Apr 2019 09:38:41 -0700 (PDT)
+	bh=KUfa5TqCx+4F2JQgH2WYJB8zju0Y14R/MZldH9NG4OU=;
+	b=EgSLbX2J/n8gHZYXXVuGqkD5PUNtcGhcTIMyxoWACFq5DsAIUYUZlHDGUh/mRwvDSF
+	uyqM56VYIgGTClb5EM0iKopEpBjS14Ho4/4xfpXKRPF2u1AVKquIZIiXotNvUX2ylqNP
+	V7d+XmU3yqkBv6xmfq5Z3TmBgSW8oNnKDE43HuQqwUUFvejzdRy9STeH5j8IzkP6EtYL
+	/z8bVtZLgx/2DsjEZbP5tKCj7imgg0BD4sTl5aTXhVbMCvJ1BMfhrwEM5cvc/VJS0Wkf
+	gV4LEmb0HPpkNkr9CEdbMIKQ1vM5WAGzZJhVwa8mqetJXHm2NU/AZjrLZxFdcdA7b0rn
+	P7xg==
+X-Gm-Message-State: APjAAAXUATT1vEGxCEC7QcsQvu42jiEIswoq1hxDniG2zUhJRFzw5/JE
+	lgMr6LgvL99gBMbJhaBptDjRSA==
+X-Google-Smtp-Source: APXvYqxJBCgRBuuUIWxpO3xNjScHRCB1wu4NUBLeNgI/JylUQGxzNPrR1Ffirri0C0y7SJy2PorsSA==
+X-Received: by 2002:a17:902:b095:: with SMTP id
+	p21mr38872045plr.40.1556642502678; 
+	Tue, 30 Apr 2019 09:41:42 -0700 (PDT)
 Received: from [192.168.1.11] (97-113-18-231.tukw.qwest.net. [97.113.18.231])
 	by smtp.gmail.com with ESMTPSA id
-	z7sm68463533pgh.81.2019.04.30.09.38.38
+	e6sm38803103pfe.158.2019.04.30.09.41.40
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 30 Apr 2019 09:38:40 -0700 (PDT)
+	Tue, 30 Apr 2019 09:41:41 -0700 (PDT)
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org, david@gibson.dropbear.id.au, rth@twiddle.net,
 	gkurz@kaod.org
 References: <20190428143845.11810-1-mark.cave-ayland@ilande.co.uk>
-	<20190428143845.11810-6-mark.cave-ayland@ilande.co.uk>
+	<20190428143845.11810-7-mark.cave-ayland@ilande.co.uk>
 From: Richard Henderson <richard.henderson@linaro.org>
 Openpgp: preference=signencrypt
-Message-ID: <784adbd2-0447-9d01-cff8-e7234f9d9679@linaro.org>
-Date: Tue, 30 Apr 2019 09:38:35 -0700
+Message-ID: <5a60992b-d6db-4761-38fa-bb413f69d3ae@linaro.org>
+Date: Tue, 30 Apr 2019 09:41:37 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190428143845.11810-6-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20190428143845.11810-7-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::42b
-Subject: Re: [Qemu-devel] [PATCH 05/14] target/ppc: introduce
- GEN_VSX_HELPER_X2 macro to fpu_helper.c
+X-Received-From: 2607:f8b0:4864:20::644
+Subject: Re: [Qemu-devel] [PATCH 06/14] target/ppc: introduce
+ GEN_VSX_HELPER_X2_AB macro to fpu_helper.c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -91,24 +92,22 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/28/19 7:38 AM, Mark Cave-Ayland wrote:
-> +#define GEN_VSX_HELPER_X2(name, op1, op2, inval, type)                        \
-> +static void gen_##name(DisasContext *ctx)                                     \
-> +{                                                                             \
-> +    TCGv_i32 opc;                                                             \
-> +    TCGv_ptr xt, xb;                                                          \
-> +    if (unlikely(!ctx->vsx_enabled)) {                                        \
-> +        gen_exception(ctx, POWERPC_EXCP_VSXU);                                \
-> +        return;                                                               \
-> +    }                                                                         \
-> +    opc = tcg_const_i32(ctx->opcode);                                         \
-> +    xt = gen_vsr_ptr(xT(ctx->opcode));                                        \
-> +    xb = gen_vsr_ptr(xB(ctx->opcode));                                        \
-> +    gen_helper_##name(cpu_env, opc, xt, xb);                                  \
+> Rather than perform the VSR register decoding within the helper itself,
+> introduce a new GEN_VSX_HELPER_X2_AB macro which performs the decode based
+> upon xA and xB at translation time.
+> 
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> ---
+>  target/ppc/fpu_helper.c             | 15 ++++++---------
+>  target/ppc/helper.h                 | 12 ++++++------
+>  target/ppc/translate/vsx-impl.inc.c | 30 ++++++++++++++++++++++++------
+>  3 files changed, 36 insertions(+), 21 deletions(-)
 
-Similarly wrt opc.  However,
+This time I see VSX_TDIV right away as a place that still
+uses opcode.  It can certainly be cleaned up, but that's
+a different patch.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-
 
 r~
 
