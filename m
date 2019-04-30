@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2DD9AF2A7
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 11:20:04 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:41973 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D31C8F2B0
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 11:22:19 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:42018 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLOvj-0006iR-3f
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 05:20:03 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52550)
+	id 1hLOxv-00086t-2E
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 05:22:19 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52931)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hLOuY-0006Ki-BB
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 05:18:51 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hLOw0-0007An-S3
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 05:20:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hLOuX-00079e-GK
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 05:18:50 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:45334)
+	(envelope-from <peter.maydell@linaro.org>) id 1hLOvz-0008Cx-LR
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 05:20:20 -0400
+Received: from mail-ot1-x330.google.com ([2607:f8b0:4864:20::330]:36078)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hLOuX-000794-BJ
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 05:18:49 -0400
-Received: by mail-oi1-x241.google.com with SMTP id t189so7636760oih.12
-	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 02:18:49 -0700 (PDT)
+	id 1hLOvz-0008CJ-Ep
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 05:20:19 -0400
+Received: by mail-ot1-x330.google.com with SMTP id b18so2270617otq.3
+	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 02:20:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=AippH7xrGuSrR1A+ImmCYCJ5URYBDU6FLhOh1qpyWNY=;
-	b=jncnwjbheqcuaBZP6rga5Rm7yaSF3ZWi/jLvRoR+W9e9cGdd6JjE5HI9CUS9agQerU
-	AMgaABu5MduU/jATV+kUitUK6Tz3DohMTBACcKuRQAs9+BnDPoFjZ6fYphhN6VGbiJKr
-	zuNtqz7DbqB+gkiHhJ7If7yFBwCLbdVFCxU8jtVkdDolM5Nruyz1gjB8LPyJ3dc0PszN
-	KMHqPE64nylR+S8zHYOd7Rwap5U6qcIJAqUti2uLrY7aHlRhENfX3CLH3A7Y10Wjt5v6
-	jgJorM96YeiTStH+PR39bMGL+r5HURVb6fhMZ516AOLO1rGsGRqyaApu9YY7v5FuPFPm
-	k8jQ==
+	:cc; bh=S0c7WuJi7MNEwBbI2zq2tQMQlITD2/gFA+K0BBa8Q6o=;
+	b=TZHJTdFFzUmj9ucQYwXSNDVbPSx0Xyx0MwZzmBq7PnsrHw07KFYZH60u9axY/S4jzz
+	UQxZUql8fPE1D8S+b67SAW/Lh5dxLpnEYg+kB98Oha1yGHP5oWI24M79Rr/GZNUGGQ4x
+	YcvZslVUgkw2X+33PyDpgZhfqZapjmCcTFqsXESLdV4yDGUKXsHrwhfoFL6p6QVf03fR
+	t/eg/fm0YKM7cF2GHGKZ33CY74pvJFMr5o2nyR6rvkwwKVbMk4CmkM7CEJc3CNyabHaK
+	1Mk+9DsfVwtoqd8rYvYf4gWOUDPRQTaEwRnG+glvKkVG6uZ1Pd9m2HuQkkunMsqbHMEp
+	C/EA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=AippH7xrGuSrR1A+ImmCYCJ5URYBDU6FLhOh1qpyWNY=;
-	b=jPzAxg4UojEz+wJr2/kkBm8iSeoZRJhZkK5iUvi6j8UhRwHRMO48W03fXk0m7YyWH4
-	VmjCxR6vE5GgmsSmUh0DGicwiYJ4NYNP8dbSFeaZLA2J2HRH5kfqNbOK81osy1fE6YSR
-	NdJT31ecKTD2DM6pDrNU67HzXSx5Xu2lZCVe70DL/132G1vbm2mr7aiBq/RbxRReXdNx
-	JrzcleA20yck2Hsnt8XkhWIoatalIzwpWfMQFMGWWE1CEzwomjEBE8hZjfj+hVXA9KoZ
-	3vw48vl2enoIqsrxyKvKKpcSGqjpf5NZ8gFVYFXw4wNp+F2cOSZMkpulGuaNrWI7JED8
-	DrZA==
-X-Gm-Message-State: APjAAAXhB9iShEGn4XEEWQcL6vlDusmXhdgJ/wmgaTs/+nmZy7h1uTHD
-	RrZfVQfpbP+1zwC8uLm7Yyk0tjlpJ7vu6UYOBS7mTQ==
-X-Google-Smtp-Source: APXvYqwT9aYe78hyrVFlPMIVhcQliomBJCC2ixGg0UFTpJihpr+y3VI727Ez+TlkHQRwtzNFxNqQKxYyl4TKUvIN7Fo=
-X-Received: by 2002:aca:ab12:: with SMTP id u18mr2138249oie.48.1556615928276; 
-	Tue, 30 Apr 2019 02:18:48 -0700 (PDT)
+	bh=S0c7WuJi7MNEwBbI2zq2tQMQlITD2/gFA+K0BBa8Q6o=;
+	b=RE3m79LWJkvotaQ2s5tdaJ8GVd2++ikOksFKP3fyQANZfb6ZmQnbxkgCEV8Q61XV98
+	+e0q2hgOmD+3mSnW6HQLqX8Vg1KbwxA/2RcrlTqXt7HAt4Gxexb8I2LXCst7S95HD7ck
+	ftpbe6vMGjIofuXkdT690fMvuGeJD42lSjhxSritmXlG/AXWzYG2TNTtM7MlHFpG8meG
+	nrtje/kNn7l5tgaKeB8TsytfouKSliBazPi0l1qyhEi92+R/6zvla+hjKEuW/TNqI5lM
+	7AJ0oekWwHjGSsTQqrwvD80GAObSkybWms8LlCK4foCtRj0xVbJrHSK7hyQSCdSlHezB
+	ghgQ==
+X-Gm-Message-State: APjAAAXiBJ3ZzZPhy1ZSk9w4aDSunKAyR6u0+uYWN3mE4ltn8q00t1Di
+	2fcw8tCLc3UQhYORpkxFXgQV+zjT1k+CSQZtOFTkXg==
+X-Google-Smtp-Source: APXvYqxFLWL99SlfzngvGFlCLLXI8yR01kbmn+jrqUWcsd6xHt6lBlhwdjUOjv+L2sH5PnRIuc2dtJBucjmXXGie4Gc=
+X-Received: by 2002:a9d:6156:: with SMTP id c22mr11633834otk.363.1556616018514;
+	Tue, 30 Apr 2019 02:20:18 -0700 (PDT)
 MIME-Version: 1.0
-References: <1556614240-36369-1-git-send-email-like.xu@linux.intel.com>
-In-Reply-To: <1556614240-36369-1-git-send-email-like.xu@linux.intel.com>
+References: <20190429161046.10527-1-stefanha@gmail.com>
+In-Reply-To: <20190429161046.10527-1-stefanha@gmail.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 30 Apr 2019 10:18:37 +0100
-Message-ID: <CAFEAcA-SFrcbQMdv19tJw_baGR8c_ngR2CtsgZKVXMALOo=zoA@mail.gmail.com>
-To: Like Xu <like.xu@linux.intel.com>
+Date: Tue, 30 Apr 2019 10:20:07 +0100
+Message-ID: <CAFEAcA9nP668u3zkBfR8sRyPXfdRLo7W9P+ezv5SMtn26=Dr-Q@mail.gmail.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::241
-Subject: Re: [Qemu-devel] [PATCH] hw/arm/fsl-imx: move cpus initialization
- to realize time after smp_cpus check
+X-Received-From: 2607:f8b0:4864:20::330
+Subject: Re: [Qemu-devel] [PULL 0/1] Tracing patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -72,26 +71,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrey Smirnov <andrew.smirnov@gmail.com>,
-	Igor Mammedov <imammedo@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
-	QEMU Developers <qemu-devel@nongnu.org>,
-	Jean-Christophe Dubois <jcd@tribudubois.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+	QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 30 Apr 2019 at 09:52, Like Xu <like.xu@linux.intel.com> wrote:
+On Mon, 29 Apr 2019 at 17:10, Stefan Hajnoczi <stefanha@gmail.com> wrote:
 >
-> If "smp_cpus> FSL_IMX6_NUM_CPUS" fails in *_realize(), there is no need to
-> initialize the CPUs in *_init(). So it could be better to create all cpus
-> after the validity in *_realize(). On the other hand, it makes the usages
-> of global variable smp_cpus more centrally for maintenance.
+> The following changes since commit e0fb2c3d89aa77057ac4aa073e01f4ca484449b0:
+>
+>   Merge remote-tracking branch 'remotes/rth/tags/pull-tcg-20190426' into staging (2019-04-28 11:43:10 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/stefanha/qemu.git tags/tracing-pull-request
+>
+> for you to fetch changes up to b1939fcd438b7140cb8f2685dee026bb112819d7:
+>
+>   trace: fix runstate tracing (2019-04-29 11:57:19 -0400)
+>
+> ----------------------------------------------------------------
+> Pull request
+>
 
-I'm not a great fan of this. I think that where possible
-we should init child objects in the parent's init
-function, and realize them in the realize function.
-There are a few cases where we're forced to do the
-child init in realize, but this doesn't seem like one of them.
 
-thanks
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
+for any user-visible changes.
+
 -- PMM
 
