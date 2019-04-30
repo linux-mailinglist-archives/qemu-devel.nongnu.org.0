@@ -2,97 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D1A7F223
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 10:39:21 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:41575 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16105F23B
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 10:48:44 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:41690 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLOIK-0004I2-8G
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 04:39:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45549)
+	id 1hLORP-0007Uf-B2
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 04:48:43 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47139)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hLOHG-0003yK-LK
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 04:38:15 -0400
+	(envelope-from <sgarzare@redhat.com>) id 1hLOQD-0007BG-Gi
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 04:47:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hLOHF-0000vU-OF
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 04:38:14 -0400
-Received: from mail-eopbgr90113.outbound.protection.outlook.com
-	([40.107.9.113]:18105
-	helo=FRA01-MR2-obe.outbound.protection.outlook.com)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
-	id 1hLOHC-0000ts-Jd; Tue, 30 Apr 2019 04:38:11 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
-	s=selector1;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=GWdU0AGlSpzLHsSNLJiRYpVXybu2FRz0WvjAG/+UFsM=;
-	b=acO/ntz4VS9amrEe1gpdsE6VKChErt7rQbAhzX/tgNtIcl5c4iONgxIc33TvbTtlJNYgXZmr1yhLPWcrJil5GdGdh9Fc+HSKwL1f3oD/xcNaCXMY7rhnVrX4JxX/ntS2YzrmLLM0YQ7Q9uXK1t23Jonf8qeVUlF7xjEchKQsGqI=
-Received: from PR2PR08MB4684.eurprd08.prod.outlook.com (52.133.109.209) by
-	PR2PR08MB4762.eurprd08.prod.outlook.com (52.133.108.214) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.1835.13; Tue, 30 Apr 2019 08:38:05 +0000
-Received: from PR2PR08MB4684.eurprd08.prod.outlook.com
-	([fe80::88d7:ecf0:1120:f1a1]) by
-	PR2PR08MB4684.eurprd08.prod.outlook.com
-	([fe80::88d7:ecf0:1120:f1a1%3]) with mapi id 15.20.1835.018;
-	Tue, 30 Apr 2019 08:38:05 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Max Reitz <mreitz@redhat.com>, "qemu-devel@nongnu.org"
-	<qemu-devel@nongnu.org>, "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-Thread-Topic: [PATCH v5 07/10] qcow2: qcow2_co_preadv: improve locking
-Thread-Index: AQHU6WoBm3ZqDVOSG0aQpHzt+uoXFqZTgO4AgAEMSQA=
-Date: Tue, 30 Apr 2019 08:38:04 +0000
-Message-ID: <66de1a9a-e9fd-b853-377d-f5acfe51737a@virtuozzo.com>
-References: <20190402153730.54145-1-vsementsov@virtuozzo.com>
-	<20190402153730.54145-8-vsementsov@virtuozzo.com>
-	<44be7ef0-9a4f-4c44-44eb-81f341ca7ea6@redhat.com>
-In-Reply-To: <44be7ef0-9a4f-4c44-44eb-81f341ca7ea6@redhat.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR05CA0277.eurprd05.prod.outlook.com
-	(2603:10a6:3:fc::29) To PR2PR08MB4684.eurprd08.prod.outlook.com
-	(2603:10a6:101:22::17)
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20190430113801993
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: a9568798-9840-4af4-180d-08d6cd4729b9
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(2017052603328)(7193020);
-	SRVR:PR2PR08MB4762; 
-x-ms-traffictypediagnostic: PR2PR08MB4762:
-x-microsoft-antispam-prvs: <PR2PR08MB47623A8A52791868881CDA41C13A0@PR2PR08MB4762.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-forefront-prvs: 00235A1EEF
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(396003)(376002)(39850400004)(346002)(136003)(366004)(189003)(199004)(53546011)(97736004)(386003)(31686004)(66476007)(66946007)(64756008)(66556008)(256004)(186003)(8676002)(6506007)(68736007)(102836004)(81166006)(6246003)(26005)(11346002)(14444005)(446003)(4326008)(36756003)(81156014)(486006)(66446008)(73956011)(25786009)(6486002)(6436002)(2201001)(2501003)(229853002)(6116002)(3846002)(31696002)(86362001)(478600001)(316002)(76176011)(52116002)(53936002)(2906002)(8936002)(305945005)(5660300002)(99286004)(7736002)(6512007)(71190400001)(476003)(14454004)(110136005)(54906003)(66066001)(71200400001)(2616005);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:PR2PR08MB4762;
-	H:PR2PR08MB4684.eurprd08.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; MX:1; A:3; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: PJjJ9+SLG5R/b4xMNeQcsxBs7MflpBGb2V3lHMjPuCDC41EW7qzOwzm1QmJxu+S0dlY8u44UEnUiZuigW2ocCreDZye2BFeIEFXu2JHlCAgb+u90iJujztGiD5X/YSN6KHmXYIobQj+qJW0j0WRGvYPf4PdLGYti81EOSXr1Eg3Mkfylp1CWRecug+ia0VeOKYnHoXNu7w02+JTcBnLCxENmzT2ahnQ5bcgwojN32Pv8TaZ5jzZGde7fU9ZtTTliyPuiZzaDTgIv4fiiFTQDc1HTXMDeazIC8f6AdpZEAaR4HI/rPBHrnWpZTgJhthzdTe9PiqiuDnYtpHBdRa6wLM7vrFCAWb8nfgcc5I2fRc9H2YW35fqbv78kly+9/Vb/MuqZTc0gAnk1BfvlOv4EJM6OLx9mN++X3PDB4GbcLBU=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <F28A108FD181584DA125271FBD57BF2B@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	(envelope-from <sgarzare@redhat.com>) id 1hLOQC-00045F-Fi
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 04:47:29 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:43889)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1hLOQC-00044t-9y
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 04:47:28 -0400
+Received: by mail-wr1-f65.google.com with SMTP id a12so19985254wrq.10
+	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 01:47:28 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:content-transfer-encoding
+	:in-reply-to:user-agent;
+	bh=0Mn8qBmdS7ft5wU/mg9V+eAFAFymY2hW2FXzmOLO1UU=;
+	b=YD6SaTu+Xyix/hGdGNZFWQ3sjXvekgn9WRyDb0BiqPMyNe8Uxn37WaE3yxWMpoSneZ
+	+1utzm8EQfaI8Y/elistDXMkRvSnDy7i8+DoykSIGvBj8yo4B8Z5sY50PW6zRMqIqBJS
+	DyawgNDVf/mHSb9ZtDzrnIKsDWHUXmyK+jFJERWidaN/ASVuktWiYcjNAyQ3AS3yEReU
+	XQVNTk5LB8SWW7eXNDairdT7/KW9SthkE3GEJg3HIO5BrKH/2P9r6AkEu+FGyHMNHXWw
+	IEoMkbG/ZBFHLmfPCcpdp3jta08kzIUwQ/OzhJR8A+KWRd33FUoR3RPGlSKsr5DzadHT
+	/VGQ==
+X-Gm-Message-State: APjAAAVzphVL3ZWQfs7jN+SVu5cMnCmhbN0yJUADsDASEFdb+1i1wU+g
+	vQBy9x2Zj5Oj/jo85SOvpPe0vA==
+X-Google-Smtp-Source: APXvYqxt0TKG0Dr+mZgf56vPPax/H/t+gSxKp7/UV1QOdUEQdoBg1E1HkMs1LQpNDi0g+zXaO2fcBg==
+X-Received: by 2002:adf:f70a:: with SMTP id r10mr27408156wrp.96.1556614047217; 
+	Tue, 30 Apr 2019 01:47:27 -0700 (PDT)
+Received: from steredhat (host35-203-static.12-87-b.business.telecomitalia.it.
+	[87.12.203.35])
+	by smtp.gmail.com with ESMTPSA id m4sm7709767wrb.15.2019.04.30.01.47.26
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 30 Apr 2019 01:47:26 -0700 (PDT)
+Date: Tue, 30 Apr 2019 10:47:24 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Message-ID: <20190430084724.ee2zeudgrqfoldmo@steredhat>
+References: <20190427135642.16464-1-philmd@redhat.com>
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a9568798-9840-4af4-180d-08d6cd4729b9
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Apr 2019 08:38:04.9064 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR2PR08MB4762
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.9.113
-Subject: Re: [Qemu-devel] [PATCH v5 07/10] qcow2: qcow2_co_preadv: improve
- locking
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190427135642.16464-1-philmd@redhat.com>
+User-Agent: NeoMutt/20180716
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+	[fuzzy]
+X-Received-From: 209.85.221.65
+Subject: Re: [Qemu-devel] [PATCH] qom/object: Display more helpful message
+ when an object type is missing
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -104,39 +71,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>,
-	"pbonzini@redhat.com" <pbonzini@redhat.com>,
-	"berto@igalia.com" <berto@igalia.com>, Denis Lunev <den@virtuozzo.com>
+Cc: Markus Armbruster <armbru@redhat.com>,
+	Eduardo Habkost <ehabkost@redhat.com>,
+	Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MjkuMDQuMjAxOSAxOTozNywgTWF4IFJlaXR6IHdyb3RlOg0KPiBPbiAwMi4wNC4xOSAxNzozNywg
-VmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSB3cm90ZToNCj4+IEJhY2tncm91bmQ6IGRlY3J5
-cHRpb24gd2lsbCBiZSBkb25lIGluIHRocmVhZHMsIHRvIHRha2UgYmVuZWZpdCBvZiBpdCwNCj4+
-IHdlIHNob3VsZCBtb3ZlIGl0IG91dCBvZiB0aGUgbG9jayBmaXJzdC4NCj4gDQo+IC4uLndoaWNo
-IGlzIHNhZmUgYWZ0ZXIgeW91ciBjb21taXQgYzk3MmZhMTIzYzczNTAxYjQsIEkgcHJlc3VtZS4N
-Cj4gDQo+IChBdCBmaXJzdCBnbGFuY2UsIHRoZSBwYXRjaGVkIGxvb2tlZCBhIGJpdCB3ZWlyZCB0
-byBtZSBiZWNhdXNlIGl0DQo+IGRvZXNuJ3QgZ2l2ZSBhIHJlYXNvbiB3aHkgZHJvcHBpbmcgdGhl
-IGxvY2sgYXJvdW5kDQo+IHFjcnlwdG9fYmxvY2tfZGVjcnlwdCgpIHdvdWxkIGJlIE9LLikNCj4g
-DQo+PiBCdXQgbGV0J3MgZ28gZnVydGhlcjogaXQgdHVybnMgb3V0LCB0aGF0IGZvciBsb2NraW5n
-IGFyb3VuZCBzd2l0Y2gNCj4+IGNhc2VzIHdlIGhhdmUgb25seSB0d28gdmFyaWFudHM6IHdoZW4g
-d2UganVzdCBkbyBtZW1zZXQoMCkgbm90DQo+PiByZWxlYXNpbmcgdGhlIGxvY2sgKGl0IGlzIHVz
-ZWxlc3MpIGFuZCB3aGVuIHdlIGFjdHVhbGx5IGNhbiBoYW5kbGUgdGhlDQo+PiB3aG9sZSBjYXNl
-IG91dCBvZiB0aGUgbG9jay4gU28sIHJlZmFjdG9yIHRoZSB3aG9sZSB0aGluZyB0byByZWR1Y2UN
-Cj4+IGxvY2tlZCBjb2RlIHJlZ2lvbiBhbmQgbWFrZSBpdCBjbGVhbi4NCj4+DQo+PiBTaWduZWQt
-b2ZmLWJ5OiBWbGFkaW1pciBTZW1lbnRzb3YtT2dpZXZza2l5IDx2c2VtZW50c292QHZpcnR1b3p6
-by5jb20+DQo+PiBSZXZpZXdlZC1ieTogQWxiZXJ0byBHYXJjaWEgPGJlcnRvQGlnYWxpYS5jb20+
-DQo+PiAtLS0NCj4+ICAgYmxvY2svcWNvdzIuYyB8IDQ2ICsrKysrKysrKysrKysrKysrKysrKyst
-LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0NCj4+ICAgMSBmaWxlIGNoYW5nZWQsIDIyIGluc2VydGlv
-bnMoKyksIDI0IGRlbGV0aW9ucygtKQ0KPj4NCj4+IGRpZmYgLS1naXQgYS9ibG9jay9xY293Mi5j
-IGIvYmxvY2svcWNvdzIuYw0KPj4gaW5kZXggNDZlOGUzOWRhNS4uZmNmOTJhN2ViNiAxMDA2NDQN
-Cj4+IC0tLSBhL2Jsb2NrL3Fjb3cyLmMNCj4+ICsrKyBiL2Jsb2NrL3Fjb3cyLmMNCj4+IEBAIC0x
-OTgzLDYgKzE5ODMsNyBAQCBzdGF0aWMgY29yb3V0aW5lX2ZuIGludCBxY293Ml9jb19wcmVhZHYo
-QmxvY2tEcml2ZXJTdGF0ZSAqYnMsIHVpbnQ2NF90IG9mZnNldCwNCj4+ICAgDQo+PiAgICAgICAg
-ICAgcmV0ID0gcWNvdzJfZ2V0X2NsdXN0ZXJfb2Zmc2V0KGJzLCBvZmZzZXQsICZjdXJfYnl0ZXMs
-ICZjbHVzdGVyX29mZnNldCk7DQo+IA0KPiBJc24ndCB0aGlzIHRoZSBvbmx5IGZ1bmN0aW9uIGlu
-IHRoZSBsb29wIHRoYXQgYWN0dWFsbHkgbmVlZHMgdGhlIGxvY2s/DQo+IFdvdWxkbid0IGl0IG1h
-a2UgbW9yZSBzZW5zZSB0byBqdXN0IHRha2UgaXQgYXJvdW5kIHRoaXMgY2FsbD8NCj4gDQoNCkht
-bSwgbG9va3MgY29ycmVjdCwgSSdsbCByZXNlbmQuDQoNCg0KDQotLSANCkJlc3QgcmVnYXJkcywN
-ClZsYWRpbWlyDQo=
+On Sat, Apr 27, 2019 at 03:56:42PM +0200, Philippe Mathieu-Daudé wrote:
+> When writing a new board, adding device which uses other devices
+> (container) or simply refactoring, one can discover the hard way
+> his machine misses some devices. In the case of containers, the
+> error is not obvious:
+> 
+>   $ qemu-system-microblaze -M xlnx-zynqmp-pmu
+>   **
+>   ERROR:/source/qemu/qom/object.c:454:object_initialize_with_type: assertion failed: (type != NULL)
+>   Aborted (core dumped)
+> 
+> And we have to look at the coredump to figure the error:
+> 
+>   (gdb) bt
+>   #1  0x00007f84773cf895 in abort () at /lib64/libc.so.6
+>   #2  0x00007f847961fb53 in  () at /lib64/libglib-2.0.so.0
+>   #3  0x00007f847967a4de in g_assertion_message_expr () at /lib64/libglib-2.0.so.0
+>   #4  0x000055c4bcac6c11 in object_initialize_with_type (data=data@entry=0x55c4bdf239e0, size=size@entry=2464, type=<optimized out>) at /source/qemu/qom/object.c:454
+>   #5  0x000055c4bcac6e6d in object_initialize (data=data@entry=0x55c4bdf239e0, size=size@entry=2464, typename=typename@entry=0x55c4bcc7c643 "xlnx.zynqmp_ipi") at /source/qemu/qom/object.c:474
+>   #6  0x000055c4bc9ea474 in xlnx_zynqmp_pmu_init (machine=0x55c4bdd46000) at /source/qemu/hw/microblaze/xlnx-zynqmp-pmu.c:176
+>   #7  0x000055c4bca3b6cb in machine_run_board_init (machine=0x55c4bdd46000) at /source/qemu/hw/core/machine.c:1030
+>   #8  0x000055c4bc95f6d2 in main (argc=<optimized out>, argv=<optimized out>, envp=<optimized out>) at /source/qemu/vl.c:4479
+> 
+> Since the caller knows the type name requested, we can simply display it
+> to ease development.
+> 
+> With this patch applied we get:
+> 
+>   $ qemu-system-microblaze -M xlnx-zynqmp-pmu
+>   qemu-system-microblaze: missing object type 'xlnx.zynqmp_ipi'
+>   Aborted (core dumped)
+> 
+> Since the assert(type) check in object_initialize_with_type() is
+> now impossible, remove it.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> ---
+>  qom/object.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+
+Very appreciated!
+
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+
+Thanks,
+Stefano
 
