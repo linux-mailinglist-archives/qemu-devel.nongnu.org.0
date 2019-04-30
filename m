@@ -2,76 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D4E71FE4A
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 19:00:51 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50220 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07B6CFE3D
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 18:57:45 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50184 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLW7e-0008Cs-VG
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 13:00:51 -0400
+	id 1hLW4e-0005g1-5N
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 12:57:44 -0400
 Received: from eggs.gnu.org ([209.51.188.92]:39122)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hLW28-00048Z-WF
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:55:09 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hLW26-00048Z-WE
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:55:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hLVzq-0000pV-Au
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:52:47 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:34514)
+	(envelope-from <richard.henderson@linaro.org>) id 1hLW0E-00011w-SH
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:53:11 -0400
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:34710)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hLVzp-0000oZ-WB
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:52:46 -0400
-Received: by mail-wr1-x441.google.com with SMTP id v16so19428732wrp.1
-	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 09:52:45 -0700 (PDT)
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hLW0E-00011W-Lx
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:53:10 -0400
+Received: by mail-pf1-x441.google.com with SMTP id b3so7361894pfd.1
+	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 09:53:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=RExLEUbU+WhAIZTJBGlgOhgxBRk7o/x1G7uPxMvM+Ao=;
-	b=aiobEaZVKps4zoBObKr1vtVI6JMYcVnz8Qpazpbttyn9EShOrI/DqRe6qGHd3hyIhQ
-	tZMpMlqdYR28Td4E3bYnF/xEPuuKkGtmS3GIzsWkJK/4nuXnBwljRvd4oLUM+AC98qfG
-	HESVDzsjITO+yJOvCnruC3KttvLhbVJrXwDFRGWjoTE/9g9hWtd9YSJdSokcjMFmexdh
-	fOkPkgUp9dsFTKdN8qzFPmaZ0tYSs8mTa/1pXdt9Y7ILCm0vl//pPR+vCojjQJBdhQfd
-	gR37BanqoiiBLY/poy6PHYiOMVgfVNsLJwAYwHn2yml3sDPJvE0rKQM3k557ZrolOer5
-	os1A==
+	h=subject:to:references:from:openpgp:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=TC1CCh339jHWyTpGjRd004brUkiO3stT5lq6ZVT1t7s=;
+	b=bDKsGKR2cbVkBXVoNh79Ozbh3p/gpUwmvibaR6jm7DMcrf9HBWZgNQ6hxTPfNhQihC
+	yPiOljaHCLAKR59O7+GrohBkAmwUZWEzy6MdSyx+mMUurVRtcotifZ1JtYDr5J55gU+G
+	ne1E055DW0jWlBR3e5eLOb7aSiY6+eUfrB35YLHSJnWFy5DPhCsZT/m/UWnn6c2Rks7u
+	mvEIjv1L/0E8UJ6NLi4yzqsbIEssQQmy0uI5RIC7IhiQl7XkyDqh8yFNPkO66UvjbDLH
+	EzUUJNfB0pLzjgU9tpOFfDSwetIgzUqoo86MC/QBsFdue4oVAnZsD/auqDwMXLpDVjec
+	iMMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=RExLEUbU+WhAIZTJBGlgOhgxBRk7o/x1G7uPxMvM+Ao=;
-	b=Rr/Hn2JsGvJrbiEQI97lNdRYm+HG29NNNTSmTxCrr90BilTiOat+OIq4MrCzZs0IJw
-	qWY11POqVXZY2fZ/6U02wAwYYLaDAf4k/Q6E7yU/KQYvgX/XTq/OS0oXpMKfcJuzrB+T
-	D14v9NII870TnHnUJHeqzISu5ht4YoUFG+KTykk5Z3TzK84Rv7R0bYo8WhreWYpg4pyA
-	zbcTKiJ8g3hqqZA4v2oCXzFdjX8A8eRPYfIaEKdNIKwK+POvyfIYIB+alBQNZAtSXI9X
-	+nrRKkrK3koPyZb5YkWNEWE2fwLf2lBWkn8TPzLeXZhOLnaDRODqhB70foBnY7z2hChB
-	+Lkw==
-X-Gm-Message-State: APjAAAUaIrtvW6iDJHqzHLag4QmKkE8d7fKGeboVOzBKD0TJSinna/Qn
-	lKkEWKXT9xvDn9QrhOnQq30oyNjs41g=
-X-Google-Smtp-Source: APXvYqwUe4+f/L+f/tvfbdpxcbqfzr3bbEQO41TJXn7ewKXKmepkFZZlBcWLBRDy0znBsp9MX1NilQ==
-X-Received: by 2002:adf:da51:: with SMTP id r17mr6391725wrl.118.1556643164885; 
-	Tue, 30 Apr 2019 09:52:44 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
+	h=x-gm-message-state:subject:to:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=TC1CCh339jHWyTpGjRd004brUkiO3stT5lq6ZVT1t7s=;
+	b=i3joZ7UqPrl+g09T1xXdC1Z8uxDHuBr4O7tFuEGaZtenQ0kLcMxtHqgYwMb+LgPO8q
+	YZqikEYJ6vT+dQuqGq/kwhVCga1k7Z/nn+Z/5+1yAg0V1t1aoVXR/5A8LuoG0h3pOUap
+	9QgE4UxOkxGbIpNFPVeeo8r0wOgLdtYiPL8azaSD6LrEhbtdPtRxZC7uS7u/gAJ8ip4D
+	KbdssHFfGhpb54kDjLmoybJFhj9KR7DcrsrjsiZQIzcanNmJd1v6kCes8OlVER+ftBgO
+	YV0wpouCd1Np5I4V/dSxtdRQR1VESgl7BsBm9GBpjL3Qj52MkUF8LoYQEyIGR7PgerUd
+	HJOQ==
+X-Gm-Message-State: APjAAAWh/Zqy+RkHp8x8EIcq7IFYm9BsyJSxtn4/+/KfvQ6GlBpNnszA
+	p4fbHJGbGKnnpI3K6UDOyDR3NQ==
+X-Google-Smtp-Source: APXvYqzT4NvPqaSy7jVLczhKBRRdnsubfsm98EOr5S1bxYnvXxJM1GWd2YAenR7bblAB7DS40AoOLw==
+X-Received: by 2002:a63:6988:: with SMTP id e130mr5709801pgc.150.1556643189713;
+	Tue, 30 Apr 2019 09:53:09 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-18-231.tukw.qwest.net. [97.113.18.231])
 	by smtp.gmail.com with ESMTPSA id
-	o16sm26557588wro.63.2019.04.30.09.52.38
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 30 Apr 2019 09:52:43 -0700 (PDT)
-Received: from zen.linaroharston. (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id 3E2711FF9F;
-	Tue, 30 Apr 2019 17:52:35 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Tue, 30 Apr 2019 17:52:34 +0100
-Message-Id: <20190430165234.32272-16-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190430165234.32272-1-alex.bennee@linaro.org>
-References: <20190430165234.32272-1-alex.bennee@linaro.org>
+	j22sm48723345pfn.129.2019.04.30.09.53.04
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 30 Apr 2019 09:53:08 -0700 (PDT)
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org, david@gibson.dropbear.id.au, rth@twiddle.net,
+	gkurz@kaod.org
+References: <20190428143845.11810-1-mark.cave-ayland@ilande.co.uk>
+	<20190428143845.11810-12-mark.cave-ayland@ilande.co.uk>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <563644aa-8e79-8b46-61c0-3a10b62fbc28@linaro.org>
+Date: Tue, 30 Apr 2019 09:53:01 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190428143845.11810-12-mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: [Qemu-devel] [PATCH v5 15/15] Makefile.target: support per-target
- coverage reports
+X-Received-From: 2607:f8b0:4864:20::441
+Subject: Re: [Qemu-devel] [PATCH 11/14] target/ppc: decode target register
+ in VSX_VECTOR_LOAD_STORE_LENGTH at translation time
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -83,48 +87,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
-	qemu-arm@nongnu.org, mark.cave-ayland@ilande.co.uk, cota@braap.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add support for generating a single targets coverage report. Execute:
+On 4/28/19 7:38 AM, Mark Cave-Ayland wrote:
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> ---
+>  target/ppc/helper.h                 | 8 ++++----
+>  target/ppc/mem_helper.c             | 6 ++----
+>  target/ppc/translate/vsx-impl.inc.c | 7 ++++---
+>  3 files changed, 10 insertions(+), 11 deletions(-)
 
-  make coverage-report
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-In the target build directory. This coverage report only cares about
-target specific blobs so only searches the target build subdirectory.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- Makefile.target | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
-
-diff --git a/Makefile.target b/Makefile.target
-index ae02495951..aa5d9d6ba6 100644
---- a/Makefile.target
-+++ b/Makefile.target
-@@ -238,3 +238,19 @@ endif
- 
- GENERATED_FILES += config-target.h
- Makefile: $(GENERATED_FILES)
-+
-+# Reports/Analysis
-+#
-+# The target specific coverage report only cares about target specific
-+# blobs and not the shared code.
-+#
-+
-+%/coverage-report.html:
-+	@mkdir -p $*
-+	$(call quiet-command,\
-+		gcovr -r $(SRC_PATH) --object-directory $(CURDIR) \
-+		-p --html --html-details -o $@, \
-+		"GEN", "coverage-report.html")
-+
-+.PHONY: coverage-report
-+coverage-report: $(CURDIR)/reports/coverage/coverage-report.html
--- 
-2.20.1
+r~
 
 
