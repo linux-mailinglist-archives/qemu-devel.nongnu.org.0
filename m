@@ -2,81 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26B20FE8B
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 19:12:40 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50438 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0947AFE9E
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 19:15:38 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50469 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLWJ5-0001FK-8J
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 13:12:39 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39237)
+	id 1hLWLx-0003Z3-40
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 13:15:37 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39137)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hLW2K-0004C1-ON
+	(envelope-from <alex.bennee@linaro.org>) id 1hLW2K-00048d-N7
 	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:55:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hLVza-0000NH-TF
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:52:31 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:33020)
+	(envelope-from <alex.bennee@linaro.org>) id 1hLVzh-0000aG-Jw
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:52:38 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:43726)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hLVza-0000Mh-O5
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:52:30 -0400
-Received: by mail-pf1-x443.google.com with SMTP id z28so2045698pfk.0
-	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 09:52:30 -0700 (PDT)
+	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+	id 1hLVzh-0000WQ-BQ
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:52:37 -0400
+Received: by mail-wr1-x444.google.com with SMTP id a12so21813766wrq.10
+	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 09:52:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=subject:to:references:from:openpgp:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=ugeqNBSjhloZiIaY5MfyAspW63xn/blmZgulKqzx3hc=;
-	b=IaVt2ng88UL75PiUs2Kfi7CUojrTzp56oQ+Qy5jjTcjeQaVqVZE9itTvki09G73Gv0
-	Uk2/4e7I7vZZVJKmyiBgJ3XC05l+AsgdMDRNYHgVxGfSAmhRzqElpqV5SlYD8fZqVumg
-	IYQrklFtyD4nmaEj2H5BG1q2QeDq7XqM0uyj8/vHO54sze9YNgMCiWezDvNODKA4nKn2
-	tNg3aEiaLCo4WNLmvTmiWXs6z/G8FgWiOdgX+7X0iBYvO5Ul2CAQrSdd2DcwfhXJdMLV
-	0Zy31HfMJavmfkI/deg+hMa+4KEnpBalyTcSA/vBUhcapBO0kv140qIuwrhwyAvMmHhU
-	bHFA==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=ai3FU7j7ml2OSqg2io8dSlQktsIvFJmwS4hwlU31GgE=;
+	b=fjcWf0JCIR7SpQmqtbxSZibvFYG6XQpGHVx6eZK3hL2DhF/lpQbGT+sYmJhoXks9xh
+	GXSUUJyA2/a0IWSiK3arvRXZaf+62Mso6D2Ak3+cSX2rem3L/vS5NFQSabBFMtiNveJL
+	CM6SQrwWGglfAMQfEvDino6aDCQ0hlWMEWKTwr/WKgKb/680G0iGgzlKVvTNYYPVOj0L
+	2EBrGeN0F8BbQVFZo0mOQzzTfEN03KyPiBhw13VoD8NCaiRSqYDcXtCsl2xsQFpWH0nt
+	jHAqTsjT03b2IL09PfLMknQjsVDsuAO6EK1K1435yJTjW907yolY80D2PbSKTEp0820E
+	3uGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=ugeqNBSjhloZiIaY5MfyAspW63xn/blmZgulKqzx3hc=;
-	b=gssV3+uB/Vit09xDcDfudG9Ki8hQX/jc55VvB9R16zDg1ujaNbekeb0hROqcD2feVM
-	MqsMrMvTus8yG1lMpgHVQHNcGmJAdfrXP22dWbvCLccOgtK40uPk5jFBUyZOU/MDdKwI
-	rpu9wvG+oXacvGWLrTAmjzudIcJND9UeVUmyt4tsbCcuiD6HKxufVtDRmBaPTP9s8/IC
-	kR1zNfFQ5uds9XYTkScGSGVxpsIYtVBhpgi02ZpwLoYsUAyHWSwOQUXxsnrwwhIyraXE
-	KExV3eoVpqJiHVJk6X4le7eAYzP4pCi9yUMSL+Bni0qEM5X1W5MnK7ID1u2FkMc7bXwc
-	CE1A==
-X-Gm-Message-State: APjAAAVCRg66CSkeWdanivjg7M2rZgauEEZrLJ6QBgOBmYkJIr9umdJw
-	zGSClqWn/lHWW9L0U8d6iZPzHQ==
-X-Google-Smtp-Source: APXvYqwaxD8H1Xl3TEQcP2gLMd1TYClzMjClEncnZjV+gXVqArus+3neJmKRgzNDVry4Q/wM2uFH8Q==
-X-Received: by 2002:a63:6fcd:: with SMTP id
-	k196mr66970625pgc.238.1556643149644; 
-	Tue, 30 Apr 2019 09:52:29 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-18-231.tukw.qwest.net. [97.113.18.231])
-	by smtp.gmail.com with ESMTPSA id
-	a4sm2681766pfj.36.2019.04.30.09.52.23
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 30 Apr 2019 09:52:28 -0700 (PDT)
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org, david@gibson.dropbear.id.au, rth@twiddle.net,
-	gkurz@kaod.org
-References: <20190428143845.11810-1-mark.cave-ayland@ilande.co.uk>
-	<20190428143845.11810-11-mark.cave-ayland@ilande.co.uk>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <45ae496e-eb58-9bd8-a96a-e1620a792d9e@linaro.org>
-Date: Tue, 30 Apr 2019 09:52:17 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	bh=ai3FU7j7ml2OSqg2io8dSlQktsIvFJmwS4hwlU31GgE=;
+	b=YXoDl9cCRc4WhXB1mjl3aPVO/KKYc4wEf6ReKDGhCBEyCejQLXED5YvnHxKyD3YDuV
+	+c+kjrZPSVXIFm/BZRoyNSgdYv6zEnCiArZGf/NEtrNVLEwg/rJJIWBI4CI7/0qhFg6s
+	i3zvXJXhscJdR8O6dADDR0Ozz/ToxeAJZZSrRN6rpop3WrBKcfxlxv2NMabi57wbYsCv
+	BGauJ9RgRMIb7anj1ejlPnnYf/f0yjx8Ejuto9Oe1eHSAiT+3NnAtnkzg6OfKexpeOWn
+	6N2uH6Bwtt8HLWStkyL6W6X6Te+TeQZ/NiAB+3494wV3kNvWFE90lXQKPAwUnNDu9Rsu
+	+nSg==
+X-Gm-Message-State: APjAAAUJunH+4TZ/VCE8fhz8SX/oKUIn1pvF8YSAZl2cHjUgB+qCKKeS
+	8iuIRkW3mZkezpe2ZZ4T2h16zA==
+X-Google-Smtp-Source: APXvYqxPOQKH/rFYBn8FkbhxYSwNpp8bElwxp7sRTm1nXKN7eOTQc3Dpml+N1/BGmnP7+8c9Dq4q4g==
+X-Received: by 2002:adf:b646:: with SMTP id i6mr6125322wre.12.1556643155486;
+	Tue, 30 Apr 2019 09:52:35 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+	by smtp.gmail.com with ESMTPSA id q7sm3317414wmc.11.2019.04.30.09.52.34
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 30 Apr 2019 09:52:34 -0700 (PDT)
+Received: from zen.linaroharston. (localhost [127.0.0.1])
+	by zen.linaroharston (Postfix) with ESMTP id 80C181FF87;
+	Tue, 30 Apr 2019 17:52:34 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Date: Tue, 30 Apr 2019 17:52:19 +0100
+Message-Id: <20190430165234.32272-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20190428143845.11810-11-mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::443
-Subject: Re: [Qemu-devel] [PATCH 10/14] target/ppc: introduce
- GEN_VSX_HELPER_R2_AB macro to fpu_helper.c
+X-Received-From: 2a00:1450:4864:20::444
+Subject: [Qemu-devel] [PATCH v5 00/15] demacro softmmu (plus tests/coverage)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -88,24 +79,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+	qemu-arm@nongnu.org, mark.cave-ayland@ilande.co.uk, cota@braap.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/28/19 7:38 AM, Mark Cave-Ayland wrote:
-> Rather than perform the VSR register decoding within the helper itself,
-> introduce a new GEN_VSX_HELPER_R2_AB macro which performs the decode based
-> upon rA and rB at translation time.
-> 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
->  target/ppc/fpu_helper.c             | 10 ++++------
->  target/ppc/helper.h                 |  6 +++---
->  target/ppc/translate/vsx-impl.inc.c | 24 +++++++++++++++++++++---
->  3 files changed, 28 insertions(+), 12 deletions(-)
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Hi,
 
+This is the latest iteration of the softmmu demacro series. The main
+changes from the last submission are some updates from Richard. Some
+are merged into the main demacro patch (mostly casting cleanups) and
+then a series of 3 patches to out of line some of the less hot code to
+keep the main access functions a reasonable size. For example:
 
-r~
+  readelf -s aarch64-softmmu/accel/tcg/cputlb.o | ag helper |\
+    ag -v atomic | ag mmu | tr -s ' ' | cut -d ' ' -f 4,9 | sort -n
+
+Before:
+
+  16 helper_be_ldsl_mmu
+  16 helper_le_ldsl_mmu
+  18 helper_be_ldsw_mmu
+  18 helper_le_ldsw_mmu
+  18 helper_ret_ldsb_mmu
+  535 helper_ret_ldub_mmu
+  556 helper_ret_ldb_cmmu
+  586 helper_ret_stb_mmu
+  679 helper_le_ldul_mmu
+  681 helper_be_ldul_mmu
+  685 helper_le_ldq_mmu
+  688 helper_be_ldq_mmu
+  688 helper_le_lduw_mmu
+  693 helper_le_ldl_cmmu
+  701 helper_le_ldq_cmmu
+  701 helper_le_ldw_cmmu
+  703 helper_be_ldl_cmmu
+  704 helper_be_ldq_cmmu
+  708 helper_be_lduw_mmu
+  713 helper_be_ldw_cmmu
+  943 helper_le_stw_mmu
+  944 helper_le_stl_mmu
+  952 helper_be_stl_mmu
+  952 helper_le_stq_mmu
+  959 helper_be_stw_mmu
+  960 helper_be_stq_mmu
+
+After:
+
+  5 helper_be_ldul_mmu
+  5 helper_be_lduw_mmu
+  5 helper_le_ldul_mmu
+  5 helper_le_lduw_mmu
+  5 helper_ret_ldub_mmu
+  14 helper_be_ldl_cmmu
+  14 helper_be_ldw_cmmu
+  14 helper_le_ldl_cmmu
+  14 helper_le_ldw_cmmu
+  16 helper_be_ldsl_mmu
+  16 helper_le_ldsl_mmu
+  18 helper_be_ldsw_mmu
+  18 helper_le_ldsw_mmu
+  18 helper_ret_ldsb_mmu
+  783 helper_ret_stb_mmu
+  785 helper_ret_ldb_cmmu
+  881 helper_be_ldq_mmu
+  881 helper_le_ldq_mmu
+  889 helper_le_ldq_cmmu
+  897 helper_be_ldq_cmmu
+  1150 helper_be_stw_mmu
+  1150 helper_le_stw_mmu
+  1151 helper_be_stq_mmu
+  1151 helper_le_stl_mmu
+  1151 helper_le_stq_mmu
+  1159 helper_be_stl_mmu
+
+I've also moved the existing system memory test and made it multiarch
+and added the bootstrapping for aarch64 system tests. I would like to
+add support for Big Endian as well but I didn't want to delay the
+posting of the series. It would also be nice to exercise the
+ioread/write paths and other handling but I leave this as an exercise
+for later.
+
+There are also some minor tweaks for the code coverage reports now I'm
+running with out-of-tree builds.
+
+Alex Bennée (11):
+  tests/tcg/multiarch: add support for multiarch system tests
+  tests/tcg/multiarch: add hello world system test
+  tests/tcg/aarch64: add system boot.S
+  tests/tcg/multiarch: move the system memory test
+  tests/tcg/minilib: support %c format char
+  tests/tcg/multiarch: expand system memory test to cover more
+  accel/tcg: demacro cputlb
+  accel/tcg: remove softmmu_template.h
+  Makefile: fix coverage-report reference to BUILD_DIR
+  Makefile: include per-target build directories in coverage report
+  Makefile.target: support per-target coverage reports
+
+Richard Henderson (4):
+  cputlb: Move TLB_RECHECK handling into load/store_helper
+  cputlb: Drop attribute flatten
+  cputlb: Do unaligned load recursion to outermost function
+  cputlb: Do unaligned store recursion to outermost function
+
+ Makefile                                      |   4 +-
+ Makefile.target                               |  16 +
+ accel/tcg/cputlb.c                            | 626 +++++++++++++++---
+ accel/tcg/softmmu_template.h                  | 454 -------------
+ tests/tcg/Makefile                            |   1 +
+ tests/tcg/aarch64/Makefile.softmmu-target     |  32 +
+ tests/tcg/aarch64/system/boot.S               | 200 ++++++
+ tests/tcg/aarch64/system/kernel.ld            |  22 +
+ tests/tcg/i386/Makefile.softmmu-target        |   2 +-
+ tests/tcg/i386/system/memory.c                | 243 -------
+ tests/tcg/minilib/printf.c                    |   6 +-
+ .../multiarch/system/Makefile.softmmu-target  |  14 +
+ tests/tcg/{i386 => multiarch}/system/hello.c  |   0
+ tests/tcg/multiarch/system/memory.c           | 427 ++++++++++++
+ 14 files changed, 1267 insertions(+), 780 deletions(-)
+ delete mode 100644 accel/tcg/softmmu_template.h
+ create mode 100644 tests/tcg/aarch64/Makefile.softmmu-target
+ create mode 100644 tests/tcg/aarch64/system/boot.S
+ create mode 100644 tests/tcg/aarch64/system/kernel.ld
+ delete mode 100644 tests/tcg/i386/system/memory.c
+ create mode 100644 tests/tcg/multiarch/system/Makefile.softmmu-target
+ rename tests/tcg/{i386 => multiarch}/system/hello.c (100%)
+ create mode 100644 tests/tcg/multiarch/system/memory.c
+
+-- 
+2.20.1
 
 
