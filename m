@@ -2,68 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5822210051
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 21:31:19 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52256 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB9F710045
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 21:27:32 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52183 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLYTG-00080x-Fi
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 15:31:18 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40850)
+	id 1hLYPc-0005JK-4O
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 15:27:32 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40973)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hLYNE-0003MD-81
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 15:25:05 -0400
+	(envelope-from <pbonzini@redhat.com>) id 1hLYN8-0003W9-UT
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 15:24:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hLYAl-0004dG-I2
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 15:12:12 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:35145)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hLYAl-0004cR-Cn
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 15:12:11 -0400
-Received: by mail-wm1-f66.google.com with SMTP id y197so5003693wmd.0
-	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 12:12:10 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=2RDFs8S85oa4FrDYgpGFvUVS8sKHDV8ZSoNqkO72bts=;
-	b=KaNpgWS2onIDH8A/A54TS/7ax70tY8WpyOkXPAtDVux30gNx9iDf8NADhLQu2Rtq7V
-	zs4TVANOUXGd7uL8w8FPLU4T8pxySJol2u5rfhpSW5jAixgCpBJzfU2J1aRSlTJFNoc6
-	mWMnvlZ0HdHOoIWmy4Q/Pqy+fU142k7svhuklvvaNKOb5BJvEfl+2Bq7c9nHsfbu0yWK
-	5rpssPx4AyyogwYbU68CocQPRK7fu78kS1PSR60hKHK19Ni0VzWxp4FTypYv9NSw7EJN
-	jGx5PoNNcc7OjWf59Bgbs5pjPGRhSZFmKghnEtRjy9vtu3ei2vOIISXZ7rj1gz0nAys4
-	IItg==
-X-Gm-Message-State: APjAAAW3tsNrREZuuY87bi7ntShxI8Az5O8v+xhBSIDnumrncQOllNY/
-	He0cyBmF5G41hTSfefuomx426A==
-X-Google-Smtp-Source: APXvYqw3iMMwWaW4Nx9uueZLulrqgxagqxHHOd4+aABdr8mP5BRUtP+THtHGyPkJXq09F4IW7G0AXg==
-X-Received: by 2002:a1c:44d7:: with SMTP id r206mr3996708wma.129.1556651529913;
-	Tue, 30 Apr 2019 12:12:09 -0700 (PDT)
-Received: from [192.168.1.33] (193.red-88-21-103.staticip.rima-tde.net.
-	[88.21.103.193]) by smtp.gmail.com with ESMTPSA id
-	u17sm4256862wmu.36.2019.04.30.12.12.09
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Tue, 30 Apr 2019 12:12:09 -0700 (PDT)
-To: Cao Jiaxi <driver1998@foxmail.com>, qemu-devel@nongnu.org,
-	qemu-arm <qemu-arm@nongnu.org>
-References: <20190430181326.1314-1-driver1998@foxmail.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
-	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <c794f5a4-470a-3f49-c5df-bd37d97d711a@redhat.com>
-Date: Tue, 30 Apr 2019 21:12:08 +0200
+	(envelope-from <pbonzini@redhat.com>) id 1hLYDR-0006EO-3c
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 15:14:58 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34344)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hLYDQ-0006Do-Ri
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 15:14:57 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+	[10.5.11.11])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id AF438C05569A;
+	Tue, 30 Apr 2019 19:14:55 +0000 (UTC)
+Received: from [10.36.112.20] (ovpn-112-20.ams2.redhat.com [10.36.112.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 57BAC36F7;
+	Tue, 30 Apr 2019 19:14:54 +0000 (UTC)
+To: Wei Yang <richardw.yang@linux.intel.com>, qemu-devel@nongnu.org
+References: <20190426020927.25470-1-richardw.yang@linux.intel.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=pbonzini@redhat.com; prefer-encrypt=mutual; keydata=
+	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
+	uUHgL9dKIfvpm+rNXRn9wAwGjk0X/A==
+Message-ID: <03168011-cd29-5812-8d5b-8d911e22b330@redhat.com>
+Date: Tue, 30 Apr 2019 21:14:51 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190430181326.1314-1-driver1998@foxmail.com>
+In-Reply-To: <20190426020927.25470-1-richardw.yang@linux.intel.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.32]);
+	Tue, 30 Apr 2019 19:14:55 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.128.66
-Subject: Re: [Qemu-devel] [PATCH v2 3/4] util/cacheinfo.c: Use uintptr_t
- instead of unsigned long in AArch64 arch_cache_info()
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH] memory: correct the comment to
+ DIRTY_MEMORY_MIGRATION
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -78,28 +119,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/30/19 8:13 PM, Cao Jiaxi wrote:
-> Windows ARM64 uses LLP64 model, which breaks current assumptions.
+On 26/04/19 04:09, Wei Yang wrote:
+> The dirty bit is DIRTY_MEMORY_MIGRATION. Correct the comment.
 > 
-> Signed-off-by: Cao Jiaxi <driver1998@foxmail.com>
+> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
 > ---
->  util/cacheinfo.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  memory.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/util/cacheinfo.c b/util/cacheinfo.c
-> index 3cd080b83d..ce6f0dbf6a 100644
-> --- a/util/cacheinfo.c
-> +++ b/util/cacheinfo.c
-> @@ -107,7 +107,7 @@ static void sys_cache_info(int *isize, int *dsize)
->  static void arch_cache_info(int *isize, int *dsize)
->  {
->      if (*isize == 0 || *dsize == 0) {
-> -        unsigned long ctr;
-> +        uintptr_t ctr;
+> diff --git a/memory.c b/memory.c
+> index e49369d85d..9d015bfe4c 100644
+> --- a/memory.c
+> +++ b/memory.c
+> @@ -2576,7 +2576,7 @@ void memory_global_dirty_log_start(void)
 >  
->          /* The real cache geometry is in CCSIDR_EL1/CLIDR_EL1/CSSELR_EL1,
->             but (at least under Linux) these are marked protected by the
+>      MEMORY_LISTENER_CALL_GLOBAL(log_global_start, Forward);
+>  
+> -    /* Refresh DIRTY_LOG_MIGRATION bit.  */
+> +    /* Refresh DIRTY_MEMORY_MIGRATION bit.  */
+>      memory_region_transaction_begin();
+>      memory_region_update_pending = true;
+>      memory_region_transaction_commit();
+> @@ -2586,7 +2586,7 @@ static void memory_global_dirty_log_do_stop(void)
+>  {
+>      global_dirty_log = false;
+>  
+> -    /* Refresh DIRTY_LOG_MIGRATION bit.  */
+> +    /* Refresh DIRTY_MEMORY_MIGRATION bit.  */
+>      memory_region_transaction_begin();
+>      memory_region_update_pending = true;
+>      memory_region_transaction_commit();
 > 
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Queued, thanks.
+
+Paolo
 
