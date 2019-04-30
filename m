@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D90EEFD6C
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 18:04:51 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49114 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 787E0FD7D
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 18:08:39 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49184 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLVFT-0008GY-15
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 12:04:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48905)
+	id 1hLVJ8-00031g-G7
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 12:08:38 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48961)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hLUuu-00086l-E8
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 11:43:37 -0400
+	(envelope-from <kwolf@redhat.com>) id 1hLUuw-000899-6c
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 11:43:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hLUus-00029A-HP
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 11:43:36 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:17115)
+	(envelope-from <kwolf@redhat.com>) id 1hLUuu-0002AY-Do
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 11:43:38 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55954)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <kwolf@redhat.com>)
-	id 1hLUun-00022M-8n; Tue, 30 Apr 2019 11:43:29 -0400
+	id 1hLUuo-00024d-TX; Tue, 30 Apr 2019 11:43:31 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
 	[10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 634028046F;
-	Tue, 30 Apr 2019 15:43:28 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 0EE133087940;
+	Tue, 30 Apr 2019 15:43:30 +0000 (UTC)
 Received: from linux.fritz.box.com (unknown [10.36.118.15])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 91F884C7;
-	Tue, 30 Apr 2019 15:43:25 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id B06564C7;
+	Tue, 30 Apr 2019 15:43:28 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Date: Tue, 30 Apr 2019 17:42:34 +0200
-Message-Id: <20190430154244.30083-18-kwolf@redhat.com>
+Date: Tue, 30 Apr 2019 17:42:35 +0200
+Message-Id: <20190430154244.30083-19-kwolf@redhat.com>
 In-Reply-To: <20190430154244.30083-1-kwolf@redhat.com>
 References: <20190430154244.30083-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.28]);
-	Tue, 30 Apr 2019 15:43:28 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.45]);
+	Tue, 30 Apr 2019 15:43:30 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 17/27] block/qcow2: use buffer-based io
+Subject: [Qemu-devel] [PULL 18/27] block/qcow: use buffer-based io
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -66,56 +66,101 @@ Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
 Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/qcow2.c | 9 ++-------
- 1 file changed, 2 insertions(+), 7 deletions(-)
+ block/qcow.c | 19 ++++++-------------
+ 1 file changed, 6 insertions(+), 13 deletions(-)
 
-diff --git a/block/qcow2.c b/block/qcow2.c
-index c5c17734d7..a520d116ef 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -4094,7 +4094,6 @@ qcow2_co_pwritev_compressed(BlockDriverState *bs, u=
-int64_t offset,
-                             uint64_t bytes, QEMUIOVector *qiov)
- {
-     BDRVQcow2State *s =3D bs->opaque;
+diff --git a/block/qcow.c b/block/qcow.c
+index 10d2cf14b3..1bb8fd05e2 100644
+--- a/block/qcow.c
++++ b/block/qcow.c
+@@ -631,7 +631,6 @@ static coroutine_fn int qcow_co_preadv(BlockDriverSta=
+te *bs, uint64_t offset,
+     int offset_in_cluster;
+     int ret =3D 0, n;
+     uint64_t cluster_offset;
 -    QEMUIOVector hd_qiov;
-     int ret;
-     ssize_t out_len;
+     uint8_t *buf;
+     void *orig_buf;
+=20
+@@ -663,11 +662,10 @@ static coroutine_fn int qcow_co_preadv(BlockDriverS=
+tate *bs, uint64_t offset,
+         if (!cluster_offset) {
+             if (bs->backing) {
+                 /* read from the base image */
+-                qemu_iovec_init_buf(&hd_qiov, buf, n);
+                 qemu_co_mutex_unlock(&s->lock);
+                 /* qcow2 emits this on bs->file instead of bs->backing *=
+/
+                 BLKDBG_EVENT(bs->file, BLKDBG_READ_BACKING_AIO);
+-                ret =3D bdrv_co_preadv(bs->backing, offset, n, &hd_qiov,=
+ 0);
++                ret =3D bdrv_co_pread(bs->backing, offset, n, buf, 0);
+                 qemu_co_mutex_lock(&s->lock);
+                 if (ret < 0) {
+                     break;
+@@ -688,11 +686,10 @@ static coroutine_fn int qcow_co_preadv(BlockDriverS=
+tate *bs, uint64_t offset,
+                 ret =3D -EIO;
+                 break;
+             }
+-            qemu_iovec_init_buf(&hd_qiov, buf, n);
+             qemu_co_mutex_unlock(&s->lock);
+             BLKDBG_EVENT(bs->file, BLKDBG_READ_AIO);
+-            ret =3D bdrv_co_preadv(bs->file, cluster_offset + offset_in_=
+cluster,
+-                                 n, &hd_qiov, 0);
++            ret =3D bdrv_co_pread(bs->file, cluster_offset + offset_in_c=
+luster,
++                                n, buf, 0);
+             qemu_co_mutex_lock(&s->lock);
+             if (ret < 0) {
+                 break;
+@@ -731,7 +728,6 @@ static coroutine_fn int qcow_co_pwritev(BlockDriverSt=
+ate *bs, uint64_t offset,
+     int offset_in_cluster;
+     uint64_t cluster_offset;
+     int ret =3D 0, n;
+-    QEMUIOVector hd_qiov;
+     uint8_t *buf;
+     void *orig_buf;
+=20
+@@ -776,11 +772,10 @@ static coroutine_fn int qcow_co_pwritev(BlockDriver=
+State *bs, uint64_t offset,
+             }
+         }
+=20
+-        qemu_iovec_init_buf(&hd_qiov, buf, n);
+         qemu_co_mutex_unlock(&s->lock);
+         BLKDBG_EVENT(bs->file, BLKDBG_WRITE_AIO);
+-        ret =3D bdrv_co_pwritev(bs->file, cluster_offset + offset_in_clu=
+ster,
+-                              n, &hd_qiov, 0);
++        ret =3D bdrv_co_pwrite(bs->file, cluster_offset + offset_in_clus=
+ter,
++                             n, buf, 0);
+         qemu_co_mutex_lock(&s->lock);
+         if (ret < 0) {
+             break;
+@@ -1056,7 +1051,6 @@ qcow_co_pwritev_compressed(BlockDriverState *bs, ui=
+nt64_t offset,
+                            uint64_t bytes, QEMUIOVector *qiov)
+ {
+     BDRVQcowState *s =3D bs->opaque;
+-    QEMUIOVector hd_qiov;
+     z_stream strm;
+     int ret, out_len;
      uint8_t *buf, *out_buf;
-@@ -4161,10 +4160,8 @@ qcow2_co_pwritev_compressed(BlockDriverState *bs, =
-uint64_t offset,
-         goto fail;
+@@ -1122,9 +1116,8 @@ qcow_co_pwritev_compressed(BlockDriverState *bs, ui=
+nt64_t offset,
      }
+     cluster_offset &=3D s->cluster_offset_mask;
 =20
 -    qemu_iovec_init_buf(&hd_qiov, out_buf, out_len);
--
-     BLKDBG_EVENT(s->data_file, BLKDBG_WRITE_COMPRESSED);
--    ret =3D bdrv_co_pwritev(s->data_file, cluster_offset, out_len, &hd_q=
-iov, 0);
-+    ret =3D bdrv_co_pwrite(s->data_file, cluster_offset, out_len, out_bu=
-f, 0);
-     if (ret < 0) {
-         goto fail;
-     }
-@@ -4187,7 +4184,6 @@ qcow2_co_preadv_compressed(BlockDriverState *bs,
-     int ret =3D 0, csize, nb_csectors;
-     uint64_t coffset;
-     uint8_t *buf, *out_buf;
--    QEMUIOVector local_qiov;
-     int offset_in_cluster =3D offset_into_cluster(s, offset);
-=20
-     coffset =3D file_cluster_offset & s->cluster_offset_mask;
-@@ -4198,12 +4194,11 @@ qcow2_co_preadv_compressed(BlockDriverState *bs,
-     if (!buf) {
-         return -ENOMEM;
-     }
--    qemu_iovec_init_buf(&local_qiov, buf, csize);
-=20
-     out_buf =3D qemu_blockalign(bs, s->cluster_size);
-=20
-     BLKDBG_EVENT(bs->file, BLKDBG_READ_COMPRESSED);
--    ret =3D bdrv_co_preadv(bs->file, coffset, csize, &local_qiov, 0);
-+    ret =3D bdrv_co_pread(bs->file, coffset, csize, buf, 0);
+     BLKDBG_EVENT(bs->file, BLKDBG_WRITE_COMPRESSED);
+-    ret =3D bdrv_co_pwritev(bs->file, cluster_offset, out_len, &hd_qiov,=
+ 0);
++    ret =3D bdrv_co_pwrite(bs->file, cluster_offset, out_len, out_buf, 0=
+);
      if (ret < 0) {
          goto fail;
      }
