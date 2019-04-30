@@ -2,87 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0DF2AF930
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 14:47:36 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46737 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CCDAF2C5
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 11:26:16 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:42076 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLSAY-0007mS-Vg
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 08:47:35 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53715)
+	id 1hLP1j-0000wI-Da
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 05:26:15 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53820)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <oberpar@linux.ibm.com>) id 1hLP0C-0000LK-Uv
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 05:24:41 -0400
+	(envelope-from <sgarzare@redhat.com>) id 1hLP0P-0000MK-Gs
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 05:24:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <oberpar@linux.ibm.com>) id 1hLP0B-00021N-TI
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 05:24:40 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:57550)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <oberpar@linux.ibm.com>)
-	id 1hLP0B-00020J-Hi
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 05:24:39 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
-	x3U9MFUw083277
-	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 05:24:34 -0400
-Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
-	by mx0a-001b2d01.pphosted.com with ESMTP id 2s6hj3druw-1
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 05:24:34 -0400
-Received: from localhost
-	by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use
-	Only! Violators will be prosecuted
-	for <qemu-devel@nongnu.org> from <oberpar@linux.ibm.com>;
-	Tue, 30 Apr 2019 10:24:32 +0100
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
-	by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
-	Authorized Use Only! Violators will be prosecuted; 
-	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-	Tue, 30 Apr 2019 10:24:30 +0100
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
-	(b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
-	by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with
-	ESMTP id x3U9OS8654919316
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK); Tue, 30 Apr 2019 09:24:28 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 54A03A4062;
-	Tue, 30 Apr 2019 09:24:28 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 06167A405C;
-	Tue, 30 Apr 2019 09:24:28 +0000 (GMT)
-Received: from [9.152.212.191] (unknown [9.152.212.191])
-	by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-	Tue, 30 Apr 2019 09:24:27 +0000 (GMT)
-To: Christian Borntraeger <borntraeger@de.ibm.com>,
-	Cornelia Huck <cohuck@redhat.com>, "Jason J. Herne" <jjherne@linux.ibm.com>
-References: <1556543381-12671-1-git-send-email-jjherne@linux.ibm.com>
-	<20190429154003.7f8fc423.cohuck@redhat.com>
-	<ef10a003-3eb8-df60-bfb1-bc99bfd6b7af@de.ibm.com>
-From: Peter Oberparleiter <oberpar@linux.ibm.com>
-Date: Tue, 30 Apr 2019 11:24:27 +0200
+	(envelope-from <sgarzare@redhat.com>) id 1hLP0O-0002A3-9n
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 05:24:53 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:36687)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1hLP0N-00029S-OB
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 05:24:51 -0400
+Received: by mail-wm1-f67.google.com with SMTP id h18so3041093wml.1
+	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 02:24:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=b+iiayVemfzXRQEyfpx3MyjTGylx/7rlkIflGUJQ0GE=;
+	b=ZmUXLYfVKtO/IofNbboM8b7/yG+DeDG0GMOgyE9mKOoPiMEokEqMu2GcwbtF5IQQWG
+	BPul+fkxLs9E1IjJiJZQIpX8xu2HfBWYtFAfNZNpn3CMK4mqfh4WlNqyNlCaugMrE+i2
+	nz6T6bqrQ3oaXm9eu1GxL6cQwbGgPDj9xMqGWstO6sc1nn67CHxv9Ndyd5Vo4mgH9wdv
+	XqUu0G6vonuP6Lo/o4NSKh/bPJLQIERu0vbCT0kYoQhjhZRl2UsIuHu/AlswpbeNtomq
+	jjbHZWqPLXqs3wclFjpLHiAyNIUh1eZ8C/1L4fXnvueafy7EWCP5u80YL0iKB0+fSr+K
+	+MgQ==
+X-Gm-Message-State: APjAAAWr3tGUSLkOw9pVFJOGa4wLckaPqD6R7S4Wj3vXqzSzfqUMxx9U
+	5ZxHnAqkrseoElE0YOuuoLOlAg==
+X-Google-Smtp-Source: APXvYqwkHsKdLjjHpVJrHHBK43q21s5w409pI5P6rSvJ5NNvOLJvkKlgPcyiOjFx2yYD0FQLKP2JHA==
+X-Received: by 2002:a1c:a384:: with SMTP id m126mr2174175wme.99.1556616290617; 
+	Tue, 30 Apr 2019 02:24:50 -0700 (PDT)
+Received: from steredhat (host35-203-static.12-87-b.business.telecomitalia.it.
+	[87.12.203.35])
+	by smtp.gmail.com with ESMTPSA id y4sm1776189wmj.20.2019.04.30.02.24.49
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Tue, 30 Apr 2019 02:24:49 -0700 (PDT)
+Date: Tue, 30 Apr 2019 11:24:37 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Message-ID: <20190430092437.jbecehdkqa4zdavd@steredhat>
+References: <20190423125706.26989-1-vsementsov@virtuozzo.com>
+	<20190423125706.26989-3-vsementsov@virtuozzo.com>
 MIME-Version: 1.0
-In-Reply-To: <ef10a003-3eb8-df60-bfb1-bc99bfd6b7af@de.ibm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 19043009-0008-0000-0000-000002E1C4A0
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19043009-0009-0000-0000-0000224E2BB2
-Message-Id: <099881e7-b0a9-055a-ba3e-2ebb66b4e15c@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
-	definitions=2019-04-30_04:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
-	priorityscore=1501
-	malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
-	clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
-	mlxlogscore=893 adultscore=0 classifier=spam adjust=0 reason=mlx
-	scancount=1 engine=8.0.1-1810050000 definitions=main-1904300062
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.156.1
-X-Mailman-Approved-At: Tue, 30 Apr 2019 08:45:40 -0400
-Subject: Re: [Qemu-devel] [PATCH] s390-bios: Skip bootmap signature entries
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190423125706.26989-3-vsementsov@virtuozzo.com>
+User-Agent: NeoMutt/20180716
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+	[fuzzy]
+X-Received-From: 209.85.128.67
+Subject: Re: [Qemu-devel] [PATCH v5 2/3] block/io: bdrv_pdiscard: support
+ int64_t bytes parameter
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -94,46 +70,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, Stefan Haberland <sth@linux.vnet.ibm.com>,
-	qemu-s390x@nongnu.org, alifm@linux.ibm.com, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, fam@euphon.net, den@virtuozzo.com, qemu-block@nongnu.org,
+	qemu-devel@nongnu.org, mreitz@redhat.com, stefanha@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29.04.2019 15:45, Christian Borntraeger wrote:
+On Tue, Apr 23, 2019 at 03:57:05PM +0300, Vladimir Sementsov-Ogievskiy wrote:
+> This fixes at least one overflow in qcow2_process_discards, which
+> passes 64bit region length to bdrv_pdiscard where bytes (or sectors in
+> the past) parameter is int since its introduction in 0b919fae.
 > 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  include/block/block.h |  4 ++--
+>  block/io.c            | 16 ++++++++--------
+>  2 files changed, 10 insertions(+), 10 deletions(-)
 > 
-> On 29.04.19 15:40, Cornelia Huck wrote:
->> On Mon, 29 Apr 2019 09:09:41 -0400
->> "Jason J. Herne" <jjherne@linux.ibm.com> wrote:
->>
->>> Newer versions of zipl have the ability to write signature entries to the boot
->>> script for secure boot. We don't yet support secure boot, but we need to skip
->>> over signature entries while reading the boot script in order to maintain our
->>> ability to boot guest operating systems that have a secure bootloader.
->>>
->>> Signed-off-by: Jason J. Herne <jjherne@linux.ibm.com>
->>> Reviewed-by: Farhan Ali <alifm@linux.ibm.com>
->>> ---
->>>  pc-bios/s390-ccw/bootmap.c | 19 +++++++++++++++++--
->>>  pc-bios/s390-ccw/bootmap.h | 10 ++++++----
->>>  2 files changed, 23 insertions(+), 6 deletions(-)
->>
->> Skipping something that we don't have support for yet, but that doesn't
->> hinder normal operation sounds reasonable; but can you point me to the
->> relevant commit implementing this in zipl or some documentation? I
->> haven't been able to find something like that in the s390-tools git
->> tree.
-> 
-> the s390-tools update is currently in preparation, adding Stefan and Peter.
+> diff --git a/include/block/block.h b/include/block/block.h
+> index c7a26199aa..69fa18867e 100644
+> --- a/include/block/block.h
+> +++ b/include/block/block.h
+> @@ -432,8 +432,8 @@ void bdrv_drain_all(void);
+>      AIO_WAIT_WHILE(bdrv_get_aio_context(bs_),              \
+>                     cond); })
+>  
+> -int bdrv_pdiscard(BdrvChild *child, int64_t offset, int bytes);
+> -int bdrv_co_pdiscard(BdrvChild *child, int64_t offset, int bytes);
+> +int bdrv_pdiscard(BdrvChild *child, int64_t offset, int64_t bytes);
+> +int bdrv_co_pdiscard(BdrvChild *child, int64_t offset, int64_t bytes);
+>  int bdrv_has_zero_init_1(BlockDriverState *bs);
+>  int bdrv_has_zero_init(BlockDriverState *bs);
+>  bool bdrv_unallocated_blocks_are_zero(BlockDriverState *bs);
+> diff --git a/block/io.c b/block/io.c
+> index dfc153b8d8..16b6c5d855 100644
+> --- a/block/io.c
+> +++ b/block/io.c
+> @@ -2653,7 +2653,7 @@ int bdrv_flush(BlockDriverState *bs)
+>  typedef struct DiscardCo {
+>      BdrvChild *child;
+>      int64_t offset;
+> -    int bytes;
+> +    int64_t bytes;
+>      int ret;
+>  } DiscardCo;
+>  static void coroutine_fn bdrv_pdiscard_co_entry(void *opaque)
+> @@ -2664,14 +2664,15 @@ static void coroutine_fn bdrv_pdiscard_co_entry(void *opaque)
+>      aio_wait_kick();
+>  }
+>  
+> -int coroutine_fn bdrv_co_pdiscard(BdrvChild *child, int64_t offset, int bytes)
+> +int coroutine_fn bdrv_co_pdiscard(BdrvChild *child, int64_t offset,
+> +                                  int64_t bytes)
+>  {
+>      BdrvTrackedRequest req;
+>      int max_pdiscard, ret;
+>      int head, tail, align;
+>      BlockDriverState *bs = child->bs;
+>  
+> -    if (!bs || !bs->drv) {
+> +    if (!bs || !bs->drv || !bdrv_is_inserted(bs)) {
 
-Here's the link to the s390-tools commit that introduces the new
-signature component to zipl:
+Should we describe this change in the commit message?
+IIUC you added this check because you removed bdrv_check_byte_request()
+below,
 
-https://github.com/ibm-s390-tools/s390-tools/commit/7c7e10ed8fb048efc4e0cd91b0f6fa704fba128e
+Maybe we can also remove '!bs->drv', since it is checked in
+bdrv_is_inserted().
 
+>          return -ENOMEDIUM;
+>      }
+>  
+> @@ -2679,9 +2680,8 @@ int coroutine_fn bdrv_co_pdiscard(BdrvChild *child, int64_t offset, int bytes)
+>          return -EPERM;
+>      }
+>  
+> -    ret = bdrv_check_byte_request(bs, offset, bytes);
+> -    if (ret < 0) {
+> -        return ret;
+> +    if (offset < 0 || bytes < 0 || bytes > INT64_MAX - offset) {
+> +        return -EIO;
+>      }
 
--- 
-Peter Oberparleiter
-Linux on Z Development - IBM Germany
+Should we check if 'bytes' is greater than
+'BDRV_REQUEST_MAX_SECTORS << BDRV_SECTOR_BITS'?
 
+Thanks,
+Stefano
 
