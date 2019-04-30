@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDEE9F015
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 07:49:46 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:39472 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8BB2FF016
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 07:50:53 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:39508 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLLeE-00030I-4H
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 01:49:46 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41797)
+	id 1hLLfI-0003fm-QB
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 01:50:52 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41940)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hLLd9-0002hl-0x
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 01:48:40 -0400
+	(envelope-from <philmd@redhat.com>) id 1hLLeC-0003Bj-BN
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 01:49:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hLLd7-0001ls-TA
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 01:48:38 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:52189)
+	(envelope-from <philmd@redhat.com>) id 1hLLeB-0002Xs-DR
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 01:49:44 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:41278)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hLLd7-0001kt-Ms
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 01:48:37 -0400
-Received: by mail-wm1-f68.google.com with SMTP id 4so2315729wmf.1
-	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 22:48:35 -0700 (PDT)
+	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hLLeB-0002Xc-7g
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 01:49:43 -0400
+Received: by mail-wr1-f66.google.com with SMTP id c12so19429462wrt.8
+	for <qemu-devel@nongnu.org>; Mon, 29 Apr 2019 22:49:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:references:from:openpgp:message-id
 	:date:user-agent:mime-version:in-reply-to:content-language
 	:content-transfer-encoding;
-	bh=mB5hwtD0lVeScACb5aXbuHQSlQcRb5LcExbeoQ67zSM=;
-	b=fUCLVtoRdkTCAjwu+jQuhesQehSeHNSeR4r0rH7D6/FTIbOH8nfYEQZ4I1WmA94qLA
-	vdAPod7/5ED01/LEIyPitI3N6/fhRR5BVZLJhSZnfonX5q6W5qTZ3/y2J7iKzRRZQuS2
-	nPJOvxkqhRi1bsrfau+1AN7pZqJWBmovKoYHTeFoU+SHiJf1LogFDRJ8V26T+x3g5NGL
-	mH+BlZfldGYUx6tgfPc07zCHVY+mEc46upWQpC2iBhs1yDY3+8W5RaGEwJiVL6Wcekvx
-	qkQFtx5e3iKCh1yDV8K2QbLIIABSj8d1zH+PTt5E0xwiQ0vPye+LnMHjLe+4utv2DFaF
-	SDXw==
-X-Gm-Message-State: APjAAAWuX2AbAuG29t/AMzPOptl+ydU1LWtW3fL0zFh/UELIGVlxD7Z9
-	6ahQMWOQMysRaduRCVWL/uIrGTjq5D4=
-X-Google-Smtp-Source: APXvYqymj+X+qh++F1A4jT5/4XLSwoJICzbvbCcdOSld5r4aL4IfppZ0wI1uqpSTsmdkOdehlGEBlg==
-X-Received: by 2002:a1c:4409:: with SMTP id r9mr1760733wma.60.1556603314648;
-	Mon, 29 Apr 2019 22:48:34 -0700 (PDT)
+	bh=TAvHRHlxJf5DQyuAsMedomeY952qG7woc62OfFiA8jc=;
+	b=rVivYJfuGzPUtg/1icrUq55ubcxcScq99ummeQ6V6+HExgPNxt5IHvYVQQz6BtFm2d
+	SCbF+09yc8QqhVY+6At1YTeLf5VyA9NhKKwDyXHyUQTzzbteVPmA/sEbsKTsnqt7pAna
+	r3tcHB+MEdnksRJ+c4+9Arc/xnmHJLZo+pCujzL0edWjZM0dJOE8m6d6ql2cPD7wLgGs
+	MG5o0Mhkr0tAATldEhFy2gzZSOFCM7TSOu0z1cDNHLIbhnRKkTZ8qifm6iEeHBstO8jH
+	NYOwvg7jaLWgda/i3shVXPghiAjpYuor4ma/hp67L+ItYW+YZ9axmGFa0uVeq/xHSEG2
+	iz9A==
+X-Gm-Message-State: APjAAAVZO6RKcfMyvh745eIr1aEhEyFUYq6bRieyZ0o6dmIQ83dFcssz
+	GmYc0BANdbwrNpOTGQWG39ZoQtddpbM=
+X-Google-Smtp-Source: APXvYqxmgDWFON5QfzsOjc+OvLseKI6S08RXYa0SsbZoCoIykME2rctMzTNk3ZNNXQlySSCKoMgT1w==
+X-Received: by 2002:a5d:654a:: with SMTP id z10mr17813287wrv.153.1556603381942;
+	Mon, 29 Apr 2019 22:49:41 -0700 (PDT)
 Received: from [192.168.1.37] (193.red-88-21-103.staticip.rima-tde.net.
 	[88.21.103.193]) by smtp.gmail.com with ESMTPSA id
-	b11sm2597382wmh.29.2019.04.29.22.48.33
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Mon, 29 Apr 2019 22:48:33 -0700 (PDT)
+	s22sm6852439wrb.44.2019.04.29.22.49.41
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 29 Apr 2019 22:49:41 -0700 (PDT)
 To: driver1998 <driver1998@foxmail.com>, qemu-devel@nongnu.org
-References: <20190429003339.22956-1-driver1998@foxmail.com>
+References: <20190429003322.22908-1-driver1998@foxmail.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
 	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <1f63055b-f5a6-8972-a227-3ba1bcd0004b@redhat.com>
-Date: Tue, 30 Apr 2019 07:48:33 +0200
+Message-ID: <d25baf06-1176-5cce-2ff1-3b5652e3ca27@redhat.com>
+Date: Tue, 30 Apr 2019 07:49:40 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190429003339.22956-1-driver1998@foxmail.com>
+In-Reply-To: <20190429003322.22908-1-driver1998@foxmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.128.68
-Subject: Re: [Qemu-devel] [PATCH 4/4] include/qemu/osdep.h: Move the
- __USE_MINGW_ANSI_STDIO define up to avoid confliction.
+X-Received-From: 209.85.221.66
+Subject: Re: [Qemu-devel] [PATCH 3/4] util/cacheinfo.c: Use uintptr_t
+ instead of unsigned long in AArch64 arch_cache_info()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -77,53 +77,39 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
-
 On 4/29/19 2:33 AM, driver1998 wrote:
-> Signed-off-by: driver1998 <driver1998@foxmail.com>
-
-Is driver1998 your real name? :)
-
-> ---
->  include/qemu/osdep.h | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
+> Windows ARM64 uses LLP64 model, which breaks current assumptions.
 > 
-> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-> index 303d315c5d..af2b91f0b8 100644
-> --- a/include/qemu/osdep.h
-> +++ b/include/qemu/osdep.h
-> @@ -85,17 +85,17 @@ extern int daemon(int, int);
->  #endif
->  #endif
+> Signed-off-by: driver1998 <driver1998@foxmail.com>
+> ---
+>  util/cacheinfo.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+> 
+> diff --git a/util/cacheinfo.c b/util/cacheinfo.c
+> index 3cd080b83d..a815cb0722 100644
+> --- a/util/cacheinfo.c
+> +++ b/util/cacheinfo.c
+> @@ -107,7 +107,7 @@ static void sys_cache_info(int *isize, int *dsize)
+>  static void arch_cache_info(int *isize, int *dsize)
+>  {
+>      if (*isize == 0 || *dsize == 0) {
+> -        unsigned long ctr;
+> +        uintptr_t ctr;
 >  
-> +/* enable C99/POSIX format strings (needs mingw32-runtime 3.15 or later) */
-
-As the comment says, this definition is used by <stdio.h>.
-I suppose you encountered an issue with one of the following headers
-including it earlier, which is odd...
-Can you paste the error you are trying to fix?
-
-Thanks,
-
-Phil.
-
-> +#ifdef __MINGW32__
-> +#define __USE_MINGW_ANSI_STDIO 1
-> +#endif
+>          /* The real cache geometry is in CCSIDR_EL1/CLIDR_EL1/CSSELR_EL1,
+>             but (at least under Linux) these are marked protected by the
+> @@ -120,6 +120,8 @@ static void arch_cache_info(int *isize, int *dsize)
+>          if (*dsize == 0) {
+>              *dsize = 4 << ((ctr >> 16) & 0xf);
+>          }
 > +
->  #include <stdarg.h>
->  #include <stddef.h>
->  #include <stdbool.h>
->  #include <stdint.h>
->  #include <sys/types.h>
->  #include <stdlib.h>
-> -
-> -/* enable C99/POSIX format strings (needs mingw32-runtime 3.15 or later) */
-> -#ifdef __MINGW32__
-> -#define __USE_MINGW_ANSI_STDIO 1
-> -#endif
->  #include <stdio.h>
+> +        printf("%d %d\n", *isize, *dsize);
+
+The patch looks correct (except your real name), but here you forgot to
+remove this debugging code.
+
+>      }
+>  }
 >  
->  #include <string.h>
 > 
 
