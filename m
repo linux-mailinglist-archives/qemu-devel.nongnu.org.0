@@ -2,81 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D6E8FED5
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 19:27:48 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50693 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66035FEC4
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 19:23:16 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50608 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLWXj-0005EZ-Ba
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 13:27:47 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39792)
+	id 1hLWTL-00010U-H7
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 13:23:15 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40333)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hLW2y-0005AD-7X
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:56:01 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hLW4i-0006aR-Pc
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:57:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hLW2x-0002Y4-CN
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:56:00 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:39632)
+	(envelope-from <peter.maydell@linaro.org>) id 1hLW4g-0003Sv-RQ
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:57:48 -0400
+Received: from mail-oi1-x229.google.com ([2607:f8b0:4864:20::229]:34961)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hLW2x-0002Xb-5e
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:55:59 -0400
-Received: by mail-pl1-x641.google.com with SMTP id e92so7004783plb.6
-	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 09:55:59 -0700 (PDT)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hLW4f-0003PM-2X
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:57:46 -0400
+Received: by mail-oi1-x229.google.com with SMTP id w197so11851254oia.2
+	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 09:57:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=subject:to:references:from:openpgp:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=gtSzyrc9FwCBM3XuNqgnihWYnGoBFu5mnZsyEfppXik=;
-	b=eTeXm5lXvK5yQHmbzZvnJCh280ws0NP3vCIKluixOjK17YvZidFWF5r3qZi72U42FF
-	WHJdJdG01tZJxlo0vuUawiagDKL8pzb5pRxwFLeQjJ9YBsJpcy3VnuXnHl5Lxz0oOUj1
-	/sBUsZP+1P9a6XGHqLdmepzXDdesCIPiFGMSCpIsx+3ovJaQe9CeAeV/W1LcYd+1e2uo
-	hnKSb/xm8fU6i2zQd5iQVvE9DMAbbM+pkGiYTYgjbCwIwhTbSVSobGIsYLp8pQvAYTXU
-	ch4bYfxCrYIhuHO3cNOldaKOse3ZJ5o2Si9rnDX9Hh2pPqz6mD2QnTneyoTqb485BWip
-	ubZg==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=8CjWopWf189I269XlZcNba6PnTBXf0n9YcIAnuqwl1o=;
+	b=GFkGnoxYQDZHxi1rJrUiSYqAe5/gBKQepe8866VmspSt8XAD978GetGNw1VlE43oY9
+	ufCT61p6H/yfcdgptnnGkPUBS7poobDTR8hSEJcBumlY6U3G30ECjvnJ7QiHoHhaSiKq
+	oJq9yP7sNHPDGcmg3q0FhDlyrSMFuIbqtfBWXTzoNhOjIaWZS+3NudPQeK7Qn4+Tl/W4
+	jNRJTQz5W0POIB2uKQfas8EnWmdJbCeSVAUbHMg+phuKBxbzP0yGUUOxLt2xoEEksI6r
+	8QnJOErJv0ZCATGauzG8QDGwLDv6R6Qj6r3FtW6zBkPI6rf9sZM59RQk7FdcGCm6neLf
+	HD3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=gtSzyrc9FwCBM3XuNqgnihWYnGoBFu5mnZsyEfppXik=;
-	b=NJp53UJF4E8001NlB7Kxi7lKQy0hakUhUTV8D8V1M/3vqOIIeKDs5OJP0XNNkRmaYj
-	5HU3ZsmvLrrE35pgwcNkELky91+IE3dt/AJ0rSmX1RVhYVjLRIgysgijg0fPcKY1QKbx
-	z+BPkafN40JS/DanpMp5oj3gtoivWc6VSpv1IsuSVzwInlgFiP49hRnN2KfUNCDUn+eI
-	At8YgXhtUhwY8UO/GUndol7bLjXOWDqNTpWQGz8PcM5EH1t7X6HcXJu7g6h8mDnCj1qr
-	opzdtEGDK9JITRug261vUqocagaZAfHt7oraNYywFhNo8kNILkAoWv4X3DpKmWjR5kx2
-	S0Yg==
-X-Gm-Message-State: APjAAAXGSdYjmE08+gvVAqXJ7/gPJ48fjOrsVPyMkSlM5yBbD7TzR9+s
-	frE4kQFqwSvBNLkIhLAWxIiEMA==
-X-Google-Smtp-Source: APXvYqzpSPZWR6lzcWhIeaCNpAZGS/f40cTuUSl3+g16qhjafNAmUpNCaaYkdT4EYFYYO9gf4EE2ZA==
-X-Received: by 2002:a17:902:5910:: with SMTP id
-	o16mr16246543pli.289.1556643358250; 
-	Tue, 30 Apr 2019 09:55:58 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-18-231.tukw.qwest.net. [97.113.18.231])
-	by smtp.gmail.com with ESMTPSA id
-	b2sm38570363pff.63.2019.04.30.09.55.54
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 30 Apr 2019 09:55:57 -0700 (PDT)
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org, david@gibson.dropbear.id.au, rth@twiddle.net,
-	gkurz@kaod.org
-References: <20190428143845.11810-1-mark.cave-ayland@ilande.co.uk>
-	<20190428143845.11810-14-mark.cave-ayland@ilande.co.uk>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <28efda41-0002-c357-7329-55b3ce82d1d4@linaro.org>
-Date: Tue, 30 Apr 2019 09:55:48 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=8CjWopWf189I269XlZcNba6PnTBXf0n9YcIAnuqwl1o=;
+	b=ZNzAcvg2bnReF8ZJodxBodslNkR6H5GbDjO9WpheBhKGeWxbG0TLux0v0CRrtGYUAA
+	YWOdhgDGSCw5hSgv76Q7/zg23c/kLqaNjmN2SOg9AezRgIEHDW6YOGU2b9R4jifWgo2Y
+	oPvs++2f/Yim5OAymPSuMGVoD7MnRxupWE85tJghbEhA3cchpgi1TF9VGF+m+OTTfRZp
+	ufbaJBd2X+/lZN6HU9hYpP/O1yCucWTt7/iIy9rJyUJq3QhDMtga/QWT2Afy5rHeKLZo
+	a0a/6jTqaLy1NuC+sLxI4uWnRwt2dlgiYxv5P3NPOjgV6eJUfgH6J2Flno8u26GW1IBX
+	7QJQ==
+X-Gm-Message-State: APjAAAU98kdP5viy9vyJsiX1nEE5PCVMMx2IxNz5CJEuqoIQ2ap0mXqj
+	T/GiKMfqMOH8YhvZOPN+IDQNFqTO0NDv4SwMFRLQfw==
+X-Google-Smtp-Source: APXvYqznS6Jzaw5/D9tG58Bm3xnGl6P2uFSSXvDkZn1DAHSqUvVX6yIyESawI5b1GKyX6H4tya3DXaMXvKryf3EgwUo=
+X-Received: by 2002:aca:ab12:: with SMTP id u18mr3412973oie.48.1556643459726; 
+	Tue, 30 Apr 2019 09:57:39 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190428143845.11810-14-mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20190430154244.30083-1-kwolf@redhat.com>
+In-Reply-To: <20190430154244.30083-1-kwolf@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 30 Apr 2019 17:57:28 +0100
+Message-ID: <CAFEAcA-rW3OLKt2a8+1cdcMa-=Hp+ppqp_HdC1=ZNVxSXtKqeA@mail.gmail.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::641
-Subject: Re: [Qemu-devel] [PATCH 13/14] target/ppc: improve VSX_TEST_DC with
- new generator macros
+X-Received-From: 2607:f8b0:4864:20::229
+Subject: Re: [Qemu-devel] [PULL 00/27] Block layer patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -88,23 +71,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/28/19 7:38 AM, Mark Cave-Ayland wrote:
-> The source and destination registers can now be decoded in the generator
-> function using the new GEN_VSX_HELPER_X2 and GEN_VSX_HELPER_R2 macros.
-> 
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
->  target/ppc/fpu_helper.c             | 16 +++++++---------
->  target/ppc/helper.h                 |  8 ++++----
->  target/ppc/translate/vsx-impl.inc.c |  8 ++++----
->  3 files changed, 15 insertions(+), 17 deletions(-)
+On Tue, 30 Apr 2019 at 17:01, Kevin Wolf <kwolf@redhat.com> wrote:
+>
+> The following changes since commit 22d96eac64877c4d96f9928babb6f2fcc68faacf:
+>
+>   Merge remote-tracking branch 'remotes/stefanha/tags/tracing-pull-request' into staging (2019-04-29 19:11:15 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://repo.or.cz/qemu/kevin.git tags/for-upstream
+>
+> for you to fetch changes up to 54277a2aab876aba7b55c7e88e2b372691849741:
+>
+>   block/qed: add missed coroutine_fn markers (2019-04-30 15:29:00 +0200)
+>
+> ----------------------------------------------------------------
+> Block layer patches:
+>
+> - iotests: Fix output of qemu-io related tests
+> - Don't ignore bdrv_set_aio_context() for nodes with bs->drv = NUL
+> - vmdk: Set vmdk parent backing_format to vmdk
+> - qcow2: Preallocation fixes (especially for external data files)
+> - Add linear-buffer-based APIs (as wrappers around qiov-based ones)
+> - Various code cleanups and small corner case fixes
+>
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
+Applied, thanks.
 
-r~
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
+for any user-visible changes.
 
+-- PMM
 
