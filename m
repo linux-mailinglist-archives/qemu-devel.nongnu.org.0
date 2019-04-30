@@ -2,38 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2324EF9D2
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 15:22:03 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:47224 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F28E8FB23
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 16:11:11 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:47713 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLShu-0006JJ-Bp
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 09:22:02 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45747)
+	id 1hLTTT-0007uq-4X
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 10:11:11 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54278)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <brogers@suse.com>) id 1hLSfw-0004z9-Pm
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 09:20:01 -0400
+	(envelope-from <no-reply@patchew.org>) id 1hLTRW-0006kL-1u
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 10:09:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <brogers@suse.com>) id 1hLSfw-00054x-1M
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 09:20:00 -0400
-Received: from inet-orm.provo.novell.com ([137.65.248.124]:49033
-	helo=mail.novell.com)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <brogers@suse.com>) id 1hLSfv-00053e-OO
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 09:19:59 -0400
-Received: from brogers1.provo.novell.com ([137.65.223.116])
-	by mail.novell.com with ESMTP (NOT encrypted);
-	Tue, 30 Apr 2019 07:19:52 -0600
-From: Bruce Rogers <brogers@suse.com>
-To: qemu-devel@nongnu.org
-Date: Tue, 30 Apr 2019 07:19:46 -0600
-Message-Id: <20190430131946.26628-1-brogers@suse.com>
-X-Mailer: git-send-email 2.21.0
+	(envelope-from <no-reply@patchew.org>) id 1hLTDs-0002wp-13
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 09:55:05 -0400
+Resent-Date: Tue, 30 Apr 2019 09:55:05 -0400
+Resent-Message-Id: <E1hLTDs-0002wp-13@eggs.gnu.org>
+Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21518)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <no-reply@patchew.org>)
+	id 1hLTDp-0002ur-Vt; Tue, 30 Apr 2019 09:55:02 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1556632485; cv=none; d=zoho.com; s=zohoarc; 
+	b=cEhBEX5xwIi+yuphGGMbwsfpLJvwj8UqfsXJGp1EoLbMpSarEdttKYLb6RzTpOwy/So/P8Ig1SLMsKi2QHwZQU/gUfVbzL2AJ0thRExhcln4tikTtYxfzD2HMRRfdDNSx/EWejW6Zgaf8Rcf6pcNeHUqsMRhIWRQtMAKUtVC+Q8=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+	s=zohoarc; t=1556632485;
+	h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+	bh=akPmttkrhpCMDKMOJ6Jr+4nJtjfzBJP2nH7jkJFtT7k=; 
+	b=Q7HQmm4s5NSb2ZHEsDpIJWHPUoCwAi4niaoxQ4usEOoiIaxKVB/7farrz1DgA7DQ1Y5abGgXn2qAUYGZHbnh6/oPg7nm27zUt+xYGKGJ6k7bIgAnpM/jcY22tRklS8ES0kSEMBlgvj5/ALxpAEFfb9Z0We+SuFGeFKulbi5xyKk=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+	spf=pass  smtp.mailfrom=no-reply@patchew.org;
+	dmarc=pass header.from=<no-reply@patchew.org>
+	header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+	mx.zohomail.com with SMTPS id 1556632483944211.20248062194958;
+	Tue, 30 Apr 2019 06:54:43 -0700 (PDT)
+In-Reply-To: <20190429105741.31033-1-kwolf@redhat.com>
+Message-ID: <155663248155.10667.17447181616173672748@c2072b67cc0c>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 137.65.248.124
-Subject: [Qemu-devel] [PATCH v2] scsi-disk: handle invalid cdb length
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: kwolf@redhat.com
+Date: Tue, 30 Apr 2019 06:54:43 -0700 (PDT)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 136.143.188.55
+Subject: Re: [Qemu-devel] [PATCH] qcow2: Fix qcow2_make_empty() with
+ external data file
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -45,35 +61,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, pbonzini@redhat.com, Bruce Rogers <brogers@suse.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: fam@euphon.net, kwolf@redhat.com, qemu-block@nongnu.org,
+	qemu-stable@nongnu.org, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-While investigating link-time-optimization, the compiler flagged this
-case of not handling the error return from scsi_cdb_length(). Handle
-this error case with a trace report.
-
-Signed-off-by: Bruce Rogers <brogers@suse.com>
----
- hw/scsi/scsi-disk.c | 4 ++++
- 1 file changed, 4 insertions(+)
-
-diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-index e7e865ab3b..8fbf7512e5 100644
---- a/hw/scsi/scsi-disk.c
-+++ b/hw/scsi/scsi-disk.c
-@@ -2520,6 +2520,10 @@ static void scsi_disk_new_request_dump(uint32_t lun, uint32_t tag, uint8_t *buf)
-     int len = scsi_cdb_length(buf);
-     char *line_buffer, *p;
- 
-+    if (len < 0) {
-+        trace_scsi_disk_new_request(lun, tag, "bad cdb length");
-+        return;
-+    }
-     line_buffer = g_malloc(len * 5 + 1);
- 
-     for (i = 0, p = line_buffer; i < len; i++) {
--- 
-2.21.0
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDQyOTEwNTc0MS4zMTAz
+My0xLWt3b2xmQHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgZmFpbGVkIHRoZSBkb2Nr
+ZXItbWluZ3dAZmVkb3JhIGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0ZXN0aW5nIGNvbW1h
+bmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tlciBpbnN0YWxsZWQs
+IHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0gVEVTVCBTQ1JJUFQg
+QkVHSU4gPT09CiMhL2Jpbi9iYXNoCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1taW5nd0BmZWRvcmEg
+U0hPV19FTlY9MSBKPTE0IE5FVFdPUks9MQo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKCgoKVGhl
+IGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDE5MDQy
+OTEwNTc0MS4zMTAzMy0xLWt3b2xmQHJlZGhhdC5jb20vdGVzdGluZy5kb2NrZXItbWluZ3dAZmVk
+b3JhLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQ
+YXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sg
+dG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
 
