@@ -2,44 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59378F2CA
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 11:28:36 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:42099 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BC7FF18D
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 09:42:50 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40825 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLP3z-0002mJ-Hl
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 05:28:35 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54400)
+	id 1hLNPd-0004SQ-7W
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 03:42:49 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60067)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <wangjie88@huawei.com>) id 1hLP2V-0002AH-2a
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 05:27:03 -0400
+	(envelope-from <like.xu@linux.intel.com>) id 1hLNF0-0004Ew-2J
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 03:31:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <wangjie88@huawei.com>) id 1hLP2U-0003OV-1i
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 05:27:03 -0400
-Received: from szxga03-in.huawei.com ([45.249.212.189]:2062 helo=huawei.com)
+	(envelope-from <like.xu@linux.intel.com>) id 1hLNEw-0004MO-VD
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 03:31:48 -0400
+Received: from mga12.intel.com ([192.55.52.136]:59079)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <wangjie88@huawei.com>)
-	id 1hLP2T-0003MU-Ns
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 05:27:02 -0400
-Received: from DGGEML402-HUB.china.huawei.com (unknown [172.30.72.55])
-	by Forcepoint Email with ESMTP id 79E759F0EBA8A7623BB4;
-	Tue, 30 Apr 2019 17:26:57 +0800 (CST)
-Received: from localhost.localdomain (10.175.104.211) by
-	DGGEML402-HUB.china.huawei.com (10.3.17.38) with Microsoft SMTP Server
-	id 14.3.439.0; Tue, 30 Apr 2019 17:26:48 +0800
-From: Jie Wang <wangjie88@huawei.com>
-To: <qemu-devel@nongnu.org>
-Date: Tue, 30 Apr 2019 15:15:00 +0800
-Message-ID: <1556608500-12183-1-git-send-email-wangjie88@huawei.com>
-X-Mailer: git-send-email 1.8.3.1
+	(Exim 4.71) (envelope-from <like.xu@linux.intel.com>)
+	id 1hLNEu-0003Tt-4X; Tue, 30 Apr 2019 03:31:44 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+	by fmsmga106.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	30 Apr 2019 00:30:36 -0700
+X-IronPort-AV: E=Sophos;i="5.60,412,1549958400"; d="scan'208";a="138643799"
+Received: from likexu-mobl1.ccr.corp.intel.com (HELO [10.239.196.97])
+	([10.239.196.97])
+	by orsmga008-auth.jf.intel.com with ESMTP/TLS/AES128-SHA;
+	30 Apr 2019 00:30:33 -0700
+To: Igor Mammedov <imammedo@redhat.com>
+References: <1553849325-44201-1-git-send-email-like.xu@linux.intel.com>
+	<1553849325-44201-3-git-send-email-like.xu@linux.intel.com>
+	<20190404162555.0a2267ee@redhat.com>
+From: Like Xu <like.xu@linux.intel.com>
+Organization: Intel OTC
+Message-ID: <a765e3ac-45e6-310e-aa66-7036b5717a26@linux.intel.com>
+Date: Tue, 30 Apr 2019 15:30:31 +0800
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.175.104.211]
-X-CFilter-Loop: Reflected
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 45.249.212.189
-Subject: [Qemu-devel] [PATCH] vhost: fix memory leak in
- vhost_user_scsi_realize
+In-Reply-To: <20190404162555.0a2267ee@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 192.55.52.136
+Subject: Re: [Qemu-devel] [PATCH 2/9] cpu/topology: add general support for
+ machine properties
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -51,46 +61,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: wangjie88@huawei.com, wu.wubin@huawei.com, mst@redhat.com
+Cc: Eduardo Habkost <ehabkost@redhat.com>, qemu-trivial@nongnu.org,
+	"Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+	qemu-devel@nongnu.org, like.xu@intel.com,
+	Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-fix memory leak in vhost_user_scsi_realize
+On 2019/4/4 22:25, Igor Mammedov wrote:
+> On Fri, 29 Mar 2019 16:48:38 +0800
+> Like Xu <like.xu@linux.intel.com> wrote:
+> 
 
-Signed-off-by: Jie Wang <wangjie88@huawei.com>
----
- hw/scsi/vhost-user-scsi.c | 3 +++
- 1 file changed, 3 insertions(+)
+<snipp>
+> 
+>> diff --git a/cpus.c b/cpus.c
+>> index e83f72b..834a697 100644
+>> --- a/cpus.c
+>> +++ b/cpus.c
+>> @@ -2067,6 +2067,10 @@ static void qemu_dummy_start_vcpu(CPUState *cpu)
+>>   
+>>   void qemu_init_vcpu(CPUState *cpu)
+>>   {
+>> +    MachineState *ms = MACHINE(qdev_get_machine());
+>> +    unsigned int smp_cores = ms->topo.smp_cores;
+>> +    unsigned int smp_threads = ms->topo.smp_threads;
+> 
+> (***)
+> for once it probably will crash *-user builds
+> and secondly the purpose of getting rid of smp_foo globals
+> is disentangle layer violations and not replace it with another global
+> (qdev_get_machine()).
 
-diff --git a/hw/scsi/vhost-user-scsi.c b/hw/scsi/vhost-user-scsi.c
-index 8b1e6876db..a9fd8ea305 100644
---- a/hw/scsi/vhost-user-scsi.c
-+++ b/hw/scsi/vhost-user-scsi.c
-@@ -69,6 +69,7 @@ static void vhost_user_scsi_realize(DeviceState *dev, Error **errp)
-     VirtIOSCSICommon *vs = VIRTIO_SCSI_COMMON(dev);
-     VHostUserSCSI *s = VHOST_USER_SCSI(dev);
-     VHostSCSICommon *vsc = VHOST_SCSI_COMMON(s);
-+    struct vhost_virtqueue *vqs = NULL;
-     Error *err = NULL;
-     int ret;
- 
-@@ -93,6 +94,7 @@ static void vhost_user_scsi_realize(DeviceState *dev, Error **errp)
-     vsc->dev.vqs = g_new(struct vhost_virtqueue, vsc->dev.nvqs);
-     vsc->dev.vq_index = 0;
-     vsc->dev.backend_features = 0;
-+    vqs = vsc->dev.vqs;
- 
-     ret = vhost_dev_init(&vsc->dev, &s->vhost_user,
-                          VHOST_BACKEND_TYPE_USER, 0);
-@@ -100,6 +102,7 @@ static void vhost_user_scsi_realize(DeviceState *dev, Error **errp)
-         error_setg(errp, "vhost-user-scsi: vhost initialization failed: %s",
-                    strerror(-ret));
-         vhost_user_cleanup(&s->vhost_user);
-+        g_free(vqs);
-         return;
-     }
- 
--- 
-2.16.2.windows.1
+I am happy to follow this rule on cpu-topo refactoring work, but 
+sometimes calling qdev_get_machine() is inevitable.
 
+> 
+> What should be done is to make a properties of nr_cores/nr_threads and set
+> them from the parent object that creates CPUs. The point is CPUs shouldn't
+> reach out outside itself to fish out data bits it needs, it's responsibility
+> of creator to feed to being create CPU needed properties.
+> 
+> This kind of refactoring probably deserves its own series and should precede
+> -smp refactoring as it doesn't depend on CpuTopology at all.
+> 
+
+The division of responsibility for this case (refactoring 
+qemu_init_vcpu) seems to be a poisonous apple.
+
+The prerequisite for setting cpu-> nr_cores / nr_threads from the parent 
+is that the CPU has been created, so if any process during 
+initialization needs this topo information, it will use the default 
+values form cpu_common_initfn() instead of user-configured parameters.
+
+We may not want to repeat those assignment operations using the new 
+values and what do you think, Igor?
+
+<snipp>
 
