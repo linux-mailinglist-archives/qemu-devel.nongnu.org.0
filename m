@@ -2,53 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08503F77D
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 14:00:07 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:45072 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3544EF80C
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 14:06:14 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:45783 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLRQY-0003Ka-VZ
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 08:00:03 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56389)
-	by lists.gnu.org with esmtp (Exim 4.71) (envelope-from <pl@kamp.de>)
-	id 1hLROD-0002E3-NA
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 07:57:38 -0400
+	id 1hLRWX-0008Tz-Dv
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 08:06:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57084)
+	by lists.gnu.org with esmtp (Exim 4.71)
+	(envelope-from <peter.maydell@linaro.org>) id 1hLROj-0002f6-IK
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 07:58:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <pl@kamp.de>) id 1hLRKz-0002Hv-MJ
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 07:54:19 -0400
-Received: from mx01.kamp.de ([82.141.2.16]:36460)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <pl@kamp.de>) id 1hLRKz-0002GI-Cj
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 07:54:17 -0400
-Received: (qmail 15431 invoked by uid 89); 30 Apr 2019 11:54:12 -0000
-Received: from [195.62.97.192] by client-16-kamp (envelope-from <pl@kamp.de>,
-	uid 89) with qmail-scanner-2010/03/19-MF 
-	(clamdscan: 0.101.2/25435. avast: 1.2.2/17010300. spamassassin: 3.4.1. 
-	Clear:RC:1(195.62.97.192):. 
-	Processed in 0.061591 secs); 30 Apr 2019 11:54:12 -0000
-Received: from kerio.kamp.de ([195.62.97.192])
-	by mx01.kamp.de with ESMTPS (DHE-RSA-AES256-SHA encrypted);
-	30 Apr 2019 11:54:11 -0000
-X-GL_Whitelist: yes
-X-Footer: a2FtcC5kZQ==
-Received: from submission.kamp.de ([195.62.97.28]) by kerio.kamp.de with ESMTPS
-	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256 bits))
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 13:54:09 +0200
-Received: (qmail 17984 invoked from network); 30 Apr 2019 11:54:11 -0000
-Received: from lieven-pc.kamp-intra.net (HELO lieven-pc)
-	(relay@kamp.de@::ffff:172.21.12.60)
-	by submission.kamp.de with ESMTPS (DHE-RSA-AES256-GCM-SHA384 encrypted)
-	ESMTPA; 30 Apr 2019 11:54:11 -0000
-Received: by lieven-pc (Postfix, from userid 1060)
-	id 7967113EA62; Tue, 30 Apr 2019 13:54:11 +0200 (CEST)
-From: Peter Lieven <pl@kamp.de>
-To: qemu-devel@nongnu.org
-Date: Tue, 30 Apr 2019 13:54:04 +0200
-Message-Id: <20190430115404.18483-1-pl@kamp.de>
-X-Mailer: git-send-email 2.17.1
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 82.141.2.16
-Subject: [Qemu-devel] [PATCH RESEND] megasas: fix mapped frame size
+	(envelope-from <peter.maydell@linaro.org>) id 1hLROi-0005Gz-If
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 07:58:09 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:37990)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hLROi-0005Et-C4
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 07:58:08 -0400
+Received: by mail-ot1-x343.google.com with SMTP id t20so11629075otl.5
+	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 04:58:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=tk8COTEyjthIF0Jp1cfA+pEDRboxt604+/zaiAyN2ak=;
+	b=KRakDecwcBqQ2OkY2KEXO4PdfIihuAJP3bHyFjrr2bESmhkyM1sZ5a3qYlbjS+eKFY
+	JbxiXOTdtm69fVkQFpVgtqqqXrDdFhFbkr3Gg15BQlGJIEYILvT7l7+x5UpQRkCnW08D
+	OxrbNYalZVg0CL48GfkHkceAOuR4Wzq1A7aDZsbtOF8qIBLH0pTUWg1z6l4iRmkLYkhW
+	yZt8fBaidtbDk673NTaiVxZdDVNYo+QwefdSJcHMwWWeSbbgVTb02FvnSa/1CmRt1oFY
+	/hPHFxLTzZfp/uel3cJz5KmP++qoTPo3eayBxX2xvPP+/7zAXxRop8I0phwRMXQ5YG2W
+	gDFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=tk8COTEyjthIF0Jp1cfA+pEDRboxt604+/zaiAyN2ak=;
+	b=XjVJ7ki3BDopOI1dkz8JeiacT/MI2WH409CZ9RchrWmmSRT9f12eOrssAqZAiKSJJ7
+	oIyOJeksp8qVX7qxji0bCghsIJfY5zw6XXs3pjpZXDe6osi7lRhM+ae1iY82rei2X6UC
+	UIi9bLp7cMktbf6VTqERQlCT33GerL05HCEqvOIse2x5ffonI9bKpW8QY9rcTdVvZcJJ
+	vj/OVGymTMiocaPrJa2xUpUCbRM55L15//u9WHl7YGz+iqa8dCqo5joIZUZmJc2y0Ngj
+	wCDuB+STquE+ApCojeZbY+xtsEWf4Gy2g5DKfpRKsg13R+mFSJD3ns2sk75WPW76s9dm
+	JPyA==
+X-Gm-Message-State: APjAAAUvu/47Uq0n9V9yQuYw3anKyb/NEL6ta7BwHOgHGNLxsxmcfvTQ
+	hU0ku6mmHEn2Gi9YzaDMlL8qbjz6vlZ/ObIGtyV9Ww==
+X-Google-Smtp-Source: APXvYqzaBT2MVCZArf8k4THSgl6eKioQcmL30D2EoK47ms45EHbBLYigl4yiyerJfB3yHHjlnT3EzzY6AnHvPXv2Aa4=
+X-Received: by 2002:a9d:404:: with SMTP id 4mr39916317otc.352.1556625487129;
+	Tue, 30 Apr 2019 04:58:07 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190403034358.21999-1-richard.henderson@linaro.org>
+	<20190403034358.21999-6-richard.henderson@linaro.org>
+In-Reply-To: <20190403034358.21999-6-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 30 Apr 2019 12:57:56 +0100
+Message-ID: <CAFEAcA-LJfcTp2BNtug3XM39jTUQSEu3wNrgYmJih6cvPubShg@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::343
+Subject: Re: [Qemu-devel] [PATCH 05/26] target/cris: Convert to
+ CPUClass::tlb_fill
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -60,37 +73,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, pbonzini@redhat.com, hare@suse.com,
-	Peter Lieven <pl@kamp.de>, qemu-stable@nongnu.org
+Cc: "Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+	QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-the current value of 1024 bytes (16 * MFI_FRAME_SIZE) we map is not enough to hold
-the maximum number of scatter gather elements we advertise. We actually need a
-maximum of 2048 bytes. This is 128 max sg elements * 16 bytes (sizeof (union mfi_sgl)).
+On Wed, 3 Apr 2019 at 04:46, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Cc: Edgar E. Iglesias <edgar.iglesias@gmail.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/cris/cpu.h       |  5 +--
+>  target/cris/cpu.c       |  5 ++-
+>  target/cris/helper.c    | 67 +++++++++++++++++++++++------------------
+>  target/cris/op_helper.c | 28 -----------------
+>  4 files changed, 42 insertions(+), 63 deletions(-)
 
-Cc: qemu-stable@nongnu.org
-Signed-off-by: Peter Lieven <pl@kamp.de>
-Reviewed-by: Hannes Reinecke <hare@suse.com>
----
- hw/scsi/megasas.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> -int cris_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size, int rw,
+> -                              int mmu_idx)
+> +bool cris_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+> +                       MMUAccessType access_type, int mmu_idx,
+> +                       bool probe, uintptr_t retaddr)
+>  {
+>      CRISCPU *cpu = CRIS_CPU(cs);
+>
+>      cs->exception_index = 0xaa;
+>      cpu->env.pregs[PR_EDA] = address;
+> -    cpu_dump_state(cs, stderr, fprintf, 0);
+> -    return 1;
+> +    cpu_loop_exit_restore(cs, retaddr);
 
-diff --git a/hw/scsi/megasas.c b/hw/scsi/megasas.c
-index a56317e026..5ad762de23 100644
---- a/hw/scsi/megasas.c
-+++ b/hw/scsi/megasas.c
-@@ -477,7 +477,7 @@ static MegasasCmd *megasas_enqueue_frame(MegasasState *s,
- {
-     PCIDevice *pcid = PCI_DEVICE(s);
-     MegasasCmd *cmd = NULL;
--    int frame_size = MFI_FRAME_SIZE * 16;
-+    int frame_size = MEGASAS_MAX_SGE * sizeof(union mfi_sgl);
-     hwaddr frame_size_p = frame_size;
-     unsigned long index;
- 
--- 
-2.17.1
+You might mention in the commit message that we removed the
+cpu_dump_state().
 
+> +    env->pregs[PR_EDA] = address;
+> +    cs->exception_index = EXCP_BUSFAULT;
+> +    env->fault_vector = res.bf_vec;
+> +    if (retaddr) {
+> +        if (cpu_restore_state(cs, retaddr, true)) {
+> +            /* Evaluate flags after retranslation. */
+> +            helper_top_evaluate_flags(env);
 
+Side note because the old code does the same thing, but it seems
+weird that we have to manually recalculate the flags here -- I
+would expect cpu_restore_state() to actually restore the state
+(presumably by having restore_state_to_opc() do the fixing up
+of the flags?).
+
+> +        }
+> +    }
+> +    cpu_loop_exit(cs);
+> +}
+
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+
+thanks
+-- PMM
 
