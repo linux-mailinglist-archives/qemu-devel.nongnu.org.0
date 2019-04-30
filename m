@@ -2,52 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7741F431
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 12:28:39 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:42779 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22549F42B
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 12:26:12 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:42719 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLQ06-0001oo-Rv
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 06:28:38 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34978)
+	id 1hLPxj-0007uE-8D
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 06:26:11 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34750)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hLPq7-0001iV-9s
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 06:18:20 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hLPq7-0001Py-2D
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 06:18:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hLPbk-0002Hl-AR
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 06:03:29 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53704)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <kwolf@redhat.com>)
-	id 1hLPbj-0002Go-00; Tue, 30 Apr 2019 06:03:27 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 0ED2C99CE3;
-	Tue, 30 Apr 2019 10:03:26 +0000 (UTC)
-Received: from linux.fritz.box (unknown [10.36.118.15])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id C7E281001E95;
-	Tue, 30 Apr 2019 10:03:24 +0000 (UTC)
-Date: Tue, 30 Apr 2019 12:03:22 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Alberto Garcia <berto@igalia.com>
-Message-ID: <20190430100322.GB5607@linux.fritz.box>
-References: <cover.1556562150.git.berto@igalia.com>
-	<e5e1571c583874454760dc738ef3ea3470ea96e7.1556562150.git.berto@igalia.com>
+	(envelope-from <peter.maydell@linaro.org>) id 1hLPc5-0002Ro-MD
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 06:03:50 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:46788)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hLPc5-0002RR-Gg
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 06:03:49 -0400
+Received: by mail-ot1-x344.google.com with SMTP id 77so5193694otu.13
+	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 03:03:49 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=+0LVksmHFxb8DH63ZwZa4UFMV0ydXFLgWS9mM83jlro=;
+	b=kcNx1wjNpw04n58cBNrhMgOQvDr0wUhiqj0851ATdz7IxMqz12tLXoKme/03ddJFaR
+	V4DybR9GfEFMDX1hXoqWjcQ26e5B0xh4pyf2nJK5e2aysipkWk/JLcA/Yy0G7jAu5bDQ
+	QVjjruNRctY9b3yRUSGx2agtQr7+Yqh5tL1fec2O9GErhEtZ2dGGv58nKt07o2n2v5RF
+	N9PMqsTXZMsO2GMPhQmcomDPya0BtVK6fx5+Hqha506WEGHQoVYQRTyYeMwpDsJLdUKa
+	wUhR5XX1/JXnH9qRTJechRUDjjcTat42RG5ntY0xNWMVC5TTZCFTT43bltiS7xqNY2Mo
+	vTxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=+0LVksmHFxb8DH63ZwZa4UFMV0ydXFLgWS9mM83jlro=;
+	b=OdqRllBgneMKfkNXKMLAYM2dvjVy4Lii16pIkoG4tshKQHv5aVl75JgZyPUFaSUGfY
+	k4WFdkhEU3783VosB51ycamY8w7yEK5yuTWta3Kpt0TSt3dbmlKHqfjW/sQ3W16mB9Zw
+	yT2Ytxy0hUdPIkzScg0+x2G92CnBjoQbiDsGp0HlYa4b0T+Nkd4s5Ga1l2FCfUyRd/Ap
+	Uxt+3MKpZlwMKBpQiH0ndMA1/yTLFhNmOHShUvt44WLGCZlBxGdP8TAfk5O3kO6Vy6pR
+	igxaIOAkJU+hJpV/Qv3uwQKmSVMd8v3a1U90sUPijaTrkqbhnbDADlxJKmVFy75ZsEBq
+	UMIw==
+X-Gm-Message-State: APjAAAU+rQHgocQWSnCWj6rjfGNVDYJHDLtBK6Fnr8WsjS8wxCJJqvH2
+	S2kFXZJYG3Gs/hy0bvbr3ePdOh4VQJ585YjdLCgvEw==
+X-Google-Smtp-Source: APXvYqyXioxQxztfOAvhW9PO6pKXMl2ta6IsBgUZssrsNl/l3B7WfeiJzBjhqBjLxceuis2GmCwIVTKUNjEl3M/tDBI=
+X-Received: by 2002:a9d:6156:: with SMTP id c22mr11725500otk.363.1556618628677;
+	Tue, 30 Apr 2019 03:03:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <e5e1571c583874454760dc738ef3ea3470ea96e7.1556562150.git.berto@igalia.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.38]);
-	Tue, 30 Apr 2019 10:03:26 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 2/5] vdi: Replace bdrv_{read,
- write}() with bdrv_{pread, pwrite}()
+References: <20190403034358.21999-1-richard.henderson@linaro.org>
+	<20190403034358.21999-22-richard.henderson@linaro.org>
+In-Reply-To: <20190403034358.21999-22-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 30 Apr 2019 11:03:37 +0100
+Message-ID: <CAFEAcA_6-1+Pk8k7Wr8bVjWsLnNwyVp4R0TyYiPvcBy_o8ZmWA@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::344
+Subject: Re: [Qemu-devel] [PATCH 21/26] target/tricore: Convert to
+ CPUClass::tlb_fill
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -59,79 +73,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+	QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 29.04.2019 um 20:42 hat Alberto Garcia geschrieben:
-> There's only a couple of bdrv_read() and bdrv_write() calls left in
-> the vdi code, and they can be trivially replaced with the byte-based
-> bdrv_pread() and bdrv_pwrite().
-> 
-> Signed-off-by: Alberto Garcia <berto@igalia.com>
+On Wed, 3 Apr 2019 at 04:58, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Cc: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  block/vdi.c | 11 ++++++-----
->  1 file changed, 6 insertions(+), 5 deletions(-)
-> 
-> diff --git a/block/vdi.c b/block/vdi.c
-> index e1c42ad732..8d849b2754 100644
-> --- a/block/vdi.c
-> +++ b/block/vdi.c
-> @@ -384,7 +384,7 @@ static int vdi_open(BlockDriverState *bs, QDict *options, int flags,
->  
->      logout("\n");
->  
-> -    ret = bdrv_read(bs->file, 0, (uint8_t *)&header, 1);
-> +    ret = bdrv_pread(bs->file, 0, (uint8_t *)&header, sizeof(header));
+>  target/tricore/cpu.h       |  6 +++---
+>  target/tricore/cpu.c       |  1 +
+>  target/tricore/helper.c    | 27 +++++++++++++++++++--------
+>  target/tricore/op_helper.c | 26 --------------------------
+>  4 files changed, 23 insertions(+), 37 deletions(-)
+>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-Maybe worth adding this after the VdiHeader declaration?
-
-QEMU_BUILD_BUG_ON(sizeof(VdiHeader) != 512);
-
->      if (ret < 0) {
->          goto fail;
->      }
-> @@ -484,8 +484,8 @@ static int vdi_open(BlockDriverState *bs, QDict *options, int flags,
->          goto fail;
->      }
->  
-> -    ret = bdrv_read(bs->file, s->bmap_sector, (uint8_t *)s->bmap,
-> -                    bmap_size);
-> +    ret = bdrv_pread(bs->file, header.offset_bmap, (uint8_t *)s->bmap,
-> +                     bmap_size * SECTOR_SIZE);
->      if (ret < 0) {
->          goto fail_free_bmap;
->      }
-> @@ -704,7 +704,7 @@ nonallocating_write:
->          assert(VDI_IS_ALLOCATED(bmap_first));
->          *header = s->header;
->          vdi_header_to_le(header);
-> -        ret = bdrv_write(bs->file, 0, block, 1);
-> +        ret = bdrv_pwrite(bs->file, 0, block, sizeof(*block));
-
-block is uint8_t*, so sizeof(*block) == 1. This is not what you want.
-(qemu-iotests catches this pretty early.)
-
->          g_free(block);
->          block = NULL;
->  
-> @@ -722,7 +722,8 @@ nonallocating_write:
->          base = ((uint8_t *)&s->bmap[0]) + bmap_first * SECTOR_SIZE;
->          logout("will write %u block map sectors starting from entry %u\n",
->                 n_sectors, bmap_first);
-> -        ret = bdrv_write(bs->file, offset, base, n_sectors);
-> +        ret = bdrv_pwrite(bs->file, offset * SECTOR_SIZE, base,
-> +                          n_sectors * SECTOR_SIZE);
->      }
->  
->      return ret;
-
-Let's avoid returning a non-zero positive number in the success case
-here. bdrv_driver_pwritev() checks ret == 0 for BDRV_REQ_FUA emulation,
-and its callers don't expect positive results either.
-
-Maybe we should actually assert() in bdrv_driver_preadv/pwritev() that
-the result is <= 0.
-
-Kevin
+thanks
+-- PMM
 
