@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8DC2DF19E
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 09:47:15 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40895 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6570F15B
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 09:34:27 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40625 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLNTu-0007jv-GM
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 03:47:14 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56844)
+	id 1hLNHW-0005Ik-Vx
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 03:34:27 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56953)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hLN2w-0001Jg-LG
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 03:19:23 -0400
+	(envelope-from <thuth@redhat.com>) id 1hLN3B-0001W5-RG
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 03:19:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hLN2u-00061Z-Nu
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 03:19:22 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48546)
+	(envelope-from <thuth@redhat.com>) id 1hLN3A-0006Gs-Th
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 03:19:37 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54950)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <thuth@redhat.com>)
-	id 1hLN2p-0005zx-3F; Tue, 30 Apr 2019 03:19:15 -0400
+	id 1hLN35-00069i-At; Tue, 30 Apr 2019 03:19:32 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
 	[10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 1E997821F3;
-	Tue, 30 Apr 2019 07:19:14 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 876A33082E56;
+	Tue, 30 Apr 2019 07:19:26 +0000 (UTC)
 Received: from thuth.com (ovpn-116-190.ams2.redhat.com [10.36.116.190])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 1CA451001DD2;
-	Tue, 30 Apr 2019 07:19:04 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 8847F1000049;
+	Tue, 30 Apr 2019 07:19:15 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: yang.zhong@intel.com, Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org, pbonzini@redhat.com
-Date: Tue, 30 Apr 2019 09:14:02 +0200
-Message-Id: <20190430071405.16714-28-thuth@redhat.com>
+Date: Tue, 30 Apr 2019 09:14:03 +0200
+Message-Id: <20190430071405.16714-29-thuth@redhat.com>
 In-Reply-To: <20190430071405.16714-1-thuth@redhat.com>
 References: <20190430071405.16714-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.28]);
-	Tue, 30 Apr 2019 07:19:14 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.46]);
+	Tue, 30 Apr 2019 07:19:26 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v6 27/30] hw/arm: Express dependencies of the
- ZynqMP zcu102 machine with Kconfig
+Subject: [Qemu-devel] [PATCH v6 28/30] hw/arm: Express dependencies of the
+ xlnx-versal-virt machine with Kconfig
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -75,66 +75,30 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This cleans up most settings in default-configs/aarch64-softmmu.mak.
+Dependencies have been determined with trial-and-error and by
+looking at the xlnx-versal.c source file.
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- default-configs/aarch64-softmmu.mak |  4 ----
- hw/arm/Kconfig                      | 11 +++++++++++
- hw/display/Kconfig                  |  1 +
- 3 files changed, 12 insertions(+), 4 deletions(-)
+ hw/arm/Kconfig | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/default-configs/aarch64-softmmu.mak b/default-configs/aarch6=
-4-softmmu.mak
-index 313490fb38..49ff415ee4 100644
---- a/default-configs/aarch64-softmmu.mak
-+++ b/default-configs/aarch64-softmmu.mak
-@@ -3,9 +3,5 @@
- # We support all the 32 bit boards so need all their config
- include arm-softmmu.mak
-=20
--CONFIG_AUX=3Dy
--CONFIG_DDC=3Dy
--CONFIG_DPCD=3Dy
--CONFIG_XLNX_ZYNQMP=3Dy
- CONFIG_XLNX_ZYNQMP_ARM=3Dy
- CONFIG_XLNX_VERSAL=3Dy
 diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index da091ac217..eff61efab9 100644
+index eff61efab9..9609caef87 100644
 --- a/hw/arm/Kconfig
 +++ b/hw/arm/Kconfig
-@@ -279,6 +279,17 @@ config STM32F205_SOC
-=20
- config XLNX_ZYNQMP_ARM
-     bool
-+    select AHCI
-+    select ARM_GIC
-+    select CADENCE
-+    select DDC
-+    select DPCD
-+    select SDHCI
-+    select SSI
-+    select SSI_M25P80
-+    select XILINX_AXI
-+    select XILINX_SPIPS
-+    select XLNX_ZYNQMP
+@@ -293,6 +293,10 @@ config XLNX_ZYNQMP_ARM
 =20
  config XLNX_VERSAL
      bool
-diff --git a/hw/display/Kconfig b/hw/display/Kconfig
-index 0577e68c8e..bb95f8d6a4 100644
---- a/hw/display/Kconfig
-+++ b/hw/display/Kconfig
-@@ -108,6 +108,7 @@ config VIRTIO_VGA
++    select ARM_GIC
++    select PL011
++    select CADENCE
++    select VIRTIO_MMIO
 =20
- config DPCD
-     bool
-+    select AUX
-=20
- config ATI_VGA
+ config FSL_IMX25
      bool
 --=20
 2.21.0
