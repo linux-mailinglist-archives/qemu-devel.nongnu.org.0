@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0D537FDB1
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 18:20:56 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49510 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 40E69FDE7
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 18:30:06 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49827 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLVV1-0004tC-5K
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 12:20:55 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54893)
+	id 1hLVds-00046U-UP
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 12:30:04 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55416)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hLVCm-000768-Ts
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:02:09 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hLVF1-0000NN-HM
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:04:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hLVCl-0005z0-Rm
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:02:04 -0400
-Received: from mail-ot1-x32a.google.com ([2607:f8b0:4864:20::32a]:37405)
+	(envelope-from <peter.maydell@linaro.org>) id 1hLVF0-00078C-AJ
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:04:23 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:32916)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hLVCl-0005yG-M5
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:02:03 -0400
-Received: by mail-ot1-x32a.google.com with SMTP id r20so11259163otg.4
-	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 09:02:03 -0700 (PDT)
+	id 1hLVF0-00073t-3p
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:04:22 -0400
+Received: by mail-oi1-x243.google.com with SMTP id l1so9835368oib.0
+	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 09:04:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=dyNCtj5gU292e5SAgxjtbKC2vuxYG+NGlq6ortkuw/E=;
-	b=XNe9ISlJkENPDe1zJj41Ws3h1dxI5PatrrvxJi/cX/yhQbvGsGCMItD+hBWCfTWJTc
-	sWSP8XxyADOemTWujXHHcLejCrbN80BJ5uRafzPBGYopVPyK01teqrOtD0EDK/WRGp7J
-	W0FO/D+Wr1CABMd1bhl+DwIwpDkhrOqJV7Ds0Sc0BUT7+RZ1FkB43/eosQ/E8WnDbowx
-	NxC4vnySW2oIsd2arfzz4KUafJToic8dwokmXtGUrRB2zxg80w9b6ikXILG651DSiGyk
-	7+nxdvGbzuxqoD4EchzRvftm+vUpjmmfLhgCGXCavo+D8BmSShjG143PISgR4icyOTsK
-	PlSw==
+	:cc; bh=HGs5yFmrBguiRLBs8otD+yjmRKaEtHfPS4Kfu4FjCxk=;
+	b=IYiNjvqbK3Wuec1Zax+ndDu/tN8da9lxGcnuM1+DmvB7Z1+oKHr64+7UFErsUgvbng
+	Jk8Z2X4ebbVdfxvsB10m9uJfHqOP6A4twdORIkXEGsC+HRNRjxXKGnmKhxygzVIM+Z32
+	goEeXdhM4EDnjKuP3LyIi9oUD0C178l6KTmNyF4kLbiLJaqg0zouQLXcXOBbnbEOF7II
+	3NAjTK6ImpEx/wl2PeX4V9AwkrM8LvGN+ukirqlsoZm1jrp2GtKcMOUT8HWY1iVwhnRw
+	X7WMtX7kEc3fFz2Q0sMTfgBtEpa4TmgxIcRDot1aaJn6SbwPFmcc+QkFY483Va90gdxd
+	uJYA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=dyNCtj5gU292e5SAgxjtbKC2vuxYG+NGlq6ortkuw/E=;
-	b=dz8D5idKOtPXwgy8RowUnJGD50+FCsPZBC5tKoDxMqyONr1o3vUk80KVNDW74LPJWe
-	pIuxu+FwPSM/Gg1+WCjl1vLU6yMLA5o42I52nnbP8ION4+elklH4GxL+9PJLa3/MY/rS
-	jSOBig+MFu4GS9tEPGvI6OA0xMlWIqPGv4ykY8qcTCjc/u+RizjMtSvf4gTbvnscueNI
-	MpcFxFvTwzXyMRtF6J8xVQQBO2pfgjSpaUBzXkIYGy6rg1cTUUItYQE+a2wFN1Q0Z+FQ
-	unFoTMPwW0zffT6CjSdKxEqpC30dBMlnmGvW2L+akY7wCnRK0y5KpJu1MOtQJ7EAO3fe
-	xYFQ==
-X-Gm-Message-State: APjAAAU/bzXxoocWLLDR8jYOcjDAZtqg53TRvXVaN5zHFI9NSc7xw5c1
-	6a1q6+bWD/nR7UVrQo9Owajv5XsTqkyWXuUHTntLNQ==
-X-Google-Smtp-Source: APXvYqxnApB1YILdOVJUdIs4/nd0iIJ8S16lx7DS4RFe97e02rWD0Isb5gbig/Mfybt4WuRzTYP7oOrdpNI/dIVgdV8=
-X-Received: by 2002:a9d:360b:: with SMTP id w11mr16653313otb.238.1556640122341;
-	Tue, 30 Apr 2019 09:02:02 -0700 (PDT)
+	bh=HGs5yFmrBguiRLBs8otD+yjmRKaEtHfPS4Kfu4FjCxk=;
+	b=axjF6BjvVKTUDhSfq/Q9cJYa0sNDqpt8XINNXeDbx8FLBj9VLci3u9VPpZDjYl9ikC
+	RF9S5IGCFN9b5FeNosMcDQ+MXYpaav9urIuknuTALzCkgzDXtVwPiG38HYpObRjf+q8f
+	PkM2peBHyxWWu3Ttw+fWaYqJwtAXgKVr/UggqdHm/MdZEv96l9rJJ3+R4eAJt6nFMajt
+	MmY2ECCT5qg2tR+TJP4uNmqAPRVUurAkLi9SHCU7wJRYKgoX1QoiJvxqx2fLRtCuv4TZ
+	wtzcq1CWApfQEuF5+O8WrrDz78CnfQmxGHjvW3VQsSh2pCm2+WN7PsOVL2t9bMRfo/JH
+	2Mdw==
+X-Gm-Message-State: APjAAAXVe2oyEcpsyWhvVMbNf7vnvojOxhPPqrLzjFdz+oolKKCilWR+
+	PQazpP0VBbYBZyalRKiOCVYklJKS16tmLL3swwzLEQ==
+X-Google-Smtp-Source: APXvYqzLDy/M1Ic1wOB89dwkzMr4U6yO8MYfdtNrJFAnoz4yCW9KDyGSp6OkQrNVSoxnXtYx5mmIXF9TijQMpWK3Wx4=
+X-Received: by 2002:aca:4b04:: with SMTP id y4mr3341601oia.170.1556640254517; 
+	Tue, 30 Apr 2019 09:04:14 -0700 (PDT)
 MIME-Version: 1.0
 References: <cover.1556515687.git.alistair@alistair23.me>
-	<PSXP216MB02771957D4B9C5A15914D05FDD390@PSXP216MB0277.KORP216.PROD.OUTLOOK.COM>
-In-Reply-To: <PSXP216MB02771957D4B9C5A15914D05FDD390@PSXP216MB0277.KORP216.PROD.OUTLOOK.COM>
+	<PSXP216MB0277192E4A6C255E30EFE627DD390@PSXP216MB0277.KORP216.PROD.OUTLOOK.COM>
+In-Reply-To: <PSXP216MB0277192E4A6C255E30EFE627DD390@PSXP216MB0277.KORP216.PROD.OUTLOOK.COM>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 30 Apr 2019 17:01:51 +0100
-Message-ID: <CAFEAcA86i3aZx-h2ys5kmc35AMqzd6k=JrfVXObdbcppnn-J8w@mail.gmail.com>
+Date: Tue, 30 Apr 2019 17:04:03 +0100
+Message-ID: <CAFEAcA_rJT3NxMAyoVFCbxNi0vNfCRg1bhHTsOmd5pa1pb_DzA@mail.gmail.com>
 To: Alistair Francis <alistair@alistair23.me>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::32a
-Subject: Re: [Qemu-devel] [PATCH v1 5/5] hw/arm: Add the Netduino Plus 2
+X-Received-From: 2607:f8b0:4864:20::243
+Subject: Re: [Qemu-devel] [PATCH v1 1/5] armv7m: Allow entry information to
+ be returned
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -77,60 +78,31 @@ Cc: "alistair23@gmail.com" <alistair23@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 29 Apr 2019 at 06:39, Alistair Francis <alistair@alistair23.me> wrote:
+On Mon, 29 Apr 2019 at 06:34, Alistair Francis <alistair@alistair23.me> wrote:
+>
+> Allow the kernel's entry point information to be returned when loading a
+> kernel.
 >
 > Signed-off-by: Alistair Francis <alistair@alistair23.me>
 > ---
->  MAINTAINERS                     |  6 +++
->  default-configs/arm-softmmu.mak |  1 +
->  hw/arm/Kconfig                  |  3 ++
->  hw/arm/Makefile.objs            |  1 +
->  hw/arm/netduinoplus2.c          | 77 +++++++++++++++++++++++++++++++++
->  5 files changed, 88 insertions(+)
->  create mode 100644 hw/arm/netduinoplus2.c
->
+>  hw/arm/armv7m.c      | 6 +++---
+>  hw/arm/microbit.c    | 2 +-
+>  hw/arm/mps2-tz.c     | 3 ++-
+>  hw/arm/mps2.c        | 2 +-
+>  hw/arm/msf2-som.c    | 2 +-
+>  hw/arm/musca.c       | 3 ++-
+>  hw/arm/netduino2.c   | 2 +-
+>  hw/arm/stellaris.c   | 3 ++-
+>  include/hw/arm/arm.h | 4 +++-
+>  9 files changed, 16 insertions(+), 11 deletions(-)
 
-> +typedef struct ARMV7MResetArgs {
-> +    ARMCPU *cpu;
-> +    uint32_t reset_sp;
-> +    uint32_t reset_pc;
-> +} ARMV7MResetArgs;
-> +
-> +static void armv7m_reset(void *opaque)
-> +{
-> +    ARMV7MResetArgs *args = opaque;
-> +
-> +    cpu_reset(CPU(args->cpu));
-> +
-> +    args->cpu->env.regs[13] = args->reset_sp & 0xFFFFFFFC;
-> +    args->cpu->env.thumb = args->reset_pc & 1;
-> +    args->cpu->env.regs[15] = args->reset_pc & ~1;
-> +}
-> +
-> +static void netduinoplus2_init(MachineState *machine)
-> +{
-> +    DeviceState *dev;
-> +    ARMV7MResetArgs reset_args;
-> +    uint64_t entry;
-> +
-> +    dev = qdev_create(NULL, TYPE_STM32F405_SOC);
-> +    qdev_prop_set_string(dev, "cpu-type", ARM_CPU_TYPE_NAME("cortex-m4"));
-> +    object_property_set_bool(OBJECT(dev), true, "realized", &error_fatal);
-> +
-> +    armv7m_load_kernel(ARM_CPU(first_cpu), machine->kernel_filename,
-> +                       FLASH_SIZE, &entry);
-> +
-> +    reset_args = (ARMV7MResetArgs) {
-> +        .cpu = ARM_CPU(first_cpu),
-> +        .reset_pc = entry,
-> +        .reset_sp = (SRAM_BASE_ADDRESS + (SRAM_SIZE * 2) / 3),
-> +    };
-> +    qemu_register_reset(armv7m_reset,
-> +                        g_memdup(&reset_args, sizeof(reset_args)));
-> +}
+> -void armv7m_load_kernel(ARMCPU *cpu, const char *kernel_filename, int mem_size)
+> +void armv7m_load_kernel(ARMCPU *cpu, const char *kernel_filename, int mem_size,
+> +                        uint64_t *entry)
 
-Can you explain the purpose of the reset code? None of the other
-v7m boards seem to need to do a manual qemu_register_reset().
+If we need to return the entry point, why not just return it
+as the return value of the function rather than having the
+caller pass in a pointer which we fill in ?
 
 thanks
 -- PMM
