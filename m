@@ -2,55 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F3D13FF9C
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 20:15:44 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:51428 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 179AFFFA7
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 20:18:16 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:51480 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLXI8-0002eO-3t
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 14:15:44 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57542)
+	id 1hLXKZ-0004Xb-9Z
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 14:18:15 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57664)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <driver1998@foxmail.com>) id 1hLXGM-0001oc-RP
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 14:13:55 -0400
+	(envelope-from <jcmvbkbc@gmail.com>) id 1hLXGn-00028Y-Jy
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 14:14:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <driver1998@foxmail.com>) id 1hLXGK-0007LT-GE
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 14:13:54 -0400
-Received: from smtpbgeu2.qq.com ([18.194.254.142]:38649)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <driver1998@foxmail.com>)
-	id 1hLXGJ-0007K9-3f
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 14:13:52 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
-	s=s201512; t=1556648025;
-	bh=CQirBRpOqVgUGWxDqn/rT1V4oQiTaduNM5WoiWaimwM=;
-	h=From:To:Subject:Date:Message-Id;
-	b=Gru+gr7BWW7JRQGqIfkOu2PsoeO4gQWdaPRLT4KB8Vpo1HHwrkBg7aDB3Sex9kCEY
-	g3A2zWby8iYP5yyK2sYGDxCbgPlecjAaaC9Z9l+5xkTY/OF+miEnc6k2/k9UqazDVQ
-	LhGlez3Kebd/d7qGP0BOHJg9hwsKJ4rmf/DloVVg=
-X-QQ-mid: esmtp5t1556648024tb6k12gfz
-Received: from localhost (unknown [183.63.119.27])
-	by esmtp4.qq.com (ESMTP) with 
-	id ; Wed, 01 May 2019 02:13:43 +0800 (CST)
-X-QQ-SSF: B100000000000030F7F00F00000000O
-X-QQ-FEAT: 4BYgmPH5RlGcu2N1hoA3KgOnr5CIotVbVs/BfRNnV2ZmDk1rDaN0n61zv3BAR
-	X4xhR7hnig3yEnw1QPRWUj8q+kd/5w36EDqoUI2DBb9+RKPuL6PjP7gZYDH0nM+xKb2Akjq
-	ZGLEX7xc+mFEvbNBN4dEarVh2rLmxD2vB7NhuB1F2nrs9za9Q99hp2g7eqa100Lp2ccdpFP
-	FkEYzghXLq5+Kkf2mgQpZNFk7tbMFrMrUMFnM2/0O8gslGe5/9DqWokQpjXs7AvyZE2heKS
-	1fVsuJsbScVF6g6JIoamBsTceyCM6UMh2hpg==
-X-QQ-GoodBg: 0
-From: Cao Jiaxi <driver1998@foxmail.com>
-To: qemu-devel@nongnu.org
-Date: Wed,  1 May 2019 02:13:43 +0800
-Message-Id: <20190430181343.1362-1-driver1998@foxmail.com>
-X-Mailer: git-send-email 2.17.1
-X-QQ-SENDSIZE: 520
-Feedback-ID: esmtp:foxmail.com:bgforeign:bgforeign2
-X-QQ-Bgrelay: 1
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 18.194.254.142
-Subject: [Qemu-devel] [PATCH v2 4/4] include/qemu/osdep.h: Move the
- __USE_MINGW_ANSI_STDIO define up to avoid confliction.
+	(envelope-from <jcmvbkbc@gmail.com>) id 1hLXGm-0007cG-IP
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 14:14:21 -0400
+Received: from mail-yw1-xc42.google.com ([2607:f8b0:4864:20::c42]:35691)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <jcmvbkbc@gmail.com>) id 1hLXGm-0007c8-EF
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 14:14:20 -0400
+Received: by mail-yw1-xc42.google.com with SMTP id n188so4014133ywe.2
+	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 11:14:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=OF++BaEMEJ5gY6r5y6fed/DGSTPbm2jtOVugo40BZDo=;
+	b=XbkE8FAeeKuLgGflxTdofRTFFHGZmFZoMaXSf+CkLdCr8Y0rRl/FaHR6HiCFI2pg/q
+	sCvcVmDE62J4RcyWYx7aVArxaiyundNkkqdKbTsou6B0ENbACxgNqZFntT3m4ohycmbZ
+	39ZZZ5LgGlbXE79USd1tmNnGAWzxdKJO6aChITZ0/xtkNBsu2n4KeHaE7VIMoeBOmoH7
+	wZ2LTf/rf+f6gip6J3vQsnQYbeJcjOAan8aTEb0cB3Yp/ulrHD0RzmcmrMsuHHiq3i3V
+	9uH2FSPG8zDHcXjpZ9LYGIar3Vk6bDsQEOCwyIKuvKO9lcSZ/9Bg5RLQNxTrBh4lvkU8
+	Eq2w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=OF++BaEMEJ5gY6r5y6fed/DGSTPbm2jtOVugo40BZDo=;
+	b=s7XNAuinkAzxH/BWuEO3DxHjiEOxFC2g452b0MdFbTG0VTNbVi2mcY0xSAKByCAt8p
+	KTAF1QUxtvN862V23XHe6mjRfobBtlpdYCv9DdJeXPYJkHLYBxy+j7aJ71NLUrQFLvjx
+	q3ESh9o7QGWMbh130hFP30UJ0p5SBMI8ShOeuqlf5ziyhzaYxt+xiE2eWtjjmtbs5KdW
+	QaDrEn8gijEPf+LYcU0RfuOPlivtSLLnVGa3d86LvV13lK6D5WPsk1cxqutoptlBTwFU
+	29gTkIx6o7PfAn2ZGWbhqM3QmW7Y1x36MEgVCF/FNP8AqDdjzS8Ca1RCq9HSxvS7kGhz
+	LCgg==
+X-Gm-Message-State: APjAAAUtWoMzOTCMzGl1YT/H1l0PsGljMhBshK/jTDMhzLxDr2LhStr/
+	bXWC3I/ak0AcbQ+IoAjQuVpkpSEdNQfGVyvOgQo=
+X-Google-Smtp-Source: APXvYqwIQH4msqJ31+JMY7CqnpYTJwBJDthAJwMp4cDmbEAm/xQdeoy85lWhEaGjc+HDQHD4862jte7bajZYex4P2t4=
+X-Received: by 2002:a81:a38a:: with SMTP id
+	a132mr12625978ywh.126.1556648059890; 
+	Tue, 30 Apr 2019 11:14:19 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190403034358.21999-1-richard.henderson@linaro.org>
+	<20190403034358.21999-24-richard.henderson@linaro.org>
+	<CAFEAcA_FZHKXJHg4819JOZkwwhE44Vx874GKrnxRrOau1HhzRw@mail.gmail.com>
+	<CAMo8BfJVdDvYWEdN_08ed5OKBGXc+U8kSbmWaSWY9WCuvDj2pw@mail.gmail.com>
+	<bd57c22c-1bdc-80b4-0415-565117f6ae3e@linaro.org>
+In-Reply-To: <bd57c22c-1bdc-80b4-0415-565117f6ae3e@linaro.org>
+From: Max Filippov <jcmvbkbc@gmail.com>
+Date: Tue, 30 Apr 2019 11:14:08 -0700
+Message-ID: <CAMo8BfJsC9aPYUhi5Rg6SAXT4dhaZaU=dqy=um+aBJtnPMSwdA@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::c42
+Subject: Re: [Qemu-devel] [PATCH 23/26] target/xtensa: Convert to
+ CPUClass::tlb_fill
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,45 +76,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Cao Jiaxi <driver1998@foxmail.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+	QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Cao Jiaxi <driver1998@foxmail.com>
----
- include/qemu/osdep.h | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+On Tue, Apr 30, 2019 at 10:44 AM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+> On 4/30/19 10:32 AM, Max Filippov wrote:
+> > On Tue, Apr 30, 2019 at 3:11 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+> >> ...but now we'll set it to whatever exception_cause_vaddr does,
+> >> which is something more complicated based on the state of
+> >> env->sregs[PS].
+> >>
+> >> We'll also end up setting env->sregs[PS] bits and env->pc, which
+> >> the old code did not. (In particular since we set the PS_EXCM bit,
+> >> the second time we take an exception won't we then end up
+> >> setting exception_index to EXC_DOUBLE, not EXC_USER ?)
+> >
+> > I guess it doesn't matter, because linux-user userspace never handles
+> > exceptions. PS, PC and similar must be fixed up by the linux-user
+> > exception handler. But I haven't tested it.
+>
+> It does handle exceptions, in linux-user/xtensa/cpu_loop.c.
+> And Peter's right that I should have kept EXC_USER.
 
-diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-index 303d315c5d..af2b91f0b8 100644
---- a/include/qemu/osdep.h
-+++ b/include/qemu/osdep.h
-@@ -85,17 +85,17 @@ extern int daemon(int, int);
- #endif
- #endif
- 
-+/* enable C99/POSIX format strings (needs mingw32-runtime 3.15 or later) */
-+#ifdef __MINGW32__
-+#define __USE_MINGW_ANSI_STDIO 1
-+#endif
-+
- #include <stdarg.h>
- #include <stddef.h>
- #include <stdbool.h>
- #include <stdint.h>
- #include <sys/types.h>
- #include <stdlib.h>
--
--/* enable C99/POSIX format strings (needs mingw32-runtime 3.15 or later) */
--#ifdef __MINGW32__
--#define __USE_MINGW_ANSI_STDIO 1
--#endif
- #include <stdio.h>
- 
- #include <string.h>
+PC must also either be preserved or restored from the EPC1
+in the cpu_loop for the SYSCALL_CAUSE.
+
+> > Richard, is there a branch with this series available somewhere?
+> https://github.com/rth7680/qemu/tree/tcg-tlb-fill
+
+Thanks, I'll try it.
+
 -- 
-2.17.1
-
-
-
+Thanks.
+-- Max
 
