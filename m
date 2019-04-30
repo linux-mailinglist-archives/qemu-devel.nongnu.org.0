@@ -2,39 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99C4A102F3
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 May 2019 01:00:17 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54719 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD0A7102F5
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 May 2019 01:00:31 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54723 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLbjU-0002nx-Bi
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 19:00:16 -0400
+	id 1hLbjj-0002yc-0z
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 19:00:31 -0400
 Received: from eggs.gnu.org ([209.51.188.92]:57114)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <jsnow@redhat.com>) id 1hLbgq-00019q-EZ
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 18:57:33 -0400
+	(envelope-from <jsnow@redhat.com>) id 1hLbgi-00019q-1O
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 18:57:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <jsnow@redhat.com>) id 1hLbdA-0007Rd-Aq
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 18:53:45 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48298)
+	(envelope-from <jsnow@redhat.com>) id 1hLbfY-0008Tx-Rw
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 18:56:13 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48634)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <jsnow@redhat.com>)
-	id 1hLbd9-0007QJ-1h; Tue, 30 Apr 2019 18:53:43 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
+	id 1hLbfX-0008T0-CM; Tue, 30 Apr 2019 18:56:11 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+	[10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 0AC0781DF0;
-	Tue, 30 Apr 2019 22:53:42 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 5382E81F07;
+	Tue, 30 Apr 2019 22:56:10 +0000 (UTC)
 Received: from [10.18.17.206] (dhcp-17-206.bos.redhat.com [10.18.17.206])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 9F5725D705;
-	Tue, 30 Apr 2019 22:53:40 +0000 (UTC)
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
-	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
-	"qemu-block@nongnu.org" <qemu-block@nongnu.org>
+	by smtp.corp.redhat.com (Postfix) with ESMTP id F1B4B18979;
+	Tue, 30 Apr 2019 22:56:08 +0000 (UTC)
+To: Kashyap Chamarthy <kchamart@redhat.com>
 References: <20190426221528.30293-1-jsnow@redhat.com>
-	<20190426221528.30293-2-jsnow@redhat.com>
-	<5746f6e2-c6bc-23a4-686f-b6943fedbe2c@virtuozzo.com>
+	<20190426221528.30293-3-jsnow@redhat.com>
+	<20190429134454.GB4675@paraplu>
 From: John Snow <jsnow@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
@@ -111,23 +109,23 @@ Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
 	i0HjnLoJP5jDcoMTabZTIazXmJz3pKM11HYJ5/ZsTIf3ZRJJKIvXJpbmcAPVwTZII6XxiJdh
 	RSSX4Mvd5pL/+5WI6NTdW6DMfigTtdd85fe6PwBNVJL2ZvBfsBJZ5rxg1TOH3KLsYBqBTgW2
 	glQofxhkJhDEcvjLhe3Y2BlbCWKOmvM8XS9TRt0OwUs=
-Message-ID: <f8d5c4bd-13c3-8230-52d8-b877a10c9577@redhat.com>
-Date: Tue, 30 Apr 2019 18:53:40 -0400
+Message-ID: <a9e5880b-cc9a-6f1e-3a6d-b1db09f1c895@redhat.com>
+Date: Tue, 30 Apr 2019 18:56:08 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <5746f6e2-c6bc-23a4-686f-b6943fedbe2c@virtuozzo.com>
+In-Reply-To: <20190429134454.GB4675@paraplu>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
 	(mx1.redhat.com [10.5.110.25]);
-	Tue, 30 Apr 2019 22:53:42 +0000 (UTC)
+	Tue, 30 Apr 2019 22:56:10 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 1/2] Makefile: add nit-picky mode to
- sphinx-build
+Subject: Re: [Qemu-devel] [PATCH v3 2/2] docs/interop/bitmaps: rewrite and
+ modernize doc
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -139,37 +137,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, "aliang@redhat.com" <aliang@redhat.com>,
-	"kchamart@redhat.com" <kchamart@redhat.com>,
-	"qemu-stable@nongnu.org" <qemu-stable@nongnu.org>,
-	"armbru@redhat.com" <armbru@redhat.com>,
-	"nsoffer@redhat.com" <nsoffer@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, vsementsov@virtuozzo.com, aliang@redhat.com,
+	qemu-block@nongnu.org, qemu-stable@nongnu.org,
+	qemu-devel@nongnu.org, armbru@redhat.com, nsoffer@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 4/29/19 5:17 AM, Vladimir Sementsov-Ogievskiy wrote:
-> 27.04.2019 1:15, John Snow wrote:
->> If we add references that don't resolve (or accidentally remove them),
->> it will be helpful to have an error message alerting us to that.
+On 4/29/19 9:44 AM, Kashyap Chamarthy wrote:
+> On Fri, Apr 26, 2019 at 06:15:28PM -0400, John Snow wrote:
+>> This just about rewrites the entirety of the bitmaps.rst document to
+>> make it consistent with the 4.0 release. I have added new features seen
+>> in the 4.0 release, as well as tried to clarify some points that keep
+>> coming up when discussing this feature both in-house and upstream.
+>>
+>> Yes, it's a lot longer, mostly due to examples. I get a bit chatty.
+>> I could use a good editor to help reign in my chattiness.
+>>
+>> It does not yet cover pull backups or migration details, but I intend to
+>> keep extending this document to cover those cases.
+>>
+>> Please try compiling it with sphinx and look at the rendered output, I
+>> don't have hosting to share my copy at present. 
 > 
-> the wording still a bit in conflict with the fact that -n is originally a warning, not error,
-> but I don't really care:
+> FWIW, here's a public rendering (with the "Alabaster" Sphinx theme) with
+> your v3 applied:
 > 
-> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+>     https://kashyapc.fedorapeople.org/QEMU-Docs-v4.0.0-143-g1cb2ca0415/_build/html/docs/interop/bitmaps.html
 > 
 
-Ah, sorry, I missed that. Not nice to ignore review comments. How about
-this:
+Thank you!! We really need to figure out hosting for these.
 
-"If we add references that don't resolve (or accidentally remove them),
-it will be helpful to have warning messages alerting us to that.
+> Thanks for the overhaul.  Afraid, I've been just too swamped to be able
+> to look at this in detail, much as I'd love to.  I will slowly catch up.
+> 
+>     - - -
+> 
+> (Note to self: send to the list the text-to-rST converted QEMU docs
+> sitting locally on a Git branch.)
+> 
 
-Further, turn warnings into errors so we can be alerted to these
-problems sooner rather than later."
+PLEASE do! Please CC me on them. I realize it's not a priority for you
+at the moment but I will happily take any existing work you've done.
 
-I can fix it in staging. Thank you for your review again.
-
---js
+> [...]
+> 
+>> I think this new layout reads nicer in the HTML format than the old
+>> one did, at the expense of looking less readable in the source tree
+>> itself (though not completely unmanagable. We did decide to convert it
+>> from Markdown to ReST, after all, so I am going all-in on ReST.)
+> 
+> [...]
+> 
 
