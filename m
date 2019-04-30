@@ -2,72 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0947AFE9E
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 19:15:38 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50469 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0F30FE77
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 19:06:52 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50341 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLWLx-0003Z3-40
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 13:15:37 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39137)
+	id 1hLWDS-0004nX-Po
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 13:06:50 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39172)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hLW2K-00048d-N7
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:55:21 -0400
+	(envelope-from <alex.bennee@linaro.org>) id 1hLW2I-000490-NJ
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:55:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hLVzh-0000aG-Jw
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:52:38 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:43726)
+	(envelope-from <alex.bennee@linaro.org>) id 1hLVzh-0000bx-Sh
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:52:39 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:38047)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hLVzh-0000WQ-BQ
+	id 1hLVzh-0000Y1-KD
 	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:52:37 -0400
-Received: by mail-wr1-x444.google.com with SMTP id a12so21813766wrq.10
-	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 09:52:36 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id k16so21859501wrn.5
+	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 09:52:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=ai3FU7j7ml2OSqg2io8dSlQktsIvFJmwS4hwlU31GgE=;
-	b=fjcWf0JCIR7SpQmqtbxSZibvFYG6XQpGHVx6eZK3hL2DhF/lpQbGT+sYmJhoXks9xh
-	GXSUUJyA2/a0IWSiK3arvRXZaf+62Mso6D2Ak3+cSX2rem3L/vS5NFQSabBFMtiNveJL
-	CM6SQrwWGglfAMQfEvDino6aDCQ0hlWMEWKTwr/WKgKb/680G0iGgzlKVvTNYYPVOj0L
-	2EBrGeN0F8BbQVFZo0mOQzzTfEN03KyPiBhw13VoD8NCaiRSqYDcXtCsl2xsQFpWH0nt
-	jHAqTsjT03b2IL09PfLMknQjsVDsuAO6EK1K1435yJTjW907yolY80D2PbSKTEp0820E
-	3uGw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=jqIW+C//ILq0mPvR3tHEO6y3NilaIZi0x1cwBliIiU4=;
+	b=YMilLvXFW+VGXCXfzig8+SpsUAk77R9SzLcDWqXChV1mJVk8u6hkjAP9p0R4sC05DN
+	3nWZd/zZYyTH4eo2KMmSbTkSpSRDGnZjTDDB33Jq9b1TyJ8mNckAUqF8v0lElX6afYTV
+	/hL2x2snu/iNM/nD5uf8G72aBFesw+3GLy8Ufk19wLbi4rOv8iFooaUQgaU2Z+kpy+mc
+	LXL1c1PPJdScWoFyWd+0BZpQrckgkFQp9BTWksmroXwx5K/IAlwuH0Z+FuijbxXe75DM
+	p2NXMQTZ2UugBmNcJG2GlByv63lfnEM6Gk2XGIf/vwEV3SUtzak3PWXimlAHeqvIC59z
+	6UVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=ai3FU7j7ml2OSqg2io8dSlQktsIvFJmwS4hwlU31GgE=;
-	b=YXoDl9cCRc4WhXB1mjl3aPVO/KKYc4wEf6ReKDGhCBEyCejQLXED5YvnHxKyD3YDuV
-	+c+kjrZPSVXIFm/BZRoyNSgdYv6zEnCiArZGf/NEtrNVLEwg/rJJIWBI4CI7/0qhFg6s
-	i3zvXJXhscJdR8O6dADDR0Ozz/ToxeAJZZSrRN6rpop3WrBKcfxlxv2NMabi57wbYsCv
-	BGauJ9RgRMIb7anj1ejlPnnYf/f0yjx8Ejuto9Oe1eHSAiT+3NnAtnkzg6OfKexpeOWn
-	6N2uH6Bwtt8HLWStkyL6W6X6Te+TeQZ/NiAB+3494wV3kNvWFE90lXQKPAwUnNDu9Rsu
-	+nSg==
-X-Gm-Message-State: APjAAAUJunH+4TZ/VCE8fhz8SX/oKUIn1pvF8YSAZl2cHjUgB+qCKKeS
-	8iuIRkW3mZkezpe2ZZ4T2h16zA==
-X-Google-Smtp-Source: APXvYqxPOQKH/rFYBn8FkbhxYSwNpp8bElwxp7sRTm1nXKN7eOTQc3Dpml+N1/BGmnP7+8c9Dq4q4g==
-X-Received: by 2002:adf:b646:: with SMTP id i6mr6125322wre.12.1556643155486;
-	Tue, 30 Apr 2019 09:52:35 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=jqIW+C//ILq0mPvR3tHEO6y3NilaIZi0x1cwBliIiU4=;
+	b=WxAfRcjSCqKKF4pWpzl1zRlNrO4c7BIjxznptF/BdzfgrMIXeUFZ97PqUwmm3oUBjk
+	xdhMIbcDxCLMypcHgMQUXpw8S8WBrOgWe13vOE9yPOKsMVtbw/GEgCofN/oaMZPaaMPn
+	smd/pbhxzLrO1+BjXbmqewwVPEAHlu0QI/8DAM7dHLo7TUllCWTWAIY17eQBzOKDCXFg
+	pI33wyH51vOM3ieobE+xQ7M90m2nBmqR6xPLQnduMQ7HiiH7N0Hz/CKEtQIfH9oYoyeP
+	uUgX/k2qBlceeXnDHpelFgtHtA1h2R+AMkOT+tIZpWigWkKJGwEWYvJZJgweSzgky6JY
+	CMSw==
+X-Gm-Message-State: APjAAAWyVJSW6gNrxUhB6IQvI8xGk20UQDvTeSJXt75nDrGUdFNzD4ww
+	dAkBUvLLejoDQPKpRWN0Yn3uFA==
+X-Google-Smtp-Source: APXvYqwTTbjRQ7ofVZPa4oi4LYoLoyzXKFeDZ+8+8/yle1ZAQ0RYGBsu82aZAblJTfFSxZpJu86lXQ==
+X-Received: by 2002:adf:ba93:: with SMTP id p19mr16401378wrg.195.1556643156546;
+	Tue, 30 Apr 2019 09:52:36 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
-	by smtp.gmail.com with ESMTPSA id q7sm3317414wmc.11.2019.04.30.09.52.34
+	by smtp.gmail.com with ESMTPSA id
+	s17sm8463236wra.94.2019.04.30.09.52.34
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 30 Apr 2019 09:52:34 -0700 (PDT)
+	Tue, 30 Apr 2019 09:52:35 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id 80C181FF87;
+	by zen.linaroharston (Postfix) with ESMTP id 8C6CE1FF8C;
 	Tue, 30 Apr 2019 17:52:34 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue, 30 Apr 2019 17:52:19 +0100
-Message-Id: <20190430165234.32272-1-alex.bennee@linaro.org>
+Date: Tue, 30 Apr 2019 17:52:20 +0100
+Message-Id: <20190430165234.32272-2-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190430165234.32272-1-alex.bennee@linaro.org>
+References: <20190430165234.32272-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: [Qemu-devel] [PATCH v5 00/15] demacro softmmu (plus tests/coverage)
+X-Received-From: 2a00:1450:4864:20::442
+Subject: [Qemu-devel] [PATCH v5 01/15] tests/tcg/multiarch: add support for
+ multiarch system tests
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -84,129 +88,50 @@ Cc: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+We can certainly support some common tests for system emulation that
+make use of our minimal defined boot.S support. It will still be up to
+individual architectures to ensure they build so we provide a
+MULTIARCH_TESTS variable that they can tack onto TESTS themselves.
 
-Hi,
-
-This is the latest iteration of the softmmu demacro series. The main
-changes from the last submission are some updates from Richard. Some
-are merged into the main demacro patch (mostly casting cleanups) and
-then a series of 3 patches to out of line some of the less hot code to
-keep the main access functions a reasonable size. For example:
-
-  readelf -s aarch64-softmmu/accel/tcg/cputlb.o | ag helper |\
-    ag -v atomic | ag mmu | tr -s ' ' | cut -d ' ' -f 4,9 | sort -n
-
-Before:
-
-  16 helper_be_ldsl_mmu
-  16 helper_le_ldsl_mmu
-  18 helper_be_ldsw_mmu
-  18 helper_le_ldsw_mmu
-  18 helper_ret_ldsb_mmu
-  535 helper_ret_ldub_mmu
-  556 helper_ret_ldb_cmmu
-  586 helper_ret_stb_mmu
-  679 helper_le_ldul_mmu
-  681 helper_be_ldul_mmu
-  685 helper_le_ldq_mmu
-  688 helper_be_ldq_mmu
-  688 helper_le_lduw_mmu
-  693 helper_le_ldl_cmmu
-  701 helper_le_ldq_cmmu
-  701 helper_le_ldw_cmmu
-  703 helper_be_ldl_cmmu
-  704 helper_be_ldq_cmmu
-  708 helper_be_lduw_mmu
-  713 helper_be_ldw_cmmu
-  943 helper_le_stw_mmu
-  944 helper_le_stl_mmu
-  952 helper_be_stl_mmu
-  952 helper_le_stq_mmu
-  959 helper_be_stw_mmu
-  960 helper_be_stq_mmu
-
-After:
-
-  5 helper_be_ldul_mmu
-  5 helper_be_lduw_mmu
-  5 helper_le_ldul_mmu
-  5 helper_le_lduw_mmu
-  5 helper_ret_ldub_mmu
-  14 helper_be_ldl_cmmu
-  14 helper_be_ldw_cmmu
-  14 helper_le_ldl_cmmu
-  14 helper_le_ldw_cmmu
-  16 helper_be_ldsl_mmu
-  16 helper_le_ldsl_mmu
-  18 helper_be_ldsw_mmu
-  18 helper_le_ldsw_mmu
-  18 helper_ret_ldsb_mmu
-  783 helper_ret_stb_mmu
-  785 helper_ret_ldb_cmmu
-  881 helper_be_ldq_mmu
-  881 helper_le_ldq_mmu
-  889 helper_le_ldq_cmmu
-  897 helper_be_ldq_cmmu
-  1150 helper_be_stw_mmu
-  1150 helper_le_stw_mmu
-  1151 helper_be_stq_mmu
-  1151 helper_le_stl_mmu
-  1151 helper_le_stq_mmu
-  1159 helper_be_stl_mmu
-
-I've also moved the existing system memory test and made it multiarch
-and added the bootstrapping for aarch64 system tests. I would like to
-add support for Big Endian as well but I didn't want to delay the
-posting of the series. It would also be nice to exercise the
-ioread/write paths and other handling but I leave this as an exercise
-for later.
-
-There are also some minor tweaks for the code coverage reports now I'm
-running with out-of-tree builds.
-
-Alex Bennée (11):
-  tests/tcg/multiarch: add support for multiarch system tests
-  tests/tcg/multiarch: add hello world system test
-  tests/tcg/aarch64: add system boot.S
-  tests/tcg/multiarch: move the system memory test
-  tests/tcg/minilib: support %c format char
-  tests/tcg/multiarch: expand system memory test to cover more
-  accel/tcg: demacro cputlb
-  accel/tcg: remove softmmu_template.h
-  Makefile: fix coverage-report reference to BUILD_DIR
-  Makefile: include per-target build directories in coverage report
-  Makefile.target: support per-target coverage reports
-
-Richard Henderson (4):
-  cputlb: Move TLB_RECHECK handling into load/store_helper
-  cputlb: Drop attribute flatten
-  cputlb: Do unaligned load recursion to outermost function
-  cputlb: Do unaligned store recursion to outermost function
-
- Makefile                                      |   4 +-
- Makefile.target                               |  16 +
- accel/tcg/cputlb.c                            | 626 +++++++++++++++---
- accel/tcg/softmmu_template.h                  | 454 -------------
- tests/tcg/Makefile                            |   1 +
- tests/tcg/aarch64/Makefile.softmmu-target     |  32 +
- tests/tcg/aarch64/system/boot.S               | 200 ++++++
- tests/tcg/aarch64/system/kernel.ld            |  22 +
- tests/tcg/i386/Makefile.softmmu-target        |   2 +-
- tests/tcg/i386/system/memory.c                | 243 -------
- tests/tcg/minilib/printf.c                    |   6 +-
- .../multiarch/system/Makefile.softmmu-target  |  14 +
- tests/tcg/{i386 => multiarch}/system/hello.c  |   0
- tests/tcg/multiarch/system/memory.c           | 427 ++++++++++++
- 14 files changed, 1267 insertions(+), 780 deletions(-)
- delete mode 100644 accel/tcg/softmmu_template.h
- create mode 100644 tests/tcg/aarch64/Makefile.softmmu-target
- create mode 100644 tests/tcg/aarch64/system/boot.S
- create mode 100644 tests/tcg/aarch64/system/kernel.ld
- delete mode 100644 tests/tcg/i386/system/memory.c
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ tests/tcg/Makefile                                 |  1 +
+ tests/tcg/multiarch/system/Makefile.softmmu-target | 14 ++++++++++++++
+ 2 files changed, 15 insertions(+)
  create mode 100644 tests/tcg/multiarch/system/Makefile.softmmu-target
- rename tests/tcg/{i386 => multiarch}/system/hello.c (100%)
- create mode 100644 tests/tcg/multiarch/system/memory.c
 
+diff --git a/tests/tcg/Makefile b/tests/tcg/Makefile
+index 1cdd628e96..6fa63cc8d5 100644
+--- a/tests/tcg/Makefile
++++ b/tests/tcg/Makefile
+@@ -96,6 +96,7 @@ else
+ # build options for bare programs are usually pretty different. They
+ # are expected to provide their own build recipes.
+ -include $(SRC_PATH)/tests/tcg/minilib/Makefile.target
++-include $(SRC_PATH)/tests/tcg/multiarch/system/Makefile.softmmu-target
+ -include $(SRC_PATH)/tests/tcg/$(TARGET_BASE_ARCH)/Makefile.softmmu-target
+ ifneq ($(TARGET_BASE_ARCH),$(TARGET_NAME))
+ -include $(SRC_PATH)/tests/tcg/$(TARGET_NAME)/Makefile.softmmu-target
+diff --git a/tests/tcg/multiarch/system/Makefile.softmmu-target b/tests/tcg/multiarch/system/Makefile.softmmu-target
+new file mode 100644
+index 0000000000..db4bbeda44
+--- /dev/null
++++ b/tests/tcg/multiarch/system/Makefile.softmmu-target
+@@ -0,0 +1,14 @@
++# -*- Mode: makefile -*-
++#
++# Multiarch system tests
++#
++# We just collect the tests together here and rely on the actual guest
++# architecture to add to the test dependancies and deal with the
++# complications of building.
++#
++
++MULTIARCH_SYSTEM_SRC=$(SRC_PATH)/tests/tcg/multiarch/system
++VPATH+=$(MULTIARCH_SYSTEM_SRC)
++
++MULTIARCH_TEST_SRCS=$(wildcard $(MULTIARCH_SYSTEM_SRC)/*.c)
++MULTIARCH_TESTS = $(patsubst $(MULTIARCH_SYSTEM_SRC)/%.c, %, $(MULTIARCH_TEST_SRCS))
 -- 
 2.20.1
 
