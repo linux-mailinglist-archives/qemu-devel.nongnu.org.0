@@ -2,66 +2,104 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7B0810110
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 22:40:40 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53005 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F31631011B
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 22:46:16 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53140 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLZYN-0004C6-Oa
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 16:40:39 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53024)
+	id 1hLZdl-0000n8-O5
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 16:46:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52932)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alistair23@gmail.com>) id 1hLZVT-0002ST-7m
+	(envelope-from <laurent@vivier.eu>) id 1hLZVT-0002Jh-8o
 	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 16:37:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alistair23@gmail.com>) id 1hLZNH-0007om-3F
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 16:29:12 -0400
-Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:35839)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <alistair23@gmail.com>)
-	id 1hLZNG-0007nC-PO
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 16:29:11 -0400
-Received: by mail-lj1-x241.google.com with SMTP id z26so14057795ljj.2
-	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 13:29:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=STv8KKZ/Zp0Xp0nIm6Ttz6L90htgplq97Cn6KYroHDE=;
-	b=L8/N1dHzfQHYlhmd2iOV9YtEJ5/tryPaTw608yNZOXYqmsnVPCh42FFtEUeCnF4Y7j
-	gy7E35CJ5YNaba23V98DeePqKOTjBe0iQK08MZvJVaZJoGcr1sALNrOwiz/UZ2htImrJ
-	Xbu8iq4bC6hDV0QvGMmKsCtNc5vNS6Uv9CVuEYcDxLAISWzCCPuKTklcnmhTBAumF3TR
-	M3j3Ia7q5LtQQtAn+ZQaUER6Hv1/gm3NHBIND/G+haH0b/7f0KlKg0L2FOxsPDgga7kU
-	rIRjRFml3KDuXPXfkl2Z25rP9ZugcsPlF+vRQJsdWt/5RLvne88NxmyLROtgjpSE2DYu
-	n/QA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=STv8KKZ/Zp0Xp0nIm6Ttz6L90htgplq97Cn6KYroHDE=;
-	b=FEJJ7VK8F3tenpSRRFLE2PmZ8t3FKmpkQgQCSm82kTNzIogy/Ps2b8IGLi2S4zobp+
-	Uup+BzA8eeymLbK3tdpoLbVMX+XBUXMpMYNKtcwWWpdKscfyx57wD7UzbbM2VV/RTflm
-	OqpBbmAIVbG8x5asljEN7mpL796bFroMxN7/O4mYfMJmbl9viWj70PTBPPl0Rs8jOmaF
-	dMyv6DJkrL739/GYN315hbD0nYkU0yhD5jkI6wB1c5fyBgBvmt4/SB76Az+c5/pkGJoa
-	ZQTFx0c/b+52Xb5VdCYVoYsit8tTURnCgNzVOI3E2acPXjfOJ8dZJgq+tO3CnDkKyjCC
-	WXWQ==
-X-Gm-Message-State: APjAAAV2c4gCeYvJ66hvqsSkCmtaFRzSNn584FyXUHvIY+QL07oqhbzb
-	HNDscVsvyJZmbIDrG929Y8w/du542O8gihGr+B8=
-X-Google-Smtp-Source: APXvYqzhci0xBdCQvUUtgBFwzoeHXMNEqHoerYrjoM2tctm8DHlopi7H8Xg1X7QkqWnd+qV6dPRaC3MZ6PF/QXFUHUs=
-X-Received: by 2002:a2e:2b8c:: with SMTP id r12mr8990206ljr.115.1556656148803; 
-	Tue, 30 Apr 2019 13:29:08 -0700 (PDT)
+	(envelope-from <laurent@vivier.eu>) id 1hLZNB-0007j6-My
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 16:29:06 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:33235)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <laurent@vivier.eu>)
+	id 1hLZNA-0007gS-7P; Tue, 30 Apr 2019 16:29:04 -0400
+Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
+	(mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+	1MgNtR-1gqMLI42iF-00hwDw; Tue, 30 Apr 2019 22:28:48 +0200
+To: Alistair Francis <Alistair.Francis@wdc.com>,
+	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <cover.1556650594.git.alistair.francis@wdc.com>
+	<f2aaec5b3c12a8512cd7078f3a5d1230906d80ea.1556650594.git.alistair.francis@wdc.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Openpgp: preference=signencrypt
+Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
+	mQINBFYFJhkBEAC2me7w2+RizYOKZM+vZCx69GTewOwqzHrrHSG07MUAxJ6AY29/+HYf6EY2
+	WoeuLWDmXE7A3oJoIsRecD6BXHTb0OYS20lS608anr3B0xn5g0BX7es9Mw+hV/pL+63EOCVm
+	SUVTEQwbGQN62guOKnJJJfphbbv82glIC/Ei4Ky8BwZkUuXd7d5NFJKC9/GDrbWdj75cDNQx
+	UZ9XXbXEKY9MHX83Uy7JFoiFDMOVHn55HnncflUncO0zDzY7CxFeQFwYRbsCXOUL9yBtqLer
+	Ky8/yjBskIlNrp0uQSt9LMoMsdSjYLYhvk1StsNPg74+s4u0Q6z45+l8RAsgLw5OLtTa+ePM
+	JyS7OIGNYxAX6eZk1+91a6tnqfyPcMbduxyBaYXn94HUG162BeuyBkbNoIDkB7pCByed1A7q
+	q9/FbuTDwgVGVLYthYSfTtN0Y60OgNkWCMtFwKxRaXt1WFA5ceqinN/XkgA+vf2Ch72zBkJL
+	RBIhfOPFv5f2Hkkj0MvsUXpOWaOjatiu0fpPo6Hw14UEpywke1zN4NKubApQOlNKZZC4hu6/
+	8pv2t4HRi7s0K88jQYBRPObjrN5+owtI51xMaYzvPitHQ2053LmgsOdN9EKOqZeHAYG2SmRW
+	LOxYWKX14YkZI5j/TXfKlTpwSMvXho+efN4kgFvFmP6WT+tPnwARAQABtCJMYXVyZW50IFZp
+	dmllciA8bGF1cmVudEB2aXZpZXIuZXU+iQI4BBMBAgAiBQJWBTDeAhsDBgsJCAcDAgYVCAIJ
+	CgsEFgIDAQIeAQIXgAAKCRDzDDi9Py++PCEdD/oD8LD5UWxhQrMQCsUgLlXCSM7sxGLkwmmF
+	ozqSSljEGRhffxZvO35wMFcdX9Z0QOabVoFTKrT04YmvbjsErh/dP5zeM/4EhUByeOS7s6Yl
+	HubMXVQTkak9Wa9Eq6irYC6L41QNzz/oTwNEqL1weV1+XC3TNnht9B76lIaELyrJvRfgsp9M
+	rE+PzGPo5h7QHWdL/Cmu8yOtPLa8Y6l/ywEJ040IoiAUfzRoaJs2csMXf0eU6gVBhCJ4bs91
+	jtWTXhkzdl4tdV+NOwj3j0ukPy+RjqeL2Ej+bomnPTOW8nAZ32dapmu7Fj7VApuQO/BSIHyO
+	NkowMMjB46yohEepJaJZkcgseaus0x960c4ua/SUm/Nm6vioRsxyUmWd2nG0m089pp8LPopq
+	WfAk1l4GciiMepp1Cxn7cnn1kmG6fhzedXZ/8FzsKjvx/aVeZwoEmucA42uGJ3Vk9TiVdZes
+	lqMITkHqDIpHjC79xzlWkXOsDbA2UY/P18AtgJEZQPXbcrRBtdSifCuXdDfHvI+3exIdTpvj
+	BfbgZAar8x+lcsQBugvktlQWPfAXZu4Shobi3/mDYMEDOE92dnNRD2ChNXg2IuvAL4OW40wh
+	gXlkHC1ZgToNGoYVvGcZFug1NI+vCeCFchX+L3bXyLMg3rAfWMFPAZLzn42plIDMsBs+x2yP
+	+bkCDQRWBSYZARAAvFJBFuX9A6eayxUPFaEczlMbGXugs0mazbOYGlyaWsiyfyc3PStHLFPj
+	rSTaeJpPCjBJErwpZUN4BbpkBpaJiMuVO6egrC8Xy8/cnJakHPR2JPEvmj7Gm/L9DphTcE15
+	92rxXLesWzGBbuYxKsj8LEnrrvLyi3kNW6B5LY3Id+ZmU8YTQ2zLuGV5tLiWKKxc6s3eMXNq
+	wrJTCzdVd6ThXrmUfAHbcFXOycUyf9vD+s+WKpcZzCXwKgm7x1LKsJx3UhuzT8ier1L363RW
+	ZaJBZ9CTPiu8R5NCSn9V+BnrP3wlFbtLqXp6imGhazT9nJF86b5BVKpF8Vl3F0/Y+UZ4gUwL
+	d9cmDKBcmQU/JaRUSWvvolNu1IewZZu3rFSVgcpdaj7F/1aC0t5vLdx9KQRyEAKvEOtCmP4m
+	38kU/6r33t3JuTJnkigda4+Sfu5kYGsogeYG6dNyjX5wpK5GJIJikEhdkwcLM+BUOOTi+I9u
+	tX03BGSZo7FW/J7S9y0l5a8nooDs2gBRGmUgYKqQJHCDQyYut+hmcr+BGpUn9/pp2FTWijrP
+	inb/Pc96YDQLQA1q2AeAFv3Rx3XoBTGl0RCY4KZ02c0kX/dm3eKfMX40XMegzlXCrqtzUk+N
+	8LeipEsnOoAQcEONAWWo1HcgUIgCjhJhBEF0AcELOQzitbJGG5UAEQEAAYkCHwQYAQIACQUC
+	VgUmGQIbDAAKCRDzDDi9Py++PCD3D/9VCtydWDdOyMTJvEMRQGbx0GacqpydMEWbE3kUW0ha
+	US5jz5gyJZHKR3wuf1En/3z+CEAEfP1M3xNGjZvpaKZXrgWaVWfXtGLoWAVTfE231NMQKGoB
+	w2Dzx5ivIqxikXB6AanBSVpRpoaHWb06tPNxDL6SVV9lZpUn03DSR6gZEZvyPheNWkvz7bE6
+	FcqszV/PNvwm0C5Ju7NlJA8PBAQjkIorGnvN/vonbVh5GsRbhYPOc/JVwNNr63P76rZL8Gk/
+	hb3xtcIEi5CCzab45+URG/lzc6OV2nTj9Lg0SNcRhFZ2ILE3txrmI+aXmAu26+EkxLLfqCVT
+	ohb2SffQha5KgGlOSBXustQSGH0yzzZVZb+HZPEvx6d/HjQ+t9sO1bCpEgPdZjyMuuMp9N1H
+	ctbwGdQM2Qb5zgXO+8ZSzwC+6rHHIdtcB8PH2j+Nd88dVGYlWFKZ36ELeZxD7iJflsE8E8yg
+	OpKgu3nD0ahBDqANU/ZmNNarBJEwvM2vfusmNnWm3QMIwxNuJghRyuFfx694Im1js0ZY3LEU
+	JGSHFG4ZynA+ZFUPA6Xf0wHeJOxGKCGIyeKORsteIqgnkINW9fnKJw2pgk8qHkwVc3Vu+wGS
+	ZiJK0xFusPQehjWTHn9WjMG1zvQ5TQQHxau/2FkP45+nRPco6vVFQe8JmgtRF8WFJA==
+Message-ID: <900dab1c-d200-18fa-530b-43c3d6f017a5@vivier.eu>
+Date: Tue, 30 Apr 2019 22:28:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <cover.1556515687.git.alistair@alistair23.me>
-	<PSXP216MB02771957D4B9C5A15914D05FDD390@PSXP216MB0277.KORP216.PROD.OUTLOOK.COM>
-	<CAFEAcA86i3aZx-h2ys5kmc35AMqzd6k=JrfVXObdbcppnn-J8w@mail.gmail.com>
-In-Reply-To: <CAFEAcA86i3aZx-h2ys5kmc35AMqzd6k=JrfVXObdbcppnn-J8w@mail.gmail.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 30 Apr 2019 13:27:15 -0700
-Message-ID: <CAKmqyKMM0QHgdS3Z9Fd13XjeFsiG1UnZYz5brdjJgnbHXmxBrQ@mail.gmail.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::241
-Subject: Re: [Qemu-devel] [PATCH v1 5/5] hw/arm: Add the Netduino Plus 2
+In-Reply-To: <f2aaec5b3c12a8512cd7078f3a5d1230906d80ea.1556650594.git.alistair.francis@wdc.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:NAjklGYOJLhHZWTrVju8QDS1DQ/LqXofz3E8OeNjfw8lbcPW9In
+	PthZnrp/NhGwFwmeaSCbHhyel8vJhoMY+EMia4kSwLzrMI7cbZKr+5/Yjkh89H1EeqsWI17
+	xh9sXOLOKeipuHLA9H1UU3+id6ET/CQKaUzDLneaNxUpNfynfFaQRXZrL5Ujj1O0NT1eAaL
+	G6Zf4j/3xXABFwSHCUe2g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:A+o4WqsibQs=:+MQuFOWtWJqdRY+mjXDgU3
+	3Smwcz6u9ksH+zxtVI4XbaVxEPGq6GblqyHGfvY7rKg7CQBATcH0X6eIcgFeolua22Z+3gv6u
+	ScXVzCawo49xJ0z2h2M6v+szyHTOIvOByH/q81NOp3qAx5+UXfjqE7hU1VZwMVdoysaH++Clx
+	qz9/TQeB4INcuL2Um/POZMoFCvbffqwWDqVtkFCwyc6EE22qOON+xX2/v/5DKBKL8ouYrBG+K
+	sL122C11mYol1Dzrk3KNLKPDcrxfSzKtk7K5R0johuldz79+X8ghz3z2eTp5AU8K04WysVDnb
+	fbs97hs/tFKksZdPEQrucKr7dLdIL7e343WgClZX7iSnmi26aleTWyhfy8qA4yWUiPVkugNGP
+	4i87Gbyr6DVvnAIR7WxevoRWFALL8PGH/zjO4gDhD2co1pOc8IGe2XLRYD6jXLgX9779NqKtE
+	5esObWwEqvHc+1Ie6vmMeihebYkxDBfkdI7hGH5UlKW/4ulPh9Kt5eVZa0N38dMB12SEpqQJg
+	dvkki3hRm76TCL4A1ioD7qstUSEqqQuxG8IU3VxLrY6Xz7Xi3j5on12jy+FPk+Vd+BMcPeKIx
+	ssp4MRlSN0FSR7S3T61ElkgjEwoQmWP7Wxc/i5amyB/nBjNbEgzj4jWEHa+Fy69O98M3pK35c
+	Kg4BgX2DmeHqDKrZ8/PGLePtCr3KHn2Ie3GpADC2TYbDcYXrU6ODjtjNCnr5UHFMi/iAZfww/
+	MHXgCkiarSPcdmTVuEnhuwY+2wqz5TIXYK11A1exucIDAzWSpvhgKhQusds=
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 212.227.17.13
+Subject: Re: [Qemu-devel] [PATCH v1 3/5] hw/usb/dev-mtp: Fix GCC 9 build
+ warning
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -73,79 +111,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair@alistair23.me>,
-	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
+	"alistair23@gmail.com" <alistair23@gmail.com>,
+	"riku.voipio@iki.fi" <riku.voipio@iki.fi>,
+	"kraxel@redhat.com" <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Apr 30, 2019 at 9:02 AM Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Mon, 29 Apr 2019 at 06:39, Alistair Francis <alistair@alistair23.me> wrote:
-> >
-> > Signed-off-by: Alistair Francis <alistair@alistair23.me>
-> > ---
-> >  MAINTAINERS                     |  6 +++
-> >  default-configs/arm-softmmu.mak |  1 +
-> >  hw/arm/Kconfig                  |  3 ++
-> >  hw/arm/Makefile.objs            |  1 +
-> >  hw/arm/netduinoplus2.c          | 77 +++++++++++++++++++++++++++++++++
-> >  5 files changed, 88 insertions(+)
-> >  create mode 100644 hw/arm/netduinoplus2.c
-> >
->
-> > +typedef struct ARMV7MResetArgs {
-> > +    ARMCPU *cpu;
-> > +    uint32_t reset_sp;
-> > +    uint32_t reset_pc;
-> > +} ARMV7MResetArgs;
-> > +
-> > +static void armv7m_reset(void *opaque)
-> > +{
-> > +    ARMV7MResetArgs *args = opaque;
-> > +
-> > +    cpu_reset(CPU(args->cpu));
-> > +
-> > +    args->cpu->env.regs[13] = args->reset_sp & 0xFFFFFFFC;
-> > +    args->cpu->env.thumb = args->reset_pc & 1;
-> > +    args->cpu->env.regs[15] = args->reset_pc & ~1;
-> > +}
-> > +
-> > +static void netduinoplus2_init(MachineState *machine)
-> > +{
-> > +    DeviceState *dev;
-> > +    ARMV7MResetArgs reset_args;
-> > +    uint64_t entry;
-> > +
-> > +    dev = qdev_create(NULL, TYPE_STM32F405_SOC);
-> > +    qdev_prop_set_string(dev, "cpu-type", ARM_CPU_TYPE_NAME("cortex-m4"));
-> > +    object_property_set_bool(OBJECT(dev), true, "realized", &error_fatal);
-> > +
-> > +    armv7m_load_kernel(ARM_CPU(first_cpu), machine->kernel_filename,
-> > +                       FLASH_SIZE, &entry);
-> > +
-> > +    reset_args = (ARMV7MResetArgs) {
-> > +        .cpu = ARM_CPU(first_cpu),
-> > +        .reset_pc = entry,
-> > +        .reset_sp = (SRAM_BASE_ADDRESS + (SRAM_SIZE * 2) / 3),
-> > +    };
-> > +    qemu_register_reset(armv7m_reset,
-> > +                        g_memdup(&reset_args, sizeof(reset_args)));
-> > +}
->
-> Can you explain the purpose of the reset code? None of the other
-> v7m boards seem to need to do a manual qemu_register_reset().
+Le 30/04/2019 à 22:09, Alistair Francis a écrit :
+> Fix this warning with GCC 9 on Fedora 30:
+> hw/usb/dev-mtp.c:1715:36: error: taking address of packed member of ‘struct <anonymous>’ may result in an unaligned pointer value [-Werror=address-of-packed-member]
+>  1715 |                             dataset->filename);
+>       |                             ~~~~~~~^~~~~~~~~~
+> 
+> Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> ---
+>  hw/usb/dev-mtp.c | 13 +++++++++++++
+>  1 file changed, 13 insertions(+)
+> 
+> diff --git a/hw/usb/dev-mtp.c b/hw/usb/dev-mtp.c
+> index 99548b012d..6de85d99e6 100644
+> --- a/hw/usb/dev-mtp.c
+> +++ b/hw/usb/dev-mtp.c
+> @@ -1711,9 +1711,22 @@ static void usb_mtp_write_metadata(MTPState *s, uint64_t dlen)
+>      assert(!s->write_pending);
+>      assert(p != NULL);
+>  
+> +/*
+> + * We are about to access a packed struct. We are confident that the pointer
+> + * address won't be unalligned, so we ignore GCC warnings.
+> + */
+> +#if defined(CONFIG_PRAGMA_DIAGNOSTIC_AVAILABLE) && QEMU_GNUC_PREREQ(9, 0)
+> +#pragma GCC diagnostic push
+> +#pragma GCC diagnostic ignored "-Waddress-of-packed-member"
+> +#endif
+> +
+>      filename = utf16_to_str(MIN(dataset->length, filename_chars),
+>                              dataset->filename);
+>  
+> +#if defined(CONFIG_PRAGMA_DIAGNOSTIC_AVAILABLE) && QEMU_GNUC_PREREQ(9, 0)
+> +#pragma GCC diagnostic pop
+> +#endif
+> +
+>      if (strchr(filename, '/')) {
+>          usb_mtp_queue_result(s, RES_PARAMETER_NOT_SUPPORTED, d->trans,
+>                               0, 0, 0, 0);
+> 
 
-The reset code allows the machine to work with the -kernel option.
-Without the reset override using -kernel results in the guest starting
-at the wrong address. We can use the -device loader option without the
-reset code though.
+You should move and use PRAGMA_DISABLE_PACKED_WARNING and
+PRAGMA_REENABLE_PACKED_WARNING from linux-user/qemu.h.
 
-I don't have examples infront of me, I can run it when I'm home and
-include the addresses if you want.
+It has laready been very well tested :)
 
-Alistair
-
->
-> thanks
-> -- PMM
+Thanks,
+Laurent
 
