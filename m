@@ -2,104 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C5E8210116
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 22:43:52 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53079 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 28F061011F
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 22:49:06 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53170 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLZbT-00079G-TC
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 16:43:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52932)
+	id 1hLZgX-0003Eh-8z
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 16:49:05 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53024)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hLZVX-0002Jh-8i
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 16:37:44 -0400
+	(envelope-from <eblake@redhat.com>) id 1hLZVW-0002ST-74
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 16:37:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hLZJL-00054g-Kk
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 16:25:08 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:57065)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <laurent@vivier.eu>)
-	id 1hLZJL-00054K-Bs; Tue, 30 Apr 2019 16:25:07 -0400
-Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
-	(mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
-	1MRTIx-1h9pDa3p6j-00NPR4; Tue, 30 Apr 2019 22:24:44 +0200
+	(envelope-from <eblake@redhat.com>) id 1hLZK1-0005cU-OJ
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 16:25:50 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53262)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <eblake@redhat.com>)
+	id 1hLZK1-0005c5-FY; Tue, 30 Apr 2019 16:25:49 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 60B7B7D0E3;
+	Tue, 30 Apr 2019 20:25:48 +0000 (UTC)
+Received: from [10.3.116.15] (ovpn-116-15.phx2.redhat.com [10.3.116.15])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id D745481761;
+	Tue, 30 Apr 2019 20:25:43 +0000 (UTC)
 To: Alistair Francis <Alistair.Francis@wdc.com>,
 	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 References: <cover.1556650594.git.alistair.francis@wdc.com>
-	<c4768a18309b3918715f96a1f5b2a9a264a5a9e4.1556650594.git.alistair.francis@wdc.com>
-From: Laurent Vivier <laurent@vivier.eu>
+	<81a342ee886cf0f63cdbfc8573b14dd2d41de42d.1556650594.git.alistair.francis@wdc.com>
+From: Eric Blake <eblake@redhat.com>
 Openpgp: preference=signencrypt
-Autocrypt: addr=laurent@vivier.eu; prefer-encrypt=mutual; keydata=
-	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
-Message-ID: <8ca522c7-d1dd-fe05-f8ab-031b72a9fbef@vivier.eu>
-Date: Tue, 30 Apr 2019 22:24:41 +0200
+Autocrypt: addr=eblake@redhat.com; keydata=
+	xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+	xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+	TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+	GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+	sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+	AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+	CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+	RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+	wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+	Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+	gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+	pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+	zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+	pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+	3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+	NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+	cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+	SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+	I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+	mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+	Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+	2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <c95d2923-45b2-9acf-9cc6-aa4b9e102e48@redhat.com>
+Date: Tue, 30 Apr 2019 15:25:42 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <c4768a18309b3918715f96a1f5b2a9a264a5a9e4.1556650594.git.alistair.francis@wdc.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:bY2AYjdAB92M61PW3TyxhnpHkcZkblKdkskm0OiVC2dBO/4zb3Y
-	hJSkLtmO1Y2NalEjWBRONlHmgZQVQbjT8+uC5EJXEq2503QebZ4q+0z5DKAPpLVo/dCLM/O
-	Ol+tzJpamtCFSIvumLwIocbJ2GX/B2YrYLokJ57f5a5BEfWAnZyUKlfvZgQZ1/EG+f400Nw
-	+itYaG50RCZz+SMLt4SKg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:fcc+XOYtyn4=:eI43qPNGY9KhFYSOgd6I2P
-	3vmNLGrzCvpTQ7XTpFSzfnb5yjOUPm/xZiT+XhR4hxIfqkAjTiqqoO7QOcuO1XDY5r9qDZGwr
-	fXBegO+fI+GERcs6OnH48ZQ3o0bt+rG0Wgxf+Ke0BY5ShIJtUl2Kw39+nqlbi3v1T6w2q2jbS
-	U5IaffHroiZwFLdgAlytJ+wW1wYvBlrjABzGfNx9QrctVmNKSa6BSsgj9fuefNnPwV1SoWQrB
-	ehFyEqvkGnqQ4mnm8DuovJO5ADGd6xO0xzo4Ue942TlXGLEn2ABXyRUWnvtakKXG9D4D9Gx8e
-	r7sxy5ZcK82K7M+KiV+Y0IZ+AiAT5y1r13AzKmYKunfUqhzqjRX0ZVNgRjXIOow9v9KqasHsv
-	ZByfwMtdgm/y8XgkfgFma5s9Nj9tMpHwF8c29ct+eJBU79arEkRK1565Lh8pENNKlZc/kZ6C7
-	z4/QFQy7GbsEnLnA3BZ+wKKKBVA8AF+TJXUzfGuigry/j6pRFp/opq8ZvDAvsmKno84rH7dhw
-	zxfnA806EWCO3j2CHZ5VztUbxvbckc5SiayTkR6LqJDmQqPBknGK8dFbelGMBoprPE4vAKn+1
-	m8KxMVW1YdMkuE96FK43xO4GZwn2+cygEIdgOM4ongGSfZMyAup9+W4sKs5OyDMMrztF7VI5E
-	jd9yftTHwDbXVEWS2u6BKnMw28oi6PUvjSXYUq2V6hDHQJrsFyrFgS901b9OdyUGJqLOH/nnp
-	9/iU3CnOgpZ0TL8w+1qSIWPC33okmf//LnJCVJcYcOgH1MACxFshefLk9r8=
+In-Reply-To: <81a342ee886cf0f63cdbfc8573b14dd2d41de42d.1556650594.git.alistair.francis@wdc.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature";
+	boundary="vwUTT9KnyvxvWWJtIqBsVFwUDYzqyS7Kk"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.27]);
+	Tue, 30 Apr 2019 20:25:48 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.74
-Subject: Re: [Qemu-devel] [PATCH v1 2/5] hw/usb/hcd-xhci: Fix GCC 9 build
- warning
+X-Received-From: 209.132.183.28
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [PATCH v1 1/5] util/qemu-sockets: Fix GCC 9 build
+ warnings
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -114,53 +91,94 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
 	"alistair23@gmail.com" <alistair23@gmail.com>,
 	"riku.voipio@iki.fi" <riku.voipio@iki.fi>,
+	"laurent@vivier.eu" <laurent@vivier.eu>,
 	"kraxel@redhat.com" <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Le 30/04/2019 à 22:09, Alistair Francis a écrit :
-> Fix this build warning with GCC 9 on Fedora 30:
-> hw/usb/hcd-xhci.c:3339:66: error: ‘%d’ directive output may be truncated writing between 1 and 10 bytes into a region of size 5 [-Werror=format-truncation=]
->  3339 |             snprintf(port->name, sizeof(port->name), "usb2 port #%d", i+1);
->       |                                                                  ^~
-> hw/usb/hcd-xhci.c:3339:54: note: directive argument in the range [1, 2147483647]
->  3339 |             snprintf(port->name, sizeof(port->name), "usb2 port #%d", i+1);
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--vwUTT9KnyvxvWWJtIqBsVFwUDYzqyS7Kk
+From: Eric Blake <eblake@redhat.com>
+To: Alistair Francis <Alistair.Francis@wdc.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
+ "riku.voipio@iki.fi" <riku.voipio@iki.fi>,
+ "laurent@vivier.eu" <laurent@vivier.eu>,
+ "kraxel@redhat.com" <kraxel@redhat.com>,
+ "alistair23@gmail.com" <alistair23@gmail.com>
+Message-ID: <c95d2923-45b2-9acf-9cc6-aa4b9e102e48@redhat.com>
+Subject: Re: [Qemu-devel] [PATCH v1 1/5] util/qemu-sockets: Fix GCC 9 build
+ warnings
+References: <cover.1556650594.git.alistair.francis@wdc.com>
+ <81a342ee886cf0f63cdbfc8573b14dd2d41de42d.1556650594.git.alistair.francis@wdc.com>
+In-Reply-To: <81a342ee886cf0f63cdbfc8573b14dd2d41de42d.1556650594.git.alistair.francis@wdc.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-"i" cannot be greater than 15.
-
-perhaps an "assert(i <= MAX(MAXPORTS_2, MAXPORTS_3))" can fix the warning ?
-
-Thanks,
-Laurent
-
->       |                                                      ^~~~~~~~~~~~~~~
-> In file included from /usr/include/stdio.h:867,
->                  from /home/alistair/qemu/include/qemu/osdep.h:99,
->                  from hw/usb/hcd-xhci.c:21:
-> /usr/include/bits/stdio2.h:67:10: note: ‘__builtin___snprintf_chk’ output between 13 and 22 bytes into a destination of size 16
->    67 |   return __builtin___snprintf_chk (__s, __n, __USE_FORTIFY_LEVEL - 1,
->       |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
->    68 |        __bos (__s), __fmt, __va_arg_pack ());
->       |        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> 
+On 4/30/19 3:08 PM, Alistair Francis wrote:
+> Fix this warning when building with GCC9 on Fedora 30:
+> In function =E2=80=98strncpy=E2=80=99,
+>     inlined from =E2=80=98unix_connect_saddr.isra.0=E2=80=99 at util/qe=
+mu-sockets.c:925:5:
+> /usr/include/bits/string_fortified.h:106:10: error: =E2=80=98__builtin_=
+strncpy=E2=80=99 specified bound 108 equals destination size [-Werror=3Ds=
+tringop-truncation]
+>   106 |   return __builtin___strncpy_chk (__dest, __src, __len, __bos (=
+__dest));
+>       |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~~~
+> In function =E2=80=98strncpy=E2=80=99,
+>     inlined from =E2=80=98unix_listen_saddr.isra.0=E2=80=99 at util/qem=
+u-sockets.c:880:5:
+>=20
 > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
 > ---
->  hw/usb/hcd-xhci.h | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/usb/hcd-xhci.h b/hw/usb/hcd-xhci.h
-> index 240caa4e51..9e4988abb6 100644
-> --- a/hw/usb/hcd-xhci.h
-> +++ b/hw/usb/hcd-xhci.h
-> @@ -133,7 +133,7 @@ typedef struct XHCIPort {
->      uint32_t portnr;
->      USBPort  *uport;
->      uint32_t speedmask;
-> -    char name[16];
-> +    char name[24];
->      MemoryRegion mem;
->  } XHCIPort;
->  
-> 
+>  util/qemu-sockets.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
+> index 9705051690..4322652428 100644
+> --- a/util/qemu-sockets.c
+> +++ b/util/qemu-sockets.c
+> @@ -877,7 +877,7 @@ static int unix_listen_saddr(UnixSocketAddress *sad=
+dr,
+> =20
+>      memset(&un, 0, sizeof(un));
+>      un.sun_family =3D AF_UNIX;
+> -    strncpy(un.sun_path, path, sizeof(un.sun_path));
+> +    strncpy(un.sun_path, path, sizeof(un.sun_path) - 1);
 
+NACK. Linux allows you to use the full width of un.sun_path (a NUL
+terminator is required if you copy less than that, but not if you use
+the full width). Rather, we may need to mark path as a potential
+nonstring to silence the warning, or use memcpy instead of strncpy, or
+some other workaround.  (Sadly, this is one of those odd places where
+strncpy is actually the right function to use, but there are so many
+other places where strncpy is used incorrectly that it has turned into a
+battle to use it here)
+
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
+
+--vwUTT9KnyvxvWWJtIqBsVFwUDYzqyS7Kk
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlzIr0cACgkQp6FrSiUn
+Q2qhfAf6A4XRQzZYPJPr+0k1Qi6GF9T/qwSr5w10n2GyZ3ZGSAWHdr4Qt/Le3x3h
+PeW5oEgFiKYJFF1I0TZV4Ul1+XVvhljrflVoTxfOHqfUVMwDwaz6rSzOweiIcuhJ
+JFsIzJOZRQO+EY7Eus8v2JEs994yviqOjf+ZzxMQogztwtw4EywjLR/KWgLaTCKO
+sDO7zUZG/YWqqzyrLiL5SgWVA6BPYHcEKPkNCTWA7Pnsf8e//KB2c+MSi0CNAJMJ
+LLqcjOPG2ABR9mUU/tvZFiZBAZ0m+yPC+gtgg36bBt4DlsLGDig2+82dHvBjCaM/
+H7p+HiuZdz8cZ/UJqF9UrrzNwDH9UQ==
+=kYAw
+-----END PGP SIGNATURE-----
+
+--vwUTT9KnyvxvWWJtIqBsVFwUDYzqyS7Kk--
 
