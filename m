@@ -2,53 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41BC7F430
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 12:27:31 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:42759 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3CC42F425
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 12:23:43 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:42664 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLPz0-000179-Fy
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 06:27:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34750)
+	id 1hLPvK-0005iH-9Y
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 06:23:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34978)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <berrange@redhat.com>) id 1hLPq5-0001Py-KO
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 06:18:18 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hLPq1-0001iV-6Z
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 06:18:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <berrange@redhat.com>) id 1hLPcB-0002VD-UE
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 06:03:57 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54074)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hLPcB-0002TK-26
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 06:03:55 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
-	[10.5.11.12])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 622E380461
-	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 10:03:52 +0000 (UTC)
-Received: from redhat.com (unknown [10.42.22.189])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id E996A70582;
-	Tue, 30 Apr 2019 10:03:48 +0000 (UTC)
-Date: Tue, 30 Apr 2019 11:03:45 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Message-ID: <20190430100345.GJ3716@redhat.com>
-References: <20190423212246.3542-1-ehabkost@redhat.com>
-	<20190423212246.3542-2-ehabkost@redhat.com>
-	<b8a8e3fb-281a-7252-4899-859959a97a1d@redhat.com>
-	<20190425174208.GO18406@habkost.net>
+	(envelope-from <peter.maydell@linaro.org>) id 1hLPeW-00044s-AE
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 06:06:22 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:38341)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hLPeS-00041O-Qm
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 06:06:18 -0400
+Received: by mail-ot1-x341.google.com with SMTP id t20so11380259otl.5
+	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 03:06:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=EQMuGSjdIy98D0qkTLJ2KzRylNZb4X6/U90QJbyIYDI=;
+	b=ssMQdLLyEtrTagcjpJgotvjuy1NYCELM38b87YyQ+eNS56mcBWBhiddL84TdTDNspm
+	NvkjqF+SBtrU1KqKReW31quPoQi8N7l7RJSqtTviwVkUCmQ2BzO/RtKBrRa4BiZgCMUL
+	lR/pdPxCs7dY+52skTpHR9SOyDMNDNxe7E/PhIHzwm5JKO5N3Y7ftOx5fRJTZwa0qX5W
+	p0uXXUYUF7E1DuKUDxy3t3wByWOf+56ttjfC5M3yOBvtjWiUHWyApJr5hC2FV9cdPOOI
+	koyfzgH8MQt+IA1pEOM+wt5o3NifTLiKbEtag5A5gtIv1Sdf1r4AhwakYO4sYFXJoDmc
+	WPDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=EQMuGSjdIy98D0qkTLJ2KzRylNZb4X6/U90QJbyIYDI=;
+	b=dAfNXjVIfdQcGPIc3PLiY8O7cRa983SwMk5w6sQUhnhaEv7dGE46s5dgjaAd4XdTqY
+	6c025M4wjUtO+iiGzG57YEqBwLYHN1ixw237iHOxorsK0Wb1I0payw7fUc/xjMWEBcpE
+	EK3NPLqF2KNMn3sh8i1fs0SJelvlKA1Jo0h4UxmRnSWRlDZh/yTpX5htsOhXCbRFdC/b
+	GCuWhu21SKCnKpZw5ol8ayUEubK8behG5HtGis4A8LrfP6Io5G/LQN0lHagt4/w/WRyo
+	TR0uVkhvlfLnanMuxNfsBczm6AhTJUNMmrRX9IkNiHxM2lFq0kSFPk1Yq3ifUzDzfed5
+	SFOw==
+X-Gm-Message-State: APjAAAXD53FAcUTQDERzQ0X0NhgOYT1deJOljDrIO31lqFgSzFYqsitC
+	djFdtKggZgRi7G+MhTeQ384M7jgVknOg5vl/ts7iNA4kiQU=
+X-Google-Smtp-Source: APXvYqwVMgnjEZTGUu0BY4B1e/zjF1FuPmxFPKtNr39yTyUU8JG5U4/2/i5sLYxNeLyhLL3mHbKmlX96uBqpaq0p+NY=
+X-Received: by 2002:a9d:404:: with SMTP id 4mr39621768otc.352.1556618773877;
+	Tue, 30 Apr 2019 03:06:13 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190425174208.GO18406@habkost.net>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.28]);
-	Tue, 30 Apr 2019 10:03:52 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 1/3] qapi: SupportStatusInfo struct
+References: <20190403034358.21999-1-richard.henderson@linaro.org>
+	<20190403034358.21999-23-richard.henderson@linaro.org>
+In-Reply-To: <20190403034358.21999-23-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 30 Apr 2019 11:06:03 +0100
+Message-ID: <CAFEAcA_jBgEvFTnSu_KMHD6Ofnr05DvX6mTZD1x7-jhdi8sdJg@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::341
+Subject: Re: [Qemu-devel] [PATCH 22/26] target/unicore32: Convert to
+ CPUClass::tlb_fill
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -60,71 +73,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: mprivozn@redhat.com, qemu-devel@nongnu.org,
-	Wainer dos Santos Moschetta <wainersm@redhat.com>,
-	Markus Armbruster <armbru@redhat.com>
+Cc: Guan Xuetao <gxt@mprc.pku.edu.cn>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 25, 2019 at 02:42:08PM -0300, Eduardo Habkost wrote:
-> On Thu, Apr 25, 2019 at 11:20:58AM -0300, Wainer dos Santos Moschetta wrote:
-> > Hi Eduardo,
-> > 
-> > 
-> > On 04/23/2019 06:22 PM, Eduardo Habkost wrote:
-> > > This struct will be used to represent support and deprecation
-> > > status of QEMU features.
-> > > 
-> > > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
-> > > ---
-> > >   qapi/common.json | 24 ++++++++++++++++++++++++
-> > >   1 file changed, 24 insertions(+)
-> > > 
-> > > diff --git a/qapi/common.json b/qapi/common.json
-> > > index 99d313ef3b..b59d0dc66b 100644
-> > > --- a/qapi/common.json
-> > > +++ b/qapi/common.json
-> > > @@ -193,3 +193,27 @@
-> > >                'ppc64', 'riscv32', 'riscv64', 's390x', 'sh4',
-> > >                'sh4eb', 'sparc', 'sparc64', 'tricore', 'unicore32',
-> > >                'x86_64', 'xtensa', 'xtensaeb' ] }
-> > > +
-> > > +##
-> > > +# @SupportStatusInfo:
-> > > +#
-> > > +# Information on support status of a given feature
-> > > +# (e.g. machine type)
-> > > +#
-> > > +# @deprecated: if true, the given feature is deprecated and may be removed
-> > > +#              in future versions of QEMU according to the QEMU deprecation
-> > > +#              policy.
-> > 
-> > Eventually management software will need the know the QEMU version the
-> > feature is planed for removal. So makes sense to include a field to capture
-> > that information as well or do you expect it to be added (as a good
-> > practice) in the 'status-message'?
-> 
-> If we really want to provide extra information like version
-> numbers, adding a separate field sounds better than using
-> status-message.
-> 
-> But I'm not sure we really want to include this amount of detail
-> in the API.  Mentioning explicit version numbers could make
-> things more complex for downstream distributions of QEMU that
-> include backports and/or have a different deprecation policy.
-> 
-> I'd like to hear opinions from others.
+On Wed, 3 Apr 2019 at 04:58, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Cc: Guan Xuetao <gxt@mprc.pku.edu.cn>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/unicore32/cpu.h       |  5 +++--
+>  target/unicore32/cpu.c       |  5 +----
+>  target/unicore32/helper.c    | 23 -----------------------
+>  target/unicore32/op_helper.c | 14 --------------
+>  target/unicore32/softmmu.c   | 19 +++++++++++++++----
+>  5 files changed, 19 insertions(+), 47 deletions(-)
 
-Yeah, I'm *not* in favour of mentioning any version number in this. Our
-"2 cycle" deprecation rule is more of a guideline than a strict rule.
-It can be extended if we find some blocking problem that makes removal
-more painful than expected.
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+You might note in the commit message that we can just delete
+the user-mode (non-)handling of tlb fill because we
+don't support unicore32 linux-user any more.
+
+thanks
+-- PMM
 
