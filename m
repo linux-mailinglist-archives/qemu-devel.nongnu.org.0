@@ -2,66 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 595F1FE3A
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 18:57:42 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50182 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D6E8FED5
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 19:27:48 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50693 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLW4a-0005du-O6
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 12:57:40 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39173)
+	id 1hLWXj-0005EZ-Ba
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 13:27:47 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39792)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hLW23-000491-0t
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:55:03 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hLW2y-0005AD-7X
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:56:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hLW21-0001xK-RV
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:55:02 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:35204)
+	(envelope-from <richard.henderson@linaro.org>) id 1hLW2x-0002Y4-CN
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:56:00 -0400
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:39632)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hLW21-0001wj-Kw
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:55:01 -0400
-Received: by mail-ot1-x344.google.com with SMTP id g24so7967384otq.2
-	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 09:55:01 -0700 (PDT)
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hLW2x-0002Xb-5e
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:55:59 -0400
+Received: by mail-pl1-x641.google.com with SMTP id e92so7004783plb.6
+	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 09:55:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=9DFTohWXy/wYjNK8LrGwawKL4YX+RTydSr+hZQZ4bJE=;
-	b=DVWv9ODUSm6suHGNNUyqtfksz+mXNEMUKHf6Y23oaNIj2M4qA93uNdbNLpcHNRnRUH
-	N7Ia1BMi5btsvUXz8r3s/xlI1+/T6TZM8X8okDO4v6SKI4oskinX0xCo/JKy2Y1ZQOcJ
-	bNQRLxh8A94YRqf4/Sd5V89Dem0PzCcu1Kgoypr7Kz+ubZRLsbfqWvDm7FGHw91FyCzB
-	5zn6Irxh2F3mwZWAtX3HAyxPIw0FjOKT7fNMubG+oODnxRkq+L+yChbrNk4y13G1bRHv
-	Xnsi7Lx8GBAADYPDRvtmaK5K1otQI3bDVmyDTCar3zW3QVfKhCOV55bHN+Cin+A2WoKS
-	JClw==
+	h=subject:to:references:from:openpgp:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=gtSzyrc9FwCBM3XuNqgnihWYnGoBFu5mnZsyEfppXik=;
+	b=eTeXm5lXvK5yQHmbzZvnJCh280ws0NP3vCIKluixOjK17YvZidFWF5r3qZi72U42FF
+	WHJdJdG01tZJxlo0vuUawiagDKL8pzb5pRxwFLeQjJ9YBsJpcy3VnuXnHl5Lxz0oOUj1
+	/sBUsZP+1P9a6XGHqLdmepzXDdesCIPiFGMSCpIsx+3ovJaQe9CeAeV/W1LcYd+1e2uo
+	hnKSb/xm8fU6i2zQd5iQVvE9DMAbbM+pkGiYTYgjbCwIwhTbSVSobGIsYLp8pQvAYTXU
+	ch4bYfxCrYIhuHO3cNOldaKOse3ZJ5o2Si9rnDX9Hh2pPqz6mD2QnTneyoTqb485BWip
+	ubZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=9DFTohWXy/wYjNK8LrGwawKL4YX+RTydSr+hZQZ4bJE=;
-	b=C/PCNwdxzImEQ+StV9e00+ckKIohYBz9iEg6G0ScANWsJS8DYgyfmcU0vssVZNEh4z
-	d7Bpfzr5HrGWpb+G7tjmYmeD4WieWSQpP5FDSDPJ3YhlLdL91cOv3Wc5g/HDEBzDvZmR
-	NqbE6O5yEGcmijmsh2aB7re035/AV0wI7cfRUAmp0YuOxNuDPCi/9TpWKdz1x4/Q081K
-	Obn78H7yAw++m7gSyyp7FfyL5ZsXTEaDEdF7nX6LN4642xRuSbEUTQ/JSd6qdg3fbwJh
-	3uwTHQg3gmnsTh/o0G4ZkJQvpvXXyGI0lfDfzdK/FVnSs5+nqAsK/E8rsQfO6DmazPjt
-	sZOw==
-X-Gm-Message-State: APjAAAVkUeXJg3Re15PXqFaWJVUdx/vgOxRE6gh5EK0XsD+jdJTA9QKk
-	WGf85yFtIAOZjDsjr93hRdrnM5L0mMvKYzj0JYrz3w==
-X-Google-Smtp-Source: APXvYqz5eZ1AgUjPwQO2cX5RNnY/duhNOKz2Sjbo+mfgHDsN45TTke+pBB70dELUJ/qnzpA2bjZ+cGIm6HQttvE/Ka4=
-X-Received: by 2002:a9d:404:: with SMTP id 4mr40973086otc.352.1556643300723;
-	Tue, 30 Apr 2019 09:55:00 -0700 (PDT)
+	h=x-gm-message-state:subject:to:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=gtSzyrc9FwCBM3XuNqgnihWYnGoBFu5mnZsyEfppXik=;
+	b=NJp53UJF4E8001NlB7Kxi7lKQy0hakUhUTV8D8V1M/3vqOIIeKDs5OJP0XNNkRmaYj
+	5HU3ZsmvLrrE35pgwcNkELky91+IE3dt/AJ0rSmX1RVhYVjLRIgysgijg0fPcKY1QKbx
+	z+BPkafN40JS/DanpMp5oj3gtoivWc6VSpv1IsuSVzwInlgFiP49hRnN2KfUNCDUn+eI
+	At8YgXhtUhwY8UO/GUndol7bLjXOWDqNTpWQGz8PcM5EH1t7X6HcXJu7g6h8mDnCj1qr
+	opzdtEGDK9JITRug261vUqocagaZAfHt7oraNYywFhNo8kNILkAoWv4X3DpKmWjR5kx2
+	S0Yg==
+X-Gm-Message-State: APjAAAXGSdYjmE08+gvVAqXJ7/gPJ48fjOrsVPyMkSlM5yBbD7TzR9+s
+	frE4kQFqwSvBNLkIhLAWxIiEMA==
+X-Google-Smtp-Source: APXvYqzpSPZWR6lzcWhIeaCNpAZGS/f40cTuUSl3+g16qhjafNAmUpNCaaYkdT4EYFYYO9gf4EE2ZA==
+X-Received: by 2002:a17:902:5910:: with SMTP id
+	o16mr16246543pli.289.1556643358250; 
+	Tue, 30 Apr 2019 09:55:58 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-18-231.tukw.qwest.net. [97.113.18.231])
+	by smtp.gmail.com with ESMTPSA id
+	b2sm38570363pff.63.2019.04.30.09.55.54
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 30 Apr 2019 09:55:57 -0700 (PDT)
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org, david@gibson.dropbear.id.au, rth@twiddle.net,
+	gkurz@kaod.org
+References: <20190428143845.11810-1-mark.cave-ayland@ilande.co.uk>
+	<20190428143845.11810-14-mark.cave-ayland@ilande.co.uk>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <28efda41-0002-c357-7329-55b3ce82d1d4@linaro.org>
+Date: Tue, 30 Apr 2019 09:55:48 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <20190425132134.2839-1-cohuck@redhat.com>
-	<20190425132134.2839-2-cohuck@redhat.com>
-In-Reply-To: <20190425132134.2839-2-cohuck@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 30 Apr 2019 17:54:49 +0100
-Message-ID: <CAFEAcA8TvMqZRCrMF5orgaWy-CxTR8fr6yF2W_-Y6LYfi1pGng@mail.gmail.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20190428143845.11810-14-mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::344
-Subject: Re: [Qemu-devel] [PULL 01/19] s390 vfio-ccw: Add bootindex property
- and IPLB data
+X-Received-From: 2607:f8b0:4864:20::641
+Subject: Re: [Qemu-devel] [PATCH 13/14] target/ppc: improve VSX_TEST_DC with
+ new generator macros
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -73,73 +88,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Jason J. Herne" <jjherne@linux.ibm.com>,
-	qemu-s390x <qemu-s390x@nongnu.org>,
-	QEMU Developers <qemu-devel@nongnu.org>, Thomas Huth <thuth@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 25 Apr 2019 at 14:21, Cornelia Huck <cohuck@redhat.com> wrote:
->
-> From: "Jason J. Herne" <jjherne@linux.ibm.com>
->
-> Add bootindex property and iplb data for vfio-ccw devices. This allows us to
-> forward boot information into the bios for vfio-ccw devices.
->
-> Refactor s390_get_ccw_device() to return device type. This prevents us from
-> having to use messy casting logic in several places.
->
-> Signed-off-by: Jason J. Herne <jjherne@linux.ibm.com>
-> Acked-by: Halil Pasic <pasic@linux.vnet.ibm.com>
-> Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-> Reviewed-by: Thomas Huth <thuth@redhat.com>
-> Message-Id: <1554388475-18329-2-git-send-email-jjherne@linux.ibm.com>
-> [thuth: fixed "typedef struct VFIOCCWDevice" build failure with clang]
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+On 4/28/19 7:38 AM, Mark Cave-Ayland wrote:
+> The source and destination registers can now be decoded in the generator
+> function using the new GEN_VSX_HELPER_X2 and GEN_VSX_HELPER_R2 macros.
+> 
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> ---
+>  target/ppc/fpu_helper.c             | 16 +++++++---------
+>  target/ppc/helper.h                 |  8 ++++----
+>  target/ppc/translate/vsx-impl.inc.c |  8 ++++----
+>  3 files changed, 15 insertions(+), 17 deletions(-)
 
-Hi; Coverity has a complaint (CID 1401098) about the use of
-object_dynamic_cast() in this function. It looks like it's just
-the result of code motion making it forget we'd dismissed the
-warning before, but maybe we can avoid it entirely...
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-> @@ -335,20 +360,22 @@ static bool s390_gen_initial_iplb(S390IPLState *ipl)
->  {
->      DeviceState *dev_st;
->      CcwDevice *ccw_dev = NULL;
-> +    SCSIDevice *sd;
-> +    int devtype;
->
->      dev_st = get_boot_device(0);
->      if (dev_st) {
-> -        ccw_dev = s390_get_ccw_device(dev_st);
-> +        ccw_dev = s390_get_ccw_device(dev_st, &devtype);
->      }
->
->      /*
->       * Currently allow IPL only from CCW devices.
->       */
->      if (ccw_dev) {
-> -        SCSIDevice *sd = (SCSIDevice *) object_dynamic_cast(OBJECT(dev_st),
-> -                                                            TYPE_SCSI_DEVICE);
-> -
-> -        if (sd) {
-> +        switch (devtype) {
-> +        case CCW_DEVTYPE_SCSI:
-> +            sd = (SCSIDevice *) object_dynamic_cast(OBJECT(dev_st),
-> +                                                           TYPE_SCSI_DEVICE);
 
-Coverity doesn't like the use of object_dynamic_cast() without a
-check that the return value isn't NULL before we dereference
-it a few lines further down.
+r~
 
-I think that if we know this cast must always succeed, we
-could instead just write
-  SCSIDevice *sd = SCSI_DEVICE(dev_st);
-
-On the other hand if the cast might not succeed because dev_st
-isn't necessarily of the right type, then we should check it
-for NULL and handle that appropriately.
-
-thanks
--- PMM
 
