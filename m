@@ -2,68 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65CD110148
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 22:57:38 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53327 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80B9010138
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 22:55:35 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53273 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLZon-0001Bu-Ld
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 16:57:37 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55840)
+	id 1hLZmo-0007ww-KW
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 16:55:34 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55744)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alistair23@gmail.com>) id 1hLZeu-0002jO-Ar
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 16:47:27 -0400
+	(envelope-from <ehabkost@redhat.com>) id 1hLZeM-0002Ob-T8
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 16:46:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alistair23@gmail.com>) id 1hLZes-00005G-Db
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 16:47:24 -0400
-Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:39248)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <alistair23@gmail.com>)
-	id 1hLZeq-0008Ox-9I; Tue, 30 Apr 2019 16:47:21 -0400
-Received: by mail-lf1-x144.google.com with SMTP id d12so11886568lfk.6;
-	Tue, 30 Apr 2019 13:47:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=y7xfoofEm4PAoHQaMXpXigT2S2f6wMz1mt7eVkQs2Sw=;
-	b=hWbylTdKEQ9a861h6nsAFe7S7u7+cfpXDZHcAMySg4gVg9AZIXhsxtyeHpQlSQ24HD
-	0WKY5m5rW4/Lm9/QYvgGB9nGNySx/kB9KbSMHebNcik9Z8fF6B4lExipTt2LUfelZToZ
-	nBKT+oVNmq+Ki0VAL5tqjfhzyULDq0XOoAXjqkRUPa3d23fEav2aYXieeXWzBsB50MRb
-	wJ5UkbQet2I2Qj2CmG+SImTZqFR0HRRTqhdS37huNhvcX7tlpLGfFjDkBVJt2ztvVNp1
-	psoT3s06bmZhj38JardeplnuyW8p9xY08oWbvUXeWBvZfBtxhx/HarPgpMTsW9hpu8hS
-	i4Pw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=y7xfoofEm4PAoHQaMXpXigT2S2f6wMz1mt7eVkQs2Sw=;
-	b=fZl5w1D0LfsgxTcSUMSH0A7avV5RX5XtRN4IdGlOUUcq89JjPJoJsS0efT+RVD5gr5
-	ElHTmNmWh/9KlgEyUIryPM81O+HCn8F9pRT0qcTLV1+CyGTZQzE5aSs5Ev2QEYpkee2o
-	kr+iX9U2+2DMHFEfAierh9gyRhh0nrTZUS5O/cSPJqAZarvYy+HoVgqVjSqxHFIKekib
-	0zzs2ntBmrIYdIPFvVP/UC44g/RV6q7BXHXcCELgrCIlGZmHHOdKQAMcxGrW5/85J9C+
-	QLXhRGkhwea6HeOCCI4PTIdWoxFRKlSFohf3XLRwHJZwxbN9x6uD3oUwApwjvgxEQoN8
-	RpGQ==
-X-Gm-Message-State: APjAAAXDSBuD3Sk7TH5wYzx4ocznuM2aJ3F4xI6Qaw41G1/5jfaKsMQA
-	CTjnKGZnTzXdG67mj0kHeZJJaxVbaApnDkpeqmc=
-X-Google-Smtp-Source: APXvYqz9iXkzAzZmiA95VuA9Ydg4ZqCGyVXCiIq8qGHtVXRhEnc0GlMOmqUpe6A9mL/cOPFntcKWqp/cwa2yb8pNQsQ=
-X-Received: by 2002:a19:4a04:: with SMTP id x4mr355974lfa.124.1556657236454;
-	Tue, 30 Apr 2019 13:47:16 -0700 (PDT)
+	(envelope-from <ehabkost@redhat.com>) id 1hLZeH-00088x-Ut
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 16:46:50 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39746)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hLZeG-00088D-Po
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 16:46:45 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+	[10.5.11.12])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 21D308AE52;
+	Tue, 30 Apr 2019 20:46:43 +0000 (UTC)
+Received: from localhost (ovpn-116-9.gru2.redhat.com [10.97.116.9])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 32862191EA;
+	Tue, 30 Apr 2019 20:46:38 +0000 (UTC)
+Date: Tue, 30 Apr 2019 17:46:36 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Wei Yang <richardw.yang@linux.intel.com>
+Message-ID: <20190430204636.GK28722@habkost.net>
+References: <20190426003652.32633-1-richardw.yang@linux.intel.com>
+	<20190426003652.32633-2-richardw.yang@linux.intel.com>
 MIME-Version: 1.0
-References: <cover.1556650594.git.alistair.francis@wdc.com>
-	<f2aaec5b3c12a8512cd7078f3a5d1230906d80ea.1556650594.git.alistair.francis@wdc.com>
-	<6650d0b8-1c5c-a8ea-ef92-a69ad50f7d8b@redhat.com>
-In-Reply-To: <6650d0b8-1c5c-a8ea-ef92-a69ad50f7d8b@redhat.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 30 Apr 2019 13:45:23 -0700
-Message-ID: <CAKmqyKP0-Aikd3+fF-u=be_2ZaRtfa6Sx-Cxu49uFtXgN9C_Ew@mail.gmail.com>
-To: Eric Blake <eblake@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::144
-Subject: Re: [Qemu-devel] [PATCH v1 3/5] hw/usb/dev-mtp: Fix GCC 9 build
- warning
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190426003652.32633-2-richardw.yang@linux.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.27]);
+	Tue, 30 Apr 2019 20:46:43 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v15 1/2] util/mmap-alloc: support MAP_SYNC
+ in qemu_ram_mmap()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -75,81 +59,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
-	"riku.voipio@iki.fi" <riku.voipio@iki.fi>,
-	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
-	"laurent@vivier.eu" <laurent@vivier.eu>,
-	Alistair Francis <Alistair.Francis@wdc.com>,
-	"kraxel@redhat.com" <kraxel@redhat.com>
+Cc: pagupta@redhat.com, xiaoguangrong.eric@gmail.com, mst@redhat.com,
+	Haozhong Zhang <haozhong.zhang@intel.com>, qemu-devel@nongnu.org,
+	yi.z.zhang@linux.intel.com, yu.c.zhang@linux.intel.com,
+	stefanha@redhat.com, imammedo@redhat.com, pbonzini@redhat.com,
+	dan.j.williams@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Apr 30, 2019 at 1:37 PM Eric Blake <eblake@redhat.com> wrote:
->
-> On 4/30/19 3:09 PM, Alistair Francis wrote:
-> > Fix this warning with GCC 9 on Fedora 30:
-> > hw/usb/dev-mtp.c:1715:36: error: taking address of packed member of =E2=
-=80=98struct <anonymous>=E2=80=99 may result in an unaligned pointer value =
-[-Werror=3Daddress-of-packed-member]
-> >  1715 |                             dataset->filename);
-> >       |                             ~~~~~~~^~~~~~~~~~
-> >
-> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-> > ---
-> >  hw/usb/dev-mtp.c | 13 +++++++++++++
-> >  1 file changed, 13 insertions(+)
-> >
-> > diff --git a/hw/usb/dev-mtp.c b/hw/usb/dev-mtp.c
-> > index 99548b012d..6de85d99e6 100644
-> > --- a/hw/usb/dev-mtp.c
-> > +++ b/hw/usb/dev-mtp.c
-> > @@ -1711,9 +1711,22 @@ static void usb_mtp_write_metadata(MTPState *s, =
-uint64_t dlen)
-> >      assert(!s->write_pending);
-> >      assert(p !=3D NULL);
-> >
-> > +/*
-> > + * We are about to access a packed struct. We are confident that the p=
-ointer
-> > + * address won't be unalligned, so we ignore GCC warnings.
->
-> unaligned
+Hi,
 
-Fixed.
+On Fri, Apr 26, 2019 at 08:36:51AM +0800, Wei Yang wrote:
+> From: Zhang Yi <yi.z.zhang@linux.intel.com>
+> 
+> When a file supporting DAX is used as vNVDIMM backend, mmap it with
+> MAP_SYNC flag in addition which can ensure file system metadata
+> synced in each guest writes to the backend file, without other QEMU
+> actions (e.g., periodic fsync() by QEMU).
+> 
+> Current, We have below different possible use cases:
+> 
+> 1. pmem=on is set, shared=on is set, MAP_SYNC supported:
+>    a: backend is a dax supporting file.
+>     - MAP_SYNC will active.
+>    b: backend is not a dax supporting file.
+>     - mmap will trigger a warning. then MAP_SYNC flag will be ignored
+> 
+> 2. The rest of cases:
+>    - we will never pass the MAP_SYNC to mmap2
+> 
+> Signed-off-by: Haozhong Zhang <haozhong.zhang@intel.com>
+> Signed-off-by: Zhang Yi <yi.z.zhang@linux.intel.com>
+> [ehabkost: Rebased patch to latest code on master]
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+> Tested-by: Wei Yang <richardw.yang@linux.intel.com>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> 
+> ---
+> v15: fix compile issue on pre-linux4.15
+> v14: rebase on top of current upstream
 
->
-> Aren't there other potential proposed patches floating around for this
-> issue that do not involve messing with pragmas?
+Note that v14 was already merged, so the build fix would need to
+be submitted separately.  However:
 
-I'm not sure, I haven't seen anything. I'm more then open to a better
-fix, this is the best option I could think of.
+[...]
+> +#ifdef CONFIG_LINUX
+> +#include <linux/mman.h>
+> +#endif /* CONFIG_LINUX */
+> +
+> +#ifndef MAP_SYNC
+> +#define MAP_SYNC 0
+> +#endif
+> +#ifndef MAP_SHARED_VALIDATE
+> +#define MAP_SHARED_VALIDATE 0
+> +#endif
 
-Alistair
+Why would we need this, if we added copies of mman.h to
+linux-headers?
 
->
-> > + */
-> > +#if defined(CONFIG_PRAGMA_DIAGNOSTIC_AVAILABLE) && QEMU_GNUC_PREREQ(9,=
- 0)
-> > +#pragma GCC diagnostic push
-> > +#pragma GCC diagnostic ignored "-Waddress-of-packed-member"
-> > +#endif
-> > +
-> >      filename =3D utf16_to_str(MIN(dataset->length, filename_chars),
-> >                              dataset->filename);
-> >
-> > +#if defined(CONFIG_PRAGMA_DIAGNOSTIC_AVAILABLE) && QEMU_GNUC_PREREQ(9,=
- 0)
-> > +#pragma GCC diagnostic pop
-> > +#endif
-> > +
-> >      if (strchr(filename, '/')) {
-> >          usb_mtp_queue_result(s, RES_PARAMETER_NOT_SUPPORTED, d->trans,
-> >                               0, 0, 0, 0);
-> >
->
-> --
-> Eric Blake, Principal Software Engineer
-> Red Hat, Inc.           +1-919-301-3226
-> Virtualization:  qemu.org | libvirt.org
->
+-- 
+Eduardo
 
