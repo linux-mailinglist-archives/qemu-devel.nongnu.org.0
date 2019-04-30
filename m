@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBD0FFDD4
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 18:27:22 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49737 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0D537FDB1
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 18:20:56 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49510 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLVbF-0002GB-Kn
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 12:27:21 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54200)
+	id 1hLVV1-0004tC-5K
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 12:20:55 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54893)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hLVAj-0004vo-29
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 11:59:58 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hLVCm-000768-Ts
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:02:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hLVAg-0004hq-SZ
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 11:59:57 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:46871)
+	(envelope-from <peter.maydell@linaro.org>) id 1hLVCl-0005z0-Rm
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:02:04 -0400
+Received: from mail-ot1-x32a.google.com ([2607:f8b0:4864:20::32a]:37405)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hLVAg-0004hS-Mp
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 11:59:54 -0400
-Received: by mail-oi1-x241.google.com with SMTP id d62so5797024oib.13
-	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 08:59:54 -0700 (PDT)
+	id 1hLVCl-0005yG-M5
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:02:03 -0400
+Received: by mail-ot1-x32a.google.com with SMTP id r20so11259163otg.4
+	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 09:02:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Aet0shfUY8OGFSb1g1Y0WlXxfX0QxQJu8SnrapWHQOQ=;
-	b=uK/ofntAD58zxofwXhMFuXY7YJyr8PX4lJJ4VfHGw3n0fwRlFdBpkRf8DWQ878haAd
-	sot803DSlzwWCbkVwM1PJAFmGiPBFJzQtPQ2mwE2edin0sSnL92+3OxshvEi5FVlbsir
-	ENffm/MPWGAdJjj5Vfc8IUbIgnTvuL1zozhYY5tAp6kAF22RW7fRE7ROlMacM7yGTQLo
-	F022jF2mi/BBz87/ZLs+EuJZdNrhQ7f+z6Ct5ERTwmpyqgBOEtaCEHUq0t6bcQTxbZYd
-	yTnbyW3Ui+55cLJwCMdUKpD6Uf8ap/Ljupd6myxAap695HP/M5VSoHbT8GgXNcI2ptXd
-	+zMA==
+	:cc; bh=dyNCtj5gU292e5SAgxjtbKC2vuxYG+NGlq6ortkuw/E=;
+	b=XNe9ISlJkENPDe1zJj41Ws3h1dxI5PatrrvxJi/cX/yhQbvGsGCMItD+hBWCfTWJTc
+	sWSP8XxyADOemTWujXHHcLejCrbN80BJ5uRafzPBGYopVPyK01teqrOtD0EDK/WRGp7J
+	W0FO/D+Wr1CABMd1bhl+DwIwpDkhrOqJV7Ds0Sc0BUT7+RZ1FkB43/eosQ/E8WnDbowx
+	NxC4vnySW2oIsd2arfzz4KUafJToic8dwokmXtGUrRB2zxg80w9b6ikXILG651DSiGyk
+	7+nxdvGbzuxqoD4EchzRvftm+vUpjmmfLhgCGXCavo+D8BmSShjG143PISgR4icyOTsK
+	PlSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=Aet0shfUY8OGFSb1g1Y0WlXxfX0QxQJu8SnrapWHQOQ=;
-	b=anQAa2j9hWzRFRAfTyAEbHjj2Ok1ORPunEpdIT4undED40nhwboGN6UE90IRwIfWVh
-	Ubqf1NS5+ZinYGZwfjty+42tmm09BOxl0ugLB9zrnaJgo4dxkLgB1khLLL6y4JeWsDFX
-	oWLWX8ib+zgmsKWXfQ35Qwo5vkEKfiZo2daSyKfRm+YFUDdSo0sOtiSgZcVdyC8PBqUC
-	2Wm0uO67IB5Lj/GeG6RA1OvoppxPfpc/OlD4+XaNcV+lxmn52wABbC++rFpDzICPz+xE
-	6qqvlamCreVOQ7okFVdWARY1yRcezvcl0XUrj1QvHvMPozrTgKgZ5Twh5DWhMA+kOKfN
-	1wuw==
-X-Gm-Message-State: APjAAAXGXSmmWTPlU65HCmc88nRZfhxxqVoOhOPy5aH5ePviikFG2Wha
-	aTdShK2qr8dnT/ycRiPGsqN3PrF0bj01nQ1hheTKcw==
-X-Google-Smtp-Source: APXvYqz/mRC1mr54eujXPnEq90J7iAswEP57OwLVm/DE74DKalxAWKZUfqX7Ppvj2u7D/3RkPEMY83nNbPs3qiCBFnI=
-X-Received: by 2002:aca:b3c2:: with SMTP id c185mr3712378oif.98.1556639993674; 
-	Tue, 30 Apr 2019 08:59:53 -0700 (PDT)
+	bh=dyNCtj5gU292e5SAgxjtbKC2vuxYG+NGlq6ortkuw/E=;
+	b=dz8D5idKOtPXwgy8RowUnJGD50+FCsPZBC5tKoDxMqyONr1o3vUk80KVNDW74LPJWe
+	pIuxu+FwPSM/Gg1+WCjl1vLU6yMLA5o42I52nnbP8ION4+elklH4GxL+9PJLa3/MY/rS
+	jSOBig+MFu4GS9tEPGvI6OA0xMlWIqPGv4ykY8qcTCjc/u+RizjMtSvf4gTbvnscueNI
+	MpcFxFvTwzXyMRtF6J8xVQQBO2pfgjSpaUBzXkIYGy6rg1cTUUItYQE+a2wFN1Q0Z+FQ
+	unFoTMPwW0zffT6CjSdKxEqpC30dBMlnmGvW2L+akY7wCnRK0y5KpJu1MOtQJ7EAO3fe
+	xYFQ==
+X-Gm-Message-State: APjAAAU/bzXxoocWLLDR8jYOcjDAZtqg53TRvXVaN5zHFI9NSc7xw5c1
+	6a1q6+bWD/nR7UVrQo9Owajv5XsTqkyWXuUHTntLNQ==
+X-Google-Smtp-Source: APXvYqxnApB1YILdOVJUdIs4/nd0iIJ8S16lx7DS4RFe97e02rWD0Isb5gbig/Mfybt4WuRzTYP7oOrdpNI/dIVgdV8=
+X-Received: by 2002:a9d:360b:: with SMTP id w11mr16653313otb.238.1556640122341;
+	Tue, 30 Apr 2019 09:02:02 -0700 (PDT)
 MIME-Version: 1.0
 References: <cover.1556515687.git.alistair@alistair23.me>
-	<PSXP216MB027793B449E7DAAB995E0F33DD390@PSXP216MB0277.KORP216.PROD.OUTLOOK.COM>
-In-Reply-To: <PSXP216MB027793B449E7DAAB995E0F33DD390@PSXP216MB0277.KORP216.PROD.OUTLOOK.COM>
+	<PSXP216MB02771957D4B9C5A15914D05FDD390@PSXP216MB0277.KORP216.PROD.OUTLOOK.COM>
+In-Reply-To: <PSXP216MB02771957D4B9C5A15914D05FDD390@PSXP216MB0277.KORP216.PROD.OUTLOOK.COM>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 30 Apr 2019 16:59:42 +0100
-Message-ID: <CAFEAcA_rzfL_-zZPpMhqvyGLe7wS-HFh0znd8n2ysnfhg4kHLA@mail.gmail.com>
+Date: Tue, 30 Apr 2019 17:01:51 +0100
+Message-ID: <CAFEAcA86i3aZx-h2ys5kmc35AMqzd6k=JrfVXObdbcppnn-J8w@mail.gmail.com>
 To: Alistair Francis <alistair@alistair23.me>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::241
-Subject: Re: [Qemu-devel] [PATCH v1 4/5] hw/arm: Add the STM32F4xx SoC
+X-Received-From: 2607:f8b0:4864:20::32a
+Subject: Re: [Qemu-devel] [PATCH v1 5/5] hw/arm: Add the Netduino Plus 2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -77,131 +77,60 @@ Cc: "alistair23@gmail.com" <alistair23@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 29 Apr 2019 at 06:38, Alistair Francis <alistair@alistair23.me> wrote:
+On Mon, 29 Apr 2019 at 06:39, Alistair Francis <alistair@alistair23.me> wrote:
 >
 > Signed-off-by: Alistair Francis <alistair@alistair23.me>
 > ---
->  MAINTAINERS                     |   8 +
->  default-configs/arm-softmmu.mak |   1 +
->  hw/arm/Kconfig                  |   3 +
->  hw/arm/Makefile.objs            |   1 +
->  hw/arm/stm32f405_soc.c          | 292 ++++++++++++++++++++++++++++++++
->  include/hw/arm/stm32f405_soc.h  |  70 ++++++++
->  6 files changed, 375 insertions(+)
->  create mode 100644 hw/arm/stm32f405_soc.c
->  create mode 100644 include/hw/arm/stm32f405_soc.h
+>  MAINTAINERS                     |  6 +++
+>  default-configs/arm-softmmu.mak |  1 +
+>  hw/arm/Kconfig                  |  3 ++
+>  hw/arm/Makefile.objs            |  1 +
+>  hw/arm/netduinoplus2.c          | 77 +++++++++++++++++++++++++++++++++
+>  5 files changed, 88 insertions(+)
+>  create mode 100644 hw/arm/netduinoplus2.c
+>
 
-Looks good; a few minor things below.
-
-> +static void stm32f405_soc_initfn(Object *obj)
+> +typedef struct ARMV7MResetArgs {
+> +    ARMCPU *cpu;
+> +    uint32_t reset_sp;
+> +    uint32_t reset_pc;
+> +} ARMV7MResetArgs;
+> +
+> +static void armv7m_reset(void *opaque)
 > +{
-> +    STM32F405State *s = STM32F405_SOC(obj);
-> +    int i;
+> +    ARMV7MResetArgs *args = opaque;
 > +
-> +    sysbus_init_child_obj(obj, "armv7m", &s->armv7m, sizeof(s->armv7m),
-> +                          TYPE_ARMV7M);
+> +    cpu_reset(CPU(args->cpu));
 > +
-> +    sysbus_init_child_obj(obj, "syscfg", &s->syscfg, sizeof(s->syscfg),
-> +                          TYPE_STM32F4XX_SYSCFG);
-> +
-> +    for (i = 0; i < STM_NUM_USARTS; i++) {
-> +        sysbus_init_child_obj(obj, "usart[*]", &s->usart[i],
-> +                              sizeof(s->usart[i]), TYPE_STM32F2XX_USART);
-> +    }
-> +
-> +    for (i = 0; i < STM_NUM_TIMERS; i++) {
-> +        sysbus_init_child_obj(obj, "timer[*]", &s->timer[i],
-> +                              sizeof(s->timer[i]), TYPE_STM32F2XX_TIMER);
-> +    }
-> +
-> +    s->adc_irqs = OR_IRQ(object_new(TYPE_OR_IRQ));
-
-It would be more in keeping with the style of the rest of this
-device to have the device be inline in the STM32F405State
-struct and initialized with object_initialize_child() rather
-than allocated separately with object_new(). (hw/arm/armsse.c
-has an example of doing this with a TYPE_OR_IRQ object.)
-
-> +
-> +    for (i = 0; i < STM_NUM_ADCS; i++) {
-> +        sysbus_init_child_obj(obj, "adc[*]", &s->adc[i], sizeof(s->adc[i]),
-> +                              TYPE_STM32F2XX_ADC);
-> +    }
-> +
-> +    for (i = 0; i < STM_NUM_SPIS; i++) {
-> +        sysbus_init_child_obj(obj, "spi[*]", &s->spi[i], sizeof(s->spi[i]),
-> +                              TYPE_STM32F2XX_SPI);
-> +    }
-> +
-> +    sysbus_init_child_obj(obj, "exti", &s->exti, sizeof(s->exti),
-> +                          TYPE_STM32F4XX_EXTI);
+> +    args->cpu->env.regs[13] = args->reset_sp & 0xFFFFFFFC;
+> +    args->cpu->env.thumb = args->reset_pc & 1;
+> +    args->cpu->env.regs[15] = args->reset_pc & ~1;
 > +}
 > +
-> +static void stm32f405_soc_realize(DeviceState *dev_soc, Error **errp)
+> +static void netduinoplus2_init(MachineState *machine)
 > +{
-> +    STM32F405State *s = STM32F405_SOC(dev_soc);
-> +    DeviceState *dev, *armv7m;
-> +    SysBusDevice *busdev;
-> +    Error *err = NULL;
-> +    int i;
+> +    DeviceState *dev;
+> +    ARMV7MResetArgs reset_args;
+> +    uint64_t entry;
 > +
-> +    MemoryRegion *system_memory = get_system_memory();
-> +    MemoryRegion *sram = g_new(MemoryRegion, 1);
-> +    MemoryRegion *flash = g_new(MemoryRegion, 1);
-> +    MemoryRegion *flash_alias = g_new(MemoryRegion, 1);
-
-I would prefer to have these MemoryRegions be in the STM32F405State
-struct rather than separately allocated.
-
+> +    dev = qdev_create(NULL, TYPE_STM32F405_SOC);
+> +    qdev_prop_set_string(dev, "cpu-type", ARM_CPU_TYPE_NAME("cortex-m4"));
+> +    object_property_set_bool(OBJECT(dev), true, "realized", &error_fatal);
 > +
-> +    memory_region_init_ram(flash, NULL, "STM32F405.flash", FLASH_SIZE,
-> +                           &error_fatal);
-
-Better to pass the error back up via errp rather than use error_fatal
-in a realize function.
-
-> +    memory_region_init_alias(flash_alias, NULL, "STM32F405.flash.alias",
-> +                             flash, 0, FLASH_SIZE);
+> +    armv7m_load_kernel(ARM_CPU(first_cpu), machine->kernel_filename,
+> +                       FLASH_SIZE, &entry);
 > +
-> +    memory_region_set_readonly(flash, true);
-> +    memory_region_set_readonly(flash_alias, true);
-> +
-> +    memory_region_add_subregion(system_memory, FLASH_BASE_ADDRESS, flash);
-> +    memory_region_add_subregion(system_memory, 0, flash_alias);
-> +
-> +    memory_region_init_ram(sram, NULL, "STM32F405.sram", SRAM_SIZE,
-> +                           &error_fatal);
-> +    memory_region_add_subregion(system_memory, SRAM_BASE_ADDRESS, sram);
-> +
-> +    armv7m = DEVICE(&s->armv7m);
-> +    qdev_prop_set_uint32(armv7m, "num-irq", 96);
-> +    qdev_prop_set_string(armv7m, "cpu-type", s->cpu_type);
-> +    qdev_prop_set_bit(armv7m, "enable-bitband", true);
-> +    object_property_set_link(OBJECT(&s->armv7m), OBJECT(get_system_memory()),
-
-You could use OBJECT(system_memory) rather than calling
-get_system_memory() again.
-
-> +static Property stm32f405_soc_properties[] = {
-> +    DEFINE_PROP_STRING("cpu-type", STM32F405State, cpu_type),
-> +    DEFINE_PROP_END_OF_LIST(),
-> +};
-> +
-> +static void stm32f405_soc_class_init(ObjectClass *klass, void *data)
-> +{
-> +    DeviceClass *dc = DEVICE_CLASS(klass);
-> +
-> +    dc->realize = stm32f405_soc_realize;
-> +    dc->props = stm32f405_soc_properties;
-
-A comment here "No vmstate or reset required: device has no internal state"
-would help indicate that dc->vmsd and dc->reset have not merely
-been forgotten.
-
-(Eventually I might actually write a patch to let us express
-in code "dc->vmsd = device_has_no_state;"...)
-
+> +    reset_args = (ARMV7MResetArgs) {
+> +        .cpu = ARM_CPU(first_cpu),
+> +        .reset_pc = entry,
+> +        .reset_sp = (SRAM_BASE_ADDRESS + (SRAM_SIZE * 2) / 3),
+> +    };
+> +    qemu_register_reset(armv7m_reset,
+> +                        g_memdup(&reset_args, sizeof(reset_args)));
 > +}
+
+Can you explain the purpose of the reset code? None of the other
+v7m boards seem to need to do a manual qemu_register_reset().
 
 thanks
 -- PMM
