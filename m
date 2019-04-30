@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 718F6F1A1
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 09:48:58 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40907 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B744F179
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 09:37:29 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40697 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLNVZ-0000TZ-Mc
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 03:48:57 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57021)
+	id 1hLNKS-0007pf-M8
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 03:37:28 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57092)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hLN3Q-0001j2-V2
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 03:19:53 -0400
+	(envelope-from <thuth@redhat.com>) id 1hLN3V-0001pU-F1
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 03:19:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hLN3N-0006RP-8e
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 03:19:51 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:10216)
+	(envelope-from <thuth@redhat.com>) id 1hLN3U-0006WI-Kt
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 03:19:57 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50072)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <thuth@redhat.com>)
-	id 1hLN3D-0006Ip-N2; Tue, 30 Apr 2019 03:19:41 -0400
+	id 1hLN3N-0006RJ-HQ; Tue, 30 Apr 2019 03:19:50 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
 	[10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id B064AE6A72;
-	Tue, 30 Apr 2019 07:19:37 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 9942D307D962;
+	Tue, 30 Apr 2019 07:19:48 +0000 (UTC)
 Received: from thuth.com (ovpn-116-190.ams2.redhat.com [10.36.116.190])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id D952E100200A;
-	Tue, 30 Apr 2019 07:19:26 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 170D11001E85;
+	Tue, 30 Apr 2019 07:19:37 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: yang.zhong@intel.com, Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org, pbonzini@redhat.com
-Date: Tue, 30 Apr 2019 09:14:04 +0200
-Message-Id: <20190430071405.16714-30-thuth@redhat.com>
+Date: Tue, 30 Apr 2019 09:14:05 +0200
+Message-Id: <20190430071405.16714-31-thuth@redhat.com>
 In-Reply-To: <20190430071405.16714-1-thuth@redhat.com>
 References: <20190430071405.16714-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.38]);
-	Tue, 30 Apr 2019 07:19:38 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.48]);
+	Tue, 30 Apr 2019 07:19:48 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v6 29/30] hw/arm: Express dependencies of the
- musca machines with Kconfig
+Subject: [Qemu-devel] [PATCH v6 30/30] hw/arm: Remove hard-enablement of the
+ remaining PCI devices
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -75,40 +75,36 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Dependencies have been determined with trial-and-error and by
-looking at the musca.c source file.
+The PCI devices should be pulled in by default if PCI_DEVICES
+is set, so there is no need anymore to enforce them in the configs
+file.
 
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- hw/arm/Kconfig | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ default-configs/arm-softmmu.mak | 8 --------
+ 1 file changed, 8 deletions(-)
 
-diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 9609caef87..af8cffde9c 100644
---- a/hw/arm/Kconfig
-+++ b/hw/arm/Kconfig
-@@ -75,6 +75,12 @@ config MAINSTONE
-     select PFLASH_CFI01
-     select SMC91C111
-=20
-+config MUSCA
-+    bool
-+    select ARMSSE
-+    select PL011
-+    select PL031
-+
- config MUSICPAL
-     bool
-     select BITBANG_I2C
-@@ -427,6 +433,3 @@ config ARMSSE_CPUID
-=20
- config ARMSSE_MHU
-     bool
+diff --git a/default-configs/arm-softmmu.mak b/default-configs/arm-softmm=
+u.mak
+index 233937f394..f23ecfd5c5 100644
+--- a/default-configs/arm-softmmu.mak
++++ b/default-configs/arm-softmmu.mak
+@@ -36,14 +36,6 @@ CONFIG_DIGIC=3Dy
+ CONFIG_SABRELITE=3Dy
+ CONFIG_EMCRAFT_SF2=3Dy
+ CONFIG_MICROBIT=3Dy
 -
--config MUSCA
--    bool
+-CONFIG_VGA=3Dy
+-
+ CONFIG_FSL_IMX25=3Dy
+ CONFIG_FSL_IMX7=3Dy
+ CONFIG_FSL_IMX6UL=3Dy
+-
+-CONFIG_PCIE_PORT=3Dy
+-CONFIG_XIO3130=3Dy
+-CONFIG_IOH3420=3Dy
+-CONFIG_I82801B11=3Dy
 --=20
 2.21.0
 
