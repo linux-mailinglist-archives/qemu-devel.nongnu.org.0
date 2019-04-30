@@ -2,35 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E3340FD35
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 17:50:51 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48896 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 924C4FD23
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 17:45:40 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48784 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLV1v-0004tI-3l
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 11:50:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48309)
+	id 1hLUwt-0000Zf-6Y
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 11:45:39 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47616)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <eblake@redhat.com>) id 1hLUuk-0007mj-22
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 11:43:27 -0400
+	(envelope-from <eblake@redhat.com>) id 1hLUuF-0007OG-3n
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 11:42:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <eblake@redhat.com>) id 1hLUjw-0002fL-Q5
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 11:32:22 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:14278)
+	(envelope-from <eblake@redhat.com>) id 1hLUsd-0000ac-Ss
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 11:41:17 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45398)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <eblake@redhat.com>)
-	id 1hLUju-0002eb-IC; Tue, 30 Apr 2019 11:32:14 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
+	id 1hLUsa-0000Y3-6x; Tue, 30 Apr 2019 11:41:13 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+	[10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 895483092650;
-	Tue, 30 Apr 2019 15:32:13 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 104CC308621B;
+	Tue, 30 Apr 2019 15:41:09 +0000 (UTC)
 Received: from [10.3.116.15] (ovpn-116-15.phx2.redhat.com [10.3.116.15])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 88A0910013D9;
-	Tue, 30 Apr 2019 15:32:12 +0000 (UTC)
-To: qemu-devel@nongnu.org, patchew-devel@patchew.org, kwolf@redhat.com
-References: <155663248155.10667.17447181616173672748@c2072b67cc0c>
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id A811217146;
+	Tue, 30 Apr 2019 15:41:03 +0000 (UTC)
+To: Kevin Wolf <kwolf@redhat.com>,
+	Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+References: <20190423125706.26989-1-vsementsov@virtuozzo.com>
+	<20190423125706.26989-3-vsementsov@virtuozzo.com>
+	<20190430092437.jbecehdkqa4zdavd@steredhat>
+	<4dabb261-f2d1-b6e0-8d97-ace159b87a54@virtuozzo.com>
+	<20190430110918.GF5607@linux.fritz.box>
 From: Eric Blake <eblake@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=eblake@redhat.com; keydata=
@@ -57,24 +62,24 @@ Autocrypt: addr=eblake@redhat.com; keydata=
 	Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
 	2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
 Organization: Red Hat, Inc.
-Message-ID: <5ea85bff-8f16-d140-c3ac-d9aaea0186e2@redhat.com>
-Date: Tue, 30 Apr 2019 10:32:11 -0500
+Message-ID: <2c8b3197-316d-7215-9284-6f1e986a0803@redhat.com>
+Date: Tue, 30 Apr 2019 10:41:02 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <155663248155.10667.17447181616173672748@c2072b67cc0c>
+In-Reply-To: <20190430110918.GF5607@linux.fritz.box>
 Content-Type: multipart/signed; micalg=pgp-sha256;
 	protocol="application/pgp-signature";
-	boundary="FtIzyKBbzQ74n16wQSA2Gx4QGPOgtDxvZ"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+	boundary="JuRnLRaEtvMUin9Yb1nXuzMmsqDlRSMmV"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.43]);
-	Tue, 30 Apr 2019 15:32:13 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.42]);
+	Tue, 30 Apr 2019 15:41:09 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PATCH] qcow2: Fix qcow2_make_empty() with
- external data file
+Subject: Re: [Qemu-devel] [PATCH v5 2/3] block/io: bdrv_pdiscard: support
+ int64_t bytes parameter
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -86,79 +91,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, qemu-stable@nongnu.org, qemu-block@nongnu.org,
-	mreitz@redhat.com
+Cc: "fam@euphon.net" <fam@euphon.net>, Denis Lunev <den@virtuozzo.com>,
+	"qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+	"mreitz@redhat.com" <mreitz@redhat.com>,
+	"stefanha@redhat.com" <stefanha@redhat.com>,
+	Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---FtIzyKBbzQ74n16wQSA2Gx4QGPOgtDxvZ
+--JuRnLRaEtvMUin9Yb1nXuzMmsqDlRSMmV
 From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org, patchew-devel@patchew.org, kwolf@redhat.com
-Cc: fam@euphon.net, qemu-block@nongnu.org, qemu-stable@nongnu.org,
- mreitz@redhat.com
-Message-ID: <5ea85bff-8f16-d140-c3ac-d9aaea0186e2@redhat.com>
-Subject: Re: [Qemu-devel] [PATCH] qcow2: Fix qcow2_make_empty() with external
- data file
-References: <155663248155.10667.17447181616173672748@c2072b67cc0c>
-In-Reply-To: <155663248155.10667.17447181616173672748@c2072b67cc0c>
+To: Kevin Wolf <kwolf@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Cc: "fam@euphon.net" <fam@euphon.net>, Denis Lunev <den@virtuozzo.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ "mreitz@redhat.com" <mreitz@redhat.com>,
+ "stefanha@redhat.com" <stefanha@redhat.com>,
+ Stefano Garzarella <sgarzare@redhat.com>
+Message-ID: <2c8b3197-316d-7215-9284-6f1e986a0803@redhat.com>
+Subject: Re: [Qemu-devel] [PATCH v5 2/3] block/io: bdrv_pdiscard: support
+ int64_t bytes parameter
+References: <20190423125706.26989-1-vsementsov@virtuozzo.com>
+ <20190423125706.26989-3-vsementsov@virtuozzo.com>
+ <20190430092437.jbecehdkqa4zdavd@steredhat>
+ <4dabb261-f2d1-b6e0-8d97-ace159b87a54@virtuozzo.com>
+ <20190430110918.GF5607@linux.fritz.box>
+In-Reply-To: <20190430110918.GF5607@linux.fritz.box>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On 4/30/19 8:54 AM, no-reply@patchew.org wrote:
-> Patchew URL: https://patchew.org/QEMU/20190429105741.31033-1-kwolf@redh=
-at.com/
->=20
->=20
->=20
-> Hi,
->=20
-> This series failed the docker-mingw@fedora build test. Please find the =
-testing commands and
-> their output below. If you have Docker installed, you can probably repr=
-oduce it
-> locally.
->=20
-> =3D=3D=3D TEST SCRIPT BEGIN =3D=3D=3D
-> #!/bin/bash
-> time make docker-test-mingw@fedora SHOW_ENV=3D1 J=3D14 NETWORK=3D1
-> =3D=3D=3D TEST SCRIPT END =3D=3D=3D
->=20
->=20
->=20
->=20
-> The full log is available at
+On 4/30/19 6:09 AM, Kevin Wolf wrote:
+> Am 30.04.2019 um 12:03 hat Vladimir Sementsov-Ogievskiy geschrieben:
+>> 30.04.2019 12:24, Stefano Garzarella wrote:
+>>> On Tue, Apr 23, 2019 at 03:57:05PM +0300, Vladimir Sementsov-Ogievski=
+y wrote:
+>>>> This fixes at least one overflow in qcow2_process_discards, which
+>>>> passes 64bit region length to bdrv_pdiscard where bytes (or sectors =
+in
+>>>> the past) parameter is int since its introduction in 0b919fae.
+>>>>
+>>>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.co=
+m>
 
-Patchew trimmed a bit too much; also, the error appears to be transient
-and unrelated to the patch at hand. Quoting from:
+>>>> -    if (!bs || !bs->drv) {
+>>>> +    if (!bs || !bs->drv || !bdrv_is_inserted(bs)) {
+>>>
+>>> Should we describe this change in the commit message?
+>>
+>> Honestly, don't want to resend the series for this.
+>=20
+> I haven't reviewed the patches yet, but if this remains the only thing
+> to change, it can be updated while applying the series if we have a
+> specific proposal for a new commit message.
 
-> http://patchew.org/logs/20190429105741.31033-1-kwolf@redhat.com/testing=
-=2Edocker-mingw@fedora/?type=3Dmessage.
+How about:
 
+This fixes at least one overflow in qcow2_process_discards, which was
+inadvertently truncating a 64-bit region length to the bdrv_pdiscard
+'int bytes' parameter (previously bdrv_discard's 'int sectors') since
+its introduction in 0b919fae.
 
-
-Updating 3c8cf5a9c21ff8782164d1def7f44bd888713384
-fatal: git fetch_pack: expected ACK/NAK, got 'ERR upload-pack: not our
-ref 1cd70b1217a3e02617dbba76d15d21be1e8e4aa0'
-fatal: The remote end hung up unexpectedly
-error: Could not fetch 3c8cf5a9c21ff8782164d1def7f44bd888713384
-Traceback (most recent call last):
-  File "patchew-tester/src/patchew-cli", line 521, in test_one
-    git_clone_repo(clone, r["repo"], r["head"], logf, True)
-  File "patchew-tester/src/patchew-cli", line 48, in git_clone_repo
-    stdout=3Dlogf, stderr=3Dlogf)
-  File "/usr/lib64/python3.4/subprocess.py", line 558, in check_call
-    raise CalledProcessError(retcode, cmd)
-subprocess.CalledProcessError: Command '['git', 'remote', 'add', '-f',
-'--mirror=3Dfetch', '3c8cf5a9c21ff8782164d1def7f44bd888713384',
-'https://github.com/patchew-project/qemu']' returned non-zero exit status=
- 1
+By inlining the remaining portions of bdrv_check_byte_request() that are
+still independent from the code previously validating a 32-bit request,
+we can drop the call to that function. A request larger than 31 bits (or
+the driver's max discard limit, if specified) is still split into
+smaller chunks by the block layer before reaching the driver.
 
 
-> ---
-> Email generated automatically by Patchew [https://patchew.org/].
-> Please send your feedback to patchew-devel@redhat.com
->=20
+At any rate, you can add:
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
 --=20
 Eric Blake, Principal Software Engineer
@@ -166,22 +170,22 @@ Red Hat, Inc.           +1-919-301-3226
 Virtualization:  qemu.org | libvirt.org
 
 
---FtIzyKBbzQ74n16wQSA2Gx4QGPOgtDxvZ
+--JuRnLRaEtvMUin9Yb1nXuzMmsqDlRSMmV
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlzIansACgkQp6FrSiUn
-Q2qB4wf9GkhwOjpharJgpF2+GxpIMkx3+jzVP0OXUr0nBHOJ1LRCMoP33wtRG3Sk
-tJyQRBCE7dLSSA0SJpNIJGX/VTtUK80B2O2J5KTX2rzGZonMv0KAQ3rOxmQf9y5h
-rSCj7oK9wZigfPqmQiLLa3Rnj/uGXL1jNIaE0W73C6q4c8DidmDouO684KPLUwxN
-Cb0WdCe4N0Xl4f2U0/jhonuMWlHI3kKqMCspaCxHeofXLs3Jbf1fx02L74yz22ea
-/8nZkPdnlkHhqQp+an0fafS3SMOyh5sXhWdAJRhavZZTTujLjNQGNiaxQK8UuuAD
-nxWqaqU9nDUPF1IshLN5cHmBHSwuBQ==
-=blqk
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlzIbI4ACgkQp6FrSiUn
+Q2r6sQf/XXjTsk75VmfCuh6wISaLexIoCpqItTSPix5QnEOWUFtPpv8leJh/tGit
+jgNDeiJBisePVvR1UK5MFP8nSy2Chrqe/IuvQfaRBpeLC7YLpEtS9YiHc5FuyIXa
+ka2u9cTtPhd3e2/t+LUQlCU7qhawVHzBXXJFfCDTX40xCJC8OUAUqRArAG/8bwaw
+cxADZs/pGmEf4KcxbcblYEs+3n7MwABk3hEuQrA/pwffnB/fueV+nkfffgoc60he
+XhvKAYU/wVlAM7dJkvmL2C4fepxc0hond0u+rEyhqhrBZtVuwj/WKontgnPd58N8
+J6Kx4vrTj96eF3W5egY1IG1Y39667A==
+=MmpC
 -----END PGP SIGNATURE-----
 
---FtIzyKBbzQ74n16wQSA2Gx4QGPOgtDxvZ--
+--JuRnLRaEtvMUin9Yb1nXuzMmsqDlRSMmV--
 
