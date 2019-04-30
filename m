@@ -2,93 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 594D0FF6F
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 20:11:15 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:51375 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E0B6FF8A
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 20:13:15 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:51405 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLXDm-0007Us-5q
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 14:11:14 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55815)
+	id 1hLXFi-0000jf-1y
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 14:13:14 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56931)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hLXAw-0005Aa-9O
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 14:08:19 -0400
+	(envelope-from <driver1998@foxmail.com>) id 1hLXDB-0007ZW-RI
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 14:10:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hLWtp-0001eD-T2
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 13:50:38 -0400
-Received: from mail-eopbgr120108.outbound.protection.outlook.com
-	([40.107.12.108]:45493
-	helo=FRA01-PR2-obe.outbound.protection.outlook.com)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
-	id 1hLWtp-0001ct-8v; Tue, 30 Apr 2019 13:50:37 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
-	s=selector1;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=RG60PN6eM8Z74Ui2eAMlkpKGmjXSTv0A8plLSCpAVK8=;
-	b=MlU2d9DRtStL34taDfMwpLTEdNDhoomj1lE/9i8v5a8hYmLz3RGfLOHToOemRXHvEEgP0oXVff1OKqsFiVUF+PutrcFjdZYCAFHBfAYaGJ0pWfZrvM1FwYDq0v5I2v7hCNBW61unccBDZo6wUZfBf9Lk42XXf9+92KvWcm9zjyw=
-Received: from PR2PR08MB4684.eurprd08.prod.outlook.com (52.133.109.209) by
-	PR2PR08MB4634.eurprd08.prod.outlook.com (52.133.109.14) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.1835.15; Tue, 30 Apr 2019 17:50:33 +0000
-Received: from PR2PR08MB4684.eurprd08.prod.outlook.com
-	([fe80::88d7:ecf0:1120:f1a1]) by
-	PR2PR08MB4684.eurprd08.prod.outlook.com
-	([fe80::88d7:ecf0:1120:f1a1%3]) with mapi id 15.20.1835.018;
-	Tue, 30 Apr 2019 17:50:33 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>, "qemu-block@nongnu.org"
-	<qemu-block@nongnu.org>
-Thread-Topic: [PATCH v6 0/7] NBD reconnect
-Thread-Index: AQHU8IvOCpyInqV0y0qAbRG9faO+L6ZVGU6A
-Date: Tue, 30 Apr 2019 17:50:33 +0000
-Message-ID: <b723d58c-6b96-4848-a1b6-5fa1be852423@email.android.com>
-In-Reply-To: <20190411172709.205032-1-vsementsov@virtuozzo.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1P18901CA0011.EURP189.PROD.OUTLOOK.COM
-	(2603:10a6:3:8b::21) To PR2PR08MB4684.eurprd08.prod.outlook.com
-	(2603:10a6:101:22::17)
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-android-message-id: <b723d58c-6b96-4848-a1b6-5fa1be852423@email.android.com>
-x-originating-ip: [31.173.82.196]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 864c0019-a3e4-4fc9-ab81-08d6cd9457cb
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(2017052603328)(7193020);
-	SRVR:PR2PR08MB4634; 
-x-ms-traffictypediagnostic: PR2PR08MB4634:
-x-microsoft-antispam-prvs: <PR2PR08MB4634D9A2C876EB877BF6F833C13A0@PR2PR08MB4634.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:1728;
-x-forefront-prvs: 00235A1EEF
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(346002)(39850400004)(376002)(136003)(396003)(366004)(199004)(189003)(486006)(6486002)(73956011)(316002)(9686003)(66446008)(66946007)(305945005)(478600001)(558084003)(110136005)(6512007)(31696002)(6436002)(64756008)(66556008)(66476007)(476003)(54896002)(71190400001)(71200400001)(14454004)(6246003)(2501003)(53936002)(5660300002)(86362001)(25786009)(186003)(256004)(102836004)(4270600006)(8936002)(8676002)(81156014)(6116002)(26005)(450100002)(229853002)(31686004)(7736002)(81686011)(99286004)(2906002)(97736004)(3846002)(68736007)(81166006)(52116002)(66066001)(11346002)(6506007)(386003);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:PR2PR08MB4634;
-	H:PR2PR08MB4684.eurprd08.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: U4UNAXpHAJ9c/PegTt409xpcjwBubdTsPNdF1VP/q2vMWkx0YQTtty2wVbKawOdil4bjeqnFMz9ux4BPfkUdHjYSpzW0B94VpUgVB+C4fWb7DM+oLLMkz4C7ElR138y3Ik4vkPxblY35SyEmlfwYDWCKn9Qwn6k4PYAwLwgHBE6oL5TA+ktNKIYaQYt9o0XSbjyy2IMq6H53RdNsSXnoBR3XiNc4aImc6s1iKQK9say5ZU+yePzMQe/rzWugv5+BGP12Hc233WMFFHkZ67lbzf8j+08+fu4BQDNfMd2KwNXNmZe6AvpwPsP9LKQc670U3vPAscVTAvWZ3+9wE17uyt3J6h2pejFId1OmfsD0gl9nkYO3UXDku2HGH2mDGBNhJyY//7stFKqg+TnqtvL077ot+xCbiEU4BsdnH02PTOk=
-MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 864c0019-a3e4-4fc9-ab81-08d6cd9457cb
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Apr 2019 17:50:33.6827 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR2PR08MB4634
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.12.108
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PATCH v6 0/7] NBD reconnect
+	(envelope-from <driver1998@foxmail.com>) id 1hLXDA-0005BL-C5
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 14:10:37 -0400
+Received: from smtpbg202.qq.com ([184.105.206.29]:50419)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <driver1998@foxmail.com>)
+	id 1hLXD9-00056a-JP
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 14:10:36 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=foxmail.com;
+	s=s201512; t=1556647827;
+	bh=elsID+L6NSJJoduRa7RHPrXwUkf2HhHlPBFKhzEZcX0=;
+	h=From:To:Subject:Date:Message-Id;
+	b=Ll9+hB5f24ukaD81GT+e2vGsUNhC63hGKt17hG2XtKkAFVJj0g04LP8LNoPVlJHzO
+	R6M9muZk/A7UfRMHRR1ihH2Sd8qMt0ugqS+0S+ITEJhQeXEFFbI90AXzQTdijPFx9N
+	r+CPisnuzMJK81L8jHPxn7TKKROGaPt5dok02Jyo=
+X-QQ-mid: esmtp3t1556647825to3efq6fe
+Received: from localhost (unknown [183.63.119.27])
+	by esmtp4.qq.com (ESMTP) with 
+	id ; Wed, 01 May 2019 02:10:24 +0800 (CST)
+X-QQ-SSF: B100000000000030F7F00F00000000O
+X-QQ-FEAT: +oIWmpEafD+ivI7ek+RcMjGBRslXbo1g9OUv7BSht0rPTShakCxnsaD8q4E/b
+	hq9pB/w7IZciMWURREHUSUpsgpbGLApZSgDBfG+JUrm58XwfWzAQpg5emU984YvbIYkOy9p
+	QD5WCUbV+gXZDvfiV/N1I2GnG5Ru+A/zcVy6bUHmEcvnCQmsfMMRfJVC+n/+F/HdB93geA5
+	WCl5rm1yUjgM2XFxgS7TCNCaa/lnVOcQzN+f8GxEajeo6ODldgC6B9MCop24YZMwsCM0ixO
+	4cvnmx4u5kQC9lJnECC6ozK5Vj/dDPlSe5ZqCoAXvtTmXDCxg7qhTh30E=
+X-QQ-GoodBg: 0
+From: Cao Jiaxi <driver1998@foxmail.com>
+To: samuel.thibault@ens-lyon.org,
+	mst@redhat.com
+Date: Wed,  1 May 2019 02:10:09 +0800
+Message-Id: <20190430181009.1066-1-driver1998@foxmail.com>
+X-Mailer: git-send-email 2.17.1
+X-QQ-SENDSIZE: 520
+Feedback-ID: esmtp:foxmail.com:bgforeign:bgforeign2
+X-QQ-Bgrelay: 1
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.4.x
+X-Received-From: 184.105.206.29
+Subject: [Qemu-devel] [PATCH v2 1/4] Initial Windows on ARM (AArch64 64-Bit)
+ host support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -100,7 +63,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Cao Jiaxi <driver1998@foxmail.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGluZw0KDQpCZXN0IHJlZ2FyZHMsDQpWbGFkaW1pcg0K
+This series of patches is for initial support of Windows 10 on ARM as a QEMU host.
+Currently only TCG intepreter is working correctly, it crashes when TCG JIT is enabled.
+For now we assume it is built using the clang aarch64-w64-mingw32 toolchain, you can get a prebuilt toolchain at https://github.com/mstorsjo/llvm-mingw.
+
+QEMU_PACKED: Remove gcc_struct attribute in Windows non x86 targets
+This attribute is for x86 only, and it generates an warning on ARM64 Clang/MinGW targets.
+
+Signed-off-by: Cao Jiaxi <driver1998@foxmail.com>
+---
+ contrib/libvhost-user/libvhost-user.h | 2 +-
+ include/qemu/compiler.h               | 2 +-
+ scripts/cocci-macro-file.h            | 7 ++++++-
+ slirp/src/util.h                      | 2 +-
+ 4 files changed, 9 insertions(+), 4 deletions(-)
+
+diff --git a/contrib/libvhost-user/libvhost-user.h b/contrib/libvhost-user/libvhost-user.h
+index 414ceb0a2f..78b33306e8 100644
+--- a/contrib/libvhost-user/libvhost-user.h
++++ b/contrib/libvhost-user/libvhost-user.h
+@@ -148,7 +148,7 @@ typedef struct VhostUserInflight {
+     uint16_t queue_size;
+ } VhostUserInflight;
+ 
+-#if defined(_WIN32)
++#if defined(_WIN32) && (defined(__x86_64__) || defined(__i386__))
+ # define VU_PACKED __attribute__((gcc_struct, packed))
+ #else
+ # define VU_PACKED __attribute__((packed))
+diff --git a/include/qemu/compiler.h b/include/qemu/compiler.h
+index 296b2fd572..09fc44cca4 100644
+--- a/include/qemu/compiler.h
++++ b/include/qemu/compiler.h
+@@ -28,7 +28,7 @@
+ 
+ #define QEMU_SENTINEL __attribute__((sentinel))
+ 
+-#if defined(_WIN32)
++#if defined(_WIN32) && (defined(__x86_64__) || defined(__i386__))
+ # define QEMU_PACKED __attribute__((gcc_struct, packed))
+ #else
+ # define QEMU_PACKED __attribute__((packed))
+diff --git a/scripts/cocci-macro-file.h b/scripts/cocci-macro-file.h
+index e485cdccae..c6bbc05ba3 100644
+--- a/scripts/cocci-macro-file.h
++++ b/scripts/cocci-macro-file.h
+@@ -23,7 +23,12 @@
+ #define QEMU_NORETURN __attribute__ ((__noreturn__))
+ #define QEMU_WARN_UNUSED_RESULT __attribute__((warn_unused_result))
+ #define QEMU_SENTINEL __attribute__((sentinel))
+-#define QEMU_PACKED __attribute__((gcc_struct, packed))
++
++#if defined(_WIN32) && (defined(__x86_64__) || defined(__i386__))
++# define QEMU_PACKED __attribute__((gcc_struct, packed))
++#else
++# define QEMU_PACKED __attribute__((packed))
++#endif
+ 
+ #define cat(x,y) x ## y
+ #define cat2(x,y) cat(x,y)
+diff --git a/slirp/src/util.h b/slirp/src/util.h
+index 01f1e0e068..278828fe3f 100644
+--- a/slirp/src/util.h
++++ b/slirp/src/util.h
+@@ -43,7 +43,7 @@
+ #include <netinet/in.h>
+ #endif
+ 
+-#if defined(_WIN32)
++#if defined(_WIN32) && (defined(__x86_64__) || defined(__i386__))
+ # define SLIRP_PACKED __attribute__((gcc_struct, packed))
+ #else
+ # define SLIRP_PACKED __attribute__((packed))
+-- 
+2.17.1
+
+
+
+
