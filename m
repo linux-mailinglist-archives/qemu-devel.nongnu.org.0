@@ -2,64 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D31C8F2B0
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 11:22:19 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:42018 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DF2AF930
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 14:47:36 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46737 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLOxv-00086t-2E
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 05:22:19 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52931)
+	id 1hLSAY-0007mS-Vg
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 08:47:35 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53715)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hLOw0-0007An-S3
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 05:20:25 -0400
+	(envelope-from <oberpar@linux.ibm.com>) id 1hLP0C-0000LK-Uv
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 05:24:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hLOvz-0008Cx-LR
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 05:20:20 -0400
-Received: from mail-ot1-x330.google.com ([2607:f8b0:4864:20::330]:36078)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hLOvz-0008CJ-Ep
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 05:20:19 -0400
-Received: by mail-ot1-x330.google.com with SMTP id b18so2270617otq.3
-	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 02:20:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=S0c7WuJi7MNEwBbI2zq2tQMQlITD2/gFA+K0BBa8Q6o=;
-	b=TZHJTdFFzUmj9ucQYwXSNDVbPSx0Xyx0MwZzmBq7PnsrHw07KFYZH60u9axY/S4jzz
-	UQxZUql8fPE1D8S+b67SAW/Lh5dxLpnEYg+kB98Oha1yGHP5oWI24M79Rr/GZNUGGQ4x
-	YcvZslVUgkw2X+33PyDpgZhfqZapjmCcTFqsXESLdV4yDGUKXsHrwhfoFL6p6QVf03fR
-	t/eg/fm0YKM7cF2GHGKZ33CY74pvJFMr5o2nyR6rvkwwKVbMk4CmkM7CEJc3CNyabHaK
-	1Mk+9DsfVwtoqd8rYvYf4gWOUDPRQTaEwRnG+glvKkVG6uZ1Pd9m2HuQkkunMsqbHMEp
-	C/EA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=S0c7WuJi7MNEwBbI2zq2tQMQlITD2/gFA+K0BBa8Q6o=;
-	b=RE3m79LWJkvotaQ2s5tdaJ8GVd2++ikOksFKP3fyQANZfb6ZmQnbxkgCEV8Q61XV98
-	+e0q2hgOmD+3mSnW6HQLqX8Vg1KbwxA/2RcrlTqXt7HAt4Gxexb8I2LXCst7S95HD7ck
-	ftpbe6vMGjIofuXkdT690fMvuGeJD42lSjhxSritmXlG/AXWzYG2TNTtM7MlHFpG8meG
-	nrtje/kNn7l5tgaKeB8TsytfouKSliBazPi0l1qyhEi92+R/6zvla+hjKEuW/TNqI5lM
-	7AJ0oekWwHjGSsTQqrwvD80GAObSkybWms8LlCK4foCtRj0xVbJrHSK7hyQSCdSlHezB
-	ghgQ==
-X-Gm-Message-State: APjAAAXiBJ3ZzZPhy1ZSk9w4aDSunKAyR6u0+uYWN3mE4ltn8q00t1Di
-	2fcw8tCLc3UQhYORpkxFXgQV+zjT1k+CSQZtOFTkXg==
-X-Google-Smtp-Source: APXvYqxFLWL99SlfzngvGFlCLLXI8yR01kbmn+jrqUWcsd6xHt6lBlhwdjUOjv+L2sH5PnRIuc2dtJBucjmXXGie4Gc=
-X-Received: by 2002:a9d:6156:: with SMTP id c22mr11633834otk.363.1556616018514;
-	Tue, 30 Apr 2019 02:20:18 -0700 (PDT)
+	(envelope-from <oberpar@linux.ibm.com>) id 1hLP0B-00021N-TI
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 05:24:40 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:57550)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <oberpar@linux.ibm.com>)
+	id 1hLP0B-00020J-Hi
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 05:24:39 -0400
+Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+	x3U9MFUw083277
+	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 05:24:34 -0400
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+	by mx0a-001b2d01.pphosted.com with ESMTP id 2s6hj3druw-1
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 05:24:34 -0400
+Received: from localhost
+	by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use
+	Only! Violators will be prosecuted
+	for <qemu-devel@nongnu.org> from <oberpar@linux.ibm.com>;
+	Tue, 30 Apr 2019 10:24:32 +0100
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+	by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
+	Authorized Use Only! Violators will be prosecuted; 
+	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+	Tue, 30 Apr 2019 10:24:30 +0100
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+	(b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+	by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with
+	ESMTP id x3U9OS8654919316
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=OK); Tue, 30 Apr 2019 09:24:28 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 54A03A4062;
+	Tue, 30 Apr 2019 09:24:28 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 06167A405C;
+	Tue, 30 Apr 2019 09:24:28 +0000 (GMT)
+Received: from [9.152.212.191] (unknown [9.152.212.191])
+	by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+	Tue, 30 Apr 2019 09:24:27 +0000 (GMT)
+To: Christian Borntraeger <borntraeger@de.ibm.com>,
+	Cornelia Huck <cohuck@redhat.com>, "Jason J. Herne" <jjherne@linux.ibm.com>
+References: <1556543381-12671-1-git-send-email-jjherne@linux.ibm.com>
+	<20190429154003.7f8fc423.cohuck@redhat.com>
+	<ef10a003-3eb8-df60-bfb1-bc99bfd6b7af@de.ibm.com>
+From: Peter Oberparleiter <oberpar@linux.ibm.com>
+Date: Tue, 30 Apr 2019 11:24:27 +0200
 MIME-Version: 1.0
-References: <20190429161046.10527-1-stefanha@gmail.com>
-In-Reply-To: <20190429161046.10527-1-stefanha@gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 30 Apr 2019 10:20:07 +0100
-Message-ID: <CAFEAcA9nP668u3zkBfR8sRyPXfdRLo7W9P+ezv5SMtn26=Dr-Q@mail.gmail.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::330
-Subject: Re: [Qemu-devel] [PULL 0/1] Tracing patches
+In-Reply-To: <ef10a003-3eb8-df60-bfb1-bc99bfd6b7af@de.ibm.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 19043009-0008-0000-0000-000002E1C4A0
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19043009-0009-0000-0000-0000224E2BB2
+Message-Id: <099881e7-b0a9-055a-ba3e-2ebb66b4e15c@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+	definitions=2019-04-30_04:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+	priorityscore=1501
+	malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+	clxscore=1011 lowpriorityscore=0 mlxscore=0 impostorscore=0
+	mlxlogscore=893 adultscore=0 classifier=spam adjust=0 reason=mlx
+	scancount=1 engine=8.0.1-1810050000 definitions=main-1904300062
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.156.1
+X-Mailman-Approved-At: Tue, 30 Apr 2019 08:45:40 -0400
+Subject: Re: [Qemu-devel] [PATCH] s390-bios: Skip bootmap signature entries
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -71,34 +94,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
-	QEMU Developers <qemu-devel@nongnu.org>
+Cc: thuth@redhat.com, Stefan Haberland <sth@linux.vnet.ibm.com>,
+	qemu-s390x@nongnu.org, alifm@linux.ibm.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 29 Apr 2019 at 17:10, Stefan Hajnoczi <stefanha@gmail.com> wrote:
->
-> The following changes since commit e0fb2c3d89aa77057ac4aa073e01f4ca484449b0:
->
->   Merge remote-tracking branch 'remotes/rth/tags/pull-tcg-20190426' into staging (2019-04-28 11:43:10 +0100)
->
-> are available in the Git repository at:
->
->   https://github.com/stefanha/qemu.git tags/tracing-pull-request
->
-> for you to fetch changes up to b1939fcd438b7140cb8f2685dee026bb112819d7:
->
->   trace: fix runstate tracing (2019-04-29 11:57:19 -0400)
->
-> ----------------------------------------------------------------
-> Pull request
->
+On 29.04.2019 15:45, Christian Borntraeger wrote:
+> 
+> 
+> On 29.04.19 15:40, Cornelia Huck wrote:
+>> On Mon, 29 Apr 2019 09:09:41 -0400
+>> "Jason J. Herne" <jjherne@linux.ibm.com> wrote:
+>>
+>>> Newer versions of zipl have the ability to write signature entries to the boot
+>>> script for secure boot. We don't yet support secure boot, but we need to skip
+>>> over signature entries while reading the boot script in order to maintain our
+>>> ability to boot guest operating systems that have a secure bootloader.
+>>>
+>>> Signed-off-by: Jason J. Herne <jjherne@linux.ibm.com>
+>>> Reviewed-by: Farhan Ali <alifm@linux.ibm.com>
+>>> ---
+>>>  pc-bios/s390-ccw/bootmap.c | 19 +++++++++++++++++--
+>>>  pc-bios/s390-ccw/bootmap.h | 10 ++++++----
+>>>  2 files changed, 23 insertions(+), 6 deletions(-)
+>>
+>> Skipping something that we don't have support for yet, but that doesn't
+>> hinder normal operation sounds reasonable; but can you point me to the
+>> relevant commit implementing this in zipl or some documentation? I
+>> haven't been able to find something like that in the s390-tools git
+>> tree.
+> 
+> the s390-tools update is currently in preparation, adding Stefan and Peter.
+
+Here's the link to the s390-tools commit that introduces the new
+signature component to zipl:
+
+https://github.com/ibm-s390-tools/s390-tools/commit/7c7e10ed8fb048efc4e0cd91b0f6fa704fba128e
 
 
-Applied, thanks.
+-- 
+Peter Oberparleiter
+Linux on Z Development - IBM Germany
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
-for any user-visible changes.
-
--- PMM
 
