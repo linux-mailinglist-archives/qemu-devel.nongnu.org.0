@@ -2,80 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A5B4FEC2
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 19:22:52 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50604 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 713C5FEAB
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 19:18:59 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50541 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLWSx-0000gt-Mf
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 13:22:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39137)
+	id 1hLWPC-0005tE-Hp
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 13:18:58 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39319)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hLW2P-00048d-MF
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:55:26 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hLW2L-0004J9-Sn
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:55:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hLVvH-0005vd-0N
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:48:03 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:32982)
+	(envelope-from <richard.henderson@linaro.org>) id 1hLVyb-0007tQ-Gd
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:51:30 -0400
+Received: from mail-pg1-x534.google.com ([2607:f8b0:4864:20::534]:43566)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hLVvG-0005vN-Pu
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:48:02 -0400
-Received: by mail-pf1-x441.google.com with SMTP id z28so2039567pfk.0
-	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 09:48:02 -0700 (PDT)
+	id 1hLVyb-0007sn-8u
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:51:29 -0400
+Received: by mail-pg1-x534.google.com with SMTP id t22so4098247pgi.10
+	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 09:51:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=subject:to:references:from:openpgp:message-id:date:user-agent
 	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=ivHTq9NA90NnFAcOynI4tVCb04fi9J23LjYxLsWBKd0=;
-	b=J0gR3JvyomIjUIxQTxW0WWaB7qRAesDpSY3QHoUtc5E9aAVgjoBwmpP6l8ou445OWM
-	vYSXZ/gk9rwsCYpb63jne3GWAhir2MBfB7ULdFR5GqnHs7yZMf6e034EfOlg2nPG3Vcb
-	OdVxxOuDLV4nIih0zaElVZj/p/IOnLqwgTkIjiMwywpgTcUCvHxQWdDKluOeUBLVAbVS
-	pzqDrS7qFUcZaTL2DQL0s9wSBWD1ZoRf9/wVj2jMCwfCmnxZHEMyKFGCtgzt33rsA8tj
-	sozA5AomRVhRHMk4D5UovqiZXS19YHL49djSDzLV88+GoEsdHpZeHZ0AVFRHv7SD8ujq
-	cNdA==
+	bh=3nNI9J7qLZ++q8Oldfquu3ILhdnnNXsANzZl5rFmFw8=;
+	b=GqykmFpipqpfXRA0ABQwJ/gxLAymdzyJMRccdS8zvmXKjHZGjGz1j0YgBp0An2o5JM
+	BHfk5sSjAUrpNF5u03J5WGGXHk7vAWB70F3lf8PohV2/NmmaF73JzTaKDOL4HsoYsMHm
+	qLV41K3W5KaO7aTG7kyn/H6D6kK872DuuRcWO3uNh5sbvPxr2P1xqFKjpP0n9YnQOIa+
+	L1oiRXLkZZud3mjyOF9y9wQ5xjI1xm9V7l3k692Y+dicc6HnVN4elps2nohVWAbVK0Wp
+	3vQUqELrTknXv8PFlHldK+DaYXDEF+JMQj6DISJ0WPtKQM6DlLHYgKeQQOkQVn40a7Ik
+	Sp0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:references:from:openpgp:message-id
 	:date:user-agent:mime-version:in-reply-to:content-language
 	:content-transfer-encoding;
-	bh=ivHTq9NA90NnFAcOynI4tVCb04fi9J23LjYxLsWBKd0=;
-	b=WPrm8TNgrshPk4iZSJ/don+I9KvD//AlHnRZGLGoUAFLvu85MZhqEWXOc3LqsLJJUN
-	T8xEYBfql7ffainYj17SjREAp8jjRrIJpJv9oRrhl9gBnmsf9XKMaV5hRNZnbz7/e+kO
-	d7Py6VzJRFDZTVrBxDVc3yhmGetmLVC8jL8au8uuxLjavPpB+MqFK3KRHBSlqFoZhSTG
-	a3rWigDdY9km7CCtJuVZYvvKI6BnKqxeA23nYZKhCrZR4LiPEzGIiJHhTcpY7gOnHAW8
-	fvxf6nOASzbP+/2QrpbTGFgKV1VerRi1FpCvX9uQa8nQEltZw0dEaSwv61Otdo+XxUGs
-	8nIA==
-X-Gm-Message-State: APjAAAUYXS9BZ8t+U9AVE+artQzT9IdMW2FHrqQ3DTSnLPe9x19iKNzq
-	Zjbun543YKtgKA+Dy+5T1TbASA==
-X-Google-Smtp-Source: APXvYqyTXMcUddLg0NJAPd8uhCOQWD8qbR49C81m9tmSVpyRi0kSLrlxftEMcEUsuYJv65XIma3GPA==
-X-Received: by 2002:a65:5cc8:: with SMTP id b8mr65087799pgt.36.1556642881645; 
-	Tue, 30 Apr 2019 09:48:01 -0700 (PDT)
+	bh=3nNI9J7qLZ++q8Oldfquu3ILhdnnNXsANzZl5rFmFw8=;
+	b=AASWEvZgFor8iBlLLwTtlKGBQMOcXFCrTqETfSVuAICuO9P0ofg6/as38RaReE2TFk
+	zdX/ShC99hWlEnBaRqO1cDPVpa53ZfzIR7GdK8pT8oH110q8xrVLH83fwFtGRSc9IhM8
+	LF1EIWngSpG6RhomXgRMWb99hCTILF5cLAUmHSXee12zRJp2kRTZGm7FMiI8j1AKomVw
+	9K/+HvIAaT2YYPkNUqGzSRp6qxfMlZQVsbnlorbXEAZdTqA/NUKHWH77Z9BMxbphLTVQ
+	pY+8VN2xOttIzZA/BBeM6UOctw+tD7gWi+6FXqZeuVzCuPykZvg4bDXwbnUjkrnxTi+p
+	+a6Q==
+X-Gm-Message-State: APjAAAXg2gKrMAEN+bJhO8htLXTXfJXe6LtRNO9vSgZf64FIhfsGFmI6
+	hRHbP2RJnKPR4E/hwCXtWS+E8Q==
+X-Google-Smtp-Source: APXvYqxKbcxLIUYk6au9HVm480UmYWJ4HeGcWEHuzcCrmO4KF63xTWDVP2LgNy36JhW2V/KoUG9EDQ==
+X-Received: by 2002:a62:f24e:: with SMTP id y14mr72104727pfl.209.1556643088206;
+	Tue, 30 Apr 2019 09:51:28 -0700 (PDT)
 Received: from [192.168.1.11] (97-113-18-231.tukw.qwest.net. [97.113.18.231])
 	by smtp.gmail.com with ESMTPSA id
-	h4sm49930152pfo.119.2019.04.30.09.47.58
+	s85sm64728903pfa.23.2019.04.30.09.51.25
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 30 Apr 2019 09:48:00 -0700 (PDT)
+	Tue, 30 Apr 2019 09:51:27 -0700 (PDT)
 To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org, david@gibson.dropbear.id.au, rth@twiddle.net,
 	gkurz@kaod.org
 References: <20190428143845.11810-1-mark.cave-ayland@ilande.co.uk>
-	<20190428143845.11810-9-mark.cave-ayland@ilande.co.uk>
+	<20190428143845.11810-10-mark.cave-ayland@ilande.co.uk>
 From: Richard Henderson <richard.henderson@linaro.org>
 Openpgp: preference=signencrypt
-Message-ID: <4c8b7939-cd48-fd3f-8f3d-3f6fd18b6be2@linaro.org>
-Date: Tue, 30 Apr 2019 09:47:51 -0700
+Message-ID: <92815e75-c3da-51df-adb9-a1a2c5b06a30@linaro.org>
+Date: Tue, 30 Apr 2019 09:51:15 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190428143845.11810-9-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20190428143845.11810-10-mark.cave-ayland@ilande.co.uk>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::441
-Subject: Re: [Qemu-devel] [PATCH 08/14] target/ppc: introduce
- GEN_VSX_HELPER_R3 macro to fpu_helper.c
+X-Received-From: 2607:f8b0:4864:20::534
+Subject: Re: [Qemu-devel] [PATCH 09/14] target/ppc: introduce
+ GEN_VSX_HELPER_R2 macro to fpu_helper.c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -91,25 +91,23 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 4/28/19 7:38 AM, Mark Cave-Ayland wrote:
-> +#define GEN_VSX_HELPER_R3(name, op1, op2, inval, type)                        \
-> +static void gen_##name(DisasContext *ctx)                                     \
-> +{                                                                             \
-> +    TCGv_i32 opc;                                                             \
-> +    TCGv_ptr xt, xa, xb;                                                      \
-> +    if (unlikely(!ctx->vsx_enabled)) {                                        \
-> +        gen_exception(ctx, POWERPC_EXCP_VSXU);                                \
-> +        return;                                                               \
-> +    }                                                                         \
-> +    opc = tcg_const_i32(ctx->opcode);                                         \
-> +    xt = gen_vsr_ptr(rD(ctx->opcode) + 32);                                   \
-> +    xa = gen_vsr_ptr(rA(ctx->opcode) + 32);                                   \
-> +    xb = gen_vsr_ptr(rB(ctx->opcode) + 32);                                   \
-> +    gen_helper_##name(cpu_env, opc, xt, xa, xb);                              \
+> -void helper_xsrqpi(CPUPPCState *env, uint32_t opcode)
+> +void helper_xsrqpi(CPUPPCState *env, uint32_t opcode,
+> +                   ppc_vsr_t *xt, ppc_vsr_t *xb)
+>  {
+> -    ppc_vsr_t *xt = &env->vsr[rD(opcode) + 32];
+> -    ppc_vsr_t *xb = &env->vsr[rB(opcode) + 32];
+>      uint8_t r = Rrm(opcode);
+>      uint8_t ex = Rc(opcode);
+>      uint8_t rmc = RMC(opcode);
 
-Is opc still used here?  Otherwise,
+For future cleanup, it looks like the rounding mode should be passed in directly.
+
+But anyway,
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
 r~
+
 
