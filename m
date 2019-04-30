@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EB82FEE3
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 19:33:41 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50794 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 660A7FEE9
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 19:34:40 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50798 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLWdQ-00012q-3n
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 13:33:40 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49104)
+	id 1hLWeN-0001lf-Jr
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 13:34:39 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49458)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <liboxuan@connect.hku.hk>) id 1hLWac-0007yv-Nr
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 13:30:47 -0400
+	(envelope-from <jcmvbkbc@gmail.com>) id 1hLWcH-0000sC-Cp
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 13:32:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <liboxuan@connect.hku.hk>) id 1hLWab-0005og-Oz
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 13:30:46 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:45192)
+	(envelope-from <jcmvbkbc@gmail.com>) id 1hLWcG-0006iz-Ao
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 13:32:29 -0400
+Received: from mail-yw1-xc43.google.com ([2607:f8b0:4864:20::c43]:37759)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <liboxuan@connect.hku.hk>)
-	id 1hLWaa-0005mQ-BR
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 13:30:45 -0400
-Received: by mail-pl1-x642.google.com with SMTP id o5so7039185pls.12
-	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 10:30:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=connect-hku-hk.20150623.gappssmtp.com; s=20150623;
-	h=from:to:cc:subject:date:message-id;
-	bh=uihYHrYj3HakLhRkBBdSUDTDHGZaCyGKyU0mzSpESvQ=;
-	b=mCDQBdunO0hUngRO5ZFWMRAjbF81vr8Bgn/0CTyWhREDYSg451LHElqXYoX9LqR/Tx
-	72O+yUOHH1XIAMZztm3MzrIkJi2Ay3MT1xV1q4B8PlvR3Z9zPjE2ncs/EXovH1hidaju
-	Nl8+DaTTshFZ36ftBLGA1JV27PhbYnz2/cRjaud+rFto0iaO0tfZOv901S3fDezVNwiu
-	bigZsA2l277flNS3XhgkYGD4Z4kt0ZMIQkR28fw29of2jN1kHMmo0DDdkVw2eVorzx2d
-	oPnhxjSRlse+3T7qGwn01OvFdhT87jOzbVVJ1nylQ2hGQB1+V/Vtsr2Th09I6T+EDeyd
-	3JJg==
+	(Exim 4.71) (envelope-from <jcmvbkbc@gmail.com>) id 1hLWcG-0006gy-6Z
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 13:32:28 -0400
+Received: by mail-yw1-xc43.google.com with SMTP id a62so6512077ywa.4
+	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 10:32:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=pnZeMzauN6wvpHjZ0/W2ENQO7I5smyRwTKX3H6mXbV0=;
+	b=P5r3rBRDUjRVJWlTBpDiEcgyQhNp3wBeVBpHrJlIUVAfuOgeFIAzIvatM/uc15aWjH
+	rj1kWs+my0XSOM6auuKEOiLb7bledSbm0oXjz5HHUqLguYWbxGp9Ujqi1q3LFrWD57fp
+	3U2ZbQiS8SPtmNrnfpKtA0/4uNippEIrVBeftMEEPiE+/TAsocN5Q1oohIZIKpw4UdIM
+	uZL91JwMdk98sUW0kPtZ3TD/Ufc8tJG/mShgOmjuVxDhfVOq7YAA+LHcpWC/zBI6lTgF
+	vRLWeogZyE6voP5/TRos8j1/iVxuKyvp/j2a5GaYEWc1UhgxvtgSCC9RQ2wg38xKCtxh
+	4ghQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=uihYHrYj3HakLhRkBBdSUDTDHGZaCyGKyU0mzSpESvQ=;
-	b=k3mMecc2yJBfvF9od0TZEvpzrkMmVN+RsrY9nm/crbPe9D3mPVGWCHaiVgXQsSIaUq
-	QhY+pqvB/LT4kJhyXvc7Fvj+Ib3ZU8jhUeKchUQTsEWrawU7F1qepF2Xq0yZFwhCV6Lo
-	oZAIOxJ968r0Q+QXEM7B5jE8cSFccaB0OsrmMFjP7muzgzNRe4KadsJfQrQBMZ64qug6
-	eJO60otdkWgKLWlNcWoFlEfIPNbYgAyWIm8fPz2fhMZIRW8F6gBzD3EOQ0BBrmr1DMgF
-	uwTLk4zU1jl4QJsEGQJ5L2uMAiSDSvGQ5Li4GGoTMXiZ9mzuwPV+05n/8/kIAAa8iVY9
-	6Eqg==
-X-Gm-Message-State: APjAAAU0yUZ0AHbuIYuF1v2yXuZpj5WU18nlx8rApIWKwoVUjwAnnyo6
-	pqWLNntmI3C7CtxuvFSj0/7YlTivqZk=
-X-Google-Smtp-Source: APXvYqx6/LFfPEs0Dp5RlilHCosSrXJ38nNHAZ4al6ZrPwF3s57vL3GxCnkJ4dpv2ncX7/uTttysLA==
-X-Received: by 2002:a17:902:26b:: with SMTP id
-	98mr41541345plc.30.1556645442060; 
-	Tue, 30 Apr 2019 10:30:42 -0700 (PDT)
-Received: from MBP.local.hk ([175.159.180.1]) by smtp.gmail.com with ESMTPSA id
-	y23sm52407101pfn.25.2019.04.30.10.30.39
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Tue, 30 Apr 2019 10:30:41 -0700 (PDT)
-From: Boxuan Li <liboxuan@connect.hku.hk>
-To: qemu-devel@nongnu.org
-Date: Wed,  1 May 2019 01:28:42 +0800
-Message-Id: <20190430172842.27369-1-liboxuan@connect.hku.hk>
-X-Mailer: git-send-email 2.13.2
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=pnZeMzauN6wvpHjZ0/W2ENQO7I5smyRwTKX3H6mXbV0=;
+	b=lpm00xdoPpcr7VxhCPh7pqYHyLSbNMCtxBTVqPm9Yu11hCQOQAxPPeD75D2QNblQTF
+	scIaNs6SmxsKwqm2Z1vTNJ05bdeR1/1Br3INLgkk5tSpx9O/wktrLihBxE3TRdR532X5
+	gS6ma1r0JIqcdKhky20xmLm0FIfVt9ImQyWPIsRrxS5WeMXiJA0fzcFEm5BMzc3qcZbw
+	5mSRQ1ozlXNlqOuFYH90g33CDsoyCT9PHNIA63o43mbkxpyLLYfsK2Ye9It5GORMck0B
+	Fs9+7r+AV0nPTIvWAg5u5ydjfsBsOAmaEr3rCl3k4RItcnwNu969QMH0pIziFMszEKHx
+	jWfw==
+X-Gm-Message-State: APjAAAVboXg9K++l6ALJRKh5j0qSu1A7Bcrhe1g6fIrvnJepP2+iauE4
+	FlQV1s1Ml9oPMJcB9a+MaFds21zsenhJBWXbYm4=
+X-Google-Smtp-Source: APXvYqwHYIcLehJWORxwMBqwz2YgPVQ7hw4/uyIMEewv6ieTTrC+ZUhx3d/bsSw3wsXUfZzmo83OpATtW4ZkYAg7D3E=
+X-Received: by 2002:a25:3858:: with SMTP id f85mr58758121yba.252.1556645546785;
+	Tue, 30 Apr 2019 10:32:26 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190403034358.21999-1-richard.henderson@linaro.org>
+	<20190403034358.21999-24-richard.henderson@linaro.org>
+	<CAFEAcA_FZHKXJHg4819JOZkwwhE44Vx874GKrnxRrOau1HhzRw@mail.gmail.com>
+In-Reply-To: <CAFEAcA_FZHKXJHg4819JOZkwwhE44Vx874GKrnxRrOau1HhzRw@mail.gmail.com>
+From: Max Filippov <jcmvbkbc@gmail.com>
+Date: Tue, 30 Apr 2019 10:32:14 -0700
+Message-ID: <CAMo8BfJVdDvYWEdN_08ed5OKBGXc+U8kSbmWaSWY9WCuvDj2pw@mail.gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::642
-Subject: [Qemu-devel] [PATCH] target/ppc/kvm: Fix trace typo
+X-Received-From: 2607:f8b0:4864:20::c43
+Subject: Re: [Qemu-devel] [PATCH 23/26] target/xtensa: Convert to
+ CPUClass::tlb_fill
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -73,45 +73,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Boxuan Li <liboxuan@connect.hku.hk>,
-	"open list:PowerPC" <qemu-ppc@nongnu.org>,
-	David Gibson <david@gibson.dropbear.id.au>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+	QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Boxuan Li <liboxuan@connect.hku.hk>
----
- target/ppc/kvm.c        | 2 +-
- target/ppc/trace-events | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+On Tue, Apr 30, 2019 at 3:11 AM Peter Maydell <peter.maydell@linaro.org> wrote:
+>
+> On Wed, 3 Apr 2019 at 05:00, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+> >
+> > Cc: Max Filippov <jcmvbkbc@gmail.com>
+> > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> > ---
+> >  target/xtensa/cpu.h    |  5 +--
+> >  target/xtensa/cpu.c    |  5 ++-
+> >  target/xtensa/helper.c | 74 +++++++++++++++++++++---------------------
+> >  3 files changed, 42 insertions(+), 42 deletions(-)
+>
+> > -#ifdef CONFIG_USER_ONLY
+> > -
+> > -int xtensa_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size, int rw,
+> > -                                int mmu_idx)
+> > +bool xtensa_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+> > +                         MMUAccessType access_type, int mmu_idx,
+> > +                         bool probe, uintptr_t retaddr)
+> >  {
+> >      XtensaCPU *cpu = XTENSA_CPU(cs);
+> >      CPUXtensaState *env = &cpu->env;
+> > +    target_ulong vaddr = address;
+> > +    int ret;
+> >
+> > -    qemu_log_mask(CPU_LOG_INT,
+> > -                  "%s: rw = %d, address = 0x%08" VADDR_PRIx ", size = %d\n",
+> > -                  __func__, rw, address, size);
+> > -    env->sregs[EXCVADDR] = address;
+> > -    env->sregs[EXCCAUSE] = rw ? STORE_PROHIBITED_CAUSE : LOAD_PROHIBITED_CAUSE;
+> > -    cs->exception_index = EXC_USER;
+> > -    return 1;
+>
+> Previously we set exception_index to EXC_USER...
+>
+> > +#ifdef CONFIG_USER_ONLY
+> > +    ret = (access_type == MMU_DATA_STORE ?
+> > +           STORE_PROHIBITED_CAUSE : LOAD_PROHIBITED_CAUSE);
+> > +#else
+> > +    uint32_t paddr;
+> > +    uint32_t page_size;
+> > +    unsigned access;
+> > +
+> > +    ret = xtensa_get_physical_addr(env, true, vaddr, access_type, mmu_idx,
+> > +                                   &paddr, &page_size, &access);
+> > +
+> > +    qemu_log_mask(CPU_LOG_MMU, "%s(%08x, %d, %d) -> %08x, ret = %d\n",
+> > +                  __func__, vaddr, access_type, mmu_idx, paddr, ret);
+> > +
+> > +    if (ret == 0) {
+> > +        tlb_set_page(cs, vaddr & TARGET_PAGE_MASK, paddr & TARGET_PAGE_MASK,
+> > +                     access, mmu_idx, page_size);
+> > +        return true;
+> > +    }
+> > +    if (probe) {
+> > +        return false;
+> > +    }
+> > +#endif
+> > +
+> > +    cpu_restore_state(cs, retaddr, true);
+> > +    HELPER(exception_cause_vaddr)(env, env->pc, ret, vaddr);
+>
+> ...but now we'll set it to whatever exception_cause_vaddr does,
+> which is something more complicated based on the state of
+> env->sregs[PS].
+>
+> We'll also end up setting env->sregs[PS] bits and env->pc, which
+> the old code did not. (In particular since we set the PS_EXCM bit,
+> the second time we take an exception won't we then end up
+> setting exception_index to EXC_DOUBLE, not EXC_USER ?)
 
-diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-index 02e22e2017..1a9caf8f40 100644
---- a/target/ppc/kvm.c
-+++ b/target/ppc/kvm.c
-@@ -1721,7 +1721,7 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
-             trace_kvm_handle_dcr_write();
-             ret = kvmppc_handle_dcr_write(env, run->dcr.dcrn, run->dcr.data);
-         } else {
--            trace_kvm_handle_drc_read();
-+            trace_kvm_handle_dcr_read();
-             ret = kvmppc_handle_dcr_read(env, run->dcr.dcrn, &run->dcr.data);
-         }
-         break;
-diff --git a/target/ppc/trace-events b/target/ppc/trace-events
-index 7b3cfe11fd..3dc6740706 100644
---- a/target/ppc/trace-events
-+++ b/target/ppc/trace-events
-@@ -22,7 +22,7 @@ kvm_failed_put_vpa(void) "Warning: Unable to set VPA information to KVM"
- kvm_failed_get_vpa(void) "Warning: Unable to get VPA information from KVM"
- kvm_injected_interrupt(int irq) "injected interrupt %d"
- kvm_handle_dcr_write(void) "handle dcr write"
--kvm_handle_drc_read(void) "handle dcr read"
-+kvm_handle_dcr_read(void) "handle dcr read"
- kvm_handle_halt(void) "handle halt"
- kvm_handle_papr_hcall(void) "handle PAPR hypercall"
- kvm_handle_epr(void) "handle epr"
+I guess it doesn't matter, because linux-user userspace never handles
+exceptions. PS, PC and similar must be fixed up by the linux-user
+exception handler. But I haven't tested it.
+Richard, is there a branch with this series available somewhere?
+
 -- 
-2.13.2
-
+Thanks.
+-- Max
 
