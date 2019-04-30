@@ -2,64 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66035FEC4
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 19:23:16 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50608 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DEBBFEC3
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 19:23:05 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50606 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLWTL-00010U-H7
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 13:23:15 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40333)
+	id 1hLWTA-0000q6-Go
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 13:23:04 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40954)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hLW4i-0006aR-Pc
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:57:49 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hLW7R-0000UY-B1
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 13:00:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hLW4g-0003Sv-RQ
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:57:48 -0400
-Received: from mail-oi1-x229.google.com ([2607:f8b0:4864:20::229]:34961)
+	(envelope-from <richard.henderson@linaro.org>) id 1hLW7P-0004q3-DM
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 13:00:37 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:41106)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hLW4f-0003PM-2X
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 12:57:46 -0400
-Received: by mail-oi1-x229.google.com with SMTP id w197so11851254oia.2
-	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 09:57:40 -0700 (PDT)
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hLW7P-0004l5-7G
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 13:00:35 -0400
+Received: by mail-pl1-x642.google.com with SMTP id d9so7015986pls.8
+	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 10:00:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=8CjWopWf189I269XlZcNba6PnTBXf0n9YcIAnuqwl1o=;
-	b=GFkGnoxYQDZHxi1rJrUiSYqAe5/gBKQepe8866VmspSt8XAD978GetGNw1VlE43oY9
-	ufCT61p6H/yfcdgptnnGkPUBS7poobDTR8hSEJcBumlY6U3G30ECjvnJ7QiHoHhaSiKq
-	oJq9yP7sNHPDGcmg3q0FhDlyrSMFuIbqtfBWXTzoNhOjIaWZS+3NudPQeK7Qn4+Tl/W4
-	jNRJTQz5W0POIB2uKQfas8EnWmdJbCeSVAUbHMg+phuKBxbzP0yGUUOxLt2xoEEksI6r
-	8QnJOErJv0ZCATGauzG8QDGwLDv6R6Qj6r3FtW6zBkPI6rf9sZM59RQk7FdcGCm6neLf
-	HD3Q==
+	h=subject:to:references:from:openpgp:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=mPu49WOst7VeZvGvwGRvNDzY1W89nzmXBMCYmW4ZD1Y=;
+	b=VWArM8TxhMbunf4ALbN4fYQ2+MwEeD5jCfKGtBNwxc9X4JpZD3oH480631fE1ig1hk
+	gkUx+gRE5mCvfOvuMrC3H1c0cSkP8U1KFEKGZfALSp4LySfgzMWNsBlgGLTklDkNp1H6
+	EYYKA9skW+ND505bWdk8gIiCTj8k5RLmixrck5CSNsKXDu67UXlhnkW17Y+a7h5EBy6x
+	oZPrETECTxRnBZn5G3Y19cfCQ33UQSYQR2lIKO8HdMvYyw/qNTC04jskiVuFaf3NEOjV
+	gynXJICwPHrdd/3+2NbmLeR1HLtG+DJEczcsTw+MwIupl643NqWbUcNBiADtyoSosLCQ
+	7HbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=8CjWopWf189I269XlZcNba6PnTBXf0n9YcIAnuqwl1o=;
-	b=ZNzAcvg2bnReF8ZJodxBodslNkR6H5GbDjO9WpheBhKGeWxbG0TLux0v0CRrtGYUAA
-	YWOdhgDGSCw5hSgv76Q7/zg23c/kLqaNjmN2SOg9AezRgIEHDW6YOGU2b9R4jifWgo2Y
-	oPvs++2f/Yim5OAymPSuMGVoD7MnRxupWE85tJghbEhA3cchpgi1TF9VGF+m+OTTfRZp
-	ufbaJBd2X+/lZN6HU9hYpP/O1yCucWTt7/iIy9rJyUJq3QhDMtga/QWT2Afy5rHeKLZo
-	a0a/6jTqaLy1NuC+sLxI4uWnRwt2dlgiYxv5P3NPOjgV6eJUfgH6J2Flno8u26GW1IBX
-	7QJQ==
-X-Gm-Message-State: APjAAAU98kdP5viy9vyJsiX1nEE5PCVMMx2IxNz5CJEuqoIQ2ap0mXqj
-	T/GiKMfqMOH8YhvZOPN+IDQNFqTO0NDv4SwMFRLQfw==
-X-Google-Smtp-Source: APXvYqznS6Jzaw5/D9tG58Bm3xnGl6P2uFSSXvDkZn1DAHSqUvVX6yIyESawI5b1GKyX6H4tya3DXaMXvKryf3EgwUo=
-X-Received: by 2002:aca:ab12:: with SMTP id u18mr3412973oie.48.1556643459726; 
-	Tue, 30 Apr 2019 09:57:39 -0700 (PDT)
+	h=x-gm-message-state:subject:to:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=mPu49WOst7VeZvGvwGRvNDzY1W89nzmXBMCYmW4ZD1Y=;
+	b=KGDhbU3P9BJcfBZh38ZuC2n0foS0fLCTiHvVuUcm7awYtOtv5tvxu9y5he0bnkd78f
+	cXXBCARTCja3mR8HcrgHbJpmzMDOax26XZddtxLKdI8UWzXFYa/ERKQdzouMarXegAsG
+	QQwEgdIg5KdaRmOnaROR8kZYv6val4D1JaXE4dwXt5lX0hqPcZim6FBgiGkSX64FM4wH
+	pMZLZQDXxzzHkUPf8jzAHyfiEmnerOaQel4XeAJ6VlQKRRG7jrC5h+g2mGAOgO6h9HAU
+	Zfe1kgsw1h9k1mfMQAVcO6UB8atZpiRXsWtuZ1DB8aRQvU7jxQ/+sVT/H1ymGrme6gOi
+	fwHw==
+X-Gm-Message-State: APjAAAVWaMzyBuuG3uImVILTD568TF6kb++qh9AtScppli6fktednna0
+	DHIi091/qTGfycXL3ec2sGilmw==
+X-Google-Smtp-Source: APXvYqxTHAOQdqvOVgfxDr62p35q0bD9mgYeWZryev9cKh4ngxOdE2XH+d1+Gjq6VaUa+eWM9Cb6iQ==
+X-Received: by 2002:a17:902:2b88:: with SMTP id
+	l8mr70369149plb.262.1556643622027; 
+	Tue, 30 Apr 2019 10:00:22 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-18-231.tukw.qwest.net. [97.113.18.231])
+	by smtp.gmail.com with ESMTPSA id
+	x128sm62245272pfx.103.2019.04.30.10.00.18
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 30 Apr 2019 10:00:21 -0700 (PDT)
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org, david@gibson.dropbear.id.au, rth@twiddle.net,
+	gkurz@kaod.org
+References: <20190428143845.11810-1-mark.cave-ayland@ilande.co.uk>
+	<20190428143845.11810-15-mark.cave-ayland@ilande.co.uk>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <3c05b552-a692-e439-fc28-90ad69767cf2@linaro.org>
+Date: Tue, 30 Apr 2019 10:00:12 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <20190430154244.30083-1-kwolf@redhat.com>
-In-Reply-To: <20190430154244.30083-1-kwolf@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 30 Apr 2019 17:57:28 +0100
-Message-ID: <CAFEAcA-rW3OLKt2a8+1cdcMa-=Hp+ppqp_HdC1=ZNVxSXtKqeA@mail.gmail.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20190428143845.11810-15-mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::229
-Subject: Re: [Qemu-devel] [PULL 00/27] Block layer patches
+X-Received-From: 2607:f8b0:4864:20::642
+Subject: Re: [Qemu-devel] [PATCH 14/14] target/ppc: improve VSX_FMADD with
+ new GEN_VSX_HELPER_VSX_MADD macro
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -71,40 +88,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 30 Apr 2019 at 17:01, Kevin Wolf <kwolf@redhat.com> wrote:
->
-> The following changes since commit 22d96eac64877c4d96f9928babb6f2fcc68faacf:
->
->   Merge remote-tracking branch 'remotes/stefanha/tags/tracing-pull-request' into staging (2019-04-29 19:11:15 +0100)
->
-> are available in the Git repository at:
->
->   git://repo.or.cz/qemu/kevin.git tags/for-upstream
->
-> for you to fetch changes up to 54277a2aab876aba7b55c7e88e2b372691849741:
->
->   block/qed: add missed coroutine_fn markers (2019-04-30 15:29:00 +0200)
->
-> ----------------------------------------------------------------
-> Block layer patches:
->
-> - iotests: Fix output of qemu-io related tests
-> - Don't ignore bdrv_set_aio_context() for nodes with bs->drv = NUL
-> - vmdk: Set vmdk parent backing_format to vmdk
-> - qcow2: Preallocation fixes (especially for external data files)
-> - Add linear-buffer-based APIs (as wrappers around qiov-based ones)
-> - Various code cleanups and small corner case fixes
->
+On 4/28/19 7:38 AM, Mark Cave-Ayland wrote:
+>  #define VSX_MADD(op, nels, tp, fld, maddflgs, afrm, sfprf, r2sp)              \
+>  void helper_##op(CPUPPCState *env, uint32_t opcode,                           \
+> -                 ppc_vsr_t *xt, ppc_vsr_t *xa, ppc_vsr_t *xb)                 \
+> +                 ppc_vsr_t *xt, ppc_vsr_t *xa,                                \
+> +                 ppc_vsr_t *b, ppc_vsr_t *c)                                  \
+>  {                                                                             \
+> -    ppc_vsr_t *b, *c;                                                         \
+>      int i;                                                                    \
+>                                                                                \
+> -    if (afrm) { /* AxB + T */                                                 \
+> -        b = xb;                                                               \
+> -        c = xt;                                                               \
+> -    } else { /* AxT + B */                                                    \
+> -        b = xt;                                                               \
+> -        c = xb;                                                               \
+> -    }                                                                         \
+
+The afrm argument is no longer used.
+This also means that e.g.
+
+VSX_MADD(xsmaddadp, 1, float64, VsrD(0), MADD_FLGS, 1, 1, 0)
+VSX_MADD(xsmaddmdp, 1, float64, VsrD(0), MADD_FLGS, 0, 1, 0)
+
+are redundant.  Similarly with all of the other pairs.
 
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
-for any user-visible changes.
-
--- PMM
+r~
 
