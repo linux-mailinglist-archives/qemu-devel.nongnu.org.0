@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD337FB22
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 16:11:00 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:47711 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A651FB40
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 16:18:38 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:47794 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLTTH-0007ky-Cz
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 10:10:59 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54125)
+	id 1hLTaf-0001lE-1X
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 10:18:37 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56213)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hLTRO-0006hs-1l
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 10:09:03 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hLTZJ-0001Oh-Nc
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 10:17:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hLTMZ-0007bj-3r
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 10:04:04 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:34788)
+	(envelope-from <peter.maydell@linaro.org>) id 1hLTZI-0007LM-JA
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 10:17:13 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:33601)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hLTMY-0007bS-V1
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 10:04:03 -0400
-Received: by mail-ot1-x343.google.com with SMTP id n15so5927188ota.1
-	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 07:04:02 -0700 (PDT)
+	id 1hLTZI-0007KB-DT
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 10:17:12 -0400
+Received: by mail-ot1-x343.google.com with SMTP id s11so7720595otp.0
+	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 07:17:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=rp3NMk74hJQNcvS8jQez3Zj+7AMBiwuUII7+5IrcSyg=;
-	b=oSbOV1zuopQ7kmigOksn0fC9u42RtOD+izV0oe+5ZvqK2VcKAPHWZOfMON6wAO1Ucp
-	CZEkqyPoVolCh2LI05EoL4Djzd9OFRFrPgrvD9HUqIkcRoPked0XxLAdy6Jw3LC3Et7V
-	zz7IRIEZssHcpwED6Vy8Wym0VK278ZQKJv1WKZ9mZtoJFzNN/72V67LxaThBLUiZ6y2V
-	udtCN8soBBiUkTEeW05y7McG8B57JiY89t/leSweZyf8wc0ZiX9iCLFvaYj5y0J69BcP
-	H6XV7Sl2JpGZdUL3QndbOT8+IchAwCZ1Vtj59qipo8VEeAUEYZtQTbsNWLhhLbdijSKR
-	zoaA==
+	:cc; bh=oMh7iWcXAytvlvEHTXWoOdsLJGJYV9qHq2JPyOdE2Kk=;
+	b=x3K5sN6ppSjSKwO5cnkJBD+ptH/250muve3hAD6QAl9J4POyEk+bDjdvKK3v5zIwNt
+	wECLI1JTtUXLdV4CnOLcLB/RnBpNKMuygTyAdrUJWMXsZamfdD/wGVFmmRhvuBZka1NT
+	5JlupDKS8Y/UHKya4LZVO5UsMfCgCCpUPOP5RXpG8RBrPwX0v+R1dGyjQGbn9ziYB94F
+	SAhDzjisGImAUY/24YwhOqIecqfhFn3TfWs4SR/2Bfbnve/OIEwjUQqHdQQPtJTbUCqi
+	j/0Vb/F/VDtDCLO31TEGo0FtGPMGh+wqtWs5UpygeVIEkddQm6iAHBjqCJrQgAK9kOjC
+	v71g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=rp3NMk74hJQNcvS8jQez3Zj+7AMBiwuUII7+5IrcSyg=;
-	b=Z+jeUo9xv59PFJUgv/dvqiL0fARagBhEEkKBZEV/FFUiq+KsB/++F9eC9910zDminw
-	mUu1y0JtrgNroZceQeztiCVzaoy/ceyBFd9jcFWp6zamYyT+lXnbgMHn7nD5+6OmBj2X
-	+hcpEgtLDjHGPviHV6JPZv7Izb2mOjE1ZPBfwuOT54lWXHsbYIkGTBqAT+Dn9H8CStrw
-	YETrVqaXiRPJZJtrRiDyZLtFtxR1KBJfNDT3S/xDA5SbaYprcCBBB26f1QsbjgYL5wcs
-	jMSQYfI/5QeFUNGNOAI1rHGGfkIW8LS4tuM1YqQyXKu3Tmc+r7g6nPuH1rU9q3bWsVwY
-	hNXg==
-X-Gm-Message-State: APjAAAUWRGKbhpCdy/affUKoW9f3t4PxelrVitp3knFopwJmanqIlMgM
-	TlNqnM/SgzopO/hF1Ig2f85xdzVJ1m+c3VqBYZfSow==
-X-Google-Smtp-Source: APXvYqx1Cl9664+LY5uU6rwQ3gJGN6BFzvG3I6FMW3A1Bo0YuvM9tiaJfAMn6F4Gl0LoMpt9QQkJAPS6/21BK0oxpPE=
-X-Received: by 2002:a9d:61c6:: with SMTP id h6mr5057163otk.316.1556633041989; 
-	Tue, 30 Apr 2019 07:04:01 -0700 (PDT)
+	bh=oMh7iWcXAytvlvEHTXWoOdsLJGJYV9qHq2JPyOdE2Kk=;
+	b=H6YNbpgTkpd+1VdjbgXZuFoW/lagVwNyStpYMe3Aj/+UDuEE8TU6h36uXVPyH3PWnZ
+	h9sy60Uax6IyslX+8wdRYbQ4NJ04ziXDJkmyvnv5FoVBKCv8K1YuXsjvw/kJt0HoPB00
+	/NGDCiTqDoLBvD6iqG6o+VPXl6NnKQFO8gF1nvQuqSxHRdhV/ERjtaNvhsmiksLQOpvO
+	8QzxH38vh1s2a0IdnfRaK0GUGk3k/c9lFWxqGObVmSRwlUzEC12uyixqdsAkAD9AS/7n
+	oz9Aq2M8svMfq/WRteZBHk2RSCL4qMOvtJX4ozk+Bw26Ve1675+HPeNGmy2VqgnR/rqu
+	ekEA==
+X-Gm-Message-State: APjAAAV2ADbrc19PhGhIIfmDqtvjlNJ+cRYXk3bXaU4NQ0BlNghSCUV4
+	rjvvOWZeGsFJdFblzjl7vnxnwLAhGTkCHFh73AD9Fw==
+X-Google-Smtp-Source: APXvYqwhfCBVQVbQQs/3Op2UprrFtWs/PnyDFUENwXlk02gj/MovMXdhAI+Ppqapy/fAAnIha1UEmDCSGPaDglpxzGg=
+X-Received: by 2002:a9d:57c4:: with SMTP id q4mr7851219oti.151.1556633830118; 
+	Tue, 30 Apr 2019 07:17:10 -0700 (PDT)
 MIME-Version: 1.0
 References: <1555560291-3415-1-git-send-email-hongbo.zhang@linaro.org>
-	<1555560291-3415-2-git-send-email-hongbo.zhang@linaro.org>
-In-Reply-To: <1555560291-3415-2-git-send-email-hongbo.zhang@linaro.org>
+	<1555560291-3415-3-git-send-email-hongbo.zhang@linaro.org>
+In-Reply-To: <1555560291-3415-3-git-send-email-hongbo.zhang@linaro.org>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 30 Apr 2019 15:03:50 +0100
-Message-ID: <CAFEAcA9rTL_4co1JvHrpJcqJqdrBsOiHo8sZS6wKWJOWphCCSA@mail.gmail.com>
+Date: Tue, 30 Apr 2019 15:16:59 +0100
+Message-ID: <CAFEAcA-poCxPqPtfhx4mUJ5pcOjn1Hz-WNxEt29f=JgpFMi4Kg@mail.gmail.com>
 To: Hongbo Zhang <hongbo.zhang@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
 X-Received-From: 2607:f8b0:4864:20::343
-Subject: Re: [Qemu-devel] [PATCH v7 1/2] hw/arm: Add arm SBSA reference
- machine, skeleton part
+Subject: Re: [Qemu-devel] [PATCH v7 2/2] hw/arm: Add arm SBSA reference
+ machine, devices part
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -75,136 +75,117 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
 	Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-	QEMU Developers <qemu-devel@nongnu.org>,
+	Markus Armbruster <armbru@redhat.com>,
 	Leif Lindholm <leif.lindholm@linaro.org>,
-	Eric Auger <eric.auger@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
-	Igor Mammedov <imammedo@redhat.com>
+	QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On Thu, 18 Apr 2019 at 05:05, Hongbo Zhang <hongbo.zhang@linaro.org> wrote:
 >
-> For the Aarch64, there is one machine 'virt', it is primarily meant to
-> run on KVM and execute virtualization workloads, but we need an
-> environment as faithful as possible to physical hardware, for supporting
-> firmware and OS development for pysical Aarch64 machines.
->
-> This patch introduces new machine type 'sbsa-ref' with main features:
->  - Based on 'virt' machine type.
->  - A new memory map.
->  - CPU type cortex-a57.
->  - EL2 and EL3 are enabled.
->  - GIC version 3.
->  - System bus AHCI controller.
->  - System bus EHCI controller.
->  - CDROM and hard disc on AHCI bus.
->  - E1000E ethernet card on PCIE bus.
->  - VGA display adaptor on PCIE bus.
->  - No virtio deivces.
->  - No fw_cfg device.
->  - No ACPI table supplied.
->  - Only minimal device tree nodes.
->
-> Arm Trusted Firmware and UEFI porting to this are done accordingly, and
-> it should supply ACPI tables to load OS, the minimal device tree nodes
-> supplied from this platform are only to pass the dynamic info reflecting
-> command line input to firmware, not for loading OS.
->
-> To make the review easier, this task is split into two patches, the
-> fundamental sceleton part and the peripheral devices part, this patch is
-> the first part.
+> Following the previous patch, this patch adds peripheral devices to the
+> newly introduced SBSA-ref machine.
 >
 > Signed-off-by: Hongbo Zhang <hongbo.zhang@linaro.org>
+> ---
+>  hw/arm/sbsa-ref.c | 451 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
+>  1 file changed, 451 insertions(+)
 
-Hi. This patch looks good to me. I have a couple of very minor
-comments below.
+Some fairly minor comments on this one.
 
-The only other thing I'm not sure about is whether the recent work
-(both in master and in pending patchset) to add support for memory
-hotplug and nvdimms to the 'virt' board is applicable here. I've
-cc'd Igor and Eric to ask their opinion on that question.
-
-> +static const MemMapEntry sbsa_ref_memmap[] = {
-> +    /* 512M boot ROM */
-> +    [SBSA_FLASH] =              {          0, 0x20000000 },
-> +    /* 512M secure memory */
-> +    [SBSA_SECURE_MEM] =         { 0x20000000, 0x20000000 },
-> +    /* Space reserved for CPU peripheral devices */
-> +    [SBSA_CPUPERIPHS] =         { 0x40000000, 0x00040000 },
-> +    [SBSA_GIC_DIST] =           { 0x40060000, 0x00010000 },
-> +    [SBSA_GIC_REDIST] =         { 0x40080000, 0x04000000 },
-> +    [SBSA_UART] =               { 0x60000000, 0x00001000 },
-> +    [SBSA_RTC] =                { 0x60010000, 0x00001000 },
-> +    [SBSA_GPIO] =               { 0x60020000, 0x00001000 },
-> +    [SBSA_SECURE_UART] =        { 0x60030000, 0x00001000 },
-> +    [SBSA_SECURE_UART_MM] =     { 0x60040000, 0x00001000 },
-> +    [SBSA_SMMU] =               { 0x60050000, 0x00020000 },
-> +    /* Space here reserved for more SMMUs */
-> +    [SBSA_AHCI] =               { 0x60100000, 0x00010000 },
-> +    [SBSA_EHCI] =               { 0x60110000, 0x00010000 },
-> +    /* Space here reserved for other devices */
-> +    [SBSA_PCIE_PIO] =           { 0x7fff0000, 0x00010000 },
-> +    /* 32-bit address PCIE MMIO space */
-> +    [SBSA_PCIE_MMIO] =          { 0x80000000, 0x70000000 },
-> +    /* 256M PCIE ECAM space */
-> +    [SBSA_PCIE_ECAM] =          { 0xf0000000, 0x10000000 },
-> +    /* ~1TB PCIE MMIO space (4GB to 1024GB boundary) */
-> +    [SBSA_PCIE_MMIO_HIGH] =     { 0x100000000ULL, 0xFF00000000ULL },
-> +    [SBSA_MEM] =                { 0x10000000000ULL, RAMLIMIT_BYTES },
-> +};
-> +
-> +static const int sbsa_ref_irqmap[] = {
-> +    [SBSA_UART] = 1,
-> +    [SBSA_RTC] = 2,
-> +    [SBSA_PCIE] = 3, /* ... to 6 */
-> +    [SBSA_GPIO] = 7,
-> +    [SBSA_SECURE_UART] = 8,
-> +    [SBSA_SECURE_UART_MM] = 9,
-> +    [SBSA_AHCI] = 10,
-> +    [SBSA_EHCI] = 11,
-> +};
-
-Since we only have one memory map and one irqmap, I think that
-rather than setting up vms->memmap[x] and vms->irqmap[x] and then
-always using those, we should just refer directly to the globals.
-The indirection in virt is originally because I was thinking we
-might want to have more than one layout (and because the code
-derives from the vexpress boards, which really do have two
-different layouts depending on the version), and then it turned
-out to be useful that we could pass the VirtMachineState* to
-the ACPI table generation code and let it get at the addresses
-and IRQ numbers that way. But neither of those applies here, I think.
-
-> +
-> +static void sbsa_ref_init(MachineState *machine)
+> +static void create_flash(const SBSAMachineState *vms,
+> +                         MemoryRegion *sysmem,
+> +                         MemoryRegion *secure_sysmem)
 > +{
-> +    SBSAMachineState *vms = SBSA_MACHINE(machine);
-
-This is a very trivial nitpick, but I think we should call
-this variable 'sms', not 'vms', since we changed the name of
-the struct type. (Same applies in some other functions later.)
-
-> +    MachineClass *mc = MACHINE_GET_CLASS(machine);
-> +    MemoryRegion *sysmem = get_system_memory();
-> +    MemoryRegion *secure_sysmem = NULL;
-> +    MemoryRegion *ram = g_new(MemoryRegion, 1);
-> +    bool firmware_loaded = bios_name || drive_get(IF_PFLASH, 0, 0);
-> +    const CPUArchIdList *possible_cpus;
-> +    int n, sbsa_max_cpus;
+> +    /*
+> +     * Create one secure and nonsecure flash devices to fill SBSA_FLASH
+> +     * space in the memmap, file passed via -bios goes in the first one.
+> +     */
+> +    hwaddr flashsize = vms->memmap[SBSA_FLASH].size / 2;
+> +    hwaddr flashbase = vms->memmap[SBSA_FLASH].base;
 > +
-> +    if (strcmp(machine->cpu_type, ARM_CPU_TYPE_NAME("cortex-a57"))) {
-> +        error_report("sbsa-ref: CPU type other than the built-in "
-> +                     "cortex-a57 not supported");
-> +        exit(1);
-> +    }
+> +    create_one_flash("sbsa-ref.flash0", flashbase, flashsize,
+> +                     bios_name, secure_sysmem);
+> +    create_one_flash("sbsa-ref.flash1", flashbase + flashsize, flashsize,
+> +                     NULL, sysmem);
+> +}
+
+I think Markus might have an opinion on the best way to create
+flash devices on a new board model. Is "just create two flash
+devices the way the virt board does" the right thing?
+
+> +static void create_ahci(const SBSAMachineState *vms, qemu_irq *pic)
+> +{
+> +    hwaddr base = vms->memmap[SBSA_AHCI].base;
+> +    int irq = vms->irqmap[SBSA_AHCI];
+> +    DeviceState *dev;
+> +    DriveInfo *hd[NUM_SATA_PORTS];
+> +    SysbusAHCIState *sysahci;
+> +    AHCIState *ahci;
+> +    int i;
 > +
-> +    if (kvm_enabled()) {
-> +        error_report("sbsa-ref: KVM is not supported at this machine");
-
-"for this machine".
-
-> +        exit(1);
+> +    dev = qdev_create(NULL, "sysbus-ahci");
+> +    qdev_prop_set_uint32(dev, "num-ports", NUM_SATA_PORTS);
+> +    qdev_init_nofail(dev);
+> +    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, base);
+> +    sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, pic[irq]);
+> +
+> +    sysahci = SYSBUS_AHCI(dev);
+> +    ahci = &sysahci->ahci;
+> +    ide_drive_get(hd, ARRAY_SIZE(hd));
+> +    for (i = 0; i < ahci->ports; i++) {
+> +        if (hd[i] == NULL) {
+> +            continue;
+> +        }
+> +        ide_create_drive(&ahci->dev[i].port, 0, hd[i]);
 > +    }
+> +}
+> +
+> +static void create_ehci(const SBSAMachineState *vms, qemu_irq *pic)
+> +{
+> +    hwaddr base = vms->memmap[SBSA_EHCI].base;
+> +    int irq = vms->irqmap[SBSA_EHCI];
+> +    USBBus *usb_bus;
+> +
+> +    sysbus_create_simple("platform-ehci-usb", base, pic[irq]);
+> +
+> +    usb_bus = usb_bus_find(-1);
+> +    usb_create_simple(usb_bus, "usb-kbd");
+> +    usb_create_simple(usb_bus, "usb-mouse");
+
+I don't think we should automatically create the usb keyboard
+and mouse devices. The user can do it on the command line if they
+want them.
+
+>  static void sbsa_ref_init(MachineState *machine)
+>  {
+>      SBSAMachineState *vms = SBSA_MACHINE(machine);
+> @@ -125,6 +552,7 @@ static void sbsa_ref_init(MachineState *machine)
+>      bool firmware_loaded = bios_name || drive_get(IF_PFLASH, 0, 0);
+>      const CPUArchIdList *possible_cpus;
+>      int n, sbsa_max_cpus;
+> +    qemu_irq pic[NUM_IRQS];
+>
+>      if (strcmp(machine->cpu_type, ARM_CPU_TYPE_NAME("cortex-a57"))) {
+>          error_report("sbsa-ref: CPU type other than the built-in "
+> @@ -209,11 +637,34 @@ static void sbsa_ref_init(MachineState *machine)
+>                                           machine->ram_size);
+>      memory_region_add_subregion(sysmem, vms->memmap[SBSA_MEM].base, ram);
+>
+> +    create_fdt(vms);
+> +
+> +    create_flash(vms, sysmem, secure_sysmem ? secure_sysmem : sysmem);
+> +
+> +    create_secure_ram(vms, secure_sysmem);
+> +
+> +    create_gic(vms, pic);
+> +
+> +    create_uart(vms, pic, SBSA_UART, sysmem, serial_hd(0));
+> +    create_uart(vms, pic, SBSA_SECURE_UART, secure_sysmem, serial_hd(1));
+> +    create_uart(vms, pic, SBSA_SECURE_UART_MM, secure_sysmem, serial_hd(2));
+
+What's the third UART for (ie what is the name intended to mean)?
+Should we have more than one non-secure UART?
 
 thanks
 -- PMM
