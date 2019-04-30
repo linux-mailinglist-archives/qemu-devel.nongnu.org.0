@@ -2,110 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C8881035B
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 May 2019 01:34:14 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55078 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F0321035D
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 May 2019 01:37:19 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:55153 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLcGL-0006be-83
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 19:34:13 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34813)
+	id 1hLcJK-0001Sr-Hm
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 19:37:18 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36437)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <prvs=01690f4a8=Alistair.Francis@wdc.com>)
-	id 1hLcBb-0003RR-Ia
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 19:29:20 -0400
+	(envelope-from <no-reply@patchew.org>) id 1hLcGv-00088n-IV
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 19:34:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <prvs=01690f4a8=Alistair.Francis@wdc.com>)
-	id 1hLcBZ-0006Oi-Lj
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 19:29:19 -0400
-Received: from esa4.hgst.iphmx.com ([216.71.154.42]:16243)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <prvs=01690f4a8=Alistair.Francis@wdc.com>)
-	id 1hLcBU-0006HX-T2; Tue, 30 Apr 2019 19:29:13 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-	d=wdc.com; i=@wdc.com; q=dns/txt; s=dkim.wdc.com;
-	t=1556666953; x=1588202953;
-	h=from:to:cc:subject:date:message-id:references:
-	in-reply-to:content-id:content-transfer-encoding: mime-version;
-	bh=tXUTsIRiuDGCHyauZRrtG/QeDpa6BCwT3JY/YNrnlkw=;
-	b=LR1CuH+GsDF8jqwuIISnvB7Q6QLzqeAyejAa5CpXo9OOvN3ONrc8B/yv
-	el3//aEgCuGE09NOI4n0LkwX99PS9xcmnQkw+qT/SWFgPNuxsLC4KyUKH
-	bNuKevQClFzydyRmBWTOYMRNr96exbIIPs7HowxvfiHXAU4UYTnq4pMB2
-	/pAFE6AcbRzuS525n/L3DE6l8ZW5yoxmejpVAMVbxH+AfCBti8icfyUek
-	AbzzJnAGk4r/ETPZ8cAQQWMP5oY3EzEK1imnEL/kIynDZH9SjWkNKblIf
-	/6nGyEdcVs7nWhRqekJhEcqYY2q62CQf+WzzwzziAmn3sUDKB7iUtbjPi w==;
-X-IronPort-AV: E=Sophos;i="5.60,415,1549900800"; d="scan'208";a="107219031"
-Received: from mail-bn3nam01lp2050.outbound.protection.outlook.com (HELO
-	NAM01-BN3-obe.outbound.protection.outlook.com) ([104.47.33.50])
-	by ob1.hgst.iphmx.com with ESMTP; 01 May 2019 07:29:04 +0800
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=sharedspace.onmicrosoft.com; s=selector1-wdc-com;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=tXUTsIRiuDGCHyauZRrtG/QeDpa6BCwT3JY/YNrnlkw=;
-	b=fvFYF4D0TP2zit7ldylSVoOesae30ZzrURA+MkW8xKP4zyB11eKamEdawgAqk3OvHGvZ1o++2hjVTMkkGeeuUrfgKiuK36QnZql6kTOhybmnE8uoxU389Ar/AdsmM45NjZuQta5zJWHXZy+0K30K/T96y9wFoO5iczckOj+xdTs=
-Received: from DM6PR04MB4908.namprd04.prod.outlook.com (20.176.109.81) by
-	DM6PR04MB6217.namprd04.prod.outlook.com (20.178.224.88) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.1856.10; Tue, 30 Apr 2019 23:29:01 +0000
-Received: from DM6PR04MB4908.namprd04.prod.outlook.com
-	([fe80::9ba:6028:ae27:7d2]) by DM6PR04MB4908.namprd04.prod.outlook.com
-	([fe80::9ba:6028:ae27:7d2%2]) with mapi id 15.20.1835.015;
-	Tue, 30 Apr 2019 23:29:01 +0000
-From: Alistair Francis <Alistair.Francis@wdc.com>
-To: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
-Thread-Topic: [PATCH v2 5/5] linux-user/elfload: Fix GCC 9 build warnings
-Thread-Index: AQHU/6x+xmB4VEre5EW2C7se/oJgig==
-Date: Tue, 30 Apr 2019 23:29:01 +0000
-Message-ID: <c4d2b1de9efadcf1c900b91361af9302823a72a9.1556666645.git.alistair.francis@wdc.com>
-References: <cover.1556666645.git.alistair.francis@wdc.com>
-In-Reply-To: <cover.1556666645.git.alistair.francis@wdc.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: git-send-email 2.21.0
-x-clientproxiedby: BYAPR07CA0003.namprd07.prod.outlook.com
-	(2603:10b6:a02:bc::16) To DM6PR04MB4908.namprd04.prod.outlook.com
-	(2603:10b6:5:19::17)
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=Alistair.Francis@wdc.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-originating-ip: [199.255.44.172]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 6ea03c69-e3cd-41cb-c2d0-08d6cdc3a07a
-x-ms-office365-filtering-ht: Tenant
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(4618075)(2017052603328)(7193020);
-	SRVR:DM6PR04MB6217; 
-x-ms-traffictypediagnostic: DM6PR04MB6217:
-wdcipoutbound: EOP-TRUE
-x-microsoft-antispam-prvs: <DM6PR04MB6217C5346A2F304F05263438903A0@DM6PR04MB6217.namprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:773;
-x-forefront-prvs: 00235A1EEF
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(979002)(366004)(39860400002)(136003)(346002)(376002)(396003)(199004)(189003)(5640700003)(8936002)(6436002)(53936002)(73956011)(316002)(54906003)(14454004)(81156014)(6486002)(6916009)(81166006)(68736007)(8676002)(186003)(26005)(3846002)(66446008)(6116002)(66476007)(64756008)(7736002)(6512007)(66946007)(305945005)(102836004)(2906002)(66556008)(5660300002)(386003)(446003)(6506007)(66066001)(44832011)(2501003)(2351001)(11346002)(50226002)(478600001)(36756003)(486006)(476003)(2616005)(76176011)(4326008)(52116002)(14444005)(99286004)(71190400001)(71200400001)(256004)(118296001)(72206003)(86362001)(25786009)(969003)(989001)(999001)(1009001)(1019001);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:DM6PR04MB6217;
-	H:DM6PR04MB4908.namprd04.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: QcvX4ELAxCo1eXfQlDtmxxfhTJn6io18fMIZL7DTqZ0L31MCiZen/OFqmQzGnUlTXdDAHsIlvx1ImNtqDZ2CzGRxjDV2bdnMW99QaNLO9rUoNrupIgapf5BY0lalGuktQLxIlJk7oOblvPPaVd+vB7CWXuidym0c6+W+681SCEfT7/DqWpe1gKB87cfFBjtMsk7Ag3n+e2y7YFso7nfGD/ColbvxmlbqzcC/4Y7kh2T1iXA4jC1cr5MlXc+1p0AAYMp0hJUa+Og90JlS5ujekRBSi59xFAcMaEB2gxQx8tJq48NvH7vPysw7nSN5Mmv1ohNDLcCR1WATDtGXAsoEiInNe8ovLd3Y6HwPO8kJopBPWXtqACayjaEN69MkTclJSejgGWRCJLq9Vpl2fwaJawZ30S2rWg+cHR62KfOI5Ds=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <667FC14ACE4DD1458B8B48476394801A@namprd04.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	(envelope-from <no-reply@patchew.org>) id 1hLcGu-0000Wc-AA
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 19:34:49 -0400
+Resent-Date: Tue, 30 Apr 2019 19:34:49 -0400
+Resent-Message-Id: <E1hLcGu-0000Wc-AA@eggs.gnu.org>
+Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21505)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <no-reply@patchew.org>)
+	id 1hLcGu-0000W3-1v; Tue, 30 Apr 2019 19:34:48 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1556667270; cv=none; d=zoho.com; s=zohoarc; 
+	b=e+pLLbb6xbGzLdVcNeRxrPYZ3/0FtiOAFZaDXQQb/iHgEQIx3ljaoBGdXZqAVYkuACpDYdVmKQX0i/bkMWHBi3FfDpSTevHt2L7+tZLy4WLxnDBoagPLfc7KoSm4V481U+HZvIeinTiDh593KHOiR4KQcbtxOCntuXUyBysxkX0=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+	s=zohoarc; t=1556667270;
+	h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+	bh=IutWLPpO3rFHaajsfycJl5ax9DNR64o9DwSkm33WBMo=; 
+	b=OuTsmCoxwPUQS1blz3c6zTKcS1b5N/DpD59Hx72eKFfYH2qEMszyXMLLsaWEl8wbvn2COreLRcimaSjp206+1IL7y31REdEgvyVqYusAcJRwbNqcxWNwtVKjm6wjsuRd3oYIqXZ7mhFeO+f4IyxVM9M4+DHrRaa8cN621hVe2mU=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+	spf=pass  smtp.mailfrom=no-reply@patchew.org;
+	dmarc=pass header.from=<no-reply@patchew.org>
+	header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+	mx.zohomail.com with SMTPS id 1556667269463363.6905693799648;
+	Tue, 30 Apr 2019 16:34:29 -0700 (PDT)
+In-Reply-To: <20190430231536.25353-1-jsnow@redhat.com>
+Message-ID: <155666726797.10667.16771870824759307989@c2072b67cc0c>
 MIME-Version: 1.0
-X-OriginatorOrg: wdc.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6ea03c69-e3cd-41cb-c2d0-08d6cdc3a07a
-X-MS-Exchange-CrossTenant-originalarrivaltime: 30 Apr 2019 23:29:01.6462 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: b61c8803-16f3-4c35-9b17-6f65f441df86
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR04MB6217
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 216.71.154.42
-Subject: [Qemu-devel] [PATCH v2 5/5] linux-user/elfload: Fix GCC 9 build
- warnings
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: jsnow@redhat.com
+Date: Tue, 30 Apr 2019 16:34:29 -0700 (PDT)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 136.143.188.55
+Subject: Re: [Qemu-devel] [PATCH RFC] migration/dirty-bitmaps: change bitmap
+ enumeration method
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -117,37 +61,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
-	"riku.voipio@iki.fi" <riku.voipio@iki.fi>,
-	"laurent@vivier.eu" <laurent@vivier.eu>,
-	Alistair Francis <Alistair.Francis@wdc.com>,
-	"kraxel@redhat.com" <kraxel@redhat.com>,
-	"alistair23@gmail.com" <alistair23@gmail.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: fam@euphon.net, vsementsov@virtuozzo.com, qemu-block@nongnu.org,
+	quintela@redhat.com, dgilbert@redhat.com, qemu-devel@nongnu.org,
+	stefanha@redhat.com, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rml4IHRoaXMgd2FybmluZyB3aGVuIGJ1aWxkaW5nIHdpdGggR0NDOSBvbiBGZWRvcmEgMzA6DQpJ
-biBmdW5jdGlvbiDigJhzdHJuY3B54oCZLA0KICAgIGlubGluZWQgZnJvbSDigJhmaWxsX3BzaW5m
-b+KAmSBhdCAvaG9tZS9hbGlzdGFpci9xZW11L2xpbnV4LXVzZXIvZWxmbG9hZC5jOjMyMDg6MTIs
-DQogICAgaW5saW5lZCBmcm9tIOKAmGZpbGxfbm90ZV9pbmZv4oCZIGF0IC9ob21lL2FsaXN0YWly
-L3FlbXUvbGludXgtdXNlci9lbGZsb2FkLmM6MzM5MDo1LA0KICAgIGlubGluZWQgZnJvbSDigJhl
-bGZfY29yZV9kdW1w4oCZIGF0IC9ob21lL2FsaXN0YWlyL3FlbXUvbGludXgtdXNlci9lbGZsb2Fk
-LmM6MzUzOTo5Og0KL3Vzci9pbmNsdWRlL2JpdHMvc3RyaW5nX2ZvcnRpZmllZC5oOjEwNjoxMDog
-ZXJyb3I6IOKAmF9fYnVpbHRpbl9zdHJuY3B54oCZIHNwZWNpZmllZCBib3VuZCAxNiBlcXVhbHMg
-ZGVzdGluYXRpb24gc2l6ZSBbLVdlcnJvcj1zdHJpbmdvcC10cnVuY2F0aW9uXQ0KICAxMDYgfCAg
-IHJldHVybiBfX2J1aWx0aW5fX19zdHJuY3B5X2NoayAoX19kZXN0LCBfX3NyYywgX19sZW4sIF9f
-Ym9zIChfX2Rlc3QpKTsNCiAgICAgIHwgICAgICAgICAgXn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+
-fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn5+fn4NCg0KU2lnbmVkLW9mZi1ieTog
-QWxpc3RhaXIgRnJhbmNpcyA8YWxpc3RhaXIuZnJhbmNpc0B3ZGMuY29tPg0KLS0tDQogbGludXgt
-dXNlci9lbGZsb2FkLmMgfCAyICstDQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAx
-IGRlbGV0aW9uKC0pDQoNCmRpZmYgLS1naXQgYS9saW51eC11c2VyL2VsZmxvYWQuYyBiL2xpbnV4
-LXVzZXIvZWxmbG9hZC5jDQppbmRleCBjMWEyNjAyMWY4Li5kMDhmZTIzNDY2IDEwMDY0NA0KLS0t
-IGEvbGludXgtdXNlci9lbGZsb2FkLmMNCisrKyBiL2xpbnV4LXVzZXIvZWxmbG9hZC5jDQpAQCAt
-Mjg3Miw3ICsyODcyLDcgQEAgc3RydWN0IHRhcmdldF9lbGZfcHJwc2luZm8gew0KICAgICB0YXJn
-ZXRfZ2lkX3QgcHJfZ2lkOw0KICAgICB0YXJnZXRfcGlkX3QgcHJfcGlkLCBwcl9wcGlkLCBwcl9w
-Z3JwLCBwcl9zaWQ7DQogICAgIC8qIExvdHMgbWlzc2luZyAqLw0KLSAgICBjaGFyICAgIHByX2Zu
-YW1lWzE2XTsgICAgICAgICAgIC8qIGZpbGVuYW1lIG9mIGV4ZWN1dGFibGUgKi8NCisgICAgY2hh
-ciAgICBwcl9mbmFtZVsxNl0gUUVNVV9OT05TVFJJTkc7IC8qIGZpbGVuYW1lIG9mIGV4ZWN1dGFi
-bGUgKi8NCiAgICAgY2hhciAgICBwcl9wc2FyZ3NbRUxGX1BSQVJHU1pdOyAvKiBpbml0aWFsIHBh
-cnQgb2YgYXJnIGxpc3QgKi8NCiB9Ow0KIA0KLS0gDQoyLjIxLjANCg0K
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDQzMDIzMTUzNi4yNTM1
+My0xLWpzbm93QHJlZGhhdC5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgc2VlbXMgdG8gaGF2ZSBz
+b21lIGNvZGluZyBzdHlsZSBwcm9ibGVtcy4gU2VlIG91dHB1dCBiZWxvdyBmb3IKbW9yZSBpbmZv
+cm1hdGlvbjoKClR5cGU6IHNlcmllcwpNZXNzYWdlLWlkOiAyMDE5MDQzMDIzMTUzNi4yNTM1My0x
+LWpzbm93QHJlZGhhdC5jb20KU3ViamVjdDogW1FlbXUtZGV2ZWxdIFtQQVRDSCBSRkNdIG1pZ3Jh
+dGlvbi9kaXJ0eS1iaXRtYXBzOiBjaGFuZ2UgYml0bWFwIGVudW1lcmF0aW9uIG1ldGhvZAoKPT09
+IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaApnaXQgcmV2LXBhcnNlIGJhc2UgPiAv
+ZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAK
+Z2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBUcnVlCmdpdCBjb25maWcgLS1sb2NhbCBk
+aWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRzL2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFj
+ayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KClVwZGF0aW5nIDNjOGNmNWE5YzIxZmY4
+NzgyMTY0ZDFkZWY3ZjQ0YmQ4ODg3MTMzODQKRnJvbSBodHRwczovL2dpdGh1Yi5jb20vcGF0Y2hl
+dy1wcm9qZWN0L3FlbXUKIHQgW3RhZyB1cGRhdGVdICAgICAgICAgICAgcGF0Y2hldy8yMDE5MDQy
+NDEwMzc0Ny4xMDE3My0xLXRodXRoQHJlZGhhdC5jb20gLT4gcGF0Y2hldy8yMDE5MDQyNDEwMzc0
+Ny4xMDE3My0xLXRodXRoQHJlZGhhdC5jb20KICogW25ldyB0YWddICAgICAgICAgICAgICAgcGF0
+Y2hldy8yMDE5MDQzMDIzMTUzNi4yNTM1My0xLWpzbm93QHJlZGhhdC5jb20gLT4gcGF0Y2hldy8y
+MDE5MDQzMDIzMTUzNi4yNTM1My0xLWpzbm93QHJlZGhhdC5jb20KU3dpdGNoZWQgdG8gYSBuZXcg
+YnJhbmNoICd0ZXN0Jwo2YzQ1YzNmYmQ0IG1pZ3JhdGlvbi9kaXJ0eS1iaXRtYXBzOiBjaGFuZ2Ug
+Yml0bWFwIGVudW1lcmF0aW9uIG1ldGhvZAoKPT09IE9VVFBVVCBCRUdJTiA9PT0KRVJST1I6IE1p
+c3NpbmcgU2lnbmVkLW9mZi1ieTogbGluZShzKQoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdz
+LCAzOCBsaW5lcyBjaGVja2VkCgpDb21taXQgNmM0NWMzZmJkNDdkIChtaWdyYXRpb24vZGlydHkt
+Yml0bWFwczogY2hhbmdlIGJpdG1hcCBlbnVtZXJhdGlvbiBtZXRob2QpIGhhcyBzdHlsZSBwcm9i
+bGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBvZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBv
+c2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFpbnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4g
+TUFJTlRBSU5FUlMuCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBjb21tYW5kIGV4aXRlZCB3aXRo
+IGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9y
+Zy9sb2dzLzIwMTkwNDMwMjMxNTM2LjI1MzUzLTEtanNub3dAcmVkaGF0LmNvbS90ZXN0aW5nLmNo
+ZWNrcGF0Y2gvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5
+IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVk
+YmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+
 
