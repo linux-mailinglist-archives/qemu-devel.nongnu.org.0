@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A7F7EF2A
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 05:22:50 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38396 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1B04AEF46
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 05:49:38 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38599 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLJM0-00027t-O2
-	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 23:22:48 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51000)
+	id 1hLJlx-00072S-An
+	for lists+qemu-devel@lfdr.de; Mon, 29 Apr 2019 23:49:37 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54432)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <yangchuanlong@huawei.com>) id 1hLJL5-0001pB-85
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 23:21:52 -0400
+	(envelope-from <richardw.yang@linux.intel.com>) id 1hLJj7-0005Wx-5Q
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 23:46:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <yangchuanlong@huawei.com>) id 1hLJL4-0007iS-D4
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 23:21:51 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:42388 helo=huawei.com)
+	(envelope-from <richardw.yang@linux.intel.com>) id 1hLJj3-00033V-L8
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 23:46:39 -0400
+Received: from mga11.intel.com ([192.55.52.93]:47399)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <yangchuanlong@huawei.com>)
-	id 1hLJL4-0007eg-0u
-	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 23:21:50 -0400
-Received: from DGGEMS406-HUB.china.huawei.com (unknown [172.30.72.59])
-	by Forcepoint Email with ESMTP id BE80D3CC4C492BA067D2
-	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 11:16:12 +0800 (CST)
-Received: from localhost.huawei.com (10.143.28.114) by
-	DGGEMS406-HUB.china.huawei.com (10.3.19.206) with Microsoft SMTP Server
-	id 14.3.439.0; Tue, 30 Apr 2019 11:16:06 +0800
-From: Yang Chuanlong <yangchuanlong@huawei.com>
-To: <qemu-devel@nongnu.org>, <gengdongjiu@huawei.com>
-Date: Tue, 30 Apr 2019 11:12:38 +0800
-Message-ID: <20190430031238.40499-1-yangchuanlong@huawei.com>
-X-Mailer: git-send-email 2.21.0
+	(Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
+	id 1hLJj3-00030g-CZ
+	for qemu-devel@nongnu.org; Mon, 29 Apr 2019 23:46:37 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	29 Apr 2019 20:46:29 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.60,412,1549958400"; d="scan'208";a="169160274"
+Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
+	by fmsmga001.fm.intel.com with ESMTP; 29 Apr 2019 20:46:27 -0700
+From: Wei Yang <richardw.yang@linux.intel.com>
+To: qemu-devel@nongnu.org
+Date: Tue, 30 Apr 2019 11:44:09 +0800
+Message-Id: <20190430034412.12935-1-richardw.yang@linux.intel.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.143.28.114]
-X-CFilter-Loop: Reflected
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 45.249.212.32
-Subject: [Qemu-devel] [PATCH v1] target/arm/arm-powerctl: mask the cpuid
- with affinity bits when get cpu
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 192.55.52.93
+Subject: [Qemu-devel] [PATCH 0/3] Cleanup migration/ram.c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -52,39 +52,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: pbonzini@redhat.com, Wei Yang <richardw.yang@linux.intel.com>,
+	dgilbert@redhat.com, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently, the cpuid passed from the device tree may still contain
-non-affinity fields, which will cause arm_set_cpu_on failure.
-Therefore, we mask the cpuid with affinity fields here to
-improve qemu compatibility.
+The *start* of migration_bitmap_sync_range is always 0, we can remove this
+parameter.
 
-Signed-off-by: Yang Chuanlong <yangchuanlong@huawei.com>
----
- target/arm/arm-powerctl.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+Since RAMBlock->offset is always *word* aligned, we can remove the check on
+offset and simplify the logic a little.
 
-diff --git a/target/arm/arm-powerctl.c b/target/arm/arm-powerctl.c
-index f77a950db6..ef9fec0b4d 100644
---- a/target/arm/arm-powerctl.c
-+++ b/target/arm/arm-powerctl.c
-@@ -31,7 +31,13 @@ CPUState *arm_get_cpu_by_id(uint64_t id)
- {
-     CPUState *cpu;
-=20
--    DPRINTF("cpu %" PRId64 "\n", id);
-+#ifdef TARGET_AARCH64
-+    id &=3D ARM64_AFFINITY_MASK;
-+#else
-+    id &=3D ARM32_AFFINITY_MASK;
-+#endif
-+
-+    DPRINTF("cpu %" PRId64 " after mask affinity\n", id);
-=20
-     CPU_FOREACH(cpu) {
-         ARMCPU *armcpu =3D ARM_CPU(cpu);
---=20
-2.21.0
+Wei Yang (3):
+  migration/ram.c: start of migration_bitmap_sync_range is always 0
+  migration/ram.c: start of cpu_physical_memory_sync_dirty_bitmap is
+    always 0
+  ram: RAMBlock->offset is always aligned to a word
+
+ include/exec/ram_addr.h | 24 ++++++++++++------------
+ migration/ram.c         |  8 ++++----
+ 2 files changed, 16 insertions(+), 16 deletions(-)
+
+-- 
+2.19.1
 
 
