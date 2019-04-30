@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EDB7F147
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 09:29:29 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40534 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A1D7F15A
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 09:34:25 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40623 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLNCi-0000vh-DC
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 03:29:28 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55990)
+	id 1hLNHU-0005GV-5Y
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 03:34:24 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56053)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hLN1J-0008Gz-Iz
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 03:17:42 -0400
+	(envelope-from <thuth@redhat.com>) id 1hLN1U-0008Qo-8i
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 03:17:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hLN1I-0005D6-Kg
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 03:17:41 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49542)
+	(envelope-from <thuth@redhat.com>) id 1hLN1T-0005Fh-BD
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 03:17:52 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45092)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <thuth@redhat.com>)
-	id 1hLN1E-0005C3-Lf; Tue, 30 Apr 2019 03:17:36 -0400
+	id 1hLN1P-0005EM-69; Tue, 30 Apr 2019 03:17:47 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
 	[10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id B87BD859FB;
-	Tue, 30 Apr 2019 07:17:35 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 31C8330833A3;
+	Tue, 30 Apr 2019 07:17:46 +0000 (UTC)
 Received: from thuth.com (ovpn-116-190.ams2.redhat.com [10.36.116.190])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id A7EAF1001E85;
-	Tue, 30 Apr 2019 07:17:25 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 1CFC7100200A;
+	Tue, 30 Apr 2019 07:17:35 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: yang.zhong@intel.com, Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org, pbonzini@redhat.com
-Date: Tue, 30 Apr 2019 09:13:53 +0200
-Message-Id: <20190430071405.16714-19-thuth@redhat.com>
+Date: Tue, 30 Apr 2019 09:13:54 +0200
+Message-Id: <20190430071405.16714-20-thuth@redhat.com>
 In-Reply-To: <20190430071405.16714-1-thuth@redhat.com>
 References: <20190430071405.16714-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.26]);
-	Tue, 30 Apr 2019 07:17:36 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.44]);
+	Tue, 30 Apr 2019 07:17:46 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v6 18/30] hw/arm: Express dependencies of
- netduino / stm32f2xx with Kconfig
+Subject: [Qemu-devel] [PATCH v6 19/30] hw/arm: Express dependencies of
+ allwinner / cubieboard with Kconfig
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -75,74 +75,74 @@ Cc: "Michael S. Tsirkin" <mst@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Netduino only depends on the stm32f205 SoC which in turn depends on
-its components.
+Add dependencies for the Cubitech Cubieboard.
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- default-configs/arm-softmmu.mak | 9 +--------
- hw/arm/Kconfig                  | 7 +++++++
- 2 files changed, 8 insertions(+), 8 deletions(-)
+ default-configs/arm-softmmu.mak | 6 +-----
+ hw/arm/Kconfig                  | 9 +++++++++
+ 2 files changed, 10 insertions(+), 5 deletions(-)
 
 diff --git a/default-configs/arm-softmmu.mak b/default-configs/arm-softmm=
 u.mak
-index f440a2b1cd..c86a9f5427 100644
+index c86a9f5427..a0b9016e3a 100644
 --- a/default-configs/arm-softmmu.mak
 +++ b/default-configs/arm-softmmu.mak
-@@ -28,25 +28,18 @@ CONFIG_TOSA=3Dy
- CONFIG_Z2=3Dy
- CONFIG_COLLIE=3Dy
- CONFIG_ASPEED_SOC=3Dy
-+CONFIG_NETDUINO2=3Dy
+@@ -7,6 +7,7 @@ CONFIG_ARM_V7M=3Dy
+ # CONFIG_TEST_DEVICES=3Dn
+=20
+ CONFIG_ARM_VIRT=3Dy
++CONFIG_CUBIEBOARD=3Dy
+ CONFIG_EXYNOS4=3Dy
+ CONFIG_HIGHBANK=3Dy
+ CONFIG_INTEGRATOR=3Dy
+@@ -32,7 +33,6 @@ CONFIG_NETDUINO2=3Dy
 =20
  CONFIG_VGA=3Dy
  CONFIG_SSI_M25P80=3Dy
- CONFIG_ALLWINNER_EMAC=3Dy
+-CONFIG_ALLWINNER_EMAC=3Dy
  CONFIG_IMX_FEC=3Dy
 =20
--CONFIG_NETDUINO2=3Dy
--
  CONFIG_FRAMEBUFFER=3Dy
+@@ -60,10 +60,6 @@ CONFIG_IOTKIT_SYSINFO=3Dy
+ CONFIG_ARMSSE_CPUID=3Dy
+ CONFIG_ARMSSE_MHU=3Dy
 =20
- CONFIG_DIGIC=3Dy
- CONFIG_MPS2=3Dy
- CONFIG_RASPI=3Dy
--CONFIG_STM32F2XX_TIMER=3Dy
--CONFIG_STM32F2XX_USART=3Dy
--CONFIG_STM32F2XX_SYSCFG=3Dy
--CONFIG_STM32F2XX_ADC=3Dy
--CONFIG_STM32F2XX_SPI=3Dy
--CONFIG_STM32F205_SOC=3Dy
- CONFIG_NRF51_SOC=3Dy
-=20
- CONFIG_CMSDK_APB_TIMER=3Dy
+-CONFIG_ALLWINNER_A10_PIT=3Dy
+-CONFIG_ALLWINNER_A10_PIC=3Dy
+-CONFIG_ALLWINNER_A10=3Dy
+-
+ CONFIG_FSL_IMX6=3Dy
+ CONFIG_FSL_IMX25=3Dy
+ CONFIG_FSL_IMX7=3Dy
 diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index 2b63adb667..25ba109773 100644
+index 25ba109773..0e89383f50 100644
 --- a/hw/arm/Kconfig
 +++ b/hw/arm/Kconfig
-@@ -81,6 +81,7 @@ config MUSICPAL
+@@ -25,6 +25,10 @@ config CHEETAH
+     select OMAP
+     select TSC210X
 =20
- config NETDUINO2
++config CUBIEBOARD
++    bool
++    select ALLWINNER_A10
++
+ config DIGIC
      bool
-+    select STM32F205_SOC
+     select PTIMER
+@@ -246,6 +250,11 @@ config ARM_V7M
 =20
- config NSERIES
+ config ALLWINNER_A10
      bool
-@@ -251,6 +252,12 @@ config RASPI
++    select AHCI
++    select ALLWINNER_A10_PIT
++    select ALLWINNER_A10_PIC
++    select ALLWINNER_EMAC
++    select SERIAL
 =20
- config STM32F205_SOC
-     bool
-+    select ARM_V7M
-+    select STM32F2XX_TIMER
-+    select STM32F2XX_USART
-+    select STM32F2XX_SYSCFG
-+    select STM32F2XX_ADC
-+    select STM32F2XX_SPI
-=20
- config XLNX_ZYNQMP_ARM
+ config RASPI
      bool
 --=20
 2.21.0
