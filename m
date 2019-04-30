@@ -2,84 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 924C4FD23
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 17:45:40 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48784 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B413FFD60
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 18:01:51 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49088 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLUwt-0000Zf-6Y
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 11:45:39 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47616)
+	id 1hLVCY-0005f2-RG
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 12:01:50 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48743)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <eblake@redhat.com>) id 1hLUuF-0007OG-3n
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 11:42:56 -0400
+	(envelope-from <kwolf@redhat.com>) id 1hLUuq-00081c-Hi
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 11:43:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <eblake@redhat.com>) id 1hLUsd-0000ac-Ss
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 11:41:17 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45398)
+	(envelope-from <kwolf@redhat.com>) id 1hLUun-00024S-VC
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 11:43:32 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41588)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <eblake@redhat.com>)
-	id 1hLUsa-0000Y3-6x; Tue, 30 Apr 2019 11:41:13 -0400
+	(Exim 4.71) (envelope-from <kwolf@redhat.com>)
+	id 1hLUuA-0001XH-Tl; Tue, 30 Apr 2019 11:42:51 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
 	[10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 104CC308621B;
-	Tue, 30 Apr 2019 15:41:09 +0000 (UTC)
-Received: from [10.3.116.15] (ovpn-116-15.phx2.redhat.com [10.3.116.15])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id A811217146;
-	Tue, 30 Apr 2019 15:41:03 +0000 (UTC)
-To: Kevin Wolf <kwolf@redhat.com>,
-	Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-References: <20190423125706.26989-1-vsementsov@virtuozzo.com>
-	<20190423125706.26989-3-vsementsov@virtuozzo.com>
-	<20190430092437.jbecehdkqa4zdavd@steredhat>
-	<4dabb261-f2d1-b6e0-8d97-ace159b87a54@virtuozzo.com>
-	<20190430110918.GF5607@linux.fritz.box>
-From: Eric Blake <eblake@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
-	xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
-	xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
-	TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
-	GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
-	sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
-	AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
-	CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
-	RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
-	wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
-	Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
-	gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
-	pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
-	zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
-	pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
-	3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
-	NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
-	cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
-	SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
-	I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
-	mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
-	Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
-	2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <2c8b3197-316d-7215-9284-6f1e986a0803@redhat.com>
-Date: Tue, 30 Apr 2019 10:41:02 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	by mx1.redhat.com (Postfix) with ESMTPS id 2BCD730ADBAF;
+	Tue, 30 Apr 2019 15:42:50 +0000 (UTC)
+Received: from linux.fritz.box.com (unknown [10.36.118.15])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 432704C7;
+	Tue, 30 Apr 2019 15:42:49 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Date: Tue, 30 Apr 2019 17:42:17 +0200
+Message-Id: <20190430154244.30083-1-kwolf@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190430110918.GF5607@linux.fritz.box>
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature";
-	boundary="JuRnLRaEtvMUin9Yb1nXuzMmsqDlRSMmV"
+Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.42]);
-	Tue, 30 Apr 2019 15:41:09 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.47]);
+	Tue, 30 Apr 2019 15:42:50 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PATCH v5 2/3] block/io: bdrv_pdiscard: support
- int64_t bytes parameter
+Subject: [Qemu-devel] [PULL 00/27] Block layer patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -91,101 +54,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "fam@euphon.net" <fam@euphon.net>, Denis Lunev <den@virtuozzo.com>,
-	"qemu-block@nongnu.org" <qemu-block@nongnu.org>,
-	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
-	"mreitz@redhat.com" <mreitz@redhat.com>,
-	"stefanha@redhat.com" <stefanha@redhat.com>,
-	Stefano Garzarella <sgarzare@redhat.com>
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---JuRnLRaEtvMUin9Yb1nXuzMmsqDlRSMmV
-From: Eric Blake <eblake@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>,
- Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Cc: "fam@euphon.net" <fam@euphon.net>, Denis Lunev <den@virtuozzo.com>,
- "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
- "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
- "mreitz@redhat.com" <mreitz@redhat.com>,
- "stefanha@redhat.com" <stefanha@redhat.com>,
- Stefano Garzarella <sgarzare@redhat.com>
-Message-ID: <2c8b3197-316d-7215-9284-6f1e986a0803@redhat.com>
-Subject: Re: [Qemu-devel] [PATCH v5 2/3] block/io: bdrv_pdiscard: support
- int64_t bytes parameter
-References: <20190423125706.26989-1-vsementsov@virtuozzo.com>
- <20190423125706.26989-3-vsementsov@virtuozzo.com>
- <20190430092437.jbecehdkqa4zdavd@steredhat>
- <4dabb261-f2d1-b6e0-8d97-ace159b87a54@virtuozzo.com>
- <20190430110918.GF5607@linux.fritz.box>
-In-Reply-To: <20190430110918.GF5607@linux.fritz.box>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+The following changes since commit 22d96eac64877c4d96f9928babb6f2fcc68faa=
+cf:
 
-On 4/30/19 6:09 AM, Kevin Wolf wrote:
-> Am 30.04.2019 um 12:03 hat Vladimir Sementsov-Ogievskiy geschrieben:
->> 30.04.2019 12:24, Stefano Garzarella wrote:
->>> On Tue, Apr 23, 2019 at 03:57:05PM +0300, Vladimir Sementsov-Ogievski=
-y wrote:
->>>> This fixes at least one overflow in qcow2_process_discards, which
->>>> passes 64bit region length to bdrv_pdiscard where bytes (or sectors =
-in
->>>> the past) parameter is int since its introduction in 0b919fae.
->>>>
->>>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.co=
-m>
+  Merge remote-tracking branch 'remotes/stefanha/tags/tracing-pull-reques=
+t' into staging (2019-04-29 19:11:15 +0100)
 
->>>> -    if (!bs || !bs->drv) {
->>>> +    if (!bs || !bs->drv || !bdrv_is_inserted(bs)) {
->>>
->>> Should we describe this change in the commit message?
->>
->> Honestly, don't want to resend the series for this.
->=20
-> I haven't reviewed the patches yet, but if this remains the only thing
-> to change, it can be updated while applying the series if we have a
-> specific proposal for a new commit message.
+are available in the Git repository at:
 
-How about:
+  git://repo.or.cz/qemu/kevin.git tags/for-upstream
 
-This fixes at least one overflow in qcow2_process_discards, which was
-inadvertently truncating a 64-bit region length to the bdrv_pdiscard
-'int bytes' parameter (previously bdrv_discard's 'int sectors') since
-its introduction in 0b919fae.
+for you to fetch changes up to 54277a2aab876aba7b55c7e88e2b372691849741:
 
-By inlining the remaining portions of bdrv_check_byte_request() that are
-still independent from the code previously validating a 32-bit request,
-we can drop the call to that function. A request larger than 31 bits (or
-the driver's max discard limit, if specified) is still split into
-smaller chunks by the block layer before reaching the driver.
+  block/qed: add missed coroutine_fn markers (2019-04-30 15:29:00 +0200)
 
+----------------------------------------------------------------
+Block layer patches:
 
-At any rate, you can add:
-Reviewed-by: Eric Blake <eblake@redhat.com>
+- iotests: Fix output of qemu-io related tests
+- Don't ignore bdrv_set_aio_context() for nodes with bs->drv =3D NUL
+- vmdk: Set vmdk parent backing_format to vmdk
+- qcow2: Preallocation fixes (especially for external data files)
+- Add linear-buffer-based APIs (as wrappers around qiov-based ones)
+- Various code cleanups and small corner case fixes
 
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+----------------------------------------------------------------
+Alberto Garcia (3):
+      qcow2: Fix error handling in the compression code
+      commit: Make base read-only if there is an early failure
+      iotests: Check that images are in read-only mode after block-commit
 
+Eric Blake (2):
+      cutils: Fix size_to_str() on 32-bit platforms
+      qemu-img: Saner printing of large file sizes
 
---JuRnLRaEtvMUin9Yb1nXuzMmsqDlRSMmV
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+Kevin Wolf (5):
+      block: Fix AioContext switch for bs->drv =3D=3D NULL
+      qcow2: Avoid COW during metadata preallocation
+      qcow2: Add errp to preallocate_co()
+      qcow2: Fix full preallocation with external data file
+      qcow2: Fix qcow2_make_empty() with external data file
 
------BEGIN PGP SIGNATURE-----
+Max Reitz (2):
+      iotests: Perform the correct test in 082
+      qemu-img: Make create hint at protocol options
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlzIbI4ACgkQp6FrSiUn
-Q2r6sQf/XXjTsk75VmfCuh6wISaLexIoCpqItTSPix5QnEOWUFtPpv8leJh/tGit
-jgNDeiJBisePVvR1UK5MFP8nSy2Chrqe/IuvQfaRBpeLC7YLpEtS9YiHc5FuyIXa
-ka2u9cTtPhd3e2/t+LUQlCU7qhawVHzBXXJFfCDTX40xCJC8OUAUqRArAG/8bwaw
-cxADZs/pGmEf4KcxbcblYEs+3n7MwABk3hEuQrA/pwffnB/fueV+nkfffgoc60he
-XhvKAYU/wVlAM7dJkvmL2C4fepxc0hond0u+rEyhqhrBZtVuwj/WKontgnPd58N8
-J6Kx4vrTj96eF3W5egY1IG1Y39667A==
-=MmpC
------END PGP SIGNATURE-----
+Sam Eiderman (1):
+      vmdk: Set vmdk parent backing_format to vmdk
 
---JuRnLRaEtvMUin9Yb1nXuzMmsqDlRSMmV--
+Stefano Garzarella (2):
+      block/vhdx: Remove redundant IEC binary prefixes definition
+      block/vhdx: Use IEC binary prefixes for size constants
+
+Thomas Huth (1):
+      tests/qemu-iotests: Fix output of qemu-io related tests
+
+Vladimir Sementsov-Ogievskiy (10):
+      block: introduce byte-based io helpers
+      block/qcow2: use buffer-based io
+      block/qcow: use buffer-based io
+      block/qed: use buffer-based io
+      block/parallels: use buffer-based io
+      block/backup: use buffer-based io
+      block/commit: use buffer-based io
+      block/stream: use buffer-based io
+      qemu-img: use buffer-based io
+      block/qed: add missed coroutine_fn markers
+
+Zhengui li (1):
+      vpc: unlock Coroutine lock to make IO submit Concurrently
+
+ block/qed.h                    |  28 ++++---
+ block/vhdx.h                   |  16 ++--
+ include/block/block_int.h      |  16 ++++
+ include/sysemu/block-backend.h |  19 +++++
+ block.c                        |  12 +--
+ block/backup.c                 |  14 ++--
+ block/commit.c                 |   8 +-
+ block/parallels.c              |  14 ++--
+ block/qapi.c                   |  49 +++---------
+ block/qcow.c                   |  19 ++---
+ block/qcow2.c                  |  80 ++++++++++----------
+ block/qed-check.c              |   4 +-
+ block/qed-table.c              |  45 ++++++-----
+ block/qed.c                    |  11 ++-
+ block/stream.c                 |   4 +-
+ block/vhdx-log.c               |   2 +-
+ block/vhdx.c                   |   7 +-
+ block/vmdk.c                   |   2 +
+ block/vpc.c                    |   4 +
+ qemu-img.c                     |  26 ++++---
+ util/cutils.c                  |   2 +-
+ tests/qemu-iotests/026.out     | 168 ++++++++++++++++++++---------------=
+------
+ tests/qemu-iotests/043.out     |   6 +-
+ tests/qemu-iotests/053.out     |   2 +-
+ tests/qemu-iotests/059.out     |  10 +--
+ tests/qemu-iotests/060.out     |  16 ++--
+ tests/qemu-iotests/061.out     |  12 +--
+ tests/qemu-iotests/069.out     |   2 +-
+ tests/qemu-iotests/070.out     |   4 +-
+ tests/qemu-iotests/075.out     |  14 ++--
+ tests/qemu-iotests/076.out     |   6 +-
+ tests/qemu-iotests/078.out     |  12 +--
+ tests/qemu-iotests/080.out     |  40 +++++-----
+ tests/qemu-iotests/081.out     |   2 +-
+ tests/qemu-iotests/082         |   5 +-
+ tests/qemu-iotests/082.out     |  51 ++++++++-----
+ tests/qemu-iotests/084.out     |   8 +-
+ tests/qemu-iotests/088.out     |  12 +--
+ tests/qemu-iotests/089.out     |   2 +-
+ tests/qemu-iotests/095.out     |   4 +-
+ tests/qemu-iotests/103.out     |  14 ++--
+ tests/qemu-iotests/104.out     |   6 +-
+ tests/qemu-iotests/110.out     |   6 +-
+ tests/qemu-iotests/114.out     |   4 +-
+ tests/qemu-iotests/116.out     |  14 ++--
+ tests/qemu-iotests/126.out     |   4 +-
+ tests/qemu-iotests/130.out     |  10 +--
+ tests/qemu-iotests/131.out     |   2 +-
+ tests/qemu-iotests/133.out     |  30 ++++----
+ tests/qemu-iotests/137.out     |  28 +++----
+ tests/qemu-iotests/140.out     |   2 +-
+ tests/qemu-iotests/143.out     |   2 +-
+ tests/qemu-iotests/153.out     |  32 ++++----
+ tests/qemu-iotests/187.out     |   6 +-
+ tests/qemu-iotests/188.out     |   2 +-
+ tests/qemu-iotests/191.out     |   8 +-
+ tests/qemu-iotests/195.out     |   4 +-
+ tests/qemu-iotests/197.out     |   2 +-
+ tests/qemu-iotests/198.out     |   4 +-
+ tests/qemu-iotests/205         |   2 +-
+ tests/qemu-iotests/206.out     |  10 +--
+ tests/qemu-iotests/207.out     |  12 +--
+ tests/qemu-iotests/210.out     |   8 +-
+ tests/qemu-iotests/211.out     |  10 +--
+ tests/qemu-iotests/212.out     |  10 +--
+ tests/qemu-iotests/213.out     |  10 +--
+ tests/qemu-iotests/215.out     |   2 +-
+ tests/qemu-iotests/226.out     |  16 ++--
+ tests/qemu-iotests/233.out     |   4 +-
+ tests/qemu-iotests/237.out     |  22 +++---
+ tests/qemu-iotests/242.out     |  10 +--
+ tests/qemu-iotests/244.out     |  10 +--
+ tests/qemu-iotests/249         | 115 ++++++++++++++++++++++++++++
+ tests/qemu-iotests/249.out     |  35 +++++++++
+ tests/qemu-iotests/group       |   1 +
+ 75 files changed, 696 insertions(+), 519 deletions(-)
+ create mode 100755 tests/qemu-iotests/249
+ create mode 100644 tests/qemu-iotests/249.out
 
