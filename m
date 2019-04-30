@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D00D6F423
-	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 12:23:34 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:42660 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6860FF42C
+	for <lists+qemu-devel@lfdr.de>; Tue, 30 Apr 2019 12:26:12 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:42717 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLPvC-0005aZ-0E
-	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 06:23:34 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35785)
+	id 1hLPxj-0007tt-Hu
+	for lists+qemu-devel@lfdr.de; Tue, 30 Apr 2019 06:26:11 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35806)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hLPsa-0003xP-5h
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 06:20:53 -0400
+	(envelope-from <bounces@canonical.com>) id 1hLPsc-000424-Lo
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 06:20:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hLPsY-0004Kv-Gg
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 06:20:52 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36080)
+	(envelope-from <bounces@canonical.com>) id 1hLPsa-0004P5-W6
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 06:20:54 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36292)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hLPsY-0004Ie-B5
-	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 06:20:50 -0400
+	id 1hLPsa-0004Lm-QD
+	for qemu-devel@nongnu.org; Tue, 30 Apr 2019 06:20:52 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
 	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hLPsV-0004aQ-Cy
-	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 10:20:47 +0000
+	id 1hLPsX-0004d3-SH
+	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 10:20:50 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id 6930A2E80DB
-	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 10:20:46 +0000 (UTC)
+	by loganberry.canonical.com (Postfix) with ESMTP id 3486A2E8084
+	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 10:20:49 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 30 Apr 2019 10:06:48 -0000
+Date: Tue, 30 Apr 2019 10:07:20 -0000
 From: Dan Streetman <dan.streetman@canonical.com>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -69,13 +69,13 @@ X-Launchpad-Bug-Commenters: corey.bryant ddstreet racb
 X-Launchpad-Bug-Reporter: Dan Streetman (ddstreet)
 X-Launchpad-Bug-Modifier: Dan Streetman (ddstreet)
 References: <155455149397.14414.11595397789908732027.malonedeb@gac.canonical.com>
-Message-Id: <155661880889.13732.16526170464213050506.malone@wampee.canonical.com>
+Message-Id: <155661884013.13347.3873270028303854986.malone@wampee.canonical.com>
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="18928";
 	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 965305fe1fb03ff38d0c97a1749b2ada077a6a14
+X-Launchpad-Hash: 54524ccf7906e35440c5613fdbd3db56e23ebc5a
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 Subject: [Qemu-devel] [Bug 1823458] Re: race condition between
@@ -94,8 +94,13 @@ Reply-To: Bug 1823458 <1823458@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This has been verified by the original reporter to fix the problem of
-qemu crashing.
+clarification: by "original reporter" I mean the customer of Canonical,
+reporting the problem to us.
+
+** Tags removed: verification-mitaka-needed verification-needed verificatio=
+n-needed-xenial verification-ocata-needed
+** Tags added: verification-done verification-done-xenial verification-mita=
+ka-done verification-ocata-done
 
 -- =
 
