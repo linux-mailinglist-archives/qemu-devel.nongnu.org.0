@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A9AE10515
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 May 2019 07:11:18 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36284 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EEBB1053A
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 May 2019 07:26:33 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36528 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLhWX-0001Zf-LN
-	for lists+qemu-devel@lfdr.de; Wed, 01 May 2019 01:11:17 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38380)
+	id 1hLhlI-0006mG-CJ
+	for lists+qemu-devel@lfdr.de; Wed, 01 May 2019 01:26:32 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38397)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hLhRZ-0006YK-BT
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 01:06:12 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hLhRb-0006aU-R8
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 01:06:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hLhRV-0002ws-SE
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 01:06:09 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:39578)
+	(envelope-from <richard.henderson@linaro.org>) id 1hLhRX-0002xK-2A
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 01:06:11 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:43619)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hLhRV-0002vy-JS
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 01:06:05 -0400
-Received: by mail-pf1-x442.google.com with SMTP id z26so4260165pfg.6
-	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 22:06:04 -0700 (PDT)
+	id 1hLhRV-0002wQ-VL
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 01:06:06 -0400
+Received: by mail-pg1-x542.google.com with SMTP id t22so4854158pgi.10
+	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 22:06:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=Abtf7ymAcKqk+MfIJ4hNEtC4LePCgm1dY3zGf9JwmC8=;
-	b=YGWQ3kPcRbB0RlOCGvzsguHvm5L1Q6I/PbfATDCENzuNEaUczoe7Tua1aWllbOFd2c
-	9AywBqLFeOaxhppcyULRKbkiODOe3md/sjG8GJd3q6N3/uQp7CnABqGK+9c0wNEONuft
-	bCGbJrP/HDw5w6N+Z/xnjeS72F1GDbKZ5LXgEI4tThm1QEGwNlJIPJKQ9ZtHntRrsN++
-	zwM0jI8rOfSxzecY4xjz7b2GrJlju9VuB5INIpmf5ceBKZCCZG1Zs8vi+NsOMsZtlyl1
-	t0pOV7MBa0UG9VRML9rdoqdJX31SVkO/zQ0/0Y2r/8mN1VsiLlWSLas0IeKgQ7SQBFA7
-	A4Lw==
+	bh=OYW3j0AHRDjiM+2I81b0K/4Pb/2jwavlNMFJ+AYuqcM=;
+	b=XmpDLnakOSblIbl9NAhd/EGXqC/UVryOyy0IKN1hVVHuzSdO6RQy/wPfKjtX6ueyvV
+	Pj1MNVo0lUZPolos1P5a68QUDqL4V5M/3d9aE9y/sz879p1Hgz5kmnq22BAv0+tdUw7O
+	Ps4XrC8uA0Cwmu0ZA6bH0CSLogmx/tAfIMcB1tiqWbgNnzFHaJvZgSYUytZQF9aoYUXZ
+	oYE4SZg+hi3WUawkyLsW7TpMcsvGRtRGnfN+J7Wcf9ZF9VG2lrzrW4WBJAd1dPzN1/7f
+	BaDecNx1mFGx/c3bErF3BR1L0AgiJVNMp+WevMyAuu6c9HlO85flQ6OpszykchsDsIPQ
+	3rGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=Abtf7ymAcKqk+MfIJ4hNEtC4LePCgm1dY3zGf9JwmC8=;
-	b=ZISXSmxmDC+W6fglYyCpDGzfB5gUbeS9duLFc8zO5skPkNd/30F/5XSAo5yevtCRxs
-	S1k7kLyczPBO30IWwhHdhc4DIYuQymp+cF1K1t0MuK6+jaL8XZNYhW55wan/LEAH4Uxd
-	dvX0wgqAcuPpFBGUsx6ngmXIqcws4waI31uI/KQLjZqTxnqHtTBDE8zMmVEeuAsS7xXh
-	Ur8DfY9KegXLjFj4+WD+vLETDdHg1LpD25T1tZSfL57sa3wxloaBwGRDrTnt2VDM0ofy
-	TiFhCLeILvzC8VFy2UbZOv69iU+bpbUqy2DUjAao552Cay0NonC5OOCg0obLAEa0KIqt
-	2fZg==
-X-Gm-Message-State: APjAAAWutN3KokLUNAw5WBIdA+ULTfNbswz64If7Gm4yBKYVymCK8YJm
-	NtbtakdJO4+CECt/cLh685mtIwbwEGw=
-X-Google-Smtp-Source: APXvYqxYcF5spCGVOiOnVo4+i0WlHUwROXVDF0FZ6IXx6v/n4Kya21U/sKWREJw7NAS1wqMS2CftUg==
-X-Received: by 2002:a63:6804:: with SMTP id d4mr72200013pgc.240.1556687163380; 
-	Tue, 30 Apr 2019 22:06:03 -0700 (PDT)
+	bh=OYW3j0AHRDjiM+2I81b0K/4Pb/2jwavlNMFJ+AYuqcM=;
+	b=gDCFtPTrR9Ae+vIqNnjCU03Y5/j9fok0OwbGQ0hC0IH7ATvOOFnpan50oQV0p73oui
+	ro+4TgeQjOf6G+4HNRavNgtE/kwyws42TmTb6MEcX6gW79VYo2AzzxJEci+GIaJd5V0+
+	NAJrUfESDuXENxDQf/2O9gWy+YkKExL7QSeeFG00FzSTyLCEJx7GZSj8oYqaojpb8Imz
+	E7KG8PDXwbaPGbKh4lWukLvFQexcOY3H1u3n2/hRoHLH8ZrlaK1LSQiW3CS2dE9mcX6c
+	Zj4/yz6JtdvM1qIjq8F4z0vql9DhkbpxZcHlSbab1VyuNQklspOSkliapKFPQKWnkKQM
+	jJbg==
+X-Gm-Message-State: APjAAAVji4aVgoxqc93KVdqzfo7cm8kmfu5Gt+p4Ov1tZSUS/R0Kv0s7
+	BOiKasyyUKmsG3ebu4thNlaaBVpyiyo=
+X-Google-Smtp-Source: APXvYqwfND1MfqLuRy31T9mxgaWUruexfKpjkqyVKbXP/U8OacqkG3cEH1eYJ3zSSzLaZgrYibxeIQ==
+X-Received: by 2002:a63:e003:: with SMTP id e3mr40871702pgh.0.1556687164723;
+	Tue, 30 Apr 2019 22:06:04 -0700 (PDT)
 Received: from localhost.localdomain (97-113-189-189.tukw.qwest.net.
 	[97.113.189.189]) by smtp.gmail.com with ESMTPSA id
-	t127sm9687251pfb.106.2019.04.30.22.06.02 for <qemu-devel@nongnu.org>
+	t127sm9687251pfb.106.2019.04.30.22.06.03 for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 30 Apr 2019 22:06:02 -0700 (PDT)
+	Tue, 30 Apr 2019 22:06:04 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue, 30 Apr 2019 22:05:23 -0700
-Message-Id: <20190501050536.15580-17-richard.henderson@linaro.org>
+Date: Tue, 30 Apr 2019 22:05:24 -0700
+Message-Id: <20190501050536.15580-18-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190501050536.15580-1-richard.henderson@linaro.org>
 References: <20190501050536.15580-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::442
-Subject: [Qemu-devel] [PATCH v2 16/29] tcg/aarch64: Support vector variable
- shift opcodes
+X-Received-From: 2607:f8b0:4864:20::542
+Subject: [Qemu-devel] [PATCH v2 17/29] tcg: Add gvec expanders for vector
+ shift by scalar
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -81,122 +81,322 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/aarch64/tcg-target.h     |  2 +-
- tcg/aarch64/tcg-target.opc.h |  2 ++
- tcg/aarch64/tcg-target.inc.c | 42 ++++++++++++++++++++++++++++++++++++
- 3 files changed, 45 insertions(+), 1 deletion(-)
+ tcg/tcg-op-gvec.h |   7 ++
+ tcg/tcg-op.h      |   4 +
+ tcg/tcg-op-gvec.c | 204 ++++++++++++++++++++++++++++++++++++++++++++++
+ tcg/tcg-op-vec.c  |  54 ++++++++++++
+ 4 files changed, 269 insertions(+)
 
-diff --git a/tcg/aarch64/tcg-target.h b/tcg/aarch64/tcg-target.h
-index ce2bb1f90b..f5640a229b 100644
---- a/tcg/aarch64/tcg-target.h
-+++ b/tcg/aarch64/tcg-target.h
-@@ -134,7 +134,7 @@ typedef enum {
- #define TCG_TARGET_HAS_neg_vec          1
- #define TCG_TARGET_HAS_shi_vec          1
- #define TCG_TARGET_HAS_shs_vec          0
--#define TCG_TARGET_HAS_shv_vec          0
-+#define TCG_TARGET_HAS_shv_vec          1
- #define TCG_TARGET_HAS_cmp_vec          1
- #define TCG_TARGET_HAS_mul_vec          1
- #define TCG_TARGET_HAS_sat_vec          1
-diff --git a/tcg/aarch64/tcg-target.opc.h b/tcg/aarch64/tcg-target.opc.h
-index 4816a6c3d4..59e1d3f7f7 100644
---- a/tcg/aarch64/tcg-target.opc.h
-+++ b/tcg/aarch64/tcg-target.opc.h
-@@ -1,3 +1,5 @@
- /* Target-specific opcodes for host vector expansion.  These will be
-    emitted by tcg_expand_vec_op.  For those familiar with GCC internals,
-    consider these to be UNSPEC with names.  */
-+
-+DEF(aa64_sshl_vec, 1, 2, 0, IMPLVEC)
-diff --git a/tcg/aarch64/tcg-target.inc.c b/tcg/aarch64/tcg-target.inc.c
-index 16381f5175..61c2dbbff2 100644
---- a/tcg/aarch64/tcg-target.inc.c
-+++ b/tcg/aarch64/tcg-target.inc.c
-@@ -538,12 +538,14 @@ typedef enum {
-     I3616_CMEQ      = 0x2e208c00,
-     I3616_SMAX      = 0x0e206400,
-     I3616_SMIN      = 0x0e206c00,
-+    I3616_SSHL      = 0x0e204400,
-     I3616_SQADD     = 0x0e200c00,
-     I3616_SQSUB     = 0x0e202c00,
-     I3616_UMAX      = 0x2e206400,
-     I3616_UMIN      = 0x2e206c00,
-     I3616_UQADD     = 0x2e200c00,
-     I3616_UQSUB     = 0x2e202c00,
-+    I3616_USHL      = 0x2e204400,
+diff --git a/tcg/tcg-op-gvec.h b/tcg/tcg-op-gvec.h
+index 84a6247b16..6ee98f3378 100644
+--- a/tcg/tcg-op-gvec.h
++++ b/tcg/tcg-op-gvec.h
+@@ -318,6 +318,13 @@ void tcg_gen_gvec_shri(unsigned vece, uint32_t dofs, uint32_t aofs,
+ void tcg_gen_gvec_sari(unsigned vece, uint32_t dofs, uint32_t aofs,
+                        int64_t shift, uint32_t oprsz, uint32_t maxsz);
  
-     /* AdvSIMD two-reg misc.  */
-     I3617_CMGT0     = 0x0e208800,
-@@ -2258,6 +2260,12 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
-     case INDEX_op_sari_vec:
-         tcg_out_insn(s, 3614, SSHR, is_q, a0, a1, (16 << vece) - a2);
-         break;
-+    case INDEX_op_shlv_vec:
-+        tcg_out_insn(s, 3616, USHL, is_q, vece, a0, a1, a2);
-+        break;
-+    case INDEX_op_aa64_sshl_vec:
-+        tcg_out_insn(s, 3616, SSHL, is_q, vece, a0, a1, a2);
-+        break;
-     case INDEX_op_cmp_vec:
-         {
-             TCGCond cond = args[3];
-@@ -2325,7 +2333,11 @@ int tcg_can_emit_vec_op(TCGOpcode opc, TCGType type, unsigned vece)
-     case INDEX_op_smin_vec:
-     case INDEX_op_umax_vec:
-     case INDEX_op_umin_vec:
-+    case INDEX_op_shlv_vec:
-         return 1;
-+    case INDEX_op_shrv_vec:
-+    case INDEX_op_sarv_vec:
-+        return -1;
-     case INDEX_op_mul_vec:
-         return vece < MO_64;
++void tcg_gen_gvec_shls(unsigned vece, uint32_t dofs, uint32_t aofs,
++                       TCGv_i32 shift, uint32_t oprsz, uint32_t maxsz);
++void tcg_gen_gvec_shrs(unsigned vece, uint32_t dofs, uint32_t aofs,
++                       TCGv_i32 shift, uint32_t oprsz, uint32_t maxsz);
++void tcg_gen_gvec_sars(unsigned vece, uint32_t dofs, uint32_t aofs,
++                       TCGv_i32 shift, uint32_t oprsz, uint32_t maxsz);
++
+ /*
+  * Perform vector shift by vector element, modulo the element size.
+  * E.g.  D[i] = A[i] << (B[i] % (8 << vece)).
+diff --git a/tcg/tcg-op.h b/tcg/tcg-op.h
+index 833c6330b5..472b73cb38 100644
+--- a/tcg/tcg-op.h
++++ b/tcg/tcg-op.h
+@@ -986,6 +986,10 @@ void tcg_gen_shli_vec(unsigned vece, TCGv_vec r, TCGv_vec a, int64_t i);
+ void tcg_gen_shri_vec(unsigned vece, TCGv_vec r, TCGv_vec a, int64_t i);
+ void tcg_gen_sari_vec(unsigned vece, TCGv_vec r, TCGv_vec a, int64_t i);
  
-@@ -2337,6 +2349,32 @@ int tcg_can_emit_vec_op(TCGOpcode opc, TCGType type, unsigned vece)
- void tcg_expand_vec_op(TCGOpcode opc, TCGType type, unsigned vece,
-                        TCGArg a0, ...)
- {
-+    va_list va;
-+    TCGv_vec v0, v1, v2, t1;
++void tcg_gen_shls_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_i32 s);
++void tcg_gen_shrs_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_i32 s);
++void tcg_gen_sars_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_i32 s);
 +
-+    va_start(va, a0);
-+    v0 = temp_tcgv_vec(arg_temp(a0));
-+    v1 = temp_tcgv_vec(arg_temp(va_arg(va, TCGArg)));
-+    v2 = temp_tcgv_vec(arg_temp(va_arg(va, TCGArg)));
-+
-+    switch (opc) {
-+    case INDEX_op_shrv_vec:
-+    case INDEX_op_sarv_vec:
-+        /* Right shifts are negative left shifts for AArch64.  */
-+        t1 = tcg_temp_new_vec(type);
-+        tcg_gen_neg_vec(vece, t1, v2);
-+        opc = (opc == INDEX_op_shrv_vec
-+               ? INDEX_op_shlv_vec : INDEX_op_aa64_sshl_vec);
-+        vec_gen_3(opc, type, vece, tcgv_vec_arg(v0),
-+                  tcgv_vec_arg(v1), tcgv_vec_arg(t1));
-+        tcg_temp_free_vec(t1);
-+        break;
-+
-+    default:
-+        g_assert_not_reached();
-+    }
-+
-+    va_end(va);
+ void tcg_gen_shlv_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec s);
+ void tcg_gen_shrv_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec s);
+ void tcg_gen_sarv_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec s);
+diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c
+index 061ef329f1..8fc5ba042b 100644
+--- a/tcg/tcg-op-gvec.c
++++ b/tcg/tcg-op-gvec.c
+@@ -2555,6 +2555,210 @@ void tcg_gen_gvec_sari(unsigned vece, uint32_t dofs, uint32_t aofs,
+     }
  }
  
- static const TCGTargetOpDef *tcg_target_op_def(TCGOpcode op)
-@@ -2518,6 +2556,10 @@ static const TCGTargetOpDef *tcg_target_op_def(TCGOpcode op)
-     case INDEX_op_smin_vec:
-     case INDEX_op_umax_vec:
-     case INDEX_op_umin_vec:
-+    case INDEX_op_shlv_vec:
-+    case INDEX_op_shrv_vec:
-+    case INDEX_op_sarv_vec:
-+    case INDEX_op_aa64_sshl_vec:
-         return &w_w_w;
-     case INDEX_op_not_vec:
-     case INDEX_op_neg_vec:
++/*
++ * Specialized generation vector shifts by a non-constant scalar.
++ */
++
++static void expand_2sh_vec(unsigned vece, uint32_t dofs, uint32_t aofs,
++                           uint32_t oprsz, uint32_t tysz, TCGType type,
++                           TCGv_i32 shift,
++                           void (*fni)(unsigned, TCGv_vec, TCGv_vec, TCGv_i32))
++{
++    TCGv_vec t0 = tcg_temp_new_vec(type);
++    uint32_t i;
++
++    for (i = 0; i < oprsz; i += tysz) {
++        tcg_gen_ld_vec(t0, cpu_env, aofs + i);
++        fni(vece, t0, t0, shift);
++        tcg_gen_st_vec(t0, cpu_env, dofs + i);
++    }
++    tcg_temp_free_vec(t0);
++}
++
++static void
++do_gvec_shifts(unsigned vece, uint32_t dofs, uint32_t aofs,
++               TCGv_i32 shift, uint32_t oprsz, uint32_t maxsz,
++               void (*fni4)(TCGv_i32, TCGv_i32, TCGv_i32),
++               void (*fni8)(TCGv_i64, TCGv_i64, TCGv_i64),
++               void (*fniv_s)(unsigned, TCGv_vec, TCGv_vec, TCGv_i32),
++               void (*fniv_v)(unsigned, TCGv_vec, TCGv_vec, TCGv_vec),
++               gen_helper_gvec_2 *fno,
++               const TCGOpcode *s_list, const TCGOpcode *v_list)
++{
++    TCGType type;
++    uint32_t some;
++
++    check_size_align(oprsz, maxsz, dofs | aofs);
++    check_overlap_2(dofs, aofs, maxsz);
++
++    /* If the backend has a scalar expansion, great.  */
++    type = choose_vector_type(s_list, vece, oprsz, vece == MO_64);
++    if (type) {
++        const TCGOpcode *hold_list = tcg_swap_vecop_list(NULL);
++        switch (type) {
++        case TCG_TYPE_V256:
++            some = QEMU_ALIGN_DOWN(oprsz, 32);
++            expand_2sh_vec(vece, dofs, aofs, some, 32,
++                           TCG_TYPE_V256, shift, fniv_s);
++            if (some == oprsz) {
++                break;
++            }
++            dofs += some;
++            aofs += some;
++            oprsz -= some;
++            maxsz -= some;
++            /* fallthru */
++        case TCG_TYPE_V128:
++            expand_2sh_vec(vece, dofs, aofs, oprsz, 16,
++                           TCG_TYPE_V128, shift, fniv_s);
++            break;
++        case TCG_TYPE_V64:
++            expand_2sh_vec(vece, dofs, aofs, oprsz, 8,
++                           TCG_TYPE_V64, shift, fniv_s);
++            break;
++        default:
++            g_assert_not_reached();
++        }
++        tcg_swap_vecop_list(hold_list);
++        goto clear_tail;
++    }
++
++    /* If the backend supports variable vector shifts, also cool.  */
++    type = choose_vector_type(v_list, vece, oprsz, vece == MO_64);
++    if (type) {
++        const TCGOpcode *hold_list = tcg_swap_vecop_list(NULL);
++        TCGv_vec v_shift = tcg_temp_new_vec(type);
++
++        if (vece == MO_64) {
++            TCGv_i64 sh64 = tcg_temp_new_i64();
++            tcg_gen_extu_i32_i64(sh64, shift);
++            tcg_gen_dup_i64_vec(MO_64, v_shift, sh64);
++            tcg_temp_free_i64(sh64);
++        } else {
++            tcg_gen_dup_i32_vec(vece, v_shift, shift);
++        }
++
++        switch (type) {
++        case TCG_TYPE_V256:
++            some = QEMU_ALIGN_DOWN(oprsz, 32);
++            expand_2s_vec(vece, dofs, aofs, some, 32, TCG_TYPE_V256,
++                          v_shift, false, fniv_v);
++            if (some == oprsz) {
++                break;
++            }
++            dofs += some;
++            aofs += some;
++            oprsz -= some;
++            maxsz -= some;
++            /* fallthru */
++        case TCG_TYPE_V128:
++            expand_2s_vec(vece, dofs, aofs, oprsz, 16, TCG_TYPE_V128,
++                          v_shift, false, fniv_v);
++            break;
++        case TCG_TYPE_V64:
++            expand_2s_vec(vece, dofs, aofs, oprsz, 8, TCG_TYPE_V64,
++                          v_shift, false, fniv_v);
++            break;
++        default:
++            g_assert_not_reached();
++        }
++        tcg_temp_free_vec(v_shift);
++        tcg_swap_vecop_list(hold_list);
++        goto clear_tail;
++    }
++
++    /* Otherwise fall back to integral... */
++    if (fni4 && check_size_impl(oprsz, 4)) {
++        expand_2s_i32(dofs, aofs, oprsz, shift, false, fni4);
++    } else if (fni8 && check_size_impl(oprsz, 8)) {
++        TCGv_i64 sh64 = tcg_temp_new_i64();
++        tcg_gen_extu_i32_i64(sh64, shift);
++        expand_2s_i64(dofs, aofs, oprsz, sh64, false, fni8);
++        tcg_temp_free_i64(sh64);
++    } else {
++        TCGv_ptr a0 = tcg_temp_new_ptr();
++        TCGv_ptr a1 = tcg_temp_new_ptr();
++        TCGv_i32 desc = tcg_temp_new_i32();
++
++        tcg_gen_shli_i32(desc, shift, SIMD_DATA_SHIFT);
++        tcg_gen_ori_i32(desc, desc, simd_desc(oprsz, maxsz, 0));
++        tcg_gen_addi_ptr(a0, cpu_env, dofs);
++        tcg_gen_addi_ptr(a1, cpu_env, aofs);
++
++        fno(a0, a1, desc);
++
++        tcg_temp_free_ptr(a0);
++        tcg_temp_free_ptr(a1);
++        tcg_temp_free_i32(desc);
++        return;
++    }
++
++ clear_tail:
++    if (oprsz < maxsz) {
++        expand_clr(dofs + oprsz, maxsz - oprsz);
++    }
++}
++
++void tcg_gen_gvec_shls(unsigned vece, uint32_t dofs, uint32_t aofs,
++                       TCGv_i32 shift, uint32_t oprsz, uint32_t maxsz)
++{
++    static const TCGOpcode scalar_list[] = { INDEX_op_shls_vec, 0 };
++    static const TCGOpcode vector_list[] = { INDEX_op_shlv_vec, 0 };
++    static gen_helper_gvec_2 * const fno[4] = {
++        gen_helper_gvec_shl8i,
++        gen_helper_gvec_shl16i,
++        gen_helper_gvec_shl32i,
++        gen_helper_gvec_shl64i,
++    };
++
++    tcg_debug_assert(vece <= MO_64);
++    do_gvec_shifts(vece, dofs, aofs, shift, oprsz, maxsz,
++                   vece == MO_32 ? tcg_gen_shl_i32 : NULL,
++                   vece == MO_64 ? tcg_gen_shl_i64 : NULL,
++                   tcg_gen_shls_vec, tcg_gen_shlv_vec, fno[vece],
++                   scalar_list, vector_list);
++}
++
++void tcg_gen_gvec_shrs(unsigned vece, uint32_t dofs, uint32_t aofs,
++                       TCGv_i32 shift, uint32_t oprsz, uint32_t maxsz)
++{
++    static const TCGOpcode scalar_list[] = { INDEX_op_shrs_vec, 0 };
++    static const TCGOpcode vector_list[] = { INDEX_op_shrv_vec, 0 };
++    static gen_helper_gvec_2 * const fno[4] = {
++        gen_helper_gvec_shr8i,
++        gen_helper_gvec_shr16i,
++        gen_helper_gvec_shr32i,
++        gen_helper_gvec_shr64i,
++    };
++
++    tcg_debug_assert(vece <= MO_64);
++    do_gvec_shifts(vece, dofs, aofs, shift, oprsz, maxsz,
++                   vece == MO_32 ? tcg_gen_shr_i32 : NULL,
++                   vece == MO_64 ? tcg_gen_shr_i64 : NULL,
++                   tcg_gen_shrs_vec, tcg_gen_shrv_vec, fno[vece],
++                   scalar_list, vector_list);
++}
++
++void tcg_gen_gvec_sars(unsigned vece, uint32_t dofs, uint32_t aofs,
++                       TCGv_i32 shift, uint32_t oprsz, uint32_t maxsz)
++{
++    static const TCGOpcode scalar_list[] = { INDEX_op_sars_vec, 0 };
++    static const TCGOpcode vector_list[] = { INDEX_op_sarv_vec, 0 };
++    static gen_helper_gvec_2 * const fno[4] = {
++        gen_helper_gvec_sar8i,
++        gen_helper_gvec_sar16i,
++        gen_helper_gvec_sar32i,
++        gen_helper_gvec_sar64i,
++    };
++
++    tcg_debug_assert(vece <= MO_64);
++    do_gvec_shifts(vece, dofs, aofs, shift, oprsz, maxsz,
++                   vece == MO_32 ? tcg_gen_sar_i32 : NULL,
++                   vece == MO_64 ? tcg_gen_sar_i64 : NULL,
++                   tcg_gen_sars_vec, tcg_gen_sarv_vec, fno[vece],
++                   scalar_list, vector_list);
++}
++
+ /*
+  * Expand D = A << (B % element bits)
+  *
+diff --git a/tcg/tcg-op-vec.c b/tcg/tcg-op-vec.c
+index 96317dbd10..16062f5995 100644
+--- a/tcg/tcg-op-vec.c
++++ b/tcg/tcg-op-vec.c
+@@ -598,3 +598,57 @@ void tcg_gen_sarv_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b)
+ {
+     do_op3(vece, r, a, b, INDEX_op_sarv_vec);
+ }
++
++static void do_shifts(unsigned vece, TCGv_vec r, TCGv_vec a,
++                      TCGv_i32 s, TCGOpcode opc_s, TCGOpcode opc_v)
++{
++    TCGTemp *rt = tcgv_vec_temp(r);
++    TCGTemp *at = tcgv_vec_temp(a);
++    TCGTemp *st = tcgv_i32_temp(s);
++    TCGArg ri = temp_arg(rt);
++    TCGArg ai = temp_arg(at);
++    TCGArg si = temp_arg(st);
++    TCGType type = rt->base_type;
++    const TCGOpcode *hold_list;
++    int can;
++
++    tcg_debug_assert(at->base_type >= type);
++    tcg_assert_listed_vecop(opc_s);
++    hold_list = tcg_swap_vecop_list(NULL);
++
++    can = tcg_can_emit_vec_op(opc_s, type, vece);
++    if (can > 0) {
++        vec_gen_3(opc_s, type, vece, ri, ai, si);
++    } else if (can < 0) {
++        tcg_expand_vec_op(opc_s, type, vece, ri, ai, si);
++    } else {
++        TCGv_vec vec_s = tcg_temp_new_vec(type);
++
++        if (vece == MO_64) {
++            TCGv_i64 s64 = tcg_temp_new_i64();
++            tcg_gen_extu_i32_i64(s64, s);
++            tcg_gen_dup_i64_vec(MO_64, vec_s, s64);
++            tcg_temp_free_i64(s64);
++        } else {
++            tcg_gen_dup_i32_vec(vece, vec_s, s);
++        }
++        do_op3(vece, r, a, vec_s, opc_v);
++        tcg_temp_free_vec(vec_s);
++    }
++    tcg_swap_vecop_list(hold_list);
++}
++
++void tcg_gen_shls_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_i32 b)
++{
++    do_shifts(vece, r, a, b, INDEX_op_shls_vec, INDEX_op_shlv_vec);
++}
++
++void tcg_gen_shrs_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_i32 b)
++{
++    do_shifts(vece, r, a, b, INDEX_op_shrs_vec, INDEX_op_shrv_vec);
++}
++
++void tcg_gen_sars_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_i32 b)
++{
++    do_shifts(vece, r, a, b, INDEX_op_sars_vec, INDEX_op_sarv_vec);
++}
 -- 
 2.17.1
 
