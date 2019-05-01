@@ -2,44 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 614E110CA4
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 May 2019 20:19:44 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38050 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 88EA910CA1
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 May 2019 20:18:00 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38031 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLtpX-0001yL-JC
-	for lists+qemu-devel@lfdr.de; Wed, 01 May 2019 14:19:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45598)
+	id 1hLtnr-0000kn-NL
+	for lists+qemu-devel@lfdr.de; Wed, 01 May 2019 14:17:59 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45584)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <berto@igalia.com>) id 1hLtkb-0007N2-RO
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 14:14:39 -0400
+	(envelope-from <berto@igalia.com>) id 1hLtkb-0007Ml-AW
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 14:14:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <berto@igalia.com>) id 1hLtka-0002bN-0P
+	(envelope-from <berto@igalia.com>) id 1hLtka-0002bh-Ck
 	for qemu-devel@nongnu.org; Wed, 01 May 2019 14:14:37 -0400
-Received: from fanzine.igalia.com ([91.117.99.155]:38855)
+Received: from fanzine.igalia.com ([91.117.99.155]:38852)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <berto@igalia.com>)
-	id 1hLtkZ-0002RF-F0; Wed, 01 May 2019 14:14:35 -0400
+	id 1hLtka-0002RE-4C; Wed, 01 May 2019 14:14:36 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Message-Id:Date:Subject:Cc:To:From;
-	bh=VpAjM62bTp4qH7PxA2I0vH56bsFYsGYttjkSE3mbP8M=; 
-	b=gSOVxN6blVerRfnd1BfkZpO1rEe2IvxQIbBUX13K8RX/pu84aL2JJTrrFi3FT6O9bG/UFbzmA7haqtrBzxugSuS9HhqMEg44HthXMWwjmhsHCAU9SZ6D5oc/RuPco+o3PYiGHbjHwamXyofpc9YsVw5KMeC3BRwR/xkIUJuM79jNKXpkkg7dytuuB7IhvjxrpBfXBnvJPG4Q6JCAvtR3VJweuzIYu+gGJcNL3/KsO4sMaYSPpFxYQVpxMgvA6Wm3YGZeDtCIkcb996M50QXMapLfEWZ9/pAbETO3H7K4ePVgauT4Awv07Udk0SZCIza1TXV8ToQic4xipxDYj2tDbw==;
+	s=20170329; 
+	h=References:In-Reply-To:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
+	bh=ewSLV48hoUTk5bwPLhqgyOC8xegkUkvaV7q8eMrrfkw=; 
+	b=jDMNJsKfyYI6pJtOR6g8pKqw5XSuI0UCjNmoWzOwHXrG+PO1BziowF3lgR+bsbCNL7+ZSmaZ1i/6+wSqco8Vy+4g81+RLrE2M2rOI2Fn1oAEK+oxF89VCfOPteoMcZ970M1TnFGcRxamSvIDRkI+n+WqUSY/G8KhvO3PgoRSaUwK43WO9hZLq5ZZzwzKQj4byxlAbx59DEst/TnFAnb68Gepkd+6I3eGkA8YSOU0uHXeSBPjw0lh0fOyfDz1Yn5OdDQ+cE/bPlQxnbhpB2US9c1EA8XNyE6HhR55hvMoplpMWFPbwQF07zg5okHpUW7SydIYWLDh5C50D4ocw/Vofw==;
 Received: from 87-92-6-174.bb.dnainternet.fi ([87.92.6.174] helo=perseus.local)
 	by fanzine.igalia.com with esmtpsa 
 	(Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
-	id 1hLtkH-0002E9-7Q; Wed, 01 May 2019 20:14:17 +0200
+	id 1hLtkH-0002EC-7J; Wed, 01 May 2019 20:14:17 +0200
 Received: from berto by perseus.local with local (Exim 4.89)
 	(envelope-from <berto@igalia.com>)
-	id 1hLtk2-0002yH-HC; Wed, 01 May 2019 21:14:02 +0300
+	id 1hLtk2-0002yJ-IP; Wed, 01 May 2019 21:14:02 +0300
 From: Alberto Garcia <berto@igalia.com>
 To: qemu-devel@nongnu.org
-Date: Wed,  1 May 2019 21:13:54 +0300
-Message-Id: <cover.1556732434.git.berto@igalia.com>
+Date: Wed,  1 May 2019 21:13:55 +0300
+Message-Id: <09c6ad4af497136c11291257ee8bf10608e2b86e.1556732434.git.berto@igalia.com>
 X-Mailer: git-send-email 2.11.0
+In-Reply-To: <cover.1556732434.git.berto@igalia.com>
+References: <cover.1556732434.git.berto@igalia.com>
+In-Reply-To: <cover.1556732434.git.berto@igalia.com>
+References: <cover.1556732434.git.berto@igalia.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
 	timestamps) [generic] [fuzzy]
 X-Received-From: 91.117.99.155
-Subject: [Qemu-devel] [PATCH v2 0/5] Remove bdrv_read() and bdrv_write()
+Subject: [Qemu-devel] [PATCH v2 1/5] qcow2: Replace bdrv_write() with
+ bdrv_pwrite()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -56,54 +62,29 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+There's only one bdrv_write() call left in the qcow2 code, and it can
+be trivially replaced with the byte-based bdrv_pwrite().
 
-this API only had a few users left so it can be easily removed.
+Signed-off-by: Alberto Garcia <berto@igalia.com>
+---
+ block/qcow2-refcount.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Regards,
-
-Berto
-
-v2:
-- Patch 2: Add QEMU_BUILD_BUG_ON(sizeof(VdiHeader) != 512) [Kevin]
-           Correct size parameter in bdrv_pwrite() call [Kevin]
-           Return 0 on success, never a positive number [Kevin]
-- Patch 3: Check that the return values of bdrv_pread()/bdrv_pwrite()
-           are strictly < 0 for errors, not simply != 0 [Kevin]
-- Patch 4: Reuse the documenation of bdrv_write() for bdrv_pwrite()
-
-v1: https://lists.gnu.org/archive/html/qemu-block/2019-04/msg00832.html
-
-Output of git backport-diff against v1:
-
-Key:
-[----] : patches are identical
-[####] : number of functional differences between upstream/downstream patch
-[down] : patch is downstream-only
-The flags [FC] indicate (F)unctional and (C)ontextual differences, respectively
-
-001/5:[----] [--] 'qcow2: Replace bdrv_write() with bdrv_pwrite()'
-002/5:[0006] [FC] 'vdi: Replace bdrv_{read,write}() with bdrv_{pread,pwrite}()'
-003/5:[0004] [FC] 'vvfat: Replace bdrv_{read,write}() with bdrv_{pread,pwrite}()'
-004/5:[0007] [FC] 'block: Remove bdrv_read() and bdrv_write()'
-005/5:[----] [--] 'qcow2: Remove BDRVQcow2State.cluster_sectors'
-
-Alberto Garcia (5):
-  qcow2: Replace bdrv_write() with bdrv_pwrite()
-  vdi: Replace bdrv_{read,write}() with bdrv_{pread,pwrite}()
-  vvfat: Replace bdrv_{read,write}() with bdrv_{pread,pwrite}()
-  block: Remove bdrv_read() and bdrv_write()
-  qcow2: Remove BDRVQcow2State.cluster_sectors
-
- block/io.c             | 43 +++++++------------------------------------
- block/qcow2-refcount.c |  4 ++--
- block/qcow2.c          |  1 -
- block/qcow2.h          |  1 -
- block/vdi.c            | 15 +++++++++------
- block/vvfat.c          | 12 +++++++-----
- include/block/block.h  |  4 ----
- 7 files changed, 25 insertions(+), 55 deletions(-)
-
+diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
+index e0fe322500..83f66eed7a 100644
+--- a/block/qcow2-refcount.c
++++ b/block/qcow2-refcount.c
+@@ -2409,8 +2409,8 @@ write_refblocks:
+         on_disk_refblock = (void *)((char *) *refcount_table +
+                                     refblock_index * s->cluster_size);
+ 
+-        ret = bdrv_write(bs->file, refblock_offset / BDRV_SECTOR_SIZE,
+-                         on_disk_refblock, s->cluster_sectors);
++        ret = bdrv_pwrite(bs->file, refblock_offset, on_disk_refblock,
++                          s->cluster_size);
+         if (ret < 0) {
+             fprintf(stderr, "ERROR writing refblock: %s\n", strerror(-ret));
+             goto fail;
 -- 
 2.11.0
 
