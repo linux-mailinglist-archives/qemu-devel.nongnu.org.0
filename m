@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 779781052F
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 May 2019 07:23:10 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36451 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DE771053C
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 May 2019 07:29:00 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36653 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLhi1-0003Hk-Er
-	for lists+qemu-devel@lfdr.de; Wed, 01 May 2019 01:23:09 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38523)
+	id 1hLhnf-0000FE-D8
+	for lists+qemu-devel@lfdr.de; Wed, 01 May 2019 01:28:59 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38530)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hLhRm-0006lZ-7f
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 01:06:25 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hLhRn-0006mf-5N
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 01:06:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hLhRj-00035Y-6M
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 01:06:22 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:39580)
+	(envelope-from <richard.henderson@linaro.org>) id 1hLhRk-00036B-4k
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 01:06:23 -0400
+Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:39747)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hLhRj-00034Q-1K
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 01:06:19 -0400
-Received: by mail-pf1-x442.google.com with SMTP id z26so4260388pfg.6
-	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 22:06:18 -0700 (PDT)
+	id 1hLhRj-00035g-Uv
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 01:06:20 -0400
+Received: by mail-pl1-x62a.google.com with SMTP id e92so7750733plb.6
+	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 22:06:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=dHRZSoCZAzfR/lJhx25t08WJnqWrvEbTqWzKUdTUjVE=;
-	b=oQ4UOnvRZLHrm8iHTtPm7Ft6kkLTLZgR0AJ9rA5wNI93ZiF53CaCj77qYMobiBZwAw
-	uZuCMOc10I7JRzb+N+ufYpwZ5WXm5ZIFRvXmgOwgwsxxm6FShFTV4qg073MQEtU6wniP
-	bsOks//5vC3N8kopoa+tGBhxu9o9z95HmBGy0SVoldredlQ7sjnbBom5qTGkTqy19hdB
-	yamE7G41r2iv2aXefpsjHQ7/7iPqa8ETfnVAPtiguoLx+qW2GUI/R0vLgUBrnlBRBtR1
-	zg3PipVJk5JibeoCVY9HUe7Tl8R+V5B/wxxPbNhRAC4oh2CNDLqMyKdvyqLG7CHaKoBQ
-	/pZw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=a21zCVCqlzAtHHyCClfYkOw1IN8eWmtRYOfzkfNSAPM=;
+	b=lI+ZCsSCRXehjcQIaioXtGb36Bh1J7W4lYamcvkF6MGQM0OCr4osxnh4lQ6zoj22Mr
+	LMuq8PUhEJD0nTjBd30SvLPhV8fcS2nqPZfkdkDCxtLYJdUk5vl+kua/PjIpTsvR7mX5
+	wPERvQ+V3FKVXHo9vSLNiBPLWPHYguF8HCIhiY3J9iuZQm5SF+rh5bWuJBkpVQNu6Avt
+	OvfveOpBJdMnXFO5Tk59FXnttk3upPNSDhsnGb/HDk3PIDZXoeGMbFL4iZs8V/fSVHpa
+	fDtT/VV9SIpsolsIUYL660lFtsgCvV1qAAYKyip1M82f8LL+cgIr6srnSy8PUsvke+Kl
+	cplw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=dHRZSoCZAzfR/lJhx25t08WJnqWrvEbTqWzKUdTUjVE=;
-	b=ewgqPCqPgRV10ckZPBln0HIiL8nbUBuMeuX8KYryDlU5ula1oCws/jW2S4R6kxNKxw
-	hb29dt0ubRR1jEy2M6SLDaHal3ounhWHQae57GNg72UOg0Z+gaf2CDHixkywmnL6Ve6y
-	hlBQ4ba8U2hxN7jQVaDYAPt/zH4YM4oEJQ6F8YYPRThPrp1AjQtfxpfdnl4kKuPn/AQS
-	qaX3AtIZDXyP58YdlXFzNDb394DGVfjptPtzcqX5YgNnEpNHyPQOzFuEZ1rnil/jGwP9
-	ZEa3qOg5A+nHJ9So+x6WVFZSLVZ3jV+4QQutUPDI4knK+Si5AK5hDxmxa0Q8bpo9Mv40
-	R79g==
-X-Gm-Message-State: APjAAAWrImi47cold7aHLEiS8+mXepolnmEWi3I2F6YZbbDcH7OVlHat
-	yZHKqYxUk1SWezBNPvpiSqiDGrx8Ehw=
-X-Google-Smtp-Source: APXvYqwN4eaiHOVjjSQGCwsTND8StAoY6DoiG+sj8/UOyGuKzxmHNCxGXi2BqFHwqNGcI+GvKExvBA==
-X-Received: by 2002:a62:d205:: with SMTP id c5mr18822438pfg.219.1556687177435; 
-	Tue, 30 Apr 2019 22:06:17 -0700 (PDT)
+	:references:mime-version:content-transfer-encoding;
+	bh=a21zCVCqlzAtHHyCClfYkOw1IN8eWmtRYOfzkfNSAPM=;
+	b=TCjCbPBwUN1Kt5oL6bzC9jxR56IwCy1yhEKlJv/Mzuvmqj6NaGjzxhq3OItYbsffln
+	IGrwCzFsfUp4EaX0xdzyMznlyu3uVO3SUhiMN2J/m8wx59f+ibbdfW6hYm3W3e4WN1iK
+	EtUmUz8zvMG1eA8HTULvNibTRsSlXJHKC+d9avcgeGDpyTsIagsBt4x8ZNUS5yg6E52/
+	pb2blgsnLa62TcXkFaN4ozWibHCqhTK0isDV40eMSz5+hFz/5NGm9lkfuuF/YEHj9Sym
+	rIo65/Vyg75l7l0ETnAftwnXp+Hhv/STmfEF8tzSGkdyi3wzmnnS50/6ywvhv25YFPM4
+	Ut8A==
+X-Gm-Message-State: APjAAAWDWDcF4EfBKZezTqFo8C6V1Ji6L0fJOrpNJdTx8sdZEFFRHYo3
+	G4aHY9lGVP+Azy5CyJWTvUhT00HPDKo=
+X-Google-Smtp-Source: APXvYqx3WaUuggUf+F6oaQZBXkez2un7kbYBIjQO+j0XT5ACXZFn71J/5HizbkHMeNEGj10IEwcHqw==
+X-Received: by 2002:a17:902:4101:: with SMTP id
+	e1mr77183560pld.25.1556687178692; 
+	Tue, 30 Apr 2019 22:06:18 -0700 (PDT)
 Received: from localhost.localdomain (97-113-189-189.tukw.qwest.net.
 	[97.113.189.189]) by smtp.gmail.com with ESMTPSA id
-	t127sm9687251pfb.106.2019.04.30.22.06.16
+	t127sm9687251pfb.106.2019.04.30.22.06.17
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 30 Apr 2019 22:06:16 -0700 (PDT)
+	Tue, 30 Apr 2019 22:06:17 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue, 30 Apr 2019 22:05:34 -0700
-Message-Id: <20190501050536.15580-28-richard.henderson@linaro.org>
+Date: Tue, 30 Apr 2019 22:05:35 -0700
+Message-Id: <20190501050536.15580-29-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190501050536.15580-1-richard.henderson@linaro.org>
 References: <20190501050536.15580-1-richard.henderson@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::442
-Subject: [Qemu-devel] [PATCH v2 27/29] target/s390x: Use tcg_gen_abs_i64
+X-Received-From: 2607:f8b0:4864:20::62a
+Subject: [Qemu-devel] [PATCH v2 28/29] target/tricore: Use tcg_gen_abs_tl
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -75,35 +80,79 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Hildenbrand <david@redhat.com>
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc: David Hildenbrand <david@redhat.com>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
+
+Reviewed-by: Bastian Koppelmann<kbastian@mail.uni-paderborn.de>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Message-Id: <20190423102145.14812-3-f4bug@amsat.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/s390x/translate.c | 8 +-------
- 1 file changed, 1 insertion(+), 7 deletions(-)
+ target/tricore/translate.c | 27 +++++----------------------
+ 1 file changed, 5 insertions(+), 22 deletions(-)
 
-diff --git a/target/s390x/translate.c b/target/s390x/translate.c
-index d4951836ad..e8e8a79b7d 100644
---- a/target/s390x/translate.c
-+++ b/target/s390x/translate.c
-@@ -1407,13 +1407,7 @@ static DisasJumpType help_branch(DisasContext *s, DisasCompare *c,
+diff --git a/target/tricore/translate.c b/target/tricore/translate.c
+index 8f6416144e..06c4485e55 100644
+--- a/target/tricore/translate.c
++++ b/target/tricore/translate.c
+@@ -2415,11 +2415,7 @@ gen_msubadr32s_h(TCGv ret, TCGv r1, TCGv r2, TCGv r3, uint32_t n, uint32_t mode)
  
- static DisasJumpType op_abs(DisasContext *s, DisasOps *o)
+ static inline void gen_abs(TCGv ret, TCGv r1)
  {
--    TCGv_i64 z, n;
--    z = tcg_const_i64(0);
--    n = tcg_temp_new_i64();
--    tcg_gen_neg_i64(n, o->in2);
--    tcg_gen_movcond_i64(TCG_COND_LT, o->out, o->in2, z, n, o->in2);
--    tcg_temp_free_i64(n);
--    tcg_temp_free_i64(z);
-+    tcg_gen_abs_i64(o->out, o->in2);
-     return DISAS_NEXT;
+-    TCGv temp = tcg_temp_new();
+-    TCGv t0 = tcg_const_i32(0);
+-
+-    tcg_gen_neg_tl(temp, r1);
+-    tcg_gen_movcond_tl(TCG_COND_GE, ret, r1, t0, r1, temp);
++    tcg_gen_abs_tl(ret, r1);
+     /* overflow can only happen, if r1 = 0x80000000 */
+     tcg_gen_setcondi_tl(TCG_COND_EQ, cpu_PSW_V, r1, 0x80000000);
+     tcg_gen_shli_tl(cpu_PSW_V, cpu_PSW_V, 31);
+@@ -2430,9 +2426,6 @@ static inline void gen_abs(TCGv ret, TCGv r1)
+     tcg_gen_xor_tl(cpu_PSW_AV, ret, cpu_PSW_AV);
+     /* calc SAV bit */
+     tcg_gen_or_tl(cpu_PSW_SAV, cpu_PSW_SAV, cpu_PSW_AV);
+-
+-    tcg_temp_free(temp);
+-    tcg_temp_free(t0);
  }
  
+ static inline void gen_absdif(TCGv ret, TCGv r1, TCGv r2)
+@@ -6617,13 +6610,8 @@ static void decode_rr_divide(CPUTriCoreState *env, DisasContext *ctx)
+         tcg_gen_movi_tl(cpu_PSW_AV, 0);
+         if (!tricore_feature(env, TRICORE_FEATURE_131)) {
+             /* overflow = (abs(D[r3+1]) >= abs(D[r2])) */
+-            tcg_gen_neg_tl(temp, temp3);
+-            /* use cpu_PSW_AV to compare against 0 */
+-            tcg_gen_movcond_tl(TCG_COND_LT, temp, temp3, cpu_PSW_AV,
+-                               temp, temp3);
+-            tcg_gen_neg_tl(temp2, cpu_gpr_d[r2]);
+-            tcg_gen_movcond_tl(TCG_COND_LT, temp2, cpu_gpr_d[r2], cpu_PSW_AV,
+-                               temp2, cpu_gpr_d[r2]);
++            tcg_gen_abs_tl(temp, temp3);
++            tcg_gen_abs_tl(temp2, cpu_gpr_d[r2]);
+             tcg_gen_setcond_tl(TCG_COND_GE, cpu_PSW_V, temp, temp2);
+         } else {
+             /* overflow = (D[b] == 0) */
+@@ -6655,13 +6643,8 @@ static void decode_rr_divide(CPUTriCoreState *env, DisasContext *ctx)
+         tcg_gen_movi_tl(cpu_PSW_AV, 0);
+         if (!tricore_feature(env, TRICORE_FEATURE_131)) {
+             /* overflow = (abs(D[r3+1]) >= abs(D[r2])) */
+-            tcg_gen_neg_tl(temp, temp3);
+-            /* use cpu_PSW_AV to compare against 0 */
+-            tcg_gen_movcond_tl(TCG_COND_LT, temp, temp3, cpu_PSW_AV,
+-                               temp, temp3);
+-            tcg_gen_neg_tl(temp2, cpu_gpr_d[r2]);
+-            tcg_gen_movcond_tl(TCG_COND_LT, temp2, cpu_gpr_d[r2], cpu_PSW_AV,
+-                               temp2, cpu_gpr_d[r2]);
++            tcg_gen_abs_tl(temp, temp3);
++            tcg_gen_abs_tl(temp2, cpu_gpr_d[r2]);
+             tcg_gen_setcond_tl(TCG_COND_GE, cpu_PSW_V, temp, temp2);
+         } else {
+             /* overflow = (D[b] == 0) */
 -- 
 2.17.1
 
