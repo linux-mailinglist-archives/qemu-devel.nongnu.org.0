@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7843D10BF6
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 May 2019 19:23:30 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:37393 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41EB210BF4
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 May 2019 19:23:24 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37391 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLsx7-00038f-LS
-	for lists+qemu-devel@lfdr.de; Wed, 01 May 2019 13:23:29 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34416)
+	id 1hLsx0-000362-TA
+	for lists+qemu-devel@lfdr.de; Wed, 01 May 2019 13:23:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34391)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <palmer@sifive.com>) id 1hLsvP-0002XU-Cv
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 13:21:46 -0400
+	(envelope-from <palmer@sifive.com>) id 1hLsvL-0002WW-MN
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 13:21:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <palmer@sifive.com>) id 1hLsvL-00054B-MX
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 13:21:42 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:36235)
+	(envelope-from <palmer@sifive.com>) id 1hLsvJ-00050Q-OC
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 13:21:39 -0400
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:38358)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <palmer@sifive.com>) id 1hLsvJ-0004ox-NI
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 13:21:38 -0400
-Received: by mail-pf1-x442.google.com with SMTP id v80so4298110pfa.3
-	for <qemu-devel@nongnu.org>; Wed, 01 May 2019 10:21:32 -0700 (PDT)
+	(Exim 4.71) (envelope-from <palmer@sifive.com>) id 1hLsvH-0004sV-8u
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 13:21:37 -0400
+Received: by mail-pl1-x641.google.com with SMTP id a59so1093091pla.5
+	for <qemu-devel@nongnu.org>; Wed, 01 May 2019 10:21:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
 	h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
 	:content-transfer-encoding;
-	bh=VEK6fPbStjVr3d8WdWqHY6GUEzrTGGhJzYswDHuTK/o=;
-	b=QMGXypMHXjkMUyRSdwZPgqx6Cx5BdiFV7yPWrFYGtotQiVkQ272hgCy7rM2I/uqLJ8
-	ZyliiQD1CdjCzJ4OGLA6oL5s4EWE+ghyaH8TInipxTRSOC3Ge3TGGr75HPCpXfbLcnFc
-	GfiDrfdUdhoLF9CamhFx67e9GOaLAv2ORN6hHfssqOsJOry+Uq2YrfTIuMzRZHSj78Rj
-	fh1aKCOkZIPUAL/HEnewRwSUb1CcRiFGO1dYtLi1YoMp1S21DojF+A88Y6ibh5WEEuZa
-	fQsbxpaVVkdSuAHkGz4gfYEsYsmoh2IObPz55kbI5Ejqhgxd7mo0fXoYPN/TfVqar1qc
-	G5gA==
+	bh=awUbgiBwCOuo5v2kLAF55+iiqa/t6gk717cmEDo7Rek=;
+	b=SYISy6pf43QjNYvygg6ngkS5aNZ8yh9CchAcOaha7n+OdMeY6+7XS+/2r7mov9LGnb
+	XL7qMhTHHfrSowtLSDl6OXvXGVKLacOfhfsWZ2f5TD5uyb+X3p2muSvkILbtPidguVnZ
+	lFzrRpL+NcON3uSNZIW6YwdaumOyA56P/kH/dYhY/9C22J7CGush439m4eC0xsdfiUAB
+	jxk3DR433p2YqlHqWQnIbrQbCDCkD1H4N6lhm6o7jqQUAHdbZyN6HCc4Or4qLXhQ9e7V
+	lnCof2a3ZBLRCanYRgK/wXRDNJH8oEXXelaBUgO+2Ds5Hf/+Iujy5+RuFDPyl26T5XPh
+	gc6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
 	:mime-version:content-transfer-encoding;
-	bh=VEK6fPbStjVr3d8WdWqHY6GUEzrTGGhJzYswDHuTK/o=;
-	b=R3lA+qa74751bpLtE0/varVzmQjLkXPkl+nzPozT6AcuRPGWJ62aNTFYKK1SCcJN8t
-	0esXRXcHA4nqR9/BhA/LKnJxNsarB+WjLpEXOHASwwJNz3aSb3Ho9gGhcy9cE7M7TUss
-	pn5E9xhmJsSQ/3+rsIH3uwW/H6+QGRT0+h9PpukN6QKI6o2HMYkS3RYLgcJfixe25tbD
-	Ou/59dCxHAnQoJa2tI0aHqXVP8Op4Pwm7bf0wfCeU84/aLQH0CB/4WNwnFDG9psWTrCP
-	T/hwZZQlQv698TxvxSz5BxFnwVAZlMmJLe/TBG+3P2DrCM3IKdPuKnxLk2+ZjZrp2v/N
-	hdww==
-X-Gm-Message-State: APjAAAU1A97eY+IKg5ri7dOGDtqy/67a9C1tUn830mN3dP57/al2rHCe
-	mt8evNmoZO8IhXKBvoBqBtSqxdxU8qgKpQ==
-X-Google-Smtp-Source: APXvYqzKuil9Gjy/z+zgQsNkf22G+Zk4j1CFXqTspB133czFz0R18OqGCrmiCNnGt3Vh0XORWW0dUA==
-X-Received: by 2002:a62:2fc1:: with SMTP id
-	v184mr47411520pfv.258.1556731290602; 
-	Wed, 01 May 2019 10:21:30 -0700 (PDT)
+	bh=awUbgiBwCOuo5v2kLAF55+iiqa/t6gk717cmEDo7Rek=;
+	b=aXJv3z9S0lBshGQRqv5Z1dlsDtsvMw/k/F7Ld+S+Nvkbh/PMydBWxxhjLXi+WuAtfJ
+	PIBzT/QA3zLjzJhVXiZ8DIRwRQULypO+8XzrkJEQqzod1wHcKmyLSaJ60aiKHN8NKnm9
+	Ck0GQGBNdU3X27zOh0LxI4PfGJRjguT/wTabyZarmwpEzwX1obKCwgAYMvPdTMSpzo9a
+	AuNQnRB19z7GnF5H6ZOtryujeB+7ye542ySm0XhUN/CZcmc8pOZ/GQGLYr7NUEv7xRI+
+	7qys6y5LR3iaDZU/QAqAc0USxVksqdXvOSH6088jTHnPB/99nY0FtrYyB53cfVOiOUzQ
+	oBeg==
+X-Gm-Message-State: APjAAAXmGRCnzmdtfszif6ZgLw2qCgevcAgGW72lsRaILWCs0fI+C6X3
+	/i+1na4Lb0VU41Dv+59zGcgdatX2OOM0qw==
+X-Google-Smtp-Source: APXvYqxDaxeCcgaqNIaeMbwN+uskvs5bFUEkeFdaoEssT4FjUrrwfXS3r7vtSa0DtEwZEQCADCVSMA==
+X-Received: by 2002:a17:902:7b97:: with SMTP id
+	w23mr71090313pll.335.1556731292344; 
+	Wed, 01 May 2019 10:21:32 -0700 (PDT)
 Received: from localhost ([12.206.222.5]) by smtp.gmail.com with ESMTPSA id
-	u7sm13580784pfu.157.2019.05.01.10.21.29
+	p20sm51021653pgj.86.2019.05.01.10.21.31
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 01 May 2019 10:21:29 -0700 (PDT)
-Date: Wed, 01 May 2019 10:21:29 -0700 (PDT)
-X-Google-Original-Date: Wed, 01 May 2019 10:19:45 PDT (-0700)
-In-Reply-To: <03ac8b9b-20ae-e6ec-5647-f679471f4d3b@linaro.org>
+	Wed, 01 May 2019 10:21:31 -0700 (PDT)
+Date: Wed, 01 May 2019 10:21:31 -0700 (PDT)
+X-Google-Original-Date: Wed, 01 May 2019 10:21:08 PDT (-0700)
+In-Reply-To: <20190425172636.11128-2-richard.henderson@linaro.org>
 From: Palmer Dabbelt <palmer@sifive.com>
 To: richard.henderson@linaro.org
-Message-ID: <mhng-c095a304-dace-4b99-8dc6-7a179a3f80bb@palmer-si-x1e>
+Message-ID: <mhng-6fa8c1f8-fe4c-4d72-b0ea-c9809704637e@palmer-si-x1e>
 Mime-Version: 1.0 (MHng)
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::442
-Subject: Re: [Qemu-devel] [PATCH 2/2] target/riscv: Add checks for several
- RVC reserved operands
+X-Received-From: 2607:f8b0:4864:20::641
+Subject: Re: [Qemu-devel] [PATCH 1/2] fixup! target/riscv: Name the argument
+ sets for all of insn32 formats
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,21 +82,39 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 25 Apr 2019 10:32:43 PDT (-0700), richard.henderson@linaro.org wrote:
-> On 4/25/19 10:26 AM, Richard Henderson wrote:
->>  {
->> +  illegal         011 0  -----  00000 01 # c.addi16sp, RES nzimm=0
->>    addi            011 .  00010  ..... 01 @c_addi16sp
->>    lui             011 .  .....  ..... 01 @c_lui
->>  }
+On Thu, 25 Apr 2019 10:26:35 PDT (-0700), richard.henderson@linaro.org wrote:
+> ---
+>  target/riscv/translate.c | 13 ++++++++++---
+>  1 file changed, 10 insertions(+), 3 deletions(-)
 >
-> Bah.  I just realized the comment should be more like
+> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
+> index d1f599a92d..009c146e8f 100644
+> --- a/target/riscv/translate.c
+> +++ b/target/riscv/translate.c
+> @@ -713,12 +713,19 @@ static bool gen_shift(DisasContext *ctx, arg_r *a,
+>   * initially declared by the 32-bit decoder, which results in duplicate
+>   * declaration warnings.  Suppress them.
+>   */
+> -#pragma GCC diagnostic push
+> -#pragma GCC diagnostic ignored "-Wredundant-decls"
+> +#ifdef CONFIG_PRAGMA_DIAGNOSTIC_AVAILABLE
+> +# pragma GCC diagnostic push
+> +# pragma GCC diagnostic ignored "-Wredundant-decls"
+> +# ifdef __clang__
+> +#  pragma GCC diagnostic ignored "-Wtypedef-redefinition"
+> +# endif
+> +#endif
 >
->   # c.addi16sp and c.lui, RES nzimm=0
+>  #include "decode_insn16.inc.c"
 >
-> Otherwise one is led to believe that rd=2 is missing
-> from the illegal pattern.
+> -#pragma GCC diagnostic pop
+> +#ifdef CONFIG_PRAGMA_DIAGNOSTIC_AVAILABLE
+> +# pragma GCC diagnostic pop
+> +#endif
+>
+>  static void decode_opc(DisasContext *ctx)
+>  {
 
-OK, I went ahead and squashed in that fix as well.
-
+I've attemeted to fixup the patch on my for-master, let me know if I've screwed
+something up!
 
