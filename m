@@ -2,77 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEF7510A5B
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 May 2019 17:58:15 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:34080 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D32D10B3E
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 May 2019 18:22:30 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:35904 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLrcc-00089G-P4
-	for lists+qemu-devel@lfdr.de; Wed, 01 May 2019 11:58:14 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41694)
+	id 1hLs05-0003b9-9j
+	for lists+qemu-devel@lfdr.de; Wed, 01 May 2019 12:22:29 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50092)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hLrbV-0007nh-0x
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 11:57:08 -0400
+	(envelope-from <stefanha@gmail.com>) id 1hLryK-0002gv-NM
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 12:20:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hLrbR-0001ne-Vh
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 11:57:04 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:50727)
+	(envelope-from <stefanha@gmail.com>) id 1hLryH-0005t8-LW
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 12:20:40 -0400
+Received: from mail-it1-x144.google.com ([2607:f8b0:4864:20::144]:33656)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hLrbR-0001mn-Nu
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 11:57:01 -0400
-Received: by mail-wm1-x343.google.com with SMTP id p21so7591179wmc.0
-	for <qemu-devel@nongnu.org>; Wed, 01 May 2019 08:57:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=references:user-agent:from:to:subject:in-reply-to:date:message-id
-	:mime-version:content-transfer-encoding;
-	bh=LUp/KCzQcL6/zpofoX0MZYa6CwpiwxMHiatc14ais7g=;
-	b=uTX/AsU/p8T3UhY4bNm2XxUw1x9g+Doxpb9/ihgCj58Y3dFKTdjBSC/JHuEmUthhEA
-	MwGIa67AJNDR72luoPLsv7fU7+e6aj1Hmkt/+wdxqUvrUHUjGwArMJWjFRswKS4svj9e
-	I1JBXh7befdGr/fzt1ibxK0j7SLCKWcGQi/OPBcShE1FJN02vGmVOCYy5jdLcT+igJQf
-	H9RhRG9UI/aihjafbN9ob5ZpuYpdlS6Pf6X4f0tCn9VH4Iahs0DIKbrVJf+GSFCK4TGl
-	UEsJF7Amh5JrQAOx6rAB3Nc+EPLfSwv8nkxBsd+qXTOqoNmcAk77rfaSYwt3qlgkoXmm
-	9ItQ==
+	(Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1hLryF-0005gJ-MU
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 12:20:37 -0400
+Received: by mail-it1-x144.google.com with SMTP id v8so5585488itf.0
+	for <qemu-devel@nongnu.org>; Wed, 01 May 2019 09:20:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=4otRdVH1/9UY/KWuStvvWarz/rJf700xjep25Hn/9TA=;
+	b=i7tdGqKnR9XsijHmTS6NfsFbhJgo3ZAb38zyiifcETW1Oa+yOtjQzwebm/gq0e+iou
+	WZk2mdzb1O+6xu/Kgyc6NwmES1OS/ScJt7Qt5dw7i6EyYMyL2JRf46ceghmOY9G0/PcO
+	GXioQch+B4s0MxvQgTZ5HqlXSHEYpTkRhM5OgRR/n+9ZpOKLE3icLC6VRlf4p+JwMjXE
+	HgmYkox0Tu+6wBSrlGadRVqbUPIErEdUZRcjFSwqFDRIq+jRkkhcQjB1+ADa4Og6B1CA
+	4WrYKHf1dZaQ43OlNBzmdvMfiBKYKeZcvzobXFlo7Sr3ac4sJVo6uKxJpXCRb2R4Wo7t
+	FHtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:references:user-agent:from:to:subject
-	:in-reply-to:date:message-id:mime-version:content-transfer-encoding;
-	bh=LUp/KCzQcL6/zpofoX0MZYa6CwpiwxMHiatc14ais7g=;
-	b=kWFjMkZj6QMYJPx8CtRMvIyZnydrQZZ/uKzj0oNDkRtWIzpAbrUp/TDFFE9Chk7oRc
-	r1oabySyzgSvw03X+2kXRxLeiFyG4pq0hqJuPNShYlBCj9jQyRLbivqir/9HvgRE5LmR
-	eIhCFuls9URvX9MWnzomIhXaSoGBDFfNdC+EXztkaoeH8EXfNW4RQRkUNsh3QkCy7/AL
-	bHHa4XuW4b3UIWiV/h9JqNrGe5G1YWqn41cYwTVHFRsyAa5SQqS2/AhFUN/pkdtFK9fr
-	XYktf/5mXtCXIFJ1LxEQAaEB/FDZtDHKiy6l9Fjxn0vcuQPNv+3FpDaXIN2xA4fsAyTY
-	1Jdg==
-X-Gm-Message-State: APjAAAUsq0qInfuEe7jzDi5iNwbQy/pj7PVAz0iJ0UnvCwoLDz+FTo75
-	5l6leJdwbVdHSbZnalCWTvUbiYo6ugo=
-X-Google-Smtp-Source: APXvYqx9n633fdTrGXLSeTCyC4WSUYOp42Xzr3SehHgJ0YHkSNxCVm139UQnPamFrGi4Vh6MD0C2hw==
-X-Received: by 2002:a7b:ce03:: with SMTP id m3mr6546125wmc.99.1556726220038;
-	Wed, 01 May 2019 08:57:00 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
-	by smtp.gmail.com with ESMTPSA id
-	n63sm5381331wmn.38.2019.05.01.08.56.59 for <qemu-devel@nongnu.org>
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=4otRdVH1/9UY/KWuStvvWarz/rJf700xjep25Hn/9TA=;
+	b=sbCMkyco7ijo8MSDdri8p0EK2mN1tpr5z45A2ipkTWwwFract3PCj3TjRcFHhBEy6V
+	yYQmTvhya8n0AiW0W9fVZDm+qJVAFHTtvHTXwy6BeTXQas3XloO0RcBbd+WRVvy6Jdu6
+	pV3UQChM2PJwptsr8bY059NcZDsgVmLUgvZ6ZtXRXguCvklB7KtFBz8MO0myoDWiY8rO
+	NGOQ+VDnbsYtpepn2o70KyZ8cAbpjwRY08e9q9GQK8VQZRDcBUyARmfBQdncEhalTJo6
+	+88mQ25Flwrv1Zfk2w9wmqcfW1nyHKYzlWL4qMWOmvz5ygWu1oBBZDkNBN5MRi6HHvpb
+	lLFw==
+X-Gm-Message-State: APjAAAWfYHDDQRU5gI+7LMVQjeHGinHpoom61vHJYba/Kntz5a2gIbDW
+	UdFjJsLTxxaxKr6xdLBhiWY=
+X-Google-Smtp-Source: APXvYqxALvqNVZqP62XtOJtpCZiZQFqeTJWWJOD0ZxJucPfKGF1RRAxMGPrBrpe72nzq4Y5mlHfV+w==
+X-Received: by 2002:a02:3f2b:: with SMTP id d43mr48443270jaa.36.1556727633482; 
+	Wed, 01 May 2019 09:20:33 -0700 (PDT)
+Received: from localhost
+	(CPE64777d5479c3-CM64777d5479c0.cpe.net.cable.rogers.com.
+	[99.228.64.175]) by smtp.gmail.com with ESMTPSA id
+	t127sm3283868itb.32.2019.05.01.09.20.32
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 01 May 2019 08:56:59 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id 0EE1D1FF87
-	for <qemu-devel@nongnu.org>; Wed,  1 May 2019 16:56:59 +0100 (BST)
-References: <20190501050536.15580-1-richard.henderson@linaro.org>
-	<20190501050536.15580-4-richard.henderson@linaro.org>
-User-agent: mu4e 1.3.1; emacs 26.1
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-In-reply-to: <20190501050536.15580-4-richard.henderson@linaro.org>
-Date: Wed, 01 May 2019 16:56:59 +0100
-Message-ID: <87tvee5fsk.fsf@zen.linaroharston>
+	Wed, 01 May 2019 09:20:32 -0700 (PDT)
+Date: Wed, 1 May 2019 12:20:30 -0400
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Stefan Hajnoczi <stefanha@redhat.com>
+Message-ID: <20190501162030.GA21155@stefanha-x1.localdomain>
+References: <20190425133503.30847-1-stefanha@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="6c2NcOVqGQ03X4Wi"
+Content-Disposition: inline
+In-Reply-To: <20190425133503.30847-1-stefanha@redhat.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::343
-Subject: Re: [Qemu-devel] [PATCH v2 03/29] tcg: Allow add_vec, sub_vec,
- neg_vec, not_vec to be expanded
+X-Received-From: 2607:f8b0:4864:20::144
+Subject: Re: [Qemu-devel] [PATCH v2] security.rst: add Security Guide to
+ developer docs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -84,112 +81,381 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Eduardo Otubo <otubo@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+	qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+--6c2NcOVqGQ03X4Wi
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> Reviewed-by: David Hildenbrand <david@redhat.com>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
+On Thu, Apr 25, 2019 at 02:35:03PM +0100, Stefan Hajnoczi wrote:
+> At KVM Forum 2018 I gave a presentation on security in QEMU:
+> https://www.youtube.com/watch?v=3DYAdRf_hwxU8 (video)
+> https://vmsplice.net/~stefan/stefanha-kvm-forum-2018.pdf (slides)
+>=20
+> This patch adds a security guide to the developer docs.  This document
+> covers things that developers should know about security in QEMU.  It is
+> just a starting point that we can expand on later.  I hope it will be
+> useful as a resource for new contributors and will save code reviewers
+> from explaining the same concepts many times.
+>=20
+> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 > ---
->  tcg/tcg-op-vec.c | 49 ++++++++++++++++++++++++++++++++----------------
->  1 file changed, 33 insertions(+), 16 deletions(-)
->
-> diff --git a/tcg/tcg-op-vec.c b/tcg/tcg-op-vec.c
-> index 27f65600c3..cfb18682b1 100644
-> --- a/tcg/tcg-op-vec.c
-> +++ b/tcg/tcg-op-vec.c
-> @@ -226,16 +226,6 @@ void tcg_gen_stl_vec(TCGv_vec r, TCGv_ptr b, TCGArg =
-o, TCGType low_type)
->      vec_gen_3(INDEX_op_st_vec, low_type, 0, ri, bi, o);
->  }
->
-> -void tcg_gen_add_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b)
-> -{
-> -    vec_gen_op3(INDEX_op_add_vec, vece, r, a, b);
-> -}
-> -
-> -void tcg_gen_sub_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b)
-> -{
-> -    vec_gen_op3(INDEX_op_sub_vec, vece, r, a, b);
-> -}
-> -
->  void tcg_gen_and_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b)
->  {
->      vec_gen_op3(INDEX_op_and_vec, 0, r, a, b);
-> @@ -296,11 +286,30 @@ void tcg_gen_eqv_vec(unsigned vece, TCGv_vec r, TCG=
-v_vec a, TCGv_vec b)
->      tcg_gen_not_vec(0, r, r);
->  }
->
-> +static bool do_op2(unsigned vece, TCGv_vec r, TCGv_vec a, TCGOpcode opc)
-> +{
-> +    TCGTemp *rt =3D tcgv_vec_temp(r);
-> +    TCGTemp *at =3D tcgv_vec_temp(a);
-> +    TCGArg ri =3D temp_arg(rt);
-> +    TCGArg ai =3D temp_arg(at);
-> +    TCGType type =3D rt->base_type;
-> +    int can;
-> +
-> +    tcg_debug_assert(at->base_type >=3D type);
-> +    can =3D tcg_can_emit_vec_op(opc, type, vece);
-> +    if (can > 0) {
-> +        vec_gen_2(opc, type, vece, ri, ai);
-> +    } else if (can < 0) {
-> +        tcg_expand_vec_op(opc, type, vece, ri, ai);
-> +    } else {
-> +        return false;
-> +    }
-> +    return true;
-> +}
-> +
->  void tcg_gen_not_vec(unsigned vece, TCGv_vec r, TCGv_vec a)
->  {
-> -    if (TCG_TARGET_HAS_not_vec) {
-> -        vec_gen_op2(INDEX_op_not_vec, 0, r, a);
-> -    } else {
-> +    if (!TCG_TARGET_HAS_not_vec || !do_op2(vece, r, a, INDEX_op_not_vec)=
-) {
->          TCGv_vec t =3D tcg_const_ones_vec_matching(r);
->          tcg_gen_xor_vec(0, r, a, t);
->          tcg_temp_free_vec(t);
-> @@ -309,9 +318,7 @@ void tcg_gen_not_vec(unsigned vece, TCGv_vec r, TCGv_=
-vec a)
->
->  void tcg_gen_neg_vec(unsigned vece, TCGv_vec r, TCGv_vec a)
->  {
-> -    if (TCG_TARGET_HAS_neg_vec) {
-> -        vec_gen_op2(INDEX_op_neg_vec, vece, r, a);
-> -    } else {
-> +    if (!TCG_TARGET_HAS_neg_vec || !do_op2(vece, r, a, INDEX_op_neg_vec)=
-) {
->          TCGv_vec t =3D tcg_const_zeros_vec_matching(r);
->          tcg_gen_sub_vec(vece, r, t, a);
->          tcg_temp_free_vec(t);
-> @@ -409,6 +416,16 @@ static void do_op3(unsigned vece, TCGv_vec r, TCGv_v=
-ec a,
->      }
->  }
->
-> +void tcg_gen_add_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b)
-> +{
-> +    do_op3(vece, r, a, b, INDEX_op_add_vec);
-> +}
-> +
-> +void tcg_gen_sub_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b)
-> +{
-> +    do_op3(vece, r, a, b, INDEX_op_sub_vec);
-> +}
-> +
->  void tcg_gen_mul_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b)
->  {
->      do_op3(vece, r, a, b, INDEX_op_mul_vec);
+> v2:
+>  * Added mention of passthrough USB and PCI devices [philmd]
+>  * Reworded resource limits [philmd]
+>  * Added qemu_log_mask(LOG_GUEST_ERROR) [philmd]
+> ---
+>  docs/devel/index.rst    |   1 +
+>  docs/devel/security.rst | 225 ++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 226 insertions(+)
+>  create mode 100644 docs/devel/security.rst
 
+Ping?
 
---
-Alex Benn=C3=A9e
+> diff --git a/docs/devel/index.rst b/docs/devel/index.rst
+> index ebbab636ce..fd0b5fa387 100644
+> --- a/docs/devel/index.rst
+> +++ b/docs/devel/index.rst
+> @@ -20,3 +20,4 @@ Contents:
+>     stable-process
+>     testing
+>     decodetree
+> +   security
+> diff --git a/docs/devel/security.rst b/docs/devel/security.rst
+> new file mode 100644
+> index 0000000000..83c6fb2231
+> --- /dev/null
+> +++ b/docs/devel/security.rst
+> @@ -0,0 +1,225 @@
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +Security Guide
+> +=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> +Overview
+> +--------
+> +This guide covers security topics relevant to developers working on QEMU=
+=2E  It
+> +includes an explanation of the security requirements that QEMU gives its=
+ users,
+> +the architecture of the code, and secure coding practices.
+> +
+> +Security Requirements
+> +---------------------
+> +QEMU supports many different use cases, some of which have stricter secu=
+rity
+> +requirements than others.  The community has agreed on the overall secur=
+ity
+> +requirements that users may depend on.  These requirements define what is
+> +considered supported from a security perspective.
+> +
+> +Virtualization Use Case
+> +~~~~~~~~~~~~~~~~~~~~~~~
+> +The virtualization use case covers cloud and virtual private server (VPS)
+> +hosting, as well as traditional data center and desktop virtualization. =
+ These
+> +use cases rely on hardware virtualization extensions to execute guest co=
+de
+> +safely on the physical CPU at close-to-native speed.
+> +
+> +The following entities are **untrusted**, meaning that they may be buggy=
+ or
+> +malicious:
+> +
+> +* Guest
+> +* User-facing interfaces (e.g. VNC, SPICE, WebSocket)
+> +* Network protocols (e.g. NBD, live migration)
+> +* User-supplied files (e.g. disk images, kernels, device trees)
+> +* Passthrough devices (e.g. PCI, USB)
+> +
+> +Bugs affecting these entities are evaluated on whether they can cause da=
+mage in
+> +real-world use cases and treated as security bugs if this is the case.
+> +
+> +Non-virtualization Use Case
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +The non-virtualization use case covers emulation using the Tiny Code Gen=
+erator
+> +(TCG).  In principle the TCG and device emulation code used in conjuncti=
+on with
+> +the non-virtualization use case should meet the same security requiremen=
+ts as
+> +the virtualization use case.  However, for historical reasons much of the
+> +non-virtualization use case code was not written with these security
+> +requirements in mind.
+> +
+> +Bugs affecting the non-virtualization use case are not considered securi=
+ty
+> +bugs at this time.  Users with non-virtualization use cases must not rel=
+y on
+> +QEMU to provide guest isolation or any security guarantees.
+> +
+> +Architecture
+> +------------
+> +This section describes the design principles that ensure the security
+> +requirements are met.
+> +
+> +Guest Isolation
+> +~~~~~~~~~~~~~~~
+> +Guest isolation is the confinement of guest code to the virtual machine.=
+  When
+> +guest code gains control of execution on the host this is called escapin=
+g the
+> +virtual machine.  Isolation also includes resource limits such as thrott=
+ling of
+> +CPU, memory, disk, or network.  Guests must be unable to exceed their re=
+source
+> +limits.
+> +
+> +QEMU presents an attack surface to the guest in the form of emulated dev=
+ices.
+> +The guest must not be able to gain control of QEMU.  Bugs in emulated de=
+vices
+> +could allow malicious guests to gain code execution in QEMU.  At this po=
+int the
+> +guest has escaped the virtual machine and is able to act in the context =
+of the
+> +QEMU process on the host.
+> +
+> +Guests often interact with other guests and share resources with them.  A
+> +malicious guest must not gain control of other guests or access their da=
+ta.
+> +Disk image files and network traffic must be protected from other guests=
+ unless
+> +explicitly shared between them by the user.
+> +
+> +Principle of Least Privilege
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +The principle of least privilege states that each component only has acc=
+ess to
+> +the privileges necessary for its function.  In the case of QEMU this mea=
+ns that
+> +each process only has access to resources belonging to the guest.
+> +
+> +The QEMU process should not have access to any resources that are inacce=
+ssible
+> +to the guest.  This way the guest does not gain anything by escaping int=
+o the
+> +QEMU process since it already has access to those same resources from wi=
+thin
+> +the guest.
+> +
+> +Following the principle of least privilege immediately fulfills guest is=
+olation
+> +requirements.  For example, guest A only has access to its own disk imag=
+e file
+> +``a.img`` and not guest B's disk image file ``b.img``.
+> +
+> +In reality certain resources are inaccessible to the guest but must be
+> +available to QEMU to perform its function.  For example, host system cal=
+ls are
+> +necessary for QEMU but are not exposed to guests.  A guest that escapes =
+into
+> +the QEMU process can then begin invoking host system calls.
+> +
+> +New features must be designed to follow the principle of least privilege.
+> +Should this not be possible for technical reasons, the security risk mus=
+t be
+> +clearly documented so users are aware of the trade-off of enabling the f=
+eature.
+> +
+> +Isolation mechanisms
+> +~~~~~~~~~~~~~~~~~~~~
+> +Several isolation mechanisms are available to realize this architecture =
+of
+> +guest isolation and the principle of least privilege.  With the exceptio=
+n of
+> +Linux seccomp, these mechanisms are all deployed by management tools that
+> +launch QEMU, such as libvirt.  They are also platform-specific so they a=
+re only
+> +described briefly for Linux here.
+> +
+> +The fundamental isolation mechanism is that QEMU processes must run as
+> +**unprivileged users**.  Sometimes it seems more convenient to launch QE=
+MU as
+> +root to give it access to host devices (e.g. ``/dev/net/tun``) but this =
+poses a
+> +huge security risk.  File descriptor passing can be used to give an othe=
+rwise
+> +unprivileged QEMU process access to host devices without running QEMU as=
+ root.
+> +
+> +**SELinux** and **AppArmor** make it possible to confine processes beyon=
+d the
+> +traditional UNIX process and file permissions model.  They restrict the =
+QEMU
+> +process from accessing processes and files on the host system that are n=
+ot
+> +needed by QEMU.
+> +
+> +**Resource limits** and **cgroup controllers** provide throughput and ut=
+ilization
+> +limits on key resources such as CPU time, memory, and I/O bandwidth.
+> +
+> +**Linux namespaces** can be used to make process, file system, and other=
+ system
+> +resources unavailable to QEMU.  A namespaced QEMU process is restricted =
+to only
+> +those resources that were granted to it.
+> +
+> +**Linux seccomp** is available via the QEMU ``--sandbox`` option.  It di=
+sables
+> +system calls that are not needed by QEMU, thereby reducing the host kern=
+el
+> +attack surface.
+> +
+> +Secure coding practices
+> +-----------------------
+> +At the source code level there are several points to keep in mind.  Both
+> +developers and security researchers must be aware of them so that they c=
+an
+> +develop safe code and audit existing code properly.
+> +
+> +General Secure C Coding Practices
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +Most CVEs (security bugs) reported against QEMU are not specific to
+> +virtualization or emulation.  They are simply C programming bugs.  There=
+fore
+> +it's critical to be aware of common classes of security bugs.
+> +
+> +There is a wide selection of resources available covering secure C codin=
+g.  For
+> +example, the `CERT C Coding Standard
+> +<https://wiki.sei.cmu.edu/confluence/display/c/SEI+CERT+C+Coding+Standar=
+d>`_
+> +covers the most important classes of security bugs.
+> +
+> +Instead of describing them in detail here, only the names of the most im=
+portant
+> +classes of security bugs are mentioned:
+> +
+> +* Buffer overflows
+> +* Use-after-free and double-free
+> +* Integer overflows
+> +* Format string vulnerabilities
+> +
+> +Some of these classes of bugs can be detected by analyzers.  Static anal=
+ysis is
+> +performed regularly by Coverity and the most obvious of these bugs are e=
+ven
+> +reported by compilers.  Dynamic analysis is possible with valgrind, tsan=
+, and
+> +asan.
+> +
+> +Input Validation
+> +~~~~~~~~~~~~~~~~
+> +Inputs from the guest or external sources (e.g. network, files) cannot be
+> +trusted and may be invalid.  Inputs must be checked before using them in=
+ a way
+> +that could crash the program, expose host memory to the guest, or otherw=
+ise be
+> +exploitable by an attacker.
+> +
+> +The most sensitive attack surface is device emulation.  All hardware reg=
+ister
+> +accesses and data read from guest memory must be validated.  A typical e=
+xample
+> +is a device that contains multiple units that are selectable by the gues=
+t via
+> +an index register::
+> +
+> +  typedef struct {
+> +      ProcessingUnit unit[2];
+> +      ...
+> +  } MyDeviceState;
+> +
+> +  static void mydev_writel(void *opaque, uint32_t addr, uint32_t val)
+> +  {
+> +      MyDeviceState *mydev =3D opaque;
+> +      ProcessingUnit *unit;
+> +
+> +      switch (addr) {
+> +      case MYDEV_SELECT_UNIT:
+> +          unit =3D &mydev->unit[val];   <-- this input wasn't validated!
+> +          ...
+> +      }
+> +  }
+> +
+> +If ``val`` is not in range [0, 1] then an out-of-bounds memory access wi=
+ll take
+> +place when ``unit`` is dereferenced.  The code must check that ``val`` i=
+s 0 or
+> +1 and handle the case where it is invalid.
+> +
+> +Unexpected Device Accesses
+> +~~~~~~~~~~~~~~~~~~~~~~~~~~
+> +The guest may access device registers in unusual orders or at unexpected
+> +moments.  Device emulation code must not assume that the guest follows t=
+he
+> +typical "theory of operation" presented in driver writer manuals.  The g=
+uest
+> +may make nonsense accesses to device registers such as starting operatio=
+ns
+> +before the device has been fully initialized.
+> +
+> +A related issue is that device emulation code must be prepared for unexp=
+ected
+> +device register accesses while asynchronous operations are in progress. =
+ A
+> +well-behaved guest might wait for a completion interrupt before accessing
+> +certain device registers.  Device emulation code must handle the case wh=
+ere the
+> +guest overwrites registers or submits further requests before an ongoing
+> +request completes.  Unexpected accesses must not cause memory corruption=
+ or
+> +leaks in QEMU.
+> +
+> +Invalid device register accesses can be reported with
+> +``qemu_log_mask(LOG_GUEST_ERROR, ...)``.  The ``-d guest_errors`` comman=
+d-line
+> +option enables these log messages.
+> +
+> +Live migration
+> +~~~~~~~~~~~~~~
+> +Device state can be saved to disk image files and shared with other user=
+s.
+> +Live migration code must validate inputs when loading device state so an
+> +attacker cannot gain control by crafting invalid device states.  Device =
+state
+> +is therefore considered untrusted even though it is typically generated =
+by QEMU
+> +itself.
+> +
+> +Guest Memory Access Races
+> +~~~~~~~~~~~~~~~~~~~~~~~~~
+> +Guests with multiple vCPUs may modify guest RAM while device emulation c=
+ode is
+> +running.  Device emulation code must copy in descriptors and other guest=
+ RAM
+> +structures and only process the local copy.  This prevents
+> +time-of-check-to-time-of-use (TOCTOU) race conditions that could cause Q=
+EMU to
+> +crash when a vCPU thread modifies guest RAM while device emulation is
+> +processing it.
+> --=20
+> 2.20.1
+>=20
+>=20
+
+--6c2NcOVqGQ03X4Wi
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAlzJxzoACgkQnKSrs4Gr
+c8gWgQf+LFJFFMp4BxHQqjOBpqCcwZlMCJRH2KpxsAJbM0Q8vRZrpsGzoof85oRl
+HQx/AXN68IDJT8ua5oRw9AaawEn2kL4DMMJVZX4QvCWrenWHWmuW8i4OslzBH4Db
+O2M71RiEmViEFpd+1kjNZb23F0NIXCf/I/wu+jh8UYEQl18/uwauhoQhJXVlF7LF
+6FOqHnRf1SALuHpZpSGWv0LZH83xSKQXlCYT4S1/QDeh2sXIrLd6nKjwTbSZgcbh
+YmiZd4orwgEjGxid3PPWYNCjJ/FP+YEfBnj81bwdTROQ25nwbH+2tmgAa0X7HVay
+Ougyu/grLRf5c1hodJ4fYy2DcJArAg==
+=jH+/
+-----END PGP SIGNATURE-----
+
+--6c2NcOVqGQ03X4Wi--
 
