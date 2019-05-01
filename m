@@ -2,76 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6EAC910621
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 May 2019 10:32:36 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40136 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4E22A10673
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 May 2019 11:42:48 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48926 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLkfL-0001bx-Jv
-	for lists+qemu-devel@lfdr.de; Wed, 01 May 2019 04:32:35 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39520)
+	id 1hLllH-0005R3-E2
+	for lists+qemu-devel@lfdr.de; Wed, 01 May 2019 05:42:47 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50088)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hLkdi-0000vq-C6
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 04:30:57 -0400
+	(envelope-from <no-reply@patchew.org>) id 1hLlj5-0004Py-Ur
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 05:40:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hLkdf-0001lg-AA
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 04:30:54 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:44410)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hLkdd-0001gl-9a
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 04:30:51 -0400
-Received: by mail-wr1-x441.google.com with SMTP id c5so23819506wrs.11
-	for <qemu-devel@nongnu.org>; Wed, 01 May 2019 01:30:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=references:user-agent:from:to:cc:subject:in-reply-to:date
-	:message-id:mime-version:content-transfer-encoding;
-	bh=1z2G2pva/AlfRXM+wJ6i7PE2zWB7jWLhRAd2kznCBFE=;
-	b=i2+zFMbG7sWOehLYZsxEQaCZRGqTxkIT7napNeEvZbaNQlcKKPR8jOClZdiMXdAovc
-	cOV/t1XfUN1+Dm6pq0umZvBmE/ElcDTsdeVNBr3sDK5yRj/OsgCLjaxYVGpzA9vIZMZo
-	+cNxws4QSA+hzhAmQud7uRJkOAHb2yKFEJVb3gQ9YWYBS7C4hFHZdUNA0n7R1+Kl0bvn
-	scqQOPKGhIG0H04varqrxzz1K5EPVe0xM1qpYWvANg7L+MArK2vnz69PuibYFCW422Cj
-	Ald87q5QZcYgMxtiMe29NHpv5px6VIIXWZPJeHbLMN0hyBtrHbq4Qsep7cyM+G0ka/Vg
-	NCCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:references:user-agent:from:to:cc:subject
-	:in-reply-to:date:message-id:mime-version:content-transfer-encoding;
-	bh=1z2G2pva/AlfRXM+wJ6i7PE2zWB7jWLhRAd2kznCBFE=;
-	b=incAI8iDH8BKwRlXZT83pQDXIE9EgWw3UC7BD5GEMhBa5LNFO0MnrHdkJMf+He9QJS
-	9q2EwJWYAHLQ67daQO3zErJK/sWqNTPsa2eOPAMQTBkV/x/VaZcJfQoWV0+W61/WhJKx
-	aLBLBdRA//puKvbLJuyeFtFdFbdhTHI+ttQPZyzDAd0UItxXhL67Jv4fOQLRyC4lm0C9
-	J7VFU8xEir6UMf+vVK2aDDrVPhdhUiPpIrj863TFFMXA9wk8zLgsvD1kdhl7rGCxXAvC
-	c/CrX/CQzab6C4NcTDUmirSHbbg6PXPyyvdWl8vwnDqc5x1j03zBUksXiiqSMf823IWh
-	SrIg==
-X-Gm-Message-State: APjAAAXBcOp/rhbS7ehXelgyHUlKUys/GLXA8oBDh815xjbnLlKygTct
-	sTqtkFdV9+DJ3NTb5AtzRY36Hw==
-X-Google-Smtp-Source: APXvYqzOk2txkRw1LIx+gMzxZFmxssHyErJovvQCM6pXSONS3ip734JVYPUTzX6Uvc8KblUdTx2snQ==
-X-Received: by 2002:adf:a202:: with SMTP id p2mr14338431wra.166.1556699446600; 
-	Wed, 01 May 2019 01:30:46 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
-	by smtp.gmail.com with ESMTPSA id 7sm15356937wro.85.2019.05.01.01.30.45
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 01 May 2019 01:30:46 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id B1C051FF87;
-	Wed,  1 May 2019 09:30:45 +0100 (BST)
-References: <155650963851.10667.10736189532511840020@c2072b67cc0c>
-	<ec0fad50-140c-0bf4-3421-d4e3d2d12dea@redhat.com>
-User-agent: mu4e 1.3.1; emacs 26.1
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Thomas Huth <thuth@redhat.com>
-In-reply-to: <ec0fad50-140c-0bf4-3421-d4e3d2d12dea@redhat.com>
-Date: Wed, 01 May 2019 09:30:45 +0100
-Message-ID: <87a7g67f0q.fsf@zen.linaroharston>
+	(envelope-from <no-reply@patchew.org>) id 1hLlj2-0005cH-Lx
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 05:40:31 -0400
+Resent-Date: Wed, 01 May 2019 05:40:31 -0400
+Resent-Message-Id: <E1hLlj2-0005cH-Lx@eggs.gnu.org>
+Received: from sender-of-o52.zoho.com ([135.84.80.217]:21441)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <no-reply@patchew.org>)
+	id 1hLlj2-0005bZ-EP
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 05:40:28 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1556700868; cv=none; d=zoho.com; s=zohoarc; 
+	b=WasBPMd5R9qwAfnMLH4tgi3CcllJ7TTVUfBzS7y7MB4L6+rjakcnOJ7y5WKGfUhG/IZhSvCUqzPbEzopxFm2H27qfEXdLOPwaOightu/9dnU4ESUb7+FOs8+OyPmpJ0BscdG9dC7RHRMsad1sspBYx6gqxizEzao/xBbDZNd4Lw=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+	s=zohoarc; t=1556700868;
+	h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+	bh=XmFRfuaU7g5kD3b1A0bWgwUNCEHjkUn84c2g/mXy/bU=; 
+	b=PoTqO2SL4j2mKyS37iMAB6VDowmuYMIdKpJYFZUroKijrrONmsSpnk2EjwsZyUhkGk8mm9VchjrIqiHKq7FKwj+1ZjPchiXNjK5UHxozhbrdveGm//R4EOKOj3o2TE84HATkgSQvYH4Ez4rbvAX6+nLW29qXHRB18FUHuEqHrps=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+	spf=pass  smtp.mailfrom=no-reply@patchew.org;
+	dmarc=pass header.from=<no-reply@patchew.org>
+	header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+	mx.zohomail.com with SMTPS id 1556700866655324.57951822907944;
+	Wed, 1 May 2019 01:54:26 -0700 (PDT)
+In-Reply-To: <cover.1556562150.git.berto@igalia.com>
+Message-ID: <155670086531.10667.18189622875201687295@c2072b67cc0c>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: Re: [Qemu-devel] [PATCH v2 0/8] tests/qemu-iotests: Run basic
- iotests during "make check"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: berto@igalia.com
+Date: Wed, 1 May 2019 01:54:26 -0700 (PDT)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 135.84.80.217
+Subject: Re: [Qemu-devel] [PATCH 0/5] Remove bdrv_read() and bdrv_write()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -83,72 +61,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, emaste@freebsd.org, qemu-block@nongnu.org,
-	qemu-devel@nongnu.org, cfergeau@redhat.com, armbru@redhat.com,
-	wainersm@redhat.com, mreitz@redhat.com, philmd@redhat.com,
-	lwhsu@freebsd.org
+Reply-To: qemu-devel@nongnu.org
+Cc: fam@euphon.net, kwolf@redhat.com, berto@igalia.com, qemu-block@nongnu.org,
+	qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS9jb3Zlci4xNTU2NTYyMTUwLmdp
+dC5iZXJ0b0BpZ2FsaWEuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZhaWxlZCB0aGUgYXNhbiBi
+dWlsZCB0ZXN0LiBQbGVhc2UgZmluZCB0aGUgdGVzdGluZyBjb21tYW5kcyBhbmQKdGhlaXIgb3V0
+cHV0IGJlbG93LiBJZiB5b3UgaGF2ZSBEb2NrZXIgaW5zdGFsbGVkLCB5b3UgY2FuIHByb2JhYmx5
+IHJlcHJvZHVjZSBpdApsb2NhbGx5LgoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4v
+YmFzaAp0aW1lIG1ha2UgZG9ja2VyLXRlc3QtZGVidWdAZmVkb3JhIFRBUkdFVF9MSVNUPXg4Nl82
+NC1zb2Z0bW11IEo9MTQgTkVUV09SSz0xCj09PSBURVNUIFNDUklQVCBFTkQgPT09CgoKCgpUaGUg
+ZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzL2NvdmVyLjE1
+NTY1NjIxNTAuZ2l0LmJlcnRvQGlnYWxpYS5jb20vdGVzdGluZy5hc2FuLz90eXBlPW1lc3NhZ2Uu
+Ci0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3Bh
+dGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEBy
+ZWRoYXQuY29t
 
-Thomas Huth <thuth@redhat.com> writes:
-
-> On 29/04/2019 05.47, no-reply@patchew.org wrote:
->> Patchew URL: https://patchew.org/QEMU/20190428155451.15653-1-thuth@redha=
-t.com/
->>
->> This series failed the asan build test. Please find the testing commands=
- and
->> their output below. If you have Docker installed, you can probably repro=
-duce it
->> locally.
->>
->> =3D=3D=3D TEST SCRIPT BEGIN =3D=3D=3D
->> #!/bin/bash
->> time make docker-test-debug@fedora TARGET_LIST=3Dx86_64-softmmu J=3D14 N=
-ETWORK=3D1
->> =3D=3D=3D TEST SCRIPT END =3D=3D=3D
->>
->> The full log is available at
->> http://patchew.org/logs/20190428155451.15653-1-thuth@redhat.com/testing.=
-asan/?type=3Dmessage.
->
-> The asan test failed since it could not check out the repository ...
-> a networking problem?
->
-> Anyway, looks like there was a real bug here:
->
->  https://patchew.org/logs/20190428155451.15653-1-thuth@redhat.com/testing=
-.docker-clang@ubuntu/?type=3Dmessage
->
-> Test 162 failed with:
->
-> 162         - output mismatch (see 162.out.bad)
-> --- /tmp/qemu-test/src/tests/qemu-iotests/162.out	2019-04-28 16:09:31.000=
-000000 +0000
-> +++ /tmp/qemu-test/build/tests/qemu-iotests/162.out.bad	2019-04-28 16:24:=
-21.669646149 +0000
-> @@ -6,7 +6,9 @@
->  image: nbd+unix://?socket=3D42
->
->  =3D=3D=3D SSH =3D=3D=3D
-> +qemu-img: warning: GLib: getpwuid_r(): failed due to unknown user id (10=
-03)
->  qemu-img: Could not open 'json:{"driver": "ssh", "host": "localhost", "p=
-ort": "0", "path": "/foo"}': Failed to connect socket: Connection refused
-> +qemu-img: warning: GLib: getpwuid_r(): failed due to unknown user id (10=
-03)
->  qemu-img: Could not open 'driver=3Dssh,host=3Dlocalhost,port=3D0,path=3D=
-/foo': Failed to connect socket: Connection refused
->  qemu-img: Could not open 'json:{"driver": "ssh", "host": "localhost", "p=
-ort": 0.42, "path": "/foo"}': Parameter 'port' expects a number
->  qemu-img: Could not open 'driver=3Dssh,host=3Dlocalhost,port=3D0.42,path=
-=3D/foo': Parameter 'port' expects a number
->
-> ... I think I'll remove 162 from the "auto" group to avoid this.
-
-Should I wait for a v3 then?
-
---
-Alex Benn=C3=A9e
 
