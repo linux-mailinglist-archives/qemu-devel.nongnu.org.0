@@ -2,50 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8C1621074B
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 May 2019 13:01:24 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54522 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77B681075D
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 May 2019 13:10:55 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54682 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLmzL-0001U0-OY
-	for lists+qemu-devel@lfdr.de; Wed, 01 May 2019 07:01:23 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47057)
+	id 1hLn8Y-0004XP-83
+	for lists+qemu-devel@lfdr.de; Wed, 01 May 2019 07:10:54 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48425)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgilbert@redhat.com>) id 1hLmxG-0000Vi-JA
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 06:59:17 -0400
+	(envelope-from <alex.bennee@linaro.org>) id 1hLn6L-0003UA-7s
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 07:08:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgilbert@redhat.com>) id 1hLmxC-0002lv-Q4
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 06:59:13 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34958)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hLmxC-0002gQ-GL
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 06:59:10 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 7AF96859FF
-	for <qemu-devel@nongnu.org>; Wed,  1 May 2019 10:59:09 +0000 (UTC)
-Received: from dgilbert-t580.localhost (ovpn-116-152.ams2.redhat.com
-	[10.36.116.152])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id C9CDF7192A;
-	Wed,  1 May 2019 10:59:08 +0000 (UTC)
-From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-To: qemu-devel@nongnu.org,
-	crobinso@redhat.com
-Date: Wed,  1 May 2019 11:59:04 +0100
-Message-Id: <20190501105904.29907-3-dgilbert@redhat.com>
-In-Reply-To: <20190501105904.29907-1-dgilbert@redhat.com>
-References: <20190501105904.29907-1-dgilbert@redhat.com>
+	(envelope-from <alex.bennee@linaro.org>) id 1hLn6I-0006NH-6q
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 07:08:37 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:34372)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+	id 1hLn6H-0006Mt-UG
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 07:08:34 -0400
+Received: by mail-wr1-x444.google.com with SMTP id v16so21822308wrp.1
+	for <qemu-devel@nongnu.org>; Wed, 01 May 2019 04:08:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=references:user-agent:from:to:cc:subject:in-reply-to:date
+	:message-id:mime-version:content-transfer-encoding;
+	bh=0yhS6aGm+cJz2ZPriGgIY9nmlOM6gHoENs97+Y6IMMA=;
+	b=gsAGLkRigudTFsIMIVOEQtIrrWBXlj0cvfqXyCLmiWksxw+bSvizlalHST+FpFqJ+s
+	eEOgzgsB+qnAruHXS9qA9yE4742bzQI1vC+L8HnA1Zc3AJZZpliBhUgeC096KDmxxMGB
+	dskQ0WYJItX+SLaHYUdWCXGJOx6XuQSwUgJYyixF4q3xjh2oaCUYuidEm+rdiFvJVrvr
+	BBYbLSVy9kUp/+hkR2dV80i6UlrVTd6xdxvfGC//ooRRobGDIdNrRzoprt5X+sKCNN4S
+	BbvE15GB6yhg/TwAn6FBvpEFRbiBTIC7jWJy4iG611tWtLkDG0u86biF+htg8GyrdNmE
+	m0VQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:references:user-agent:from:to:cc:subject
+	:in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+	bh=0yhS6aGm+cJz2ZPriGgIY9nmlOM6gHoENs97+Y6IMMA=;
+	b=OQYUK5R5BBSxASfAtqUSLcIhruNJe2twB4bVONhQcZgDTZsX2KaiCBXlSs6XZpyQu7
+	94xJiHglOYLDlCRukkbLbYlN1jr1zxsESHMZ6TyqCm3PmFz6QVHRgHJWLTe1thn6tdUe
+	sJJjUO3v1m0PXO23NXTrL6ickGizfXP/0fm8ypWWfakzj/P7aLlkhtGhzNS8ovhvwchm
+	rWyOBeIbvgQQwDwDLQsRkMYkX2zAg1tchWlQsAODiRXlqollF5/y1s5ST4qtnXKr7cuY
+	7AF12LJeOU0RFJrTA81CW+vIPy5oIwO2nW7kYwEZ+lMJle0APip8BdB+ca8Lfk9e1uZO
+	2T+Q==
+X-Gm-Message-State: APjAAAURjOIjIaEEpJPdJO+fm+OP/yxxn29iF567quP0Wf4v7C/Zce5M
+	YAAZB+AQirw9u+Drgk4JnpeXnQ==
+X-Google-Smtp-Source: APXvYqzbsz5mg4rW9UOfSBx+3T/08CWm8/niacWLL0Gd6pqt2l7szdLdZLWHzSiqM6xWiC8+fLpW2w==
+X-Received: by 2002:a05:6000:10cc:: with SMTP id
+	b12mr24176469wrx.182.1556708912430; 
+	Wed, 01 May 2019 04:08:32 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+	by smtp.gmail.com with ESMTPSA id
+	n17sm32445474wrw.77.2019.05.01.04.08.31
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 01 May 2019 04:08:31 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+	by zen.linaroharston (Postfix) with ESMTP id 76A511FF87;
+	Wed,  1 May 2019 12:08:31 +0100 (BST)
+References: <20190428155451.15653-1-thuth@redhat.com>
+	<20190428155451.15653-3-thuth@redhat.com>
+User-agent: mu4e 1.3.1; emacs 26.1
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Thomas Huth <thuth@redhat.com>
+In-reply-to: <20190428155451.15653-3-thuth@redhat.com>
+Date: Wed, 01 May 2019 12:08:31 +0100
+Message-ID: <877eba77ps.fsf@zen.linaroharston>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.26]);
-	Wed, 01 May 2019 10:59:09 +0000 (UTC)
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 2/2] hmp: gva2gpa debug command
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2a00:1450:4864:20::444
+Subject: Re: [Qemu-devel] [PATCH v2 2/8] tests/qemu-iotests/005: Add a
+ sanity check for large sparse file support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -57,121 +85,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+	Ed Maste <emaste@freebsd.org>, qemu-block@nongnu.org,
+	Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+	qemu-devel@nongnu.org, Christophe Fergeau <cfergeau@redhat.com>,
+	Max Reitz <mreitz@redhat.com>,
+	Wainer dos Santos Moschetta <wainersm@redhat.com>,
+	Li-Wen Hsu <lwhsu@freebsd.org>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Add a gva2gpa command purely for debug which performs
-address translation on the gva, the existing gpa2hva
-command can then also be used to find it in the qemu
-userspace; e.g.
+Thomas Huth <thuth@redhat.com> writes:
 
-(qemu) info registers
-.... RSP=3Dffffffff81c03e98
-....
-(qemu) gva2gpa 0xffffffff81c03e98
-gpa: 0x1c03e98
-(qemu) gpa2hva 0x1c03e98
-Host virtual address for 0x1c03e98 (pc.ram) is 0x7f0599a03e98
-(qemu) x/10x 0xffffffff81c03e98
-ffffffff81c03e98: 0x81c03eb8 0xffffffff 0x8101ea3f 0xffffffff
-ffffffff81c03ea8: 0x81d27b00 0xffffffff 0x00000000 0x00000000
-ffffffff81c03eb8: 0x81c03ec8 0xffffffff
+> "check -raw 005" fails when running on ext4 filesystems - these do not
+> support such large sparse files. Use the same check as in test 220 to
+> skip the test in this case.
+>
+> Suggested-by: Eric Blake <eblake@redhat.com>
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  tests/qemu-iotests/005 | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+>
+> diff --git a/tests/qemu-iotests/005 b/tests/qemu-iotests/005
+> index 2fef63af88..6136ced5c8 100755
+> --- a/tests/qemu-iotests/005
+> +++ b/tests/qemu-iotests/005
+> @@ -55,6 +55,15 @@ if [ "$IMGPROTO" =3D "sheepdog" ]; then
+>      _notrun "image protocol $IMGPROTO does not support large image sizes"
+>  fi
+>
+> +# Sanity check: For raw, we require a file system that permits the creat=
+ion
+> +# of a HUGE (but very sparse) file.  tmpfs works, ext4 does not.
 
-gdb -p ...qemu...
-(gdb) x/10x 0x7f0599a03e98
-0x7f0599a03e98:	0x81c03eb8	0xffffffff	0x8101ea3f	0xffffffff
-0x7f0599a03ea8:	0x81d27b00	0xffffffff	0x00000000	0x00000000
-0x7f0599a03eb8:	0x81c03ec8	0xffffffff
+Is this comment correct? Running on my ext4 home partition this test
+seems to be running fine and not skipping. Indeed:
 
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Message-Id: <20190412152652.827-1-dgilbert@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
----
- hmp-commands.hx  | 15 +++++++++++++++
- monitor.c        | 22 ++++++++++++++++++++++
- tests/test-hmp.c |  1 +
- 3 files changed, 38 insertions(+)
+  12:06:29 [alex@idun:~/l/q/b/k/t/qemu-iotests] review/iotests-fixup-v2 + p=
+wd
+  /home/alex/lsrc/qemu.git/builds/kvm/tests/qemu-iotests
+  12:07:12 [alex@idun:~/l/q/b/k/t/qemu-iotests] review/iotests-fixup-v2 + s=
+tat -f -c %T .
+  ext2/ext3
+  12:07:40 [alex@idun:~/l/q/b/k/t/qemu-iotests] review/iotests-fixup-v2 + t=
+ouch scratch/t.img
+  12:07:45 [alex@idun:~/l/q/b/k/t/qemu-iotests] review/iotests-fixup-v2 + t=
+runcate --size=3D5T scratch/t.img
+  12:07:47 [alex@idun:~/l/q/b/k/t/qemu-iotests] review/iotests-fixup-v2 + l=
+s -lh scratch/t.img
+  -rw-r--r-- 1 alex alex 5.0T May  1 12:07 scratch/t.img
+  12:07:51 [alex@idun:~/l/q/b/k/t/qemu-iotests] review/iotests-fixup-v2 + s=
+tat -f -c %T scratch/t.img
+  ext2/ext3
+  12:07:58 [alex@idun:~/l/q/b/k/t/qemu-iotests] review/iotests-fixup-v2 + d=
+u -sh scratch/
+  4.0K    scratch/
 
-diff --git a/hmp-commands.hx b/hmp-commands.hx
-index 9b4035965c..a2c3ffc218 100644
---- a/hmp-commands.hx
-+++ b/hmp-commands.hx
-@@ -585,6 +585,21 @@ STEXI
- @findex gpa2hpa
- Print the host physical address at which the guest's physical address @v=
-ar{addr}
- is mapped.
-+ETEXI
-+
-+    {
-+        .name       =3D "gva2gpa",
-+        .args_type  =3D "addr:l",
-+        .params     =3D "addr",
-+        .help       =3D "print the guest physical address corresponding =
-to a guest virtual address",
-+        .cmd        =3D hmp_gva2gpa,
-+    },
-+
-+STEXI
-+@item gva2gpa @var{addr}
-+@findex gva2gpa
-+Print the guest physical address at which the guest's virtual address @v=
-ar{addr}
-+is mapped based on the mapping for the current CPU.
- ETEXI
-=20
-     {
-diff --git a/monitor.c b/monitor.c
-index 9b5f10b475..bb48997913 100644
---- a/monitor.c
-+++ b/monitor.c
-@@ -1673,6 +1673,28 @@ static void hmp_gpa2hva(Monitor *mon, const QDict =
-*qdict)
-     memory_region_unref(mr);
- }
-=20
-+static void hmp_gva2gpa(Monitor *mon, const QDict *qdict)
-+{
-+    target_ulong addr =3D qdict_get_int(qdict, "addr");
-+    MemTxAttrs attrs;
-+    CPUState *cs =3D mon_get_cpu();
-+    hwaddr gpa;
-+
-+    if (!cs) {
-+        monitor_printf(mon, "No cpu\n");
-+        return;
-+    }
-+
-+    gpa  =3D cpu_get_phys_page_attrs_debug(mon_get_cpu(),
-+                                         addr & TARGET_PAGE_MASK, &attrs=
-);
-+    if (gpa =3D=3D -1) {
-+        monitor_printf(mon, "Unmapped\n");
-+    } else {
-+        monitor_printf(mon, "gpa: %#" HWADDR_PRIx "\n",
-+                       gpa + (addr & ~TARGET_PAGE_MASK));
-+    }
-+}
-+
- #ifdef CONFIG_LINUX
- static uint64_t vtop(void *ptr, Error **errp)
- {
-diff --git a/tests/test-hmp.c b/tests/test-hmp.c
-index 54a01824dc..e344947f7c 100644
---- a/tests/test-hmp.c
-+++ b/tests/test-hmp.c
-@@ -39,6 +39,7 @@ static const char *hmp_cmds[] =3D {
-     "dump-guest-memory /dev/null 0 4096",
-     "dump-guest-memory /dev/null",
-     "gdbserver",
-+    "gva2gpa 0",
-     "hostfwd_add tcp::43210-:43210",
-     "hostfwd_remove tcp::43210-:43210",
-     "i /w 0",
---=20
-2.21.0
 
+> +if [ "$IMGFMT" =3D "raw" ]; then
+> +    if ! truncate --size=3D5T "$TEST_IMG"; then
+> +        _notrun "file system on $TEST_DIR does not support large enough =
+files"
+> +    fi
+> +    rm "$TEST_IMG"
+> +fi
+> +
+>  echo
+>  echo "creating large image"
+>  _make_test_img 5000G
+
+--
+Alex Benn=C3=A9e
 
