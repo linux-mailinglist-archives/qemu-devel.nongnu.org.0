@@ -2,74 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 644EF10B44
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 May 2019 18:23:27 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:35918 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CDB0410B3C
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 May 2019 18:21:24 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:35887 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLs10-0004LV-I5
-	for lists+qemu-devel@lfdr.de; Wed, 01 May 2019 12:23:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50205)
+	id 1hLrz1-0002ie-JB
+	for lists+qemu-devel@lfdr.de; Wed, 01 May 2019 12:21:23 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49881)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <stefanha@gmail.com>) id 1hLryh-00036c-Qj
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 12:21:06 -0400
+	(envelope-from <brogers@suse.com>) id 1hLrxg-0002Cn-I3
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 12:20:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <stefanha@gmail.com>) id 1hLryc-0007Jy-Pe
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 12:21:03 -0400
-Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:44691)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1hLryc-0007GV-Hg
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 12:20:58 -0400
-Received: by mail-io1-xd43.google.com with SMTP id r71so15184834iod.11
-	for <qemu-devel@nongnu.org>; Wed, 01 May 2019 09:20:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=+Vq/OMIH1ImSxQZvxEgTjZ9MZHTkTkugEtkJQyDacGw=;
-	b=XB7tk0G9QIbpYhuNkRT3qG5c61HC3ilgmFkSlqep0KiI2vP2KmpTfdmoK2EhBlgmrF
-	kz2sSYOQwO3/6Gx4rQ2JFravaKKoOGR3PJTx23W0/GPsZQvpajx27ypL/vqYf4jc7iy4
-	bExxbQaF1fkWclhYDCDJH4xM81Xpz95+S6k+Aiw9oA+SvcQM95BQ7Y05JbzdHPKPA3OM
-	4XxTx0ilMXQs88CqHtTufaCPXAoheglHFg23VGpvXMjUt0qA+2MWFhaoRrW5p9zij09C
-	OEFvLD1d9+KRrZc6klAOK1zoQEQMdiHiYqspKC52ogK5v89uNhFts8p7uiWnUe5/JsSP
-	QSJQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=+Vq/OMIH1ImSxQZvxEgTjZ9MZHTkTkugEtkJQyDacGw=;
-	b=tl7TX1sE2Yw/SEFViazyWhZgsIH2ZNsGsYVvHGio7O7RfGFNyNDHbuj22dIBlfJQDw
-	s2BGUM2wWlZ8obRwC7DeM+pI7LdS59uYGdac0Jbs1JqNZP3wklP7jhZmderWUnOHfyRf
-	0u+a+GNgkMj4wDNNwPddtM2LD6agKyDyQWCfBMiVMd5tGr/ZsLpHzG5h5+gzZpZ+XRwH
-	ZdyDPCBqYnZCd9fDHErwY24oH56EaLG6JK4RkT6jMFOClue9kQ7gKvnlTJr0jFNPFR6p
-	sOxf1coQ0XUXftLNjC7yr7hM7irJ9+jaXtW8FOzpylpLD2BKfKDRUh9UMwWfj9Hnu7G3
-	KVBw==
-X-Gm-Message-State: APjAAAVvJHc2WuIn55IIEOptfT0XhDPesmpq/onPa6B62iuxRELE/Mi5
-	ibrf3Oe5eF2oyd4ltANrUls=
-X-Google-Smtp-Source: APXvYqxi6IKcUXIc4MX8k+04obQW3GuGUOo4v1iCdOduQRh1kseANaTe3eEi7lgdDBx/QpZvHr4YCw==
-X-Received: by 2002:a05:6602:d0:: with SMTP id
-	z16mr43432807ioe.109.1556727657767; 
-	Wed, 01 May 2019 09:20:57 -0700 (PDT)
-Received: from localhost
-	(CPE64777d5479c3-CM64777d5479c0.cpe.net.cable.rogers.com.
-	[99.228.64.175]) by smtp.gmail.com with ESMTPSA id
-	h10sm8707032iob.18.2019.05.01.09.20.56
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 01 May 2019 09:20:56 -0700 (PDT)
-Date: Wed, 1 May 2019 12:20:55 -0400
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Stefan Hajnoczi <stefanha@redhat.com>
-Message-ID: <20190501162055.GB21155@stefanha-x1.localdomain>
-References: <20190425145420.8888-1-stefanha@redhat.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="Pd0ReVV5GZGQvF3a"
+	(envelope-from <brogers@suse.com>) id 1hLrxd-00041V-H8
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 12:20:00 -0400
+Received: from prv-mh.provo.novell.com ([137.65.248.74]:55820)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <brogers@suse.com>) id 1hLrxd-0003ZC-8S
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 12:19:57 -0400
+Received: from INET-PRV-MTA by prv-mh.provo.novell.com
+	with Novell_GroupWise; Wed, 01 May 2019 10:19:46 -0600
+Message-Id: <5CC9C785020000480009D9AB@prv-mh.provo.novell.com>
+X-Mailer: Novell GroupWise Internet Agent 18.1.0 
+Date: Wed, 01 May 2019 10:21:25 -0600
+From: "Bruce Rogers" <brogers@suse.com>
+To: <qemu-devel@nongnu.org>,<jsnow@redhat.com>
+References: <20190430131946.26628-1-brogers@suse.com>
+	<4361ed56-ff32-7f89-4e1a-173898e8081a@redhat.com>
+In-Reply-To: <4361ed56-ff32-7f89-4e1a-173898e8081a@redhat.com>
+Mime-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 Content-Disposition: inline
-In-Reply-To: <20190425145420.8888-1-stefanha@redhat.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::d43
-Subject: Re: [Qemu-devel] [PATCH v2] gitmodules: use qemu.org git mirrors
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 137.65.248.74
+Subject: Re: [Qemu-devel] [PATCH v2] scsi-disk: handle invalid cdb length
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -81,82 +48,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
-	Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
-	qemu-devel@nongnu.org, Peter Maydell <peter.maydell@linaro.org>
+Cc: "fam@euphon.net" <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+>>> On 4/30/2019 at 2:40 PM, John Snow <jsnow@redhat.com> wrote:
 
---Pd0ReVV5GZGQvF3a
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, Apr 25, 2019 at 03:54:20PM +0100, Stefan Hajnoczi wrote:
-> qemu.org hosts git repository mirrors of all submodules.  Update
-> .gitmodules to use the mirrors and not the upstream repositories.
 >=20
-> Mirroring upstream repositories ensures that QEMU continues to build
-> even when upstream repositories are deleted or temporarily offline.
+> On 4/30/19 9:19 AM, Bruce Rogers wrote:
+>> While investigating link-time-optimization, the compiler flagged this
+>> case of not handling the error return from scsi_cdb_length(). Handle
+>> this error case with a trace report.
+>>=20
+>> Signed-off-by: Bruce Rogers <brogers@suse.com>
+>> ---
+>>  hw/scsi/scsi-disk.c | 4 ++++
+>>  1 file changed, 4 insertions(+)
+>>=20
+>> diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
+>> index e7e865ab3b..8fbf7512e5 100644
+>> --- a/hw/scsi/scsi-disk.c
+>> +++ b/hw/scsi/scsi-disk.c
+>> @@ -2520,6 +2520,10 @@ static void scsi_disk_new_request_dump(uint32_t =
+lun,=20
+> uint32_t tag, uint8_t *buf)
+>>      int len =3D scsi_cdb_length(buf);
+>>      char *line_buffer, *p;
+>> =20
+>> +    if (len < 0) {
+>> +        trace_scsi_disk_new_request(lun, tag, "bad cdb length");
 >=20
-> Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-> Tested-by: Philippe Mathieu-Daud=E9 <philmd@redhat.com>
-> ---
->  .gitmodules | 10 +++++-----
->  1 file changed, 5 insertions(+), 5 deletions(-)
-
-Ping?
-
-> diff --git a/.gitmodules b/.gitmodules
-> index aa77ce6f50..2857eec763 100644
-> --- a/.gitmodules
-> +++ b/.gitmodules
-> @@ -39,19 +39,19 @@
->  	url =3D https://git.qemu.org/git/capstone.git
->  [submodule "roms/seabios-hppa"]
->  	path =3D roms/seabios-hppa
-> -	url =3D https://github.com/hdeller/seabios-hppa.git
-> +	url =3D https://git.qemu.org/git/seabios-hppa.git
->  [submodule "roms/u-boot-sam460ex"]
->  	path =3D roms/u-boot-sam460ex
->  	url =3D https://git.qemu.org/git/u-boot-sam460ex.git
->  [submodule "tests/fp/berkeley-testfloat-3"]
->  	path =3D tests/fp/berkeley-testfloat-3
-> -	url =3D https://github.com/cota/berkeley-testfloat-3
-> +	url =3D https://git.qemu.org/git/berkeley-testfloat-3.git
->  [submodule "tests/fp/berkeley-softfloat-3"]
->  	path =3D tests/fp/berkeley-softfloat-3
-> -	url =3D https://github.com/cota/berkeley-softfloat-3
-> +	url =3D https://git.qemu.org/git/berkeley-softfloat-3.git
->  [submodule "roms/edk2"]
->  	path =3D roms/edk2
-> -	url =3D https://github.com/tianocore/edk2.git
-> +	url =3D https://git.qemu.org/git/edk2.git
->  [submodule "slirp"]
->  	path =3D slirp
-> -	url =3D https://gitlab.freedesktop.org/slirp/libslirp.git
-> +	url =3D https://git.qemu.org/git/libslirp.git
-> --=20
-> 2.20.1
+> This is going to print:
 >=20
+> "Command: lun=3D%d tag=3D0x%x data=3Dbad cdb length"
+>=20
+> which is maybe not the best. I'd rather print something more direct, but
+> it's probably better than actually rolling forward with len =3D -1.
+>=20
+> Then again, this should literally never happen, because scsi_req_new is
+> parsing the cdb object and already rejecting such cases.
 >=20
 
---Pd0ReVV5GZGQvF3a
-Content-Type: application/pgp-signature; name="signature.asc"
+Indeed, that is true.
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAlzJx2cACgkQnKSrs4Gr
-c8gBsgf9ErX/MtiUX4hHocugweplU4E60EozRdVwKO+Uyv3Phy93+Xr7QoPF60Ti
-AgdBNmaGalaqvVl3FXOW+kIDYvRPBkTMS0GJFM+jn5cl0pJLBSWVGjzSTK1FMLek
-SZMAkaUD/l/wxQQRo/ewNwyyfE3hA1hA1yPU2psStnRMmWQio/criZLYcVQZabRP
-rA1WGbCW69JvPFgKlGZUvyw++VQqmdCBtuYQKODVkbEdqO46VW44KLcr4APeC7xC
-DjhZ9LSnilaZphY1To0qPHI1vDProyKYhN7iGUvR+4BRVaQdsS3PgvmbYfaYAaA1
-AyLgo2CbH68TDjlX0R0rR9EfoJ67Mw==
-=hjtO
------END PGP SIGNATURE-----
+> Can you satisfy the compiler by asserting that it is greater than zero?
+> It ought to be provably true.
 
---Pd0ReVV5GZGQvF3a--
+Yes, that seems to work and is probably the way to go. I'll send a patch
+with that approach then. Thanks for the review.
+
+>=20
+> --js
+>=20
+>> +        return;
+>> +    }
+>>      line_buffer =3D g_malloc(len * 5 + 1);
+>> =20
+>>      for (i =3D 0, p =3D line_buffer; i < len; i++) {
+>>=20
+
+Bruce
+
 
