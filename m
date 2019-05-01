@@ -2,80 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7838510995
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 May 2019 16:49:29 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60118 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B13010994
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 May 2019 16:49:07 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60110 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLqY4-0003p5-L4
-	for lists+qemu-devel@lfdr.de; Wed, 01 May 2019 10:49:28 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54158)
+	id 1hLqXi-0003Wm-GC
+	for lists+qemu-devel@lfdr.de; Wed, 01 May 2019 10:49:06 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54232)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hLqVK-0002Vs-Sx
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 10:46:41 -0400
+	(envelope-from <berrange@redhat.com>) id 1hLqVe-0002fA-2j
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 10:47:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hLqVH-0001qK-Pa
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 10:46:38 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:39332)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hLqVH-0001q2-J2
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 10:46:35 -0400
-Received: by mail-pl1-x642.google.com with SMTP id e92so8278038plb.6
-	for <qemu-devel@nongnu.org>; Wed, 01 May 2019 07:46:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=MXeR5ucxkzn+BPA9oGPvA3bdjTpeJcJstRMgb0ixZZA=;
-	b=SPORCtmlyjzoEx20Iq1dz94iilotwGaZvFrkKwVJ33VOlZpm5k0Tr8VEt7q8pka//L
-	7Ky6f2Ca+qhvYDY6pDmmjA3WLEHsVY4V2wygw9SCAf7Otgvlik/0ptbQplindhAN77uj
-	DwWivTrutlWN1qguEP0vVsZvEBSMcUoYGtBIxc3VtSeoRVtt2JAzTHT+lCGfloHfCl6e
-	/yMknLQXesHSDeGPFJBd7hV6ieO4ttG25BiL+TArEU3C3GrsV4xqhljPiFqW9MG14N+K
-	IXaj1zNGeZRbcCbWDNpsvCdw2ybodV5KD/b6m56VyM5UedwnwUIAL1oP4xLAAxMrnXkw
-	+cMQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=MXeR5ucxkzn+BPA9oGPvA3bdjTpeJcJstRMgb0ixZZA=;
-	b=atCM6Eh1p9+hDD+D8R+8mheS1PR/TadTTfBD1gdDK+fBHSP7IVdZJ3X6i9oRFaztVb
-	OeY+5cZTEhWsRYxwyW0RPZvBP1M1vfu+nckD1uc6D62lm3J3PU8HoNFeDULeyVZU6w0L
-	eJsLSXe5KUQCj5WOxHiUncjwr8aUNAY4n8FXCKNdWdtitCIV6LTtcRhiPuBoYVgKmdrn
-	Wxn1mD8DiRHI5JQrtk8eKFRoqxpewsJ60+iZ05MdJp4XcY6XSGNKOG2fb0OIwY7/IMkS
-	53V6AVrUR7VjRZuON8mTigOu8RmDxfb262kR8dnLmcvvmW9LeK4B79cW1D6s/SXEmjiY
-	7ieQ==
-X-Gm-Message-State: APjAAAWqby34STiP2jjin6ziY1Hxxsp3qnN5Q0EsvFgRoOpO0qKv/msR
-	63Rae80Xp5G6lELkNSJ8IqqXOw==
-X-Google-Smtp-Source: APXvYqyCBrU2WNKPZRFf0OOqFS5TQFw2JS8uC8J0tCdKjdHIqb4GAsl0mEIUGJz4cM7ra79FK2E6YA==
-X-Received: by 2002:a17:902:29e9:: with SMTP id
-	h96mr58689711plb.258.1556721994556; 
-	Wed, 01 May 2019 07:46:34 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-189-189.tukw.qwest.net. [97.113.189.189])
-	by smtp.gmail.com with ESMTPSA id
-	q144sm46948224pgq.76.2019.05.01.07.46.33
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 01 May 2019 07:46:33 -0700 (PDT)
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
-	qemu-devel@nongnu.org
-References: <20190430165234.32272-1-alex.bennee@linaro.org>
-	<20190430165234.32272-10-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <357d799d-898f-3e1e-d4cb-beeac89cb528@linaro.org>
-Date: Wed, 1 May 2019 07:46:31 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <berrange@redhat.com>) id 1hLqVa-0001wS-DT
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 10:46:57 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35882)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hLqVa-0001vX-8R
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 10:46:54 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 98EF959451;
+	Wed,  1 May 2019 14:46:50 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-112-28.ams2.redhat.com
+	[10.36.112.28])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id D657A85882;
+	Wed,  1 May 2019 14:46:48 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Wed,  1 May 2019 15:46:46 +0100
+Message-Id: <20190501144646.4851-1-berrange@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190430165234.32272-10-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::642
-Subject: Re: [Qemu-devel] [PATCH v5 09/15] accel/tcg: remove
- softmmu_template.h
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.39]);
+	Wed, 01 May 2019 14:46:50 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v2] linux-user: avoid string truncation
+ warnings in uname field copying
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -87,19 +56,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, mark.cave-ayland@ilande.co.uk, cota@braap.org
+Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/30/19 9:52 AM, Alex Bennée wrote:
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->  accel/tcg/softmmu_template.h | 454 -----------------------------------
->  1 file changed, 454 deletions(-)
->  delete mode 100644 accel/tcg/softmmu_template.h
+In file included from /usr/include/string.h:494,
+                 from include/qemu/osdep.h:101,
+                 from linux-user/uname.c:20:
+In function =E2=80=98strncpy=E2=80=99,
+    inlined from =E2=80=98sys_uname=E2=80=99 at linux-user/uname.c:94:3:
+/usr/include/bits/string_fortified.h:106:10: warning: =E2=80=98__builtin_=
+strncpy=E2=80=99 output may be truncated copying 64 bytes from a string o=
+f length 64 [-Wstringop-truncation]
+  106 |   return __builtin___strncpy_chk (__dest, __src, __len, __bos (__=
+dest));
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~
 
-Why is this separate from patch 7?
+We don't care where the NUL terminator in the original uname
+field was. It suffices to copy the entire original field and
+simply force a NUL terminator at the end of the new field.
 
+Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+---
 
-r~
+Changed in v2:
+
+ - Always use sizeof() in preference to __NEW_UTS_LEN
+
+ linux-user/uname.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
+
+diff --git a/linux-user/uname.c b/linux-user/uname.c
+index 313b79dbad..1c05f95387 100644
+--- a/linux-user/uname.c
++++ b/linux-user/uname.c
+@@ -72,9 +72,8 @@ const char *cpu_to_uname_machine(void *cpu_env)
+=20
+ #define COPY_UTSNAME_FIELD(dest, src) \
+   do { \
+-      /* __NEW_UTS_LEN doesn't include terminating null */ \
+-      (void) strncpy((dest), (src), __NEW_UTS_LEN); \
+-      (dest)[__NEW_UTS_LEN] =3D '\0'; \
++      memcpy((dest), (src), MIN(sizeof(src), sizeof(dest))); \
++      (dest)[sizeof(dest) - 1] =3D '\0'; \
+   } while (0)
+=20
+ int sys_uname(struct new_utsname *buf)
+--=20
+2.21.0
+
 
