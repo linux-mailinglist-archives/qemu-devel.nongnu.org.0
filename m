@@ -2,71 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 41EB210BF4
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 May 2019 19:23:24 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:37391 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C89610BF7
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 May 2019 19:24:52 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37402 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLsx0-000362-TA
-	for lists+qemu-devel@lfdr.de; Wed, 01 May 2019 13:23:22 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34391)
+	id 1hLsyR-00046u-EZ
+	for lists+qemu-devel@lfdr.de; Wed, 01 May 2019 13:24:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34655)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <palmer@sifive.com>) id 1hLsvL-0002WW-MN
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 13:21:40 -0400
+	(envelope-from <stefanha@redhat.com>) id 1hLswB-0002zu-Mq
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 13:22:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <palmer@sifive.com>) id 1hLsvJ-00050Q-OC
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 13:21:39 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:38358)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <palmer@sifive.com>) id 1hLsvH-0004sV-8u
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 13:21:37 -0400
-Received: by mail-pl1-x641.google.com with SMTP id a59so1093091pla.5
-	for <qemu-devel@nongnu.org>; Wed, 01 May 2019 10:21:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sifive.com; s=google;
-	h=date:subject:in-reply-to:cc:from:to:message-id:mime-version
-	:content-transfer-encoding;
-	bh=awUbgiBwCOuo5v2kLAF55+iiqa/t6gk717cmEDo7Rek=;
-	b=SYISy6pf43QjNYvygg6ngkS5aNZ8yh9CchAcOaha7n+OdMeY6+7XS+/2r7mov9LGnb
-	XL7qMhTHHfrSowtLSDl6OXvXGVKLacOfhfsWZ2f5TD5uyb+X3p2muSvkILbtPidguVnZ
-	lFzrRpL+NcON3uSNZIW6YwdaumOyA56P/kH/dYhY/9C22J7CGush439m4eC0xsdfiUAB
-	jxk3DR433p2YqlHqWQnIbrQbCDCkD1H4N6lhm6o7jqQUAHdbZyN6HCc4Or4qLXhQ9e7V
-	lnCof2a3ZBLRCanYRgK/wXRDNJH8oEXXelaBUgO+2Ds5Hf/+Iujy5+RuFDPyl26T5XPh
-	gc6g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:subject:in-reply-to:cc:from:to:message-id
-	:mime-version:content-transfer-encoding;
-	bh=awUbgiBwCOuo5v2kLAF55+iiqa/t6gk717cmEDo7Rek=;
-	b=aXJv3z9S0lBshGQRqv5Z1dlsDtsvMw/k/F7Ld+S+Nvkbh/PMydBWxxhjLXi+WuAtfJ
-	PIBzT/QA3zLjzJhVXiZ8DIRwRQULypO+8XzrkJEQqzod1wHcKmyLSaJ60aiKHN8NKnm9
-	Ck0GQGBNdU3X27zOh0LxI4PfGJRjguT/wTabyZarmwpEzwX1obKCwgAYMvPdTMSpzo9a
-	AuNQnRB19z7GnF5H6ZOtryujeB+7ye542ySm0XhUN/CZcmc8pOZ/GQGLYr7NUEv7xRI+
-	7qys6y5LR3iaDZU/QAqAc0USxVksqdXvOSH6088jTHnPB/99nY0FtrYyB53cfVOiOUzQ
-	oBeg==
-X-Gm-Message-State: APjAAAXmGRCnzmdtfszif6ZgLw2qCgevcAgGW72lsRaILWCs0fI+C6X3
-	/i+1na4Lb0VU41Dv+59zGcgdatX2OOM0qw==
-X-Google-Smtp-Source: APXvYqxDaxeCcgaqNIaeMbwN+uskvs5bFUEkeFdaoEssT4FjUrrwfXS3r7vtSa0DtEwZEQCADCVSMA==
-X-Received: by 2002:a17:902:7b97:: with SMTP id
-	w23mr71090313pll.335.1556731292344; 
-	Wed, 01 May 2019 10:21:32 -0700 (PDT)
-Received: from localhost ([12.206.222.5]) by smtp.gmail.com with ESMTPSA id
-	p20sm51021653pgj.86.2019.05.01.10.21.31
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 01 May 2019 10:21:31 -0700 (PDT)
-Date: Wed, 01 May 2019 10:21:31 -0700 (PDT)
-X-Google-Original-Date: Wed, 01 May 2019 10:21:08 PDT (-0700)
-In-Reply-To: <20190425172636.11128-2-richard.henderson@linaro.org>
-From: Palmer Dabbelt <palmer@sifive.com>
-To: richard.henderson@linaro.org
-Message-ID: <mhng-6fa8c1f8-fe4c-4d72-b0ea-c9809704637e@palmer-si-x1e>
-Mime-Version: 1.0 (MHng)
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::641
-Subject: Re: [Qemu-devel] [PATCH 1/2] fixup! target/riscv: Name the argument
- sets for all of insn32 formats
+	(envelope-from <stefanha@redhat.com>) id 1hLswA-0006xT-Vb
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 13:22:31 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58418)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1hLswA-0006uN-Q4
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 13:22:30 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+	[10.5.11.16])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 9D52330ADBAF;
+	Wed,  1 May 2019 17:22:29 +0000 (UTC)
+Received: from localhost (ovpn-116-250.ams2.redhat.com [10.36.116.250])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id DEF4A7444E;
+	Wed,  1 May 2019 17:22:28 +0000 (UTC)
+Date: Wed, 1 May 2019 13:22:27 -0400
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Message-ID: <20190501172227.GD22391@stefanha-x1.localdomain>
+References: <CAFEAcA9BCXuOxaFaHvT0bDnb+7e_vYuhxspjokRp19G+SUf+MA@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="ylS2wUBXLOxYXZFQ"
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA9BCXuOxaFaHvT0bDnb+7e_vYuhxspjokRp19G+SUf+MA@mail.gmail.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.47]);
+	Wed, 01 May 2019 17:22:29 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] Spreading the load on QEMU pullreq handling and
+ release work
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -78,43 +59,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Michael Roth <mdroth@linux.vnet.ibm.com>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Markus Armbruster <armbru@redhat.com>,
+	QEMU Developers <qemu-devel@nongnu.org>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 25 Apr 2019 10:26:35 PDT (-0700), richard.henderson@linaro.org wrote:
-> ---
->  target/riscv/translate.c | 13 ++++++++++---
->  1 file changed, 10 insertions(+), 3 deletions(-)
->
-> diff --git a/target/riscv/translate.c b/target/riscv/translate.c
-> index d1f599a92d..009c146e8f 100644
-> --- a/target/riscv/translate.c
-> +++ b/target/riscv/translate.c
-> @@ -713,12 +713,19 @@ static bool gen_shift(DisasContext *ctx, arg_r *a,
->   * initially declared by the 32-bit decoder, which results in duplicate
->   * declaration warnings.  Suppress them.
->   */
-> -#pragma GCC diagnostic push
-> -#pragma GCC diagnostic ignored "-Wredundant-decls"
-> +#ifdef CONFIG_PRAGMA_DIAGNOSTIC_AVAILABLE
-> +# pragma GCC diagnostic push
-> +# pragma GCC diagnostic ignored "-Wredundant-decls"
-> +# ifdef __clang__
-> +#  pragma GCC diagnostic ignored "-Wtypedef-redefinition"
-> +# endif
-> +#endif
->
->  #include "decode_insn16.inc.c"
->
-> -#pragma GCC diagnostic pop
-> +#ifdef CONFIG_PRAGMA_DIAGNOSTIC_AVAILABLE
-> +# pragma GCC diagnostic pop
-> +#endif
->
->  static void decode_opc(DisasContext *ctx)
->  {
 
-I've attemeted to fixup the patch on my for-master, let me know if I've screwed
-something up!
+--ylS2wUBXLOxYXZFQ
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+
+On Tue, Apr 30, 2019 at 06:27:03PM +0100, Peter Maydell wrote:
+> For the moment I'd like to ask for in-principle volunteers
+> to be on the release-handling rota.
+
+I am willing to handle one release per year.
+
+Stefan
+
+--ylS2wUBXLOxYXZFQ
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAlzJ1cAACgkQnKSrs4Gr
+c8iWwAgAuv9RV5oYixE06a9lKngYmzo+njZ0LTjMskRzZax0RUjJTqIYGAqoRux2
+PFfO128C2TeuWiyHs1W5Smws07MGljrBNSkY+0mzB+zu4Op+hEdO21ZSYYx2BG1A
+C0Sb3zOhsPsraPqIr7KOU1EE1R8Lt+c1n5mAkkhnhY5rkavROd3z/5VabRp1kW9q
+NN7Zlaa0bEMbSV3WPIYTap4y92WP7ZjoLYkqdJr05oMxsPDubitcWvWRQYB2JJ39
+iW613OHyP2WRogc7MT67UXkybz+AY7e9DqsKAuQwwa8AECEdvxmhY9PEbUOvaW/Q
+V6F6ZdwH57ei4QjfiBt1SSGHj2Zfvg==
+=NKkT
+-----END PGP SIGNATURE-----
+
+--ylS2wUBXLOxYXZFQ--
 
