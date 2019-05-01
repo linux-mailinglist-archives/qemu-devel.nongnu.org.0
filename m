@@ -2,77 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0890D109B2
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 May 2019 16:59:21 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60455 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 17E0D109D6
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 May 2019 17:12:07 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60735 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLqhc-0001fY-6Q
-	for lists+qemu-devel@lfdr.de; Wed, 01 May 2019 10:59:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56647)
+	id 1hLqtt-0006Ay-63
+	for lists+qemu-devel@lfdr.de; Wed, 01 May 2019 11:12:01 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58852)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hLqgL-000187-JO
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 10:58:04 -0400
+	(envelope-from <alex.bennee@linaro.org>) id 1hLqsi-0005aS-9M
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 11:10:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hLqgH-0007yE-RF
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 10:58:01 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:40542)
+	(envelope-from <alex.bennee@linaro.org>) id 1hLqsY-0007KX-OM
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 11:10:42 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:36812)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hLqgH-0007xM-LX
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 10:57:57 -0400
-Received: by mail-wr1-x442.google.com with SMTP id h4so24868678wre.7
-	for <qemu-devel@nongnu.org>; Wed, 01 May 2019 07:57:56 -0700 (PDT)
+	id 1hLqsT-00078n-U4
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 11:10:36 -0400
+Received: by mail-wm1-x342.google.com with SMTP id p16so1510011wma.1
+	for <qemu-devel@nongnu.org>; Wed, 01 May 2019 08:10:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=references:user-agent:from:to:cc:subject:in-reply-to:date
 	:message-id:mime-version:content-transfer-encoding;
-	bh=IT6k9a77CVn82aYB7ji/cgfCAqxIlP01Bzug1LGws0Y=;
-	b=RzooFvU+dTe93Faxg4dd65iwOrpXYoXRKfr1ZQmNVkWqRNOmm2bJ7U0IZItY09EMVS
-	1F8qCq0YcMb95eo9Qt1tRgZtwFahoS3HkKHyGhAN9D6XnXAXgPrNqhQ0u5eSRzZRqcOr
-	iZQ7wNaLOj48NOKwgKsxyTiot2QaVz4/oYBgIkPr40G2AOIc65oIzSdQ9LNAVY+2IURG
-	s9BdCUr/7VZ2Ph8ApURqzlLExWxm2CFoleuliqq6qYx59y5JM1+tvId87NW7RoO/MK8C
-	XJGarsIZQDyQocbQKlAt0TER8VRiuLWsj5b9Hu2RqFERPbRhHbKDShzRbkSJ8rxn1rLv
-	rujw==
+	bh=iPcSwdIk5zRfbUnJrAY/oIDWp/1DnjIB1UCWao1h0Dw=;
+	b=wcGcqyy7OZg3OBYCTAO2hSMCTapj7i519cZlCJCckpYkqD17oTJJDdeWUKMaAK7mOl
+	6xIVkP4Mxy44PHWf6OLW7F90Qozt+g8YOg5A7XEw8TVLqKkT2w7NQKuiZErDKxzWYTAQ
+	NAioJA/23rK/Zrzku9LY+Mi+in7mzpv666JwLj1yRczcJs/VZnfF4e++7tlX/4AxjiQy
+	Eg/IMoV7TV536UENJVSYVZgX1ACsnIEb3AAWYogGCIIa4bvYEdreKrXGuGfsVm4o3SJV
+	wBFB4hbF4eQMUUlQ4Zx+Wn5j13xEWsfgDCU6KJ72+kk6FxlwUdSXk8HgtKKFNLf5BHVE
+	EuLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:references:user-agent:from:to:cc:subject
 	:in-reply-to:date:message-id:mime-version:content-transfer-encoding;
-	bh=IT6k9a77CVn82aYB7ji/cgfCAqxIlP01Bzug1LGws0Y=;
-	b=NCY6P0lMq4anFsH+evrwnooZqmSrNQASAcESDIf9zYAHWTMtlYr31XYKFqLss/R4P/
-	pCFVF5AXwKh3iWLG540quQueDJtpAXW5xgcyjezPAxXnZviGUQo/vAd5NPEP30ENG8mI
-	7i6yG0q5oQLf4iPUd73JCVx7K48Zq7OZEfG9An6E3eQbsBOcW48ZLJ3SmbVcN8FGCJYz
-	jEVTN393FlCywqR9sAeT5aSBvgXaqvL7nSrHEuTSm7Qh1gtkyz4lvEGwSi+Gp8/XGKH/
-	Q2w5mtLIBNcqRCMP0kSiNliQvA4/q6CITQJMJ7flFSfvfXqz6wZZC5/MDCNm7dKAr5zF
-	8rsQ==
-X-Gm-Message-State: APjAAAW6NMzXXQ1kWpoqUsM1zsLdTzZniMYksex6YW/NhqMV9MB5nu+u
-	2m4ejun3Gb0lTAPJ3r8bs2+LNw==
-X-Google-Smtp-Source: APXvYqxJ3pTos6HLslyrM84cOMsVRqumQT8mgKdc2Retgv+ETpvVhJCQVEEk6QnMS1ymMgfDVHRKuA==
-X-Received: by 2002:adf:e88b:: with SMTP id d11mr29042938wrm.327.1556722675432;
-	Wed, 01 May 2019 07:57:55 -0700 (PDT)
+	bh=iPcSwdIk5zRfbUnJrAY/oIDWp/1DnjIB1UCWao1h0Dw=;
+	b=Sm+zkCceErO3nB0QTO5ZJISVLON8F33HwcjC3uE95IYNMUtok3/V1+xn6vyIFp0b0U
+	+nPRzVxLY/s760pDhYW+25KecW/ilLO2rI5UDOMa4jmPixZH5pTINu6QT3xKg9HcPvVf
+	jC4jxdTplsIhwjmoVnEEFtoweGnGuEEVYd+Uar5gpcjMS3gUU0V7B0U1F0RhyzbB+M1A
+	2l9sIz1QxIhw0cHe8WnCWMdVyMJZWeNOfJByHbVMHsGH1Nf9gBu51W8m0WlmZvGr79JA
+	EchqwZvfw28GaRpSQm4FrxDCsDwwr8IHZlNceJhChszW91Gv2U3XFUXZpXzyaepnyCUN
+	HfoA==
+X-Gm-Message-State: APjAAAVNnXRCuDKG9ysdqbvSqFMGn9sLOKsZ330LnEb9bldoe5I6fyVG
+	jbT78MdZpGR3Yllu8fmpjXmsEVMxfoo=
+X-Google-Smtp-Source: APXvYqwyhxV11gPEn7wxLAn91J1KBbcOHPNAFxVixk310hj7ABYpHGFaCwuznKAnVFgf9WIfh0D71w==
+X-Received: by 2002:a05:600c:29a:: with SMTP id
+	26mr3604735wmk.112.1556723413228; 
+	Wed, 01 May 2019 08:10:13 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
-	by smtp.gmail.com with ESMTPSA id y6sm3798986wra.24.2019.05.01.07.57.54
+	by smtp.gmail.com with ESMTPSA id
+	r2sm15739134wrr.65.2019.05.01.08.10.12
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 01 May 2019 07:57:54 -0700 (PDT)
+	Wed, 01 May 2019 08:10:12 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id 048651FF87;
-	Wed,  1 May 2019 15:57:54 +0100 (BST)
+	by zen.linaroharston (Postfix) with ESMTP id 4DA111FF87;
+	Wed,  1 May 2019 16:10:12 +0100 (BST)
 References: <20190430165234.32272-1-alex.bennee@linaro.org>
-	<20190430165234.32272-4-alex.bennee@linaro.org>
-	<83e4f91b-a590-2a2a-bf5f-14b99c5aa0fc@linaro.org>
+	<20190430165234.32272-10-alex.bennee@linaro.org>
+	<357d799d-898f-3e1e-d4cb-beeac89cb528@linaro.org>
 User-agent: mu4e 1.3.1; emacs 26.1
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Richard Henderson <richard.henderson@linaro.org>
-In-reply-to: <83e4f91b-a590-2a2a-bf5f-14b99c5aa0fc@linaro.org>
-Date: Wed, 01 May 2019 15:57:53 +0100
-Message-ID: <871s1i6x3i.fsf@zen.linaroharston>
+In-reply-to: <357d799d-898f-3e1e-d4cb-beeac89cb528@linaro.org>
+Date: Wed, 01 May 2019 16:10:12 +0100
+Message-ID: <87zho65hyj.fsf@zen.linaroharston>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::442
-Subject: Re: [Qemu-devel] [PATCH v5 03/15] tests/tcg/aarch64: add system
- boot.S
+X-Received-From: 2a00:1450:4864:20::342
+Subject: Re: [Qemu-devel] [PATCH v5 09/15] accel/tcg: remove
+ softmmu_template.h
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -93,86 +95,15 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Richard Henderson <richard.henderson@linaro.org> writes:
 
 > On 4/30/19 9:52 AM, Alex Benn=C3=A9e wrote:
->> +.error:
->> +	.string "Terminated by exception.\n"
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> ---
+>>  accel/tcg/softmmu_template.h | 454 -----------------------------------
+>>  1 file changed, 454 deletions(-)
+>>  delete mode 100644 accel/tcg/softmmu_template.h
 >
-> Put it in .rodata just because we can?
+> Why is this separate from patch 7?
 
-Sure.
-
->
->> +        /* Page table setup (identity mapping).  */
->> +	adrp	x0, ttb
->> +	add	x0, x0, :lo12:ttb
->
-> You are in control of the layout of the executable,
-> and adr has a 1MB range.  Why use adrp+add?
-
-Ok.
-
->
->> +        /* Create some (big) pages */
->> +	adr	x1, .				/* phys address */
->> +	bic	x1, x1, #(1 << 30) - 1		/* 1GB block alignment */
->
-> Do you really want 1GB pages?  You'll pretty much only be able to test va=
-lid
-> memory operations with that.  Which is also true until there's something =
-other
-> than an exit for the exception vector... but ya know what I mean.
-
-Yeah we can do better here. I mainly went with what libgloss had setup
-because I was finding it hard to get find a nice summary of the various
-page table formats. I want big enough that I don't have to futz around
-create multiple page entries and ideally have some fault-able regions as
-well.
-
-
->
->> +        /* Setup some stack space and enter the test code.
->> +         * Assume everthing except the return value is garbage when we
->> +	 * return, we won't need it.
->> +         */
->> +	adrp	x0, stack
->> +	add	x0, x0, :lo12:stack
->> +        mov      sp, x0
->
-> You need a pointer to the end of the stack, not the beginning.
-> Again, I think this could be just
->
-> 	adr	sp, stack_end
-
-lol, I guess the page table was being crapped over....
-
->
-> Also, there's tab/space confusion all through this file.
-> IMO, this is assembly, so it *should* be tabs.
-
-That will probably be my editor getting confused because .S implies cpp
-
->
->> @@ -0,0 +1,22 @@
->> +ENTRY(__start)
->> +
->> +SECTIONS
->> +{
->> +    /* virt machine, RAM starts at 1gb */
->> +    . =3D (1 << 30);
->> +    .text : {
->> +        *(.text)
->> +    }
->> +    .data : {
->> +        *(.data)
->> +    }
->> +    .rodata : {
->> +        *(.rodata)
->> +    }
->
-> If you ever wanted to make this read-only, swap .rodata before .data, so =
-that
-> it's next to .text.
-
-OK
+No particular reason, we can certainly merge them.
 
 >
 >
