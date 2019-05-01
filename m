@@ -2,79 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2162D109A5
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 May 2019 16:52:55 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60271 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AACD109A9
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 May 2019 16:54:14 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60322 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLqbO-0007QD-BZ
-	for lists+qemu-devel@lfdr.de; Wed, 01 May 2019 10:52:54 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55171)
+	id 1hLqcf-0008FE-S3
+	for lists+qemu-devel@lfdr.de; Wed, 01 May 2019 10:54:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55275)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hLqZK-0005ya-Vo
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 10:50:50 -0400
+	(envelope-from <berrange@redhat.com>) id 1hLqZZ-0006ZS-Ts
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 10:51:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hLqZG-0003gu-3r
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 10:50:46 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:33799)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hLqZC-0003fK-0t
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 10:50:39 -0400
-Received: by mail-pf1-x441.google.com with SMTP id b3so8716964pfd.1
-	for <qemu-devel@nongnu.org>; Wed, 01 May 2019 07:50:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=IOAkbCcQFdqXOsIVHmJhxaHx0qbrWozYia1wPmyXSt0=;
-	b=oAxuO/9bGz/Q22bK6A+p0o07gvdlBmGzgMmWN3O14PbO1hX8MpJybCfo2NwMuOmGjz
-	qfWu96xbJq7ZtnIMYrPRWFwtu+tAHXnZsCBPBmkV0PtyjY6aMqrGUd0er3EaWTSEQe+K
-	UKrej/i3y3uePe+QSXzaxYfjrLgZuj1jgilese6oQnyMsTIaQ5UQFNS4Tzu4NrCb/VIC
-	KVeM40KhkOTGEceAgQ9mSzDMnwztt5HqkLk1thjrxOOUStzS49RSvoFsbfZ/bg4+NkhY
-	zE1AvHfoghNnMO7Lv60MdfF1r2/YY5Cd3fn2cCkXwWqokGnVuR1PhFvSdVwzbtGc5ewz
-	2NSA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=IOAkbCcQFdqXOsIVHmJhxaHx0qbrWozYia1wPmyXSt0=;
-	b=sWov42c5t9aBn+4LREkEqfzt4rhzCL+7xqIkhOgYrvBJ7kysq8/3GoEonswzOPqHmh
-	KbCxC8eAIHYDcyp6VhlxhvCluUHEfYfHBftSY6C9+xk9eLHVRQUB2vu+aSErJPFg75gB
-	dPmCR1pzPW4teOVPhFsedm4ZYAYBKCpjCLRkrzDUZ/r718Sy/xe1eo1qRPqP6CmK6vGM
-	xDRVSxaIxxkKTc+xdV42aiFOidTmCY50J3iGX9HSSwLasOT1GDeZFbiW+tLzCrbnZkkX
-	Yt37J8r8fIsHC1pXJmJ4RgwmbJ37pl+yMX+0ljj74HJCUCBtohqCZs2J9QdnIXH/KWHl
-	Ft8w==
-X-Gm-Message-State: APjAAAVowl0YJ2SlCwW2tVFZoVHQC+L28WBkzrcW8fTo0b9p6YjuasCj
-	ro8pjPZFaRFm9ht1Fo3bpE+c1Q==
-X-Google-Smtp-Source: APXvYqzMOzo9IqtYUd8ZPAbKAq4rjyAYK3ErUScr9YYf7IOgAmAGrYA+pBo2RKFecuwVIMrY9WWvKQ==
-X-Received: by 2002:a63:f115:: with SMTP id f21mr73534705pgi.65.1556722235156; 
-	Wed, 01 May 2019 07:50:35 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-189-189.tukw.qwest.net. [97.113.189.189])
-	by smtp.gmail.com with ESMTPSA id
-	o15sm18018005pgb.85.2019.05.01.07.50.33
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 01 May 2019 07:50:34 -0700 (PDT)
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
-	qemu-devel@nongnu.org
-References: <20190430165234.32272-1-alex.bennee@linaro.org>
-	<20190430165234.32272-16-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <9cb38f75-291c-b30a-b009-532e3b56d5eb@linaro.org>
-Date: Wed, 1 May 2019 07:50:32 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <berrange@redhat.com>) id 1hLqZW-0003ns-LH
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 10:51:01 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43424)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hLqZW-0003n1-Cg
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 10:50:58 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 250B1C0467E4
+	for <qemu-devel@nongnu.org>; Wed,  1 May 2019 14:50:57 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-112-28.ams2.redhat.com
+	[10.36.112.28])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 6E93E10018E0;
+	Wed,  1 May 2019 14:50:53 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Wed,  1 May 2019 15:50:52 +0100
+Message-Id: <20190501145052.12579-1-berrange@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190430165234.32272-16-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::441
-Subject: Re: [Qemu-devel] [PATCH v5 15/15] Makefile.target: support
- per-target coverage reports
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.31]);
+	Wed, 01 May 2019 14:50:57 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v2] sockets: avoid string truncation warnings
+ when copying UNIX path
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -86,26 +56,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, mark.cave-ayland@ilande.co.uk, cota@braap.org
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 4/30/19 9:52 AM, Alex Bennée wrote:
-> Add support for generating a single targets coverage report. Execute:
-> 
->   make coverage-report
-> 
-> In the target build directory. This coverage report only cares about
-> target specific blobs so only searches the target build subdirectory.
-> 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->  Makefile.target | 16 ++++++++++++++++
->  1 file changed, 16 insertions(+)
+In file included from /usr/include/string.h:494,
+                 from include/qemu/osdep.h:101,
+                 from util/qemu-sockets.c:18:
+In function =E2=80=98strncpy=E2=80=99,
+    inlined from =E2=80=98unix_connect_saddr.isra.0=E2=80=99 at util/qemu=
+-sockets.c:925:5:
+/usr/include/bits/string_fortified.h:106:10: warning: =E2=80=98__builtin_=
+strncpy=E2=80=99 specified bound 108 equals destination size [-Wstringop-=
+truncation]
+  106 |   return __builtin___strncpy_chk (__dest, __src, __len, __bos (__=
+dest));
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~
+In function =E2=80=98strncpy=E2=80=99,
+    inlined from =E2=80=98unix_listen_saddr.isra.0=E2=80=99 at util/qemu-=
+sockets.c:880:5:
+/usr/include/bits/string_fortified.h:106:10: warning: =E2=80=98__builtin_=
+strncpy=E2=80=99 specified bound 108 equals destination size [-Wstringop-=
+truncation]
+  106 |   return __builtin___strncpy_chk (__dest, __src, __len, __bos (__=
+dest));
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+We are already validating the UNIX socket path length earlier in
+the functions. If we save this string length when we first check
+it, then we can simply use memcpy instead of strcpy later, avoiding
+the gcc truncation warnings.
 
+Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+---
+ util/qemu-sockets.c | 12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-r~
+diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
+index 9705051690..ba6335e71a 100644
+--- a/util/qemu-sockets.c
++++ b/util/qemu-sockets.c
+@@ -830,6 +830,7 @@ static int unix_listen_saddr(UnixSocketAddress *saddr=
+,
+     int sock, fd;
+     char *pathbuf =3D NULL;
+     const char *path;
++    size_t pathlen;
+=20
+     sock =3D qemu_socket(PF_UNIX, SOCK_STREAM, 0);
+     if (sock < 0) {
+@@ -845,7 +846,8 @@ static int unix_listen_saddr(UnixSocketAddress *saddr=
+,
+         path =3D pathbuf =3D g_strdup_printf("%s/qemu-socket-XXXXXX", tm=
+pdir);
+     }
+=20
+-    if (strlen(path) > sizeof(un.sun_path)) {
++    pathlen =3D strlen(path);
++    if (pathlen > sizeof(un.sun_path)) {
+         error_setg(errp, "UNIX socket path '%s' is too long", path);
+         error_append_hint(errp, "Path must be less than %zu bytes\n",
+                           sizeof(un.sun_path));
+@@ -877,7 +879,7 @@ static int unix_listen_saddr(UnixSocketAddress *saddr=
+,
+=20
+     memset(&un, 0, sizeof(un));
+     un.sun_family =3D AF_UNIX;
+-    strncpy(un.sun_path, path, sizeof(un.sun_path));
++    memcpy(un.sun_path, path, pathlen);
+=20
+     if (bind(sock, (struct sockaddr*) &un, sizeof(un)) < 0) {
+         error_setg_errno(errp, errno, "Failed to bind socket to %s", pat=
+h);
+@@ -901,6 +903,7 @@ static int unix_connect_saddr(UnixSocketAddress *sadd=
+r, Error **errp)
+ {
+     struct sockaddr_un un;
+     int sock, rc;
++    size_t pathlen;
+=20
+     if (saddr->path =3D=3D NULL) {
+         error_setg(errp, "unix connect: no path specified");
+@@ -913,7 +916,8 @@ static int unix_connect_saddr(UnixSocketAddress *sadd=
+r, Error **errp)
+         return -1;
+     }
+=20
+-    if (strlen(saddr->path) > sizeof(un.sun_path)) {
++    pathlen =3D strlen(saddr->path);
++    if (pathlen > sizeof(un.sun_path)) {
+         error_setg(errp, "UNIX socket path '%s' is too long", saddr->pat=
+h);
+         error_append_hint(errp, "Path must be less than %zu bytes\n",
+                           sizeof(un.sun_path));
+@@ -922,7 +926,7 @@ static int unix_connect_saddr(UnixSocketAddress *sadd=
+r, Error **errp)
+=20
+     memset(&un, 0, sizeof(un));
+     un.sun_family =3D AF_UNIX;
+-    strncpy(un.sun_path, saddr->path, sizeof(un.sun_path));
++    memcpy(un.sun_path, saddr->path, pathlen);
+=20
+     /* connect to peer */
+     do {
+--=20
+2.21.0
 
 
