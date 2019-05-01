@@ -2,64 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A1F9910C1F
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 May 2019 19:39:21 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:37630 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6F96210BFA
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 May 2019 19:28:03 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37454 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLtCS-0005a6-NF
-	for lists+qemu-devel@lfdr.de; Wed, 01 May 2019 13:39:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38010)
+	id 1hLt1W-0007Es-Kx
+	for lists+qemu-devel@lfdr.de; Wed, 01 May 2019 13:28:02 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35823)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hLt8o-0003lk-RN
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 13:35:35 -0400
+	(envelope-from <alex.bennee@linaro.org>) id 1hLt0E-0005dh-Tl
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 13:26:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hLt8n-0003BZ-PJ
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 13:35:34 -0400
-Received: from indium.canonical.com ([91.189.90.7]:43910)
+	(envelope-from <alex.bennee@linaro.org>) id 1hLt0D-0001gJ-ES
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 13:26:42 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:39490)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hLt8n-0003AF-Jy
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 13:35:33 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
-	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hLt8m-0005PN-Ad
-	for <qemu-devel@nongnu.org>; Wed, 01 May 2019 17:35:32 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id 3F7302E80CC
-	for <qemu-devel@nongnu.org>; Wed,  1 May 2019 17:35:32 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 01 May 2019 17:25:41 -0000
-From: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9?= <1809291@bugs.launchpad.net>
+	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+	id 1hLt0D-0001e0-52
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 13:26:41 -0400
+Received: by mail-wm1-x341.google.com with SMTP id n25so7694254wmk.4
+	for <qemu-devel@nongnu.org>; Wed, 01 May 2019 10:26:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=references:user-agent:from:to:subject:in-reply-to:date:message-id
+	:mime-version:content-transfer-encoding;
+	bh=uMPGYUgTyiwfgPNUcPgtB09Iv1BGZouhictmutLTguc=;
+	b=zFPOEBZy3jwkdw7ZA50vBhame9EXPfQ6qJgx1SPn6XFohs/w6pZKLday4pwRzbmR7f
+	QzFjOJotW1XUzsVL2+8evu1+qxSl6LUwUWI5BjVwEdvO0XYFDYExnvOKbCybmjI+4h21
+	NE4jlOovRldCD2QVyyEFs2JfbRN9xg2d/0LZEThbSxwrBa8XY6I8dq7ENM8yoPw4RStR
+	tWrOUdI8zrieImL1Te5wfAclzwZGoy9ySNNs3IXgGus526FSbEdZHKIUgVFy7l0zomKI
+	j2cRpNYBvod51uZFLzQ71jfuEoqLagX4zxnhX1qsWAPCDcZ98SbBq0C1Foz3oEcd0Nv2
+	CfrA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:references:user-agent:from:to:subject
+	:in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+	bh=uMPGYUgTyiwfgPNUcPgtB09Iv1BGZouhictmutLTguc=;
+	b=eepQJ93MbkB7X8DaLGNnTB849cbBpwPsQ8f70jXxPM+rCydZB629UYkCNXAWuD47Dp
+	eu3lCZwiR1ic+B5gLwp2Q+9I0VhfZx0RwEVYljJ35U+wMoO83TLIJojlG4GZs77gNeb4
+	DztIUF8nvPfzY7Ksx9FciLnbmw6htMxL3BvwLQqTfc8k6oAwhe1QUxy5ucun5wFyLR8D
+	5eRdq6TPK2Ga9x7ou1c+9/ZD8OR3v4LOf9+sw0i1bdnFAjFK6/Uhnvi2f4XseJ/IH4H9
+	V/raK4vwNhJshz/Q5kVG5P5eXhJfqEezb/FsyyIgHAn2KxovygQYZ6qdbzMRn+/OSEbR
+	f19Q==
+X-Gm-Message-State: APjAAAXYzsYb/cM6jPrUVd3dhDSZvVUijjNONLOJqYfksz7aYr/NcFur
+	Wr7hKx1nQH075EmEcxJ1RxXnUM6YN58=
+X-Google-Smtp-Source: APXvYqwe67+9lFSym9D9G8lfSzK8YQ7y/LVnKGni7fVzyhxQmwSby2xTYU+X44oXPJgj8HZHrcVcxw==
+X-Received: by 2002:a1c:1941:: with SMTP id 62mr7044854wmz.100.1556731599600; 
+	Wed, 01 May 2019 10:26:39 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+	by smtp.gmail.com with ESMTPSA id
+	v17sm4345537wmc.30.2019.05.01.10.26.38 for <qemu-devel@nongnu.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 01 May 2019 10:26:38 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+	by zen.linaroharston (Postfix) with ESMTP id 6CF881FF87
+	for <qemu-devel@nongnu.org>; Wed,  1 May 2019 18:26:38 +0100 (BST)
+References: <20190501050536.15580-1-richard.henderson@linaro.org>
+	<20190501050536.15580-6-richard.henderson@linaro.org>
+User-agent: mu4e 1.3.1; emacs 26.1
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
-	assignee=f4bug@amsat.org; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: kcwang philmd pmaydell
-X-Launchpad-Bug-Reporter: k.c. Wang (kcwang)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Philippe_Mathieu-Daud=C3=A9_=28philmd?=
-	=?utf-8?q?=29?=
-References: <154532874183.18487.10011391612831676105.malonedeb@gac.canonical.com>
-Message-Id: <155673154266.6733.8580056002824194359.launchpad@chaenomeles.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18928";
-	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 83029a00d743f4cca8a7e9c44800cad34dc2bb42
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1809291] Re: ARM PL181 (mmc for Security Digital
- Card) not working in Ubuntu 18.10 (CMD 2,
- 3 timeout). The SDC driver worked fine in Ubuntu 18.04 and earlier versions
- but not in Ubuntu 18.10
+In-reply-to: <20190501050536.15580-6-richard.henderson@linaro.org>
+Date: Wed, 01 May 2019 18:26:38 +0100
+Message-ID: <87pnp25bn5.fsf@zen.linaroharston>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2a00:1450:4864:20::341
+Subject: Re: [Qemu-devel] [PATCH v2 05/29] tcg: Assert fixed_reg is read-only
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -68,42 +83,195 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1809291 <1809291@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: qemu
-     Assignee: (unassigned) =3D> Philippe Mathieu-Daud=C3=A9 (philmd)
 
--- =
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1809291
+> The only fixed_reg is cpu_env, and it should not be modified
+> during any TB.  Therefore code that tries to special-case moves
+> into a fixed_reg is dead.  Remove it.
+>
+> Reviewed-by: David Hildenbrand <david@redhat.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-Title:
-  ARM PL181 (mmc for Security Digital Card) not working in Ubuntu 18.10
-  (CMD 2,3 timeout).  The SDC driver worked fine in Ubuntu 18.04 and
-  earlier versions but not in Ubuntu 18.10
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
 
-Status in QEMU:
-  Incomplete
+> ---
+>  tcg/tcg.c | 87 +++++++++++++++++++++++++------------------------------
+>  1 file changed, 40 insertions(+), 47 deletions(-)
+>
+> diff --git a/tcg/tcg.c b/tcg/tcg.c
+> index f7bef51de8..70ca113c26 100644
+> --- a/tcg/tcg.c
+> +++ b/tcg/tcg.c
+> @@ -3274,11 +3274,8 @@ static void tcg_reg_alloc_do_movi(TCGContext *s, T=
+CGTemp *ots,
+>                                    tcg_target_ulong val, TCGLifeData arg_=
+life,
+>                                    TCGRegSet preferred_regs)
+>  {
+> -    if (ots->fixed_reg) {
+> -        /* For fixed registers, we do not do any constant propagation.  =
+*/
+> -        tcg_out_movi(s, ots->type, ots->reg, val);
+> -        return;
+> -    }
+> +    /* ENV should not be modified.  */
+> +    tcg_debug_assert(!ots->fixed_reg);
+>
+>      /* The movi is not explicitly generated here.  */
+>      if (ots->val_type =3D=3D TEMP_VAL_REG) {
+> @@ -3314,6 +3311,9 @@ static void tcg_reg_alloc_mov(TCGContext *s, const =
+TCGOp *op)
+>      ots =3D arg_temp(op->args[0]);
+>      ts =3D arg_temp(op->args[1]);
+>
+> +    /* ENV should not be modified.  */
+> +    tcg_debug_assert(!ots->fixed_reg);
+> +
+>      /* Note that otype !=3D itype for no-op truncation.  */
+>      otype =3D ots->type;
+>      itype =3D ts->type;
+> @@ -3338,7 +3338,7 @@ static void tcg_reg_alloc_mov(TCGContext *s, const =
+TCGOp *op)
+>      }
+>
+>      tcg_debug_assert(ts->val_type =3D=3D TEMP_VAL_REG);
+> -    if (IS_DEAD_ARG(0) && !ots->fixed_reg) {
+> +    if (IS_DEAD_ARG(0)) {
+>          /* mov to a non-saved dead register makes no sense (even with
+>             liveness analysis disabled). */
+>          tcg_debug_assert(NEED_SYNC_ARG(0));
+> @@ -3351,7 +3351,7 @@ static void tcg_reg_alloc_mov(TCGContext *s, const =
+TCGOp *op)
+>          }
+>          temp_dead(s, ots);
+>      } else {
+> -        if (IS_DEAD_ARG(1) && !ts->fixed_reg && !ots->fixed_reg) {
+> +        if (IS_DEAD_ARG(1) && !ts->fixed_reg) {
+>              /* the mov can be suppressed */
+>              if (ots->val_type =3D=3D TEMP_VAL_REG) {
+>                  s->reg_to_temp[ots->reg] =3D NULL;
+> @@ -3504,6 +3504,10 @@ static void tcg_reg_alloc_op(TCGContext *s, const =
+TCGOp *op)
+>              arg =3D op->args[i];
+>              arg_ct =3D &def->args_ct[i];
+>              ts =3D arg_temp(arg);
+> +
+> +            /* ENV should not be modified.  */
+> +            tcg_debug_assert(!ts->fixed_reg);
+> +
+>              if ((arg_ct->ct & TCG_CT_ALIAS)
+>                  && !const_args[arg_ct->alias_index]) {
+>                  reg =3D new_args[arg_ct->alias_index];
+> @@ -3512,29 +3516,21 @@ static void tcg_reg_alloc_op(TCGContext *s, const=
+ TCGOp *op)
+>                                      i_allocated_regs | o_allocated_regs,
+>                                      op->output_pref[k], ts->indirect_bas=
+e);
+>              } else {
+> -                /* if fixed register, we try to use it */
+> -                reg =3D ts->reg;
+> -                if (ts->fixed_reg &&
+> -                    tcg_regset_test_reg(arg_ct->u.regs, reg)) {
+> -                    goto oarg_end;
+> -                }
+>                  reg =3D tcg_reg_alloc(s, arg_ct->u.regs, o_allocated_reg=
+s,
+>                                      op->output_pref[k], ts->indirect_bas=
+e);
+>              }
+>              tcg_regset_set_reg(o_allocated_regs, reg);
+> -            /* if a fixed register is used, then a move will be done aft=
+erwards */
+> -            if (!ts->fixed_reg) {
+> -                if (ts->val_type =3D=3D TEMP_VAL_REG) {
+> -                    s->reg_to_temp[ts->reg] =3D NULL;
+> -                }
+> -                ts->val_type =3D TEMP_VAL_REG;
+> -                ts->reg =3D reg;
+> -                /* temp value is modified, so the value kept in memory is
+> -                   potentially not the same */
+> -                ts->mem_coherent =3D 0;
+> -                s->reg_to_temp[reg] =3D ts;
+> +            if (ts->val_type =3D=3D TEMP_VAL_REG) {
+> +                s->reg_to_temp[ts->reg] =3D NULL;
+>              }
+> -        oarg_end:
+> +            ts->val_type =3D TEMP_VAL_REG;
+> +            ts->reg =3D reg;
+> +            /*
+> +             * Temp value is modified, so the value kept in memory is
+> +             * potentially not the same.
+> +             */
+> +            ts->mem_coherent =3D 0;
+> +            s->reg_to_temp[reg] =3D ts;
+>              new_args[i] =3D reg;
+>          }
+>      }
+> @@ -3550,10 +3546,10 @@ static void tcg_reg_alloc_op(TCGContext *s, const=
+ TCGOp *op)
+>      /* move the outputs in the correct register if needed */
+>      for(i =3D 0; i < nb_oargs; i++) {
+>          ts =3D arg_temp(op->args[i]);
+> -        reg =3D new_args[i];
+> -        if (ts->fixed_reg && ts->reg !=3D reg) {
+> -            tcg_out_mov(s, ts->type, ts->reg, reg);
+> -        }
+> +
+> +        /* ENV should not be modified.  */
+> +        tcg_debug_assert(!ts->fixed_reg);
+> +
+>          if (NEED_SYNC_ARG(i)) {
+>              temp_sync(s, ts, o_allocated_regs, 0, IS_DEAD_ARG(i));
+>          } else if (IS_DEAD_ARG(i)) {
+> @@ -3674,26 +3670,23 @@ static void tcg_reg_alloc_call(TCGContext *s, TCG=
+Op *op)
+>      for(i =3D 0; i < nb_oargs; i++) {
+>          arg =3D op->args[i];
+>          ts =3D arg_temp(arg);
+> +
+> +        /* ENV should not be modified.  */
+> +        tcg_debug_assert(!ts->fixed_reg);
+> +
+>          reg =3D tcg_target_call_oarg_regs[i];
+>          tcg_debug_assert(s->reg_to_temp[reg] =3D=3D NULL);
+> -
+> -        if (ts->fixed_reg) {
+> -            if (ts->reg !=3D reg) {
+> -                tcg_out_mov(s, ts->type, ts->reg, reg);
+> -            }
+> -        } else {
+> -            if (ts->val_type =3D=3D TEMP_VAL_REG) {
+> -                s->reg_to_temp[ts->reg] =3D NULL;
+> -            }
+> -            ts->val_type =3D TEMP_VAL_REG;
+> -            ts->reg =3D reg;
+> -            ts->mem_coherent =3D 0;
+> -            s->reg_to_temp[reg] =3D ts;
+> -            if (NEED_SYNC_ARG(i)) {
+> -                temp_sync(s, ts, allocated_regs, 0, IS_DEAD_ARG(i));
+> -            } else if (IS_DEAD_ARG(i)) {
+> -                temp_dead(s, ts);
+> -            }
+> +        if (ts->val_type =3D=3D TEMP_VAL_REG) {
+> +            s->reg_to_temp[ts->reg] =3D NULL;
+> +        }
+> +        ts->val_type =3D TEMP_VAL_REG;
+> +        ts->reg =3D reg;
+> +        ts->mem_coherent =3D 0;
+> +        s->reg_to_temp[reg] =3D ts;
+> +        if (NEED_SYNC_ARG(i)) {
+> +            temp_sync(s, ts, allocated_regs, 0, IS_DEAD_ARG(i));
+> +        } else if (IS_DEAD_ARG(i)) {
+> +            temp_dead(s, ts);
+>          }
+>      }
+>  }
 
-Bug description:
-  ARM PL181 MMC card no longer working in qemu-system-arm in Ubuntu 18.10
-  The MMC driver code worked fine in Ubuntu 15.10 to 18.04.
-  The command to run qemu-system-arm is
 
-      qemu-system-arm -M versatilepb -m 256M -sd sdimage -kernel t.bin
-  -serial mon:stdio
-
-  During SDC initialization, SDC commands 2, 3, 9, 13, 7, 16 all timeout, =
-
-  which cause subsequent read/write commands 17/24 to fail also.
-
-  Tried both ARM versatilepb and realview-pb-a8, realview-pbx-a9 boards:
-  all the same.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1809291/+subscriptions
+--
+Alex Benn=C3=A9e
 
