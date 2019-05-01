@@ -2,74 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D448410B76
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 May 2019 18:41:35 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36553 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2DBC910C0A
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 May 2019 19:34:47 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37556 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLsIZ-00065e-37
-	for lists+qemu-devel@lfdr.de; Wed, 01 May 2019 12:41:35 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54637)
+	id 1hLt82-0002lF-0f
+	for lists+qemu-devel@lfdr.de; Wed, 01 May 2019 13:34:46 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37288)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <stefanha@gmail.com>) id 1hLsHJ-0005VL-Lc
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 12:40:20 -0400
+	(envelope-from <no-reply@patchew.org>) id 1hLt6D-00026y-4B
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 13:32:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <stefanha@gmail.com>) id 1hLsHF-0005xE-Rk
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 12:40:17 -0400
-Received: from mail-io1-xd31.google.com ([2607:f8b0:4864:20::d31]:41748)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1hLsHD-0005ip-Qt
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 12:40:13 -0400
-Received: by mail-io1-xd31.google.com with SMTP id r10so15267436ioc.8
-	for <qemu-devel@nongnu.org>; Wed, 01 May 2019 09:40:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=3P5Kdtdo12sDuaawJQikrH5MjeLdJngQSAP5kEZ5xOE=;
-	b=ZdZjk0BXsspT3ipM1lCvd/bhP7Jq7RxhnIIPy6Wgz0Yaj2nu60mqIj0/NzwfD3FDws
-	WP56VOnwaBmny9q6BXXKRHQaHhBBcG6wzXVMXfNWNBf9til09+gyr+KSvlf3XceihfMa
-	1SasSVqjHhhpkV7Jhd+kak8nIHaIVnuEfMhC8rDt/cZG4BvVldlJvX0K+3eaXi0PvLtO
-	cHRSUzng1Fg6I2wh9HBmi1ZFCAEJvpge/Cu1HlMUsAEByKew1UQCk9PWdJvf4hhhZWiO
-	EIAI/8pq7uGBnvuiFoQlf5Cz+L63YjxtLPTJO28kroanUAPOuntv876YbFBYfhRkJMZi
-	0ANw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=3P5Kdtdo12sDuaawJQikrH5MjeLdJngQSAP5kEZ5xOE=;
-	b=Sh7ntlqi22rzUEES9T8X5l+5zdZgcmloFT3yy8iBKbUu9EJM7NuuU+WLA8b9w+yPOF
-	8PHhLhdnNb0Y8iab4+KYeUVdf4/lJB5qvyiYk5vW44DaQIEdEF890WF4wvJ1eCgHQmqA
-	NYl5q+QLV/DMLFeYz+Rl3c9yBo9vsL0g6DDOyEyZ+p01ZRj4gGQocuCyOMYtPPmewCJn
-	qGS/YW4y09KD+ves0FG0o2frAfBwHu4aQJcldsDBFLv6se4D7XJO+JbgPXuga2/yolN3
-	r/UaTHzsg7tIy/flagthdvz6xAecyTTpgktWALVdc5F88JswJQ8Ug7I62nZiSxTR1vW4
-	MCHg==
-X-Gm-Message-State: APjAAAUtrrj+syIBdE+yB8zVj37HeWb66hNmnKlcBDuRrGmzK1Znc6M9
-	ULG9vyIxBGOdwfuLPTMUDAU=
-X-Google-Smtp-Source: APXvYqy7AwHqPwHHJktkhcA3dmyKRo6AZkEWUzBiP1FSOB0q6TUg+/3ADmz9ALA7l+ZcIIA+XMckjw==
-X-Received: by 2002:a5d:8b42:: with SMTP id c2mr14006601iot.192.1556728808865; 
-	Wed, 01 May 2019 09:40:08 -0700 (PDT)
-Received: from localhost
-	(CPE64777d5479c3-CM64777d5479c0.cpe.net.cable.rogers.com.
-	[99.228.64.175])
-	by smtp.gmail.com with ESMTPSA id s8sm8409770iot.55.2019.05.01.09.40.07
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 01 May 2019 09:40:07 -0700 (PDT)
-Date: Wed, 1 May 2019 12:40:06 -0400
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Jie Wang <wangjie88@huawei.com>
-Message-ID: <20190501164006.GH21155@stefanha-x1.localdomain>
-References: <1556608500-12183-1-git-send-email-wangjie88@huawei.com>
+	(envelope-from <no-reply@patchew.org>) id 1hLt6B-0007z6-Qm
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 13:32:53 -0400
+Resent-Date: Wed, 01 May 2019 13:32:53 -0400
+Resent-Message-Id: <E1hLt6B-0007z6-Qm@eggs.gnu.org>
+Received: from sender-of-o53.zoho.com ([135.84.80.218]:21808)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <no-reply@patchew.org>)
+	id 1hLt6B-0007u7-4A
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 13:32:51 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1556729235; cv=none; d=zoho.com; s=zohoarc; 
+	b=BsfRVV/cK6CFGM3az/6QZyaDEdrzMgitQQTBanOf//6oke/1tn/crZ8vvePyJvp5E5A2Dkal8ve7F5GMYYsIxz15ptrwegZeIn18rCLAE2b9WqdO+GN9C9Ka7EfPUmrsHMOp44fhomERNq4iRXceZIjNg4KSVRfGZBePrP0FryI=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+	s=zohoarc; t=1556729235;
+	h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+	bh=uANLrLMFSC1h2wWDHs/d0U1+Las+9gUZeFXV9kRbZKg=; 
+	b=C6yQLyG4QqOzVbGbmGFUSw/wDXV9n+SB9zvtA1cNOT6ajHNpaknH4n94PxHl9ovDAJfUJiTv+YWwHkTBIhhMqRCeFMEYL0tRu+wlByMzFnDVh2wvmkBKWGAhq5iD+1YkJtGMIzCXmQa2ShvaoM12eyl6EEaJiPmuQnzZgeWT1jw=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+	spf=pass  smtp.mailfrom=no-reply@patchew.org;
+	dmarc=pass header.from=<no-reply@patchew.org>
+	header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+	mx.zohomail.com with SMTPS id 1556729234816432.34705452457945;
+	Wed, 1 May 2019 09:47:14 -0700 (PDT)
+In-Reply-To: <20190429235109.20307-1-brogers@suse.com>
+Message-ID: <155672923359.10667.8343395282332271077@c2072b67cc0c>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="bpVaumkpfGNUagdU"
-Content-Disposition: inline
-In-Reply-To: <1556608500-12183-1-git-send-email-wangjie88@huawei.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::d31
-Subject: Re: [Qemu-devel] [PATCH] vhost: fix memory leak in
- vhost_user_scsi_realize
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: brogers@suse.com
+Date: Wed, 1 May 2019 09:47:14 -0700 (PDT)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 135.84.80.218
+Subject: Re: [Qemu-devel] [PATCH] scsi-disk: handle invalid cdb length
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -81,40 +61,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, wu.wubin@huawei.com, mst@redhat.com
+Reply-To: qemu-devel@nongnu.org
+Cc: fam@euphon.net, pbonzini@redhat.com, qemu-devel@nongnu.org,
+	brogers@suse.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDQyOTIzNTEwOS4yMDMw
+Ny0xLWJyb2dlcnNAc3VzZS5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgZmFpbGVkIHRoZSBhc2Fu
+IGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0ZXN0aW5nIGNvbW1hbmRzIGFuZAp0aGVpciBv
+dXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tlciBpbnN0YWxsZWQsIHlvdSBjYW4gcHJvYmFi
+bHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jp
+bi9iYXNoCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1kZWJ1Z0BmZWRvcmEgVEFSR0VUX0xJU1Q9eDg2
+XzY0LXNvZnRtbXUgSj0xNCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVORCA9PT0KCgoKClRo
+ZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3JnL2xvZ3MvMjAxOTA0
+MjkyMzUxMDkuMjAzMDctMS1icm9nZXJzQHN1c2UuY29tL3Rlc3RpbmcuYXNhbi8/dHlwZT1tZXNz
+YWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkgYnkgUGF0Y2hldyBbaHR0cHM6
+Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRiYWNrIHRvIHBhdGNoZXctZGV2
+ZWxAcmVkaGF0LmNvbQ==
 
---bpVaumkpfGNUagdU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, Apr 30, 2019 at 03:15:00PM +0800, Jie Wang wrote:
-> fix memory leak in vhost_user_scsi_realize
->=20
-> Signed-off-by: Jie Wang <wangjie88@huawei.com>
-> ---
->  hw/scsi/vhost-user-scsi.c | 3 +++
->  1 file changed, 3 insertions(+)
-
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
-
---bpVaumkpfGNUagdU
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAlzJy+YACgkQnKSrs4Gr
-c8jdTAf/XASDBhfsUuQ2Eg2K16EIYqccv1L6AWfV9aAIzlXP7wOdQmqpad1Fwq0u
-gXJ5Hs64+dJfJt14pGPVoK1Jkics7ll1lykjrVuOR5kD2+3j7YadbTvbHa5T52a+
-s+RcW3xtb2KwAugoaBPH3+GS8/aaYGfgkRxAVWh150bpmFVcI19Rc8f9ZxlNqiBZ
-gIPB8kwbg0gDYj54nF6AV+iD49ifYuEWYtDEKIJXbJTtUWJigZqkxKM+qGKxhLn4
-4aydVzUWLJJ2W3O2sS5HUBKHVXcAcnbFCRD0dvW2W5leTfRM0aVQ2ce4zcq3i7DF
-VYThl2NMVK7l5QbVXupoLB3OyUESGg==
-=I4BG
------END PGP SIGNATURE-----
-
---bpVaumkpfGNUagdU--
 
