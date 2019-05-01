@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8CE0C10514
-	for <lists+qemu-devel@lfdr.de>; Wed,  1 May 2019 07:11:01 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36249 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8032010518
+	for <lists+qemu-devel@lfdr.de>; Wed,  1 May 2019 07:13:54 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36305 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLhWG-0001M0-K6
-	for lists+qemu-devel@lfdr.de; Wed, 01 May 2019 01:11:00 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38218)
+	id 1hLhZ3-0003zh-IC
+	for lists+qemu-devel@lfdr.de; Wed, 01 May 2019 01:13:53 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38235)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hLhRI-0006Kt-CF
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 01:05:55 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hLhRJ-0006L9-Ks
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 01:05:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hLhRE-0002o4-0u
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 01:05:52 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:44994)
+	(envelope-from <richard.henderson@linaro.org>) id 1hLhRG-0002p9-Iy
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 01:05:53 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:43619)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hLhRD-0002nP-R1
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 01:05:47 -0400
-Received: by mail-pf1-x441.google.com with SMTP id y13so8131342pfm.11
-	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 22:05:47 -0700 (PDT)
+	id 1hLhRG-0002oK-D4
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 01:05:50 -0400
+Received: by mail-pg1-x543.google.com with SMTP id t22so4853901pgi.10
+	for <qemu-devel@nongnu.org>; Tue, 30 Apr 2019 22:05:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=iaXmBLRJ4AetvIw8U8LEOO46+IUqp272JP0xIL80EUs=;
-	b=bJpHG+XM9UHP61vhMXtcaKUHzVCkogXlwPAEtaxU7AaLE653zRzyOToaHJbyd66wUe
-	AmdPT2g7oEubhmctL2Rwf/jzl48qp79Uzc6/Cjqb8rDq9JTsBjrLYFDlxHhphTS8Bufe
-	N3tw9w+NaZd+0ZCeR8JBU94rhBmR5jBdDEiJatZFTWY7wOMZJA3PX9Huw4F4p2gDNBJ4
-	FneJBv2PidSECvG1y7CGKKut+y0c+MpOpLSOdCu7gHbRYkrbULBqrCL+JcD58qpbiIuD
-	TiNLGGekouyMCYEsfznwc3vkF+xv7ZG7YaHa5RCBeQ7n/9Pe/O+4TM2ySXey800Szdra
-	El0Q==
+	bh=tE6uzAjTMyTfJHn+9O8Wl99P1LuOsbUfHnL5seHXmm4=;
+	b=JtHBnm60A8xlwcfxVU6lpag4oCwZ7r4A8kowmdEna3MhBbwSUfgCrbmqfxd35zIIKj
+	+dTlyxefKoZNUq+//44t06S5ExTDfDny9KZmbG0rUVuD+H/BgFJBHDZySzXWbzzSx8+V
+	QYp2aj+bkrsOleWG/djZncL//U4z8j3JXzMeuhxlqypuS0KJ/73ES6zkuQnulXaWGnYM
+	BINEHtkQTcXhRzWeZoVfuI7RNLsM/Ed6Ba4D6U+0lQf6zCBtLnMk7dq+8+9RjUgMrk5m
+	P0Mgw1PfZOkDAlGNFcXZ5YsCt+livroZn+JgN8cxbTNGVmNOqWpT3MAhFs1rMVh4R07P
+	UVew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=iaXmBLRJ4AetvIw8U8LEOO46+IUqp272JP0xIL80EUs=;
-	b=imE5Sdc5PsVbceHedF+jolMhOqrWPXYRnujTX3mZAmZT4DnYEzLy5FpGe77dJB0YL/
-	KvdugtONcSPjqJYaIi+S+xHftq3GGhlPLjmHYCNq86c3go84A5U+YeCSNM8hZ33iFWTX
-	fW/q9Uw8JKWHf1Fxj2VMlvOEm4Xr/j9rF907F0fxrXrZDRB53lWh4YWg0oaye6pehbb2
-	M1xT565d3/RyuGFxFK8++yQp9LXsdd067RcUKnj9OI1ShmR/7ombE+EhT06zmBCRMrrk
-	OYPovdf357j+fJHNozZ6HL1iSHOO8+mnZnp+HcKHpAQ/ZobXzaKYDJHbV9phXgvuoB28
-	MXnQ==
-X-Gm-Message-State: APjAAAUR7UNUVmwQGhILH+/ve271PxVSvoTOxxMXOLPuNTjcbIiYT2ZV
-	PRFUABv4G2oaH8eD6VfbsIF7f1LoTFo=
-X-Google-Smtp-Source: APXvYqzByx6ts/TL86aIBY9pTbQ5MkKH6y69TGu79jnENQ5NqfRdTcozHRtQGt7iS8k9qpIAh4OP9g==
-X-Received: by 2002:a63:564f:: with SMTP id g15mr18297097pgm.258.1556687146456;
-	Tue, 30 Apr 2019 22:05:46 -0700 (PDT)
+	bh=tE6uzAjTMyTfJHn+9O8Wl99P1LuOsbUfHnL5seHXmm4=;
+	b=MIP4rPDrf6jOlMIXxoHCoNN2P2+GIdEqEKyTpT03+lj7LsHOeX/ICd9k/VXsmYc6vT
+	HzwO72jFdlCsPbxsdQELj9TcU7Il8GtgVsjrEBXfcANUaWeJFXArQjetkKG2YYsc9yUp
+	zROfLrcYeRqBGJ88UBiWGgoMmP32sQUKdPh5oVD6Q/c2TKKGt8FDcqGgF5rLfxAziMqS
+	xe2hse2LDStjLO22UGab8CKm/lGoRCSF60+yBEKs2w2LVeleGVr1IOBHAU45MdqBR0x4
+	+4VEa/pphWyTfI4z5O894le4SbVF0WWfY9HIl+1pPy2UPOAEM60pIsLErF62dK517zbw
+	2S+w==
+X-Gm-Message-State: APjAAAWglVQ+LD34Au5BvQVRgmuMACNtCKXqOtK/z3sSKw+NgtvbyKCQ
+	EZ2PWt1YDzvB4BXzZeYMf3fd1peS8/s=
+X-Google-Smtp-Source: APXvYqzsqe4d1Oz90iw1k6CisRkpmalKv0aErPBRpU4ih4G+vZyXbGUU55XlcwLoezjZ3y/lg1LJZA==
+X-Received: by 2002:a62:480d:: with SMTP id v13mr77874034pfa.125.1556687147454;
+	Tue, 30 Apr 2019 22:05:47 -0700 (PDT)
 Received: from localhost.localdomain (97-113-189-189.tukw.qwest.net.
 	[97.113.189.189]) by smtp.gmail.com with ESMTPSA id
-	t127sm9687251pfb.106.2019.04.30.22.05.45 for <qemu-devel@nongnu.org>
+	t127sm9687251pfb.106.2019.04.30.22.05.46 for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 30 Apr 2019 22:05:45 -0700 (PDT)
+	Tue, 30 Apr 2019 22:05:46 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue, 30 Apr 2019 22:05:09 -0700
-Message-Id: <20190501050536.15580-3-richard.henderson@linaro.org>
+Date: Tue, 30 Apr 2019 22:05:10 -0700
+Message-Id: <20190501050536.15580-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190501050536.15580-1-richard.henderson@linaro.org>
 References: <20190501050536.15580-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::441
-Subject: [Qemu-devel] [PATCH v2 02/29] tcg: Do not recreate INDEX_op_neg_vec
- unless supported
+X-Received-From: 2607:f8b0:4864:20::543
+Subject: [Qemu-devel] [PATCH v2 03/29] tcg: Allow add_vec, sub_vec, neg_vec,
+ not_vec to be expanded
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -79,34 +79,95 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use tcg_can_emit_vec_op instead of just TCG_TARGET_HAS_neg_vec,
-so that we check the type and vece for the actual operation.
-
+Reviewed-by: David Hildenbrand <david@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/optimize.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ tcg/tcg-op-vec.c | 49 ++++++++++++++++++++++++++++++++----------------
+ 1 file changed, 33 insertions(+), 16 deletions(-)
 
-diff --git a/tcg/optimize.c b/tcg/optimize.c
-index 5150c38a25..24faa06260 100644
---- a/tcg/optimize.c
-+++ b/tcg/optimize.c
-@@ -734,9 +734,13 @@ void tcg_optimize(TCGContext *s)
-                 } else if (opc == INDEX_op_sub_i64) {
-                     neg_op = INDEX_op_neg_i64;
-                     have_neg = TCG_TARGET_HAS_neg_i64;
--                } else {
-+                } else if (TCG_TARGET_HAS_neg_vec) {
-+                    TCGType type = TCGOP_VECL(op) + TCG_TYPE_V64;
-+                    unsigned vece = TCGOP_VECE(op);
-                     neg_op = INDEX_op_neg_vec;
--                    have_neg = TCG_TARGET_HAS_neg_vec;
-+                    have_neg = tcg_can_emit_vec_op(neg_op, type, vece) > 0;
-+                } else {
-+                    break;
-                 }
-                 if (!have_neg) {
-                     break;
+diff --git a/tcg/tcg-op-vec.c b/tcg/tcg-op-vec.c
+index 27f65600c3..cfb18682b1 100644
+--- a/tcg/tcg-op-vec.c
++++ b/tcg/tcg-op-vec.c
+@@ -226,16 +226,6 @@ void tcg_gen_stl_vec(TCGv_vec r, TCGv_ptr b, TCGArg o, TCGType low_type)
+     vec_gen_3(INDEX_op_st_vec, low_type, 0, ri, bi, o);
+ }
+ 
+-void tcg_gen_add_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b)
+-{
+-    vec_gen_op3(INDEX_op_add_vec, vece, r, a, b);
+-}
+-
+-void tcg_gen_sub_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b)
+-{
+-    vec_gen_op3(INDEX_op_sub_vec, vece, r, a, b);
+-}
+-
+ void tcg_gen_and_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b)
+ {
+     vec_gen_op3(INDEX_op_and_vec, 0, r, a, b);
+@@ -296,11 +286,30 @@ void tcg_gen_eqv_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b)
+     tcg_gen_not_vec(0, r, r);
+ }
+ 
++static bool do_op2(unsigned vece, TCGv_vec r, TCGv_vec a, TCGOpcode opc)
++{
++    TCGTemp *rt = tcgv_vec_temp(r);
++    TCGTemp *at = tcgv_vec_temp(a);
++    TCGArg ri = temp_arg(rt);
++    TCGArg ai = temp_arg(at);
++    TCGType type = rt->base_type;
++    int can;
++
++    tcg_debug_assert(at->base_type >= type);
++    can = tcg_can_emit_vec_op(opc, type, vece);
++    if (can > 0) {
++        vec_gen_2(opc, type, vece, ri, ai);
++    } else if (can < 0) {
++        tcg_expand_vec_op(opc, type, vece, ri, ai);
++    } else {
++        return false;
++    }
++    return true;
++}
++
+ void tcg_gen_not_vec(unsigned vece, TCGv_vec r, TCGv_vec a)
+ {
+-    if (TCG_TARGET_HAS_not_vec) {
+-        vec_gen_op2(INDEX_op_not_vec, 0, r, a);
+-    } else {
++    if (!TCG_TARGET_HAS_not_vec || !do_op2(vece, r, a, INDEX_op_not_vec)) {
+         TCGv_vec t = tcg_const_ones_vec_matching(r);
+         tcg_gen_xor_vec(0, r, a, t);
+         tcg_temp_free_vec(t);
+@@ -309,9 +318,7 @@ void tcg_gen_not_vec(unsigned vece, TCGv_vec r, TCGv_vec a)
+ 
+ void tcg_gen_neg_vec(unsigned vece, TCGv_vec r, TCGv_vec a)
+ {
+-    if (TCG_TARGET_HAS_neg_vec) {
+-        vec_gen_op2(INDEX_op_neg_vec, vece, r, a);
+-    } else {
++    if (!TCG_TARGET_HAS_neg_vec || !do_op2(vece, r, a, INDEX_op_neg_vec)) {
+         TCGv_vec t = tcg_const_zeros_vec_matching(r);
+         tcg_gen_sub_vec(vece, r, t, a);
+         tcg_temp_free_vec(t);
+@@ -409,6 +416,16 @@ static void do_op3(unsigned vece, TCGv_vec r, TCGv_vec a,
+     }
+ }
+ 
++void tcg_gen_add_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b)
++{
++    do_op3(vece, r, a, b, INDEX_op_add_vec);
++}
++
++void tcg_gen_sub_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b)
++{
++    do_op3(vece, r, a, b, INDEX_op_sub_vec);
++}
++
+ void tcg_gen_mul_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b)
+ {
+     do_op3(vece, r, a, b, INDEX_op_mul_vec);
 -- 
 2.17.1
 
