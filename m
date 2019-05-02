@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 198611146D
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 09:43:47 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46722 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 263F811426
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 09:31:29 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46539 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hM6Ne-0000iy-8e
-	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 03:43:46 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59784)
+	id 1hM6Bk-0005Xi-8X
+	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 03:31:28 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59554)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <arilou@gmail.com>) id 1hM6A7-0004vx-2u
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 03:29:48 -0400
+	(envelope-from <arilou@gmail.com>) id 1hM69Q-0004HE-Oe
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 03:29:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <arilou@gmail.com>) id 1hM69x-0002rY-Vu
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 03:29:40 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:52790)
+	(envelope-from <arilou@gmail.com>) id 1hM69I-0002PW-FF
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 03:28:59 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36224)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <arilou@gmail.com>) id 1hM69n-0000QI-4g
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 03:29:32 -0400
-Received: by mail-wm1-x342.google.com with SMTP id j13so1289280wmh.2
-	for <qemu-devel@nongnu.org>; Thu, 02 May 2019 00:27:09 -0700 (PDT)
+	(Exim 4.71) (envelope-from <arilou@gmail.com>) id 1hM696-0000UJ-NR
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 03:28:51 -0400
+Received: by mail-wr1-x444.google.com with SMTP id o4so1817840wra.3
+	for <qemu-devel@nongnu.org>; Thu, 02 May 2019 00:27:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=U4fLhEZHxeWF7Ph12MqOmpuk/185Eq0Ogcw/FW+Pwwg=;
-	b=m5E9d2F9U4dYVg4+F0pH+UgqWgDvruGtc1VQ2n3bxtlKhHmufugUUBfjB0L3oJmn52
-	slZ46/s72SSxP80fOOcU0rMV2e8ACUpIGprCYUCDRL+Cxq3jKvp6IHvixfU9wZmmHN0j
-	1Ulx2gHtQdmsuGST8Rc1faMlXHjUPsc4vRUO2BnFN7rg4ycMWvoyIhlH1WNXIEUrIi1b
-	0tHlyk1nlNRW7dcj5kOyu1wdBZN4YoAGssgMe9Hi8k8rmnzBjWbO2adoyvI48AjJ00Oy
-	pAt06ruO2AfUGB2d7TIB2ZGrZKW2yE7kNAAKcZxsEotqVnmK8pmfECAG6l90d7dpRH/b
-	ySuA==
+	bh=6OoH0VZvs5cN/77prjtAmvXUSegJODVLc//0yGYVjjY=;
+	b=tDqjqAFXwJr68BnN19CzUaiRGs+6eVQxZeg0KU+JCTUutI7KNF+2Po56qQ4H9PaT4I
+	qaANfnbhBz29d2axuBxmHzWgy7IHBVLU/ntm71NN5mT1bSgs+UuhFXgquuJLx57pywn0
+	5lXZ3E+s4vBilgYWc3wMnqxBn1VzRoQXNbk8qouC97/NFkNbHMsAlH1qLlNiuDZPLMYI
+	WPUq5bs34+gWBt1lrr91CIt9FWa4atYFB8ORrbrIAd2RQm2eqxUczlRWqWt3fYkcrQLc
+	HJcdGAc3hQ8iSYF8otUffX75xaZ0K35tzlrQPVUDhVom7arZCF7Ywkpsk27V53za7wb1
+	0XPg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=U4fLhEZHxeWF7Ph12MqOmpuk/185Eq0Ogcw/FW+Pwwg=;
-	b=fDSNPUrOk7gz4XtlP1JlanKIzYyntrwou8H67sf8A2lPFUiS7JWu4tnRADHe9TuGZy
-	iPP0td+n6IJWWKrD2uzhXjQ4Ay5EXuNzievKZqbCHsCdPvof3oTCE8FrtbFAZrCSWabH
-	Qz0FIexAOS/Cz6rLlZ1WbE7r81zJymOWGIwWMl0hhARVhzz/DiINhgHSrN7xYdnUOhq6
-	dyr//Hh3waO7y+U/luRwUBolrU/Qs7TL7lUATYfbaUs7X6tJuHAFj+bY6VYTNtSXcDlq
-	YaC2rhZcaMXmJACBxu6hpr2GbNdsaMeDZYgmBKHH/5WddCWgTa0QpD/bOGmgZ0jlAsCJ
-	R5TA==
-X-Gm-Message-State: APjAAAXBOkGPyRvtVZV1v+xK9lAbdS93MlPESa3KSUmj1fGvHdWAPvt0
-	9BO51nEbk1A66ojdX056wvb2skZG
-X-Google-Smtp-Source: APXvYqxIRXLLiPe7S/zLl9FEA9jMPku6BOmrkhyGcDzgaAPpbklNMKOVc+N7O7DEvKyDY+fT8eCB8g==
-X-Received: by 2002:a7b:c5d6:: with SMTP id n22mr1148797wmk.112.1556782027997; 
-	Thu, 02 May 2019 00:27:07 -0700 (PDT)
+	bh=6OoH0VZvs5cN/77prjtAmvXUSegJODVLc//0yGYVjjY=;
+	b=bS4i/mDzfC3PQ2xeCIIKNMGLdKTIk6aCyg2QBSsBsVabGTpna3/IH2IaFDZsoNPsae
+	VWwxs6d4CYbK7nKn8RD39xewYaKfod6OXdQbVpfVjsHReGLdRK94JiX7DyMFYxrA+Au8
+	nIRacsGy5at/DtdL7fB1jHqZY/0wJaCNZ3Fp9+25oImG8RiLNjwXIRfMN3GKtnC6vkYI
+	v08MfEuyEbY5GcxUXcIH32kIhHGO6sqHCxPXep4DUA7OJBNPw6+oWzA11NZVYZVNsqnt
+	2b9o1itA2AjsHMVK4GG7tL3pmjL0Dnp2IIqUzvcx9SaMB/w0DVo9xyU6AZK/ysAdgHLn
+	wi5Q==
+X-Gm-Message-State: APjAAAU1T035m5uEtUgyDLHYYohpsBiQh7jCsRSgKVK9qsKehVyLSIg0
+	4VTZEgGm9asaWqKmHQSEtw/iRFnI
+X-Google-Smtp-Source: APXvYqxeEzx0VgqKgI2eb/SAxHFPVixrRbRUb1ej8qQsEqqt1nDyayPkx4Ou2ZHiquVv/H2FTLNHCg==
+X-Received: by 2002:a5d:52c6:: with SMTP id r6mr1599290wrv.131.1556782029808; 
+	Thu, 02 May 2019 00:27:09 -0700 (PDT)
 Received: from localhost.localdomain ([176.230.64.186])
-	by smtp.gmail.com with ESMTPSA id z5sm8769289wre.70.2019.05.02.00.27.06
+	by smtp.gmail.com with ESMTPSA id z5sm8769289wre.70.2019.05.02.00.27.08
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 02 May 2019 00:27:07 -0700 (PDT)
+	Thu, 02 May 2019 00:27:08 -0700 (PDT)
 From: Jon Doron <arilou@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Thu,  2 May 2019 10:26:22 +0300
-Message-Id: <20190502072641.4667-9-arilou@gmail.com>
+Date: Thu,  2 May 2019 10:26:23 +0300
+Message-Id: <20190502072641.4667-10-arilou@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190502072641.4667-1-arilou@gmail.com>
 References: <20190502072641.4667-1-arilou@gmail.com>
@@ -63,9 +63,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::342
-Subject: [Qemu-devel] [PATCH v8 08/27] gdbstub: Implement remove breakpoint
- (z pkt) with new infra
+X-Received-From: 2a00:1450:4864:20::444
+Subject: [Qemu-devel] [PATCH v8 09/27] gdbstub: Implement set register (P
+ pkt) with new infra
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -83,75 +83,65 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Jon Doron <arilou@gmail.com>
 ---
- gdbstub.c | 49 ++++++++++++++++++++++++++++++++-----------------
- 1 file changed, 32 insertions(+), 17 deletions(-)
+ gdbstub.c | 39 ++++++++++++++++++++++++++++++---------
+ 1 file changed, 30 insertions(+), 9 deletions(-)
 
 diff --git a/gdbstub.c b/gdbstub.c
-index 36c7353a22..b42425b24c 100644
+index b42425b24c..10e3f12a68 100644
 --- a/gdbstub.c
 +++ b/gdbstub.c
-@@ -1611,6 +1611,29 @@ static void handle_insert_bp(GdbCmdContext *gdb_ctx, void *user_ctx)
+@@ -1634,6 +1634,27 @@ static void handle_remove_bp(GdbCmdContext *gdb_ctx, void *user_ctx)
      put_packet(gdb_ctx->s, "E22");
  }
  
-+static void handle_remove_bp(GdbCmdContext *gdb_ctx, void *user_ctx)
++static void handle_set_reg(GdbCmdContext *gdb_ctx, void *user_ctx)
 +{
-+    int res;
++    int reg_size;
 +
-+    if (gdb_ctx->num_params < 3) {
-+        put_packet(gdb_ctx->s, "E22");
-+        return;
-+    }
-+
-+    res = gdb_breakpoint_remove(gdb_ctx->params[1].val_ull,
-+                                gdb_ctx->params[2].val_ull,
-+                                gdb_ctx->params[0].val_ul);
-+    if (res >= 0) {
-+        put_packet(gdb_ctx->s, "OK");
-+        return;
-+    } else if (res == -ENOSYS) {
++    if (!gdb_has_xml) {
 +        put_packet(gdb_ctx->s, "");
 +        return;
 +    }
 +
-+    put_packet(gdb_ctx->s, "E22");
++    if (gdb_ctx->num_params < 2) {
++        put_packet(gdb_ctx->s, "");
++        return;
++    }
++
++    reg_size = strlen(gdb_ctx->params[1].data) / 2;
++    hextomem(gdb_ctx->mem_buf, gdb_ctx->params[1].data, reg_size);
++    gdb_write_register(gdb_ctx->s->g_cpu, gdb_ctx->mem_buf,
++                       gdb_ctx->params[0].val_ull);
++    put_packet(gdb_ctx->s, "OK");
 +}
 +
  static int gdb_handle_packet(GDBState *s, const char *line_buf)
  {
      CPUState *cpu;
-@@ -1877,23 +1900,15 @@ static int gdb_handle_packet(GDBState *s, const char *line_buf)
+@@ -1878,15 +1899,15 @@ static int gdb_handle_packet(GDBState *s, const char *line_buf)
          }
          break;
-     case 'z':
--        type = strtoul(p, (char **)&p, 16);
--        if (*p == ',')
--            p++;
+     case 'P':
+-        if (!gdb_has_xml)
+-            goto unknown_command;
 -        addr = strtoull(p, (char **)&p, 16);
--        if (*p == ',')
+-        if (*p == '=')
 -            p++;
--        len = strtoull(p, (char **)&p, 16);
--        if (ch == 'Z')
--            res = gdb_breakpoint_insert(addr, len, type);
--        else
--            res = gdb_breakpoint_remove(addr, len, type);
--        if (res >= 0)
--             put_packet(s, "OK");
--        else if (res == -ENOSYS)
--            put_packet(s, "");
--        else
--            put_packet(s, "E22");
+-        reg_size = strlen(p) / 2;
+-        hextomem(mem_buf, p, reg_size);
+-        gdb_write_register(s->g_cpu, mem_buf, addr);
+-        put_packet(s, "OK");
 +        {
-+            static const GdbCmdParseEntry remove_bp_cmd_desc = {
-+                .handler = handle_remove_bp,
-+                .cmd = "z",
++            static const GdbCmdParseEntry set_reg_cmd_desc = {
++                .handler = handle_set_reg,
++                .cmd = "P",
 +                .cmd_startswith = 1,
-+                .schema = "l?L?L0"
++                .schema = "L?s0"
 +            };
-+            cmd_parser = &remove_bp_cmd_desc;
++            cmd_parser = &set_reg_cmd_desc;
 +        }
          break;
-     case 'H':
+     case 'Z':
          {
 -- 
 2.20.1
