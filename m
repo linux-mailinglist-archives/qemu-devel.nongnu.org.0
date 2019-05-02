@@ -2,48 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D617D11FEE
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 18:15:34 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54001 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CDB611FF6
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 18:18:52 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54056 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMEMv-0005HG-UP
-	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 12:15:34 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43204)
+	id 1hMEQ7-0008Ri-80
+	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 12:18:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43226)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hMEKr-00046l-U3
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 12:13:27 -0400
+	(envelope-from <thuth@redhat.com>) id 1hMEKu-00048I-0V
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 12:13:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hMEKr-0002In-0T
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 12:13:25 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50494)
+	(envelope-from <thuth@redhat.com>) id 1hMEKt-0002JP-5V
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 12:13:28 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42520)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <thuth@redhat.com>) id 1hMEKq-0002I6-RH
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 12:13:24 -0400
+	(Exim 4.71) (envelope-from <thuth@redhat.com>) id 1hMEKt-0002JD-02
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 12:13:27 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
 	[10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 1E9F37EBC1;
-	Thu,  2 May 2019 16:13:24 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 45C233151C40;
+	Thu,  2 May 2019 16:13:26 +0000 (UTC)
 Received: from thuth.com (ovpn-116-131.ams2.redhat.com [10.36.116.131])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id DBB5B17D58;
-	Thu,  2 May 2019 16:13:19 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 7B55E17D58;
+	Thu,  2 May 2019 16:13:24 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Date: Thu,  2 May 2019 18:13:02 +0200
-Message-Id: <20190502161310.15624-1-thuth@redhat.com>
+Date: Thu,  2 May 2019 18:13:03 +0200
+Message-Id: <20190502161310.15624-2-thuth@redhat.com>
+In-Reply-To: <20190502161310.15624-1-thuth@redhat.com>
+References: <20190502161310.15624-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.27]);
-	Thu, 02 May 2019 16:13:24 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.41]);
+	Thu, 02 May 2019 16:13:26 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 0/8] qtest and misc patches
+Subject: [Qemu-devel] [PULL 1/8] gitlab-ci.yml: Test the TCG interpreter in
+ a CI pipeline
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -60,62 +62,46 @@ Cc: Eduardo Otubo <otubo@redhat.com>, Helge Deller <deller@gmx.de>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
- Hi Peter,
+So far we do not have any test coverage for TCI (the TCG interpreter) yet=
+.
+Thus let's add a CI pipeline that runs at least some basic TCG tests with
+a TCI build, to make sure that there are no further regressions.
 
-the following changes since commit 8482ff2eb3bb95020eb2f370a9b3ea26511e41=
-df:
+Message-Id: <20190410123550.2362-1-thuth@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ .gitlab-ci.yml | 15 +++++++++++++++
+ 1 file changed, 15 insertions(+)
 
-  Merge remote-tracking branch 'remotes/jnsnow/tags/bitmaps-pull-request'=
- into staging (2019-05-02 12:04:51 +0100)
-
-are available in the Git repository at:
-
-  https://gitlab.com/huth/qemu.git tags/pull-request-2019-05-02
-
-for you to fetch changes up to aff39be0ed9753c9c323f64a14f5533dd5c43525:
-
-  hw/pci-host: Use object_initialize_child for correct reference counting=
- (2019-05-02 16:56:33 +0200)
-
-----------------------------------------------------------------
-- Move qtest accel code to accel/qtest.c, get rid of AccelClass->availabl=
-e
-- Test TCG interpreter in gitlab-ci
-- Small improvements to the configure script
-- Use object_initialize_child in hw/pci-host
-----------------------------------------------------------------
-
-Eduardo Habkost (3):
-      qtest: Move accel code to accel/qtest.c
-      qtest: Don't compile qtest accel on non-POSIX systems
-      accel: Remove unused AccelClass::available field
-
-Helge Deller (1):
-      configure: Relax check for libseccomp
-
-Thomas Huth (4):
-      gitlab-ci.yml: Test the TCG interpreter in a CI pipeline
-      configure: Add -Wno-typedef-redefinition to CFLAGS (for Clang)
-      configure: Remove old *-config-devices.mak.d files when running con=
-figure
-      hw/pci-host: Use object_initialize_child for correct reference coun=
-ting
-
- .gitlab-ci.yml            | 15 +++++++++++++
- MAINTAINERS               |  1 +
- accel/Makefile.objs       |  1 +
- accel/accel.c             |  5 -----
- accel/qtest.c             | 54 +++++++++++++++++++++++++++++++++++++++++=
-++++++
- configure                 | 33 +++++++----------------------
- hw/pci-host/designware.c  |  4 ++--
- hw/pci-host/gpex.c        |  5 +++--
- hw/pci-host/q35.c         |  4 ++--
- hw/pci-host/xilinx-pcie.c |  4 ++--
- include/sysemu/accel.h    |  1 -
- include/sysemu/qtest.h    |  9 --------
- qtest.c                   | 34 -----------------------------
- 13 files changed, 88 insertions(+), 82 deletions(-)
- create mode 100644 accel/qtest.c
+diff --git a/.gitlab-ci.yml b/.gitlab-ci.yml
+index 79d02cf740..c63bf2f822 100644
+--- a/.gitlab-ci.yml
++++ b/.gitlab-ci.yml
+@@ -71,3 +71,18 @@ build-clang:
+                      ppc-softmmu s390x-softmmu x86_64-softmmu arm-linux-=
+user"
+  - make -j2
+  - make -j2 check
++
++build-tci:
++ script:
++ - TARGETS=3D"aarch64 alpha arm hppa m68k microblaze moxie ppc64 s390x x=
+86_64"
++ - ./configure --enable-tcg-interpreter
++      --target-list=3D"$(for tg in $TARGETS; do echo -n ${tg}'-softmmu '=
+; done)"
++ - make -j2
++ - make tests/boot-serial-test tests/cdrom-test tests/pxe-test
++ - for tg in $TARGETS ; do
++     export QTEST_QEMU_BINARY=3D"${tg}-softmmu/qemu-system-${tg}" ;
++     ./tests/boot-serial-test || exit 1 ;
++     ./tests/cdrom-test || exit 1 ;
++   done
++ - QTEST_QEMU_BINARY=3D"x86_64-softmmu/qemu-system-x86_64" ./tests/pxe-t=
+est
++ - QTEST_QEMU_BINARY=3D"s390x-softmmu/qemu-system-s390x" ./tests/pxe-tes=
+t -m slow
+--=20
+2.21.0
 
 
