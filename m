@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0975B11416
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 09:24:17 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46454 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76A7011422
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 09:30:31 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46508 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hM64l-0002C9-L4
-	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 03:24:15 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58301)
+	id 1hM6Ao-0004jJ-GD
+	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 03:30:30 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59402)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <ard.biesheuvel@linaro.org>) id 1hM63h-0001oT-Ei
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 03:23:10 -0400
+	(envelope-from <arilou@gmail.com>) id 1hM68j-0003lM-GT
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 03:28:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <ard.biesheuvel@linaro.org>) id 1hM63d-0005jS-GM
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 03:23:07 -0400
-Received: from mail-it1-x143.google.com ([2607:f8b0:4864:20::143]:53280)
+	(envelope-from <arilou@gmail.com>) id 1hM68c-0001Yo-45
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 03:28:16 -0400
+Received: from mail-wm1-x332.google.com ([2a00:1450:4864:20::332]:53132)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <ard.biesheuvel@linaro.org>)
-	id 1hM63V-0005cQ-4U
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 03:22:59 -0400
-Received: by mail-it1-x143.google.com with SMTP id l10so1612312iti.3
-	for <qemu-devel@nongnu.org>; Thu, 02 May 2019 00:22:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=N7NSxJr5uDvgcq3djMQ2v1/6rgL3Lq/qkCZV7efUj7I=;
-	b=IKpY2YTcOTrzlxBQJKUNt7GCQ2Ep3NOb9rGyBUpgtqR8YnnPbUg2SBep4dYSPGHW5T
-	UiQyQWnZMifOGsmXt+sgepQ3dfjWnHvV3nqDLETHBnNSe0KFLTET6ujEuqA2TCOWc6wY
-	ZNFfYGeUZdN/wJjZ2uIOaUT1G4DWL6ZHyucxuIuL9qrCh1crc27P2n5y9+dGPchbkjdF
-	iqm8eLH9oPdC3jHHnXp2xL55DYqwARjHwMW5ZbmV1jweUjuA7ruR++4VWhBsddIMXX6r
-	3tbrWfH09OzuVSvSpCAH3MFXLtVJlIU5Y/lM9DHbQZZGpWkFeY78Y02XIWIYe46YAVvY
-	7Mvg==
+	(Exim 4.71) (envelope-from <arilou@gmail.com>) id 1hM68O-0008Sg-9E
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 03:28:04 -0400
+Received: by mail-wm1-x332.google.com with SMTP id j13so1288342wmh.2
+	for <qemu-devel@nongnu.org>; Thu, 02 May 2019 00:26:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=f8g9QD70FGf0ymybDzam88kdXKNpm8p5e0I3HrWU7Nc=;
+	b=iqAu7L/4a05FTzh2Zbxup7QVRDTfNHqVxj8flmOzl8efmlgrys2OJuLHkhFUkwt3sJ
+	nQxF+m3IQwm5JmiqlEs1JERg5LlCcQK8Gsc5tF1NzQD3alt7/4BbcFUrhoJNwPVOUNIS
+	Q/zVF/LYxyXKT2QVVSZJ+kB9Y0dErKs2y1kTDiR77xgHrXEFTClh9ae5pXgCQUqqvjDP
+	uJa56WAejDEeIYY/mK+wwIdKrX9yQa5hlN/aO0F4obOXV/KxgjbEd0c0KHTITddrvFjk
+	55b3J2ue8Mwa1f0gbFLijPI/pLdCbaLGMPp966dzIaXY+oyuJwdG6QrNem5gnqyU96cu
+	6F9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=N7NSxJr5uDvgcq3djMQ2v1/6rgL3Lq/qkCZV7efUj7I=;
-	b=Um28/1fsn01WQo2+wBADV82s4xabLVnfwETXRkVVC98P7ERbhvhkSiezSuXd9vqPM5
-	9g8starhYW8k0JfqL+tTNGDdpjim/QgMoGWRqaDVwhMZJ+HAnzLRQ8U/7ygFN5SCVHIv
-	QGrG1V9wH0200ierMpU3q9hKg2QWoERlihMXRWeO1wgU7WwSNtCKUbdvXccSNefdY8zF
-	0ZhGwsVpZRPj3p4+EPJdzrbTvMcpGA8guixRtQOxkv3VJnPWPsoNnFoUAhmzxNY9B3+U
-	UoMXcUOR58qt45d1UjsKpKflz0+R+IlSya3bKfbzb31UxaCD8oQkMo2ZfvQKoSdfgR9Z
-	M6dg==
-X-Gm-Message-State: APjAAAXO0Fed2xffeuBJhg8IG4zxmEUitmR/aLDxkcZMyMSMYqRU1F3x
-	YIycVmDWHzcnTCvEi1b3I9zEwzcVUU5FttV7eHrT4Q==
-X-Google-Smtp-Source: APXvYqxJdfKwsgErl8UCA3YEUtZCFHshyLAoq47+Qm2/mb3LPPVK1R9ykzAA7F3/5e3o7i3HCFWKSHvhbiTaATsVPQI=
-X-Received: by 2002:a24:b342:: with SMTP id z2mr1138315iti.121.1556781768611; 
-	Thu, 02 May 2019 00:22:48 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=f8g9QD70FGf0ymybDzam88kdXKNpm8p5e0I3HrWU7Nc=;
+	b=QFLNfRq0yCBB46cS0guAlU9YSh1Dh+5YHhAtH1znEPoZ/vfmFh6xqVDTnqY001/04w
+	7drTPIqgmsFHQvjEmLqyjPSOnp4NEyBUwJwR7rerP1jSG3ySFndH6IwCRFXnTAZIOU75
+	LQcCEcFDXVd6s1pb/v8rEQ7vxvEj82ydNz312/MI5kzaFDXEpqC4Fakjhj/dBi1ili7M
+	IeldKmdhSjkhHGrDDXF+ipbNgnd93Kbv/RaI7Thb+WuXLjXNJyE/S9kJKA9e3JU8p3iR
+	5MvMU7DHFNQ4BK9+zj7vIEVLZ18UMXIA/nhgYbf7gBkybPhxdlkqfCktVZAHDjjDA/4e
+	dEpA==
+X-Gm-Message-State: APjAAAX5PhDBB2i45MYBk8jesI2zDpH/WYy3d5kmusLIaGGISL10Pmxn
+	1DcRmk3kMrdiOWoVNPzB0ZPN7L51
+X-Google-Smtp-Source: APXvYqxqJ158eXHFgkg+pjPawsnvcYIoSKZE03vvsWR4k4K2EIEvbPcYp2nSyYhPCuxR999WqkVK0w==
+X-Received: by 2002:a1c:eb07:: with SMTP id j7mr1149618wmh.138.1556782012159; 
+	Thu, 02 May 2019 00:26:52 -0700 (PDT)
+Received: from localhost.localdomain ([176.230.64.186])
+	by smtp.gmail.com with ESMTPSA id z5sm8769289wre.70.2019.05.02.00.26.50
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 02 May 2019 00:26:51 -0700 (PDT)
+From: Jon Doron <arilou@gmail.com>
+To: qemu-devel@nongnu.org
+Date: Thu,  2 May 2019 10:26:14 +0300
+Message-Id: <20190502072641.4667-1-arilou@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20190409102935.28292-1-shameerali.kolothum.thodi@huawei.com>
-	<20190409102935.28292-4-shameerali.kolothum.thodi@huawei.com>
-	<CAKv+Gu_guvAydmCZDeVnj0NR_WyTHeCmwh4tK9WKUBY6cy-4Pg@mail.gmail.com>
-	<5FC3163CFD30C246ABAA99954A238FA83F137685@lhreml524-mbs.china.huawei.com>
-In-Reply-To: <5FC3163CFD30C246ABAA99954A238FA83F137685@lhreml524-mbs.china.huawei.com>
-From: Ard Biesheuvel <ard.biesheuvel@linaro.org>
-Date: Thu, 2 May 2019 09:22:35 +0200
-Message-ID: <CAKv+Gu9yw6s=N+LkKmQ+0d5ZQBJ+5tE0_cKtZAYHh_cTXnjyCQ@mail.gmail.com>
-To: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::143
-Subject: Re: [Qemu-devel] [PATCH v4 3/8] hw/acpi: Add ACPI Generic Event
- Device Support
+X-Received-From: 2a00:1450:4864:20::332
+Subject: [Qemu-devel] [PATCH v8 00/27] gdbstub: Refactor command packets
+ handler
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -75,87 +75,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
-	"sameo@linux.intel.com" <sameo@linux.intel.com>,
-	"shannon.zhaosl@gmail.com" <shannon.zhaosl@gmail.com>,
-	QEMU Developers <qemu-devel@nongnu.org>, Linuxarm <linuxarm@huawei.com>,
-	Auger Eric <eric.auger@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
-	"xuwei \(O\)" <xuwei5@huawei.com>, Igor Mammedov <imammedo@redhat.com>,
-	"sebastien.boeuf@intel.com" <sebastien.boeuf@intel.com>,
-	Laszlo Ersek <lersek@redhat.com>
+Cc: liran.alon@oracle.com, alex.bennee@linaro.org, Jon Doron <arilou@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 1 May 2019 at 13:25, Shameerali Kolothum Thodi
-<shameerali.kolothum.thodi@huawei.com> wrote:
->
-> Hi Ard,
->
-> > -----Original Message-----
-> > From: Ard Biesheuvel [mailto:ard.biesheuvel@linaro.org]
-> > Sent: 01 May 2019 12:10
-> > To: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
-> > Cc: QEMU Developers <qemu-devel@nongnu.org>; qemu-arm
-> > <qemu-arm@nongnu.org>; Auger Eric <eric.auger@redhat.com>; Igor
-> > Mammedov <imammedo@redhat.com>; Peter Maydell
-> > <peter.maydell@linaro.org>; shannon.zhaosl@gmail.com;
-> > sameo@linux.intel.com; sebastien.boeuf@intel.com; xuwei (O)
-> > <xuwei5@huawei.com>; Laszlo Ersek <lersek@redhat.com>; Linuxarm
-> > <linuxarm@huawei.com>
-> > Subject: Re: [PATCH v4 3/8] hw/acpi: Add ACPI Generic Event Device Support
-> >
-> > On Tue, 9 Apr 2019 at 12:31, Shameer Kolothum
-> > <shameerali.kolothum.thodi@huawei.com> wrote:
-> > >
-> > > From: Samuel Ortiz <sameo@linux.intel.com>
-> > >
-> > > The ACPI Generic Event Device (GED) is a hardware-reduced specific
-> > > device[ACPI v6.1 Section 5.6.9] that handles all platform events,
-> > > including the hotplug ones.This patch generates the AML code that
-> > > defines GEDs.
-> > >
-> > > Platforms need to specify their own GedEvent array to describe what
-> > > kind of events they want to support through GED.  Also this uses a
-> > > a single interrupt for the  GED device, relying on IO memory region
-> > > to communicate the type of device affected by the interrupt. This
-> > > way, we can support up to 32 events with a unique interrupt.
-> > >
-> > > This supports only memory hotplug for now.
-> > >
-> > > Signed-off-by: Samuel Ortiz <sameo@linux.intel.com>
-> > > Signed-off-by: Sebastien Boeuf <sebastien.boeuf@intel.com>
-> > > Signed-off-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
-> >
-> > Apologies if this question has been raised before, but do we really
-> > need a separate device for this? We already handle the power button
-> > via _AEI/_Exx on the GPIO device, and I think we should be able to add
-> > additional events using that interface, rather than have two event
-> > signalling methods/devices on the same platform.
->
-> Right. The initial RFC was based on GPIO device[1] and later Igor commented
-> here[2] that,
->
-> " ARM boards were first to use ACPI hw-reduced profile so they picked up
-> available back then GPIO based way to deliver hotplug event, later spec
-> introduced Generic Event Device for that means to use with hw-reduced
-> profile, which NEMU implemented[1], so I'd use that rather than ad-hoc
-> GPIO mapping. I'd guess it will more compatible with various contemporary
-> guests and we could reuse the same code for both x86/arm virt boards) "
->
+This patch series refactors the old gdbstub command packets handler
+with a new infrastructure which should ease extending and adding new
+and missing gdb command packets.
 
-On mach-virt, we already use the GPIO controller for the ACPI event
-involving the power button, so by aligning with virt-x86, we end up in
-the opposite situation for mach-virt.
+version 8 changes:
+- Add new command to display the Supported qemu generic query/sets
+- kvm: Add API to read/write a MSR
+- Add new commands specific for qemu:
+  * Command to swap the memory GDB sees to be the physical memory
+  * Commands to read and write a MSR
 
-The problem with the GED device is that it only supports GSI
-interrupts, while the GPIO device supports arbitrary interrupts (such
-as GPIO signalled ones). This means that mach-virt will be stuck with
-having two different methods of signalling ACPI events, unless we
-rewire the power button not to use a GPIO interrupt but use a GSI
-directly.
+version 7 changes:
+- Fixed few checkpatch complaints
+- Feedback from Alex Bennee
 
-In general, I think the ACPI event delivery mechanism doesn't really
-have to be aligned: the ACPI event is ultimately converted into a AML
-notification to the right device, and how we end up there can remain
-platform specific.
+version 4-6 changes:
+- mostly feedback from Richard Henderson
+
+version 3 changes
+- Split the single patch to many individual patches for easier reviewing
+
+version 2 changes
+- Code convention fixes
+
+Jon Doron (27):
+  gdbstub: Add infrastructure to parse cmd packets
+  gdbstub: Implement deatch (D pkt) with new infra
+  gdbstub: Implement thread_alive (T pkt) with new infra
+  gdbstub: Implement continue (c pkt) with new infra
+  gdbstub: Implement continue with signal (C pkt) with new infra
+  gdbstub: Implement set_thread (H pkt) with new infra
+  gdbstub: Implement insert breakpoint (Z pkt) with new infra
+  gdbstub: Implement remove breakpoint (z pkt) with new infra
+  gdbstub: Implement set register (P pkt) with new infra
+  gdbstub: Implement get register (p pkt) with new infra
+  gdbstub: Implement write memory (M pkt) with new infra
+  gdbstub: Implement read memory (m pkt) with new infra
+  gdbstub: Implement write all registers (G pkt) with new infra
+  gdbstub: Implement read all registers (g pkt) with new infra
+  gdbstub: Implement file io (F pkt) with new infra
+  gdbstub: Implement step (s pkt) with new infra
+  gdbstub: Implement v commands with new infra
+  gdbstub: Implement generic query (q pkt) with new infra
+  gdbstub: Implement generic set (Q pkt) with new infra
+  gdbstub: Implement target halted (? pkt) with new infra
+  gdbstub: Clear unused variables in gdb_handle_packet
+  gdbstub: Implement generic query qemu.Supported
+  gdbstub: Implement qemu physical memory mode
+  gdbstub: Add another handler for setting qemu.sstep
+  kvm: Add API to read/write a CPU MSR value
+  gdbstub: Add support to read a MSR for KVM target
+  gdbstub: Add support to write a MSR for KVM target
+
+ accel/kvm/kvm-all.c  |   39 +
+ gdbstub.c            | 1807 ++++++++++++++++++++++++++++++------------
+ include/sysemu/kvm.h |    2 +
+ 3 files changed, 1359 insertions(+), 489 deletions(-)
+
+-- 
+2.20.1
+
 
