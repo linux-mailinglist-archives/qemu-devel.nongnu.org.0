@@ -2,51 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B132A12009
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 18:23:28 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54135 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB53B11FF9
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 18:19:20 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54062 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMEUZ-0004KY-UT
-	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 12:23:27 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43335)
+	id 1hMEQa-0000SO-2Y
+	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 12:19:20 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43809)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hMEL8-0004Ky-WC
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 12:13:44 -0400
+	(envelope-from <laurent@vivier.eu>) id 1hMEM9-0005Mo-4g
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 12:14:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hMEL6-0002NH-Au
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 12:13:42 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56448)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <thuth@redhat.com>) id 1hMEL6-0002Mi-3C
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 12:13:40 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 5F3CD356F6;
-	Thu,  2 May 2019 16:13:39 +0000 (UTC)
-Received: from thuth.com (ovpn-116-131.ams2.redhat.com [10.36.116.131])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id DCD7A17D58;
-	Thu,  2 May 2019 16:13:37 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
+	(envelope-from <laurent@vivier.eu>) id 1hMEM8-0002vS-4v
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 12:14:45 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:59689)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hMEM7-0002uy-Sf
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 12:14:44 -0400
+Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
+	(mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+	1MKKpV-1h2mBx0UJz-00LlcE; Thu, 02 May 2019 18:14:34 +0200
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
 	qemu-devel@nongnu.org
-Date: Thu,  2 May 2019 18:13:10 +0200
-Message-Id: <20190502161310.15624-9-thuth@redhat.com>
-In-Reply-To: <20190502161310.15624-1-thuth@redhat.com>
-References: <20190502161310.15624-1-thuth@redhat.com>
+References: <877eb86hcf.fsf@zen.linaroharston>
+	<20190502145846.26226-1-alex.bennee@linaro.org>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <765fa2ab-2803-1945-61ea-2e80b2da6072@vivier.eu>
+Date: Thu, 2 May 2019 18:14:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.30]);
-	Thu, 02 May 2019 16:13:39 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20190502145846.26226-1-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:A3KEGNr7iTl/i34T0xwfZpvBMlfEUcXFK3epCgEzq7m0kLH8DlW
+	Xs/alMlaJREqShL2DydRZRvWhQtyar6aSzhQGge50fDy6cI8BGt4O+Z3060ktvO4frB8MC+
+	rEnGL2cVaQO+e9ua14GCP3XabIZAHy01KD5m8IDaxJ8JHKhxl4m4eh+QhlQb2bKPJ+jV1PD
+	HlJdBeXJnFzQa+fTBNerg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:SBDtjpnqfoI=:z87g363o4ZRd50ZtMVZ5N8
+	odq/t/CTMjULCA89JXfDl4BRZGQmmPeyGnI5R0T3V+LScsrSX2zf1K1oyzSH5qyc1Be4xyJxX
+	HKB1+otBWtnAzakNI7BSly81bF4+IoSxDiMX+HLPJoiYrDSG/uEOyoEYg4+mNu54FYkiUtkET
+	dVXyoWpUp0ChHT6hYUVPXap6xU1i0LVE7UtpBfEkjFCC4Qawh+K3zZoomOjiQ5tr+UD8qJ+Lr
+	iNnFqzYRotO1GlOJbjNno2KtaWId3KFClsOqxMNDnjfWgLyH29eQxQ6d8NiElMXhC9F4Wg+tE
+	n5o/gF7qCNn5BcDvR6mF5XxPw3qo+Ps8k39Np8FtsGbk7E9xt/hTbqA2xQDWAMmkNee/Car3f
+	7FXoQ4bznBmADIQTEjrIK2z27WIRB/2r6TYErbf2YONcXAevk9WcQ1wY4H8sNEfMPCkW1m2d4
+	GDtpv+2OF16NgTwFyBm7skGmkNQjm0Q2T49AHtd7ch1j67I/f2sZV9uGVhYvcQm2a6KQzsxq7
+	fUNroPM0xseCwlJ0S2wrVvS/VnZHv5hsifnm/WaYxcYHPPrQTEB909XhFNHqU9ZZf4kUzBTD1
+	KzeJPeNOqMgm0i2G0FNu8OT4M4eMViipmu5hwNO/VnFBjkDqTKskL54E0tC4OnaTQKnPrhNs+
+	SJvvu8eJ18ckB4X4TM00FKQrkZrDCbdGpHVGQIZGlaDMeULcYDA2RNq5DVdhTuPzhCsepQeOl
+	//4G5mtXojJJ8psN/xHZbhFVoO606k6o3z/49xDgaB3QjGpdmIuxOy51yOM=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 8/8] hw/pci-host: Use object_initialize_child
- for correct reference counting
+X-Received-From: 212.227.17.10
+Subject: Re: [Qemu-devel] [PATCH] linux-user: avoid treading on gprof's
+ SIGPROF signals
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,108 +68,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Otubo <otubo@redhat.com>, Helge Deller <deller@gmx.de>,
-	Eduardo Habkost <ehabkost@redhat.com>
+Cc: Riku Voipio <riku.voipio@iki.fi>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Both functions, object_initialize() and object_property_add_child() incre=
-ase
-the reference counter of the new object, so one of the references has to =
-be
-dropped afterwards to get the reference counting right. Otherwise the chi=
-ld
-object might not be properly cleaned up when the parent gets destroyed.
-Some functions of the pci-host devices miss to drop one of the references=
-.
-Fix it by using object_initialize_child() instead, which takes care of
-calling object_initialize(), object_property_add_child() and object_unref=
-()
-in the right order.
+On 02/05/2019 16:58, Alex Bennée wrote:
+> The guest tends to get confused when it receives signals it doesn't
+> know about. Given the gprof magic has also set up it's own handler we
+> would do well to avoid stomping on it as well.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>  linux-user/signal.c | 5 +++++
+>  1 file changed, 5 insertions(+)
+> 
+> diff --git a/linux-user/signal.c b/linux-user/signal.c
+> index e2c0b37173..44b2d3b35a 100644
+> --- a/linux-user/signal.c
+> +++ b/linux-user/signal.c
+> @@ -508,6 +508,11 @@ void signal_init(void)
+>      act.sa_flags = SA_SIGINFO;
+>      act.sa_sigaction = host_signal_handler;
+>      for(i = 1; i <= TARGET_NSIG; i++) {
+> +#ifdef TARGET_GPROF
+> +        if (i == SIGPROF) {
+> +            continue;
+> +        }
+> +#endif
+>          host_sig = target_to_host_signal(i);
+>          sigaction(host_sig, NULL, &oact);
+>          if (oact.sa_sigaction == (void *)SIG_IGN) {
+> 
 
-Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
-Message-Id: <20190430191552.4027-1-thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- hw/pci-host/designware.c  | 4 ++--
- hw/pci-host/gpex.c        | 5 +++--
- hw/pci-host/q35.c         | 4 ++--
- hw/pci-host/xilinx-pcie.c | 4 ++--
- 4 files changed, 9 insertions(+), 8 deletions(-)
+Perhaps merge this with the previous one and send a v2: it will ease
+bisecting.
 
-diff --git a/hw/pci-host/designware.c b/hw/pci-host/designware.c
-index 29ea313798..64ad21d295 100644
---- a/hw/pci-host/designware.c
-+++ b/hw/pci-host/designware.c
-@@ -721,8 +721,8 @@ static void designware_pcie_host_init(Object *obj)
-     DesignwarePCIEHost *s =3D DESIGNWARE_PCIE_HOST(obj);
-     DesignwarePCIERoot *root =3D &s->root;
-=20
--    object_initialize(root, sizeof(*root), TYPE_DESIGNWARE_PCIE_ROOT);
--    object_property_add_child(obj, "root", OBJECT(root), NULL);
-+    object_initialize_child(obj, "root",  root, sizeof(*root),
-+                            TYPE_DESIGNWARE_PCIE_ROOT, &error_abort, NUL=
-L);
-     qdev_prop_set_int32(DEVICE(root), "addr", PCI_DEVFN(0, 0));
-     qdev_prop_set_bit(DEVICE(root), "multifunction", false);
- }
-diff --git a/hw/pci-host/gpex.c b/hw/pci-host/gpex.c
-index 2583b151a4..1bafffcc34 100644
---- a/hw/pci-host/gpex.c
-+++ b/hw/pci-host/gpex.c
-@@ -29,6 +29,7 @@
-  * http://www.firmware.org/1275/practice/imap/imap0_9d.pdf
-  */
- #include "qemu/osdep.h"
-+#include "qapi/error.h"
- #include "hw/hw.h"
- #include "hw/pci-host/gpex.h"
-=20
-@@ -120,8 +121,8 @@ static void gpex_host_initfn(Object *obj)
-     GPEXHost *s =3D GPEX_HOST(obj);
-     GPEXRootState *root =3D &s->gpex_root;
-=20
--    object_initialize(root, sizeof(*root), TYPE_GPEX_ROOT_DEVICE);
--    object_property_add_child(obj, "gpex_root", OBJECT(root), NULL);
-+    object_initialize_child(obj, "gpex_root",  root, sizeof(*root),
-+                            TYPE_GPEX_ROOT_DEVICE, &error_abort, NULL);
-     qdev_prop_set_int32(DEVICE(root), "addr", PCI_DEVFN(0, 0));
-     qdev_prop_set_bit(DEVICE(root), "multifunction", false);
- }
-diff --git a/hw/pci-host/q35.c b/hw/pci-host/q35.c
-index 7b871b5734..960939f5ed 100644
---- a/hw/pci-host/q35.c
-+++ b/hw/pci-host/q35.c
-@@ -216,8 +216,8 @@ static void q35_host_initfn(Object *obj)
-     memory_region_init_io(&phb->data_mem, obj, &pci_host_data_le_ops, ph=
-b,
-                           "pci-conf-data", 4);
-=20
--    object_initialize(&s->mch, sizeof(s->mch), TYPE_MCH_PCI_DEVICE);
--    object_property_add_child(OBJECT(s), "mch", OBJECT(&s->mch), NULL);
-+    object_initialize_child(OBJECT(s), "mch",  &s->mch, sizeof(s->mch),
-+                            TYPE_MCH_PCI_DEVICE, &error_abort, NULL);
-     qdev_prop_set_int32(DEVICE(&s->mch), "addr", PCI_DEVFN(0, 0));
-     qdev_prop_set_bit(DEVICE(&s->mch), "multifunction", false);
-     /* mch's object_initialize resets the default value, set it again */
-diff --git a/hw/pci-host/xilinx-pcie.c b/hw/pci-host/xilinx-pcie.c
-index 60309afe9e..ceb00e23e6 100644
---- a/hw/pci-host/xilinx-pcie.c
-+++ b/hw/pci-host/xilinx-pcie.c
-@@ -149,8 +149,8 @@ static void xilinx_pcie_host_init(Object *obj)
-     XilinxPCIEHost *s =3D XILINX_PCIE_HOST(obj);
-     XilinxPCIERoot *root =3D &s->root;
-=20
--    object_initialize(root, sizeof(*root), TYPE_XILINX_PCIE_ROOT);
--    object_property_add_child(obj, "root", OBJECT(root), NULL);
-+    object_initialize_child(obj, "root",  root, sizeof(*root),
-+                            TYPE_XILINX_PCIE_ROOT, &error_abort, NULL);
-     qdev_prop_set_int32(DEVICE(root), "addr", PCI_DEVFN(0, 0));
-     qdev_prop_set_bit(DEVICE(root), "multifunction", false);
- }
---=20
-2.21.0
-
+Thanks,
+Laurent
 
