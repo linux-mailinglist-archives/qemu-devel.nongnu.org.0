@@ -2,80 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2716511C72
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 17:16:52 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52927 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C38611C82
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 17:21:32 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53050 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMDS7-0000cQ-AG
-	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 11:16:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56647)
+	id 1hMDWd-00043Y-Iy
+	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 11:21:31 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57418)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hMDQ3-00081C-KL
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 11:14:44 -0400
+	(envelope-from <xuwei5@huawei.com>) id 1hMDRp-00015b-0A
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 11:16:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hMDPy-0005Lp-Qh
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 11:14:43 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:35852)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hMDPv-0005IM-3x
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 11:14:36 -0400
-Received: by mail-pf1-x443.google.com with SMTP id v80so1287434pfa.3
-	for <qemu-devel@nongnu.org>; Thu, 02 May 2019 08:14:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=nmGO59YERWUu5J2WcfaWCuwKyLVj/n7bjdb7edd37e0=;
-	b=oKrHWHa+8DLAJShVOORx4JlaG9KGrvuXrlgWE20PO0wPyVX/6XSPAVGDRTxX3x/QHH
-	EoMHXB9R+oZ+yLy2ePgrWtdpqYPikaIbm3TZ+aN3P1sMb1DMu/DErsGf/n3UHExxHnle
-	oB8LJgxoBOpS7n1/aP56VHh4sVGQyPmPBRPAHmsX4lgrxO0YV4ZqMCG7VcsUuQff5CPK
-	R2ZDZenEzDpIkrzqKrY7Q9aqhJj9Bmvacj615hrSePDPWcPGjwA+5O2yx3yjxfq+L4IC
-	kIvtt9FastwWlKPZhikpJpENn+UVVsFWeY35NYtlkYZicI672VtKeA6WZDUegSa/zkGL
-	my/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=nmGO59YERWUu5J2WcfaWCuwKyLVj/n7bjdb7edd37e0=;
-	b=idFmoPa8W1LryWDYx4617R23PZuqMIG/SoZ4OEqktOkKKplwe9iXC8WjBGQtQ8oUN3
-	2QY9zS+wmbx29RuJAEwwaH6i1gipMftVaZYRFeT9IJn6mOz63qhoXMFHLacl94EedVFM
-	SWIMPWxyM/8f1OmGyjslhP8XYIvDvHPWi/dZjyIeyaCbEDtWsJcAmvcc+EbcFd8lPbfJ
-	vD9A4VV8M0Qk7N15nHiepii6ik+BAepsx0TK9ZVKxxZF5McASdGTeOWq57s+MobmBkSX
-	wgLW3QWYd/Pg9pz9MrOUtqRnXWUlOYuGO7Fp5lGC5lv30hihdtRpxkoxcFuXgIdl7PqK
-	CaoQ==
-X-Gm-Message-State: APjAAAVlBlCSvUEJMetwIHCi2kUqemOsJknrgPRW0dZEAsp3UTpzn7CT
-	EBvMXz6eXLUTHvsEy43bWODyeA==
-X-Google-Smtp-Source: APXvYqyqSX9bKSmvjVZ9hexnw4E5Iv7j1EyFFtzxaYrW8bu4KV1gb8H5u3gzKcSOCyLr5MjANBY9uQ==
-X-Received: by 2002:a63:ed10:: with SMTP id d16mr4435007pgi.75.1556810071673; 
-	Thu, 02 May 2019 08:14:31 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-189-189.tukw.qwest.net. [97.113.189.189])
-	by smtp.gmail.com with ESMTPSA id
-	10sm56334461pfh.14.2019.05.02.08.14.30
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 02 May 2019 08:14:30 -0700 (PDT)
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
-References: <20190501223819.8584-1-richard.henderson@linaro.org>
-	<20190502040459.GE13618@umbus.fritz.box>
-	<5aca63b1-72e9-9402-8828-d2dd054b3313@linaro.org>
-	<87h8ad5e0h.fsf@zen.linaroharston>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <e7318909-cae9-eef5-7f59-c9a2992fffeb@linaro.org>
-Date: Thu, 2 May 2019 08:14:28 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <xuwei5@huawei.com>) id 1hMDRn-0006q1-Hn
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 11:16:32 -0400
+Received: from lhrrgout.huawei.com ([185.176.76.210]:45395 helo=huawei.com)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <xuwei5@huawei.com>) id 1hMDRn-0006pa-BR
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 11:16:31 -0400
+Received: from lhreml702-cah.china.huawei.com (unknown [172.18.7.108])
+	by Forcepoint Email with ESMTP id 046136AE858FBCA0BD6E;
+	Thu,  2 May 2019 16:16:29 +0100 (IST)
+Received: from [127.0.0.1] (10.202.226.56) by lhreml702-cah.china.huawei.com
+	(10.201.108.43) with Microsoft SMTP Server id 14.3.408.0;
+	Thu, 2 May 2019 16:16:19 +0100
+To: Igor Mammedov <imammedo@redhat.com>, <qemu-devel@nongnu.org>
+References: <1556808723-226478-1-git-send-email-imammedo@redhat.com>
+From: Wei Xu <xuwei5@hisilicon.com>
+Message-ID: <2d736e9a-25e8-164c-9a90-5b24cc83ac17@hisilicon.com>
+Date: Thu, 2 May 2019 16:16:17 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+	Thunderbird/60.4.0
 MIME-Version: 1.0
-In-Reply-To: <87h8ad5e0h.fsf@zen.linaroharston>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <1556808723-226478-1-git-send-email-imammedo@redhat.com>
+Content-Type: text/plain; charset="utf-8"
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::443
-Subject: Re: [Qemu-devel] [PATCH 0/2] configure: Fix make check-tcg for
- ppc64le
+X-Originating-IP: [10.202.226.56]
+X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 185.176.76.210
+Subject: Re: [Qemu-devel] [PATCH v4 00/15] tests: acpi: add UEFI (ARM)
+ testing support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -87,20 +55,135 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, mark.cave-ayland@ilande.co.uk, qemu-devel@nongnu.org,
-	David Gibson <david@gibson.dropbear.id.au>
+Cc: Andrew Jones <drjones@redhat.com>, Ben Warren <ben@skyportsystems.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Laszlo Ersek <lersek@redhat.com>, linuxarm@huawei.com, Shameer
+	Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	Shannon Zhao <shannon.zhaosl@gmail.com>, Gonglei <arei.gonglei@huawei.com>,
+	Wei Yang <richardw.yang@linux.intel.com>, xuwei5@huawei.com,
+	=?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/2/19 3:47 AM, Alex Bennée wrote:
->> This needs a different set of cleanups.  ;-)
-> 
-> I guess this is another use case for softmmu support in linux-user where
-> HOST_PAGE != TARGET_PAGE?
+Hi Ignor,
 
-Well, yes, but I was thinking more short-term, wherein we do not test things
-that we know will not work.  E.g. testing 4k pages on a 64k page host.
+On 5/2/2019 3:51 PM, Igor Mammedov wrote:
+> Changelog:
+>   - from v3:
+>       * reshaffle patch order a bit
+>       * move out acpi_parse_rsdp_table() hunk to
+>           "tests: acpi: make pointer to RSDP  64bit"
+>         where it belongs
+>       * move acpi_fetch_rsdp_table(s/uint32_t addr/uint64_t addr/) to
+>         this patch where it belongs from:
+>            "tests: acpi: make RSDT test routine handle XSDT"
+>       * dropping Reviewed-bys due to acpi_fetch_table() change
+>         introduced by earlier patch:
+>           "tests: acpi: make acpi_fetch_table() take size of fetched ta=
+ble pointer"
+>       * update [8/15] commit message to point to commit which introduce=
+d
+>         signature_guid value.
+>       * get rid of test_acpi_rsdp_address() in [9/15]
+>       * added new patch
+>          tests: acpi: allow to override default accelerator
+>       * force arm/virt test to use TCG accelerator
+>   - from v2:
+>       * rebase on top current master (with UEFI blobs merged)
+>       * added a Makefile rule to include bios-tables-test to aarch64 te=
+sts by
+>         default into 11/13 (kept Reviewed-bys)
+>       * other trivial fixes and cleanups (see per patch changelogs)
+>   =20
+>   - from v1:
+>       * rebase on top
+>          (1) [PATCH for-4.1 v3 00/12] bundle edk2 platform firmware  wi=
+th QEMU
+>         let me to drop edk2 images and drop Makefile magic to unpack th=
+em,
+>         Laszlo's series conveniently does it all for me.
+>       * use new path/names for firmware images as supplied by [1]
+>       * reorder patches a bit so that UEFI parts would go after generic=
+ changes
+>=20
+> Series adds support for ACPI tables located above 4G. It adds 64-bit ha=
+ndling
+> necessary for testing arm/virt board (i.e. might be not complete wrt sp=
+ec) and
+> uses recently merged UEFI (AVMF) firmware/test disk image which provide=
+s
+> an entry point[1] for fetching ACPI tables (RSDP pointer).
+>=20
+> Git tree for testing:
+>    https://github.com/imammedo/qemu.git acpi_arm_tests_v4
+>=20
+> Ref to previos vesrsion:
+>    [PATCH v3 00/13] tests: acpi: add UEFI (ARM) testing support
+>    https://www.mail-archive.com/qemu-devel@nongnu.org/msg612679.html
+>=20
+> CC: Laszlo Ersek <lersek@redhat.com>
+> CC: "Michael S. Tsirkin" <mst@redhat.com>
+> CC: Gonglei <arei.gonglei@huawei.com>
+> CC: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> CC: Shannon Zhao <shannon.zhaosl@gmail.com>
+> CC: Wei Yang <richardw.yang@linux.intel.com>
+> CC: Andrew Jones <drjones@redhat.com>
+> CC: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+> CC: Ben Warren <ben@skyportsystems.com>
+> CC: <xuwei5@hisilicon.com>
+> CC: <xuwei5@huawei.com>
+> CC: <shameerali.kolothum.thodi@huawei.com>
+> CC: <linuxarm@huawei.com>
+>=20
+> Igor Mammedov (15):
+>   tests: acpi: rename acpi_parse_rsdp_table() into
+>     acpi_fetch_rsdp_table()
+>   tests: acpi: make acpi_fetch_table() take size of fetched table
+>     pointer
+>   tests: acpi: make RSDT test routine handle XSDT
+>   tests: acpi: make pointer to RSDP 64bit
+>   tests: acpi: fetch X_DSDT if pointer to DSDT is 0
+>   tests: acpi: skip FACS table if board uses hw reduced ACPI profile
+>   tests: acpi: move boot_sector_init() into x86 tests branch
+>   tests: acpi: add acpi_find_rsdp_address_uefi() helper
+>   tests: acpi: add a way to start tests with UEFI firmware
+>   tests: acpi: ignore SMBIOS tests when UEFI firmware is used
+>   tests: acpi: allow to override default accelerator
+>   tests: add expected ACPI tables for arm/virt board
+>   tests: acpi: add simple arm/virt testcase
+>   tests: acpi: refactor rebuild-expected-aml.sh to dump ACPI tables for
+>     a specified list of targets
+>   tests: acpi: print error unable to dump ACPI table during rebuild
+>=20
+>  tests/acpi-utils.h                      |   7 +-
+>  tests/Makefile.include                  |   1 +
+>  tests/acpi-utils.c                      |  68 +++++++++++----
+>  tests/bios-tables-test.c                | 148 +++++++++++++++++++++++-=
+--------
+>  tests/data/acpi/rebuild-expected-aml.sh |  23 +++--
+>  tests/data/acpi/virt/APIC               | Bin 0 -> 168 bytes
+>  tests/data/acpi/virt/DSDT               | Bin 0 -> 18476 bytes
+>  tests/data/acpi/virt/FACP               | Bin 0 -> 268 bytes
+>  tests/data/acpi/virt/GTDT               | Bin 0 -> 96 bytes
+>  tests/data/acpi/virt/MCFG               | Bin 0 -> 60 bytes
+>  tests/data/acpi/virt/SPCR               | Bin 0 -> 80 bytes
+>  tests/vmgenid-test.c                    |   6 +-
+>  12 files changed, 178 insertions(+), 75 deletions(-)
+>  create mode 100644 tests/data/acpi/virt/APIC
+>  create mode 100644 tests/data/acpi/virt/DSDT
+>  create mode 100644 tests/data/acpi/virt/FACP
+>  create mode 100644 tests/data/acpi/virt/GTDT
+>  create mode 100644 tests/data/acpi/virt/MCFG
+>  create mode 100644 tests/data/acpi/virt/SPCR
+>=20
 
+Tested the series on the hisilicon D05 board(arm64 based), so FWIW:
 
-r~
+Tested-by: Wei Xu <xuwei5@hisilicon.com>
+
+Thanks!
+
+Best Regards,
+Wei
+
 
