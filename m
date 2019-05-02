@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C80B115CA
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 10:52:52 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:47767 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C733E115CE
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 10:53:43 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:47771 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hM7SV-0001Hb-4i
-	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 04:52:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50591)
+	id 1hM7TL-0002Wm-0U
+	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 04:53:43 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50594)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hM7MB-0004XN-FG
+	(envelope-from <thuth@redhat.com>) id 1hM7MB-0004XQ-G6
 	for qemu-devel@nongnu.org; Thu, 02 May 2019 04:46:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hM7M7-0003l6-So
+	(envelope-from <thuth@redhat.com>) id 1hM7M8-0003lw-LS
 	for qemu-devel@nongnu.org; Thu, 02 May 2019 04:46:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34998)
+Received: from mx1.redhat.com ([209.132.183.28]:33032)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <thuth@redhat.com>)
-	id 1hM7M3-0002ym-QR; Thu, 02 May 2019 04:46:12 -0400
+	id 1hM7M4-000310-6N; Thu, 02 May 2019 04:46:12 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
 	[10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 11AFAF74A6;
-	Thu,  2 May 2019 08:45:26 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id E23B8308FC4D;
+	Thu,  2 May 2019 08:45:28 +0000 (UTC)
 Received: from thuth.com (ovpn-116-131.ams2.redhat.com [10.36.116.131])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 46D7254FE5;
-	Thu,  2 May 2019 08:45:23 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 5B66954FDF;
+	Thu,  2 May 2019 08:45:26 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu,  2 May 2019 10:45:02 +0200
-Message-Id: <20190502084506.8009-4-thuth@redhat.com>
+Date: Thu,  2 May 2019 10:45:03 +0200
+Message-Id: <20190502084506.8009-5-thuth@redhat.com>
 In-Reply-To: <20190502084506.8009-1-thuth@redhat.com>
 References: <20190502084506.8009-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.38]);
-	Thu, 02 May 2019 08:45:26 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.43]);
+	Thu, 02 May 2019 08:45:28 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 3/7] tests/qemu-iotests: Do not hard-code
- the path to bash
+Subject: [Qemu-devel] [PATCH v3 4/7] cirrus / travis: Add gnu-sed and bash
+ for macOS and FreeBSD
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -68,73 +68,54 @@ Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-bash is installed in a different directory on non-Linux systems like
-FreeBSD. Do not hard-code /bin/bash here so that the tests can run
-there, too.
+We are going to enable the qemu-iotests during "make check" again,
+and for running the iotests, we need bash and gnu-sed.
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Reviewed-by: Li-Wen Hsu <lwhsu@freebsd.org>
 Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Acked-by: Christian Borntraeger <borntraeger@de.ibm.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qemu-iotests/239 | 2 +-
- tests/qemu-iotests/240 | 2 +-
- tests/qemu-iotests/241 | 2 +-
- tests/qemu-iotests/243 | 2 +-
- tests/qemu-iotests/244 | 2 +-
- 5 files changed, 5 insertions(+), 5 deletions(-)
+ .cirrus.yml | 4 ++--
+ .travis.yml | 1 +
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qemu-iotests/239 b/tests/qemu-iotests/239
-index 6f085d573d..b0991ffe59 100755
---- a/tests/qemu-iotests/239
-+++ b/tests/qemu-iotests/239
-@@ -1,4 +1,4 @@
--#!/bin/bash
-+#!/usr/bin/env bash
- #
- # Test case for dmg
- #
-diff --git a/tests/qemu-iotests/240 b/tests/qemu-iotests/240
-index 65cc3b39b1..d3e663ed65 100755
---- a/tests/qemu-iotests/240
-+++ b/tests/qemu-iotests/240
-@@ -1,4 +1,4 @@
--#!/bin/bash
-+#!/usr/bin/env bash
- #
- # Test hot plugging and unplugging with iothreads
- #
-diff --git a/tests/qemu-iotests/241 b/tests/qemu-iotests/241
-index 017a736aab..58b64ebf41 100755
---- a/tests/qemu-iotests/241
-+++ b/tests/qemu-iotests/241
-@@ -1,4 +1,4 @@
--#!/bin/bash
-+#!/usr/bin/env bash
- #
- # Test qemu-nbd vs. unaligned images
- #
-diff --git a/tests/qemu-iotests/243 b/tests/qemu-iotests/243
-index 5838c6e89c..e563761307 100755
---- a/tests/qemu-iotests/243
-+++ b/tests/qemu-iotests/243
-@@ -1,4 +1,4 @@
--#!/bin/bash
-+#!/usr/bin/env bash
- #
- # Test qcow2 preallocation
- #
-diff --git a/tests/qemu-iotests/244 b/tests/qemu-iotests/244
-index d8e7122305..13978f93d2 100755
---- a/tests/qemu-iotests/244
-+++ b/tests/qemu-iotests/244
-@@ -1,4 +1,4 @@
--#!/bin/bash
-+#!/usr/bin/env bash
- #
- # Test qcow2 with external data files
- #
+diff --git a/.cirrus.yml b/.cirrus.yml
+index 47ef5bc604..8326a3a4b1 100644
+--- a/.cirrus.yml
++++ b/.cirrus.yml
+@@ -7,7 +7,7 @@ freebsd_12_task:
+     cpu: 8
+     memory: 8G
+   install_script: pkg install -y
+-    bison curl cyrus-sasl git glib gmake gnutls
++    bash bison curl cyrus-sasl git glib gmake gnutls gsed
+     nettle perl5 pixman pkgconf png usbredir
+   script:
+     - mkdir build
+@@ -20,7 +20,7 @@ macos_task:
+   osx_instance:
+     image: mojave-base
+   install_script:
+-    - brew install pkg-config python glib pixman make sdl2
++    - brew install pkg-config python gnu-sed glib pixman make sdl2
+   script:
+     - ./configure --python=3D/usr/local/bin/python3 || { cat config.log;=
+ exit 1; }
+     - gmake -j$(sysctl -n hw.ncpu)
+diff --git a/.travis.yml b/.travis.yml
+index 2e06aee9d0..ba94644192 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -42,6 +42,7 @@ addons:
+     packages:
+       - glib
+       - pixman
++      - gnu-sed
+=20
+=20
+ # The channel name "irc.oftc.net#qemu" is encrypted against qemu/qemu
 --=20
 2.21.0
 
