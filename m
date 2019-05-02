@@ -2,53 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E7C701148B
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 09:48:51 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46793 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7972A1149A
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 09:56:03 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46916 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hM6SZ-00051m-4z
-	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 03:48:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33166)
+	id 1hM6ZW-0002cJ-M9
+	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 03:56:02 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33264)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hM6GK-00026N-60
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 03:36:13 -0400
+	(envelope-from <kraxel@redhat.com>) id 1hM6GS-0002FA-A8
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 03:36:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hM6GI-000136-3I
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 03:36:11 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55508)
+	(envelope-from <kraxel@redhat.com>) id 1hM6GO-00016W-UT
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 03:36:18 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60544)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hM6GG-0000gx-6H
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 03:36:10 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
+	(Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hM6GN-0000mF-64
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 03:36:15 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 15F88C1306E4;
-	Thu,  2 May 2019 07:35:47 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 1F0812D800;
+	Thu,  2 May 2019 07:35:52 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-45.ams2.redhat.com
 	[10.36.116.45])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id AFF5998A8;
+	by smtp.corp.redhat.com (Postfix) with ESMTP id B01221001DEF;
 	Thu,  2 May 2019 07:35:44 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-	id 889001752B; Thu,  2 May 2019 09:35:43 +0200 (CEST)
+	id 91AEE17535; Thu,  2 May 2019 09:35:43 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu,  2 May 2019 09:35:38 +0200
-Message-Id: <20190502073543.4391-3-kraxel@redhat.com>
+Date: Thu,  2 May 2019 09:35:39 +0200
+Message-Id: <20190502073543.4391-4-kraxel@redhat.com>
 In-Reply-To: <20190502073543.4391-1-kraxel@redhat.com>
 References: <20190502073543.4391-1-kraxel@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.31]);
-	Thu, 02 May 2019 07:35:47 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+	(mx1.redhat.com [10.5.110.30]);
+	Thu, 02 May 2019 07:35:52 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 2/7] usb-mtp: fix alignment of access of
- ObjectInfo filename field
+Subject: [Qemu-devel] [PULL 3/7] usb-mtp: change default to success for
+ usb_mtp_update_object
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -60,61 +57,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: Bandan Das <bsd@redhat.com>, Gerd Hoffmann <kraxel@redhat.com>,
+	Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+From: Bandan Das <bsd@redhat.com>
 
-The ObjectInfo struct's "filename" field is following a uint8_t
-field in a packed struct and thus has bad alignment for a 16-bit
-field. Switch the field to to uint8_t and use the helper function
-for accessing unaligned 16-bit data.
+Commit c5ead51f90cf (usb-mtp: return incomplete transfer on a lstat
+failure) checks if lstat succeeded when updating attributes of a
+file. However, it also changed behavior to return an error by
+default. This is incorrect because for smaller file sizes, Qemu
+will attempt to write the file in one go and there won't be
+an object for it.
 
-Note that although the MTP spec specifies big endian, when transported
-over the USB protocol, data is little endian.
-
-Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-Message-id: 20190415154503.6758-4-berrange@redhat.com
+Fixes: c5ead51f90cf
+Signed-off-by: Bandan Das <bsd@redhat.com>
+Message-id: jpgwojv9pwv.fsf@linux.bootlegged.copy
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/usb/dev-mtp.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+ hw/usb/dev-mtp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/usb/dev-mtp.c b/hw/usb/dev-mtp.c
-index 6b7d1296e430..963449ec7de8 100644
+index 963449ec7de8..d90b336d53f4 100644
 --- a/hw/usb/dev-mtp.c
 +++ b/hw/usb/dev-mtp.c
-@@ -226,7 +226,7 @@ typedef struct {
-     uint32_t assoc_desc;
-     uint32_t seq_no; /*unused*/
-     uint8_t length; /*part of filename field*/
--    uint16_t filename[0];
-+    uint8_t filename[0]; /* UTF-16 encoded */
-     char date_created[0]; /*unused*/
-     char date_modified[0]; /*unused*/
-     char keywords[0]; /*unused*/
-@@ -1551,7 +1551,7 @@ static void usb_mtp_cancel_packet(USBDevice *dev, U=
-SBPacket *p)
-     fprintf(stderr, "%s\n", __func__);
- }
-=20
--static char *utf16_to_str(uint8_t len, uint16_t *arr)
-+static char *utf16_to_str(uint8_t len, uint8_t *str16)
+@@ -1587,7 +1587,7 @@ done:
+ 
+ static int usb_mtp_update_object(MTPObject *parent, char *name)
  {
-     wchar_t *wstr =3D g_new0(wchar_t, len + 1);
-     int count, dlen;
-@@ -1559,7 +1559,7 @@ static char *utf16_to_str(uint8_t len, uint16_t *ar=
-r)
-=20
-     for (count =3D 0; count < len; count++) {
-         /* FIXME: not working for surrogate pairs */
--        wstr[count] =3D (wchar_t)arr[count];
-+        wstr[count] =3D lduw_le_p(str16 + (count * 2));
-     }
-     wstr[count] =3D 0;
-=20
---=20
+-    int ret = -1;
++    int ret = 0;
+ 
+     MTPObject *o =
+         usb_mtp_object_lookup_name(parent, name, strlen(name));
+-- 
 2.18.1
 
 
