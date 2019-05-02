@@ -2,66 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AC93119B8
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 15:06:41 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50927 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F353119CD
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 15:10:57 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50977 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMBQ8-0003PI-4b
-	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 09:06:40 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52118)
+	id 1hMBUD-0005P3-Ef
+	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 09:10:53 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53087)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hMBP2-00035I-0c
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 09:05:33 -0400
+	(envelope-from <shmuel.eiderman@oracle.com>) id 1hMBSd-0004iF-4K
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 09:09:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hMBP0-0003f5-Pk
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 09:05:31 -0400
-Received: from mail-oi1-x22b.google.com ([2607:f8b0:4864:20::22b]:41016)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hMBOz-0003e9-Kx
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 09:05:30 -0400
-Received: by mail-oi1-x22b.google.com with SMTP id v23so1589066oif.8
-	for <qemu-devel@nongnu.org>; Thu, 02 May 2019 06:05:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=jTFJ/10xMgAL63mEBts4vZdhtfDSS3KLX5fx1o2OGmw=;
-	b=qhq3fOT+PZbgPSD0NZEs+It4oSOGp6+7YywtvvUsIEi0YsfF3XwP4kgtzYzxLN0Ykt
-	doyahFCt4pcMuSpEJx/mZgmJ01iupUxMjSFlmmMNj6Y6rxDp00j3XuSyn0XTMEkAscod
-	lGehfQURbNnPfsf04TYpcMqgC9VwJ8cskIsQ4UArIwgw2XWFPW0AvkmvBLywz5Xa7E9z
-	UvSRMaEscOHXkPlhC9AeR5UElYOPQzHHHd/zShIV28VlBHcOzm8AGgGuHf5NSgoNOHJH
-	C08a9FoX8iwqgKxn2cRqFr19Z16Wf5GD6XKmeENjS/IsLHPadgIQr0rhmbL5G3Sm6Ghg
-	AX6w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=jTFJ/10xMgAL63mEBts4vZdhtfDSS3KLX5fx1o2OGmw=;
-	b=aF9IdtDMdVXRzSrnqblTVFO/BdNrLr07osbRTb3GfiSd1xRfDsfReieLrdPhZzHFqa
-	TtVxZOy9lmT813bK2SDAVEDOreZA8Fp/5h7V0btbHv7PoRZ9Wb2sI4w4lyBPmWK6U9FT
-	qjR8FnZNfxczrHOWytarnsl8UfSfl5Dtvbqe5Tnh7KHXUt5A/85uQzakejUG6ZnW/RYg
-	mdWLT7uRiYlmbhYy61O5SL9uD5p4A9/Sr+jVfgEdqYftXLjtNiuLTZz0F6Ur4f+jAiBs
-	EXLnSBaUbfybyE4VcwcKjnNvhlKhb0UHtcurcTakRnko60VzDk/B1s8Z1z7+ulV35BED
-	chlg==
-X-Gm-Message-State: APjAAAWTdgwPs2kOMhLw8EcyQ6V4BTg+nw2WNALecT86UJSlMwHfX0mU
-	zznFQL94HAkSo6+C4V+ej3DyYf3ZxzWy19itZadDDZyaP0Y=
-X-Google-Smtp-Source: APXvYqxa9I4vCrz8JXFtdwsRmaKCjFN5Kmu4XI5aSTmzEEURfo7kF+DwR1VjNuiHUAL5OizET4dXni+pkWHcS3jMxXo=
-X-Received: by 2002:aca:4b04:: with SMTP id y4mr2333191oia.170.1556802327185; 
-	Thu, 02 May 2019 06:05:27 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190502073543.4391-1-kraxel@redhat.com>
-In-Reply-To: <20190502073543.4391-1-kraxel@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 2 May 2019 14:05:16 +0100
-Message-ID: <CAFEAcA-OyrwAqp1Kwt-sFJY3xj=0mUszGtF3RewwLs25vOhNLg@mail.gmail.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::22b
-Subject: Re: [Qemu-devel] [PULL 0/7] Usb 20190502 patches
+	(envelope-from <shmuel.eiderman@oracle.com>) id 1hMBSc-0006kc-Dv
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 09:09:15 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:53790)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <shmuel.eiderman@oracle.com>)
+	id 1hMBSW-0006X9-H4; Thu, 02 May 2019 09:09:08 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+	by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id
+	x42D3beP007282; Thu, 2 May 2019 13:08:36 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+	h=from : to : cc :
+	subject : date : message-id : in-reply-to : references;
+	s=corp-2018-07-02; 
+	bh=/HK4VHvu7V02v4/O/98Tkz3nUpt5f/6IK86Q7/Zb9uI=;
+	b=0WFAjR7CFKikF3It90pNMnjcJbxoxsr6FJ81uZPqxEyRx4EHVVDWepYL7JeffMZf14oi
+	ABoPW4ywXquEn/oCUY6CKw6puQed2qHj+2CJMx/B1kEY4WS4OqahJsy3ehMWCWK+X/o9
+	95W3wfmX0+4MWVVQg9UH4dEf9XbBDfE/UUO+R7Mn/SW15p6xOmjLSftY2PtmW99QOeMb
+	pvJ8D+zsqsxmhHNXsSAX10Ob/NLHaamCsIYqiq+nhYnYtD1nyjHoc7ShPMWn0zcruEX9
+	/5VD/uv4RL4veyL5gY5u8jXtuB/ztVTVpUHmPiP3pA5zWpzEPwaAGuVu8JcTC24tBfaF
+	2g== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+	by userp2120.oracle.com with ESMTP id 2s6xhyrec1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 02 May 2019 13:08:35 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+	by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id
+	x42D6mwK000834; Thu, 2 May 2019 13:08:35 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+	by aserp3020.oracle.com with ESMTP id 2s6xhgsqxf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Thu, 02 May 2019 13:08:34 +0000
+Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
+	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x42D8Vgw010306;
+	Thu, 2 May 2019 13:08:33 GMT
+Received: from nexus.ravello.local (/213.57.127.2)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Thu, 02 May 2019 06:08:31 -0700
+From: Sam Eiderman <shmuel.eiderman@oracle.com>
+To: kwolf@redhat.com, mreitz@redhat.com, qemu-block@nongnu.org,
+	qemu-devel@nongnu.org, thuth@redhat.com, fam@euphon.net, eblake@redhat.com
+Date: Thu,  2 May 2019 16:08:21 +0300
+Message-Id: <20190502130822.46858-1-shmuel.eiderman@oracle.com>
+X-Mailer: git-send-email 2.13.3
+In-Reply-To: <af928e13-bde2-a9ae-de74-853d9bfc5e65@redhat.com>
+References: <af928e13-bde2-a9ae-de74-853d9bfc5e65@redhat.com>
+X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9244
+	signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+	malwarescore=0
+	phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=734
+	adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+	engine=8.0.1-1810050000 definitions=main-1905020091
+X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9244
+	signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+	priorityscore=1501 malwarescore=0
+	suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+	lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=771
+	adultscore=0
+	classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+	definitions=main-1905020091
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 156.151.31.85
+Subject: [Qemu-devel] [PATCH v2] vmdk: Set vmdk parent backing_format to vmdk
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -73,94 +89,11 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
-	Aurelien Jarno <aurelien@aurel32.net>
+Cc: shmuel.eiderman@oracle.com, arbel.moshe@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 2 May 2019 at 08:54, Gerd Hoffmann <kraxel@redhat.com> wrote:
->
-> The following changes since commit f75d15231e56cb0f2bafe19faf1229c459a607=
-31:
->
->   Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into sta=
-ging (2019-04-30 17:06:57 +0100)
->
-> are available in the Git repository at:
->
->   git://git.kraxel.org/qemu tags/usb-20190502-pull-request
->
-> for you to fetch changes up to f3ea801df82991e852862bcaede23a4607859dd8:
->
->   hw/usb: avoid format truncation warning when formatting port name (2019=
--05-02 09:34:13 +0200)
->
-> ----------------------------------------------------------------
-> usb: bugfixes for mtp and xhci, split ohci-pci.
->
-> ----------------------------------------------------------------
+Fixing broken iotests 110 and and 126 by filtering out
+"backing file format" as Max suggested.
 
-
-Hi -- I'm afraid this failed to compile on one of my systems:
-
-  CC      hw/usb/hcd-xhci.o
-/home/petmay01/linaro/qemu-for-merges/hw/usb/hcd-xhci.c: In function
-=E2=80=98usb_xhci_realize=E2=80=99:
-/home/petmay01/linaro/qemu-for-merges/hw/usb/hcd-xhci.c:3340:66:
-error: =E2=80=98%d=E2=80=99 directive output may be truncated writing betwe=
-en 1 and 11
-bytes into a region of size 5 [-Werror=3Dformat-truncation=3D]
-             snprintf(port->name, sizeof(port->name), "usb2 port #%d", i+1)=
-;
-                                                                  ^~
-/home/petmay01/linaro/qemu-for-merges/hw/usb/hcd-xhci.c:3340:54: note:
-directive argument in the range [-2147483647, 30]
-             snprintf(port->name, sizeof(port->name), "usb2 port #%d", i+1)=
-;
-                                                      ^~~~~~~~~~~~~~~
-In file included from /usr/include/stdio.h:862:0,
-                 from
-/home/petmay01/linaro/qemu-for-merges/include/qemu/osdep.h:99,
-                 from
-/home/petmay01/linaro/qemu-for-merges/hw/usb/hcd-xhci.c:21:
-/usr/include/x86_64-linux-gnu/bits/stdio2.h:64:10: note:
-=E2=80=98__builtin___snprintf_chk=E2=80=99 output between 13 and 23 bytes i=
-nto a
-destination of size 16
-   return __builtin___snprintf_chk (__s, __n, __USE_FORTIFY_LEVEL - 1,
-          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        __bos (__s), __fmt, __va_arg_pack ());
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-/home/petmay01/linaro/qemu-for-merges/hw/usb/hcd-xhci.c:3354:66:
-error: =E2=80=98%d=E2=80=99 directive output may be truncated writing betwe=
-en 1 and 11
-bytes into a region of size 5 [-Werror=3Dformat-truncation=3D]
-             snprintf(port->name, sizeof(port->name), "usb3 port #%d", i+1)=
-;
-                                                                  ^~
-/home/petmay01/linaro/qemu-for-merges/hw/usb/hcd-xhci.c:3354:54: note:
-directive argument in the range [-2147483647, 30]
-             snprintf(port->name, sizeof(port->name), "usb3 port #%d", i+1)=
-;
-                                                      ^~~~~~~~~~~~~~~
-In file included from /usr/include/stdio.h:862:0,
-                 from
-/home/petmay01/linaro/qemu-for-merges/include/qemu/osdep.h:99,
-                 from
-/home/petmay01/linaro/qemu-for-merges/hw/usb/hcd-xhci.c:21:
-/usr/include/x86_64-linux-gnu/bits/stdio2.h:64:10: note:
-=E2=80=98__builtin___snprintf_chk=E2=80=99 output between 13 and 23 bytes i=
-nto a
-destination of size 16
-   return __builtin___snprintf_chk (__s, __n, __USE_FORTIFY_LEVEL - 1,
-          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-        __bos (__s), __fmt, __va_arg_pack ());
-        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-cc1: all warnings being treated as errors
-
-It looks like this compiler isn't able to decide that i is definitely not
-negative, so it thinks the resulting string might not fit.
-
-thanks
--- PMM
 
