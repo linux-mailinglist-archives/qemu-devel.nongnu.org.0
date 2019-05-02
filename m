@@ -2,58 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 330CC12250
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 21:05:20 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57403 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C62C12243
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 21:02:15 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57371 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMH1D-0007nh-Ah
-	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 15:05:19 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36405)
+	id 1hMGyE-0005AE-I5
+	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 15:02:14 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36243)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hMGvs-0003qG-1G
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 14:59:49 -0400
+	(envelope-from <laurent@vivier.eu>) id 1hMGvk-0003jW-1J
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 14:59:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hMGvq-00038P-16
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 14:59:47 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:49225)
+	(envelope-from <laurent@vivier.eu>) id 1hMGvh-00034P-Ve
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 14:59:39 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:54335)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <laurent@vivier.eu>)
-	id 1hMGvo-00036L-63; Thu, 02 May 2019 14:59:45 -0400
+	id 1hMGvg-00033d-0R; Thu, 02 May 2019 14:59:37 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
 	mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA
 	(Nemesis)
-	id 1MulVd-1gUrBS2fkB-00rmX0; Thu, 02 May 2019 20:58:49 +0200
+	id 1MQ5f4-1h97kp1GwC-00M0HN; Thu, 02 May 2019 20:58:51 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Thu,  2 May 2019 20:58:25 +0200
-Message-Id: <20190502185835.15185-4-laurent@vivier.eu>
+Date: Thu,  2 May 2019 20:58:26 +0200
+Message-Id: <20190502185835.15185-5-laurent@vivier.eu>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190502185835.15185-1-laurent@vivier.eu>
 References: <20190502185835.15185-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:i8N48vf6fYeQrXRpmliB1WbbQePfY7u70TUSvgRUwugwD4qm+PH
-	LPLdWWdX/TDJimYRhNRBrRbClzUyzlva6Nl7/bjaKkIQE3lof3IU0/YS8P8/+PONtT11Syl
-	puSoX5vr5YsnSU6lmTMBdhipO++qof5PiWsTDF5xbKXHVrB5t6PL8768pcWZCagmNyxF4jP
-	veBVFUtq+nADNt8DlQzdA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:hdmbE3AA+90=:UDPPnU0TVO8VM3YtriMX0F
-	3iK+TZOru1Qh/OtPoueav0a4Mx5ann9iSjpNNAm3TNFdDkqss0y5N4GZdlYS6AI0ooKhNVAc7
-	IjH8QL6RQJxA6/RIk0F+7PlZrgwfeynR+ruM/i2tnvsrosKAFpUc1c4oVPc+oaZ6W/3LcqRLy
-	zy5DBVSisyvv9jhjRJy5rAwydyToYUguJqO5jf3egxy6x2j5VUYEOQGp13VHyC5PE0i21Hk7+
-	Vh9qfdsdVyJK7W4i2CUNPwr+1SOKGu4sWhHhykgQlgDBBCqtfbCal+RPYstygrUNh85fk54qo
-	7+PbXlqm0ppYD79DWuzdBAi2LDEXBAAfpMY5BOMiuNEaWa21fka7a/x/nDrK+n4phKvXTYwtE
-	UtrRQIKK1jdxevERlL9cH2/hxoQYGGGur8cMMFkmvreHn+eEyIgq8BuG84KJydvEvM+XQ3iJU
-	LtW/zrLsb74xTgOVyItUK+iV2tKf2H2cAT5wc0TIzYBEkMLBgVP0uUwjfeEEsKz5CK3Q0LPT8
-	pe3EGWdoNvNme8me/lBiuVkGwAwAXXY+rlNPQS4PmLuWOjSNojy02VRd/pt9v3m6HNcnChG7i
-	wK6MVcbaW3Q2pHzt3SciZ1kD9rrttjiPUbkkxjPz89H3V6CXRpOpRrunjOaT+CiCPjTG69a7W
-	VLc/lM/s/aNfmrlXAcPkfkvrKw0hhXGEhKdGAMmZzMI3OIHGO7CalWb3xxqsORflC2udqUqFJ
-	TgxkZie0JRESHcq+K/AtvwutGNowcFHhRm3obFs5Jvyp5E14DGE6hFaXjMU=
+X-Provags-ID: V03:K1:xVhJC29hi64K8Mo9KwgOZ8dLwMyyjb7cCfI8WpjTj+J/1NYL+Qm
+	Voo0cOPqv1EUxVYbM/VRS/Bs7RZpK3EZ/gMsUB9Xs9FPXlvA3pRs6HIds7fO3wjVeuqGDTP
+	Omc5HWKWoTNY1g/NWXMbPA5arCrFvmZTB+nPplx+kdp6xiOKd7NqRMNL5XYEUBAFzHHM3d9
+	gQ0hK8lqpVG4jHiVusFXw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:oSm8HSqA+gY=:XwAhgy9L85c3CyL1iSZyyX
+	jELqtg/xXpnnrP7tz/BHAUkvE8vAW9qMQW2v1pR0mBRwh1stHyIDKGSGEmIkRgeD6wwitjVBm
+	dG0A4asqc4Be4g50w7cZhnBXlTFVXLfY5IbTCbpDT71fCquvcYRFCF9wz2/19AB4vQL9qCIJ7
+	+M2qX6VELbnfO3OgaJ4hMd2z1YJXJ8F4lrQmP/NWUolETkIMEN8Axav1SaW+L/xbnAMcslN/k
+	SKPP3m6o1Zo1XC8qYFFH03lknOQouvxzRC1TpGq2DMy3jU9gsRfriXpTqXFVpJBodsjui2+aB
+	xfotr5NB9Y9Rcm29m78XyqDqHOWLCKFjUI/81ClbJa2M1qxo1DUYixdvLyE03J0kzr4HBWS99
+	weAkaD3yYhxJ7IBjGi6K20doj1OjBq85Fa8d6g5oV1hIvK6EOXRwbixH12LHgg3B+1p3Bqhgb
+	Tau0Em0K26WqaMIBIQsSY4JvUKMIPU5TK9jhL+DH9y6OMd0qfAajYi2Lx2ODObEClbyXHqRlW
+	Qs82h7We6fASG4AxxR8QfW0CoRPNHmEUmd5Zma7nUZwy6jX010wz872KOhF7TggtWYGzX+CTJ
+	x1Vlj9AbEykJDPky2FX0fRU9g/lfxb4Yg2EAdYRFU/YYN7TihCwwwxH7g/kr2aDkvXA+/etk7
+	2EQrc3roOKCej5/qlQKbhC3eHOliLMUo3IrMCmkR+zaE2npgw8+HB+wniP9oYLd8mvlSxk+R6
+	i2hjXVCCZdO/9aAR7HBqshv0lp0zY42mYXdbmA==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.73
-Subject: [Qemu-devel] [PULL 03/13] CODING_STYLE: indent example code as all
- others
+X-Received-From: 212.227.17.24
+Subject: [Qemu-devel] [PULL 04/13] Clean up includes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -66,64 +64,198 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
-	Michael Tokarev <mjt@tls.msk.ru>,
+	Michael Tokarev <mjt@tls.msk.ru>, Markus Armbruster <armbru@redhat.com>,
 	Gerd Hoffmann <kraxel@redhat.com>, qemu-trivial@nongnu.org,
 	Michael Roth <mdroth@linux.vnet.ibm.com>,
-	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 	Artyom Tarasenko <atar4qemu@gmail.com>,
-	Stefano Garzarella <sgarzare@redhat.com>,
 	Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 	Eduardo Habkost <ehabkost@redhat.com>,
 	Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
 	Fabien Chouteau <chouteau@adacore.com>,
-	Igor Mammedov <imammedo@redhat.com>,
 	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
 	Richard Henderson <rth@twiddle.net>,
 	Viktor Prutyanov <viktor.prutyanov@phystech.edu>,
-	Laurent Vivier <laurent@vivier.eu>,
-	Wei Yang <richardw.yang@linux.intel.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
+	Laurent Vivier <laurent@vivier.eu>, Paolo Bonzini <pbonzini@redhat.com>,
 	=?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>,
 	Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Wei Yang <richardw.yang@linux.intel.com>
+From: Markus Armbruster <armbru@redhat.com>
 
-All the example code are indented with four spaces except this one.
+Clean up includes so that osdep.h is included first and headers
+which it implies are not included manually.
 
-Fix this by adding four spaces here.
+This commit was created with scripts/clean-includes, with the changes
+to the following files manually reverted:
 
-Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+    contrib/libvhost-user/libvhost-user-glib.h
+    contrib/libvhost-user/libvhost-user.c
+    contrib/libvhost-user/libvhost-user.h
+    linux-user/mips64/cpu_loop.c
+    linux-user/mips64/signal.c
+    linux-user/sparc64/cpu_loop.c
+    linux-user/sparc64/signal.c
+    linux-user/x86_64/cpu_loop.c
+    linux-user/x86_64/signal.c
+    slirp/src/*
+    target/s390x/gen-features.c
+    tests/migration/s390x/a-b-bios.c
+    tests/test-rcu-simpleq.c
+    tests/test-rcu-tailq.c
+    tests/uefi-test-tools/UefiTestToolsPkg/BiosTablesTest/BiosTablesTest.c
+
+We're in the process of spinning out slirp/.  tests/uefi-test-tools/
+is guest software.  The remaining reverts are the same as in commit
+b7d89466dde.
+
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
 Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Message-Id: <20190304071631.27567-3-richardw.yang@linux.intel.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20190313162812.8885-1-armbru@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- CODING_STYLE | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ hw/display/ati_int.h     | 1 -
+ include/hw/cpu/cluster.h | 1 -
+ tests/fp/platform.h      | 1 -
+ tests/libqos/qgraph.h    | 4 ----
+ contrib/elf2dmp/main.c   | 3 +--
+ contrib/elf2dmp/pdb.c    | 3 +--
+ hw/display/ati.c         | 1 +
+ hw/display/ati_2d.c      | 1 +
+ hw/display/ati_dbg.c     | 1 +
+ tests/qos-test.c         | 2 +-
+ 10 files changed, 6 insertions(+), 12 deletions(-)
 
-diff --git a/CODING_STYLE b/CODING_STYLE
-index 90321e9c2821..cb8edcbb3692 100644
---- a/CODING_STYLE
-+++ b/CODING_STYLE
-@@ -147,10 +147,10 @@ block to a separate function altogether.
- When comparing a variable for (in)equality with a constant, list the
- constant on the right, as in:
+diff --git a/hw/display/ati_int.h b/hw/display/ati_int.h
+index a6f3e20e6319..2f426064cf7d 100644
+--- a/hw/display/ati_int.h
++++ b/hw/display/ati_int.h
+@@ -9,7 +9,6 @@
+ #ifndef ATI_INT_H
+ #define ATI_INT_H
  
--if (a == 1) {
--    /* Reads like: "If a equals 1" */
--    do_something();
--}
-+    if (a == 1) {
-+        /* Reads like: "If a equals 1" */
-+        do_something();
-+    }
+-#include "qemu/osdep.h"
+ #include "hw/pci/pci.h"
+ #include "vga_int.h"
  
- Rationale: Yoda conditions (as in 'if (1 == a)') are awkward to read.
- Besides, good compilers already warn users when '==' is mis-typed as '=',
+diff --git a/include/hw/cpu/cluster.h b/include/hw/cpu/cluster.h
+index 549c2d31d438..01c1e50cd221 100644
+--- a/include/hw/cpu/cluster.h
++++ b/include/hw/cpu/cluster.h
+@@ -20,7 +20,6 @@
+ #ifndef HW_CPU_CLUSTER_H
+ #define HW_CPU_CLUSTER_H
+ 
+-#include "qemu/osdep.h"
+ #include "hw/qdev.h"
+ 
+ /*
+diff --git a/tests/fp/platform.h b/tests/fp/platform.h
+index c20ba70baa07..f8c423dde3dc 100644
+--- a/tests/fp/platform.h
++++ b/tests/fp/platform.h
+@@ -29,7 +29,6 @@
+  * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  */
+-#include "config-host.h"
+ 
+ #ifndef HOST_WORDS_BIGENDIAN
+ #define LITTLEENDIAN 1
+diff --git a/tests/libqos/qgraph.h b/tests/libqos/qgraph.h
+index ef0c73837a60..e799095b308a 100644
+--- a/tests/libqos/qgraph.h
++++ b/tests/libqos/qgraph.h
+@@ -19,11 +19,7 @@
+ #ifndef QGRAPH_H
+ #define QGRAPH_H
+ 
+-#include <stdio.h>
+-#include <stdlib.h>
+-#include <stdbool.h>
+ #include <gmodule.h>
+-#include <glib.h>
+ #include "qemu/module.h"
+ #include "malloc.h"
+ 
+diff --git a/contrib/elf2dmp/main.c b/contrib/elf2dmp/main.c
+index 1bfeb89ba7bd..9a2dbc290214 100644
+--- a/contrib/elf2dmp/main.c
++++ b/contrib/elf2dmp/main.c
+@@ -5,9 +5,8 @@
+  *
+  */
+ 
+-#include <inttypes.h>
+-
+ #include "qemu/osdep.h"
++
+ #include "err.h"
+ #include "addrspace.h"
+ #include "pe.h"
+diff --git a/contrib/elf2dmp/pdb.c b/contrib/elf2dmp/pdb.c
+index 64af20f5842e..a5bd40c99dca 100644
+--- a/contrib/elf2dmp/pdb.c
++++ b/contrib/elf2dmp/pdb.c
+@@ -18,9 +18,8 @@
+  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301, USA
+  */
+ 
+-#include <inttypes.h>
+-
+ #include "qemu/osdep.h"
++
+ #include "pdb.h"
+ #include "err.h"
+ 
+diff --git a/hw/display/ati.c b/hw/display/ati.c
+index db409be3c958..75716dd944ec 100644
+--- a/hw/display/ati.c
++++ b/hw/display/ati.c
+@@ -16,6 +16,7 @@
+  * No 3D at all yet (maybe after 2D works, but feel free to improve it)
+  */
+ 
++#include "qemu/osdep.h"
+ #include "ati_int.h"
+ #include "ati_regs.h"
+ #include "vga_regs.h"
+diff --git a/hw/display/ati_2d.c b/hw/display/ati_2d.c
+index bc98ba6eebf6..f31b3c27c7d8 100644
+--- a/hw/display/ati_2d.c
++++ b/hw/display/ati_2d.c
+@@ -7,6 +7,7 @@
+  * This work is licensed under the GNU GPL license version 2 or later.
+  */
+ 
++#include "qemu/osdep.h"
+ #include "ati_int.h"
+ #include "ati_regs.h"
+ #include "qemu/log.h"
+diff --git a/hw/display/ati_dbg.c b/hw/display/ati_dbg.c
+index 1e6c32624e5a..b045f81d0602 100644
+--- a/hw/display/ati_dbg.c
++++ b/hw/display/ati_dbg.c
+@@ -1,3 +1,4 @@
++#include "qemu/osdep.h"
+ #include "ati_int.h"
+ 
+ #ifdef DEBUG_ATI
+diff --git a/tests/qos-test.c b/tests/qos-test.c
+index 6b1145ecccff..ae2fb5de1c9b 100644
+--- a/tests/qos-test.c
++++ b/tests/qos-test.c
+@@ -16,8 +16,8 @@
+  * License along with this library; if not, see <http://www.gnu.org/licenses/>
+  */
+ 
+-#include <getopt.h>
+ #include "qemu/osdep.h"
++#include <getopt.h>
+ #include "libqtest.h"
+ #include "qapi/qmp/qdict.h"
+ #include "qapi/qmp/qbool.h"
 -- 
 2.20.1
 
