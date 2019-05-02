@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A59A11484
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 09:48:24 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46791 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BEC6B1143F
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 09:36:01 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46584 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hM6S7-0004iw-Nn
-	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 03:48:23 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59843)
+	id 1hM6G8-00011I-ON
+	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 03:36:00 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59464)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <arilou@gmail.com>) id 1hM6AJ-00057t-Ec
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 03:30:00 -0400
+	(envelope-from <arilou@gmail.com>) id 1hM68z-0003xc-Aq
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 03:28:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <arilou@gmail.com>) id 1hM6AH-00035N-AL
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 03:29:59 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:46035)
+	(envelope-from <arilou@gmail.com>) id 1hM68q-0001pT-SV
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 03:28:31 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:33810)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <arilou@gmail.com>) id 1hM6A8-0000Ye-5W
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 03:29:51 -0400
-Received: by mail-wr1-x441.google.com with SMTP id s15so1759286wra.12
-	for <qemu-devel@nongnu.org>; Thu, 02 May 2019 00:27:15 -0700 (PDT)
+	(Exim 4.71) (envelope-from <arilou@gmail.com>) id 1hM68k-0000ZV-Dj
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 03:28:23 -0400
+Received: by mail-wr1-x444.google.com with SMTP id e9so1827900wrc.1
+	for <qemu-devel@nongnu.org>; Thu, 02 May 2019 00:27:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=WRCcpUzuoRAzUaN5uQCeSKLXRQ6/9wuQJBWFZBJ3jI8=;
-	b=cx18xIgPOraRJ7MV0+4GVbbFdT0kB8MwxxbFPlFoTK7KJlugJyJpbdCHRl+IwGeJ4P
-	h9B05YEGOvfAPcsqjA3+R1J+ucjjOdJSB0EIWQBW/e3owHr3aPBi32N15w3iSGEJ1CiC
-	Isvch4rVAnEVnqnhw4QTaHR6LLENIlxQ6NFSOK2QZT9BfXTUuzZcFF7tzdWOamwBgVwJ
-	aTdsbwbQHxed5OGje7USrc/KzXIobi0Eh+XS+2CHF2Y1EccQaFnwh0hdcAfYfz96hd5d
-	rhWKG1tuXXLAtvSuB6aG+LDA3jdbtzS2mCML3Ff+lqi/SbADHjYBu6+Je0h5hIj4+Q/S
-	qfSw==
+	bh=brvpFyYDw1Z1o2sLMNd/sMXNZo4TYemLFYCJt79OgBg=;
+	b=AgOY6GPBpz+eyDNfwQ74HA2RWIbVmmDB5s2mzrkY1fYlD95VHug66NfWm/FMIqQ1AI
+	79rLMKle5fDwg0pKHUJEe2f68EjrjXgcB/XcJf0TVtNDsI3WtjJirWYrBSG+mzCCz/9p
+	yuIFlT94vRHSTVioJXwwxcKYnbaYhNrbk0Y60SxaHfecxuzGzEEXUH8JZuTLqdhxZ10z
+	2slev7N/vhA40yE0tWBxF11MUTj4k18OzVpFcnKFan+woKrCQvy9iAkZcaKfUu6X1tFA
+	n0ijBBlqqXrIS4HNpVg1oikHsDvr5+ypDep1gJOVs759h+uzqrrQq0IRBEL7deN6D61C
+	9okQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=WRCcpUzuoRAzUaN5uQCeSKLXRQ6/9wuQJBWFZBJ3jI8=;
-	b=c4EVQ8nGSW5F0WAz/SJ+I3o0Td5ipE4/yoTWKQQWjawU1km7wVsgpZby5ueXo63pmj
-	RwTnrR0GLDS4ynguudoXwaAywrzL89F4g8ROo86r2Ud4aO6O6Rlhnzoz6vu3ZJE9WNvw
-	4gYTdYzJRZDrmagudxaQms7Qk2HmDAxn4/k9fw+8B+LckFQQrR1Pur2fzEVIqzGrZYOv
-	xJp7hdsoaYOvAqo9VrsBV78V4m+RUzjMl8SUHLkJj5jyHR1DjeiZpfCDTu6MoGvRBf1l
-	9+xJrnAA9wnxZD9vHFU/WEWfbRm8X402uUZDB++N0gBHemrxHWH1q6mrWQiTHzwgbSa/
-	MVbw==
-X-Gm-Message-State: APjAAAVgBmyj1QWRadtil2EzIXiD+vW8KQtG0is1np3fpv+P1Lrje3Fl
-	VYKkpiUvhLn2AQNj44TlEe5Yh2Ke
-X-Google-Smtp-Source: APXvYqzpA8tS0XuMH46lwcOqQ2kMNgeJoNdC7tZdY8/Rw4P+Q4x9c7xcr0CMFSW4axekHglplY0A4g==
-X-Received: by 2002:adf:80c3:: with SMTP id 61mr1590133wrl.123.1556782034455; 
-	Thu, 02 May 2019 00:27:14 -0700 (PDT)
+	bh=brvpFyYDw1Z1o2sLMNd/sMXNZo4TYemLFYCJt79OgBg=;
+	b=jTyfCHG5G0BXBaJx2gUQdOL/B6o4zLsGpuqUD5flct8+BEg3i9iP3ixSk2sLPgobcU
+	tTDqoic3P57pChZaheHdrf5eMZMCnadTbcUfm1gXyauDjr1/eCMccUnFlb5YmpG1Tn9U
+	8rDpA5ZBmMnq1rBqpYfwLmmvCgAc3DYKHkZct5sEQr1+T97beXHesIUs+jzmDfpnGgtD
+	2mKtUDA4Qmv8/nBnSLhj14K8y5yDu2Tirp8owEfXuyRYjcBFVMraMjpM2BW6BN3B1hmJ
+	0PvIOQwQHYhdqq1dm04CNMGYjh1/GVjNfUwCXFqEgpROQEjdNWmquCyzm7oz34W8CaH8
+	TUqQ==
+X-Gm-Message-State: APjAAAW6Y5fQxIF0+jRaCDGqtmwArg51beiiIag3N/R+EFZ2hoJj/47S
+	P3aYXSQ1KEQl21T84AIYpxWlSpWs
+X-Google-Smtp-Source: APXvYqzuex3njM3+X1wmDyI8kERIoHhELAqvL9kQ5JqNHK3+z+KN4zONPuWTr+aCSrAip82jtq/+mw==
+X-Received: by 2002:a05:6000:10:: with SMTP id
+	h16mr1169408wrx.151.1556782036350; 
+	Thu, 02 May 2019 00:27:16 -0700 (PDT)
 Received: from localhost.localdomain ([176.230.64.186])
-	by smtp.gmail.com with ESMTPSA id z5sm8769289wre.70.2019.05.02.00.27.13
+	by smtp.gmail.com with ESMTPSA id z5sm8769289wre.70.2019.05.02.00.27.14
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 02 May 2019 00:27:13 -0700 (PDT)
+	Thu, 02 May 2019 00:27:15 -0700 (PDT)
 From: Jon Doron <arilou@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Thu,  2 May 2019 10:26:26 +0300
-Message-Id: <20190502072641.4667-13-arilou@gmail.com>
+Date: Thu,  2 May 2019 10:26:27 +0300
+Message-Id: <20190502072641.4667-14-arilou@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190502072641.4667-1-arilou@gmail.com>
 References: <20190502072641.4667-1-arilou@gmail.com>
@@ -63,9 +64,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: [Qemu-devel] [PATCH v8 12/27] gdbstub: Implement read memory (m
- pkt) with new infra
+X-Received-From: 2a00:1450:4864:20::444
+Subject: [Qemu-devel] [PATCH v8 13/27] gdbstub: Implement write all
+ registers (G pkt) with new infra
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -83,75 +84,76 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Jon Doron <arilou@gmail.com>
 ---
- gdbstub.c | 48 ++++++++++++++++++++++++++++++++----------------
- 1 file changed, 32 insertions(+), 16 deletions(-)
+ gdbstub.c | 41 +++++++++++++++++++++++++++++++----------
+ 1 file changed, 31 insertions(+), 10 deletions(-)
 
 diff --git a/gdbstub.c b/gdbstub.c
-index 8dc2e1d507..daa602edc3 100644
+index daa602edc3..adfe39b3a3 100644
 --- a/gdbstub.c
 +++ b/gdbstub.c
-@@ -1710,6 +1710,30 @@ static void handle_write_mem(GdbCmdContext *gdb_ctx, void *user_ctx)
-     put_packet(gdb_ctx->s, "OK");
+@@ -1734,6 +1734,29 @@ static void handle_read_mem(GdbCmdContext *gdb_ctx, void *user_ctx)
+     put_packet(gdb_ctx->s, gdb_ctx->str_buf);
  }
  
-+static void handle_read_mem(GdbCmdContext *gdb_ctx, void *user_ctx)
++static void handle_write_all_regs(GdbCmdContext *gdb_ctx, void *user_ctx)
 +{
-+    if (gdb_ctx->num_params < 2) {
-+        put_packet(gdb_ctx->s, "E22");
++    target_ulong addr, len;
++    uint8_t *registers;
++    int reg_size;
++
++    if (!gdb_ctx->num_params) {
 +        return;
 +    }
 +
-+    /* memtohex() doubles the required space */
-+    if (gdb_ctx->params[1].val_ull > MAX_PACKET_LENGTH / 2) {
-+        put_packet(gdb_ctx->s, "E22");
-+        return;
++    cpu_synchronize_state(gdb_ctx->s->g_cpu);
++    registers = gdb_ctx->mem_buf;
++    len = strlen(gdb_ctx->params[0].data) / 2;
++    hextomem(registers, gdb_ctx->params[0].data, len);
++    for (addr = 0; addr < gdb_ctx->s->g_cpu->gdb_num_g_regs && len > 0;
++         addr++) {
++        reg_size = gdb_write_register(gdb_ctx->s->g_cpu, registers, addr);
++        len -= reg_size;
++        registers += reg_size;
 +    }
-+
-+    if (target_memory_rw_debug(gdb_ctx->s->g_cpu, gdb_ctx->params[0].val_ull,
-+                               gdb_ctx->mem_buf,
-+                               gdb_ctx->params[1].val_ull, false)) {
-+        put_packet(gdb_ctx->s, "E14");
-+        return;
-+    }
-+
-+    memtohex(gdb_ctx->str_buf, gdb_ctx->mem_buf, gdb_ctx->params[1].val_ull);
-+    put_packet(gdb_ctx->s, gdb_ctx->str_buf);
++    put_packet(gdb_ctx->s, "OK");
 +}
 +
  static int gdb_handle_packet(GDBState *s, const char *line_buf)
  {
      CPUState *cpu;
-@@ -1899,22 +1923,14 @@ static int gdb_handle_packet(GDBState *s, const char *line_buf)
-         put_packet(s, "OK");
+@@ -1745,7 +1768,6 @@ static int gdb_handle_packet(GDBState *s, const char *line_buf)
+     uint8_t mem_buf[MAX_PACKET_LENGTH];
+     char buf[sizeof(mem_buf) + 1 /* trailing NUL */];
+     char thread_id[16];
+-    uint8_t *registers;
+     target_ulong addr, len;
+     const GdbCmdParseEntry *cmd_parser = NULL;
+ 
+@@ -1911,16 +1933,15 @@ static int gdb_handle_packet(GDBState *s, const char *line_buf)
+         put_packet(s, buf);
+         break;
+     case 'G':
+-        cpu_synchronize_state(s->g_cpu);
+-        registers = mem_buf;
+-        len = strlen(p) / 2;
+-        hextomem((uint8_t *)registers, p, len);
+-        for (addr = 0; addr < s->g_cpu->gdb_num_g_regs && len > 0; addr++) {
+-            reg_size = gdb_write_register(s->g_cpu, registers, addr);
+-            len -= reg_size;
+-            registers += reg_size;
++        {
++            static const GdbCmdParseEntry write_all_regs_cmd_desc = {
++                .handler = handle_write_all_regs,
++                .cmd = "G",
++                .cmd_startswith = 1,
++                .schema = "s0"
++            };
++            cmd_parser = &write_all_regs_cmd_desc;
+         }
+-        put_packet(s, "OK");
          break;
      case 'm':
--        addr = strtoull(p, (char **)&p, 16);
--        if (*p == ',')
--            p++;
--        len = strtoull(p, NULL, 16);
--
--        /* memtohex() doubles the required space */
--        if (len > MAX_PACKET_LENGTH / 2) {
--            put_packet (s, "E22");
--            break;
--        }
--
--        if (target_memory_rw_debug(s->g_cpu, addr, mem_buf, len, false) != 0) {
--            put_packet (s, "E14");
--        } else {
--            memtohex(buf, mem_buf, len);
--            put_packet(s, buf);
-+        {
-+            static const GdbCmdParseEntry read_mem_cmd_desc = {
-+                .handler = handle_read_mem,
-+                .cmd = "m",
-+                .cmd_startswith = 1,
-+                .schema = "L,L0"
-+            };
-+            cmd_parser = &read_mem_cmd_desc;
-         }
-         break;
-     case 'M':
+         {
 -- 
 2.20.1
 
