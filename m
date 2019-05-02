@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A935112257
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 21:08:21 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57474 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 753D112251
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 21:05:50 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57405 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMH48-0002R9-Np
-	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 15:08:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36352)
+	id 1hMH1h-0008D9-Ig
+	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 15:05:49 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36299)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hMGvq-0003nd-0E
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 14:59:47 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hMGvo-00036r-0t
+	(envelope-from <laurent@vivier.eu>) id 1hMGvo-0003lJ-1k
 	for qemu-devel@nongnu.org; Thu, 02 May 2019 14:59:45 -0400
-Received: from mout.kundenserver.de ([212.227.17.13]:51429)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+	(envelope-from <laurent@vivier.eu>) id 1hMGvm-00035o-2B
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 14:59:43 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:51701)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <laurent@vivier.eu>)
-	id 1hMGvi-000345-00; Thu, 02 May 2019 14:59:39 -0400
+	id 1hMGvk-00034V-1e; Thu, 02 May 2019 14:59:41 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
 	mrelayeu.kundenserver.de (mreue107 [212.227.15.183]) with ESMTPSA
 	(Nemesis)
-	id 1MbjBo-1glYC01KHe-00dHYJ; Thu, 02 May 2019 20:59:02 +0200
+	id 1N9M5y-1gjvKl3vXg-015GfB; Thu, 02 May 2019 20:59:04 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Thu,  2 May 2019 20:58:32 +0200
-Message-Id: <20190502185835.15185-11-laurent@vivier.eu>
+Date: Thu,  2 May 2019 20:58:33 +0200
+Message-Id: <20190502185835.15185-12-laurent@vivier.eu>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190502185835.15185-1-laurent@vivier.eu>
 References: <20190502185835.15185-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:emdVrM76Q9ZEwCt3gx+FcPMEVNlFoFdGjNYiDdUfivFiNUywUmo
-	Pdm93O77b65iwG8WV78xD0AOErIyYJek7OJKojo8+TDeBLZsV+aLxMDL9Mm82nDhEeiNsiP
-	ficUJejGofvek/lDs7yvaOygFoMjShIcNFToa+y1fbYIwpeCVef1R8koBbBb2A2B4uEFpjk
-	eWXrl06DqhqnSdM36vljQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:un3pcgT1kvc=:Ee2aYE/fsfQN4vI90Ph2Ut
-	Eq2QcByaDVoRJCK+dRQsZg6yt04d2dgJVNTDnJkz9YIw62S6rM9lK4mbZfjgW3Fq1QLT9x3rs
-	pgiFgXXqhP6fu755rVnzGIAZPrhk7zkgLln8SVU7EjVPY1DXJOWL8BWKRhfZJkDhp6dWyhKFE
-	CkRIMBPtHlFuFg+PEZPtz8hbrO+/1E2ETa2xQ7B795T/EDLEUDyPv1RLma6VR9wlNZW60dvqi
-	uxvTvJUKbXTRcGDX/ZwtCgkImGvcD6sSuB8dPZieg5lGDtmUQ2rUZ2zn4+OZzVncSozbOlYSb
-	2KBdjEYDFrC/WwsLzbLPCWWsMLHaLXfLye33fDocHkOVcL68zd3ZU3ANjDXNSSWt2IsUw1liq
-	ny63RRxP8lMDImZj0Jpa8w+4l6j2HRFm7uSWwCtXf4WLSB88Mfg6aTHB9aXUtywBB2KFrNqkN
-	pSasz/xVu1Erb+emN8YCuttjPvM3mYeIXdn6fs/j/l+4nAofjnRiQwE6MsedaqDFwimszSwcK
-	KQV0eOdfT6xtFBdKYgAJz/1sb0lCvX1NMG34VMY7EptGh7H+Ppt51Yey4mWJ1qmI2Pcg94mxR
-	N29KuI3QoMtLwhd2ULna9VimbM7KOsSlwbYJ2cPRVb4TK85qo4qJuYehRehzIoJPc0ywX+5fX
-	sTMi1lIuqm83hbEUAciuDBhr9wIJx6mwXk65XJVxzvDYCYeZ+LvsoKGoroaT+z2vClaVJaZxO
-	pWzfOaMvLCfijWIGR3Tw0dsXf9Uewqc2cYfjBBRbWDCRTM56IwIBSDQhDqE=
+X-Provags-ID: V03:K1:Jbw4DFL3kvmwxXXd9rzfjPC2Ip/dTFEAYMbD8QAvxeCw5T+swVq
+	w6UKqnjj/kzVazLA1918SMeXEWtkyutlNkix1ViekyBV4m150PTXokWytCraJd0F7mmiMy6
+	1pNcUZsN8p2O9tKg92xJPEblyBULzpezZhScFHgjkhGfhEnMgUqJm11xr2Mng61+soJbdVA
+	5qxWaYo1pXoAMlfzvG5aA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:hyiRxIsEq0A=:wEJ0I4jLEfp8BiJPKbQR4k
+	24tKzc5osHLwzNNaj31hHFTIvFDq23RafyVJ8PDZjS8dRS+awJzLFXb4vrZNHlj8x+Y1hhi/0
+	wH14l6aR8/3vEDEZ3zEZG9VG8Yl/Ys6Vs5Ed1ltacVqC16hfymGFUXBA/KyLbZwzFV9Q1TkKb
+	6MENWDlVeLCV1hmhgzSHud1zp8nK4jasIXl0Dfu2eSWjkCLkjWivdJXr6+qJT2zhVJBd59sWO
+	pqWXGImEK7QYtuSHZLNYuidzdHr8pNDFGoIylepvcJRkzg63JjikbS3wipqcCRq90UsfDR9t3
+	HOF/cqHwkIZXg/my3hrJfR9+a0hiBaYkb5vl6ROrFg3okSnpYd2yW92Mb1ayVdAacIpq99vUi
+	GMv93NiaXMVPh+6ygwAjOTxdjxlzTh7JbNthNQ7yNvchZe82kQoniiwXqHnW0GJtMyvG5xv0N
+	aN2piYn45OPV8c1yUFmtPkD03JLqfS5j9OZUfRe5/i7tq5XOvqfjXzbowa+si9nXsxKoNKvDJ
+	G3FyN4NE+B+4V7DCJYvb10LgBs8ZAtKpT1vN9t5Q7D/XxxbETdL1l6yukUdDlPmWTzh2NFL87
+	BqxfkE5vXOQ5iEKjhLxrTzYuGnfOwCgkAkmLnEIFqNhvTw3SHRdVknJ2lYuD1VXfzLwn4GPpz
+	oYj3jRaRwGrhq3T5tPBJqYfv6k7EtGH97ehy1w7K2IeKSJ2zWkHvPxnACdVtm6Aek8jWNmVul
+	SM6pRmvDClODmHutaNeB0bcZjMGB/YpUuhF0Za5g/RTJVcctL+4Sf2Mwftg=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 212.227.17.13
-Subject: [Qemu-devel] [PULL 10/13] net: Print output of "-net nic,
- model=help" to stdout instead of stderr
+Subject: [Qemu-devel] [PULL 11/13] Makefile: Let the 'clean' rule remove
+ qemu-ga.exe on Windows hosts
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -68,7 +68,7 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
 	Michael Tokarev <mjt@tls.msk.ru>,
 	Gerd Hoffmann <kraxel@redhat.com>, qemu-trivial@nongnu.org,
-	Michael Roth <mdroth@linux.vnet.ibm.com>,
+	Michael Roth <mdroth@linux.vnet.ibm.com>, Stefan Weil <sw@weilnetz.de>,
 	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 	Artyom Tarasenko <atar4qemu@gmail.com>,
 	Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
@@ -84,42 +84,36 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-We are printing all other help output to stdout already (e.g. "-help",
-"-cpu help" and "-machine help" output). So the "-net nic,model=help"
-output should go to stdout instead of stderr, too. And while we're at
-it, also print the NICs line by line, like we do it e.g. with the
-"-cpu help" or "-M help" output, too.
+Commit 48ff7a625b36 added the QEMU Guest Agent tool with the
+optional ".exe" suffix for Windows hosts, but forgot to use
+this suffix in the 'clean' rule. Calling this rule let a dangling
+executable in the build directory.
+Correct this by using the proper optional suffix.
 
-Buglink: https://bugs.launchpad.net/qemu/+bug/1574327
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20190423160608.7519-1-thuth@redhat.com>
+Fixes: 48ff7a625b36
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Stefan Weil <sw@weilnetz.de>
+Message-Id: <20190427161322.24642-1-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- net/net.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/net/net.c b/net/net.c
-index f3a3c5444cc3..2cf5e7646997 100644
---- a/net/net.c
-+++ b/net/net.c
-@@ -837,9 +837,10 @@ int qemu_show_nic_models(const char *arg, const char *const *models)
-         return 0;
-     }
- 
--    fprintf(stderr, "qemu: Supported NIC models: ");
--    for (i = 0 ; models[i]; i++)
--        fprintf(stderr, "%s%c", models[i], models[i+1] ? ',' : '\n');
-+    printf("Supported NIC models:\n");
-+    for (i = 0 ; models[i]; i++) {
-+        printf("%s\n", models[i]);
-+    }
-     return 1;
- }
- 
+diff --git a/Makefile b/Makefile
+index 43a7a047b452..e223bfe2a3a1 100644
+--- a/Makefile
++++ b/Makefile
+@@ -639,7 +639,7 @@ clean:
+ 		! -path ./roms/edk2/BaseTools/Source/Python/UPT/Dll/sqlite3.dll \
+ 		-exec rm {} +
+ 	rm -f $(edk2-decompressed)
+-	rm -f $(filter-out %.tlb,$(TOOLS)) $(HELPERS-y) qemu-ga TAGS cscope.* *.pod *~ */*~
++	rm -f $(filter-out %.tlb,$(TOOLS)) $(HELPERS-y) qemu-ga$(EXESUF) TAGS cscope.* *.pod *~ */*~
+ 	rm -f fsdev/*.pod scsi/*.pod
+ 	rm -f qemu-img-cmds.h
+ 	rm -f ui/shader/*-vert.h ui/shader/*-frag.h
 -- 
 2.20.1
 
