@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B8ED9116DB
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 12:06:50 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48634 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC0C9116F6
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 12:12:42 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48700 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hM8c5-0004up-JN
-	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 06:06:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39039)
+	id 1hM8hl-0006Y3-VE
+	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 06:12:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40192)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hM8b3-0004bW-4F
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 06:05:46 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hM8gb-0006Eb-AY
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 06:11:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hM8b2-0000Q4-7T
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 06:05:45 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:43043)
+	(envelope-from <peter.maydell@linaro.org>) id 1hM8gZ-0004Up-9v
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 06:11:29 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:42227)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hM8b2-0000OU-23
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 06:05:44 -0400
-Received: by mail-oi1-x242.google.com with SMTP id j9so469605oie.10
-	for <qemu-devel@nongnu.org>; Thu, 02 May 2019 03:05:42 -0700 (PDT)
+	id 1hM8gY-0004Sg-M8
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 06:11:27 -0400
+Received: by mail-oi1-x244.google.com with SMTP id k9so1168163oig.9
+	for <qemu-devel@nongnu.org>; Thu, 02 May 2019 03:11:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=pNk0Q3QckoxPkrut+nhTjV/QVf8jMvXhiGFwpItB8T0=;
-	b=efiaXMGO2BCARn/ChTMCqaVezSHUfCiOy6B+nzt+J2vBBOZdsYoz9ghs1yixpzk6AF
-	kistrNi2Q8jsJH7JehunCBlPnacyB3xweW09XTQRatzR9wP2Qc7jndBIjt8B4oRyojcI
-	R6qcpJ7BrTG8ysDwFHez/te8VsfJU1Hc30VWIoT6xVHBYQzgDVHE2GsruxZm7Vty/EmL
-	ebHhU6dUMWz3/CAa1fnbufO690YMWZJlAASH/LlT+Q+8UTUUXljtPIcjaadaUceoZORJ
-	mxRAT5q3h1tFbCpp9PH7w9im9u4OTyNcYTqzH8zMOlO4J0IQGBmra6qRLNr8VZQz+TPA
-	u6sQ==
+	:cc:content-transfer-encoding;
+	bh=xMYhaYEkdDSRjtWMuaokJ0R48E+isDAM3paGQ7J3Sv0=;
+	b=Ay0iR7WesVtRYIOdXlv8ke59LIMTzGWz2agtuwfEoxU5M/pKtvFkcek7A6eELdqN14
+	8AyBMzMLgrsXtRF50E+4LPBzhDu+1Bg44Y2dkKB0YgWQJiX2wqB7njDcpRtTNwP1NsXA
+	s8aDIivf4nohOsViuk1Z066d1QYsNUpdPrVUHxlXIcFWi1T5b+kApDh2cLhxGm113iYL
+	vS1jP2i3wrMH/8I7fxvkODoIhdzLp5ku0YuIKadOMdXaqXgO9BTddGxlDHqApW6klX4l
+	QYuHGEJ/W+wqIxJ+lUH1iMDm/H77qO2aABwbwryHx+Em+p5q2D6GLN+j98bKyCntQ7ne
+	AMlg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=pNk0Q3QckoxPkrut+nhTjV/QVf8jMvXhiGFwpItB8T0=;
-	b=a+rynXvh7YtBRlSNvOqsd8gS0ts8pU14J6wyw4CwOGEcchMCw0hKDf2Gu9r7Hz9r/J
-	f9n+vL7mtkvDz6OE1Wp0/txePveL567SuA3J9eAqOsiosc8jsbFYiXRFanxv9b+KuwZ0
-	td9/wFwNEqGHLOJzWQYgP4WFtNvLMMpsLcpItG+GSR4imAAYkIMOu8EAG7A/S2j9/8oV
-	zuCWpPcXiFeqADNOK1km7GzC28evjNXqOMuZGr2L3Annn0Af7EahqInfJOb7K1OHnf3o
-	ikI9MosXIZwGJG6XLzlua2xwKOoDdWs9jxULYpZd2XU291uO8rkM3BRDWBTcROHpweUa
-	/zIg==
-X-Gm-Message-State: APjAAAVd89augj/bnohvcCLE/Rkx2XZDzv9dOCBaYIHECnEGbc+luEBf
-	uVS0bKrzL8Av+GVHgBJ0gq4QpWs6xO5xpQhwsFbcXg==
-X-Google-Smtp-Source: APXvYqz0OD7Lz/EdbW1SVvU82D0JJYwvx4oLqfnFX+YeNCfoIkopkIy3P6kqYusIZ5xBnF/UajCEJ7VOeua220mAkZQ=
-X-Received: by 2002:aca:ab12:: with SMTP id u18mr1708710oie.48.1556791541964; 
-	Thu, 02 May 2019 03:05:41 -0700 (PDT)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=xMYhaYEkdDSRjtWMuaokJ0R48E+isDAM3paGQ7J3Sv0=;
+	b=jZaptSbAAgOaxQPP9A/fUxME2HiwsqQ8TK3qZEFn/CgCjJtYvqhfzqhbcfaru9raKF
+	FkmWMMTxpyURoACmpr00L8UHN3fsyExbFbWuB6uj8OjJRYuRwHvP5Zcv5YOTcHyxHKo1
+	XLr6fL2FJ2hMji8+Qk7c4a2dpKH+pxuEovhckW/88MGaDcTMVThesGr7/qSGzy7NmmJJ
+	9SO630pNtfUhuK1IS2F28Q/QUTMszRETP6mGMjXpRh4FMTAgWce+TMyRXIZKKtdb1ivS
+	i8p9+jqrI1nzcM5xNr387/4PF4GZ5MRwWzkytPMtHHGEkwFR0f1IX8H4LSsXvZME7ok2
+	xKIg==
+X-Gm-Message-State: APjAAAVZOnfzFfRyUX4k1MaBLFOCulxbf0HePHGIaIKktgGo73GlaaQ2
+	S0aEaqNveOVDXYkReg8mH2Th8wjRFW90fHljMEbsZA==
+X-Google-Smtp-Source: APXvYqym+BvCN3bHgbuAMGsOa3iQjQIlDXUm/JpaoxrMPeUY/pSTKkhK3t3scKfou21tgyH0ZmqW5TgTWwZNYkTk2gs=
+X-Received: by 2002:aca:4b04:: with SMTP id y4mr1874906oia.170.1556791885011; 
+	Thu, 02 May 2019 03:11:25 -0700 (PDT)
 MIME-Version: 1.0
-References: <cover.1556515687.git.alistair@alistair23.me>
-	<PSXP216MB02771957D4B9C5A15914D05FDD390@PSXP216MB0277.KORP216.PROD.OUTLOOK.COM>
-	<CAFEAcA86i3aZx-h2ys5kmc35AMqzd6k=JrfVXObdbcppnn-J8w@mail.gmail.com>
-	<CAKmqyKMM0QHgdS3Z9Fd13XjeFsiG1UnZYz5brdjJgnbHXmxBrQ@mail.gmail.com>
-In-Reply-To: <CAKmqyKMM0QHgdS3Z9Fd13XjeFsiG1UnZYz5brdjJgnbHXmxBrQ@mail.gmail.com>
+References: <20190425145420.8888-1-stefanha@redhat.com>
+	<20190501162055.GB21155@stefanha-x1.localdomain>
+In-Reply-To: <20190501162055.GB21155@stefanha-x1.localdomain>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 2 May 2019 11:05:31 +0100
-Message-ID: <CAFEAcA-dZ5qdh58QCmX+t2RpJim8Fu9FY0UBY1tMpQOHkG06mA@mail.gmail.com>
-To: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 2 May 2019 11:11:14 +0100
+Message-ID: <CAFEAcA8Go-8Ux9AGzw5CGiU3wDyAQSrV1HOb0gbZP8+b06-EPQ@mail.gmail.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::242
-Subject: Re: [Qemu-devel] [PATCH v1 5/5] hw/arm: Add the Netduino Plus 2
+X-Received-From: 2607:f8b0:4864:20::244
+Subject: Re: [Qemu-devel] [PATCH v2] gitmodules: use qemu.org git mirrors
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -74,35 +74,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alistair Francis <alistair@alistair23.me>,
-	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+	=?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+	QEMU Developers <qemu-devel@nongnu.org>,
+	Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 30 Apr 2019 at 21:29, Alistair Francis <alistair23@gmail.com> wrote:
+On Wed, 1 May 2019 at 17:20, Stefan Hajnoczi <stefanha@gmail.com> wrote:
 >
-> On Tue, Apr 30, 2019 at 9:02 AM Peter Maydell <peter.maydell@linaro.org> wrote:
-> > Can you explain the purpose of the reset code? None of the other
-> > v7m boards seem to need to do a manual qemu_register_reset().
+> On Thu, Apr 25, 2019 at 03:54:20PM +0100, Stefan Hajnoczi wrote:
+> > qemu.org hosts git repository mirrors of all submodules.  Update
+> > .gitmodules to use the mirrors and not the upstream repositories.
+> >
+> > Mirroring upstream repositories ensures that QEMU continues to build
+> > even when upstream repositories are deleted or temporarily offline.
+> >
+> > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+> > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> > Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> > ---
+> >  .gitmodules | 10 +++++-----
+> >  1 file changed, 5 insertions(+), 5 deletions(-)
 >
-> The reset code allows the machine to work with the -kernel option.
-> Without the reset override using -kernel results in the guest starting
-> at the wrong address. We can use the -device loader option without the
-> reset code though.
+> Ping?
+>
+> > diff --git a/.gitmodules b/.gitmodules
+> > index aa77ce6f50..2857eec763 100644
+> > --- a/.gitmodules
+> > +++ b/.gitmodules
+> > @@ -39,19 +39,19 @@
+> >       url =3D https://git.qemu.org/git/capstone.git
+> >  [submodule "roms/seabios-hppa"]
+> >       path =3D roms/seabios-hppa
+> > -     url =3D https://github.com/hdeller/seabios-hppa.git
+> > +     url =3D https://git.qemu.org/git/seabios-hppa.git
+> >  [submodule "roms/u-boot-sam460ex"]
+> >       path =3D roms/u-boot-sam460ex
+> >       url =3D https://git.qemu.org/git/u-boot-sam460ex.git
+> >  [submodule "tests/fp/berkeley-testfloat-3"]
+> >       path =3D tests/fp/berkeley-testfloat-3
+> > -     url =3D https://github.com/cota/berkeley-testfloat-3
+> > +     url =3D https://git.qemu.org/git/berkeley-testfloat-3.git
+> >  [submodule "tests/fp/berkeley-softfloat-3"]
+> >       path =3D tests/fp/berkeley-softfloat-3
+> > -     url =3D https://github.com/cota/berkeley-softfloat-3
+> > +     url =3D https://git.qemu.org/git/berkeley-softfloat-3.git
+> >  [submodule "roms/edk2"]
+> >       path =3D roms/edk2
+> > -     url =3D https://github.com/tianocore/edk2.git
+> > +     url =3D https://git.qemu.org/git/edk2.git
+> >  [submodule "slirp"]
+> >       path =3D slirp
+> > -     url =3D https://gitlab.freedesktop.org/slirp/libslirp.git
+> > +     url =3D https://git.qemu.org/git/libslirp.git
+> > --
 
-That sounds in line with how -kernel works on the other armv7m
-boards -- the expectation is that your image file includes a
-full vector table and the CPU will read the PC and SP from it
-when it resets. If you want "honour the entry point" you can
-use -device loader, as you say.
-
-Ignoring the entry point for -kernel ELF files is certainly
-a bit confusing, but I think if we want to change this we should
-do it globally, rather than having one board which behaves
-differently to the rest. Changing it does have some awkwardness:
- * possibility of breaking previously working images
- * we can get the initial PC from the ELF entrypoint, but if
-   we do this what do we do about the initial SP value ?
+This won't apply because currently master's .gitmodules
+has no [submodule "slirp"] entry. I was assuming you'd
+ping or repost once the slirp changes went in.
 
 thanks
 -- PMM
