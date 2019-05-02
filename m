@@ -2,77 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5016312126
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 19:39:06 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:56542 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E617012147
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 19:52:30 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:56678 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMFfl-0007rD-5L
-	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 13:39:05 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46510)
+	id 1hMFsk-00036U-56
+	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 13:52:30 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49040)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hMFeM-00072Z-D4
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 13:37:39 -0400
+	(envelope-from <alistair23@gmail.com>) id 1hMFqx-0001lp-8C
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 13:50:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hMFeL-0005mk-BH
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 13:37:38 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:55138)
+	(envelope-from <alistair23@gmail.com>) id 1hMFqw-0008Rq-7Y
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 13:50:39 -0400
+Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:38963)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hMFeL-0005lX-4L
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 13:37:37 -0400
-Received: by mail-wm1-x342.google.com with SMTP id b10so4011254wmj.4
-	for <qemu-devel@nongnu.org>; Thu, 02 May 2019 10:37:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=references:user-agent:from:to:cc:subject:in-reply-to:date
-	:message-id:mime-version:content-transfer-encoding;
-	bh=8EprSsILvaAOq1CH1gcyjd56cor3ORw8ywifqlso6/E=;
-	b=gS9TxcxNsJr8naZedxEvjfeA7GYd/YL2GRpu2NFgglpF+J1bFdFSUwQanWCiShdRO9
-	3PsrC9uKKRv6T2+EWLUbMrDo082R8H87MP+AVW9hZAabNLplomq6Kr2Ij0JZuCa7nVhg
-	55dM2ZEasbKS5WNjuGsT/Cuh+hLTJ0S2qFpqSTB1iqUPrhIPSe/t4s6UfeRSNu56HCAh
-	n8DddLsCpsyuaNsDuQ8PHLNsX/V2AMNUET+GfO20xWgH/rf3zkL4athFYRZ7y72HW2X9
-	+82aTLAfY6pGkxOyerF5FP0Pkte+D0HEORkd0DYKF0JB5vFrsX/VNWUmFXYZ+BD6cs6Q
-	hnfw==
+	(Exim 4.71) (envelope-from <alistair23@gmail.com>)
+	id 1hMFqv-0008Qz-Te; Thu, 02 May 2019 13:50:38 -0400
+Received: by mail-lf1-x142.google.com with SMTP id d12so2539726lfk.6;
+	Thu, 02 May 2019 10:50:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=S0HcZYmG35XwM3FB6c/bLgB9OB0qv2fbqqJQy3dSZUY=;
+	b=KxHrW0D+mcunpIG0R4LcBRpuuTZGBpWNzNb2YCaK0a3MUg6vexmGfYmRLfMKpfs8kM
+	tbcouZF4Yryl6z5fpu2nJanExmdH4NbZdo5pJxw+Xj1y3fw59W12CMoKOqpSCp9eQvhu
+	AsPvMd2I9EXLy7FgTsRVv6eKOtW0U2Gn3BT2C0oSD6g9qIEX2t4Qv/K+1miutF9Pe296
+	KnibS7NAzEh7opm7+XSyx+mL6WBPQbaCxpTOJDALw+AOFCb2qcOTU+usM5qv4bYqIHVp
+	WxctIbDjek2p59KMoArIqonVJQ1J0/IKXl6tF6o3T+0BqbL+h2dC0fTEdO5a0iaNm+ds
+	grjQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:references:user-agent:from:to:cc:subject
-	:in-reply-to:date:message-id:mime-version:content-transfer-encoding;
-	bh=8EprSsILvaAOq1CH1gcyjd56cor3ORw8ywifqlso6/E=;
-	b=k9wWE2b5Ej86pj7bBbOkf/UDK4IMZ5cstj8ki8zLhunL86JpZLZCaOkGpmgyPQgf8O
-	KxIYCZFON647zMUrPerKgctCqXmHAD1YYR2fs79NvtvNKA0y+yuGpd1mscvGy7OelM47
-	aCFGI4FK9Hxhex1RASSD5unfZHp2O77oPSRUFHTs3V+hOGFv3n7glIrNFIJ1dfvp+2HP
-	i7QQNvruTVK+ZRYURmMVBT50nUVbWhGrObx2D/4GIwAK6NAnsJO5+onPGzz+S3ar4bk9
-	NpRcAwspQ2xnv8dUFWVwN8OhPkINZ3JPXzOQaqaGOsHGjCpD6ZYaPXvydoZGeysI1JT5
-	cGjg==
-X-Gm-Message-State: APjAAAWxtm7sDyn4HJ4iO9SzdsWd3RiClfIOXmvRQDueQKyEyaTznEeF
-	leE7s/7hDWh9OhkGGyF7Bdkidg==
-X-Google-Smtp-Source: APXvYqw/6/xvnD6qLvfzQpugFgG8HTZz8MDxfPq2UjOSDesvxGOjUKBE7I3Huo7H8eL8tpVsW3cBrQ==
-X-Received: by 2002:a1c:720b:: with SMTP id n11mr3130454wmc.81.1556818655415; 
-	Thu, 02 May 2019 10:37:35 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
-	by smtp.gmail.com with ESMTPSA id
-	p67sm9398888wmp.22.2019.05.02.10.37.34
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 02 May 2019 10:37:34 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id 3490C1FF87;
-	Thu,  2 May 2019 18:37:34 +0100 (BST)
-References: <20190502084506.8009-1-thuth@redhat.com>
-	<20190502084506.8009-2-thuth@redhat.com>
-User-agent: mu4e 1.3.1; emacs 26.1
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Thomas Huth <thuth@redhat.com>
-In-reply-to: <20190502084506.8009-2-thuth@redhat.com>
-Date: Thu, 02 May 2019 18:37:34 +0100
-Message-ID: <87y33o4v1d.fsf@zen.linaroharston>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=S0HcZYmG35XwM3FB6c/bLgB9OB0qv2fbqqJQy3dSZUY=;
+	b=GBwXXsBFxvQZyyOz+gZ8D80xJF0OE2y41uC+tzJIgOiIdTiwV8iVA85aA5Bfj1YqBA
+	1h7HZpyV+P1fnBBPnyXr6SRx23/hJvw8h8eK+Y9X7RWbBUmYt22joB7X4BtbTYU5x7fO
+	PoC5xSGXqWUEHfbspOIFUup0B6nRm+0PBsgZBmk/c5tBM4F+rKNCFu68SpQiDyHf/v9J
+	ACpvmB/KwGXkAQxTXQ6A1kcb3W1MPApTip5fYPi1uP6aTQ3gn8vWBjfo1LUHfhwLohLX
+	yIiUIfFHDHy3N8zDfw5NS2pPhsJcCDYNoBZ0npPsFdZGf/bEpynHT44mf0TfKeos2hzh
+	bp7A==
+X-Gm-Message-State: APjAAAUM3utKNIesjX+HueSc13hS8DHBoEXT+7dLiTjnzrkAGKH3CwUK
+	u8GZiJ0qaTw40YO05kN24yNKHpNHMfkWQO7IXHo=
+X-Google-Smtp-Source: APXvYqxAdEkh3A3wZ910t1wUbE6KLTdNyCxyv81ZypOMgen+94wTJB4yMlUfCWVqFA1Dpwa7iqvTj7e8YRk3C0Q+934=
+X-Received: by 2002:a19:a40f:: with SMTP id q15mr2482037lfc.121.1556819436262; 
+	Thu, 02 May 2019 10:50:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <cover.1556666645.git.alistair.francis@wdc.com>
+	<aeb0e851e027a591eaba99c175011158b1012876.1556666645.git.alistair.francis@wdc.com>
+	<20190501094006.GN29808@redhat.com>
+In-Reply-To: <20190501094006.GN29808@redhat.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 2 May 2019 10:48:39 -0700
+Message-ID: <CAKmqyKP_r_Cq7_sZkMovVwfi++nMDCQEkF-XNh95LVW5ONQPYw@mail.gmail.com>
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::342
-Subject: Re: [Qemu-devel] [PATCH v3 1/7] tests/qemu-iotests/005: Add a
- sanity check for large sparse file support
+X-Received-From: 2a00:1450:4864:20::142
+Subject: Re: [Qemu-devel] [PATCH v2 3/5] hw/usb/dev-mtp: Fix GCC 9 build
+ warning
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -84,59 +75,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
-	Ed Maste <emaste@freebsd.org>, qemu-block@nongnu.org,
-	qemu-devel@nongnu.org, Christophe Fergeau <cfergeau@redhat.com>,
-	Max Reitz <mreitz@redhat.com>,
-	Wainer dos Santos Moschetta <wainersm@redhat.com>,
-	Philippe =?utf-8?Q?M?= =?utf-8?Q?athieu-Daud=C3=A9?=
-	<philmd@redhat.com>, Li-Wen Hsu <lwhsu@freebsd.org>,
-	Markus Armbruster <armbru@redhat.com>
+Cc: "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
+	"riku.voipio@iki.fi" <riku.voipio@iki.fi>,
+	"laurent@vivier.eu" <laurent@vivier.eu>,
+	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+	Alistair Francis <Alistair.Francis@wdc.com>,
+	"kraxel@redhat.com" <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-Thomas Huth <thuth@redhat.com> writes:
-
-> "check -raw 005" fails when running on certain filesystems - these do not
-> support such large sparse files. Use the same check as in test 220 to
-> skip the test in this case.
+On Wed, May 1, 2019 at 2:40 AM Daniel P. Berrang=C3=A9 <berrange@redhat.com=
+> wrote:
 >
-> Suggested-by: Eric Blake <eblake@redhat.com>
-> Reviewed-by: Eric Blake <eblake@redhat.com>
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-
-Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-
-> ---
->  tests/qemu-iotests/005 | 9 +++++++++
->  1 file changed, 9 insertions(+)
+> On Tue, Apr 30, 2019 at 11:28:41PM +0000, Alistair Francis wrote:
+> > Fix this warning with GCC 9 on Fedora 30:
+> > hw/usb/dev-mtp.c:1715:36: error: taking address of packed member of =E2=
+=80=98struct <anonymous>=E2=80=99 may result in an unaligned pointer value =
+[-Werror=3Daddress-of-packed-member]
+> >  1715 |                             dataset->filename);
+> >       |                             ~~~~~~~^~~~~~~~~~
+> >
+> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > ---
+> >  hw/usb/dev-mtp.c | 13 +++++++++++++
+> >  1 file changed, 13 insertions(+)
+> >
+> > diff --git a/hw/usb/dev-mtp.c b/hw/usb/dev-mtp.c
+> > index 99548b012d..8233beacab 100644
+> > --- a/hw/usb/dev-mtp.c
+> > +++ b/hw/usb/dev-mtp.c
+> > @@ -1711,9 +1711,22 @@ static void usb_mtp_write_metadata(MTPState *s, =
+uint64_t dlen)
+> >      assert(!s->write_pending);
+> >      assert(p !=3D NULL);
+> >
+> > +/*
+> > + * We are about to access a packed struct. We are confident that the p=
+ointer
+> > + * address won't be unaligned, so we ignore GCC warnings.
+> > + */
 >
-> diff --git a/tests/qemu-iotests/005 b/tests/qemu-iotests/005
-> index 2fef63af88..9c7681c19b 100755
-> --- a/tests/qemu-iotests/005
-> +++ b/tests/qemu-iotests/005
-> @@ -55,6 +55,15 @@ if [ "$IMGPROTO" =3D "sheepdog" ]; then
->      _notrun "image protocol $IMGPROTO does not support large image sizes"
->  fi
+> The data is mis-aligned as we're accessing an int16 array that
+> is immediately following an int8 field in a packed struct
 >
-> +# Sanity check: For raw, we require a file system that permits the creat=
-ion
-> +# of a HUGE (but very sparse) file. Check we can create it before contin=
-uing.
-> +if [ "$IMGFMT" =3D "raw" ]; then
-> +    if ! truncate --size=3D5T "$TEST_IMG"; then
-> +        _notrun "file system on $TEST_DIR does not support large enough =
-files"
-> +    fi
-> +    rm "$TEST_IMG"
-> +fi
-> +
->  echo
->  echo "creating large image"
->  _make_test_img 5000G
+> This problem is fixed by the following series which Gerd has in the
+> USB queue:
+>
+>   https://lists.gnu.org/archive/html/qemu-devel/2019-04/msg02524.html
 
+Great, that fixes the build issues. Dropping this patch.
 
---
-Alex Benn=C3=A9e
+Alistair
+
+>
+> > +#if defined(CONFIG_PRAGMA_DIAGNOSTIC_AVAILABLE) && QEMU_GNUC_PREREQ(9,=
+ 0)
+> > +#pragma GCC diagnostic push
+> > +#pragma GCC diagnostic ignored "-Waddress-of-packed-member"
+> > +#endif
+> > +
+> >      filename =3D utf16_to_str(MIN(dataset->length, filename_chars),
+> >                              dataset->filename);
+> >
+> > +#if defined(CONFIG_PRAGMA_DIAGNOSTIC_AVAILABLE) && QEMU_GNUC_PREREQ(9,=
+ 0)
+> > +#pragma GCC diagnostic pop
+> > +#endif
+> > +
+> >      if (strchr(filename, '/')) {
+> >          usb_mtp_queue_result(s, RES_PARAMETER_NOT_SUPPORTED, d->trans,
+> >                               0, 0, 0, 0);
+>
+> Regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 
