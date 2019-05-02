@@ -2,75 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF65D11C21
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 17:04:45 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52676 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 937AE11C7C
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 17:19:58 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52989 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMDGP-000662-1E
-	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 11:04:45 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51264)
+	id 1hMDV7-00035U-Pu
+	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 11:19:57 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52220)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hMDAm-0002Cd-62
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 10:58:57 -0400
+	(envelope-from <imammedo@redhat.com>) id 1hMDCr-00044Y-CF
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 11:01:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hMDAl-0005Qt-9u
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 10:58:56 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:39650)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hMDAl-0005QO-3V
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 10:58:55 -0400
-Received: by mail-wr1-x441.google.com with SMTP id a9so3818497wrp.6
-	for <qemu-devel@nongnu.org>; Thu, 02 May 2019 07:58:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=nMoOzpH6IAYwWcudoG5zv/npykvfEGVbBGw4kRp1fOo=;
-	b=kTZBdI1pYLx6SGNFbgecaM/n173e5Kfrcz17hRz9ks5F0GzZvzqKubtzO5Y3KUqatf
-	of/XM4sV1NcsCAjwhkhUZC3zgz5MKAeT6lBpc4YGpEhx+eUJSYT5yfRGT6xMmfwhKhOZ
-	w8n/c0IOl/t+oTVn5xNKh8YnG5ItjH1x6CdY32kH4KcaHGmlf1JMj+/hJD84H7jtsuBV
-	pDa1X07sz5ZjLe2HZDfruDhkdo507FtikUM6CO3yqIQeQi/KKbouOMdi1kEdERCbCgeX
-	Yn4d8YElVeQwZ6aSwHRFhQapURLYKcgnj3NGGE0mQG/HNKAHP4ni05g1ZhgvSKKXE6w7
-	+oxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=nMoOzpH6IAYwWcudoG5zv/npykvfEGVbBGw4kRp1fOo=;
-	b=bx4+Re6lTIjyMmHNBdU5o5JuBwK0qqFv56YLvXMp0uoCDH2STaHEqnbYuSHsyAds7a
-	CpZqOHEIO5t5WWgLYYEr+w17NZmyBbRmGzs1S2hPOECOhxY0J83MJQJs09tHu2DsWa6k
-	mEMSaWs00t6dd2n7zbQMUkB2BtWF9YATf2ofnvcC/DVqSY9ROXbU5exlsxRdNjcbxdGn
-	kT9xmRgn1T/u2h+BMdIcZ6EhMpIBn252bOIb/CAKH25WlwtjbIokZ3trZ/wBKvw2FKFL
-	QY3lbw+FXAjgUcAJ9AGrej2y0d3MSkfzjDNEPZofrRzOAdXbW6KJ/aX26dLLwBKrqWSq
-	WN6g==
-X-Gm-Message-State: APjAAAWQ3R0xbR1cnoJA+HAnKilRobeT8RVXxygQANoJj1C6lWrzsKwT
-	Koe9TH31lpuBB/g08kCmASjXaA==
-X-Google-Smtp-Source: APXvYqwETjTHAdbFs+A+OY4tjWowdDGOttd8eH4paTt1xEc7S3QFSWM9UrxhArxReMiu/wOKDZPDig==
-X-Received: by 2002:a5d:4003:: with SMTP id n3mr3375453wrp.76.1556809133631;
-	Thu, 02 May 2019 07:58:53 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
-	by smtp.gmail.com with ESMTPSA id z23sm7965533wma.0.2019.05.02.07.58.53
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 02 May 2019 07:58:53 -0700 (PDT)
-Received: from zen.linaroharston. (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id B9F281FF87;
-	Thu,  2 May 2019 15:58:52 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Thu,  2 May 2019 15:58:46 +0100
-Message-Id: <20190502145846.26226-1-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <877eb86hcf.fsf@zen.linaroharston>
-References: <877eb86hcf.fsf@zen.linaroharston>
+	(envelope-from <imammedo@redhat.com>) id 1hMDCq-0006Vi-Bp
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 11:01:05 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52638)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <imammedo@redhat.com>)
+	id 1hMDCi-0006QR-Np; Thu, 02 May 2019 11:00:56 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id D4868307D978;
+	Thu,  2 May 2019 15:00:49 +0000 (UTC)
+Received: from Igors-MacBook-Pro (unknown [10.40.205.168])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 5A3FD608A6;
+	Thu,  2 May 2019 15:00:48 +0000 (UTC)
+Date: Thu, 2 May 2019 17:00:42 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Message-ID: <20190502170042.4b714211@Igors-MacBook-Pro>
+In-Reply-To: <CAFEAcA-SFrcbQMdv19tJw_baGR8c_ngR2CtsgZKVXMALOo=zoA@mail.gmail.com>
+References: <1556614240-36369-1-git-send-email-like.xu@linux.intel.com>
+	<CAFEAcA-SFrcbQMdv19tJw_baGR8c_ngR2CtsgZKVXMALOo=zoA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: [Qemu-devel] [PATCH] linux-user: avoid treading on gprof's SIGPROF
- signals
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.48]);
+	Thu, 02 May 2019 15:00:55 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH] hw/arm/fsl-imx: move cpus initialization
+ to realize time after smp_cpus check
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,38 +58,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>,
-	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
-	Laurent Vivier <laurent@vivier.eu>
+Cc: Andrey Smirnov <andrew.smirnov@gmail.com>, qemu-arm <qemu-arm@nongnu.org>,
+	QEMU Developers <qemu-devel@nongnu.org>, Like Xu <like.xu@linux.intel.com>,
+	Jean-Christophe Dubois <jcd@tribudubois.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The guest tends to get confused when it receives signals it doesn't
-know about. Given the gprof magic has also set up it's own handler we
-would do well to avoid stomping on it as well.
+On Tue, 30 Apr 2019 10:18:37 +0100
+Peter Maydell <peter.maydell@linaro.org> wrote:
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- linux-user/signal.c | 5 +++++
- 1 file changed, 5 insertions(+)
+> On Tue, 30 Apr 2019 at 09:52, Like Xu <like.xu@linux.intel.com> wrote:
+> >
+> > If "smp_cpus> FSL_IMX6_NUM_CPUS" fails in *_realize(), there is no need to
+> > initialize the CPUs in *_init(). So it could be better to create all cpus
+> > after the validity in *_realize(). On the other hand, it makes the usages
+> > of global variable smp_cpus more centrally for maintenance.
+> 
+> I'm not a great fan of this. I think that where possible
+> we should init child objects in the parent's init
+> function, and realize them in the realize function.
+> There are a few cases where we're forced to do the
+> child init in realize, but this doesn't seem like one of them.
 
-diff --git a/linux-user/signal.c b/linux-user/signal.c
-index e2c0b37173..44b2d3b35a 100644
---- a/linux-user/signal.c
-+++ b/linux-user/signal.c
-@@ -508,6 +508,11 @@ void signal_init(void)
-     act.sa_flags = SA_SIGINFO;
-     act.sa_sigaction = host_signal_handler;
-     for(i = 1; i <= TARGET_NSIG; i++) {
-+#ifdef TARGET_GPROF
-+        if (i == SIGPROF) {
-+            continue;
-+        }
-+#endif
-         host_sig = target_to_host_signal(i);
-         sigaction(host_sig, NULL, &oact);
-         if (oact.sa_sigaction == (void *)SIG_IGN) {
--- 
-2.20.1
+well, if it were unconditional then initializing children in initfn would
+be fine, however here number of children to initialize depends on global
+smp_cpus. In order to get rid of global, we could move iniialization to realize
+time or init all FSL_IMX6_NUM_CPUS and realize only smp_cpus at realize time.
+
+> 
+> thanks
+> -- PMM
 
 
