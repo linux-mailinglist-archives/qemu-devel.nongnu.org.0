@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6C5411BC0
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 16:49:39 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52403 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2820E11BAE
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 16:44:24 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52289 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMD1m-0002Ja-VF
-	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 10:49:38 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39232)
+	id 1hMCwh-0004I6-A7
+	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 10:44:23 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39271)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <david@redhat.com>) id 1hMCRF-0001K4-LK
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 10:11:54 -0400
+	(envelope-from <david@redhat.com>) id 1hMCRH-0001N2-C3
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 10:11:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <david@redhat.com>) id 1hMCRE-0007d9-Ki
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 10:11:53 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44550)
+	(envelope-from <david@redhat.com>) id 1hMCRG-0007gM-FP
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 10:11:55 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51522)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <david@redhat.com>)
-	id 1hMCRE-0007cn-FU; Thu, 02 May 2019 10:11:52 -0400
+	id 1hMCRG-0007fW-A7; Thu, 02 May 2019 10:11:54 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
 	[10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id B8C682D805;
-	Thu,  2 May 2019 14:11:51 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 8AD1430ADBC3;
+	Thu,  2 May 2019 14:11:53 +0000 (UTC)
 Received: from t460s.redhat.com (ovpn-117-88.ams2.redhat.com [10.36.117.88])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 3B77117D58;
-	Thu,  2 May 2019 14:11:50 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 0CCE63793;
+	Thu,  2 May 2019 14:11:51 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu,  2 May 2019 16:10:17 +0200
-Message-Id: <20190502141019.6385-39-david@redhat.com>
+Date: Thu,  2 May 2019 16:10:18 +0200
+Message-Id: <20190502141019.6385-40-david@redhat.com>
 In-Reply-To: <20190502141019.6385-1-david@redhat.com>
 References: <20190502141019.6385-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.30]);
-	Thu, 02 May 2019 14:11:51 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.47]);
+	Thu, 02 May 2019 14:11:53 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 38/40] s390x/tcg: Implement VECTOR SUM
- ACROSS QUADWORD
+Subject: [Qemu-devel] [PATCH v3 39/40] s390x/tcg: Implement VECTOR SUM
+ ACROSS WORD
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -63,69 +63,68 @@ Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Similar to VECTOR SUM ACROSS DOUBLEWORD, however without a loop and
-using 128-bit calculations.
+Similar to VECTOR SUM ACROSS DOUBLEWORD.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
  target/s390x/insn-data.def      |  2 ++
- target/s390x/translate_vx.inc.c | 32 ++++++++++++++++++++++++++++++++
- 2 files changed, 34 insertions(+)
+ target/s390x/translate_vx.inc.c | 29 +++++++++++++++++++++++++++++
+ 2 files changed, 31 insertions(+)
 
 diff --git a/target/s390x/insn-data.def b/target/s390x/insn-data.def
-index dd37003082..2483ee01d7 100644
+index 2483ee01d7..a52db41388 100644
 --- a/target/s390x/insn-data.def
 +++ b/target/s390x/insn-data.def
-@@ -1184,6 +1184,8 @@
-     F(0xe7bd, VSBCBI,  VRR_d, V,   0, 0, 0, 0, vsbcbi, 0, IF_VEC)
- /* VECTOR SUM ACROSS DOUBLEWORD */
+@@ -1186,6 +1186,8 @@
      F(0xe765, VSUMG,   VRR_c, V,   0, 0, 0, 0, vsumg, 0, IF_VEC)
-+/* VECTOR SUM ACROSS QUADWORD */
-+    F(0xe767, VSUMQ,   VRR_c, V,   0, 0, 0, 0, vsumq, 0, IF_VEC)
+ /* VECTOR SUM ACROSS QUADWORD */
+     F(0xe767, VSUMQ,   VRR_c, V,   0, 0, 0, 0, vsumq, 0, IF_VEC)
++/* VECTOR SUM ACROSS WORD */
++    F(0xe764, VSUM,    VRR_c, V,   0, 0, 0, 0, vsum, 0, IF_VEC)
 =20
  #ifndef CONFIG_USER_ONLY
  /* COMPARE AND SWAP AND PURGE */
 diff --git a/target/s390x/translate_vx.inc.c b/target/s390x/translate_vx.=
 inc.c
-index 5e948ecff1..c77c224d5d 100644
+index c77c224d5d..23eca2b332 100644
 --- a/target/s390x/translate_vx.inc.c
 +++ b/target/s390x/translate_vx.inc.c
-@@ -2277,3 +2277,35 @@ static DisasJumpType op_vsumg(DisasContext *s, Dis=
+@@ -2309,3 +2309,32 @@ static DisasJumpType op_vsumq(DisasContext *s, Dis=
 asOps *o)
-     tcg_temp_free_i64(tmp);
+     tcg_temp_free_i64(tmpl);
      return DISAS_NEXT;
  }
 +
-+static DisasJumpType op_vsumq(DisasContext *s, DisasOps *o)
++static DisasJumpType op_vsum(DisasContext *s, DisasOps *o)
 +{
 +    const uint8_t es =3D get_field(s->fields, m4);
-+    const uint8_t max_idx =3D NUM_VEC_ELEMENTS(es) - 1;
-+    TCGv_i64 sumh, suml, zero, tmpl;
-+    uint8_t idx;
++    TCGv_i32 sum, tmp;
++    uint8_t dst_idx;
 +
-+    if (es < ES_32 || es > ES_64) {
++    if (es > ES_16) {
 +        gen_program_exception(s, PGM_SPECIFICATION);
 +        return DISAS_NORETURN;
 +    }
 +
-+    sumh =3D tcg_const_i64(0);
-+    suml =3D tcg_temp_new_i64();
-+    zero =3D tcg_const_i64(0);
-+    tmpl =3D tcg_temp_new_i64();
++    sum =3D tcg_temp_new_i32();
++    tmp =3D tcg_temp_new_i32();
++    for (dst_idx =3D 0; dst_idx < 4; dst_idx++) {
++        uint8_t idx =3D dst_idx * NUM_VEC_ELEMENTS(es) / 4;
++        const uint8_t max_idx =3D idx + NUM_VEC_ELEMENTS(es) / 4 - 1;
 +
-+    read_vec_element_i64(suml, get_field(s->fields, v3), max_idx, es);
-+    for (idx =3D 0; idx <=3D max_idx; idx++) {
-+        read_vec_element_i64(tmpl, get_field(s->fields, v2), idx, es);
-+        tcg_gen_add2_i64(suml, sumh, suml, sumh, tmpl, zero);
++        read_vec_element_i32(sum, get_field(s->fields, v3), max_idx, es)=
+;
++        for (; idx <=3D max_idx; idx++) {
++            read_vec_element_i32(tmp, get_field(s->fields, v2), idx, es)=
+;
++            tcg_gen_add_i32(sum, sum, tmp);
++        }
++        write_vec_element_i32(sum, get_field(s->fields, v1), dst_idx, ES=
+_32);
 +    }
-+    write_vec_element_i64(sumh, get_field(s->fields, v1), 0, ES_64);
-+    write_vec_element_i64(suml, get_field(s->fields, v1), 1, ES_64);
-+
-+    tcg_temp_free_i64(sumh);
-+    tcg_temp_free_i64(suml);
-+    tcg_temp_free_i64(zero);
-+    tcg_temp_free_i64(tmpl);
++    tcg_temp_free_i32(sum);
++    tcg_temp_free_i32(tmp);
 +    return DISAS_NEXT;
 +}
 --=20
