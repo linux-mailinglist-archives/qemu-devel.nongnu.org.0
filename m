@@ -2,79 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D5CC111C96
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 17:24:01 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53084 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B62D511CC1
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 17:26:14 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53130 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMDZ3-0005Rs-2X
-	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 11:24:01 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59167)
+	id 1hMDbB-0006tn-Rq
+	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 11:26:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59693)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hMDXm-0004mX-SZ
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 11:22:43 -0400
+	(envelope-from <imammedo@redhat.com>) id 1hMDZc-0005yS-Ou
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 11:24:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hMDXl-0004cr-Tv
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 11:22:42 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:35506)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hMDXl-0004XS-Md
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 11:22:41 -0400
-Received: by mail-wr1-x443.google.com with SMTP id f7so3963489wrs.2
-	for <qemu-devel@nongnu.org>; Thu, 02 May 2019 08:22:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=references:user-agent:from:to:cc:subject:in-reply-to:date
-	:message-id:mime-version:content-transfer-encoding;
-	bh=YTG+nUXAI89emsfbts5sIYYpbOEKGBHcFtd3k/9PtY0=;
-	b=k4ZYHUqBaE65z+1APZw4nnVVVZcNpLCxmZLIRzJPZRJdC/dwSP+dSInHQ4brOZJB9f
-	bPRi7IhpqZ2WA7LAt7AV9fo7DII5cUGlr4XVSmU6O2LIbJtSmq1rFNzuecAHFhfYDJmC
-	F6rV55naWqe8bbtCNdlKalm9FsDSm7GRvGuxkKBX42wXufSjPRgXryr/dfvJymuE0E1O
-	BleNwEimGuDQwxAaYBm4HMOTSXPKMMwwBuoYh9wfsJkrMGLB04kNVIbdPQb8AYfI+BCN
-	/j8ixNRxx900zocHa6EghcE/fOdjkeNB+PcI9rEnAsMm59TD7ewhkKLc/GQa7REGp6gL
-	lrcw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:references:user-agent:from:to:cc:subject
-	:in-reply-to:date:message-id:mime-version:content-transfer-encoding;
-	bh=YTG+nUXAI89emsfbts5sIYYpbOEKGBHcFtd3k/9PtY0=;
-	b=a3bln3MusFGc9SVf8Q6qJBEUGQYNgXqPpo81+bhucTvtUMdZzjzm+V9+IOpJoOCqBi
-	FoWhvpwRKioOyJfC0m9840kWmIRHO6LYDNkyTVRf6xk2b+Yo62ioaOY4ks49ftLFN5Qb
-	3X8vmzcf72pmfWEw/eHzYuWCcZIclmdTfJ/CnAaQfAoMAzel9xr3s8K8EEbYj/njUEDk
-	S4hSAnWzhtdKq1XzW4lt7OK/ocolj9DQXcSfqRQvAKyAeZgwMzCwOAqxNJvGEAk2ZzCW
-	4CUolo387frRFVP1dGPHQGVKdcSeSyqQ8iTFgV5NXsx9ecq4vI1UAHagFH/A0mm1pujS
-	dI9w==
-X-Gm-Message-State: APjAAAVCnNpXPTedHcicZJ4IV4RMy+eRWf66m+cNa3ueAb7rkyoxxiWo
-	pCkXARHZ9krO8CDSnI4D7HKGsw==
-X-Google-Smtp-Source: APXvYqwlpR9WU/GkYMCt6vpE37DUfBKo9GSCY8WeCA6rkQD2S8IQp/d2gmwi7XMOblQ3LSgFjPI9tg==
-X-Received: by 2002:adf:ea86:: with SMTP id s6mr3261588wrm.44.1556810558941;
-	Thu, 02 May 2019 08:22:38 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
-	by smtp.gmail.com with ESMTPSA id h9sm7486462wmb.5.2019.05.02.08.22.38
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 02 May 2019 08:22:38 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id F00DD1FF87;
-	Thu,  2 May 2019 16:22:37 +0100 (BST)
-References: <20190501223819.8584-1-richard.henderson@linaro.org>
-	<20190502040459.GE13618@umbus.fritz.box>
-	<5aca63b1-72e9-9402-8828-d2dd054b3313@linaro.org>
-	<87h8ad5e0h.fsf@zen.linaroharston>
-	<e7318909-cae9-eef5-7f59-c9a2992fffeb@linaro.org>
-User-agent: mu4e 1.3.1; emacs 26.1
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-In-reply-to: <e7318909-cae9-eef5-7f59-c9a2992fffeb@linaro.org>
-Date: Thu, 02 May 2019 16:22:37 +0100
-Message-ID: <875zqs6fuq.fsf@zen.linaroharston>
+	(envelope-from <imammedo@redhat.com>) id 1hMDZb-0008Iq-FN
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 11:24:36 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43077)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <imammedo@redhat.com>)
+	id 1hMDZW-00084A-Ui; Thu, 02 May 2019 11:24:31 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id BC33130917AA;
+	Thu,  2 May 2019 15:24:29 +0000 (UTC)
+Received: from Igors-MacBook-Pro (unknown [10.40.205.168])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 61CF517A67;
+	Thu,  2 May 2019 15:24:24 +0000 (UTC)
+Date: Thu, 2 May 2019 17:24:18 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Ard Biesheuvel <ard.biesheuvel@linaro.org>
+Message-ID: <20190502172418.2b7d6d84@Igors-MacBook-Pro>
+In-Reply-To: <CAKv+Gu9yw6s=N+LkKmQ+0d5ZQBJ+5tE0_cKtZAYHh_cTXnjyCQ@mail.gmail.com>
+References: <20190409102935.28292-1-shameerali.kolothum.thodi@huawei.com>
+	<20190409102935.28292-4-shameerali.kolothum.thodi@huawei.com>
+	<CAKv+Gu_guvAydmCZDeVnj0NR_WyTHeCmwh4tK9WKUBY6cy-4Pg@mail.gmail.com>
+	<5FC3163CFD30C246ABAA99954A238FA83F137685@lhreml524-mbs.china.huawei.com>
+	<CAKv+Gu9yw6s=N+LkKmQ+0d5ZQBJ+5tE0_cKtZAYHh_cTXnjyCQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::443
-Subject: Re: [Qemu-devel] [PATCH 0/2] configure: Fix make check-tcg for
- ppc64le
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.41]);
+	Thu, 02 May 2019 15:24:29 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v4 3/8] hw/acpi: Add ACPI Generic Event
+ Device Support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -86,34 +61,98 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, mark.cave-ayland@ilande.co.uk, qemu-devel@nongnu.org,
-	David Gibson <david@gibson.dropbear.id.au>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+	"sameo@linux.intel.com" <sameo@linux.intel.com>,
+	Auger Eric <eric.auger@redhat.com>,
+	QEMU Developers <qemu-devel@nongnu.org>,
+	Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>,
+	Linuxarm <linuxarm@huawei.com>,
+	"shannon.zhaosl@gmail.com" <shannon.zhaosl@gmail.com>,
+	qemu-arm <qemu-arm@nongnu.org>, "xuwei \(O\)" <xuwei5@huawei.com>,
+	"sebastien.boeuf@intel.com" <sebastien.boeuf@intel.com>,
+	Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, 2 May 2019 09:22:35 +0200
+Ard Biesheuvel <ard.biesheuvel@linaro.org> wrote:
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+> On Wed, 1 May 2019 at 13:25, Shameerali Kolothum Thodi
+> <shameerali.kolothum.thodi@huawei.com> wrote:
+> >
+> > Hi Ard,
+> >
+> > > -----Original Message-----
+> > > From: Ard Biesheuvel [mailto:ard.biesheuvel@linaro.org]
+> > > Sent: 01 May 2019 12:10
+> > > To: Shameerali Kolothum Thodi <shameerali.kolothum.thodi@huawei.com>
+> > > Cc: QEMU Developers <qemu-devel@nongnu.org>; qemu-arm
+> > > <qemu-arm@nongnu.org>; Auger Eric <eric.auger@redhat.com>; Igor
+> > > Mammedov <imammedo@redhat.com>; Peter Maydell
+> > > <peter.maydell@linaro.org>; shannon.zhaosl@gmail.com;
+> > > sameo@linux.intel.com; sebastien.boeuf@intel.com; xuwei (O)
+> > > <xuwei5@huawei.com>; Laszlo Ersek <lersek@redhat.com>; Linuxarm
+> > > <linuxarm@huawei.com>
+> > > Subject: Re: [PATCH v4 3/8] hw/acpi: Add ACPI Generic Event Device Support
+> > >
+> > > On Tue, 9 Apr 2019 at 12:31, Shameer Kolothum
+> > > <shameerali.kolothum.thodi@huawei.com> wrote:
+> > > >
+> > > > From: Samuel Ortiz <sameo@linux.intel.com>
+> > > >
+> > > > The ACPI Generic Event Device (GED) is a hardware-reduced specific
+> > > > device[ACPI v6.1 Section 5.6.9] that handles all platform events,
+> > > > including the hotplug ones.This patch generates the AML code that
+> > > > defines GEDs.
+> > > >
+> > > > Platforms need to specify their own GedEvent array to describe what
+> > > > kind of events they want to support through GED.  Also this uses a
+> > > > a single interrupt for the  GED device, relying on IO memory region
+> > > > to communicate the type of device affected by the interrupt. This
+> > > > way, we can support up to 32 events with a unique interrupt.
+> > > >
+> > > > This supports only memory hotplug for now.
+> > > >
+> > > > Signed-off-by: Samuel Ortiz <sameo@linux.intel.com>
+> > > > Signed-off-by: Sebastien Boeuf <sebastien.boeuf@intel.com>
+> > > > Signed-off-by: Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>
+> > >
+> > > Apologies if this question has been raised before, but do we really
+> > > need a separate device for this? We already handle the power button
+> > > via _AEI/_Exx on the GPIO device, and I think we should be able to add
+> > > additional events using that interface, rather than have two event
+> > > signalling methods/devices on the same platform.
+> >
+> > Right. The initial RFC was based on GPIO device[1] and later Igor commented
+> > here[2] that,
+> >
+> > " ARM boards were first to use ACPI hw-reduced profile so they picked up
+> > available back then GPIO based way to deliver hotplug event, later spec
+> > introduced Generic Event Device for that means to use with hw-reduced
+> > profile, which NEMU implemented[1], so I'd use that rather than ad-hoc
+> > GPIO mapping. I'd guess it will more compatible with various contemporary
+> > guests and we could reuse the same code for both x86/arm virt boards) "
+> >
+> 
+> On mach-virt, we already use the GPIO controller for the ACPI event
+> involving the power button, so by aligning with virt-x86, we end up in
+> the opposite situation for mach-virt.
+> 
+> The problem with the GED device is that it only supports GSI
+> interrupts, while the GPIO device supports arbitrary interrupts (such
+> as GPIO signalled ones). This means that mach-virt will be stuck with
+> having two different methods of signalling ACPI events, unless we
+> rewire the power button not to use a GPIO interrupt but use a GSI
+> directly.
 
-> On 5/2/19 3:47 AM, Alex Benn=C3=A9e wrote:
->>> This needs a different set of cleanups.  ;-)
->>
->> I guess this is another use case for softmmu support in linux-user where
->> HOST_PAGE !=3D TARGET_PAGE?
->
-> Well, yes, but I was thinking more short-term, wherein we do not test thi=
-ngs
-> that we know will not work.  E.g. testing 4k pages on a 64k page host.
-
-I guess we could add something to configure to emit the host page size
-so we can conditionalise the tests. Or just fix mmap to take advantage
-of the fact that getpagesize() reports the host page size and nope out
-when that is greater than test-mmap -p....
-
->
->
-> r~
+we can rewire power button then.
 
 
---
-Alex Benn=C3=A9e
+> In general, I think the ACPI event delivery mechanism doesn't really
+> have to be aligned: the ACPI event is ultimately converted into a AML
+> notification to the right device, and how we end up there can remain
+> platform specific.
+
+Reasoning for using GED is to reduce code duplication with x86
+and not creating zoo of different approached (if it could be avoided).
 
