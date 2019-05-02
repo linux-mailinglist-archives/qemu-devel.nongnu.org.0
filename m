@@ -2,51 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6885311C7B
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 17:18:29 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52953 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF65D11C21
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 17:04:45 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52676 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMDTg-0001vO-Is
-	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 11:18:28 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49781)
+	id 1hMDGP-000662-1E
+	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 11:04:45 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51264)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <imammedo@redhat.com>) id 1hMD4w-0005kY-Ps
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 10:52:55 -0400
+	(envelope-from <alex.bennee@linaro.org>) id 1hMDAm-0002Cd-62
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 10:58:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <imammedo@redhat.com>) id 1hMD4v-0003BC-Np
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 10:52:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:3202)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1hMD4v-0003AD-IX
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 10:52:53 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id B363A330260;
-	Thu,  2 May 2019 14:52:52 +0000 (UTC)
-Received: from dell-r430-03.lab.eng.brq.redhat.com
-	(dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id BE10D71C80;
-	Thu,  2 May 2019 14:52:48 +0000 (UTC)
-From: Igor Mammedov <imammedo@redhat.com>
+	(envelope-from <alex.bennee@linaro.org>) id 1hMDAl-0005Qt-9u
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 10:58:56 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:39650)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+	id 1hMDAl-0005QO-3V
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 10:58:55 -0400
+Received: by mail-wr1-x441.google.com with SMTP id a9so3818497wrp.6
+	for <qemu-devel@nongnu.org>; Thu, 02 May 2019 07:58:54 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=nMoOzpH6IAYwWcudoG5zv/npykvfEGVbBGw4kRp1fOo=;
+	b=kTZBdI1pYLx6SGNFbgecaM/n173e5Kfrcz17hRz9ks5F0GzZvzqKubtzO5Y3KUqatf
+	of/XM4sV1NcsCAjwhkhUZC3zgz5MKAeT6lBpc4YGpEhx+eUJSYT5yfRGT6xMmfwhKhOZ
+	w8n/c0IOl/t+oTVn5xNKh8YnG5ItjH1x6CdY32kH4KcaHGmlf1JMj+/hJD84H7jtsuBV
+	pDa1X07sz5ZjLe2HZDfruDhkdo507FtikUM6CO3yqIQeQi/KKbouOMdi1kEdERCbCgeX
+	Yn4d8YElVeQwZ6aSwHRFhQapURLYKcgnj3NGGE0mQG/HNKAHP4ni05g1ZhgvSKKXE6w7
+	+oxQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=nMoOzpH6IAYwWcudoG5zv/npykvfEGVbBGw4kRp1fOo=;
+	b=bx4+Re6lTIjyMmHNBdU5o5JuBwK0qqFv56YLvXMp0uoCDH2STaHEqnbYuSHsyAds7a
+	CpZqOHEIO5t5WWgLYYEr+w17NZmyBbRmGzs1S2hPOECOhxY0J83MJQJs09tHu2DsWa6k
+	mEMSaWs00t6dd2n7zbQMUkB2BtWF9YATf2ofnvcC/DVqSY9ROXbU5exlsxRdNjcbxdGn
+	kT9xmRgn1T/u2h+BMdIcZ6EhMpIBn252bOIb/CAKH25WlwtjbIokZ3trZ/wBKvw2FKFL
+	QY3lbw+FXAjgUcAJ9AGrej2y0d3MSkfzjDNEPZofrRzOAdXbW6KJ/aX26dLLwBKrqWSq
+	WN6g==
+X-Gm-Message-State: APjAAAWQ3R0xbR1cnoJA+HAnKilRobeT8RVXxygQANoJj1C6lWrzsKwT
+	Koe9TH31lpuBB/g08kCmASjXaA==
+X-Google-Smtp-Source: APXvYqwETjTHAdbFs+A+OY4tjWowdDGOttd8eH4paTt1xEc7S3QFSWM9UrxhArxReMiu/wOKDZPDig==
+X-Received: by 2002:a5d:4003:: with SMTP id n3mr3375453wrp.76.1556809133631;
+	Thu, 02 May 2019 07:58:53 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+	by smtp.gmail.com with ESMTPSA id z23sm7965533wma.0.2019.05.02.07.58.53
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 02 May 2019 07:58:53 -0700 (PDT)
+Received: from zen.linaroharston. (localhost [127.0.0.1])
+	by zen.linaroharston (Postfix) with ESMTP id B9F281FF87;
+	Thu,  2 May 2019 15:58:52 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu,  2 May 2019 16:52:03 +0200
-Message-Id: <1556808723-226478-16-git-send-email-imammedo@redhat.com>
-In-Reply-To: <1556808723-226478-1-git-send-email-imammedo@redhat.com>
-References: <1556808723-226478-1-git-send-email-imammedo@redhat.com>
+Date: Thu,  2 May 2019 15:58:46 +0100
+Message-Id: <20190502145846.26226-1-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <877eb86hcf.fsf@zen.linaroharston>
+References: <877eb86hcf.fsf@zen.linaroharston>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.29]);
-	Thu, 02 May 2019 14:52:52 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v4 15/15] tests: acpi: print error unable to
- dump ACPI table during rebuild
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2a00:1450:4864:20::441
+Subject: [Qemu-devel] [PATCH] linux-user: avoid treading on gprof's SIGPROF
+ signals
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,56 +82,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>, Ben Warren <ben@skyportsystems.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Laszlo Ersek <lersek@redhat.com>, linuxarm@huawei.com,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Shannon Zhao <shannon.zhaosl@gmail.com>, Gonglei <arei.gonglei@huawei.com>,
-	Wei Yang <richardw.yang@linux.intel.com>, xuwei5@huawei.com,
-	xuwei5@hisilicon.com,
-	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Riku Voipio <riku.voipio@iki.fi>,
+	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+	Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Instead of just asserting print the error that lead to assert first.
-While at it move assert into rebuild branch, which removes redundant
-check done in case of !rebuild branch is taken (the later is taken
-care of by g_assert_no_error).
+The guest tends to get confused when it receives signals it doesn't
+know about. Given the gprof magic has also set up it's own handler we
+would do well to avoid stomping on it as well.
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Wei Yang <richardw.yang@linux.intel.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
-v4:
-  * fix typo in commit message (Reviewed-by: Philippe Mathieu-Daud=C3=A9 =
-<philmd@redhat.com>)
----
- tests/bios-tables-test.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ linux-user/signal.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/tests/bios-tables-test.c b/tests/bios-tables-test.c
-index eaa1b0c..6cb8b16 100644
---- a/tests/bios-tables-test.c
-+++ b/tests/bios-tables-test.c
-@@ -195,11 +195,14 @@ static void dump_aml_files(test_data *data, bool re=
-build)
-                                        sdt->aml, ext);
-             fd =3D g_open(aml_file, O_WRONLY|O_TRUNC|O_CREAT,
-                         S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH);
-+            if (fd < 0) {
-+                perror(aml_file);
-+            }
-+            g_assert(fd >=3D 0);
-         } else {
-             fd =3D g_file_open_tmp("aml-XXXXXX", &sdt->aml_file, &error)=
-;
-             g_assert_no_error(error);
-         }
--        g_assert(fd >=3D 0);
-=20
-         ret =3D qemu_write_full(fd, sdt->aml, sdt->aml_len);
-         g_assert(ret =3D=3D sdt->aml_len);
---=20
-2.7.4
+diff --git a/linux-user/signal.c b/linux-user/signal.c
+index e2c0b37173..44b2d3b35a 100644
+--- a/linux-user/signal.c
++++ b/linux-user/signal.c
+@@ -508,6 +508,11 @@ void signal_init(void)
+     act.sa_flags = SA_SIGINFO;
+     act.sa_sigaction = host_signal_handler;
+     for(i = 1; i <= TARGET_NSIG; i++) {
++#ifdef TARGET_GPROF
++        if (i == SIGPROF) {
++            continue;
++        }
++#endif
+         host_sig = target_to_host_signal(i);
+         sigaction(host_sig, NULL, &oact);
+         if (oact.sa_sigaction == (void *)SIG_IGN) {
+-- 
+2.20.1
 
 
