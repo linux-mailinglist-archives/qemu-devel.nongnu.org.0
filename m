@@ -2,83 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 00E88119CA
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 15:10:38 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50947 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E97A011A11
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 15:22:21 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:51101 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMBTw-0005AI-OW
-	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 09:10:36 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53007)
+	id 1hMBfI-0008TE-T7
+	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 09:22:20 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55239)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <shmuel.eiderman@oracle.com>) id 1hMBSO-0004YS-OX
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 09:09:01 -0400
+	(envelope-from <kraxel@redhat.com>) id 1hMBeG-0008Bv-Te
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 09:21:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <shmuel.eiderman@oracle.com>) id 1hMBSN-0006IQ-Mm
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 09:09:00 -0400
-Received: from userp2130.oracle.com ([156.151.31.86]:57118)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <shmuel.eiderman@oracle.com>)
-	id 1hMBSD-0005xn-TS; Thu, 02 May 2019 09:08:51 -0400
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-	by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id
-	x42D3YLj182956; Thu, 2 May 2019 13:08:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
-	h=from : to : cc :
-	subject : date : message-id : in-reply-to : references;
-	s=corp-2018-07-02; 
-	bh=sErMukjrtGgSh3mHJoEGKWH+RlxHAVP8rjvTiiBwq5I=;
-	b=gurmdCO80754jWAZLKo/hJREscSi5oV6sno4/YiaeLuRir9IpzS1DlIy6jQL7BFDnl3v
-	tsUR+BPk3hMnHZfPeW58Zw3+5clCNsuipWVYu3Gz9EFjkIILoUbIkT7I1S19ZC8JE6Ie
-	ULpPhNi8mtl+UUjHum60rIcpHeClPz0Zyq54iUg4Pg/wFg8QYdSFe0O7Gb/oUuoZuRPF
-	HsJTKMtTaln97OK7TAkj1dwQEJfS0zfgBNrag+vDnMzfovpVcKOTmoe/MUQgDYh+b2XY
-	d5ObdNR6VfooqV+/zdH7yE7xMM9S0qZX3pGLO4hOzilE7x2Rbc3iJSffegWWptiBqPJC
-	mA== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-	by userp2130.oracle.com with ESMTP id 2s6xhygeyk-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 02 May 2019 13:08:39 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-	by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id
-	x42D7eCR160126; Thu, 2 May 2019 13:08:39 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-	by userp3030.oracle.com with ESMTP id 2s7p89rg2v-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Thu, 02 May 2019 13:08:39 +0000
-Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
-	by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id x42D8cNB024451;
-	Thu, 2 May 2019 13:08:38 GMT
-Received: from nexus.ravello.local (/213.57.127.2)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Thu, 02 May 2019 06:08:37 -0700
-From: Sam Eiderman <shmuel.eiderman@oracle.com>
-To: kwolf@redhat.com, mreitz@redhat.com, qemu-block@nongnu.org,
-	qemu-devel@nongnu.org, thuth@redhat.com, fam@euphon.net, eblake@redhat.com
-Date: Thu,  2 May 2019 16:08:22 +0300
-Message-Id: <20190502130822.46858-2-shmuel.eiderman@oracle.com>
-X-Mailer: git-send-email 2.13.3
-In-Reply-To: <20190502130822.46858-1-shmuel.eiderman@oracle.com>
-References: <af928e13-bde2-a9ae-de74-853d9bfc5e65@redhat.com>
-	<20190502130822.46858-1-shmuel.eiderman@oracle.com>
-X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9244
-	signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
-	malwarescore=0
-	phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
-	adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
-	engine=8.0.1-1810050000 definitions=main-1905020091
-X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9244
-	signatures=668685
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
-	priorityscore=1501 malwarescore=0
-	suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
-	lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999
-	adultscore=0
-	classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
-	definitions=main-1905020091
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 156.151.31.86
-Subject: [Qemu-devel] [PATCH v2] vmdk: Set vmdk parent backing_format to vmdk
+	(envelope-from <kraxel@redhat.com>) id 1hMBeF-00073K-0G
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 09:21:16 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:31494)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hMBeD-000703-4z
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 09:21:14 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 930A83097032;
+	Thu,  2 May 2019 13:21:07 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-45.ams2.redhat.com
+	[10.36.116.45])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 3025D608A6;
+	Thu,  2 May 2019 13:21:06 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+	id 3DB7611AAF; Thu,  2 May 2019 15:21:05 +0200 (CEST)
+Date: Thu, 2 May 2019 15:21:05 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Message-ID: <20190502132105.qkudeunhcueadka7@sirius.home.kraxel.org>
+References: <20190502073543.4391-1-kraxel@redhat.com>
+	<CAFEAcA-OyrwAqp1Kwt-sFJY3xj=0mUszGtF3RewwLs25vOhNLg@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA-OyrwAqp1Kwt-sFJY3xj=0mUszGtF3RewwLs25vOhNLg@mail.gmail.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.43]);
+	Thu, 02 May 2019 13:21:10 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PULL 0/7] Usb 20190502 patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -90,105 +62,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: shmuel.eiderman@oracle.com, arbel.moshe@oracle.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>,
+	Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit b69864e ("vmdk: Support version=3 in VMDK descriptor files")
-fixed the probe function to correctly guess vmdk descriptors with
-version=3.
+> Hi -- I'm afraid this failed to compile on one of my systems:
+>=20
+>   CC      hw/usb/hcd-xhci.o
+> /home/petmay01/linaro/qemu-for-merges/hw/usb/hcd-xhci.c: In function
+> =E2=80=98usb_xhci_realize=E2=80=99:
+> /home/petmay01/linaro/qemu-for-merges/hw/usb/hcd-xhci.c:3340:66:
+> error: =E2=80=98%d=E2=80=99 directive output may be truncated writing b=
+etween 1 and 11
+> bytes into a region of size 5 [-Werror=3Dformat-truncation=3D]
+>              snprintf(port->name, sizeof(port->name), "usb2 port #%d", =
+i+1);
 
-This solves the issue where vmdk snapshot with parent vmdk descriptor
-containing "version=3" would be treated as raw instead vmdk.
+Which system/compiler is this?
 
-In the future case where a new vmdk version is introduced, we will again
-experience this issue, even if the user will provide "-f vmdk" it will
-only apply to the tip image and not to the underlying "misprobed" parent
-image.
-
-The code in vmdk.c already assumes that the backing file of vmdk must be
-vmdk (see vmdk_is_cid_valid which returns 0 if backing file is not
-vmdk).
-
-So let's make it official by supplying the backing_format as vmdk.
-
-Reviewed-by: Mark Kanda <mark.kanda@oracle.com>
-Reviewed-By: Liran Alon <liran.alon@oracle.com>
-Reviewed-by: Arbel Moshe <arbel.moshe@oracle.com>
-Signed-off-by: Shmuel Eiderman <shmuel.eiderman@oracle.com>
----
- block/vmdk.c           | 2 ++
- tests/qemu-iotests/110 | 6 +++---
- tests/qemu-iotests/126 | 4 ++--
- 3 files changed, 7 insertions(+), 5 deletions(-)
-
-diff --git a/block/vmdk.c b/block/vmdk.c
-index 8dec6ef767..de8cb859f8 100644
---- a/block/vmdk.c
-+++ b/block/vmdk.c
-@@ -397,6 +397,8 @@ static int vmdk_parent_open(BlockDriverState *bs)
-         pstrcpy(bs->auto_backing_file, end_name - p_name + 1, p_name);
-         pstrcpy(bs->backing_file, sizeof(bs->backing_file),
-                 bs->auto_backing_file);
-+        pstrcpy(bs->backing_format, sizeof(bs->backing_format),
-+                "vmdk");
-     }
- 
- out:
-diff --git a/tests/qemu-iotests/110 b/tests/qemu-iotests/110
-index fad672c1ae..982569dbc5 100755
---- a/tests/qemu-iotests/110
-+++ b/tests/qemu-iotests/110
-@@ -54,7 +54,7 @@ _make_test_img -b "$TEST_IMG_REL.base" 64M
- # qemu should be able to reconstruct the filename, so relative backing names
- # should work
- TEST_IMG="json:{'driver':'$IMGFMT','file':{'driver':'file','filename':'$TEST_IMG'}}" \
--    _img_info | _filter_img_info
-+    _img_info | _filter_img_info | grep -v "backing file format"
- 
- echo
- echo '=== Non-reconstructable filename ==='
-@@ -78,7 +78,7 @@ TEST_IMG="json:{
-             }
-         ]
-     }
--}" _img_info | _filter_img_info
-+}" _img_info | _filter_img_info | grep -v "backing file format"
- 
- echo
- echo '=== Backing name is always relative to the backed image ==='
-@@ -110,7 +110,7 @@ TEST_IMG="json:{
-             }
-         ]
-     }
--}" _img_info | _filter_img_info
-+}" _img_info | _filter_img_info | grep -v "backing file format"
- 
- 
- # success, all done
-diff --git a/tests/qemu-iotests/126 b/tests/qemu-iotests/126
-index 96dc048d59..1f7618c8a5 100755
---- a/tests/qemu-iotests/126
-+++ b/tests/qemu-iotests/126
-@@ -63,7 +63,7 @@ TEST_IMG=$BASE_IMG _make_test_img 64M
- TEST_IMG=$TOP_IMG _make_test_img -b ./image:base.$IMGFMT
- 
- # The default cluster size depends on the image format
--TEST_IMG=$TOP_IMG _img_info | grep -v 'cluster_size'
-+TEST_IMG=$TOP_IMG _img_info | grep -v 'cluster_size\|backing file format'
- 
- _rm_test_img "$BASE_IMG"
- _rm_test_img "$TOP_IMG"
-@@ -79,7 +79,7 @@ TOP_IMG="file:image:top.$IMGFMT"
- TEST_IMG=$BASE_IMG _make_test_img 64M
- TEST_IMG=$TOP_IMG _make_test_img -b "$BASE_IMG"
- 
--TEST_IMG=$TOP_IMG _img_info | grep -v 'cluster_size'
-+TEST_IMG=$TOP_IMG _img_info | grep -v 'cluster_size\|backing file format'
- 
- _rm_test_img "$BASE_IMG"
- _rm_test_img "image:top.$IMGFMT"
--- 
-2.13.3
+cheers,
+  Gerd
 
 
