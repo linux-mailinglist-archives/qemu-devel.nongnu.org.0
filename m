@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28F5611C6D
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 17:15:58 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52901 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D3B111C38
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 17:09:32 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52787 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMDRF-0008Jf-A6
-	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 11:15:57 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49607)
+	id 1hMDL1-0002E5-8n
+	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 11:09:31 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49638)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <imammedo@redhat.com>) id 1hMD4b-0005Sc-Tp
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 10:52:36 -0400
+	(envelope-from <imammedo@redhat.com>) id 1hMD4e-0005VS-Sb
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 10:52:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <imammedo@redhat.com>) id 1hMD4a-0002z8-0A
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 10:52:33 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47676)
+	(envelope-from <imammedo@redhat.com>) id 1hMD4d-00030j-TH
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 10:52:36 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56328)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1hMD4Y-0002xN-0d
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 10:52:31 -0400
+	(Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1hMD4b-0002yx-Sa
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 10:52:35 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
 	[10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id D6918307D98B;
-	Thu,  2 May 2019 14:52:27 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 947258831D;
+	Thu,  2 May 2019 14:52:31 +0000 (UTC)
 Received: from dell-r430-03.lab.eng.brq.redhat.com
 	(dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 75C147D3F3;
-	Thu,  2 May 2019 14:52:24 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 2B4A671C80;
+	Thu,  2 May 2019 14:52:28 +0000 (UTC)
 From: Igor Mammedov <imammedo@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu,  2 May 2019 16:51:57 +0200
-Message-Id: <1556808723-226478-10-git-send-email-imammedo@redhat.com>
+Date: Thu,  2 May 2019 16:51:58 +0200
+Message-Id: <1556808723-226478-11-git-send-email-imammedo@redhat.com>
 In-Reply-To: <1556808723-226478-1-git-send-email-imammedo@redhat.com>
 References: <1556808723-226478-1-git-send-email-imammedo@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.48]);
-	Thu, 02 May 2019 14:52:28 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.28]);
+	Thu, 02 May 2019 14:52:31 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v4 09/15] tests: acpi: add a way to start tests
- with UEFI firmware
+Subject: [Qemu-devel] [PATCH v4 10/15] tests: acpi: ignore SMBIOS tests when
+ UEFI firmware is used
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -66,113 +66,40 @@ Cc: Andrew Jones <drjones@redhat.com>, Ben Warren <ben@skyportsystems.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For testcase to use UEFI firmware, one needs to provide and specify
-firmware and varstore blob names in test_data { uefi_fl1, uefi_fl2 }
-fields respectively and RAM start address plus size where to look for
-test structure signature. Additionally testcase should specify
-bootable cdrom image from uefi-boot-images with EFI test utility.
+once FW provides a pointer to SMBIOS entry point like it does for
+RSDP it should be possible to enable this one the same way.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: Laszlo Ersek <lersek@redhat.com>
 ---
-v4:
-  * fixup commit message (typo/spelling) (Wei Yang <richardw.yang@linux.intel.com>)
-  * get rid of test_acpi_rsdp_address()
 v3:
-  * drop data_dir prefix and firmware will come from pc-bios directly
-  * add cdrom option so test could use it for providing boot cdrom image
-  * add TODO comment convert '-drive if=pflash' to new syntax (Laszlo)
-v2:
-  * move RAM start address and size to test_data, as it could differ
-    between boards (and even versions)
-
-dfd
+  - add ref to a uefi-test-tools feature req into comment (Laszlo)
 ---
- tests/bios-tables-test.c | 52 ++++++++++++++++++++++++++++++++----------------
- 1 file changed, 35 insertions(+), 17 deletions(-)
+ tests/bios-tables-test.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
 
 diff --git a/tests/bios-tables-test.c b/tests/bios-tables-test.c
-index 4d13a3c..84e1ce2 100644
+index 84e1ce2..8302ffc 100644
 --- a/tests/bios-tables-test.c
 +++ b/tests/bios-tables-test.c
-@@ -26,6 +26,11 @@
- typedef struct {
-     const char *machine;
-     const char *variant;
-+    const char *uefi_fl1;
-+    const char *uefi_fl2;
-+    const char *cd;
-+    const uint64_t ram_start;
-+    const uint64_t scan_len;
-     uint64_t rsdp_addr;
-     uint8_t rsdp_table[36 /* ACPI 2.0+ RSDP size */];
-     GArray *tables;
-@@ -77,13 +82,6 @@ static void free_test_data(test_data *data)
-     g_array_free(data->tables, true);
- }
+@@ -569,8 +569,15 @@ static void test_acpi_one(const char *params, test_data *data)
+         }
+     }
  
--static void test_acpi_rsdp_address(test_data *data)
--{
--    uint32_t off = acpi_find_rsdp_address(data->qts);
--    g_assert_cmphex(off, <, 0x100000);
--    data->rsdp_addr = off;
--}
--
- static void test_acpi_rsdp_table(test_data *data)
- {
-     uint8_t *rsdp_table = data->rsdp_table;
-@@ -524,21 +522,41 @@ static void test_smbios_structs(test_data *data)
- static void test_acpi_one(const char *params, test_data *data)
- {
-     char *args;
--
--    /* Disable kernel irqchip to be able to override apic irq0. */
--    args = g_strdup_printf("-machine %s,accel=%s,kernel-irqchip=off "
--                           "-net none -display none %s "
--                           "-drive id=hd0,if=none,file=%s,format=raw "
--                           "-device ide-hd,drive=hd0 ",
--                           data->machine, "kvm:tcg",
--                           params ? params : "", disk);
-+    bool use_uefi = data->uefi_fl1 && data->uefi_fl2;
-+
-+    if (use_uefi) {
-+        /*
-+         * TODO: convert '-drive if=pflash' to new syntax (see e33763be7cd3)
-+         * when arm/virt boad starts to support it.
-+         */
-+        args = g_strdup_printf("-machine %s,accel=%s -nodefaults -nographic "
-+            "-drive if=pflash,format=raw,file=%s,readonly "
-+            "-drive if=pflash,format=raw,file=%s,snapshot=on -cdrom %s %s",
-+            data->machine, "kvm:tcg", data->uefi_fl1, data->uefi_fl2,
-+            data->cd, params ? params : "");
-+
-+    } else {
-+        /* Disable kernel irqchip to be able to override apic irq0. */
-+        args = g_strdup_printf("-machine %s,accel=%s,kernel-irqchip=off "
-+            "-net none -display none %s "
-+            "-drive id=hd0,if=none,file=%s,format=raw "
-+            "-device ide-hd,drive=hd0 ",
-+             data->machine, "kvm:tcg", params ? params : "", disk);
+-    test_smbios_entry_point(data);
+-    test_smbios_structs(data);
++    /*
++     * TODO: make SMBIOS tests work with UEFI firmware,
++     * Bug on uefi-test-tools to provide entry point:
++     * https://bugs.launchpad.net/qemu/+bug/1821884
++     */
++    if (!use_uefi) {
++        test_smbios_entry_point(data);
++        test_smbios_structs(data);
 +    }
  
-     data->qts = qtest_init(args);
- 
--    boot_sector_test(data->qts);
-+    if (use_uefi) {
-+        g_assert(data->scan_len);
-+        data->rsdp_addr = acpi_find_rsdp_address_uefi(data->qts,
-+            data->ram_start, data->scan_len);
-+    } else {
-+        boot_sector_test(data->qts);
-+        data->rsdp_addr = acpi_find_rsdp_address(data->qts);
-+        g_assert_cmphex(data->rsdp_addr, <, 0x100000);
-+    }
- 
-     data->tables = g_array_new(false, true, sizeof(AcpiSdtTable));
--    test_acpi_rsdp_address(data);
-     test_acpi_rsdp_table(data);
-     test_acpi_rxsdt_table(data);
-     test_acpi_fadt_table(data);
+     assert(!global_qtest);
+     qtest_quit(data->qts);
 -- 
 2.7.4
 
