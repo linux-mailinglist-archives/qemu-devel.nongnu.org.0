@@ -2,60 +2,97 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDED111587
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 10:37:43 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:47519 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3052611583
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 10:34:50 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:47446 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hM7Dq-00054Q-W4
-	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 04:37:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42893)
+	id 1hM7B3-0002YI-Bu
+	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 04:34:49 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45698)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hM6ti-0003aC-SX
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 04:16:56 -0400
+	(envelope-from <thuth@redhat.com>) id 1hM73A-0004aT-M7
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 04:26:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hM6th-0008Nq-6X
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 04:16:54 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:41417)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hM6te-0007ht-Ug
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 04:16:52 -0400
-Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
-	(mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
-	1My3Ef-1gYHv312SN-00zV9E; Thu, 02 May 2019 10:16:26 +0200
-To: =?UTF-8?Q?Daniel_P._Berrang=c3=a9?= <berrange@redhat.com>,
-	qemu-devel@nongnu.org
-References: <20190501144646.4851-1-berrange@redhat.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <2875a50f-6720-1346-6c14-83c5165cf6a8@vivier.eu>
-Date: Thu, 2 May 2019 10:16:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
+	(envelope-from <thuth@redhat.com>) id 1hM738-00074V-TQ
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 04:26:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48966)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <thuth@redhat.com>) id 1hM738-00072L-94
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 04:26:38 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+	[10.5.11.14])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 5B497356F1;
+	Thu,  2 May 2019 08:26:33 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-116-131.ams2.redhat.com [10.36.116.131])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 660F55DA35;
+	Thu,  2 May 2019 08:26:32 +0000 (UTC)
+To: Cao Jiaxi <driver1998@foxmail.com>, qemu-devel@nongnu.org
+References: <20190430181326.1314-1-driver1998@foxmail.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=thuth@redhat.com; keydata=
+	xsFNBFH7eUwBEACzyOXKU+5Pcs6wNpKzrlJwzRl3VGZt95VCdb+FgoU9g11m7FWcOafrVRwU
+	yYkTm9+7zBUc0sW5AuPGR/dp3pSLX/yFWsA/UB4nJsHqgDvDU7BImSeiTrnpMOTXb7Arw2a2
+	4CflIyFqjCpfDM4MuTmzTjXq4Uov1giGE9X6viNo1pxyEpd7PanlKNnf4PqEQp06X4IgUacW
+	tSGj6Gcns1bCuHV8OPWLkf4hkRnu8hdL6i60Yxz4E6TqlrpxsfYwLXgEeswPHOA6Mn4Cso9O
+	0lewVYfFfsmokfAVMKWzOl1Sr0KGI5T9CpmRfAiSHpthhHWnECcJFwl72NTi6kUcUzG4se81
+	O6n9d/kTj7pzTmBdfwuOZ0YUSqcqs0W+l1NcASSYZQaDoD3/SLk+nqVeCBB4OnYOGhgmIHNW
+	0CwMRO/GK+20alxzk//V9GmIM2ACElbfF8+Uug3pqiHkVnKqM7W9/S1NH2qmxB6zMiJUHlTH
+	gnVeZX0dgH27mzstcF786uPcdEqS0KJuxh2kk5IvUSL3Qn3ZgmgdxBMyCPciD/1cb7/Ahazr
+	3ThHQXSHXkH/aDXdfLsKVuwDzHLVSkdSnZdt5HHh75/NFHxwaTlydgfHmFFwodK8y/TjyiGZ
+	zg2Kje38xnz8zKn9iesFBCcONXS7txENTzX0z80WKBhK+XSFJwARAQABzRxUaG9tYXMgSHV0
+	aCA8dGguaHV0aEBnbXguZGU+wsF7BBMBAgAlAhsDBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIX
+	gAUCUfuWKwIZAQAKCRAu2dd0/nAttbe/EACb9hafyOb2FmhUqeAiBORSsUifFacQ7laVjcgR
+	I4um8CSHvxijYftpkM2EdAtmXIKgbNDpQoXcWLXB9lu9mLgTO4DVT00TRR65ikn3FCWcyT74
+	ENTOzRKyKLsDCjhXKPblTPIQbYAUCOWElcyAPm0ERd62fA/rKNxgIiNo/l4UODOMoOJm2/Ox
+	ZoTckW68Eqv7k9L7m7j+Hn3hoDTjAmcCBJt+j7pOhzWvCbqoNOIH8C8qvPaNlrba+R/K6jkO
+	6jZkTbYQpGIofEQJ/TNn38IsNGpI1ALTHWFtoMxp3j2Imz0REO6dRE2fHRN8sVlHgkoeGhmY
+	NbDsDE1jFQOEObFnu0euk//7BXU7tGOHckVAZ8T1smiRPHfQU7UEH2a/grndxJ+PNeM5w7n2
+	l+FN3cf2KgPotCK2s9MjSdZA7C5e3rFYO8lqiqTJKvc62vqp3e7B0Kjyy5/QtzSOejBij2QL
+	xkKSFNtxIz4MtuxN8e3IDQNxsKry3nF7R4MDvouXlMo6wP9KuyNWb+vFJt9GtbgfDMIFVamp
+	ZfhEWzWRJH4VgksENA4K/BzjEHCcbTUb1TFsiB1VRnBPJ0SqlvifnfKk6HcpkDk6Pg8Q5FOJ
+	gbNHrdgXsm+m/9GF2zUUr+rOlhVbK23TUqKqPfwnD7uxjpakVcJnsVCFqJpZi1F/ga9IN87B
+	TQRR+3lMARAAtp831HniPHb9AuKq3wj83ujZK8lH5RLrfVsB4X1wi47bwo56BqhXpR/zxPTR
+	eOFT0gnbw9UkphVc7uk/alnXMDEmgvnuxv89PwIQX6k3qLABeV7ykJQG/WT5HQ6+2DdGtVw3
+	2vjYAPiWQeETsgWRRQMDR0/hwp8s8tL/UodwYCScH6Vxx9pdy353L1fK4Bb9G73a+9FPjp9l
+	x+WwKTsltVqSBuSjyZQ3c3EE8qbTidXZxB38JwARH8yN3TX+t65cbBqLl/zRUUUTapHQpUEd
+	yoAsHIml32e4q+3xdLtTdlLi7FgPBItSazcqZPjEcYW73UAuLcmQmfJlQ5PkDiuqcitn+KzH
+	/1pqsTU7QFZjbmSMJyXY0TDErOFuMOjf20b6arcpEqse1V3IKrb+nqqA2azboRm3pEANLAJw
+	iVTwK3qwGRgK5ut6N/Znv20VEHkFUsRAZoOusrIRfR5HFDxlXguAdEz8M/hxXFYYXqOoaCYy
+	6pJxTjy0Y/tIfmS/g9Bnp8qg9wsrsnk0+XRnDVPak++G3Uq9tJPwpJbyO0vcqEI3vAXkAB7X
+	VXLzvFwi66RrsPUoDkuzj+aCNumtOePDOCpXQGPpKl+l1aYRMN/+lNSk3+1sVuc2C07WnYyE
+	gV/cbEVklPmKrNwu6DeUyD0qI/bVzKMWZAiB1r56hsGeyYcAEQEAAcLBXwQYAQIACQUCUft5
+	TAIbDAAKCRAu2dd0/nAttYTwEACLAS/THRqXRKb17PQmKwZHerUvZm2klo+lwQ3wNQBHUJAT
+	p2R9ULexyXrJPqjUpy7+voz+FcKiuQBTKyieiIxO46oMxsbXGZ70o3gxjxdYdgimUD6U8PPd
+	JH8tfAL4BR5FZNjspcnscN2jgbF4OrpDeOLyBaj6HPmElNPtECHWCaf1xbIFsZxSDGMA6cUh
+	0uX3Q8VI7JN1AR2cfiIRY7NrIlWYucJxyKjO3ivWm69nCtsHiJ0wcF8KlVo7F2eLaufo0K8A
+	ynL8SHMF3VEyxsXOP2f1UR9T2Ur30MXcTBpjUxml1TX3RWY5uH89Js/jlIugBwuAmacJ7JYh
+	lTg6sF/GNc4nPb4kk2yktNWTade+TzsllYlJPaorD2Qe8qX0iFUhFC6y9+O6mP4ZvWoYapp9
+	ezYNuebMgEr93ob1+4sFg3812wNP01WqsGtWCJHnPv/JoonFdMzD/bIkXGEJMk6ks2kxQQZq
+	g6Ik/s/vxOfao/xCn8nHt7GwvVy41795hzK6tbSl+BuyCRp0vfPRP34OnK7+jR2nvQpJu/pU
+	rCELuGwT9hsYkUPjVd4lfylN3mzEc6iAv/wwjsc0DRTSQCpXT3v2ymTAsRKrVaEZLibTXaf+
+	WslxWek3xNYRiqwwWAJuL652eAlxUgQ5ZS+fXBRTiQpJ+F26I/2lccScRd9G5w==
+Organization: Red Hat
+Message-ID: <6e3335b8-a5ce-ef0a-bf24-08165d877a2a@redhat.com>
+Date: Thu, 2 May 2019 10:26:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190501144646.4851-1-berrange@redhat.com>
+In-Reply-To: <20190430181326.1314-1-driver1998@foxmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:+h/gX9bVIV/uUk64woZ6yYpkN0NFFO8pnvofMJ/7MbLTaXbEeiV
-	kmT6fWoY1gphYySQmoK8V8IH1rgLuaHy6vdd1cFvkY1Vx9dPLmAnGhWP3XaNrNzI8Rj7OMh
-	sWOZxQvJB7gZTu1lO9jGjAPtPTWkNF4chUiBqW5MD5f+2v6/4tqKS3QAy7wpJ7Nqx3J0D29
-	2s0oB1kTK+DtMROfM4LWQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:X/NvaeN4gyM=:EZz4pCrA5OENsJTmRK/pcD
-	PtWB4c6ptHVnuShZ8t3+PwnfgXFg5NWVD8tbSPNm3sciyhrbAeJcDo7P+GF1ZGN/hpIfE+LwZ
-	kQGjQg5C7wT8YrgIurpDarorJgduhC5JVhKONGpMcEFp5kIQpnGKL3AANL30FyYWxL91wcRNt
-	4GPHFATGyNQaaqs6UIS2/2GRqPmb9f1jw1ddaTnj0VVaYyj6qVcZVLsjDbSYz/4GcT4JHv9N0
-	ydWY8YTT/qM9jkvBE6QHDH6MK31GXKPfguAh0zwTCnWOnlTeriBSSzfUQnYUUWImfL4FUa1eO
-	QVJjCk6LNoi4/GbPAiDafky7tP8Vr8JOEYENpTq5cNqgvYMiDt5l0Ul39EfQmVGp84pL+yTsf
-	2OABECAMjjw1jV9o9sMIJQ2i71f9CWNwSJ2kwDESkU6yHmmfOJGNTfgQsPBmr5hiQr5r2awJS
-	iGGTC/BRR+Z6DleDGAqj0b/ZFM+1YwU3GhOGbdZ9f3rZZ8qn7BSCGKQkaByQZMAJakSXhrrpM
-	psDLv21YlLeaa/nrNa30uBkH3zGO9i4F2uby1Y/MYcOR0mVMKxrGzfKLBQYtfG/sDLCgyYJPq
-	BSi0uaiaI+hr6K168btPt50rtPhu8/8R9jzFPTDjKtPewfRlVsE0dvBmT7en0ocETXU5aFDS8
-	sFDqt2EHf9isE3LNB+CWox8PHANOZAlFFmt4ws8/qPW0UzglweHAlvdFalIfQoqE/7kljc/9w
-	6R2st5+6V4rlVYDt4XkVUdFaJwlqPJG24/oVmleENKDpZYGG0K5ULg3kUl4=
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.30]);
+	Thu, 02 May 2019 08:26:33 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.75
-Subject: Re: [Qemu-devel] [PATCH v2] linux-user: avoid string truncation
- warnings in uname field copying
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 3/4] util/cacheinfo.c: Use uintptr_t
+ instead of unsigned long in AArch64 arch_cache_info()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -67,55 +104,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>,
-	Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 01/05/2019 16:46, Daniel P. Berrangé wrote:
-> In file included from /usr/include/string.h:494,
->                  from include/qemu/osdep.h:101,
->                  from linux-user/uname.c:20:
-> In function ‘strncpy’,
->     inlined from ‘sys_uname’ at linux-user/uname.c:94:3:
-> /usr/include/bits/string_fortified.h:106:10: warning: ‘__builtin_strncpy’ output may be truncated copying 64 bytes from a string of length 64 [-Wstringop-truncation]
->   106 |   return __builtin___strncpy_chk (__dest, __src, __len, __bos (__dest));
->       |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+On 30/04/2019 20.13, Cao Jiaxi wrote:
+> Windows ARM64 uses LLP64 model, which breaks current assumptions.
 > 
-> We don't care where the NUL terminator in the original uname
-> field was. It suffices to copy the entire original field and
-> simply force a NUL terminator at the end of the new field.
-> 
-> Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+> Signed-off-by: Cao Jiaxi <driver1998@foxmail.com>
 > ---
+>  util/cacheinfo.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> Changed in v2:
-> 
->  - Always use sizeof() in preference to __NEW_UTS_LEN
-> 
->  linux-user/uname.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/linux-user/uname.c b/linux-user/uname.c
-> index 313b79dbad..1c05f95387 100644
-> --- a/linux-user/uname.c
-> +++ b/linux-user/uname.c
-> @@ -72,9 +72,8 @@ const char *cpu_to_uname_machine(void *cpu_env)
->  
->  #define COPY_UTSNAME_FIELD(dest, src) \
->    do { \
-> -      /* __NEW_UTS_LEN doesn't include terminating null */ \
-> -      (void) strncpy((dest), (src), __NEW_UTS_LEN); \
-> -      (dest)[__NEW_UTS_LEN] = '\0'; \
-> +      memcpy((dest), (src), MIN(sizeof(src), sizeof(dest))); \
-> +      (dest)[sizeof(dest) - 1] = '\0'; \
->    } while (0)
->  
->  int sys_uname(struct new_utsname *buf)
-> 
+> diff --git a/util/cacheinfo.c b/util/cacheinfo.c
+> index 3cd080b83d..ce6f0dbf6a 100644
+> --- a/util/cacheinfo.c
+> +++ b/util/cacheinfo.c
+> @@ -107,7 +107,7 @@ static void sys_cache_info(int *isize, int *dsize)
+>  static void arch_cache_info(int *isize, int *dsize)
+>  {
+>      if (*isize == 0 || *dsize == 0) {
+> -        unsigned long ctr;
+> +        uintptr_t ctr;
 
-Applied to my linux-user branch.
+Looking at the whole function, is uintptr_t really the right type to use
+here? ctr does not seem to contain the value of a pointer variable, so
+this looks wrong to me...
+Do you get a compiler warning here? If so, how does it look like?
+Anyway, I think it would be better to use a uint64_t or uint32_t type
+here instead if possible?
 
-Thanks,
-Laurent
+ Thomas
 
