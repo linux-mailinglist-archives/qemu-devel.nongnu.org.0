@@ -2,61 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD59B11459
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 09:41:46 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46700 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25E0F11477
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 09:46:32 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46775 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hM6Lh-0006Dh-Vk
-	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 03:41:46 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59596)
+	id 1hM6QJ-0002sO-AC
+	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 03:46:31 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60027)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <arilou@gmail.com>) id 1hM69W-0004P3-HM
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 03:29:11 -0400
+	(envelope-from <arilou@gmail.com>) id 1hM6B2-0005rt-Ht
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 03:30:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <arilou@gmail.com>) id 1hM69R-0002TF-N9
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 03:29:09 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:39151)
+	(envelope-from <arilou@gmail.com>) id 1hM6Ay-0004b2-K2
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 03:30:42 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:39151)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <arilou@gmail.com>) id 1hM69M-0000mD-3M
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 03:29:04 -0400
-Received: by mail-wr1-x442.google.com with SMTP id a9so1794635wrp.6
-	for <qemu-devel@nongnu.org>; Thu, 02 May 2019 00:27:37 -0700 (PDT)
+	(Exim 4.71) (envelope-from <arilou@gmail.com>) id 1hM6Ap-0000pG-Cr
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 03:30:36 -0400
+Received: by mail-wr1-x441.google.com with SMTP id a9so1794753wrp.6
+	for <qemu-devel@nongnu.org>; Thu, 02 May 2019 00:27:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=Fq+y9Y8taPmtsyd8oOc7f9ZWDD3UWEkWOvqVLG/Lt40=;
-	b=M08TkbowMNzKjXu92BROOswqomQg3jQWqbVYbvAvdoHrrKtXdFl0obLqqWyvJP5OoB
-	4qYoQbNTUN45z7e+KP8IfqAz+DGywmg8d4hv7q5VJKvRX2JuqaO0wzup4JpCT0v3nkfc
-	rPgkEJH8qIea0F4daMLm9VRGLnJUF14vt7L3kPjG6ayI2+Q0mjpy5t0JL9HL60lcI4DC
-	0SmC0hLkAu7M0KFJcO2i51kJfZ6TsQh6rPf2P2TYpKDSMM1B3e4a4SABc9+DW5oSGWt6
-	hPELVUb69eZoAt0me0SvboRVXu1DsOdBuSsG3mc5st3d6ASLGCuHlg7+A33S2nFyjYne
-	YOwg==
+	bh=J6AQ6ezpQ7lzWuL7dF/ov14egOgbuG1nkSc0nfJNR5A=;
+	b=onkV/oMYuUx9EPWQh14cvasyM5TasZjH0us5VPZKdOVq2HCX/LVSZqL0buFOTgnIBg
+	12qFcWg9YlO3A5FlpwZkSAC/b8WgvsahWw7yi0YzhukSCQLvusDtCOPLOB/WEkYw/g/5
+	m2CFvAK0/DZkMHjHQtKLm+t/jZ9r9ctFcMVXMItMw1qCQwA7hluTy9Y6msm2W80RlOxc
+	2rLcW4t4mKYBcb7shNIaeQRteKTXM4v/5tSv3S6X9SVCEaA1nAR3uyLX7u7qdwriawf2
+	x07XPHhW9m/aDk7x8mWqIDFHHamzc+jblqWBwKzIQE24M83VkrJSE8/gdr37mEDotQxZ
+	RyLg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=Fq+y9Y8taPmtsyd8oOc7f9ZWDD3UWEkWOvqVLG/Lt40=;
-	b=AfNj4UUvkU29WHNyft/tg7g8ug7J1gEGX4z0Yx0RtqMb5s5feJqVvVBot3JZbgWqbl
-	RFtKQM4Ue6TP4wtncjS8cMcuD5dqGvgmW08lahORqGz+Led50Q2AbV5ThW6Xt+XXi8Yr
-	z//TUllDKOxRKnzwMJtn88mXk6LOeeVCZVp50wQQdT0hwOndo8Nrv7m49ZXrBGgid4ae
-	pmy5fjdLh90VVfpUzoZDUn413jcGqlnyXLFBLp3aSXzjZbw8MUdSaqB5uMkQIlqykS2M
-	vxVPc+Zz3CkDg/lREeObsgP90eptaLuLuOmnZR74FOnymL+WUgc6bIh1rcM3TrvKT/UL
-	5uyA==
-X-Gm-Message-State: APjAAAXpPrOeH1K0Wqu7S7lN7LLpmOocIWjq4n8kw3pcY/qDsh75R5Br
-	3VM8e+4y1up2VzwRodsYmBBfvRkc
-X-Google-Smtp-Source: APXvYqwQo9wX6s6DwDn0wXKvrFc9LVj12oKft45CJXj997Yt16iABIyk2dEv1BrFAhOzR5Q0jDusIA==
-X-Received: by 2002:a05:6000:45:: with SMTP id
-	k5mr1575120wrx.261.1556782056515; 
-	Thu, 02 May 2019 00:27:36 -0700 (PDT)
+	bh=J6AQ6ezpQ7lzWuL7dF/ov14egOgbuG1nkSc0nfJNR5A=;
+	b=c3byWmR7czUqrZk0BOiawheQdvljAjfF9DPbwJd0c2NJFTTQLN27PFZJlXcXnlPSpB
+	xJJI9t/AiDl169Ku95s0Eb2SNTK/tBK3X1/ik91zdbWtaRVxv+JkdyDZ8laQ28QB1qTP
+	WqmHDdhLnTZzOcUnS1tfaQSHpS4jWdnOqnnQmmxhkLcY3WndNCGbDLHNBUhjnB6ApDQv
+	HBv/a4Wiu89FtmhfdSvWkRrjKr/p5so/WSI2XP9M5nT2NQaiqclWDZzGCdGbY+QdPWi3
+	RcE3IgFo8hKz0Ky8CM/lTB5OcgqqkzXIlVRAePBfYsGaiE5stToYZxbluL+X1OUMrp/E
+	HIWw==
+X-Gm-Message-State: APjAAAWz/YevAxcukatHqrRN/+SmPC1nhBvtbA7QmXmTh2wGIU+jJPaP
+	q0Je09/bYgeiFYKD+48KcBl+zPZO
+X-Google-Smtp-Source: APXvYqxtKPze9H7ztAXdhsvCr0awYsAyA5abtl1chlljGYhc1b4NEEUZdatzv//jQ8WQDDfjQpdB7Q==
+X-Received: by 2002:a5d:52ce:: with SMTP id r14mr1633429wrv.224.1556782058331; 
+	Thu, 02 May 2019 00:27:38 -0700 (PDT)
 Received: from localhost.localdomain ([176.230.64.186])
-	by smtp.gmail.com with ESMTPSA id z5sm8769289wre.70.2019.05.02.00.27.34
+	by smtp.gmail.com with ESMTPSA id z5sm8769289wre.70.2019.05.02.00.27.36
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 02 May 2019 00:27:35 -0700 (PDT)
+	Thu, 02 May 2019 00:27:37 -0700 (PDT)
 From: Jon Doron <arilou@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Thu,  2 May 2019 10:26:39 +0300
-Message-Id: <20190502072641.4667-26-arilou@gmail.com>
+Date: Thu,  2 May 2019 10:26:40 +0300
+Message-Id: <20190502072641.4667-27-arilou@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190502072641.4667-1-arilou@gmail.com>
 References: <20190502072641.4667-1-arilou@gmail.com>
@@ -64,9 +63,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::442
-Subject: [Qemu-devel] [PATCH v8 25/27] kvm: Add API to read/write a CPU MSR
- value
+X-Received-From: 2a00:1450:4864:20::441
+Subject: [Qemu-devel] [PATCH v8 26/27] gdbstub: Add support to read a MSR
+ for KVM target
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,75 +81,76 @@ Cc: liran.alon@oracle.com, alex.bennee@linaro.org, Jon Doron <arilou@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+gdb> maint packet qqemu.kvm.Rdmsr:MsrIndex
+
 Signed-off-by: Jon Doron <arilou@gmail.com>
 ---
- accel/kvm/kvm-all.c  | 39 +++++++++++++++++++++++++++++++++++++++
- include/sysemu/kvm.h |  2 ++
- 2 files changed, 41 insertions(+)
+ gdbstub.c | 38 +++++++++++++++++++++++++++++++++++++-
+ 1 file changed, 37 insertions(+), 1 deletion(-)
 
-diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-index 524c4ddfbd..35207d910b 100644
---- a/accel/kvm/kvm-all.c
-+++ b/accel/kvm/kvm-all.c
-@@ -2444,6 +2444,45 @@ void kvm_remove_all_breakpoints(CPUState *cpu)
- }
- #endif /* !KVM_CAP_SET_GUEST_DEBUG */
+diff --git a/gdbstub.c b/gdbstub.c
+index bceceeec57..d5cdda190a 100644
+--- a/gdbstub.c
++++ b/gdbstub.c
+@@ -2141,7 +2141,14 @@ static void handle_query_attached(GdbCmdContext *gdb_ctx, void *user_ctx)
  
-+int kvm_arch_read_msr(CPUState *cpu, uint32_t index, uint64_t *value)
-+{
-+    struct {
-+        struct kvm_msrs info;
-+        struct kvm_msr_entry entries[1];
-+    } msr_data;
-+    int ret;
-+
-+    msr_data.info.nmsrs = 1;
-+    msr_data.entries[0].index = index;
-+    ret = kvm_vcpu_ioctl(cpu, KVM_GET_MSRS, &msr_data);
-+    if (ret < 0) {
-+        return ret;
-+    }
-+
-+    *value = msr_data.entries[0].data;
-+    return 0;
-+}
-+
-+int kvm_arch_write_msr(CPUState *cpu, uint32_t index, uint64_t value)
-+{
-+    struct {
-+        struct kvm_msrs info;
-+        struct kvm_msr_entry entries[1];
-+    } msr_data;
-+    int ret;
-+
-+    msr_data.info.nmsrs = 1;
-+    msr_data.entries[0].index = index;
-+    msr_data.entries[0].reserved = 0;
-+    msr_data.entries[0].data = value;
-+    ret = kvm_vcpu_ioctl(cpu, KVM_SET_MSRS, &msr_data);
-+    if (ret < 0) {
-+        return ret;
-+    }
-+
-+    return 0;
-+}
-+
- static int kvm_set_signal_mask(CPUState *cpu, const sigset_t *sigset)
+ static void handle_query_qemu_supported(GdbCmdContext *gdb_ctx, void *user_ctx)
  {
-     KVMState *s = kvm_state;
-diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
-index a6d1cd190f..409b1a5444 100644
---- a/include/sysemu/kvm.h
-+++ b/include/sysemu/kvm.h
-@@ -462,6 +462,8 @@ int kvm_vm_check_extension(KVMState *s, unsigned int extension);
- uint32_t kvm_arch_get_supported_cpuid(KVMState *env, uint32_t function,
-                                       uint32_t index, int reg);
- uint32_t kvm_arch_get_supported_msr_feature(KVMState *s, uint32_t index);
-+int kvm_arch_read_msr(CPUState *cpu, uint32_t index, uint64_t *value);
-+int kvm_arch_write_msr(CPUState *cpu, uint32_t index, uint64_t value);
+-    put_packet(gdb_ctx->s, "sstepbits;sstep;PhyMemMode");
++    snprintf(gdb_ctx->str_buf, sizeof(gdb_ctx->str_buf),
++             "sstepbits;sstep;PhyMemMode");
++
++    if (kvm_enabled()) {
++        pstrcat(gdb_ctx->str_buf, sizeof(gdb_ctx->str_buf), ";kvm.Rdmsr");
++    }
++
++    put_packet(gdb_ctx->s, gdb_ctx->str_buf);
+ }
  
+ static void handle_query_qemu_phy_mem_mode(GdbCmdContext *gdb_ctx,
+@@ -2166,6 +2173,29 @@ static void handle_set_qemu_phy_mem_mode(GdbCmdContext *gdb_ctx, void *user_ctx)
+     put_packet(gdb_ctx->s, "OK");
+ }
  
- void kvm_set_sigmask_len(KVMState *s, unsigned int sigmask_len);
++static void handle_query_kvm_read_msr(GdbCmdContext *gdb_ctx, void *user_ctx)
++{
++    uint64_t msr_val;
++
++    if (!kvm_enabled()) {
++        return;
++    }
++
++    if (!gdb_ctx->num_params) {
++        put_packet(gdb_ctx->s, "E22");
++        return;
++    }
++
++    if (kvm_arch_read_msr(gdbserver_state->c_cpu, gdb_ctx->params[0].val_ul,
++                          &msr_val)) {
++        put_packet(gdb_ctx->s, "E00");
++        return;
++    }
++
++    snprintf(gdb_ctx->str_buf, sizeof(gdb_ctx->str_buf), "0x%" PRIx64, msr_val);
++    put_packet(gdb_ctx->s, gdb_ctx->str_buf);
++}
++
+ static GdbCmdParseEntry gdb_gen_query_set_common_table[] = {
+     /* Order is important if has same prefix */
+     {
+@@ -2250,6 +2280,12 @@ static GdbCmdParseEntry gdb_gen_query_table[] = {
+         .handler = handle_query_qemu_phy_mem_mode,
+         .cmd = "qemu.PhyMemMode",
+     },
++    {
++        .handler = handle_query_kvm_read_msr,
++        .cmd = "qemu.kvm.Rdmsr:",
++        .cmd_startswith = 1,
++        .schema = "l0"
++    },
+ };
+ 
+ static GdbCmdParseEntry gdb_gen_set_table[] = {
 -- 
 2.20.1
 
