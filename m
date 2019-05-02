@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8439511BC9
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 16:51:14 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52433 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A53E711B9F
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 16:39:27 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52198 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMD3J-0003U8-Gu
-	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 10:51:13 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43032)
+	id 1hMCru-000843-Nv
+	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 10:39:26 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43865)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <imammedo@redhat.com>) id 1hMCgq-0006jR-SR
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 10:28:01 -0400
+	(envelope-from <xuwei5@huawei.com>) id 1hMCjv-00010K-Py
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 10:31:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <imammedo@redhat.com>) id 1hMCgp-0003Pj-Nv
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 10:28:00 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37496)
+	(envelope-from <xuwei5@huawei.com>) id 1hMCju-0006BW-O4
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 10:31:11 -0400
+Received: from lhrrgout.huawei.com ([185.176.76.210]:45394 helo=huawei.com)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1hMCgp-0003PL-GA
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 10:27:59 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id A2E043082E63;
-	Thu,  2 May 2019 14:27:58 +0000 (UTC)
-Received: from Igors-MacBook-Pro (unknown [10.40.205.168])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 1ECCA19C7F;
-	Thu,  2 May 2019 14:27:50 +0000 (UTC)
-Date: Thu, 2 May 2019 16:27:49 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <20190502162749.3379a69f@Igors-MacBook-Pro>
-In-Reply-To: <0676f7d1-5d75-8ff8-a75b-a9ce01a65741@redhat.com>
-References: <1556170489-131927-1-git-send-email-imammedo@redhat.com>
-	<1556170489-131927-12-git-send-email-imammedo@redhat.com>
-	<0676f7d1-5d75-8ff8-a75b-a9ce01a65741@redhat.com>
+	(Exim 4.71) (envelope-from <xuwei5@huawei.com>) id 1hMCju-0005yt-HA
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 10:31:10 -0400
+Received: from lhreml703-cah.china.huawei.com (unknown [172.18.7.108])
+	by Forcepoint Email with ESMTP id B6D45C372521642EFE5F;
+	Thu,  2 May 2019 15:31:04 +0100 (IST)
+Received: from [127.0.0.1] (10.202.226.56) by lhreml703-cah.china.huawei.com
+	(10.201.108.44) with Microsoft SMTP Server id 14.3.408.0;
+	Thu, 2 May 2019 15:30:56 +0100
+To: Igor Mammedov <imammedo@redhat.com>
+References: <1556170489-131927-12-git-send-email-imammedo@redhat.com>
+	<1556211116-172721-1-git-send-email-xuwei5@huawei.com>
+	<20190426135412.758769f9@Igors-MacBook-Pro.local>
+	<b87a2b31-0389-2df0-42a6-a1593d437fcd@hisilicon.com>
+	<20190502162420.6c8280c8@Igors-MacBook-Pro>
+From: Wei Xu <xuwei5@hisilicon.com>
+Message-ID: <9caa067d-df2e-78c6-5672-e276da3263a6@hisilicon.com>
+Date: Thu, 2 May 2019 15:30:54 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+	Thunderbird/60.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.46]);
-	Thu, 02 May 2019 14:27:58 +0000 (UTC)
+In-Reply-To: <20190502162420.6c8280c8@Igors-MacBook-Pro>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.202.226.56]
+X-CFilter-Loop: Reflected
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+X-Received-From: 185.176.76.210
 Subject: Re: [Qemu-devel] [PATCH v3 11/13] tests: acpi: add simple arm/virt
  testcase
 X-BeenThere: qemu-devel@nongnu.org
@@ -59,121 +59,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>, Ben Warren <ben@skyportsystems.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>, qemu-devel@nongnu.org,
-	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
-	Shannon Zhao <shannon.zhaosl@gmail.com>, Gonglei <arei.gonglei@huawei.com>,
-	Wei Yang <richardw.yang@linux.intel.com>,
-	Philippe =?UTF-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Andrew Jones <drjones@redhat.com>,
+	mst@redhat.com, linuxarm@huawei.com,
+	shameerali.kolothum.thodi@huawei.com, qemu-devel@nongnu.org,
+	x00249684 <xuwei5@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 26 Apr 2019 19:11:50 +0200
-Laszlo Ersek <lersek@redhat.com> wrote:
+Hi Igor,
 
-> On 04/25/19 07:34, Igor Mammedov wrote:
-> > adds simple arm/virt test case that starts guest with
-> > bios-tables-test.aarch64.iso.qcow2 boot image which
-> > initializes UefiTestSupport* structure in RAM once
-> > guest is booted.
-> >=20
-> >  * see commit: tests: acpi: add acpi_find_rsdp_address_uefi() helper
-> >=20
-> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> > Reviewed-by: Laszlo Ersek <lersek@redhat.com>
-> > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-> > ---
-> > v3:
-> >   * use firmware blobs directly from pc-bios directory
-> >   * use bios-tables-test.aarch64.iso.qcow2 as test boot image
-> >   * drop leftover qtest-uefi-images-aarch64 iMakefile rule from
-> >     previos version (Laszlo)
-> >   * add Makefile rule to include bios-tables-test into
-> >     check-qtest-aarch64 target
-> > v2:
-> >   * specify in test_data where board's RAM starts and RAM size
-> > ---
-> >  tests/Makefile.include   |  1 +
-> >  tests/bios-tables-test.c | 17 +++++++++++++++++
-> >  2 files changed, 18 insertions(+)
-> >=20
-> > diff --git a/tests/Makefile.include b/tests/Makefile.include
-> > index e2432d5..983c8b1 100644
-> > --- a/tests/Makefile.include
-> > +++ b/tests/Makefile.include
-> > @@ -267,6 +267,7 @@ check-qtest-arm-y +=3D tests/hexloader-test$(EXESUF)
-> >  check-qtest-aarch64-y =3D tests/numa-test$(EXESUF)
-> >  check-qtest-aarch64-y +=3D tests/boot-serial-test$(EXESUF)
-> >  check-qtest-aarch64-y +=3D tests/migration-test$(EXESUF)
-> > +check-qtest-aarch64-y +=3D tests/bios-tables-test$(EXESUF)
-> > =20
-> >  check-qtest-microblazeel-y +=3D $(check-qtest-microblaze-y)
-> > =20
-> > diff --git a/tests/bios-tables-test.c b/tests/bios-tables-test.c
-> > index 1be55a1..f117461 100644
-> > --- a/tests/bios-tables-test.c
-> > +++ b/tests/bios-tables-test.c
-> > @@ -812,6 +812,21 @@ static void test_acpi_piix4_tcg_dimm_pxm(void)
-> >      test_acpi_tcg_dimm_pxm(MACHINE_PC);
-> >  }
-> > =20
-> > +static void test_acpi_virt_tcg(void)
-> > +{
-> > +    test_data data =3D {
-> > +        .machine =3D "virt",
-> > +        .uefi_fl1 =3D "pc-bios/edk2-aarch64-code.fd",
-> > +        .uefi_fl2 =3D "pc-bios/edk2-arm-vars.fd",
-> > +        .cd =3D "tests/data/uefi-boot-images/bios-tables-test.aarch64.=
-iso.qcow2",
-> > +        .ram_start =3D 0x40000000ULL,
-> > +        .scan_len =3D 128ULL * 1024 * 1024,
-> > +    };
-> > +
-> > +    test_acpi_one("-cpu cortex-a57 ", &data);
-> > +    free_test_data(&data);
-> > +}
-> > +
-> >  int main(int argc, char *argv[])
-> >  {
-> >      const char *arch =3D qtest_get_arch();
-> > @@ -840,6 +855,8 @@ int main(int argc, char *argv[])
-> >          qtest_add_func("acpi/q35/numamem", test_acpi_q35_tcg_numamem);
-> >          qtest_add_func("acpi/piix4/dimmpxm", test_acpi_piix4_tcg_dimm_=
-pxm);
-> >          qtest_add_func("acpi/q35/dimmpxm", test_acpi_q35_tcg_dimm_pxm);
-> > +    } else if (strcmp(arch, "aarch64") =3D=3D 0) {
-> > +        qtest_add_func("acpi/virt", test_acpi_virt_tcg);
-> >      }
-> >      ret =3D g_test_run();
-> >      boot_sector_cleanup(disk);
-> >=20
->=20
-> Looks good, my R-b stands.
->=20
-> (Please let me know if you want me to look at other patches in the
-> series... struggling again with email bankruptcy...)
->=20
-> Thanks!
-> Laszlo
->=20
+On 5/2/2019 3:24 PM, Igor Mammedov wrote:
+> On Fri, 26 Apr 2019 17:28:10 +0100
+> Wei Xu <xuwei5@hisilicon.com> wrote:
+> 
+>> Hi Igor,
+>>
+>> On 4/26/2019 12:54 PM, Igor Mammedov wrote:
+>>> On Fri, 26 Apr 2019 00:51:56 +0800
+>>> x00249684 <xuwei5@huawei.com> wrote:
+>>>
+>>>> Hi Igor,
+>>>>
+>>>> +static void test_acpi_virt_tcg(void)
+>>>> +{
+>>>> +    test_data data = {
+>>>> +        .machine = "virt",
+>>>> +        .uefi_fl1 = "pc-bios/edk2-aarch64-code.fd",
+>>>> +        .uefi_fl2 = "pc-bios/edk2-arm-vars.fd",
+>>>> +        .cd = "tests/data/uefi-boot-images/bios-tables-test.aarch64.iso.qcow2",
+>>>> +        .ram_start = 0x40000000ULL,
+>>>> +        .scan_len = 128ULL * 1024 * 1024,
+>>>> +    };
+>>>> +
+>>>> +    test_acpi_one("-cpu cortex-a57 ", &data);
+>>>>
+>>>> Replaced the cortex-a57 with host and succesfully tested on the hisilicon arm64 
+>>>> D05 board. Otherwise it failed with "kvm_init_vcpu failed: Invalid argument".
+>>>> Is it possilbe to set the cpu type like numa-test.c?
+>>>
+>>> I think it works with numa-test because it uses TCG only but in case of bios-tables-test
+>>> it uses accel="kvm:tcg" to leverage KVM capabilities whenever possible to speed up test.
+>>>
+>>> Now back to our ARM test case, uefi requirement is to use 64bit CPU (hence it was cortex-a57)
+>>> however unlike x86 it obviously breaks since KVM accelerator on ARM host is used
+>>> and it doesn't work with anything other than 'host' cpu model.
+>>>
+>>> I think we still want to use KVM whenever possible, but problem lies in that
+>>> user (testcase) doesn't have an idea if KVM accelerator is available and host is 64 CPU.
+>>>
+>>> to sum up we need to support 2 modes:
+>>>   1. host is 64 ARM, use kvm with -cpu host
+>>>   2. all other cases use tcg with -cpu cortex-a57
+>>>
+>>> I can hack to probe if /dev/kvm is accessible and host is 64 bit and use #1
+>>> otherwise fallback to #2
+>>> or as quick fix do only #2 initially and think about a better solution to #1 
+>>
+>> Thanks!
+>> Fine to me.
+>>
+>>>
+>>> Is there any other suggestions/opinions how to approach issue/proceed.
+>>
+>> To check the host cpu architecture is ARM or not, maybe we can check the value
+>> of "CPU implementer" is 0x41 or not from the /proc/cpuinfo.
+> 
+> it turned out it's more complicated.
+> we also should pick a correct GIC depending on host's CPU and that
+> changes ACPI tables, so it will worn on some hosts and fail on other.
+Sorry, I did not consider that case.
 
-on respin there will be a new patch added
+> 
+> I'll add a patch to enable test case to pick accelerator and force TCG
+> for ARM tests for now.
+>
 
-  [PATCH v4 11/15] tests: acpi: allow to override default accelerator
+Thanks!
 
-and change to this patch will be forcing TCG accelerator:
+Best Regards,
+Wei
 
-diff --git a/tests/bios-tables-test.c b/tests/bios-tables-test.c
-index 6cb8b16..385e1ab 100644
---- a/tests/bios-tables-test.c
-+++ b/tests/bios-tables-test.c
-@@ -817,7 +817,6 @@ static void test_acpi_virt_tcg(void)
- {
-     test_data data =3D {
-         .machine =3D "virt",
-+        .accel =3D "tcg",
-         .uefi_fl1 =3D "pc-bios/edk2-aarch64-code.fd",
-         .uefi_fl2 =3D "pc-bios/edk2-arm-vars.fd",
-         .cd =3D "tests/data/uefi-boot-images/bios-tables-test.aarch64.iso.=
-qcow2",
+>>
+>> Best Regards,
+>> Wei
+>>
+>>>
+>>> PS:
+>>> we probably would like to reuse this not only for acpi tests but also for other
+>>> arm/virt test cases that involve running guest code. 
+>>>
+>>>> Thanks!
+>>>>
+>>>> Best Regards,
+>>>> Wei
+>>>
+>>>
+>>> .
+>>>
+>>
+> 
+> 
+> .
+> 
+
 
