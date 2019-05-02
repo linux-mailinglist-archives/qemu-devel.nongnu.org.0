@@ -2,53 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CA1410F69
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 00:54:49 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:42433 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6602F1107D
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 02:11:52 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43009 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hLy7j-0007UZ-Py
-	for lists+qemu-devel@lfdr.de; Wed, 01 May 2019 18:54:47 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57288)
+	id 1hLzKJ-0000vi-6c
+	for lists+qemu-devel@lfdr.de; Wed, 01 May 2019 20:11:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51491)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <no-reply@patchew.org>) id 1hLy6e-0007Bp-RS
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 18:53:41 -0400
+	(envelope-from <richard.weiyang@gmail.com>) id 1hLzJI-0000FV-Nw
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 20:10:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <no-reply@patchew.org>) id 1hLy6Y-0007Sz-JE
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 18:53:36 -0400
-Resent-Date: Wed, 01 May 2019 18:53:35 -0400
-Resent-Message-Id: <E1hLy6Y-0007Sz-JE@eggs.gnu.org>
-Received: from sender-of-o53.zoho.com ([135.84.80.218]:21884)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <no-reply@patchew.org>)
-	id 1hLy6T-0007M3-Ao
-	for qemu-devel@nongnu.org; Wed, 01 May 2019 18:53:30 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1556751183; cv=none; d=zoho.com; s=zohoarc; 
-	b=MovJP87yW4Bl3img8dzR3SlZI1Rx6R7xosXxp5/A0hHPG/NpNX42hhAhkRE0GXSpsopoqQwojGHF3UO4pY2+03/f+tVhhLMzQK5mJs+CRhi7TEZBuKZrxdglNYi6sG6M+u16wRg0KKr4nFXRNMmSvFS04Ua/4zB/vPxbPZPWOVU=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
-	s=zohoarc; t=1556751183;
-	h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
-	bh=K/JxZQzniH1Ht6/00HAbzr5ieIN2GlmAPPTF6gemEFE=; 
-	b=nBq2t4XxsTI4T7SzJnZ4HFQTv+iuVRfT4YPqnIHnJD8Q2fgudnHbze252gf2/26NY8jXHcdwKRTsdvu7khI40NnqDYdgbzT1WHevLEiJY1l7CB3q4udaTQrtFxDW2WsPWDEIGjX2jtCkzJtqvWyp8M2lbv/1Is6cdQS4A/LuN5w=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
-	spf=pass  smtp.mailfrom=no-reply@patchew.org;
-	dmarc=pass header.from=<no-reply@patchew.org>
-	header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
-	mx.zohomail.com with SMTPS id 1556751181784318.8546136227326;
-	Wed, 1 May 2019 15:53:01 -0700 (PDT)
-In-Reply-To: <20190430034412.12935-1-richardw.yang@linux.intel.com>
-Message-ID: <155675118046.10667.9255070406416571267@c2072b67cc0c>
+	(envelope-from <richard.weiyang@gmail.com>) id 1hLzJH-0001SN-Hg
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 20:10:48 -0400
+Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:37752)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <richard.weiyang@gmail.com>)
+	id 1hLzJH-0001JL-8C
+	for qemu-devel@nongnu.org; Wed, 01 May 2019 20:10:47 -0400
+Received: by mail-ed1-x544.google.com with SMTP id w37so595764edw.4
+	for <qemu-devel@nongnu.org>; Wed, 01 May 2019 17:10:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=I5Q+4DZ3qW2Cf+NpK3TmwdCjzqrmIVnli6Li3VA5L8U=;
+	b=bcFzLLujS+2sKnODNaJyXYjIxGi4mMMRd876FRWl7NpqMbKxtHcOC9uOh0qeFJ36yw
+	kNO2fFaISJQXqf1e098fxe+Yp8T9NJK4GnOoRA9n8Y8vnZp79wregwBG5tFJt3XNcvAJ
+	bLeZznjFqU8GmCwtBBeyqRENYKnvi3ztQMeXROvJevVlFriWOWJSYA0wqFsrY+NX8P56
+	wZnH0inyk0znbREmV6MisSZ3J8dAKgvDTgTcXhK4Jake20TxBXCmf6bpXD/9fGMjUZae
+	W49z9+Ayp67X99w/dRk1J7UE3ssOzkzz2HooE4vvssEkqZh8CVko2zWxJNrYe7IAmHV0
+	guXw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
+	:references:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=I5Q+4DZ3qW2Cf+NpK3TmwdCjzqrmIVnli6Li3VA5L8U=;
+	b=Ue48K0RuF3mNYmAGJJbzRHlESVhsj5ikVmf5TbtNOkGsI/XRm+hlvvp4/r8qxXqqiU
+	P0fm5gkHsqxgskjVErqNmDZbuxelnTSnFtddWc6EL2LJ1OL5nbJrRwqttqm5DKGHqfD3
+	/XWlywRVO09p5Ngt4X2CoHmCvaU7yJuoet97U22Bz1Kldg9EOsoocjtAfBSDfmGLLkt7
+	+5rO48xZB+tc4nfcEHs3NYbqSs4NOphWHQXsgYgwAIxeXQkicPiTdrgGH79DMCiJjfrb
+	tNm15YhFF0HcFzsOobU9azn7L2MOQQvZkuwcP0inFtoL6pZ9ArE9hTCjmQMrme7WTYyM
+	BRzA==
+X-Gm-Message-State: APjAAAXvAElo/2YWYeMCrbOUmcSP7kUf75RbGNZbckqpa3ZjjqghseZq
+	j5UiHplXsQrs7exh4Slag5uzVS95
+X-Google-Smtp-Source: APXvYqxA+zqEg+xIyMbkg24KxoiFobzPdIuqnatxoIwW4rJbiqDwVGPdSY8NBdcBqDSBdTSJHTun+w==
+X-Received: by 2002:a50:896b:: with SMTP id f40mr537710edf.152.1556755828863; 
+	Wed, 01 May 2019 17:10:28 -0700 (PDT)
+Received: from localhost ([185.92.221.13]) by smtp.gmail.com with ESMTPSA id
+	k18sm1448107eda.92.2019.05.01.17.10.27
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 01 May 2019 17:10:27 -0700 (PDT)
+Date: Thu, 2 May 2019 00:10:26 +0000
+From: Wei Yang <richard.weiyang@gmail.com>
+To: qemu-devel@nongnu.org
+Message-ID: <20190502001026.s4kit4ygz7mqdbgt@master>
+References: <20190430034412.12935-1-richardw.yang@linux.intel.com>
+	<155675118046.10667.9255070406416571267@c2072b67cc0c>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: richardw.yang@linux.intel.com
-Date: Wed, 1 May 2019 15:53:01 -0700 (PDT)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 135.84.80.218
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <155675118046.10667.9255070406416571267@c2072b67cc0c>
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2a00:1450:4864:20::544
 Subject: Re: [Qemu-devel] [PATCH 0/3] Cleanup migration/ram.c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
@@ -61,23 +79,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: fam@euphon.net, quintela@redhat.com, qemu-devel@nongnu.org,
-	dgilbert@redhat.com, richardw.yang@linux.intel.com, pbonzini@redhat.com
+Reply-To: Wei Yang <richard.weiyang@gmail.com>
+Cc: fam@euphon.net, pbonzini@redhat.com, richardw.yang@linux.intel.com,
+	dgilbert@redhat.com, quintela@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDQzMDAzNDQxMi4xMjkz
-NS0xLXJpY2hhcmR3LnlhbmdAbGludXguaW50ZWwuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIGZh
-aWxlZCB0aGUgZG9ja2VyLW1pbmd3QGZlZG9yYSBidWlsZCB0ZXN0LiBQbGVhc2UgZmluZCB0aGUg
-dGVzdGluZyBjb21tYW5kcyBhbmQKdGhlaXIgb3V0cHV0IGJlbG93LiBJZiB5b3UgaGF2ZSBEb2Nr
-ZXIgaW5zdGFsbGVkLCB5b3UgY2FuIHByb2JhYmx5IHJlcHJvZHVjZSBpdApsb2NhbGx5LgoKPT09
-IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFzaAp0aW1lIG1ha2UgZG9ja2VyLXRlc3Qt
-bWluZ3dAZmVkb3JhIFNIT1dfRU5WPTEgSj0xNCBORVRXT1JLPTEKPT09IFRFU1QgU0NSSVBUIEVO
-RCA9PT0KCgoKClRoZSBmdWxsIGxvZyBpcyBhdmFpbGFibGUgYXQKaHR0cDovL3BhdGNoZXcub3Jn
-L2xvZ3MvMjAxOTA0MzAwMzQ0MTIuMTI5MzUtMS1yaWNoYXJkdy55YW5nQGxpbnV4LmludGVsLmNv
-bS90ZXN0aW5nLmRvY2tlci1taW5nd0BmZWRvcmEvP3R5cGU9bWVzc2FnZS4KLS0tCkVtYWlsIGdl
-bmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8vcGF0Y2hldy5vcmcvXS4K
-UGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVsQHJlZGhhdC5jb20=
+On Wed, May 01, 2019 at 03:53:01PM -0700, no-reply@patchew.org wrote:
+>Patchew URL: https://patchew.org/QEMU/20190430034412.12935-1-richardw.yang@linux.intel.com/
+>
+>
+>
+>Hi,
+>
+>This series failed the docker-mingw@fedora build test. Please find the testing commands and
+>their output below. If you have Docker installed, you can probably reproduce it
+>locally.
+>
+>=== TEST SCRIPT BEGIN ===
+>#!/bin/bash
+>time make docker-test-mingw@fedora SHOW_ENV=1 J=14 NETWORK=1
+>=== TEST SCRIPT END ===
+>
+>
+>
+>
+>The full log is available at
+>http://patchew.org/logs/20190430034412.12935-1-richardw.yang@linux.intel.com/testing.docker-mingw@fedora/?type=message.
 
+Where can I see the test case?
+
+>---
+>Email generated automatically by Patchew [https://patchew.org/].
+>Please send your feedback to patchew-devel@redhat.com
+
+-- 
+Wei Yang
+Help you, Help me
 
