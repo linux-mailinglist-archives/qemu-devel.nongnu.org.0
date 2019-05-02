@@ -2,70 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83A1E11440
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 09:36:22 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46599 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F85411491
+	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 09:51:50 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46846 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hM6GT-0001Pc-Kv
-	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 03:36:21 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59523)
+	id 1hM6VR-0007U1-8w
+	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 03:51:49 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59947)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <arilou@gmail.com>) id 1hM69I-0004B1-EO
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 03:28:57 -0400
+	(envelope-from <ppandit@redhat.com>) id 1hM6AU-0005Jg-Si
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 03:30:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <arilou@gmail.com>) id 1hM694-0002DK-HW
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 03:28:51 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:39152)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <arilou@gmail.com>) id 1hM68u-0000sd-IW
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 03:28:36 -0400
-Received: by mail-wr1-x442.google.com with SMTP id a9so1794839wrp.6
-	for <qemu-devel@nongnu.org>; Thu, 02 May 2019 00:27:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=ty2WlLmKhHN0xnYND6EVRTn/Wsczm2UvDdzQfmaxB4Y=;
-	b=ux+L8GQgnopXTu3TP26b4++71aIr9NIckByUeOW+wTLaJ56ZSyCfX98ug48WuOCnQz
-	6EUKdaN+kgRDcJVsNdKpNthGU3iMwvVUioM9AatYEVdHtaRKxLf+rdRYjtoA82G39pDr
-	TpNUTL/v08hxQeA1v8pd77Byv8u2BqG9NFU9+UQonE3cdl/rAU+P0im4vSgjwTVZZsfH
-	Z62ASqBQXsJDjk+zwOa//GFC+WdQsncrBDqXJv4DubGVjWsDVvPxoEUFxKyDmcG+q/43
-	a2mPrWrX8Ar0QONQy1eS+V9EfHhtNP6xLUdej1/oEUgyf5il1qUfiT+wdP3p6jB1k4U9
-	4wfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=ty2WlLmKhHN0xnYND6EVRTn/Wsczm2UvDdzQfmaxB4Y=;
-	b=co6FB/8jSS8Q7fVQuXVI9VGBj2QtlY1Ee8LuFFzGd4dCSKry6GJSrX/0boIufxM1fx
-	UR0DsLqse6y0PnI0hvsX31Scn1exDja3anTKpBFkmgnYFhxT7KAUWg7MQTbNG5xm7uRR
-	X/6Jg1+T0r6to5Dq+jnU78lctSlGQCDr6siUjhDAVPZ/9CN0tlpeAZhEqkTah7N1ogQ5
-	c+/yrE42+forAMRzFwekYrwnH7T9pkiWOWEeODmkhGLx6ux1RKI/+OqxVZbIlKRwx02D
-	J/ai4G0/7QS26h/KRcnzQMYHTJ23UYKwai3vnt4D1AbjLG72iynxa7QZdGHreLsckOKH
-	jqlA==
-X-Gm-Message-State: APjAAAX6gjHFZtXe7b+Kp5pDXpCyX+YziCyvsGd1n9doZLpWNgkLg7u7
-	L+7utHrWB/2JTIpi3xUYZTPRzIsb
-X-Google-Smtp-Source: APXvYqysx6Tbo41fJ4NHVozYIuea8JDuurYREkL+KnbNiqgc9OCmp332RJy1CkYjqXgTSTRbatP7Ow==
-X-Received: by 2002:adf:b645:: with SMTP id i5mr1590986wre.272.1556782060139; 
-	Thu, 02 May 2019 00:27:40 -0700 (PDT)
-Received: from localhost.localdomain ([176.230.64.186])
-	by smtp.gmail.com with ESMTPSA id z5sm8769289wre.70.2019.05.02.00.27.38
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 02 May 2019 00:27:39 -0700 (PDT)
-From: Jon Doron <arilou@gmail.com>
-To: qemu-devel@nongnu.org
-Date: Thu,  2 May 2019 10:26:41 +0300
-Message-Id: <20190502072641.4667-28-arilou@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190502072641.4667-1-arilou@gmail.com>
-References: <20190502072641.4667-1-arilou@gmail.com>
+	(envelope-from <ppandit@redhat.com>) id 1hM6AP-0003Vm-Ls
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 03:30:07 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:24268)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <ppandit@redhat.com>) id 1hM6AL-0002Ea-Vl
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 03:30:02 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+	[10.5.11.14])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id E774130917AA;
+	Thu,  2 May 2019 07:28:43 +0000 (UTC)
+Received: from kaapi (ovpn-116-23.phx2.redhat.com [10.3.116.23])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 26D235DA34;
+	Thu,  2 May 2019 07:28:39 +0000 (UTC)
+Date: Thu, 2 May 2019 12:58:37 +0530 (IST)
+From: P J P <ppandit@redhat.com>
+X-X-Sender: pjp@kaapi
+To: Gerd Hoffmann <kraxel@redhat.com>
+In-Reply-To: <20190425063534.32747-1-ppandit@redhat.com>
+Message-ID: <nycvar.YSQ.7.76.1905021257340.11724@xnncv>
+References: <20190425063534.32747-1-ppandit@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::442
-Subject: [Qemu-devel] [PATCH v8 27/27] gdbstub: Add support to write a MSR
- for KVM target
+Content-Type: text/plain; charset=US-ASCII
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.41]);
+	Thu, 02 May 2019 07:28:43 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH] qxl: check release info object
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -77,72 +56,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: liran.alon@oracle.com, alex.bennee@linaro.org, Jon Doron <arilou@gmail.com>
+Cc: Bugs SysSec <bugs-syssec@rub.de>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-gdb> maint packet Qqemu.kvm.Wrmsr:MsrIndex,Value
++-- On Thu, 25 Apr 2019, P J P wrote --+
+| When releasing spice resources in release_resource() routine,
+| if release info object 'ext.info' is null, it leads to null
+| pointer dereference. Add check to avoid it.
+| 
+| diff --git a/hw/display/qxl.c b/hw/display/qxl.c
+| index c8ce5781e0..632923add2 100644
+| --- a/hw/display/qxl.c
+| +++ b/hw/display/qxl.c
+| @@ -777,6 +777,9 @@ static void interface_release_resource(QXLInstance *sin,
+|      QXLReleaseRing *ring;
+|      uint64_t *item, id;
+|  
+| +    if (!ext.info) {
+| +        return;
+| +    }
+|      if (ext.group_id == MEMSLOT_GROUP_HOST) {
+|          /* host group -> vga mode update request */
+|          QXLCommandExt *cmdext = (void *)(intptr_t)(ext.info->id);
+| 
 
-Signed-off-by: Jon Doron <arilou@gmail.com>
----
- gdbstub.c | 29 ++++++++++++++++++++++++++++-
- 1 file changed, 28 insertions(+), 1 deletion(-)
-
-diff --git a/gdbstub.c b/gdbstub.c
-index d5cdda190a..2d9a8e6942 100644
---- a/gdbstub.c
-+++ b/gdbstub.c
-@@ -2145,7 +2145,8 @@ static void handle_query_qemu_supported(GdbCmdContext *gdb_ctx, void *user_ctx)
-              "sstepbits;sstep;PhyMemMode");
- 
-     if (kvm_enabled()) {
--        pstrcat(gdb_ctx->str_buf, sizeof(gdb_ctx->str_buf), ";kvm.Rdmsr");
-+        pstrcat(gdb_ctx->str_buf, sizeof(gdb_ctx->str_buf),
-+                ";kvm.Rdmsr;kvm.Wrmsr");
-     }
- 
-     put_packet(gdb_ctx->s, gdb_ctx->str_buf);
-@@ -2196,6 +2197,26 @@ static void handle_query_kvm_read_msr(GdbCmdContext *gdb_ctx, void *user_ctx)
-     put_packet(gdb_ctx->s, gdb_ctx->str_buf);
- }
- 
-+static void handle_set_kvm_write_msr(GdbCmdContext *gdb_ctx, void *user_ctx)
-+{
-+    if (!kvm_enabled()) {
-+        return;
-+    }
-+
-+    if (gdb_ctx->num_params < 2) {
-+        put_packet(gdb_ctx->s, "E22");
-+        return;
-+    }
-+
-+    if (kvm_arch_write_msr(gdbserver_state->c_cpu, gdb_ctx->params[0].val_ul,
-+                           gdb_ctx->params[1].val_ull)) {
-+        put_packet(gdb_ctx->s, "E00");
-+        return;
-+    }
-+
-+    put_packet(gdb_ctx->s, "OK");
-+}
-+
- static GdbCmdParseEntry gdb_gen_query_set_common_table[] = {
-     /* Order is important if has same prefix */
-     {
-@@ -2302,6 +2323,12 @@ static GdbCmdParseEntry gdb_gen_set_table[] = {
-         .cmd_startswith = 1,
-         .schema = "l0"
-     },
-+    {
-+        .handler = handle_set_kvm_write_msr,
-+        .cmd = "qemu.kvm.Wrmsr:",
-+        .cmd_startswith = 1,
-+        .schema = "l,L0"
-+    },
- };
- 
- static void handle_gen_query(GdbCmdContext *gdb_ctx, void *user_ctx)
--- 
-2.20.1
-
+Ping...!
+--
+Prasad J Pandit / Red Hat Product Security Team
+47AF CE69 3A90 54AA 9045 1053 DD13 3D32 FE5B 041F
 
