@@ -2,64 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D2D9117F2
-	for <lists+qemu-devel@lfdr.de>; Thu,  2 May 2019 13:06:24 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49218 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF88314073
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 May 2019 17:05:15 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:42260 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hM9Xj-0000i4-4x
-	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 07:06:23 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51590)
+	id 1hNIhW-0008BS-K1
+	for lists+qemu-devel@lfdr.de; Sun, 05 May 2019 11:05:14 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41058)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hM9WR-00005b-3q
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 07:05:04 -0400
+	(envelope-from <no-reply@patchew.org>) id 1hNIfX-0007R9-Qp
+	for qemu-devel@nongnu.org; Sun, 05 May 2019 11:03:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hM9WM-0006i6-Rz
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 07:05:01 -0400
-Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:43778)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hM9WK-0006eB-GS
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 07:04:58 -0400
-Received: by mail-ot1-x332.google.com with SMTP id e108so1634117ote.10
-	for <qemu-devel@nongnu.org>; Thu, 02 May 2019 04:04:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=yE0I1xWURVrQVbj7Vfl82OHn557M4cVJKgatl4uxJgA=;
-	b=yL1nVFzhOFc7COo4ooXM/N30dlLhAdi/U2tGSDwOcgjzeyQnQ3fGhq6u5WE6CPUkmS
-	jXpheun+t97CF6G2x2eHWVG1MflaaSmjL9pMfMQKN/BJF5hPhXbbLkNVF86qN9X+ZYhQ
-	E8E5SejFXPPHPkOZiBh9fSDwxKvLBNgtTUZgFLuSWRG/2r92w2ijNxjct7tMSPdlQLNx
-	0BCI2iyBVVZjeXHXJLCXXBLlOSdTCmhGKte9y5xZOUBxiG++x++HGrySQ9YDlKW79Owt
-	b6CEbq9lhNEg6rczqLdQHY7qpQIvAbVesHBeKgz0opfD586/WtrFiye82F9OeWTCwPs9
-	aG2w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=yE0I1xWURVrQVbj7Vfl82OHn557M4cVJKgatl4uxJgA=;
-	b=Dp4of3Fexhbhbc9HaGbfBXjGhZm5kDHa4PUGU9NavLOyANMFeg+SOG1T6rYYe98EWi
-	suzLvCRYsQGHEKaVSzAdHhw14gN4iOfgmenJRh99WeTmSzPI3kX0FSLQv6wntoc/YNGc
-	CScTVedPbckq475JwqUuBNcM7Ep9755nkCBO4mOLEWHQlFAaVNE9+A18YvaztJP20db+
-	p8reFLFYgkN0+RC8TT3N2xbcYjKXwn6mKcVJ7AcHxaV5JCrP9j9Y7LAXYoJ7pvsnc1a1
-	/6L5Q+OT91HPEQCEv93XFA7HKYbGqvV7KKMnyB3IN7w3qTBr9WAjSNEPjzyH1tfTc2Ls
-	amUA==
-X-Gm-Message-State: APjAAAWYh5QfzR5JEGH43ArA9CVBevWrfvrPIioDsQ9ukwRmv8pBTBky
-	4jpi46eaKCoSRigaoyc3GnJyf2lwYtePJL9b4MP3JA==
-X-Google-Smtp-Source: APXvYqwpfuuNhUgK43i+WEHYC2E26VBfoV6eGQuBFHrLU5sXls4BTx51eIh7zSSdFd48qVpctJryoV4oyGutxyGFOm4=
-X-Received: by 2002:a9d:61c6:: with SMTP id h6mr1929166otk.316.1556795089168; 
-	Thu, 02 May 2019 04:04:49 -0700 (PDT)
+	(envelope-from <no-reply@patchew.org>) id 1hNIfW-0000bB-Ls
+	for qemu-devel@nongnu.org; Sun, 05 May 2019 11:03:11 -0400
+Resent-Date: Sun, 05 May 2019 11:03:11 -0400
+Resent-Message-Id: <E1hNIfW-0000bB-Ls@eggs.gnu.org>
+Received: from sender4-of-o59.zoho.com ([136.143.188.59]:21949)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <no-reply@patchew.org>)
+	id 1hNIfW-0000Xr-EP
+	for qemu-devel@nongnu.org; Sun, 05 May 2019 11:03:10 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1556795585; cv=none; d=zoho.com; s=zohoarc; 
+	b=eXEkUvWFVVvkRhOXfoHM4VATTAPX1yb/TCGkeJeJz0Z6QKqEN2bq1KedPOg04JqWAxoKJedcQ/pXMvSZGUmYho96rVIcpjXF3Ko5cThvZLw3X4bQ2mQEkqT3YyvvSav5lsRhBDTvADv8LA3ysZfIRBCJVdgitu9R+0ePKOsuNFA=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+	s=zohoarc; t=1556795585;
+	h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+	bh=1mBTG/IMUoFPK1MJ0sfNXBdUP4WGtOMVbznWp9b9hH0=; 
+	b=ABAOyNIv79b4q0aPnSQh4WLRjSPA1ujY+QMzi4vojnMW5ayB1ZLMb/Q7ur8+XWASyoY7EH8H48rAbOSm3RCAIcW/yewr5GfTfxBeJUsFrBvir7MdTQ00NwyuLTTYLxH7wefRCkGkr7W2bF7tG5bkn5LV1Ma3ahkRcIVAUzvceOU=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+	spf=pass  smtp.mailfrom=no-reply@patchew.org;
+	dmarc=pass header.from=<no-reply@patchew.org>
+	header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+	mx.zohomail.com with SMTPS id 1556795583720867.2223188344036;
+	Thu, 2 May 2019 04:13:03 -0700 (PDT)
+In-Reply-To: <20190430100802.15368-1-berto@igalia.com>
+Message-ID: <155679558195.10667.5588564760744650669@c2072b67cc0c>
 MIME-Version: 1.0
-References: <20190501105904.29907-1-dgilbert@redhat.com>
-In-Reply-To: <20190501105904.29907-1-dgilbert@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 2 May 2019 12:04:38 +0100
-Message-ID: <CAFEAcA-RkbwHbAigw7cezfVbCPspahBNEn_J1LCvcYYRjFg+vw@mail.gmail.com>
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::332
-Subject: Re: [Qemu-devel] [PULL 0/2] hmp queue
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: berto@igalia.com
+Date: Thu, 2 May 2019 04:13:03 -0700 (PDT)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 136.143.188.59
+Subject: Re: [Qemu-devel] [PATCH] qcow2: Fix error handling in the
+ compression code
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -71,40 +62,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>,
-	Cole Robinson <crobinso@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
+	berto@igalia.com, qemu-block@nongnu.org, qemu-devel@nongnu.org,
+	mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 1 May 2019 at 12:00, Dr. David Alan Gilbert (git)
-<dgilbert@redhat.com> wrote:
->
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
->
-> The following changes since commit f75d15231e56cb0f2bafe19faf1229c459a60731:
->
->   Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into staging (2019-04-30 17:06:57 +0100)
->
-> are available in the Git repository at:
->
->   git://github.com/dagrh/qemu.git tags/pull-hmp-20190501
->
-> for you to fetch changes up to 574d96933ceff60b2d13fe97602572fc7e95f7c6:
->
->   hmp: gva2gpa debug command (2019-05-01 10:46:59 +0100)
->
-> ----------------------------------------------------------------
-> HMP pull
->
-> New gva2gpa command
-> delvm now uses hmp_handle_error so gets Error: prefix in messages
->
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDQzMDEwMDgwMi4xNTM2
+OC0xLWJlcnRvQGlnYWxpYS5jb20vCgoKCkhpLAoKVGhpcyBzZXJpZXMgZmFpbGVkIHRoZSBkb2Nr
+ZXItbWluZ3dAZmVkb3JhIGJ1aWxkIHRlc3QuIFBsZWFzZSBmaW5kIHRoZSB0ZXN0aW5nIGNvbW1h
+bmRzIGFuZAp0aGVpciBvdXRwdXQgYmVsb3cuIElmIHlvdSBoYXZlIERvY2tlciBpbnN0YWxsZWQs
+IHlvdSBjYW4gcHJvYmFibHkgcmVwcm9kdWNlIGl0CmxvY2FsbHkuCgo9PT0gVEVTVCBTQ1JJUFQg
+QkVHSU4gPT09CiMhL2Jpbi9iYXNoCnRpbWUgbWFrZSBkb2NrZXItdGVzdC1taW5nd0BmZWRvcmEg
+U0hPV19FTlY9MSBKPTE0IE5FVFdPUks9MQo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKCgoKVGhl
+IGZ1bGwgbG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDE5MDQz
+MDEwMDgwMi4xNTM2OC0xLWJlcnRvQGlnYWxpYS5jb20vdGVzdGluZy5kb2NrZXItbWluZ3dAZmVk
+b3JhLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5lcmF0ZWQgYXV0b21hdGljYWxseSBieSBQ
+YXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBsZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sg
+dG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
-
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
-for any user-visible changes.
-
--- PMM
 
