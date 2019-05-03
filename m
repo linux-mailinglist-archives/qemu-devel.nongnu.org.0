@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 85953125DF
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 02:56:51 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60686 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF96F125E3
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 02:59:35 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60716 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMMVO-0007Jj-Oi
-	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 20:56:50 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37995)
+	id 1hMMY3-0000zk-13
+	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 20:59:35 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38014)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hMMHV-0004F0-NV
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 20:42:30 -0400
+	(envelope-from <ehabkost@redhat.com>) id 1hMMHX-0004GW-L2
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 20:42:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hMMHU-000754-Hz
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 20:42:29 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60988)
+	(envelope-from <ehabkost@redhat.com>) id 1hMMHW-00075z-OY
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 20:42:31 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48510)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hMMHU-00074q-AX
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 20:42:28 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
-	[10.5.11.12])
+	(Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hMMHW-00075a-Jc
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 20:42:30 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id A810830ADBCC;
-	Fri,  3 May 2019 00:42:27 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id A81513092649;
+	Fri,  3 May 2019 00:42:29 +0000 (UTC)
 Received: from localhost (ovpn-116-9.gru2.redhat.com [10.97.116.9])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 2FC0760BF7;
-	Fri,  3 May 2019 00:42:26 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 368E3183C0;
+	Fri,  3 May 2019 00:42:29 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
 	Cleber Rosa <crosa@redhat.com>
-Date: Thu,  2 May 2019 21:41:29 -0300
-Message-Id: <20190503004130.8285-19-ehabkost@redhat.com>
+Date: Thu,  2 May 2019 21:41:30 -0300
+Message-Id: <20190503004130.8285-20-ehabkost@redhat.com>
 In-Reply-To: <20190503004130.8285-1-ehabkost@redhat.com>
 References: <20190503004130.8285-1-ehabkost@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.47]);
-	Fri, 03 May 2019 00:42:27 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.43]);
+	Fri, 03 May 2019 00:42:29 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 18/19] tests/boot_linux_console: add a test for
- alpha + clipper
+Subject: [Qemu-devel] [PULL 19/19] configure: automatically pick python3 is
+ available
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,85 +61,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cleber Rosa <crosa@redhat.com>
+From: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
-Similar to the x86_64 + pc test, it boots a Linux kernel on a Malta
-board and verify the serial is working.  One extra command added to
-the QEMU command line is '-vga std', because the kernel used is
-known to crash without it.
+Unless overridden via an env var or configure arg, QEMU will only look
+for the 'python' binary in $PATH. This is unhelpful on distros which
+are only shipping Python 3.x (eg Fedora) in their default install as,
+if they comply with PEP 394, the bare 'python' binary won't exist.
 
-If alpha is a target being built, "make check-acceptance" will
-automatically include this test by the use of the "arch:alpha" tags.
+This changes configure so that by default it will search for all three
+common python binaries, preferring to find Python 3.x versions.
 
-Alternatively, this test can be run using:
-
-    $ avocado run -t arch:alpha tests/acceptance
-    $ avocado run -t machine:clipper tests/acceptance
-
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-Signed-off-by: Cleber Rosa <crosa@redhat.com>
-Reviewed-by: Caio Carrara <ccarrara@redhat.com>
-Message-Id: <20190312171824.5134-21-crosa@redhat.com>
+Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+Message-Id: <20190327170701.23798-1-berrange@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- .travis.yml                            |  2 +-
- tests/acceptance/boot_linux_console.py | 22 ++++++++++++++++++++++
- 2 files changed, 23 insertions(+), 1 deletion(-)
+ configure | 18 +++++++++++++++---
+ 1 file changed, 15 insertions(+), 3 deletions(-)
 
-diff --git a/.travis.yml b/.travis.yml
-index 9b271b963d..66448d99d6 100644
---- a/.travis.yml
-+++ b/.travis.yml
-@@ -223,7 +223,7 @@ matrix:
+diff --git a/configure b/configure
+index 60719ddcc5..f88011b94d 100755
+--- a/configure
++++ b/configure
+@@ -899,7 +899,18 @@ fi
 =20
-     # Acceptance (Functional) tests
-     - env:
--        - CONFIG=3D"--python=3D/usr/bin/python3 --target-list=3Dx86_64-s=
-oftmmu,mips-softmmu,mips64el-softmmu,aarch64-softmmu,arm-softmmu,s390x-so=
-ftmmu"
-+        - CONFIG=3D"--python=3D/usr/bin/python3 --target-list=3Dx86_64-s=
-oftmmu,mips-softmmu,mips64el-softmmu,aarch64-softmmu,arm-softmmu,s390x-so=
-ftmmu,alpha-softmmu"
-         - TEST_CMD=3D"make check-acceptance"
-       addons:
-         apt:
-diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/bo=
-ot_linux_console.py
-index 7c1099e5c8..d5c500ea30 100644
---- a/tests/acceptance/boot_linux_console.py
-+++ b/tests/acceptance/boot_linux_console.py
-@@ -195,3 +195,25 @@ class BootLinuxConsole(Test):
-         self.vm.launch()
-         console_pattern =3D 'Kernel command line: %s' % kernel_command_l=
-ine
-         self.wait_for_console_pattern(console_pattern)
-+
-+    def test_alpha_clipper(self):
-+        """
-+        :avocado: tags=3Darch:alpha
-+        :avocado: tags=3Dmachine:clipper
-+        """
-+        kernel_url =3D ('http://archive.debian.org/debian/dists/lenny/ma=
-in/'
-+                      'installer-alpha/current/images/cdrom/vmlinuz')
-+        kernel_hash =3D '3a943149335529e2ed3e74d0d787b85fb5671ba3'
-+        kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dkernel=
-_hash)
-+
-+        uncompressed_kernel =3D archive.uncompress(kernel_path, self.wor=
-kdir)
-+
-+        self.vm.set_machine('clipper')
-+        self.vm.set_console()
-+        kernel_command_line =3D self.KERNEL_COMMON_COMMAND_LINE + 'conso=
-le=3DttyS0'
-+        self.vm.add_args('-vga', 'std',
-+                         '-kernel', uncompressed_kernel,
-+                         '-append', kernel_command_line)
-+        self.vm.launch()
-+        console_pattern =3D 'Kernel command line: %s' % kernel_command_l=
-ine
-+        self.wait_for_console_pattern(console_pattern)
+ : ${make=3D${MAKE-make}}
+ : ${install=3D${INSTALL-install}}
+-: ${python=3D${PYTHON-python}}
++# We prefer python 3.x. A bare 'python' is traditionally
++# python 2.x, but some distros have it as python 3.x, so
++# we check that before python2
++python=3D
++for binary in "${PYTHON-python3}" python python2
++do
++    if has "$binary"
++    then
++        python=3D"$binary"
++        break
++    fi
++done
+ : ${smbd=3D${SMBD-/usr/sbin/smbd}}
+=20
+ # Default objcc to clang if available, otherwise use CC
+@@ -1818,8 +1829,9 @@ EOF
+ exit 0
+ fi
+=20
+-if ! has $python; then
+-  error_exit "Python not found. Use --python=3D/path/to/python"
++if test -z "$python"
++then
++    error_exit "Python not found. Use --python=3D/path/to/python"
+ fi
+=20
+ # Note that if the Python conditional here evaluates True we will exit
 --=20
 2.18.0.rc1.1.g3f1ff2140
 
