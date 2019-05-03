@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96C0212C68
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 13:30:31 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38487 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71ABD12C75
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 13:33:59 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38554 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMWOc-0001AT-Me
-	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 07:30:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59895)
+	id 1hMWRy-000476-Gk
+	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 07:33:58 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60581)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hMWEz-0000YA-Mw
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 07:20:34 -0400
+	(envelope-from <laurent@vivier.eu>) id 1hMWGa-00022v-VV
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 07:22:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hMWEy-0002PG-Pm
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 07:20:33 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:33045)
+	(envelope-from <laurent@vivier.eu>) id 1hMWGZ-0004wZ-VP
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 07:22:12 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:47709)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <laurent@vivier.eu>)
-	id 1hMWEy-0002OG-HQ; Fri, 03 May 2019 07:20:32 -0400
-Received: from localhost.localdomain ([78.238.229.36]) by
-	mrelayeu.kundenserver.de (mreue108 [212.227.15.183]) with ESMTPSA
-	(Nemesis)
-	id 1MmD6U-1gwDtP3RcO-00iDrO; Fri, 03 May 2019 13:20:16 +0200
-From: Laurent Vivier <laurent@vivier.eu>
+	id 1hMWGZ-0004uk-LO; Fri, 03 May 2019 07:22:11 -0400
+Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
+	(mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
+	1Mt71D-1gU0vy43WT-00tTDe; Fri, 03 May 2019 13:21:56 +0200
 To: qemu-devel@nongnu.org
-Date: Fri,  3 May 2019 13:19:53 +0200
-Message-Id: <20190503111958.30825-8-laurent@vivier.eu>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190503111958.30825-1-laurent@vivier.eu>
-References: <20190503111958.30825-1-laurent@vivier.eu>
+References: <20190503111832.30316-1-laurent@vivier.eu>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <c2a39c3c-c9df-12d1-7dac-5ffe14a64ad7@vivier.eu>
+Date: Fri, 3 May 2019 13:21:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20190503111832.30316-1-laurent@vivier.eu>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:WVENs8aRRHdh926/GOI50v7+7FsI2RMUfj5W4u8niyT+lnGMKmk
-	ROSFvnfwdYfkW4xsdL68TdI6Bpiuf1NyJ18z4fWaq0nc/CVZL3+POUAiHXLGV6HHHJ84Kc7
-	pSqlXGCPlM/VPae1KDk96C42veb6rV9NLsC5NZvkXSodQ2Yf1kbbgjwXTdKDACxqoVP0Zzd
-	CO9CZJMYoTb0T4WRuIZgA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:O9C7hKXj8yk=:Hws+ek0Agkb4v1o48Vxu5V
-	eQO8BYP6pg8Wb8sutSn/C35wJh3kQfkdCyD6sC6jHjY1fCyQkUuMBJ/+FxJ1/ixhQpN9UAIHT
-	J+rpAV1hMDbnpJmeSPbsI+VN4snNqseedBeT81+HRxy/9P2xbNcQgiM/G5ZyiYVhQNJoZgOa1
-	K+smrwvc/EvN/19rtchj/prjZ4CrSQwoWix7Y29aHewHoXr5/ljNqFq2TOJBv5WJblbb0i/Ur
-	m42GAup2mBHDtBnqjGCSG0rhCQmO2/tJs+jfL+eg9QBuNQzQKGlM9rSElgzJTM/GtSrwufqmY
-	1G3+fe0wDWVJRq+ofqFNzGA0Fizv1j/hW4ueu1BOdOVfVB74HN8MLlxTROwtyYwn8rYvK8SRl
-	pxR3AO4z00+3Za8E6hU02TWZ061cm6RTNNFcxTxvwhJWHgW3bkE2g+tOXBnnZxRu/j7XBc+1h
-	SeujFhw3b/IlOX08x7Y33u+jh8WTGNgx9agzz8SFX9aBJ1dkAe4rRpMv5jVb5IRuCSMOmRNtI
-	LLydemXlmWwMluR2fATs96T/lNUwH/KaavfxFAzPk4rY9JAxWsPJ6KowRCihHemiBBmhhSiKp
-	sUaXi9GGfp8B+ssT3x5PqGKNYfhOWbU8PCt6L0iKI7RFfqJkPxfvFBDJsTZ3i9JWzugDtCnnS
-	3crUWMEPc2fcxiJoqYm8tmLvAIchoj8KysD2I0Nf137jFK4EQdSoTZR4YBkWHhHVxDfySvf/s
-	oKkCW1MD9gMN4tPntPG/psQ6czpbBeE4cr4Tnj2wX6QmETSS5jbRv8/tHfU=
+X-Provags-ID: V03:K1:AFfU9T91hKdlrA3ZReUoWPrNPRd01sMOK9UNtrHjeM4nkg4tDtR
+	kE/AwdBKodOwr4+/BFJ9OAhcBj5XPi8uI9nCFulmFBIR1yj0j6MuZJXMbmyAs/VepUAqLwl
+	XR46je7pmTvmRuJbRJGUK3F+oTzvJjhXYPdYwg2N1l4eV58qjSe2jTC33vA/kUx1xbEts4i
+	+OJQc/QCsXIHLqfMB2Hkg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:DdzfAstBuoc=:BpAm9TND6rYC0RqcacCmw8
+	iVqKHjbK4i+npwyE3yOdFDZ79qBR7A2akhOvV25y2bdoPz5MGpwzg7pn+y2mtBNHZ4mP22hv/
+	AHpejVR/11TUcVT1lATXORLdROzzy1yXnb2SGdUFVCrB5OUj3VCwQnDS9BvboFt7f4ak3JBQB
+	DOF56ZWAJ3xsN9vBy+4kiQfa1LP/2YvbUPpqDAIZRJ4IkGu5J4Pd9mX0N/zIpsOQOrb4QQMxK
+	0J/2lL6h2A84csBDhjnJtyBh0ntGG1SLC1y5zVTwd84/0YCjG6WTi4TuMR7ldzd2VqH9IqKXU
+	XGbxJfxBXQJf4MTI4wqG3Lc43bVRKjw/97seMT6sJ8rzoR1aGaZTwjXRZTrpvJsginFM82LS8
+	Ld8le1eiTlswwVHAphMzfljHD0IoCiX1DfUjVwPsmqVUpIdDCdqF63FktUU6dW975caM6nRMK
+	Q3z3HG2tkBr8Gv7ABSWoIAIoL01eEurDTWS9fTbCehZn84OWPR6evrpplFnEF5eLMzbhcYDSq
+	ey8TmLElnRSKGGrAj6KND2HGAt2JUQUKfekQZscuNVwLprUw5CGOOXuQGUeEh5bLfrKK/rEEB
+	ORZ7QgrNkTVnjzbn5BhNwKTmJbrJ2yn0BQ51XNm4OmIdDf3bhnneuwB5BX0mh6pdQmKeNtw2r
+	W1lZ8DGIDvgZwis+ja5NtR2nE1W2v2DB8ZKbAzYWWS3G8u8T2IeXQI0JXdGj3icntbFbVv44F
+	l/WyvAsj5ORWMj6w0Q1DmiPKLtUCGhFHQUaLh9u/hPR9IKH7I6C3hIhYU+0=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.10
-Subject: [Qemu-devel] [PULL v2 07/12] Update configure
+X-Received-From: 212.227.17.24
+Subject: Re: [Qemu-devel] [PULL v2 00/12] Trivial branch patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -64,45 +65,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, qemu-trivial@nongnu.org,
-	Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+Cc: qemu-trivial@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
 	Jason Wang <jasowang@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
-	Laurent Vivier <laurent@vivier.eu>, Fabien Chouteau <chouteau@adacore.com>,
 	Michael Roth <mdroth@linux.vnet.ibm.com>,
-	Gerd Hoffmann <kraxel@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+	Fabien Chouteau <chouteau@adacore.com>, Gerd Hoffmann <kraxel@redhat.com>,
 	Paolo Bonzini <pbonzini@redhat.com>,
-	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
-	=?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>,
+	=?UTF-8?Q?Andreas_F=c3=a4rber?= <afaerber@suse.de>,
 	Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Stefan Weil <sw@weilnetz.de>
+On 03/05/2019 13:18, Laurent Vivier wrote:
+> The following changes since commit 8482ff2eb3bb95020eb2f370a9b3ea26511e41df:
+> 
+>   Merge remote-tracking branch 'remotes/jnsnow/tags/bitmaps-pull-request' into staging (2019-05-02 12:04:51 +0100)
+> 
+> are available in the Git repository at:
+> 
+>   git://github.com/vivier/qemu.git tags/trivial-branch-pull-request
+> 
+> for you to fetch changes up to 2d2023c3b99edb33ad4bb9791f70456ea1a1c049:
+> 
+>   sockets: avoid string truncation warnings when copying UNIX path (2019-05-03 13:03:04 +0200)
+> 
+> ----------------------------------------------------------------
+> Pull request trivial branch 2019-05-03
+> 
+> ----------------------------------------------------------------
+> 
+> Aruna Jayasena (1):
+>   Header cleanups
+> 
+> Daniel P. Berrangé (1):
+>   sockets: avoid string truncation warnings when copying UNIX path
+> 
+> Dr. David Alan Gilbert (1):
+>   configure: fix pam test warning
+> 
+> Marc-André Lureau (1):
+>   doc: fix the configuration path
+> 
+> Philippe Mathieu-Daudé (3):
+>   hw/net/pcnet: Use qemu_log_mask(GUEST_ERROR) instead of printf
+>   Makefile: Let the 'clean' rule remove qemu-ga.exe on Windows hosts
+>   hw/sparc/leon3: Allow load of uImage firmwares
+> 
+> Stefan Weil (1):
+>   Update configure
+> 
+> Thomas Huth (1):
+>   net: Print output of "-net nic, model=help" to stdout instead of
+>     stderr
+> 
+> Wei Yang (3):
+>   CODING_STYLE: specify the indent rule for multiline code
+>   CODING_STYLE: indent example code as all others
+>   qom: use object_new_with_type in object_new_with_propv
+> 
+>  qemu-ga.texi              |  4 ++--
+>  configure                 |  5 ++---
+>  Makefile                  | 11 +++++----
+>  include/exec/cpu-common.h |  3 ---
+>  hw/net/pcnet.c            |  4 +++-
+>  hw/sparc/leon3.c          |  4 ++++
+>  net/net.c                 |  7 +++---
+>  qom/object.c              |  2 +-
+>  util/qemu-sockets.c       | 12 ++++++----
+>  CODING_STYLE              | 47 +++++++++++++++++++++++++++++++++++----
+>  10 files changed, 74 insertions(+), 25 deletions(-)
+> 
 
-The last *.aml file was removed in commit 13b1881aacc7e5018773bd545bbaf8d5476699ee.
+Forget this series, the send has been aborted for an unknown reason.
 
-Signed-off-by: Stefan Weil <sw@weilnetz.de>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20190409053320.14612-1-sw@weilnetz.de>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- configure | 1 -
- 1 file changed, 1 deletion(-)
-
-diff --git a/configure b/configure
-index a2607afb3408..14f02452f9d4 100755
---- a/configure
-+++ b/configure
-@@ -7880,7 +7880,6 @@ LINKS="$LINKS python"
- for bios_file in \
-     $source_path/pc-bios/*.bin \
-     $source_path/pc-bios/*.lid \
--    $source_path/pc-bios/*.aml \
-     $source_path/pc-bios/*.rom \
-     $source_path/pc-bios/*.dtb \
-     $source_path/pc-bios/*.img \
--- 
-2.20.1
-
+Thanks,
+Laurent
 
