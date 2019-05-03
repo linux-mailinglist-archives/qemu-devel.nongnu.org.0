@@ -2,60 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA51212C65
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 13:29:56 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38483 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F29B612C72
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 13:32:54 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38548 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMWO4-0000hp-2S
-	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 07:29:56 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33768)
+	id 1hMWQw-0003B8-3q
+	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 07:32:54 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33835)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hMWLW-0007ao-6Q
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 07:27:19 -0400
+	(envelope-from <laurent@vivier.eu>) id 1hMWLd-0007ht-GK
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 07:27:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hMWLV-00035O-6o
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 07:27:18 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:42163)
+	(envelope-from <laurent@vivier.eu>) id 1hMWLc-0003IG-Lb
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 07:27:25 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:53183)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <laurent@vivier.eu>)
-	id 1hMWLU-00031r-U8; Fri, 03 May 2019 07:27:17 -0400
+	id 1hMWLc-0003Hh-De; Fri, 03 May 2019 07:27:24 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
 	mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA
 	(Nemesis)
-	id 1MOm9H-1h6wEf1pdf-00QBIl; Fri, 03 May 2019 13:27:06 +0200
+	id 1MSZDt-1hBq3W2v6X-00SsBl; Fri, 03 May 2019 13:27:07 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Fri,  3 May 2019 13:26:48 +0200
-Message-Id: <20190503112654.4393-7-laurent@vivier.eu>
+Date: Fri,  3 May 2019 13:26:49 +0200
+Message-Id: <20190503112654.4393-8-laurent@vivier.eu>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190503112654.4393-1-laurent@vivier.eu>
 References: <20190503112654.4393-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:G1g65eP0H0efAzs12qRn+BsXmZsM6nBMNv988fXaIK8J+tSGW82
-	x/mm6jEzXirjjJMyjGFnzZHomDgnhAAgsHzRik++tROZHcZIWW7WR7jab50thSRto2+UXtq
-	y3CkIDFNe+ZWRf06/FQHv2OmXRt28Z/BekpnvyOQIP7Ll5rGoNbRaSnUqjca+7wPN+Rxr7g
-	UrsXZSYh8Cg63JVMNa41g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:jBCT4kIxxXA=:dIYgJ9udYmEvgucowX0j5c
-	93H4TENxoYhgVxAVIkCM2/8MZ/3+ednL6QdoJZUJy6HTQBrGYvnv/zTWcF7STs3vp3UoMfAei
-	VwnKAQ7CCbz501+FruwQgpBWQ0DQq7PsyKCweBn4GZaF7HMTYNOieIlTbOe2/YB5qZjIWQcmY
-	VEZlOdoa99faf5VViRytZYClX6VhYllpIIFfN5a2QjNsLnPd0rioNIu6h++84+e9oSLnHaDVV
-	eaoVEKHX44QZZXPCCSLBWR4WSCr6ozTNf1VLpYREJ+2GLQFwOOPRt2e4sYUS9JMDbZOK0aoSx
-	NVP46EiWfomjZ4UPwQ4ZxN6kzK5xwLnMP9uEcWxB1BjsJ24B3daiqrN98I3sbQ/PA3Kyg1New
-	N/JtZnqStUc1VIN4u7LLv+vTnlozCt9INS2OzdYzhWx6EurevjNh2awn5Fc2+35istb5s2III
-	o/ZKSQpY622EUnALMVdKB0oo0QxzX0vLAmFJ1ZHZ1Nrv4Qdtr0bxtWt7uLsls0gd8I/+fgXeP
-	lkqLe7EcYeMisHRdYG5/4mkmTjCrc3WlJylYH8dW8xJts1ST24q5hOxG4fdzTGhYhjSzgrxfd
-	Xhkcbnj2HmRNHE3AUfKzWUExrg1kNgU0PTEvRF+3uZGF9aNPr23kVRQkJPgkcg1DMe8mKH8Qi
-	AZ52J969q7IjVKg8SDFrsWtZBMPBq/eG7hwTuUF0YZ1HomV1gAxnmoshN3oyxD0SMWRFM1NAZ
-	yraX/I+fkCxyMwv8x/VBpui4DPaOfcfgVSQXDvGOpgIO/8P+rR2kZjBeCZeo6zxj/lRz2gUVt
-	Do2yRDyqjUCCCZzzbO7RdyRIOi6DaG3ctIveGLDnpTskjVEvhDY3NgfGUckP8gPw8aBfhKhBq
-	J4uKGFwrxbmcoq6N5rIPz67OI7BzKh2Z2n+SfdjJQth44e53yCWDaSDB+ouSD+I1AhnPM/s/g
-	bR/Gpab9sHw==
+X-Provags-ID: V03:K1:N07At0ZGbo5irFABpI5uyTwKRVlRPb2fUGCZ7q3zcuJYX9kZvoe
+	/bqsmUbvIUXBMoaw8aDQCc0ffl5emnNJ0D3tPJod/VxDecIdIwcVppwvIrXXOxKlTKvDLiM
+	x7b/be7wZpH8NLNdvp1xEQQxujLfs197lQhzR31jDAB3rb/ckSZcpsoiTgRjt6T7ty2Z6S7
+	Cy4rPBLDTbprizof7YTBQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:i122f+U2Nv0=:yP3Vo9C/nr9TtDjkVhL+aH
+	dE2xW/AvZAAtQytXYtGgt3WVhzowIuZkYQHu3S283vH24Wdg3lzcLC5moQWbVgyfFe1Ui7MpF
+	Y3oTlhK+6G96EWpIIb4PyQug2x1YB6dXbM0P1EreJ/6ShLeX5qd9k0gFBCBj1pjDOafTO3AwE
+	NV/CEBhyH/ZiB4uLIk1/hN0e2gom/rk98Sv/FvDtSrxK+Q7SFoMAprY/Ba+kOmNQuNG/lFakE
+	6941oEbVq8hBwp6p5w+FNz8mAMvsAD+BqGpZIL3IjCLD6Us7eq3f2TzhVvrnT8HftHtau8oK+
+	maycJajnLyWzboum8+WmGbtd5lpf3MVrlid06fIULRoT29c2WuSM6Ahjgd7SITpNZkRz/xpw0
+	zVms/WcXc7IWk+NhS70t3y8yaEFMPoiCTcJQG7N85/gIDLORjv3iZRNJban38O4saGLnRAeth
+	/rnAdjaD2lxMS85RYZwwqSeKl8hF2/qSN6MkSGTEUSRscBDx/oBJEgZV+m0eModLf1qtvc7xl
+	+Ffj/SBIrFqqKpn6d22w/gEPtcu1mrHRiPpj1JHeZCMzje4+KompbG/6PtZSGN8+nOxA36GFh
+	2yy5Be1bLZD50CJxfq5DxF1eezqmbbyknS35XlK/vT7QWQbagcsG4ipvWJXkBqVmvUDoRJXpr
+	hj524biWRXynZ/IEAdAEW2QYZ6FtOEfKugn6EFZV2SeXzK5oCfmCBPbokxWQ1YrWeH+I375J7
+	M+CQ9dMBF+UJ++ZGeZBQreZENaSeJ++XrCFr6ZVzisP5CnzXSKu5KF/yhvc=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.135
-Subject: [Qemu-devel] [PULL v2 06/12] configure: fix pam test warning
+X-Received-From: 212.227.126.187
+Subject: [Qemu-devel] [PULL v2 07/12] Update configure
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -67,50 +64,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-trivial@nongnu.org,
+Cc: Igor Mammedov <imammedo@redhat.com>, qemu-trivial@nongnu.org,
 	Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
 	Jason Wang <jasowang@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
 	Laurent Vivier <laurent@vivier.eu>, Fabien Chouteau <chouteau@adacore.com>,
 	Michael Roth <mdroth@linux.vnet.ibm.com>,
-	Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+	Gerd Hoffmann <kraxel@redhat.com>, Stefan Weil <sw@weilnetz.de>,
+	Paolo Bonzini <pbonzini@redhat.com>,
 	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 	=?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>,
 	Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+From: Stefan Weil <sw@weilnetz.de>
 
-The pam test generates a warning on Fedora 29 with -O3 compilation
-because the headers declare that the pam_conversation pointer to
-pam_start must be non-NULL.  Change it to use the same 0 initialised
-structure as we actually use in qauthz.
+The last *.aml file was removed in commit 13b1881aacc7e5018773bd545bbaf8d5476699ee.
 
-Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-Acked-by: Daniel P. Berrangé <berrange@redhat.com>
+Signed-off-by: Stefan Weil <sw@weilnetz.de>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20190404091725.20595-1-dgilbert@redhat.com>
+Message-Id: <20190409053320.14612-1-sw@weilnetz.de>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- configure | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ configure | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/configure b/configure
-index 60719ddcc5b0..a2607afb3408 100755
+index a2607afb3408..14f02452f9d4 100755
 --- a/configure
 +++ b/configure
-@@ -2940,9 +2940,9 @@ if test "$auth_pam" != "no"; then
- int main(void) {
-    const char *service_name = "qemu";
-    const char *user = "frank";
--   const struct pam_conv *pam_conv = NULL;
-+   const struct pam_conv pam_conv = { 0 };
-    pam_handle_t *pamh = NULL;
--   pam_start(service_name, user, pam_conv, &pamh);
-+   pam_start(service_name, user, &pam_conv, &pamh);
-    return 0;
- }
- EOF
+@@ -7880,7 +7880,6 @@ LINKS="$LINKS python"
+ for bios_file in \
+     $source_path/pc-bios/*.bin \
+     $source_path/pc-bios/*.lid \
+-    $source_path/pc-bios/*.aml \
+     $source_path/pc-bios/*.rom \
+     $source_path/pc-bios/*.dtb \
+     $source_path/pc-bios/*.img \
 -- 
 2.20.1
 
