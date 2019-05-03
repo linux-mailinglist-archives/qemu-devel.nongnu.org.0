@@ -2,72 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC85B1330A
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 19:17:31 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:44945 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 885C013310
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 19:20:25 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:44965 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMboQ-0001Py-QC
-	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 13:17:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34148)
+	id 1hMbrE-00037a-Ln
+	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 13:20:24 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35174)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hMbkx-0006cs-Bm
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 13:13:56 -0400
+	(envelope-from <kwolf@redhat.com>) id 1hMbox-0001xO-Px
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 13:18:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hMbkv-00015A-R9
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 13:13:55 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:55960)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hMbkv-00014Z-K6
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 13:13:53 -0400
-Received: by mail-wm1-x343.google.com with SMTP id y2so7629180wmi.5
-	for <qemu-devel@nongnu.org>; Fri, 03 May 2019 10:13:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=CbKBa4cG438327f413qupTHJRviSCiHEjt9FaRlZ34A=;
-	b=adGp/arElBmgP9cdgnynjQi4RUkwLIUOgOWhpZ0nbdDlbtyp6xC8A7NR9qB8uA+kvY
-	yC8bDtRL/AEXmgwqmRuPr2s+kHU7KYeQr/DEZO6qtNQBWylXoht2frUHTDJDBZxWpupB
-	ZBRa1wCWtjVUdkq2r13Xd9pVVIrZp6IG0182c25A03CYekEcBvY61Lpx9MznyxQhTdOD
-	4yEbGFcDiOleAR2ajXctQAlOJk69fqdcjwvkm9GbEJqwuSvzTIgcTpDQcVL5a0ewAnd4
-	VQmeit6XBXAwDn2FkqSVIt/PBX/T2U7WJVj5hCV6iKNjtfP1dC7qjGaiDZCgeWq5E8cH
-	duWg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=CbKBa4cG438327f413qupTHJRviSCiHEjt9FaRlZ34A=;
-	b=UAza+6x546q0J+I9+bCkf9tiIIkRSwqvNIXYutFY5Bu27GYb+qt/gj/AXHTzAR+Trg
-	EKNiQOBG6qqZm5XcYjqs+jkGoU9pxOvBOjrZN7lfZIzuWSNr7PrzmFzhHoA9NNUuvNe8
-	BS1YzJ+VHMjPITjlLUYR4w/uj/hgI2hsZippS+w0mFlo4uOG89181moii6noqQH0aK8R
-	Id90sLx2+HrEEHoFfNQtWemZLfRUV6fdX2zFDr4oNkGiX3BzvQtgw59raqFoS5fKj/Az
-	+13N6V1kTsob1q5+TnhuKrOyayFnTyFoiE10kxFUrJexGtaas/T86wLSLRch2oIY1LMw
-	WDOA==
-X-Gm-Message-State: APjAAAXEmqiHKpvGYWS/cucnSabrygA58tVWeFI+2jGOFrpypymtl5RC
-	3W+Ke4f0nAn3fOFC6THLy/IoPw==
-X-Google-Smtp-Source: APXvYqzjEaLEyEKhDCvpOVEk3Cdi5YARYV1XqqavPPNlNPVn2KzpA7ICCHEic+5Usq4xLc2Ph16dXw==
-X-Received: by 2002:a7b:c353:: with SMTP id l19mr6743602wmj.12.1556903632582; 
-	Fri, 03 May 2019 10:13:52 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
-	by smtp.gmail.com with ESMTPSA id e5sm1717671wrh.79.2019.05.03.10.13.51
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 03 May 2019 10:13:51 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Date: Fri,  3 May 2019 18:13:47 +0100
-Message-Id: <20190503171347.13747-3-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190503171347.13747-1-peter.maydell@linaro.org>
-References: <20190503171347.13747-1-peter.maydell@linaro.org>
+	(envelope-from <kwolf@redhat.com>) id 1hMbow-00058K-UZ
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 13:18:03 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44752)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <kwolf@redhat.com>)
+	id 1hMbor-0004yt-Pt; Fri, 03 May 2019 13:17:58 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id A736D30026B2;
+	Fri,  3 May 2019 17:17:54 +0000 (UTC)
+Received: from linux.fritz.box.com (ovpn-116-106.ams2.redhat.com
+	[10.36.116.106])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 99E575D6A6;
+	Fri,  3 May 2019 17:17:53 +0000 (UTC)
+From: Kevin Wolf <kwolf@redhat.com>
+To: qemu-block@nongnu.org
+Date: Fri,  3 May 2019 19:17:42 +0200
+Message-Id: <20190503171744.21589-1-kwolf@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::343
-Subject: [Qemu-devel] [PATCH 2/2] hw/arm/boot: Honour image size field in
- AArch64 Image format kernels
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.47]);
+	Fri, 03 May 2019 17:17:54 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH 0/2] blockjob: Fix coroutine thread after
+ AioContext change
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -79,76 +55,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Since Linux v3.17, the kernel's Image header includes a field image_size,
-which gives the total size of the kernel including unpopulated data
-sections such as the BSS). If this is present, then return it from
-load_aarch64_image() as the true size of the kernel rather than
-just using the size of the Image file itself. This allows the code
-which calculates where to put the initrd to avoid putting it in
-the kernel's BSS area.
+Kevin Wolf (2):
+  blockjob: Fix coroutine thread after AioContext change
+  test-block-iothread: Job coroutine thread after AioContext switch
 
-This means that we should be able to reliably load kernel images
-which are larger than 128MB without accidentally putting the
-initrd or dtb in locations that clash with the kernel itself.
+ job.c                       |   2 +-
+ tests/test-block-iothread.c | 107 ++++++++++++++++++++++++++++++++++++
+ 2 files changed, 108 insertions(+), 1 deletion(-)
 
-Fixes: https://bugs.launchpad.net/qemu/+bug/1823998
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- hw/arm/boot.c | 17 +++++++++++++++--
- 1 file changed, 15 insertions(+), 2 deletions(-)
-
-diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-index 7c978fedde4..34bdd151df8 100644
---- a/hw/arm/boot.c
-+++ b/hw/arm/boot.c
-@@ -910,6 +910,7 @@ static uint64_t load_aarch64_image(const char *filename, hwaddr mem_base,
-                                    hwaddr *entry, AddressSpace *as)
- {
-     hwaddr kernel_load_offset = KERNEL64_LOAD_ADDR;
-+    uint64_t kernel_size = 0;
-     uint8_t *buffer;
-     int size;
- 
-@@ -937,7 +938,10 @@ static uint64_t load_aarch64_image(const char *filename, hwaddr mem_base,
-          * is only valid if the image_size is non-zero.
-          */
-         memcpy(&hdrvals, buffer + ARM64_TEXT_OFFSET_OFFSET, sizeof(hdrvals));
--        if (hdrvals[1] != 0) {
-+
-+        kernel_size = le64_to_cpu(hdrvals[1]);
-+
-+        if (kernel_size != 0) {
-             kernel_load_offset = le64_to_cpu(hdrvals[0]);
- 
-             /*
-@@ -955,12 +959,21 @@ static uint64_t load_aarch64_image(const char *filename, hwaddr mem_base,
-         }
-     }
- 
-+    /*
-+     * Kernels before v3.17 don't populate the image_size field, and
-+     * raw images have no header. For those our best guess at the size
-+     * is the size of the Image file itself.
-+     */
-+    if (kernel_size == 0) {
-+        kernel_size = size;
-+    }
-+
-     *entry = mem_base + kernel_load_offset;
-     rom_add_blob_fixed_as(filename, buffer, size, *entry, as);
- 
-     g_free(buffer);
- 
--    return size;
-+    return kernel_size;
- }
- 
- static void arm_setup_direct_kernel_boot(ARMCPU *cpu,
--- 
+--=20
 2.20.1
 
 
