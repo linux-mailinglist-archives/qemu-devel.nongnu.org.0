@@ -2,54 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D2B5412AB0
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 11:33:55 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:37196 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DFF6812AD1
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 11:42:33 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37326 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMUZm-0007eE-NH
-	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 05:33:54 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38958)
+	id 1hMUi9-0004ZT-3R
+	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 05:42:33 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41213)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <lersek@redhat.com>) id 1hMUXR-0006aB-AZ
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 05:31:30 -0400
+	(envelope-from <bounces@canonical.com>) id 1hMUgo-00045D-Ot
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 05:41:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <lersek@redhat.com>) id 1hMUXQ-0006wl-8T
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 05:31:29 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43628)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <lersek@redhat.com>) id 1hMUXQ-0006tq-34
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 05:31:28 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
-	[10.5.11.11])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 709D9C058CB4
-	for <qemu-devel@nongnu.org>; Fri,  3 May 2019 09:31:27 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-120-45.rdu2.redhat.com
-	[10.10.120.45])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 55A292B9ED;
-	Fri,  3 May 2019 09:31:26 +0000 (UTC)
-From: Laszlo Ersek <lersek@redhat.com>
-To: qemu devel list <qemu-devel@nongnu.org>
-Date: Fri,  3 May 2019 11:31:18 +0200
-Message-Id: <20190503093118.15700-3-lersek@redhat.com>
-In-Reply-To: <20190503093118.15700-1-lersek@redhat.com>
-References: <20190503093118.15700-1-lersek@redhat.com>
+	(envelope-from <bounces@canonical.com>) id 1hMUgn-00060O-Qp
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 05:41:10 -0400
+Received: from indium.canonical.com ([91.189.90.7]:47558)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hMUgn-0005zw-Ld
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 05:41:09 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hMUgl-0002SE-8c
+	for <qemu-devel@nongnu.org>; Fri, 03 May 2019 09:41:07 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id 404172E80D0
+	for <qemu-devel@nongnu.org>; Fri,  3 May 2019 09:41:07 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.32]);
-	Fri, 03 May 2019 09:31:27 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Fri, 03 May 2019 09:32:39 -0000
+From: "Laszlo Ersek \(Red Hat\)" <lersek@redhat.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+	assignee=lersek@redhat.com; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: imammedo lersek
+X-Launchpad-Bug-Reporter: Igor (imammedo)
+X-Launchpad-Bug-Modifier: Laszlo Ersek (Red Hat) (lersek)
+References: <155368089372.19244.12131435230778764037.malonedeb@chaenomeles.canonical.com>
+Message-Id: <155687595930.32028.16710785024156013698.malone@chaenomeles.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18953";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 549f70f87150a1c2d8c5783c24b7b64c07b18ccc
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 2/2] tests/uefi-boot-images: report the SMBIOS
- entry point structures
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1821884] Re: Extend uefi-test-tools to report
+ SMBIOS location
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -58,61 +65,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>,
-	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Reply-To: Bug 1821884 <1821884@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rebuild the "bios-tables-test" UEFI boot images with the SMBIOS entry
-point reporting that has been added in the previous patch.
+Posted
+[PULL 0/2] tests/uefi-test-tools: report the SMBIOS entry point structures
+http://mid.mail-archive.com/20190503093118.15700-1-lersek@redhat.com
 
-Cc: "Philippe Mathieu-Daud=C3=A9" <philmd@redhat.com>
-Cc: Igor Mammedov <imammedo@redhat.com>
-Launchpad: https://bugs.launchpad.net/qemu/+bug/1821884
-Signed-off-by: Laszlo Ersek <lersek@redhat.com>
-Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Tested-by: Igor Mammedov <imammedo@redhat.com>
----
+-- =
 
-Notes:
-    pull:
-   =20
-    - pick up T-b from Phil & Igor
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1821884
 
- tests/data/uefi-boot-images/bios-tables-test.aarch64.iso.qcow2 | Bin 117=
-76 -> 12288 bytes
- tests/data/uefi-boot-images/bios-tables-test.arm.iso.qcow2     | Bin 117=
-76 -> 11776 bytes
- tests/data/uefi-boot-images/bios-tables-test.i386.iso.qcow2    | Bin 128=
-00 -> 13312 bytes
- tests/data/uefi-boot-images/bios-tables-test.x86_64.iso.qcow2  | Bin 133=
-12 -> 13312 bytes
- 4 files changed, 0 insertions(+), 0 deletions(-)
+Title:
+  Extend uefi-test-tools to report SMBIOS location
 
-diff --git a/tests/data/uefi-boot-images/bios-tables-test.aarch64.iso.qco=
-w2 b/tests/data/uefi-boot-images/bios-tables-test.aarch64.iso.qcow2
-index ac0b7b1b8f89..d588cf3ebd7d 100644
-Binary files a/tests/data/uefi-boot-images/bios-tables-test.aarch64.iso.q=
-cow2 and b/tests/data/uefi-boot-images/bios-tables-test.aarch64.iso.qcow2=
- differ
-diff --git a/tests/data/uefi-boot-images/bios-tables-test.arm.iso.qcow2 b=
-/tests/data/uefi-boot-images/bios-tables-test.arm.iso.qcow2
-index d20fa7c81925..552c7a7ddce6 100644
-Binary files a/tests/data/uefi-boot-images/bios-tables-test.arm.iso.qcow2=
- and b/tests/data/uefi-boot-images/bios-tables-test.arm.iso.qcow2 differ
-diff --git a/tests/data/uefi-boot-images/bios-tables-test.i386.iso.qcow2 =
-b/tests/data/uefi-boot-images/bios-tables-test.i386.iso.qcow2
-index 26c882baeaba..c66ad155196d 100644
-Binary files a/tests/data/uefi-boot-images/bios-tables-test.i386.iso.qcow=
-2 and b/tests/data/uefi-boot-images/bios-tables-test.i386.iso.qcow2 diffe=
-r
-diff --git a/tests/data/uefi-boot-images/bios-tables-test.x86_64.iso.qcow=
-2 b/tests/data/uefi-boot-images/bios-tables-test.x86_64.iso.qcow2
-index 9ec3c1f20bb2..f59e07c85415 100644
-Binary files a/tests/data/uefi-boot-images/bios-tables-test.x86_64.iso.qc=
-ow2 and b/tests/data/uefi-boot-images/bios-tables-test.x86_64.iso.qcow2 d=
-iffer
---=20
-2.19.1.3.g30247aa5d201
+Status in QEMU:
+  In Progress
 
+Bug description:
+  UEFI helper app exposes the pointer to RSDP ACPI table that firmware allo=
+cates in guest's RAM
+  but it doesn't do so for SMBIOS tables. Hence bios table test would skip =
+testing SMBIOS tables
+  to workaround shortcoming. This bug is a request to expose two new entry =
+point fields (one for SMBIOS 2 and another for SMBIOS 3) so test could chec=
+k SMBIOS tables when guest is started a with  UEFI firmware.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1821884/+subscriptions
 
