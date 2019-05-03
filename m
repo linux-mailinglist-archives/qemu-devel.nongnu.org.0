@@ -2,66 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 53BB71332F
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 19:35:36 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:45161 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F38DA1335F
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 19:53:13 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:45359 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMc5v-0003cp-IL
-	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 13:35:35 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38764)
+	id 1hMcMy-00027v-Oe
+	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 13:53:12 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41814)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hMc4F-0002Pi-Oc
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 13:33:52 -0400
+	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hMcKr-0001Dz-9x
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 13:51:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hMc4E-0003Dc-MS
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 13:33:51 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:33897)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hMc4E-0003D2-GE
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 13:33:50 -0400
-Received: by mail-ot1-x341.google.com with SMTP id n15so6028226ota.1
-	for <qemu-devel@nongnu.org>; Fri, 03 May 2019 10:33:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=fAbaWIprqYabI26Q7gG1BG024NYmOUIooaRDhTV5jkw=;
-	b=hMJWQdl5epKcK1EIaeGCRoLGcC4jEEdqIWLiAZ4S+JW2Vk2twX630DCwuFyxrYyC9s
-	Lx+WPCXJ9i2t6D2c6uJqZJoBCALjX2BSte0Tu3AdGXgw0+rCmdT9tavpdiD7oAo1OzMQ
-	853DjzfZzNsXcg5PEnwH5Yp5XG7rPDQTjrLIG5JBQtUceTW+1Ad1inuHTHTmytS3WvWf
-	o7/ZAkgjRSRzZg+uI20ko4w/qVQnFxkFjBI3uqUEvEyJTcRssIVTgdvM/a/Tjhdmk1HN
-	ndgBVXEbnsRXrj+BsvvYaANWez8yOe1Wxcv/kXwg+gSFLruOWeyN8Y2+obD4EPV3cddU
-	Dr1Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=fAbaWIprqYabI26Q7gG1BG024NYmOUIooaRDhTV5jkw=;
-	b=VQJ4eKYazl5KafMos2u0DqNLvXTIQAfqss3NmkCy1qPJWMc0VG6Bz35UfX9caVCCxY
-	5rL/7Do1H0+qmYk+QFsgqePtETlY6nMjWAtGatWHVsktPV8z71IqfkQ5MW8HUjijizKv
-	8h4IcaVUPuIWsscKZCfp6dJOgxQf8Hssn3SunU9TPHQBgOQJYUbDyNhaIGyq+WRsn5+X
-	WE8r/D9vGn7YGpNQmSH0V6zwWLKg+VpVJzRXwbhcNLGRWDfy0T07hcq4Ox0/dX2wjQbz
-	La7Cb+DksFBBDiIDEz9UedLjWF27Cg65zN2onuyKRhqjxC931lq6TvfC70aNTicrsI85
-	wZng==
-X-Gm-Message-State: APjAAAULK/BLkOs1UxLkrN1fMY9HTJIQzmhaT3kJChmMeBhvWEynPgWP
-	ZkZZh9XWXHGj/2rByqjoLTXGzC1KRxMsZRFaoWlSGw==
-X-Google-Smtp-Source: APXvYqwXNhIEXRPheS0PwWZTuQ4s9vlovewzsMP9kkAEUa4fhE7pzsNtnztT5KAhNZbRfD14LjZbr/mIlCKdvgVLHgk=
-X-Received: by 2002:a9d:6d19:: with SMTP id o25mr6789007otp.151.1556904829239; 
-	Fri, 03 May 2019 10:33:49 -0700 (PDT)
-MIME-Version: 1.0
-References: <20190503171347.13747-1-peter.maydell@linaro.org>
-	<20190503171347.13747-2-peter.maydell@linaro.org>
-In-Reply-To: <20190503171347.13747-2-peter.maydell@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 3 May 2019 18:33:38 +0100
-Message-ID: <CAFEAcA8cG_hd=6+zeYDG5o68Z-62rmXfK4SBLWUz2tVvgPobpw@mail.gmail.com>
-To: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::341
-Subject: Re: [Qemu-devel] [PATCH 1/2] hw/arm/boot: Avoid placing the initrd
- on top of the kernel
+	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hMcKp-0007Pu-JD
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 13:51:00 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:54736 helo=mail.rt-rk.com)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
+	id 1hMcKp-0007MZ-D3
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 13:50:59 -0400
+Received: from localhost (localhost [127.0.0.1])
+	by mail.rt-rk.com (Postfix) with ESMTP id D5A981A200D;
+	Fri,  3 May 2019 19:50:56 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
+	[10.10.13.43])
+	by mail.rt-rk.com (Postfix) with ESMTPSA id B607F1A1F9B;
+	Fri,  3 May 2019 19:50:56 +0200 (CEST)
+From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+To: qemu-devel@nongnu.org
+Date: Fri,  3 May 2019 19:50:41 +0200
+Message-Id: <1556905846-14074-1-git-send-email-aleksandar.markovic@rt-rk.com>
+X-Mailer: git-send-email 2.7.4
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 89.216.37.149
+Subject: [Qemu-devel] [PATCH v4 0/5] linux-user: A set of miscellaneous
+ patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -73,85 +49,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Rutland <mark.rutland@arm.com>
+Cc: lvivier@redhat.com, thuth@redhat.com, jcmvbkbc@gmail.com,
+	arikalo@wavecomp.com, daniel.santos@pobox.com,
+	amarkovic@wavecomp.com, nchen@wavecomp.com, philmd@redhat.com,
+	aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 3 May 2019 at 18:13, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> We currently put the initrd at the smaller of:
->  * 128MB into RAM
->  * halfway into the RAM
-> (with the dtb following it).
->
-> However for large kernels this might mean that the kernel
-> overlaps the initrd. For some kinds of kernel (self-decompressing
-> 32-bit kernels, and ELF images with a BSS section at the end)
-> we don't know the exact size, but even there we have a
-> minimum size. Put the initrd at least further into RAM than
-> that. For image formats that can give us an exact kernel size, this
-> will mean that we definitely avoid overlaying kernel and initrd.
->
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  hw/arm/boot.c | 34 ++++++++++++++++++++--------------
->  1 file changed, 20 insertions(+), 14 deletions(-)
->
-> diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-> index a830655e1af..7c978fedde4 100644
-> --- a/hw/arm/boot.c
-> +++ b/hw/arm/boot.c
-> @@ -998,20 +998,6 @@ static void arm_setup_direct_kernel_boot(ARMCPU *cpu,
->      if (info->nb_cpus == 0)
->          info->nb_cpus = 1;
->
-> -    /*
-> -     * We want to put the initrd far enough into RAM that when the
-> -     * kernel is uncompressed it will not clobber the initrd. However
-> -     * on boards without much RAM we must ensure that we still leave
-> -     * enough room for a decent sized initrd, and on boards with large
-> -     * amounts of RAM we must avoid the initrd being so far up in RAM
-> -     * that it is outside lowmem and inaccessible to the kernel.
-> -     * So for boards with less  than 256MB of RAM we put the initrd
-> -     * halfway into RAM, and for boards with 256MB of RAM or more we put
-> -     * the initrd at 128MB.
-> -     */
-> -    info->initrd_start = info->loader_start +
-> -        MIN(info->ram_size / 2, 128 * 1024 * 1024);
-> -
->      /* Assume that raw images are linux kernels, and ELF images are not.  */
->      kernel_size = arm_load_elf(info, &elf_entry, &elf_low_addr,
->                                 &elf_high_addr, elf_machine, as);
-> @@ -1056,6 +1042,26 @@ static void arm_setup_direct_kernel_boot(ARMCPU *cpu,
->          exit(1);
->      }
->      info->entry = entry;
-> +
-> +    /*
-> +     * We want to put the initrd far enough into RAM that when the
-> +     * kernel is uncompressed it will not clobber the initrd. However
-> +     * on boards without much RAM we must ensure that we still leave
-> +     * enough room for a decent sized initrd, and on boards with large
-> +     * amounts of RAM we must avoid the initrd being so far up in RAM
-> +     * that it is outside lowmem and inaccessible to the kernel.
-> +     * So for boards with less  than 256MB of RAM we put the initrd
-> +     * halfway into RAM, and for boards with 256MB of RAM or more we put
-> +     * the initrd at 128MB.
-> +     * We also refuse to put the initrd somewhere that will definitely
-> +     * overlay the kernel we just loaded, though for kernel formats which
-> +     * don't tell us their exact size (eg self-decompressing 32-bit kernels)
-> +     * we might still make a bad choice here.
-> +     */
-> +    info->initrd_start = info->loader_start +
-> +        MAX(MIN(info->ram_size / 2, 128 * 1024 * 1024), kernel_size);
-> +    info->initrd_start = TARGET_PAGE_ALIGN(info->initrd_start);
-> +
+From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-I belatedly realized that we should probably check here whether
-this is off the end of the ram, as otherwise following code
-will get an underflow in "info->ram_size - info->initrd_start"
-which is unlikely to result in useful behaviour.
+This is a collection of misc patches for Linux user that I recently
+accumulated from variuous sources. All of them originate from problems
+observed on mips target. However, these changes actually affect and fix
+problems on multiple targets.
 
-thanks
--- PMM
+v3->v4:
+
+  - improved commit messages (fixed some typos, improved relevance)
+
+v2->v3:
+
+  - updated and improved commit messages
+  - added IPV6_DROP_MEMBERSHIP support to the patch on setsockopt()'s
+    option
+
+v1->v2:
+
+  - added the patch on setsockopt()'s option IPV6_ADD_MEMBERSHIP
+  - improved the commit message of interp_info sanitizing patch
+
+Aleksandar Markovic (2):
+  linux-user: Fix support for the SIOCATMARK and SIOCGPGRP ioctls for
+    xtensa
+  linux-user: Add support for the SIOCSPGRP ioctl for all targets
+
+Daniel Santos (1):
+  linux-user: Sanitize interp_info and, for mips only, init field fp_abi
+
+Neng Chen (2):
+  linux-user: Add support the SIOC<G|S>IFPFLAGS ioctls for all targets
+  linux-user: Add support for setsockopt() options
+    IPV6_<ADD|DROP>_MEMBERSHIP
+
+ linux-user/elfload.c      |  5 +++++
+ linux-user/ioctls.h       |  3 +++
+ linux-user/syscall.c      | 19 +++++++++++++++++++
+ linux-user/syscall_defs.h |  8 +++++++-
+ 4 files changed, 34 insertions(+), 1 deletion(-)
+
+-- 
+2.7.4
+
 
