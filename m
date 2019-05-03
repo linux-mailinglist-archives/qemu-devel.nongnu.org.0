@@ -2,55 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D04F125EC
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 03:09:11 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60824 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8064812645
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 04:05:37 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33008 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMMhJ-000623-Tx
-	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 21:09:09 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43570)
+	id 1hMNZw-0007Q2-BH
+	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 22:05:36 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50509)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hMMgL-0005YV-IK
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 21:08:10 -0400
+	(envelope-from <joel.stan@gmail.com>) id 1hMNYo-000758-So
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 22:04:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hMMgK-0003ya-Kq
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 21:08:09 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53250)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <ehabkost@redhat.com>)
-	id 1hMMgK-0003yB-FK; Thu, 02 May 2019 21:08:08 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
-	[10.5.11.14])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 6125FC057E37;
-	Fri,  3 May 2019 01:08:07 +0000 (UTC)
-Received: from localhost (ovpn-116-9.gru2.redhat.com [10.97.116.9])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id BD2D15D9C4;
-	Fri,  3 May 2019 01:08:06 +0000 (UTC)
-Date: Thu, 2 May 2019 22:08:04 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Message-ID: <20190503010804.GQ28722@habkost.net>
-References: <1553849325-44201-1-git-send-email-like.xu@linux.intel.com>
-	<1553849325-44201-3-git-send-email-like.xu@linux.intel.com>
-	<20190404162555.0a2267ee@redhat.com>
-	<a765e3ac-45e6-310e-aa66-7036b5717a26@linux.intel.com>
-	<20190502170928.001c01df@Igors-MacBook-Pro>
+	(envelope-from <joel.stan@gmail.com>) id 1hMNYn-0002zM-M4
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 22:04:26 -0400
+Received: from mail-qt1-x842.google.com ([2607:f8b0:4864:20::842]:42105)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <joel.stan@gmail.com>)
+	id 1hMNYm-0002y4-I2; Thu, 02 May 2019 22:04:25 -0400
+Received: by mail-qt1-x842.google.com with SMTP id p20so5058108qtc.9;
+	Thu, 02 May 2019 19:04:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=iLCJFceTJq9C8V46rQKva2rGkVweODOBqpcEY5lfNaU=;
+	b=LicIv+M/WKUOYy0NB5TKYwFba2rAh9rsR6ops03H18mzjQSoOqyNn4eF3B0SY/KFOK
+	fantdGGu62HyLnDk4/Elm2lVb2e1vZ5HzvV5P29TM/s3eOmrfTzSwnViGlV7beHhJMuS
+	Aj2WQQw2Q3pEwbrOllwTLeT9gHCV8vefErTWs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=iLCJFceTJq9C8V46rQKva2rGkVweODOBqpcEY5lfNaU=;
+	b=AnU/e54H7n5iCXYIkv2K1MWxN0oWXuppxDGoEu2ESLiB7v+uIwP6yg4BI1p6sCCCgJ
+	wIitRN4BlyPyGEfK3Bkh4QHGzJqbrUlAubFL8VDt/nHzc4PTlncK9fZ6LgWEL9OMgEdW
+	xiUMZCrB8Tu+NMpDxzMYrO0RDKH0X9DmQiRr3eHMukvqgKJjn/aF8Msl87WgrpFak9yb
+	VTHHyz2h93sBJRklKO+PVdR8Qv2IVH3A03DbrpJwOdZ+ZYO840H/Gl3lty7S74/NYRbQ
+	taSm5zG0DNw+20Hv7qhkvo2GqLbQdsrbblUx0AnTkevUzNKm512PRWg+3oMhqIUQdjSi
+	2pfQ==
+X-Gm-Message-State: APjAAAU8eohuWzz6OCkGplloOGnvUU7QReI9XrnfptOLsrENBwYtetOt
+	FfG8GI5XtOEDL+ef7UeXfoaKagHxeMwKpxfY7YE=
+X-Google-Smtp-Source: APXvYqyZk/wKiSz8jm8RZKTb5dRyWnqYoFoVNOCaVSrd7cRXh+AVeTf28lijNBAoW2tcl7CSBgMeTXUT1Alc8fyJ+6U=
+X-Received: by 2002:ac8:2565:: with SMTP id 34mr6370365qtn.37.1556849062957;
+	Thu, 02 May 2019 19:04:22 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190502170928.001c01df@Igors-MacBook-Pro>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.31]);
-	Fri, 03 May 2019 01:08:07 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 2/9] cpu/topology: add general support for
- machine properties
+References: <20190103144124.18917-1-stefanha@redhat.com>
+	<CAFEAcA-B_T9E3ezWFXg-wp3RotMjv3-z3qY7hSJZEoqFBqCWnQ@mail.gmail.com>
+	<62b29bc1-cc78-cd64-4377-fc4007ba7189@redhat.com>
+	<20190426091702.GA2071@stefanha-x1.localdomain>
+	<CACPK8Xc5KgiaYCTs=8ceRu_hV=vC3M6pGV0=7jJNsbuz2a6LDA@mail.gmail.com>
+	<20190501162316.GD21155@stefanha-x1.localdomain>
+In-Reply-To: <20190501162316.GD21155@stefanha-x1.localdomain>
+From: Joel Stanley <joel@jms.id.au>
+Date: Fri, 3 May 2019 02:04:11 +0000
+Message-ID: <CACPK8Xc-7MOCMDKi=by0DVZrUW2vPL0QVT_G2NTuhi_fvwU1Aw@mail.gmail.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::842
+Subject: Re: [Qemu-devel] [PATCH] Revert "armv7m: Guard against no -kernel
+ argument"
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,50 +73,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Like Xu <like.xu@linux.intel.com>, qemu-trivial@nongnu.org,
-	"Dr. David Alan Gilbert" <dgilbert@redhat.com>,
-	qemu-devel@nongnu.org, like.xu@intel.com,
-	Paolo Bonzini <pbonzini@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+	Jim Mussared <jim@groklearning.com>, Julia Suvorova <jusual@mail.ru>,
+	QEMU Developers <qemu-devel@nongnu.org>,
+	=?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+	Steffen Gortz <qemu.ml@steffen-goertz.de>, qemu-arm <qemu-arm@nongnu.org>,
+	Stefan Hajnoczi <stefanha@redhat.com>, Thomas Huth <thuth@redhat.com>,
+	=?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 02, 2019 at 05:09:28PM +0200, Igor Mammedov wrote:
-> On Tue, 30 Apr 2019 15:30:31 +0800
-> Like Xu <like.xu@linux.intel.com> wrote:
-> 
-> > On 2019/4/4 22:25, Igor Mammedov wrote:
-> > > On Fri, 29 Mar 2019 16:48:38 +0800
-> > > Like Xu <like.xu@linux.intel.com> wrote:
-> > > 
-> 
-> [...]
-> 
-> > 
-> > The division of responsibility for this case (refactoring 
-> > qemu_init_vcpu) seems to be a poisonous apple.
-> > 
-> > The prerequisite for setting cpu-> nr_cores / nr_threads from the parent 
-> > is that the CPU has been created, so if any process during 
-> > initialization needs this topo information, it will use the default 
-> > values form cpu_common_initfn() instead of user-configured parameters.
-> 
-> can you point to concrete place that needs access to nr_cores / nr_threads
-> before cpu is 'realized'?
+On Wed, 1 May 2019 at 16:23, Stefan Hajnoczi <stefanha@gmail.com> wrote:
+>
+> On Mon, Apr 29, 2019 at 12:53:48PM +0000, Joel Stanley wrote:
+> > On Fri, 26 Apr 2019 at 09:17, Stefan Hajnoczi <stefanha@redhat.com> wrote:
+> > >
+> > > A user-friendly error message is needed here.  The check for -kernel was
+> > > too specific and is not desirable for microbit where we use -device
+> > > loader.
+> > >
+> > > Old boards probably want to continue using -kernel.  New boards like
+> > > microbit may use just -device loader.  Perhaps there is even a group
+> > > that wants both options.
+> >
+> > FWIW, I used -kernel exclusively when working on the microbit model.
+> > Other users may chose to use the device loader/hex file.
+> >
+> > I am all for usability, but getting rid of the ability to use -kernel
+> > on some machine types would be a step in the wrong direction.
+>
+> -kernel doesn't support the .hex file format that is most commonly used
+> for micro:bit programs.  Are you loading ELFs?
 
-We have very few architectures actually using
-nr_cores/nr_threads/smp_cores/smp_threads.  I think those
-variables are used only on x86, ppc, and mips.
-
-I believe I suggested some time ago that we should get rid of the
-nr_cores/nr_threads CPUState fields and move them to
-arch-specific types.  This would help us avoid confusion when
-different architectures have different semantics for
-nr_cores/nr_threads.
-
-See https://www.mail-archive.com/qemu-devel@nongnu.org/msg587105.html
-("[Qemu-devel] Meaning of '-smp threads' on mips_malta") for one
-example of confusing arch-specific semantics.
-
--- 
-Eduardo
+Yes, I am loading ELFs.
 
