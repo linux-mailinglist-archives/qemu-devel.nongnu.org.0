@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DA0212701
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 07:12:07 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:34573 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B49F12702
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 07:13:10 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:34587 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMQUQ-0002uQ-9x
-	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 01:12:06 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47745)
+	id 1hMQVR-0003p4-G8
+	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 01:13:09 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48080)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hMQSv-000264-FL
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 01:10:34 -0400
+	(envelope-from <thuth@redhat.com>) id 1hMQUA-0003AC-EJ
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 01:11:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hMQSu-0006iY-M0
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 01:10:33 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59818)
+	(envelope-from <thuth@redhat.com>) id 1hMQU6-0007la-MC
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 01:11:50 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37374)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <thuth@redhat.com>)
-	id 1hMQSs-0006gO-Kj; Fri, 03 May 2019 01:10:30 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
-	[10.5.11.14])
+	id 1hMQU6-0007lP-EN; Fri, 03 May 2019 01:11:46 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+	[10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id C5FD83082E8E;
-	Fri,  3 May 2019 05:10:29 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id BF6C2305B16F;
+	Fri,  3 May 2019 05:11:45 +0000 (UTC)
 Received: from thuth.remote.csb (ovpn-116-70.ams2.redhat.com [10.36.116.70])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id BE3395D9C4;
-	Fri,  3 May 2019 05:10:28 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id D28725C28E;
+	Fri,  3 May 2019 05:11:43 +0000 (UTC)
 To: Cao Jiaxi <driver1998@foxmail.com>, qemu-devel@nongnu.org
 References: <20190503002206.9751-1-driver1998@foxmail.com>
-	<20190503003707.10185-1-driver1998@foxmail.com>
+	<20190503003719.10233-1-driver1998@foxmail.com>
 From: Thomas Huth <thuth@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=thuth@redhat.com; keydata=
@@ -77,23 +77,23 @@ Autocrypt: addr=thuth@redhat.com; keydata=
 	rCELuGwT9hsYkUPjVd4lfylN3mzEc6iAv/wwjsc0DRTSQCpXT3v2ymTAsRKrVaEZLibTXaf+
 	WslxWek3xNYRiqwwWAJuL652eAlxUgQ5ZS+fXBRTiQpJ+F26I/2lccScRd9G5w==
 Organization: Red Hat
-Message-ID: <35fd656a-aef3-04a5-0a11-2bcfcf897440@redhat.com>
-Date: Fri, 3 May 2019 07:10:27 +0200
+Message-ID: <db80e5ca-ab98-9c0b-a8c5-8e0c88c58638@redhat.com>
+Date: Fri, 3 May 2019 07:11:43 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190503003707.10185-1-driver1998@foxmail.com>
+In-Reply-To: <20190503003719.10233-1-driver1998@foxmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.46]);
-	Fri, 03 May 2019 05:10:29 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.49]);
+	Fri, 03 May 2019 05:11:45 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 3/4] util/cacheinfo: Use uint64_t on
- LLP64 model to satisfy Windows ARM64
+Subject: Re: [Qemu-devel] [PATCH v3 4/4] osdep: Fix mingw compilation
+ regarding stdio formats
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -105,31 +105,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, qemu-arm@nongnu.org
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Stefan Weil <sw@weilnetz.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 03/05/2019 02.37, Cao Jiaxi wrote:
-> Windows ARM64 uses LLP64 model, which breaks current assumptions.
+> I encountered the following compilation error on mingw:
+> 
+> /mnt/d/qemu/include/qemu/osdep.h:97:9: error: '__USE_MINGW_ANSI_STDIO' macro redefined [-Werror,-Wmacro-redefined]
+>  #define __USE_MINGW_ANSI_STDIO 1
+>         ^
+> /mnt/d/llvm-mingw/aarch64-w64-mingw32/include/_mingw.h:433:9: note: previous definition is here
+>  #define __USE_MINGW_ANSI_STDIO 0      /* was not defined so it should be 0 */
+> 
+> It turns out that __USE_MINGW_ANSI_STDIO must be set before any
+> system headers are included, not just before stdio.h.
 > 
 > Signed-off-by: Cao Jiaxi <driver1998@foxmail.com>
 > ---
->  util/cacheinfo.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  include/qemu/osdep.h | 10 +++++-----
+>  1 file changed, 5 insertions(+), 5 deletions(-)
 > 
-> diff --git a/util/cacheinfo.c b/util/cacheinfo.c
-> index 3cd080b83d..eebe1ce9c5 100644
-> --- a/util/cacheinfo.c
-> +++ b/util/cacheinfo.c
-> @@ -107,7 +107,7 @@ static void sys_cache_info(int *isize, int *dsize)
->  static void arch_cache_info(int *isize, int *dsize)
->  {
->      if (*isize == 0 || *dsize == 0) {
-> -        unsigned long ctr;
-> +        uint64_t ctr;
+> diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
+> index 303d315c5d..af2b91f0b8 100644
+> --- a/include/qemu/osdep.h
+> +++ b/include/qemu/osdep.h
+> @@ -85,17 +85,17 @@ extern int daemon(int, int);
+>  #endif
+>  #endif
 >  
->          /* The real cache geometry is in CCSIDR_EL1/CLIDR_EL1/CSSELR_EL1,
->             but (at least under Linux) these are marked protected by the
+> +/* enable C99/POSIX format strings (needs mingw32-runtime 3.15 or later) */
+> +#ifdef __MINGW32__
+> +#define __USE_MINGW_ANSI_STDIO 1
+> +#endif
+> +
+>  #include <stdarg.h>
+>  #include <stddef.h>
+>  #include <stdbool.h>
+>  #include <stdint.h>
+>  #include <sys/types.h>
+>  #include <stdlib.h>
+> -
+> -/* enable C99/POSIX format strings (needs mingw32-runtime 3.15 or later) */
+> -#ifdef __MINGW32__
+> -#define __USE_MINGW_ANSI_STDIO 1
+> -#endif
+>  #include <stdio.h>
+>  
+>  #include <string.h>
 > 
 
 Reviewed-by: Thomas Huth <thuth@redhat.com>
