@@ -2,50 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC88212858
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 09:02:48 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:35637 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24F951285C
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 09:02:57 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:35643 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMSDX-0005l1-NX
-	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 03:02:47 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38136)
+	id 1hMSDg-0005sg-9O
+	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 03:02:56 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38129)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hMSAq-0003n3-T9
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 03:00:02 -0400
+	(envelope-from <kraxel@redhat.com>) id 1hMSAq-0003n0-LC
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 03:00:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hMSAp-0006EU-Mp
+	(envelope-from <kraxel@redhat.com>) id 1hMSAp-0006EM-L3
 	for qemu-devel@nongnu.org; Fri, 03 May 2019 03:00:00 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50118)
+Received: from mx1.redhat.com ([209.132.183.28]:44610)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hMSAp-0006Dr-F9
+	(Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hMSAp-0006Dk-Ez
 	for qemu-devel@nongnu.org; Fri, 03 May 2019 02:59:59 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id D82483172D72;
+	by mx1.redhat.com (Postfix) with ESMTPS id 902A030A769E;
 	Fri,  3 May 2019 06:59:57 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-45.ams2.redhat.com
 	[10.36.116.45])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 3A9E8608AC;
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 0206C5D70A;
 	Fri,  3 May 2019 06:59:54 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-	id 156F416E0A; Fri,  3 May 2019 08:59:54 +0200 (CEST)
+	id 1D5601751C; Fri,  3 May 2019 08:59:54 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri,  3 May 2019 08:59:47 +0200
-Message-Id: <20190503065954.17069-1-kraxel@redhat.com>
+Date: Fri,  3 May 2019 08:59:48 +0200
+Message-Id: <20190503065954.17069-2-kraxel@redhat.com>
+In-Reply-To: <20190503065954.17069-1-kraxel@redhat.com>
+References: <20190503065954.17069-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.41]);
+	(mx1.redhat.com [10.5.110.47]);
 	Fri, 03 May 2019 06:59:57 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 0/7] Usb 20190503 v2 patches
+Subject: [Qemu-devel] [PULL 1/7] usb-mtp: fix string length for filename
+ when writing metadata
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,54 +64,35 @@ Cc: Gerd Hoffmann <kraxel@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit f75d15231e56cb0f2bafe19faf1229c459a607=
-31:
+From: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
 
-  Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into sta=
-ging (2019-04-30 17:06:57 +0100)
+The ObjectInfo 'length' field provides the length of the
+wide character string filename. This is then converted to
+a multi-byte character string. This may have a different
+byte count to the wide character string. We should use the
+C string length of the multi-byte string instead.
 
-are available in the Git repository at:
+Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+Message-id: 20190415154503.6758-2-berrange@redhat.com
+Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+---
+ hw/usb/dev-mtp.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  git://git.kraxel.org/qemu tags/usb-20190503-v2-pull-request
-
-for you to fetch changes up to ccb799313a5926a6aa49018bbc67fe6165fad7f3:
-
-  hw/usb: avoid format truncation warning when formatting port name (2019=
--05-03 08:56:58 +0200)
-
-----------------------------------------------------------------
-usb: bugfixes for mtp and xhci, split ohci-pci.
-
-----------------------------------------------------------------
-
-Bandan Das (1):
-  usb-mtp: change default to success for usb_mtp_update_object
-
-Daniel P. Berrang=C3=A9 (3):
-  usb-mtp: fix string length for filename when writing metadata
-  usb-mtp: fix alignment of access of ObjectInfo filename field
-  hw/usb: avoid format truncation warning when formatting port name
-
-Longpeng (1):
-  usb/xhci: avoid trigger assertion if guest write wrong epid
-
-Thomas Huth (2):
-  hw/usb/hcd-ohci: Do not use PCI functions with sysbus devices in
-    ohci_die()
-  hw/usb/hcd-ohci: Move PCI-related code into a separate file
-
- hw/usb/hcd-ohci.h     | 104 ++++++++++++++++++++
- hw/usb/dev-mtp.c      |  10 +-
- hw/usb/hcd-ohci-pci.c | 163 +++++++++++++++++++++++++++++++
- hw/usb/hcd-ohci.c     | 219 ++++--------------------------------------
- hw/usb/hcd-xhci.c     |   6 +-
- hw/sh4/Kconfig        |   2 +-
- hw/usb/Kconfig        |   6 +-
- hw/usb/Makefile.objs  |   1 +
- 8 files changed, 302 insertions(+), 209 deletions(-)
- create mode 100644 hw/usb/hcd-ohci.h
- create mode 100644 hw/usb/hcd-ohci-pci.c
-
+diff --git a/hw/usb/dev-mtp.c b/hw/usb/dev-mtp.c
+index 99548b012d1f..6b7d1296e430 100644
+--- a/hw/usb/dev-mtp.c
++++ b/hw/usb/dev-mtp.c
+@@ -1721,7 +1721,7 @@ static void usb_mtp_write_metadata(MTPState *s, uin=
+t64_t dlen)
+         return;
+     }
+=20
+-    o =3D usb_mtp_object_lookup_name(p, filename, dataset->length);
++    o =3D usb_mtp_object_lookup_name(p, filename, -1);
+     if (o !=3D NULL) {
+         next_handle =3D o->handle;
+     }
 --=20
 2.18.1
 
