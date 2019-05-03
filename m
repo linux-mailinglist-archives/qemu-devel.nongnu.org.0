@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC100132E9
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 19:10:19 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:44799 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C55EE132EF
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 19:12:25 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:44852 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMbhS-0002OC-PZ
-	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 13:10:18 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60740)
+	id 1hMbjU-0004Ne-Rn
+	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 13:12:24 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60746)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hMbfY-0001TH-78
+	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hMbfY-0001Ta-IW
 	for qemu-devel@nongnu.org; Fri, 03 May 2019 13:08:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hMbfX-0003DW-7S
+	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hMbfX-0003Ds-EC
 	for qemu-devel@nongnu.org; Fri, 03 May 2019 13:08:20 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:46165 helo=mail.rt-rk.com)
+Received: from mx2.rt-rk.com ([89.216.37.149]:46172 helo=mail.rt-rk.com)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
-	id 1hMbfX-0001gb-0w
+	id 1hMbfX-0001h5-7C
 	for qemu-devel@nongnu.org; Fri, 03 May 2019 13:08:19 -0400
 Received: from localhost (localhost [127.0.0.1])
-	by mail.rt-rk.com (Postfix) with ESMTP id 2D1091A2217;
+	by mail.rt-rk.com (Postfix) with ESMTP id 3C7FB1A21EF;
 	Fri,  3 May 2019 19:07:17 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
 	[10.10.13.43])
-	by mail.rt-rk.com (Postfix) with ESMTPSA id 078941A21EF;
+	by mail.rt-rk.com (Postfix) with ESMTPSA id 16A581A2203;
 	Fri,  3 May 2019 19:07:17 +0200 (CEST)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Date: Fri,  3 May 2019 19:06:46 +0200
-Message-Id: <1556903209-6036-3-git-send-email-aleksandar.markovic@rt-rk.com>
+Date: Fri,  3 May 2019 19:06:47 +0200
+Message-Id: <1556903209-6036-4-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1556903209-6036-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1556903209-6036-1-git-send-email-aleksandar.markovic@rt-rk.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH v3 2/5] linux-user: Add support for the
- SIOCSPGRP ioctl
+Subject: [Qemu-devel] [PATCH v3 3/5] linux-user: Add support the
+ SIOCSIFPFLAGS and SIOCGIFPFLAGS ioctls
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,64 +58,54 @@ Cc: lvivier@redhat.com, thuth@redhat.com, jcmvbkbc@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aleksandar Markovic <amarkovic@wavecomp.com>
+From: Neng Chen <nchen@wavecomp.com>
 
-Add support for setting the process (or process group) to receive SIGIO
-or SIGURG signals when I/O becomes possible or urgent data is available,
-using SIOCSPGRP ioctl.
+Add support for setting and getting extended (private) flags of a
+network device via SIOCSIFPFLAGS and SIOCGIFPFLAGS ioctls.
 
-The ioctl numeric values for SIOCSPGRP are platform-dependent and are
-determined by following files in Linux kernel source tree:
+The ioctl numeric value is platform-independent and determined by
+the file include/uapi/linux/sockios.h in Linux kernel source code:
 
-arch/ia64/include/uapi/asm/sockios.h:#define SIOCSPGRP    0x8902
-arch/mips/include/uapi/asm/sockios.h:#define SIOCSPGRP    _IOW('s', 8, pid_t)
-arch/parisc/include/uapi/asm/sockios.h:#define SIOCSPGRP  0x8902
-arch/sh/include/uapi/asm/sockios.h:#define SIOCSPGRP      _IOW('s', 8, pid_t)
-arch/xtensa/include/uapi/asm/sockios.h:#define SIOCSPGRP  _IOW('s', 8, pid_t)
-arch/alpha/include/uapi/asm/sockios.h:#define SIOCSPGRP   _IOW('s', 8, pid_t)
-arch/sparc/include/uapi/asm/sockios.h:#define SIOCSPGRP   0x8902
-include/uapi/asm-generic/sockios.h:#define SIOCSPGRP      0x8902
+  #define SIOCSIFPFLAGS 0x8934
 
-Hence the different definition for alpha, mips, sh4, and xtensa.
+The ioctls set and get field ifr_flags of type short in the structure
+ifreq. Such functionality in QEMU is achieved using MK_STRUCT() and
+MK_PTR() macros with an appropriate argument.
 
-Reviewed-by: Max Filippov <jcmvbkbc@gmail.com>
+Signed-off-by: Neng Chen <nchen@wavecomp.com>
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+Message-Id: <1554839486-3527-1-git-send-email-aleksandar.markovic@rt-rk.com>
 ---
- linux-user/ioctls.h       | 1 +
- linux-user/syscall_defs.h | 3 +++
+ linux-user/ioctls.h       | 2 ++
+ linux-user/syscall_defs.h | 2 ++
  2 files changed, 4 insertions(+)
 
 diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
-index ae89516..c37adc5 100644
+index c37adc5..76375df 100644
 --- a/linux-user/ioctls.h
 +++ b/linux-user/ioctls.h
-@@ -218,6 +218,7 @@
-   IOCTL(SIOCSRARP, IOC_W, MK_PTR(MK_STRUCT(STRUCT_arpreq)))
-   IOCTL(SIOCGRARP, IOC_R, MK_PTR(MK_STRUCT(STRUCT_arpreq)))
-   IOCTL(SIOCGIWNAME, IOC_W | IOC_R, MK_PTR(MK_STRUCT(STRUCT_char_ifreq)))
-+  IOCTL(SIOCSPGRP, IOC_W, MK_PTR(TYPE_INT)) /* pid_t */
-   IOCTL(SIOCGPGRP, IOC_R, MK_PTR(TYPE_INT)) /* pid_t */
-   IOCTL(SIOCGSTAMP, IOC_R, MK_PTR(MK_STRUCT(STRUCT_timeval)))
-   IOCTL(SIOCGSTAMPNS, IOC_R, MK_PTR(MK_STRUCT(STRUCT_timespec)))
+@@ -206,6 +206,8 @@
+   IOCTL(SIOCADDMULTI, IOC_W, MK_PTR(MK_STRUCT(STRUCT_sockaddr_ifreq)))
+   IOCTL(SIOCDELMULTI, IOC_W, MK_PTR(MK_STRUCT(STRUCT_sockaddr_ifreq)))
+   IOCTL(SIOCGIFINDEX, IOC_W | IOC_R, MK_PTR(MK_STRUCT(STRUCT_int_ifreq)))
++  IOCTL(SIOCSIFPFLAGS, IOC_W, MK_PTR(MK_STRUCT(STRUCT_short_ifreq)))
++  IOCTL(SIOCGIFPFLAGS, IOC_W | IOC_R, MK_PTR(MK_STRUCT(STRUCT_short_ifreq)))
+   IOCTL(SIOCSIFLINK, 0, TYPE_NULL)
+   IOCTL_SPECIAL(SIOCGIFCONF, IOC_W | IOC_R, do_ioctl_ifconf,
+                 MK_PTR(MK_STRUCT(STRUCT_ifconf)))
 diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 1e86fb9..2941231 100644
+index 2941231..8904d35 100644
 --- a/linux-user/syscall_defs.h
 +++ b/linux-user/syscall_defs.h
-@@ -739,11 +739,14 @@ struct target_pollfd {
- #if defined(TARGET_ALPHA) || defined(TARGET_MIPS) || defined(TARGET_SH4) ||    \
-        defined(TARGET_XTENSA)
- #define TARGET_SIOCATMARK      TARGET_IOR('s', 7, int)
-+#define TARGET_SIOCSPGRP       TARGET_IOW('s', 8, pid_t)
- #define TARGET_SIOCGPGRP       TARGET_IOR('s', 9, pid_t)
- #else
- #define TARGET_SIOCATMARK      0x8905
-+#define TARGET_SIOCSPGRP       0x8902
- #define TARGET_SIOCGPGRP       0x8904
- #endif
-+
- #define TARGET_SIOCGSTAMP      0x8906          /* Get stamp (timeval) */
- #define TARGET_SIOCGSTAMPNS    0x8907          /* Get stamp (timespec) */
+@@ -781,6 +781,8 @@ struct target_pollfd {
+ #define TARGET_SIOCADDMULTI    0x8931          /* Multicast address lists      */
+ #define TARGET_SIOCDELMULTI    0x8932
+ #define TARGET_SIOCGIFINDEX    0x8933
++#define TARGET_SIOCSIFPFLAGS   0x8934          /* set extended flags          */
++#define TARGET_SIOCGIFPFLAGS   0x8935          /* get extended flags          */
  
+ /* Bridging control calls */
+ #define TARGET_SIOCGIFBR       0x8940          /* Bridging support             */
 -- 
 2.7.4
 
