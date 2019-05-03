@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF3F2125AF
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 02:44:07 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60454 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5269A125C0
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 02:49:39 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60535 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMMJ5-0004rf-1b
-	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 20:44:07 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37728)
+	id 1hMMOQ-0001HX-EU
+	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 20:49:38 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37777)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hMMGw-0003eQ-C9
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 20:41:55 -0400
+	(envelope-from <ehabkost@redhat.com>) id 1hMMH2-0003jo-0e
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 20:42:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hMMGv-0006ms-7S
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 20:41:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49428)
+	(envelope-from <ehabkost@redhat.com>) id 1hMMH1-0006pB-1D
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 20:41:59 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35756)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hMMGv-0006me-1r
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 20:41:53 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
+	(Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hMMH0-0006op-Rb
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 20:41:58 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 60869330260;
-	Fri,  3 May 2019 00:41:52 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 33B2D308620F;
+	Fri,  3 May 2019 00:41:58 +0000 (UTC)
 Received: from localhost (ovpn-116-9.gru2.redhat.com [10.97.116.9])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id E0F365C26A;
-	Fri,  3 May 2019 00:41:51 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id EA00D1001DF6;
+	Fri,  3 May 2019 00:41:56 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
 	Cleber Rosa <crosa@redhat.com>
-Date: Thu,  2 May 2019 21:41:18 -0300
-Message-Id: <20190503004130.8285-8-ehabkost@redhat.com>
+Date: Thu,  2 May 2019 21:41:19 -0300
+Message-Id: <20190503004130.8285-9-ehabkost@redhat.com>
 In-Reply-To: <20190503004130.8285-1-ehabkost@redhat.com>
 References: <20190503004130.8285-1-ehabkost@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.29]);
-	Fri, 03 May 2019 00:41:52 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.42]);
+	Fri, 03 May 2019 00:41:58 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 07/19] tests/boot_linux_console: rename the
- x86_64 after the arch and machine
+Subject: [Qemu-devel] [PULL 08/19] tests/boot_linux_console: update the
+ x86_64 kernel
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -63,51 +63,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cleber Rosa <crosa@redhat.com>
 
-Given that the test is specific to x86_64 and pc, and new tests are
-going to be added to the same class, let's rename it accordingly.
-Also, let's make the class documentation not architecture specific.
+Update to the stock Fedora 29 kernel, from the Fedora 28.  New tests
+will be added using the 29 kernel, so for consistency, let's also
+update it here.
 
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
 Reviewed-by: Caio Carrara <ccarrara@redhat.com>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
-Message-Id: <20190312171824.5134-8-crosa@redhat.com>
+Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Acked-by: Cornelia Huck <cohuck@redhat.com>
+CC: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+Message-Id: <20190312171824.5134-9-crosa@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
- tests/acceptance/boot_linux_console.py | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ tests/acceptance/boot_linux_console.py | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/bo=
 ot_linux_console.py
-index fa4594f612..4d57741bd8 100644
+index 4d57741bd8..03a4445176 100644
 --- a/tests/acceptance/boot_linux_console.py
 +++ b/tests/acceptance/boot_linux_console.py
-@@ -15,15 +15,17 @@ from avocado_qemu import Test
+@@ -26,9 +26,9 @@ class BootLinuxConsole(Test):
+         :avocado: tags=3Darch:x86_64
+         :avocado: tags=3Dmachine:pc
+         """
+-        kernel_url =3D ('https://mirrors.kernel.org/fedora/releases/28/'
+-                      'Everything/x86_64/os/images/pxeboot/vmlinuz')
+-        kernel_hash =3D '238e083e114c48200f80d889f7e32eeb2793e02a'
++        kernel_url =3D ('https://download.fedoraproject.org/pub/fedora/l=
+inux/'
++                      'releases/29/Everything/x86_64/os/images/pxeboot/v=
+mlinuz')
++        kernel_hash =3D '23bebd2680757891cf7adedb033532163a792495'
+         kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dkernel=
+_hash)
 =20
- class BootLinuxConsole(Test):
-     """
--    Boots a x86_64 Linux kernel and checks that the console is operation=
-al
--    and the kernel command line is properly passed from QEMU to the kern=
-el
--
--    :avocado: tags=3Darch:x86_64
-+    Boots a Linux kernel and checks that the console is operational and =
-the
-+    kernel command line is properly passed from QEMU to the kernel
-     """
-=20
-     timeout =3D 60
-=20
--    def test(self):
-+    def test_x86_64_pc(self):
-+        """
-+        :avocado: tags=3Darch:x86_64
-+        :avocado: tags=3Dmachine:pc
-+        """
-         kernel_url =3D ('https://mirrors.kernel.org/fedora/releases/28/'
-                       'Everything/x86_64/os/images/pxeboot/vmlinuz')
-         kernel_hash =3D '238e083e114c48200f80d889f7e32eeb2793e02a'
+         self.vm.set_machine('pc')
 --=20
 2.18.0.rc1.1.g3f1ff2140
 
