@@ -2,72 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AEE312779
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 08:06:10 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:35125 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC88212858
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 09:02:48 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:35637 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMRKj-0006uf-Qq
-	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 02:06:09 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55876)
+	id 1hMSDX-0005l1-NX
+	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 03:02:47 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38136)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <sjitindarsingh@gmail.com>) id 1hMRDH-00019D-2U
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 01:58:28 -0400
+	(envelope-from <kraxel@redhat.com>) id 1hMSAq-0003n3-T9
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 03:00:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <sjitindarsingh@gmail.com>) id 1hMRDF-0005qa-UD
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 01:58:27 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:36247)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <sjitindarsingh@gmail.com>)
-	id 1hMRDF-0005qK-NC; Fri, 03 May 2019 01:58:25 -0400
-Received: by mail-pg1-x542.google.com with SMTP id 85so2203818pgc.3;
-	Thu, 02 May 2019 22:58:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=message-id:subject:from:to:cc:date:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=WCQkcT5ngtSCJw7dr2VFRTss9x1IgvdYs7Q3LRr0k8c=;
-	b=EhkP7QyqwmFe/YQHe3Rf2iFeAIw92hZHrHgwMk6m0BHvMlIWbJoIPzqhdlHuxNsB1M
-	5/TEoJTIiI/XtJOgkWUQ1EgcZEBeNvn4vVQqML/RO8RUyoudvETkqVYi41VOlRnkBQso
-	CVhsIuPgUHF6VijydhdugJjUQ6qFUgQF1lUwCcADGzO4rQlymQtastH8t48+0250wIjm
-	CYNxzJe27Xudxbqk1gPXVN0wU5HSV6SjsY1BrNFmxBFZ1HyGB5tKBIhhlYTxSGVhER0t
-	XGoRFZULLgLV4AJ1iwwvY4CX0s0DkekNZZ8jaMZNt/pBi6ZGBH00mQCypih3feoeV2L2
-	3gyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=WCQkcT5ngtSCJw7dr2VFRTss9x1IgvdYs7Q3LRr0k8c=;
-	b=GnRPFAJ+n+jIHOsT37BI/QUuIzXPeLhPNWsDS/vSEcONb+B5klE5FdeIQmZ8CImSyT
-	jVqvhDDo6fd7k/96a0ILvM6qp80vePhEp1eEABmm5boeyAnawQO47tfYMsJfjcw9cebs
-	uUQv2k54OaqTgDkQpN/s8K7um6Ma1aMlXeo18zU2NeiqSflzMqcmF0pPN5bqAu95X0a2
-	Z9Q0OmjePhvbQpZujDfgI1OBN2lQ4vX5KzIAY1Xa4iW57xF1idPxSGtxRhIoRWGx3xUM
-	zWQpfBKeVXwf8vGYUblgDeR7Ymy06O3r0msqF6Ad0WyNVnOj39XomSXfddnlIhj5giZ/
-	m+zg==
-X-Gm-Message-State: APjAAAVGB/sOLHEwsERtK89UtGo6qGDP9RfTXtfrRWpRChXpzB+fKWNf
-	8e2YvrziqbPU9N7Wm4XVsLGfLkpJWWo=
-X-Google-Smtp-Source: APXvYqzG9jK1RICnG1iTObW+6ASIwodmuZZkKgsLPXjvcHvKGMZAee4ewoCHaeHqQ4HqZRjOzD5T2A==
-X-Received: by 2002:a65:44cb:: with SMTP id g11mr8147854pgs.193.1556863104737; 
-	Thu, 02 May 2019 22:58:24 -0700 (PDT)
-Received: from localhost.localdomain ([1.129.142.155])
-	by smtp.googlemail.com with ESMTPSA id
-	t7sm287953pfa.42.2019.05.02.22.58.21
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 02 May 2019 22:58:23 -0700 (PDT)
-Message-ID: <1556863097.1887.4.camel@gmail.com>
-From: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
+	(envelope-from <kraxel@redhat.com>) id 1hMSAp-0006EU-Mp
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 03:00:00 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50118)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hMSAp-0006Dr-F9
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 02:59:59 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id D82483172D72;
+	Fri,  3 May 2019 06:59:57 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-45.ams2.redhat.com
+	[10.36.116.45])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 3A9E8608AC;
+	Fri,  3 May 2019 06:59:54 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+	id 156F416E0A; Fri,  3 May 2019 08:59:54 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 03 May 2019 15:58:17 +1000
-In-Reply-To: <20190503055316.6441-1-sjitindarsingh@gmail.com>
-References: <20190503055316.6441-1-sjitindarsingh@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.24.6 (3.24.6-1.fc26) 
-Mime-Version: 1.0
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::542
-Subject: Re: [Qemu-devel] [QEMU-PPC] [PATCH 00/13] target/ppc: Implement KVM
- support under TCG
+Date: Fri,  3 May 2019 08:59:47 +0200
+Message-Id: <20190503065954.17069-1-kraxel@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.41]);
+	Fri, 03 May 2019 06:59:57 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PULL 0/7] Usb 20190503 v2 patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -79,80 +57,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org,
-	david@gibson.dropbear.id.au
+Cc: Gerd Hoffmann <kraxel@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 2019-05-03 at 15:53 +1000, Suraj Jitindar Singh wrote:
-> This patch series adds the necessary parts so that a tcg guest is
-> able to use
-> kvm facilities. That is a tcg guest can boot its own kvm guests.
-> 
-> The main requirements for this were a few registers and instructions
-> as well as
-> some hcalls and the addition of partition scoped translation in the
-> radix mmu
-> emulation.
-> 
-> This can be used to boot a kvm guest under a pseries tcg guest:
-> Use power9_v2.2 cpu and add -machine cap-nested-hv=on for the first
-> guest.
-> Then inside that guest boot a kvm guest as normal.
-> This takes advantage of the new hcalls with qemu emulating them as a
-> normal
-> hypervisor would on a real machine.
-> 
-> This can also be used to boot a kvm guest under a powernv tcg guest:
-> Use any power9 cpu type.
-> This takes advantage of the new hv register access added.
-> Note that for powernv there is no xive interrupt excalation for KVM
-> which means
-> that while the guest will boot, it won't receive any interrupts.
+The following changes since commit f75d15231e56cb0f2bafe19faf1229c459a607=
+31:
 
-Ah so I'm suddenly aware I based this on the wrong tree so it won't
-apply to your dwg-ppc-for-4.1 David.
+  Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into sta=
+ging (2019-04-30 17:06:57 +0100)
 
-Consider this a RFC and I'll rebase and resend when required.
+are available in the Git repository at:
 
-> 
-> Suraj Jitindar Singh (13):
->   target/ppc: Implement the VTB for HV access
->   target/ppc: Work [S]PURR implementation and add HV support
->   target/ppc: Add SPR ASDR
->   target/ppc: Add SPR TBU40
->   target/ppc: Add privileged message send facilities
->   target/ppc: Enforce that the root page directory size must be at
-> least
->     5
->   target/ppc: Handle partition scoped radix tree translation
->   target/ppc: Implement hcall H_SET_PARTITION_TABLE
->   target/ppc: Implement hcall H_ENTER_NESTED
->   target/ppc: Implement hcall H_TLB_INVALIDATE
->   target/ppc: Implement hcall H_COPY_TOFROM_GUEST
->   target/ppc: Introduce POWER9 DD2.2 cpu type
->   target/ppc: Enable SPAPR_CAP_NESTED_KVM_HV under tcg
-> 
->  hw/ppc/ppc.c                    |  46 ++++-
->  hw/ppc/spapr_caps.c             |  22 ++-
->  hw/ppc/spapr_cpu_core.c         |   1 +
->  hw/ppc/spapr_hcall.c            | 409
-> +++++++++++++++++++++++++++++++++++++++
->  include/hw/ppc/ppc.h            |   4 +-
->  include/hw/ppc/spapr.h          |   7 +-
->  linux-user/ppc/cpu_loop.c       |   5 +
->  target/ppc/cpu-models.c         |   2 +
->  target/ppc/cpu-models.h         |   1 +
->  target/ppc/cpu.h                |  70 +++++++
->  target/ppc/excp_helper.c        |  79 +++++++-
->  target/ppc/helper.h             |   9 +
->  target/ppc/misc_helper.c        |  46 +++++
->  target/ppc/mmu-radix64.c        | 412 ++++++++++++++++++++++++++++
-> ------------
->  target/ppc/mmu-radix64.h        |   4 +
->  target/ppc/timebase_helper.c    |  20 ++
->  target/ppc/translate.c          |  28 +++
->  target/ppc/translate_init.inc.c | 107 +++++++++--
->  18 files changed, 1115 insertions(+), 157 deletions(-)
-> 
+  git://git.kraxel.org/qemu tags/usb-20190503-v2-pull-request
+
+for you to fetch changes up to ccb799313a5926a6aa49018bbc67fe6165fad7f3:
+
+  hw/usb: avoid format truncation warning when formatting port name (2019=
+-05-03 08:56:58 +0200)
+
+----------------------------------------------------------------
+usb: bugfixes for mtp and xhci, split ohci-pci.
+
+----------------------------------------------------------------
+
+Bandan Das (1):
+  usb-mtp: change default to success for usb_mtp_update_object
+
+Daniel P. Berrang=C3=A9 (3):
+  usb-mtp: fix string length for filename when writing metadata
+  usb-mtp: fix alignment of access of ObjectInfo filename field
+  hw/usb: avoid format truncation warning when formatting port name
+
+Longpeng (1):
+  usb/xhci: avoid trigger assertion if guest write wrong epid
+
+Thomas Huth (2):
+  hw/usb/hcd-ohci: Do not use PCI functions with sysbus devices in
+    ohci_die()
+  hw/usb/hcd-ohci: Move PCI-related code into a separate file
+
+ hw/usb/hcd-ohci.h     | 104 ++++++++++++++++++++
+ hw/usb/dev-mtp.c      |  10 +-
+ hw/usb/hcd-ohci-pci.c | 163 +++++++++++++++++++++++++++++++
+ hw/usb/hcd-ohci.c     | 219 ++++--------------------------------------
+ hw/usb/hcd-xhci.c     |   6 +-
+ hw/sh4/Kconfig        |   2 +-
+ hw/usb/Kconfig        |   6 +-
+ hw/usb/Makefile.objs  |   1 +
+ 8 files changed, 302 insertions(+), 209 deletions(-)
+ create mode 100644 hw/usb/hcd-ohci.h
+ create mode 100644 hw/usb/hcd-ohci-pci.c
+
+--=20
+2.18.1
+
 
