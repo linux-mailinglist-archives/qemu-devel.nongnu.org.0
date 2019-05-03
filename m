@@ -2,58 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F52113319
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 19:22:58 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:45027 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C032713330
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 19:36:49 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:45188 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMbth-00059D-EG
-	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 13:22:57 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36148)
+	id 1hMc77-0005Rs-0Q
+	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 13:36:49 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39107)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <jdillama@redhat.com>) id 1hMbsP-0004cP-AC
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 13:21:38 -0400
+	(envelope-from <bounces@canonical.com>) id 1hMc63-00041f-Hd
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 13:35:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <jdillama@redhat.com>) id 1hMbsO-0007ij-8O
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 13:21:37 -0400
-Received: from mail-ed1-f65.google.com ([209.85.208.65]:46630)
+	(envelope-from <bounces@canonical.com>) id 1hMc5w-0004En-SJ
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 13:35:39 -0400
+Received: from indium.canonical.com ([91.189.90.7]:49648)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <jdillama@redhat.com>) id 1hMbsO-0007hm-1k
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 13:21:36 -0400
-Received: by mail-ed1-f65.google.com with SMTP id f37so6822359edb.13
-	for <qemu-devel@nongnu.org>; Fri, 03 May 2019 10:21:35 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
-	:from:date:message-id:subject:to:cc;
-	bh=H2FaNa1e+07Ozk09mqt7ANy0GB0sxbSTccsjC3gYo4Q=;
-	b=MUHPI8nwIbhx1bih6UP8IXXBI/hN/nQz+0rIMOCPpUE9gDZOBRX7ULzJ05l3j+ibdu
-	mupcwacAP893j1Ojs9QxgQ/HxUIdS8F7OswHkp2XpWhJ/5JEEdlbNvve83QAmHtSk5FT
-	sjgwthBg6N64podArkHcW25/CN2IkKCpwrUkIh3aGurvwL0T2cG3vjAdCQXdLht1QFbB
-	/JjPDmBMm9OKFwMa3ioWQu2HNQXwFtRQP/I3YwFAA7RTKt33JQOvGJEGtnpjDWo3nuBA
-	wFtWG/rLe5CYuBDTw1281vcs0O64RWeFb8aMz516cVWRVIJ4C2A5GAE/gDnSrLww8Ls4
-	nBxQ==
-X-Gm-Message-State: APjAAAWw7ha9hAi7tMBCqmZK8ASnibmxEsPdmLnsumW9FP5uGAeQ0PBH
-	SfWlaKU4avyc9L/aFP7K5pXnJuQfVpurR0KQOJTsBA==
-X-Google-Smtp-Source: APXvYqwhoQaML21k6wjGw0GE+2eOvPkIpsyQ8JuJxW9TdD44Pduaps6PFQteR7O84Nd+YY951EZh24kUqmGkZFARmhU=
-X-Received: by 2002:a50:ee01:: with SMTP id g1mr9869528eds.263.1556904094889; 
-	Fri, 03 May 2019 10:21:34 -0700 (PDT)
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hMc5u-0004Cv-5Y
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 13:35:34 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hMc5s-00019Q-Iv
+	for <qemu-devel@nongnu.org>; Fri, 03 May 2019 17:35:32 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id 8E4E72E80CB
+	for <qemu-devel@nongnu.org>; Fri,  3 May 2019 17:35:32 +0000 (UTC)
 MIME-Version: 1.0
-References: <20190503163028.213823-1-sgarzare@redhat.com>
-In-Reply-To: <20190503163028.213823-1-sgarzare@redhat.com>
-From: Jason Dillaman <jdillama@redhat.com>
-Date: Fri, 3 May 2019 13:21:23 -0400
-Message-ID: <CA+aFP1BWA416Q1=PB3xcQUPc1fQ-Cq+mhnG8FbkJiLDEvT0wyA@mail.gmail.com>
-To: Stefano Garzarella <sgarzare@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 03 May 2019 17:26:30 -0000
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+	assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: deepi mjt+launchpad-tls ospite pmaydell
+X-Launchpad-Bug-Reporter: Antonio Ospite (ospite)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <155085278488.30597.14551761138419562879.malonedeb@chaenomeles.canonical.com>
+Message-Id: <155690439068.32165.1664289279704715772.malone@wampee.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18953";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: f8b9e5b7527cdf4d373eb6b82bd6623e2d8aec37
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.208.65
-Subject: Re: [Qemu-devel] [PATCH v2] block/rbd: increase dynamically the
- image size
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1817345] Re: configure script breaks when
+ $source_path contains white spaces
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -62,75 +65,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: dillaman@redhat.com
-Cc: Kevin Wolf <kwolf@redhat.com>, Josh Durgin <jdurgin@redhat.com>,
-	qemu-devel <qemu-devel@nongnu.org>, qemu-block <qemu-block@nongnu.org>,
-	Max Reitz <mreitz@redhat.com>
+Reply-To: Bug 1817345 <1817345@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 3, 2019 at 12:30 PM Stefano Garzarella <sgarzare@redhat.com> wrote:
->
-> RBD APIs don't allow us to write more than the size set with
-> rbd_create() or rbd_resize().
-> In order to support growing images (eg. qcow2), we resize the
-> image before write operations that exceed the current size.
->
-> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
-> ---
-> v2:
->   - use bs->total_sectors instead of adding a new field [Kevin]
->   - resize the image only during write operation [Kevin]
->     for read operation, the bdrv_aligned_preadv() already handles reads
->     that exceed the length returned by bdrv_getlength(), so IMHO we can
->     avoid to handle it in the rbd driver
-> ---
->  block/rbd.c | 14 +++++++++++++-
->  1 file changed, 13 insertions(+), 1 deletion(-)
->
-> diff --git a/block/rbd.c b/block/rbd.c
-> index 0c549c9935..613e8f4982 100644
-> --- a/block/rbd.c
-> +++ b/block/rbd.c
-> @@ -934,13 +934,25 @@ static BlockAIOCB *rbd_start_aio(BlockDriverState *bs,
->      }
->
->      switch (cmd) {
-> -    case RBD_AIO_WRITE:
-> +    case RBD_AIO_WRITE: {
-> +        /*
-> +         * RBD APIs don't allow us to write more than actual size, so in order
-> +         * to support growing images, we resize the image before write
-> +         * operations that exceed the current size.
-> +         */
-> +        if (off + size > bs->total_sectors * BDRV_SECTOR_SIZE) {
-
-When will "bs->total_sectors" be refreshed to represent the correct
-current size? You wouldn't want a future write whose extent was
-greater than the original image size but less then a previous IO that
-expanded the image to attempt to shrink the image.
-
-> +            r = rbd_resize(s->image, off + size);
-> +            if (r < 0) {
-> +                goto failed_completion;
-> +            }
-> +        }
->  #ifdef LIBRBD_SUPPORTS_IOVEC
->              r = rbd_aio_writev(s->image, qiov->iov, qiov->niov, off, c);
->  #else
->              r = rbd_aio_write(s->image, off, size, rcb->buf, c);
->  #endif
->          break;
-> +    }
->      case RBD_AIO_READ:
->  #ifdef LIBRBD_SUPPORTS_IOVEC
->              r = rbd_aio_readv(s->image, qiov->iov, qiov->niov, off, c);
-> --
-> 2.20.1
->
->
+Antonio has submitted a patchset here:
+https://patchew.org/QEMU/20190503082728.16485-1-ao2@ao2.it/
 
 
--- 
-Jason
+** Changed in: qemu
+       Status: New =3D> In Progress
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1817345
+
+Title:
+  configure script breaks when $source_path contains white spaces
+
+Status in QEMU:
+  In Progress
+
+Bug description:
+  Hi,
+
+  I noticed that the configure script breaks when the qemu source
+  directory is in a path containing white spaces, in particular the list
+  of targets is not correctly generated when calling "./configure
+  --help".
+
+  Steps to reproduce the problem:
+
+  $ mkdir "dir with spaces"
+  $ cd dir\ with\ spaces/
+  $ git clone https://git.qemu.org/git/qemu.git
+  $ cd qemu/
+  $ ./configure --help | grep -A3 target-list
+
+  =
+
+  Actual result:
+
+    --target-list=3DLIST       set target list (default: build everything)
+                             Available targets: dir with *-softmmu dir with =
+
+                             *-linux-user
+
+  =
+
+  Expected result:
+
+    --target-list=3DLIST       set target list (default: build everything)
+                             Available targets: aarch64-softmmu alpha-softm=
+mu =
+
+                             arm-softmmu cris-softmmu hppa-softmmu i386-sof=
+tmmu =
+
+                             lm32-softmmu m68k-softmmu microblaze-softmmu =
+
+
+  =
+
+  This happens because the $mak_wilds variable uses spaces to separate diff=
+erent paths, maybe newlines may be used, which are less likely to be in dir=
+ectory names.
+
+  BTW "shellcheck" may help finding some other problems.
+
+  Qemu version:
+
+  $ git describe =
+
+  v3.1.0-1960-ga05838cb2a
+
+  Thanks,
+     Antonio
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1817345/+subscriptions
 
