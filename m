@@ -2,61 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0875E1328A
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 18:52:43 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:44589 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A6A513261
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 18:42:22 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:44322 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMbQP-0001FI-NT
-	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 12:52:41 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56961)
+	id 1hMbGP-0002ph-RA
+	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 12:42:21 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53530)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hMbOd-0008LY-01
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 12:50:51 -0400
+	(envelope-from <alistair23@gmail.com>) id 1hMbEy-0001wm-8J
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 12:40:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hMbOb-0002E1-Mw
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 12:50:50 -0400
-Received: from indium.canonical.com ([91.189.90.7]:35120)
+	(envelope-from <alistair23@gmail.com>) id 1hMbEx-0000sc-3M
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 12:40:52 -0400
+Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:43496)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hMbOb-0002D3-HG
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 12:50:49 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
-	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hMbOZ-0003KI-Bj
-	for <qemu-devel@nongnu.org>; Fri, 03 May 2019 16:50:47 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id 18AFC2E80CC
-	for <qemu-devel@nongnu.org>; Fri,  3 May 2019 16:50:47 +0000 (UTC)
+	(Exim 4.71) (envelope-from <alistair23@gmail.com>)
+	id 1hMbEw-0000ox-S0; Fri, 03 May 2019 12:40:51 -0400
+Received: by mail-lf1-x141.google.com with SMTP id u27so4584547lfg.10;
+	Fri, 03 May 2019 09:40:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=ripvz1kd5CwIb/AtX0NS4Ufbgm5ZvRnjen61yerimug=;
+	b=bKxPvSgyzDlmPwPjaiGatqqq0ygnikxQtk5qweFA7p4uihXx4JWqSElJviBfhQXh8n
+	jbidI3fVjgqeVM2+p1Fmvvavgtho1pMcl0ZWmLSCLYoPpg8pnrs7YrBFLi2w/Fa6Mo7G
+	DxhUSU/to4Vdmlwodypseg28O+EnJWeylD5HfnLzCYSw29HV12wL1QEZTCb9yUvcS9cH
+	kpd2p7936P3JCHuc3vrM7pyKE6VtRhC/W89B7K9lSZXUlWkv3Zn1YnoIaKvTt1v1+umw
+	00FldOhaHTPgvW+NbsIFht0X3gDgBF2bOX849tqodyIZkSjCS6nRurn8hdWrGoBxIe10
+	TCFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=ripvz1kd5CwIb/AtX0NS4Ufbgm5ZvRnjen61yerimug=;
+	b=LqRHRCX1/pcDBHwBaIgEYS9qw+ZH57T2hmGnm+C7Y/x4j0dy6Q0LPah+yK+HTV1umv
+	5OLBhS3oDt0QlJ/JaIQU8WxyoDrX9/12pCtsy1CuapAPFVUu9gLgcZKsM3PcFE6/nvle
+	qKkdi31APnLenIYyPtnL46ktls8MVKZSeeXiXxzw5Dmi7HUtrFHPSSOdZfunIrX/e+YS
+	gj6Xs+QldGddEtekiI9c6VkgWqWhp3osiuR6bXyHgffII5EC0PlWdwpjvBRJY2X2D6q6
+	JhCAd9hopPfp9q9kRE5JLtdLVN8sSxgGNa53zxvhhtN3HSYpYn9aSN15qxkRz83FqXID
+	yfJg==
+X-Gm-Message-State: APjAAAVHUAE+NkxRxHT9yr5T+mCr0BXe3B46LI39VljkHyXphlrtsSgV
+	yskNMCZ8azCEqAMdgQsFuWPd0GQYtQjmp26mKr0=
+X-Google-Smtp-Source: APXvYqy8K1jfrzBRYYG2lRAxsSabCM+VK3sfeUO+SIMSc7Yrt7BEzUjeu4B0q3ucZa0JF1NDyCw0GhfUrmyjwyNxZE0=
+X-Received: by 2002:a19:a40f:: with SMTP id q15mr5132312lfc.121.1556901648564; 
+	Fri, 03 May 2019 09:40:48 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+References: <20190503004021.13814-1-alistair.francis@wdc.com>
+	<20190503092424.GB17905@redhat.com>
+In-Reply-To: <20190503092424.GB17905@redhat.com>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Fri, 3 May 2019 09:38:50 -0700
+Message-ID: <CAKmqyKO5Mhb5RyA13isjMJY2a6uUOLCmPtcK_HRt3uyWgm9XGw@mail.gmail.com>
+To: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 03 May 2019 16:36:51 -0000
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: arm feature-request
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: mark-rutland
-X-Launchpad-Bug-Reporter: Mark Rutland (mark-rutland)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
-References: <155483243569.8652.5979441352991477638.malonedeb@wampee.canonical.com>
-Message-Id: <155690141223.19580.17385068954807494182.launchpad@gac.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18953";
-	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 78f05d97a8a5469bc3a66422daa6de6a427e5d71
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1823998] Re: qemu-system-aarch64: support kernels
- bigger than 128MiB
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2a00:1450:4864:20::141
+Subject: Re: [Qemu-devel] [PATCH v3] hw/usb/hcd-xhci: Fix GCC 9 build warning
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,45 +73,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1823998 <1823998@bugs.launchpad.net>
+Cc: "qemu-trivial@nongnu.org" <qemu-trivial@nongnu.org>,
+	"riku.voipio@iki.fi" <riku.voipio@iki.fi>,
+	"laurent@vivier.eu" <laurent@vivier.eu>,
+	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+	Alistair Francis <Alistair.Francis@wdc.com>,
+	"kraxel@redhat.com" <kraxel@redhat.com>,
+	=?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Tags added: arm
+On Fri, May 3, 2019 at 2:24 AM Daniel P. Berrang=C3=A9 <berrange@redhat.com=
+> wrote:
+>
+> On Fri, May 03, 2019 at 12:42:04AM +0000, Alistair Francis wrote:
+> > Fix this build warning with GCC 9 on Fedora 30:
+> > hw/usb/hcd-xhci.c:3339:66: error: =E2=80=98%d=E2=80=99 directive output=
+ may be truncated writing between 1 and 10 bytes into a region of size 5 [-=
+Werror=3Dformat-truncation=3D]
+> >  3339 |             snprintf(port->name, sizeof(port->name), "usb2 port=
+ #%d", i+1);
+> >       |                                                                =
+  ^~
+> > hw/usb/hcd-xhci.c:3339:54: note: directive argument in the range [1, 21=
+47483647]
+> >  3339 |             snprintf(port->name, sizeof(port->name), "usb2 port=
+ #%d", i+1);
+> >       |                                                      ^~~~~~~~~~=
+~~~~~
+> > In file included from /usr/include/stdio.h:867,
+> >                  from /home/alistair/qemu/include/qemu/osdep.h:99,
+> >                  from hw/usb/hcd-xhci.c:21:
+> > /usr/include/bits/stdio2.h:67:10: note: =E2=80=98__builtin___snprintf_c=
+hk=E2=80=99 output between 13 and 22 bytes into a destination of size 16
+> >    67 |   return __builtin___snprintf_chk (__s, __n, __USE_FORTIFY_LEVE=
+L - 1,
+> >       |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~=
+~~~~~~
+> >    68 |        __bos (__s), __fmt, __va_arg_pack ());
+> >       |        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+> >
+> > Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+> > Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+> > Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> > ---
+> > This is the onl patch left if my original series "Fix some GCC 9 build
+> > warnings" that hasn't either been accepeted into a maintainers tree or
+> > fixed by someone else.
+> >
+> >  hw/usb/hcd-xhci.c | 2 ++
+> >  1 file changed, 2 insertions(+)
+> >
+> > diff --git a/hw/usb/hcd-xhci.c b/hw/usb/hcd-xhci.c
+> > index ec28bee319..a15b103b65 100644
+> > --- a/hw/usb/hcd-xhci.c
+> > +++ b/hw/usb/hcd-xhci.c
+> > @@ -3321,6 +3321,8 @@ static void usb_xhci_init(XHCIState *xhci)
+> >
+> >      usb_bus_new(&xhci->bus, sizeof(xhci->bus), &xhci_bus_ops, dev);
+> >
+> > +    g_assert(usbports <=3D MAX(MAXPORTS_2, MAXPORTS_3));
+> > +
+> >      for (i =3D 0; i < usbports; i++) {
+> >          speedmask =3D 0;
+> >          if (i < xhci->numports_2) {
+>
+> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+>
+> but it looks like Gerd already sent a pull request with my patch for
+> this from a few weeks back
+>
+> https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg00543.html
 
--- =
+No worries, I'm just glad it's fixed.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1823998
+Alistair
 
-Title:
-  qemu-system-aarch64: support kernels bigger than 128MiB
-
-Status in QEMU:
-  New
-
-Bug description:
-  Presently QEMU reserves up to 128MiB of space for an arm64 Linux
-  kernel, placing the initrd following this, and the dtb following the
-  initrd.
-
-  This is not sufficient for some debug configurations of the kernel,
-  which can be larger than 128MiB. Depending on the relative size of the
-  kernel Image and unpopulated BSS, the dtb (or kernel) will be
-  clobbered by the other, resulting in a silent boot failure.
-
-  Since v3.17, the kernel Image header exposes a field called
-  image_size, which describes the entire size of the kernel (including
-  unpopulated sections such as the BSS) as a 64-bit little-endian value.
-  For kernels prior to v3.17, this field is zero. This is documented at:
-
-  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/D=
-ocumentation/arm64/booting.txt?h=3Dv5.0#n68
-
-  It would be great if QEMU could take the image_size field into account
-  when placing the initrd and dtb to avoid overlap with the kernel.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1823998/+subscriptions
+>
+> Regards,
+> Daniel
+> --
+> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+> |: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 
