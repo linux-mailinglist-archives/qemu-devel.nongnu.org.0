@@ -2,78 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 137CD13229
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 18:27:31 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43467 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8606A1323D
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 18:32:56 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43610 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMb22-0008WP-9V
-	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 12:27:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45807)
+	id 1hMb7H-0004h6-Nl
+	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 12:32:55 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46229)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <qemu_oss@crudebyte.com>) id 1hMaxn-0005Lv-HC
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 12:23:09 -0400
+	(envelope-from <liboxuan@connect.hku.hk>) id 1hMayP-0005u1-LX
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 12:23:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <qemu_oss@crudebyte.com>) id 1hMaxl-0007GV-Jc
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 12:23:07 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:33607)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <qemu_oss@crudebyte.com>)
-	id 1hMaxl-0007G2-8q
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 12:23:05 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=jmzD717GLRuwmyta9m8n6QZG8VJl/tG9CHlxJQmsXmY=;
-	b=seRpPfTE7WVGqOQsIvYW5f2Nh5
-	HubJcJ2W+n4zi0STUYOz1Lxe372gtLDY1ipKuRmrh4UZbXzCrQr4yHPugVrE+O3VE4xDF7sCjnTRd
-	0zF+H7VCBydiaeiTVTJ+naaURqKnBZE281cZTuKy7uvlJ9UFLnx0Ne3Afgg7p3ug4dFNCwsXGuxaY
-	LWrJSzUizb/zNeP3/gq8yZ8kRgWONNwRnO5X5qObKkM1OMbT8jMbybmQ4VOgCupKWGhapBHnfGp17
-	oVhd5FwtJvK8es8ytnpGaAwMjvPIvaDbKJuqtiTzHVmiZDweW9F+zxi/mLhyMR+oq8ErT8vfCF8ZJ
-	GN+0hG21Y+Q7vpThfDG9s0iKREf0hH4xKy9rFxFWIKcjrUTusbMsugWwBORKklTP5VeMXV9QzM2yQ
-	iWUcpNBBriLY/VCNMQtAb4JaxYini51puIgiwb7YqEom+l/epXr0SKOGZ6fFOZroJKyhyMmnCa9eg
-	fsl5C9gPKfEdc6ALqbYo8933JscwrmLOk9VNjoCrnw7K7ybow++urzK8fX3pqRKmCUFIPA5LgT/yz
-	Vo9NXiBe1Cf5Y7krvDUfHTd2f8I+TpO1E6w8Mq1uQg/N2ZD9EN/77EmodSpql+m4uTl7H2bC/YEwZ
-	9ibc2SaK5WnBE3Bmip3ib9ZlJBnmTdNhRWqjSvwvQ=;
-To: qemu-devel@nongnu.org
-Date: Fri, 03 May 2019 18:23:03 +0200
-Message-ID: <2658428.sN558u4hSW@silver>
-In-Reply-To: <cover.1556896526.git.qemu_oss@crudebyte.com>
-References: <cover.1556896526.git.qemu_oss@crudebyte.com>
+	(envelope-from <liboxuan@connect.hku.hk>) id 1hMayN-0007p6-Gn
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 12:23:45 -0400
+Received: from mail-yw1-xc41.google.com ([2607:f8b0:4864:20::c41]:38072)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <liboxuan@connect.hku.hk>)
+	id 1hMayM-0007nC-Ra
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 12:23:43 -0400
+Received: by mail-yw1-xc41.google.com with SMTP id b74so4606338ywe.5
+	for <qemu-devel@nongnu.org>; Fri, 03 May 2019 09:23:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=connect-hku-hk.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=Ur8T8LWqDP6W0fjDMK0HxlnVo3TThPJnX1IonkrMF3c=;
+	b=XnUBxiXrD44KUAsjTCoKP9ZUWQCCqS/gp9ul+eXsRfWzqUCIyopjjHZZOQcuyZxYgU
+	mRz/Kht2qJY6Ad1QZIg8txZyTJFK0YtvYvEldDcyo2u8Cm4FmAqgolyoRSXbXoscwCmH
+	15qf38fwGkmnJPkdKISi0DHaPoLnsf78gmpF+yQCGc/nUAI2iW/KYdQI7/LjLAtbx7VY
+	Jh0lBIEfVMR54KsAbJLEFNFxxEBxUoD8yXHKuLs+Yx0tm9ZNsukT++G4Hn5TPI2/4NPf
+	+x4NmKgDDy9EA8oTJvT9lp6nZagA4Q299BApbJcjmvqBwshEQONJt+mT/HkWilmUCQom
+	dr8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=Ur8T8LWqDP6W0fjDMK0HxlnVo3TThPJnX1IonkrMF3c=;
+	b=UrvQ+e1G7F34+OruqgUIuAiZrc0fQsZSA6wSme0mWCgN5qmPpmhiCJIrVjyCVU/ivi
+	FLoHOXr0T7bJAg+mIKlpbh1HC7S2OHgPa6EbEW3/sOfkU7nLu9VYN1hH+jfZPedKhnFN
+	NJbUi5SnNACdLPiXIYTVjcI1zYVzsqg2KuiiWqikvaD0614n+HhqIXFGdUwHu0DAizah
+	jnfMraSYnbJC008ONS9Q/9jTCIT0/YTityOS4VgHZhbEhK5ZPSfGYIjVnxjkiVsFdqlC
+	HSe6UxB7gMpM1lpoRnxUWUAXQauSlAxnwbJOfpf9k4DzDx/rjrRtsJcFn/+aySeXr6tv
+	LxeQ==
+X-Gm-Message-State: APjAAAWstS6J/9GPD4Vpj1JGV1H+ofq5LplcEQ0DEKWxY+DPMFGtkwaU
+	G4o2gmrGsC9yMjf3MNPj9TP7w72kh8cUZmqMHe3NMQ==
+X-Google-Smtp-Source: APXvYqxifS13lXVVO+85NMgL0tqt8L9ioW27WYUjWGCdu45H/ohu/K8EiA49cC9IJ5IwuezZqsWJ7BxmiAuAT2/beyY=
+X-Received: by 2002:a25:ef01:: with SMTP id g1mr8602880ybd.399.1556900620986; 
+	Fri, 03 May 2019 09:23:40 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Spam_score: -0.0
-X-Spam_score_int: 0
-X-Spam_bar: /
-X-Spam_report: Spam detection software,
-	running on the system "kylie.crudebyte.com", 
-	has NOT identified this incoming email as spam.  The original
-	message has been attached to this so you can view it or label
-	similar future email.  If you have any questions, see
-	the administrator of that system for details.
-	Content preview: This patch aims to keep QID path identical beyond the
-	scope
-	of reboots and guest suspensions. With the 1st patch alone the QID path
-	of
-	the same files might change after reboots / suspensions, since 9p [...] 
-	Content analysis details:   (-0.0 points, 5.0 required)
-	pts rule name              description
-	---- ----------------------
-	--------------------------------------------------
-	0.0 URIBL_BLOCKED ADMINISTRATOR NOTICE: The query to URIBL was
-	blocked.  See
-	http://wiki.apache.org/spamassassin/DnsBlocklists#dnsbl-block
-	for more information. [URIs: crudebyte.com]
-	-0.0 NO_RELAYS Informational: message was not relayed via SMTP
-	-0.0 NO_RECEIVED Informational: message has no Received headers
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 5.189.157.229
-Subject: [Qemu-devel] [PATCH v2 3/4] 9p: persistency of QID path beyond
- reboots / suspensions
+References: <20190503154424.73933-1-liboxuan@connect.hku.hk>
+	<87bm0j4im0.fsf@zen.linaroharston>
+In-Reply-To: <87bm0j4im0.fsf@zen.linaroharston>
+From: "LI, BO XUAN" <liboxuan@connect.hku.hk>
+Date: Sat, 4 May 2019 00:23:05 +0800
+Message-ID: <CALM0=-=b+z2aW-cuM=hmk3_oKG7w3ianMo_ZA7gj8zMgCOfC3g@mail.gmail.com>
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::c41
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [PATCH v4] hw/virtio/virtio-mmio: Convert DPRINTF
+ to trace and log
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -85,468 +76,212 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-From: Christian Schoenebeck via Qemu-devel <qemu-devel@nongnu.org>
-Reply-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Cc: Greg Kurz <groug@kaod.org>, Antonios Motakis <antonios.motakis@huawei.com>
+Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
+	qemu-devel@nongnu.org, Yuval Shaia <yuval.shaia@oracle.com>,
+	=?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch aims to keep QID path identical beyond the scope of reboots and
-guest suspensions. With the 1st patch alone the QID path of the same files
-might change after reboots / suspensions, since 9p would restart with
-empty qpp_table and the resulting QID path depends on the precise sequence
-of files being accessed on guest.
+Hi Alex,
 
-The first patch should already avoid the vast majority of potential QID
-path collisions. However especially network services running on guest
-would still be prone to QID path issues when just using the 1st patch.
-For instance Samba is exporting file IDs to clients in the network and
-SMB cliens in the network will use those IDs to access and request
-changes on the file server. If guest is now interrupted in between, like
-it commonly happens on maintenance, e.g. software updates on host, then
-SMB clients in the network will continue working with old file IDs, which
-in turn leads to data corruption and data loss on the file server.
-Furthermore on SMB client side I also encountered severe misbehaviours in
-this case, for instance Macs accessing the file server would either
-start to hang or die with a kernel panic within seconds, since the smbx
-implementation on macOS heavily relies on file IDs being unique (within
-the context of a connection that is).
+Sorry about that, I am still trying to get familiar with the patch
+submission process. Since my patch has been changed from your last review,
+I thought it would be safe to not include the r-b tag from last time. Will
+take care next time!
 
-So this patch here mitigates the remaining problem described above by
-storing the qpp_table persistently as extended attribute(s) on the
-exported root of the file system and automatically tries to restore the
-qpp_table i.e. after reboots / resumptions.
+Best regards,
+Boxuan Li
 
-This patch is aimed at real world scenarios, in which qpp_table will only
-ever get few dozens of entries (and none ever in qpf_table). So it is e.g.
-intentionally limited to only store qpp_table, not qpf_table; and so far
-I have not made optimizations, since in practice the qpf_table is really
-just tiny.
+On Sat, May 4, 2019 at 12:18 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
+rote:
 
-Since there is currently no callback in qemu yet that would reliably be
-called on guest shutdowns, the table is stored on every new insertion for
-now.
-
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
----
- hw/9pfs/9p.c | 315 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++-
- hw/9pfs/9p.h |  33 +++++++
- 2 files changed, 343 insertions(+), 5 deletions(-)
-
-diff --git a/hw/9pfs/9p.c b/hw/9pfs/9p.c
-index 2b893e25a1..29c6dfc68a 100644
---- a/hw/9pfs/9p.c
-+++ b/hw/9pfs/9p.c
-@@ -26,6 +26,19 @@
- #include "migration/blocker.h"
- #include "sysemu/qtest.h"
- #include "qemu/xxhash.h"
-+#include "qemu/crc32c.h"
-+#if defined(__linux__) /* TODO: This should probably go into osdep.h instead */
-+# include <linux/limits.h> /* for XATTR_SIZE_MAX */
-+#endif
-+
-+/*
-+ * How many bytes may we store to fs per extended attribute value?
-+ */
-+#ifdef XATTR_SIZE_MAX
-+# define ATTR_MAX_SIZE XATTR_SIZE_MAX /* Linux only: 64kB limit in kernel */
-+#else
-+# define ATTR_MAX_SIZE 65536 /* Most systems allow a bit more, so we take this as basis.  */
-+#endif
- 
- int open_fd_hw;
- int total_open_fd;
-@@ -642,6 +655,285 @@ static int qid_path_fullmap(V9fsPDU *pdu, const struct stat *stbuf,
-     return 0;
- }
- 
-+static inline bool is_ro_export(FsContext *ctx)
-+{
-+    return ctx->export_flags & V9FS_RDONLY;
-+}
-+
-+/*
-+ * Once qpp_table size exceeds this value, we no longer save
-+ * the table persistently. See comment in v9fs_store_qpp_table()
-+ */
-+#define QPP_TABLE_PERSISTENCY_LIMIT 32768
-+
-+/* Remove all user.virtfs.system.qidp.* xattrs from export root. */
-+static void remove_qidp_xattr(FsContext *ctx)
-+{
-+    V9fsString name;
-+    int i;
-+
-+    /* just for a paranoid endless recursion sanity check */
-+    const ssize_t max_size =
-+        sizeof(QppSrlzHeader) +
-+        QPP_TABLE_PERSISTENCY_LIMIT * sizeof(QppEntryS);
-+
-+    v9fs_string_init(&name);
-+    for (i = 0; i * ATTR_MAX_SIZE < max_size; ++i) {
-+        v9fs_string_sprintf(&name, "user.virtfs.system.qidp.%d", i);
-+        if (lremovexattr(ctx->fs_root, name.data) < 0)
-+            break;
-+    }
-+    v9fs_string_free(&name);
-+}
-+
-+/* Used to convert qpp hash table into continuous stream. */
-+static void qpp_table_serialize(void *p, uint32_t h, void *up)
-+{
-+    const QppEntry *entry = (const QppEntry*) p;
-+    QppSerialize *ser = (QppSerialize*) up;
-+
-+    if (ser->error)
-+        return;
-+
-+    /* safety first */
-+    if (entry->qp_prefix - 1 >= ser->count) {
-+        ser->error = -1;
-+        return;
-+    }
-+
-+    ser->elements[entry->qp_prefix - 1] = (QppEntryS) {
-+        .dev = entry->dev,
-+        .ino_prefix = entry->ino_prefix
-+    };
-+    ser->done++;
-+}
-+
-+/*
-+ * Tries to store the current qpp_table as extended attribute(s) on the
-+ * exported file system root with the goal to preserve identical qids
-+ * beyond the scope of reboots.
-+ */
-+static void v9fs_store_qpp_table(V9fsState *s)
-+{
-+    FsContext *ctx = &s->ctx;
-+    V9fsString name;
-+    int i, res;
-+    size_t size;
-+    QppSrlzStream* stream;
-+    QppSerialize ser;
-+
-+    if (is_ro_export(ctx))
-+        return;
-+
-+    /*
-+     * Whenever we exceeded some certain (arbitrary) high qpp_table size we
-+     * delete the stored table from the file system to get rid of old device
-+     * ids / inodes that might no longer exist with the goal to potentially
-+     * yield in a smaller table size after next reboot.
-+     */
-+    if (!s->qp_prefix_next || s->qp_prefix_next >= QPP_TABLE_PERSISTENCY_LIMIT) {
-+        if (s->qp_prefix_next == QPP_TABLE_PERSISTENCY_LIMIT) {
-+            remove_qidp_xattr(ctx);
-+        }
-+        return;
-+    }
-+
-+    /* Convert qpp hash table into continuous array. */
-+    size = sizeof(QppSrlzHeader) +
-+           ( (s->qp_prefix_next - 1) /* qpp_table entry count */ * sizeof(QppEntryS) );
-+    stream = g_malloc0(size);
-+    ser = (QppSerialize) {
-+        .elements = &stream->elements[0],
-+        .count = s->qp_prefix_next - 1,
-+        .done  = 0,
-+        .error = 0,
-+    };
-+    qht_iter(&s->qpp_table, qpp_table_serialize, &ser);
-+    if (ser.error || ser.done != ser.count)
-+        goto out;
-+
-+    /* initialize header and calculate CRC32 checksum */
-+    stream->header = (QppSrlzHeader) {
-+        .version = 1,
-+        .reserved = 0,
-+        .crc32 = crc32c(
-+            0xffffffff,
-+            (const uint8_t*) &stream->elements[0],
-+            (ser.count * sizeof(QppEntryS))
-+        ),
-+    };
-+
-+    /*
-+     * Actually just required if the qpp_table size decreased, or if the
-+     * previous xattr size limit increased on OS (kernel/fs) level.
-+     */
-+    remove_qidp_xattr(ctx);
-+
-+    /*
-+     * Subdivide (if required) the data stream into individual xattrs
-+     * to cope with the system's max. supported xattr value size.
-+     */
-+    v9fs_string_init(&name);
-+    for (i = 0; size > (i * ATTR_MAX_SIZE); ++i) {
-+        v9fs_string_sprintf(&name, "user.virtfs.system.qidp.%d", i);
-+        res = lsetxattr(
-+            ctx->fs_root,
-+            name.data,
-+            ((const uint8_t*)stream) + i * ATTR_MAX_SIZE,
-+            MIN(ATTR_MAX_SIZE, size - i * ATTR_MAX_SIZE),
-+            0/*flags*/
-+        );
-+        if (res < 0) {
-+            if (i > 0)
-+                remove_qidp_xattr(ctx);
-+            break;
-+        }
-+    }
-+    v9fs_string_free(&name);
-+out:
-+    g_free(stream);
-+}
-+
-+/* Frees the entire chain of passed nodes from memory. */
-+static void destroy_xattr_nodes(XAttrNode **first)
-+{
-+    XAttrNode *prev;
-+    if (!first)
-+        return;
-+    while (*first) {
-+        if ((*first)->value)
-+            g_free((*first)->value);
-+        prev = *first;
-+        *first = (*first)->next;
-+        g_free(prev);
-+    }
-+}
-+
-+/*
-+ * Loads all user.virtfs.system.qidp.* xattrs from exported fs root and
-+ * returns a linked list with one node per xattr.
-+ */
-+static XAttrNode* v9fs_load_qidp_xattr_nodes(V9fsState *s)
-+{
-+    FsContext *ctx = &s->ctx;
-+    XAttrNode *first = NULL, *current = NULL;
-+    V9fsString name;
-+    ssize_t size;
-+    int i;
-+
-+    const ssize_t max_size =
-+        sizeof(QppSrlzHeader) +
-+        QPP_TABLE_PERSISTENCY_LIMIT * sizeof(QppEntryS);
-+
-+    v9fs_string_init(&name);
-+
-+    for (i = 0; i * ATTR_MAX_SIZE < max_size; ++i) {
-+        v9fs_string_sprintf(&name, "user.virtfs.system.qidp.%d", i);
-+        size = lgetxattr(ctx->fs_root, name.data, NULL, 0);
-+        if (size <= 0)
-+            break;
-+        if (!first) {
-+            first = current = g_malloc0(sizeof(XAttrNode));
-+        } else {
-+            current = current->next = g_malloc0(sizeof(XAttrNode));
-+        }
-+        current->value = g_malloc0(size);
-+        current->length = lgetxattr(
-+            ctx->fs_root, name.data, current->value, size
-+        );
-+        if (current->length <= 0) {
-+            goto out_w_err;
-+        }
-+    }
-+    goto out;
-+
-+out_w_err:
-+    destroy_xattr_nodes(&first);
-+out:
-+    v9fs_string_free(&name);
-+    return first;
-+}
-+
-+/*
-+ * Try to load previously stored qpp_table from file system. Calling this
-+ * function assumes that qpp_table is yet empty.
-+ *
-+ * @see v9fs_store_qpp_table()
-+ */
-+static void v9fs_load_qpp_table(V9fsState *s)
-+{
-+    ssize_t size, count;
-+    XAttrNode *current, *first;
-+    QppSrlzStream* stream = NULL;
-+    uint32_t crc32;
-+    int i;
-+    QppEntry *val;
-+    uint32_t hash;
-+
-+    if (s->qp_prefix_next != 1)
-+        return;
-+
-+    first = v9fs_load_qidp_xattr_nodes(s);
-+    if (!first)
-+        return;
-+
-+    /* convert nodes into continuous stream */
-+    size = 0;
-+    for (current = first; current; current = current->next) {
-+        size += current->length;
-+    }
-+    if (size <= 0) {
-+        goto out;
-+    }
-+    stream = g_malloc0(size);
-+    size = 0;
-+    for (current = first; current; current = current->next) {
-+        memcpy(((uint8_t*)stream) + size, current->value, current->length);
-+        size += current->length;
-+    }
-+
-+    if (stream->header.version != 1) {
-+        goto out;
-+    }
-+
-+    count = (size - sizeof(QppSrlzHeader)) / sizeof(QppEntryS);
-+    if (count <= 0) {
-+        goto out;
-+    }
-+
-+    /* verify CRC32 checksum of stream */
-+    crc32 = crc32c(
-+        0xffffffff,
-+        (const uint8_t*) &stream->elements[0],
-+        (count * sizeof(QppEntryS))
-+    );
-+    if (crc32 != stream->header.crc32) {
-+        goto out;
-+    }
-+
-+    /* fill qpp_table with the retrieved elements */
-+    for (i = 0; i < count; ++i) {
-+        val = g_malloc0(sizeof(QppEntry));
-+        *val = (QppEntry) {
-+            .dev = stream->elements[i].dev,
-+            .ino_prefix = stream->elements[i].ino_prefix,
-+        };
-+        hash = qpp_hash(*val);
-+        if (qht_lookup(&s->qpp_table, val, hash)) {
-+            /* should never happen: duplicate entry detected */
-+            g_free(val);
-+            goto out;
-+        }
-+        val->qp_prefix = s->qp_prefix_next++;
-+        qht_insert(&s->qpp_table, val, hash, NULL);
-+    }
-+
-+out:
-+    destroy_xattr_nodes(&first);
-+    if (stream)
-+        g_free(stream);
-+}
-+
- /* stat_to_qid needs to map inode number (64 bits) and device id (32 bits)
-  * to a unique QID path (64 bits). To avoid having to map and keep track
-  * of up to 2^64 objects, we map only the 16 highest bits of the inode plus
-@@ -675,6 +967,14 @@ static int qid_path_prefixmap(V9fsPDU *pdu, const struct stat *stbuf,
-         /* new unique inode prefix and device combo */
-         val->qp_prefix = pdu->s->qp_prefix_next++;
-         qht_insert(&pdu->s->qpp_table, val, hash, NULL);
-+
-+        /*
-+         * Store qpp_table as extended attribute(s) to file system.
-+         *
-+         * TODO: This should better only be called from a guest shutdown and
-+         * suspend handler.
-+         */
-+        v9fs_store_qpp_table(pdu->s);
-     }
- 
-     *path = ((uint64_t)val->qp_prefix << 48) | (stbuf->st_ino & QPATH_INO_MASK);
-@@ -1064,11 +1364,6 @@ static void v9fs_fix_path(V9fsPath *dst, V9fsPath *src, int len)
-     v9fs_path_free(&str);
- }
- 
--static inline bool is_ro_export(FsContext *ctx)
--{
--    return ctx->export_flags & V9FS_RDONLY;
--}
--
- static void coroutine_fn v9fs_version(void *opaque)
- {
-     ssize_t err;
-@@ -3784,6 +4079,8 @@ int v9fs_device_realize_common(V9fsState *s, const V9fsTransport *t,
-     qht_init(&s->qpp_table, qpp_cmp_func, 1, QHT_MODE_AUTO_RESIZE);
-     s->qp_prefix_next = 1; /* reserve 0 to detect overflow */
-     s->qp_fullpath_next = 1;
-+    /* try to load and restore previous qpp_table */
-+    v9fs_load_qpp_table(s);
- 
-     s->ctx.fst = &fse->fst;
-     fsdev_throttle_init(s->ctx.fst);
-@@ -3807,6 +4104,14 @@ out:
- 
- void v9fs_device_unrealize_common(V9fsState *s, Error **errp)
- {
-+    /*
-+     * Store qpp_table as extended attribute(s) to file system.
-+     *
-+     * This was actually plan A, but unfortunately unserialize is not called
-+     * reliably on guest shutdowns and suspensions.
-+     */
-+    v9fs_store_qpp_table(s);
-+
-     if (s->ops->cleanup) {
-         s->ops->cleanup(&s->ctx);
-     }
-diff --git a/hw/9pfs/9p.h b/hw/9pfs/9p.h
-index 44112ea97f..54ce039969 100644
---- a/hw/9pfs/9p.h
-+++ b/hw/9pfs/9p.h
-@@ -245,6 +245,13 @@ typedef struct {
-     uint16_t qp_prefix;
- } QppEntry;
- 
-+/* Small version of QppEntry for serialization as xattr. */
-+struct QppEntryS {
-+    dev_t dev;
-+    uint16_t ino_prefix;
-+} __attribute__((packed));
-+typedef struct QppEntryS QppEntryS;
-+
- /* QID path full entry, as above */
- typedef struct {
-     dev_t dev;
-@@ -252,6 +259,32 @@ typedef struct {
-     uint64_t path;
- } QpfEntry;
- 
-+typedef struct {
-+    QppEntryS *elements;
-+    uint count; /* In: QppEntryS count in @a elements */
-+    uint done; /* Out: how many QppEntryS did we actually fill in @a elements */
-+    int error; /* Out: zero on success */
-+} QppSerialize;
-+
-+struct QppSrlzHeader {
-+    uint16_t version;
-+    uint16_t reserved; /* might be used e.g. for flags in future */
-+    uint32_t crc32;
-+} __attribute__((packed));
-+typedef struct QppSrlzHeader QppSrlzHeader;
-+
-+struct QppSrlzStream {
-+    QppSrlzHeader header;
-+    QppEntryS elements[0];
-+} __attribute__((packed));
-+typedef struct QppSrlzStream QppSrlzStream;
-+
-+typedef struct XAttrNode {
-+    uint8_t* value;
-+    ssize_t length;
-+    struct XAttrNode* next;
-+} XAttrNode;
-+
- struct V9fsState
- {
-     QLIST_HEAD(, V9fsPDU) free_list;
--- 
-2.11.0
-
-
-
+>
+> Boxuan Li <liboxuan@connect.hku.hk> writes:
+>
+> > Use traces for debug message and qemu_log_mask for errors.
+> >
+> > Signed-off-by: Boxuan Li <liboxuan@connect.hku.hk>
+>
+> You didn't add my r-b tags from last time. Anyway:
+>
+> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>
+> > ---
+> > v1:
+> https://patchew.org/QEMU/20190428110258.86681-1-liboxuan@connect.hku.hk/
+> > v2:
+> https://patchew.org/QEMU/20190501081039.58938-1-liboxuan@connect.hku.hk/
+> > v3:
+> https://patchew.org/QEMU/20190503084654.18413-1-liboxuan@connect.hku.hk/
+> > v4: Fix indentation and do not convert uint64_t to int
+> > ---
+> >  hw/virtio/trace-events  |  7 +++++++
+> >  hw/virtio/virtio-mmio.c | 44
+> +++++++++++++++++++++-----------------------
+> >  2 files changed, 28 insertions(+), 23 deletions(-)
+> >
+> > diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
+> > index 60c649c4bc..e28ba48da6 100644
+> > --- a/hw/virtio/trace-events
+> > +++ b/hw/virtio/trace-events
+> > @@ -46,3 +46,10 @@ virtio_balloon_handle_output(const char *name,
+> uint64_t gpa) "section name: %s g
+> >  virtio_balloon_get_config(uint32_t num_pages, uint32_t actual)
+> "num_pages: %d actual: %d"
+> >  virtio_balloon_set_config(uint32_t actual, uint32_t oldactual) "actual=
+:
+> %d oldactual: %d"
+> >  virtio_balloon_to_target(uint64_t target, uint32_t num_pages) "balloon
+> target: 0x%"PRIx64" num_pages: %d"
+> > +
+> > +# virtio-mmio.c
+> > +virtio_mmio_read(uint64_t offset) "virtio_mmio_read offset 0x%" PRIx64
+> > +virtio_mmio_write_offset(uint64_t offset, uint64_t value)
+> "virtio_mmio_write offset 0x%" PRIx64 " value 0x%" PRIx64
+> > +virtio_mmio_guest_page(uint64_t size, int shift) "guest page size 0x%"
+> PRIx64 " shift %d"
+> > +virtio_mmio_queue_write(uint64_t value, int max_size) "mmio_queue writ=
+e
+> 0x%" PRIx64 " max %d"
+> > +virtio_mmio_setting_irq(int level) "virtio_mmio setting IRQ %d"
+> > diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
+> > index 5807aa87fe..96c762f0bf 100644
+> > --- a/hw/virtio/virtio-mmio.c
+> > +++ b/hw/virtio/virtio-mmio.c
+> > @@ -27,16 +27,8 @@
+> >  #include "sysemu/kvm.h"
+> >  #include "hw/virtio/virtio-bus.h"
+> >  #include "qemu/error-report.h"
+> > -
+> > -/* #define DEBUG_VIRTIO_MMIO */
+> > -
+> > -#ifdef DEBUG_VIRTIO_MMIO
+> > -
+> > -#define DPRINTF(fmt, ...) \
+> > -do { printf("virtio_mmio: " fmt , ## __VA_ARGS__); } while (0)
+> > -#else
+> > -#define DPRINTF(fmt, ...) do {} while (0)
+> > -#endif
+> > +#include "qemu/log.h"
+> > +#include "trace.h"
+> >
+> >  /* QOM macros */
+> >  /* virtio-mmio-bus */
+> > @@ -107,7 +99,7 @@ static uint64_t virtio_mmio_read(void *opaque, hwadd=
+r
+> offset, unsigned size)
+> >      VirtIOMMIOProxy *proxy =3D (VirtIOMMIOProxy *)opaque;
+> >      VirtIODevice *vdev =3D virtio_bus_get_device(&proxy->bus);
+> >
+> > -    DPRINTF("virtio_mmio_read offset 0x%x\n", (int)offset);
+> > +    trace_virtio_mmio_read(offset);
+> >
+> >      if (!vdev) {
+> >          /* If no backend is present, we treat most registers as
+> > @@ -144,7 +136,9 @@ static uint64_t virtio_mmio_read(void *opaque,
+> hwaddr offset, unsigned size)
+> >          }
+> >      }
+> >      if (size !=3D 4) {
+> > -        DPRINTF("wrong size access to register!\n");
+> > +        qemu_log_mask(LOG_GUEST_ERROR,
+> > +                      "%s: wrong size access to register!\n",
+> > +                      __func__);
+> >          return 0;
+> >      }
+> >      switch (offset) {
+> > @@ -182,10 +176,12 @@ static uint64_t virtio_mmio_read(void *opaque,
+> hwaddr offset, unsigned size)
+> >      case VIRTIO_MMIO_QUEUE_ALIGN:
+> >      case VIRTIO_MMIO_QUEUE_NOTIFY:
+> >      case VIRTIO_MMIO_INTERRUPT_ACK:
+> > -        DPRINTF("read of write-only register\n");
+> > +        qemu_log_mask(LOG_GUEST_ERROR,
+> > +                      "%s: read of write-only register\n",
+> > +                      __func__);
+> >          return 0;
+> >      default:
+> > -        DPRINTF("bad register offset\n");
+> > +        qemu_log_mask(LOG_GUEST_ERROR, "%s: bad register offset\n",
+> __func__);
+> >          return 0;
+> >      }
+> >      return 0;
+> > @@ -197,8 +193,7 @@ static void virtio_mmio_write(void *opaque, hwaddr
+> offset, uint64_t value,
+> >      VirtIOMMIOProxy *proxy =3D (VirtIOMMIOProxy *)opaque;
+> >      VirtIODevice *vdev =3D virtio_bus_get_device(&proxy->bus);
+> >
+> > -    DPRINTF("virtio_mmio_write offset 0x%x value 0x%" PRIx64 "\n",
+> > -            (int)offset, value);
+> > +    trace_virtio_mmio_write_offset(offset, value);
+> >
+> >      if (!vdev) {
+> >          /* If no backend is present, we just make all registers
+> > @@ -226,7 +221,9 @@ static void virtio_mmio_write(void *opaque, hwaddr
+> offset, uint64_t value,
+> >          return;
+> >      }
+> >      if (size !=3D 4) {
+> > -        DPRINTF("wrong size access to register!\n");
+> > +        qemu_log_mask(LOG_GUEST_ERROR,
+> > +                      "%s: wrong size access to register!\n",
+> > +                      __func__);
+> >          return;
+> >      }
+> >      switch (offset) {
+> > @@ -246,8 +243,7 @@ static void virtio_mmio_write(void *opaque, hwaddr
+> offset, uint64_t value,
+> >          if (proxy->guest_page_shift > 31) {
+> >              proxy->guest_page_shift =3D 0;
+> >          }
+> > -        DPRINTF("guest page size %" PRIx64 " shift %d\n", value,
+> > -                proxy->guest_page_shift);
+> > +        trace_virtio_mmio_guest_page(value, proxy->guest_page_shift);
+> >          break;
+> >      case VIRTIO_MMIO_QUEUE_SEL:
+> >          if (value < VIRTIO_QUEUE_MAX) {
+> > @@ -255,7 +251,7 @@ static void virtio_mmio_write(void *opaque, hwaddr
+> offset, uint64_t value,
+> >          }
+> >          break;
+> >      case VIRTIO_MMIO_QUEUE_NUM:
+> > -        DPRINTF("mmio_queue write %d max %d\n", (int)value,
+> VIRTQUEUE_MAX_SIZE);
+> > +        trace_virtio_mmio_queue_write(value, VIRTQUEUE_MAX_SIZE);
+> >          virtio_queue_set_num(vdev, vdev->queue_sel, value);
+> >          /* Note: only call this function for legacy devices */
+> >          virtio_queue_update_rings(vdev, vdev->queue_sel);
+> > @@ -303,11 +299,13 @@ static void virtio_mmio_write(void *opaque, hwadd=
+r
+> offset, uint64_t value,
+> >      case VIRTIO_MMIO_DEVICE_FEATURES:
+> >      case VIRTIO_MMIO_QUEUE_NUM_MAX:
+> >      case VIRTIO_MMIO_INTERRUPT_STATUS:
+> > -        DPRINTF("write to readonly register\n");
+> > +        qemu_log_mask(LOG_GUEST_ERROR,
+> > +                      "%s: write to readonly register\n",
+> > +                      __func__);
+> >          break;
+> >
+> >      default:
+> > -        DPRINTF("bad register offset\n");
+> > +        qemu_log_mask(LOG_GUEST_ERROR, "%s: bad register offset\n",
+> __func__);
+> >      }
+> >  }
+> >
+> > @@ -327,7 +325,7 @@ static void virtio_mmio_update_irq(DeviceState
+> *opaque, uint16_t vector)
+> >          return;
+> >      }
+> >      level =3D (atomic_read(&vdev->isr) !=3D 0);
+> > -    DPRINTF("virtio_mmio setting IRQ %d\n", level);
+> > +    trace_virtio_mmio_setting_irq(level);
+> >      qemu_set_irq(proxy->irq, level);
+> >  }
+>
+>
+> --
+> Alex Benn=C3=A9e
+>
