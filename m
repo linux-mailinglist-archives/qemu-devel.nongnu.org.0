@@ -2,58 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6042F12C90
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 13:40:40 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38659 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DA51212C65
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 13:29:56 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38483 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMWYR-0002Rb-FN
-	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 07:40:39 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34001)
+	id 1hMWO4-0000hp-2S
+	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 07:29:56 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33768)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hMWLp-0007uK-GC
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 07:27:38 -0400
+	(envelope-from <laurent@vivier.eu>) id 1hMWLW-0007ao-6Q
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 07:27:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hMWLo-0003Ww-I9
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 07:27:37 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:40459)
+	(envelope-from <laurent@vivier.eu>) id 1hMWLV-00035O-6o
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 07:27:18 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:42163)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <laurent@vivier.eu>)
-	id 1hMWLo-0003Vz-AA; Fri, 03 May 2019 07:27:36 -0400
+	id 1hMWLU-00031r-U8; Fri, 03 May 2019 07:27:17 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
 	mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA
 	(Nemesis)
-	id 1MHEPI-1hZhdZ17PE-00DIJE; Fri, 03 May 2019 13:27:05 +0200
+	id 1MOm9H-1h6wEf1pdf-00QBIl; Fri, 03 May 2019 13:27:06 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Fri,  3 May 2019 13:26:47 +0200
-Message-Id: <20190503112654.4393-6-laurent@vivier.eu>
+Date: Fri,  3 May 2019 13:26:48 +0200
+Message-Id: <20190503112654.4393-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190503112654.4393-1-laurent@vivier.eu>
 References: <20190503112654.4393-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:9mJ0MGscqZRGBssB4WUsQFl3MyEohYKw0+nYDypOHB4kljMeWOr
-	KTiOz0xelByBCjut1qimUyzh6sXudAvBob1yQWVckkkrw19qTk9bhb5WR5LlrfCRs/JQVB1
-	1o1Uch6d5qRKmpDRcqEe0qrOCr5NuKZUfkEviGQ2310xahDE8xPNHw0dfcsaHREWU4MqWJ2
-	zabRRwLY0JJZ+M6nI69Ug==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:mYlqkDd0v18=:VbHbjz+SXh//p930qlIPaE
-	b461DT1hqvMJ6lWXroidtbye3ZdnfVKNkdYq3sbgFD8N9PEsbcW67NwopU3w+o1RkW2XLiJiw
-	nOCLmT7JGsUmbdHOZDx5KMu2hG8i7QMPKtphdf6t9EpK6ipuYMneBfxViNW182lbo6idKOBq/
-	DYIwhmf8rTGKMM0PTVZ5WVtiG2KM6xOwU0+b+ibZGY/FWiTRmGm0dMLtYEWkLQTi4IiHyvJyB
-	ozL4+ZJfi/USWSdOqMinDSDWwULQX2j5juwqNOKNPUssVWuGzV+jDBixVpcV7u+eRLgXaDLIL
-	jN8ZIHyD4Wi8BgdFU595Tl2G7VThb+CFWoRy65QEgWiO7YGyUCAl52n9qehABrbWOx/RurABP
-	B+P9xxLN3KhDhC/alidAgjp2vSffotWCk+04STjixAETaEwzSWBceT4KM2RK8sbbdIHUYCyQ1
-	WhL/0bWuCqWFVpsvoBvWbO4S5hTxlZX7AA41HlkvtzNEMoqXBUo5QIwO3Bxtbc+MQwhVDSaSC
-	kfBRMG4HjwUsQr31qsoLryHV3rQXwbuEcV4qKv7Kos6y1Aee2+T1Ex7MMBjB62l2Xs3Ah+zLH
-	lZd7oSU4hofN21Uq3CHU4MvP+wcFscifUmiS7SGJt8HZsGUCFLs7RNUCNhm/3Zro53ERvsY2/
-	0hNrjuUONttR3jQuBSjU3l8jPKd6h/WRk6oebPi+nuwVi7uDxHSi7oQSuPvGxFhliRJyJd040
-	ke4ICX5ZkecedWV02FBW1iy0S2IvGGjt1vtP5wGOeBU4gwF5YwpQ3MC++4A=
+X-Provags-ID: V03:K1:G1g65eP0H0efAzs12qRn+BsXmZsM6nBMNv988fXaIK8J+tSGW82
+	x/mm6jEzXirjjJMyjGFnzZHomDgnhAAgsHzRik++tROZHcZIWW7WR7jab50thSRto2+UXtq
+	y3CkIDFNe+ZWRf06/FQHv2OmXRt28Z/BekpnvyOQIP7Ll5rGoNbRaSnUqjca+7wPN+Rxr7g
+	UrsXZSYh8Cg63JVMNa41g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:jBCT4kIxxXA=:dIYgJ9udYmEvgucowX0j5c
+	93H4TENxoYhgVxAVIkCM2/8MZ/3+ednL6QdoJZUJy6HTQBrGYvnv/zTWcF7STs3vp3UoMfAei
+	VwnKAQ7CCbz501+FruwQgpBWQ0DQq7PsyKCweBn4GZaF7HMTYNOieIlTbOe2/YB5qZjIWQcmY
+	VEZlOdoa99faf5VViRytZYClX6VhYllpIIFfN5a2QjNsLnPd0rioNIu6h++84+e9oSLnHaDVV
+	eaoVEKHX44QZZXPCCSLBWR4WSCr6ozTNf1VLpYREJ+2GLQFwOOPRt2e4sYUS9JMDbZOK0aoSx
+	NVP46EiWfomjZ4UPwQ4ZxN6kzK5xwLnMP9uEcWxB1BjsJ24B3daiqrN98I3sbQ/PA3Kyg1New
+	N/JtZnqStUc1VIN4u7LLv+vTnlozCt9INS2OzdYzhWx6EurevjNh2awn5Fc2+35istb5s2III
+	o/ZKSQpY622EUnALMVdKB0oo0QxzX0vLAmFJ1ZHZ1Nrv4Qdtr0bxtWt7uLsls0gd8I/+fgXeP
+	lkqLe7EcYeMisHRdYG5/4mkmTjCrc3WlJylYH8dW8xJts1ST24q5hOxG4fdzTGhYhjSzgrxfd
+	Xhkcbnj2HmRNHE3AUfKzWUExrg1kNgU0PTEvRF+3uZGF9aNPr23kVRQkJPgkcg1DMe8mKH8Qi
+	AZ52J969q7IjVKg8SDFrsWtZBMPBq/eG7hwTuUF0YZ1HomV1gAxnmoshN3oyxD0SMWRFM1NAZ
+	yraX/I+fkCxyMwv8x/VBpui4DPaOfcfgVSQXDvGOpgIO/8P+rR2kZjBeCZeo6zxj/lRz2gUVt
+	Do2yRDyqjUCCCZzzbO7RdyRIOi6DaG3ctIveGLDnpTskjVEvhDY3NgfGUckP8gPw8aBfhKhBq
+	J4uKGFwrxbmcoq6N5rIPz67OI7BzKh2Z2n+SfdjJQth44e53yCWDaSDB+ouSD+I1AhnPM/s/g
+	bR/Gpab9sHw==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 212.227.126.135
-Subject: [Qemu-devel] [PULL v2 05/12] qom: use object_new_with_type in
- object_new_with_propv
+Subject: [Qemu-devel] [PULL v2 06/12] configure: fix pam test warning
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -65,47 +67,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-trivial@nongnu.org,
+	Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
 	Jason Wang <jasowang@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
 	Laurent Vivier <laurent@vivier.eu>, Fabien Chouteau <chouteau@adacore.com>,
 	Michael Roth <mdroth@linux.vnet.ibm.com>,
-	Wei Yang <richardw.yang@linux.intel.com>,
-	Gerd Hoffmann <kraxel@redhat.com>,
-	=?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Stefano Garzarella <sgarzare@redhat.com>,
+	Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 	=?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>,
 	Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Wei Yang <richardw.yang@linux.intel.com>
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Function object_new_with_propv already get the Type of the object, so we
-could leverage object_new_with_type here.
+The pam test generates a warning on Fedora 29 with -O3 compilation
+because the headers declare that the pam_conversation pointer to
+pam_start must be non-NULL.  Change it to use the same 0 initialised
+structure as we actually use in qauthz.
 
-Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Message-Id: <20190311083234.20841-1-richardw.yang@linux.intel.com>
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Acked-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20190404091725.20595-1-dgilbert@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- qom/object.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ configure | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/qom/object.c b/qom/object.c
-index e3206d6799ee..d3412e7fdca6 100644
---- a/qom/object.c
-+++ b/qom/object.c
-@@ -679,7 +679,7 @@ Object *object_new_with_propv(const char *typename,
-         error_setg(errp, "object type '%s' is abstract", typename);
-         return NULL;
-     }
--    obj = object_new(typename);
-+    obj = object_new_with_type(klass->type);
- 
-     if (object_set_propv(obj, &local_err, vargs) < 0) {
-         goto error;
+diff --git a/configure b/configure
+index 60719ddcc5b0..a2607afb3408 100755
+--- a/configure
++++ b/configure
+@@ -2940,9 +2940,9 @@ if test "$auth_pam" != "no"; then
+ int main(void) {
+    const char *service_name = "qemu";
+    const char *user = "frank";
+-   const struct pam_conv *pam_conv = NULL;
++   const struct pam_conv pam_conv = { 0 };
+    pam_handle_t *pamh = NULL;
+-   pam_start(service_name, user, pam_conv, &pamh);
++   pam_start(service_name, user, &pam_conv, &pamh);
+    return 0;
+ }
+ EOF
 -- 
 2.20.1
 
