@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E82912D47
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 14:13:35 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:39751 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7663D12D71
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 14:21:27 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:39832 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMX4I-0003tt-Ea
-	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 08:13:34 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45866)
+	id 1hMXBu-0005Nr-EJ
+	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 08:21:26 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47036)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hMX3B-0003Z3-Fe
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 08:12:26 -0400
+	(envelope-from <thatlemon@gmail.com>) id 1hMXAi-0004rp-UJ
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 08:20:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hMX3A-0006cI-IL
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 08:12:25 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:38005)
+	(envelope-from <thatlemon@gmail.com>) id 1hMXAi-0006BV-2M
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 08:20:12 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:40825)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hMX3A-0006bn-CH
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 08:12:24 -0400
-Received: by mail-oi1-x242.google.com with SMTP id t70so4231363oif.5
-	for <qemu-devel@nongnu.org>; Fri, 03 May 2019 05:12:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=xY4c6NQjMMrKGjoUgDqOaSKuTDDWLkPb/all4IGS2jc=;
-	b=daBevHABE5he1oZESthBSkjMDnCRJBbZo94xf+lOhRKR6NY0UGoc10nv1/LzuM+ThS
-	Uv9iM3QxiTtacaUJD9n8cjEntG9uQX8gzAOEP/co3Xqw5p35p87ZHYuA4WrrwjU30Huk
-	lqqM0T8hYeRSwTFZf7h8XTvehPXGC3EYLUhyHTj/6KvcXTPDJfVGAqKqCZ3xs2bDsd9N
-	yunlEgG0yLTAdy3ox/5epC8yzPqRdu37jOzbJBpeR37dDS+k9rMGtL0cn0TuGn1CWbzN
-	RNDl4FNEBT3PBXRm7agD5Z0op1Oc8Ra5XjOgZTT37yr1t7WQbxTMhkBzSpULFUZGch0D
-	c91w==
+	(Exim 4.71) (envelope-from <thatlemon@gmail.com>) id 1hMXAh-0006An-SR
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 08:20:12 -0400
+Received: by mail-wm1-x343.google.com with SMTP id h11so6492804wmb.5
+	for <qemu-devel@nongnu.org>; Fri, 03 May 2019 05:20:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+	:user-agent; bh=MDxLo/LnSsluuOYbAhZgKtIhQBd/p3pTdicYr0RUXxM=;
+	b=JBbe0NqByKmoCnyQEZxNrWnhJUYjoCbeu91Evc3krdsDtEWGsuzx1eRFe1pu5NN2LO
+	QRYONro8H25PMjAMP0nOswgk4071HVtggyQfS5ACm9/PJTH99zKR+laIGP8lWVNdnC1Q
+	STuLmQ70HEOre/F4dKcqsfz/ZrHX4HIh5EYzIU9yA8Doev00p/mChUDJ/j45QkLkvapi
+	sw1qNATa+Xowp6IXlohIsfJ3vsBJAwQxamzGwleipdU9Z3o/vF6E42JaXCzcdW9OQVep
+	yL+xA+zS/Md+7etWewDxlPxDELpP5TchMyNDO5XUZsPL5AeXS8ZEDBuvNYnLgGuFoGoS
+	kyQg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=xY4c6NQjMMrKGjoUgDqOaSKuTDDWLkPb/all4IGS2jc=;
-	b=Wsc6N/DhkHkX0BZzqM/Oz0vmP2hsBC3B4/BYVn8NdfTMhen/2l/536DM2KLNsAhVq/
-	V7cEBxrh6ax4sLXwhMmMZaF05V+93208iQ53WonPiU6m9SIPccKDT1qSU16O1hAlO23P
-	oAvyjvyNSuifs9RCKJQnSa3mYBjb0s44/01pnSN0rFCSWbU1M6MYK9KbMRLivMrSDqg5
-	VP+WalbqxRSBtCHxbrK9uuwutchfP2cLqg/ec+ku2QTYqY5KC9ErwvQCsC5Z7Q5S2MDy
-	rJTm34QiOWuGsw16r4B2kzA0Qa9imrysgnDPJJvdzars/E2OnG/YjEI0VVqIRRW4uPEY
-	GL4g==
-X-Gm-Message-State: APjAAAUdDiKlrl3RzT3+5V/f9OVJm4EiaOOBk3844CYQ0aw0gvbP9eJU
-	He8qqw87iYnLaQNWMZxCDtr9Q1gicjF9RkIq+6HHjA==
-X-Google-Smtp-Source: APXvYqznBDqv2ujVNsqrz4w/CrWOOXV5WBLhCQncNPWtsD8CQe6/ps/pNkqEtiLCs4xG0CXi6iG1l+zkseXdL4bwvLo=
-X-Received: by 2002:aca:ab12:: with SMTP id u18mr5314971oie.48.1556885542950; 
-	Fri, 03 May 2019 05:12:22 -0700 (PDT)
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+	:content-disposition:user-agent;
+	bh=MDxLo/LnSsluuOYbAhZgKtIhQBd/p3pTdicYr0RUXxM=;
+	b=VlkKM49oHsAbfA9ii7RHQqdw380UqjG4cBKd4d9BqkTo/SoPrEAsOBnSDxwuM7GdBV
+	6NcVVNwZS1duiYpAYGUDH0gUn12raSd79em6hlns+AoHly5/v+lKFlJUiZiKpiIhglwv
+	d+3WTCeepiQJW90FKVjifSP8QuPCQkmcoyNKKEQoIWflSpCGVH80qO9AuMQibw1ksUOE
+	KUlf4Or19iLivmUYeQVpQCLDMKFxSYHk36c0AD49LpvW29hBZaBAulrDRRbUwLlMWFes
+	DYD8K/J4cycltYSTEmQDDhlCYm9WbDxuchjB0Duw+fwaJRU4Vr2FJRFX61Hex1HTktnx
+	t01A==
+X-Gm-Message-State: APjAAAUqeFEEAoRbaP8qNI6pAfg7Gi6wgf4QSwkm1WpTN5cMxVaPCZrX
+	mQ10WGtR7f4rT+TI9T+kusarNjW1LmY=
+X-Google-Smtp-Source: APXvYqzJBHXEm/MxEXuZR1ttw2CjUoNQdzgFGdudVx7Me050Hu147F1i8yI41UFZX7Er2/ln9jy5LQ==
+X-Received: by 2002:a1c:f909:: with SMTP id x9mr6239364wmh.18.1556886009950;
+	Fri, 03 May 2019 05:20:09 -0700 (PDT)
+Received: from debian ([151.60.84.114])
+	by smtp.gmail.com with ESMTPSA id v9sm2773594wrg.20.2019.05.03.05.20.08
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Fri, 03 May 2019 05:20:08 -0700 (PDT)
+Date: Fri, 3 May 2019 14:20:07 +0200
+From: Giuseppe Musacchio <thatlemon@gmail.com>
+To: qemu-devel@nongnu.org
+Message-ID: <20190503122007.lkjsvztgt4ycovac@debian>
 MIME-Version: 1.0
-References: <20190315143057.20165-1-peter.maydell@linaro.org>
-	<87sgvkw4vp.fsf@zen.linaroharston>
-	<CAFEAcA_n2MvRfCdydianR9EgDxdP093+Fi-Co2WRa0ncAF=Pgg@mail.gmail.com>
-In-Reply-To: <CAFEAcA_n2MvRfCdydianR9EgDxdP093+Fi-Co2WRa0ncAF=Pgg@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 3 May 2019 13:12:11 +0100
-Message-ID: <CAFEAcA88dHzePhpOBdKFXr4HpF3J40FqY6qdwFpNhyBgxbehkQ@mail.gmail.com>
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+User-Agent: NeoMutt/20180716
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::242
-Subject: Re: [Qemu-devel] [PATCH for-4.0?] arm: Allow system registers for
- KVM guests to be changed by QEMU code
+X-Received-From: 2a00:1450:4864:20::343
+Subject: [Qemu-devel] [PATCH v2] linux-user: elf: Map empty PT_LOAD segments
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -76,54 +74,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Dongjiu Geng <gengdongjiu@huawei.com>, Eric Auger <eric.auger@redhat.com>,
-	qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>,
-	"patches@linaro.org" <patches@linaro.org>
+Cc: peter.maydell@linaro.org, riku.voipio@iki.fi, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 25 Mar 2019 at 10:25, Peter Maydell <peter.maydell@linaro.org> wrot=
-e:
->
-> On Mon, 18 Mar 2019 at 15:59, Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
-> >
-> >
-> > Peter Maydell <peter.maydell@linaro.org> writes:
-[...]
-> > > Support this by making kvm_arch_put_registers() synchronize
-> > > CPU state back into the list. We sync only those registers
-> > > where the initial write succeeds, which should be sufficient.
-> > >
-> > > This commit is the same as commit 823e1b3818f9b10b824ddc which we
-> > > had to revert in commit 942f99c825fc94c8b1a4, except that the bug
-> > > which was preventing EDK2 guest firmware running has been fixed:
-> > > kvm_arm_reset_vcpu() now calls write_list_to_cpustate().
+Some PT_LOAD segments may be completely zeroed out and their p_filesize
+is zero, in that case the loader should just allocate a page that's at
+least p_memsz bytes large (plus eventual alignment padding).
 
-> > > Should we try to put this in for rc1? Not sure... Testing
-> > > definitely appreciated.
->
-> > Hmm so running my testcase:
-> >
-> >  * gdbstub enabled with an active sw or hw breakpoint
-> >  * run userspace program in guest:
-> >    - sw breakpoint works fine
-> >    - hw breakpoint never triggers because guest segs
->
-> Further testing from Alex suggests this is some unrelated
-> bug or regression (ie not caused by this patch), but:
-> since the only in-tree use for this patch is to get nested
-> debugging working and it would be broken for this other
-> reason even with this patch, I'm going to postpone applying
-> this patch until the start of the 4.1 cycle.
+Calling zero_bss does this job for us, all we have to do is make sure we
+don't try to mmap a zero-length page.
 
-Since we're now in the 4.1 cycle I'm going to apply this
-patch, as I suggested above -- I'm putting it into my
-target-arm.next queue to go in in my next pullreq.
+Signed-off-by: Giuseppe Musacchio <thatlemon@gmail.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+---
+ linux-user/elfload.c | 18 +++++++++++++-----
+ 1 file changed, 13 insertions(+), 5 deletions(-)
 
-We should make sure we investigate the debugging-KVM
-breakage Alex described at some point this cycle too.
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index c1a2602..138735b 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -2366,11 +2366,19 @@ static void load_elf_image(const char *image_name, int image_fd,
+             vaddr_ps = TARGET_ELF_PAGESTART(vaddr);
+             vaddr_len = TARGET_ELF_PAGELENGTH(eppnt->p_filesz + vaddr_po);
+ 
+-            error = target_mmap(vaddr_ps, vaddr_len,
+-                                elf_prot, MAP_PRIVATE | MAP_FIXED,
+-                                image_fd, eppnt->p_offset - vaddr_po);
+-            if (error == -1) {
+-                goto exit_perror;
++            /*
++             * Some segments may be completely empty without any backing file
++             * segment, in that case just let zero_bss allocate an empty buffer
++             * for it.
++             */
++            if (eppnt->p_filesz != 0) {
++                error = target_mmap(vaddr_ps, vaddr_len, elf_prot,
++                                    MAP_PRIVATE | MAP_FIXED,
++                                    image_fd, eppnt->p_offset - vaddr_po);
++
++                if (error == -1) {
++                    goto exit_perror;
++                }
+             }
+ 
+             vaddr_ef = vaddr + eppnt->p_filesz;
+-- 
+2.20.1
 
-thanks
--- PMM
 
