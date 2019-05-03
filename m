@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52CCF12C94
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 13:43:03 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38729 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2138312CA1
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 13:44:56 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38763 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMWak-0005Pv-H0
-	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 07:43:02 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33709)
+	id 1hMWcZ-0006sa-AR
+	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 07:44:55 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33820)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hMWLQ-0007Tx-Qk
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 07:27:13 -0400
+	(envelope-from <laurent@vivier.eu>) id 1hMWLb-0007fy-9Q
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 07:27:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hMWLP-0002yR-W9
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 07:27:12 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:45443)
+	(envelope-from <laurent@vivier.eu>) id 1hMWLa-0003Gq-Aw
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 07:27:23 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:47175)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <laurent@vivier.eu>)
-	id 1hMWLP-0002vf-O2; Fri, 03 May 2019 07:27:11 -0400
+	id 1hMWLX-0003CW-Ua; Fri, 03 May 2019 07:27:20 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
 	mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA
 	(Nemesis)
-	id 1MsJXG-1gUI620Kd8-00tilO; Fri, 03 May 2019 13:27:00 +0200
+	id 1MAchM-1hT5vZ258q-00B4K0; Fri, 03 May 2019 13:27:01 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Fri,  3 May 2019 13:26:43 +0200
-Message-Id: <20190503112654.4393-2-laurent@vivier.eu>
+Date: Fri,  3 May 2019 13:26:44 +0200
+Message-Id: <20190503112654.4393-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190503112654.4393-1-laurent@vivier.eu>
 References: <20190503112654.4393-1-laurent@vivier.eu>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:FwDBsksgwr3Ro8wFHhTMgwol3cUCD/ilGRHQs4MAiGl1UtjiqFF
-	P3XBYBVYtRXQrlY3wlVNFlUDSIMYOOKFgvqUKJWDLifVc28d1pkpgAFd2+Xx5CrOPa4zIrp
-	jXbbP+8W/L58IVc1241l8sHMGugi/MplAaGDDgmSkSRPj4GFQHsjc0IPodDWXAd55FmJSZG
-	n/gkGbWdbtuhMZlgq8xVw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:3Uc4m6XBooE=:C8mQ6489mMY17Dd/pk5DSV
-	M/kpYAVR1WSwAQLdvhNEvtsVQuIsiquUQ8GAP6NjcY7bo08kn4S9G3MmbSlITXv+g4gFLyW8R
-	ac5LxyOxXRsNzZ9RU1Wl0hEeZAHYHW9smt8DeI45IvzmhVm0LGMOQLskuqVmsKIOBcY2Grcc0
-	GTGQ8QO2kuvUV2ED/wnMVcvfdrDnhXjAr4fyTfZ2pu/387vZU0mts2h8Tv4KMBaAKKJMQ+7VL
-	tZpBgmw/6EUr+2+tEMV5C93gyo3pzCv5jNHkMYgDFrqBVaqQj2RiMVH8zGF2JDuvIfTCYJQia
-	D18o3NI7dl8rlj5bOTyL2RkmY9lcC5azv1blG1l2XcwPMhRSF0XHFJsavPDpIsyzk2eKpckR/
-	XlFJmdy2MSp6m2tOWuz9q8yjbsxy0jBolrrAkeaK1Iqy2Ln5fSa0NO4WDiu6G4Mao1m38lXg4
-	3HEdjzRkD55tvY0+GVzQbTiBEMLLoyZcx1owxDs0e0WOrnBRj5OcZDGR+9PrVOhuBoUnuvDgV
-	O0mqxvPbr070Vti/LGZYrct5Jyxi1/hon2Z785dzldqIlq1uvTQaDAZ4GJWZGtXVbLSt84Bzt
-	CBU/jSCxD87/ONr2jajbstjUVQARFZ+PbLpAml3nWpaaSNCeKhdb/S25qGr/bzbw5akYiFujj
-	rgy0OgZkDxmSop6j/+gAxaNAK3VQcGa6ZGl5xxceB58d1v3o+TqaZubIosV/nh8OHAr8f8ayO
-	92qD6/APoUXk+6fqXGHD5qKRWWhZP85mHbuxlkhe9TQ6hSIsk0JBDUno2LE=
+X-Provags-ID: V03:K1:8SpV5q+wuYzAk9ypmqbApsD5yPUlesepmLhhH0Wesf46hT4PjrH
+	63DLXxROIpeIrnMMLvoic81JGuRHJDvZlKR+5HC8M1kwZCojtpG57sTrkELWILiisw3B8OZ
+	0KIr81YsL10QL3OeOqFB6s+A7ZQ3VgPKdd6tHdhpJFSZrspCqG50XTccLkO5hWw85IqCsYG
+	uNlPx6EMD0m9yp9sK44bw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:CNCT3k0LTiE=:mRpjnw/f8AHTlQR1hwcNBO
+	MwCJvMSwg6eqJa2lx7mm+mwKmJgLbzq7v/rEx2NJk5sANBAUMpJ7RkEBIFW/pkCRzzRTnsN9G
+	khOLByfBfaT2OeTsCNNZA1+mrdGEGpuuadS5dpK44VFWUrQlQTSfMfa92YwzMVzxBPTh0aF9R
+	pYKBFjqLDhBs0sb5o3OCHamnVoslq2bxbdj055enId7ny5/Bzi4yWoGc1NgcKEP0m0Ax2hC4A
+	cZhC9uBfNIRCf1X+wriaIn4yj46orU6hsvKXnD9RZ/3h1VfmmSnY9cbgLoVVp09XxxK7/RQWA
+	XGClr6A1NQ2vkw5ZetMENXpoIQVFiwftVgS3TTu+qAEV/Q2LoS/sGk7/KjQvGpaetn6+Jl6fp
+	h19Ht6f/Fa05cccuVN4PFIjxwMEmvfvrAfxt8xEHuldYyNsLV4g+CmS0qbWpydNx7MkHoSt9V
+	vfm3ZWByn3QS8AOt5DAzGDZAJIDt8w1K20TOY7ERbRFQ1rqGiEVD1LgKGnNcx+/kj6/GaSuo+
+	HHQ5kKeh8fu2f2jn1gnR4v1ZDKefc+ApUwh4rnQSjehbvnc8oqHvlJ1y1jxP9QwyJ8+SmXVjh
+	6KlF5j2xUi/SJCAHjS2n0mHOghIpY0+UbkzeKo8l87CBeSqxk6Nj7Ag20Jw6xelmZ3qmcfFmO
+	p72l8U+/2p6OTdg8nsyT87LTRRyTdAO9Z+xyOgtzaJjjVu8gobj/NLOUPMvxZl8VxDOr721F/
+	hmMMBAMbKSYEXKBa0uvwJzYnU2qQe8jYFuxNBg==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.135
-Subject: [Qemu-devel] [PULL v2 01/12] hw/net/pcnet: Use
- qemu_log_mask(GUEST_ERROR) instead of printf
+X-Received-From: 212.227.126.131
+Subject: [Qemu-devel] [PULL v2 02/12] CODING_STYLE: specify the indent rule
+ for multiline code
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -65,56 +64,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-trivial@nongnu.org,
-	Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+Cc: qemu-trivial@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
 	Jason Wang <jasowang@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
 	Laurent Vivier <laurent@vivier.eu>, Fabien Chouteau <chouteau@adacore.com>,
 	Michael Roth <mdroth@linux.vnet.ibm.com>,
-	Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
-	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+	Wei Yang <richardw.yang@linux.intel.com>,
+	Gerd Hoffmann <kraxel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Stefano Garzarella <sgarzare@redhat.com>,
 	=?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>,
 	Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Wei Yang <richardw.yang@linux.intel.com>
 
-Avoid to clutter stdout until explicitly requested
-(with -d guest_errors):
+We didn't specify the indent rule for multiline code here, which may
+mislead users. And in current code, the code use various styles.
 
-  $ qemu-system-mips -M malta -m 512 -kernel vmlinux-3.2.0-4-4kc-malta
-  Bad SWSTYLE=0x04
+Add this rule in CODING_STYLE to make sure this is clear to every one.
 
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20190311102712.8572-1-philmd@redhat.com>
+Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+Suggested-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+Message-Id: <20190304071631.27567-2-richardw.yang@linux.intel.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- hw/net/pcnet.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ CODING_STYLE | 39 +++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 39 insertions(+)
 
-diff --git a/hw/net/pcnet.c b/hw/net/pcnet.c
-index d9ba04bdfc62..16683091c939 100644
---- a/hw/net/pcnet.c
-+++ b/hw/net/pcnet.c
-@@ -36,6 +36,7 @@
-  */
+diff --git a/CODING_STYLE b/CODING_STYLE
+index ec075dedc4a8..90321e9c2821 100644
+--- a/CODING_STYLE
++++ b/CODING_STYLE
+@@ -29,6 +29,45 @@ Spaces of course are superior to tabs because:
  
- #include "qemu/osdep.h"
-+#include "qemu/log.h"
- #include "hw/qdev.h"
- #include "net/net.h"
- #include "net/eth.h"
-@@ -1501,7 +1502,8 @@ static void pcnet_bcr_writew(PCNetState *s, uint32_t rap, uint32_t val)
-             val |= 0x0300;
-             break;
-         default:
--            printf("Bad SWSTYLE=0x%02x\n", val & 0xff);
-+            qemu_log_mask(LOG_GUEST_ERROR, "pcnet: Bad SWSTYLE=0x%02x\n",
-+                          val & 0xff);
-             val = 0x0200;
-             break;
-         }
+ Do not leave whitespace dangling off the ends of lines.
+ 
++1.1 Multiline Indent
++
++There are several places where indent is necessary:
++
++ - if/else
++ - while/for
++ - function definition & call
++
++When breaking up a long line to fit within line width, we need a proper indent
++for the following lines.
++
++In case of if/else, while/for, align the secondary lines just after the
++opening parenthesis of the first.
++
++For example:
++
++    if (a == 1 &&
++        b == 2) {
++
++    while (a == 1 &&
++           b == 2) {
++
++In case of function, there are several variants:
++
++    * 4 spaces indent from the beginning
++    * align the secondary lines just after the opening parenthesis of the
++      first
++
++For example:
++
++    do_something(x, y,
++        z);
++
++    do_something(x, y,
++                 z);
++
++    do_something(x, do_another(y,
++                               z));
++
+ 2. Line width
+ 
+ Lines should be 80 characters; try not to make them longer.
 -- 
 2.20.1
 
