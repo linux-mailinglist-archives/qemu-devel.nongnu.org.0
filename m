@@ -2,53 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A309013311
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 19:20:34 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:44967 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4397913329
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 19:32:25 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:45121 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMbrN-0003Gj-Po
-	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 13:20:33 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35213)
+	id 1hMc2p-0000yb-OW
+	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 13:32:23 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37808)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hMboz-0001zE-Eb
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 13:18:06 -0400
+	(envelope-from <bounces@canonical.com>) id 1hMc1E-0000CN-Tm
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 13:30:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hMboy-00059P-AM
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 13:18:05 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37582)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <kwolf@redhat.com>)
-	id 1hMbot-00050C-PA; Fri, 03 May 2019 13:18:00 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 726AE309708D;
-	Fri,  3 May 2019 17:17:57 +0000 (UTC)
-Received: from linux.fritz.box.com (ovpn-116-106.ams2.redhat.com
-	[10.36.116.106])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 602305D6A6;
-	Fri,  3 May 2019 17:17:56 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Date: Fri,  3 May 2019 19:17:44 +0200
-Message-Id: <20190503171744.21589-3-kwolf@redhat.com>
-In-Reply-To: <20190503171744.21589-1-kwolf@redhat.com>
-References: <20190503171744.21589-1-kwolf@redhat.com>
+	(envelope-from <bounces@canonical.com>) id 1hMc1D-00013i-K9
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 13:30:44 -0400
+Received: from indium.canonical.com ([91.189.90.7]:48596)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hMc1D-00013M-Ed
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 13:30:43 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hMc1C-0000kI-6D
+	for <qemu-devel@nongnu.org>; Fri, 03 May 2019 17:30:42 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id 2E1C92E80C8
+	for <qemu-devel@nongnu.org>; Fri,  3 May 2019 17:30:42 +0000 (UTC)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.43]);
-	Fri, 03 May 2019 17:17:57 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Fri, 03 May 2019 17:18:43 -0000
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
+	assignee=None; 
+X-Launchpad-Bug-Tags: arm feature-request
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: mark-rutland pmaydell
+X-Launchpad-Bug-Reporter: Mark Rutland (mark-rutland)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <155483243569.8652.5979441352991477638.malonedeb@wampee.canonical.com>
+Message-Id: <155690392372.7023.12149440909448128725.malone@soybean.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18953";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: c36d65e707ee9b5c8095e01e46f7b374eca9e490
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 2/2] test-block-iothread: Job coroutine thread
- after AioContext switch
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1823998] Re: qemu-system-aarch64: support kernels
+ bigger than 128MiB
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -57,149 +66,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-devel@nongnu.org, mreitz@redhat.com
+Reply-To: Bug 1823998 <1823998@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This tests that a job coroutine always runs in the right iothread after
-the AioContext of its main node has changed.
+I've submitted a patchset which I think should fix this, but if you
+could test that it actually does handle large images correctly that
+would be great.
 
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- tests/test-block-iothread.c | 107 ++++++++++++++++++++++++++++++++++++
- 1 file changed, 107 insertions(+)
+https://patchew.org/QEMU/20190503171347.13747-1-peter.maydell@linaro.org/
 
-diff --git a/tests/test-block-iothread.c b/tests/test-block-iothread.c
-index 97ac0b159d..036ed9a3b3 100644
---- a/tests/test-block-iothread.c
-+++ b/tests/test-block-iothread.c
-@@ -354,6 +354,111 @@ static void test_sync_op(const void *opaque)
-     blk_unref(blk);
- }
-=20
-+typedef struct TestBlockJob {
-+    BlockJob common;
-+    bool should_complete;
-+    int n;
-+} TestBlockJob;
-+
-+static int test_job_prepare(Job *job)
-+{
-+    g_assert(qemu_get_current_aio_context() =3D=3D qemu_get_aio_context(=
-));
-+    return 0;
-+}
-+
-+static int coroutine_fn test_job_run(Job *job, Error **errp)
-+{
-+    TestBlockJob *s =3D container_of(job, TestBlockJob, common.job);
-+
-+    job_transition_to_ready(&s->common.job);
-+    while (!s->should_complete) {
-+        s->n++;
-+        g_assert(qemu_get_current_aio_context() =3D=3D job->aio_context)=
-;
-+
-+        /* Avoid job_sleep_ns() because it marks the job as !busy. We wa=
-nt to
-+         * emulate some actual activity (probably some I/O) here so that=
- the
-+         * drain involved in AioContext switches has to wait for this ac=
-tivity
-+         * to stop. */
-+        qemu_co_sleep_ns(QEMU_CLOCK_REALTIME, 1000000);
-+
-+        job_pause_point(&s->common.job);
-+    }
-+
-+    g_assert(qemu_get_current_aio_context() =3D=3D job->aio_context);
-+    return 0;
-+}
-+
-+static void test_job_complete(Job *job, Error **errp)
-+{
-+    TestBlockJob *s =3D container_of(job, TestBlockJob, common.job);
-+    s->should_complete =3D true;
-+}
-+
-+BlockJobDriver test_job_driver =3D {
-+    .job_driver =3D {
-+        .instance_size  =3D sizeof(TestBlockJob),
-+        .free           =3D block_job_free,
-+        .user_resume    =3D block_job_user_resume,
-+        .drain          =3D block_job_drain,
-+        .run            =3D test_job_run,
-+        .complete       =3D test_job_complete,
-+        .prepare        =3D test_job_prepare,
-+    },
-+};
-+
-+static void test_attach_blockjob(void)
-+{
-+    IOThread *iothread =3D iothread_new();
-+    AioContext *ctx =3D iothread_get_aio_context(iothread);
-+    BlockBackend *blk;
-+    BlockDriverState *bs;
-+    TestBlockJob *tjob;
-+
-+    blk =3D blk_new(BLK_PERM_ALL, BLK_PERM_ALL);
-+    bs =3D bdrv_new_open_driver(&bdrv_test, "base", BDRV_O_RDWR, &error_=
-abort);
-+    blk_insert_bs(blk, bs, &error_abort);
-+
-+    tjob =3D block_job_create("job0", &test_job_driver, NULL, bs,
-+                            0, BLK_PERM_ALL,
-+                            0, 0, NULL, NULL, &error_abort);
-+    job_start(&tjob->common.job);
-+
-+    while (tjob->n =3D=3D 0) {
-+        aio_poll(qemu_get_aio_context(), false);
-+    }
-+
-+    blk_set_aio_context(blk, ctx);
-+
-+    tjob->n =3D 0;
-+    while (tjob->n =3D=3D 0) {
-+        aio_poll(qemu_get_aio_context(), false);
-+    }
-+
-+    aio_context_acquire(ctx);
-+    blk_set_aio_context(blk, qemu_get_aio_context());
-+    aio_context_release(ctx);
-+
-+    tjob->n =3D 0;
-+    while (tjob->n =3D=3D 0) {
-+        aio_poll(qemu_get_aio_context(), false);
-+    }
-+
-+    blk_set_aio_context(blk, ctx);
-+
-+    tjob->n =3D 0;
-+    while (tjob->n =3D=3D 0) {
-+        aio_poll(qemu_get_aio_context(), false);
-+    }
-+
-+    aio_context_acquire(ctx);
-+    job_complete_sync(&tjob->common.job, &error_abort);
-+    blk_set_aio_context(blk, qemu_get_aio_context());
-+    aio_context_release(ctx);
-+
-+    bdrv_unref(bs);
-+    blk_unref(blk);
-+}
-+
- int main(int argc, char **argv)
- {
-     int i;
-@@ -368,5 +473,7 @@ int main(int argc, char **argv)
-         g_test_add_data_func(t->name, t, test_sync_op);
-     }
-=20
-+    g_test_add_func("/attach/blockjob", test_attach_blockjob);
-+
-     return g_test_run();
- }
---=20
-2.20.1
 
+** Changed in: qemu
+       Status: New =3D> In Progress
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1823998
+
+Title:
+  qemu-system-aarch64: support kernels bigger than 128MiB
+
+Status in QEMU:
+  In Progress
+
+Bug description:
+  Presently QEMU reserves up to 128MiB of space for an arm64 Linux
+  kernel, placing the initrd following this, and the dtb following the
+  initrd.
+
+  This is not sufficient for some debug configurations of the kernel,
+  which can be larger than 128MiB. Depending on the relative size of the
+  kernel Image and unpopulated BSS, the dtb (or kernel) will be
+  clobbered by the other, resulting in a silent boot failure.
+
+  Since v3.17, the kernel Image header exposes a field called
+  image_size, which describes the entire size of the kernel (including
+  unpopulated sections such as the BSS) as a 64-bit little-endian value.
+  For kernels prior to v3.17, this field is zero. This is documented at:
+
+  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/D=
+ocumentation/arm64/booting.txt?h=3Dv5.0#n68
+
+  It would be great if QEMU could take the image_size field into account
+  when placing the initrd and dtb to avoid overlap with the kernel.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1823998/+subscriptions
 
