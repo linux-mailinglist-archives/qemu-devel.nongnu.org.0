@@ -2,72 +2,98 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5E7A31321D
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 18:23:15 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43295 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FFC01322B
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 18:28:44 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43506 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMaxu-0004yl-If
-	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 12:23:14 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45306)
+	id 1hMb3D-00015E-Id
+	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 12:28:43 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45832)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <qemu_oss@crudebyte.com>) id 1hMavV-0003Pq-UB
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 12:20:46 -0400
+	(envelope-from <wei.d.li@oracle.com>) id 1hMaxt-0005Tt-I5
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 12:23:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <qemu_oss@crudebyte.com>) id 1hMavU-000544-Lw
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 12:20:45 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:53547)
+	(envelope-from <wei.d.li@oracle.com>) id 1hMaxr-0007LN-Pv
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 12:23:13 -0400
+Received: from userp2130.oracle.com ([156.151.31.86]:41978)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <qemu_oss@crudebyte.com>)
-	id 1hMavU-0004zB-2V
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 12:20:44 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
-	MIME-Version:Message-ID:Date:Subject:Cc:To:From:Sender:Reply-To:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=IjVkMgLXbokAhulZTvyt9DaCxjiGi1PgnfviFxDpTvk=;
-	b=YQtdHeynogTv/YFLJ7xQYI9A2K
-	6oiIAFD/Rdk+CalACQfR8yET1u9D/k6HeO0bTZdofhKV8xIlZ5QLIBYpvzMRZYaT8RQPmg0+2KYwD
-	6FYyaFhlmaWjNTA2fw4TPVSo6LW2sJIWZ+OkusgY1lKwZ4IK3R7Jt+wgqH8WD5k+AUfx03fjFoTT/
-	1ZzwLeuInTbPwmJbzmhKviXO92mhopdyxMW+TaHUdVRys7C85ZDadGZ4RRGrUJAZOrG3qoJArZVuG
-	y23u1w152BwtcMf0Fvad8ClHpXemVTnKhjez1tBjBTqsHnfbUVm5kwpJTmelEct5PK3456QMPrXh5
-	NW0ij/ibOvXZPqNhrXV5GeDC42LId7PfQ5PJ22FrIv8CaSrAUiVhi4Zk+B58C8yGboNnkfU4jL5ww
-	VRtv9FtXAoNYJ44X6xakpLfzd5IgQ7o/2OT9CamnN3kNDGdTCGbaMRQjJouWeTbN2d7PBv4h7YZkp
-	4pCsBr4V1KlQeY7xAVwt7SnsysVLlPGrGjQb4AeiJ2pp0rQ1sap4rK1/XLlSrnOiaOvs56w7YkKME
-	TWRWHW+Eni1IZH6B/iLVNyn1AGVxYf/4dDZddRl9SUywZs1RQMKYx24Wd0ue1KYCclpCi3DULrQLj
-	xVEj63qA/LUIWVIxfBcW1ElhDN4d3ghyYWYEpZsVU=;
-To: qemu-devel@nongnu.org
-Date: Fri, 03 May 2019 18:20:39 +0200
-Message-ID: <1926077.q6xKvCkoZ9@silver>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-Spam_score: -0.0
-X-Spam_score_int: 0
-X-Spam_bar: /
-X-Spam_report: Spam detection software,
-	running on the system "kylie.crudebyte.com", 
-	has NOT identified this incoming email as spam.  The original
-	message has been attached to this so you can view it or label
-	similar future email.  If you have any questions, see
-	the administrator of that system for details.
-	Content preview: Hi! This is v2 of a proposed patch set for fixing file
-	ID
-	collisions with 9pfs. Patch 1 to 3 are identical to the previous
-	version.
-	New in this v2 is patch 4 which introduces variable length suffixes for
-	inode mapping instead of fixed length prefixes. 
-	Content analysis details:   (-0.0 points, 5.0 required)
-	pts rule name              description
-	---- ----------------------
-	--------------------------------------------------
-	-0.0 NO_RELAYS Informational: message was not relayed via SMTP
-	-0.0 NO_RECEIVED Informational: message has no Received headers
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 5.189.157.229
-Subject: [Qemu-devel] [PATCH v2 0/4] 9p: Fix file ID collisions
+	(Exim 4.71) (envelope-from <wei.d.li@oracle.com>) id 1hMaxq-0007IS-CB
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 12:23:11 -0400
+Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
+	by userp2130.oracle.com (8.16.0.27/8.16.0.27) with SMTP id
+	x43GEMRq100948; Fri, 3 May 2019 16:23:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+	h=date : subject : from
+	: to : cc : message-id : references : in-reply-to : mime-version :
+	content-type : content-transfer-encoding; s=corp-2018-07-02;
+	bh=yPadwx0o9vyNe/qAD61VPMlwyZ7/kW/FyTzTchMBG/g=;
+	b=x7DlMWDVu1ExkpId8swOIhaBFMAk1aBtjybgI50yF/9zK9/I2DY/hK3bFInDY4K+pYY3
+	8+mq2Yvfy+OXTpZWyAL+mbmPUUTIs/SFKf3ENbdA+O1zQc6DBB/it1nVyoR7UFXYRT+/
+	BRA5xRhOqczeELBNmJUA63VoywwLWdROv0yQzlr0CzljW6RrRoZn7USkBitJcsw3ZSQd
+	NPr7D3cMwZmBSgmhL2vc8O9I9+Jl4nuVYA1TGVYUXXUQKPEHIh13igVyJGI2rxdhOLDm
+	gfl0JeDqSqI7TxltFBMIF6Y1jzrsmV6TBGBmicVPgBSaD93uS3cCD/GZMJGyQ1BFud0U
+	jA== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+	by userp2130.oracle.com with ESMTP id 2s6xhyquwc-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 03 May 2019 16:23:06 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+	by aserp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id
+	x43GKnjr070552; Fri, 3 May 2019 16:21:05 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+	by aserp3030.oracle.com with ESMTP id 2s7rtccga7-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Fri, 03 May 2019 16:21:05 +0000
+Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
+	by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x43GL4uU016211;
+	Fri, 3 May 2019 16:21:04 GMT
+Received: from [10.144.107.60] (/10.144.107.60)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Fri, 03 May 2019 09:21:04 -0700
+User-Agent: Microsoft-MacOutlook/10.15.0.190115
+Date: Fri, 03 May 2019 09:21:15 -0700
+From: Wei Li <wei.d.li@oracle.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Message-ID: <1823F9C3-8092-4B75-87AA-A05325032F48@oracle.com>
+Thread-Topic: [Qemu-devel] Following up questions related to QEMU and I/O
+	Thread
+References: <CC372DF3-1AC6-46B5-98A5-21159497034A@oracle.com>
+	<60340EAF-4C85-4798-9999-34F1A37E2086@oracle.com>
+	<898ef1d4-bfa2-9952-8ceb-f1282b85e29c@oracle.com>
+	<20190416092042.GB32709@stefanha-x1.localdomain>
+	<8E5AF770-69ED-4D44-8A25-B51344996D9E@oracle.com>
+	<3F7E854A-3C1D-4204-8C35-893FC0614796@oracle.com>
+	<20190423120453.GF32465@stefanha-x1.localdomain>
+	<44520476-d6a8-2e3f-1602-388e2e1e874e@redhat.com>
+	<20190429134048.GH7587@stefanha-x1.localdomain>
+	<1A278B43-AA26-43B4-B6C2-17231E780BBE@oracle.com>
+	<20190501163650.GF21155@stefanha-x1.localdomain>
+In-Reply-To: <20190501163650.GF21155@stefanha-x1.localdomain>
+Mime-version: 1.0
+Content-type: text/plain;
+	charset="UTF-8"
+Content-transfer-encoding: quoted-printable
+X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9245
+	signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+	malwarescore=0
+	phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=839
+	adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+	engine=8.0.1-1810050000 definitions=main-1905030104
+X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9245
+	signatures=668685
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+	priorityscore=1501 malwarescore=0
+	suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+	lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=863
+	adultscore=0
+	classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+	definitions=main-1905030104
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 156.151.31.86
+Subject: Re: [Qemu-devel] Following up questions related to QEMU and I/O
+ Thread
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -79,37 +105,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-From: Christian Schoenebeck via Qemu-devel <qemu-devel@nongnu.org>
-Reply-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Cc: Greg Kurz <groug@kaod.org>, Antonios Motakis <antonios.motakis@huawei.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	Dongli Zhang <dongli.zhang@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi!
+Got it, thanks Stefan for your clarification!
 
-This is v2 of a proposed patch set for fixing file ID collisions with 9pfs.
+Wei
 
-Patch 1 to 3 are identical to the previous version. New in this v2 is patch 4
-which introduces variable length suffixes for inode mapping instead of fixed
-length prefixes.
+=EF=BB=BFOn 5/1/19, 9:36 AM, "Stefan Hajnoczi" <stefanha@gmail.com> wrote:
 
-Also: patch 4 disables file ID persistency at compile time by default for now,
-since I am yet unresolved about details of that persistency.
-
-Christian Schoenebeck (4):
-  9p: mitigates most QID path collisions
-  9P: trivial cleanup of QID path collision mitigation
-  9p: persistency of QID path beyond reboots / suspensions
-  9p: use variable length suffixes for inode mapping
-
- fsdev/9p-marshal.h   |    6 +-
- hw/9pfs/9p.c         | 1145 ++++++++++++++++++++++++++++++++++++++++++++++++--
- hw/9pfs/9p.h         |  167 ++++++++
- hw/9pfs/trace-events |   14 +-
- 4 files changed, 1296 insertions(+), 36 deletions(-)
-
--- 
-2.11.0
+    On Mon, Apr 29, 2019 at 10:56:31AM -0700, Wei Li wrote:
+    >Does this mean the performance could be improved via adding Batch I/O =
+submission support in Guest driver side which will be able to reduce the num=
+ber of virtqueue kicks?
+   =20
+    Yes, I think so.  It's not obvious to me how a Linux SCSI driver is
+    supposed to implement batching though.  The .queuecommand API doesn't
+    seem to include information relevant to batching.
+   =20
+    Stefan
+   =20
+   =20
 
 
 
