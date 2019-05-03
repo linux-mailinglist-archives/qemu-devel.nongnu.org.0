@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B722C12C88
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 13:38:30 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38634 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 462BA12C9B
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 13:44:14 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38761 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMWWL-0000CA-Ru
-	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 07:38:29 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34051)
+	id 1hMWbt-0006Nu-GD
+	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 07:44:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34103)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hMWLr-0007w7-B1
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 07:27:40 -0400
+	(envelope-from <laurent@vivier.eu>) id 1hMWLt-0007yS-8X
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 07:27:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hMWLq-0003YR-BO
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 07:27:39 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:43839)
+	(envelope-from <laurent@vivier.eu>) id 1hMWLr-0003Zy-UT
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 07:27:41 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:51901)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <laurent@vivier.eu>)
-	id 1hMWLq-0003Xd-2g; Fri, 03 May 2019 07:27:38 -0400
+	id 1hMWLr-0003Yq-IV; Fri, 03 May 2019 07:27:39 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
 	mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA
 	(Nemesis)
-	id 1Mtxxk-1gSdOt1Hps-00uGzk; Fri, 03 May 2019 13:27:11 +0200
+	id 1Mmhs6-1gvfmw3Cty-00jruY; Fri, 03 May 2019 13:27:13 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Fri,  3 May 2019 13:26:52 +0200
-Message-Id: <20190503112654.4393-11-laurent@vivier.eu>
+Date: Fri,  3 May 2019 13:26:53 +0200
+Message-Id: <20190503112654.4393-12-laurent@vivier.eu>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190503112654.4393-1-laurent@vivier.eu>
 References: <20190503112654.4393-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:qP3adIP8oXcIdsE+hQ0KIyGDDIVh4OUeNCt5i1VwQjrqCox6CcY
-	3gsM6PwyJza9PLzSMPGSpBDXxmO56aj/o61VkOE/lqJiKmMBxmtr2hucOE8MIZuwdfTKHKC
-	ic6ic/KICzhDxtb4AHxR73Chpbqy8tQUGr9NkYBoA0Hdy0SRXVuQZ6NOWo1Ev2J2m8A6tQE
-	610C/XiyL+ayDbH733YAA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:njiNo2w2ei4=:/yYLlsDIBnnpFbCiD5f051
-	sgsumgGjoB0Nc2oGtXH+BZJ9pzSf3YGBxT4C/LPJAIa0Sjh8AAnvomf6InLWghSrrCc2GG2n+
-	10K7gWeWjHik7cxwKLVsf/k0Pmk6omn8M/m1HlNX1cT7eNGFCG4RP0EXyCebXY7FA9+1rImG9
-	lL/dckIAfN23Mu8qJCOHMCLPY0lE9fXZ56cAW8tPZroB6dOy6HWMjDnuOswYaAoAvJ+LJOgKM
-	X0L3czCB2hjHKgF1b4w7oFhm4gTkrw5csqMcSzJLyXKxkPIjMNFsm3CIJpRZM+MiGwCmQpTv5
-	+ug6rTS2d9Vst3hE46ZYoxKemyeMWjkLhLREfpO8+rzB6bxiyS3ck6sBgznAzKw1x2W8cSJEP
-	6llsSGB6YuILslXoCDH3fKRFUN7Hq2u3nI651G5MkOw626JuJzPd/8SforuTYimW4QYjRCJD7
-	qp+W9Bv1bYivolfI8h+vYvRGMKnkjX73rbdZvMRctvstFLaycc1U72qQgAObwUsGxettb4llQ
-	5GkQ8Qwn222LATD2GKR0UNxqw2lXHNTf9LnluSh1sQzMJIm0mMSnIU26iedpZGIzx+WbgP5h8
-	SzwhPazQK128M903GrpTefKyeuu/wB9dF8iWghhoaUkb7vwIK58RNV4TV1Q1rJrrri7mEkEkU
-	Eq4pLYrRfJAdhWhDZuPF76yCnq9oWUa07qErAxFwsLPHEkks5P93YaFaNgcphg+oZPAoObOA/
-	5YQUgR9Ecy5KU/wmSo3lP0mt0oVVQ1a4qoYtHrufNkYLBtZR22sCLK7BHsY=
+X-Provags-ID: V03:K1:Yr6N8DVUuZAek6d2wIuyKkCulINgbzvSwJs77413ZEOeSlYO+1k
+	DhJEgZCCHuvHdyBsNqrx1P7P+RuElo0e3mL8i15Gd1gLR73wZ9+dbABkcKjIm/y9DZbjDk6
+	cxlNzWYvaigJwrL5xY83Z8Kl5AZP8jQV5ezLDuZytdBFhnvgSE+YVWos1DHHCmbjLFRpkrt
+	FKJ26tniVeGz9Q8zqWKRg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ldkHbtITqlE=:CCU2hx6y84NcCvOwpyx2jG
+	4M188hiX8HxLd5cscIXGiAcRVb7K+pGc7NCfKl378rJJKji7i4aG5474D+MymO9llCeM8c7vT
+	JLcLvJeHs4edYHxmiRreylmYnDQx8uqLZ9mGubxZAdWwhkpmPP00Rrd6woM/GVaq8NQ/k/fnt
+	mYJoSvLe1h8Ftrmc4lqdCfH9TH+AcCBo8HUpvk+Qq7wCZmqu+ZNAEO37wmBj2IW21rN2RUr9S
+	o9iF9ncZnjDPuuL0bqSlguMPJrmoyRyWNggS7CX8R6nD/r0/N4VplToVv2+VW9CvE9cj33DLX
+	7IQYFjQgOb6/lQsziYcfF/cxzvAKN/UAMICurHFY/tskF2mnvfYAqFU9mp8SCIYeTa1L7yeYQ
+	wOPO13LK+y8gt8n+tppZDUCEqeokJrZAFD/lXglGzedDFhObbO9ayfnT5yTze9gunxVxOevCJ
+	uNr6YYm8XY10y5esEVD1kB8yFT8N6KWt7Si4xQ83Qp76KrPTtCabMkQ22GHLiB2FKdTHErGfc
+	qJpbJqSRiEwffFtvaufk9EE/CPYTF/CMS3IMLAlgHy/9U04yN5aCSMGJjWVDxta6N2SWb7/kM
+	bV+SLp7U3MlR4RBcFALNxBpkM8pZaSes+GdYjrm6SXxUYk1az6I9BYPHFrQyOh2iA74HPKCK2
+	JkfFc9vI/+N9w1pOGJJjjU5G0ena3XVK16NwkLwYVynVl1SCfL5Vy7Rrbc7JU3haazOxccJLV
+	uPp0n7d2R1HqR205EH9x/RVM4YnbYYE+No/1ANO5D4ySLcZpbR4cPtuBN8g=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.131
-Subject: [Qemu-devel] [PULL v2 10/12] Makefile: Let the 'clean' rule remove
- qemu-ga.exe on Windows hosts
+X-Received-From: 212.227.126.187
+Subject: [Qemu-devel] [PULL v2 11/12] hw/sparc/leon3: Allow load of uImage
+ firmwares
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -65,48 +65,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+	qemu-trivial@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
 	Jason Wang <jasowang@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
 	Laurent Vivier <laurent@vivier.eu>, Fabien Chouteau <chouteau@adacore.com>,
 	Michael Roth <mdroth@linux.vnet.ibm.com>,
-	Gerd Hoffmann <kraxel@redhat.com>, Stefan Weil <sw@weilnetz.de>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+	KONRAD Frederic <frederic.konrad@adacore.com>,
+	Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
 	=?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>,
 	Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daudé <philmd@redhat.com>
+From: Philippe Mathieu-Daudé <f4bug@amsat.org>
 
-Commit 48ff7a625b36 added the QEMU Guest Agent tool with the
-optional ".exe" suffix for Windows hosts, but forgot to use
-this suffix in the 'clean' rule. Calling this rule let a dangling
-executable in the build directory.
-Correct this by using the proper optional suffix.
+Currently the Leon3 machine doesn't allow to load legacy u-boot images:
 
-Fixes: 48ff7a625b36
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Stefan Weil <sw@weilnetz.de>
-Message-Id: <20190427161322.24642-1-philmd@redhat.com>
+  $ qemu-system-sparc -M leon3_generic -d in_asm \
+      -kernel HelenOS-0.6.0-sparc32-leon3.bin
+  qemu-system-sparc: could not load kernel 'HelenOS-0.6.0-sparc32-leon3.bin'
+
+  $ file HelenOS-0.6.0-sparc32-leon3.bin
+  HelenOS-0.6.0-sparc32-leon3.bin: u-boot legacy uImage, HelenOS-0.6.0,\
+    Linux/ARM, OS Kernel Image (Not compressed), 2424229 bytes,\
+    Sun Dec 21 19:18:09 2014,\
+    Load Address: 0x40000000, Entry Point: 0x40000000,\
+    Header CRC: 0x8BCFA236, Data CRC: 0x37AD87DF
+
+Since QEMU can load uImages, add the necessary code,
+so the Leon3 machine can load these images:
+
+  $ qemu-system-sparc -M leon3_generic -d in_asm \
+      -kernel HelenOS-0.6.0-sparc32-leon3.bin
+  ----------------
+  IN:
+  0x40000000:  b  0x400007a8
+  0x40000004:  nop
+  ----------------
+  IN:
+  0x400007a8:  save  %sp, -136, %sp
+  0x400007ac:  call  0x40000020
+  0x400007b0:  sethi  %hi(0x4000b800), %i1
+  ...
+
+Tested with the following firmware:
+http://www.helenos.org/releases/HelenOS-0.6.0-sparc32-leon3.bin
+
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+Reviewed-by: KONRAD Frederic <frederic.konrad@adacore.com>
+Tested-by: KONRAD Frederic <frederic.konrad@adacore.com>
+Message-Id: <20190427162922.4207-1-f4bug@amsat.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- Makefile | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/sparc/leon3.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/Makefile b/Makefile
-index 43a7a047b452..e223bfe2a3a1 100644
---- a/Makefile
-+++ b/Makefile
-@@ -639,7 +639,7 @@ clean:
- 		! -path ./roms/edk2/BaseTools/Source/Python/UPT/Dll/sqlite3.dll \
- 		-exec rm {} +
- 	rm -f $(edk2-decompressed)
--	rm -f $(filter-out %.tlb,$(TOOLS)) $(HELPERS-y) qemu-ga TAGS cscope.* *.pod *~ */*~
-+	rm -f $(filter-out %.tlb,$(TOOLS)) $(HELPERS-y) qemu-ga$(EXESUF) TAGS cscope.* *.pod *~ */*~
- 	rm -f fsdev/*.pod scsi/*.pod
- 	rm -f qemu-img-cmds.h
- 	rm -f ui/shader/*-vert.h ui/shader/*-frag.h
+diff --git a/hw/sparc/leon3.c b/hw/sparc/leon3.c
+index 774639af3393..0383b17c298f 100644
+--- a/hw/sparc/leon3.c
++++ b/hw/sparc/leon3.c
+@@ -193,6 +193,10 @@ static void leon3_generic_hw_init(MachineState *machine)
+         kernel_size = load_elf(kernel_filename, NULL, NULL, NULL,
+                                &entry, NULL, NULL,
+                                1 /* big endian */, EM_SPARC, 0, 0);
++        if (kernel_size < 0) {
++            kernel_size = load_uimage(kernel_filename, NULL, &entry,
++                                      NULL, NULL, NULL);
++        }
+         if (kernel_size < 0) {
+             error_report("could not load kernel '%s'", kernel_filename);
+             exit(1);
 -- 
 2.20.1
 
