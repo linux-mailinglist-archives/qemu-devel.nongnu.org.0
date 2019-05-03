@@ -2,56 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D6B312C85
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 13:37:32 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38622 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A6D112CB4
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 13:47:00 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38848 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMWVP-0007SM-Ai
-	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 07:37:31 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33885)
+	id 1hMWeZ-0008Ki-BX
+	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 07:46:59 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33932)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hMWLg-0007l9-I0
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 07:27:29 -0400
+	(envelope-from <laurent@vivier.eu>) id 1hMWLk-0007or-4y
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 07:27:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hMWLe-0003La-M3
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 07:27:28 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:39291)
+	(envelope-from <laurent@vivier.eu>) id 1hMWLj-0003Se-5G
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 07:27:32 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:45683)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <laurent@vivier.eu>)
-	id 1hMWLe-0003JV-DL; Fri, 03 May 2019 07:27:26 -0400
+	id 1hMWLi-0003Rp-SO; Fri, 03 May 2019 07:27:31 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
 	mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA
 	(Nemesis)
-	id 1MWhxY-1hFyvU3tqS-00X13A; Fri, 03 May 2019 13:27:09 +0200
+	id 1MYtoe-1hIAms0Zai-00UpC4; Fri, 03 May 2019 13:27:10 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Fri,  3 May 2019 13:26:50 +0200
-Message-Id: <20190503112654.4393-9-laurent@vivier.eu>
+Date: Fri,  3 May 2019 13:26:51 +0200
+Message-Id: <20190503112654.4393-10-laurent@vivier.eu>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190503112654.4393-1-laurent@vivier.eu>
 References: <20190503112654.4393-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:G2yBrV7EeKrN/+ppX66Q4YSPLjd/pin9EJ9LPnkhhk4KBEsXU0S
-	18qNg1leysXag1GayfOmJqH5Yu6CwlUZvOo+2WAl5aC52MbuY3KqpDcbGUnCbmwmO2+iyRU
-	7cMaCBrq14EQNjFnR+L0w/Eo0dcP/QBOTMrF7B4UJrnFY+ANXYlRnmM2syN7sRb5xrfjDoZ
-	m+haxnDDdOydQMjaiapLg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:iuZKCtrbyDY=:7B1a4EN08eXbwEmHWnhbga
-	J3tOIhdeKPujwgVl6T1TxJtCaw/g8aiujYZYi0kCal9zXJpI/JbdA9aHBGIPspW7uu6Y+uZSb
-	kLraZ40mD+Cd9CqDL39ipPOFhg9hOI2T5z0o8vs6MqwP+LRDFox5jKCo7aaKfZuDOuGQB0lHt
-	I5kLXX/ANZ8auYPeIzpx/0JCjjcCb8FrLXc+e4S1q5/ldNnK1RCRH+aNaw0PDOI8sQHCWgcUg
-	EQpr0Tcy+YqyeIwaUEN0I3YCoNQFFoHx98cCZ2FtjkMi0ssDhE+Rs9kNIAHfK3oTSfIZuWSfD
-	wD5nLQTgYYk4nCkn7Mbl0YtUobIvto0/9qh2evss2ySQf/1bxMmYUHTRCoEOYtlnQz5/yOoZ8
-	wlIBe++/u+ox1Pz0S9KwT1UkUPCFFq7kiBXspPfnFStzb0kbiu/ls16CuLpd1MY6o6tKHrBOE
-	pce4GLsFj0AJxoH03aDKKtKuZUDNb4qwkUIoyGgEUQBszsDc1qNF7d3bqTXwsfHnMCHnQvFeN
-	2hbe/+AdXecPbu4kBGfw2i0Q5eJ56op2CUdmuGamTVaa8WUyUx4/k0d1Rr5vG1l9N4bsMAndF
-	pKCHvbT5lPylBtkOE4ERaQ9v2+1eiWyy3rYk6oJKlqqRaO04uz4cWJ1bZfWx8p1Kextd53msP
-	PlJ1/5VKkT92vS9N7C6NGd2DMraImBqKHrn91QEThtMiWAc0/iO/AZvB7KXtl1LIIH6pAKPkD
-	wVqx0vDbS3V0LHvHm+LdrtxrBm7KY4pFOWDD4g==
+X-Provags-ID: V03:K1:eT9HzwyNXoucdZC+9VuanHN27GG8yYzj5tbE4MzFM1Sv6nyLmeW
+	NaUWW3SLen2u1LX28oLxarUTJTW84U5ZObiZlQ6HRr2pQYjZq1UW8InDVDfuW18vDPpI77W
+	/rUiaaQaVro1nJFx4MgHTTET3q2WvmFhSbBc5rH6LXWi4CDY3LJZfsOncubs20/EHnVTALD
+	fx4m4kniL8XsdBHryUScQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:aXEYOKnYNf8=:mfY8Yx0AAFMQDEZNUmXc1C
+	D/VyT5IUHNJWJir8s+Enw4syIlWSwVOEAdj4d5KilzQf3wMCC5Cfba5jRaLtrafmNs9lfrfTO
+	RVpmc2RI+5KQWSY6Ynxg/ERft9cL3wKabjB2eMQygReNuMZitgrewJH8W5hKhTPvOGn8kEyYn
+	ss+1irPm2jLPJI//LfOozJUBLWgOugWtxuvsdfTUXLDcqErpG1761+tSHFJb4fBZ9EsatsSxq
+	4csig/0X9s+uBBYE1PDyeHkimilfh5WDIbSwzdcUJQ/0H0urgZaWrCbG20edeN5pEXIwnHOSk
+	5nlIH7yVaT5I9jULOC6PXEaWFRpg006ckDQyDTJ43VwuDIK7I5dtDM5QLxXczQVLCRIRvALzP
+	LZ5MoNEHaliz59UWfUpzwPuK0Lt8XyX1l+iQY6at6NywvNOQ6AGD/J4bNQG6o7jbZ3e7YdMis
+	2jIpfUKsRBs9n+0HbkzXRrhfo8XiIShIvgbXtwxm0Y+j1Ao9SR+kTAL8E6uJq133tmtuqZ5rk
+	5cXezTdOAlR5NGeOXBiwZOI6o80BWC30sGMiWJd2tr+/ZXY//oBI0oo78TJTs3UNcBURZtS2Z
+	7wJ7hiTQg3flsyAd044+3r3LrgQWvF5bsyp1nYKViUrNdzoIK7N1LVFs7ok8IaYFXtvsDTEPF
+	G4zzcNMCHfBozRS+pWdaIHHLx4oiv1vtSh3W73gMDBMalZ0W9HN4GtLrWiQueK5qqHHgZb1Lx
+	Cz3M1mCA9tybBGCQaEyJzExV0naFsAP+CwhfDL8BOdOYn9WkHItfhflIFY8=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.131
-Subject: [Qemu-devel] [PULL v2 08/12] Header cleanups
+X-Received-From: 212.227.126.130
+Subject: [Qemu-devel] [PULL v2 09/12] net: Print output of "-net nic,
+ model=help" to stdout instead of stderr
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -63,47 +65,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
-	qemu-trivial@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
-	Jason Wang <jasowang@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
-	Laurent Vivier <laurent@vivier.eu>, Fabien Chouteau <chouteau@adacore.com>,
+Cc: Thomas Huth <thuth@redhat.com>, qemu-trivial@nongnu.org,
+	Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+	Jason Wang <jasowang@redhat.com>,
+	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+	Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
+	Fabien Chouteau <chouteau@adacore.com>,
 	Michael Roth <mdroth@linux.vnet.ibm.com>,
-	Gerd Hoffmann <kraxel@redhat.com>, Aruna Jayasena <aruna.15@cse.mrt.ac.lk>,
-	Paolo Bonzini <pbonzini@redhat.com>,
+	Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
 	=?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>,
 	Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aruna Jayasena <aruna.15@cse.mrt.ac.lk>
+From: Thomas Huth <thuth@redhat.com>
 
-Removed unwanted includes from cpu-common.h
-This task was under https://wiki.qemu.org/Contribute/BiteSizedTasks
+We are printing all other help output to stdout already (e.g. "-help",
+"-cpu help" and "-machine help" output). So the "-net nic,model=help"
+output should go to stdout instead of stderr, too. And while we're at
+it, also print the NICs line by line, like we do it e.g. with the
+"-cpu help" or "-M help" output, too.
 
-Signed-off-by: Aruna Jayasena <aruna.15@cse.mrt.ac.lk>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20190409155635.10276-1-aruna.15@cse.mrt.ac.lk>
-[lv: fix conflict on rebase]
+Buglink: https://bugs.launchpad.net/qemu/+bug/1574327
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20190423160608.7519-1-thuth@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- include/exec/cpu-common.h | 3 ---
- 1 file changed, 3 deletions(-)
+ net/net.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/include/exec/cpu-common.h b/include/exec/cpu-common.h
-index 848a4b94ab73..f7dbe75fbc38 100644
---- a/include/exec/cpu-common.h
-+++ b/include/exec/cpu-common.h
-@@ -7,9 +7,6 @@
- #include "exec/hwaddr.h"
- #endif
+diff --git a/net/net.c b/net/net.c
+index f3a3c5444cc3..2cf5e7646997 100644
+--- a/net/net.c
++++ b/net/net.c
+@@ -837,9 +837,10 @@ int qemu_show_nic_models(const char *arg, const char *const *models)
+         return 0;
+     }
  
--#include "qemu/bswap.h"
--#include "qemu/queue.h"
--
- /* The CPU list lock nests outside page_(un)lock or mmap_(un)lock */
- void qemu_init_cpu_list(void);
- void cpu_list_lock(void);
+-    fprintf(stderr, "qemu: Supported NIC models: ");
+-    for (i = 0 ; models[i]; i++)
+-        fprintf(stderr, "%s%c", models[i], models[i+1] ? ',' : '\n');
++    printf("Supported NIC models:\n");
++    for (i = 0 ; models[i]; i++) {
++        printf("%s\n", models[i]);
++    }
+     return 1;
+ }
+ 
 -- 
 2.20.1
 
