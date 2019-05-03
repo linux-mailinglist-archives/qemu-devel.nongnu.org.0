@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B364D1330C
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 19:19:55 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:44963 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E5E14132FB
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 19:15:43 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:44915 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMbqk-0002fM-PC
-	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 13:19:54 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34247)
+	id 1hMbmh-00089p-3I
+	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 13:15:43 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34095)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <liboxuan@connect.hku.hk>) id 1hMblN-0007D1-Rh
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 13:14:22 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hMbku-0006aS-Qp
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 13:13:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <liboxuan@connect.hku.hk>) id 1hMblM-0001RQ-UJ
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 13:14:21 -0400
-Received: from mail-yw1-xc44.google.com ([2607:f8b0:4864:20::c44]:37685)
+	(envelope-from <peter.maydell@linaro.org>) id 1hMbkt-00012d-Hz
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 13:13:52 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:39974)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <liboxuan@connect.hku.hk>)
-	id 1hMblM-0001QL-Io
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 13:14:20 -0400
-Received: by mail-yw1-xc44.google.com with SMTP id l8so1956801ywm.4
-	for <qemu-devel@nongnu.org>; Fri, 03 May 2019 10:14:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=connect-hku-hk.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=x0aCQ5qBwgt9DWvdLtyGVrRtiZ9Wk6BDR2oeCRD0tww=;
-	b=XwtuNLM+QPBiu6YJ/ZgNHJn/Eu2EJkRlxi6ienrnS73Za5YMQTvOL/HVprpf1pSvUK
-	eUz223PwF8i3d7OClAUgh/xok25X9VLDlQG0qRcPiTnQRE01VEzJwJFywwV5ekGdU+RP
-	pbxMf7W5lwGql3JMXsomcD1iuIcKzwA5zoap6K64j/4WBHLMS+RekfIOELv1S/WM9WJk
-	onsZoVAIvZYcZvH0jERocokWN53s1rxWt7hMhOfkRw27cPB0lMB3SrjX03sR6gk5rLZv
-	jWwyEVZDss7ATwXoslqygXSFwoFv6p/cNmjAEnwRY7aBM4+WulYrUEuQ9O4g0fUo8cOQ
-	Orxg==
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hMbkt-000111-A3
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 13:13:51 -0400
+Received: by mail-wr1-x444.google.com with SMTP id h4so8761979wre.7
+	for <qemu-devel@nongnu.org>; Fri, 03 May 2019 10:13:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=gxn73yHrkMnhu3Hh5HOdigs39onYkcXmr918feAXYD0=;
+	b=QahufIIKjmZm06ldWfS9a9TJaafGGew9iKqqUBgijAzO7WZTUvnIJJxmDct5205stW
+	uKQ+4dwvgEz1dSWmI7nEabVqMpY5YiJOtw+WV8aQhmLWQDj2inGgLQEhPS58709MPlFm
+	/9x9L4lk9PFArFdng/aH+q/NNvdj8c3J/ytGqaEib2Puu7IdLgzsZ8O0eBe7D/xoyIjE
+	ELaMSFkIt7nEG+jkPSmHxpx7HN0CXI66Db0gtCPdD//MN5cvIIFWcmnrOPwesNAp5pKk
+	QgThaS1tX0zWAMHcSFHPPzpdkF6HVYhSBvouVdF5lbAX6SD4EdnnOq/couwG3D9eaJM+
+	8sfg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=x0aCQ5qBwgt9DWvdLtyGVrRtiZ9Wk6BDR2oeCRD0tww=;
-	b=DB5kLq3h936pcuLz5ArXsxokqNKqGCaLRtL3pTef7JsOjfMqRSaDZwJ3OusaYPuyEC
-	J4gjCpvt3nrP42r4184V65B8wq9siwiZkgmI/EKBGMNVuN9COXIfyN0VcWaUFvYcuGI+
-	5WB46cwc2OvE1uDmmdjk82ExRMIfOyPUlGgXfV87PuoKFdVrEeywmgHH1eDXjSOsCZsA
-	Z/osytnE8ADRlAbdi9q/jyO/OCiCnr2XuneTJPfvUmU3vPCRVOsMA8z8LUQjkNMyk6vW
-	4qneV4B5w0fYR+cKCvY6AP1q535u/xYyzDJpM9RqfgUp7fEZ5fa6zsLGpBIRilRza9l/
-	9Tlw==
-X-Gm-Message-State: APjAAAXJIT7LteStHQCeAVlYG3CUpQ2LjXxY/Gjyx1Pp7CHliMpe+szy
-	MuD8ox0bWYVyovlyo9J+PiG0k0S4pgoDxxIjXD+y3Q==
-X-Google-Smtp-Source: APXvYqyEmXs627YIjRRJIileqa6wgZqCKVFv1HFs7FjEv24cZY7EBgZIYi6j8qc90R+Dm8CQtSkM+vWmI7myYUJsrow=
-X-Received: by 2002:a81:e0d:: with SMTP id 13mr8357280ywo.336.1556903659437;
-	Fri, 03 May 2019 10:14:19 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=gxn73yHrkMnhu3Hh5HOdigs39onYkcXmr918feAXYD0=;
+	b=AxM29NGOoAEHH3aHTRs4lYqUoCnNKh754d5uFbwEFT78Orlkv9clx4n2jc/5O5x5OB
+	YSPkyd7GnX8qtJRj8L8icdv6lgEeCt5fNnwDNgMSt5N4BCv7EBQZWw6yXgtHyNdwPycI
+	8jznRvJ4tB+BfG1mB6un0CPojxnOlFMBdIg8IkZmhLCyNgrtUFe+dSR3DiMSo2QtKHg+
+	3juWSHq9ZNbPU4W5Ss9fc1Lk6clerMSNfnbpOvqjG5uYT3HfKSrEzKLx7fnZ1T7DUj+h
+	Kw9yhntC62UqWYcYulaDZkmD5zhKjkb0W7jXpfQ511fd5ukJ9mzBynmD3+67cnqhEQ8u
+	0llg==
+X-Gm-Message-State: APjAAAUioZ8YUd5ITUBstftHNDPIkcOjHyvFmKIg9REzigv69DdLAmzJ
+	vpr7wAUwGVbEv4CXUyuWNb1TPg==
+X-Google-Smtp-Source: APXvYqxDJ1HipS6p4HnQeE4DQUBaBLOLGRtZ1r52XS4t9NuFEmX22xi4QX5Oxcp4yU4+b3E9PYcrOA==
+X-Received: by 2002:a5d:464f:: with SMTP id j15mr7875159wrs.265.1556903629942; 
+	Fri, 03 May 2019 10:13:49 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+	by smtp.gmail.com with ESMTPSA id e5sm1717671wrh.79.2019.05.03.10.13.48
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 03 May 2019 10:13:49 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Date: Fri,  3 May 2019 18:13:45 +0100
+Message-Id: <20190503171347.13747-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20190503154424.73933-1-liboxuan@connect.hku.hk>
-	<87bm0j4im0.fsf@zen.linaroharston>
-	<CALM0=-=b+z2aW-cuM=hmk3_oKG7w3ianMo_ZA7gj8zMgCOfC3g@mail.gmail.com>
-	<878svn4gnq.fsf@zen.linaroharston>
-In-Reply-To: <878svn4gnq.fsf@zen.linaroharston>
-From: "LI, BO XUAN" <liboxuan@connect.hku.hk>
-Date: Sat, 4 May 2019 01:13:43 +0800
-Message-ID: <CALM0=-m0Vd1YMn6s36oRbsqFCwjPwdga5Q0XRoO41dq6iw1Lzg@mail.gmail.com>
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::c44
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PATCH v4] hw/virtio/virtio-mmio: Convert DPRINTF
- to trace and log
+X-Received-From: 2a00:1450:4864:20::444
+Subject: [Qemu-devel] [PATCH 0/2] hw/arm/boot: handle large Images more
+ gracefully
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -78,36 +77,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
-	qemu-devel@nongnu.org, Yuval Shaia <yuval.shaia@oracle.com>,
-	=?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: Mark Rutland <mark.rutland@arm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Gotcha, thanks for the tip!
+This patchset attempts to fix https://bugs.launchpad.net/qemu/+bug/1823998
+which reports that we don't handle kernels larger than 128MB
+correctly, because we allow the initrd to be placed over the
+tail end of the kernel. AArch64 kernel Image files (since v3.17)
+report the total size they require (including any BSS area that
+isn't in the Image itself), so we can use that to be sure we
+place the initrd sufficiently far into the RAM.
 
-Best regards,
-Boxuan Li
+Patch 1 in this series adjusts our "where do we put the initrd"
+heuristic so that it always places it at least after whatever
+our best guess at the kernel size is. (This might still not
+be right for images like self-decompressing 32-bit kernels, where
+there's no way to know how big the kernel will be after
+decompression.) Patch 2 makes load_aarch64_image() return the
+kernel size as indicated in the Image file header, so that for
+the specific case of AArch64 Image files we will definitely not
+put the initrd on top of them.
 
-On Sat, May 4, 2019 at 1:00 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
-ote:
+I've given this a quick smoke test but I don't have a very large
+Image kernel to hand, so testing appreciated.
 
->
-> LI, BO XUAN <liboxuan@connect.hku.hk> writes:
->
-> > Hi Alex,
-> >
-> > Sorry about that, I am still trying to get familiar with the patch
-> > submission process. Since my patch has been changed from your last
-> review,
-> > I thought it would be safe to not include the r-b tag from last time.
-> Will
-> > take care next time!
->
-> That's ok. As a general rule as long as you haven't substantially
-> changed a patch it's safe to keep previous r-b tags. You can always
-> mention it in your cover letter if you are unsure.
->
-> --
-> Alex Benn=C3=A9e
->
+thanks
+-- PMM
+
+Peter Maydell (2):
+  hw/arm/boot: Avoid placing the initrd on top of the kernel
+  hw/arm/boot: Honour image size field in AArch64 Image format kernels
+
+ hw/arm/boot.c | 51 +++++++++++++++++++++++++++++++++++----------------
+ 1 file changed, 35 insertions(+), 16 deletions(-)
+
+-- 
+2.20.1
+
+
