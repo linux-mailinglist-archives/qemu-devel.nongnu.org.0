@@ -2,60 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1804D13276
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 18:48:06 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:44496 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14BCC13295
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 18:55:48 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:44638 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMbLx-00071M-9w
-	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 12:48:05 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56106)
+	id 1hMbTP-0003O9-AL
+	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 12:55:47 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57861)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hMbK6-0006Pu-6B
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 12:46:11 -0400
+	(envelope-from <berrange@redhat.com>) id 1hMbSO-0002jc-6W
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 12:54:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hMbK4-0006YS-Ud
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 12:46:10 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:58213)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hMbK4-0006UK-Jz
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 12:46:08 -0400
-Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
-	(mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
-	1N17cq-1gd01U0yOg-012VeT; Fri, 03 May 2019 18:46:06 +0200
-To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
-References: <20181210165636.28366-1-peter.maydell@linaro.org>
-	<20181210165636.28366-3-peter.maydell@linaro.org>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <57e90be8-0652-8204-cc9e-1ce347e446d8@vivier.eu>
-Date: Fri, 3 May 2019 18:46:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
+	(envelope-from <berrange@redhat.com>) id 1hMbSN-0004if-0k
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 12:54:44 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59446)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hMbSM-0004ho-RZ
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 12:54:42 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+	[10.5.11.11])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 92C80C02492F;
+	Fri,  3 May 2019 16:54:41 +0000 (UTC)
+Received: from redhat.com (ovpn-112-52.ams2.redhat.com [10.36.112.52])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 4663453E0B;
+	Fri,  3 May 2019 16:54:39 +0000 (UTC)
+Date: Fri, 3 May 2019 17:54:35 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Message-ID: <20190503165435.GL17905@redhat.com>
+References: <20190503004130.8285-1-ehabkost@redhat.com>
+	<20190503004130.8285-20-ehabkost@redhat.com>
+	<40c4d236-ed76-e433-51d5-c9feabb4374a@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20181210165636.28366-3-peter.maydell@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:Al/j7ttYiWfKrYgTZJ+MV+Q5SUOwHb0UnmVTFq1EKlxjff5k/qJ
-	8dmCN9AI6kRa+y/NeuFpbZd3hBJiHnCvp60zONgAHtGBxmEVAjcKEawTDfNJZLFu5hP7kjg
-	i3+jj2NbpcQRLvuC6bDBM2ha3ZK366QjigYV20xPNFdPROxcOwimY4L7LHCDN9TExIIxjM3
-	Fp0o6a1KizYIohq4LTuNQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:0Y+nsCBFAaA=:CpXWtxD8N/9/ZK8vBBwvGi
-	sgJdC30UKI3rPf6eeorenUzzTWF1top7dXQGNNQxU1kwKQHgv6E1Bzc6woBmaYrck5xO6bMSS
-	pE1XpgUauCf+xCx4y2aeVNTGff02QGQFRhQh4/73lXRDntJQkca9LbPTsqT6ct3eyI5EweFEE
-	mS9gY7NIaDyN5VUWRLrSxQYSe6xy+tBphPm2nE3V1Nf5LhiCbJB6+pHfrEv5TvHyXyV4Hjbvo
-	88OahxBY56WNre/71AV+QFanswcsfK/uCUv7nu+ssr2QqWvA+XetDIroTvdSVeXkTYio9b+IP
-	oKE2YCtttVyHNUi9LQceGtBeqU1j/ADaeJr2cVYpKTc8iprJm0V27hNPg5BGT2UGUbQoxo334
-	jQ6yn6uOegtehnKGVKV2u0AHOenrNBXAPqiBjk4agAkBU2MSYMP4rFkxH1enhRWnAuiH8u9CL
-	n48E1/ldISvM0RqPEdErIZcOZ50hk4M/080/NuMwp+eU8Rche3y4Xww9Za0sxmw99KvIM7rZS
-	1vCK4ILNyTqN0t6J+GJui5YtfCTpXoOgy9flYshe1pJ3a3FEG5lCeO7+IzqiWyeYWNUdUAyQ+
-	FeJNzlMEVca/Za2i3xZVDawt5qXkWgG0lUNvcEx2d0SoOJcvNurBIm9I/vkDpscMtXA44LT6n
-	mBOxi+qyTehO9EEH+PzUYeNoBEuIafr50RHg+sq90RPSYj2tgBXg2DPjL/Y6V2BAVIUXEQnAY
-	cwHZVCiWbRyV/+sD1E+62uLcgsQx9Z+MJLVnZrqJQAjb43A83/2Uc9KPyrg=
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <40c4d236-ed76-e433-51d5-c9feabb4374a@redhat.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.32]);
+	Fri, 03 May 2019 16:54:41 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.73
-Subject: Re: [Qemu-devel] [RFC 2/3] target/m68k: In get_physical_address()
- check for memory access failures
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PULL 19/19] configure: automatically pick python3
+ is available
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -67,150 +61,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, patches@linaro.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Cleber Rosa <crosa@redhat.com>,
+	Eduardo Habkost <ehabkost@redhat.com>,
+	Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/12/2018 17:56, Peter Maydell wrote:
-> In get_physical_address(), use address_space_ldl() and
-> address_space_stl() instead of ldl_phys() and stl_phys().
-> This allows us to check whether the memory access failed.
-> For the moment, we simply return -1 in this case;
-> add a TODO comment that we should ideally generate the
-> appropriate kind of fault.
-> 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->   target/m68k/helper.c | 62 +++++++++++++++++++++++++++++++++++++-------
->   1 file changed, 52 insertions(+), 10 deletions(-)
-> 
-> diff --git a/target/m68k/helper.c b/target/m68k/helper.c
-> index 374e4861886..b5fa2f8056d 100644
-> --- a/target/m68k/helper.c
-> +++ b/target/m68k/helper.c
-> @@ -660,6 +660,7 @@ static int get_physical_address(CPUM68KState *env, hwaddr *physical,
->       bool debug = access_type & ACCESS_DEBUG;
->       int page_bits;
->       int i;
-> +    MemTxResult txres;
->   
->       /* Transparent Translation (physical = logical) */
->       for (i = 0; i < M68K_MAX_TTR; i++) {
-> @@ -689,12 +690,19 @@ static int get_physical_address(CPUM68KState *env, hwaddr *physical,
->       /* Root Index */
->       entry = M68K_POINTER_BASE(next) | M68K_ROOT_INDEX(address);
->   
-> -    next = ldl_phys(cs->as, entry);
-> +    next = address_space_ldl(cs->as, entry, MEMTXATTRS_UNSPECIFIED, &txres);
-> +    if (txres != MEMTX_OK) {
-> +        goto txfail;
-> +    }
->       if (!M68K_UDT_VALID(next)) {
->           return -1;
->       }
->       if (!(next & M68K_DESC_USED) && !debug) {
-> -        stl_phys(cs->as, entry, next | M68K_DESC_USED);
-> +        address_space_stl(cs->as, entry, next | M68K_DESC_USED,
-> +                          MEMTXATTRS_UNSPECIFIED, &txres);
-> +        if (txres != MEMTX_OK) {
-> +            goto txfail;
-> +        }
->       }
->       if (next & M68K_DESC_WRITEPROT) {
->           if (access_type & ACCESS_PTEST) {
-> @@ -709,12 +717,19 @@ static int get_physical_address(CPUM68KState *env, hwaddr *physical,
->       /* Pointer Index */
->       entry = M68K_POINTER_BASE(next) | M68K_POINTER_INDEX(address);
->   
-> -    next = ldl_phys(cs->as, entry);
-> +    next = address_space_ldl(cs->as, entry, MEMTXATTRS_UNSPECIFIED, &txres);
-> +    if (txres != MEMTX_OK) {
-> +        goto txfail;
-> +    }
->       if (!M68K_UDT_VALID(next)) {
->           return -1;
->       }
->       if (!(next & M68K_DESC_USED) && !debug) {
-> -        stl_phys(cs->as, entry, next | M68K_DESC_USED);
-> +        address_space_stl(cs->as, entry, next | M68K_DESC_USED,
-> +                          MEMTXATTRS_UNSPECIFIED, &txres);
-> +        if (txres != MEMTX_OK) {
-> +            goto txfail;
-> +        }
->       }
->       if (next & M68K_DESC_WRITEPROT) {
->           if (access_type & ACCESS_PTEST) {
-> @@ -733,27 +748,46 @@ static int get_physical_address(CPUM68KState *env, hwaddr *physical,
->           entry = M68K_4K_PAGE_BASE(next) | M68K_4K_PAGE_INDEX(address);
->       }
->   
-> -    next = ldl_phys(cs->as, entry);
-> +    next = address_space_ldl(cs->as, entry, MEMTXATTRS_UNSPECIFIED, &txres);
-> +    if (txres != MEMTX_OK) {
-> +        goto txfail;
-> +    }
->   
->       if (!M68K_PDT_VALID(next)) {
->           return -1;
->       }
->       if (M68K_PDT_INDIRECT(next)) {
-> -        next = ldl_phys(cs->as, M68K_INDIRECT_POINTER(next));
-> +        next = address_space_ldl(cs->as, M68K_INDIRECT_POINTER(next),
-> +                                 MEMTXATTRS_UNSPECIFIED, &txres);
-> +        if (txres != MEMTX_OK) {
-> +            goto txfail;
-> +        }
->       }
->       if (access_type & ACCESS_STORE) {
->           if (next & M68K_DESC_WRITEPROT) {
->               if (!(next & M68K_DESC_USED) && !debug) {
-> -                stl_phys(cs->as, entry, next | M68K_DESC_USED);
-> +                address_space_stl(cs->as, entry, next | M68K_DESC_USED,
-> +                                  MEMTXATTRS_UNSPECIFIED, &txres);
-> +                if (txres != MEMTX_OK) {
-> +                    goto txfail;
-> +                }
->               }
->           } else if ((next & (M68K_DESC_MODIFIED | M68K_DESC_USED)) !=
->                              (M68K_DESC_MODIFIED | M68K_DESC_USED) && !debug) {
-> -                stl_phys(cs->as, entry,
-> -                         next | (M68K_DESC_MODIFIED | M68K_DESC_USED));
-> +            address_space_stl(cs->as, entry,
-> +                              next | (M68K_DESC_MODIFIED | M68K_DESC_USED),
-> +                              MEMTXATTRS_UNSPECIFIED, &txres);
-> +            if (txres != MEMTX_OK) {
-> +                goto txfail;
-> +            }
->           }
->       } else {
->           if (!(next & M68K_DESC_USED) && !debug) {
-> -            stl_phys(cs->as, entry, next | M68K_DESC_USED);
-> +            address_space_stl(cs->as, entry, next | M68K_DESC_USED,
-> +                              MEMTXATTRS_UNSPECIFIED, &txres);
-> +            if (txres != MEMTX_OK) {
-> +                goto txfail;
-> +            }
->           }
->       }
->   
-> @@ -785,6 +819,14 @@ static int get_physical_address(CPUM68KState *env, hwaddr *physical,
->       }
->   
->       return 0;
-> +
-> +txfail:
-> +    /*
-> +     * A page table load/store failed. TODO: we should really raise a
-> +     * suitable guest fault here if this is not a debug access.
-> +     * For now just return that the translation failed.
-> +     */
-> +    return -1;
->   }
->   
->   hwaddr m68k_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
-> 
+On Fri, May 03, 2019 at 06:41:43PM +0200, Thomas Huth wrote:
+> On 03/05/2019 02.41, Eduardo Habkost wrote:
+> > From: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> >=20
+> > Unless overridden via an env var or configure arg, QEMU will only loo=
+k
+> > for the 'python' binary in $PATH. This is unhelpful on distros which
+> > are only shipping Python 3.x (eg Fedora) in their default install as,
+> > if they comply with PEP 394, the bare 'python' binary won't exist.
+> >=20
+> > This changes configure so that by default it will search for all thre=
+e
+> > common python binaries, preferring to find Python 3.x versions.
+> >=20
+> > Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> > Message-Id: <20190327170701.23798-1-berrange@redhat.com>
+> > Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+> > ---
+> >  configure | 18 +++++++++++++++---
+> >  1 file changed, 15 insertions(+), 3 deletions(-)
+>=20
+> I haven't bisected it, but I think this patch here broke the gitlab-ci =
+tests:
+>=20
+>  https://gitlab.com/huth/qemu/-/jobs/206806257
+>=20
+> Seems like the test is now failing when you don't have an UTF-8 locale:
+>=20
+>  LANG=3DC make check-qapi-schema
+>  [...]
+>  TEST    tests/qapi-schema/union-base-empty.out
+>  --- /builds/huth/qemu/tests/qapi-schema/unicode-str.err	2019-05-03 15:=
+21:39.000000000 +0000
+>  +++ -	2019-05-03 15:42:01.561762978 +0000
+>  @@ -1 +1 @@
+>  -tests/qapi-schema/unicode-str.json:2: 'command' uses invalid name '=C3=
+=A9'
+>  +tests/qapi-schema/unicode-str.json:2: 'command' uses invalid name '\x=
+e9'
+>  /builds/huth/qemu/tests/Makefile.include:1105: recipe for target 'chec=
+k-tests/qapi-schema/unicode-str.json' failed
+>  make: *** [check-tests/qapi-schema/unicode-str.json] Error 1
+>=20
+> Any ideas how to fix this?
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+python3 is basically doomed if you use the C locale for LC_CTYPE, as
+it is not 8-bit clean.
 
+If a python3 program is liable to see UTF-8 input data, the following
+env should generally be set when running python:
 
+   LC_ALL=3D LANG=3DC LC_CTYPE=3Den_US.UTF-8 =20
+
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 
