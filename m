@@ -2,68 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 459EA12E98
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 14:58:57 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40377 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 45FF812EB4
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 15:03:14 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40474 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMXmC-0004AV-Fn
-	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 08:58:56 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55446)
+	id 1hMXqK-0006Yn-Qo
+	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 09:03:12 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56065)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hMXl9-0003rY-03
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 08:57:51 -0400
+	(envelope-from <marcandre.lureau@redhat.com>) id 1hMXnx-00056J-Ar
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 09:00:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hMXl8-0006L2-1g
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 08:57:50 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:37471)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hMXl6-0006IL-6O
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 08:57:48 -0400
-Received: by mail-oi1-x241.google.com with SMTP id 143so4328257oii.4
-	for <qemu-devel@nongnu.org>; Fri, 03 May 2019 05:57:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=/NuIaw3/6wEYTL0WMlR4+PVue2uKvKjbnKw9i6nXeGM=;
-	b=Z8d6mS+wq5MtzJkxDapyEd7nryJLhmf/yz+8eLHlRajiQrVJUSpP4N/Q75GmZkGTed
-	8y2uTYEZmLfX+9AQA4KVJYfX2HpETambrp957A0Ta224kohmNdVLfZH7f4B3hYf2nDR/
-	TGC+ft9rM/JWr4GHr0DLeH/4begrV6o3ZQQ98QTvzbO8AE+b3jsiLmVWaxClYYGaEMVo
-	E+MVtJdUw68Q794Jq8h7SXJaiwhXrigGsVwYeXgMzm2qwaDKqaNAgDcjvbNUusqGrlwo
-	Vl6aEeI4idOmQZnUZjx4tVYfvLQeOtCFdlefJ5fZ3iuN1wAjRkHH6n+CjYNE3T3gZHAk
-	731g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=/NuIaw3/6wEYTL0WMlR4+PVue2uKvKjbnKw9i6nXeGM=;
-	b=VYkcX3vaIRrWNM03ZDtW2GNB5UPtolCuEBRE5/Qohv8HUKpTOSWk1x0+tnUABlqOUR
-	GoptazeDIPO84Fr2YLIYS2l8tZZMU4WrSgWfFrIEiqjfMxyltnYA2uo6uNN8LCV5hJId
-	wFq7+49zPuVNrNeY44TUK3O1MlXTbTxJKFkELJEtTvTX+6izIgHAB18ZTpgod8QmogHb
-	Q8ml51D6G4/If3ThJLHhvtdTsoMqwWxs6MuV7uhnoq5LPQl/DbGr8XONYLcj23LIp0wB
-	4THMLJqfs6D50dZ9bAX8F2wdSsDcC5YPCHBcmpYu/kmtyrz9B2kblUNFbEa1LC792Hxe
-	Pw9A==
-X-Gm-Message-State: APjAAAUQTQ3JIGIj1nfgEfzjvRdZu7VfFhvi0D/2MB7NLStQdvI2WOlG
-	G6okwfjhPC5QKhI8GDAcg9xB6Wr5b8QIqqlo2mZ5CCEyZlA=
-X-Google-Smtp-Source: APXvYqwSwbhGChyfsU5JtYDxZNw/h9YoKK+zf5F3+N+PxXG0q1CCEM58RueLhSHxFdNTJHiwoVqtOONbYhlDb/baHUQ=
-X-Received: by 2002:aca:ed17:: with SMTP id l23mr5630465oih.146.1556888267567; 
-	Fri, 03 May 2019 05:57:47 -0700 (PDT)
+	(envelope-from <marcandre.lureau@redhat.com>) id 1hMXnv-000094-Ny
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 09:00:45 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47490)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
+	id 1hMXnv-00007T-Ij
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 09:00:43 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+	[10.5.11.14])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 0A9883151C52
+	for <qemu-devel@nongnu.org>; Fri,  3 May 2019 13:00:40 +0000 (UTC)
+Received: from localhost (ovpn-112-51.ams2.redhat.com [10.36.112.51])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 31B7B5DA34;
+	Fri,  3 May 2019 13:00:35 +0000 (UTC)
+From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Fri,  3 May 2019 15:00:28 +0200
+Message-Id: <20190503130034.24916-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-References: <20190425145420.8888-1-stefanha@redhat.com>
-	<20190501162055.GB21155@stefanha-x1.localdomain>
-	<CAFEAcA8Go-8Ux9AGzw5CGiU3wDyAQSrV1HOb0gbZP8+b06-EPQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA8Go-8Ux9AGzw5CGiU3wDyAQSrV1HOb0gbZP8+b06-EPQ@mail.gmail.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 3 May 2019 13:57:36 +0100
-Message-ID: <CAFEAcA--Gn=7aAH1i28sr7ifk23vprw24rqO7TTs=8D7hKG95g@mail.gmail.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.41]);
+	Fri, 03 May 2019 13:00:40 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::241
-Subject: Re: [Qemu-devel] [PATCH v2] gitmodules: use qemu.org git mirrors
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v2 0/6] Add vhost-user-input
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -75,40 +55,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
-	=?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
-	QEMU Developers <qemu-devel@nongnu.org>,
-	Stefan Hajnoczi <stefanha@redhat.com>
+Cc: kraxel@redhat.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 2 May 2019 at 11:11, Peter Maydell <peter.maydell@linaro.org> wrote=
-:
->
-> On Wed, 1 May 2019 at 17:20, Stefan Hajnoczi <stefanha@gmail.com> wrote:
-> >
-> > On Thu, Apr 25, 2019 at 03:54:20PM +0100, Stefan Hajnoczi wrote:
-> > > qemu.org hosts git repository mirrors of all submodules.  Update
-> > > .gitmodules to use the mirrors and not the upstream repositories.
-> > >
-> > > Mirroring upstream repositories ensures that QEMU continues to build
-> > > even when upstream repositories are deleted or temporarily offline.
-> > >
-> > > Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
-> > > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> > > Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> > > ---
-> > >  .gitmodules | 10 +++++-----
-> > >  1 file changed, 5 insertions(+), 5 deletions(-)
-> >
-> > Ping?
+Hi,
 
-> This won't apply because currently master's .gitmodules
-> has no [submodule "slirp"] entry. I was assuming you'd
-> ping or repost once the slirp changes went in.
+This is the vhost-user-input part of "[PATCH v6 00/11] vhost-user for inp=
+ut & GPU".
 
-The slirp changes are now in master, so I've applied this.
+v2:
+- build fixes
 
-thanks
--- PMM
+v1: (changes since original v6 series)
+- add "libvhost-user: fix -Waddress-of-packed-member" & "util: simplify u=
+nix_listen()"
+- use unix_listen()
+- build vhost-user-input by default (when applicable)
+
+Marc-Andr=C3=A9 Lureau (6):
+  libvhost-user: fix -Waddress-of-packed-member
+  libvhost-user: add PROTOCOL_F_CONFIG if {set,get}_config
+  Add vhost-user-backend
+  Add vhost-user-input-pci
+  util: simplify unix_listen()
+  contrib: add vhost-user-input
+
+ include/hw/virtio/virtio-input.h       |  14 +
+ include/sysemu/vhost-user-backend.h    |  57 ++++
+ backends/vhost-user.c                  | 209 +++++++++++++
+ contrib/libvhost-user/libvhost-user.c  |  10 +-
+ contrib/vhost-user-input/main.c        | 393 +++++++++++++++++++++++++
+ hw/input/vhost-user-input.c            | 129 ++++++++
+ hw/virtio/vhost-user-input-pci.c       |  53 ++++
+ util/qemu-sockets.c                    |  18 +-
+ MAINTAINERS                            |   4 +
+ Makefile                               |  11 +
+ Makefile.objs                          |   1 +
+ backends/Makefile.objs                 |   2 +
+ contrib/vhost-user-input/Makefile.objs |   1 +
+ hw/input/Kconfig                       |   5 +
+ hw/input/Makefile.objs                 |   1 +
+ hw/virtio/Makefile.objs                |   1 +
+ 16 files changed, 890 insertions(+), 19 deletions(-)
+ create mode 100644 include/sysemu/vhost-user-backend.h
+ create mode 100644 backends/vhost-user.c
+ create mode 100644 contrib/vhost-user-input/main.c
+ create mode 100644 hw/input/vhost-user-input.c
+ create mode 100644 hw/virtio/vhost-user-input-pci.c
+ create mode 100644 contrib/vhost-user-input/Makefile.objs
+
+--=20
+2.21.0.777.g83232e3864
+
 
