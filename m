@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8606A1323D
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 18:32:56 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43610 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1D2D13232
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 18:30:34 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43532 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMb7H-0004h6-Nl
-	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 12:32:55 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46229)
+	id 1hMb4z-0002j4-UY
+	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 12:30:33 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45869)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <liboxuan@connect.hku.hk>) id 1hMayP-0005u1-LX
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 12:23:47 -0400
+	(envelope-from <philmd@redhat.com>) id 1hMay1-0005bn-LU
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 12:23:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <liboxuan@connect.hku.hk>) id 1hMayN-0007p6-Gn
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 12:23:45 -0400
-Received: from mail-yw1-xc41.google.com ([2607:f8b0:4864:20::c41]:38072)
+	(envelope-from <philmd@redhat.com>) id 1hMaxy-0007RK-Ta
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 12:23:21 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:54534)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <liboxuan@connect.hku.hk>)
-	id 1hMayM-0007nC-Ra
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 12:23:43 -0400
-Received: by mail-yw1-xc41.google.com with SMTP id b74so4606338ywe.5
-	for <qemu-devel@nongnu.org>; Fri, 03 May 2019 09:23:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=connect-hku-hk.20150623.gappssmtp.com; s=20150623;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Ur8T8LWqDP6W0fjDMK0HxlnVo3TThPJnX1IonkrMF3c=;
-	b=XnUBxiXrD44KUAsjTCoKP9ZUWQCCqS/gp9ul+eXsRfWzqUCIyopjjHZZOQcuyZxYgU
-	mRz/Kht2qJY6Ad1QZIg8txZyTJFK0YtvYvEldDcyo2u8Cm4FmAqgolyoRSXbXoscwCmH
-	15qf38fwGkmnJPkdKISi0DHaPoLnsf78gmpF+yQCGc/nUAI2iW/KYdQI7/LjLAtbx7VY
-	Jh0lBIEfVMR54KsAbJLEFNFxxEBxUoD8yXHKuLs+Yx0tm9ZNsukT++G4Hn5TPI2/4NPf
-	+x4NmKgDDy9EA8oTJvT9lp6nZagA4Q299BApbJcjmvqBwshEQONJt+mT/HkWilmUCQom
-	dr8g==
+	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hMaxy-0007Pr-DW
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 12:23:18 -0400
+Received: by mail-wm1-f67.google.com with SMTP id b10so7799647wmj.4
+	for <qemu-devel@nongnu.org>; Fri, 03 May 2019 09:23:18 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=Ur8T8LWqDP6W0fjDMK0HxlnVo3TThPJnX1IonkrMF3c=;
-	b=UrvQ+e1G7F34+OruqgUIuAiZrc0fQsZSA6wSme0mWCgN5qmPpmhiCJIrVjyCVU/ivi
-	FLoHOXr0T7bJAg+mIKlpbh1HC7S2OHgPa6EbEW3/sOfkU7nLu9VYN1hH+jfZPedKhnFN
-	NJbUi5SnNACdLPiXIYTVjcI1zYVzsqg2KuiiWqikvaD0614n+HhqIXFGdUwHu0DAizah
-	jnfMraSYnbJC008ONS9Q/9jTCIT0/YTityOS4VgHZhbEhK5ZPSfGYIjVnxjkiVsFdqlC
-	HSe6UxB7gMpM1lpoRnxUWUAXQauSlAxnwbJOfpf9k4DzDx/rjrRtsJcFn/+aySeXr6tv
-	LxeQ==
-X-Gm-Message-State: APjAAAWstS6J/9GPD4Vpj1JGV1H+ofq5LplcEQ0DEKWxY+DPMFGtkwaU
-	G4o2gmrGsC9yMjf3MNPj9TP7w72kh8cUZmqMHe3NMQ==
-X-Google-Smtp-Source: APXvYqxifS13lXVVO+85NMgL0tqt8L9ioW27WYUjWGCdu45H/ohu/K8EiA49cC9IJ5IwuezZqsWJ7BxmiAuAT2/beyY=
-X-Received: by 2002:a25:ef01:: with SMTP id g1mr8602880ybd.399.1556900620986; 
-	Fri, 03 May 2019 09:23:40 -0700 (PDT)
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=M8WgKMHGzcbGODR9dlVFSGXZfHqiB8f0FlklaO2r7VE=;
+	b=LHJwUWWXJyHcWkWTDWOvl8byJLjjepE1IKCbGDArvKNTZWhNO0ABDKTERnRvPygU8a
+	XqX9dUYTkvkLd4VGHnyQu2FtSZKqH+JYKo8TX3BCuN9vh6aPN/V6QIUBH+yXs0WqA2FS
+	vUygzzmIimKw44oPRLyex90tAyQzCHN9GuiYv9KFBlyptriqIt4c4f4Ha1LHLnYAj5ye
+	OrlHjC2wUN7pOHuk0eUC7Lt7QN6lR1a4GfuWMqgqsl6aeKa03DU0gjxcxYTSwb1lhZ44
+	FrMllVilkd9bnAutd4y8u4pIQDJF3MVItM8el83VIskJjpc6dAkf340rHVEj+gfNiGfz
+	7WhA==
+X-Gm-Message-State: APjAAAVlUb9xhH/KRFq1NLdJrlCasuTgfWOJI7AxuvQgZ7bvypxgXVWb
+	VycJIEzGfWhMjwwDPWnW+DZnTw==
+X-Google-Smtp-Source: APXvYqz8vBxL/1QRATJFWVv+CkMOrPGhOudx04VsCjyj54tgb6MYR8JkYlqOlzd2l3Nygiw42SL5ig==
+X-Received: by 2002:a1c:e085:: with SMTP id x127mr7336885wmg.140.1556900597449;
+	Fri, 03 May 2019 09:23:17 -0700 (PDT)
+Received: from [192.168.1.33] (193.red-88-21-103.staticip.rima-tde.net.
+	[88.21.103.193]) by smtp.gmail.com with ESMTPSA id
+	a184sm1934471wmh.36.2019.05.03.09.23.16
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Fri, 03 May 2019 09:23:16 -0700 (PDT)
+To: =?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@gmail.com>,
+	Peter Maydell <peter.maydell@linaro.org>
+References: <20190503002206.9751-1-driver1998@foxmail.com>
+	<20190503003618.10089-1-driver1998@foxmail.com>
+	<aa0dce0b-1be0-7247-8f81-c4f265ba0009@redhat.com>
+	<CAFEAcA9a8oQHe+cbSotO+BR2-iqgKOBV5Pg4n1aOBY7_tnvqFg@mail.gmail.com>
+	<CAJ+F1CL+2YGHMZteU74y9a61rW6fXLDxcb4KGzPBEAL6878Ujg@mail.gmail.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <a6456256-cda6-0604-6602-2102d47ac006@redhat.com>
+Date: Fri, 3 May 2019 18:23:15 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <20190503154424.73933-1-liboxuan@connect.hku.hk>
-	<87bm0j4im0.fsf@zen.linaroharston>
-In-Reply-To: <87bm0j4im0.fsf@zen.linaroharston>
-From: "LI, BO XUAN" <liboxuan@connect.hku.hk>
-Date: Sat, 4 May 2019 00:23:05 +0800
-Message-ID: <CALM0=-=b+z2aW-cuM=hmk3_oKG7w3ianMo_ZA7gj8zMgCOfC3g@mail.gmail.com>
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::c41
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PATCH v4] hw/virtio/virtio-mmio: Convert DPRINTF
- to trace and log
+In-Reply-To: <CAJ+F1CL+2YGHMZteU74y9a61rW6fXLDxcb4KGzPBEAL6878Ujg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+	[fuzzy]
+X-Received-From: 209.85.128.67
+Subject: Re: [Qemu-devel] [PATCH v3 1/4] QEMU_PACKED: Remove gcc_struct
+ attribute in Windows non x86 targets
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -76,212 +79,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, qemu-trivial@nongnu.org,
-	qemu-devel@nongnu.org, Yuval Shaia <yuval.shaia@oracle.com>,
-	=?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Cc: Thomas Huth <thuth@redhat.com>, qemu trival <qemu-trivial@nongnu.org>,
+	Stefan Weil <sw@weilnetz.de>, QEMU Developers <qemu-devel@nongnu.org>,
+	Cao Jiaxi <driver1998@foxmail.com>,
+	Samuel Thibault <samuel.thibault@ens-lyon.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alex,
+On 5/3/19 5:56 PM, Marc-André Lureau wrote:
+> Hi
+> 
+> Le ven. 3 mai 2019 à 17:23, Peter Maydell <peter.maydell@linaro.org> a
+> écrit :
+> 
+>> On Fri, 3 May 2019 at 06:07, Thomas Huth <thuth@redhat.com> wrote:
+>>>
+>>> On 03/05/2019 02.36, Cao Jiaxi wrote:
+>>>> gcc_struct is for x86 only, and it generates an warning on ARM64
+>> Clang/MinGW targets.
+>>>>
+>>>> Signed-off-by: Cao Jiaxi <driver1998@foxmail.com>
+>>>> ---
+>>>>  contrib/libvhost-user/libvhost-user.h | 2 +-
+>>>>  include/qemu/compiler.h               | 2 +-
+>>>>  scripts/cocci-macro-file.h            | 7 ++++++-
+>>>>  slirp/src/util.h                      | 2 +-
+>>>>  4 files changed, 9 insertions(+), 4 deletions(-)
+>>
+>>>> diff --git a/slirp/src/util.h b/slirp/src/util.h
+>>>> index 01f1e0e068..278828fe3f 100644
+>>>> --- a/slirp/src/util.h
+>>>> +++ b/slirp/src/util.h
+>>>> @@ -43,7 +43,7 @@
+>>>>  #include <netinet/in.h>
+>>>>  #endif
+>>>>
+>>>> -#if defined(_WIN32)
+>>>> +#if defined(_WIN32) && (defined(__x86_64__) || defined(__i386__))
+>>>>  # define SLIRP_PACKED __attribute__((gcc_struct, packed))
+>>>>  #else
+>>>>  # define SLIRP_PACKED __attribute__((packed))
+>>>>
+>>>
+>>> The slirp code is currently on its way into a separate module, so you
+>>> might need to provide that hunk to the libslirp folks again... I'm
+>>> putting the slirp maintainers on CC:, maybe they can pick it up from
+>> here.
+>>
+>> Yes, the slirp module has now landed in master, so this patch
+>> definitely needs to be split into two. I've kept in my
+>> target-arm.next tree the parts which are applicable to
+>> the QEMU repo itself (ie everything except the slirp/ change),
+>> so we just need a new patch for the slirp submodule part.
+>>
+>> Marc-André, Samuel -- what's the process for submitting and
+>> getting reviewed changes to the slirp submodule now it's a
+>> separate project ?
+>>
+> 
+> It's hosted on gitlab.freedesktop.org, with some CI. It's fine to send
+> patches on qemu devel, as long as Samuel or I are in CC. But in the long
+> term, I think gitlab MR will be favoured (after a while using it, I think
+> gitlab is better than ML for patches & bug tracking tbh)
 
-Sorry about that, I am still trying to get familiar with the patch
-submission process. Since my patch has been changed from your last review,
-I thought it would be safe to not include the r-b tag from last time. Will
-take care next time!
+Except when working offline (or with poor intermittent link).
 
-Best regards,
-Boxuan Li
-
-On Sat, May 4, 2019 at 12:18 AM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
-
->
-> Boxuan Li <liboxuan@connect.hku.hk> writes:
->
-> > Use traces for debug message and qemu_log_mask for errors.
-> >
-> > Signed-off-by: Boxuan Li <liboxuan@connect.hku.hk>
->
-> You didn't add my r-b tags from last time. Anyway:
->
-> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->
-> > ---
-> > v1:
-> https://patchew.org/QEMU/20190428110258.86681-1-liboxuan@connect.hku.hk/
-> > v2:
-> https://patchew.org/QEMU/20190501081039.58938-1-liboxuan@connect.hku.hk/
-> > v3:
-> https://patchew.org/QEMU/20190503084654.18413-1-liboxuan@connect.hku.hk/
-> > v4: Fix indentation and do not convert uint64_t to int
-> > ---
-> >  hw/virtio/trace-events  |  7 +++++++
-> >  hw/virtio/virtio-mmio.c | 44
-> +++++++++++++++++++++-----------------------
-> >  2 files changed, 28 insertions(+), 23 deletions(-)
-> >
-> > diff --git a/hw/virtio/trace-events b/hw/virtio/trace-events
-> > index 60c649c4bc..e28ba48da6 100644
-> > --- a/hw/virtio/trace-events
-> > +++ b/hw/virtio/trace-events
-> > @@ -46,3 +46,10 @@ virtio_balloon_handle_output(const char *name,
-> uint64_t gpa) "section name: %s g
-> >  virtio_balloon_get_config(uint32_t num_pages, uint32_t actual)
-> "num_pages: %d actual: %d"
-> >  virtio_balloon_set_config(uint32_t actual, uint32_t oldactual) "actual=
-:
-> %d oldactual: %d"
-> >  virtio_balloon_to_target(uint64_t target, uint32_t num_pages) "balloon
-> target: 0x%"PRIx64" num_pages: %d"
-> > +
-> > +# virtio-mmio.c
-> > +virtio_mmio_read(uint64_t offset) "virtio_mmio_read offset 0x%" PRIx64
-> > +virtio_mmio_write_offset(uint64_t offset, uint64_t value)
-> "virtio_mmio_write offset 0x%" PRIx64 " value 0x%" PRIx64
-> > +virtio_mmio_guest_page(uint64_t size, int shift) "guest page size 0x%"
-> PRIx64 " shift %d"
-> > +virtio_mmio_queue_write(uint64_t value, int max_size) "mmio_queue writ=
-e
-> 0x%" PRIx64 " max %d"
-> > +virtio_mmio_setting_irq(int level) "virtio_mmio setting IRQ %d"
-> > diff --git a/hw/virtio/virtio-mmio.c b/hw/virtio/virtio-mmio.c
-> > index 5807aa87fe..96c762f0bf 100644
-> > --- a/hw/virtio/virtio-mmio.c
-> > +++ b/hw/virtio/virtio-mmio.c
-> > @@ -27,16 +27,8 @@
-> >  #include "sysemu/kvm.h"
-> >  #include "hw/virtio/virtio-bus.h"
-> >  #include "qemu/error-report.h"
-> > -
-> > -/* #define DEBUG_VIRTIO_MMIO */
-> > -
-> > -#ifdef DEBUG_VIRTIO_MMIO
-> > -
-> > -#define DPRINTF(fmt, ...) \
-> > -do { printf("virtio_mmio: " fmt , ## __VA_ARGS__); } while (0)
-> > -#else
-> > -#define DPRINTF(fmt, ...) do {} while (0)
-> > -#endif
-> > +#include "qemu/log.h"
-> > +#include "trace.h"
-> >
-> >  /* QOM macros */
-> >  /* virtio-mmio-bus */
-> > @@ -107,7 +99,7 @@ static uint64_t virtio_mmio_read(void *opaque, hwadd=
-r
-> offset, unsigned size)
-> >      VirtIOMMIOProxy *proxy =3D (VirtIOMMIOProxy *)opaque;
-> >      VirtIODevice *vdev =3D virtio_bus_get_device(&proxy->bus);
-> >
-> > -    DPRINTF("virtio_mmio_read offset 0x%x\n", (int)offset);
-> > +    trace_virtio_mmio_read(offset);
-> >
-> >      if (!vdev) {
-> >          /* If no backend is present, we treat most registers as
-> > @@ -144,7 +136,9 @@ static uint64_t virtio_mmio_read(void *opaque,
-> hwaddr offset, unsigned size)
-> >          }
-> >      }
-> >      if (size !=3D 4) {
-> > -        DPRINTF("wrong size access to register!\n");
-> > +        qemu_log_mask(LOG_GUEST_ERROR,
-> > +                      "%s: wrong size access to register!\n",
-> > +                      __func__);
-> >          return 0;
-> >      }
-> >      switch (offset) {
-> > @@ -182,10 +176,12 @@ static uint64_t virtio_mmio_read(void *opaque,
-> hwaddr offset, unsigned size)
-> >      case VIRTIO_MMIO_QUEUE_ALIGN:
-> >      case VIRTIO_MMIO_QUEUE_NOTIFY:
-> >      case VIRTIO_MMIO_INTERRUPT_ACK:
-> > -        DPRINTF("read of write-only register\n");
-> > +        qemu_log_mask(LOG_GUEST_ERROR,
-> > +                      "%s: read of write-only register\n",
-> > +                      __func__);
-> >          return 0;
-> >      default:
-> > -        DPRINTF("bad register offset\n");
-> > +        qemu_log_mask(LOG_GUEST_ERROR, "%s: bad register offset\n",
-> __func__);
-> >          return 0;
-> >      }
-> >      return 0;
-> > @@ -197,8 +193,7 @@ static void virtio_mmio_write(void *opaque, hwaddr
-> offset, uint64_t value,
-> >      VirtIOMMIOProxy *proxy =3D (VirtIOMMIOProxy *)opaque;
-> >      VirtIODevice *vdev =3D virtio_bus_get_device(&proxy->bus);
-> >
-> > -    DPRINTF("virtio_mmio_write offset 0x%x value 0x%" PRIx64 "\n",
-> > -            (int)offset, value);
-> > +    trace_virtio_mmio_write_offset(offset, value);
-> >
-> >      if (!vdev) {
-> >          /* If no backend is present, we just make all registers
-> > @@ -226,7 +221,9 @@ static void virtio_mmio_write(void *opaque, hwaddr
-> offset, uint64_t value,
-> >          return;
-> >      }
-> >      if (size !=3D 4) {
-> > -        DPRINTF("wrong size access to register!\n");
-> > +        qemu_log_mask(LOG_GUEST_ERROR,
-> > +                      "%s: wrong size access to register!\n",
-> > +                      __func__);
-> >          return;
-> >      }
-> >      switch (offset) {
-> > @@ -246,8 +243,7 @@ static void virtio_mmio_write(void *opaque, hwaddr
-> offset, uint64_t value,
-> >          if (proxy->guest_page_shift > 31) {
-> >              proxy->guest_page_shift =3D 0;
-> >          }
-> > -        DPRINTF("guest page size %" PRIx64 " shift %d\n", value,
-> > -                proxy->guest_page_shift);
-> > +        trace_virtio_mmio_guest_page(value, proxy->guest_page_shift);
-> >          break;
-> >      case VIRTIO_MMIO_QUEUE_SEL:
-> >          if (value < VIRTIO_QUEUE_MAX) {
-> > @@ -255,7 +251,7 @@ static void virtio_mmio_write(void *opaque, hwaddr
-> offset, uint64_t value,
-> >          }
-> >          break;
-> >      case VIRTIO_MMIO_QUEUE_NUM:
-> > -        DPRINTF("mmio_queue write %d max %d\n", (int)value,
-> VIRTQUEUE_MAX_SIZE);
-> > +        trace_virtio_mmio_queue_write(value, VIRTQUEUE_MAX_SIZE);
-> >          virtio_queue_set_num(vdev, vdev->queue_sel, value);
-> >          /* Note: only call this function for legacy devices */
-> >          virtio_queue_update_rings(vdev, vdev->queue_sel);
-> > @@ -303,11 +299,13 @@ static void virtio_mmio_write(void *opaque, hwadd=
-r
-> offset, uint64_t value,
-> >      case VIRTIO_MMIO_DEVICE_FEATURES:
-> >      case VIRTIO_MMIO_QUEUE_NUM_MAX:
-> >      case VIRTIO_MMIO_INTERRUPT_STATUS:
-> > -        DPRINTF("write to readonly register\n");
-> > +        qemu_log_mask(LOG_GUEST_ERROR,
-> > +                      "%s: write to readonly register\n",
-> > +                      __func__);
-> >          break;
-> >
-> >      default:
-> > -        DPRINTF("bad register offset\n");
-> > +        qemu_log_mask(LOG_GUEST_ERROR, "%s: bad register offset\n",
-> __func__);
-> >      }
-> >  }
-> >
-> > @@ -327,7 +325,7 @@ static void virtio_mmio_update_irq(DeviceState
-> *opaque, uint16_t vector)
-> >          return;
-> >      }
-> >      level =3D (atomic_read(&vdev->isr) !=3D 0);
-> > -    DPRINTF("virtio_mmio setting IRQ %d\n", level);
-> > +    trace_virtio_mmio_setting_irq(level);
-> >      qemu_set_irq(proxy->irq, level);
-> >  }
->
->
-> --
-> Alex Benn=C3=A9e
->
