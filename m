@@ -2,54 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6263212B97
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 12:37:30 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:37869 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C99112BF4
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 13:03:27 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38122 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMVZJ-0005FB-H9
-	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 06:37:29 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51130)
+	id 1hMVyQ-0002hF-5S
+	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 07:03:26 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56199)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <berrange@redhat.com>) id 1hMVXb-0004d6-NH
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 06:35:44 -0400
+	(envelope-from <sgarzare@redhat.com>) id 1hMVxH-0002LC-9z
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 07:02:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <berrange@redhat.com>) id 1hMVXa-0002V5-Ni
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 06:35:43 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52016)
+	(envelope-from <sgarzare@redhat.com>) id 1hMVxG-0002hs-CK
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 07:02:15 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37232)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hMVXa-0002Sa-IG
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 06:35:42 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
+	(Exim 4.71) (envelope-from <sgarzare@redhat.com>)
+	id 1hMVxE-0002gT-7h; Fri, 03 May 2019 07:02:12 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+	[10.5.11.14])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 5D94B3007C5A;
-	Fri,  3 May 2019 10:35:41 +0000 (UTC)
-Received: from redhat.com (ovpn-112-52.ams2.redhat.com [10.36.112.52])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 7529E608A6;
-	Fri,  3 May 2019 10:35:32 +0000 (UTC)
-Date: Fri, 3 May 2019 11:35:29 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Message-ID: <20190503103529.GD17905@redhat.com>
-References: <20190425133503.30847-1-stefanha@redhat.com>
-	<20190503101921.GC17905@redhat.com>
-	<CAFEAcA_CkUBHe1fWg9wy-+HLw8WBZrp3M_oBksCN1GQc1qp4hg@mail.gmail.com>
+	by mx1.redhat.com (Postfix) with ESMTPS id 94C0D3082E91;
+	Fri,  3 May 2019 11:02:09 +0000 (UTC)
+Received: from steredhat.redhat.com (unknown [10.36.118.31])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id B3CB45D9C4;
+	Fri,  3 May 2019 11:02:07 +0000 (UTC)
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Fri,  3 May 2019 13:02:06 +0200
+Message-Id: <20190503110206.42811-1-sgarzare@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA_CkUBHe1fWg9wy-+HLw8WBZrp3M_oBksCN1GQc1qp4hg@mail.gmail.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.40]);
-	Fri, 03 May 2019 10:35:41 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.46]);
+	Fri, 03 May 2019 11:02:09 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2] security.rst: add Security Guide to
- developer docs
+Subject: [Qemu-devel] [PATCH] block/rbd: implement
+ .bdrv_get_allocated_file_size callback
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,40 +54,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Eduardo Otubo <otubo@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
-	Markus Armbruster <armbru@redhat.com>,
-	Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
-	Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Josh Durgin <jdurgin@redhat.com>,
+	Jason Dillaman <jdillama@redhat.com>, qemu-block@nongnu.org,
+	Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 03, 2019 at 11:28:53AM +0100, Peter Maydell wrote:
-> On Fri, 3 May 2019 at 11:19, Daniel P. Berrang=C3=A9 <berrange@redhat.c=
-om> wrote:
-> > Everything above here is useful to QEMU devs, app devs & end users an=
-d
-> > should be made part of the main QEMU doc - convert it to texi and @in=
-clude
-> > it from qemu-doc.texi, as we do for other stuff under docs/
->=20
-> If we convert it to texi we'll have to convert it back again
-> as/when we migrate properly from texi to sphinx... (I would
-> like to make further moves in that direction during this
-> release cycle -- just need to find the time to work on it.)
+This patch allows 'qemu-img info' to show the 'disk size' for
+rbd images. We use the rbd_diff_iterate2() API to calculate the
+allocated size for the image.
 
-Yes, but we're only talking about 100-150 lines of simple text with
-minimal markup needs. Won't be a noticable extra burden compared to
-the pre-existing 4700 lines of texi markup for qemu-doc.texi and its
-includes.
+Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+---
+ block/rbd.c | 33 +++++++++++++++++++++++++++++++++
+ 1 file changed, 33 insertions(+)
 
-Regards,
-Daniel
+diff --git a/block/rbd.c b/block/rbd.c
+index 0c549c9935..61447bc0cb 100644
+--- a/block/rbd.c
++++ b/block/rbd.c
+@@ -1046,6 +1046,38 @@ static int64_t qemu_rbd_getlength(BlockDriverState=
+ *bs)
+     return info.size;
+ }
+=20
++static int rbd_allocated_size_cb(uint64_t offset, size_t len, int exists=
+,
++                                 void *arg)
++{
++    int64_t *alloc_size =3D (int64_t *) arg;
++
++    if (exists) {
++        (*alloc_size) +=3D len;
++    }
++
++    return 0;
++}
++
++static int64_t qemu_rbd_get_allocated_file_size(BlockDriverState *bs)
++{
++    BDRVRBDState *s =3D bs->opaque;
++    int64_t alloc_size =3D 0;
++    int r;
++
++    /*
++     * rbd_diff_iterate2(), if the source snapshot name is NULL, invokes
++     * the callback on all allocated regions of the image.
++     */
++    r =3D rbd_diff_iterate2(s->image, NULL, 0,
++                          bs->total_sectors * BDRV_SECTOR_SIZE, 0, 1,
++                          &rbd_allocated_size_cb, &alloc_size);
++    if (r < 0) {
++        return r;
++    }
++
++    return alloc_size;
++}
++
+ static int coroutine_fn qemu_rbd_co_truncate(BlockDriverState *bs,
+                                              int64_t offset,
+                                              PreallocMode prealloc,
+@@ -1254,6 +1286,7 @@ static BlockDriver bdrv_rbd =3D {
+     .bdrv_get_info          =3D qemu_rbd_getinfo,
+     .create_opts            =3D &qemu_rbd_create_opts,
+     .bdrv_getlength         =3D qemu_rbd_getlength,
++    .bdrv_get_allocated_file_size =3D qemu_rbd_get_allocated_file_size,
+     .bdrv_co_truncate       =3D qemu_rbd_co_truncate,
+     .protocol_name          =3D "rbd",
+=20
 --=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
+2.20.1
+
 
