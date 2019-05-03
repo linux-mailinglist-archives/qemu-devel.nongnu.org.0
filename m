@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D70312C79
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 13:35:45 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38574 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BC7E12C93
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 13:42:30 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38712 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMWTg-0005iE-7R
-	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 07:35:44 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33875)
+	id 1hMWaD-0004Yq-HG
+	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 07:42:29 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33957)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hMWLf-0007kD-Op
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 07:27:28 -0400
+	(envelope-from <laurent@vivier.eu>) id 1hMWLm-0007qz-Dp
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 07:27:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hMWLe-0003Lj-R4
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 07:27:27 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:41031)
+	(envelope-from <laurent@vivier.eu>) id 1hMWLl-0003UY-97
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 07:27:34 -0400
+Received: from mout.kundenserver.de ([212.227.126.133]:48721)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <laurent@vivier.eu>)
-	id 1hMWLc-0003Hr-J1; Fri, 03 May 2019 07:27:24 -0400
+	id 1hMWLl-0003Te-11; Fri, 03 May 2019 07:27:33 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
 	mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA
 	(Nemesis)
-	id 1MXXZf-1hFhg93Xnr-00Ywj9; Fri, 03 May 2019 13:27:03 +0200
+	id 1N14xe-1gd3XG0BiM-012UBm; Fri, 03 May 2019 13:27:04 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Fri,  3 May 2019 13:26:45 +0200
-Message-Id: <20190503112654.4393-4-laurent@vivier.eu>
+Date: Fri,  3 May 2019 13:26:46 +0200
+Message-Id: <20190503112654.4393-5-laurent@vivier.eu>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190503112654.4393-1-laurent@vivier.eu>
 References: <20190503112654.4393-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Vwma6Rzlj1kjDOfuerTs47edBiyFSJN5reaPmOSAYvp+eeoE27q
-	z7EK4W3bbUHt68eLqFhPcwTWR5qMBgnVQk2GCgwd7h4KbQSfUZVMUh9YcekhNZhicQYbIta
-	kf8MJVWBrtp/CJL5KfwNilVi+VSgI5Extlxd8CWU/oFYmZf98UUJb87WyzQIIEbkGSuUq4v
-	C8yVoT+erKbxXgJ4En/oA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:IfgB+E8W+KY=:tPvxorVaOzTttZtQOwl0Vm
-	AUBoMI6dZ0YqIRGyqLuQ01qCXYAp5k9fl+o2Uno3tnaTuRg+WhcjCeS1X1oslG0BApq+kkKsk
-	XFeHszHpSWVMkaUKi0kTw6AFFyjh7Zf2YSVtyIgC7owhYk+uji124tIvosY2KGpDt1UMqLY1X
-	oQlnmISEmQL7kmLU78LxWrM3KCtvS3yjtgztYZxXRlYM/4hnmz2+xCu2UTvplohpMrrEeuBVv
-	gPjZKUcDw2kC2wo8014cYtOG/o1apYXrQVbuY2YzgktMZ1J4Ryyz3HvXaEiAclaolbcHso2hg
-	8/n2smotmkV551YbPb259USzGMsIivJFwfxWSrqlj+ivwPIq3jWks14MHRP1ZKijek78h9qX/
-	fMQm6Z5kkaiBtB4K0KtYYGxuzmOVEm3Fuivw97x49ctDM6/U0Oj8Sl4o6psM38bUochVwZiDL
-	BuMbxitEuKDjhu1C0CxrmGrHOkQaQzvhZhEZ7QATHlI2d+6EO/tlLU8Rx7rrjpTjQRIfm5Xp8
-	vqYuOV9CbBnVKLY0q0yFhuYMMZxtH6HjhYSBnWdApeAe16ThHU4NzWD4iwqH2B904XQKTSkZP
-	wFiZALze0g6EBLj1AmEKSK0Y+7VTxDzkUQdv10EbM6ge8A+ykbzwCB7CFG/iYYmU7CXb5idTJ
-	26WJwDc6+UHqVUuuxwtujuveJpZpW+RRnReNW6MM525R0PJGPMsiYVwIXR++hp+5ZtaeC8CAr
-	q1Ee8Fuwd1uXO8nm5m6tdV9Krwccsv4R/qb0HeLcs4VSWWBS/YJCTLo+VcQ=
+X-Provags-ID: V03:K1:/exoKr2G8amIMJOf8rY8yNH4VKXqwLNcO4mlaKtG33M69xL87BX
+	6G7CQnal/Hv4gaAajGW3fQTfFA3z4r1FwPuLkyeKNiixwp73yANVwUMFuF9fD9slE16QZyT
+	2F0fuzvvrm0P7I97AO8vvVBmJgXIxyZaL3jmE62cDIaaN5K1LV6Z/TK5ViYvmJWOcVcsDr3
+	EtEuVmO4ABblJP5dfXkMg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:cvr4RbMvxyU=:+opHoDA9oED1oZIISzlzOR
+	Z4x9mHeowNmjzNGLvffRLYF21eq8lFnt8YJh2G0aVCCRvdKaFyWUdi171xdKqbrvkNMZwT8/R
+	g6VkSOGIKDxlToPAX3lUNSXDHocJyxgWB3rRMTVXIF2YsAONQxlz6Xv6wNiscNGwiCEvxm6BY
+	dZYv8pPSjrBm4p8sqDfpbR75NH7NVwLQmFoe55bCceLA33YiwdNlRurCXa7sBK2GkagSsQwHJ
+	w1adFjod8dUqRufS3Z/7oppN4n0KJNjH8+SN9vXa1jvPzTeFM4MDlUbCKqSZ1i5xdcJtv0Jp0
+	HsmSkYrZkGug7GmfyPWUxJJU+CnR93t0zuuHCKZQQQdb2SKpZ/VsXqPr7zwQ3SeVDuxRMRYCB
+	W949pJcqcg8/eWt+SWql+8sJys6ZPUGUAoutEGpBgxhwtT7PiSb9lKT8k0kaIdHpmtMKWF0JQ
+	5s/RxEmjR0yYm/O5F/Ni/l1lC4dAb6wKaCm5WQJTrDYJeOazlr7c8EFavS9CAjkG4s1MQR0Rn
+	Jgy85G4HHHEP4tqGZFbZ9x2dKs2EYqLwOOJmMG2ed3T5u/yKUcJ1+yCntDokkGMsSthlBdbjc
+	edsd/6xqCReOkNpD33JGrCK4ndOL90fi4lhN5sEENSwMC0fmghVK/QqOFuLxsW/QAzKId9vQl
+	wC7GoRPm9g+q3jJqy88hm/8gDkpOQ6+fl/FTudEHIkDiIErvvanVHVc+7Jux+oNroiKfLjxKa
+	l0yC6+ZGh8/6Rnt+pd4KauO6nU/GLo664L5PP3HZPLf+MYfirgJ/pASROWI=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.134
-Subject: [Qemu-devel] [PULL v2 03/12] CODING_STYLE: indent example code as
- all others
+X-Received-From: 212.227.126.133
+Subject: [Qemu-devel] [PULL v2 04/12] doc: fix the configuration path
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -66,56 +65,79 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: qemu-trivial@nongnu.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
-	Jason Wang <jasowang@redhat.com>,
-	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
-	Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>,
-	Fabien Chouteau <chouteau@adacore.com>,
+	Jason Wang <jasowang@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
+	Laurent Vivier <laurent@vivier.eu>, Fabien Chouteau <chouteau@adacore.com>,
 	Michael Roth <mdroth@linux.vnet.ibm.com>,
-	Wei Yang <richardw.yang@linux.intel.com>,
-	Gerd Hoffmann <kraxel@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+	Gerd Hoffmann <kraxel@redhat.com>,
+	=?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
 	Paolo Bonzini <pbonzini@redhat.com>,
-	Stefano Garzarella <sgarzare@redhat.com>,
+	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 	=?UTF-8?q?Andreas=20F=C3=A4rber?= <afaerber@suse.de>,
 	Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Wei Yang <richardw.yang@linux.intel.com>
+From: Marc-André Lureau <marcandre.lureau@redhat.com>
 
-All the example code are indented with four spaces except this one.
+Use a CONFDIR variable to show the configured sysconf path in the
+generated documentations (html, man pages etc).
 
-Fix this by adding four spaces here.
+Related to:
+https://bugzilla.redhat.com/show_bug.cgi?id=1644985
 
-Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Signed-off-by: Marc-André Lureau <marcandre.lureau@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Message-Id: <20190304071631.27567-3-richardw.yang@linux.intel.com>
+Message-Id: <20181126105125.30973-1-marcandre.lureau@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- CODING_STYLE | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ qemu-ga.texi | 4 ++--
+ Makefile     | 9 ++++++---
+ 2 files changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/CODING_STYLE b/CODING_STYLE
-index 90321e9c2821..cb8edcbb3692 100644
---- a/CODING_STYLE
-+++ b/CODING_STYLE
-@@ -147,10 +147,10 @@ block to a separate function altogether.
- When comparing a variable for (in)equality with a constant, list the
- constant on the right, as in:
+diff --git a/qemu-ga.texi b/qemu-ga.texi
+index 4c7a8fd16329..f00ad830f283 100644
+--- a/qemu-ga.texi
++++ b/qemu-ga.texi
+@@ -30,7 +30,7 @@ set user's password
+ @end itemize
  
--if (a == 1) {
--    /* Reads like: "If a equals 1" */
--    do_something();
--}
-+    if (a == 1) {
-+        /* Reads like: "If a equals 1" */
-+        do_something();
-+    }
+ qemu-ga will read a system configuration file on startup (located at
+-@file{/etc/qemu/qemu-ga.conf} by default), then parse remaining
++@file{@value{CONFDIR}/qemu-ga.conf} by default), then parse remaining
+ configuration options on the command line. For the same key, the last
+ option wins, but the lists accumulate (see below for configuration
+ file format).
+@@ -58,7 +58,7 @@ file format).
+   Enable fsfreeze hook. Accepts an optional argument that specifies
+   script to run on freeze/thaw. Script will be called with
+   'freeze'/'thaw' arguments accordingly (default is
+-  @samp{/etc/qemu/fsfreeze-hook}). If using -F with an argument, do
++  @samp{@value{CONFDIR}/fsfreeze-hook}). If using -F with an argument, do
+   not follow -F with a space (for example:
+   @samp{-F/var/run/fsfreezehook.sh}).
  
- Rationale: Yoda conditions (as in 'if (1 == a)') are awkward to read.
- Besides, good compilers already warn users when '==' is mis-typed as '=',
+diff --git a/Makefile b/Makefile
+index 1211e78c91ed..43a7a047b452 100644
+--- a/Makefile
++++ b/Makefile
+@@ -899,11 +899,14 @@ ui/shader.o: $(SRC_PATH)/ui/shader.c \
+ MAKEINFO=makeinfo
+ MAKEINFOINCLUDES= -I docs -I $(<D) -I $(@D)
+ MAKEINFOFLAGS=--no-split --number-sections $(MAKEINFOINCLUDES)
+-TEXI2PODFLAGS=$(MAKEINFOINCLUDES) "-DVERSION=$(VERSION)"
++TEXI2PODFLAGS=$(MAKEINFOINCLUDES) -DVERSION="$(VERSION)" -DCONFDIR="$(qemu_confdir)"
+ TEXI2PDFFLAGS=$(if $(V),,--quiet) -I $(SRC_PATH) $(MAKEINFOINCLUDES)
+ 
+-docs/version.texi: $(SRC_PATH)/VERSION
+-	$(call quiet-command,echo "@set VERSION $(VERSION)" > $@,"GEN","$@")
++docs/version.texi: $(SRC_PATH)/VERSION config-host.mak
++	$(call quiet-command,(\
++		echo "@set VERSION $(VERSION)" && \
++		echo "@set CONFDIR $(qemu_confdir)" \
++	)> $@,"GEN","$@")
+ 
+ %.html: %.texi docs/version.texi
+ 	$(call quiet-command,LC_ALL=C $(MAKEINFO) $(MAKEINFOFLAGS) --no-headers \
 -- 
 2.20.1
 
