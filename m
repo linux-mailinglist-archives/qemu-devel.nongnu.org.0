@@ -2,48 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C8864125DA
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 02:54:59 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60626 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85953125DF
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 02:56:51 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60686 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMMTa-0005ik-VY
-	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 20:54:59 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37977)
+	id 1hMMVO-0007Jj-Oi
+	for lists+qemu-devel@lfdr.de; Thu, 02 May 2019 20:56:50 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37995)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hMMHT-0004Cp-Ix
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 20:42:28 -0400
+	(envelope-from <ehabkost@redhat.com>) id 1hMMHV-0004F0-NV
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 20:42:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hMMHS-00074M-DZ
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 20:42:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47674)
+	(envelope-from <ehabkost@redhat.com>) id 1hMMHU-000754-Hz
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 20:42:29 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60988)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hMMHS-00073n-7v
-	for qemu-devel@nongnu.org; Thu, 02 May 2019 20:42:26 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
+	(Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hMMHU-00074q-AX
+	for qemu-devel@nongnu.org; Thu, 02 May 2019 20:42:28 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+	[10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 8A262309E9A1;
-	Fri,  3 May 2019 00:42:25 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id A810830ADBCC;
+	Fri,  3 May 2019 00:42:27 +0000 (UTC)
 Received: from localhost (ovpn-116-9.gru2.redhat.com [10.97.116.9])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 1E8D51001DF6;
-	Fri,  3 May 2019 00:42:24 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 2FC0760BF7;
+	Fri,  3 May 2019 00:42:26 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
 	Cleber Rosa <crosa@redhat.com>
-Date: Thu,  2 May 2019 21:41:28 -0300
-Message-Id: <20190503004130.8285-18-ehabkost@redhat.com>
+Date: Thu,  2 May 2019 21:41:29 -0300
+Message-Id: <20190503004130.8285-19-ehabkost@redhat.com>
 In-Reply-To: <20190503004130.8285-1-ehabkost@redhat.com>
 References: <20190503004130.8285-1-ehabkost@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.49]);
-	Fri, 03 May 2019 00:42:25 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.47]);
+	Fri, 03 May 2019 00:42:27 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 17/19] tests/boot_linux_console: add a test for
- s390x + s390-ccw-virtio
+Subject: [Qemu-devel] [PULL 18/19] tests/boot_linux_console: add a test for
+ alpha + clipper
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -60,66 +63,84 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cleber Rosa <crosa@redhat.com>
 
-Just like the previous tests, boots a Linux kernel on a s390x target
-using the s390-ccw-virtio machine.
+Similar to the x86_64 + pc test, it boots a Linux kernel on a Malta
+board and verify the serial is working.  One extra command added to
+the QEMU command line is '-vga std', because the kernel used is
+known to crash without it.
 
-Because it's not possible to have multiple VT220 consoles,
-'-nodefaults' is used, so that the one set with set_console() works
-correctly.
+If alpha is a target being built, "make check-acceptance" will
+automatically include this test by the use of the "arch:alpha" tags.
 
+Alternatively, this test can be run using:
+
+    $ avocado run -t arch:alpha tests/acceptance
+    $ avocado run -t machine:clipper tests/acceptance
+
+Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 Signed-off-by: Cleber Rosa <crosa@redhat.com>
-Reviewed-by: Cornelia Huck <cohuck@redhat.com>
 Reviewed-by: Caio Carrara <ccarrara@redhat.com>
-Message-Id: <20190312171824.5134-20-crosa@redhat.com>
-[ehabkost: Updated kernel URL to point to fedoraproject.org]
+Message-Id: <20190312171824.5134-21-crosa@redhat.com>
 Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 ---
  .travis.yml                            |  2 +-
- tests/acceptance/boot_linux_console.py | 20 ++++++++++++++++++++
- 2 files changed, 21 insertions(+), 1 deletion(-)
+ tests/acceptance/boot_linux_console.py | 22 ++++++++++++++++++++++
+ 2 files changed, 23 insertions(+), 1 deletion(-)
 
 diff --git a/.travis.yml b/.travis.yml
-index 268df60345..9b271b963d 100644
+index 9b271b963d..66448d99d6 100644
 --- a/.travis.yml
 +++ b/.travis.yml
 @@ -223,7 +223,7 @@ matrix:
- 
+=20
      # Acceptance (Functional) tests
      - env:
--        - CONFIG="--python=/usr/bin/python3 --target-list=x86_64-softmmu,mips-softmmu,mips64el-softmmu,aarch64-softmmu,arm-softmmu"
-+        - CONFIG="--python=/usr/bin/python3 --target-list=x86_64-softmmu,mips-softmmu,mips64el-softmmu,aarch64-softmmu,arm-softmmu,s390x-softmmu"
-         - TEST_CMD="make check-acceptance"
+-        - CONFIG=3D"--python=3D/usr/bin/python3 --target-list=3Dx86_64-s=
+oftmmu,mips-softmmu,mips64el-softmmu,aarch64-softmmu,arm-softmmu,s390x-so=
+ftmmu"
++        - CONFIG=3D"--python=3D/usr/bin/python3 --target-list=3Dx86_64-s=
+oftmmu,mips-softmmu,mips64el-softmmu,aarch64-softmmu,arm-softmmu,s390x-so=
+ftmmu,alpha-softmmu"
+         - TEST_CMD=3D"make check-acceptance"
        addons:
          apt:
-diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-index 54b6e2625d..7c1099e5c8 100644
+diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/bo=
+ot_linux_console.py
+index 7c1099e5c8..d5c500ea30 100644
 --- a/tests/acceptance/boot_linux_console.py
 +++ b/tests/acceptance/boot_linux_console.py
-@@ -175,3 +175,23 @@ class BootLinuxConsole(Test):
+@@ -195,3 +195,25 @@ class BootLinuxConsole(Test):
          self.vm.launch()
-         console_pattern = 'Kernel command line: %s' % kernel_command_line
+         console_pattern =3D 'Kernel command line: %s' % kernel_command_l=
+ine
          self.wait_for_console_pattern(console_pattern)
 +
-+    def test_s390x_s390_ccw_virtio(self):
++    def test_alpha_clipper(self):
 +        """
-+        :avocado: tags=arch:s390x
-+        :avocado: tags=machine:s390_ccw_virtio
++        :avocado: tags=3Darch:alpha
++        :avocado: tags=3Dmachine:clipper
 +        """
-+        kernel_url = ('https://download.fedoraproject.org/pub/fedora-secondary/'
-+                      'releases/29/Everything/s390x/os/images/kernel.img')
-+        kernel_hash = 'e8e8439103ef8053418ef062644ffd46a7919313'
-+        kernel_path = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
++        kernel_url =3D ('http://archive.debian.org/debian/dists/lenny/ma=
+in/'
++                      'installer-alpha/current/images/cdrom/vmlinuz')
++        kernel_hash =3D '3a943149335529e2ed3e74d0d787b85fb5671ba3'
++        kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dkernel=
+_hash)
 +
-+        self.vm.set_machine('s390-ccw-virtio')
++        uncompressed_kernel =3D archive.uncompress(kernel_path, self.wor=
+kdir)
++
++        self.vm.set_machine('clipper')
 +        self.vm.set_console()
-+        kernel_command_line = self.KERNEL_COMMON_COMMAND_LINE + 'console=sclp0'
-+        self.vm.add_args('-nodefaults',
-+                         '-kernel', kernel_path,
++        kernel_command_line =3D self.KERNEL_COMMON_COMMAND_LINE + 'conso=
+le=3DttyS0'
++        self.vm.add_args('-vga', 'std',
++                         '-kernel', uncompressed_kernel,
 +                         '-append', kernel_command_line)
 +        self.vm.launch()
-+        console_pattern = 'Kernel command line: %s' % kernel_command_line
++        console_pattern =3D 'Kernel command line: %s' % kernel_command_l=
+ine
 +        self.wait_for_console_pattern(console_pattern)
--- 
+--=20
 2.18.0.rc1.1.g3f1ff2140
 
 
