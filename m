@@ -2,77 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEF4612773
-	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 08:03:17 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:35083 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AEE312779
+	for <lists+qemu-devel@lfdr.de>; Fri,  3 May 2019 08:06:10 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:35125 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMRHw-0004jY-LT
-	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 02:03:16 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55706)
+	id 1hMRKj-0006uf-Qq
+	for lists+qemu-devel@lfdr.de; Fri, 03 May 2019 02:06:09 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55876)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hMRCr-0000m4-UR
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 01:58:02 -0400
+	(envelope-from <sjitindarsingh@gmail.com>) id 1hMRDH-00019D-2U
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 01:58:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hMRCr-0005Oy-1W
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 01:58:01 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:46072)
+	(envelope-from <sjitindarsingh@gmail.com>) id 1hMRDF-0005qa-UD
+	for qemu-devel@nongnu.org; Fri, 03 May 2019 01:58:27 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:36247)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hMRCq-0005Oo-QS
-	for qemu-devel@nongnu.org; Fri, 03 May 2019 01:58:00 -0400
-Received: by mail-pg1-x543.google.com with SMTP id i21so2184424pgi.12
-	for <qemu-devel@nongnu.org>; Thu, 02 May 2019 22:58:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=W7r8JobTZB+LldUPKgEU8ZWssw9bAU5TxjjMtVMzfEc=;
-	b=c0Tu9DARppiGVx6OWo8XhdigMVnLMcVRXgqNykEH26rTszJp1ty047uR82goReqNur
-	a7lLAuc72eIypZjKZSyKgYVlOPqZeUwy5MDIU0N8J7al1xbsbh1vWHIRvegm/9vrqZ23
-	E1btcTuKLW9IFNRHpoMm/AxCxClBKI1orDikqdx2+tmuaL1Zb7eAzzeaR7NP6XyGgHjt
-	ZTdXML3ng4Cw6TOBUdyXMx0GtfNTYMAMag+KraX718HEG3PFlBmwMjXFVHLsr3KGe/Z7
-	jG+q5x0GRW8/dsaXlm4YQ/evh5Mr5d4EBaW7RsQ9zhBVJRWkopKaIUJt4WD/Rn0myCFD
-	fDsQ==
+	(Exim 4.71) (envelope-from <sjitindarsingh@gmail.com>)
+	id 1hMRDF-0005qK-NC; Fri, 03 May 2019 01:58:25 -0400
+Received: by mail-pg1-x542.google.com with SMTP id 85so2203818pgc.3;
+	Thu, 02 May 2019 22:58:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=message-id:subject:from:to:cc:date:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=WCQkcT5ngtSCJw7dr2VFRTss9x1IgvdYs7Q3LRr0k8c=;
+	b=EhkP7QyqwmFe/YQHe3Rf2iFeAIw92hZHrHgwMk6m0BHvMlIWbJoIPzqhdlHuxNsB1M
+	5/TEoJTIiI/XtJOgkWUQ1EgcZEBeNvn4vVQqML/RO8RUyoudvETkqVYi41VOlRnkBQso
+	CVhsIuPgUHF6VijydhdugJjUQ6qFUgQF1lUwCcADGzO4rQlymQtastH8t48+0250wIjm
+	CYNxzJe27Xudxbqk1gPXVN0wU5HSV6SjsY1BrNFmxBFZ1HyGB5tKBIhhlYTxSGVhER0t
+	XGoRFZULLgLV4AJ1iwwvY4CX0s0DkekNZZ8jaMZNt/pBi6ZGBH00mQCypih3feoeV2L2
+	3gyg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=W7r8JobTZB+LldUPKgEU8ZWssw9bAU5TxjjMtVMzfEc=;
-	b=o9s9WJ9QEZwu9EcAdyCCBXf/SgkEx77p9deq96NY3qw6tT8atjr8sqxTCWWDMElZtv
-	2JhOIpGOSRRJNHpJHYcmXkmoRscQGn1tgFNBxBDyd5dZoVIVdX2IvopQ5vp00gqfh2SO
-	+5VgJyLqyp0oLVKWs+YQ5NFbF0LJ+5JSLLg3WDcc1Q1DLVugPWxohg33A4apcc1Ispf7
-	PEQY/ILTMLT9MEw85XcmaEKahTtWD3OIyqff7Hx8AtE0sY2V/hAFK692n3rHt3Dc3WFK
-	VZQXhlDLWs2LjeO5LSpWHwe3B0ytaK5CQWx/zIH07KRi+ThqmbZrHxHRpt7HPKRWNpsV
-	geTw==
-X-Gm-Message-State: APjAAAXXAhnZqv4tTx8PY9BKSq2GH+wg4fNqZJO4yPoykjbWKNgB83Cd
-	bjvUhxm4FV3rtGX5nrueSL3uPw==
-X-Google-Smtp-Source: APXvYqyMXXIxdkDESi8MWE3v+jTfhVb9M0kruPbwCjbtkkcxXLtJww52FKOabjelBlxTi16pXXOjVw==
-X-Received: by 2002:a65:6541:: with SMTP id a1mr7862050pgw.233.1556863079646; 
-	Thu, 02 May 2019 22:57:59 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-189-189.tukw.qwest.net. [97.113.189.189])
-	by smtp.gmail.com with ESMTPSA id 9sm1727459pgv.5.2019.05.02.22.57.58
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 02 May 2019 22:57:58 -0700 (PDT)
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20190502141019.6385-1-david@redhat.com>
-	<20190502141019.6385-35-david@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <a2d14b29-e162-54f2-a44f-09630212c63b@linaro.org>
-Date: Thu, 2 May 2019 22:57:56 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <20190502141019.6385-35-david@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+	h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=WCQkcT5ngtSCJw7dr2VFRTss9x1IgvdYs7Q3LRr0k8c=;
+	b=GnRPFAJ+n+jIHOsT37BI/QUuIzXPeLhPNWsDS/vSEcONb+B5klE5FdeIQmZ8CImSyT
+	jVqvhDDo6fd7k/96a0ILvM6qp80vePhEp1eEABmm5boeyAnawQO47tfYMsJfjcw9cebs
+	uUQv2k54OaqTgDkQpN/s8K7um6Ma1aMlXeo18zU2NeiqSflzMqcmF0pPN5bqAu95X0a2
+	Z9Q0OmjePhvbQpZujDfgI1OBN2lQ4vX5KzIAY1Xa4iW57xF1idPxSGtxRhIoRWGx3xUM
+	zWQpfBKeVXwf8vGYUblgDeR7Ymy06O3r0msqF6Ad0WyNVnOj39XomSXfddnlIhj5giZ/
+	m+zg==
+X-Gm-Message-State: APjAAAVGB/sOLHEwsERtK89UtGo6qGDP9RfTXtfrRWpRChXpzB+fKWNf
+	8e2YvrziqbPU9N7Wm4XVsLGfLkpJWWo=
+X-Google-Smtp-Source: APXvYqzG9jK1RICnG1iTObW+6ASIwodmuZZkKgsLPXjvcHvKGMZAee4ewoCHaeHqQ4HqZRjOzD5T2A==
+X-Received: by 2002:a65:44cb:: with SMTP id g11mr8147854pgs.193.1556863104737; 
+	Thu, 02 May 2019 22:58:24 -0700 (PDT)
+Received: from localhost.localdomain ([1.129.142.155])
+	by smtp.googlemail.com with ESMTPSA id
+	t7sm287953pfa.42.2019.05.02.22.58.21
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 02 May 2019 22:58:23 -0700 (PDT)
+Message-ID: <1556863097.1887.4.camel@gmail.com>
+From: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
+To: qemu-devel@nongnu.org
+Date: Fri, 03 May 2019 15:58:17 +1000
+In-Reply-To: <20190503055316.6441-1-sjitindarsingh@gmail.com>
+References: <20190503055316.6441-1-sjitindarsingh@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.24.6 (3.24.6-1.fc26) 
+Mime-Version: 1.0
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::543
-Subject: Re: [Qemu-devel] [PATCH v3 34/40] s390x/tcg: Implement VECTOR
- SUBTRACT COMPUTE BORROW INDICATION
+X-Received-From: 2607:f8b0:4864:20::542
+Subject: Re: [Qemu-devel] [QEMU-PPC] [PATCH 00/13] target/ppc: Implement KVM
+ support under TCG
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -84,26 +79,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
-	Thomas Huth <thuth@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: groug@kaod.org, qemu-ppc@nongnu.org, clg@kaod.org,
+	david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/2/19 7:10 AM, David Hildenbrand wrote:
-> Let's keep it simple for now and handle 8/16 bit elements via helpers.
-> Especially for 8/16, we could come up with some bit tricks.
+On Fri, 2019-05-03 at 15:53 +1000, Suraj Jitindar Singh wrote:
+> This patch series adds the necessary parts so that a tcg guest is
+> able to use
+> kvm facilities. That is a tcg guest can boot its own kvm guests.
 > 
-> Signed-off-by: David Hildenbrand <david@redhat.com>
-> ---
->  target/s390x/helper.h           |  2 ++
->  target/s390x/insn-data.def      |  2 ++
->  target/s390x/translate_vx.inc.c | 52 +++++++++++++++++++++++++++++++++
->  target/s390x/vec_int_helper.c   | 16 ++++++++++
->  4 files changed, 72 insertions(+)
+> The main requirements for this were a few registers and instructions
+> as well as
+> some hcalls and the addition of partition scoped translation in the
+> radix mmu
+> emulation.
+> 
+> This can be used to boot a kvm guest under a pseries tcg guest:
+> Use power9_v2.2 cpu and add -machine cap-nested-hv=on for the first
+> guest.
+> Then inside that guest boot a kvm guest as normal.
+> This takes advantage of the new hcalls with qemu emulating them as a
+> normal
+> hypervisor would on a real machine.
+> 
+> This can also be used to boot a kvm guest under a powernv tcg guest:
+> Use any power9 cpu type.
+> This takes advantage of the new hv register access added.
+> Note that for powernv there is no xive interrupt excalation for KVM
+> which means
+> that while the guest will boot, it won't receive any interrupts.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Ah so I'm suddenly aware I based this on the wrong tree so it won't
+apply to your dwg-ppc-for-4.1 David.
 
-r~
+Consider this a RFC and I'll rebase and resend when required.
 
-
+> 
+> Suraj Jitindar Singh (13):
+>   target/ppc: Implement the VTB for HV access
+>   target/ppc: Work [S]PURR implementation and add HV support
+>   target/ppc: Add SPR ASDR
+>   target/ppc: Add SPR TBU40
+>   target/ppc: Add privileged message send facilities
+>   target/ppc: Enforce that the root page directory size must be at
+> least
+>     5
+>   target/ppc: Handle partition scoped radix tree translation
+>   target/ppc: Implement hcall H_SET_PARTITION_TABLE
+>   target/ppc: Implement hcall H_ENTER_NESTED
+>   target/ppc: Implement hcall H_TLB_INVALIDATE
+>   target/ppc: Implement hcall H_COPY_TOFROM_GUEST
+>   target/ppc: Introduce POWER9 DD2.2 cpu type
+>   target/ppc: Enable SPAPR_CAP_NESTED_KVM_HV under tcg
+> 
+>  hw/ppc/ppc.c                    |  46 ++++-
+>  hw/ppc/spapr_caps.c             |  22 ++-
+>  hw/ppc/spapr_cpu_core.c         |   1 +
+>  hw/ppc/spapr_hcall.c            | 409
+> +++++++++++++++++++++++++++++++++++++++
+>  include/hw/ppc/ppc.h            |   4 +-
+>  include/hw/ppc/spapr.h          |   7 +-
+>  linux-user/ppc/cpu_loop.c       |   5 +
+>  target/ppc/cpu-models.c         |   2 +
+>  target/ppc/cpu-models.h         |   1 +
+>  target/ppc/cpu.h                |  70 +++++++
+>  target/ppc/excp_helper.c        |  79 +++++++-
+>  target/ppc/helper.h             |   9 +
+>  target/ppc/misc_helper.c        |  46 +++++
+>  target/ppc/mmu-radix64.c        | 412 ++++++++++++++++++++++++++++
+> ------------
+>  target/ppc/mmu-radix64.h        |   4 +
+>  target/ppc/timebase_helper.c    |  20 ++
+>  target/ppc/translate.c          |  28 +++
+>  target/ppc/translate_init.inc.c | 107 +++++++++--
+>  18 files changed, 1115 insertions(+), 157 deletions(-)
+> 
 
