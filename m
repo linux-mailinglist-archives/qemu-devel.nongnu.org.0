@@ -2,70 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA75E137A7
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 May 2019 07:58:24 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:51656 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36A13137AC
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 May 2019 08:01:29 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:51709 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMngl-0002ka-R2
-	for lists+qemu-devel@lfdr.de; Sat, 04 May 2019 01:58:23 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41741)
+	id 1hMnjk-00056J-7k
+	for lists+qemu-devel@lfdr.de; Sat, 04 May 2019 02:01:28 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41763)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hMnbn-0007jo-5Y
-	for qemu-devel@nongnu.org; Sat, 04 May 2019 01:53:16 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hMnbo-0007kp-6q
+	for qemu-devel@nongnu.org; Sat, 04 May 2019 01:53:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hMnbm-0004BK-4H
-	for qemu-devel@nongnu.org; Sat, 04 May 2019 01:53:15 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:46400)
+	(envelope-from <richard.henderson@linaro.org>) id 1hMnbn-0004C2-1j
+	for qemu-devel@nongnu.org; Sat, 04 May 2019 01:53:16 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:39679)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hMnbl-0004Ay-Uc
+	id 1hMnbm-0004BP-Rz
 	for qemu-devel@nongnu.org; Sat, 04 May 2019 01:53:14 -0400
-Received: by mail-pl1-x644.google.com with SMTP id bi2so3708742plb.13
-	for <qemu-devel@nongnu.org>; Fri, 03 May 2019 22:53:13 -0700 (PDT)
+Received: by mail-pl1-x642.google.com with SMTP id e92so3730810plb.6
+	for <qemu-devel@nongnu.org>; Fri, 03 May 2019 22:53:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=jMr4oVpt08WI1vYqrX0gvWFc/UY/0FSsdcwMQYw/C7U=;
-	b=c2h62x35D0tEWBi2wiev0uihBeIGg8XZ+w/BZ1QRezzO7FksJClkwfZqzWhUG0GAEG
-	t2lSdH9/XP/lN0IRV1HvMC1+QA8bJD7yE88NWJ9eonmTqyOcUY4qKjBCSe4VD64LrYms
-	POAb9MxSB4HXGKZAHWlGYtQ+RwRCNNrflpa0uw9yK83FjPg0eid97z2c8xlTvxj8cGDB
-	xcVl0+So2ghcTP5dpMj6uaUNsqNZsed0LPI89+HhsB+Mg5Eh0lFYt7BYYN0jMVtRnG0y
-	7CpDPq7+3AVAWsXUZt+Ii4MI1PWsvGYJD1mgnzzbtp6JmRlfKqS6xZ1QTpd2nBt2/PsG
-	FxpQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=vlsz3mBJLHv925hZ117IYDgBd7E32bASu3EG/5gz9gQ=;
+	b=GF6inBISMAYTZATq54aHQ1fUwfGkZ/GsyN0zwUP5vvGvEXqfsraqvNEBGjclTCgKQJ
+	OLPP0FB8iloq2xcpZJnoyrKQ5IlYJmo28tZeb0nM6LqPrsiCsgeCnkjd0BW6OoXpcRuZ
+	ny7axcbZ9x1qN8/tlqCuDnIP9jRL862h0fIIF/F+t2ixIfskuRpwFpayXDDCQ8CBn7E0
+	eT3/3SS14inU0a3Sz2IfMFV/7rtDaHsvoUbrq8nuTkYQfIzCtttj/X6C09+yLJT3qZOg
+	oekhIVyYJb0yDoyOvyhfuXj77CVJOBDR1t5pNnCxndBG+Z5yc+RYq6PeeiGI1yPl1omS
+	sXpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=jMr4oVpt08WI1vYqrX0gvWFc/UY/0FSsdcwMQYw/C7U=;
-	b=pARQgvDlVTp4JHppqeH4L75z2T1rR5wchNKxyNVAvQKm5s6g8yk72zxoJr7SF8rcq2
-	1CeETSERyqMLLQzAfXCtR2VfIQXWxUBaib/jenUAvpGtTUDrwcH9Mn/rN9yzEBMj12FM
-	gxcXCRHAUvmKLPcDfJEujmHTS4OkYV60I9+DYyfJdnaFTPRY6QmDtSLNCUDyWrTISaPd
-	v0mCvRlTfb0CvJxuR2TSlsOw1aQTmfam6S61OfgwkuMtjSQC9q2vxK22KGeaNNb//sK3
-	7ghZXT66MP1a75hTRSyz5Er1GdfNZDPyw8BtKCvZOEEdPpXzAwZ4EWrFerIIBthh5Z0x
-	cu+g==
-X-Gm-Message-State: APjAAAV+8WNRESp72Ds4bsgfJk1MY3KZtMnWtJ67pirGQRxjlhG1vkY+
-	uRdQpma6wcgeBA+VCeJ3KnJQ2kcYayM=
-X-Google-Smtp-Source: APXvYqwqOShI7Ak9xrxfANm6sPEq+RWwpCihVPvjBI+XNCFhvfnUkfbJ8nCvGOsJLbhp8dgvyHojmg==
-X-Received: by 2002:a17:902:820c:: with SMTP id
-	x12mr15656378pln.199.1556949192547; 
-	Fri, 03 May 2019 22:53:12 -0700 (PDT)
+	:references:mime-version:content-transfer-encoding;
+	bh=vlsz3mBJLHv925hZ117IYDgBd7E32bASu3EG/5gz9gQ=;
+	b=mmcDNHKGJT328IFIlrzJXBqagaCTaPTg3UuzFUF1i88j8QXciy2dzEZzE+Jxr6pP3z
+	dlL5y1O6lmj+OvARL4HYRjMUzokRxQSsvPBv3LRyz4DNwNuxsmvHRWZt377ycDSJBFsH
+	EK7aR6KDDYrK88T3NVMB4fUtpIsm/3KRufQoB+g5Mgnis+Jcb3buoBiU5W4jt4n2NNMZ
+	Tx9R3HoU7Ru535KM40Kk5ebnK02t2lOR5bC2tvtKoC+NIKQT2poyVy0qyN8sNc0UiUzS
+	RzLA7Lj+jS8vGLhwFzXCtCh0tUDm/AJpcf8w1VWpNh+zO7v6cvN4SHWu98lf95tNmbsY
+	M7/A==
+X-Gm-Message-State: APjAAAVkY+rJg03RifKhoS02ukYT5hmpTk2dxeIMWtDfGfG88rU90QLx
+	zpzzNotYU5oJeLS7A34mjwUFaOfq1ys=
+X-Google-Smtp-Source: APXvYqwz6a8VSuBJwfgp3UCA+13gjM/Y9NRsptcgqlXymRNUYunG3aBZAQhiMZ9Ch2w/wioTodvzZQ==
+X-Received: by 2002:a17:902:42a5:: with SMTP id
+	h34mr10507298pld.146.1556949193550; 
+	Fri, 03 May 2019 22:53:13 -0700 (PDT)
 Received: from localhost.localdomain (97-113-189-189.tukw.qwest.net.
 	[97.113.189.189]) by smtp.gmail.com with ESMTPSA id
-	15sm6680423pfo.117.2019.05.03.22.53.11
+	15sm6680423pfo.117.2019.05.03.22.53.12
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 03 May 2019 22:53:11 -0700 (PDT)
+	Fri, 03 May 2019 22:53:12 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri,  3 May 2019 22:52:37 -0700
-Message-Id: <20190504055300.18426-9-richard.henderson@linaro.org>
+Date: Fri,  3 May 2019 22:52:38 -0700
+Message-Id: <20190504055300.18426-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190504055300.18426-1-richard.henderson@linaro.org>
 References: <20190504055300.18426-1-richard.henderson@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::644
-Subject: [Qemu-devel] [PATCH v3 08/31] tcg: Support cross-class moves
- without instruction support
+X-Received-From: 2607:f8b0:4864:20::642
+Subject: [Qemu-devel] [PATCH v3 09/31] tcg: Promote tcg_out_{dup,
+ dupi}_vec to backend interface
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -81,72 +85,107 @@ Cc: alex.bennee@linaro.org, david@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-PowerPC Altivec does not support direct moves between vector registers
-and general registers.  So when tcg_out_mov fails, we can use the
-backing memory for the temporary to perform the move.
+The i386 backend already has these functions, and the aarch64 backend
+could easily split out one.  Nothing is done with these functions yet,
+but this will aid register allocation of INDEX_op_dup_vec in a later patch.
 
-Acked-by: David Hildenbrand <david@redhat.com>
+Adjust the aarch64 tcg_out_dupi_vec signature to match the new interface.
+
+Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tcg.c | 31 ++++++++++++++++++++++++++++---
- 1 file changed, 28 insertions(+), 3 deletions(-)
+ tcg/aarch64/tcg-target.inc.c | 12 ++++++++++--
+ tcg/i386/tcg-target.inc.c    |  3 ++-
+ tcg/tcg.c                    | 14 ++++++++++++++
+ 3 files changed, 26 insertions(+), 3 deletions(-)
 
+diff --git a/tcg/aarch64/tcg-target.inc.c b/tcg/aarch64/tcg-target.inc.c
+index ee89734318..e443b5df23 100644
+--- a/tcg/aarch64/tcg-target.inc.c
++++ b/tcg/aarch64/tcg-target.inc.c
+@@ -799,7 +799,7 @@ static void tcg_out_logicali(TCGContext *s, AArch64Insn insn, TCGType ext,
+ }
+ 
+ static void tcg_out_dupi_vec(TCGContext *s, TCGType type,
+-                             TCGReg rd, uint64_t v64)
++                             TCGReg rd, tcg_target_long v64)
+ {
+     int op, cmode, imm8;
+ 
+@@ -814,6 +814,14 @@ static void tcg_out_dupi_vec(TCGContext *s, TCGType type,
+     }
+ }
+ 
++static bool tcg_out_dup_vec(TCGContext *s, TCGType type, unsigned vece,
++                            TCGReg rd, TCGReg rs)
++{
++    int is_q = type - TCG_TYPE_V64;
++    tcg_out_insn(s, 3605, DUP, is_q, rd, rs, 1 << vece, 0);
++    return true;
++}
++
+ static void tcg_out_movi(TCGContext *s, TCGType type, TCGReg rd,
+                          tcg_target_long value)
+ {
+@@ -2201,7 +2209,7 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
+         tcg_out_insn(s, 3617, NOT, is_q, 0, a0, a1);
+         break;
+     case INDEX_op_dup_vec:
+-        tcg_out_insn(s, 3605, DUP, is_q, a0, a1, 1 << vece, 0);
++        tcg_out_dup_vec(s, type, vece, a0, a1);
+         break;
+     case INDEX_op_shli_vec:
+         tcg_out_insn(s, 3614, SHL, is_q, a0, a1, a2 + (8 << vece));
+diff --git a/tcg/i386/tcg-target.inc.c b/tcg/i386/tcg-target.inc.c
+index 1198c76392..0d621670c7 100644
+--- a/tcg/i386/tcg-target.inc.c
++++ b/tcg/i386/tcg-target.inc.c
+@@ -855,7 +855,7 @@ static bool tcg_out_mov(TCGContext *s, TCGType type, TCGReg ret, TCGReg arg)
+     return true;
+ }
+ 
+-static void tcg_out_dup_vec(TCGContext *s, TCGType type, unsigned vece,
++static bool tcg_out_dup_vec(TCGContext *s, TCGType type, unsigned vece,
+                             TCGReg r, TCGReg a)
+ {
+     if (have_avx2) {
+@@ -888,6 +888,7 @@ static void tcg_out_dup_vec(TCGContext *s, TCGType type, unsigned vece,
+             g_assert_not_reached();
+         }
+     }
++    return true;
+ }
+ 
+ static void tcg_out_dupi_vec(TCGContext *s, TCGType type,
 diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 8ed7cb8654..68d86361e2 100644
+index 68d86361e2..3ef4d3478d 100644
 --- a/tcg/tcg.c
 +++ b/tcg/tcg.c
-@@ -3368,7 +3368,20 @@ static void tcg_reg_alloc_mov(TCGContext *s, const TCGOp *op)
-                                          ots->indirect_base);
-             }
-             if (!tcg_out_mov(s, otype, ots->reg, ts->reg)) {
--                abort();
-+                /*
-+                 * Cross register class move not supported.
-+                 * Store the source register into the destination slot
-+                 * and leave the destination temp as TEMP_VAL_MEM.
-+                 */
-+                assert(!ots->fixed_reg);
-+                if (!ts->mem_allocated) {
-+                    temp_allocate_frame(s, ots);
-+                }
-+                tcg_out_st(s, ts->type, ts->reg,
-+                           ots->mem_base->reg, ots->mem_offset);
-+                ots->mem_coherent = 1;
-+                temp_free_or_dead(s, ots, -1);
-+                return;
-             }
-         }
-         ots->val_type = TEMP_VAL_REG;
-@@ -3470,7 +3483,13 @@ static void tcg_reg_alloc_op(TCGContext *s, const TCGOp *op)
-             reg = tcg_reg_alloc(s, arg_ct->u.regs, i_allocated_regs,
-                                 o_preferred_regs, ts->indirect_base);
-             if (!tcg_out_mov(s, ts->type, reg, ts->reg)) {
--                abort();
-+                /*
-+                 * Cross register class move not supported.  Sync the
-+                 * temp back to its slot and load from there.
-+                 */
-+                temp_sync(s, ts, i_allocated_regs, 0, 0);
-+                tcg_out_ld(s, ts->type, reg,
-+                           ts->mem_base->reg, ts->mem_offset);
-             }
-         }
-         new_args[i] = reg;
-@@ -3631,7 +3650,13 @@ static void tcg_reg_alloc_call(TCGContext *s, TCGOp *op)
-                 if (ts->reg != reg) {
-                     tcg_reg_free(s, reg, allocated_regs);
-                     if (!tcg_out_mov(s, ts->type, reg, ts->reg)) {
--                        abort();
-+                        /*
-+                         * Cross register class move not supported.  Sync the
-+                         * temp back to its slot and load from there.
-+                         */
-+                        temp_sync(s, ts, allocated_regs, 0, 0);
-+                        tcg_out_ld(s, ts->type, reg,
-+                                   ts->mem_base->reg, ts->mem_offset);
-                     }
-                 }
-             } else {
+@@ -109,10 +109,24 @@ static void tcg_out_movi(TCGContext *s, TCGType type,
+ static void tcg_out_op(TCGContext *s, TCGOpcode opc, const TCGArg *args,
+                        const int *const_args);
+ #if TCG_TARGET_MAYBE_vec
++static bool tcg_out_dup_vec(TCGContext *s, TCGType type, unsigned vece,
++                            TCGReg dst, TCGReg src);
++static void tcg_out_dupi_vec(TCGContext *s, TCGType type,
++                             TCGReg dst, tcg_target_long arg);
+ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc, unsigned vecl,
+                            unsigned vece, const TCGArg *args,
+                            const int *const_args);
+ #else
++static inline bool tcg_out_dup_vec(TCGContext *s, TCGType type, unsigned vece,
++                                   TCGReg dst, TCGReg src)
++{
++    g_assert_not_reached();
++}
++static inline void tcg_out_dupi_vec(TCGContext *s, TCGType type,
++                                    TCGReg dst, tcg_target_long arg)
++{
++    g_assert_not_reached();
++}
+ static inline void tcg_out_vec_op(TCGContext *s, TCGOpcode opc, unsigned vecl,
+                                   unsigned vece, const TCGArg *args,
+                                   const int *const_args)
 -- 
 2.17.1
 
