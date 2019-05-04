@@ -2,101 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D33413814
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 May 2019 09:19:01 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52482 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EC54613A08
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 May 2019 15:23:33 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:56598 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMowm-0005X6-BV
-	for lists+qemu-devel@lfdr.de; Sat, 04 May 2019 03:19:00 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58462)
+	id 1hMudZ-0004bW-45
+	for lists+qemu-devel@lfdr.de; Sat, 04 May 2019 09:23:33 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44337)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hMovi-00055j-M7
-	for qemu-devel@nongnu.org; Sat, 04 May 2019 03:17:56 -0400
+	(envelope-from <S.E.Harris@kent.ac.uk>) id 1hMqDO-0007Wf-HY
+	for qemu-devel@nongnu.org; Sat, 04 May 2019 04:40:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hMovh-0000Mc-DF
-	for qemu-devel@nongnu.org; Sat, 04 May 2019 03:17:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40770)
+	(envelope-from <S.E.Harris@kent.ac.uk>) id 1hMqDM-0002w0-S0
+	for qemu-devel@nongnu.org; Sat, 04 May 2019 04:40:14 -0400
+Received: from mx0.kent.ac.uk ([129.12.21.32]:52437)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <thuth@redhat.com>) id 1hMovh-0000MJ-5l
-	for qemu-devel@nongnu.org; Sat, 04 May 2019 03:17:53 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 03DDC308A958;
-	Sat,  4 May 2019 07:17:52 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-116-38.ams2.redhat.com [10.36.116.38])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id C179F39BD;
-	Sat,  4 May 2019 07:17:50 +0000 (UTC)
-To: Eduardo Habkost <ehabkost@redhat.com>
-References: <20190503004130.8285-1-ehabkost@redhat.com>
-	<20190503004130.8285-20-ehabkost@redhat.com>
-	<40c4d236-ed76-e433-51d5-c9feabb4374a@redhat.com>
-	<20190503210011.GW28722@habkost.net>
-	<20190503213457.GX28722@habkost.net>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=thuth@redhat.com; keydata=
-	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
-Organization: Red Hat
-Message-ID: <b86fd845-ba4b-6e27-73ac-50b2c8810fe8@redhat.com>
-Date: Sat, 4 May 2019 09:17:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(Exim 4.71) (envelope-from <S.E.Harris@kent.ac.uk>)
+	id 1hMqDM-0002uW-LQ
+	for qemu-devel@nongnu.org; Sat, 04 May 2019 04:40:12 -0400
+Received: from banach.kent.ac.uk ([129.12.41.70])
+	by mx0.kent.ac.uk with esmtpsa
+	(TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128) (Exim 4.91)
+	(envelope-from <S.E.Harris@kent.ac.uk>)
+	id 1hMqDJ-000Jin-4j; Sat, 04 May 2019 09:40:09 +0100
+From: Sarah Harris <S.E.Harris@kent.ac.uk>
+To: qemu-devel@nongnu.org
+Date: Sat,  4 May 2019 09:36:30 +0100
+Message-Id: <20190504083638.13380-1-S.E.Harris@kent.ac.uk>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-In-Reply-To: <20190503213457.GX28722@habkost.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.41]);
-	Sat, 04 May 2019 07:17:52 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PULL 19/19] configure: automatically pick python3
- is available
+X-Received-From: 129.12.21.32
+X-Mailman-Approved-At: Sat, 04 May 2019 09:20:02 -0400
+Subject: [Qemu-devel] [PATCH v1 0/8] DRAFT AVR Patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -108,104 +48,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
-	Markus Armbruster <armbru@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: S.E.Harris@kent.ac.uk, mrolnik@gmail.com, A.M.King@kent.ac.uk,
+	E.J.C.Robbins@kent.ac.uk
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/05/2019 23.34, Eduardo Habkost wrote:
-> On Fri, May 03, 2019 at 06:00:11PM -0300, Eduardo Habkost wrote:
->> On Fri, May 03, 2019 at 06:41:43PM +0200, Thomas Huth wrote:
->>> On 03/05/2019 02.41, Eduardo Habkost wrote:
->>>> From: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
->>>>
->>>> Unless overridden via an env var or configure arg, QEMU will only lo=
-ok
->>>> for the 'python' binary in $PATH. This is unhelpful on distros which
->>>> are only shipping Python 3.x (eg Fedora) in their default install as=
-,
->>>> if they comply with PEP 394, the bare 'python' binary won't exist.
->>>>
->>>> This changes configure so that by default it will search for all thr=
-ee
->>>> common python binaries, preferring to find Python 3.x versions.
->>>>
->>>> Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
->>>> Message-Id: <20190327170701.23798-1-berrange@redhat.com>
->>>> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
->>>> ---
->>>>  configure | 18 +++++++++++++++---
->>>>  1 file changed, 15 insertions(+), 3 deletions(-)
->>>
->>> I haven't bisected it, but I think this patch here broke the gitlab-c=
-i tests:
->>>
->>>  https://gitlab.com/huth/qemu/-/jobs/206806257
->>>
->>> Seems like the test is now failing when you don't have an UTF-8 local=
-e:
->>>
->>>  LANG=3DC make check-qapi-schema
->>
->> I couldn't reproduce it this way, probably because I'm running Python =
-3.7 which
->> implements PEP 538 ("Coercing the legacy C locale to a UTF-8 based loc=
-ale").
->>
->> But I can force it to break using:
->>
->>   PYTHONIOENCODING=3Dascii make check-qapi-schema
->>
->>>  [...]
->>>  TEST    tests/qapi-schema/union-base-empty.out
->>>  --- /builds/huth/qemu/tests/qapi-schema/unicode-str.err	2019-05-03 1=
-5:21:39.000000000 +0000
->>>  +++ -	2019-05-03 15:42:01.561762978 +0000
->>>  @@ -1 +1 @@
->>>  -tests/qapi-schema/unicode-str.json:2: 'command' uses invalid name '=
-=C3=A9'
->>>  +tests/qapi-schema/unicode-str.json:2: 'command' uses invalid name '=
-\xe9'
->>>  /builds/huth/qemu/tests/Makefile.include:1105: recipe for target 'ch=
-eck-tests/qapi-schema/unicode-str.json' failed
->>>  make: *** [check-tests/qapi-schema/unicode-str.json] Error 1
->>>
->>> Any ideas how to fix this?
->>
->> Probably we just need to specify an explicit encoding at the statement=
- that
->> prints the error message to stderr.  I will give it a try.
->=20
-> Forcing a specific encoding inside test-qapi.py would very easy
-> on Python 3.7+ (sys.stderr.reconfigure(...)), but tricky on older
-> versions.  I believe this is the simplest way to fix the problem
-> on Python 3.5 and 3.6.
->=20
-> Can somebody confirm this really fixes the problem on gitlab-ci?
->=20
-> ---
-> diff --git a/tests/Makefile.include b/tests/Makefile.include
-> index 7c8b9c84b2..af88ab6f8b 100644
-> --- a/tests/Makefile.include
-> +++ b/tests/Makefile.include
-> @@ -1103,7 +1103,7 @@ check-tests/qemu-iotests-quick.sh: tests/qemu-iot=
-ests-quick.sh qemu-img$(EXESUF)
->  .PHONY: $(patsubst %, check-%, $(check-qapi-schema-y))
->  $(patsubst %, check-%, $(check-qapi-schema-y)): check-%.json: $(SRC_PA=
-TH)/%.json
->  	$(call quiet-command, PYTHONPATH=3D$(SRC_PATH)/scripts \
-> -		$(PYTHON) $(SRC_PATH)/tests/qapi-schema/test-qapi.py \
-> +		PYTHONIOENCODING=3Dutf-8 $(PYTHON) $(SRC_PATH)/tests/qapi-schema/tes=
-t-qapi.py \
->  		$^ >$*.test.out 2>$*.test.err; \
->  		echo $$? >$*.test.exit, \
->  		"TEST","$*.out")
+This series of patches adds support for 8 bit Atmel (Microchip) AVR microcontrollers.
+All documented instructions except DES, SPM, and WDR are implemented.
+These patches include very incomplete peripheral emulation, and only a single example board definition.
 
-Yes, thanks, this seems to fix this issue:
+All instructions except LAC, LAS, LAT, XCH, BREAK, and SLEEP have been tested by comparing their behaviours against hardware.
+The test programs used were designed specifically to exercise as many instruction variants as possible.
+More details, source code, and results are available here: https://github.com/seharris/qemu-avr-tests/tree/master/instruction-tests
 
- https://gitlab.com/huth/qemu/-/jobs/207041381
+Additionally, it has been confirmed that this emulation can run FreeRTOS (an open source realtime operating system).
+AVRs don't have memory management hardware and typically only have a few kilobytes of RAM so booting something more standard, e.g. Linux, wasn't feasible.
+Two peripherals were needed (USART and 16 bit timer) for this test and are included in these patches.
+The implementations are somewhat limited, mostly because QEMU doesn't seem to have much in the way of facilities to handle low-level electrical interfaces like GPIO pins.
+A simple LED indicator peripheral was also used, but is not included because it isn't likely to be generally useful.
+The FreeRTOS build and LED patch are available here: https://github.com/seharris/qemu-avr-tests/tree/master/free-rtos
 
-It also works on my laptop now (which uses Python 3.6).
+These patches are based on work by Michael Rolnik, last discussed here in 2017: https://lists.gnu.org/archive/html/qemu-devel/2017-06/msg02290.html
+This series is derived from the version found in this repository: https://github.com/michaelrolnik/qemu-avr
+Changes from that version:
+- rebase onto current master
+- fixes for some accumulated bitrot (including a crash at startup)
+- minor improvements to sample board firmware loading
+- fixes for bugs in instruction translations (POP, ASR, LSR, ROR, FMUL, FMULS, FMULSU, MUL, MULS, MULSU, OR, SBC, SBCI)
+- new instruction decoder to avoid some awkward dependencies
+- general cleanup (style fixes, fixing unclear comments, making code easier to follow)
 
- Thomas
+On a personal note, I'm unfamiliar with this style of submission so I hope I haven't broken anything!
+
+Sarah Harris (8):
+  target/avr: Add instruction decoder
+  target/avr: Add mechanism to check for active debugger connection
+  target/avr: Add outward facing interfaces and core CPU logic
+  target/avr: Add instruction helpers
+  target/avr: Add instruction translation
+  target/avr: Add limited support for USART and 16 bit timer peripherals
+  target/avr: Add example board configuration
+  target/avr: Register AVR support with the rest of QEMU, the build
+    system, and the MAINTAINERS file
+
+ MAINTAINERS                     |    6 +
+ arch_init.c                     |    2 +
+ configure                       |    6 +
+ default-configs/avr-softmmu.mak |    5 +
+ gdbstub.c                       |    5 +
+ hw/Kconfig                      |    1 +
+ hw/avr/Kconfig                  |    4 +
+ hw/avr/Makefile.objs            |    1 +
+ hw/avr/sample.c                 |  177 ++
+ hw/char/Kconfig                 |    3 +
+ hw/char/Makefile.objs           |    1 +
+ hw/char/avr_usart.c             |  316 ++++
+ hw/timer/Kconfig                |    3 +
+ hw/timer/Makefile.objs          |    1 +
+ hw/timer/avr_timer16.c          |  587 ++++++
+ include/disas/dis-asm.h         |    6 +
+ include/exec/gdbstub.h          |    4 +
+ include/hw/char/avr_usart.h     |   99 +
+ include/hw/timer/avr_timer16.h  |   99 +
+ include/sysemu/arch_init.h      |    1 +
+ qapi/common.json                |    2 +-
+ target/avr/Makefile.objs        |   23 +
+ target/avr/cpu-qom.h            |   83 +
+ target/avr/cpu.c                |  570 ++++++
+ target/avr/cpu.h                |  238 +++
+ target/avr/decode.c             |  441 +++++
+ target/avr/decode.h             |   68 +
+ target/avr/gdbstub.c            |   85 +
+ target/avr/helper.c             |  343 ++++
+ target/avr/helper.h             |   28 +
+ target/avr/machine.c            |  122 ++
+ target/avr/translate-inst.h     |  695 +++++++
+ target/avr/translate.c          | 3013 +++++++++++++++++++++++++++++++
+ tests/machine-none-test.c       |    1 +
+ 34 files changed, 7038 insertions(+), 1 deletion(-)
+ create mode 100644 default-configs/avr-softmmu.mak
+ create mode 100644 hw/avr/Kconfig
+ create mode 100644 hw/avr/Makefile.objs
+ create mode 100644 hw/avr/sample.c
+ create mode 100644 hw/char/avr_usart.c
+ create mode 100644 hw/timer/avr_timer16.c
+ create mode 100644 include/hw/char/avr_usart.h
+ create mode 100644 include/hw/timer/avr_timer16.h
+ create mode 100644 target/avr/Makefile.objs
+ create mode 100644 target/avr/cpu-qom.h
+ create mode 100644 target/avr/cpu.c
+ create mode 100644 target/avr/cpu.h
+ create mode 100644 target/avr/decode.c
+ create mode 100644 target/avr/decode.h
+ create mode 100644 target/avr/gdbstub.c
+ create mode 100644 target/avr/helper.c
+ create mode 100644 target/avr/helper.h
+ create mode 100644 target/avr/machine.c
+ create mode 100644 target/avr/translate-inst.h
+ create mode 100644 target/avr/translate.c
+
+-- 
+2.21.0
+
 
