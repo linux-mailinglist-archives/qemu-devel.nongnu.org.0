@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE30D139B1
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 May 2019 14:13:27 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55754 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DEA8139A8
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 May 2019 14:11:06 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:55716 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMtXi-0004iG-RA
-	for lists+qemu-devel@lfdr.de; Sat, 04 May 2019 08:13:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50447)
+	id 1hMtVR-0002Sp-Do
+	for lists+qemu-devel@lfdr.de; Sat, 04 May 2019 08:11:05 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50502)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <paolo.bonzini@gmail.com>) id 1hMtQI-0007F6-1k
-	for qemu-devel@nongnu.org; Sat, 04 May 2019 08:05:47 -0400
+	(envelope-from <paolo.bonzini@gmail.com>) id 1hMtQL-0007IS-CZ
+	for qemu-devel@nongnu.org; Sat, 04 May 2019 08:05:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <paolo.bonzini@gmail.com>) id 1hMtQE-0001FN-CA
-	for qemu-devel@nongnu.org; Sat, 04 May 2019 08:05:44 -0400
-Received: from mail-oi1-x22a.google.com ([2607:f8b0:4864:20::22a]:38607)
+	(envelope-from <paolo.bonzini@gmail.com>) id 1hMtQJ-0001H5-Na
+	for qemu-devel@nongnu.org; Sat, 04 May 2019 08:05:49 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:36186)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
-	id 1hMtQB-0001DH-OW; Sat, 04 May 2019 08:05:40 -0400
-Received: by mail-oi1-x22a.google.com with SMTP id t70so6408403oif.5;
-	Sat, 04 May 2019 05:05:37 -0700 (PDT)
+	id 1hMtQG-0001DN-5K; Sat, 04 May 2019 08:05:46 -0400
+Received: by mail-oi1-x241.google.com with SMTP id l203so6417701oia.3;
+	Sat, 04 May 2019 05:05:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=VaIf1nGi8yWSPl2rVwrgq2u8YFPcN84q7VRUDJ67mPk=;
-	b=uZUhqVube9FIn/nOqLtisPPWqnKsG0hJL9gKJ+FWYKov5drEyE8qxOXnq8OTRuafhL
-	eF2TCobdu7eed8CQgKTlL2MQIf9pVT9iJpxiSm7Gmo4GlgKTIhkyatotrXPgZvSknzap
-	qRo2NPbITtDnu2uP4Sl2VQD224fAcQygt5t6Hm3yEBd599ftegboqbzx10ttg2jN+9j+
-	z8Me5s4YuPf2YQI1ez2tCWvaht162CGFmkkehOf5GO9c1GsZ5E6T6wA6x4JUoiSN5HsJ
-	D5/khL+01XVBq3v098Tn2UGpGgzXHdBAmh5b9d9ekUKo5eCHWq/Q+4fFVo+jDt4jgT4m
-	1Whg==
+	bh=GntLoJ5LAJvOCja8qBYrU8/E9MBsCe+uCkJo7D67Aro=;
+	b=ssk1T90TsfNFVKW0T25Xl6zCr1WMuYvbbf6XvbocG+YAzRFZbdfsmVHu31JELrJ9iY
+	kdO7swyg8NAeu+SsnO75jkdS1COJQVir6xab43uDT4qK1QfInuvh37t1Q78+3e+aTU3T
+	aUPgWW24hJJoWN566UgOtF3xsGMjfxI5i69F0BlgJhV1k0HRzARYQZBUeEvDGY1kwqNX
+	i6POMXb9+HF1he5dc4y4XxuYWibhUXMkyCeN/Oa12dbI/nKwBartiGAFetUI0tp+3Q4J
+	4KZ3IUrLqaef/vdx89l9PFPzDiziep0E18sm7KZuCHivegDxrlvCgRWuf3WtJg2Gqxcl
+	SGCg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
 	:in-reply-to:references:mime-version:content-transfer-encoding;
-	bh=VaIf1nGi8yWSPl2rVwrgq2u8YFPcN84q7VRUDJ67mPk=;
-	b=fKEecHZfQ1I6Eg/OAXBXO/mXh5E+ag/Kyo1HulOlJv0S83tNH1YcXtx5iI04kIdQfu
-	ida4x1bb3TKVhMO20gHLc+COAz70Cc67outGiHCn784OxPfpJ0Q3LDfZJYpCETzUpRyU
-	30Ct0O78hxYd+mDxRBGY1hZYILgmNhXYSxZ+LudvhI3De8XlscdR4muabHASjmGsbOHE
-	vUqfQkgu4rEE6Fw5XPZcawfx+OugXAAU+YPDThR9H9d1GYdQpQpnYifjGrkxjKmTvdvG
-	nbb4MxVl1J/9OydCBlQdkR8D5QWbK73T00k2u6OaReTW6xXUk97HNDCYiqLKB18ZA1ol
-	mHmw==
-X-Gm-Message-State: APjAAAWaqKOt3ozcfeMVeTfNUJXVqraV4B5imDtX71+topg94P78Iq9B
-	j+CfWtxoCwr+usO7Z2oorKjSuF53
-X-Google-Smtp-Source: APXvYqziEws3+tuF9GmFg7kuJtEzbHA562UxtgtWzmYTms1kV7h+SzuIzxxqKAsCS/jAseQwM5WRqw==
-X-Received: by 2002:aca:4482:: with SMTP id r124mr2442181oia.39.1556971536857; 
-	Sat, 04 May 2019 05:05:36 -0700 (PDT)
+	bh=GntLoJ5LAJvOCja8qBYrU8/E9MBsCe+uCkJo7D67Aro=;
+	b=M11jGX6Sq0LP4xC5FA35NjOGvy2HwIDz1T8GhoNkm1mgXtWqJbKg8Og84oGUi2Fq/t
+	ptWhWs7JAAncZkW1UR/D0B/QibLfM27B9zf5gzQZnoi4nqTtDf7jcgdbK2eMSHLrMpvG
+	8rKIIVfXB0iQZ+sEkUYi33EmM+lARO3sDFhSssILy2Ni+JfQ6qugGJBBMMhnNAcLzpjX
+	YQO3j91kwlxi2SQMR0z2/YEIxrTMeqQAWOhUvdGErZFGgzcaBuXoWDEVPv+ukqHt3SyD
+	or64OvuBSF4dANM2lfxbfuYEEcmb0JLp4HqxjsxJLEMQlaZ7FMG4NiIBLeEme9myeKEG
+	TFOg==
+X-Gm-Message-State: APjAAAXaUEIhv5OjuVLZtWQkjknMNL8u8B/MBQ046wu8li7tiR3EqmpX
+	srdLVx9eZucWEe5cRrBsRY6A/AGs
+X-Google-Smtp-Source: APXvYqzYkYecVBVitWiGe5sxHagGM/N0Bye1cG4nzDbby4noZj7wT0Bp6cVdn1dAgp1wW2m6VDa6kw==
+X-Received: by 2002:aca:bb07:: with SMTP id l7mr2385734oif.142.1556971537662; 
+	Sat, 04 May 2019 05:05:37 -0700 (PDT)
 Received: from localhost.localdomain ([198.59.53.9])
 	by smtp.gmail.com with ESMTPSA id
 	s26sm1844978otk.24.2019.05.04.05.05.36
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 04 May 2019 05:05:36 -0700 (PDT)
+	Sat, 04 May 2019 05:05:37 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Sat,  4 May 2019 06:05:24 -0600
-Message-Id: <20190504120528.6389-7-pbonzini@redhat.com>
+Date: Sat,  4 May 2019 06:05:25 -0600
+Message-Id: <20190504120528.6389-8-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190504120528.6389-1-pbonzini@redhat.com>
 References: <20190504120528.6389-1-pbonzini@redhat.com>
@@ -64,9 +64,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::22a
-Subject: [Qemu-devel] [PATCH 6/9] configure: add control-flow protection
- support
+X-Received-From: 2607:f8b0:4864:20::241
+Subject: [Qemu-devel] [PATCH 7/9] tcg: add tcg_out_start
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -83,134 +82,179 @@ Cc: peter.maydell@linaro.org, cohuck@redhat.com, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Control-flow protection requires object files to note which features
-are supported.  The linker will merge them to the set of features that
-are supported by all object files.  The compiler creates these notes
-when the -fcf-protection option is passed, but we have to blacklist
-some object files that only support a subset of the full control-flow
-protection feature set.
+This function is called at the beginning of any translation block.  We will
+use it to emit ENDBR32 or ENDBR64 annotations for x86 CET.
 
-Even without any further host-specific patches, user-mode emulation
-binaries can already use shadow stacks, because they don't need
-coroutines and don't include the problematic util/coroutine-*.o
-object files.  Likewise, system-mode emulation binaries will enable
-indirect branch tracking if built without TCG support.
-
-The next patches will improve the situation so that QEMU can be built
-with full protection on x86 hosts.
-
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile.target    |  3 +++
- configure          | 29 +++++++++++++++++++++++++++++
- util/Makefile.objs |  5 +++++
- 3 files changed, 37 insertions(+)
+ tcg/aarch64/tcg-target.inc.c | 4 ++++
+ tcg/arm/tcg-target.inc.c     | 4 ++++
+ tcg/i386/tcg-target.inc.c    | 4 ++++
+ tcg/mips/tcg-target.inc.c    | 4 ++++
+ tcg/ppc/tcg-target.inc.c     | 4 ++++
+ tcg/riscv/tcg-target.inc.c   | 4 ++++
+ tcg/s390/tcg-target.inc.c    | 4 ++++
+ tcg/sparc/tcg-target.inc.c   | 4 ++++
+ tcg/tcg.c                    | 2 ++
+ tcg/tci/tcg-target.inc.c     | 4 ++++
+ 10 files changed, 38 insertions(+)
 
-diff --git a/Makefile.target b/Makefile.target
-index ae02495951..667682779b 100644
---- a/Makefile.target
-+++ b/Makefile.target
-@@ -111,6 +111,9 @@ obj-y += exec.o
- obj-y += accel/
- obj-$(CONFIG_TCG) += tcg/tcg.o tcg/tcg-op.o tcg/tcg-op-vec.o tcg/tcg-op-gvec.o
- obj-$(CONFIG_TCG) += tcg/tcg-common.o tcg/optimize.o
-+ifeq ($(CONFIG_CF_PROTECTION),y)
-+tcg/tcg.o-cflags := -fcf-protection=return
-+endif
- obj-$(CONFIG_TCG_INTERPRETER) += tcg/tci.o
- obj-$(CONFIG_TCG_INTERPRETER) += disas/tci.o
- obj-$(CONFIG_TCG) += fpu/softfloat.o
-diff --git a/configure b/configure
-index 26e62a4ab1..946ff7825a 100755
---- a/configure
-+++ b/configure
-@@ -449,6 +449,7 @@ win_sdk="no"
- want_tools="yes"
- libiscsi=""
- libnfs=""
-+cf_protection="no"      # leave it disabled until we can test performance
- coroutine=""
- coroutine_pool=""
- debug_stack_usage="no"
-@@ -1267,6 +1268,10 @@ for opt do
-   ;;
-   --with-pkgversion=*) pkgversion="$optarg"
-   ;;
-+  --enable-cf-protection) cf_protection="yes"
-+  ;;
-+  --disable-cf-protection) cf_protection="no"
-+  ;;
-   --with-coroutine=*) coroutine="$optarg"
-   ;;
-   --disable-coroutine-pool) coroutine_pool="no"
-@@ -1796,6 +1801,7 @@ disabled with --disable-FEATURE, default is enabled if available:
-   lzfse           support of lzfse compression library
-                   (for reading lzfse-compressed dmg images)
-   seccomp         seccomp support
-+  cf-protection   Control-flow protection
-   coroutine-pool  coroutine freelist (better performance)
-   glusterfs       GlusterFS backend
-   tpm             TPM support
-@@ -5176,6 +5182,25 @@ if have_backend "dtrace"; then
-   fi
- fi
+diff --git a/tcg/aarch64/tcg-target.inc.c b/tcg/aarch64/tcg-target.inc.c
+index eefa929948..c66f3cb857 100644
+--- a/tcg/aarch64/tcg-target.inc.c
++++ b/tcg/aarch64/tcg-target.inc.c
+@@ -2539,6 +2539,10 @@ QEMU_BUILD_BUG_ON(FRAME_SIZE >= (1 << 14));
+ /* We're expecting to use a single ADDI insn.  */
+ QEMU_BUILD_BUG_ON(FRAME_SIZE - PUSH_SIZE > 0xfff);
  
-+##########################################
-+# detect Control-flow protection support in the toolchain
++static inline void tcg_out_start(TCGContext *s)
++{
++}
 +
-+if test "$cf_protection" != no; then
-+  write_c_skeleton;
-+  if ! compile_prog "-fcf-protection" "" ; then
-+    if test "$cf_protection" = yes; then
-+      feature_not_found "cf_protection" 'Control-flow protection is not supported by your toolchain'
-+    fi
-+    cf_protection=no
-+  fi
-+fi
-+if test "$cf_protection" = ""; then
-+  cf_protection=yes
-+fi
-+if test "$cf_protection" = "yes"; then
-+  QEMU_CFLAGS="-fcf-protection $QEMU_CFLAGS"
-+fi
-+
- ##########################################
- # check and set a backend for coroutine
+ static void tcg_target_qemu_prologue(TCGContext *s)
+ {
+     TCGReg r;
+diff --git a/tcg/arm/tcg-target.inc.c b/tcg/arm/tcg-target.inc.c
+index abf0c444b4..8f919c7641 100644
+--- a/tcg/arm/tcg-target.inc.c
++++ b/tcg/arm/tcg-target.inc.c
+@@ -2284,6 +2284,10 @@ static void tcg_out_nop_fill(tcg_insn_unit *p, int count)
+     }
+ }
  
-@@ -6361,6 +6386,7 @@ echo "netmap support    $netmap"
- echo "Linux AIO support $linux_aio"
- echo "ATTR/XATTR support $attr"
- echo "Install blobs     $blobs"
-+echo "CF protection     $cf_protection"
- echo "KVM support       $kvm"
- echo "HAX support       $hax"
- echo "HVF support       $hvf"
-@@ -6571,6 +6597,9 @@ fi
- if test "$profiler" = "yes" ; then
-   echo "CONFIG_PROFILER=y" >> $config_host_mak
- fi
-+if test "$cf_protection" = "yes" ; then
-+  echo "CONFIG_CF_PROTECTION=y" >> $config_host_mak
-+fi
- if test "$slirp" != "no"; then
-   echo "CONFIG_SLIRP=y" >> $config_host_mak
-   echo "CONFIG_SMBD_COMMAND=\"$smbd\"" >> $config_host_mak
-diff --git a/util/Makefile.objs b/util/Makefile.objs
-index 2167ffc862..d7add70b63 100644
---- a/util/Makefile.objs
-+++ b/util/Makefile.objs
-@@ -42,6 +42,11 @@ util-obj-y += coroutine-$(CONFIG_COROUTINE_BACKEND).o
- ifeq ($(ARCH),x86_64)
- coroutine-asm.o-cflags := -mno-red-zone
- endif
-+ifeq ($(CONFIG_CF_PROTECTION),y)
-+coroutine-sigaltstack.o-cflags := -fcf-protection=branch
-+coroutine-ucontext.o-cflags := -fcf-protection=branch
-+coroutine-asm.o-cflags += -fcf-protection=branch
-+endif
- util-obj-y += buffer.o
- util-obj-y += timed-average.o
- util-obj-y += base64.o
++static inline void tcg_out_start(TCGContext *s)
++{
++}
++
+ /* Compute frame size via macros, to share between tcg_target_qemu_prologue
+    and tcg_register_jit.  */
+ 
+diff --git a/tcg/i386/tcg-target.inc.c b/tcg/i386/tcg-target.inc.c
+index d5ed9f1ffd..b210977800 100644
+--- a/tcg/i386/tcg-target.inc.c
++++ b/tcg/i386/tcg-target.inc.c
+@@ -3510,6 +3510,10 @@ static const int tcg_target_callee_save_regs[] = {
+       + TCG_TARGET_STACK_ALIGN - 1) \
+      & ~(TCG_TARGET_STACK_ALIGN - 1))
+ 
++static inline void tcg_out_start(TCGContext *s)
++{
++}
++
+ /* Generate global QEMU prologue and epilogue code */
+ static void tcg_target_qemu_prologue(TCGContext *s)
+ {
+diff --git a/tcg/mips/tcg-target.inc.c b/tcg/mips/tcg-target.inc.c
+index 412cacdcb9..2bb976a9a5 100644
+--- a/tcg/mips/tcg-target.inc.c
++++ b/tcg/mips/tcg-target.inc.c
+@@ -2471,6 +2471,10 @@ static tcg_insn_unit *align_code_ptr(TCGContext *s)
+     return s->code_ptr;
+ }
+ 
++static inline void tcg_out_start(TCGContext *s)
++{
++}
++
+ /* Stack frame parameters.  */
+ #define REG_SIZE   (TCG_TARGET_REG_BITS / 8)
+ #define SAVE_SIZE  ((int)ARRAY_SIZE(tcg_target_callee_save_regs) * REG_SIZE)
+diff --git a/tcg/ppc/tcg-target.inc.c b/tcg/ppc/tcg-target.inc.c
+index 36b4791707..f4efca8f7b 100644
+--- a/tcg/ppc/tcg-target.inc.c
++++ b/tcg/ppc/tcg-target.inc.c
+@@ -1904,6 +1904,10 @@ static void tcg_out_nop_fill(tcg_insn_unit *p, int count)
+     }
+ }
+ 
++static inline void tcg_out_start(TCGContext *s)
++{
++}
++
+ /* Parameters for function call generation, used in tcg.c.  */
+ #define TCG_TARGET_STACK_ALIGN       16
+ #define TCG_TARGET_EXTEND_ARGS       1
+diff --git a/tcg/riscv/tcg-target.inc.c b/tcg/riscv/tcg-target.inc.c
+index 2932505094..5780537b73 100644
+--- a/tcg/riscv/tcg-target.inc.c
++++ b/tcg/riscv/tcg-target.inc.c
+@@ -1798,6 +1798,10 @@ static const TCGTargetOpDef *tcg_target_op_def(TCGOpcode op)
+     }
+ }
+ 
++static inline void tcg_out_start(TCGContext *s)
++{
++}
++
+ static const int tcg_target_callee_save_regs[] = {
+     TCG_REG_S0,       /* used for the global env (TCG_AREG0) */
+     TCG_REG_S1,
+diff --git a/tcg/s390/tcg-target.inc.c b/tcg/s390/tcg-target.inc.c
+index 3d6150b10e..924bd01afd 100644
+--- a/tcg/s390/tcg-target.inc.c
++++ b/tcg/s390/tcg-target.inc.c
+@@ -2499,6 +2499,10 @@ static void query_s390_facilities(void)
+     }
+ }
+ 
++static inline void tcg_out_start(TCGContext *s)
++{
++}
++
+ static void tcg_target_init(TCGContext *s)
+ {
+     query_s390_facilities();
+diff --git a/tcg/sparc/tcg-target.inc.c b/tcg/sparc/tcg-target.inc.c
+index 7a61839dc1..f795e78153 100644
+--- a/tcg/sparc/tcg-target.inc.c
++++ b/tcg/sparc/tcg-target.inc.c
+@@ -1004,6 +1004,10 @@ static void build_trampolines(TCGContext *s)
+ }
+ #endif
+ 
++static inline void tcg_out_start(TCGContext *s)
++{
++}
++
+ /* Generate global QEMU prologue and epilogue code */
+ static void tcg_target_qemu_prologue(TCGContext *s)
+ {
+diff --git a/tcg/tcg.c b/tcg/tcg.c
+index f7bef51de8..c8832c3ccf 100644
+--- a/tcg/tcg.c
++++ b/tcg/tcg.c
+@@ -101,6 +101,7 @@ static void tcg_register_jit_int(void *buf, size_t size,
+ /* Forward declarations for functions declared and used in tcg-target.inc.c. */
+ static const char *target_parse_constraint(TCGArgConstraint *ct,
+                                            const char *ct_str, TCGType type);
++static void tcg_out_start(TCGContext *s);
+ static void tcg_out_ld(TCGContext *s, TCGType type, TCGReg ret, TCGReg arg1,
+                        intptr_t arg2);
+ static void tcg_out_mov(TCGContext *s, TCGType type, TCGReg ret, TCGReg arg);
+@@ -3925,6 +3926,7 @@ int tcg_gen_code(TCGContext *s, TranslationBlock *tb)
+ #endif
+ 
+     num_insns = -1;
++    tcg_out_start(s);
+     QTAILQ_FOREACH(op, &s->ops, link) {
+         TCGOpcode opc = op->opc;
+ 
+diff --git a/tcg/tci/tcg-target.inc.c b/tcg/tci/tcg-target.inc.c
+index 0015a98485..cb90012999 100644
+--- a/tcg/tci/tcg-target.inc.c
++++ b/tcg/tci/tcg-target.inc.c
+@@ -889,6 +889,10 @@ static void tcg_target_init(TCGContext *s)
+                   CPU_TEMP_BUF_NLONGS * sizeof(long));
+ }
+ 
++static inline void tcg_out_start(void)
++{
++}
++
+ /* Generate global QEMU prologue and epilogue code. */
+ static inline void tcg_target_qemu_prologue(TCGContext *s)
+ {
 -- 
 2.21.0
 
