@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A31B8139A3
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 May 2019 14:08:17 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55670 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE30D139B1
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 May 2019 14:13:27 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:55754 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMtSi-0008Um-P1
-	for lists+qemu-devel@lfdr.de; Sat, 04 May 2019 08:08:16 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50448)
+	id 1hMtXi-0004iG-RA
+	for lists+qemu-devel@lfdr.de; Sat, 04 May 2019 08:13:26 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50447)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <paolo.bonzini@gmail.com>) id 1hMtQI-0007F9-2A
+	(envelope-from <paolo.bonzini@gmail.com>) id 1hMtQI-0007F6-1k
 	for qemu-devel@nongnu.org; Sat, 04 May 2019 08:05:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <paolo.bonzini@gmail.com>) id 1hMtQE-0001FI-BY
+	(envelope-from <paolo.bonzini@gmail.com>) id 1hMtQE-0001FN-CA
 	for qemu-devel@nongnu.org; Sat, 04 May 2019 08:05:44 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:44874)
+Received: from mail-oi1-x22a.google.com ([2607:f8b0:4864:20::22a]:38607)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
-	id 1hMtQA-0001Ch-Cj; Sat, 04 May 2019 08:05:40 -0400
-Received: by mail-ot1-x344.google.com with SMTP id d10so2529023otp.11;
-	Sat, 04 May 2019 05:05:36 -0700 (PDT)
+	id 1hMtQB-0001DH-OW; Sat, 04 May 2019 08:05:40 -0400
+Received: by mail-oi1-x22a.google.com with SMTP id t70so6408403oif.5;
+	Sat, 04 May 2019 05:05:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=0TS4qEKmw4BOwv+KpHsCK8QIkMFbVbLGctn5J+3azt8=;
-	b=YEXDo7B+eNmhUG2unvRXA9tvDkgK9aP+81UlIucm1mkXG6mRRt4Z9E+sPo592EpCpv
-	RJKTgIdogs4/jwSfZe0hXRJA2ivtLmIJ+NguswMNkh9WGbaRYH+NaAnFNueBFEJPA5Hs
-	ZF5y+PWorFQoOCTHNXFvG+Avj23y4aX7gBK4R4SwzOOrHUFYI8UGd9clKwBlU8iawfaR
-	7HlRdNteXH+//6GSVE4mG+s4lZ2yGDspaf2EaI4F4TUVBg4GLvF0BDdMvEJSrqP7yw5x
-	YobuQDpqGO51nCTxEKfC+fkEzW6QqIpjZ84Om32S0OaRnLEL5dr3184FCoOYOlA59kVr
-	R2PA==
+	bh=VaIf1nGi8yWSPl2rVwrgq2u8YFPcN84q7VRUDJ67mPk=;
+	b=uZUhqVube9FIn/nOqLtisPPWqnKsG0hJL9gKJ+FWYKov5drEyE8qxOXnq8OTRuafhL
+	eF2TCobdu7eed8CQgKTlL2MQIf9pVT9iJpxiSm7Gmo4GlgKTIhkyatotrXPgZvSknzap
+	qRo2NPbITtDnu2uP4Sl2VQD224fAcQygt5t6Hm3yEBd599ftegboqbzx10ttg2jN+9j+
+	z8Me5s4YuPf2YQI1ez2tCWvaht162CGFmkkehOf5GO9c1GsZ5E6T6wA6x4JUoiSN5HsJ
+	D5/khL+01XVBq3v098Tn2UGpGgzXHdBAmh5b9d9ekUKo5eCHWq/Q+4fFVo+jDt4jgT4m
+	1Whg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
 	:in-reply-to:references:mime-version:content-transfer-encoding;
-	bh=0TS4qEKmw4BOwv+KpHsCK8QIkMFbVbLGctn5J+3azt8=;
-	b=MzHcSAJgcmCDKCAtaQ7tS1rQsdPXIFx0VmFxvXwpOE2Pws0E7GedaIVmkkAmXlLs+d
-	BUUT9UIZBS/TFgqCbkJpHkLbe32YkUCykZL7CBTcrKeKlWVsI0jVL898i9tTuFmDfA+O
-	tBPuCKTOJ0QDzWYFuXdR57pYv3y9ndQJL17qZThEwxCZhFSuYP9SiyEuQ6XaEGUDWGKP
-	42FSLgtz8bZ3P/xyHszg1u9OiJ837nLMqBlLq1vvbyzgaDfmzX1yJDOB7xlRPROXo6PQ
-	AdKZHMhNu2bgo6jGf48Lhgs0EnxywNOHDgNtkOtN0NDmxds4NU3g06XzwngJBMe23BAa
-	iS2Q==
-X-Gm-Message-State: APjAAAVWV9K8tytLSPRrdP4vWUDxwUfSP5ZR8mNr5ONMIZr/U7UmEjw1
-	t5YzbZNIlH3qjo0Ms9aiz1xK7rwj
-X-Google-Smtp-Source: APXvYqz1+oydh5bQXcmeOB86Dy8JWmKvwXNUea3I/l/tzyVW1o7Hs/ZQKewreZp7q1KP90L0rdXgbg==
-X-Received: by 2002:a9d:5d03:: with SMTP id b3mr9796065oti.268.1556971535928; 
-	Sat, 04 May 2019 05:05:35 -0700 (PDT)
+	bh=VaIf1nGi8yWSPl2rVwrgq2u8YFPcN84q7VRUDJ67mPk=;
+	b=fKEecHZfQ1I6Eg/OAXBXO/mXh5E+ag/Kyo1HulOlJv0S83tNH1YcXtx5iI04kIdQfu
+	ida4x1bb3TKVhMO20gHLc+COAz70Cc67outGiHCn784OxPfpJ0Q3LDfZJYpCETzUpRyU
+	30Ct0O78hxYd+mDxRBGY1hZYILgmNhXYSxZ+LudvhI3De8XlscdR4muabHASjmGsbOHE
+	vUqfQkgu4rEE6Fw5XPZcawfx+OugXAAU+YPDThR9H9d1GYdQpQpnYifjGrkxjKmTvdvG
+	nbb4MxVl1J/9OydCBlQdkR8D5QWbK73T00k2u6OaReTW6xXUk97HNDCYiqLKB18ZA1ol
+	mHmw==
+X-Gm-Message-State: APjAAAWaqKOt3ozcfeMVeTfNUJXVqraV4B5imDtX71+topg94P78Iq9B
+	j+CfWtxoCwr+usO7Z2oorKjSuF53
+X-Google-Smtp-Source: APXvYqziEws3+tuF9GmFg7kuJtEzbHA562UxtgtWzmYTms1kV7h+SzuIzxxqKAsCS/jAseQwM5WRqw==
+X-Received: by 2002:aca:4482:: with SMTP id r124mr2442181oia.39.1556971536857; 
+	Sat, 04 May 2019 05:05:36 -0700 (PDT)
 Received: from localhost.localdomain ([198.59.53.9])
 	by smtp.gmail.com with ESMTPSA id
-	s26sm1844978otk.24.2019.05.04.05.05.35
+	s26sm1844978otk.24.2019.05.04.05.05.36
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 04 May 2019 05:05:35 -0700 (PDT)
+	Sat, 04 May 2019 05:05:36 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Sat,  4 May 2019 06:05:23 -0600
-Message-Id: <20190504120528.6389-6-pbonzini@redhat.com>
+Date: Sat,  4 May 2019 06:05:24 -0600
+Message-Id: <20190504120528.6389-7-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190504120528.6389-1-pbonzini@redhat.com>
 References: <20190504120528.6389-1-pbonzini@redhat.com>
@@ -64,9 +64,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::344
-Subject: [Qemu-devel] [PATCH 5/9] coroutine: add host specific coroutine
- backend for 64-bit s390
+X-Received-From: 2607:f8b0:4864:20::22a
+Subject: [Qemu-devel] [PATCH 6/9] configure: add control-flow protection
+ support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -83,65 +83,134 @@ Cc: peter.maydell@linaro.org, cohuck@redhat.com, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Control-flow protection requires object files to note which features
+are supported.  The linker will merge them to the set of features that
+are supported by all object files.  The compiler creates these notes
+when the -fcf-protection option is passed, but we have to blacklist
+some object files that only support a subset of the full control-flow
+protection feature set.
+
+Even without any further host-specific patches, user-mode emulation
+binaries can already use shadow stacks, because they don't need
+coroutines and don't include the problematic util/coroutine-*.o
+object files.  Likewise, system-mode emulation binaries will enable
+indirect branch tracking if built without TCG support.
+
+The next patches will improve the situation so that QEMU can be built
+with full protection on x86 hosts.
+
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- util/coroutine-asm.c | 34 ++++++++++++++++++++++++++++++++++
- 1 file changed, 34 insertions(+)
+ Makefile.target    |  3 +++
+ configure          | 29 +++++++++++++++++++++++++++++
+ util/Makefile.objs |  5 +++++
+ 3 files changed, 37 insertions(+)
 
-diff --git a/util/coroutine-asm.c b/util/coroutine-asm.c
-index de68e98622..a9a80e9c71 100644
---- a/util/coroutine-asm.c
-+++ b/util/coroutine-asm.c
-@@ -41,7 +41,7 @@ typedef struct {
-     void *sp;
+diff --git a/Makefile.target b/Makefile.target
+index ae02495951..667682779b 100644
+--- a/Makefile.target
++++ b/Makefile.target
+@@ -111,6 +111,9 @@ obj-y += exec.o
+ obj-y += accel/
+ obj-$(CONFIG_TCG) += tcg/tcg.o tcg/tcg-op.o tcg/tcg-op-vec.o tcg/tcg-op-gvec.o
+ obj-$(CONFIG_TCG) += tcg/tcg-common.o tcg/optimize.o
++ifeq ($(CONFIG_CF_PROTECTION),y)
++tcg/tcg.o-cflags := -fcf-protection=return
++endif
+ obj-$(CONFIG_TCG_INTERPRETER) += tcg/tci.o
+ obj-$(CONFIG_TCG_INTERPRETER) += disas/tci.o
+ obj-$(CONFIG_TCG) += fpu/softfloat.o
+diff --git a/configure b/configure
+index 26e62a4ab1..946ff7825a 100755
+--- a/configure
++++ b/configure
+@@ -449,6 +449,7 @@ win_sdk="no"
+ want_tools="yes"
+ libiscsi=""
+ libnfs=""
++cf_protection="no"      # leave it disabled until we can test performance
+ coroutine=""
+ coroutine_pool=""
+ debug_stack_usage="no"
+@@ -1267,6 +1268,10 @@ for opt do
+   ;;
+   --with-pkgversion=*) pkgversion="$optarg"
+   ;;
++  --enable-cf-protection) cf_protection="yes"
++  ;;
++  --disable-cf-protection) cf_protection="no"
++  ;;
+   --with-coroutine=*) coroutine="$optarg"
+   ;;
+   --disable-coroutine-pool) coroutine_pool="no"
+@@ -1796,6 +1801,7 @@ disabled with --disable-FEATURE, default is enabled if available:
+   lzfse           support of lzfse compression library
+                   (for reading lzfse-compressed dmg images)
+   seccomp         seccomp support
++  cf-protection   Control-flow protection
+   coroutine-pool  coroutine freelist (better performance)
+   glusterfs       GlusterFS backend
+   tpm             TPM support
+@@ -5176,6 +5182,25 @@ if have_backend "dtrace"; then
+   fi
+ fi
  
-     /*
--     * aarch64: instruction pointer
-+     * aarch64, s390x: instruction pointer
-      */
-     void *scratch;
++##########################################
++# detect Control-flow protection support in the toolchain
++
++if test "$cf_protection" != no; then
++  write_c_skeleton;
++  if ! compile_prog "-fcf-protection" "" ; then
++    if test "$cf_protection" = yes; then
++      feature_not_found "cf_protection" 'Control-flow protection is not supported by your toolchain'
++    fi
++    cf_protection=no
++  fi
++fi
++if test "$cf_protection" = ""; then
++  cf_protection=yes
++fi
++if test "$cf_protection" = "yes"; then
++  QEMU_CFLAGS="-fcf-protection $QEMU_CFLAGS"
++fi
++
+ ##########################################
+ # check and set a backend for coroutine
  
-@@ -161,6 +161,40 @@ static void start_switch_fiber(void **fake_stack_save,
-   (to)->scratch = (void *) coroutine_trampoline;                                      \
-   (void) CO_SWITCH_RET(from, to, (uintptr_t) to);                                     \
- } while(0)
-+
-+#elif defined __s390x__
-+#define CO_SWITCH_RET(from, to, action) ({                                            \
-+    register uintptr_t action_ __asm__("r2") = action;                                \
-+    register void *from_ __asm__("r1") = from;                                        \
-+    register void *to_ __asm__("r3") = to;                                            \
-+    register void *pc_ __asm__("r4") = to->scratch;                                   \
-+    void *save_r13;                                                                   \
-+    asm volatile(                                                                     \
-+        "stg %%r13, %[SAVE_R13]\n"                                                    \
-+        "stg %%r15, %[SP](%%r1)\n"       /* save source SP */                         \
-+        "lg %%r15, %[SP](%%r3)\n"        /* load destination SP */                    \
-+        "bras %%r3, 1f\n"                /* source PC will be after the BR */         \
-+        "1: aghi %%r3, 12\n"             /* 4 */                                      \
-+        "stg %%r3, %[SCRATCH](%%r1)\n"   /* 6 save switch-back PC */                  \
-+        "br %%r4\n"                      /* 2 jump to destination PC */               \
-+        "lg %%r13, %[SAVE_R13]\n"                                                     \
-+        : "+r" (action_), "+r" (from_), "+r" (to_), "+r" (pc_),                       \
-+          [SAVE_R13] "+m" (r13)                                                       \
-+        : [SP] "i" (offsetof(CoroutineAsm, sp)),                                      \
-+          [SCRATCH] "i" (offsetof(CoroutineAsm, scratch))                             \
-+        : "r0", "r5", "r6", "r7", "r8", "r9", "r10", "r11", "r12", "r14",             \
-+          "a2", "a3", "a4", "a5", "a6", "a7",                                         \
-+          "a8", "a9", "a10", "a11", "a12", "a13", "a14", "a15",                       \
-+          "f0", "f1", "f2", "f3", "f4", "f5", "f6", "f7",                             \
-+          "f8", "f9", "f10", "f11", "f12", "f13", "f14", "f15", "memory");            \
-+    action_;                                                                          \
-+})
-+
-+#define CO_SWITCH_NEW(from, to) do {                                                  \
-+  (to)->scratch = (void *) coroutine_trampoline;                                      \
-+  (to)->sp -= 160;                                                                    \
-+  (void) CO_SWITCH_RET(from, to, (uintptr_t) to);                                     \
-+} while(0)
- #else
- #error coroutine-asm.c not ported to this architecture.
- #endif
+@@ -6361,6 +6386,7 @@ echo "netmap support    $netmap"
+ echo "Linux AIO support $linux_aio"
+ echo "ATTR/XATTR support $attr"
+ echo "Install blobs     $blobs"
++echo "CF protection     $cf_protection"
+ echo "KVM support       $kvm"
+ echo "HAX support       $hax"
+ echo "HVF support       $hvf"
+@@ -6571,6 +6597,9 @@ fi
+ if test "$profiler" = "yes" ; then
+   echo "CONFIG_PROFILER=y" >> $config_host_mak
+ fi
++if test "$cf_protection" = "yes" ; then
++  echo "CONFIG_CF_PROTECTION=y" >> $config_host_mak
++fi
+ if test "$slirp" != "no"; then
+   echo "CONFIG_SLIRP=y" >> $config_host_mak
+   echo "CONFIG_SMBD_COMMAND=\"$smbd\"" >> $config_host_mak
+diff --git a/util/Makefile.objs b/util/Makefile.objs
+index 2167ffc862..d7add70b63 100644
+--- a/util/Makefile.objs
++++ b/util/Makefile.objs
+@@ -42,6 +42,11 @@ util-obj-y += coroutine-$(CONFIG_COROUTINE_BACKEND).o
+ ifeq ($(ARCH),x86_64)
+ coroutine-asm.o-cflags := -mno-red-zone
+ endif
++ifeq ($(CONFIG_CF_PROTECTION),y)
++coroutine-sigaltstack.o-cflags := -fcf-protection=branch
++coroutine-ucontext.o-cflags := -fcf-protection=branch
++coroutine-asm.o-cflags += -fcf-protection=branch
++endif
+ util-obj-y += buffer.o
+ util-obj-y += timed-average.o
+ util-obj-y += base64.o
 -- 
 2.21.0
 
