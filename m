@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B455139A1
+	by mail.lfdr.de (Postfix) with ESMTPS id 542F7139A2
 	for <lists+qemu-devel@lfdr.de>; Sat,  4 May 2019 14:08:04 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55667 helo=lists.gnu.org)
+Received: from localhost ([127.0.0.1]:55665 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMtSU-0008J9-Ux
+	id 1hMtSV-0008Ix-1Q
 	for lists+qemu-devel@lfdr.de; Sat, 04 May 2019 08:08:03 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50353)
+Received: from eggs.gnu.org ([209.51.188.92]:50361)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <paolo.bonzini@gmail.com>) id 1hMtQ8-00078z-Km
+	(envelope-from <paolo.bonzini@gmail.com>) id 1hMtQ9-000792-2H
 	for qemu-devel@nongnu.org; Sat, 04 May 2019 08:05:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <paolo.bonzini@gmail.com>) id 1hMtQ6-0001C1-TA
+	(envelope-from <paolo.bonzini@gmail.com>) id 1hMtQ6-0001C6-Tj
 	for qemu-devel@nongnu.org; Sat, 04 May 2019 08:05:36 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:33785)
+Received: from mail-ot1-x330.google.com ([2607:f8b0:4864:20::330]:41296)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
-	id 1hMtQ6-0001BF-H1; Sat, 04 May 2019 08:05:34 -0400
-Received: by mail-oi1-x243.google.com with SMTP id m204so739796oib.0;
+	id 1hMtQ6-0001BM-HE; Sat, 04 May 2019 08:05:34 -0400
+Received: by mail-ot1-x330.google.com with SMTP id g8so7624690otl.8;
 	Sat, 04 May 2019 05:05:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=sender:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=dKw1M5TMrx9RVC+EkDflBIPpLpBXd4MngIdK+jRChiM=;
-	b=E3/2caUVfgjUBk22xg5stnPmEdYqB/xSkR0H2hRGkprJj1DzmNo6BGoc5ZTC8W3Vgl
-	pWVA90yFOl57Rjrm6Z8RmF4ZDRX4HGRQBfX5gAJVag1jud6h+Iu0ncH0ZX5cvEOQO5K3
-	LgmPLZSGWzfdYYpvll/WQWRiSDkEexGeozVtFb4s9LuvA8ai1T5BBZ83fAKrGhzfDC+S
-	zewi5BgLQBmSRi/vUaaBtorCVSMGml53Df3b2kreI6qPP1i8Ls0nXfso4kWJNWf/okdi
-	KvNWCD3UAMdqxZJntecovtmU7RKTVuTAiX1xlSg2CD6a87+GiAGVgGtakX7Z8xVgxcwY
-	KvYw==
+	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=pmZJgq4sgMXP9qHYEfxrgn9xoXzv+P55K0/VCJX3rj4=;
+	b=eJF5BpXMrgWoO8/CcxRFeGVCJLQXnvspWD8+IbqaS8DA5XMPCRmxHhNeTkegwhr0d0
+	g0cfu2yfrx1muxQqq5aJbYa8lHeZiz416kzLBRv23fEOvIJTNMQd7B6NdXdPw1YV+ngg
+	n2k9A4BV4bZJ9Ki3gUHQYWQdgzdNjCNX9EYF9g+7H45RDqQLG8ypWq7BSmdOM6ErSJpX
+	uebJHdvZqd5g3dPpQ0uVpPebXFDTMhj1BPWtf9fr/sQdV+YcqHbep5KaAzZ06UlvS2Do
+	RhEqf+C4hOR0ytCtQiL5MzV6Ya17M3KfOq9XpEZA4qBTOyQKBl4eyWMp6G9BB3zotxUO
+	IEQA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding;
-	bh=dKw1M5TMrx9RVC+EkDflBIPpLpBXd4MngIdK+jRChiM=;
-	b=bxHDA36UBFE8l/bM/z0+T5j8uOsES5Xa1mBN6MLwjEfs273aOlLKOndXhr1dTf36pI
-	hKJQQs0uSkYliix2BwnTLU/+YCEESJWkgQr8W1EDK/zU7VestN3WSY7Cyf13SqQ7NLeJ
-	LKz31visA6AHLkivWBVQyapu4+VIYx88LJvPEK97nv9iuu4VCe0SX7UuAKX8/8nidq5t
-	XK1Sb+oZUzJdKjQTTSLqWCaCzyibVKbGi1XkAeduaDEeF1gTrHSKnzM3AC5+nplh907I
-	Rq6DgQH7SHkumo8U+LYZOLQ3E1cOlYX8k8cPfsAZcTAKurmqmgEHt23fmnt9O9eW0NP1
-	oJtQ==
-X-Gm-Message-State: APjAAAX/k+kRbJVY8wz8oNFSPBWF3+xnv8Kn7S6O/Igzu8aJRM8q+Sa0
-	zL/bqSfqHOIDSs6tSmoeAv/E9B1C
-X-Google-Smtp-Source: APXvYqx6M7IcWHtRlQ7WEtsXucJFDVE5XjAe+TE6c3zZqhGC36/WsqetahlkWoIQoCpTQtv3Z9yHhw==
-X-Received: by 2002:aca:e085:: with SMTP id x127mr2267075oig.66.1556971530650; 
-	Sat, 04 May 2019 05:05:30 -0700 (PDT)
+	:in-reply-to:references:mime-version:content-transfer-encoding;
+	bh=pmZJgq4sgMXP9qHYEfxrgn9xoXzv+P55K0/VCJX3rj4=;
+	b=HDepH0WIK3elGuNTPks+CnTvyfwtw85UFSHqmnw1h33smpZJJ9omrHHI9WKD3CqUhj
+	nBYBJ45jq4S9mkDlFuLUQn9T4HocySinF/jjG+mbkQ/kTrOdvuEQrC6ipxnAgTL201W1
+	ceqNANPpo6iROUzsvmb4QdOTiVO5nrVoFswuKp6ND+9GgNjss7smNdyG+1Zifr5whx/P
+	sKcsoQbc0PaMkK9SgHUHh6kLbrWqb4tMECxZKHwM+a8+5qlP/qlUuiDthl6Nr1vDVABd
+	Cxox+o3Hr4B5iym4uHDzhBO81Xr8YJ76LKINmX1z8hrFcIN9VKilPD4BNkpZns2v4RbV
+	tFvA==
+X-Gm-Message-State: APjAAAWry7HC1mYxbYnBbnGojneqXKhE403Qs1pC+COsceVP7VcG5fmd
+	NKMcAd5HW1Y6c+TMDa0If8AZIuo3
+X-Google-Smtp-Source: APXvYqwGdiOQa1jDHcPHGwZBGeKDoOqm6JKnguYPiYDm2NeNqwqnd9MjsZFphMkhn9LfTQahaqFVTA==
+X-Received: by 2002:a05:6830:2106:: with SMTP id
+	i6mr9763319otc.146.1556971531677; 
+	Sat, 04 May 2019 05:05:31 -0700 (PDT)
 Received: from localhost.localdomain ([198.59.53.9])
 	by smtp.gmail.com with ESMTPSA id
-	s26sm1844978otk.24.2019.05.04.05.05.29
+	s26sm1844978otk.24.2019.05.04.05.05.30
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 04 May 2019 05:05:30 -0700 (PDT)
+	Sat, 04 May 2019 05:05:31 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Sat,  4 May 2019 06:05:18 -0600
-Message-Id: <20190504120528.6389-1-pbonzini@redhat.com>
+Date: Sat,  4 May 2019 06:05:19 -0600
+Message-Id: <20190504120528.6389-2-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190504120528.6389-1-pbonzini@redhat.com>
+References: <20190504120528.6389-1-pbonzini@redhat.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::243
-Subject: [Qemu-devel] [PATCH 0/9] Assembly coroutine backend and x86 CET
- support
+X-Received-From: 2607:f8b0:4864:20::330
+Subject: [Qemu-devel] [PATCH 1/9] qemugdb: allow adding support for other
+ coroutine backends
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -81,46 +84,237 @@ Cc: peter.maydell@linaro.org, cohuck@redhat.com, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-*** BLURB HERE ***
+Split the jmpbuf access to a separate module and dispatch based
+on which CoroutineXYZ type is defined.
 
-Paolo Bonzini (10):
-  qemugdb: allow adding support for other coroutine backends
-  qemugdb: allow adding support for other architectures
-  coroutine: add host specific coroutine backend for 64-bit x86
-  coroutine: add host specific coroutine backend for 64-bit ARM
-  coroutine: add host specific coroutine backend for 64-bit s390
-  configure: add control-flow protection support
-  tcg: add tcg_out_start
-  tcg/i386: add support for IBT
-  linux-user: add IBT support to x86 safe-syscall.S
-  coroutine-asm: add x86 CET shadow stack support
-
- Makefile.target                           |   5 +
- configure                                 |  62 ++++
- include/qemu/cpuid.h                      |   5 +
- linux-user/host/i386/safe-syscall.inc.S   |  19 ++
- linux-user/host/x86_64/safe-syscall.inc.S |  19 ++
- scripts/qemugdb/coroutine.py              | 107 ++----
- scripts/qemugdb/coroutine_asm.py          |  24 ++
- scripts/qemugdb/coroutine_ucontext.py     |  69 ++++
- tcg/aarch64/tcg-target.inc.c              |   4 +
- tcg/arm/tcg-target.inc.c                  |   4 +
- tcg/i386/tcg-target.inc.c                 |  23 ++
- tcg/mips/tcg-target.inc.c                 |   4 +
- tcg/ppc/tcg-target.inc.c                  |   4 +
- tcg/riscv/tcg-target.inc.c                |   4 +
- tcg/s390/tcg-target.inc.c                 |   4 +
- tcg/sparc/tcg-target.inc.c                |   4 +
- tcg/tcg.c                                 |   2 +
- tcg/tci/tcg-target.inc.c                  |   4 +
- util/Makefile.objs                        |  10 +
- util/coroutine-asm.c                      | 387 ++++++++++++++++++++++
- 20 files changed, 689 insertions(+), 75 deletions(-)
- create mode 100644 scripts/qemugdb/coroutine_asm.py
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+---
+ scripts/qemugdb/coroutine.py          | 106 ++++++++------------------
+ scripts/qemugdb/coroutine_ucontext.py |  69 +++++++++++++++++
+ 2 files changed, 100 insertions(+), 75 deletions(-)
  create mode 100644 scripts/qemugdb/coroutine_ucontext.py
- create mode 100644 util/coroutine-asm.c
 
+diff --git a/scripts/qemugdb/coroutine.py b/scripts/qemugdb/coroutine.py
+index 41e079d0e2..db2753d949 100644
+--- a/scripts/qemugdb/coroutine.py
++++ b/scripts/qemugdb/coroutine.py
+@@ -1,6 +1,6 @@
+ #!/usr/bin/python
+ 
+-# GDB debugging support
++# GDB debugging support, coroutine dispatch
+ #
+ # Copyright 2012 Red Hat, Inc. and/or its affiliates
+ #
+@@ -10,82 +10,25 @@
+ # This work is licensed under the terms of the GNU GPL, version 2
+ # or later.  See the COPYING file in the top-level directory.
+ 
++from . import coroutine_ucontext
+ import gdb
+ 
+ VOID_PTR = gdb.lookup_type('void').pointer()
++UINTPTR_T = gdb.lookup_type('uintptr_t')
+ 
+-def get_fs_base():
+-    '''Fetch %fs base value using arch_prctl(ARCH_GET_FS).  This is
+-       pthread_self().'''
+-    # %rsp - 120 is scratch space according to the SystemV ABI
+-    old = gdb.parse_and_eval('*(uint64_t*)($rsp - 120)')
+-    gdb.execute('call (int)arch_prctl(0x1003, $rsp - 120)', False, True)
+-    fs_base = gdb.parse_and_eval('*(uint64_t*)($rsp - 120)')
+-    gdb.execute('set *(uint64_t*)($rsp - 120) = %s' % old, False, True)
+-    return fs_base
+-
+-def pthread_self():
+-    '''Fetch pthread_self() from the glibc start_thread function.'''
+-    f = gdb.newest_frame()
+-    while f.name() != 'start_thread':
+-        f = f.older()
+-        if f is None:
+-            return get_fs_base()
+-
+-    try:
+-        return f.read_var("arg")
+-    except ValueError:
+-        return get_fs_base()
+-
+-def get_glibc_pointer_guard():
+-    '''Fetch glibc pointer guard value'''
+-    fs_base = pthread_self()
+-    return gdb.parse_and_eval('*(uint64_t*)((uint64_t)%s + 0x30)' % fs_base)
+-
+-def glibc_ptr_demangle(val, pointer_guard):
+-    '''Undo effect of glibc's PTR_MANGLE()'''
+-    return gdb.parse_and_eval('(((uint64_t)%s >> 0x11) | ((uint64_t)%s << (64 - 0x11))) ^ (uint64_t)%s' % (val, val, pointer_guard))
+-
+-def get_jmpbuf_regs(jmpbuf):
+-    JB_RBX  = 0
+-    JB_RBP  = 1
+-    JB_R12  = 2
+-    JB_R13  = 3
+-    JB_R14  = 4
+-    JB_R15  = 5
+-    JB_RSP  = 6
+-    JB_PC   = 7
+-
+-    pointer_guard = get_glibc_pointer_guard()
+-    return {'rbx': jmpbuf[JB_RBX],
+-        'rbp': glibc_ptr_demangle(jmpbuf[JB_RBP], pointer_guard),
+-        'rsp': glibc_ptr_demangle(jmpbuf[JB_RSP], pointer_guard),
+-        'r12': jmpbuf[JB_R12],
+-        'r13': jmpbuf[JB_R13],
+-        'r14': jmpbuf[JB_R14],
+-        'r15': jmpbuf[JB_R15],
+-        'rip': glibc_ptr_demangle(jmpbuf[JB_PC], pointer_guard) }
+-
+-def bt_jmpbuf(jmpbuf):
+-    '''Backtrace a jmpbuf'''
+-    regs = get_jmpbuf_regs(jmpbuf)
+-    old = dict()
+-
+-    for i in regs:
+-        old[i] = gdb.parse_and_eval('(uint64_t)$%s' % i)
+-
+-    for i in regs:
+-        gdb.execute('set $%s = %s' % (i, regs[i]))
+-
+-    gdb.execute('bt')
+-
+-    for i in regs:
+-        gdb.execute('set $%s = %s' % (i, old[i]))
+-
+-def coroutine_to_jmpbuf(co):
+-    coroutine_pointer = co.cast(gdb.lookup_type('CoroutineUContext').pointer())
+-    return coroutine_pointer['env']['__jmpbuf']
++backends = {
++    'CoroutineUContext': coroutine_ucontext
++}
+ 
++def coroutine_backend():
++    for k, v in backends.items():
++        try:
++            gdb.lookup_type(k)
++        except:
++            continue
++        return v
++
++    raise Exception('could not find coroutine backend')
+ 
+ class CoroutineCommand(gdb.Command):
+     '''Display coroutine backtrace'''
+@@ -99,18 +42,31 @@ class CoroutineCommand(gdb.Command):
+             gdb.write('usage: qemu coroutine <coroutine-pointer>\n')
+             return
+ 
+-        bt_jmpbuf(coroutine_to_jmpbuf(gdb.parse_and_eval(argv[0])))
++        addr = gdb.parse_and_eval(argv[0])
++        regs = coroutine_backend().get_coroutine_regs(addr)
++        old = dict()
++
++        for i in regs:
++            old[i] = gdb.parse_and_eval('(uint64_t)$%s' % i)
++
++        for i in regs:
++            gdb.execute('set $%s = %s' % (i, regs[i].cast(UINTPTR_T)))
++
++        gdb.execute('bt')
++
++        for i in regs:
++            gdb.execute('set $%s = %s' % (i, old[i].cast(UINTPTR_T)))
+ 
+ class CoroutineSPFunction(gdb.Function):
+     def __init__(self):
+         gdb.Function.__init__(self, 'qemu_coroutine_sp')
+ 
+     def invoke(self, addr):
+-        return get_jmpbuf_regs(coroutine_to_jmpbuf(addr))['rsp'].cast(VOID_PTR)
++        return coroutine_backend().get_coroutine_regs(addr)['rsp'].cast(VOID_PTR)
+ 
+ class CoroutinePCFunction(gdb.Function):
+     def __init__(self):
+         gdb.Function.__init__(self, 'qemu_coroutine_pc')
+ 
+     def invoke(self, addr):
+-        return get_jmpbuf_regs(coroutine_to_jmpbuf(addr))['rip'].cast(VOID_PTR)
++        return coroutine_backend().get_coroutine_regs(addr)['rip'].cast(VOID_PTR)
+diff --git a/scripts/qemugdb/coroutine_ucontext.py b/scripts/qemugdb/coroutine_ucontext.py
+new file mode 100644
+index 0000000000..a2f8c1dbbf
+--- /dev/null
++++ b/scripts/qemugdb/coroutine_ucontext.py
+@@ -0,0 +1,69 @@
++#!/usr/bin/python
++
++# GDB debugging support
++#
++# Copyright 2012 Red Hat, Inc. and/or its affiliates
++#
++# Authors:
++#  Avi Kivity <avi@redhat.com>
++#
++# This work is licensed under the terms of the GNU GPL, version 2 or
++# later.  See the COPYING file in the top-level directory.
++
++import gdb
++
++def get_fs_base():
++    '''Fetch %fs base value using arch_prctl(ARCH_GET_FS).  This is
++       pthread_self().'''
++    # %rsp - 120 is scratch space according to the SystemV ABI
++    old = gdb.parse_and_eval('*(uint64_t*)($rsp - 120)')
++    gdb.execute('call (int)arch_prctl(0x1003, $rsp - 120)', False, True)
++    fs_base = gdb.parse_and_eval('*(uint64_t*)($rsp - 120)')
++    gdb.execute('set *(uint64_t*)($rsp - 120) = %s' % old, False, True)
++    return fs_base
++
++def pthread_self():
++    '''Fetch pthread_self() from the glibc start_thread function.'''
++    f = gdb.newest_frame()
++    while f.name() != 'start_thread':
++        f = f.older()
++        if f is None:
++            return get_fs_base()
++
++    try:
++        return f.read_var("arg")
++    except ValueError:
++        return get_fs_base()
++
++def get_glibc_pointer_guard():
++    '''Fetch glibc pointer guard value'''
++    fs_base = pthread_self()
++    return gdb.parse_and_eval('*(uint64_t*)((uint64_t)%s + 0x30)' % fs_base)
++
++def glibc_ptr_demangle(val, pointer_guard):
++    '''Undo effect of glibc's PTR_MANGLE()'''
++    return gdb.parse_and_eval('(((uint64_t)%s >> 0x11) | ((uint64_t)%s << (64 - 0x11))) ^ (uint64_t)%s' % (val, val, pointer_guard))
++
++def get_jmpbuf_regs(jmpbuf):
++    JB_RBX  = 0
++    JB_RBP  = 1
++    JB_R12  = 2
++    JB_R13  = 3
++    JB_R14  = 4
++    JB_R15  = 5
++    JB_RSP  = 6
++    JB_PC   = 7
++
++    pointer_guard = get_glibc_pointer_guard()
++    return {'rbx': jmpbuf[JB_RBX],
++        'rbp': glibc_ptr_demangle(jmpbuf[JB_RBP], pointer_guard),
++        'rsp': glibc_ptr_demangle(jmpbuf[JB_RSP], pointer_guard),
++        'r12': jmpbuf[JB_R12],
++        'r13': jmpbuf[JB_R13],
++        'r14': jmpbuf[JB_R14],
++        'r15': jmpbuf[JB_R15],
++        'rip': glibc_ptr_demangle(jmpbuf[JB_PC], pointer_guard) }
++
++def get_coroutine_regs(addr):
++    co = addr.cast(gdb.lookup_type('CoroutineUContext').pointer())
++    return get_jmpbuf_regs(co['env']['__jmpbuf'])
 -- 
 2.21.0
+
 
 
