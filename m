@@ -2,61 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 631AD139A4
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 May 2019 14:08:21 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55672 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0763139A9
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 May 2019 14:11:16 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:55730 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMtSm-00008d-DU
-	for lists+qemu-devel@lfdr.de; Sat, 04 May 2019 08:08:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50505)
+	id 1hMtVb-0002iH-Vh
+	for lists+qemu-devel@lfdr.de; Sat, 04 May 2019 08:11:16 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50544)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <paolo.bonzini@gmail.com>) id 1hMtQL-0007IV-DI
-	for qemu-devel@nongnu.org; Sat, 04 May 2019 08:05:50 -0400
+	(envelope-from <paolo.bonzini@gmail.com>) id 1hMtQN-0007Ki-EH
+	for qemu-devel@nongnu.org; Sat, 04 May 2019 08:05:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <paolo.bonzini@gmail.com>) id 1hMtQJ-0001HQ-RK
-	for qemu-devel@nongnu.org; Sat, 04 May 2019 08:05:49 -0400
-Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232]:33238)
+	(envelope-from <paolo.bonzini@gmail.com>) id 1hMtQL-0001IO-Gc
+	for qemu-devel@nongnu.org; Sat, 04 May 2019 08:05:51 -0400
+Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:44869)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <paolo.bonzini@gmail.com>)
-	id 1hMtQI-0001Dy-22; Sat, 04 May 2019 08:05:47 -0400
-Received: by mail-oi1-x232.google.com with SMTP id m204so739982oib.0;
-	Sat, 04 May 2019 05:05:39 -0700 (PDT)
+	id 1hMtQL-0001EA-AU; Sat, 04 May 2019 08:05:49 -0400
+Received: by mail-oi1-x244.google.com with SMTP id t184so6328714oie.11;
+	Sat, 04 May 2019 05:05:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=clxKL3l8fCsJ+v+w3/bwQs1BkGuF1T6/oLLs/QaMqLg=;
-	b=D1YDJoMk5/Ln1/8MOUmYG5JTgeCYii3zgtbHlGcXnVCMGyPsDxYKOpSJSTu6I/SYTt
-	OnAkpIbIWSRyeVe5a2AYtbew0f5hcepyxsq9auUNQ1eeB8DNuv4U+IAuwhiB3/eFe7hh
-	ApUVNBMr/Xv8NF3yK6/wHH1i5JqFhvI7P+MO7Aw8l6VzhCPMml4BbhV2yWMABsqswZ97
-	9OsJbIw2kRkwJpuIGHLlRx8pexJphpoYSsjnOFAwAzirE7RAMtvpJVMtPJqNCfQmONnr
-	uD0GVjDma/ubqZguZ7MFLea4Zw0XYobwT/FNmcubjWUF4Drf4bxma4+aYvuOIDnr49IV
-	JwFw==
+	bh=/mCFCVnZxjs86hd/2IkgmcY0FzqDfdRP5Dh6XiOK0Bo=;
+	b=RsekO3nG+gnOS+8ZCJ6wGbx02ghB74NNj4NL+ZMwJY5XIxvc7h2RegOpSfeFUKTcE4
+	bxaP3bv8qBAIOuy+f3EHxp3Z4A1fIwxLU7eeSO2/NjxyYVMssCgE0doPNnn8ItqOEgqG
+	CU0B9LkQ4FlbxLDn67KtU64uoWFVSEsGTScBcemgEsn4l3z76NHCgV/T4BUvFX3muuiN
+	+ru9m5Pnf7j+6d7r/LQWfG1+cdULQMSMFODN54TF5Tt0zN5PSEELgR8FM0Z3s368AXCk
+	Z/cqfHAOiAqhXYcuMiIOY7y4dDG0HHfKZjMsbnzMcuzHV5PkqaPolYyEuAiQeCrx9l+h
+	qZcQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
 	:in-reply-to:references:mime-version:content-transfer-encoding;
-	bh=clxKL3l8fCsJ+v+w3/bwQs1BkGuF1T6/oLLs/QaMqLg=;
-	b=PFNqiqtFi/w6ujdaqyUyqm/jlTutHDN/CmDeqqYMY33tp/oXWuVZGf16q20ikYUjx5
-	Cj404QGwBuBFuQ76/vz+M40SLDw6VH7c8g9HocBp1auFye6/1szsKgIbtSUwiz/boUzo
-	7Y0pVnZgd03egJ6/qL5QuvCxf83BCfbyVzWQunge8oXKEdmPhWSKTu7umCIhxwSkDAKV
-	bXBnZ+1UfY68bRGLNgQqsXINqcnUvJnOOOiTGJd/vSUFB6+hy/pU1GCcoR/j3+J6xgRd
-	54ITl05vcGeIajFbot5eVxrpnr5yHVl9T21L/lIbV7rwNhwzsuAO6+AvO5mUR2XCdJjT
-	p8OQ==
-X-Gm-Message-State: APjAAAUil6cVK3ZMC3eDBHJrJsB3RDf1L7toObCY8OjoaAWbfjDiXZ3l
-	WZVwr1k2hOT96M466CXcCjm1JxRd
-X-Google-Smtp-Source: APXvYqwqtmIgySlFr8l0sR/oulIvMNV5WLxQrx+USSA3VK5trR21YhqnIK7CdfXDS03mLthedxZUog==
-X-Received: by 2002:aca:da07:: with SMTP id r7mr2428683oig.5.1556971538769;
-	Sat, 04 May 2019 05:05:38 -0700 (PDT)
+	bh=/mCFCVnZxjs86hd/2IkgmcY0FzqDfdRP5Dh6XiOK0Bo=;
+	b=aofCtycGJla4PEQl8TNXbKbtUbRC374YXnqxZLJSSqBz9vJWYQlIvpR3jSjAQb+Nkf
+	kc1+j3DVpYvEKJvAiNhNCSDBcYBlJs/IQ/aU6Mrat+fI2cc5RGaaScbMSkJmT0pr0pjX
+	tUMoYti/ngQqOFTvpQJEElzWEiJfvnMLjM3gvGOw0e8CexCIfRiALLpeqjFiUv79VjS4
+	lQQHBg1OXLlJGO5OX/SZCRf9Ws3cMq0Dnq3z2ocVJCUYOj99ZtP1THiHawLM+Uwsfl9Y
+	toGhsPiZQVfR6k1WzJxScIIpMYKOJrxujQ1uM10d8BiO6cteIDB8VDW/9WO26lDXQeo8
+	l+Jg==
+X-Gm-Message-State: APjAAAVDwhTx6P5MBePXfCGtsbPIY9TC5Xy2AU2IczX/oReRvBn93x3R
+	yt24fGmYE9pftQ3IKqEvMagC0Tb6
+X-Google-Smtp-Source: APXvYqwmVMK6pSlmdJHC8xzc241FVkbp6YNMBKYF9tUWG0hi3ERxdpWJzgvvB+5nl6UfzfQZOtdqig==
+X-Received: by 2002:aca:4f10:: with SMTP id d16mr2311035oib.17.1556971539772; 
+	Sat, 04 May 2019 05:05:39 -0700 (PDT)
 Received: from localhost.localdomain ([198.59.53.9])
 	by smtp.gmail.com with ESMTPSA id
-	s26sm1844978otk.24.2019.05.04.05.05.37
+	s26sm1844978otk.24.2019.05.04.05.05.38
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Sat, 04 May 2019 05:05:38 -0700 (PDT)
+	Sat, 04 May 2019 05:05:39 -0700 (PDT)
 From: Paolo Bonzini <pbonzini@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Sat,  4 May 2019 06:05:26 -0600
-Message-Id: <20190504120528.6389-9-pbonzini@redhat.com>
+Date: Sat,  4 May 2019 06:05:27 -0600
+Message-Id: <20190504120528.6389-10-pbonzini@redhat.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190504120528.6389-1-pbonzini@redhat.com>
 References: <20190504120528.6389-1-pbonzini@redhat.com>
@@ -64,8 +64,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::232
-Subject: [Qemu-devel] [PATCH 8/9] tcg/i386: add support for IBT
+X-Received-From: 2607:f8b0:4864:20::244
+Subject: [Qemu-devel] [PATCH 9/9] linux-user: add IBT support to x86
+ safe-syscall.S
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,151 +83,72 @@ Cc: peter.maydell@linaro.org, cohuck@redhat.com, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add endbr annotations before indirect branch targets.  This lets QEMU enable
-IBT even for TCG-enabled builds.
+Because safe-syscall.S does not go through the C compiler, the
+.note.gnu.property note has to be added manually.  Safe syscalls do not
+involve any indirect branch or stack unwinding, so they are trivially
+safe for IBT or shadow stacks.
 
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
 ---
- Makefile.target           |  2 ++
- configure                 |  9 +++++++++
- include/qemu/cpuid.h      |  5 +++++
- tcg/i386/tcg-target.inc.c | 19 +++++++++++++++++++
- 4 files changed, 35 insertions(+)
+ linux-user/host/i386/safe-syscall.inc.S   | 19 +++++++++++++++++++
+ linux-user/host/x86_64/safe-syscall.inc.S | 19 +++++++++++++++++++
+ 2 files changed, 38 insertions(+)
 
-diff --git a/Makefile.target b/Makefile.target
-index 667682779b..d168ee7555 100644
---- a/Makefile.target
-+++ b/Makefile.target
-@@ -112,8 +112,10 @@ obj-y += accel/
- obj-$(CONFIG_TCG) += tcg/tcg.o tcg/tcg-op.o tcg/tcg-op-vec.o tcg/tcg-op-gvec.o
- obj-$(CONFIG_TCG) += tcg/tcg-common.o tcg/optimize.o
- ifeq ($(CONFIG_CF_PROTECTION),y)
-+ifneq ($(CONFIG_CF_PROTECTION_TCG),y)
- tcg/tcg.o-cflags := -fcf-protection=return
- endif
-+endif
- obj-$(CONFIG_TCG_INTERPRETER) += tcg/tci.o
- obj-$(CONFIG_TCG_INTERPRETER) += disas/tci.o
- obj-$(CONFIG_TCG) += fpu/softfloat.o
-diff --git a/configure b/configure
-index 946ff7825a..c02a5f4b79 100755
---- a/configure
-+++ b/configure
-@@ -5200,6 +5200,11 @@ fi
- if test "$cf_protection" = "yes"; then
-   QEMU_CFLAGS="-fcf-protection $QEMU_CFLAGS"
- fi
-+if test "$cpu" = "x86_64"; then
-+  cf_protection_tcg=yes
-+else
-+  cf_protection_tcg=no
-+fi
+diff --git a/linux-user/host/i386/safe-syscall.inc.S b/linux-user/host/i386/safe-syscall.inc.S
+index 9e58fc6504..6c6d568d62 100644
+--- a/linux-user/host/i386/safe-syscall.inc.S
++++ b/linux-user/host/i386/safe-syscall.inc.S
+@@ -98,3 +98,22 @@ safe_syscall_end:
+ 	.cfi_endproc
  
- ##########################################
- # check and set a backend for coroutine
-@@ -6395,6 +6400,7 @@ echo "TCG support       $tcg"
- if test "$tcg" = "yes" ; then
-     echo "TCG debug enabled $debug_tcg"
-     echo "TCG interpreter   $tcg_interpreter"
-+    echo "TCG CF protection $cf_protection_tcg"
- fi
- echo "malloc trim support $malloc_trim"
- echo "RDMA support      $rdma"
-@@ -6600,6 +6606,9 @@ fi
- if test "$cf_protection" = "yes" ; then
-   echo "CONFIG_CF_PROTECTION=y" >> $config_host_mak
- fi
-+if test "$cf_protection_tcg" = "yes" ; then
-+  echo "CONFIG_CF_PROTECTION_TCG=y" >> $config_host_mak
-+fi
- if test "$slirp" != "no"; then
-   echo "CONFIG_SLIRP=y" >> $config_host_mak
-   echo "CONFIG_SMBD_COMMAND=\"$smbd\"" >> $config_host_mak
-diff --git a/include/qemu/cpuid.h b/include/qemu/cpuid.h
-index 69301700bd..e32fb209f5 100644
---- a/include/qemu/cpuid.h
-+++ b/include/qemu/cpuid.h
-@@ -49,6 +49,11 @@
- #define bit_BMI2        (1 << 8)
- #endif
- 
-+/* Leaf 7, %edx */
-+#ifndef bit_IBT
-+#define bit_IBT         (1 << 20)
-+#endif
+ 	.size	safe_syscall_base, .-safe_syscall_base
 +
- /* Leaf 0x80000001, %ecx */
- #ifndef bit_LZCNT
- #define bit_LZCNT       (1 << 5)
-diff --git a/tcg/i386/tcg-target.inc.c b/tcg/i386/tcg-target.inc.c
-index b210977800..cb3de2f7ac 100644
---- a/tcg/i386/tcg-target.inc.c
-+++ b/tcg/i386/tcg-target.inc.c
-@@ -159,10 +159,12 @@ bool have_avx2;
- static bool have_movbe;
- static bool have_bmi2;
- static bool have_lzcnt;
-+static bool have_ibt;
- #else
- # define have_movbe 0
- # define have_bmi2 0
- # define have_lzcnt 0
-+# define have_ibt 1
- #endif
++	.pushsection ".note.gnu.property", "a"
++	.p2align 2
++	.long 1f - 0f          /* name length.  */
++	.long 4f - 1f          /* data length.  */
++	.long 5                /* NT_GNU_PROPERTY_TYPE_0.  */
++0:
++	.asciz "GNU"           /* vendor name.  */
++	.p2align 2
++1:
++        /* GNU_PROPERTY_X86_FEATURE_1_AND.  */
++	.long 0xc0000002       /* pr_type.  */
++	.long 3f - 2f          /* pr_datasz.  */
++2:
++	.long 0x3              /* IBT, SHSTK */
++3:
++	.p2align 2
++4:
++	.popsection
+diff --git a/linux-user/host/x86_64/safe-syscall.inc.S b/linux-user/host/x86_64/safe-syscall.inc.S
+index f36992daa3..e1a57db338 100644
+--- a/linux-user/host/x86_64/safe-syscall.inc.S
++++ b/linux-user/host/x86_64/safe-syscall.inc.S
+@@ -89,3 +89,22 @@ safe_syscall_end:
+         .cfi_endproc
  
- static tcg_insn_unit *tb_ret_addr;
-@@ -809,6 +811,19 @@ static inline void tgen_arithr(TCGContext *s, int subop, int dest, int src)
-     tcg_out_modrm(s, OPC_ARITH_GvEv + (subop << 3) + ext, dest, src);
- }
- 
-+static void tcg_out_endbr(TCGContext *s)
-+{
-+    if (have_ibt) {
-+#if defined __CET__ && (__CET__ & 1)
-+#ifdef __x86_64__
-+        tcg_out32(s, 0xfa1e0ff3);
-+#else
-+        tcg_out32(s, 0xfb1e0ff3);
-+#endif
-+#endif
-+    }
-+}
+         .size   safe_syscall_base, .-safe_syscall_base
 +
- static void tcg_out_mov(TCGContext *s, TCGType type, TCGReg ret, TCGReg arg)
- {
-     int rexw = 0;
-@@ -3512,6 +3527,7 @@ static const int tcg_target_callee_save_regs[] = {
- 
- static inline void tcg_out_start(TCGContext *s)
- {
-+    tcg_out_endbr(s);
- }
- 
- /* Generate global QEMU prologue and epilogue code */
-@@ -3520,6 +3536,7 @@ static void tcg_target_qemu_prologue(TCGContext *s)
-     int i, stack_addend;
- 
-     /* TB prologue */
-+    tcg_out_endbr(s);
- 
-     /* Reserve some stack space, also for TCG temps.  */
-     stack_addend = FRAME_SIZE - PUSH_SIZE;
-@@ -3566,6 +3583,7 @@ static void tcg_target_qemu_prologue(TCGContext *s)
-      * and fall through to the rest of the epilogue.
-      */
-     s->code_gen_epilogue = s->code_ptr;
-+    tcg_out_endbr(s);
-     tcg_out_movi(s, TCG_TYPE_REG, TCG_REG_EAX, 0);
- 
-     /* TB epilogue */
-@@ -3598,6 +3616,7 @@ static void tcg_target_init(TCGContext *s)
-         __cpuid_count(7, 0, a, b7, c, d);
-         have_bmi1 = (b7 & bit_BMI) != 0;
-         have_bmi2 = (b7 & bit_BMI2) != 0;
-+        have_ibt = (d & bit_IBT) != 0;
-     }
- 
-     if (max >= 1) {
++	.pushsection ".note.gnu.property", "a"
++	.p2align 3
++	.long 1f - 0f          /* name length.  */
++	.long 4f - 1f          /* data length.  */
++	.long 5                /* NT_GNU_PROPERTY_TYPE_0.  */
++0:
++	.asciz "GNU"           /* vendor name.  */
++	.p2align 3
++1:
++        /* GNU_PROPERTY_X86_FEATURE_1_AND.  */
++	.long 0xc0000002       /* pr_type.  */
++	.long 3f - 2f          /* pr_datasz.  */
++2:
++	.long 0x3              /* IBT, SHSTK */
++3:
++	.p2align 3
++4:
++	.popsection
 -- 
 2.21.0
 
