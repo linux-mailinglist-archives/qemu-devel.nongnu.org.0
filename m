@@ -2,48 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 44FA9137BB
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 May 2019 08:10:55 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:51828 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D804137C6
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 May 2019 08:33:30 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52035 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMnss-0004nz-9F
-	for lists+qemu-devel@lfdr.de; Sat, 04 May 2019 02:10:54 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44495)
+	id 1hMo6M-00008w-3i
+	for lists+qemu-devel@lfdr.de; Sat, 04 May 2019 02:24:50 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47314)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hMnm0-0007rM-NJ
-	for qemu-devel@nongnu.org; Sat, 04 May 2019 02:03:49 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hMnxY-0002T8-Df
+	for qemu-devel@nongnu.org; Sat, 04 May 2019 02:15:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hMnlz-0001vQ-M0
-	for qemu-devel@nongnu.org; Sat, 04 May 2019 02:03:48 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57810)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hMnlz-0001vE-Fj
-	for qemu-devel@nongnu.org; Sat, 04 May 2019 02:03:47 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id BA1C23082A27;
-	Sat,  4 May 2019 06:03:46 +0000 (UTC)
-Received: from x1w.redhat.com (ovpn-204-35.brq.redhat.com [10.40.204.35])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 235EC5D710;
-	Sat,  4 May 2019 06:03:38 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Sat,  4 May 2019 08:03:36 +0200
-Message-Id: <20190504060336.21060-1-philmd@redhat.com>
+	(envelope-from <richard.henderson@linaro.org>) id 1hMnxX-0001WM-KF
+	for qemu-devel@nongnu.org; Sat, 04 May 2019 02:15:44 -0400
+Received: from mail-pl1-x636.google.com ([2607:f8b0:4864:20::636]:38565)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hMnxX-0001Ta-Db
+	for qemu-devel@nongnu.org; Sat, 04 May 2019 02:15:43 -0400
+Received: by mail-pl1-x636.google.com with SMTP id a59so3745093pla.5
+	for <qemu-devel@nongnu.org>; Fri, 03 May 2019 23:15:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=7I+NxvFtfIt4ex1glmwM+rDwPrwaIoN2L0161d3T5QM=;
+	b=O58nZNZDZGsDxPCQN2XKQYw6bMBqv43SsizyBzp0Bo7XPFGbvfIOlgAh8c1aoSq7SL
+	U7Js2r6QeWUZM1+ndwDje2EBgJrka3AtvsRACgVWug5ggdLxb/ocdJY7VOQlqU8wBKuV
+	mDtLghXG/pJFwjCLNkwyG3QuOZJpR5JXLd/E7POyHViQyIU7W2yIzcdbzEE3OQwLTvb4
+	8qjCu2kgZMMwMN6eDFWQ3YcHkGSJgExM1NfbItvs3MpCmLn3tbDvNigJYf5vM2HY5kGY
+	Orcb92Z/Jkzkm1Zb9CEdUaCqFv5rDuT8aUlt1/VISSAP9M6BggLXrEKj5TY5JqmKg9wN
+	jOQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=7I+NxvFtfIt4ex1glmwM+rDwPrwaIoN2L0161d3T5QM=;
+	b=CNnIeEPe9KcGmVsVVsNHlmw2QPleq99UErT6IJ3me5gm+BQ6OkJH0MJEpWiE8nHBBG
+	x2I/ybQ2pBGF+emoVEN4HeliizDl7HtfnxXqNssj6jK544CSq2z0eH/EHyMnbws6hkuV
+	JrEoFfFk0CbhBuR5Ik147WCrNXEpBq7Tlym4evn62D+bkZrRmF878uTQ3fjLcpNvNg6i
+	DA28akSnwIy+4Bs91iso+vwBFKWcJ0vdwYvtZXRCvHLSlNQazmPkv8r7tN5Bjy87OrJS
+	OzANK3dZFtGqijyZqy9KHr83ASHgtptqRwG/JKgGju+9DUW7OWq0pXS7vSm1chC58tkT
+	C6DQ==
+X-Gm-Message-State: APjAAAXTmvnq/iBEA19s1w6RPdlhVtxt3eJC6fN+iyFpbVhC5ydlR+ia
+	3L7f+kovS+Sp/McvE/O/ILEifrX7BDY=
+X-Google-Smtp-Source: APXvYqzKRO/iuJGI3H7yQd61cGrT9I4Iuo9cN43XLrONlwOmWe+qb5dOeJOX4rLpzseEqXI5+9Q98Q==
+X-Received: by 2002:a17:902:8c85:: with SMTP id
+	t5mr16380117plo.23.1556950541918; 
+	Fri, 03 May 2019 23:15:41 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-189-189.tukw.qwest.net. [97.113.189.189])
+	by smtp.gmail.com with ESMTPSA id
+	f21sm4925539pfn.30.2019.05.03.23.15.40
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 03 May 2019 23:15:41 -0700 (PDT)
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20190501184306.15208-1-richard.henderson@linaro.org>
+	<877eb74gc3.fsf@zen.linaroharston>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <6206383e-d092-28cf-1549-ab01a306bb05@linaro.org>
+Date: Fri, 3 May 2019 23:15:39 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.45]);
-	Sat, 04 May 2019 06:03:46 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH] tests/docker: Update the Fedora image to
- Fedora 30
+In-Reply-To: <877eb74gc3.fsf@zen.linaroharston>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::636
+Subject: Re: [Qemu-devel] [PATCH] tests/tcg/alpha: add system boot.S
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -55,40 +85,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
-	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fedora 30 got released:
+On 5/3/19 10:07 AM, Alex Bennée wrote:
+> +	ldah	$sp, $stack_end($gp)	!gprelhigh
+> +	lda	$sp, $stack_end($gp)	!gprellow
 
-  https://fedoramagazine.org/announcing-fedora-30/
+Bah.                           ^^^^ $sp
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
-Based-on: <20190408201203.28924-1-marcandre.lureau@redhat.com>
-          qxl: fix -Waddress-of-packed-member
+As is, this works only because the test case is tiny, and this happens to
+evaluate to the middle of the stack allocation.
 
-Based-on: <20190503112654.4393-1-laurent@vivier.eu>
-          Pull request trivial branch 2019-05-03
----
- tests/docker/dockerfiles/fedora.docker | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/docker=
-files/fedora.docker
-index 69d4a7f5d75..1496b68ba15 100644
---- a/tests/docker/dockerfiles/fedora.docker
-+++ b/tests/docker/dockerfiles/fedora.docker
-@@ -1,4 +1,4 @@
--FROM fedora:29
-+FROM fedora:30
- ENV PACKAGES \
-     bc \
-     bison \
---=20
-2.20.1
-
+r~
 
