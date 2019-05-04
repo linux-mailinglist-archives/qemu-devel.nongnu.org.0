@@ -2,51 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 734BF13A69
-	for <lists+qemu-devel@lfdr.de>; Sat,  4 May 2019 15:40:30 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:56834 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4172D13A6E
+	for <lists+qemu-devel@lfdr.de>; Sat,  4 May 2019 15:47:51 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:56955 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hMutx-0006uS-IC
-	for lists+qemu-devel@lfdr.de; Sat, 04 May 2019 09:40:29 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41714)
+	id 1hMv11-0002yt-8d
+	for lists+qemu-devel@lfdr.de; Sat, 04 May 2019 09:47:47 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43972)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hMupX-0004WA-38
-	for qemu-devel@nongnu.org; Sat, 04 May 2019 09:35:55 -0400
+	(envelope-from <marcel.apfelbaum@gmail.com>) id 1hMuyu-00021C-NK
+	for qemu-devel@nongnu.org; Sat, 04 May 2019 09:45:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hMupW-00059W-3d
-	for qemu-devel@nongnu.org; Sat, 04 May 2019 09:35:55 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53628)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <philmd@redhat.com>)
-	id 1hMupV-00058Z-UD; Sat, 04 May 2019 09:35:54 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 6F9F6309174E;
-	Sat,  4 May 2019 13:35:51 +0000 (UTC)
-Received: from x1w.redhat.com (ovpn-204-35.brq.redhat.com [10.40.204.35])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id B53965D71A;
-	Sat,  4 May 2019 13:35:49 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: qemu-trivial@nongnu.org, Laszlo Ersek <lersek@redhat.com>,
-	qemu-devel@nongnu.org
-Date: Sat,  4 May 2019 15:35:40 +0200
-Message-Id: <20190504133540.19758-3-philmd@redhat.com>
-In-Reply-To: <20190504133540.19758-1-philmd@redhat.com>
-References: <20190504133540.19758-1-philmd@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.41]);
-	Sat, 04 May 2019 13:35:51 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 2/2] roms: List and describe the Makefile
- 'clean' rule
+	(envelope-from <marcel.apfelbaum@gmail.com>) id 1hMuyt-0002JP-Oc
+	for qemu-devel@nongnu.org; Sat, 04 May 2019 09:45:36 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:38058)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <marcel.apfelbaum@gmail.com>)
+	id 1hMuyt-0002HV-JC
+	for qemu-devel@nongnu.org; Sat, 04 May 2019 09:45:35 -0400
+Received: by mail-wm1-x344.google.com with SMTP id f2so4892068wmj.3
+	for <qemu-devel@nongnu.org>; Sat, 04 May 2019 06:45:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id;
+	bh=a5Y6deqr1g5k0Prfrm2Y8oZJjfoDCCNVzTD/vmf2iJU=;
+	b=Vha6dtPJ83dVDD09upVUbNulfea/Pb8kcrjDEFx1fb2w0M09lUTW5dia36EQKZc7im
+	s25VZdhEKhXwgrGE3WAmNOJY4RXmku8G1ZwgEu24waHqQT6Iu5+xDfVY2PX9ozLuQbco
+	GzQftt21EYRN2B9poVLrJU4N4GxvZL/3+MRuLMqJW4QiNl60wSSYfX9c6dfPf73Owq/j
+	vqT4Xx7I9YPuRj0tuouV9O0lhzYr/Te5triiafVxNqIZbB1hjb1wjBp6EMQmVuEvcSDe
+	h43gp9FuBuQUXxpLlKOGCzt0DLPakma1k6p2EikQsnDY4xQOkZUyzDvwl5I2fWzhkezJ
+	miZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=a5Y6deqr1g5k0Prfrm2Y8oZJjfoDCCNVzTD/vmf2iJU=;
+	b=hvQdgBPlLZ4RHrP4y+2Apd/a3PP+JCbxlttwpcGtTbRLzYQOdxnuSYaFuI7iifz157
+	4F7W47VTr/yJE1GFjSqBZ1i66UG+2A3Y1Bs1c1UWRwAFWkx5i9F0aFgV4b+32Ert50or
+	wLrrR0RaP2JGvfAJdXXEbDCSRR1sQELSRhuysx/Whc2z+r7XUn9kOrIUP54CYy6+Olv0
+	UG9czRUYe8etF9DcWlh+hNSyPrvBV6dqjgexMsU/pfCsFMQ/oLVbQ+c6ByvJpAKeKQa9
+	qrBz08lZD/FE3B/SHBJ0MRoYPcFgoDAjEg5ECZZC3Al1lW8fAHAkMLxWV49XTvsyPudp
+	QVDg==
+X-Gm-Message-State: APjAAAXQbX7TtKPJdjJQoaiyXvMK1NOUlRZU4NVRV+YaiKPEDs8nS/9S
+	d4mLNDy+YV4WXOW2Mvj6geRWlWgo
+X-Google-Smtp-Source: APXvYqxNTCxgR+osjKgsf10Yyc/I8Q2wocNylCL6wyN0boDfFv5D6LD+SzOFFoFNG/3rxynnSsh99A==
+X-Received: by 2002:a1c:cfcf:: with SMTP id f198mr2777548wmg.35.1556977533183; 
+	Sat, 04 May 2019 06:45:33 -0700 (PDT)
+Received: from localhost.localdomain ([37.142.144.27])
+	by smtp.gmail.com with ESMTPSA id t1sm5095610wro.34.2019.05.04.06.45.31
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Sat, 04 May 2019 06:45:32 -0700 (PDT)
+From: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+To: qemu-devel@nongnu.org,
+	peter.maydell@linaro.org
+Date: Sat,  4 May 2019 16:45:25 +0300
+Message-Id: <20190504134529.4755-1-marcel.apfelbaum@gmail.com>
+X-Mailer: git-send-email 2.17.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2a00:1450:4864:20::344
+Subject: [Qemu-devel]  [PATCH PULL 0/4] RDMA queue
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,32 +72,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
-	Michael Tokarev <mjt@tls.msk.ru>, Laurent Vivier <laurent@vivier.eu>
+Cc: kamalheib1@gmail.com, yuval.shaia@oracle.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- roms/Makefile | 2 ++
- 1 file changed, 2 insertions(+)
+The following changes since commit a6ae23831b05a11880b40f7d58e332c45a6b04f7:
 
-diff --git a/roms/Makefile b/roms/Makefile
-index f020102c866..1a6c2fa76f9 100644
---- a/roms/Makefile
-+++ b/roms/Makefile
-@@ -62,6 +62,8 @@ default:
- 	@echo "  u-boot.e500    -- update u-boot.e500"
- 	@echo "  u-boot.sam460  -- update u-boot.sam460"
- 	@echo "  efi            -- update UEFI (edk2) platform firmware"
-+	@echo "  clean          -- delete the files generated by the previous" =
-\
-+	                          "build targets"
-=20
- bios: build-seabios-config-seabios-128k build-seabios-config-seabios-256=
-k
- 	cp seabios/builds/seabios-128k/bios.bin ../pc-bios/bios.bin
---=20
-2.20.1
+  Merge remote-tracking branch 'remotes/ehabkost/tags/python-next-pull-request' into staging (2019-05-03 15:26:09 +0100)
+
+are available in the Git repository at:
+
+  https://github.com/marcel-apf/qemu tags/rdma-pull-request
+
+for you to fetch changes up to 355b7cf356b7f506ca1b716647cc0cf19d312fd2:
+
+  hw/pvrdma: Add support for SRQ (2019-05-04 15:55:56 +0300)
+
+----------------------------------------------------------------
+RDMA queue
+
+* pvrdma: Add support for SRQ
+
+----------------------------------------------------------------
+Kamal Heib (4):
+      hw/rdma: Add SRQ support to backend layer
+      hw/rdma: Add support for managing SRQ resource
+      hw/rdma: Modify create/destroy QP to support SRQ
+      hw/pvrdma: Add support for SRQ
+
+ hw/rdma/rdma_backend.c      | 125 +++++++++++++++++++++++++--
+ hw/rdma/rdma_backend.h      |  18 +++-
+ hw/rdma/rdma_backend_defs.h |   5 ++
+ hw/rdma/rdma_rm.c           | 117 ++++++++++++++++++++++++-
+ hw/rdma/rdma_rm.h           |  13 ++-
+ hw/rdma/rdma_rm_defs.h      |  10 +++
+ hw/rdma/vmw/pvrdma_cmd.c    | 206 +++++++++++++++++++++++++++++++++++++++-----
+ hw/rdma/vmw/pvrdma_main.c   |  16 ++++
+ hw/rdma/vmw/pvrdma_qp_ops.c |  46 +++++++++-
+ hw/rdma/vmw/pvrdma_qp_ops.h |   1 +
+ 10 files changed, 521 insertions(+), 36 deletions(-)
+
+-- 
+2.17.1
 
 
