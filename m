@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 40906142DF
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 00:31:20 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:47147 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D36D142D6
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 00:27:41 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:47078 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNPfD-0000so-FP
-	for lists+qemu-devel@lfdr.de; Sun, 05 May 2019 18:31:19 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36290)
+	id 1hNPbg-0006Pz-De
+	for lists+qemu-devel@lfdr.de; Sun, 05 May 2019 18:27:40 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36351)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hNPRI-0004jd-N1
-	for qemu-devel@nongnu.org; Sun, 05 May 2019 18:16:57 -0400
+	(envelope-from <philmd@redhat.com>) id 1hNPRP-0004rR-JB
+	for qemu-devel@nongnu.org; Sun, 05 May 2019 18:17:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hNPRH-0000TL-MI
-	for qemu-devel@nongnu.org; Sun, 05 May 2019 18:16:56 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38972)
+	(envelope-from <philmd@redhat.com>) id 1hNPRO-0000ci-O2
+	for qemu-devel@nongnu.org; Sun, 05 May 2019 18:17:03 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45886)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <philmd@redhat.com>)
-	id 1hNPRF-0000PQ-8Y; Sun, 05 May 2019 18:16:53 -0400
+	id 1hNPRL-0000Xs-FJ; Sun, 05 May 2019 18:16:59 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
 	[10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 8CAB230820E4;
-	Sun,  5 May 2019 22:16:52 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id B062CB0AA6;
+	Sun,  5 May 2019 22:16:58 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-58.brq.redhat.com [10.40.204.58])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C4605D739;
-	Sun,  5 May 2019 22:16:48 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 06A535D739;
+	Sun,  5 May 2019 22:16:52 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org,
 	Stephen Checkoway <stephen.checkoway@oberlin.edu>
-Date: Mon,  6 May 2019 00:15:43 +0200
-Message-Id: <20190505221544.31568-13-philmd@redhat.com>
+Date: Mon,  6 May 2019 00:15:44 +0200
+Message-Id: <20190505221544.31568-14-philmd@redhat.com>
 In-Reply-To: <20190505221544.31568-1-philmd@redhat.com>
 References: <20190505221544.31568-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.47]);
-	Sun, 05 May 2019 22:16:52 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.38]);
+	Sun, 05 May 2019 22:16:58 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 12/13] hw/block/pflash_cfi02: Fix command
- address comparison
+Subject: [Qemu-devel] [PATCH 13/13] hw/block/pflash_cfi02: Use the chip
+ erase time specified in the CFI table
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -70,84 +70,40 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Stephen Checkoway <stephen.checkoway@oberlin.edu>
 
-Most AMD commands only examine 11 bits of the address. This masks the
-addresses used in the comparison to 11 bits. The exceptions are word or
-sector addresses which use offset directly rather than the shifted
-offset, boff.
+When erasing the chip, use the typical time specified in the CFI table
+rather than arbitrarily selecting 5 seconds.
+
+Since the currently unconfigurable value set in the table is 12, this
+means a chip erase takes 4096 ms so this isn't a big change in behavior.
 
 Signed-off-by: Stephen Checkoway <stephen.checkoway@oberlin.edu>
-Acked-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20190426162624.55977-4-stephen.checkoway@oberlin.edu>
+Message-Id: <20190426162624.55977-11-stephen.checkoway@oberlin.edu>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 [PMD: Prepend 'hw/' in patch subject]
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/block/pflash_cfi02.c   |  8 +++++++-
- tests/pflash-cfi02-test.c | 12 ++++++++++--
- 2 files changed, 17 insertions(+), 3 deletions(-)
+ hw/block/pflash_cfi02.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
-index 59daade2ee6..4c17dbf99f4 100644
+index 4c17dbf99f4..49cd9ed0f91 100644
 --- a/hw/block/pflash_cfi02.c
 +++ b/hw/block/pflash_cfi02.c
-@@ -297,11 +297,13 @@ static void pflash_write(void *opaque, hwaddr offse=
-t, uint64_t value,
-=20
-     DPRINTF("%s: offset " TARGET_FMT_plx " %08" PRIx64 " %d\n", __func__=
-,
-             offset, value, width);
--    boff =3D offset & (pfl->sector_len - 1);
-+    boff =3D offset;
-     if (pfl->width =3D=3D 2)
-         boff =3D boff >> 1;
-     else if (pfl->width =3D=3D 4)
-         boff =3D boff >> 2;
-+    /* Only the least-significant 11 bits are used in most cases. */
-+    boff &=3D 0x7FF;
-     switch (pfl->wcycle) {
-     case 0:
-         /* Set the device in I/O access mode if required */
-@@ -520,6 +522,10 @@ static void pflash_cfi02_realize(DeviceState *dev, E=
-rror **errp)
-         return;
-     }
-=20
-+    /* Only 11 bits are used in the comparison. */
-+    pfl->unlock_addr0 &=3D 0x7FF;
-+    pfl->unlock_addr1 &=3D 0x7FF;
-+
-     chip_len =3D pfl->sector_len * pfl->nb_blocs;
-=20
-     memory_region_init_rom_device(&pfl->orig_mem, OBJECT(pfl),
-diff --git a/tests/pflash-cfi02-test.c b/tests/pflash-cfi02-test.c
-index 3c37465499a..1e5d9124b71 100644
---- a/tests/pflash-cfi02-test.c
-+++ b/tests/pflash-cfi02-test.c
-@@ -22,8 +22,8 @@
-=20
- #define FLASH_WIDTH 2
- #define CFI_ADDR (FLASH_WIDTH * 0x55)
--#define UNLOCK0_ADDR (FLASH_WIDTH * 0x5555)
--#define UNLOCK1_ADDR (FLASH_WIDTH * 0x2AAA)
-+#define UNLOCK0_ADDR (FLASH_WIDTH * 0x555)
-+#define UNLOCK1_ADDR (FLASH_WIDTH * 0x2AA)
-=20
- #define CFI_CMD 0x98
- #define UNLOCK0_CMD 0xAA
-@@ -190,6 +190,14 @@ static void test_flash(const void *opaque)
-     g_assert_cmpint(flash_read(6), =3D=3D, 0xCDEF);
-     g_assert_cmpint(flash_read(8), =3D=3D, 0xFFFF);
-=20
-+    /* Test ignored high order bits of address. */
-+    flash_write(FLASH_WIDTH * 0x5555, UNLOCK0_CMD);
-+    flash_write(FLASH_WIDTH * 0x2AAA, UNLOCK1_CMD);
-+    flash_write(FLASH_WIDTH * 0x5555, AUTOSELECT_CMD);
-+    g_assert_cmpint(flash_read(FLASH_WIDTH * 0x0000), =3D=3D, 0x00BF);
-+    g_assert_cmpint(flash_read(FLASH_WIDTH * 0x0001), =3D=3D, 0x236D);
-+    reset();
-+
-     qtest_quit(global_qtest);
- }
-=20
+@@ -429,9 +429,9 @@ static void pflash_write(void *opaque, hwaddr offset,=
+ uint64_t value,
+                 pflash_update(pfl, 0, pfl->chip_len);
+             }
+             set_dq7(pfl, 0x00);
+-            /* Let's wait 5 seconds before chip erase is done */
++            /* Wait the time specified at CFI address 0x22. */
+             timer_mod(&pfl->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL)=
+ +
+-                      (NANOSECONDS_PER_SECOND * 5));
++                      (1ULL << pfl->cfi_table[0x22]) * SCALE_MS);
+             break;
+         case 0x30:
+             /* Sector erase */
 --=20
 2.20.1
 
