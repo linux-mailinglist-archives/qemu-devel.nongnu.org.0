@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F5A9142C3
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 00:21:57 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46954 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 002F0142DD
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 00:30:07 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:47111 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNPW8-00083v-Cs
-	for lists+qemu-devel@lfdr.de; Sun, 05 May 2019 18:21:56 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36084)
+	id 1hNPe3-0008K5-6u
+	for lists+qemu-devel@lfdr.de; Sun, 05 May 2019 18:30:07 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36169)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hNPR4-0004Rq-Ni
-	for qemu-devel@nongnu.org; Sun, 05 May 2019 18:16:45 -0400
+	(envelope-from <philmd@redhat.com>) id 1hNPR8-0004UP-PA
+	for qemu-devel@nongnu.org; Sun, 05 May 2019 18:16:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hNPR0-0008Ua-VG
-	for qemu-devel@nongnu.org; Sun, 05 May 2019 18:16:40 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43822)
+	(envelope-from <philmd@redhat.com>) id 1hNPR7-0000E5-Ul
+	for qemu-devel@nongnu.org; Sun, 05 May 2019 18:16:46 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38952)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <philmd@redhat.com>)
-	id 1hNPQp-0008AQ-HO; Sun, 05 May 2019 18:16:29 -0400
+	id 1hNPQx-0008If-1B; Sun, 05 May 2019 18:16:35 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
 	[10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id BBDB6307BCB3;
-	Sun,  5 May 2019 22:16:25 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 70A6D30820E4;
+	Sun,  5 May 2019 22:16:30 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-58.brq.redhat.com [10.40.204.58])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id C5D7C7C386;
-	Sun,  5 May 2019 22:16:21 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 2EAAE5D739;
+	Sun,  5 May 2019 22:16:25 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org,
 	Stephen Checkoway <stephen.checkoway@oberlin.edu>
-Date: Mon,  6 May 2019 00:15:37 +0200
-Message-Id: <20190505221544.31568-7-philmd@redhat.com>
+Date: Mon,  6 May 2019 00:15:38 +0200
+Message-Id: <20190505221544.31568-8-philmd@redhat.com>
 In-Reply-To: <20190505221544.31568-1-philmd@redhat.com>
 References: <20190505221544.31568-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.49]);
-	Sun, 05 May 2019 22:16:25 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.47]);
+	Sun, 05 May 2019 22:16:30 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 06/13] hw/block/pflash_cfi02: Add helpers to
- manipulate the status bits
+Subject: [Qemu-devel] [PATCH 07/13] hw/block/pflash_cfi02: Simplify a
+ statement using fall through
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -68,12 +68,6 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Pull out all of the code to modify the status into simple helper
-functions. Status handling becomes more complex once multiple
-chips are interleaved to produce a single device.
-
-No change in functionality is intended with this commit.
-
 Signed-off-by: Stephen Checkoway <stephen.checkoway@oberlin.edu>
 Message-Id: <20190426162624.55977-3-stephen.checkoway@oberlin.edu>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
@@ -81,101 +75,28 @@ Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 [PMD: Extracted from bigger patch]
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/block/pflash_cfi02.c | 39 ++++++++++++++++++++++++++++++++++-----
- 1 file changed, 34 insertions(+), 5 deletions(-)
+ hw/block/pflash_cfi02.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
-index b27796d74d2..9673eee969f 100644
+index 9673eee969f..1e006e7bf3a 100644
 --- a/hw/block/pflash_cfi02.c
 +++ b/hw/block/pflash_cfi02.c
-@@ -100,6 +100,31 @@ struct PFlashCFI02 {
-     void *storage;
- };
-=20
-+/*
-+ * Toggle status bit DQ7.
-+ */
-+static inline void toggle_dq7(PFlashCFI02 *pfl)
-+{
-+    pfl->status ^=3D 0x80;
-+}
-+
-+/*
-+ * Set status bit DQ7 to bit 7 of value.
-+ */
-+static inline void set_dq7(PFlashCFI02 *pfl, uint8_t value)
-+{
-+    pfl->status &=3D 0x7F;
-+    pfl->status |=3D value & 0x80;
-+}
-+
-+/*
-+ * Toggle status bit DQ6.
-+ */
-+static inline void toggle_dq6(PFlashCFI02 *pfl)
-+{
-+    pfl->status ^=3D 0x40;
-+}
-+
- /*
-  * Set up replicated mappings of the same region.
-  */
-@@ -129,7 +154,7 @@ static void pflash_timer (void *opaque)
-=20
-     trace_pflash_timer_expired(pfl->cmd);
-     /* Reset flash */
--    pfl->status ^=3D 0x80;
-+    toggle_dq7(pfl);
-     if (pfl->bypass) {
-         pfl->wcycle =3D 2;
-     } else {
-@@ -232,7 +257,7 @@ static uint32_t pflash_read(PFlashCFI02 *pfl, hwaddr =
-offset,
-         ret =3D pfl->status;
-         DPRINTF("%s: status %" PRIx32 "\n", __func__, ret);
-         /* Toggle bit 6 */
--        pfl->status ^=3D 0x40;
-+        toggle_dq6(pfl);
-         break;
-     case 0x98:
-         /* CFI query mode */
-@@ -381,7 +406,11 @@ static void pflash_write(PFlashCFI02 *pfl, hwaddr of=
-fset,
-                     break;
-                 }
+@@ -241,10 +241,10 @@ static uint32_t pflash_read(PFlashCFI02 *pfl, hwadd=
+r offset,
+         case 0x0E:
+         case 0x0F:
+             ret =3D boff & 0x01 ? pfl->ident3 : pfl->ident2;
+-            if (ret =3D=3D (uint8_t)-1) {
+-                goto flash_read;
++            if (ret !=3D (uint8_t)-1) {
++                break;
              }
--            pfl->status =3D 0x00 | ~(value & 0x80);
-+            /*
-+             * While programming, status bit DQ7 should hold the opposit=
-e
-+             * value from how it was programmed.
-+             */
-+            set_dq7(pfl, ~value);
-             /* Let's pretend write is immediate */
-             if (pfl->bypass)
-                 goto do_bypass;
-@@ -429,7 +458,7 @@ static void pflash_write(PFlashCFI02 *pfl, hwaddr off=
-set,
-                 memset(pfl->storage, 0xFF, pfl->chip_len);
-                 pflash_update(pfl, 0, pfl->chip_len);
-             }
--            pfl->status =3D 0x00;
-+            set_dq7(pfl, 0x00);
-             /* Let's wait 5 seconds before chip erase is done */
-             timer_mod(&pfl->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL)=
- +
-                       (NANOSECONDS_PER_SECOND * 5));
-@@ -444,7 +473,7 @@ static void pflash_write(PFlashCFI02 *pfl, hwaddr off=
-set,
-                 memset(p + offset, 0xFF, pfl->sector_len);
-                 pflash_update(pfl, offset, pfl->sector_len);
-             }
--            pfl->status =3D 0x00;
-+            set_dq7(pfl, 0x00);
-             /* Let's wait 1/2 second before sector erase is done */
-             timer_mod(&pfl->timer, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL)=
- +
-                       (NANOSECONDS_PER_SECOND / 2));
+-            break;
++            /* Fall through to data read. */
+         default:
+             goto flash_read;
+         }
 --=20
 2.20.1
 
