@@ -2,85 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE8F414064
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 May 2019 16:51:12 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:42109 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 925FF1407A
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 May 2019 17:06:55 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:42301 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNITv-0002SU-KK
-	for lists+qemu-devel@lfdr.de; Sun, 05 May 2019 10:51:11 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38666)
+	id 1hNIj8-0000pu-MG
+	for lists+qemu-devel@lfdr.de; Sun, 05 May 2019 11:06:54 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41304)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hNIST-0001hV-Hw
-	for qemu-devel@nongnu.org; Sun, 05 May 2019 10:49:42 -0400
+	(envelope-from <bounces@canonical.com>) id 1hNIh9-0008QU-N0
+	for qemu-devel@nongnu.org; Sun, 05 May 2019 11:04:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hNISS-00072V-Gd
-	for qemu-devel@nongnu.org; Sun, 05 May 2019 10:49:41 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:41142)
+	(envelope-from <bounces@canonical.com>) id 1hNIh8-0001Lu-Nj
+	for qemu-devel@nongnu.org; Sun, 05 May 2019 11:04:51 -0400
+Received: from indium.canonical.com ([91.189.90.7]:40364)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hNISS-000721-7I
-	for qemu-devel@nongnu.org; Sun, 05 May 2019 10:49:40 -0400
-Received: by mail-pf1-x443.google.com with SMTP id l132so399772pfc.8
-	for <qemu-devel@nongnu.org>; Sun, 05 May 2019 07:49:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=subject:to:references:from:openpgp:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=fwTGUID9CJ7HBma0SeQAmv3nHEqhS1jnmYMdnBB4GDo=;
-	b=Pwm+RW3+EXSwfZa/3mGtGvTNQ+D56mavwad6owUV159ku/qiKk186OOHGoULw2gwrg
-	0asi2st7QJ2vihsm+/dHzJk26NoZIA8igCb8L1AyIViB2mZ+Pjv1li1/wCW39tOj4feX
-	dFWp2QTaSOFzRKEhxsLXMBwus3JOoyVSSjqJzN03Zt/x2o1WMuncHFjBv9EgFMDeAZnn
-	4yD78+KLXctPRY43BH65PlPTcFWa4TmkP+LhRVT8AmzD1Bt0ULU9+MSLKNFsxlPMZ8yj
-	860SbRw7uTfz9xe1/OKq3fzjh3/4LxaoA9Ip3zB6liMhDLa/eSBCn7Gm9SaN9FemgSnc
-	SB1A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=fwTGUID9CJ7HBma0SeQAmv3nHEqhS1jnmYMdnBB4GDo=;
-	b=gRGqb3Bgnz5W3l3RRa8NsHqFQdLUFQkokRHu4Y6va88wNVYcO8vkEIlNvmPCkLHwk0
-	2vMFQao9CZg0cYjog0QBQGQxTgn5Hzv7QHqfTNj/7G2iQjdmdRGPa/wa4hS05sLUKSfe
-	fmr0yjKDft2It6JRYcJF2dZ4D++qGdv7mQod3gAYi/zfIrlTBpramxsKUq3KzRh9zkvx
-	L8MQDpNYakR7fdVJpB4u9Ag7QdqkZf22V/vKcMSbz0qr26prZ5k4j9eTsdODWFUxEd2Z
-	2h3mS/HXbb2r2nMAkVSIQo+sikwtNdoYTFOJNJgHK72449melHWVeFmnflZH3deWRuAx
-	72QA==
-X-Gm-Message-State: APjAAAW40o1uJ9Mul/lXArhLSq/LMIM9oqvCOgIJmoWH+YrmNtR9vbaX
-	DVCAY53osI5yy1uEFMAsg8T2fkupqzw=
-X-Google-Smtp-Source: APXvYqypt8ZE8II7Zyp+CXIKvOPKE14CRmxeHHQFAx8lrTB/SUAXjCi6GNfgbcp0DwOlOYKXzPAxLw==
-X-Received: by 2002:a63:5c5f:: with SMTP id n31mr25620229pgm.325.1557067778868;
-	Sun, 05 May 2019 07:49:38 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-189-189.tukw.qwest.net. [97.113.189.189])
-	by smtp.gmail.com with ESMTPSA id
-	y17sm11581136pfb.161.2019.05.05.07.49.37
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 05 May 2019 07:49:37 -0700 (PDT)
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org, david@gibson.dropbear.id.au, rth@twiddle.net,
-	gkurz@kaod.org
-References: <20190428143845.11810-1-mark.cave-ayland@ilande.co.uk>
-	<20190428143845.11810-5-mark.cave-ayland@ilande.co.uk>
-	<557b6776-45ab-0c00-7e1e-45fe33705d0b@linaro.org>
-	<ea616832-33ca-eeed-03f9-708394e72ecb@ilande.co.uk>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <6b249770-2b30-ef94-dc37-67cded8e6880@linaro.org>
-Date: Sun, 5 May 2019 07:49:36 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hNIh8-0001LV-IU
+	for qemu-devel@nongnu.org; Sun, 05 May 2019 11:04:50 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hNIh7-0005Hr-EE
+	for <qemu-devel@nongnu.org>; Sun, 05 May 2019 15:04:49 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id 60B202E80C7
+	for <qemu-devel@nongnu.org>; Sun,  5 May 2019 15:04:49 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <ea616832-33ca-eeed-03f9-708394e72ecb@ilande.co.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::443
-Subject: Re: [Qemu-devel] [PATCH 04/14] target/ppc: introduce
- GEN_VSX_HELPER_X3 macro to fpu_helper.c
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 05 May 2019 14:50:47 -0000
+From: Thomas Huth <1462640@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+	assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: th-huth v-adrien
+X-Launchpad-Bug-Reporter: AH (v-adrien)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
+References: <20150606150101.12665.95850.malonedeb@soybean.canonical.com>
+Message-Id: <155706784765.20157.13249923619457672502.malone@gac.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18953";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 6c4acd8c801d01fbcc4306657c953b199e1c19a8
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1462640] Re: shmat fails on 32-to-64 setup
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -89,38 +64,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1462640 <1462640@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/5/19 2:52 AM, Mark Cave-Ayland wrote:
-> Right, it looks like VSX_CMP is the culprit here. Am I right in thinking that it's
-> best to remove the opc parameter from GEN_VSX_HELPER_X3 above, and then have a
-> separate gen and helper function for just the VSX_CMP instructions? Presumably this
-> reduces of the overhead at both translation and execution time for the instructions
-> that don't require it.
+Which version of QEMU did you use here? Does it still reproduce with the
+latest version of QEMU?
 
-Yep.
+** Changed in: qemu
+       Status: New =3D> Incomplete
 
-I think the best fix for VSX_CMP is to return the value that is to be assigned
-to cr[6], and let it assign like so:
+-- =
 
-  gen_helper_foo(cpu_crf[6], other, arguments);
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1462640
 
-(Or if the opcode bit is unset,
+Title:
+  shmat fails on 32-to-64 setup
 
-  TCGv_i32 ignored = tcg_temp_new_i32();
-  gen_helper_foo(ignored, other arguments);
-  tcg_temp_free_i32(ignored);
-)
+Status in QEMU:
+  Incomplete
 
-at which point these functions do not modify tcg globals, so the decl
-can be improved to
+Bug description:
+  =
 
-  DEF_HELPER_FLAGS_2(xvcmpeqdp, TCG_CALL_NO_RWG, i32, ptr, ptr, ptr)
+  I am trying to run a guest mips32 program (user mode) on a x86_64 host. T=
+he program fails on a call to shmat() reproducibly. when digging into this =
+problem, I could make a small guest POC that fails when compiled as i386 (-=
+m32) running on a x86_64 host, but pass when compiled as 64bit. The problem=
+ has to do with mmap flags.
 
-To keep the assignment vs exception order, you remove the direct call to
-do_float_check_status and use gen_helper_float_check_status.
+  From what I can understand, when running 32bits guests programs, qemu
+  reserve the whole guest virtual space with an mmap call. That mmap
+  call specifys MAP:PRIVATE flag. When shmat is called, it tries to make
+  part of that region MAP_SHARED and that fails.
+
+  As a possible fix, it looks like it is possible to first unmap the shm
+  region before calling shmat.
+
+  steps to reproduce: =
+
+  1 - create a file shm.c with content below
+  2 - compile with: gcc -m32 shm.c -o shm32
+  3 - run on a x86_64 host: qemu-i386 ./shm32 =
+
+  4 - observe shmat fails, by returning ptr -1
+
+  5- compile without -m32: : gcc shm.c -o shm64
+  6 - observe it pass: qemu-x84_64 ./shm64
 
 
-r~
+  #include <sys/ipc.h>
+  #include <sys/shm.h>
+  #include <sys/mman.h>
+  #include <stdio.h>
+
+  int main()
+  {
+      struct shmid_ds shm_desc;
+      int err =3D 0;
+      int id =3D shmget(IPC_PRIVATE, 688128, IPC_CREAT|IPC_EXCL|0666);
+      err =3D shmctl(id, IPC_STAT, &shm_desc);
+      const void *at =3D 0x7f7df38ea000;
+      void* ptr =3D shmat(id, at, 0);
+      printf( "got err %d, ptr %p\n", err, ptr );
+  }
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1462640/+subscriptions
 
