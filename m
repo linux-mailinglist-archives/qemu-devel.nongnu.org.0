@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0807140D8
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 May 2019 17:50:35 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:42776 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 224F2140DC
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 May 2019 17:52:47 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:42826 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNJPP-0000a8-68
-	for lists+qemu-devel@lfdr.de; Sun, 05 May 2019 11:50:35 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49350)
+	id 1hNJRW-0002IM-D2
+	for lists+qemu-devel@lfdr.de; Sun, 05 May 2019 11:52:46 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49893)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hNJNs-0008LV-LX
-	for qemu-devel@nongnu.org; Sun, 05 May 2019 11:49:01 -0400
+	(envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hNJQG-0001mn-Dh
+	for qemu-devel@nongnu.org; Sun, 05 May 2019 11:51:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hNJNr-0002U6-Pu
-	for qemu-devel@nongnu.org; Sun, 05 May 2019 11:49:00 -0400
-Received: from mail.ilande.co.uk ([46.43.2.167]:37552
+	(envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hNJQF-0004MO-3q
+	for qemu-devel@nongnu.org; Sun, 05 May 2019 11:51:28 -0400
+Received: from mail.ilande.co.uk ([46.43.2.167]:37576
 	helo=mail.default.ilande.uk0.bigv.io)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
-	id 1hNJNp-0002Id-Lr; Sun, 05 May 2019 11:48:57 -0400
+	id 1hNJQC-0004KR-F6; Sun, 05 May 2019 11:51:24 -0400
 Received: from host109-149-60-255.range109-149.btcentralplus.com
 	([109.149.60.255] helo=[192.168.1.65])
 	by mail.default.ilande.uk0.bigv.io with esmtpsa
 	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
 	(envelope-from <mark.cave-ayland@ilande.co.uk>)
-	id 1hNJKw-0003no-78; Sun, 05 May 2019 16:45:58 +0100
+	id 1hNJNV-0003oH-2M; Sun, 05 May 2019 16:48:37 +0100
 To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org, david@gibson.dropbear.id.au, rth@twiddle.net,
 	gkurz@kaod.org
 References: <20190428143845.11810-1-mark.cave-ayland@ilande.co.uk>
-	<20190428143845.11810-2-mark.cave-ayland@ilande.co.uk>
-	<fc4d6169-12d4-3fd8-f85a-262135a62b93@linaro.org>
-	<98ba8d01-dbab-ecde-ffbd-bb46efb29215@ilande.co.uk>
-	<9059f977-6ffa-e701-6c1b-2f8d8cca2c64@linaro.org>
+	<20190428143845.11810-3-mark.cave-ayland@ilande.co.uk>
+	<55204805-9275-2bc4-2c38-51dc87aa836d@linaro.org>
+	<7227a96f-ae59-3ed4-8b1f-9e92005b4a69@ilande.co.uk>
+	<626519f6-28c2-9870-0c6d-12869fbf57f1@linaro.org>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Openpgp: preference=signencrypt
 Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
@@ -61,12 +61,12 @@ Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
 	Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
 	KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
 	imgcU9TTGC5qd9g=
-Message-ID: <a818778c-6e37-a9ce-3e1c-0b3eb151682f@ilande.co.uk>
-Date: Sun, 5 May 2019 16:46:31 +0100
+Message-ID: <cf86b84d-bf12-7b50-267d-cb2897cfd20d@ilande.co.uk>
+Date: Sun, 5 May 2019 16:49:11 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <9059f977-6ffa-e701-6c1b-2f8d8cca2c64@linaro.org>
+In-Reply-To: <626519f6-28c2-9870-0c6d-12869fbf57f1@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
@@ -76,8 +76,8 @@ X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 46.43.2.167
-Subject: Re: [Qemu-devel] [PATCH 01/14] target/ppc: remove getVSR()/putVSR()
- from fpu_helper.c
+Subject: Re: [Qemu-devel] [PATCH 02/14] target/ppc: remove getVSR()/putVSR()
+ from mem_helper.c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -92,27 +92,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/05/2019 15:31, Richard Henderson wrote:
+On 05/05/2019 15:34, Richard Henderson wrote:
 
-> On 5/5/19 2:27 AM, Mark Cave-Ayland wrote:
->> I've spent a bit of time today going through the functions and it seems that all
->> functions which have an xt parameter, minus a couple of the TEST macros, require the
->> result to be calculated in a local variable first.
+> On 5/5/19 2:34 AM, Mark Cave-Ayland wrote:
+>>>>      EA = tcg_temp_new();                                        \
+>>>> -    xt = tcg_const_tl(xT(ctx->opcode));                         \
+>>>>      gen_set_access_type(ctx, ACCESS_INT);                       \
+>>>>      gen_addr_register(ctx, EA);                                 \
+>>>> -    gen_helper_##name(cpu_env, EA, xt, cpu_gpr[rB(ctx->opcode)]); \
+>>>> +    xt = tcg_const_tl(xT(ctx->opcode));                         \
+>>>> +    rb = tcg_const_tl(rB(ctx->opcode));                         \
+>>>> +    gen_helper_##name(cpu_env, EA, xt, rb);                     \
+>>>>      tcg_temp_free(EA);                                          \
+>>>>      tcg_temp_free(xt);                                          \
+>>>> +    tcg_temp_free(rb);                                          \
+>>>>  }
+>>>
+>>> Why are you adjusting the function to pass the rB register number rather than
+>>> the contents of rB?  That seems the wrong way around...
 >>
->> I think the best solution is still to remove getVSR()/putVSR() but replace them with
->> macros for copying and zeroing like this:
+>> I think what I was trying to do here was eliminate the cpu_gpr since it
+>> feels to me that with the vector patchsets and your negative offset patches
+>> that this should be the way to go for accessing CPUState rather than using
+>> TCG globals.
+> 
+> Not for the integer register set.
+> 
+>> Looking at this again I realise the solution is really the same as is
+>> currently used
+>> for gen_load_spr() so I can use something like this:>
+>>     static inline void gen_load_gpr(TCGv t, int reg)
+>>     {
+>>         tcg_gen_ld_tl(t, cpu_env, offsetof(CPUPPCState, gpr[reg]));
+>>     }
 >>
->>     #define VSRCPY(d, s) (memcpy(d, s, sizeof(ppc_vsr_t)))
->>     #define VSRZERO(d)   (memset(d, 0, sizeof(ppc_vsr_t)))
+>> Does this seem reasonable as a solution?
 > 
-> Local variable, yes.  But I see no reason for macros.
-> 
->   ppc_vsr_t res = { };
->   ...
->   *xt = res;
+> No, this will fail quickly.
 
-Ah thanks for the hint - I wasn't aware that this could be done in a consistent way
-for structs across all compilers. I'll implement this in the next version of the series.
+Okay in that case I'll leave it as-is. So just to satisfy my curiosity here: is the
+problem here the mixing and matching of offsets and TCG globals, rather than the use
+of offsets as done for the VMX/VSX registers?
 
 
 ATB,
