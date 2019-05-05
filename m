@@ -2,69 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 316F514257
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 May 2019 22:50:12 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:45705 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9B6ED14132
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 May 2019 18:54:01 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43661 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNO5L-0008IJ-3M
-	for lists+qemu-devel@lfdr.de; Sun, 05 May 2019 16:50:11 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54295)
+	id 1hNKOm-0004Ki-IA
+	for lists+qemu-devel@lfdr.de; Sun, 05 May 2019 12:54:00 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:32777)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mrolnik@gmail.com>) id 1hNJib-0005fc-5m
-	for qemu-devel@nongnu.org; Sun, 05 May 2019 12:10:26 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hNKNW-0003om-0a
+	for qemu-devel@nongnu.org; Sun, 05 May 2019 12:52:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mrolnik@gmail.com>) id 1hNJiR-0000Ib-Gc
-	for qemu-devel@nongnu.org; Sun, 05 May 2019 12:10:17 -0400
-Received: from mail-qk1-x731.google.com ([2607:f8b0:4864:20::731]:38509)
+	(envelope-from <richard.henderson@linaro.org>) id 1hNKNV-0007mp-1m
+	for qemu-devel@nongnu.org; Sun, 05 May 2019 12:52:41 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:36675)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1hNJiR-0000HE-0I
-	for qemu-devel@nongnu.org; Sun, 05 May 2019 12:10:15 -0400
-Received: by mail-qk1-x731.google.com with SMTP id a64so661626qkg.5
-	for <qemu-devel@nongnu.org>; Sun, 05 May 2019 09:10:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=ElNsE6XdCijvMOUmvcuTLIec8SVYrJvuY3ni/VKMXic=;
-	b=lbTdMMxvGWXBjrG5zJspWnBXGEHjzcyYGe2+rcH3cuMq1lIHooSfRDPmgn8r5rTxL0
-	z0qd07ZR1igfyWXZrNYGaPhXqcxlj3aP60GQRMbfuvesj1LXmIr5WpKHwVjYo0U3Q5g2
-	rrsUy5665OTosYENi+cIDZmje6avLRFhSvURn1Aa4Ek35qqb7gSi91SEYlpqdB5RjKc0
-	GO9SprnPpHXs6RH9dpPjF5eqVkEHusVZcv8NMgX5jsRCGZYSSO0KdkKnS89fZpF05HDv
-	VX+stlWRGwU4ZAy66xnt5Tk0Ys77xSwZWBDNR3h04xnVAAcVlj0C+yJKFipZh9TZjs5S
-	9brA==
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hNKNU-0007kw-Ps
+	for qemu-devel@nongnu.org; Sun, 05 May 2019 12:52:40 -0400
+Received: by mail-pf1-x442.google.com with SMTP id v80so5446103pfa.3
+	for <qemu-devel@nongnu.org>; Sun, 05 May 2019 09:52:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=6eYpoFsFHw8DGpzzwiuXcttk57KGwJF6eYLdcRr5Hxg=;
+	b=o1YfY50tdGSssJuIydIboaPUoZUo22MEgcDoige4H7T1AOdRedLLhjSM0kEdfOS+kk
+	JWC0CDF/Zyp+Uiu/iaWwWGKRMP34BDkwEwy/SV/NC0mZcwXnKme4N+dTi3d+3vl4h8QK
+	JtHXt+dvAynwZFn3qz+hrn1vZJPB4Nk4Ndz1mRXbwFrbjwRVV0oQji7E+4+X3hnIJLag
+	ZEHj8AIFY+/1A3xWtl73QVqqlRIxTlA/6Nx9fmiv64uUaWp8yOk+9Yq36iSbalOFYsLQ
+	HVVx7VJMkupbItbgZRih6lN6QTSu5WHeGJ1bFP46tG7otgfATAQmaPc8bWJ9owQh+fTi
+	e3Bw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=ElNsE6XdCijvMOUmvcuTLIec8SVYrJvuY3ni/VKMXic=;
-	b=q1ZEO2WJEU1vYDyV/P2n+gl8H1B8ETE9ujTuS4jJYic1ZjcXCXIvAoY3Z5FJPNbdnk
-	HzSePdCjbZ2AxavTmAWszM0tVi4ODMyK45u06Vpghd3FnVTd/+axFd5MrPcpvE+ViZRx
-	P8UNeMA/zgf0piRSSBCVv/Hz7AH8fM35SF+t7DGBQAk051cpmA8QvhNcROOoJshmq0fX
-	G23xv+5qfzh/rfMEkNR6RaVWad7pgTt06Oq86q6w/HFSXOeKoTn6EEMHTHcFuiwgZlyI
-	/x6TmWyUG+uMn6W5HTTykdk7j76+gTc42Vv6HYlGu6OxvuAVj5ATIYqkncoDN1iqs7zh
-	lbnw==
-X-Gm-Message-State: APjAAAVROfVzP+7+DK7WEBsx3bS0ewiSaftb0KjZSKms8CY/Hj+cXx4J
-	smsqdNwhaAVEsrxYpPNUS3IwEe6cr+Cc4nc0ymY=
-X-Google-Smtp-Source: APXvYqwbRJZnhchWN0mSerag86HKyI1S87NO5upK30p42nx2Wrs8FA8t3/wgIuO7zVUquLyqhZhM7rxkyEvTRo1SiHQ=
-X-Received: by 2002:ae9:d881:: with SMTP id
-	u123mr16256439qkf.294.1557072613372; 
-	Sun, 05 May 2019 09:10:13 -0700 (PDT)
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=6eYpoFsFHw8DGpzzwiuXcttk57KGwJF6eYLdcRr5Hxg=;
+	b=pIFNSYiMnsf7erC02GWo2mirHUUBnNxpeQhdZTiAAisYMR9PX6XZUHD6tIRZgWGgqf
+	fXKJK7mgcyS/fXi+OGzW5D+0SWCeEDBnZ1ecI8jm07yiL1EoXh/GvjTVZW7D3Nvh4A9u
+	aZFxGGxCrmerRgw6B29XqcT57c2C+lnvuoEmTB4X1QQvK07uKr5vl3ibxurHTBiYJP+h
+	OHQTeTdtxWrcFhkDbAwJ3nZStiJLXowgZ1ZrEZaGE6jAraUOK4AWJlQwqp3TXsxgUctG
+	PklAW+PhWt2EXpFrP+1hAa5xd71X5L0iLeIaix0yEckd7AiHItoetGEx5p2j/TDQyG2E
+	+Y4w==
+X-Gm-Message-State: APjAAAWyEkQEAjXNULZR3wYxvphV8fSlfAcoJdsLLGwNWD4pp8VwPanW
+	zGTvZii4DHEZ9wlIVgd9Vkjtng==
+X-Google-Smtp-Source: APXvYqyd3FUDUpIiHZAt+uAiOm/qZKpxxmftGDfNRxruop3HIwXrK94Jdauy3gd2InXZwX48R9kqAQ==
+X-Received: by 2002:aa7:8e50:: with SMTP id d16mr26427756pfr.227.1557075159463;
+	Sun, 05 May 2019 09:52:39 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-189-189.tukw.qwest.net. [97.113.189.189])
+	by smtp.gmail.com with ESMTPSA id
+	v19sm17633249pfa.138.2019.05.05.09.52.38
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 05 May 2019 09:52:38 -0700 (PDT)
+To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+References: <20190504120528.6389-1-pbonzini@redhat.com>
+	<20190504120528.6389-4-pbonzini@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <71bb0c2e-5298-16de-0c15-eb6f2b4d2f11@linaro.org>
+Date: Sun, 5 May 2019 09:52:36 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <20190504083638.13380-1-S.E.Harris@kent.ac.uk>
-	<20190504083638.13380-9-S.E.Harris@kent.ac.uk>
-	<c05b4876-c55e-fd82-46d0-83be1b128cee@linaro.org>
-In-Reply-To: <c05b4876-c55e-fd82-46d0-83be1b128cee@linaro.org>
-From: Michael Rolnik <mrolnik@gmail.com>
-Date: Sun, 5 May 2019 09:10:00 -0700
-Message-ID: <CAK4993h0yCqpjBFzPy7GHt3kbSK43nLD6EXh4WFd_STHu15DTA@mail.gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
+In-Reply-To: <20190504120528.6389-4-pbonzini@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::731
-X-Mailman-Approved-At: Sun, 05 May 2019 16:48:53 -0400
-Content-Type: text/plain; charset="UTF-8"
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PATCH v1 8/8] target/avr: Register AVR support
- with the rest of QEMU, the build system, and the MAINTAINERS file
+X-Received-From: 2607:f8b0:4864:20::442
+Subject: Re: [Qemu-devel] [PATCH 3/9] coroutine: add host specific coroutine
+ backend for 64-bit x86
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -76,37 +85,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: E.J.C.Robbins@kent.ac.uk, Sarah Harris <S.E.Harris@kent.ac.uk>,
-	QEMU Developers <qemu-devel@nongnu.org>, A.M.King@kent.ac.uk
+Cc: peter.maydell@linaro.org, cohuck@redhat.com, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Richard.
+On 5/4/19 5:05 AM, Paolo Bonzini wrote:
+> This backend is faster (100ns vs 150ns per switch on my laptop), but
+> especially it will be possible to add CET support to it.  Most of the
+> code is actually not architecture specific.
+> 
+> Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+> ---
+>  configure                        |  10 ++
+>  scripts/qemugdb/coroutine.py     |   5 +-
+>  scripts/qemugdb/coroutine_asm.py |  20 +++
+>  util/Makefile.objs               |   1 +
+>  util/coroutine-asm.c             | 230 +++++++++++++++++++++++++++++++
+>  5 files changed, 264 insertions(+), 2 deletions(-)
+>  create mode 100644 scripts/qemugdb/coroutine_asm.py
+>  create mode 100644 util/coroutine-asm.c
 
-I can maintain it
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-Sent from my cell phone, please ignore typos
 
-On Sun, May 5, 2019, 8:57 AM Richard Henderson <richard.henderson@linaro.org>
-wrote:
+r~
 
-> On 5/4/19 1:36 AM, Sarah Harris wrote:
-> > Signed-off-by: Sarah Harris <S.E.Harris@kent.ac.uk>
-> ...
-> >
-> > +AVR
-> > +M: Michael Rolnik <mrolnik@gmail.com>
-> > +S: Odd Fixes
-> > +F: target-avr/
-> > +F: hw/avr/
-> > +
->
-> This is not how things work.  Michael wasn't up to maintaining the code 2
-> years
-> ago; that's why it was never committed.
->
-> You would need to maintain this yourself, and for more than "Odd Fixes".
->
->
-> r~
->
