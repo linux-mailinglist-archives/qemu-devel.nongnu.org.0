@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A20041423F
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 May 2019 22:11:48 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:45378 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B02141423C
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 May 2019 22:10:13 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:45332 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNNUA-0005zi-S4
-	for lists+qemu-devel@lfdr.de; Sun, 05 May 2019 16:11:46 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39196)
+	id 1hNNSe-0004h5-RA
+	for lists+qemu-devel@lfdr.de; Sun, 05 May 2019 16:10:12 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39259)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hNNPK-0002F0-I7
-	for qemu-devel@nongnu.org; Sun, 05 May 2019 16:06:47 -0400
+	(envelope-from <philmd@redhat.com>) id 1hNNPi-0002ff-Ao
+	for qemu-devel@nongnu.org; Sun, 05 May 2019 16:07:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hNNPJ-000497-Lh
-	for qemu-devel@nongnu.org; Sun, 05 May 2019 16:06:46 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56958)
+	(envelope-from <philmd@redhat.com>) id 1hNNPW-0004t8-L5
+	for qemu-devel@nongnu.org; Sun, 05 May 2019 16:07:04 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51258)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <philmd@redhat.com>)
-	id 1hNNPD-0003j5-UT; Sun, 05 May 2019 16:06:40 -0400
+	id 1hNNPO-0004AK-Hf; Sun, 05 May 2019 16:06:51 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
 	[10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 2EA3436893;
-	Sun,  5 May 2019 20:06:39 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id B61C9308213C;
+	Sun,  5 May 2019 20:06:45 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-58.brq.redhat.com [10.40.204.58])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0E8CA60851;
-	Sun,  5 May 2019 20:06:26 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id EA48160851;
+	Sun,  5 May 2019 20:06:39 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org,
 	qemu-stable@nongnu.org
-Date: Sun,  5 May 2019 22:05:59 +0200
-Message-Id: <20190505200602.12412-3-philmd@redhat.com>
+Date: Sun,  5 May 2019 22:06:00 +0200
+Message-Id: <20190505200602.12412-4-philmd@redhat.com>
 In-Reply-To: <20190505200602.12412-1-philmd@redhat.com>
 References: <20190505200602.12412-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.30]);
-	Sun, 05 May 2019 20:06:39 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.42]);
+	Sun, 05 May 2019 20:06:45 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 2/5] hw/block/pflash_cfi01: Extract the
- pflash_reset() code
+Subject: [Qemu-devel] [PATCH 3/5] hw/block/pflash_cfi01: Add the
+ DeviceReset() handler
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -71,70 +71,56 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The reset() code is used in various places, refactor it.
+The pflash device is a child of TYPE_DEVICE, so it can implement
+the DeviceReset handler. Actually it has to implement it, else
+on machine reset it might stay in an incoherent state, as it has
+been reported in the buglink listed below.
 
+Add the DeviceReset handler and remove its call from the realize()
+function.
+
+Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1678713
+Reported-by: Laszlo Ersek <lersek@redhat.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/block/pflash_cfi01.c | 21 ++++++++++++---------
- 1 file changed, 12 insertions(+), 9 deletions(-)
+ hw/block/pflash_cfi01.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
-index 6dc04f156a7..073cd14978f 100644
+index 073cd14978f..639b05bc4d5 100644
 --- a/hw/block/pflash_cfi01.c
 +++ b/hw/block/pflash_cfi01.c
-@@ -108,6 +108,15 @@ static const VMStateDescription vmstate_pflash =3D {
-     }
- };
-=20
-+static void pflash_reset(PFlashCFI01 *pfl)
-+{
-+    trace_pflash_reset();
-+    pfl->wcycle =3D 0;
-+    pfl->cmd =3D 0;
-+    pfl->status =3D 0;
-+    memory_region_rom_device_set_romd(&pfl->mem, true);
-+}
-+
- /* Perform a CFI query based on the bank width of the flash.
-  * If this code is called we know we have a device_width set for
-  * this flash.
-@@ -275,8 +284,7 @@ static uint32_t pflash_read(PFlashCFI01 *pfl, hwaddr =
-offset,
-     default:
-         /* This should never happen : reset state & treat it as a read *=
-/
-         DPRINTF("%s: unknown command state: %x\n", __func__, pfl->cmd);
--        pfl->wcycle =3D 0;
--        pfl->cmd =3D 0;
-+        pflash_reset(pfl);
-         /* fall through to read code */
-     case 0x00:
-         /* Flash area read */
-@@ -639,10 +647,7 @@ static void pflash_write(PFlashCFI01 *pfl, hwaddr of=
-fset,
-                   "\n", __func__, offset, pfl->wcycle, pfl->cmd, value);
-=20
-  reset_flash:
--    trace_pflash_reset();
--    memory_region_rom_device_set_romd(&pfl->mem, true);
--    pfl->wcycle =3D 0;
--    pfl->cmd =3D 0;
-+    pflash_reset(pfl);
- }
-=20
-=20
-@@ -757,9 +762,7 @@ static void pflash_cfi01_realize(DeviceState *dev, Er=
+@@ -762,7 +762,6 @@ static void pflash_cfi01_realize(DeviceState *dev, Er=
 ror **errp)
          pfl->max_device_width =3D pfl->device_width;
      }
 =20
--    pfl->wcycle =3D 0;
--    pfl->cmd =3D 0;
--    pfl->status =3D 0;
-+    pflash_reset(pfl);
+-    pflash_reset(pfl);
      /* Hardcoded CFI table */
      /* Standard "QRY" string */
      pfl->cfi_table[0x10] =3D 'Q';
+@@ -850,6 +849,11 @@ static void pflash_cfi01_realize(DeviceState *dev, E=
+rror **errp)
+     pfl->cfi_table[0x3f] =3D 0x01; /* Number of protection fields */
+ }
+=20
++static void pflash_cfi01_reset(DeviceState *dev)
++{
++    pflash_reset(PFLASH_CFI01(dev));
++}
++
+ static Property pflash_cfi01_properties[] =3D {
+     DEFINE_PROP_DRIVE("drive", PFlashCFI01, blk),
+     /* num-blocks is the number of blocks actually visible to the guest,
+@@ -894,6 +898,7 @@ static void pflash_cfi01_class_init(ObjectClass *klas=
+s, void *data)
+ {
+     DeviceClass *dc =3D DEVICE_CLASS(klass);
+=20
++    dc->reset =3D pflash_cfi01_reset;
+     dc->realize =3D pflash_cfi01_realize;
+     dc->props =3D pflash_cfi01_properties;
+     dc->vmsd =3D &vmstate_pflash;
 --=20
 2.20.1
 
