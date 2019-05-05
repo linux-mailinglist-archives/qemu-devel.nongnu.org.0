@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3D89C14007
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 May 2019 16:03:54 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:41444 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CA22A14011
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 May 2019 16:08:49 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:41525 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNHk9-0000rc-Cu
-	for lists+qemu-devel@lfdr.de; Sun, 05 May 2019 10:03:53 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55979)
+	id 1hNHou-0005E9-Ut
+	for lists+qemu-devel@lfdr.de; Sun, 05 May 2019 10:08:49 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55976)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hNHeB-0004JM-D0
+	(envelope-from <thuth@redhat.com>) id 1hNHeB-0004JC-79
 	for qemu-devel@nongnu.org; Sun, 05 May 2019 09:57:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hNHe9-0004p1-UE
+	(envelope-from <thuth@redhat.com>) id 1hNHe9-0004ou-Sw
 	for qemu-devel@nongnu.org; Sun, 05 May 2019 09:57:42 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33572)
+Received: from mx1.redhat.com ([209.132.183.28]:60430)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <thuth@redhat.com>)
-	id 1hNHe5-0004lV-Ub; Sun, 05 May 2019 09:57:38 -0400
+	id 1hNHe7-0004mj-DS; Sun, 05 May 2019 09:57:39 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
 	[10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 4A3443086201;
-	Sun,  5 May 2019 13:57:37 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id B5081307D857;
+	Sun,  5 May 2019 13:57:38 +0000 (UTC)
 Received: from thuth.com (ovpn-116-27.ams2.redhat.com [10.36.116.27])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 3D60B60C18;
-	Sun,  5 May 2019 13:57:36 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id A86A260C18;
+	Sun,  5 May 2019 13:57:37 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Date: Sun,  5 May 2019 15:56:59 +0200
-Message-Id: <20190505135714.11277-14-thuth@redhat.com>
+Date: Sun,  5 May 2019 15:57:00 +0200
+Message-Id: <20190505135714.11277-15-thuth@redhat.com>
 In-Reply-To: <20190505135714.11277-1-thuth@redhat.com>
 References: <20190505135714.11277-1-thuth@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.42]);
-	Sun, 05 May 2019 13:57:37 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.48]);
+	Sun, 05 May 2019 13:57:38 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 13/28] hw/arm: Express dependencies of collie
- with Kconfig
+Subject: [Qemu-devel] [PULL 14/28] hw/arm: Express dependencies of the
+ aspeed boards with Kconfig
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,69 +62,69 @@ Cc: qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add Kconfig dependencies for the Strongarm collie machine.
-This patch is based on earlier work by =C3=81kos Kov=C3=A1cs (i.e.
-his "hw/arm/Kconfig: Add ARM Kconfig" patch).
+Dependencies have been determined by looking at hw/arm/aspeed.c
 
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- default-configs/arm-softmmu.mak | 3 +--
- hw/arm/Kconfig                  | 7 +++++++
- hw/arm/Makefile.objs            | 2 +-
- 3 files changed, 9 insertions(+), 3 deletions(-)
+ default-configs/arm-softmmu.mak |  7 +------
+ hw/arm/Kconfig                  | 10 ++++++++++
+ 2 files changed, 11 insertions(+), 6 deletions(-)
 
 diff --git a/default-configs/arm-softmmu.mak b/default-configs/arm-softmm=
 u.mak
-index af78e7c892..25e8f717ac 100644
+index 25e8f717ac..2580584281 100644
 --- a/default-configs/arm-softmmu.mak
 +++ b/default-configs/arm-softmmu.mak
-@@ -25,6 +25,7 @@ CONFIG_GUMSTIX=3Dy
- CONFIG_SPITZ=3Dy
+@@ -26,15 +26,12 @@ CONFIG_SPITZ=3Dy
  CONFIG_TOSA=3Dy
  CONFIG_Z2=3Dy
-+CONFIG_COLLIE=3Dy
+ CONFIG_COLLIE=3Dy
++CONFIG_ASPEED_SOC=3Dy
 =20
  CONFIG_VGA=3Dy
- CONFIG_TMP421=3Dy
-@@ -97,5 +98,3 @@ CONFIG_GPIO_KEY=3Dy
+-CONFIG_TMP421=3Dy
+-CONFIG_PCA9552=3Dy
+ CONFIG_SSI_M25P80=3Dy
+ CONFIG_ALLWINNER_EMAC=3Dy
+ CONFIG_IMX_FEC=3Dy
+-CONFIG_FTGMAC100=3Dy
+-CONFIG_DS1338=3Dy
+ CONFIG_PLATFORM_BUS=3Dy
+ CONFIG_VIRTIO_MMIO=3Dy
+=20
+@@ -92,8 +89,6 @@ CONFIG_I82801B11=3Dy
+ CONFIG_ACPI=3Dy
+ CONFIG_ARM_VIRT=3Dy
+ CONFIG_SMBIOS=3Dy
+-CONFIG_ASPEED_SOC=3Dy
+-CONFIG_SMBUS_EEPROM=3Dy
+ CONFIG_GPIO_KEY=3Dy
  CONFIG_MSF2=3Dy
  CONFIG_FW_CFG_DMA=3Dy
- CONFIG_PCI_EXPRESS_DESIGNWARE=3Dy
--
--CONFIG_STRONGARM=3Dy
 diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
-index dfdc1b1fd6..a507144d9a 100644
+index a507144d9a..95ac0b540e 100644
 --- a/hw/arm/Kconfig
 +++ b/hw/arm/Kconfig
-@@ -169,6 +169,13 @@ config STELLARIS
+@@ -255,6 +255,16 @@ config FSL_IMX6
 =20
- config STRONGARM
+ config ASPEED_SOC
      bool
-+    select PXA2XX
-+
-+config COLLIE
-+    bool
-+    select PFLASH_CFI01
-+    select ZAURUS  # scoop
-+    select STRONGARM
++    select DS1338
++    select FTGMAC100
++    select I2C
++    select PCA9552
++    select SERIAL
++    select SMBUS_EEPROM
++    select SSI
++    select SSI_M25P80
++    select TMP105
++    select TMP421
 =20
- config SX1
+ config MPS2
      bool
-diff --git a/hw/arm/Makefile.objs b/hw/arm/Makefile.objs
-index 00328d1b0b..729e711b87 100644
---- a/hw/arm/Makefile.objs
-+++ b/hw/arm/Makefile.objs
-@@ -17,7 +17,7 @@ obj-$(CONFIG_TOSA) +=3D tosa.o
- obj-$(CONFIG_Z2) +=3D z2.o
- obj-$(CONFIG_REALVIEW) +=3D realview.o
- obj-$(CONFIG_STELLARIS) +=3D stellaris.o
--obj-$(CONFIG_STRONGARM) +=3D collie.o
-+obj-$(CONFIG_COLLIE) +=3D collie.o
- obj-$(CONFIG_VERSATILE) +=3D versatilepb.o
- obj-$(CONFIG_VEXPRESS) +=3D vexpress.o
- obj-$(CONFIG_ZYNQ) +=3D xilinx_zynq.o
 --=20
 2.21.0
 
