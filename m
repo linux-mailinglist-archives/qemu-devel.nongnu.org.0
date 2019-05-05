@@ -2,83 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6CA513EB5
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 May 2019 12:09:05 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38976 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C113113ED4
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 May 2019 12:27:19 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:39170 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNE4u-0000AC-U1
-	for lists+qemu-devel@lfdr.de; Sun, 05 May 2019 06:09:04 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45532)
+	id 1hNEMI-0004JP-7M
+	for lists+qemu-devel@lfdr.de; Sun, 05 May 2019 06:27:02 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48299)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hNE3o-0008Bw-Np
-	for qemu-devel@nongnu.org; Sun, 05 May 2019 06:07:57 -0400
+	(envelope-from <bounces@canonical.com>) id 1hNEL0-0003q2-B9
+	for qemu-devel@nongnu.org; Sun, 05 May 2019 06:25:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hNE3n-00032x-T7
-	for qemu-devel@nongnu.org; Sun, 05 May 2019 06:07:56 -0400
-Received: from mail.ilande.co.uk ([46.43.2.167]:37174
-	helo=mail.default.ilande.uk0.bigv.io)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
-	id 1hNE3l-00031T-Rp; Sun, 05 May 2019 06:07:53 -0400
-Received: from host109-149-60-255.range109-149.btcentralplus.com
-	([109.149.60.255] helo=[192.168.1.65])
-	by mail.default.ilande.uk0.bigv.io with esmtpsa
-	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
-	(envelope-from <mark.cave-ayland@ilande.co.uk>)
-	id 1hNE36-0002Zf-IY; Sun, 05 May 2019 11:07:14 +0100
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org, david@gibson.dropbear.id.au, rth@twiddle.net,
-	gkurz@kaod.org
-References: <20190428143845.11810-1-mark.cave-ayland@ilande.co.uk>
-	<20190428143845.11810-9-mark.cave-ayland@ilande.co.uk>
-	<4c8b7939-cd48-fd3f-8f3d-3f6fd18b6be2@linaro.org>
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
-	mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
-	3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
-	E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
-	PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
-	PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
-	AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
-	OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
-	NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
-	mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
-	z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
-	T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
-	DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
-	y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
-	2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
-	14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
-	YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
-	Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
-	BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
-	opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
-	NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
-	Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
-	KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
-	imgcU9TTGC5qd9g=
-Message-ID: <443b8459-8ad8-275f-225f-84c78d5fd7cc@ilande.co.uk>
-Date: Sun, 5 May 2019 11:07:46 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <bounces@canonical.com>) id 1hNEKy-0007Bh-I1
+	for qemu-devel@nongnu.org; Sun, 05 May 2019 06:25:42 -0400
+Received: from indium.canonical.com ([91.189.90.7]:50392)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hNEKy-00079o-8t
+	for qemu-devel@nongnu.org; Sun, 05 May 2019 06:25:40 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hNEKs-0006bw-0S
+	for <qemu-devel@nongnu.org>; Sun, 05 May 2019 10:25:34 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id ED7002E8052
+	for <qemu-devel@nongnu.org>; Sun,  5 May 2019 10:25:33 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <4c8b7939-cd48-fd3f-8f3d-3f6fd18b6be2@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
-X-SA-Exim-Connect-IP: 109.149.60.255
-X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
-X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
-X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Sun, 05 May 2019 10:15:41 -0000
+From: Chen Zhang <1827772@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: gvt mdev rfc vfio
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: cuser2
+X-Launchpad-Bug-Reporter: Chen Zhang (cuser2)
+X-Launchpad-Bug-Modifier: Chen Zhang (cuser2)
+Message-Id: <155705134117.31768.14250772954769525827.malonedeb@wampee.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18953";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: dcfd078c051a659e24d534e902c625d4cd110ec5
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.43.2.167
-Subject: Re: [Qemu-devel] [PATCH 08/14] target/ppc: introduce
- GEN_VSX_HELPER_R3 macro to fpu_helper.c
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1827772] [NEW] [RFC] dma buf: support sprite plane
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -87,36 +63,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1827772 <1827772@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 30/04/2019 17:47, Richard Henderson wrote:
+Public bug reported:
 
-> On 4/28/19 7:38 AM, Mark Cave-Ayland wrote:
->> +#define GEN_VSX_HELPER_R3(name, op1, op2, inval, type)                        \
->> +static void gen_##name(DisasContext *ctx)                                     \
->> +{                                                                             \
->> +    TCGv_i32 opc;                                                             \
->> +    TCGv_ptr xt, xa, xb;                                                      \
->> +    if (unlikely(!ctx->vsx_enabled)) {                                        \
->> +        gen_exception(ctx, POWERPC_EXCP_VSXU);                                \
->> +        return;                                                               \
->> +    }                                                                         \
->> +    opc = tcg_const_i32(ctx->opcode);                                         \
->> +    xt = gen_vsr_ptr(rD(ctx->opcode) + 32);                                   \
->> +    xa = gen_vsr_ptr(rA(ctx->opcode) + 32);                                   \
->> +    xb = gen_vsr_ptr(rB(ctx->opcode) + 32);                                   \
->> +    gen_helper_##name(cpu_env, opc, xt, xa, xb);                              \
-> 
-> Is opc still used here?  Otherwise,
-> 
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+QEMU does not support sprite/overlay in DMA-buf mode for Intel gvt
+vGPUs. Some use cases relies on sprite plane support, e.g. hw
+accelerated video playback in Windows 10 guest.
 
-Yeah, looks like it's used for the rounding mode. I'll have a look and see how this
-compares with the previous case.
+To support this feature, functions in both kernel and QEMU should be
+implemented:
+
+- query support for plane info in kernel: =
+
+  in vgpu_get_plane_info() of drm/i915/gvt/dmabuf.c, calls to intel_vgpu_de=
+code_sprite_plane() shall be made;
+
+- struct to hold VFIODMABuf object in QEMU:
+  in struct VFIODisplay of include/hw/vfio/vfio-common.h;
+- copying of data in QEMU:
+  in vfio_display_get_dmabuf() of hw/vfio/display.c;
+- drawing of sprite plane in QEMU:
+  in vfio_display_dmabuf_update() of hw/vfio/display.c;
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
 
 
-ATB,
+** Tags: gvt mdev rfc vfio
 
-Mark.
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1827772
+
+Title:
+  [RFC] dma buf: support sprite plane
+
+Status in QEMU:
+  New
+
+Bug description:
+  QEMU does not support sprite/overlay in DMA-buf mode for Intel gvt
+  vGPUs. Some use cases relies on sprite plane support, e.g. hw
+  accelerated video playback in Windows 10 guest.
+
+  To support this feature, functions in both kernel and QEMU should be
+  implemented:
+
+  - query support for plane info in kernel: =
+
+    in vgpu_get_plane_info() of drm/i915/gvt/dmabuf.c, calls to intel_vgpu_=
+decode_sprite_plane() shall be made;
+
+  - struct to hold VFIODMABuf object in QEMU:
+    in struct VFIODisplay of include/hw/vfio/vfio-common.h;
+  - copying of data in QEMU:
+    in vfio_display_get_dmabuf() of hw/vfio/display.c;
+  - drawing of sprite plane in QEMU:
+    in vfio_display_dmabuf_update() of hw/vfio/display.c;
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1827772/+subscriptions
 
