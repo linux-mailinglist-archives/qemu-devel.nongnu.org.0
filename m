@@ -2,51 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B4CE61402A
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 May 2019 16:21:10 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:41751 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C638714044
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 May 2019 16:32:32 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:41909 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNI0r-000780-Rj
-	for lists+qemu-devel@lfdr.de; Sun, 05 May 2019 10:21:09 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56326)
+	id 1hNIBr-0004AZ-Ng
+	for lists+qemu-devel@lfdr.de; Sun, 05 May 2019 10:32:31 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35375)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hNHeW-0004hO-Fn
-	for qemu-devel@nongnu.org; Sun, 05 May 2019 09:58:05 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hNIAt-0003tf-2A
+	for qemu-devel@nongnu.org; Sun, 05 May 2019 10:31:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hNHeV-00055s-M1
-	for qemu-devel@nongnu.org; Sun, 05 May 2019 09:58:04 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43148)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <thuth@redhat.com>)
-	id 1hNHeT-00051u-95; Sun, 05 May 2019 09:58:01 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
-	[10.5.11.12])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 4F5D28553F;
-	Sun,  5 May 2019 13:57:59 +0000 (UTC)
-Received: from thuth.com (ovpn-116-27.ams2.redhat.com [10.36.116.27])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 46AFE60C47;
-	Sun,  5 May 2019 13:57:58 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-devel@nongnu.org
-Date: Sun,  5 May 2019 15:57:14 +0200
-Message-Id: <20190505135714.11277-29-thuth@redhat.com>
-In-Reply-To: <20190505135714.11277-1-thuth@redhat.com>
-References: <20190505135714.11277-1-thuth@redhat.com>
+	(envelope-from <richard.henderson@linaro.org>) id 1hNIAn-0004zP-ML
+	for qemu-devel@nongnu.org; Sun, 05 May 2019 10:31:27 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:45777)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hNIAk-0004uE-Tv
+	for qemu-devel@nongnu.org; Sun, 05 May 2019 10:31:23 -0400
+Received: by mail-pg1-x541.google.com with SMTP id i21so5119466pgi.12
+	for <qemu-devel@nongnu.org>; Sun, 05 May 2019 07:31:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=subject:to:references:from:openpgp:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=riruDpyllqu8bKJC1MSxQY73H43e1hEBZlYO6NbzElk=;
+	b=ZwX3c0zcAjGRXm+95hl0PxKWgwVVQ1pYjRG5Q4Yac6Lu9pxhlUNTVgbz0/LhS7AGi3
+	Oky8WmXsRmBiIjTkxI5fpmCDmZ6YReuGR5/+AU9VtlMtuNsnnO9m+n3+puAEdxzsM97a
+	jUpxOD1kkz8yyHRr3zuW216Ucx9fJIzXnbVT4tiGuYKW7kZkCfFPJ1DQsS0rJo7V52LU
+	R9/BF9QTH/tgw8AaZN2MsPEQHzicWzn7a7G7YSZWQxK1I9pUUqS+3FBkAsetAuWoMnd3
+	8tqDbqk5ou3uDdsTGXBWo4rLDmh1jvQCVepDMu3yHUK2mSlgl3KXMshQr8c9cv1MoosJ
+	3NOA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=riruDpyllqu8bKJC1MSxQY73H43e1hEBZlYO6NbzElk=;
+	b=C3VBcCn655D/o452ReVeNuAdhIErRRS8AgPYj4jHrL80mVFUJKGFj/7crs2XQIbWFp
+	3vjv0XS7edcxoTCVi2gqsgfxgBWNgHZZDAZBYxExOOflzoFahXeJ/ObZbpu7tdParbwt
+	Qj9xw8BWyVx9FE3plWjFVvV3H16R4vukrYEJjAHZn/Gq2Dpx2WlttmNl8iVGpALGTsOd
+	68mGKPBmL1I1vPbjymLfkJ33X8CBYL4uiGFGY/pABX5DtcjN4Iwll86THVkjA4Ua+jcR
+	mxN4Qm4Tbv1pILIycSDHoGPsjPLJezXllj1bO1ohPXIm909T8jyDhCSPYOqGVXQ5ImKL
+	HrNg==
+X-Gm-Message-State: APjAAAXExhVJVoh757OGXdWrHqLnL6S0HZEbdrJzdJEUVUtg1LXTyCFI
+	5QYZqPjxSFRh1yqatRWN9dHU5Q==
+X-Google-Smtp-Source: APXvYqzwYBKVgo5lov2KxXye3PGc2nYVBH9bcoT1nsknlLPDH+9fqlxytPualatruqKtS50aRLay2g==
+X-Received: by 2002:a63:db55:: with SMTP id x21mr24193957pgi.219.1557066677182;
+	Sun, 05 May 2019 07:31:17 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-189-189.tukw.qwest.net. [97.113.189.189])
+	by smtp.gmail.com with ESMTPSA id
+	y14sm9709783pga.54.2019.05.05.07.31.15
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 05 May 2019 07:31:16 -0700 (PDT)
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>, qemu-devel@nongnu.org,
+	qemu-ppc@nongnu.org, david@gibson.dropbear.id.au, rth@twiddle.net,
+	gkurz@kaod.org
+References: <20190428143845.11810-1-mark.cave-ayland@ilande.co.uk>
+	<20190428143845.11810-2-mark.cave-ayland@ilande.co.uk>
+	<fc4d6169-12d4-3fd8-f85a-262135a62b93@linaro.org>
+	<98ba8d01-dbab-ecde-ffbd-bb46efb29215@ilande.co.uk>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <9059f977-6ffa-e701-6c1b-2f8d8cca2c64@linaro.org>
+Date: Sun, 5 May 2019 07:31:14 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.28]);
-	Sun, 05 May 2019 13:57:59 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 28/28] hw/arm: Remove hard-enablement of the
- remaining PCI devices
+In-Reply-To: <98ba8d01-dbab-ecde-ffbd-bb46efb29215@ilande.co.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::541
+Subject: Re: [Qemu-devel] [PATCH 01/14] target/ppc: remove getVSR()/putVSR()
+ from fpu_helper.c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,41 +89,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The PCI devices should be pulled in by default if PCI_DEVICES
-is set, so there is no need anymore to enforce them in the configs
-file.
+On 5/5/19 2:27 AM, Mark Cave-Ayland wrote:
+> I've spent a bit of time today going through the functions and it seems that all
+> functions which have an xt parameter, minus a couple of the TEST macros, require the
+> result to be calculated in a local variable first.
+> 
+> I think the best solution is still to remove getVSR()/putVSR() but replace them with
+> macros for copying and zeroing like this:
+> 
+>     #define VSRCPY(d, s) (memcpy(d, s, sizeof(ppc_vsr_t)))
+>     #define VSRZERO(d)   (memset(d, 0, sizeof(ppc_vsr_t)))
 
-Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- default-configs/arm-softmmu.mak | 8 --------
- 1 file changed, 8 deletions(-)
+Local variable, yes.  But I see no reason for macros.
 
-diff --git a/default-configs/arm-softmmu.mak b/default-configs/arm-softmm=
-u.mak
-index 233937f394..f23ecfd5c5 100644
---- a/default-configs/arm-softmmu.mak
-+++ b/default-configs/arm-softmmu.mak
-@@ -36,14 +36,6 @@ CONFIG_DIGIC=3Dy
- CONFIG_SABRELITE=3Dy
- CONFIG_EMCRAFT_SF2=3Dy
- CONFIG_MICROBIT=3Dy
--
--CONFIG_VGA=3Dy
--
- CONFIG_FSL_IMX25=3Dy
- CONFIG_FSL_IMX7=3Dy
- CONFIG_FSL_IMX6UL=3Dy
--
--CONFIG_PCIE_PORT=3Dy
--CONFIG_XIO3130=3Dy
--CONFIG_IOH3420=3Dy
--CONFIG_I82801B11=3Dy
---=20
-2.21.0
+  ppc_vsr_t res = { };
+  ...
+  *xt = res;
 
+
+r~
 
