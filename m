@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 984B6142C1
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 00:21:11 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46950 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 055FF142D5
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 00:26:49 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:47073 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNPVO-0007Q7-OZ
-	for lists+qemu-devel@lfdr.de; Sun, 05 May 2019 18:21:10 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35972)
+	id 1hNPaq-00046q-5D
+	for lists+qemu-devel@lfdr.de; Sun, 05 May 2019 18:26:48 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36032)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hNPQx-0004JX-4H
-	for qemu-devel@nongnu.org; Sun, 05 May 2019 18:16:36 -0400
+	(envelope-from <philmd@redhat.com>) id 1hNPR1-0004Nd-4X
+	for qemu-devel@nongnu.org; Sun, 05 May 2019 18:16:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hNPQt-0008JP-8Y
-	for qemu-devel@nongnu.org; Sun, 05 May 2019 18:16:33 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55218)
+	(envelope-from <philmd@redhat.com>) id 1hNPQx-0008Or-38
+	for qemu-devel@nongnu.org; Sun, 05 May 2019 18:16:37 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41088)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <philmd@redhat.com>)
-	id 1hNPQf-0007iI-Ld; Sun, 05 May 2019 18:16:21 -0400
+	id 1hNPQm-0007tZ-VW; Sun, 05 May 2019 18:16:27 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
 	[10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 4FADE30842B5;
-	Sun,  5 May 2019 22:16:09 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 0FB9F356DB;
+	Sun,  5 May 2019 22:16:16 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-58.brq.redhat.com [10.40.204.58])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 36A6B7C386;
-	Sun,  5 May 2019 22:16:04 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id C536F5D739;
+	Sun,  5 May 2019 22:16:09 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org,
 	Stephen Checkoway <stephen.checkoway@oberlin.edu>
-Date: Mon,  6 May 2019 00:15:34 +0200
-Message-Id: <20190505221544.31568-4-philmd@redhat.com>
+Date: Mon,  6 May 2019 00:15:35 +0200
+Message-Id: <20190505221544.31568-5-philmd@redhat.com>
 In-Reply-To: <20190505221544.31568-1-philmd@redhat.com>
 References: <20190505221544.31568-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.40]);
-	Sun, 05 May 2019 22:16:09 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.30]);
+	Sun, 05 May 2019 22:16:16 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 03/13] tests/pflash-cfi02: Use IEC binary
- prefixes for size constants
+Subject: [Qemu-devel] [PATCH 04/13] hw/block/pflash_cfi02: Fix debug format
+ string
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -68,45 +68,72 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Using IEC binary prefixes in order to make the code more readable.
+Always compile the debug code to prevent format string to bitrot.
 
+Signed-off-by: Stephen Checkoway <stephen.checkoway@oberlin.edu>
+Message-Id: <20190426162624.55977-3-stephen.checkoway@oberlin.edu>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+[PMD: Extracted from bigger patch, use PRIx32]
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- tests/pflash-cfi02-test.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ hw/block/pflash_cfi02.c | 16 +++++++---------
+ 1 file changed, 7 insertions(+), 9 deletions(-)
 
-diff --git a/tests/pflash-cfi02-test.c b/tests/pflash-cfi02-test.c
-index ff775618c02..3c37465499a 100644
---- a/tests/pflash-cfi02-test.c
-+++ b/tests/pflash-cfi02-test.c
-@@ -8,6 +8,7 @@
-  */
+diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
+index f2c6201f813..f88e09cebaa 100644
+--- a/hw/block/pflash_cfi02.c
++++ b/hw/block/pflash_cfi02.c
+@@ -46,15 +46,13 @@
+ #include "hw/sysbus.h"
+ #include "trace.h"
 =20
- #include "qemu/osdep.h"
-+#include "qemu/units.h"
- #include "libqtest.h"
+-//#define PFLASH_DEBUG
+-#ifdef PFLASH_DEBUG
++#define PFLASH_DEBUG false
+ #define DPRINTF(fmt, ...)                                  \
+ do {                                                       \
+-    fprintf(stderr, "PFLASH: " fmt , ## __VA_ARGS__);       \
++    if (PFLASH_DEBUG) {                                    \
++        fprintf(stderr, "PFLASH: " fmt, ## __VA_ARGS__);   \
++    }                                                      \
+ } while (0)
+-#else
+-#define DPRINTF(fmt, ...) do { } while (0)
+-#endif
 =20
- /*
-@@ -16,7 +17,7 @@
-  * all. In particular, we're limited to a 16-bit wide flash device.
-  */
+ #define PFLASH_LAZY_ROMD_THRESHOLD 42
 =20
--#define MP_FLASH_SIZE_MAX (32 * 1024 * 1024)
-+#define MP_FLASH_SIZE_MAX (32 * MiB)
- #define BASE_ADDR (0x100000000ULL - MP_FLASH_SIZE_MAX)
+@@ -220,14 +218,14 @@ static uint32_t pflash_read(PFlashCFI02 *pfl, hwadd=
+r offset,
+         default:
+             goto flash_read;
+         }
+-        DPRINTF("%s: ID " TARGET_FMT_plx " %x\n", __func__, boff, ret);
++        DPRINTF("%s: ID " TARGET_FMT_plx " %" PRIx32 "\n", __func__, bof=
+f, ret);
+         break;
+     case 0xA0:
+     case 0x10:
+     case 0x30:
+         /* Status register read */
+         ret =3D pfl->status;
+-        DPRINTF("%s: status %x\n", __func__, ret);
++        DPRINTF("%s: status %" PRIx32 "\n", __func__, ret);
+         /* Toggle bit 6 */
+         pfl->status ^=3D 0x40;
+         break;
+@@ -277,7 +275,7 @@ static void pflash_write(PFlashCFI02 *pfl, hwaddr off=
+set,
+     trace_pflash_write(offset, value, width, pfl->wcycle);
+     offset &=3D pfl->chip_len - 1;
 =20
- #define FLASH_WIDTH 2
-@@ -205,7 +206,7 @@ int main(int argc, char **argv)
-     char *image_path;
-     int fd =3D g_file_open_tmp("pflash-cfi02-XXXXXX.raw", &image_path, &=
-error);
-     g_assert_no_error(error);
--    if (ftruncate(fd, 8 * 1024 * 1024) < 0) {
-+    if (ftruncate(fd, 8 * MiB) < 0) {
-         g_printerr("Failed to truncate file %s to 8 MB: %s\n", image_pat=
-h,
-                    strerror(errno));
-         close(fd);
+-    DPRINTF("%s: offset " TARGET_FMT_plx " %08x %d\n", __func__,
++    DPRINTF("%s: offset " TARGET_FMT_plx " %08" PRIx32 " %d\n", __func__=
+,
+             offset, value, width);
+     boff =3D offset & (pfl->sector_len - 1);
+     if (pfl->width =3D=3D 2)
 --=20
 2.20.1
 
