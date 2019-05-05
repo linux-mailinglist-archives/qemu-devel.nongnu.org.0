@@ -2,50 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4346140A3
-	for <lists+qemu-devel@lfdr.de>; Sun,  5 May 2019 17:32:24 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:42616 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 15B0C140A8
+	for <lists+qemu-devel@lfdr.de>; Sun,  5 May 2019 17:35:26 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:42646 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNJ7o-0002Aq-2X
-	for lists+qemu-devel@lfdr.de; Sun, 05 May 2019 11:32:24 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45882)
+	id 1hNJAj-0003wE-95
+	for lists+qemu-devel@lfdr.de; Sun, 05 May 2019 11:35:25 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46997)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hNJ4Z-0008Qs-MM
-	for qemu-devel@nongnu.org; Sun, 05 May 2019 11:29:04 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hNJ9c-0003co-4c
+	for qemu-devel@nongnu.org; Sun, 05 May 2019 11:34:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hNJ4Y-0003UO-Qf
-	for qemu-devel@nongnu.org; Sun, 05 May 2019 11:29:03 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57716)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <philmd@redhat.com>)
-	id 1hNJ4Y-0003Tx-LA; Sun, 05 May 2019 11:29:02 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
-	[10.5.11.12])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id EF34B30054AB;
-	Sun,  5 May 2019 15:29:01 +0000 (UTC)
-Received: from x1w.redhat.com (ovpn-204-35.brq.redhat.com [10.40.204.35])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 68F9360C18;
-	Sun,  5 May 2019 15:28:59 +0000 (UTC)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-To: Artyom Tarasenko <atar4qemu@gmail.com>, qemu-devel@nongnu.org,
-	Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Date: Sun,  5 May 2019 17:28:39 +0200
-Message-Id: <20190505152839.18650-4-philmd@redhat.com>
-In-Reply-To: <20190505152839.18650-1-philmd@redhat.com>
-References: <20190505152839.18650-1-philmd@redhat.com>
+	(envelope-from <peter.maydell@linaro.org>) id 1hNJ9b-0007BL-AI
+	for qemu-devel@nongnu.org; Sun, 05 May 2019 11:34:16 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:46210)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hNJ9b-0007Ah-5o
+	for qemu-devel@nongnu.org; Sun, 05 May 2019 11:34:15 -0400
+Received: by mail-ot1-x343.google.com with SMTP id v17so1299696otp.13
+	for <qemu-devel@nongnu.org>; Sun, 05 May 2019 08:34:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=CdQeSkh/iIz/fBvRxSb3cbzFfQPunOw73QRKDyNEApU=;
+	b=WbOrRLSW6//Q6l7shx4vFMHEDwJjYj2hW9PHHwxC1I7yTQ3xfFS4bc5VyXbzM6fJ6h
+	9HNmlq/h7ZHMtsVkJHeY/AG7Ob//ozdhAVicQ8PtMTQu8RAu9+y+UxmrDGgYTTReoH1u
+	lUNpYpkrXFs99BMBeHaSjKtTbUSEMACjzXAepP31fhvHfGenHkmjqEIFxLXPCVjKWdVA
+	yT2olqXYiIHY2nmzqkru+knRNfPcN7H5Mq3XsQ2A8FodfElsUIsZdo+0ljuBJZu/ptsK
+	lGuyFo+opaRiv+6EKGuhhb3Vvn+Tu6Of2gQzJxulB9JjF0aUoN/HwITAMTkveAYrZ0xa
+	4Nkw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=CdQeSkh/iIz/fBvRxSb3cbzFfQPunOw73QRKDyNEApU=;
+	b=QqIlXiF+urOw5NUKxubItalSr9Tia/sy7TZ7oJiNDMmNC/FOLqtyr/xa4QzE7zd4qp
+	xN3275q+giMXF23jXHW3JvDOpJVXsmQHnM9wZVfsS+bnSVy1x6Yr7kgvj+nSvj0dlmfU
+	wN/9G2FI8tWE7atKn1+Sx9oZhEohunjdNaUsM0MRh7LXEhmBFNSNqd62RW/PlNh30Sg1
+	+P6owT5Iria+9mV6KEaFpNw4/ar6uZYLiNzcqTcS6vI9UIEcmvFebXPXpbxeAHRCiqy/
+	hYa3NWe3+gnM+1O4ThXrg5GfdssSrCJz8O7lCvA9KWXpT16LRvyMzcmqDYptZbI/nhPk
+	Dkjw==
+X-Gm-Message-State: APjAAAWNEVH0PUb9FaiaHpDbL/IwU+SlmsP199cpEcbe4pW5dh14oFE/
+	/4Y9hOZSRtJWja6K/NlX16yahAlo0F0/rbewD64ulA==
+X-Google-Smtp-Source: APXvYqwg7/6sevHoLDzdBMV2E7pqSuRs3XDUFib1hnp3foCFJjsfFW6aGFptsid4DMKm969LAJ+hEMyz62khzlaDk+g=
+X-Received: by 2002:a9d:61c6:: with SMTP id h6mr13679065otk.316.1557070454016; 
+	Sun, 05 May 2019 08:34:14 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.49]);
-	Sun, 05 May 2019 15:29:02 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 3/3] hw/ppc/40p: use 1900 as a base year
+References: <cover.1556515687.git.alistair@alistair23.me>
+	<PSXP216MB02771957D4B9C5A15914D05FDD390@PSXP216MB0277.KORP216.PROD.OUTLOOK.COM>
+	<CAFEAcA86i3aZx-h2ys5kmc35AMqzd6k=JrfVXObdbcppnn-J8w@mail.gmail.com>
+	<CAKmqyKMM0QHgdS3Z9Fd13XjeFsiG1UnZYz5brdjJgnbHXmxBrQ@mail.gmail.com>
+	<CAFEAcA-dZ5qdh58QCmX+t2RpJim8Fu9FY0UBY1tMpQOHkG06mA@mail.gmail.com>
+	<97245929-a8b5-4b67-bfee-656db4438cd0@www.fastmail.com>
+	<CAKmqyKOhfjwO+8UBj+-RiZiYUHM7LeDeJk+cmXfuKd5psowP3A@mail.gmail.com>
+In-Reply-To: <CAKmqyKOhfjwO+8UBj+-RiZiYUHM7LeDeJk+cmXfuKd5psowP3A@mail.gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Sun, 5 May 2019 16:34:03 +0100
+Message-ID: <CAFEAcA_0NpQRJnMx-1vUCD_=e1GsfTBhO3z1rrz99CY+GNmGhA@mail.gmail.com>
+To: Alistair Francis <alistair23@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::343
+Subject: Re: [Qemu-devel] [PATCH v1 5/5] hw/arm: Add the Netduino Plus 2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -57,40 +77,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
-	=?UTF-8?q?Herv=C3=A9=20Poussineau?= <hpoussin@reactos.org>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
-	David Gibson <david@gibson.dropbear.id.au>
+Cc: Alistair <alistair@alistair23.me>,
+	"qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Artyom Tarasenko <atar4qemu@gmail.com>
+On Sat, 4 May 2019 at 06:26, Alistair Francis <alistair23@gmail.com> wrote:
+> Ah, it seems like -device loader doesn't work, it looks like not
+> setting the thumb register causes this core dump:
+>
+> qemu: fatal: Lockup: can't escalate 3 to HardFault (current priority -1)
+>
+> R00=20000000 R01=00000574 R02=200015d0 R03=200015d0
+> R04=00000000 R05=00000000 R06=00000000 R07=00000000
+> R08=00000000 R09=00000000 R10=00000000 R11=00000000
+> R12=00000000 R13=ffffffe0 R14=fffffff9 R15=0800cba4
 
-AIX 5.1 expects the base year to be 1900. Adjust accordingly.
+Is the ELF file incorrectly setting the entry point address to not
+be a Thumb one (ie low bit set), or is the loader device not honouring
+that? (I thought that we'd fixed the latter of those recently...)
 
-Signed-off-by: Artyom Tarasenko <atar4qemu@gmail.com>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
----
- hw/ppc/prep.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
-
-diff --git a/hw/ppc/prep.c b/hw/ppc/prep.c
-index 7a0d311d43c..2a8009e20b4 100644
---- a/hw/ppc/prep.c
-+++ b/hw/ppc/prep.c
-@@ -676,7 +676,9 @@ static void ibm_40p_init(MachineState *machine)
-     qdev_init_nofail(dev);
-=20
-     /* RTC */
--    isa_create_simple(isa_bus, TYPE_MC146818_RTC);
-+    dev =3D DEVICE(isa_create(isa_bus, TYPE_MC146818_RTC));
-+    qdev_prop_set_int32(dev, "base_year", 1900);
-+    qdev_init_nofail(dev);
-=20
-     /* initialize CMOS checksums */
-     cmos_checksum =3D 0x6aa9;
---=20
-2.20.1
-
+thanks
+-- PMM
 
