@@ -2,63 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B53A14997
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 14:31:37 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55957 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B98E9145BE
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 10:07:58 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52116 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNcmO-0008Oy-9e
-	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 08:31:36 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43844)
+	id 1hNYfF-0001WC-IO
+	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 04:07:57 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46289)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <hqm03ster@gmail.com>) id 1hNYQ8-0006ZS-Cl
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 03:52:21 -0400
+	(envelope-from <philmd@redhat.com>) id 1hNYeA-000142-Hk
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 04:06:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <hqm03ster@gmail.com>) id 1hNYQ7-0008WI-DO
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 03:52:20 -0400
-Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:44367)
+	(envelope-from <philmd@redhat.com>) id 1hNYe9-0007eI-IF
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 04:06:50 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:39320)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <hqm03ster@gmail.com>) id 1hNYQ6-0008Vc-2r
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 03:52:18 -0400
-Received: by mail-qk1-x741.google.com with SMTP id w25so1217958qkj.11
-	for <qemu-devel@nongnu.org>; Mon, 06 May 2019 00:52:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:from:date:message-id:subject:to:cc;
-	bh=o5xX3C8tLGSyzOs3XjyCI/c5jOX+7y4gxe446FXclO4=;
-	b=LEab/cdrENZfYOeLAMJbXAit0664xTbbgSwQzhltS2srzsdd3tK9BQK6ti2jvpi5Kg
-	WHLQJGYjF88zIzVmLo0G0xNtdRVnT6995/+4V0t6s0OZkBsW9IKq+F1e8FYoX09aZCyP
-	jJ2ClD8E0baBIhOZrZZ5867j8a//w/3EV1B7kt70zEWOeG82TGQxys3jOEfP57kw+9gn
-	FroI47isaRIQ6iJv+j3SxCOWGwWNOIf4lBL5kPx5nzhxH39PlN5HhMAOhb7UIjr2mHd2
-	SK2XtFPZT6zP3I/om6ZL+cTvUOxyrQhABcVDmx9Vanun80+IAVyz+zQGfrGEG82c4Kxs
-	swsA==
+	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hNYe9-0007dt-C4
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 04:06:49 -0400
+Received: by mail-wm1-f68.google.com with SMTP id n25so13940427wmk.4
+	for <qemu-devel@nongnu.org>; Mon, 06 May 2019 01:06:49 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-	bh=o5xX3C8tLGSyzOs3XjyCI/c5jOX+7y4gxe446FXclO4=;
-	b=EnUEnldYq0rYwfUvdfNLNgFrO8Eg0I2pstECW5LNYAntq2eB8wFJSJ86J7rhX4eSNR
-	cd6vxWYmnZ7h76BPgzzOCt9uHyB4hY8kojNUjg0oEKYmHVzRafB7C47NI4iD/FR0PrPZ
-	pxAXKNB7gydtyOR6bNfgLt4yk5CoDsvnPSrtXwzlzrm0gcOfEOF9JHsdHKJ9RyF7na+S
-	yEm92T0xphG5GX6nA2ezPbvq9nnpe9U6+pyTQUF9KqqdUvxxf/GMMe74nNJ6q628exTB
-	41Ut/tD5YbBgrLmrb1nZo+Ej7yTuQPzYQD8zh8lONPSgemxM25pIp3dYsXQ8d3K7nUWO
-	N8Gg==
-X-Gm-Message-State: APjAAAUATilDHfaRNMfESbQfiucf8iHjGa7AK1n9uxTLyZaQjhhwhPHJ
-	9PcfJWjebmJJ7vLZd1jsl4qb69t6KlPGxJiU5kA=
-X-Google-Smtp-Source: APXvYqy2ZjPKUsoWkJ1G99ABRoTybQk01HKjoTzE/SV52MMz2cWpO+8vuM8DtxstGMp5tVQ067fGcT0XHCOPqYn8JH0=
-X-Received: by 2002:a37:a5c6:: with SMTP id o189mr5022926qke.318.1557129136290;
-	Mon, 06 May 2019 00:52:16 -0700 (PDT)
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=kQHvt/xxDanBYyt85LcmxkRedLVpXr1l/7j3kfOCYKQ=;
+	b=gVSUFKgjGKAn4za7QTxZclIZryO/kzu3M1b7f037fSCC9A5zmKGWpi9vsThRbVU5Yb
+	NAxlL4QawNB7/PjmjHr0EMyRxPufVe3weu6rJpplEBhD4JocNwb5v9fS31BaLYagM+EA
+	mfTeabiZeCqOYR9FnzL3/WTN0U5iII8wDPF3lthxbwL5pUEigSaukb0TUwpfjGkgQIkA
+	41kjOEYAK2lAcS936a+Wd6ZRvn2xbR+JIx+Va7ogA3E8IWJJFQwnBWW3gTuQefioCUvI
+	8sJy4IWyO4vfNKANYmgiglC2xQq8QUergp2mVPTcr7nF7O6pDmxQxa/I4f8YBVvIA2li
+	PBqQ==
+X-Gm-Message-State: APjAAAWH90Xnq0JwOuxYni1aL/Siohiigkpzn/2y3HJQeSd7E4SsTveS
+	mWkfD51Hv9bFFlGPbSnVYhtl3Q==
+X-Google-Smtp-Source: APXvYqxprQgTN5SSn1QBYZWiYk5hFUOyhRyMaWkyerGxTM8Vh+5bzX93vpPvcAny01stSxpQTLUbyA==
+X-Received: by 2002:a05:600c:2206:: with SMTP id
+	z6mr16433120wml.80.1557130008365; 
+	Mon, 06 May 2019 01:06:48 -0700 (PDT)
+Received: from [192.168.1.37] (193.red-88-21-103.staticip.rima-tde.net.
+	[88.21.103.193])
+	by smtp.gmail.com with ESMTPSA id f1sm8671989wrc.93.2019.05.06.01.06.47
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Mon, 06 May 2019 01:06:47 -0700 (PDT)
+To: Thomas Huth <thuth@redhat.com>, qemu-trivial@nongnu.org,
+	qemu-devel@nongnu.org
+References: <20190505180719.31913-1-philmd@redhat.com>
+	<02ce0766-4464-2c71-6085-7e164d4405af@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <ffaa93ed-f790-8aba-3683-d1e11e2ac59c@redhat.com>
+Date: Mon, 6 May 2019 10:06:46 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-From: Hou Qiming <hqm03ster@gmail.com>
-Date: Mon, 6 May 2019 15:50:18 +0800
-Message-ID: <CABSdmrnNW6f=P64PviPP8CTJ5SVfYS8_6kmAtpw9yPObTEkpxg@mail.gmail.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::741
-X-Mailman-Approved-At: Mon, 06 May 2019 08:29:53 -0400
-Content-Type: text/plain; charset="UTF-8"
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: [Qemu-devel] Patch: Precautionary glBindTexture in
- surface_gl_update_texture
+In-Reply-To: <02ce0766-4464-2c71-6085-7e164d4405af@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+	[fuzzy]
+X-Received-From: 209.85.128.68
+Subject: Re: [Qemu-devel] [PATCH] hw/timer: Compile devices not
+ target-dependent as common objects
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -70,55 +77,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	Aleksandar Rikalo <arikalo@wavecomp.com>,
+	Magnus Damm <magnus.damm@gmail.com>,
+	Beniamino Galvani <b.galvani@gmail.com>,
+	Igor Mitsyanko <i.mitsyanko@gmail.com>, qemu-arm@nongnu.org,
+	Antony Pavlov <antonynpavlov@gmail.com>,
+	Aleksandar Markovic <amarkovic@wavecomp.com>,
+	Paolo Bonzini <pbonzini@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From 48d1f092a7960d711fb2c77ab8d3f9d0a0ca0d5c Mon Sep 17 00:00:00 2001
-From: HQM <hqm03ster@gmail.com>
-Date: Mon, 6 May 2019 15:37:59 +0800
-Subject: [PATCH] Precautionary glBindTexture and surface->texture validation
- in surface_gl_update_texture
+On 5/6/19 6:10 AM, Thomas Huth wrote:
+> On 05/05/2019 20.07, Philippe Mathieu-Daudé wrote:
+>> All these devices do not contain any target-specific code. While
+>> most of them are arch-specific, they are shared between different
+>> targets of the same arch family (ARM and AArch64, MIPS32/MIPS64,
+>> multiple endianess, ...).
+>> Put them into common-obj-y to compile them once for all targets.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>>  hw/timer/Makefile.objs | 22 +++++++++++-----------
+>>  1 file changed, 11 insertions(+), 11 deletions(-)
+>>
+>> diff --git a/hw/timer/Makefile.objs b/hw/timer/Makefile.objs
+>> index 0e9a4530f84..a92e22938cb 100644
+>> --- a/hw/timer/Makefile.objs
+>> +++ b/hw/timer/Makefile.objs
+>> @@ -25,20 +25,20 @@ common-obj-$(CONFIG_MILKYMIST) += milkymist-sysctl.o
+>>  common-obj-$(CONFIG_XLNX_ZYNQMP) += xlnx-zynqmp-rtc.o
+>>  common-obj-$(CONFIG_NRF51_SOC) += nrf51_timer.o
+>>  
+>> -obj-$(CONFIG_ALTERA_TIMER) += altera_timer.o
+>> -obj-$(CONFIG_EXYNOS4) += exynos4210_mct.o
+>> -obj-$(CONFIG_EXYNOS4) += exynos4210_pwm.o
+>> -obj-$(CONFIG_EXYNOS4) += exynos4210_rtc.o
+>> -obj-$(CONFIG_OMAP) += omap_gptimer.o
+>> -obj-$(CONFIG_OMAP) += omap_synctimer.o
+>> -obj-$(CONFIG_PXA2XX) += pxa2xx_timer.o
+>> -obj-$(CONFIG_SH4) += sh_timer.o
+>> -obj-$(CONFIG_DIGIC) += digic-timer.o
+>> -obj-$(CONFIG_MIPS_CPS) += mips_gictimer.o
+>> +common-obj-$(CONFIG_ALTERA_TIMER) += altera_timer.o
+>> +common-obj-$(CONFIG_EXYNOS4) += exynos4210_mct.o
+>> +common-obj-$(CONFIG_EXYNOS4) += exynos4210_pwm.o
+>> +common-obj-$(CONFIG_EXYNOS4) += exynos4210_rtc.o
+>> +common-obj-$(CONFIG_OMAP) += omap_gptimer.o
+>> +common-obj-$(CONFIG_OMAP) += omap_synctimer.o
+>> +common-obj-$(CONFIG_PXA2XX) += pxa2xx_timer.o
+>> +common-obj-$(CONFIG_SH4) += sh_timer.o
+>> +common-obj-$(CONFIG_DIGIC) += digic-timer.o
+>> +common-obj-$(CONFIG_MIPS_CPS) += mips_gictimer.o
+>>  
+>>  obj-$(CONFIG_MC146818RTC) += mc146818rtc.o
+>>  
+>> -obj-$(CONFIG_ALLWINNER_A10_PIT) += allwinner-a10-pit.o
+>> +common-obj-$(CONFIG_ALLWINNER_A10_PIT) += allwinner-a10-pit.o
+>>  
+>>  common-obj-$(CONFIG_STM32F2XX_TIMER) += stm32f2xx_timer.o
+>>  common-obj-$(CONFIG_ASPEED_SOC) += aspeed_timer.o
+> 
+> I've checked
+> 
+>  grep -r TARGET hw/timer/
+> 
+> and this looks good to me, so:
+> 
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> 
+> By the way, I was surprised to see TARGET_FMT_plx there, since I first
+> thought that this would be a target-specific define, too. But apparently
+> it is not. Very confusing. I'd suggest to rename that to HWADDR_FMT_plx
+> instead, what do you think?
 
-In a GVT-g setup with dmabuf and GTK GUI, the current 2D texture at
-surface_gl_update_texture is not necessarily
-surface->texture. Adding a glBindTexture fixes related crashes and
-artifacts, and is generally more secure.
+I'd rather use HWADDR_PRIx and slowly kill TARGET_FMT_plx...
 
-Signed-off-by: HQM <hqm03ster@gmail.com>
----
- ui/console-gl.c | 18 +++++++++++-------
- 1 file changed, 11 insertions(+), 7 deletions(-)
-
-diff --git a/ui/console-gl.c b/ui/console-gl.c
-index a56e1cd..c1cb3bd 100644
---- a/ui/console-gl.c
-+++ b/ui/console-gl.c
-@@ -92,13 +92,17 @@ void surface_gl_update_texture(QemuGLShader *gls,
-
-     assert(gls);
-
--    glPixelStorei(GL_UNPACK_ROW_LENGTH_EXT,
--                  surface_stride(surface) /
-surface_bytes_per_pixel(surface));
--    glTexSubImage2D(GL_TEXTURE_2D, 0,
--                    x, y, w, h,
--                    surface->glformat, surface->gltype,
--                    data + surface_stride(surface) * y
--                    + surface_bytes_per_pixel(surface) * x);
-+    if (surface->texture) {
-+        glBindTexture(GL_TEXTURE_2D, surface->texture);
-+        glPixelStorei(GL_UNPACK_ROW_LENGTH_EXT,
-+                      surface_stride(surface)
-+                      / surface_bytes_per_pixel(surface));
-+        glTexSubImage2D(GL_TEXTURE_2D, 0,
-+                        x, y, w, h,
-+                        surface->glformat, surface->gltype,
-+                        data + surface_stride(surface) * y
-+                        + surface_bytes_per_pixel(surface) * x);
-+    }
- }
-
- void surface_gl_render_texture(QemuGLShader *gls,
--- 
-2.17.1
