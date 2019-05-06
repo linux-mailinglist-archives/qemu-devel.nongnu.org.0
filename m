@@ -2,70 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BD2D153BC
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 20:35:18 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60661 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAF901540B
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 20:55:13 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60869 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNiSL-0001oA-8L
-	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 14:35:17 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56530)
+	id 1hNilc-0007Pp-MA
+	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 14:55:12 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60064)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hNiQ2-0000po-Hm
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 14:32:56 -0400
+	(envelope-from <alex.bennee@linaro.org>) id 1hNikU-00074W-K9
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 14:54:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hNiQ1-0002tW-Dt
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 14:32:54 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:34175)
+	(envelope-from <alex.bennee@linaro.org>) id 1hNikT-0003xW-CH
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 14:54:02 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:39443)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hNiQ1-0002ry-6y
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 14:32:53 -0400
-Received: by mail-wm1-f65.google.com with SMTP id m20so6024316wmg.1
-	for <qemu-devel@nongnu.org>; Mon, 06 May 2019 11:32:52 -0700 (PDT)
+	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+	id 1hNikT-0003wU-6O
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 14:54:01 -0400
+Received: by mail-wr1-x443.google.com with SMTP id v10so6393349wrt.6
+	for <qemu-devel@nongnu.org>; Mon, 06 May 2019 11:54:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=references:user-agent:from:to:cc:subject:in-reply-to:date
+	:message-id:mime-version:content-transfer-encoding;
+	bh=+c8rDKUIEhm/78lkVSwz/fAPCO+vlgxdTv4ObKon0v8=;
+	b=T1UV2ImAJQbbWwPPD+xR7GYNMnX/kpnEJe7DrgvhPzYCLVMLSaafRPx/4Xl+1KHWmH
+	obwG2eY4pfdZI3zdX2L80ONt02QH6etcRp0LzhUW9W+l5NhWSve4Mbi/dJzB1X+7Weab
+	mLIhJY3kncpkS2zhTBrqqP10kku50sf9qDESbmtnzCE3IdgoaQbXl2eAUe1ioZfJYLPa
+	dNR7AfzBHyR+I5NjDvNVq+kWB2VfuuyHpqiQRm88jtklrd2EscE6XDAatN3NE3V9DglO
+	DbsAeAN1PjEqZ9T8fB0787zj2ptqoU9cIFPR1qlXfugkVEW+mds0wxglsLt1lK3xSx7b
+	tCwQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=bB6HdO1hV5S/e+203cs2u4VEx0lSy9c6Ee7FCQQZ5eI=;
-	b=bZRClTYo1q0uKsNl0FbzFhh4hxAJ2fuPYlG2CE6UdV24gAaYiqeaNU43+1kOVvOrAN
-	rFnWd5w9SogFMAxhuiJs5YJ3Bvy2xSQdOUh1cXyBKBxMs1bd9IKF/SQ0wYw8Yp3MMowK
-	sdDtyr1OYYalRCu8nwqsxQcy352U+5mjR5wqSycjm85QE/zUFbM1g4/SnpcXSjgYzRTi
-	Jqw1WlDujVHKqetjDj+XlS96EjbLAs0sFSQ03fYc55rKSsHIM6mHZ4WGxmNVvXLVhpqZ
-	lhxa1nbiLSCbFOj/hQ83ALx+q8E9u152bUfXjj+ob5fhXgrB/FEZ5WxBOg0CIpjkbXOX
-	sUHw==
-X-Gm-Message-State: APjAAAW5pxzz7zCKVK2DzqBJvxcuNSJsS625yHRUxJW8QYMdXbJ6azD3
-	idchGLZ7sGkR821JTRaxvAsHrQ==
-X-Google-Smtp-Source: APXvYqy0yrGNgFUnnarKZH5+Rutbc7WS+YTJFmhluo4VOk/GRvQ1QDNFOCkr5ylzcwHU/EH66UsXEQ==
-X-Received: by 2002:a1c:a008:: with SMTP id j8mr18082372wme.73.1557167571065; 
-	Mon, 06 May 2019 11:32:51 -0700 (PDT)
-Received: from [192.168.1.33] (193.red-88-21-103.staticip.rima-tde.net.
-	[88.21.103.193]) by smtp.gmail.com with ESMTPSA id
-	x17sm10194072wru.27.2019.05.06.11.32.49
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Mon, 06 May 2019 11:32:50 -0700 (PDT)
-To: Laszlo Ersek <lersek@redhat.com>, qemu-devel@nongnu.org,
-	qemu-stable@nongnu.org
-References: <20190505200602.12412-1-philmd@redhat.com>
-	<20190505200602.12412-6-philmd@redhat.com>
-	<25a7725c-3ac4-43cb-cd0a-cfc4007b244c@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
-	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <d0f5b01d-9b9b-9b8f-30b2-c58b719a7bc4@redhat.com>
-Date: Mon, 6 May 2019 20:32:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	h=x-gm-message-state:references:user-agent:from:to:cc:subject
+	:in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+	bh=+c8rDKUIEhm/78lkVSwz/fAPCO+vlgxdTv4ObKon0v8=;
+	b=dgOS5AmrDRAPzYvBvIRnJ+dMPzoz5MJUkmF50dxUkc9hd3GVOcuHz7qbz4TFAzA+/x
+	33oGVDzN6Q3WUmF0HP7PDXFS1raHR6zvbtOlC52hl904Abj1OiNUTJDiIkJHSbjH+8fb
+	D4CZIzsrj/wnaZ/KKxYoJ1MwNOqZoBOmwp4um9/0JHER4WNyvAXMWSO35/XgxRinzjuP
+	Y9RcDeuyOo3gKAnzD/REL7QyAZrzhowWkT1ro+kfmT1QAhOZKP7z5H4OjCZNodaYp/eg
+	nYnHPAW7rNpUaAjrOp/soxEayLo3xMhPMo7HoSumfHslMFjnDHTXWDeuz5QPqjVgasGu
+	CLRg==
+X-Gm-Message-State: APjAAAV2pvOR/ESlotBTgfRmjscZ0YGNFBv4QwIExIvVVBoo9XcobbUC
+	ybKeH9CVqO3l524cBtTLVlF9PA==
+X-Google-Smtp-Source: APXvYqyhix+Msz32FxBBxlKCXyUOGPiKZJJ+UjpgEs2r9ipZXXZdnA/5nc4nDiKWSRc3B9JM9TnzSQ==
+X-Received: by 2002:a5d:6b04:: with SMTP id v4mr17347749wrw.69.1557168838262; 
+	Mon, 06 May 2019 11:53:58 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+	by smtp.gmail.com with ESMTPSA id z4sm9839635wmk.5.2019.05.06.11.53.57
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 06 May 2019 11:53:57 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+	by zen.linaroharston (Postfix) with ESMTP id 2E2691FF87;
+	Mon,  6 May 2019 19:53:57 +0100 (BST)
+References: <20190503143904.31211-1-alex.bennee@linaro.org>
+	<98cd84db-2aed-4aa1-1f2d-eaa7ac63b72b@redhat.com>
+	<87d0kz4iqs.fsf@zen.linaroharston>
+	<0badc17e-90bc-1a09-89c1-20f88ff75d3b@redhat.com>
+	<ce754049-a871-b45c-9264-4de9178de62c@virtuozzo.com>
+User-agent: mu4e 1.3.1; emacs 26.1
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+In-reply-to: <ce754049-a871-b45c-9264-4de9178de62c@virtuozzo.com>
+Date: Mon, 06 May 2019 19:53:57 +0100
+Message-ID: <874l67beii.fsf@zen.linaroharston>
 MIME-Version: 1.0
-In-Reply-To: <25a7725c-3ac4-43cb-cd0a-cfc4007b244c@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.128.65
-Subject: Re: [Qemu-devel] [PATCH 5/5] hw/block/pflash_cfi02: Add the
- DeviceReset() handler
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2a00:1450:4864:20::443
+Subject: Re: [Qemu-devel] [RFC PATCH] tests/qemu-iotests: re-format output
+ to for make check-block
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -77,80 +86,107 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
-	Stephen Checkoway <stephen.checkoway@oberlin.edu>,
-	qemu-block@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>,
-	Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
-	Wei Yang <richardw.yang@linux.intel.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	=?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
-	Gerd Hoffmann <kraxel@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
+	"open list:Block layer core" <qemu-block@nongnu.org>,
+	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+	Max Reitz <mreitz@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/6/19 5:17 PM, Laszlo Ersek wrote:
-> On 05/05/19 22:06, Philippe Mathieu-Daudé wrote:
->> The pflash device is a child of TYPE_DEVICE, so it can implement
->> the DeviceReset handler. Actually it has to implement it, else
->> on machine reset it might stay in an incoherent state, as it has
->> been reported in the buglink listed below.
+
+Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com> writes:
+
+> 05.05.2019 18:54, Thomas Huth wrote:
+>> On 03/05/2019 18.15, Alex Benn=C3=A9e wrote:
+>>>
+>>> Thomas Huth <thuth@redhat.com> writes:
+>>>
+>>>> On 03/05/2019 16.39, Alex Benn=C3=A9e wrote:
+>>>>> This attempts to clean-up the output to better match the output of the
+>>>>> rest of the QEMU check system. This includes:
+>>>>>
+>>>>>    - formatting as "  TEST    iotest: nnn"
+>>>>>    - calculating time diff at the end
+>>>>>    - only dumping config on failure
+>>>>>
+>>>>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>>>>> ---
+>>>>>   tests/qemu-iotests/check | 71 +++++++++++++++++++------------------=
+---
+>>>>>   1 file changed, 34 insertions(+), 37 deletions(-)
+>>>>
+>>>> Thanks for tackling this! The output now looks nicer indeed if you run
+>>>> "make check-qtest check-block -j8". However, if you add a "V=3D1" at t=
+he
+>>>> end of the command line, the outputs look quite different again...
+>>>>
+>>>> That's why I thought that having a TAP mode for the check script could
+>>>> be a good idea, too. Then we could pipe the output through the
+>>>> tap-driver.pl script, too, so we get uniform output for all tests...?
+>>>
+>>> That would probably be a cleaner approach. What would be even better is
+>>> somehow expanding the list of tests at make time so you could run your
+>>> tests in parallel.
 >>
->> Add the DeviceReset handler and remove its call from the realize()
->> function.
+>> I agree that this might be the ultimate solution ... but I'm not sure
+>> whether the iotests are really ready for being run in parallel yet, so
+>> it will likely take quite some while 'till we are at that point. With
+>> that in mind (and thus also not sure yet whether my TAP idea is really
+>> the right approach), your patch is certainly a good interim solution
+>> which we should try to get merged, too, when my "make check" series gets
+>> accepted?
 >>
->> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=1678713
->> Reported-by: Laszlo Ersek <lersek@redhat.com>
-> 
-> - IMO, the above two tags should be dropped from the commit message, as
-> they are specific to CFI01.
-
-OK.
-
-> - Additionally, the commit message references the realize() function
-> (correctly), but the patch doesn't change that function. That is, the
-> patch doesn't remove the pflash_reset() call from pflash_cfi02_realize()
-> that was introduced in the last patch.
-
-You found a bug, having your reviewing CFI02 is useful :)
-I had it correct in a staged branch, then messed while rebasing.
-
-Thanks for noticing this,
-
-Phil.
-
-> 
-> Thanks
-> Laszlo
-> 
->> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
->> ---
->>  hw/block/pflash_cfi02.c | 6 ++++++
->>  1 file changed, 6 insertions(+)
+>>> I did wonder how useful the timing stuff was to developers.
 >>
->> diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
->> index f321b74433c..5af367d1563 100644
->> --- a/hw/block/pflash_cfi02.c
->> +++ b/hw/block/pflash_cfi02.c
->> @@ -674,6 +674,11 @@ static void pflash_cfi02_realize(DeviceState *dev, Error **errp)
->>      pfl->cfi_table[0x3c] = 0x00;
->>  }
->>  
->> +static void pflash_cfi02_reset(DeviceState *dev)
->> +{
->> +    pflash_reset(PFLASH_CFI02(dev));
->> +}
->> +
->>  static Property pflash_cfi02_properties[] = {
->>      DEFINE_PROP_DRIVE("drive", PFlashCFI02, blk),
->>      DEFINE_PROP_UINT32("num-blocks", PFlashCFI02, nb_blocs, 0),
->> @@ -701,6 +706,7 @@ static void pflash_cfi02_class_init(ObjectClass *klass, void *data)
->>  {
->>      DeviceClass *dc = DEVICE_CLASS(klass);
->>  
->> +    dc->reset = pflash_cfi02_reset;
->>      dc->realize = pflash_cfi02_realize;
->>      dc->unrealize = pflash_cfi02_unrealize;
->>      dc->props = pflash_cfi02_properties;
+>> Yes, me too ... maybe the block layer folks can comment on that one...?
 >>
-> 
+>>   Thomas
+>>
+>
+> Hi!
+>
+> It was useful to not miss performance degradation (1) and
+> to understand that test hangs (2) (if you know that it should
+> finish in 1 second, but 10 seconds already passed, the test
+> most probably hangs)
+>
+> Run tests with your patch:
+>
+> first run:
+> # check -qcow2 -T
+>    TEST    iotest: 001 [20:00:30] -> [20:00:31]
+>    TEST    iotest: 002 [20:00:31] -> [20:00:33]
+>    TEST    iotest: 003 [20:00:33] -> [20:00:34]
+>    TEST    iotest: 004 [20:00:34] -> [20:00:35]
+>    TEST    iotest: 005 [20:00:35] -> [20:00:36]
+>    TEST    iotest: 007 [20:00:36] -> [20:00:39]
+>
+>
+> second run:
+> # check -qcow2 -T
+>    TEST    iotest: 001 [20:00:41] -> [20:00:43] 2s (last 1s)
+>    TEST    iotest: 002 [20:00:43] -> [20:00:44] 1s (last 2s)
+>    TEST    iotest: 003 [20:00:44] -> [20:00:46] 2s (last 1s)
+>    TEST    iotest: 004 [20:00:46] -> [20:00:46] 0s (last 1s)
+>    TEST    iotest: 005 [20:00:46] -> [20:00:47] 1s (last 1s)
+>    TEST    iotest: 007 [20:00:47] -> [20:00:50] 3s (last 3s)
+>    TEST    iotest: 008 [20:00:50] -> [20:00:51]
+>    TEST    iotest: 009 [20:00:51] -> [20:00:51]
+>    TEST    iotest: 010 [20:00:51] -> [20:00:51]
+>
+>
+> So, in first run delta was not calculated and on second - calculated.
+> Could you calculate delta in all cases, to make first run look like
+> # check -qcow2 -T
+>    TEST    iotest: 001 [20:00:30] -> [20:00:31] 1s
+>    TEST    iotest: 002 [20:00:31] -> [20:00:33] 2s
+>    TEST    iotest: 003 [20:00:33] -> [20:00:34] 1s
+>    TEST    iotest: 004 [20:00:34] -> [20:00:35] 1s
+>    TEST    iotest: 005 [20:00:35] -> [20:00:36] 1s
+>    TEST    iotest: 007 [20:00:36] -> [20:00:39] 3s
+
+Sure that seems easy enough.
+
+--
+Alex Benn=C3=A9e
 
