@@ -2,53 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EDE541485E
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 12:32:27 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54087 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9847614869
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 12:37:36 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54146 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNav4-0007Yg-TZ
-	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 06:32:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52373)
+	id 1hNb03-0001PS-PC
+	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 06:37:35 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53631)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <cohuck@redhat.com>) id 1hNatt-00079S-65
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 06:31:14 -0400
+	(envelope-from <lukasstraub2@web.de>) id 1hNayg-0000w8-Cq
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 06:36:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <cohuck@redhat.com>) id 1hNatq-00068O-Ah
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 06:31:12 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40528)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <cohuck@redhat.com>)
-	id 1hNato-00065a-Uj; Mon, 06 May 2019 06:31:09 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 91CCD3092647;
-	Mon,  6 May 2019 10:31:03 +0000 (UTC)
-Received: from gondolin (unknown [10.40.205.81])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 43EDE5D71B;
-	Mon,  6 May 2019 10:30:59 +0000 (UTC)
-Date: Mon, 6 May 2019 12:30:55 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Christian Borntraeger <borntraeger@de.ibm.com>
-Message-ID: <20190506123055.4e4b11c5.cohuck@redhat.com>
-In-Reply-To: <8caf6657-d4b6-d5ee-03e9-1987e0c6262b@de.ibm.com>
-References: <1556543381-12671-1-git-send-email-jjherne@linux.ibm.com>
-	<daad75f0-c8bb-1c9f-5b43-afa828601c42@redhat.com>
-	<8caf6657-d4b6-d5ee-03e9-1987e0c6262b@de.ibm.com>
-Organization: Red Hat GmbH
+	(envelope-from <lukasstraub2@web.de>) id 1hNayf-0008BT-2L
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 06:36:10 -0400
+Received: from mout.web.de ([212.227.17.12]:52753)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <lukasstraub2@web.de>) id 1hNaye-0008AQ-6T
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 06:36:08 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=web.de;
+	s=dbaedf251592; t=1557138947;
+	bh=4j8FL9g6gVrZ+bFrk1QDPPWCE2RP5egzfvDj/PhUNOA=;
+	h=X-UI-Sender-Class:Date:From:To:Cc:Subject:In-Reply-To:References;
+	b=d228zJ7/IcdgO5xP/Rsea+GfWztYlSfEtvMHgeD8NMch7JTtj3YISUOmE32cnQUgX
+	Q/0f4nQX66tPQtcPmwBUxvl5oyNhG03+awJAbPY0lzwJ8NnyqESKPiiOZPKC0/u38T
+	0UUiJ9JKB5WUj00RFgJ4x0dMFgAYNDF4+7ye/ThY=
+X-UI-Sender-Class: c548c8c5-30a9-4db5-a2e7-cb6cb037b8f9
+Received: from luklap ([2.247.244.216]) by smtp.web.de (mrweb102
+	[213.165.67.124]) with ESMTPSA (Nemesis) id 0LfAsW-1gvB7b1xSC-00oldJ;
+	Mon, 06 May 2019 12:35:47 +0200
+Date: Mon, 6 May 2019 12:32:58 +0200
+From: Lukas Straub <lukasstraub2@web.de>
+To: qemu-devel@nongnu.org
+Message-ID: <20190506123020.23d168a3@luklap>
+In-Reply-To: <20190420191425.7d1dab82@luklap>
+References: <20190420191425.7d1dab82@luklap>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.43]);
-	Mon, 06 May 2019 10:31:03 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-Provags-ID: V03:K1:jJ7J1bz3oXyb0T7rWBo+Bx4A/RRblLGlMQWI+iZ4Hxa9bf2pZbO
+	eOHnQLzenNt4TLjN9D2RtZmkluE4dncEsv+qcyMnDTWafYey978fLWXXb3L25BNTnN2bbrU
+	4aNAeXXXZYD6yRaQnk9jq2Ibz2cFZ4KFI49zIZaEKDn0ejJajFRelnTLEP4yDW6rJ14pSSZ
+	HpVRYl4DpnzQrTvJNgzJA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:afxIkHm0k0s=:IEW7apg4qf3rXm4JZ1e9L3
+	vUVLM3UjZmn/RybZ3GonKqbkvnnLM/XkO5nvRmILA8RRpXjwffvGhccMlx1jKGUBoqDSmP12k
+	I+DyoYerwKkO4rb6qsBZ5h4qBeJbHqroUHz+EcfGSFA0nJYnSU/hZ6nU0ZXlHMed6fuK6MEGG
+	HGdunWuGT7vn/NZF3jvtCWlN0ri6tq8QUppl0ZIiO30hRmqr6bk3XSxg/cvaUFC4zc+Uta/tm
+	JJMUBbr57aORSPBL4aYhvg4nEWyux/S8y3IYLCQtE/U/zrFFW3u7uZ1arpOs5omZM6x/zm2sg
+	pmcMvKZPq/oYkumvxiZKzh5LCtN0Ca7oQ4y0h3kNukmvd8nGspza8jPmDSdUMli/HMIDEDYor
+	YLhsJvcPAkp5biAqVTcHwoAj6b6xpujYlJtZfH2Lu2rni4lJvKWidbEjBmEMrWANFh13K+Y01
+	N8LH/DBOeLtt+sQHpvFGIydHuCvnkSMjHqH+ws6iHA1/kyMUOoCQXtmBpWKvRhMfAPmX+PIMe
+	mAk27/MdGbuSReHW5pOcNb871QV5knLWHBhic9ixYBm3V0q3T1raPyrahBykVoet8mGUVWOvQ
+	B/vEFWsqSesVArO0IqP1g9RqLvEyFxG1KdmaouRuIXKqCN0UCL/9MMyrXO/hKXve/pHkaAmuj
+	gocSUH+q6MmV1Lm7e9VjI7jsZfYLmfP6LqjH2ZWHsZFXEXfTlXesqpdNZXVPn4EYsjNJYhCw2
+	jzN6B87tciaJBKyPBaimie1Lm84T0w5vMyl4WM7k+XNdh2K5+JpuV6JZlJrGSDHL/IqQUqIbw
+	XmDm2ZQAUdIP6p/9yNwNS7Aze/odfBVM8l89RawHyqTQEcsdgvk8zF+t4qMlvPB/x8/OmtHCh
+	FNPFdLHY2HjSX19N6fu67ZxptLEIuQn/uUhY+Yx1aNh+iWTLuY20n2blqURxBJwyRdCudYcl5
+	WVHDIwODWTg==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [qemu-s390x] [PATCH] s390-bios: Skip bootmap
- signature entries
+X-Received-From: 212.227.17.12
+Subject: Re: [Qemu-devel] [PATCH v2] net/colo-compare.c: Fix a crash in COLO
+ Primary.
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -60,114 +74,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Jason J. Herne" <jjherne@linux.ibm.com>, thuth@redhat.com,
-	David Hildenbrand <david@redhat.com>, alifm@linux.ibm.com,
-	qemu-devel@nongnu.org, qemu-s390x@nongnu.org
+Cc: "Zhang, Chen" <chen.zhang@intel.com>, Jason Wang <jasowang@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 6 May 2019 12:14:10 +0200
-Christian Borntraeger <borntraeger@de.ibm.com> wrote:
+On Sat, 20 Apr 2019 19:14:25 +0200
+Lukas Straub <lukasstraub2@web.de> wrote:
 
-> On 06.05.19 12:01, David Hildenbrand wrote:
-> > On 29.04.19 15:09, Jason J. Herne wrote:  
-> >> Newer versions of zipl have the ability to write signature entries to the boot
-> >> script for secure boot. We don't yet support secure boot, but we need to skip
-> >> over signature entries while reading the boot script in order to maintain our
-> >> ability to boot guest operating systems that have a secure bootloader.
-> >>
-> >> Signed-off-by: Jason J. Herne <jjherne@linux.ibm.com>
-> >> Reviewed-by: Farhan Ali <alifm@linux.ibm.com>
-> >> ---
-> >>  pc-bios/s390-ccw/bootmap.c | 19 +++++++++++++++++--
-> >>  pc-bios/s390-ccw/bootmap.h | 10 ++++++----
-> >>  2 files changed, 23 insertions(+), 6 deletions(-)
-> >>
-> >> diff --git a/pc-bios/s390-ccw/bootmap.c b/pc-bios/s390-ccw/bootmap.c
-> >> index 7aef65a..d13b7cb 100644
-> >> --- a/pc-bios/s390-ccw/bootmap.c
-> >> +++ b/pc-bios/s390-ccw/bootmap.c
-> >> @@ -254,7 +254,14 @@ static void run_eckd_boot_script(block_number_t bmt_block_nr,
-> >>      memset(sec, FREE_SPACE_FILLER, sizeof(sec));
-> >>      read_block(block_nr, sec, "Cannot read Boot Map Script");
-> >>  
-> >> -    for (i = 0; bms->entry[i].type == BOOT_SCRIPT_LOAD; i++) {
-> >> +    for (i = 0; bms->entry[i].type == BOOT_SCRIPT_LOAD ||
-> >> +                bms->entry[i].type == BOOT_SCRIPT_SIGNATURE; i++) {
-> >> +
-> >> +        /* We don't support secure boot yet, so we skip signature entries */
-> >> +        if (bms->entry[i].type == BOOT_SCRIPT_SIGNATURE) {
-> >> +            continue;
-> >> +        }
-> >> +
-> >>          address = bms->entry[i].address.load_address;
-> >>          block_nr = eckd_block_num(&bms->entry[i].blkptr.xeckd.bptr.chs);
-> >>  
-> >> @@ -489,7 +496,15 @@ static void zipl_run(ScsiBlockPtr *pte)
-> >>  
-> >>      /* Load image(s) into RAM */
-> >>      entry = (ComponentEntry *)(&header[1]);
-> >> -    while (entry->component_type == ZIPL_COMP_ENTRY_LOAD) {
-> >> +    while (entry->component_type == ZIPL_COMP_ENTRY_LOAD ||
-> >> +           entry->component_type == ZIPL_COMP_ENTRY_SIGNATURE) {
-> >> +
-> >> +        /* We don't support secure boot yet, so we skip signature entries */
-> >> +        if (entry->component_type == ZIPL_COMP_ENTRY_SIGNATURE) {
-> >> +            entry++;
-> >> +            continue;
-> >> +        }
-> >> +
-> >>          zipl_load_segment(entry);
-> >>  
-> >>          entry++;
-> >> diff --git a/pc-bios/s390-ccw/bootmap.h b/pc-bios/s390-ccw/bootmap.h
-> >> index a085212..94f53a5 100644
-> >> --- a/pc-bios/s390-ccw/bootmap.h
-> >> +++ b/pc-bios/s390-ccw/bootmap.h
-> >> @@ -98,8 +98,9 @@ typedef struct ScsiMbr {
-> >>  #define ZIPL_COMP_HEADER_IPL    0x00
-> >>  #define ZIPL_COMP_HEADER_DUMP   0x01
-> >>  
-> >> -#define ZIPL_COMP_ENTRY_LOAD    0x02
-> >> -#define ZIPL_COMP_ENTRY_EXEC    0x01
-> >> +#define ZIPL_COMP_ENTRY_EXEC      0x01
-> >> +#define ZIPL_COMP_ENTRY_LOAD      0x02
-> >> +#define ZIPL_COMP_ENTRY_SIGNATURE 0x03
-> >>  
-> >>  typedef struct XEckdMbr {
-> >>      uint8_t magic[4];   /* == "xIPL"        */
-> >> @@ -117,8 +118,9 @@ typedef struct BootMapScriptEntry {
-> >>      BootMapPointer blkptr;
-> >>      uint8_t pad[7];
-> >>      uint8_t type;   /* == BOOT_SCRIPT_* */
-> >> -#define BOOT_SCRIPT_EXEC 0x01
-> >> -#define BOOT_SCRIPT_LOAD 0x02
-> >> +#define BOOT_SCRIPT_EXEC      0x01
-> >> +#define BOOT_SCRIPT_LOAD      0x02
-> >> +#define BOOT_SCRIPT_SIGNATURE 0x03
-> >>      union {
-> >>          uint64_t load_address;
-> >>          uint64_t load_psw;
-> >>  
-> > 
-> > Naive question from me:
-> > 
-> > Can't we place the signatures somewhere else, and instead associate them
-> > with entries? This avoids breaking backwards compatibility for the sake
-> > of signatures we want unmodified zipl loaders to ignore.
-> >   
-> 
-> This way is according to hardware(or firmware) architecture for 
-> list-directed IPL, so we have to live with it. In the end zipl can still
-> write the old variant (without secure entries). The default (auto)
-> will detect if the hardware supports secure IPL or not. (via /sys/firmware/ipl/has_secure)
-> So this toleration support here is necessary for things like installing in an
-> LPAR that has secure boot and then IPLing that disk under a KVM that has not.
+> From: Lukas Straub <lukasstraub2@web.de>
+> Because event_unhandled_count may be accessed concurrently, it needs
+> to be protected by taking the lock. However the assert is outside the
+> lock, probably causing it to read garbage and aborting Qemu
+> erroneously.
+>
+> The Bug only happens when running Qemu in COLO mode.
+>
+> This Patch fixes the following bug:
+> https://bugs.launchpad.net/qemu/+bug/1824622
+>
+> Signed-off-by: Lukas Straub <lukasstraub2@web.de>
+> ---
+>  net/colo-compare.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+>
+> diff --git a/net/colo-compare.c b/net/colo-compare.c
+> index bf10526f05..fcb491121b 100644
+> --- a/net/colo-compare.c
+> +++ b/net/colo-compare.c
+> @@ -813,9 +813,8 @@ static void colo_compare_handle_event(void
+> *opaque) break;
+>      }
+>
+> -    assert(event_unhandled_count > 0);
+> -
+>      qemu_mutex_lock(&event_mtx);
+> +    assert(event_unhandled_count > 0);
+>      event_unhandled_count--;
+>      qemu_cond_broadcast(&event_complete_cond);
+>      qemu_mutex_unlock(&event_mtx);
 
-I'm a bit confused here. We want to tolerate booting from a boot record
-that was written on an LPAR that supports secure IPL, which is
-generally reasonable. But: Why is the boot record then written with or
-without signature entries depending on the presence of the feature? How
-'optional' are those entries, given they may be ignored for portability
-reasons?
+Ping.
+
+Regards,
+Lukas Straub
 
