@@ -2,52 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 20816143B9
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 05:22:33 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49533 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D8C1143CB
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 05:40:04 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49687 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNUD2-0005cm-2s
-	for lists+qemu-devel@lfdr.de; Sun, 05 May 2019 23:22:32 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58166)
+	id 1hNUTz-0001b4-MP
+	for lists+qemu-devel@lfdr.de; Sun, 05 May 2019 23:40:03 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60913)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <zhenyuw@linux.intel.com>) id 1hNUBn-0005EK-Rq
-	for qemu-devel@nongnu.org; Sun, 05 May 2019 23:21:17 -0400
+	(envelope-from <dgibson@ozlabs.org>) id 1hNURt-0000ha-9o
+	for qemu-devel@nongnu.org; Sun, 05 May 2019 23:37:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <zhenyuw@linux.intel.com>) id 1hNUBl-0006YI-Us
-	for qemu-devel@nongnu.org; Sun, 05 May 2019 23:21:15 -0400
-Received: from mga03.intel.com ([134.134.136.65]:54572)
+	(envelope-from <dgibson@ozlabs.org>) id 1hNURs-0006r7-7o
+	for qemu-devel@nongnu.org; Sun, 05 May 2019 23:37:53 -0400
+Received: from ozlabs.org ([203.11.71.1]:59499)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <zhenyuw@linux.intel.com>)
-	id 1hNUBl-0006WK-L9
-	for qemu-devel@nongnu.org; Sun, 05 May 2019 23:21:13 -0400
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-	by orsmga103.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	05 May 2019 20:21:05 -0700
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.60,435,1549958400"; 
-	d="asc'?scan'208";a="148880657"
-Received: from zhen-hp.sh.intel.com (HELO zhen-hp) ([10.239.13.116])
-	by fmsmga007.fm.intel.com with ESMTP; 05 May 2019 20:20:59 -0700
-Date: Mon, 6 May 2019 11:20:32 +0800
-From: Zhenyu Wang <zhenyuw@linux.intel.com>
-To: Yan Zhao <yan.y.zhao@intel.com>
-Message-ID: <20190506032032.GP12913@zhen-hp.sh.intel.com>
-References: <20190506014514.3555-1-yan.y.zhao@intel.com>
-	<20190506015102.3691-1-yan.y.zhao@intel.com>
+	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+	id 1hNURq-0006ne-3O; Sun, 05 May 2019 23:37:52 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+	id 44y7jD0d82z9s9G; Mon,  6 May 2019 13:37:35 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=gibson.dropbear.id.au; s=201602; t=1557113856;
+	bh=JNseCk6QRr3SIPgq8OZxfui37skWHrqU/WiFN2PM6T8=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=OchfvdpweQYBr+/rh0RVbZLmemkK9KFJFq4BVeq9KB6eCPTnG414vYG30zgK3mQm2
+	CJIZNorClOCUK/p5yGYkH2c3OmQSnyhCrA9gkhKbKgCYZmOM56g/M+75TbPmtwA2Mp
+	ICWvAafMopr8wDeNlNhw86P5WR4cDTncWTf7YLnM=
+Date: Mon, 6 May 2019 13:23:04 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
+Message-ID: <20190506032304.GB6790@umbus.fritz.box>
+References: <20190506014803.21299-1-sjitindarsingh@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha1;
-	protocol="application/pgp-signature"; boundary="Pz0BBB9QxoYXlT+x"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="i9LlY+UWpKt15+FH"
 Content-Disposition: inline
-In-Reply-To: <20190506015102.3691-1-yan.y.zhao@intel.com>
-User-Agent: Mutt/1.10.0 (2018-05-17)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 134.134.136.65
-Subject: Re: [Qemu-devel] [PATCH v2 2/2] drm/i915/gvt: export mdev device
- version to sysfs for Intel vGPU
+In-Reply-To: <20190506014803.21299-1-sjitindarsingh@gmail.com>
+User-Agent: Mutt/1.11.3 (2019-02-01)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 203.11.71.1
+Subject: Re: [Qemu-devel] [QEMU-PPC] [PATCH] target/ppc: Add ibm,
+ purr and ibm, spurr device-tree properties
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -59,341 +55,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Zhenyu Wang <zhenyuw@linux.intel.com>
-Cc: cjia@nvidia.com, kvm@vger.kernel.org, aik@ozlabs.ru,
-	Zhengxiao.zx@alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
-	qemu-devel@nongnu.org, kwankhede@nvidia.com, eauger@redhat.com,
-	yi.l.liu@intel.com, eskultet@redhat.com, ziye.yang@intel.com,
-	mlevitsk@redhat.com, pasic@linux.ibm.com, libvir-list@redhat.com,
-	arei.gonglei@huawei.com, felipe@nutanix.com, Ken.Xue@amd.com,
-	kevin.tian@intel.com, dgilbert@redhat.com,
-	zhenyuw@linux.intel.com, dinechin@redhat.com,
-	alex.williamson@redhat.com, intel-gvt-dev@lists.freedesktop.org,
-	changpeng.liu@intel.com, cohuck@redhat.com,
-	linux-kernel@vger.kernel.org, zhi.a.wang@intel.com,
-	jonathan.davies@nutanix.com, shaopeng.he@intel.com
+Cc: paulus@ozlabs.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---Pz0BBB9QxoYXlT+x
+--i9LlY+UWpKt15+FH
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On 2019.05.05 21:51:02 -0400, Yan Zhao wrote:
-> This feature implements the version attribute for Intel's vGPU mdev
-> devices.
+On Mon, May 06, 2019 at 11:48:03AM +1000, Suraj Jitindar Singh wrote:
+> The ibm,purr and ibm,spurr device tree properties are used to indicate
+> that the processor implements the Processor Utilisation of Resources
+> Register (PURR) and Scaled Processor Utilisation of Resources Registers
+> (SPURR), respectively. Each property has a single value which represents
+> the level of architecture supported. A value of 1 for ibm,purr means
+> support for the version of the PURR defined in book 3 in version 2.02 of
+> the architecture. A value of 1 for ibm,spurr means support for the
+> version of the SPURR defined in version 2.05 of the architecture.
 >=20
-> version attribute is rw.
-> It's used to check device compatibility for two mdev devices.
-> version string format and length are private for vendor driver. vendor
-> driver is able to define them freely.
+> Add these properties for all processors for which the PURR and SPURR
+> registers are generated.
+
+So.. what does the current empty property mean?  Is it just wrong by
+spec, or does it actually mean something incorrect?
+
 >=20
-> For Intel vGPU of gen8 and gen9, the mdev device version
-> consists of 3 fields: "vendor id" + "device id" + "mdev type".
->=20
-> Reading from a vGPU's version attribute, a string is returned in below
-> format: <vendor id>-<device id>-<mdev type>. e.g.
-> 8086-193b-i915-GVTg_V5_2.
->=20
-> Writing a string to a vGPU's version attribute will trigger GVT to check
-> whether a vGPU identified by the written string is compatible with
-> current vGPU owning this version attribute. errno is returned if the two
-> vGPUs are incompatible. The length of written string is returned in
-> compatible case.
->=20
-> For other platforms, and for GVT not supporting vGPU live migration
-> feature, errnos are returned when read/write of mdev devices' version
-> attributes.
->=20
-> For old GVT versions where no version attributes exposed in sysfs, it is
-> regarded as not supporting vGPU live migration.
->=20
-> For future platforms, besides the current 2 fields in vendor proprietary
-> part, more fields may be added to identify Intel vGPU well for live
-> migration purpose.
->=20
-> v2:
-> 1. removed 32 common part of version string
-> (Alex Williamson)
-> 2. do not register version attribute for GVT not supporting live
-> migration.(Cornelia Huck)
-> 3. for platforms out of gen8, gen9, return -EINVAL --> -ENODEV for
-> incompatible. (Cornelia Huck)
->=20
-> Cc: Alex Williamson <alex.williamson@redhat.com>
-> Cc: Erik Skultety <eskultet@redhat.com>
-> Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-> Cc: Cornelia Huck <cohuck@redhat.com>
-> Cc: "Tian, Kevin" <kevin.tian@intel.com>
-> Cc: Zhenyu Wang <zhenyuw@linux.intel.com>
-> Cc: "Wang, Zhi A" <zhi.a.wang@intel.com>
-> c: Neo Jia <cjia@nvidia.com>
-> Cc: Kirti Wankhede <kwankhede@nvidia.com>
->=20
-> Signed-off-by: Yan Zhao <yan.y.zhao@intel.com>
+> Signed-off-by: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
 > ---
->  drivers/gpu/drm/i915/gvt/Makefile         |  2 +-
->  drivers/gpu/drm/i915/gvt/device_version.c | 87 +++++++++++++++++++++++
->  drivers/gpu/drm/i915/gvt/gvt.c            | 51 +++++++++++++
->  drivers/gpu/drm/i915/gvt/gvt.h            |  6 ++
->  4 files changed, 145 insertions(+), 1 deletion(-)
->  create mode 100644 drivers/gpu/drm/i915/gvt/device_version.c
+>  hw/ppc/spapr.c | 5 ++++-
+>  1 file changed, 4 insertions(+), 1 deletion(-)
 >=20
-> diff --git a/drivers/gpu/drm/i915/gvt/Makefile b/drivers/gpu/drm/i915/gvt=
-/Makefile
-> index 271fb46d4dd0..54e209a23899 100644
-> --- a/drivers/gpu/drm/i915/gvt/Makefile
-> +++ b/drivers/gpu/drm/i915/gvt/Makefile
-> @@ -3,7 +3,7 @@ GVT_DIR :=3D gvt
->  GVT_SOURCE :=3D gvt.o aperture_gm.o handlers.o vgpu.o trace_points.o fir=
-mware.o \
->  	interrupt.o gtt.o cfg_space.o opregion.o mmio.o display.o edid.o \
->  	execlist.o scheduler.o sched_policy.o mmio_context.o cmd_parser.o debug=
-fs.o \
-> -	fb_decoder.o dmabuf.o page_track.o
-> +	fb_decoder.o dmabuf.o page_track.o device_version.o
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 2ef3ce4362..8580a8dc67 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -500,7 +500,10 @@ static void spapr_populate_cpu_dt(CPUState *cs, void=
+ *fdt, int offset,
+>      _FDT((fdt_setprop(fdt, offset, "64-bit", NULL, 0)));
 > =20
->  ccflags-y				+=3D -I$(src) -I$(src)/$(GVT_DIR)
->  i915-y					+=3D $(addprefix $(GVT_DIR)/, $(GVT_SOURCE))
-> diff --git a/drivers/gpu/drm/i915/gvt/device_version.c b/drivers/gpu/drm/=
-i915/gvt/device_version.c
-> new file mode 100644
-> index 000000000000..bd4cdcbdba95
-> --- /dev/null
-> +++ b/drivers/gpu/drm/i915/gvt/device_version.c
-> @@ -0,0 +1,87 @@
-> +/*
-> + * Copyright(c) 2011-2017 Intel Corporation. All rights reserved.
-> + *
-> + * Permission is hereby granted, free of charge, to any person obtaining=
- a
-> + * copy of this software and associated documentation files (the "Softwa=
-re"),
-> + * to deal in the Software without restriction, including without limita=
-tion
-> + * the rights to use, copy, modify, merge, publish, distribute, sublicen=
-se,
-> + * and/or sell copies of the Software, and to permit persons to whom the
-> + * Software is furnished to do so, subject to the following conditions:
-> + *
-> + * The above copyright notice and this permission notice (including the =
-next
-> + * paragraph) shall be included in all copies or substantial portions of=
- the
-> + * Software.
-> + *
-> + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRE=
-SS OR
-> + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILI=
-TY,
-> + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SH=
-ALL
-> + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR =
-OTHER
-> + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISI=
-NG FROM,
-> + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALING=
-S IN THE
-> + * SOFTWARE.
-> + *
-> + * Authors:
-> + *    Yan Zhao <yan.y.zhao@intel.com>
-> + */
-> +#include <linux/vfio.h>
-> +#include "i915_drv.h"
-> +
-> +static bool is_compatible(const char *self, const char *remote)
-> +{
-> +	if (strlen(remote) !=3D strlen(self))
-> +		return false;
-> +
-> +	return (strncmp(self, remote, strlen(self))) ? false : true;
-> +}
-> +
-> +ssize_t intel_gvt_get_vfio_device_version_len(struct drm_i915_private *d=
-ev_priv)
-> +{
-> +	if (!IS_GEN(dev_priv, 8) && !IS_GEN(dev_priv, 9))
-> +		return -ENODEV;
-> +
-> +	return PAGE_SIZE;
-> +}
-> +
-> +ssize_t intel_gvt_get_vfio_device_version(struct drm_i915_private *dev_p=
-riv,
-> +		char *buf, const char *mdev_type)
-> +{
-> +	int cnt =3D 0, ret =3D 0;
-> +	const char *str =3D NULL;
-> +
-
-> +	/* currently only gen8 & gen9 are supported */
-> +	if (!IS_GEN(dev_priv, 8) && !IS_GEN(dev_priv, 9))
-> +		return -ENODEV;
-> +
-> +	/* vendor id + device id + mdev type */
-> +	/* vendor id */
-> +	cnt =3D snprintf(buf, 5, "%04x", PCI_VENDOR_ID_INTEL);
-> +	buf +=3D cnt;
-> +	ret +=3D cnt;
-> +
-> +	/* device id */
-> +	cnt =3D snprintf(buf, 6, "-%04x", INTEL_DEVID(dev_priv));
-> +	buf +=3D cnt;
-> +	ret +=3D cnt;
-> +
-> +	/* mdev type */
-> +	str =3D mdev_type;
-> +	cnt =3D snprintf(buf, strlen(str) + 3, "-%s\n", mdev_type);
-> +	buf +=3D cnt;
-> +	ret +=3D cnt;
-> +
-> +	return ret;
-> +}
-> +
-> +ssize_t intel_gvt_check_vfio_device_version(struct drm_i915_private *dev=
-_priv,
-> +		const char *self, const char *remote)
-> +{
-> +
-> +	/* currently only gen8 & gen9 are supported */
-> +	if (!IS_GEN(dev_priv, 8) && !IS_GEN(dev_priv, 9))
-> +		return -ENODEV;
-> +
-> +	if (!is_compatible(self, remote))
-> +		return -EINVAL;
-> +
-> +	return 0;
-> +}
-> diff --git a/drivers/gpu/drm/i915/gvt/gvt.c b/drivers/gpu/drm/i915/gvt/gv=
-t.c
-> index 43f4242062dd..19f16eec5a4c 100644
-> --- a/drivers/gpu/drm/i915/gvt/gvt.c
-> +++ b/drivers/gpu/drm/i915/gvt/gvt.c
-> @@ -105,14 +105,65 @@ static ssize_t description_show(struct kobject *kob=
-j, struct device *dev,
->  		       type->weight);
->  }
+>      if (env->spr_cb[SPR_PURR].oea_read) {
+> -        _FDT((fdt_setprop(fdt, offset, "ibm,purr", NULL, 0)));
+> +        _FDT((fdt_setprop_cell(fdt, offset, "ibm,purr", 1)));
+> +    }
+> +    if (env->spr_cb[SPR_SPURR].oea_read) {
+> +        _FDT((fdt_setprop_cell(fdt, offset, "ibm,spurr", 1)));
+>      }
 > =20
-> +#ifdef GVT_MIGRATION_VERSION
-
-No extra define.
-
-> +static ssize_t version_show(struct kobject *kobj, struct device *dev,
-> +		char *buf)
-> +{
-> +	struct drm_i915_private *i915 =3D kdev_to_i915(dev);
-> +	const char *mdev_type =3D kobject_name(kobj);
-> +
-> +	return intel_gvt_get_vfio_device_version(i915, buf, mdev_type);
-> +}
-> +
-> +static ssize_t version_store(struct kobject *kobj, struct device *dev,
-> +		const char *buf, size_t count)
-> +{
-> +	char *remote =3D NULL, *self =3D NULL;
-> +	int len, ret =3D 0;
-> +	struct drm_i915_private *i915 =3D kdev_to_i915(dev);
-> +	const char *mdev_type =3D kobject_name(kobj);
-> +
-> +	len =3D intel_gvt_get_vfio_device_version_len(i915);
-> +	if (len < 0)
-> +		return len;
-> +
-> +	self =3D kmalloc(len, GFP_KERNEL);
-> +	if (!self)
-> +		return -ENOMEM;
-> +
-> +	ret =3D intel_gvt_get_vfio_device_version(i915, self, mdev_type);
-> +	if (ret < 0)
-> +		goto out;
-> +
-> +	remote =3D kstrndup(buf, count, GFP_KERNEL);
-> +	if (!remote) {
-> +		ret =3D -ENOMEM;
-> +		goto out;
-> +	}
-
-Please make device version as attribute for vgpu instead of allocating memo=
-ry
-everytime to generate it.
-
-> +
-> +	ret =3D intel_gvt_check_vfio_device_version(i915, self, remote);
-> +
-> +out:
-> +	kfree(self);
-> +	kfree(remote);
-> +	return (ret < 0 ? ret : count);
-> +}
-> +#endif
-> +
->  static MDEV_TYPE_ATTR_RO(available_instances);
->  static MDEV_TYPE_ATTR_RO(device_api);
->  static MDEV_TYPE_ATTR_RO(description);
-> +#ifdef GVT_MIGRATION_VERSION
-> +static MDEV_TYPE_ATTR_RW(version);
-> +#endif
-
-Don't need extra define.
-
-> =20
->  static struct attribute *gvt_type_attrs[] =3D {
->  	&mdev_type_attr_available_instances.attr,
->  	&mdev_type_attr_device_api.attr,
->  	&mdev_type_attr_description.attr,
-> +#ifdef GVT_MIGRATION_VERSION
-> +	&mdev_type_attr_version.attr,
-> +#endif
->  	NULL,
->  };
-
-I think you need another group of attrs for type that could support
-migration, it will be assigned during host init for current platform
-with driver support. So just add new group of attrs for like
-gvt_migration_type_attrs[] with version.
-
-> =20
-> diff --git a/drivers/gpu/drm/i915/gvt/gvt.h b/drivers/gpu/drm/i915/gvt/gv=
-t.h
-> index f5a328b5290a..4062f6b26acf 100644
-> --- a/drivers/gpu/drm/i915/gvt/gvt.h
-> +++ b/drivers/gpu/drm/i915/gvt/gvt.h
-> @@ -687,6 +687,12 @@ void intel_gvt_debugfs_remove_vgpu(struct intel_vgpu=
- *vgpu);
->  int intel_gvt_debugfs_init(struct intel_gvt *gvt);
->  void intel_gvt_debugfs_clean(struct intel_gvt *gvt);
-> =20
-> +ssize_t intel_gvt_get_vfio_device_version(struct drm_i915_private *i915,
-> +		char *buf, const char *mdev_type);
-> +ssize_t intel_gvt_check_vfio_device_version(struct drm_i915_private *dev=
-_priv,
-> +		const char *self, const char *remote);
-> +ssize_t
-> +intel_gvt_get_vfio_device_version_len(struct drm_i915_private *dev_priv);
-> =20
->  #include "trace.h"
->  #include "mpt.h"
-> --=20
-> 2.17.1
->=20
+>      if (ppc_hash64_has(cpu, PPC_HASH64_1TSEG)) {
 
 --=20
-Open Source Technology Center, Intel ltd.
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-$gpg --keyserver wwwkeys.pgp.net --recv-keys 4D781827
-
---Pz0BBB9QxoYXlT+x
+--i9LlY+UWpKt15+FH
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iF0EARECAB0WIQTXuabgHDW6LPt9CICxBBozTXgYJwUCXM+oAAAKCRCxBBozTXgY
-J14wAJ0YjRhnIv19nR6j9t9aD1RZL+CJZQCeMMeABwgHatmsyu6pu4oFZJQmZ2c=
-=2bWj
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlzPqJgACgkQbDjKyiDZ
+s5L8MRAAhflQ8iicYwFPiF5h4OstDYsPiY6F9/6b5+F+U+7+uv6P9r2HVJeRKKYG
+N4ZMH4NE4zUnjnX1Ju+czjzIy87EO2p8pnb9b4hbYC7SGb1G/sWwnGkjyzXbFAw6
+2A+5xmLqzPWvLwl5AwQXgygJIYcRfsQ+OQNyi/gd1qufcbVSlxSK8wzZYrVcVTVb
+G+DnnErdp7l4FPINi9Y8Clzng9euajwYuOdNm3/bsKAx04Kkf3m1QFikPMU4SRyu
+6hHb4+KjVGKRO922LLB8BImEFWVR3+Qfve/bPXFSCfbP9gk3cDh4S6cg3nSGm7Hl
+Ch4CNBlhhxZOHDpzo1+1quwEttSTQ8Q3Y++/llDKi8W5pTVTvpd4bkSuZb480lRo
+OBW1EhpJtIDpciQ+3C+v51yA0JRmGUW6JjKMGE92lodTNefeEX4bRJmdKX79l+eZ
+xkH+k37Jy8YU0ERnB1MVDKHtw32r/Fm3J65a7DtLp4aXcOGVCyIqy33yc0gn7TuL
+DYQnka+uvEAaBX9utq+d7iDJRs0mC0IhH7BlhRoZVuWIGANODDAdAOD2rD3zezO1
+M83xQHeHj1gWV7AMHnz3oEeEC92rMkp5xCZ7fc0efmHlfjFkV5L6swArO8hxuc//
++WCUaouHjKE1jMStrW1MPcZULQqS9Sql0qNZ0ceQQc+9wuYqSZo=
+=JPy7
 -----END PGP SIGNATURE-----
 
---Pz0BBB9QxoYXlT+x--
+--i9LlY+UWpKt15+FH--
 
