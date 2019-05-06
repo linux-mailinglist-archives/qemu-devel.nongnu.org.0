@@ -2,42 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73972143D6
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 05:55:03 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49840 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F29F143D7
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 05:58:03 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49876 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNUiU-0006a4-NZ
-	for lists+qemu-devel@lfdr.de; Sun, 05 May 2019 23:55:02 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35220)
+	id 1hNUlO-0007fq-Nr
+	for lists+qemu-devel@lfdr.de; Sun, 05 May 2019 23:58:02 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35774)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hNUh0-00062Q-Iz
-	for qemu-devel@nongnu.org; Sun, 05 May 2019 23:53:31 -0400
+	(envelope-from <thuth@redhat.com>) id 1hNUkQ-0007NB-LO
+	for qemu-devel@nongnu.org; Sun, 05 May 2019 23:57:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hNUgz-0005ps-Oc
-	for qemu-devel@nongnu.org; Sun, 05 May 2019 23:53:30 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40914)
+	(envelope-from <thuth@redhat.com>) id 1hNUkP-00078d-Jw
+	for qemu-devel@nongnu.org; Sun, 05 May 2019 23:57:02 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48906)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <thuth@redhat.com>)
-	id 1hNUgv-0005ne-3q; Sun, 05 May 2019 23:53:25 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
-	[10.5.11.11])
+	(Exim 4.71) (envelope-from <thuth@redhat.com>) id 1hNUkP-00077m-C5
+	for qemu-devel@nongnu.org; Sun, 05 May 2019 23:57:01 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 388F6300180B;
-	Mon,  6 May 2019 03:53:21 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 6FB1A307D861;
+	Mon,  6 May 2019 03:57:00 +0000 (UTC)
 Received: from thuth.remote.csb (ovpn-116-74.ams2.redhat.com [10.36.116.74])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 5D00F6055B;
-	Mon,  6 May 2019 03:53:16 +0000 (UTC)
-To: Stephen Checkoway <stephen.checkoway@oberlin.edu>,
-	QEMU Developers <qemu-devel@nongnu.org>,
-	=?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
-	Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
-	"open list:Block layer core" <qemu-block@nongnu.org>,
-	Markus Armbruster <armbru@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
-	Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
-References: <20190426162624.55977-1-stephen.checkoway@oberlin.edu>
-	<20190426162624.55977-2-stephen.checkoway@oberlin.edu>
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 3072160851;
+	Mon,  6 May 2019 03:56:50 +0000 (UTC)
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+	Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+	Michael Walle <michael@walle.cc>,
+	Jordan Justen <jordan.l.justen@intel.com>, 
+	Peter Maydell <peter.maydell@linaro.org>,
+	"Edgar E . Iglesias" <edgar.iglesias@gmail.com>,
+	Paul Burton <paul.burton@imgtec.com>, Roy Franz <roy.franz@linaro.org>, 
+	Stephen Checkoway <stephen.checkoway@oberlin.edu>,
+	Jan Kiszka <jan.kiszka@siemens.com>, qemu-devel@nongnu.org,
+	David Engraf <david.engraf@sysgo.com>,
+	Jean-Christophe PLAGNIOL-VILLARD <plagnoij@jcrosoft.com>,
+	Stefan Weil <sw@weilnetz.de>
+References: <20190505224737.1028-1-philmd@redhat.com>
+	<20190505224737.1028-2-philmd@redhat.com>
 From: Thomas Huth <thuth@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=thuth@redhat.com; keydata=
@@ -83,23 +88,23 @@ Autocrypt: addr=thuth@redhat.com; keydata=
 	rCELuGwT9hsYkUPjVd4lfylN3mzEc6iAv/wwjsc0DRTSQCpXT3v2ymTAsRKrVaEZLibTXaf+
 	WslxWek3xNYRiqwwWAJuL652eAlxUgQ5ZS+fXBRTiQpJ+F26I/2lccScRd9G5w==
 Organization: Red Hat
-Message-ID: <e28a09d1-151a-e64d-3ede-f7b265d04287@redhat.com>
-Date: Mon, 6 May 2019 05:53:15 +0200
+Message-ID: <1febf29d-4e98-d8ef-8656-53a618036391@redhat.com>
+Date: Mon, 6 May 2019 05:56:49 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190426162624.55977-2-stephen.checkoway@oberlin.edu>
+In-Reply-To: <20190505224737.1028-2-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.40]);
-	Mon, 06 May 2019 03:53:21 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.48]);
+	Mon, 06 May 2019 03:57:00 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v4 01/10] block/pflash_cfi02: Add test for
- supported commands
+Subject: Re: [Qemu-devel] [PATCH 1/1] MAINTAINERS: Add an entry for the
+ Parallel NOR Flash devices
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -111,27 +116,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+	Paolo Bonzini <pbonzini@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+	Markus Armbruster <armbru@redhat.com>,
+	"Michael S . Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 26/04/2019 18.26, Stephen Checkoway wrote:
-> Test the AMD command set for parallel flash chips. This test uses an
-> ARM musicpal board with a pflash drive to test the following list of
-> currently-supported commands.
-> - Autoselect
-> - CFI
-> - Sector erase
-> - Chip erase
-> - Program
-> - Unlock bypass
-> - Reset
-> 
-> Signed-off-by: Stephen Checkoway <stephen.checkoway@oberlin.edu>
+On 06/05/2019 00.47, Philippe Mathieu-Daud=C3=A9 wrote:
+> Step in to maintain it, since I have some familiarity with
+> the technology.
+>=20
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 > ---
->  tests/Makefile.include    |   2 +
->  tests/pflash-cfi02-test.c | 225 ++++++++++++++++++++++++++++++++++++++
->  2 files changed, 227 insertions(+)
->  create mode 100644 tests/pflash-cfi02-test.c
+>  MAINTAINERS | 7 +++++++
+>  1 file changed, 7 insertions(+)
+>=20
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 66ddbda9c95..633f6315536 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1391,6 +1391,13 @@ F: include/hw/net/
+>  F: tests/virtio-net-test.c
+>  T: git https://github.com/jasowang/qemu.git net
+> =20
+> +Parallel NOR Flash devices
+> +M: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> +T: git https://gitlab.com/philmd/qemu.git pflash-next
+> +S: Maintained
+> +F: hw/block/pflash_cfi*.c
+> +F: include/hw/block/flash.h
 
-Acked-by: Thomas Huth <thuth@redhat.com>
+FWIW:
+
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
