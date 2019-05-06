@@ -2,37 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DDDA1505A
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 17:36:46 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58332 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE6FA1505C
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 17:36:55 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58336 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNffZ-0007vZ-7K
-	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 11:36:45 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37803)
+	id 1hNffj-0007z0-3W
+	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 11:36:55 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37814)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hNfdW-0006wC-RM
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 11:34:39 -0400
+	(envelope-from <vsementsov@virtuozzo.com>) id 1hNfdX-0006wI-RS
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 11:34:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hNfdV-0005wt-OJ
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 11:34:38 -0400
-Received: from relay.sw.ru ([185.231.240.75]:48330)
+	(envelope-from <vsementsov@virtuozzo.com>) id 1hNfdV-0005x7-Pg
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 11:34:39 -0400
+Received: from relay.sw.ru ([185.231.240.75]:48334)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
-	id 1hNfdV-0005vi-Gs; Mon, 06 May 2019 11:34:37 -0400
+	id 1hNfdV-0005vl-Hx; Mon, 06 May 2019 11:34:37 -0400
 Received: from [10.28.8.145] (helo=kvm.sw.ru)
 	by relay.sw.ru with esmtp (Exim 4.91)
 	(envelope-from <vsementsov@virtuozzo.com>)
-	id 1hNfdO-0004Z1-56; Mon, 06 May 2019 18:34:30 +0300
+	id 1hNfdO-0004Z1-Iy; Mon, 06 May 2019 18:34:30 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Date: Mon,  6 May 2019 18:34:26 +0300
-Message-Id: <20190506153429.52737-1-vsementsov@virtuozzo.com>
+Date: Mon,  6 May 2019 18:34:27 +0300
+Message-Id: <20190506153429.52737-2-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.18.0
+In-Reply-To: <20190506153429.52737-1-vsementsov@virtuozzo.com>
+References: <20190506153429.52737-1-vsementsov@virtuozzo.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH v6 0/3] block/stream: get rid of the base
+Subject: [Qemu-devel] [PATCH v6 1/3] block: include base when checking image
+ chain for block allocation
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -51,41 +54,147 @@ Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This series introduces a bottom intermediate node that eliminates the
-dependency on the base that may change while stream job is running.
-It happens when stream/commit parallel jobs are running on the same
-backing chain. The base node of the stream job may be a top node of
-the parallel commit job and can change before the stream job is
-completed. We avoid that dependency by introducing the bottom node.
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 
-v6: [resend by Vladimir]
-  01: improve comment in block/io.c, suggested by Alberto
+This patch is used in the 'block/stream: introduce a bottom node'
+that is following. Instead of the base node, the caller may pass
+the node that has the base as its backing image to the function
+bdrv_is_allocated_above() with a new parameter include_base = true
+and get rid of the dependency on the base that may change during
+commit/stream parallel jobs. Now, if the specified base is not
+found in the backing image chain, the QEMU will crash.
 
-v5: [resend by Vladimir]
-  01: use comment wording in block/io.c suggested by Alberto
-  Now the whole series are reviewed-by Alberto and me.
+Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+      [only improve comment in block/io.c as Alberto suggested]
+Reviewed-by: Alberto Garcia <berto@igalia.com>
+---
+ include/block/block.h |  3 ++-
+ block/commit.c        |  2 +-
+ block/io.c            | 20 ++++++++++++++------
+ block/mirror.c        |  2 +-
+ block/replication.c   |  2 +-
+ block/stream.c        |  2 +-
+ 6 files changed, 20 insertions(+), 11 deletions(-)
 
-v4:
-trace_stream_start reverted to the base.
-bdrv_is_allocated_above_inclusive() deleted and the new parameter
-'bool include_base' was added to the bdrv_is_allocated_above().
-
-Andrey Shinkevich (2):
-  block: include base when checking image chain for block allocation
-  block/stream: introduce a bottom node
-
-Vladimir Sementsov-Ogievskiy (1):
-  block/stream: refactor stream_run: drop goto
-
- include/block/block.h  |  3 +-
- block/commit.c         |  2 +-
- block/io.c             | 20 ++++++++++----
- block/mirror.c         |  2 +-
- block/replication.c    |  2 +-
- block/stream.c         | 62 ++++++++++++++++++++----------------------
- tests/qemu-iotests/245 |  4 +--
- 7 files changed, 50 insertions(+), 45 deletions(-)
-
+diff --git a/include/block/block.h b/include/block/block.h
+index c7a26199aa..f98e8582a1 100644
+--- a/include/block/block.h
++++ b/include/block/block.h
+@@ -447,7 +447,8 @@ int bdrv_block_status_above(BlockDriverState *bs, BlockDriverState *base,
+ int bdrv_is_allocated(BlockDriverState *bs, int64_t offset, int64_t bytes,
+                       int64_t *pnum);
+ int bdrv_is_allocated_above(BlockDriverState *top, BlockDriverState *base,
+-                            int64_t offset, int64_t bytes, int64_t *pnum);
++                            bool include_base, int64_t offset, int64_t bytes,
++                            int64_t *pnum);
+ 
+ bool bdrv_is_read_only(BlockDriverState *bs);
+ int bdrv_can_set_read_only(BlockDriverState *bs, bool read_only,
+diff --git a/block/commit.c b/block/commit.c
+index 27537d995b..1750de1029 100644
+--- a/block/commit.c
++++ b/block/commit.c
+@@ -176,7 +176,7 @@ static int coroutine_fn commit_run(Job *job, Error **errp)
+             break;
+         }
+         /* Copy if allocated above the base */
+-        ret = bdrv_is_allocated_above(blk_bs(s->top), blk_bs(s->base),
++        ret = bdrv_is_allocated_above(blk_bs(s->top), blk_bs(s->base), false,
+                                       offset, COMMIT_BUFFER_SIZE, &n);
+         copy = (ret == 1);
+         trace_commit_one_iteration(s, offset, n, ret);
+diff --git a/block/io.c b/block/io.c
+index dfc153b8d8..3cfa100234 100644
+--- a/block/io.c
++++ b/block/io.c
+@@ -2316,10 +2316,11 @@ int coroutine_fn bdrv_is_allocated(BlockDriverState *bs, int64_t offset,
+ /*
+  * Given an image chain: ... -> [BASE] -> [INTER1] -> [INTER2] -> [TOP]
+  *
+- * Return true if (a prefix of) the given range is allocated in any image
+- * between BASE and TOP (inclusive).  BASE can be NULL to check if the given
+- * offset is allocated in any image of the chain.  Return false otherwise,
+- * or negative errno on failure.
++ * Return 1 if (a prefix of) the given range is allocated in any image
++ * between BASE and TOP (BASE is only included if include_base is set).
++ * BASE can be NULL to check if the given offset is allocated in any
++ * image of the chain.  Return 0 otherwise, or negative errno on
++ * failure.
+  *
+  * 'pnum' is set to the number of bytes (including and immediately
+  * following the specified offset) that are known to be in the same
+@@ -2331,14 +2332,17 @@ int coroutine_fn bdrv_is_allocated(BlockDriverState *bs, int64_t offset,
+  */
+ int bdrv_is_allocated_above(BlockDriverState *top,
+                             BlockDriverState *base,
+-                            int64_t offset, int64_t bytes, int64_t *pnum)
++                            bool include_base, int64_t offset,
++                            int64_t bytes, int64_t *pnum)
+ {
+     BlockDriverState *intermediate;
+     int ret;
+     int64_t n = bytes;
+ 
++    assert(base || !include_base);
++
+     intermediate = top;
+-    while (intermediate && intermediate != base) {
++    while (include_base || intermediate != base) {
+         int64_t pnum_inter;
+         int64_t size_inter;
+ 
+@@ -2360,6 +2364,10 @@ int bdrv_is_allocated_above(BlockDriverState *top,
+             n = pnum_inter;
+         }
+ 
++        if (intermediate == base) {
++            break;
++        }
++
+         intermediate = backing_bs(intermediate);
+     }
+ 
+diff --git a/block/mirror.c b/block/mirror.c
+index ff15cfb197..923548f92f 100644
+--- a/block/mirror.c
++++ b/block/mirror.c
+@@ -807,7 +807,7 @@ static int coroutine_fn mirror_dirty_init(MirrorBlockJob *s)
+             return 0;
+         }
+ 
+-        ret = bdrv_is_allocated_above(bs, base, offset, bytes, &count);
++        ret = bdrv_is_allocated_above(bs, base, false, offset, bytes, &count);
+         if (ret < 0) {
+             return ret;
+         }
+diff --git a/block/replication.c b/block/replication.c
+index 3d4dedddfc..fc8d2adc68 100644
+--- a/block/replication.c
++++ b/block/replication.c
+@@ -272,7 +272,7 @@ static coroutine_fn int replication_co_writev(BlockDriverState *bs,
+     while (remaining_sectors > 0) {
+         int64_t count;
+ 
+-        ret = bdrv_is_allocated_above(top->bs, base->bs,
++        ret = bdrv_is_allocated_above(top->bs, base->bs, false,
+                                       sector_num * BDRV_SECTOR_SIZE,
+                                       remaining_sectors * BDRV_SECTOR_SIZE,
+                                       &count);
+diff --git a/block/stream.c b/block/stream.c
+index 1a906fd860..97fddb2608 100644
+--- a/block/stream.c
++++ b/block/stream.c
+@@ -160,7 +160,7 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
+         } else if (ret >= 0) {
+             /* Copy if allocated in the intermediate images.  Limit to the
+              * known-unallocated area [offset, offset+n*BDRV_SECTOR_SIZE).  */
+-            ret = bdrv_is_allocated_above(backing_bs(bs), base,
++            ret = bdrv_is_allocated_above(backing_bs(bs), base, false,
+                                           offset, n, &n);
+ 
+             /* Finish early if end of backing file has been reached */
 -- 
 2.18.0
 
