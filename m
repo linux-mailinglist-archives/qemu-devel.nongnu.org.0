@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B52A1449E
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 08:52:16 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:51424 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A47321446A
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 08:20:09 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:51116 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNXTz-0006oy-HQ
-	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 02:52:15 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59507)
+	id 1hNWyu-0008AM-Rn
+	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 02:20:08 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55574)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hNXRf-0005Ob-Qx
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 02:49:53 -0400
+	(envelope-from <thuth@redhat.com>) id 1hNWxs-0007oV-Dp
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 02:19:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hNXRe-00067F-Hg
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 02:49:51 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:59161)
+	(envelope-from <thuth@redhat.com>) id 1hNWxr-0008Ap-Gm
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 02:19:04 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48520)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
-	id 1hNXRd-00064j-I1; Mon, 06 May 2019 02:49:50 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
-	id 44yCyv2HCBz9s9T; Mon,  6 May 2019 16:49:43 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=gibson.dropbear.id.au; s=201602; t=1557125383;
-	bh=kpiTxPXaiSCDCONvxPyf2zbcoL5tDoylf5HLdKbFgNE=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=epwM1B3fufz33hL7Jgpk0rdAT7a7dRJh7HDKaDhxBuupMrWCbrjI0CjXzGJJPgvRY
-	qZTFHYDwPhWt4gt5agpe229zYCf1fczrROKvIl01xwgKDLkiycS/vD2zeGMgAlMP0x
-	uB7RpMK9Y2S7QrcW18OlK6oMTBLq6dQXy4xU6LXo=
-Date: Mon, 6 May 2019 16:17:32 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
-Message-ID: <20190506061732.GJ6790@umbus.fritz.box>
-References: <20190503055316.6441-1-sjitindarsingh@gmail.com>
-	<20190503055316.6441-5-sjitindarsingh@gmail.com>
+	(Exim 4.71) (envelope-from <thuth@redhat.com>)
+	id 1hNWxp-00089C-1h; Mon, 06 May 2019 02:19:01 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id DE7AD30832C9;
+	Mon,  6 May 2019 06:18:59 +0000 (UTC)
+Received: from thuth.com (ovpn-116-74.ams2.redhat.com [10.36.116.74])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 6CCDB98B0;
+	Mon,  6 May 2019 06:18:58 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: qemu-block@nongnu.org,
+	qemu-devel@nongnu.org
+Date: Mon,  6 May 2019 08:18:54 +0200
+Message-Id: <20190506061854.22207-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="zYo4Elh1vtcYNvbq"
-Content-Disposition: inline
-In-Reply-To: <20190503055316.6441-5-sjitindarsingh@gmail.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [QEMU-PPC] [PATCH 04/13] target/ppc: Add SPR TBU40
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.44]);
+	Mon, 06 May 2019 06:19:00 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [QEMU PATCH] MAINTAINERS: Downgrade status of block
+ sections without "M:" to "Odd Fixes"
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -56,194 +55,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: groug@kaod.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org, clg@kaod.org
+Cc: kwolf@redhat.com, qemu-trivial@nongnu.org, Niels de Vos <ndevos@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Fixes might still get picked up via the qemu-block mailing list,
+so the status is not "Orphan" yet.
+Also add the gluster mailing list as suggested by Niels here:
 
---zYo4Elh1vtcYNvbq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+ https://patchwork.kernel.org/patch/10613297/#22409943
 
-On Fri, May 03, 2019 at 03:53:07PM +1000, Suraj Jitindar Singh wrote:
-> The spr TBU40 is used to set the upper 40 bits of the timebase
-> register, present on POWER5+ and later processors.
->=20
-> This register can only be written by the hypervisor, and cannot be read.
->=20
-> Signed-off-by: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ MAINTAINERS | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-
-> ---
->  hw/ppc/ppc.c                    | 13 +++++++++++++
->  target/ppc/cpu.h                |  1 +
->  target/ppc/helper.h             |  1 +
->  target/ppc/timebase_helper.c    |  5 +++++
->  target/ppc/translate_init.inc.c | 19 +++++++++++++++++++
->  5 files changed, 39 insertions(+)
->=20
-> diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
-> index b567156f97..b618c6f615 100644
-> --- a/hw/ppc/ppc.c
-> +++ b/hw/ppc/ppc.c
-> @@ -710,6 +710,19 @@ void cpu_ppc_store_vtb(CPUPPCState *env, uint64_t va=
-lue)
->                       &tb_env->vtb_offset, value);
->  }
-> =20
-> +void cpu_ppc_store_tbu40(CPUPPCState *env, uint64_t value)
-> +{
-> +    ppc_tb_t *tb_env =3D env->tb_env;
-> +    uint64_t tb;
-> +
-> +    tb =3D cpu_ppc_get_tb(tb_env, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL),
-> +                        tb_env->tb_offset);
-> +    tb &=3D 0xFFFFFFUL;
-> +    tb |=3D (value & ~0xFFFFFFUL);
-> +    cpu_ppc_store_tb(tb_env, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL),
-> +                     &tb_env->tb_offset, tb);
-> +}
-> +
->  static void cpu_ppc_tb_stop (CPUPPCState *env)
->  {
->      ppc_tb_t *tb_env =3D env->tb_env;
-> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> index 8d66265e5a..e324064111 100644
-> --- a/target/ppc/cpu.h
-> +++ b/target/ppc/cpu.h
-> @@ -1334,6 +1334,7 @@ target_ulong cpu_ppc_load_decr (CPUPPCState *env);
->  void cpu_ppc_store_decr (CPUPPCState *env, target_ulong value);
->  target_ulong cpu_ppc_load_hdecr (CPUPPCState *env);
->  void cpu_ppc_store_hdecr (CPUPPCState *env, target_ulong value);
-> +void cpu_ppc_store_tbu40(CPUPPCState *env, uint64_t value);
->  uint64_t cpu_ppc_load_purr (CPUPPCState *env);
->  void cpu_ppc_store_purr(CPUPPCState *env, uint64_t value);
->  uint32_t cpu_ppc601_load_rtcl (CPUPPCState *env);
-> diff --git a/target/ppc/helper.h b/target/ppc/helper.h
-> index 336e7802fb..6aee195528 100644
-> --- a/target/ppc/helper.h
-> +++ b/target/ppc/helper.h
-> @@ -703,6 +703,7 @@ DEF_HELPER_FLAGS_2(store_decr, TCG_CALL_NO_RWG, void,=
- env, tl)
->  DEF_HELPER_FLAGS_1(load_hdecr, TCG_CALL_NO_RWG, tl, env)
->  DEF_HELPER_FLAGS_2(store_hdecr, TCG_CALL_NO_RWG, void, env, tl)
->  DEF_HELPER_FLAGS_2(store_vtb, TCG_CALL_NO_RWG, void, env, tl)
-> +DEF_HELPER_FLAGS_2(store_tbu40, TCG_CALL_NO_RWG, void, env, tl)
->  DEF_HELPER_2(store_hid0_601, void, env, tl)
->  DEF_HELPER_3(store_403_pbr, void, env, i32, tl)
->  DEF_HELPER_FLAGS_1(load_40x_pit, TCG_CALL_NO_RWG, tl, env)
-> diff --git a/target/ppc/timebase_helper.c b/target/ppc/timebase_helper.c
-> index 2395295b77..703bd9ed18 100644
-> --- a/target/ppc/timebase_helper.c
-> +++ b/target/ppc/timebase_helper.c
-> @@ -128,6 +128,11 @@ void helper_store_vtb(CPUPPCState *env, target_ulong=
- val)
->      cpu_ppc_store_vtb(env, val);
->  }
-> =20
-> +void helper_store_tbu40(CPUPPCState *env, target_ulong val)
-> +{
-> +    cpu_ppc_store_tbu40(env, val);
-> +}
-> +
->  target_ulong helper_load_40x_pit(CPUPPCState *env)
->  {
->      return load_40x_pit(env);
-> diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.=
-inc.c
-> index a0cae58e19..8e287066e5 100644
-> --- a/target/ppc/translate_init.inc.c
-> +++ b/target/ppc/translate_init.inc.c
-> @@ -325,6 +325,11 @@ static void spr_write_vtb(DisasContext *ctx, int spr=
-n, int gprn)
->      gen_helper_store_vtb(cpu_env, cpu_gpr[gprn]);
->  }
-> =20
-> +static void spr_write_tbu40(DisasContext *ctx, int sprn, int gprn)
-> +{
-> +    gen_helper_store_tbu40(cpu_env, cpu_gpr[gprn]);
-> +}
-> +
->  #endif
->  #endif
-> =20
-> @@ -7812,6 +7817,16 @@ static void gen_spr_power5p_ear(CPUPPCState *env)
->                   0x00000000);
->  }
-> =20
-> +static void gen_spr_power5p_tb(CPUPPCState *env)
-> +{
-> +    /* TBU40 (High 40 bits of the Timebase register */
-> +    spr_register_hv(env, SPR_TBU40, "TBU40",
-> +                    SPR_NOACCESS, SPR_NOACCESS,
-> +                    SPR_NOACCESS, SPR_NOACCESS,
-> +                    SPR_NOACCESS, &spr_write_tbu40,
-> +                    0x00000000);
-> +}
-> +
->  #if !defined(CONFIG_USER_ONLY)
->  static void spr_write_hmer(DisasContext *ctx, int sprn, int gprn)
->  {
-> @@ -8352,6 +8367,7 @@ static void init_proc_power5plus(CPUPPCState *env)
->      gen_spr_power5p_common(env);
->      gen_spr_power5p_lpar(env);
->      gen_spr_power5p_ear(env);
-> +    gen_spr_power5p_tb(env);
-> =20
->      /* env variables */
->      env->dcache_line_size =3D 128;
-> @@ -8464,6 +8480,7 @@ static void init_proc_POWER7(CPUPPCState *env)
->      gen_spr_power5p_common(env);
->      gen_spr_power5p_lpar(env);
->      gen_spr_power5p_ear(env);
-> +    gen_spr_power5p_tb(env);
->      gen_spr_power6_common(env);
->      gen_spr_power6_dbg(env);
->      gen_spr_power7_book4(env);
-> @@ -8605,6 +8622,7 @@ static void init_proc_POWER8(CPUPPCState *env)
->      gen_spr_power5p_common(env);
->      gen_spr_power5p_lpar(env);
->      gen_spr_power5p_ear(env);
-> +    gen_spr_power5p_tb(env);
->      gen_spr_power6_common(env);
->      gen_spr_power6_dbg(env);
->      gen_spr_power8_tce_address_control(env);
-> @@ -8793,6 +8811,7 @@ static void init_proc_POWER9(CPUPPCState *env)
->      gen_spr_power5p_common(env);
->      gen_spr_power5p_lpar(env);
->      gen_spr_power5p_ear(env);
-> +    gen_spr_power5p_tb(env);
->      gen_spr_power6_common(env);
->      gen_spr_power6_dbg(env);
->      gen_spr_power8_tce_address_control(env);
-
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 66ddbda9c9..899a4cd572 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -2404,12 +2404,13 @@ F: block/ssh.c
+=20
+ CURL
+ L: qemu-block@nongnu.org
+-S: Supported
++S: Odd Fixes
+ F: block/curl.c
+=20
+ GLUSTER
+ L: qemu-block@nongnu.org
+-S: Supported
++L: integration@gluster.org
++S: Odd Fixes
+ F: block/gluster.c
+=20
+ Null Block Driver
 --=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+2.21.0
 
---zYo4Elh1vtcYNvbq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlzP0XwACgkQbDjKyiDZ
-s5L7Nw//Q9PasQhBFROgBSrfy7BWhMlbjB/WoG/p/fqB/MVVZKvgIfDUorXNZeuE
-tjGdEpEL4EVqrWesUEZ4jl42zzjWFd3YJgOmw/+GyL4odF2vQFZfp/DEubeqF0Yw
-Qb1AH1O2I05+eaRgqhCqsHdEg9JZCu8tPXAs71ja1cxKGQLIxOb8Zjp/tn4mRZiR
-VHreufkqGYVJ5mJ2lEp7q1BUrb3A4ohyG7UX6lwKXc7rU2Wqh1wspMb5QnO+gfxn
-x0JD+diMmrQwqs4M1bmMO7R6/HGtjUAy2pcFx8gD+tsFJVGpNRZXbMy8nNePKGdr
-+IS6DW7KRsfLekV/BMR6PnRcK7Yzx1bpslJT7CgKYzsTb2cmKW08tahkc2fKxsA6
-BHXxZRt1UK+Ztiy8ilmqk968KoScp3Ci/ZuyCYFhn6AYxljYsfecl2w7xCr5BnFy
-SV50eah0h2mNG0P/UQs5ef8GV7bxpQqdOLx5MBB/riev3YwIxaS+w2Ut0SdrL7sw
-NLSBmJksTO5+9lpUNw9mJMAmZHFWRfBoICw6VJ5TMKJBRDdpyAVVA+d0cSMGrk/U
-o1c0HjCEhSQftKn/EFnNvKaBoi13J9H8Mql93sxLGhL0BXVIlM/tXh2hSiALEZnP
-rlwwZFfKce6YOiL+tirLEERrJs+81uxOd/6fFGRL98XLxqmpb8k=
-=Bu2L
------END PGP SIGNATURE-----
-
---zYo4Elh1vtcYNvbq--
 
