@@ -2,57 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 422FA1533A
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 20:00:23 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60276 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6562C153C0
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 20:36:25 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60707 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNhuY-000628-E1
-	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 14:00:22 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47907)
+	id 1hNiTQ-0002jG-KV
+	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 14:36:24 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56275)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <qemu_oss@crudebyte.com>) id 1hNht1-0005Pf-9q
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 13:58:48 -0400
+	(envelope-from <bounces@canonical.com>) id 1hNiOd-0008Pr-85
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 14:31:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <qemu_oss@crudebyte.com>) id 1hNhsz-0001wJ-V8
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 13:58:47 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:33521)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <qemu_oss@crudebyte.com>)
-	id 1hNhsz-0001p0-Ec
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 13:58:45 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=aYNSfLI1EB2FwxwOFQBv+9wHMzs8UdhjczvSCyUcYS0=;
-	b=M0FbiC9oteJvA4hPm4dXm+hfPU
-	SUPOUNzMLQNQjPexs5z/BiCvvWCDvT1suG30CU2gXRnM/9na/7q6tE+wv1dPTbph4tMwZCUd1DfZJ
-	AhJ2upSod9PyrTYL9SeU5xWRa8gMDnCBUXSDmAjf+X8P4VBR5Q8MhyYTCDg69Tg5PyUph3+dupKE+
-	wv2AXRRczIMMpMxj6RhtIIdkP0A4qiqA3+mQtJH1a3cIKbPZnlYUnxJmSugZqILSV6JLFKz0WJjzI
-	ASmgfYtqyBKDr9brjWPZ/FLxzTWZTdmcJSnTIfYUUTNiDbXv18sj/4jva9iVlYadxWYknLiYpLczX
-	lRaFK+22MFTgJlLuffjhMa5zDRqRGubwyntqbbzJ9MxuJpRI9Hhq2X6Vh9VWxxiKkuWMbTD76F24p
-	dLTwXgTXdTEDSS5t8In4XfzfKIPOW7LM7Y448QG6+OcuyD7pB4/6tQLJWLIQuedME0BvXVSEwKfGR
-	Ppo0+LKAIiG/BeDGtyv9o/co2h/XLTenui040shm2pTI7O0wYkD6Hy5MKpbTtLLbuMq4BTggQX+9l
-	p1Zvho0FuZEOXtUoWtAFugW5iE5zDqqtepaxnpwVmTc6ltvL1b+lWmVcyeseopc0OnZBv5nCGaRbH
-	avIGoeeQhH1ycCIDzaKSeSSBQ6pB+vpCdvXllQhCk=;
-To: qemu-devel@nongnu.org
-Date: Mon, 06 May 2019 19:58:28 +0200
-Message-ID: <1895198.u98Sn5qOsY@silver>
-In-Reply-To: <590216e2666653bac21d950aaba98f87d0a53324.1557093245.git.qemu_oss@crudebyte.com>
-References: <590216e2666653bac21d950aaba98f87d0a53324.1557093245.git.qemu_oss@crudebyte.com>
+	(envelope-from <bounces@canonical.com>) id 1hNiOc-0001fA-AD
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 14:31:27 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58304)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hNiOc-0001eS-4t
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 14:31:26 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hNiOa-0008Rr-7C
+	for <qemu-devel@nongnu.org>; Mon, 06 May 2019 18:31:24 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id 330182E80C9
+	for <qemu-devel@nongnu.org>; Mon,  6 May 2019 18:31:24 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 06 May 2019 18:25:04 -0000
+From: Floyd42 <1826568@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: axelheider kbastian
+X-Launchpad-Bug-Reporter: Floyd42 (axelheider)
+X-Launchpad-Bug-Modifier: Floyd42 (axelheider)
+References: <155629222212.6615.9281610848583512798.malonedeb@chaenomeles.canonical.com>
+Message-Id: <155716710425.31951.4690419366654957439.malone@chaenomeles.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18953";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: b35463d28cce196e7858b81793527a4a05e8d82f
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 5.189.157.229
-Subject: [Qemu-devel] [libvirt patch] qemu: adds support for virtfs 9p
- argument 'vii'
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1826568] Re: RISC-V Disassembler/translator
+ instruction decoding disagreement
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -61,195 +64,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-From: Christian Schoenebeck via Qemu-devel <qemu-devel@nongnu.org>
-Reply-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Cc: Greg Kurz <groug@kaod.org>, Antonios Motakis <antonios.motakis@huawei.com>
+Reply-To: Bug 1826568 <1826568@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is the counter part patch against latest libvirt git master head to
-support the 'vii' feature of patch 5, which introduces the XML config
-XML tag "important" on libvirt side.
+Sorry, I don't have the test code, since this was created by a memory
+corruption. However, the way I understand the message is, that there is
+some internal disagreement how to decode the op-code "051300009517e2bf"
+- which mige be an invalid opcode anyway. So a simple test application
+would just consist of this opcode.
 
-To stick with the previous example mentioned with patch 5, likewise
-libvirt XML configuration might then look like this:
+-- =
 
-  <domain type='kvm'>
-    ...
-    <devices>
-      ...
-      <filesystem type='mount' accessmode='mapped'>
-        <source dir='/vm/fs'/>
-        <target dir='root'/>
-        <important path='/var/shares'/>
-        <important path='/tmp'/>
-      </filesystem>
-    </devices>
-  </domain>
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1826568
 
-Like with the vii qemu virtfs command line argument, the order of the
-"important" tag defines which one gets the highest inode namespace
-(smallest generated suffix) on guest side.
+Title:
+  RISC-V Disassembler/translator instruction decoding disagreement
 
-Signed-off-by: Christian Schoenebeck <qemu_oss@crudebyte.com>
----
- docs/schemas/domaincommon.rng |  6 ++++++
- src/conf/domain_conf.c        | 30 ++++++++++++++++++++++++++++++
- src/conf/domain_conf.h        |  3 +++
- src/qemu/qemu_command.c       | 10 ++++++++++
- 4 files changed, 49 insertions(+)
+Status in QEMU:
+  New
 
-diff --git a/docs/schemas/domaincommon.rng b/docs/schemas/domaincommon.rng
-index 111b85c36f..c75edfc4d3 100644
---- a/docs/schemas/domaincommon.rng
-+++ b/docs/schemas/domaincommon.rng
-@@ -2515,6 +2515,12 @@
-             </choice>
-           </attribute>
-         </optional>
-+        <zeroOrMore>
-+          <element name='important'>
-+            <attribute name="path"/>
-+            <empty/>
-+          </element>
-+        </zeroOrMore>
-         <optional>
-           <element name='readonly'>
-             <empty/>
-diff --git a/src/conf/domain_conf.c b/src/conf/domain_conf.c
-index b4fb6cf981..cc75c6a7dd 100644
---- a/src/conf/domain_conf.c
-+++ b/src/conf/domain_conf.c
-@@ -2294,6 +2294,8 @@ virDomainFSDefNew(void)
- 
- void virDomainFSDefFree(virDomainFSDefPtr def)
- {
-+    size_t i;
-+
-     if (!def)
-         return;
- 
-@@ -2302,6 +2304,13 @@ void virDomainFSDefFree(virDomainFSDefPtr def)
-     virDomainDeviceInfoClear(&def->info);
-     VIR_FREE(def->virtio);
- 
-+    if (def->important) {
-+        for (i = 0; i < def->nimportant; i++)
-+            if (def->important[i])
-+                VIR_FREE(def->important[i]);
-+    }
-+    VIR_FREE(def->important);
-+
-     VIR_FREE(def);
- }
- 
-@@ -10953,6 +10962,7 @@ virDomainFSDefParseXML(virDomainXMLOptionPtr xmlopt,
-     VIR_AUTOFREE(char *) usage = NULL;
-     VIR_AUTOFREE(char *) units = NULL;
-     VIR_AUTOFREE(char *) model = NULL;
-+    long n;
- 
-     ctxt->node = node;
- 
-@@ -11001,6 +11011,12 @@ virDomainFSDefParseXML(virDomainXMLOptionPtr xmlopt,
-                                   1, ULLONG_MAX, false) < 0)
-         goto error;
- 
-+    n = virXMLChildElementCount(node);
-+    if (n > 0) {
-+        if (VIR_ALLOC_N(def->important, n) < 0)
-+            goto error;
-+    }
-+
-     cur = node->children;
-     while (cur != NULL) {
-         if (cur->type == XML_ELEMENT_NODE) {
-@@ -11039,6 +11055,8 @@ virDomainFSDefParseXML(virDomainXMLOptionPtr xmlopt,
- 
-                 if (virDomainVirtioOptionsParseXML(cur, &def->virtio) < 0)
-                     goto error;
-+            } else if (virXMLNodeNameEqual(cur, "important")) {
-+                def->important[def->nimportant++] = virXMLPropString(cur, "path");
-             }
-         }
-         cur = cur->next;
-@@ -11107,6 +11125,8 @@ virDomainFSDefParseXML(virDomainXMLOptionPtr xmlopt,
-         goto error;
- 
-  cleanup:
-+    if (def && def->important && !def->nimportant)
-+        VIR_FREE(def->important);
-     return def;
- 
-  error:
-@@ -24601,6 +24621,7 @@ virDomainFSDefFormat(virBufferPtr buf,
-     const char *src = def->src->path;
-     VIR_AUTOCLEAN(virBuffer) driverBuf = VIR_BUFFER_INITIALIZER;
-     int ret = -1;
-+    size_t i;
- 
-     if (!type) {
-         virReportError(VIR_ERR_INTERNAL_ERROR,
-@@ -24689,6 +24710,15 @@ virDomainFSDefFormat(virBufferPtr buf,
-     if (def->readonly)
-         virBufferAddLit(buf, "<readonly/>\n");
- 
-+    if (def->important) {
-+        for (i = 0; i < def->nimportant; ++i) {
-+            if (!def->important[i]) continue;
-+            virBufferAddLit(buf, "<important");
-+            virBufferEscapeString(buf, " path='%s'", def->important[i]);
-+            virBufferAddLit(buf, "/>\n");
-+        }
-+    }
-+
-     if (virDomainDeviceInfoFormat(buf, &def->info, flags) < 0)
-         goto cleanup;
- 
-diff --git a/src/conf/domain_conf.h b/src/conf/domain_conf.h
-index 01c22d8cc3..9bbd66d932 100644
---- a/src/conf/domain_conf.h
-+++ b/src/conf/domain_conf.h
-@@ -818,6 +818,9 @@ struct _virDomainFSDef {
-     unsigned long long space_soft_limit; /* in bytes */
-     bool symlinksResolved;
-     virDomainVirtioOptionsPtr virtio;
-+
-+    size_t nimportant;
-+    char **important;
- };
- 
- 
-diff --git a/src/qemu/qemu_command.c b/src/qemu/qemu_command.c
-index 50b4205267..2005ccadf8 100644
---- a/src/qemu/qemu_command.c
-+++ b/src/qemu/qemu_command.c
-@@ -2732,6 +2732,7 @@ qemuBuildFSStr(virDomainFSDefPtr fs)
-     virBuffer opt = VIR_BUFFER_INITIALIZER;
-     const char *driver = qemuDomainFSDriverTypeToString(fs->fsdriver);
-     const char *wrpolicy = virDomainFSWrpolicyTypeToString(fs->wrpolicy);
-+    size_t i;
- 
-     if (fs->type != VIR_DOMAIN_FS_TYPE_MOUNT) {
-         virReportError(VIR_ERR_CONFIG_UNSUPPORTED, "%s",
-@@ -2775,6 +2776,15 @@ qemuBuildFSStr(virDomainFSDefPtr fs)
-     if (fs->readonly)
-         virBufferAddLit(&opt, ",readonly");
- 
-+    if (fs->important) {
-+        for (i = 0; i < fs->nimportant; ++i) {
-+            if (i == 0)
-+                virBufferAsprintf(&opt, ",vii=%s", fs->important[i]);
-+            else
-+                virBufferAsprintf(&opt, ":%s", fs->important[i]);
-+        }
-+    }
-+
-     if (virBufferCheckError(&opt) < 0)
-         goto error;
- 
--- 
-2.11.0
+Bug description:
+  =
 
+  When running QEMU V3.1.0 for platform  RISC-V, 64bit, Spike V1.10 with "-=
+d in_asm -singlestep -D qemu_log.txt", my (faulty) test code brought up thi=
+s message in the logs:
 
+    0x000000008002cade:  051300009517e2bf  illegal         =
+
+    Disassembler disagrees with translator over instruction decoding
+    Please report this to qemu-devel@nongnu.org
+
+  =
+
+  You may want to resolve the disagreement.
+
+  Axel
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1826568/+subscriptions
 
