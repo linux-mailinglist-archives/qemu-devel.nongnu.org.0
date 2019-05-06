@@ -2,42 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC42E14AE0
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 15:25:38 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:56570 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C41414ABF
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 15:17:51 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:56473 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNdcf-0000zW-R5
-	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 09:25:37 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:32905)
+	id 1hNdV8-0003Co-Bs
+	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 09:17:50 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:32924)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <ysato@users.sourceforge.jp>) id 1hNdSO-0001fa-HB
+	(envelope-from <ysato@users.sourceforge.jp>) id 1hNdSP-0001fd-5S
 	for qemu-devel@nongnu.org; Mon, 06 May 2019 09:15:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <ysato@users.sourceforge.jp>) id 1hNdSN-0000Ip-2B
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 09:15:00 -0400
-Received: from mail01.asahi-net.or.jp ([202.224.55.13]:58693)
+	(envelope-from <ysato@users.sourceforge.jp>) id 1hNdSN-0000Iy-Bm
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 09:15:01 -0400
+Received: from mail02.asahi-net.or.jp ([202.224.55.14]:59663)
 	by eggs.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <ysato@users.sourceforge.jp>) id 1hNdSM-0000IF-P0
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 09:14:58 -0400
+	(envelope-from <ysato@users.sourceforge.jp>) id 1hNdSN-0000Id-2c
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 09:14:59 -0400
 Received: from h61-195-96-97.vps.ablenet.jp (h61-195-96-97.vps.ablenet.jp
 	[61.195.96.97]) (Authenticated sender: PQ4Y-STU)
-	by mail01.asahi-net.or.jp (Postfix) with ESMTPA id 1DBC411A3B9;
+	by mail02.asahi-net.or.jp (Postfix) with ESMTPA id 5221C3BAF3;
 	Mon,  6 May 2019 22:14:58 +0900 (JST)
 Received: from ysato.dip.jp (ZM005235.ppp.dion.ne.jp [222.8.5.235])
-	by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id 8E04B240085; 
-	Mon,  6 May 2019 22:14:57 +0900 (JST)
+	by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id 0DA8F240086; 
+	Mon,  6 May 2019 22:14:58 +0900 (JST)
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: qemu-devel@nongnu.org
-Date: Mon,  6 May 2019 22:14:42 +0900
-Message-Id: <20190506131444.120869-12-ysato@users.sourceforge.jp>
+Date: Mon,  6 May 2019 22:14:43 +0900
+Message-Id: <20190506131444.120869-13-ysato@users.sourceforge.jp>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20190506131444.120869-1-ysato@users.sourceforge.jp>
 References: <20190506131444.120869-1-ysato@users.sourceforge.jp>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 202.224.55.13
-Subject: [Qemu-devel] [PATCH v9 11/13] MAINTAINERS: Add RX
+X-Received-From: 202.224.55.14
+Subject: [Qemu-devel] [PATCH v9 12/13] hw/registerfields.h: Add 8bit and
+ 16bit register macros.
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -54,48 +55,78 @@ Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Some RX peripheral using 8bit and 16bit registers.
+Added 8bit and 16bit APIs.
+
 Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 ---
- MAINTAINERS | 19 +++++++++++++++++++
- 1 file changed, 19 insertions(+)
+ include/hw/registerfields.h | 32 +++++++++++++++++++++++++++++++-
+ 1 file changed, 31 insertions(+), 1 deletion(-)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 7dd71e0a2d..e9430b6c0b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -272,6 +272,13 @@ F: include/hw/riscv/
- F: linux-user/host/riscv32/
- F: linux-user/host/riscv64/
+diff --git a/include/hw/registerfields.h b/include/hw/registerfields.h
+index 2659a58737..a0bb0654d6 100644
+--- a/include/hw/registerfields.h
++++ b/include/hw/registerfields.h
+@@ -22,6 +22,14 @@
+     enum { A_ ## reg = (addr) };                                          \
+     enum { R_ ## reg = (addr) / 4 };
  
-+RENESAS RX
-+M: Yoshinori Sato <ysato@users.sourceforge.jp>
-+S: Maintained
-+F: target/rx/
-+F: hw/rx/
-+F: include/hw/rx/
++#define REG8(reg, addr)                                                  \
++    enum { A_ ## reg = (addr) };                                          \
++    enum { R_ ## reg = (addr) };
 +
- S390
- M: Richard Henderson <rth@twiddle.net>
- M: David Hildenbrand <david@redhat.com>
-@@ -1106,6 +1113,18 @@ F: pc-bios/canyonlands.dt[sb]
- F: pc-bios/u-boot-sam460ex-20100605.bin
- F: roms/u-boot-sam460ex
++#define REG16(reg, addr)                                                  \
++    enum { A_ ## reg = (addr) };                                          \
++    enum { R_ ## reg = (addr) / 2 };
++
+ /* Define SHIFT, LENGTH and MASK constants for a field within a register */
  
-+RX Machines
-+-----------
-+RX-QEMU
-+M: Yoshinori Sato <ysato@users.sourceforge.jp>
-+S: Maintained
-+F: hw/rx/rxqemu.c
-+F: hw/intc/rx_icu.c
-+F: hw/timer/renesas_*.c
-+F: hw/char/renesas_sci.c
-+F: include/hw/timer/renesas_*.h
-+F: include/hw/char/renesas_sci.h
-+
- SH4 Machines
- ------------
- R2D
+ /* This macro will define R_FOO_BAR_MASK, R_FOO_BAR_SHIFT and R_FOO_BAR_LENGTH
+@@ -34,6 +42,12 @@
+                                         MAKE_64BIT_MASK(shift, length)};
+ 
+ /* Extract a field from a register */
++#define FIELD_EX8(storage, reg, field)                                    \
++    extract8((storage), R_ ## reg ## _ ## field ## _SHIFT,                \
++              R_ ## reg ## _ ## field ## _LENGTH)
++#define FIELD_EX16(storage, reg, field)                                   \
++    extract16((storage), R_ ## reg ## _ ## field ## _SHIFT,               \
++              R_ ## reg ## _ ## field ## _LENGTH)
+ #define FIELD_EX32(storage, reg, field)                                   \
+     extract32((storage), R_ ## reg ## _ ## field ## _SHIFT,               \
+               R_ ## reg ## _ ## field ## _LENGTH)
+@@ -49,6 +63,22 @@
+  * Assigning values larger then the target field will result in
+  * compilation warnings.
+  */
++#define FIELD_DP8(storage, reg, field, val) ({                            \
++    struct {                                                              \
++        unsigned int v:R_ ## reg ## _ ## field ## _LENGTH;                \
++    } v = { .v = val };                                                   \
++    uint8_t d;                                                            \
++    d = deposit32((storage), R_ ## reg ## _ ## field ## _SHIFT,           \
++                  R_ ## reg ## _ ## field ## _LENGTH, v.v);               \
++    d; })
++#define FIELD_DP16(storage, reg, field, val) ({                           \
++    struct {                                                              \
++        unsigned int v:R_ ## reg ## _ ## field ## _LENGTH;                \
++    } v = { .v = val };                                                   \
++    uint16_t d;                                                           \
++    d = deposit32((storage), R_ ## reg ## _ ## field ## _SHIFT,           \
++                  R_ ## reg ## _ ## field ## _LENGTH, v.v);               \
++    d; })
+ #define FIELD_DP32(storage, reg, field, val) ({                           \
+     struct {                                                              \
+         unsigned int v:R_ ## reg ## _ ## field ## _LENGTH;                \
+@@ -57,7 +87,7 @@
+     d = deposit32((storage), R_ ## reg ## _ ## field ## _SHIFT,           \
+                   R_ ## reg ## _ ## field ## _LENGTH, v.v);               \
+     d; })
+-#define FIELD_DP64(storage, reg, field, val) ({                           \
++#define FIELD_DP64(storage, reg, field, val) ({                         \
+     struct {                                                              \
+         unsigned int v:R_ ## reg ## _ ## field ## _LENGTH;                \
+     } v = { .v = val };                                                   \
 -- 
 2.11.0
 
