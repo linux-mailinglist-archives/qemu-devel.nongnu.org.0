@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE5C0152E0
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 19:39:30 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:59946 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 039A7152DA
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 19:36:33 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:59924 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNhaM-0005QB-1C
-	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 13:39:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39760)
+	id 1hNhXU-0002Qr-4p
+	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 13:36:32 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39736)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hNhV9-00010n-3N
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 13:34:08 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hNhV5-0000xO-1B
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 13:34:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hNhV1-0001DY-2u
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 13:34:05 -0400
-Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:32971)
+	(envelope-from <richard.henderson@linaro.org>) id 1hNhV2-0001EU-VC
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 13:34:02 -0400
+Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:46467)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hNhUz-0001B9-3k
+	id 1hNhV0-0001CZ-W6
 	for qemu-devel@nongnu.org; Mon, 06 May 2019 13:33:59 -0400
-Received: by mail-pg1-x533.google.com with SMTP id h17so818146pgv.0
-	for <qemu-devel@nongnu.org>; Mon, 06 May 2019 10:33:56 -0700 (PDT)
+Received: by mail-pl1-x631.google.com with SMTP id bi2so6693377plb.13
+	for <qemu-devel@nongnu.org>; Mon, 06 May 2019 10:33:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=t6K9H9ZedbXjgIHd72pGKvgDa31zNSFMotfLs815cMc=;
-	b=TsUqxGn1l4puiWFrkxMIHF3PWwoyi+XukL/yRVilotMAfciEPtIdQPvprUUozJgYik
-	kLKvhi6239QYz+BpGkO5paE/iycJ2fVLaOyvQGd72W8v0LjmkI9fdTUq0WIAs0Y5UzbF
-	Sgd72zsMPSbuqs32vYlt05HNYKMaa+D+gYmn5xTo7V5UqNlzwJuW0CXQTbOLHXNGL4vD
-	YOOyH3sTXMSYnykMG6B9V7Utqg/95LPR9eyXgDxrCO/p83CD8+NJ7rWu/VF6rXz8d5VA
-	eUr5l4pMsXd1unsSdFIkbOgn5JSZfBd3SXvs5nsnVW9oHT2vEV0DDJtCuqQ/MOxzipVP
-	wQdA==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=3IcDqOxNxFpx6A0tMNvu47gM3lLo8oZJFxC0ZgDmPNI=;
+	b=oKjjQI7XVRe+sFhrMIATJOL1VyUY+fzx97cMBhwu57e9IPvhP/GSvaazc9Td3vfuEq
+	WzCBcx1EBJXNwmeAkEmX4FSZq8F606fSiynWx4V5g22ZSdG+n/7Z5VwbkSQjH4jtnoCa
+	mvMyDQmv/spUO+bejio3bvbJo3ilzQgkZuJJlUPRwT98ubZzZRY7CJ0dIDZi05MjXW5m
+	xzbxVbl++L1EvLlAglY7Jw0DGGFFFfjnfEJrKBeLbKY6Oikt3oujCBkrwKNTqWX07uOZ
+	k2A6uWHAb69W7UdtXBTHEEJp+dHAupyu9WvvRIajrj7GmN1S+z3bWzXt40sKDkHWXEk2
+	WGNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=t6K9H9ZedbXjgIHd72pGKvgDa31zNSFMotfLs815cMc=;
-	b=rVjsRGe9DAFHCRP+2PmweDewEnMa+tBrvTJDnDk/luwAKEy3+hHa1DbWzL2zUktMq2
-	8drpUSmbr7Lzpj+Y1GNsqVFzRXIsSK/TNriwzXp0Wum+rYQ+tHaMefOaO6wysz6/u7sP
-	pBBQjgJPhZowYmPwKuetTEZBlkLCXlfHZmn5JYhSGDZ05lHN3XZZZ6YYqKNE/ITMdCAQ
-	bt7XSL8g4DAhdflpSMZPBrSm/1hc+/Uh5AbJQmIchCBMERv2a/+b2IrBWSKBlgfxYpf5
-	sQGZK/AXNJaItoEiEQb5t7dpNeR8i4jS12/8YcPgydy3ZkbzAm7onLSQUiLzJ5NX0ASt
-	4KoQ==
-X-Gm-Message-State: APjAAAUTZ7iUKWj67Thrpz8fslYdRKQ5gbVXenKedRnu8UDRZ4sSQ798
-	4bOHbiwvADf8n+SzjBFDNMjuxM9OXGA=
-X-Google-Smtp-Source: APXvYqxbYwWc/BFDeXNRp7yrLE8i/tIYFb3aet65fSAO42my8SGohS/s9gvj6urPgXmWXGNCtR53Tw==
-X-Received: by 2002:a63:2b41:: with SMTP id r62mr33749298pgr.403.1557164035536;
-	Mon, 06 May 2019 10:33:55 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references;
+	bh=3IcDqOxNxFpx6A0tMNvu47gM3lLo8oZJFxC0ZgDmPNI=;
+	b=SceXMgQ7JRHlq160tbrN15DlQ4drdp8aMsqgngvK9saoCVP6DCvneHvtaqKgIkgyob
+	/X7hE8Ny6Vf/w+2K5mqeGZT74XLsOnQ6YByh2Gmr5W3fJtaLuGuGGpBqqO9nr/HByWw4
+	GU3yuVGb5KqsdZlR9n4D0mq5vDn7D3tGuqASB5htAiOmb0RtyEf/raEN1f5S52/suIU6
+	8IFkO3C0Q4e26t10/JGuuevl+jcXlNX7ov8t92/4dfsdXzHUKK2Snx6wQO5H1TxjMsGU
+	gQlfE+jORkNWWn3/jDiYl7aWUzF0+J7c5UW+dicrG1b99P2jwSrDuT2C0caHDOyB43Jy
+	PTNg==
+X-Gm-Message-State: APjAAAW/k+C+FfrIrZdjYsUzsPnnFCcvzj1LV6Z4E90twIaAuBXrjZai
+	ZUkHikAuazJ/t/3+2j6zHQyxSRIUmJE=
+X-Google-Smtp-Source: APXvYqxHRF9Jaw5bKlHjuKKlvJAckzuGgmhoyML4DNok2H30Fas9aGJuWefEMh9zpNq9vDHNwrghwg==
+X-Received: by 2002:a17:902:5982:: with SMTP id
+	p2mr1790959pli.197.1557164036766; 
+	Mon, 06 May 2019 10:33:56 -0700 (PDT)
 Received: from localhost.localdomain (97-113-189-189.tukw.qwest.net.
 	[97.113.189.189]) by smtp.gmail.com with ESMTPSA id
-	k9sm2268839pfa.180.2019.05.06.10.33.54 for <qemu-devel@nongnu.org>
+	k9sm2268839pfa.180.2019.05.06.10.33.55 for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 06 May 2019 10:33:54 -0700 (PDT)
+	Mon, 06 May 2019 10:33:56 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon,  6 May 2019 10:33:29 -0700
-Message-Id: <20190506173353.32206-1-richard.henderson@linaro.org>
+Date: Mon,  6 May 2019 10:33:30 -0700
+Message-Id: <20190506173353.32206-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190506173353.32206-1-richard.henderson@linaro.org>
+References: <20190506173353.32206-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::533
-Subject: [Qemu-devel] [PATCH v4 00/24] Add qemu_getrandom and ARMv8.5-RNG etc
+X-Received-From: 2607:f8b0:4864:20::631
+Subject: [Qemu-devel] [PATCH v4 01/24] configure: Link test before
+ auto-enabling gnutls
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -80,107 +80,48 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Changes since v3:
-  * Do not autoenable gnutls if linking is broken.
-    Fixes --static on ubuntu 18.04.
+At least ubuntu 18.04 does not package static gnutls libraries.
 
-Changes since v2:
-  * Changes from review.
-    - getrandom is not exclusive of /dev/urandom fallback.
-    - vnc fails gracefully on crypto failure.
-    - a great renaming.
-  * Drop the "nonblock" argument, as it's not deliverable from the backend.
-  * Propagate Error back through qemu_guest_getrandom.
-  * Add qemu_guest_getrandom_nofail to centralize "Argh! Death!".
-  * Convert hw/misc/
-  * Implement ppc darn.
-  * Implement x86 rdrand.
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ configure | 19 +++++++++++++------
+ 1 file changed, 13 insertions(+), 6 deletions(-)
 
-Changes since v1:
-  * Build crypto-obj-y for linux-user as well.
-  * Several patches to tidy crypto/random-platform.c.
-  * Use getrandom(2) in crypto/random-platform.c.
-  * Use qcrypto_random_bytes in ui/vnc.c.
-  * In qemu_getrandom:
-    - Use g_rand_int instead of srand48.
-    - Use qcrypto_random_bytes instead of getrandom directly.
-
-Patches without review/ack:
-
-0001-configure-Link-test-before-auto-enabling-gnutls.patch (new)
-0002-crypto-Merge-crypto-obj-y-into-libqemuutil.a.patch
-0022-target-arm-Implement-ARMv8.5-RNG.patch
-0024-target-i386-Implement-CPUID_EXT_RDRAND.patch
-
-
-r~
-
-
-Richard Henderson (24):
-  configure: Link test before auto-enabling gnutls
-  crypto: Merge crypto-obj-y into libqemuutil.a
-  crypto: Reverse code blocks in random-platform.c
-  crypto: Do not fail for EINTR during qcrypto_random_bytes
-  crypto: Use O_CLOEXEC in qcrypto_random_init
-  crypto: Use getrandom for qcrypto_random_bytes
-  crypto: Change the qcrypto_random_bytes buffer type to void*
-  ui/vnc: Split out authentication_failed
-  ui/vnc: Use gcrypto_random_bytes for start_auth_vnc
-  util: Add qemu_guest_getrandom and associated routines
-  cpus: Initialize pseudo-random seeds for all guest cpus
-  linux-user: Initialize pseudo-random seeds for all guest cpus
-  linux-user: Call qcrypto_init if not using -seed
-  linux-user: Use qemu_guest_getrandom_nofail for AT_RANDOM
-  linux-user/aarch64: Use qemu_guest_getrandom for PAUTH keys
-  linux-user: Remove srand call
-  aspeed/scu: Use qemu_guest_getrandom_nofail
-  hw/misc/nrf51_rng: Use qemu_guest_getrandom_nofail
-  hw/misc/bcm2835_rng: Use qemu_guest_getrandom_nofail
-  hw/misc/exynos4210_rng: Use qemu_guest_getrandom
-  target/arm: Put all PAC keys into a structure
-  target/arm: Implement ARMv8.5-RNG
-  target/ppc: Use qemu_guest_getrandom for DARN
-  target/i386: Implement CPUID_EXT_RDRAND
-
- Makefile                            |  12 ++--
- Makefile.objs                       |   8 +--
- Makefile.target                     |   4 --
- include/crypto/random.h             |   2 +-
- include/qemu/guest-random.h         |  68 ++++++++++++++++++
- include/qom/cpu.h                   |   1 +
- linux-user/aarch64/target_syscall.h |   2 -
- target/arm/cpu.h                    |  17 +++--
- target/i386/helper.h                |   2 +
- cpus.c                              |   9 +++
- crypto/random-gcrypt.c              |   2 +-
- crypto/random-gnutls.c              |   2 +-
- crypto/random-platform.c            | 104 +++++++++++++++++-----------
- hw/misc/aspeed_scu.c                |  10 +--
- hw/misc/bcm2835_rng.c               |  32 ++++-----
- hw/misc/exynos4210_rng.c            |  11 ++-
- hw/misc/nrf51_rng.c                 |   4 +-
- linux-user/aarch64/cpu_loop.c       |  25 +------
- linux-user/elfload.c                |   8 +--
- linux-user/main.c                   |  34 +++++----
- linux-user/syscall.c                |  34 +++++++--
- target/arm/cpu64.c                  |   1 +
- target/arm/helper.c                 |  64 ++++++++++++++---
- target/arm/pauth_helper.c           |  18 ++---
- target/i386/cpu.c                   |   5 +-
- target/i386/int_helper.c            |  21 ++++++
- target/i386/translate.c             |  55 +++++++++++----
- target/ppc/int_helper.c             |  42 +++++++----
- ui/vnc.c                            |  53 ++++++--------
- util/guest-random.c                 |  93 +++++++++++++++++++++++++
- vl.c                                |   4 ++
- configure                           |  42 ++++++++---
- crypto/Makefile.objs                |   5 +-
- qemu-options.hx                     |  10 +++
- util/Makefile.objs                  |   1 +
- 35 files changed, 562 insertions(+), 243 deletions(-)
- create mode 100644 include/qemu/guest-random.h
- create mode 100644 util/guest-random.c
-
+diff --git a/configure b/configure
+index 5b183c2e39..daadfe9ad4 100755
+--- a/configure
++++ b/configure
+@@ -2784,17 +2784,24 @@ fi
+ # GNUTLS probe
+ 
+ if test "$gnutls" != "no"; then
++    pass="no"
+     if $pkg_config --exists "gnutls >= 3.1.18"; then
+         gnutls_cflags=$($pkg_config --cflags gnutls)
+         gnutls_libs=$($pkg_config --libs gnutls)
+-        libs_softmmu="$gnutls_libs $libs_softmmu"
+-        libs_tools="$gnutls_libs $libs_tools"
+-	QEMU_CFLAGS="$QEMU_CFLAGS $gnutls_cflags"
+-        gnutls="yes"
+-    elif test "$gnutls" = "yes"; then
++        # Packaging for the static libraries is not always correct.
++        # At least ubuntu 18.04 ships only shared libraries.
++        write_c_skeleton
++        if compile_prog "" "$gnutls_libs" ; then
++            libs_softmmu="$gnutls_libs $libs_softmmu"
++            libs_tools="$gnutls_libs $libs_tools"
++            QEMU_CFLAGS="$QEMU_CFLAGS $gnutls_cflags"
++            pass="yes"
++        fi
++    fi
++    if test "$pass" = "no" && test "$gnutls" = "yes"; then
+ 	feature_not_found "gnutls" "Install gnutls devel >= 3.1.18"
+     else
+-        gnutls="no"
++        gnutls="$pass"
+     fi
+ fi
+ 
 -- 
 2.17.1
 
