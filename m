@@ -2,52 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81F2A154B8
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 21:56:43 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33322 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DB645154CB
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 22:08:33 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33438 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNjj8-0002rX-Mz
-	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 15:56:42 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45228)
+	id 1hNjua-0006qi-Rk
+	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 16:08:32 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47993)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hNjfy-0000vh-KQ
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 15:53:29 -0400
+	(envelope-from <mrolnik@gmail.com>) id 1hNjtW-0006X3-1Y
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 16:07:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hNjfx-0006id-Rx
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 15:53:26 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44994)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hNjfx-0006g0-Mw
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 15:53:25 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id DEAAB88305;
-	Mon,  6 May 2019 19:53:23 +0000 (UTC)
-Received: from localhost (ovpn-116-9.gru2.redhat.com [10.97.116.9])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 6C55061F21;
-	Mon,  6 May 2019 19:53:23 +0000 (UTC)
-Date: Mon, 6 May 2019 16:53:21 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Message-ID: <20190506195321.GB28722@habkost.net>
-References: <20190419061429.17695-1-ehabkost@redhat.com>
-	<87ftprre87.fsf@dusky.pond.sub.org>
+	(envelope-from <mrolnik@gmail.com>) id 1hNjtU-0005XU-P6
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 16:07:26 -0400
+Received: from mail-qt1-x82f.google.com ([2607:f8b0:4864:20::82f]:39278)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <mrolnik@gmail.com>) id 1hNjtU-0005Wq-Io
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 16:07:24 -0400
+Received: by mail-qt1-x82f.google.com with SMTP id y42so16344171qtk.6
+	for <qemu-devel@nongnu.org>; Mon, 06 May 2019 13:07:24 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=ozVDJffovUj23XemID34vRA/Ykmre4aBk7Wd+c614Sg=;
+	b=b6dypzqV0jCOWmTNfhjZPF2/MmsYBo3Wnn1S2D/nTeht7HuJJjuCU7FOmetemhs7cr
+	lzz3ejqH4jLTcONsOFwSSbk/L6FfDat6Azybob57ZYfE21urCgUGcLNNPxcEezv61dK8
+	kUfLXkkNaoKU8+O5hyzBsG6d72+JkwUo42SYrBzolZLy84oZiFYlFQNqo51yZB+0GL2q
+	l/+I+G9BFfdw6dHh3zQnKSJONyHhuioXcns7FtuoD1wzXo54Bsc8+FDiukz/Apy6/Sr6
+	jUe7rcYbS3t+Qo9xagCvLABMCTUky8488fmVIoyrvsaY8uChDhWnnLnAs1XWDCQx6z3z
+	Mxpw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=ozVDJffovUj23XemID34vRA/Ykmre4aBk7Wd+c614Sg=;
+	b=XIacxhsAjOWGOJiKiw0I+0vAaGGPKycxQiNZpHX37wk+kg17O1Cjf4jXuRlwzIKJ5r
+	ATaB1jqRLBdygh9Es5oBPGKDUrSifz7NXIDmXwLIsiI8Ydej75h+jeN6PsLbQSgoyF85
+	dJ+O277hByRW7QqAPIGlWw/C/vJMbKE3zNPWP/cW/ieeF8dGA/0fRE/ts7QMpxXdIwgn
+	XRQTnmDe+ip1EfX8Ak9D2efGC+OukIDUSrgV4TFYgPOhqJxdcTAXSImX+008VrweHEZb
+	7r6t0U4clZijR3uA6mniljvVKUoYcM0ZCfiJ7HbYflXPV/6W0E0fIhJY23nM6Gw5dmgh
+	5uBw==
+X-Gm-Message-State: APjAAAUUsVQ1tFm0Rh+cQBOpgbNRW+tOWzUcFAsxPymh17Qp90MUgAr8
+	zr9f0sbrHu+tETVaWwSjpppR/8BdqTSk9a0zplc=
+X-Google-Smtp-Source: APXvYqwqCegOvc8I9nmZbnJodT0dMZhvb5BHj3e43ROjm37ao7BuXKKMfsKXwOeiM8j2wjuvvUJH+PFerkwQxrSAzbc=
+X-Received: by 2002:ac8:280d:: with SMTP id 13mr22661151qtq.188.1557173240900; 
+	Mon, 06 May 2019 13:07:20 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87ftprre87.fsf@dusky.pond.sub.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.28]);
-	Mon, 06 May 2019 19:53:23 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 0/7] Delete 16 *_cpu_class_by_name()
- functions
+References: <20190504083638.13380-1-S.E.Harris@kent.ac.uk>
+	<20190504083638.13380-9-S.E.Harris@kent.ac.uk>
+	<9697659b-7523-2712-25a9-7c7c1eaad32b@redhat.com>
+In-Reply-To: <9697659b-7523-2712-25a9-7c7c1eaad32b@redhat.com>
+From: Michael Rolnik <mrolnik@gmail.com>
+Date: Mon, 6 May 2019 23:07:06 +0300
+Message-ID: <CAK4993iYaXRaF0RRJAcKZnFFP1tCHnSN+uKfJcdNhe0kvnuunw@mail.gmail.com>
+To: Eric Blake <eblake@redhat.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::82f
+Content-Type: text/plain; charset="UTF-8"
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [PATCH v1 8/8] target/avr: Register AVR support
+ with the rest of QEMU, the build system, and the MAINTAINERS file
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -59,39 +74,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
-	Richard Henderson <rth@twiddle.net>, qemu-devel@nongnu.org,
-	Igor Mammedov <imammedo@redhat.com>
+Cc: E.J.C.Robbins@kent.ac.uk, Sarah Harris <S.E.Harris@kent.ac.uk>,
+	QEMU Developers <qemu-devel@nongnu.org>, A.M.King@kent.ac.uk
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 06, 2019 at 01:53:28PM +0200, Markus Armbruster wrote:
-> Eduardo Habkost <ehabkost@redhat.com> writes:
-> 
-> > This series adds a new CPUClass::class_name_format field, which
-> > allows us to delete 16 of the 21 *_cpu_class_by_name() functions
-> > that exist today.
-> 
-> Which five remain, and why?
+Yes
 
-alpha_cpu_class_by_name:
-* Translates aliases based on alpha_cpu_aliases;
-* Falls back to "ev67" unconditionally
-  (there's a "TODO: remove match everything nonsense" comment).
+Sent from my cell phone, please ignore typos
 
-cris_cpu_class_by_name:
-* Translates "any" alias to "crisv32" if CONFIG_USER_ONLY.
+On Mon, May 6, 2019, 6:11 PM Eric Blake <eblake@redhat.com> wrote:
 
-ppc_cpu_class_by_name:
-* Supports lookup by PVR if CPU model is a 8 digit hex number;
-* Converts CPU model to lowercase.
-
-superh_cpu_class_by_name:
-* Translates "any" alias to TYPE_SH7750R_CPU.
-
-sparc_cpu_class_by_name:
-* Replaces whitespaces with '-' on CPU model name.
-
--- 
-Eduardo
-
+> On 5/4/19 3:36 AM, Sarah Harris wrote:
+> > Signed-off-by: Sarah Harris <S.E.Harris@kent.ac.uk>
+> > ---
+>
+> > +++ b/qapi/common.json
+> > @@ -187,7 +187,7 @@
+> >  # Since: 3.0
+> >  ##
+> >  { 'enum' : 'SysEmuTarget',
+> > -  'data' : [ 'aarch64', 'alpha', 'arm', 'cris', 'hppa', 'i386', 'lm32',
+> > +  'data' : [ 'aarch64', 'alpha', 'arm', 'avr', 'cris', 'hppa', 'i386',
+> 'lm32',
+> >               'm68k', 'microblaze', 'microblazeel', 'mips', 'mips64',
+> >               'mips64el', 'mipsel', 'moxie', 'nios2', 'or1k', 'ppc',
+> >               'ppc64', 'riscv32', 'riscv64', 's390x', 'sh4',
+>
+> Missing documentation that the new 'avr' member is available only since
+> 4.1.
+>
+> > diff --git a/target/avr/Makefile.objs b/target/avr/Makefile.objs
+> > new file mode 100644
+> > index 0000000000..41355dea1e
+> > --- /dev/null
+> > +++ b/target/avr/Makefile.objs
+> > @@ -0,0 +1,23 @@
+> > +#
+> > +#  QEMU AVR CPU
+> > +#
+> > +#  Copyright (c) 2016 Michael Rolnik
+>
+> Do you want to also claim through 2019?
+>
+> --
+> Eric Blake, Principal Software Engineer
+> Red Hat, Inc.           +1-919-301-3226
+> Virtualization:  qemu.org | libvirt.org
+>
+>
