@@ -2,60 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69B4C14F89
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 17:12:22 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58019 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F151014E3A
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 17:01:56 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57876 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNfHx-0003gQ-Ir
-	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 11:12:21 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60560)
+	id 1hNf7s-0007jE-74
+	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 11:01:56 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58489)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hNfGT-000398-Op
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 11:10:50 -0400
+	(envelope-from <philmd@redhat.com>) id 1hNf6T-00076c-7W
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 11:00:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hNfGS-000557-KD
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 11:10:49 -0400
-Received: from indium.canonical.com ([91.189.90.7]:54458)
+	(envelope-from <philmd@redhat.com>) id 1hNf6R-0007PF-Ew
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 11:00:28 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:50719)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hNfGS-00054b-Eu
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 11:10:48 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
-	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hNfGQ-0003tW-Fj
-	for <qemu-devel@nongnu.org>; Mon, 06 May 2019 15:10:46 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id 715872E8042
-	for <qemu-devel@nongnu.org>; Mon,  6 May 2019 15:10:46 +0000 (UTC)
+	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hNf6R-0007Lg-8Z
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 11:00:27 -0400
+Received: by mail-wm1-f66.google.com with SMTP id p21so16176590wmc.0
+	for <qemu-devel@nongnu.org>; Mon, 06 May 2019 08:00:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=8PJRFru9GTn5IEri305UtxALWGHwapioC+ZsjmD6/IY=;
+	b=T9YZVUL11uKGpoo7Dt3EcwUb+S/neJWf7XESxQG1evKx18LEvlmnHFQzJRsO2cwj5W
+	DppxYKgTPVlPaaTWbRhe5I4+zIYwvBnXj6F15axAoJ9qJxyZrXhdOFMLk1MjtnnMyH/Y
+	39PgsB3mjXGFr1c8Zvqp+NzwdbgOqRgw6lYyLHsUzCycRomC6OnI4UQxWWKc8E9ytYfy
+	q6V8WmsVk7/mjODtmTGV1aOgtOBhks4pjaIbVfM+obBNO6KMCcrBoAe9XLTK9BCAaHYa
+	IFaQJ29QtyD4gbdJAK0FljmdNE4e9kYyZYyUpfDCUXIVo3W/tmYysMSb0MxWKGcwMLVM
+	xnjA==
+X-Gm-Message-State: APjAAAWHkQLM+RUOMmjr/NC4t7b00L00hC8cgu2BtlQretjaVt/lVzIB
+	GVZC+NwJ2QANvvgR8NSNG7Pn+w==
+X-Google-Smtp-Source: APXvYqzOZOqn3H2R5hB9kisYzHr5Xl5b1KBRWN06TdvzRJ2rzGr2QxdU6tvfsz0osVKdXsXyyMz5rw==
+X-Received: by 2002:a05:600c:1191:: with SMTP id
+	i17mr16869817wmf.84.1557154826145; 
+	Mon, 06 May 2019 08:00:26 -0700 (PDT)
+Received: from [192.168.1.33] (193.red-88-21-103.staticip.rima-tde.net.
+	[88.21.103.193]) by smtp.gmail.com with ESMTPSA id
+	o13sm19229737wrg.40.2019.05.06.08.00.24
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Mon, 06 May 2019 08:00:25 -0700 (PDT)
+To: Laszlo Ersek <lersek@redhat.com>, qemu-devel@nongnu.org,
+	qemu-stable@nongnu.org
+References: <20190505200602.12412-1-philmd@redhat.com>
+	<20190505200602.12412-2-philmd@redhat.com>
+	<310808da-71c5-19d8-be81-ae255682e79e@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <28db6e11-2d49-757b-7851-e9a6fc0843d0@redhat.com>
+Date: Mon, 6 May 2019 17:00:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 06 May 2019 14:58:18 -0000
-From: Chen Zhang <1827772@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: gvt mdev rfc vfio
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: cuser2
-X-Launchpad-Bug-Reporter: Chen Zhang (cuser2)
-X-Launchpad-Bug-Modifier: Chen Zhang (cuser2)
-References: <155705134117.31768.14250772954769525827.malonedeb@wampee.canonical.com>
-Message-Id: <155715469842.19580.12684671006065863230.launchpad@gac.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18953";
-	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 57879f8d3201b900438b87962de6d9b58814427c
+In-Reply-To: <310808da-71c5-19d8-be81-ae255682e79e@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1827772] Re: [RFC] dma buf: support sprite plane
+	[fuzzy]
+X-Received-From: 209.85.128.66
+Subject: Re: [Qemu-devel] [PATCH 1/5] hw/block/pflash_cfi01: Removed an
+ unused timer
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,79 +78,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1827772 <1827772@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+	Stephen Checkoway <stephen.checkoway@oberlin.edu>,
+	qemu-block@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>,
+	Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
+	Wei Yang <richardw.yang@linux.intel.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	=?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+	Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Description changed:
+On 5/6/19 4:39 PM, Laszlo Ersek wrote:
+> On 05/05/19 22:05, Philippe Mathieu-Daudé wrote:
+>> The 'CFI01' NOR flash was introduced in commit 29133e9a0fff, with
+>> timing modelled. One year later, the CFI02 model was introduced
+>> (commit 05ee37ebf630) based on the CFI01 model. As noted in the
+> 
+> You got those commit references backwards, I believe:
+> 
+> * Commit 29133e9a0fff ("AMD NOR flash device support (initial patch by
+> Jocelyn Mayer)", 2006-06-25) introduced "hw/pflash_cfi02.c".
+> 
+> * Commit 05ee37ebf630 ("Gumstix 'connex' board support by Thorsten
+> Zitterell.", 2007-11-17) introduced "hw/pflash_cfi01.c".
 
-  QEMU does not support sprite/overlay in DMA-buf mode for Intel gvt
-  vGPUs. Some use cases relies on sprite plane support, e.g. hw
-  accelerated video playback in Windows 10 guest.
-  =
+Argh yes, thank you!
 
-  To support this feature, functions in both kernel and QEMU should be
-  implemented:
-  =
+>> header, "It does not support timings". 12 years later, we never
+>> had to model the device timings. Time to remove the unused timer,
+>> we can still add it back if required.
+>>
+>> Suggested-by: Laszlo Ersek <lersek@redhat.com>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>> Yes, I plan to model those timings later. Actually I have a series
+>> working, but I'd rather first
+>> 1/ refactor common code between the both CFI implementations,
+> 
+> Good idea.
+> 
+>> 2/ discuss on list whether or not use timings for the Virt flash.
+> 
+> What would the timer buy us (specifically wrt. cfi01 / OVMF / ArmVirt)?
+> 
+> Being faithful to actual hardware is always good... except when it runs
+> a significant risk of regressions. :) By that I don't mean "programming
+> errors"; I mean that guest code would now have to conform to various
+> timeouts, and that always makes me a bit concerned.
 
-- - query support for plane info in kernel: =
+I'm glat you feel concerned :)
+My goal is to model enough of the device to be able to run 'Capsule
+Based Firmware Updates' [*], but I haven't investigated much yet.
+Embedded firmware usually care about such timings. Anyway if this is
+implemented as a feature, it would be disabled by default for the Virt
+flash (I name the Virt flash the one used by the Virt X86/Aarch64 machines).
 
--   in vgpu_get_plane_info() of drm/i915/gvt/dmabuf.c, calls to intel_vgpu_=
-decode_sprite_plane() shall be made;
-+ - query support for plane info in kernel:
-+ =C2=A0=C2=A0in vgpu_get_plane_info() of drm/i915/gvt/dmabuf.c, calls to i=
-ntel_vgpu_decode_sprite_plane() shall be made;
-  =
+> 
+> For this patch, with the commit references fixed:
+> 
+> Reviewed-by: Laszlo Ersek <lersek@redhat.com>
 
-  - struct to hold VFIODMABuf object in QEMU:
--   in struct VFIODisplay of include/hw/vfio/vfio-common.h;
-+ =C2=A0=C2=A0in struct VFIODisplay of include/hw/vfio/vfio-common.h;
-  - copying of data in QEMU:
--   in vfio_display_get_dmabuf() of hw/vfio/display.c;
-+ =C2=A0=C2=A0in vfio_display_get_dmabuf() of hw/vfio/display.c;
-  - drawing of sprite plane in QEMU:
--   in vfio_display_dmabuf_update() of hw/vfio/display.c;
-+ =C2=A0=C2=A0in vfio_display_dmabuf_update() of hw/vfio/display.c;
-+   defining more DisplayChangeListenerOps for overlay;
-+   adding position info in struct QemuDmaBuf of include/ui/console.h;
-+   adding overlay_fb in struct VirtualGfxConsole of include/ui/gtk.h;
-+   implement gd_egl_overlay_dmabuf for overlay update;
+Will do, thanks!
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1827772
-
-Title:
-  [RFC] dma buf: support sprite plane
-
-Status in QEMU:
-  New
-
-Bug description:
-  QEMU does not support sprite/overlay in DMA-buf mode for Intel gvt
-  vGPUs. Some use cases relies on sprite plane support, e.g. hw
-  accelerated video playback in Windows 10 guest.
-
-  To support this feature, functions in both kernel and QEMU should be
-  implemented:
-
-  - query support for plane info in kernel:
-  =C2=A0=C2=A0in vgpu_get_plane_info() of drm/i915/gvt/dmabuf.c, calls to i=
-ntel_vgpu_decode_sprite_plane() shall be made;
-
-  - struct to hold VFIODMABuf object in QEMU:
-  =C2=A0=C2=A0in struct VFIODisplay of include/hw/vfio/vfio-common.h;
-  - copying of data in QEMU:
-  =C2=A0=C2=A0in vfio_display_get_dmabuf() of hw/vfio/display.c;
-  - drawing of sprite plane in QEMU:
-  =C2=A0=C2=A0in vfio_display_dmabuf_update() of hw/vfio/display.c;
-    defining more DisplayChangeListenerOps for overlay;
-    adding position info in struct QemuDmaBuf of include/ui/console.h;
-    adding overlay_fb in struct VirtualGfxConsole of include/ui/gtk.h;
-    implement gd_egl_overlay_dmabuf for overlay update;
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1827772/+subscriptions
+> 
+> Thanks,
+> Laszlo
+> 
+>> ---
+>>  hw/block/pflash_cfi01.c | 15 ---------------
+>>  1 file changed, 15 deletions(-)
+>>
+>> diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
+>> index 16dfae14b80..6dc04f156a7 100644
+>> --- a/hw/block/pflash_cfi01.c
+>> +++ b/hw/block/pflash_cfi01.c
+>> @@ -42,7 +42,6 @@
+>>  #include "hw/block/flash.h"
+>>  #include "sysemu/block-backend.h"
+>>  #include "qapi/error.h"
+>> -#include "qemu/timer.h"
+>>  #include "qemu/bitops.h"
+>>  #include "qemu/host-utils.h"
+>>  #include "qemu/log.h"
+>> @@ -86,7 +85,6 @@ struct PFlashCFI01 {
+>>      uint8_t cfi_table[0x52];
+>>      uint64_t counter;
+>>      unsigned int writeblock_size;
+>> -    QEMUTimer *timer;
+>>      MemoryRegion mem;
+>>      char *name;
+>>      void *storage;
+>> @@ -110,18 +108,6 @@ static const VMStateDescription vmstate_pflash = {
+>>      }
+>>  };
+>>  
+>> -static void pflash_timer (void *opaque)
+>> -{
+>> -    PFlashCFI01 *pfl = opaque;
+>> -
+>> -    trace_pflash_timer_expired(pfl->cmd);
+>> -    /* Reset flash */
+>> -    pfl->status ^= 0x80;
+>> -    memory_region_rom_device_set_romd(&pfl->mem, true);
+>> -    pfl->wcycle = 0;
+>> -    pfl->cmd = 0;
+>> -}
+>> -
+>>  /* Perform a CFI query based on the bank width of the flash.
+>>   * If this code is called we know we have a device_width set for
+>>   * this flash.
+>> @@ -771,7 +757,6 @@ static void pflash_cfi01_realize(DeviceState *dev, Error **errp)
+>>          pfl->max_device_width = pfl->device_width;
+>>      }
+>>  
+>> -    pfl->timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, pflash_timer, pfl);
+>>      pfl->wcycle = 0;
+>>      pfl->cmd = 0;
+>>      pfl->status = 0;
+>>
+> 
 
