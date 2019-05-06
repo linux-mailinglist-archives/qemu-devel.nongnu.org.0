@@ -2,46 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3431014678
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 10:37:25 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52454 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A461F1469C
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 10:42:48 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52578 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNZ7k-0004SK-Ax
-	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 04:37:24 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52673)
+	id 1hNZCx-00010N-ON
+	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 04:42:47 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52729)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <like.xu@linux.intel.com>) id 1hNZ5P-0002qL-Ca
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 04:35:00 -0400
+	(envelope-from <like.xu@linux.intel.com>) id 1hNZ5T-0002tw-Gx
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 04:35:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <like.xu@linux.intel.com>) id 1hNZ5N-0007Jx-GD
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 04:34:59 -0400
-Received: from mga14.intel.com ([192.55.52.115]:60066)
+	(envelope-from <like.xu@linux.intel.com>) id 1hNZ5R-0007MU-AA
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 04:35:03 -0400
+Received: from mga14.intel.com ([192.55.52.115]:60079)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <like.xu@linux.intel.com>)
-	id 1hNZ5N-0007EJ-5v
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 04:34:57 -0400
+	id 1hNZ5P-0007KN-FK
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 04:35:01 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga003.fm.intel.com ([10.253.24.29])
 	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	06 May 2019 01:34:56 -0700
+	06 May 2019 01:34:58 -0700
 X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.60,437,1549958400"; d="scan'208";a="155407103"
+X-IronPort-AV: E=Sophos;i="5.60,437,1549958400"; d="scan'208";a="155407111"
 Received: from xulike-server.sh.intel.com ([10.239.48.134])
-	by FMSMGA003.fm.intel.com with ESMTP; 06 May 2019 01:34:54 -0700
+	by FMSMGA003.fm.intel.com with ESMTP; 06 May 2019 01:34:56 -0700
 From: Like Xu <like.xu@linux.intel.com>
 To: qemu-devel@nongnu.org
-Date: Mon,  6 May 2019 16:33:13 +0800
-Message-Id: <1557131596-25403-8-git-send-email-like.xu@linux.intel.com>
+Date: Mon,  6 May 2019 16:33:14 +0800
+Message-Id: <1557131596-25403-9-git-send-email-like.xu@linux.intel.com>
 X-Mailer: git-send-email 1.8.3.1
 In-Reply-To: <1557131596-25403-1-git-send-email-like.xu@linux.intel.com>
 References: <1557131596-25403-1-git-send-email-like.xu@linux.intel.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
 X-Received-From: 192.55.52.115
-Subject: [Qemu-devel] [PATCH v2 07/10] cpu/topology: add hw/s390x support
- for smp machine properties
+Subject: [Qemu-devel] [PATCH v2 08/10] cpu/topology: add hw/i386 support for
+ smp machine properties
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -66,95 +66,273 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Following the replace rules, the global smp variables in s390x
-are replaced with smp machine properties. No semantic changes.
+Following the replace rules, the global smp variables in i386
+are replaced with smp machine properties. To avoid calling qdev_get_machine()
+as much as possible, related funtions for acpi data generations including
+init_cpus() are refactored to pass MachineState. No semantic changes.
 
 Signed-off-by: Like Xu <like.xu@linux.intel.com>
 ---
- hw/s390x/s390-virtio-ccw.c | 3 ++-
- hw/s390x/sclp.c            | 2 +-
- target/s390x/cpu.c         | 3 +++
- target/s390x/excp_helper.c | 5 +++++
- 4 files changed, 11 insertions(+), 2 deletions(-)
+ hw/arm/vexpress.c     |  4 ++--
+ hw/i386/acpi-build.c  | 13 ++++++++-----
+ hw/i386/kvmvapic.c    |  7 +++++--
+ hw/i386/pc.c          | 24 +++++++++++++++---------
+ hw/i386/xen/xen-hvm.c |  4 ++++
+ target/i386/cpu.c     |  4 +++-
+ 6 files changed, 37 insertions(+), 19 deletions(-)
 
-diff --git a/hw/s390x/s390-virtio-ccw.c b/hw/s390x/s390-virtio-ccw.c
-index ed1fe7a..692ad6e 100644
---- a/hw/s390x/s390-virtio-ccw.c
-+++ b/hw/s390x/s390-virtio-ccw.c
-@@ -83,7 +83,7 @@ static void s390_init_cpus(MachineState *machine)
-     /* initialize possible_cpus */
-     mc->possible_cpu_arch_ids(machine);
+diff --git a/hw/arm/vexpress.c b/hw/arm/vexpress.c
+index d8634f3..19273a2 100644
+--- a/hw/arm/vexpress.c
++++ b/hw/arm/vexpress.c
+@@ -377,8 +377,8 @@ static void a15_daughterboard_init(const VexpressMachineState *vms,
+     memory_region_add_subregion(sysmem, 0x80000000, ram);
  
--    for (i = 0; i < smp_cpus; i++) {
-+    for (i = 0; i < machine->smp.cpus; i++) {
-         s390x_new_cpu(machine->cpu_type, i, &error_fatal);
-     }
+     /* 0x2c000000 A15MPCore private memory region (GIC) */
+-    init_cpus(cpu_type, TYPE_A15MPCORE_PRIV, 0x2c000000, pic, vms->secure,
+-              vms->virt);
++    init_cpus(machine, cpu_type, TYPE_A15MPCORE_PRIV,
++              0x2c000000, pic, vms->secure, vms->virt);
+ 
+     /* A15 daughterboard peripherals: */
+ 
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 416da31..29adc17 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -44,6 +44,7 @@
+ #include "sysemu/tpm.h"
+ #include "hw/acpi/tpm.h"
+ #include "hw/acpi/vmgenid.h"
++#include "hw/boards.h"
+ #include "sysemu/tpm_backend.h"
+ #include "hw/timer/mc146818rtc_regs.h"
+ #include "hw/mem/memory-device.h"
+@@ -125,7 +126,8 @@ typedef struct FwCfgTPMConfig {
+     uint8_t tpmppi_version;
+ } QEMU_PACKED FwCfgTPMConfig;
+ 
+-static void init_common_fadt_data(Object *o, AcpiFadtData *data)
++static void init_common_fadt_data(MachineState *ms, Object *o,
++                                  AcpiFadtData *data)
+ {
+     uint32_t io = object_property_get_uint(o, ACPI_PM_PROP_PM_IO_BASE, NULL);
+     AmlAddressSpace as = AML_AS_SYSTEM_IO;
+@@ -141,7 +143,8 @@ static void init_common_fadt_data(Object *o, AcpiFadtData *data)
+              * CPUs for more than 8 CPUs, "Clustered Logical" mode has to be
+              * used
+              */
+-            ((max_cpus > 8) ? (1 << ACPI_FADT_F_FORCE_APIC_CLUSTER_MODEL) : 0),
++            ((ms->smp.max_cpus > 8) ?
++                        (1 << ACPI_FADT_F_FORCE_APIC_CLUSTER_MODEL) : 0),
+         .int_model = 1 /* Multiple APIC */,
+         .rtc_century = RTC_CENTURY,
+         .plvl2_lat = 0xfff /* C2 state not supported */,
+@@ -164,7 +167,7 @@ static void init_common_fadt_data(Object *o, AcpiFadtData *data)
+     *data = fadt;
  }
-@@ -410,6 +410,7 @@ static CpuInstanceProperties s390_cpu_index_to_props(MachineState *ms,
- static const CPUArchIdList *s390_possible_cpu_arch_ids(MachineState *ms)
+ 
+-static void acpi_get_pm_info(AcpiPmInfo *pm)
++static void acpi_get_pm_info(MachineState *machine, AcpiPmInfo *pm)
+ {
+     Object *piix = piix4_pm_find();
+     Object *lpc = ich9_lpc_find();
+@@ -174,7 +177,7 @@ static void acpi_get_pm_info(AcpiPmInfo *pm)
+     pm->pcihp_io_base = 0;
+     pm->pcihp_io_len = 0;
+ 
+-    init_common_fadt_data(obj, &pm->fadt);
++    init_common_fadt_data(machine, obj, &pm->fadt);
+     if (piix) {
+         /* w2k requires FADT(rev1) or it won't boot, keep PC compatible */
+         pm->fadt.rev = 1;
+@@ -2617,7 +2620,7 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
+     AcpiSlicOem slic_oem = { .id = NULL, .table_id = NULL };
+     Object *vmgenid_dev;
+ 
+-    acpi_get_pm_info(&pm);
++    acpi_get_pm_info(machine, &pm);
+     acpi_get_misc_info(&misc);
+     acpi_get_pci_holes(&pci_hole, &pci_hole64);
+     acpi_get_slic_oem(&slic_oem);
+diff --git a/hw/i386/kvmvapic.c b/hw/i386/kvmvapic.c
+index 70f6f26..3fce704 100644
+--- a/hw/i386/kvmvapic.c
++++ b/hw/i386/kvmvapic.c
+@@ -17,6 +17,7 @@
+ #include "sysemu/kvm.h"
+ #include "hw/i386/apic_internal.h"
+ #include "hw/sysbus.h"
++#include "hw/boards.h"
+ #include "tcg/tcg.h"
+ 
+ #define VAPIC_IO_PORT           0x7e
+@@ -441,11 +442,12 @@ static void do_patch_instruction(CPUState *cs, run_on_cpu_data data)
+ 
+ static void patch_instruction(VAPICROMState *s, X86CPU *cpu, target_ulong ip)
+ {
++    MachineState *ms = MACHINE(qdev_get_machine());
+     CPUState *cs = CPU(cpu);
+     VAPICHandlers *handlers;
+     PatchInfo *info;
+ 
+-    if (smp_cpus == 1) {
++    if (ms->smp.cpus == 1) {
+         handlers = &s->rom_state.up;
+     } else {
+         handlers = &s->rom_state.mp;
+@@ -746,6 +748,7 @@ static void do_vapic_enable(CPUState *cs, run_on_cpu_data data)
+ static void kvmvapic_vm_state_change(void *opaque, int running,
+                                      RunState state)
+ {
++    MachineState *ms = MACHINE(qdev_get_machine());
+     VAPICROMState *s = opaque;
+     uint8_t *zero;
+ 
+@@ -754,7 +757,7 @@ static void kvmvapic_vm_state_change(void *opaque, int running,
+     }
+ 
+     if (s->state == VAPIC_ACTIVE) {
+-        if (smp_cpus == 1) {
++        if (ms->smp.cpus == 1) {
+             run_on_cpu(first_cpu, do_vapic_enable, RUN_ON_CPU_HOST_PTR(s));
+         } else {
+             zero = g_malloc0(s->rom_state.vapic_size);
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 9bcd867..896c22e 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -932,12 +932,14 @@ void enable_compat_apic_id_mode(void)
+  * no concept of "CPU index", and the NUMA tables on fw_cfg need the APIC ID of
+  * all CPUs up to max_cpus.
+  */
+-static uint32_t x86_cpu_apic_id_from_index(unsigned int cpu_index)
++static uint32_t x86_cpu_apic_id_from_index(MachineState *ms,
++                                           unsigned int cpu_index)
+ {
+     uint32_t correct_id;
+     static bool warned;
+ 
+-    correct_id = x86_apicid_from_cpu_idx(smp_cores, smp_threads, cpu_index);
++    correct_id = x86_apicid_from_cpu_idx(ms->smp.cores,
++                                         ms->smp.threads, cpu_index);
+     if (compat_apic_id_mode) {
+         if (cpu_index != correct_id && !warned && !qtest_enabled()) {
+             error_report("APIC IDs set in compatibility mode, "
+@@ -1536,7 +1538,7 @@ static void pc_new_cpu(const char *typename, int64_t apic_id, Error **errp)
+ 
+ void pc_hot_add_cpu(MachineState *ms, const int64_t id, Error **errp)
+ {
+-    int64_t apic_id = x86_cpu_apic_id_from_index(id);
++    int64_t apic_id = x86_cpu_apic_id_from_index(ms, id);
+     Error *local_err = NULL;
+ 
+     if (id < 0) {
+@@ -1572,9 +1574,10 @@ void pc_cpus_init(PCMachineState *pcms)
+      *
+      * This is used for FW_CFG_MAX_CPUS. See comments on bochs_bios_init().
+      */
+-    pcms->apic_id_limit = x86_cpu_apic_id_from_index(max_cpus - 1) + 1;
++    pcms->apic_id_limit = x86_cpu_apic_id_from_index(ms,
++                                                     ms->smp.max_cpus - 1) + 1;
+     possible_cpus = mc->possible_cpu_arch_ids(ms);
+-    for (i = 0; i < smp_cpus; i++) {
++    for (i = 0; i < ms->smp.cpus; i++) {
+         pc_new_cpu(possible_cpus->cpus[i].type, possible_cpus->cpus[i].arch_id,
+                    &error_fatal);
+     }
+@@ -2298,6 +2301,8 @@ static void pc_cpu_pre_plug(HotplugHandler *hotplug_dev,
+     X86CPU *cpu = X86_CPU(dev);
+     MachineState *ms = MACHINE(hotplug_dev);
+     PCMachineState *pcms = PC_MACHINE(hotplug_dev);
++    unsigned int smp_cores = ms->smp.cores;
++    unsigned int smp_threads = ms->smp.threads;
+ 
+     if(!object_dynamic_cast(OBJECT(cpu), ms->cpu_type)) {
+         error_setg(errp, "Invalid CPU type, expected cpu type: '%s'",
+@@ -2307,7 +2312,7 @@ static void pc_cpu_pre_plug(HotplugHandler *hotplug_dev,
+ 
+     /* if APIC ID is not set, set it based on socket/core/thread properties */
+     if (cpu->apic_id == UNASSIGNED_APIC_ID) {
+-        int max_socket = (max_cpus - 1) / smp_threads / smp_cores;
++        int max_socket = (ms->smp.max_cpus - 1) / smp_threads / smp_cores;
+ 
+         if (cpu->socket_id < 0) {
+             error_setg(errp, "CPU socket-id is not set");
+@@ -2656,13 +2661,14 @@ static int64_t pc_get_default_cpu_node_id(const MachineState *ms, int idx)
+ 
+    assert(idx < ms->possible_cpus->len);
+    x86_topo_ids_from_apicid(ms->possible_cpus->cpus[idx].arch_id,
+-                            smp_cores, smp_threads, &topo);
++                            ms->smp.cores, ms->smp.threads, &topo);
+    return topo.pkg_id % nb_numa_nodes;
+ }
+ 
+ static const CPUArchIdList *pc_possible_cpu_arch_ids(MachineState *ms)
  {
      int i;
 +    unsigned int max_cpus = ms->smp.max_cpus;
  
      if (ms->possible_cpus) {
-         g_assert(ms->possible_cpus && ms->possible_cpus->len == max_cpus);
-diff --git a/hw/s390x/sclp.c b/hw/s390x/sclp.c
-index 4510a80..fac7c3b 100644
---- a/hw/s390x/sclp.c
-+++ b/hw/s390x/sclp.c
-@@ -64,7 +64,7 @@ static void read_SCP_info(SCLPDevice *sclp, SCCB *sccb)
-     prepare_cpu_entries(sclp, read_info->entries, &cpu_count);
-     read_info->entries_cpu = cpu_to_be16(cpu_count);
-     read_info->offset_cpu = cpu_to_be16(offsetof(ReadInfo, entries));
--    read_info->highest_cpu = cpu_to_be16(max_cpus - 1);
-+    read_info->highest_cpu = cpu_to_be16(machine->smp.max_cpus - 1);
+         /*
+@@ -2681,9 +2687,9 @@ static const CPUArchIdList *pc_possible_cpu_arch_ids(MachineState *ms)
  
-     read_info->ibc_val = cpu_to_be32(s390_get_ibc_val());
- 
-diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-index b58ef0a..0601c2e 100644
---- a/target/s390x/cpu.c
-+++ b/target/s390x/cpu.c
-@@ -37,6 +37,7 @@
- #include "hw/qdev-properties.h"
- #ifndef CONFIG_USER_ONLY
- #include "hw/hw.h"
-+#include "hw/boards.h"
- #include "sysemu/arch_init.h"
- #include "sysemu/sysemu.h"
- #endif
-@@ -193,6 +194,8 @@ static void s390_cpu_realizefn(DeviceState *dev, Error **errp)
-     }
- 
- #if !defined(CONFIG_USER_ONLY)
+         ms->possible_cpus->cpus[i].type = ms->cpu_type;
+         ms->possible_cpus->cpus[i].vcpus_count = 1;
+-        ms->possible_cpus->cpus[i].arch_id = x86_cpu_apic_id_from_index(i);
++        ms->possible_cpus->cpus[i].arch_id = x86_cpu_apic_id_from_index(ms, i);
+         x86_topo_ids_from_apicid(ms->possible_cpus->cpus[i].arch_id,
+-                                 smp_cores, smp_threads, &topo);
++                                 ms->smp.cores, ms->smp.threads, &topo);
+         ms->possible_cpus->cpus[i].props.has_socket_id = true;
+         ms->possible_cpus->cpus[i].props.socket_id = topo.pkg_id;
+         ms->possible_cpus->cpus[i].props.has_core_id = true;
+diff --git a/hw/i386/xen/xen-hvm.c b/hw/i386/xen/xen-hvm.c
+index 2939122..941bd25 100644
+--- a/hw/i386/xen/xen-hvm.c
++++ b/hw/i386/xen/xen-hvm.c
+@@ -750,6 +750,8 @@ static ioreq_t *cpu_get_ioreq_from_shared_memory(XenIOState *state, int vcpu)
+ /* retval--the number of ioreq packet */
+ static ioreq_t *cpu_get_ioreq(XenIOState *state)
+ {
 +    MachineState *ms = MACHINE(qdev_get_machine());
 +    unsigned int max_cpus = ms->smp.max_cpus;
-     if (cpu->env.core_id >= max_cpus) {
-         error_setg(&err, "Unable to add CPU with core-id: %" PRIu32
-                    ", maximum core-id: %d", cpu->env.core_id,
-diff --git a/target/s390x/excp_helper.c b/target/s390x/excp_helper.c
-index f84bfb1..77833e9 100644
---- a/target/s390x/excp_helper.c
-+++ b/target/s390x/excp_helper.c
-@@ -31,6 +31,7 @@
- #ifndef CONFIG_USER_ONLY
- #include "sysemu/sysemu.h"
- #include "hw/s390x/s390_flic.h"
+     int i;
+     evtchn_port_t port;
+ 
+@@ -1377,6 +1379,8 @@ static int xen_map_ioreq_server(XenIOState *state)
+ 
+ void xen_hvm_init(PCMachineState *pcms, MemoryRegion **ram_memory)
+ {
++    MachineState *ms = MACHINE(pcms);
++    unsigned int max_cpus = ms->smp.max_cpus;
+     int i, rc;
+     xen_pfn_t ioreq_pfn;
+     XenIOState *state;
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 722c551..9c52dd4 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -54,6 +54,7 @@
+ #include "hw/hw.h"
+ #include "hw/xen/xen.h"
+ #include "hw/i386/apic_internal.h"
 +#include "hw/boards.h"
  #endif
  
- void QEMU_NORETURN tcg_s390_program_interrupt(CPUS390XState *env, uint32_t code,
-@@ -279,6 +280,10 @@ static void do_ext_interrupt(CPUS390XState *env)
-         g_assert(cpu_addr < S390_MAX_CPUS);
-         lowcore->cpu_addr = cpu_to_be16(cpu_addr);
-         clear_bit(cpu_addr, env->emergency_signals);
-+#ifndef CONFIG_USER_ONLY
-+        MachineState *ms = MACHINE(qdev_get_machine());
-+        unsigned int max_cpus = ms->smp.max_cpus;
-+#endif
-         if (bitmap_empty(env->emergency_signals, max_cpus)) {
-             env->pending_int &= ~INTERRUPT_EMERGENCY_SIGNAL;
-         }
+ #include "disas/capstone.h"
+@@ -5340,9 +5341,10 @@ static void x86_cpu_realizefn(DeviceState *dev, Error **errp)
+     }
+ 
+ #ifndef CONFIG_USER_ONLY
++    MachineState *ms = MACHINE(qdev_get_machine());
+     qemu_register_reset(x86_cpu_machine_reset_cb, cpu);
+ 
+-    if (cpu->env.features[FEAT_1_EDX] & CPUID_APIC || smp_cpus > 1) {
++    if (cpu->env.features[FEAT_1_EDX] & CPUID_APIC || ms->smp.cpus > 1) {
+         x86_cpu_apic_create(cpu, &local_err);
+         if (local_err != NULL) {
+             goto out;
 -- 
 1.8.3.1
 
