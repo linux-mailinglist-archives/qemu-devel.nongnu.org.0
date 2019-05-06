@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 694EA1549A
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 21:50:21 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33184 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE70F154A7
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 21:53:07 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33243 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNjcy-0005Gx-4j
-	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 15:50:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43566)
+	id 1hNjff-000815-0C
+	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 15:53:07 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43596)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hNjam-0004Mg-KV
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 15:48:05 -0400
+	(envelope-from <mreitz@redhat.com>) id 1hNjaq-0004Ox-4V
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 15:48:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hNjal-0001px-DG
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 15:48:04 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40074)
+	(envelope-from <mreitz@redhat.com>) id 1hNjap-0001t1-7k
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 15:48:08 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53276)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hNjai-0001lQ-Uj; Mon, 06 May 2019 15:48:01 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
-	[10.5.11.14])
+	id 1hNjan-0001r5-4T; Mon, 06 May 2019 15:48:05 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 8B26FA405A;
-	Mon,  6 May 2019 19:47:59 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 5C14E81E09;
+	Mon,  6 May 2019 19:48:04 +0000 (UTC)
 Received: from localhost (ovpn-204-185.brq.redhat.com [10.40.204.185])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5E2E85DA5B;
-	Mon,  6 May 2019 19:47:55 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id AD0F4611D6;
+	Mon,  6 May 2019 19:48:01 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Mon,  6 May 2019 21:47:46 +0200
-Message-Id: <20190506194753.12464-1-mreitz@redhat.com>
+Date: Mon,  6 May 2019 21:47:47 +0200
+Message-Id: <20190506194753.12464-2-mreitz@redhat.com>
+In-Reply-To: <20190506194753.12464-1-mreitz@redhat.com>
+References: <20190506194753.12464-1-mreitz@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.38]);
-	Mon, 06 May 2019 19:47:59 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.25]);
+	Mon, 06 May 2019 19:48:04 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 0/7] block: Ignore loosening perm restrictions
- failures
+Subject: [Qemu-devel] [PATCH 1/7] file-posix: Update open_flags in
+ raw_set_perm()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -60,51 +61,46 @@ Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+raw_check_perm() + raw_set_perm() can change the flags associated with
+the current FD.  If so, we have to update BDRVRawState.open_flags
+accordingly.  Otherwise, we may keep reopening the FD even though the
+current one already has the correct flags.
 
-This series is mainly a fix for
-https://bugzilla.redhat.com/show_bug.cgi?id=3D1703793.  The problem
-described there is that mirroring to a gluster volume, then switching
-off the volume makes qemu crash.  There are two problems here:
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+ block/file-posix.c | 3 +++
+ 1 file changed, 3 insertions(+)
 
-(1) file-posix reopens the FD all the time because it thinks the FD it
-    has is RDONLY.  It actually isn=E2=80=99t after the first reopen, we =
-just
-    forgot to change the internal flags.  That=E2=80=99s what patch 1 is =
-for.
-
-(2) Even then, when mirror completes, it drops its write permission on
-    the FD.  This requires a reopen, which will fail if the volume is
-    down.  Mirror doesn=E2=80=99t expect that.  Nobody ever expects that
-    dropping permissions can fail, and rightfully so because that=E2=80=99=
-s what
-    I think we have generally agreed on.
-    Therefore, the block layer should hide this error.  This is what the
-    last two patches are for.
-
-The last patch adds two assertions: bdrv_replace_child() (for the old
-BDS) and bdrv_inactivate_recurse() assume they only ever drop
-assertions.  This is now substantiated by these new assertions.
-It turns out that this assumption was just plain wrong.  Patches 3 to 5
-make it right.
-
-
-Max Reitz (7):
-  file-posix: Update open_flags in raw_set_perm()
-  block: Add bdrv_child_refresh_perms()
-  block/mirror: Fix child permissions
-  block/commit: Drop bdrv_child_try_set_perm()
-  block: Fix order in bdrv_replace_child()
-  block: Add *loosen_restrictions to *check*_perm()
-  block: Ignore loosening perm restrictions failures
-
- include/block/block_int.h |  15 ++++
- block.c                   | 143 ++++++++++++++++++++++++++++++++------
- block/commit.c            |   2 -
- block/file-posix.c        |   3 +
- block/mirror.c            |  32 ++++++---
- 5 files changed, 161 insertions(+), 34 deletions(-)
-
+diff --git a/block/file-posix.c b/block/file-posix.c
+index 1cf4ee49eb..66b46ec0eb 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -145,6 +145,7 @@ typedef struct BDRVRawState {
+     uint64_t locked_shared_perm;
+=20
+     int perm_change_fd;
++    int perm_change_flags;
+     BDRVReopenState *reopen_state;
+=20
+ #ifdef CONFIG_XFS
+@@ -2762,6 +2763,7 @@ static int raw_check_perm(BlockDriverState *bs, uin=
+t64_t perm, uint64_t shared,
+             return ret;
+         } else if (ret !=3D s->fd) {
+             s->perm_change_fd =3D ret;
++            s->perm_change_flags =3D open_flags;
+         }
+     }
+=20
+@@ -2800,6 +2802,7 @@ static void raw_set_perm(BlockDriverState *bs, uint=
+64_t perm, uint64_t shared)
+     if (s->perm_change_fd && s->fd !=3D s->perm_change_fd) {
+         qemu_close(s->fd);
+         s->fd =3D s->perm_change_fd;
++        s->open_flags =3D s->perm_change_flags;
+     }
+     s->perm_change_fd =3D 0;
+=20
 --=20
 2.20.1
 
