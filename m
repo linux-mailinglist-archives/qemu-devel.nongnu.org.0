@@ -2,60 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D349A150E1
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 18:07:05 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58923 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1330B150BF
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 17:54:22 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58519 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNg8t-0003k8-AJ
-	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 12:07:03 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42878)
+	id 1hNfwb-0005wF-As
+	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 11:54:21 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41215)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hNg2r-0008BG-Un
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 12:00:50 -0400
+	(envelope-from <fintelia@gmail.com>) id 1hNfvW-0005cf-Uy
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 11:53:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hNg2q-0006h5-PP
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 12:00:49 -0400
-Received: from indium.canonical.com ([91.189.90.7]:38628)
+	(envelope-from <fintelia@gmail.com>) id 1hNfvV-0008Nt-SE
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 11:53:14 -0400
+Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:33372)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hNg2q-0006gU-KF
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 12:00:48 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
-	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hNg2p-00028I-Ae
-	for <qemu-devel@nongnu.org>; Mon, 06 May 2019 16:00:47 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id 4B4EA2E8041
-	for <qemu-devel@nongnu.org>; Mon,  6 May 2019 16:00:47 +0000 (UTC)
+	(Exim 4.71) (envelope-from <fintelia@gmail.com>)
+	id 1hNfvV-0008L5-Kb; Mon, 06 May 2019 11:53:13 -0400
+Received: by mail-lj1-x241.google.com with SMTP id f23so11559431ljc.0;
+	Mon, 06 May 2019 08:53:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to:cc;
+	bh=KHavCqKvy5hytza/0TzF9855TIZSWm0TzjfnbXQH0cw=;
+	b=AtL0d3H81swLS4uZt18XiT02PWvQ7TTncUH0e3VYMlljn8XPo/O6MZXoZ+zvHulxMk
+	AAaYPmYdHa4LA8WoSteZ2GdpC0KVB4YDNdWrqnZ+PaCUGzveM7C9kdMjqzw741EMuBl8
+	DJxyR6YauFruSUmFMee8Ya5WZsM4VXabUnqpi958sezCNm/NARWYZi9aYktrozB3llcd
+	YA+1qE8VLfsKnuCSTwcZFJ0fw6OMZD6T2b36BhPgFVw1gUpYh6mMOrdZtnv7vRCZ+35e
+	rfUaRXSWKm0YA1huKCtvoKu7UtEp1VzJlAmUy0HqOkTdz4mFGO/7Wy/D5fouv9aL7yII
+	s21Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+	bh=KHavCqKvy5hytza/0TzF9855TIZSWm0TzjfnbXQH0cw=;
+	b=drBCqpz2Pc4UdTxZyFcJhVLgwdT2LXRwRTL6PZdGNaL/vV9p2HQ9kokKbyIQt5G1hC
+	38lXNAhD3BKs8M6yLhY8wR/nzPto8OYd3R5RGZ9pcD7vtsyj9bTUHOJuAqhEprijW/g0
+	RfCRXWg5ytvGtV64+fS6D2cUWPw4SSwZbfMjE4PKDE9OTreoSQbg/ABRJsCnwZt+Eud6
+	aafCpkUMwIuVTEBas1MoAKpY6QTpR0dbkzxQqKLyJ7syCQ5Mk/X84oUu/BOGiyxfTByV
+	Y9U5/uTSAy532R+qJB4IF+tWby0Sk6GQSc7L54oa5JHfyjyR3qtmeE/8OxhBSC1qlsU7
+	67Kg==
+X-Gm-Message-State: APjAAAWqtNID8hUQkQ+MS+zb5JaAMWPF4XNUUJ/0rjjc5uLTmFKMzmWi
+	6Cqfb2W1lDt7yvxwebuZ846VyeHsv9v19KUkIt/c6kEy
+X-Google-Smtp-Source: APXvYqxeKzabLDw6/7De7vQ6oF/DFmc0qw+VGkv3cVndTzmTVb40jxAslvoBJyLtY5DuzAGmtLJe9l8X5q1moeBlos0=
+X-Received: by 2002:a2e:84ce:: with SMTP id q14mr14315801ljh.80.1557157989829; 
+	Mon, 06 May 2019 08:53:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 06 May 2019 15:50:46 -0000
-From: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: axelheider kbastian
-X-Launchpad-Bug-Reporter: Floyd42 (axelheider)
-X-Launchpad-Bug-Modifier: Bastian Koppelmann (kbastian)
-References: <155629222212.6615.9281610848583512798.malonedeb@chaenomeles.canonical.com>
-Message-Id: <155715784650.20157.16672269130496430811.malone@gac.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18953";
-	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 85b4d74750c6c0bc40827ad00f67f9c890365e46
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1826568] Re: RISC-V Disassembler/translator
- instruction decoding disagreement
+From: Jonathan Behrens <fintelia@gmail.com>
+Date: Mon, 6 May 2019 11:52:43 -0400
+Message-ID: <CANnJOVHd1aFR2tiORJmZ2h3xa+t8djToUEom4WSy=4vBcOjegg@mail.gmail.com>
+To: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2a00:1450:4864:20::241
+Content-Type: text/plain; charset="UTF-8"
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: [Qemu-devel] [PATCH for 4.1] target/riscv: More accurate handling
+ of `sip` CSR
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,47 +69,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1826568 <1826568@bugs.launchpad.net>
+Cc: Alistair Francis <Alistair.Francis@wdc.com>,
+	Palmer Dabbelt <palmer@sifive.com>,
+	"open list:RISC-V" <qemu-riscv@nongnu.org>,
+	Sagar Karandikar <sagark@eecs.berkeley.edu>,
+	Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Axel,
+According to the spec, "All bits besides SSIP, USIP, and UEIP in the sip
+register are read-only." Further, if an interrupt is not delegated to mode
+x,
+then "the corresponding bits in xip [...] should appear to be hardwired to
+zero. This patch implements both of those requirements.
 
-can you link us to your test code, such that we can try to reproduce it.
+Signed-off-by: Jonathan Behrens <fintelia@gmail.com>
+---
+ target/riscv/csr.c | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-Cheers,
-Bastian
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index 1ec1222da1..fff7d834e8 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -246,6 +246,7 @@ static const target_ulong sstatus_v1_9_mask =
+SSTATUS_SIE | SSTATUS_SPIE |
+ static const target_ulong sstatus_v1_10_mask = SSTATUS_SIE | SSTATUS_SPIE |
+     SSTATUS_UIE | SSTATUS_UPIE | SSTATUS_SPP | SSTATUS_FS | SSTATUS_XS |
+     SSTATUS_SUM | SSTATUS_MXR | SSTATUS_SD;
++static const target_ulong sip_writable_mask = SIP_SSIP | MIP_USIP |
+MIP_UEIP;
 
--- =
+ #if defined(TARGET_RISCV32)
+ static const char valid_vm_1_09[16] = {
+@@ -694,8 +695,10 @@ static int write_sbadaddr(CPURISCVState *env, int
+csrno, target_ulong val)
+ static int rmw_sip(CPURISCVState *env, int csrno, target_ulong *ret_value,
+                    target_ulong new_value, target_ulong write_mask)
+ {
+-    return rmw_mip(env, CSR_MSTATUS, ret_value, new_value,
+-                   write_mask & env->mideleg);
++    int ret = rmw_mip(env, CSR_MSTATUS, ret_value, new_value,
++                      write_mask & env->mideleg & sip_writable_mask);
++    *ret_value &= env->mideleg;
++    return ret;
+ }
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1826568
-
-Title:
-  RISC-V Disassembler/translator instruction decoding disagreement
-
-Status in QEMU:
-  New
-
-Bug description:
-  =
-
-  When running QEMU V3.1.0 for platform  RISC-V, 64bit, Spike V1.10 with "-=
-d in_asm -singlestep -D qemu_log.txt", my (faulty) test code brought up thi=
-s message in the logs:
-
-    0x000000008002cade:  051300009517e2bf  illegal         =
-
-    Disassembler disagrees with translator over instruction decoding
-    Please report this to qemu-devel@nongnu.org
-
-  =
-
-  You may want to resolve the disagreement.
-
-  Axel
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1826568/+subscriptions
-
+ /* Supervisor Protection and Translation */
+-- 
+2.20.1
