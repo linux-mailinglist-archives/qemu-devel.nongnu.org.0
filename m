@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 583C3144A1
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 08:54:15 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:51449 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B52A1449E
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 08:52:16 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:51424 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNXVu-0001Bv-If
-	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 02:54:14 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59509)
+	id 1hNXTz-0006oy-HQ
+	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 02:52:15 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59507)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hNXRg-0005Od-22
+	(envelope-from <dgibson@ozlabs.org>) id 1hNXRf-0005Ob-Qx
 	for qemu-devel@nongnu.org; Mon, 06 May 2019 02:49:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hNXRe-00067h-Tj
+	(envelope-from <dgibson@ozlabs.org>) id 1hNXRe-00067F-Hg
 	for qemu-devel@nongnu.org; Mon, 06 May 2019 02:49:51 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:37715)
+Received: from ozlabs.org ([2401:3900:2:1::2]:59161)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
-	id 1hNXRd-00064Y-Gs; Mon, 06 May 2019 02:49:50 -0400
+	id 1hNXRd-00064j-I1; Mon, 06 May 2019 02:49:50 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
-	id 44yCyv2rPyz9sB8; Mon,  6 May 2019 16:49:43 +1000 (AEST)
+	id 44yCyv2HCBz9s9T; Mon,  6 May 2019 16:49:43 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
 	d=gibson.dropbear.id.au; s=201602; t=1557125383;
-	bh=vrAqGnCrBjXP7KOKtIiyulQcnHHCtBGcFb21fHSQS3w=;
+	bh=kpiTxPXaiSCDCONvxPyf2zbcoL5tDoylf5HLdKbFgNE=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MAhZ34LysdwR6AjqwIbmQ10oIWQ/PlQiqBaeLXeiXIzOAa5RV4o8ljJKiFk/liAoN
-	EpUvpkSReRGT7q4Mf5q1t5iCdFQq/K6jhVJ0dePLDC0eO3ghcjyAX3THB72qgYV33G
-	AY2VbNBSXrvYEfJAWdb0Y4AAVOGgaik8fjsyce2I=
-Date: Mon, 6 May 2019 16:16:43 +1000
+	b=epwM1B3fufz33hL7Jgpk0rdAT7a7dRJh7HDKaDhxBuupMrWCbrjI0CjXzGJJPgvRY
+	qZTFHYDwPhWt4gt5agpe229zYCf1fczrROKvIl01xwgKDLkiycS/vD2zeGMgAlMP0x
+	uB7RpMK9Y2S7QrcW18OlK6oMTBLq6dQXy4xU6LXo=
+Date: Mon, 6 May 2019 16:17:32 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
-Message-ID: <20190506061643.GI6790@umbus.fritz.box>
+Message-ID: <20190506061732.GJ6790@umbus.fritz.box>
 References: <20190503055316.6441-1-sjitindarsingh@gmail.com>
-	<20190503055316.6441-4-sjitindarsingh@gmail.com>
+	<20190503055316.6441-5-sjitindarsingh@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="4BlIp4fARb6QCoOq"
+	protocol="application/pgp-signature"; boundary="zYo4Elh1vtcYNvbq"
 Content-Disposition: inline
-In-Reply-To: <20190503055316.6441-4-sjitindarsingh@gmail.com>
+In-Reply-To: <20190503055316.6441-5-sjitindarsingh@gmail.com>
 User-Agent: Mutt/1.11.3 (2019-02-01)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
 X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [QEMU-PPC] [PATCH 03/13] target/ppc: Add SPR ASDR
+Subject: Re: [Qemu-devel] [QEMU-PPC] [PATCH 04/13] target/ppc: Add SPR TBU40
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,60 +61,163 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---4BlIp4fARb6QCoOq
+--zYo4Elh1vtcYNvbq
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 03, 2019 at 03:53:06PM +1000, Suraj Jitindar Singh wrote:
-> The Access Segment Descriptor Register (ASDR) provides information about
-> the storage element when taking a hypervisor storage interrupt. When
-> performing nested radix address translation, this is normally the guest
-> real address. This register is present on POWER9 processors and later.
+On Fri, May 03, 2019 at 03:53:07PM +1000, Suraj Jitindar Singh wrote:
+> The spr TBU40 is used to set the upper 40 bits of the timebase
+> register, present on POWER5+ and later processors.
 >=20
-> Implement the ADSR, note read and write access is limited to the
-> hypervisor.
+> This register can only be written by the hypervisor, and cannot be read.
 >=20
 > Signed-off-by: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
 
 Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 
 > ---
->  target/ppc/cpu.h                | 1 +
->  target/ppc/translate_init.inc.c | 6 ++++++
->  2 files changed, 7 insertions(+)
+>  hw/ppc/ppc.c                    | 13 +++++++++++++
+>  target/ppc/cpu.h                |  1 +
+>  target/ppc/helper.h             |  1 +
+>  target/ppc/timebase_helper.c    |  5 +++++
+>  target/ppc/translate_init.inc.c | 19 +++++++++++++++++++
+>  5 files changed, 39 insertions(+)
 >=20
-> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
-> index 19b3e1de0e..8d66265e5a 100644
-> --- a/target/ppc/cpu.h
-> +++ b/target/ppc/cpu.h
-> @@ -1797,6 +1797,7 @@ void ppc_compat_add_property(Object *obj, const cha=
-r *name,
->  #define SPR_MPC_MD_DBRAM1     (0x32A)
->  #define SPR_RCPU_L2U_RA3      (0x32B)
->  #define SPR_TAR               (0x32F)
-> +#define SPR_ASDR              (0x330)
->  #define SPR_IC                (0x350)
->  #define SPR_VTB               (0x351)
->  #define SPR_MMCRC             (0x353)
-> diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.=
-inc.c
-> index 9cd33e79ef..a0cae58e19 100644
-> --- a/target/ppc/translate_init.inc.c
-> +++ b/target/ppc/translate_init.inc.c
-> @@ -8243,6 +8243,12 @@ static void gen_spr_power9_mmu(CPUPPCState *env)
->                          SPR_NOACCESS, SPR_NOACCESS,
->                          &spr_read_generic, &spr_write_ptcr,
->                          KVM_REG_PPC_PTCR, 0x00000000);
-> +    /* Address Segment Descriptor Register */
-> +    spr_register_hv(env, SPR_ASDR, "ASDR",
-> +                    SPR_NOACCESS, SPR_NOACCESS,
-> +                    SPR_NOACCESS, SPR_NOACCESS,
-> +                    &spr_read_generic, &spr_write_generic,
-> +                    0x0000000000000000);
->  #endif
+> diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
+> index b567156f97..b618c6f615 100644
+> --- a/hw/ppc/ppc.c
+> +++ b/hw/ppc/ppc.c
+> @@ -710,6 +710,19 @@ void cpu_ppc_store_vtb(CPUPPCState *env, uint64_t va=
+lue)
+>                       &tb_env->vtb_offset, value);
 >  }
 > =20
+> +void cpu_ppc_store_tbu40(CPUPPCState *env, uint64_t value)
+> +{
+> +    ppc_tb_t *tb_env =3D env->tb_env;
+> +    uint64_t tb;
+> +
+> +    tb =3D cpu_ppc_get_tb(tb_env, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL),
+> +                        tb_env->tb_offset);
+> +    tb &=3D 0xFFFFFFUL;
+> +    tb |=3D (value & ~0xFFFFFFUL);
+> +    cpu_ppc_store_tb(tb_env, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL),
+> +                     &tb_env->tb_offset, tb);
+> +}
+> +
+>  static void cpu_ppc_tb_stop (CPUPPCState *env)
+>  {
+>      ppc_tb_t *tb_env =3D env->tb_env;
+> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> index 8d66265e5a..e324064111 100644
+> --- a/target/ppc/cpu.h
+> +++ b/target/ppc/cpu.h
+> @@ -1334,6 +1334,7 @@ target_ulong cpu_ppc_load_decr (CPUPPCState *env);
+>  void cpu_ppc_store_decr (CPUPPCState *env, target_ulong value);
+>  target_ulong cpu_ppc_load_hdecr (CPUPPCState *env);
+>  void cpu_ppc_store_hdecr (CPUPPCState *env, target_ulong value);
+> +void cpu_ppc_store_tbu40(CPUPPCState *env, uint64_t value);
+>  uint64_t cpu_ppc_load_purr (CPUPPCState *env);
+>  void cpu_ppc_store_purr(CPUPPCState *env, uint64_t value);
+>  uint32_t cpu_ppc601_load_rtcl (CPUPPCState *env);
+> diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+> index 336e7802fb..6aee195528 100644
+> --- a/target/ppc/helper.h
+> +++ b/target/ppc/helper.h
+> @@ -703,6 +703,7 @@ DEF_HELPER_FLAGS_2(store_decr, TCG_CALL_NO_RWG, void,=
+ env, tl)
+>  DEF_HELPER_FLAGS_1(load_hdecr, TCG_CALL_NO_RWG, tl, env)
+>  DEF_HELPER_FLAGS_2(store_hdecr, TCG_CALL_NO_RWG, void, env, tl)
+>  DEF_HELPER_FLAGS_2(store_vtb, TCG_CALL_NO_RWG, void, env, tl)
+> +DEF_HELPER_FLAGS_2(store_tbu40, TCG_CALL_NO_RWG, void, env, tl)
+>  DEF_HELPER_2(store_hid0_601, void, env, tl)
+>  DEF_HELPER_3(store_403_pbr, void, env, i32, tl)
+>  DEF_HELPER_FLAGS_1(load_40x_pit, TCG_CALL_NO_RWG, tl, env)
+> diff --git a/target/ppc/timebase_helper.c b/target/ppc/timebase_helper.c
+> index 2395295b77..703bd9ed18 100644
+> --- a/target/ppc/timebase_helper.c
+> +++ b/target/ppc/timebase_helper.c
+> @@ -128,6 +128,11 @@ void helper_store_vtb(CPUPPCState *env, target_ulong=
+ val)
+>      cpu_ppc_store_vtb(env, val);
+>  }
+> =20
+> +void helper_store_tbu40(CPUPPCState *env, target_ulong val)
+> +{
+> +    cpu_ppc_store_tbu40(env, val);
+> +}
+> +
+>  target_ulong helper_load_40x_pit(CPUPPCState *env)
+>  {
+>      return load_40x_pit(env);
+> diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.=
+inc.c
+> index a0cae58e19..8e287066e5 100644
+> --- a/target/ppc/translate_init.inc.c
+> +++ b/target/ppc/translate_init.inc.c
+> @@ -325,6 +325,11 @@ static void spr_write_vtb(DisasContext *ctx, int spr=
+n, int gprn)
+>      gen_helper_store_vtb(cpu_env, cpu_gpr[gprn]);
+>  }
+> =20
+> +static void spr_write_tbu40(DisasContext *ctx, int sprn, int gprn)
+> +{
+> +    gen_helper_store_tbu40(cpu_env, cpu_gpr[gprn]);
+> +}
+> +
+>  #endif
+>  #endif
+> =20
+> @@ -7812,6 +7817,16 @@ static void gen_spr_power5p_ear(CPUPPCState *env)
+>                   0x00000000);
+>  }
+> =20
+> +static void gen_spr_power5p_tb(CPUPPCState *env)
+> +{
+> +    /* TBU40 (High 40 bits of the Timebase register */
+> +    spr_register_hv(env, SPR_TBU40, "TBU40",
+> +                    SPR_NOACCESS, SPR_NOACCESS,
+> +                    SPR_NOACCESS, SPR_NOACCESS,
+> +                    SPR_NOACCESS, &spr_write_tbu40,
+> +                    0x00000000);
+> +}
+> +
+>  #if !defined(CONFIG_USER_ONLY)
+>  static void spr_write_hmer(DisasContext *ctx, int sprn, int gprn)
+>  {
+> @@ -8352,6 +8367,7 @@ static void init_proc_power5plus(CPUPPCState *env)
+>      gen_spr_power5p_common(env);
+>      gen_spr_power5p_lpar(env);
+>      gen_spr_power5p_ear(env);
+> +    gen_spr_power5p_tb(env);
+> =20
+>      /* env variables */
+>      env->dcache_line_size =3D 128;
+> @@ -8464,6 +8480,7 @@ static void init_proc_POWER7(CPUPPCState *env)
+>      gen_spr_power5p_common(env);
+>      gen_spr_power5p_lpar(env);
+>      gen_spr_power5p_ear(env);
+> +    gen_spr_power5p_tb(env);
+>      gen_spr_power6_common(env);
+>      gen_spr_power6_dbg(env);
+>      gen_spr_power7_book4(env);
+> @@ -8605,6 +8622,7 @@ static void init_proc_POWER8(CPUPPCState *env)
+>      gen_spr_power5p_common(env);
+>      gen_spr_power5p_lpar(env);
+>      gen_spr_power5p_ear(env);
+> +    gen_spr_power5p_tb(env);
+>      gen_spr_power6_common(env);
+>      gen_spr_power6_dbg(env);
+>      gen_spr_power8_tce_address_control(env);
+> @@ -8793,6 +8811,7 @@ static void init_proc_POWER9(CPUPPCState *env)
+>      gen_spr_power5p_common(env);
+>      gen_spr_power5p_lpar(env);
+>      gen_spr_power5p_ear(env);
+> +    gen_spr_power5p_tb(env);
+>      gen_spr_power6_common(env);
+>      gen_spr_power6_dbg(env);
+>      gen_spr_power8_tce_address_control(env);
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -122,25 +225,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---4BlIp4fARb6QCoOq
+--zYo4Elh1vtcYNvbq
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlzP0UsACgkQbDjKyiDZ
-s5JqmBAAsNkqwn0DbMURbWZqmjLDrH08HyFf3TRTrdjZLqqR0mra4e99AxM6aItX
-OhGUkAEXQOf+q5OzgaG9y0IRS9NrVlARG6gg2tRMjDtZBDQyzxZpuN/UlTWyLkjK
-cUX7Ap9PFzDGHPu9gglZjdVDf46g3QAmFBtxdhKWzUVuUVcBVqf+9npjjg4Krezm
-8ItaYvbwsZ90/kwtC5K4OBCOwlLQapJquoY6PsER70ZcJxLSNf0v4fXe5gFQSaAn
-v/xu5/nKvtwJEYeGP6rweoriGfFUtys/iXkJ0RCjQAaVwNGXnvoYFKY9fv3V4WC9
-R902KTBwclG+w+PzK+zyhqKkrrWDNZnI71rJYGDOpeOedOEQotexNSGRkkjfrisQ
-zmcHs0zoQwDavMqDvsDhgS/w/rFomQcS8C0PQg63jEsg0ptVgkZOfCrnEmX+JqKR
-JPX52HRN4Z3A3U8KqJax3yy+4kPLiFT7V7t12KfolAhmRgC0gIetH6hC0z16aDs2
-2Hpctcnus95AGjyb/yJU9hx8nmtIv2Pz4m1Vs/H71AiLZFeMr1zo8DMD1r8La6Y3
-CSjEHDh+dAiQvUD0azS6kF8+nLf8d9L7VsT4Dp5dpu7o1hT5kSGC3dovg9tmdHtc
-DFcDhLbTUz0H4tLZvZOpsnjyuXpsjw2NnmazjEitR/7MsCo9UWI=
-=IH7w
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlzP0XwACgkQbDjKyiDZ
+s5L7Nw//Q9PasQhBFROgBSrfy7BWhMlbjB/WoG/p/fqB/MVVZKvgIfDUorXNZeuE
+tjGdEpEL4EVqrWesUEZ4jl42zzjWFd3YJgOmw/+GyL4odF2vQFZfp/DEubeqF0Yw
+Qb1AH1O2I05+eaRgqhCqsHdEg9JZCu8tPXAs71ja1cxKGQLIxOb8Zjp/tn4mRZiR
+VHreufkqGYVJ5mJ2lEp7q1BUrb3A4ohyG7UX6lwKXc7rU2Wqh1wspMb5QnO+gfxn
+x0JD+diMmrQwqs4M1bmMO7R6/HGtjUAy2pcFx8gD+tsFJVGpNRZXbMy8nNePKGdr
++IS6DW7KRsfLekV/BMR6PnRcK7Yzx1bpslJT7CgKYzsTb2cmKW08tahkc2fKxsA6
+BHXxZRt1UK+Ztiy8ilmqk968KoScp3Ci/ZuyCYFhn6AYxljYsfecl2w7xCr5BnFy
+SV50eah0h2mNG0P/UQs5ef8GV7bxpQqdOLx5MBB/riev3YwIxaS+w2Ut0SdrL7sw
+NLSBmJksTO5+9lpUNw9mJMAmZHFWRfBoICw6VJ5TMKJBRDdpyAVVA+d0cSMGrk/U
+o1c0HjCEhSQftKn/EFnNvKaBoi13J9H8Mql93sxLGhL0BXVIlM/tXh2hSiALEZnP
+rlwwZFfKce6YOiL+tirLEERrJs+81uxOd/6fFGRL98XLxqmpb8k=
+=Bu2L
 -----END PGP SIGNATURE-----
 
---4BlIp4fARb6QCoOq--
+--zYo4Elh1vtcYNvbq--
 
