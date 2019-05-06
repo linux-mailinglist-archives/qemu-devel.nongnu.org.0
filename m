@@ -2,39 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7391B14BF1
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 16:34:47 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57431 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5075414C23
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 16:37:00 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57482 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNeha-0003Nz-M9
-	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 10:34:46 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50256)
+	id 1hNejj-0005CN-H4
+	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 10:36:59 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52275)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hNeaq-0006P5-9W
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 10:27:49 -0400
+	(envelope-from <armbru@redhat.com>) id 1hNehH-0003cz-Cj
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 10:34:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hNeao-0000cS-OC
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 10:27:48 -0400
-Received: from relay.sw.ru ([185.231.240.75]:45614)
+	(envelope-from <armbru@redhat.com>) id 1hNehG-000431-1J
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 10:34:27 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43020)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
-	id 1hNeao-0000bh-Ek; Mon, 06 May 2019 10:27:46 -0400
-Received: from [10.28.8.145] (helo=kvm.sw.ru)
-	by relay.sw.ru with esmtp (Exim 4.91)
-	(envelope-from <vsementsov@virtuozzo.com>)
-	id 1hNeal-000444-Kd; Mon, 06 May 2019 17:27:43 +0300
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-devel@nongnu.org,
-	qemu-block@nongnu.org
-Date: Mon,  6 May 2019 17:27:41 +0300
-Message-Id: <20190506142741.41731-9-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20190506142741.41731-1-vsementsov@virtuozzo.com>
-References: <20190506142741.41731-1-vsementsov@virtuozzo.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH v6 8/8] qcow2: do encryption in threads
+	(Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hNehE-000425-MY
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 10:34:25 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 7E457C06647D;
+	Mon,  6 May 2019 14:34:23 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-28.ams2.redhat.com
+	[10.36.116.28])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 42FDC271BB;
+	Mon,  6 May 2019 14:34:22 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+	id AEF911132B35; Mon,  6 May 2019 16:34:20 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+References: <20190425200051.19906-1-ehabkost@redhat.com>
+Date: Mon, 06 May 2019 16:34:20 +0200
+In-Reply-To: <20190425200051.19906-1-ehabkost@redhat.com> (Eduardo Habkost's
+	message of "Thu, 25 Apr 2019 17:00:47 -0300")
+Message-ID: <87r29bps7n.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.31]);
+	Mon, 06 May 2019 14:34:23 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 0/4] Remove some qdev_get_machine() calls
+ from CONFIG_USER_ONLY
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -46,205 +61,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
-	mreitz@redhat.com, den@openvz.org, pbonzini@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+	qemu-devel@nongnu.org, Like Xu <like.xu@linux.intel.com>,
+	Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Do encryption/decryption in threads, like it is already done for
-compression. This improves asynchronous encrypted io.
+Eduardo Habkost <ehabkost@redhat.com> writes:
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Alberto Garcia <berto@igalia.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
----
- block/qcow2.h         |  8 ++++++
- block/qcow2-cluster.c |  7 ++---
- block/qcow2-threads.c | 65 +++++++++++++++++++++++++++++++++++++++++--
- block/qcow2.c         | 22 +++++----------
- 4 files changed, 81 insertions(+), 21 deletions(-)
+> This series moves some qdev code outside qdev.o, so it can be
+> compiled only in CONFIG_SOFTMMU.
+>
+> The code being moved includes two qdev_get_machine() calls, so
+> this will make it easier to move qdev_get_machine() to
+> CONFIG_SOFTMMU later.
+>
+> After this series, there's one remaining qdev_get_machine() call
+> that seems more difficult to remove:
+>
+>     static void device_set_realized(Object *obj, bool value, Error **errp)
+>     {
+>         /* [...] */
+>         if (!obj->parent) {
+>             gchar *name = g_strdup_printf("device[%d]", unattached_count++);
+>
+>             object_property_add_child(container_get(qdev_get_machine(),
+>                                                     "/unattached"),
+>                                       name, obj, &error_abort);
+>             unattached_parent = true;
+>             g_free(name);
+>         }
+>         /* [...] */
+>     }
+>
+> This one is tricky because on system emulation mode it needs
+> "/machine" to already exist, but in user-only mode it needs to
+> implicitly create a "/machine" container.
 
-diff --git a/block/qcow2.h b/block/qcow2.h
-index 3089e9a68b..5169c0d8ab 100644
---- a/block/qcow2.h
-+++ b/block/qcow2.h
-@@ -264,6 +264,8 @@ typedef struct Qcow2BitmapHeaderExt {
-     uint64_t bitmap_directory_offset;
- } QEMU_PACKED Qcow2BitmapHeaderExt;
- 
-+#define QCOW2_MAX_THREADS 4
-+
- typedef struct BDRVQcow2State {
-     int cluster_bits;
-     int cluster_size;
-@@ -741,5 +743,11 @@ qcow2_co_compress(BlockDriverState *bs, void *dest, size_t dest_size,
- ssize_t coroutine_fn
- qcow2_co_decompress(BlockDriverState *bs, void *dest, size_t dest_size,
-                     const void *src, size_t src_size);
-+int coroutine_fn
-+qcow2_co_encrypt(BlockDriverState *bs, uint64_t file_cluster_offset,
-+                 uint64_t offset, void *buf, size_t len);
-+int coroutine_fn
-+qcow2_co_decrypt(BlockDriverState *bs, uint64_t file_cluster_offset,
-+                 uint64_t offset, void *buf, size_t len);
- 
- #endif
-diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
-index c4965479f6..e6624c6e4e 100644
---- a/block/qcow2-cluster.c
-+++ b/block/qcow2-cluster.c
-@@ -471,13 +471,12 @@ static bool coroutine_fn do_perform_cow_encrypt(BlockDriverState *bs,
- {
-     if (bytes && bs->encrypted) {
-         BDRVQcow2State *s = bs->opaque;
--        int64_t offset = (s->crypt_physical_offset ?
--                          (cluster_offset + offset_in_cluster) :
--                          (src_cluster_offset + offset_in_cluster));
-         assert((offset_in_cluster & ~BDRV_SECTOR_MASK) == 0);
-         assert((bytes & ~BDRV_SECTOR_MASK) == 0);
-         assert(s->crypto);
--        if (qcrypto_block_encrypt(s->crypto, offset, buffer, bytes, NULL) < 0) {
-+        if (qcow2_co_encrypt(bs, cluster_offset,
-+                             src_cluster_offset + offset_in_cluster,
-+                             buffer, bytes) < 0) {
-             return false;
-         }
-     }
-diff --git a/block/qcow2-threads.c b/block/qcow2-threads.c
-index 650aa2ed19..3b1e63fe41 100644
---- a/block/qcow2-threads.c
-+++ b/block/qcow2-threads.c
-@@ -30,8 +30,7 @@
- 
- #include "qcow2.h"
- #include "block/thread-pool.h"
--
--#define QCOW2_MAX_THREADS 4
-+#include "crypto.h"
- 
- static int coroutine_fn
- qcow2_co_process(BlockDriverState *bs, ThreadPoolFunc *func, void *arg)
-@@ -205,3 +204,65 @@ qcow2_co_decompress(BlockDriverState *bs, void *dest, size_t dest_size,
-     return qcow2_co_do_compress(bs, dest, dest_size, src, src_size,
-                                 qcow2_decompress);
- }
-+
-+
-+/*
-+ * Cryptography
-+ */
-+
-+/*
-+ * Qcow2EncDecFunc: common prototype of qcrypto_block_encrypt() and
-+ * qcrypto_block_decrypt() functions.
-+ */
-+typedef int (*Qcow2EncDecFunc)(QCryptoBlock *block, uint64_t offset,
-+                               uint8_t *buf, size_t len, Error **errp);
-+
-+typedef struct Qcow2EncDecData {
-+    QCryptoBlock *block;
-+    uint64_t offset;
-+    uint8_t *buf;
-+    size_t len;
-+
-+    Qcow2EncDecFunc func;
-+} Qcow2EncDecData;
-+
-+static int qcow2_encdec_pool_func(void *opaque)
-+{
-+    Qcow2EncDecData *data = opaque;
-+
-+    return data->func(data->block, data->offset, data->buf, data->len, NULL);
-+}
-+
-+static int coroutine_fn
-+qcow2_co_encdec(BlockDriverState *bs, uint64_t file_cluster_offset,
-+                  uint64_t offset, void *buf, size_t len, Qcow2EncDecFunc func)
-+{
-+    BDRVQcow2State *s = bs->opaque;
-+    Qcow2EncDecData arg = {
-+        .block = s->crypto,
-+        .offset = s->crypt_physical_offset ?
-+                      file_cluster_offset + offset_into_cluster(s, offset) :
-+                      offset,
-+        .buf = buf,
-+        .len = len,
-+        .func = func,
-+    };
-+
-+    return qcow2_co_process(bs, qcow2_encdec_pool_func, &arg);
-+}
-+
-+int coroutine_fn
-+qcow2_co_encrypt(BlockDriverState *bs, uint64_t file_cluster_offset,
-+                 uint64_t offset, void *buf, size_t len)
-+{
-+    return qcow2_co_encdec(bs, file_cluster_offset, offset, buf, len,
-+                             qcrypto_block_encrypt);
-+}
-+
-+int coroutine_fn
-+qcow2_co_decrypt(BlockDriverState *bs, uint64_t file_cluster_offset,
-+                 uint64_t offset, void *buf, size_t len)
-+{
-+    return qcow2_co_encdec(bs, file_cluster_offset, offset, buf, len,
-+                             qcrypto_block_decrypt);
-+}
-diff --git a/block/qcow2.c b/block/qcow2.c
-index cba2328005..dee3b8cca3 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -297,7 +297,7 @@ static int qcow2_read_extensions(BlockDriverState *bs, uint64_t start_offset,
-             }
-             s->crypto = qcrypto_block_open(s->crypto_opts, "encrypt.",
-                                            qcow2_crypto_hdr_read_func,
--                                           bs, cflags, 1, errp);
-+                                           bs, cflags, QCOW2_MAX_THREADS, errp);
-             if (!s->crypto) {
-                 return -EINVAL;
-             }
-@@ -1539,7 +1539,8 @@ static int coroutine_fn qcow2_do_open(BlockDriverState *bs, QDict *options,
-                 cflags |= QCRYPTO_BLOCK_OPEN_NO_IO;
-             }
-             s->crypto = qcrypto_block_open(s->crypto_opts, "encrypt.",
--                                           NULL, NULL, cflags, 1, errp);
-+                                           NULL, NULL, cflags,
-+                                           QCOW2_MAX_THREADS, errp);
-             if (!s->crypto) {
-                 ret = -EINVAL;
-                 goto fail;
-@@ -2062,13 +2063,8 @@ static coroutine_fn int qcow2_co_preadv(BlockDriverState *bs, uint64_t offset,
-                 assert(s->crypto);
-                 assert((offset & (BDRV_SECTOR_SIZE - 1)) == 0);
-                 assert((cur_bytes & (BDRV_SECTOR_SIZE - 1)) == 0);
--                if (qcrypto_block_decrypt(s->crypto,
--                                          (s->crypt_physical_offset ?
--                                           cluster_offset + offset_in_cluster :
--                                           offset),
--                                          cluster_data,
--                                          cur_bytes,
--                                          NULL) < 0) {
-+                if (qcow2_co_decrypt(bs, cluster_offset, offset,
-+                                     cluster_data, cur_bytes) < 0) {
-                     ret = -EIO;
-                     goto fail;
-                 }
-@@ -2202,12 +2198,8 @@ static coroutine_fn int qcow2_co_pwritev(BlockDriverState *bs, uint64_t offset,
-                    QCOW_MAX_CRYPT_CLUSTERS * s->cluster_size);
-             qemu_iovec_to_buf(&hd_qiov, 0, cluster_data, hd_qiov.size);
- 
--            if (qcrypto_block_encrypt(s->crypto,
--                                      (s->crypt_physical_offset ?
--                                       cluster_offset + offset_in_cluster :
--                                       offset),
--                                      cluster_data,
--                                      cur_bytes, NULL) < 0) {
-+            if (qcow2_co_encrypt(bs, cluster_offset, offset,
-+                                 cluster_data, cur_bytes) < 0) {
-                 ret = -EIO;
-                 goto out_unlocked;
-             }
--- 
-2.18.0
-
+The patches look good to me on a glance.  Looking forward to v2.
 
