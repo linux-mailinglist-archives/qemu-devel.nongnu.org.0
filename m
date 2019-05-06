@@ -2,97 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16EF4150D8
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 18:02:34 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58682 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 61650150E3
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 18:08:39 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58936 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNg4W-00009T-LZ
-	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 12:02:32 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42651)
+	id 1hNgAQ-00058g-JU
+	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 12:08:38 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44053)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hNg1u-0007Oq-5z
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 11:59:51 -0400
+	(envelope-from <mreitz@redhat.com>) id 1hNg7a-0003JR-SO
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 12:05:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hNg1t-0005lG-81
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 11:59:50 -0400
-Received: from mail-mr2fra01on071e.outbound.protection.outlook.com
-	([2a01:111:f400:7e19::71e]:63488
-	helo=FRA01-MR2-obe.outbound.protection.outlook.com)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
-	id 1hNg1r-0005iy-6O; Mon, 06 May 2019 11:59:47 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
-	s=selector1;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=LxduW7+UHd/LcPzq9o20V+gqZEOdHcc9Fiimf9PcDZE=;
-	b=XR4972oe4U/0g6S2ufSbgvCMzba7P/3/dSZ8IMkfhl+Xt2R6AisO6hTCBzwaTpqQSoYvHlzVqTHdOeqQQuA0glTykHlZO0zerzJx5U2VOd8b09ounlozhg2VCuQDzVAi93sIHmPv/It0tPQp7iPcGILfvGcGEoONv0Wuus8ROjU=
-Received: from PR2PR08MB4684.eurprd08.prod.outlook.com (52.133.109.209) by
-	PR2PR08MB4875.eurprd08.prod.outlook.com (52.133.111.15) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.1856.12; Mon, 6 May 2019 15:59:44 +0000
-Received: from PR2PR08MB4684.eurprd08.prod.outlook.com
-	([fe80::9c35:2e89:30c4:5cc4]) by
-	PR2PR08MB4684.eurprd08.prod.outlook.com
-	([fe80::9c35:2e89:30c4:5cc4%3]) with mapi id 15.20.1856.012;
-	Mon, 6 May 2019 15:59:44 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: Alberto Garcia <berto@igalia.com>, "qemu-devel@nongnu.org"
-	<qemu-devel@nongnu.org>
-Thread-Topic: [Qemu-devel] [PATCH v2 5/5] qcow2: Remove
-	BDRVQcow2State.cluster_sectors
-Thread-Index: AQHVAEpAZr9BQuN8f0K5K+sckR8m9qZeSNoA
-Date: Mon, 6 May 2019 15:59:44 +0000
-Message-ID: <8f11aaf4-4115-a5d6-a92b-00dde298eb13@virtuozzo.com>
-References: <cover.1556732434.git.berto@igalia.com>
-	<6026d9eb2851d22f6ff031e208120735361ea606.1556732434.git.berto@igalia.com>
-In-Reply-To: <6026d9eb2851d22f6ff031e208120735361ea606.1556732434.git.berto@igalia.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1P195CA0010.EURP195.PROD.OUTLOOK.COM (2603:10a6:3:fd::20)
-	To PR2PR08MB4684.eurprd08.prod.outlook.com
-	(2603:10a6:101:22::17)
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20190506185942780
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: a97fae4c-ff85-4e33-0590-08d6d23bdb61
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(2017052603328)(7193020);
-	SRVR:PR2PR08MB4875; 
-x-ms-traffictypediagnostic: PR2PR08MB4875:
-x-microsoft-antispam-prvs: <PR2PR08MB48752B55961B07E594757FC0C1300@PR2PR08MB4875.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:2276;
-x-forefront-prvs: 0029F17A3F
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(366004)(376002)(346002)(39850400004)(136003)(396003)(199004)(189003)(76176011)(8936002)(81166006)(6506007)(36756003)(25786009)(5660300002)(386003)(446003)(8676002)(478600001)(2501003)(71200400001)(71190400001)(256004)(99286004)(52116002)(81156014)(68736007)(7736002)(66066001)(305945005)(31696002)(102836004)(4326008)(31686004)(186003)(229853002)(6512007)(2906002)(86362001)(6486002)(316002)(53936002)(6436002)(54906003)(110136005)(64756008)(66446008)(66556008)(3846002)(66476007)(6116002)(73956011)(486006)(66946007)(6246003)(476003)(2616005)(26005)(11346002)(14454004)(558084003);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:PR2PR08MB4875;
-	H:PR2PR08MB4684.eurprd08.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: TvQZAltPoEhV/bVrcecTXr2f6/TXAkTvZ8JvtUSooae7LLaeAL05QjrUic9LGiaapv2IvqsL/MQWy9GFNoSkvT/Oirv2K50sU3K63n80umX3VAjHVbZzBABi928DlhzTUK61FneriCNQC/XcSKWWXyJdTYZXayKZhufiJIGJG43Y6yP2BfgGOyc3DeZo7HqRUxtfOIXdXXYMKDbqrjsQOqmf1ulfx1UZix466ntyLsGxsx+NTZUe1aPM4SdyGIOdAZwsAblZEe2ys3wfyUEyHvbEfVFfH0WCWDBT6+5tNCRQCv53mqEMGyVOLZJB9SF+cGoS0jkul1oFha7iXtaHfO9g5RCryrXhNDa08q/6wv64WnBGG3CGcNUKszZwI4T7q2WeX2p9Vr5ev9gSwW0ew4DPFCIcB3ukcBsbi7PFQBo=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <3D3CAA83D58DFC41822086B0661EDAE4@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	(envelope-from <mreitz@redhat.com>) id 1hNg7Z-0002qk-NU
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 12:05:42 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49816)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
+	id 1hNg7S-0002eT-Tl; Mon, 06 May 2019 12:05:35 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id A11F987633;
+	Mon,  6 May 2019 16:05:31 +0000 (UTC)
+Received: from localhost (ovpn-204-185.brq.redhat.com [10.40.204.185])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 336147C43D;
+	Mon,  6 May 2019 16:05:31 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Date: Mon,  6 May 2019 18:05:29 +0200
+Message-Id: <20190506160529.6955-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: a97fae4c-ff85-4e33-0590-08d6d23bdb61
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 May 2019 15:59:44.7147 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR2PR08MB4875
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 2a01:111:f400:7e19::71e
-Subject: Re: [Qemu-devel] [PATCH v2 5/5] qcow2: Remove
- BDRVQcow2State.cluster_sectors
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.26]);
+	Mon, 06 May 2019 16:05:31 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH] iotests: Fix 233 for ports other than 10809
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -104,16 +53,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
-	"qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 	Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MDEuMDUuMjAxOSAyMToxMywgQWxiZXJ0byBHYXJjaWEgd3JvdGU6DQo+IFRoZSBsYXN0IHVzZXIg
-b2YgdGhpcyBmaWVsZCBkaXNhcHBlYXJlZCB3aGVuIHdlIHJlcGxhY2UgdGhlDQo+IHNlY3Rvci1i
-YXNlZCBiZHJ2X3dyaXRlKCkgd2l0aCB0aGUgYnl0ZS1iYXNlZCBiZHJ2X3B3cml0ZSgpLg0KPiAN
-Cj4gU2lnbmVkLW9mZi1ieTogQWxiZXJ0byBHYXJjaWEgPGJlcnRvQGlnYWxpYS5jb20+DQoNCg0K
-UmV2aWV3ZWQtYnk6IFZsYWRpbWlyIFNlbWVudHNvdi1PZ2lldnNraXkgPHZzZW1lbnRzb3ZAdmly
-dHVvenpvLmNvbT4NCg0KDQoNCi0tIA0KQmVzdCByZWdhcmRzLA0KVmxhZGltaXINCg==
+233 generally filters the port, but in two cases does not.  If some
+other concurrently running application has already taken port 10809,
+this will result in an output mismatch.  Fix this by applying the
+filter in these two cases, too.
+
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+ tests/qemu-iotests/233     | 6 ++++--
+ tests/qemu-iotests/233.out | 4 ++--
+ 2 files changed, 6 insertions(+), 4 deletions(-)
+
+diff --git a/tests/qemu-iotests/233 b/tests/qemu-iotests/233
+index b8b6c8cc4c..41b4d46560 100755
+--- a/tests/qemu-iotests/233
++++ b/tests/qemu-iotests/233
+@@ -139,11 +139,13 @@ nbd_server_start_tcp_socket \
+=20
+ $QEMU_IMG info --image-opts \
+     --object tls-creds-x509,dir=3D${tls_dir}/client1,endpoint=3Dclient,i=
+d=3Dtls0 \
+-    driver=3Dnbd,host=3D$nbd_tcp_addr,port=3D$nbd_tcp_port,tls-creds=3Dt=
+ls0
++    driver=3Dnbd,host=3D$nbd_tcp_addr,port=3D$nbd_tcp_port,tls-creds=3Dt=
+ls0 \
++    2>&1 | sed "s/$nbd_tcp_port/PORT/g"
+=20
+ $QEMU_IMG info --image-opts \
+     --object tls-creds-x509,dir=3D${tls_dir}/client3,endpoint=3Dclient,i=
+d=3Dtls0 \
+-    driver=3Dnbd,host=3D$nbd_tcp_addr,port=3D$nbd_tcp_port,tls-creds=3Dt=
+ls0
++    driver=3Dnbd,host=3D$nbd_tcp_addr,port=3D$nbd_tcp_port,tls-creds=3Dt=
+ls0 \
++    2>&1 | sed "s/$nbd_tcp_port/PORT/g"
+=20
+ echo
+ echo "=3D=3D final server log =3D=3D"
+diff --git a/tests/qemu-iotests/233.out b/tests/qemu-iotests/233.out
+index 4edc2dd5cf..9b46284ab0 100644
+--- a/tests/qemu-iotests/233.out
++++ b/tests/qemu-iotests/233.out
+@@ -57,8 +57,8 @@ read 1048576/1048576 bytes at offset 1048576
+ 1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+=20
+ =3D=3D check TLS with authorization =3D=3D
+-qemu-img: Could not open 'driver=3Dnbd,host=3D127.0.0.1,port=3D10809,tls=
+-creds=3Dtls0': Failed to read option reply: Cannot read from TLS channel=
+: Software caused connection abort
+-qemu-img: Could not open 'driver=3Dnbd,host=3D127.0.0.1,port=3D10809,tls=
+-creds=3Dtls0': Failed to read option reply: Cannot read from TLS channel=
+: Software caused connection abort
++qemu-img: Could not open 'driver=3Dnbd,host=3D127.0.0.1,port=3DPORT,tls-=
+creds=3Dtls0': Failed to read option reply: Cannot read from TLS channel:=
+ Software caused connection abort
++qemu-img: Could not open 'driver=3Dnbd,host=3D127.0.0.1,port=3DPORT,tls-=
+creds=3Dtls0': Failed to read option reply: Cannot read from TLS channel:=
+ Software caused connection abort
+=20
+ =3D=3D final server log =3D=3D
+ qemu-nbd: option negotiation failed: Verify failed: No certificate was f=
+ound.
+--=20
+2.20.1
+
 
