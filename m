@@ -2,54 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96F6B14ADF
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 15:25:25 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:56568 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A40C14AF5
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 15:33:17 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:56718 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNdcS-0000oK-Ly
-	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 09:25:24 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35192)
+	id 1hNdk4-0005Qk-7o
+	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 09:33:16 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37482)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hNdaK-00086U-Av
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 09:23:13 -0400
+	(envelope-from <kheib@redhat.com>) id 1hNdii-00055R-Fm
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 09:31:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hNdaJ-0003Id-9J
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 09:23:12 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46700)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hNdaJ-0003GI-1E
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 09:23:11 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
-	[10.5.11.12])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id EEAD63082E60;
-	Mon,  6 May 2019 13:23:09 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-28.ams2.redhat.com
-	[10.36.116.28])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id BC55E60C43;
-	Mon,  6 May 2019 13:23:09 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
-	id 382A01132B35; Mon,  6 May 2019 15:23:08 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Stefano Garzarella <sgarzare@redhat.com>
-References: <20190503170631.228487-1-sgarzare@redhat.com>
-Date: Mon, 06 May 2019 15:23:08 +0200
-In-Reply-To: <20190503170631.228487-1-sgarzare@redhat.com> (Stefano
-	Garzarella's message of "Fri, 3 May 2019 19:06:31 +0200")
-Message-ID: <878svjra2r.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+	(envelope-from <kheib@redhat.com>) id 1hNdih-0001mN-Io
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 09:31:52 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:36654)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <kheib@redhat.com>) id 1hNdih-0001lW-CQ
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 09:31:51 -0400
+Received: by mail-wm1-f67.google.com with SMTP id n25so1569681wmi.1
+	for <qemu-devel@nongnu.org>; Mon, 06 May 2019 06:31:49 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=vSN7Thh132WZDfZrspRnY/ocym5CKOY6vT5Z4gWzOks=;
+	b=i/m98k0Y4fk9BRSsS1WPEcJ5T9wGsmBrYSUmBK7M2Zqk18s7URrY8ZPd1wbIapPnBo
+	WdiAoYdWO6sYqTF+ihdDyDmQi3ojP8CJw9DKzzHTgtvcRrYffStqJqvPiOmdEn5a675X
+	jVvwP8muWiXYjYK3NHObjoChZiGThHZu7dYWe7zbavUxqmtjUEdKuF5Lo+yO4/38+qSn
+	cNg77kybic5HN2YL4T/PVPn6WmUQrlvs0XzUQMyDGt04o++yDbxs6oOAsBXTEGr3sh3q
+	2Apeq1Pu/jmO3TrYXQByQGF2ivwV2znS4KKsFqTc9pUDtu4uTj3Qvv6gUhX4TC6yJPVS
+	YNIg==
+X-Gm-Message-State: APjAAAXBhGQ6ygAKLm2z7icYGk56sSJCjAQrXTQuThn+dRfUAi9+J2Jy
+	oQ/2FNaIDFhKH7ahq9GBbqjuBgOd5YA=
+X-Google-Smtp-Source: APXvYqxENha2A43cl2o9EM50RQxuMohbe49D2A4D8kaNBOXSKWA9ZmFUfPfySbS/YjlsfkyxEZDgtw==
+X-Received: by 2002:a1c:f413:: with SMTP id z19mr17352882wma.71.1557149508728; 
+	Mon, 06 May 2019 06:31:48 -0700 (PDT)
+Received: from [192.168.1.105] (bzq-109-67-4-126.red.bezeqint.net.
+	[109.67.4.126]) by smtp.gmail.com with ESMTPSA id
+	v18sm9100787wro.11.2019.05.06.06.31.47
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Mon, 06 May 2019 06:31:48 -0700 (PDT)
+To: Yuval Shaia <yuval.shaia@oracle.com>, marcel.apfelbaum@gmail.com,
+	qemu-devel@nongnu.org
+References: <20190505105112.22691-1-yuval.shaia@oracle.com>
+From: Kamal Heib <kheib@redhat.com>
+Message-ID: <278d00ab-768c-c6b4-fc2a-5a1ee2e2ba79@redhat.com>
+Date: Mon, 6 May 2019 16:31:45 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.46]);
-	Mon, 06 May 2019 13:23:10 +0000 (UTC)
+In-Reply-To: <20190505105112.22691-1-yuval.shaia@oracle.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] net: avoid to use variable length array in
- net_client_init()
+	[fuzzy]
+X-Received-From: 209.85.128.67
+Subject: Re: [Qemu-devel] [PATCH] hw/rdma: Delete unused headers inclusion
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,80 +72,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
-	qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Stefano Garzarella <sgarzare@redhat.com> writes:
 
-> net_client_init() uses a variable length array to store the prefix
-> of 'ipv6-net' parameter (e.g. if ipv6-net=fec0::0/64, the prefix
-> is 'fec0::0').
-> Since the IPv6 prefix can be at most as long as an IPv6 address,
-> we can use an array with fixed size equals to INET6_ADDRSTRLEN.
->
-> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+
+On 5/5/19 1:51 PM, Yuval Shaia wrote:
+> This is a trivial cleanup patch.
+> 
+> Signed-off-by: Yuval Shaia <yuval.shaia@oracle.com>
 > ---
->  net/net.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/net/net.c b/net/net.c
-> index f3a3c5444c..2e5f27e121 100644
-> --- a/net/net.c
-> +++ b/net/net.c
-> @@ -1118,7 +1118,7 @@ static int net_client_init(QemuOpts *opts, bool is_netdev, Error **errp)
->          const char *ip6_net = qemu_opt_get(opts, "ipv6-net");
+>  hw/rdma/rdma_backend.c | 7 -------
+>  1 file changed, 7 deletions(-)
+> 
+> diff --git a/hw/rdma/rdma_backend.c b/hw/rdma/rdma_backend.c
+> index d1660b6474..05f6b03221 100644
+> --- a/hw/rdma/rdma_backend.c
+> +++ b/hw/rdma/rdma_backend.c
+> @@ -14,16 +14,9 @@
+>   */
 >  
->          if (ip6_net) {
-> -            char buf[strlen(ip6_net) + 1];
-> +            char buf[INET6_ADDRSTRLEN];
+>  #include "qemu/osdep.h"
+> -#include "sysemu/sysemu.h"
+> -#include "qapi/error.h"
+> -#include "qapi/qmp/qlist.h"
+> -#include "qapi/qmp/qnum.h"
+>  #include "qapi/qapi-events-rdma.h"
 >  
->              if (get_str_sep(buf, sizeof(buf), &ip6_net, '/') < 0) {
->                  /* Default 64bit prefix length.  */
+>  #include <infiniband/verbs.h>
+> -#include <infiniband/umad_types.h>
+> -#include <infiniband/umad.h>
+> -#include <rdma/rdma_user_cm.h>
+>  
+>  #include "contrib/rdmacm-mux/rdmacm-mux.h"
+>  #include "trace.h"
+> 
 
-Hmm.
-
-Parameter "ipv6-net" is of the form ADDRESS[/PREFIX-SIZE].  If
-/PREFIX-SIZE is present, get_str_sep() copies the ADDRESS part to buf[].
-
-However, nothing stops the user from passing in an ADDRESS longer than
-INET6_ADDRSTRLEN, say by adding a enough leading zeros.  get_str_sep()
-will then silently truncate ADDRESS.
-
-Suggest to avoid get_str_sep() like this (not even compile-tested):
-
-        if (ip6_net) {
-            char *slashp = strchr(ip6_net, '/');
-
-            if (!slashp) {
-                /* Default 64bit prefix length.  */
-                qemu_opt_set(opts, "ipv6-prefix", ip6_net, &error_abort);
-                qemu_opt_set_number(opts, "ipv6-prefixlen", 64, &error_abort);
-            } else {
-                /* User-specified prefix length.  */
-                unsigned long len;
-                int err;
-                char *addr = g_strndup(ip6_net, slashp - ip6_net);
-
-                qemu_opt_set(opts, "ipv6-prefix", addr, &error_abort);
-                g_free(addr);
-                err = qemu_strtoul(slashp + 1, NULL, 10, &len);
-                if (err) {
-                    error_setg(errp, QERR_INVALID_PARAMETER_VALUE,
-                              "ipv6-prefix", "a number");
-                } else {
-                    qemu_opt_set_number(opts, "ipv6-prefixlen", len,
-                                        &error_abort);
-                }
-            }
-            qemu_opt_unset(opts, "ipv6-net");
-        }
-    }
-
-I'd be tempted to clean up further; de-duplicate the qemu_opt_set() and
-qemu_opt_set_number().
-
-There's just one more use of get_str_sep(), in parse_host_port(), and it
-looks just as prone to silent truncation.
+Reviewed-by: Kamal Heib <kheib@redhat.com>
 
