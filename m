@@ -2,39 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 423F214BD5
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 16:31:53 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57403 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42B3014BF2
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 16:34:48 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57433 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNeem-00010N-EZ
-	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 10:31:52 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50249)
+	id 1hNehb-0003Op-Fd
+	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 10:34:47 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50252)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hNeaq-0006Ow-3j
+	(envelope-from <vsementsov@virtuozzo.com>) id 1hNeaq-0006Oz-4n
 	for qemu-devel@nongnu.org; Mon, 06 May 2019 10:27:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hNeao-0000cg-Qg
+	(envelope-from <vsementsov@virtuozzo.com>) id 1hNeao-0000cm-Qj
 	for qemu-devel@nongnu.org; Mon, 06 May 2019 10:27:48 -0400
-Received: from relay.sw.ru ([185.231.240.75]:45596)
+Received: from relay.sw.ru ([185.231.240.75]:45586)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
-	id 1hNeao-0000bg-Go; Mon, 06 May 2019 10:27:46 -0400
+	id 1hNeao-0000be-GZ; Mon, 06 May 2019 10:27:46 -0400
 Received: from [10.28.8.145] (helo=kvm.sw.ru)
 	by relay.sw.ru with esmtp (Exim 4.91)
 	(envelope-from <vsementsov@virtuozzo.com>)
-	id 1hNeak-000444-W9; Mon, 06 May 2019 17:27:43 +0300
+	id 1hNeal-000444-71; Mon, 06 May 2019 17:27:43 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Date: Mon,  6 May 2019 17:27:38 +0300
-Message-Id: <20190506142741.41731-6-vsementsov@virtuozzo.com>
+Date: Mon,  6 May 2019 17:27:39 +0300
+Message-Id: <20190506142741.41731-7-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20190506142741.41731-1-vsementsov@virtuozzo.com>
 References: <20190506142741.41731-1-vsementsov@virtuozzo.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH v6 5/8] qcow2-threads: split out generic path
+Subject: [Qemu-devel] [PATCH v6 6/8] qcow2: qcow2_co_preadv: improve locking
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -51,117 +51,83 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Move generic part out of qcow2_co_do_compress, to reuse it for
-encryption and rename things that would be shared with encryption path.
+Background: decryption will be done in threads, to take benefit of it,
+we should move it out of the lock first.
+
+But let's go further: it turns out, that only
+qcow2_get_cluster_offset() needs locking, so reduce locking to it.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Alberto Garcia <berto@igalia.com>
-Reviewed-by: Max Reitz <mreitz@redhat.com>
 ---
- block/qcow2.h         |  4 ++--
- block/qcow2-threads.c | 47 ++++++++++++++++++++++++++++---------------
- block/qcow2.c         |  2 +-
- 3 files changed, 34 insertions(+), 19 deletions(-)
+ block/qcow2.c | 12 ++----------
+ 1 file changed, 2 insertions(+), 10 deletions(-)
 
-diff --git a/block/qcow2.h b/block/qcow2.h
-index 61079f7ee8..3089e9a68b 100644
---- a/block/qcow2.h
-+++ b/block/qcow2.h
-@@ -347,8 +347,8 @@ typedef struct BDRVQcow2State {
-     char *image_backing_format;
-     char *image_data_file;
- 
--    CoQueue compress_wait_queue;
--    int nb_compress_threads;
-+    CoQueue thread_task_queue;
-+    int nb_threads;
- 
-     BdrvChild *data_file;
- } BDRVQcow2State;
-diff --git a/block/qcow2-threads.c b/block/qcow2-threads.c
-index 50a9fdeec5..650aa2ed19 100644
---- a/block/qcow2-threads.c
-+++ b/block/qcow2-threads.c
-@@ -31,7 +31,36 @@
- #include "qcow2.h"
- #include "block/thread-pool.h"
- 
--#define MAX_COMPRESS_THREADS 4
-+#define QCOW2_MAX_THREADS 4
-+
-+static int coroutine_fn
-+qcow2_co_process(BlockDriverState *bs, ThreadPoolFunc *func, void *arg)
-+{
-+    int ret;
-+    BDRVQcow2State *s = bs->opaque;
-+    ThreadPool *pool = aio_get_thread_pool(bdrv_get_aio_context(bs));
-+
-+    qemu_co_mutex_lock(&s->lock);
-+    while (s->nb_threads >= QCOW2_MAX_THREADS) {
-+        qemu_co_queue_wait(&s->thread_task_queue, &s->lock);
-+    }
-+    s->nb_threads++;
-+    qemu_co_mutex_unlock(&s->lock);
-+
-+    ret = thread_pool_submit_co(pool, func, arg);
-+
-+    qemu_co_mutex_lock(&s->lock);
-+    s->nb_threads--;
-+    qemu_co_queue_next(&s->thread_task_queue);
-+    qemu_co_mutex_unlock(&s->lock);
-+
-+    return ret;
-+}
-+
-+
-+/*
-+ * Compression
-+ */
- 
- typedef ssize_t (*Qcow2CompressFunc)(void *dest, size_t dest_size,
-                                      const void *src, size_t src_size);
-@@ -148,8 +177,6 @@ static ssize_t coroutine_fn
- qcow2_co_do_compress(BlockDriverState *bs, void *dest, size_t dest_size,
-                      const void *src, size_t src_size, Qcow2CompressFunc func)
- {
--    BDRVQcow2State *s = bs->opaque;
--    ThreadPool *pool = aio_get_thread_pool(bdrv_get_aio_context(bs));
-     Qcow2CompressData arg = {
-         .dest = dest,
-         .dest_size = dest_size,
-@@ -158,19 +185,7 @@ qcow2_co_do_compress(BlockDriverState *bs, void *dest, size_t dest_size,
-         .func = func,
-     };
- 
--    qemu_co_mutex_lock(&s->lock);
--    while (s->nb_compress_threads >= MAX_COMPRESS_THREADS) {
--        qemu_co_queue_wait(&s->compress_wait_queue, &s->lock);
--    }
--    s->nb_compress_threads++;
--    qemu_co_mutex_unlock(&s->lock);
--
--    thread_pool_submit_co(pool, qcow2_compress_pool_func, &arg);
--
--    qemu_co_mutex_lock(&s->lock);
--    s->nb_compress_threads--;
--    qemu_co_queue_next(&s->compress_wait_queue);
--    qemu_co_mutex_unlock(&s->lock);
-+    qcow2_co_process(bs, qcow2_compress_pool_func, &arg);
- 
-     return arg.ret;
- }
 diff --git a/block/qcow2.c b/block/qcow2.c
-index facf8ab993..7970d0992a 100644
+index 7970d0992a..5954696245 100644
 --- a/block/qcow2.c
 +++ b/block/qcow2.c
-@@ -1694,7 +1694,7 @@ static int coroutine_fn qcow2_do_open(BlockDriverState *bs, QDict *options,
-     }
- #endif
+@@ -1970,8 +1970,6 @@ static coroutine_fn int qcow2_co_preadv(BlockDriverState *bs, uint64_t offset,
  
--    qemu_co_queue_init(&s->compress_wait_queue);
-+    qemu_co_queue_init(&s->thread_task_queue);
+     qemu_iovec_init(&hd_qiov, qiov->niov);
  
-     return ret;
+-    qemu_co_mutex_lock(&s->lock);
+-
+     while (bytes != 0) {
+ 
+         /* prepare next request */
+@@ -1981,7 +1979,9 @@ static coroutine_fn int qcow2_co_preadv(BlockDriverState *bs, uint64_t offset,
+                             QCOW_MAX_CRYPT_CLUSTERS * s->cluster_size);
+         }
+ 
++        qemu_co_mutex_lock(&s->lock);
+         ret = qcow2_get_cluster_offset(bs, offset, &cur_bytes, &cluster_offset);
++        qemu_co_mutex_unlock(&s->lock);
+         if (ret < 0) {
+             goto fail;
+         }
+@@ -1996,10 +1996,8 @@ static coroutine_fn int qcow2_co_preadv(BlockDriverState *bs, uint64_t offset,
+ 
+             if (bs->backing) {
+                 BLKDBG_EVENT(bs->file, BLKDBG_READ_BACKING_AIO);
+-                qemu_co_mutex_unlock(&s->lock);
+                 ret = bdrv_co_preadv(bs->backing, offset, cur_bytes,
+                                      &hd_qiov, 0);
+-                qemu_co_mutex_lock(&s->lock);
+                 if (ret < 0) {
+                     goto fail;
+                 }
+@@ -2015,11 +2013,9 @@ static coroutine_fn int qcow2_co_preadv(BlockDriverState *bs, uint64_t offset,
+             break;
+ 
+         case QCOW2_CLUSTER_COMPRESSED:
+-            qemu_co_mutex_unlock(&s->lock);
+             ret = qcow2_co_preadv_compressed(bs, cluster_offset,
+                                              offset, cur_bytes,
+                                              &hd_qiov);
+-            qemu_co_mutex_lock(&s->lock);
+             if (ret < 0) {
+                 goto fail;
+             }
+@@ -2056,11 +2052,9 @@ static coroutine_fn int qcow2_co_preadv(BlockDriverState *bs, uint64_t offset,
+             }
+ 
+             BLKDBG_EVENT(bs->file, BLKDBG_READ_AIO);
+-            qemu_co_mutex_unlock(&s->lock);
+             ret = bdrv_co_preadv(s->data_file,
+                                  cluster_offset + offset_in_cluster,
+                                  cur_bytes, &hd_qiov, 0);
+-            qemu_co_mutex_lock(&s->lock);
+             if (ret < 0) {
+                 goto fail;
+             }
+@@ -2095,8 +2089,6 @@ static coroutine_fn int qcow2_co_preadv(BlockDriverState *bs, uint64_t offset,
+     ret = 0;
+ 
+ fail:
+-    qemu_co_mutex_unlock(&s->lock);
+-
+     qemu_iovec_destroy(&hd_qiov);
+     qemu_vfree(cluster_data);
  
 -- 
 2.18.0
