@@ -2,48 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E61F1502D
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 17:27:33 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58210 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 585AC14C7F
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 16:41:26 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57581 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNfWe-0003bU-P2
-	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 11:27:32 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35303)
-	by lists.gnu.org with esmtp (Exim 4.71) (envelope-from
-	<590216e2666653bac21d950aaba98f87d0a53324@lizzy.crudebyte.com>)
-	id 1hNfTl-0001XV-Tu
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 11:24:34 -0400
+	id 1hNeo1-00070d-I6
+	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 10:41:25 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53452)
+	by lists.gnu.org with esmtp (Exim 4.71)
+	(envelope-from <lersek@redhat.com>) id 1hNemW-0006B7-N9
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 10:39:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from
-	<590216e2666653bac21d950aaba98f87d0a53324@lizzy.crudebyte.com>)
-	id 1hNfTl-0005fj-0q
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 11:24:33 -0400
-Received: from lizzy.crudebyte.com ([91.194.90.13]:47307)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from
-	<590216e2666653bac21d950aaba98f87d0a53324@lizzy.crudebyte.com>)
-	id 1hNfTk-0004zc-Qe
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 11:24:32 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=crudebyte.com; s=lizzy; h=Subject:Date:Cc:To:From:Message-Id:Sender:
-	Reply-To:MIME-Version:Content-Type:Content-Transfer-Encoding:Content-ID:
-	Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-	:Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=T+6uJPoWkfQD/iVYDTZBTRiGcUZBD2zXjAiXeKoQClw=;
-	b=A3UYPLVO84NTGWQ2gdfsTeZRRJ
-	QubENPHv1XGK95x5a53qRG4QuZOF7ZKJkDJoGCw7wE0OJ9f8ZC05+Hvommr7FheHvrxmrg0S+rChC
-	5H2XDz2g7Lfd52UBUa2hf0KTvAHAswrqQeNmtc/o/BOeJULSJhufKJ4iCGenVugbtGvq0Hgf0xETn
-	xUrpqD6gKXa8qJBcmVQOfcVW5zAIeWde+7yR+XwJ84XHCIVLuvLfHGq/RPx7PP/D/4i3YNkeW4/u/
-	d4dNlk1YiSyB+5JS4cfcUssAhIHOhn8N+0CzANhjBWOoiJgVbXMaHVNXHVvaGOckJxAZWJkmqBLBN
-	wjfqJuKQ==;
-Message-Id: <cover.1557093245.git.qemu_oss@crudebyte.com>
-To: qemu-devel@nongnu.org
-Date: Mon, 6 May 2019 16:37:15 +0200
+	(envelope-from <lersek@redhat.com>) id 1hNemV-0007n5-Kd
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 10:39:52 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:62092)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <lersek@redhat.com>)
+	id 1hNemQ-0007bq-HH; Mon, 06 May 2019 10:39:47 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 8F87C309B149;
+	Mon,  6 May 2019 14:39:45 +0000 (UTC)
+Received: from lacos-laptop-7.usersys.redhat.com (ovpn-124-221.rdu2.redhat.com
+	[10.10.124.221])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id E9CEB57DE8;
+	Mon,  6 May 2019 14:39:41 +0000 (UTC)
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+	qemu-devel@nongnu.org, qemu-stable@nongnu.org
+References: <20190505200602.12412-1-philmd@redhat.com>
+	<20190505200602.12412-2-philmd@redhat.com>
+From: Laszlo Ersek <lersek@redhat.com>
+Message-ID: <310808da-71c5-19d8-be81-ae255682e79e@redhat.com>
+Date: Mon, 6 May 2019 16:39:35 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.9.1
+MIME-Version: 1.0
+In-Reply-To: <20190505200602.12412-2-philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.49]);
+	Mon, 06 May 2019 14:39:45 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.194.90.13
-Subject: [Qemu-devel] [PATCH v3 0/5] 9p: Fix file ID collisions
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 1/5] hw/block/pflash_cfi01: Removed an
+ unused timer
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -55,50 +63,114 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-From: Christian Schoenebeck via Qemu-devel <qemu-devel@nongnu.org>
-Reply-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Cc: Greg Kurz <groug@kaod.org>, Antonios Motakis <antonios.motakis@huawei.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+	Stephen Checkoway <stephen.checkoway@oberlin.edu>,
+	qemu-block@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>,
+	Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
+	Wei Yang <richardw.yang@linux.intel.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	=?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+	Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is v3 of a proposed patch set for fixing file ID collisions with 9pfs. 
+On 05/05/19 22:05, Philippe Mathieu-Daud=C3=A9 wrote:
+> The 'CFI01' NOR flash was introduced in commit 29133e9a0fff, with
+> timing modelled. One year later, the CFI02 model was introduced
+> (commit 05ee37ebf630) based on the CFI01 model. As noted in the
 
-That's it from my side for now regarding this overall issue. I am waiting for
-your comments on this patch set before doing anything else.
+You got those commit references backwards, I believe:
 
-Patch 1 to 4 are identical to the previous version. New patch 5 adds an
-optional qemu virtfs device parameter "vii" (very important inode[s]) , which
-allows host admins to configure which fs device(s) should get the largest inode
-namespaces on guest.
+* Commit 29133e9a0fff ("AMD NOR flash device support (initial patch by
+Jocelyn Mayer)", 2006-06-25) introduced "hw/pflash_cfi02.c".
 
-I will also send a (6th) patch against libvirt which allows to configure the
-"vii" feature of patch 5 via xml config instead of qemu command line argument.
+* Commit 05ee37ebf630 ("Gumstix 'connex' board support by Thorsten
+Zitterell.", 2007-11-17) introduced "hw/pflash_cfi01.c".
 
-I am yet unresolved whether or not to use persistency for file IDs that is
-introduced with patch 3. After applying the entire patch set, the
-persistency feature is disabled by default at compile time, but you can
-enable it with macro QPP_TABLE_PERSISTENCY_LIMIT.
+> header, "It does not support timings". 12 years later, we never
+> had to model the device timings. Time to remove the unused timer,
+> we can still add it back if required.
+>=20
+> Suggested-by: Laszlo Ersek <lersek@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+> Yes, I plan to model those timings later. Actually I have a series
+> working, but I'd rather first
+> 1/ refactor common code between the both CFI implementations,
 
-Christian Schoenebeck (5):
-  9p: mitigates most QID path collisions
-  9P: trivial cleanup of QID path collision mitigation
-  9p: persistency of QID path beyond reboots / suspensions
-  9p: use variable length suffixes for inode mapping
-  9p: adds virtfs 'vii' device parameter
+Good idea.
 
- fsdev/9p-marshal.h         |    6 +-
- fsdev/file-op-9p.h         |    1 +
- fsdev/qemu-fsdev-opts.c    |    6 +
- fsdev/qemu-fsdev.c         |    3 +
- hw/9pfs/9p.c               | 1199 +++++++++++++++++++++++++++++++++++++++++++-
- hw/9pfs/9p.h               |  173 +++++++
- hw/9pfs/trace-events       |   14 +-
- hw/9pfs/virtio-9p-device.c |    1 +
- qemu-options.hx            |    5 +-
- vl.c                       |    9 +-
- 10 files changed, 1378 insertions(+), 39 deletions(-)
+> 2/ discuss on list whether or not use timings for the Virt flash.
 
--- 
-2.11.0
+What would the timer buy us (specifically wrt. cfi01 / OVMF / ArmVirt)?
+
+Being faithful to actual hardware is always good... except when it runs
+a significant risk of regressions. :) By that I don't mean "programming
+errors"; I mean that guest code would now have to conform to various
+timeouts, and that always makes me a bit concerned.
+
+
+For this patch, with the commit references fixed:
+
+Reviewed-by: Laszlo Ersek <lersek@redhat.com>
+
+Thanks,
+Laszlo
+
+> ---
+>  hw/block/pflash_cfi01.c | 15 ---------------
+>  1 file changed, 15 deletions(-)
+>=20
+> diff --git a/hw/block/pflash_cfi01.c b/hw/block/pflash_cfi01.c
+> index 16dfae14b80..6dc04f156a7 100644
+> --- a/hw/block/pflash_cfi01.c
+> +++ b/hw/block/pflash_cfi01.c
+> @@ -42,7 +42,6 @@
+>  #include "hw/block/flash.h"
+>  #include "sysemu/block-backend.h"
+>  #include "qapi/error.h"
+> -#include "qemu/timer.h"
+>  #include "qemu/bitops.h"
+>  #include "qemu/host-utils.h"
+>  #include "qemu/log.h"
+> @@ -86,7 +85,6 @@ struct PFlashCFI01 {
+>      uint8_t cfi_table[0x52];
+>      uint64_t counter;
+>      unsigned int writeblock_size;
+> -    QEMUTimer *timer;
+>      MemoryRegion mem;
+>      char *name;
+>      void *storage;
+> @@ -110,18 +108,6 @@ static const VMStateDescription vmstate_pflash =3D=
+ {
+>      }
+>  };
+> =20
+> -static void pflash_timer (void *opaque)
+> -{
+> -    PFlashCFI01 *pfl =3D opaque;
+> -
+> -    trace_pflash_timer_expired(pfl->cmd);
+> -    /* Reset flash */
+> -    pfl->status ^=3D 0x80;
+> -    memory_region_rom_device_set_romd(&pfl->mem, true);
+> -    pfl->wcycle =3D 0;
+> -    pfl->cmd =3D 0;
+> -}
+> -
+>  /* Perform a CFI query based on the bank width of the flash.
+>   * If this code is called we know we have a device_width set for
+>   * this flash.
+> @@ -771,7 +757,6 @@ static void pflash_cfi01_realize(DeviceState *dev, =
+Error **errp)
+>          pfl->max_device_width =3D pfl->device_width;
+>      }
+> =20
+> -    pfl->timer =3D timer_new_ns(QEMU_CLOCK_VIRTUAL, pflash_timer, pfl)=
+;
+>      pfl->wcycle =3D 0;
+>      pfl->cmd =3D 0;
+>      pfl->status =3D 0;
+>=20
 
 
