@@ -2,60 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6562C153C0
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 20:36:25 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60707 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7F584153B4
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 20:32:09 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60624 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNiTQ-0002jG-KV
-	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 14:36:24 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56275)
+	id 1hNiPI-0008Bp-EO
+	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 14:32:08 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55751)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hNiOd-0008Pr-85
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 14:31:29 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hNiN1-0007Dq-09
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 14:29:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hNiOc-0001fA-AD
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 14:31:27 -0400
-Received: from indium.canonical.com ([91.189.90.7]:58304)
+	(envelope-from <richard.henderson@linaro.org>) id 1hNiMz-0000HU-FR
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 14:29:46 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:44517)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hNiOc-0001eS-4t
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 14:31:26 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
-	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hNiOa-0008Rr-7C
-	for <qemu-devel@nongnu.org>; Mon, 06 May 2019 18:31:24 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id 330182E80C9
-	for <qemu-devel@nongnu.org>; Mon,  6 May 2019 18:31:24 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 06 May 2019 18:25:04 -0000
-From: Floyd42 <1826568@bugs.launchpad.net>
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hNiMz-0000Gf-1i
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 14:29:45 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id z16so6859323pgv.11
+	for <qemu-devel@nongnu.org>; Mon, 06 May 2019 11:29:44 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=6dv6QYqUs/4eBBK3Q0CjZ/bsDel5OeXX/xyV4025EYY=;
+	b=zRSZ1uUV6lwWSOOrrY4BXAH/iKuCr9iUK5EZEWYWvyMFIsPD+D9IaDLbp3OnQTDFhn
+	VHRS6qTpOBaOiZ1ik/S0ODQW1RASZoQRpiR245wMHPZO0/r6LnFNJpXcayf5MW4+n1yt
+	ioVz9/gECqoamOO1KG7RA9CE/mjJnfwK+ym8m8dTTw7SWrvHca+BP4cHjSMB0RUQSHvO
+	Zrj6oJpzE24gh7if5PQbWceueNPhbET0ljDt59MyAv0d8NrP5tVs4zEPxnhTQKfh+V6a
+	pfxiwIaoFoItenoLT+1BOyN2eADU2F2giKsyUZX8BXytzO7+88lhXjhBy6pMDSJr7psM
+	yYag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=6dv6QYqUs/4eBBK3Q0CjZ/bsDel5OeXX/xyV4025EYY=;
+	b=OA3PnDXeQNw1byPIpN/m4cNayXfIYP0SkzbEREPeV1o9Tr4gycKEWYDqKQCYb9iGHw
+	KquafNtUAI1pbfkanLZTSirMe5fzSoagGJ5fJRG1FbMsTyxoVqObgGIzm5pEQvDqKN4h
+	vQtVW/iBEJBwP0MBjDi6TNvgEYMqXSDBWjyw87D97B9YmzwRv+9KxzQ0gt0McVQOOdBT
+	C6o53CVhd4ydBzH2NpwQSuZAnp64Z7p+UewR5RLWFsdwOD7sIVIFj46tD5ZThLnaB5ya
+	/gQTNnPiXjVxGxdKMCXGjC1LUcb5B3YAgKeik/U9W3QryPDt0Dj9VeEUOcc8e47hWwTs
+	dfAA==
+X-Gm-Message-State: APjAAAVneMkMj5wM4S3PZ57WVauusWbHTVYUh0eH6jayMJbeYYD6hryD
+	Vq+xkDPLzwn09is3DWLipNUirWIEe/c=
+X-Google-Smtp-Source: APXvYqxneCj4KmXCPfhEQKyf4Pcic6IjFAGFUShkf599TXoXOeuHcaLTBYmKrybYCu9h2FdRBvzmmQ==
+X-Received: by 2002:a63:ca0b:: with SMTP id n11mr32751307pgi.442.1557167383457;
+	Mon, 06 May 2019 11:29:43 -0700 (PDT)
+Received: from localhost.localdomain (97-113-189-189.tukw.qwest.net.
+	[97.113.189.189]) by smtp.gmail.com with ESMTPSA id
+	j32sm12909924pgi.73.2019.05.06.11.29.41
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 06 May 2019 11:29:42 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: axelheider kbastian
-X-Launchpad-Bug-Reporter: Floyd42 (axelheider)
-X-Launchpad-Bug-Modifier: Floyd42 (axelheider)
-References: <155629222212.6615.9281610848583512798.malonedeb@chaenomeles.canonical.com>
-Message-Id: <155716710425.31951.4690419366654957439.malone@chaenomeles.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18953";
-	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: b35463d28cce196e7858b81793527a4a05e8d82f
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1826568] Re: RISC-V Disassembler/translator
- instruction decoding disagreement
+Date: Mon,  6 May 2019 11:29:37 -0700
+Message-Id: <20190506182940.2200-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.17.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::52d
+Subject: [Qemu-devel] [PULL 0/3] decodetree: Support variable-length ISAs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,46 +72,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1826568 <1826568@bugs.launchpad.net>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Sorry, I don't have the test code, since this was created by a memory
-corruption. However, the way I understand the message is, that there is
-some internal disagreement how to decode the op-code "051300009517e2bf"
-- which mige be an invalid opcode anyway. So a simple test application
-would just consist of this opcode.
+This is a pre-requisite for the RX port.
 
--- =
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1826568
+r~
 
-Title:
-  RISC-V Disassembler/translator instruction decoding disagreement
 
-Status in QEMU:
-  New
+The following changes since commit a6ae23831b05a11880b40f7d58e332c45a6b04f7:
 
-Bug description:
-  =
+  Merge remote-tracking branch 'remotes/ehabkost/tags/python-next-pull-request' into staging (2019-05-03 15:26:09 +0100)
 
-  When running QEMU V3.1.0 for platform  RISC-V, 64bit, Spike V1.10 with "-=
-d in_asm -singlestep -D qemu_log.txt", my (faulty) test code brought up thi=
-s message in the logs:
+are available in the Git repository at:
 
-    0x000000008002cade:  051300009517e2bf  illegal         =
+  https://github.com/rth7680/qemu.git tags/pull-dt-20190506
 
-    Disassembler disagrees with translator over instruction decoding
-    Please report this to qemu-devel@nongnu.org
+for you to fetch changes up to 451e4ffdb0003ab5ed0d98bd37b385c076aba183:
 
-  =
+  decodetree: Add DisasContext argument to !function expanders (2019-05-06 11:18:34 -0700)
 
-  You may want to resolve the disagreement.
+----------------------------------------------------------------
+Add support for variable-length ISAs
 
-  Axel
+----------------------------------------------------------------
+Richard Henderson (3):
+      decodetree: Initial support for variable-length ISAs
+      decodetree: Expand a decode_load function
+      decodetree: Add DisasContext argument to !function expanders
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1826568/+subscriptions
+ target/arm/translate-sve.c              |  24 ++--
+ target/hppa/translate.c                 |  16 +--
+ target/riscv/insn_trans/trans_rvc.inc.c |  10 +-
+ target/riscv/translate.c                |   4 +-
+ scripts/decodetree.py                   | 233 +++++++++++++++++++++++++++++---
+ 5 files changed, 241 insertions(+), 46 deletions(-)
 
