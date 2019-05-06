@@ -2,36 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1D22D143D2
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 05:50:57 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49820 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 73972143D6
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 05:55:03 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49840 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNUeV-0004p3-Te
-	for lists+qemu-devel@lfdr.de; Sun, 05 May 2019 23:50:55 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34501)
+	id 1hNUiU-0006a4-NZ
+	for lists+qemu-devel@lfdr.de; Sun, 05 May 2019 23:55:02 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35220)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hNUdM-0004Mw-Nv
-	for qemu-devel@nongnu.org; Sun, 05 May 2019 23:49:45 -0400
+	(envelope-from <thuth@redhat.com>) id 1hNUh0-00062Q-Iz
+	for qemu-devel@nongnu.org; Sun, 05 May 2019 23:53:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hNUdL-00049q-IK
-	for qemu-devel@nongnu.org; Sun, 05 May 2019 23:49:44 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57250)
+	(envelope-from <thuth@redhat.com>) id 1hNUgz-0005ps-Oc
+	for qemu-devel@nongnu.org; Sun, 05 May 2019 23:53:30 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40914)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <thuth@redhat.com>)
-	id 1hNUdL-00049U-B3; Sun, 05 May 2019 23:49:43 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
-	[10.5.11.14])
+	id 1hNUgv-0005ne-3q; Sun, 05 May 2019 23:53:25 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+	[10.5.11.11])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 28FFA308FE8D;
-	Mon,  6 May 2019 03:49:42 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 388F6300180B;
+	Mon,  6 May 2019 03:53:21 +0000 (UTC)
 Received: from thuth.remote.csb (ovpn-116-74.ams2.redhat.com [10.36.116.74])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 38BD75D965;
-	Mon,  6 May 2019 03:49:40 +0000 (UTC)
-To: Greg Kurz <groug@kaod.org>
-References: <20190505144527.27926-1-thuth@redhat.com>
-	<20190505203208.684776c0@bahia.lan>
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 5D00F6055B;
+	Mon,  6 May 2019 03:53:16 +0000 (UTC)
+To: Stephen Checkoway <stephen.checkoway@oberlin.edu>,
+	QEMU Developers <qemu-devel@nongnu.org>,
+	=?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+	Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
+	"open list:Block layer core" <qemu-block@nongnu.org>,
+	Markus Armbruster <armbru@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+	Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+References: <20190426162624.55977-1-stephen.checkoway@oberlin.edu>
+	<20190426162624.55977-2-stephen.checkoway@oberlin.edu>
 From: Thomas Huth <thuth@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=thuth@redhat.com; keydata=
@@ -77,23 +83,23 @@ Autocrypt: addr=thuth@redhat.com; keydata=
 	rCELuGwT9hsYkUPjVd4lfylN3mzEc6iAv/wwjsc0DRTSQCpXT3v2ymTAsRKrVaEZLibTXaf+
 	WslxWek3xNYRiqwwWAJuL652eAlxUgQ5ZS+fXBRTiQpJ+F26I/2lccScRd9G5w==
 Organization: Red Hat
-Message-ID: <3189f4fe-d712-5903-8c42-97d72ddb4131@redhat.com>
-Date: Mon, 6 May 2019 05:49:40 +0200
+Message-ID: <e28a09d1-151a-e64d-3ede-f7b265d04287@redhat.com>
+Date: Mon, 6 May 2019 05:53:15 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190505203208.684776c0@bahia.lan>
+In-Reply-To: <20190426162624.55977-2-stephen.checkoway@oberlin.edu>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.49]);
-	Mon, 06 May 2019 03:49:42 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.40]);
+	Mon, 06 May 2019 03:53:21 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] virtfs: Add missing "id" parameter in
- documentation
+Subject: Re: [Qemu-devel] [PATCH v4 01/10] block/pflash_cfi02: Add test for
+ supported commands
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -105,37 +111,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/05/2019 20.32, Greg Kurz wrote:
-> Hi Thomas,
+On 26/04/2019 18.26, Stephen Checkoway wrote:
+> Test the AMD command set for parallel flash chips. This test uses an
+> ARM musicpal board with a pflash drive to test the following list of
+> currently-supported commands.
+> - Autoselect
+> - CFI
+> - Sector erase
+> - Chip erase
+> - Program
+> - Unlock bypass
+> - Reset
 > 
-> Thanks for the janitoring :)
-> 
-> On Sun,  5 May 2019 16:45:27 +0200
-> Thomas Huth <thuth@redhat.com> wrote:
-> 
->> ... and remove the square brackets from "path" and "security_model",
->> since these parameters are not optional.
->>
-> 
-> Well this is only true when fsdriver == local, but the other fs drivers,
-> ie. proxy and synth, don't need it at all.
+> Signed-off-by: Stephen Checkoway <stephen.checkoway@oberlin.edu>
+> ---
+>  tests/Makefile.include    |   2 +
+>  tests/pflash-cfi02-test.c | 225 ++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 227 insertions(+)
+>  create mode 100644 tests/pflash-cfi02-test.c
 
-Ok, then this is wrong in the output of "--help" instead.
-
-> Each driver has its own set of
-> options actually. This should better be described with separate lines IMHO.
-> 
-> Also, it should be stated that "id" relates to the fs backend, ie. it
-> belongs to the -fsdev "id" space, not to the device that gets exposed
-> to the guest.
-
-Hmm, maybe it would be better if you do this patch, since you've
-definitely got way more knowledge here than I do... Otherwise, I can
-have a try, but it might take a while till I get back to this...
-
- Thomas
+Acked-by: Thomas Huth <thuth@redhat.com>
 
