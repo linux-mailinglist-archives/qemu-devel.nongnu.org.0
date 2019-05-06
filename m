@@ -2,82 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D764145CA
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 10:11:30 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52184 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3776314620
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 10:23:42 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52306 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNYif-0003ew-Fn
-	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 04:11:29 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47062)
+	id 1hNYuT-0007tM-EW
+	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 04:23:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49672)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <groug@kaod.org>) id 1hNYh0-0002qj-1g
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 04:09:49 -0400
+	(envelope-from <marcel.apfelbaum@gmail.com>) id 1hNYtQ-0007b6-Qt
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 04:22:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <groug@kaod.org>) id 1hNYgy-0000Tb-JJ
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 04:09:46 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:41880
-	helo=mx0a-001b2d01.pphosted.com)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <groug@kaod.org>) id 1hNYgy-0000T5-EZ
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 04:09:44 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
-	x4688oOg049820
-	for <qemu-devel@nongnu.org>; Mon, 6 May 2019 04:09:43 -0400
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
-	by mx0a-001b2d01.pphosted.com with ESMTP id 2sagbja75h-1
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <qemu-devel@nongnu.org>; Mon, 06 May 2019 04:09:43 -0400
-Received: from localhost
-	by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use
-	Only! Violators will be prosecuted
-	for <qemu-devel@nongnu.org> from <groug@kaod.org>;
-	Mon, 6 May 2019 09:09:41 +0100
-Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
-	by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
-	Authorized Use Only! Violators will be prosecuted; 
-	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-	Mon, 6 May 2019 09:09:39 +0100
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com
-	(b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
-	by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with
-	ESMTP id x4689cZ558458174
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK); Mon, 6 May 2019 08:09:38 GMT
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 3BBA3A4060;
-	Mon,  6 May 2019 08:09:38 +0000 (GMT)
-Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 1458AA405F;
-	Mon,  6 May 2019 08:09:38 +0000 (GMT)
-Received: from bahia.lan (unknown [9.145.26.205])
-	by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-	Mon,  6 May 2019 08:09:38 +0000 (GMT)
-From: Greg Kurz <groug@kaod.org>
-To: qemu-devel@nongnu.org
-Date: Mon, 06 May 2019 10:09:37 +0200
-User-Agent: StGit/unknown-version
+	(envelope-from <marcel.apfelbaum@gmail.com>) id 1hNYtP-0007xN-T5
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 04:22:36 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:37700)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <marcel.apfelbaum@gmail.com>)
+	id 1hNYtP-0007ww-KY
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 04:22:35 -0400
+Received: by mail-wr1-x443.google.com with SMTP id a12so5951493wrn.4
+	for <qemu-devel@nongnu.org>; Mon, 06 May 2019 01:22:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding:content-language;
+	bh=YsWXJLKl1X2RfA7+OdQc43rrGPTF4EV/nOzUPiI+Dxk=;
+	b=b/LDx8RAlqFEitGBgpPSU/MzKL9GPcWoDRwlYltiZIG6D5hWw5hpFriz0Bfpu4niXv
+	TETgjVVcbWXazcFWVYSaVzx8Ag9NkMxil1vDDt30SaPsa0fo7BDcA+2QEc8Hh1LaVYU6
+	765Ow7H/GUR1BMn7LRyAcsdwJ/SjIvERFbC9tcvhg5tg7LYiudp+SZ/dUAuVeORIF2At
+	m85vOfIi+7e5sMvJYv/YST9CtKHbc1sx3eWaslc28Zx4Y4i1Cy9Ufgng9g7XqPbP/flH
+	sunQHZ03RpcTvYf9a1nOTg3zWPLYA6dWA6rwquZyKTju++iwx+JrJpB8eGHSm3flxqs9
+	Ai0A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=YsWXJLKl1X2RfA7+OdQc43rrGPTF4EV/nOzUPiI+Dxk=;
+	b=n+GHkNaCgJa6E6joUKtIFqfb3Us1XFUs8T1QmnI27eYsn1cZ4qQ378MAaYyc9qrEl3
+	Dg7U8Ptr26lzKGtnhgczx8KuSwv6VGZKD/n3a6UrU7Gj7AazryvJadu+dV04uwyyZpO6
+	S+It4IJ5c6b1rwqO3gZ+QLGcA4hNF4Zy9MrCgt+31u+VHzUmj8QU8wWFetNqmcw5AMw5
+	fcZkJYxw+6zoJDMV54OWc3eJzyy8h/LDi6+oLpxXeYjnJni510FDz4zJBjNgJgI5OAxv
+	bYZkle/eRSzW+8SXe1E4rh+NgqQZvtigGUU0yAh+/HUq9bjbWNgNrIWXZM3oeJTOxtQV
+	uOsQ==
+X-Gm-Message-State: APjAAAWlUNEvaHrxztDNajXhTUEwRnJ5CoBF8+WleUSFn6/HwzlyOqAb
+	oiFM0d6Z2A5W9H4VjgCcmasbhAeD
+X-Google-Smtp-Source: APXvYqzpIEdelsjJgXLmla6Ij072qnGDysDbLQjAEoPM9n3FVaL+3g1C+/zY8F4YCqX4moUoaP8vQA==
+X-Received: by 2002:adf:ea8e:: with SMTP id s14mr15948269wrm.4.1557130953556; 
+	Mon, 06 May 2019 01:22:33 -0700 (PDT)
+Received: from localhost.localdomain ([141.226.29.227])
+	by smtp.gmail.com with ESMTPSA id q7sm9958358wmc.11.2019.05.06.01.22.32
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Mon, 06 May 2019 01:22:32 -0700 (PDT)
+To: Hou Qiming <hqm03ster@gmail.com>, Gerd Hoffmann <kraxel@redhat.com>
+References: <CABSdmrnNW6f=P64PviPP8CTJ5SVfYS8_6kmAtpw9yPObTEkpxg@mail.gmail.com>
+From: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Message-ID: <481d3407-4312-82f0-f355-d4f807e1e5be@gmail.com>
+Date: Mon, 6 May 2019 11:22:31 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 19050608-0020-0000-0000-00000339B885
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19050608-0021-0000-0000-0000218C4BB0
-Message-Id: <155713017771.272495.17615824973869586988.stgit@bahia.lan>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
-	definitions=2019-05-06_05:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
-	priorityscore=1501
-	malwarescore=0 suspectscore=3 phishscore=0 bulkscore=0 spamscore=0
-	clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
-	mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
-	scancount=1 engine=8.0.1-1810050000 definitions=main-1905060071
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
-Subject: [Qemu-devel] [PATCH] spapr: Allow machine to dump dtb after SLOF
- update
+In-Reply-To: <CABSdmrnNW6f=P64PviPP8CTJ5SVfYS8_6kmAtpw9yPObTEkpxg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2a00:1450:4864:20::443
+Subject: Re: [Qemu-devel] Patch: Precautionary glBindTexture in
+ surface_gl_update_texture
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -89,124 +82,94 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-ppc@nongnu.org,
-	David Gibson <david@gibson.dropbear.id.au>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that SLOF can update QEMU's device tree at runtime, it makes sense
-to be able to dump the resulting dtb, pretty much like it is already
-possible to dump the initial dtb with the dumpdtb machine option.
+Hi Qiming,
+Thanks for submitting the patch!
 
-Add a new dumpdtb-slof property to the pseries machine with the same
-semantics as dumpdtb, except that the dtb is dumped at the first call
-to h_update_dt() and QEMU exits right after that.
+On 5/6/19 10:50 AM, Hou Qiming wrote:
+> From 48d1f092a7960d711fb2c77ab8d3f9d0a0ca0d5c Mon Sep 17 00:00:00 2001
+> From: HQM <hqm03ster@gmail.com <mailto:hqm03ster@gmail.com>>
+> Date: Mon, 6 May 2019 15:37:59 +0800
+> Subject: [PATCH] Precautionary glBindTexture and surface->texture 
+> validation
+>  in surface_gl_update_texture
+>
 
-The dtb size sanity check is skipped on purpose so that one has a chance
-to peek into the dump file and see what's wrong. If the size is big enough
-to cause g_malloc0() to fail then QEMU will abort though. This is likely
-not ever to happen, and anyway, we don't really care because dumpdtb-slof
-is for developpers, not production, and they should try to debug at the
-SLOF level in this case.
+The lines above should not go into the patch comment, while the mail 
+subject should
+start with [PATCH].
 
-Even if 3.1 and older machine types don't support device tree updates, it
-doesn't hurt to let them dump the dtb and exit anyway, and it seems better
-to ensure a consistent behaviour for this feature.
+I suggest preparing the patch with git format-patch and sending it with 
+git send-email.
+You can also prepare it "manually" as long the format is correct.
 
-Signed-off-by: Greg Kurz <groug@kaod.org>
----
- hw/ppc/spapr.c         |   19 +++++++++++++++++++
- hw/ppc/spapr_hcall.c   |   22 ++++++++++++++--------
- include/hw/ppc/spapr.h |    1 +
- 3 files changed, 34 insertions(+), 8 deletions(-)
+> In a GVT-g setup with dmabuf and GTK GUI, the current 2D texture at 
+> surface_gl_update_texture is not necessarily
+> surface->texture. Adding a glBindTexture fixes related crashes and 
+> artifacts, and is generally more secure.
+>
+> Signed-off-by: HQM <hqm03ster@gmail.com <mailto:hqm03ster@gmail.com>>
+> ---
+>  ui/console-gl.c | 18 +++++++++++-------
+>  1 file changed, 11 insertions(+), 7 deletions(-)
+>
+> diff --git a/ui/console-gl.c b/ui/console-gl.c
+> index a56e1cd..c1cb3bd 100644
+> --- a/ui/console-gl.c
+> +++ b/ui/console-gl.c
+> @@ -92,13 +92,17 @@ void surface_gl_update_texture(QemuGLShader *gls,
+>
+>      assert(gls);
+>
+> -    glPixelStorei(GL_UNPACK_ROW_LENGTH_EXT,
+> -                  surface_stride(surface) / 
+> surface_bytes_per_pixel(surface));
+> -    glTexSubImage2D(GL_TEXTURE_2D, 0,
+> -                    x, y, w, h,
+> -                    surface->glformat, surface->gltype,
+> -                    data + surface_stride(surface) * y
+> -                    + surface_bytes_per_pixel(surface) * x);
+> +    if (surface->texture) {
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index ce84806ee3d5..18de51d03bd1 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -3322,6 +3322,19 @@ static void spapr_set_host_serial(Object *obj, const char *value, Error **errp)
-     spapr->host_serial = g_strdup(value);
- }
- 
-+static char *spapr_get_dumpdtb_slof(Object *obj, Error **errp)
-+{
-+    return g_strdup(SPAPR_MACHINE(obj)->dumpdtb_slof);
-+}
-+
-+static void spapr_set_dumpdtb_slof(Object *obj, const char *value, Error **errp)
-+{
-+    SpaprMachineState *spapr = SPAPR_MACHINE(obj);
-+
-+    g_free(spapr->dumpdtb_slof);
-+    spapr->dumpdtb_slof = g_strdup(value);
-+}
-+
- static void spapr_instance_init(Object *obj)
- {
-     SpaprMachineState *spapr = SPAPR_MACHINE(obj);
-@@ -3378,6 +3391,12 @@ static void spapr_instance_init(Object *obj)
-         &error_abort);
-     object_property_set_description(obj, "host-serial",
-         "Host serial number to advertise in guest device tree", &error_abort);
-+
-+    object_property_add_str(obj, "dumpdtb-slof", spapr_get_dumpdtb_slof,
-+                            spapr_set_dumpdtb_slof, &error_abort);
-+    object_property_set_description(obj, "dumpdtb-slof",
-+                                    "Dump SLOF dtb to a file and quit",
-+                                    &error_abort);
- }
- 
- static void spapr_machine_finalizefn(Object *obj)
-diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-index 6c16d2b12040..30a3880cf1d6 100644
---- a/hw/ppc/spapr_hcall.c
-+++ b/hw/ppc/spapr_hcall.c
-@@ -1766,20 +1766,26 @@ static target_ulong h_update_dt(PowerPCCPU *cpu, SpaprMachineState *spapr,
-     cpu_physical_memory_read(dt, &hdr, sizeof(hdr));
-     cb = fdt32_to_cpu(hdr.totalsize);
- 
--    if (!smc->update_dt_enabled) {
--        return H_SUCCESS;
--    }
-+    if (!spapr->dumpdtb_slof) {
-+        if (!smc->update_dt_enabled) {
-+            return H_SUCCESS;
-+        }
- 
--    /* Check that the fdt did not grow out of proportion */
--    if (cb > spapr->fdt_initial_size * 2) {
--        trace_spapr_update_dt_failed_size(spapr->fdt_initial_size, cb,
--                                          fdt32_to_cpu(hdr.magic));
--        return H_PARAMETER;
-+        /* Check that the fdt did not grow out of proportion */
-+        if (cb > spapr->fdt_initial_size * 2) {
-+            trace_spapr_update_dt_failed_size(spapr->fdt_initial_size, cb,
-+                                              fdt32_to_cpu(hdr.magic));
-+            return H_PARAMETER;
-+        }
-     }
- 
-     fdt = g_malloc0(cb);
-     cpu_physical_memory_read(dt, fdt, cb);
- 
-+    if (spapr->dumpdtb_slof) {
-+        exit(g_file_set_contents(spapr->dumpdtb_slof, fdt, cb, NULL) ? 0 : 1);
-+    }
-+
-     /* Check the fdt consistency */
-     if (fdt_check_full(fdt, cb)) {
-         trace_spapr_update_dt_failed_check(spapr->fdt_initial_size, cb,
-diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-index 7e32f309c2be..72a5ff7bfee9 100644
---- a/include/hw/ppc/spapr.h
-+++ b/include/hw/ppc/spapr.h
-@@ -191,6 +191,7 @@ struct SpaprMachineState {
-     char *kvm_type;
-     char *host_model;
-     char *host_serial;
-+    char *dumpdtb_slof;
- 
-     int32_t irq_map_nr;
-     unsigned long *irq_map;
+I confirm it fixes a boot QEMU crash when the Windows guest i915 driver 
+loads.
+
+> +        glBindTexture(GL_TEXTURE_2D, surface->texture);
+
+I confirm it fixes strange artifacts seen on screen (some huge mouse 
+icon on the upper left side)
+when guest monitor "turns off" or the GTK window gets resized and the 
+guest desktop resolution changes.
+
+> +        glPixelStorei(GL_UNPACK_ROW_LENGTH_EXT,
+> +                      surface_stride(surface)
+> +                      / surface_bytes_per_pixel(surface));
+> +        glTexSubImage2D(GL_TEXTURE_2D, 0,
+> +                        x, y, w, h,
+> +                        surface->glformat, surface->gltype,
+> +                        data + surface_stride(surface) * y
+> +                        + surface_bytes_per_pixel(surface) * x);
+> +    }
+>  }
+>
+>  void surface_gl_render_texture(QemuGLShader *gls,
+> -- 
+> 2.17.1
+>
+>
+
+I have no OpenGL background to understand the consequences, but the patch
+does solve 2 gvt issues, so:
+
+Tested-by: Marcel Apfelbaum<marcel.apfelbaum@gmail.com>
+
+
+Thanks,
+Marcel
+
+
 
 
