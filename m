@@ -2,49 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 830B1154A4
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 21:51:18 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33217 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 81F2A154B8
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 21:56:43 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33322 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNjdt-000658-JF
-	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 15:51:17 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43924)
+	id 1hNjj8-0002rX-Mz
+	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 15:56:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45228)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hNjbT-0004ut-Ld
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 15:48:48 -0400
+	(envelope-from <ehabkost@redhat.com>) id 1hNjfy-0000vh-KQ
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 15:53:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hNjbR-0002KP-OC
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 15:48:47 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43170)
+	(envelope-from <ehabkost@redhat.com>) id 1hNjfx-0006id-Rx
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 15:53:26 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44994)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hNjbJ-0002Ce-1q; Mon, 06 May 2019 15:48:38 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
+	(Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hNjfx-0006g0-Mw
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 15:53:25 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id E479688302;
-	Mon,  6 May 2019 19:48:34 +0000 (UTC)
-Received: from localhost (ovpn-204-185.brq.redhat.com [10.40.204.185])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 22B711001DC7;
-	Mon,  6 May 2019 19:48:29 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Date: Mon,  6 May 2019 21:47:53 +0200
-Message-Id: <20190506194753.12464-8-mreitz@redhat.com>
-In-Reply-To: <20190506194753.12464-1-mreitz@redhat.com>
-References: <20190506194753.12464-1-mreitz@redhat.com>
+	by mx1.redhat.com (Postfix) with ESMTPS id DEAAB88305;
+	Mon,  6 May 2019 19:53:23 +0000 (UTC)
+Received: from localhost (ovpn-116-9.gru2.redhat.com [10.97.116.9])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 6C55061F21;
+	Mon,  6 May 2019 19:53:23 +0000 (UTC)
+Date: Mon, 6 May 2019 16:53:21 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Message-ID: <20190506195321.GB28722@habkost.net>
+References: <20190419061429.17695-1-ehabkost@redhat.com>
+	<87ftprre87.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <87ftprre87.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
 	(mx1.redhat.com [10.5.110.28]);
-	Mon, 06 May 2019 19:48:34 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+	Mon, 06 May 2019 19:53:23 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 7/7] block: Ignore loosening perm restrictions
- failures
+Subject: Re: [Qemu-devel] [PATCH 0/7] Delete 16 *_cpu_class_by_name()
+ functions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -56,128 +59,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
-	qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+	Richard Henderson <rth@twiddle.net>, qemu-devel@nongnu.org,
+	Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We generally assume that loosening permission restrictions can never
-fail.  We have seen in the past that this assumption is wrong.  This has
-led to crashes because we generally pass &error_abort when loosening
-permissions.
+On Mon, May 06, 2019 at 01:53:28PM +0200, Markus Armbruster wrote:
+> Eduardo Habkost <ehabkost@redhat.com> writes:
+> 
+> > This series adds a new CPUClass::class_name_format field, which
+> > allows us to delete 16 of the 21 *_cpu_class_by_name() functions
+> > that exist today.
+> 
+> Which five remain, and why?
 
-However, a failure in such a case should actually be handled in quite
-the opposite way: It is very much not fatal, so qemu may report it, but
-still consider the operation successful.  The only realistic problem is
-that qemu may then retain permissions and thus locks on images it
-actually does not require.  But again, that is not fatal.
+alpha_cpu_class_by_name:
+* Translates aliases based on alpha_cpu_aliases;
+* Falls back to "ev67" unconditionally
+  (there's a "TODO: remove match everything nonsense" comment).
 
-To implement this behavior, we make all functions that change
-permissions and that pass &error_abort to the initiating function
-(bdrv_check_perm() or bdrv_child_check_perm()) evaluate the
-@loosen_restrictions value introduced in the previous patch.  If it is
-true and an error did occur, we abort the permission update, report
-the error, and report success to the caller.
+cris_cpu_class_by_name:
+* Translates "any" alias to "crisv32" if CONFIG_USER_ONLY.
 
-bdrv_child_try_set_perm() itself does not pass &error_abort, but it is
-the only public function to change permissions.  As such, callers may
-pass &error_abort to it, expecting dropping permission restrictions to
-never fail.
+ppc_cpu_class_by_name:
+* Supports lookup by PVR if CPU model is a 8 digit hex number;
+* Converts CPU model to lowercase.
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- block.c | 40 ++++++++++++++++++++++++++++++++++------
- 1 file changed, 34 insertions(+), 6 deletions(-)
+superh_cpu_class_by_name:
+* Translates "any" alias to TYPE_SH7750R_CPU.
 
-diff --git a/block.c b/block.c
-index 105866d15a..42a0f3d305 100644
---- a/block.c
-+++ b/block.c
-@@ -2082,11 +2082,20 @@ static void bdrv_child_abort_perm_update(BdrvChil=
-d *c)
- int bdrv_child_try_set_perm(BdrvChild *c, uint64_t perm, uint64_t shared=
-,
-                             Error **errp)
- {
-+    Error *local_err =3D NULL;
-     int ret;
-+    bool loosen_restrictions;
-=20
--    ret =3D bdrv_child_check_perm(c, NULL, perm, shared, NULL, NULL, err=
-p);
-+    ret =3D bdrv_child_check_perm(c, NULL, perm, shared, NULL,
-+                                &loosen_restrictions, &local_err);
-     if (ret < 0) {
-         bdrv_child_abort_perm_update(c);
-+        if (loosen_restrictions) {
-+            warn_reportf_err(local_err, "Failed to loosen restrictions: =
-");
-+            ret =3D 0;
-+        } else {
-+            error_propagate(errp, local_err);
-+        }
-         return ret;
-     }
-=20
-@@ -2269,10 +2278,20 @@ static void bdrv_replace_child(BdrvChild *child, =
-BlockDriverState *new_bs)
-         /* Update permissions for old node. This is guaranteed to succee=
-d
-          * because we're just taking a parent away, so we're loosening
-          * restrictions. */
-+        bool loosen_restrictions;
-+        Error *local_err =3D NULL;
-+        int ret;
-+
-         bdrv_get_cumulative_perm(old_bs, &perm, &shared_perm);
--        bdrv_check_perm(old_bs, NULL, perm, shared_perm, NULL,
--                        NULL, &error_abort);
--        bdrv_set_perm(old_bs, perm, shared_perm);
-+        ret =3D bdrv_check_perm(old_bs, NULL, perm, shared_perm, NULL,
-+                              &loosen_restrictions, &local_err);
-+        assert(loosen_restrictions =3D=3D true);
-+        if (ret < 0) {
-+            warn_reportf_err(local_err, "Failed to loosen restrictions: =
-");
-+            bdrv_abort_perm_update(old_bs);
-+        } else {
-+            bdrv_set_perm(old_bs, perm, shared_perm);
-+        }
-     }
- }
-=20
-@@ -5316,7 +5335,9 @@ static bool bdrv_has_bds_parent(BlockDriverState *b=
-s, bool only_active)
- static int bdrv_inactivate_recurse(BlockDriverState *bs)
- {
-     BdrvChild *child, *parent;
-+    bool loosen_restrictions;
-     uint64_t perm, shared_perm;
-+    Error *local_err =3D NULL;
-     int ret;
-=20
-     if (!bs->drv) {
-@@ -5352,8 +5373,15 @@ static int bdrv_inactivate_recurse(BlockDriverStat=
-e *bs)
-=20
-     /* Update permissions, they may differ for inactive nodes */
-     bdrv_get_cumulative_perm(bs, &perm, &shared_perm);
--    bdrv_check_perm(bs, NULL, perm, shared_perm, NULL, NULL, &error_abor=
-t);
--    bdrv_set_perm(bs, perm, shared_perm);
-+    ret =3D bdrv_check_perm(bs, NULL, perm, shared_perm, NULL,
-+                          &loosen_restrictions, &local_err);
-+    assert(loosen_restrictions =3D=3D true);
-+    if (ret < 0) {
-+        warn_reportf_err(local_err, "Failed to loosen restrictions: ");
-+        bdrv_abort_perm_update(bs);
-+    } else {
-+        bdrv_set_perm(bs, perm, shared_perm);
-+    }
-=20
-=20
-     /* Recursively inactivate children */
---=20
-2.20.1
+sparc_cpu_class_by_name:
+* Replaces whitespaces with '-' on CPU model name.
 
+-- 
+Eduardo
 
