@@ -2,38 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A879F14811
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 12:03:31 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53743 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ABAB14833
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 12:12:47 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53837 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNaT4-0006nr-J3
-	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 06:03:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42857)
+	id 1hNac2-0000Zr-Hp
+	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 06:12:46 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45019)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <david@redhat.com>) id 1hNaRh-0006T6-NA
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 06:02:10 -0400
+	(envelope-from <david@redhat.com>) id 1hNaaA-0008Ev-Lr
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 06:10:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <david@redhat.com>) id 1hNaRg-0004TI-H1
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 06:02:05 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51832)
+	(envelope-from <david@redhat.com>) id 1hNaa9-00016e-Bz
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 06:10:50 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52826)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <david@redhat.com>)
-	id 1hNaRg-0004SL-8N; Mon, 06 May 2019 06:02:04 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
+	id 1hNaa9-00013C-1H; Mon, 06 May 2019 06:10:49 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+	[10.5.11.14])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 2F50330832F2;
-	Mon,  6 May 2019 10:02:03 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 13C8D3082E56;
+	Mon,  6 May 2019 10:10:47 +0000 (UTC)
 Received: from [10.36.116.76] (ovpn-116-76.ams2.redhat.com [10.36.116.76])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id A12ED5C8A4;
-	Mon,  6 May 2019 10:01:59 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id C5F331852E;
+	Mon,  6 May 2019 10:10:43 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
 To: "Jason J. Herne" <jjherne@linux.ibm.com>, qemu-devel@nongnu.org,
 	qemu-s390x@nongnu.org, cohuck@redhat.com, thuth@redhat.com,
 	alifm@linux.ibm.com, borntraeger@de.ibm.com
 References: <1556543381-12671-1-git-send-email-jjherne@linux.ibm.com>
-From: David Hildenbrand <david@redhat.com>
+	<daad75f0-c8bb-1c9f-5b43-afa828601c42@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
 	xsFNBFXLn5EBEAC+zYvAFJxCBY9Tr1xZgcESmxVNI/0ffzE/ZQOiHJl6mGkmA1R7/uUpiCjJ
@@ -79,19 +80,19 @@ Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
 	+8Umfre0Xt4713VxMygW0PnQt5aSQdMD58jHFxTk092mU+yIHj5LeYgvwSgZN4airXk5yRXl
 	SE+xAvmumFBY
 Organization: Red Hat GmbH
-Message-ID: <daad75f0-c8bb-1c9f-5b43-afa828601c42@redhat.com>
-Date: Mon, 6 May 2019 12:01:58 +0200
+Message-ID: <df6bde4f-9c83-5009-3ca8-32d7a5e088d3@redhat.com>
+Date: Mon, 6 May 2019 12:10:42 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <1556543381-12671-1-git-send-email-jjherne@linux.ibm.com>
+In-Reply-To: <daad75f0-c8bb-1c9f-5b43-afa828601c42@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.44]);
-	Mon, 06 May 2019 10:02:03 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.46]);
+	Mon, 06 May 2019 10:10:47 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 Subject: Re: [Qemu-devel] [qemu-s390x] [PATCH] s390-bios: Skip bootmap
@@ -110,91 +111,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 29.04.19 15:09, Jason J. Herne wrote:
-> Newer versions of zipl have the ability to write signature entries to the boot
-> script for secure boot. We don't yet support secure boot, but we need to skip
-> over signature entries while reading the boot script in order to maintain our
-> ability to boot guest operating systems that have a secure bootloader.
+On 06.05.19 12:01, David Hildenbrand wrote:
+> On 29.04.19 15:09, Jason J. Herne wrote:
+>> Newer versions of zipl have the ability to write signature entries to the boot
+>> script for secure boot. We don't yet support secure boot, but we need to skip
+>> over signature entries while reading the boot script in order to maintain our
+>> ability to boot guest operating systems that have a secure bootloader.
+>>
+>> Signed-off-by: Jason J. Herne <jjherne@linux.ibm.com>
+>> Reviewed-by: Farhan Ali <alifm@linux.ibm.com>
+>> ---
+>>  pc-bios/s390-ccw/bootmap.c | 19 +++++++++++++++++--
+>>  pc-bios/s390-ccw/bootmap.h | 10 ++++++----
+>>  2 files changed, 23 insertions(+), 6 deletions(-)
+>>
+>> diff --git a/pc-bios/s390-ccw/bootmap.c b/pc-bios/s390-ccw/bootmap.c
+>> index 7aef65a..d13b7cb 100644
+>> --- a/pc-bios/s390-ccw/bootmap.c
+>> +++ b/pc-bios/s390-ccw/bootmap.c
+>> @@ -254,7 +254,14 @@ static void run_eckd_boot_script(block_number_t bmt_block_nr,
+>>      memset(sec, FREE_SPACE_FILLER, sizeof(sec));
+>>      read_block(block_nr, sec, "Cannot read Boot Map Script");
+>>  
+>> -    for (i = 0; bms->entry[i].type == BOOT_SCRIPT_LOAD; i++) {
+>> +    for (i = 0; bms->entry[i].type == BOOT_SCRIPT_LOAD ||
+>> +                bms->entry[i].type == BOOT_SCRIPT_SIGNATURE; i++) {
+>> +
+>> +        /* We don't support secure boot yet, so we skip signature entries */
+>> +        if (bms->entry[i].type == BOOT_SCRIPT_SIGNATURE) {
+>> +            continue;
+>> +        }
+>> +
+>>          address = bms->entry[i].address.load_address;
+>>          block_nr = eckd_block_num(&bms->entry[i].blkptr.xeckd.bptr.chs);
+>>  
+>> @@ -489,7 +496,15 @@ static void zipl_run(ScsiBlockPtr *pte)
+>>  
+>>      /* Load image(s) into RAM */
+>>      entry = (ComponentEntry *)(&header[1]);
+>> -    while (entry->component_type == ZIPL_COMP_ENTRY_LOAD) {
+>> +    while (entry->component_type == ZIPL_COMP_ENTRY_LOAD ||
+>> +           entry->component_type == ZIPL_COMP_ENTRY_SIGNATURE) {
+>> +
+>> +        /* We don't support secure boot yet, so we skip signature entries */
+>> +        if (entry->component_type == ZIPL_COMP_ENTRY_SIGNATURE) {
+>> +            entry++;
+>> +            continue;
+>> +        }
+>> +
+>>          zipl_load_segment(entry);
+>>  
+>>          entry++;
+>> diff --git a/pc-bios/s390-ccw/bootmap.h b/pc-bios/s390-ccw/bootmap.h
+>> index a085212..94f53a5 100644
+>> --- a/pc-bios/s390-ccw/bootmap.h
+>> +++ b/pc-bios/s390-ccw/bootmap.h
+>> @@ -98,8 +98,9 @@ typedef struct ScsiMbr {
+>>  #define ZIPL_COMP_HEADER_IPL    0x00
+>>  #define ZIPL_COMP_HEADER_DUMP   0x01
+>>  
+>> -#define ZIPL_COMP_ENTRY_LOAD    0x02
+>> -#define ZIPL_COMP_ENTRY_EXEC    0x01
+>> +#define ZIPL_COMP_ENTRY_EXEC      0x01
+>> +#define ZIPL_COMP_ENTRY_LOAD      0x02
+>> +#define ZIPL_COMP_ENTRY_SIGNATURE 0x03
+>>  
+>>  typedef struct XEckdMbr {
+>>      uint8_t magic[4];   /* == "xIPL"        */
+>> @@ -117,8 +118,9 @@ typedef struct BootMapScriptEntry {
+>>      BootMapPointer blkptr;
+>>      uint8_t pad[7];
+>>      uint8_t type;   /* == BOOT_SCRIPT_* */
+>> -#define BOOT_SCRIPT_EXEC 0x01
+>> -#define BOOT_SCRIPT_LOAD 0x02
+>> +#define BOOT_SCRIPT_EXEC      0x01
+>> +#define BOOT_SCRIPT_LOAD      0x02
+>> +#define BOOT_SCRIPT_SIGNATURE 0x03
+>>      union {
+>>          uint64_t load_address;
+>>          uint64_t load_psw;
+>>
 > 
-> Signed-off-by: Jason J. Herne <jjherne@linux.ibm.com>
-> Reviewed-by: Farhan Ali <alifm@linux.ibm.com>
-> ---
->  pc-bios/s390-ccw/bootmap.c | 19 +++++++++++++++++--
->  pc-bios/s390-ccw/bootmap.h | 10 ++++++----
->  2 files changed, 23 insertions(+), 6 deletions(-)
+> Naive question from me:
 > 
-> diff --git a/pc-bios/s390-ccw/bootmap.c b/pc-bios/s390-ccw/bootmap.c
-> index 7aef65a..d13b7cb 100644
-> --- a/pc-bios/s390-ccw/bootmap.c
-> +++ b/pc-bios/s390-ccw/bootmap.c
-> @@ -254,7 +254,14 @@ static void run_eckd_boot_script(block_number_t bmt_block_nr,
->      memset(sec, FREE_SPACE_FILLER, sizeof(sec));
->      read_block(block_nr, sec, "Cannot read Boot Map Script");
->  
-> -    for (i = 0; bms->entry[i].type == BOOT_SCRIPT_LOAD; i++) {
-> +    for (i = 0; bms->entry[i].type == BOOT_SCRIPT_LOAD ||
-> +                bms->entry[i].type == BOOT_SCRIPT_SIGNATURE; i++) {
-> +
-> +        /* We don't support secure boot yet, so we skip signature entries */
-> +        if (bms->entry[i].type == BOOT_SCRIPT_SIGNATURE) {
-> +            continue;
-> +        }
-> +
->          address = bms->entry[i].address.load_address;
->          block_nr = eckd_block_num(&bms->entry[i].blkptr.xeckd.bptr.chs);
->  
-> @@ -489,7 +496,15 @@ static void zipl_run(ScsiBlockPtr *pte)
->  
->      /* Load image(s) into RAM */
->      entry = (ComponentEntry *)(&header[1]);
-> -    while (entry->component_type == ZIPL_COMP_ENTRY_LOAD) {
-> +    while (entry->component_type == ZIPL_COMP_ENTRY_LOAD ||
-> +           entry->component_type == ZIPL_COMP_ENTRY_SIGNATURE) {
-> +
-> +        /* We don't support secure boot yet, so we skip signature entries */
-> +        if (entry->component_type == ZIPL_COMP_ENTRY_SIGNATURE) {
-> +            entry++;
-> +            continue;
-> +        }
-> +
->          zipl_load_segment(entry);
->  
->          entry++;
-> diff --git a/pc-bios/s390-ccw/bootmap.h b/pc-bios/s390-ccw/bootmap.h
-> index a085212..94f53a5 100644
-> --- a/pc-bios/s390-ccw/bootmap.h
-> +++ b/pc-bios/s390-ccw/bootmap.h
-> @@ -98,8 +98,9 @@ typedef struct ScsiMbr {
->  #define ZIPL_COMP_HEADER_IPL    0x00
->  #define ZIPL_COMP_HEADER_DUMP   0x01
->  
-> -#define ZIPL_COMP_ENTRY_LOAD    0x02
-> -#define ZIPL_COMP_ENTRY_EXEC    0x01
-> +#define ZIPL_COMP_ENTRY_EXEC      0x01
-> +#define ZIPL_COMP_ENTRY_LOAD      0x02
-> +#define ZIPL_COMP_ENTRY_SIGNATURE 0x03
->  
->  typedef struct XEckdMbr {
->      uint8_t magic[4];   /* == "xIPL"        */
-> @@ -117,8 +118,9 @@ typedef struct BootMapScriptEntry {
->      BootMapPointer blkptr;
->      uint8_t pad[7];
->      uint8_t type;   /* == BOOT_SCRIPT_* */
-> -#define BOOT_SCRIPT_EXEC 0x01
-> -#define BOOT_SCRIPT_LOAD 0x02
-> +#define BOOT_SCRIPT_EXEC      0x01
-> +#define BOOT_SCRIPT_LOAD      0x02
-> +#define BOOT_SCRIPT_SIGNATURE 0x03
->      union {
->          uint64_t load_address;
->          uint64_t load_psw;
+> Can't we place the signatures somewhere else, and instead associate them
+> with entries? This avoids breaking backwards compatibility for the sake
+> of signatures we want unmodified zipl loaders to ignore.
 > 
 
-Naive question from me:
 
-Can't we place the signatures somewhere else, and instead associate them
-with entries? This avoids breaking backwards compatibility for the sake
-of signatures we want unmodified zipl loaders to ignore.
+... but I guess this is already documented somewhere internally and
+other components have been adjusted. IOW, cannot be changed anymore.
+
+Guess our implementation should have tolerated other entries than
+"BOOT_SCRIPT_LOAD" right from the beginning.
 
 -- 
 
