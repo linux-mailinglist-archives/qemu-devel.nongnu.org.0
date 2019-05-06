@@ -2,70 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4193015314
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 19:52:43 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60164 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9144C15337
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 19:58:50 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60258 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNhn8-000092-EM
-	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 13:52:42 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40166)
+	id 1hNht3-000507-Oq
+	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 13:58:49 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41664)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hNhVV-0001PV-MT
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 13:34:30 -0400
+	(envelope-from <kheib@redhat.com>) id 1hNhaU-0006L3-GY
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 13:39:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hNhVU-0001dP-Hg
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 13:34:29 -0400
-Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:35165)
+	(envelope-from <kheib@redhat.com>) id 1hNhaS-0004Qj-Kf
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 13:39:38 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:54809)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hNhVU-0001ae-8L
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 13:34:28 -0400
-Received: by mail-pl1-x630.google.com with SMTP id w24so6721896plp.2
-	for <qemu-devel@nongnu.org>; Mon, 06 May 2019 10:34:25 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=WYz5jNmR/GTo+9WP/v5okCDQ6l0w7x39q4Q1GnmCfVI=;
-	b=fwOpYX4qsqgU/XXxKrEFF0vQbJf4HWyqZl9np9N8Vm4S3jFnpuczDSqdTmhc4Bf6rf
-	21tal0urqhRdkt0k/0+5SMBPLKZiKbVIGWIYpEfbZEqA3H3CEViocjaZim9CZzhflxT1
-	CVAtJZx69JTBhcab2STBrwVYPwN5YlHuhToJn12+pa8wm2QeHhKoBvgqPVo47jF9XsfZ
-	aHl/AywHNDgty4dc84ydiFxC3jTuK8N44UJb+wkGS+wplmjgqW/Z9JZRlQWDaJ5iJCce
-	fPwqGD7REhr/O74/91An8OiyaDqCX7flBsv/MRql3XhYQXD+8mUR9We1hBOdpGWivKSr
-	jxcw==
+	(Exim 4.71) (envelope-from <kheib@redhat.com>) id 1hNhaQ-0004M7-6S
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 13:39:34 -0400
+Received: by mail-wm1-f65.google.com with SMTP id b10so16911586wmj.4
+	for <qemu-devel@nongnu.org>; Mon, 06 May 2019 10:39:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=WYz5jNmR/GTo+9WP/v5okCDQ6l0w7x39q4Q1GnmCfVI=;
-	b=MpQYamcmbrq5LEzr36+Os03bOIBrB7lCDbamReDImiapVWZRuaQ+xBbNBaSHU4N4c/
-	ocTQVn0EaY2b+0KOdHBWhuotZ4IT1U+EdrM5f0La7n9rR0DWOOqRUb686UcuuOWkSKl+
-	2HXDgAPGyYiGTRK/gRiJcV+j8ru2qASF6wQJW/qWWrSf4l9oz2w2IUcPz4KE+jrdO0Wg
-	OXNFMEr1MekUs+ECZG5K8Es1WZpQSwan+WbV2+Rs62HimhIuBxtn8RkM0zvTtPWlC4h7
-	Qb3wmohvkltXrPJj9GzURH6eA7PlLGAI5yriNDxf6QIywgm6ZeumdApWkOHLlNvs1Haa
-	NdSA==
-X-Gm-Message-State: APjAAAVolv7e49rpVsJMVaPAv2xnx9sfAdEZRnLE9xrZfdHGhA1DRhV8
-	m8EDvw42a27ACmXPhhBWsfSaiAGJVCE=
-X-Google-Smtp-Source: APXvYqw4mhOlhk600dxujgZBmSdP358pAD/Iq+YDm7Vzyi/xLTqPwHCJlZjfITlhMPZL107o9j1ZkA==
-X-Received: by 2002:a17:902:bd91:: with SMTP id
-	q17mr7601766pls.13.1557164064233; 
-	Mon, 06 May 2019 10:34:24 -0700 (PDT)
-Received: from localhost.localdomain (97-113-189-189.tukw.qwest.net.
-	[97.113.189.189]) by smtp.gmail.com with ESMTPSA id
-	k9sm2268839pfa.180.2019.05.06.10.34.23
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 06 May 2019 10:34:23 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Mon,  6 May 2019 10:33:53 -0700
-Message-Id: <20190506173353.32206-25-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190506173353.32206-1-richard.henderson@linaro.org>
-References: <20190506173353.32206-1-richard.henderson@linaro.org>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::630
-Subject: [Qemu-devel] [PATCH v4 24/24] target/i386: Implement
- CPUID_EXT_RDRAND
+	h=x-gm-message-state:subject:to:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=3SXgy+7eZnHUrtsAa3ARviZuLvUWpGcvdPb7FvTH4sk=;
+	b=AzOp5gTO3Pzf9LpJv10YM/QSLdRddjX531gGrZZ5Dmfjgfmong8Eq8l8K2I62NDV2Y
+	qFt/KHUrCwUXAaY6FSZ+ELQW6jXg+4Tqd9p9Eklal56+pGuPT7SunlLmK4FK3831K0qs
+	3sdh/kUVvJYztfPAnyYCsiMz3rdHm96Yv3sCrhLi46iN/iGsgZjzz5fRpX7gubdL/daK
+	p0NtdAlMDHtSgJ/i+YWHJc9EpsJ1v56tVhdC1nQ3keM81aJjRu4xOYMydpRIkGBrRcJr
+	VoGb0FOZhhG0T5IF1m/56ixpEp0c2jCFav+jhSo+EHF+nnZWx6C4xqYcRRwYOBA6kfH9
+	D60Q==
+X-Gm-Message-State: APjAAAUyAYYnCqyx08MnzRo1lIX4UtQ4PAPfA8PC4B8oHAUbY4rP6Qdn
+	K2kvnRQaDl9sH5a1wlAAfLjuzg==
+X-Google-Smtp-Source: APXvYqyv0o7wvQzV/Hq0nl+DbEPAy3dPyQLq197U45Jel0WJQ0FBshitfqCCouRZoM73uwgcreHphw==
+X-Received: by 2002:a1c:f909:: with SMTP id x9mr17955282wmh.18.1557164368577; 
+	Mon, 06 May 2019 10:39:28 -0700 (PDT)
+Received: from [192.168.1.105] (bzq-109-67-4-126.red.bezeqint.net.
+	[109.67.4.126]) by smtp.gmail.com with ESMTPSA id
+	k206sm22167049wmk.16.2019.05.06.10.39.27
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Mon, 06 May 2019 10:39:27 -0700 (PDT)
+To: Yuval Shaia <yuval.shaia@oracle.com>, marcel.apfelbaum@gmail.com,
+	qemu-devel@nongnu.org, eblake@redhat.com
+References: <20190506163704.1378-1-yuval.shaia@oracle.com>
+From: Kamal Heib <kheib@redhat.com>
+Message-ID: <04e28f0f-fbbb-bb86-7471-9da639f743c9@redhat.com>
+Date: Mon, 6 May 2019 20:39:12 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <20190506163704.1378-1-yuval.shaia@oracle.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+	[fuzzy]
+X-Received-From: 209.85.128.65
+Subject: Re: [Qemu-devel] [PATCH v1] hw/rdma: Add support for GID state
+ changes for non-qmp frameworks
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -77,166 +73,172 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We now have an interface for guest visible random numbers.
 
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Eduardo Habkost <ehabkost@redhat.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/i386/helper.h     |  2 ++
- target/i386/cpu.c        |  5 ++--
- target/i386/int_helper.c | 21 +++++++++++++++
- target/i386/translate.c  | 55 +++++++++++++++++++++++++++++-----------
- 4 files changed, 66 insertions(+), 17 deletions(-)
 
-diff --git a/target/i386/helper.h b/target/i386/helper.h
-index 6fb8fb9b74..8f9e1905c3 100644
---- a/target/i386/helper.h
-+++ b/target/i386/helper.h
-@@ -226,3 +226,5 @@ DEF_HELPER_3(rcrl, tl, env, tl, tl)
- DEF_HELPER_3(rclq, tl, env, tl, tl)
- DEF_HELPER_3(rcrq, tl, env, tl, tl)
- #endif
-+
-+DEF_HELPER_1(rdrand, tl, env)
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 722c5514d4..1386814957 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -730,13 +730,14 @@ static void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
-           CPUID_EXT_MONITOR | CPUID_EXT_SSSE3 | CPUID_EXT_CX16 | \
-           CPUID_EXT_SSE41 | CPUID_EXT_SSE42 | CPUID_EXT_POPCNT | \
-           CPUID_EXT_XSAVE | /* CPUID_EXT_OSXSAVE is dynamic */   \
--          CPUID_EXT_MOVBE | CPUID_EXT_AES | CPUID_EXT_HYPERVISOR)
-+          CPUID_EXT_MOVBE | CPUID_EXT_AES | CPUID_EXT_HYPERVISOR | \
-+          CPUID_EXT_RDRAND)
-           /* missing:
-           CPUID_EXT_DTES64, CPUID_EXT_DSCPL, CPUID_EXT_VMX, CPUID_EXT_SMX,
-           CPUID_EXT_EST, CPUID_EXT_TM2, CPUID_EXT_CID, CPUID_EXT_FMA,
-           CPUID_EXT_XTPR, CPUID_EXT_PDCM, CPUID_EXT_PCID, CPUID_EXT_DCA,
-           CPUID_EXT_X2APIC, CPUID_EXT_TSC_DEADLINE_TIMER, CPUID_EXT_AVX,
--          CPUID_EXT_F16C, CPUID_EXT_RDRAND */
-+          CPUID_EXT_F16C */
- 
- #ifdef TARGET_X86_64
- #define TCG_EXT2_X86_64_FEATURES (CPUID_EXT2_SYSCALL | CPUID_EXT2_LM)
-diff --git a/target/i386/int_helper.c b/target/i386/int_helper.c
-index 4dc5c65991..334469ca8c 100644
---- a/target/i386/int_helper.c
-+++ b/target/i386/int_helper.c
-@@ -22,6 +22,8 @@
- #include "exec/exec-all.h"
- #include "qemu/host-utils.h"
- #include "exec/helper-proto.h"
-+#include "qapi/error.h"
-+#include "qemu/guest-random.h"
- 
- //#define DEBUG_MULDIV
- 
-@@ -470,3 +472,22 @@ void helper_cr4_testbit(CPUX86State *env, uint32_t bit)
-         raise_exception_ra(env, EXCP06_ILLOP, GETPC());
-     }
- }
-+
-+target_ulong HELPER(rdrand)(CPUX86State *env)
-+{
-+    Error *err = NULL;
-+    target_ulong ret;
-+
-+    if (qemu_guest_getrandom(&ret, sizeof(ret), &err) < 0) {
-+        qemu_log_mask(LOG_UNIMP, "rdrand: Crypto failure: %s",
-+                      error_get_pretty(err));
-+        error_free(err);
-+        /* Failure clears CF and all other flags, and returns 0.  */
-+        env->cc_src = 0;
-+        return 0;
-+    }
-+
-+    /* Success sets CF and clears all others.  */
-+    env->cc_src = CC_C;
-+    return ret;
-+}
-diff --git a/target/i386/translate.c b/target/i386/translate.c
-index 77d6b73e42..62fa45d778 100644
---- a/target/i386/translate.c
-+++ b/target/i386/translate.c
-@@ -5332,31 +5332,56 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-     case 0x1c7: /* cmpxchg8b */
-         modrm = x86_ldub_code(env, s);
-         mod = (modrm >> 6) & 3;
--        if ((mod == 3) || ((modrm & 0x38) != 0x8))
--            goto illegal_op;
--#ifdef TARGET_X86_64
--        if (dflag == MO_64) {
--            if (!(s->cpuid_ext_features & CPUID_EXT_CX16))
-+        switch ((modrm >> 3) & 7) {
-+        case 1: /* CMPXCHG8, CMPXCHG16 */
-+            if (mod == 3) {
-                 goto illegal_op;
--            gen_lea_modrm(env, s, modrm);
--            if ((s->prefix & PREFIX_LOCK) && (tb_cflags(s->base.tb) & CF_PARALLEL)) {
--                gen_helper_cmpxchg16b(cpu_env, s->A0);
--            } else {
--                gen_helper_cmpxchg16b_unlocked(cpu_env, s->A0);
-             }
--        } else
-+#ifdef TARGET_X86_64
-+            if (dflag == MO_64) {
-+                if (!(s->cpuid_ext_features & CPUID_EXT_CX16)) {
-+                    goto illegal_op;
-+                }
-+                gen_lea_modrm(env, s, modrm);
-+                if ((s->prefix & PREFIX_LOCK) &&
-+                    (tb_cflags(s->base.tb) & CF_PARALLEL)) {
-+                    gen_helper_cmpxchg16b(cpu_env, s->A0);
-+                } else {
-+                    gen_helper_cmpxchg16b_unlocked(cpu_env, s->A0);
-+                }
-+                set_cc_op(s, CC_OP_EFLAGS);
-+                break;
-+            }
- #endif        
--        {
--            if (!(s->cpuid_features & CPUID_CX8))
-+            if (!(s->cpuid_features & CPUID_CX8)) {
-                 goto illegal_op;
-+            }
-             gen_lea_modrm(env, s, modrm);
--            if ((s->prefix & PREFIX_LOCK) && (tb_cflags(s->base.tb) & CF_PARALLEL)) {
-+            if ((s->prefix & PREFIX_LOCK) &&
-+                (tb_cflags(s->base.tb) & CF_PARALLEL)) {
-                 gen_helper_cmpxchg8b(cpu_env, s->A0);
-             } else {
-                 gen_helper_cmpxchg8b_unlocked(cpu_env, s->A0);
-             }
-+            set_cc_op(s, CC_OP_EFLAGS);
-+            break;
-+
-+        case 7: /* RDSEED */
-+        case 6: /* RDRAND */
-+            if (mod != 3 ||
-+                (s->prefix & (PREFIX_LOCK | PREFIX_REPZ | PREFIX_REPNZ)) ||
-+                !(s->cpuid_ext_features & CPUID_EXT_RDRAND)) {
-+                goto illegal_op;
-+            }
-+            gen_helper_rdrand(s->T0, cpu_env);
-+            rm = (modrm & 7) | REX_B(s);
-+            gen_op_mov_reg_v(s, dflag, rm, s->T0);
-+            set_cc_op(s, CC_OP_EFLAGS);
-+            break;
-+
-+        default:
-+            goto illegal_op;
-         }
--        set_cc_op(s, CC_OP_EFLAGS);
-         break;
- 
-         /**************************/
--- 
-2.17.1
+On 5/6/19 7:37 PM, Yuval Shaia wrote:
+> Any GID change in guest must be propagated to the host. This is already
+> done by firing QMP event to management system such as libvirt which in
+> turn will update the host with the relevant change.
+> 
+> When qemu is executed on non-qmp framework (ex from command-line) we
+> need to update the host instead.
+> Fix it by adding support to update the RoCE device's Ethernet function
+> IP list from qemu via netlink.
+> 
+> Signed-off-by: Yuval Shaia <yuval.shaia@oracle.com>
+> ---
+> v0 -> v1:
+> 	* Fix spelling mistakes pointed by Eric Blake
+> ---
+>  configure              |  6 ++++
+>  hw/rdma/rdma_backend.c | 74 +++++++++++++++++++++++++++++++++++++++++-
+>  2 files changed, 79 insertions(+), 1 deletion(-)
+> 
+> diff --git a/configure b/configure
+> index 5b183c2e39..1f707b1a62 100755
+> --- a/configure
+> +++ b/configure
+> @@ -3132,6 +3132,8 @@ fi
+>  
+>  cat > $TMPC <<EOF &&
+>  #include <sys/mman.h>
+> +#include <libmnl/libmnl.h>
+> +#include <linux/rtnetlink.h>
+>  
+>  int
+>  main(void)
+> @@ -3144,10 +3146,13 @@ main(void)
+>  }
+>  EOF
+>  
+> +pvrdma_libs="-lmnl"
+> +
+>  if test "$rdma" = "yes" ; then
+>      case "$pvrdma" in
+>      "")
+>          if compile_prog "" ""; then
+> +            libs_softmmu="$libs_softmmu $pvrdma_libs"
+>              pvrdma="yes"
+>          else
+>              pvrdma="no"
+> @@ -3156,6 +3161,7 @@ if test "$rdma" = "yes" ; then
+>      "yes")
+>          if ! compile_prog "" ""; then
+>              error_exit "PVRDMA is not supported since mremap is not implemented"
+> +                        " or libmnl-devel is not installed"
+>          fi
+>          pvrdma="yes"
+>          ;;
+> diff --git a/hw/rdma/rdma_backend.c b/hw/rdma/rdma_backend.c
+> index 05f6b03221..f75e916195 100644
+> --- a/hw/rdma/rdma_backend.c
+> +++ b/hw/rdma/rdma_backend.c
+> @@ -16,6 +16,11 @@
+>  #include "qemu/osdep.h"
+>  #include "qapi/qapi-events-rdma.h"
+>  
+> +#include "linux/if_addr.h"
+> +#include "libmnl/libmnl.h"
+> +#include "linux/rtnetlink.h"
+> +#include "net/if.h"
+> +
+>  #include <infiniband/verbs.h>
+>  
+>  #include "contrib/rdmacm-mux/rdmacm-mux.h"
+> @@ -47,6 +52,61 @@ static void dummy_comp_handler(void *ctx, struct ibv_wc *wc)
+>      rdma_error_report("No completion handler is registered");
+>  }
+>  
+> +static int netlink_route_update(const char *ifname, union ibv_gid *gid,
+> +                                __u16 type)
+> +{
+> +    char buf[MNL_SOCKET_BUFFER_SIZE];
+> +    struct nlmsghdr *nlh;
+> +    struct ifaddrmsg *ifm;
+> +    struct mnl_socket *nl;
+> +    int ret;
+> +    uint32_t ipv4;
+> +
+> +    nl = mnl_socket_open(NETLINK_ROUTE);
+> +    if (!nl) {
+> +        rdma_error_report("Fail to connect to netlink\n");
+> +        return -EIO;
+> +    }
+> +
+> +    ret = mnl_socket_bind(nl, 0, MNL_SOCKET_AUTOPID);
+> +    if (ret < 0) {
+> +        rdma_error_report("Fail to bind to netlink\n");
+> +        goto out;
+> +    }
+> +
+> +    nlh = mnl_nlmsg_put_header(buf);
+> +    nlh->nlmsg_type = type;
+> +    nlh->nlmsg_flags = NLM_F_REQUEST | NLM_F_CREATE | NLM_F_EXCL;
+> +    nlh->nlmsg_seq = 1;
+> +
+> +    ifm = mnl_nlmsg_put_extra_header(nlh, sizeof(*ifm));
+> +    ifm->ifa_index = if_nametoindex(ifname);
+> +    if (gid->global.subnet_prefix) {
+> +        ifm->ifa_family = AF_INET6;
+> +        ifm->ifa_prefixlen = 64;
+> +        ifm->ifa_flags = IFA_F_PERMANENT;
+> +        ifm->ifa_scope = RT_SCOPE_UNIVERSE;
+> +        mnl_attr_put(nlh, IFA_ADDRESS, sizeof(*gid), gid);
+> +    } else {
+> +        ifm->ifa_family = AF_INET;
+> +        ifm->ifa_prefixlen = 24;
+> +        memcpy(&ipv4, (char *)&gid->global.interface_id + 4, sizeof(ipv4));
+> +        mnl_attr_put(nlh, IFA_LOCAL, 4, &ipv4);
+> +    }
+> +
+> +    ret = mnl_socket_sendto(nl, nlh, nlh->nlmsg_len);
+> +    if (ret < 0) {
+> +        rdma_error_report("Fail to send msg to to netlink\n");
+> +        goto out;
+> +    }
+> +
+> +    ret = 0;
+> +
+> +out:
+> +    mnl_socket_close(nl);
+> +    return ret;
+> +}
+> +
+>  static inline void complete_work(enum ibv_wc_status status, uint32_t vendor_err,
+>                                   void *ctx)
+>  {
+> @@ -1123,7 +1183,13 @@ int rdma_backend_add_gid(RdmaBackendDev *backend_dev, const char *ifname,
+>                                              gid->global.subnet_prefix,
+>                                              gid->global.interface_id);
+>  
+> -    return ret;
+> +    /*
+> +     * We ignore return value since operation might have completed
+> +     * successfully by the QMP consumer
+> +     */
+> +    netlink_route_update(ifname, gid, RTM_NEWADDR);
+> +
+> +    return 0;
+>  }
+>  
+>  int rdma_backend_del_gid(RdmaBackendDev *backend_dev, const char *ifname,
+> @@ -1149,6 +1215,12 @@ int rdma_backend_del_gid(RdmaBackendDev *backend_dev, const char *ifname,
+>                                              gid->global.subnet_prefix,
+>                                              gid->global.interface_id);
+>  
+> +    /*
+> +     * We ignore return value since operation might have completed
+> +     * successfully by the QMP consumer
+> +     */
+> +    netlink_route_update(ifname, gid, RTM_DELADDR);
+> +
+>      return 0;
+>  }
+>  
+>
 
+Reviewed-by: Kamal Heib <kheib@redhat.com>
 
