@@ -2,70 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DBD7C146AC
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 10:46:30 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52959 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2777146DD
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 10:56:38 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53079 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNZGY-0004AL-0A
-	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 04:46:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57062)
+	id 1hNZQL-0006kh-Hd
+	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 04:56:37 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59282)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <atar4qemu@gmail.com>) id 1hNZEw-0003MO-3l
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 04:44:51 -0400
+	(envelope-from <armbru@redhat.com>) id 1hNZPH-000634-Tn
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 04:55:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <atar4qemu@gmail.com>) id 1hNZEv-0004jF-1d
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 04:44:50 -0400
-Received: from mail-io1-xd44.google.com ([2607:f8b0:4864:20::d44]:46449)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <atar4qemu@gmail.com>)
-	id 1hNZEu-0004iv-T9; Mon, 06 May 2019 04:44:48 -0400
-Received: by mail-io1-xd44.google.com with SMTP id m14so10418065ion.13;
-	Mon, 06 May 2019 01:44:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=uKB1RqKEVNbuSQHNymYkQARx2BavFHPIlbcq1bAyMqo=;
-	b=I818EKFUOgjCgLaHul3VTPBMiyF8XyhmfBymEfGq3bskZYRj3RVsxXH+MD7BMgt5Zx
-	mhHeIAQMaXuXMDdu38ZR+2nelk7iLeGbT1PfRRA2YXFGxgk4OUBI/XwkZ6dDfbZhaGoH
-	XIb1YmMkeB/8xzxX/1JuXmcnvueMOzJA0ShhTP5ntnxnOVLrTTUBinTxLz3h3AuuVhac
-	AUdMBQ0qT/HvgSfdrURD9x+ZtpEDfZpC1d/5dgzDh6JmEfnRADGlQmr4o+0A3t6+4Agd
-	nrOWLIXUR+8joSu6YMwV+jH5JsmD6+FbXsA2Ed95B7Chv8d5bmBLHIqEDeTqRvlNdrMW
-	1jYQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=uKB1RqKEVNbuSQHNymYkQARx2BavFHPIlbcq1bAyMqo=;
-	b=HdHes99CFzPYDvEfdRDqVFKZJFb93IGoGmKGXPlBi+/FHKB/sw0li5Y68ejFQlAh+l
-	zLyehDOhIwJsxj0xksMcEohCGYlBGb1CgA+UVoInvaGcg8HS26KEdlfNDeU8yJw+RREz
-	GcMJ/iDkUVAWeBDnuc/ZT6Uka0Ec0+n+gnHnlN9ue/uVAwm6r7sSirSla/YILlq66PfE
-	Szx7DzPRWeGNNidAb4ZGkrQyWay8LBc/bwM9YO0MIc9zBqDJCT97W4sBXOr/f7dFP6B5
-	uXjpzJyWhdxGXRdBD51Z+K4soUq0hlxZeUvG3MLIR6Bh2Nb4A5GpDmQzZlDS89Yncrvq
-	lb5g==
-X-Gm-Message-State: APjAAAXC15133MlGeAG388BLa95JxqHbibOM0vR/4ZBkg5miFiGqQPzA
-	nMJHN3+DACLEQ+VHf43T98Hfw/tJEwGkSoS+dc8=
-X-Google-Smtp-Source: APXvYqzSnFJ9GtBkixX0xZcLOOYKidRi1gTPGw9P0t5Ol1RepzljuoNvr9Bvm43ayJ6geyNxRtCkxRHSbcW2uaaMhQU=
-X-Received: by 2002:a05:6602:1c1:: with SMTP id
-	w1mr15066163iot.75.1557132288102; 
-	Mon, 06 May 2019 01:44:48 -0700 (PDT)
+	(envelope-from <armbru@redhat.com>) id 1hNZPG-0002FD-IY
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 04:55:31 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57960)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <armbru@redhat.com>)
+	id 1hNZPC-000284-Gd; Mon, 06 May 2019 04:55:27 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 25AA730917AF;
+	Mon,  6 May 2019 08:55:22 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-28.ams2.redhat.com
+	[10.36.116.28])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id A3CB319C4F;
+	Mon,  6 May 2019 08:55:21 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+	id 0D0981132B35; Mon,  6 May 2019 10:55:20 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+References: <20190505230140.5661-1-philmd@redhat.com>
+Date: Mon, 06 May 2019 10:55:20 +0200
+In-Reply-To: <20190505230140.5661-1-philmd@redhat.com> ("Philippe
+	=?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Mon, 6 May 2019 01:01:40
+	+0200")
+Message-ID: <87sgtsrmh3.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-References: <1557003754-26473-1-git-send-email-atar4qemu@gmail.com>
-	<1557003754-26473-4-git-send-email-atar4qemu@gmail.com>
-	<7e282cd4-f402-c807-b9aa-7034d04031b6@ilande.co.uk>
-	<debd00a6-dcc0-83a0-b0a8-1184d6da6d9c@redhat.com>
-In-Reply-To: <debd00a6-dcc0-83a0-b0a8-1184d6da6d9c@redhat.com>
-From: Artyom Tarasenko <atar4qemu@gmail.com>
-Date: Mon, 6 May 2019 10:44:38 +0200
-Message-ID: <CACXAS8CM6NO3PFZUfymvO2PuhX_=rUJfB8W5RUkABKRvjFTr+A@mail.gmail.com>
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::d44
-Subject: Re: [Qemu-devel] [PATCH v2 3/3] hw/isa/i82378.c: use 1900 as a base
- year
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.41]);
+	Mon, 06 May 2019 08:55:22 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH] hw/sd/sdcard: Use the available enums
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -77,67 +62,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:PReP" <qemu-ppc@nongnu.org>,
-	=?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
-	Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
-	qemu-devel <qemu-devel@nongnu.org>
+Cc: qemu-trivial@nongnu.org, Juan Quintela <quintela@redhat.com>,
+	qemu-devel@nongnu.org, David Alan Gilbert <dgilbert@redhat.com>,
+	Philippe =?utf-8?Q?M?= =?utf-8?Q?athieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, May 5, 2019 at 5:19 PM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
-om> wrote:
->
-> Hi Mark, Artyom.
->
-> On 5/5/19 12:46 PM, Mark Cave-Ayland wrote:
-> > On 04/05/2019 22:02, Artyom Tarasenko wrote:
-> >
-> >> AIX 5.1 expects the base year to be 1900. Adjust accordingly.
-> >>
-> >> Signed-off-by: Artyom Tarasenko <atar4qemu@gmail.com>
-> >> Reviewed-by: Herv=C3=A9 Poussineau <hpoussin@reactos.org>
-> >> ---
-> >>  hw/isa/i82378.c | 4 +++-
-> >>  1 file changed, 3 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/hw/isa/i82378.c b/hw/isa/i82378.c
-> >> index a5d67bc..546c928 100644
-> >> --- a/hw/isa/i82378.c
-> >> +++ b/hw/isa/i82378.c
-> >> @@ -107,7 +107,9 @@ static void i82378_realize(PCIDevice *pci, Error *=
-*errp)
-> >>      isa =3D isa_create_simple(isabus, "i82374");
-> >>
-> >>      /* timer */
-> >> -    isa_create_simple(isabus, TYPE_MC146818_RTC);
-> >> +    isa =3D isa_create(isabus, TYPE_MC146818_RTC);
-> >> +    qdev_prop_set_int32(DEVICE(isa), "base_year", 1900);
-> >> +    qdev_init_nofail(DEVICE(isa));
-> >>  }
-> >>
-> >>  static void i82378_init(Object *obj)
-> >
-> > Is this true for the 82378 in general, or is it a particular quirk of t=
-he 40p
-> > machine/PReP specification?
->
-> This is indeed incorrect (see
-> https://lists.gnu.org/archive/html/qemu-devel/2019-04/msg02452.html) so:
-> Nack
->
-> Artyom: I did wrote the patch and included it in another series based on
-> top of Joel Stanley's
-> https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg00657.html
-> which is also depending of another from C=C3=A9dric, so I'll just extract=
- it
-> and send directly, sorry for the delay.
+Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
 
-Thanks, it works for me.
+> We already define SDCardModes/SDCardStates as enums. Declare
+> the mode/state as enums too, this make gdb debugging sessions
+> friendlier: instead of numbers, the mode/state name is displayed.
+>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> ---
+>  hw/sd/sd.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>
+> diff --git a/hw/sd/sd.c b/hw/sd/sd.c
+> index aaab15f3868..a66b3d5b45e 100644
+> --- a/hw/sd/sd.c
+> +++ b/hw/sd/sd.c
+> @@ -96,8 +96,8 @@ struct SDState {
+>      BlockBackend *blk;
+>      bool spi;
+>=20=20
+> -    uint32_t mode;    /* current card mode, one of SDCardModes */
+> -    int32_t state;    /* current card state, one of SDCardStates */
+> +    enum SDCardModes mode;
+> +    enum SDCardStates state;
+>      uint32_t vhs;
+>      bool wp_switch;
+>      unsigned long *wp_groups;
+> @@ -1640,7 +1640,7 @@ static int cmd_valid_while_locked(SDState *sd, SDRe=
+quest *req)
+>=20=20
+>  int sd_do_command(SDState *sd, SDRequest *req,
+>                    uint8_t *response) {
+> -    int last_state;
+> +    enum SDCardStates last_state;
+>      sd_rsp_type_t rtype;
+>      int rsplen;
 
---=20
-Regards,
-Artyom Tarasenko
+These guys are part of the migration state:
 
-SPARC and PPC PReP under qemu blog: http://tyom.blogspot.com/search/label/q=
-emu
+   static const VMStateDescription sd_vmstate =3D {
+       .name =3D "sd-card",
+       .version_id =3D 1,
+       .minimum_version_id =3D 1,
+       .pre_load =3D sd_vmstate_pre_load,
+       .fields =3D (VMStateField[]) {
+           VMSTATE_UINT32(mode, SDState),
+           VMSTATE_INT32(state, SDState),
+   [...]
+
+Juan, David, are VMSTATE_UINT32() and VMSTATE_INT32() safe to use with
+enums?
 
