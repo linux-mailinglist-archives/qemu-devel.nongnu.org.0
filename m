@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AAF18152C6
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 19:30:35 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:59813 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A976E152CD
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 19:33:45 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:59873 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNhRi-0006v8-SY
-	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 13:30:34 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36023)
+	id 1hNhUm-0000Me-Q8
+	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 13:33:44 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37863)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <eblake@redhat.com>) id 1hNhLU-00023l-Kv
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 13:24:09 -0400
+	(envelope-from <eblake@redhat.com>) id 1hNhP5-0005Ih-4z
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 13:27:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <eblake@redhat.com>) id 1hNhLQ-0001uk-Bo
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 13:24:06 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36818)
+	(envelope-from <eblake@redhat.com>) id 1hNhP3-0005bt-JP
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 13:27:51 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44650)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <eblake@redhat.com>) id 1hNhLN-0001cZ-PC
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 13:24:02 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
+	(Exim 4.71) (envelope-from <eblake@redhat.com>) id 1hNhP3-0005ab-Am
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 13:27:49 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id A2EEE309B14D;
-	Mon,  6 May 2019 17:23:56 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 21343C130719;
+	Mon,  6 May 2019 17:27:48 +0000 (UTC)
 Received: from [10.3.116.15] (ovpn-116-15.phx2.redhat.com [10.3.116.15])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id B5CFC5C1B5;
-	Mon,  6 May 2019 17:23:55 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 3FF0160857;
+	Mon,  6 May 2019 17:27:47 +0000 (UTC)
 To: Antonio Ospite <ao2@ao2.it>, qemu-devel@nongnu.org
 References: <20190503082728.16485-1-ao2@ao2.it>
-	<20190503082728.16485-2-ao2@ao2.it>
+	<20190503082728.16485-3-ao2@ao2.it>
 From: Eric Blake <eblake@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=eblake@redhat.com; keydata=
@@ -58,24 +58,24 @@ Autocrypt: addr=eblake@redhat.com; keydata=
 	Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
 	2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
 Organization: Red Hat, Inc.
-Message-ID: <6822ade4-2859-6d2a-d778-7fc115af5081@redhat.com>
-Date: Mon, 6 May 2019 12:23:53 -0500
+Message-ID: <541bfc5c-0e45-58e6-f0b1-81e9b0c8881d@redhat.com>
+Date: Mon, 6 May 2019 12:27:46 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190503082728.16485-2-ao2@ao2.it>
+In-Reply-To: <20190503082728.16485-3-ao2@ao2.it>
 Content-Type: multipart/signed; micalg=pgp-sha256;
 	protocol="application/pgp-signature";
-	boundary="lA7UKGnyznKjIVMegEYCk5MViPF3I1xfy"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+	boundary="7ju2hnhq9bgSHdVmKiw2i7aB1u2kJ7fLg"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.49]);
-	Mon, 06 May 2019 17:23:56 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.31]);
+	Mon, 06 May 2019 17:27:48 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PATCH v2 1/2] configure: set source_path only
- once and make its definition more robust
+Subject: Re: [Qemu-devel] [PATCH v2 2/2] configure: disallow spaces and
+ colons in source path and build path
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -93,39 +93,77 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---lA7UKGnyznKjIVMegEYCk5MViPF3I1xfy
+--7ju2hnhq9bgSHdVmKiw2i7aB1u2kJ7fLg
 From: Eric Blake <eblake@redhat.com>
 To: Antonio Ospite <ao2@ao2.it>, qemu-devel@nongnu.org
 Cc: Antonio Ospite <antonio.ospite@collabora.com>,
  Peter Maydell <peter.maydell@linaro.org>
-Message-ID: <6822ade4-2859-6d2a-d778-7fc115af5081@redhat.com>
-Subject: Re: [PATCH v2 1/2] configure: set source_path only once and make its
- definition more robust
+Message-ID: <541bfc5c-0e45-58e6-f0b1-81e9b0c8881d@redhat.com>
+Subject: Re: [PATCH v2 2/2] configure: disallow spaces and colons in source
+ path and build path
 References: <20190503082728.16485-1-ao2@ao2.it>
- <20190503082728.16485-2-ao2@ao2.it>
-In-Reply-To: <20190503082728.16485-2-ao2@ao2.it>
+ <20190503082728.16485-3-ao2@ao2.it>
+In-Reply-To: <20190503082728.16485-3-ao2@ao2.it>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
 On 5/3/19 3:27 AM, Antonio Ospite wrote:
 > From: Antonio Ospite <antonio.ospite@collabora.com>
 >=20
-> Since commit 79d77bcd36 (configure: Remove --source-path option,
-> 2019-04-29) source_path cannot be overridden anymore, move it out of th=
+> The configure script breaks when the qemu source directory is in a path=
+
+> containing white spaces, in particular the list of targets is not
+> correctly generated when calling "./configure --help" because of how th=
 e
-> "default parameters" block since the word "default" may suggest that th=
-e
-> value can change, while in fact it does not.
+> default_target_list variable is built.
 >=20
-> While at it, only set source_path once and separate the positional
-> argument of basename with "--" to more robustly cover the case of path
-> names starting with a dash.
+> In addition to that, *building* qemu from a directory with spaces break=
+s
+> some assumptions in the Makefiles, even if the original source path doe=
+s
+> not contain spaces like in the case of an out-of-tree build, or when
+> symlinks are involved.
+>=20
+> To avoid these issues, refuse to run the configure script and the
+> Makefile if there are spaces or colons in the source path or the build
+> path, taking as inspiration what the kbuild system in linux does.
+>=20
+> Buglink: https://bugs.launchpad.net/qemu/+bug/1817345
 >=20
 > Signed-off-by: Antonio Ospite <antonio.ospite@collabora.com>
 > ---
->  configure | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  Makefile  | 4 ++++
+>  configure | 6 ++++++
+>  2 files changed, 10 insertions(+)
 >=20
+
+> +++ b/Makefile
+> @@ -1,5 +1,9 @@
+>  # Makefile for QEMU.
+> =20
+> +ifneq ($(words $(subst :, ,$(CURDIR))), 1)
+> +  $(error main directory cannot contain spaces nor colons)
+> +endif
+> +
+>  # Always point to the root of the build tree (needs GNU make).
+>  BUILD_DIR=3D$(CURDIR)
+> =20
+> diff --git a/configure b/configure
+> index 9832cbca5c..f7ad4381bd 100755
+> --- a/configure
+> +++ b/configure
+> @@ -279,6 +279,12 @@ ld_has() {
+>  # make source path absolute
+>  source_path=3D$(cd "$(dirname -- "$0")"; pwd)
+> =20
+> +if printf "%s\n" "$source_path" | grep -q "[[:space:]:]" ||
+> +  printf "%s\n" "$PWD" | grep -q "[[:space:]:]";
+
+For less typing and fewer processes, you could shorten this to:
+
+if printf %s\\n "$source_path" "$PWD" | grep -q "[[:space:]:]";
+
+but that's trivial enough for a maintainer to fold in if desired.
 
 Reviewed-by: Eric Blake <eblake@redhat.com>
 
@@ -135,22 +173,22 @@ Red Hat, Inc.           +1-919-301-3226
 Virtualization:  qemu.org | libvirt.org
 
 
---lA7UKGnyznKjIVMegEYCk5MViPF3I1xfy
+--7ju2hnhq9bgSHdVmKiw2i7aB1u2kJ7fLg
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlzQbakACgkQp6FrSiUn
-Q2q53ggAlb6Alj+piZ7r1nBHL3SPkdlWa+QpCgrm7RJ29TScWWxonpSqGkMzPyty
-WaZFHzdEkurAN19QlONLoysyJewCGOhG1Cok1uCRj5m3UbrjFDW9sp75Vt43A6c2
-q59C1FVWJudQZ1CYW3jydKVpvrjAOCYlpuoDJS5pXgibmfxn1MBrxGVDj8ag7WUn
-LBgfZXI1oixyQqUBbMfn8bLTotE3yoBXjC358xSSwv4/O3YNTtUpOZyr/Mw0uMkB
-5SSfe2div8aq4aDs1L9P9NW24CbPb7OGdDDl98B2GTa8xAPimYF7IS+YbaT651LN
-80Tb5Y3p5A2SJe0qbw2LS2GOxcyMaA==
-=7f6T
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlzQbpIACgkQp6FrSiUn
+Q2qNuAf/YRVor6YRh4GKA+Ni7PQiZBl2/WpPnglG75OyCwfXkHBVpRDqYtuQ83hP
+kdpsNrKfH2kpEtVvOkkAeLnRGUtWgYplbfih5Hi/4EBkZ23FWxZb6WenrRL/1ltH
+gltSjwJZRiUOog8w7KnkGxJhhAmy8CgjWKgPP6h4kNGMWBdy8nzj5TUZLgdSLX1o
+9xUTLFnRVZh44fMpDnWkuGTSr7uP2HNa7s6iDxS/2wDkbuyZAboQ9Mg3m7BAmhX9
+zad+pqoVcRwL+g7wWEoqNOpLRMP7wnMEuiqNEKG+8vXXQrLfIQoRKstvniGWWHpF
+IqhyMI2SDVTUTL8vTuAmAsbyopT4xw==
+=Jgf4
 -----END PGP SIGNATURE-----
 
---lA7UKGnyznKjIVMegEYCk5MViPF3I1xfy--
+--7ju2hnhq9bgSHdVmKiw2i7aB1u2kJ7fLg--
 
