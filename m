@@ -2,97 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48CA014458
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 08:01:50 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50971 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5263D1449F
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 08:52:20 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:51426 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNWhB-0004Sz-G5
-	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 02:01:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52399)
+	id 1hNXU3-0006xk-GH
+	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 02:52:19 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59538)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hNWfx-0003jP-8R
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 02:00:34 -0400
+	(envelope-from <dgibson@ozlabs.org>) id 1hNXRh-0005Oj-6S
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 02:49:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hNWfo-0002ZO-8E
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 02:00:33 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:11520)
+	(envelope-from <dgibson@ozlabs.org>) id 1hNXRf-00068B-HK
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 02:49:53 -0400
+Received: from ozlabs.org ([203.11.71.1]:43511)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <thuth@redhat.com>)
-	id 1hNWfn-0002Xu-GQ; Mon, 06 May 2019 02:00:23 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id CE71B308FE8D;
-	Mon,  6 May 2019 06:00:21 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-116-74.ams2.redhat.com [10.36.116.74])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id B896560851;
-	Mon,  6 May 2019 06:00:20 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org, Aurelien Jarno <aurelien@aurel32.net>
-References: <1550073530-4138-1-git-send-email-thuth@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=thuth@redhat.com; keydata=
-	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
-Organization: Red Hat
-Message-ID: <47daa7c9-cce2-2621-133a-d2f390130ea3@redhat.com>
-Date: Mon, 6 May 2019 08:00:18 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+	id 1hNXRd-00064I-LW; Mon, 06 May 2019 02:49:51 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+	id 44yCyv0cLwz9s9N; Mon,  6 May 2019 16:49:43 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=gibson.dropbear.id.au; s=201602; t=1557125383;
+	bh=Z0eSrySStS0U0qnSjNb8zpISnT2RTIxs35FQDAzStRU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=geS/VqfM47eJJ8VNgUX7iMQGsOPiaTQ/DAWF3b2JpKCrINsEfmpSVOgFAaUgqXfBv
+	cY626qzthGgqLe5VeY49uHX73uug3ICB1t7Ri9gRDiqkwtXFvhCxx8Yh6iQzwLi/KM
+	QKjRFz/mr5KTIbJcz2dJLkHxCHaFGYjph9xx0oo0=
+Date: Mon, 6 May 2019 16:02:15 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
+Message-ID: <20190506060214.GG6790@umbus.fritz.box>
+References: <20190503055316.6441-1-sjitindarsingh@gmail.com>
+	<20190503055316.6441-2-sjitindarsingh@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <1550073530-4138-1-git-send-email-thuth@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.49]);
-	Mon, 06 May 2019 06:00:22 +0000 (UTC)
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="MrRUTeZlqqNo1jQ9"
+Content-Disposition: inline
+In-Reply-To: <20190503055316.6441-2-sjitindarsingh@gmail.com>
+User-Agent: Mutt/1.11.3 (2019-02-01)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] target/sh4: Fix LGPL information in the
- file headers
+X-Received-From: 203.11.71.1
+Subject: Re: [Qemu-devel] [QEMU-PPC] [PATCH 01/13] target/ppc: Implement the
+ VTB for HV access
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -104,121 +56,229 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org
+Cc: groug@kaod.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 13/02/2019 16.58, Thomas Huth wrote:
-> It's either "GNU *Library* General Public License version 2" or "GNU
-> Lesser General Public License version *2.1*", but there was no "version
-> 2.0" of the "Lesser" license. So assume that version 2.1 is meant here.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
+
+--MrRUTeZlqqNo1jQ9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Fri, May 03, 2019 at 03:53:04PM +1000, Suraj Jitindar Singh wrote:
+> The virtual timebase register (VTB) is a 64-bit register which
+> increments at the same rate as the timebase register, present on POWER8
+> and later processors.
+>=20
+> The register is able to be read/written by the hypervisor and read by
+> the supervisor. All other accesses are illegal.
+>=20
+> Currently the VTB is just an alias for the timebase (TB) register.
+>=20
+> Implement the VTB so that is can be read/written independent of the TB.
+> Make use of the existing method for accessing timebase facilities where
+> by the compensation is stored and used to compute the value on reads/is
+> updated on writes.
+>=20
+> Signed-off-by: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
+
+LGTM, but now conflicts with the ppc-for-4.1 tree.
+
 > ---
->  linux-user/sh4/target_cpu.h     | 2 +-
->  linux-user/sh4/target_structs.h | 2 +-
->  target/sh4/cpu.h                | 2 +-
->  target/sh4/gdbstub.c            | 2 +-
->  target/sh4/helper.c             | 2 +-
->  target/sh4/op_helper.c          | 2 +-
->  target/sh4/translate.c          | 2 +-
->  7 files changed, 7 insertions(+), 7 deletions(-)
-> 
-> diff --git a/linux-user/sh4/target_cpu.h b/linux-user/sh4/target_cpu.h
-> index 1a647dd..b0be9a2 100644
-> --- a/linux-user/sh4/target_cpu.h
-> +++ b/linux-user/sh4/target_cpu.h
-> @@ -6,7 +6,7 @@
->   * This library is free software; you can redistribute it and/or
->   * modify it under the terms of the GNU Lesser General Public
->   * License as published by the Free Software Foundation; either
-> - * version 2 of the License, or (at your option) any later version.
-> + * version 2.1 of the License, or (at your option) any later version.
->   *
->   * This library is distributed in the hope that it will be useful,
->   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> diff --git a/linux-user/sh4/target_structs.h b/linux-user/sh4/target_structs.h
-> index 3e832bf..00ac394 100644
-> --- a/linux-user/sh4/target_structs.h
-> +++ b/linux-user/sh4/target_structs.h
-> @@ -6,7 +6,7 @@
->   * This library is free software; you can redistribute it and/or
->   * modify it under the terms of the GNU Lesser General Public
->   * License as published by the Free Software Foundation; either
-> - * version 2 of the License, or (at your option) any later version.
-> + * version 2.1 of the License, or (at your option) any later version.
->   *
->   * This library is distributed in the hope that it will be useful,
->   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> diff --git a/target/sh4/cpu.h b/target/sh4/cpu.h
-> index 775b574..02a9f74 100644
-> --- a/target/sh4/cpu.h
-> +++ b/target/sh4/cpu.h
-> @@ -6,7 +6,7 @@
->   * This library is free software; you can redistribute it and/or
->   * modify it under the terms of the GNU Lesser General Public
->   * License as published by the Free Software Foundation; either
-> - * version 2 of the License, or (at your option) any later version.
-> + * version 2.1 of the License, or (at your option) any later version.
->   *
->   * This library is distributed in the hope that it will be useful,
->   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> diff --git a/target/sh4/gdbstub.c b/target/sh4/gdbstub.c
-> index 13bea00..54568e9 100644
-> --- a/target/sh4/gdbstub.c
-> +++ b/target/sh4/gdbstub.c
-> @@ -7,7 +7,7 @@
->   * This library is free software; you can redistribute it and/or
->   * modify it under the terms of the GNU Lesser General Public
->   * License as published by the Free Software Foundation; either
-> - * version 2 of the License, or (at your option) any later version.
-> + * version 2.1 of the License, or (at your option) any later version.
->   *
->   * This library is distributed in the hope that it will be useful,
->   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> diff --git a/target/sh4/helper.c b/target/sh4/helper.c
-> index 2ff0cf4..fa51269 100644
-> --- a/target/sh4/helper.c
-> +++ b/target/sh4/helper.c
-> @@ -6,7 +6,7 @@
->   * This library is free software; you can redistribute it and/or
->   * modify it under the terms of the GNU Lesser General Public
->   * License as published by the Free Software Foundation; either
-> - * version 2 of the License, or (at your option) any later version.
-> + * version 2.1 of the License, or (at your option) any later version.
->   *
->   * This library is distributed in the hope that it will be useful,
->   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> diff --git a/target/sh4/op_helper.c b/target/sh4/op_helper.c
-> index 4f825ba..28027f9 100644
-> --- a/target/sh4/op_helper.c
-> +++ b/target/sh4/op_helper.c
-> @@ -6,7 +6,7 @@
->   * This library is free software; you can redistribute it and/or
->   * modify it under the terms of the GNU Lesser General Public
->   * License as published by the Free Software Foundation; either
-> - * version 2 of the License, or (at your option) any later version.
-> + * version 2.1 of the License, or (at your option) any later version.
->   *
->   * This library is distributed in the hope that it will be useful,
->   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> diff --git a/target/sh4/translate.c b/target/sh4/translate.c
-> index ab254b0..631b576 100644
-> --- a/target/sh4/translate.c
-> +++ b/target/sh4/translate.c
-> @@ -6,7 +6,7 @@
->   * This library is free software; you can redistribute it and/or
->   * modify it under the terms of the GNU Lesser General Public
->   * License as published by the Free Software Foundation; either
-> - * version 2 of the License, or (at your option) any later version.
-> + * version 2.1 of the License, or (at your option) any later version.
->   *
->   * This library is distributed in the hope that it will be useful,
->   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-> 
+>  hw/ppc/ppc.c                    | 16 ++++++++++++++++
+>  include/hw/ppc/ppc.h            |  1 +
+>  linux-user/ppc/cpu_loop.c       |  5 +++++
+>  target/ppc/cpu.h                |  2 ++
+>  target/ppc/helper.h             |  2 ++
+>  target/ppc/timebase_helper.c    | 10 ++++++++++
+>  target/ppc/translate_init.inc.c | 19 +++++++++++++++----
+>  7 files changed, 51 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/hw/ppc/ppc.c b/hw/ppc/ppc.c
+> index b2ff99ec66..a57ca64626 100644
+> --- a/hw/ppc/ppc.c
+> +++ b/hw/ppc/ppc.c
+> @@ -694,6 +694,22 @@ void cpu_ppc_store_atbu (CPUPPCState *env, uint32_t =
+value)
+>                       &tb_env->atb_offset, ((uint64_t)value << 32) | tb);
+>  }
+> =20
+> +uint64_t cpu_ppc_load_vtb(CPUPPCState *env)
+> +{
+> +    ppc_tb_t *tb_env =3D env->tb_env;
+> +
+> +    return cpu_ppc_get_tb(tb_env, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL),
+> +                          tb_env->vtb_offset);
+> +}
+> +
+> +void cpu_ppc_store_vtb(CPUPPCState *env, uint64_t value)
+> +{
+> +    ppc_tb_t *tb_env =3D env->tb_env;
+> +
+> +    cpu_ppc_store_tb(tb_env, qemu_clock_get_ns(QEMU_CLOCK_VIRTUAL),
+> +                     &tb_env->vtb_offset, value);
+> +}
+> +
+>  static void cpu_ppc_tb_stop (CPUPPCState *env)
+>  {
+>      ppc_tb_t *tb_env =3D env->tb_env;
+> diff --git a/include/hw/ppc/ppc.h b/include/hw/ppc/ppc.h
+> index 4bdcb8bacd..205150e6b4 100644
+> --- a/include/hw/ppc/ppc.h
+> +++ b/include/hw/ppc/ppc.h
+> @@ -23,6 +23,7 @@ struct ppc_tb_t {
+>      /* Time base management */
+>      int64_t  tb_offset;    /* Compensation                    */
+>      int64_t  atb_offset;   /* Compensation                    */
+> +    int64_t  vtb_offset;
+>      uint32_t tb_freq;      /* TB frequency                    */
+>      /* Decrementer management */
+>      uint64_t decr_next;    /* Tick for next decr interrupt    */
+> diff --git a/linux-user/ppc/cpu_loop.c b/linux-user/ppc/cpu_loop.c
+> index 801f5ace29..c715861804 100644
+> --- a/linux-user/ppc/cpu_loop.c
+> +++ b/linux-user/ppc/cpu_loop.c
+> @@ -46,6 +46,11 @@ uint32_t cpu_ppc_load_atbu(CPUPPCState *env)
+>      return cpu_ppc_get_tb(env) >> 32;
+>  }
+> =20
+> +uint64_t cpu_ppc_load_vtb(CPUPPCState *env)
+> +{
+> +    return cpu_ppc_get_tb(env);
+> +}
+> +
+>  uint32_t cpu_ppc601_load_rtcu(CPUPPCState *env)
+>  __attribute__ (( alias ("cpu_ppc_load_tbu") ));
+> =20
+> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> index fe93cf0555..70167bae22 100644
+> --- a/target/ppc/cpu.h
+> +++ b/target/ppc/cpu.h
+> @@ -1327,6 +1327,8 @@ uint64_t cpu_ppc_load_atbl (CPUPPCState *env);
+>  uint32_t cpu_ppc_load_atbu (CPUPPCState *env);
+>  void cpu_ppc_store_atbl (CPUPPCState *env, uint32_t value);
+>  void cpu_ppc_store_atbu (CPUPPCState *env, uint32_t value);
+> +uint64_t cpu_ppc_load_vtb(CPUPPCState *env);
+> +void cpu_ppc_store_vtb(CPUPPCState *env, uint64_t value);
+>  bool ppc_decr_clear_on_delivery(CPUPPCState *env);
+>  target_ulong cpu_ppc_load_decr (CPUPPCState *env);
+>  void cpu_ppc_store_decr (CPUPPCState *env, target_ulong value);
+> diff --git a/target/ppc/helper.h b/target/ppc/helper.h
+> index 69cbf7922f..3701bcbf1b 100644
+> --- a/target/ppc/helper.h
+> +++ b/target/ppc/helper.h
+> @@ -680,6 +680,7 @@ DEF_HELPER_FLAGS_1(load_tbl, TCG_CALL_NO_RWG, tl, env)
+>  DEF_HELPER_FLAGS_1(load_tbu, TCG_CALL_NO_RWG, tl, env)
+>  DEF_HELPER_FLAGS_1(load_atbl, TCG_CALL_NO_RWG, tl, env)
+>  DEF_HELPER_FLAGS_1(load_atbu, TCG_CALL_NO_RWG, tl, env)
+> +DEF_HELPER_FLAGS_1(load_vtb, TCG_CALL_NO_RWG, tl, env)
+>  DEF_HELPER_FLAGS_1(load_601_rtcl, TCG_CALL_NO_RWG, tl, env)
+>  DEF_HELPER_FLAGS_1(load_601_rtcu, TCG_CALL_NO_RWG, tl, env)
+>  #if !defined(CONFIG_USER_ONLY)
+> @@ -700,6 +701,7 @@ DEF_HELPER_FLAGS_1(load_decr, TCG_CALL_NO_RWG, tl, en=
+v)
+>  DEF_HELPER_FLAGS_2(store_decr, TCG_CALL_NO_RWG, void, env, tl)
+>  DEF_HELPER_FLAGS_1(load_hdecr, TCG_CALL_NO_RWG, tl, env)
+>  DEF_HELPER_FLAGS_2(store_hdecr, TCG_CALL_NO_RWG, void, env, tl)
+> +DEF_HELPER_FLAGS_2(store_vtb, TCG_CALL_NO_RWG, void, env, tl)
+>  DEF_HELPER_2(store_hid0_601, void, env, tl)
+>  DEF_HELPER_3(store_403_pbr, void, env, i32, tl)
+>  DEF_HELPER_FLAGS_1(load_40x_pit, TCG_CALL_NO_RWG, tl, env)
+> diff --git a/target/ppc/timebase_helper.c b/target/ppc/timebase_helper.c
+> index 73363e08ae..8c3c2fe67c 100644
+> --- a/target/ppc/timebase_helper.c
+> +++ b/target/ppc/timebase_helper.c
+> @@ -45,6 +45,11 @@ target_ulong helper_load_atbu(CPUPPCState *env)
+>      return cpu_ppc_load_atbu(env);
+>  }
+> =20
+> +target_ulong helper_load_vtb(CPUPPCState *env)
+> +{
+> +    return cpu_ppc_load_vtb(env);
+> +}
+> +
+>  #if defined(TARGET_PPC64) && !defined(CONFIG_USER_ONLY)
+>  target_ulong helper_load_purr(CPUPPCState *env)
+>  {
+> @@ -113,6 +118,11 @@ void helper_store_hdecr(CPUPPCState *env, target_ulo=
+ng val)
+>      cpu_ppc_store_hdecr(env, val);
+>  }
+> =20
+> +void helper_store_vtb(CPUPPCState *env, target_ulong val)
+> +{
+> +    cpu_ppc_store_vtb(env, val);
+> +}
+> +
+>  target_ulong helper_load_40x_pit(CPUPPCState *env)
+>  {
+>      return load_40x_pit(env);
+> diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.=
+inc.c
+> index 0bd555eb19..e3f941800b 100644
+> --- a/target/ppc/translate_init.inc.c
+> +++ b/target/ppc/translate_init.inc.c
+> @@ -310,6 +310,16 @@ static void spr_write_hdecr(DisasContext *ctx, int s=
+prn, int gprn)
+>      }
+>  }
+> =20
+> +static void spr_read_vtb(DisasContext *ctx, int gprn, int sprn)
+> +{
+> +    gen_helper_load_vtb(cpu_gpr[gprn], cpu_env);
+> +}
+> +
+> +static void spr_write_vtb(DisasContext *ctx, int sprn, int gprn)
+> +{
+> +    gen_helper_store_vtb(cpu_env, cpu_gpr[gprn]);
+> +}
+> +
+>  #endif
+>  #endif
+> =20
+> @@ -8133,10 +8143,11 @@ static void gen_spr_power8_ebb(CPUPPCState *env)
+>  /* Virtual Time Base */
+>  static void gen_spr_vtb(CPUPPCState *env)
+>  {
+> -    spr_register_kvm(env, SPR_VTB, "VTB",
+> -                 SPR_NOACCESS, SPR_NOACCESS,
+> -                 &spr_read_tbl, SPR_NOACCESS,
+> -                 KVM_REG_PPC_VTB, 0x00000000);
+> +    spr_register_kvm_hv(env, SPR_VTB, "VTB",
+> +                        SPR_NOACCESS, SPR_NOACCESS,
+> +                        &spr_read_vtb, SPR_NOACCESS,
+> +                        &spr_read_vtb, &spr_write_vtb,
+> +                        KVM_REG_PPC_VTB, 0x00000000);
+>  }
+> =20
+>  static void gen_spr_power8_fscr(CPUPPCState *env)
 
-Ping?
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
- Thomas
+--MrRUTeZlqqNo1jQ9
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlzPzeYACgkQbDjKyiDZ
+s5KssxAAs8bwovLVEG1gCrvniOKbt9JSbj+iwnykTLRr87LC1QsHKwoUqo58DPhu
+54k1msBgjCqIJdTPEUOXA5Ic7M6aRCt75DPVwdYk8pBA0Ef8VVB2IeyShgcVp8ZD
+QfWEKfwos6pu/DuzUQqUFjISMl3TX3XSf32FqOepnv/ges2d8unlRdiEdSlVARnF
+FyCIQDmiUq8mpTTwetdLlV47AIAU8tEshEo++MiI84QmyPAN5ThVvD6P+1ioocTA
+2vtnuWYxDldqR5X6U6LrdHZ8dUSfz6+CfGop+bppDGh2QxCL5B0DGF2I30OgDkiK
+edAzDI6drSwDhwm+ZRqMzT+Kz6BPrnHZaUFRoRdjGJ4nh859NMup8hOucrgrfBRO
+kJFu/TqF0L449yCs136fATE7CD4L9FtG/fOOL4HCb5jTeiyLLaGGsn5R7Nsv0oCS
+5lVtIaM0aOcToL4IF5PZZPfyFIVOpRIGFs6iD8rrRyAs7CfDgItVLy0osG+wA1oo
+EjQyJ12bSVML9D5CoGCsPGEdeVbq+NC52C6NEL7Cg/Nbzcs/OWoByQMKGXGVI+30
+unADaoAD6fcuvKV44mOZ2NuL+eSkqRPKVKrFFCwcikB3kHi9rJNfKqJwonFBKWu+
+vAb8MNPqG3mYEl4bowoZoJ0CH5JcBhxJmD5lqgDgnImuGxAbx2g=
+=f4Y6
+-----END PGP SIGNATURE-----
+
+--MrRUTeZlqqNo1jQ9--
 
