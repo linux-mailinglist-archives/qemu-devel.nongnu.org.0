@@ -2,39 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D14F152C3
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 19:29:20 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:59799 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AAF18152C6
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 19:30:35 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:59813 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNhQV-0005oX-BS
-	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 13:29:19 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35484)
+	id 1hNhRi-0006v8-SY
+	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 13:30:34 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36023)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <eblake@redhat.com>) id 1hNhK0-0000nu-38
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 13:22:37 -0400
+	(envelope-from <eblake@redhat.com>) id 1hNhLU-00023l-Kv
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 13:24:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <eblake@redhat.com>) id 1hNhJy-0000IG-OZ
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 13:22:36 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:32800)
+	(envelope-from <eblake@redhat.com>) id 1hNhLQ-0001uk-Bo
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 13:24:06 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36818)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <eblake@redhat.com>)
-	id 1hNhJs-00009K-V3; Mon, 06 May 2019 13:22:29 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
+	(Exim 4.71) (envelope-from <eblake@redhat.com>) id 1hNhLN-0001cZ-PC
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 13:24:02 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+	[10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 63ACE7E43D;
-	Mon,  6 May 2019 17:22:26 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id A2EEE309B14D;
+	Mon,  6 May 2019 17:23:56 +0000 (UTC)
 Received: from [10.3.116.15] (ovpn-116-15.phx2.redhat.com [10.3.116.15])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id C513F61F21;
-	Mon,  6 May 2019 17:22:25 +0000 (UTC)
-To: Thomas Huth <thuth@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
-	QEMU Developers <qemu-devel@nongnu.org>
-References: <e3e75fd5-661e-95ab-d7d6-f9a7bf6548d4@redhat.com>
-	<316d5b3f-d25a-6f9d-6d28-a91f7d2bc22e@redhat.com>
-	<d2a3e561-8f17-8d97-3396-e275f0262cf2@redhat.com>
-	<3e34678e-daa2-a7e0-3da9-dbd3d1c27e64@redhat.com>
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id B5CFC5C1B5;
+	Mon,  6 May 2019 17:23:55 +0000 (UTC)
+To: Antonio Ospite <ao2@ao2.it>, qemu-devel@nongnu.org
+References: <20190503082728.16485-1-ao2@ao2.it>
+	<20190503082728.16485-2-ao2@ao2.it>
 From: Eric Blake <eblake@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=eblake@redhat.com; keydata=
@@ -61,23 +58,24 @@ Autocrypt: addr=eblake@redhat.com; keydata=
 	Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
 	2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
 Organization: Red Hat, Inc.
-Message-ID: <3b88c3f8-c1bd-babe-f995-425da8840778@redhat.com>
-Date: Mon, 6 May 2019 12:22:24 -0500
+Message-ID: <6822ade4-2859-6d2a-d778-7fc115af5081@redhat.com>
+Date: Mon, 6 May 2019 12:23:53 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <3e34678e-daa2-a7e0-3da9-dbd3d1c27e64@redhat.com>
+In-Reply-To: <20190503082728.16485-2-ao2@ao2.it>
 Content-Type: multipart/signed; micalg=pgp-sha256;
 	protocol="application/pgp-signature";
-	boundary="cCg9hq2icHZKZ8hd4mr4GL1Gaf0W6L0In"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+	boundary="lA7UKGnyznKjIVMegEYCk5MViPF3I1xfy"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.27]);
-	Mon, 06 May 2019 17:22:26 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.49]);
+	Mon, 06 May 2019 17:23:56 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] Failing QEMU iotest 221
+Subject: Re: [Qemu-devel] [PATCH v2 1/2] configure: set source_path only
+ once and make its definition more robust
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -89,51 +87,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+	Antonio Ospite <antonio.ospite@collabora.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---cCg9hq2icHZKZ8hd4mr4GL1Gaf0W6L0In
+--lA7UKGnyznKjIVMegEYCk5MViPF3I1xfy
 From: Eric Blake <eblake@redhat.com>
-To: Thomas Huth <thuth@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
-Cc: Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>
-Message-ID: <3b88c3f8-c1bd-babe-f995-425da8840778@redhat.com>
-Subject: Re: Failing QEMU iotest 221
-References: <e3e75fd5-661e-95ab-d7d6-f9a7bf6548d4@redhat.com>
- <316d5b3f-d25a-6f9d-6d28-a91f7d2bc22e@redhat.com>
- <d2a3e561-8f17-8d97-3396-e275f0262cf2@redhat.com>
- <3e34678e-daa2-a7e0-3da9-dbd3d1c27e64@redhat.com>
-In-Reply-To: <3e34678e-daa2-a7e0-3da9-dbd3d1c27e64@redhat.com>
+To: Antonio Ospite <ao2@ao2.it>, qemu-devel@nongnu.org
+Cc: Antonio Ospite <antonio.ospite@collabora.com>,
+ Peter Maydell <peter.maydell@linaro.org>
+Message-ID: <6822ade4-2859-6d2a-d778-7fc115af5081@redhat.com>
+Subject: Re: [PATCH v2 1/2] configure: set source_path only once and make its
+ definition more robust
+References: <20190503082728.16485-1-ao2@ao2.it>
+ <20190503082728.16485-2-ao2@ao2.it>
+In-Reply-To: <20190503082728.16485-2-ao2@ao2.it>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On 5/3/19 3:54 PM, Eric Blake wrote:
-
->>> Ugh. Hole granularities are file-system specific, so we need to figur=
-e
->>> out some way to fuzz the input. It might also be possible to pick nic=
-er
->>> size numbers - perhaps if the test image is sized at 64k+1 instead of=
-
->>> 43009 (84*512, but NOT evenly divisible by 4k), the +1 byte is more
->>> likely to be directly one a hole boundary, rather than being somewher=
-e
->>> that causes rounding the hole boundary 2k earlier because of 4k or 64=
-k
->>> sizing constraints.
->>
->> Ok ... sounds like that's definitely something I'd like to leave to yo=
-u
->> or one of the block guys to fix.
+On 5/3/19 3:27 AM, Antonio Ospite wrote:
+> From: Antonio Ospite <antonio.ospite@collabora.com>
 >=20
-> I can certainly prepare a patch that widens the file to 64k+1 instead o=
-f
-> 43008+1, but since I can't (yet) reproduce the failure, I'd be relying
-> on you to verify that it makes a difference.
+> Since commit 79d77bcd36 (configure: Remove --source-path option,
+> 2019-04-29) source_path cannot be overridden anymore, move it out of th=
+e
+> "default parameters" block since the word "default" may suggest that th=
+e
+> value can change, while in fact it does not.
+>=20
+> While at it, only set source_path once and separate the positional
+> argument of basename with "--" to more robustly cover the case of path
+> names starting with a dash.
+>=20
+> Signed-off-by: Antonio Ospite <antonio.ospite@collabora.com>
+> ---
+>  configure | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+>=20
 
-Patch posted in another thread.
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
 --=20
 Eric Blake, Principal Software Engineer
@@ -141,22 +135,22 @@ Red Hat, Inc.           +1-919-301-3226
 Virtualization:  qemu.org | libvirt.org
 
 
---cCg9hq2icHZKZ8hd4mr4GL1Gaf0W6L0In
+--lA7UKGnyznKjIVMegEYCk5MViPF3I1xfy
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlzQbVAACgkQp6FrSiUn
-Q2opJwgAnzm4mvQ56YZKvcxLPawVHhvaJyul/y+GW8U8Vh5TLoHJCgMSVSN3VVJ9
-k1qEcBtFIeHuByJ+dO05r2jjWtKD9WwN6wCpjWQS5iYlpx1r2a4I57+wmn7Aik2r
-TdHQtzC7QCZFokgtoT0hFOwyxdWKxjSnnZtLE1ZpKBHEwfLNpmW0zAK4WHENK/Pu
-i/xSHVl9rFIrHCXm5YKtjoXu3Ub5G9IoY6AN1LJx5enLZ2omKD89tKtrttRyVvdb
-qU6l3I71kPI5RpKF4FH8npyE1OIoOshzUUMFCHVpAoBEJmLNo3jmMZFKPN5wRfkm
-sLzhLAo/GL4w0JWQN+aG33a3kLWCcQ==
-=v3za
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlzQbakACgkQp6FrSiUn
+Q2q53ggAlb6Alj+piZ7r1nBHL3SPkdlWa+QpCgrm7RJ29TScWWxonpSqGkMzPyty
+WaZFHzdEkurAN19QlONLoysyJewCGOhG1Cok1uCRj5m3UbrjFDW9sp75Vt43A6c2
+q59C1FVWJudQZ1CYW3jydKVpvrjAOCYlpuoDJS5pXgibmfxn1MBrxGVDj8ag7WUn
+LBgfZXI1oixyQqUBbMfn8bLTotE3yoBXjC358xSSwv4/O3YNTtUpOZyr/Mw0uMkB
+5SSfe2div8aq4aDs1L9P9NW24CbPb7OGdDDl98B2GTa8xAPimYF7IS+YbaT651LN
+80Tb5Y3p5A2SJe0qbw2LS2GOxcyMaA==
+=7f6T
 -----END PGP SIGNATURE-----
 
---cCg9hq2icHZKZ8hd4mr4GL1Gaf0W6L0In--
+--lA7UKGnyznKjIVMegEYCk5MViPF3I1xfy--
 
