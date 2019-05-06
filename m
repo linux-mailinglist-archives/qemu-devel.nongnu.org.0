@@ -2,39 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B00F1505B
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 17:36:55 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58334 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 441E3150B1
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 17:51:12 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58491 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNffi-0007yJ-9r
-	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 11:36:54 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37807)
+	id 1hNftX-0004pb-5N
+	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 11:51:11 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40556)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hNfdX-0006wD-6o
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 11:34:40 -0400
+	(envelope-from <fintelia@gmail.com>) id 1hNfsU-0004RR-5y
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 11:50:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hNfdV-0005xA-Pr
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 11:34:39 -0400
-Received: from relay.sw.ru ([185.231.240.75]:48336)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
-	id 1hNfdV-0005vj-Hv; Mon, 06 May 2019 11:34:37 -0400
-Received: from [10.28.8.145] (helo=kvm.sw.ru)
-	by relay.sw.ru with esmtp (Exim 4.91)
-	(envelope-from <vsementsov@virtuozzo.com>)
-	id 1hNfdP-0004Z1-7K; Mon, 06 May 2019 18:34:31 +0300
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-devel@nongnu.org,
-	qemu-block@nongnu.org
-Date: Mon,  6 May 2019 18:34:29 +0300
-Message-Id: <20190506153429.52737-4-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20190506153429.52737-1-vsementsov@virtuozzo.com>
-References: <20190506153429.52737-1-vsementsov@virtuozzo.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH v6 3/3] block/stream: introduce a bottom node
+	(envelope-from <fintelia@gmail.com>) id 1hNfsT-0004rF-79
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 11:50:06 -0400
+Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:33358)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <fintelia@gmail.com>)
+	id 1hNfsS-0004pe-Si; Mon, 06 May 2019 11:50:05 -0400
+Received: by mail-lj1-x241.google.com with SMTP id f23so11550183ljc.0;
+	Mon, 06 May 2019 08:50:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=YzBFLfOBNQD3UddUpNEOA3LwTR9aw0kS6lW55P95JdU=;
+	b=TXtUfHJ/tlWKxLsRSf+QeJx5I6bzJhk1v4+pIVoZW1xW+DqROBb60WeUw83Lkia3f4
+	OsZIi6k6FwvsGs6SDYAyYXxslhnV3h8NTsMSOY9qQKFDyltbgZMIVpvNYM2nO1nJ8rNa
+	lKVVgbvTkF0s22sqS0qi4RGvpjQl2l91tewQ3DR+7XW7l8xCULdDKbNRoasT5yuxXRJD
+	PQO74p0ZYwrMuhhoePO/6c2iHpP+z2jml1c/n65nCTEdNRoaIs2dzsF08DrxIc5YtjJL
+	gO0Sn9hoJuuFN7gHmIsyDMmgp9cVmGEz/mjfmgFDKqNWoYN1dbKTwSIYhcZxcDcYIjPy
+	mXKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=YzBFLfOBNQD3UddUpNEOA3LwTR9aw0kS6lW55P95JdU=;
+	b=LAOOh5y3/4HyT/Ke7V60kKOLPWBYL9q/NZLCmTLxjg3WQ/gm9luj77ENEH1a/8Q3n9
+	45NSR2KaAQSVpcb6849+OI6eGWXBYUKzQMlx2hnVYwUA+UvDyVx+sN9ntOy4NGzKnnkP
+	+Oa/4XjvA/vaeCqFad8XwLbCFupSEBBo/Ulxj4ZOXXzkvW7Wcz0Y8EpK4W6rlXyFsanA
+	o2hWCwKOfoOWyh76fS2aRFR/0eS/plOGx6/7QsBmEur9N53DYlRnNIM2x93Vz9y2An1k
+	Hz9wC2sPN6N3TbiAB4N3AsLlCBof9Q0Ux2nAcbeA6h5ZgIBq69Oo0/fHQ8B7SzR82JbG
+	xjmw==
+X-Gm-Message-State: APjAAAV7Ay+QUsSWzMLfG/lmYVVgCEcau+tG5KQ1MapOkcVli8WPxKIm
+	PTaDa2gAzJCAEdwKzDkAlCCLFiYSosjUABHDqml1l6Kh
+X-Google-Smtp-Source: APXvYqx1RtrxJfKjJfkhihbQFKc1dcpoKPxa9QVhhTV+VeD06/aRqU2juURTGWWoIOB0+bCTIvuYD8Q88yGP146kzIw=
+X-Received: by 2002:a2e:9c51:: with SMTP id t17mr14240886ljj.104.1557157803107;
+	Mon, 06 May 2019 08:50:03 -0700 (PDT)
+MIME-Version: 1.0
+References: <CANnJOVFj9yhbjPY=_+LNDWwO=Q8jLFnH01AbTY8T0p=cmkrNiw@mail.gmail.com>
+In-Reply-To: <CANnJOVFj9yhbjPY=_+LNDWwO=Q8jLFnH01AbTY8T0p=cmkrNiw@mail.gmail.com>
+From: Jonathan Behrens <fintelia@gmail.com>
+Date: Mon, 6 May 2019 11:49:36 -0400
+Message-ID: <CANnJOVFnA=MT5SnaskcafM5e1nCTzzcXpwKZfHM-2bSx3fnoEA@mail.gmail.com>
+To: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2a00:1450:4864:20::241
+Content-Type: text/plain; charset="UTF-8"
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [PATCH for 4.1] target/riscv: Only flush TLB if
+ SATP.ASID changes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -46,185 +72,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: fam@euphon.net, kwolf@redhat.com, vsementsov@virtuozzo.com,
-	berto@igalia.com, wencongyang2@huawei.com,
-	xiechanglong.d@gmail.com, mreitz@redhat.com, stefanha@redhat.com,
-	den@openvz.org, andrey.shinkevich@virtuozzo.com, jsnow@redhat.com
+Cc: Alistair Francis <Alistair.Francis@wdc.com>,
+	Palmer Dabbelt <palmer@sifive.com>,
+	"open list:RISC-V" <qemu-riscv@nongnu.org>,
+	Sagar Karandikar <sagark@eecs.berkeley.edu>,
+	Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Argh, meant to include a signed off by line:
 
-The bottom node is the intermediate block device that has the base as its
-backing image. It is used instead of the base node while a block stream
-job is running to avoid dependency on the base that may change due to the
-parallel jobs. The change may take place due to a filter node as well that
-is inserted between the base and the intermediate bottom node. It occurs
-when the base node is the top one for another commit or stream job.
-After the introduction of the bottom node, don't freeze its backing child,
-that's the base, anymore.
+Signed-off-by: Jonathan Behrens <fintelia@gmail.com>
 
-Suggested-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Reviewed-by: Alberto Garcia <berto@igalia.com>
----
- block/stream.c         | 49 +++++++++++++++++++++---------------------
- tests/qemu-iotests/245 |  4 ++--
- 2 files changed, 27 insertions(+), 26 deletions(-)
+On Mon, May 6, 2019 at 11:31 AM Jonathan Behrens <fintelia@gmail.com> wrote:
 
-diff --git a/block/stream.c b/block/stream.c
-index 65b13b27e0..fc97c89f81 100644
---- a/block/stream.c
-+++ b/block/stream.c
-@@ -31,7 +31,7 @@ enum {
- 
- typedef struct StreamBlockJob {
-     BlockJob common;
--    BlockDriverState *base;
-+    BlockDriverState *bottom;
-     BlockdevOnError on_error;
-     char *backing_file_str;
-     bool bs_read_only;
-@@ -54,7 +54,7 @@ static void stream_abort(Job *job)
- 
-     if (s->chain_frozen) {
-         BlockJob *bjob = &s->common;
--        bdrv_unfreeze_backing_chain(blk_bs(bjob->blk), s->base);
-+        bdrv_unfreeze_backing_chain(blk_bs(bjob->blk), s->bottom);
-     }
- }
- 
-@@ -63,11 +63,11 @@ static int stream_prepare(Job *job)
-     StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
-     BlockJob *bjob = &s->common;
-     BlockDriverState *bs = blk_bs(bjob->blk);
--    BlockDriverState *base = s->base;
-+    BlockDriverState *base = backing_bs(s->bottom);
-     Error *local_err = NULL;
-     int ret = 0;
- 
--    bdrv_unfreeze_backing_chain(bs, base);
-+    bdrv_unfreeze_backing_chain(bs, s->bottom);
-     s->chain_frozen = false;
- 
-     if (bs->backing) {
-@@ -110,7 +110,7 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
-     StreamBlockJob *s = container_of(job, StreamBlockJob, common.job);
-     BlockBackend *blk = s->common.blk;
-     BlockDriverState *bs = blk_bs(blk);
--    BlockDriverState *base = s->base;
-+    bool enable_cor = !backing_bs(s->bottom);
-     int64_t len;
-     int64_t offset = 0;
-     uint64_t delay_ns = 0;
-@@ -119,7 +119,8 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
-     int64_t n = 0; /* bytes */
-     void *buf;
- 
--    if (!bs->backing) {
-+    if (bs == s->bottom) {
-+        /* Nothing to stream */
-         return 0;
-     }
- 
-@@ -136,7 +137,7 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
-      * backing chain since the copy-on-read operation does not take base into
-      * account.
-      */
--    if (!base) {
-+    if (enable_cor) {
-         bdrv_enable_copy_on_read(bs);
-     }
- 
-@@ -159,9 +160,8 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
-         } else if (ret >= 0) {
-             /* Copy if allocated in the intermediate images.  Limit to the
-              * known-unallocated area [offset, offset+n*BDRV_SECTOR_SIZE).  */
--            ret = bdrv_is_allocated_above(backing_bs(bs), base, false,
-+            ret = bdrv_is_allocated_above(backing_bs(bs), s->bottom, true,
-                                           offset, n, &n);
--
-             /* Finish early if end of backing file has been reached */
-             if (ret == 0 && n == 0) {
-                 n = len - offset;
-@@ -198,7 +198,7 @@ static int coroutine_fn stream_run(Job *job, Error **errp)
-         }
-     }
- 
--    if (!base) {
-+    if (enable_cor) {
-         bdrv_disable_copy_on_read(bs);
-     }
- 
-@@ -230,8 +230,10 @@ void stream_start(const char *job_id, BlockDriverState *bs,
-     StreamBlockJob *s;
-     BlockDriverState *iter;
-     bool bs_read_only;
-+    int basic_flags = BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE_UNCHANGED;
-+    BlockDriverState *bottom = bdrv_find_overlay(bs, base);
- 
--    if (bdrv_freeze_backing_chain(bs, base, errp) < 0) {
-+    if (bdrv_freeze_backing_chain(bs, bottom, errp) < 0) {
-         return;
-     }
- 
-@@ -248,26 +250,25 @@ void stream_start(const char *job_id, BlockDriverState *bs,
-      * already have our own plans. Also don't allow resize as the image size is
-      * queried only at the job start and then cached. */
-     s = block_job_create(job_id, &stream_job_driver, NULL, bs,
--                         BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE_UNCHANGED |
--                         BLK_PERM_GRAPH_MOD,
--                         BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE_UNCHANGED |
--                         BLK_PERM_WRITE,
-+                         basic_flags | BLK_PERM_GRAPH_MOD,
-+                         basic_flags | BLK_PERM_WRITE,
-                          speed, creation_flags, NULL, NULL, errp);
-     if (!s) {
-         goto fail;
-     }
- 
--    /* Block all intermediate nodes between bs and base, because they will
--     * disappear from the chain after this operation. The streaming job reads
--     * every block only once, assuming that it doesn't change, so block writes
--     * and resizes. */
--    for (iter = backing_bs(bs); iter && iter != base; iter = backing_bs(iter)) {
--        block_job_add_bdrv(&s->common, "intermediate node", iter, 0,
--                           BLK_PERM_CONSISTENT_READ | BLK_PERM_WRITE_UNCHANGED,
--                           &error_abort);
-+    /*
-+     * Block all intermediate nodes between bs and bottom (inclusive), because
-+     * they will disappear from the chain after this operation. The streaming
-+     * job reads every block only once, assuming that it doesn't change, so
-+     * forbid writes and resizes.
-+     */
-+    for (iter = bs; iter != bottom; iter = backing_bs(iter)) {
-+        block_job_add_bdrv(&s->common, "intermediate node", backing_bs(iter),
-+                           0, basic_flags, &error_abort);
-     }
- 
--    s->base = base;
-+    s->bottom = bottom;
-     s->backing_file_str = g_strdup(backing_file_str);
-     s->bs_read_only = bs_read_only;
-     s->chain_frozen = true;
-diff --git a/tests/qemu-iotests/245 b/tests/qemu-iotests/245
-index a04c6235c1..006f9f72f0 100644
---- a/tests/qemu-iotests/245
-+++ b/tests/qemu-iotests/245
-@@ -865,9 +865,9 @@ class TestBlockdevReopen(iotests.QMPTestCase):
-                              device = 'hd0', base_node = 'hd2', speed = 512 * 1024)
-         self.assert_qmp(result, 'return', {})
- 
--        # We can't remove hd2 while the stream job is ongoing
-+        # We can remove hd2 while the stream job is ongoing
-         opts['backing']['backing'] = None
--        self.reopen(opts, {}, "Cannot change 'backing' link from 'hd1' to 'hd2'")
-+        self.reopen(opts, {})
- 
-         # We can't remove hd1 while the stream job is ongoing
-         opts['backing'] = None
--- 
-2.18.0
-
-
+> There is an analogous change for ARM here:
+> https://patchwork.kernel.org/patch/10649857
+> ---
+>  target/riscv/csr.c | 4 +++-
+>  1 file changed, 3 insertions(+), 1 deletion(-)
+>
+> diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+> index 6083c782a1..1ec1222da1 100644
+> --- a/target/riscv/csr.c
+> +++ b/target/riscv/csr.c
+> @@ -732,7 +732,9 @@ static int write_satp(CPURISCVState *env, int csrno,
+> target_ulong val)
+>          if (env->priv == PRV_S && get_field(env->mstatus, MSTATUS_TVM)) {
+>              return -1;
+>          } else {
+> -            tlb_flush(CPU(riscv_env_get_cpu(env)));
+> +            if((val ^ env->satp) & SATP_ASID) {
+> +                tlb_flush(CPU(riscv_env_get_cpu(env)));
+> +            }
+>              env->satp = val;
+>          }
+>      }
+> --
+> 2.20.1
+>
+>
