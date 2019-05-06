@@ -2,66 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9144C15337
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 19:58:50 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60258 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAFFE1533B
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 20:00:43 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60278 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNht3-000507-Oq
-	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 13:58:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41664)
+	id 1hNhut-0006DJ-2p
+	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 14:00:43 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41707)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kheib@redhat.com>) id 1hNhaU-0006L3-GY
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 13:39:39 -0400
+	(envelope-from <eblake@redhat.com>) id 1hNhaZ-0006P2-GQ
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 13:39:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kheib@redhat.com>) id 1hNhaS-0004Qj-Kf
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 13:39:38 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:54809)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <kheib@redhat.com>) id 1hNhaQ-0004M7-6S
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 13:39:34 -0400
-Received: by mail-wm1-f65.google.com with SMTP id b10so16911586wmj.4
-	for <qemu-devel@nongnu.org>; Mon, 06 May 2019 10:39:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=3SXgy+7eZnHUrtsAa3ARviZuLvUWpGcvdPb7FvTH4sk=;
-	b=AzOp5gTO3Pzf9LpJv10YM/QSLdRddjX531gGrZZ5Dmfjgfmong8Eq8l8K2I62NDV2Y
-	qFt/KHUrCwUXAaY6FSZ+ELQW6jXg+4Tqd9p9Eklal56+pGuPT7SunlLmK4FK3831K0qs
-	3sdh/kUVvJYztfPAnyYCsiMz3rdHm96Yv3sCrhLi46iN/iGsgZjzz5fRpX7gubdL/daK
-	p0NtdAlMDHtSgJ/i+YWHJc9EpsJ1v56tVhdC1nQ3keM81aJjRu4xOYMydpRIkGBrRcJr
-	VoGb0FOZhhG0T5IF1m/56ixpEp0c2jCFav+jhSo+EHF+nnZWx6C4xqYcRRwYOBA6kfH9
-	D60Q==
-X-Gm-Message-State: APjAAAUyAYYnCqyx08MnzRo1lIX4UtQ4PAPfA8PC4B8oHAUbY4rP6Qdn
-	K2kvnRQaDl9sH5a1wlAAfLjuzg==
-X-Google-Smtp-Source: APXvYqyv0o7wvQzV/Hq0nl+DbEPAy3dPyQLq197U45Jel0WJQ0FBshitfqCCouRZoM73uwgcreHphw==
-X-Received: by 2002:a1c:f909:: with SMTP id x9mr17955282wmh.18.1557164368577; 
-	Mon, 06 May 2019 10:39:28 -0700 (PDT)
-Received: from [192.168.1.105] (bzq-109-67-4-126.red.bezeqint.net.
-	[109.67.4.126]) by smtp.gmail.com with ESMTPSA id
-	k206sm22167049wmk.16.2019.05.06.10.39.27
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Mon, 06 May 2019 10:39:27 -0700 (PDT)
-To: Yuval Shaia <yuval.shaia@oracle.com>, marcel.apfelbaum@gmail.com,
-	qemu-devel@nongnu.org, eblake@redhat.com
-References: <20190506163704.1378-1-yuval.shaia@oracle.com>
-From: Kamal Heib <kheib@redhat.com>
-Message-ID: <04e28f0f-fbbb-bb86-7471-9da639f743c9@redhat.com>
-Date: Mon, 6 May 2019 20:39:12 +0300
+	(envelope-from <eblake@redhat.com>) id 1hNhaY-0004Vh-E0
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 13:39:43 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39340)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <eblake@redhat.com>)
+	id 1hNhaS-0004P2-J1; Mon, 06 May 2019 13:39:36 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id E9452330260;
+	Mon,  6 May 2019 17:39:33 +0000 (UTC)
+Received: from [10.3.116.15] (ovpn-116-15.phx2.redhat.com [10.3.116.15])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 42667100200D;
+	Mon,  6 May 2019 17:39:31 +0000 (UTC)
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+	Alberto Garcia <berto@igalia.com>,
+	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+References: <cover.1556732434.git.berto@igalia.com>
+	<524e211cb818a20f521d6e271e782ab62b8e5e80.1556732434.git.berto@igalia.com>
+	<8bff27c1-a93c-d9f0-c95c-6d10d5700f91@virtuozzo.com>
+	<cd1d6df5-3540-910e-d39b-9074b94ffd38@redhat.com>
+	<4a09edd8-f89e-ec70-b56d-63e93396982b@virtuozzo.com>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+	xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+	xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+	TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+	GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+	sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+	AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+	CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+	RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+	wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+	Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+	gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+	pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+	zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+	pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+	3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+	NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+	cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+	SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+	I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+	mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+	Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+	2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <0aebe48a-40e4-b473-9d0c-84d49f982596@redhat.com>
+Date: Mon, 6 May 2019 12:39:30 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190506163704.1378-1-yuval.shaia@oracle.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <4a09edd8-f89e-ec70-b56d-63e93396982b@virtuozzo.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature";
+	boundary="NIUp88xI8UV7nDYIopYZcfu8Kx0DM1DuJ"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.29]);
+	Mon, 06 May 2019 17:39:34 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.128.65
-Subject: Re: [Qemu-devel] [PATCH v1] hw/rdma: Add support for GID state
- changes for non-qmp frameworks
+X-Received-From: 209.132.183.28
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [PATCH v2 3/5] vvfat: Replace bdrv_{read,
+ write}() with bdrv_{pread, pwrite}()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -73,172 +92,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+	"qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+	Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--NIUp88xI8UV7nDYIopYZcfu8Kx0DM1DuJ
+From: Eric Blake <eblake@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Alberto Garcia <berto@igalia.com>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+ "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ Max Reitz <mreitz@redhat.com>
+Message-ID: <0aebe48a-40e4-b473-9d0c-84d49f982596@redhat.com>
+Subject: Re: [Qemu-devel] [PATCH v2 3/5] vvfat: Replace bdrv_{read, write}()
+ with bdrv_{pread, pwrite}()
+References: <cover.1556732434.git.berto@igalia.com>
+ <524e211cb818a20f521d6e271e782ab62b8e5e80.1556732434.git.berto@igalia.com>
+ <8bff27c1-a93c-d9f0-c95c-6d10d5700f91@virtuozzo.com>
+ <cd1d6df5-3540-910e-d39b-9074b94ffd38@redhat.com>
+ <4a09edd8-f89e-ec70-b56d-63e93396982b@virtuozzo.com>
+In-Reply-To: <4a09edd8-f89e-ec70-b56d-63e93396982b@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+On 5/6/19 12:19 PM, Vladimir Sementsov-Ogievskiy wrote:
+
+>>>> +++ b/block/vvfat.c
+>>>> @@ -1494,8 +1494,8 @@ static int vvfat_read(BlockDriverState *bs, in=
+t64_t sector_num,
+>>>>                    DLOG(fprintf(stderr, "sectors %" PRId64 "+%" PRId=
+64
+>>>>                                 " allocated\n", sector_num,
+>>>>                                 n >> BDRV_SECTOR_BITS));
+>>>> -                if (bdrv_read(s->qcow, sector_num, buf + i * 0x200,=
+
+>>>> -                              n >> BDRV_SECTOR_BITS)) {
+>>>> +                if (bdrv_pread(s->qcow, sector_num * BDRV_SECTOR_SI=
+ZE,
+>>>> +                               buf + i * 0x200, n) < 0) {
+>>>
+>>> Shouldn't we use QEMU_ALIGN_DOWN(n, BDRV_SECTOR_SIZE) ?
+>>
+>> No, n should already be aligned, which makes align_down a no-op.
+>>
+>>> Could bdrv_is_allocated give unaligned n?
+>>>
+>>
+>> Yes, bdrv_is_allocated can return unaligned n in some situations; I ha=
+d
+>> a patch that didn't make 4.0 that would add bdrv_block_status_aligned
+>> for cases where we need to guarantee that different alignment of a
+>> backing chain doesn't bleed through to the specified alignment of the
+>> current layer. But those situations are rare, and I need to revisit
+>> those and send a v2; so I don't see a problem with this one going in
+>> during the meantime as-is.
+>>
+>=20
+> Than, n is not already aligned, as it comes from bdrv_is_allocated.
+
+Note that whether bdrv_is_allocated can return data not aligned to 512
+depends on the driver. It is possible when querying file-posix.c, but
+only for a POSIX file that encounters EOF mid-sector. However, it is not
+possible for the qcow2 driver.  The patches I need to rework are worried
+more about cases where a block device with request_alignment of 4k can
+still see 512-alignment leak through from a backing file.  But since
+vvfat is grabbing alignment from a qcow2 image, and not a raw POSIX
+file, we should never see sub-sector alignment.
+
+So my answers above were terse but correct: bdrv_is_allocated can return
+unaligned data in some cases, but vvfat should not be one of those
+cases. If you'd like to add an assert instead of a QEMU_ALIGN_DOWN, that
+should be reasonable.
+
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
 
-On 5/6/19 7:37 PM, Yuval Shaia wrote:
-> Any GID change in guest must be propagated to the host. This is already
-> done by firing QMP event to management system such as libvirt which in
-> turn will update the host with the relevant change.
-> 
-> When qemu is executed on non-qmp framework (ex from command-line) we
-> need to update the host instead.
-> Fix it by adding support to update the RoCE device's Ethernet function
-> IP list from qemu via netlink.
-> 
-> Signed-off-by: Yuval Shaia <yuval.shaia@oracle.com>
-> ---
-> v0 -> v1:
-> 	* Fix spelling mistakes pointed by Eric Blake
-> ---
->  configure              |  6 ++++
->  hw/rdma/rdma_backend.c | 74 +++++++++++++++++++++++++++++++++++++++++-
->  2 files changed, 79 insertions(+), 1 deletion(-)
-> 
-> diff --git a/configure b/configure
-> index 5b183c2e39..1f707b1a62 100755
-> --- a/configure
-> +++ b/configure
-> @@ -3132,6 +3132,8 @@ fi
->  
->  cat > $TMPC <<EOF &&
->  #include <sys/mman.h>
-> +#include <libmnl/libmnl.h>
-> +#include <linux/rtnetlink.h>
->  
->  int
->  main(void)
-> @@ -3144,10 +3146,13 @@ main(void)
->  }
->  EOF
->  
-> +pvrdma_libs="-lmnl"
-> +
->  if test "$rdma" = "yes" ; then
->      case "$pvrdma" in
->      "")
->          if compile_prog "" ""; then
-> +            libs_softmmu="$libs_softmmu $pvrdma_libs"
->              pvrdma="yes"
->          else
->              pvrdma="no"
-> @@ -3156,6 +3161,7 @@ if test "$rdma" = "yes" ; then
->      "yes")
->          if ! compile_prog "" ""; then
->              error_exit "PVRDMA is not supported since mremap is not implemented"
-> +                        " or libmnl-devel is not installed"
->          fi
->          pvrdma="yes"
->          ;;
-> diff --git a/hw/rdma/rdma_backend.c b/hw/rdma/rdma_backend.c
-> index 05f6b03221..f75e916195 100644
-> --- a/hw/rdma/rdma_backend.c
-> +++ b/hw/rdma/rdma_backend.c
-> @@ -16,6 +16,11 @@
->  #include "qemu/osdep.h"
->  #include "qapi/qapi-events-rdma.h"
->  
-> +#include "linux/if_addr.h"
-> +#include "libmnl/libmnl.h"
-> +#include "linux/rtnetlink.h"
-> +#include "net/if.h"
-> +
->  #include <infiniband/verbs.h>
->  
->  #include "contrib/rdmacm-mux/rdmacm-mux.h"
-> @@ -47,6 +52,61 @@ static void dummy_comp_handler(void *ctx, struct ibv_wc *wc)
->      rdma_error_report("No completion handler is registered");
->  }
->  
-> +static int netlink_route_update(const char *ifname, union ibv_gid *gid,
-> +                                __u16 type)
-> +{
-> +    char buf[MNL_SOCKET_BUFFER_SIZE];
-> +    struct nlmsghdr *nlh;
-> +    struct ifaddrmsg *ifm;
-> +    struct mnl_socket *nl;
-> +    int ret;
-> +    uint32_t ipv4;
-> +
-> +    nl = mnl_socket_open(NETLINK_ROUTE);
-> +    if (!nl) {
-> +        rdma_error_report("Fail to connect to netlink\n");
-> +        return -EIO;
-> +    }
-> +
-> +    ret = mnl_socket_bind(nl, 0, MNL_SOCKET_AUTOPID);
-> +    if (ret < 0) {
-> +        rdma_error_report("Fail to bind to netlink\n");
-> +        goto out;
-> +    }
-> +
-> +    nlh = mnl_nlmsg_put_header(buf);
-> +    nlh->nlmsg_type = type;
-> +    nlh->nlmsg_flags = NLM_F_REQUEST | NLM_F_CREATE | NLM_F_EXCL;
-> +    nlh->nlmsg_seq = 1;
-> +
-> +    ifm = mnl_nlmsg_put_extra_header(nlh, sizeof(*ifm));
-> +    ifm->ifa_index = if_nametoindex(ifname);
-> +    if (gid->global.subnet_prefix) {
-> +        ifm->ifa_family = AF_INET6;
-> +        ifm->ifa_prefixlen = 64;
-> +        ifm->ifa_flags = IFA_F_PERMANENT;
-> +        ifm->ifa_scope = RT_SCOPE_UNIVERSE;
-> +        mnl_attr_put(nlh, IFA_ADDRESS, sizeof(*gid), gid);
-> +    } else {
-> +        ifm->ifa_family = AF_INET;
-> +        ifm->ifa_prefixlen = 24;
-> +        memcpy(&ipv4, (char *)&gid->global.interface_id + 4, sizeof(ipv4));
-> +        mnl_attr_put(nlh, IFA_LOCAL, 4, &ipv4);
-> +    }
-> +
-> +    ret = mnl_socket_sendto(nl, nlh, nlh->nlmsg_len);
-> +    if (ret < 0) {
-> +        rdma_error_report("Fail to send msg to to netlink\n");
-> +        goto out;
-> +    }
-> +
-> +    ret = 0;
-> +
-> +out:
-> +    mnl_socket_close(nl);
-> +    return ret;
-> +}
-> +
->  static inline void complete_work(enum ibv_wc_status status, uint32_t vendor_err,
->                                   void *ctx)
->  {
-> @@ -1123,7 +1183,13 @@ int rdma_backend_add_gid(RdmaBackendDev *backend_dev, const char *ifname,
->                                              gid->global.subnet_prefix,
->                                              gid->global.interface_id);
->  
-> -    return ret;
-> +    /*
-> +     * We ignore return value since operation might have completed
-> +     * successfully by the QMP consumer
-> +     */
-> +    netlink_route_update(ifname, gid, RTM_NEWADDR);
-> +
-> +    return 0;
->  }
->  
->  int rdma_backend_del_gid(RdmaBackendDev *backend_dev, const char *ifname,
-> @@ -1149,6 +1215,12 @@ int rdma_backend_del_gid(RdmaBackendDev *backend_dev, const char *ifname,
->                                              gid->global.subnet_prefix,
->                                              gid->global.interface_id);
->  
-> +    /*
-> +     * We ignore return value since operation might have completed
-> +     * successfully by the QMP consumer
-> +     */
-> +    netlink_route_update(ifname, gid, RTM_DELADDR);
-> +
->      return 0;
->  }
->  
->
+--NIUp88xI8UV7nDYIopYZcfu8Kx0DM1DuJ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-Reviewed-by: Kamal Heib <kheib@redhat.com>
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlzQcVIACgkQp6FrSiUn
+Q2rewAf8DHZsyl6lkECLqs8+AzIjXwMqQM9QpMvtGoNuyV4NU2oYkmZC6mPJ6P10
+Pvsdgi2cfrUA+E06sidmENFGFwYyWPL4nBGvUdq9LYT5S5qHI64HJVcUj5Wb1Wru
+7wJXDCSwiZsyVKNTe1y7mJUToU0DVQdurLmlSVt5QiXedzNA5M1cE6sQ1i7Q1RZK
+9/V3hEE9V2XxitBD4iM1RJsf9Eeg+MsnGu4bCts33SU5Z1VAblNMLyJ+NkxqKY+s
+vd495CN6T++J2nH9Wnh5vRTqxa/vhk+/MANQSppBiOW+j/THqthvFJst4csex/5G
+CUXp24KumgAS6yg/iNTKsf8sldAU3A==
+=jHcT
+-----END PGP SIGNATURE-----
+
+--NIUp88xI8UV7nDYIopYZcfu8Kx0DM1DuJ--
 
