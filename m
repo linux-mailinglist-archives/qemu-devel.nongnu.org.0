@@ -2,83 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03E2A152D4
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 19:34:51 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:59875 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE5C0152E0
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 19:39:30 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:59946 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNhVq-0000qR-1b
-	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 13:34:50 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39242)
+	id 1hNhaM-0005QB-1C
+	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 13:39:30 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39760)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <eblake@redhat.com>) id 1hNhTY-0008QU-JY
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 13:32:29 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hNhV9-00010n-3N
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 13:34:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <eblake@redhat.com>) id 1hNhTX-00007a-Kl
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 13:32:28 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57322)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <eblake@redhat.com>)
-	id 1hNhTS-0008Ue-Mj; Mon, 06 May 2019 13:32:22 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
-	[10.5.11.11])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id C27783082E57;
-	Mon,  6 May 2019 17:32:20 +0000 (UTC)
-Received: from [10.3.116.15] (ovpn-116-15.phx2.redhat.com [10.3.116.15])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id F1DDF6063B;
-	Mon,  6 May 2019 17:32:19 +0000 (UTC)
-To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
-	<alex.bennee@linaro.org>
-References: <20190503143904.31211-1-alex.bennee@linaro.org>
-	<98cd84db-2aed-4aa1-1f2d-eaa7ac63b72b@redhat.com>
-	<87d0kz4iqs.fsf@zen.linaroharston>
-	<0badc17e-90bc-1a09-89c1-20f88ff75d3b@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
-	xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
-	xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
-	TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
-	GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
-	sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
-	AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
-	CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
-	RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
-	wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
-	Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
-	gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
-	pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
-	zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
-	pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
-	3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
-	NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
-	cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
-	SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
-	I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
-	mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
-	Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
-	2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <741af51b-1307-7ccb-2148-7d5e2ae9534a@redhat.com>
-Date: Mon, 6 May 2019 12:32:19 -0500
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <richard.henderson@linaro.org>) id 1hNhV1-0001DY-2u
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 13:34:05 -0400
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:32971)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hNhUz-0001B9-3k
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 13:33:59 -0400
+Received: by mail-pg1-x533.google.com with SMTP id h17so818146pgv.0
+	for <qemu-devel@nongnu.org>; Mon, 06 May 2019 10:33:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=t6K9H9ZedbXjgIHd72pGKvgDa31zNSFMotfLs815cMc=;
+	b=TsUqxGn1l4puiWFrkxMIHF3PWwoyi+XukL/yRVilotMAfciEPtIdQPvprUUozJgYik
+	kLKvhi6239QYz+BpGkO5paE/iycJ2fVLaOyvQGd72W8v0LjmkI9fdTUq0WIAs0Y5UzbF
+	Sgd72zsMPSbuqs32vYlt05HNYKMaa+D+gYmn5xTo7V5UqNlzwJuW0CXQTbOLHXNGL4vD
+	YOOyH3sTXMSYnykMG6B9V7Utqg/95LPR9eyXgDxrCO/p83CD8+NJ7rWu/VF6rXz8d5VA
+	eUr5l4pMsXd1unsSdFIkbOgn5JSZfBd3SXvs5nsnVW9oHT2vEV0DDJtCuqQ/MOxzipVP
+	wQdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=t6K9H9ZedbXjgIHd72pGKvgDa31zNSFMotfLs815cMc=;
+	b=rVjsRGe9DAFHCRP+2PmweDewEnMa+tBrvTJDnDk/luwAKEy3+hHa1DbWzL2zUktMq2
+	8drpUSmbr7Lzpj+Y1GNsqVFzRXIsSK/TNriwzXp0Wum+rYQ+tHaMefOaO6wysz6/u7sP
+	pBBQjgJPhZowYmPwKuetTEZBlkLCXlfHZmn5JYhSGDZ05lHN3XZZZ6YYqKNE/ITMdCAQ
+	bt7XSL8g4DAhdflpSMZPBrSm/1hc+/Uh5AbJQmIchCBMERv2a/+b2IrBWSKBlgfxYpf5
+	sQGZK/AXNJaItoEiEQb5t7dpNeR8i4jS12/8YcPgydy3ZkbzAm7onLSQUiLzJ5NX0ASt
+	4KoQ==
+X-Gm-Message-State: APjAAAUTZ7iUKWj67Thrpz8fslYdRKQ5gbVXenKedRnu8UDRZ4sSQ798
+	4bOHbiwvADf8n+SzjBFDNMjuxM9OXGA=
+X-Google-Smtp-Source: APXvYqxbYwWc/BFDeXNRp7yrLE8i/tIYFb3aet65fSAO42my8SGohS/s9gvj6urPgXmWXGNCtR53Tw==
+X-Received: by 2002:a63:2b41:: with SMTP id r62mr33749298pgr.403.1557164035536;
+	Mon, 06 May 2019 10:33:55 -0700 (PDT)
+Received: from localhost.localdomain (97-113-189-189.tukw.qwest.net.
+	[97.113.189.189]) by smtp.gmail.com with ESMTPSA id
+	k9sm2268839pfa.180.2019.05.06.10.33.54 for <qemu-devel@nongnu.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 06 May 2019 10:33:54 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Date: Mon,  6 May 2019 10:33:29 -0700
+Message-Id: <20190506173353.32206-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <0badc17e-90bc-1a09-89c1-20f88ff75d3b@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature";
-	boundary="IUQY5JJ4iD82BIHkJ9Okki9p6thjsolnL"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.46]);
-	Mon, 06 May 2019 17:32:20 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [RFC PATCH] tests/qemu-iotests: re-format output
- to for make check-block
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::533
+Subject: [Qemu-devel] [PATCH v4 00/24] Add qemu_getrandom and ARMv8.5-RNG etc
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -90,87 +77,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
-	qemu-devel@nongnu.org,
-	"open list:Block layer core" <qemu-block@nongnu.org>,
-	Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---IUQY5JJ4iD82BIHkJ9Okki9p6thjsolnL
-From: Eric Blake <eblake@redhat.com>
-To: Thomas Huth <thuth@redhat.com>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>
-Cc: Kevin Wolf <kwolf@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- qemu-devel@nongnu.org, "open list:Block layer core" <qemu-block@nongnu.org>,
- Max Reitz <mreitz@redhat.com>
-Message-ID: <741af51b-1307-7ccb-2148-7d5e2ae9534a@redhat.com>
-Subject: Re: [Qemu-devel] [RFC PATCH] tests/qemu-iotests: re-format output to
- for make check-block
-References: <20190503143904.31211-1-alex.bennee@linaro.org>
- <98cd84db-2aed-4aa1-1f2d-eaa7ac63b72b@redhat.com>
- <87d0kz4iqs.fsf@zen.linaroharston>
- <0badc17e-90bc-1a09-89c1-20f88ff75d3b@redhat.com>
-In-Reply-To: <0badc17e-90bc-1a09-89c1-20f88ff75d3b@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Changes since v3:
+  * Do not autoenable gnutls if linking is broken.
+    Fixes --static on ubuntu 18.04.
 
-On 5/5/19 10:54 AM, Thomas Huth wrote:
+Changes since v2:
+  * Changes from review.
+    - getrandom is not exclusive of /dev/urandom fallback.
+    - vnc fails gracefully on crypto failure.
+    - a great renaming.
+  * Drop the "nonblock" argument, as it's not deliverable from the backend.
+  * Propagate Error back through qemu_guest_getrandom.
+  * Add qemu_guest_getrandom_nofail to centralize "Argh! Death!".
+  * Convert hw/misc/
+  * Implement ppc darn.
+  * Implement x86 rdrand.
 
->>> That's why I thought that having a TAP mode for the check script coul=
-d
->>> be a good idea, too. Then we could pipe the output through the
->>> tap-driver.pl script, too, so we get uniform output for all tests...?=
+Changes since v1:
+  * Build crypto-obj-y for linux-user as well.
+  * Several patches to tidy crypto/random-platform.c.
+  * Use getrandom(2) in crypto/random-platform.c.
+  * Use qcrypto_random_bytes in ui/vnc.c.
+  * In qemu_getrandom:
+    - Use g_rand_int instead of srand48.
+    - Use qcrypto_random_bytes instead of getrandom directly.
 
->>
->> That would probably be a cleaner approach. What would be even better i=
-s
->> somehow expanding the list of tests at make time so you could run your=
+Patches without review/ack:
 
->> tests in parallel.
->=20
-> I agree that this might be the ultimate solution ... but I'm not sure
-> whether the iotests are really ready for being run in parallel yet,
-
-No, they are not. Jeff Cody had a patch series that converted
-qemu-iotests/check to run every test in its own subdirectory instead of
-in a shared spot, which we would have to revive first.
-
->=20
->> I did wonder how useful the timing stuff was to developers.
->=20
-> Yes, me too ... maybe the block layer folks can comment on that one...?=
+0001-configure-Link-test-before-auto-enabling-gnutls.patch (new)
+0002-crypto-Merge-crypto-obj-y-into-libqemuutil.a.patch
+0022-target-arm-Implement-ARMv8.5-RNG.patch
+0024-target-i386-Implement-CPUID_EXT_RDRAND.patch
 
 
-I like it; it gives me an idea of how long a test is expected to run
-(some are definitely longer than others), and whether the 'quick' tag is
-appropriate. But I will not necessarily be heartbroken if you can't
-preserve it while making the test output easier to consume by other tooli=
-ng.
-
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+r~
 
 
---IUQY5JJ4iD82BIHkJ9Okki9p6thjsolnL
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+Richard Henderson (24):
+  configure: Link test before auto-enabling gnutls
+  crypto: Merge crypto-obj-y into libqemuutil.a
+  crypto: Reverse code blocks in random-platform.c
+  crypto: Do not fail for EINTR during qcrypto_random_bytes
+  crypto: Use O_CLOEXEC in qcrypto_random_init
+  crypto: Use getrandom for qcrypto_random_bytes
+  crypto: Change the qcrypto_random_bytes buffer type to void*
+  ui/vnc: Split out authentication_failed
+  ui/vnc: Use gcrypto_random_bytes for start_auth_vnc
+  util: Add qemu_guest_getrandom and associated routines
+  cpus: Initialize pseudo-random seeds for all guest cpus
+  linux-user: Initialize pseudo-random seeds for all guest cpus
+  linux-user: Call qcrypto_init if not using -seed
+  linux-user: Use qemu_guest_getrandom_nofail for AT_RANDOM
+  linux-user/aarch64: Use qemu_guest_getrandom for PAUTH keys
+  linux-user: Remove srand call
+  aspeed/scu: Use qemu_guest_getrandom_nofail
+  hw/misc/nrf51_rng: Use qemu_guest_getrandom_nofail
+  hw/misc/bcm2835_rng: Use qemu_guest_getrandom_nofail
+  hw/misc/exynos4210_rng: Use qemu_guest_getrandom
+  target/arm: Put all PAC keys into a structure
+  target/arm: Implement ARMv8.5-RNG
+  target/ppc: Use qemu_guest_getrandom for DARN
+  target/i386: Implement CPUID_EXT_RDRAND
 
------BEGIN PGP SIGNATURE-----
+ Makefile                            |  12 ++--
+ Makefile.objs                       |   8 +--
+ Makefile.target                     |   4 --
+ include/crypto/random.h             |   2 +-
+ include/qemu/guest-random.h         |  68 ++++++++++++++++++
+ include/qom/cpu.h                   |   1 +
+ linux-user/aarch64/target_syscall.h |   2 -
+ target/arm/cpu.h                    |  17 +++--
+ target/i386/helper.h                |   2 +
+ cpus.c                              |   9 +++
+ crypto/random-gcrypt.c              |   2 +-
+ crypto/random-gnutls.c              |   2 +-
+ crypto/random-platform.c            | 104 +++++++++++++++++-----------
+ hw/misc/aspeed_scu.c                |  10 +--
+ hw/misc/bcm2835_rng.c               |  32 ++++-----
+ hw/misc/exynos4210_rng.c            |  11 ++-
+ hw/misc/nrf51_rng.c                 |   4 +-
+ linux-user/aarch64/cpu_loop.c       |  25 +------
+ linux-user/elfload.c                |   8 +--
+ linux-user/main.c                   |  34 +++++----
+ linux-user/syscall.c                |  34 +++++++--
+ target/arm/cpu64.c                  |   1 +
+ target/arm/helper.c                 |  64 ++++++++++++++---
+ target/arm/pauth_helper.c           |  18 ++---
+ target/i386/cpu.c                   |   5 +-
+ target/i386/int_helper.c            |  21 ++++++
+ target/i386/translate.c             |  55 +++++++++++----
+ target/ppc/int_helper.c             |  42 +++++++----
+ ui/vnc.c                            |  53 ++++++--------
+ util/guest-random.c                 |  93 +++++++++++++++++++++++++
+ vl.c                                |   4 ++
+ configure                           |  42 ++++++++---
+ crypto/Makefile.objs                |   5 +-
+ qemu-options.hx                     |  10 +++
+ util/Makefile.objs                  |   1 +
+ 35 files changed, 562 insertions(+), 243 deletions(-)
+ create mode 100644 include/qemu/guest-random.h
+ create mode 100644 util/guest-random.c
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlzQb6MACgkQp6FrSiUn
-Q2r/9gf/bBcxCheiC7yEY+hyTHt2NplE/rvwTWGmxLw8QqjspLYXpspf9G/GZDxD
-HiIRNBazm1LdeVDCkjWdKscb4e7qIG7WgTL5BPZ3JreY/g6XJ3bUz51OArx6trPH
-zeemvYY8NYwwSboJyZNPDKgOHZDA+Zr3k01MYwFBTjaUdMnYvrCk5FZdbeS4gE4F
-U/ydMfiI8D5EAfGmcNDUh7wBDmJ1CYJN8Pmzr/G83rBvhR0bb2l3hcqvAaV1TDvq
-acpV6o9gY0NIdAKbUQy3bqnj0Dv5zYFlUOmQt376ue/RYE4kN0oLmbxakBp6CGpo
-NW0SwDsXu74VToAzGHD8GFJwYz1pMg==
-=2Xfc
------END PGP SIGNATURE-----
+-- 
+2.17.1
 
---IUQY5JJ4iD82BIHkJ9Okki9p6thjsolnL--
 
