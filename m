@@ -2,40 +2,35 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E604915335
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 19:58:31 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60252 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 712A31535E
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 20:05:03 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60354 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNhsk-0004gL-SW
-	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 13:58:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43283)
+	id 1hNhz4-0000es-Na
+	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 14:05:02 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46402)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <eblake@redhat.com>) id 1hNhfr-00031D-Dz
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 13:45:12 -0400
+	(envelope-from <eblake@redhat.com>) id 1hNhol-0001yV-F0
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 13:54:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <eblake@redhat.com>) id 1hNhfq-0000vK-5V
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 13:45:11 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45136)
+	(envelope-from <eblake@redhat.com>) id 1hNhok-0007hs-IT
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 13:54:23 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37660)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <eblake@redhat.com>)
-	id 1hNhfi-0000qX-D9; Mon, 06 May 2019 13:45:03 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
-	[10.5.11.14])
+	(Exim 4.71) (envelope-from <eblake@redhat.com>) id 1hNhok-0007h6-8n
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 13:54:22 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 63A44308FEE2;
-	Mon,  6 May 2019 17:45:00 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 73D9781DF1;
+	Mon,  6 May 2019 17:54:21 +0000 (UTC)
 Received: from [10.3.116.15] (ovpn-116-15.phx2.redhat.com [10.3.116.15])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 840295DD73;
-	Mon,  6 May 2019 17:44:57 +0000 (UTC)
-To: Thomas Huth <thuth@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
-	QEMU Developers <qemu-devel@nongnu.org>
-References: <68cc5bbc-ed6f-e001-e376-ccd986683b88@redhat.com>
-	<f1dfe2c3-2d61-e477-ac3d-37ad26d9236d@redhat.com>
-	<61685a48-b84e-c379-7193-f456e82635ba@redhat.com>
-	<67a38513-89af-7f54-2fc8-05b5777983ca@redhat.com>
-	<22933e94-18da-257c-7931-da511bc5a602@redhat.com>
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 06C1760A98;
+	Mon,  6 May 2019 17:54:20 +0000 (UTC)
+To: Stefano Garzarella <sgarzare@redhat.com>, qemu-devel@nongnu.org
+References: <20190503170631.228487-1-sgarzare@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=eblake@redhat.com; keydata=
@@ -62,23 +57,24 @@ Autocrypt: addr=eblake@redhat.com; keydata=
 	Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
 	2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
 Organization: Red Hat, Inc.
-Message-ID: <20f1aecc-02b4-781c-9ada-7ac6c73892a3@redhat.com>
-Date: Mon, 6 May 2019 12:44:56 -0500
+Message-ID: <e6457a03-58a4-03aa-efb0-55c84cb674d2@redhat.com>
+Date: Mon, 6 May 2019 12:54:20 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <22933e94-18da-257c-7931-da511bc5a602@redhat.com>
+In-Reply-To: <20190503170631.228487-1-sgarzare@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
 	protocol="application/pgp-signature";
-	boundary="lZ5Wsrrj33chhS6tgk1nFZrKXcPhidcxL"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+	boundary="59KzHsPOnvv8laGi8w82xDAOqgzaN9k8c"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.49]);
-	Mon, 06 May 2019 17:45:00 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.25]);
+	Mon, 06 May 2019 17:54:21 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] Failing QEMU iotest 175
+Subject: Re: [Qemu-devel] [PATCH] net: avoid to use variable length array in
+ net_client_init()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -90,150 +86,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
-	Nir Soffer <nirsof@gmail.com>, Max Reitz <mreitz@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---lZ5Wsrrj33chhS6tgk1nFZrKXcPhidcxL
+--59KzHsPOnvv8laGi8w82xDAOqgzaN9k8c
 From: Eric Blake <eblake@redhat.com>
-To: Thomas Huth <thuth@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
-Cc: Kevin Wolf <kwolf@redhat.com>, Max Reitz <mreitz@redhat.com>,
- Nir Soffer <nirsof@gmail.com>, Stefan Hajnoczi <stefanha@redhat.com>
-Message-ID: <20f1aecc-02b4-781c-9ada-7ac6c73892a3@redhat.com>
-Subject: Re: Failing QEMU iotest 175
-References: <68cc5bbc-ed6f-e001-e376-ccd986683b88@redhat.com>
- <f1dfe2c3-2d61-e477-ac3d-37ad26d9236d@redhat.com>
- <61685a48-b84e-c379-7193-f456e82635ba@redhat.com>
- <67a38513-89af-7f54-2fc8-05b5777983ca@redhat.com>
- <22933e94-18da-257c-7931-da511bc5a602@redhat.com>
-In-Reply-To: <22933e94-18da-257c-7931-da511bc5a602@redhat.com>
+To: Stefano Garzarella <sgarzare@redhat.com>, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>
+Message-ID: <e6457a03-58a4-03aa-efb0-55c84cb674d2@redhat.com>
+Subject: Re: [Qemu-devel] [PATCH] net: avoid to use variable length array in
+ net_client_init()
+References: <20190503170631.228487-1-sgarzare@redhat.com>
+In-Reply-To: <20190503170631.228487-1-sgarzare@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On 5/4/19 1:51 AM, Thomas Huth wrote:
+On 5/3/19 12:06 PM, Stefano Garzarella wrote:
+> net_client_init() uses a variable length array to store the prefix
+> of 'ipv6-net' parameter (e.g. if ipv6-net=3Dfec0::0/64, the prefix
+> is 'fec0::0').
+> Since the IPv6 prefix can be at most as long as an IPv6 address,
+> we can use an array with fixed size equals to INET6_ADDRSTRLEN.
 
->> Hmm, it's passing for me on ext4, but that probably means we have
->> different configuration parameters. I'm not sure how to easily show wh=
-at
->> parameters a particular ext4 partition uses to compare the differences=
+In addition to Markus' comments, on the subject line:
 
->> between your setup and mine (mine is tuned to whatever defaults Fedora=
-'s
->> installer chose on my behalf), so maybe someone else can chime in.
->=20
-> $ sudo tune2fs -l /dev/mapper/Home
-> tune2fs 1.42.9 (28-Dec-2013)
-> Filesystem volume name:   <none>
-> Last mounted on:          /home
-> Filesystem magic number:  0xEF53
-> Filesystem revision #:    1 (dynamic)
-> Filesystem features:      has_journal ext_attr dir_index filetype
-> needs_recovery meta_bg extent 64bit flex_bg sparse_super large_file
-> huge_file uninit_bg dir_nlink extra_isize
-> Filesystem flags:         signed_directory_hash
-> Default mount options:    user_xattr acl
-> Filesystem state:         clean
-> Errors behavior:          Continue
-> Filesystem OS type:       Linux
-> Inode count:              36700160
-> Block count:              146800640
-> Reserved block count:     5873663
-> Free blocks:              56266267
-> Free inodes:              35403275
-> First block:              1
-> Block size:               1024
-> Fragment size:            1024
-> Group descriptor size:    64
-> Blocks per group:         8192
-> Fragments per group:      8192
-> Inodes per group:         2048
-> Inode blocks per group:   256
-> First meta block group:   258
-> Flex block group size:    16
-> Filesystem created:       Thu Apr 19 18:34:33 2018
-> Last mount time:          Sat May  4 08:20:36 2019
-> Last write time:          Sat May  4 08:20:36 2019
-> Mount count:              224
-> Maximum mount count:      -1
-> Last checked:             Thu Apr 19 18:34:33 2018
-> Check interval:           0 (<none>)
-> Lifetime writes:          1826 GB
-> Reserved blocks uid:      0 (user root)
-> Reserved blocks gid:      0 (group root)
-> First inode:              11
-> Inode size:	          128
-> Journal inode:            8
-> First orphan inode:       11076944
-> Default directory hash:   half_md4
-> Directory Hash Seed:      08e1be04-c3a3-4c37-a059-cf54af5c4bc0
-> Journal backup:           inode blocks
->=20
-
-# tune2fs -l /dev/mapper/fedora-home
-tune2fs 1.44.6 (5-Mar-2019)
-Filesystem volume name:   home
-Last mounted on:          /home
-Filesystem UUID:          3ef45c0b-b2a0-43da-a1d3-c4f726097eda
-Filesystem magic number:  0xEF53
-Filesystem revision #:    1 (dynamic)
-Filesystem features:      has_journal ext_attr resize_inode dir_index
-filetype needs_recovery extent 64bit flex_bg sparse_super large_file
-huge_file dir_nlink extra_isize metadata_csum
-Filesystem flags:         signed_directory_hash
-Default mount options:    user_xattr acl
-Filesystem state:         clean
-Errors behavior:          Continue
-Filesystem OS type:       Linux
-Inode count:              13107200
-Block count:              52428800
-Reserved block count:     2621440
-Free blocks:              27184765
-Free inodes:              12049129
-First block:              0
-Block size:               4096
-Fragment size:            4096
-Group descriptor size:    64
-Reserved GDT blocks:      1024
-Blocks per group:         32768
-Fragments per group:      32768
-Inodes per group:         8192
-Inode blocks per group:   512
-Flex block group size:    16
-Filesystem created:       Thu Dec  6 16:17:23 2018
-Last mount time:          Wed Apr  3 10:19:05 2019
-Last write time:          Wed Apr  3 10:19:05 2019
-Mount count:              12
-Maximum mount count:      -1
-Last checked:             Thu Dec  6 16:17:23 2018
-Check interval:           0 (<none>)
-Lifetime writes:          1962 GB
-Reserved blocks uid:      0 (user root)
-Reserved blocks gid:      0 (group root)
-First inode:              11
-Inode size:	          256
-Required extra isize:     32
-Desired extra isize:      32
-Journal inode:            8
-First orphan inode:       5248434
-Default directory hash:   half_md4
-Directory Hash Seed:      d1bbea0e-dd2e-4df7-b7f0-f7300c524cc9
-Journal backup:           inode blocks
-Checksum type:            crc32c
-Checksum:                 0x3a8a8676
-
-I'm definitely seeing some differences in the two configs (such as your
-block size of 1k vs. mine at 4k), but not sure which are the most
-important, nor how to easily recreate a setup that matches yours.
-
-> IIRC I talked to stefanha on IRC about this some weeks ago already, and=
-
-> he was able to reproduce the problem when using a certain parameter to
-> create the file system. However, I fail to remember which parameter it
-> was. Maybe Stefan still remembers...
->=20
+s/avoid to use/avoid using/
 
 --=20
 Eric Blake, Principal Software Engineer
@@ -241,22 +120,22 @@ Red Hat, Inc.           +1-919-301-3226
 Virtualization:  qemu.org | libvirt.org
 
 
---lZ5Wsrrj33chhS6tgk1nFZrKXcPhidcxL
+--59KzHsPOnvv8laGi8w82xDAOqgzaN9k8c
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlzQcpgACgkQp6FrSiUn
-Q2p+oAgAlI5y6CkTkR7DrR90JnMwZMONk/keKOuo/+rwGXvEPs80dYbi+HAmxGet
-9fSQ7SvD++7I30wc8WCRWOJYVnIdjaS7P9qfmbmL7ei0D8nAljG0F5d9UqnJndQ9
-e4WiAsDH0peiimQ0ltjwKoOqO6nL9mZVetVuO8TuyAHg5A9kjHVJ6cgt+T70raqD
-8gQ8opIkHzxxlk7JdqFqDKfIeZx+HrhfMZLFo/y0skQYefO62XDyyMTePM6FkzFN
-wic194EtENwiYJDuYRexbtKlFYVrsMJZ41BW07YS395PUNmxl9mavFeoAa9g2Ej/
-UMdNvAiiEdW3uqlrsm1nTfvZ4EPaPg==
-=vj90
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlzQdMwACgkQp6FrSiUn
+Q2pDoAgAq0RUU4dqtU2TJzNlNMiKHvqlfjQKJ7Ym7LTgo6fO3BIEBGpvXVZmidn7
+8IA+HVh00aTqobleHRuu3i++GvjRsGIcFRL2Y35ebmFDQaz23n87MiUqOWd4V/wR
+ye/JbnWsGiGbiDJBSBEiNK0fFijqOhJdNY5CyEn0nWA/8bM2QwJsnYRYlRzcUkbp
+mretZasqD/Gn03aR0a5t/8xHL8OojamdOoX2UrMlR/vagRvdFO6wL1A0v2yQHuEk
+L8jVBIDbAnKe8yTf1Jv25PJ477iSZ5+1gJv/Bhle6/vaTCYLwvW88KbONGz+UEvE
+vm5ee8goCh250D+pr9QqfDoRjxLtsg==
+=1jWh
 -----END PGP SIGNATURE-----
 
---lZ5Wsrrj33chhS6tgk1nFZrKXcPhidcxL--
+--59KzHsPOnvv8laGi8w82xDAOqgzaN9k8c--
 
