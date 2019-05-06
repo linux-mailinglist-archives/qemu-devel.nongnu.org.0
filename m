@@ -2,56 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 87A2D14FEE
-	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 17:19:32 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58090 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B86F41504F
+	for <lists+qemu-devel@lfdr.de>; Mon,  6 May 2019 17:33:26 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58278 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNfOt-0006Ks-OZ
-	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 11:19:31 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33741)
+	id 1hNfcL-0005vH-Kz
+	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 11:33:25 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37076)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <lersek@redhat.com>) id 1hNfNb-0005ug-9J
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 11:18:12 -0400
+	(envelope-from <fintelia@gmail.com>) id 1hNfas-0005YH-Jc
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 11:31:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <lersek@redhat.com>) id 1hNfNZ-0001Cx-CU
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 11:18:11 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57264)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <lersek@redhat.com>)
-	id 1hNfNP-00010r-IG; Mon, 06 May 2019 11:17:59 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id E870030833BF;
-	Mon,  6 May 2019 15:17:46 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-124-221.rdu2.redhat.com
-	[10.10.124.221])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id BC789100194A;
-	Mon,  6 May 2019 15:17:36 +0000 (UTC)
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
-	qemu-devel@nongnu.org, qemu-stable@nongnu.org
-References: <20190505200602.12412-1-philmd@redhat.com>
-	<20190505200602.12412-6-philmd@redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <25a7725c-3ac4-43cb-cd0a-cfc4007b244c@redhat.com>
-Date: Mon, 6 May 2019 17:17:35 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+	(envelope-from <fintelia@gmail.com>) id 1hNfar-0003sY-Lm
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 11:31:54 -0400
+Received: from mail-lf1-x136.google.com ([2a00:1450:4864:20::136]:38630)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <fintelia@gmail.com>)
+	id 1hNfar-0003rR-EM; Mon, 06 May 2019 11:31:53 -0400
+Received: by mail-lf1-x136.google.com with SMTP id y19so1904492lfy.5;
+	Mon, 06 May 2019 08:31:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to:cc;
+	bh=FB9+SCfnB8QzagMDoXtuby435WXka8anbsg63mzE4aQ=;
+	b=a5+jKVt8PEK+67H9Y6nu82VEJPzGr6IsMgm+VFHbU6hMUn2kK0Nrwc42ruKlFAoFFK
+	BZlXNjCwSNUAgrGVdUSXnI/2Ej1/0CeqNKn2RJ0uSkJuQrffQYaIRAUtlmb601/QEuHe
+	rCQPxC7ULvwx7JZ4zatKEFzmAGImPpYtHYnZxGtOA8o/D1MKgI5rlIese+P4nWSDW74o
+	+j29kAkIKZGnl6xysEV4/HJ6qqF5vW+Sx2u6tvWWbE7oeLGW5nwkCl0Ebh8PatdmYC5P
+	oyCjneAW92DHRC6mS4SNopjuE8HTEKAEKgMAFpK3vwekyiANBXtDjts7b5aAmchgd3ek
+	ZpHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
+	bh=FB9+SCfnB8QzagMDoXtuby435WXka8anbsg63mzE4aQ=;
+	b=VP869Nd7Zvfy82Z0X0TlM16iYqwxM8+SSsuFLlTLdAxOjfUXwGfk4a3SZCA/JWQDH2
+	kPmwlIAnnSxCGpwwEZOYgeGVFvzgTERymXflS0intovkONhjsUAN3zBo8E297vGabjyZ
+	yQJtKXOgma9sRebYJOOYbDkwUC752GecaXw/XMvdl1muchYQF6X7wVh5RxX2KyjQN9lR
+	yfsyTXtiXypvh406AK2bzJyr7H43/FNRoSao5y2tP8d1E9uUxpQOPQGp1xX3hAvLQepn
+	VqGvDC35wZEo4qcMldKfFDmLB0znk65nxCcjpfL+aM5PyLQUdKlA/SokdArk2yzXyHgs
+	jzrA==
+X-Gm-Message-State: APjAAAXCzZcCgaFRbsIIzBX9JrsyEuWjujqG7QOWGFviL2+Txh8KAdcZ
+	6GvjyHXZ3amiVRpMmbtH3gvlCbJU4H7iuYpiXoM56Nz6lAk=
+X-Google-Smtp-Source: APXvYqyYxT56gtddLmGYJfCpC9JolzfCBLbgyKTnf++k2WeNoCajOUNiBTpY3Xg7+IjjusSo7ricWfmRQTSdy6ow7FE=
+X-Received: by 2002:ac2:4571:: with SMTP id k17mr4272321lfm.133.1557156710847; 
+	Mon, 06 May 2019 08:31:50 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190505200602.12412-6-philmd@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.44]);
-	Mon, 06 May 2019 15:17:47 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 5/5] hw/block/pflash_cfi02: Add the
- DeviceReset() handler
+From: Jonathan Behrens <fintelia@gmail.com>
+Date: Mon, 6 May 2019 11:31:24 -0400
+Message-ID: <CANnJOVFj9yhbjPY=_+LNDWwO=Q8jLFnH01AbTY8T0p=cmkrNiw@mail.gmail.com>
+To: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2a00:1450:4864:20::136
+Content-Type: text/plain; charset="UTF-8"
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: [Qemu-devel] [PATCH for 4.1] target/riscv: Only flush TLB if
+ SATP.ASID changes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -63,71 +69,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
-	Stephen Checkoway <stephen.checkoway@oberlin.edu>,
-	qemu-block@nongnu.org, "Michael S . Tsirkin" <mst@redhat.com>,
-	Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>,
-	Wei Yang <richardw.yang@linux.intel.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	=?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
-	Gerd Hoffmann <kraxel@redhat.com>
+Cc: Alistair Francis <Alistair.Francis@wdc.com>,
+	Palmer Dabbelt <palmer@sifive.com>,
+	"open list:RISC-V" <qemu-riscv@nongnu.org>,
+	Sagar Karandikar <sagark@eecs.berkeley.edu>,
+	Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/05/19 22:06, Philippe Mathieu-Daud=C3=A9 wrote:
-> The pflash device is a child of TYPE_DEVICE, so it can implement
-> the DeviceReset handler. Actually it has to implement it, else
-> on machine reset it might stay in an incoherent state, as it has
-> been reported in the buglink listed below.
->=20
-> Add the DeviceReset handler and remove its call from the realize()
-> function.
->=20
-> Buglink: https://bugzilla.redhat.com/show_bug.cgi?id=3D1678713
-> Reported-by: Laszlo Ersek <lersek@redhat.com>
+There is an analogous change for ARM here:
+https://patchwork.kernel.org/patch/10649857
+---
+ target/riscv/csr.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-- IMO, the above two tags should be dropped from the commit message, as
-they are specific to CFI01.
-
-- Additionally, the commit message references the realize() function
-(correctly), but the patch doesn't change that function. That is, the
-patch doesn't remove the pflash_reset() call from pflash_cfi02_realize()
-that was introduced in the last patch.
-
-Thanks
-Laszlo
-
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  hw/block/pflash_cfi02.c | 6 ++++++
->  1 file changed, 6 insertions(+)
->=20
-> diff --git a/hw/block/pflash_cfi02.c b/hw/block/pflash_cfi02.c
-> index f321b74433c..5af367d1563 100644
-> --- a/hw/block/pflash_cfi02.c
-> +++ b/hw/block/pflash_cfi02.c
-> @@ -674,6 +674,11 @@ static void pflash_cfi02_realize(DeviceState *dev,=
- Error **errp)
->      pfl->cfi_table[0x3c] =3D 0x00;
->  }
-> =20
-> +static void pflash_cfi02_reset(DeviceState *dev)
-> +{
-> +    pflash_reset(PFLASH_CFI02(dev));
-> +}
-> +
->  static Property pflash_cfi02_properties[] =3D {
->      DEFINE_PROP_DRIVE("drive", PFlashCFI02, blk),
->      DEFINE_PROP_UINT32("num-blocks", PFlashCFI02, nb_blocs, 0),
-> @@ -701,6 +706,7 @@ static void pflash_cfi02_class_init(ObjectClass *kl=
-ass, void *data)
->  {
->      DeviceClass *dc =3D DEVICE_CLASS(klass);
-> =20
-> +    dc->reset =3D pflash_cfi02_reset;
->      dc->realize =3D pflash_cfi02_realize;
->      dc->unrealize =3D pflash_cfi02_unrealize;
->      dc->props =3D pflash_cfi02_properties;
->=20
-
-
+diff --git a/target/riscv/csr.c b/target/riscv/csr.c
+index 6083c782a1..1ec1222da1 100644
+--- a/target/riscv/csr.c
++++ b/target/riscv/csr.c
+@@ -732,7 +732,9 @@ static int write_satp(CPURISCVState *env, int csrno,
+target_ulong val)
+         if (env->priv == PRV_S && get_field(env->mstatus, MSTATUS_TVM)) {
+             return -1;
+         } else {
+-            tlb_flush(CPU(riscv_env_get_cpu(env)));
++            if((val ^ env->satp) & SATP_ASID) {
++                tlb_flush(CPU(riscv_env_get_cpu(env)));
++            }
+             env->satp = val;
+         }
+     }
+-- 
+2.20.1
