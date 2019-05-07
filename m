@@ -2,79 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EE14216570
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 16:13:30 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:47482 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9176416560
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 16:08:24 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:47419 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hO0qY-00010A-4E
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 10:13:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43280)
+	id 1hO0lb-0006rq-56
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 10:08:23 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42442)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hO0oQ-0008Fd-Kv
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 10:11:23 -0400
+	(envelope-from <lvivier@redhat.com>) id 1hO0kL-0006Q6-3d
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 10:07:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hO0oO-0000Rr-J7
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 10:11:18 -0400
-Received: from indium.canonical.com ([91.189.90.7]:60538)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hO0oO-0000Qq-DI
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 10:11:16 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
-	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hO0oN-0002aC-0O
-	for <qemu-devel@nongnu.org>; Tue, 07 May 2019 14:11:15 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id EB3BC2E80C9
-	for <qemu-devel@nongnu.org>; Tue,  7 May 2019 14:11:14 +0000 (UTC)
+	(envelope-from <lvivier@redhat.com>) id 1hO0kH-0004SU-7o
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 10:07:04 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34338)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <lvivier@redhat.com>) id 1hO0kF-0004Ol-Ag
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 10:07:01 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id A662B59449;
+	Tue,  7 May 2019 14:06:56 +0000 (UTC)
+Received: from [10.40.204.24] (ovpn-204-24.brq.redhat.com [10.40.204.24])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id AB971627D8;
+	Tue,  7 May 2019 14:06:55 +0000 (UTC)
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20190506173353.32206-1-richard.henderson@linaro.org>
+	<20190506173353.32206-13-richard.henderson@linaro.org>
+From: Laurent Vivier <lvivier@redhat.com>
+Message-ID: <6a5967a8-4835-7f6c-a50b-0154d88a2aed@redhat.com>
+Date: Tue, 7 May 2019 16:06:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20190506173353.32206-13-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.39]);
+	Tue, 07 May 2019 14:06:56 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 07 May 2019 14:04:58 -0000
-From: Sebastien Bacher <seb128@ubuntu.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=mesa; status=Won't Fix; importance=High; assignee=None;
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
-	assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=mesa; component=main;
-	milestone=ubuntu-19.04; status=Fix Released; importance=Medium;
-	assignee=tjaalton@ubuntu.com; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
-	status=Invalid; importance=Undecided; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=disco; sourcepackage=mesa; 
-	component=main; milestone=ubuntu-19.04; status=Fix Released;
-	importance=Medium; assignee=tjaalton@ubuntu.com; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=eoan; sourcepackage=mesa;
-	component=main; status=Fix Released; importance=Undecided; assignee=None;
-X-Launchpad-Bug: distribution=ubuntu; distroseries=eoan; sourcepackage=qemu;
-	component=main; status=Triaged; importance=Undecided;
-	assignee=christian.ehrhardt@canonical.com; 
-X-Launchpad-Bug-Tags: amd64 apport-crash apport-failed-retrace disco
-	qemu-19.10 wayland-session
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ahzo alexdeucher apport baker-dylan-c berrange
-	dan-freedesktop janitor jokx maraeo marcandre-lureau michel-daenzer
-	paelzer tjaalton willcooke
-X-Launchpad-Bug-Reporter: Joseph Maillardet (jokx)
-X-Launchpad-Bug-Modifier: Sebastien Bacher (seb128)
-References: <155014036044.634.15252078016929169795.malonedeb@gac.canonical.com>
-Message-Id: <155723790017.18129.11253337142707029220.launchpad@wampee.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18958";
-	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: e38720dce19f91ef7235e82b57769d57c630de75
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1815889] Re: qemu-system-x86_64 crashed with
- signal 31 in __pthread_setaffinity_new()
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v4 12/24] linux-user: Initialize
+ pseudo-random seeds for all guest cpus
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -83,83 +61,64 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1815889 <1815889@bugs.launchpad.net>
+Cc: Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Changed in: mesa (Ubuntu Eoan)
-       Status: Triaged =3D> Fix Released
+On 06/05/2019 19:33, Richard Henderson wrote:
+> When the -seed option is given, call qemu_guest_random_seed_main,
+> putting the subsystem into deterministic mode.  Pass derived seeds
+> to each cpu created during clone; which is a no-op unless the
+> subsystem is in deterministic mode.
+>=20
+> Cc: Laurent Vivier <laurent@vivier.eu>
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   linux-user/main.c    | 21 ++++++++++-----------
+>   linux-user/syscall.c |  3 +++
+>   2 files changed, 13 insertions(+), 11 deletions(-)
+>=20
+> diff --git a/linux-user/main.c b/linux-user/main.c
+> index 3d2230320b..7dfb202e5d 100644
+> --- a/linux-user/main.c
+> +++ b/linux-user/main.c
+> @@ -34,6 +34,7 @@
+>   #include "tcg.h"
+>   #include "qemu/timer.h"
+>   #include "qemu/envlist.h"
+> +#include "qemu/guest-random.h"
+>   #include "elf.h"
+>   #include "trace/control.h"
+>   #include "target_elf.h"
+> @@ -48,6 +49,7 @@ static int gdbstub_port;
+>   static envlist_t *envlist;
+>   static const char *cpu_model;
+>   static const char *cpu_type;
+> +static const char *seed_optarg;
+>   unsigned long mmap_min_addr;
+>   unsigned long guest_base;
+>   int have_guest_base;
+> @@ -290,15 +292,9 @@ static void handle_arg_pagesize(const char *arg)
+>       }
+>   }
+>  =20
+> -static void handle_arg_randseed(const char *arg)
+> +static void handle_arg_seed(const char *arg)
+>   {
+> -    unsigned long long seed;
+> -
+> -    if (parse_uint_full(arg, &seed, 0) !=3D 0 || seed > UINT_MAX) {
+> -        fprintf(stderr, "Invalid seed number: %s\n", arg);
+> -        exit(EXIT_FAILURE);
+> -    }
+> -    srand(seed);
 
--- =
+It's a detail, but I think you can't remove this srand() in this patch:=20
+you initialize qemu_guest_random() sequence but the code continues to=20
+use rand() to have a random number, so the seed value is in fact=20
+ignored. you can remove it in PATCH 16.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1815889
-
-Title:
-  qemu-system-x86_64 crashed with signal 31 in
-  __pthread_setaffinity_new()
-
-Status in Mesa:
-  Won't Fix
-Status in QEMU:
-  Fix Released
-Status in mesa package in Ubuntu:
-  Fix Released
-Status in qemu package in Ubuntu:
-  Invalid
-Status in mesa source package in Disco:
-  Fix Released
-Status in mesa source package in Eoan:
-  Fix Released
-Status in qemu source package in Eoan:
-  Triaged
-
-Bug description:
-  Unable to launch Default Fedora 29 images in gnome-boxes
-
-  ProblemType: Crash
-  DistroRelease: Ubuntu 19.04
-  Package: qemu-system-x86 1:3.1+dfsg-2ubuntu1
-  ProcVersionSignature: Ubuntu 4.19.0-12.13-generic 4.19.18
-  Uname: Linux 4.19.0-12-generic x86_64
-  ApportVersion: 2.20.10-0ubuntu20
-  Architecture: amd64
-  Date: Thu Feb 14 11:00:45 2019
-  ExecutablePath: /usr/bin/qemu-system-x86_64
-  KvmCmdLine: COMMAND         STAT  EUID  RUID   PID  PPID %CPU COMMAND
-  MachineType: Dell Inc. Precision T3610
-  ProcEnviron: PATH=3D(custom, user)
-  ProcKernelCmdLine: BOOT_IMAGE=3D/boot/vmlinuz-4.19.0-12-generic root=3DUU=
-ID=3D939b509b-d627-4642-a655-979b44972d17 ro splash quiet vt.handoff=3D1
-  Signal: 31
-  SourcePackage: qemu
-  StacktraceTop:
-   __pthread_setaffinity_new (th=3D<optimized out>, cpusetsize=3D128, cpuse=
-t=3D0x7f5771fbf680) at ../sysdeps/unix/sysv/linux/pthread_setaffinity.c:34
-   () at /usr/lib/x86_64-linux-gnu/dri/radeonsi_dri.so
-   () at /usr/lib/x86_64-linux-gnu/dri/radeonsi_dri.so
-   start_thread (arg=3D<optimized out>) at pthread_create.c:486
-   clone () at ../sysdeps/unix/sysv/linux/x86_64/clone.S:95
-  Title: qemu-system-x86_64 crashed with signal 31 in __pthread_setaffinity=
-_new()
-  UpgradeStatus: Upgraded to disco on 2018-11-14 (91 days ago)
-  UserGroups: adm cdrom dip lpadmin plugdev sambashare sudo video
-  dmi.bios.date: 11/14/2018
-  dmi.bios.vendor: Dell Inc.
-  dmi.bios.version: A18
-  dmi.board.name: 09M8Y8
-  dmi.board.vendor: Dell Inc.
-  dmi.board.version: A01
-  dmi.chassis.type: 7
-  dmi.chassis.vendor: Dell Inc.
-  dmi.modalias: dmi:bvnDellInc.:bvrA18:bd11/14/2018:svnDellInc.:pnPrecision=
-T3610:pvr00:rvnDellInc.:rn09M8Y8:rvrA01:cvnDellInc.:ct7:cvr:
-  dmi.product.name: Precision T3610
-  dmi.product.sku: 05D2
-  dmi.product.version: 00
-  dmi.sys.vendor: Dell Inc.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/mesa/+bug/1815889/+subscriptions
+Thanks,
+Laurent
 
