@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FE1316687
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 17:21:00 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48481 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BD589166A8
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 17:26:34 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48574 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hO1tr-0000Zu-Gy
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 11:20:59 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58167)
+	id 1hO1zF-00060W-Qm
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 11:26:33 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58220)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hO1rX-0007s1-MT
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 11:18:36 -0400
+	(envelope-from <mreitz@redhat.com>) id 1hO1rZ-0007vX-WF
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 11:18:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hO1rW-0003u1-E1
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 11:18:35 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39430)
+	(envelope-from <mreitz@redhat.com>) id 1hO1rY-0003xq-SH
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 11:18:37 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36678)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hO1rQ-0003oX-KH; Tue, 07 May 2019 11:18:30 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
-	[10.5.11.14])
+	id 1hO1rU-0003qM-DZ; Tue, 07 May 2019 11:18:33 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id CBBC9C04FFF1;
-	Tue,  7 May 2019 15:18:26 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 3063981E0A;
+	Tue,  7 May 2019 15:18:29 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.217])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 6356F5D9CC;
-	Tue,  7 May 2019 15:18:26 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id BE6EA64026;
+	Tue,  7 May 2019 15:18:28 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Tue,  7 May 2019 17:18:10 +0200
-Message-Id: <20190507151819.17401-3-mreitz@redhat.com>
+Date: Tue,  7 May 2019 17:18:11 +0200
+Message-Id: <20190507151819.17401-4-mreitz@redhat.com>
 In-Reply-To: <20190507151819.17401-1-mreitz@redhat.com>
 References: <20190507151819.17401-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.31]);
-	Tue, 07 May 2019 15:18:26 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.25]);
+	Tue, 07 May 2019 15:18:29 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 02/11] qcow2-refcount: avoid eating RAM
+Subject: [Qemu-devel] [PULL 03/11] qcow2-refcount: check_refcounts_l2:
+ reduce ignored overlaps
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,115 +63,94 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-qcow2_inc_refcounts_imrt() (through realloc_refcount_array()) can eat
-an unpredictable amount of memory on corrupted table entries, which are
-referencing regions far beyond the end of file.
-
-Prevent this, by skipping such regions from further processing.
-
-Interesting that iotest 138 checks exactly the behavior which we fix
-here. So, change the test appropriately.
+Reduce number of structures ignored in overlap check: when checking
+active table ignore active tables, when checking inactive table ignore
+inactive ones.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Reviewed-by: Max Reitz <mreitz@redhat.com>
-Message-id: 20190227131433.197063-3-vsementsov@virtuozzo.com
+Message-id: 20190227131433.197063-4-vsementsov@virtuozzo.com
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/qcow2-refcount.c     | 19 +++++++++++++++++++
- tests/qemu-iotests/138     | 12 +++++-------
- tests/qemu-iotests/138.out |  5 ++++-
- 3 files changed, 28 insertions(+), 8 deletions(-)
+ block/qcow2-refcount.c | 16 +++++++++-------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
 
 diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
-index ed3d8ebd57..21e50dacf4 100644
+index 21e50dacf4..1ac2b0490d 100644
 --- a/block/qcow2-refcount.c
 +++ b/block/qcow2-refcount.c
-@@ -1520,12 +1520,31 @@ int qcow2_inc_refcounts_imrt(BlockDriverState *bs=
-, BdrvCheckResult *res,
+@@ -1591,7 +1591,7 @@ enum {
+ static int check_refcounts_l2(BlockDriverState *bs, BdrvCheckResult *res=
+,
+                               void **refcount_table,
+                               int64_t *refcount_table_size, int64_t l2_o=
+ffset,
+-                              int flags, BdrvCheckMode fix)
++                              int flags, BdrvCheckMode fix, bool active)
  {
      BDRVQcow2State *s =3D bs->opaque;
-     uint64_t start, last, cluster_offset, k, refcount;
-+    int64_t file_len;
-     int ret;
+     uint64_t *l2_table, l2_entry;
+@@ -1682,11 +1682,12 @@ static int check_refcounts_l2(BlockDriverState *b=
+s, BdrvCheckResult *res,
+                     if (fix & BDRV_FIX_ERRORS) {
+                         uint64_t l2e_offset =3D
+                             l2_offset + (uint64_t)i * sizeof(uint64_t);
++                        int ign =3D active ? QCOW2_OL_ACTIVE_L2 :
++                                           QCOW2_OL_INACTIVE_L2;
 =20
-     if (size <=3D 0) {
-         return 0;
+                         l2_entry =3D QCOW_OFLAG_ZERO;
+                         l2_table[i] =3D cpu_to_be64(l2_entry);
+-                        ret =3D qcow2_pre_write_overlap_check(bs,
+-                                QCOW2_OL_ACTIVE_L2 | QCOW2_OL_INACTIVE_L=
+2,
++                        ret =3D qcow2_pre_write_overlap_check(bs, ign,
+                                 l2e_offset, sizeof(uint64_t), false);
+                         if (ret < 0) {
+                             fprintf(stderr, "ERROR: Overlap check failed=
+\n");
+@@ -1762,7 +1763,7 @@ static int check_refcounts_l1(BlockDriverState *bs,
+                               void **refcount_table,
+                               int64_t *refcount_table_size,
+                               int64_t l1_table_offset, int l1_size,
+-                              int flags, BdrvCheckMode fix)
++                              int flags, BdrvCheckMode fix, bool active)
+ {
+     BDRVQcow2State *s =3D bs->opaque;
+     uint64_t *l1_table =3D NULL, l2_offset, l1_size2;
+@@ -1818,7 +1819,7 @@ static int check_refcounts_l1(BlockDriverState *bs,
+             /* Process and check L2 entries */
+             ret =3D check_refcounts_l2(bs, res, refcount_table,
+                                      refcount_table_size, l2_offset, fla=
+gs,
+-                                     fix);
++                                     fix, active);
+             if (ret < 0) {
+                 goto fail;
+             }
+@@ -2109,7 +2110,7 @@ static int calculate_refcounts(BlockDriverState *bs=
+, BdrvCheckResult *res,
+     /* current L1 table */
+     ret =3D check_refcounts_l1(bs, res, refcount_table, nb_clusters,
+                              s->l1_table_offset, s->l1_size, CHECK_FRAG_=
+INFO,
+-                             fix);
++                             fix, true);
+     if (ret < 0) {
+         return ret;
      }
-=20
-+    file_len =3D bdrv_getlength(bs->file->bs);
-+    if (file_len < 0) {
-+        return file_len;
-+    }
-+
-+    /*
-+     * Last cluster of qcow2 image may be semi-allocated, so it may be O=
-K to
-+     * reference some space after file end but it should be less than on=
-e
-+     * cluster.
-+     */
-+    if (offset + size - file_len >=3D s->cluster_size) {
-+        fprintf(stderr, "ERROR: counting reference for region exceeding =
-the "
-+                "end of the file by one cluster or more: offset 0x%" PRI=
-x64
-+                " size 0x%" PRIx64 "\n", offset, size);
-+        res->corruptions++;
-+        return 0;
-+    }
-+
-     start =3D start_of_cluster(s, offset);
-     last =3D start_of_cluster(s, offset + size - 1);
-     for(cluster_offset =3D start; cluster_offset <=3D last;
-diff --git a/tests/qemu-iotests/138 b/tests/qemu-iotests/138
-index f353ac8219..6a731370db 100755
---- a/tests/qemu-iotests/138
-+++ b/tests/qemu-iotests/138
-@@ -54,15 +54,13 @@ $QEMU_IO -c 'write 0 512' "$TEST_IMG" | _filter_qemu_=
-io
- # Put the data cluster at a multiple of 2 TB, resulting in the image app=
-arently
- # having a multiple of 2^32 clusters
- # (To be more specific: It is at 32 PB)
--poke_file "$TEST_IMG" 2048 "\x80\x80\x00\x00\x00\x00\x00\x00"
-+poke_file "$TEST_IMG" $((2048 + 8)) "\x00\x80\x00\x00\x00\x00\x00\x00"
-=20
- # An offset of 32 PB results in qemu-img check having to allocate an in-=
-memory
--# refcount table of 128 TB (16 bit refcounts, 512 byte clusters).
--# This should be generally too much for any system and thus fail.
--# What this test is checking is that the qcow2 driver actually tries to =
-allocate
--# such a large amount of memory (and is consequently aborting) instead o=
-f having
--# truncated the cluster count somewhere (which would result in much less=
- memory
--# being allocated and then a segfault occurring).
-+# refcount table of 128 TB (16 bit refcounts, 512 byte clusters), if qem=
-u-img
-+# don't check that referenced data cluster is far beyond the end of file=
-.
-+# But starting from 4.0, qemu-img does this check, and instead of "Canno=
-t
-+# allocate memory", we have an error showing that l2 entry is invalid.
- _check_test_img
-=20
- # success, all done
-diff --git a/tests/qemu-iotests/138.out b/tests/qemu-iotests/138.out
-index 3fe911f85a..aca7d47a80 100644
---- a/tests/qemu-iotests/138.out
-+++ b/tests/qemu-iotests/138.out
-@@ -5,5 +5,8 @@ QA output created by 138
- Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D512
- wrote 512/512 bytes at offset 0
- 512 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
--qemu-img: Check failed: Cannot allocate memory
-+ERROR: counting reference for region exceeding the end of the file by on=
-e cluster or more: offset 0x80000000000000 size 0x200
-+
-+1 errors were found on the image.
-+Data may be corrupted, or further writes to the image may corrupt it.
- *** done
+@@ -2138,7 +2139,8 @@ static int calculate_refcounts(BlockDriverState *bs=
+, BdrvCheckResult *res,
+             continue;
+         }
+         ret =3D check_refcounts_l1(bs, res, refcount_table, nb_clusters,
+-                                 sn->l1_table_offset, sn->l1_size, 0, fi=
+x);
++                                 sn->l1_table_offset, sn->l1_size, 0, fi=
+x,
++                                 false);
+         if (ret < 0) {
+             return ret;
+         }
 --=20
 2.20.1
 
