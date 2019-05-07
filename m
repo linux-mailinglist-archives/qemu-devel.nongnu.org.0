@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79AF216381
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 14:12:06 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:45781 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D143A1635E
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 14:03:26 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:45606 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNyx3-0008Fv-Ka
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 08:12:05 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44925)
+	id 1hNyof-0000S9-Vt
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 08:03:26 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44853)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hNyls-0007fM-Pv
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:33 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hNylp-0007ZM-Pe
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hNyln-0003hq-DL
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:32 -0400
-Received: from mail-wr1-x432.google.com ([2a00:1450:4864:20::432]:39864)
+	(envelope-from <peter.maydell@linaro.org>) id 1hNylo-0003oE-Ld
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:29 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:42624)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hNyln-0003cx-3k
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:27 -0400
-Received: by mail-wr1-x432.google.com with SMTP id v10so9675843wrt.6
-	for <qemu-devel@nongnu.org>; Tue, 07 May 2019 05:00:27 -0700 (PDT)
+	id 1hNylo-0003lD-E7
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:28 -0400
+Received: by mail-wr1-x442.google.com with SMTP id l2so21966180wrb.9
+	for <qemu-devel@nongnu.org>; Tue, 07 May 2019 05:00:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=X9+rr2bCSDZG/nCniXr98w168+IzhYcZne15QwzLe+E=;
-	b=P1TFtT+vueqVZhZXCKNUxnc8miDmySU0De8UEeP5b0fw1nOenYECcV96822hNpHXK1
-	QW25QBo0695Xp17ywA/Ud5TOz4ER0TnTx/btTItSZt94Zg/mNRtNbeVavkDHHIYUgRau
-	0neMhiOqyFdc1wJRwpT1G8qDtlvGNb8hWbrqiCHWDlaZYVEm/YQSyUuKkMYz6rl9s2AM
-	Cjif2gaMiBv1nJJbXzYyTYggX1H6IQwcMD29eLLi3dtbDZ8x7wJ+uPIG9PiUqbDLETwg
-	bXibwpkitSOSoKZztwgMI4o+yUQKNGssedPdSiYjgpJsHv4pg522Vd2Q7iGO6clFqm04
-	O+tA==
+	bh=QJnsO/e2aUvBsiJ7AzOUR4tR/12UDD/kLgyFI8NTW1o=;
+	b=BnAEaXTFUWO2yvGLvWI9wI8DHMKde2icoVLoAdD48eNUKUXCWoOyK0Q2WZomDNrDHI
+	ro7dJaY0h+ZP+bC5iTlTTuVpRgV/o7LYuvtrVRSxvioGc3KtNcjd50Nfw6Qugrkx5H40
+	MIeR22qsjo0PKlix+b9I1DRfo2DkfqGCGx/eKz5sDho4HR96eMhvwXreKcKZr658c143
+	4XqG4Ajty59yRLHWSzoECECmZbnLobrMz0zdjI9Im98aqWsESmUkiBmnU9WpWFvCtoA4
+	pHjFMZSd4B5iVkCiWDuAo8vwLlTm/vkD41f2S3WmXU0txVt2G/gnn12HSudlwNujKbES
+	v0Zg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=X9+rr2bCSDZG/nCniXr98w168+IzhYcZne15QwzLe+E=;
-	b=OxNyg56vQ0DtNhN6v5kTNKodRTKcjZ7TNnWch1iZMoxO2OxOG3YTVcV62XxWB39ugD
-	w04PpxCjAJTQQfxTcPyR402qdnk/zHH4skWTwgQHZE82Lm9ivGQtcQFU5wGeFhxQynGl
-	xmWRoZkzanilGY6E+Hd+tJnRFOwnMp50x8t781FiLHzRLm8ME2rkMNCJlQggsufkrMO3
-	MNJgAyfYBUiAsfOvluEwjE4YNAaSYX64hy+cxp0zD6aoeGdK2Dq32Foq3ygBkD3uNFNs
-	du3d40VN771A4cr7FO6a4nyYI+ptPnnPhRds+5X8y4pmuXy8ZX653SYHnxTeIxgsJMSv
-	gRXA==
-X-Gm-Message-State: APjAAAVBaU/mpsIOZUSlSCjYDuRi96veSmgsUWRAWoyUPVU2efLUtxEL
-	LI9OQN5J7IKHaD8TD9Pae+33LDKN6pc=
-X-Google-Smtp-Source: APXvYqxkH1f93KMvq24eW/A7JpWv6O8Qi3FEdLyml9QM4OBIoqLgpxuI5hh9Nd2Z3sY0j/ysBdnd2g==
-X-Received: by 2002:adf:bc86:: with SMTP id g6mr14397539wrh.60.1557230425949; 
-	Tue, 07 May 2019 05:00:25 -0700 (PDT)
+	bh=QJnsO/e2aUvBsiJ7AzOUR4tR/12UDD/kLgyFI8NTW1o=;
+	b=gSyPFPL6MzSb9Uf5hgO1gYcMoso8MjRq/oftjuPMI2N8jg8BGg4lyGZGCOgiDl6s/m
+	A+aI65LXgFGTZozqQwgM52eGHe3VDv1G5qVmo+NF7TPhG8WNuiFmuL1QjOgyl+p7UfiE
+	1fF0L87Rf9zvBcNXRE4tS2BiU8dIXbDAuyT4kE5s/DncJcRFQKUuPM8G4gcCkpn3nAjQ
+	SwSigXeXOqlb6l4ZBKMhQubpJqwXkZTzlxuBJ5G9y+/FAE8f6efZsKdRVeMLvfEMoEh/
+	Mgq7/qhCZe3X17d2Iya99iUfEzocnF0VDo1OydLfWFSLEm0IDmdVHhGbK2VmBwfu6jkj
+	pZMw==
+X-Gm-Message-State: APjAAAUIr3i3OlyrwP/7ZezNNGt2I75M/vr/i5t2ODZW6XS0vL4bTEpg
+	pFPiBUwwLEy+GOBbbsM5AS2nI/LeDU4=
+X-Google-Smtp-Source: APXvYqzaMP7ZRENqyaUyR64Q2s0TEIZL3QvogtDfQ25vhbqyWbVny5RSHdB4mDDYCTyfW9L38m7qjA==
+X-Received: by 2002:a5d:674f:: with SMTP id l15mr21489298wrw.41.1557230427088; 
+	Tue, 07 May 2019 05:00:27 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
-	by smtp.gmail.com with ESMTPSA id g3sm12348596wmf.9.2019.05.07.05.00.24
+	by smtp.gmail.com with ESMTPSA id g3sm12348596wmf.9.2019.05.07.05.00.26
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 07 May 2019 05:00:24 -0700 (PDT)
+	Tue, 07 May 2019 05:00:26 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue,  7 May 2019 13:00:04 +0100
-Message-Id: <20190507120011.18100-9-peter.maydell@linaro.org>
+Date: Tue,  7 May 2019 13:00:05 +0100
+Message-Id: <20190507120011.18100-10-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190507120011.18100-1-peter.maydell@linaro.org>
 References: <20190507120011.18100-1-peter.maydell@linaro.org>
@@ -66,9 +66,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::432
-Subject: [Qemu-devel] [PULL 08/15] qga: Fix mingw compilation warnings on
- enum conversion
+X-Received-From: 2a00:1450:4864:20::442
+Subject: [Qemu-devel] [PULL 09/15] util/cacheinfo: Use uint64_t on LLP64
+ model to satisfy Windows ARM64
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -85,37 +85,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Cao Jiaxi <driver1998@foxmail.com>
 
-The win2qemu[] is supposed to be the conversion table to convert between
-STORAGE_BUS_TYPE in Windows SDK and GuestDiskBusType in qga.
+Windows ARM64 uses LLP64 model, which breaks current assumptions.
 
-But it was incorrectly written that it forces to set a GuestDiskBusType
-value to STORAGE_BUS_TYPE, which generates an enum conversion warning in clang.
-
-Suggested-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Cao Jiaxi <driver1998@foxmail.com>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-id: 20190503003650.10137-1-driver1998@foxmail.com
+Message-id: 20190503003707.10185-1-driver1998@foxmail.com
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- qga/commands-win32.c | 2 +-
+ util/cacheinfo.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-index d40d61f605c..6b67f16faf1 100644
---- a/qga/commands-win32.c
-+++ b/qga/commands-win32.c
-@@ -457,7 +457,7 @@ void qmp_guest_file_flush(int64_t handle, Error **errp)
+diff --git a/util/cacheinfo.c b/util/cacheinfo.c
+index 3cd080b83d1..eebe1ce9c5d 100644
+--- a/util/cacheinfo.c
++++ b/util/cacheinfo.c
+@@ -107,7 +107,7 @@ static void sys_cache_info(int *isize, int *dsize)
+ static void arch_cache_info(int *isize, int *dsize)
+ {
+     if (*isize == 0 || *dsize == 0) {
+-        unsigned long ctr;
++        uint64_t ctr;
  
- #ifdef CONFIG_QGA_NTDDSCSI
- 
--static STORAGE_BUS_TYPE win2qemu[] = {
-+static GuestDiskBusType win2qemu[] = {
-     [BusTypeUnknown] = GUEST_DISK_BUS_TYPE_UNKNOWN,
-     [BusTypeScsi] = GUEST_DISK_BUS_TYPE_SCSI,
-     [BusTypeAtapi] = GUEST_DISK_BUS_TYPE_IDE,
+         /* The real cache geometry is in CCSIDR_EL1/CLIDR_EL1/CSSELR_EL1,
+            but (at least under Linux) these are marked protected by the
 -- 
 2.20.1
 
