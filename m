@@ -2,69 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7D6C16398
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 14:20:38 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:45934 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2CFD1639B
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 14:21:06 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:45956 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNz5J-0005rn-QI
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 08:20:37 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49964)
+	id 1hNz5l-0006AP-QO
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 08:21:05 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50353)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hNz2H-0004aT-8b
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:17:30 -0400
+	(envelope-from <lvivier@redhat.com>) id 1hNz3p-0005OV-TY
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:19:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hNz2G-0006k8-D9
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:17:29 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:35845)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hNz2G-0006jP-7f
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:17:28 -0400
-Received: by mail-wm1-f67.google.com with SMTP id j187so3642232wmj.1
-	for <qemu-devel@nongnu.org>; Tue, 07 May 2019 05:17:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=wtAOQ44i8ItsYRj++6bN+njSZRVY/UHVJci6HQ5foCc=;
-	b=eNUMKVfDO/q2VsD/7KT7mzn+dC2/vZQmtecblF4xXW5njDOtJPGspxMp1DeADcBZFo
-	KVXvDO3G9KFefrtuTv400bLb6rSF83qjXmOtKFdJ4OgNe84XoUA7n8GSaRUiQxWUtX1j
-	tUR/7XTW6aqT5Sy1D5Z6lkCrL579PXtMxQGNlENhfjhRQy7JtUvOa1GAC4ZAxdwQd8FB
-	O5GVS6R1CzmIafdQChVcKOpSvJB/1POZAXmz1KH9l1Etae4GezShq71EX7/AKA5DJ8x1
-	Lw5KsUukHKbFIF7V941uVtjME76G9fBj+jEvEU8s7OXKIaYwJb5nHD61kjp9dgQ6j3CD
-	PFcA==
-X-Gm-Message-State: APjAAAXiyvbKulb6uuYF2Ws5mn02CmREQAmNCEp7MQGGbpBwsOzbD/0u
-	36JZY6LzGIYsJ+cisRcTkoT9iA==
-X-Google-Smtp-Source: APXvYqz+vdPvB59R9GC7sb4BBdPMuV+KWke0p7xLgXPLfiBfZpwrOWuilvJ+lI9DxgHhNSusA0dX2A==
-X-Received: by 2002:a1c:4087:: with SMTP id n129mr2171839wma.14.1557231446836; 
-	Tue, 07 May 2019 05:17:26 -0700 (PDT)
-Received: from [192.168.1.33] (193.red-88-21-103.staticip.rima-tde.net.
-	[88.21.103.193]) by smtp.gmail.com with ESMTPSA id
-	a6sm12656798wrp.49.2019.05.07.05.17.25
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Tue, 07 May 2019 05:17:25 -0700 (PDT)
-To: Laszlo Ersek <lersek@redhat.com>, qemu-devel@nongnu.org,
-	QEMU Trivial <qemu-trivial@nongnu.org>
-References: <20190506141923.12183-1-philmd@redhat.com>
-	<fcf6d003-36b2-9e8c-4708-58293a610a6e@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
-	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <acff1361-31c1-9379-21e4-3c9867360e79@redhat.com>
-Date: Tue, 7 May 2019 14:17:24 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <lvivier@redhat.com>) id 1hNz3p-0007ja-2p
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:19:05 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59568)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <lvivier@redhat.com>) id 1hNz3o-0007j6-S7
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:19:05 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id EBD383086206;
+	Tue,  7 May 2019 12:19:03 +0000 (UTC)
+Received: from [10.40.204.24] (ovpn-204-24.brq.redhat.com [10.40.204.24])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 2ADCA6402B;
+	Tue,  7 May 2019 12:19:02 +0000 (UTC)
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20190506173353.32206-1-richard.henderson@linaro.org>
+	<20190506173353.32206-12-richard.henderson@linaro.org>
+From: Laurent Vivier <lvivier@redhat.com>
+Message-ID: <52c1a803-422d-0b4a-82e6-c5585659bbab@redhat.com>
+Date: Tue, 7 May 2019 14:19:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <fcf6d003-36b2-9e8c-4708-58293a610a6e@redhat.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20190506173353.32206-12-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.42]);
+	Tue, 07 May 2019 12:19:03 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.128.67
-Subject: Re: [Qemu-devel] [PATCH v3 0/2] roms: Add 'clean' make rule and
- EDK2 documentation fix
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v4 11/24] cpus: Initialize pseudo-random
+ seeds for all guest cpus
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -79,31 +64,24 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/7/19 12:56 PM, Laszlo Ersek wrote:
-> On 05/06/19 16:19, Philippe Mathieu-Daudé wrote:
->> Hi,
->>
->> Two trivial patches waiting Laszlo's series to land.
-> 
-> ... I think you can submit a pullreq with these two patches now --
-> because I believe that you refer to
-> 
->   [Qemu-devel] [PULL 00/12] bundle edk2 platform firmware with QEMU
-> 
-> above, and that's been merged for a while now.
+On 06/05/2019 19:33, Richard Henderson wrote:
+> When the -seed option is given, call qemu_guest_random_seed_main,
+> putting the subsystem into deterministic mode.  Pass derived seeds
+> to each cpu created; which is a no-op unless the subsystem is in
+> deterministic mode.
+>=20
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   include/qom/cpu.h |  1 +
+>   cpus.c            |  9 +++++++++
+>   vl.c              |  4 ++++
+>   qemu-options.hx   | 10 ++++++++++
+>   4 files changed, 24 insertions(+)
+>=20
 
-Hmm I sent the previous series Cc'ing qemu-trivial@nongnu.org, but not
-this one. That's odd (because I use git-publish which takes care of
-keeping the same destinataries since the previous version), I probably
-messed something.
+Reviewed-by: Laurent Vivier <lvivier@redhat.com>
 
-I won't submit a PR that keeps Peter's test setup busy a while for 2
-lines of documentation changes =)
 
-Cc'ing qemu-trivial@nongnu.org again, hoping they can queue this, since
-there is no rush.
-
-Thanks!
-
-Phil.
 
