@@ -2,57 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6494716D90
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 00:42:00 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55703 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DED2516D8C
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 00:39:10 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:55653 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hO8mc-00032H-NH
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 18:41:58 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54917)
-	by lists.gnu.org with esmtp (Exim 4.71) (envelope-from
-	<bounce+cf442f.9b4e76-qemu-devel=nongnu.org@fintelia.io>)
-	id 1hO8im-0001FS-5I
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 18:38:01 -0400
+	id 1hO8jt-0001Ys-4r
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 18:39:09 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54948)
+	by lists.gnu.org with esmtp (Exim 4.71)
+	(envelope-from <peter.maydell@linaro.org>) id 1hO8ip-0001Fi-W7
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 18:38:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from
-	<bounce+cf442f.9b4e76-qemu-devel=nongnu.org@fintelia.io>)
-	id 1hO8il-0005oh-8b
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 18:38:00 -0400
-Received: from rs224.mailgun.us ([209.61.151.224]:19784)
+	(envelope-from <peter.maydell@linaro.org>) id 1hO8ip-00061J-2L
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 18:38:03 -0400
+Received: from mail-oi1-x229.google.com ([2607:f8b0:4864:20::229]:34324)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from
-	<bounce+cf442f.9b4e76-qemu-devel=nongnu.org@fintelia.io>)
-	id 1hO8il-0005d9-0K
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 18:37:59 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=fintelia.io; q=dns/txt;
-	s=pic; 
-	t=1557268677; h=Content-Transfer-Encoding: MIME-Version: Message-Id:
-	Date: Subject: Cc: To: From: Sender;
-	bh=VdsjNYMT/y7obLcd7k81EK0CnfGh7dXjFP/umyMuyq4=;
-	b=eQLZC3EuybrnX26jYM4+o76NYxPVI9a3n4VPIKGrxOBa4yZmEI0ynY4zBXNifTNW0PuP+zmJ
-	zSn07sddqd4aOiMJ8eMH2qSKkEcXgnVpIQ9+m8oTnkE08ZksF/F5aNxjP5CVtS15Rc0bPJlk
-	0jyA3R0ZWSQeJ9RMC9iA97yya5MzSSPc7wzftYOj+oGnAW/a/dta3wvmvtbj/86eGYt41yRJ
-	v5E7iEklbZ849GzoFWJauwnGb2Lll5IIaIA1hl8rMVowaMPfaFDo8d6mCKLwzbsyrupu4Jny
-	0b8MEHybZcjhzEan/HtCxjs1hQac6WIsr1wnxNEID5OxrjVHqkoR/g==
-X-Mailgun-Sending-Ip: 209.61.151.224
-X-Mailgun-Sid: WyJlMGM5NSIsICJxZW11LWRldmVsQG5vbmdudS5vcmciLCAiOWI0ZTc2Il0=
-Received: from jonathan-ThinkPad-X1-Carbon.csail.mit.edu
-	(30-9-187.wireless.csail.mit.edu [128.30.9.187])
-	by mxa.mailgun.org with ESMTP id 5cd208c3.7f9160c9f530-smtp-out-n03;
-	Tue, 07 May 2019 22:37:55 -0000 (UTC)
-From: Jonathan Behrens <jonathan@fintelia.io>
-To: qemu-devel@nongnu.org
-Date: Tue,  7 May 2019 18:36:46 -0400
-Message-Id: <20190507223646.18981-1-jonathan@fintelia.io>
-X-Mailer: git-send-email 2.20.1
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hO8io-0005yS-T4
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 18:38:03 -0400
+Received: by mail-oi1-x229.google.com with SMTP id v10so13687286oib.1
+	for <qemu-devel@nongnu.org>; Tue, 07 May 2019 15:38:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:from:date:message-id:subject:to:cc
+	:content-transfer-encoding;
+	bh=eBYifXrDSkS4KxOTwaCrGoK3eQar9G2fCjRjrK6uAcw=;
+	b=OURU7SycCTmFjmbpa4cuT7UREHHsBYjP74YP9m5DWTZofiPwcKd73bFMt6pfmF8VRq
+	WdPHJRvRRFXVDnwRTm60StkGbr7fhqW1C9F2BnfTByx2OL9uAdWhu8ITszai8HMZkfTJ
+	jxJzMqbir3B4e1JzpQEBTgDccYuDCAzgvj58kDowW10cXFmRJM0xdCuC33wg7JGkPAQv
+	dTluxismAgnt0K25ob57rzCZw3IPt+YqwSuHiZGqXpd1cvkr8UnHwgqGXUMhvGINPWLr
+	6CrAKj6uviSdVR+teuvK6p9fCKYfcjb9D3PCR3PSmkAAHkQHQ45xo2nJJiR+vcKS23bv
+	GReA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
+	:content-transfer-encoding;
+	bh=eBYifXrDSkS4KxOTwaCrGoK3eQar9G2fCjRjrK6uAcw=;
+	b=i6ghuYxQd3a0wdNCaP77O561QbssHAQX0pWXC7a7kebKj1yS0Lf2qlmVdAac1VP4Hd
+	Xo/0vTcwbNGLHUGZ9o1kQGa79rrvt7Hkd3nWzzFv359NiNUjFjH61TGMNw5o7eIfvWqn
+	53Dspn5p35WyPENWVDL8HqANJFAM/i5J2OEX9fwrUVE/hRAq0vVv8kNsJYDy21buFf02
+	ao81vby8PpMSaeIDKr9vYb9txp4lAsc9wVUeNrUOoDZdAfD1YPKYGKp7/fcxCCm8uZJe
+	N0EC9LxP2IviIGWXDYPmmntmWFez7LnpXMmET1CjYXbgbMOEXHWfOaRBdWteO+FA3Myz
+	OVmQ==
+X-Gm-Message-State: APjAAAUVXXfxJMhM3NGXFAJv9Fx0bR9h05qwWFx4i/+Mo6yOYNR9Wv+0
+	xdY3f8Rwc6g8levhc9Ep6xoUdJWhO6JqPdlLVQFJIh4gdz0=
+X-Google-Smtp-Source: APXvYqw5zREXG6n11cWKZfWI2+jWeNYrTBBklFjQ62fY5em6ejaslJXEEMCAd91GDZ9/TgyCRoiPIcByt1Lw+bELTwU=
+X-Received: by 2002:aca:b3c2:: with SMTP id c185mr16337oif.98.1557268681604;
+	Tue, 07 May 2019 15:38:01 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.61.151.224
-X-Mailman-Approved-At: Tue, 07 May 2019 18:40:28 -0400
-Subject: [Qemu-devel] [PATCH] target/riscv: More accurate handling of `sip`
- CSR
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 7 May 2019 23:37:50 +0100
+Message-ID: <CAFEAcA9nd6Xta8CGSRp605i9bcpeKsj+h4r5gbpot4_iNKXyRg@mail.gmail.com>
+To: QEMU Developers <qemu-devel@nongnu.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::229
+Subject: [Qemu-devel] qapi-scheme/unicode-str test failure due to mismatch
+ between e-acute and \xe9
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -64,47 +72,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jonathan Behrens <jonathan@fintelia.io>, Palmer Dabbelt <palmer@sifive.com>,
-	qemu-riscv@nongnu.org, Jonathan Behrens <fintelia@gmail.com>,
-	Sagar Karandikar <sagark@eecs.berkeley.edu>
+Cc: Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-According to the spec, "All bits besides SSIP, USIP, and UEIP in the sip
-register are read-only." Further, if an interrupt is not delegated to mode x,
-then "the corresponding bits in xip [...] should appear to be hardwired to
-zero. This patch implements both of those requirements.
+I just ran into this test failure:
 
-Signed-off-by: Jonathan Behrens <jonathan@fintelia.io>
----
- target/riscv/csr.c | 7 +++++--
- 1 file changed, 5 insertions(+), 2 deletions(-)
+PYTHONPATH=3D/home/linux1/qemu/scripts python3 -B
+/home/linux1/qemu/tests/qapi-schema/test-qapi.py
+/home/linux1/qemu/tests/qapi-schema/unicode-str.json
+>tests/qapi-schema/unicode-str.test.out
+2>tests/qapi-schema/unicode-str.test.err; echo $?
+>tests/qapi-schema/unicode-str.test.exit
+--- /home/linux1/qemu/tests/qapi-schema/unicode-str.err    2017-07-06
+10:23:13.601812330 -0400
++++ -    2019-05-07 18:32:31.533125931 -0400
+@@ -1 +1 @@
+-tests/qapi-schema/unicode-str.json:2: 'command' uses invalid name '=C3=A9'
++tests/qapi-schema/unicode-str.json:2: 'command' uses invalid name '\xe9'
+/home/linux1/qemu/tests/Makefile.include:1105: recipe for target
+'check-tests/qapi-schema/unicode-str.json' failed
+make: *** [check-tests/qapi-schema/unicode-str.json] Error 1
+make: Leaving directory '/home/linux1/qemu/build/all'
 
-diff --git a/target/riscv/csr.c b/target/riscv/csr.c
-index 1ec1222da1..fff7d834e8 100644
---- a/target/riscv/csr.c
-+++ b/target/riscv/csr.c
-@@ -246,6 +246,7 @@ static const target_ulong sstatus_v1_9_mask = SSTATUS_SIE | SSTATUS_SPIE |
- static const target_ulong sstatus_v1_10_mask = SSTATUS_SIE | SSTATUS_SPIE |
-     SSTATUS_UIE | SSTATUS_UPIE | SSTATUS_SPP | SSTATUS_FS | SSTATUS_XS |
-     SSTATUS_SUM | SSTATUS_MXR | SSTATUS_SD;
-+static const target_ulong sip_writable_mask = SIP_SSIP | MIP_USIP | MIP_UEIP;
- 
- #if defined(TARGET_RISCV32)
- static const char valid_vm_1_09[16] = {
-@@ -694,8 +695,10 @@ static int write_sbadaddr(CPURISCVState *env, int csrno, target_ulong val)
- static int rmw_sip(CPURISCVState *env, int csrno, target_ulong *ret_value,
-                    target_ulong new_value, target_ulong write_mask)
- {
--    return rmw_mip(env, CSR_MSTATUS, ret_value, new_value,
--                   write_mask & env->mideleg);
-+    int ret = rmw_mip(env, CSR_MSTATUS, ret_value, new_value,
-+                      write_mask & env->mideleg & sip_writable_mask);
-+    *ret_value &= env->mideleg;
-+    return ret;
- }
- 
- /* Supervisor Protection and Translation */
--- 
-2.20.1
+but oddly only when I ran 'make check' by logging directly
+into this machine (usually I run the tests automatically
+via ssh and scripting), which suggests it may depend
+on the locale settings. Does anybody recognize this ?
+I think LANG=3DC fails, but LANG=3DC.UTF-8 passes.
+
+Ideally our test suite should not depend on the locale
+or environment settings of the user running it.
+
+thanks
+-- PMM
 
