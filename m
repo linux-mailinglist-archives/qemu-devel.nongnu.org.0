@@ -2,66 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 37FAB15AE6
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 07:51:00 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40465 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5255915D68
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 08:33:23 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40873 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNt0F-0003Cy-BK
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 01:50:59 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60760)
+	id 1hNtfG-0000YB-D4
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 02:33:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37743)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <marcel.apfelbaum@gmail.com>) id 1hNsye-0002V6-1F
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 01:49:20 -0400
+	(envelope-from <dgibson@ozlabs.org>) id 1hNtVn-0000oA-4W
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 02:23:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <marcel.apfelbaum@gmail.com>) id 1hNsyd-0005S4-1U
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 01:49:19 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:52369)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <marcel.apfelbaum@gmail.com>)
-	id 1hNsyc-0005Rh-Re
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 01:49:18 -0400
-Received: by mail-wm1-x342.google.com with SMTP id o25so7552303wmf.2
-	for <qemu-devel@nongnu.org>; Mon, 06 May 2019 22:49:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=gUcCm4i1OeCf+HzJrBGVY7Q5mpogSng+t/VW/HOB4wM=;
-	b=vHT5Sy9FxUkR8gbtJs1UxQY3ysKV+7pFHNEhZOCA/8c2DtYwSL0pALDfjYfaZW4KwT
-	QaYPBVb7vb7zItEOKvz/pfKql7yTp6kFcj0t+nynT6fxAmB9NqwunNE/3q4R+B5RKEKk
-	R+b1+7eUMXYgcgiXlItPlmZJ+uvCW2eTPmGKh3qvgLNOwMPLeCXZHlqwYtNE6CCMfPKz
-	6RUXCWxd1Nr4WYAiZ9Bf4k/mEK+32ioJ31SNG4Ca6HqaNf2BPE/1PGauSFonhftu/C7o
-	UtZIWqlBuchVxeaOeXTlQFT8yqjp88qSyytM/75dGOVmYUSbsg85yDpSxHu1ZAP2hzlq
-	0V1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=gUcCm4i1OeCf+HzJrBGVY7Q5mpogSng+t/VW/HOB4wM=;
-	b=TsMZhlrfEHzPnGkWL3gr8+NuY4Go8cCvitmDWIAWYlhoPb2lcZXODisbr6S4jFXbqo
-	5/SKQ9BBFIRrn755949PUflZfUdQjtArRIk8D9S1yj9gWJOT5DZWtBMknq6QHYiBCbKw
-	O3MDu25Q3NTD5+R63EUSjtSTIoZD30k1pG4iwacnguGvlxUqGe/6rUKdJYlG86m0dsMc
-	uR9KRk+JB8mb7X104sw+MdWxD9B3nhRWLEvusci3W6j9y5BmcMPhzFPFLyv/i4glKUkT
-	LlT1fVDsPQVOcTiYlDSAl30qjE7N56nj/q/Fm806UAWvRM8Bw6Mp1StgDtmSTB7LBKG1
-	Svjw==
-X-Gm-Message-State: APjAAAXGmuqGLYnU8fmUn/jmnkEkRr/jdyeB9GbHtP/RQqgx55FjJ+7H
-	E1VzGF96aw7yaR4WwZAQZ55ws/UM
-X-Google-Smtp-Source: APXvYqyENjjQ5fXs9tlH8VJz5TvhdWJB0loXMP7DnPXfOTHyEJ2b8+wnjcx4YantKzCST/SJnr11vg==
-X-Received: by 2002:a1c:f413:: with SMTP id z19mr20192977wma.71.1557208157468; 
-	Mon, 06 May 2019 22:49:17 -0700 (PDT)
-Received: from localhost.localdomain ([37.142.144.27])
-	by smtp.gmail.com with ESMTPSA id
-	n63sm11513439wmn.38.2019.05.06.22.49.16
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 06 May 2019 22:49:16 -0700 (PDT)
-From: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-To: qemu-devel@nongnu.org
-Date: Tue,  7 May 2019 08:49:14 +0300
-Message-Id: <20190507054914.25261-1-marcel.apfelbaum@gmail.com>
-X-Mailer: git-send-email 2.17.1
+	(envelope-from <dgibson@ozlabs.org>) id 1hNtVl-0002ho-CX
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 02:23:34 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:42673)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+	id 1hNtVj-0002eC-AI; Tue, 07 May 2019 02:23:32 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+	id 44yqL26D1Cz9sN6; Tue,  7 May 2019 16:23:22 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=gibson.dropbear.id.au; s=201602; t=1557210202;
+	bh=pPDLTn4HhCsXNJrLZlAQvDPs0KX4Isw/JWWhGAXD6GM=;
+	h=From:To:Cc:Subject:Date:From;
+	b=oAStqL2NBMVNMjZfN0zQ3ZTEshOQQ66AO1Co62aDPQJPEMstsm+yZ77/lyb44VBLR
+	662UKjlGOl6RnIjFHud6F1qI17uIoOc/pDP1G9hjg8CLIUIrXE04jsXBD3KT7SwDZo
+	XJ9nHTRc5VgDzCmF7whRlz+6j1WpJmgUMX+/j5eo=
+From: David Gibson <david@gibson.dropbear.id.au>
+To: qemu-devel@nongnu.org,
+	mst@redhat.com
+Date: Tue,  7 May 2019 16:23:11 +1000
+Message-Id: <20190507062316.20916-1-david@gibson.dropbear.id.au>
+X-Mailer: git-send-email 2.21.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::342
-Subject: [Qemu-devel] [PATCH v2] ui/console: Precautionary glBindTexture and
- surface->texture validation in surface_gl_update_texture
+X-Received-From: 2401:3900:2:1::2
+Subject: [Qemu-devel] [PATCH v3 0/5] Simplify some not-really-necessary PCI
+ bus callbacks
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -73,60 +53,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kraxel@redhat.com, hqm03ster@gmail.com
+Cc: aik@ozlabs.ru, qemu-ppc@nongnu.org,
+	Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+	David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: HQM <hqm03ster@gmail.com>
+c2077e2c "pci: Adjust PCI config limit based on bus topology"
+introduced checking the availability of extended config space for
+PCI-E devices which are in a bus topology that doesn't permit extended
+config space access (e.g. under PCI-E to PCI then PCI to PCI-E
+bridges).
 
-In a GVT-g setup with dmabuf and GTK GUI, the current 2D texture at
-surface_gl_update_texture is not necessarily
-surface->texture. Adding a glBindTexture fixes related crashes and
-artifacts, and is generally more secure.
+This caused some problems for the spapr para-virtual PCI bus which
+_does_ allow extended config space access, despite acting in most ways
+like a vanilla PCI bus.
 
-Signed-off-by: HQM <hqm03ster@gmail.com>
-Tested-by: Marcel Apfelbaum<marcel.apfelbaum@gmail.com>
-[fixed malformed patch, rebase to master]
-Signed-off-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
----
+Greg Kurz made a fix for that which was merged as 1c685a90263 "pci:
+Allow PCI bus subtypes to support extended config space accesses".
+While that was an appropriate minimal fix for the 4.0 hard freeze, it
+was kind of a hack longer term.
 
-v2:
- - fixed malformed patch
- - rebased to master
+This series implements a simpler way of handling the extended config
+space permission, which works for both the normal and weird-PAPR
+cases.  While we're there, we also make other small cleanups to the
+PCI code.
 
- ui/console-gl.c | 18 +++++++++++-------
- 1 file changed, 11 insertions(+), 7 deletions(-)
+Changes since v2:
+ * Add some minor additional cleanups (patches 4 & 5)
+ * Minor whitespace tweak to patch 3
 
-diff --git a/ui/console-gl.c b/ui/console-gl.c
-index a56e1cd8eb..c1cb3bd673 100644
---- a/ui/console-gl.c
-+++ b/ui/console-gl.c
-@@ -92,13 +92,17 @@ void surface_gl_update_texture(QemuGLShader *gls,
- 
-     assert(gls);
- 
--    glPixelStorei(GL_UNPACK_ROW_LENGTH_EXT,
--                  surface_stride(surface) / surface_bytes_per_pixel(surface));
--    glTexSubImage2D(GL_TEXTURE_2D, 0,
--                    x, y, w, h,
--                    surface->glformat, surface->gltype,
--                    data + surface_stride(surface) * y
--                    + surface_bytes_per_pixel(surface) * x);
-+    if (surface->texture) {
-+        glBindTexture(GL_TEXTURE_2D, surface->texture);
-+        glPixelStorei(GL_UNPACK_ROW_LENGTH_EXT,
-+                      surface_stride(surface)
-+                      / surface_bytes_per_pixel(surface));
-+        glTexSubImage2D(GL_TEXTURE_2D, 0,
-+                        x, y, w, h,
-+                        surface->glformat, surface->gltype,
-+                        data + surface_stride(surface) * y
-+                        + surface_bytes_per_pixel(surface) * x);
-+    }
- }
- 
- void surface_gl_render_texture(QemuGLShader *gls,
--- 
-2.17.1
+David Gibson (5):
+  pcie: Remove redundant test in pcie_mmcfg_data_{read,write}()
+  pci: Simplify pci_bus_is_root()
+  pcie: Simplify pci_adjust_config_limit()
+  pci: Make is_bridge a bool
+  pci: Fold pci_get_bus_devfn() into its sole caller
+
+ hw/pci-bridge/dec.c                 |   4 +-
+ hw/pci-bridge/i82801b11.c           |   2 +-
+ hw/pci-bridge/pci_bridge_dev.c      |   2 +-
+ hw/pci-bridge/pci_expander_bridge.c |   6 --
+ hw/pci-bridge/pcie_pci_bridge.c     |   2 +-
+ hw/pci-bridge/pcie_root_port.c      |   2 +-
+ hw/pci-bridge/simba.c               |   2 +-
+ hw/pci-bridge/xio3130_downstream.c  |   2 +-
+ hw/pci-bridge/xio3130_upstream.c    |   2 +-
+ hw/pci/pci.c                        | 116 +++++++++++++---------------
+ hw/pci/pci_host.c                   |  13 +---
+ hw/pci/pcie_host.c                  |  10 ---
+ hw/ppc/spapr_pci.c                  |  34 +++-----
+ hw/virtio/virtio-pci.c              |   1 +
+ include/hw/pci/pci.h                |   4 +-
+ include/hw/pci/pci_bus.h            |  20 ++++-
+ 16 files changed, 96 insertions(+), 126 deletions(-)
+
+--=20
+2.21.0
 
 
