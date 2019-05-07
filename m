@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26CAE15F49
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 10:23:52 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:42063 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B16415F53
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 10:26:40 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:42133 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNvOB-0003h4-5y
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 04:23:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57988)
+	id 1hNvQt-00060n-Ar
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 04:26:39 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57984)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hNvKO-0000ga-AE
+	(envelope-from <kraxel@redhat.com>) id 1hNvKO-0000gX-9K
 	for qemu-devel@nongnu.org; Tue, 07 May 2019 04:19:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hNvKN-0008BO-CQ
+	(envelope-from <kraxel@redhat.com>) id 1hNvKN-0008BG-BT
 	for qemu-devel@nongnu.org; Tue, 07 May 2019 04:19:56 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38136)
+Received: from mx1.redhat.com ([209.132.183.28]:45704)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <kraxel@redhat.com>)
-	id 1hNvKK-00088b-UJ; Tue, 07 May 2019 04:19:53 -0400
+	id 1hNvKL-00088e-03; Tue, 07 May 2019 04:19:53 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
 	[10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 3195E308A9BE;
+	by mx1.redhat.com (Postfix) with ESMTPS id 3D8B8308338F;
 	Tue,  7 May 2019 08:19:52 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-45.ams2.redhat.com
 	[10.36.116.45])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 8295F171C5;
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 9369261B6C;
 	Tue,  7 May 2019 08:19:47 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-	id 90A91A1E2; Tue,  7 May 2019 10:19:46 +0200 (CEST)
+	id 98EACA1E3; Tue,  7 May 2019 10:19:46 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Tue,  7 May 2019 10:19:41 +0200
-Message-Id: <20190507081946.19264-4-kraxel@redhat.com>
+Date: Tue,  7 May 2019 10:19:42 +0200
+Message-Id: <20190507081946.19264-5-kraxel@redhat.com>
 In-Reply-To: <20190507081946.19264-1-kraxel@redhat.com>
 References: <20190507081946.19264-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.41]);
+	(mx1.redhat.com [10.5.110.44]);
 	Tue, 07 May 2019 08:19:52 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 3/8] hw/display/cirrus_vga: Remove unused include
+Subject: [Qemu-devel] [PULL 4/8] vl: constify VGAInterfaceInfo
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -60,40 +60,58 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
-	Alistair Francis <alistair@alistair23.me>, qemu-arm@nongnu.org,
-	qemu-ppc@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>,
+	Alistair Francis <alistair@alistair23.me>,
+	=?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
+	qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+	Gerd Hoffmann <kraxel@redhat.com>,
 	"Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+	Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-Commit ce3cf70edaaf split the ISA device out of the PCI one,
-but forgot to remove the "hw/loader.h" header inclusion (the ISA
-device calls rom_add_vga()).  Remove the now unused include.
-
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-id: 20190505225640.4592-1-philmd@redhat.com
+Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Message-id: 20190412152713.16018-2-marcandre.lureau@redhat.com
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/display/cirrus_vga.c | 1 -
- 1 file changed, 1 deletion(-)
+ vl.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/hw/display/cirrus_vga.c b/hw/display/cirrus_vga.c
-index a04440b3748c..76c052c702ef 100644
---- a/hw/display/cirrus_vga.c
-+++ b/hw/display/cirrus_vga.c
-@@ -38,7 +38,6 @@
- #include "hw/hw.h"
- #include "hw/pci/pci.h"
- #include "ui/pixel_ops.h"
--#include "hw/loader.h"
- #include "cirrus_vga_internal.h"
+diff --git a/vl.c b/vl.c
+index d9fea0a11966..6b2820483c43 100644
+--- a/vl.c
++++ b/vl.c
+@@ -2015,7 +2015,7 @@ typedef struct VGAInterfaceInfo {
+     const char *class_names[2];
+ } VGAInterfaceInfo;
 =20
- /*
+-static VGAInterfaceInfo vga_interfaces[VGA_TYPE_MAX] =3D {
++static const VGAInterfaceInfo vga_interfaces[VGA_TYPE_MAX] =3D {
+     [VGA_NONE] =3D {
+         .opt_name =3D "none",
+     },
+@@ -2061,7 +2061,7 @@ static VGAInterfaceInfo vga_interfaces[VGA_TYPE_MAX=
+] =3D {
+=20
+ static bool vga_interface_available(VGAInterfaceType t)
+ {
+-    VGAInterfaceInfo *ti =3D &vga_interfaces[t];
++    const VGAInterfaceInfo *ti =3D &vga_interfaces[t];
+=20
+     assert(t < VGA_TYPE_MAX);
+     return !ti->class_names[0] ||
+@@ -2076,7 +2076,7 @@ static void select_vgahw(const char *p)
+=20
+     assert(vga_interface_type =3D=3D VGA_NONE);
+     for (t =3D 0; t < VGA_TYPE_MAX; t++) {
+-        VGAInterfaceInfo *ti =3D &vga_interfaces[t];
++        const VGAInterfaceInfo *ti =3D &vga_interfaces[t];
+         if (ti->opt_name && strstart(p, ti->opt_name, &opts)) {
+             if (!vga_interface_available(t)) {
+                 error_report("%s not available", ti->name);
 --=20
 2.18.1
 
