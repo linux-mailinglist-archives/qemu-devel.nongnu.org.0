@@ -2,50 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EF9B515D59
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 08:28:43 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40795 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96C97158D9
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 07:19:34 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40115 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNtal-0004Xf-3K
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 02:28:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37634)
+	id 1hNsVp-0000a7-P6
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 01:19:33 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55309)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hNtVi-0000mM-6A
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 02:23:31 -0400
+	(envelope-from <philmd@redhat.com>) id 1hNsUQ-0000AH-Ux
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 01:18:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hNtVg-0002dW-S3
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 02:23:30 -0400
-Received: from ozlabs.org ([203.11.71.1]:40583)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
-	id 1hNtVe-0002Z3-J2; Tue, 07 May 2019 02:23:27 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
-	id 44yqL214wwz9sBV; Tue,  7 May 2019 16:23:22 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=gibson.dropbear.id.au; s=201602; t=1557210202;
-	bh=vDBoBub+64YWAZFq+/yU562hrSITXJe6m91CtDs65P8=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=b6nyMS9scI7/IochDLr6hb/u+SGZ1Ep8j8ck8STUgyCMtUaoX71kpR6Uq6pm0eRQK
-	ZXXeAQkARFeVOKyACHxQd4vgud+FkASSivX6Tt4jUwmPgsOQRmqvdxygLzubqtNm3S
-	dz+4HZrhQKIhbUVhz3ZUIWplEwglrMff0ikBzWIY=
-Date: Tue, 7 May 2019 15:16:54 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
-Message-ID: <20190507051654.GD7073@umbus.fritz.box>
-References: <20190506014803.21299-1-sjitindarsingh@gmail.com>
-	<20190506032304.GB6790@umbus.fritz.box>
-	<1557186214.6435.2.camel@gmail.com>
+	(envelope-from <philmd@redhat.com>) id 1hNsUP-0002Sd-Tq
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 01:18:06 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:36437)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hNsUP-0002Rp-FP
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 01:18:05 -0400
+Received: by mail-wm1-f68.google.com with SMTP id j187so1918262wmj.1
+	for <qemu-devel@nongnu.org>; Mon, 06 May 2019 22:18:05 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=2mlt/Nivd3xg9klZHlZRU3nWz1AmHiwwGK9asAfsNt4=;
+	b=pL0OCffWV9VRsXSJoPwgTeoNOJCBFRqqTV/B3Ib1T972WuFZHv2mHayzk565nNP6W+
+	N755PAv3TXQzV4LzhequnqHKuzIgGuy/OFvUZVIXV/YzVkafXAPg9QEplO1umWTHNBVf
+	UVC/Q8Uat+pPTbFpqL7MBzJQrp5nCu7Zm2GQlEpCqNTKA/N6CHRK93tb/AltO16KTBQZ
+	CftnTOFR08wO2BthTu+mUPhdv7JMkHdOgusaErE0Ez0bo4GG5mWCpKRnWPbbw+8YlJXT
+	6OwKMfkL5BwF60qzIhNrwoTv92hr2b5us2D3Sp5+rgp1Y8jGT6pVe0K0+AN4QQ8Xs+jq
+	mcFw==
+X-Gm-Message-State: APjAAAWAr+81RoXge6CjhF64CQWHKLCsLphOgtwTwSeMBuJv298WH2xp
+	SR5B+j+Ym8mxSI1dxkzx5di7aw==
+X-Google-Smtp-Source: APXvYqx/s5bDjem9mEveup+pW+6Z3c2v17yAYtU/thLwPu5LLs82P9pxtYFdotum4nMrkdyJ886gug==
+X-Received: by 2002:a1c:f413:: with SMTP id z19mr20101337wma.71.1557206284418; 
+	Mon, 06 May 2019 22:18:04 -0700 (PDT)
+Received: from [192.168.1.37] (193.red-88-21-103.staticip.rima-tde.net.
+	[88.21.103.193]) by smtp.gmail.com with ESMTPSA id
+	t16sm8233388wrw.56.2019.05.06.22.18.03
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Mon, 06 May 2019 22:18:03 -0700 (PDT)
+To: Eduardo Habkost <ehabkost@redhat.com>
+References: <20190312234541.2887-1-philmd@redhat.com>
+	<d5d84efd-ef8c-4e0d-d48a-6996d91832e7@redhat.com>
+	<20190506214155.GI28722@habkost.net>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <4202015a-d86f-a626-e87c-57fb328ae64a@redhat.com>
+Date: Tue, 7 May 2019 07:18:02 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="9dgjiU4MmWPVapMU"
-Content-Disposition: inline
-In-Reply-To: <1557186214.6435.2.camel@gmail.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+In-Reply-To: <20190506214155.GI28722@habkost.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
-Subject: Re: [Qemu-devel] [QEMU-PPC] [PATCH] target/ppc: Add ibm,
- purr and ibm, spurr device-tree properties
+	[fuzzy]
+X-Received-From: 209.85.128.68
+Subject: Re: [Qemu-devel] [PATCH v2 0/2] Acceptance Tests: Test the
+ Raspberry Pi 2 board
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -57,108 +76,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: paulus@ozlabs.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org, Andrew Baumann <Andrew.Baumann@microsoft.com>,
+	Cleber Rosa <crosa@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 5/6/19 11:41 PM, Eduardo Habkost wrote:
+> On Sat, May 04, 2019 at 01:52:51PM +0200, Philippe Mathieu-Daudé wrote:
+>> On 3/13/19 12:45 AM, Philippe Mathieu-Daudé wrote:
+>>> Add the raspi2 to the list of boards tested by the
+>>> boot_linux_console Avocado test.
+>>>
+>>> Based on "Acceptance Tests: target architecture support" v5:
+>>> https://lists.gnu.org/archive/html/qemu-devel/2019-03/msg04111.html
+>>> Based-on: <20190312171824.5134-1-crosa@redhat.com>
+>>>
+>>> Philippe Mathieu-Daudé (2):
+>>>   BootLinuxConsoleTest: Let extract_from_deb handle various compressions
+>>>   Boot Linux Console Test: add a test for the Raspberry Pi 2
+>>>
+>>>  tests/acceptance/boot_linux_console.py | 34 ++++++++++++++++++++++++--
+>>>  1 file changed, 32 insertions(+), 2 deletions(-)
+>>
+>> I was hoping this series would be included in "Acceptance Tests: target
+>> architecture support" by Eduardo (removing the 'print' debug line) but I
+>> just realized I forgot to Cc him :S
+> 
+> Problem solved: queued on python-next (after removing the print
+> statement from patch 2/2).  :)
 
---9dgjiU4MmWPVapMU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Tue, May 07, 2019 at 09:43:34AM +1000, Suraj Jitindar Singh wrote:
-> On Mon, 2019-05-06 at 13:23 +1000, David Gibson wrote:
-> > On Mon, May 06, 2019 at 11:48:03AM +1000, Suraj Jitindar Singh wrote:
-> > > The ibm,purr and ibm,spurr device tree properties are used to
-> > > indicate
-> > > that the processor implements the Processor Utilisation of
-> > > Resources
-> > > Register (PURR) and Scaled Processor Utilisation of Resources
-> > > Registers
-> > > (SPURR), respectively. Each property has a single value which
-> > > represents
-> > > the level of architecture supported. A value of 1 for ibm,purr
-> > > means
-> > > support for the version of the PURR defined in book 3 in version
-> > > 2.02 of
-> > > the architecture. A value of 1 for ibm,spurr means support for the
-> > > version of the SPURR defined in version 2.05 of the architecture.
-> > >=20
-> > > Add these properties for all processors for which the PURR and
-> > > SPURR
-> > > registers are generated.
-> >=20
-> > So.. what does the current empty property mean?  Is it just wrong by
-> > spec, or does it actually mean something incorrect?
->=20
-> Af far as I can tell, an empty property is invalid according to PAPR.
-> A level value is required to communicate the level of purr
-> implemented.
-
-Ok, makes sense.  Applied.
-
->=20
-> Should probably have:
->=20
-> Fixes: 0da6f3fef9a "spapr: Reorganize CPU dt generation code"
-
-I've folded that in.
-
->=20
-> >=20
-> > >=20
-> > > Signed-off-by: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
-> > > ---
-> > >  hw/ppc/spapr.c | 5 ++++-
-> > >  1 file changed, 4 insertions(+), 1 deletion(-)
-> > >=20
-> > > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> > > index 2ef3ce4362..8580a8dc67 100644
-> > > --- a/hw/ppc/spapr.c
-> > > +++ b/hw/ppc/spapr.c
-> > > @@ -500,7 +500,10 @@ static void spapr_populate_cpu_dt(CPUState
-> > > *cs, void *fdt, int offset,
-> > >      _FDT((fdt_setprop(fdt, offset, "64-bit", NULL, 0)));
-> > > =20
-> > >      if (env->spr_cb[SPR_PURR].oea_read) {
-> > > -        _FDT((fdt_setprop(fdt, offset, "ibm,purr", NULL, 0)));
-> > > +        _FDT((fdt_setprop_cell(fdt, offset, "ibm,purr", 1)));
-> > > +    }
-> > > +    if (env->spr_cb[SPR_SPURR].oea_read) {
-> > > +        _FDT((fdt_setprop_cell(fdt, offset, "ibm,spurr", 1)));
-> > >      }
-> > > =20
-> > >      if (ppc_hash64_has(cpu, PPC_HASH64_1TSEG)) {
-> >=20
-> >=20
->=20
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---9dgjiU4MmWPVapMU
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlzRFMQACgkQbDjKyiDZ
-s5KhAQ/9E0MX9x5y9xPWxRCrybY1UGmP/LA1nZpyQbewkb6rF5YMJe9cQAiyl73Z
-HOhSOMjYnk7w++/x3ZbqMovZRSOzDOVeX7m8/jZiknUtLHiHryrrEv/2XKtqwIr1
-EagvcpFhzWpKS91uXRbWHEvMR1yaNRrYILUIs7tdQ01buiRx5b11Xp/gMPURLn0G
-RDhJrda/HlYJwN/l0J5+WpIyeSWf++tfb6Ltd854Q8QkacevTziAiEp8KQCuZPLS
-AwT6PRrAWQ8YOHk3NnQ4iNy2vpmHqzicc9kgjMGVQjmJA0TU5lc6dslvoBjysGXe
-WW4aUlXLeSdmfrOIxNKCnINY+EYSFF2xYvZHpUgDmxj8+BIee/hQSHUqGONeFiV/
-DcyJ7MtMZQBXxp44H2Ph7a4lpZjxUxUeygROlcNhyDI7Deliob761POd9sRfP8Mq
-HzTf3cHDPD8hHEXRHtL0MFD2vpCT8uOvJLvSWjeQ4KOMnK7vMPjwDYUriL6hIOGJ
-Kqu+ypGGOsux1WCRg6uqZ2r6xmBBx1Dmw8NYkA5enHSji1zVuvHlSd/+2eB5tVzM
-uG5RzmrFlF6CZUvxUAXgzjOMZFsm7c8V/RGbiIIfAxMqNaFPDEwLo5PXlrW1e8Vz
-qf8N3l+XFA8bCLW4ZsddnYlFl3ivzvlfW5EmsSaDSY75o8OmVag=
-=D2Pi
------END PGP SIGNATURE-----
-
---9dgjiU4MmWPVapMU--
+Thanks a lot!
 
