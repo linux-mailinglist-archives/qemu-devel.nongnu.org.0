@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59E20166BA
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 17:29:09 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48608 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D8EE4166AD
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 17:26:43 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48576 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hO21k-0000Sb-HR
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 11:29:08 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58333)
+	id 1hO1zO-00068B-UT
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 11:26:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58365)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hO1rg-000830-QJ
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 11:18:45 -0400
+	(envelope-from <mreitz@redhat.com>) id 1hO1rj-000857-Am
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 11:18:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hO1rf-00042I-U8
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 11:18:44 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55024)
+	(envelope-from <mreitz@redhat.com>) id 1hO1ri-000440-E1
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 11:18:47 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50236)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hO1rd-000419-Tk; Tue, 07 May 2019 11:18:42 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
-	[10.5.11.14])
+	id 1hO1rg-00042E-8P; Tue, 07 May 2019 11:18:44 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 3E62581F11;
-	Tue,  7 May 2019 15:18:41 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 8C086C05D3FD;
+	Tue,  7 May 2019 15:18:43 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.217])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id C38E75D9D1;
-	Tue,  7 May 2019 15:18:40 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 24E5D3DA5;
+	Tue,  7 May 2019 15:18:42 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Tue,  7 May 2019 17:18:16 +0200
-Message-Id: <20190507151819.17401-9-mreitz@redhat.com>
+Date: Tue,  7 May 2019 17:18:17 +0200
+Message-Id: <20190507151819.17401-10-mreitz@redhat.com>
 In-Reply-To: <20190507151819.17401-1-mreitz@redhat.com>
 References: <20190507151819.17401-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.26]);
-	Tue, 07 May 2019 15:18:41 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.32]);
+	Tue, 07 May 2019 15:18:43 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 08/11] block/ssh: Implement .bdrv_dirname()
+Subject: [Qemu-devel] [PULL 09/11] block: Assert that drv->bdrv_child_perm
+ is set in bdrv_child_perm()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -60,60 +61,46 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-ssh_bdrv_dirname() is basically the generic bdrv_dirname(), except it
-takes care not to silently chop off any query string (i.e.,
-host_key_check).
+From: Alberto Garcia <berto@igalia.com>
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Tested-by: Richard W.M. Jones <rjones@redhat.com>
-Message-id: 20190225190828.17726-3-mreitz@redhat.com
+There is no need to check for this because all block drivers that have
+children implement bdrv_child_perm and all callers already ensure that
+bs->drv is set.
+
+Furthermore, if this check would fail then the callers would end up
+with uninitialized values for nperm and nshared.
+
+This patch replaces the check with an assertion.
+
+Signed-off-by: Alberto Garcia <berto@igalia.com>
+Message-id: 20190404112953.4058-1-berto@igalia.com
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/ssh.c | 21 +++++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ block.c | 9 ++++-----
+ 1 file changed, 4 insertions(+), 5 deletions(-)
 
-diff --git a/block/ssh.c b/block/ssh.c
-index 2eaeab84d5..12fd4f39e8 100644
---- a/block/ssh.c
-+++ b/block/ssh.c
-@@ -1283,6 +1283,26 @@ static void ssh_refresh_filename(BlockDriverState =
-*bs)
-     }
- }
-=20
-+static char *ssh_bdrv_dirname(BlockDriverState *bs, Error **errp)
-+{
-+    if (qdict_haskey(bs->full_open_options, "host_key_check")) {
-+        /*
-+         * We cannot generate a simple prefix if we would have to
-+         * append a query string.
-+         */
-+        error_setg(errp,
-+                   "Cannot generate a base directory with host_key_check=
- set");
-+        return NULL;
-+    }
-+
-+    if (bs->exact_filename[0] =3D=3D '\0') {
-+        error_setg(errp, "Cannot generate a base directory for this ssh =
-node");
-+        return NULL;
-+    }
-+
-+    return path_combine(bs->exact_filename, "");
-+}
-+
- static const char *const ssh_strong_runtime_opts[] =3D {
-     "host",
-     "port",
-@@ -1310,6 +1330,7 @@ static BlockDriver bdrv_ssh =3D {
-     .bdrv_co_truncate             =3D ssh_co_truncate,
-     .bdrv_co_flush_to_disk        =3D ssh_co_flush,
-     .bdrv_refresh_filename        =3D ssh_refresh_filename,
-+    .bdrv_dirname                 =3D ssh_bdrv_dirname,
-     .create_opts                  =3D &ssh_create_opts,
-     .strong_runtime_opts          =3D ssh_strong_runtime_opts,
- };
+diff --git a/block.c b/block.c
+index 9ae5c0ed2f..7dc8fe289a 100644
+--- a/block.c
++++ b/block.c
+@@ -1743,11 +1743,10 @@ static void bdrv_child_perm(BlockDriverState *bs,=
+ BlockDriverState *child_bs,
+                             uint64_t parent_perm, uint64_t parent_shared=
+,
+                             uint64_t *nperm, uint64_t *nshared)
+ {
+-    if (bs->drv && bs->drv->bdrv_child_perm) {
+-        bs->drv->bdrv_child_perm(bs, c, role, reopen_queue,
+-                                 parent_perm, parent_shared,
+-                                 nperm, nshared);
+-    }
++    assert(bs->drv && bs->drv->bdrv_child_perm);
++    bs->drv->bdrv_child_perm(bs, c, role, reopen_queue,
++                             parent_perm, parent_shared,
++                             nperm, nshared);
+     /* TODO Take force_share from reopen_queue */
+     if (child_bs && child_bs->force_share) {
+         *nshared =3D BLK_PERM_ALL;
 --=20
 2.20.1
 
