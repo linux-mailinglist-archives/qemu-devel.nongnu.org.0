@@ -2,58 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B37E164F9
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 15:50:06 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:47153 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EE14216570
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 16:13:30 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:47482 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hO0Tt-0007V6-LK
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 09:50:05 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39007)
+	id 1hO0qY-00010A-4E
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 10:13:30 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43280)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <qemu_oss@crudebyte.com>) id 1hO0Sm-0007BT-53
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 09:48:57 -0400
+	(envelope-from <bounces@canonical.com>) id 1hO0oQ-0008Fd-Kv
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 10:11:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <qemu_oss@crudebyte.com>) id 1hO0Sk-0001eF-6d
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 09:48:56 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:48211)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <qemu_oss@crudebyte.com>)
-	id 1hO0Si-0001Xw-9T
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 09:48:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=O0ydUdcZGLO4pE0OqG0OLi579G8c7v1O83O1upHB11k=;
-	b=KKTx4CUa7v1bb+9k7NXbKldBQz
-	NpCdfwMIcq8nzxdsIShusp85diSN5xG2iUEnEeuyLObJFHj9v+HZoVBaO6lOFUPHTk8xjryogiyjZ
-	BhDhRgWV10xdpuY2xbaLDYbsBl37O1F8fd7d+4dMTMs2Ge6OaqDCf0rrTnmZARZ3EJuctIZAM82mN
-	YVi3zdCUDiYl3kU1AnRz1caxn4v+bXxKnv59L1v2xHA2Y8sKu2Z6zyVFpS5gwFTGd84sLZUZ048fR
-	sVdvj2KZRQzVI1CZZw4rJ2VITCLE65nmmcKfeFcDupDU4NUeuffxuF0kt6dQFq/xd4W8nO0qohnpD
-	cG8y1c7da/HdY58Xz5dhYYft6jnz/LlzpQYb+hiHXxQ1gsmnzGl6HY2KLgwFVZagS3foVrJV6RJgu
-	PzUTvBMYy3KxJBUp3C6sgWtO9h1XpgOHzlMCK0JwVr+Wl2dtKGYoHcyhZkQOQI/tqhMdWD2xpqe9J
-	HDy6etdqqm2xU2LiJw+Lerv65PCPWuVUT89wQ0C7me0lfnLpU1rkBPuYLMViOU09iav/+ymVLHhfx
-	xmTCxyoDeqLUHJnEsRqS+HSfilePf+aYgxWwfn7Cp1vjTByreJAK5bK9keJUzmlqGEDDlzGZ0zo0m
-	18MhGK0d6U9j64gG51Yp0jNqWMazllbVtxZwQw93g=;
-To: qemu-devel@nongnu.org
-Date: Tue, 07 May 2019 15:48:47 +0200
-Message-ID: <1985409.cXXgv05A0a@silver>
-In-Reply-To: <20190507125756.GP27205@redhat.com>
-References: <590216e2666653bac21d950aaba98f87d0a53324.1557093245.git.qemu_oss@crudebyte.com>
-	<1895198.u98Sn5qOsY@silver> <20190507125756.GP27205@redhat.com>
+	(envelope-from <bounces@canonical.com>) id 1hO0oO-0000Rr-J7
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 10:11:18 -0400
+Received: from indium.canonical.com ([91.189.90.7]:60538)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hO0oO-0000Qq-DI
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 10:11:16 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hO0oN-0002aC-0O
+	for <qemu-devel@nongnu.org>; Tue, 07 May 2019 14:11:15 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id EB3BC2E80C9
+	for <qemu-devel@nongnu.org>; Tue,  7 May 2019 14:11:14 +0000 (UTC)
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset="iso-8859-1"
+Date: Tue, 07 May 2019 14:04:58 -0000
+From: Sebastien Bacher <seb128@ubuntu.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=mesa; status=Won't Fix; importance=High; assignee=None;
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+	assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=mesa; component=main;
+	milestone=ubuntu-19.04; status=Fix Released; importance=Medium;
+	assignee=tjaalton@ubuntu.com; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+	status=Invalid; importance=Undecided; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=disco; sourcepackage=mesa; 
+	component=main; milestone=ubuntu-19.04; status=Fix Released;
+	importance=Medium; assignee=tjaalton@ubuntu.com; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=eoan; sourcepackage=mesa;
+	component=main; status=Fix Released; importance=Undecided; assignee=None;
+X-Launchpad-Bug: distribution=ubuntu; distroseries=eoan; sourcepackage=qemu;
+	component=main; status=Triaged; importance=Undecided;
+	assignee=christian.ehrhardt@canonical.com; 
+X-Launchpad-Bug-Tags: amd64 apport-crash apport-failed-retrace disco
+	qemu-19.10 wayland-session
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ahzo alexdeucher apport baker-dylan-c berrange
+	dan-freedesktop janitor jokx maraeo marcandre-lureau michel-daenzer
+	paelzer tjaalton willcooke
+X-Launchpad-Bug-Reporter: Joseph Maillardet (jokx)
+X-Launchpad-Bug-Modifier: Sebastien Bacher (seb128)
+References: <155014036044.634.15252078016929169795.malonedeb@gac.canonical.com>
+Message-Id: <155723790017.18129.11253337142707029220.launchpad@wampee.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18958";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: e38720dce19f91ef7235e82b57769d57c630de75
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 5.189.157.229
-Subject: Re: [Qemu-devel] [libvirt patch] qemu: adds support for virtfs 9p
- argument 'vii'
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1815889] Re: qemu-system-x86_64 crashed with
+ signal 31 in __pthread_setaffinity_new()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -62,93 +83,83 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-From: Christian Schoenebeck via Qemu-devel <qemu-devel@nongnu.org>
-Reply-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Cc: Greg Kurz <groug@kaod.org>, Antonios Motakis <antonios.motakis@huawei.com>
+Reply-To: Bug 1815889 <1815889@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Dienstag, 7. Mai 2019 13:57:56 CEST Daniel P. Berrang=E9 wrote:
-> >       ...
-> >       <filesystem type=3D'mount' accessmode=3D'mapped'>
-> >      =20
-> >         <source dir=3D'/vm/fs'/>
-> >         <target dir=3D'root'/>
-> >         <important path=3D'/var/shares'/>
-> >         <important path=3D'/tmp'/>
-> >      =20
-> >       </filesystem>
-> >    =20
-> >     </devices>
-> >  =20
-> >   </domain>
-> >=20
-> > Like with the vii qemu virtfs command line argument, the order of the
-> > "important" tag defines which one gets the highest inode namespace
-> > (smallest generated suffix) on guest side.
->=20
-> Do we think anyone is likely to use this feature in the real world ?
+** Changed in: mesa (Ubuntu Eoan)
+       Status: Triaged =3D> Fix Released
 
-I don't know if other people need it, that's one of the reasons why I am=20
-asking for a coarse high level feedback of the current v3 patch set before=
-=20
-getting into the details.
+-- =
 
-The only thing I can say right now is that I must use this feature when=20
-running Samba to avoid all kinds of serious problems. And I could imagine=20
-inode namespace control to become more of an issue once nested virtualizati=
-on=20
-becomes more popular.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1815889
 
-> I'm not really a fan of the representation, because this is affecting
-> guest ABI via a side effect of the ordering which is the kind of thing
-> that has got us in trouble before.  If we need control over the IDs
-> used for each mount point, then I tend to think we need to represent
-> it explicitly such that the mgmt app sets the exact ID used.
->=20
->      <pathid dir=3D"/var/shares" id=3D"0x1"/>
->      <pathid dir=3D"/tmp" id=3D"0x3"/>
->=20
-> this ensures that the IDs are still stable when adding or removing
-> paths
+Title:
+  qemu-system-x86_64 crashed with signal 31 in
+  __pthread_setaffinity_new()
 
-Well, that would lead to the exact opposite of what you asked for. Because=
-=20
-allowing admins to configure an exact ID (which I think you mean should be =
-used=20
-as exact inode suffix by 9p then) would expose implementation details insid=
-e=20
-9pfs to config space, which are subject to change, might collide with=20
-implementation details, and requires implementation knowledge and extreme c=
-are=20
-by admins so they would pick appropriate IDs with "suffix-free" property wh=
-ich=20
-are guaranteed to create unique numbers in all cases:
+Status in Mesa:
+  Won't Fix
+Status in QEMU:
+  Fix Released
+Status in mesa package in Ubuntu:
+  Fix Released
+Status in qemu package in Ubuntu:
+  Invalid
+Status in mesa source package in Disco:
+  Fix Released
+Status in mesa source package in Eoan:
+  Fix Released
+Status in qemu source package in Eoan:
+  Triaged
 
-https://en.wikipedia.org/wiki/Prefix_code
+Bug description:
+  Unable to launch Default Fedora 29 images in gnome-boxes
 
-Also keep in mind that one fs device might end up having multiple suffixes.
+  ProblemType: Crash
+  DistroRelease: Ubuntu 19.04
+  Package: qemu-system-x86 1:3.1+dfsg-2ubuntu1
+  ProcVersionSignature: Ubuntu 4.19.0-12.13-generic 4.19.18
+  Uname: Linux 4.19.0-12-generic x86_64
+  ApportVersion: 2.20.10-0ubuntu20
+  Architecture: amd64
+  Date: Thu Feb 14 11:00:45 2019
+  ExecutablePath: /usr/bin/qemu-system-x86_64
+  KvmCmdLine: COMMAND         STAT  EUID  RUID   PID  PPID %CPU COMMAND
+  MachineType: Dell Inc. Precision T3610
+  ProcEnviron: PATH=3D(custom, user)
+  ProcKernelCmdLine: BOOT_IMAGE=3D/boot/vmlinuz-4.19.0-12-generic root=3DUU=
+ID=3D939b509b-d627-4642-a655-979b44972d17 ro splash quiet vt.handoff=3D1
+  Signal: 31
+  SourcePackage: qemu
+  StacktraceTop:
+   __pthread_setaffinity_new (th=3D<optimized out>, cpusetsize=3D128, cpuse=
+t=3D0x7f5771fbf680) at ../sysdeps/unix/sysv/linux/pthread_setaffinity.c:34
+   () at /usr/lib/x86_64-linux-gnu/dri/radeonsi_dri.so
+   () at /usr/lib/x86_64-linux-gnu/dri/radeonsi_dri.so
+   start_thread (arg=3D<optimized out>) at pthread_create.c:486
+   clone () at ../sysdeps/unix/sysv/linux/x86_64/clone.S:95
+  Title: qemu-system-x86_64 crashed with signal 31 in __pthread_setaffinity=
+_new()
+  UpgradeStatus: Upgraded to disco on 2018-11-14 (91 days ago)
+  UserGroups: adm cdrom dip lpadmin plugdev sambashare sudo video
+  dmi.bios.date: 11/14/2018
+  dmi.bios.vendor: Dell Inc.
+  dmi.bios.version: A18
+  dmi.board.name: 09M8Y8
+  dmi.board.vendor: Dell Inc.
+  dmi.board.version: A01
+  dmi.chassis.type: 7
+  dmi.chassis.vendor: Dell Inc.
+  dmi.modalias: dmi:bvnDellInc.:bvrA18:bd11/14/2018:svnDellInc.:pnPrecision=
+T3610:pvr00:rvnDellInc.:rn09M8Y8:rvrA01:cvnDellInc.:ct7:cvr:
+  dmi.product.name: Precision T3610
+  dmi.product.sku: 05D2
+  dmi.product.version: 00
+  dmi.sys.vendor: Dell Inc.
 
-Hence my suggestion was to only expose the bare minimum to config space=20
-regarding this issue: Asking (if required at all) admins which ones are the=
-=20
-most critical pathes regarding inode namespace for their use cases, and 9p=
-=20
-would then automatically generate appropriate suffixes for those mentioned =
-by=20
-admin to achieve the highest inode namespace appropriately and in a safe wa=
-y.
-
-Plus for the "important path=3D" semantics I suggested you don't have have =
-to=20
-use mount points BTW. You can use subdirs and even individual files and 9pf=
-s=20
-would then automatically resolve the appropriate fs device of the given pat=
-h.=20
-So e.g. when using nested virtualization, an admin inside a lower level gue=
-st=20
-does not even need to know the exact mount points on a higher level / host.
-
-Best regards,
-Christian Schoenebeck
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/mesa/+bug/1815889/+subscriptions
 
