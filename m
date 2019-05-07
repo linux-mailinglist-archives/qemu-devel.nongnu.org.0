@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 932D91636C
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 14:06:29 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:45656 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E21E16376
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 14:08:32 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:45707 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNyrc-0002pr-MK
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 08:06:28 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44907)
+	id 1hNytb-0004ub-Of
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 08:08:31 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44920)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hNylr-0007dg-Q6
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:32 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hNyls-0007es-FY
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hNylq-0003t1-KC
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:31 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:40737)
+	(envelope-from <peter.maydell@linaro.org>) id 1hNylr-0003tY-Ay
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:32 -0400
+Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:50237)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hNylq-0003s4-DH
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:30 -0400
-Received: by mail-wm1-x334.google.com with SMTP id h11so19613378wmb.5
-	for <qemu-devel@nongnu.org>; Tue, 07 May 2019 05:00:30 -0700 (PDT)
+	id 1hNylr-0003sk-2w
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:31 -0400
+Received: by mail-wm1-x335.google.com with SMTP id p21so20096483wmc.0
+	for <qemu-devel@nongnu.org>; Tue, 07 May 2019 05:00:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=2H24j/ivxKhpWMoNZRyFm5/WUhhAwlHuP6YRtZPABdg=;
-	b=Po9GDH7GhqXavjGPmL2GFhMIfMm1PbDdrfrn7Gy45f11Oogo9As3XZJv0QjnWwU1en
-	/IGIHUimZ7Ge56gXihpEwF1nLkJ2TgOSLAY4+5ecrh/Pcof2IsTq/szfsasGk4LjI5Ny
-	ZiwryR+us5QOzyVJYCecnMXtkLJnpi4ftahrtryGcHzdMBu8CAlQzN326JYLCMIojOq5
-	gbSYv7KOnda+4MIGRannH6dui/RoS6SnGUH/wqELKYMpigtNiLwztaxGPBaDREDe/AMq
-	ztjWv96teUDajYvjX8lmkXy8KHexyKwyBauo5v3dqlp6/mQW9ECs0XcxSKetYe5yQ9Tu
-	D/sg==
+	bh=4X9sIu0YHhUgKH1JkMRhAu/b2BTcREHijf9rjBQvr1M=;
+	b=yHqgs6Gin2rh9sgOlzbNyzAKEozyhGUduxcLnaVx1ixK/fZpHp63Zgi7YYCc4lE/FH
+	M12euWCVPrzIt8W+XWf2NXdaihoCWD+llKBNCknbY6qkFdcqJrtx819qYCbeTN003LSF
+	+w9uInyLEz1Du1NKwQrtdUSV3nLnXQtdn5EqqySjcTYNR3U+XT8AywqYs0Zb2lbZZcUv
+	jljHZQXpZS9rcdUdOB2VyUlwWTyoVxnXo2x4k6M2OEvJSORhSpfIxPV+3G1rwDzz44SN
+	paO5H2/G26Y3DVqnZ+fW89HOEmcPb+2S+N3cKMKazwJ7CPrFoTGAIAg8n4M+GECq0xw6
+	WXHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=2H24j/ivxKhpWMoNZRyFm5/WUhhAwlHuP6YRtZPABdg=;
-	b=LMaGxvm/J+MkFoMlXYKcHihYNZD953jBWV8rVzhYta4uAUXFRSBJcP/w1MNDgOKTUM
-	Bwe74spZfBl9XpgwN4cpzh+LVijxyvEyFJki4pqR/leRYS69Z0wUPokdiXKwqdNdLt4D
-	NQPpo/F1l/w07TqJuQ2VG9TcjXwW5lQ6a3QSJgmLMFIW0CQHIPKmbf/owOY1WmDkxGpV
-	kNrI4+r2tLHqDgk7erjAha0WOkOsQACRXpcvC4q9+vJGI+gd1uWcdTQPelFGOSqfYeb9
-	5FZsq8PZl9O1YpJfbyksciN63CyljhGass7F1KofnOtj7wJbf0JjedGDTFHvuWkbijFH
-	7lDg==
-X-Gm-Message-State: APjAAAXjjUfX2DB21TrBfQIfI3Dx3+wP5DhW9t2N6cwGHcvE/JrCLMpl
-	I95VLgLrQV7UoDli28bVgcstXPk7k/E=
-X-Google-Smtp-Source: APXvYqzLX4z5Yl6q/KCtD+zhluzuPuelQNia2NlxMWy0+f4sgRpZ6raGgTrpW+ZvrRrtPe4MG06UFA==
-X-Received: by 2002:a1c:ac07:: with SMTP id v7mr19777642wme.49.1557230428551; 
-	Tue, 07 May 2019 05:00:28 -0700 (PDT)
+	bh=4X9sIu0YHhUgKH1JkMRhAu/b2BTcREHijf9rjBQvr1M=;
+	b=Q1lKfTbiPvyMaN07gVqIGkvrDr1CP58aXpTSDco+qm3LWT11Olwz5garr/a1QT4/iD
+	XRJ4p195gt3tf+faY3rDpF6WXsLZFSZxUtPR+JkEKE8E9XH7qmw8t/C8QUwFu+kjnZDf
+	53WNhgHavL9AIsVScZc41/v1GzjDW+EKvNprVXtH/gOAGoizoppltRUv5PKIz9p5dunk
+	JAg6AjCvEUV/4TTiY+Ewp9JORtHMe5Ilgy2gVme6bIBndol9NAN52wEfTf/HJKNefXVX
+	u+A7TmTv9CZmqqgePS5WfTL8lQU4fB6AhKJh1cCdiJ3kY6NVbnHbUr+PVeN9ADLrmT9+
+	T4Lw==
+X-Gm-Message-State: APjAAAWSwArHIWrkx2hAllSp9GkAwFcTuJRvbYYNFXVIra9JXRuQ3CxI
+	ovPSUJS3JEotk+20TbUlHHsVTP1AY2s=
+X-Google-Smtp-Source: APXvYqwirlip1MywsFoQJkk5J+gaPhAmLOMCw+fC1p6us/PuB8dwFB+I+ZTfP8ccIvjG3gVkpmBa8g==
+X-Received: by 2002:a1c:5f42:: with SMTP id t63mr19473242wmb.94.1557230429767; 
+	Tue, 07 May 2019 05:00:29 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
-	by smtp.gmail.com with ESMTPSA id g3sm12348596wmf.9.2019.05.07.05.00.27
+	by smtp.gmail.com with ESMTPSA id g3sm12348596wmf.9.2019.05.07.05.00.28
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 07 May 2019 05:00:27 -0700 (PDT)
+	Tue, 07 May 2019 05:00:28 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue,  7 May 2019 13:00:06 +0100
-Message-Id: <20190507120011.18100-11-peter.maydell@linaro.org>
+Date: Tue,  7 May 2019 13:00:07 +0100
+Message-Id: <20190507120011.18100-12-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190507120011.18100-1-peter.maydell@linaro.org>
 References: <20190507120011.18100-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::334
-Subject: [Qemu-devel] [PULL 10/15] osdep: Fix mingw compilation regarding
- stdio formats
+X-Received-From: 2a00:1450:4864:20::335
+Subject: [Qemu-devel] [PULL 11/15] hw/arm/armv7m_nvic: Check subpriority in
+ nvic_recompute_state_secure()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -83,56 +82,57 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Cao Jiaxi <driver1998@foxmail.com>
+Rule R_CQRV says that if two pending interrupts have the same
+group priority then ties are broken by looking at the subpriority.
+We had a comment describing this but had forgotten to actually
+implement the subpriority comparison. Correct the omission.
 
-I encountered the following compilation error on mingw:
+(The further tie break rules of "lowest exception number" and
+"secure before non-secure" are handled implicitly by the order
+in which we iterate through the exceptions in the loops.)
 
-/mnt/d/qemu/include/qemu/osdep.h:97:9: error: '__USE_MINGW_ANSI_STDIO' macro redefined [-Werror,-Wmacro-redefined]
- #define __USE_MINGW_ANSI_STDIO 1
-        ^
-/mnt/d/llvm-mingw/aarch64-w64-mingw32/include/_mingw.h:433:9: note: previous definition is here
- #define __USE_MINGW_ANSI_STDIO 0      /* was not defined so it should be 0 */
-
-It turns out that __USE_MINGW_ANSI_STDIO must be set before any
-system headers are included, not just before stdio.h.
-
-Signed-off-by: Cao Jiaxi <driver1998@foxmail.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Stefan Weil <sw@weilnetz.de>
-Message-id: 20190503003719.10233-1-driver1998@foxmail.com
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-id: 20190430131439.25251-2-peter.maydell@linaro.org
 ---
- include/qemu/osdep.h | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ hw/intc/armv7m_nvic.c | 9 +++++++--
+ 1 file changed, 7 insertions(+), 2 deletions(-)
 
-diff --git a/include/qemu/osdep.h b/include/qemu/osdep.h
-index 303d315c5d4..af2b91f0b87 100644
---- a/include/qemu/osdep.h
-+++ b/include/qemu/osdep.h
-@@ -85,17 +85,17 @@ extern int daemon(int, int);
- #endif
- #endif
+diff --git a/hw/intc/armv7m_nvic.c b/hw/intc/armv7m_nvic.c
+index fff6e694e60..131b5938b9a 100644
+--- a/hw/intc/armv7m_nvic.c
++++ b/hw/intc/armv7m_nvic.c
+@@ -213,6 +213,7 @@ static void nvic_recompute_state_secure(NVICState *s)
+     int active_prio = NVIC_NOEXC_PRIO;
+     int pend_irq = 0;
+     bool pending_is_s_banked = false;
++    int pend_subprio = 0;
  
-+/* enable C99/POSIX format strings (needs mingw32-runtime 3.15 or later) */
-+#ifdef __MINGW32__
-+#define __USE_MINGW_ANSI_STDIO 1
-+#endif
-+
- #include <stdarg.h>
- #include <stddef.h>
- #include <stdbool.h>
- #include <stdint.h>
- #include <sys/types.h>
- #include <stdlib.h>
--
--/* enable C99/POSIX format strings (needs mingw32-runtime 3.15 or later) */
--#ifdef __MINGW32__
--#define __USE_MINGW_ANSI_STDIO 1
--#endif
- #include <stdio.h>
+     /* R_CQRV: precedence is by:
+      *  - lowest group priority; if both the same then
+@@ -226,7 +227,7 @@ static void nvic_recompute_state_secure(NVICState *s)
+     for (i = 1; i < s->num_irq; i++) {
+         for (bank = M_REG_S; bank >= M_REG_NS; bank--) {
+             VecInfo *vec;
+-            int prio;
++            int prio, subprio;
+             bool targets_secure;
  
- #include <string.h>
+             if (bank == M_REG_S) {
+@@ -241,8 +242,12 @@ static void nvic_recompute_state_secure(NVICState *s)
+             }
+ 
+             prio = exc_group_prio(s, vec->prio, targets_secure);
+-            if (vec->enabled && vec->pending && prio < pend_prio) {
++            subprio = vec->prio & ~nvic_gprio_mask(s, targets_secure);
++            if (vec->enabled && vec->pending &&
++                ((prio < pend_prio) ||
++                 (prio == pend_prio && prio >= 0 && subprio < pend_subprio))) {
+                 pend_prio = prio;
++                pend_subprio = subprio;
+                 pend_irq = i;
+                 pending_is_s_banked = (bank == M_REG_S);
+             }
 -- 
 2.20.1
 
