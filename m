@@ -2,48 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C82E166BE
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 17:31:27 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48671 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 883CD166CA
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 17:33:41 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48696 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hO23y-0002JA-64
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 11:31:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58430)
+	id 1hO268-0004YX-NI
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 11:33:40 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58843)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hO1rp-000883-JR
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 11:18:56 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hO1tw-0001Ka-9o
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 11:21:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hO1ro-00048a-IT
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 11:18:53 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60596)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hO1rl-00045E-0z; Tue, 07 May 2019 11:18:49 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
-	[10.5.11.14])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 4FEFE8553D;
-	Tue,  7 May 2019 15:18:48 +0000 (UTC)
-Received: from localhost (unknown [10.40.205.217])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id D6E535D9CC;
-	Tue,  7 May 2019 15:18:47 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Date: Tue,  7 May 2019 17:18:19 +0200
-Message-Id: <20190507151819.17401-12-mreitz@redhat.com>
-In-Reply-To: <20190507151819.17401-1-mreitz@redhat.com>
-References: <20190507151819.17401-1-mreitz@redhat.com>
+	(envelope-from <richard.henderson@linaro.org>) id 1hO1to-0005KB-9z
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 11:20:59 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:45958)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hO1tl-0005G6-Sl
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 11:20:56 -0400
+Received: by mail-pg1-x544.google.com with SMTP id i21so8462298pgi.12
+	for <qemu-devel@nongnu.org>; Tue, 07 May 2019 08:20:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=8GQCTCi6FQCiA8yJ/BYy6tKyf9cs5j3L5/oeRONp0wA=;
+	b=k1U4iqu2W++GrGnmjgkc1nkgPc7KfjCdZTl0efy7qqA3CLs2RI/upU7RoxoVhlhg3r
+	vx5Eimyx0bNzbNb1B04ry3tihl8Jsq7CY2mxIEDXrwKsZuAm6gbx1IPmsBiJGcHszLux
+	lwbSbz3LRWJicUeEdKwlWPi3HHmaHWb0AJR2D31UC2Y3JeK1I92v6JGwP7iWx/L00gGy
+	Yok1msJqtl+TZl1eVM3Vi5Uvd+96rpdVTk5rbE/h8S964nhWPWv89vETkKRpIqspznhU
+	j7JvqzZ050xWIA3EwPincOa2OrhTi40Mf4Ux915nugADtI1bmE34ljrvr40Ik5PQWksA
+	/U/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=8GQCTCi6FQCiA8yJ/BYy6tKyf9cs5j3L5/oeRONp0wA=;
+	b=f2WmWxQ1/XCDygH8GgWRLQkCNVFPesSv+t1LSy6OLBDezY/XoEyx98z5LzkFoNaqEu
+	VtpSIO7+OSV5Pj7U1gHMLZA1G38WUaRTYInTxEtexy42RFC1Vl8wO3r5fh+zl5iRXgx4
+	nL3Jd2OBEyEnCWX+C0bSjiDR3xlHGP6tK5mdbr6PeKjoBVbFDSi2BTw8XLPnEVflem1B
+	W8V8rxeehsvX3ADgt/HziMUT24b57N0BKK0MOD91t2JQMoGclAD0sgeHYouv1dU4GItS
+	3/qoFcmmLAF5RIFgpLjUlS1oZ6Jxdk4HMCX98NMO8lNGmk8kQLZbIt7cnSiSnXSeuEhn
+	AIbQ==
+X-Gm-Message-State: APjAAAUEwKXczJaFcNCNqLQymxh7juntVLUTNgIJvt9wgkYLQWYDe2d8
+	hEZqXyE/qTtWJfP9cxg2Wjajvw==
+X-Google-Smtp-Source: APXvYqwRNL6KirCrM0FsxDRUFWYLUVLl5OnwI+PVMmfObH4esm1lMvR/WsVpT9IcgdJ/JPFvEz+ZDQ==
+X-Received: by 2002:a63:6942:: with SMTP id e63mr39643272pgc.102.1557242448673;
+	Tue, 07 May 2019 08:20:48 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-189-189.tukw.qwest.net. [97.113.189.189])
+	by smtp.gmail.com with ESMTPSA id
+	d15sm18137750pfr.179.2019.05.07.08.20.47
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 07 May 2019 08:20:47 -0700 (PDT)
+To: Kashyap Chamarthy <kchamart@redhat.com>, qemu-devel@nongnu.org
+References: <20190503154613.4192-1-kchamart@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <11de0045-e015-1a02-8366-81e30d5b5395@linaro.org>
+Date: Tue, 7 May 2019 08:20:45 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.28]);
-	Tue, 07 May 2019 15:18:48 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 11/11] iotests: Fix iotests 110 and 126
+In-Reply-To: <20190503154613.4192-1-kchamart@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::544
+Subject: Re: [Qemu-devel] [PATCH] VirtIO-RNG: Update default entropy source
+ to `/dev/urandom`
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -55,93 +84,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
-	qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: amit@kernel.org, rjones@redhat.com, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A recent patch results in qemu-img reporting the backing file format of
-vmdk images as vmdk.  This broke iotests 110 and 126.
+On 5/3/19 8:46 AM, Kashyap Chamarthy wrote:
+> When QEMU exposes a VirtIO-RNG device to the guest, that device needs a
+> source of entropy, and that source needs to be "non-blocking", like
+> `/dev/urandom`.  However, currently QEMU defaults to the problematic
+> `/dev/random`, which is "blocking" (as in, it waits until sufficient
+> entropy is available).
+> 
+> So change the entropy source to the recommended `/dev/urandom`.
+> 
+> Related discussion in these[1][2] past threads.
+> 
+> [1] https://lists.nongnu.org/archive/html/qemu-devel/2018-06/msg08335.html
+>     -- "RNG: Any reason QEMU doesn't default to `/dev/urandom`?"
+> [2] https://lists.nongnu.org/archive/html/qemu-devel/2018-09/msg02724.html
+>     -- "[RFC] Virtio RNG: Consider changing the default entropy source to
+>        /dev/urandom"
+> 
+> Signed-off-by: Kashyap Chamarthy <kchamart@redhat.com>
+> ---
+>  backends/rng-random.c | 2 +-
+>  qemu-options.hx       | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 
-Fixes: 7502be838e2fb62cc00f9e55f632e0b88ead5e6e
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Message-id: 20190415154129.31021-1-mreitz@redhat.com
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- tests/qemu-iotests/110 | 10 +++++++---
- tests/qemu-iotests/126 | 10 +++++++---
- 2 files changed, 14 insertions(+), 6 deletions(-)
+I would also like to point out
 
-diff --git a/tests/qemu-iotests/110 b/tests/qemu-iotests/110
-index fad672c1ae..33b169ffd4 100755
---- a/tests/qemu-iotests/110
-+++ b/tests/qemu-iotests/110
-@@ -53,8 +53,12 @@ TEST_IMG=3D"$TEST_IMG.base" _make_test_img 64M
- _make_test_img -b "$TEST_IMG_REL.base" 64M
- # qemu should be able to reconstruct the filename, so relative backing n=
-ames
- # should work
-+# (We have to filter the backing file format because vmdk always
-+# reports it (as vmdk), whereas other image formats would do so only
-+# with the backing_fmt creation option, which neither vmdk nor qcow
-+# support)
- TEST_IMG=3D"json:{'driver':'$IMGFMT','file':{'driver':'file','filename':=
-'$TEST_IMG'}}" \
--    _img_info | _filter_img_info
-+    _img_info | _filter_img_info | grep -v 'backing file format'
-=20
- echo
- echo '=3D=3D=3D Non-reconstructable filename =3D=3D=3D'
-@@ -78,7 +82,7 @@ TEST_IMG=3D"json:{
-             }
-         ]
-     }
--}" _img_info | _filter_img_info
-+}" _img_info | _filter_img_info | grep -v 'backing file format'
-=20
- echo
- echo '=3D=3D=3D Backing name is always relative to the backed image =3D=3D=
-=3D'
-@@ -110,7 +114,7 @@ TEST_IMG=3D"json:{
-             }
-         ]
-     }
--}" _img_info | _filter_img_info
-+}" _img_info | _filter_img_info | grep -v 'backing file format'
-=20
-=20
- # success, all done
-diff --git a/tests/qemu-iotests/126 b/tests/qemu-iotests/126
-index 96dc048d59..e3ee65c606 100755
---- a/tests/qemu-iotests/126
-+++ b/tests/qemu-iotests/126
-@@ -62,8 +62,12 @@ TOP_IMG=3D"$TEST_DIR/image:top.$IMGFMT"
- TEST_IMG=3D$BASE_IMG _make_test_img 64M
- TEST_IMG=3D$TOP_IMG _make_test_img -b ./image:base.$IMGFMT
-=20
--# The default cluster size depends on the image format
--TEST_IMG=3D$TOP_IMG _img_info | grep -v 'cluster_size'
-+# (1) The default cluster size depends on the image format
-+# (2) vmdk only supports vmdk backing files, so it always reports the
-+#     format of its backing file as such (but neither it nor qcow
-+#     support the backing_fmt creation option, so we cannot use that to
-+#     harmonize the output across all image formats this test supports)
-+TEST_IMG=3D$TOP_IMG _img_info | grep -ve 'cluster_size' -e 'backing file=
- format'
-=20
- _rm_test_img "$BASE_IMG"
- _rm_test_img "$TOP_IMG"
-@@ -79,7 +83,7 @@ TOP_IMG=3D"file:image:top.$IMGFMT"
- TEST_IMG=3D$BASE_IMG _make_test_img 64M
- TEST_IMG=3D$TOP_IMG _make_test_img -b "$BASE_IMG"
-=20
--TEST_IMG=3D$TOP_IMG _img_info | grep -v 'cluster_size'
-+TEST_IMG=3D$TOP_IMG _img_info | grep -ve 'cluster_size' -e 'backing file=
- format'
-=20
- _rm_test_img "$BASE_IMG"
- _rm_test_img "image:top.$IMGFMT"
---=20
-2.20.1
+  https://patchwork.ozlabs.org/project/qemu-devel/list/?series=97063
+  "[PATCH v4 00/24] Add qemu_getrandom and ARMv8.5-RNG etc"
 
+Which, if used in more rng backends, would remove direct use of either
+/dev/urandom or /dev/random and instead be handled by one of the crypto
+libraries against which we link.
+
+Which in turn may be implemented by getrandom(2) instead of the legacy /dev/files.
+
+Which would, I suppose, deprecate the file= option entirely.
+
+
+r~
+
+
+PS: I'm not sure what the difference between backends/rng* is supposed to be,
+and whether that distinction is relevant.
 
