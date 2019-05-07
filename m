@@ -2,73 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 481041638A
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 14:14:35 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:45803 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6C0716396
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 14:18:40 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:45920 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNyzS-0001hi-FF
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 08:14:34 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45003)
+	id 1hNz3Q-0004yZ-1g
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 08:18:40 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48035)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hNym0-0007lU-Ts
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:41 -0400
+	(envelope-from <pbonzini@redhat.com>) id 1hNyvG-0006oz-Bc
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:10:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hNylw-000421-2Q
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:40 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:36306)
+	(envelope-from <pbonzini@redhat.com>) id 1hNyvE-0001ep-Mo
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:10:14 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:33454)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hNylv-0003zU-Rk
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:35 -0400
-Received: by mail-wr1-x441.google.com with SMTP id o4so21968493wra.3
-	for <qemu-devel@nongnu.org>; Tue, 07 May 2019 05:00:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=NJGpq0OAxWQIci6soRm4qOcyKSMv9zMfLaUKqYHLGrI=;
-	b=Ypd5zaHXyixCR2IeX22+kB9GhGgdLbrfh6rcHXqq+F3VvQUBgbgtj3P9t0BMzXIL4O
-	hkfjU/Pofb4HQ/q9iSwVAYFaubCVLdTtDZGsNdZTU3R9SCVGEQLjYgtmh/EUK1hii2Rn
-	EASGtiiq+pg9l7GkSMHofX2S6q4vO5T6uptvTTBzvE/ez/5t+poKJqu6Gp4EfK/YIjPK
-	64R7c0idan28rcrhTSMdkF2hu56OChC6hkvKqrWEHVmfVgcThKJ87CzJyvudbsSWcfRk
-	oKQqZaUWoMr0iRIPYdVJPHdxujK/7Q8wnADogHdykKfWsj9DqtPr4uxSM1inReIO3B9/
-	KC8g==
+	(Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hNyvE-0001eJ-0a
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:10:12 -0400
+Received: by mail-wr1-f68.google.com with SMTP id e11so8948612wrs.0
+	for <qemu-devel@nongnu.org>; Tue, 07 May 2019 05:10:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=NJGpq0OAxWQIci6soRm4qOcyKSMv9zMfLaUKqYHLGrI=;
-	b=CxaYG+HVSrnwvTDvVd0zAclA7P/uBzIE1xoWPxvGuEDcuCngvTr/A1s4LKu2MRkqg1
-	y+DktePzSww2JPVQD69oKzuXVJXcY9xoDEr0PeFwePI9A9UUN1/CGfjsuXa8GhZWbpZ/
-	kcGFMzUJDB9HrwhpliIlgKsMp47+02ASILt47SZt4nEE1cwNZPLZWm3y0p34VN4thS2j
-	3DJj6vF2nVsLm8G0kuKM3vNk6r/N1botYwkT8QOwNKAHQyUKYSsai3rOVM4dK2UTiKHP
-	MJH0YFq9BnxjU65MFgp/GYR33XxDG75rhUWCw92h+p3kgiD8IaxslYdPTUG/D+bDMaeV
-	GjNw==
-X-Gm-Message-State: APjAAAUXC2Ws0UbZaY/iKaOVOq/RfUS0H+HKmcrI+fqNfjVC8sAfQv8L
-	zrz8OYxx2CHABezgfPF2vF2fm0AREBs=
-X-Google-Smtp-Source: APXvYqybl6SF3JrzwEkmHIQOuE2l6ycYLBvL+8bELV8Ei78lSrB6ZZugW5Gl94w/lk91P2tOIZyneQ==
-X-Received: by 2002:a5d:6a47:: with SMTP id t7mr21326158wrw.307.1557230434760; 
-	Tue, 07 May 2019 05:00:34 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
-	by smtp.gmail.com with ESMTPSA id g3sm12348596wmf.9.2019.05.07.05.00.33
-	for <qemu-devel@nongnu.org>
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=MfpSg9Q3f8tq5p+FYBjTg6g9hpkhoHZte1EMwPUTVxI=;
+	b=ocCCHi4APPqEJL2j6q0wpDHWXyJBwv1vnjyzWOmPjRH50um2bKDW5sZIwmOIeagbfF
+	3Iko58kcha634rw30zyCXGLs8jBa1Aojaip233O6zIKKllzwKJuwcPDu3DqoaCx9cdrU
+	FVsf/4m2YrY8iqXgXzIxM2omGvhqT1ZsrOkoStvDQ4EV04l34+jgw6h3PIOdbmx6U7jI
+	chImgy43ndb7rNKcNJRwcuP0ef9A4S8cJBviJ9Xk43DyzIgsL7gUTUtHsHiXZtdwiz5d
+	2gqwnPuXYNDSiJ2U19B8+Q9p2gTMJTGtnPo+FXE2jhZPNUntH3+ynpBEgvb5rzZKwlv2
+	uGzw==
+X-Gm-Message-State: APjAAAVBfJb5VtzYMujUjoUnC5X3HI1fdKZm/AzGLhazwDtsvhN3Rea0
+	JD3BjnBVw7P6P5LpFdL9fNjTDw==
+X-Google-Smtp-Source: APXvYqxCA4nIW3QqYvO5acqx3YKTazfjN3MPB0fBgWs6UAwT/3SK8ZVkMzjelUqB4r2LuciWdeUnWQ==
+X-Received: by 2002:adf:db0b:: with SMTP id s11mr15384061wri.180.1557231010789;
+	Tue, 07 May 2019 05:10:10 -0700 (PDT)
+Received: from ?IPv6:2001:b07:6468:f312:f572:d55d:64bb:59f8?
+	([2001:b07:6468:f312:f572:d55d:64bb:59f8])
+	by smtp.gmail.com with ESMTPSA id
+	b184sm19309123wmh.17.2019.05.07.05.10.09
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 07 May 2019 05:00:33 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Tue,  7 May 2019 13:00:11 +0100
-Message-Id: <20190507120011.18100-16-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190507120011.18100-1-peter.maydell@linaro.org>
-References: <20190507120011.18100-1-peter.maydell@linaro.org>
+	Tue, 07 May 2019 05:10:10 -0700 (PDT)
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20190506051810.16493-1-thuth@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <a10c71d8-3a97-797a-baac-61cedc993be6@redhat.com>
+Date: Tue, 7 May 2019 14:10:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: [Qemu-devel] [PULL 15/15] target/arm: Stop using variable length
- array in dc_zva
+In-Reply-To: <20190506051810.16493-1-thuth@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+	[fuzzy]
+X-Received-From: 209.85.221.68
+Subject: Re: [Qemu-devel] [PATCH] tests/Makefile: Remove unused test-obj-y
+ variable
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -80,55 +73,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-trivial@nongnu.org,
+	=?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+	Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently the dc_zva helper function uses a variable length
-array. In fact we know (as the comment above remarks) that
-the length of this array is bounded because the architecture
-limits the block size and QEMU limits the target page size.
-Use a fixed array size and assert that we don't run off it.
+On 06/05/19 00:18, Thomas Huth wrote:
+> I recently noticed that test-obj-y contains a file called
+> tests/check-block-qtest.o which simply does not belong to any .c
+> file and thus wondered why this is not causing any trouble.
+> Well, if I get the Makefile magic right, test-obj-y is not really
+> used for anything - and "make check" still works fine if we simply
+> remove it.
+> 
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-id: 20190503120448.13385-1-peter.maydell@linaro.org
----
- target/arm/helper.c | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+It is used to add -Itests to the command line (which refers to the build
+directory).  However, it is not needed because "-iquote $(@D)" already
+sets this up in rules.mak.
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index b9745a42bab..1e6eb0d0f36 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -1,4 +1,5 @@
- #include "qemu/osdep.h"
-+#include "qemu/units.h"
- #include "target/arm/idau.h"
- #include "trace.h"
- #include "cpu.h"
-@@ -13130,14 +13131,17 @@ void HELPER(dc_zva)(CPUARMState *env, uint64_t vaddr_in)
-          * We know that in fact for any v8 CPU the page size is at least 4K
-          * and the block size must be 2K or less, but TARGET_PAGE_SIZE is only
-          * 1K as an artefact of legacy v5 subpage support being present in the
--         * same QEMU executable.
-+         * same QEMU executable. So in practice the hostaddr[] array has
-+         * two entries, given the current setting of TARGET_PAGE_BITS_MIN.
-          */
-         int maxidx = DIV_ROUND_UP(blocklen, TARGET_PAGE_SIZE);
--        void *hostaddr[maxidx];
-+        void *hostaddr[DIV_ROUND_UP(2 * KiB, 1 << TARGET_PAGE_BITS_MIN)];
-         int try, i;
-         unsigned mmu_idx = cpu_mmu_index(env, false);
-         TCGMemOpIdx oi = make_memop_idx(MO_UB, mmu_idx);
- 
-+        assert(maxidx <= ARRAY_SIZE(hostaddr));
-+
-         for (try = 0; try < 2; try++) {
- 
-             for (i = 0; i < maxidx; i++) {
--- 
-2.20.1
+Paolo
+
+> ---
+>  tests/Makefile.include | 19 -------------------
+>  1 file changed, 19 deletions(-)
+> 
+> diff --git a/tests/Makefile.include b/tests/Makefile.include
+> index 7c8b9c84b2..dfc4b7746f 100644
+> --- a/tests/Makefile.include
+> +++ b/tests/Makefile.include
+> @@ -482,25 +482,6 @@ GENERATED_FILES += tests/test-qapi-types.h \
+>  	tests/test-qapi-events-sub-sub-module.h \
+>  	tests/test-qapi-introspect.h
+>  
+> -test-obj-y = tests/check-qnum.o tests/check-qstring.o tests/check-qdict.o \
+> -	tests/check-qlist.o tests/check-qnull.o tests/check-qobject.o \
+> -	tests/check-qjson.o tests/check-qlit.o \
+> -	tests/check-block-qtest.o \
+> -	tests/test-coroutine.o tests/test-string-output-visitor.o \
+> -	tests/test-string-input-visitor.o tests/test-qobject-output-visitor.o \
+> -	tests/test-clone-visitor.o \
+> -	tests/test-qobject-input-visitor.o \
+> -	tests/test-qmp-cmds.o tests/test-visitor-serialization.o \
+> -	tests/test-x86-cpuid.o tests/test-mul64.o tests/test-int128.o \
+> -	tests/test-opts-visitor.o tests/test-qmp-event.o \
+> -	tests/rcutorture.o tests/test-rcu-list.o \
+> -	tests/test-rcu-simpleq.o \
+> -	tests/test-rcu-tailq.o \
+> -	tests/test-qdist.o tests/test-shift128.o \
+> -	tests/test-qht.o tests/qht-bench.o tests/test-qht-par.o \
+> -	tests/atomic_add-bench.o tests/atomic64-bench.o
+> -
+> -$(test-obj-y): QEMU_INCLUDES += -Itests
+>  QEMU_CFLAGS += -I$(SRC_PATH)/tests
+>  
+>  
+> 
 
 
