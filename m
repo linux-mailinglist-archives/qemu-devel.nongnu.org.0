@@ -2,51 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86F7B158C4
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 07:11:29 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40048 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 27FF3158B6
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 07:04:46 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:39957 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNsO0-0006yx-OJ
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 01:11:28 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54283)
+	id 1hNsHV-0004mW-2D
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 01:04:45 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53151)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hNsMx-00063M-0z
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 01:10:24 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hNsGV-0004Ve-FC
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 01:03:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hNsMv-0007T9-G4
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 01:10:23 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:54913)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
-	id 1hNsMu-0007P0-92; Tue, 07 May 2019 01:10:21 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
-	id 44ynjb1LFcz9s00; Tue,  7 May 2019 15:10:11 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=gibson.dropbear.id.au; s=201602; t=1557205811;
-	bh=8nlE++t1GSIcZ3W2doFUFWvcLhlAsg5jr3G7tNMmfBo=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=IotDzS9KZ2ecUSm69akkuIOxjl48L8BoKMCHeFz95c3A7pg/s6eXD/8PyXzHQASej
-	uV4o7slvUb+QnL2QH+OiY0H/VvL/GW91DtWVeOnOyrr6lIk04G00s5/7hIabYkSEz2
-	xXxWmFSzkmijXgH9scuKyXw4HzB3hSYz5kkZqWF4=
-Date: Tue, 7 May 2019 14:48:38 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Alexey Kardashevskiy <aik@ozlabs.ru>
-Message-ID: <20190507044837.GC7073@umbus.fritz.box>
-References: <20190424041959.4087-1-david@gibson.dropbear.id.au>
-	<20190424041959.4087-4-david@gibson.dropbear.id.au>
-	<0890a0ab-e176-5549-1ec9-98c00a9c8026@ozlabs.ru>
+	(envelope-from <richard.henderson@linaro.org>) id 1hNsGU-0003J9-D0
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 01:03:43 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:40186)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hNsGU-0003II-5m
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 01:03:42 -0400
+Received: by mail-pf1-x442.google.com with SMTP id u17so7986462pfn.7
+	for <qemu-devel@nongnu.org>; Mon, 06 May 2019 22:03:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=+Nxc5/xoRFeHcvON3Y2lmUgXIqEq3zVCR3EQAdvL80g=;
+	b=IjhMcbcti1eAT8zKIaL723GJXjWVRQadd4rb+I2ChzcfgEcbLWsRJnYnXwIzoyQQXK
+	jxpYNFKN1rs+aGv3BuLPa1FXOgLp32GSpGLE1D5ZlOMUD4HeNgtAMGY7LYvBiO9ewzFu
+	42HAuNYoUTuJ7VXB5POlGbdz0YqkKA9oVfu0kJBAhxcJMDhgW4Cx/il1qqdZKUzySc/V
+	K+DoTRZJne5wR3BE4pc/fOQp9aYuX8fE2s/axx43KPl4AL8SfrCKgddrud4CepShXiGq
+	XbJbOJI178RUGij+vwvlHxtCtJT2U2L1O3uj5mZM4OxJEVCnxSdGtvvsksEn63LHak+b
+	sJag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=+Nxc5/xoRFeHcvON3Y2lmUgXIqEq3zVCR3EQAdvL80g=;
+	b=fn8Yc7gK2myG2pC31U4dHJEEW3I/jG+Wgf1bgPhIjSiO6p74gibYibI5YcP9moG2T7
+	PtL3KK0fdZNkXCk4a6lN9AY5qwzRMtvMwinjlYxC12lzsxEqcJxOLFYhaFuB8hsy/jbx
+	QkObfnQpbj8o7D5QBE/J4BN3piDShnUmg7FGkcjU7w1JoZvdcZKBxGnN0Z79U4CVN3lw
+	V02ouEwnG2eG12vXvtQ7houraBDwhgkBA1bBeTuibl3lLW9BNcWe2XL76/gTJ0Dk8W+D
+	7WadYQYCX8W+Qx7DhLshdBV+hg7dNvERbpKgk/JdaACqRbDyJU46BfXDQBMTYA45M+l8
+	/nmw==
+X-Gm-Message-State: APjAAAUm1XGancpSPD0utSYU5RuCLt+h9EMOInZAB0rYirppdjL+4FcA
+	QYG5mo8o7JczBJ1eQgC4mNIO+lVyXPE=
+X-Google-Smtp-Source: APXvYqynZfA+qKlqGpAiaWPfkMbfekAFcDvbIiY7jp8jFEE6zS3FCEnVOZGVvEYSVCP6pjYFOIYMbw==
+X-Received: by 2002:a62:70c6:: with SMTP id
+	l189mr38850526pfc.139.1557205420341; 
+	Mon, 06 May 2019 22:03:40 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-189-189.tukw.qwest.net. [97.113.189.189])
+	by smtp.gmail.com with ESMTPSA id
+	v64sm16440403pfv.106.2019.05.06.22.03.38
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 06 May 2019 22:03:39 -0700 (PDT)
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20190328230404.12909-1-richard.henderson@linaro.org>
+	<20190328230404.12909-31-richard.henderson@linaro.org>
+	<CAFEAcA_0wTL0K8nJw+LQK4-y6_qJ+Lj7nEL=xuU6vXQPW4YEqg@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <8380e4d3-b0db-effd-c5b2-8976ba63a35e@linaro.org>
+Date: Mon, 6 May 2019 22:03:36 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="da4uJneut+ArUgXk"
-Content-Disposition: inline
-In-Reply-To: <0890a0ab-e176-5549-1ec9-98c00a9c8026@ozlabs.ru>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+In-Reply-To: <CAFEAcA_0wTL0K8nJw+LQK4-y6_qJ+Lj7nEL=xuU6vXQPW4YEqg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [Qemu-ppc] [PATCH v2 3/3] pcie: Simplify
- pci_adjust_config_limit()
+X-Received-From: 2607:f8b0:4864:20::442
+Subject: Re: [Qemu-devel] [PATCH for-4.1 v2 30/36] cpu: Introduce
+ cpu_set_cpustate_pointers
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,146 +87,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>, Greg Kurz <groug@kaod.org>,
-	qemu-devel@nongnu.org, Alex Williamson <alex.williamson@redhat.com>,
-	qemu-ppc@nongnu.org, clg@kaod.org
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 4/29/19 7:40 AM, Peter Maydell wrote:
+>> diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
+>> index 698dd9cb82..790670ebeb 100644
+>> --- a/target/s390x/cpu.c
+>> +++ b/target/s390x/cpu.c
+>> @@ -282,17 +282,18 @@ static void s390_cpu_initfn(Object *obj)
+>>  {
+>>      CPUState *cs = CPU(obj);
+>>      S390CPU *cpu = S390_CPU(obj);
+>> -    CPUS390XState *env = &cpu->env;
+>>
+>> -    cs->env_ptr = env;
+>> +    cpu_set_cpustate_pointers(cpu);
+>>      cs->halted = 1;
+>>      cs->exception_index = EXCP_HLT;
+>>      object_property_add(obj, "crash-information", "GuestPanicInformation",
+>>                          s390_cpu_get_crash_info_qom, NULL, NULL, NULL, NULL);
+>>      s390_cpu_model_register_props(obj);
+>>  #if !defined(CONFIG_USER_ONLY)
+>> -    env->tod_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, s390x_tod_timer, cpu);
+>> -    env->cpu_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, s390x_cpu_timer, cpu);
+>> +    cpu->env.tod_timer =
+>> +        timer_new_ns(QEMU_CLOCK_VIRTUAL, s390x_tod_timer, cpu);
+>> +    cpu->env.cpu_timer =
+>> +        timer_new_ns(QEMU_CLOCK_VIRTUAL, s390x_cpu_timer, cpu);
+>>      s390_cpu_set_state(S390_CPU_STATE_STOPPED, cpu);
+>>  #endif
+> 
+> I would have left the local variable so that we didn't
+> need to change these lines, but whatever.
 
---da4uJneut+ArUgXk
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Then the variable is unused for CONFIG_USER_ONLY.
+It's easier to suppress the warning by propagating.
 
-On Fri, Apr 26, 2019 at 04:40:17PM +1000, Alexey Kardashevskiy wrote:
->=20
->=20
-> On 24/04/2019 14:19, David Gibson wrote:
-> > Since c2077e2c "pci: Adjust PCI config limit based on bus topology",
-> > pci_adjust_config_limit() has been used in the config space read and wr=
-ite
-> > paths to only permit access to extended config space on buses which per=
-mit
-> > it.  Specifically it prevents access on devices below a vanilla-PCI bus=
- via
-> > some combination of bridges, even if both the host bridge and the device
-> > itself are PCI-E.
-> >=20
-> > It accomplishes this with a somewhat complex call up the chain of bridg=
-es
-> > to see if any of them prohibit extended config space access.  This is
-> > overly complex, since we can always know if the bus will support such
-> > access at the point it is constructed.
-> >=20
-> > This patch simplifies the test by using a flag in the PCIBus instance
-> > indicating whether extended configuration space is accessible.  It is
-> > false for vanilla PCI buses.  For PCI-E buses, it is true for root
-> > buses and equal to the parent bus's's capability otherwise.
-> >=20
-> > For the special case of sPAPR's paravirtualized PCI root bus, which
-> > acts mostly like vanilla PCI, but does allow extended config space
-> > access, we override the default value of the flag from the host bridge
-> > code.
-> >=20
-> > This should cause no behavioural change.
-> >=20
-> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>cd
-> > ---
-> >  hw/pci/pci.c             | 41 ++++++++++++++++++++++------------------
-> >  hw/pci/pci_host.c        | 13 +++----------
-> >  hw/ppc/spapr_pci.c       | 34 ++++++++++-----------------------
-> >  include/hw/pci/pci.h     |  1 -
-> >  include/hw/pci/pci_bus.h |  9 ++++++++-
-> >  5 files changed, 44 insertions(+), 54 deletions(-)
-> >=20
-> > diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-> > index ea5941fb22..59ee034331 100644
-> > --- a/hw/pci/pci.c
-> > +++ b/hw/pci/pci.c
-> > @@ -120,6 +120,27 @@ static void pci_bus_realize(BusState *qbus, Error =
-**errp)
-> >      vmstate_register(NULL, -1, &vmstate_pcibus, bus);
-> >  }
-> > =20
-> > +static void pcie_bus_realize(BusState *qbus, Error **errp)
-> > +{
-> > +    PCIBus *bus =3D PCI_BUS(qbus);
-> > +
-> > +    pci_bus_realize(qbus, errp);
-> > +
-> > +    /*
-> > +     * A PCI-E bus can support extended config space if it's the root
-> > +     * bus, or if the bus/bridge above it does as well
-> > +     */
-> > +    if (pci_bus_is_root(bus)) {
-> > +        bus->flags |=3D PCI_BUS_EXTENDED_CONFIG_SPACE;
-> > +    } else {
-> > +        PCIBus *parent_bus =3D pci_get_bus(bus->parent_dev);
->=20
->=20
-> g_assert(bus->parent_dev) ?
->=20
-> Slightly confusingly bus->parent_dev is not the same as bus->qbus.parent
-> and can be NULL, I'd even look into ditching parent_dev and using
-> bus->qbus.parent instead (if possible).
 
-Oh boy, the can of worms I reached into following up that simple
-comment.  Yes, they're subtly different, and yes it's confusing.  In
-practice parent_dev is NULL when on a root bus, that's not a PXB bus,
-and otherwise equal to qbus.parent.
-
-After a *lot* of thinking about this, I think parent_dev is actually
-correct here - we're explicitly looking at the parent as a P2P bridge,
-not anything else.
-
-But, I'll try to do some later cleanups making the parent_dev /
-qbus.parent confusion a bit better.
-> > +static inline bool pci_bus_allows_extended_config_space(PCIBus *bus)
-> > +{
-> > +    return !!(bus->flags & PCI_BUS_EXTENDED_CONFIG_SPACE);
-> > +}
-> > +
-> > +
->=20
-> An extra empty line.
->=20
-> Anyway, these are minor comments, so
->=20
-> Reviewed-by: Alexey Kardashevskiy <aik@ozlabs.ru>
->=20
->=20
->=20
->=20
-> >  #endif /* QEMU_PCI_BUS_H */
-> >=20
->=20
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---da4uJneut+ArUgXk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlzRDiEACgkQbDjKyiDZ
-s5LtChAA2OPycNXTe7lkgKZsiD8v+Vl4CV6O5Fn4K0C8hpgEvFChWZwYPpXyk3jr
-ljj7PvddNTdOi1a1iQz3mvbveC992rYjLeHMags9U74CHyMbx1s7pv54OMRRiHaC
-BkkUCohub2fj/DQhpXdZSy2lbS3fcnINeUmQlA3Ze+XhOtZwOTKv8PkrjeZlKbFu
-hOTFXuy0ULGHyGwT9pinWYc0aXRoPGKVd/iWX+ji/y5GlilSS53UGh6ezn/QV4o+
-5XWR2e2Yb+7rM28Lg8IXC7ry/aOvxo+MJQ7jyqUft1MWZPFk2czc/aRZ7amcwYOl
-HxgZ3KomtWF0LuvvdA2ycB9YdMqTNt/ufvt1LcDtnAM7s69QyY2TUPWP+3SxOl6N
-S6Fio26H7jGhN7nOrTc+A2icJqR36zy0E6weguzhi4v9wGFFLqo4ushBeVtZ25z1
-v+qGN/bK2aPdmozXQaGiOJSbRwGJ5Pw6igL2hPbYhISsGBTBggnYpIBPl7q95oYs
-jRFi1p5CRCgK434qe3x+QQF7kwWHsRpWfG20hUgeu5Sf77J6AAEAYCw/97M0hgOj
-vE4QudjypQ+m5qEacJ0eQSdxGL49HXOKAG2235YRmQ/U+AkWWG/koDj+J2cVJWJr
-kQBn7obAbcEwwCwHsy88ZDdQzxVbyPEfLvBrnjvbzD8VuvHrEOs=
-=tsX6
------END PGP SIGNATURE-----
-
---da4uJneut+ArUgXk--
+r~
 
