@@ -2,68 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6D7F816636
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 17:06:47 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48264 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 885F916649
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 17:10:36 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48306 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hO1g6-0008B7-HS
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 11:06:46 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54669)
+	id 1hO1jn-0002sw-MK
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 11:10:35 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54827)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <atar4qemu@gmail.com>) id 1hO1dZ-0006X2-M8
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 11:04:10 -0400
+	(envelope-from <eblake@redhat.com>) id 1hO1eJ-00074t-4i
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 11:04:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <atar4qemu@gmail.com>) id 1hO1dY-00046F-9N
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 11:04:09 -0400
-Received: from mail-it1-x143.google.com ([2607:f8b0:4864:20::143]:34894)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <atar4qemu@gmail.com>) id 1hO1dY-00045R-2P
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 11:04:08 -0400
-Received: by mail-it1-x143.google.com with SMTP id l140so26268735itb.0
-	for <qemu-devel@nongnu.org>; Tue, 07 May 2019 08:04:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Qk+BUUuOsQX6n5dqHox1f5kCJ4tKpfjXdtkDP7Xlmwg=;
-	b=PmfN0KgpOuA5x6aehIgIxXNqi+jRcTq3kq5BWgBqDpLd4nFj3HUJxsD9PES7ExRLy8
-	R8bFjM84CpwPnOqPJa16WZXZ4qWpYZtYZw+PyBKC2h0Le6zZqjcFfzGFeIbHJhEe7z0N
-	Ql6tkAhRjI4Ip67oY5O0todQl6aRkt15uGEEDWRAcrCwPDzpQxp9APdv7Wri/RyPi0ab
-	27/Q1/y2xcBFy0Er/Gllqp77HJmqyAP2Zi2eIMXi08VWIvKLDCdRlgW8ZboPgi5yDSng
-	OywdWePrIABOTMt39I0Pme/oHt3S0qhntvOMhugj22Qtcv6Qky7Gti2hBjZ4YsSeEL3U
-	a6uQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=Qk+BUUuOsQX6n5dqHox1f5kCJ4tKpfjXdtkDP7Xlmwg=;
-	b=snZ5FiYMr945iEI/xDNv3T1TA0rpzbONp634rheHcIRkPfZzxvJmiVhVDK3A4ju9St
-	LLQ61tt/5XzOOhk3ShRCbBpIhZ+AFeiuzBwH1+NMTbWcM9502qq4fxL4je/qT/p9qMwB
-	3yTYWa8r1/cQvFGanwlJ7iO1pKuS7FAtKZooTSFRMLe0s9cVypiHKt5IHvHQpA1dpyXG
-	xLaw9xWyqHZnZP6/HOzJXJe4wS0ahpkkpxHWc7Onj+V7i6Y2r9CqYxSfC7u1x392NKYS
-	W4U1oO2aByqWfMHLijt9H3lwrntP98QCgfL9hy8+r8NIosRmWT6lMDKopbejI1x/ipsD
-	ZXBA==
-X-Gm-Message-State: APjAAAWr3wJZlDDCoEwflXvRKQB3T2VQxXCXGuIYUgKV+mSHM7VsjDvt
-	27TFJVGudJyIsWw8cEzM8Cl6fYtLuwKxkniyW7U=
-X-Google-Smtp-Source: APXvYqz8yCQG0LaYshoryNriPZPUME7Iw1WDHmuY9EVMP3PMEz0unX/stKDADi7XJLvXJ/fwVXvw6FqCwG5n9lLpKtw=
-X-Received: by 2002:a24:7c9:: with SMTP id f192mr23697268itf.97.1557241446283; 
-	Tue, 07 May 2019 08:04:06 -0700 (PDT)
+	(envelope-from <eblake@redhat.com>) id 1hO1eF-0004OY-6j
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 11:04:53 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47904)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <eblake@redhat.com>)
+	id 1hO1e9-0004MP-8N; Tue, 07 May 2019 11:04:45 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id A6E2787628;
+	Tue,  7 May 2019 15:04:43 +0000 (UTC)
+Received: from [10.3.116.15] (ovpn-116-15.phx2.redhat.com [10.3.116.15])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0D6365EDE4;
+	Tue,  7 May 2019 15:04:42 +0000 (UTC)
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20190417153005.30096-1-mreitz@redhat.com>
+	<50f215b9-dc7f-7507-403a-c88d1a312fd9@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+	xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+	xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+	TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+	GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+	sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+	AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+	CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+	RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+	wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+	Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+	gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+	pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+	zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+	pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+	3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+	NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+	cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+	SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+	I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+	mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+	Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+	2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <9d13273e-92f1-6b01-8c88-6750c8d86ee5@redhat.com>
+Date: Tue, 7 May 2019 10:04:42 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <1557003754-26473-1-git-send-email-atar4qemu@gmail.com>
-	<1557003754-26473-2-git-send-email-atar4qemu@gmail.com>
-	<d28ed626-f7f8-53df-208a-cbf6c06e3cc9@ilande.co.uk>
-	<CACXAS8BU-OamhTL03QNuukiKvy+vpdu8VRB4gWPe2+zz2nEymA@mail.gmail.com>
-	<5306bcc1-e308-05eb-9ce5-79553cee3a23@ilande.co.uk>
-In-Reply-To: <5306bcc1-e308-05eb-9ce5-79553cee3a23@ilande.co.uk>
-From: Artyom Tarasenko <atar4qemu@gmail.com>
-Date: Tue, 7 May 2019 17:03:56 +0200
-Message-ID: <CACXAS8AAXTy1xiQp2ftjEqhkXkbn-QG6Z=6AfKFCqJhT7eDF7Q@mail.gmail.com>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::143
-Subject: Re: [Qemu-devel] [PATCH v2 1/3] lsi53c895a: hide 53c895a registers
- in 53c810
+In-Reply-To: <50f215b9-dc7f-7507-403a-c88d1a312fd9@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature";
+	boundary="H3dHcmrkDCi1MkK1ylvShPW50s2q28sz7"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.26]);
+	Tue, 07 May 2019 15:04:43 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [PATCH] iotests: Make 182 do without device_add
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -75,106 +86,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
-	=?UTF-8?Q?Herv=C3=A9_Poussineau?= <hpoussin@reactos.org>,
-	qemu-devel <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
+	qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 6, 2019 at 4:27 PM Mark Cave-Ayland
-<mark.cave-ayland@ilande.co.uk> wrote:
->
-> On 06/05/2019 09:42, Artyom Tarasenko wrote:
->
-> > On Sun, May 5, 2019 at 12:43 PM Mark Cave-Ayland
-> > <mark.cave-ayland@ilande.co.uk> wrote:
-> >>
-> >> On 04/05/2019 22:02, Artyom Tarasenko wrote:
-> >>
-> >>> AIX/PReP does access to the aliased IO registers of 53810.
-> >>> Implement aliasing to make the AIX driver work.
-> >>>
-> >>> Signed-off-by: Artyom Tarasenko <atar4qemu@gmail.com>
-> >>> ---
-> >>>  hw/scsi/lsi53c895a.c | 17 ++++++++++++++---
-> >>>  1 file changed, 14 insertions(+), 3 deletions(-)
-> >>>
-> >>> diff --git a/hw/scsi/lsi53c895a.c b/hw/scsi/lsi53c895a.c
-> >>> index da7239d..6b95699 100644
-> >>> --- a/hw/scsi/lsi53c895a.c
-> >>> +++ b/hw/scsi/lsi53c895a.c
-> >>> @@ -2271,6 +2271,9 @@ static void lsi_scsi_realize(PCIDevice *dev, Error **errp)
-> >>>      LSIState *s = LSI53C895A(dev);
-> >>>      DeviceState *d = DEVICE(dev);
-> >>>      uint8_t *pci_conf;
-> >>> +    uint64_t mmio_size;
-> >>> +    MemoryRegion *mr;
-> >>> +    uint16_t type = PCI_DEVICE_GET_CLASS(dev)->device_id;
-> >>>
-> >>>      pci_conf = dev->config;
-> >>>
-> >>> @@ -2279,13 +2282,21 @@ static void lsi_scsi_realize(PCIDevice *dev, Error **errp)
-> >>>      /* Interrupt pin A */
-> >>>      pci_conf[PCI_INTERRUPT_PIN] = 0x01;
-> >>>
-> >>> -    memory_region_init_io(&s->mmio_io, OBJECT(s), &lsi_mmio_ops, s,
-> >>> -                          "lsi-mmio", 0x400);
-> >>>      memory_region_init_io(&s->ram_io, OBJECT(s), &lsi_ram_ops, s,
-> >>>                            "lsi-ram", 0x2000);
-> >>>      memory_region_init_io(&s->io_io, OBJECT(s), &lsi_io_ops, s,
-> >>>                            "lsi-io", 256);
-> >>> -
-> >>> +    if (type == PCI_DEVICE_ID_LSI_53C895A) {
-> >>> +        mmio_size = 0x400;
-> >>> +    } else {
-> >>> +        mr = g_new(MemoryRegion, 1);
-> >>
-> >> In general these days it's worth keeping the reference to the MemoryRegion within
-> >> LSIState since then its lifecycle is more clearly defined.
-> >
-> > On the other hand, it's a PCI card, and can not be
-> > hot-plugged/removed, so the lifecycle is pretty simple here.
-> > Or am I missing something?
->
-> Well Thomas has been working on a set of tests that for each machine will plug and
-> unplug each device via the monitor to make sure that init/realize/unrealize work
-> correctly so it would be good to ensure that these tests don't leak.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--H3dHcmrkDCi1MkK1ylvShPW50s2q28sz7
+From: Eric Blake <eblake@redhat.com>
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
+ qemu-devel@nongnu.org
+Message-ID: <9d13273e-92f1-6b01-8c88-6750c8d86ee5@redhat.com>
+Subject: Re: [Qemu-devel] [PATCH] iotests: Make 182 do without device_add
+References: <20190417153005.30096-1-mreitz@redhat.com>
+ <50f215b9-dc7f-7507-403a-c88d1a312fd9@redhat.com>
+In-Reply-To: <50f215b9-dc7f-7507-403a-c88d1a312fd9@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Makes sense, indeed.
+On 5/7/19 8:21 AM, Max Reitz wrote:
+> On 17.04.19 17:30, Max Reitz wrote:
+>> 182 fails if qemu has no support for hotplugging of a virtio-blk devic=
+e.
+>> Using an NBD server instead works just as well for the test, even on
+>> qemus without hotplugging support.
+>>
+>> Fixes: 6d0a4a0fb5c8f10c8eb68b52cfda0082b00ae963
+>> Reported-by: Danilo C. L. de Paula <ddepaula@redhat.com>
+>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>> ---
+>> To reintroduce the bug for which this test was written, revert the
+>> following commits:
+>>
+>> $ git revert -n \
+>>     23dece19da41724349809873923e20a48b619cb7 \
+>>     6ceabe6f77e4ae5ac2fa3d2ac1be11dc95021941 \
+>>     a6aeca0ca530f104b5a5dd6704fca22b2c5edefa \
+>>     577a133988c76e4ebf01d050d0d758d207a1baf7
+>> ---
+>>  tests/qemu-iotests/182     | 22 +++++++++++++++++-----
+>>  tests/qemu-iotests/182.out |  1 +
+>>  2 files changed, 18 insertions(+), 5 deletions(-)
+>=20
+> Thanks for the reviews, applied to my block branch.
 
-> However...
->
-> >>> +        memory_region_init_alias(mr, OBJECT(d), "lsi-io-alias", &s->io_io,
-> >>> +                                 0, 0x80);
-> >>> +        memory_region_add_subregion_overlap(&s->io_io, 0x80, mr, -1);
-> >>> +        mmio_size = 0x80;
-> >>
-> >> This feels a little strange - is it possible to see from the datasheets that the
-> >> 53C895A has 0x400 bytes MMIO whilst the 53C810 has 0x80 bytes MMIO? It's not clear to
-> >> me where the aliasing is happening.
-> >
-> > These values are empiric. For 810 it can not be more than 0x80,
-> > because the AIX does access the registers with the shift of 0x80.
-> > For  895A we did already have 0x400.
->
-> After a bit of searching I managed to locate an 810 datasheet and in Chapter 5 it
-> clearly describes the IO space (s->io_io) as being 256 bytes in size which is the
-> same as the 895A, but with 0x80-0xff aliased onto 0x00 - 0x7f.
->
-> It feels to me that rather than complicate things with an additional alias
-> MemoryRegion, the simplest solution would be to simply change the mask in
-> lsi_io_read() and lsi_io_write() to be 0x7f rather than 0xff if we've instantiated a
-> 810 rather than an 895A.
+Hmm, just seeing this after I already sent a pull request doing the same
+through NBD. Git should handle things correctly, whether or not you
+rebase to drop patches from your block branch that get in through my NBD
+pull request.
 
-Initially I implemented it exactly as you suggest, via mask. But then
-I thought that memory_region_init_alias makes aliasing more obvious.
-I don't have a strong opinion on this one though.
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
-@Paolo, what do you think?
 
--- 
-Regards,
-Artyom Tarasenko
+--H3dHcmrkDCi1MkK1ylvShPW50s2q28sz7
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-SPARC and PPC PReP under qemu blog: http://tyom.blogspot.com/search/label/qemu
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlzRnooACgkQp6FrSiUn
+Q2rOHwgAoMlt6z3liY1r/JyH2Or9zxXGH8gXsAHz6WP7VFUWtF0NSJJkDzAYBRfU
+bLTHbomKVgmDW3EWFWog2M7O5iu3/u5JrO4ZMZhqgJBwn/aQQ1jPMsmn4xd/UmtF
+XSTxSRl11JqiraVmeQnKgaWybxp/SmN8QbnhM8YQl2t57l5dxr03PmBqVgmZOm+1
+UslJCiOd66uu7Cr9WXs7S9lTQajvjEVcsm1pfGCdIPdxkP3eNsBoiI1NgN+QsUWf
+tAdH5NZF84L1ZQLp1kHfSO9IS825IehuFmFiwI2t6Jiwa4e9Jt0jMM7iyQJLByBF
+yfbVUnoUhLYetmVUff/KMjS1Z0OoMg==
+=ZiRY
+-----END PGP SIGNATURE-----
+
+--H3dHcmrkDCi1MkK1ylvShPW50s2q28sz7--
 
