@@ -2,52 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B9F415F5C
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 10:28:52 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:42171 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBA2115F46
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 10:23:14 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:42061 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNvT1-0008NR-L3
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 04:28:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58128)
+	id 1hNvNZ-0003Dq-S0
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 04:23:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58036)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hNvKU-0000lD-2Y
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 04:20:05 -0400
+	(envelope-from <kraxel@redhat.com>) id 1hNvKP-0000h2-Jd
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 04:19:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hNvKS-0008Ff-Uh
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 04:20:02 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49478)
+	(envelope-from <kraxel@redhat.com>) id 1hNvKO-0008Cu-KI
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 04:19:57 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53826)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <kraxel@redhat.com>)
-	id 1hNvKM-0008AC-HF; Tue, 07 May 2019 04:19:54 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
+	id 1hNvKM-0008A7-DX; Tue, 07 May 2019 04:19:54 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id ABBC630821A3;
+	by mx1.redhat.com (Postfix) with ESMTPS id A18843082134;
 	Tue,  7 May 2019 08:19:53 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-45.ams2.redhat.com
 	[10.36.116.45])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id C451F277A5;
+	by smtp.corp.redhat.com (Postfix) with ESMTP id DDD39614D6;
 	Tue,  7 May 2019 08:19:50 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-	id A9B73A1E8; Tue,  7 May 2019 10:19:46 +0200 (CEST)
+	id B1C8AA1E9; Tue,  7 May 2019 10:19:46 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Tue,  7 May 2019 10:19:44 +0200
-Message-Id: <20190507081946.19264-7-kraxel@redhat.com>
+Date: Tue,  7 May 2019 10:19:45 +0200
+Message-Id: <20190507081946.19264-8-kraxel@redhat.com>
 In-Reply-To: <20190507081946.19264-1-kraxel@redhat.com>
 References: <20190507081946.19264-1-kraxel@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.47]);
+	(mx1.redhat.com [10.5.110.42]);
 	Tue, 07 May 2019 08:19:53 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 6/8] qxl: avoid unaligned pointer reads/writes
+Subject: [Qemu-devel] [PULL 7/8] ati-vga: Fix check for blt outside vram
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -67,160 +64,54 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+From: BALATON Zoltan <balaton@eik.bme.hu>
 
-The SPICE_RING_PROD_ITEM() macro is initializing a local
-'uint64_t *' variable to point to the 'el' field inside
-the QXLReleaseRing struct. This uint64_t field is not
-guaranteed aligned as the struct is packed.
+Fix the check preventing calling pixman functions that would access
+memory outside allocated vram. The r128 X driver sometimes seem to try
+blits that span outside vram, this check prevents crashing QEMU in
+that case. (The r128 X driver may have problems even on real hardware
+so I'm not sure if it's a client bug or emulation problem but at least
+QEMU should survive.)
 
-Code should not take the address of fields within a
-packed struct. Changing the SPICE_RING_PROD_ITEM()
-macro to avoid taking the address of the field is
-impractical. It is clearer to just remove the macro
-and inline its functionality in the three call sites
-that need it.
-
-Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-Message-Id: <20190412121626.19829-6-berrange@redhat.com>
+Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
+Tested-by: Andrew Randrianasulu <randrianasulu@gmail.com>
+Message-Id: <20190409110732.5C5FF7465DB@zero.eik.bme.hu>
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/display/qxl.c | 55 +++++++++++++++++++++---------------------------
- 1 file changed, 24 insertions(+), 31 deletions(-)
+ hw/display/ati_2d.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/hw/display/qxl.c b/hw/display/qxl.c
-index 632923add239..3880a7410b73 100644
---- a/hw/display/qxl.c
-+++ b/hw/display/qxl.c
-@@ -33,24 +33,6 @@
-=20
- #include "qxl.h"
-=20
--/*
-- * NOTE: SPICE_RING_PROD_ITEM accesses memory on the pci bar and as
-- * such can be changed by the guest, so to avoid a guest trigerrable
-- * abort we just qxl_set_guest_bug and set the return to NULL. Still
-- * it may happen as a result of emulator bug as well.
-- */
--#undef SPICE_RING_PROD_ITEM
--#define SPICE_RING_PROD_ITEM(qxl, r, ret) {                             =
-\
--        uint32_t prod =3D (r)->prod & SPICE_RING_INDEX_MASK(r);         =
-  \
--        if (prod >=3D ARRAY_SIZE((r)->items)) {                         =
-  \
--            qxl_set_guest_bug(qxl, "SPICE_RING_PROD_ITEM indices mismatc=
-h " \
--                          "%u >=3D %zu", prod, ARRAY_SIZE((r)->items)); =
-  \
--            ret =3D NULL;                                               =
-  \
--        } else {                                                        =
-\
--            ret =3D &(r)->items[prod].el;                               =
-  \
--        }                                                               =
-\
--    }
--
- #undef SPICE_RING_CONS_ITEM
- #define SPICE_RING_CONS_ITEM(qxl, r, ret) {                             =
-\
-         uint32_t cons =3D (r)->cons & SPICE_RING_INDEX_MASK(r);         =
-  \
-@@ -414,7 +396,8 @@ static void init_qxl_rom(PCIQXLDevice *d)
- static void init_qxl_ram(PCIQXLDevice *d)
- {
-     uint8_t *buf;
--    uint64_t *item;
-+    uint32_t prod;
-+    QXLReleaseRing *ring;
-=20
-     buf =3D d->vga.vram_ptr;
-     d->ram =3D (QXLRam *)(buf + le32_to_cpu(d->shadow_rom.ram_header_off=
-set));
-@@ -426,9 +409,12 @@ static void init_qxl_ram(PCIQXLDevice *d)
-     SPICE_RING_INIT(&d->ram->cmd_ring);
-     SPICE_RING_INIT(&d->ram->cursor_ring);
-     SPICE_RING_INIT(&d->ram->release_ring);
--    SPICE_RING_PROD_ITEM(d, &d->ram->release_ring, item);
--    assert(item);
--    *item =3D 0;
-+
-+    ring =3D &d->ram->release_ring;
-+    prod =3D ring->prod & SPICE_RING_INDEX_MASK(ring);
-+    assert(prod < ARRAY_SIZE(ring->items));
-+    ring->items[prod].el =3D 0;
-+
-     qxl_ring_set_dirty(d);
- }
-=20
-@@ -732,7 +718,7 @@ static int interface_req_cmd_notification(QXLInstance=
- *sin)
- static inline void qxl_push_free_res(PCIQXLDevice *d, int flush)
- {
-     QXLReleaseRing *ring =3D &d->ram->release_ring;
--    uint64_t *item;
-+    uint32_t prod;
-     int notify;
-=20
- #define QXL_FREE_BUNCH_SIZE 32
-@@ -759,11 +745,15 @@ static inline void qxl_push_free_res(PCIQXLDevice *=
-d, int flush)
-     if (notify) {
-         qxl_send_events(d, QXL_INTERRUPT_DISPLAY);
-     }
--    SPICE_RING_PROD_ITEM(d, ring, item);
--    if (!item) {
-+
-+    ring =3D &d->ram->release_ring;
-+    prod =3D ring->prod & SPICE_RING_INDEX_MASK(ring);
-+    if (prod >=3D ARRAY_SIZE(ring->items)) {
-+        qxl_set_guest_bug(d, "SPICE_RING_PROD_ITEM indices mismatch "
-+                          "%u >=3D %zu", prod, ARRAY_SIZE(ring->items));
-         return;
-     }
--    *item =3D 0;
-+    ring->items[prod].el =3D 0;
-     d->num_free_res =3D 0;
-     d->last_release =3D NULL;
-     qxl_ring_set_dirty(d);
-@@ -775,7 +765,8 @@ static void interface_release_resource(QXLInstance *s=
-in,
- {
-     PCIQXLDevice *qxl =3D container_of(sin, PCIQXLDevice, ssd.qxl);
-     QXLReleaseRing *ring;
--    uint64_t *item, id;
-+    uint32_t prod;
-+    uint64_t id;
-=20
-     if (!ext.info) {
-         return;
-@@ -795,16 +786,18 @@ static void interface_release_resource(QXLInstance =
-*sin,
-      * pci bar 0, $command.release_info
-      */
-     ring =3D &qxl->ram->release_ring;
--    SPICE_RING_PROD_ITEM(qxl, ring, item);
--    if (!item) {
-+    prod =3D ring->prod & SPICE_RING_INDEX_MASK(ring);
-+    if (prod >=3D ARRAY_SIZE(ring->items)) {
-+        qxl_set_guest_bug(qxl, "SPICE_RING_PROD_ITEM indices mismatch "
-+                          "%u >=3D %zu", prod, ARRAY_SIZE(ring->items));
-         return;
-     }
--    if (*item =3D=3D 0) {
-+    if (ring->items[prod].el =3D=3D 0) {
-         /* stick head into the ring */
-         id =3D ext.info->id;
-         ext.info->next =3D 0;
-         qxl_ram_set_dirty(qxl, &ext.info->next);
--        *item =3D id;
-+        ring->items[prod].el =3D id;
-         qxl_ring_set_dirty(qxl);
-     } else {
-         /* append item to the list */
---=20
+diff --git a/hw/display/ati_2d.c b/hw/display/ati_2d.c
+index bc98ba6eebf6..fe3ae148647b 100644
+--- a/hw/display/ati_2d.c
++++ b/hw/display/ati_2d.c
+@@ -79,10 +79,10 @@ void ati_2d_blt(ATIVGAState *s)
+                 s->regs.dst_width, s->regs.dst_height);
+         end = s->vga.vram_ptr + s->vga.vram_size;
+         if (src_bits >= end || dst_bits >= end ||
+-            src_bits + (s->regs.src_y + s->regs.dst_height) * src_stride +
+-            s->regs.src_x >= end ||
+-            dst_bits + (s->regs.dst_y + s->regs.dst_height) * dst_stride +
+-            s->regs.dst_x >= end) {
++            src_bits + s->regs.src_x + (s->regs.src_y + s->regs.dst_height) *
++            src_stride * sizeof(uint32_t) >= end ||
++            dst_bits + s->regs.dst_x + (s->regs.dst_y + s->regs.dst_height) *
++            dst_stride * sizeof(uint32_t) >= end) {
+             qemu_log_mask(LOG_UNIMP, "blt outside vram not implemented\n");
+             return;
+         }
+@@ -140,8 +140,8 @@ void ati_2d_blt(ATIVGAState *s)
+                 filler);
+         end = s->vga.vram_ptr + s->vga.vram_size;
+         if (dst_bits >= end ||
+-            dst_bits + (s->regs.dst_y + s->regs.dst_height) * dst_stride +
+-            s->regs.dst_x >= end) {
++            dst_bits + s->regs.dst_x + (s->regs.dst_y + s->regs.dst_height) *
++            dst_stride * sizeof(uint32_t) >= end) {
+             qemu_log_mask(LOG_UNIMP, "blt outside vram not implemented\n");
+             return;
+         }
+-- 
 2.18.1
 
 
