@@ -2,48 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56674160F0
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 11:30:43 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43124 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEA7D160F1
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 11:30:44 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43128 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNwQs-0007rs-BE
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 05:30:42 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45151)
+	id 1hNwQt-0007tQ-S0
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 05:30:43 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45177)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <groug@kaod.org>) id 1hNwOS-0006gV-0s
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 05:28:12 -0400
+	(envelope-from <lvivier@redhat.com>) id 1hNwOT-0006hC-30
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 05:28:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <groug@kaod.org>) id 1hNwOR-0004J4-3i
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 05:28:12 -0400
-Received: from 16.mo7.mail-out.ovh.net ([46.105.72.216]:42089)
+	(envelope-from <lvivier@redhat.com>) id 1hNwOS-0004Jy-7k
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 05:28:13 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41722)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <groug@kaod.org>) id 1hNwOQ-0004Hi-UO
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 05:28:11 -0400
-Received: from player795.ha.ovh.net (unknown [10.108.57.153])
-	by mo7.mail-out.ovh.net (Postfix) with ESMTP id 78A991127D6
-	for <qemu-devel@nongnu.org>; Tue,  7 May 2019 11:28:08 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
-	[82.253.208.248]) (Authenticated sender: groug@kaod.org)
-	by player795.ha.ovh.net (Postfix) with ESMTPSA id 2BEE456DA660;
-	Tue,  7 May 2019 09:28:05 +0000 (UTC)
-Date: Tue, 7 May 2019 11:28:04 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Message-ID: <20190507112804.23cde966@bahia.lan>
-In-Reply-To: <1926077.q6xKvCkoZ9@silver>
-References: <1926077.q6xKvCkoZ9@silver>
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+	(Exim 4.71) (envelope-from <lvivier@redhat.com>) id 1hNwOS-0004JR-2b
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 05:28:12 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 5C43DC04B2C0;
+	Tue,  7 May 2019 09:28:11 +0000 (UTC)
+Received: from [10.40.204.24] (ovpn-204-24.brq.redhat.com [10.40.204.24])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 7B9C917171;
+	Tue,  7 May 2019 09:28:10 +0000 (UTC)
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20190506173353.32206-1-richard.henderson@linaro.org>
+	<20190506173353.32206-6-richard.henderson@linaro.org>
+From: Laurent Vivier <lvivier@redhat.com>
+Message-ID: <7775de94-70ee-5f70-2747-f81a6390d594@redhat.com>
+Date: Tue, 7 May 2019 11:28:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 5739837727215294784
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddrkedtgdduiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+In-Reply-To: <20190506173353.32206-6-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.32]);
+	Tue, 07 May 2019 09:28:11 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.72.216
-Subject: Re: [Qemu-devel] [PATCH v2 0/4] 9p: Fix file ID collisions
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v4 05/24] crypto: Use O_CLOEXEC in
+ qcrypto_random_init
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -55,50 +61,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Antonios Motakis <antonios.motakis@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 03 May 2019 18:20:39 +0200
-Christian Schoenebeck <qemu_oss@crudebyte.com> wrote:
+On 06/05/2019 19:33, Richard Henderson wrote:
+> Avoids leaking the /dev/urandom fd into any child processes.
+>=20
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>   crypto/random-platform.c | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
 
-> Hi!
-> 
-> This is v2 of a proposed patch set for fixing file ID collisions with 9pfs.
-> 
-> Patch 1 to 3 are identical to the previous version. New in this v2 is patch 4
-> which introduces variable length suffixes for inode mapping instead of fixed
-> length prefixes.
-> 
-> Also: patch 4 disables file ID persistency at compile time by default for now,
-> since I am yet unresolved about details of that persistency.
-> 
-> Christian Schoenebeck (4):
->   9p: mitigates most QID path collisions
->   9P: trivial cleanup of QID path collision mitigation
->   9p: persistency of QID path beyond reboots / suspensions
->   9p: use variable length suffixes for inode mapping
-> 
->  fsdev/9p-marshal.h   |    6 +-
->  hw/9pfs/9p.c         | 1145 ++++++++++++++++++++++++++++++++++++++++++++++++--
->  hw/9pfs/9p.h         |  167 ++++++++
->  hw/9pfs/trace-events |   14 +-
->  4 files changed, 1296 insertions(+), 36 deletions(-)
-> 
+Reviewed-by: Laurent Vivier <lvivier@redhat.com>
 
-Hmm... this series comes unthreaded again because the cover has:
 
-Message-ID: <1926077.q6xKvCkoZ9@silver>
-
-while the patches have:
-
-In-Reply-To: <cover.1556896526.git.qemu_oss@crudebyte.com>
-
-Maybe consider using git send-email or stgit mail to have proper
-threading for free.
-
-Cheers,
-
---
-Greg
 
