@@ -2,67 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0C93166FD
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 17:39:07 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48810 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 34B981670B
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 17:42:15 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48862 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hO2BO-0007pC-U2
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 11:39:06 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35584)
+	id 1hO2EQ-0000qD-DN
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 11:42:14 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36396)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dan.j.williams@intel.com>) id 1hO29a-0006qw-FV
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 11:37:15 -0400
+	(envelope-from <dan.j.williams@intel.com>) id 1hO2D0-0000Gw-7z
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 11:40:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dan.j.williams@intel.com>) id 1hO29Z-0000B8-Id
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 11:37:14 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:38849)
+	(envelope-from <dan.j.williams@intel.com>) id 1hO2Cz-0001sK-4x
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 11:40:46 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:43483)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <dan.j.williams@intel.com>)
-	id 1hO29Z-0000Al-E5
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 11:37:13 -0400
-Received: by mail-ot1-x342.google.com with SMTP id b1so15366348otp.5
-	for <qemu-devel@nongnu.org>; Tue, 07 May 2019 08:37:13 -0700 (PDT)
+	id 1hO2Cy-0001qX-W0
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 11:40:45 -0400
+Received: by mail-ot1-x344.google.com with SMTP id i8so5628350oth.10
+	for <qemu-devel@nongnu.org>; Tue, 07 May 2019 08:40:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=intel-com.20150623.gappssmtp.com; s=20150623;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=6dOaY+uD9DJjErKzQ4lbx3sa2d0JDi7CHezoB5wTbvY=;
-	b=1RDaQiep4r+5NZ7RO5zftr0FnsMUZwAyLWkMBkR9iTDOBSIJayhPK4u9DWG7+9yxpt
-	9FJnbG3lrhIL0LedEM5ytUIEEGfVVBYdsCV16Q3ZevH87Y7p3IJljktvzFGtbrtOW9jV
-	qgMeHUIAfkrXfVgCh+wJIUgLwx8HPs0Hso14g3nE34tG3uE5Kaf93v1albOqeZ8FtzEo
-	MRnNU+jjU7Bd7Hg2HKOClTmC45crVs8w8TurxKr/6z1WENdYw/y//CLDQEQmIA9Rf7i+
-	OKLRLxxsnQvga0Mn1E5gFobavHOZ9OlvYblRdklzqgaUM3FSIzUzMZWnI38rOf5/Ueyc
-	SI6w==
+	:cc; bh=eDjq30ddseBaIw6socWxfPv6NTtk+5QW4X1Ug5iEyJk=;
+	b=P0NmBCU8zUOfaF8xaYZsuZ8crvxFB33fl7wDNB9MZv5fgE9bufZ9uXOFacVBRIyhyk
+	7jy7cEut0ZZu1RaoDtrr50BVaB/CX/skGeBOtXxoGAGKW89ZemgDpFwl6g0BCyZNTY71
+	c96Bv/+lzcoe4YYcd5EMePUR4gTK7GrAqK6itLr2obeqWzYKb3Dql3mDDHzIv1x+/JnT
+	zIvYGvdBDonXfV8sEZV0PvMIvA63l1OoRV+8kWQPCfuhVRSXMOb+jYMxWFhFzCGAXSHH
+	RES21PeWYeTfPIbRNgVP3JVS3PVW0F6JNq0X1vpUrTbfXgSQ4Ev5ZlVumch1kGRMghci
+	mHRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=6dOaY+uD9DJjErKzQ4lbx3sa2d0JDi7CHezoB5wTbvY=;
-	b=riViE4Zil53FYjim9qYTLFCVvNg6iNUshKrR/0UXdyV32iXFq70pPSeaYteWbTj2Ob
-	My6/zwaW2AoFPipoxZf+Xjs1MNgoLuvTsIC6bW6+wLmG+HZSkIS1IIPkgE4Z3wjD6B1T
-	4v5sl1jwdAwFzCUiPmZd9pQhRtHRfEUC7HpzwKQUcv5Qn7COv0UxZIIN+c1JkcJ2u27Y
-	xm9GUApry+SeMt+iKk4ht79fQcq95nOI6woCB8KkxgH0iBXwFXcO4WfEgh1MgjsX3cq3
-	KQt3N+c1vfY6i01PvBLhvRmTdEDnBrUR6ZML9SWn/oJQPPwqqGe+99y8xMYOZW7aVeIY
-	7lSQ==
-X-Gm-Message-State: APjAAAVKcYIeyYyYGK2INg/32BCd67fXt/s3nnnk8UJ4NfecDb8KTurX
-	JacBTH/tqF09ZhzdJocsN8Y6Kh4hsNX/hQGO7BPBhg==
-X-Google-Smtp-Source: APXvYqxbxERKNtTaVpMxD9jAh6w8zsl3plIje9NPoM99XF0whcoJ/rqAndFua0o+8QlJA2fPNaeXZRcDVPm+ejCVDvk=
-X-Received: by 2002:a9d:222c:: with SMTP id o41mr22019501ota.353.1557243432435;
-	Tue, 07 May 2019 08:37:12 -0700 (PDT)
+	bh=eDjq30ddseBaIw6socWxfPv6NTtk+5QW4X1Ug5iEyJk=;
+	b=UhpAG/hV6fbn/qzf1wtAzLPzAtYRTA1NeKymDqIua5FTrj3yG/HVStUIPei69egYoO
+	NVpURAvQlpdwzudqcXRU6OxpDtOkD0Ip4WtgU7hkSn380T+d5AwNq2mavtSzvNQQrx6V
+	wxbI5ORcN68WfNQD7FtsutcHKGFqFjL7EAOg6TyWBcRBWlB/wIXNd9NUWUw5PTFqid4r
+	2BPVDG2L3PwGVXnHy9+prhMteZiJ1bOZFgwuuKNMgDiGZscYfKm967CA77dd2Q5n1zMp
+	/2G0Hj1EkcNmS2HRmbwB+vDk/1a9B43mGxCs2lw+9hrxyEc6tiG8VcS1LeHH5Aj/A649
+	R32g==
+X-Gm-Message-State: APjAAAWzK+J91EHrL0rgawHlKAcgkuDyYKDUCpYBN6jV5T+xUsOxZ/YH
+	4A+tTr89rMsRdyICp+yTl3kSvnEBajc5D6URMFh9Tg==
+X-Google-Smtp-Source: APXvYqxgIWANkc/KHq9kAogc8tqlkqRrOccsWEIKbqAeeZcNH5LiQg3MPoGwMh9hdCCYG0LuKCXgqpIi0akzNLzuZFI=
+X-Received: by 2002:a9d:222c:: with SMTP id o41mr22033787ota.353.1557243640877;
+	Tue, 07 May 2019 08:40:40 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190426050039.17460-1-pagupta@redhat.com>
-	<20190426050039.17460-7-pagupta@redhat.com>
-In-Reply-To: <20190426050039.17460-7-pagupta@redhat.com>
+	<20190426050039.17460-4-pagupta@redhat.com>
+In-Reply-To: <20190426050039.17460-4-pagupta@redhat.com>
 From: Dan Williams <dan.j.williams@intel.com>
-Date: Tue, 7 May 2019 08:37:01 -0700
-Message-ID: <CAPcyv4hCP4E4xPkQx25tqhznon6ADwrYJB1yujkrO-A7LUnsmg@mail.gmail.com>
+Date: Tue, 7 May 2019 08:40:30 -0700
+Message-ID: <CAPcyv4hRdvypEj4LBTMfUFm80BdpRYbOugrkkj-3Kk_LErXPqQ@mail.gmail.com>
 To: Pankaj Gupta <pagupta@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::342
-Subject: Re: [Qemu-devel] [PATCH v7 6/6] xfs: disable map_sync for async
- flush
+X-Received-From: 2607:f8b0:4864:20::344
+Subject: Re: [Qemu-devel] [PATCH v7 3/6] libnvdimm: add dax_dev sync flag
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -104,44 +103,28 @@ Cc: cohuck@redhat.com, Jan Kara <jack@suse.cz>, KVM list <kvm@vger.kernel.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, Apr 25, 2019 at 10:03 PM Pankaj Gupta <pagupta@redhat.com> wrote:
+On Thu, Apr 25, 2019 at 10:02 PM Pankaj Gupta <pagupta@redhat.com> wrote:
 >
-> Dont support 'MAP_SYNC' with non-DAX files and DAX files
-> with asynchronous dax_device. Virtio pmem provides
-> asynchronous host page cache flush mechanism. We don't
-> support 'MAP_SYNC' with virtio pmem and xfs.
+> This patch adds 'DAXDEV_SYNC' flag which is set
+> for nd_region doing synchronous flush. This later
+> is used to disable MAP_SYNC functionality for
+> ext4 & xfs filesystem for devices don't support
+> synchronous flush.
 >
 > Signed-off-by: Pankaj Gupta <pagupta@redhat.com>
-> ---
->  fs/xfs/xfs_file.c | 9 ++++++---
->  1 file changed, 6 insertions(+), 3 deletions(-)
+[..]
+> diff --git a/include/linux/dax.h b/include/linux/dax.h
+> index 0dd316a74a29..c97fc0cc7167 100644
+> --- a/include/linux/dax.h
+> +++ b/include/linux/dax.h
+> @@ -7,6 +7,9 @@
+>  #include <linux/radix-tree.h>
+>  #include <asm/pgtable.h>
+>
+> +/* Flag for synchronous flush */
+> +#define DAXDEV_F_SYNC true
 
-Darrick, does this look ok to take through the nvdimm tree?
-
->
-> diff --git a/fs/xfs/xfs_file.c b/fs/xfs/xfs_file.c
-> index a7ceae90110e..f17652cca5ff 100644
-> --- a/fs/xfs/xfs_file.c
-> +++ b/fs/xfs/xfs_file.c
-> @@ -1203,11 +1203,14 @@ xfs_file_mmap(
->         struct file     *filp,
->         struct vm_area_struct *vma)
->  {
-> +       struct dax_device       *dax_dev;
-> +
-> +       dax_dev = xfs_find_daxdev_for_inode(file_inode(filp));
->         /*
-> -        * We don't support synchronous mappings for non-DAX files. At least
-> -        * until someone comes with a sensible use case.
-> +        * We don't support synchronous mappings for non-DAX files and
-> +        * for DAX files if underneath dax_device is not synchronous.
->          */
-> -       if (!IS_DAX(file_inode(filp)) && (vma->vm_flags & VM_SYNC))
-> +       if (!daxdev_mapping_supported(vma, dax_dev))
->                 return -EOPNOTSUPP;
->
->         file_accessed(filp);
-> --
-> 2.20.1
->
+I'd feel better, i.e. it reads more canonically, if this was defined
+as (1UL << 0) and the argument to alloc_dax() was changed to 'unsigned
+long flags' rather than a bool.
 
