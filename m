@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9DA31663E
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 17:08:40 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48288 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5BFF716635
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 17:06:40 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48262 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hO1hv-0001VS-Sm
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 11:08:39 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54053)
+	id 1hO1fz-0007yY-G8
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 11:06:39 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54036)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <eblake@redhat.com>) id 1hO1bZ-0004za-G8
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 11:02:11 -0400
+	(envelope-from <eblake@redhat.com>) id 1hO1bY-0004yW-NO
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 11:02:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <eblake@redhat.com>) id 1hO1bX-0002Sc-GT
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 11:02:05 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48324)
+	(envelope-from <eblake@redhat.com>) id 1hO1bX-0002Sh-I5
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 11:02:04 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38312)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <eblake@redhat.com>)
-	id 1hO1bT-0002QS-AC; Tue, 07 May 2019 11:01:59 -0400
+	id 1hO1bU-0002RE-Vn; Tue, 07 May 2019 11:02:01 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
 	[10.5.11.11])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 8BCC63001565;
-	Tue,  7 May 2019 15:01:58 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 55936308A107;
+	Tue,  7 May 2019 15:01:59 +0000 (UTC)
 Received: from blue.redhat.com (ovpn-116-15.phx2.redhat.com [10.3.116.15])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id DC18A53E20;
-	Tue,  7 May 2019 15:01:57 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id B30E65C46B;
+	Tue,  7 May 2019 15:01:58 +0000 (UTC)
 From: Eric Blake <eblake@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Tue,  7 May 2019 10:01:51 -0500
-Message-Id: <20190507150153.26859-4-eblake@redhat.com>
+Date: Tue,  7 May 2019 10:01:52 -0500
+Message-Id: <20190507150153.26859-5-eblake@redhat.com>
 In-Reply-To: <20190507150153.26859-1-eblake@redhat.com>
 References: <20190507150153.26859-1-eblake@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.46]);
-	Tue, 07 May 2019 15:01:58 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.44]);
+	Tue, 07 May 2019 15:01:59 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 3/5] tests/qemu-iotests: Fix more reference
- output files due to recent qemu-io change
+Subject: [Qemu-devel] [PULL 4/5] iotests: Tweak 221 sizing for different
+ hole granularities
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -57,328 +57,107 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
-	Max Reitz <mreitz@redhat.com>,
 	"open list:Block layer core" <qemu-block@nongnu.org>,
-	Stefano Garzarella <sgarzare@redhat.com>
+	Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+For some particular configurations of ext4, sizing an image to 84
+sectors + 1 byte causes test failures when the size of the hole is
+rounded to a 4k alignment. Let's instead size things to 128 sectors +
+1 byte, as the 64k boundary is more likely to work with various hole
+granularities.
 
-The output of qemu-io changed recently - most tests have been fixed in
-commit 36b9986b08787019ef42 ("tests/qemu-iotests: Fix output of qemu-io
-related tests") already, but a qcow1, vmdk, and nbd test were still missi=
-ng.
-
-Fixes: 99e98d7c9fc1a1639fad ("qemu-io: Use error_[gs]et_progname()")
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20190501134127.21104-1-thuth@redhat.com>
-[eblake: squash in NBD 083 fixes]
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
-Tested-by: Stefano Garzarella <sgarzare@redhat.com>
+Reported-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Eric Blake <eblake@redhat.com>
+Message-Id: <20190506172111.31594-1-eblake@redhat.com>
+Tested-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qemu-iotests/059.out |  8 ++---
- tests/qemu-iotests/083.out | 68 +++++++++++++++++++-------------------
- tests/qemu-iotests/092.out | 24 +++++++-------
- 3 files changed, 50 insertions(+), 50 deletions(-)
-
-diff --git a/tests/qemu-iotests/059.out b/tests/qemu-iotests/059.out
-index 700ad1f2906..f51394ae8e0 100644
---- a/tests/qemu-iotests/059.out
-+++ b/tests/qemu-iotests/059.out
-@@ -2,15 +2,15 @@ QA output created by 059
-
- =3D=3D=3D Testing invalid granularity =3D=3D=3D
- Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864
--can't open device TEST_DIR/t.vmdk: Invalid granularity, image may be cor=
-rupt
-+qemu-io: can't open device TEST_DIR/t.vmdk: Invalid granularity, image m=
-ay be corrupt
-
- =3D=3D=3D Testing too big L2 table size =3D=3D=3D
- Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864
--can't open device TEST_DIR/t.vmdk: L2 table size too big
-+qemu-io: can't open device TEST_DIR/t.vmdk: L2 table size too big
-
- =3D=3D=3D Testing too big L1 table size =3D=3D=3D
- Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864
--can't open device TEST_DIR/t.vmdk: L1 size too big
-+qemu-io: can't open device TEST_DIR/t.vmdk: L1 size too big
-
- =3D=3D=3D Testing monolithicFlat creation and opening =3D=3D=3D
- Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D2147483648 subformat=
-=3DmonolithicFlat
-@@ -2050,7 +2050,7 @@ wrote 512/512 bytes at offset 10240
-
- =3D=3D=3D Testing monolithicFlat with internally generated JSON file nam=
-e =3D=3D=3D
- Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864 subformat=3D=
-monolithicFlat
--can't open: Cannot use relative extent paths with VMDK descriptor file '=
-json:{"image": {"driver": "file", "filename": "TEST_DIR/t.IMGFMT"}, "driv=
-er": "blkdebug", "inject-error.0.event": "read_aio"}'
-+qemu-io: can't open: Cannot use relative extent paths with VMDK descript=
-or file 'json:{"image": {"driver": "file", "filename": "TEST_DIR/t.IMGFMT=
-"}, "driver": "blkdebug", "inject-error.0.event": "read_aio"}'
-
- =3D=3D=3D Testing version 3 =3D=3D=3D
- image: TEST_DIR/iotest-version3.IMGFMT
-diff --git a/tests/qemu-iotests/083.out b/tests/qemu-iotests/083.out
-index 7419722cd7a..eee6dd13794 100644
---- a/tests/qemu-iotests/083.out
-+++ b/tests/qemu-iotests/083.out
-@@ -1,43 +1,43 @@
- QA output created by 083
- =3D=3D=3D Check disconnect before neg1 =3D=3D=3D
-
--can't open device nbd+tcp://127.0.0.1:PORT/foo
-+qemu-io: can't open device nbd+tcp://127.0.0.1:PORT/foo
-
- =3D=3D=3D Check disconnect after neg1 =3D=3D=3D
-
--can't open device nbd+tcp://127.0.0.1:PORT/foo
-+qemu-io: can't open device nbd+tcp://127.0.0.1:PORT/foo
-
- =3D=3D=3D Check disconnect 8 neg1 =3D=3D=3D
-
--can't open device nbd+tcp://127.0.0.1:PORT/foo
-+qemu-io: can't open device nbd+tcp://127.0.0.1:PORT/foo
-
- =3D=3D=3D Check disconnect 16 neg1 =3D=3D=3D
-
--can't open device nbd+tcp://127.0.0.1:PORT/foo
-+qemu-io: can't open device nbd+tcp://127.0.0.1:PORT/foo
-
- =3D=3D=3D Check disconnect before export =3D=3D=3D
-
--can't open device nbd+tcp://127.0.0.1:PORT/foo
-+qemu-io: can't open device nbd+tcp://127.0.0.1:PORT/foo
-
- =3D=3D=3D Check disconnect after export =3D=3D=3D
-
--can't open device nbd+tcp://127.0.0.1:PORT/foo
-+qemu-io: can't open device nbd+tcp://127.0.0.1:PORT/foo
-
- =3D=3D=3D Check disconnect 4 export =3D=3D=3D
-
--can't open device nbd+tcp://127.0.0.1:PORT/foo
-+qemu-io: can't open device nbd+tcp://127.0.0.1:PORT/foo
-
- =3D=3D=3D Check disconnect 12 export =3D=3D=3D
-
--can't open device nbd+tcp://127.0.0.1:PORT/foo
-+qemu-io: can't open device nbd+tcp://127.0.0.1:PORT/foo
-
- =3D=3D=3D Check disconnect 16 export =3D=3D=3D
-
--can't open device nbd+tcp://127.0.0.1:PORT/foo
-+qemu-io: can't open device nbd+tcp://127.0.0.1:PORT/foo
-
- =3D=3D=3D Check disconnect before neg2 =3D=3D=3D
-
--can't open device nbd+tcp://127.0.0.1:PORT/foo
-+qemu-io: can't open device nbd+tcp://127.0.0.1:PORT/foo
-
- =3D=3D=3D Check disconnect after neg2 =3D=3D=3D
-
-@@ -45,11 +45,11 @@ read failed: Input/output error
-
- =3D=3D=3D Check disconnect 8 neg2 =3D=3D=3D
-
--can't open device nbd+tcp://127.0.0.1:PORT/foo
-+qemu-io: can't open device nbd+tcp://127.0.0.1:PORT/foo
-
- =3D=3D=3D Check disconnect 10 neg2 =3D=3D=3D
-
--can't open device nbd+tcp://127.0.0.1:PORT/foo
-+qemu-io: can't open device nbd+tcp://127.0.0.1:PORT/foo
-
- =3D=3D=3D Check disconnect before request =3D=3D=3D
-
-@@ -86,23 +86,23 @@ read 512/512 bytes at offset 0
-
- =3D=3D=3D Check disconnect before neg-classic =3D=3D=3D
-
--can't open device nbd+tcp://127.0.0.1:PORT/
-+qemu-io: can't open device nbd+tcp://127.0.0.1:PORT/
-
- =3D=3D=3D Check disconnect 8 neg-classic =3D=3D=3D
-
--can't open device nbd+tcp://127.0.0.1:PORT/
-+qemu-io: can't open device nbd+tcp://127.0.0.1:PORT/
-
- =3D=3D=3D Check disconnect 16 neg-classic =3D=3D=3D
-
--can't open device nbd+tcp://127.0.0.1:PORT/
-+qemu-io: can't open device nbd+tcp://127.0.0.1:PORT/
-
- =3D=3D=3D Check disconnect 24 neg-classic =3D=3D=3D
-
--can't open device nbd+tcp://127.0.0.1:PORT/
-+qemu-io: can't open device nbd+tcp://127.0.0.1:PORT/
-
- =3D=3D=3D Check disconnect 28 neg-classic =3D=3D=3D
-
--can't open device nbd+tcp://127.0.0.1:PORT/
-+qemu-io: can't open device nbd+tcp://127.0.0.1:PORT/
-
- =3D=3D=3D Check disconnect after neg-classic =3D=3D=3D
-
-@@ -110,43 +110,43 @@ read failed: Input/output error
-
- =3D=3D=3D Check disconnect before neg1 =3D=3D=3D
-
--can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
-+qemu-io: can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
-
- =3D=3D=3D Check disconnect after neg1 =3D=3D=3D
-
--can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
-+qemu-io: can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
-
- =3D=3D=3D Check disconnect 8 neg1 =3D=3D=3D
-
--can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
-+qemu-io: can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
-
- =3D=3D=3D Check disconnect 16 neg1 =3D=3D=3D
-
--can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
-+qemu-io: can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
-
- =3D=3D=3D Check disconnect before export =3D=3D=3D
-
--can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
-+qemu-io: can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
-
- =3D=3D=3D Check disconnect after export =3D=3D=3D
-
--can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
-+qemu-io: can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
-
- =3D=3D=3D Check disconnect 4 export =3D=3D=3D
-
--can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
-+qemu-io: can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
-
- =3D=3D=3D Check disconnect 12 export =3D=3D=3D
-
--can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
-+qemu-io: can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
-
- =3D=3D=3D Check disconnect 16 export =3D=3D=3D
-
--can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
-+qemu-io: can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
-
- =3D=3D=3D Check disconnect before neg2 =3D=3D=3D
-
--can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
-+qemu-io: can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
-
- =3D=3D=3D Check disconnect after neg2 =3D=3D=3D
-
-@@ -154,11 +154,11 @@ read failed: Input/output error
-
- =3D=3D=3D Check disconnect 8 neg2 =3D=3D=3D
-
--can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
-+qemu-io: can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
-
- =3D=3D=3D Check disconnect 10 neg2 =3D=3D=3D
-
--can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
-+qemu-io: can't open device nbd+unix:///foo?socket=3DTEST_DIR/nbd.sock
-
- =3D=3D=3D Check disconnect before request =3D=3D=3D
-
-@@ -195,23 +195,23 @@ read 512/512 bytes at offset 0
-
- =3D=3D=3D Check disconnect before neg-classic =3D=3D=3D
-
--can't open device nbd+unix:///?socket=3DTEST_DIR/nbd.sock
-+qemu-io: can't open device nbd+unix:///?socket=3DTEST_DIR/nbd.sock
-
- =3D=3D=3D Check disconnect 8 neg-classic =3D=3D=3D
-
--can't open device nbd+unix:///?socket=3DTEST_DIR/nbd.sock
-+qemu-io: can't open device nbd+unix:///?socket=3DTEST_DIR/nbd.sock
-
- =3D=3D=3D Check disconnect 16 neg-classic =3D=3D=3D
-
--can't open device nbd+unix:///?socket=3DTEST_DIR/nbd.sock
-+qemu-io: can't open device nbd+unix:///?socket=3DTEST_DIR/nbd.sock
-
- =3D=3D=3D Check disconnect 24 neg-classic =3D=3D=3D
-
--can't open device nbd+unix:///?socket=3DTEST_DIR/nbd.sock
-+qemu-io: can't open device nbd+unix:///?socket=3DTEST_DIR/nbd.sock
-
- =3D=3D=3D Check disconnect 28 neg-classic =3D=3D=3D
-
--can't open device nbd+unix:///?socket=3DTEST_DIR/nbd.sock
-+qemu-io: can't open device nbd+unix:///?socket=3DTEST_DIR/nbd.sock
-
- =3D=3D=3D Check disconnect after neg-classic =3D=3D=3D
-
-diff --git a/tests/qemu-iotests/092.out b/tests/qemu-iotests/092.out
-index 6eda321fc6b..3e799148735 100644
---- a/tests/qemu-iotests/092.out
-+++ b/tests/qemu-iotests/092.out
-@@ -2,25 +2,25 @@ QA output created by 092
-
- =3D=3D Invalid cluster size =3D=3D
- Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864
--can't open device TEST_DIR/t.qcow: Cluster size must be between 512 and =
-64k
--can't open device TEST_DIR/t.qcow: Cluster size must be between 512 and =
-64k
--can't open device TEST_DIR/t.qcow: Cluster size must be between 512 and =
-64k
--can't open device TEST_DIR/t.qcow: Cluster size must be between 512 and =
-64k
-+qemu-io: can't open device TEST_DIR/t.qcow: Cluster size must be between=
- 512 and 64k
-+qemu-io: can't open device TEST_DIR/t.qcow: Cluster size must be between=
- 512 and 64k
-+qemu-io: can't open device TEST_DIR/t.qcow: Cluster size must be between=
- 512 and 64k
-+qemu-io: can't open device TEST_DIR/t.qcow: Cluster size must be between=
- 512 and 64k
-
- =3D=3D Invalid L2 table size =3D=3D
- Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864
--can't open device TEST_DIR/t.qcow: L2 table size must be between 512 and=
- 64k
--can't open device TEST_DIR/t.qcow: L2 table size must be between 512 and=
- 64k
--can't open device TEST_DIR/t.qcow: L2 table size must be between 512 and=
- 64k
--can't open device TEST_DIR/t.qcow: L2 table size must be between 512 and=
- 64k
-+qemu-io: can't open device TEST_DIR/t.qcow: L2 table size must be betwee=
-n 512 and 64k
-+qemu-io: can't open device TEST_DIR/t.qcow: L2 table size must be betwee=
-n 512 and 64k
-+qemu-io: can't open device TEST_DIR/t.qcow: L2 table size must be betwee=
-n 512 and 64k
-+qemu-io: can't open device TEST_DIR/t.qcow: L2 table size must be betwee=
-n 512 and 64k
-
- =3D=3D Invalid size =3D=3D
- Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864
--can't open device TEST_DIR/t.qcow: Image too large
--can't open device TEST_DIR/t.qcow: Image too large
-+qemu-io: can't open device TEST_DIR/t.qcow: Image too large
-+qemu-io: can't open device TEST_DIR/t.qcow: Image too large
-
- =3D=3D Invalid backing file length =3D=3D
- Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D67108864
--can't open device TEST_DIR/t.qcow: Backing file name too long
--can't open device TEST_DIR/t.qcow: Backing file name too long
-+qemu-io: can't open device TEST_DIR/t.qcow: Backing file name too long
-+qemu-io: can't open device TEST_DIR/t.qcow: Backing file name too long
+ tests/qemu-iotests/221     | 10 +++++-----
+ tests/qemu-iotests/221.out | 20 ++++++++++----------
+ 2 files changed, 15 insertions(+), 15 deletions(-)
+
+diff --git a/tests/qemu-iotests/221 b/tests/qemu-iotests/221
+index 808cd9a289c..25dd47bcfe4 100755
+--- a/tests/qemu-iotests/221
++++ b/tests/qemu-iotests/221
+@@ -2,7 +2,7 @@
+ #
+ # Test qemu-img vs. unaligned images
+ #
+-# Copyright (C) 2018 Red Hat, Inc.
++# Copyright (C) 2018-2019 Red Hat, Inc.
+ #
+ # This program is free software; you can redistribute it and/or modify
+ # it under the terms of the GNU General Public License as published by
+@@ -41,16 +41,16 @@ echo
+ echo "=3D=3D=3D Check mapping of unaligned raw image =3D=3D=3D"
+ echo
+
+-_make_test_img 43009 # qemu-img create rounds size up
++_make_test_img 65537 # qemu-img create rounds size up
+ $QEMU_IMG map --output=3Djson "$TEST_IMG" | _filter_qemu_img_map
+
+-truncate --size=3D43009 "$TEST_IMG" # so we resize it and check again
++truncate --size=3D65537 "$TEST_IMG" # so we resize it and check again
+ $QEMU_IMG map --output=3Djson "$TEST_IMG" | _filter_qemu_img_map
+
+-$QEMU_IO -c 'w 43008 1' "$TEST_IMG" | _filter_qemu_io # writing also rou=
+nds up
++$QEMU_IO -c 'w 65536 1' "$TEST_IMG" | _filter_qemu_io # writing also rou=
+nds up
+ $QEMU_IMG map --output=3Djson "$TEST_IMG" | _filter_qemu_img_map
+
+-truncate --size=3D43009 "$TEST_IMG" # so we resize it and check again
++truncate --size=3D65537 "$TEST_IMG" # so we resize it and check again
+ $QEMU_IMG map --output=3Djson "$TEST_IMG" | _filter_qemu_img_map
+
+ # success, all done
+diff --git a/tests/qemu-iotests/221.out b/tests/qemu-iotests/221.out
+index a9c0190aadc..9f9dd52bb0b 100644
+--- a/tests/qemu-iotests/221.out
++++ b/tests/qemu-iotests/221.out
+@@ -2,15 +2,15 @@ QA output created by 221
+
+ =3D=3D=3D Check mapping of unaligned raw image =3D=3D=3D
+
+-Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D43009
+-[{ "start": 0, "length": 43520, "depth": 0, "zero": true, "data": false,=
+ "offset": OFFSET}]
+-[{ "start": 0, "length": 43520, "depth": 0, "zero": true, "data": false,=
+ "offset": OFFSET}]
+-wrote 1/1 bytes at offset 43008
++Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D65537
++[{ "start": 0, "length": 66048, "depth": 0, "zero": true, "data": false,=
+ "offset": OFFSET}]
++[{ "start": 0, "length": 66048, "depth": 0, "zero": true, "data": false,=
+ "offset": OFFSET}]
++wrote 1/1 bytes at offset 65536
+ 1 bytes, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
+-[{ "start": 0, "length": 40960, "depth": 0, "zero": true, "data": false,=
+ "offset": OFFSET},
+-{ "start": 40960, "length": 2049, "depth": 0, "zero": false, "data": tru=
+e, "offset": OFFSET},
+-{ "start": 43009, "length": 511, "depth": 0, "zero": true, "data": false=
+, "offset": OFFSET}]
+-[{ "start": 0, "length": 40960, "depth": 0, "zero": true, "data": false,=
+ "offset": OFFSET},
+-{ "start": 40960, "length": 2049, "depth": 0, "zero": false, "data": tru=
+e, "offset": OFFSET},
+-{ "start": 43009, "length": 511, "depth": 0, "zero": true, "data": false=
+, "offset": OFFSET}]
++[{ "start": 0, "length": 65536, "depth": 0, "zero": true, "data": false,=
+ "offset": OFFSET},
++{ "start": 65536, "length": 1, "depth": 0, "zero": false, "data": true, =
+"offset": OFFSET},
++{ "start": 65537, "length": 511, "depth": 0, "zero": true, "data": false=
+, "offset": OFFSET}]
++[{ "start": 0, "length": 65536, "depth": 0, "zero": true, "data": false,=
+ "offset": OFFSET},
++{ "start": 65536, "length": 1, "depth": 0, "zero": false, "data": true, =
+"offset": OFFSET},
++{ "start": 65537, "length": 511, "depth": 0, "zero": true, "data": false=
+, "offset": OFFSET}]
  *** done
 --=20
 2.20.1
