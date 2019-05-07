@@ -2,64 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 25682158DE
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 07:22:09 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40188 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 11A6715D52
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 08:26:00 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40739 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNsYK-00033u-AV
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 01:22:08 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56172)
+	id 1hNtY7-00022G-69
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 02:25:59 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37628)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <joel.stan@gmail.com>) id 1hNsWc-0001kK-Qm
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 01:20:23 -0400
+	(envelope-from <dgibson@ozlabs.org>) id 1hNtVh-0000mD-U3
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 02:23:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <joel.stan@gmail.com>) id 1hNsWc-0003pb-1C
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 01:20:22 -0400
-Received: from mail-qk1-x744.google.com ([2607:f8b0:4864:20::744]:45554)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <joel.stan@gmail.com>)
-	id 1hNsWW-0003j8-OR; Tue, 07 May 2019 01:20:16 -0400
-Received: by mail-qk1-x744.google.com with SMTP id j1so3530702qkk.12;
-	Mon, 06 May 2019 22:20:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=gNF1guSC/XzjZL9VnCwYhAjrF52A9evcZ6a+F9k6uRU=;
-	b=heIivDNnha9tVWo2TEugB5kgIpD1c4Jet3pGDaHtQx3qlccijUhxXXIYJhr3/mOwc0
-	506Hc5uuaFJo4kMZ90ZSQEEdINIKEWA0TGZb29tHzr3jYPO5QzFBC97EOXNqwBl40UOp
-	GO2IcZI35aediJdzCMCprGa3rCoXkivzRAoek=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=gNF1guSC/XzjZL9VnCwYhAjrF52A9evcZ6a+F9k6uRU=;
-	b=CKmXdqSGCuT+n/YRVxrWcW+9zGVa5/IDeME8RQzWSiHiyO7RUe1VYqM8Y0WpkqR4Hs
-	L3KmC+prnGv3y99hfHWU8Wo/IZ7y7kK9AsRbMP4kVqJDC/qmQ+VtIZ/mHC84+eLVdGj7
-	YnKvLMIXZOzD8hZyXsvY/Weuugu+oT17pNMvQlxAVTsUEEjgJeObSzWva2bkIwXoFUOH
-	jz48dD2fmh+nu3QfVS12zjYLyhK/X6Q0EReYOB8b8wvhWdyY93PWaRRhS179ZbRlFYdZ
-	t+bvvpYqwPi1jtl0ZV2scezJ5k3at07L4vpjw5XLHCU0HTlqSb0itRJqB81VlvtTpBAA
-	zfEw==
-X-Gm-Message-State: APjAAAVyqYF3VvvqPQ1L7Nfnsu+F+Thj2Epu819iq98h+M9ccaUsLpda
-	p7VbDJIrDKUpO9y4pAA7GZ0WwyljwuOK/oe9yJKJhCmf
-X-Google-Smtp-Source: APXvYqzU5TfROxvnW8Um/UbxLvi12a0ECJ3lg6knoe5gMIvv3vWqYdG1yMU1+S1aTiUVqr3OEZWgyji63vqeoR5sLbE=
-X-Received: by 2002:ae9:f00e:: with SMTP id l14mr18396247qkg.127.1557206416237;
-	Mon, 06 May 2019 22:20:16 -0700 (PDT)
+	(envelope-from <dgibson@ozlabs.org>) id 1hNtVg-0002dG-RU
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 02:23:29 -0400
+Received: from ozlabs.org ([203.11.71.1]:51053)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+	id 1hNtVe-0002Yk-UG; Tue, 07 May 2019 02:23:27 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+	id 44yqL21kCKz9sB8; Tue,  7 May 2019 16:23:22 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=gibson.dropbear.id.au; s=201602; t=1557210202;
+	bh=GbPCRSaNKC2k1UFTcKFQpSOz02oTnGKpP3jVFm9/EtU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=AUq2852wAf8PM3eWwSCGNEQaWS8aU5K3hvWZb/fIWL+kfWmETUVHQ1qvuLURJfGx1
+	xrgrVAhPoeGpdzDUnkhM8kjCFIgvAgBsnIJUl0V7atBzRS+YR6Swx83TMQS9JmC7jP
+	19uUMZN85DhLqL6DvHdL9XO0DyFzJJ2zCc7EXTSI=
+Date: Tue, 7 May 2019 15:20:40 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Anton Blanchard <anton@ozlabs.org>, y@umbus.fritz.box
+Message-ID: <20190507052039.GF7073@umbus.fritz.box>
+References: <20190507004811.29968-1-anton@ozlabs.org>
+	<20190507004811.29968-2-anton@ozlabs.org>
 MIME-Version: 1.0
-References: <20190506142042.28096-1-clg@kaod.org>
-	<20190506142042.28096-4-clg@kaod.org>
-In-Reply-To: <20190506142042.28096-4-clg@kaod.org>
-From: Joel Stanley <joel@jms.id.au>
-Date: Tue, 7 May 2019 05:20:04 +0000
-Message-ID: <CACPK8Xe8XXx9af7LExd+NSQK8Jt+9Ca=ReP3xv94DV7vwTY3EA@mail.gmail.com>
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::744
-Subject: Re: [Qemu-devel] [PATCH v2 3/3] aspeed: use sysbus_init_child_obj()
- to initialize children
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="vA66WO2vHvL/CRSR"
+Content-Disposition: inline
+In-Reply-To: <20190507004811.29968-2-anton@ozlabs.org>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 203.11.71.1
+Subject: Re: [Qemu-devel] [PATCH 2/9] target/ppc: Fix xxspltib
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -71,14 +55,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell <peter.maydell@linaro.org>,
-	qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: ego@linux.vnet.ibm.com, sandipandas1990@gmail.com,
+	mark.cave-ayland@ilande.co.uk, richard.henderson@linaro.org,
+	qemu-devel@nongnu.org, f4bug@amsat.org, qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 6 May 2019 at 14:21, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
->
-> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
-Reviewed-by: Joel Stanley <joel@jms.id.au>
+--vA66WO2vHvL/CRSR
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, May 07, 2019 at 10:48:04AM +1000, Anton Blanchard wrote:
+> xxspltib raises a VMX or a VSX exception depending on the register
+> set it is operating on. We had a check, but it was backwards.
+>=20
+> Fixes: f113283525a4 ("target-ppc: add xxspltib instruction")
+> Signed-off-by: Anton Blanchard <anton@ozlabs.org>
+> ---
+>  target/ppc/translate/vsx-impl.inc.c | 9 +++++----
+>  1 file changed, 5 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/target/ppc/translate/vsx-impl.inc.c b/target/ppc/translate/v=
+sx-impl.inc.c
+> index 4d8ca7cf32..d050cc03ed 100644
+> --- a/target/ppc/translate/vsx-impl.inc.c
+> +++ b/target/ppc/translate/vsx-impl.inc.c
+> @@ -1355,16 +1355,17 @@ static void gen_xxspltib(DisasContext *ctx)
+>      int rt =3D xT(ctx->opcode);
+> =20
+>      if (rt < 32) {
+> -        if (unlikely(!ctx->altivec_enabled)) {
+> -            gen_exception(ctx, POWERPC_EXCP_VPU);
+> +        if (unlikely(!ctx->vsx_enabled)) {
+> +            gen_exception(ctx, POWERPC_EXCP_VSXU);
+>              return;
+>          }
+>      } else {
+> -        if (unlikely(!ctx->vsx_enabled)) {
+> -            gen_exception(ctx, POWERPC_EXCP_VSXU);
+> +        if (unlikely(!ctx->altivec_enabled)) {
+> +            gen_exception(ctx, POWERPC_EXCP_VPU);
+>              return;
+>          }
+>      }
+> +    printf("XT %x IMM8 %x\n", rt, uim8);
+
+Looks like you have some leftover debugging here.
+
+>      tcg_gen_gvec_dup8i(vsr_full_offset(rt), 16, 16, uim8);
+>  }
+> =20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--vA66WO2vHvL/CRSR
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlzRFacACgkQbDjKyiDZ
+s5LFEBAAqLHwEf1ScoHwymawpzWNxlXP2RTnowU7I/hPzRebuWJipGpZCpGzqO5y
+L2IxXOM2sYCwDuskvRl1Npvn9Psg1JAZdAzODcAHaoJxDhc2U1kWVp+awasvUaw5
++wZ/A6uBSewTPNY8U9Oqw62lWdQLLDotkb9dI8pfrY5oEiTf5u2ybQL+xkpsudUA
+ylWrz/EXe+tTktIywIFvPRkT3E12qZzfDvbAagGsGFyMwPxsuNF5y8dG43/uQttC
+jJUfByeTXjYSZVZ/hhnbgXdc8VBUU1ebn1gh4U5ZnKmy60g0bduRDf98NMiAmcS8
+Zhj8Ua++G8pihpG8mLT1aNxbiH9YpwUYR2LHjcvvHJP6HkTDPEbTkyNacva0vh0N
+S3+6z5wrMuaGUtPjpO1fwp5WmGIl6TYvIj5NzTPxXiTewal+/Nfb0m81dozQa7yc
+34ClH09nCaetA1ZgDOhMdb4jyaMIk9NYSSjo4KsiT0OClAs7yMary2AmYEH2yvh8
+ZbUzds1E+keNy+wwkiU8n4k3x5wX1NZbRXUDTeJY+75ckc5yGvP4kS4aLoVFq6DL
+FtKZN/VwXw9T9wWmB9VCdLAjrTwEXRw5ybnE+417H1wGJZ9P/m8HLxlcc7uaYp/t
+y9YIdQnnZFZLedoTAP69SoZpFfLlYaTP95R/KUM+IS6Vy1gM+RI=
+=F6LM
+-----END PGP SIGNATURE-----
+
+--vA66WO2vHvL/CRSR--
 
