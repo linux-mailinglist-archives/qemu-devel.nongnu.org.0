@@ -2,49 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBA2115F46
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 10:23:14 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:42061 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A3A315F51
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 10:26:15 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:42118 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNvNZ-0003Dq-S0
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 04:23:13 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58036)
+	id 1hNvQU-0005YT-7P
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 04:26:14 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57980)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hNvKP-0000h2-Jd
+	(envelope-from <kraxel@redhat.com>) id 1hNvKO-0000gT-76
 	for qemu-devel@nongnu.org; Tue, 07 May 2019 04:19:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hNvKO-0008Cu-KI
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 04:19:57 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53826)
+	(envelope-from <kraxel@redhat.com>) id 1hNvKN-0008B4-0U
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 04:19:56 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:28115)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <kraxel@redhat.com>)
-	id 1hNvKM-0008A7-DX; Tue, 07 May 2019 04:19:54 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
+	id 1hNvKK-000881-8d; Tue, 07 May 2019 04:19:52 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+	[10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id A18843082134;
-	Tue,  7 May 2019 08:19:53 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 7C2A983F3C;
+	Tue,  7 May 2019 08:19:51 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-45.ams2.redhat.com
 	[10.36.116.45])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id DDD39614D6;
+	by smtp.corp.redhat.com (Postfix) with ESMTP id EB21F171F1;
 	Tue,  7 May 2019 08:19:50 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-	id B1C8AA1E9; Tue,  7 May 2019 10:19:46 +0200 (CEST)
+	id C3765A1EA; Tue,  7 May 2019 10:19:46 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Tue,  7 May 2019 10:19:45 +0200
-Message-Id: <20190507081946.19264-8-kraxel@redhat.com>
+Date: Tue,  7 May 2019 10:19:46 +0200
+Message-Id: <20190507081946.19264-9-kraxel@redhat.com>
 In-Reply-To: <20190507081946.19264-1-kraxel@redhat.com>
 References: <20190507081946.19264-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.42]);
-	Tue, 07 May 2019 08:19:53 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.27]);
+	Tue, 07 May 2019 08:19:51 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 7/8] ati-vga: Fix check for blt outside vram
+Subject: [Qemu-devel] [PULL 8/8] i2c-ddc: move it to hw/display
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -64,54 +67,138 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: BALATON Zoltan <balaton@eik.bme.hu>
+From: Paolo Bonzini <pbonzini@redhat.com>
 
-Fix the check preventing calling pixman functions that would access
-memory outside allocated vram. The r128 X driver sometimes seem to try
-blits that span outside vram, this check prevents crashing QEMU in
-that case. (The r128 X driver may have problems even on real hardware
-so I'm not sure if it's a client bug or emulation problem but at least
-QEMU should survive.)
+Move it together with the other EDID code.  hw/i2c should only
+include the core and the adapters, not the slaves.
 
-Signed-off-by: BALATON Zoltan <balaton@eik.bme.hu>
-Tested-by: Andrew Randrianasulu <randrianasulu@gmail.com>
-Message-Id: <20190409110732.5C5FF7465DB@zero.eik.bme.hu>
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
+Message-id: 20190325155923.30987-1-pbonzini@redhat.com
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/display/ati_2d.c | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+ include/hw/{i2c =3D> display}/i2c-ddc.h | 0
+ include/hw/display/xlnx_dp.h          | 2 +-
+ hw/{i2c =3D> display}/i2c-ddc.c         | 2 +-
+ hw/display/sii9022.c                  | 2 +-
+ hw/display/sm501.c                    | 2 +-
+ hw/display/Kconfig                    | 5 +++++
+ hw/display/Makefile.objs              | 1 +
+ hw/i2c/Kconfig                        | 5 -----
+ hw/i2c/Makefile.objs                  | 1 -
+ 9 files changed, 10 insertions(+), 10 deletions(-)
+ rename include/hw/{i2c =3D> display}/i2c-ddc.h (100%)
+ rename hw/{i2c =3D> display}/i2c-ddc.c (99%)
 
-diff --git a/hw/display/ati_2d.c b/hw/display/ati_2d.c
-index bc98ba6eebf6..fe3ae148647b 100644
---- a/hw/display/ati_2d.c
-+++ b/hw/display/ati_2d.c
-@@ -79,10 +79,10 @@ void ati_2d_blt(ATIVGAState *s)
-                 s->regs.dst_width, s->regs.dst_height);
-         end = s->vga.vram_ptr + s->vga.vram_size;
-         if (src_bits >= end || dst_bits >= end ||
--            src_bits + (s->regs.src_y + s->regs.dst_height) * src_stride +
--            s->regs.src_x >= end ||
--            dst_bits + (s->regs.dst_y + s->regs.dst_height) * dst_stride +
--            s->regs.dst_x >= end) {
-+            src_bits + s->regs.src_x + (s->regs.src_y + s->regs.dst_height) *
-+            src_stride * sizeof(uint32_t) >= end ||
-+            dst_bits + s->regs.dst_x + (s->regs.dst_y + s->regs.dst_height) *
-+            dst_stride * sizeof(uint32_t) >= end) {
-             qemu_log_mask(LOG_UNIMP, "blt outside vram not implemented\n");
-             return;
-         }
-@@ -140,8 +140,8 @@ void ati_2d_blt(ATIVGAState *s)
-                 filler);
-         end = s->vga.vram_ptr + s->vga.vram_size;
-         if (dst_bits >= end ||
--            dst_bits + (s->regs.dst_y + s->regs.dst_height) * dst_stride +
--            s->regs.dst_x >= end) {
-+            dst_bits + s->regs.dst_x + (s->regs.dst_y + s->regs.dst_height) *
-+            dst_stride * sizeof(uint32_t) >= end) {
-             qemu_log_mask(LOG_UNIMP, "blt outside vram not implemented\n");
-             return;
-         }
--- 
+diff --git a/include/hw/i2c/i2c-ddc.h b/include/hw/display/i2c-ddc.h
+similarity index 100%
+rename from include/hw/i2c/i2c-ddc.h
+rename to include/hw/display/i2c-ddc.h
+diff --git a/include/hw/display/xlnx_dp.h b/include/hw/display/xlnx_dp.h
+index 26b759cd448d..45a805033a53 100644
+--- a/include/hw/display/xlnx_dp.h
++++ b/include/hw/display/xlnx_dp.h
+@@ -27,7 +27,7 @@
+ #include "hw/misc/auxbus.h"
+ #include "hw/i2c/i2c.h"
+ #include "hw/display/dpcd.h"
+-#include "hw/i2c/i2c-ddc.h"
++#include "hw/display/i2c-ddc.h"
+ #include "qemu/fifo8.h"
+ #include "qemu/units.h"
+ #include "hw/dma/xlnx_dpdma.h"
+diff --git a/hw/i2c/i2c-ddc.c b/hw/display/i2c-ddc.c
+similarity index 99%
+rename from hw/i2c/i2c-ddc.c
+rename to hw/display/i2c-ddc.c
+index 7aa872777145..9fe5403a923e 100644
+--- a/hw/i2c/i2c-ddc.c
++++ b/hw/display/i2c-ddc.c
+@@ -20,7 +20,7 @@
+ #include "qemu-common.h"
+ #include "qemu/log.h"
+ #include "hw/i2c/i2c.h"
+-#include "hw/i2c/i2c-ddc.h"
++#include "hw/display/i2c-ddc.h"
+=20
+ #ifndef DEBUG_I2CDDC
+ #define DEBUG_I2CDDC 0
+diff --git a/hw/display/sii9022.c b/hw/display/sii9022.c
+index 9994385c35a2..9c36e4c17ec9 100644
+--- a/hw/display/sii9022.c
++++ b/hw/display/sii9022.c
+@@ -16,7 +16,7 @@
+ #include "qemu/osdep.h"
+ #include "qemu-common.h"
+ #include "hw/i2c/i2c.h"
+-#include "hw/i2c/i2c-ddc.h"
++#include "hw/display/i2c-ddc.h"
+ #include "trace.h"
+=20
+ #define SII9022_SYS_CTRL_DATA 0x1a
+diff --git a/hw/display/sm501.c b/hw/display/sm501.c
+index 2122291308f0..1e2709b2d002 100644
+--- a/hw/display/sm501.c
++++ b/hw/display/sm501.c
+@@ -35,7 +35,7 @@
+ #include "hw/sysbus.h"
+ #include "hw/pci/pci.h"
+ #include "hw/i2c/i2c.h"
+-#include "hw/i2c/i2c-ddc.h"
++#include "hw/display/i2c-ddc.h"
+ #include "qemu/range.h"
+ #include "ui/pixel_ops.h"
+ #include "qemu/bswap.h"
+diff --git a/hw/display/Kconfig b/hw/display/Kconfig
+index 72be57a40311..c236cd2d0a7c 100644
+--- a/hw/display/Kconfig
++++ b/hw/display/Kconfig
+@@ -1,3 +1,8 @@
++config DDC
++    bool
++    depends on I2C
++    select EDID
++
+ config EDID
+     bool
+=20
+diff --git a/hw/display/Makefile.objs b/hw/display/Makefile.objs
+index dbd453ab1b01..650031f72536 100644
+--- a/hw/display/Makefile.objs
++++ b/hw/display/Makefile.objs
+@@ -1,3 +1,4 @@
++common-obj-$(CONFIG_DDC) +=3D i2c-ddc.o
+ common-obj-$(CONFIG_EDID) +=3D edid-generate.o edid-region.o
+=20
+ common-obj-$(CONFIG_FW_CFG_DMA) +=3D ramfb.o
+diff --git a/hw/i2c/Kconfig b/hw/i2c/Kconfig
+index 820b24de5b27..78a2008e3ad5 100644
+--- a/hw/i2c/Kconfig
++++ b/hw/i2c/Kconfig
+@@ -5,11 +5,6 @@ config SMBUS_EEPROM
+     bool
+     depends on I2C
+=20
+-config DDC
+-    bool
+-    depends on I2C
+-    select EDID
+-
+ config VERSATILE_I2C
+     bool
+     select I2C
+diff --git a/hw/i2c/Makefile.objs b/hw/i2c/Makefile.objs
+index 5f76b6a9909a..d7073a401f1c 100644
+--- a/hw/i2c/Makefile.objs
++++ b/hw/i2c/Makefile.objs
+@@ -1,6 +1,5 @@
+ common-obj-$(CONFIG_I2C) +=3D core.o smbus_slave.o smbus_master.o
+ common-obj-$(CONFIG_SMBUS_EEPROM) +=3D smbus_eeprom.o
+-common-obj-$(CONFIG_DDC) +=3D i2c-ddc.o
+ common-obj-$(CONFIG_VERSATILE_I2C) +=3D versatile_i2c.o
+ common-obj-$(CONFIG_ACPI_X86_ICH) +=3D smbus_ich9.o
+ common-obj-$(CONFIG_ACPI_SMBUS) +=3D pm_smbus.o
+--=20
 2.18.1
 
 
