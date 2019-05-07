@@ -2,79 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADFE016BA7
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 21:47:42 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52173 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 02AAE16BB4
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 21:53:49 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52583 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hO63x-0003Zy-Fv
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 15:47:41 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39300)
+	id 1hO69s-0001Kx-5p
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 15:53:48 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41384)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <jgg@ziepe.ca>) id 1hO60g-00024n-Nd
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 15:44:37 -0400
+	(envelope-from <eblake@redhat.com>) id 1hO64G-0004g8-Ru
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 15:48:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <jgg@ziepe.ca>) id 1hO5zc-0004ze-SN
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 15:44:17 -0400
-Received: from mail-qt1-x842.google.com ([2607:f8b0:4864:20::842]:34169)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <jgg@ziepe.ca>) id 1hO5zc-0004yS-8v
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 15:43:12 -0400
-Received: by mail-qt1-x842.google.com with SMTP id j6so20519005qtq.1
-	for <qemu-devel@nongnu.org>; Tue, 07 May 2019 12:43:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ziepe.ca; s=google;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=Ee/vWvn/Ifzj7Fj8CJW5WypvdZbF3rI74RwswfNy3s8=;
-	b=SlqXQH6cdfmDcoXK151NvgNOEL8C9rtVLRGZYegxJ5pRaiMErghgNSEUNcm8XOgnBm
-	Q7Olw9WbgFBUGU2iDCkwi5y4P6LbPvssY/y8G7sAy2o/IDwVIW3UNJk3oNH5uTnEQBe6
-	xnWNiXRxQs3KTm02xrq9ERvEvl5ab/N6pff2NY2lmzVtA6niaZiWeWugHSt5nXVR8rAP
-	HfJg3A/UXegsz8XhYGpG7nzAqlNS2FaltaSNlZrWib25/KUPpoCEj3wQ43V8sDx7W81w
-	TwgyJAj04iwS6mmd+p6VlrrTRvtd2PQDCDNh26OQvcQ/YuDQgItrhSo51NDIJloaDsLp
-	l6xA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=Ee/vWvn/Ifzj7Fj8CJW5WypvdZbF3rI74RwswfNy3s8=;
-	b=mK02trex6lqRZqmV1epzOc5fYSdQN9tM569UFfwSIeoYpGnUDLUuD3nGqZlj6QBPwM
-	0Va2QtEJGGwCUx58djB+jI+PujeZQWxMTwJ6TiDRz08w8OnQoL0/dnQga8tgnaif8MMq
-	l6AiRJH4Jc1QesJYkSsO8hSvb9a4KLHzPoIeT1Jd8E34TlN8lOOTwIDxvcgOgCdnRJis
-	toGXo7ZdA2OSeoVwFmUnsMfadtVD73HQY68o4I4fHVPwrBhOht3JNQza3VQq5gzNYxNs
-	1tQ6/xeOuSHyP6HVFK/3A5yBkqUqeprmkOuW8Nr9Pda8c0XVQZizmqDhG14ARZ4zmi4W
-	EKhg==
-X-Gm-Message-State: APjAAAWN38y60gEwae7vN3z8BSCnK8Fh2xZ100g9Ti5AmnYHItPj1OaG
-	axPC/aetubCTGHUn+1f0dLpBOg==
-X-Google-Smtp-Source: APXvYqw3KSJ3ehNU8RQ0M4ocEOtB2IpJ3gJQrhf2sWV4FOnrdHCkkwNpNrnHzJv7qop0/fuwyZ7GaA==
-X-Received: by 2002:ac8:2a10:: with SMTP id k16mr28126307qtk.220.1557258190850;
-	Tue, 07 May 2019 12:43:10 -0700 (PDT)
-Received: from ziepe.ca
-	(hlfxns017vw-156-34-49-251.dhcp-dynamic.fibreop.ns.bellaliant.net.
-	[156.34.49.251]) by smtp.gmail.com with ESMTPSA id
-	n21sm7704457qkk.30.2019.05.07.12.43.09
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 07 May 2019 12:43:09 -0700 (PDT)
-Received: from jgg by mlx.ziepe.ca with local (Exim 4.90_1)
-	(envelope-from <jgg@ziepe.ca>)
-	id 1hO5zY-0007dD-NA; Tue, 07 May 2019 16:43:08 -0300
-Date: Tue, 7 May 2019 16:43:08 -0300
-From: Jason Gunthorpe <jgg@ziepe.ca>
-To: Yuval Shaia <yuval.shaia@oracle.com>
-Message-ID: <20190507194308.GK6201@ziepe.ca>
-References: <20190411110157.14252-1-yuval.shaia@oracle.com>
-	<20190411190215.2163572e.cohuck@redhat.com>
-	<20190415103546.GA6854@lap1>
-	<e73e03c2-ea2b-6ffc-cd23-e8e44d42ce80@suse.de>
-	<20190422164527.GF21588@ziepe.ca> <20190430171350.GA2763@lap1>
+	(envelope-from <eblake@redhat.com>) id 1hO64F-0001PC-UF
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 15:48:00 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35920)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <eblake@redhat.com>)
+	id 1hO64A-0001Ho-6W; Tue, 07 May 2019 15:47:55 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+	[10.5.11.11])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id D30CB307D854;
+	Tue,  7 May 2019 19:47:52 +0000 (UTC)
+Received: from [10.3.116.15] (ovpn-116-15.phx2.redhat.com [10.3.116.15])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id D5AE7600D4;
+	Tue,  7 May 2019 19:47:51 +0000 (UTC)
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20190507183610.9848-1-mreitz@redhat.com>
+	<20190507183610.9848-4-mreitz@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+	xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+	xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+	TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+	GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+	sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+	AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+	CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+	RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+	wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+	Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+	gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+	pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+	zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+	pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+	3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+	NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+	cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+	SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+	I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+	mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+	Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+	2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <b4df5fba-7009-3a7a-2b5a-451eb24d1087@redhat.com>
+Date: Tue, 7 May 2019 14:47:50 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190430171350.GA2763@lap1>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::842
-Subject: Re: [Qemu-devel] [RFC 0/3] VirtIO RDMA
+In-Reply-To: <20190507183610.9848-4-mreitz@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature";
+	boundary="JgIn4OgCi3K7vSr51lgZ7WckybDzhDzXP"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.48]);
+	Tue, 07 May 2019 19:47:52 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [PATCH 3/5] qemu-nbd: Do not close stderr
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -86,63 +86,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mst@redhat.com, linux-rdma@vger.kernel.org,
-	Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
-	virtualization@lists.linux-foundation.org, Hannes Reinecke <hare@suse.de>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Apr 30, 2019 at 08:13:54PM +0300, Yuval Shaia wrote:
-> On Mon, Apr 22, 2019 at 01:45:27PM -0300, Jason Gunthorpe wrote:
-> > On Fri, Apr 19, 2019 at 01:16:06PM +0200, Hannes Reinecke wrote:
-> > > On 4/15/19 12:35 PM, Yuval Shaia wrote:
-> > > > On Thu, Apr 11, 2019 at 07:02:15PM +0200, Cornelia Huck wrote:
-> > > > > On Thu, 11 Apr 2019 14:01:54 +0300
-> > > > > Yuval Shaia <yuval.shaia@oracle.com> wrote:
-> > > > > 
-> > > > > > Data center backends use more and more RDMA or RoCE devices and more and
-> > > > > > more software runs in virtualized environment.
-> > > > > > There is a need for a standard to enable RDMA/RoCE on Virtual Machines.
-> > > > > > 
-> > > > > > Virtio is the optimal solution since is the de-facto para-virtualizaton
-> > > > > > technology and also because the Virtio specification
-> > > > > > allows Hardware Vendors to support Virtio protocol natively in order to
-> > > > > > achieve bare metal performance.
-> > > > > > 
-> > > > > > This RFC is an effort to addresses challenges in defining the RDMA/RoCE
-> > > > > > Virtio Specification and a look forward on possible implementation
-> > > > > > techniques.
-> > > > > > 
-> > > > > > Open issues/Todo list:
-> > > > > > List is huge, this is only start point of the project.
-> > > > > > Anyway, here is one example of item in the list:
-> > > > > > - Multi VirtQ: Every QP has two rings and every CQ has one. This means that
-> > > > > >    in order to support for example 32K QPs we will need 64K VirtQ. Not sure
-> > > > > >    that this is reasonable so one option is to have one for all and
-> > > > > >    multiplex the traffic on it. This is not good approach as by design it
-> > > > > >    introducing an optional starvation. Another approach would be multi
-> > > > > >    queues and round-robin (for example) between them.
-> > > > > > 
-> > > Typically there will be a one-to-one mapping between QPs and CPUs (on the
-> > > guest). 
-> > 
-> > Er we are really overloading words here.. The typical expectation is
-> > that a 'RDMA QP' will have thousands and thousands of instances on a
-> > system.
-> > 
-> > Most likely I think mapping 1:1 a virtio queue to a 'RDMA QP, CQ, SRQ,
-> > etc' is a bad idea...
-> 
-> We have three options, no virtqueue for QP, 1 to 1 or multiplexing. What
-> would be your vote on that?
-> I think you are for option #1, right? but in this case there is actually no
-> use of having a virtio-driver, isn't it?
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--JgIn4OgCi3K7vSr51lgZ7WckybDzhDzXP
+From: Eric Blake <eblake@redhat.com>
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
+Message-ID: <b4df5fba-7009-3a7a-2b5a-451eb24d1087@redhat.com>
+Subject: Re: [PATCH 3/5] qemu-nbd: Do not close stderr
+References: <20190507183610.9848-1-mreitz@redhat.com>
+ <20190507183610.9848-4-mreitz@redhat.com>
+In-Reply-To: <20190507183610.9848-4-mreitz@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-The virtio driver is supposed to be a standard, like a hardware
-standard, for doing the operation.
+On 5/7/19 1:36 PM, Max Reitz wrote:
+> We kept old_stderr specifically so we could keep emitting error message=
 
-It doesn't mean that every single element under the driver needs to
-use the virtio format QP.
+> on stderr.  However, qemu_daemon() closes stderr.  Therefore, we need t=
+o
+> dup() stderr to old_stderr before invoking qemu_daemon().
+>=20
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> ---
+> As I hinted at in the cover letter, I am not sure whether this is truly=
 
-Jason
+> a bug or whether the current behavior is intentional.  So if you
+> disagree with me on this patch, you are welcome to suggest an
+> alternative.
+
+Looks to me like a bug fix, for a problem present since commit c1f8fdc3
+added old_stderr in 2011.
+
+>=20
+> I personally can see two:
+> (1) Add a --log option for a file to store the server's messages in.
+>     Seems a bit cumbersome to me.
+>=20
+> (2) Add a --keep-stderr option, which specifically enables this behavio=
+r
+>     here.  Without this option we keep the old behavior.
+
+The approach done here is simplest, I wouldn't worry about your two
+alternatives.
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
+
+--JgIn4OgCi3K7vSr51lgZ7WckybDzhDzXP
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlzR4OcACgkQp6FrSiUn
+Q2rvyQgAlJHfGD05Ux5Dv0RJWXodM+3V1sjSaioO8AdAREzn6DQmRcai2ta8pnZN
+4AoF8xLaXGE4AfrtdN6ouUIPzjGFgh4q5smf2zUvG7/v9lawbSd1xOlR+b090P27
+UjMOy0x2GCW3YozqwZroC/2vlPkx8/scgiMM8gHmbeRNG54kfNrHDobwFcVIHTIX
+WY1g4OvAWg/bl4uJSW27XMv9w2CzeIIpcTTEMspmlct/w5VCN/+VtjN0vp/BE1bj
+7IEnnni0PGEPGBEvxac4QfuT3wagAfJYDXPjxd/rI1/ON8LpLG9x5uwG2uNotmC5
+WL2aETO894EeogZanzDAd3cBbo/OyQ==
+=9yCx
+-----END PGP SIGNATURE-----
+
+--JgIn4OgCi3K7vSr51lgZ7WckybDzhDzXP--
 
