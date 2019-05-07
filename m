@@ -2,72 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 55BA01637A
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 14:10:20 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:45727 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CBE921635F
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 14:03:31 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:45608 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNyvL-0006Se-G9
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 08:10:19 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44843)
+	id 1hNyok-0000Ua-V2
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 08:03:31 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44803)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hNylp-0007Yd-7p
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:30 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hNyln-0007W5-Me
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hNyll-0003YT-AT
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:29 -0400
-Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:40732)
+	(envelope-from <peter.maydell@linaro.org>) id 1hNylm-0003be-51
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:27 -0400
+Received: from mail-wm1-x32f.google.com ([2a00:1450:4864:20::32f]:52669)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hNyll-0003T3-3H
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:25 -0400
-Received: by mail-wm1-x330.google.com with SMTP id h11so19612913wmb.5
-	for <qemu-devel@nongnu.org>; Tue, 07 May 2019 05:00:24 -0700 (PDT)
+	id 1hNyll-0003XF-S6
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:26 -0400
+Received: by mail-wm1-x32f.google.com with SMTP id o25so8967054wmf.2
+	for <qemu-devel@nongnu.org>; Tue, 07 May 2019 05:00:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=PrRjWEvXDJOpA+k1xEwYJM/zCv1rnAwRsRuPQ3BARac=;
-	b=SEFkh4Ts8NUCcvJYgBZUTsIazOT9KxG7PjAHXR2MYYwWINybauAR/I/bEOA3CuqhQi
-	OnM/G786BZbgwmaV+qWvUygG7y+IbwmieOUfNYELOygKYsCy3pZRucXwHCVFMtb6p9zS
-	RBC3JyFNsU8ACbvWM+kpCUyEzkU11bGZzI0iAkTnwXCzYiRfzGKd0rMsKMblc485b7Z+
-	uzhU+L43WlrdiHeVFey04Z+/1z9wGkPjZY3j3mtjOVkhXxBnglG5rRNgpoqyGai4XfEf
-	BbzUryJcMMqGhtmBBTLPEuZQBQ4b9PRa7WBSwV2LijGv4PT0oedkx5tXyqupA/NTvQIH
-	NBxA==
+	bh=Am1J2dJAVo3jcOoloT8MAdmJNelCyLiGsCZp2pMysc4=;
+	b=gos9+dXdL+4FqGgWO72r/SN8Q82cNXRyduKbVv03aXEVzxLF/+Qu3BWxcGnlPxCfyU
+	wIIe1l0QgpNISf8WXceGRcUmJjHgk95McqsINFy5zrK5/dYlagrvTRBSMJA+rOMTppfu
+	6W5+/v5TKYrNCCcQr5vQ1/HEPjq9MdlVng4F43i8SRz/sKO9Y7BqIaYc1JydYtmXQyZt
+	1xkxsuQbIy5sBWQrvtUf6DwV55PdR3GmUQn8CpxhGc5eyvwzFbU/r6pudUh5QbJK8E0+
+	6XoYJ3Jq8XJBJ3yfdRdAJ68c/BlByOisM0b1o8prvSCwhoP96E3QKvNEVKAQDd5/6GNf
+	76bQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=PrRjWEvXDJOpA+k1xEwYJM/zCv1rnAwRsRuPQ3BARac=;
-	b=Ujeduspx6vOLzKxuaZH1v4yKyPuAFZT7H3m6uyIO2PZE7VzpeJ8/KALtNesYbjBJ2M
-	nXrNJb8eXtrEBoAfb6acap/NbfXZCb7Fu+wo/vTs2+CK9+mORMatbM2fseEdRacDyzDv
-	+EY0848401LUFPOdYM5WIqWTNTRiMsFIKN7TW890PuLimPDqC+CZog1w+BDb3sFjJ/49
-	yCJXLvGgXFq7NNrzpKVo5l6OzVMt6O6I0tQMAAuMhs5Ga2HEQb3sO5bqsTPZiDdVHeVB
-	r4x+Hwc01zivSraxiPPYl9clpMhxldRfM7soDcZEzl6N7QdfugpUQ7quK7GRFu78Fres
-	7JQQ==
-X-Gm-Message-State: APjAAAV3LpcktfJJyZruXtvT0FCJSmE9r91qdg6ePWKD5I8yb97p6bU7
-	C7BLyyNYue+syTtZI8kdge5ty2dF958=
-X-Google-Smtp-Source: APXvYqyENZCl8bjr1qVYft8KjoAvxuuZeCcdSAmR3AQqo1zbSKaXxv9h3vHQ825L++uh83Pu56R/lw==
-X-Received: by 2002:a1c:cc18:: with SMTP id h24mr20151738wmb.13.1557230423217; 
-	Tue, 07 May 2019 05:00:23 -0700 (PDT)
+	bh=Am1J2dJAVo3jcOoloT8MAdmJNelCyLiGsCZp2pMysc4=;
+	b=JTxrVHGY+dthvXnIscIlpv/pdaho12lHcyqbJVwmONE/ff97VH/1GRPnkcNGZUXJVN
+	3V1awwe9qvPV19mlDGygAjvxURL2Wgs+3SFHnRcRamxPkr13azECZsGXRDiZ3wo8fWrU
+	9t6j5t4p60Q90XBi26UFpjfP3QED382GocTdDhcw1lsDXihsptpGD4wVw+vTZSnElNc8
+	xixt5yVA8glO4tQn5BNb7wAUUj6+28ALQ0aicmuMkQGlcxo19/ch2Gtbt+zCNjOnWPvF
+	JtoP1D/Q1pvs+ACjSz2ukvuE+X5rTjTPZetAo+Liq7FUhia73ONYO+yXahoNVz+8r1yU
+	Ayog==
+X-Gm-Message-State: APjAAAXyg7fnVu2Js+HIfWkqUDHxmRdw/NnT3HNwdBdL+d/UR28VPYMZ
+	H3kUU1O/mDmOlWuMEod57tdWU9woIQA=
+X-Google-Smtp-Source: APXvYqyRoK5M3giz54RipolE4mJMuFkHXj35NdjLK9BX074aH3IWFXZB605/nXWmebutEEET5VW1sw==
+X-Received: by 2002:a05:600c:2043:: with SMTP id
+	p3mr20178420wmg.43.1557230424622; 
+	Tue, 07 May 2019 05:00:24 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
-	by smtp.gmail.com with ESMTPSA id g3sm12348596wmf.9.2019.05.07.05.00.21
+	by smtp.gmail.com with ESMTPSA id g3sm12348596wmf.9.2019.05.07.05.00.23
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 07 May 2019 05:00:22 -0700 (PDT)
+	Tue, 07 May 2019 05:00:23 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue,  7 May 2019 13:00:02 +0100
-Message-Id: <20190507120011.18100-7-peter.maydell@linaro.org>
+Date: Tue,  7 May 2019 13:00:03 +0100
+Message-Id: <20190507120011.18100-8-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190507120011.18100-1-peter.maydell@linaro.org>
 References: <20190507120011.18100-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::330
-Subject: [Qemu-devel] [PULL 06/15] arm: aspeed: Set SDRAM size
+X-Received-From: 2a00:1450:4864:20::32f
+Subject: [Qemu-devel] [PULL 07/15] QEMU_PACKED: Remove gcc_struct attribute
+ in Windows non x86 targets
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,90 +83,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Joel Stanley <joel@jms.id.au>
+From: Cao Jiaxi <driver1998@foxmail.com>
 
-We currently use Qemu's default of 128MB. As we know how much ram each
-machine ships with, make it easier on users by setting a default.
+gcc_struct is for x86 only, and it generates an warning on ARM64 Clang/MinGW targets.
 
-It can still be overridden with -m on the command line.
-
-Signed-off-by: Joel Stanley <joel@jms.id.au>
-Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20190503022958.1394-1-joel@jms.id.au
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Cao Jiaxi <driver1998@foxmail.com>
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-id: 20190503003618.10089-1-driver1998@foxmail.com
+[PMM: dropped the slirp change as slirp is now a submodule]
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/hw/arm/aspeed.h | 1 +
- hw/arm/aspeed.c         | 8 ++++++++
- 2 files changed, 9 insertions(+)
+ contrib/libvhost-user/libvhost-user.h | 2 +-
+ include/qemu/compiler.h               | 2 +-
+ scripts/cocci-macro-file.h            | 7 ++++++-
+ 3 files changed, 8 insertions(+), 3 deletions(-)
 
-diff --git a/include/hw/arm/aspeed.h b/include/hw/arm/aspeed.h
-index 325c091d09e..02073a6b4d6 100644
---- a/include/hw/arm/aspeed.h
-+++ b/include/hw/arm/aspeed.h
-@@ -22,6 +22,7 @@ typedef struct AspeedBoardConfig {
-     const char *spi_model;
-     uint32_t num_cs;
-     void (*i2c_init)(AspeedBoardState *bmc);
-+    uint32_t ram;
- } AspeedBoardConfig;
+diff --git a/contrib/libvhost-user/libvhost-user.h b/contrib/libvhost-user/libvhost-user.h
+index 414ceb0a2f9..78b33306e81 100644
+--- a/contrib/libvhost-user/libvhost-user.h
++++ b/contrib/libvhost-user/libvhost-user.h
+@@ -148,7 +148,7 @@ typedef struct VhostUserInflight {
+     uint16_t queue_size;
+ } VhostUserInflight;
  
- #define TYPE_ASPEED_MACHINE       MACHINE_TYPE_NAME("aspeed")
-diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
-index 1c23ebd9925..29d225ed140 100644
---- a/hw/arm/aspeed.c
-+++ b/hw/arm/aspeed.c
-@@ -25,6 +25,7 @@
- #include "sysemu/block-backend.h"
- #include "hw/loader.h"
- #include "qemu/error-report.h"
-+#include "qemu/units.h"
+-#if defined(_WIN32)
++#if defined(_WIN32) && (defined(__x86_64__) || defined(__i386__))
+ # define VU_PACKED __attribute__((gcc_struct, packed))
+ #else
+ # define VU_PACKED __attribute__((packed))
+diff --git a/include/qemu/compiler.h b/include/qemu/compiler.h
+index 296b2fd5727..09fc44cca45 100644
+--- a/include/qemu/compiler.h
++++ b/include/qemu/compiler.h
+@@ -28,7 +28,7 @@
  
- static struct arm_boot_info aspeed_board_binfo = {
-     .board_id = -1, /* device-tree-only board */
-@@ -331,6 +332,9 @@ static void aspeed_machine_class_init(ObjectClass *oc, void *data)
-     mc->no_floppy = 1;
-     mc->no_cdrom = 1;
-     mc->no_parallel = 1;
-+    if (board->ram) {
-+        mc->default_ram_size = board->ram;
-+    }
-     amc->board = board;
- }
+ #define QEMU_SENTINEL __attribute__((sentinel))
  
-@@ -352,6 +356,7 @@ static const AspeedBoardConfig aspeed_boards[] = {
-         .spi_model = "mx25l25635e",
-         .num_cs    = 1,
-         .i2c_init  = palmetto_bmc_i2c_init,
-+        .ram       = 256 * MiB,
-     }, {
-         .name      = MACHINE_TYPE_NAME("ast2500-evb"),
-         .desc      = "Aspeed AST2500 EVB (ARM1176)",
-@@ -361,6 +366,7 @@ static const AspeedBoardConfig aspeed_boards[] = {
-         .spi_model = "mx25l25635e",
-         .num_cs    = 1,
-         .i2c_init  = ast2500_evb_i2c_init,
-+        .ram       = 512 * MiB,
-     }, {
-         .name      = MACHINE_TYPE_NAME("romulus-bmc"),
-         .desc      = "OpenPOWER Romulus BMC (ARM1176)",
-@@ -370,6 +376,7 @@ static const AspeedBoardConfig aspeed_boards[] = {
-         .spi_model = "mx66l1g45g",
-         .num_cs    = 2,
-         .i2c_init  = romulus_bmc_i2c_init,
-+        .ram       = 512 * MiB,
-     }, {
-         .name      = MACHINE_TYPE_NAME("witherspoon-bmc"),
-         .desc      = "OpenPOWER Witherspoon BMC (ARM1176)",
-@@ -379,6 +386,7 @@ static const AspeedBoardConfig aspeed_boards[] = {
-         .spi_model = "mx66l1g45g",
-         .num_cs    = 2,
-         .i2c_init  = witherspoon_bmc_i2c_init,
-+        .ram       = 512 * MiB,
-     },
- };
+-#if defined(_WIN32)
++#if defined(_WIN32) && (defined(__x86_64__) || defined(__i386__))
+ # define QEMU_PACKED __attribute__((gcc_struct, packed))
+ #else
+ # define QEMU_PACKED __attribute__((packed))
+diff --git a/scripts/cocci-macro-file.h b/scripts/cocci-macro-file.h
+index e485cdccae8..c6bbc05ba3e 100644
+--- a/scripts/cocci-macro-file.h
++++ b/scripts/cocci-macro-file.h
+@@ -23,7 +23,12 @@
+ #define QEMU_NORETURN __attribute__ ((__noreturn__))
+ #define QEMU_WARN_UNUSED_RESULT __attribute__((warn_unused_result))
+ #define QEMU_SENTINEL __attribute__((sentinel))
+-#define QEMU_PACKED __attribute__((gcc_struct, packed))
++
++#if defined(_WIN32) && (defined(__x86_64__) || defined(__i386__))
++# define QEMU_PACKED __attribute__((gcc_struct, packed))
++#else
++# define QEMU_PACKED __attribute__((packed))
++#endif
  
+ #define cat(x,y) x ## y
+ #define cat2(x,y) cat(x,y)
 -- 
 2.20.1
 
