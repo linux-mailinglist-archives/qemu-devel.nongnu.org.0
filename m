@@ -2,55 +2,88 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68A68167A1
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 18:18:03 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49583 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DF50167AC
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 18:20:00 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49595 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hO2n4-0003Oa-08
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 12:18:02 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44253)
+	id 1hO2ox-0004YB-JN
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 12:19:59 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44807)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <qemu_oss@crudebyte.com>) id 1hO2lQ-0002kv-Sb
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 12:16:22 -0400
+	(envelope-from <darrick.wong@oracle.com>) id 1hO2na-00046Z-Tq
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 12:18:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <qemu_oss@crudebyte.com>) id 1hO2lN-0001Mq-MS
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 12:16:19 -0400
-Received: from kylie.crudebyte.com ([5.189.157.229]:34671)
+	(envelope-from <darrick.wong@oracle.com>) id 1hO2nZ-0002bT-00
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 12:18:34 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:40280)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <qemu_oss@crudebyte.com>)
-	id 1hO2lK-0001Km-Nu
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 12:16:16 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-	d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
-	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
-	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
-	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
-	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=n+I9NZiFb9xYfcfZUKi5n0GzFpkn/gg6KmHZWplTBRg=;
-	b=KiunDHItx2dkmBkHicxbxfdBkr
-	bmlSqeCEWaz83Wh/gjtPspQiNe9u+BZYZTjQd1lyytRjOjIGuqBPqF4QnjTKMRNx5stMa/iYPE7IU
-	B9pP3fbPp9DHxUAXVr5p4aweIq0Yp/E+lCnRcoRhGL25DA7JKty01AlMhZrU8qQu6mJ9r3DN1I3V/
-	kkFdnmBGBgxYxhprcedHvtlbbkKhDR5Pvt8xcDoPRwEuOuTG+DkPg4JutoGZHemkWlmBy0OmCaoHG
-	KcZhyfoPES3qR95iFAw9j3UAoDGrdNB5pRv96bEZAXOnN7/z3M394Ygw8EYZKWJGm6SomJQC9cgZ0
-	XLR37WH+5RmT69m4gz/CmS3VnSh/ef762a9EqrZ8nicNzh3Fdrkxp7bBwBByQH5e85/Yw6yL48qBm
-	qwbTDludQVvQkWNIXGqEAx2OSsvJBvggE8Rau5ZJCDLrjMwtrIcZaho4DoiiNvZ34OMXLE2DH4p5I
-	osAaRhU8c1/+PYoJlENMhHzKY7FhcWK/OeCzUG6SW8vs0UyGUiu2IDo0ioUvd/fqmZa1jYJtsbSZj
-	0WoVvIJ16T0/Jcov7UYC9dsuxUbwv/i+Ngdq+r7uGnKB6NNTS1o8GsZNKJLk2OLZtNjeulfuLnp24
-	2BqjS1uETZ9mh38IQOnvic0JEFRsPqUn7Ol6K3M4s=;
-To: qemu-devel@nongnu.org
-Date: Tue, 07 May 2019 18:16:08 +0200
-Message-ID: <1714809.tFt2Qa06yj@silver>
-In-Reply-To: <20190507174239.59ad26d1@bahia.lan>
-References: <590216e2666653bac21d950aaba98f87d0a53324.1557093245.git.qemu_oss@crudebyte.com>
-	<3336211.WybC1Bzqah@silver> <20190507174239.59ad26d1@bahia.lan>
+	(Exim 4.71) (envelope-from <darrick.wong@oracle.com>)
+	id 1hO2nY-0002ZS-LR
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 12:18:32 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+	by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id
+	x47GE4tr157451; Tue, 7 May 2019 16:17:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
+	h=date : from : to : cc
+	: subject : message-id : references : mime-version : content-type :
+	in-reply-to; s=corp-2018-07-02;
+	bh=JFFlnWS0WxSMENUMsRBMs4+e/sfuzMFmGvWcjKKQQuc=;
+	b=TKQ0ZY42TnZrA9kUXuIIQxHZJtlgsPZc/HUlXzQ4TUAvfAYUIXRd3TufRkYlIsL/qYnH
+	gEOc/3eGhv+v8nTxOS8S21kRqbBtPYiYTEKBQBAnom75SF+6NN9JdMkr6m+iXE4suPUy
+	M8pk/1FBF18jWlrv22JoleV2scB2kxIrjAnXvCYleCsCB2wshmO8nENxJSX0+PxVJUiQ
+	ZYNWGbaeLaZaSTwok9d5T6R6aHykl/CLecrfPWn2A3d57LkaTuFX9ZNvyXgC4fQ28IyP
+	l2LCbcZAeGQ6QNp9COGNfS/FdR1duRVLEebs8Og572/1EJwAKTyBze4/M2itosUoGBUM
+	Pg== 
+Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
+	by userp2120.oracle.com with ESMTP id 2s94b0phet-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 07 May 2019 16:17:57 +0000
+Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
+	by aserp3020.oracle.com (8.16.0.27/8.16.0.27) with SMTP id
+	x47GH2b6135005; Tue, 7 May 2019 16:17:56 GMT
+Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
+	by aserp3020.oracle.com with ESMTP id 2s9ayeyus1-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+	Tue, 07 May 2019 16:17:56 +0000
+Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
+	by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x47GHiM0002137;
+	Tue, 7 May 2019 16:17:44 GMT
+Received: from localhost (/67.169.218.210)
+	by default (Oracle Beehive Gateway v4.0)
+	with ESMTP ; Tue, 07 May 2019 09:17:44 -0700
+Date: Tue, 7 May 2019 09:17:36 -0700
+From: "Darrick J. Wong" <darrick.wong@oracle.com>
+To: Dan Williams <dan.j.williams@intel.com>
+Message-ID: <20190507161736.GV5207@magnolia>
+References: <20190426050039.17460-1-pagupta@redhat.com>
+	<20190426050039.17460-7-pagupta@redhat.com>
+	<CAPcyv4hCP4E4xPkQx25tqhznon6ADwrYJB1yujkrO-A7LUnsmg@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 5.189.157.229
-Subject: Re: [Qemu-devel] [libvirt patch] qemu: adds support for virtfs 9p
- argument 'vii'
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAPcyv4hCP4E4xPkQx25tqhznon6ADwrYJB1yujkrO-A7LUnsmg@mail.gmail.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9250
+	signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
+	malwarescore=0
+	phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=999
+	adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+	engine=8.0.1-1810050000 definitions=main-1905070105
+X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9250
+	signatures=668686
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+	priorityscore=1501 malwarescore=0
+	suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
+	lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=999
+	adultscore=0
+	classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+	definitions=main-1905070105
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 156.151.31.85
+Subject: Re: [Qemu-devel] [PATCH v7 6/6] xfs: disable map_sync for async
+ flush
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,56 +95,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-From: Christian Schoenebeck via Qemu-devel <qemu-devel@nongnu.org>
-Reply-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
-Cc: Greg Kurz <groug@kaod.org>, Antonios Motakis <antonios.motakis@huawei.com>
+Cc: Pankaj Gupta <pagupta@redhat.com>, Jan Kara <jack@suse.cz>,
+	KVM list <kvm@vger.kernel.org>, "Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>, david <david@fromorbit.com>,
+	Qemu Developers <qemu-devel@nongnu.org>,
+	virtualization@lists.linux-foundation.org,
+	Andreas Dilger <adilger.kernel@dilger.ca>,
+	Ross Zwisler <zwisler@kernel.org>, Andrea Arcangeli <aarcange@redhat.com>,
+	Dave Jiang <dave.jiang@intel.com>,
+	linux-nvdimm <linux-nvdimm@lists.01.org>,
+	Vishal L Verma <vishal.l.verma@intel.com>,
+	David Hildenbrand <david@redhat.com>, Matthew Wilcox <willy@infradead.org>,
+	Christoph Hellwig <hch@infradead.org>,
+	Linux ACPI <linux-acpi@vger.kernel.org>, jmoyer <jmoyer@redhat.com>,
+	linux-ext4 <linux-ext4@vger.kernel.org>,
+	Len Brown <lenb@kernel.org>, kilobyte@angband.pl,
+	Rik van Riel <riel@surriel.com>, yuval shaia <yuval.shaia@oracle.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	Paolo Bonzini <pbonzini@redhat.com>, lcapitulino@redhat.com,
+	Kevin Wolf <kwolf@redhat.com>, Nitesh Narayan Lal <nilal@redhat.com>,
+	Theodore Ts'o <tytso@mit.edu>,
+	Xiao Guangrong <xiaoguangrong.eric@gmail.com>, cohuck@redhat.com,
+	"Rafael J. Wysocki" <rjw@rjwysocki.net>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	linux-xfs <linux-xfs@vger.kernel.org>,
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+	Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Dienstag, 7. Mai 2019 17:42:39 CEST Greg Kurz wrote:
-> > Sorry that I caused a bit of confusion, You were actually commenting
-> > mostly on v2 of the patch set, where my email client replaced the message
-> > IDs and hence screwed threading.
-> > 
-> > This is v3 that I sent yesterday and which has correct threading:
-> > https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg01143.html
+On Tue, May 07, 2019 at 08:37:01AM -0700, Dan Williams wrote:
+> On Thu, Apr 25, 2019 at 10:03 PM Pankaj Gupta <pagupta@redhat.com> wrote:
+> >
+> > Dont support 'MAP_SYNC' with non-DAX files and DAX files
+> > with asynchronous dax_device. Virtio pmem provides
+> > asynchronous host page cache flush mechanism. We don't
+> > support 'MAP_SYNC' with virtio pmem and xfs.
+> >
+> > Signed-off-by: Pankaj Gupta <pagupta@redhat.com>
+> > ---
+> >  fs/xfs/xfs_file.c | 9 ++++++---
+> >  1 file changed, 6 insertions(+), 3 deletions(-)
 > 
-> For a reason yet to be investigated, I haven't received it yet...
+> Darrick, does this look ok to take through the nvdimm tree?
 
-Here are the archive links for latest v3 patch set [5(+1) patches total]:
+<urk> forgot about this, sorry. :/
 
-[PATCH v3 0/5] 9p: Fix file ID collisions:
-https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg01143.html
+> >
+> > diff --git a/fs/xfs/xfs_file.c b/fs/xfs/xfs_file.c
+> > index a7ceae90110e..f17652cca5ff 100644
+> > --- a/fs/xfs/xfs_file.c
+> > +++ b/fs/xfs/xfs_file.c
+> > @@ -1203,11 +1203,14 @@ xfs_file_mmap(
+> >         struct file     *filp,
+> >         struct vm_area_struct *vma)
+> >  {
+> > +       struct dax_device       *dax_dev;
+> > +
+> > +       dax_dev = xfs_find_daxdev_for_inode(file_inode(filp));
+> >         /*
+> > -        * We don't support synchronous mappings for non-DAX files. At least
+> > -        * until someone comes with a sensible use case.
+> > +        * We don't support synchronous mappings for non-DAX files and
+> > +        * for DAX files if underneath dax_device is not synchronous.
+> >          */
+> > -       if (!IS_DAX(file_inode(filp)) && (vma->vm_flags & VM_SYNC))
+> > +       if (!daxdev_mapping_supported(vma, dax_dev))
+> >                 return -EOPNOTSUPP;
 
-[PATCH v3 1/5] 9p: mitigates most QID path collisions:
-https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg01142.html
+LGTM, and I'm fine with it going through nvdimm.  Nothing in
+xfs-5.2-merge touches that function so it should be clean.
 
-[PATCH v3 2/5] 9P: trivial cleanup of QID path collision mitigation:
-https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg01140.html
+Reviewed-by: Darrick J. Wong <darrick.wong@oracle.com>
 
-[PATCH v3 3/5] 9p: persistency of QID path beyond reboots / suspensions:
-https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg01144.html
+--D
 
-[PATCH v3 4/5] 9p: use variable length suffixes for inode mapping:
-https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg01141.html
-
-[PATCH v3 5/5] 9p: adds virtfs 'vii' device parameter
-https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg01138.html
-
-And the optional libvirt patch:
-
-[libvirt patch] qemu: adds support for virtfs 9p argument 'vii':
-https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg01223.html
-
-> > Please just have a glimpse on that v3 thread, and before I address the
-> > details that you requested (I have reviewed them all already and will
-> > address them), I would like you to ask you for a coarse feedback on
-> > design/features first.
-> > Because there are some things where I am unresolved on design level yet:
-> I'll try but probably not before next week.
-
-No problem, take your time!
-
-Best regards,
-Christian Schoenebeck
+> >
+> >         file_accessed(filp);
+> > --
+> > 2.20.1
+> >
 
