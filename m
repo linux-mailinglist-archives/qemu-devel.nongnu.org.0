@@ -2,50 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 351F61571A
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 02:53:27 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36081 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2A201571C
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 02:55:55 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36137 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNoMI-00023R-96
-	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 20:53:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37370)
+	id 1hNoOg-0004UX-M6
+	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 20:55:54 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37433)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <anton@ozlabs.org>) id 1hNoHW-0006qj-VW
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 20:48:31 -0400
+	(envelope-from <anton@ozlabs.org>) id 1hNoHY-0006r4-Jv
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 20:48:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <anton@ozlabs.org>) id 1hNoHW-0002wX-6F
-	for qemu-devel@nongnu.org; Mon, 06 May 2019 20:48:30 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:38565)
+	(envelope-from <anton@ozlabs.org>) id 1hNoHX-0002xn-Fd
+	for qemu-devel@nongnu.org; Mon, 06 May 2019 20:48:32 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:43833 helo=ozlabs.org)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <anton@ozlabs.org>)
-	id 1hNoHV-0002v2-Pu; Mon, 06 May 2019 20:48:30 -0400
+	id 1hNoHX-0002wC-4G; Mon, 06 May 2019 20:48:31 -0400
 Received: by ozlabs.org (Postfix, from userid 1010)
-	id 44ygvb2GcMz9sD4; Tue,  7 May 2019 10:48:27 +1000 (AEST)
+	id 44ygvc40f3z9sML; Tue,  7 May 2019 10:48:28 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ozlabs.org; s=201707;
-	t=1557190107; bh=9iL95V4tI9tiMvxzjhmcg1y9UgmTSfYBeQNMzp9sbZQ=;
+	t=1557190108; bh=Br7n9jkoD7Lz4TVAjhUWzEgGMOPCpu2rEkoH84CVUho=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=gVU8nTChTsfqMTCOowYv3QUjRmatrBm8kyVTuf2pWR0Su6es0RzzsDOsE/meeU1iN
-	kyHl3H/L/MrZiBpSfJVb9tyZgiGXiD3yNkazayQq43OqatbDm1b+cf16byYzBbiYXu
-	U2Kjc0hBfFc0sLJX2RCTizL5ALkBVhWYaV0tEAT575ruMc3vAB4OpKc04hTORZ24N/
-	YJfp8fF81UfwaRmo40gnygifmKC4yK8hdatOGxcIlYQaF4fl+gVQ62Zh3NDs4+9eOB
-	w8orpwG906YjAUM4wCnZMyPN5Pv/tl2f+YpYb3lmbeML0NAaQXHuQpMzXpEDJ0W4lZ
-	tnS2jYg261mDw==
+	b=VG9iYfMe86sZELUAq8cwa8DoOAaS4K1Fv4fJS0Iz8KHFGPNuxWCw53cGzFXaQ8+ob
+	CllELd1jla4DKWBjP98NXuUpQImlEVauaT79QHm2Eg1mCkKM4FmTb+jauhUhoHDNkA
+	vdAEdLMBCSxMa6+ORfNWC/KyoXrtoIpTAphBOi0XSyPFI4aNlln3X/af8YId7nSkwT
+	P2mB++Kf2tg8H6JPdNxM2vkxcDFTMwJ+s0spPNNNK8ggmLF274iaPdYIIcX+7v6UfN
+	9PTnMNzzqNV6rw4l9yv8XryQ5eFPRkbz3UzpQasUm+8wxf/yd1CVQJEkmwZ0DEusMC
+	dVBfNVso9XInA==
 From: Anton Blanchard <anton@ozlabs.org>
 To: qemu-ppc@nongnu.org,
 	qemu-devel@nongnu.org
-Date: Tue,  7 May 2019 10:48:07 +1000
-Message-Id: <20190507004811.29968-5-anton@ozlabs.org>
+Date: Tue,  7 May 2019 10:48:08 +1000
+Message-Id: <20190507004811.29968-6-anton@ozlabs.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190507004811.29968-1-anton@ozlabs.org>
 References: <20190507004811.29968-1-anton@ozlabs.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: [Qemu-devel] [PATCH 5/9] target/ppc: Fix xvabs[sd]p, xvnabs[sd]p,
- xvneg[sd]p, xvcpsgn[sd]p
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 203.11.71.1
+Subject: [Qemu-devel] [PATCH 6/9] target/ppc: Fix vslv and vsrv
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -63,32 +61,59 @@ Cc: ego@linux.vnet.ibm.com, sandipandas1990@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We were using set_cpu_vsr* when we should have used set_cpu_vsrl*
+vslv and vsrv are broken on little endian, we append 00 to the
+high byte not the low byte. Fix it by using the VsrB() accessor.
 
-Fixes: 8b3b2d75c7c0 ("introduce get_cpu_vsr{l,h}() and set_cpu_vsr{l,h}()=
- helpers for VSR register access")
 Signed-off-by: Anton Blanchard <anton@ozlabs.org>
 ---
- target/ppc/translate/vsx-impl.inc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/ppc/int_helper.c | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/target/ppc/translate/vsx-impl.inc.c b/target/ppc/translate/v=
-sx-impl.inc.c
-index c13f84e745..0a48020e3b 100644
---- a/target/ppc/translate/vsx-impl.inc.c
-+++ b/target/ppc/translate/vsx-impl.inc.c
-@@ -859,8 +859,8 @@ static void glue(gen_, name)(DisasContext *ctx)      =
-            \
-         xbh =3D tcg_temp_new_i64();                                \
-         xbl =3D tcg_temp_new_i64();                                \
-         sgm =3D tcg_temp_new_i64();                                \
--        set_cpu_vsrh(xB(ctx->opcode), xbh);                      \
--        set_cpu_vsrl(xB(ctx->opcode), xbl);                      \
-+        get_cpu_vsrh(xbh, xB(ctx->opcode));                      \
-+        get_cpu_vsrl(xbl, xB(ctx->opcode));                      \
-         tcg_gen_movi_i64(sgm, sgn_mask);                         \
-         switch (op) {                                            \
-             case OP_ABS: {                                       \
+diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
+index f6a088ac08..fd715b4076 100644
+--- a/target/ppc/int_helper.c
++++ b/target/ppc/int_helper.c
+@@ -1800,10 +1800,10 @@ void helper_vslv(ppc_avr_t *r, ppc_avr_t *a, ppc_=
+avr_t *b)
+=20
+     size =3D ARRAY_SIZE(r->u8);
+     for (i =3D 0; i < size; i++) {
+-        shift =3D b->u8[i] & 0x7;             /* extract shift value */
+-        bytes =3D (a->u8[i] << 8) +             /* extract adjacent byte=
+s */
+-            (((i + 1) < size) ? a->u8[i + 1] : 0);
+-        r->u8[i] =3D (bytes << shift) >> 8;   /* shift and store result =
+*/
++        shift =3D b->VsrB(i) & 0x7;             /* extract shift value *=
+/
++        bytes =3D (a->VsrB(i) << 8) +           /* extract adjacent byte=
+s */
++            (((i + 1) < size) ? a->VsrB(i + 1) : 0);
++        r->VsrB(i) =3D (bytes << shift) >> 8;   /* shift and store resul=
+t */
+     }
+ }
+=20
+@@ -1818,10 +1818,10 @@ void helper_vsrv(ppc_avr_t *r, ppc_avr_t *a, ppc_=
+avr_t *b)
+      * order will guarantee that computed result is not fed back.
+      */
+     for (i =3D ARRAY_SIZE(r->u8) - 1; i >=3D 0; i--) {
+-        shift =3D b->u8[i] & 0x7;                 /* extract shift value=
+ */
+-        bytes =3D ((i ? a->u8[i - 1] : 0) << 8) + a->u8[i];
++        shift =3D b->VsrB(i) & 0x7;               /* extract shift value=
+ */
++        bytes =3D ((i ? a->VsrB(i - 1) : 0) << 8) + a->VsrB(i);
+                                                 /* extract adjacent byte=
+s */
+-        r->u8[i] =3D (bytes >> shift) & 0xFF;     /* shift and store res=
+ult */
++        r->VsrB(i) =3D (bytes >> shift) & 0xFF;   /* shift and store res=
+ult */
+     }
+ }
+=20
 --=20
 2.20.1
 
