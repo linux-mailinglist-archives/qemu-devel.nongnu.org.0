@@ -2,54 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF01416744
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 17:58:30 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49072 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A9A0D167A2
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 18:18:15 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49585 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hO2UA-0002Gs-1s
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 11:58:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40380)
+	id 1hO2nG-0003Yx-Rw
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 12:18:14 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44183)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mlureau@redhat.com>) id 1hO2TA-0001xj-FP
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 11:57:29 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hO2lC-0002e0-J4
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 12:16:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mlureau@redhat.com>) id 1hO2T9-0005vx-A2
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 11:57:28 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:34803)
+	(envelope-from <peter.maydell@linaro.org>) id 1hO2lA-0001FC-Ha
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 12:16:06 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:43552)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mlureau@redhat.com>) id 1hO2T9-0005v9-5o
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 11:57:27 -0400
-Received: by mail-ot1-f65.google.com with SMTP id l17so5889349otq.1
-	for <qemu-devel@nongnu.org>; Tue, 07 May 2019 08:57:25 -0700 (PDT)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hO2l8-0001C7-Hx
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 12:16:04 -0400
+Received: by mail-oi1-x243.google.com with SMTP id j9so12069562oie.10
+	for <qemu-devel@nongnu.org>; Tue, 07 May 2019 09:15:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=1qOu4NnuKmCZdmutocx0nHz6+tgShBICvUB7VzoTKP0=;
+	b=sK5Kt+dM9iniXDAbvovy60gGoINVzb3ME/ZbiMQmk5xXDhFR4XjDew+CJ1lwwQ+Mk9
+	MukJubFp2JZaKBCWO6NBq+TbnFARLIGuy3vMqkE2XQ0dn37K88MqnVcDsLl83jJS0q18
+	hThjMKDGN5EIlDlms415jvYyBeaH/FdRktXDW92neyVs0ny51ClhQ0Ckgq6UDufklIH6
+	TDMKH0qoQhhM4WhPnO/rvKWKKMvOpn/4X75ItWqImIk1WXR0L6UvGq3CTfjgcsQBYHfv
+	NYsi9jDmwxprXC1OIHzx1KoWPHWoOdTopVZAXGqWEzY0TvXEEQDy84RpLYDOWcq6doMG
+	2WbA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=KnR6kucZkhdGzgZriGzmIkM3on0Tbt/B7yb/MYjQ9as=;
-	b=mDZ4N21du9xNYTdSXb6Vbh9yz1JoP2ER9CG5NvnMb5H2GCAkOnjfSxm2Aqf6wM7s6A
-	3DPHSl6973lDHwCm15wrSqIgja2aHG3tzx4eCpAhYBo7CdstXKnLiz0vPTXZtyM3exBI
-	KGeIML8qnKtB6tvegLcjl5HPxWc0tsNdiTr/NIS0El/aVFBwJL2CZF25O83ZeJWOBcY8
-	UiUd9+dxk/qeiSowjJRkjqXgjc0Ge+ZUc3btCaqEEcNCr/rUv8vDtwDsdT6vQUNlvACT
-	T1onq18SAvKt3PH90j0Pt4eCMoxSSTw/xGX5veoT2J24/l881vTfuMXw7xOLSX4BIvVm
-	1MsQ==
-X-Gm-Message-State: APjAAAVP6bkkHkaGVTgq4ZfsJOdMOxZJlqRYyEe5aaTq3lk9MpMblHmb
-	tWuBijIlnMOOo7APOYI3RIM0sPbvUGIcZ4iKqJOCiA==
-X-Google-Smtp-Source: APXvYqxFZednQU6Ymo0fzeTVrenrIJs8YCYpwF+ajbmHcFDc0U5AdfjPNRaMAuF17F0e0BWKYzwfrbthADnCJPbGmN0=
-X-Received: by 2002:a9d:e95:: with SMTP id 21mr7652832otj.145.1557244645054;
-	Tue, 07 May 2019 08:57:25 -0700 (PDT)
+	bh=1qOu4NnuKmCZdmutocx0nHz6+tgShBICvUB7VzoTKP0=;
+	b=Zb3X/sSvE4Y/az6z8Ira++hNAZ8tYuuTNhsDmd7lUAKPFLC3x/81+buNCg/elm0nM1
+	ZBJ1VWQd+ZT0kzeurnYFIDxXJAG+4fCRKl3/EdV6d/YZ+K4xj4z2XFNebkV1J6hpFiSf
+	2YQ0mOvmnSLDaiNjzOIiT2ur146ke9o5avi/OHnEEGtYjSqjWUuuRq8zvOPuCbGnlnfw
+	bZ2UHoujkZjFkmoBEAtmgOi52d5m3nlClUnl735svzbvrlyWJ4r2Sgtminv1YU3n1B5+
+	2IkraN6W2pCLgj33WCxT4+UnVfFmQPjJgrOaO3wJ1a/goNDXWn4Wbbayvs/Pqx7ODG0o
+	TaYQ==
+X-Gm-Message-State: APjAAAXubqe+pvo0/D3FMKg09mAarhrg9MA6K73Nkd9ZTX++GQwoY6RM
+	/WWxDFC7HSwDoEprsyUa8Vn9rupgLQpGEv+frLo/qQ==
+X-Google-Smtp-Source: APXvYqylcytvWIiYZ4FXF1cw5v5E1q6RB8ZlzNR2J2eKCO8LCpggp067E/8p8IoztCtv0/h4334TDArehMBCwY5lyuo=
+X-Received: by 2002:aca:110f:: with SMTP id 15mr685255oir.163.1557245758962;
+	Tue, 07 May 2019 09:15:58 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190507143727.15640-1-eblake@redhat.com>
-In-Reply-To: <20190507143727.15640-1-eblake@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
-Date: Tue, 7 May 2019 17:57:13 +0200
-Message-ID: <CAMxuvax99S82UVZggPGj+R22qJp3MFZ0_YseTQ5g9=5Mz33YYQ@mail.gmail.com>
-To: Eric Blake <eblake@redhat.com>
+References: <20190504134529.4755-1-marcel.apfelbaum@gmail.com>
+In-Reply-To: <20190504134529.4755-1-marcel.apfelbaum@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 7 May 2019 17:15:47 +0100
+Message-ID: <CAFEAcA-FOPxBFW7E_xyJDrcjeu28nuB54Vv5nXLV5C-rAxqksg@mail.gmail.com>
+To: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.210.65
-Subject: Re: [Qemu-devel] [slirp PATCH] maint: Add .gitignore
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::243
+Subject: Re: [Qemu-devel] [PATCH PULL 0/4] RDMA queue
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,48 +71,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel <qemu-devel@nongnu.org>
+Cc: kamal heib <kamalheib1@gmail.com>, QEMU Developers <qemu-devel@nongnu.org>,
+	Yuval Shaia <yuval.shaia@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
+On Sat, 4 May 2019 at 14:45, Marcel Apfelbaum
+<marcel.apfelbaum@gmail.com> wrote:
+>
+> The following changes since commit a6ae23831b05a11880b40f7d58e332c45a6b04f7:
+>
+>   Merge remote-tracking branch 'remotes/ehabkost/tags/python-next-pull-request' into staging (2019-05-03 15:26:09 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/marcel-apf/qemu tags/rdma-pull-request
+>
+> for you to fetch changes up to 355b7cf356b7f506ca1b716647cc0cf19d312fd2:
+>
+>   hw/pvrdma: Add support for SRQ (2019-05-04 15:55:56 +0300)
+>
+> ----------------------------------------------------------------
+> RDMA queue
+>
+> * pvrdma: Add support for SRQ
+>
+> ----------------------------------------------------------------
+> Kamal Heib (4):
+>       hw/rdma: Add SRQ support to backend layer
+>       hw/rdma: Add support for managing SRQ resource
+>       hw/rdma: Modify create/destroy QP to support SRQ
+>       hw/pvrdma: Add support for SRQ
 
-On Tue, May 7, 2019 at 4:37 PM Eric Blake <eblake@redhat.com> wrote:
->
-> Ignore build artifacts during an in-tree build.
->
-> Signed-off-by: Eric Blake <eblake@redhat.com>
-> ---
->
-> Sadly, libslirp includes no README (yet), and
-> https://gitlab.freedesktop.org/slirp (mentioned in qemu commit
-> 7c47bdd8) does not seem to call out any slirp-specific mailing list
-> which should be cc'd for this patch.  I'd recommend that libslirp add
-> some documentation (both to a README file present in a git checkout,
-> and to the project web page), to make it friendlier to drive-by
-> emailed patch contributions.
 
-I started one, see:
-https://gitlab.freedesktop.org/slirp/libslirp/merge_requests/7
+Applied, thanks.
 
-thanks
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
+for any user-visible changes.
 
->
->  .gitignore | 4 ++++
->  1 file changed, 4 insertions(+)
->  create mode 100644 .gitignore
->
-> diff --git a/.gitignore b/.gitignore
-> new file mode 100644
-> index 0000000..daded16
-> --- /dev/null
-> +++ b/.gitignore
-> @@ -0,0 +1,4 @@
-> +*.a
-> +*.d
-> +*.o
-> +/src/libslirp-version.h
-> --
-> 2.20.1
->
+-- PMM
 
