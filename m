@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 33F9F15FC0
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 10:49:44 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:42447 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A8E315FBE
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 10:49:39 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:42443 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNvnD-0007Ai-Bd
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 04:49:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35361)
+	id 1hNvn8-00078v-Pw
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 04:49:38 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35397)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <groug@kaod.org>) id 1hNviu-0004Y1-9y
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 04:45:17 -0400
+	(envelope-from <groug@kaod.org>) id 1hNvj1-0004dL-C4
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 04:45:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <groug@kaod.org>) id 1hNvit-0006Xk-8e
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 04:45:16 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:59606)
+	(envelope-from <groug@kaod.org>) id 1hNvj0-0006gc-Bl
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 04:45:23 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:37946)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <groug@kaod.org>) id 1hNvit-0006XH-0k
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 04:45:15 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+	(Exim 4.71) (envelope-from <groug@kaod.org>) id 1hNvj0-0006fo-0X
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 04:45:22 -0400
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
 	by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
-	x478ffSV020155
-	for <qemu-devel@nongnu.org>; Tue, 7 May 2019 04:45:14 -0400
-Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
-	by mx0a-001b2d01.pphosted.com with ESMTP id 2sb4776xq1-1
+	x478fuaZ028849
+	for <qemu-devel@nongnu.org>; Tue, 7 May 2019 04:45:21 -0400
+Received: from e06smtp03.uk.ibm.com (e06smtp03.uk.ibm.com [195.75.94.99])
+	by mx0a-001b2d01.pphosted.com with ESMTP id 2sb40ef1wb-1
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <qemu-devel@nongnu.org>; Tue, 07 May 2019 04:45:11 -0400
+	for <qemu-devel@nongnu.org>; Tue, 07 May 2019 04:45:20 -0400
 Received: from localhost
-	by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use
+	by e06smtp03.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use
 	Only! Violators will be prosecuted
 	for <qemu-devel@nongnu.org> from <groug@kaod.org>;
-	Tue, 7 May 2019 09:45:09 +0100
-Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
-	by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
+	Tue, 7 May 2019 09:45:16 +0100
+Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
+	by e06smtp03.uk.ibm.com (192.168.101.133) with IBM ESMTP SMTP Gateway:
 	Authorized Use Only! Violators will be prosecuted; 
 	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-	Tue, 7 May 2019 09:45:07 +0100
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
-	[9.149.105.62])
-	by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with
-	ESMTP id x478j63652953254
+	Tue, 7 May 2019 09:45:14 +0100
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com
+	(b06wcsmtp001.portsmouth.uk.ibm.com [9.149.105.160])
+	by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with
+	ESMTP id x478jD4X47644684
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK); Tue, 7 May 2019 08:45:06 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 877F1AE04D;
-	Tue,  7 May 2019 08:45:06 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 59E2FAE057;
-	Tue,  7 May 2019 08:45:06 +0000 (GMT)
+	verify=OK); Tue, 7 May 2019 08:45:13 GMT
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 2C1B6A4054;
+	Tue,  7 May 2019 08:45:12 +0000 (GMT)
+Received: from b06wcsmtp001.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id EDB18A4067;
+	Tue,  7 May 2019 08:45:11 +0000 (GMT)
 Received: from bahia.lan (unknown [9.145.26.205])
-	by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-	Tue,  7 May 2019 08:45:06 +0000 (GMT)
+	by b06wcsmtp001.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+	Tue,  7 May 2019 08:45:11 +0000 (GMT)
 From: Greg Kurz <groug@kaod.org>
 To: qemu-devel@nongnu.org
-Date: Tue, 07 May 2019 10:45:06 +0200
+Date: Tue, 07 May 2019 10:45:11 +0200
 In-Reply-To: <155721868351.451636.16735088470797960209.stgit@bahia.lan>
 References: <155721868351.451636.16735088470797960209.stgit@bahia.lan>
 User-Agent: StGit/unknown-version
@@ -63,22 +63,21 @@ MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
-x-cbid: 19050708-0028-0000-0000-0000036B1A77
+x-cbid: 19050708-0012-0000-0000-00000319186D
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19050708-0029-0000-0000-0000242A9284
-Message-Id: <155721870600.451636.3427944860976861371.stgit@bahia.lan>
+x-cbparentid: 19050708-0013-0000-0000-000021519484
+Message-Id: <155721871159.451636.6528273080303910901.stgit@bahia.lan>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
 	definitions=2019-05-07_04:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
 	priorityscore=1501
 	malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
 	clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
-	mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+	mlxlogscore=964 adultscore=0 classifier=spam adjust=0 reason=mlx
 	scancount=1 engine=8.0.1-1810050000 definitions=main-1905070057
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
 X-Received-From: 148.163.156.1
-Subject: [Qemu-devel] [PATCH 4/6] fsdev: Error out when unsupported option
- is passed
+Subject: [Qemu-devel] [PATCH 5/6] vl: Deprecate -virtfs_synth
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -95,120 +94,65 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Each fsdriver only supports a subset of the options that can be passed
-to -fsdev. Unsupported options are simply ignored. This could cause the
-user to erroneously think QEMU has a bug.
-
-Enforce strict checking of supported options for all fsdrivers. This
-shouldn't impact libvirt, since it doesn't know about he synth and
-proxy fsdrivers.
+The synth fsdriver never got used for anything else but the
+QTest testcase for VirtIO 9P. And even there, QTest directly
+uses -fsdev synth and -device virtio-9p-{pci|device}.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
 ---
- fsdev/qemu-fsdev.c |   74 ++++++++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 71 insertions(+), 3 deletions(-)
 
-diff --git a/fsdev/qemu-fsdev.c b/fsdev/qemu-fsdev.c
-index e972bd698cf5..077a8c4e2bca 100644
---- a/fsdev/qemu-fsdev.c
-+++ b/fsdev/qemu-fsdev.c
-@@ -34,6 +34,7 @@
- typedef struct FsDriverTable {
-     const char *name;
-     FileOperations *ops;
-+    const char **opts;
- } FsDriverTable;
+This should be Cc'd to libvir-list@redhat.com according to MAINTAINERS,
+but libvirt doesn't know about -virtfs_synth, so I choose to not spam :)
+---
+ qemu-deprecated.texi |    4 ++++
+ qemu-options.hx      |    3 ++-
+ vl.c                 |    5 +++++
+ 3 files changed, 11 insertions(+), 1 deletion(-)
+
+diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
+index 842e71b11dcc..f0ff065e7dc1 100644
+--- a/qemu-deprecated.texi
++++ b/qemu-deprecated.texi
+@@ -72,6 +72,10 @@ backend settings instead of environment variables.  To ease migration to
+ the new format, the ``-audiodev-help'' option can be used to convert
+ the current values of the environment variables to ``-audiodev'' options.
  
- typedef struct FsDriverListEntry {
-@@ -44,12 +45,75 @@ typedef struct FsDriverListEntry {
- static QTAILQ_HEAD(, FsDriverListEntry) fsdriver_entries =
-     QTAILQ_HEAD_INITIALIZER(fsdriver_entries);
++@subsection -virtfs_synth (since 4.1)
++
++The ``-virtfs_synth'' argument is now deprecated with no replacement.
++
+ @section QEMU Machine Protocol (QMP) commands
  
-+#define COMMON_FS_DRIVER_OPTIONS "id", "fsdriver", "readonly"
-+
- static FsDriverTable FsDrivers[] = {
--    { .name = "local", .ops = &local_ops},
--    { .name = "synth", .ops = &synth_ops},
--    { .name = "proxy", .ops = &proxy_ops},
-+    {
-+        .name = "local",
-+        .ops = &local_ops,
-+        .opts = (const char * []) {
-+            COMMON_FS_DRIVER_OPTIONS,
-+            "security_model",
-+            "path",
-+            "writeout",
-+            "fmode",
-+            "dmode",
-+            "throttling.bps-total",
-+            "throttling.bps-read",
-+            "throttling.bps-write",
-+            "throttling.iops-total",
-+            "throttling.iops-read",
-+            "throttling.iops-write",
-+            "throttling.bps-total-max",
-+            "throttling.bps-read-max",
-+            "throttling.bps-write-max",
-+            "throttling.iops-total-max",
-+            "throttling.iops-read-max",
-+            "throttling.iops-write-max",
-+            "throttling.bps-total-max-length",
-+            "throttling.bps-read-max-length",
-+            "throttling.bps-write-max-length",
-+            "throttling.iops-total-max-length",
-+            "throttling.iops-read-max-length",
-+            "throttling.iops-write-max-length",
-+            "throttling.iops-size",
-+        },
-+    },
-+    {
-+        .name = "synth",
-+        .ops = &synth_ops,
-+        .opts = (const char * []) {
-+            COMMON_FS_DRIVER_OPTIONS,
-+        },
-+    },
-+    {
-+        .name = "proxy",
-+        .ops = &proxy_ops,
-+        .opts = (const char * []) {
-+            COMMON_FS_DRIVER_OPTIONS,
-+            "socket",
-+            "sock_fd",
-+            "writeout",
-+        },
-+    },
- };
+ @subsection block-dirty-bitmap-add "autoload" parameter (since 2.12.0)
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 51802cbb266a..9c5cc2e6bf70 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -1368,7 +1368,8 @@ DEF("virtfs_synth", 0, QEMU_OPTION_virtfs_synth,
+ STEXI
+ @item -virtfs_synth
+ @findex -virtfs_synth
+-Create synthetic file system image
++Create synthetic file system image. Note that this option is deprecated with
++no replacement.
+ ETEXI
  
-+static int validate_opt(void *opaque, const char *name, const char *value,
-+                        Error **errp)
-+{
-+    FsDriverTable *drv = opaque;
-+    const char **opt;
-+
-+    for (opt = drv->opts; *opt; opt++) {
-+        if (!strcmp(*opt, name)) {
-+            return 0;
-+        }
-+    }
-+
-+    error_setg(errp, "'%s' is invalid for fsdriver '%s'", name, drv->name);
-+    return -1;
-+}
-+
- int qemu_fsdev_add(QemuOpts *opts, Error **errp)
- {
-     int i;
-@@ -80,6 +144,10 @@ int qemu_fsdev_add(QemuOpts *opts, Error **errp)
-         return -1;
-     }
+ DEF("iscsi", HAS_ARG, QEMU_OPTION_iscsi,
+diff --git a/vl.c b/vl.c
+index d9fea0a11966..c010cb3e98df 100644
+--- a/vl.c
++++ b/vl.c
+@@ -3507,6 +3507,11 @@ int main(int argc, char **argv, char **envp)
+                 QemuOpts *fsdev;
+                 QemuOpts *device;
  
-+    if (qemu_opt_foreach(opts, validate_opt, &FsDrivers[i], errp)) {
-+        return -1;
-+    }
++                warn_report("The -virtfs_synth option is deprecated and will "
++                            "be removed soon. If the -virtfs_synth option is "
++                            "still useful for you, please send a mail to "
++                            "qemu-devel@nongnu.org with your usecase.");
 +
-     fsle = g_malloc0(sizeof(*fsle));
-     fsle->fse.fsdev_id = g_strdup(fsdev_id);
-     fsle->fse.ops = FsDrivers[i].ops;
+                 fsdev = qemu_opts_create(qemu_find_opts("fsdev"), "v_synth",
+                                          1, NULL);
+                 if (!fsdev) {
 
 
