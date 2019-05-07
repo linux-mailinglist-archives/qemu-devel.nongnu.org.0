@@ -2,51 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 416FC164E0
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 15:47:49 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:47115 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B37E164F9
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 15:50:06 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:47153 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hO0Rf-0006Cy-Ko
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 09:47:47 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38333)
+	id 1hO0Tt-0007V6-LK
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 09:50:05 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39007)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hO0Pb-0004y2-Np
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 09:45:40 -0400
+	(envelope-from <qemu_oss@crudebyte.com>) id 1hO0Sm-0007BT-53
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 09:48:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hO0Pa-000726-LW
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 09:45:39 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:20371)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <thuth@redhat.com>)
-	id 1hO0PY-0006yU-1e; Tue, 07 May 2019 09:45:36 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 53C0AC0AD1DF;
-	Tue,  7 May 2019 13:45:35 +0000 (UTC)
-Received: from thuth.com (ovpn-116-130.ams2.redhat.com [10.36.116.130])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 201641A4D9;
-	Tue,  7 May 2019 13:45:33 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-devel@nongnu.org
-Date: Tue,  7 May 2019 15:45:21 +0200
-Message-Id: <20190507134521.31044-2-thuth@redhat.com>
-In-Reply-To: <20190507134521.31044-1-thuth@redhat.com>
-References: <20190507134521.31044-1-thuth@redhat.com>
+	(envelope-from <qemu_oss@crudebyte.com>) id 1hO0Sk-0001eF-6d
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 09:48:56 -0400
+Received: from kylie.crudebyte.com ([5.189.157.229]:48211)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <qemu_oss@crudebyte.com>)
+	id 1hO0Si-0001Xw-9T
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 09:48:54 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+	d=crudebyte.com; s=kylie; h=Content-Type:Content-Transfer-Encoding:
+	MIME-Version:References:In-Reply-To:Message-ID:Date:Subject:Cc:To:From:Sender
+	:Reply-To:Content-ID:Content-Description:Resent-Date:Resent-From:
+	Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:
+	List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=O0ydUdcZGLO4pE0OqG0OLi579G8c7v1O83O1upHB11k=;
+	b=KKTx4CUa7v1bb+9k7NXbKldBQz
+	NpCdfwMIcq8nzxdsIShusp85diSN5xG2iUEnEeuyLObJFHj9v+HZoVBaO6lOFUPHTk8xjryogiyjZ
+	BhDhRgWV10xdpuY2xbaLDYbsBl37O1F8fd7d+4dMTMs2Ge6OaqDCf0rrTnmZARZ3EJuctIZAM82mN
+	YVi3zdCUDiYl3kU1AnRz1caxn4v+bXxKnv59L1v2xHA2Y8sKu2Z6zyVFpS5gwFTGd84sLZUZ048fR
+	sVdvj2KZRQzVI1CZZw4rJ2VITCLE65nmmcKfeFcDupDU4NUeuffxuF0kt6dQFq/xd4W8nO0qohnpD
+	cG8y1c7da/HdY58Xz5dhYYft6jnz/LlzpQYb+hiHXxQ1gsmnzGl6HY2KLgwFVZagS3foVrJV6RJgu
+	PzUTvBMYy3KxJBUp3C6sgWtO9h1XpgOHzlMCK0JwVr+Wl2dtKGYoHcyhZkQOQI/tqhMdWD2xpqe9J
+	HDy6etdqqm2xU2LiJw+Lerv65PCPWuVUT89wQ0C7me0lfnLpU1rkBPuYLMViOU09iav/+ymVLHhfx
+	xmTCxyoDeqLUHJnEsRqS+HSfilePf+aYgxWwfn7Cp1vjTByreJAK5bK9keJUzmlqGEDDlzGZ0zo0m
+	18MhGK0d6U9j64gG51Yp0jNqWMazllbVtxZwQw93g=;
+To: qemu-devel@nongnu.org
+Date: Tue, 07 May 2019 15:48:47 +0200
+Message-ID: <1985409.cXXgv05A0a@silver>
+In-Reply-To: <20190507125756.GP27205@redhat.com>
+References: <590216e2666653bac21d950aaba98f87d0a53324.1557093245.git.qemu_oss@crudebyte.com>
+	<1895198.u98Sn5qOsY@silver> <20190507125756.GP27205@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.31]);
-	Tue, 07 May 2019 13:45:35 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="iso-8859-1"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL v2 02/28] hw/ide/ahci: Add a Kconfig switch for
- the AHCI-ICH9 device
+X-Received-From: 5.189.157.229
+Subject: Re: [Qemu-devel] [libvirt patch] qemu: adds support for virtfs 9p
+ argument 'vii'
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,86 +62,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jsnow@redhat.com, qemu-arm@nongnu.org, philmd@redhat.com
+From: Christian Schoenebeck via Qemu-devel <qemu-devel@nongnu.org>
+Reply-To: Christian Schoenebeck <qemu_oss@crudebyte.com>
+Cc: Greg Kurz <groug@kaod.org>, Antonios Motakis <antonios.motakis@huawei.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Some of our machines (like the ARM cubieboard) use CONFIG_AHCI for an AHC=
-I
-sysbus device, but do not use CONFIG_PCI since they do not feature a PCI
-bus. With CONFIG_AHCI but without CONFIG_PCI, currently linking fails:
+On Dienstag, 7. Mai 2019 13:57:56 CEST Daniel P. Berrang=E9 wrote:
+> >       ...
+> >       <filesystem type=3D'mount' accessmode=3D'mapped'>
+> >      =20
+> >         <source dir=3D'/vm/fs'/>
+> >         <target dir=3D'root'/>
+> >         <important path=3D'/var/shares'/>
+> >         <important path=3D'/tmp'/>
+> >      =20
+> >       </filesystem>
+> >    =20
+> >     </devices>
+> >  =20
+> >   </domain>
+> >=20
+> > Like with the vii qemu virtfs command line argument, the order of the
+> > "important" tag defines which one gets the highest inode namespace
+> > (smallest generated suffix) on guest side.
+>=20
+> Do we think anyone is likely to use this feature in the real world ?
 
-    ../hw/ide/ich.o: In function `pci_ich9_ahci_realize':
-    hw/ide/ich.c:124: undefined reference to `pci_allocate_irq'
-    hw/ide/ich.c:126: undefined reference to `pci_register_bar'
-    hw/ide/ich.c:128: undefined reference to `pci_register_bar'
-    hw/ide/ich.c:131: undefined reference to `pci_add_capability'
-    hw/ide/ich.c:147: undefined reference to `msi_init'
-    ../hw/ide/ich.o: In function `pci_ich9_uninit':
-    hw/ide/ich.c:158: undefined reference to `msi_uninit'
-    ../hw/ide/ich.o:(.data.rel+0x50): undefined reference to `vmstate_pci=
-_device'
-
-We must only compile ich.c if CONFIG_PCI is available, too, so introduce =
-a
-new config switch for this device.
-
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Acked-by: John Snow <jsnow@redhat.com>
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- hw/i386/Kconfig      | 2 +-
- hw/ide/Kconfig       | 6 +++++-
- hw/ide/Makefile.objs | 2 +-
- 3 files changed, 7 insertions(+), 3 deletions(-)
-
-diff --git a/hw/i386/Kconfig b/hw/i386/Kconfig
-index a6aed7c131..9817888216 100644
---- a/hw/i386/Kconfig
-+++ b/hw/i386/Kconfig
-@@ -80,7 +80,7 @@ config Q35
-     select PC_ACPI
-     select PCI_EXPRESS_Q35
-     select LPC_ICH9
--    select AHCI
-+    select AHCI_ICH9
-     select DIMM
-     select SMBIOS
-     select VMPORT
-diff --git a/hw/ide/Kconfig b/hw/ide/Kconfig
-index ab47b6a7a3..5d9106b1ac 100644
---- a/hw/ide/Kconfig
-+++ b/hw/ide/Kconfig
-@@ -43,10 +43,14 @@ config MICRODRIVE
-     select IDE_QDEV
+I don't know if other people need it, that's one of the reasons why I am=20
+asking for a coarse high level feedback of the current v3 patch set before=
 =20
- config AHCI
-+    bool
-+    select IDE_QDEV
-+
-+config AHCI_ICH9
-     bool
-     default y if PCI_DEVICES
-     depends on PCI
--    select IDE_QDEV
-+    select AHCI
-=20
- config IDE_SII3112
-     bool
-diff --git a/hw/ide/Makefile.objs b/hw/ide/Makefile.objs
-index a142add90e..faf04e0209 100644
---- a/hw/ide/Makefile.objs
-+++ b/hw/ide/Makefile.objs
-@@ -9,6 +9,6 @@ common-obj-$(CONFIG_IDE_MMIO) +=3D mmio.o
- common-obj-$(CONFIG_IDE_VIA) +=3D via.o
- common-obj-$(CONFIG_MICRODRIVE) +=3D microdrive.o
- common-obj-$(CONFIG_AHCI) +=3D ahci.o
--common-obj-$(CONFIG_AHCI) +=3D ich.o
-+common-obj-$(CONFIG_AHCI_ICH9) +=3D ich.o
- common-obj-$(CONFIG_ALLWINNER_A10) +=3D ahci-allwinner.o
- common-obj-$(CONFIG_IDE_SII3112) +=3D sii3112.o
---=20
-2.21.0
+getting into the details.
 
+The only thing I can say right now is that I must use this feature when=20
+running Samba to avoid all kinds of serious problems. And I could imagine=20
+inode namespace control to become more of an issue once nested virtualizati=
+on=20
+becomes more popular.
+
+> I'm not really a fan of the representation, because this is affecting
+> guest ABI via a side effect of the ordering which is the kind of thing
+> that has got us in trouble before.  If we need control over the IDs
+> used for each mount point, then I tend to think we need to represent
+> it explicitly such that the mgmt app sets the exact ID used.
+>=20
+>      <pathid dir=3D"/var/shares" id=3D"0x1"/>
+>      <pathid dir=3D"/tmp" id=3D"0x3"/>
+>=20
+> this ensures that the IDs are still stable when adding or removing
+> paths
+
+Well, that would lead to the exact opposite of what you asked for. Because=
+=20
+allowing admins to configure an exact ID (which I think you mean should be =
+used=20
+as exact inode suffix by 9p then) would expose implementation details insid=
+e=20
+9pfs to config space, which are subject to change, might collide with=20
+implementation details, and requires implementation knowledge and extreme c=
+are=20
+by admins so they would pick appropriate IDs with "suffix-free" property wh=
+ich=20
+are guaranteed to create unique numbers in all cases:
+
+https://en.wikipedia.org/wiki/Prefix_code
+
+Also keep in mind that one fs device might end up having multiple suffixes.
+
+Hence my suggestion was to only expose the bare minimum to config space=20
+regarding this issue: Asking (if required at all) admins which ones are the=
+=20
+most critical pathes regarding inode namespace for their use cases, and 9p=
+=20
+would then automatically generate appropriate suffixes for those mentioned =
+by=20
+admin to achieve the highest inode namespace appropriately and in a safe wa=
+y.
+
+Plus for the "important path=3D" semantics I suggested you don't have have =
+to=20
+use mount points BTW. You can use subdirs and even individual files and 9pf=
+s=20
+would then automatically resolve the appropriate fs device of the given pat=
+h.=20
+So e.g. when using nested virtualization, an admin inside a lower level gue=
+st=20
+does not even need to know the exact mount points on a higher level / host.
+
+Best regards,
+Christian Schoenebeck
 
