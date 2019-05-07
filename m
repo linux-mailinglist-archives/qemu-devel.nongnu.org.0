@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A040F16855
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 18:47:50 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50000 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A09316866
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 18:53:48 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50099 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hO3Ft-0004AD-Ph
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 12:47:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51718)
+	id 1hO3Lf-0000jA-DG
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 12:53:47 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51875)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hO36T-0003t1-9s
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 12:38:06 -0400
+	(envelope-from <philmd@redhat.com>) id 1hO376-0004V6-R5
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 12:38:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hO36S-0004sy-9a
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 12:38:05 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58538)
+	(envelope-from <philmd@redhat.com>) id 1hO375-0005Yd-Qe
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 12:38:44 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:30748)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <philmd@redhat.com>)
-	id 1hO36P-0004qP-Sv; Tue, 07 May 2019 12:38:02 -0400
+	id 1hO372-0005UU-U5; Tue, 07 May 2019 12:38:41 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
 	[10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id F05FE83F3C;
-	Tue,  7 May 2019 16:37:58 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 8387D30B96D1;
+	Tue,  7 May 2019 16:38:37 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-58.brq.redhat.com [10.40.204.58])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id ABCEB8162;
-	Tue,  7 May 2019 16:37:39 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id B896C8166;
+	Tue,  7 May 2019 16:37:59 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>, Thomas Huth <thuth@redhat.com>,
 	qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
-Date: Tue,  7 May 2019 18:34:13 +0200
-Message-Id: <20190507163416.24647-14-philmd@redhat.com>
+Date: Tue,  7 May 2019 18:34:14 +0200
+Message-Id: <20190507163416.24647-15-philmd@redhat.com>
 In-Reply-To: <20190507163416.24647-1-philmd@redhat.com>
 References: <20190507163416.24647-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.27]);
-	Tue, 07 May 2019 16:38:01 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.49]);
+	Tue, 07 May 2019 16:38:38 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 13/16] hw/microblaze/zynqmp: Use
+Subject: [Qemu-devel] [PATCH v2 14/16] hw/microblaze/zynqmp: Use
  object_initialize_child for correct ref. counting
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
@@ -90,68 +90,73 @@ As explained in commit aff39be0ed97:
   reference counting here right.
 
 This patch was generated using the following Coccinelle script
-(then manually modified to use numbered IPI name)
+(with a bit of manual fix-up for overly long lines):
 
- @use_sysbus_init_child_obj_missing_parent@
+ @use_object_initialize_child@
+ expression parent_obj;
  expression child_ptr;
+ expression child_name;
  expression child_type;
  expression child_size;
+ expression errp;
  @@
+ (
  -   object_initialize(child_ptr, child_size, child_type);
+ +   object_initialize_child(parent_obj, child_name,  child_ptr, child_si=
+ze,
+ +                           child_type, &error_abort, NULL);
+     ... when !=3D parent_obj
+ -   object_property_add_child(parent_obj, child_name, OBJECT(child_ptr),=
+ NULL);
      ...
- -   qdev_set_parent_bus(DEVICE(child_ptr), sysbus_get_default());
+?-   object_unref(OBJECT(child_ptr));
+ |
+ -   object_initialize(child_ptr, child_size, child_type);
+ +   object_initialize_child(parent_obj, child_name,  child_ptr, child_si=
+ze,
+ +                            child_type, errp, NULL);
+     ... when !=3D parent_obj
+ -   object_property_add_child(parent_obj, child_name, OBJECT(child_ptr),=
+ errp);
      ...
- ?-  object_unref(OBJECT(child_ptr));
- +   sysbus_init_child_obj(OBJECT(PARENT_OBJ), "CHILD_NAME", child_ptr,
- +                         child_size, child_type);
-
-We let the SoC adopt the IPI children.
+?-   object_unref(OBJECT(child_ptr));
+ )
 
 While the object_initialize() function doesn't take an
 'Error *errp' argument, the object_initialize_child() does.
 Since this code is used when a machine is created (and is not
 yet running), we deliberately choose to use the &error_abort
 argument instead of ignoring errors if an object creation failed.
-This choice also matches when using sysbus_init_child_obj(),
-since its code is:
-
-  void sysbus_init_child_obj(Object *parent,
-                             const char *childname, void *child,
-                             size_t childsize, const char *childtype)
-  {
-      object_initialize_child(parent, childname, child, childsize,
-                              childtype, &error_abort, NULL);
-
-      qdev_set_parent_bus(DEVICE(child), sysbus_get_default());
-  }
 
 Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
 Inspired-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/microblaze/xlnx-zynqmp-pmu.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ hw/microblaze/xlnx-zynqmp-pmu.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/hw/microblaze/xlnx-zynqmp-pmu.c b/hw/microblaze/xlnx-zynqmp-=
 pmu.c
-index 20e973edf5f..0948b1fd5f2 100644
+index 0948b1fd5f2..df6c0048aa6 100644
 --- a/hw/microblaze/xlnx-zynqmp-pmu.c
 +++ b/hw/microblaze/xlnx-zynqmp-pmu.c
-@@ -71,9 +71,10 @@ static void xlnx_zynqmp_pmu_soc_init(Object *obj)
+@@ -176,9 +176,9 @@ static void xlnx_zynqmp_pmu_init(MachineState *machin=
+e)
+                                 pmu_ram);
 =20
-     /* Create the IPI device */
-     for (int i =3D 0; i < XLNX_ZYNQMP_PMU_NUM_IPIS; i++) {
--        object_initialize(&s->ipi[i], sizeof(XlnxZynqMPIPI),
--                          TYPE_XLNX_ZYNQMP_IPI);
--        qdev_set_parent_bus(DEVICE(&s->ipi[i]), sysbus_get_default());
-+        char *name =3D g_strdup_printf("ipi%d", i);
-+        sysbus_init_child_obj(obj, name, &s->ipi[i],
-+                              sizeof(XlnxZynqMPIPI), TYPE_XLNX_ZYNQMP_IP=
-I);
-+        g_free(name);
-     }
- }
+     /* Create the PMU device */
+-    object_initialize(pmu, sizeof(XlnxZynqMPPMUSoCState), TYPE_XLNX_ZYNQ=
+MP_PMU_SOC);
+-    object_property_add_child(OBJECT(machine), "pmu", OBJECT(pmu),
+-                              &error_abort);
++    object_initialize_child(OBJECT(machine), "pmu", pmu,
++                            sizeof(XlnxZynqMPPMUSoCState),
++                            TYPE_XLNX_ZYNQMP_PMU_SOC, &error_abort, NULL=
+);
+     object_property_set_bool(OBJECT(pmu), true, "realized", &error_fatal=
+);
 =20
+     /* Load the kernel */
 --=20
 2.20.1
 
