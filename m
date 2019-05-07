@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 590CD16811
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 18:41:43 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49871 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A040F16855
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 18:47:50 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50000 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hO39y-0006BP-En
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 12:41:42 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51636)
+	id 1hO3Ft-0004AD-Ph
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 12:47:49 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51718)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hO367-0003by-Ev
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 12:37:44 -0400
+	(envelope-from <philmd@redhat.com>) id 1hO36T-0003t1-9s
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 12:38:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hO366-0004XN-EL
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 12:37:43 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41688)
+	(envelope-from <philmd@redhat.com>) id 1hO36S-0004sy-9a
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 12:38:05 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58538)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <philmd@redhat.com>)
-	id 1hO363-0004Te-RM; Tue, 07 May 2019 12:37:40 -0400
+	id 1hO36P-0004qP-Sv; Tue, 07 May 2019 12:38:02 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
 	[10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id E2751369C4;
-	Tue,  7 May 2019 16:37:38 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id F05FE83F3C;
+	Tue,  7 May 2019 16:37:58 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-58.brq.redhat.com [10.40.204.58])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id CCAE18164;
-	Tue,  7 May 2019 16:37:29 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id ABCEB8162;
+	Tue,  7 May 2019 16:37:39 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>, Thomas Huth <thuth@redhat.com>,
 	qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
-Date: Tue,  7 May 2019 18:34:12 +0200
-Message-Id: <20190507163416.24647-13-philmd@redhat.com>
+Date: Tue,  7 May 2019 18:34:13 +0200
+Message-Id: <20190507163416.24647-14-philmd@redhat.com>
 In-Reply-To: <20190507163416.24647-1-philmd@redhat.com>
 References: <20190507163416.24647-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.30]);
-	Tue, 07 May 2019 16:37:39 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.27]);
+	Tue, 07 May 2019 16:38:01 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 12/16] hw/microblaze/zynqmp: Let the SoC
- manage the IPI devices
+Subject: [Qemu-devel] [PATCH v2 13/16] hw/microblaze/zynqmp: Use
+ object_initialize_child for correct ref. counting
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -79,93 +79,79 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Inter Processor Interrupt is a block part of the SoC, not the
-"machine" (See Zynq UltraScale+ Device TRM UG1085, "Platform
-Management Unit", Power Domains and Islands).
+As explained in commit aff39be0ed97:
 
-Move the IPI management from the machine to the SoC.
+  Both functions, object_initialize() and object_property_add_child()
+  increase the reference counter of the new object, so one of the
+  references has to be dropped afterwards to get the reference
+  counting right. Otherwise the child object will not be properly
+  cleaned up when the parent gets destroyed.
+  Thus let's use now object_initialize_child() instead to get the
+  reference counting here right.
 
+This patch was generated using the following Coccinelle script
+(then manually modified to use numbered IPI name)
+
+ @use_sysbus_init_child_obj_missing_parent@
+ expression child_ptr;
+ expression child_type;
+ expression child_size;
+ @@
+ -   object_initialize(child_ptr, child_size, child_type);
+     ...
+ -   qdev_set_parent_bus(DEVICE(child_ptr), sysbus_get_default());
+     ...
+ ?-  object_unref(OBJECT(child_ptr));
+ +   sysbus_init_child_obj(OBJECT(PARENT_OBJ), "CHILD_NAME", child_ptr,
+ +                         child_size, child_type);
+
+We let the SoC adopt the IPI children.
+
+While the object_initialize() function doesn't take an
+'Error *errp' argument, the object_initialize_child() does.
+Since this code is used when a machine is created (and is not
+yet running), we deliberately choose to use the &error_abort
+argument instead of ignoring errors if an object creation failed.
+This choice also matches when using sysbus_init_child_obj(),
+since its code is:
+
+  void sysbus_init_child_obj(Object *parent,
+                             const char *childname, void *child,
+                             size_t childsize, const char *childtype)
+  {
+      object_initialize_child(parent, childname, child, childsize,
+                              childtype, &error_abort, NULL);
+
+      qdev_set_parent_bus(DEVICE(child), sysbus_get_default());
+  }
+
+Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
+Inspired-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- hw/microblaze/xlnx-zynqmp-pmu.c | 36 +++++++++++++++------------------
- 1 file changed, 16 insertions(+), 20 deletions(-)
+ hw/microblaze/xlnx-zynqmp-pmu.c | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
 diff --git a/hw/microblaze/xlnx-zynqmp-pmu.c b/hw/microblaze/xlnx-zynqmp-=
 pmu.c
-index eba9945c19b..20e973edf5f 100644
+index 20e973edf5f..0948b1fd5f2 100644
 --- a/hw/microblaze/xlnx-zynqmp-pmu.c
 +++ b/hw/microblaze/xlnx-zynqmp-pmu.c
-@@ -68,6 +68,13 @@ static void xlnx_zynqmp_pmu_soc_init(Object *obj)
+@@ -71,9 +71,10 @@ static void xlnx_zynqmp_pmu_soc_init(Object *obj)
 =20
-     sysbus_init_child_obj(obj, "intc", &s->intc, sizeof(s->intc),
-                           TYPE_XLNX_PMU_IO_INTC);
-+
-+    /* Create the IPI device */
-+    for (int i =3D 0; i < XLNX_ZYNQMP_PMU_NUM_IPIS; i++) {
-+        object_initialize(&s->ipi[i], sizeof(XlnxZynqMPIPI),
-+                          TYPE_XLNX_ZYNQMP_IPI);
-+        qdev_set_parent_bus(DEVICE(&s->ipi[i]), sysbus_get_default());
-+    }
- }
-=20
- static void xlnx_zynqmp_pmu_soc_realize(DeviceState *dev, Error **errp)
-@@ -113,6 +120,15 @@ static void xlnx_zynqmp_pmu_soc_realize(DeviceState =
-*dev, Error **errp)
-     sysbus_mmio_map(SYS_BUS_DEVICE(&s->intc), 0, XLNX_ZYNQMP_PMU_INTC_AD=
-DR);
-     sysbus_connect_irq(SYS_BUS_DEVICE(&s->intc), 0,
-                        qdev_get_gpio_in(DEVICE(&s->cpu), MB_CPU_IRQ));
-+
-+    /* Connect the IPI device */
-+    for (int i =3D 0; i < XLNX_ZYNQMP_PMU_NUM_IPIS; i++) {
-+        object_property_set_bool(OBJECT(&s->ipi[i]), true, "realized",
-+                                 &error_abort);
-+        sysbus_mmio_map(SYS_BUS_DEVICE(&s->ipi[i]), 0, ipi_addr[i]);
-+        sysbus_connect_irq(SYS_BUS_DEVICE(&s->ipi[i]), 0,
-+                           qdev_get_gpio_in(DEVICE(&s->intc), ipi_irq[i]=
-));
-+    }
- }
-=20
- static void xlnx_zynqmp_pmu_soc_class_init(ObjectClass *oc, void *data)
-@@ -145,8 +161,6 @@ static void xlnx_zynqmp_pmu_init(MachineState *machin=
-e)
-     MemoryRegion *address_space_mem =3D get_system_memory();
-     MemoryRegion *pmu_rom =3D g_new(MemoryRegion, 1);
-     MemoryRegion *pmu_ram =3D g_new(MemoryRegion, 1);
--    qemu_irq irq[32];
--    int i;
-=20
-     /* Create the ROM */
-     memory_region_init_rom(pmu_rom, NULL, "xlnx-zynqmp-pmu.rom",
-@@ -166,24 +180,6 @@ static void xlnx_zynqmp_pmu_init(MachineState *machi=
-ne)
-                               &error_abort);
-     object_property_set_bool(OBJECT(pmu), true, "realized", &error_fatal=
-);
-=20
--    for (i =3D 0; i < 32; i++) {
--        irq[i] =3D qdev_get_gpio_in(DEVICE(&pmu->intc), i);
--    }
--
--    /* Create and connect the IPI device */
--    for (i =3D 0; i < XLNX_ZYNQMP_PMU_NUM_IPIS; i++) {
--        object_initialize(&pmu->ipi[i], sizeof(XlnxZynqMPIPI),
+     /* Create the IPI device */
+     for (int i =3D 0; i < XLNX_ZYNQMP_PMU_NUM_IPIS; i++) {
+-        object_initialize(&s->ipi[i], sizeof(XlnxZynqMPIPI),
 -                          TYPE_XLNX_ZYNQMP_IPI);
--        qdev_set_parent_bus(DEVICE(&pmu->ipi[i]), sysbus_get_default());
--    }
--
--    for (i =3D 0; i < XLNX_ZYNQMP_PMU_NUM_IPIS; i++) {
--        object_property_set_bool(OBJECT(&pmu->ipi[i]), true, "realized",
--                                 &error_abort);
--        sysbus_mmio_map(SYS_BUS_DEVICE(&pmu->ipi[i]), 0, ipi_addr[i]);
--        sysbus_connect_irq(SYS_BUS_DEVICE(&pmu->ipi[i]), 0, irq[ipi_irq[=
-i]]);
--    }
--
-     /* Load the kernel */
-     microblaze_load_kernel(&pmu->cpu, XLNX_ZYNQMP_PMU_RAM_ADDR,
-                            machine->ram_size,
+-        qdev_set_parent_bus(DEVICE(&s->ipi[i]), sysbus_get_default());
++        char *name =3D g_strdup_printf("ipi%d", i);
++        sysbus_init_child_obj(obj, name, &s->ipi[i],
++                              sizeof(XlnxZynqMPIPI), TYPE_XLNX_ZYNQMP_IP=
+I);
++        g_free(name);
+     }
+ }
+=20
 --=20
 2.20.1
 
