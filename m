@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D8EE4166AD
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 17:26:43 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48576 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F251A166BC
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 17:29:51 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48614 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hO1zO-00068B-UT
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 11:26:42 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58365)
+	id 1hO22R-00015j-4O
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 11:29:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58410)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hO1rj-000857-Am
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 11:18:48 -0400
+	(envelope-from <mreitz@redhat.com>) id 1hO1rm-00086D-4M
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 11:18:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hO1ri-000440-E1
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 11:18:47 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50236)
+	(envelope-from <mreitz@redhat.com>) id 1hO1rl-00045b-7W
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 11:18:50 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35092)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hO1rg-00042E-8P; Tue, 07 May 2019 11:18:44 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
+	id 1hO1ri-00043c-JF; Tue, 07 May 2019 11:18:46 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 8C086C05D3FD;
-	Tue,  7 May 2019 15:18:43 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id E2A53308793B;
+	Tue,  7 May 2019 15:18:45 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.217])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 24E5D3DA5;
-	Tue,  7 May 2019 15:18:42 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 7A4D2173D9;
+	Tue,  7 May 2019 15:18:45 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Tue,  7 May 2019 17:18:17 +0200
-Message-Id: <20190507151819.17401-10-mreitz@redhat.com>
+Date: Tue,  7 May 2019 17:18:18 +0200
+Message-Id: <20190507151819.17401-11-mreitz@redhat.com>
 In-Reply-To: <20190507151819.17401-1-mreitz@redhat.com>
 References: <20190507151819.17401-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.32]);
-	Tue, 07 May 2019 15:18:43 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.45]);
+	Tue, 07 May 2019 15:18:45 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 09/11] block: Assert that drv->bdrv_child_perm
- is set in bdrv_child_perm()
+Subject: [Qemu-devel] [PULL 10/11] commit: Use bdrv_append() in
+ commit_start()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -63,44 +63,46 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alberto Garcia <berto@igalia.com>
 
-There is no need to check for this because all block drivers that have
-children implement bdrv_child_perm and all callers already ensure that
-bs->drv is set.
-
-Furthermore, if this check would fail then the callers would end up
-with uninitialized values for nperm and nshared.
-
-This patch replaces the check with an assertion.
+This function combines bdrv_set_backing_hd() and bdrv_replace_node()
+so we can use it to simplify the code a bit in commit_start().
 
 Signed-off-by: Alberto Garcia <berto@igalia.com>
-Message-id: 20190404112953.4058-1-berto@igalia.com
+Message-id: 20190403143748.9790-1-berto@igalia.com
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ block/commit.c | 11 +----------
+ 1 file changed, 1 insertion(+), 10 deletions(-)
 
-diff --git a/block.c b/block.c
-index 9ae5c0ed2f..7dc8fe289a 100644
---- a/block.c
-+++ b/block.c
-@@ -1743,11 +1743,10 @@ static void bdrv_child_perm(BlockDriverState *bs,=
- BlockDriverState *child_bs,
-                             uint64_t parent_perm, uint64_t parent_shared=
-,
-                             uint64_t *nperm, uint64_t *nshared)
- {
--    if (bs->drv && bs->drv->bdrv_child_perm) {
--        bs->drv->bdrv_child_perm(bs, c, role, reopen_queue,
--                                 parent_perm, parent_shared,
--                                 nperm, nshared);
+diff --git a/block/commit.c b/block/commit.c
+index 27537d995b..14e5bb394c 100644
+--- a/block/commit.c
++++ b/block/commit.c
+@@ -303,23 +303,14 @@ void commit_start(const char *job_id, BlockDriverSt=
+ate *bs,
+     commit_top_bs->total_sectors =3D top->total_sectors;
+     bdrv_set_aio_context(commit_top_bs, bdrv_get_aio_context(top));
+=20
+-    bdrv_set_backing_hd(commit_top_bs, top, &local_err);
++    bdrv_append(commit_top_bs, top, &local_err);
+     if (local_err) {
+-        bdrv_unref(commit_top_bs);
+-        commit_top_bs =3D NULL;
+-        error_propagate(errp, local_err);
+-        goto fail;
 -    }
-+    assert(bs->drv && bs->drv->bdrv_child_perm);
-+    bs->drv->bdrv_child_perm(bs, c, role, reopen_queue,
-+                             parent_perm, parent_shared,
-+                             nperm, nshared);
-     /* TODO Take force_share from reopen_queue */
-     if (child_bs && child_bs->force_share) {
-         *nshared =3D BLK_PERM_ALL;
+-    bdrv_replace_node(top, commit_top_bs, &local_err);
+-    if (local_err) {
+-        bdrv_unref(commit_top_bs);
+         commit_top_bs =3D NULL;
+         error_propagate(errp, local_err);
+         goto fail;
+     }
+=20
+     s->commit_top_bs =3D commit_top_bs;
+-    bdrv_unref(commit_top_bs);
+=20
+     /* Block all nodes between top and base, because they will
+      * disappear from the chain after this operation. */
 --=20
 2.20.1
 
