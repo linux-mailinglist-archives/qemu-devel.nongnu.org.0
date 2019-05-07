@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F2C215715
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 02:50:52 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36021 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89A9915719
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 02:53:26 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36079 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNoJn-0007qv-Jr
-	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 20:50:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37353)
+	id 1hNoMH-000234-LZ
+	for lists+qemu-devel@lfdr.de; Mon, 06 May 2019 20:53:25 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37357)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <anton@ozlabs.org>) id 1hNoHW-0006qd-Fg
+	(envelope-from <anton@ozlabs.org>) id 1hNoHW-0006qe-Ia
 	for qemu-devel@nongnu.org; Mon, 06 May 2019 20:48:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <anton@ozlabs.org>) id 1hNoHV-0002w4-E6
+	(envelope-from <anton@ozlabs.org>) id 1hNoHV-0002vx-DI
 	for qemu-devel@nongnu.org; Mon, 06 May 2019 20:48:30 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:37571)
+Received: from bilbo.ozlabs.org ([203.11.71.1]:45611 helo=ozlabs.org)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <anton@ozlabs.org>)
-	id 1hNoHV-0002sY-08; Mon, 06 May 2019 20:48:29 -0400
+	id 1hNoHU-0002u7-KA; Mon, 06 May 2019 20:48:29 -0400
 Received: by ozlabs.org (Postfix, from userid 1010)
-	id 44ygvX6pdXz9sB8; Tue,  7 May 2019 10:48:24 +1000 (AEST)
+	id 44ygvZ1Qjlz9sBp; Tue,  7 May 2019 10:48:26 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ozlabs.org; s=201707;
-	t=1557190104; bh=SRPwm3An5+fJjsd0L6bwnIgSg1J0AqbyzQJpxhSUQEo=;
+	t=1557190106; bh=mAHu03+fbMghlhKewri6Obh8b7KdkT+iUfKyj4bAHhE=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=kqIaXQ3Hpik3ht83Rb0ODlmAovYzq29uRMQz604NDt+1LN86ToE238vwroYdS5mTG
-	DHdKiF0hD1R0Pb8IrgiZlvwfC/QND0uAli0cQl2cpJlf+rVg6H9aUqyHmTAycgKSq8
-	8K6JSQWe6xEFoZaEi8xhWYan9Rddpd4DffVfAgtx5dHS4z/oAbjIEd2WGcL0VWNybX
-	lU6mQfngzeurB9C7DKkV8fNkF60HCnvx6CA+VfMy3ml/L6Xpjsf9s4dCCa8u/w4HC3
-	W+L/ej12v2taWkD8Cjf93i8Gz00sVvQFhTTpxBYAmsw+wA2VMywRWvgOA9csVdjZQ8
-	q9I5hq3/M1y8g==
+	b=d1Euj+cCY3ZPU9ZXxl3ICjuakFZkY/+596cG+R3UGLTMrJsacqyrN9S49BAKJ/Z85
+	AsWyE2tyXJfhRjgAuWGOVoee4B5J0kHQiqyqGscA/VGSNpwwnzA+8b7O62+ymG7x+H
+	Ratt+SrEBZrtIDaWlnBiopGkMLAjv0Qnf/GIGYtPzYu68hBhObNJmGaiO6Xj6r17Fj
+	O8O6lMs39/062SKDx8t/m/if1+JqRTMlX+zOcKx9gPXuwrDnovly/iVN5JuhtzlguW
+	qg+VpJBk+eyuLqO6xExG3Y6xyugeViqFPwZvjUzvkIxqxEMp2+lguV4eViCHJLuLfv
+	8Xw6tb03jhbmw==
 From: Anton Blanchard <anton@ozlabs.org>
 To: qemu-ppc@nongnu.org,
 	qemu-devel@nongnu.org
-Date: Tue,  7 May 2019 10:48:05 +1000
-Message-Id: <20190507004811.29968-3-anton@ozlabs.org>
+Date: Tue,  7 May 2019 10:48:06 +1000
+Message-Id: <20190507004811.29968-4-anton@ozlabs.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190507004811.29968-1-anton@ozlabs.org>
 References: <20190507004811.29968-1-anton@ozlabs.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: [Qemu-devel] [PATCH 3/9] target/ppc: Fix xxbrq, xxbrw
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 203.11.71.1
+Subject: [Qemu-devel] [PATCH 4/9] target/ppc: Fix lxvw4x, lxvh8x and lxvb16x
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,39 +61,75 @@ Cc: ego@linux.vnet.ibm.com, sandipandas1990@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix a typo in xxbrq and xxbrw where we put both results into the lower
-doubleword.
+During the conversion these instructions were incorrectly treated as
+stores. We need to use set_cpu_vsr* and not get_cpu_vsr*.
 
 Fixes: 8b3b2d75c7c0 ("introduce get_cpu_vsr{l,h}() and set_cpu_vsr{l,h}()=
  helpers for VSR register access")
 Signed-off-by: Anton Blanchard <anton@ozlabs.org>
 ---
- target/ppc/translate/vsx-impl.inc.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ target/ppc/translate/vsx-impl.inc.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
 diff --git a/target/ppc/translate/vsx-impl.inc.c b/target/ppc/translate/v=
 sx-impl.inc.c
-index d050cc03ed..05b75105be 100644
+index 05b75105be..c13f84e745 100644
 --- a/target/ppc/translate/vsx-impl.inc.c
 +++ b/target/ppc/translate/vsx-impl.inc.c
-@@ -1192,7 +1192,7 @@ static void gen_xxbrq(DisasContext *ctx)
-     tcg_gen_bswap64_i64(xtl, xbh);
-     set_cpu_vsrl(xT(ctx->opcode), xtl);
-     tcg_gen_mov_i64(xth, t0);
--    set_cpu_vsrl(xT(ctx->opcode), xth);
+@@ -102,8 +102,7 @@ static void gen_lxvw4x(DisasContext *ctx)
+     }
+     xth =3D tcg_temp_new_i64();
+     xtl =3D tcg_temp_new_i64();
+-    get_cpu_vsrh(xth, xT(ctx->opcode));
+-    get_cpu_vsrl(xtl, xT(ctx->opcode));
++
+     gen_set_access_type(ctx, ACCESS_INT);
+     EA =3D tcg_temp_new();
+=20
+@@ -126,6 +125,8 @@ static void gen_lxvw4x(DisasContext *ctx)
+         tcg_gen_addi_tl(EA, EA, 8);
+         tcg_gen_qemu_ld_i64(xtl, EA, ctx->mem_idx, MO_BEQ);
+     }
 +    set_cpu_vsrh(xT(ctx->opcode), xth);
-=20
-     tcg_temp_free_i64(t0);
++    set_cpu_vsrl(xT(ctx->opcode), xtl);
+     tcg_temp_free(EA);
      tcg_temp_free_i64(xth);
-@@ -1220,7 +1220,7 @@ static void gen_xxbrw(DisasContext *ctx)
-     get_cpu_vsrl(xbl, xB(ctx->opcode));
+     tcg_temp_free_i64(xtl);
+@@ -185,8 +186,6 @@ static void gen_lxvh8x(DisasContext *ctx)
+     }
+     xth =3D tcg_temp_new_i64();
+     xtl =3D tcg_temp_new_i64();
+-    get_cpu_vsrh(xth, xT(ctx->opcode));
+-    get_cpu_vsrl(xtl, xT(ctx->opcode));
+     gen_set_access_type(ctx, ACCESS_INT);
 =20
-     gen_bswap32x4(xth, xtl, xbh, xbl);
--    set_cpu_vsrl(xT(ctx->opcode), xth);
+     EA =3D tcg_temp_new();
+@@ -197,6 +196,8 @@ static void gen_lxvh8x(DisasContext *ctx)
+     if (ctx->le_mode) {
+         gen_bswap16x8(xth, xtl, xth, xtl);
+     }
 +    set_cpu_vsrh(xT(ctx->opcode), xth);
-     set_cpu_vsrl(xT(ctx->opcode), xtl);
-=20
++    set_cpu_vsrl(xT(ctx->opcode), xtl);
+     tcg_temp_free(EA);
      tcg_temp_free_i64(xth);
+     tcg_temp_free_i64(xtl);
+@@ -214,14 +215,14 @@ static void gen_lxvb16x(DisasContext *ctx)
+     }
+     xth =3D tcg_temp_new_i64();
+     xtl =3D tcg_temp_new_i64();
+-    get_cpu_vsrh(xth, xT(ctx->opcode));
+-    get_cpu_vsrl(xtl, xT(ctx->opcode));
+     gen_set_access_type(ctx, ACCESS_INT);
+     EA =3D tcg_temp_new();
+     gen_addr_reg_index(ctx, EA);
+     tcg_gen_qemu_ld_i64(xth, EA, ctx->mem_idx, MO_BEQ);
+     tcg_gen_addi_tl(EA, EA, 8);
+     tcg_gen_qemu_ld_i64(xtl, EA, ctx->mem_idx, MO_BEQ);
++    set_cpu_vsrh(xT(ctx->opcode), xth);
++    set_cpu_vsrl(xT(ctx->opcode), xtl);
+     tcg_temp_free(EA);
+     tcg_temp_free_i64(xth);
+     tcg_temp_free_i64(xtl);
 --=20
 2.20.1
 
