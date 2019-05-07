@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1457816857
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 18:49:11 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50015 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B376016861
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 18:51:38 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50063 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hO3HC-0004uE-7C
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 12:49:10 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51343)
+	id 1hO3JZ-00075f-TP
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 12:51:37 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51418)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hO35N-0002hE-EV
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 12:36:58 -0400
+	(envelope-from <philmd@redhat.com>) id 1hO35b-0002sT-5h
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 12:37:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hO35L-0003aw-UE
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 12:36:57 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47711)
+	(envelope-from <philmd@redhat.com>) id 1hO35Z-0003wA-WC
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 12:37:11 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48080)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <philmd@redhat.com>)
-	id 1hO35I-0003Wt-Ec; Tue, 07 May 2019 12:36:52 -0400
+	id 1hO35X-0003rT-3q; Tue, 07 May 2019 12:37:07 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
 	[10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 8F5F6307D91F;
-	Tue,  7 May 2019 16:36:51 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 22DDF99DBA;
+	Tue,  7 May 2019 16:37:06 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-58.brq.redhat.com [10.40.204.58])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 7ED6D8165;
-	Tue,  7 May 2019 16:36:41 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5AAE28162;
+	Tue,  7 May 2019 16:36:52 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: Markus Armbruster <armbru@redhat.com>, Thomas Huth <thuth@redhat.com>,
 	qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
-Date: Tue,  7 May 2019 18:34:08 +0200
-Message-Id: <20190507163416.24647-9-philmd@redhat.com>
+Date: Tue,  7 May 2019 18:34:09 +0200
+Message-Id: <20190507163416.24647-10-philmd@redhat.com>
 In-Reply-To: <20190507163416.24647-1-philmd@redhat.com>
 References: <20190507163416.24647-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.48]);
-	Tue, 07 May 2019 16:36:51 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.38]);
+	Tue, 07 May 2019 16:37:06 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 08/16] hw/arm: Use object_initialize_child
- for correct reference counting
+Subject: [Qemu-devel] [PATCH v2 09/16] hw/mips: Use object_initialize() on
+ MIPSCPSState
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -79,266 +79,145 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As explained in commit aff39be0ed97:
+Initialize the MIPSCPSState with object_initialize() instead of
+object_new(). This will allow us to add it as children of the
+machine container.
 
-  Both functions, object_initialize() and object_property_add_child()
-  increase the reference counter of the new object, so one of the
-  references has to be dropped afterwards to get the reference
-  counting right. Otherwise the child object will not be properly
-  cleaned up when the parent gets destroyed.
-  Thus let's use now object_initialize_child() instead to get the
-  reference counting here right.
-
-This patch was generated using the following Coccinelle script
-(with a bit of manual fix-up for overly long lines):
-
- @use_object_initialize_child@
- expression parent_obj;
- expression child_ptr;
- expression child_name;
- expression child_type;
- expression child_size;
- expression errp;
- @@
- (
- -   object_initialize(child_ptr, child_size, child_type);
- +   object_initialize_child(parent_obj, child_name,  child_ptr, child_si=
-ze,
- +                           child_type, &error_abort, NULL);
-     ... when !=3D parent_obj
- -   object_property_add_child(parent_obj, child_name, OBJECT(child_ptr),=
- NULL);
-     ...
- ?-  object_unref(OBJECT(child_ptr));
- |
- -   object_initialize(child_ptr, child_size, child_type);
- +   object_initialize_child(parent_obj, child_name,  child_ptr, child_si=
-ze,
- +                            child_type, errp, NULL);
-     ... when !=3D parent_obj
- -   object_property_add_child(parent_obj, child_name, OBJECT(child_ptr),=
- errp);
-     ...
- ?-  object_unref(OBJECT(child_ptr));
- )
-
- @use_sysbus_init_child_obj@
- expression parent_obj;
- expression dev;
- expression child_ptr;
- expression child_name;
- expression child_type;
- expression child_size;
- expression errp;
- @@
- (
- -   object_initialize_child(parent_obj, child_name, child_ptr, child_siz=
-e,
- -                           child_type, errp, NULL);
- +   sysbus_init_child_obj(parent_obj, child_name, child_ptr, child_size,
- +                         child_type);
-     ...
- -   qdev_set_parent_bus(DEVICE(child_ptr), sysbus_get_default());
- |
- -   object_initialize_child(parent_obj, child_name, child_ptr, child_siz=
-e,
- -                           child_type, errp, NULL);
- +   sysbus_init_child_obj(parent_obj, child_name, child_ptr, child_size,
- +                         child_type);
- -   dev =3D DEVICE(child_ptr);
- -   qdev_set_parent_bus(dev, sysbus_get_default());
- )
-
-While the object_initialize() function doesn't take an
-'Error *errp' argument, the object_initialize_child() does.
-Since this code is used when a machine is created (and is not
-yet running), we deliberately choose to use the &error_abort
-argument instead of ignoring errors if an object creation failed.
-This choice also matches when using sysbus_init_child_obj(),
-since its code is:
-
-  void sysbus_init_child_obj(Object *parent,
-                             const char *childname, void *child,
-                             size_t childsize, const char *childtype)
-  {
-      object_initialize_child(parent, childname, child, childsize,
-                              childtype, &error_abort, NULL);
-
-      qdev_set_parent_bus(DEVICE(child), sysbus_get_default());
-  }
-
-Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
-Inspired-by: Thomas Huth <thuth@redhat.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
-v2:
- - Tweaked cocci to improve digic_init (Thomas)
- - Described new use of &error_abort (Markus)
----
- hw/arm/digic.c       | 17 ++++++-----------
- hw/arm/imx25_pdk.c   |  5 ++---
- hw/arm/kzm.c         |  5 ++---
- hw/arm/raspi.c       |  7 +++----
- hw/arm/sabrelite.c   |  5 ++---
- hw/arm/xlnx-zcu102.c |  5 ++---
- hw/arm/xlnx-zynqmp.c |  8 ++++----
- 7 files changed, 21 insertions(+), 31 deletions(-)
+ hw/mips/boston.c     | 25 ++++++++++++-------------
+ hw/mips/mips_malta.c | 17 ++++++++---------
+ 2 files changed, 20 insertions(+), 22 deletions(-)
 
-diff --git a/hw/arm/digic.c b/hw/arm/digic.c
-index 726abb9b485..6ef26c6bac3 100644
---- a/hw/arm/digic.c
-+++ b/hw/arm/digic.c
-@@ -32,27 +32,22 @@
- static void digic_init(Object *obj)
- {
-     DigicState *s =3D DIGIC(obj);
--    DeviceState *dev;
-     int i;
+diff --git a/hw/mips/boston.c b/hw/mips/boston.c
+index a8b29f62f5b..cb3ea85fdc1 100644
+--- a/hw/mips/boston.c
++++ b/hw/mips/boston.c
+@@ -49,7 +49,7 @@ typedef struct {
+     SysBusDevice parent_obj;
 =20
--    object_initialize(&s->cpu, sizeof(s->cpu), "arm946-" TYPE_ARM_CPU);
--    object_property_add_child(obj, "cpu", OBJECT(&s->cpu), NULL);
-+    object_initialize_child(obj, "cpu", &s->cpu, sizeof(s->cpu),
-+                            "arm946-" TYPE_ARM_CPU, &error_abort, NULL);
+     MachineState *mach;
+-    MIPSCPSState *cps;
++    MIPSCPSState cps;
+     SerialState *uart;
 =20
-     for (i =3D 0; i < DIGIC4_NB_TIMERS; i++) {
- #define DIGIC_TIMER_NAME_MLEN    11
-         char name[DIGIC_TIMER_NAME_MLEN];
+     CharBackend lcd_display;
+@@ -188,7 +188,7 @@ static uint64_t boston_platreg_read(void *opaque, hwa=
+ddr addr,
+     case PLAT_DDR3_STATUS:
+         return PLAT_DDR3_STATUS_LOCKED | PLAT_DDR3_STATUS_CALIBRATED;
+     case PLAT_MMCM_DIV:
+-        gic_freq =3D mips_gictimer_get_freq(s->cps->gic.gic_timer) / 100=
+0000;
++        gic_freq =3D mips_gictimer_get_freq(s->cps.gic.gic_timer) / 1000=
+000;
+         val =3D gic_freq << PLAT_MMCM_DIV_INPUT_SHIFT;
+         val |=3D 1 << PLAT_MMCM_DIV_MUL_SHIFT;
+         val |=3D 1 << PLAT_MMCM_DIV_CLK0DIV_SHIFT;
+@@ -455,20 +455,19 @@ static void boston_mach_init(MachineState *machine)
 =20
--        object_initialize(&s->timer[i], sizeof(s->timer[i]), TYPE_DIGIC_=
-TIMER);
--        dev =3D DEVICE(&s->timer[i]);
--        qdev_set_parent_bus(dev, sysbus_get_default());
-         snprintf(name, DIGIC_TIMER_NAME_MLEN, "timer[%d]", i);
--        object_property_add_child(obj, name, OBJECT(&s->timer[i]), NULL)=
-;
-+        sysbus_init_child_obj(obj, name, &s->timer[i], sizeof(s->timer[i=
-]),
-+                              TYPE_DIGIC_TIMER);
-     }
+     is_64b =3D cpu_supports_isa(machine->cpu_type, ISA_MIPS64);
 =20
--    object_initialize(&s->uart, sizeof(s->uart), TYPE_DIGIC_UART);
--    dev =3D DEVICE(&s->uart);
--    qdev_set_parent_bus(dev, sysbus_get_default());
--    object_property_add_child(obj, "uart", OBJECT(&s->uart), NULL);
-+    sysbus_init_child_obj(obj, "uart", &s->uart, sizeof(s->uart),
-+                          TYPE_DIGIC_UART);
- }
+-    s->cps =3D MIPS_CPS(object_new(TYPE_MIPS_CPS));
+-    qdev_set_parent_bus(DEVICE(s->cps), sysbus_get_default());
+-
+-    object_property_set_str(OBJECT(s->cps), machine->cpu_type, "cpu-type=
+",
++    object_initialize(&s->cps, sizeof(s->cps), TYPE_MIPS_CPS);
++    qdev_set_parent_bus(DEVICE(&s->cps), sysbus_get_default());
++    object_property_set_str(OBJECT(&s->cps), machine->cpu_type, "cpu-typ=
+e",
+                             &err);
+-    object_property_set_int(OBJECT(s->cps), smp_cpus, "num-vp", &err);
+-    object_property_set_bool(OBJECT(s->cps), true, "realized", &err);
++    object_property_set_int(OBJECT(&s->cps), smp_cpus, "num-vp", &err);
++    object_property_set_bool(OBJECT(&s->cps), true, "realized", &err);
 =20
- static void digic_realize(DeviceState *dev, Error **errp)
-diff --git a/hw/arm/imx25_pdk.c b/hw/arm/imx25_pdk.c
-index 9f3ee147390..eef1b184b0d 100644
---- a/hw/arm/imx25_pdk.c
-+++ b/hw/arm/imx25_pdk.c
-@@ -72,9 +72,8 @@ static void imx25_pdk_init(MachineState *machine)
-     unsigned int alias_offset;
-     int i;
-=20
--    object_initialize(&s->soc, sizeof(s->soc), TYPE_FSL_IMX25);
--    object_property_add_child(OBJECT(machine), "soc", OBJECT(&s->soc),
--                              &error_abort);
-+    object_initialize_child(OBJECT(machine), "soc", &s->soc, sizeof(s->s=
-oc),
-+                            TYPE_FSL_IMX25, &error_abort, NULL);
-=20
-     object_property_set_bool(OBJECT(&s->soc), true, "realized", &error_f=
-atal);
-=20
-diff --git a/hw/arm/kzm.c b/hw/arm/kzm.c
-index 139934c4ecf..44cba8782bf 100644
---- a/hw/arm/kzm.c
-+++ b/hw/arm/kzm.c
-@@ -71,9 +71,8 @@ static void kzm_init(MachineState *machine)
-     unsigned int alias_offset;
-     unsigned int i;
-=20
--    object_initialize(&s->soc, sizeof(s->soc), TYPE_FSL_IMX31);
--    object_property_add_child(OBJECT(machine), "soc", OBJECT(&s->soc),
--                              &error_abort);
-+    object_initialize_child(OBJECT(machine), "soc", &s->soc, sizeof(s->s=
-oc),
-+                            TYPE_FSL_IMX31, &error_abort, NULL);
-=20
-     object_property_set_bool(OBJECT(&s->soc), true, "realized", &error_f=
-atal);
-=20
-diff --git a/hw/arm/raspi.c b/hw/arm/raspi.c
-index 66899c28dc1..0a6244096cc 100644
---- a/hw/arm/raspi.c
-+++ b/hw/arm/raspi.c
-@@ -175,10 +175,9 @@ static void raspi_init(MachineState *machine, int ve=
-rsion)
-     BusState *bus;
-     DeviceState *carddev;
-=20
--    object_initialize(&s->soc, sizeof(s->soc),
--                      version =3D=3D 3 ? TYPE_BCM2837 : TYPE_BCM2836);
--    object_property_add_child(OBJECT(machine), "soc", OBJECT(&s->soc),
--                              &error_abort);
-+    object_initialize_child(OBJECT(machine), "soc", &s->soc, sizeof(s->s=
-oc),
-+                            version =3D=3D 3 ? TYPE_BCM2837 : TYPE_BCM28=
-36,
-+                            &error_abort, NULL);
-=20
-     /* Allocate and map RAM */
-     memory_region_allocate_system_memory(&s->ram, OBJECT(machine), "ram"=
-,
-diff --git a/hw/arm/sabrelite.c b/hw/arm/sabrelite.c
-index ee140e5d9eb..f1b00de2294 100644
---- a/hw/arm/sabrelite.c
-+++ b/hw/arm/sabrelite.c
-@@ -55,9 +55,8 @@ static void sabrelite_init(MachineState *machine)
+     if (err !=3D NULL) {
+         error_report("%s", error_get_pretty(err));
          exit(1);
      }
 =20
--    object_initialize(&s->soc, sizeof(s->soc), TYPE_FSL_IMX6);
--    object_property_add_child(OBJECT(machine), "soc", OBJECT(&s->soc),
--                              &error_abort);
-+    object_initialize_child(OBJECT(machine), "soc", &s->soc, sizeof(s->s=
-oc),
-+                            TYPE_FSL_IMX6, &error_abort, NULL);
+-    sysbus_mmio_map_overlap(SYS_BUS_DEVICE(s->cps), 0, 0, 1);
++    sysbus_mmio_map_overlap(SYS_BUS_DEVICE(&s->cps), 0, 0, 1);
 =20
-     object_property_set_bool(OBJECT(&s->soc), true, "realized", &err);
+     flash =3D  g_new(MemoryRegion, 1);
+     memory_region_init_rom(flash, NULL, "boston.flash", 128 * MiB, &err)=
+;
+@@ -487,17 +486,17 @@ static void boston_mach_init(MachineState *machine)
+     xilinx_pcie_init(sys_mem, 0,
+                      0x10000000, 32 * MiB,
+                      0x40000000, 1 * GiB,
+-                     get_cps_irq(s->cps, 2), false);
++                     get_cps_irq(&s->cps, 2), false);
+=20
+     xilinx_pcie_init(sys_mem, 1,
+                      0x12000000, 32 * MiB,
+                      0x20000000, 512 * MiB,
+-                     get_cps_irq(s->cps, 1), false);
++                     get_cps_irq(&s->cps, 1), false);
+=20
+     pcie2 =3D xilinx_pcie_init(sys_mem, 2,
+                              0x14000000, 32 * MiB,
+                              0x16000000, 1 * MiB,
+-                             get_cps_irq(s->cps, 0), true);
++                             get_cps_irq(&s->cps, 0), true);
+=20
+     platreg =3D g_new(MemoryRegion, 1);
+     memory_region_init_io(platreg, NULL, &boston_platreg_ops, s,
+@@ -505,7 +504,7 @@ static void boston_mach_init(MachineState *machine)
+     memory_region_add_subregion_overlap(sys_mem, 0x17ffd000, platreg, 0)=
+;
+=20
+     s->uart =3D serial_mm_init(sys_mem, 0x17ffe000, 2,
+-                             get_cps_irq(s->cps, 3), 10000000,
++                             get_cps_irq(&s->cps, 3), 10000000,
+                              serial_hd(0), DEVICE_NATIVE_ENDIAN);
+=20
+     lcd =3D g_new(MemoryRegion, 1);
+diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c
+index 439665ab45e..04f2117d71e 100644
+--- a/hw/mips/mips_malta.c
++++ b/hw/mips/mips_malta.c
+@@ -94,7 +94,7 @@ typedef struct {
+ typedef struct {
+     SysBusDevice parent_obj;
+=20
+-    MIPSCPSState *cps;
++    MIPSCPSState cps;
+     qemu_irq *i8259;
+ } MaltaState;
+=20
+@@ -1151,20 +1151,19 @@ static void create_cps(MaltaState *s, const char =
+*cpu_type,
+ {
+     Error *err =3D NULL;
+=20
+-    s->cps =3D MIPS_CPS(object_new(TYPE_MIPS_CPS));
+-    qdev_set_parent_bus(DEVICE(s->cps), sysbus_get_default());
+-
+-    object_property_set_str(OBJECT(s->cps), cpu_type, "cpu-type", &err);
+-    object_property_set_int(OBJECT(s->cps), smp_cpus, "num-vp", &err);
+-    object_property_set_bool(OBJECT(s->cps), true, "realized", &err);
++    object_initialize(&s->cps, sizeof(s->cps), TYPE_MIPS_CPS);
++    qdev_set_parent_bus(DEVICE(&s->cps), sysbus_get_default());
++    object_property_set_str(OBJECT(&s->cps), cpu_type, "cpu-type", &err)=
+;
++    object_property_set_int(OBJECT(&s->cps), smp_cpus, "num-vp", &err);
++    object_property_set_bool(OBJECT(&s->cps), true, "realized", &err);
      if (err !=3D NULL) {
-diff --git a/hw/arm/xlnx-zcu102.c b/hw/arm/xlnx-zcu102.c
-index b6bc6a93b89..c802f26fbdf 100644
---- a/hw/arm/xlnx-zcu102.c
-+++ b/hw/arm/xlnx-zcu102.c
-@@ -91,9 +91,8 @@ static void xlnx_zcu102_init(MachineState *machine)
-     memory_region_allocate_system_memory(&s->ddr_ram, NULL, "ddr-ram",
-                                          ram_size);
+         error_report("%s", error_get_pretty(err));
+         exit(1);
+     }
 =20
--    object_initialize(&s->soc, sizeof(s->soc), TYPE_XLNX_ZYNQMP);
--    object_property_add_child(OBJECT(machine), "soc", OBJECT(&s->soc),
--                              &error_abort);
-+    object_initialize_child(OBJECT(machine), "soc", &s->soc, sizeof(s->s=
-oc),
-+                            TYPE_XLNX_ZYNQMP, &error_abort, NULL);
+-    sysbus_mmio_map_overlap(SYS_BUS_DEVICE(s->cps), 0, 0, 1);
++    sysbus_mmio_map_overlap(SYS_BUS_DEVICE(&s->cps), 0, 0, 1);
 =20
-     object_property_set_link(OBJECT(&s->soc), OBJECT(&s->ddr_ram),
-                          "ddr-ram", &error_abort);
-diff --git a/hw/arm/xlnx-zynqmp.c b/hw/arm/xlnx-zynqmp.c
-index 4f8bc41d9d4..6e991903022 100644
---- a/hw/arm/xlnx-zynqmp.c
-+++ b/hw/arm/xlnx-zynqmp.c
-@@ -191,10 +191,10 @@ static void xlnx_zynqmp_create_rpu(XlnxZynqMPState =
-*s, const char *boot_cpu,
-     for (i =3D 0; i < num_rpus; i++) {
-         char *name;
+-    *i8259_irq =3D get_cps_irq(s->cps, 3);
++    *i8259_irq =3D get_cps_irq(&s->cps, 3);
+     *cbus_irq =3D NULL;
+ }
 =20
--        object_initialize(&s->rpu_cpu[i], sizeof(s->rpu_cpu[i]),
--                          "cortex-r5f-" TYPE_ARM_CPU);
--        object_property_add_child(OBJECT(&s->rpu_cluster), "rpu-cpu[*]",
--                                  OBJECT(&s->rpu_cpu[i]), &error_abort);
-+        object_initialize_child(OBJECT(&s->rpu_cluster), "rpu-cpu[*]",
-+                                &s->rpu_cpu[i], sizeof(s->rpu_cpu[i]),
-+                                "cortex-r5f-" TYPE_ARM_CPU, &error_abort=
-,
-+                                NULL);
-=20
-         name =3D object_get_canonical_path_component(OBJECT(&s->rpu_cpu[=
-i]));
-         if (strcmp(name, boot_cpu)) {
 --=20
 2.20.1
 
