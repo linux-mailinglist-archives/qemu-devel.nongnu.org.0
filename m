@@ -2,53 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0548915F4B
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 10:25:32 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:42086 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26CAE15F49
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 10:23:52 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:42063 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNvPn-00053l-3c
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 04:25:31 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58013)
+	id 1hNvOB-0003h4-5y
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 04:23:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57988)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hNvKO-0000gz-T3
+	(envelope-from <kraxel@redhat.com>) id 1hNvKO-0000ga-AE
 	for qemu-devel@nongnu.org; Tue, 07 May 2019 04:19:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hNvKN-0008Bq-RR
+	(envelope-from <kraxel@redhat.com>) id 1hNvKN-0008BO-CQ
 	for qemu-devel@nongnu.org; Tue, 07 May 2019 04:19:56 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35588)
+Received: from mx1.redhat.com ([209.132.183.28]:38136)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <kraxel@redhat.com>)
-	id 1hNvKL-00088m-2N; Tue, 07 May 2019 04:19:53 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
-	[10.5.11.14])
+	id 1hNvKK-00088b-UJ; Tue, 07 May 2019 04:19:53 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+	[10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 4D20A30842B5;
+	by mx1.redhat.com (Postfix) with ESMTPS id 3195E308A9BE;
 	Tue,  7 May 2019 08:19:52 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-45.ams2.redhat.com
 	[10.36.116.45])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 82E425D9E1;
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 8295F171C5;
 	Tue,  7 May 2019 08:19:47 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-	id 887FFA1E1; Tue,  7 May 2019 10:19:46 +0200 (CEST)
+	id 90A91A1E2; Tue,  7 May 2019 10:19:46 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Tue,  7 May 2019 10:19:40 +0200
-Message-Id: <20190507081946.19264-3-kraxel@redhat.com>
+Date: Tue,  7 May 2019 10:19:41 +0200
+Message-Id: <20190507081946.19264-4-kraxel@redhat.com>
 In-Reply-To: <20190507081946.19264-1-kraxel@redhat.com>
 References: <20190507081946.19264-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.40]);
+	(mx1.redhat.com [10.5.110.41]);
 	Tue, 07 May 2019 08:19:52 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 2/8] hw/display/cirrus_vga: Update the
- documentation URL
+Subject: [Qemu-devel] [PULL 3/8] hw/display/cirrus_vga: Remove unused include
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -71,39 +70,30 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
-The documentation URL is not working, but is backed up by the
-Wayback Machine on the Internet Archive.
-Replace the outdated link by a captured one.
-Add another link to the VGADOC4b.ZIP archive content.
+Commit ce3cf70edaaf split the ISA device out of the PCI one,
+but forgot to remove the "hw/loader.h" header inclusion (the ISA
+device calls rom_add_vga()).  Remove the now unused include.
 
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-id: 20190504121650.12651-1-philmd@redhat.com
+Reviewed-by: Thomas Huth <thuth@redhat.com>
+Message-id: 20190505225640.4592-1-philmd@redhat.com
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- hw/display/cirrus_vga.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ hw/display/cirrus_vga.c | 1 -
+ 1 file changed, 1 deletion(-)
 
 diff --git a/hw/display/cirrus_vga.c b/hw/display/cirrus_vga.c
-index a0e71469f4d0..a04440b3748c 100644
+index a04440b3748c..76c052c702ef 100644
 --- a/hw/display/cirrus_vga.c
 +++ b/hw/display/cirrus_vga.c
-@@ -23,8 +23,13 @@
-  * THE SOFTWARE.
-  */
+@@ -38,7 +38,6 @@
+ #include "hw/hw.h"
+ #include "hw/pci/pci.h"
+ #include "ui/pixel_ops.h"
+-#include "hw/loader.h"
+ #include "cirrus_vga_internal.h"
+=20
  /*
-- * Reference: Finn Thogersons' VGADOC4b
-- *   available at http://home.worldonline.dk/~finth/
-+ * Reference: Finn Thogersons' VGADOC4b:
-+ *
-+ *  http://web.archive.org/web/20021019054927/http://home.worldonline.dk=
-/finth/
-+ *
-+ * VGADOC4b.ZIP content available at:
-+ *
-+ *  https://pdos.csail.mit.edu/6.828/2005/readings/hardware/vgadoc
-  */
- #include "qemu/osdep.h"
- #include "qemu/units.h"
 --=20
 2.18.1
 
