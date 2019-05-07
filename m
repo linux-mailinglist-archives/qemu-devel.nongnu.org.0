@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F9A816B63
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 21:33:08 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:51937 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED21116BAE
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 21:50:40 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52319 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hO5pp-0000Co-21
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 15:33:05 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57685)
+	id 1hO66p-0005oF-Fr
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 15:50:39 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38915)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <eblake@redhat.com>) id 1hO5nj-0007NU-M4
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 15:30:56 -0400
+	(envelope-from <eblake@redhat.com>) id 1hO60u-00022u-Q6
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 15:44:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <eblake@redhat.com>) id 1hO5ni-0004YZ-IE
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 15:30:55 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46526)
+	(envelope-from <eblake@redhat.com>) id 1hO5wO-0001P5-E6
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 15:42:06 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:3090)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <eblake@redhat.com>)
-	id 1hO5ne-0004Ri-UG; Tue, 07 May 2019 15:30:51 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
-	[10.5.11.11])
+	id 1hO5rW-0002WB-Bd; Tue, 07 May 2019 15:34:52 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 3F2323082132;
-	Tue,  7 May 2019 19:30:50 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 7486D66988;
+	Tue,  7 May 2019 19:34:49 +0000 (UTC)
 Received: from [10.3.116.15] (ovpn-116-15.phx2.redhat.com [10.3.116.15])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 553E9600D4;
-	Tue,  7 May 2019 19:30:49 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 553321001DDD;
+	Tue,  7 May 2019 19:34:48 +0000 (UTC)
 To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
 References: <20190507183610.9848-1-mreitz@redhat.com>
-	<20190507183610.9848-2-mreitz@redhat.com>
+	<20190507183610.9848-3-mreitz@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=eblake@redhat.com; keydata=
@@ -58,23 +58,23 @@ Autocrypt: addr=eblake@redhat.com; keydata=
 	Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
 	2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
 Organization: Red Hat, Inc.
-Message-ID: <81dd6702-1d51-ca2e-1445-e8cdcfb14711@redhat.com>
-Date: Tue, 7 May 2019 14:30:48 -0500
+Message-ID: <1720ca81-321b-6074-167e-cd561992aa29@redhat.com>
+Date: Tue, 7 May 2019 14:34:47 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190507183610.9848-2-mreitz@redhat.com>
+In-Reply-To: <20190507183610.9848-3-mreitz@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
 	protocol="application/pgp-signature";
-	boundary="yNCNUvkxu4ZbUOYKhYTeLqEpfnBS5KmS1"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+	boundary="trxC3ApcRE284TL8xvQ4mRc8fg3RDPD8R"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.42]);
-	Tue, 07 May 2019 19:30:50 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.38]);
+	Tue, 07 May 2019 19:34:49 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PATCH 1/5] qemu-nbd: Add --pid-file option
+Subject: Re: [Qemu-devel] [PATCH 2/5] iotests.py: Add qemu_nbd_early_pipe()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -91,70 +91,51 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---yNCNUvkxu4ZbUOYKhYTeLqEpfnBS5KmS1
+--trxC3ApcRE284TL8xvQ4mRc8fg3RDPD8R
 From: Eric Blake <eblake@redhat.com>
 To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
  =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Message-ID: <81dd6702-1d51-ca2e-1445-e8cdcfb14711@redhat.com>
-Subject: Re: [PATCH 1/5] qemu-nbd: Add --pid-file option
+Message-ID: <1720ca81-321b-6074-167e-cd561992aa29@redhat.com>
+Subject: Re: [PATCH 2/5] iotests.py: Add qemu_nbd_early_pipe()
 References: <20190507183610.9848-1-mreitz@redhat.com>
- <20190507183610.9848-2-mreitz@redhat.com>
-In-Reply-To: <20190507183610.9848-2-mreitz@redhat.com>
+ <20190507183610.9848-3-mreitz@redhat.com>
+In-Reply-To: <20190507183610.9848-3-mreitz@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
 On 5/7/19 1:36 PM, Max Reitz wrote:
-> --fork is a bit boring if there is no way to get the child's PID.  This=
-
-> option helps.
+> qemu_nbd_pipe() currently unconditionally reads qemu-nbd's output.  Tha=
+t
+> is not ideal because qemu-nbd may keep stderr open after the parent
+> process has exited.
+>=20
+> Currently, the only user of qemu_nbd_pipe() is 147, which discards the
+> whole output if the parent process returned success and only evaluates
+> it on error.  Therefore, we can replace qemu_nbd_pipe() by
+> qemu_nbd_early_pipe() that does the same: Discard the output on success=
+,
+> and return it on error.
 >=20
 > Signed-off-by: Max Reitz <mreitz@redhat.com>
 > ---
->  qemu-nbd.c    | 29 +++++++++++++++++++++++++++++
->  qemu-nbd.texi |  2 ++
->  2 files changed, 31 insertions(+)
+>  tests/qemu-iotests/147        | 4 ++--
+>  tests/qemu-iotests/iotests.py | 9 ++++++---
+>  2 files changed, 8 insertions(+), 5 deletions(-)
 >=20
 
-> @@ -111,6 +112,7 @@ static void usage(const char *name)
->  "                            specify tracing options\n"
->  "  --fork                    fork off the server process and exit the =
-parent\n"
->  "                            once the server is running\n"
-> +"  --pid-file=3DPATH           store the server's process ID in the gi=
-ven file\n"
+> @@ -216,7 +216,10 @@ def qemu_nbd_pipe(*args):
+>          sys.stderr.write('qemu-nbd received signal %i: %s\n' %
+>                           (-exitcode,
+>                            ' '.join(qemu_nbd_args + ['--fork'] + list(a=
+rgs))))
+> -    return exitcode, subp.communicate()[0]
+> +    if exitcode =3D=3D 0:
+> +        return exitcode, ''
+> +    else:
+> +        return exitcode, subp.communicate()[0]
+> =20
 
-Should --pid-file imply --fork, or be an error if --fork was not
-supplied? As coded, it writes a pid file regardless of --fork, even
-though it is less obvious that it is useful in that case. I don't have a
-strong preference (there doesn't seem to be a useful consensus on what
-forking daemons should do), but it would at least be worth documenting
-the intended action (even if that implies a tweak to the patch to match
-the intent).
-
->  #if HAVE_NBD_DEVICE
->  "\n"
->  "Kernel NBD client support:\n"
-> @@ -651,6 +653,7 @@ int main(int argc, char **argv)
->          { "image-opts", no_argument, NULL, QEMU_NBD_OPT_IMAGE_OPTS },
->          { "trace", required_argument, NULL, 'T' },
->          { "fork", no_argument, NULL, QEMU_NBD_OPT_FORK },
-> +        { "pid-file", required_argument, NULL, QEMU_NBD_OPT_PID_FILE }=
-,
->          { NULL, 0, NULL, 0 }
->      };
->      int ch;
-> @@ -677,6 +680,8 @@ int main(int argc, char **argv)
->      bool list =3D false;
->      int old_stderr =3D -1;
->      unsigned socket_activation;
-> +    const char *pid_path =3D NULL;
-
-Bikeshedding: pid_name is nicer (path makes me think of $PATH and other
-colon-separated lists, which this is not).
-
-Otherwise, I agree that this is long overdue. Thanks! If you can justify
-the behavior without --fork,
 Reviewed-by: Eric Blake <eblake@redhat.com>
 
 --=20
@@ -163,22 +144,22 @@ Red Hat, Inc.           +1-919-301-3226
 Virtualization:  qemu.org | libvirt.org
 
 
---yNCNUvkxu4ZbUOYKhYTeLqEpfnBS5KmS1
+--trxC3ApcRE284TL8xvQ4mRc8fg3RDPD8R
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlzR3OgACgkQp6FrSiUn
-Q2rwbgf+J+GZR2N9nQzmO3d+82FByTnQtmhXwpraZPBd5rT+cZBeEvm2nVWs3k3X
-H48X5wkocz6Rc+1ySRAhtdg005Ak530F8bGR2IccgMw7PiWmubsab3mIGlsWA8JN
-nX3u+exgq4CBlzjTqXO4wq89mh0bpVzjdFTEpiUNmPiGt8kh6nRPzA2zRMF4ZFp3
-784OK+3i0pRsZ9oXDSr8THd/GV8AjAX/AWP0MrCpyHkZSLW4Q1cipub0Mbys3N0P
-dYvvzNBAED8RkwbdcBjVXoX8e3hW5vGiG5N1qP/RY2UE7vdLz28iEDkqtA/sP7IM
-ho69ae95qivw8DGeg6Grf/q8e6uuEA==
-=9/Aj
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlzR3dcACgkQp6FrSiUn
+Q2ravgf/X90QClwaFE3dkHO6X1hiD8on4qCGSDP2Zvpz3ZZuZT5Mfp4vYjnwsIdv
+NzOYDWax/B3LxnbhQp1LME5aw+xjqunsfA2UQVwYKX+VJD3JxxFngGz5k7IYrOrc
+s24fBBmDine/MLsXrmarkS41Qf/UIqX5PvBI/J/6BMaB9Yy6FeYSVQH49088n1Re
+F9G9O6WKzCdCQ/RvwwCNvtgGSqayAC3WaJ/8LfPv2KtMuWKyx6JfU04deMHlPJHG
+hVGBLqdMSyQZOIWEVt4GhQF8VxdGnAh5gEXGmvNdBYLabIHq3iM7Pwj/0aZldcUf
+SrZ/FDIrAkeibwdvjWg4b4Rbg4W33w==
+=c3K+
 -----END PGP SIGNATURE-----
 
---yNCNUvkxu4ZbUOYKhYTeLqEpfnBS5KmS1--
+--trxC3ApcRE284TL8xvQ4mRc8fg3RDPD8R--
 
