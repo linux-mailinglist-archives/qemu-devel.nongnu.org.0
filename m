@@ -2,46 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFAD616685
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 17:20:44 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48454 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BC3C51668D
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 17:23:22 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48514 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hO1tb-0000Nz-U6
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 11:20:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58077)
+	id 1hO1w9-0002no-ST
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 11:23:21 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58132)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hO1rQ-0007mc-JS
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 11:18:29 -0400
+	(envelope-from <mreitz@redhat.com>) id 1hO1rW-0007pv-Dq
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 11:18:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hO1rO-0003oG-SL
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 11:18:28 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57728)
+	(envelope-from <mreitz@redhat.com>) id 1hO1rU-0003se-Fj
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 11:18:34 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34920)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hO1rL-0003jc-4p; Tue, 07 May 2019 11:18:23 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
-	[10.5.11.11])
+	id 1hO1rO-0003lE-Lw; Tue, 07 May 2019 11:18:26 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+	[10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 1AAD430018FC;
-	Tue,  7 May 2019 15:18:22 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 6F370308793B;
+	Tue,  7 May 2019 15:18:24 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.217])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id A1B8E53E20;
-	Tue,  7 May 2019 15:18:21 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 075F860C5F;
+	Tue,  7 May 2019 15:18:23 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Tue,  7 May 2019 17:18:08 +0200
-Message-Id: <20190507151819.17401-1-mreitz@redhat.com>
+Date: Tue,  7 May 2019 17:18:09 +0200
+Message-Id: <20190507151819.17401-2-mreitz@redhat.com>
+In-Reply-To: <20190507151819.17401-1-mreitz@redhat.com>
+References: <20190507151819.17401-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.46]);
-	Tue, 07 May 2019 15:18:22 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.45]);
+	Tue, 07 May 2019 15:18:24 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 00/11] Block patches
+Subject: [Qemu-devel] [PULL 01/11] qcow2-refcount: fix check_oflag_copied
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,62 +60,64 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit 19eb2d4e736dc895f31fbd6b520e514f10cc08=
-e0:
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 
-  Merge remote-tracking branch 'remotes/thibault/tags/samuel-thibault' in=
-to staging (2019-05-07 10:43:32 +0100)
+Increase corruptions_fixed only after successful fix.
 
-are available in the Git repository at:
+Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+Reviewed-by: Max Reitz <mreitz@redhat.com>
+Message-id: 20190227131433.197063-2-vsementsov@virtuozzo.com
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+ block/qcow2-refcount.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-  https://git.xanclic.moe/XanClic/qemu.git tags/pull-block-2019-05-07
-
-for you to fetch changes up to 1278dce7927301bf3d004a40061dbd2c1e0846a8:
-
-  iotests: Fix iotests 110 and 126 (2019-05-07 17:14:21 +0200)
-
-----------------------------------------------------------------
-Block patches:
-- Fixes to qcow2's implementation of qemu-img check
-- Our SSH driver now supports bdrv_refresh_filename()
-- Miscellaneous fixes
-
-----------------------------------------------------------------
-Alberto Garcia (2):
-  block: Assert that drv->bdrv_child_perm is set in bdrv_child_perm()
-  commit: Use bdrv_append() in commit_start()
-
-Andrey Shinkevich (1):
-  qcow2: discard bitmap when removed
-
-Max Reitz (3):
-  block/ssh: Implement .bdrv_refresh_filename()
-  block/ssh: Implement .bdrv_dirname()
-  iotests: Fix iotests 110 and 126
-
-Vladimir Sementsov-Ogievskiy (5):
-  qcow2-refcount: fix check_oflag_copied
-  qcow2-refcount: avoid eating RAM
-  qcow2-refcount: check_refcounts_l2: reduce ignored overlaps
-  qcow2-refcount: check_refcounts_l2: don't count fixed cluster as
-    allocated
-  qcow2-refcount: don't mask corruptions under internal errors
-
- block.c                       |  9 ++--
- block/commit.c                | 11 +----
- block/qcow2-bitmap.c          |  2 +-
- block/qcow2-refcount.c        | 80 ++++++++++++++++++++++-------------
- block/ssh.c                   | 73 +++++++++++++++++++++++++++++---
- tests/qemu-iotests/110        | 10 +++--
- tests/qemu-iotests/126        | 10 +++--
- tests/qemu-iotests/138        | 12 +++---
- tests/qemu-iotests/138.out    |  5 ++-
- tests/qemu-iotests/207        | 10 ++---
- tests/qemu-iotests/207.out    | 10 ++---
- tests/qemu-iotests/common.rc  |  2 +-
- tests/qemu-iotests/iotests.py |  2 +-
- 13 files changed, 159 insertions(+), 77 deletions(-)
-
+diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
+index e0fe322500..ed3d8ebd57 100644
+--- a/block/qcow2-refcount.c
++++ b/block/qcow2-refcount.c
+@@ -1846,7 +1846,7 @@ static int check_oflag_copied(BlockDriverState *bs,=
+ BdrvCheckResult *res,
+     for (i =3D 0; i < s->l1_size; i++) {
+         uint64_t l1_entry =3D s->l1_table[i];
+         uint64_t l2_offset =3D l1_entry & L1E_OFFSET_MASK;
+-        bool l2_dirty =3D false;
++        int l2_dirty =3D 0;
+=20
+         if (!l2_offset) {
+             continue;
+@@ -1912,8 +1912,7 @@ static int check_oflag_copied(BlockDriverState *bs,=
+ BdrvCheckResult *res,
+                         l2_table[j] =3D cpu_to_be64(refcount =3D=3D 1
+                                     ? l2_entry |  QCOW_OFLAG_COPIED
+                                     : l2_entry & ~QCOW_OFLAG_COPIED);
+-                        l2_dirty =3D true;
+-                        res->corruptions_fixed++;
++                        l2_dirty++;
+                     } else {
+                         res->corruptions++;
+                     }
+@@ -1921,7 +1920,7 @@ static int check_oflag_copied(BlockDriverState *bs,=
+ BdrvCheckResult *res,
+             }
+         }
+=20
+-        if (l2_dirty) {
++        if (l2_dirty > 0) {
+             ret =3D qcow2_pre_write_overlap_check(bs, QCOW2_OL_ACTIVE_L2=
+,
+                                                 l2_offset, s->cluster_si=
+ze,
+                                                 false);
+@@ -1940,6 +1939,7 @@ static int check_oflag_copied(BlockDriverState *bs,=
+ BdrvCheckResult *res,
+                 res->check_errors++;
+                 goto fail;
+             }
++            res->corruptions_fixed +=3D l2_dirty;
+         }
+     }
+=20
 --=20
 2.20.1
 
