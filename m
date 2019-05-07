@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 628E01668E
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 17:23:28 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48516 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B1E85166AE
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 17:27:19 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48582 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hO1wF-0002wT-Fv
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 11:23:27 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58237)
+	id 1hO1zy-0006uJ-Nk
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 11:27:18 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58259)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hO1ra-0007vu-FC
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 11:18:39 -0400
+	(envelope-from <mreitz@redhat.com>) id 1hO1rb-0007xj-VQ
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 11:18:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hO1rZ-0003yF-CL
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 11:18:38 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41054)
+	(envelope-from <mreitz@redhat.com>) id 1hO1rb-0003zX-4o
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 11:18:39 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50150)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hO1rW-0003tf-Kd; Tue, 07 May 2019 11:18:34 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
+	id 1hO1rY-0003xT-Vc; Tue, 07 May 2019 11:18:37 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+	[10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id EA96A89C35;
-	Tue,  7 May 2019 15:18:33 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 50C30C057F32;
+	Tue,  7 May 2019 15:18:36 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.217])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 8149357DE5;
-	Tue,  7 May 2019 15:18:33 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id DC32761B85;
+	Tue,  7 May 2019 15:18:35 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Tue,  7 May 2019 17:18:13 +0200
-Message-Id: <20190507151819.17401-6-mreitz@redhat.com>
+Date: Tue,  7 May 2019 17:18:14 +0200
+Message-Id: <20190507151819.17401-7-mreitz@redhat.com>
 In-Reply-To: <20190507151819.17401-1-mreitz@redhat.com>
 References: <20190507151819.17401-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.27]);
-	Tue, 07 May 2019 15:18:33 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.32]);
+	Tue, 07 May 2019 15:18:36 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 05/11] qcow2-refcount: don't mask corruptions
- under internal errors
+Subject: [Qemu-devel] [PULL 06/11] qcow2: discard bitmap when removed
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,148 +60,37 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+From: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
 
-No reasons for not reporting found corruptions as corruptions in case
-of some internal errors, especially in case of just failed to fix l2
-entry (and in this case, missed corruptions may influence comparing
-logic, when we calculate difference between corruptions fields of two
-results)
+Bitmap data may take a lot of disk space, so it's better to discard it
+always.
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Message-id: 20190227131433.197063-6-vsementsov@virtuozzo.com
-Reviewed-by: Max Reitz <mreitz@redhat.com>
+Signed-off-by: Andrey Shinkevich <andrey.shinkevich@virtuozzo.com>
+Message-id: 1551346019-293202-1-git-send-email-andrey.shinkevich@virtuozz=
+o.com
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+[mreitz: Use the commit message proposed by Vladimir]
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/qcow2-refcount.c | 19 +++++++++----------
- 1 file changed, 9 insertions(+), 10 deletions(-)
+ block/qcow2-bitmap.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
-index 6851807ffc..fa7ac1f7cb 100644
---- a/block/qcow2-refcount.c
-+++ b/block/qcow2-refcount.c
-@@ -1662,6 +1662,8 @@ static int check_refcounts_l2(BlockDriverState *bs,=
- BdrvCheckResult *res,
-=20
-             /* Correct offsets are cluster aligned */
-             if (offset_into_cluster(s, offset)) {
-+                res->corruptions++;
-+
-                 if (qcow2_get_cluster_type(bs, l2_entry) =3D=3D
-                     QCOW2_CLUSTER_ZERO_ALLOC)
-                 {
-@@ -1697,18 +1699,16 @@ static int check_refcounts_l2(BlockDriverState *b=
-s, BdrvCheckResult *res,
-                             /* Do not abort, continue checking the rest =
-of this
-                              * L2 table's entries */
-                         } else {
-+                            res->corruptions--;
-                             res->corruptions_fixed++;
-                             /* Skip marking the cluster as used
-                              * (it is unused now) */
-                             continue;
-                         }
--                    } else {
--                        res->corruptions++;
-                     }
-                 } else {
-                     fprintf(stderr, "ERROR offset=3D%" PRIx64 ": Data cl=
-uster is "
-                         "not properly aligned; L2 entry corrupted.\n", o=
-ffset);
--                    res->corruptions++;
-                 }
-             }
-=20
-@@ -1879,6 +1879,7 @@ static int check_oflag_copied(BlockDriverState *bs,=
- BdrvCheckResult *res,
+diff --git a/block/qcow2-bitmap.c b/block/qcow2-bitmap.c
+index e53a1609d7..8a75366c92 100644
+--- a/block/qcow2-bitmap.c
++++ b/block/qcow2-bitmap.c
+@@ -202,7 +202,7 @@ static void clear_bitmap_table(BlockDriverState *bs, =
+uint64_t *bitmap_table,
              continue;
          }
-         if ((refcount =3D=3D 1) !=3D ((l1_entry & QCOW_OFLAG_COPIED) !=3D=
- 0)) {
-+            res->corruptions++;
-             fprintf(stderr, "%s OFLAG_COPIED L2 cluster: l1_index=3D%d "
-                     "l1_entry=3D%" PRIx64 " refcount=3D%" PRIu64 "\n",
-                     repair ? "Repairing" : "ERROR", i, l1_entry, refcoun=
-t);
-@@ -1891,9 +1892,8 @@ static int check_oflag_copied(BlockDriverState *bs,=
- BdrvCheckResult *res,
-                     res->check_errors++;
-                     goto fail;
-                 }
-+                res->corruptions--;
-                 res->corruptions_fixed++;
--            } else {
--                res->corruptions++;
-             }
-         }
 =20
-@@ -1925,6 +1925,7 @@ static int check_oflag_copied(BlockDriverState *bs,=
- BdrvCheckResult *res,
-                     }
-                 }
-                 if ((refcount =3D=3D 1) !=3D ((l2_entry & QCOW_OFLAG_COP=
-IED) !=3D 0)) {
-+                    res->corruptions++;
-                     fprintf(stderr, "%s OFLAG_COPIED data cluster: "
-                             "l2_entry=3D%" PRIx64 " refcount=3D%" PRIu64=
- "\n",
-                             repair ? "Repairing" : "ERROR", l2_entry, re=
-fcount);
-@@ -1933,8 +1934,6 @@ static int check_oflag_copied(BlockDriverState *bs,=
- BdrvCheckResult *res,
-                                     ? l2_entry |  QCOW_OFLAG_COPIED
-                                     : l2_entry & ~QCOW_OFLAG_COPIED);
-                         l2_dirty++;
--                    } else {
--                        res->corruptions++;
-                     }
-                 }
-             }
-@@ -1959,6 +1958,7 @@ static int check_oflag_copied(BlockDriverState *bs,=
- BdrvCheckResult *res,
-                 res->check_errors++;
-                 goto fail;
-             }
-+            res->corruptions -=3D l2_dirty;
-             res->corruptions_fixed +=3D l2_dirty;
-         }
+-        qcow2_free_clusters(bs, addr, s->cluster_size, QCOW2_DISCARD_OTH=
+ER);
++        qcow2_free_clusters(bs, addr, s->cluster_size, QCOW2_DISCARD_ALW=
+AYS);
+         bitmap_table[i] =3D 0;
      }
-@@ -1997,6 +1997,7 @@ static int check_refblocks(BlockDriverState *bs, Bd=
-rvCheckResult *res,
-         }
-=20
-         if (cluster >=3D *nb_clusters) {
-+            res->corruptions++;
-             fprintf(stderr, "%s refcount block %" PRId64 " is outside im=
-age\n",
-                     fix & BDRV_FIX_ERRORS ? "Repairing" : "ERROR", i);
-=20
-@@ -2036,6 +2037,7 @@ static int check_refblocks(BlockDriverState *bs, Bd=
-rvCheckResult *res,
-                     goto resize_fail;
-                 }
-=20
-+                res->corruptions--;
-                 res->corruptions_fixed++;
-                 ret =3D qcow2_inc_refcounts_imrt(bs, res,
-                                                refcount_table, nb_cluste=
-rs,
-@@ -2049,12 +2051,9 @@ static int check_refblocks(BlockDriverState *bs, B=
-drvCheckResult *res,
-                 continue;
-=20
- resize_fail:
--                res->corruptions++;
-                 *rebuild =3D true;
-                 fprintf(stderr, "ERROR could not resize image: %s\n",
-                         strerror(-ret));
--            } else {
--                res->corruptions++;
-             }
-             continue;
-         }
+ }
 --=20
 2.20.1
 
