@@ -2,71 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F22761636E
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 14:06:37 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:45665 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 481041638A
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 14:14:35 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:45803 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNyrl-0002vL-27
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 08:06:37 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44996)
+	id 1hNyzS-0001hi-FF
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 08:14:34 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45003)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hNylz-0007kU-TM
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:40 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hNym0-0007lU-Ts
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hNylu-0003z3-W5
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:39 -0400
-Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:38075)
+	(envelope-from <peter.maydell@linaro.org>) id 1hNylw-000421-2Q
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:40 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:36306)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hNylu-0003yX-PX
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:34 -0400
-Received: by mail-wm1-x32b.google.com with SMTP id f2so14778563wmj.3
-	for <qemu-devel@nongnu.org>; Tue, 07 May 2019 05:00:34 -0700 (PDT)
+	id 1hNylv-0003zU-Rk
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:35 -0400
+Received: by mail-wr1-x441.google.com with SMTP id o4so21968493wra.3
+	for <qemu-devel@nongnu.org>; Tue, 07 May 2019 05:00:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=upDb/oCermKTFkACDchj8gTFhCiWSrAdwy8aQAIaTNU=;
-	b=RFkTd4+HINl2p1PF9S8NL/bhp0yu4IAOARxQHwLQoJo+ETIQOl9Tedzq4nYBtAANIq
-	gtVrtuA5KUKaGRX/7NxndzUEeB2/uJtmTJHZk4UQLQN1jsD9KhgBJtjZ6bGLp0z6Y9iH
-	VI0VSHXczFd3LhUGZnwgD+efOc7kFLBv4xf5h1q2a8DFP8+zVgKCZt7swAjcV/y2MA5V
-	/bSD9dfp0jKzrLpJUgGvcGU9blCOKLfB8jFfVznHtIJf4BabvumE5ltnz7kranINr22z
-	yDE5pUqLVL3QbvZGxWsGI+Kq0USikQC59Lo1IyDkTBfPVuTnwcvOTwsKgR1yh2R8xpUV
-	TNRA==
+	bh=NJGpq0OAxWQIci6soRm4qOcyKSMv9zMfLaUKqYHLGrI=;
+	b=Ypd5zaHXyixCR2IeX22+kB9GhGgdLbrfh6rcHXqq+F3VvQUBgbgtj3P9t0BMzXIL4O
+	hkfjU/Pofb4HQ/q9iSwVAYFaubCVLdTtDZGsNdZTU3R9SCVGEQLjYgtmh/EUK1hii2Rn
+	EASGtiiq+pg9l7GkSMHofX2S6q4vO5T6uptvTTBzvE/ez/5t+poKJqu6Gp4EfK/YIjPK
+	64R7c0idan28rcrhTSMdkF2hu56OChC6hkvKqrWEHVmfVgcThKJ87CzJyvudbsSWcfRk
+	oKQqZaUWoMr0iRIPYdVJPHdxujK/7Q8wnADogHdykKfWsj9DqtPr4uxSM1inReIO3B9/
+	KC8g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=upDb/oCermKTFkACDchj8gTFhCiWSrAdwy8aQAIaTNU=;
-	b=gWiHz5eIOhuPwHMD5M6MuA8r4ZLdUevOE8hBTiSIifvGhY3/NKi+xzJY5vHvY+lTOr
-	PgWVkDRrwWsIJILjmi4TxzbMMo3hsn+KKLpOPdqIwf6ErSCDwChriDG5j5o4Vwv90M8V
-	EpUOvdi+3h5H1IpTjVSujAE9oMInTjzNKfKGWmwWZNuXqqrK9YbyXDofzOEvYeVTUz60
-	ZXRxZuREAS1ecOC2SCJWvUPOI60DNRWSGoZy3nEBontnqUK2Suoz7LK053x+27uOq1JA
-	ygTZHMSJPhv/5aq2FMCpGWjBZYGd+FK2x30OYoG5DgbpL3+PLGaoDjuzViJ5ea0diY/R
-	ZkyQ==
-X-Gm-Message-State: APjAAAWxClsnF3P5ywPXNtjF3jmebUwKvAIayYGE4s67SlC4Vqbz7FEH
-	w7gEUGWEfMrxYqg4a96rxYMmipo+IT8=
-X-Google-Smtp-Source: APXvYqx/QgGxv4busUonjI3JJWIO40s35oYBN3cPWmsZio3Zdimsl6VVZ2P+L34vEnMdHIXL2L3ZJw==
-X-Received: by 2002:a1c:540e:: with SMTP id i14mr8545301wmb.129.1557230433439; 
-	Tue, 07 May 2019 05:00:33 -0700 (PDT)
+	bh=NJGpq0OAxWQIci6soRm4qOcyKSMv9zMfLaUKqYHLGrI=;
+	b=CxaYG+HVSrnwvTDvVd0zAclA7P/uBzIE1xoWPxvGuEDcuCngvTr/A1s4LKu2MRkqg1
+	y+DktePzSww2JPVQD69oKzuXVJXcY9xoDEr0PeFwePI9A9UUN1/CGfjsuXa8GhZWbpZ/
+	kcGFMzUJDB9HrwhpliIlgKsMp47+02ASILt47SZt4nEE1cwNZPLZWm3y0p34VN4thS2j
+	3DJj6vF2nVsLm8G0kuKM3vNk6r/N1botYwkT8QOwNKAHQyUKYSsai3rOVM4dK2UTiKHP
+	MJH0YFq9BnxjU65MFgp/GYR33XxDG75rhUWCw92h+p3kgiD8IaxslYdPTUG/D+bDMaeV
+	GjNw==
+X-Gm-Message-State: APjAAAUXC2Ws0UbZaY/iKaOVOq/RfUS0H+HKmcrI+fqNfjVC8sAfQv8L
+	zrz8OYxx2CHABezgfPF2vF2fm0AREBs=
+X-Google-Smtp-Source: APXvYqybl6SF3JrzwEkmHIQOuE2l6ycYLBvL+8bELV8Ei78lSrB6ZZugW5Gl94w/lk91P2tOIZyneQ==
+X-Received: by 2002:a5d:6a47:: with SMTP id t7mr21326158wrw.307.1557230434760; 
+	Tue, 07 May 2019 05:00:34 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
-	by smtp.gmail.com with ESMTPSA id g3sm12348596wmf.9.2019.05.07.05.00.32
+	by smtp.gmail.com with ESMTPSA id g3sm12348596wmf.9.2019.05.07.05.00.33
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 07 May 2019 05:00:32 -0700 (PDT)
+	Tue, 07 May 2019 05:00:33 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue,  7 May 2019 13:00:10 +0100
-Message-Id: <20190507120011.18100-15-peter.maydell@linaro.org>
+Date: Tue,  7 May 2019 13:00:11 +0100
+Message-Id: <20190507120011.18100-16-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190507120011.18100-1-peter.maydell@linaro.org>
 References: <20190507120011.18100-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::32b
-Subject: [Qemu-devel] [PULL 14/15] target/arm: Implement XPSR GE bits
+X-Received-From: 2a00:1450:4864:20::441
+Subject: [Qemu-devel] [PULL 15/15] target/arm: Stop using variable length
+ array in dc_zva
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -81,86 +83,51 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-In the M-profile architecture, if the CPU implements the DSP extension
-then the XPSR has GE bits, in the same way as the A-profile CPSR. When
-we added DSP extension support we forgot to add support for reading
-and writing the GE bits, which are stored in env->GE. We did put in
-the code to add XPSR_GE to the mask of bits to update in the v7m_msr
-helper, but forgot it in v7m_mrs. We also must not allow the XPSR we
-pull off the stack on exception return to set the nonexistent GE bits.
-Correct these errors:
- * read and write env->GE in xpsr_read() and xpsr_write()
- * only set GE bits on exception return if DSP present
- * read GE bits for MRS if DSP present
+Currently the dc_zva helper function uses a variable length
+array. In fact we know (as the comment above remarks) that
+the length of this array is bounded because the architecture
+limits the block size and QEMU limits the target page size.
+Use a fixed array size and assert that we don't run off it.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20190430131439.25251-5-peter.maydell@linaro.org
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-id: 20190503120448.13385-1-peter.maydell@linaro.org
 ---
- target/arm/cpu.h    |  4 ++++
- target/arm/helper.c | 12 ++++++++++--
- 2 files changed, 14 insertions(+), 2 deletions(-)
+ target/arm/helper.c | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 0304ddd9f11..733b840a712 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -1285,6 +1285,7 @@ static inline uint32_t xpsr_read(CPUARMState *env)
-         | (env->CF << 29) | ((env->VF & 0x80000000) >> 3) | (env->QF << 27)
-         | (env->thumb << 24) | ((env->condexec_bits & 3) << 25)
-         | ((env->condexec_bits & 0xfc) << 8)
-+        | (env->GE << 16)
-         | env->v7m.exception;
- }
- 
-@@ -1300,6 +1301,9 @@ static inline void xpsr_write(CPUARMState *env, uint32_t val, uint32_t mask)
-     if (mask & XPSR_Q) {
-         env->QF = ((val & XPSR_Q) != 0);
-     }
-+    if (mask & XPSR_GE) {
-+        env->GE = (val & XPSR_GE) >> 16;
-+    }
-     if (mask & XPSR_T) {
-         env->thumb = ((val & XPSR_T) != 0);
-     }
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 9b805d0e6bd..b9745a42bab 100644
+index b9745a42bab..1e6eb0d0f36 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -8727,7 +8727,7 @@ static void do_v7m_exception_exit(ARMCPU *cpu)
- {
-     CPUARMState *env = &cpu->env;
-     uint32_t excret;
--    uint32_t xpsr;
-+    uint32_t xpsr, xpsr_mask;
-     bool ufault = false;
-     bool sfault = false;
-     bool return_to_sp_process;
-@@ -9179,8 +9179,13 @@ static void do_v7m_exception_exit(ARMCPU *cpu)
-         }
-         *frame_sp_p = frameptr;
-     }
-+
-+    xpsr_mask = ~(XPSR_SPREALIGN | XPSR_SFPA);
-+    if (!arm_feature(env, ARM_FEATURE_THUMB_DSP)) {
-+        xpsr_mask &= ~XPSR_GE;
-+    }
-     /* This xpsr_write() will invalidate frame_sp_p as it may switch stack */
--    xpsr_write(env, xpsr, ~(XPSR_SPREALIGN | XPSR_SFPA));
-+    xpsr_write(env, xpsr, xpsr_mask);
+@@ -1,4 +1,5 @@
+ #include "qemu/osdep.h"
++#include "qemu/units.h"
+ #include "target/arm/idau.h"
+ #include "trace.h"
+ #include "cpu.h"
+@@ -13130,14 +13131,17 @@ void HELPER(dc_zva)(CPUARMState *env, uint64_t vaddr_in)
+          * We know that in fact for any v8 CPU the page size is at least 4K
+          * and the block size must be 2K or less, but TARGET_PAGE_SIZE is only
+          * 1K as an artefact of legacy v5 subpage support being present in the
+-         * same QEMU executable.
++         * same QEMU executable. So in practice the hostaddr[] array has
++         * two entries, given the current setting of TARGET_PAGE_BITS_MIN.
+          */
+         int maxidx = DIV_ROUND_UP(blocklen, TARGET_PAGE_SIZE);
+-        void *hostaddr[maxidx];
++        void *hostaddr[DIV_ROUND_UP(2 * KiB, 1 << TARGET_PAGE_BITS_MIN)];
+         int try, i;
+         unsigned mmu_idx = cpu_mmu_index(env, false);
+         TCGMemOpIdx oi = make_memop_idx(MO_UB, mmu_idx);
  
-     if (env->v7m.secure) {
-         bool sfpa = xpsr & XPSR_SFPA;
-@@ -12665,6 +12670,9 @@ uint32_t HELPER(v7m_mrs)(CPUARMState *env, uint32_t reg)
-         }
-         if (!(reg & 4)) {
-             mask |= XPSR_NZCV | XPSR_Q; /* APSR */
-+            if (arm_feature(env, ARM_FEATURE_THUMB_DSP)) {
-+                mask |= XPSR_GE;
-+            }
-         }
-         /* EPSR reads as zero */
-         return xpsr_read(env) & mask;
++        assert(maxidx <= ARRAY_SIZE(hostaddr));
++
+         for (try = 0; try < 2; try++) {
+ 
+             for (i = 0; i < maxidx; i++) {
 -- 
 2.20.1
 
