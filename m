@@ -2,67 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9AE8C158E3
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 07:24:08 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40211 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A2D915D53
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 08:26:00 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40737 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNsaF-0004VZ-Rk
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 01:24:07 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56417)
+	id 1hNtY7-00021Q-7I
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 02:25:59 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37632)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hNsXu-0003C9-Dv
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 01:21:45 -0400
+	(envelope-from <dgibson@ozlabs.org>) id 1hNtVi-0000mL-5n
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 02:23:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hNsXt-00056t-FK
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 01:21:42 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:45817)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hNsXt-00055X-8y
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 01:21:41 -0400
-Received: by mail-wr1-f66.google.com with SMTP id s15so20266746wra.12
-	for <qemu-devel@nongnu.org>; Mon, 06 May 2019 22:21:41 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=fUDicPC99iA3eWQX85t2+xSWnTlEStej7kWs/MCMCVQ=;
-	b=M8pxuyrO2vm1QkTRVlkz5dw31G4Qky2IeRzESZ25hutF1wQrLtsUvglMaasWCbFTfa
-	wyKeYyvvk5kLIgCa2yNVbQ5puqXVAo2NRHrq8E2ycoSqE1/P74lK9q5DMRRR96P1/eho
-	9uIte+Nx7xSPvqDaB26hdYyvIcQbLf0McO0bVK+MTml1F68n8t0cyd3+UsDw1gK/bYfT
-	DTE/XC9ZF7IhxyxQHm19qPEwpPqfk3i/RBr8pzj7bfITVakRf/dtgjZmV+kghStW9fDp
-	ApuwMxa2OF7wqowuXUFhitxWRRfK/qYHT/0IawkHb0v2ji7xj/B8ORbIsLt1NlRN6IFu
-	qTtA==
-X-Gm-Message-State: APjAAAXHPkS5PE9IMeC45Fw8SS9gXCfIZaMW076YH/TMtaKFj6nSu1yd
-	/hZCyxz0meNqy27sSQcigvVO4A==
-X-Google-Smtp-Source: APXvYqwhELT74SPRiuqXoNCBMFtX7GysiTJtJS7ZZ/YBSQ+HJ9Oqia2R2pFZOVyDobtbF37JfLl53Q==
-X-Received: by 2002:a5d:55cb:: with SMTP id i11mr21811325wrw.187.1557206500360;
-	Mon, 06 May 2019 22:21:40 -0700 (PDT)
-Received: from [192.168.1.37] (193.red-88-21-103.staticip.rima-tde.net.
-	[88.21.103.193]) by smtp.gmail.com with ESMTPSA id
-	b10sm24352954wme.25.2019.05.06.22.21.39
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Mon, 06 May 2019 22:21:39 -0700 (PDT)
-To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
-References: <20190506213817.14344-1-ehabkost@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
-	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <ea8a4248-24b3-4dce-f799-3b41fcb32920@redhat.com>
-Date: Tue, 7 May 2019 07:21:38 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <dgibson@ozlabs.org>) id 1hNtVg-0002dS-S1
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 02:23:30 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:52207)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+	id 1hNtVe-0002Yn-Jb; Tue, 07 May 2019 02:23:27 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+	id 44yqL23mZPz9sCJ; Tue,  7 May 2019 16:23:22 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=gibson.dropbear.id.au; s=201602; t=1557210202;
+	bh=gpQrHJyWQexYpx5/xWG2PXXC2z/I5IoQUN483yRDw7A=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=YNoXsnzaZu4Bg6jWp6BWToKgLt946roURZn4WNjk8WSwqxDSSgXyVcDkDtYR4+HYu
+	W/cX4DmWaOWkNyDTunh6VufFZRh0ebGgPn9F++Br3Qpunl5qvD89ePM4u0wZP543gT
+	Nv9GQYr8M+XN99LTV89+gR3pFMC9wwJ/ChBJNe5A=
+Date: Tue, 7 May 2019 15:22:43 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Anton Blanchard <anton@ozlabs.org>
+Message-ID: <20190507052243.GH7073@umbus.fritz.box>
+References: <20190507004811.29968-1-anton@ozlabs.org>
+	<20190507004811.29968-5-anton@ozlabs.org>
 MIME-Version: 1.0
-In-Reply-To: <20190506213817.14344-1-ehabkost@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.221.66
-Subject: Re: [Qemu-devel] [PATCH] tests: Force Python I/O encoding for
- check-qapi-schema
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="xHbokkKX1kTiQeDC"
+Content-Disposition: inline
+In-Reply-To: <20190507004811.29968-5-anton@ozlabs.org>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2401:3900:2:1::2
+Subject: Re: [Qemu-devel] [PATCH 5/9] target/ppc: Fix xvabs[sd]p, xvnabs[sd]p,
+ xvneg[sd]p, xvcpsgn[sd]p
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -74,48 +57,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Michael Roth <mdroth@linux.vnet.ibm.com>, Thomas Huth <thuth@redhat.com>,
-	Markus Armbruster <armbru@redhat.com>, Cleber Rosa <crosa@redhat.com>
+Cc: ego@linux.vnet.ibm.com, sandipandas1990@gmail.com,
+	mark.cave-ayland@ilande.co.uk, richard.henderson@linaro.org,
+	qemu-devel@nongnu.org, f4bug@amsat.org, qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/6/19 11:38 PM, Eduardo Habkost wrote:
-> test-qapi.py doesn't force a specific encoding for stderr or
-> stdout, but the reference files used by check-qapi-schema are in
-> UTF-8.  This breaks check-qapi-schema under certain circumstances
-> (e.g. if using the C locale and Python < 3.7).
-> 
-> We need to make sure test-qapi.py always generate UTF-8 output
-> somehow.  On Python 3.7+ we can do it using
-> `sys.stdout.reconfigure(...)`, but we need a solution that works
-> with older Python versions.
-> 
-> Instead of trying a hack like reopening sys.stdout and
-> sys.stderr, we can just tell Python to use UTF-8 for I/O encoding
-> when running test-qapi.py.  Do it by setting PYTHONIOENCODING.
-> 
-> Reported-by: Thomas Huth <thuth@redhat.com>
-> Tested-by: Thomas Huth <thuth@redhat.com>
-> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+--xHbokkKX1kTiQeDC
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Tue, May 07, 2019 at 10:48:07AM +1000, Anton Blanchard wrote:
+> We were using set_cpu_vsr* when we should have used set_cpu_vsrl*
+
+Commit message doesn't appear to match the code.
+
+>=20
+> Fixes: 8b3b2d75c7c0 ("introduce get_cpu_vsr{l,h}() and set_cpu_vsr{l,h}()=
+ helpers for VSR register access")
+> Signed-off-by: Anton Blanchard <anton@ozlabs.org>
 > ---
->  tests/Makefile.include | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/tests/Makefile.include b/tests/Makefile.include
-> index 7c8b9c84b2..af88ab6f8b 100644
-> --- a/tests/Makefile.include
-> +++ b/tests/Makefile.include
-> @@ -1103,7 +1103,7 @@ check-tests/qemu-iotests-quick.sh: tests/qemu-iotests-quick.sh qemu-img$(EXESUF)
->  .PHONY: $(patsubst %, check-%, $(check-qapi-schema-y))
->  $(patsubst %, check-%, $(check-qapi-schema-y)): check-%.json: $(SRC_PATH)/%.json
->  	$(call quiet-command, PYTHONPATH=$(SRC_PATH)/scripts \
-> -		$(PYTHON) $(SRC_PATH)/tests/qapi-schema/test-qapi.py \
-> +		PYTHONIOENCODING=utf-8 $(PYTHON) $(SRC_PATH)/tests/qapi-schema/test-qapi.py \
->  		$^ >$*.test.out 2>$*.test.err; \
->  		echo $$? >$*.test.exit, \
->  		"TEST","$*.out")
-> 
+>  target/ppc/translate/vsx-impl.inc.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/target/ppc/translate/vsx-impl.inc.c b/target/ppc/translate/v=
+sx-impl.inc.c
+> index c13f84e745..0a48020e3b 100644
+> --- a/target/ppc/translate/vsx-impl.inc.c
+> +++ b/target/ppc/translate/vsx-impl.inc.c
+> @@ -859,8 +859,8 @@ static void glue(gen_, name)(DisasContext *ctx)      =
+            \
+>          xbh =3D tcg_temp_new_i64();                                \
+>          xbl =3D tcg_temp_new_i64();                                \
+>          sgm =3D tcg_temp_new_i64();                                \
+> -        set_cpu_vsrh(xB(ctx->opcode), xbh);                      \
+> -        set_cpu_vsrl(xB(ctx->opcode), xbl);                      \
+> +        get_cpu_vsrh(xbh, xB(ctx->opcode));                      \
+> +        get_cpu_vsrl(xbl, xB(ctx->opcode));                      \
+>          tcg_gen_movi_i64(sgm, sgn_mask);                         \
+>          switch (op) {                                            \
+>              case OP_ABS: {                                       \
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--xHbokkKX1kTiQeDC
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlzRFiMACgkQbDjKyiDZ
+s5I+QRAA0nThDjCOaLpGXUdgPCmIs/d2f5sGN2qwsDQmT8xaRomGt+ZXF4sAHwe7
+eUP4i4uuporFP+FhJzMjHBfx8LEJdT2Ohk6my5u5XckKrnfh5UvpgNfD14gLTXrQ
+2OyymI3AvnCNX9HQlsuieWWdnmSNJeuorb/pAzF7vgw7c+ThxYyiwp2zIukiYoGr
+8DD3lBXRZSpomeJkx5YKOomDX7294xdoeDGmchZEPgeBfxmEkN1dGu+F0ccltOSt
+Sa/FdCN7ZynAKHavvAhKfboJdBeDmbx1w+BfUHCguwyUFr7FMoYv+JSNTFu0oeCh
+N6TJ/MBSPGJKskKbZDzUJYVjLCl4a58xanxasqzr0BI4BnG8oBtzVne1fpoHHygA
+iTX/iO0oZt299EncpeSBKBdwZoTaRu6bmZXhBR700xiRr4ic6LM0oN5h+g4BGx3K
+rsmUY7kuRzG2Dnw0ghaODTf10en+3sdod8Ks5jNIk0pZk1HwPvJBUByvxw/elIYi
+HllRjwL/6b2KJzgz3itdXsDGWG6YslJe5+PMxQZHSSHM2AxCi48ulCCDkSkRX8iA
+vorjn913XVXU3Wv8P8AmguS1amXQBp1cpwxelpdYeCKa9nbWSYUmiOBEMMGQ4OXA
+/Pzv0ef1Ppo5FgKLOwar9ppjXzFSYdL0Lj1Lu/Rn1pkFvdhQMzo=
+=M0TX
+-----END PGP SIGNATURE-----
+
+--xHbokkKX1kTiQeDC--
 
