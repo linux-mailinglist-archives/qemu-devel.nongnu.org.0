@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0A90B16383
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 14:12:49 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:45785 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F22761636E
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 14:06:37 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:45665 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNyxk-0000XH-7b
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 08:12:48 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44954)
+	id 1hNyrl-0002vL-27
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 08:06:37 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44996)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hNylu-0007h6-PI
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:35 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hNylz-0007kU-TM
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hNylt-0003yK-M5
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:34 -0400
-Received: from mail-wr1-x42c.google.com ([2a00:1450:4864:20::42c]:39955)
+	(envelope-from <peter.maydell@linaro.org>) id 1hNylu-0003z3-W5
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:39 -0400
+Received: from mail-wm1-x32b.google.com ([2a00:1450:4864:20::32b]:38075)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hNylt-0003xq-FW
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:33 -0400
-Received: by mail-wr1-x42c.google.com with SMTP id h4so2678719wre.7
-	for <qemu-devel@nongnu.org>; Tue, 07 May 2019 05:00:33 -0700 (PDT)
+	id 1hNylu-0003yX-PX
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:34 -0400
+Received: by mail-wm1-x32b.google.com with SMTP id f2so14778563wmj.3
+	for <qemu-devel@nongnu.org>; Tue, 07 May 2019 05:00:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=0E/GB8BOaQHYgNe4bA1uWRBqwj8g9GMMZpj2tYiWP00=;
-	b=MjrPnYyChAahm6QraFZfhIUd5ppVBxf/lh5+2g5d0kQ/WWFMOhpIiU1k+w1ZgI6XB1
-	/jUO/ZLW1s1/v4M3kQLKUbKKGZGTRUZ4UE7iNkTFYMhSB7RYCSSL+UIucDG9z+xj7ihA
-	X/XTMfK5biWPc5/EzbBGVF8F3syPwu+6z802dy8OFJ4GaB9SqoMyM3yWKuUerBq7i73f
-	aevbQBoJnpgZ8aRHhfRB4dcbvU7VY3no1bv9QZmoweWQObxobcgYk5o2zfmet52n442W
-	kWcXUfSKlDTUsOnBObz3f/2/ubhxgf4N/m1q7iLMG3lAGQeBv/r5bmFftVqQEFqVuFF3
-	ERpw==
+	bh=upDb/oCermKTFkACDchj8gTFhCiWSrAdwy8aQAIaTNU=;
+	b=RFkTd4+HINl2p1PF9S8NL/bhp0yu4IAOARxQHwLQoJo+ETIQOl9Tedzq4nYBtAANIq
+	gtVrtuA5KUKaGRX/7NxndzUEeB2/uJtmTJHZk4UQLQN1jsD9KhgBJtjZ6bGLp0z6Y9iH
+	VI0VSHXczFd3LhUGZnwgD+efOc7kFLBv4xf5h1q2a8DFP8+zVgKCZt7swAjcV/y2MA5V
+	/bSD9dfp0jKzrLpJUgGvcGU9blCOKLfB8jFfVznHtIJf4BabvumE5ltnz7kranINr22z
+	yDE5pUqLVL3QbvZGxWsGI+Kq0USikQC59Lo1IyDkTBfPVuTnwcvOTwsKgR1yh2R8xpUV
+	TNRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=0E/GB8BOaQHYgNe4bA1uWRBqwj8g9GMMZpj2tYiWP00=;
-	b=HU/OGY27TfLno5olvuuhiR0KrR3tcHMKPW/zT3EAFFmwOS/cN71lljI3M8Fgz75LCX
-	191/xG/qu+T5ZnWuZTJSmIkGXBQ/97rcy8XUyo/mbdyPkNg1OX/ebh7TyFXw52ThoOkJ
-	DEDtQqXOM7r52Ez+BOVfqJ/IArs3VUdy5KpSsvMFP4BsqQUN2oQlGZl1QLbsm5bgXAVr
-	J0gJHY1ZjC6hA50wAU69azxyhiVAfn1yJ4L1CAVrQQX6k61aZE9SW6FfYx0oR8AGa0GA
-	54XzEKx1uMdA8Pu34cbycz9wjrlpJrTHdrQGvZKCRlACPUmow1LR0W29Pq8mjiq6U+Ft
-	cvyw==
-X-Gm-Message-State: APjAAAXYbbCM0YSkpIecbEraLwZkmDVjv0S0A6IK42S7YMZb49TVbVPj
-	3cQOAL2mQLeEXlg/yWd2N/D7jZ5UjO8=
-X-Google-Smtp-Source: APXvYqwJJ6Gjt8sYahUZ+cxxqAU9ZlwyylTWtDMmf2RbB7t0FB3M570SxBHf6QFgV+O9dl11WSktpA==
-X-Received: by 2002:a5d:5189:: with SMTP id k9mr7478316wrv.90.1557230432200;
-	Tue, 07 May 2019 05:00:32 -0700 (PDT)
+	bh=upDb/oCermKTFkACDchj8gTFhCiWSrAdwy8aQAIaTNU=;
+	b=gWiHz5eIOhuPwHMD5M6MuA8r4ZLdUevOE8hBTiSIifvGhY3/NKi+xzJY5vHvY+lTOr
+	PgWVkDRrwWsIJILjmi4TxzbMMo3hsn+KKLpOPdqIwf6ErSCDwChriDG5j5o4Vwv90M8V
+	EpUOvdi+3h5H1IpTjVSujAE9oMInTjzNKfKGWmwWZNuXqqrK9YbyXDofzOEvYeVTUz60
+	ZXRxZuREAS1ecOC2SCJWvUPOI60DNRWSGoZy3nEBontnqUK2Suoz7LK053x+27uOq1JA
+	ygTZHMSJPhv/5aq2FMCpGWjBZYGd+FK2x30OYoG5DgbpL3+PLGaoDjuzViJ5ea0diY/R
+	ZkyQ==
+X-Gm-Message-State: APjAAAWxClsnF3P5ywPXNtjF3jmebUwKvAIayYGE4s67SlC4Vqbz7FEH
+	w7gEUGWEfMrxYqg4a96rxYMmipo+IT8=
+X-Google-Smtp-Source: APXvYqx/QgGxv4busUonjI3JJWIO40s35oYBN3cPWmsZio3Zdimsl6VVZ2P+L34vEnMdHIXL2L3ZJw==
+X-Received: by 2002:a1c:540e:: with SMTP id i14mr8545301wmb.129.1557230433439; 
+	Tue, 07 May 2019 05:00:33 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
-	by smtp.gmail.com with ESMTPSA id g3sm12348596wmf.9.2019.05.07.05.00.31
+	by smtp.gmail.com with ESMTPSA id g3sm12348596wmf.9.2019.05.07.05.00.32
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 07 May 2019 05:00:31 -0700 (PDT)
+	Tue, 07 May 2019 05:00:32 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue,  7 May 2019 13:00:09 +0100
-Message-Id: <20190507120011.18100-14-peter.maydell@linaro.org>
+Date: Tue,  7 May 2019 13:00:10 +0100
+Message-Id: <20190507120011.18100-15-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190507120011.18100-1-peter.maydell@linaro.org>
 References: <20190507120011.18100-1-peter.maydell@linaro.org>
@@ -65,9 +65,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::42c
-Subject: [Qemu-devel] [PULL 13/15] hw/intc/armv7m_nvic: Don't enable
- ARMV7M_EXCP_DEBUG from reset
+X-Received-From: 2a00:1450:4864:20::32b
+Subject: [Qemu-devel] [PULL 14/15] target/arm: Implement XPSR GE bits
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,39 +81,86 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The M-profile architecture specifies that the DebugMonitor exception
-should be initially disabled, not enabled. It should be controlled
-by the DEMCR register's MON_EN bit, but we don't implement that
-register yet (like most of the debug architecture for M-profile).
-
-Note that BKPT instructions will still work, because they
-will be escalated to HardFault.
+In the M-profile architecture, if the CPU implements the DSP extension
+then the XPSR has GE bits, in the same way as the A-profile CPSR. When
+we added DSP extension support we forgot to add support for reading
+and writing the GE bits, which are stored in env->GE. We did put in
+the code to add XPSR_GE to the mask of bits to update in the v7m_msr
+helper, but forgot it in v7m_mrs. We also must not allow the XPSR we
+pull off the stack on exception return to set the nonexistent GE bits.
+Correct these errors:
+ * read and write env->GE in xpsr_read() and xpsr_write()
+ * only set GE bits on exception return if DSP present
+ * read GE bits for MRS if DSP present
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20190430131439.25251-4-peter.maydell@linaro.org
+Message-id: 20190430131439.25251-5-peter.maydell@linaro.org
 ---
- hw/intc/armv7m_nvic.c | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ target/arm/cpu.h    |  4 ++++
+ target/arm/helper.c | 12 ++++++++++--
+ 2 files changed, 14 insertions(+), 2 deletions(-)
 
-diff --git a/hw/intc/armv7m_nvic.c b/hw/intc/armv7m_nvic.c
-index 15cba63c964..3a346a682a3 100644
---- a/hw/intc/armv7m_nvic.c
-+++ b/hw/intc/armv7m_nvic.c
-@@ -2491,10 +2491,12 @@ static void armv7m_nvic_reset(DeviceState *dev)
-      * the System Handler Control register
-      */
-     s->vectors[ARMV7M_EXCP_SVC].enabled = 1;
--    s->vectors[ARMV7M_EXCP_DEBUG].enabled = 1;
-     s->vectors[ARMV7M_EXCP_PENDSV].enabled = 1;
-     s->vectors[ARMV7M_EXCP_SYSTICK].enabled = 1;
+diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+index 0304ddd9f11..733b840a712 100644
+--- a/target/arm/cpu.h
++++ b/target/arm/cpu.h
+@@ -1285,6 +1285,7 @@ static inline uint32_t xpsr_read(CPUARMState *env)
+         | (env->CF << 29) | ((env->VF & 0x80000000) >> 3) | (env->QF << 27)
+         | (env->thumb << 24) | ((env->condexec_bits & 3) << 25)
+         | ((env->condexec_bits & 0xfc) << 8)
++        | (env->GE << 16)
+         | env->v7m.exception;
+ }
  
-+    /* DebugMonitor is enabled via DEMCR.MON_EN */
-+    s->vectors[ARMV7M_EXCP_DEBUG].enabled = 0;
+@@ -1300,6 +1301,9 @@ static inline void xpsr_write(CPUARMState *env, uint32_t val, uint32_t mask)
+     if (mask & XPSR_Q) {
+         env->QF = ((val & XPSR_Q) != 0);
+     }
++    if (mask & XPSR_GE) {
++        env->GE = (val & XPSR_GE) >> 16;
++    }
+     if (mask & XPSR_T) {
+         env->thumb = ((val & XPSR_T) != 0);
+     }
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 9b805d0e6bd..b9745a42bab 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -8727,7 +8727,7 @@ static void do_v7m_exception_exit(ARMCPU *cpu)
+ {
+     CPUARMState *env = &cpu->env;
+     uint32_t excret;
+-    uint32_t xpsr;
++    uint32_t xpsr, xpsr_mask;
+     bool ufault = false;
+     bool sfault = false;
+     bool return_to_sp_process;
+@@ -9179,8 +9179,13 @@ static void do_v7m_exception_exit(ARMCPU *cpu)
+         }
+         *frame_sp_p = frameptr;
+     }
 +
-     resetprio = arm_feature(&s->cpu->env, ARM_FEATURE_V8) ? -4 : -3;
-     s->vectors[ARMV7M_EXCP_RESET].prio = resetprio;
-     s->vectors[ARMV7M_EXCP_NMI].prio = -2;
++    xpsr_mask = ~(XPSR_SPREALIGN | XPSR_SFPA);
++    if (!arm_feature(env, ARM_FEATURE_THUMB_DSP)) {
++        xpsr_mask &= ~XPSR_GE;
++    }
+     /* This xpsr_write() will invalidate frame_sp_p as it may switch stack */
+-    xpsr_write(env, xpsr, ~(XPSR_SPREALIGN | XPSR_SFPA));
++    xpsr_write(env, xpsr, xpsr_mask);
+ 
+     if (env->v7m.secure) {
+         bool sfpa = xpsr & XPSR_SFPA;
+@@ -12665,6 +12670,9 @@ uint32_t HELPER(v7m_mrs)(CPUARMState *env, uint32_t reg)
+         }
+         if (!(reg & 4)) {
+             mask |= XPSR_NZCV | XPSR_Q; /* APSR */
++            if (arm_feature(env, ARM_FEATURE_THUMB_DSP)) {
++                mask |= XPSR_GE;
++            }
+         }
+         /* EPSR reads as zero */
+         return xpsr_read(env) & mask;
 -- 
 2.20.1
 
