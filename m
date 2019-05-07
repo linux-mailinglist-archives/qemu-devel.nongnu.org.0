@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8B98D16377
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 14:08:36 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:45709 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 55BA01637A
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 14:10:20 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:45727 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNytf-0004xa-NS
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 08:08:35 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44785)
+	id 1hNyvL-0006Se-G9
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 08:10:19 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44843)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hNyln-0007VU-8X
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:29 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hNylp-0007Yd-7p
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hNyll-0003Xe-8c
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:27 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:34461)
+	(envelope-from <peter.maydell@linaro.org>) id 1hNyll-0003YT-AT
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:29 -0400
+Received: from mail-wm1-x330.google.com ([2a00:1450:4864:20::330]:40732)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hNylk-0003S9-V0
+	id 1hNyll-0003T3-3H
 	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:25 -0400
-Received: by mail-wr1-x444.google.com with SMTP id f7so11637022wrq.1
-	for <qemu-devel@nongnu.org>; Tue, 07 May 2019 05:00:23 -0700 (PDT)
+Received: by mail-wm1-x330.google.com with SMTP id h11so19612913wmb.5
+	for <qemu-devel@nongnu.org>; Tue, 07 May 2019 05:00:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=3D9o4lpLLG1z7/od2Fd1VLuk47xpnXC+UL6uQauoS3c=;
-	b=nExsMyhPC7V7gwIkdr6kCCZ6ngSXCQXAhu0N2IDDhMQknGxR+cmCiP0vxuS5E8tTyw
-	FDtSJfcR8LGEbb4rEWIuvmGEEs/A9y2ZhlpLwTFMBkNwyZIfNIQw7HrDrpG3cagWGcEf
-	MTTwtUS8Mm7tdeNT9/iSYjBpQqgdK8udamw8fVCFOAsI/ztxmXqwTkqSsFFAwk2+gerZ
-	xhMCh3hVSmkFofyobSIu3rn+zRt2wocXCqRL9N7gZ2NJl+EWeeno/+LvdiwR6EkZCTf2
-	JL+Yd/ayHYeecTS4+XAyNo5n7Yb1afeKT8N3HpZpB/IJfcxonpR9BN7HH+7lu8uHYZ1E
-	kSMg==
+	bh=PrRjWEvXDJOpA+k1xEwYJM/zCv1rnAwRsRuPQ3BARac=;
+	b=SEFkh4Ts8NUCcvJYgBZUTsIazOT9KxG7PjAHXR2MYYwWINybauAR/I/bEOA3CuqhQi
+	OnM/G786BZbgwmaV+qWvUygG7y+IbwmieOUfNYELOygKYsCy3pZRucXwHCVFMtb6p9zS
+	RBC3JyFNsU8ACbvWM+kpCUyEzkU11bGZzI0iAkTnwXCzYiRfzGKd0rMsKMblc485b7Z+
+	uzhU+L43WlrdiHeVFey04Z+/1z9wGkPjZY3j3mtjOVkhXxBnglG5rRNgpoqyGai4XfEf
+	BbzUryJcMMqGhtmBBTLPEuZQBQ4b9PRa7WBSwV2LijGv4PT0oedkx5tXyqupA/NTvQIH
+	NBxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=3D9o4lpLLG1z7/od2Fd1VLuk47xpnXC+UL6uQauoS3c=;
-	b=YAZ7liikzuiWZfpRs3B0aUSliJ1HR1K2Xoj9kv+8ezrIAF0C0MHC6BZH+l8OS4TLYW
-	Jcd1fxlD9SDjywjJnzEY6bLh1+lcH1ZjQlnaH5JBu1Hy2kWgc/xgOa38/KWI5eSr0te+
-	4PulOYoGQzoPhtbYcf1ap3elPoTLkRAKxtYRXASWI5FEhaXMtp4R0ytbzru5v69Bcv+m
-	8IbAaZEc5ftEY7X1BB/rp4Zsp0QvcrcgcjoJxDxRb3KMazxvWI2Y+tgRWgcagn+7ok6D
-	T+ZAt1f8Sf3JzrK1Ggtw2DrhzlanhgTV2Os84OYM9PO5MW+o7D05CG1ZP3KUCAgUjERC
-	KS/g==
-X-Gm-Message-State: APjAAAXJNs7U0tVh7GNlFS0FMYeFtdSB2kyjnjmAOeTUu7BrptdWTJMb
-	uy83WqInABuTK+0CMhmw++oVHeIOiBI=
-X-Google-Smtp-Source: APXvYqyISecavTz0cYOlXGefqCCdh3dW/YIGtzg+5xgtaoMYePLchwAhWuEsuZ/QpRQzWGz7HQfWmg==
-X-Received: by 2002:a5d:6a47:: with SMTP id t7mr21325283wrw.307.1557230421933; 
-	Tue, 07 May 2019 05:00:21 -0700 (PDT)
+	bh=PrRjWEvXDJOpA+k1xEwYJM/zCv1rnAwRsRuPQ3BARac=;
+	b=Ujeduspx6vOLzKxuaZH1v4yKyPuAFZT7H3m6uyIO2PZE7VzpeJ8/KALtNesYbjBJ2M
+	nXrNJb8eXtrEBoAfb6acap/NbfXZCb7Fu+wo/vTs2+CK9+mORMatbM2fseEdRacDyzDv
+	+EY0848401LUFPOdYM5WIqWTNTRiMsFIKN7TW890PuLimPDqC+CZog1w+BDb3sFjJ/49
+	yCJXLvGgXFq7NNrzpKVo5l6OzVMt6O6I0tQMAAuMhs5Ga2HEQb3sO5bqsTPZiDdVHeVB
+	r4x+Hwc01zivSraxiPPYl9clpMhxldRfM7soDcZEzl6N7QdfugpUQ7quK7GRFu78Fres
+	7JQQ==
+X-Gm-Message-State: APjAAAV3LpcktfJJyZruXtvT0FCJSmE9r91qdg6ePWKD5I8yb97p6bU7
+	C7BLyyNYue+syTtZI8kdge5ty2dF958=
+X-Google-Smtp-Source: APXvYqyENZCl8bjr1qVYft8KjoAvxuuZeCcdSAmR3AQqo1zbSKaXxv9h3vHQ825L++uh83Pu56R/lw==
+X-Received: by 2002:a1c:cc18:: with SMTP id h24mr20151738wmb.13.1557230423217; 
+	Tue, 07 May 2019 05:00:23 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
-	by smtp.gmail.com with ESMTPSA id g3sm12348596wmf.9.2019.05.07.05.00.20
+	by smtp.gmail.com with ESMTPSA id g3sm12348596wmf.9.2019.05.07.05.00.21
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 07 May 2019 05:00:20 -0700 (PDT)
+	Tue, 07 May 2019 05:00:22 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue,  7 May 2019 13:00:01 +0100
-Message-Id: <20190507120011.18100-6-peter.maydell@linaro.org>
+Date: Tue,  7 May 2019 13:00:02 +0100
+Message-Id: <20190507120011.18100-7-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190507120011.18100-1-peter.maydell@linaro.org>
 References: <20190507120011.18100-1-peter.maydell@linaro.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: [Qemu-devel] [PULL 05/15] arm: Allow system registers for KVM
- guests to be changed by QEMU code
+X-Received-From: 2a00:1450:4864:20::330
+Subject: [Qemu-devel] [PULL 06/15] arm: aspeed: Set SDRAM size
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,208 +82,90 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-At the moment the Arm implementations of kvm_arch_{get,put}_registers()
-don't support having QEMU change the values of system registers
-(aka coprocessor registers for AArch32). This is because although
-kvm_arch_get_registers() calls write_list_to_cpustate() to
-update the CPU state struct fields (so QEMU code can read the
-values in the usual way), kvm_arch_put_registers() does not
-call write_cpustate_to_list(), meaning that any changes to
-the CPU state struct fields will not be passed back to KVM.
+From: Joel Stanley <joel@jms.id.au>
 
-The rationale for this design is documented in a comment in the
-AArch32 kvm_arch_put_registers() -- writing the values in the
-cpregs list into the CPU state struct is "lossy" because the
-write of a register might not succeed, and so if we blindly
-copy the CPU state values back again we will incorrectly
-change register values for the guest. The assumption was that
-no QEMU code would need to write to the registers.
+We currently use Qemu's default of 128MB. As we know how much ram each
+machine ships with, make it easier on users by setting a default.
 
-However, when we implemented debug support for KVM guests, we
-broke that assumption: the code to handle "set the guest up
-to take a breakpoint exception" does so by updating various
-guest registers including ESR_EL1.
+It can still be overridden with -m on the command line.
 
-Support this by making kvm_arch_put_registers() synchronize
-CPU state back into the list. We sync only those registers
-where the initial write succeeds, which should be sufficient.
-
-This commit is the same as commit 823e1b3818f9b10b824ddc which we
-had to revert in commit 942f99c825fc94c8b1a4, except that the bug
-which was preventing EDK2 guest firmware running has been fixed:
-kvm_arm_reset_vcpu() now calls write_list_to_cpustate().
-
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Joel Stanley <joel@jms.id.au>
+Reviewed-by: Andrew Jeffery <andrew@aj.id.au>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Tested-by: Eric Auger <eric.auger@redhat.com>
+Message-id: 20190503022958.1394-1-joel@jms.id.au
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- target/arm/cpu.h     |  9 ++++++++-
- target/arm/helper.c  | 27 +++++++++++++++++++++++++--
- target/arm/kvm.c     |  8 ++++++++
- target/arm/kvm32.c   | 20 ++------------------
- target/arm/kvm64.c   |  2 ++
- target/arm/machine.c |  2 +-
- 6 files changed, 46 insertions(+), 22 deletions(-)
+ include/hw/arm/aspeed.h | 1 +
+ hw/arm/aspeed.c         | 8 ++++++++
+ 2 files changed, 9 insertions(+)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 22bc6e00ab9..0304ddd9f11 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -2610,18 +2610,25 @@ bool write_list_to_cpustate(ARMCPU *cpu);
- /**
-  * write_cpustate_to_list:
-  * @cpu: ARMCPU
-+ * @kvm_sync: true if this is for syncing back to KVM
-  *
-  * For each register listed in the ARMCPU cpreg_indexes list, write
-  * its value from the ARMCPUState structure into the cpreg_values list.
-  * This is used to copy info from TCG's working data structures into
-  * KVM or for outbound migration.
-  *
-+ * @kvm_sync is true if we are doing this in order to sync the
-+ * register state back to KVM. In this case we will only update
-+ * values in the list if the previous list->cpustate sync actually
-+ * successfully wrote the CPU state. Otherwise we will keep the value
-+ * that is in the list.
-+ *
-  * Returns: true if all register values were read correctly,
-  * false if some register was unknown or could not be read.
-  * Note that we do not stop early on failure -- we will attempt
-  * reading all registers in the list.
-  */
--bool write_cpustate_to_list(ARMCPU *cpu);
-+bool write_cpustate_to_list(ARMCPU *cpu, bool kvm_sync);
+diff --git a/include/hw/arm/aspeed.h b/include/hw/arm/aspeed.h
+index 325c091d09e..02073a6b4d6 100644
+--- a/include/hw/arm/aspeed.h
++++ b/include/hw/arm/aspeed.h
+@@ -22,6 +22,7 @@ typedef struct AspeedBoardConfig {
+     const char *spi_model;
+     uint32_t num_cs;
+     void (*i2c_init)(AspeedBoardState *bmc);
++    uint32_t ram;
+ } AspeedBoardConfig;
  
- #define ARM_CPUID_TI915T      0x54029152
- #define ARM_CPUID_TI925T      0x54029252
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 81a92ab4911..9b805d0e6bd 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -266,7 +266,7 @@ static bool raw_accessors_invalid(const ARMCPRegInfo *ri)
-     return true;
+ #define TYPE_ASPEED_MACHINE       MACHINE_TYPE_NAME("aspeed")
+diff --git a/hw/arm/aspeed.c b/hw/arm/aspeed.c
+index 1c23ebd9925..29d225ed140 100644
+--- a/hw/arm/aspeed.c
++++ b/hw/arm/aspeed.c
+@@ -25,6 +25,7 @@
+ #include "sysemu/block-backend.h"
+ #include "hw/loader.h"
+ #include "qemu/error-report.h"
++#include "qemu/units.h"
+ 
+ static struct arm_boot_info aspeed_board_binfo = {
+     .board_id = -1, /* device-tree-only board */
+@@ -331,6 +332,9 @@ static void aspeed_machine_class_init(ObjectClass *oc, void *data)
+     mc->no_floppy = 1;
+     mc->no_cdrom = 1;
+     mc->no_parallel = 1;
++    if (board->ram) {
++        mc->default_ram_size = board->ram;
++    }
+     amc->board = board;
  }
  
--bool write_cpustate_to_list(ARMCPU *cpu)
-+bool write_cpustate_to_list(ARMCPU *cpu, bool kvm_sync)
- {
-     /* Write the coprocessor state from cpu->env to the (index,value) list. */
-     int i;
-@@ -275,6 +275,7 @@ bool write_cpustate_to_list(ARMCPU *cpu)
-     for (i = 0; i < cpu->cpreg_array_len; i++) {
-         uint32_t regidx = kvm_to_cpreg_id(cpu->cpreg_indexes[i]);
-         const ARMCPRegInfo *ri;
-+        uint64_t newval;
+@@ -352,6 +356,7 @@ static const AspeedBoardConfig aspeed_boards[] = {
+         .spi_model = "mx25l25635e",
+         .num_cs    = 1,
+         .i2c_init  = palmetto_bmc_i2c_init,
++        .ram       = 256 * MiB,
+     }, {
+         .name      = MACHINE_TYPE_NAME("ast2500-evb"),
+         .desc      = "Aspeed AST2500 EVB (ARM1176)",
+@@ -361,6 +366,7 @@ static const AspeedBoardConfig aspeed_boards[] = {
+         .spi_model = "mx25l25635e",
+         .num_cs    = 1,
+         .i2c_init  = ast2500_evb_i2c_init,
++        .ram       = 512 * MiB,
+     }, {
+         .name      = MACHINE_TYPE_NAME("romulus-bmc"),
+         .desc      = "OpenPOWER Romulus BMC (ARM1176)",
+@@ -370,6 +376,7 @@ static const AspeedBoardConfig aspeed_boards[] = {
+         .spi_model = "mx66l1g45g",
+         .num_cs    = 2,
+         .i2c_init  = romulus_bmc_i2c_init,
++        .ram       = 512 * MiB,
+     }, {
+         .name      = MACHINE_TYPE_NAME("witherspoon-bmc"),
+         .desc      = "OpenPOWER Witherspoon BMC (ARM1176)",
+@@ -379,6 +386,7 @@ static const AspeedBoardConfig aspeed_boards[] = {
+         .spi_model = "mx66l1g45g",
+         .num_cs    = 2,
+         .i2c_init  = witherspoon_bmc_i2c_init,
++        .ram       = 512 * MiB,
+     },
+ };
  
-         ri = get_arm_cp_reginfo(cpu->cp_regs, regidx);
-         if (!ri) {
-@@ -284,7 +285,29 @@ bool write_cpustate_to_list(ARMCPU *cpu)
-         if (ri->type & ARM_CP_NO_RAW) {
-             continue;
-         }
--        cpu->cpreg_values[i] = read_raw_cp_reg(&cpu->env, ri);
-+
-+        newval = read_raw_cp_reg(&cpu->env, ri);
-+        if (kvm_sync) {
-+            /*
-+             * Only sync if the previous list->cpustate sync succeeded.
-+             * Rather than tracking the success/failure state for every
-+             * item in the list, we just recheck "does the raw write we must
-+             * have made in write_list_to_cpustate() read back OK" here.
-+             */
-+            uint64_t oldval = cpu->cpreg_values[i];
-+
-+            if (oldval == newval) {
-+                continue;
-+            }
-+
-+            write_raw_cp_reg(&cpu->env, ri, oldval);
-+            if (read_raw_cp_reg(&cpu->env, ri) != oldval) {
-+                continue;
-+            }
-+
-+            write_raw_cp_reg(&cpu->env, ri, newval);
-+        }
-+        cpu->cpreg_values[i] = newval;
-     }
-     return ok;
- }
-diff --git a/target/arm/kvm.c b/target/arm/kvm.c
-index 79a79f01905..59956346126 100644
---- a/target/arm/kvm.c
-+++ b/target/arm/kvm.c
-@@ -497,6 +497,14 @@ void kvm_arm_reset_vcpu(ARMCPU *cpu)
-         fprintf(stderr, "write_kvmstate_to_list failed\n");
-         abort();
-     }
-+    /*
-+     * Sync the reset values also into the CPUState. This is necessary
-+     * because the next thing we do will be a kvm_arch_put_registers()
-+     * which will update the list values from the CPUState before copying
-+     * the list values back to KVM. It's OK to ignore failure returns here
-+     * for the same reason we do so in kvm_arch_get_registers().
-+     */
-+    write_list_to_cpustate(cpu);
- }
- 
- /*
-diff --git a/target/arm/kvm32.c b/target/arm/kvm32.c
-index 50327989dcc..327375f6252 100644
---- a/target/arm/kvm32.c
-+++ b/target/arm/kvm32.c
-@@ -384,24 +384,8 @@ int kvm_arch_put_registers(CPUState *cs, int level)
-         return ret;
-     }
- 
--    /* Note that we do not call write_cpustate_to_list()
--     * here, so we are only writing the tuple list back to
--     * KVM. This is safe because nothing can change the
--     * CPUARMState cp15 fields (in particular gdb accesses cannot)
--     * and so there are no changes to sync. In fact syncing would
--     * be wrong at this point: for a constant register where TCG and
--     * KVM disagree about its value, the preceding write_list_to_cpustate()
--     * would not have had any effect on the CPUARMState value (since the
--     * register is read-only), and a write_cpustate_to_list() here would
--     * then try to write the TCG value back into KVM -- this would either
--     * fail or incorrectly change the value the guest sees.
--     *
--     * If we ever want to allow the user to modify cp15 registers via
--     * the gdb stub, we would need to be more clever here (for instance
--     * tracking the set of registers kvm_arch_get_registers() successfully
--     * managed to update the CPUARMState with, and only allowing those
--     * to be written back up into the kernel).
--     */
-+    write_cpustate_to_list(cpu, true);
-+
-     if (!write_list_to_kvmstate(cpu, level)) {
-         return EINVAL;
-     }
-diff --git a/target/arm/kvm64.c b/target/arm/kvm64.c
-index 089af9c5f02..e3ba1492482 100644
---- a/target/arm/kvm64.c
-+++ b/target/arm/kvm64.c
-@@ -838,6 +838,8 @@ int kvm_arch_put_registers(CPUState *cs, int level)
-         return ret;
-     }
- 
-+    write_cpustate_to_list(cpu, true);
-+
-     if (!write_list_to_kvmstate(cpu, level)) {
-         return EINVAL;
-     }
-diff --git a/target/arm/machine.c b/target/arm/machine.c
-index 09567d4fc66..96d032f2a7e 100644
---- a/target/arm/machine.c
-+++ b/target/arm/machine.c
-@@ -646,7 +646,7 @@ static int cpu_pre_save(void *opaque)
-             abort();
-         }
-     } else {
--        if (!write_cpustate_to_list(cpu)) {
-+        if (!write_cpustate_to_list(cpu, false)) {
-             /* This should never fail. */
-             abort();
-         }
 -- 
 2.20.1
 
