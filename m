@@ -2,55 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9A2915A6E
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 07:46:22 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40410 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FA2D15AE5
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 07:50:47 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40448 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNsvl-0000dm-Rj
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 01:46:21 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59801)
+	id 1hNt02-00033A-Ai
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 01:50:46 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60712)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <yan.y.zhao@intel.com>) id 1hNsuX-0000FF-PU
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 01:45:07 -0400
+	(envelope-from <yan.y.zhao@intel.com>) id 1hNsyV-0002RL-3a
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 01:49:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <yan.y.zhao@intel.com>) id 1hNsuW-0003IL-7s
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 01:45:05 -0400
-Received: from mga18.intel.com ([134.134.136.126]:15358)
+	(envelope-from <yan.y.zhao@intel.com>) id 1hNsyT-0005Oh-7b
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 01:49:11 -0400
+Received: from mga05.intel.com ([192.55.52.43]:27230)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <yan.y.zhao@intel.com>)
-	id 1hNsuV-0003FM-Vl
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 01:45:04 -0400
-X-Amp-Result: UNSCANNABLE
+	id 1hNsyS-0005O9-QT
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 01:49:09 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
 X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	06 May 2019 22:44:55 -0700
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	06 May 2019 22:49:07 -0700
 X-ExtLoop1: 1
 Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
 	([10.239.13.9])
-	by fmsmga005.fm.intel.com with ESMTP; 06 May 2019 22:44:50 -0700
-Date: Tue, 7 May 2019 01:39:13 -0400
+	by fmsmga004.fm.intel.com with ESMTP; 06 May 2019 22:49:02 -0700
+Date: Tue, 7 May 2019 01:43:25 -0400
 From: Yan Zhao <yan.y.zhao@intel.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Message-ID: <20190507053913.GA14284@joy-OptiPlex-7040>
-References: <20190419083258.19580-1-yan.y.zhao@intel.com>
-	<20190419083505.19654-1-yan.y.zhao@intel.com>
-	<20190423115932.42619422.cohuck@redhat.com>
-	<20190424031036.GB26247@joy-OptiPlex-7040>
-	<20190424095624.0ce97328.cohuck@redhat.com>
-	<20190424081558.GE26247@joy-OptiPlex-7040>
-	<20190430172908.2ae77fa9.cohuck@redhat.com>
+To: Zhenyu Wang <zhenyuw@linux.intel.com>
+Message-ID: <20190507054325.GB14284@joy-OptiPlex-7040>
+References: <20190506014514.3555-1-yan.y.zhao@intel.com>
+	<20190506015102.3691-1-yan.y.zhao@intel.com>
+	<20190506032032.GP12913@zhen-hp.sh.intel.com>
+	<20190506074158.GU12913@zhen-hp.sh.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190430172908.2ae77fa9.cohuck@redhat.com>
+In-Reply-To: <20190506074158.GU12913@zhen-hp.sh.intel.com>
 User-Agent: Mutt/1.9.4 (2018-02-28)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 134.134.136.126
-Subject: Re: [Qemu-devel] [PATCH 1/2] vfio/mdev: add version field as
- mandatory attribute for mdev device
+X-Received-From: 192.55.52.43
+Subject: Re: [Qemu-devel] [PATCH v2 2/2] drm/i915/gvt: export mdev device
+ version to sysfs for Intel vGPU
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -79,165 +77,323 @@ Cc: "cjia@nvidia.com" <cjia@nvidia.com>,
 	"felipe@nutanix.com" <felipe@nutanix.com>,
 	"Ken.Xue@amd.com" <Ken.Xue@amd.com>, "Tian, Kevin" <kevin.tian@intel.com>,
 	"dgilbert@redhat.com" <dgilbert@redhat.com>,
-	"zhenyuw@linux.intel.com" <zhenyuw@linux.intel.com>,
+	"jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>,
 	"alex.williamson@redhat.com" <alex.williamson@redhat.com>,
 	"intel-gvt-dev@lists.freedesktop.org"
 	<intel-gvt-dev@lists.freedesktop.org>, "Liu,
 	Changpeng" <changpeng.liu@intel.com>,
+	"cohuck@redhat.com" <cohuck@redhat.com>,
 	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
 	"Wang, Zhi A" <zhi.a.wang@intel.com>,
-	"jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>, "He,
+	"dinechin@redhat.com" <dinechin@redhat.com>, "He,
 	Shaopeng" <shaopeng.he@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Apr 30, 2019 at 11:29:08PM +0800, Cornelia Huck wrote:
-> On Wed, 24 Apr 2019 04:15:58 -0400
-> Yan Zhao <yan.y.zhao@intel.com> wrote:
-> 
-> > On Wed, Apr 24, 2019 at 03:56:24PM +0800, Cornelia Huck wrote:
-> > > On Tue, 23 Apr 2019 23:10:37 -0400
-> > > Yan Zhao <yan.y.zhao@intel.com> wrote:
+On Mon, May 06, 2019 at 03:41:58PM +0800, Zhenyu Wang wrote:
+> On 2019.05.06 11:20:32 +0800, Zhenyu Wang wrote:
+> > On 2019.05.05 21:51:02 -0400, Yan Zhao wrote:
+> > > This feature implements the version attribute for Intel's vGPU mdev
+> > > devices.
 > > >
-> > > > On Tue, Apr 23, 2019 at 05:59:32PM +0800, Cornelia Huck wrote:
-> > > > > On Fri, 19 Apr 2019 04:35:04 -0400
-> > > > > Yan Zhao <yan.y.zhao@intel.com> wrote:
-> 
-> > > > > > @@ -225,6 +228,8 @@ Directories and files under the sysfs for Each Physical Device
-> > > > > >    [<type-id>], device_api, and available_instances are mandatory attributes
-> > > > > >    that should be provided by vendor driver.
-> > > > > >
-> > > > > > +  version is a mandatory attribute if a mdev device supports live migration.
-> > > > >
-> > > > > What about "An mdev device wishing to support live migration must
-> > > > > provide the version attribute."?
-> > > > yes, I just want to keep consistent with the line above it
-> > > > " [<type-id>], device_api, and available_instances are mandatory attributes
-> > > >   that should be provided by vendor driver."
-> > > > what about below one?
-> > > >   "version is a mandatory attribute if a mdev device wishing to support live
-> > > >   migration."
+> > > version attribute is rw.
+> > > It's used to check device compatibility for two mdev devices.
+> > > version string format and length are private for vendor driver. vendor
+> > > driver is able to define them freely.
 > > >
-> > > My point is that an attribute is not mandatory if it can be left out :)
-> > > (I'm not a native speaker, though; maybe this makes perfect sense
-> > > after all?)
+> > > For Intel vGPU of gen8 and gen9, the mdev device version
+> > > consists of 3 fields: "vendor id" + "device id" + "mdev type".
 > > >
-> > > Maybe "version is a required attribute if live migration is supported
-> > > for an mdev device"?
+> > > Reading from a vGPU's version attribute, a string is returned in below
+> > > format: <vendor id>-<device id>-<mdev type>. e.g.
+> > > 8086-193b-i915-GVTg_V5_2.
 > > >
-> > you are right, "mandatory" may bring some confusion.
-> > Maybe
-> > "vendor driver must provide version attribute for an mdev device wishing to
-> > support live migration." ?
-> > based on your first version :)
-> 
-> "The vendor driver must provide the version attribute for any mdev
-> device it wishes to support live migration for." ?
-> 
+> > > Writing a string to a vGPU's version attribute will trigger GVT to check
+> > > whether a vGPU identified by the written string is compatible with
+> > > current vGPU owning this version attribute. errno is returned if the two
+> > > vGPUs are incompatible. The length of written string is returned in
+> > > compatible case.
+> > >
+> > > For other platforms, and for GVT not supporting vGPU live migration
+> > > feature, errnos are returned when read/write of mdev devices' version
+> > > attributes.
+> > >
+> > > For old GVT versions where no version attributes exposed in sysfs, it is
+> > > regarded as not supporting vGPU live migration.
+> > >
+> > > For future platforms, besides the current 2 fields in vendor proprietary
+> > > part, more fields may be added to identify Intel vGPU well for live
+> > > migration purpose.
+> > >
+> > > v2:
+> > > 1. removed 32 common part of version string
+> > > (Alex Williamson)
+> > > 2. do not register version attribute for GVT not supporting live
+> > > migration.(Cornelia Huck)
+> > > 3. for platforms out of gen8, gen9, return -EINVAL --> -ENODEV for
+> > > incompatible. (Cornelia Huck)
+> > >
+> > > Cc: Alex Williamson <alex.williamson@redhat.com>
+> > > Cc: Erik Skultety <eskultet@redhat.com>
+> > > Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+> > > Cc: Cornelia Huck <cohuck@redhat.com>
+> > > Cc: "Tian, Kevin" <kevin.tian@intel.com>
+> > > Cc: Zhenyu Wang <zhenyuw@linux.intel.com>
+> > > Cc: "Wang, Zhi A" <zhi.a.wang@intel.com>
+> > > c: Neo Jia <cjia@nvidia.com>
+> > > Cc: Kirti Wankhede <kwankhede@nvidia.com>
+> > >
+> > > Signed-off-by: Yan Zhao <yan.y.zhao@intel.com>
+> > > ---
+> > >  drivers/gpu/drm/i915/gvt/Makefile         |  2 +-
+> > >  drivers/gpu/drm/i915/gvt/device_version.c | 87 +++++++++++++++++++++++
+> > >  drivers/gpu/drm/i915/gvt/gvt.c            | 51 +++++++++++++
+> > >  drivers/gpu/drm/i915/gvt/gvt.h            |  6 ++
+> > >  4 files changed, 145 insertions(+), 1 deletion(-)
+> > >  create mode 100644 drivers/gpu/drm/i915/gvt/device_version.c
+> > >
+> > > diff --git a/drivers/gpu/drm/i915/gvt/Makefile b/drivers/gpu/drm/i915/gvt/Makefile
+> > > index 271fb46d4dd0..54e209a23899 100644
+> > > --- a/drivers/gpu/drm/i915/gvt/Makefile
+> > > +++ b/drivers/gpu/drm/i915/gvt/Makefile
+> > > @@ -3,7 +3,7 @@ GVT_DIR := gvt
+> > >  GVT_SOURCE := gvt.o aperture_gm.o handlers.o vgpu.o trace_points.o firmware.o \
+> > >     interrupt.o gtt.o cfg_space.o opregion.o mmio.o display.o edid.o \
+> > >     execlist.o scheduler.o sched_policy.o mmio_context.o cmd_parser.o debugfs.o \
+> > > -   fb_decoder.o dmabuf.o page_track.o
+> > > +   fb_decoder.o dmabuf.o page_track.o device_version.o
+> > >
+> > >  ccflags-y                          += -I$(src) -I$(src)/$(GVT_DIR)
+> > >  i915-y                                     += $(addprefix $(GVT_DIR)/, $(GVT_SOURCE))
+> > > diff --git a/drivers/gpu/drm/i915/gvt/device_version.c b/drivers/gpu/drm/i915/gvt/device_version.c
+> > > new file mode 100644
+> > > index 000000000000..bd4cdcbdba95
+> > > --- /dev/null
+> > > +++ b/drivers/gpu/drm/i915/gvt/device_version.c
+> > > @@ -0,0 +1,87 @@
+> > > +/*
+> > > + * Copyright(c) 2011-2017 Intel Corporation. All rights reserved.
+> > > + *
+> > > + * Permission is hereby granted, free of charge, to any person obtaining a
+> > > + * copy of this software and associated documentation files (the "Software"),
+> > > + * to deal in the Software without restriction, including without limitation
+> > > + * the rights to use, copy, modify, merge, publish, distribute, sublicense,
+> > > + * and/or sell copies of the Software, and to permit persons to whom the
+> > > + * Software is furnished to do so, subject to the following conditions:
+> > > + *
+> > > + * The above copyright notice and this permission notice (including the next
+> > > + * paragraph) shall be included in all copies or substantial portions of the
+> > > + * Software.
+> > > + *
+> > > + * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+> > > + * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+> > > + * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
+> > > + * THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+> > > + * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+> > > + * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+> > > + * SOFTWARE.
+> > > + *
+> > > + * Authors:
+> > > + *    Yan Zhao <yan.y.zhao@intel.com>
+> > > + */
+> > > +#include <linux/vfio.h>
+> > > +#include "i915_drv.h"
+> > > +
+> > > +static bool is_compatible(const char *self, const char *remote)
+> > > +{
+> > > +   if (strlen(remote) != strlen(self))
+> > > +           return false;
+> > > +
+> > > +   return (strncmp(self, remote, strlen(self))) ? false : true;
+> > > +}
+> > > +
+> > > +ssize_t intel_gvt_get_vfio_device_version_len(struct drm_i915_private *dev_priv)
+> > > +{
+> > > +   if (!IS_GEN(dev_priv, 8) && !IS_GEN(dev_priv, 9))
+> > > +           return -ENODEV;
+> > > +
+> > > +   return PAGE_SIZE;
+> > > +}
+> > > +
+> > > +ssize_t intel_gvt_get_vfio_device_version(struct drm_i915_private *dev_priv,
+> > > +           char *buf, const char *mdev_type)
+> > > +{
+> > > +   int cnt = 0, ret = 0;
+> > > +   const char *str = NULL;
+> > > +
 > >
-> > > >
-> > > >
-> > > > > > +
-> > > > > >  * [<type-id>]
-> > > > > >
-> > > > > >    The [<type-id>] name is created by adding the device driver string as a prefix
-> > > > > > @@ -246,6 +251,35 @@ Directories and files under the sysfs for Each Physical Device
-> > > > > >    This attribute should show the number of devices of type <type-id> that can be
-> > > > > >    created.
-> > > > > >
-> > > > > > +* version
-> > > > > > +
-> > > > > > +  This attribute is rw. It is used to check whether two devices are compatible
-> > > > > > +  for live migration. If this attribute is missing, then the corresponding mdev
-> > > > > > +  device is regarded as not supporting live migration.
-> > > > > > +
-> > > > > > +  It consists of two parts: common part and vendor proprietary part.
-> > > > > > +  common part: 32 bit. lower 16 bits is vendor id and higher 16 bits identifies
-> > > > > > +               device type. e.g., for pci device, it is
-> > > > > > +               "pci vendor id" | (VFIO_DEVICE_FLAGS_PCI << 16).
-> > > > > > +  vendor proprietary part: this part is varied in length. vendor driver can
-> > > > > > +               specify any string to identify a device.
-> > > > > > +
-> > > > > > +  When reading this attribute, it should show device version string of the device
-> > > > > > +  of type <type-id>. If a device does not support live migration, it should
-> > > > > > +  return errno.
-> > > > > > +  When writing a string to this attribute, it returns errno for incompatibility
-> > > > > > +  or returns written string length in compatibility case. If a device does not
-> > > > > > +  support live migration, it always returns errno.
-> > > > >
-> > > > > I'm not sure whether a device that does not support live migration
-> > > > > should expose this attribute in the first place. Or is that to cover
-> > > > > cases where a driver supports live migration only for some of the
-> > > > > devices it supports?
-> > > > yes, driver returning error code is to cover the cases where only part of devices it
-> > > > supports can be migrated.
-> > > >
-> > > >
-> > > > > Also, I'm not sure if a string that has to be parsed is a good idea...
-> > > > > is this 'version' attribute supposed to convey some human-readable
-> > > > > information as well? The procedure you describe for compatibility
-> > > > > checking does the checking within the vendor driver which I would
-> > > > > expect to have a table/rules for that anyway.
-> > > > right. if a vendor driver has the confidence to migrate between devices of
-> > > > diffent platform or mdev types, it can maintain a compatibility table for that
-> > > > purpose. That's the reason why we would leave the compatibility check to vendor
-> > > > driver. vendor driver can freely choose its own complicated way to decide
-> > > > which device is migratable to which device.
+> > > +   /* currently only gen8 & gen9 are supported */
+> > > +   if (!IS_GEN(dev_priv, 8) && !IS_GEN(dev_priv, 9))
+> > > +           return -ENODEV;
+> > > +
+> > > +   /* vendor id + device id + mdev type */
+> > > +   /* vendor id */
+> > > +   cnt = snprintf(buf, 5, "%04x", PCI_VENDOR_ID_INTEL);
+> > > +   buf += cnt;
+> > > +   ret += cnt;
+> > > +
+> > > +   /* device id */
+> > > +   cnt = snprintf(buf, 6, "-%04x", INTEL_DEVID(dev_priv));
+> > > +   buf += cnt;
+> > > +   ret += cnt;
+> > > +
+> > > +   /* mdev type */
+> > > +   str = mdev_type;
+> > > +   cnt = snprintf(buf, strlen(str) + 3, "-%s\n", mdev_type);
+> > > +   buf += cnt;
+> > > +   ret += cnt;
+> > > +
+> > > +   return ret;
+> > > +}
+> > > +
+> > > +ssize_t intel_gvt_check_vfio_device_version(struct drm_i915_private *dev_priv,
+> > > +           const char *self, const char *remote)
+> > > +{
+> > > +
+> > > +   /* currently only gen8 & gen9 are supported */
+> > > +   if (!IS_GEN(dev_priv, 8) && !IS_GEN(dev_priv, 9))
+> > > +           return -ENODEV;
+> > > +
+> > > +   if (!is_compatible(self, remote))
+> > > +           return -EINVAL;
+> > > +
+> > > +   return 0;
+> > > +}
+> > > diff --git a/drivers/gpu/drm/i915/gvt/gvt.c b/drivers/gpu/drm/i915/gvt/gvt.c
+> > > index 43f4242062dd..19f16eec5a4c 100644
+> > > --- a/drivers/gpu/drm/i915/gvt/gvt.c
+> > > +++ b/drivers/gpu/drm/i915/gvt/gvt.c
+> > > @@ -105,14 +105,65 @@ static ssize_t description_show(struct kobject *kobj, struct device *dev,
+> > >                    type->weight);
+> > >  }
 > > >
-> > > I think there are two scenarios here:
-> > > - Migrating between different device types, which is unlikely to work,
-> > >   except in special cases.
-> > > - Migrating between different versions of the same device type, which
-> > >   may work for some drivers/devices (and at least migrating to a newer
-> > >   version looks quite reasonable).
-> > >
-> > > But both should be something that is decided by the individual driver;
-> > > I hope we don't want to support migration between different drivers :-O
-> > >
-> > > Can we make this a driver-defined format?
-> > >
-> > yes, this is indeed driver-defined format.
-> > Actually we define it into two parts: common part and vendor proprietary part.
-> > common part: 32 bit. lower 16 bits is vendor id and higher 16 bits
-> >              identifies device type. e.g., for pci device, it is
-> >              "pci vendor id" | (VFIO_DEVICE_FLAGS_PCI << 16).
-> > vendor proprietary part: this part is varied in length. vendor driver can
-> >              specify any string to identify a device.
+> > > +#ifdef GVT_MIGRATION_VERSION
 > >
-> > vendor proprietary part is defined by vendor driver. vendor driver can
-> > define any format it wishes to use. Also it is its own responsibility to
-> > ensure backward compatibility if it wants to update format definition in this
-> > part.
+> > No extra define.
 > >
-> > So user space only needs to get source side's version string, and asks
-> > target side whether the two are compatible. The decision maker is the
-> > vendor driver:)
-> 
-> If I followed the discussion correctly, I think you plan to drop this
-> format, don't you? I'd be happy if a vendor driver can use a simple
-> number without any prefixes if it so chooses.
-> 
-> I also like the idea of renaming this "migration_version" so that it is
-> clear we're dealing with versioning of the migration capability (and
-> not a version of the device or so).
-hi Cornelia,
-sorry I just saw this mail after sending v2 of this patch set...
-yes, I dropped the common part and vendor driver now can define whatever it
-wishes to identify a device version.
-However, I don't agree to rename it to "migration_version", as it still may
-bring some kind of confusing with the migration version a vendor driver is
-using, e.g. vendor driver changes migration code and increases that migration
-version.
-In fact, what info we want to get from this attribute is whether this mdev
-device is compatible with another mdev device, which is tied to device, and not
-necessarily bound to migration.
+ok. I'll try to define a variable in struct intel_gvt.
+e.g. 
 
-do you think so?
+gvt->is_migration_enabled.
 
-Thanks
-Yan
+> > > +static ssize_t version_show(struct kobject *kobj, struct device *dev,
+> > > +           char *buf)
+> > > +{
+> > > +   struct drm_i915_private *i915 = kdev_to_i915(dev);
+> > > +   const char *mdev_type = kobject_name(kobj);
+> > > +
+> > > +   return intel_gvt_get_vfio_device_version(i915, buf, mdev_type);
+> > > +}
+> > > +
+> > > +static ssize_t version_store(struct kobject *kobj, struct device *dev,
+> > > +           const char *buf, size_t count)
+> > > +{
+> > > +   char *remote = NULL, *self = NULL;
+> > > +   int len, ret = 0;
+> > > +   struct drm_i915_private *i915 = kdev_to_i915(dev);
+> > > +   const char *mdev_type = kobject_name(kobj);
+> > > +
+> > > +   len = intel_gvt_get_vfio_device_version_len(i915);
+> > > +   if (len < 0)
+> > > +           return len;
+> > > +
+> > > +   self = kmalloc(len, GFP_KERNEL);
+> > > +   if (!self)
+> > > +           return -ENOMEM;
+> > > +
+> > > +   ret = intel_gvt_get_vfio_device_version(i915, self, mdev_type);
+> > > +   if (ret < 0)
+> > > +           goto out;
+> > > +
+> > > +   remote = kstrndup(buf, count, GFP_KERNEL);
+> > > +   if (!remote) {
+> > > +           ret = -ENOMEM;
+> > > +           goto out;
+> > > +   }
+> >
+> > Please make device version as attribute for vgpu instead of allocating memory
+> > everytime to generate it.
+> >
+> 
+> Seems this is attribute for mdev type instead of instance, I was wrong
+> to take it as vgpu instance attribute, so we could add it for vgpu type
+> definition for device with migration.
+>
+ok. I'll try to add one version field in struct intel_vgpu_type.
+
+> > > +
+> > > +   ret = intel_gvt_check_vfio_device_version(i915, self, remote);
+> > > +
+> > > +out:
+> > > +   kfree(self);
+> > > +   kfree(remote);
+> > > +   return (ret < 0 ? ret : count);
+> > > +}
+> > > +#endif
+> > > +
+> > >  static MDEV_TYPE_ATTR_RO(available_instances);
+> > >  static MDEV_TYPE_ATTR_RO(device_api);
+> > >  static MDEV_TYPE_ATTR_RO(description);
+> > > +#ifdef GVT_MIGRATION_VERSION
+> > > +static MDEV_TYPE_ATTR_RW(version);
+> > > +#endif
+> >
+> > Don't need extra define.
+> >
+> > >
+> > >  static struct attribute *gvt_type_attrs[] = {
+> > >     &mdev_type_attr_available_instances.attr,
+> > >     &mdev_type_attr_device_api.attr,
+> > >     &mdev_type_attr_description.attr,
+> > > +#ifdef GVT_MIGRATION_VERSION
+> > > +   &mdev_type_attr_version.attr,
+> > > +#endif
+> > >     NULL,
+> > >  };
+> >
+> > I think you need another group of attrs for type that could support
+> > migration, it will be assigned during host init for current platform
+> > with driver support. So just add new group of attrs for like
+> > gvt_migration_type_attrs[] with version.
+> >
+> > >
+> > > diff --git a/drivers/gpu/drm/i915/gvt/gvt.h b/drivers/gpu/drm/i915/gvt/gvt.h
+> > > index f5a328b5290a..4062f6b26acf 100644
+> > > --- a/drivers/gpu/drm/i915/gvt/gvt.h
+> > > +++ b/drivers/gpu/drm/i915/gvt/gvt.h
+> > > @@ -687,6 +687,12 @@ void intel_gvt_debugfs_remove_vgpu(struct intel_vgpu *vgpu);
+> > >  int intel_gvt_debugfs_init(struct intel_gvt *gvt);
+> > >  void intel_gvt_debugfs_clean(struct intel_gvt *gvt);
+> > >
+> > > +ssize_t intel_gvt_get_vfio_device_version(struct drm_i915_private *i915,
+> > > +           char *buf, const char *mdev_type);
+> > > +ssize_t intel_gvt_check_vfio_device_version(struct drm_i915_private *dev_priv,
+> > > +           const char *self, const char *remote);
+> > > +ssize_t
+> > > +intel_gvt_get_vfio_device_version_len(struct drm_i915_private *dev_priv);
+> > >
+> > >  #include "trace.h"
+> > >  #include "mpt.h"
+> > > --
+> > > 2.17.1
+> > >
+> >
+> > --
+> > Open Source Technology Center, Intel ltd.
+> >
+> > $gpg --keyserver wwwkeys.pgp.net --recv-keys 4D781827
+> 
+> 
+> 
+> --
+> Open Source Technology Center, Intel ltd.
+> 
+> $gpg --keyserver wwwkeys.pgp.net --recv-keys 4D781827
+
+
 > _______________________________________________
 > intel-gvt-dev mailing list
 > intel-gvt-dev@lists.freedesktop.org
 > https://lists.freedesktop.org/mailman/listinfo/intel-gvt-dev
+
 
