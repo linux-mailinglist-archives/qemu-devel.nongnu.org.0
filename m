@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E21E16376
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 14:08:32 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:45707 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0755A16387
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 14:13:54 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:45801 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNytb-0004ub-Of
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 08:08:31 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44920)
+	id 1hNyyn-0001Gv-6z
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 08:13:53 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44980)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hNyls-0007es-FY
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:33 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hNylx-0007iW-FM
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hNylr-0003tY-Ay
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:32 -0400
-Received: from mail-wm1-x335.google.com ([2a00:1450:4864:20::335]:50237)
+	(envelope-from <peter.maydell@linaro.org>) id 1hNyls-0003xZ-F0
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:37 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:35279)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hNylr-0003sk-2w
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:31 -0400
-Received: by mail-wm1-x335.google.com with SMTP id p21so20096483wmc.0
-	for <qemu-devel@nongnu.org>; Tue, 07 May 2019 05:00:31 -0700 (PDT)
+	id 1hNyls-0003uX-74
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 08:00:32 -0400
+Received: by mail-wm1-x334.google.com with SMTP id y197so19641470wmd.0
+	for <qemu-devel@nongnu.org>; Tue, 07 May 2019 05:00:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=4X9sIu0YHhUgKH1JkMRhAu/b2BTcREHijf9rjBQvr1M=;
-	b=yHqgs6Gin2rh9sgOlzbNyzAKEozyhGUduxcLnaVx1ixK/fZpHp63Zgi7YYCc4lE/FH
-	M12euWCVPrzIt8W+XWf2NXdaihoCWD+llKBNCknbY6qkFdcqJrtx819qYCbeTN003LSF
-	+w9uInyLEz1Du1NKwQrtdUSV3nLnXQtdn5EqqySjcTYNR3U+XT8AywqYs0Zb2lbZZcUv
-	jljHZQXpZS9rcdUdOB2VyUlwWTyoVxnXo2x4k6M2OEvJSORhSpfIxPV+3G1rwDzz44SN
-	paO5H2/G26Y3DVqnZ+fW89HOEmcPb+2S+N3cKMKazwJ7CPrFoTGAIAg8n4M+GECq0xw6
-	WXHw==
+	bh=z9A+d6NR/272WHXylxaqVz5VB4YHQmOPLGtdfveFKqg=;
+	b=UxldnRDPuwOfg7GN6XbtDRF3treUI0QrxrCSxGUbG4TTTEe26P0Evnkeaat9QMR12Q
+	V5xXBt0eSI1IISHa35Fiz4X+x0iEyXCKfL1CAcM2nhtz+rIjfv7rlo8zMbgEwjfZtdq9
+	eDW55KPp7BSRaZqCpUuvSNuKaytiGsbFTbmAtbRVhoUEHAe2mKALUQWr0kYlj5neWFiz
+	EoNEudugkuqr2SVxUcLQcDg2dw6bfgpZN6IwdEWReJdAM9dKFHJVH0p2mJzdmaSiRXiT
+	usEeiS7yxtz4E8yqotdNxzU6UheeXYOPU5T41xn+oY7tNPIN/tZZtfSJReUD+0JUGVp+
+	BbWg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=4X9sIu0YHhUgKH1JkMRhAu/b2BTcREHijf9rjBQvr1M=;
-	b=Q1lKfTbiPvyMaN07gVqIGkvrDr1CP58aXpTSDco+qm3LWT11Olwz5garr/a1QT4/iD
-	XRJ4p195gt3tf+faY3rDpF6WXsLZFSZxUtPR+JkEKE8E9XH7qmw8t/C8QUwFu+kjnZDf
-	53WNhgHavL9AIsVScZc41/v1GzjDW+EKvNprVXtH/gOAGoizoppltRUv5PKIz9p5dunk
-	JAg6AjCvEUV/4TTiY+Ewp9JORtHMe5Ilgy2gVme6bIBndol9NAN52wEfTf/HJKNefXVX
-	u+A7TmTv9CZmqqgePS5WfTL8lQU4fB6AhKJh1cCdiJ3kY6NVbnHbUr+PVeN9ADLrmT9+
-	T4Lw==
-X-Gm-Message-State: APjAAAWSwArHIWrkx2hAllSp9GkAwFcTuJRvbYYNFXVIra9JXRuQ3CxI
-	ovPSUJS3JEotk+20TbUlHHsVTP1AY2s=
-X-Google-Smtp-Source: APXvYqwirlip1MywsFoQJkk5J+gaPhAmLOMCw+fC1p6us/PuB8dwFB+I+ZTfP8ccIvjG3gVkpmBa8g==
-X-Received: by 2002:a1c:5f42:: with SMTP id t63mr19473242wmb.94.1557230429767; 
-	Tue, 07 May 2019 05:00:29 -0700 (PDT)
+	bh=z9A+d6NR/272WHXylxaqVz5VB4YHQmOPLGtdfveFKqg=;
+	b=rAFLtFIpWlVX+lwaAVlnAT6b1U1wzhwtDXwCihoW8zaSq9CJd/3NdPdo5VwprzOcxp
+	a8xuaYHsayUrpvr/jQlAQWmQVU/29cyVesNIo81fwxWrHCWNflNPSpbFeLXH74rIMKaI
+	MWI7dHRO8qO7lSVfcR9uyGdQO0L1XbGXVziqYcum08Zs2/ij7ZTr3bz0tVgn1N00S4S+
+	+UstncPIo4CmAa0os1x4XjfeIHrmtihsEbhgjF6MHQ5Lmg2Hr/hnLCgQOiW5AcvjQOyY
+	xydPlx25aqLIZWX44HH2gZx7nbPSCz9cMkQuptZAN4CYcQDBjFjAX6z0PcrSW5MYhlMo
+	ih6A==
+X-Gm-Message-State: APjAAAV5+n/Lw9bnFI6InfvPF9708/SHYpPhrPSEqcy2oZsKT5LBxML8
+	f1PgJRehmmJpmZZb/eMYFwZSrS8R/OU=
+X-Google-Smtp-Source: APXvYqx1N9e4z76Wk6NRPazoBLCM3gYtc4+9pkxohxX8d8Vr1k2kW5WwFiElkcjswxc8+0nexnFMrA==
+X-Received: by 2002:a1c:f50a:: with SMTP id t10mr19881056wmh.86.1557230431051; 
+	Tue, 07 May 2019 05:00:31 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
-	by smtp.gmail.com with ESMTPSA id g3sm12348596wmf.9.2019.05.07.05.00.28
+	by smtp.gmail.com with ESMTPSA id g3sm12348596wmf.9.2019.05.07.05.00.29
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 07 May 2019 05:00:28 -0700 (PDT)
+	Tue, 07 May 2019 05:00:30 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue,  7 May 2019 13:00:07 +0100
-Message-Id: <20190507120011.18100-12-peter.maydell@linaro.org>
+Date: Tue,  7 May 2019 13:00:08 +0100
+Message-Id: <20190507120011.18100-13-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190507120011.18100-1-peter.maydell@linaro.org>
 References: <20190507120011.18100-1-peter.maydell@linaro.org>
@@ -65,9 +65,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::335
-Subject: [Qemu-devel] [PULL 11/15] hw/arm/armv7m_nvic: Check subpriority in
- nvic_recompute_state_secure()
+X-Received-From: 2a00:1450:4864:20::334
+Subject: [Qemu-devel] [PULL 12/15] hw/intc/armv7m_nvic: NS BFAR and BFSR are
+ RAZ/WI if BFHFNMINS == 0
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,57 +82,78 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Rule R_CQRV says that if two pending interrupts have the same
-group priority then ties are broken by looking at the subpriority.
-We had a comment describing this but had forgotten to actually
-implement the subpriority comparison. Correct the omission.
-
-(The further tie break rules of "lowest exception number" and
-"secure before non-secure" are handled implicitly by the order
-in which we iterate through the exceptions in the loops.)
+The non-secure versions of the BFAR and BFSR registers are
+supposed to be RAZ/WI if AICR.BFHFNMINS == 0; we were
+incorrectly allowing NS code to access the real values.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-id: 20190430131439.25251-2-peter.maydell@linaro.org
+Message-id: 20190430131439.25251-3-peter.maydell@linaro.org
 ---
- hw/intc/armv7m_nvic.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ hw/intc/armv7m_nvic.c | 27 ++++++++++++++++++++++++---
+ 1 file changed, 24 insertions(+), 3 deletions(-)
 
 diff --git a/hw/intc/armv7m_nvic.c b/hw/intc/armv7m_nvic.c
-index fff6e694e60..131b5938b9a 100644
+index 131b5938b9a..15cba63c964 100644
 --- a/hw/intc/armv7m_nvic.c
 +++ b/hw/intc/armv7m_nvic.c
-@@ -213,6 +213,7 @@ static void nvic_recompute_state_secure(NVICState *s)
-     int active_prio = NVIC_NOEXC_PRIO;
-     int pend_irq = 0;
-     bool pending_is_s_banked = false;
-+    int pend_subprio = 0;
+@@ -1167,6 +1167,10 @@ static uint32_t nvic_readl(NVICState *s, uint32_t offset, MemTxAttrs attrs)
+         if (!arm_feature(&cpu->env, ARM_FEATURE_M_MAIN)) {
+             goto bad_offset;
+         }
++        if (!attrs.secure &&
++            !(s->cpu->env.v7m.aircr & R_V7M_AIRCR_BFHFNMINS_MASK)) {
++            return 0;
++        }
+         return cpu->env.v7m.bfar;
+     case 0xd3c: /* Aux Fault Status.  */
+         /* TODO: Implement fault status registers.  */
+@@ -1646,6 +1650,10 @@ static void nvic_writel(NVICState *s, uint32_t offset, uint32_t value,
+         if (!arm_feature(&cpu->env, ARM_FEATURE_M_MAIN)) {
+             goto bad_offset;
+         }
++        if (!attrs.secure &&
++            !(s->cpu->env.v7m.aircr & R_V7M_AIRCR_BFHFNMINS_MASK)) {
++            return;
++        }
+         cpu->env.v7m.bfar = value;
+         return;
+     case 0xd3c: /* Aux Fault Status.  */
+@@ -2130,11 +2138,18 @@ static MemTxResult nvic_sysreg_read(void *opaque, hwaddr addr,
+             val = 0;
+             break;
+         };
+-        /* The BFSR bits [15:8] are shared between security states
+-         * and we store them in the NS copy
++        /*
++         * The BFSR bits [15:8] are shared between security states
++         * and we store them in the NS copy. They are RAZ/WI for
++         * NS code if AIRCR.BFHFNMINS is 0.
+          */
+         val = s->cpu->env.v7m.cfsr[attrs.secure];
+-        val |= s->cpu->env.v7m.cfsr[M_REG_NS] & R_V7M_CFSR_BFSR_MASK;
++        if (!attrs.secure &&
++            !(s->cpu->env.v7m.aircr & R_V7M_AIRCR_BFHFNMINS_MASK)) {
++            val &= ~R_V7M_CFSR_BFSR_MASK;
++        } else {
++            val |= s->cpu->env.v7m.cfsr[M_REG_NS] & R_V7M_CFSR_BFSR_MASK;
++        }
+         val = extract32(val, (offset - 0xd28) * 8, size * 8);
+         break;
+     case 0xfe0 ... 0xfff: /* ID.  */
+@@ -2249,6 +2264,12 @@ static MemTxResult nvic_sysreg_write(void *opaque, hwaddr addr,
+          */
+         value <<= ((offset - 0xd28) * 8);
  
-     /* R_CQRV: precedence is by:
-      *  - lowest group priority; if both the same then
-@@ -226,7 +227,7 @@ static void nvic_recompute_state_secure(NVICState *s)
-     for (i = 1; i < s->num_irq; i++) {
-         for (bank = M_REG_S; bank >= M_REG_NS; bank--) {
-             VecInfo *vec;
--            int prio;
-+            int prio, subprio;
-             bool targets_secure;
- 
-             if (bank == M_REG_S) {
-@@ -241,8 +242,12 @@ static void nvic_recompute_state_secure(NVICState *s)
-             }
- 
-             prio = exc_group_prio(s, vec->prio, targets_secure);
--            if (vec->enabled && vec->pending && prio < pend_prio) {
-+            subprio = vec->prio & ~nvic_gprio_mask(s, targets_secure);
-+            if (vec->enabled && vec->pending &&
-+                ((prio < pend_prio) ||
-+                 (prio == pend_prio && prio >= 0 && subprio < pend_subprio))) {
-                 pend_prio = prio;
-+                pend_subprio = subprio;
-                 pend_irq = i;
-                 pending_is_s_banked = (bank == M_REG_S);
-             }
++        if (!attrs.secure &&
++            !(s->cpu->env.v7m.aircr & R_V7M_AIRCR_BFHFNMINS_MASK)) {
++            /* BFSR bits are RAZ/WI for NS if BFHFNMINS is set */
++            value &= ~R_V7M_CFSR_BFSR_MASK;
++        }
++
+         s->cpu->env.v7m.cfsr[attrs.secure] &= ~value;
+         if (attrs.secure) {
+             /* The BFSR bits [15:8] are shared between security states
 -- 
 2.20.1
 
