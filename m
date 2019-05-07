@@ -2,54 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3F31A158C2
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 07:08:17 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:39999 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29612158D0
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 07:15:12 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40055 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNsKu-0005Zf-D7
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 01:08:16 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53784)
+	id 1hNsRb-0007gx-CP
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 01:15:11 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54761)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hNsJq-0005Gz-AS
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 01:07:11 -0400
+	(envelope-from <armbru@redhat.com>) id 1hNsQh-0007O5-2o
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 01:14:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hNsJo-0006AY-IT
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 01:07:10 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35166)
+	(envelope-from <armbru@redhat.com>) id 1hNsQg-00018V-5r
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 01:14:15 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60194)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hNsJo-0006A2-Cz
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 01:07:08 -0400
+	(Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hNsQg-00018J-0o
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 01:14:14 -0400
 Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
 	[10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 9FDF1C05243E
-	for <qemu-devel@nongnu.org>; Tue,  7 May 2019 05:07:06 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id EB2DF3091786;
+	Tue,  7 May 2019 05:14:12 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-28.ams2.redhat.com
 	[10.36.116.28])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 6292F61496;
-	Tue,  7 May 2019 05:07:06 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id A895C18219;
+	Tue,  7 May 2019 05:14:12 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
-	id D74331132B35; Tue,  7 May 2019 07:07:04 +0200 (CEST)
+	id 25BC81132B35; Tue,  7 May 2019 07:14:06 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-References: <20190423212246.3542-1-ehabkost@redhat.com>
-Date: Tue, 07 May 2019 07:07:04 +0200
-In-Reply-To: <20190423212246.3542-1-ehabkost@redhat.com> (Eduardo Habkost's
-	message of "Tue, 23 Apr 2019 18:22:43 -0300")
-Message-ID: <87imumj1jb.fsf@dusky.pond.sub.org>
+To: Zhang Chen <chen.zhang@intel.com>
+References: <20190426093920.5616-1-chen.zhang@intel.com>
+Date: Tue, 07 May 2019 07:14:06 +0200
+In-Reply-To: <20190426093920.5616-1-chen.zhang@intel.com> (Zhang Chen's
+	message of "Fri, 26 Apr 2019 17:39:20 +0800")
+Message-ID: <87ef5aj17l.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.32]);
-	Tue, 07 May 2019 05:07:06 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.41]);
+	Tue, 07 May 2019 05:14:13 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 0/3] Export machine type deprecation info
- through QMP
+Subject: Re: [Qemu-devel] [PATCH] MAINTAINERS: Add qemu-options* to related
+ field
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,65 +61,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mprivozn@redhat.com, qemu-devel@nongnu.org
+Cc: Zhang Chen <chen.zhang@intel.com>, qemu-dev <qemu-devel@nongnu.org>,
+	Zhang Chen <zhangckid@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eduardo Habkost <ehabkost@redhat.com> writes:
+Zhang Chen <chen.zhang@intel.com > writes:
 
-> This series adds machine type deprecation information to the
-> output of the `query-machines` QMP command.  With this, libvirt
-> and management software will be able to show this information to
-> users and/or suggest changes to VM configuration to avoid
-> deprecated machine types.
+> From: Zhang Chen <chen.zhang@intel.com>
+>
+> No one to maintain qemu-options related file, add it to Markus's
+> Command line option argument parsing field.
+>
+> Signed-off-by: Zhang Chen <chen.zhang@intel.com>
+> ---
+>  MAINTAINERS | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 23db6f8408..acc3b32f88 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -1800,6 +1800,7 @@ F: tests/test-keyval.c
+   Command line option argument parsing
+   M: Markus Armbruster <armbru@redhat.com>
+   S: Supported
+   F: include/qemu/option.h
+   F: tests/test-keyval.c
+>  F: tests/test-qemu-opts.c
+>  F: util/keyval.c
+>  F: util/qemu-option.c
+> +F: qemu-options*
+>  
+>  Coverity model
+>  M: Markus Armbruster <armbru@redhat.com>
 
-This overlaps with something I want to try, namely using Kevin's
-proposed QAPI feature flags for deprecation markings.  Let's compare the
-two.
+Please don't.
 
-To mark something as deprecated with your patches, you add a
-@support-status member somewhere, where "somewhere" is related to
-"something" by "provides information on".
+There's command line option parsing infrastructure, and there's the
+command line interface.  The latter uses the former.
 
-Example: MachineInfo (returned by query-machines) provides information
-on possible values of -machine parameter type.  If -machine was
-QAPIfied, it would provide information on possible values of a QAPI
-object type's member.  The type might be anonymous.  The member should
-be an enum (we currently use 'str' in MachineInfo).
+I'm maintaining the former.  I don't have capacity to take on the latter
+right now.
 
-Example: say we want to deprecate block driver "vfat",
-i.e. BlockdevDriver member @vfat.  Type BlockdevDriver is used in
-multiple places; let's ignore all but BlockdevOptions.  We need to add
-@support-status to something that provides information on
-BlockdevDriver, or maybe on BlockdevOptions.  There is no ad hoc query
-providing information on either of the two, because QAPI/QMP
-introspection has been sufficient.  What now?
-
-Can we add deprecation information to (general) QAPI/QMP introspection
-instead of ad hoc queries?
-
-Kevin's proposed QAPI feature flags[*] extend the QAPI language so that
-struct types can optionally have a list of feature flags, which are
-strings.  Struct types suffice for his immediate needs.  I'd like to use
-feature flags to mark deprecation by tacking a "deprecated" feature onto
-whatever is deprecated.  This obviously needs feature support for
-everything we want to be able to deprecate: commands, and events, as
-well as members of enum and object types.
-
-Example: to deprecate block driver "vfat", add feature "deprecated" to
-BlockdevDriver member @vfat.
-
-Unlike your patches, this does not require finding a "somewhere" that
-provides information on "something".  You simply tack "deprecated" right
-onto "something".
-
-Your patches provide more information, however: human-readable messages.
-
-Food for thought :)
-
-
-[*] Hiding in
-Subject: [PATCH 0/4] file-posix: Add dynamic-auto-read-only QAPI feature
-Date: Mon,  8 Apr 2019 16:35:39 +0200
-Message-Id: <20190408143543.3982-1-kwolf@redhat.com>
+Note that the same split exists between QAPI/QMP infrastructure (stanza
+"QAPI", maintained by Michael Roth and me) and the QAPI Schema (stanza
+"QAPI Schema", maintained by Eric Blake and me).
 
