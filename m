@@ -2,64 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F8D5158DB
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 07:20:42 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40130 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 819E415D51
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 08:25:56 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40735 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNsWv-0001Rn-PO
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 01:20:41 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55685)
+	id 1hNtY3-00021C-7l
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 02:25:55 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37624)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <joel.stan@gmail.com>) id 1hNsVB-0000aH-3z
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 01:18:53 -0400
+	(envelope-from <dgibson@ozlabs.org>) id 1hNtVh-0000m7-PR
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 02:23:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <joel.stan@gmail.com>) id 1hNsV9-0002pG-2q
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 01:18:52 -0400
-Received: from mail-qk1-x743.google.com ([2607:f8b0:4864:20::743]:37477)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <joel.stan@gmail.com>)
-	id 1hNsV4-0002n0-Ot; Tue, 07 May 2019 01:18:47 -0400
-Received: by mail-qk1-x743.google.com with SMTP id c1so139514qkk.4;
-	Mon, 06 May 2019 22:18:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=jms.id.au; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=qhZig2axSZIgL7BGzsy1qVAtFItOkCIEnW62wof9wb4=;
-	b=f5x4dqKrrJx05bARe5eOZkQRY9WYqh3aAUFeBU5jkRfIU3bfVFkvNcqx6I9XRpvIX2
-	td+XcgxjLAvj045LsVzAv3b0sL94BlbJjJKwXjdko3vsW6tv/sPL/74Waugk889/gsGW
-	RZ3io/JYGPOXoehYWgt1DGwuNXGFvz+but51c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=qhZig2axSZIgL7BGzsy1qVAtFItOkCIEnW62wof9wb4=;
-	b=ZjHgxRi4QTK3sstkqeQBTQ5ckvSa3aNc3I7HxzFh0Wjzmn/j3mrTyvkL3xlOxvdUm9
-	JpbpFpSrsUTEKc97Vk9yHray8ciFwCf8iCLYPwzXH5PQv8DAohpXmskSS9RAFTaVOl7N
-	B5Q4NGNbOZUi83VS+vDMS8d2OgWMh4pEWIgaJSexhj3VxVQn5zwo2GNK+gXFscqYBLbn
-	bczsLlOWlh/ErhfRrYK1zwz8PPecy6fJT0DuStI62+ge7gAR+7CZSQfreeMp0sii5PKY
-	LJhTKTWNV2QpDvBJLJV4POcIOCYxSkAhnaDvXfHpkd81eT0SQyS8f9MGySVMXVUqLPHd
-	G5zA==
-X-Gm-Message-State: APjAAAWMCEDm+zAhMgGiKB19Dn8JVLYfTpCxgC6p3zlqmmBIEH2rr3zv
-	63uefHb5q+6YxAkWFlTaop2LBeMeZIb/pmLNg8E=
-X-Google-Smtp-Source: APXvYqxQSWsUsZD5bsnH74PvooQLS8p7I6LMLhBc9ZeRF+hJy0lXkzRLZ5NjwqyspnGWDXst2Z1yWtqRluq9N5dKTns=
-X-Received: by 2002:a37:a289:: with SMTP id l131mr8098306qke.231.1557206325376;
-	Mon, 06 May 2019 22:18:45 -0700 (PDT)
+	(envelope-from <dgibson@ozlabs.org>) id 1hNtVg-0002dM-Rw
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 02:23:29 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:36309)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+	id 1hNtVf-0002Ym-07; Tue, 07 May 2019 02:23:28 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+	id 44yqL22L2yz9sBr; Tue,  7 May 2019 16:23:22 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=gibson.dropbear.id.au; s=201602; t=1557210202;
+	bh=A39wRRlX3cYbyv9BrRjasHJBrv3tDopDuCY7eSVfa2c=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=XLTWX8MmZX1munJ1f8Zl62e8k5wJSfyUmReDtQ8HXG9SUy8m0Y1oWUm+QUfgiGN0k
+	eyHRxCU5yiIRe1+Cw4loeR2AcZb8rCZuldOTkVbnLwYpFnwSqjXH3jphoRbz9XKlKY
+	DqtZBZAaoZ79/52JLnMJeqTWh974Pt5oX7Up+VcU=
+Date: Tue, 7 May 2019 15:18:52 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Anton Blanchard <anton@ozlabs.org>
+Message-ID: <20190507051852.GE7073@umbus.fritz.box>
+References: <20190507004811.29968-1-anton@ozlabs.org>
 MIME-Version: 1.0
-References: <20190506142042.28096-1-clg@kaod.org>
-	<20190506142042.28096-2-clg@kaod.org>
-In-Reply-To: <20190506142042.28096-2-clg@kaod.org>
-From: Joel Stanley <joel@jms.id.au>
-Date: Tue, 7 May 2019 05:18:33 +0000
-Message-ID: <CACPK8XdJofG-bL2gArsFpRe5R_eq4ZRwP0iwt2XnAoxRNbaVnQ@mail.gmail.com>
-To: =?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="so9zsI5B81VjUb/o"
+Content-Disposition: inline
+In-Reply-To: <20190507004811.29968-1-anton@ozlabs.org>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::743
-Subject: Re: [Qemu-devel] [PATCH v2 1/3] aspeed: add a per SoC mapping for
- the interrupt space
+X-Received-From: 2401:3900:2:1::2
+Subject: Re: [Qemu-devel] [PATCH 1/9] target/ppc: Fix xvxsigdp
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -71,17 +55,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, Peter Maydell <peter.maydell@linaro.org>,
-	qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: ego@linux.vnet.ibm.com, sandipandas1990@gmail.com,
+	mark.cave-ayland@ilande.co.uk, richard.henderson@linaro.org,
+	qemu-devel@nongnu.org, f4bug@amsat.org, qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 6 May 2019 at 14:21, C=C3=A9dric Le Goater <clg@kaod.org> wrote:
->
-> This will simplify the definition of new SoCs, like the AST2600 which
-> should use a different CPU and a different IRQ number layout.
->
-> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 
-Reviewed-by: Joel Stanley <joel@jms.id.au>
+--so9zsI5B81VjUb/o
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, May 07, 2019 at 10:48:03AM +1000, Anton Blanchard wrote:
+> Fix a typo in xvxsigdp where we put both results into the lower
+> doubleword.
+>=20
+> Fixes: dd977e4f45cb ("target/ppc: Optimize x[sv]xsigdp using deposit_i64(=
+)")
+> Signed-off-by: Anton Blanchard <anton@ozlabs.org>
+
+Applied, thanks.
+
+> ---
+>  target/ppc/translate/vsx-impl.inc.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>=20
+> diff --git a/target/ppc/translate/vsx-impl.inc.c b/target/ppc/translate/v=
+sx-impl.inc.c
+> index 11d9b75d01..4d8ca7cf32 100644
+> --- a/target/ppc/translate/vsx-impl.inc.c
+> +++ b/target/ppc/translate/vsx-impl.inc.c
+> @@ -1820,7 +1820,7 @@ static void gen_xvxsigdp(DisasContext *ctx)
+>      tcg_gen_movi_i64(t0, 0x0010000000000000);
+>      tcg_gen_movcond_i64(TCG_COND_EQ, t0, exp, zr, zr, t0);
+>      tcg_gen_movcond_i64(TCG_COND_EQ, t0, exp, nan, zr, t0);
+> -    tcg_gen_deposit_i64(xth, t0, xbl, 0, 52);
+> +    tcg_gen_deposit_i64(xtl, t0, xbl, 0, 52);
+>      set_cpu_vsrl(xT(ctx->opcode), xtl);
+> =20
+>      tcg_temp_free_i64(t0);
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--so9zsI5B81VjUb/o
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlzRFTwACgkQbDjKyiDZ
+s5JN4g/7BIR5gJNXbH1Sj1XlLQATVsDg693rRoLV9kM4/BkcDY0FLCOKKSEXg3S4
+ogxeHJHvlQlTiJkak55DP6BLUY5O7B9iP3f7ZtGrw310dA3O/hGgzovPsotyrhNI
+ZnRfFa+3gkNcckwyTtV6Jy9tXa28Va8Pzu9oaPb/VYtQ5Qh7a0XGFo97nsWiU82z
+lg6Ea9+RIdyHSg+cPWqcnYSx0ZIzcwf79g9/ddAwxnKij4/Ge5oDNIsz5Z6G5NjE
+sv0xG8XM+pSGMrRBPlh/4lTMYaw4PYs9e9EvoBz6NtHRpS+1UWXYsm+QfoSHLkQk
++dstI1atQkiopxQ5vJCYwotp3RpvYxYz1V/knM5E0y3OVdg41RRdNfeK37VEf5Ck
+obMh6ln9GLzjxROWOd7/CbMJdm3psirxBywsid2XPATGA1U6QKcFv8adAM8DzESm
+6QwbgDKX02Y6OF9wW61K4TSXB6dd43L2FpGpRuLcP91vFSe1w7K8PD4foy7NMxS+
+w133MRpEFP6+qv9A0NEQIb2xXk+IAd+YPVZT3ryD4csW2MT4ep5fPbVl9/vMNCar
+CMvW2dKo5Vbn6Xfw/m6mngBO8YRt7GfX2yE2ZY9tz3pHhud5VFv22CR9TpbCXd5C
+1y7PTwlWw5urBbBU1XJcu7DQIoO9R15HyVHj+cq+51cU/Ci3bfE=
+=IMR4
+-----END PGP SIGNATURE-----
+
+--so9zsI5B81VjUb/o--
 
