@@ -2,36 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 02AAE16BB4
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 21:53:49 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52583 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 224B916BCD
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 21:58:52 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52766 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hO69s-0001Kx-5p
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 15:53:48 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41384)
+	id 1hO6Ek-0005ap-V0
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 15:58:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43041)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <eblake@redhat.com>) id 1hO64G-0004g8-Ru
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 15:48:01 -0400
+	(envelope-from <eblake@redhat.com>) id 1hO67r-0000HR-Ac
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 15:51:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <eblake@redhat.com>) id 1hO64F-0001PC-UF
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 15:48:00 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35920)
+	(envelope-from <eblake@redhat.com>) id 1hO67p-0007yF-Am
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 15:51:43 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49002)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <eblake@redhat.com>)
-	id 1hO64A-0001Ho-6W; Tue, 07 May 2019 15:47:55 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
-	[10.5.11.11])
+	id 1hO67h-0007pV-PG; Tue, 07 May 2019 15:51:35 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id D30CB307D854;
-	Tue,  7 May 2019 19:47:52 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 12AB23001C62;
+	Tue,  7 May 2019 19:51:32 +0000 (UTC)
 Received: from [10.3.116.15] (ovpn-116-15.phx2.redhat.com [10.3.116.15])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id D5AE7600D4;
-	Tue,  7 May 2019 19:47:51 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 71F091001DCC;
+	Tue,  7 May 2019 19:51:31 +0000 (UTC)
 To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
 References: <20190507183610.9848-1-mreitz@redhat.com>
-	<20190507183610.9848-4-mreitz@redhat.com>
+	<20190507183610.9848-2-mreitz@redhat.com>
+	<81dd6702-1d51-ca2e-1445-e8cdcfb14711@redhat.com>
+	<f34fb38c-22dd-1ed3-821d-7c8a9ea8943a@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=eblake@redhat.com; keydata=
@@ -58,23 +60,23 @@ Autocrypt: addr=eblake@redhat.com; keydata=
 	Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
 	2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
 Organization: Red Hat, Inc.
-Message-ID: <b4df5fba-7009-3a7a-2b5a-451eb24d1087@redhat.com>
-Date: Tue, 7 May 2019 14:47:50 -0500
+Message-ID: <e9280cc0-fd2d-0213-9883-f77138bd2831@redhat.com>
+Date: Tue, 7 May 2019 14:51:30 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190507183610.9848-4-mreitz@redhat.com>
+In-Reply-To: <f34fb38c-22dd-1ed3-821d-7c8a9ea8943a@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
 	protocol="application/pgp-signature";
-	boundary="JgIn4OgCi3K7vSr51lgZ7WckybDzhDzXP"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+	boundary="edeK8Zb8mcZ8HTTJBBeF3LGIgC0Mk3QRN"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.48]);
-	Tue, 07 May 2019 19:47:52 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.43]);
+	Tue, 07 May 2019 19:51:32 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PATCH 3/5] qemu-nbd: Do not close stderr
+Subject: Re: [Qemu-devel] [PATCH 1/5] qemu-nbd: Add --pid-file option
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -91,50 +93,79 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---JgIn4OgCi3K7vSr51lgZ7WckybDzhDzXP
+--edeK8Zb8mcZ8HTTJBBeF3LGIgC0Mk3QRN
 From: Eric Blake <eblake@redhat.com>
 To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
 Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
  =?UTF-8?Q?Daniel_P_=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Message-ID: <b4df5fba-7009-3a7a-2b5a-451eb24d1087@redhat.com>
-Subject: Re: [PATCH 3/5] qemu-nbd: Do not close stderr
+Message-ID: <e9280cc0-fd2d-0213-9883-f77138bd2831@redhat.com>
+Subject: Re: [PATCH 1/5] qemu-nbd: Add --pid-file option
 References: <20190507183610.9848-1-mreitz@redhat.com>
- <20190507183610.9848-4-mreitz@redhat.com>
-In-Reply-To: <20190507183610.9848-4-mreitz@redhat.com>
+ <20190507183610.9848-2-mreitz@redhat.com>
+ <81dd6702-1d51-ca2e-1445-e8cdcfb14711@redhat.com>
+ <f34fb38c-22dd-1ed3-821d-7c8a9ea8943a@redhat.com>
+In-Reply-To: <f34fb38c-22dd-1ed3-821d-7c8a9ea8943a@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On 5/7/19 1:36 PM, Max Reitz wrote:
-> We kept old_stderr specifically so we could keep emitting error message=
+On 5/7/19 2:39 PM, Max Reitz wrote:
+> On 07.05.19 21:30, Eric Blake wrote:
+>> On 5/7/19 1:36 PM, Max Reitz wrote:
+>>> --fork is a bit boring if there is no way to get the child's PID.  Th=
+is
+>>> option helps.
+>>>
+>>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>>> ---
+>>>  qemu-nbd.c    | 29 +++++++++++++++++++++++++++++
+>>>  qemu-nbd.texi |  2 ++
+>>>  2 files changed, 31 insertions(+)
+>>>
+>>
+>>> @@ -111,6 +112,7 @@ static void usage(const char *name)
+>>>  "                            specify tracing options\n"
+>>>  "  --fork                    fork off the server process and exit th=
+e parent\n"
+>>>  "                            once the server is running\n"
+>>> +"  --pid-file=3DPATH           store the server's process ID in the =
+given file\n"
+>>
+>> Should --pid-file imply --fork, or be an error if --fork was not
+>> supplied? As coded, it writes a pid file regardless of --fork, even
+>> though it is less obvious that it is useful in that case. I don't have=
+ a
+>> strong preference (there doesn't seem to be a useful consensus on what=
 
-> on stderr.  However, qemu_daemon() closes stderr.  Therefore, we need t=
-o
-> dup() stderr to old_stderr before invoking qemu_daemon().
+>> forking daemons should do), but it would at least be worth documenting=
+
+>> the intended action (even if that implies a tweak to the patch to matc=
+h
+>> the intent).
 >=20
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
-> As I hinted at in the cover letter, I am not sure whether this is truly=
+> I think the documentation is pretty clear.  It stores the server's PID,=
 
-> a bug or whether the current behavior is intentional.  So if you
-> disagree with me on this patch, you are welcome to suggest an
-> alternative.
-
-Looks to me like a bug fix, for a problem present since commit c1f8fdc3
-added old_stderr in 2011.
-
+> whether it has been forked or not.
 >=20
-> I personally can see two:
-> (1) Add a --log option for a file to store the server's messages in.
->     Seems a bit cumbersome to me.
->=20
-> (2) Add a --keep-stderr option, which specifically enables this behavio=
+> I don't think we would gain anything from forbidding --pid-file without=
+
+> --fork, would we?
+
+I can't think of any reason to forbid it. So it sounds like we are
+intentional, this writes the pid into --pid-file regardless of whether
+that pid can be learned by other means as well.
+
+
+>>> +    const char *pid_path =3D NULL;
+>>
+>> Bikeshedding: pid_name is nicer (path makes me think of $PATH and othe=
 r
->     here.  Without this option we keep the old behavior.
+>> colon-separated lists, which this is not).
+>=20
+> I'd prefer pid_filename myself, then, because pid_name sounds like a
+> weird way to say "process name". O:-)
 
-The approach done here is simplest, I wouldn't worry about your two
-alternatives.
-
-Reviewed-by: Eric Blake <eblake@redhat.com>
+Works for me, even if it is longer. Do you want to respin, or just have
+me touch it up when folding it into my NBD tree?
 
 --=20
 Eric Blake, Principal Software Engineer
@@ -142,22 +173,22 @@ Red Hat, Inc.           +1-919-301-3226
 Virtualization:  qemu.org | libvirt.org
 
 
---JgIn4OgCi3K7vSr51lgZ7WckybDzhDzXP
+--edeK8Zb8mcZ8HTTJBBeF3LGIgC0Mk3QRN
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlzR4OcACgkQp6FrSiUn
-Q2rvyQgAlJHfGD05Ux5Dv0RJWXodM+3V1sjSaioO8AdAREzn6DQmRcai2ta8pnZN
-4AoF8xLaXGE4AfrtdN6ouUIPzjGFgh4q5smf2zUvG7/v9lawbSd1xOlR+b090P27
-UjMOy0x2GCW3YozqwZroC/2vlPkx8/scgiMM8gHmbeRNG54kfNrHDobwFcVIHTIX
-WY1g4OvAWg/bl4uJSW27XMv9w2CzeIIpcTTEMspmlct/w5VCN/+VtjN0vp/BE1bj
-7IEnnni0PGEPGBEvxac4QfuT3wagAfJYDXPjxd/rI1/ON8LpLG9x5uwG2uNotmC5
-WL2aETO894EeogZanzDAd3cBbo/OyQ==
-=9yCx
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlzR4cIACgkQp6FrSiUn
+Q2pKTAf/S/lKnkyy4mJbrWeGKrBpgPSImfYYrraO+9EkjuhLyeXqdInmBydbOsJH
+7OdfkP9D6TcHqIFTqTf8d0wpiTN/22T4R2vJOTtpT/SbinABsx7S0U7kgv/2vrXA
+WKEqmK1IPP5+I7+PJsgM/sOPzsM4sgZzGdqWPSdy3Se4ConXuSX8kahBS8QDhD26
+IyyT13Bi9bv7b4ptuRuJFnMNeGy6RwShtIdOeTio+Z4BvmN/hJQW7LvpyZ/jAYNb
+3OQOKRkABAELV3opo/yxev+s5Y8GT8dx3+5LE6ZnYwZeU6lITQ8PZrFUz0QBEUxj
+B+DPU6wGkRwKQXL3Xle3uYh4lQ47JA==
+=t5Zv
 -----END PGP SIGNATURE-----
 
---JgIn4OgCi3K7vSr51lgZ7WckybDzhDzXP--
+--edeK8Zb8mcZ8HTTJBBeF3LGIgC0Mk3QRN--
 
