@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EA8715D5C
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 08:29:50 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40799 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94F6615D60
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 08:31:27 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40855 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNtbp-0005Rz-EO
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 02:29:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37683)
+	id 1hNtdO-0006ui-N5
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 02:31:26 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37740)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hNtVl-0000ng-AZ
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 02:23:34 -0400
+	(envelope-from <dgibson@ozlabs.org>) id 1hNtVn-0000o7-4P
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 02:23:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hNtVj-0002fn-6m
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 02:23:32 -0400
-Received: from ozlabs.org ([203.11.71.1]:35965)
+	(envelope-from <dgibson@ozlabs.org>) id 1hNtVl-0002hP-AQ
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 02:23:34 -0400
+Received: from ozlabs.org ([203.11.71.1]:46335)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
-	id 1hNtVi-0002dp-Rv; Tue, 07 May 2019 02:23:31 -0400
+	id 1hNtVi-0002dr-Tz; Tue, 07 May 2019 02:23:31 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
-	id 44yqL25bn7z9sML; Tue,  7 May 2019 16:23:22 +1000 (AEST)
+	id 44yqL26ljvz9sNQ; Tue,  7 May 2019 16:23:22 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
 	d=gibson.dropbear.id.au; s=201602; t=1557210202;
-	bh=+v+AnRKXUc8jjabRoLJIVMUXrBjfLmwH5Dcdh6Ob0hA=;
+	bh=1Q/tBv42AO7m210RbmREzzJVAPcuWnvk2a3Vhjn6h6E=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=okTQWr/v7ta/OCOGjI+04z7LUFdQ5OeSKTpSUo+2+lgjvoNmGVDgPlyY7Y5qw0kAt
-	rhHNMdpoLanA9Lv+Mj2QmJXOkOFsv0tahSGSYlcPa++QNB32pK9HezTILBo6lSihFk
-	bAdO7qtVXoRqSeZwHu6wgfIIy4KwsMXEevv1kjtc=
-Date: Tue, 7 May 2019 15:25:00 +1000
+	b=bYLlN4w3DW4n0fG9IaLPubiJyzpKY/6buVsk2t0xJTOF0p1Er6umkVLRXb9zPcZZR
+	VqF2MQdQv8zb0TJEOyxQcmLdX48ivZ4ESsuRWVfQb5EKi+194ij1DL7LEs35niVbGq
+	7Eikqx+TNgPwqiZQZT3ScAPYdRJcZnacDs8UNUOw=
+Date: Tue, 7 May 2019 15:28:15 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Anton Blanchard <anton@ozlabs.org>
-Message-ID: <20190507052459.GJ7073@umbus.fritz.box>
+Message-ID: <20190507052815.GK7073@umbus.fritz.box>
 References: <20190507004811.29968-1-anton@ozlabs.org>
-	<20190507004811.29968-9-anton@ozlabs.org>
+	<20190507004811.29968-4-anton@ozlabs.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="2VXyA7JGja7B50zs"
+	protocol="application/pgp-signature"; boundary="mPOSj6iWmtyhwOMz"
 Content-Disposition: inline
-In-Reply-To: <20190507004811.29968-9-anton@ozlabs.org>
+In-Reply-To: <20190507004811.29968-4-anton@ozlabs.org>
 User-Agent: Mutt/1.11.4 (2019-03-13)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 203.11.71.1
-Subject: Re: [Qemu-devel] [PATCH 9/9] target/ppc: Fix vsum2sws
+Subject: Re: [Qemu-devel] [PATCH 4/9] target/ppc: Fix lxvw4x,
+ lxvh8x and lxvb16x
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,44 +63,86 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---2VXyA7JGja7B50zs
+--mPOSj6iWmtyhwOMz
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 07, 2019 at 10:48:11AM +1000, Anton Blanchard wrote:
-> A recent cleanup changed the pre zeroing of the result from 64 bit
-> to 32 bit operations:
+On Tue, May 07, 2019 at 10:48:06AM +1000, Anton Blanchard wrote:
+> During the conversion these instructions were incorrectly treated as
+> stores. We need to use set_cpu_vsr* and not get_cpu_vsr*.
 >=20
-> -        result.u64[i] =3D 0;
-> +        result.VsrW(i) =3D 0;
->=20
-> This corrupts the result.
->=20
-> Fixes: 60594fea298d ("target/ppc: remove various HOST_WORDS_BIGENDIAN hac=
-ks in int_helper.c")
+> Fixes: 8b3b2d75c7c0 ("introduce get_cpu_vsr{l,h}() and set_cpu_vsr{l,h}()=
+ helpers for VSR register access")
 > Signed-off-by: Anton Blanchard <anton@ozlabs.org>
-
-Applied, thanks.
-
 > ---
->  target/ppc/int_helper.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  target/ppc/translate/vsx-impl.inc.c | 13 +++++++------
+>  1 file changed, 7 insertions(+), 6 deletions(-)
 >=20
-> diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-> index 111586c981..b8b3279f71 100644
-> --- a/target/ppc/int_helper.c
-> +++ b/target/ppc/int_helper.c
-> @@ -2038,7 +2038,7 @@ void helper_vsum2sws(CPUPPCState *env, ppc_avr_t *r=
-, ppc_avr_t *a, ppc_avr_t *b)
->      for (i =3D 0; i < ARRAY_SIZE(r->u64); i++) {
->          int64_t t =3D (int64_t)b->VsrSW(upper + i * 2);
+> diff --git a/target/ppc/translate/vsx-impl.inc.c b/target/ppc/translate/v=
+sx-impl.inc.c
+> index 05b75105be..c13f84e745 100644
+> --- a/target/ppc/translate/vsx-impl.inc.c
+> +++ b/target/ppc/translate/vsx-impl.inc.c
+> @@ -102,8 +102,7 @@ static void gen_lxvw4x(DisasContext *ctx)
+>      }
+>      xth =3D tcg_temp_new_i64();
+>      xtl =3D tcg_temp_new_i64();
+> -    get_cpu_vsrh(xth, xT(ctx->opcode));
+> -    get_cpu_vsrl(xtl, xT(ctx->opcode));
+> +
+
+Something seems amiss here.  Clearly we do need a set..() back to the
+loaded register, but with the removal of these gets, it doesn't look
+like the xth and xtl temporaries are initialized any more.
+
+>      gen_set_access_type(ctx, ACCESS_INT);
+>      EA =3D tcg_temp_new();
 > =20
-> -        result.VsrW(i) =3D 0;
-> +        result.VsrD(i) =3D 0;
->          for (j =3D 0; j < ARRAY_SIZE(r->u64); j++) {
->              t +=3D a->VsrSW(2 * i + j);
->          }
+> @@ -126,6 +125,8 @@ static void gen_lxvw4x(DisasContext *ctx)
+>          tcg_gen_addi_tl(EA, EA, 8);
+>          tcg_gen_qemu_ld_i64(xtl, EA, ctx->mem_idx, MO_BEQ);
+>      }
+> +    set_cpu_vsrh(xT(ctx->opcode), xth);
+> +    set_cpu_vsrl(xT(ctx->opcode), xtl);
+>      tcg_temp_free(EA);
+>      tcg_temp_free_i64(xth);
+>      tcg_temp_free_i64(xtl);
+> @@ -185,8 +186,6 @@ static void gen_lxvh8x(DisasContext *ctx)
+>      }
+>      xth =3D tcg_temp_new_i64();
+>      xtl =3D tcg_temp_new_i64();
+> -    get_cpu_vsrh(xth, xT(ctx->opcode));
+> -    get_cpu_vsrl(xtl, xT(ctx->opcode));
+>      gen_set_access_type(ctx, ACCESS_INT);
+> =20
+>      EA =3D tcg_temp_new();
+> @@ -197,6 +196,8 @@ static void gen_lxvh8x(DisasContext *ctx)
+>      if (ctx->le_mode) {
+>          gen_bswap16x8(xth, xtl, xth, xtl);
+>      }
+> +    set_cpu_vsrh(xT(ctx->opcode), xth);
+> +    set_cpu_vsrl(xT(ctx->opcode), xtl);
+>      tcg_temp_free(EA);
+>      tcg_temp_free_i64(xth);
+>      tcg_temp_free_i64(xtl);
+> @@ -214,14 +215,14 @@ static void gen_lxvb16x(DisasContext *ctx)
+>      }
+>      xth =3D tcg_temp_new_i64();
+>      xtl =3D tcg_temp_new_i64();
+> -    get_cpu_vsrh(xth, xT(ctx->opcode));
+> -    get_cpu_vsrl(xtl, xT(ctx->opcode));
+>      gen_set_access_type(ctx, ACCESS_INT);
+>      EA =3D tcg_temp_new();
+>      gen_addr_reg_index(ctx, EA);
+>      tcg_gen_qemu_ld_i64(xth, EA, ctx->mem_idx, MO_BEQ);
+>      tcg_gen_addi_tl(EA, EA, 8);
+>      tcg_gen_qemu_ld_i64(xtl, EA, ctx->mem_idx, MO_BEQ);
+> +    set_cpu_vsrh(xT(ctx->opcode), xth);
+> +    set_cpu_vsrl(xT(ctx->opcode), xtl);
+>      tcg_temp_free(EA);
+>      tcg_temp_free_i64(xth);
+>      tcg_temp_free_i64(xtl);
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -107,25 +150,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---2VXyA7JGja7B50zs
+--mPOSj6iWmtyhwOMz
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlzRFqsACgkQbDjKyiDZ
-s5KwWhAAgAyJoAlTCeL+G+QObUYsf89yNN3u6ayAt8Kv+SXwytE2kkYD6pm3yvAA
-embhSRlJUndddfaDhKqfvIY7iuK4t4/3ZAWshXa5npV8Yys4ciu2gbsVs8DqSy6y
-WtvV8gl0oP/uMPcf85Pw2+ZgRvYXugQgEwX/rx/JqFSMzsrnIU5ERx8ndLhO/8G5
-JxsmMr863h7MyQ5vRXyovzr5y94+QJdRMkwQPngIJ8WFbXkToyaf1aCldO/XCllZ
-f0SKRMfWZ98O+sFNppTNGS4fP+YPSIlUHzoIzPryLK2y2+wj8vg+TXWZpGZN5co0
-NtRS7pPhq4D6w/+LAjTXzqjiwpGVG6HPCQ4GXcwdHYCAZ+xMW8Mv6JJ9SHKqKvCk
-7AQfgyO2RqSqb0QxfehxdgDcBmjNDsHBa77fXbb3rwD7DZZfbBbORzbvzYouqLDZ
-6KF6EOeKcl1bvP1WBDe/142d+u8SK13wRJhHi8DNq6WExptRLSUBe0TswWSWquIW
-kqqiC/uZmhVvLJhAI11GghGmBG7r3qzawMchn15fkkEH6OnIRltkgJS9jfqxnbLw
-Qph+bp9Hm0QCsNDsjqbpvep/fqSmnXMAMIlkviqDGCk8EwLih1+qKMPpfn+Sk/b6
-lkLq5ovsiTMejIYSaxdXY+8SkDhTitzJ4uyDboeADdM2WmZ+dpE=
-=7Gx0
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlzRF28ACgkQbDjKyiDZ
+s5J5vA/+IKCIyuY3tlDFEicGF5EPkwkERz8exx3RvkHoNvq8Om+Anh2Rqav87bWH
+QGZmFcKYHpY5gF79dFueGO1YePFrNHG0E302nE8h7AaoufVQPcdAvWowNh68Au/w
+1Vqn1A1G4x8Hcwi2kvoWEAArXePxlHahZBMJi14IacbjzUkKcNTyPnzaITvaoHZu
+rtHH2nw4Ccv1EZ3tKakYpDzxUHD2BgUbdQwu2t+n3718XqpgxpEUgHoF7MaEbz9a
+DjhUJh05ZJdhw/Eg396TN/dEYJHoRzU4sHPf2s3W4S2zLJ0ZeqErjQrawNFiX/0e
+VZiKkd28oms+80hgLxiE5rwt+mNGHrKcd0Xq4SnLLE/aVqLIfh33jeyKeO7IO8Rd
+d1+gBQODhe2DOQzSSm/47kpdE4pSTcFeV/ASMhml6U3S+7DSoKHbJhi9Vby+yNTh
+EyN25aAkDtGvNlmEYtmAqaV8nxV+Qec9etZOXL7SBeQQSujyujttccWxeFk0bgj3
+bA/6YOFcUPLx6/7RcXQjVsRj14Xb6dj43HSbuu4udJMJFS2JFrDHL0zzT8jl8PPk
+WnQURqBzVk4Jf/M5ZtrvM+LHPku+flAi5KGK0oYR//wypIOAm4l6wAr/5gHrSAj2
+LkxrfVKAI6GayIvumS1uNZMeaaayoXVwuv/jki0Vtp9Qu3oKFr4=
+=6aeH
 -----END PGP SIGNATURE-----
 
---2VXyA7JGja7B50zs--
+--mPOSj6iWmtyhwOMz--
 
