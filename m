@@ -2,54 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3255C15D8E
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 08:36:56 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40959 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B978415DC0
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 08:51:52 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:41129 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNtih-00045g-C9
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 02:36:55 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40361)
+	id 1hNtx9-0000Z5-8W
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 02:51:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42897)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hNtgr-0002ot-Al
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 02:35:02 -0400
+	(envelope-from <hqm03ster@gmail.com>) id 1hNtvy-00005I-JZ
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 02:50:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hNtgp-0001rW-Rz
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 02:35:01 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60580)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <armbru@redhat.com>)
-	id 1hNtgl-0001ow-7K; Tue, 07 May 2019 02:34:55 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 83325C4EC1;
-	Tue,  7 May 2019 06:34:53 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-28.ams2.redhat.com
-	[10.36.116.28])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 278C86402D;
-	Tue,  7 May 2019 06:34:53 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
-	id 997521132B35; Tue,  7 May 2019 08:34:51 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Stefano Garzarella <sgarzare@redhat.com>
-References: <20190427113625.46594-1-sgarzare@redhat.com>
-Date: Tue, 07 May 2019 08:34:51 +0200
-In-Reply-To: <20190427113625.46594-1-sgarzare@redhat.com> (Stefano
-	Garzarella's message of "Sat, 27 Apr 2019 13:36:25 +0200")
-Message-ID: <877eb2hiwk.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+	(envelope-from <hqm03ster@gmail.com>) id 1hNtvx-0002Qi-BS
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 02:50:38 -0400
+Received: from mail-qt1-x842.google.com ([2607:f8b0:4864:20::842]:40529)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <hqm03ster@gmail.com>) id 1hNtvx-0002P9-6u
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 02:50:37 -0400
+Received: by mail-qt1-x842.google.com with SMTP id k24so618497qtq.7
+	for <qemu-devel@nongnu.org>; Mon, 06 May 2019 23:50:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=F7WpCSujS6jvkyhN1EheFd4VHSQipAqkbsMsJ6z5HWI=;
+	b=ax2P1sj1NWoZeii74e37Dz8w/l6TcqN6u+kspVTsyrYs8FfJRd4J6NTyXjb0TV1D39
+	2Tj9a74XdA2Wb7RGc7v67GL9UDJ+QxDmhyAYSohuvfyvRjkKY0STngWoPBaAR67/r9sp
+	tfLb7UwokUGlGIvf380iteX160M3isOywdsgt7HtSWXjgeIttZNNVX//Wqyzu8zPiXr2
+	0jFeiaHrwyeDU/1gmgpLuQfnyoh2/Im7vaddrSDHQTYQphb0BLu/loZZyQvsTotDbkF7
+	wmZ/MSAKHjnIB3vZbnQHsowbgFYTkwWvSpuRXx/0UVHBzO7STzQqHAOy439wmRkSMgwj
+	I05A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=F7WpCSujS6jvkyhN1EheFd4VHSQipAqkbsMsJ6z5HWI=;
+	b=hZtPijgsGg3M+7O+FFavnUTUnjwAXJiAax7+mNOmBHuo+2IRjXkEleHJEtCVnZdj8y
+	2717C3PgxeJSE+jzQssFZW/W0MvUYefqRBK7sH/Zk3KY4XUNa30K3CWfDd/omTjEAOMY
+	gj83Uw68oO4KWk4O4hxUl4JFBH51P09CkiQZXpGMZ0fkiRWJ98ljFpIwioVsXGPQiaMK
+	LDAB3+ZqTGwO60o4/rg6rIso7qCXLR/c6JXYSADvcD7U5aK8kEY6EwW7nWoXEjhNwu9A
+	2jP4pJtV8pPu2o74LvVQnQOmtQtOMjAmNkYerlx9z60SkwDpUhvTzzMG9TqVZkoEs3YQ
+	BZFQ==
+X-Gm-Message-State: APjAAAUOhVv+jb7wggHe8Pv+tF+NjLifisFw0rl2Mnzd4MWVGCKMZBH4
+	sI1IKry0jElJffXwW7FCt+cdQSwbLdJZpS2UjVM=
+X-Google-Smtp-Source: APXvYqwU0Fn0WYsHbQvXOHb6qcRfYzKFI5VKAVpyPUtDsS6Z+1pfzxu2eXYehLiiR28HJR6lF3prnp9w8svVL3w9pLE=
+X-Received: by 2002:ac8:4401:: with SMTP id j1mr3152486qtn.271.1557211836504; 
+	Mon, 06 May 2019 23:50:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.38]);
-	Tue, 07 May 2019 06:34:53 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] Use of PreallocMode in block drivers (was: [PATCH]
- block/rbd: add preallocation support)
+References: <20190507054914.25261-1-marcel.apfelbaum@gmail.com>
+	<f7c57c29-0aa1-c68e-44ed-4ea52d3006c4@redhat.com>
+In-Reply-To: <f7c57c29-0aa1-c68e-44ed-4ea52d3006c4@redhat.com>
+From: Hou Qiming <hqm03ster@gmail.com>
+Date: Tue, 7 May 2019 14:49:55 +0800
+Message-ID: <CABSdmrmKYMyMFX-O6y2fAGRow9sHhtSN50knQ_yVwKiNmdyGBw@mail.gmail.com>
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::842
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [PATCH v2] ui/console: Precautionary glBindTexture
+ and surface->texture validation in surface_gl_update_texture
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,202 +74,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Josh Durgin <jdurgin@redhat.com>,
-	Peter Krempa <pkrempa@redhat.com>, qemu-block@nongnu.org,
-	qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: qemu-devel@nongnu.org, Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc: Peter for a libvirt perspective.
-
-Stefano Garzarella <sgarzare@redhat.com> writes:
-
-> This patch adds the support of preallocation (off/full) for the RBD
-> block driver.
-> If available, we use rbd_writesame() to quickly fill the image when
-> full preallocation is required.
+My real name is "HOU Qiming". @Marcel Apfelbaum <marcel.apfelbaum@gmail.com=
 >
-> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
-> ---
->  block/rbd.c          | 149 ++++++++++++++++++++++++++++++++++++++-----
->  qapi/block-core.json |   4 +-
->  2 files changed, 136 insertions(+), 17 deletions(-)
+can you incorporate that in your v2 patch? Thanks!
+
+Qiming
+
+On Tue, May 7, 2019 at 2:25 PM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
+om>
+wrote:
+
+> Hi Marcel,
 >
-> diff --git a/block/rbd.c b/block/rbd.c
-> index 0c549c9935..29dd1bb040 100644
-> --- a/block/rbd.c
-> +++ b/block/rbd.c
-> @@ -13,6 +13,7 @@
->  
->  #include "qemu/osdep.h"
->  
-> +#include "qemu/units.h"
->  #include <rbd/librbd.h>
->  #include "qapi/error.h"
->  #include "qemu/error-report.h"
-> @@ -331,6 +332,110 @@ static void qemu_rbd_memset(RADOSCB *rcb, int64_t offs)
->      }
->  }
->  
-> +static int qemu_rbd_do_truncate(rbd_image_t image, int64_t offset,
-> +                                PreallocMode prealloc, Error **errp)
-> +{
-> +    uint64_t current_length;
-> +    char *buf = NULL;
-> +    int ret;
-> +
-> +    ret = rbd_get_size(image, &current_length);
-> +    if (ret < 0) {
-> +        error_setg_errno(errp, -ret, "Failed to get file length");
-> +        goto out;
-> +    }
-> +
-> +    if (current_length > offset && prealloc != PREALLOC_MODE_OFF) {
-> +        error_setg(errp, "Cannot use preallocation for shrinking files");
-> +        ret = -ENOTSUP;
-> +        goto out;
-> +    }
-> +
-> +    switch (prealloc) {
-> +    case PREALLOC_MODE_FULL: {
-[...]
-> +    case PREALLOC_MODE_OFF:
-[...]
-> +    default:
-> +        error_setg(errp, "Unsupported preallocation mode: %s",
-> +                   PreallocMode_str(prealloc));
-> +        ret = -ENOTSUP;
-> +        goto out;
-> +    }
-
-Other block drivers also accept only some values of PreallocMode.  Okay.
-
-I wonder whether management applications need to know which values are
-supported.
-
-Let me review support in drivers:
-
-* file (file-win32.c)
-* iscsi
-* nfs
-* qed
-* ssh
-
-  - Reject all but PREALLOC_MODE_OFF
-
-* copy-on-read
-* luks (crypto.c)
-* raw
-
-  - Pass through only
-
-* file host_cdrom host_device (file-posix.c)
-
-  - Reject all but PREALLOC_MODE_OFF when shrinking and for non-regular
-    files
-  - Reject PREALLOC_MODE_FALLOC unless CONFIG_POSIX_FALLOCATE
-  - Reject PREALLOC_MODE_METADATA
-
-* gluster
-
-  - Reject all but PREALLOC_MODE_OFF when shrinking
-  - Reject PREALLOC_MODE_FALLOC unless CONFIG_GLUSTERFS_FALLOCATE
-  - Reject PREALLOC_MODE_FULL unless CONFIG_GLUSTERFS_ZEROFILL
-  - Reject PREALLOC_MODE_METADATA
-
-* qcow2
-
-  - Reject all but PREALLOC_MODE_OFF when shrinking and with a backing
-    file
-  
-* rbd with this patch
-
-  - Reject all but PREALLOC_MODE_OFF when shrinking
-  - Reject PREALLOC_MODE_METADATA and PREALLOC_MODE_FALLOC
-
-* sheepdog
-
-  - Reject PREALLOC_MODE_METADATA and PREALLOC_MODE_FALLOC
-  - Doesn't support shrinking
-
-* vdi
-
-  - Reject PREALLOC_MODE_FALLOC and PREALLOC_MODE_FULL
-  - Doesn't support shrinking
-
-* blkdebug
-* blklogwrites
-* blkverify
-* bochs
-* cloop
-* dmg
-* ftp
-* ftps
-* http
-* https
-* luks
-* nbd
-* null-aio
-* null-co
-* nvme
-* parallels
-* qcow
-* quorum
-* replication
-* throttle
-* vhdx
-* vmdk
-* vpc
-* vvfat
-* vxhs
-
-  - These appear not to use PreallocMode: they don't implement
-    .bdrv_co_truncate(), and either don't implement .bdrv_co_create() or
-    implement it without a prealloc parameter.
-
-Looks good to me.
-
-> +
-> +    ret = 0;
-> +
-> +out:
-> +    g_free(buf);
-> +    return ret;
-> +}
-> +
->  static QemuOptsList runtime_opts = {
->      .name = "rbd",
->      .head = QTAILQ_HEAD_INITIALIZER(runtime_opts.head),
-[...]
-> diff --git a/qapi/block-core.json b/qapi/block-core.json
-> index 7ccbfff9d0..db25a4065b 100644
-> --- a/qapi/block-core.json
-> +++ b/qapi/block-core.json
-> @@ -4277,13 +4277,15 @@
->  #                   point to a snapshot.
->  # @size             Size of the virtual disk in bytes
->  # @cluster-size     RBD object size
-> +# @preallocation    Preallocation mode (allowed values: off, full)
->  #
->  # Since: 2.12
->  ##
->  { 'struct': 'BlockdevCreateOptionsRbd',
->    'data': { 'location':         'BlockdevOptionsRbd',
->              'size':             'size',
-> -            '*cluster-size' :   'size' } }
-> +            '*cluster-size' :   'size',
-> +            '*preallocation':   'PreallocMode' } }
->  
->  ##
->  # @BlockdevVmdkSubformat:
-
-The non-support of values 'metadata' and 'falloc' is not visible in
-introspection, only in documentation.  No reason to block this patch, as
-the other block drivers have the same introspection weakness (only
-sheepdog and vdi bother to document).
-
-Should we address the introspection weakness?  Only if there's a use for
-the information, I think.
-
-Should we improve documentation for the other block drivers?
-
+> On 5/7/19 7:49 AM, Marcel Apfelbaum wrote:
+> > From: HQM <hqm03ster@gmail.com>
+> >
+> > In a GVT-g setup with dmabuf and GTK GUI, the current 2D texture at
+> > surface_gl_update_texture is not necessarily
+> > surface->texture. Adding a glBindTexture fixes related crashes and
+> > artifacts, and is generally more secure.
+> >
+> > Signed-off-by: HQM <hqm03ster@gmail.com>
+>
+> This looks like an acronym, per
+>
+> https://wiki.qemu.org/Contribute/SubmitAPatch#Patch_emails_must_include_a=
+_Signed-off-by:_line
+>
+> "Patch emails must include a Signed-off-by: line [...] Please use your
+> real name to sign a patch (not an alias or acronym)."
+>
+> > Tested-by: Marcel Apfelbaum<marcel.apfelbaum@gmail.com>
+> > [fixed malformed patch, rebase to master]
+> > Signed-off-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+> > ---
+> >
+> > v2:
+> >  - fixed malformed patch
+> >  - rebased to master
+> >
+> >  ui/console-gl.c | 18 +++++++++++-------
+> >  1 file changed, 11 insertions(+), 7 deletions(-)
+> >
+> > diff --git a/ui/console-gl.c b/ui/console-gl.c
+> > index a56e1cd8eb..c1cb3bd673 100644
+> > --- a/ui/console-gl.c
+> > +++ b/ui/console-gl.c
+> > @@ -92,13 +92,17 @@ void surface_gl_update_texture(QemuGLShader *gls,
+> >
+> >      assert(gls);
+> >
+> > -    glPixelStorei(GL_UNPACK_ROW_LENGTH_EXT,
+> > -                  surface_stride(surface) /
+> surface_bytes_per_pixel(surface));
+> > -    glTexSubImage2D(GL_TEXTURE_2D, 0,
+> > -                    x, y, w, h,
+> > -                    surface->glformat, surface->gltype,
+> > -                    data + surface_stride(surface) * y
+> > -                    + surface_bytes_per_pixel(surface) * x);
+> > +    if (surface->texture) {
+> > +        glBindTexture(GL_TEXTURE_2D, surface->texture);
+> > +        glPixelStorei(GL_UNPACK_ROW_LENGTH_EXT,
+> > +                      surface_stride(surface)
+> > +                      / surface_bytes_per_pixel(surface));
+> > +        glTexSubImage2D(GL_TEXTURE_2D, 0,
+> > +                        x, y, w, h,
+> > +                        surface->glformat, surface->gltype,
+> > +                        data + surface_stride(surface) * y
+> > +                        + surface_bytes_per_pixel(surface) * x);
+> > +    }
+> >  }
+> >
+> >  void surface_gl_render_texture(QemuGLShader *gls,
+> >
+>
