@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A2D915D53
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 08:26:00 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40737 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A97215D81
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 08:35:36 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40909 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hNtY7-00021Q-7I
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 02:25:59 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37632)
+	id 1hNthP-0002fQ-G2
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 02:35:35 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37739)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hNtVi-0000mL-5n
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 02:23:31 -0400
+	(envelope-from <dgibson@ozlabs.org>) id 1hNtVn-0000o5-4B
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 02:23:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hNtVg-0002dS-S1
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 02:23:30 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:52207)
+	(envelope-from <dgibson@ozlabs.org>) id 1hNtVl-0002hd-Bq
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 02:23:34 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:40433)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
-	id 1hNtVe-0002Yn-Jb; Tue, 07 May 2019 02:23:27 -0400
+	id 1hNtVj-0002e8-Cq; Tue, 07 May 2019 02:23:32 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
-	id 44yqL23mZPz9sCJ; Tue,  7 May 2019 16:23:22 +1000 (AEST)
+	id 44yqL250nTz9sD4; Tue,  7 May 2019 16:23:22 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
 	d=gibson.dropbear.id.au; s=201602; t=1557210202;
-	bh=gpQrHJyWQexYpx5/xWG2PXXC2z/I5IoQUN483yRDw7A=;
+	bh=B8s0wa7uKzCF07V2NRa7udjsSMZldDSr/gFPsf+z1XM=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YNoXsnzaZu4Bg6jWp6BWToKgLt946roURZn4WNjk8WSwqxDSSgXyVcDkDtYR4+HYu
-	W/cX4DmWaOWkNyDTunh6VufFZRh0ebGgPn9F++Br3Qpunl5qvD89ePM4u0wZP543gT
-	Nv9GQYr8M+XN99LTV89+gR3pFMC9wwJ/ChBJNe5A=
-Date: Tue, 7 May 2019 15:22:43 +1000
+	b=VK98Q+ZE9EQ7iZfvHzovvVc7a/GL/TGi5K/B0BlZxIYzEF380k79Yl9VVI98ys0fj
+	rCGKuxWCVIeg14pmX6uEASxVmb81XQWhCbxkW7Kgrar+oJjkxJA7gxbtxkKGPp0OKB
+	rSgsYESOv3eun2zd23CjZ1e5zkwNyQLXU83sdxkU=
+Date: Tue, 7 May 2019 15:23:58 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Anton Blanchard <anton@ozlabs.org>
-Message-ID: <20190507052243.GH7073@umbus.fritz.box>
+Message-ID: <20190507052358.GI7073@umbus.fritz.box>
 References: <20190507004811.29968-1-anton@ozlabs.org>
-	<20190507004811.29968-5-anton@ozlabs.org>
+	<20190507004811.29968-6-anton@ozlabs.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="xHbokkKX1kTiQeDC"
+	protocol="application/pgp-signature"; boundary="cf0hFtnykp6aONGL"
 Content-Disposition: inline
-In-Reply-To: <20190507004811.29968-5-anton@ozlabs.org>
+In-Reply-To: <20190507004811.29968-6-anton@ozlabs.org>
 User-Agent: Mutt/1.11.4 (2019-03-13)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
 X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [PATCH 5/9] target/ppc: Fix xvabs[sd]p, xvnabs[sd]p,
- xvneg[sd]p, xvcpsgn[sd]p
+Subject: Re: [Qemu-devel] [PATCH 6/9] target/ppc: Fix vslv and vsrv
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -64,41 +63,67 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---xHbokkKX1kTiQeDC
+--cf0hFtnykp6aONGL
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Tue, May 07, 2019 at 10:48:07AM +1000, Anton Blanchard wrote:
-> We were using set_cpu_vsr* when we should have used set_cpu_vsrl*
-
-Commit message doesn't appear to match the code.
-
+On Tue, May 07, 2019 at 10:48:08AM +1000, Anton Blanchard wrote:
+> vslv and vsrv are broken on little endian, we append 00 to the
+> high byte not the low byte. Fix it by using the VsrB() accessor.
 >=20
-> Fixes: 8b3b2d75c7c0 ("introduce get_cpu_vsr{l,h}() and set_cpu_vsr{l,h}()=
- helpers for VSR register access")
 > Signed-off-by: Anton Blanchard <anton@ozlabs.org>
+
+Applied, thanks.
+
 > ---
->  target/ppc/translate/vsx-impl.inc.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  target/ppc/int_helper.c | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
 >=20
-> diff --git a/target/ppc/translate/vsx-impl.inc.c b/target/ppc/translate/v=
-sx-impl.inc.c
-> index c13f84e745..0a48020e3b 100644
-> --- a/target/ppc/translate/vsx-impl.inc.c
-> +++ b/target/ppc/translate/vsx-impl.inc.c
-> @@ -859,8 +859,8 @@ static void glue(gen_, name)(DisasContext *ctx)      =
-            \
->          xbh =3D tcg_temp_new_i64();                                \
->          xbl =3D tcg_temp_new_i64();                                \
->          sgm =3D tcg_temp_new_i64();                                \
-> -        set_cpu_vsrh(xB(ctx->opcode), xbh);                      \
-> -        set_cpu_vsrl(xB(ctx->opcode), xbl);                      \
-> +        get_cpu_vsrh(xbh, xB(ctx->opcode));                      \
-> +        get_cpu_vsrl(xbl, xB(ctx->opcode));                      \
->          tcg_gen_movi_i64(sgm, sgn_mask);                         \
->          switch (op) {                                            \
->              case OP_ABS: {                                       \
+> diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
+> index f6a088ac08..fd715b4076 100644
+> --- a/target/ppc/int_helper.c
+> +++ b/target/ppc/int_helper.c
+> @@ -1800,10 +1800,10 @@ void helper_vslv(ppc_avr_t *r, ppc_avr_t *a, ppc_=
+avr_t *b)
+> =20
+>      size =3D ARRAY_SIZE(r->u8);
+>      for (i =3D 0; i < size; i++) {
+> -        shift =3D b->u8[i] & 0x7;             /* extract shift value */
+> -        bytes =3D (a->u8[i] << 8) +             /* extract adjacent byte=
+s */
+> -            (((i + 1) < size) ? a->u8[i + 1] : 0);
+> -        r->u8[i] =3D (bytes << shift) >> 8;   /* shift and store result =
+*/
+> +        shift =3D b->VsrB(i) & 0x7;             /* extract shift value */
+> +        bytes =3D (a->VsrB(i) << 8) +           /* extract adjacent byte=
+s */
+> +            (((i + 1) < size) ? a->VsrB(i + 1) : 0);
+> +        r->VsrB(i) =3D (bytes << shift) >> 8;   /* shift and store resul=
+t */
+>      }
+>  }
+> =20
+> @@ -1818,10 +1818,10 @@ void helper_vsrv(ppc_avr_t *r, ppc_avr_t *a, ppc_=
+avr_t *b)
+>       * order will guarantee that computed result is not fed back.
+>       */
+>      for (i =3D ARRAY_SIZE(r->u8) - 1; i >=3D 0; i--) {
+> -        shift =3D b->u8[i] & 0x7;                 /* extract shift value=
+ */
+> -        bytes =3D ((i ? a->u8[i - 1] : 0) << 8) + a->u8[i];
+> +        shift =3D b->VsrB(i) & 0x7;               /* extract shift value=
+ */
+> +        bytes =3D ((i ? a->VsrB(i - 1) : 0) << 8) + a->VsrB(i);
+>                                                  /* extract adjacent byte=
+s */
+> -        r->u8[i] =3D (bytes >> shift) & 0xFF;     /* shift and store res=
+ult */
+> +        r->VsrB(i) =3D (bytes >> shift) & 0xFF;   /* shift and store res=
+ult */
+>      }
+>  }
+> =20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -106,25 +131,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---xHbokkKX1kTiQeDC
+--cf0hFtnykp6aONGL
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlzRFiMACgkQbDjKyiDZ
-s5I+QRAA0nThDjCOaLpGXUdgPCmIs/d2f5sGN2qwsDQmT8xaRomGt+ZXF4sAHwe7
-eUP4i4uuporFP+FhJzMjHBfx8LEJdT2Ohk6my5u5XckKrnfh5UvpgNfD14gLTXrQ
-2OyymI3AvnCNX9HQlsuieWWdnmSNJeuorb/pAzF7vgw7c+ThxYyiwp2zIukiYoGr
-8DD3lBXRZSpomeJkx5YKOomDX7294xdoeDGmchZEPgeBfxmEkN1dGu+F0ccltOSt
-Sa/FdCN7ZynAKHavvAhKfboJdBeDmbx1w+BfUHCguwyUFr7FMoYv+JSNTFu0oeCh
-N6TJ/MBSPGJKskKbZDzUJYVjLCl4a58xanxasqzr0BI4BnG8oBtzVne1fpoHHygA
-iTX/iO0oZt299EncpeSBKBdwZoTaRu6bmZXhBR700xiRr4ic6LM0oN5h+g4BGx3K
-rsmUY7kuRzG2Dnw0ghaODTf10en+3sdod8Ks5jNIk0pZk1HwPvJBUByvxw/elIYi
-HllRjwL/6b2KJzgz3itdXsDGWG6YslJe5+PMxQZHSSHM2AxCi48ulCCDkSkRX8iA
-vorjn913XVXU3Wv8P8AmguS1amXQBp1cpwxelpdYeCKa9nbWSYUmiOBEMMGQ4OXA
-/Pzv0ef1Ppo5FgKLOwar9ppjXzFSYdL0Lj1Lu/Rn1pkFvdhQMzo=
-=M0TX
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlzRFm4ACgkQbDjKyiDZ
+s5K8og/+MFb/VpFCFSfbsSfLq78BQEjwcoVKyGvvS/Vw6Q2ET++Efv7G1MXY2O86
+mrqYYozjkK1foW3QTcqhxfy0UfjT3HuYuqexWHQPysJusy42pnQmYcd6WcSRMa7l
+JGTVdl/MWcxi5aL7U3lxIlYS7viLrMNqNpJdBMnh5w8hsophjdgP1WTrNyHiaZa4
+fcElvxvT09EC3R5anXahEFhCYAdp1zkD45MOVBEi6Pm+nS8mpM6GW+bcQjKtaOql
+zOnVfNDL0tpL4G6EX+wBbB8QjwsIRjXJsblXjl2Dvh3MGinibaX1JkmVIAODUpSu
+T1bbaGQY6qbSn+toh7AHmivxFLHxBfKpX4zp6fW0jVI/TIoXMkJkhRH2zIe7CsnA
+r+Cct5p/gBJnHyrrOtUorUbaGMhe64H2140tfPz89dV5TugV0M2f17gGlVMJOonr
+A8yLP9P7LcVN4RtOZF4BhFUlqLA186Ic26BuHOeBHMppIZHPDvh1+mCYMCzBPFla
+S3mn4z5SnR6VcIY9R1p+aN3FD9M6ZDXbxImzBvIs3l0tHqpxvZ95JSsPLmVfRFB/
+21x7A0hhRDKLF3mtVj2et4KR4Ow7e9GxxoXc1hJFTmEU6SEHZwYwZxcuB5hUD561
+iR2uNBSbIBPLOd3sPIVSarP8T9V5sk+NmzaXOgfDncscZ0Kf03M=
+=UUpM
 -----END PGP SIGNATURE-----
 
---xHbokkKX1kTiQeDC--
+--cf0hFtnykp6aONGL--
 
