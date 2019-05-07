@@ -2,46 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5892716C4F
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 22:38:05 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54433 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5454A16C5F
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 22:41:21 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54499 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hO6qi-00074a-77
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 16:38:04 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34543)
+	id 1hO6ts-00025Q-HT
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 16:41:20 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34750)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hO6oK-0005B8-If
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 16:35:39 -0400
+	(envelope-from <mreitz@redhat.com>) id 1hO6oS-0005KQ-5K
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 16:35:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hO6oI-0003q6-Eu
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 16:35:36 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54118)
+	(envelope-from <mreitz@redhat.com>) id 1hO6oQ-00040M-7D
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 16:35:44 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39820)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hO6oC-0003VW-F5; Tue, 07 May 2019 16:35:30 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
-	[10.5.11.14])
+	id 1hO6oK-0003Ws-Gv; Tue, 07 May 2019 16:35:36 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 64005883B8;
-	Tue,  7 May 2019 20:35:11 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id D87B588305;
+	Tue,  7 May 2019 20:35:13 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.217])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id E8DB95D9D2;
-	Tue,  7 May 2019 20:35:10 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 6EA072E03A;
+	Tue,  7 May 2019 20:35:13 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Tue,  7 May 2019 22:35:01 +0200
-Message-Id: <20190507203508.18026-1-mreitz@redhat.com>
+Date: Tue,  7 May 2019 22:35:02 +0200
+Message-Id: <20190507203508.18026-2-mreitz@redhat.com>
+In-Reply-To: <20190507203508.18026-1-mreitz@redhat.com>
+References: <20190507203508.18026-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.26]);
-	Tue, 07 May 2019 20:35:11 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.28]);
+	Tue, 07 May 2019 20:35:13 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v4 0/7] qemu-img: Add salvaging mode to convert
+Subject: [Qemu-devel] [PATCH v4 1/7] qemu-img: Move quiet into
+ ImgConvertState
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -59,97 +62,88 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Move img_convert()'s quiet flag into the ImgConvertState so it is
+accessible by nested functions.  -q dictates that it suppresses anything
+but errors, so if those functions want to emit warnings, they need to
+query this flag first.  (There currently are no such warnings, but there
+will be as of the next patch.)
 
-This series adds a --salvage option to qemu-img convert.  With this,
-qemu-img will not abort when it encounters an I/O error.  Instead, it
-tries to narrow it down and will treat the affected sectors as being
-completely 0 (and print a warning).
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+---
+ qemu-img.c | 13 +++++++------
+ 1 file changed, 7 insertions(+), 6 deletions(-)
 
-Testing this is not so easy, because while real I/O errors during read
-operations should be treated as described above, errors encountered
-during bdrv_block_status() should just be ignored and the affected
-sectors should be considered allocated.  But blkdebug does not yet have
-a way to intercept this, and:
-
-(1) Just adding a new block-status event would be silly, because I don't
-    want an event, I want it to fail on a certain kind of operation, on
-    a certain sector range, independently of any events, so why can't we
-    just do that?  See patch 4.
-
-(2) If we just make blkdebug intercept .bdrv_co_block_status() like all
-    other kinds of operations, at least iotest 041 fails, which does
-    exactly that silly thing: It uses the read_aio event to wait for any
-    read.  But it turns out that there may be a bdrv_*block_status()
-    call in between, so suddenly the wrong operation yields an error.
-    As I said, the real fault here is that it does not really make sense
-    to pray that the operation you want to fail is the one that is
-    immediately executed after some event that you hope will trigger
-    that operation.
-    See patch 3.
-
-So patch 3 allows blkdebug users to select which kind of I/O operation
-they actually want to make fail, and patch 4 allows them to not use any
-event, but to have a rule active all the time.
-
-Together, we can then enable error injection for block-status in patch 5
-and make use of event=3Dnone iotype=3Dblock-status in patch 6.
-
-
-v4:
-- Patch 2: Rebase conflict (265a7e54efad246f4bde63f77aee6311f436f5f1)
-- Patch 3: Fix enum prefix to be BLKDEBUG_IO_TYPE [Vladimir]
-- Patch 5: The same
-- Patch 6:
-  - 249 -> 251
-  - s%#!/bin/bash%#!/usr/bin/env bash% [Thomas]
-  - s/2018/2019/ [Vladimir]
-  - Drop here=3D$PWD [Vladimir]
-  - Clarified a comment (I hope) [Vladimir]
-
-
-git-backport-diff against v3:
-
-Key:
-[----] : patches are identical
-[####] : number of functional differences between upstream/downstream pat=
-ch
-[down] : patch is downstream-only
-The flags [FC] indicate (F)unctional and (C)ontextual differences, respec=
-tively
-
-001/7:[----] [--] 'qemu-img: Move quiet into ImgConvertState'
-002/7:[0006] [FC] 'qemu-img: Add salvaging mode to convert'
-003/7:[0028] [FC] 'blkdebug: Add @iotype error option'
-004/7:[----] [--] 'blkdebug: Add "none" event'
-005/7:[0002] [FC] 'blkdebug: Inject errors on .bdrv_co_block_status()'
-006/7:[0015] [FC] 'iotests: Test qemu-img convert --salvage'
-007/7:[----] [--] 'iotests: Test qemu-img convert -C --salvage'
-
-
-Max Reitz (7):
-  qemu-img: Move quiet into ImgConvertState
-  qemu-img: Add salvaging mode to convert
-  blkdebug: Add @iotype error option
-  blkdebug: Add "none" event
-  blkdebug: Inject errors on .bdrv_co_block_status()
-  iotests: Test qemu-img convert --salvage
-  iotests: Test qemu-img convert -C --salvage
-
- qapi/block-core.json       |  33 +++++++-
- block/blkdebug.c           |  60 +++++++++++---
- qemu-img.c                 | 103 ++++++++++++++++-------
- qemu-img-cmds.hx           |   4 +-
- qemu-img.texi              |   4 +
- tests/qemu-iotests/082     |   1 +
- tests/qemu-iotests/082.out |   3 +
- tests/qemu-iotests/251     | 162 +++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/251.out |  43 ++++++++++
- tests/qemu-iotests/group   |   1 +
- 10 files changed, 375 insertions(+), 39 deletions(-)
- create mode 100755 tests/qemu-iotests/251
- create mode 100644 tests/qemu-iotests/251.out
-
+diff --git a/qemu-img.c b/qemu-img.c
+index e6ad5978e0..f606675933 100644
+--- a/qemu-img.c
++++ b/qemu-img.c
+@@ -1578,6 +1578,7 @@ typedef struct ImgConvertState {
+     int64_t target_backing_sectors; /* negative if unknown */
+     bool wr_in_order;
+     bool copy_range;
++    bool quiet;
+     int min_sparse;
+     int alignment;
+     size_t cluster_sectors;
+@@ -2009,7 +2010,7 @@ static int img_convert(int argc, char **argv)
+     QDict *open_opts =3D NULL;
+     char *options =3D NULL;
+     Error *local_err =3D NULL;
+-    bool writethrough, src_writethrough, quiet =3D false, image_opts =3D=
+ false,
++    bool writethrough, src_writethrough, image_opts =3D false,
+          skip_create =3D false, progress =3D false, tgt_image_opts =3D f=
+alse;
+     int64_t ret =3D -EINVAL;
+     bool force_share =3D false;
+@@ -2117,7 +2118,7 @@ static int img_convert(int argc, char **argv)
+             src_cache =3D optarg;
+             break;
+         case 'q':
+-            quiet =3D true;
++            s.quiet =3D true;
+             break;
+         case 'n':
+             skip_create =3D true;
+@@ -2206,7 +2207,7 @@ static int img_convert(int argc, char **argv)
+     }
+=20
+     /* Initialize before goto out */
+-    if (quiet) {
++    if (s.quiet) {
+         progress =3D false;
+     }
+     qemu_progress_init(progress, 1.0);
+@@ -2217,7 +2218,7 @@ static int img_convert(int argc, char **argv)
+=20
+     for (bs_i =3D 0; bs_i < s.src_num; bs_i++) {
+         s.src[bs_i] =3D img_open(image_opts, argv[optind + bs_i],
+-                               fmt, src_flags, src_writethrough, quiet,
++                               fmt, src_flags, src_writethrough, s.quiet=
+,
+                                force_share);
+         if (!s.src[bs_i]) {
+             ret =3D -1;
+@@ -2380,7 +2381,7 @@ static int img_convert(int argc, char **argv)
+=20
+     if (skip_create) {
+         s.target =3D img_open(tgt_image_opts, out_filename, out_fmt,
+-                            flags, writethrough, quiet, false);
++                            flags, writethrough, s.quiet, false);
+     } else {
+         /* TODO ultimately we should allow --target-image-opts
+          * to be used even when -n is not given.
+@@ -2388,7 +2389,7 @@ static int img_convert(int argc, char **argv)
+          * to allow filenames in option syntax
+          */
+         s.target =3D img_open_file(out_filename, open_opts, out_fmt,
+-                                 flags, writethrough, quiet, false);
++                                 flags, writethrough, s.quiet, false);
+         open_opts =3D NULL; /* blk_new_open will have freed it */
+     }
+     if (!s.target) {
 --=20
 2.20.1
 
