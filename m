@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1700D16C62
-	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 22:43:18 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54540 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B42EC16CA1
+	for <lists+qemu-devel@lfdr.de>; Tue,  7 May 2019 22:50:49 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54686 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hO6vl-0005SL-6o
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 16:43:17 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36386)
+	id 1hO732-0001hk-AP
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 16:50:48 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38693)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hO6rw-0000zd-Nt
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 16:39:23 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hO71F-0001Bv-3Y
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 16:48:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hO6ru-0006io-SM
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 16:39:20 -0400
-Received: from mail-oi1-x229.google.com ([2607:f8b0:4864:20::229]:36805)
+	(envelope-from <peter.maydell@linaro.org>) id 1hO71D-0004rj-Cq
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 16:48:57 -0400
+Received: from mail-ot1-x331.google.com ([2607:f8b0:4864:20::331]:43374)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hO6rt-0006gw-HE
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 16:39:18 -0400
-Received: by mail-oi1-x229.google.com with SMTP id l203so13451894oia.3
-	for <qemu-devel@nongnu.org>; Tue, 07 May 2019 13:39:15 -0700 (PDT)
+	id 1hO71D-0004oO-4U
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 16:48:55 -0400
+Received: by mail-ot1-x331.google.com with SMTP id i8so6587019oth.10
+	for <qemu-devel@nongnu.org>; Tue, 07 May 2019 13:48:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=89lAoNPfsCNBTvP3A3+OrhM+2bOZ/IbaORQMiyFRBcc=;
-	b=xiA8VY7yCAWezgZdIUu7QmTc8n7j3GWVAuIcvklIDRBZ8UZ6HWncilHn2OsKPSkYJ5
-	HaPqeBE2pclwjvvaNyc6QnizMemc8tv74sb3+VLDkDBfjKdNt2r2p30R8jA4xvKSc5EQ
-	/XYx9o+jAGRzevTJeFy9KF1oFEl+IUy62EZKU2gVrhGZKo+Ol2PYpLlzgWw25U0vlFoR
-	Fon17yMNNWWpJgQjcfpwfCcT5h57oClywD8ychbWFNGI2HtlenS4qOzmInLHjVaGyo38
-	FdogbL0v5MPlz4FPrUELgEV5QjIAlutzUPo5kfnuuzTmRev1XzT2s88KIfSWCBArBtVX
-	Eyvw==
+	:cc; bh=X2bzEXwhoqBgBx5Fz8GIgVWU1fWEI1ArFuUV+AksY94=;
+	b=pFgmd8nrqhVgstEBX4aTOTbV3L0WS7I+vZ475poMJ8nZwqTen7HCqlW6r17uELMgjm
+	SmjelXPidvSX//HNMHVUJC1QrWt9IT2illPo5ktCi9qW6iBAYZQdhVfNgaKnnvjstcls
+	oDr6g4l13cgbe+xsS4Od8hSfAcfx4Eyy/TlKPbYcE3vc5nVXmN3BzC/g14R5os6CAcuA
+	ZC5py7t8DzQDb5xp0am2+tzdr3KpM6mIHAJlC2Z3u/eqDGf1Ipddo+7AqIXKJxcqUsEK
+	7ZWcvEEM8/D3PZF7LBzToaf0I/OwGazLXHCN1CAlb9YdPhxYiD5LumvIua/RfCREhwhY
+	KVNg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=89lAoNPfsCNBTvP3A3+OrhM+2bOZ/IbaORQMiyFRBcc=;
-	b=Wxag6XX4XNnhhvbC8bhRWrgF23Hv/v0sA9HVwjQ3Ui0C4L/rREqWJpu2Sn3lNJuMJd
-	uVb5C4rZIC5rjNYhtSwxRSbrYMzHHxsDUlwqq8MVaMi4qq3PiliwCqvP9ASyYVtuhwVq
-	VG/xMvmorO/FkrhZcMHHK/dVtBJ78vWSl3MbNu8ldEdmiL61pWE6DHGjn4QYKIO0+z/a
-	1oD/BadIu3afCRkM+329Uh7WdbKNgQpv8tAg1gS5iOzHBTWNTofTc87IaELeY2h4ePPM
-	lUHlWtAJ1MKNrO8sOxiV8hEFsXUFbn9dhKPYv7Aex8//OYv3roao/bG9NlNtSVzZG3cF
-	9nFQ==
-X-Gm-Message-State: APjAAAU6I56DoMNPL6Wp1DaXIHTd25yknlCcacNWovaJtdX/wouhykxc
-	dy7/mKrxScr7yj9suiwrowuZ0tHjtpm0qYkDGSR4KA==
-X-Google-Smtp-Source: APXvYqzzb4YR3OiNRsBMYGCykxOVic1HXK9e6I90AXLEV9QuTAqDCkAsO+9uUuDU0OJr212FfMAXcc/MkMyX40d7saM=
-X-Received: by 2002:aca:b783:: with SMTP id h125mr243726oif.146.1557261554982; 
-	Tue, 07 May 2019 13:39:14 -0700 (PDT)
+	bh=X2bzEXwhoqBgBx5Fz8GIgVWU1fWEI1ArFuUV+AksY94=;
+	b=JEO+laliFlBqLyD0rJTjMR6Q9Ea0kUejB/Icm2lcSEMP2TQL5QFBW4VF5f4hDiW734
+	LgGDjzb67Gh3oJ+2jmMLMgeBWSOHlslPNxCnkqlynSkM2JYKLSuOUqIajV6/N3jZthHE
+	sPkYRt2l38f+9j/vNVnteAENXrypThY5RKK8cL11uCY+IqnG3UtXGyNMPhFB2p0HP173
+	C92aRAe10SZwcB00acMAZzfg0ZWjHmgt86vC+YeaPldsZ9TGVZ/+g//3hM2z0EfG0YWK
+	TLnBNhpFxee3pNYnEvPtBwkyr6PmEzpZ3co+ii7yFcb/r8eX4zIMV7wOSI2DQNanf+tX
+	DWnw==
+X-Gm-Message-State: APjAAAXuzYpn+nDpKjNofSPDN1LzA+Mf0MqkNG35HNvV2a7Ixhu17JLm
+	+SU6k7TEkjza0Ios7ZycDovo7p4E2kksQpwuIDrvAA==
+X-Google-Smtp-Source: APXvYqySAYC8o+uZUDrnfIPpwl+RwiB7QsosKVTkB2x0vLOUaWFDnF0/pfL1y6jkvfIsh+gm3OJlqzTh9hJKoCuSrBs=
+X-Received: by 2002:a9d:404:: with SMTP id 4mr13624743otc.352.1557262132825;
+	Tue, 07 May 2019 13:48:52 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190506182940.2200-1-richard.henderson@linaro.org>
-In-Reply-To: <20190506182940.2200-1-richard.henderson@linaro.org>
+References: <20190503112654.4393-1-laurent@vivier.eu>
+	<80fb3313-239a-5828-94fa-d27137bfcb05@vivier.eu>
+In-Reply-To: <80fb3313-239a-5828-94fa-d27137bfcb05@vivier.eu>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 7 May 2019 21:39:03 +0100
-Message-ID: <CAFEAcA_1Rr29cSK+fYD2n+k9JPeVLP94y3fqmzby9WPBk9pj=w@mail.gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
+Date: Tue, 7 May 2019 21:48:40 +0100
+Message-ID: <CAFEAcA_y24gpugttDTR-QrJ0fA7JCQeC0XXsR6pjm2rQ19rfCA@mail.gmail.com>
+To: Laurent Vivier <laurent@vivier.eu>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::229
-Subject: Re: [Qemu-devel] [PULL 0/3] decodetree: Support variable-length ISAs
+X-Received-From: 2607:f8b0:4864:20::331
+Subject: Re: [Qemu-devel] [PULL v2 00/12] Trivial branch patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -71,41 +72,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
+	Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+	Jason Wang <jasowang@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
+	QEMU Developers <qemu-devel@nongnu.org>,
+	Fabien Chouteau <chouteau@adacore.com>,
+	Michael Roth <mdroth@linux.vnet.ibm.com>,
+	Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+	=?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
+	Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 6 May 2019 at 19:29, Richard Henderson
-<richard.henderson@linaro.org> wrote:
+On Tue, 7 May 2019 at 20:10, Laurent Vivier <laurent@vivier.eu> wrote:
 >
-> This is a pre-requisite for the RX port.
->
->
-> r~
->
->
-> The following changes since commit a6ae23831b05a11880b40f7d58e332c45a6b04f7:
->
->   Merge remote-tracking branch 'remotes/ehabkost/tags/python-next-pull-request' into staging (2019-05-03 15:26:09 +0100)
->
-> are available in the Git repository at:
->
->   https://github.com/rth7680/qemu.git tags/pull-dt-20190506
->
-> for you to fetch changes up to 451e4ffdb0003ab5ed0d98bd37b385c076aba183:
->
->   decodetree: Add DisasContext argument to !function expanders (2019-05-06 11:18:34 -0700)
->
-> ----------------------------------------------------------------
-> Add support for variable-length ISAs
->
-> ----------------------------------------------------------------
+> Ping ?
 
+This is in my queue to process, but there are still a bunch of
+other pullreqs in the queue too; I am working through them.
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
-for any user-visible changes.
-
+thanks
 -- PMM
 
