@@ -2,65 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71AE51754B
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 11:42:21 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33948 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD35817575
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 11:50:55 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:34055 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOJ5g-0003iQ-Dw
-	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 05:42:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49926)
+	id 1hOJDy-0005bv-TI
+	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 05:50:54 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51556)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <sgarzare@redhat.com>) id 1hOJ4Y-0003MN-4G
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 05:41:11 -0400
+	(envelope-from <thuth@redhat.com>) id 1hOJCF-0004hn-Gq
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 05:49:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <sgarzare@redhat.com>) id 1hOJ4X-0002Br-0k
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 05:41:10 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:42674)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1hOJ4W-0002Aj-QX
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 05:41:08 -0400
-Received: by mail-wr1-f67.google.com with SMTP id l2so26304281wrb.9
-	for <qemu-devel@nongnu.org>; Wed, 08 May 2019 02:41:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=HKCvhZMUr3qI8raRCGNb3WIEG28SJzKmhMGrENfN2ck=;
-	b=Kq3drOHkTO07M2IuSX6RVjN9P6T3UHv55O+EITOhFz/zwOHq9VwzeuKLpL3fqBfb6o
-	WMsXraERs2mwZdE9XM0gsp94J4Mh/SoLzG5iJNn24gZObxfC+5f6w7E3sGvN1Qw3aeDc
-	0ERNYC4v/DljwVlgQ13kHAvNqHW0eZ3lM+/UWP9qjPCUxqncvzyIawjHKVhxkUYqRaOu
-	DN6YVg5gsnfs2kaTm2bMv57n1IAJnkSSROTNdKCYCQGB0HH5ppgThEYPghTcClTH2Qsp
-	IFNoaL3FD2xnsiYGy8NXE1hSnGrrjBiSSX5bhSAJGAmUFmWHFfgMxxbPrtJ7RcC0zKx6
-	qc7Q==
-X-Gm-Message-State: APjAAAU/JKdRBLT/44QNHJP0n64ntv+9uwpE5oAnJ+uRy1gSmyNqpgui
-	EPZKyXY+ortiAB2Jew8vPCr36Q==
-X-Google-Smtp-Source: APXvYqxiIkpi1aZrUly5+J5+cAPZf3TAPWqSwdhnC4ZtfaTYdge1aOHLLIeS8I58RkeAeCe61iN0LA==
-X-Received: by 2002:adf:9042:: with SMTP id h60mr8225112wrh.248.1557308466245; 
-	Wed, 08 May 2019 02:41:06 -0700 (PDT)
-Received: from steredhat (host151-251-static.12-87-b.business.telecomitalia.it.
-	[87.12.251.151]) by smtp.gmail.com with ESMTPSA id
-	s10sm1823437wrt.66.2019.05.08.02.41.04
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 08 May 2019 02:41:05 -0700 (PDT)
-Date: Wed, 8 May 2019 11:41:02 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Message-ID: <20190508094102.6iw2ryf7rphdjhhf@steredhat>
-References: <20190503163028.213823-1-sgarzare@redhat.com>
-	<CA+aFP1BWA416Q1=PB3xcQUPc1fQ-Cq+mhnG8FbkJiLDEvT0wyA@mail.gmail.com>
-	<20190506095031.kffsp76faaqhkdr2@steredhat>
-	<20190507094350.GE5808@localhost.localdomain>
+	(envelope-from <thuth@redhat.com>) id 1hOJCE-00009q-3D
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 05:49:07 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54758)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <thuth@redhat.com>)
+	id 1hOJCD-000099-RD; Wed, 08 May 2019 05:49:06 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+	[10.5.11.14])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id A1084C04B2C0;
+	Wed,  8 May 2019 09:49:03 +0000 (UTC)
+Received: from thuth.com (ovpn-116-100.ams2.redhat.com [10.36.116.100])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 119815D9C8;
+	Wed,  8 May 2019 09:49:01 +0000 (UTC)
+From: Thomas Huth <thuth@redhat.com>
+To: cohuck@redhat.com,
+	qemu-s390x@nongnu.org
+Date: Wed,  8 May 2019 11:48:54 +0200
+Message-Id: <20190508094857.21145-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190507094350.GE5808@localhost.localdomain>
-User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.32]);
+	Wed, 08 May 2019 09:49:03 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.221.67
-Subject: Re: [Qemu-devel] [PATCH v2] block/rbd: increase dynamically the
- image size
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PULL SUBSYSTEM s390x 0/3] s390-ccw-bios: Skip bootmap
+ signature entries
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -72,103 +55,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Josh Durgin <jdurgin@redhat.com>, dillaman@redhat.com,
-	qemu-devel <qemu-devel@nongnu.org>, qemu-block <qemu-block@nongnu.org>,
-	Max Reitz <mreitz@redhat.com>
+Cc: jjherne@linux.ibm.com, borntraeger@de.ibm.com, qemu-devel@nongnu.org,
+	armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 07, 2019 at 11:43:50AM +0200, Kevin Wolf wrote:
-> Am 06.05.2019 um 11:50 hat Stefano Garzarella geschrieben:
-> > On Fri, May 03, 2019 at 01:21:23PM -0400, Jason Dillaman wrote:
-> > > On Fri, May 3, 2019 at 12:30 PM Stefano Garzarella <sgarzare@redhat.com> wrote:
-> > > >
-> > > > RBD APIs don't allow us to write more than the size set with
-> > > > rbd_create() or rbd_resize().
-> > > > In order to support growing images (eg. qcow2), we resize the
-> > > > image before write operations that exceed the current size.
-> > > >
-> > > > Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
-> > > > ---
-> > > > v2:
-> > > >   - use bs->total_sectors instead of adding a new field [Kevin]
-> > > >   - resize the image only during write operation [Kevin]
-> > > >     for read operation, the bdrv_aligned_preadv() already handles reads
-> > > >     that exceed the length returned by bdrv_getlength(), so IMHO we can
-> > > >     avoid to handle it in the rbd driver
-> > > > ---
-> > > >  block/rbd.c | 14 +++++++++++++-
-> > > >  1 file changed, 13 insertions(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/block/rbd.c b/block/rbd.c
-> > > > index 0c549c9935..613e8f4982 100644
-> > > > --- a/block/rbd.c
-> > > > +++ b/block/rbd.c
-> > > > @@ -934,13 +934,25 @@ static BlockAIOCB *rbd_start_aio(BlockDriverState *bs,
-> > > >      }
-> > > >
-> > > >      switch (cmd) {
-> > > > -    case RBD_AIO_WRITE:
-> > > > +    case RBD_AIO_WRITE: {
-> > > > +        /*
-> > > > +         * RBD APIs don't allow us to write more than actual size, so in order
-> > > > +         * to support growing images, we resize the image before write
-> > > > +         * operations that exceed the current size.
-> > > > +         */
-> > > > +        if (off + size > bs->total_sectors * BDRV_SECTOR_SIZE) {
-> > > 
-> > > When will "bs->total_sectors" be refreshed to represent the correct
-> > > current size? You wouldn't want a future write whose extent was
-> > > greater than the original image size but less then a previous IO that
-> > > expanded the image to attempt to shrink the image.
-> > > 
-> > 
-> > Good point!
-> > IIUC it can happen, because in the bdrv_aligned_pwritev() we do these
-> > steps:
-> > 1. call bdrv_driver_pwritev() that invokes "drv->bdrv_aio_pwritev" and
-> >    then it waits calling "qemu_coroutine_yield()"
-> > 2. call bdrv_co_write_req_finish() that updates the "bs->total_sectors"
-> > 
-> > Between steps 1 and 2, maybe another request can be executed, then the
-> > issue that you described can occur.
-> > 
-> > The solutions that I have in mind are:
-> > a. Add a variable in the BDRVRBDState to track the latest resize.
-> 
-> This would work and be relatively simple.
-> 
-> > b. Call rbd_get_size() before the rbd_resize() to be sure to avoid to shrink
-> >    the image.
-> 
-> I'm not sure if rbd_get_size() involves network traffic or other
-> significant complexity. If so, I'd definitely avoid it.
-> 
-> > c. Updates the "bs->total_sectors" after the rbd_resize(), but I'm not
-> >    sure it is allowed.
-> > 
-> > @Jason, @Kevin Do you have any advice?
-> 
-> We need to make sure to run everything that bdrv_co_write_req_finish()
-> does for resizing an image:
-> 
->     bs->total_sectors = end_sector;
->     bdrv_parent_cb_resize(bs);
->     bdrv_dirty_bitmap_truncate(bs, end_sector << BDRV_SECTOR_BITS);
-> 
-> Just duplicating that code wouldn't be good; if something is added, we'd
-> probably forget updating rbd, too. So I think your solution c would at
-> least involve refactoring the above code into a separate function that
-> can be called from rbd.
-> 
-> But solution a might actually be the simplest. In this case, sorry for
-> giving you bad advice in v1 of the patch.
-> 
+This pull request is not for master.
 
-I agree with you, 'a' should be simplest to implement.
 
-I'll send a v3 fixing this.
+ Hi Cornelia,
 
-Thanks,
-Stefano
+the following changes since commit a6f6d24757a73f7176989134b97284a1a7df11=
+e5:
+
+  Merge remote-tracking branch 'remotes/kraxel/tags/vga-20190507-pull-req=
+uest' into staging (2019-05-07 21:39:28 +0100)
+
+are available in the Git repository at:
+
+  https://gitlab.com/huth/qemu.git tags/s390-ccw-bios-2019-05-08
+
+for you to fetch changes up to f7a339a5ba48a8a5c5bf4f1fdb1463bf8ac5f5bb:
+
+  pc-bios/s390: Update firmware image with "Skip bootmap signature entrie=
+s" fix (2019-05-08 11:26:01 +0200)
+
+----------------------------------------------------------------
+Skip unsupported bootmap signature entries instead of aborting the boot p=
+rocess
+----------------------------------------------------------------
+
+Jason J. Herne (1):
+      s390-bios: Skip bootmap signature entries
+
+Markus Armbruster (1):
+      pc-bios/s390-ccw: Clean up harmless misuse of isdigit()
+
+Thomas Huth (1):
+      pc-bios/s390: Update firmware image with "Skip bootmap signature en=
+tries" fix
+
+ pc-bios/s390-ccw.img       | Bin 42608 -> 42608 bytes
+ pc-bios/s390-ccw/bootmap.c |  19 +++++++++++++++++--
+ pc-bios/s390-ccw/bootmap.h |  10 ++++++----
+ pc-bios/s390-ccw/libc.c    |   2 +-
+ pc-bios/s390-ccw/menu.c    |   2 +-
+ 5 files changed, 25 insertions(+), 8 deletions(-)
 
