@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F199C17AE4
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 15:42:49 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:37446 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 438E817B10
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 15:51:54 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37595 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOMqO-0000sL-Rf
-	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 09:42:48 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41369)
+	id 1hOMzB-0003H6-3U
+	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 09:51:53 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43594)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hOMoQ-0007YS-1t
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 09:40:47 -0400
+	(envelope-from <bounces@canonical.com>) id 1hOMxw-0002OX-Sv
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 09:50:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hOMoO-0001TW-UV
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 09:40:46 -0400
-Received: from indium.canonical.com ([91.189.90.7]:46794)
+	(envelope-from <bounces@canonical.com>) id 1hOMxv-00030R-Sw
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 09:50:36 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36444)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hOMoO-0001Sg-PD
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 09:40:44 -0400
+	id 1hOMxv-0002yq-MV
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 09:50:35 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
 	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hOMoN-000212-B0
-	for <qemu-devel@nongnu.org>; Wed, 08 May 2019 13:40:43 +0000
+	id 1hOMxu-0005Y7-L6
+	for <qemu-devel@nongnu.org>; Wed, 08 May 2019 13:50:34 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id 503712E807B
-	for <qemu-devel@nongnu.org>; Wed,  8 May 2019 13:40:43 +0000 (UTC)
+	by loganberry.canonical.com (Postfix) with ESMTP id 958C72E807B
+	for <qemu-devel@nongnu.org>; Wed,  8 May 2019 13:50:34 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 08 May 2019 13:33:00 -0000
-From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 08 May 2019 13:42:42 -0000
+From: Daniel Berrange <1828207@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
 X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
@@ -42,20 +42,19 @@ X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: berrange pmaydell rawlik
 X-Launchpad-Bug-Reporter: Druta Pavel (rawlik)
-X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+X-Launchpad-Bug-Modifier: Daniel Berrange (berrange)
 References: <155731026034.22594.3160504765111033354.malonedeb@chaenomeles.canonical.com>
-	<155732093601.13635.15801388089086899054.malone@gac.canonical.com>
-Message-Id: <CAFEAcA_rk6i9LXkdJ0_cKcCnR4ijkwSQ3aOT0m=HYnV744U2gg@mail.gmail.com>
+Message-Id: <155732296246.31028.1681732372989671843.malone@soybean.canonical.com>
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="18958";
 	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 30b2aac5afc30873dbc111c4b23c662523926bbd
+X-Launchpad-Hash: b83c3cdb7f41ce34c204ae2084f178c3a449b4af
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
-Subject: Re: [Qemu-devel] [Bug 1828207] Re: Request to add something like
- "Auth failed from IP" log report for built-in VNC server
+Subject: [Qemu-devel] [Bug 1828207] Re: Request to add something like "Auth
+ failed from IP" log report for built-in VNC server
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 List-Id: <qemu-devel.nongnu.org>
@@ -70,18 +69,12 @@ Reply-To: Bug 1828207 <1828207@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 8 May 2019 at 14:23, Daniel Berrange <1828207@bugs.launchpad.net> w=
-rote:
->
-> Note that any use of the built-in VNC-auth scheme is always considered a
-> security flaw. It should essentially never be used, especially not on
-> any public internet facing service, even if fail2ban were able to be
-> used.
-
-Should we deprecate-and-remove the feature, then ?
-
-thanks
--- PMM
+The challenge is that this is the only auth scheme defined by the VNC proto=
+col, aside from no-auth.
+If we removed it, we'd no longer be compatible with the standard VNC protoc=
+ol. We'd be making use of the TLS/SASL extensions mandatory if users want a=
+uth. This could ultimately push people to turn off auth altogether which is=
+ even worse.
 
 -- =
 
