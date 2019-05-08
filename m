@@ -2,56 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8785F17CA0
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 16:54:09 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38518 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 991C317C6C
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 16:51:20 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38476 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hONxQ-00018p-Q2
-	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 10:54:08 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57905)
+	id 1hONuh-0007Dq-QY
+	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 10:51:19 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58332)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hONrn-0005lJ-M6
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 10:48:20 -0400
+	(envelope-from <eblake@redhat.com>) id 1hONt0-0006SD-9z
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 10:49:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hONrm-0004Ra-Kz
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 10:48:19 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54801)
+	(envelope-from <eblake@redhat.com>) id 1hONsz-00050c-BC
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 10:49:34 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40302)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <armbru@redhat.com>)
-	id 1hONrm-0004RM-Dj; Wed, 08 May 2019 10:48:18 -0400
+	(Exim 4.71) (envelope-from <eblake@redhat.com>)
+	id 1hONsx-0004yO-4l; Wed, 08 May 2019 10:49:31 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
 	[10.5.11.14])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 91B65C0578FA;
-	Wed,  8 May 2019 14:48:17 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-28.ams2.redhat.com
-	[10.36.116.28])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id ED42C5DD8A;
-	Wed,  8 May 2019 14:48:14 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
-	id 7141F1132B35; Wed,  8 May 2019 16:48:13 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-References: <20190502185835.15185-1-laurent@vivier.eu>
-	<CAFEAcA9-hAU5dxUmSWtbvrPEXE-nCP1uLvLbOby-_EXZ27o+8g@mail.gmail.com>
-	<87sgtv4wjo.fsf@zen.linaroharston> <87imulaude.fsf@dusky.pond.sub.org>
-Date: Wed, 08 May 2019 16:48:13 +0200
-In-Reply-To: <87imulaude.fsf@dusky.pond.sub.org> (Markus Armbruster's message
-	of "Wed, 08 May 2019 16:33:33 +0200")
-Message-ID: <87ftpp9f4i.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+	by mx1.redhat.com (Postfix) with ESMTPS id 71A9D30024DD;
+	Wed,  8 May 2019 14:49:30 +0000 (UTC)
+Received: from [10.3.116.15] (ovpn-116-15.phx2.redhat.com [10.3.116.15])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 568275DD9B;
+	Wed,  8 May 2019 14:49:27 +0000 (UTC)
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20190508143209.24350-1-thuth@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+	xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+	xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+	TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+	GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+	sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+	AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+	CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+	RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+	wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+	Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+	gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+	pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+	zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+	pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+	3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+	NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+	cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+	SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+	I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+	mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+	Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+	2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <3a35117a-f92c-c508-cd5c-12942fd92174@redhat.com>
+Date: Wed, 8 May 2019 09:49:26 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20190508143209.24350-1-thuth@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature";
+	boundary="dlDHpP9Gkmc3pHrcOkvrCCMslsdvCHFRo"
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.31]);
-	Wed, 08 May 2019 14:48:17 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.40]);
+	Wed, 08 May 2019 14:49:30 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PULL 00/13] Trivial branch patches
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [PATCH] tests: qpci_unplug_acpi_device_test()
+ should not rely on global_qtest
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -63,108 +86,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
-	Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
-	Eduardo Habkost <ehabkost@redhat.com>,
-	Viktor Prutyanov <viktor.prutyanov@phystech.edu>,
-	QEMU Trivial <qemu-trivial@nongnu.org>,
-	Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
-	Jason Wang <jasowang@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
-	Laurent Vivier <laurent@vivier.eu>, Fabien Chouteau <chouteau@adacore.com>,
-	QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
-	Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
-	Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
-	Michael Roth <mdroth@linux.vnet.ibm.com>,
-	Aurelien Jarno <aurelien@aurel32.net>,
-	Artyom Tarasenko <atar4qemu@gmail.com>
+Cc: Laurent Vivier <lvivier@redhat.com>, qemu-block@nongnu.org,
+	Amit Shah <amit@kernel.org>, Jason Wang <jasowang@redhat.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Markus Armbruster <armbru@redhat.com> writes:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--dlDHpP9Gkmc3pHrcOkvrCCMslsdvCHFRo
+From: Eric Blake <eblake@redhat.com>
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, qemu-block@nongnu.org,
+ Amit Shah <amit@kernel.org>, Jason Wang <jasowang@redhat.com>,
+ Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <3a35117a-f92c-c508-cd5c-12942fd92174@redhat.com>
+Subject: Re: [Qemu-devel] [PATCH] tests: qpci_unplug_acpi_device_test() should
+ not rely on global_qtest
+References: <20190508143209.24350-1-thuth@redhat.com>
+In-Reply-To: <20190508143209.24350-1-thuth@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-> Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
->
->> Peter Maydell <peter.maydell@linaro.org> writes:
->>
->>> On Thu, 2 May 2019 at 19:58, Laurent Vivier <laurent@vivier.eu> wrote:
->>>>
->>>> The following changes since commit 8482ff2eb3bb95020eb2f370a9b3ea26511=
-e41df:
->>>>
->>>>   Merge remote-tracking branch 'remotes/jnsnow/tags/bitmaps-pull-reque=
-st' into staging (2019-05-02 12:04:51 +0100)
->>>>
->>>> are available in the Git repository at:
->>>>
->>>>   git://github.com/vivier/qemu.git tags/trivial-branch-pull-request
->>>>
->>>> for you to fetch changes up to f7c03a68b814254df414977ff299468fbf0fa1c=
-0:
->>>>
->>>>   sockets: avoid string truncation warnings when copying UNIX path (20=
-19-05-02 20:50:47 +0200)
->>>>
->>>> ----------------------------------------------------------------
->>>> Pull request trivial branch 2019-05-02
->>>>
->>>> ----------------------------------------------------------------
->>>
->>> Markus's "Clean up includes" patch breaks 'make check' on
->>> big-endian hosts:
->>> cd /home/pm215/qemu/build/all/tests/fp && ./fp-test -s -l 1 -r all  i32=
-_to_f16 i
->>> 64_to_f16 i32_to_f32 i64_to_f32 i32_to_f64 i64_to_f64 i32_to_f128 i64_t=
-o_f128 >
->>>  int-to-float.out 2>&1 || (cat  int-to-float.out && exit 1;)
->>>>> Testing i32_to_f16, rounding near_even
->>> ^M372 tests total.
->>> ^M372 tests performed.
->>> In 372 tests, no errors found in i32_to_f16, rounding near_even.
->>>>> Testing i32_to_f16, rounding minMag
->>> [...]
->>> ^MErrors found in i32_to_f128:
->>> 1006FFFF  =3D> +0000.000000000000401B006FFFF00000 .....
->>>         expected +401B.006FFFF000000000000000000000 .....
->>> ^M0001DDEB  =3D> +0000.000000000000400FDDEB00000000 .....
->>>         expected +400F.DDEB000000000000000000000000 .....
->>> ^MFFF6FFFC  =3D> +0000.000000000000C012200080000000 .....
->>>         expected -4012.2000800000000000000000000000 .....
->>> ^MFFFFFFF8  =3D> +0000.000000000000C002000000000000 .....
->>>         expected -4002.0000000000000000000000000000 .....
->>> [etc]
->>
->> Considering the header clean-ups moved bswap related stuff and the
->> patterns look incorrectly swapped something has gone fishy.
->>
->> If it's just stuff touching f128 then we have some magic in
->> softfloat-types:
->>
->>  typedef struct {
->>  #ifdef HOST_WORDS_BIGENDIAN
->>      uint64_t high, low;
->>  #else
->>      uint64_t low, high;
->>  #endif
->>  } float128;
->>
->> but I would have though HOST_WORDS_BIGENDIAN is in the config. I shall
+On 5/8/19 9:32 AM, Thomas Huth wrote:
+> libqos functions should not use functions that require global_qtest to
+> be set, since such library functions could also be used by tests that
+> deal with multiple test states. Add a parameter to this function to
+> explicitly specify the test state.
+>=20
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  tests/e1000e-test.c     |  4 +++-
+>  tests/ivshmem-test.c    |  9 ++++++---
+>  tests/libqos/pci-pc.c   | 10 +++++-----
+>  tests/libqos/pci.h      |  2 +-
+>  tests/virtio-blk-test.c |  3 ++-
+>  tests/virtio-net-test.c |  4 +++-
+>  tests/virtio-rng-test.c |  5 ++++-
+>  7 files changed, 24 insertions(+), 13 deletions(-)
+>=20
 
-Me too; qemu/osdep.h should pull it in.
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
->> have a poke once I get onto the s390 machine.
->
-> Any luck?
->
-> In my own poking, I stumbled over
->
->     #ifndef HOST_WORDS_BIGENDIAN
->     #define LITTLEENDIAN 1
->     /* otherwise do not define it */
->     #endif
->
-> in platform.h.  Is LITTLEENDIAN unused, or am I confused?
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
-INLINE appears just as unused.
 
-> [...]
+--dlDHpP9Gkmc3pHrcOkvrCCMslsdvCHFRo
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlzS7HYACgkQp6FrSiUn
+Q2q7ggf9FPejLkzetSPSqisEsl1KlzQhbEic6UUdip+9xYvr2ADT+RIKNNt44yPN
+AHzqCYckb8ly1g7/IwSURLPi172nsentphhf7A1e5aZnBWXkoMD8pYhjzoaHDfnX
+AQLDVYVSWmm1CteX5dwV0+2UCYFf+4mircVKgPR8BhF1CU0Bo+QDKERM+Hupenmz
+wmyHMtTWfZe92sk5qnH6SMukJ8BQiF6PAZHWXwS4VbkovXU/E59/JrCFFZL1KoOD
+Kg9EtQ4p0XQVIKP6lTx6wmWxK4Akr0IAf39+mF4Ge3SpMF/2h1TCLfZt9zLgApIT
+CcqXW9uL0oRH6VQSH4Dtam9Rg092mw==
+=Lx1o
+-----END PGP SIGNATURE-----
+
+--dlDHpP9Gkmc3pHrcOkvrCCMslsdvCHFRo--
 
