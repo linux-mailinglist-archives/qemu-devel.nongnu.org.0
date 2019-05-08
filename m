@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93B2517574
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 11:50:53 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:34053 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DDF0317579
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 11:52:42 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:34069 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOJDw-0005Zk-Is
-	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 05:50:52 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51555)
+	id 1hOJFi-0007wY-37
+	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 05:52:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51596)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hOJCF-0004hm-GY
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 05:49:08 -0400
+	(envelope-from <thuth@redhat.com>) id 1hOJCJ-0004j0-J2
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 05:49:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hOJCE-00009z-6S
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 05:49:07 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55096)
+	(envelope-from <thuth@redhat.com>) id 1hOJCH-0000BE-IX
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 05:49:11 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55220)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <thuth@redhat.com>)
-	id 1hOJCE-00009c-0y; Wed, 08 May 2019 05:49:06 -0400
+	id 1hOJCG-0000AL-G2; Wed, 08 May 2019 05:49:09 -0400
 Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
 	[10.5.11.14])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 4AF092CD7E9;
-	Wed,  8 May 2019 09:49:05 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 3C4B7307D95F;
+	Wed,  8 May 2019 09:49:07 +0000 (UTC)
 Received: from thuth.com (ovpn-116-100.ams2.redhat.com [10.36.116.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id EB4EB5D9C8;
-	Wed,  8 May 2019 09:49:03 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id C72F55D9C8;
+	Wed,  8 May 2019 09:49:05 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: cohuck@redhat.com,
 	qemu-s390x@nongnu.org
-Date: Wed,  8 May 2019 11:48:55 +0200
-Message-Id: <20190508094857.21145-2-thuth@redhat.com>
+Date: Wed,  8 May 2019 11:48:56 +0200
+Message-Id: <20190508094857.21145-3-thuth@redhat.com>
 In-Reply-To: <20190508094857.21145-1-thuth@redhat.com>
 References: <20190508094857.21145-1-thuth@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.29]);
-	Wed, 08 May 2019 09:49:05 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.48]);
+	Wed, 08 May 2019 09:49:07 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL SUBSYSTEM s390x 1/3] pc-bios/s390-ccw: Clean up
- harmless misuse of isdigit()
+Subject: [Qemu-devel] [PULL SUBSYSTEM s390x 2/3] s390-bios: Skip bootmap
+ signature entries
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,50 +62,94 @@ Cc: jjherne@linux.ibm.com, borntraeger@de.ibm.com, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Markus Armbruster <armbru@redhat.com>
+From: "Jason J. Herne" <jjherne@linux.ibm.com>
 
-atoui() and get_index() pass char values to isdigit().  With a
-standard isdigit(), we'd get undefined behavior when the value is
-negative.  Can't happen as char is unsigned on s390x.  Even if it
-ould, we're actually using isdigit() from pc-bios/s390-ccw/libc.h
-here, which works fine for negative values.  Clean up anyway, just
-to avoid setting a bad example.
+Newer versions of zipl have the ability to write signature entries to the=
+ boot
+script for secure boot. We don't yet support secure boot, but we need to =
+skip
+over signature entries while reading the boot script in order to maintain=
+ our
+ability to boot guest operating systems that have a secure bootloader.
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20190418145355.21100-6-armbru@redhat.com>
-[thuth: updated the commit message]
+Signed-off-by: Jason J. Herne <jjherne@linux.ibm.com>
+Reviewed-by: Farhan Ali <alifm@linux.ibm.com>
+Message-Id: <1556543381-12671-1-git-send-email-jjherne@linux.ibm.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- pc-bios/s390-ccw/libc.c | 2 +-
- pc-bios/s390-ccw/menu.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ pc-bios/s390-ccw/bootmap.c | 19 +++++++++++++++++--
+ pc-bios/s390-ccw/bootmap.h | 10 ++++++----
+ 2 files changed, 23 insertions(+), 6 deletions(-)
 
-diff --git a/pc-bios/s390-ccw/libc.c b/pc-bios/s390-ccw/libc.c
-index a786566c4c..3187923950 100644
---- a/pc-bios/s390-ccw/libc.c
-+++ b/pc-bios/s390-ccw/libc.c
-@@ -38,7 +38,7 @@ uint64_t atoui(const char *str)
-     }
+diff --git a/pc-bios/s390-ccw/bootmap.c b/pc-bios/s390-ccw/bootmap.c
+index 7aef65ab67..d13b7cbd15 100644
+--- a/pc-bios/s390-ccw/bootmap.c
++++ b/pc-bios/s390-ccw/bootmap.c
+@@ -254,7 +254,14 @@ static void run_eckd_boot_script(block_number_t bmt_=
+block_nr,
+     memset(sec, FREE_SPACE_FILLER, sizeof(sec));
+     read_block(block_nr, sec, "Cannot read Boot Map Script");
 =20
-     while (*str) {
--        if (!isdigit(*str)) {
-+        if (!isdigit(*(unsigned char *)str)) {
-             break;
-         }
-         val =3D val * 10 + *str - '0';
-diff --git a/pc-bios/s390-ccw/menu.c b/pc-bios/s390-ccw/menu.c
-index 82a4ae6315..ce3815b201 100644
---- a/pc-bios/s390-ccw/menu.c
-+++ b/pc-bios/s390-ccw/menu.c
-@@ -134,7 +134,7 @@ static int get_index(void)
+-    for (i =3D 0; bms->entry[i].type =3D=3D BOOT_SCRIPT_LOAD; i++) {
++    for (i =3D 0; bms->entry[i].type =3D=3D BOOT_SCRIPT_LOAD ||
++                bms->entry[i].type =3D=3D BOOT_SCRIPT_SIGNATURE; i++) {
++
++        /* We don't support secure boot yet, so we skip signature entrie=
+s */
++        if (bms->entry[i].type =3D=3D BOOT_SCRIPT_SIGNATURE) {
++            continue;
++        }
++
+         address =3D bms->entry[i].address.load_address;
+         block_nr =3D eckd_block_num(&bms->entry[i].blkptr.xeckd.bptr.chs=
+);
 =20
-     /* Check for erroneous input */
-     for (i =3D 0; i < len; i++) {
--        if (!isdigit(buf[i])) {
-+        if (!isdigit((unsigned char)buf[i])) {
-             return -1;
-         }
-     }
+@@ -489,7 +496,15 @@ static void zipl_run(ScsiBlockPtr *pte)
+=20
+     /* Load image(s) into RAM */
+     entry =3D (ComponentEntry *)(&header[1]);
+-    while (entry->component_type =3D=3D ZIPL_COMP_ENTRY_LOAD) {
++    while (entry->component_type =3D=3D ZIPL_COMP_ENTRY_LOAD ||
++           entry->component_type =3D=3D ZIPL_COMP_ENTRY_SIGNATURE) {
++
++        /* We don't support secure boot yet, so we skip signature entrie=
+s */
++        if (entry->component_type =3D=3D ZIPL_COMP_ENTRY_SIGNATURE) {
++            entry++;
++            continue;
++        }
++
+         zipl_load_segment(entry);
+=20
+         entry++;
+diff --git a/pc-bios/s390-ccw/bootmap.h b/pc-bios/s390-ccw/bootmap.h
+index a085212077..94f53a5f1e 100644
+--- a/pc-bios/s390-ccw/bootmap.h
++++ b/pc-bios/s390-ccw/bootmap.h
+@@ -98,8 +98,9 @@ typedef struct ScsiMbr {
+ #define ZIPL_COMP_HEADER_IPL    0x00
+ #define ZIPL_COMP_HEADER_DUMP   0x01
+=20
+-#define ZIPL_COMP_ENTRY_LOAD    0x02
+-#define ZIPL_COMP_ENTRY_EXEC    0x01
++#define ZIPL_COMP_ENTRY_EXEC      0x01
++#define ZIPL_COMP_ENTRY_LOAD      0x02
++#define ZIPL_COMP_ENTRY_SIGNATURE 0x03
+=20
+ typedef struct XEckdMbr {
+     uint8_t magic[4];   /* =3D=3D "xIPL"        */
+@@ -117,8 +118,9 @@ typedef struct BootMapScriptEntry {
+     BootMapPointer blkptr;
+     uint8_t pad[7];
+     uint8_t type;   /* =3D=3D BOOT_SCRIPT_* */
+-#define BOOT_SCRIPT_EXEC 0x01
+-#define BOOT_SCRIPT_LOAD 0x02
++#define BOOT_SCRIPT_EXEC      0x01
++#define BOOT_SCRIPT_LOAD      0x02
++#define BOOT_SCRIPT_SIGNATURE 0x03
+     union {
+         uint64_t load_address;
+         uint64_t load_psw;
 --=20
 2.21.0
 
