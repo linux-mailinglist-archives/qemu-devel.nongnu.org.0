@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8ED5617461
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 10:59:40 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33420 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CA7B1745E
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 10:59:20 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33414 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOIQN-0000he-KH
-	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 04:59:39 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42052)
+	id 1hOIQ3-0000Pf-H1
+	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 04:59:19 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42023)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hOINk-0007Uy-DH
+	(envelope-from <kraxel@redhat.com>) id 1hOINj-0007SW-QG
 	for qemu-devel@nongnu.org; Wed, 08 May 2019 04:56:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hOINj-0002wH-2Y
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 04:56:56 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59484)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hOINi-0002uh-R5
+	(envelope-from <kraxel@redhat.com>) id 1hOINi-0002vb-S6
 	for qemu-devel@nongnu.org; Wed, 08 May 2019 04:56:55 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
+Received: from mx1.redhat.com ([209.132.183.28]:58846)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hOINh-0002rW-RS
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 04:56:54 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 684FB59442;
-	Wed,  8 May 2019 08:56:53 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 5395689C39;
+	Wed,  8 May 2019 08:56:50 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-116-45.ams2.redhat.com
 	[10.36.116.45])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id F30015EDE4;
-	Wed,  8 May 2019 08:56:46 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 13FFD2E0CB;
+	Wed,  8 May 2019 08:56:47 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-	id B65D01750B; Wed,  8 May 2019 10:56:45 +0200 (CEST)
+	id BEDB0A1E1; Wed,  8 May 2019 10:56:45 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Wed,  8 May 2019 10:56:33 +0200
-Message-Id: <20190508085645.11595-2-kraxel@redhat.com>
+Date: Wed,  8 May 2019 10:56:34 +0200
+Message-Id: <20190508085645.11595-3-kraxel@redhat.com>
 In-Reply-To: <20190508085645.11595-1-kraxel@redhat.com>
 References: <20190508085645.11595-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.39]);
-	Wed, 08 May 2019 08:56:53 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.27]);
+	Wed, 08 May 2019 08:56:50 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 01/13] scripts: use git archive in
- archive-source
+Subject: [Qemu-devel] [PATCH 02/13] tests/vm: send proxy environment
+ variables over ssh
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -65,114 +65,44 @@ Cc: Fam Zheng <fam@euphon.net>, Ed Maste <emaste@freebsd.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use git archive to create tarballs of qemu and submodules instead of
-cloning the repository and the submodules.  This is a order of magnitude
-faster because it doesn't fetch the submodules from the internet each
-time the script runs.
+Packages are fetched via proxy that way, if configured on the host.
+That might be required to pass firewalls, and it allows to route
+package downloads through a caching proxy server.
+
+Needs AcceptEnv setup in sshd_config on the guest side to work.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- scripts/archive-source.sh | 72 +++++++++++++++++----------------------
- 1 file changed, 31 insertions(+), 41 deletions(-)
+ tests/vm/basevm.py | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/scripts/archive-source.sh b/scripts/archive-source.sh
-index 8b8994826000..93a48d2063f9 100755
---- a/scripts/archive-source.sh
-+++ b/scripts/archive-source.sh
-@@ -19,16 +19,25 @@ if test $# -lt 1; then
- fi
+diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
+index 0556bdcf9e9f..6b46674f4497 100755
+--- a/tests/vm/basevm.py
++++ b/tests/vm/basevm.py
+@@ -38,6 +38,13 @@ class BaseVM(object):
+     GUEST_PASS = "qemupass"
+     ROOT_PASS = "qemupass"
  
- tar_file=$(realpath "$1")
--list_file="${tar_file}.list"
--vroot_dir="${tar_file}.vroot"
-+sub_tdir=$(mktemp -d "${tar_file%.tar}.sub.XXXXXXXX")
-+sub_file="${sub_tdir}/submodule.tar"
- 
- # We want a predictable list of submodules for builds, that is
- # independent of what the developer currently has initialized
- # in their checkout, because the build environment is completely
- # different to the host OS.
- submodules="dtc slirp ui/keycodemapdb tests/fp/berkeley-softfloat-3 tests/fp/berkeley-testfloat-3"
-+sub_deinit=""
- 
--trap "status=$?; rm -rf \"$list_file\" \"$vroot_dir\"; exit \$status" 0 1 2 3 15
-+function cleanup() {
-+    local status=$?
-+    rm -rf "$sub_tdir"
-+    if test "$sub_deinit" != ""; then
-+	git submodule deinit $sub_deinit
-+    fi
-+    exit $status
-+}
-+trap "cleanup" 0 1 2 3 15
- 
- if git diff-index --quiet HEAD -- &>/dev/null
- then
-@@ -36,45 +45,26 @@ then
- else
-     HEAD=$(git stash create)
- fi
--git clone --shared . "$vroot_dir"
--test $? -ne 0 && error "failed to clone into '$vroot_dir'"
--for sm in $submodules; do
--    if test -d "$sm/.git"
--    then
--       git clone --shared "$sm" "$vroot_dir/$sm"
--       test $? -ne 0 && error "failed to clone submodule $sm"
--    fi
--done
--
--cd "$vroot_dir"
--test $? -ne 0 && error "failed to change into '$vroot_dir'"
--
--git checkout $HEAD
--test $? -ne 0 && error "failed to checkout $HEAD revision"
- 
-+git archive --format tar $HEAD > "$tar_file"
-+test $? -ne 0 && error "failed to archive qemu"
- for sm in $submodules; do
--    git submodule update --init $sm
--    test $? -ne 0 && error "failed to init submodule $sm"
-+    status="$(git submodule status "$sm")"
-+    smhash="${status#[ +-]}"
-+    smhash="${smhash%% *}"
-+    case "$status" in
-+	-*)
-+	    sub_deinit="$sub_deinit $sm"
-+	    git submodule update --init "$sm"
-+	    test $? -ne 0 && error "failed to update submodule $sm"
-+	    ;;
-+	+*)
-+	    echo "WARNING: submodule $sm is out of sync"
-+	    ;;
-+    esac
-+    (cd $sm; git archive --format tar --prefix "$sm/" $smhash) > "$sub_file"
-+    test $? -ne 0 && error "failed to archive submodule $sm ($smhash)"
-+    tar --concatenate --file "$tar_file" "$sub_file"
-+    test $? -ne 0 && error "failed append submodule $sm to $tar_file"
- done
--
--if test -n "$submodules"; then
--    {
--        git ls-files || error "git ls-files failed"
--        for sm in $submodules; do
--            (cd $sm; git ls-files) | sed "s:^:$sm/:"
--            if test "${PIPESTATUS[*]}" != "0 0"; then
--                error "git ls-files in submodule $sm failed"
--            fi
--        done
--    } | grep -x -v $(for sm in $submodules; do echo "-e $sm"; done) > "$list_file"
--else
--    git ls-files > "$list_file"
--fi
--
--if test $? -ne 0; then
--    error "failed to generate list file"
--fi
--
--tar -cf "$tar_file" -T "$list_file" || error "failed to create tar file"
--
- exit 0
++    envvars = [
++        "https_proxy",
++        "http_proxy",
++        "ftp_proxy",
++        "no_proxy",
++    ]
++
+     # The script to run in the guest that builds QEMU
+     BUILD_SCRIPT = ""
+     # The guest name, to be overridden by subclasses
+@@ -105,6 +112,8 @@ class BaseVM(object):
+                    "-o", "UserKnownHostsFile=" + os.devnull,
+                    "-o", "ConnectTimeout=1",
+                    "-p", self.ssh_port, "-i", self._ssh_key_file]
++        for var in self.envvars:
++            ssh_cmd += ['-o', "SendEnv=%s" % var ]
+         if interactive:
+             ssh_cmd += ['-t']
+         assert not isinstance(cmd, str)
 -- 
 2.18.1
 
