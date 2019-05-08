@@ -2,50 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 280D717457
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 10:56:54 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33402 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E775317472
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 11:02:13 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33474 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOINh-0007B7-Cz
-	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 04:56:53 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41800)
+	id 1hOISr-0003TE-1G
+	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 05:02:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42041)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <groug@kaod.org>) id 1hOIMj-0006bt-Uo
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 04:55:54 -0400
+	(envelope-from <kraxel@redhat.com>) id 1hOINk-0007UC-6k
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 04:56:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <groug@kaod.org>) id 1hOIMi-0002Cn-UE
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 04:55:53 -0400
-Received: from 4.mo68.mail-out.ovh.net ([46.105.59.63]:54558)
+	(envelope-from <kraxel@redhat.com>) id 1hOINi-0002vm-U0
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 04:56:56 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49846)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <groug@kaod.org>) id 1hOIMd-0001xS-5o
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 04:55:47 -0400
-Received: from player776.ha.ovh.net (unknown [10.109.146.82])
-	by mo68.mail-out.ovh.net (Postfix) with ESMTP id 8863B124EF5
-	for <qemu-devel@nongnu.org>; Wed,  8 May 2019 10:55:39 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
-	[82.253.208.248]) (Authenticated sender: groug@kaod.org)
-	by player776.ha.ovh.net (Postfix) with ESMTPSA id E648F580CB50;
-	Wed,  8 May 2019 08:55:35 +0000 (UTC)
-Date: Wed, 8 May 2019 10:55:34 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Thomas Huth <thuth@redhat.com>
-Message-ID: <20190508105534.6d4a252d@bahia.lan>
-In-Reply-To: <2fb1b764-0609-c140-8781-e4a2c9005847@redhat.com>
-References: <155721868351.451636.16735088470797960209.stgit@bahia.lan>
-	<155721871159.451636.6528273080303910901.stgit@bahia.lan>
-	<2fb1b764-0609-c140-8781-e4a2c9005847@redhat.com>
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 11063936909753096498
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddrkeefgddtkecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+	(Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hOINh-0002nw-T1
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 04:56:54 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+	[10.5.11.12])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 90D7C806DF;
+	Wed,  8 May 2019 08:56:49 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-116-45.ams2.redhat.com
+	[10.36.116.45])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id F086260C61;
+	Wed,  8 May 2019 08:56:46 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+	id AF4B011AAF; Wed,  8 May 2019 10:56:45 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Wed,  8 May 2019 10:56:32 +0200
+Message-Id: <20190508085645.11595-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.26]);
+	Wed, 08 May 2019 08:56:49 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.59.63
-Subject: Re: [Qemu-devel] [PATCH 5/6] vl: Deprecate -virtfs_synth
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH 00/13] tests/vm: serial console autoinstall,
+ misc fixes.
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -57,86 +55,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Ed Maste <emaste@freebsd.org>,
+	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
+	Kamil Rytarowski <kamil@netbsd.org>, Gerd Hoffmann <kraxel@redhat.com>,
+	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+	Li-Wen Hsu <lwhsu@freebsd.org>, Brad Smith <brad@comstyle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 8 May 2019 10:26:53 +0200
-Thomas Huth <thuth@redhat.com> wrote:
+This patch series changes the way virtual machines for test builds are
+managed.  They are created locally on the developer machine now.  The
+installer is booted on the serial console and the scripts walks through
+the dialogs to install and configure the guest.
 
-> On 07/05/2019 10.45, Greg Kurz wrote:
-> > The synth fsdriver never got used for anything else but the
-> > QTest testcase for VirtIO 9P. And even there, QTest directly
-> > uses -fsdev synth and -device virtio-9p-{pci|device}.
-> > 
-> > Signed-off-by: Greg Kurz <groug@kaod.org>
-> > ---
-> > 
-> > This should be Cc'd to libvir-list@redhat.com according to MAINTAINERS,
-> > but libvirt doesn't know about -virtfs_synth, so I choose to not spam :)
-> > ---
-> >  qemu-deprecated.texi |    4 ++++
-> >  qemu-options.hx      |    3 ++-
-> >  vl.c                 |    5 +++++
-> >  3 files changed, 11 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/qemu-deprecated.texi b/qemu-deprecated.texi
-> > index 842e71b11dcc..f0ff065e7dc1 100644
-> > --- a/qemu-deprecated.texi
-> > +++ b/qemu-deprecated.texi
-> > @@ -72,6 +72,10 @@ backend settings instead of environment variables.  To ease migration to
-> >  the new format, the ``-audiodev-help'' option can be used to convert
-> >  the current values of the environment variables to ``-audiodev'' options.
-> >  
-> > +@subsection -virtfs_synth (since 4.1)
-> > +
-> > +The ``-virtfs_synth'' argument is now deprecated with no replacement.
-> > +
-> >  @section QEMU Machine Protocol (QMP) commands
-> >  
-> >  @subsection block-dirty-bitmap-add "autoload" parameter (since 2.12.0)
-> > diff --git a/qemu-options.hx b/qemu-options.hx
-> > index 51802cbb266a..9c5cc2e6bf70 100644
-> > --- a/qemu-options.hx
-> > +++ b/qemu-options.hx
-> > @@ -1368,7 +1368,8 @@ DEF("virtfs_synth", 0, QEMU_OPTION_virtfs_synth,
-> >  STEXI
-> >  @item -virtfs_synth
-> >  @findex -virtfs_synth
-> > -Create synthetic file system image
-> > +Create synthetic file system image. Note that this option is deprecated with
-> > +no replacement.
-> >  ETEXI
-> >  
-> >  DEF("iscsi", HAS_ARG, QEMU_OPTION_iscsi,
-> > diff --git a/vl.c b/vl.c
-> > index d9fea0a11966..c010cb3e98df 100644
-> > --- a/vl.c
-> > +++ b/vl.c
-> > @@ -3507,6 +3507,11 @@ int main(int argc, char **argv, char **envp)
-> >                  QemuOpts *fsdev;
-> >                  QemuOpts *device;
-> >  
-> > +                warn_report("The -virtfs_synth option is deprecated and will "
-> > +                            "be removed soon. If the -virtfs_synth option is "
-> > +                            "still useful for you, please send a mail to "
-> > +                            "qemu-devel@nongnu.org with your usecase.");
-> > +
-> >                  fsdev = qemu_opts_create(qemu_find_opts("fsdev"), "v_synth",
-> >                                           1, NULL);
-> >                  if (!fsdev) {  
-> 
-> Do you plan to only deprecate the -virtfs_synth option, or also "-fsdev
-> synth", i.e. the whole "synth" driver? In the first case, I think you
-> should point the users to use "-fsdev synth" instead of saying "with no
-> replacement".
+That takes the download.patchew.org server out of the loop and makes it
+alot easier to tweak the guest images (adding build dependencies for
+example).
 
-The plan is to remove -virtfs_synth only. You're right, I'll point users
-to use "-fsdev synth" and "-device virtio-9p" instead.
+The install scripts take care to apply host proxy settings (from *_proxy
+environment variables) to the guest, so any package downloads will be
+routed through the proxy and can be cached that way.  This also makes
+them work behind strict firewalls.
 
-> In the second case, I think you should declare "-fsdev
-> synth" in the documentation, too.
-> 
->  Thomas
+There are also a bunch of smaller tweaks for tests/vm to fix issues I
+was struggling with.  See commit messages of individual patches for
+details.
+
+Known issue:  NetBSD package install is not working for me right now.
+It did work a while ago.  Not sure what is going on here.
+
+Do we have accelerator support for the BSDs?  A "make check" for a full
+build takes ages, and I suspect tcg being used is part of the problem.
+I did my tests using "TARGET_LIST=x86_64-softmmu" because of that.
+
+Gerd Hoffmann (13):
+  scripts: use git archive in archive-source
+  tests/vm: send proxy environment variables over ssh
+  tests/vm: send locale environment variables over ssh
+  tests/vm: use ssh with pty unconditionally
+  tests/vm: run test builds on snapshot
+  tests/vm: add vm-boot-{ssh,serial}-<guest> targets
+  tests/vm: add DEBUG=1 to help text
+  tests/vm: serial console support helpers
+  tests/vm: openbsd autoinstall, using serial console
+  tests/vm: freebsd autoinstall, using serial console
+  tests/vm: netbsd autoinstall, using serial console
+  tests/vm: fedora autoinstall, using serial console
+  tests/vm: ubuntu.i386: apt proxy setup
+
+ tests/vm/basevm.py        | 125 ++++++++++++++++++++++---
+ scripts/archive-source.sh |  72 +++++++--------
+ tests/vm/Makefile.include |  25 ++++-
+ tests/vm/fedora           | 187 ++++++++++++++++++++++++++++++++++++++
+ tests/vm/freebsd          | 172 +++++++++++++++++++++++++++++++++--
+ tests/vm/netbsd           | 178 ++++++++++++++++++++++++++++++++++--
+ tests/vm/openbsd          | 150 +++++++++++++++++++++++++++---
+ tests/vm/ubuntu.i386      |   4 +
+ 8 files changed, 830 insertions(+), 83 deletions(-)
+ create mode 100755 tests/vm/fedora
+
+-- 
+2.18.1
 
 
