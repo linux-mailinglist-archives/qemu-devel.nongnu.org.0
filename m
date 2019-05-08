@@ -2,49 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A99317F06
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 19:23:01 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40664 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9032917F04
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 19:22:18 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40660 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOQHU-0002wl-Mm
-	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 13:23:00 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36908)
+	id 1hOQGn-0001vn-6m
+	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 13:22:17 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36733)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <clg@kaod.org>) id 1hOQEq-0000y9-EN
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 13:20:17 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hOQEa-0000lO-Ln
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 13:20:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <clg@kaod.org>) id 1hOQEp-0003uS-5X
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 13:20:16 -0400
-Received: from 4.mo69.mail-out.ovh.net ([46.105.42.102]:50530)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <clg@kaod.org>) id 1hOQEo-0003ts-Vp
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 13:20:15 -0400
-Received: from player711.ha.ovh.net (unknown [10.108.35.122])
-	by mo69.mail-out.ovh.net (Postfix) with ESMTP id 93B7050BA4
-	for <qemu-devel@nongnu.org>; Wed,  8 May 2019 19:20:13 +0200 (CEST)
-Received: from kaod.org (lfbn-1-10649-41.w90-89.abo.wanadoo.fr [90.89.235.41])
-	(Authenticated sender: clg@kaod.org)
-	by player711.ha.ovh.net (Postfix) with ESMTPSA id C28DA5769388;
-	Wed,  8 May 2019 17:20:06 +0000 (UTC)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Date: Wed,  8 May 2019 19:19:46 +0200
-Message-Id: <20190508171946.657-4-clg@kaod.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190508171946.657-1-clg@kaod.org>
-References: <20190508171946.657-1-clg@kaod.org>
+	(envelope-from <richard.henderson@linaro.org>) id 1hOQEY-0003iw-I6
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 13:19:59 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:46507)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hOQEY-0003hq-AF
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 13:19:58 -0400
+Received: by mail-pg1-x542.google.com with SMTP id t187so6296963pgb.13
+	for <qemu-devel@nongnu.org>; Wed, 08 May 2019 10:19:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=GxKlty//NneSEPGk/Yjl9BRLXR7xfKa1PpDqtzNF9P0=;
+	b=HGOX9xMKp0gqcEWl5unpgmqx8QS2Hh0Gmg60RiV2yq6bVVA0wkpx0ZwKhASGwengfh
+	Av3d6zERIwBMxsPPlYyvEZAxjLYqezeFhubDOWQV64MXrRSmVoiisYcu/8CB2d138ZpT
+	T8ts0OjYt7711N1ZwJ9j2D8d+7m3XHCnrG8IbkVYEyra4On3pDxMk4Y9Rbk9Q+4tq8tg
+	RuTi7oaI0kjpjCiPs+bfhd2P6RNnZhweTn9iClYt2lYRHnE/m58BQVHBkFiSdT4U7FgD
+	nUxUmN8lK+8tQWgWB9ymENmRFGbkaQslj/PoxEvuD1O9lo9ttUMo7qeyYbZAtatUlRRB
+	GPeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=GxKlty//NneSEPGk/Yjl9BRLXR7xfKa1PpDqtzNF9P0=;
+	b=PjGQsv6wcc2sn7kOQG4Oc6yeM1EIaRImXtT9dWMKHhBjXtiOTes3dYiFf5sEglFGq4
+	+zXPK0z684qS7EUXrUd4A/u63jcXUlqcpsZ49YM3ARz4DrUqRl61FFZaQud8prDVyhnv
+	HDAzcS58JrndGiNFb5hc6ZnlpR/7ZLXmHHEIrZMmNYAqeEUAgy7gDY3LxmXRnS8SuYmW
+	FBIw0pINg0orKN/h0VCW0BXoQlulkpOt3sCaUXUYudenrkuSOQJfmknqcXA/ZoYgCdPk
+	wmtcuD3XKfddHrvHo6/HaH7R1kp3jzuc5inrOsa8PmKI0yDP98UbtcZdBZDjYaP7pp9G
+	THpQ==
+X-Gm-Message-State: APjAAAWHpRpaC8rursER/NgnqvSkoCYwkbEVIxg6XF753a0eOsO1yAd5
+	nvBx+EB5kTaaaZRtO0x8DF2MTw==
+X-Google-Smtp-Source: APXvYqwbrlaUJ7rpPnQJs7SKR3ITJlNiMtuY5ahIDPN8gd3Vg8wPLuAs/ZSaqfiQC48R3Y+IMALB4A==
+X-Received: by 2002:aa7:8652:: with SMTP id a18mr48896437pfo.167.1557335994944;
+	Wed, 08 May 2019 10:19:54 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-27-95.tukw.qwest.net. [97.113.27.95])
+	by smtp.gmail.com with ESMTPSA id
+	128sm20006474pgb.47.2019.05.08.10.19.52
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 08 May 2019 10:19:53 -0700 (PDT)
+To: Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-devel@nongnu.org
+References: <20190508145611.107133-1-ysato@users.sourceforge.jp>
+	<20190508145611.107133-2-ysato@users.sourceforge.jp>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <c78b8c6e-2636-fa9e-df19-50c2b082c09a@linaro.org>
+Date: Wed, 8 May 2019 10:19:50 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 1138566282612345830
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddrkeefgdduuddvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.42.102
-Subject: [Qemu-devel] [PATCH 3/3] spapr/xive: print out the EQ page address
- in the monitor
+In-Reply-To: <20190508145611.107133-2-ysato@users.sourceforge.jp>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::542
+Subject: Re: [Qemu-devel] [PATCH v10 01/13] target/rx: TCG translation
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -56,46 +84,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
-	=?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This proved to be a useful information when debugging issues with OS
-event queues allocated above 64GB.
+On 5/8/19 7:55 AM, Yoshinori Sato wrote:
+> +static bool trans_XCHG_mr(DisasContext *ctx, arg_XCHG_mr *a)
+> +{
+> +    TCGv mem, addr;
+> +    mem = tcg_temp_new();
+> +    switch (a->mi) {
+> +    case 0: /* dsp[rs].b */
+> +    case 1: /* dsp[rs].w */
+> +    case 2: /* dsp[rs].l */
+> +        addr = rx_index_addr(ctx, mem, a->ld, a->mi, a->rs);
+> +        break;
+> +    case 3: /* dsp[rs].uw */
+> +    case 4: /* dsp[rs].ub */
+> +        addr = rx_index_addr(ctx, mem, a->ld, 4 - a->mi, a->rs);
+> +        break;
+> +    }
 
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
----
- hw/intc/spapr_xive.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+You need
 
-diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-index 810435c30cc7..7faf03b1fb7c 100644
---- a/hw/intc/spapr_xive.c
-+++ b/hw/intc/spapr_xive.c
-@@ -120,6 +120,7 @@ static int spapr_xive_target_to_end(uint32_t target, =
-uint8_t prio,
- static void spapr_xive_end_pic_print_info(SpaprXive *xive, XiveEND *end,
-                                           Monitor *mon)
- {
-+    uint64_t qaddr_base =3D xive_end_qaddr(end);
-     uint32_t qindex =3D xive_get_field32(END_W1_PAGE_OFF, end->w1);
-     uint32_t qgen =3D xive_get_field32(END_W1_GENERATION, end->w1);
-     uint32_t qsize =3D xive_get_field32(END_W0_QSIZE, end->w0);
-@@ -127,9 +128,9 @@ static void spapr_xive_end_pic_print_info(SpaprXive *=
-xive, XiveEND *end,
-     uint32_t nvt =3D xive_get_field32(END_W6_NVT_INDEX, end->w6);
-     uint8_t priority =3D xive_get_field32(END_W7_F0_PRIORITY, end->w7);
-=20
--    monitor_printf(mon, "%3d/%d % 6d/%5d ^%d",
-+    monitor_printf(mon, "%3d/%d % 6d/%5d @%"PRIx64" ^%d",
-                    spapr_xive_nvt_to_target(0, nvt),
--                   priority, qindex, qentries, qgen);
-+                   priority, qindex, qentries, qaddr_base, qgen);
-=20
-     xive_end_queue_pic_print_info(end, 6, mon);
-     monitor_printf(mon, "]");
---=20
-2.20.1
+    default:
+        g_assert_not_reached();
 
+to avoid the compilation error pointed out by Phil.
+
+Otherwise,
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+
+
+r~
 
