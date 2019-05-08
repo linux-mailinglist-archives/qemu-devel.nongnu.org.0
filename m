@@ -2,56 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E0DF17B33
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 16:01:32 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:37749 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 450CA17B4C
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 16:06:01 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37814 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hON8V-0005oP-E0
-	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 10:01:31 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45268)
+	id 1hONCq-0000qI-Fk
+	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 10:06:00 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45819)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hON6q-0005Cp-6T
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 09:59:49 -0400
+	(envelope-from <mreitz@redhat.com>) id 1hON8w-0006ZT-9E
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 10:01:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hON6p-0000gT-2T
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 09:59:48 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44544)
+	(envelope-from <mreitz@redhat.com>) id 1hON8u-00021a-TS
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 10:01:58 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44108)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <armbru@redhat.com>)
-	id 1hON6j-0000cY-8S; Wed, 08 May 2019 09:59:42 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
+	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
+	id 1hON8s-0001sc-Fw; Wed, 08 May 2019 10:01:54 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+	[10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 5BBD830832E1;
-	Wed,  8 May 2019 13:59:39 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-28.ams2.redhat.com
-	[10.36.116.28])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0DDA31001E6F;
-	Wed,  8 May 2019 13:59:39 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
-	id 840911132B35; Wed,  8 May 2019 15:59:32 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <1555560291-3415-1-git-send-email-hongbo.zhang@linaro.org>
-	<1555560291-3415-3-git-send-email-hongbo.zhang@linaro.org>
-	<CAFEAcA-poCxPqPtfhx4mUJ5pcOjn1Hz-WNxEt29f=JgpFMi4Kg@mail.gmail.com>
-Date: Wed, 08 May 2019 15:59:32 +0200
-In-Reply-To: <CAFEAcA-poCxPqPtfhx4mUJ5pcOjn1Hz-WNxEt29f=JgpFMi4Kg@mail.gmail.com>
-	(Peter Maydell's message of "Tue, 30 Apr 2019 15:16:59 +0100")
-Message-ID: <87mujxavy3.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+	by mx1.redhat.com (Postfix) with ESMTPS id 6C241305D46D;
+	Wed,  8 May 2019 14:01:41 +0000 (UTC)
+Received: from localhost (ovpn-204-94.brq.redhat.com [10.40.204.94])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 050AD60C6F;
+	Wed,  8 May 2019 14:01:40 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Date: Wed,  8 May 2019 16:01:36 +0200
+Message-Id: <20190508140139.32722-1-mreitz@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.44]);
-	Wed, 08 May 2019 13:59:39 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.46]);
+	Wed, 08 May 2019 14:01:41 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v7 2/2] hw/arm: Add arm SBSA reference
- machine, devices part
+Subject: [Qemu-devel] [PATCH v2 0/3] qemu-img: Allow rebase with no input
+ base
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -63,74 +55,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hongbo Zhang <hongbo.zhang@linaro.org>,
-	Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
-	Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-	QEMU Developers <qemu-devel@nongnu.org>,
-	Leif Lindholm <leif.lindholm@linaro.org>, qemu-arm <qemu-arm@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+	Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+	qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+This series allows using qemu-img rebase (without -u) on images that do
+not have a backing file.  Right now, this fails with the rather cryptic
+error message:
 
-> On Thu, 18 Apr 2019 at 05:05, Hongbo Zhang <hongbo.zhang@linaro.org> wrote:
->>
->> Following the previous patch, this patch adds peripheral devices to the
->> newly introduced SBSA-ref machine.
->>
->> Signed-off-by: Hongbo Zhang <hongbo.zhang@linaro.org>
->> ---
->>  hw/arm/sbsa-ref.c | 451 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
->>  1 file changed, 451 insertions(+)
->
-> Some fairly minor comments on this one.
->
->> +static void create_flash(const SBSAMachineState *vms,
->> +                         MemoryRegion *sysmem,
->> +                         MemoryRegion *secure_sysmem)
->> +{
->> +    /*
->> +     * Create one secure and nonsecure flash devices to fill SBSA_FLASH
->> +     * space in the memmap, file passed via -bios goes in the first one.
->> +     */
->> +    hwaddr flashsize = vms->memmap[SBSA_FLASH].size / 2;
->> +    hwaddr flashbase = vms->memmap[SBSA_FLASH].base;
->> +
->> +    create_one_flash("sbsa-ref.flash0", flashbase, flashsize,
->> +                     bios_name, secure_sysmem);
->> +    create_one_flash("sbsa-ref.flash1", flashbase + flashsize, flashsize,
->> +                     NULL, sysmem);
->> +}
->
-> I think Markus might have an opinion on the best way to create
-> flash devices on a new board model. Is "just create two flash
-> devices the way the virt board does" the right thing?
+$ qemu-img rebase -b base.qcow2 foo.qcow2
+qemu-img: Could not open old backing file '': The 'file' block driver req=
+uires a file name
 
-Short answer: create flash devices the way the ARM virt board does now,
-after commit e0561e60f17, merged into master today.  Possibly less
-backward compatibility stuff you don't need.  As is, your patch creates
-them the way the ARM virt board did before commit e0561e60f17.  Please
-consider updating.
+Yeah, well, OK.
 
-Longer answer:
+With how rebase currently works, this would lead to the overlay being
+filled with zeroes, however.  This is where patch 2 comes in and instead
+makes rebase use blk_pwrite_zeroes() whenever it handles an area past
+the input=E2=80=99s backing file=E2=80=99s EOF.
 
-The old way to configure block backends is -drive.
+(Note that additionally we could try to punch holes in the overlay
+whenever it matches the new backing file, but that=E2=80=99s something I=E2=
+=80=99ll put
+off for later.  (We don=E2=80=99t even have a reliable method for punchin=
+g holes
+into an overlay yet, although I would like to have such because it could
+make active commit more efficient.))
 
-The newer -blockdev is more flexible.  Libvirt is in the process of
-transitioning from -drive to -blockdev entirely.  Other users with
-similar needs for flexibility may do the same.  We hope to deprecate
--drive eventually.
 
-The traditional way to configure onboard flash is -drive if=pflash.
-Works, but we need a way to configure with -blockdev for full
-flexibility, and to support libvirt ditching -drive entirely.
+And patch 3 adds the usual test.
 
-I recently improved the i386 PC machine types (commit ebc29e1beab) and
-the ARM virt machine types (commit e0561e60f17) to support flash
-configuration with -blockdev.
 
-I recommend new boards support flash configuration with -blockdev from
-the start.
+v2:
+- Patch 1: Added example to the commit message, and made a note that
+           this is about rebase without -u [Eric]
 
-Questions?
+
+git backport-diff against v1:
+
+Key:
+[----] : patches are identical
+[####] : number of functional differences between upstream/downstream pat=
+ch
+[down] : patch is downstream-only
+The flags [FC] indicate (F)unctional and (C)ontextual differences, respec=
+tively
+
+001/3:[----] [--] 'qemu-img: Allow rebase with no input base'
+002/3:[----] [--] 'qemu-img: Use zero writes after source backing EOF'
+003/3:[----] [--] 'iotests: Add test for rebase without input base'
+
+
+Max Reitz (3):
+  qemu-img: Allow rebase with no input base
+  qemu-img: Use zero writes after source backing EOF
+  iotests: Add test for rebase without input base
+
+ qemu-img.c                 | 72 +++++++++++++++++++++++---------------
+ tests/qemu-iotests/024     | 70 ++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/024.out | 37 ++++++++++++++++++++
+ 3 files changed, 150 insertions(+), 29 deletions(-)
+
+--=20
+2.20.1
+
 
