@@ -2,69 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1D7516E4D
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 02:36:22 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:56808 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E915716E62
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 02:40:42 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:56889 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOAZK-00084E-3I
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 20:36:22 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39785)
+	id 1hOAdW-00049V-66
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 20:40:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45554)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOA7W-00080o-6Z
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 20:07:39 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hOAW2-0005Or-GB
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 20:32:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOA7V-00088F-7q
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 20:07:38 -0400
-Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:42913)
+	(envelope-from <richard.henderson@linaro.org>) id 1hOAW0-0003KZ-Jp
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 20:32:57 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:36062)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hOA7V-00081f-29
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 20:07:37 -0400
-Received: by mail-pg1-x52d.google.com with SMTP id p6so9105913pgh.9
-	for <qemu-devel@nongnu.org>; Tue, 07 May 2019 17:07:35 -0700 (PDT)
+	id 1hOAW0-0003Gh-DS
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 20:32:56 -0400
+Received: by mail-pl1-x642.google.com with SMTP id d21so1504562plr.3
+	for <qemu-devel@nongnu.org>; Tue, 07 May 2019 17:32:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=/VisHp15wmByWPI9wrDoIYVzQ1fadCpZ+X3Fx4ON5aw=;
-	b=uyC3EDDxkaYnDjrjZFoYjidue6lNiQiawjkOzkgFjBiYdqU6HhgkvKQolHFs2P0sRp
-	D8FTg3u70ocU4Ce7kbX2cl5ubevigBd42AHcmC5KtDImk8tDk5QLf2Xj8Z+5bxe+tSsz
-	GFiik9/m+2F6A5KPDAYBnaLa6+qO4DZ1VfPumMUcZjCzvWG7eoHDUBv0xPOAqMHvU8zN
-	XpIufTkdsHZX7Z6jvEvIGYroOkHWsGB/so8rnBaz38e9hQnU0YCS7mLtrhiXoYz9QR8l
-	EsaQd97J9iOE4tz4kOu5ReCpi5Nbhe9dyCVY66J9Qi2QH2RNmziwEjmglu0PaqWBze+6
-	vlbQ==
+	h=subject:to:references:from:openpgp:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=vJwbsEy7yodZbKRBHVf7RYs1dsMA/KhZsC2H2NXmmkc=;
+	b=JErBxilEUVQBQUGOpxaD2qeIFXELvV8sD5+wrI9ainC7Qojo9I2UgzOg00lbOptphc
+	Q0ILVEYaczLZo60IMRX5HfjJ/lcsjIKvTtm9Xy5S4lsFSUxqoRK7SB75CC1yKuVxf+Al
+	kf6yv6bEksF2P3PSC4wKuX/zvPgABPwV828ZrQvjZ2CkvQhqrzOL3bAO1Zy08xz5pH1C
+	dlDQht9qeaGXN58u7I/oAOH9tRfUgfzG0j+HhMWhOGjdBYuEWksqhY4slggzmvoCebLx
+	o5plIAi5hTRp9rcFwn5pv76NAhsyuH1RintJfjdILdfF31qSOkrRFZdortY6HQ/a2n1B
+	e7dA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=/VisHp15wmByWPI9wrDoIYVzQ1fadCpZ+X3Fx4ON5aw=;
-	b=NGBPdApXKGmyIYdnRLPVY6B6Sl96yHCGMMLK2OLvwoGlpUlUlauOf2lJZMcN3Xo3Ur
-	mp9STZ7OiS8pjBPrG/4OFfys5ZtukeqG/7Gqt0R65oH98GiX4c4gZQxK9W0WO88wB+Eo
-	CQKuBBnshZ2/FEYLX+QoxBwTqSEPYuE+zRqSOKbC3NfzyiD9jScemlotDt22gjtswAyk
-	Bk8DhI0wJESYM1q8sayvDyuIaxb57KqHeB4+XG8pvRD6S3D5uPwG/DOdbUK4fh6mJC9g
-	RaJH+araRbSh6M6i/aUN0fHAPp6lj/Ux/CxqPcayAEKx+AA2aFkBwNHha3rWqAFom2D1
-	tVwg==
-X-Gm-Message-State: APjAAAUZIv2wIPP0H45hnn9BXJKH+eg8XokE9EPImPrJysIO2snI7CZU
-	otNm4LSKdn44868P2lHvFANdHpYa36I=
-X-Google-Smtp-Source: APXvYqynF4/Q5zj9EY3PV3JpbSTpLaM44chT3weQZ4nLF2fVN8KBigD2hRIsEEMx+F+g2cl+uCzHOg==
-X-Received: by 2002:a62:5915:: with SMTP id n21mr43602164pfb.180.1557274054723;
-	Tue, 07 May 2019 17:07:34 -0700 (PDT)
-Received: from localhost.localdomain (97-113-189-189.tukw.qwest.net.
-	[97.113.189.189]) by smtp.gmail.com with ESMTPSA id
-	j1sm15793183pgp.91.2019.05.07.17.07.33 for <qemu-devel@nongnu.org>
+	h=x-gm-message-state:subject:to:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=vJwbsEy7yodZbKRBHVf7RYs1dsMA/KhZsC2H2NXmmkc=;
+	b=BbANUq60e6vum4VKAMGIyktBP4YHxBMG7rC8RA6dWsIlDi9f5WTUnT2nzuFXV8FfuW
+	q5JDTjrt8dakwTEJEwjZYFQsvqOosx4kU8eRUb0ZLH1yKASHmxmBWzyv1aKzCDhxXmgm
+	HXscmcpoOnWlulQYFrnzqpauK+pNR/wgEu+QVS0Jx14ZI6BYf57b4pwk1QQWoAHPBc7/
+	YOHg/tzTpXZpFBmEYCtvycxxB6NL95H6k5fzph6Ge5frwa/9FI76LsywWwGqYVyJplC7
+	MQ5tTcf1yHVqQnXKQYIYtFXTi8wUtbM/Ut+d7UG6oapYDHPHZCC5sg+8wSLSoxvI3/a1
+	cQOw==
+X-Gm-Message-State: APjAAAX6N5Vtovldg5EI215SCqvjF01IZyj8yI8FhuvSxqx4p3n6uCPJ
+	FScdTs/VObcfUhy1XCLSvefmRA0gtNU=
+X-Google-Smtp-Source: APXvYqyZDdigA1bSbObc8OpuAEQgvm8YhI2H8nDDOa86jQlcTmBr5G5UqlOIgR1mueVYIoUTZ8Hb1A==
+X-Received: by 2002:a17:902:5c5:: with SMTP id
+	f63mr42435376plf.327.1557275574359; 
+	Tue, 07 May 2019 17:32:54 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-189-189.tukw.qwest.net. [97.113.189.189])
+	by smtp.gmail.com with ESMTPSA id
+	z19sm17291697pgk.28.2019.05.07.17.32.53
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 07 May 2019 17:07:33 -0700 (PDT)
+	Tue, 07 May 2019 17:32:53 -0700 (PDT)
+To: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org
+References: <20190506173353.32206-1-richard.henderson@linaro.org>
+	<20190506173353.32206-10-richard.henderson@linaro.org>
+	<b2a1544e-bf3d-5d90-c6e5-df7f49664059@redhat.com>
 From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Tue,  7 May 2019 17:06:41 -0700
-Message-Id: <20190508000641.19090-40-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190508000641.19090-1-richard.henderson@linaro.org>
-References: <20190508000641.19090-1-richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <ea815545-4603-fe68-2b2d-ca03f790c7ed@linaro.org>
+Date: Tue, 7 May 2019 17:32:51 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <b2a1544e-bf3d-5d90-c6e5-df7f49664059@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::52d
-Subject: [Qemu-devel] [PATCH v3 39/39] tcg/arm: Remove mostly unreachable
- tlb special case
+X-Received-From: 2607:f8b0:4864:20::642
+Subject: Re: [Qemu-devel] [PATCH v4 09/24] ui/vnc: Use gcrypto_random_bytes
+ for start_auth_vnc
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -79,54 +90,32 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-There was nothing armv7 specific about the bic+cmp sequence, however
-looking at the set of guests more closely shows that the 8-bit immediate
-operand for the bic can only be satisfied with one guest in tree:
-baseline m-profile -- 10-bit pages with aligned 4-byte memory ops.
-Therefore it does not seem useful to keep this path.
+On 5/7/19 3:49 AM, Laurent Vivier wrote:
+>>     void start_auth_vnc(VncState *vs)
+>>   {
+>> -    make_challenge(vs);
+>> +    Error *err = NULL;
+>> +
+>> +    if (qcrypto_random_bytes(vs->challenge, sizeof(vs->challenge), &err)) {
+>> +        trace_vnc_auth_fail(vs, vs->auth, "cannot get random bytes",
+>> +                            error_get_pretty(err));
+>> +        error_free(err);
+>> +        authentication_failed(vs);
+>> +        return;
+>> +    }
+>> +
+> 
+> This part is weird for me: if auth fails we send "vnc_write_u32(vs, 1)" but if
+> it succeeds we send the challenge. There is no success value to send (like
+> "vnc_write_u32(vs, 0)") ?
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- tcg/arm/tcg-target.inc.c | 23 ++++++++++++-----------
- 1 file changed, 12 insertions(+), 11 deletions(-)
+There is, but this code is a mess of callbacks.  In this case it happens toward
+the end of protocol_client_auth_vnc:
 
-diff --git a/tcg/arm/tcg-target.inc.c b/tcg/arm/tcg-target.inc.c
-index ac813abfb8..e0fcc1d990 100644
---- a/tcg/arm/tcg-target.inc.c
-+++ b/tcg/arm/tcg-target.inc.c
-@@ -1290,19 +1290,20 @@ static TCGReg tcg_out_tlb_read(TCGContext *s, TCGReg addrlo, TCGReg addrhi,
-     tcg_out_ld32_12(s, COND_AL, TCG_REG_R1, TCG_REG_R1,
-                     offsetof(CPUTLBEntry, addend));
- 
--    /* Check alignment, check comparators.  */
--    if (use_armv7_instructions) {
-+    /*
-+     * Check alignment, check comparators.
-+     * Do this in no more than 3 insns.  Use MOVW for v7, if possible,
-+     * to reduce the number of sequential conditional instructions.
-+     * Almost all guests have at least 4k pages, which means that we need
-+     * to clear at least 9 bits even for an 8-byte memory, which means it
-+     * isn't worth checking for an immediate operand for BIC.
-+     */
-+    if (use_armv7_instructions && TARGET_PAGE_BITS <= 16) {
-         tcg_target_ulong mask = ~(TARGET_PAGE_MASK | ((1 << a_bits) - 1));
--        int rot = encode_imm(mask);
- 
--        if (rot >= 0) { 
--            tcg_out_dat_imm(s, COND_AL, ARITH_BIC, TCG_REG_TMP, addrlo,
--                            rotl(mask, rot) | (rot << 7));
--        } else {
--            tcg_out_movi32(s, COND_AL, TCG_REG_TMP, mask);
--            tcg_out_dat_reg(s, COND_AL, ARITH_BIC, TCG_REG_TMP,
--                            addrlo, TCG_REG_TMP, 0);
--        }
-+        tcg_out_movi32(s, COND_AL, TCG_REG_TMP, mask);
-+        tcg_out_dat_reg(s, COND_AL, ARITH_BIC, TCG_REG_TMP,
-+                        addrlo, TCG_REG_TMP, 0);
-         tcg_out_dat_reg(s, COND_AL, ARITH_CMP, 0, TCG_REG_R2, TCG_REG_TMP, 0);
-     } else {
-         if (a_bits) {
--- 
-2.17.1
+   2604         trace_vnc_auth_pass(vs, vs->auth);
+   2605         vnc_write_u32(vs, 0); /* Accept auth */
+   2606         vnc_flush(vs);
 
+
+r~
 
