@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66CE5176B1
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 13:24:01 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:35096 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EB90176AC
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 13:21:02 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:35048 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOKg4-0002aW-Es
-	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 07:24:00 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38027)
+	id 1hOKdB-0008Q0-DR
+	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 07:21:01 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38108)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <pbonzini@redhat.com>) id 1hOKaU-000734-GI
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 07:18:15 -0400
+	(envelope-from <pbonzini@redhat.com>) id 1hOKao-0007Gb-LW
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 07:18:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <pbonzini@redhat.com>) id 1hOKaT-00044F-CA
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 07:18:14 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:33675)
+	(envelope-from <pbonzini@redhat.com>) id 1hOKan-0004Nf-DM
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 07:18:34 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:38935)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hOKaT-00043W-3q
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 07:18:13 -0400
-Received: by mail-wr1-f67.google.com with SMTP id e11so13627636wrs.0
-	for <qemu-devel@nongnu.org>; Wed, 08 May 2019 04:18:13 -0700 (PDT)
+	(Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hOKan-0004N0-5s
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 07:18:33 -0400
+Received: by mail-wr1-f66.google.com with SMTP id v10so1440734wrt.6
+	for <qemu-devel@nongnu.org>; Wed, 08 May 2019 04:18:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
 	:user-agent:mime-version:in-reply-to:content-language
 	:content-transfer-encoding;
-	bh=WgjG8i5+LA2TwuCrkX70oV5zkyuOUwJA8CNz2jBTcBQ=;
-	b=QY1quWD/HqDTkmCkFQH6FPLOkOcU6wMopWfHtmc3l62r9ae5gv9tJelMkVmJwQ5ALI
-	KpshsPNOiESPgviN8eaWGMIs0qICBjbnrkg/N6WbnH0rVthIArmkpUlvH/AvxMqq8mPO
-	gE14pDHrcD7uEyOYERSPVZ6ma8HKqPSETo4NqqCnkZFpBVnnyE2RIf2fYy1fk/LRU8Dn
-	9iUXwq6/Oh8sMwFG0d/BW8TpkZK7WoTnfg29c3QIIc5yNkwPBvTd9SEr5PjX+BVH9Nur
-	1ItFW+GhZyzy0ofZqBCWulMHEjJPXLxQl9DNFCSflVdzJj9BeRlNkCQRjL14u6wxH8iM
-	SW8Q==
-X-Gm-Message-State: APjAAAXVqhPGGx22sLVzZleNCVwGG3dXMSPMK7xwgt3y7r9JHGElB6JQ
-	1pXadqUdH67BYTVGeIA4gYp6QQ==
-X-Google-Smtp-Source: APXvYqw+YJWGohvlXty4u+RrSKYVaXWwcE3rXiWm3rW3tfn9HrALxrVdaTC8twmVvz/s+2gHf+Tvfw==
-X-Received: by 2002:a5d:420a:: with SMTP id n10mr7441278wrq.325.1557314292008; 
-	Wed, 08 May 2019 04:18:12 -0700 (PDT)
+	bh=xEKdl6jGihOoYEc/ymEI0k6WtSvqhaB/R5yGrQ99Ykg=;
+	b=DKqvgt+OOzjZ9sK1F0xBFA7u9n3gQRgR3QrB57ypyrIjl5J+9FXRnXogpWGaR3ump5
+	Y1oV46V01SOR6gtZoVT21n+vvFREHExfUeZe178XN5UpbNHZsGx4eHEAUb1rQ8KW4AsS
+	gvR0qIN7zTpqzz7wpzqf1eEQw3zyDoPgv+p9yyEFxLkzKmNQQkps9E1iIH2SEDVr0Q+3
+	SJQhdcZOysR364uUYlp3SIKJbAhlUdJpPbfyFlPEk0HXmXZdkEVDlwszWTtsh93+r6iZ
+	eCM+8sySRxGBcv8Pf31rvu7iMr8mWCv7KYhwxYCLfOZBGVnTYekATg0bpC8HGRbTK9zX
+	JTTg==
+X-Gm-Message-State: APjAAAV0B37DKRbxqVrOnPbVAwQHQT54VBD18kJqkqZ+7r3sm8ScKZS+
+	wNkgcl7U5ve6Cp9AemCEMYnDFQ==
+X-Google-Smtp-Source: APXvYqzPet6W6mi2VS6YAp1QvKKxu0Ti176HnXsVZUAa9zf9DfdxXpK6QUzVHXF+OhfXGzBQYYqKBw==
+X-Received: by 2002:a5d:4e4f:: with SMTP id r15mr12204152wrt.157.1557314312261;
+	Wed, 08 May 2019 04:18:32 -0700 (PDT)
 Received: from [10.201.49.229] (nat-pool-mxp-u.redhat.com. [149.6.153.187])
 	by smtp.gmail.com with ESMTPSA id
-	o16sm24343400wro.63.2019.05.08.04.18.09
+	g185sm1946153wmf.30.2019.05.08.04.18.28
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 08 May 2019 04:18:11 -0700 (PDT)
+	Wed, 08 May 2019 04:18:31 -0700 (PDT)
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
 	Markus Armbruster <armbru@redhat.com>, Thomas Huth <thuth@redhat.com>, 
 	qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 References: <20190507163416.24647-1-philmd@redhat.com>
-	<20190507163416.24647-13-philmd@redhat.com>
+	<20190507163416.24647-14-philmd@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <3eb47444-d64d-ddfe-a9e2-59f54de76f87@redhat.com>
-Date: Wed, 8 May 2019 13:18:09 +0200
+Message-ID: <1119aab7-8d35-a635-9b8f-9a066956079d@redhat.com>
+Date: Wed, 8 May 2019 13:18:27 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190507163416.24647-13-philmd@redhat.com>
+In-Reply-To: <20190507163416.24647-14-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.221.67
-Subject: Re: [Qemu-devel] [PATCH v2 12/16] hw/microblaze/zynqmp: Let the SoC
- manage the IPI devices
+X-Received-From: 209.85.221.66
+Subject: Re: [Qemu-devel] [PATCH v2 13/16] hw/microblaze/zynqmp: Use
+ object_initialize_child for correct ref. counting
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -95,85 +95,77 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 07/05/19 11:34, Philippe Mathieu-Daudé wrote:
-> The Inter Processor Interrupt is a block part of the SoC, not the
-> "machine" (See Zynq UltraScale+ Device TRM UG1085, "Platform
-> Management Unit", Power Domains and Islands).
+> As explained in commit aff39be0ed97:
 > 
-> Move the IPI management from the machine to the SoC.
+>   Both functions, object_initialize() and object_property_add_child()
+>   increase the reference counter of the new object, so one of the
+>   references has to be dropped afterwards to get the reference
+>   counting right. Otherwise the child object will not be properly
+>   cleaned up when the parent gets destroyed.
+>   Thus let's use now object_initialize_child() instead to get the
+>   reference counting here right.
 > 
+> This patch was generated using the following Coccinelle script
+> (then manually modified to use numbered IPI name)
+> 
+>  @use_sysbus_init_child_obj_missing_parent@
+>  expression child_ptr;
+>  expression child_type;
+>  expression child_size;
+>  @@
+>  -   object_initialize(child_ptr, child_size, child_type);
+>      ...
+>  -   qdev_set_parent_bus(DEVICE(child_ptr), sysbus_get_default());
+>      ...
+>  ?-  object_unref(OBJECT(child_ptr));
+>  +   sysbus_init_child_obj(OBJECT(PARENT_OBJ), "CHILD_NAME", child_ptr,
+>  +                         child_size, child_type);
+> 
+> We let the SoC adopt the IPI children.
+> 
+> While the object_initialize() function doesn't take an
+> 'Error *errp' argument, the object_initialize_child() does.
+> Since this code is used when a machine is created (and is not
+> yet running), we deliberately choose to use the &error_abort
+> argument instead of ignoring errors if an object creation failed.
+> This choice also matches when using sysbus_init_child_obj(),
+> since its code is:
+> 
+>   void sysbus_init_child_obj(Object *parent,
+>                              const char *childname, void *child,
+>                              size_t childsize, const char *childtype)
+>   {
+>       object_initialize_child(parent, childname, child, childsize,
+>                               childtype, &error_abort, NULL);
+> 
+>       qdev_set_parent_bus(DEVICE(child), sysbus_get_default());
+>   }
+> 
+> Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
+> Inspired-by: Thomas Huth <thuth@redhat.com>
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->  hw/microblaze/xlnx-zynqmp-pmu.c | 36 +++++++++++++++------------------
->  1 file changed, 16 insertions(+), 20 deletions(-)
+>  hw/microblaze/xlnx-zynqmp-pmu.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
 > 
 > diff --git a/hw/microblaze/xlnx-zynqmp-pmu.c b/hw/microblaze/xlnx-zynqmp-pmu.c
-> index eba9945c19b..20e973edf5f 100644
+> index 20e973edf5f..0948b1fd5f2 100644
 > --- a/hw/microblaze/xlnx-zynqmp-pmu.c
 > +++ b/hw/microblaze/xlnx-zynqmp-pmu.c
-> @@ -68,6 +68,13 @@ static void xlnx_zynqmp_pmu_soc_init(Object *obj)
+> @@ -71,9 +71,10 @@ static void xlnx_zynqmp_pmu_soc_init(Object *obj)
 >  
->      sysbus_init_child_obj(obj, "intc", &s->intc, sizeof(s->intc),
->                            TYPE_XLNX_PMU_IO_INTC);
-> +
-> +    /* Create the IPI device */
-> +    for (int i = 0; i < XLNX_ZYNQMP_PMU_NUM_IPIS; i++) {
-> +        object_initialize(&s->ipi[i], sizeof(XlnxZynqMPIPI),
-> +                          TYPE_XLNX_ZYNQMP_IPI);
-> +        qdev_set_parent_bus(DEVICE(&s->ipi[i]), sysbus_get_default());
-> +    }
->  }
->  
->  static void xlnx_zynqmp_pmu_soc_realize(DeviceState *dev, Error **errp)
-> @@ -113,6 +120,15 @@ static void xlnx_zynqmp_pmu_soc_realize(DeviceState *dev, Error **errp)
->      sysbus_mmio_map(SYS_BUS_DEVICE(&s->intc), 0, XLNX_ZYNQMP_PMU_INTC_ADDR);
->      sysbus_connect_irq(SYS_BUS_DEVICE(&s->intc), 0,
->                         qdev_get_gpio_in(DEVICE(&s->cpu), MB_CPU_IRQ));
-> +
-> +    /* Connect the IPI device */
-> +    for (int i = 0; i < XLNX_ZYNQMP_PMU_NUM_IPIS; i++) {
-> +        object_property_set_bool(OBJECT(&s->ipi[i]), true, "realized",
-> +                                 &error_abort);
-> +        sysbus_mmio_map(SYS_BUS_DEVICE(&s->ipi[i]), 0, ipi_addr[i]);
-> +        sysbus_connect_irq(SYS_BUS_DEVICE(&s->ipi[i]), 0,
-> +                           qdev_get_gpio_in(DEVICE(&s->intc), ipi_irq[i]));
-> +    }
->  }
->  
->  static void xlnx_zynqmp_pmu_soc_class_init(ObjectClass *oc, void *data)
-> @@ -145,8 +161,6 @@ static void xlnx_zynqmp_pmu_init(MachineState *machine)
->      MemoryRegion *address_space_mem = get_system_memory();
->      MemoryRegion *pmu_rom = g_new(MemoryRegion, 1);
->      MemoryRegion *pmu_ram = g_new(MemoryRegion, 1);
-> -    qemu_irq irq[32];
-> -    int i;
->  
->      /* Create the ROM */
->      memory_region_init_rom(pmu_rom, NULL, "xlnx-zynqmp-pmu.rom",
-> @@ -166,24 +180,6 @@ static void xlnx_zynqmp_pmu_init(MachineState *machine)
->                                &error_abort);
->      object_property_set_bool(OBJECT(pmu), true, "realized", &error_fatal);
->  
-> -    for (i = 0; i < 32; i++) {
-> -        irq[i] = qdev_get_gpio_in(DEVICE(&pmu->intc), i);
-> -    }
-> -
-> -    /* Create and connect the IPI device */
-> -    for (i = 0; i < XLNX_ZYNQMP_PMU_NUM_IPIS; i++) {
-> -        object_initialize(&pmu->ipi[i], sizeof(XlnxZynqMPIPI),
+>      /* Create the IPI device */
+>      for (int i = 0; i < XLNX_ZYNQMP_PMU_NUM_IPIS; i++) {
+> -        object_initialize(&s->ipi[i], sizeof(XlnxZynqMPIPI),
 > -                          TYPE_XLNX_ZYNQMP_IPI);
-> -        qdev_set_parent_bus(DEVICE(&pmu->ipi[i]), sysbus_get_default());
-> -    }
-> -
-> -    for (i = 0; i < XLNX_ZYNQMP_PMU_NUM_IPIS; i++) {
-> -        object_property_set_bool(OBJECT(&pmu->ipi[i]), true, "realized",
-> -                                 &error_abort);
-> -        sysbus_mmio_map(SYS_BUS_DEVICE(&pmu->ipi[i]), 0, ipi_addr[i]);
-> -        sysbus_connect_irq(SYS_BUS_DEVICE(&pmu->ipi[i]), 0, irq[ipi_irq[i]]);
-> -    }
-> -
->      /* Load the kernel */
->      microblaze_load_kernel(&pmu->cpu, XLNX_ZYNQMP_PMU_RAM_ADDR,
->                             machine->ram_size,
+> -        qdev_set_parent_bus(DEVICE(&s->ipi[i]), sysbus_get_default());
+> +        char *name = g_strdup_printf("ipi%d", i);
+> +        sysbus_init_child_obj(obj, name, &s->ipi[i],
+> +                              sizeof(XlnxZynqMPIPI), TYPE_XLNX_ZYNQMP_IPI);
+> +        g_free(name);
+>      }
+>  }
+>  
 > 
 
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
