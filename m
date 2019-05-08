@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6CA718195
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 23:21:15 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43906 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E00C11819F
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 23:22:54 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43936 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOU02-0005sc-Sz
-	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 17:21:14 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56498)
+	id 1hOU1e-0000TG-46
+	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 17:22:54 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56524)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hOTxN-0004Z6-FP
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 17:18:30 -0400
+	(envelope-from <mreitz@redhat.com>) id 1hOTxR-0004bN-Jp
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 17:18:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hOTxM-0005md-ER
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 17:18:29 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50580)
+	(envelope-from <mreitz@redhat.com>) id 1hOTxO-0005nb-O1
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 17:18:33 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56834)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hOTxJ-0005lK-UL; Wed, 08 May 2019 17:18:26 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
+	id 1hOTxM-0005mP-Dj; Wed, 08 May 2019 17:18:28 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 438BA66971;
-	Wed,  8 May 2019 21:18:25 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id A0019330279;
+	Wed,  8 May 2019 21:18:27 +0000 (UTC)
 Received: from localhost (ovpn-204-96.brq.redhat.com [10.40.204.96])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id D16CA2CFD9;
-	Wed,  8 May 2019 21:18:24 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 34B9617C23;
+	Wed,  8 May 2019 21:18:27 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Wed,  8 May 2019 23:18:16 +0200
-Message-Id: <20190508211820.17851-2-mreitz@redhat.com>
+Date: Wed,  8 May 2019 23:18:17 +0200
+Message-Id: <20190508211820.17851-3-mreitz@redhat.com>
 In-Reply-To: <20190508211820.17851-1-mreitz@redhat.com>
 References: <20190508211820.17851-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.38]);
-	Wed, 08 May 2019 21:18:25 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.29]);
+	Wed, 08 May 2019 21:18:27 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 1/5] qemu-nbd: Add --pid-file option
+Subject: [Qemu-devel] [PATCH v3 2/5] iotests.py: Add qemu_nbd_early_pipe()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -60,90 +60,78 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
---fork is a bit boring if there is no way to get the child's PID.  This
-option helps.
+qemu_nbd_pipe() currently unconditionally reads qemu-nbd's output.  That
+is not ideal because qemu-nbd may keep stderr open after the parent
+process has exited.
+
+Currently, the only user of qemu_nbd_pipe() is 147, which discards the
+whole output if the parent process returned success and only evaluates
+it on error.  Therefore, we can replace qemu_nbd_pipe() by
+qemu_nbd_early_pipe() that does the same: Discard the output on success,
+and return it on error.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- qemu-nbd.c    | 11 +++++++++++
- qemu-nbd.texi |  2 ++
- 2 files changed, 13 insertions(+)
+ tests/qemu-iotests/147        | 4 ++--
+ tests/qemu-iotests/iotests.py | 9 ++++++---
+ 2 files changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/qemu-nbd.c b/qemu-nbd.c
-index dca9e72cee..edb5195208 100644
---- a/qemu-nbd.c
-+++ b/qemu-nbd.c
-@@ -59,6 +59,7 @@
- #define QEMU_NBD_OPT_IMAGE_OPTS    262
- #define QEMU_NBD_OPT_FORK          263
- #define QEMU_NBD_OPT_TLSAUTHZ      264
-+#define QEMU_NBD_OPT_PID_FILE      265
+diff --git a/tests/qemu-iotests/147 b/tests/qemu-iotests/147
+index 82513279b0..2d84fddb01 100755
+--- a/tests/qemu-iotests/147
++++ b/tests/qemu-iotests/147
+@@ -24,7 +24,7 @@ import socket
+ import stat
+ import time
+ import iotests
+-from iotests import cachemode, imgfmt, qemu_img, qemu_nbd, qemu_nbd_pipe
++from iotests import cachemode, imgfmt, qemu_img, qemu_nbd, qemu_nbd_earl=
+y_pipe
 =20
- #define MBR_SIZE 512
+ NBD_PORT_START      =3D 32768
+ NBD_PORT_END        =3D NBD_PORT_START + 1024
+@@ -93,7 +93,7 @@ class QemuNBD(NBDBlockdevAddBase):
+             pass
 =20
-@@ -111,6 +112,7 @@ static void usage(const char *name)
- "                            specify tracing options\n"
- "  --fork                    fork off the server process and exit the pa=
-rent\n"
- "                            once the server is running\n"
-+"  --pid-file=3DPATH           store the server's process ID in the give=
-n file\n"
- #if HAVE_NBD_DEVICE
- "\n"
- "Kernel NBD client support:\n"
-@@ -651,6 +653,7 @@ int main(int argc, char **argv)
-         { "image-opts", no_argument, NULL, QEMU_NBD_OPT_IMAGE_OPTS },
-         { "trace", required_argument, NULL, 'T' },
-         { "fork", no_argument, NULL, QEMU_NBD_OPT_FORK },
-+        { "pid-file", required_argument, NULL, QEMU_NBD_OPT_PID_FILE },
-         { NULL, 0, NULL, 0 }
-     };
-     int ch;
-@@ -677,6 +680,7 @@ int main(int argc, char **argv)
-     bool list =3D false;
-     int old_stderr =3D -1;
-     unsigned socket_activation;
-+    const char *pid_file_name =3D NULL;
+     def _try_server_up(self, *args):
+-        status, msg =3D qemu_nbd_pipe('-f', imgfmt, test_img, *args)
++        status, msg =3D qemu_nbd_early_pipe('-f', imgfmt, test_img, *arg=
+s)
+         if status =3D=3D 0:
+             return True
+         if 'Address already in use' in msg:
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.p=
+y
+index f811f69135..ce21d83182 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -204,9 +204,9 @@ def qemu_nbd(*args):
+     '''Run qemu-nbd in daemon mode and return the parent's exit code'''
+     return subprocess.call(qemu_nbd_args + ['--fork'] + list(args))
 =20
-     /* The client thread uses SIGTERM to interrupt the server.  A signal
-      * handler ensures that "qemu-nbd -v -c" exits with a nice status co=
-de.
-@@ -876,6 +880,9 @@ int main(int argc, char **argv)
-         case 'L':
-             list =3D true;
-             break;
-+        case QEMU_NBD_OPT_PID_FILE:
-+            pid_file_name =3D optarg;
-+            break;
-         }
-     }
+-def qemu_nbd_pipe(*args):
++def qemu_nbd_early_pipe(*args):
+     '''Run qemu-nbd in daemon mode and return both the parent's exit cod=
+e
+-       and its output'''
++       and its output in case of an error'''
+     subp =3D subprocess.Popen(qemu_nbd_args + ['--fork'] + list(args),
+                             stdout=3Dsubprocess.PIPE,
+                             stderr=3Dsubprocess.STDOUT,
+@@ -216,7 +216,10 @@ def qemu_nbd_pipe(*args):
+         sys.stderr.write('qemu-nbd received signal %i: %s\n' %
+                          (-exitcode,
+                           ' '.join(qemu_nbd_args + ['--fork'] + list(arg=
+s))))
+-    return exitcode, subp.communicate()[0]
++    if exitcode =3D=3D 0:
++        return exitcode, ''
++    else:
++        return exitcode, subp.communicate()[0]
 =20
-@@ -1196,6 +1203,10 @@ int main(int argc, char **argv)
-=20
-     nbd_update_server_watch();
-=20
-+    if (pid_file_name) {
-+        qemu_write_pidfile(pid_file_name, &error_fatal);
-+    }
-+
-     /* now when the initialization is (almost) complete, chdir("/")
-      * to free any busy filesystems */
-     if (chdir("/") < 0) {
-diff --git a/qemu-nbd.texi b/qemu-nbd.texi
-index de342c76b8..7f55657722 100644
---- a/qemu-nbd.texi
-+++ b/qemu-nbd.texi
-@@ -117,6 +117,8 @@ option; or provide the credentials needed for connect=
-ing as a client
- in list mode.
- @item --fork
- Fork off the server process and exit the parent once the server is runni=
-ng.
-+@item --pid-file=3DPATH
-+Store the server's process ID in the given file.
- @item --tls-authz=3DID
- Specify the ID of a qauthz object previously created with the
- --object option. This will be used to authorize connecting users
+ def compare_images(img1, img2, fmt1=3Dimgfmt, fmt2=3Dimgfmt):
+     '''Return True if two image files are identical'''
 --=20
 2.21.0
 
