@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C11C417B41
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 16:04:19 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:37767 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B541B17B4F
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 16:06:39 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37827 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hONBD-0007wY-0F
-	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 10:04:19 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45815)
+	id 1hONDS-0001a9-Rk
+	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 10:06:38 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45866)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hON8w-0006Yt-4t
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 10:01:59 -0400
+	(envelope-from <mreitz@redhat.com>) id 1hON90-0006ob-U9
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 10:02:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hON8v-00021m-6d
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 10:01:58 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43176)
+	(envelope-from <mreitz@redhat.com>) id 1hON8z-00024T-Jr
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 10:02:02 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51014)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hON8s-0001uo-NG; Wed, 08 May 2019 10:01:54 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
-	[10.5.11.12])
+	id 1hON8s-0001vr-Ou; Wed, 08 May 2019 10:01:54 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 529ECC067C19;
-	Wed,  8 May 2019 14:01:46 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id CA661806A6;
+	Wed,  8 May 2019 14:01:48 +0000 (UTC)
 Received: from localhost (ovpn-204-94.brq.redhat.com [10.40.204.94])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id E024E60C74;
-	Wed,  8 May 2019 14:01:45 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5E6AC10027C2;
+	Wed,  8 May 2019 14:01:48 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Wed,  8 May 2019 16:01:38 +0200
-Message-Id: <20190508140139.32722-3-mreitz@redhat.com>
+Date: Wed,  8 May 2019 16:01:39 +0200
+Message-Id: <20190508140139.32722-4-mreitz@redhat.com>
 In-Reply-To: <20190508140139.32722-1-mreitz@redhat.com>
 References: <20190508140139.32722-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.32]);
-	Wed, 08 May 2019 14:01:46 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.26]);
+	Wed, 08 May 2019 14:01:48 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 2/3] qemu-img: Use zero writes after source
- backing EOF
+Subject: [Qemu-devel] [PATCH v2 3/3] iotests: Add test for rebase without
+ input base
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,55 +62,148 @@ Cc: Kevin Wolf <kwolf@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Past the end of the source backing file, we memset() buf_old to zero, so
-it is clearly easy to use blk_pwrite_zeroes() instead of blk_pwrite()
-then.
+This patch adds a test for rebasing an image that currently does not
+have a backing file.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- qemu-img.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ tests/qemu-iotests/024     | 70 ++++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/024.out | 37 ++++++++++++++++++++
+ 2 files changed, 107 insertions(+)
 
-diff --git a/qemu-img.c b/qemu-img.c
-index e22a4fda17..cfad922816 100644
---- a/qemu-img.c
-+++ b/qemu-img.c
-@@ -3431,6 +3431,8 @@ static int img_rebase(int argc, char **argv)
-         }
+diff --git a/tests/qemu-iotests/024 b/tests/qemu-iotests/024
+index 23298c6f59..baf8ec9f28 100755
+--- a/tests/qemu-iotests/024
++++ b/tests/qemu-iotests/024
+@@ -198,6 +198,76 @@ echo
+ # $BASE_OLD and $BASE_NEW)
+ $QEMU_IMG map "$OVERLAY" | _filter_qemu_img_map
 =20
-         for (offset =3D 0; offset < size; offset +=3D n) {
-+            bool buf_old_is_zero =3D false;
++echo
++echo "=3D=3D=3D Test rebase without input base =3D=3D=3D"
++echo
 +
-             /* How many bytes can we handle with the next read? */
-             n =3D MIN(IO_BUF_SIZE, size - offset);
++# Cluster allocations to be tested:
++#
++# Backing (new) 11 -- 11 -- 11 --
++# COW image     22 22 11 11 -- --
++#
++# Expected result:
++#
++# COW image     22 22 11 11 00 --
++#
++# (Cluster 2 might be "--" after the rebase, too, but rebase just
++#  compares the new backing file to the old one and disregards the
++#  overlay.  Therefore, it will never discard overlay clusters.)
++
++_make_test_img $((6 * CLUSTER_SIZE))
++TEST_IMG=3D"$TEST_IMG_SAVE.base_new" _make_test_img $((6 * CLUSTER_SIZE)=
+)
++
++echo
++
++$QEMU_IO "$TEST_IMG" \
++    -c "write -P 0x22 $((0 * CLUSTER_SIZE)) $((2 * CLUSTER_SIZE))" \
++    -c "write -P 0x11 $((2 * CLUSTER_SIZE)) $((2 * CLUSTER_SIZE))" \
++    | _filter_qemu_io
++
++$QEMU_IO "$TEST_IMG.base_new" \
++    -c "write -P 0x11 $((0 * CLUSTER_SIZE)) $CLUSTER_SIZE" \
++    -c "write -P 0x11 $((2 * CLUSTER_SIZE)) $CLUSTER_SIZE" \
++    -c "write -P 0x11 $((4 * CLUSTER_SIZE)) $CLUSTER_SIZE" \
++    | _filter_qemu_io
++
++echo
++
++# This should be a no-op
++$QEMU_IMG rebase -b "" "$TEST_IMG"
++
++# Verify the data is correct
++$QEMU_IO "$TEST_IMG" \
++    -c "read -P 0x22 $((0 * CLUSTER_SIZE)) $((2 * CLUSTER_SIZE))" \
++    -c "read -P 0x11 $((2 * CLUSTER_SIZE)) $((2 * CLUSTER_SIZE))" \
++    -c "read -P 0x00 $((4 * CLUSTER_SIZE)) $((2 * CLUSTER_SIZE))" \
++    | _filter_qemu_io
++
++echo
++
++# Verify the allocation status (first four cluster should be allocated
++# in TEST_IMG, clusters 4 and 5 should be unallocated (marked as zero
++# clusters here because there is no backing file))
++$QEMU_IMG map --output=3Djson "$TEST_IMG" | _filter_qemu_img_map
++
++echo
++
++$QEMU_IMG rebase -b "$TEST_IMG.base_new" "$TEST_IMG"
++
++# Verify the data is correct
++$QEMU_IO "$TEST_IMG" \
++    -c "read -P 0x22 $((0 * CLUSTER_SIZE)) $((2 * CLUSTER_SIZE))" \
++    -c "read -P 0x11 $((2 * CLUSTER_SIZE)) $((2 * CLUSTER_SIZE))" \
++    -c "read -P 0x00 $((4 * CLUSTER_SIZE)) $((2 * CLUSTER_SIZE))" \
++    | _filter_qemu_io
++
++echo
++
++# Verify the allocation status (first four cluster should be allocated
++# in TEST_IMG, cluster 4 should be zero, and cluster 5 should be
++# unallocated (signified by '"depth": 1'))
++$QEMU_IMG map --output=3Djson "$TEST_IMG" | _filter_qemu_img_map
++
 =20
-@@ -3451,6 +3453,7 @@ static int img_rebase(int argc, char **argv)
-              */
-             if (offset >=3D old_backing_size) {
-                 memset(buf_old, 0, n);
-+                buf_old_is_zero =3D true;
-             } else {
-                 if (offset + n > old_backing_size) {
-                     n =3D old_backing_size - offset;
-@@ -3486,8 +3489,12 @@ static int img_rebase(int argc, char **argv)
-                 if (compare_buffers(buf_old + written, buf_new + written=
-,
-                                     n - written, &pnum))
-                 {
--                    ret =3D blk_pwrite(blk, offset + written,
--                                     buf_old + written, pnum, 0);
-+                    if (buf_old_is_zero) {
-+                        ret =3D blk_pwrite_zeroes(blk, offset + written,=
- pnum, 0);
-+                    } else {
-+                        ret =3D blk_pwrite(blk, offset + written,
-+                                         buf_old + written, pnum, 0);
-+                    }
-                     if (ret < 0) {
-                         error_report("Error while writing to COW image: =
-%s",
-                             strerror(-ret));
+ # success, all done
+ echo "*** done"
+diff --git a/tests/qemu-iotests/024.out b/tests/qemu-iotests/024.out
+index 024dc786b3..830abe013d 100644
+--- a/tests/qemu-iotests/024.out
++++ b/tests/qemu-iotests/024.out
+@@ -171,4 +171,41 @@ read 65536/65536 bytes at offset 196608
+ Offset          Length          File
+ 0               0x30000         TEST_DIR/subdir/t.IMGFMT
+ 0x30000         0x10000         TEST_DIR/subdir/t.IMGFMT.base_new
++
++=3D=3D=3D Test rebase without input base =3D=3D=3D
++
++Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D393216
++Formatting 'TEST_DIR/t.IMGFMT.base_new', fmt=3DIMGFMT size=3D393216
++
++wrote 131072/131072 bytes at offset 0
++128 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote 131072/131072 bytes at offset 131072
++128 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote 65536/65536 bytes at offset 0
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote 65536/65536 bytes at offset 131072
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++wrote 65536/65536 bytes at offset 262144
++64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++read 131072/131072 bytes at offset 0
++128 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 131072/131072 bytes at offset 131072
++128 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 131072/131072 bytes at offset 262144
++128 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++[{ "start": 0, "length": 262144, "depth": 0, "zero": false, "data": true=
+, "offset": OFFSET},
++{ "start": 262144, "length": 131072, "depth": 0, "zero": true, "data": f=
+alse}]
++
++read 131072/131072 bytes at offset 0
++128 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 131072/131072 bytes at offset 131072
++128 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++read 131072/131072 bytes at offset 262144
++128 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++[{ "start": 0, "length": 262144, "depth": 0, "zero": false, "data": true=
+, "offset": OFFSET},
++{ "start": 262144, "length": 65536, "depth": 0, "zero": true, "data": fa=
+lse},
++{ "start": 327680, "length": 65536, "depth": 1, "zero": true, "data": fa=
+lse}]
+ *** done
 --=20
 2.20.1
 
