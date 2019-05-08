@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFC1C176AA
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 13:20:40 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:35030 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4A049176AD
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 13:21:18 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:35064 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOKcq-0008CG-4y
-	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 07:20:40 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37478)
+	id 1hOKdR-0000CW-C3
+	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 07:21:17 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37807)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <pbonzini@redhat.com>) id 1hOKYd-0005ip-2P
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 07:16:20 -0400
+	(envelope-from <pbonzini@redhat.com>) id 1hOKZv-0006fW-7Z
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 07:17:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <pbonzini@redhat.com>) id 1hOKYb-0002jw-GZ
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 07:16:18 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:53177)
+	(envelope-from <pbonzini@redhat.com>) id 1hOKZt-0003cY-Vv
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 07:17:39 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:40032)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hOKYb-0002j6-7S
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 07:16:17 -0400
-Received: by mail-wm1-f68.google.com with SMTP id o25so2769085wmf.2
-	for <qemu-devel@nongnu.org>; Wed, 08 May 2019 04:16:17 -0700 (PDT)
+	(Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hOKZt-0003bR-ON
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 07:17:37 -0400
+Received: by mail-wm1-f68.google.com with SMTP id h11so2727406wmb.5
+	for <qemu-devel@nongnu.org>; Wed, 08 May 2019 04:17:37 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
 	:user-agent:mime-version:in-reply-to:content-language
 	:content-transfer-encoding;
-	bh=Eq7qSLyleWrNCHx4P4SRi3MKHGejKq3JrAmj3Wbb+Ss=;
-	b=WD9KajQgVKWAgIbmS8KJR6SVT82No5dychEtCZjQbwItuR/BJRBmGUzmrCfeJuSbb6
-	1TezWOdhSHeYNbP4DOJeLiE65El/HJ5lVpeCpQsYdMXWONLyoXdYQIlVZAygVEbSTMSR
-	LvxJI5Dkx/TEid+SfOaTgwIkbFhKX1C9AyQYUmJ6Akgkc3K0lu53IzXg0X93wXRcOlDB
-	xYf35YcDVB6AeRkSB3X6M7lJkhnwzcWnp8F2nda3KZdrYCB7GL8HSY4bMv4hHbEOp8te
-	R8Tb3xfLH/ZOvTr05wtlUtf7MsersPA1ypM+EMJtDfYNbMDG1SglnAj7AinMO5KQLkA0
-	QfwQ==
-X-Gm-Message-State: APjAAAV0GA/lybf6T1NDuIljUXsCNnCraZNjNfAZN0hlXExBCCKjuCT8
-	4+ZaLX1WqG28v/1ydt8T28gqlg==
-X-Google-Smtp-Source: APXvYqyc18QPrkT7qH66pLpTwTbbRMDPbNQl+e8l60uHIrDjuJ+m9zNhqZUVgk/zHPFsMRtxpRVEfA==
-X-Received: by 2002:a05:600c:2291:: with SMTP id
-	17mr2584957wmf.132.1557314176242; 
-	Wed, 08 May 2019 04:16:16 -0700 (PDT)
+	bh=7wcbMivpEC1kXzOH42NIe5PKKmvVwN8V7gR7A/dWHZM=;
+	b=WPVlK5bR/p7AaF4rO+/mU2dO71jDTojVvcwniNMpK6OC5SSt4pTeeq0Jd1fE+T+98s
+	/qroz02z7ptDk3MP0Cl6nw5AffIy1LCBrpWM4pQ0Aw3YJ9Js2zIImZAG4Eih7JEOUr2j
+	m+heGLiCB0poGAW/scwIpdfLkvzbVKxEDVvo0GhXyDmWWFL13EMYry+GZVF4DMM13w2B
+	C0wb2kBLZiuE+dxf0+vLJFt0p0cGxNQ29hVHjQuWFYPsl40BWAvCHC6RRWGyB4LL4paV
+	mdgAHSHgRUD8yEZPie0SgSu0DSw3O2XO/r2ZyXaf+awQ06+1QuzPe3jl9Zt0inMxIuel
+	Q+wg==
+X-Gm-Message-State: APjAAAWAfVJDg5HIJ9Jtp60JsgSUB6nKO8MdL2wDUBCFZ/6SxZIuHMhn
+	4hUBLudNHaUunw2zxWJN/jzbnw==
+X-Google-Smtp-Source: APXvYqy6HTqhbM/8WxdotJEIWVBPcJuRA9ocBQilK/VARxOYUKHLhBp3osItBcfUjmSKb+652rfhtw==
+X-Received: by 2002:a1c:5fd4:: with SMTP id t203mr2614356wmb.56.1557314256764; 
+	Wed, 08 May 2019 04:17:36 -0700 (PDT)
 Received: from [10.201.49.229] (nat-pool-mxp-u.redhat.com. [149.6.153.187])
 	by smtp.gmail.com with ESMTPSA id
-	o6sm35170410wrh.55.2019.05.08.04.16.14
+	m17sm4474087wmi.27.2019.05.08.04.17.34
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 08 May 2019 04:16:15 -0700 (PDT)
+	Wed, 08 May 2019 04:17:36 -0700 (PDT)
 To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
 	Markus Armbruster <armbru@redhat.com>, Thomas Huth <thuth@redhat.com>, 
 	qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 References: <20190507163416.24647-1-philmd@redhat.com>
-	<20190507163416.24647-11-philmd@redhat.com>
+	<20190507163416.24647-12-philmd@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <f56c85c7-4045-ce26-4a44-8e6bc28a71e2@redhat.com>
-Date: Wed, 8 May 2019 13:16:13 +0200
+Message-ID: <6b6f98cd-541d-538b-f1df-fbf215d01f52@redhat.com>
+Date: Wed, 8 May 2019 13:17:34 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190507163416.24647-11-philmd@redhat.com>
+In-Reply-To: <20190507163416.24647-12-philmd@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
 X-Received-From: 209.85.128.68
-Subject: Re: [Qemu-devel] [PATCH v2 10/16] hw/mips: Use
- object_initialize_child for correct reference counting
+Subject: Re: [Qemu-devel] [PATCH v2 11/16] hw/microblaze/zynqmp: Move the
+ IPI state into the PMUSoC state
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -96,144 +95,66 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 07/05/19 11:34, Philippe Mathieu-Daudé wrote:
-> As explained in commit aff39be0ed97:
+> The Inter Processor Interrupt is a block part of the SoC, not the
+> "machine" (talking about machine is borderline with the PMU, since
+> it is embedded into the ZynqMP SoC, but currentl QEMU doesn't
+> support multi-arch cores).
 > 
->   Both functions, object_initialize() and object_property_add_child()
->   increase the reference counter of the new object, so one of the
->   references has to be dropped afterwards to get the reference
->   counting right. Otherwise the child object will not be properly
->   cleaned up when the parent gets destroyed.
->   Thus let's use now object_initialize_child() instead to get the
->   reference counting here right.
+> Move the IPI state to the SoC state, this will simplify the review
+> of the next patch.
 > 
-> This patch was generated using the following Coccinelle script:
-> 
->  @use_sysbus_init_child_obj_missing_parent@
->  expression child_ptr;
->  expression child_type;
->  expression child_size;
->  @@
->  -   object_initialize(child_ptr, child_size, child_type);
->      ...
->  -   qdev_set_parent_bus(DEVICE(child_ptr), sysbus_get_default());
->      ...
->  ?-  object_unref(OBJECT(child_ptr));
->  +   sysbus_init_child_obj(OBJECT(PARENT_OBJ), "CHILD_NAME", child_ptr,
->  +                         child_size, child_type);
-> 
-> We let the Malta/Boston machines adopt the CPS child, and similarly
-> the CPS adopts the ITU/CPC/GIC/GCR children.
-> 
-> While the object_initialize() function doesn't take an
-> 'Error *errp' argument, the object_initialize_child() does.
-> Since this code is used when a machine is created (and is not
-> yet running), we deliberately choose to use the &error_abort
-> argument instead of ignoring errors if an object creation failed.
-> This choice also matches when using sysbus_init_child_obj(),
-> since its code is:
-> 
->   void sysbus_init_child_obj(Object *parent,
->                              const char *childname, void *child,
->                              size_t childsize, const char *childtype)
->   {
->       object_initialize_child(parent, childname, child, childsize,
->                               childtype, &error_abort, NULL);
-> 
->       qdev_set_parent_bus(DEVICE(child), sysbus_get_default());
->   }
-> 
-> Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
-> Inspired-by: Thomas Huth <thuth@redhat.com>
 > Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->  hw/mips/boston.c     |  4 ++--
->  hw/mips/cps.c        | 20 ++++++++------------
->  hw/mips/mips_malta.c |  4 ++--
->  3 files changed, 12 insertions(+), 16 deletions(-)
+>  hw/microblaze/xlnx-zynqmp-pmu.c | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
 > 
-> diff --git a/hw/mips/boston.c b/hw/mips/boston.c
-> index cb3ea85fdc1..1ffccc8da92 100644
-> --- a/hw/mips/boston.c
-> +++ b/hw/mips/boston.c
-> @@ -455,8 +455,8 @@ static void boston_mach_init(MachineState *machine)
+> diff --git a/hw/microblaze/xlnx-zynqmp-pmu.c b/hw/microblaze/xlnx-zynqmp-pmu.c
+> index 57dc1ccd429..eba9945c19b 100644
+> --- a/hw/microblaze/xlnx-zynqmp-pmu.c
+> +++ b/hw/microblaze/xlnx-zynqmp-pmu.c
+> @@ -55,6 +55,7 @@ typedef struct XlnxZynqMPPMUSoCState {
+>      /*< public >*/
+>      MicroBlazeCPU cpu;
+>      XlnxPMUIOIntc intc;
+> +    XlnxZynqMPIPI ipi[XLNX_ZYNQMP_PMU_NUM_IPIS];
+>  }  XlnxZynqMPPMUSoCState;
 >  
->      is_64b = cpu_supports_isa(machine->cpu_type, ISA_MIPS64);
 >  
-> -    object_initialize(&s->cps, sizeof(s->cps), TYPE_MIPS_CPS);
-> -    qdev_set_parent_bus(DEVICE(&s->cps), sysbus_get_default());
-> +    sysbus_init_child_obj(OBJECT(machine), "cps", OBJECT(&s->cps),
-> +                          sizeof(s->cps), TYPE_MIPS_CPS);
->      object_property_set_str(OBJECT(&s->cps), machine->cpu_type, "cpu-type",
->                              &err);
->      object_property_set_int(OBJECT(&s->cps), smp_cpus, "num-vp", &err);
-> diff --git a/hw/mips/cps.c b/hw/mips/cps.c
-> index fc97f59af4c..649b35a76c5 100644
-> --- a/hw/mips/cps.c
-> +++ b/hw/mips/cps.c
-> @@ -94,9 +94,8 @@ static void mips_cps_realize(DeviceState *dev, Error **errp)
+> @@ -144,7 +145,6 @@ static void xlnx_zynqmp_pmu_init(MachineState *machine)
+>      MemoryRegion *address_space_mem = get_system_memory();
+>      MemoryRegion *pmu_rom = g_new(MemoryRegion, 1);
+>      MemoryRegion *pmu_ram = g_new(MemoryRegion, 1);
+> -    XlnxZynqMPIPI *ipi[XLNX_ZYNQMP_PMU_NUM_IPIS];
+>      qemu_irq irq[32];
+>      int i;
 >  
->      /* Inter-Thread Communication Unit */
->      if (itu_present) {
-> -        object_initialize(&s->itu, sizeof(s->itu), TYPE_MIPS_ITU);
-> -        qdev_set_parent_bus(DEVICE(&s->itu), sysbus_get_default());
-> -
-> +        sysbus_init_child_obj(OBJECT(dev), "itu", &s->itu, sizeof(s->itu),
-> +                              TYPE_MIPS_ITU);
->          object_property_set_int(OBJECT(&s->itu), 16, "num-fifo", &err);
->          object_property_set_int(OBJECT(&s->itu), 16, "num-semaphores", &err);
->          object_property_set_bool(OBJECT(&s->itu), saar_present, "saar-present",
-> @@ -115,9 +114,8 @@ static void mips_cps_realize(DeviceState *dev, Error **errp)
+> @@ -172,16 +172,16 @@ static void xlnx_zynqmp_pmu_init(MachineState *machine)
+>  
+>      /* Create and connect the IPI device */
+>      for (i = 0; i < XLNX_ZYNQMP_PMU_NUM_IPIS; i++) {
+> -        ipi[i] = g_new0(XlnxZynqMPIPI, 1);
+> -        object_initialize(ipi[i], sizeof(XlnxZynqMPIPI), TYPE_XLNX_ZYNQMP_IPI);
+> -        qdev_set_parent_bus(DEVICE(ipi[i]), sysbus_get_default());
+> +        object_initialize(&pmu->ipi[i], sizeof(XlnxZynqMPIPI),
+> +                          TYPE_XLNX_ZYNQMP_IPI);
+> +        qdev_set_parent_bus(DEVICE(&pmu->ipi[i]), sysbus_get_default());
 >      }
 >  
->      /* Cluster Power Controller */
-> -    object_initialize(&s->cpc, sizeof(s->cpc), TYPE_MIPS_CPC);
-> -    qdev_set_parent_bus(DEVICE(&s->cpc), sysbus_get_default());
-> -
-> +    sysbus_init_child_obj(OBJECT(dev), "cpc", &s->cpc, sizeof(s->cpc),
-> +                          TYPE_MIPS_CPC);
->      object_property_set_int(OBJECT(&s->cpc), s->num_vp, "num-vp", &err);
->      object_property_set_int(OBJECT(&s->cpc), 1, "vp-start-running", &err);
->      object_property_set_bool(OBJECT(&s->cpc), true, "realized", &err);
-> @@ -130,9 +128,8 @@ static void mips_cps_realize(DeviceState *dev, Error **errp)
->                              sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->cpc), 0));
+>      for (i = 0; i < XLNX_ZYNQMP_PMU_NUM_IPIS; i++) {
+> -        object_property_set_bool(OBJECT(ipi[i]), true, "realized",
+> +        object_property_set_bool(OBJECT(&pmu->ipi[i]), true, "realized",
+>                                   &error_abort);
+> -        sysbus_mmio_map(SYS_BUS_DEVICE(ipi[i]), 0, ipi_addr[i]);
+> -        sysbus_connect_irq(SYS_BUS_DEVICE(ipi[i]), 0, irq[ipi_irq[i]]);
+> +        sysbus_mmio_map(SYS_BUS_DEVICE(&pmu->ipi[i]), 0, ipi_addr[i]);
+> +        sysbus_connect_irq(SYS_BUS_DEVICE(&pmu->ipi[i]), 0, irq[ipi_irq[i]]);
+>      }
 >  
->      /* Global Interrupt Controller */
-> -    object_initialize(&s->gic, sizeof(s->gic), TYPE_MIPS_GIC);
-> -    qdev_set_parent_bus(DEVICE(&s->gic), sysbus_get_default());
-> -
-> +    sysbus_init_child_obj(OBJECT(dev), "gic", &s->gic, sizeof(s->gic),
-> +                          TYPE_MIPS_GIC);
->      object_property_set_int(OBJECT(&s->gic), s->num_vp, "num-vp", &err);
->      object_property_set_int(OBJECT(&s->gic), 128, "num-irq", &err);
->      object_property_set_bool(OBJECT(&s->gic), true, "realized", &err);
-> @@ -147,9 +144,8 @@ static void mips_cps_realize(DeviceState *dev, Error **errp)
->      /* Global Configuration Registers */
->      gcr_base = env->CP0_CMGCRBase << 4;
->  
-> -    object_initialize(&s->gcr, sizeof(s->gcr), TYPE_MIPS_GCR);
-> -    qdev_set_parent_bus(DEVICE(&s->gcr), sysbus_get_default());
-> -
-> +    sysbus_init_child_obj(OBJECT(dev), "gcr", &s->gcr, sizeof(s->gcr),
-> +                          TYPE_MIPS_GCR);
->      object_property_set_int(OBJECT(&s->gcr), s->num_vp, "num-vp", &err);
->      object_property_set_int(OBJECT(&s->gcr), 0x800, "gcr-rev", &err);
->      object_property_set_int(OBJECT(&s->gcr), gcr_base, "gcr-base", &err);
-> diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c
-> index 04f2117d71e..aff8464f2ac 100644
-> --- a/hw/mips/mips_malta.c
-> +++ b/hw/mips/mips_malta.c
-> @@ -1151,8 +1151,8 @@ static void create_cps(MaltaState *s, const char *cpu_type,
->  {
->      Error *err = NULL;
->  
-> -    object_initialize(&s->cps, sizeof(s->cps), TYPE_MIPS_CPS);
-> -    qdev_set_parent_bus(DEVICE(&s->cps), sysbus_get_default());
-> +    sysbus_init_child_obj(OBJECT(s), "cps", OBJECT(&s->cps), sizeof(s->cps),
-> +                          TYPE_MIPS_CPS);
->      object_property_set_str(OBJECT(&s->cps), cpu_type, "cpu-type", &err);
->      object_property_set_int(OBJECT(&s->cps), smp_cpus, "num-vp", &err);
->      object_property_set_bool(OBJECT(&s->cps), true, "realized", &err);
+>      /* Load the kernel */
 > 
+
+Seems to be useful for debugging too, since the XlnxZynqMPIPIs'
+addresses are not lost after xlnx_zynqmp_pmu_init.
 
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 
