@@ -2,44 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4DCBB16EA7
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 03:35:27 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57315 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9ECF616EBA
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 03:52:45 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57461 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOBUU-0001X6-Ft
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 21:35:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54295)
+	id 1hOBlE-0006AA-3c
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 21:52:44 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55987)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <tao3.xu@intel.com>) id 1hOBTS-0001Ds-L8
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 21:34:23 -0400
+	(envelope-from <sgh8183@gmail.com>) id 1hOBjl-00053M-4v
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 21:51:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <tao3.xu@intel.com>) id 1hOBTR-000431-Hb
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 21:34:22 -0400
-Received: from mga02.intel.com ([134.134.136.20]:15351)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1hOBTR-0003uS-9m
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 21:34:21 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-	by orsmga101.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	07 May 2019 18:34:17 -0700
-X-ExtLoop1: 1
-Received: from tao-optiplex-7060.sh.intel.com ([10.239.13.92])
-	by orsmga007.jf.intel.com with ESMTP; 07 May 2019 18:34:15 -0700
-From: Tao Xu <tao3.xu@intel.com>
-To: berrange@redhat.com,
-	eblake@redhat.com,
-	ehabkost@redhat.com
-Date: Wed,  8 May 2019 09:31:53 +0800
-Message-Id: <20190508013153.15412-1-tao3.xu@intel.com>
-X-Mailer: git-send-email 2.17.1
+	(envelope-from <sgh8183@gmail.com>) id 1hOBjk-0008FD-AN
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 21:51:13 -0400
+Received: from mail-ua1-x934.google.com ([2607:f8b0:4864:20::934]:38473)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <sgh8183@gmail.com>) id 1hOBjk-0008Ds-5r
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 21:51:12 -0400
+Received: by mail-ua1-x934.google.com with SMTP id t15so6792583uao.5
+	for <qemu-devel@nongnu.org>; Tue, 07 May 2019 18:51:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:from:date:message-id:subject:to;
+	bh=CMrooGSA9dBfel1NqKXx1DDSt0KGD/gUTuAQhMYnj1E=;
+	b=AGK9KluUGzDA/gNOuwA8QEfTBiD4fRvBJ3Csf62bPCKpud9ZPatMhEy6gGXOO2USe+
+	0HHMRruOmTNw2q09n0BWeG1wdWhnUyV60pFjaTnU5MBXisrcxV6FPFqGdUZyufTNohao
+	Cn+9fomPq+j22iH/Rx8BYEsvog6tIqlHGVxAdFmTr93SzWvBB0NaY/IfT4D+KK4SZo9G
+	YxHcjc8nuv3BE/2FLElQQppWg4/gxJBeaKm1ozKI3uqg/Ea5Qh8KSosZGZ4vv0wasN6b
+	S5sANC56VsY8RjSGx/rksy5QAf11HC8SdJjs5XDmDw0YyfWGSl0X9QeJVZpKNb0WQnkt
+	PZLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:from:date:message-id:subject:to;
+	bh=CMrooGSA9dBfel1NqKXx1DDSt0KGD/gUTuAQhMYnj1E=;
+	b=QNbk4RqV1CsfkMG2zS4nQA61DEaRdLjTTeHyJJASZGthDlFSYjyWsfY+8NX14KTg2V
+	za4TsYS5f5p7YSJyuGD11cwXVlfMW+TtJp8drasJSizu8dgFYcoURliJclwmuIO3Dbpv
+	RebBGYC/75Q92k1xgf5sB4J00C5wyc9sfYFTEouP5DXBNYZUCi+9NRgMFOyGyhRL1JwR
+	uDzPpGISJVdKEls1yfdxLcd5tfsafREoxNVeibOz7AU/XFhHyDVZ5aF05MMlxR+xRBBT
+	a6nx9NUZM7+PvNdTbOFYWuNLdAbP36oEGCFr3pTX/U1LSmPLAl4ZtSDnk3HqGuPXtOfW
+	kkKQ==
+X-Gm-Message-State: APjAAAXVUTqN1YwzPuDVQf/WNy869BHwtwy0RmRrMq2ZXUvKyNxawv1k
+	d41XzSTIPF0YtTZjyuTLKeymkPkiac3RMs9pmMxdTlEWowU=
+X-Google-Smtp-Source: APXvYqy23Z9eK3CfTTOYBTSvNk0W81k73hQx70gGck2IaIFXB7k7uxedFOwhKNzt1JQynOGKaBzmlT4Jvk/pFeApP60=
+X-Received: by 2002:ab0:14ce:: with SMTP id f14mr18532634uae.50.1557280271037; 
+	Tue, 07 May 2019 18:51:11 -0700 (PDT)
+MIME-Version: 1.0
+From: S KH <sgh8183@gmail.com>
+Date: Wed, 8 May 2019 10:51:00 +0900
+Message-ID: <CAE519-=VsRtsLhd9T-RWSV-29yGz_0Zp7-TdMfXKcrV1wN0GWg@mail.gmail.com>
+To: qemu-devel@nongnu.org
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 134.134.136.20
-Subject: [Qemu-devel] [PATCH v3] i386: Add some MSR based features on
- Cascadelake-Server CPU model
+X-Received-From: 2607:f8b0:4864:20::934
+Content-Type: text/plain; charset="UTF-8"
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: [Qemu-devel] Question in QEMU : The result of printf does not
+ appear in the qemu VM's log.
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -51,77 +69,20 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: tao3.xu@intel.com, xiaoyao.li@intel.com, qemu-devel@nongnu.org,
-	robert.hu@intel.com, pbonzini@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As noted in "c7a88b52f6 i386: Add new model of Cascadelake-Server"
-Because MSR based feature has been supported by QEMU, we add
-CPUID_7_0_EDX_ARCH_CAPABILITIES on Cascadelake-Server CPU model,
-and add IA32_ARCH_CAPABILITIES MSR based features (RDCL_NO,
-IBRS_ALL and SKIP_L1DFL_VMENTRY).
+Hello.
 
-And "014018e19b i386: Make arch_capabilities migratable" has been
-in QEMU upstream, the CPUID_7_0_EDX_ARCH_CAPABILITIES can be
-safely added into CPU Model.
+I'am student studying QEMU hypervisor and SPICE.
 
-Signed-off-by: Tao Xu <tao3.xu@intel.com>
----
+In order to find out the calling order of functions in QEMU source, I input
+and compiled 'printf ("% s \ n", __ func__) "into source.
 
-Changes in v3 -> v2:
-    - improve the commit message [Daniel and Eric]
+And when I run the VM and open 'domain_name.log' in '/ var / log / libvirt
+/ qemu', I see that no output from printf is displayed.
 
-Changes in v2:
-    - rebased patch to latest qemu base
----
- hw/i386/pc.c      | 7 ++++++-
- target/i386/cpu.c | 6 +++++-
- 2 files changed, 11 insertions(+), 2 deletions(-)
+I installed qemu on Centos now, but I did not have this problem when I used
+qemu in Ubuntu.
 
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index d98b737b8f..27c3d25436 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -115,7 +115,12 @@ struct hpet_fw_config hpet_cfg = {.count = UINT8_MAX};
- /* Physical Address of PVH entry point read from kernel ELF NOTE */
- static size_t pvh_start_addr;
- 
--GlobalProperty pc_compat_4_0[] = {};
-+GlobalProperty pc_compat_4_0[] = {
-+    { "Cascadelake-Server" "-" TYPE_X86_CPU, "arch-capabilities", "off" },
-+    { "Cascadelake-Server" "-" TYPE_X86_CPU, "rdctl-no", "off" },
-+    { "Cascadelake-Server" "-" TYPE_X86_CPU, "ibrs-all", "off" },
-+    { "Cascadelake-Server" "-" TYPE_X86_CPU, "skip-l1dfl-vmentry", "off" },
-+};
- const size_t pc_compat_4_0_len = G_N_ELEMENTS(pc_compat_4_0);
- 
- GlobalProperty pc_compat_3_1[] = {
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 722c5514d4..2aa0a8f9ba 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -2536,7 +2536,8 @@ static X86CPUDefinition builtin_x86_defs[] = {
-             CPUID_7_0_ECX_PKU |
-             CPUID_7_0_ECX_AVX512VNNI,
-         .features[FEAT_7_0_EDX] =
--            CPUID_7_0_EDX_SPEC_CTRL | CPUID_7_0_EDX_SPEC_CTRL_SSBD,
-+            CPUID_7_0_EDX_SPEC_CTRL | CPUID_7_0_EDX_SPEC_CTRL_SSBD |
-+            CPUID_7_0_EDX_ARCH_CAPABILITIES,
-         /* Missing: XSAVES (not supported by some Linux versions,
-                 * including v4.1 to v4.12).
-                 * KVM doesn't yet expose any XSAVES state save component,
-@@ -2548,6 +2549,9 @@ static X86CPUDefinition builtin_x86_defs[] = {
-             CPUID_XSAVE_XGETBV1,
-         .features[FEAT_6_EAX] =
-             CPUID_6_EAX_ARAT,
-+        .features[FEAT_ARCH_CAPABILITIES] =
-+            MSR_ARCH_CAP_RDCL_NO | MSR_ARCH_CAP_IBRS_ALL |
-+            MSR_ARCH_CAP_SKIP_L1DFL_VMENTRY,
-         .xlevel = 0x80000008,
-         .model_id = "Intel Xeon Processor (Cascadelake)",
-     },
--- 
-2.17.1
-
-
+I wonder why.
