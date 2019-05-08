@@ -2,79 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 535D717B9F
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 16:37:54 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38289 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E570C17B92
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 16:35:29 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38237 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hONhe-0008Ru-RS
-	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 10:37:53 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54114)
+	id 1hONfN-0006hR-2w
+	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 10:35:29 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54231)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hONd3-0005o8-8x
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 10:33:06 -0400
+	(envelope-from <armbru@redhat.com>) id 1hONde-00064u-6F
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 10:33:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hONd2-0004JA-F7
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 10:33:05 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:41755)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hONd2-0004Id-64
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 10:33:04 -0400
-Received: by mail-pf1-x444.google.com with SMTP id l132so1109143pfc.8
-	for <qemu-devel@nongnu.org>; Wed, 08 May 2019 07:33:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=K2jc9dNMDIPDj/kjeLus5RuR9URVn2943gkVig1NC18=;
-	b=O/bsEHhbXTb8MhouNqAL9bgNRFHu+TZv8tfkrEgG5JKeBDqEAXI4elzpD/CHVSkq2G
-	t+AAdogcMUzGU2dvdWZyv6k3d+1x6rEH3n8M0C8MwgnVYN4vMgwHkkSswByxlfM9NUGP
-	0V6kw6dMyY+V6iQUWqOLXQxPOLeTKJBQFHeRSpZJ8+tH1v6MhDhRunAqSgZXggl5wAw/
-	ec/jtsdTOzvGYj+aOhjT0qqRjgIM9ZdWCxbcAg+yqfiPzIa6Qo67yh19gccUVCJb6r0/
-	u8kQTXzSeCoZe48jzegJiqdHa22fYa0SP/1LmmFVhqjAlGQQnDOA9aUtDOuIOa+aOVtE
-	83KA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=K2jc9dNMDIPDj/kjeLus5RuR9URVn2943gkVig1NC18=;
-	b=mXOgrKwO4aasuXNGvZbo9N+YMXtw2LpJRXwrgd7Gi3er38S3F6/c1KacoUpVxsk0PT
-	ddAaaBVunSl4DDdIsBrwRMRqQ9XGDTl8n9zLbrUE75k02He/G4Sb9p9TYoBjWDYY41gJ
-	qhYP9w2JsPVf6Zxm+tRdhr1ipBWJwV+UTOU/CeXo06rQk2Gk9fWxsCkcQMtILmbBfnGM
-	ai8nk6O86wTeRVqS1DVuuOTAAs23g4MhTdzjS0IqbZzb1zLyesIsnMMhUKGfrC5sjCDv
-	zSZ+n8FHRnPVH/8jAn3TpXvCqV37HldggjnF1oXdLZfDvxAML9ihnUFxZbMB+P/9qEbT
-	B0aA==
-X-Gm-Message-State: APjAAAXIz6B8pRZIyPyKoLJ8OaQXyVh41jq5G+QclPUVWQn7PmHIb35Z
-	nFEO2alprcJRs6tOCJEzNwEvZha8JAA=
-X-Google-Smtp-Source: APXvYqzI5XzETtBkzNFqQAC/CyqNr/jmluKADzIq9k6LiG/3ljveEcooYUyL94fSp85j16usidrTdw==
-X-Received: by 2002:a63:a1a:: with SMTP id 26mr46080480pgk.11.1557325981936;
-	Wed, 08 May 2019 07:33:01 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-27-95.tukw.qwest.net. [97.113.27.95])
-	by smtp.gmail.com with ESMTPSA id
-	x4sm21080238pfm.19.2019.05.08.07.33.00
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 08 May 2019 07:33:01 -0700 (PDT)
-To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-References: <20190508000641.19090-1-richard.henderson@linaro.org>
-	<20190508000641.19090-19-richard.henderson@linaro.org>
-	<CAL1e-=iRwS-1LvP2m5oS2PAKigiDr0g8jRNP6xPV2b_9AYU08Q@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <de1b6006-866c-b3a8-9726-4620821a9657@linaro.org>
-Date: Wed, 8 May 2019 07:32:58 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <armbru@redhat.com>) id 1hONdc-0004T9-Vn
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 10:33:42 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:63006)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <armbru@redhat.com>)
+	id 1hONdc-0004Sj-OL; Wed, 08 May 2019 10:33:40 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 26C2B11DBA8;
+	Wed,  8 May 2019 14:33:39 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-28.ams2.redhat.com
+	[10.36.116.28])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5684E1001DFA;
+	Wed,  8 May 2019 14:33:35 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+	id C0A641132B35; Wed,  8 May 2019 16:33:33 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+References: <20190502185835.15185-1-laurent@vivier.eu>
+	<CAFEAcA9-hAU5dxUmSWtbvrPEXE-nCP1uLvLbOby-_EXZ27o+8g@mail.gmail.com>
+	<87sgtv4wjo.fsf@zen.linaroharston>
+Date: Wed, 08 May 2019 16:33:33 +0200
+In-Reply-To: <87sgtv4wjo.fsf@zen.linaroharston> ("Alex =?utf-8?Q?Benn?=
+	=?utf-8?Q?=C3=A9e=22's?= message of
+	"Fri, 03 May 2019 12:17:15 +0100")
+Message-ID: <87imulaude.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <CAL1e-=iRwS-1LvP2m5oS2PAKigiDr0g8jRNP6xPV2b_9AYU08Q@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::444
-Subject: Re: [Qemu-devel] [PATCH v3 18/39] target/mips: Use env_cpu,
- env_archcpu
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.38]);
+	Wed, 08 May 2019 14:33:40 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PULL 00/13] Trivial branch patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -86,27 +64,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>,
+	Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+	Eduardo Habkost <ehabkost@redhat.com>,
+	Viktor Prutyanov <viktor.prutyanov@phystech.edu>,
+	QEMU Trivial <qemu-trivial@nongnu.org>,
+	Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+	Jason Wang <jasowang@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
+	Laurent Vivier <laurent@vivier.eu>, Fabien Chouteau <chouteau@adacore.com>,
+	QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
+	Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
+	Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
+	Michael Roth <mdroth@linux.vnet.ibm.com>,
+	Aurelien Jarno <aurelien@aurel32.net>,
+	Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/8/19 1:15 AM, Aleksandar Markovic wrote:
-> 
-> On May 8, 2019 2:19 AM, "Richard Henderson" <richard.henderson@linaro.org
-> <mailto:richard.henderson@linaro.org>> wrote:
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+
+> Peter Maydell <peter.maydell@linaro.org> writes:
+>
+>> On Thu, 2 May 2019 at 19:58, Laurent Vivier <laurent@vivier.eu> wrote:
+>>>
+>>> The following changes since commit 8482ff2eb3bb95020eb2f370a9b3ea26511e=
+41df:
+>>>
+>>>   Merge remote-tracking branch 'remotes/jnsnow/tags/bitmaps-pull-reques=
+t' into staging (2019-05-02 12:04:51 +0100)
+>>>
+>>> are available in the Git repository at:
+>>>
+>>>   git://github.com/vivier/qemu.git tags/trivial-branch-pull-request
+>>>
+>>> for you to fetch changes up to f7c03a68b814254df414977ff299468fbf0fa1c0:
+>>>
+>>>   sockets: avoid string truncation warnings when copying UNIX path (201=
+9-05-02 20:50:47 +0200)
+>>>
+>>> ----------------------------------------------------------------
+>>> Pull request trivial branch 2019-05-02
+>>>
+>>> ----------------------------------------------------------------
 >>
->>
->>
-> 
-> This commit message doesnˊt explain the reason for the change, and why is this
-> an improvement. The underlyng reason for distingishing between  env_cpu and
-> env_archcpu cases is not explained too.
+>> Markus's "Clean up includes" patch breaks 'make check' on
+>> big-endian hosts:
+>> cd /home/pm215/qemu/build/all/tests/fp && ./fp-test -s -l 1 -r all  i32_=
+to_f16 i
+>> 64_to_f16 i32_to_f32 i64_to_f32 i32_to_f64 i64_to_f64 i32_to_f128 i64_to=
+_f128 >
+>>  int-to-float.out 2>&1 || (cat  int-to-float.out && exit 1;)
+>>>> Testing i32_to_f16, rounding near_even
+>> ^M372 tests total.
+>> ^M372 tests performed.
+>> In 372 tests, no errors found in i32_to_f16, rounding near_even.
+>>>> Testing i32_to_f16, rounding minMag
+>> [...]
+>> ^MErrors found in i32_to_f128:
+>> 1006FFFF  =3D> +0000.000000000000401B006FFFF00000 .....
+>>         expected +401B.006FFFF000000000000000000000 .....
+>> ^M0001DDEB  =3D> +0000.000000000000400FDDEB00000000 .....
+>>         expected +400F.DDEB000000000000000000000000 .....
+>> ^MFFF6FFFC  =3D> +0000.000000000000C012200080000000 .....
+>>         expected -4012.2000800000000000000000000000 .....
+>> ^MFFFFFFF8  =3D> +0000.000000000000C002000000000000 .....
+>>         expected -4002.0000000000000000000000000000 .....
+>> [etc]
+>
+> Considering the header clean-ups moved bswap related stuff and the
+> patterns look incorrectly swapped something has gone fishy.
+>
+> If it's just stuff touching f128 then we have some magic in
+> softfloat-types:
+>
+>  typedef struct {
+>  #ifdef HOST_WORDS_BIGENDIAN
+>      uint64_t high, low;
+>  #else
+>      uint64_t low, high;
+>  #endif
+>  } float128;
+>
+> but I would have though HOST_WORDS_BIGENDIAN is in the config. I shall
+> have a poke once I get onto the s390 machine.
 
-It's certainly explained in the preceeding patches that introduce those functions.
+Any luck?
 
-Are you suggesting that it is beneficial to copy-and-paste a common block
-explanation into 21 commit messages for each of target/foo/?
+In my own poking, I stumbled over
 
+    #ifndef HOST_WORDS_BIGENDIAN
+    #define LITTLEENDIAN 1
+    /* otherwise do not define it */
+    #endif
 
-r~
+in platform.h.  Is LITTLEENDIAN unused, or am I confused?
+
+[...]
 
