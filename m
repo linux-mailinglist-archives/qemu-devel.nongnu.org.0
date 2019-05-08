@@ -2,78 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F11BF17F7E
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 20:06:40 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:41275 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AC4131801E
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 20:59:52 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:41396 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOQxk-0004ct-6r
-	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 14:06:40 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47702)
+	id 1hORFV-0003MX-N5
+	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 14:25:01 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50778)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOQvL-0002r8-Rt
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 14:04:12 -0400
+	(envelope-from <ehabkost@redhat.com>) id 1hOREN-000359-ME
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 14:23:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOQvJ-0000mt-Cn
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 14:04:11 -0400
-Received: from mail-pl1-x631.google.com ([2607:f8b0:4864:20::631]:43628)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hOQvJ-0000lZ-3W
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 14:04:09 -0400
-Received: by mail-pl1-x631.google.com with SMTP id n8so10290514plp.10
-	for <qemu-devel@nongnu.org>; Wed, 08 May 2019 11:04:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=easSRJRIFw2ZrC74E2/GAeMUZZ0pyNjONK6UMe55Q44=;
-	b=UyJK1YanHnGSm77ONcpvqeddnbq5xDVq/LLA1BoYlravK5xvzT5PqjX+rIny8OjabM
-	nZzQkwm8b6ZW7FOjl65pZglQvLA5FGOMU0qVK0D6zdk1CB0JmU84YinWVoz7kMXhZwqP
-	vHZsL0iI/Fu3qMx3dymDuNw1RHHAf9cDlVbqaV/DB5t37aAMIutQ8em308HwIrFNlRHK
-	a6RM012h8hH2VxMCNZRPdlvq1avliZcJWggjF0FJ6HOVbYQstIH+/EiyBK3Xf1QyRMs6
-	4xxOhVljLg66T5kyBVq7SutuRLtpdlKMr5HqbItd3jc5uekRYrsdMBVPxdpJ1xDiPH9a
-	IrXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=easSRJRIFw2ZrC74E2/GAeMUZZ0pyNjONK6UMe55Q44=;
-	b=QaKjSkO3Do7N9TXUfzRJA6MwMChz/wH/iQPTfRii+82xfpoVsJlMk2j1D8zqtzsmMh
-	aEyk0JGMGkFo7mIcAdaQmHmEAFXJtKvSin+zck7QNa0eDNn/5OiTQOVbl9FJ2AGhTSvP
-	khjM5UmQGAFOsshIPKGfrfwUSpfET1KJPtIapogLNhAv3dTS1xxv4Vcd18FiF26F8IZ3
-	n7y+ijjz5L3jrSF9VHf/TRCDDxshSp/7cM2nCX4+7tKqVBHsl5hiDhZTo8THAbfa42nw
-	KTpegvbcZ2IU52qkMZsIADzq8aYRa21/3m6tGYYhPHWNFPQp1uhiHTW0ItOAma7JLJQG
-	gMDw==
-X-Gm-Message-State: APjAAAUn+NhzpKcrhTfL7qXwqxQ9vnQvogBisiOA+yjW0mCYRs3SsSSc
-	6O3XXuqjNRZ27BVg8OkMJIQR5w==
-X-Google-Smtp-Source: APXvYqzqIFNnlPueyDx1/NkgGUBTstOAARobNQAoVZ6tBmtNRjByruTq2BvJ43h6PZccmSnNgfymhQ==
-X-Received: by 2002:a17:902:2825:: with SMTP id
-	e34mr49840592plb.264.1557338646109; 
-	Wed, 08 May 2019 11:04:06 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-27-95.tukw.qwest.net. [97.113.27.95])
-	by smtp.gmail.com with ESMTPSA id
-	k65sm30883316pfj.141.2019.05.08.11.04.04
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 08 May 2019 11:04:05 -0700 (PDT)
-To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
-References: <20190508150608.3311-1-thuth@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <d783fdeb-fe7a-fc27-3769-1ca245ffd4c7@linaro.org>
-Date: Wed, 8 May 2019 11:04:03 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <20190508150608.3311-1-thuth@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::631
-Subject: Re: [Qemu-devel] [PATCH] include/exec/poison: Mark TARGET_FMT_lu as
- poisoned, too
+	(envelope-from <ehabkost@redhat.com>) id 1hOREI-0001dr-Ur
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 14:23:51 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33718)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hOREI-0001aJ-PX
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 14:23:46 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 5032BC058CBD;
+	Wed,  8 May 2019 18:23:45 +0000 (UTC)
+Received: from localhost (ovpn-116-61.gru2.redhat.com [10.97.116.61])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id B603427BA8;
+	Wed,  8 May 2019 18:23:42 +0000 (UTC)
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Wed,  8 May 2019 15:23:39 -0300
+Message-Id: <20190508182339.22447-1-ehabkost@redhat.com>
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.32]);
+	Wed, 08 May 2019 18:23:45 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH] configure: Require python3 >= 3.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -85,21 +51,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, pbonzini@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+	Thomas Huth <thuth@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+	Cleber Rosa <crosa@redhat.com>,
+	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/8/19 8:06 AM, Thomas Huth wrote:
-> We already poison TARGET_FMT_lx and TARGET_FMT_ld, but apparently
-> forgot to poison TARGET_FMT_lu, too. Do it now.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  include/exec/poison.h | 1 +
->  1 file changed, 1 insertion(+)
+The oldest python3 version in distros that will be supported by
+QEMU 4.1 is 3.5.3 (the one in Debian Stretch).  Error out if
+running python3 < 3.5.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+We have a .travis.yml job configured to use Python 3.4.  Change
+it to use Python 3.5.
 
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+---
+ configure   | 5 +++--
+ .travis.yml | 2 +-
+ 2 files changed, 4 insertions(+), 3 deletions(-)
 
-r~
+diff --git a/configure b/configure
+index 6b3ed8c532..520c207d66 100755
+--- a/configure
++++ b/configure
+@@ -1841,8 +1841,9 @@ fi
+ 
+ # Note that if the Python conditional here evaluates True we will exit
+ # with status 1 which is a shell 'false' value.
+-if ! $python -c 'import sys; sys.exit(sys.version_info < (2,7))'; then
+-  error_exit "Cannot use '$python', Python 2 >= 2.7 or Python 3 is required." \
++if ! $python -c 'import sys; sys.exit(sys.version_info < (2,7) or \
++                                      (3,0) <= sys.version_info < (3,5))'; then
++  error_exit "Cannot use '$python', Python 2 >= 2.7 or Python 3 >= 3.5 is required." \
+       "Use --python=/path/to/python to specify a supported Python."
+ fi
+ 
+diff --git a/.travis.yml b/.travis.yml
+index 66448d99d6..0f6986b3f1 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -211,7 +211,7 @@ matrix:
+         - CONFIG="--target-list=x86_64-softmmu"
+       language: python
+       python:
+-        - "3.4"
++        - "3.5"
+ 
+ 
+     - env:
+-- 
+2.18.0.rc1.1.g3f1ff2140
+
 
