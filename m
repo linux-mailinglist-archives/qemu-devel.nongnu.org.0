@@ -2,71 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E4BD181D6
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 23:55:01 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:44215 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 04DCB185C5
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 09:07:51 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49388 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOUWi-0001du-QX
-	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 17:55:00 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34450)
+	id 1hOd9i-0000Co-4O
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 03:07:50 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43690)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hOUVi-0001MV-3F
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 17:53:59 -0400
+	(envelope-from <ek@google.com>) id 1hOVSW-0007hI-8c
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 18:54:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hOUVg-0003M4-8i
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 17:53:57 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:38434)
+	(envelope-from <ek@google.com>) id 1hOVSV-0006qR-6E
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 18:54:44 -0400
+Received: from mail-io1-xd43.google.com ([2607:f8b0:4864:20::d43]:45143)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hOUVf-0003L3-VF
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 17:53:56 -0400
-Received: by mail-wr1-f65.google.com with SMTP id v11so9028360wru.5
-	for <qemu-devel@nongnu.org>; Wed, 08 May 2019 14:53:54 -0700 (PDT)
+	(Exim 4.71) (envelope-from <ek@google.com>) id 1hOVSU-0006oo-GD
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 18:54:43 -0400
+Received: by mail-io1-xd43.google.com with SMTP id b3so83259iob.12
+	for <qemu-devel@nongnu.org>; Wed, 08 May 2019 15:54:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=loon.com; s=google;
+	h=mime-version:references:in-reply-to:reply-to:from:date:message-id
+	:subject:to:cc;
+	bh=D6eGTuHc4GZTPaJIPefcbVCh7sBCUwyeK8Auqtu9Yvo=;
+	b=ImPpvV2qlFWCmbuy4psIjjqhm7JH1yf+DpvYk0c7xWfQYaCv6UZHNLM4RBB+tNEcMk
+	6FCsJ5S0zsPVIxGDa27ntp+AS9hVn8X2U5LGBO2t2PBBVAqcsx3ThFtWyWtn8YhcsLqv
+	uzm5QipNab/j9FSZ15ZDaGCsOg7URgYxFCg5Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=eV5UVRRbZXR8KvHlef67FpJf8bnUZkFHZ/xXGlfmDlM=;
-	b=g6dsHSgYZGwPIe0Xtukh7sR7bhfFqA3VDTvYI3C/v7ayht9jueSsObGxmzAnOo0eVw
-	gRDqCxDxB5jqZm1QAtivr3AvZgKfbdAwaeX+0COrwR3wGLz+Du9jHQr/lPh6oSOvqN6o
-	oqeTxLUDOr/qOtT/jKpVNEkLZ35PPr5h0+Rrfn6U5tFmKPvqpRDrsUA0tDFvoEQEoLAu
-	ciGHrQ8uCJ+2YpW2s65zUm6rKQ5kssJ9l2zIguK+Ey+t0JfO5tNSR6zJuU+9rB4D9/Bl
-	FmCS6/BwNbJQmhN1xpOKoY858/Pdnv7BC98QNXPVCeZng/qZZ9PuJSozD0GBg/Mpd3k5
-	pLaQ==
-X-Gm-Message-State: APjAAAXhWlmDc0t1xxcXaGagZ0ldWUSJxvnFOWAQsX7MlnjXXpbof+w+
-	i323KTqs19CPndFf9KnXLLTX+n5FS0g=
-X-Google-Smtp-Source: APXvYqxvlHWofXbY9FByjWW+tld6B6lTv9TX7XYMrcYcu6GsQghLwwfk3XtaGdp76V9jY6kQ6rqy2Q==
-X-Received: by 2002:a5d:65d1:: with SMTP id e17mr131096wrw.65.1557352433258;
-	Wed, 08 May 2019 14:53:53 -0700 (PDT)
-Received: from [192.168.1.37] (193.red-88-21-103.staticip.rima-tde.net.
-	[88.21.103.193])
-	by smtp.gmail.com with ESMTPSA id a5sm164209wrt.10.2019.05.08.14.53.52
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Wed, 08 May 2019 14:53:52 -0700 (PDT)
-To: Richard Henderson <richard.henderson@linaro.org>,
-	Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-References: <20190508000641.19090-1-richard.henderson@linaro.org>
-	<20190508000641.19090-19-richard.henderson@linaro.org>
-	<CAL1e-=iRwS-1LvP2m5oS2PAKigiDr0g8jRNP6xPV2b_9AYU08Q@mail.gmail.com>
-	<de1b6006-866c-b3a8-9726-4620821a9657@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
-	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <b363c6b2-5186-de29-b341-4511da4049b8@redhat.com>
-Date: Wed, 8 May 2019 23:53:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:reply-to
+	:from:date:message-id:subject:to:cc;
+	bh=D6eGTuHc4GZTPaJIPefcbVCh7sBCUwyeK8Auqtu9Yvo=;
+	b=QWp5iDJ9N5kqWlrHTZbzEdd2IwcjEXJVmuoJfwaUfSl8IDI6ifdfnqvwujy2Br5VT6
+	oG1GAiAEyaYuS/+FhqzcSWvz5dnkbjIBnhfJgU0FGG7HDeqNFL5FG7aNgX4nDYNrDksA
+	mOf2uoaJSMajaVaxfP/Bkgcq4FR9oBgELdD+VoiwVEHyVSX+0lLT3Ve++pODxdJ5On13
+	XGpPPnV2rkoT0DKJLQMaW/vZxqf+wAJehMgLKbXKWWt1U3Kjatbl+e06j3JvhBzy31cc
+	71mdyIiBpdN+F9LmkfD7BekQYnyl4mM8rRROO4MPsonIysOqGGzDdIcAjRWMw6UZrZdV
+	4Gsw==
+X-Gm-Message-State: APjAAAW+fU3RgS3tsjX54eIKLCpZuxiiA6/luVVQ/k1zZC9jhZ6TQAFo
+	FpAjsOJscdWW4Er5KdA8KcrALZZY+9VhdFWSgz4EfQ==
+X-Google-Smtp-Source: APXvYqyQyV0FSnUapgVF3wFz/gS0+YakSmJsuag5PBtZCSHK5dLNDd8abSBLedg2su+kkl14CYTjnFVSdzfQAod0SXI=
+X-Received: by 2002:a5d:8608:: with SMTP id f8mr420205iol.62.1557356078908;
+	Wed, 08 May 2019 15:54:38 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <de1b6006-866c-b3a8-9726-4620821a9657@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.221.65
-Subject: Re: [Qemu-devel] [PATCH v3 18/39] target/mips: Use env_cpu,
- env_archcpu
+References: <20190423222005.246981-1-ek@google.com>
+	<CAFEAcA_C4BQgYmZrzFZ_bwWVWcfcV1NF_PWp1wHsvqB9iPu0kQ@mail.gmail.com>
+In-Reply-To: <CAFEAcA_C4BQgYmZrzFZ_bwWVWcfcV1NF_PWp1wHsvqB9iPu0kQ@mail.gmail.com>
+From: Erik Kline <ek@loon.com>
+Date: Wed, 8 May 2019 15:54:27 -0700
+Message-ID: <CAAedzxpgv9A9cFbsDynCcZKxyDkQ0dL+m60ckwWcfD=j8TmSHw@mail.gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::d43
+X-Mailman-Approved-At: Thu, 09 May 2019 03:05:16 -0400
+Content-Type: text/plain; charset="UTF-8"
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [PATCH] The ioctl(SIOCGIFNAME) call requires a
+ struct ifreq.
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -78,85 +72,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: ek@loon.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Richard, Aleksandar.
+Anything else I need to do?
 
-On 5/8/19 4:32 PM, Richard Henderson wrote:
-> On 5/8/19 1:15 AM, Aleksandar Markovic wrote:
->>
->> On May 8, 2019 2:19 AM, "Richard Henderson" <richard.henderson@linaro.org
->> <mailto:richard.henderson@linaro.org>> wrote:
->>>
->>>
->>>
->>
->> This commit message doesnˊt explain the reason for the change, and why is this
->> an improvement. The underlyng reason for distingishing between  env_cpu and
->> env_archcpu cases is not explained too.
-> 
-> It's certainly explained in the preceeding patches that introduce those functions.
-> 
-> Are you suggesting that it is beneficial to copy-and-paste a common block
-> explanation into 21 commit messages for each of target/foo/?
+On Wed, 24 Apr 2019 at 02:10, Peter Maydell <peter.maydell@linaro.org>
+wrote:
 
-
-*) Richard:
-
-I tried to put myself in Aleksandar shoes. I believe Aleksandar is
-worried about his MIPS maintainer duty, wanting to Ack-by this patch.
-
-It is true that out of the context of the series, it is hard to see what
-is the problem you try to solve.
-
-You could copy/paste the explanation you used previously,
-with s/$arch/mips/:
-
-"Cleanup in the boilerplate that each target must define."
-
-"Combined uses of CPU(mips_env_get_cpu()) were failures to use
-the more proper, ENV_GET_CPU macro, now replaced by env_cpu."
-
-Now to clearly understand this patch we still need to look at the
-previous two arch-generic patches
-- "cpu: Replace ENV_GET_CPU with env_cpu" and
-- "cpu: Introduce env_archcpu".
-
-Also, it is tedious to copy/paste the same explanation, but thinking of
-forks or stable branch that cherry-pick not all but some commits of a
-series, it might be useful.
-
-Another guess is Aleksandar might have looked at the series cover, which
-is not well explained as your v2:
-https://lists.gnu.org/archive/html/qemu-devel/2019-03/msg07635.html
-I think you mistakenly copied the v1 blurb instead of the v2 one.
-
-So at some point I can understand Aleksandar frustation.
-
-
-*) Aleksandar:
-
-This series fall under the "Overall Guest CPU cores (TCG)" section
-maintained by Richard and Paolo. I think you have to see this series as
-a whole to understand the benefits of it.
-
-With the same reasoning, I believe you shouldn't worry to not give your
-Ack if you don't feel comfortable.
-
-I think Richard sent this v3 to simply address comments raised by the
-previous reviewer during v1/v2, where there was some discussions: I took
-it as "this is the last round before getting merged" (unless someone
-object).
-
-It is hard to make everybody happy on a such big project, with so many
-areas, lines of code, people, culture, etc... I believe we all try to
-give our best, neither the commiters nor the reviewers are perfect, but
-slowly we help this project to improve :)
-
-
-Best regards,
-
-Phil.
-
+> On Tue, 23 Apr 2019 at 23:28, Erik Kline via Qemu-devel
+> <qemu-devel@nongnu.org> wrote:
+> >
+> > Signed-off-by: Erik Kline <ek@google.com>
+> > Buglink: https://bugs.launchpad.net/qemu/+bug/1814352
+> > ---
+> >  linux-user/ioctls.h | 2 +-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >
+> > diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
+> > index ae8951625f..37501f575c 100644
+> > --- a/linux-user/ioctls.h
+> > +++ b/linux-user/ioctls.h
+> > @@ -178,7 +178,7 @@
+> >  #endif /* CONFIG_USBFS */
+> >
+> >    IOCTL(SIOCATMARK, IOC_R, MK_PTR(TYPE_INT))
+> > -  IOCTL(SIOCGIFNAME, IOC_RW, MK_PTR(TYPE_INT))
+> > +  IOCTL(SIOCGIFNAME, IOC_RW, MK_PTR(MK_STRUCT(STRUCT_int_ifreq)))
+> >    IOCTL(SIOCGIFFLAGS, IOC_W | IOC_R,
+> MK_PTR(MK_STRUCT(STRUCT_short_ifreq)))
+> >    IOCTL(SIOCSIFFLAGS, IOC_W, MK_PTR(MK_STRUCT(STRUCT_short_ifreq)))
+> >    IOCTL(SIOCGIFADDR, IOC_W | IOC_R,
+> MK_PTR(MK_STRUCT(STRUCT_sockaddr_ifreq)))
+> > --
+> > 2.21.0.593.g511ec345e18-goog
+> >
+>
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+>
+> thanks
+> -- PMM
+>
