@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82F9117F1F
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 19:33:49 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40847 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 202ED17F27
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 19:34:42 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40866 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOQRw-0004RT-5X
-	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 13:33:48 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38819)
+	id 1hOQSn-0005HA-AO
+	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 13:34:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40527)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOQLE-0007lz-V7
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 13:26:53 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hOQQD-0003rM-3i
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 13:32:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOQLE-0007Yq-4d
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 13:26:52 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:36414)
+	(envelope-from <richard.henderson@linaro.org>) id 1hOQQC-0002X5-8X
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 13:32:01 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:46003)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hOQLD-0007XI-Sg
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 13:26:52 -0400
-Received: by mail-pf1-x443.google.com with SMTP id v80so10842463pfa.3
-	for <qemu-devel@nongnu.org>; Wed, 08 May 2019 10:26:50 -0700 (PDT)
+	id 1hOQQC-0002WY-0Z
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 13:32:00 -0400
+Received: by mail-pf1-x443.google.com with SMTP id s11so528634pfm.12
+	for <qemu-devel@nongnu.org>; Wed, 08 May 2019 10:31:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
 	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=H8uxDlAHxWJWjAcw2vTX2K1K8B3wiOmOMgTuYkt2Ptg=;
-	b=AoEPPt0NAjq+Bt2iDzh2YfAwHEw6fS6q3UwlcaZaZEG/nBcC/bk1J21mGwCUOcgQqF
-	sXRLmAEmUCp9I5PQ51gBNk4TLtGnfscN0fB30RTPUXyRgZIYLSEZzFcrMZQz9gUElOqU
-	7JixoGo4FhReZw/8Oo0IWkS5d57qmFmMAoAXOWbBO5my6Jay8DELHS4l9lxIQOqFKplc
-	CIWCfhycr5WUuHvTGmXBdScrj0vt5CoNg67d72JxAqHJlXJvDiT2aneOvUf9VAD/1KO0
-	rFRVu9//3JiWXb0/Ft9a7UUHWIAHnpQtVM4qJK70fFtSXRgXrY1EYmqCKaBBVh2n5OfJ
-	8HiA==
+	bh=AiI3Ike1DeWIoX3llZ9znAoxhzLZmoLiTUmKAjFMy7s=;
+	b=oqttuYVeREWpZ731wF4TZ+KK34SGqd7A/dcqm+KiPIILC48VNFHV5gzhlpZ5miVANN
+	P97Ssf/eP0T/oBGj9yRl9Y+v6p0oVF0cnFHn845AGjrt4S0rOEJysoPFdn+mEwu9p+YC
+	PMPgJ/TmYJ0oHvug6n4/z+Xi19STQtEc5kWcxRw4dKnCBUTYlZ6LNPpwsbiUh402G5nt
+	4pPXdXQvUsrvLKsrjKxf6RPWYkog7o9fGCQQGqrVdHSGbAzYONPvTyAuGG9hhN6Ecc2w
+	S0xMGm68gwoZ9mLVcZLGK4QLKZTcWPeqCW9CgA8ZRdFJsB4XpyfPHQPeTaM0YHjX2AUP
+	uwAQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
 	:date:user-agent:mime-version:in-reply-to:content-language
 	:content-transfer-encoding;
-	bh=H8uxDlAHxWJWjAcw2vTX2K1K8B3wiOmOMgTuYkt2Ptg=;
-	b=OlKxSfWEgDPzWLg5ENwHhhBhGdGgKsRv7YAyauKZ62qMZPfB28lMGuabHozlofi/TA
-	wEY7kbOvMuzEkkvFXV1lJ55nYGF3EpdasWhuTg5KbeVoLcwvBjnuYQIISPoDISl7ZNDw
-	nGFxvWELpPS1r1GSmsuC4VopcCE6T3X/y5B99h82dlclc/r6GHNFCM4JZAWe5KFY10g8
-	OTyW/KqddaSux/b7Ybdirs1+dIF2qj4sAaOWQpuk/VPDBedD/u0339oUCXLsFWYwOFo8
-	CHz70UeHaGELiUVXeXDrKLy7+M1z2QJPHuR0JwgPVCN6eUg6ceJnrfxZZ412Mg/VZlkC
-	0LgA==
-X-Gm-Message-State: APjAAAXq+VPBSmHmD3IBfysgJuxJHvA9e3hQvn4M9+MJ49F9EZAxTpaN
-	Lzd4kEO8rEBAVokz8FuCWlQXFQ==
-X-Google-Smtp-Source: APXvYqxtQhPjqTxo/2n+dHv22em9xVoirzW2Yw+UoLYo05TO1pd0bXOHGEfZ3pU73lCwv1pffXU7tw==
-X-Received: by 2002:a63:3dcf:: with SMTP id k198mr29055315pga.60.1557336409336;
-	Wed, 08 May 2019 10:26:49 -0700 (PDT)
+	bh=AiI3Ike1DeWIoX3llZ9znAoxhzLZmoLiTUmKAjFMy7s=;
+	b=X8uXbiSAfJpslEthWI61Lgi5k87SQXSBxjxCdN9ynYJz7xUfZ8EhVSRb8dPLsgnUfS
+	NPizQi7S8hsVza/MHULFboptFjyBjFqySAK1iHB+nxARocOY9lj+akG0w87m8Ri8L6lZ
+	q9u6ipDnoVCW4+BMFtJsfTri6wNYIWGdCvNiSSXOL5MSkTebWmbWoI8qiDP3a29rYKZu
+	jjH/KA/kOUjP4XUikYZlxFH73rKPOhdef65RDgl2vQBIsxdbmGJ/S8QWzd0Sc4do18L1
+	wq2/OZjCaGTRjv8cGqPyCrosNKdnAqjuf2HUkW5Dy9H+g7P6qMPFtOyiLct1dQWsinx8
+	IpZw==
+X-Gm-Message-State: APjAAAVIJDB1ZTCZGwOmsFgJMqClmmToKpqm7+NHFEYFwNkfRgFVHFK6
+	pNYGlYO1QCZeN0bzJs5v7xYjsA==
+X-Google-Smtp-Source: APXvYqwFiglb2xnzosarH2g3oDuj2WBfeFWeX8MQ3rurPogQOjxrM3uGd9VuGC80a++HSkHErbmPiQ==
+X-Received: by 2002:a62:fb0f:: with SMTP id x15mr51149208pfm.30.1557336718696; 
+	Wed, 08 May 2019 10:31:58 -0700 (PDT)
 Received: from [192.168.1.11] (97-113-27-95.tukw.qwest.net. [97.113.27.95])
 	by smtp.gmail.com with ESMTPSA id
-	h4sm10871431pgn.13.2019.05.08.10.26.48
+	u11sm120681pfh.130.2019.05.08.10.31.57
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 08 May 2019 10:26:48 -0700 (PDT)
+	Wed, 08 May 2019 10:31:58 -0700 (PDT)
 To: Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-devel@nongnu.org
 References: <20190508145611.107133-1-ysato@users.sourceforge.jp>
-	<20190508145611.107133-6-ysato@users.sourceforge.jp>
+	<20190508145611.107133-11-ysato@users.sourceforge.jp>
 From: Richard Henderson <richard.henderson@linaro.org>
 Openpgp: preference=signencrypt
-Message-ID: <85c8f540-1bdd-6e2a-5a1f-efe362e84a30@linaro.org>
-Date: Wed, 8 May 2019 10:26:46 -0700
+Message-ID: <a4cc6255-cf0c-1cbe-907e-a84ae6df380b@linaro.org>
+Date: Wed, 8 May 2019 10:31:56 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190508145611.107133-6-ysato@users.sourceforge.jp>
+In-Reply-To: <20190508145611.107133-11-ysato@users.sourceforge.jp>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
 X-Received-From: 2607:f8b0:4864:20::443
-Subject: Re: [Qemu-devel] [PATCH v10 05/13] target/rx: Miscellaneous files
+Subject: Re: [Qemu-devel] [PATCH v10 10/13] Add rx-softmmu
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -91,14 +91,17 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 5/8/19 7:56 AM, Yoshinori Sato wrote:
 > Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 > ---
->  target/rx/gdbstub.c     | 112 ++++++++++++++++++++++++++++++++++++++++++++++++
->  target/rx/monitor.c     |  38 ++++++++++++++++
->  target/rx/Makefile.objs |  12 ++++++
->  3 files changed, 162 insertions(+)
->  create mode 100644 target/rx/gdbstub.c
->  create mode 100644 target/rx/monitor.c
->  create mode 100644 target/rx/Makefile.objs
+>  configure                      | 8 ++++++++
+>  default-configs/rx-softmmu.mak | 7 +++++++
+>  include/sysemu/arch_init.h     | 1 +
+>  arch_init.c                    | 2 ++
+>  hw/Kconfig                     | 1 +
+>  5 files changed, 19 insertions(+)
+>  create mode 100644 default-configs/rx-softmmu.mak
 
+This patch must be last (aside from MAINTAINERS, which doesn't have code).
+
+Otherwise,
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
 
