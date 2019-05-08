@@ -2,53 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E892C17C29
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 16:49:30 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38430 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 92A8E17C76
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 16:51:39 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38478 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hONsw-0006DL-69
-	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 10:49:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57246)
+	id 1hONv0-0007Rq-ON
+	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 10:51:38 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57724)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hONqI-0004z9-8A
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 10:46:47 -0400
+	(envelope-from <eblake@redhat.com>) id 1hONrL-0005Uy-Mt
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 10:47:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hONqH-0003sW-CA
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 10:46:46 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46142)
+	(envelope-from <eblake@redhat.com>) id 1hONrK-0004GJ-QS
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 10:47:51 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56881)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <kwolf@redhat.com>)
-	id 1hONqF-0003rR-3b; Wed, 08 May 2019 10:46:43 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
+	(Exim 4.71) (envelope-from <eblake@redhat.com>) id 1hONrK-0004Fp-Hz
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 10:47:50 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+	[10.5.11.11])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 662DE3079B82;
-	Wed,  8 May 2019 14:46:42 +0000 (UTC)
-Received: from dhcp-200-226.str.redhat.com (dhcp-200-226.str.redhat.com
-	[10.33.200.226])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id D1EC710027D4;
-	Wed,  8 May 2019 14:46:40 +0000 (UTC)
-Date: Wed, 8 May 2019 16:46:39 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Message-ID: <20190508144639.GH15525@dhcp-200-226.str.redhat.com>
-References: <20190508140139.32722-1-mreitz@redhat.com>
-	<20190508140139.32722-4-mreitz@redhat.com>
+	by mx1.redhat.com (Postfix) with ESMTPS id C5748302548C
+	for <qemu-devel@nongnu.org>; Wed,  8 May 2019 14:47:49 +0000 (UTC)
+Received: from [10.3.116.15] (ovpn-116-15.phx2.redhat.com [10.3.116.15])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 3D28C604A1;
+	Wed,  8 May 2019 14:47:49 +0000 (UTC)
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20190508142153.21555-1-thuth@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+	xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+	xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+	TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+	GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+	sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+	AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+	CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+	RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+	wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+	Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+	gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+	pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+	zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+	pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+	3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+	NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+	cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+	SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+	I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+	mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+	Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+	2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <d248dc00-7ef0-0256-cbc1-dc3f5df74ebe@redhat.com>
+Date: Wed, 8 May 2019 09:47:48 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190508140139.32722-4-mreitz@redhat.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+In-Reply-To: <20190508142153.21555-1-thuth@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature";
+	boundary="jxtcKhTW86TyKI9qNRqQiZrCXPnkWkCsZ"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.41]);
-	Wed, 08 May 2019 14:46:42 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.43]);
+	Wed, 08 May 2019 14:47:49 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 3/3] iotests: Add test for rebase
- without input base
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [PATCH] tests/drive_del-test: Use qtest_init()
+ instead of qtest_start()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -60,50 +86,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
-	qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 08.05.2019 um 16:01 hat Max Reitz geschrieben:
-> This patch adds a test for rebasing an image that currently does not
-> have a backing file.
-> 
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--jxtcKhTW86TyKI9qNRqQiZrCXPnkWkCsZ
+From: Eric Blake <eblake@redhat.com>
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <d248dc00-7ef0-0256-cbc1-dc3f5df74ebe@redhat.com>
+Subject: Re: [Qemu-devel] [PATCH] tests/drive_del-test: Use qtest_init()
+ instead of qtest_start()
+References: <20190508142153.21555-1-thuth@redhat.com>
+In-Reply-To: <20190508142153.21555-1-thuth@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+On 5/8/19 9:21 AM, Thomas Huth wrote:
+> qtest_start() + qtest_end() should be avoided, since they use the
+> global_qtest variable that we want to get rid of in the long run
+> Use qtest_init() and qtest_quit() instead.
+>=20
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
->  tests/qemu-iotests/024     | 70 ++++++++++++++++++++++++++++++++++++++
->  tests/qemu-iotests/024.out | 37 ++++++++++++++++++++
->  2 files changed, 107 insertions(+)
-> 
-> diff --git a/tests/qemu-iotests/024 b/tests/qemu-iotests/024
-> index 23298c6f59..baf8ec9f28 100755
-> --- a/tests/qemu-iotests/024
-> +++ b/tests/qemu-iotests/024
-> @@ -198,6 +198,76 @@ echo
->  # $BASE_OLD and $BASE_NEW)
->  $QEMU_IMG map "$OVERLAY" | _filter_qemu_img_map
->  
-> +echo
-> +echo "=== Test rebase without input base ==="
-> +echo
-> +
-> +# Cluster allocations to be tested:
-> +#
-> +# Backing (new) 11 -- 11 -- 11 --
-> +# COW image     22 22 11 11 -- --
-> +#
-> +# Expected result:
-> +#
-> +# COW image     22 22 11 11 00 --
-> +#
-> +# (Cluster 2 might be "--" after the rebase, too, but rebase just
-> +#  compares the new backing file to the old one and disregards the
-> +#  overlay.  Therefore, it will never discard overlay clusters.)
+>  tests/drive_del-test.c | 63 +++++++++++++++++++++---------------------=
 
-Is there a reason not to do that, though? I haven't tried it, but
-shouldn't it be as easy as reading from blk instead of blk_old_backing?
+>  1 file changed, 32 insertions(+), 31 deletions(-)
 
-Matter for another patch, though.
+Reviewed-by: Eric Blake <eblake@redhat.com>
 
-Kevin
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
+
+--jxtcKhTW86TyKI9qNRqQiZrCXPnkWkCsZ
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlzS7BQACgkQp6FrSiUn
+Q2pIQgf/bwcjDUzaqhCh9GxoiOSfS9fy61PwF3cWFnKTLtzhvRoUz7UyjigrCArR
+s2PpSuzUVeOhcmilu+DMH+rAwDvz+8RwPe5VNSgbB1grUENlmc5Ly9AUGBToa55m
+fT4lCbuJWfT0EdvU3w9njo2+RI1a/gjZHSBh6TtvCEmOSGWsQas7SPlduZIZtiN2
+3ZBi9K3k6qgAlAcf7ISc7eAz3kCMqb3YYoLW+ZRQ8fkMOQXQyppKWC68snbj/n4L
+2cxPP4qaT4iGlc9F7z5fSXbSpMwOgeXHwBW7YlZln365wbVU6hwwTyNFNCq7OaTp
+Xkwb53PbNodBymSoDxpIu+Bn0wbpHA==
+=29dW
+-----END PGP SIGNATURE-----
+
+--jxtcKhTW86TyKI9qNRqQiZrCXPnkWkCsZ--
 
