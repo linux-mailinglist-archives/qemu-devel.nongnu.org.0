@@ -2,65 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 009DA175A4
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 12:10:31 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:34209 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66C5B175B4
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 12:12:02 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:34252 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOJWw-0004dm-PF
-	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 06:10:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54726)
+	id 1hOJYP-0006VF-Jm
+	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 06:12:01 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54785)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <pbonzini@redhat.com>) id 1hOJVc-0004GO-1Y
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 06:09:09 -0400
+	(envelope-from <pbonzini@redhat.com>) id 1hOJVs-0004N3-Lp
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 06:09:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <pbonzini@redhat.com>) id 1hOJVa-0002Gz-GZ
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 06:09:07 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:36100)
+	(envelope-from <pbonzini@redhat.com>) id 1hOJVr-0002N1-NG
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 06:09:24 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:44037)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hOJVa-0002F5-Aa
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 06:09:06 -0400
-Received: by mail-wm1-f66.google.com with SMTP id j187so2486890wmj.1
-	for <qemu-devel@nongnu.org>; Wed, 08 May 2019 03:09:04 -0700 (PDT)
+	(Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hOJVr-0002Mi-HP
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 06:09:23 -0400
+Received: by mail-wr1-f68.google.com with SMTP id c5so1166097wrs.11
+	for <qemu-devel@nongnu.org>; Wed, 08 May 2019 03:09:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
 	:user-agent:mime-version:in-reply-to:content-language
 	:content-transfer-encoding;
-	bh=0hnsObrnE+yAqmrYPin9nzrZ/lplUfXQpq+5wKVmnSc=;
-	b=sFg9Y6wKG0hJF5D01n9FUNJrC1DHfvzxnHLR3RhsE41Gc7hNnvvcB00Ud0RcyY/EKl
-	4n4wOmMVcan5mCqWF05AiYE4ivxCxzbRshlDqvLLVWlr6pj432KU95/YJacSxXuxaQ3/
-	weroNgahydR+9YI85PN/RwTYX8VGX4ECjlznrSmBFveatoy9D+rQNwIdbm8J78rycLbY
-	Q5tBKKVOUULXAE89g/H8nDDlaoJASCFsXbYBMlFCbm2ecnBE/lVYmnnlj8WcDs2HoDS+
-	pq9fyqbhEbyUKnSgZbovILt+ArwRUAWHmz8oQN3mXMOBQeVlfbKTZIXiuF3VFcdFmWV3
-	g0MA==
-X-Gm-Message-State: APjAAAXY3iaGZectNzLTZ1jg1PhHJf446R9Pn2740Vi2wp4KpMcyomfZ
-	EdTMVB+X492Xyz7rW76jHMAebw==
-X-Google-Smtp-Source: APXvYqx2CnJxtUfDQyq14LPpvR8iFnkcCrFV4KtYM+IIp3677BBpAwRcs84n5Y+uB3692vZDzn/oUA==
-X-Received: by 2002:a05:600c:3d1:: with SMTP id
-	z17mr2411613wmd.27.1557310142719; 
-	Wed, 08 May 2019 03:09:02 -0700 (PDT)
+	bh=uLPywSGVG+l4McPe07txfigGD5Suwi+ILhFgnuGxY8g=;
+	b=LTQ5D0BfYXeVeYz7GZwMUha9u3E15o6RmFfnpi76t0t0renncDOx/msGTpjTsj6Tf6
+	zJEaA3DvnG6adJ4QMi0a6p3QH54RewSQb6yPUvQLL5Go7ka23236EEpJFZ9JysX4tX1m
+	QJBc/Ke6USnOepx2WdynAgA0fodU/1k0MTsDEWZiJbv0Z1Ey8SzWxQ8cudNR0fxAUbpt
+	CyVAcr2khEKixBEG5PvOXDo3YeVBpf+iC99a1Ebiaa+DvHUHrkKJMe1Mx0drvHyfPn5V
+	gkR5XDIws3HFodXEv1Hx/eLXO7M94+liQNY0iy3y+X17ZFU5JJNCQFTG0IH8PgZxoAd9
+	IZcg==
+X-Gm-Message-State: APjAAAX6loxrciK4WkoM+BgO/PMPUzZEEHAVFSnpT1Y3jzAUvx4RZ3uX
+	Qeh/61l2PvQ7KbYH2Ssxn7kXCw==
+X-Google-Smtp-Source: APXvYqxm30b6777EHbcJ0tky7+uRV6u0dEn/JorGe8uqag2jSWcHsO9KRAsBrgHhzgTkTvLHz2fgcA==
+X-Received: by 2002:a5d:4a87:: with SMTP id o7mr26127455wrq.207.1557310161988; 
+	Wed, 08 May 2019 03:09:21 -0700 (PDT)
 Received: from [10.201.49.229] (nat-pool-mxp-u.redhat.com. [149.6.153.187])
-	by smtp.gmail.com with ESMTPSA id z74sm3111762wmc.2.2019.05.08.03.09.01
+	by smtp.gmail.com with ESMTPSA id
+	q4sm13049668wrx.25.2019.05.08.03.09.20
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 08 May 2019 03:09:02 -0700 (PDT)
+	Wed, 08 May 2019 03:09:21 -0700 (PDT)
 To: Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org
 References: <20190508061523.17666-1-peterx@redhat.com>
+	<20190508061523.17666-2-peterx@redhat.com>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <4df1963e-5b76-4990-6c2f-a66ecd172869@redhat.com>
-Date: Wed, 8 May 2019 12:09:00 +0200
+Message-ID: <5d642321-a485-ab75-7526-d81af2944afe@redhat.com>
+Date: Wed, 8 May 2019 12:09:20 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190508061523.17666-1-peterx@redhat.com>
+In-Reply-To: <20190508061523.17666-2-peterx@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.128.66
-Subject: Re: [Qemu-devel] [PATCH 00/11] kvm/migration: support
- KVM_CLEAR_DIRTY_LOG
+X-Received-From: 209.85.221.68
+Subject: Re: [Qemu-devel] [PATCH 01/11] migration: No need to take rcu
+ during sync_dirty_bitmap
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -79,53 +80,60 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 08/05/19 01:15, Peter Xu wrote:
-> Design
-> ===================
+> cpu_physical_memory_sync_dirty_bitmap() has one RAMBlock* as
+> parameter, which means that it must be with RCU read lock held
+> already.  Taking it again inside seems redundant.  Removing it.
+> Instead comment on the functions about the RCU read lock.
 > 
-> I started with a naive/stupid design that I always pass all 1's to the
-> KVM for a memory range to clear all the dirty bits within that memory
-> range, but then I encountered guest oops - it's simply because we
-> can't clear any dirty bit from QEMU if we are not _sure_ that the bit
-> is dirty in the kernel.  Otherwise we might accidentally clear a bit
-> that we don't even know of (e.g., the bit was clear in migration's
-> dirty bitmap in QEMU) but actually that page was just being written so
-> QEMU will never remember to migrate that new page again.
+> Signed-off-by: Peter Xu <peterx@redhat.com>
+> ---
+>  include/exec/ram_addr.h | 5 +----
+>  migration/ram.c         | 1 +
+>  2 files changed, 2 insertions(+), 4 deletions(-)
 > 
-> The new design is focused on a dirty bitmap cache within the QEMU kvm
-> layer (which is per kvm memory slot).  With that we know what's dirty
-> in the kernel previously (note! the kernel bitmap is still growing all
-> the time so the cache will only be a subset of the realtime kernel
-> bitmap but that's far enough for us) and with that we'll be sure to
-> not accidentally clear unknown dirty pages.
+> diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
+> index 139ad79390..993fb760f3 100644
+> --- a/include/exec/ram_addr.h
+> +++ b/include/exec/ram_addr.h
+> @@ -408,6 +408,7 @@ static inline void cpu_physical_memory_clear_dirty_range(ram_addr_t start,
+>  }
+>  
+>  
+> +/* Must be with rcu read lock held */
+>  static inline
+>  uint64_t cpu_physical_memory_sync_dirty_bitmap(RAMBlock *rb,
+>                                                 ram_addr_t start,
+> @@ -431,8 +432,6 @@ uint64_t cpu_physical_memory_sync_dirty_bitmap(RAMBlock *rb,
+>                                          DIRTY_MEMORY_BLOCK_SIZE);
+>          unsigned long page = BIT_WORD(start >> TARGET_PAGE_BITS);
+>  
+> -        rcu_read_lock();
+> -
+>          src = atomic_rcu_read(
+>                  &ram_list.dirty_memory[DIRTY_MEMORY_MIGRATION])->blocks;
+>  
+> @@ -452,8 +451,6 @@ uint64_t cpu_physical_memory_sync_dirty_bitmap(RAMBlock *rb,
+>                  idx++;
+>              }
+>          }
+> -
+> -        rcu_read_unlock();
+>      } else {
+>          ram_addr_t offset = rb->offset;
+>  
+> diff --git a/migration/ram.c b/migration/ram.c
+> index 1ca9ba77b6..3e11806ccd 100644
+> --- a/migration/ram.c
+> +++ b/migration/ram.c
+> @@ -1680,6 +1680,7 @@ static inline bool migration_bitmap_clear_dirty(RAMState *rs,
+>      return ret;
+>  }
+>  
+> +/* Must be with rcu read lock held */
+>  static void migration_bitmap_sync_range(RAMState *rs, RAMBlock *rb,
+>                                          ram_addr_t start, ram_addr_t length)
+>  {
 > 
-> With this method, we can also avoid race when multiple users (e.g.,
-> DIRTY_MEMORY_VGA and DIRTY_MEMORY_MIGRATION) want to clear the bit for
-> multiple time.  If without the kvm memory slot cached dirty bitmap we
-> won't be able to know which bit has been cleared and then if we send
-> the CLEAR operation upon the same bit twice (or more) we can still
-> face the same issue to clear something accidentally while we
-> shouldn't.
-> 
-> Summary: we really need to be careful on what bit to clear otherwise
-> we can face anything after the migration completes.  And I hope this
-> series has considered all about this.
 
-The disadvantage of this is that you won't clear in the kernel those
-dirty bits that come from other sources (e.g. vhost or
-address_space_map).  This can lead to double-copying of pages.
-
-Migration already makes a local copy in rb->bmap, and
-memory_region_snapshot_and_clear_dirty can also do the clear.  Would it
-be possible to invoke the clear using rb->bmap instead of the KVMSlot's
-new bitmap?
-
-Thanks,
-
-Paolo
-
-> Besides the new KVM cache layer and the new ioctl support, this series
-> introduced the memory_region_clear_dirty_bitmap() in the memory API
-> layer to allow clearing dirty bits of a specific memory range within
-> the memory region.
-
+Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 
