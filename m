@@ -2,47 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB84C17CDB
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 17:09:45 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38807 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8355E17CE3
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 17:11:42 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38863 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOOCW-0004Tj-SY
-	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 11:09:44 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36353)
+	id 1hOOEP-0005rT-Lc
+	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 11:11:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37960)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hOO98-0002gR-8X
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 11:06:18 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hOOCi-00051g-VZ
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 11:09:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hOO97-0007DK-Ch
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 11:06:14 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:47121)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <thuth@redhat.com>)
-	id 1hOO97-0007Cn-7W; Wed, 08 May 2019 11:06:13 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 3534A19DD1;
-	Wed,  8 May 2019 15:06:12 +0000 (UTC)
-Received: from thuth.com (ovpn-116-100.ams2.redhat.com [10.36.116.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 5C0DB50A63;
-	Wed,  8 May 2019 15:06:11 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Wed,  8 May 2019 17:06:08 +0200
-Message-Id: <20190508150608.3311-1-thuth@redhat.com>
+	(envelope-from <peter.maydell@linaro.org>) id 1hOOCi-0001MO-0x
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 11:09:56 -0400
+Received: from mail-oi1-x233.google.com ([2607:f8b0:4864:20::233]:38536)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hOOCh-0001Lo-RD
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 11:09:55 -0400
+Received: by mail-oi1-x233.google.com with SMTP id u199so7435820oie.5
+	for <qemu-devel@nongnu.org>; Wed, 08 May 2019 08:09:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=MhstZBYMCPmMMOU9xP/v0Vc28rbFxbDh2q+MWesDRE8=;
+	b=QTw9UvjNxBCsGrhLFVG4ffaS9//1ysR2DWCqaDSI1GKPw38uMRj/PG3R/Uad21KR7v
+	1l7qMKAKekJvug7DjfELMxqPtjGvPALiVdYrdWIvjqOJgwtY8GiVBUsZlDxzDPJ8Klk0
+	C71ljxZYEX0ln8VUXzJzSdzUNv109tLnFnbILCWlt7kN0YXhPHiKXy5iVgdymtr10wUG
+	ddxbfa0/NXKdKq1RW7ssMwZ+XXag+I9513yNoKjIY1Kd4B3NeopwBaN/HeEHYy3fwuf6
+	sib2Fo9BEanA0jjdG102wh8XsIV5IZyD0jRWZhtdkzfIVLFEBqLjPXU77FwG8xypi94J
+	AOHA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=MhstZBYMCPmMMOU9xP/v0Vc28rbFxbDh2q+MWesDRE8=;
+	b=eRG7SvMOxEYbiVBqxn+kUO4CFLV7qx481ZhRzm5CtLQD6Xni8iuoHFwohkryBJe2Uc
+	OxTkBGELcFORQIizQeysn1tvvxzzb3o958h5qncm51ao3JSNPjuRL5sSYxA5W3nxv7Ka
+	j0DnUvLKGWiVxBVLoMKvwZIyTz2kt9pp4ILc0XQsF8GdakFyJSgpmz8srxiG97oIUAlR
+	GtTSiTAoFvL5YpgQRZtcV1V+F6g2tNMHG8hcUsxolJfAAHwM3pKOYWC6vtThxPzmROsW
+	W8bysXXc9cc9J6Hwt/+Spd5PNX1ZbVViib3H0pQpkugmYQ+/3NjPRR2uSn7wtsMj2E45
+	jt9Q==
+X-Gm-Message-State: APjAAAVMsnQGCqJzccVvQjyth7UhdTHehZ+/4uK7kOJjQD6NJptqzt8A
+	cHduZe9G3IuIlFDpHHEFkWc0h1wjzCfJ2IdEDkyzSA==
+X-Google-Smtp-Source: APXvYqwdPr2I/g54j57sI1vdOU2gm9HxQArECbQnWHhaOtKjdVS6b7jAhxrq7RH7lXPnPu0yLGxYUdTeIlgtfhGlDGg=
+X-Received: by 2002:aca:b783:: with SMTP id h125mr2564337oif.146.1557328194554;
+	Wed, 08 May 2019 08:09:54 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.38]);
-	Wed, 08 May 2019 15:06:12 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH] include/exec/poison: Mark TARGET_FMT_lu as
- poisoned, too
+References: <20190507134521.31044-1-thuth@redhat.com>
+In-Reply-To: <20190507134521.31044-1-thuth@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 8 May 2019 16:09:43 +0100
+Message-ID: <CAFEAcA-j+wQXjPW+puxk=foi2T8O=MzXHtxdWJ6E5P7o89WQSg@mail.gmail.com>
+To: Thomas Huth <thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::233
+Subject: Re: [Qemu-devel] [PULL v2 00/28] Kconfig for Arm machines
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -54,31 +71,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, pbonzini@redhat.com
+Cc: John Snow <jsnow@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
+	=?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+	QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We already poison TARGET_FMT_lx and TARGET_FMT_ld, but apparently
-forgot to poison TARGET_FMT_lu, too. Do it now.
+On Tue, 7 May 2019 at 14:45, Thomas Huth <thuth@redhat.com> wrote:
+>
+>  Hi Peter,
+>
+> the following changes since commit a6ae23831b05a11880b40f7d58e332c45a6b04f7:
+>
+>   Merge remote-tracking branch 'remotes/ehabkost/tags/python-next-pull-request' into staging (2019-05-03 15:26:09 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/huth/qemu.git tags/pull-request-2019-05-07
+>
+> for you to fetch changes up to 69f879e9fefab9aaf24893fe4ce23e07756d703c:
+>
+>   hw/arm: Remove hard-enablement of the remaining PCI devices (2019-05-07 15:01:47 +0200)
+>
+> ----------------------------------------------------------------
+> Kconfig settings for the Arm machines
+> (v2: Fix the dependency of q35 to AHCI_ICH9 in the second patch)
+> ----------------------------------------------------------------
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- include/exec/poison.h | 1 +
- 1 file changed, 1 insertion(+)
+Hi -- this is still failing in the build test where I 'make clean'
+before doing the build:
 
-diff --git a/include/exec/poison.h b/include/exec/poison.h
-index 1a7a57baae..b862320fa6 100644
---- a/include/exec/poison.h
-+++ b/include/exec/poison.h
-@@ -44,6 +44,7 @@
- #pragma GCC poison TARGET_LONG_BITS
- #pragma GCC poison TARGET_FMT_lx
- #pragma GCC poison TARGET_FMT_ld
-+#pragma GCC poison TARGET_FMT_lu
-=20
- #pragma GCC poison TARGET_PAGE_SIZE
- #pragma GCC poison TARGET_PAGE_MASK
---=20
-2.21.0
+MALLOC_PERTURB_=${MALLOC_PERTURB_:-$(( ${RANDOM:-0} % 255 + 1))}
+QTEST_QEMU_BINARY=i386-softmmu/qemu-system-i386
+QTEST_QEMU_IMG=qemu-img tests/a
+hci-test -m=quick -k --tap < /dev/null | ./scripts/tap-driver.pl
+--test-name="ahci-test"
+qemu-system-i386: Unknown device 'ich9-ahci' for bus 'PCIE'
+Broken pipe
 
+thanks
+-- PMM
 
