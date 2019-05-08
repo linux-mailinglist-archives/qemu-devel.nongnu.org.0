@@ -2,67 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7F69F17779
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 13:31:58 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:35228 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A1D01787E
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 13:40:42 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:35318 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOKnl-0000UZ-NV
-	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 07:31:57 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40401)
+	id 1hOKwD-0003Zo-Kh
+	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 07:40:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41907)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <hongbo.zhang@linaro.org>) id 1hOKmS-0007gz-A3
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 07:30:37 -0400
+	(envelope-from <peterx@redhat.com>) id 1hOKvB-0003Dr-AY
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 07:39:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <hongbo.zhang@linaro.org>) id 1hOKmR-0004Od-15
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 07:30:36 -0400
-Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:38442)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <hongbo.zhang@linaro.org>)
-	id 1hOKmQ-0004Kk-P7
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 07:30:34 -0400
-Received: by mail-lj1-x241.google.com with SMTP id u21so8023835lja.5
-	for <qemu-devel@nongnu.org>; Wed, 08 May 2019 04:30:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=euDbYukUunzWf2Zre5ZSrbtkk4J2+ci9a3w4dyAZO/M=;
-	b=NRSLhEt2wl4A+ew+zj3Ev1XksjInP1szlciL8baa0fGf/S1e6yIQMpNp6nudnR/xvf
-	KB/l8jNQEPZahWzBr07Tw/uXbrBjMhRpz59Yh+3nTQjZUN2akHu0T0ivMRjGvv3vwUhv
-	inX/hoZaot/a6GUNnaxlAGrM793kBpWp6iAUlq8gNaWGnzce1qgPFCyBvykGjOsQ9S+6
-	w8LgUlcEGXaemrr8UuTKT1q4mHTeR0j4Cf+5a742el5q4h5QRJZhy1woQwV/jxxKfnra
-	E/gAayrgDYIjzc+LeGfxF4U5692TxODWdAuoqxFU3b+AuZO0swzsf5S+47YY1ttC1531
-	yl8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=euDbYukUunzWf2Zre5ZSrbtkk4J2+ci9a3w4dyAZO/M=;
-	b=Sa0btZT5oWjUMHS75iK6Qk7E1libL//zqxQ+I3Y4PcxHm1DOs+efk2tneAf8jtVt9i
-	N472ZdlIdYglr7oV4yG1Vds/6NI189yFzpwEvNsjhIYBAA1JRRvm2yaW4Vkci71tAfPN
-	4BdpMPemCHs3PiGJw5jXKEZxojlKiD4WnuWL6IZwDWohXsg7OKEJyj48yUICw7unUnbr
-	D5mY2vSHeo3y3HOEFvpFxPUe5ovAYNkRF+suXPt/hxSukIsmWX/4vFKgUd3exFrQZn2u
-	bqpMzGx5lGIXHOnO+EBaZbqefErp8Zzo5M4tbEazDOoiKgx7lrqtup31kgsl3QbHU4Dq
-	Mbqg==
-X-Gm-Message-State: APjAAAWi2z3w1QBLDEAhoPbmgr9J55jSGcLijQWARErLU+tazh0zocI4
-	LsMVIIMmtPqhe4/EOEbA8hA4trxhJ4/tMntNm0dQAQ==
-X-Google-Smtp-Source: APXvYqwPubgcfbLDod8OswjE7/W7r6HB/KvX5Yrl1gxSNwxLXDjD+VsABjk6RS9bZWmxLuFGmw/i2BGuMbU6MsWESPk=
-X-Received: by 2002:a2e:894e:: with SMTP id b14mr15563289ljk.158.1557315033407;
-	Wed, 08 May 2019 04:30:33 -0700 (PDT)
+	(envelope-from <peterx@redhat.com>) id 1hOKvA-0001nU-3V
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 07:39:37 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51234)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <peterx@redhat.com>) id 1hOKv9-0001n8-SF
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 07:39:36 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+	[10.5.11.14])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id CED5530842B2
+	for <qemu-devel@nongnu.org>; Wed,  8 May 2019 11:39:34 +0000 (UTC)
+Received: from xz-x1 (ovpn-12-65.pek2.redhat.com [10.72.12.65])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id B0FD05D9C8;
+	Wed,  8 May 2019 11:39:32 +0000 (UTC)
+Date: Wed, 8 May 2019 19:39:29 +0800
+From: Peter Xu <peterx@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <20190508113929.GE18465@xz-x1>
+References: <20190508061523.17666-1-peterx@redhat.com>
+	<4df1963e-5b76-4990-6c2f-a66ecd172869@redhat.com>
 MIME-Version: 1.0
-References: <1555560291-3415-1-git-send-email-hongbo.zhang@linaro.org>
-	<1555560291-3415-3-git-send-email-hongbo.zhang@linaro.org>
-	<CAFEAcA-poCxPqPtfhx4mUJ5pcOjn1Hz-WNxEt29f=JgpFMi4Kg@mail.gmail.com>
-In-Reply-To: <CAFEAcA-poCxPqPtfhx4mUJ5pcOjn1Hz-WNxEt29f=JgpFMi4Kg@mail.gmail.com>
-From: Hongbo Zhang <hongbo.zhang@linaro.org>
-Date: Wed, 8 May 2019 19:30:26 +0800
-Message-ID: <CAHmQWvB4AZGM+MV0LP-vtfoW0kG4RFkf0R6NoRWm8WrFuum+Og@mail.gmail.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::241
-Subject: Re: [Qemu-devel] [PATCH v7 2/2] hw/arm: Add arm SBSA reference
- machine, devices part
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <4df1963e-5b76-4990-6c2f-a66ecd172869@redhat.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.40]);
+	Wed, 08 May 2019 11:39:34 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 00/11] kvm/migration: support
+ KVM_CLEAR_DIRTY_LOG
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -74,130 +59,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
-	Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-	Markus Armbruster <armbru@redhat.com>,
-	Leif Lindholm <leif.lindholm@linaro.org>,
-	QEMU Developers <qemu-devel@nongnu.org>, qemu-arm <qemu-arm@nongnu.org>
+Cc: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org,
+	"Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+	Juan Quintela <quintela@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 30 Apr 2019 at 22:17, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> On Thu, 18 Apr 2019 at 05:05, Hongbo Zhang <hongbo.zhang@linaro.org> wrote:
-> >
-> > Following the previous patch, this patch adds peripheral devices to the
-> > newly introduced SBSA-ref machine.
-> >
-> > Signed-off-by: Hongbo Zhang <hongbo.zhang@linaro.org>
-> > ---
-> >  hw/arm/sbsa-ref.c | 451 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
-> >  1 file changed, 451 insertions(+)
->
-> Some fairly minor comments on this one.
->
-> > +static void create_flash(const SBSAMachineState *vms,
-> > +                         MemoryRegion *sysmem,
-> > +                         MemoryRegion *secure_sysmem)
-> > +{
-> > +    /*
-> > +     * Create one secure and nonsecure flash devices to fill SBSA_FLASH
-> > +     * space in the memmap, file passed via -bios goes in the first one.
-> > +     */
-> > +    hwaddr flashsize = vms->memmap[SBSA_FLASH].size / 2;
-> > +    hwaddr flashbase = vms->memmap[SBSA_FLASH].base;
-> > +
-> > +    create_one_flash("sbsa-ref.flash0", flashbase, flashsize,
-> > +                     bios_name, secure_sysmem);
-> > +    create_one_flash("sbsa-ref.flash1", flashbase + flashsize, flashsize,
-> > +                     NULL, sysmem);
-> > +}
->
-> I think Markus might have an opinion on the best way to create
-> flash devices on a new board model. Is "just create two flash
-> devices the way the virt board does" the right thing?
->
-For the firmware part, we are using two flashes, one secure and
-another non-secure.
+On Wed, May 08, 2019 at 12:09:00PM +0200, Paolo Bonzini wrote:
+> On 08/05/19 01:15, Peter Xu wrote:
+> > Design
+> > ===================
+> > 
+> > I started with a naive/stupid design that I always pass all 1's to the
+> > KVM for a memory range to clear all the dirty bits within that memory
+> > range, but then I encountered guest oops - it's simply because we
+> > can't clear any dirty bit from QEMU if we are not _sure_ that the bit
+> > is dirty in the kernel.  Otherwise we might accidentally clear a bit
+> > that we don't even know of (e.g., the bit was clear in migration's
+> > dirty bitmap in QEMU) but actually that page was just being written so
+> > QEMU will never remember to migrate that new page again.
+> > 
+> > The new design is focused on a dirty bitmap cache within the QEMU kvm
+> > layer (which is per kvm memory slot).  With that we know what's dirty
+> > in the kernel previously (note! the kernel bitmap is still growing all
+> > the time so the cache will only be a subset of the realtime kernel
+> > bitmap but that's far enough for us) and with that we'll be sure to
+> > not accidentally clear unknown dirty pages.
+> > 
+> > With this method, we can also avoid race when multiple users (e.g.,
+> > DIRTY_MEMORY_VGA and DIRTY_MEMORY_MIGRATION) want to clear the bit for
+> > multiple time.  If without the kvm memory slot cached dirty bitmap we
+> > won't be able to know which bit has been cleared and then if we send
+> > the CLEAR operation upon the same bit twice (or more) we can still
+> > face the same issue to clear something accidentally while we
+> > shouldn't.
+> > 
+> > Summary: we really need to be careful on what bit to clear otherwise
+> > we can face anything after the migration completes.  And I hope this
+> > series has considered all about this.
+> 
+> The disadvantage of this is that you won't clear in the kernel those
+> dirty bits that come from other sources (e.g. vhost or
+> address_space_map).  This can lead to double-copying of pages.
+> 
+> Migration already makes a local copy in rb->bmap, and
+> memory_region_snapshot_and_clear_dirty can also do the clear.  Would it
+> be possible to invoke the clear using rb->bmap instead of the KVMSlot's
+> new bitmap?
 
-> > +static void create_ahci(const SBSAMachineState *vms, qemu_irq *pic)
-> > +{
-> > +    hwaddr base = vms->memmap[SBSA_AHCI].base;
-> > +    int irq = vms->irqmap[SBSA_AHCI];
-> > +    DeviceState *dev;
-> > +    DriveInfo *hd[NUM_SATA_PORTS];
-> > +    SysbusAHCIState *sysahci;
-> > +    AHCIState *ahci;
-> > +    int i;
-> > +
-> > +    dev = qdev_create(NULL, "sysbus-ahci");
-> > +    qdev_prop_set_uint32(dev, "num-ports", NUM_SATA_PORTS);
-> > +    qdev_init_nofail(dev);
-> > +    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, base);
-> > +    sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, pic[irq]);
-> > +
-> > +    sysahci = SYSBUS_AHCI(dev);
-> > +    ahci = &sysahci->ahci;
-> > +    ide_drive_get(hd, ARRAY_SIZE(hd));
-> > +    for (i = 0; i < ahci->ports; i++) {
-> > +        if (hd[i] == NULL) {
-> > +            continue;
-> > +        }
-> > +        ide_create_drive(&ahci->dev[i].port, 0, hd[i]);
-> > +    }
-> > +}
-> > +
-> > +static void create_ehci(const SBSAMachineState *vms, qemu_irq *pic)
-> > +{
-> > +    hwaddr base = vms->memmap[SBSA_EHCI].base;
-> > +    int irq = vms->irqmap[SBSA_EHCI];
-> > +    USBBus *usb_bus;
-> > +
-> > +    sysbus_create_simple("platform-ehci-usb", base, pic[irq]);
-> > +
-> > +    usb_bus = usb_bus_find(-1);
-> > +    usb_create_simple(usb_bus, "usb-kbd");
-> > +    usb_create_simple(usb_bus, "usb-mouse");
->
-> I don't think we should automatically create the usb keyboard
-> and mouse devices. The user can do it on the command line if they
-> want them.
->
-OK.
+Do you mean to invoke the clear notifications and deliver the bitmap
+from the very top of the stack (for VGA it would probably be the
+DirtyBitmapSnapshot, for MIGRATION it's the rb->bmap)?
 
-> >  static void sbsa_ref_init(MachineState *machine)
-> >  {
-> >      SBSAMachineState *vms = SBSA_MACHINE(machine);
-> > @@ -125,6 +552,7 @@ static void sbsa_ref_init(MachineState *machine)
-> >      bool firmware_loaded = bios_name || drive_get(IF_PFLASH, 0, 0);
-> >      const CPUArchIdList *possible_cpus;
-> >      int n, sbsa_max_cpus;
-> > +    qemu_irq pic[NUM_IRQS];
-> >
-> >      if (strcmp(machine->cpu_type, ARM_CPU_TYPE_NAME("cortex-a57"))) {
-> >          error_report("sbsa-ref: CPU type other than the built-in "
-> > @@ -209,11 +637,34 @@ static void sbsa_ref_init(MachineState *machine)
-> >                                           machine->ram_size);
-> >      memory_region_add_subregion(sysmem, vms->memmap[SBSA_MEM].base, ram);
-> >
-> > +    create_fdt(vms);
-> > +
-> > +    create_flash(vms, sysmem, secure_sysmem ? secure_sysmem : sysmem);
-> > +
-> > +    create_secure_ram(vms, secure_sysmem);
-> > +
-> > +    create_gic(vms, pic);
-> > +
-> > +    create_uart(vms, pic, SBSA_UART, sysmem, serial_hd(0));
-> > +    create_uart(vms, pic, SBSA_SECURE_UART, secure_sysmem, serial_hd(1));
-> > +    create_uart(vms, pic, SBSA_SECURE_UART_MM, secure_sysmem, serial_hd(2));
->
-> What's the third UART for (ie what is the name intended to mean)?
-> Should we have more than one non-secure UART?
->
-Yes, this is called " Standalone Management Mode", I will add comment
-for it, this is needed by server RAS feature.
+Actually that's what I did in the first version before I post the work
+but I noticed that there seems to have a race condition with the
+design.  The problem is we have multiple copies of the same dirty
+bitmap from KVM and the race can happen with those multiple users
+(bitmaps of the users can be a merged version containing KVM and other
+sources like vhost, address_space_map, etc. but let's just make it
+simpler to not have them yet).  Here's one possible race condition
+(assuming migration has started):
 
-> thanks
-> -- PMM
+  (1) page P is written by the guest (let's version its data as P1),
+      its dirty bit D is set in KVM
+
+  (2) QEMU sync dirty log, fetch D for page P (which is set).  D is
+      not cleared in KVM due to MANUAL_PROTECT cap.
+
+  (3) QEMU copies the D bit to all users of dirty bmap (MIGRATION and
+      VGA as example).
+
+  (4) MIGRATION code collects bit D in migration bitmap, clear it,
+      send CLEAR to KVM to clear the bit on remote (then D in KVM is
+      cleared too), send the page P with content P1 to destination.
+      CAUTION: when reach here VGA bitmap still has the D bit set.
+
+  (5) page P is written by the guest again (let's version its data as
+      P2), bit D set again in KVM.
+
+  (6) VGA code collectes bit D (note! we haven't synced the log again
+      so this is the _old_ dirty bit came from step 3 above) in VGA
+      bitmap, clear it, send CLEAR to KVM to clear the bit on remote.
+      Then D bit in KVM is cleared again.  Until here, D bit in all
+      bitmaps are cleared (MIGRATION, VGA, KVM).
+
+  (7) page P is never written again until migration completes (no
+      matter whether we sync again D bit will be cleared).
+
+  (8) On destination VM page P will contain content P1 rather than P2,
+      this is data loss...
+
+After I noticed it, I added the kvm bitmap layer with the lock to make
+sure we won't send the 2nd clear at step (6) above because with the
+per memslot bitmap we will be able to know that we've already cleared
+a bit by one user so we shouldn't clear it again (as long as we don't
+SYNC again).  However later on I just noticed maybe I don't even need
+the top layer bitmap at all, because it seems to not bring much
+benefit but instead it'll bring lots of more complexity - I'll need to
+do bitmap convertions (because upper layer bitmaps are per ramblock,
+and kvm bitmaps are per memslot), not to mention I'll need to AND the
+two bitmaps (upper layer bitmap, and the QEMU kvm cached bitmap) to
+avoid the above race.  So at last I simply removed the top layer
+bitmap and only keep the per memslot bitmap as what this series did.
+
+Thanks,
+
+-- 
+Peter Xu
 
