@@ -2,45 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C2871717D
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 08:26:34 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60207 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 05FC217194
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 08:29:55 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60239 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOG2D-0001v4-KZ
-	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 02:26:33 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40890)
+	id 1hOG5S-0005k3-46
+	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 02:29:54 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40924)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <tao3.xu@intel.com>) id 1hOFvt-000526-W7
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 02:20:05 -0400
+	(envelope-from <tao3.xu@intel.com>) id 1hOFvx-00053y-W4
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 02:20:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <tao3.xu@intel.com>) id 1hOFvr-0008UD-C6
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 02:20:01 -0400
+	(envelope-from <tao3.xu@intel.com>) id 1hOFvw-00007D-0e
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 02:20:05 -0400
 Received: from mga05.intel.com ([192.55.52.43]:57351)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1hOFvq-0008RD-Sv
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 02:19:59 -0400
+	(Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1hOFvu-0008RD-35
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 02:20:03 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga005.fm.intel.com ([10.253.24.32])
 	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	07 May 2019 23:19:58 -0700
+	07 May 2019 23:20:00 -0700
 X-ExtLoop1: 1
 Received: from tao-optiplex-7060.sh.intel.com ([10.239.13.92])
-	by fmsmga005.fm.intel.com with ESMTP; 07 May 2019 23:19:56 -0700
+	by fmsmga005.fm.intel.com with ESMTP; 07 May 2019 23:19:58 -0700
 From: Tao Xu <tao3.xu@intel.com>
 To: imammedo@redhat.com, mst@redhat.com, eblake@redhat.com,
 	ehabkost@redhat.com, xiaoguangrong.eric@gmail.com
-Date: Wed,  8 May 2019 14:17:18 +0800
-Message-Id: <20190508061726.27631-4-tao3.xu@intel.com>
+Date: Wed,  8 May 2019 14:17:19 +0800
+Message-Id: <20190508061726.27631-5-tao3.xu@intel.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190508061726.27631-1-tao3.xu@intel.com>
 References: <20190508061726.27631-1-tao3.xu@intel.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
 X-Received-From: 192.55.52.43
-Subject: [Qemu-devel] [PATCH v4 03/11] numa: move numa global variable
- numa_info into MachineState
+Subject: [Qemu-devel] [PATCH v4 04/11] acpi: introduce
+ AcpiDeviceIfClass.build_mem_ranges hook
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -57,310 +57,292 @@ Cc: pbonzini@redhat.com, tao3.xu@intel.com, jingqi.liu@intel.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The aim of this patch is to move existing numa global numa_info
-(renamed as "nodes") into NumaState.
+Add build_mem_ranges callback to AcpiDeviceIfClass and use
+it for generating SRAT and HMAT numa memory ranges.
 
-Reviewed-by: Liu Jingqi <jingqi.liu@intel.com>
 Suggested-by: Igor Mammedov <imammedo@redhat.com>
-Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
+Co-developed-by: Liu Jingqi <jingqi.liu@intel.com>
+Signed-off-by: Liu Jingqi <jingqi.liu@intel.com>
 Signed-off-by: Tao Xu <tao3.xu@intel.com>
 ---
 
 Changes in v4 -> v3:
-    - send the patch together with HMAT patches
-
-Changes in v3 -> v2:
-    - rename the "NumaState::numa_info" as "NumaState::nodes" (Eduardo)
+    - spilt the 1/8 of v3 patch into two patches, 4/13 introduces
+    build_mem_ranges() and adding it to ACPI interface, 5/13 builds
+    HMAT (Igor)
 ---
- exec.c                   |  2 +-
- hw/acpi/aml-build.c      |  6 ++++--
- hw/arm/boot.c            |  2 +-
- hw/arm/virt-acpi-build.c |  7 ++++---
- hw/arm/virt.c            |  1 +
- hw/i386/pc.c             |  4 ++--
- hw/ppc/spapr.c           |  8 +++++++-
- hw/ppc/spapr_pci.c       |  2 ++
- include/hw/boards.h      | 10 ++++++++++
- include/sysemu/numa.h    |  8 --------
- numa.c                   | 15 +++++++++------
- 11 files changed, 41 insertions(+), 24 deletions(-)
+ hw/acpi/piix4.c                      |   1 +
+ hw/i386/acpi-build.c                 | 116 ++++++++++++++++-----------
+ hw/isa/lpc_ich9.c                    |   1 +
+ include/hw/acpi/acpi_dev_interface.h |   3 +
+ include/hw/boards.h                  |  12 +++
+ include/hw/i386/pc.h                 |   1 +
+ stubs/Makefile.objs                  |   1 +
+ stubs/pc_build_mem_ranges.c          |   6 ++
+ 8 files changed, 96 insertions(+), 45 deletions(-)
+ create mode 100644 stubs/pc_build_mem_ranges.c
 
-diff --git a/exec.c b/exec.c
-index c7eb4af42d..0e30926588 100644
---- a/exec.c
-+++ b/exec.c
-@@ -1763,7 +1763,7 @@ long qemu_minrampagesize(void)
-     if (hpsize > mainrampagesize &&
-         (ms->numa_state == NULL ||
-          ms->numa_state->num_nodes == 0 ||
--         numa_info[0].node_memdev == NULL)) {
-+         ms->numa_state->nodes[0].node_memdev == NULL)) {
-         static bool warned;
-         if (!warned) {
-             error_report("Huge page support disabled (n/a for main memory).");
-diff --git a/hw/acpi/aml-build.c b/hw/acpi/aml-build.c
-index c67f4561a4..b53a55cb56 100644
---- a/hw/acpi/aml-build.c
-+++ b/hw/acpi/aml-build.c
-@@ -1737,8 +1737,10 @@ void build_slit(GArray *table_data, BIOSLinker *linker, MachineState *ms)
-     build_append_int_noprefix(table_data, nb_numa_nodes, 8);
-     for (i = 0; i < nb_numa_nodes; i++) {
-         for (j = 0; j < nb_numa_nodes; j++) {
--            assert(numa_info[i].distance[j]);
--            build_append_int_noprefix(table_data, numa_info[i].distance[j], 1);
-+            assert(ms->numa_state->nodes[i].distance[j]);
-+            build_append_int_noprefix(table_data,
-+                                      ms->numa_state->nodes[i].distance[j],
-+                                      1);
-         }
-     }
+diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
+index 9c079d6834..7c320a49b2 100644
+--- a/hw/acpi/piix4.c
++++ b/hw/acpi/piix4.c
+@@ -723,6 +723,7 @@ static void piix4_pm_class_init(ObjectClass *klass, void *data)
+     adevc->ospm_status = piix4_ospm_status;
+     adevc->send_event = piix4_send_gpe;
+     adevc->madt_cpu = pc_madt_cpu_entry;
++    adevc->build_mem_ranges = pc_build_mem_ranges;
+ }
  
-diff --git a/hw/arm/boot.c b/hw/arm/boot.c
-index 8ff08814fd..845b737ab9 100644
---- a/hw/arm/boot.c
-+++ b/hw/arm/boot.c
-@@ -602,7 +602,7 @@ int arm_load_dtb(hwaddr addr, const struct arm_boot_info *binfo,
-     if (nb_numa_nodes > 0) {
-         mem_base = binfo->loader_start;
-         for (i = 0; i < nb_numa_nodes; i++) {
--            mem_len = numa_info[i].node_mem;
-+            mem_len = ms->numa_state->nodes[i].node_mem;
-             rc = fdt_add_memory_node(fdt, acells, mem_base,
-                                      scells, mem_len, i);
-             if (rc < 0) {
-diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index 65f070843c..b22c3d27ad 100644
---- a/hw/arm/virt-acpi-build.c
-+++ b/hw/arm/virt-acpi-build.c
-@@ -535,11 +535,12 @@ build_srat(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+ static const TypeInfo piix4_pm_info = {
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index 43a807c483..5598e7f780 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -2271,6 +2271,65 @@ build_tpm2(GArray *table_data, BIOSLinker *linker, GArray *tcpalog)
+ #define HOLE_640K_START  (640 * KiB)
+ #define HOLE_640K_END   (1 * MiB)
  
-     mem_base = vms->memmap[VIRT_MEM].base;
-     for (i = 0; i < nb_numa_nodes; ++i) {
--        if (numa_info[i].node_mem > 0) {
-+        if (ms->numa_state->nodes[i].node_mem > 0) {
-             numamem = acpi_data_push(table_data, sizeof(*numamem));
--            build_srat_memory(numamem, mem_base, numa_info[i].node_mem, i,
-+            build_srat_memory(numamem, mem_base,
-+                              ms->numa_state->nodes[i].node_mem, i,
-                               MEM_AFFINITY_ENABLED);
--            mem_base += numa_info[i].node_mem;
-+            mem_base += ms->numa_state->nodes[i].node_mem;
-         }
-     }
- 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index f0818ef597..853caf606f 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -232,6 +232,7 @@ static void create_fdt(VirtMachineState *vms)
-         int size = nb_numa_nodes * nb_numa_nodes * 3 * sizeof(uint32_t);
-         uint32_t *matrix = g_malloc0(size);
-         int idx, i, j;
-+        NodeInfo *numa_info = ms->numa_state->nodes;
- 
-         for (i = 0; i < nb_numa_nodes; i++) {
-             for (j = 0; j < nb_numa_nodes; j++) {
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 6404ae508e..1c7b2a97bc 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -1043,7 +1043,7 @@ static FWCfgState *bochs_bios_init(AddressSpace *as, PCMachineState *pcms)
-     }
-     for (i = 0; i < nb_numa_nodes; i++) {
-         numa_fw_cfg[pcms->apic_id_limit + 1 + i] =
--            cpu_to_le64(numa_info[i].node_mem);
-+            cpu_to_le64(ms->numa_state->nodes[i].node_mem);
-     }
-     fw_cfg_add_bytes(fw_cfg, FW_CFG_NUMA, numa_fw_cfg,
-                      (1 + pcms->apic_id_limit + nb_numa_nodes) *
-@@ -1685,7 +1685,7 @@ void pc_guest_info_init(PCMachineState *pcms)
-     pcms->node_mem = g_malloc0(pcms->numa_nodes *
-                                     sizeof *pcms->node_mem);
-     for (i = 0; i < nb_numa_nodes; i++) {
--        pcms->node_mem[i] = numa_info[i].node_mem;
-+        pcms->node_mem[i] = ms->numa_state->nodes[i].node_mem;
-     }
- 
-     pcms->machine_done.notify = pc_machine_done;
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 4f0a8d4e2e..d577c2025e 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -349,6 +349,7 @@ static hwaddr spapr_node0_size(MachineState *machine)
-     int nb_numa_nodes = machine_num_numa_nodes(machine);
-     if (nb_numa_nodes) {
-         int i;
-+        NodeInfo *numa_info = machine->numa_state->nodes;
-         for (i = 0; i < nb_numa_nodes; ++i) {
-             if (numa_info[i].node_mem) {
-                 return MIN(pow2floor(numa_info[i].node_mem),
-@@ -396,7 +397,9 @@ static int spapr_populate_memory(SpaprMachineState *spapr, void *fdt)
-     int nb_numa_nodes = machine_num_numa_nodes(machine);
-     hwaddr mem_start, node_size;
-     int i, nb_nodes = nb_numa_nodes;
--    NodeInfo *nodes = numa_info;
-+    NodeInfo *nodes = machine->numa_state ?
-+                      machine->numa_state->nodes :
-+                      NULL;
-     NodeInfo ramnode;
- 
-     /* No NUMA nodes, assume there is just one node with whole RAM */
-@@ -2518,6 +2521,9 @@ static void spapr_validate_node_memory(MachineState *machine, Error **errp)
++void pc_build_mem_ranges(AcpiDeviceIf *adev, MachineState *ms)
++{
++    uint64_t mem_len, mem_base, next_base;
++    int i;
++    PCMachineState *pcms = PC_MACHINE(ms);
++    /*
++     * the memory map is a bit tricky, it contains at least one hole
++     * from 640k-1M and possibly another one from 3.5G-4G.
++     */
++    NumaMemRange *mem_ranges = ms->numa_state->mem_ranges;
++    ms->numa_state->mem_ranges_num = 0;
++    next_base = 0;
++
++    for (i = 0; i < pcms->numa_nodes; ++i) {
++        mem_base = next_base;
++        mem_len = pcms->node_mem[i];
++        next_base = mem_base + mem_len;
++
++        /* Cut out the 640K hole */
++        if (mem_base <= HOLE_640K_START &&
++            next_base > HOLE_640K_START) {
++            mem_len -= next_base - HOLE_640K_START;
++            if (mem_len > 0) {
++                mem_ranges[ms->numa_state->mem_ranges_num].base = mem_base;
++                mem_ranges[ms->numa_state->mem_ranges_num].length = mem_len;
++                mem_ranges[ms->numa_state->mem_ranges_num].node = i;
++                ms->numa_state->mem_ranges_num++;
++            }
++
++            /* Check for the rare case: 640K < RAM < 1M */
++            if (next_base <= HOLE_640K_END) {
++                next_base = HOLE_640K_END;
++                continue;
++            }
++            mem_base = HOLE_640K_END;
++            mem_len = next_base - HOLE_640K_END;
++        }
++
++        /* Cut out the ACPI_PCI hole */
++        if (mem_base <= pcms->below_4g_mem_size &&
++            next_base > pcms->below_4g_mem_size) {
++            mem_len -= next_base - pcms->below_4g_mem_size;
++            if (mem_len > 0) {
++                mem_ranges[ms->numa_state->mem_ranges_num].base = mem_base;
++                mem_ranges[ms->numa_state->mem_ranges_num].length = mem_len;
++                mem_ranges[ms->numa_state->mem_ranges_num].node = i;
++                ms->numa_state->mem_ranges_num++;
++            }
++            mem_base = 1ULL << 32;
++            mem_len = next_base - pcms->below_4g_mem_size;
++            next_base = mem_base + mem_len;
++        }
++        mem_ranges[ms->numa_state->mem_ranges_num].base = mem_base;
++        mem_ranges[ms->numa_state->mem_ranges_num].length = mem_len;
++        mem_ranges[ms->numa_state->mem_ranges_num].node = i;
++        ms->numa_state->mem_ranges_num++;
++    }
++}
++
+ static void
+ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
  {
-     int i;
-     int nb_numa_nodes = machine_num_numa_nodes(machine);
-+    NodeInfo *numa_info = machine->numa_state ?
-+                          machine->numa_state->nodes :
-+                          NULL;
+@@ -2279,10 +2338,13 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
  
-     if (machine->ram_size % SPAPR_MEMORY_BLOCK_SIZE) {
-         error_setg(errp, "Memory size 0x" RAM_ADDR_FMT
-diff --git a/hw/ppc/spapr_pci.c b/hw/ppc/spapr_pci.c
-index 97961b0128..f4e5c0f5b2 100644
---- a/hw/ppc/spapr_pci.c
-+++ b/hw/ppc/spapr_pci.c
-@@ -1660,6 +1660,8 @@ static void spapr_phb_realize(DeviceState *dev, Error **errp)
-     SysBusDevice *s = SYS_BUS_DEVICE(dev);
-     SpaprPhbState *sphb = SPAPR_PCI_HOST_BRIDGE(s);
-     PCIHostState *phb = PCI_HOST_BRIDGE(s);
-+    MachineState *ms = MACHINE(spapr);
-+    NodeInfo *numa_info = ms->numa_state ? ms->numa_state->nodes : NULL;
-     char *namebuf;
      int i;
-     PCIBus *bus;
+     int srat_start, numa_start, slots;
+-    uint64_t mem_len, mem_base, next_base;
+     MachineClass *mc = MACHINE_GET_CLASS(machine);
+     const CPUArchIdList *apic_ids = mc->possible_cpu_arch_ids(machine);
+     PCMachineState *pcms = PC_MACHINE(machine);
++    AcpiDeviceIfClass *adevc = ACPI_DEVICE_IF_GET_CLASS(pcms->acpi_dev);
++    AcpiDeviceIf *adev = ACPI_DEVICE_IF(pcms->acpi_dev);
++    uint32_t mem_ranges_num = machine->numa_state->mem_ranges_num;
++    NumaMemRange *mem_ranges = machine->numa_state->mem_ranges;
+     ram_addr_t hotplugabble_address_space_size =
+         object_property_get_int(OBJECT(pcms), PC_MACHINE_DEVMEM_REGION_SIZE,
+                                 NULL);
+@@ -2319,57 +2381,21 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
+         }
+     }
+ 
++    if (pcms->numa_nodes && !mem_ranges_num) {
++        adevc->build_mem_ranges(adev, machine);
++    }
+ 
+-    /* the memory map is a bit tricky, it contains at least one hole
+-     * from 640k-1M and possibly another one from 3.5G-4G.
+-     */
+-    next_base = 0;
+     numa_start = table_data->len;
+ 
+-    for (i = 1; i < pcms->numa_nodes + 1; ++i) {
+-        mem_base = next_base;
+-        mem_len = pcms->node_mem[i - 1];
+-        next_base = mem_base + mem_len;
+-
+-        /* Cut out the 640K hole */
+-        if (mem_base <= HOLE_640K_START &&
+-            next_base > HOLE_640K_START) {
+-            mem_len -= next_base - HOLE_640K_START;
+-            if (mem_len > 0) {
++    for (i = 0; i < mem_ranges_num; i++) {
++        if (mem_ranges[i].length > 0) {
+                 numamem = acpi_data_push(table_data, sizeof *numamem);
+-                build_srat_memory(numamem, mem_base, mem_len, i - 1,
++            build_srat_memory(numamem, mem_ranges[i].base,
++                              mem_ranges[i].length,
++                              mem_ranges[i].node,
+                                   MEM_AFFINITY_ENABLED);
+             }
+-
+-            /* Check for the rare case: 640K < RAM < 1M */
+-            if (next_base <= HOLE_640K_END) {
+-                next_base = HOLE_640K_END;
+-                continue;
+             }
+-            mem_base = HOLE_640K_END;
+-            mem_len = next_base - HOLE_640K_END;
+-        }
+-
+-        /* Cut out the ACPI_PCI hole */
+-        if (mem_base <= pcms->below_4g_mem_size &&
+-            next_base > pcms->below_4g_mem_size) {
+-            mem_len -= next_base - pcms->below_4g_mem_size;
+-            if (mem_len > 0) {
+-                numamem = acpi_data_push(table_data, sizeof *numamem);
+-                build_srat_memory(numamem, mem_base, mem_len, i - 1,
+-                                  MEM_AFFINITY_ENABLED);
+-            }
+-            mem_base = 1ULL << 32;
+-            mem_len = next_base - pcms->below_4g_mem_size;
+-            next_base = mem_base + mem_len;
+-        }
+-
+-        if (mem_len > 0) {
+-            numamem = acpi_data_push(table_data, sizeof *numamem);
+-            build_srat_memory(numamem, mem_base, mem_len, i - 1,
+-                              MEM_AFFINITY_ENABLED);
+-        }
+-    }
+     slots = (table_data->len - numa_start) / sizeof *numamem;
+     for (; slots < pcms->numa_nodes + 2; slots++) {
+         numamem = acpi_data_push(table_data, sizeof *numamem);
+diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
+index ac44aa53be..4ae64846ba 100644
+--- a/hw/isa/lpc_ich9.c
++++ b/hw/isa/lpc_ich9.c
+@@ -812,6 +812,7 @@ static void ich9_lpc_class_init(ObjectClass *klass, void *data)
+     adevc->ospm_status = ich9_pm_ospm_status;
+     adevc->send_event = ich9_send_gpe;
+     adevc->madt_cpu = pc_madt_cpu_entry;
++    adevc->build_mem_ranges = pc_build_mem_ranges;
+ }
+ 
+ static const TypeInfo ich9_lpc_info = {
+diff --git a/include/hw/acpi/acpi_dev_interface.h b/include/hw/acpi/acpi_dev_interface.h
+index 43ff119179..d8634ac1ed 100644
+--- a/include/hw/acpi/acpi_dev_interface.h
++++ b/include/hw/acpi/acpi_dev_interface.h
+@@ -39,6 +39,7 @@ void acpi_send_event(DeviceState *dev, AcpiEventStatusBits event);
+  *           for CPU indexed by @uid in @apic_ids array,
+  *           returned structure types are:
+  *           0 - Local APIC, 9 - Local x2APIC, 0xB - GICC
++ * build_mem_ranges: build memory ranges of ACPI SRAT and HMAT
+  *
+  * Interface is designed for providing unified interface
+  * to generic ACPI functionality that could be used without
+@@ -54,5 +55,7 @@ typedef struct AcpiDeviceIfClass {
+     void (*send_event)(AcpiDeviceIf *adev, AcpiEventStatusBits ev);
+     void (*madt_cpu)(AcpiDeviceIf *adev, int uid,
+                      const CPUArchIdList *apic_ids, GArray *entry);
++    void (*build_mem_ranges)(AcpiDeviceIf *adev, MachineState *ms);
++
+ } AcpiDeviceIfClass;
+ #endif
 diff --git a/include/hw/boards.h b/include/hw/boards.h
-index c3c678b7ff..777eed4dd9 100644
+index 777eed4dd9..9fbf921ecf 100644
 --- a/include/hw/boards.h
 +++ b/include/hw/boards.h
-@@ -233,12 +233,22 @@ typedef struct DeviceMemoryState {
-     MemoryRegion mr;
- } DeviceMemoryState;
+@@ -240,6 +240,12 @@ struct NodeInfo {
+     uint8_t distance[MAX_NODES];
+ };
  
-+struct NodeInfo {
-+    uint64_t node_mem;
-+    struct HostMemoryBackend *node_memdev;
-+    bool present;
-+    uint8_t distance[MAX_NODES];
-+};
++typedef struct NumaMemRange {
++    uint64_t base;
++    uint64_t length;
++    uint32_t node;
++} NumaMemRange;
 +
  typedef struct NumaState {
      /* Number of NUMA nodes */
      int num_nodes;
+@@ -249,6 +255,12 @@ typedef struct NumaState {
  
-     /* Allow setting NUMA distance for different NUMA nodes */
-     bool have_numa_distance;
+     /* NUMA nodes information */
+     NodeInfo nodes[MAX_NODES];
 +
-+    /* NUMA nodes information */
-+    NodeInfo nodes[MAX_NODES];
++    /* Number of NUMA memory ranges */
++    uint32_t mem_ranges_num;
++
++    /* NUMA memory ranges */
++    NumaMemRange mem_ranges[MAX_NODES + 2];
  } NumaState;
  
  /**
-diff --git a/include/sysemu/numa.h b/include/sysemu/numa.h
-index 1a29408db9..7b8011f9ea 100644
---- a/include/sysemu/numa.h
-+++ b/include/sysemu/numa.h
-@@ -6,19 +6,11 @@
- #include "sysemu/hostmem.h"
- #include "hw/boards.h"
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index 43df7230a2..1e4ee404ae 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -281,6 +281,7 @@ void pc_system_firmware_init(PCMachineState *pcms, MemoryRegion *rom_memory);
+ /* acpi-build.c */
+ void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
+                        const CPUArchIdList *apic_ids, GArray *entry);
++void pc_build_mem_ranges(AcpiDeviceIf *adev, MachineState *ms);
  
--struct NodeInfo {
--    uint64_t node_mem;
--    struct HostMemoryBackend *node_memdev;
--    bool present;
--    uint8_t distance[MAX_NODES];
--};
--
- struct NumaNodeMem {
-     uint64_t node_mem;
-     uint64_t node_plugged_mem;
- };
- 
--extern NodeInfo numa_info[MAX_NODES];
- void parse_numa_opts(MachineState *ms);
- void numa_complete_configuration(MachineState *ms);
- void query_numa_node_mem(NumaNodeMem node_mem[], MachineState *ms);
-diff --git a/numa.c b/numa.c
-index d4f5ff5193..ddea376d72 100644
---- a/numa.c
-+++ b/numa.c
-@@ -52,8 +52,6 @@ static int have_memdevs = -1;
- static int max_numa_nodeid; /* Highest specified NUMA node ID, plus one.
-                              * For all nodes, nodeid < max_numa_nodeid
-                              */
--NodeInfo numa_info[MAX_NODES];
--
- 
- static void parse_numa_node(MachineState *ms, NumaNodeOptions *node,
-                             Error **errp)
-@@ -62,6 +60,7 @@ static void parse_numa_node(MachineState *ms, NumaNodeOptions *node,
-     uint16_t nodenr;
-     uint16List *cpus = NULL;
-     MachineClass *mc = MACHINE_GET_CLASS(ms);
-+    NodeInfo *numa_info = ms->numa_state->nodes;
- 
-     if (node->has_nodeid) {
-         nodenr = node->nodeid;
-@@ -143,6 +142,7 @@ void parse_numa_distance(MachineState *ms, NumaDistOptions *dist, Error **errp)
-     uint16_t src = dist->src;
-     uint16_t dst = dist->dst;
-     uint8_t val = dist->val;
-+    NodeInfo *numa_info = ms->numa_state->nodes;
- 
-     if (src >= MAX_NODES || dst >= MAX_NODES) {
-         error_setg(errp, "Parameter '%s' expects an integer between 0 and %d",
-@@ -201,7 +201,7 @@ void set_numa_options(MachineState *ms, NumaOptions *object, Error **errp)
-             error_setg(&err, "Missing mandatory node-id property");
-             goto end;
-         }
--        if (!numa_info[object->u.cpu.node_id].present) {
-+        if (!ms->numa_state->nodes[object->u.cpu.node_id].present) {
-             error_setg(&err, "Invalid node-id=%" PRId64 ", NUMA node must be "
-                 "defined with -numa node,nodeid=ID before it's used with "
-                 "-numa cpu,node-id=ID", object->u.cpu.node_id);
-@@ -261,6 +261,7 @@ static void validate_numa_distance(MachineState *ms)
-     int src, dst;
-     bool is_asymmetrical = false;
-     int nb_numa_nodes = machine_num_numa_nodes(ms);
-+    NodeInfo *numa_info = ms->numa_state->nodes;
- 
-     for (src = 0; src < nb_numa_nodes; src++) {
-         for (dst = src; dst < nb_numa_nodes; dst++) {
-@@ -302,6 +303,7 @@ static void complete_init_numa_distance(MachineState *ms)
- {
-     int src, dst;
-     int nb_numa_nodes = machine_num_numa_nodes(ms);
-+    NodeInfo *numa_info = ms->numa_state->nodes;
- 
-     /* Fixup NUMA distance by symmetric policy because if it is an
-      * asymmetric distance table, it should be a complete table and
-@@ -361,6 +363,7 @@ void numa_complete_configuration(MachineState *ms)
- {
-     int i;
-     MachineClass *mc = MACHINE_GET_CLASS(ms);
-+    NodeInfo *numa_info = ms->numa_state->nodes;
- 
-     /*
-      * If memory hotplug is enabled (slots > 0) but without '-numa'
-@@ -532,8 +535,8 @@ void memory_region_allocate_system_memory(MemoryRegion *mr, Object *owner,
- 
-     memory_region_init(mr, owner, name, ram_size);
-     for (i = 0; i < nb_numa_nodes; i++) {
--        uint64_t size = numa_info[i].node_mem;
--        HostMemoryBackend *backend = numa_info[i].node_memdev;
-+        uint64_t size = ms->numa_state->nodes[i].node_mem;
-+        HostMemoryBackend *backend = ms->numa_state->nodes[i].node_memdev;
-         if (!backend) {
-             continue;
-         }
-@@ -599,7 +602,7 @@ void query_numa_node_mem(NumaNodeMem node_mem[], MachineState *ms)
- 
-     numa_stat_memory_devices(node_mem);
-     for (i = 0; i < ms->numa_state->num_nodes; i++) {
--        node_mem[i].node_mem += numa_info[i].node_mem;
-+        node_mem[i].node_mem += ms->numa_state->nodes[i].node_mem;
-     }
- }
- 
+ /* e820 types */
+ #define E820_RAM        1
+diff --git a/stubs/Makefile.objs b/stubs/Makefile.objs
+index 269dfa5832..7e0a962815 100644
+--- a/stubs/Makefile.objs
++++ b/stubs/Makefile.objs
+@@ -33,6 +33,7 @@ stub-obj-y += qmp_memory_device.o
+ stub-obj-y += target-monitor-defs.o
+ stub-obj-y += target-get-monitor-def.o
+ stub-obj-y += pc_madt_cpu_entry.o
++stub-obj-y += pc_build_mem_ranges.o
+ stub-obj-y += vmgenid.o
+ stub-obj-y += xen-common.o
+ stub-obj-y += xen-hvm.o
+diff --git a/stubs/pc_build_mem_ranges.c b/stubs/pc_build_mem_ranges.c
+new file mode 100644
+index 0000000000..0f104ba79d
+--- /dev/null
++++ b/stubs/pc_build_mem_ranges.c
+@@ -0,0 +1,6 @@
++#include "qemu/osdep.h"
++#include "hw/i386/pc.h"
++
++void pc_build_mem_ranges(AcpiDeviceIf *adev, MachineState *machine)
++{
++}
 -- 
 2.17.1
 
