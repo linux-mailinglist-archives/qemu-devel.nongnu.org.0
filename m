@@ -2,64 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1581D17A7E
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 15:22:51 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:37111 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CD1017A84
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 15:24:48 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37139 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOMX4-0003sJ-4T
-	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 09:22:50 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34600)
+	id 1hOMYx-0005PM-HX
+	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 09:24:47 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34927)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hOMVK-0003Df-OT
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 09:21:03 -0400
+	(envelope-from <mreitz@redhat.com>) id 1hOMWb-00044j-4g
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 09:22:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hOMVJ-00087f-O2
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 09:21:02 -0400
-Received: from mail-oi1-x234.google.com ([2607:f8b0:4864:20::234]:33352)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hOMVJ-00086J-Fg
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 09:21:01 -0400
-Received: by mail-oi1-x234.google.com with SMTP id m204so9438744oib.0
-	for <qemu-devel@nongnu.org>; Wed, 08 May 2019 06:21:01 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
-	bh=JLU1dr3a6nhMIKpBug6cSiBb3t2x3IElS8SvjTFIkiY=;
-	b=JuQqDhKPXxV1D+WFrx/dbrmIvhNnU3TlV2rSebtJTmY1bQ3t/qc1dDq8wf/X875/3H
-	JbbiuPR8taAXHmFdzv1RkOK34RoLa56eYlfUx1XcKbqMuGmONFMyz1u/aqhQBT7aw2F9
-	L4+pkg+gcniPJ/uAibTt4ieyQjTubZhGHLUJ1BUhlqPZM3G0wEMXqhi0Dj9pmSqFo9GE
-	YTZ9BD8wsd0SVL2WZp2qsQVfJx3gEAXbEnB9685OmURk/X/FulpHf0LkADdKNaUpOA4G
-	9rNzMyeiyv1Z0+tFVgVzET8MCjp6dVdwfw3DZw9Uz3FGPqBQqPYPI+OVhFPI6VzcVwLo
-	hMHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to;
-	bh=JLU1dr3a6nhMIKpBug6cSiBb3t2x3IElS8SvjTFIkiY=;
-	b=WlslhfEKoW81XjG9BMFmfRXnSqO6bbBrW/Rlp3Qq0urTelcD+VYyXHL+kmE1yH6qGY
-	Mzzr46oxz/IYRnVHh3yCSZyGaZWJ4kCAgBXonqOkJfECWX9NsUVa76+EENcFdFNDlPI5
-	jMzDtGGZpiwvqcLjo2+IcwPTUXdlbICuheFqugkQmQzcrv/kGkOjcTVNGqoFi3xE/ljw
-	2HCi1/4Vp/d95f17UULYy56Pg9uBDiF1Ye+LQEuopS0pubo2LZz3s8nc4AnErkeeQ6Xk
-	Tu8PwzPDdq+rkQOTGL8k8nQ1AwM6xSNga2O3QvJu0CCKjHutoS6UbRcrc8JZ7zjSdRbU
-	WBpQ==
-X-Gm-Message-State: APjAAAXeTYj2k67cYJSwhRpjsCg/262x5CzzbL/spmCAvjap+1Q8tIYN
-	asKYtGPb/vOhOTFH/yq4i849VW018gyWF7XzKbn9yN2P
-X-Google-Smtp-Source: APXvYqxv2CU/gYIQSm11luOmDWZqri3uHZHYme0oBZA0HT1eMNww4kTPr9VonZ/7C+inhIsTuZuqoAXFBVmLwtD9GAc=
-X-Received: by 2002:aca:b3c2:: with SMTP id c185mr2283064oif.98.1557321659720; 
-	Wed, 08 May 2019 06:20:59 -0700 (PDT)
+	(envelope-from <mreitz@redhat.com>) id 1hOMWZ-00015y-8i
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 09:22:21 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59076)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
+	id 1hOMWT-000119-JT; Wed, 08 May 2019 09:22:14 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id F3763369C4;
+	Wed,  8 May 2019 13:22:11 +0000 (UTC)
+Received: from localhost (ovpn-204-94.brq.redhat.com [10.40.204.94])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 8B5AF10027D5;
+	Wed,  8 May 2019 13:22:11 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Date: Wed,  8 May 2019 15:22:04 +0200
+Message-Id: <20190508132209.17707-1-mreitz@redhat.com>
 MIME-Version: 1.0
-References: <20190507120011.18100-1-peter.maydell@linaro.org>
-In-Reply-To: <20190507120011.18100-1-peter.maydell@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 8 May 2019 14:20:47 +0100
-Message-ID: <CAFEAcA8a9EXHH86k9n13QPA6SnhdUnbDjfZuXCmLLDB7xJRsjQ@mail.gmail.com>
-To: QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::234
-Subject: Re: [Qemu-devel] [PULL 00/15] target-arm queue
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.30]);
+	Wed, 08 May 2019 13:22:12 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v2 0/5] iotests: Let 233 run concurrently
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -71,36 +54,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
+	Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 7 May 2019 at 13:00, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> A mixed bag, all bug fixes or similar small stuff.
->
-> thanks
-> -- PMM
->
->
-> The following changes since commit 19eb2d4e736dc895f31fbd6b520e514f10cc08e0:
->
->   Merge remote-tracking branch 'remotes/thibault/tags/samuel-thibault' into staging (2019-05-07 10:43:32 +0100)
->
-> are available in the Git repository at:
->
->   https://git.linaro.org/people/pmaydell/qemu-arm.git tags/pull-target-arm-20190507
->
-> for you to fetch changes up to 63159601fb3e396b28da14cbb71e50ed3f5a0331:
->
->   target/arm: Stop using variable length array in dc_zva (2019-05-07 12:55:04 +0100)
->
-> ----------------------------------------------------------------
+Currently, 233 cannot reliably run concurrently to other NBD TCP tests.
+When it starts, it looks for a free port and then attempts to use that
+for the whole duration of the test run.  This is a TOCTTOU race
+condition: It does not reserve that port, so another NBD TCP test that
+runs in parallel can grab it.
+
+To fix this, we must not use the same port all the time, but always
+choose a new one when qemu-nbd is started.  We cannot check whether it
+is free, but must let qemu-nbd do so and take it atomically.  We can
+achieve this by using the existing --fork option.
+
+There are two problems with --fork, however.  First, it does not give us
+a chance to reliably get the server=E2=80=99s PID, which we need.  We can=
+ change
+that by letting qemu-nbd (optionally) write a PID file, though.  (Which
+makes sense if we have a daemon mode.)
+
+Second, it currently discards all output after the server has been
+started.  That looks like an accident to me, because we clearly try to
+restore the old stderr channel after having redirected all startup
+messages to the parent process.  If it is a bug, we can fix it.
 
 
-Applied, thanks.
+v2:
+- Patch 1:
+  - Use qemu_write_pidfile() [Dan]
+  - %s/pid_path/pid_filename/ [Eric]
+- Patch 4: Drop the now superfluous subshell [Eric]
+  (Didn=E2=80=99t touch _qemu_img_wrapper, because, well, it doesn=E2=80=99=
+t belong in
+  this series?)
+- Patch 5:
+  - s/racey/racy/ [Eric]
+  - Unite the =E2=80=9Crm -f=E2=80=9Ds [Eric]
+  (Did not address the =E2=80=9CFIFO filling up=E2=80=9D problem, because=
+ 64 kB of FIFO
+  space ought to be enough.  Also, cat-ing around that felt weird.)
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
-for any user-visible changes.
 
--- PMM
+git backport-diff against v1:
+
+Key:
+[----] : patches are identical
+[####] : number of functional differences between upstream/downstream pat=
+ch
+[down] : patch is downstream-only
+The flags [FC] indicate (F)unctional and (C)ontextual differences, respec=
+tively
+
+001/5:[0025] [FC] 'qemu-nbd: Add --pid-file option'
+002/5:[----] [--] 'iotests.py: Add qemu_nbd_early_pipe()'
+003/5:[----] [--] 'qemu-nbd: Do not close stderr'
+004/5:[0006] [FC] 'iotests: Use qemu-nbd's --pid-file'
+005/5:[0003] [FC] 'iotests: Let 233 run concurrently'
+
+
+Max Reitz (5):
+  qemu-nbd: Add --pid-file option
+  iotests.py: Add qemu_nbd_early_pipe()
+  qemu-nbd: Do not close stderr
+  iotests: Use qemu-nbd's --pid-file
+  iotests: Let 233 run concurrently
+
+ qemu-nbd.c                    | 15 +++++-
+ qemu-nbd.texi                 |  2 +
+ tests/qemu-iotests/147        |  4 +-
+ tests/qemu-iotests/233        |  1 -
+ tests/qemu-iotests/common.nbd | 94 ++++++++++++++++-------------------
+ tests/qemu-iotests/common.rc  |  6 +--
+ tests/qemu-iotests/iotests.py |  9 ++--
+ 7 files changed, 68 insertions(+), 63 deletions(-)
+
+--=20
+2.20.1
+
 
