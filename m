@@ -2,58 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B7C017E6F
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 18:47:26 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40300 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AB3117F07
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 19:24:56 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40693 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOPj3-0007Pe-GI
-	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 12:47:25 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58351)
+	id 1hOQJL-0004jb-Ks
+	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 13:24:55 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36808)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <pmathieu@redhat.com>) id 1hOPh7-0006Bt-80
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 12:45:26 -0400
+	(envelope-from <clg@kaod.org>) id 1hOQEi-0000oZ-11
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 13:20:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <pmathieu@redhat.com>) id 1hOPh5-0004TP-Vx
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 12:45:25 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:36823)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <pmathieu@redhat.com>) id 1hOPh5-0004Kd-Es
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 12:45:23 -0400
-Received: by mail-wr1-f67.google.com with SMTP id o4so28108373wra.3
-	for <qemu-devel@nongnu.org>; Wed, 08 May 2019 09:45:16 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=bZ+tu+/ICtwv8ZZyBrkHfYnbpxIC4jyGZUjz6/c59hQ=;
-	b=lhtalKcqh8yt2AUJy7dIVjx+zGdmIfZC4deNrwAgiaxCDARRtJQVHhxzgbv9Jld/qC
-	3SF1+Ew4UHErLpjVZ2fyuZwnox7TmeCQWkKSCVmNKOmTw5FeurvQ5j9PdZT1uCRp8T7G
-	2jWMpV6VdU8blueHtBMu3WBfn/kbGbVMBLwbqJiMPhbwpFC9riyFxbgUi9P9QnhRUO90
-	h9/tQoRdq1I9K8G4xUULgg0x4mvI5X0mQdjaKl+QzpC7sY51KymOno78MJw+l6sL7ews
-	YR0gaWUKYOMAs1cOpHTL5wE17R13gIhTKpM00iWP3w1iLXonrwy6yKI8UwErczM3oP0/
-	Cb/Q==
-X-Gm-Message-State: APjAAAV//EGPsyBONf8o0CURcxLZTh6cf5OA0i6YPD+kojE9mr+gixXv
-	Y+HnTuKn7KRDMswN3DvJdHaYkrcfqsobfK6W/jJ9aA==
-X-Google-Smtp-Source: APXvYqwFpueOKgtPMSCxMJJrIdwa2UQIgIsGcoJSOZGkXRP5Gc4Qj1guQVnPeBudhasuTVPb0XfZYL3l0IQ5dt7KVIk=
-X-Received: by 2002:a5d:68cf:: with SMTP id p15mr3973920wrw.105.1557333915495; 
-	Wed, 08 May 2019 09:45:15 -0700 (PDT)
+	(envelope-from <clg@kaod.org>) id 1hOQEh-0003mX-0w
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 13:20:08 -0400
+Received: from 6.mo68.mail-out.ovh.net ([46.105.63.100]:56492)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <clg@kaod.org>) id 1hOQEg-0003iH-Q8
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 13:20:06 -0400
+Received: from player711.ha.ovh.net (unknown [10.108.57.43])
+	by mo68.mail-out.ovh.net (Postfix) with ESMTP id 3DA55123F18
+	for <qemu-devel@nongnu.org>; Wed,  8 May 2019 19:19:56 +0200 (CEST)
+Received: from kaod.org (lfbn-1-10649-41.w90-89.abo.wanadoo.fr [90.89.235.41])
+	(Authenticated sender: clg@kaod.org)
+	by player711.ha.ovh.net (Postfix) with ESMTPSA id 1F185576934F;
+	Wed,  8 May 2019 17:19:51 +0000 (UTC)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Date: Wed,  8 May 2019 19:19:43 +0200
+Message-Id: <20190508171946.657-1-clg@kaod.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20190507134521.31044-1-thuth@redhat.com>
-	<CAFEAcA-j+wQXjPW+puxk=foi2T8O=MzXHtxdWJ6E5P7o89WQSg@mail.gmail.com>
-	<c0cda8fc-cc68-eadd-0750-cc9eeca094a4@redhat.com>
-	<b93b1eb4-d2ff-67cd-a293-5ceb4db9b957@redhat.com>
-In-Reply-To: <b93b1eb4-d2ff-67cd-a293-5ceb4db9b957@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Date: Wed, 8 May 2019 18:45:03 +0200
-Message-ID: <CAP+75-XRZ22uhxfLF6uOpjDtKOf_EDC8uGgbu=DgYw-kcBSAGQ@mail.gmail.com>
-To: Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+X-Ovh-Tracer-Id: 1133499731866979302
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddrkeefgdduudduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.221.67
-Subject: Re: [Qemu-devel] [PULL v2 00/28] Kconfig for Arm machines
+X-Received-From: 46.105.63.100
+Subject: [Qemu-devel] [PATCH 0/3] spapr/xive: fixes on EQ page addresses
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -65,50 +53,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, John Snow <jsnow@redhat.com>,
-	QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org,
+	=?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-[clicked ctrl+enter too fast]
+Hello
 
-On Wed, May 8, 2019 at 6:43 PM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
-om> wrote:
-> On 5/8/19 5:33 PM, Thomas Huth wrote:
-> > On 08/05/2019 17.09, Peter Maydell wrote:
-> >> On Tue, 7 May 2019 at 14:45, Thomas Huth <thuth@redhat.com> wrote:
-> >>>
-> >>>  Hi Peter,
-> >>>
-> >>> the following changes since commit a6ae23831b05a11880b40f7d58e332c45a=
-6b04f7:
-> >>>
-> >>>   Merge remote-tracking branch 'remotes/ehabkost/tags/python-next-pul=
-l-request' into staging (2019-05-03 15:26:09 +0100)
-> >>>
-> >>> are available in the Git repository at:
-> >>>
-> >>>   https://gitlab.com/huth/qemu.git tags/pull-request-2019-05-07
-> >>>
-> >>> for you to fetch changes up to 69f879e9fefab9aaf24893fe4ce23e07756d70=
-3c:
-> >>>
-> >>>   hw/arm: Remove hard-enablement of the remaining PCI devices (2019-0=
-5-07 15:01:47 +0200)
-> >>>
-> >>> ----------------------------------------------------------------
-> >>> Kconfig settings for the Arm machines
-> >>> (v2: Fix the dependency of q35 to AHCI_ICH9 in the second patch)
-> >>> ----------------------------------------------------------------
-> >>
-> >> Hi -- this is still failing in the build test where I 'make clean'
-> >
-> > Very weird. What is running before the "make clean"? Could you provide
-> > me with the content of i386-softmmu/config-devices.mak please?
->
-> It worked for me after running 'git fetch --tags', maybe because Thomas
-> used the same tag?
+Here is a small series adding a check on the EQ page address alignment
+and fixing a severe issue when addresses are above 64GB.
 
-Maybe because Thomas used the same tag you are still trying the
-previous version?
+Thanks,
+
+C.
+
+C=C3=A9dric Le Goater (3):
+  spapr/xive: EQ page should be naturally aligned
+  spapr/xive: fix EQ page addresses above 64GB
+  spapr/xive: print out the EQ page address in the monitor
+
+ include/hw/ppc/xive_regs.h |  6 ++++++
+ hw/intc/spapr_xive.c       | 14 ++++++++++----
+ hw/intc/xive.c             |  9 +++------
+ 3 files changed, 19 insertions(+), 10 deletions(-)
+
+--=20
+2.20.1
+
 
