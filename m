@@ -2,45 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CFD1C1717B
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 08:26:13 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60204 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4B0411719E
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 08:31:55 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60287 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOG1s-0001Yz-Ug
-	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 02:26:13 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41029)
+	id 1hOG7O-0007ST-Cv
+	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 02:31:54 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42750)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <tao3.xu@intel.com>) id 1hOFwC-0005JY-E3
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 02:20:25 -0400
+	(envelope-from <philmd@redhat.com>) id 1hOG2T-0003rf-TG
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 02:26:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <tao3.xu@intel.com>) id 1hOFw9-0000N7-TW
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 02:20:20 -0400
-Received: from mga05.intel.com ([192.55.52.43]:57358)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <tao3.xu@intel.com>) id 1hOFw9-00005t-HR
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 02:20:17 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga005.fm.intel.com ([10.253.24.32])
-	by fmsmga105.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	07 May 2019 23:20:16 -0700
-X-ExtLoop1: 1
-Received: from tao-optiplex-7060.sh.intel.com ([10.239.13.92])
-	by fmsmga005.fm.intel.com with ESMTP; 07 May 2019 23:20:13 -0700
-From: Tao Xu <tao3.xu@intel.com>
-To: imammedo@redhat.com, mst@redhat.com, eblake@redhat.com,
-	ehabkost@redhat.com, xiaoguangrong.eric@gmail.com
-Date: Wed,  8 May 2019 14:17:26 +0800
-Message-Id: <20190508061726.27631-12-tao3.xu@intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190508061726.27631-1-tao3.xu@intel.com>
-References: <20190508061726.27631-1-tao3.xu@intel.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 192.55.52.43
-Subject: [Qemu-devel] [PATCH v4 11/11] hmat acpi: Implement _HMA method to
- update HMAT at runtime
+	(envelope-from <philmd@redhat.com>) id 1hOG2R-00057X-N3
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 02:26:49 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:39231)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hOG2R-000576-Ds
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 02:26:47 -0400
+Received: by mail-wm1-f68.google.com with SMTP id n25so1619343wmk.4
+	for <qemu-devel@nongnu.org>; Tue, 07 May 2019 23:26:47 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=+79cfZkKf2jWWcDFUoWEE6hDlipi0lNUFUj7XrPvbMA=;
+	b=uBhWkp0HKj8xQK2dFzFeM3MNuE1YSPzypOpm2bxwsOpijTAousD/LjeIGRdtokOzZh
+	XJxEy0DbN2INwDRWMYDHbA7ph8+RzVpoToi6upxlePGLTFdNHukixA7lnjcCQP1dXPT1
+	XBLLQ7QzCpShjsM5uE8S10/8bePy6c0TGf2Zhj+BKaP5RemYy/SlsVizRqdktH9Wd/Az
+	dgU4giqpPl6bkQiYcaAHRuSD3Z7yuU7l5RH+NGOE+ZHvdSDmPDXR0ZwoHS1eZz0UN/3Z
+	+992Fd0m19F0To/FvuiwTHf8FS9w2rQM1v1Cs1gOERNXc+7tQpayIuQ6Dalh2FnqtSWK
+	3EUg==
+X-Gm-Message-State: APjAAAVG1TUTage1NSRQsoByoTJP+P1KED5cymxeLO885oQEi+bHu/1m
+	bjgNN/nGcLX0oa03DTVI2kP3FWThtg4=
+X-Google-Smtp-Source: APXvYqzbaplezDezGer0W/NKZddfe2XfRi3cbGEvAXPP+Ie9IyBqERHcY7X5NJYWAjxnyf9QlMLvMg==
+X-Received: by 2002:a1c:d7:: with SMTP id 206mr1718350wma.69.1557296806218;
+	Tue, 07 May 2019 23:26:46 -0700 (PDT)
+Received: from [192.168.1.37] (193.red-88-21-103.staticip.rima-tde.net.
+	[88.21.103.193]) by smtp.gmail.com with ESMTPSA id
+	j10sm48146406wrb.0.2019.05.07.23.26.45
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Tue, 07 May 2019 23:26:45 -0700 (PDT)
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20190508000641.19090-1-richard.henderson@linaro.org>
+	<20190508000641.19090-11-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <4b0a55d9-ed14-3aed-6751-53164b1794c2@redhat.com>
+Date: Wed, 8 May 2019 08:26:45 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <20190508000641.19090-11-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+	[fuzzy]
+X-Received-From: 209.85.128.68
+Subject: Re: [Qemu-devel] [PATCH v3 10/39] target/cris: Reindent mmu.c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -52,575 +74,594 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pbonzini@redhat.com, tao3.xu@intel.com, jingqi.liu@intel.com,
-	qemu-devel@nongnu.org, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Liu Jingqi <jingqi.liu@intel.com>
+On 5/8/19 2:06 AM, Richard Henderson wrote:
+> Fix all of the coding style errors in this file at once.
+> 
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  target/cris/mmu.c | 479 +++++++++++++++++++++++-----------------------
+>  1 file changed, 237 insertions(+), 242 deletions(-)
+> 
+> diff --git a/target/cris/mmu.c b/target/cris/mmu.c
+> index b8db908823..9cb73bbfec 100644
+> --- a/target/cris/mmu.c
+> +++ b/target/cris/mmu.c
+> @@ -33,96 +33,99 @@
+>  
+>  void cris_mmu_init(CPUCRISState *env)
+>  {
+> -	env->mmu_rand_lfsr = 0xcccc;
+> +    env->mmu_rand_lfsr = 0xcccc;
+>  }
+>  
+>  #define SR_POLYNOM 0x8805
+>  static inline unsigned int compute_polynom(unsigned int sr)
+>  {
+> -	unsigned int i;
+> -	unsigned int f;
+> +    unsigned int i;
+> +    unsigned int f;
+>  
+> -	f = 0;
+> -	for (i = 0; i < 16; i++)
+> -		f += ((SR_POLYNOM >> i) & 1) & ((sr >> i) & 1);
+> +    f = 0;
+> +    for (i = 0; i < 16; i++) {
+> +        f += ((SR_POLYNOM >> i) & 1) & ((sr >> i) & 1);
+> +    }
+>  
+> -	return f;
+> +    return f;
+>  }
+>  
+>  static void cris_mmu_update_rand_lfsr(CPUCRISState *env)
+>  {
+> -	unsigned int f;
+> +    unsigned int f;
+>  
+> -	/* Update lfsr at every fault.  */
+> -	f = compute_polynom(env->mmu_rand_lfsr);
+> -	env->mmu_rand_lfsr >>= 1;
+> -	env->mmu_rand_lfsr |= (f << 15);
+> -	env->mmu_rand_lfsr &= 0xffff;
+> +    /* Update lfsr at every fault.  */
+> +    f = compute_polynom(env->mmu_rand_lfsr);
+> +    env->mmu_rand_lfsr >>= 1;
+> +    env->mmu_rand_lfsr |= (f << 15);
+> +    env->mmu_rand_lfsr &= 0xffff;
+>  }
+>  
+>  static inline int cris_mmu_enabled(uint32_t rw_gc_cfg)
+>  {
+> -	return (rw_gc_cfg & 12) != 0;
+> +    return (rw_gc_cfg & 12) != 0;
+>  }
+>  
+>  static inline int cris_mmu_segmented_addr(int seg, uint32_t rw_mm_cfg)
+>  {
+> -	return (1 << seg) & rw_mm_cfg;
+> +    return (1 << seg) & rw_mm_cfg;
+>  }
+>  
+>  static uint32_t cris_mmu_translate_seg(CPUCRISState *env, int seg)
+>  {
+> -	uint32_t base;
+> -	int i;
+> +    uint32_t base;
+> +    int i;
+>  
+> -	if (seg < 8)
+> -		base = env->sregs[SFR_RW_MM_KBASE_LO];
+> -	else
+> -		base = env->sregs[SFR_RW_MM_KBASE_HI];
+> +    if (seg < 8) {
+> +        base = env->sregs[SFR_RW_MM_KBASE_LO];
+> +    } else {
+> +        base = env->sregs[SFR_RW_MM_KBASE_HI];
+> +    }
+>  
+> -	i = seg & 7;
+> -	base >>= i * 4;
+> -	base &= 15;
+> +    i = seg & 7;
+> +    base >>= i * 4;
+> +    base &= 15;
+>  
+> -	base <<= 28;
+> -	return base;
+> +    base <<= 28;
+> +    return base;
+>  }
+> -/* Used by the tlb decoder.  */
+> -#define EXTRACT_FIELD(src, start, end) \
+> -	    (((src) >> start) & ((1 << (end - start + 1)) - 1))
+>  
+> -static inline void set_field(uint32_t *dst, unsigned int val, 
+> +/* Used by the tlb decoder.  */
+> +#define EXTRACT_FIELD(src, start, end)                  \
+> +    (((src) >> start) & ((1 << (end - start + 1)) - 1))
+> +
+> +static inline void set_field(uint32_t *dst, unsigned int val,
+>  			     unsigned int offset, unsigned int width)
+>  {
+> -	uint32_t mask;
+> +    uint32_t mask;
+>  
+> -	mask = (1 << width) - 1;
+> -	mask <<= offset;
+> -	val <<= offset;
+> +    mask = (1 << width) - 1;
+> +    mask <<= offset;
+> +    val <<= offset;
+>  
+> -	val &= mask;
+> -	*dst &= ~(mask);
+> -	*dst |= val;
+> +    val &= mask;
+> +    *dst &= ~(mask);
+> +    *dst |= val;
+>  }
+>  
+>  #ifdef DEBUG
+>  static void dump_tlb(CPUCRISState *env, int mmu)
+>  {
+> -	int set;
+> -	int idx;
+> -	uint32_t hi, lo, tlb_vpn, tlb_pfn;
+> +    int set;
+> +    int idx;
+> +    uint32_t hi, lo, tlb_vpn, tlb_pfn;
+>  
+> -	for (set = 0; set < 4; set++) {
+> -		for (idx = 0; idx < 16; idx++) {
+> -			lo = env->tlbsets[mmu][set][idx].lo;
+> -			hi = env->tlbsets[mmu][set][idx].hi;
+> -			tlb_vpn = EXTRACT_FIELD(hi, 13, 31);
+> -			tlb_pfn = EXTRACT_FIELD(lo, 13, 31);
+> +    for (set = 0; set < 4; set++) {
+> +        for (idx = 0; idx < 16; idx++) {
+> +            lo = env->tlbsets[mmu][set][idx].lo;
+> +            hi = env->tlbsets[mmu][set][idx].hi;
+> +            tlb_vpn = EXTRACT_FIELD(hi, 13, 31);
+> +            tlb_pfn = EXTRACT_FIELD(lo, 13, 31);
+>  
+> -			printf ("TLB: [%d][%d] hi=%x lo=%x v=%x p=%x\n", 
+> -					set, idx, hi, lo, tlb_vpn, tlb_pfn);
+> -		}
+> -	}
+> +            printf("TLB: [%d][%d] hi=%x lo=%x v=%x p=%x\n",
+> +                   set, idx, hi, lo, tlb_vpn, tlb_pfn);
+> +        }
+> +    }
+>  }
+>  #endif
+>  
+> @@ -131,232 +134,224 @@ static int cris_mmu_translate_page(struct cris_mmu_result *res,
+>  				   CPUCRISState *env, uint32_t vaddr,
+>  				   int rw, int usermode, int debug)
+>  {
+> -	unsigned int vpage;
+> -	unsigned int idx;
+> -	uint32_t pid, lo, hi;
+> -	uint32_t tlb_vpn, tlb_pfn = 0;
+> -	int tlb_pid, tlb_g, tlb_v, tlb_k, tlb_w, tlb_x;
+> -	int cfg_v, cfg_k, cfg_w, cfg_x;	
+> -	int set, match = 0;
+> -	uint32_t r_cause;
+> -	uint32_t r_cfg;
+> -	int rwcause;
+> -	int mmu = 1; /* Data mmu is default.  */
+> -	int vect_base;
+> +    unsigned int vpage;
+> +    unsigned int idx;
+> +    uint32_t pid, lo, hi;
+> +    uint32_t tlb_vpn, tlb_pfn = 0;
+> +    int tlb_pid, tlb_g, tlb_v, tlb_k, tlb_w, tlb_x;
+> +    int cfg_v, cfg_k, cfg_w, cfg_x;
+> +    int set, match = 0;
+> +    uint32_t r_cause;
+> +    uint32_t r_cfg;
+> +    int rwcause;
+> +    int mmu = 1; /* Data mmu is default.  */
+> +    int vect_base;
+>  
+> -	r_cause = env->sregs[SFR_R_MM_CAUSE];
+> -	r_cfg = env->sregs[SFR_RW_MM_CFG];
+> -	pid = env->pregs[PR_PID] & 0xff;
+> +    r_cause = env->sregs[SFR_R_MM_CAUSE];
+> +    r_cfg = env->sregs[SFR_RW_MM_CFG];
+> +    pid = env->pregs[PR_PID] & 0xff;
+>  
+> -	switch (rw) {
+> -		case 2: rwcause = CRIS_MMU_ERR_EXEC; mmu = 0; break;
+> -		case 1: rwcause = CRIS_MMU_ERR_WRITE; break;
+> -		default:
+> -		case 0: rwcause = CRIS_MMU_ERR_READ; break;
+> -	}
+> +    switch (rw) {
+> +    case 2:
+> +        rwcause = CRIS_MMU_ERR_EXEC;
+> +        mmu = 0;
+> +        break;
+> +    case 1:
+> +        rwcause = CRIS_MMU_ERR_WRITE;
+> +        break;
+> +    default:
+> +    case 0:
+> +        rwcause = CRIS_MMU_ERR_READ;
+> +        break;
+> +    }
+>  
+> -	/* I exception vectors 4 - 7, D 8 - 11.  */
+> -	vect_base = (mmu + 1) * 4;
+> +    /* I exception vectors 4 - 7, D 8 - 11.  */
+> +    vect_base = (mmu + 1) * 4;
+>  
+> -	vpage = vaddr >> 13;
+> +    vpage = vaddr >> 13;
+>  
+> -	/* We know the index which to check on each set.
+> -	   Scan both I and D.  */
+> -#if 0
+> -	for (set = 0; set < 4; set++) {
+> -		for (idx = 0; idx < 16; idx++) {
+> -			lo = env->tlbsets[mmu][set][idx].lo;
+> -			hi = env->tlbsets[mmu][set][idx].hi;
+> -			tlb_vpn = EXTRACT_FIELD(hi, 13, 31);
+> -			tlb_pfn = EXTRACT_FIELD(lo, 13, 31);
 
-OSPM evaluates HMAT only during system initialization.
-Any changes to the HMAT state at runtime or information
-regarding HMAT for hot plug are communicated using _HMA method.
+You remove dead code, OK.
 
-_HMA is an optional object that enables the platform to provide
-the OS with updated Heterogeneous Memory Attributes information
-at runtime. _HMA provides OSPM with the latest HMAT in entirety
-overriding existing HMAT.
+Reviewed using 'git diff --ignore-all-space --word-diff=color'.
 
-Signed-off-by: Liu Jingqi <jingqi.liu@intel.com>
-Signed-off-by: Tao Xu <tao3.xu@intel.com>
----
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Changes in v4 -> v3:
-    - move AcpiHmaState from PCMachineState to MachineState
-    to make HMAT more generalic (Igor)
-    - use build_acpi_aml_common() introduced in patch 10/11 to
-    simplify hmat_build_aml (Igor)
----
- hw/acpi/hmat.c          | 296 ++++++++++++++++++++++++++++++++++++++++
- hw/acpi/hmat.h          |  72 ++++++++++
- hw/core/machine.c       |   3 +
- hw/i386/acpi-build.c    |   2 +
- hw/i386/pc.c            |   3 +
- hw/i386/pc_piix.c       |   4 +
- hw/i386/pc_q35.c        |   4 +
- include/hw/boards.h     |   1 +
- include/qemu/typedefs.h |   1 +
- 9 files changed, 386 insertions(+)
-
-diff --git a/hw/acpi/hmat.c b/hw/acpi/hmat.c
-index 3a8c41162d..bc2dffd079 100644
---- a/hw/acpi/hmat.c
-+++ b/hw/acpi/hmat.c
-@@ -28,6 +28,7 @@
- #include "hw/i386/pc.h"
- #include "hw/acpi/hmat.h"
- #include "hw/nvram/fw_cfg.h"
-+#include "hw/mem/nvdimm.h"
- 
- static uint32_t initiator_pxm[MAX_NODES], target_pxm[MAX_NODES];
- static uint32_t num_initiator, num_target;
-@@ -262,6 +263,270 @@ static void hmat_build_hma(GArray *table_data, MachineState *ms)
-     }
- }
- 
-+static uint64_t
-+hmat_hma_method_read(void *opaque, hwaddr addr, unsigned size)
-+{
-+    printf("BUG: we never read _HMA IO Port.\n");
-+    return 0;
-+}
-+
-+/* _HMA Method: read HMA data. */
-+static void hmat_handle_hma_method(AcpiHmaState *state,
-+                                   HmatHmamIn *in, hwaddr hmam_mem_addr)
-+{
-+    HmatHmaBuffer *hma_buf = &state->hma_buf;
-+    HmatHmamOut *read_hma_out;
-+    GArray *hma;
-+    uint32_t read_len = 0, ret_status;
-+    int size;
-+
-+    if (in != NULL) {
-+        le32_to_cpus(&in->offset);
-+    }
-+
-+    hma = hma_buf->hma;
-+    if (in->offset > hma->len) {
-+        ret_status = HMAM_RET_STATUS_INVALID;
-+        goto exit;
-+    }
-+
-+   /* It is the first time to read HMA. */
-+    if (!in->offset) {
-+        hma_buf->dirty = false;
-+    } else if (hma_buf->dirty) {
-+        /* HMA has been changed during Reading HMA. */
-+        ret_status = HMAM_RET_STATUS_HMA_CHANGED;
-+        goto exit;
-+    }
-+
-+    ret_status = HMAM_RET_STATUS_SUCCESS;
-+    read_len = MIN(hma->len - in->offset,
-+                   HMAM_MEMORY_SIZE - 2 * sizeof(uint32_t));
-+exit:
-+    size = sizeof(HmatHmamOut) + read_len;
-+    read_hma_out = g_malloc(size);
-+
-+    read_hma_out->len = cpu_to_le32(size);
-+    read_hma_out->ret_status = cpu_to_le32(ret_status);
-+    memcpy(read_hma_out->data, hma->data + in->offset, read_len);
-+
-+    cpu_physical_memory_write(hmam_mem_addr, read_hma_out, size);
-+
-+    g_free(read_hma_out);
-+}
-+
-+static void
-+hmat_hma_method_write(void *opaque, hwaddr addr, uint64_t val, unsigned size)
-+{
-+    AcpiHmaState *state = opaque;
-+    hwaddr hmam_mem_addr = val;
-+    HmatHmamIn *in;
-+
-+    in = g_new(HmatHmamIn, 1);
-+    cpu_physical_memory_read(hmam_mem_addr, in, sizeof(*in));
-+
-+    hmat_handle_hma_method(state, in, hmam_mem_addr);
-+}
-+
-+static const MemoryRegionOps hmat_hma_method_ops = {
-+    .read = hmat_hma_method_read,
-+    .write = hmat_hma_method_write,
-+    .endianness = DEVICE_LITTLE_ENDIAN,
-+    .valid = {
-+        .min_access_size = 4,
-+        .max_access_size = 4,
-+    },
-+};
-+
-+static void hmat_init_hma_buffer(HmatHmaBuffer *hma_buf)
-+{
-+    hma_buf->hma = g_array_new(false, true /* clear */, 1);
-+}
-+
-+static uint8_t hmat_acpi_table_checksum(uint8_t *buffer, uint32_t length)
-+{
-+    uint8_t sum = 0;
-+    uint8_t *end = buffer + length;
-+
-+    while (buffer < end) {
-+        sum = (uint8_t) (sum + *(buffer++));
-+    }
-+    return (uint8_t)(0 - sum);
-+}
-+
-+static void hmat_build_header(AcpiTableHeader *h,
-+             const char *sig, int len, uint8_t rev,
-+             const char *oem_id, const char *oem_table_id)
-+{
-+    memcpy(&h->signature, sig, 4);
-+    h->length = cpu_to_le32(len);
-+    h->revision = rev;
-+
-+    if (oem_id) {
-+        strncpy((char *)h->oem_id, oem_id, sizeof h->oem_id);
-+    } else {
-+        memcpy(h->oem_id, ACPI_BUILD_APPNAME6, 6);
-+    }
-+
-+    if (oem_table_id) {
-+        strncpy((char *)h->oem_table_id, oem_table_id, sizeof(h->oem_table_id));
-+    } else {
-+        memcpy(h->oem_table_id, ACPI_BUILD_APPNAME4, 4);
-+        memcpy(h->oem_table_id + 4, sig, 4);
-+    }
-+
-+    h->oem_revision = cpu_to_le32(1);
-+    memcpy(h->asl_compiler_id, ACPI_BUILD_APPNAME4, 4);
-+    h->asl_compiler_revision = cpu_to_le32(1);
-+
-+    /* Caculate the checksum of acpi table. */
-+    h->checksum = 0;
-+    h->checksum = hmat_acpi_table_checksum((uint8_t *)h, len);
-+}
-+
-+static void hmat_build_hma_buffer(MachineState *ms)
-+{
-+    HmatHmaBuffer *hma_buf = &(ms->acpi_hma_state->hma_buf);
-+
-+    /* Free the old hma buffer before new allocation. */
-+    g_array_free(hma_buf->hma, true);
-+
-+    hma_buf->hma = g_array_new(false, true /* clear */, 1);
-+    acpi_data_push(hma_buf->hma, 40);
-+
-+    /* build HMAT in a given buffer. */
-+    hmat_build_hma(hma_buf->hma, ms);
-+    hmat_build_header((void *)hma_buf->hma->data,
-+                      "HMAT", hma_buf->hma->len, 1, NULL, NULL);
-+    hma_buf->dirty = true;
-+}
-+
-+static void hmat_build_common_aml(Aml *dev)
-+{
-+    Aml *method, *ifctx, *hmam_mem;
-+    Aml *unsupport;
-+    Aml *pckg, *pckg_index, *pckg_buf, *field;
-+    Aml *hmam_out_buf, *hmam_out_buf_size;
-+    uint8_t byte_list[1];
-+
-+    method = aml_method(HMA_COMMON_METHOD, 1, AML_SERIALIZED);
-+    hmam_mem = aml_local(6);
-+    hmam_out_buf = aml_local(7);
-+
-+    aml_append(method, aml_store(aml_name(HMAM_ACPI_MEM_ADDR), hmam_mem));
-+
-+    /* map _HMA memory and IO into ACPI namespace. */
-+    aml_append(method, aml_operation_region(HMAM_IOPORT, AML_SYSTEM_IO,
-+               aml_int(HMAM_ACPI_IO_BASE), HMAM_ACPI_IO_LEN));
-+    aml_append(method, aml_operation_region(HMAM_MEMORY,
-+               AML_SYSTEM_MEMORY, hmam_mem, HMAM_MEMORY_SIZE));
-+
-+    /*
-+     * _HMAC notifier:
-+     * HMAM_NOTIFY: write the address of DSM memory and notify QEMU to
-+     *                    emulate the access.
-+     *
-+     * It is the IO port so that accessing them will cause VM-exit, the
-+     * control will be transferred to QEMU.
-+     */
-+    field = aml_field(HMAM_IOPORT, AML_DWORD_ACC, AML_NOLOCK,
-+                      AML_PRESERVE);
-+    aml_append(field, aml_named_field(HMAM_NOTIFY,
-+               sizeof(uint32_t) * BITS_PER_BYTE));
-+    aml_append(method, field);
-+
-+    /*
-+     * _HMAC input:
-+     * HMAM_OFFSET: store the current offset of _HMA buffer.
-+     *
-+     * They are RAM mapping on host so that these accesses never cause VMExit.
-+     */
-+    field = aml_field(HMAM_MEMORY, AML_DWORD_ACC, AML_NOLOCK,
-+                      AML_PRESERVE);
-+    aml_append(field, aml_named_field(HMAM_OFFSET,
-+               sizeof(typeof_field(HmatHmamIn, offset)) * BITS_PER_BYTE));
-+    aml_append(method, field);
-+
-+    /*
-+     * _HMAC output:
-+     * HMAM_OUT_BUF_SIZE: the size of the buffer filled by QEMU.
-+     * HMAM_OUT_BUF: the buffer QEMU uses to store the result.
-+     *
-+     * Since the page is reused by both input and out, the input data
-+     * will be lost after storing new result into ODAT so we should fetch
-+     * all the input data before writing the result.
-+     */
-+    field = aml_field(HMAM_MEMORY, AML_DWORD_ACC, AML_NOLOCK,
-+                      AML_PRESERVE);
-+    aml_append(field, aml_named_field(HMAM_OUT_BUF_SIZE,
-+               sizeof(typeof_field(HmatHmamOut, len)) * BITS_PER_BYTE));
-+    aml_append(field, aml_named_field(HMAM_OUT_BUF,
-+       (sizeof(HmatHmamOut) - sizeof(uint32_t)) * BITS_PER_BYTE));
-+    aml_append(method, field);
-+
-+    /*
-+     * do not support any method if HMA memory address has not been
-+     * patched.
-+     */
-+    unsupport = aml_if(aml_equal(hmam_mem, aml_int(0x0)));
-+    byte_list[0] = HMAM_RET_STATUS_UNSUPPORT;
-+    aml_append(unsupport, aml_return(aml_buffer(1, byte_list)));
-+    aml_append(method, unsupport);
-+
-+    /* The parameter (Arg0) of _HMAC is a package which contains a buffer. */
-+    pckg = aml_arg(0);
-+    ifctx = aml_if(aml_and(aml_equal(aml_object_type(pckg),
-+                   aml_int(4 /* Package */)) /* It is a Package? */,
-+                   aml_equal(aml_sizeof(pckg), aml_int(1)) /* 1 element */,
-+                   NULL));
-+
-+    pckg_index = aml_local(2);
-+    pckg_buf = aml_local(3);
-+    aml_append(ifctx, aml_store(aml_index(pckg, aml_int(0)), pckg_index));
-+    aml_append(ifctx, aml_store(aml_derefof(pckg_index), pckg_buf));
-+    aml_append(ifctx, aml_store(pckg_buf, aml_name(HMAM_OFFSET)));
-+    aml_append(method, ifctx);
-+
-+    /*
-+     * tell QEMU about the real address of HMA memory, then QEMU
-+     * gets the control and fills the result in _HMAC memory.
-+     */
-+    aml_append(method, aml_store(hmam_mem, aml_name(HMAM_NOTIFY)));
-+
-+    hmam_out_buf_size = aml_local(1);
-+    /* RLEN is not included in the payload returned to guest. */
-+    aml_append(method, aml_subtract(aml_name(HMAM_OUT_BUF_SIZE),
-+                                aml_int(4), hmam_out_buf_size));
-+    aml_append(method, aml_store(aml_shiftleft(hmam_out_buf_size, aml_int(3)),
-+                                 hmam_out_buf_size));
-+    aml_append(method, aml_create_field(aml_name(HMAM_OUT_BUF),
-+                                aml_int(0), hmam_out_buf_size, "OBUF"));
-+    aml_append(method, aml_concatenate(aml_buffer(0, NULL), aml_name("OBUF"),
-+                                hmam_out_buf));
-+    aml_append(method, aml_return(hmam_out_buf));
-+    aml_append(dev, method);
-+}
-+
-+void hmat_init_acpi_state(AcpiHmaState *state, MemoryRegion *io,
-+                          FWCfgState *fw_cfg, Object *owner)
-+{
-+    memory_region_init_io(&state->io_mr, owner, &hmat_hma_method_ops, state,
-+                          "hma-acpi-io", HMAM_ACPI_IO_LEN);
-+    memory_region_add_subregion(io, HMAM_ACPI_IO_BASE, &state->io_mr);
-+
-+    state->hmam_mem = g_array_new(false, true /* clear */, 1);
-+    fw_cfg_add_file(fw_cfg, HMAM_MEM_FILE, state->hmam_mem->data,
-+                    state->hmam_mem->len);
-+
-+    hmat_init_hma_buffer(&state->hma_buf);
-+}
-+
-+void hmat_update(MachineState *ms)
-+{
-+    /* build HMAT in a given buffer. */
-+    hmat_build_hma_buffer(ms);
-+}
-+
- void hmat_build_acpi(GArray *table_data, BIOSLinker *linker, MachineState *ms)
- {
-     uint64_t hmat_start, hmat_len;
-@@ -276,3 +541,34 @@ void hmat_build_acpi(GArray *table_data, BIOSLinker *linker, MachineState *ms)
-                  (void *)(table_data->data + hmat_start),
-                  "HMAT", hmat_len, 1, NULL, NULL);
- }
-+
-+void hmat_build_aml(Aml *dev)
-+{
-+    Aml *method, *pkg, *buf, *buf_name, *buf_size, *call_result;
-+
-+    hmat_build_common_aml(dev);
-+
-+    buf = aml_local(0);
-+    buf_size = aml_local(1);
-+    buf_name = aml_local(2);
-+
-+    aml_append(dev, aml_name_decl(HMAM_RHMA_STATUS, aml_int(0)));
-+
-+    /* build helper function, RHMA. */
-+    method = aml_method("RHMA", 1, AML_SERIALIZED);
-+    aml_append(method, aml_name_decl("OFST", aml_int(0)));
-+
-+    /* prepare input package. */
-+    pkg = aml_package(1);
-+    aml_append(method, aml_store(aml_arg(0), aml_name("OFST")));
-+    aml_append(pkg, aml_name("OFST"));
-+
-+    /* call Read HMA function. */
-+    call_result = aml_call1(HMA_COMMON_METHOD, pkg);
-+
-+    build_acpi_aml_common(method, buf, buf_size,
-+                          call_result, buf_name, dev,
-+                          "RHMA", "_HMA",
-+                          HMAM_RET_STATUS_SUCCESS,
-+                          HMAM_RET_STATUS_HMA_CHANGED);
-+}
-diff --git a/hw/acpi/hmat.h b/hw/acpi/hmat.h
-index 8f563f19dd..7b24a3327f 100644
---- a/hw/acpi/hmat.h
-+++ b/hw/acpi/hmat.h
-@@ -102,6 +102,78 @@ struct HMAT_Cache_Info {
-     uint16_t    num_smbios_handles;
- };
- 
-+#define HMAM_MEMORY_SIZE    4096
-+#define HMAM_MEM_FILE       "etc/acpi/hma-mem"
-+
-+/*
-+ * 32 bits IO port starting from 0x0a19 in guest is reserved for
-+ * HMA ACPI emulation.
-+ */
-+#define HMAM_ACPI_IO_BASE     0x0a19
-+#define HMAM_ACPI_IO_LEN      4
-+
-+#define HMAM_ACPI_MEM_ADDR  "HMTA"
-+#define HMAM_MEMORY         "HRAM"
-+#define HMAM_IOPORT         "HPIO"
-+
-+#define HMAM_NOTIFY         "NTFI"
-+#define HMAM_OUT_BUF_SIZE   "RLEN"
-+#define HMAM_OUT_BUF        "ODAT"
-+
-+#define HMAM_RHMA_STATUS    "RSTA"
-+#define HMA_COMMON_METHOD   "HMAC"
-+#define HMAM_OFFSET         "OFFT"
-+
-+#define HMAM_RET_STATUS_SUCCESS        0 /* Success */
-+#define HMAM_RET_STATUS_UNSUPPORT      1 /* Not Supported */
-+#define HMAM_RET_STATUS_INVALID        2 /* Invalid Input Parameters */
-+#define HMAM_RET_STATUS_HMA_CHANGED    0x100 /* HMA Changed */
-+
-+/*
-+ * HmatHmaBuffer:
-+ * @hma: HMA buffer with the updated HMAT. It is updated when
-+ *   the memory device is plugged or unplugged.
-+ * @dirty: It allows OSPM to detect changes and restart read if there is any.
-+ */
-+struct HmatHmaBuffer {
-+    GArray *hma;
-+    bool dirty;
-+};
-+typedef struct HmatHmaBuffer HmatHmaBuffer;
-+
-+struct AcpiHmaState {
-+    /* detect if HMA support is enabled. */
-+    bool is_enabled;
-+
-+    /* the data of the fw_cfg file HMAM_MEM_FILE. */
-+    GArray *hmam_mem;
-+
-+    HmatHmaBuffer hma_buf;
-+
-+    /* the IO region used by OSPM to transfer control to QEMU. */
-+    MemoryRegion io_mr;
-+};
-+
-+typedef struct AcpiHmaState AcpiHmaState;
-+
-+struct HmatHmamIn {
-+    /* the offset in the _HMA buffer */
-+    uint32_t offset;
-+} QEMU_PACKED;
-+typedef struct HmatHmamIn HmatHmamIn;
-+
-+struct HmatHmamOut {
-+    /* the size of buffer filled by QEMU. */
-+    uint32_t len;
-+    uint32_t ret_status;   /* return status code. */
-+    uint8_t data[4088];
-+} QEMU_PACKED;
-+typedef struct HmatHmamOut HmatHmamOut;
-+
- void hmat_build_acpi(GArray *table_data, BIOSLinker *linker, MachineState *ms);
-+void hmat_build_aml(Aml *dsdt);
-+void hmat_init_acpi_state(AcpiHmaState *state, MemoryRegion *io,
-+                          FWCfgState *fw_cfg, Object *owner);
-+void hmat_update(MachineState *ms);
- 
- #endif
-diff --git a/hw/core/machine.c b/hw/core/machine.c
-index 90bebb8d3a..f4a6dc5b2e 100644
---- a/hw/core/machine.c
-+++ b/hw/core/machine.c
-@@ -23,6 +23,7 @@
- #include "sysemu/qtest.h"
- #include "hw/pci/pci.h"
- #include "hw/mem/nvdimm.h"
-+#include "hw/acpi/hmat.h"
- 
- GlobalProperty hw_compat_4_0[] = {};
- const size_t hw_compat_4_0_len = G_N_ELEMENTS(hw_compat_4_0);
-@@ -859,6 +860,7 @@ static void machine_initfn(Object *obj)
- 
-     if (mc->numa_supported) {
-         ms->numa_state = g_new0(NumaState, 1);
-+        ms->acpi_hma_state = g_new0(AcpiHmaState, 1);
-     } else {
-         ms->numa_state = NULL;
-     }
-@@ -883,6 +885,7 @@ static void machine_finalize(Object *obj)
-     g_free(ms->device_memory);
-     g_free(ms->nvdimms_state);
-     g_free(ms->numa_state);
-+    g_free(ms->acpi_hma_state);
- }
- 
- bool machine_usb(MachineState *machine)
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index d3d8c93631..d869c5ae7b 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -1844,6 +1844,8 @@ build_dsdt(GArray *table_data, BIOSLinker *linker,
-         build_q35_pci0_int(dsdt);
-     }
- 
-+    hmat_build_aml(dsdt);
-+
-     if (pcmc->legacy_cpu_hotplug) {
-         build_legacy_cpu_hotplug_aml(dsdt, machine, pm->cpu_hp_io_base);
-     } else {
-diff --git a/hw/i386/pc.c b/hw/i386/pc.c
-index 1c7b2a97bc..3021375144 100644
---- a/hw/i386/pc.c
-+++ b/hw/i386/pc.c
-@@ -77,6 +77,7 @@
- #include "hw/i386/intel_iommu.h"
- #include "hw/net/ne2000-isa.h"
- #include "standard-headers/asm-x86/bootparam.h"
-+#include "hw/acpi/hmat.h"
- 
- /* debug PC/ISA interrupts */
- //#define DEBUG_IRQ
-@@ -2130,6 +2131,8 @@ static void pc_memory_plug(HotplugHandler *hotplug_dev,
-         nvdimm_plug(ms->nvdimms_state);
-     }
- 
-+    hmat_update(ms);
-+
-     hotplug_handler_plug(HOTPLUG_HANDLER(pcms->acpi_dev), dev, &error_abort);
- out:
-     error_propagate(errp, local_err);
-diff --git a/hw/i386/pc_piix.c b/hw/i386/pc_piix.c
-index c07c4a5b38..966d98d619 100644
---- a/hw/i386/pc_piix.c
-+++ b/hw/i386/pc_piix.c
-@@ -58,6 +58,7 @@
- #include "migration/misc.h"
- #include "kvm_i386.h"
- #include "sysemu/numa.h"
-+#include "hw/acpi/hmat.h"
- 
- #define MAX_IDE_BUS 2
- 
-@@ -301,6 +302,9 @@ static void pc_init1(MachineState *machine,
-         nvdimm_init_acpi_state(machine->nvdimms_state, system_io,
-                                pcms->fw_cfg, OBJECT(pcms));
-     }
-+
-+    hmat_init_acpi_state(machine->acpi_hma_state, system_io,
-+                         pcms->fw_cfg, OBJECT(pcms));
- }
- 
- /* Looking for a pc_compat_2_4() function? It doesn't exist.
-diff --git a/hw/i386/pc_q35.c b/hw/i386/pc_q35.c
-index 37dd350511..610b10467a 100644
---- a/hw/i386/pc_q35.c
-+++ b/hw/i386/pc_q35.c
-@@ -54,6 +54,7 @@
- #include "qapi/error.h"
- #include "qemu/error-report.h"
- #include "sysemu/numa.h"
-+#include "hw/acpi/hmat.h"
- 
- /* ICH9 AHCI has 6 ports */
- #define MAX_SATA_PORTS     6
-@@ -333,6 +334,9 @@ static void pc_q35_init(MachineState *machine)
-         nvdimm_init_acpi_state(machine->nvdimms_state, system_io,
-                                pcms->fw_cfg, OBJECT(pcms));
-     }
-+
-+    hmat_init_acpi_state(machine->acpi_hma_state, system_io,
-+                         pcms->fw_cfg, OBJECT(pcms));
- }
- 
- #define DEFINE_Q35_MACHINE(suffix, name, compatfn, optionfn) \
-diff --git a/include/hw/boards.h b/include/hw/boards.h
-index 8609f923d9..e8d94a69b5 100644
---- a/include/hw/boards.h
-+++ b/include/hw/boards.h
-@@ -315,6 +315,7 @@ struct MachineState {
-     CPUArchIdList *possible_cpus;
-     struct NVDIMMState *nvdimms_state;
-     NumaState *numa_state;
-+    AcpiHmaState *acpi_hma_state;
- };
- 
- #define DEFINE_MACHINE(namestr, machine_initfn) \
-diff --git a/include/qemu/typedefs.h b/include/qemu/typedefs.h
-index d971f5109e..a207cc1f88 100644
---- a/include/qemu/typedefs.h
-+++ b/include/qemu/typedefs.h
-@@ -5,6 +5,7 @@
-    pull in all the real definitions.  */
- 
- /* Please keep this list in case-insensitive alphabetical order */
-+typedef struct AcpiHmaState AcpiHmaState;
- typedef struct AdapterInfo AdapterInfo;
- typedef struct AddressSpace AddressSpace;
- typedef struct AioContext AioContext;
--- 
-2.17.1
-
+> +    /*
+> +     * We know the index which to check on each set.
+> +     * Scan both I and D.
+> +     */
+> +    idx = vpage & 15;
+> +    for (set = 0; set < 4; set++) {
+> +        lo = env->tlbsets[mmu][set][idx].lo;
+> +        hi = env->tlbsets[mmu][set][idx].hi;
+>  
+> -			printf ("TLB: [%d][%d] hi=%x lo=%x v=%x p=%x\n", 
+> -					set, idx, hi, lo, tlb_vpn, tlb_pfn);
+> -		}
+> -	}
+> -#endif
+> +        tlb_vpn = hi >> 13;
+> +        tlb_pid = EXTRACT_FIELD(hi, 0, 7);
+> +        tlb_g  = EXTRACT_FIELD(lo, 4, 4);
+>  
+> -	idx = vpage & 15;
+> -	for (set = 0; set < 4; set++)
+> -	{
+> -		lo = env->tlbsets[mmu][set][idx].lo;
+> -		hi = env->tlbsets[mmu][set][idx].hi;
+> +        D_LOG("TLB[%d][%d][%d] v=%x vpage=%x lo=%x hi=%x\n",
+> +              mmu, set, idx, tlb_vpn, vpage, lo, hi);
+> +        if ((tlb_g || (tlb_pid == pid)) && tlb_vpn == vpage) {
+> +            match = 1;
+> +            break;
+> +        }
+> +    }
+>  
+> -		tlb_vpn = hi >> 13;
+> -		tlb_pid = EXTRACT_FIELD(hi, 0, 7);
+> -		tlb_g  = EXTRACT_FIELD(lo, 4, 4);
+> +    res->bf_vec = vect_base;
+> +    if (match) {
+> +        cfg_w  = EXTRACT_FIELD(r_cfg, 19, 19);
+> +        cfg_k  = EXTRACT_FIELD(r_cfg, 18, 18);
+> +        cfg_x  = EXTRACT_FIELD(r_cfg, 17, 17);
+> +        cfg_v  = EXTRACT_FIELD(r_cfg, 16, 16);
+>  
+> -		D_LOG("TLB[%d][%d][%d] v=%x vpage=%x lo=%x hi=%x\n", 
+> -			 mmu, set, idx, tlb_vpn, vpage, lo, hi);
+> -		if ((tlb_g || (tlb_pid == pid))
+> -		    && tlb_vpn == vpage) {
+> -			match = 1;
+> -			break;
+> -		}
+> -	}
+> +        tlb_pfn = EXTRACT_FIELD(lo, 13, 31);
+> +        tlb_v = EXTRACT_FIELD(lo, 3, 3);
+> +        tlb_k = EXTRACT_FIELD(lo, 2, 2);
+> +        tlb_w = EXTRACT_FIELD(lo, 1, 1);
+> +        tlb_x = EXTRACT_FIELD(lo, 0, 0);
+>  
+> -	res->bf_vec = vect_base;
+> -	if (match) {
+> -		cfg_w  = EXTRACT_FIELD(r_cfg, 19, 19);
+> -		cfg_k  = EXTRACT_FIELD(r_cfg, 18, 18);
+> -		cfg_x  = EXTRACT_FIELD(r_cfg, 17, 17);
+> -		cfg_v  = EXTRACT_FIELD(r_cfg, 16, 16);
+> +        /*
+> +         * set_exception_vector(0x04, i_mmu_refill);
+> +         * set_exception_vector(0x05, i_mmu_invalid);
+> +         * set_exception_vector(0x06, i_mmu_access);
+> +         * set_exception_vector(0x07, i_mmu_execute);
+> +         * set_exception_vector(0x08, d_mmu_refill);
+> +         * set_exception_vector(0x09, d_mmu_invalid);
+> +         * set_exception_vector(0x0a, d_mmu_access);
+> +         * set_exception_vector(0x0b, d_mmu_write);
+> +         */
+> +        if (cfg_k && tlb_k && usermode) {
+> +            D(printf("tlb: kernel protected %x lo=%x pc=%x\n",
+> +                     vaddr, lo, env->pc));
+> +            match = 0;
+> +            res->bf_vec = vect_base + 2;
+> +        } else if (rw == 1 && cfg_w && !tlb_w) {
+> +            D(printf("tlb: write protected %x lo=%x pc=%x\n",
+> +                     vaddr, lo, env->pc));
+> +            match = 0;
+> +            /* write accesses never go through the I mmu.  */
+> +            res->bf_vec = vect_base + 3;
+> +        } else if (rw == 2 && cfg_x && !tlb_x) {
+> +            D(printf("tlb: exec protected %x lo=%x pc=%x\n",
+> +                     vaddr, lo, env->pc));
+> +            match = 0;
+> +            res->bf_vec = vect_base + 3;
+> +        } else if (cfg_v && !tlb_v) {
+> +            D(printf("tlb: invalid %x\n", vaddr));
+> +            match = 0;
+> +            res->bf_vec = vect_base + 1;
+> +        }
+>  
+> -		tlb_pfn = EXTRACT_FIELD(lo, 13, 31);
+> -		tlb_v = EXTRACT_FIELD(lo, 3, 3);
+> -		tlb_k = EXTRACT_FIELD(lo, 2, 2);
+> -		tlb_w = EXTRACT_FIELD(lo, 1, 1);
+> -		tlb_x = EXTRACT_FIELD(lo, 0, 0);
+> +        res->prot = 0;
+> +        if (match) {
+> +            res->prot |= PAGE_READ;
+> +            if (tlb_w) {
+> +                res->prot |= PAGE_WRITE;
+> +            }
+> +            if (mmu == 0 && (cfg_x || tlb_x)) {
+> +                res->prot |= PAGE_EXEC;
+> +            }
+> +        } else {
+> +            D(dump_tlb(env, mmu));
+> +        }
+> +    } else {
+> +        /* If refill, provide a randomized set.  */
+> +        set = env->mmu_rand_lfsr & 3;
+> +    }
+>  
+> -		/*
+> -		set_exception_vector(0x04, i_mmu_refill);
+> -		set_exception_vector(0x05, i_mmu_invalid);
+> -		set_exception_vector(0x06, i_mmu_access);
+> -		set_exception_vector(0x07, i_mmu_execute);
+> -		set_exception_vector(0x08, d_mmu_refill);
+> -		set_exception_vector(0x09, d_mmu_invalid);
+> -		set_exception_vector(0x0a, d_mmu_access);
+> -		set_exception_vector(0x0b, d_mmu_write);
+> -		*/
+> -		if (cfg_k && tlb_k && usermode) {
+> -			D(printf ("tlb: kernel protected %x lo=%x pc=%x\n", 
+> -				  vaddr, lo, env->pc));
+> -			match = 0;
+> -			res->bf_vec = vect_base + 2;
+> -		} else if (rw == 1 && cfg_w && !tlb_w) {
+> -			D(printf ("tlb: write protected %x lo=%x pc=%x\n", 
+> -				  vaddr, lo, env->pc));
+> -			match = 0;
+> -			/* write accesses never go through the I mmu.  */
+> -			res->bf_vec = vect_base + 3;
+> -		} else if (rw == 2 && cfg_x && !tlb_x) {
+> -			D(printf ("tlb: exec protected %x lo=%x pc=%x\n", 
+> -				 vaddr, lo, env->pc));
+> -			match = 0;
+> -			res->bf_vec = vect_base + 3;
+> -		} else if (cfg_v && !tlb_v) {
+> -			D(printf ("tlb: invalid %x\n", vaddr));
+> -			match = 0;
+> -			res->bf_vec = vect_base + 1;
+> -		}
+> +    if (!match && !debug) {
+> +        cris_mmu_update_rand_lfsr(env);
+>  
+> -		res->prot = 0;
+> -		if (match) {
+> -			res->prot |= PAGE_READ;
+> -			if (tlb_w)
+> -				res->prot |= PAGE_WRITE;
+> -			if (mmu == 0 && (cfg_x || tlb_x))
+> -				res->prot |= PAGE_EXEC;
+> -		}
+> -		else
+> -			D(dump_tlb(env, mmu));
+> -	} else {
+> -		/* If refill, provide a randomized set.  */
+> -		set = env->mmu_rand_lfsr & 3;
+> -	}
+> +        /* Compute index.  */
+> +        idx = vpage & 15;
+>  
+> -	if (!match && !debug) {
+> -		cris_mmu_update_rand_lfsr(env);
+> +        /* Update RW_MM_TLB_SEL.  */
+> +        env->sregs[SFR_RW_MM_TLB_SEL] = 0;
+> +        set_field(&env->sregs[SFR_RW_MM_TLB_SEL], idx, 0, 4);
+> +        set_field(&env->sregs[SFR_RW_MM_TLB_SEL], set, 4, 2);
+>  
+> -		/* Compute index.  */
+> -		idx = vpage & 15;
+> +        /* Update RW_MM_CAUSE.  */
+> +        set_field(&r_cause, rwcause, 8, 2);
+> +        set_field(&r_cause, vpage, 13, 19);
+> +        set_field(&r_cause, pid, 0, 8);
+> +        env->sregs[SFR_R_MM_CAUSE] = r_cause;
+> +        D(printf("refill vaddr=%x pc=%x\n", vaddr, env->pc));
+> +    }
+>  
+> -		/* Update RW_MM_TLB_SEL.  */
+> -		env->sregs[SFR_RW_MM_TLB_SEL] = 0;
+> -		set_field(&env->sregs[SFR_RW_MM_TLB_SEL], idx, 0, 4);
+> -		set_field(&env->sregs[SFR_RW_MM_TLB_SEL], set, 4, 2);
+> +    D(printf("%s rw=%d mtch=%d pc=%x va=%x vpn=%x tlbvpn=%x pfn=%x pid=%x"
+> +             " %x cause=%x sel=%x sp=%x %x %x\n",
+> +             __func__, rw, match, env->pc,
+> +             vaddr, vpage,
+> +             tlb_vpn, tlb_pfn, tlb_pid,
+> +             pid,
+> +             r_cause,
+> +             env->sregs[SFR_RW_MM_TLB_SEL],
+> +             env->regs[R_SP], env->pregs[PR_USP], env->ksp));
+>  
+> -		/* Update RW_MM_CAUSE.  */
+> -		set_field(&r_cause, rwcause, 8, 2);
+> -		set_field(&r_cause, vpage, 13, 19);
+> -		set_field(&r_cause, pid, 0, 8);
+> -		env->sregs[SFR_R_MM_CAUSE] = r_cause;
+> -		D(printf("refill vaddr=%x pc=%x\n", vaddr, env->pc));
+> -	}
+> -
+> -	D(printf ("%s rw=%d mtch=%d pc=%x va=%x vpn=%x tlbvpn=%x pfn=%x pid=%x"
+> -		  " %x cause=%x sel=%x sp=%x %x %x\n",
+> -		  __func__, rw, match, env->pc,
+> -		  vaddr, vpage,
+> -		  tlb_vpn, tlb_pfn, tlb_pid, 
+> -		  pid,
+> -		  r_cause,
+> -		  env->sregs[SFR_RW_MM_TLB_SEL],
+> -		  env->regs[R_SP], env->pregs[PR_USP], env->ksp));
+> -
+> -	res->phy = tlb_pfn << TARGET_PAGE_BITS;
+> -	return !match;
+> +    res->phy = tlb_pfn << TARGET_PAGE_BITS;
+> +    return !match;
+>  }
+>  
+>  void cris_mmu_flush_pid(CPUCRISState *env, uint32_t pid)
+>  {
+>      CRISCPU *cpu = cris_env_get_cpu(env);
+> -	target_ulong vaddr;
+> -	unsigned int idx;
+> -	uint32_t lo, hi;
+> -	uint32_t tlb_vpn;
+> -	int tlb_pid, tlb_g, tlb_v;
+> -	unsigned int set;
+> -	unsigned int mmu;
+> +    target_ulong vaddr;
+> +    unsigned int idx;
+> +    uint32_t lo, hi;
+> +    uint32_t tlb_vpn;
+> +    int tlb_pid, tlb_g, tlb_v;
+> +    unsigned int set;
+> +    unsigned int mmu;
+>  
+> -	pid &= 0xff;
+> -	for (mmu = 0; mmu < 2; mmu++) {
+> -		for (set = 0; set < 4; set++)
+> -		{
+> -			for (idx = 0; idx < 16; idx++) {
+> -				lo = env->tlbsets[mmu][set][idx].lo;
+> -				hi = env->tlbsets[mmu][set][idx].hi;
+> -				
+> -				tlb_vpn = EXTRACT_FIELD(hi, 13, 31);
+> -				tlb_pid = EXTRACT_FIELD(hi, 0, 7);
+> -				tlb_g  = EXTRACT_FIELD(lo, 4, 4);
+> -				tlb_v = EXTRACT_FIELD(lo, 3, 3);
+> +    pid &= 0xff;
+> +    for (mmu = 0; mmu < 2; mmu++) {
+> +        for (set = 0; set < 4; set++) {
+> +            for (idx = 0; idx < 16; idx++) {
+> +                lo = env->tlbsets[mmu][set][idx].lo;
+> +                hi = env->tlbsets[mmu][set][idx].hi;
+>  
+> -				if (tlb_v && !tlb_g && (tlb_pid == pid)) {
+> -					vaddr = tlb_vpn << TARGET_PAGE_BITS;
+> -					D_LOG("flush pid=%x vaddr=%x\n", 
+> -						  pid, vaddr);
+> +                tlb_vpn = EXTRACT_FIELD(hi, 13, 31);
+> +                tlb_pid = EXTRACT_FIELD(hi, 0, 7);
+> +                tlb_g  = EXTRACT_FIELD(lo, 4, 4);
+> +                tlb_v = EXTRACT_FIELD(lo, 3, 3);
+> +
+> +                if (tlb_v && !tlb_g && (tlb_pid == pid)) {
+> +                    vaddr = tlb_vpn << TARGET_PAGE_BITS;
+> +                    D_LOG("flush pid=%x vaddr=%x\n", pid, vaddr);
+>                      tlb_flush_page(CPU(cpu), vaddr);
+> -				}
+> -			}
+> -		}
+> -	}
+> +                }
+> +            }
+> +        }
+> +    }
+>  }
+>  
+>  int cris_mmu_translate(struct cris_mmu_result *res,
+>  		       CPUCRISState *env, uint32_t vaddr,
+>  		       int rw, int mmu_idx, int debug)
+>  {
+> -	int seg;
+> -	int miss = 0;
+> -	int is_user = mmu_idx == MMU_USER_IDX;
+> -	uint32_t old_srs;
+> +    int seg;
+> +    int miss = 0;
+> +    int is_user = mmu_idx == MMU_USER_IDX;
+> +    uint32_t old_srs;
+>  
+> -	old_srs= env->pregs[PR_SRS];
+> +    old_srs = env->pregs[PR_SRS];
+>  
+> -	/* rw == 2 means exec, map the access to the insn mmu.  */
+> -	env->pregs[PR_SRS] = rw == 2 ? 1 : 2;
+> +    /* rw == 2 means exec, map the access to the insn mmu.  */
+> +    env->pregs[PR_SRS] = rw == 2 ? 1 : 2;
+>  
+> -	if (!cris_mmu_enabled(env->sregs[SFR_RW_GC_CFG])) {
+> -		res->phy = vaddr;
+> -		res->prot = PAGE_BITS;
+> -		goto done;
+> -	}
+> +    if (!cris_mmu_enabled(env->sregs[SFR_RW_GC_CFG])) {
+> +        res->phy = vaddr;
+> +        res->prot = PAGE_BITS;
+> +        goto done;
+> +    }
+>  
+> -	seg = vaddr >> 28;
+> -	if (!is_user && cris_mmu_segmented_addr(seg, env->sregs[SFR_RW_MM_CFG]))
+> -	{
+> -		uint32_t base;
+> +    seg = vaddr >> 28;
+> +    if (!is_user && cris_mmu_segmented_addr(seg, env->sregs[SFR_RW_MM_CFG])) {
+> +        uint32_t base;
+>  
+> -		miss = 0;
+> -		base = cris_mmu_translate_seg(env, seg);
+> -                res->phy = base | (0x0fffffff & vaddr);
+> -		res->prot = PAGE_BITS;
+> -	} else {
+> -		miss = cris_mmu_translate_page(res, env, vaddr, rw,
+> -					       is_user, debug);
+> -	}
+> -  done:
+> -	env->pregs[PR_SRS] = old_srs;
+> -	return miss;
+> +        miss = 0;
+> +        base = cris_mmu_translate_seg(env, seg);
+> +        res->phy = base | (0x0fffffff & vaddr);
+> +        res->prot = PAGE_BITS;
+> +    } else {
+> +        miss = cris_mmu_translate_page(res, env, vaddr, rw,
+> +                                       is_user, debug);
+> +    }
+> + done:
+> +    env->pregs[PR_SRS] = old_srs;
+> +    return miss;
+>  }
+> 
 
