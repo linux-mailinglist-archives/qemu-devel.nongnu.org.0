@@ -2,47 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F02CE17B9A
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 16:36:16 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38271 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6965217B90
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 16:34:14 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38229 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hONg8-0007DM-2a
-	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 10:36:16 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53913)
+	id 1hONe9-0005yP-Iy
+	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 10:34:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53903)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hONcR-0005VL-P1
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 10:32:31 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hONcQ-00047d-1H
+	(envelope-from <mreitz@redhat.com>) id 1hONcQ-0005U5-35
 	for qemu-devel@nongnu.org; Wed, 08 May 2019 10:32:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48718)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+	(envelope-from <mreitz@redhat.com>) id 1hONcN-000470-Qn
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 10:32:25 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40510)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <thuth@redhat.com>)
-	id 1hONcK-00045G-Ff; Wed, 08 May 2019 10:32:21 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
+	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
+	id 1hONcI-00044h-Cr; Wed, 08 May 2019 10:32:19 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+	[10.5.11.14])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 7BC4C309B15A;
-	Wed,  8 May 2019 14:32:17 +0000 (UTC)
-Received: from thuth.com (ovpn-116-100.ams2.redhat.com [10.36.116.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 76F1C19729;
-	Wed,  8 May 2019 14:32:12 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Wed,  8 May 2019 16:32:09 +0200
-Message-Id: <20190508143209.24350-1-thuth@redhat.com>
+	by mx1.redhat.com (Postfix) with ESMTPS id 59AEE23E6D8;
+	Wed,  8 May 2019 14:32:15 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-204-94.brq.redhat.com
+	[10.40.204.94])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 287475DD8A;
+	Wed,  8 May 2019 14:32:11 +0000 (UTC)
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20190506194753.12464-1-mreitz@redhat.com>
+	<20190506194753.12464-7-mreitz@redhat.com>
+	<20190508142811.GF15525@dhcp-200-226.str.redhat.com>
+From: Max Reitz <mreitz@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+	mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+	/PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+	U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+	mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+	awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+	AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+	CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+	B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+	2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+	AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+	8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+	4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+	BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+	xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+	W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+	DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+	64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+	ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+	sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+	alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+	/ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+	bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+	R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <1fcb5928-35de-319a-eb7a-c241b2b1f500@redhat.com>
+Date: Wed, 8 May 2019 16:32:10 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <20190508142811.GF15525@dhcp-200-226.str.redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature";
+	boundary="1ThEAaHDuFufyFF4IPBdWswzv1wQTsDZE"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.49]);
-	Wed, 08 May 2019 14:32:17 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+	(mx1.redhat.com [10.5.110.29]);
+	Wed, 08 May 2019 14:32:15 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH] tests: qpci_unplug_acpi_device_test() should
- not rely on global_qtest
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [PATCH 6/7] block: Add *loosen_restrictions to
+ *check*_perm()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -54,192 +89,173 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, qemu-block@nongnu.org,
-	Amit Shah <amit@kernel.org>, Jason Wang <jasowang@redhat.com>,
-	Stefan Hajnoczi <stefanha@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: John Snow <jsnow@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-libqos functions should not use functions that require global_qtest to
-be set, since such library functions could also be used by tests that
-deal with multiple test states. Add a parameter to this function to
-explicitly specify the test state.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--1ThEAaHDuFufyFF4IPBdWswzv1wQTsDZE
+From: Max Reitz <mreitz@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Cc: qemu-block@nongnu.org, qemu-devel@nongnu.org, John Snow <jsnow@redhat.com>
+Message-ID: <1fcb5928-35de-319a-eb7a-c241b2b1f500@redhat.com>
+Subject: Re: [PATCH 6/7] block: Add *loosen_restrictions to *check*_perm()
+References: <20190506194753.12464-1-mreitz@redhat.com>
+ <20190506194753.12464-7-mreitz@redhat.com>
+ <20190508142811.GF15525@dhcp-200-226.str.redhat.com>
+In-Reply-To: <20190508142811.GF15525@dhcp-200-226.str.redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
----
- tests/e1000e-test.c     |  4 +++-
- tests/ivshmem-test.c    |  9 ++++++---
- tests/libqos/pci-pc.c   | 10 +++++-----
- tests/libqos/pci.h      |  2 +-
- tests/virtio-blk-test.c |  3 ++-
- tests/virtio-net-test.c |  4 +++-
- tests/virtio-rng-test.c |  5 ++++-
- 7 files changed, 24 insertions(+), 13 deletions(-)
+On 08.05.19 16:28, Kevin Wolf wrote:
+> Am 06.05.2019 um 21:47 hat Max Reitz geschrieben:
+>> This patch makes three functions report whether the necessary permissi=
+on
+>> change purely loosens restrictions or not.  These functions are:
+>> - bdrv_check_perm()
+>> - bdrv_check_update_perm()
+>> - bdrv_child_check_perm()
+>>
+>> Callers can use this result to decide whether a failure is fatal or no=
+t
+>> (see the next patch).
+>>
+>> Signed-off-by: Max Reitz <mreitz@redhat.com>
+>> ---
+>>  block.c | 81 +++++++++++++++++++++++++++++++++++++++++++++-----------=
+-
+>>  1 file changed, 65 insertions(+), 16 deletions(-)
+>>
+>> diff --git a/block.c b/block.c
+>> index 21e4514426..105866d15a 100644
+>> --- a/block.c
+>> +++ b/block.c
+>> @@ -1686,9 +1686,12 @@ static int bdrv_fill_options(QDict **options, c=
+onst char *filename,
+>> =20
+>>  static int bdrv_child_check_perm(BdrvChild *c, BlockReopenQueue *q,
+>>                                   uint64_t perm, uint64_t shared,
+>> -                                 GSList *ignore_children, Error **err=
+p);
+>> +                                 GSList *ignore_children,
+>> +                                 bool *loosen_restrictions, Error **e=
+rrp);
+>>  static void bdrv_child_abort_perm_update(BdrvChild *c);
+>>  static void bdrv_child_set_perm(BdrvChild *c, uint64_t perm, uint64_t=
+ shared);
+>> +static void bdrv_get_cumulative_perm(BlockDriverState *bs, uint64_t *=
+perm,
+>> +                                     uint64_t *shared_perm);
+>> =20
+>>  typedef struct BlockReopenQueueEntry {
+>>       bool prepared;
+>> @@ -1759,18 +1762,37 @@ static void bdrv_child_perm(BlockDriverState *=
+bs, BlockDriverState *child_bs,
+>>   * permissions of all its parents. This involves checking whether all=
+ necessary
+>>   * permission changes to child nodes can be performed.
+>>   *
+>> + * Will set *loosen_restrictions to true if and only if no new permis=
+sions have
+>> + * to be taken and no existing shared permissions are to be unshared.=
+  In this
+>> + * case, errors are not fatal, as long as the caller accepts that the=
 
-diff --git a/tests/e1000e-test.c b/tests/e1000e-test.c
-index 77ba8095bb..6a946c0484 100644
---- a/tests/e1000e-test.c
-+++ b/tests/e1000e-test.c
-@@ -231,8 +231,10 @@ static void test_e1000e_multiple_transfers(void *obj=
-, void *data,
-=20
- static void test_e1000e_hotplug(void *obj, void *data, QGuestAllocator *=
- alloc)
- {
-+    QTestState *qts =3D global_qtest;  /* TODO: get rid of global_qtest =
-here */
-+
-     qtest_qmp_device_add("e1000e", "e1000e_net", "{'addr': '0x06'}");
--    qpci_unplug_acpi_device_test("e1000e_net", 0x06);
-+    qpci_unplug_acpi_device_test(qts, "e1000e_net", 0x06);
- }
-=20
- static void data_test_clear(void *sockets)
-diff --git a/tests/ivshmem-test.c b/tests/ivshmem-test.c
-index 227561fbca..a467b8c03d 100644
---- a/tests/ivshmem-test.c
-+++ b/tests/ivshmem-test.c
-@@ -383,18 +383,21 @@ static void test_ivshmem_server(void)
-=20
- static void test_ivshmem_hotplug(void)
- {
-+    QTestState *qts;
-     const char *arch =3D qtest_get_arch();
-=20
--    qtest_start("-object memory-backend-ram,size=3D1M,id=3Dmb1");
-+    qts =3D qtest_init("-object memory-backend-ram,size=3D1M,id=3Dmb1");
-=20
-+    global_qtest =3D qts;  /* TODO: Get rid of global_qtest here */
-     qtest_qmp_device_add("ivshmem-plain", "iv1",
-                          "{'addr': %s, 'memdev': 'mb1'}",
-                          stringify(PCI_SLOT_HP));
-     if (strcmp(arch, "ppc64") !=3D 0) {
--        qpci_unplug_acpi_device_test("iv1", PCI_SLOT_HP);
-+        qpci_unplug_acpi_device_test(qts, "iv1", PCI_SLOT_HP);
-     }
-=20
--    qtest_end();
-+    qtest_quit(qts);
-+    global_qtest =3D NULL;
- }
-=20
- static void test_ivshmem_memdev(void)
-diff --git a/tests/libqos/pci-pc.c b/tests/libqos/pci-pc.c
-index 407d8aff78..634fedd049 100644
---- a/tests/libqos/pci-pc.c
-+++ b/tests/libqos/pci-pc.c
-@@ -176,19 +176,19 @@ void qpci_free_pc(QPCIBus *bus)
-     g_free(s);
- }
-=20
--void qpci_unplug_acpi_device_test(const char *id, uint8_t slot)
-+void qpci_unplug_acpi_device_test(QTestState *qts, const char *id, uint8=
-_t slot)
- {
-     QDict *response;
-=20
--    response =3D qmp("{'execute': 'device_del', 'arguments': {'id': %s}}=
-",
--                   id);
-+    response =3D qtest_qmp(qts, "{'execute': 'device_del',"
-+                              " 'arguments': {'id': %s}}", id);
-     g_assert(response);
-     g_assert(!qdict_haskey(response, "error"));
-     qobject_unref(response);
-=20
--    outb(ACPI_PCIHP_ADDR + PCI_EJ_BASE, 1 << slot);
-+    qtest_outb(qts, ACPI_PCIHP_ADDR + PCI_EJ_BASE, 1 << slot);
-=20
--    qmp_eventwait("DEVICE_DELETED");
-+    qtest_qmp_eventwait(qts, "DEVICE_DELETED");
- }
-=20
- static void qpci_pc_register_nodes(void)
-diff --git a/tests/libqos/pci.h b/tests/libqos/pci.h
-index 8e1d292a7d..a5389a5845 100644
---- a/tests/libqos/pci.h
-+++ b/tests/libqos/pci.h
-@@ -123,7 +123,7 @@ QPCIBar qpci_iomap(QPCIDevice *dev, int barno, uint64=
-_t *sizeptr);
- void qpci_iounmap(QPCIDevice *dev, QPCIBar addr);
- QPCIBar qpci_legacy_iomap(QPCIDevice *dev, uint16_t addr);
-=20
--void qpci_unplug_acpi_device_test(const char *id, uint8_t slot);
-+void qpci_unplug_acpi_device_test(QTestState *qs, const char *id, uint8_=
-t slot);
-=20
- void add_qpci_address(QOSGraphEdgeOptions *opts, QPCIAddress *addr);
- #endif
-diff --git a/tests/virtio-blk-test.c b/tests/virtio-blk-test.c
-index b65365934b..fe1168a90a 100644
---- a/tests/virtio-blk-test.c
-+++ b/tests/virtio-blk-test.c
-@@ -679,6 +679,7 @@ static void pci_hotplug(void *obj, void *data, QGuest=
-Allocator *t_alloc)
- {
-     QVirtioPCIDevice *dev1 =3D obj;
-     QVirtioPCIDevice *dev;
-+    QTestState *qts =3D dev1->pdev->bus->qts;
-=20
-     /* plug secondary disk */
-     qtest_qmp_device_add("virtio-blk-pci", "drv1",
-@@ -693,7 +694,7 @@ static void pci_hotplug(void *obj, void *data, QGuest=
-Allocator *t_alloc)
-     qos_object_destroy((QOSGraphObject *)dev);
-=20
-     /* unplug secondary disk */
--    qpci_unplug_acpi_device_test("drv1", PCI_SLOT_HP);
-+    qpci_unplug_acpi_device_test(qts, "drv1", PCI_SLOT_HP);
- }
-=20
- /*
-diff --git a/tests/virtio-net-test.c b/tests/virtio-net-test.c
-index 0d956f36fe..163126cf07 100644
---- a/tests/virtio-net-test.c
-+++ b/tests/virtio-net-test.c
-@@ -162,13 +162,15 @@ static void stop_cont_test(void *obj, void *data, Q=
-GuestAllocator *t_alloc)
-=20
- static void hotplug(void *obj, void *data, QGuestAllocator *t_alloc)
- {
-+    QVirtioPCIDevice *dev =3D obj;
-+    QTestState *qts =3D dev->pdev->bus->qts;
-     const char *arch =3D qtest_get_arch();
-=20
-     qtest_qmp_device_add("virtio-net-pci", "net1",
-                          "{'addr': %s}", stringify(PCI_SLOT_HP));
-=20
-     if (strcmp(arch, "i386") =3D=3D 0 || strcmp(arch, "x86_64") =3D=3D 0=
-) {
--        qpci_unplug_acpi_device_test("net1", PCI_SLOT_HP);
-+        qpci_unplug_acpi_device_test(qts, "net1", PCI_SLOT_HP);
-     }
- }
-=20
-diff --git a/tests/virtio-rng-test.c b/tests/virtio-rng-test.c
-index 5309c7c8ab..fcb22481bd 100644
---- a/tests/virtio-rng-test.c
-+++ b/tests/virtio-rng-test.c
-@@ -16,13 +16,16 @@
-=20
- static void rng_hotplug(void *obj, void *data, QGuestAllocator *alloc)
- {
-+    QVirtioPCIDevice *dev =3D obj;
-+    QTestState *qts =3D dev->pdev->bus->qts;
-+
-     const char *arch =3D qtest_get_arch();
-=20
-     qtest_qmp_device_add("virtio-rng-pci", "rng1",
-                          "{'addr': %s}", stringify(PCI_SLOT_HP));
-=20
-     if (strcmp(arch, "i386") =3D=3D 0 || strcmp(arch, "x86_64") =3D=3D 0=
-) {
--        qpci_unplug_acpi_device_test("rng1", PCI_SLOT_HP);
-+        qpci_unplug_acpi_device_test(qts, "rng1", PCI_SLOT_HP);
-     }
- }
-=20
---=20
-2.21.0
+>> + * restrictions remain tighter than they need to be.  The caller stil=
+l has to
+>> + * abort the transaction.
+>> + *
+>>   * A call to this function must always be followed by a call to bdrv_=
+set_perm()
+>>   * or bdrv_abort_perm_update().
+>>   */
+>>  static int bdrv_check_perm(BlockDriverState *bs, BlockReopenQueue *q,=
 
+>>                             uint64_t cumulative_perms,
+>>                             uint64_t cumulative_shared_perms,
+>> -                           GSList *ignore_children, Error **errp)
+>> +                           GSList *ignore_children,
+>> +                           bool *loosen_restrictions, Error **errp)
+>>  {
+>>      BlockDriver *drv =3D bs->drv;
+>>      BdrvChild *c;
+>>      int ret;
+>> =20
+>> +    if (loosen_restrictions) {
+>> +        uint64_t current_perms, current_shared;
+>> +        uint64_t added_perms, removed_shared_perms;
+>> +
+>> +        bdrv_get_cumulative_perm(bs, &current_perms, &current_shared)=
+;
+>> +
+>> +        added_perms =3D cumulative_perms & ~current_perms;
+>> +        removed_shared_perms =3D current_shared & ~cumulative_shared_=
+perms;
+>> +
+>> +        *loosen_restrictions =3D !added_perms && !removed_shared_perm=
+s;
+>> +    }
+>=20
+> (loosen_restrictions is a misnomer, just not changing permissions will
+> make it true, too)
+
+Naming things is hard. :-)
+
+Should I name it tighten_restrictions and invert its value?
+
+>>      /* Write permissions never work with read-only images */
+>>      if ((cumulative_perms & (BLK_PERM_WRITE | BLK_PERM_WRITE_UNCHANGE=
+D)) &&
+>>          !bdrv_is_writable_after_reopen(bs, q))
+>     {
+>         error_setg(errp, "Block node is read-only");
+>         return -EPERM;
+>     }
+>=20
+> This is an interesting case in the context of reopen. It could happen
+> that we're actually not taking any new permissions, but the node become=
+s
+> read-only in reopen, so we fail here while maintaining the old set of
+> options.
+>=20
+> If this happens, we want the reopen operation to fail, so should we set=
+
+> *loosen_restrictions =3D false here even though we're not literally tak=
+ing
+> new permissions?
+
+Well, I had that at one point, yes.  I decided this case would always
+imply that the restrictions are tightened somewhere, so I dropped it --
+but I forgot about reopen, for some reason (even though it says =E2=80=9C=
+reopen=E2=80=9D
+right there).
+
+> Hm, or actually, loosen_restrictions should always be NULL during
+> reopen, so it will never make a different. Maybe what we want then is
+> assert(!q || !loosen_restrictions) at the start of the function?
+
+And add a note that we cannot return this information when reopening?
+That sounds good to me.
+
+Max
+
+
+--1ThEAaHDuFufyFF4IPBdWswzv1wQTsDZE
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAlzS6GoACgkQ9AfbAGHV
+z0BRmQf7BTZI28ultIFtnOu0jMtPPPksAm9F+PehSSDfotx/0Wl6OWflS9eXpVH/
+bSwfKVULU9aC4cn+PFzSH07s7vcZYRZ7oS6rSEyEewqKXbulQnzbs5NaT03UeQV8
+c/jnoAREl/5J0vbajA7vET+6eQNNcns5waMcRP+F0xvL0MuY7Y6iYuKQ3kcOl799
+2atTFWkDUaOJo2DqkEpG/YVYNNTVJVfacL5Txp2N09OliJmFx7H2K7PanqYCvjnh
+2fTWRxUHpXDfzYrR4829vXRd+Ic7W7StQBX3j2HbB6mRx9wIYsL4dktOkdQz5aIk
+fuk0MHpRxAxqLg0DFyqYnFIvWDV+Zw==
+=L6pN
+-----END PGP SIGNATURE-----
+
+--1ThEAaHDuFufyFF4IPBdWswzv1wQTsDZE--
 
