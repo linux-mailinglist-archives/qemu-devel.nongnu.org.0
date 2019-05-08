@@ -2,48 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F30E617487
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 11:05:45 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33504 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 22037174B6
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 11:10:41 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33597 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOIWH-0006EA-3g
-	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 05:05:45 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43083)
+	id 1hOIb2-0001lH-BE
+	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 05:10:40 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43671)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <berrange@redhat.com>) id 1hOISO-0003ug-Ia
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 05:01:49 -0400
+	(envelope-from <berrange@redhat.com>) id 1hOIUV-0005WJ-OK
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 05:04:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <berrange@redhat.com>) id 1hOISM-0006dw-Iu
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 05:01:44 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48420)
+	(envelope-from <berrange@redhat.com>) id 1hOIUU-0007ls-Kf
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 05:03:55 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34840)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <berrange@redhat.com>)
-	id 1hOISG-0006Z9-QA; Wed, 08 May 2019 05:01:37 -0400
+	id 1hOIUR-0007jB-CC; Wed, 08 May 2019 05:03:51 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
 	[10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 805383084213;
-	Wed,  8 May 2019 09:01:35 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id B600F5277B;
+	Wed,  8 May 2019 09:03:49 +0000 (UTC)
 Received: from redhat.com (unknown [10.42.22.189])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 2160260C6A;
-	Wed,  8 May 2019 09:01:33 +0000 (UTC)
-Date: Wed, 8 May 2019 10:01:31 +0100
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5DE9D60C6A;
+	Wed,  8 May 2019 09:03:48 +0000 (UTC)
+Date: Wed, 8 May 2019 10:03:45 +0100
 From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
 To: Max Reitz <mreitz@redhat.com>
-Message-ID: <20190508090131.GA32552@redhat.com>
+Message-ID: <20190508090345.GB32552@redhat.com>
 References: <20190507183610.9848-1-mreitz@redhat.com>
 	<20190507183610.9848-2-mreitz@redhat.com>
+	<81dd6702-1d51-ca2e-1445-e8cdcfb14711@redhat.com>
+	<f34fb38c-22dd-1ed3-821d-7c8a9ea8943a@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20190507183610.9848-2-mreitz@redhat.com>
+In-Reply-To: <f34fb38c-22dd-1ed3-821d-7c8a9ea8943a@redhat.com>
 User-Agent: Mutt/1.11.4 (2019-03-13)
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.40]);
-	Wed, 08 May 2019 09:01:35 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.29]);
+	Wed, 08 May 2019 09:03:49 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 Subject: Re: [Qemu-devel] [PATCH 1/5] qemu-nbd: Add --pid-file option
@@ -63,94 +65,42 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 07, 2019 at 08:36:06PM +0200, Max Reitz wrote:
-> --fork is a bit boring if there is no way to get the child's PID.  This
-> option helps.
+On Tue, May 07, 2019 at 09:39:01PM +0200, Max Reitz wrote:
+> On 07.05.19 21:30, Eric Blake wrote:
+> > On 5/7/19 1:36 PM, Max Reitz wrote:
+> >> --fork is a bit boring if there is no way to get the child's PID.  This
+> >> option helps.
+> >>
+> >> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> >> ---
+> >>  qemu-nbd.c    | 29 +++++++++++++++++++++++++++++
+> >>  qemu-nbd.texi |  2 ++
+> >>  2 files changed, 31 insertions(+)
+> >>
+> > 
+> >> @@ -111,6 +112,7 @@ static void usage(const char *name)
+> >>  "                            specify tracing options\n"
+> >>  "  --fork                    fork off the server process and exit the parent\n"
+> >>  "                            once the server is running\n"
+> >> +"  --pid-file=PATH           store the server's process ID in the given file\n"
+> > 
+> > Should --pid-file imply --fork, or be an error if --fork was not
+> > supplied? As coded, it writes a pid file regardless of --fork, even
+> > though it is less obvious that it is useful in that case. I don't have a
+> > strong preference (there doesn't seem to be a useful consensus on what
+> > forking daemons should do), but it would at least be worth documenting
+> > the intended action (even if that implies a tweak to the patch to match
+> > the intent).
 > 
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->  qemu-nbd.c    | 29 +++++++++++++++++++++++++++++
->  qemu-nbd.texi |  2 ++
->  2 files changed, 31 insertions(+)
+> I think the documentation is pretty clear.  It stores the server's PID,
+> whether it has been forked or not.
 > 
-> diff --git a/qemu-nbd.c b/qemu-nbd.c
-> index dca9e72cee..7e48154f44 100644
-> --- a/qemu-nbd.c
-> +++ b/qemu-nbd.c
-> @@ -59,6 +59,7 @@
->  #define QEMU_NBD_OPT_IMAGE_OPTS    262
->  #define QEMU_NBD_OPT_FORK          263
->  #define QEMU_NBD_OPT_TLSAUTHZ      264
-> +#define QEMU_NBD_OPT_PID_FILE      265
->  
->  #define MBR_SIZE 512
->  
-> @@ -111,6 +112,7 @@ static void usage(const char *name)
->  "                            specify tracing options\n"
->  "  --fork                    fork off the server process and exit the parent\n"
->  "                            once the server is running\n"
-> +"  --pid-file=PATH           store the server's process ID in the given file\n"
->  #if HAVE_NBD_DEVICE
->  "\n"
->  "Kernel NBD client support:\n"
-> @@ -651,6 +653,7 @@ int main(int argc, char **argv)
->          { "image-opts", no_argument, NULL, QEMU_NBD_OPT_IMAGE_OPTS },
->          { "trace", required_argument, NULL, 'T' },
->          { "fork", no_argument, NULL, QEMU_NBD_OPT_FORK },
-> +        { "pid-file", required_argument, NULL, QEMU_NBD_OPT_PID_FILE },
->          { NULL, 0, NULL, 0 }
->      };
->      int ch;
-> @@ -677,6 +680,8 @@ int main(int argc, char **argv)
->      bool list = false;
->      int old_stderr = -1;
->      unsigned socket_activation;
-> +    const char *pid_path = NULL;
-> +    FILE *pid_file;
->  
->      /* The client thread uses SIGTERM to interrupt the server.  A signal
->       * handler ensures that "qemu-nbd -v -c" exits with a nice status code.
-> @@ -876,6 +881,9 @@ int main(int argc, char **argv)
->          case 'L':
->              list = true;
->              break;
-> +        case QEMU_NBD_OPT_PID_FILE:
-> +            pid_path = optarg;
-> +            break;
->          }
->      }
->  
-> @@ -1196,6 +1204,27 @@ int main(int argc, char **argv)
->  
->      nbd_update_server_watch();
->  
-> +    if (pid_path) {
-> +        pid_file = fopen(pid_path, "w");
-> +        if (!pid_file) {
-> +            error_report("Failed to store PID in %s: %s",
-> +                         pid_path, strerror(errno));
-> +            exit(EXIT_FAILURE);
-> +        }
-> +
-> +        ret = fprintf(pid_file, "%ld", (long)getpid());
-> +        if (ret < 0) {
-> +            ret = -errno;
-> +        }
-> +        fclose(pid_file);
-> +
-> +        if (ret < 0) {
-> +            error_report("Failed to store PID in %s: %s",
-> +                         pid_path, strerror(-ret));
-> +            exit(EXIT_FAILURE);
-> +        }
-> +    }
+> I don't think we would gain anything from forbidding --pid-file without
+> --fork, would we?
 
-This is racy because multiple qemu-nbd's can be started pointing to
-the same pidfile and one will blindly overwrite the other.
-
-Please use  qemu_write_pidfile instead which acquires locks on the
-pidfile in a race free manner.
-
+Indeed, use of --pid-file should be independant of --fork, as a mgmt app
+may have already forked it into the background, and merely want to get
+the pidfile
 
 Regards,
 Daniel
