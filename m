@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BF791801B
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 20:58:21 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:41526 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB8FF18018
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 20:55:26 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:41530 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hORNH-0001fY-Tb
-	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 14:33:04 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51291)
+	id 1hORNu-0002WP-0P
+	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 14:33:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51346)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hORGv-0004oT-FR
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 14:26:30 -0400
+	(envelope-from <mreitz@redhat.com>) id 1hORGy-0004rt-Me
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 14:26:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hORGu-0003VW-8Z
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 14:26:29 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:56428)
+	(envelope-from <mreitz@redhat.com>) id 1hORGw-0003YL-Tr
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 14:26:32 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41224)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hORGd-00032r-2h; Wed, 08 May 2019 14:26:11 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
-	[10.5.11.12])
+	id 1hORGr-0003Dj-VE; Wed, 08 May 2019 14:26:26 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+	[10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id E95BA305FD51;
-	Wed,  8 May 2019 18:26:06 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 5F56B307D915;
+	Wed,  8 May 2019 18:26:12 +0000 (UTC)
 Received: from localhost (ovpn-204-94.brq.redhat.com [10.40.204.94])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 7D4FF60C93;
-	Wed,  8 May 2019 18:26:06 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id DD5695C269;
+	Wed,  8 May 2019 18:26:08 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Wed,  8 May 2019 20:25:43 +0200
-Message-Id: <20190508182546.2239-5-mreitz@redhat.com>
+Date: Wed,  8 May 2019 20:25:44 +0200
+Message-Id: <20190508182546.2239-6-mreitz@redhat.com>
 In-Reply-To: <20190508182546.2239-1-mreitz@redhat.com>
 References: <20190508182546.2239-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.49]);
-	Wed, 08 May 2019 18:26:06 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.48]);
+	Wed, 08 May 2019 18:26:12 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 4/7] block/commit: Drop
- bdrv_child_try_set_perm()
+Subject: [Qemu-devel] [PATCH v2 5/7] block: Fix order in bdrv_replace_child()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,31 +60,56 @@ Cc: Kevin Wolf <kwolf@redhat.com>, John Snow <jsnow@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-commit_top_bs never requests or unshares any permissions.  There is no
-reason to make this so explicit here.
+We have to start by applying the permission restrictions to new_bs
+before we can loosen them on old_bs.  See the comment for the
+explanation.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/commit.c | 2 --
- 1 file changed, 2 deletions(-)
+ block.c | 18 +++++++++++++-----
+ 1 file changed, 13 insertions(+), 5 deletions(-)
 
-diff --git a/block/commit.c b/block/commit.c
-index 14e5bb394c..44b3083b84 100644
---- a/block/commit.c
-+++ b/block/commit.c
-@@ -110,8 +110,6 @@ static void commit_abort(Job *job)
-      * XXX Can (or should) we somehow keep 'consistent read' blocked eve=
-n
-      * after the failed/cancelled commit job is gone? If we already wrot=
-e
-      * something to base, the intermediate images aren't valid any more.=
- */
--    bdrv_child_try_set_perm(s->commit_top_bs->backing, 0, BLK_PERM_ALL,
--                            &error_abort);
-     bdrv_replace_node(s->commit_top_bs, backing_bs(s->commit_top_bs),
-                       &error_abort);
+diff --git a/block.c b/block.c
+index be11504940..da7da8cc6c 100644
+--- a/block.c
++++ b/block.c
+@@ -2205,6 +2205,19 @@ static void bdrv_replace_child(BdrvChild *child, B=
+lockDriverState *new_bs)
 =20
+     bdrv_replace_child_noperm(child, new_bs);
+=20
++    /*
++     * Start with the new node's permissions.  If @new_bs is a (direct
++     * or indirect) child of @old_bs, we must complete the permission
++     * update on @new_bs before we loosen the restrictions on @old_bs.
++     * Otherwise, bdrv_check_perm() on @old_bs would re-initiate
++     * updating the permissions of @new_bs, and thus not purely loosen
++     * restrictions.
++     */
++    if (new_bs) {
++        bdrv_get_cumulative_perm(new_bs, &perm, &shared_perm);
++        bdrv_set_perm(new_bs, perm, shared_perm);
++    }
++
+     if (old_bs) {
+         /* Update permissions for old node. This is guaranteed to succee=
+d
+          * because we're just taking a parent away, so we're loosening
+@@ -2213,11 +2226,6 @@ static void bdrv_replace_child(BdrvChild *child, B=
+lockDriverState *new_bs)
+         bdrv_check_perm(old_bs, NULL, perm, shared_perm, NULL, &error_ab=
+ort);
+         bdrv_set_perm(old_bs, perm, shared_perm);
+     }
+-
+-    if (new_bs) {
+-        bdrv_get_cumulative_perm(new_bs, &perm, &shared_perm);
+-        bdrv_set_perm(new_bs, perm, shared_perm);
+-    }
+ }
+=20
+ BdrvChild *bdrv_root_attach_child(BlockDriverState *child_bs,
 --=20
 2.20.1
 
