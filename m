@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C3D0718192
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 23:21:13 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43897 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6CA718195
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 23:21:15 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43906 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOU00-0005og-E7
-	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 17:21:12 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56477)
+	id 1hOU02-0005sc-Sz
+	for lists+qemu-devel@lfdr.de; Wed, 08 May 2019 17:21:14 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56498)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hOTxM-0004Y2-7Z
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 17:18:29 -0400
+	(envelope-from <mreitz@redhat.com>) id 1hOTxN-0004Z6-FP
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 17:18:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hOTxL-0005m4-3v
-	for qemu-devel@nongnu.org; Wed, 08 May 2019 17:18:28 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:9946)
+	(envelope-from <mreitz@redhat.com>) id 1hOTxM-0005md-ER
+	for qemu-devel@nongnu.org; Wed, 08 May 2019 17:18:29 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50580)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hOTxI-0005km-AW; Wed, 08 May 2019 17:18:24 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
+	id 1hOTxJ-0005lK-UL; Wed, 08 May 2019 17:18:26 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+	[10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id DBC673084212;
-	Wed,  8 May 2019 21:18:22 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 438BA66971;
+	Wed,  8 May 2019 21:18:25 +0000 (UTC)
 Received: from localhost (ovpn-204-96.brq.redhat.com [10.40.204.96])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 4B2851001E6F;
-	Wed,  8 May 2019 21:18:22 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id D16CA2CFD9;
+	Wed,  8 May 2019 21:18:24 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Wed,  8 May 2019 23:18:15 +0200
-Message-Id: <20190508211820.17851-1-mreitz@redhat.com>
+Date: Wed,  8 May 2019 23:18:16 +0200
+Message-Id: <20190508211820.17851-2-mreitz@redhat.com>
+In-Reply-To: <20190508211820.17851-1-mreitz@redhat.com>
+References: <20190508211820.17851-1-mreitz@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.40]);
-	Wed, 08 May 2019 21:18:22 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.38]);
+	Wed, 08 May 2019 21:18:25 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 0/5] iotests: Let 233 run concurrently
+Subject: [Qemu-devel] [PATCH v3 1/5] qemu-nbd: Add --pid-file option
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -59,100 +60,90 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently, 233 cannot reliably run concurrently to other NBD TCP tests.
-When it starts, it looks for a free port and then attempts to use that
-for the whole duration of the test run.  This is a TOCTTOU race
-condition: It does not reserve that port, so another NBD TCP test that
-runs in parallel can grab it.
+--fork is a bit boring if there is no way to get the child's PID.  This
+option helps.
 
-To fix this, we must not use the same port all the time, but always
-choose a new one when qemu-nbd is started.  We cannot check whether it
-is free, but must let qemu-nbd do so and take it atomically.  We can
-achieve this by using the existing --fork option.
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+---
+ qemu-nbd.c    | 11 +++++++++++
+ qemu-nbd.texi |  2 ++
+ 2 files changed, 13 insertions(+)
 
-There are two problems with --fork, however.  First, it does not give us
-a chance to reliably get the server=E2=80=99s PID, which we need.  We can=
- change
-that by letting qemu-nbd (optionally) write a PID file, though.  (Which
-makes sense if we have a daemon mode.)
-
-Second, it currently discards all output after the server has been
-started.  That looks like an accident to me, because we clearly try to
-restore the old stderr channel after having redirected all startup
-messages to the parent process.  If it is a bug, we can fix it.
-
-
-v3:
-- Patch 1: Dropped =E2=80=9Cpid_file=E2=80=9D variable, so it actually co=
-mpiles...
-
-
-git backport-diff of v3 against v2:
-
-Key:
-[----] : patches are identical
-[####] : number of functional differences between upstream/downstream pat=
-ch
-[down] : patch is downstream-only
-The flags [FC] indicate (F)unctional and (C)ontextual differences, respec=
-tively
-
-001/5:[0001] [FC] 'qemu-nbd: Add --pid-file option'
-002/5:[----] [--] 'iotests.py: Add qemu_nbd_early_pipe()'
-003/5:[----] [--] 'qemu-nbd: Do not close stderr'
-004/5:[----] [--] 'iotests: Use qemu-nbd's --pid-file'
-005/5:[----] [--] 'iotests: Let 233 run concurrently'
-
-
-v2:
-- Patch 1:
-  - Use qemu_write_pidfile() [Dan]
-  - %s/pid_path/pid_filename/ [Eric]
-- Patch 4: Drop the now superfluous subshell [Eric]
-  (Didn=E2=80=99t touch _qemu_img_wrapper, because, well, it doesn=E2=80=99=
-t belong in
-  this series?)
-- Patch 5:
-  - s/racey/racy/ [Eric]
-  - Unite the =E2=80=9Crm -f=E2=80=9Ds [Eric]
-  (Did not address the =E2=80=9CFIFO filling up=E2=80=9D problem, because=
- 64 kB of FIFO
-  space ought to be enough.  Also, cat-ing around that felt weird.)
-
-
-git backport-diff of v2 against v1:
-
-Key:
-[----] : patches are identical
-[####] : number of functional differences between upstream/downstream pat=
-ch
-[down] : patch is downstream-only
-The flags [FC] indicate (F)unctional and (C)ontextual differences, respec=
-tively
-
-001/5:[0025] [FC] 'qemu-nbd: Add --pid-file option'
-002/5:[----] [--] 'iotests.py: Add qemu_nbd_early_pipe()'
-003/5:[----] [--] 'qemu-nbd: Do not close stderr'
-004/5:[0006] [FC] 'iotests: Use qemu-nbd's --pid-file'
-005/5:[0003] [FC] 'iotests: Let 233 run concurrently'
-
-
-Max Reitz (5):
-  qemu-nbd: Add --pid-file option
-  iotests.py: Add qemu_nbd_early_pipe()
-  qemu-nbd: Do not close stderr
-  iotests: Use qemu-nbd's --pid-file
-  iotests: Let 233 run concurrently
-
- qemu-nbd.c                    | 14 +++++-
- qemu-nbd.texi                 |  2 +
- tests/qemu-iotests/147        |  4 +-
- tests/qemu-iotests/233        |  1 -
- tests/qemu-iotests/common.nbd | 94 ++++++++++++++++-------------------
- tests/qemu-iotests/common.rc  |  6 +--
- tests/qemu-iotests/iotests.py |  9 ++--
- 7 files changed, 67 insertions(+), 63 deletions(-)
-
+diff --git a/qemu-nbd.c b/qemu-nbd.c
+index dca9e72cee..edb5195208 100644
+--- a/qemu-nbd.c
++++ b/qemu-nbd.c
+@@ -59,6 +59,7 @@
+ #define QEMU_NBD_OPT_IMAGE_OPTS    262
+ #define QEMU_NBD_OPT_FORK          263
+ #define QEMU_NBD_OPT_TLSAUTHZ      264
++#define QEMU_NBD_OPT_PID_FILE      265
+=20
+ #define MBR_SIZE 512
+=20
+@@ -111,6 +112,7 @@ static void usage(const char *name)
+ "                            specify tracing options\n"
+ "  --fork                    fork off the server process and exit the pa=
+rent\n"
+ "                            once the server is running\n"
++"  --pid-file=3DPATH           store the server's process ID in the give=
+n file\n"
+ #if HAVE_NBD_DEVICE
+ "\n"
+ "Kernel NBD client support:\n"
+@@ -651,6 +653,7 @@ int main(int argc, char **argv)
+         { "image-opts", no_argument, NULL, QEMU_NBD_OPT_IMAGE_OPTS },
+         { "trace", required_argument, NULL, 'T' },
+         { "fork", no_argument, NULL, QEMU_NBD_OPT_FORK },
++        { "pid-file", required_argument, NULL, QEMU_NBD_OPT_PID_FILE },
+         { NULL, 0, NULL, 0 }
+     };
+     int ch;
+@@ -677,6 +680,7 @@ int main(int argc, char **argv)
+     bool list =3D false;
+     int old_stderr =3D -1;
+     unsigned socket_activation;
++    const char *pid_file_name =3D NULL;
+=20
+     /* The client thread uses SIGTERM to interrupt the server.  A signal
+      * handler ensures that "qemu-nbd -v -c" exits with a nice status co=
+de.
+@@ -876,6 +880,9 @@ int main(int argc, char **argv)
+         case 'L':
+             list =3D true;
+             break;
++        case QEMU_NBD_OPT_PID_FILE:
++            pid_file_name =3D optarg;
++            break;
+         }
+     }
+=20
+@@ -1196,6 +1203,10 @@ int main(int argc, char **argv)
+=20
+     nbd_update_server_watch();
+=20
++    if (pid_file_name) {
++        qemu_write_pidfile(pid_file_name, &error_fatal);
++    }
++
+     /* now when the initialization is (almost) complete, chdir("/")
+      * to free any busy filesystems */
+     if (chdir("/") < 0) {
+diff --git a/qemu-nbd.texi b/qemu-nbd.texi
+index de342c76b8..7f55657722 100644
+--- a/qemu-nbd.texi
++++ b/qemu-nbd.texi
+@@ -117,6 +117,8 @@ option; or provide the credentials needed for connect=
+ing as a client
+ in list mode.
+ @item --fork
+ Fork off the server process and exit the parent once the server is runni=
+ng.
++@item --pid-file=3DPATH
++Store the server's process ID in the given file.
+ @item --tls-authz=3DID
+ Specify the ID of a qauthz object previously created with the
+ --object option. This will be used to authorize connecting users
 --=20
 2.21.0
 
