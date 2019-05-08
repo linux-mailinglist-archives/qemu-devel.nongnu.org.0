@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F2DA716E43
-	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 02:30:45 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:56698 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB1BC16E48
+	for <lists+qemu-devel@lfdr.de>; Wed,  8 May 2019 02:33:31 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:56752 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOATt-0002Ls-5H
-	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 20:30:45 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39623)
+	id 1hOAWY-00056B-V7
+	for lists+qemu-devel@lfdr.de; Tue, 07 May 2019 20:33:31 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39640)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOA7K-0007nW-T7
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 20:07:27 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hOA7L-0007ow-TB
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 20:07:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOA7I-0007XI-W9
+	(envelope-from <richard.henderson@linaro.org>) id 1hOA7I-0007X1-TW
 	for qemu-devel@nongnu.org; Tue, 07 May 2019 20:07:26 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:41646)
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:44222)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hOA7H-0007Ft-2o
-	for qemu-devel@nongnu.org; Tue, 07 May 2019 20:07:24 -0400
-Received: by mail-pf1-x442.google.com with SMTP id l132so1138pfc.8
-	for <qemu-devel@nongnu.org>; Tue, 07 May 2019 17:07:19 -0700 (PDT)
+	id 1hOA7G-0007JA-So
+	for qemu-devel@nongnu.org; Tue, 07 May 2019 20:07:23 -0400
+Received: by mail-pf1-x444.google.com with SMTP id y13so9480791pfm.11
+	for <qemu-devel@nongnu.org>; Tue, 07 May 2019 17:07:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=oAoyrYKzSYqMV8L8feOy4E2tXuYIVICXlQ/6UykqD8c=;
-	b=BQm/FaLGC95f79CODrRTw189Z/cCMkIGiRdn130r3dvcS1lPtFLbuoUbfYZj/nmtKo
-	+nV36W9B9g9iKTML2MtpUUVW4sYCM25AKd6LHMi3DFDtXt/SXD0PzecHdG8ePDex2Zox
-	XAt9QGOKIIkWQi70TyROaxbgqZ+8uGeirNnPWVjyjLCEtW8AOy/HVAHaWkyT7eTzb07r
-	kDOOERT9FNrowNAisd15wk9yqf1octTLqkuvLgwCUq7urCRZ2v+387qDCyWTyWiCTx8m
-	PVqCWRGkJQqlS8rHNoY+kX7C+HXrZw6T1QrhAMlHvSCaImhp/ZI+VO70p36t/+7GZfc3
-	uI5w==
+	bh=BFtz5URzR/E+vzG71O/h8BWE9C65m1gz1E6Zde9gnDc=;
+	b=Ad6+1B98HeUJs/WMd6q+BNYLk1PN9bgyvsM6NUt05RLRmTks0RLMlPF1X6hHMSk5R0
+	g7V2DShAlwnATqeEvvsDQ20FG+UMKoBSI7ZysFiRKx6UFs3RvWJxdOKqxCnUcDHeTbM3
+	18qv7wDuYC91N0C6GHtNYiUXNLcGcN1pcpCOVQvyZ+/ZkdeFk2XGUjxJW7hL8+MQOTKV
+	E4Zj/C21/6C3rjaxn14uMdKe9iiFFPAj7aGnvyYdRXRHA5KQtMaEr5ePETg+wA6IBSw0
+	LyjGYa2nXIDTQYmiIgSnX2PPRX0kizzcJMjdsEAwJMvU+OpU9qiZJeT1IJeUa7Zt1cHe
+	DRTg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=oAoyrYKzSYqMV8L8feOy4E2tXuYIVICXlQ/6UykqD8c=;
-	b=aEgMT2PdYjlBD/zCMdKVwoji+aSWjYTKgh1tFP54iJmugeLJH35fEXj+Dg/oD+cNzr
-	gLBHnTJRgM5oAbpka+0CQU72koZ0Sal7qmXz4Ijt/itiRgEmv0fBitVIXE5hcBkAtlCl
-	hk2sqB/WuO0gRR8pGllXJPPvT/2KDl/1QyejDRSipXVcNWJtcm95twnBk+rIWQsRjBl8
-	NNxIz4tO0vRS0JzyNS8IQ/oZMC6WVXyhRdOQj2HxIh9foRf2ajXXH7F4ggmepis3F88B
-	s/akDaRaE3C19RsTHFVERiU9rYV6E36BmvU/ecOnlgMBJLoCQxq6V+5NmqODv687Lh1x
-	/ONQ==
-X-Gm-Message-State: APjAAAWERc7W/9usdm1DfvX4GQsKRUuWfWIZAFY6fITWfWKDGfo1lq5x
-	FxjcQFZwTTivwVZv/Th9DLRsB29o9xg=
-X-Google-Smtp-Source: APXvYqyJvburaHSZV0AmUOqNTlrLWewOV/+5dGTe3iGEaH71eOv0shPpr9wouHc7Y3ubgIE8mSimZg==
-X-Received: by 2002:a65:64da:: with SMTP id t26mr43403471pgv.322.1557274038163;
-	Tue, 07 May 2019 17:07:18 -0700 (PDT)
+	bh=BFtz5URzR/E+vzG71O/h8BWE9C65m1gz1E6Zde9gnDc=;
+	b=CijOrPNbOVDiB7i6m7WOZRzt+WqJi0uhmOuM+cOZN7+9aCWh1TM7Tkz+9Hqg74j7WH
+	MubKDzYnEzQxSE4ev5E7gagatAlwWVKEzb58oJoAOljowvdxAYz6/9zraMbyLZhU5u4A
+	kb1BCOWOlgG4IRSMNQx7ydm9jsqpONFzZay0TJ/j/MQ4UkGefoHeo6XuB4S9CEQC6FiG
+	udoF+eTqm6pvQPtnyOkPB/Z+OU6Y+n520TonKxOohTapknIchQZBM26f3Kk3iHCfTxlo
+	WJ0HgBMO8SlLWmOfiIf+avyo01JgeQIUuBJO3eitFIIkW64CjcBuZ6fl16voIz+oRQMx
+	bPhg==
+X-Gm-Message-State: APjAAAXj7c+Md4IZQ8LQ8WFQm4yl7Ef+ICA1HRNEDq3nE3yjP+MeAW7k
+	ij2ZGggkhcGtCnQV11AywoA5u9qj34Q=
+X-Google-Smtp-Source: APXvYqxF0P1Ruv+v/hqg24RMpkQGpf3CjJ2N0ewhbwJ6y+ehNt5MCeIOT6d95cliLHG0Pw+1wAP0qw==
+X-Received: by 2002:a63:246:: with SMTP id 67mr12167448pgc.145.1557274039289; 
+	Tue, 07 May 2019 17:07:19 -0700 (PDT)
 Received: from localhost.localdomain (97-113-189-189.tukw.qwest.net.
 	[97.113.189.189]) by smtp.gmail.com with ESMTPSA id
-	j1sm15793183pgp.91.2019.05.07.17.07.17 for <qemu-devel@nongnu.org>
+	j1sm15793183pgp.91.2019.05.07.17.07.18 for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 07 May 2019 17:07:17 -0700 (PDT)
+	Tue, 07 May 2019 17:07:18 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue,  7 May 2019 17:06:29 -0700
-Message-Id: <20190508000641.19090-28-richard.henderson@linaro.org>
+Date: Tue,  7 May 2019 17:06:30 -0700
+Message-Id: <20190508000641.19090-29-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190508000641.19090-1-richard.henderson@linaro.org>
 References: <20190508000641.19090-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::442
-Subject: [Qemu-devel] [PATCH v3 27/39] target/tilegx: Use env_cpu
+X-Received-From: 2607:f8b0:4864:20::444
+Subject: [Qemu-devel] [PATCH v3 28/39] target/tricore: Use env_cpu
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -81,53 +81,48 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/tilegx/cpu.h          | 5 -----
- linux-user/tilegx/cpu_loop.c | 2 +-
- target/tilegx/helper.c       | 2 +-
- 3 files changed, 2 insertions(+), 7 deletions(-)
+ target/tricore/cpu.h       | 5 -----
+ target/tricore/op_helper.c | 4 ++--
+ 2 files changed, 2 insertions(+), 7 deletions(-)
 
-diff --git a/target/tilegx/cpu.h b/target/tilegx/cpu.h
-index 135df63523..7f8fe7c513 100644
---- a/target/tilegx/cpu.h
-+++ b/target/tilegx/cpu.h
-@@ -138,11 +138,6 @@ typedef struct TileGXCPU {
-     CPUTLGState env;
- } TileGXCPU;
+diff --git a/target/tricore/cpu.h b/target/tricore/cpu.h
+index 4c997b6d30..fc3328fdf5 100644
+--- a/target/tricore/cpu.h
++++ b/target/tricore/cpu.h
+@@ -208,11 +208,6 @@ struct TriCoreCPU {
+     CPUTriCoreState env;
+ };
  
--static inline TileGXCPU *tilegx_env_get_cpu(CPUTLGState *env)
+-static inline TriCoreCPU *tricore_env_get_cpu(CPUTriCoreState *env)
 -{
--    return container_of(env, TileGXCPU, env);
+-    return TRICORE_CPU(container_of(env, TriCoreCPU, env));
 -}
 -
- #define ENV_OFFSET offsetof(TileGXCPU, env)
+ #define ENV_OFFSET offsetof(TriCoreCPU, env)
  
- /* TILE-Gx memory attributes */
-diff --git a/linux-user/tilegx/cpu_loop.c b/linux-user/tilegx/cpu_loop.c
-index 4f39eb9ad3..d4abe29dcd 100644
---- a/linux-user/tilegx/cpu_loop.c
-+++ b/linux-user/tilegx/cpu_loop.c
-@@ -206,7 +206,7 @@ static void do_fetch(CPUTLGState *env, int trapnr, bool quad)
- 
- void cpu_loop(CPUTLGState *env)
+ hwaddr tricore_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
+diff --git a/target/tricore/op_helper.c b/target/tricore/op_helper.c
+index ed9dc0c83e..ba2f21a6c3 100644
+--- a/target/tricore/op_helper.c
++++ b/target/tricore/op_helper.c
+@@ -29,7 +29,7 @@ static void QEMU_NORETURN
+ raise_exception_sync_internal(CPUTriCoreState *env, uint32_t class, int tin,
+                               uintptr_t pc, uint32_t fcd_pc)
  {
--    CPUState *cs = CPU(tilegx_env_get_cpu(env));
+-    CPUState *cs = CPU(tricore_env_get_cpu(env));
 +    CPUState *cs = env_cpu(env);
-     int trapnr;
+     /* in case we come from a helper-call we need to restore the PC */
+     cpu_restore_state(cs, pc, true);
  
-     while (1) {
-diff --git a/target/tilegx/helper.c b/target/tilegx/helper.c
-index 4964bb9111..a57a679825 100644
---- a/target/tilegx/helper.c
-+++ b/target/tilegx/helper.c
-@@ -28,7 +28,7 @@
- 
- void helper_exception(CPUTLGState *env, uint32_t excp)
+@@ -2800,7 +2800,7 @@ static inline void QEMU_NORETURN do_raise_exception_err(CPUTriCoreState *env,
+                                                         int error_code,
+                                                         uintptr_t pc)
  {
--    CPUState *cs = CPU(tilegx_env_get_cpu(env));
+-    CPUState *cs = CPU(tricore_env_get_cpu(env));
 +    CPUState *cs = env_cpu(env);
- 
-     cs->exception_index = excp;
-     cpu_loop_exit(cs);
+     cs->exception_index = exception;
+     env->error_code = error_code;
+     /* now we have a real cpu fault */
 -- 
 2.17.1
 
