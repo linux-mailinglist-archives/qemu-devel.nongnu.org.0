@@ -2,67 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF64518676
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 10:01:00 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49941 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E46C18680
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 10:04:45 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49992 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOdzA-0001YZ-20
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 04:01:00 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40308)
+	id 1hOe2m-0004kt-O0
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 04:04:44 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40933)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <hqm03ster@gmail.com>) id 1hOdx6-0000d8-2z
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 03:58:53 -0400
+	(envelope-from <kwolf@redhat.com>) id 1hOdzQ-0002VK-Jc
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 04:01:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <hqm03ster@gmail.com>) id 1hOdx4-0003ed-82
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 03:58:52 -0400
-Received: from mail-qt1-x842.google.com ([2607:f8b0:4864:20::842]:45718)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <hqm03ster@gmail.com>) id 1hOdx3-0003eJ-Vs
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 03:58:50 -0400
-Received: by mail-qt1-x842.google.com with SMTP id t1so1421404qtc.12
-	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 00:58:49 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=GWS5GLOqKieqwDax26YsaNBkCaykmO887t79OMrbris=;
-	b=dsZAofiS+AwAtBkyGlNIgMjVaNb4BZ7mwxKv8pmUiDMHyJGtwC+oobjrwWWisl5u08
-	xaKxKvw2pk7oCEzpyun9Y/mgP4kWXoMY57hJ81juOeBU8JnqKjuBkFxDiPYViuWlY+9t
-	VzS//kRFxgrnE2H0UsxW9DESIB4yY4K9Bjlhjx/v14dhRUdUqEgFNDkzvSddt94e3g1o
-	INAw+8XuRvJEBgE12Md7jxffXxJVAYj0Gc0K9sYZuYDMYyB5DEFppF0mFE8REF2dS5hU
-	02tULoZzg7hK5DR9eVXjc4U4Hz7sBF56AggxKQKIu50myZsUx5OEpVcMfK2438v8Riw2
-	54Hg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=GWS5GLOqKieqwDax26YsaNBkCaykmO887t79OMrbris=;
-	b=K2GBVkUgY+dtvTmha9bLt4s5GBwVXfsKOD2i6BTqpKGjRwKMLPCoi49Xrjr3IG1f1r
-	vx23WCEd35bpfkQnZxYoNNeQgx3MLLlSLleU1gTNaroUdglyc7rWh2fnNhnSO4Oq/lfE
-	Htkf5qmpk0i1z0OFuZdc+V7DT/iVXQ+Hf0uvCJJctW7KzcSO4Kq1Ky64KzwtJ05mh++g
-	D3edrOx1Gy0oZkYYxCp9WEZyG6FLltepaKdWtwM+ZPbnWZ3NeI4gjW0+tX84ep22OytH
-	aivmCeoKg3WEbX/KLWC+IknQqY1lrNMB6PHmdLhZkmZQHIknyzdv9sUHv3wN1/oLltdz
-	cQSg==
-X-Gm-Message-State: APjAAAWXSyOD5lublMWm2Jo/w9V5Q7DJHk9puJmBaPrE7oDZtA7T9Pqm
-	/JB6LC1CyubyLIX+7kFgO7qyAxwSykXKl02cqFEeIQ==
-X-Google-Smtp-Source: APXvYqxeX7YS+lHIXo1ooDtMv6Fhv1gAPztUKFCeG2lEPBw/BOPVF9Lf8sC6m09u7Jr7qH5q2E6MY/0WmyeVHEO0oCA=
-X-Received: by 2002:a0c:ba99:: with SMTP id x25mr2350878qvf.212.1557388729319; 
-	Thu, 09 May 2019 00:58:49 -0700 (PDT)
+	(envelope-from <kwolf@redhat.com>) id 1hOdzP-000588-Bc
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 04:01:16 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50462)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <kwolf@redhat.com>)
+	id 1hOdzH-00053d-L2; Thu, 09 May 2019 04:01:07 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 61205306034D;
+	Thu,  9 May 2019 08:01:06 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-116-186.ams2.redhat.com
+	[10.36.116.186])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id ED6765B680;
+	Thu,  9 May 2019 08:00:57 +0000 (UTC)
+Date: Thu, 9 May 2019 10:00:56 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: John Snow <jsnow@redhat.com>
+Message-ID: <20190509080056.GA6850@localhost.localdomain>
+References: <20190506203344.30781-1-jsnow@redhat.com>
+	<20190507085021.GB5808@localhost.localdomain>
+	<a7ce7d95-7c77-b087-372f-a22b4dc8bfcd@redhat.com>
 MIME-Version: 1.0
-References: <CABSdmrnNW6f=P64PviPP8CTJ5SVfYS8_6kmAtpw9yPObTEkpxg@mail.gmail.com>
-	<CABSdmrnocrqLKWncgy_Lak33__GRPYfs-RzSA14e=vh4cRn2ag@mail.gmail.com>
-	<20190509064848.wjhchsfov7q6komj@sirius.home.kraxel.org>
-	<CABSdmrmm+wJ=+Ccav=X5Gw_oueQvPRejCWVG2SQeCw=K4BM9EA@mail.gmail.com>
-In-Reply-To: <CABSdmrmm+wJ=+Ccav=X5Gw_oueQvPRejCWVG2SQeCw=K4BM9EA@mail.gmail.com>
-From: Hou Qiming <hqm03ster@gmail.com>
-Date: Thu, 9 May 2019 15:58:37 +0800
-Message-ID: <CABSdmrndpONH_fVHbktHbBXvXPKESeRfis06TjrNRRfBpJzXLA@mail.gmail.com>
-To: qemu-devel@nongnu.org
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::842
-Content-Type: text/plain; charset="UTF-8"
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: [Qemu-devel] [PATCH 3/3] ramfb enhancement
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <a7ce7d95-7c77-b087-372f-a22b4dc8bfcd@redhat.com>
+User-Agent: Mutt/1.11.3 (2019-02-01)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.47]);
+	Thu, 09 May 2019 08:01:06 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH] blockdev-backup: don't check aio_context
+ too early
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -74,187 +61,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: aihua liang <aliang@redhat.com>, qemu-block@nongnu.org,
+	qemu-devel@nongnu.org, qemu-stable@nongnu.org,
+	Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Write an initial resolution to the configuration space on guest reset,
-which a later BIOS / OVMF patch can take advantage of.
+Am 09.05.2019 um 00:55 hat John Snow geschrieben:
+> 
+> On 5/7/19 4:50 AM, Kevin Wolf wrote:
+> > Am 06.05.2019 um 22:33 hat John Snow geschrieben:
+> >> in blockdev_backup_prepare, we check to make sure that the target is
+> >> associated with a compatible aio context. However, do_blockdev_backup is
+> >> called later and has some logic to move the target to a compatible
+> >> aio_context. The transaction version will fail certain commands
+> >> needlessly early as a result.
+> >>
+> >> Allow blockdev_backup_prepare to simply call do_blockdev_backup, which
+> >> will ultimately decide if the contexts are compatible or not.
+> >>
+> >> Note: the transaction version has always disallowed this operation since
+> >> its initial commit bd8baecd (2014), whereas the version of
+> >> qmp_blockdev_backup at the time, from commit c29c1dd312f, tried to
+> >> enforce the aio_context switch instead. It's not clear, and I can't see
+> >> from the mailing list archives at the time, why the two functions take a
+> >> different approach. It wasn't until later in efd7556708b (2016) that the
+> >> standalone version tried to determine if it could set the context or
+> >> not.
+> >>
+> >> Reported-by: aihua liang <aliang@redhat.com>
+> >> Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1683498
+> > 
+> > Signed-off-by is missing, and a testcase, too. :-)
+> > 
+> >> diff --git a/blockdev.c b/blockdev.c
+> >> index 79fbac8450..a81d88980c 100644
+> >> --- a/blockdev.c
+> >> +++ b/blockdev.c
+> >> @@ -1872,10 +1872,6 @@ static void blockdev_backup_prepare(BlkActionState *common, Error **errp)
+> >>      }
+> >>  
+> >>      aio_context = bdrv_get_aio_context(bs);
+> >> -    if (aio_context != bdrv_get_aio_context(target)) {
+> >> -        error_setg(errp, "Backup between two IO threads is not implemented");
+> >> -        return;
+> >> -    }
+> >>      aio_context_acquire(aio_context);
+> >>      state->bs = bs;
+> > 
+> > The actual change looks good to me.
+> > 
+> > Kevin
+> > 
+> 
+> (See the Red Hat BZ for details on the test I am more or less trying to
+> replicate in iotests -- but the jist of it is using an iothread on one
+> device and not specifying one for the other, then backing up both to two
+> blockdev-add created nodes not attached to any device.)
+> 
+> Is there some trick to getting this to fail with accel=qtest? I'm
+> noticing that if the VM is paused or if I use accel=qtest, the iothread
+> contexts for the drives appear to go ... unresolved? and the test passes.
+> 
+> I've only had luck (so far) reproducing this with accel=kvm on a running
+> VM (the drives can be empty) and I don't actually know why that is just
+> yet -- I guess these aio_context objects get resolved at runtime?
+> 
+> Anyway, this seems to be a little tricky so far, maybe you have some
+> advice for me?
 
-Signed-off-by: HOU Qiming <hqm03ster@gmail.com>
----
- hw/display/ramfb-standalone.c | 12 +++++++++++-
- hw/display/ramfb.c            | 16 +++++++++++++++-
- hw/vfio/display.c             |  4 ++--
- hw/vfio/pci.c                 |  6 ++++--
- include/hw/display/ramfb.h    |  2 +-
- stubs/ramfb.c                 |  2 +-
- 6 files changed, 34 insertions(+), 8 deletions(-)
+Are you using virtio-blk? I think it only actually enables dataplane
+(and moves its node to an iothread) during initialisation of the guest
+driver. This makes it quite annoying for testing, I've had the same
+problem before.
 
-diff --git a/hw/display/ramfb-standalone.c b/hw/display/ramfb-standalone.c
-index da3229a..6441449 100644
---- a/hw/display/ramfb-standalone.c
-+++ b/hw/display/ramfb-standalone.c
-@@ -1,6 +1,7 @@
- #include "qemu/osdep.h"
- #include "qapi/error.h"
- #include "hw/loader.h"
-+#include "hw/isa/isa.h"
- #include "hw/display/ramfb.h"
- #include "ui/console.h"
- #include "sysemu/sysemu.h"
-@@ -11,6 +12,8 @@ typedef struct RAMFBStandaloneState {
-     SysBusDevice parent_obj;
-     QemuConsole *con;
-     RAMFBState *state;
-+    uint32_t xres;
-+    uint32_t yres;
- } RAMFBStandaloneState;
+However, virtio-scsi does what you would expect and puts the node into
+the right AioContext directly on creation.
 
- static void display_update_wrapper(void *dev)
-@@ -33,15 +36,22 @@ static void ramfb_realizefn(DeviceState *dev, Error
-**errp)
-     RAMFBStandaloneState *ramfb = RAMFB(dev);
+So maybe just switching to virtio-scsi solves you problem?
 
-     ramfb->con = graphic_console_init(dev, 0, &wrapper_ops, dev);
--    ramfb->state = ramfb_setup(errp);
-+    ramfb->state = ramfb_setup(dev, errp);
- }
+> (Also note: doing a full backup and an incremental backup for two
+> perfectly empty 64GB qcow2 drives takes over 6 seconds in total. It
+> probably shouldn't, right? There's something about the initial backup
+> that appears to take a pretty long time.)
 
-+static Property ramfb_properties[] = {
-+    DEFINE_PROP_UINT32("xres", RAMFBStandaloneState, xres, 0),
-+    DEFINE_PROP_UINT32("yres", RAMFBStandaloneState, yres, 0),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
- static void ramfb_class_initfn(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
+Sounds like Someone (TM) should have a closer look, yes.
 
-     set_bit(DEVICE_CATEGORY_DISPLAY, dc->categories);
-     dc->realize = ramfb_realizefn;
-+    dc->props = ramfb_properties;
-     dc->desc = "ram framebuffer standalone device";
-     dc->user_creatable = true;
- }
-diff --git a/hw/display/ramfb.c b/hw/display/ramfb.c
-index fa6296b..0033ac8 100644
---- a/hw/display/ramfb.c
-+++ b/hw/display/ramfb.c
-@@ -12,6 +12,7 @@
-  */
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/option.h"
- #include "hw/loader.h"
- #include "hw/display/ramfb.h"
- #include "ui/console.h"
-@@ -29,6 +30,7 @@ struct QEMU_PACKED RAMFBCfg {
- struct RAMFBState {
-     DisplaySurface *ds;
-     uint32_t width, height;
-+    uint32_t starting_width, starting_height;
-     hwaddr addr, length;
-     struct RAMFBCfg cfg;
-     bool locked;
-@@ -120,9 +122,11 @@ static void ramfb_reset(void *opaque)
-     RAMFBState *s = (RAMFBState *)opaque;
-     s->locked = false;
-     memset(&s->cfg, 0, sizeof(s->cfg));
-+    s->cfg.width = s->starting_width;
-+    s->cfg.height = s->starting_height;
- }
+Kevin
 
--RAMFBState *ramfb_setup(Error **errp)
-+RAMFBState *ramfb_setup(DeviceState* dev, Error **errp)
- {
-     FWCfgState *fw_cfg = fw_cfg_find();
-     RAMFBState *s;
-@@ -134,6 +138,16 @@ RAMFBState *ramfb_setup(Error **errp)
-
-     s = g_new0(RAMFBState, 1);
-
-+    const char *s_fb_width = qemu_opt_get(dev->opts, "xres");
-+    const char *s_fb_height = qemu_opt_get(dev->opts, "yres");
-+    if (s_fb_width) {
-+        s->cfg.width = atoi(s_fb_width);
-+        s->starting_width = s->cfg.width;
-+    }
-+    if (s_fb_height) {
-+        s->cfg.height = atoi(s_fb_height);
-+        s->starting_height = s->cfg.height;
-+    }
-     s->locked = false;
-
-     rom_add_vga("vgabios-ramfb.bin");
-diff --git a/hw/vfio/display.c b/hw/vfio/display.c
-index a3d9c8f..2c2d3e5 100644
---- a/hw/vfio/display.c
-+++ b/hw/vfio/display.c
-@@ -352,7 +352,7 @@ static int vfio_display_dmabuf_init(VFIOPCIDevice
-*vdev, Error **errp)
-                                           &vfio_display_dmabuf_ops,
-                                           vdev);
-     if (vdev->enable_ramfb) {
--        vdev->dpy->ramfb = ramfb_setup(errp);
-+        vdev->dpy->ramfb = ramfb_setup(DEVICE(vdev), errp);
-     }
-     vfio_display_edid_init(vdev);
-     return 0;
-@@ -478,7 +478,7 @@ static int vfio_display_region_init(VFIOPCIDevice
-*vdev, Error **errp)
-                                           &vfio_display_region_ops,
-                                           vdev);
-     if (vdev->enable_ramfb) {
--        vdev->dpy->ramfb = ramfb_setup(errp);
-+        vdev->dpy->ramfb = ramfb_setup(DEVICE(vdev), errp);
-     }
-     return 0;
- }
-diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
-index 8cecb53..5d64daa 100644
---- a/hw/vfio/pci.c
-+++ b/hw/vfio/pci.c
-@@ -3080,8 +3080,10 @@ static void vfio_realize(PCIDevice *pdev, Error
-**errp)
-             error_setg(errp, "xres and yres properties require
-display=on");
-             goto out_teardown;
-         }
--        if (vdev->dpy->edid_regs == NULL) {
--            error_setg(errp, "xres and yres properties need edid support");
-+        if (vdev->dpy->edid_regs == NULL && !vdev->enable_ramfb) {
-+            error_setg(errp,
-+                       "xres and yres properties need edid support"
-+                       " or ramfb=on");
-             goto out_teardown;
-         }
-     }
-diff --git a/include/hw/display/ramfb.h b/include/hw/display/ramfb.h
-index b33a2c4..f6c2de9 100644
---- a/include/hw/display/ramfb.h
-+++ b/include/hw/display/ramfb.h
-@@ -4,7 +4,7 @@
- /* ramfb.c */
- typedef struct RAMFBState RAMFBState;
- void ramfb_display_update(QemuConsole *con, RAMFBState *s);
--RAMFBState *ramfb_setup(Error **errp);
-+RAMFBState *ramfb_setup(DeviceState *dev, Error **errp);
-
- /* ramfb-standalone.c */
- #define TYPE_RAMFB_DEVICE "ramfb"
-diff --git a/stubs/ramfb.c b/stubs/ramfb.c
-index 48143f3..0799093 100644
---- a/stubs/ramfb.c
-+++ b/stubs/ramfb.c
-@@ -6,7 +6,7 @@ void ramfb_display_update(QemuConsole *con, RAMFBState *s)
- {
- }
-
--RAMFBState *ramfb_setup(Error **errp)
-+RAMFBState *ramfb_setup(DeviceState* dev, Error **errp)
- {
-     error_setg(errp, "ramfb support not available");
-     return NULL;
--- 
-2.17.1
