@@ -2,49 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28B5818FB0
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 19:55:06 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58808 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BA7718FC8
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 19:59:13 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58880 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOnG5-0003qa-9Q
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 13:55:05 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34827)
+	id 1hOnK4-0007w5-Hd
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 13:59:12 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35052)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hOnDx-0002pS-IM
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:52:55 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hOnEm-0003Uu-2A
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:53:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hOnDw-0006GF-3G
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:52:53 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44112)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hOnDs-0006Dy-MU; Thu, 09 May 2019 13:52:48 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
-	[10.5.11.12])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 06CAAC066455;
-	Thu,  9 May 2019 17:52:48 +0000 (UTC)
-Received: from localhost (ovpn-204-168.brq.redhat.com [10.40.204.168])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 05A3960CC0;
-	Thu,  9 May 2019 17:52:45 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Date: Thu,  9 May 2019 19:52:37 +0200
-Message-Id: <20190509175237.19363-4-mreitz@redhat.com>
-In-Reply-To: <20190509175237.19363-1-mreitz@redhat.com>
-References: <20190509175237.19363-1-mreitz@redhat.com>
+	(envelope-from <richard.henderson@linaro.org>) id 1hOnEk-0006gb-3g
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:53:43 -0400
+Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:45105)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hOnEi-0006at-5D
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:53:41 -0400
+Received: by mail-pl1-x633.google.com with SMTP id a5so1486297pls.12
+	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 10:53:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=tZspNkHDi8B5NZIIUZTWWcNPDy926n62xxi1IYNKWpQ=;
+	b=H/gF1hGhcPgPCwni3wGQ3VFe2MBb/6CQYvgvF2L/ZYQ44H5slIfni5P9qotMqvkOq6
+	n3W8uJPEUg/FdBiVuWv0hRsvPEdQ7J4spMEVqPjrYW1uU4ezRROQSC7lL0npJbHVLNq5
+	p6ExPE+CffJF+Wu8LkR2Z4qXdlIhaeH7Uxf6sBN9vbQFooBFae+obsEY2GkZKhGwMqD2
+	ns8RUHq5CW9KcoGvUvHmAxumUGLJers2eBf7zqNhaaPwRc8MgndbHsvJ0JMpetfcoLPj
+	XVs38QOb8ZStZxuWOIXJXLpLj03Bgfy+Scqws70XHnDC2MxEJscEj47YzuwtKzTCKioL
+	7zdQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=tZspNkHDi8B5NZIIUZTWWcNPDy926n62xxi1IYNKWpQ=;
+	b=UsxA998aKRf5Xddm1ofcd2DgNIA8SX0NKFS/7oiujG90j8tdlH3HbnCWt+S5I7O51e
+	ScX16f0Psu58u6EciCf0lJtugjVhszkJYQ/jyVG3cXnKZi3+vL/OZ+/bP7IhZ+XvhGxY
+	oKrYgEZ5G5czAOKGvyPoP045D0lobDKiLAC6R5QIpUA31t5HF1SYNmxs0RbA6aCcTk3W
+	qC1RfqhIhGZ1j1V+veiQGs9NlsXgqVb5YKBeaJy01Q1ju74EXKf67b2Uo3p+SzZ+xHW+
+	uGlXLJRjVlEpLFiMYceklVJ58+oWKfl1QPh3LoTxIsBM1l/TA7Kt/SvNHdjR/aOIN2Tt
+	Jc2A==
+X-Gm-Message-State: APjAAAUmQ8jDxFybY1k7mbrtvnw6wYAzYpHP4WtQkGWUnKpue3zRA/zd
+	9POmRNFynHgeI6EPlSiXVDLP/w==
+X-Google-Smtp-Source: APXvYqwmo/IyNC7Dy2evI+0thCJTFVfN03rAch6TRCyrTzuanFjUw9FP6rH/cdfOjb7Ci7EE142X+w==
+X-Received: by 2002:a17:902:521:: with SMTP id
+	30mr6810185plf.248.1557424410953; 
+	Thu, 09 May 2019 10:53:30 -0700 (PDT)
+Received: from [172.31.99.192] (50-248-210-99-static.hfc.comcastbusiness.net.
+	[50.248.210.99]) by smtp.gmail.com with ESMTPSA id
+	i27sm9531986pfk.162.2019.05.09.10.53.29
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 09 May 2019 10:53:29 -0700 (PDT)
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+	qemu-devel@nongnu.org
+References: <20190509165912.10512-1-alex.bennee@linaro.org>
+	<20190509165912.10512-3-alex.bennee@linaro.org>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <37051934-a02b-1461-537d-9f6ed93ae4a9@linaro.org>
+Date: Thu, 9 May 2019 10:53:27 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.31]);
-	Thu, 09 May 2019 17:52:48 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 3/3] iotests: Add test for rebase without
- input base
+In-Reply-To: <20190509165912.10512-3-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::633
+Subject: Re: [Qemu-devel] [PATCH v1 02/23] tests/docker: Test more
+ components on the Fedora default image
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -56,214 +87,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>,
-	Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
-	qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, qemu-arm@nongnu.org,
+	=?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch adds a test for rebasing an image that currently does not
-have a backing file.
+On 5/9/19 9:58 AM, Alex Bennée wrote:
+> From: Philippe Mathieu-Daudé <philmd@redhat.com>
+> 
+> Install optional dependencies of QEMU to get better coverage.
+> 
+> The following components are now enabled:
+> 
+>   $ ./configure
+>   ...
+>   Multipath support yes
+>   VNC SASL support  yes
+>   RDMA support      yes
+>   PVRDMA support    yes
+>   libiscsi support  yes
+>   seccomp support   yes
+>   libpmem support   yes
+>   libudev           yes
+> 
+> Note: The udev-devel package is provided by systemd-devel.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Message-Id: <20190504055440.20406-1-philmd@redhat.com>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>  tests/docker/dockerfiles/fedora.docker | 7 +++++++
+>  1 file changed, 7 insertions(+)
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- tests/qemu-iotests/252     | 124 +++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/252.out |  39 ++++++++++++
- tests/qemu-iotests/group   |   1 +
- 3 files changed, 164 insertions(+)
- create mode 100755 tests/qemu-iotests/252
- create mode 100644 tests/qemu-iotests/252.out
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
-diff --git a/tests/qemu-iotests/252 b/tests/qemu-iotests/252
-new file mode 100755
-index 0000000000..f6c8f71444
---- /dev/null
-+++ b/tests/qemu-iotests/252
-@@ -0,0 +1,124 @@
-+#!/usr/bin/env bash
-+#
-+# Tests for rebasing COW images that require zero cluster support
-+#
-+# Copyright (C) 2019 Red Hat, Inc.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+# creator
-+owner=3Dmreitz@redhat.com
-+
-+seq=3D$(basename $0)
-+echo "QA output created by $seq"
-+
-+status=3D1	# failure is the default!
-+
-+_cleanup()
-+{
-+    _cleanup_test_img
-+    rm -f "$TEST_IMG.base_new"
-+}
-+trap "_cleanup; exit \$status" 0 1 2 3 15
-+
-+# get standard environment, filters and checks
-+. ./common.rc
-+. ./common.filter
-+. ./common.pattern
-+
-+# Currently only qcow2 and qed support rebasing, and only qcow2 v3 has
-+# zero cluster support
-+_supported_fmt qcow2
-+_unsupported_imgopts 'compat=3D0.10'
-+_supported_proto file
-+_supported_os Linux
-+
-+CLUSTER_SIZE=3D65536
-+
-+echo
-+echo "=3D=3D=3D Test rebase without input base =3D=3D=3D"
-+echo
-+
-+# Cluster allocations to be tested:
-+#
-+# Backing (new) 11 -- 11 -- 11 --
-+# COW image     22 22 11 11 -- --
-+#
-+# Expected result:
-+#
-+# COW image     22 22 11 11 00 --
-+#
-+# (Cluster 2 might be "--" after the rebase, too, but rebase just
-+#  compares the new backing file to the old one and disregards the
-+#  overlay.  Therefore, it will never discard overlay clusters.)
-+
-+_make_test_img $((6 * CLUSTER_SIZE))
-+TEST_IMG=3D"$TEST_IMG.base_new" _make_test_img $((6 * CLUSTER_SIZE))
-+
-+echo
-+
-+$QEMU_IO "$TEST_IMG" \
-+    -c "write -P 0x22 $((0 * CLUSTER_SIZE)) $((2 * CLUSTER_SIZE))" \
-+    -c "write -P 0x11 $((2 * CLUSTER_SIZE)) $((2 * CLUSTER_SIZE))" \
-+    | _filter_qemu_io
-+
-+$QEMU_IO "$TEST_IMG.base_new" \
-+    -c "write -P 0x11 $((0 * CLUSTER_SIZE)) $CLUSTER_SIZE" \
-+    -c "write -P 0x11 $((2 * CLUSTER_SIZE)) $CLUSTER_SIZE" \
-+    -c "write -P 0x11 $((4 * CLUSTER_SIZE)) $CLUSTER_SIZE" \
-+    | _filter_qemu_io
-+
-+echo
-+
-+# This should be a no-op
-+$QEMU_IMG rebase -b "" "$TEST_IMG"
-+
-+# Verify the data is correct
-+$QEMU_IO "$TEST_IMG" \
-+    -c "read -P 0x22 $((0 * CLUSTER_SIZE)) $((2 * CLUSTER_SIZE))" \
-+    -c "read -P 0x11 $((2 * CLUSTER_SIZE)) $((2 * CLUSTER_SIZE))" \
-+    -c "read -P 0x00 $((4 * CLUSTER_SIZE)) $((2 * CLUSTER_SIZE))" \
-+    | _filter_qemu_io
-+
-+echo
-+
-+# Verify the allocation status (first four cluster should be allocated
-+# in TEST_IMG, clusters 4 and 5 should be unallocated (marked as zero
-+# clusters here because there is no backing file))
-+$QEMU_IMG map --output=3Djson "$TEST_IMG" | _filter_qemu_img_map
-+
-+echo
-+
-+$QEMU_IMG rebase -b "$TEST_IMG.base_new" "$TEST_IMG"
-+
-+# Verify the data is correct
-+$QEMU_IO "$TEST_IMG" \
-+    -c "read -P 0x22 $((0 * CLUSTER_SIZE)) $((2 * CLUSTER_SIZE))" \
-+    -c "read -P 0x11 $((2 * CLUSTER_SIZE)) $((2 * CLUSTER_SIZE))" \
-+    -c "read -P 0x00 $((4 * CLUSTER_SIZE)) $((2 * CLUSTER_SIZE))" \
-+    | _filter_qemu_io
-+
-+echo
-+
-+# Verify the allocation status (first four cluster should be allocated
-+# in TEST_IMG, cluster 4 should be zero, and cluster 5 should be
-+# unallocated (signified by '"depth": 1'))
-+$QEMU_IMG map --output=3Djson "$TEST_IMG" | _filter_qemu_img_map
-+
-+
-+# success, all done
-+echo "*** done"
-+rm -f $seq.full
-+status=3D0
-diff --git a/tests/qemu-iotests/252.out b/tests/qemu-iotests/252.out
-new file mode 100644
-index 0000000000..12dce889f8
---- /dev/null
-+++ b/tests/qemu-iotests/252.out
-@@ -0,0 +1,39 @@
-+QA output created by 252
-+
-+=3D=3D=3D Test rebase without input base =3D=3D=3D
-+
-+Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D393216
-+Formatting 'TEST_DIR/t.IMGFMT.base_new', fmt=3DIMGFMT size=3D393216
-+
-+wrote 131072/131072 bytes at offset 0
-+128 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 131072/131072 bytes at offset 131072
-+128 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 65536/65536 bytes at offset 0
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 65536/65536 bytes at offset 131072
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+wrote 65536/65536 bytes at offset 262144
-+64 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+read 131072/131072 bytes at offset 0
-+128 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 131072/131072 bytes at offset 131072
-+128 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 131072/131072 bytes at offset 262144
-+128 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+[{ "start": 0, "length": 262144, "depth": 0, "zero": false, "data": true=
-, "offset": OFFSET},
-+{ "start": 262144, "length": 131072, "depth": 0, "zero": true, "data": f=
-alse}]
-+
-+read 131072/131072 bytes at offset 0
-+128 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 131072/131072 bytes at offset 131072
-+128 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+read 131072/131072 bytes at offset 262144
-+128 KiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
-+
-+[{ "start": 0, "length": 262144, "depth": 0, "zero": false, "data": true=
-, "offset": OFFSET},
-+{ "start": 262144, "length": 65536, "depth": 0, "zero": true, "data": fa=
-lse},
-+{ "start": 327680, "length": 65536, "depth": 1, "zero": true, "data": fa=
-lse}]
-+*** done
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 7ac9a5ea4a..00e474ab0a 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -249,3 +249,4 @@
- 247 rw auto quick
- 248 rw auto quick
- 249 rw auto quick
-+252 rw auto backing quick
---=20
-2.21.0
 
+r~
 
