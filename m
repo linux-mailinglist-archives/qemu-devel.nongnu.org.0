@@ -2,66 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B646918E72
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 18:51:55 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57884 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C81918E6E
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 18:50:48 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57840 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOmGx-0003kp-00
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 12:51:55 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47033)
+	id 1hOmFr-0002k5-Ky
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 12:50:47 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46381)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alistair23@gmail.com>) id 1hOmFa-00031h-7y
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:50:31 -0400
+	(envelope-from <dgilbert@redhat.com>) id 1hOmDt-0001zT-5n
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:48:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alistair23@gmail.com>) id 1hOmFZ-0005do-2s
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:50:30 -0400
-Received: from mail-lf1-x143.google.com ([2a00:1450:4864:20::143]:46291)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <alistair23@gmail.com>)
-	id 1hOmFY-0005bm-RV
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:50:29 -0400
-Received: by mail-lf1-x143.google.com with SMTP id k18so2040199lfj.13
-	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 09:50:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=QLkoJBmMBkp5An6UVjaIx2AS5nabhWn0cjocNITXH50=;
-	b=gky7vZ7nqV0YP5b0RNhUiwsiaEkP/pAhrUWPkXlrRDEAGNsOSfSL7Obw7sM/3CA7vh
-	XftbdQve243lWWD4JPfUIPbmv/S5O29poR3xsi2Mm6h2VceFImxeISEHnnCIJIoiWLkY
-	siPG+bgtnrweDcqhW33TQrk8dyJ6mOOxRqLfer+ib9CAhBtBRw0waDacglZVNN1Uutsx
-	b00WeVUj3VuCWr38tPgcTcDORg3VtZH9CJHHFlzG4PQfiCMyBlR7OFMHcUGett/Yrd18
-	eAO+3C/lEMx8gM8lDRfzycO8F983zAPNLikDNFTpEFKj/LerG5aVgvQCBPpuu7ti5qkW
-	wykw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=QLkoJBmMBkp5An6UVjaIx2AS5nabhWn0cjocNITXH50=;
-	b=DIMjZC7NX+gaEWcoxKYe5lUti+SfxYDs83v6L7CZLNS/gLjEs8CTe3l4GcUIoV/qx1
-	G+3B3P5vgk0JktGDXcbzl8vlud6/2QUbUQjoBP4+I2WOH0ZXuaqL1iPxRAq+pOz2qdQO
-	ecv9Prq3hO/uJPldDquSaHD41VlutsfCzwBmV4f09dENabeHQNlak211HmiwIXDR/mVN
-	aj2sCsqdvEBWli3g9sbXGzrrcmR8663/i6TUq6OIH4w5Oeh+hv5tdWId65ctjzFtB6zt
-	AGEe+WbLs9GwEZ2lhh39RgBx7Q24CDH5iUHRZXZ8uTKtEZti/zx8CmAApIqWHnby/Ts3
-	NlHw==
-X-Gm-Message-State: APjAAAX1MsVB0nVwtrDe8IV4yZ3oh6pgKgPmvtdFqDvxTZUxt4dATLei
-	eBJiSp9PD6aFCqtm8EkK1Nr8sGEvcc6BH9zdxTY=
-X-Google-Smtp-Source: APXvYqxjDykj4sqzeIL7VmJEY8bP+iu+CUTDHLRH25i+4JY7/YD00c/NGOzeHjqJ1YGVa92NPEMK21KXatCxLaeeXMM=
-X-Received: by 2002:a19:4a04:: with SMTP id x4mr3024874lfa.124.1557420627561; 
-	Thu, 09 May 2019 09:50:27 -0700 (PDT)
+	(envelope-from <dgilbert@redhat.com>) id 1hOmDs-0004hZ-6v
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:48:45 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37702)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hOmDr-0004hG-Vv
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:48:44 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+	[10.5.11.16])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 0DCCA3B712;
+	Thu,  9 May 2019 16:48:42 +0000 (UTC)
+Received: from work-vm (ovpn-116-174.ams2.redhat.com [10.36.116.174])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 95FF11710E;
+	Thu,  9 May 2019 16:48:28 +0000 (UTC)
+Date: Thu, 9 May 2019 17:48:26 +0100
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+To: Cornelia Huck <cohuck@redhat.com>
+Message-ID: <20190509164825.GG2868@work-vm>
+References: <20190506014514.3555-1-yan.y.zhao@intel.com>
+	<20190506014904.3621-1-yan.y.zhao@intel.com>
+	<20190507151826.502be009@x1.home>
+	<20190509173839.2b9b2b46.cohuck@redhat.com>
+	<20190509154857.GF2868@work-vm>
+	<20190509175404.512ae7aa.cohuck@redhat.com>
 MIME-Version: 1.0
-References: <1557131596-25403-1-git-send-email-like.xu@linux.intel.com>
-	<1557131596-25403-11-git-send-email-like.xu@linux.intel.com>
-In-Reply-To: <1557131596-25403-11-git-send-email-like.xu@linux.intel.com>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 9 May 2019 09:48:20 -0700
-Message-ID: <CAKmqyKOSWUD7X9FXL5FRGRnw7gLdcYiah=_W7dBKW=4wrM_yHQ@mail.gmail.com>
-To: Like Xu <like.xu@linux.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::143
-Subject: Re: [Qemu-devel] [PATCH v2 10/10] cpu/topology: replace smp global
- variables with smp machine properties
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190509175404.512ae7aa.cohuck@redhat.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.30]);
+	Thu, 09 May 2019 16:48:43 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 1/2] vfio/mdev: add version attribute
+ for mdev device
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -73,146 +63,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
-	Eduardo Habkost <ehabkost@redhat.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	"qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
-	"Dr. David Alan Gilbert" <dgilbert@redhat.com>,
-	Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
-	Richard Henderson <rth@twiddle.net>,
-	=?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
-	=?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>
+Cc: cjia@nvidia.com, kvm@vger.kernel.org, aik@ozlabs.ru,
+	Zhengxiao.zx@alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
+	qemu-devel@nongnu.org, kwankhede@nvidia.com, eauger@redhat.com,
+	yi.l.liu@intel.com, eskultet@redhat.com, ziye.yang@intel.com,
+	mlevitsk@redhat.com, pasic@linux.ibm.com, libvir-list@redhat.com,
+	arei.gonglei@huawei.com, felipe@nutanix.com, Ken.Xue@amd.com,
+	kevin.tian@intel.com, Yan Zhao <yan.y.zhao@intel.com>,
+	zhenyuw@linux.intel.com, dinechin@redhat.com,
+	Alex Williamson <alex.williamson@redhat.com>,
+	intel-gvt-dev@lists.freedesktop.org, changpeng.liu@intel.com,
+	linux-kernel@vger.kernel.org, zhi.a.wang@intel.com,
+	jonathan.davies@nutanix.com, shaopeng.he@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 6, 2019 at 1:35 AM Like Xu <like.xu@linux.intel.com> wrote:
->
-> At the end of this smp refactoring series, the global ones are removed
-> and only smp machine properties are fully applied and enabled.
->
-> Signed-off-by: Like Xu <like.xu@linux.intel.com>
+* Cornelia Huck (cohuck@redhat.com) wrote:
+> On Thu, 9 May 2019 16:48:57 +0100
+> "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+> 
+> > * Cornelia Huck (cohuck@redhat.com) wrote:
+> > > On Tue, 7 May 2019 15:18:26 -0600
+> > > Alex Williamson <alex.williamson@redhat.com> wrote:
+> > >   
+> > > > On Sun,  5 May 2019 21:49:04 -0400
+> > > > Yan Zhao <yan.y.zhao@intel.com> wrote:  
+> > >   
+> > > > > +  Errno:
+> > > > > +  If vendor driver wants to claim a mdev device incompatible to all other mdev
+> > > > > +  devices, it should not register version attribute for this mdev device. But if
+> > > > > +  a vendor driver has already registered version attribute and it wants to claim
+> > > > > +  a mdev device incompatible to all other mdev devices, it needs to return
+> > > > > +  -ENODEV on access to this mdev device's version attribute.
+> > > > > +  If a mdev device is only incompatible to certain mdev devices, write of
+> > > > > +  incompatible mdev devices's version strings to its version attribute should
+> > > > > +  return -EINVAL;    
+> > > > 
+> > > > I think it's best not to define the specific errno returned for a
+> > > > specific situation, let the vendor driver decide, userspace simply
+> > > > needs to know that an errno on read indicates the device does not
+> > > > support migration version comparison and that an errno on write
+> > > > indicates the devices are incompatible or the target doesn't support
+> > > > migration versions.  
+> > > 
+> > > I think I have to disagree here: It's probably valuable to have an
+> > > agreed error for 'cannot migrate at all' vs 'cannot migrate between
+> > > those two particular devices'. Userspace might want to do different
+> > > things (e.g. trying with different device pairs).  
+> > 
+> > Trying to stuff these things down an errno seems a bad idea; we can't
+> > get much information that way.
+> 
+> So, what would be a reasonable approach? Userspace should first read
+> the version attributes on both devices (to find out whether migration
+> is supported at all), and only then figure out via writing whether they
+> are compatible?
+> 
+> (Or just go ahead and try, if it does not care about the reason.)
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Well, I'm OK with something like writing to test whether it's
+compatible, it's just we need a better way of saying 'no'.
+I'm not sure if that involves reading back from somewhere after
+the write or what.
 
-Alistair
+Dave
 
-> ---
->  vl.c | 53 ++++++++++++++++++++++++++---------------------------
->  1 file changed, 26 insertions(+), 27 deletions(-)
->
-> diff --git a/vl.c b/vl.c
-> index 34f05b2..a3e426c 100644
-> --- a/vl.c
-> +++ b/vl.c
-> @@ -162,10 +162,6 @@ static Chardev **serial_hds;
->  Chardev *parallel_hds[MAX_PARALLEL_PORTS];
->  int win2k_install_hack = 0;
->  int singlestep = 0;
-> -int smp_cpus;
-> -unsigned int max_cpus;
-> -int smp_cores = 1;
-> -int smp_threads = 1;
->  int acpi_enabled = 1;
->  int no_hpet = 0;
->  int fd_bootchk = 1;
-> @@ -1282,8 +1278,9 @@ static void smp_parse(QemuOpts *opts)
->                  sockets = sockets > 0 ? sockets : 1;
->                  cpus = cores * threads * sockets;
->              } else {
-> -                max_cpus = qemu_opt_get_number(opts, "maxcpus", cpus);
-> -                sockets = max_cpus / (cores * threads);
-> +                current_machine->smp.max_cpus =
-> +                        qemu_opt_get_number(opts, "maxcpus", cpus);
-> +                sockets = current_machine->smp.max_cpus / (cores * threads);
->              }
->          } else if (cores == 0) {
->              threads = threads > 0 ? threads : 1;
-> @@ -1300,34 +1297,37 @@ static void smp_parse(QemuOpts *opts)
->              exit(1);
->          }
->
-> -        max_cpus = qemu_opt_get_number(opts, "maxcpus", cpus);
-> +        current_machine->smp.max_cpus =
-> +                qemu_opt_get_number(opts, "maxcpus", cpus);
->
-> -        if (max_cpus < cpus) {
-> +        if (current_machine->smp.max_cpus < cpus) {
->              error_report("maxcpus must be equal to or greater than smp");
->              exit(1);
->          }
->
-> -        if (sockets * cores * threads > max_cpus) {
-> +        if (sockets * cores * threads > current_machine->smp.max_cpus) {
->              error_report("cpu topology: "
->                           "sockets (%u) * cores (%u) * threads (%u) > "
->                           "maxcpus (%u)",
-> -                         sockets, cores, threads, max_cpus);
-> +                         sockets, cores, threads,
-> +                         current_machine->smp.max_cpus);
->              exit(1);
->          }
->
-> -        if (sockets * cores * threads != max_cpus) {
-> +        if (sockets * cores * threads != current_machine->smp.max_cpus) {
->              warn_report("Invalid CPU topology deprecated: "
->                          "sockets (%u) * cores (%u) * threads (%u) "
->                          "!= maxcpus (%u)",
-> -                        sockets, cores, threads, max_cpus);
-> +                        sockets, cores, threads,
-> +                        current_machine->smp.max_cpus);
->          }
->
-> -        smp_cpus = cpus;
-> -        smp_cores = cores;
-> -        smp_threads = threads;
-> +        current_machine->smp.cpus = cpus;
-> +        current_machine->smp.cores = cores;
-> +        current_machine->smp.threads = threads;
->      }
->
-> -    if (smp_cpus > 1) {
-> +    if (current_machine->smp.cpus > 1) {
->          Error *blocker = NULL;
->          error_setg(&blocker, QERR_REPLAY_NOT_SUPPORTED, "smp");
->          replay_add_blocker(blocker);
-> @@ -4094,26 +4094,25 @@ int main(int argc, char **argv, char **envp)
->      machine_class->default_cpus = machine_class->default_cpus ?: 1;
->
->      /* default to machine_class->default_cpus */
-> -    smp_cpus = machine_class->default_cpus;
-> -    max_cpus = machine_class->default_cpus;
-> +    current_machine->smp.cpus = machine_class->default_cpus;
-> +    current_machine->smp.max_cpus = machine_class->default_cpus;
-> +    current_machine->smp.cores = 1;
-> +    current_machine->smp.threads = 1;
->
->      smp_parse(qemu_opts_find(qemu_find_opts("smp-opts"), NULL));
->
-> -    current_machine->smp.cpus = smp_cpus;
-> -    current_machine->smp.max_cpus = max_cpus;
-> -    current_machine->smp.cores = smp_cores;
-> -    current_machine->smp.threads = smp_threads;
-> -
->      /* sanity-check smp_cpus and max_cpus against machine_class */
-> -    if (smp_cpus < machine_class->min_cpus) {
-> +    if (current_machine->smp.cpus < machine_class->min_cpus) {
->          error_report("Invalid SMP CPUs %d. The min CPUs "
-> -                     "supported by machine '%s' is %d", smp_cpus,
-> +                     "supported by machine '%s' is %d",
-> +                     current_machine->smp.cpus,
->                       machine_class->name, machine_class->min_cpus);
->          exit(1);
->      }
-> -    if (max_cpus > machine_class->max_cpus) {
-> +    if (current_machine->smp.max_cpus > machine_class->max_cpus) {
->          error_report("Invalid SMP CPUs %d. The max CPUs "
-> -                     "supported by machine '%s' is %d", max_cpus,
-> +                     "supported by machine '%s' is %d",
-> +                     current_machine->smp.max_cpus,
->                       machine_class->name, machine_class->max_cpus);
->          exit(1);
->      }
-> --
-> 1.8.3.1
->
+--
+Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
 
