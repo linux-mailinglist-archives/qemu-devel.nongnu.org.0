@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D367C19558
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 00:44:11 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33684 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3BFAE1955D
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 00:46:11 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33743 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOrlr-0005ZP-0S
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 18:44:11 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:32928)
+	id 1hOrnm-0007On-Fl
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 18:46:10 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:32941)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOrV0-0007di-RT
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 18:26:48 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hOrV2-0007ew-24
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 18:26:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOrUz-0005SX-IY
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 18:26:46 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:41937)
+	(envelope-from <richard.henderson@linaro.org>) id 1hOrV0-0005Sz-Ns
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 18:26:48 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:40373)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hOrUz-0005SJ-BJ
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 18:26:45 -0400
-Received: by mail-pf1-x442.google.com with SMTP id l132so2041176pfc.8
-	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 15:26:45 -0700 (PDT)
+	id 1hOrV0-0005Sm-Fv
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 18:26:46 -0400
+Received: by mail-pg1-x541.google.com with SMTP id d31so1922864pgl.7
+	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 15:26:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=epdYlBTiLaV9VQx6jCDpGmNhfjLLlYzffabxUVX4RgQ=;
-	b=cAhr9Lg+v2BVuh68BTLHS1TLe8IlJdh1TBMtrxB985BXS4VUn0TVAs/Pwp/8YL9izK
-	r1J/YFSmdIDMlOUuWoqIJyBRaLitMtarkNDiBce5Ld+lhI7XxZJmb5G3E45oAVw6K+dG
-	4oyIvNntKg67qxQg3kVutyyPrGbWawtgI9li22NNyA4A+73q1UrX8ztdxj2wkEP2/Ilc
-	9ZVB9IXRptq1xyGHUn4XwEQJ0ddmKtNrpUfsvkePxAvMcPazEqQ1yCH83ivEsj8g7mrZ
-	oos0/hAPvVbNR0/wp0/n2ObV5byRcKPTTidK4O1aY8JkY/HQ0iX2ZS04iP52D5rByVQ+
-	euvQ==
+	bh=omewBU1W56CpN9jkgUsDwQLimncwo01SMHqSrNfd+ko=;
+	b=Brerx8jFb4MLhY62NvxRp9Pgh4FR2LpBx+8FtNax2NdnECPCS9c4jMULj9VAuZMYcz
+	p+3Mn4PsGnxw1SEWA1hETuvKlyq7V8MuYbWVGXTTEAGXXfTM4JxYY9PWcq1zX8UL4Hpj
+	wCTEtT2v0giesTWApQYqYvKAdb3vrhLR0dL0OAfs23MLxj2PmoGLkmJsgycJhc8MO+kY
+	fUfYoQ6J+lmNhLgfsP6FcEQK41W8EzzzDbMBLMeIk6/FAQl1cIUMCclMiiOQzMgAMSP5
+	jEwe3Fc8m37jydEeDy/vNTWjf5lV9U95JdKK6Aac0KBZxY/D168PmqDAyUcCpSJ3uYdP
+	YAZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=epdYlBTiLaV9VQx6jCDpGmNhfjLLlYzffabxUVX4RgQ=;
-	b=QsrjpbEbLFrt+Rm78cQFvLTQz74VV1qCTqWzhvUOnDoblzrT8piUCun+QNRniBLLoQ
-	iD8faomEDMfSUIkojcfHZ/Wuuj5ECssIRjbsTCiHIZpIX3j8O5iUqfiirtFRSz72Yzu0
-	0hx4XVqQCwTxmpSqzfOHuriCUqo2VeiqzSeMvzUly2+1WTJ3ABipsbh9gglnpgqdebhq
-	qOD5NWWGH/ppZHF7AUOqNqgyY8w7cOi9rdMmwBuOkiHIUdY2wTnBNSHwJOLCm0L3dDB0
-	Anz9JGEzFJ2i3gtHlnA0d2DNECiZfLaGy5oxMNcsolvnKKCSEvstziKZM4Izc+kX8fyI
-	pt3w==
-X-Gm-Message-State: APjAAAXuw9qGDGcKtS9bQ0SRiWR0kku3Y3sz/Ce0L2tSFfnaEq6ejlxF
-	UO+4O0tsI4u/Hb3Wm/fDg7+GHZyY63g=
-X-Google-Smtp-Source: APXvYqz6Zyw/vsikI8lE53+BFSZ2evJ1mHfQefuFFm7KK8GpyECv3xKCar/jx97AxZ+zzAhulF9x9w==
-X-Received: by 2002:a62:ee05:: with SMTP id e5mr7210282pfi.117.1557440804035; 
-	Thu, 09 May 2019 15:26:44 -0700 (PDT)
+	bh=omewBU1W56CpN9jkgUsDwQLimncwo01SMHqSrNfd+ko=;
+	b=D1adRGlBbZKs2LUV2tb36Eynbmj0i4aKsIB/mvg5CzD+xUU+VQZjMRxgav7stNiyea
+	C5wNBb/LKlP6sHx+5Gog7Ows8Uoo5VQwAEvyjK32ldZmh+3A5NsfhL4hscigd3gvdYVI
+	Cmrbf4byqGz65cOQZaRmKsgA2Tz+bA3U6rvSx7B8PuMLeW1k5v6yqDgQrqY5j6Nf/fsm
+	sbYppy5ppuTbO50p7IISG9LJ25jNKy+jsd/9TNCvCpfhoERa74g+tGIbJygobgAkHJ2E
+	Jm8hkH2OTjUFhCANePdKVvOSqTziqL4O66jR2Ja9W+qHP6qJ/giurHS1/ryo1Dp3oI6a
+	svfQ==
+X-Gm-Message-State: APjAAAU7SmchG7C6qvhfxg1VgQj3X8LZ7AUIPhLWEpbGBhCIkfRiJjmW
+	UcD2qCd7KKghTmtVd6Tbwmbi/G5m45A=
+X-Google-Smtp-Source: APXvYqxZCoWZ5vWRJxcKnbbtohhKE+0xPrpH/ufVz57H0uixcWvuUwCnlfg1lOdHDCtugVB+7pDJrg==
+X-Received: by 2002:aa7:8acb:: with SMTP id b11mr8920814pfd.115.1557440805289; 
+	Thu, 09 May 2019 15:26:45 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231])
-	by smtp.gmail.com with ESMTPSA id m2sm4490521pfi.24.2019.05.09.15.26.42
+	by smtp.gmail.com with ESMTPSA id m2sm4490521pfi.24.2019.05.09.15.26.44
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 09 May 2019 15:26:43 -0700 (PDT)
+	Thu, 09 May 2019 15:26:44 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu,  9 May 2019 15:26:12 -0700
-Message-Id: <20190509222631.14271-9-richard.henderson@linaro.org>
+Date: Thu,  9 May 2019 15:26:13 -0700
+Message-Id: <20190509222631.14271-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190509222631.14271-1-richard.henderson@linaro.org>
 References: <20190509222631.14271-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::442
-Subject: [Qemu-devel] [PATCH v3 08/27] target/m68k: Convert to
+X-Received-From: 2607:f8b0:4864:20::541
+Subject: [Qemu-devel] [PATCH v3 09/27] target/microblaze: Convert to
  CPUClass::tlb_fill
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
@@ -76,221 +76,219 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: "Edgar E . Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc: Laurent Vivier <laurent@vivier.eu>
+Cc: Edgar E. Iglesias <edgar.iglesias@gmail.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/m68k/cpu.h       |  5 ++-
- target/m68k/cpu.c       |  2 +-
- target/m68k/helper.c    | 87 ++++++++++++++++++++++-------------------
- target/m68k/op_helper.c | 15 -------
- 4 files changed, 50 insertions(+), 59 deletions(-)
+v2: Keep user-only and system tlb_fill separate.
+---
+ target/microblaze/cpu.h       |   5 +-
+ target/microblaze/cpu.c       |   5 +-
+ target/microblaze/helper.c    | 107 ++++++++++++++++++----------------
+ target/microblaze/op_helper.c |  19 ------
+ 4 files changed, 62 insertions(+), 74 deletions(-)
 
-diff --git a/target/m68k/cpu.h b/target/m68k/cpu.h
-index ad41608341..683d3e2f79 100644
---- a/target/m68k/cpu.h
-+++ b/target/m68k/cpu.h
-@@ -542,8 +542,9 @@ static inline int cpu_mmu_index (CPUM68KState *env, bool ifetch)
-     return (env->sr & SR_S) == 0 ? 1 : 0;
+diff --git a/target/microblaze/cpu.h b/target/microblaze/cpu.h
+index f20e796865..7a9fb8f4aa 100644
+--- a/target/microblaze/cpu.h
++++ b/target/microblaze/cpu.h
+@@ -374,8 +374,9 @@ static inline int cpu_mmu_index (CPUMBState *env, bool ifetch)
+     return MMU_KERNEL_IDX;
  }
  
--int m68k_cpu_handle_mmu_fault(CPUState *cpu, vaddr address, int size, int rw,
--                              int mmu_idx);
-+bool m68k_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                       MMUAccessType access_type, int mmu_idx,
-+                       bool probe, uintptr_t retaddr);
- void m68k_cpu_unassigned_access(CPUState *cs, hwaddr addr,
-                                 bool is_write, bool is_exec, int is_asi,
-                                 unsigned size);
-diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
-index 582e3a73b3..6f441bc973 100644
---- a/target/m68k/cpu.c
-+++ b/target/m68k/cpu.c
-@@ -269,7 +269,7 @@ static void m68k_cpu_class_init(ObjectClass *c, void *data)
-     cc->set_pc = m68k_cpu_set_pc;
-     cc->gdb_read_register = m68k_cpu_gdb_read_register;
-     cc->gdb_write_register = m68k_cpu_gdb_write_register;
--    cc->handle_mmu_fault = m68k_cpu_handle_mmu_fault;
-+    cc->tlb_fill = m68k_cpu_tlb_fill;
- #if defined(CONFIG_SOFTMMU)
-     cc->do_unassigned_access = m68k_cpu_unassigned_access;
-     cc->get_phys_page_debug = m68k_cpu_get_phys_page_debug;
-diff --git a/target/m68k/helper.c b/target/m68k/helper.c
-index d958a34959..862f955f7b 100644
---- a/target/m68k/helper.c
-+++ b/target/m68k/helper.c
-@@ -353,20 +353,7 @@ void m68k_switch_sp(CPUM68KState *env)
-     env->current_sp = new_sp;
- }
+-int mb_cpu_handle_mmu_fault(CPUState *cpu, vaddr address, int size, int rw,
+-                            int mmu_idx);
++bool mb_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
++                     MMUAccessType access_type, int mmu_idx,
++                     bool probe, uintptr_t retaddr);
  
--#if defined(CONFIG_USER_ONLY)
--
--int m68k_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size, int rw,
--                              int mmu_idx)
--{
--    M68kCPU *cpu = M68K_CPU(cs);
--
--    cs->exception_index = EXCP_ACCESS;
--    cpu->env.mmu.ar = address;
--    return 1;
--}
--
+ #include "exec/cpu-all.h"
+ 
+diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
+index 5596cd5485..0ea549910b 100644
+--- a/target/microblaze/cpu.c
++++ b/target/microblaze/cpu.c
+@@ -304,9 +304,8 @@ static void mb_cpu_class_init(ObjectClass *oc, void *data)
+     cc->set_pc = mb_cpu_set_pc;
+     cc->gdb_read_register = mb_cpu_gdb_read_register;
+     cc->gdb_write_register = mb_cpu_gdb_write_register;
+-#ifdef CONFIG_USER_ONLY
+-    cc->handle_mmu_fault = mb_cpu_handle_mmu_fault;
 -#else
--
-+#if !defined(CONFIG_USER_ONLY)
- /* MMU: 68040 only */
- 
- static void print_address_zone(uint32_t logical, uint32_t physical,
-@@ -795,11 +782,36 @@ hwaddr m68k_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
-     return phys_addr;
++    cc->tlb_fill = mb_cpu_tlb_fill;
++#ifndef CONFIG_USER_ONLY
+     cc->do_transaction_failed = mb_cpu_transaction_failed;
+     cc->get_phys_page_debug = mb_cpu_get_phys_page_debug;
+ #endif
+diff --git a/target/microblaze/helper.c b/target/microblaze/helper.c
+index 9848e31d7f..a523c77959 100644
+--- a/target/microblaze/helper.c
++++ b/target/microblaze/helper.c
+@@ -38,73 +38,80 @@ void mb_cpu_do_interrupt(CPUState *cs)
+     env->regs[14] = env->sregs[SR_PC];
  }
  
--int m68k_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size, int rw,
--                              int mmu_idx)
-+/*
-+ * Notify CPU of a pending interrupt.  Prioritization and vectoring should
-+ * be handled by the interrupt controller.  Real hardware only requests
-+ * the vector when the interrupt is acknowledged by the CPU.  For
-+ * simplicity we calculate it when the interrupt is signalled.
-+ */
-+void m68k_set_irq_level(M68kCPU *cpu, int level, uint8_t vector)
-+{
-+    CPUState *cs = CPU(cpu);
-+    CPUM68KState *env = &cpu->env;
-+
-+    env->pending_level = level;
-+    env->pending_vector = vector;
-+    if (level) {
-+        cpu_interrupt(cs, CPU_INTERRUPT_HARD);
-+    } else {
-+        cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
-+    }
-+}
-+
-+#endif
-+
-+bool m68k_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                       MMUAccessType qemu_access_type, int mmu_idx,
-+                       bool probe, uintptr_t retaddr)
+-int mb_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size, int rw,
+-                            int mmu_idx)
++bool mb_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
++                     MMUAccessType access_type, int mmu_idx,
++                     bool probe, uintptr_t retaddr)
  {
-     M68kCPU *cpu = M68K_CPU(cs);
-     CPUM68KState *env = &cpu->env;
-+
-+#ifndef CONFIG_USER_ONLY
-     hwaddr physical;
+     cs->exception_index = 0xaa;
+-    cpu_dump_state(cs, stderr, 0);
+-    return 1;
++    cpu_loop_exit_restore(cs, retaddr);
+ }
+ 
+ #else /* !CONFIG_USER_ONLY */
+ 
+-int mb_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size, int rw,
+-                            int mmu_idx)
++bool mb_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
++                     MMUAccessType access_type, int mmu_idx,
++                     bool probe, uintptr_t retaddr)
+ {
+     MicroBlazeCPU *cpu = MICROBLAZE_CPU(cs);
+     CPUMBState *env = &cpu->env;
++    struct microblaze_mmu_lookup lu;
+     unsigned int hit;
+-    int r = 1;
      int prot;
-     int access_type;
-@@ -812,32 +824,35 @@ int m68k_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size, int rw,
-                      address & TARGET_PAGE_MASK,
-                      PAGE_READ | PAGE_WRITE | PAGE_EXEC,
-                      mmu_idx, TARGET_PAGE_SIZE);
--        return 0;
-+        return true;
-     }
  
--    if (rw == 2) {
-+    if (qemu_access_type == MMU_INST_FETCH) {
-         access_type = ACCESS_CODE;
--        rw = 0;
-     } else {
-         access_type = ACCESS_DATA;
--        if (rw) {
-+        if (qemu_access_type == MMU_DATA_STORE) {
-             access_type |= ACCESS_STORE;
-         }
-     }
+-    /* Translate if the MMU is available and enabled.  */
+-    if (mmu_idx != MMU_NOMMU_IDX) {
+-        uint32_t vaddr, paddr;
+-        struct microblaze_mmu_lookup lu;
 -
-     if (mmu_idx != MMU_USER_IDX) {
-         access_type |= ACCESS_SUPER;
-     }
- 
-     ret = get_physical_address(&cpu->env, &physical, &prot,
-                                address, access_type, &page_size);
--    if (ret == 0) {
-+    if (likely(ret == 0)) {
+-        hit = mmu_translate(&env->mmu, &lu, address, rw, mmu_idx);
+-        if (hit) {
+-            vaddr = address & TARGET_PAGE_MASK;
+-            paddr = lu.paddr + vaddr - lu.vaddr;
+-
+-            qemu_log_mask(CPU_LOG_MMU, "MMU map mmu=%d v=%x p=%x prot=%x\n",
+-                    mmu_idx, vaddr, paddr, lu.prot);
+-            tlb_set_page(cs, vaddr, paddr, lu.prot, mmu_idx, TARGET_PAGE_SIZE);
+-            r = 0;
+-        } else {
+-            env->sregs[SR_EAR] = address;
+-            qemu_log_mask(CPU_LOG_MMU, "mmu=%d miss v=%" VADDR_PRIx "\n",
+-                                        mmu_idx, address);
+-
+-            switch (lu.err) {
+-                case ERR_PROT:
+-                    env->sregs[SR_ESR] = rw == 2 ? 17 : 16;
+-                    env->sregs[SR_ESR] |= (rw == 1) << 10;
+-                    break;
+-                case ERR_MISS:
+-                    env->sregs[SR_ESR] = rw == 2 ? 19 : 18;
+-                    env->sregs[SR_ESR] |= (rw == 1) << 10;
+-                    break;
+-                default:
+-                    abort();
+-                    break;
+-            }
+-
+-            if (cs->exception_index == EXCP_MMU) {
+-                cpu_abort(cs, "recursive faults\n");
+-            }
+-
+-            /* TLB miss.  */
+-            cs->exception_index = EXCP_MMU;
+-        }
+-    } else {
++    if (mmu_idx == MMU_NOMMU_IDX) {
+         /* MMU disabled or not available.  */
          address &= TARGET_PAGE_MASK;
-         physical += address & (page_size - 1);
-         tlb_set_page(cs, address, physical,
-                      prot, mmu_idx, TARGET_PAGE_SIZE);
--        return 0;
+         prot = PAGE_BITS;
+         tlb_set_page(cs, address, address, prot, mmu_idx, TARGET_PAGE_SIZE);
+-        r = 0;
 +        return true;
      }
+-    return r;
 +
++    hit = mmu_translate(&env->mmu, &lu, address, access_type, mmu_idx);
++    if (likely(hit)) {
++        uint32_t vaddr = address & TARGET_PAGE_MASK;
++        uint32_t paddr = lu.paddr + vaddr - lu.vaddr;
++
++        qemu_log_mask(CPU_LOG_MMU, "MMU map mmu=%d v=%x p=%x prot=%x\n",
++                      mmu_idx, vaddr, paddr, lu.prot);
++        tlb_set_page(cs, vaddr, paddr, lu.prot, mmu_idx, TARGET_PAGE_SIZE);
++        return true;
++    }
++
++    /* TLB miss.  */
 +    if (probe) {
 +        return false;
 +    }
 +
-     /* page fault */
-     env->mmu.ssw = M68K_ATC_040;
-     switch (size) {
-@@ -862,29 +877,19 @@ int m68k_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size, int rw,
-     if (!(access_type & ACCESS_STORE)) {
-         env->mmu.ssw |= M68K_RW_040;
-     }
--    env->mmu.ar = address;
-+#endif
++    qemu_log_mask(CPU_LOG_MMU, "mmu=%d miss v=%" VADDR_PRIx "\n",
++                  mmu_idx, address);
 +
-     cs->exception_index = EXCP_ACCESS;
--    return 1;
-+    env->mmu.ar = address;
++    env->sregs[SR_EAR] = address;
++    switch (lu.err) {
++    case ERR_PROT:
++        env->sregs[SR_ESR] = access_type == MMU_INST_FETCH ? 17 : 16;
++        env->sregs[SR_ESR] |= (access_type == MMU_DATA_STORE) << 10;
++        break;
++    case ERR_MISS:
++        env->sregs[SR_ESR] = access_type == MMU_INST_FETCH ? 19 : 18;
++        env->sregs[SR_ESR] |= (access_type == MMU_DATA_STORE) << 10;
++        break;
++    default:
++        abort();
++    }
++
++    if (cs->exception_index == EXCP_MMU) {
++        cpu_abort(cs, "recursive faults\n");
++    }
++
++    /* TLB miss.  */
++    cs->exception_index = EXCP_MMU;
 +    cpu_loop_exit_restore(cs, retaddr);
- }
- 
--/* Notify CPU of a pending interrupt.  Prioritization and vectoring should
--   be handled by the interrupt controller.  Real hardware only requests
--   the vector when the interrupt is acknowledged by the CPU.  For
--   simplicitly we calculate it when the interrupt is signalled.  */
--void m68k_set_irq_level(M68kCPU *cpu, int level, uint8_t vector)
-+#ifndef CONFIG_USER_ONLY
++}
++
 +void tlb_fill(CPUState *cs, target_ulong addr, int size,
 +              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
- {
--    CPUState *cs = CPU(cpu);
--    CPUM68KState *env = &cpu->env;
--
--    env->pending_level = level;
--    env->pending_vector = vector;
--    if (level) {
--        cpu_interrupt(cs, CPU_INTERRUPT_HARD);
--    } else {
--        cpu_reset_interrupt(cs, CPU_INTERRUPT_HARD);
--    }
-+    m68k_cpu_tlb_fill(cs, addr, size, access_type, mmu_idx, false, retaddr);
++{
++    mb_cpu_tlb_fill(cs, addr, size, access_type, mmu_idx, false, retaddr);
  }
+ 
+ void mb_cpu_do_interrupt(CPUState *cs)
+diff --git a/target/microblaze/op_helper.c b/target/microblaze/op_helper.c
+index e23dcfdc20..b5dbb90d05 100644
+--- a/target/microblaze/op_helper.c
++++ b/target/microblaze/op_helper.c
+@@ -28,25 +28,6 @@
+ 
+ #define D(x)
+ 
+-#if !defined(CONFIG_USER_ONLY)
 -
- #endif
- 
- uint32_t HELPER(bitrev)(uint32_t x)
-diff --git a/target/m68k/op_helper.c b/target/m68k/op_helper.c
-index 76f439985a..d421614727 100644
---- a/target/m68k/op_helper.c
-+++ b/target/m68k/op_helper.c
-@@ -36,21 +36,6 @@ static inline void do_interrupt_m68k_hardirq(CPUM68KState *env)
- 
- #else
- 
 -/* Try to fill the TLB and return an exception if error. If retaddr is
--   NULL, it means that the function was called in C code (i.e. not
--   from generated code or from helper.c) */
+- * NULL, it means that the function was called in C code (i.e. not
+- * from generated code or from helper.c)
+- */
 -void tlb_fill(CPUState *cs, target_ulong addr, int size,
 -              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
 -{
 -    int ret;
 -
--    ret = m68k_cpu_handle_mmu_fault(cs, addr, size, access_type, mmu_idx);
+-    ret = mb_cpu_handle_mmu_fault(cs, addr, size, access_type, mmu_idx);
 -    if (unlikely(ret)) {
 -        /* now we have a real cpu fault */
 -        cpu_loop_exit_restore(cs, retaddr);
 -    }
 -}
+-#endif
 -
- static void cf_rte(CPUM68KState *env)
+ void helper_put(uint32_t id, uint32_t ctrl, uint32_t data)
  {
-     uint32_t sp;
+     int test = ctrl & STREAM_TEST;
 -- 
 2.17.1
 
