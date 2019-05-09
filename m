@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4AD2D18A4D
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 15:06:59 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54296 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 151AC18A46
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 15:06:24 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54287 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOilG-0001AW-Ck
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 09:06:58 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43741)
+	id 1hOikh-0000NK-6Y
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 09:06:23 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43674)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <sgarzare@redhat.com>) id 1hOiin-0007pY-Ns
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 09:04:30 -0400
+	(envelope-from <sgarzare@redhat.com>) id 1hOiiW-0007YL-Sx
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 09:04:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <sgarzare@redhat.com>) id 1hOiim-0007lb-Ou
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 09:04:25 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41264)
+	(envelope-from <sgarzare@redhat.com>) id 1hOiiV-0007Z5-Mf
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 09:04:08 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38618)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1hOiik-0007TT-ND
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 09:04:23 -0400
+	(Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1hOiiV-0007Qb-G7
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 09:04:07 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
 	[10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id A9D9D307DAAA
-	for <qemu-devel@nongnu.org>; Thu,  9 May 2019 13:03:56 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 52B7681F12
+	for <qemu-devel@nongnu.org>; Thu,  9 May 2019 13:03:58 +0000 (UTC)
 Received: from steredhat.redhat.com (ovpn-116-227.ams2.redhat.com
 	[10.36.116.227])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 06EEF60F8A;
-	Thu,  9 May 2019 13:03:54 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 1424960F8A;
+	Thu,  9 May 2019 13:03:56 +0000 (UTC)
 From: Stefano Garzarella <sgarzare@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Thu,  9 May 2019 15:03:44 +0200
-Message-Id: <20190509130345.227526-4-sgarzare@redhat.com>
+Date: Thu,  9 May 2019 15:03:45 +0200
+Message-Id: <20190509130345.227526-5-sgarzare@redhat.com>
 In-Reply-To: <20190509130345.227526-1-sgarzare@redhat.com>
 References: <20190509130345.227526-1-sgarzare@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.42]);
-	Thu, 09 May 2019 13:03:56 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.25]);
+	Thu, 09 May 2019 13:03:58 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 3/4] net: use g_strsplit() for parsing host
- address and port
+Subject: [Qemu-devel] [PATCH v2 4/4] net: remove unused get_str_sep()
+ function
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,94 +61,46 @@ Cc: Jason Wang <jasowang@redhat.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the glib function to split host address and port in
-the parse_host_port() function.
+Since the get_str_sep() function is no longer used in
+net/net.c, we can remove it.
 
-Suggested-by: Markus Armbruster <armbru@redhat.com>
 Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
 ---
- net/net.c | 43 +++++++++++++++++++++++++++----------------
- 1 file changed, 27 insertions(+), 16 deletions(-)
+ net/net.c | 20 --------------------
+ 1 file changed, 20 deletions(-)
 
 diff --git a/net/net.c b/net/net.c
-index 932fa5abb5..570e093c4f 100644
+index 570e093c4f..52496caca5 100644
 --- a/net/net.c
 +++ b/net/net.c
-@@ -86,32 +86,39 @@ static int get_str_sep(char *buf, int buf_size, const=
- char **pp, int sep)
+@@ -63,26 +63,6 @@ static QTAILQ_HEAD(, NetClientState) net_clients;
+ /***********************************************************/
+ /* network device redirectors */
+=20
+-static int get_str_sep(char *buf, int buf_size, const char **pp, int sep=
+)
+-{
+-    const char *p, *p1;
+-    int len;
+-    p =3D *pp;
+-    p1 =3D strchr(p, sep);
+-    if (!p1)
+-        return -1;
+-    len =3D p1 - p;
+-    p1++;
+-    if (buf_size > 0) {
+-        if (len > buf_size - 1)
+-            len =3D buf_size - 1;
+-        memcpy(buf, p, len);
+-        buf[len] =3D '\0';
+-    }
+-    *pp =3D p1;
+-    return 0;
+-}
+-
  int parse_host_port(struct sockaddr_in *saddr, const char *str,
                      Error **errp)
  {
--    char buf[512];
-+    gchar **substrings;
-     struct hostent *he;
--    const char *p, *r;
--    int port;
-+    const char *addr, *p, *r;
-+    int port, ret =3D 0;
-=20
--    p =3D str;
--    if (get_str_sep(buf, sizeof(buf), &p, ':') < 0) {
-+    substrings =3D g_strsplit(str, ":", 2);
-+    if (!substrings || !substrings[0] || !substrings[1]) {
-         error_setg(errp, "host address '%s' doesn't contain ':' "
-                    "separating host from port", str);
--        return -1;
-+        ret =3D -1;
-+        goto out;
-     }
-+
-+    addr =3D substrings[0];
-+    p =3D substrings[1];
-+
-     saddr->sin_family =3D AF_INET;
--    if (buf[0] =3D=3D '\0') {
-+    if (addr[0] =3D=3D '\0') {
-         saddr->sin_addr.s_addr =3D 0;
-     } else {
--        if (qemu_isdigit(buf[0])) {
--            if (!inet_aton(buf, &saddr->sin_addr)) {
-+        if (qemu_isdigit(addr[0])) {
-+            if (!inet_aton(addr, &saddr->sin_addr)) {
-                 error_setg(errp, "host address '%s' is not a valid "
--                           "IPv4 address", buf);
--                return -1;
-+                           "IPv4 address", addr);
-+                ret =3D -1;
-+                goto out;
-             }
-         } else {
--            he =3D gethostbyname(buf);
-+            he =3D gethostbyname(addr);
-             if (he =3D=3D NULL) {
--                error_setg(errp, "can't resolve host address '%s'", buf)=
-;
--                return - 1;
-+                error_setg(errp, "can't resolve host address '%s'", addr=
-);
-+                ret =3D -1;
-+                goto out;
-             }
-             saddr->sin_addr =3D *(struct in_addr *)he->h_addr;
-         }
-@@ -119,10 +126,14 @@ int parse_host_port(struct sockaddr_in *saddr, cons=
-t char *str,
-     port =3D strtol(p, (char **)&r, 0);
-     if (r =3D=3D p) {
-         error_setg(errp, "port number '%s' is invalid", p);
--        return -1;
-+        ret =3D -1;
-+        goto out;
-     }
-     saddr->sin_port =3D htons(port);
--    return 0;
-+
-+out:
-+    g_strfreev(substrings);
-+    return ret;
- }
-=20
- char *qemu_mac_strdup_printf(const uint8_t *macaddr)
 --=20
 2.20.1
 
