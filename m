@@ -2,56 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C81918E6E
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 18:50:48 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57840 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B51E718E86
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 18:55:47 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57926 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOmFr-0002k5-Ky
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 12:50:47 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46381)
+	id 1hOmKg-0004oV-Vz
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 12:55:47 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48008)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgilbert@redhat.com>) id 1hOmDt-0001zT-5n
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:48:46 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hOmJc-0004Mh-9V
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:54:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgilbert@redhat.com>) id 1hOmDs-0004hZ-6v
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:48:45 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37702)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hOmDr-0004hG-Vv
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:48:44 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 0DCCA3B712;
-	Thu,  9 May 2019 16:48:42 +0000 (UTC)
-Received: from work-vm (ovpn-116-174.ams2.redhat.com [10.36.116.174])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 95FF11710E;
-	Thu,  9 May 2019 16:48:28 +0000 (UTC)
-Date: Thu, 9 May 2019 17:48:26 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Message-ID: <20190509164825.GG2868@work-vm>
-References: <20190506014514.3555-1-yan.y.zhao@intel.com>
-	<20190506014904.3621-1-yan.y.zhao@intel.com>
-	<20190507151826.502be009@x1.home>
-	<20190509173839.2b9b2b46.cohuck@redhat.com>
-	<20190509154857.GF2868@work-vm>
-	<20190509175404.512ae7aa.cohuck@redhat.com>
+	(envelope-from <peter.maydell@linaro.org>) id 1hOmJb-00088z-9v
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:54:40 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:42347)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hOmJa-00088L-Nc
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:54:38 -0400
+Received: by mail-ot1-x344.google.com with SMTP id f23so2923094otl.9
+	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 09:54:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=o/8Jsiv0uTeGp70LdVI1zEpotx/WMlKHuO9O8CVae+E=;
+	b=Lur107uVhf7h91ogbRFh7tOFu+0nUBqnXVQwHBhoVPdre1RbIENiHuvIyJ+4hufdyd
+	1FLLgdJhrGs1HVk5VJFxzV+y681eA3veIy5mnaG3WB2Jsb15PjeoTZiY6KJsUGMYLvbl
+	BnpA5i3ZcbpLp11VMK+4AXFCCmEa/aeTJ5d3ne5TtY5LcghelYNkzfE1c/+BY4SlAPTL
+	eA+Wbi2058F1xgrB6dVmkZTzl0P/XETUtoqyoIiFUqLSP1WvCo5vT1jNw1vy07A4djwk
+	sbMbpYFS14qpyXwxVi/exBGWV/YgVeRFHelkOg2pEWQVJg8PXRlmtbTqwPQq5tr0m8Mx
+	LMng==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=o/8Jsiv0uTeGp70LdVI1zEpotx/WMlKHuO9O8CVae+E=;
+	b=bJA2dL5r2mHOrJNwaZF7tZxG6ll76da6QdEg0WxyTfbAjsush4d5z0tzMcGLoqJs+2
+	wHJq2mJK8T0g+aChYudLIYPYmh4FUNica4xHEgyEnjFX2L61aACmzKBbI2McyqeH2HBz
+	0eY/TtS4G5p/Nv4TqOUJIB17DGZd9ojdf0jK7EbTapsdvDn8kIjHGhPcCc6nZMacAAzk
+	9ES4iMquJ6JF92zvJaYehD3s+Tkn05wTg75V1P0aDUfGh4NkdSdiWGdF9/EC4R3ySJt4
+	4D4Q0LYJXSQh/7L7X9v9w+1lp30Chx1ApYFDEgNjkc2xTwbHS8MCb1X4MCtVgwKK7NP8
+	Eyeg==
+X-Gm-Message-State: APjAAAU81Ou3ksZiskMfT70qx0OIas2HtNfaZMVwhFKtBTybyhbnyQU9
+	z2XGHUKt8cA/EQodcFu3t43h3IvgxZ0okcACdKO2HQ==
+X-Google-Smtp-Source: APXvYqyL0YOnQb3mcY1LMZDPPMV8y1ia/A7YcxZE++o5Aq+hMYDJ4fFGejBQyprxJsQH1aSDvqU+5qhk6JN6bB+/TVw=
+X-Received: by 2002:a9d:6855:: with SMTP id c21mr2406377oto.151.1557420877725; 
+	Thu, 09 May 2019 09:54:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190509175404.512ae7aa.cohuck@redhat.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.30]);
-	Thu, 09 May 2019 16:48:43 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 1/2] vfio/mdev: add version attribute
- for mdev device
+References: <20190507134521.31044-1-thuth@redhat.com>
+	<CAFEAcA-j+wQXjPW+puxk=foi2T8O=MzXHtxdWJ6E5P7o89WQSg@mail.gmail.com>
+	<c0cda8fc-cc68-eadd-0750-cc9eeca094a4@redhat.com>
+In-Reply-To: <c0cda8fc-cc68-eadd-0750-cc9eeca094a4@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 9 May 2019 17:54:26 +0100
+Message-ID: <CAFEAcA8RoJ-ZSsn3Lhzj5hd3oYOE7Uxy8MvUUWrzhNfBmD=AWQ@mail.gmail.com>
+To: Thomas Huth <thuth@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::344
+Subject: Re: [Qemu-devel] [PULL v2 00/28] Kconfig for Arm machines
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -63,71 +73,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cjia@nvidia.com, kvm@vger.kernel.org, aik@ozlabs.ru,
-	Zhengxiao.zx@alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
-	qemu-devel@nongnu.org, kwankhede@nvidia.com, eauger@redhat.com,
-	yi.l.liu@intel.com, eskultet@redhat.com, ziye.yang@intel.com,
-	mlevitsk@redhat.com, pasic@linux.ibm.com, libvir-list@redhat.com,
-	arei.gonglei@huawei.com, felipe@nutanix.com, Ken.Xue@amd.com,
-	kevin.tian@intel.com, Yan Zhao <yan.y.zhao@intel.com>,
-	zhenyuw@linux.intel.com, dinechin@redhat.com,
-	Alex Williamson <alex.williamson@redhat.com>,
-	intel-gvt-dev@lists.freedesktop.org, changpeng.liu@intel.com,
-	linux-kernel@vger.kernel.org, zhi.a.wang@intel.com,
-	jonathan.davies@nutanix.com, shaopeng.he@intel.com
+Cc: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+	qemu-arm <qemu-arm@nongnu.org>, John Snow <jsnow@redhat.com>,
+	QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Cornelia Huck (cohuck@redhat.com) wrote:
-> On Thu, 9 May 2019 16:48:57 +0100
-> "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
-> 
-> > * Cornelia Huck (cohuck@redhat.com) wrote:
-> > > On Tue, 7 May 2019 15:18:26 -0600
-> > > Alex Williamson <alex.williamson@redhat.com> wrote:
-> > >   
-> > > > On Sun,  5 May 2019 21:49:04 -0400
-> > > > Yan Zhao <yan.y.zhao@intel.com> wrote:  
-> > >   
-> > > > > +  Errno:
-> > > > > +  If vendor driver wants to claim a mdev device incompatible to all other mdev
-> > > > > +  devices, it should not register version attribute for this mdev device. But if
-> > > > > +  a vendor driver has already registered version attribute and it wants to claim
-> > > > > +  a mdev device incompatible to all other mdev devices, it needs to return
-> > > > > +  -ENODEV on access to this mdev device's version attribute.
-> > > > > +  If a mdev device is only incompatible to certain mdev devices, write of
-> > > > > +  incompatible mdev devices's version strings to its version attribute should
-> > > > > +  return -EINVAL;    
-> > > > 
-> > > > I think it's best not to define the specific errno returned for a
-> > > > specific situation, let the vendor driver decide, userspace simply
-> > > > needs to know that an errno on read indicates the device does not
-> > > > support migration version comparison and that an errno on write
-> > > > indicates the devices are incompatible or the target doesn't support
-> > > > migration versions.  
-> > > 
-> > > I think I have to disagree here: It's probably valuable to have an
-> > > agreed error for 'cannot migrate at all' vs 'cannot migrate between
-> > > those two particular devices'. Userspace might want to do different
-> > > things (e.g. trying with different device pairs).  
-> > 
-> > Trying to stuff these things down an errno seems a bad idea; we can't
-> > get much information that way.
-> 
-> So, what would be a reasonable approach? Userspace should first read
-> the version attributes on both devices (to find out whether migration
-> is supported at all), and only then figure out via writing whether they
-> are compatible?
-> 
-> (Or just go ahead and try, if it does not care about the reason.)
+On Wed, 8 May 2019 at 16:33, Thomas Huth <thuth@redhat.com> wrote:
+>
+> On 08/05/2019 17.09, Peter Maydell wrote:
+> > On Tue, 7 May 2019 at 14:45, Thomas Huth <thuth@redhat.com> wrote:
+> >> ----------------------------------------------------------------
+> >> Kconfig settings for the Arm machines
+> >> (v2: Fix the dependency of q35 to AHCI_ICH9 in the second patch)
+> >> ----------------------------------------------------------------
+> >
+> > Hi -- this is still failing in the build test where I 'make clean'
+>
+> Very weird. What is running before the "make clean"? Could you provide
+> me with the content of i386-softmmu/config-devices.mak please?
 
-Well, I'm OK with something like writing to test whether it's
-compatible, it's just we need a better way of saying 'no'.
-I'm not sure if that involves reading back from somewhere after
-the write or what.
+Nothing runs before make clean -- my scripts effectively just do
+a git merge, then make clean, then make, then make check.
 
-Dave
+http://people.linaro.org/~peter.maydell/config-devices.mak
+is the i386-softmmu/config-devices.mak
+(it does not include AHCI_ICH9).
 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+I notice that "make clean" does not delete config-devices.mak,
+and "make" doesn't cause anything to update it, either.
+
+Further, if I "touch hw/i386/Kconfig" and then run make, nothing
+is rebuilt at all, so something seems to be wrong with our
+makefile dependencies somewhere.
+
+It's kind of weird that it only shows up with the from-clean
+build and not with the incrementals, though.
+
+thanks
+-- PMM
 
