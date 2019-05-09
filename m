@@ -2,56 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B25D1901B
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 20:21:12 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:59197 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C79C919024
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 20:24:11 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:59228 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOnfL-0006LD-PX
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 14:21:11 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41217)
+	id 1hOniF-0000AD-0G
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 14:24:11 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41872)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hOndU-0005Q5-4b
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 14:19:18 -0400
+	(envelope-from <alistair23@gmail.com>) id 1hOnfi-0007Er-Ao
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 14:21:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hOndS-0006rk-2H
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 14:19:16 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57854)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hOndR-0006r6-Ob
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 14:19:13 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 0C8C3307EAA9
-	for <qemu-devel@nongnu.org>; Thu,  9 May 2019 18:19:12 +0000 (UTC)
-Received: from localhost (ovpn-116-61.gru2.redhat.com [10.97.116.61])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 5B10A60C81;
-	Thu,  9 May 2019 18:19:11 +0000 (UTC)
-Date: Thu, 9 May 2019 15:19:06 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Message-ID: <20190509181906.GN4189@habkost.net>
-References: <20190423212246.3542-1-ehabkost@redhat.com>
-	<87imumj1jb.fsf@dusky.pond.sub.org>
-	<20190507161845.GL28722@habkost.net>
-	<87lfzh5mrh.fsf@dusky.pond.sub.org>
-	<20190508202830.GF4189@habkost.net>
-	<874l646nbh.fsf@dusky.pond.sub.org>
+	(envelope-from <alistair23@gmail.com>) id 1hOnfh-00085J-AB
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 14:21:34 -0400
+Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:38446)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <alistair23@gmail.com>)
+	id 1hOnfh-00084k-2z
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 14:21:33 -0400
+Received: by mail-lf1-x144.google.com with SMTP id y19so2257868lfy.5
+	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 11:21:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=vTTcP1atlRjqA1v73RbGLpI4QztLCtimT/yo3k5IS9Q=;
+	b=C7eKSgza5lUv+s/U9Za47aY0FeW11+EqmGMpItoLZBP0xC0zUh98r3EVVQVPwxBUIf
+	FSSJqG6bW8NqZbcPWsHfHoHJg1lbVsdk6VDZ5ussilmF5r+PQhuU1UfvMsCZh7ztqdgB
+	dG5e1yzfxpSVD8DX26WEZejzQizwf9mIFoHcsk6AlcgPeiZsIkEr6mjUHQZb1BgJul6y
+	P/3zmPgDzTZAUzM1+t+CWy4gglbGNDSDngB5UywwnWVe7U7thE1B137Cqew03Nejb1tF
+	NkPo/BHAe9WaoCkNVcJFsXTUTKGIZoVifa4MEYzuh3pRuS1rotDGoglNI3LUyeUpEqeV
+	OO7g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=vTTcP1atlRjqA1v73RbGLpI4QztLCtimT/yo3k5IS9Q=;
+	b=ktYhBHd7tOLTSAZyOXFFZe3narqrrjwaexKY841r2uyceNB/1A/Y9GeXJmmv+G6gTV
+	ZKYR7YSreL0NTwfyHSuZOXktZwlx/ePAD8Y9Cn0IrLdl1K6lO1eJL0pAwuPrVOhHyhkC
+	L3plup92qdPY+U6EDyAA9cSESBWdNth3nR3vmT+ATwAGb2gV/gAPJ8ppr5CpZPBLf91+
+	Saj/K+wFIflAKa5XBkyp0NDs2YFM/3GN9UFU6sAXquFrF8fbSDc31X8PNAK9Gy9dYfCo
+	hMqGoIaHt+NZBq8o9HSgNfunKr3i9fDA8LdVEcXiBn8Ksp5NeR7AgDAVsX5wSpaMF6WZ
+	mAKA==
+X-Gm-Message-State: APjAAAV3gjyAzyaL22lu96x2dggsHl7o1BQQWwe7E0SeJx6oa37vefKE
+	NegnTivwV+IZ2Z76tuZNUXQZBYJNtLWY2heIU0M=
+X-Google-Smtp-Source: APXvYqwPl5os99e+qQZV2pqnCyhGoc77WklisIkNM+01G80tAnnjzXWCvLs+C3LvxLDjl0a6fFhpnCgtTffh9CpyjaY=
+X-Received: by 2002:a19:4a04:: with SMTP id x4mr3257959lfa.124.1557426091825; 
+	Thu, 09 May 2019 11:21:31 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <874l646nbh.fsf@dusky.pond.sub.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.44]);
-	Thu, 09 May 2019 18:19:12 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 0/3] Export machine type deprecation info
- through QMP
+References: <20190508000641.19090-1-richard.henderson@linaro.org>
+	<20190508000641.19090-20-richard.henderson@linaro.org>
+In-Reply-To: <20190508000641.19090-20-richard.henderson@linaro.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 9 May 2019 11:19:25 -0700
+Message-ID: <CAKmqyKMArOc8=f547KnHqQ9Ufj8SpQgQfYxxCmk_UQhBtjJ+Hw@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2a00:1450:4864:20::144
+Subject: Re: [Qemu-devel] [PATCH v3 19/39] target/moxie: Use env_cpu,
+ env_archcpu
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -63,357 +73,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mprivozn@redhat.com, qemu-devel@nongnu.org,
-	Paolo Bonzini <pbonzini@redhat.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 09, 2019 at 10:31:46AM +0200, Markus Armbruster wrote:
-> We've wandered into the QAPI vs. QOM swamp.  Cc: Paolo.
-> 
-> Eduardo Habkost <ehabkost@redhat.com> writes:
-> 
-> > On Wed, May 08, 2019 at 11:16:50AM +0200, Markus Armbruster wrote:
-> >> Eduardo Habkost <ehabkost@redhat.com> writes:
-> >> 
-> >> > On Tue, May 07, 2019 at 07:07:04AM +0200, Markus Armbruster wrote:
-> >> >> Eduardo Habkost <ehabkost@redhat.com> writes:
-> >> >> 
-> >> >> > This series adds machine type deprecation information to the
-> >> >> > output of the `query-machines` QMP command.  With this, libvirt
-> >> >> > and management software will be able to show this information to
-> >> >> > users and/or suggest changes to VM configuration to avoid
-> >> >> > deprecated machine types.
-> >> >> 
-> >> >> This overlaps with something I want to try, namely using Kevin's
-> >> >> proposed QAPI feature flags for deprecation markings.  Let's compare the
-> >> >> two.
-> >> >> 
-> >> >> To mark something as deprecated with your patches, you add a
-> >> >> @support-status member somewhere, where "somewhere" is related to
-> >> >> "something" by "provides information on".
-> >> >> 
-> >> >> Example: MachineInfo (returned by query-machines) provides information
-> >> >> on possible values of -machine parameter type.  If -machine was
-> >> >> QAPIfied, it would provide information on possible values of a QAPI
-> >> >> object type's member.  The type might be anonymous.  The member should
-> >> >> be an enum (we currently use 'str' in MachineInfo).
-> >> >
-> >> > QAPIfying -machine, -cpu, and -device would be wonderful.
-> >> >
-> >> >> 
-> >> >> Example: say we want to deprecate block driver "vfat",
-> >> >> i.e. BlockdevDriver member @vfat.  Type BlockdevDriver is used in
-> >> >> multiple places; let's ignore all but BlockdevOptions.  We need to add
-> >> >> @support-status to something that provides information on
-> >> >> BlockdevDriver, or maybe on BlockdevOptions.  There is no ad hoc query
-> >> >> providing information on either of the two, because QAPI/QMP
-> >> >> introspection has been sufficient.  What now?
-> >> >> 
-> >> >> Can we add deprecation information to (general) QAPI/QMP introspection
-> >> >
-> >> > Yes, we can.  I think it's a good idea.  But:
-> >> >
-> >> >> instead of ad hoc queries?
-> >> >
-> >> > I'm not sure about the "instead of" part.  I don't want perfect
-> >> > to be the enemy of done, and I don't want QAPIfication of
-> >> > -machine to be a requirement to start reporting machine type
-> >> > deprecation information.
-> >> 
-> >> Valid point.  Still, I believe we should at least try to predict how the
-> >> pieces we create now would fit with the pieces we plan to create later
-> >> on.
-> >
-> > Sure.
-> >
-> >> 
-> >> Note that full QAPIfication of -machine isn't necessary to make QAPI
-> >> feature "deprecated" work for machine types.  Turning MachineInfo member
-> >> @name into an enum, so we can tack "deprecated" onto its values, would
-> >> suffice.
-> >> 
-> >> Such a QAPIfication of machine types is still hard: QOM types are
-> >> defined at compile time just like the QAPI schema, but their definition
-> >> is distributed, and collected into one place only at run time.  I
-> >> discussed this on slide 39 of my "QEMU interface introspection: From
-> >> hacks to solutions" talk (KVM Form 2015).  Just for device_add, but it's
-> >> just a special case of QOM.  Choices listed there:
-> >> 
-> >> * Collect drivers at compile time? Hard...
-> >> * Make QAPI schema dynamic? Hard...
-> >> * Forgo driver-specific arguments in schema?
-> >>   Defeats introspection...
-> >> 
-> >> I'd like to add to the last item:
-> >> 
-> >>   Provide QOM introspection on par with QAPI schema introspection
-> >> 
-> >> The QOM introspection we have (qom-list-types etc. is not on par.
-> >
-> > Agreed, but do we really want to do it?  We have been avoiding
-> > exposing QOM internals to the outside on purpose.  I believe
-> > there are at least two reasons for that:
-> >
-> > 1) Not every QOM type/property is supposed to be visible to the
-> >    outside
-> 
-> True.
-> 
-> However, the parts of QOM exposed via device_add and object-add are
-> definitely part of the stable external interface (unless explicitly
-> marked unstable).
-> 
-> >            (and nobody really knows what's the full set of
-> >    supported external QOM interfaces);
-> 
-> Also true.  And terrible.
-> 
-> > 2) QAPI is our preferred interface interface specification/introspection
-> >    mechanism.
-> 
-> When preferences and requirements collide, preferences tend to get run
-> over.
-> 
-> The QAPI schema is *declarative*: the schema declares QAPI objects and
-> properties.  We generate C from the schema, which we then compile and
-> link into QEMU.
-> 
-> QOM is by design *imperative*: we execute compiled C at QEMU run-time to
-> define QOM objects and properties.  Maximizes flexibility.  See also
-> Turing tarpit.
-> 
-> No matter how much we'd prefer to use QAPI to specify external
-> interfaces to QOM, we can't without making QAPI much more dynamic or QOM
-> much more static.  Either is hard.  Quite possibly infeasible.
-> 
-> We could try to extend QAPI/QMP introspection to somehow merge in
-> additional information at run-time[1].  Could be regarded as a limited
-> way to make QAPI more dynamic.  This is in the "vague idea, not sure
-> it's feasible" stage.
-> 
-> We could try to rearchitect QOM so that you can optionally specify QOM
-> stuff in the QAPI schema, then require that for QOM stuff that's part of
-> a stable external interface.  Same "vague idea" stage, feasibility even
-> more doubtful.
-> 
-> If I remember correctly, Paolo suggested to abandon the idea to have
-> query-qmp-schema cover device_add as infeasible.  Instead, cover it
-> separately.
-> 
-> I think this separate introspection mechanism should be as similar to
-> query-qmp-schema as practical.  It should cover not just device_add, but
-> also object-add, and whatever other external interface to QOM we deem
-> stable.
+On Tue, May 7, 2019 at 5:20 PM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
-I think we are in agreement here.  We don't need to make the new
-introspection mechanism part of query-qmp-schema, but I think it
-should use the same abstractions.
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
-> 
-> Should there be more stable external interfaces that can't be defined in
-> the QAPI schema, we might want to cover them in this second
-> introspection mechanism, too.
+Alistair
 
-Agreed.
-
-> 
-> >> Back to exposing machine type deprecation.
-> >> 
-> >> I'm doubtful your proposed solution can be applied widely.  It relies on
-> >> adding @support-status to something that provides information on
-> >> whatever is deprecated.  The initial use is with a something that is an
-> >> ad hoc query, namely query-machines.  To use it, the management
-> >> application needs to understand what query-machines' @support-status
-> >> applies to.  Certainly feasible.  But I fear every use will be a special
-> >> case.  Furthermore, a suitable ad hoc query need not exist.  What then?
-> >> Create suitable ad hoc queries just for communicating deprecation?
-> >> 
-> >> Instead, I'd like us to think about a more genral solution.  Or perhaps
-> >> two: one for properly QAPIfied stuff, and one for QOM.
-> >
-> > Should we really spend our time designing a second solution, if
-> > we could build this on top of QAPI abstractions?  Making the QAPI
-> > schema dynamic might be hard, but reinventing QAPI and
-> > maintaining the two systems in parallel seems harder.
-> 
-> I'd love to see a practical way forward that keeps QAPI/QMP
-> introspection the only game in town.
-> 
-> >> >> Kevin's proposed QAPI feature flags[*] extend the QAPI language so that
-> >> >> struct types can optionally have a list of feature flags, which are
-> >> >> strings.  Struct types suffice for his immediate needs.  I'd like to use
-> >> >> feature flags to mark deprecation by tacking a "deprecated" feature onto
-> >> >> whatever is deprecated.  This obviously needs feature support for
-> >> >> everything we want to be able to deprecate: commands, and events, as
-> >> >> well as members of enum and object types.
-> >> >> 
-> >> >> Example: to deprecate block driver "vfat", add feature "deprecated" to
-> >> >> BlockdevDriver member @vfat.
-> >> >> 
-> >> >> Unlike your patches, this does not require finding a "somewhere" that
-> >> >> provides information on "something".  You simply tack "deprecated" right
-> >> >> onto "something".
-> >> >> 
-> >> >> Your patches provide more information, however: human-readable messages.
-> >> >
-> >> > It also includes a machine-friendly suggested alternative (which
-> >> > I think is even more important that the human-readable message).
-> >> 
-> >> I agree we should point to a preferred replacement whenever we deprecate
-> >> something.
-> >> 
-> >> We have to do it in documentation.  And we generally do, in
-> >> qemu-deprecated.texi.
-> >> 
-> >> How useful would doing it in QMP as well be?  Depends on what management
-> >> applications can do with the additional information.
-> >
-> > I expect it to be useful for things that have obvious
-> > replacements, like old machine type or CPU model versions.
-> 
-> I doubt a management application should apply suggested replacements
-> automatically, and I doubt libvirt would.  Not even when QEMU developers
-> deem them "obvious".
-> 
-> >> > We could extend QAPI introspection to return that if necessary,
-> >> > right?
-> >> 
-> >> I'm confident we can come up with *something*.  It might kill the neat
-> >> and simple "use QAPI features to communicate deprecation" idea, though.
-> >
-> > If something is important enough to be communicated through
-> > stderr, it's important enough to be communicated through QMP.
-> 
-> Mostly.  Differences are due to the different consumers.
-> 
-> stderr is primarily for human users.  We print stuff useful to human
-> users.
-
-We have users that don't have access to stderr.  They might have
-access to log files, but log files are pretty bad user
-interfaces.  If it's important for some set of human users, apps
-using libvirt or QMP need access to that information so they can
-show it to their human users too.
-
-> 
-> QMP is primarily for machines, secondarily for the humans building these
-> machines.  We send stuff useful to the machines themselves, and stuff
-> the machines can use to be more useful for their users (which may be
-> machines or humans).  We can also send stuff to help the humans building
-> the machines.
-> 
-> In any case, the information we provide is limited by the cost to
-> provide it.
-
-Absolutely.
-
-> 
-> > Is that enough reason to provide something more complex?
-> 
-> We need to consider cost / benefit.
-> 
-> On benefit, I'd like to know what libvirt would do with the additional
-> information beyond logging it.
-
-I'd say it should provide it to apps, otherwise this won't be
-more useful than the existing log files.
-
-> 
-> Is the additional information you propose to provide static or dynamic?
-> 
-> By "static", I mean each occurence of a feature in the QAPI schema is
-> tied to one fixed instance of "additional information".
-
-I don't think I understand this description of "static".  I
-expect the data to be fixed at build time, but I expect it to be
-different in downstream distributions of QEMU.
-
-
-> 
-> > Do we need QAPI features to be just strings?  Can't they be a
-> > more complex type, like a QAPI alternate?
-> 
-> Adds complexity.
-> 
-> We currently imagine QAPI features enum-like, i.e. a list of strings,
-> optionally with conditions.  The conditions are evaluated at QAPI
-> generation time, and not visible in introspection.
-> 
-> This is probably the stupidest solution that could possibly work.  The
-> structure of features is trivial.
-> 
-> More expressive solutions include:
-> 
-> * List of 'any'.  Feels like a bad idea, because it's completely
->   unstructured.
-
-Agreed.
-
-> 
-> * List of some 'QapiFeatures' object type.  Lets us expose the variable
->   structure of features in introspection.
-> 
-> * List of some 'QapiFeatures' alternate type.  Like the previous, but
->   permits coding simple feature flags as strings.
-> 
-> All of the more expressive solutions I listed treat the additional
-> information as dynamic.  Overly general in case the information is
-> actually always static.
-
-The static vs. dynamic distinction is getting me confused.  Why
-are the more expressive solutions more dynamic than "list of
-strings"?  Can you give examples?
-
-Also, why do we want to place all info inside the same "features"
-attribute instead of just adding new fields to SchemaInfoObject?
-
-i.e. why are these options:
-
-  { "members" [ ... ],
-    "features": [ "dynamic-read-only", "deprecated" ] }
-
-  { "members" [ ... ],
-    "features": [ "dynamic-read-only",
-                  { "deprecated": true, "hint": "FOO" } ] }
-
-better than these options:
-
-  { "members" [ ... ],
-    "features": [ "dynamic-read-only" ],
-    "deprecated": true }
-
-  { "members" [ ... ],
-    "features": [ "dynamic-read-only" ],
-    "deprecation-info": { "deprecated": true, "hint": "FOO" } }
-
-
-
-> 
-> >> >> Food for thought :)
-> >> >> 
-> >> >> 
-> >> >> [*] Hiding in
-> >> >> Subject: [PATCH 0/4] file-posix: Add dynamic-auto-read-only QAPI feature
-> >> >> Date: Mon,  8 Apr 2019 16:35:39 +0200
-> >> >> Message-Id: <20190408143543.3982-1-kwolf@redhat.com>
-> 
-> 
-> [1] Special case of "merge additional information into QAPI/QMP
-> introspection at run-time, relegated to a footnote, because I think it's
-> of mostly historical interest now.
-> 
-> Qdev was designed to be declarative, but the declarations always got
-> collected only at run-time.  It has since been rebased onto imperative
-> QOM.  Since you can mix declarative qdev and imperative QOM, the
-> combination is effectively imperative.
-> 
-> We could collect the declarative parts of qdev at compile-time somehow,
-> and fold them into QAPI introspection.  That's the "Collect drives at
-> compile time" item from the slide I quoted.  I think this idea has
-> become pretty much worthless, since it would cover device_add only in
-> part, and object-add not at all.
-
--- 
-Eduardo
+> ---
+>  target/moxie/cpu.h       | 5 -----
+>  target/moxie/helper.c    | 6 +++---
+>  target/moxie/translate.c | 2 +-
+>  3 files changed, 4 insertions(+), 9 deletions(-)
+>
+> diff --git a/target/moxie/cpu.h b/target/moxie/cpu.h
+> index 5b9aae95d2..a481a92833 100644
+> --- a/target/moxie/cpu.h
+> +++ b/target/moxie/cpu.h
+> @@ -90,11 +90,6 @@ typedef struct MoxieCPU {
+>      CPUMoxieState env;
+>  } MoxieCPU;
+>
+> -static inline MoxieCPU *moxie_env_get_cpu(CPUMoxieState *env)
+> -{
+> -    return container_of(env, MoxieCPU, env);
+> -}
+> -
+>  #define ENV_OFFSET offsetof(MoxieCPU, env)
+>
+>  void moxie_cpu_do_interrupt(CPUState *cs);
+> diff --git a/target/moxie/helper.c b/target/moxie/helper.c
+> index 287a45232c..a18b21c4c0 100644
+> --- a/target/moxie/helper.c
+> +++ b/target/moxie/helper.c
+> @@ -42,7 +42,7 @@ void tlb_fill(CPUState *cs, target_ulong addr, int size,
+>
+>  void helper_raise_exception(CPUMoxieState *env, int ex)
+>  {
+> -    CPUState *cs = CPU(moxie_env_get_cpu(env));
+> +    CPUState *cs = env_cpu(env);
+>
+>      cs->exception_index = ex;
+>      /* Stash the exception type.  */
+> @@ -79,7 +79,7 @@ uint32_t helper_udiv(CPUMoxieState *env, uint32_t a, uint32_t b)
+>
+>  void helper_debug(CPUMoxieState *env)
+>  {
+> -    CPUState *cs = CPU(moxie_env_get_cpu(env));
+> +    CPUState *cs = env_cpu(env);
+>
+>      cs->exception_index = EXCP_DEBUG;
+>      cpu_loop_exit(cs);
+> @@ -89,7 +89,7 @@ void helper_debug(CPUMoxieState *env)
+>
+>  void moxie_cpu_do_interrupt(CPUState *cs)
+>  {
+> -    CPUState *cs = CPU(moxie_env_get_cpu(env));
+> +    CPUState *cs = env_cpu(env);
+>
+>      cs->exception_index = -1;
+>  }
+> diff --git a/target/moxie/translate.c b/target/moxie/translate.c
+> index c668178f2c..c87e9ec2b1 100644
+> --- a/target/moxie/translate.c
+> +++ b/target/moxie/translate.c
+> @@ -816,7 +816,7 @@ static int decode_opc(MoxieCPU *cpu, DisasContext *ctx)
+>  void gen_intermediate_code(CPUState *cs, TranslationBlock *tb, int max_insns)
+>  {
+>      CPUMoxieState *env = cs->env_ptr;
+> -    MoxieCPU *cpu = moxie_env_get_cpu(env);
+> +    MoxieCPU *cpu = env_archcpu(env);
+>      DisasContext ctx;
+>      target_ulong pc_start;
+>      int num_insns;
+> --
+> 2.17.1
+>
+>
 
