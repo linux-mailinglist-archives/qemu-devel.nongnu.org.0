@@ -2,69 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7C2F18DDC
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 18:18:40 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57472 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43F0918E4C
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 18:43:00 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57771 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOlkl-0003NJ-U7
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 12:18:39 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34388)
+	id 1hOm8J-0007XB-Em
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 12:42:59 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43849)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hOljS-0002pl-4d
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:17:20 -0400
+	(envelope-from <bounces@canonical.com>) id 1hOm6H-0005uy-92
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:40:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hOljQ-0007rg-9G
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:17:17 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:34425)
+	(envelope-from <bounces@canonical.com>) id 1hOm6G-0001QC-3r
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:40:53 -0400
+Received: from indium.canonical.com ([91.189.90.7]:57478)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hOljO-0007jd-HF
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:17:15 -0400
-Received: by mail-ot1-x341.google.com with SMTP id l17so2848668otq.1
-	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 09:17:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=EYiSbpBNkPdut5F6S4Zv2dFzUESzWjZ9XZknyoTswAE=;
-	b=N+PBDaA2IV+nEo+vjWzdsCjJ0fcOBF0Skk2YUpDJZKu93ve0B4JNgaCV1TO7U6d4tr
-	Gnw9R2gRi4A/BxXCMetCJvMYnBk3Q+NsqcJb0fQRQOUYapczEPASZXcTEhuFSE8n04Nu
-	rhyC6d3AIslnL3CaSOSAXd7vOKOE+Dm49Ll3SPp5Hfjn6Kq08XYZ3j2ReYau7qgTGkCC
-	rfbl1mZegYlJvkorNPwP5pMMgviwlD6yZegy0A9paokhL8zkDvg31YqNmojfVi3/iIMw
-	vwlID6Gm8/I92M8v50mse5rw9aIbTJaJogZf+GLbhNrqwSmP1tvdu6YCqsmGR8AREaWs
-	TjdA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=EYiSbpBNkPdut5F6S4Zv2dFzUESzWjZ9XZknyoTswAE=;
-	b=AIhcmbN0ELwdGfJ8YaJYjaMliabwo6T67hdUYOmp7dSRgHs2+eDPoprLqRaIjP3A2p
-	tv8TCGRTwB8F5s4v21DbEEp0NphZhfMMZnfCzcRnI3JdnVP9KvqYRXwWUOncijdNDQln
-	0aoPHw2OtdQ8DZ9xcykFfbHLaEwqdQM6ekDVkCMaM2xWX0FC7VLm7uQFtRvlJfx1eixF
-	YB1OIWOMh3PGLFl/Jo0RcJS3u8psO2s/RzCbrRHbHK9iZ/qe1EE0nIHuSw5JfmiNW/pR
-	P+rbCP4JJFrtc+9ExfSpt6uQ+BST23PIVk0oY05TxcPMlNEVgopJeM7DY2IcPS82i5jR
-	WyiA==
-X-Gm-Message-State: APjAAAWQRrR0mbpkT7x7DK/rtP/c9K+LbsOiCNdhdPnIOYpm35id3oI4
-	KrzoRmJxytWHHkBPjkPKBRwPlGgDKPnIvAbmCNWjyA==
-X-Google-Smtp-Source: APXvYqzmNQspmSf8QRyQUCzUlMhR3lbK1AdF3iDPcBo37xdCGV0MQSFrm3u+zBLjMJcHNW/uEcK53/Gi7XdG7ZTWrOs=
-X-Received: by 2002:a9d:6855:: with SMTP id c21mr2269667oto.151.1557418632847; 
-	Thu, 09 May 2019 09:17:12 -0700 (PDT)
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hOm6F-0001Pb-Re
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:40:51 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hOm6E-00078c-ER
+	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 16:40:50 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id 68E5D2E800F
+	for <qemu-devel@nongnu.org>; Thu,  9 May 2019 16:40:50 +0000 (UTC)
 MIME-Version: 1.0
-References: <20190507151819.17401-1-mreitz@redhat.com>
-	<CAFEAcA-qq2CTF-K8Ag8AuKRVzp4VbEYHa_rkW=NzUQ5EEt4wKQ@mail.gmail.com>
-	<3e1ce4b4-9a1e-eb97-c39e-066e231af28e@redhat.com>
-In-Reply-To: <3e1ce4b4-9a1e-eb97-c39e-066e231af28e@redhat.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 09 May 2019 16:31:40 -0000
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 9 May 2019 17:17:02 +0100
-Message-ID: <CAFEAcA_pnx1V0KmTdeRDAUmMABJ7JvWgfsw3waUJz_hHwybw5g@mail.gmail.com>
-To: Max Reitz <mreitz@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::341
-Subject: Re: [Qemu-devel] [PULL 00/11] Block patches
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
+	assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: fonthime pmaydell
+X-Launchpad-Bug-Reporter: Gwendolyn Haller (fonthime)
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <155609911336.14005.5630723939838624325.malonedeb@gac.canonical.com>
+Message-Id: <155741950051.32626.9595788297650951212.malone@soybean.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18961";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 691022d6c45c910dc14066d4f2d1a97f995d333e
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1826172] Re: Compilation on MSYS2/MinGW-w64 fails
+ with error: "__USE_MINGW_ANSI_STDIO" redefined
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,62 +65,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
-	Qemu-block <qemu-block@nongnu.org>
+Reply-To: Bug 1826172 <1826172@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 9 May 2019 at 14:27, Max Reitz <mreitz@redhat.com> wrote:
->
-> On 09.05.19 10:49, Peter Maydell wrote:
-> > On Tue, 7 May 2019 at 16:18, Max Reitz <mreitz@redhat.com> wrote:
-> >>
-> >> The following changes since commit 19eb2d4e736dc895f31fbd6b520e514f10cc08e0:
-> >>
-> >>   Merge remote-tracking branch 'remotes/thibault/tags/samuel-thibault' into staging (2019-05-07 10:43:32 +0100)
-> >>
-> >> are available in the Git repository at:
-> >>
-> >>   https://git.xanclic.moe/XanClic/qemu.git tags/pull-block-2019-05-07
-> >>
-> >> for you to fetch changes up to 1278dce7927301bf3d004a40061dbd2c1e0846a8:
-> >>
-> >>   iotests: Fix iotests 110 and 126 (2019-05-07 17:14:21 +0200)
-> >
-> > Attempting to fetch from this remote hangs:
-> >
-> > $ git fetch -v xanclic
-> > POST git-upload-pack (gzip 1798 to 966 bytes)
-> > POST git-upload-pack (gzip 1798 to 965 bytes)
-> > POST git-upload-pack (gzip 2648 to 1393 bytes)
-> > POST git-upload-pack (gzip 4248 to 2201 bytes)
-> > POST git-upload-pack (gzip 7498 to 3833 bytes)
-> > POST git-upload-pack (gzip 13998 to 7092 bytes)
-> > POST git-upload-pack (gzip 27648 to 13930 bytes)
-> > POST git-upload-pack (gzip 55148 to 27782 bytes)
-> > POST git-upload-pack (gzip 108948 to 54371 bytes)
-> > POST git-upload-pack (gzip 215798 to 107233 bytes)
-> > [no further output]
->
-> Hm, that's unfortunate.  It works for me.  (At least now.)
->
-> I've pushed the tag to Github:
->
-> https://github.com/XanClic/qemu.git tags/pull-block-2019-05-07
->
-> I hope that works better.
+Hi; thanks for this bug report. It should be fixed by commit
+946376c21be1cd9dcc3c7 in git master, which will be in the 4.1 release.
 
-Yep, that worked fine: I've applied that.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
-for any user-visible changes.
+** Changed in: qemu
+       Status: New =3D> Fix Committed
 
-(Strace says that we seem to successfully connect to
-the git.xanclic.moe server and do some talking to it,
-but the first time the client issues a "fetch" command
-the server never replies and the client is just blocked
-in read().)
+-- =
 
-thanks
--- PMM
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1826172
+
+Title:
+  Compilation on MSYS2/MinGW-w64 fails with error:
+  "__USE_MINGW_ANSI_STDIO" redefined
+
+Status in QEMU:
+  Fix Committed
+
+Bug description:
+  Compilation against GIT master fails at the following step:
+
+  =C2=A0=C2=A0CC      qga/commands.o
+  In file included from qga/commands.c:13:
+  C:/Tempy-chan/qemu/include/qemu/osdep.h:97: error: "__USE_MINGW_ANSI_STDI=
+O" redefined [-Werror]
+  =C2=A0#define __USE_MINGW_ANSI_STDIO 1
+
+  In file included from C:/msys64/mingw64/x86_64-w64-mingw32/include/vadefs=
+.h:9,
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0from C:/msys64/mingw64/x86_64-w64-mingw32/inc=
+lude/_mingw_stdarg.h:14,
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0from C:/msys64/mingw64/x86_64-w64-mingw32/inc=
+lude/stdarg.h:140,
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0from C:/msys64/mingw64/lib/gcc/x86_64-w64-min=
+gw32/8.3.0/include/stdarg.h:1,
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0from C:/Tempy-chan/qemu/include/qemu/osdep.h:=
+88,
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0from qga/commands.c:13:
+  C:/msys64/mingw64/x86_64-w64-mingw32/include/_mingw.h:431: note: this is =
+the location of the previous definition
+  =C2=A0#define __USE_MINGW_ANSI_STDIO 0      /* was not defined so it shou=
+ld be 0 */
+
+  cc1.exe: all warnings being treated as errors
+  make: *** [/c/Tempy-chan/qemu/rules.mak:69: qga/commands.o] Error 1
+
+  Passing --extra-cflags=3D"-D__USE_MINGW_ANSI_STDIO" to configure
+  resolves the error. Digging deeper in
+  x86_64-w64-mingw32/include/_mingw.h, it looks like
+  __USE_MINGW_ANSI_STDIO is only defined for _GNU_SOURCE in C++
+  compilation. With C only code it's ignored and doesn't define
+  __USE_MINGW_ANSI_STDIO as expected:
+
+  /* We are activating __USE_MINGW_ANSI_STDIO for various define indicators.
+  =C2=A0=C2=A0=C2=A0Note that we enable it also for _GNU_SOURCE in C++, but=
+ not for C case. */
+  #if (defined (_POSIX) || defined (_POSIX_SOURCE) || defined (_POSIX_C_SOU=
+RCE) \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0|| defined (_ISOC99_SOURCE) \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0|| defined (_XOPEN_SOURCE) || defined (_XOP=
+EN_SOURCE_EXTENDED) \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0|| (defined (_GNU_SOURCE) && defined (__cpl=
+usplus)) \
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0|| defined (_SVID_SOURCE)) \
+  =C2=A0=C2=A0=C2=A0=C2=A0&& !defined(__USE_MINGW_ANSI_STDIO)
+  /* Enable __USE_MINGW_ANSI_STDIO if _POSIX defined
+  =C2=A0* and If user did _not_ specify it explicitly... */
+  #  define __USE_MINGW_ANSI_STDIO			1
+  #endif
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1826172/+subscriptions
 
