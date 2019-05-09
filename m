@@ -2,51 +2,101 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 82972184EE
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 07:45:59 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48361 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0CB70184DC
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 07:35:27 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48229 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hObsU-0006DB-NR
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 01:45:58 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41041)
+	id 1hObiH-0000C0-Vy
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 01:35:26 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40006)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hObog-0003Qk-CO
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 01:42:03 -0400
+	(envelope-from <thuth@redhat.com>) id 1hObhE-0008FZ-2S
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 01:34:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hObof-0001fg-8P
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 01:42:02 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:50965)
+	(envelope-from <thuth@redhat.com>) id 1hObhD-00056n-0w
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 01:34:20 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46480)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
-	id 1hOboe-0001ZC-RV; Thu, 09 May 2019 01:42:01 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
-	id 4502KB3f2Nz9sBV; Thu,  9 May 2019 15:41:50 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=gibson.dropbear.id.au; s=201602; t=1557380510;
-	bh=JJ1XiJXNVJExPmJGjzrTHq2+B2lmtiM1mVECW5XJNbw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Hd4BacrKIZVxbHiLsX6hmoQJOJI6wvVTx1PMNJ0UakeZyyE1JDnYjmu/H4k5y8qV8
-	PfM1tNNpxVVSi2OrQcBYRYjcJtkC/AL3zYOiWSXHJwsd28WExe1wJbHoO2D7Kd46/4
-	GSqFTtK08EmJswvLHVoRsSmGKs88w1xqaXp1TTMI=
-Date: Thu, 9 May 2019 15:33:01 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Anton Blanchard <anton@ozlabs.org>
-Message-ID: <20190509053301.GQ7073@umbus.fritz.box>
-References: <20190507004811.29968-1-anton@ozlabs.org>
-	<20190507004811.29968-2-anton@ozlabs.org>
-	<20190507052039.GF7073@umbus.fritz.box>
-	<20190509061713.69490488@kryten>
+	(Exim 4.71) (envelope-from <thuth@redhat.com>)
+	id 1hObhA-00054a-DX; Thu, 09 May 2019 01:34:16 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id B2A543001572;
+	Thu,  9 May 2019 05:34:15 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-116-115.ams2.redhat.com [10.36.116.115])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 3C50C1001DE7;
+	Thu,  9 May 2019 05:34:09 +0000 (UTC)
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+	Peter Maydell <peter.maydell@linaro.org>
+References: <20190507134521.31044-1-thuth@redhat.com>
+	<CAFEAcA-j+wQXjPW+puxk=foi2T8O=MzXHtxdWJ6E5P7o89WQSg@mail.gmail.com>
+	<c0cda8fc-cc68-eadd-0750-cc9eeca094a4@redhat.com>
+	<b93b1eb4-d2ff-67cd-a293-5ceb4db9b957@redhat.com>
+	<CAP+75-XRZ22uhxfLF6uOpjDtKOf_EDC8uGgbu=DgYw-kcBSAGQ@mail.gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=thuth@redhat.com; keydata=
+	xsFNBFH7eUwBEACzyOXKU+5Pcs6wNpKzrlJwzRl3VGZt95VCdb+FgoU9g11m7FWcOafrVRwU
+	yYkTm9+7zBUc0sW5AuPGR/dp3pSLX/yFWsA/UB4nJsHqgDvDU7BImSeiTrnpMOTXb7Arw2a2
+	4CflIyFqjCpfDM4MuTmzTjXq4Uov1giGE9X6viNo1pxyEpd7PanlKNnf4PqEQp06X4IgUacW
+	tSGj6Gcns1bCuHV8OPWLkf4hkRnu8hdL6i60Yxz4E6TqlrpxsfYwLXgEeswPHOA6Mn4Cso9O
+	0lewVYfFfsmokfAVMKWzOl1Sr0KGI5T9CpmRfAiSHpthhHWnECcJFwl72NTi6kUcUzG4se81
+	O6n9d/kTj7pzTmBdfwuOZ0YUSqcqs0W+l1NcASSYZQaDoD3/SLk+nqVeCBB4OnYOGhgmIHNW
+	0CwMRO/GK+20alxzk//V9GmIM2ACElbfF8+Uug3pqiHkVnKqM7W9/S1NH2qmxB6zMiJUHlTH
+	gnVeZX0dgH27mzstcF786uPcdEqS0KJuxh2kk5IvUSL3Qn3ZgmgdxBMyCPciD/1cb7/Ahazr
+	3ThHQXSHXkH/aDXdfLsKVuwDzHLVSkdSnZdt5HHh75/NFHxwaTlydgfHmFFwodK8y/TjyiGZ
+	zg2Kje38xnz8zKn9iesFBCcONXS7txENTzX0z80WKBhK+XSFJwARAQABzRxUaG9tYXMgSHV0
+	aCA8dGguaHV0aEBnbXguZGU+wsF7BBMBAgAlAhsDBgsJCAcDAgYVCAIJCgsEFgIDAQIeAQIX
+	gAUCUfuWKwIZAQAKCRAu2dd0/nAttbe/EACb9hafyOb2FmhUqeAiBORSsUifFacQ7laVjcgR
+	I4um8CSHvxijYftpkM2EdAtmXIKgbNDpQoXcWLXB9lu9mLgTO4DVT00TRR65ikn3FCWcyT74
+	ENTOzRKyKLsDCjhXKPblTPIQbYAUCOWElcyAPm0ERd62fA/rKNxgIiNo/l4UODOMoOJm2/Ox
+	ZoTckW68Eqv7k9L7m7j+Hn3hoDTjAmcCBJt+j7pOhzWvCbqoNOIH8C8qvPaNlrba+R/K6jkO
+	6jZkTbYQpGIofEQJ/TNn38IsNGpI1ALTHWFtoMxp3j2Imz0REO6dRE2fHRN8sVlHgkoeGhmY
+	NbDsDE1jFQOEObFnu0euk//7BXU7tGOHckVAZ8T1smiRPHfQU7UEH2a/grndxJ+PNeM5w7n2
+	l+FN3cf2KgPotCK2s9MjSdZA7C5e3rFYO8lqiqTJKvc62vqp3e7B0Kjyy5/QtzSOejBij2QL
+	xkKSFNtxIz4MtuxN8e3IDQNxsKry3nF7R4MDvouXlMo6wP9KuyNWb+vFJt9GtbgfDMIFVamp
+	ZfhEWzWRJH4VgksENA4K/BzjEHCcbTUb1TFsiB1VRnBPJ0SqlvifnfKk6HcpkDk6Pg8Q5FOJ
+	gbNHrdgXsm+m/9GF2zUUr+rOlhVbK23TUqKqPfwnD7uxjpakVcJnsVCFqJpZi1F/ga9IN87B
+	TQRR+3lMARAAtp831HniPHb9AuKq3wj83ujZK8lH5RLrfVsB4X1wi47bwo56BqhXpR/zxPTR
+	eOFT0gnbw9UkphVc7uk/alnXMDEmgvnuxv89PwIQX6k3qLABeV7ykJQG/WT5HQ6+2DdGtVw3
+	2vjYAPiWQeETsgWRRQMDR0/hwp8s8tL/UodwYCScH6Vxx9pdy353L1fK4Bb9G73a+9FPjp9l
+	x+WwKTsltVqSBuSjyZQ3c3EE8qbTidXZxB38JwARH8yN3TX+t65cbBqLl/zRUUUTapHQpUEd
+	yoAsHIml32e4q+3xdLtTdlLi7FgPBItSazcqZPjEcYW73UAuLcmQmfJlQ5PkDiuqcitn+KzH
+	/1pqsTU7QFZjbmSMJyXY0TDErOFuMOjf20b6arcpEqse1V3IKrb+nqqA2azboRm3pEANLAJw
+	iVTwK3qwGRgK5ut6N/Znv20VEHkFUsRAZoOusrIRfR5HFDxlXguAdEz8M/hxXFYYXqOoaCYy
+	6pJxTjy0Y/tIfmS/g9Bnp8qg9wsrsnk0+XRnDVPak++G3Uq9tJPwpJbyO0vcqEI3vAXkAB7X
+	VXLzvFwi66RrsPUoDkuzj+aCNumtOePDOCpXQGPpKl+l1aYRMN/+lNSk3+1sVuc2C07WnYyE
+	gV/cbEVklPmKrNwu6DeUyD0qI/bVzKMWZAiB1r56hsGeyYcAEQEAAcLBXwQYAQIACQUCUft5
+	TAIbDAAKCRAu2dd0/nAttYTwEACLAS/THRqXRKb17PQmKwZHerUvZm2klo+lwQ3wNQBHUJAT
+	p2R9ULexyXrJPqjUpy7+voz+FcKiuQBTKyieiIxO46oMxsbXGZ70o3gxjxdYdgimUD6U8PPd
+	JH8tfAL4BR5FZNjspcnscN2jgbF4OrpDeOLyBaj6HPmElNPtECHWCaf1xbIFsZxSDGMA6cUh
+	0uX3Q8VI7JN1AR2cfiIRY7NrIlWYucJxyKjO3ivWm69nCtsHiJ0wcF8KlVo7F2eLaufo0K8A
+	ynL8SHMF3VEyxsXOP2f1UR9T2Ur30MXcTBpjUxml1TX3RWY5uH89Js/jlIugBwuAmacJ7JYh
+	lTg6sF/GNc4nPb4kk2yktNWTade+TzsllYlJPaorD2Qe8qX0iFUhFC6y9+O6mP4ZvWoYapp9
+	ezYNuebMgEr93ob1+4sFg3812wNP01WqsGtWCJHnPv/JoonFdMzD/bIkXGEJMk6ks2kxQQZq
+	g6Ik/s/vxOfao/xCn8nHt7GwvVy41795hzK6tbSl+BuyCRp0vfPRP34OnK7+jR2nvQpJu/pU
+	rCELuGwT9hsYkUPjVd4lfylN3mzEc6iAv/wwjsc0DRTSQCpXT3v2ymTAsRKrVaEZLibTXaf+
+	WslxWek3xNYRiqwwWAJuL652eAlxUgQ5ZS+fXBRTiQpJ+F26I/2lccScRd9G5w==
+Organization: Red Hat
+Message-ID: <20a27c22-cd1a-f5a8-9e36-db171c4ae19e@redhat.com>
+Date: Thu, 9 May 2019 07:34:09 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="7kD9y3RnPUgTZee0"
-Content-Disposition: inline
-In-Reply-To: <20190509061713.69490488@kryten>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [PATCH v2] target/ppc: Fix xxspltib
+In-Reply-To: <CAP+75-XRZ22uhxfLF6uOpjDtKOf_EDC8uGgbu=DgYw-kcBSAGQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.46]);
+	Thu, 09 May 2019 05:34:15 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PULL v2 00/28] Kconfig for Arm machines
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,80 +108,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ego@linux.vnet.ibm.com, sandipandas1990@gmail.com,
-	mark.cave-ayland@ilande.co.uk, richard.henderson@linaro.org,
-	qemu-devel@nongnu.org, f4bug@amsat.org, qemu-ppc@nongnu.org
+Cc: qemu-arm <qemu-arm@nongnu.org>, John Snow <jsnow@redhat.com>,
+	QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---7kD9y3RnPUgTZee0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Thu, May 09, 2019 at 06:17:33AM +1000, Anton Blanchard wrote:
-> xxspltib raises a VMX or a VSX exception depending on the register
-> set it is operating on. We had a check, but it was backwards.
+On 08/05/2019 18.45, Philippe Mathieu-Daud=C3=A9 wrote:
+> [clicked ctrl+enter too fast]
 >=20
-> Fixes: f113283525a4 ("target-ppc: add xxspltib instruction")
-> Signed-off-by: Anton Blanchard <anton@ozlabs.org>
-
-Applied, thanks.
-
-> ---
->  target/ppc/translate/vsx-impl.inc.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+> On Wed, May 8, 2019 at 6:43 PM Philippe Mathieu-Daud=C3=A9 <philmd@redh=
+at.com> wrote:
+>> On 5/8/19 5:33 PM, Thomas Huth wrote:
+>>> On 08/05/2019 17.09, Peter Maydell wrote:
+>>>> On Tue, 7 May 2019 at 14:45, Thomas Huth <thuth@redhat.com> wrote:
+>>>>>
+>>>>>  Hi Peter,
+>>>>>
+>>>>> the following changes since commit a6ae23831b05a11880b40f7d58e332c4=
+5a6b04f7:
+>>>>>
+>>>>>   Merge remote-tracking branch 'remotes/ehabkost/tags/python-next-p=
+ull-request' into staging (2019-05-03 15:26:09 +0100)
+>>>>>
+>>>>> are available in the Git repository at:
+>>>>>
+>>>>>   https://gitlab.com/huth/qemu.git tags/pull-request-2019-05-07
+>>>>>
+>>>>> for you to fetch changes up to 69f879e9fefab9aaf24893fe4ce23e07756d=
+703c:
+>>>>>
+>>>>>   hw/arm: Remove hard-enablement of the remaining PCI devices (2019=
+-05-07 15:01:47 +0200)
+>>>>>
+>>>>> ----------------------------------------------------------------
+>>>>> Kconfig settings for the Arm machines
+>>>>> (v2: Fix the dependency of q35 to AHCI_ICH9 in the second patch)
+>>>>> ----------------------------------------------------------------
+>>>>
+>>>> Hi -- this is still failing in the build test where I 'make clean'
+>>>
+>>> Very weird. What is running before the "make clean"? Could you provid=
+e
+>>> me with the content of i386-softmmu/config-devices.mak please?
+>>
+>> It worked for me after running 'git fetch --tags', maybe because Thoma=
+s
+>> used the same tag?
 >=20
-> diff --git a/target/ppc/translate/vsx-impl.inc.c b/target/ppc/translate/v=
-sx-impl.inc.c
-> index 4d8ca7cf32..4812a374aa 100644
-> --- a/target/ppc/translate/vsx-impl.inc.c
-> +++ b/target/ppc/translate/vsx-impl.inc.c
-> @@ -1355,13 +1355,13 @@ static void gen_xxspltib(DisasContext *ctx)
->      int rt =3D xT(ctx->opcode);
-> =20
->      if (rt < 32) {
-> -        if (unlikely(!ctx->altivec_enabled)) {
-> -            gen_exception(ctx, POWERPC_EXCP_VPU);
-> +        if (unlikely(!ctx->vsx_enabled)) {
-> +            gen_exception(ctx, POWERPC_EXCP_VSXU);
->              return;
->          }
->      } else {
-> -        if (unlikely(!ctx->vsx_enabled)) {
-> -            gen_exception(ctx, POWERPC_EXCP_VSXU);
-> +        if (unlikely(!ctx->altivec_enabled)) {
-> +            gen_exception(ctx, POWERPC_EXCP_VPU);
->              return;
->          }
->      }
+> Maybe because Thomas used the same tag you are still trying the
+> previous version?
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+I did not use the same tag. v1 had pull-request-2019-05-05 while v2 has
+pull-request-2019-05-07. So this can not be the reason.
 
---7kD9y3RnPUgTZee0
-Content-Type: application/pgp-signature; name="signature.asc"
+ Thomas
 
------BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlzTu4oACgkQbDjKyiDZ
-s5I9/Q/+NRQaSzQD3rqyOHi00yWsB76tVEmTIU3eg0Tjyih4jiuH2CqGaViuyULi
-ceJwDfnC8vgCcXvQEXNb3Yt10/fmCirA/xKHw/lStLT0uFqqKVGlaRq5cVauwPQY
-Wd8iRMJveEdtAkrU4C+TxY1MMR7tX0WAf9FmL+nH31WI2Yns7D4J7kIXBHBZF9Tj
-SJsqNnZ8KB+093ESo3WsbGjEZybp6QeSktIJy51s8N41dIwc80nrZGGEy6DJ1l5P
-5HTaPejuoNthdgXRZnJnPu3EDYyUwNLPvXAxE8g3TB9rnfuxehBf1hzSVsSBD8zl
-VDZDIlT1F8ZHVCnqlTxmKtUp53z20jZRzmKtHpJdBKzKphpgY2KwdFuvJHN7CD0z
-B47XORDF8mQUeDh6DrqmOlOza2KIspWqILrVGW++oht8gSbTUXpCGPWkhj8eItxr
-UIef7YMbAQAXKVyqqJPLYFGvLVFU9BL/vVUqZrFPPIIaCbeSittlYqqdauM1SK4F
-44S+/LBjVgjcRx4LotP1n85VBVEXxd4C84GSv+QUOm7YK8I8MnYmkId6aOE6GCvD
-7NZjtDKmXBWpCkruIQuaQ+RoA3cJqKVMUU2lVni+wGZEOBy+jNshsf8vc6Rk1Dhu
-s+W05hZ2hwC5mSqB/Dq99oRZxYRZ5hj60csB6TgoXABOWvU4Tzc=
-=2pLS
------END PGP SIGNATURE-----
-
---7kD9y3RnPUgTZee0--
 
