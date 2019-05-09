@@ -2,82 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D96518DC6
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 18:14:09 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57403 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7C2F18DDC
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 18:18:40 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57472 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOlgO-00010l-EU
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 12:14:08 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:32918)
+	id 1hOlkl-0003NJ-U7
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 12:18:39 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34388)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hOlf7-0000HW-Ao
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:12:50 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hOljS-0002pl-4d
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:17:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hOlf6-0004Io-EL
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:12:49 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53590)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hOlf4-0004HK-A1; Thu, 09 May 2019 12:12:46 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
-	[10.5.11.14])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id F00D63004149;
-	Thu,  9 May 2019 16:12:44 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-204-168.brq.redhat.com
-	[10.40.204.168])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 1CC365DE78;
-	Thu,  9 May 2019 16:12:40 +0000 (UTC)
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
-	qemu-devel@nongnu.org, qemu-block@nongnu.org
-References: <20190429090842.57910-1-vsementsov@virtuozzo.com>
-	<20190429090842.57910-6-vsementsov@virtuozzo.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
-	mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
-	/PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
-	U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
-	mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
-	awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
-	AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
-	CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
-	B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
-	2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
-	AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
-	8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
-	4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
-	BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
-	xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
-	W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
-	DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
-	64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
-	ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
-	sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
-	alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
-	/ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
-	bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
-	R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <b0604566-ec0d-a072-ce5d-713369af6c4c@redhat.com>
-Date: Thu, 9 May 2019 18:12:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <peter.maydell@linaro.org>) id 1hOljQ-0007rg-9G
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:17:17 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:34425)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hOljO-0007jd-HF
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:17:15 -0400
+Received: by mail-ot1-x341.google.com with SMTP id l17so2848668otq.1
+	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 09:17:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=EYiSbpBNkPdut5F6S4Zv2dFzUESzWjZ9XZknyoTswAE=;
+	b=N+PBDaA2IV+nEo+vjWzdsCjJ0fcOBF0Skk2YUpDJZKu93ve0B4JNgaCV1TO7U6d4tr
+	Gnw9R2gRi4A/BxXCMetCJvMYnBk3Q+NsqcJb0fQRQOUYapczEPASZXcTEhuFSE8n04Nu
+	rhyC6d3AIslnL3CaSOSAXd7vOKOE+Dm49Ll3SPp5Hfjn6Kq08XYZ3j2ReYau7qgTGkCC
+	rfbl1mZegYlJvkorNPwP5pMMgviwlD6yZegy0A9paokhL8zkDvg31YqNmojfVi3/iIMw
+	vwlID6Gm8/I92M8v50mse5rw9aIbTJaJogZf+GLbhNrqwSmP1tvdu6YCqsmGR8AREaWs
+	TjdA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=EYiSbpBNkPdut5F6S4Zv2dFzUESzWjZ9XZknyoTswAE=;
+	b=AIhcmbN0ELwdGfJ8YaJYjaMliabwo6T67hdUYOmp7dSRgHs2+eDPoprLqRaIjP3A2p
+	tv8TCGRTwB8F5s4v21DbEEp0NphZhfMMZnfCzcRnI3JdnVP9KvqYRXwWUOncijdNDQln
+	0aoPHw2OtdQ8DZ9xcykFfbHLaEwqdQM6ekDVkCMaM2xWX0FC7VLm7uQFtRvlJfx1eixF
+	YB1OIWOMh3PGLFl/Jo0RcJS3u8psO2s/RzCbrRHbHK9iZ/qe1EE0nIHuSw5JfmiNW/pR
+	P+rbCP4JJFrtc+9ExfSpt6uQ+BST23PIVk0oY05TxcPMlNEVgopJeM7DY2IcPS82i5jR
+	WyiA==
+X-Gm-Message-State: APjAAAWQRrR0mbpkT7x7DK/rtP/c9K+LbsOiCNdhdPnIOYpm35id3oI4
+	KrzoRmJxytWHHkBPjkPKBRwPlGgDKPnIvAbmCNWjyA==
+X-Google-Smtp-Source: APXvYqzmNQspmSf8QRyQUCzUlMhR3lbK1AdF3iDPcBo37xdCGV0MQSFrm3u+zBLjMJcHNW/uEcK53/Gi7XdG7ZTWrOs=
+X-Received: by 2002:a9d:6855:: with SMTP id c21mr2269667oto.151.1557418632847; 
+	Thu, 09 May 2019 09:17:12 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190429090842.57910-6-vsementsov@virtuozzo.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature";
-	boundary="GFxcXiqLpLGayWnB7XmvXLy0A7HF180jk"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.46]);
-	Thu, 09 May 2019 16:12:45 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PATCH v7 5/5] block/backup: refactor: split out
- backup_calculate_cluster_size
+References: <20190507151819.17401-1-mreitz@redhat.com>
+	<CAFEAcA-qq2CTF-K8Ag8AuKRVzp4VbEYHa_rkW=NzUQ5EEt4wKQ@mail.gmail.com>
+	<3e1ce4b4-9a1e-eb97-c39e-066e231af28e@redhat.com>
+In-Reply-To: <3e1ce4b4-9a1e-eb97-c39e-066e231af28e@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 9 May 2019 17:17:02 +0100
+Message-ID: <CAFEAcA_pnx1V0KmTdeRDAUmMABJ7JvWgfsw3waUJz_hHwybw5g@mail.gmail.com>
+To: Max Reitz <mreitz@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::341
+Subject: Re: [Qemu-devel] [PULL 00/11] Block patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -89,62 +73,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, den@openvz.org, jsnow@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, QEMU Developers <qemu-devel@nongnu.org>,
+	Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---GFxcXiqLpLGayWnB7XmvXLy0A7HF180jk
-From: Max Reitz <mreitz@redhat.com>
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
- qemu-devel@nongnu.org, qemu-block@nongnu.org
-Cc: kwolf@redhat.com, jsnow@redhat.com, den@openvz.org
-Message-ID: <b0604566-ec0d-a072-ce5d-713369af6c4c@redhat.com>
-Subject: Re: [PATCH v7 5/5] block/backup: refactor: split out
- backup_calculate_cluster_size
-References: <20190429090842.57910-1-vsementsov@virtuozzo.com>
- <20190429090842.57910-6-vsementsov@virtuozzo.com>
-In-Reply-To: <20190429090842.57910-6-vsementsov@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+On Thu, 9 May 2019 at 14:27, Max Reitz <mreitz@redhat.com> wrote:
+>
+> On 09.05.19 10:49, Peter Maydell wrote:
+> > On Tue, 7 May 2019 at 16:18, Max Reitz <mreitz@redhat.com> wrote:
+> >>
+> >> The following changes since commit 19eb2d4e736dc895f31fbd6b520e514f10cc08e0:
+> >>
+> >>   Merge remote-tracking branch 'remotes/thibault/tags/samuel-thibault' into staging (2019-05-07 10:43:32 +0100)
+> >>
+> >> are available in the Git repository at:
+> >>
+> >>   https://git.xanclic.moe/XanClic/qemu.git tags/pull-block-2019-05-07
+> >>
+> >> for you to fetch changes up to 1278dce7927301bf3d004a40061dbd2c1e0846a8:
+> >>
+> >>   iotests: Fix iotests 110 and 126 (2019-05-07 17:14:21 +0200)
+> >
+> > Attempting to fetch from this remote hangs:
+> >
+> > $ git fetch -v xanclic
+> > POST git-upload-pack (gzip 1798 to 966 bytes)
+> > POST git-upload-pack (gzip 1798 to 965 bytes)
+> > POST git-upload-pack (gzip 2648 to 1393 bytes)
+> > POST git-upload-pack (gzip 4248 to 2201 bytes)
+> > POST git-upload-pack (gzip 7498 to 3833 bytes)
+> > POST git-upload-pack (gzip 13998 to 7092 bytes)
+> > POST git-upload-pack (gzip 27648 to 13930 bytes)
+> > POST git-upload-pack (gzip 55148 to 27782 bytes)
+> > POST git-upload-pack (gzip 108948 to 54371 bytes)
+> > POST git-upload-pack (gzip 215798 to 107233 bytes)
+> > [no further output]
+>
+> Hm, that's unfortunate.  It works for me.  (At least now.)
+>
+> I've pushed the tag to Github:
+>
+> https://github.com/XanClic/qemu.git tags/pull-block-2019-05-07
+>
+> I hope that works better.
 
-On 29.04.19 11:08, Vladimir Sementsov-Ogievskiy wrote:
-> Split out cluster_size calculation. Move copy-bitmap creation above
-> block-job creation, as we are going to share it with upcoming
-> backup-top filter, which also should be created before actual block job=
+Yep, that worked fine: I've applied that.
 
-> creation.
->=20
-> Also, while being here, drop unnecessary "goto error" from
-> bdrv_getlength error path.
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
+for any user-visible changes.
 
-This paragraph should be dropped now.  Do you mind me doing it?
+(Strace says that we seem to successfully connect to
+the git.xanclic.moe server and do some talking to it,
+but the first time the client issues a "fetch" command
+the server never replies and the client is just blocked
+in read().)
 
-Max
-
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  block/backup.c | 82 ++++++++++++++++++++++++++++++++------------------=
-
->  1 file changed, 52 insertions(+), 30 deletions(-)
-
-
---GFxcXiqLpLGayWnB7XmvXLy0A7HF180jk
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAlzUUXcACgkQ9AfbAGHV
-z0DCTgf+PjPUfDHH2NKuNxD+mk7ddK2/I+fg4yZ0YwKvxc7a+scncHWhyHPGomxz
-p45HCeoC+bb0B35xN4g9BhkdXvJLEKxiOZTMqDTn8nS51XhUnIlj8DKzLp4KVg89
-VUidhonXfFe/NIRIn2DQmN+M1tCYAHINTQ7MvPpyhXt9xNvXY5Rbg2gC7YWzNv0j
-D5nPHBDIQN9F7ScoQ1H6wHvK05VTHI90cU1j1COVT/aYNx5l2pC5/E0T0munfcPg
-zgqiqUVYJfW4K8X+mSHL4cIsUefK2jUE4NOg3I9EHDmSP/CVMfGVoyNtiGZZ2xI3
-KK/sKhS6mnaYWuBbHRVGvjW+4pHYrw==
-=rnNA
------END PGP SIGNATURE-----
-
---GFxcXiqLpLGayWnB7XmvXLy0A7HF180jk--
+thanks
+-- PMM
 
