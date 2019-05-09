@@ -2,72 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9C2C18AF7
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 15:47:48 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54837 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CAA618AFC
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 15:51:48 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54891 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOjOm-0007pu-4V
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 09:47:48 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52682)
+	id 1hOjSd-0000uQ-OM
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 09:51:47 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53515)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <stefanha@gmail.com>) id 1hOjMj-0006v4-1f
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 09:45:42 -0400
+	(envelope-from <kraxel@redhat.com>) id 1hOjRM-0008QE-Mv
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 09:50:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <stefanha@gmail.com>) id 1hOjMi-0008DM-3j
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 09:45:41 -0400
-Received: from mail-wr1-x42f.google.com ([2a00:1450:4864:20::42f]:34890)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1hOjMh-00082e-Ou
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 09:45:39 -0400
-Received: by mail-wr1-x42f.google.com with SMTP id w12so3184743wrp.2
-	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 06:45:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=eXYxWsNKz9ZS1eEmOrvZuOreVYVFHPBffsyVKJwYhV4=;
-	b=jIyNJs0OEubQKDh6xm9/bYKKaQi3BctHnuUeg0qTlLKfRpAMKUhoNTu473G9WRxCQp
-	KTGjPiPDhRE8kLwG9O2cQEVbQqtz6velENSbmhvIqNZ8GEwLaCtpelz/gwDJxb76PL5h
-	peobq2UuacqgLK+KFyFsZMimwGU/i/YeUVPcV0t7jxvKGj7ImoFH3cX3TwKKKw0Ges2m
-	7THXWot613xSdZywDy0nMtnbjYTpBV2ZVBxlHGuH/0jDOLmZCJR7jOJQbhEclwuAbzSF
-	vgRM3nodVXi+hvi3YyR4/q6u83SAePeRX3GeZ8op+gt8pbARbDXCcWj/Xf9douz494PP
-	Hb1g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=eXYxWsNKz9ZS1eEmOrvZuOreVYVFHPBffsyVKJwYhV4=;
-	b=M+XNlAYYd9B1F6+li6dAexQ/topfj7rEvERrV4jbjHSksCvfzAGB/ItOZxBMBzY0oo
-	y3CcDJ+CvGpOH0DT8+GFClUcxAmRvOBS+m97pRDtIKolFqq6EO88ph3fSEt6kX7Wxv2u
-	b22BNWHr9glPtyGelSmQxoAQP2dAET6h+iOXObDOTt7waahQAsuurJ2R1JMYtR/jZWXb
-	SgINxVOOQJl36ari4k16OKCGw1uObsSTTgMNYubv+Y8lgAW5TpWgultHjq8LlcARP1dm
-	CKULP58kFPjbnyftJSu5Qhl0MwQEExBAH7zQXdZjAzB4KBB5IMGPtVQ0ZD/nI59DMQA1
-	VDZg==
-X-Gm-Message-State: APjAAAXONeENpL08KQAgyfW42Ny3rujktOlYvboH05P9QVlfTlLBvpuo
-	xzUdIsKY2/zrKXy2askPF+8=
-X-Google-Smtp-Source: APXvYqxwFEUlg5AKcP9UbFXqizi5Li53U3HdP72FoS7RSVo8Pp5VFcp7AwTfxFjyeUj67YAZ4yHCZQ==
-X-Received: by 2002:a5d:4a92:: with SMTP id o18mr3125852wrq.80.1557409527608; 
-	Thu, 09 May 2019 06:45:27 -0700 (PDT)
-Received: from localhost ([51.15.41.238]) by smtp.gmail.com with ESMTPSA id
-	s10sm2950657wrt.66.2019.05.09.06.45.26
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 09 May 2019 06:45:26 -0700 (PDT)
-Date: Thu, 9 May 2019 14:45:25 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: S KH <sgh8183@gmail.com>
-Message-ID: <20190509134525.GD17133@stefanha-x1.localdomain>
-References: <CAE519-nz3KE2GcQCj_4Ufs+ZR_jKwoMDpdrZS43bbZ_SxSjHeg@mail.gmail.com>
+	(envelope-from <kraxel@redhat.com>) id 1hOjRL-0003ME-UI
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 09:50:28 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47618)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hOjRL-0003Lz-PO
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 09:50:27 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id E94F43087BD2;
+	Thu,  9 May 2019 13:50:26 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-117-74.ams2.redhat.com
+	[10.36.117.74])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 4D19E60BF3;
+	Thu,  9 May 2019 13:50:24 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+	id 82A2C11AA3; Thu,  9 May 2019 15:50:22 +0200 (CEST)
+Date: Thu, 9 May 2019 15:50:22 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: Thomas Huth <thuth@redhat.com>
+Message-ID: <20190509135022.z5yjsrghixfrv2ta@sirius.home.kraxel.org>
+References: <20190508085645.11595-1-kraxel@redhat.com>
+	<38ea2334-b819-a439-7a43-92b52263b402@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="Hf61M2y+wYpnELGG"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAE519-nz3KE2GcQCj_4Ufs+ZR_jKwoMDpdrZS43bbZ_SxSjHeg@mail.gmail.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::42f
-Subject: Re: [Qemu-devel] Question on QEMU : How to record debug log in VM
- of QEMU
+In-Reply-To: <38ea2334-b819-a439-7a43-92b52263b402@redhat.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.45]);
+	Thu, 09 May 2019 13:50:27 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 00/13] tests/vm: serial console autoinstall,
+ misc fixes.
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -79,57 +62,26 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Ed Maste <emaste@freebsd.org>,
+	Eduardo Habkost <ehabkost@redhat.com>,
+	Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+	qemu-devel@nongnu.org, Kamil Rytarowski <kamil@netbsd.org>,
+	Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+	Li-Wen Hsu <lwhsu@freebsd.org>, Brad Smith <brad@comstyle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+  Hi,
 
---Hf61M2y+wYpnELGG
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> > Do we have accelerator support for the BSDs?  A "make check" for a full
+> > build takes ages, and I suspect tcg being used is part of the problem.
+> > I did my tests using "TARGET_LIST=x86_64-softmmu" because of that.
+> 
+> I think they should be running with "--enable-kvm".
 
-On Tue, May 07, 2019 at 11:29:03AM +0900, S KH wrote:
-> This is a question I have encountered while using QEMU.
->=20
-> I want to compile the source directly rather than through apt or yum and
-> install QEMU and input the output statement to the source to check the
-> output value.
->=20
-> When I compiled QEMU using dpkg-buildpackage in Ubuntu, I verified that
-> when QEMU's VM is executed by inputting and compiling the output statemen=
-t,
-> the output value is recorded in the log file(ex.
-> /var/log/libvirt/qemu/win7.log) of that VM.
->=20
-> In Centos, I tried to use rpmbuild to input the output to QEMU source,
-> compile and check the output value. I confirmed that the log file is not
-> written, but I have confirmed that the output value is rare from the
-> terminal during the compilation process.
->=20
-> What I want to do is to get the output to be written to the log file like
-> in Ubuntu.
+The images themself yes, but the tests running *inside* (on make check) don't.
 
-Try diffing /etc/libvirt/qemu.conf between the Ubuntu and CentOS hosts.
-Maybe they have different logging setups.  In particular, the
-stdio_handler setting might be different.
+cheers,
+  Gerd
 
-Stefan
-
---Hf61M2y+wYpnELGG
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAlzULvUACgkQnKSrs4Gr
-c8iCqwf/d73V7V0caZWk/m4LJB4YJ9eyaicY+g9AHSyr9Wpty0zci9jfJBJP1owY
-v4EM6pH16XnKOhN+npn0KgFOFqKpB1qLE0IiByIS72HQfCLC/oknArBu+mK49dpv
-8QtZKct56V3CZQ0wXuXoF1Zjk4v4zBwLG5gtJSA2dBJeUJaAnM13uunFqYqGZS8Z
-9DWIg+M8JjHfR4nZMYh8IvAkGpwR38ftJORnr/SYhxgHVq3R4N9iSIGj8DcSFVsw
-ae3LRjtM78rJrV4I2uVDP0ClL5t4Pwu6EivsukaeGKUDfHMEvMOejcL83LlvP5Ks
-Ub3lTzf2cIFzwDnZ9QVzLNTqnv8jBA==
-=TyV8
------END PGP SIGNATURE-----
-
---Hf61M2y+wYpnELGG--
 
