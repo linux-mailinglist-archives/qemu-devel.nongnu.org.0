@@ -2,61 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA6C518F28
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 19:30:50 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58536 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46A2B18EF2
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 19:25:33 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58414 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOmsb-0007wa-ST
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 13:30:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53138)
+	id 1hOmnU-0003ub-DJ
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 13:25:32 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53320)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hOmX1-0006tr-PN
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:08:32 -0400
+	(envelope-from <laurent@vivier.eu>) id 1hOmXY-0007Lq-87
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:09:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hOmX0-0001sF-Vl
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:08:31 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:44373)
+	(envelope-from <laurent@vivier.eu>) id 1hOmXX-000286-Ec
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:09:04 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:36541)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hOmX0-0001rk-N3
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:08:30 -0400
+	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hOmXX-00027f-4u
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:09:03 -0400
 Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
 	(mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
-	1N2E9e-1giWRw1wP0-013gs9; Thu, 09 May 2019 19:08:26 +0200
+	1MNKuI-1h5R8r2APq-00Opy4; Thu, 09 May 2019 19:08:51 +0200
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
 	qemu-devel@nongnu.org
-References: <877eb86hcf.fsf@zen.linaroharston>
-	<20190502145846.26226-1-alex.bennee@linaro.org>
+References: <20190502092728.32727-1-alex.bennee@linaro.org>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <652f7793-8c6c-7fce-c099-41c2d00b1346@vivier.eu>
-Date: Thu, 9 May 2019 19:08:25 +0200
+Message-ID: <93276dfb-3495-8f98-0da1-6c97962bd826@vivier.eu>
+Date: Thu, 9 May 2019 19:08:50 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190502145846.26226-1-alex.bennee@linaro.org>
+In-Reply-To: <20190502092728.32727-1-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:dAHPKQnUAS8DCrWo3JohYnNEUo/t6iMtsmV+czWCaP0tQZ/nHhV
-	tl5wpQLiULQTzkn44Pt+LqVJ1qqiqKijWsqLY7EknytmotVKOHuZsqkMPHfW/QIrEEweS03
-	GZ+cRBYmDOZQ6S3FuGkuKicdTbUFZW+VMRvtLzR4bFZEl9HNOq32YeKkWhX/QCBI7dflZFv
-	y5m5UAKJpHDCirKklfv1g==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:ps7U2n6CXoI=:7kQBfd33xHBZ9oWY+uXl7k
-	0ucBqD5ujkWYdbLZjOeHyTbo8tdsb/DD9Dxn6UHZRbedEesGXkADZJSpywv5idxTW+804tfbN
-	yzbWNGvWHYHUgwa00Gzz1jBpC6jzDTpeLewzgn8Exc+cXal5PDdEtdZVH6rFP3cN/eMiiYXv0
-	1GRyTWNDugyrRMC4B+xJBLRdF5qNr2kla11J8P7wWA4XrZA26ULSkZTI47FNSmnpcyw4i5LMY
-	VpmNfR9GRiFptFRE/fg2Oe2T+rkb+vS8eeyTf3e4ZejjnBwb70Sxcpbkb9t170kWA5eifE0ky
-	HWwTr+jhyyYJa8m2CdWgrgDXlHdSzJvNeTA1yD4SJqQLTpJl2/GHhhTftQHLbSQSKKmtUac36
-	iUiyGVEHgPPVeujQTmqj9DFsSqJoy49THoXqbm1jymTgMLLZAhTpGrUNeELPIKf7vUH4I/iuO
-	3EAn7V7F0gFNQaqVRDJYwJy2W40/1O4ngQLKi0phYhXwhjvt5oi5RaUzkWHbbesN1c8cGOoJg
-	4xDPmI3Id3yRl1ZJQvGDAi3w3tHQ+dgQl6TQ9Vj+eYJAvgbAhmoGmdh4PVXetQfNFCsWqBXwj
-	Gxcl2vi26izj69zJRtUou5Q1wo2q9hKVSLKG37ZT74D+cSepv/0gcIsTWuh1hcpyEgchAw5QW
-	57bu+g/Pm4GkEf1oosBrhtJTxO1ixD702kUS6gnc0hkfEY7YjnqH4HCU4PDT3t1hNk+xu43X1
-	Sa4t1I2OhEE6XzBSjmZHx8OTNlV5lCRNsXlF1tyJXzkVPFoH9QV9vdbD79Q=
+X-Provags-ID: V03:K1:8OH2y38lrXOIrDkK2lFwEUWAcFLS/HptobO3A2aynLVCjqOsRec
+	z9wbbZZngG6LMnoOr5Y+NfKcJ80JLl2YpawmDcAndkvDxXC1znQKVYc8hmoVTg9c7bIHwmI
+	2540rUALa/2Kax6pyUQprMiTWYx168p/P1eguS4weX26hkv7/Xb45kcKSTSeeJWwGi5l8dz
+	gGXy/7kGPTL4SnXtwARlQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:SqrOAipiP2M=:7eQQKtttVt0ylucaxidv88
+	3TdgL0v0KImSiluLY06hMtr07R8SDgt4wl1MRWEtzETzbqdfycmB13CHGRVgGKRMLl+juX1Yl
+	6ZflNfncJBH9Letvn0fqMyGW1VvJFnWULxwS/ZUCkglfEotEOxOPFuuAnCpJ2t5HedI0CHsIo
+	fVvVjgD4CdQoZnfSHEN4ERoL3KJD0DsWAiuj/oZnLyijhik1O90Mf2R8KptJz6xi6sTIcEVSb
+	s88yEIMc82+Rj3/9MSoq8F465cZ5Vq/MgQrwLmrYNfsz9bWMo06ZHXsl7bKLB6pGjoE9VzKVY
+	2aek1F2a/eK9wXd5PGKrCUkcvwfbQAzYxF+vqVGBD9BIfGcr6oVotDqrSjdUlCT/VfbdETdtl
+	ukoRSdEVaJYUiCkB8v6YLQ8AEV2Qks0yx03xbxR0dDcy6jTo+TVkS075MK3G2TRjP2c80OwZq
+	a1uJn/EZCdTluF6NKGyiubW4h4p9C5/EjuWamv97B0qXNkwgMLDBcMjoYXS4/iurR34DMwy0w
+	wIxeXV43yCT286qnXFOH36DyDdmedsFdCfRDx8lGg6ywPOdzrOQjzM1HB1xV/UrMaT7Pe5ng2
+	XiONaIaajC93aW7yzoq7Dmhy7GPyXpjSE4BDbMh4IX8M3N+Zy5Xubs9O91lm03YDpk8wJuAQV
+	Q+XF2XMm4uX7DyccfahZJRxVMZAKKesgBv4d+5MQ0i+0bR43iaStlLnrFM6eQ1JcFdgwLjMfI
+	ZKjnPXs/l8wePSIUPrYRB0pQlbO3LyMetcC+/lcjrgMXV7esayN4U1KB/y8=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.187
-Subject: Re: [Qemu-devel] [PATCH] linux-user: avoid treading on gprof's
- SIGPROF signals
+X-Received-From: 212.227.126.131
+Subject: Re: [Qemu-devel] [PATCH] linux-user: fix GPROF build failure
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -72,32 +70,45 @@ Cc: Riku Voipio <riku.voipio@iki.fi>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02/05/2019 16:58, Alex Bennée wrote:
-> The guest tends to get confused when it receives signals it doesn't
-> know about. Given the gprof magic has also set up it's own handler we
-> would do well to avoid stomping on it as well.
+On 02/05/2019 11:27, Alex Bennée wrote:
+> When linux-user/exit was introduced we failed to move the gprof
+> include at the same time. The CI didn't notice because it only builds
+> system emulation. Fix it for those that still find gprof useful.
 > 
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > ---
->   linux-user/signal.c | 5 +++++
->   1 file changed, 5 insertions(+)
+>   linux-user/exit.c    | 3 +++
+>   linux-user/syscall.c | 3 ---
+>   2 files changed, 3 insertions(+), 3 deletions(-)
 > 
-> diff --git a/linux-user/signal.c b/linux-user/signal.c
-> index e2c0b37173..44b2d3b35a 100644
-> --- a/linux-user/signal.c
-> +++ b/linux-user/signal.c
-> @@ -508,6 +508,11 @@ void signal_init(void)
->       act.sa_flags = SA_SIGINFO;
->       act.sa_sigaction = host_signal_handler;
->       for(i = 1; i <= TARGET_NSIG; i++) {
+> diff --git a/linux-user/exit.c b/linux-user/exit.c
+> index 14e94e28fa..bdda720553 100644
+> --- a/linux-user/exit.c
+> +++ b/linux-user/exit.c
+> @@ -18,6 +18,9 @@
+>    */
+>   #include "qemu/osdep.h"
+>   #include "qemu.h"
 > +#ifdef TARGET_GPROF
-> +        if (i == SIGPROF) {
-> +            continue;
-> +        }
+> +#include <sys/gmon.h>
 > +#endif
->           host_sig = target_to_host_signal(i);
->           sigaction(host_sig, NULL, &oact);
->           if (oact.sa_sigaction == (void *)SIG_IGN) {
+>   
+>   #ifdef CONFIG_GCOV
+>   extern void __gcov_dump(void);
+> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+> index 96cd4bf86d..f2d9883aef 100644
+> --- a/linux-user/syscall.c
+> +++ b/linux-user/syscall.c
+> @@ -59,9 +59,6 @@
+>   #ifdef CONFIG_TIMERFD
+>   #include <sys/timerfd.h>
+>   #endif
+> -#ifdef TARGET_GPROF
+> -#include <sys/gmon.h>
+> -#endif
+>   #ifdef CONFIG_EVENTFD
+>   #include <sys/eventfd.h>
+>   #endif
 > 
 
 Applied to my linux-user branch.
