@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CB00F18EDB
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 19:22:38 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58369 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 282CB18ECB
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 19:18:18 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58290 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOmkf-0001WK-Vi
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 13:22:38 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52265)
+	id 1hOmgT-0006Ti-8l
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 13:18:17 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52121)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hOmU8-0003pm-G8
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:05:34 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hOmU5-0008Ef-J2
+	(envelope-from <alex.bennee@linaro.org>) id 1hOmU5-0003nE-GD
 	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:05:32 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:41886)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+	(envelope-from <alex.bennee@linaro.org>) id 1hOmU4-0008Az-2u
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:05:29 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:34215)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hOmU5-0008C2-99
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:05:29 -0400
-Received: by mail-wr1-x441.google.com with SMTP id d12so4053897wrm.8
-	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 10:05:29 -0700 (PDT)
+	id 1hOmU3-00089V-Q3
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:05:27 -0400
+Received: by mail-wr1-x444.google.com with SMTP id f7so4101365wrq.1
+	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 10:05:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=MBe7Kc2gJyZ/SuxEH+RJihcvFjAFUPDJsCo1R8ybthc=;
-	b=QO/9ph0A12agL9W5ZQrEfa2lomWMpn6I9o25/epjdrOlgqacqHlS4HT4lk6rKAsOqj
-	M+EHTAM5QJJMdzXETT8bo7oh1z26kH7HC1i+Usak6pcImy1DCCLTMZmjdBw9cjAGHpwh
-	20DLkTW7KapaVQ3HwPB8+1U2L/DFpVhAcoi83wiZymWmtTdkXUSkpThXtc7bNlYVQz32
-	+ZWz/L5ymPzC/eJKOyE2jTdfzCals+SaOmwS5KIGWsDC1/2FYEAzjRiYWLHe2dwpGtvs
-	mALgrbjIjARAnCgOojfm8alZKwjIq0FeZYAipl9IqwsTT0ZXsZruL1r4gD9GAmtCwsc9
-	DA2w==
+	bh=zGueEXNbToGx5hE14DEDnOdyHE8+wvuGNK1SwxHKnFs=;
+	b=ouujw737NJgjmvM4H7Y4WHQ2MzmtLJ+RZ1+bjEU8aXhHcnLoC199oeT3Up2vgd30hJ
+	8iBFm900G7jpe7hLYgTlwlFJ9HJtESdgUPaw25BsclYL4QPJQx7Dgy5q0VH3h+Cpz/On
+	4p5Fzuf4wGUoInBF1iMDlhYz6CO5Z/QzfHL0GfNe8frKqat0GEIaCgKOSe4MOL2dAx6S
+	m+dK+gZwqr4Y9B6cyVtEBObA5VrEsKoozd2HLUMAXKZ4s+a4cKoHxjYTSE9jByQ7LiYa
+	aHP7lR7hdlKUwpUTDj011tx2CMxWGKNlNGkOgMdP085a6o+MjLl6OuxToASZdV5J1R/U
+	r8FQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=MBe7Kc2gJyZ/SuxEH+RJihcvFjAFUPDJsCo1R8ybthc=;
-	b=oAcsFDxANv0IbydNem5qhn+yG1kAIL5WXxHQD4h8ZB4qPPyAa67/xPLHymtC+zwBtq
-	rerAXsEpQw0lKrHYgkzqA7ayoiYFtDCl0SfwkjzTIhzfr0Mr2GKB3eDGArvLSzy1cB4b
-	EH3YIykiVRA8SZTYo/WmpJhgmwZeQghH6DouiIkXz/NDFhdGOLK8tCst8ICDQK1H7SB8
-	MD5V9dawG/cy+LE+Nz8DwUP4Nzwof3j9h2su0GZE5ZrBkQ3U/p0nZ9DjLpSU1mYI+U+w
-	Rr2bz5uyTwAk7b6QTlesYdYK/T7+fTJ5+WdxgEuxkigCnszR+c9tMggD+zCkzDORzzI/
-	yiQg==
-X-Gm-Message-State: APjAAAWskH4Y6X2k8QOZjwR5qMdPe/6CdWzvGSsYPBSM2zRe0FoYGQ25
-	7zC8L6Owevb0bpU5iBMCS/N3LA==
-X-Google-Smtp-Source: APXvYqzHgn4Hw4hALcSZSKLytSbCgfLVW8TmluKd5dJal2H45CNl1x2u1kYpsDPMCbLxFaXqj1pCEA==
-X-Received: by 2002:adf:f0ce:: with SMTP id x14mr4034064wro.121.1557421528049; 
-	Thu, 09 May 2019 10:05:28 -0700 (PDT)
+	bh=zGueEXNbToGx5hE14DEDnOdyHE8+wvuGNK1SwxHKnFs=;
+	b=JowEJN3+sL2Z0hdcSJ8yJ5Yotd/NcOUJWKQVoBhIcbFWrPbmAL7WnAs0E1zj/ruwyG
+	WuHC1a0o/Ux0De0a2yJB2t88+y7XVEkt9LlyJXU36LcuWRpfyurhCGBhzjHouNrdaj0K
+	XcfuWs0gsCQZplyLtBHU7AGcS6teUtZ4kKz6jgF5ksJ7di4AkyrHo4kmRRwEMI5PMH6u
+	l5U2BJqEzckBvot42ig4FipnoFt6XIOLmsAPf3htZdN0XcQx1SrdfKvJH41Y87Hce/9M
+	8oUQk93l6qEKW+wo2GxozHSpPJC28oSeJBgFJsvfNZAotUiIIvEsj9M+Mn3YWzicAdXw
+	uUnA==
+X-Gm-Message-State: APjAAAUXqHbmGmIxX6Q7mjYA58BFdQdGbpl2PgKhZw9a80uWHFmVqfA2
+	PTbmtHHRXmYDhVb+qNM6I08PfQ==
+X-Google-Smtp-Source: APXvYqxtHuAG3AK9Z1+yzjEcHPR3QG6aVrE7sThjT76J3UouDUedtKC3+PzJoF9VX9W9kqgn4amitQ==
+X-Received: by 2002:adf:e703:: with SMTP id c3mr3806988wrm.98.1557421525928;
+	Thu, 09 May 2019 10:05:25 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
-	by smtp.gmail.com with ESMTPSA id
-	g10sm3400523wrw.80.2019.05.09.10.05.23
+	by smtp.gmail.com with ESMTPSA id r3sm1790121wrn.5.2019.05.09.10.05.22
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 09 May 2019 10:05:24 -0700 (PDT)
+	Thu, 09 May 2019 10:05:23 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id 8F13C1FFA5;
+	by zen.linaroharston (Postfix) with ESMTP id A53D81FFA6;
 	Thu,  9 May 2019 17:59:13 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu,  9 May 2019 17:59:06 +0100
-Message-Id: <20190509165912.10512-19-alex.bennee@linaro.org>
+Date: Thu,  9 May 2019 17:59:07 +0100
+Message-Id: <20190509165912.10512-20-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190509165912.10512-1-alex.bennee@linaro.org>
 References: <20190509165912.10512-1-alex.bennee@linaro.org>
@@ -69,9 +68,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: [Qemu-devel] [PATCH v1 18/23] tests/qemu-iotests: Do not hard-code
- the path to bash
+X-Received-From: 2a00:1450:4864:20::444
+Subject: [Qemu-devel] [PATCH v1 19/23] cirrus / travis: Add gnu-sed and bash
+ for macOS and FreeBSD
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -83,86 +82,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
-	"open list:Block layer core" <qemu-block@nongnu.org>,
-	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
-	Max Reitz <mreitz@redhat.com>,
+Cc: Fam Zheng <fam@euphon.net>, Thomas Huth <thuth@redhat.com>,
+	Ed Maste <emaste@freebsd.org>,
+	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
 	Christian Borntraeger <borntraeger@de.ibm.com>, qemu-arm@nongnu.org,
-	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+	Li-Wen Hsu <lwhsu@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Thomas Huth <thuth@redhat.com>
 
-bash is installed in a different directory on non-Linux systems like
-FreeBSD. Do not hard-code /bin/bash here so that the tests can run
-there, too.
+We are going to enable the qemu-iotests during "make check" again,
+and for running the iotests, we need bash and gnu-sed.
 
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Li-Wen Hsu <lwhsu@freebsd.org>
 Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Acked-by: Christian Borntraeger <borntraeger@de.ibm.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20190502084506.8009-4-thuth@redhat.com>
+Message-Id: <20190502084506.8009-5-thuth@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/qemu-iotests/239 | 2 +-
- tests/qemu-iotests/240 | 2 +-
- tests/qemu-iotests/241 | 2 +-
- tests/qemu-iotests/243 | 2 +-
- tests/qemu-iotests/244 | 2 +-
- 5 files changed, 5 insertions(+), 5 deletions(-)
+ .cirrus.yml | 4 ++--
+ .travis.yml | 1 +
+ 2 files changed, 3 insertions(+), 2 deletions(-)
 
-diff --git a/tests/qemu-iotests/239 b/tests/qemu-iotests/239
-index 6f085d573da..b0991ffe594 100755
---- a/tests/qemu-iotests/239
-+++ b/tests/qemu-iotests/239
-@@ -1,4 +1,4 @@
--#!/bin/bash
-+#!/usr/bin/env bash
- #
- # Test case for dmg
- #
-diff --git a/tests/qemu-iotests/240 b/tests/qemu-iotests/240
-index 65cc3b39b13..d3e663ed65c 100755
---- a/tests/qemu-iotests/240
-+++ b/tests/qemu-iotests/240
-@@ -1,4 +1,4 @@
--#!/bin/bash
-+#!/usr/bin/env bash
- #
- # Test hot plugging and unplugging with iothreads
- #
-diff --git a/tests/qemu-iotests/241 b/tests/qemu-iotests/241
-index 017a736aaba..58b64ebf41f 100755
---- a/tests/qemu-iotests/241
-+++ b/tests/qemu-iotests/241
-@@ -1,4 +1,4 @@
--#!/bin/bash
-+#!/usr/bin/env bash
- #
- # Test qemu-nbd vs. unaligned images
- #
-diff --git a/tests/qemu-iotests/243 b/tests/qemu-iotests/243
-index 5838c6e89cb..e563761307d 100755
---- a/tests/qemu-iotests/243
-+++ b/tests/qemu-iotests/243
-@@ -1,4 +1,4 @@
--#!/bin/bash
-+#!/usr/bin/env bash
- #
- # Test qcow2 preallocation
- #
-diff --git a/tests/qemu-iotests/244 b/tests/qemu-iotests/244
-index d8e71223058..13978f93d24 100755
---- a/tests/qemu-iotests/244
-+++ b/tests/qemu-iotests/244
-@@ -1,4 +1,4 @@
--#!/bin/bash
-+#!/usr/bin/env bash
- #
- # Test qcow2 with external data files
- #
+diff --git a/.cirrus.yml b/.cirrus.yml
+index 47ef5bc6040..8326a3a4b16 100644
+--- a/.cirrus.yml
++++ b/.cirrus.yml
+@@ -7,7 +7,7 @@ freebsd_12_task:
+     cpu: 8
+     memory: 8G
+   install_script: pkg install -y
+-    bison curl cyrus-sasl git glib gmake gnutls
++    bash bison curl cyrus-sasl git glib gmake gnutls gsed
+     nettle perl5 pixman pkgconf png usbredir
+   script:
+     - mkdir build
+@@ -20,7 +20,7 @@ macos_task:
+   osx_instance:
+     image: mojave-base
+   install_script:
+-    - brew install pkg-config python glib pixman make sdl2
++    - brew install pkg-config python gnu-sed glib pixman make sdl2
+   script:
+     - ./configure --python=/usr/local/bin/python3 || { cat config.log; exit 1; }
+     - gmake -j$(sysctl -n hw.ncpu)
+diff --git a/.travis.yml b/.travis.yml
+index 8ba571b88a8..b053a836a32 100644
+--- a/.travis.yml
++++ b/.travis.yml
+@@ -42,6 +42,7 @@ addons:
+     packages:
+       - glib
+       - pixman
++      - gnu-sed
+ 
+ 
+ # The channel name "irc.oftc.net#qemu" is encrypted against qemu/qemu
 -- 
 2.20.1
 
