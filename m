@@ -2,60 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6F11218CAB
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 17:07:10 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:56196 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5689318C96
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 17:00:49 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:56107 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOkdY-0000gm-Rs
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 11:07:08 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43302)
+	id 1hOkXQ-00054b-Ib
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 11:00:48 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41930)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hOkc9-0007nI-JK
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 11:05:42 -0400
+	(envelope-from <sgarzare@redhat.com>) id 1hOkWL-0004gw-FO
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 10:59:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hOkc8-0006jL-FD
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 11:05:41 -0400
-Received: from indium.canonical.com ([91.189.90.7]:49162)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hOkc8-0006iX-9x
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 11:05:40 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
-	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hOkc7-0005hx-79
-	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 15:05:39 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id 2D1B52E80C9
-	for <qemu-devel@nongnu.org>; Thu,  9 May 2019 15:05:39 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 09 May 2019 14:59:24 -0000
-From: Brett Neumeier <1828429@bugs.launchpad.net>
+	(envelope-from <sgarzare@redhat.com>) id 1hOkWH-0002Vn-MZ
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 10:59:39 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:19881)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <sgarzare@redhat.com>)
+	id 1hOkWD-0002UL-SM; Thu, 09 May 2019 10:59:34 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+	[10.5.11.11])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 55631307E05F;
+	Thu,  9 May 2019 14:59:30 +0000 (UTC)
+Received: from steredhat.redhat.com (ovpn-116-227.ams2.redhat.com
+	[10.36.116.227])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id A4CAD600C7;
+	Thu,  9 May 2019 14:59:28 +0000 (UTC)
+From: Stefano Garzarella <sgarzare@redhat.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bneumeier pmaydell
-X-Launchpad-Bug-Reporter: Brett Neumeier (bneumeier)
-X-Launchpad-Bug-Modifier: Brett Neumeier (bneumeier)
-References: <155741248596.25660.12793938251081176084.malonedeb@chaenomeles.canonical.com>
-Message-Id: <155741396464.16507.4964839745502258537.malone@gac.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18961";
-	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: c0a694d1103a7cb4d2cb19012f1528dd8b244254
+Date: Thu,  9 May 2019 16:59:27 +0200
+Message-Id: <20190509145927.293369-1-sgarzare@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.42]);
+	Thu, 09 May 2019 14:59:30 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1828429] Re: qemu-system-aarch64 crashes with
- assertion failed while running GCC 9 test suite
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v3] block/rbd: increase dynamically the image
+ size
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,55 +55,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1828429 <1828429@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Josh Durgin <jdurgin@redhat.com>,
+	Jason Dillaman <jdillama@redhat.com>, qemu-block@nongnu.org,
+	Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I'm on it. Will follow up when I have a result.
+RBD APIs don't allow us to write more than the size set with
+rbd_create() or rbd_resize().
+In order to support growing images (eg. qcow2), we resize the
+image before write operations that exceed the current size.
 
--- =
+Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+---
+v3:
+  - add 'image_size' field in the BDRVRBDState to keep track of the
+    current size of the RBD image [Jason, Kevin]
+---
+ block/rbd.c | 42 +++++++++++++++++++++++++++++++++++++++---
+ 1 file changed, 39 insertions(+), 3 deletions(-)
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1828429
+diff --git a/block/rbd.c b/block/rbd.c
+index 0c549c9935..b0355a2ce0 100644
+--- a/block/rbd.c
++++ b/block/rbd.c
+@@ -102,6 +102,7 @@ typedef struct BDRVRBDState {
+     rbd_image_t image;
+     char *image_name;
+     char *snap;
++    uint64_t image_size;
+ } BDRVRBDState;
+=20
+ static int qemu_rbd_connect(rados_t *cluster, rados_ioctx_t *io_ctx,
+@@ -777,6 +778,14 @@ static int qemu_rbd_open(BlockDriverState *bs, QDict=
+ *options, int flags,
+         goto failed_open;
+     }
+=20
++    r =3D rbd_get_size(s->image, &s->image_size);
++    if (r < 0) {
++        error_setg_errno(errp, -r, "error getting image size from %s",
++                         s->image_name);
++        rbd_close(s->image);
++        goto failed_open;
++    }
++
+     /* If we are using an rbd snapshot, we must be r/o, otherwise
+      * leave as-is */
+     if (s->snap !=3D NULL) {
+@@ -833,6 +842,22 @@ static void qemu_rbd_close(BlockDriverState *bs)
+     rados_shutdown(s->cluster);
+ }
+=20
++/* Resize the RBD image and update the 'image_size' with the current siz=
+e */
++static int qemu_rbd_resize(BlockDriverState *bs, uint64_t size)
++{
++    BDRVRBDState *s =3D bs->opaque;
++    int r;
++
++    r =3D rbd_resize(s->image, size);
++    if (r < 0) {
++        return r;
++    }
++
++    s->image_size =3D size;
++
++    return 0;
++}
++
+ static const AIOCBInfo rbd_aiocb_info =3D {
+     .aiocb_size =3D sizeof(RBDAIOCB),
+ };
+@@ -934,13 +959,25 @@ static BlockAIOCB *rbd_start_aio(BlockDriverState *=
+bs,
+     }
+=20
+     switch (cmd) {
+-    case RBD_AIO_WRITE:
++    case RBD_AIO_WRITE: {
++        /*
++         * RBD APIs don't allow us to write more than actual size, so in=
+ order
++         * to support growing images, we resize the image before write
++         * operations that exceed the current size.
++         */
++        if (off + size > s->image_size) {
++            r =3D qemu_rbd_resize(bs, off + size);
++            if (r < 0) {
++                goto failed_completion;
++            }
++        }
+ #ifdef LIBRBD_SUPPORTS_IOVEC
+             r =3D rbd_aio_writev(s->image, qiov->iov, qiov->niov, off, c=
+);
+ #else
+             r =3D rbd_aio_write(s->image, off, size, rcb->buf, c);
+ #endif
+         break;
++    }
+     case RBD_AIO_READ:
+ #ifdef LIBRBD_SUPPORTS_IOVEC
+             r =3D rbd_aio_readv(s->image, qiov->iov, qiov->niov, off, c)=
+;
+@@ -1051,7 +1088,6 @@ static int coroutine_fn qemu_rbd_co_truncate(BlockD=
+riverState *bs,
+                                              PreallocMode prealloc,
+                                              Error **errp)
+ {
+-    BDRVRBDState *s =3D bs->opaque;
+     int r;
+=20
+     if (prealloc !=3D PREALLOC_MODE_OFF) {
+@@ -1060,7 +1096,7 @@ static int coroutine_fn qemu_rbd_co_truncate(BlockD=
+riverState *bs,
+         return -ENOTSUP;
+     }
+=20
+-    r =3D rbd_resize(s->image, offset);
++    r =3D qemu_rbd_resize(bs, offset);
+     if (r < 0) {
+         error_setg_errno(errp, -r, "Failed to resize file");
+         return r;
+--=20
+2.20.1
 
-Title:
-  qemu-system-aarch64 crashes with assertion failed while running GCC 9
-  test suite
-
-Status in QEMU:
-  New
-
-Bug description:
-  I am using QEMU 4.0.0 on an x86_64 Linux 4.19.0 host, the guest is an
-  Aarch64 linux 5.0.0 system. The same issue occurred on QEMU 3.1.0.
-
-  While running the GCC 9.1 test suite on the guest system, QEMU crashes
-  with:
-
-  qemu-system-aarch64: [...]/qemu-4.0.0/tcg/tcg.c:3952: tcg_gen_code:
-  Assertion `s->gen_insn_end_off[num_insns] =3D=3D off' failed.
-
-  I am able to reproduce the issue reliably, which is encouraging. The
-  full QEMU command line is:
-
-  qemu-system-aarch64 -kernel kernel-5.0.0cbl1 -append "root=3D/dev/vda1
-  ro init=3D/sbin/init console=3DttyAMA0" -name guest=3Dcbl -drive
-  file=3Dcbl.qcow2,index=3D0,media=3Ddisk,format=3Dqcow2 -drive
-  file=3Dswap.qcow2,index=3D1,media=3Ddisk,format=3Dqcow2 -machine virt -cpu
-  cortex-a57 -smp 4,sockets=3D1,cores=3D2,threads=3D2 -m size=3D8192 -netdev
-  tap,id=3Dnetwork0,ifname=3Dtapcbl2,script=3Dno,downscript=3Dno -device vi=
-rtio-
-  net-device,netdev=3Dnetwork0,mac=3Daa:bb:cc:dd:ee:02 -nographic
-
-  The specific GCC test that causes QEMU to crash is vldX.c run from
-  advsimd-intrinsics.exp; I can reproduce via "make check-gcc
-  RUNTESTFLAGS=3Dadvsimd-intrinsics.exp=3DvldX.c"
-
-  If there is anything I can do to further triage the issue, or gain
-  more insight into what is going on, please let me know! I am eager to
-  help however I can.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1828429/+subscriptions
 
