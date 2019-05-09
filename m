@@ -2,59 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1150B18C3B
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 16:47:13 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55881 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F32218C25
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 16:41:33 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:55808 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOkKG-0006UC-7y
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 10:47:12 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38186)
+	id 1hOkEm-0004WP-Bw
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 10:41:32 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36898)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hOkIm-0005zB-VA
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 10:45:44 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hOkDk-0003RT-Dk
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 10:40:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hOkIl-0004X0-6b
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 10:45:40 -0400
-Received: from indium.canonical.com ([91.189.90.7]:41576)
+	(envelope-from <peter.maydell@linaro.org>) id 1hOkDj-00016p-HX
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 10:40:28 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:37987)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hOkIk-0004UG-5H
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 10:45:38 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
-	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hOkIi-0001gB-UF
-	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 14:45:36 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id E09A52E80C7
-	for <qemu-devel@nongnu.org>; Thu,  9 May 2019 14:45:36 +0000 (UTC)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hOkDj-000126-DE
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 10:40:27 -0400
+Received: by mail-ot1-x344.google.com with SMTP id s19so2504482otq.5
+	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 07:40:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=NS0oocDVqszWMblfeVAOtOTHAJZ0x43pJylXCCWxUMs=;
+	b=oMCRkWwLhVXttRfTl7Cexjrv2RuoyWI9ilxK2W8enqhNq8s4eWBC9Jl+NP08drAzoS
+	C/35lkOnLAy2LVaY6lo7tuutQLiLFAeDIQ5ejhVVxXoevXT/2QRS+pQAHgAZpUyuqD46
+	kqSZ28tW3qtJSm2t5YF8t16o/NEKnCGL6XPPFtWbLbbZFduKj5GnSs2DWqsSE+4bOraq
+	SMuqdBvrSK9BHaxBAzrjWuLFgNHe/HQgfOhX0OyCQCEIz9zEYhmyTNNnf5hGZtbcD3Fx
+	LMTt2uAcYHfv8xlvbDcg8Q0KAerFa2qetMbIHnk45sao3bjyeDIw/jUJhCxU7WfCuvrM
+	mJgw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=NS0oocDVqszWMblfeVAOtOTHAJZ0x43pJylXCCWxUMs=;
+	b=LK37XHjg0MAh6+kXJGHK76dRF0Lb5YBjp+yK54TqZVkCN9K11LtrtrWkPC5XY1Z/Jy
+	wurvEzwsz1LuhUMs1KojKRl2Mu7zhhiPEr9s/CXK3IezZ28wiKSdGVNwU1TKu9/zXKiw
+	y4AHNFJok7HbjMnNScicDMfLwsUFVBn/t1CWLt8F4Pukf+6zXh/avLwLB0kLtHcqC+z/
+	Nsf1ZRiXRoYhHRXel2v/PzX1qnhcTCoX0zgCpSUdqoD1MDtRismds20hPB4CvP0FCCcH
+	ZWumAEpuGu2XK6h0rIjdKv+1tVpBU/3Deqz28E5/N9bKnQk/JL2q/gCrn2dTKGcxB7kL
+	nADQ==
+X-Gm-Message-State: APjAAAWeQ6x8HBnyNEqeqx2zS1Xs+MwOnHtejX67OOfHU8U016Ou5Ryq
+	zzPAfUUj8SWHmoN45pfn2ZgXQtumm365CdYSY9rlPQ==
+X-Google-Smtp-Source: APXvYqx3cSuROVBuTMk3gHYFh7DHNqlYuBDDniqx5zeSt/J2DaJR6EQiHfhJ3lc9BSb0Uxp9cUewkld2pTsQDqo+FN0=
+X-Received: by 2002:a05:6830:1258:: with SMTP id
+	s24mr2796575otp.238.1557412826444; 
+	Thu, 09 May 2019 07:40:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 09 May 2019 14:34:45 -0000
-From: Brett Neumeier <1828429@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bneumeier
-X-Launchpad-Bug-Reporter: Brett Neumeier (bneumeier)
-X-Launchpad-Bug-Modifier: Brett Neumeier (bneumeier)
-Message-Id: <155741248596.25660.12793938251081176084.malonedeb@chaenomeles.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18961";
-	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 18a1fd991aa7b816d80374d13e2aa00d0fc98895
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1828429] [NEW] qemu-system-aarch64 crashes with
- assertion failed while running GCC 9 test suite
+References: <1555560291-3415-1-git-send-email-hongbo.zhang@linaro.org>
+	<1555560291-3415-2-git-send-email-hongbo.zhang@linaro.org>
+	<CAFEAcA9rTL_4co1JvHrpJcqJqdrBsOiHo8sZS6wKWJOWphCCSA@mail.gmail.com>
+	<CAHmQWvAM3Jj_49Kq45jUgHnLmN-p3Yn-+GPQChpfTo1BS5hUJg@mail.gmail.com>
+	<20190509162736.133418f9@Igors-MacBook-Pro>
+In-Reply-To: <20190509162736.133418f9@Igors-MacBook-Pro>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 9 May 2019 15:40:15 +0100
+Message-ID: <CAFEAcA9wQwpWuh+12c13QYYkL6s7gUqGzfyMhh_0hxNGZqjjjg@mail.gmail.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::344
+Subject: Re: [Qemu-devel] [PATCH v7 1/2] hw/arm: Add arm SBSA reference
+ machine, skeleton part
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -63,88 +77,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1828429 <1828429@bugs.launchpad.net>
+Cc: Hongbo Zhang <hongbo.zhang@linaro.org>,
+	Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
+	Ard Biesheuvel <ard.biesheuvel@linaro.org>,
+	QEMU Developers <qemu-devel@nongnu.org>,
+	Leif Lindholm <leif.lindholm@linaro.org>,
+	Eric Auger <eric.auger@redhat.com>, qemu-arm <qemu-arm@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+On Thu, 9 May 2019 at 15:27, Igor Mammedov <imammedo@redhat.com> wrote:
 
-I am using QEMU 4.0.0 on an x86_64 Linux 4.19.0 host, the guest is an
-Aarch64 linux 5.0.0 system. The same issue occurred on QEMU 3.1.0.
+> It should be possible to add nvdimm and memory hotplug later.
+> (I don't see big issues here, as long as it would be possible
+> to carve out continuous range in address space for it.
+>
+> Considering ABI to guest, one could reuse QEMU's notification/enumeration
+> code for that or implement their own.
+>
+> PS:
+> However there will be the same issues that we've had with Seabios when
+> ACPI tables were generated there (i.e. cease-less invention of interfaces
+> to to pass information from QEMU to firmware). But if I recall correctly,
+> it seems that it's intentional design decision for this board,
+> where user supplies/builds in firmware a board description (acpi/dt/...)
+> manually.
 
-While running the GCC 9.1 test suite on the guest system, QEMU crashes
-with:
+This board is supposed to be very close to real hardware,
+where the firmware knows what it's running on and very
+little is configurable from the command line, yes.
 
-qemu-system-aarch64: [...]/qemu-4.0.0/tcg/tcg.c:3952: tcg_gen_code:
-Assertion `s->gen_insn_end_off[num_insns] =3D=3D off' failed.
-
-I am able to reproduce the issue reliably, which is encouraging. The
-full QEMU command line is:
-
-qemu-system-aarch64 -kernel kernel-5.0.0cbl1 -append "root=3D/dev/vda1 ro
-init=3D/sbin/init console=3DttyAMA0" -name guest=3Dcbl -drive
-file=3Dcbl.qcow2,index=3D0,media=3Ddisk,format=3Dqcow2 -drive
-file=3Dswap.qcow2,index=3D1,media=3Ddisk,format=3Dqcow2 -machine virt -cpu
-cortex-a57 -smp 4,sockets=3D1,cores=3D2,threads=3D2 -m size=3D8192 -netdev
-tap,id=3Dnetwork0,ifname=3Dtapcbl2,script=3Dno,downscript=3Dno -device virt=
-io-
-net-device,netdev=3Dnetwork0,mac=3Daa:bb:cc:dd:ee:02 -nographic
-
-The specific GCC test that causes QEMU to crash is vldX.c run from
-advsimd-intrinsics.exp; I can reproduce via "make check-gcc RUNTESTFLAGS
-=3Dadvsimd-intrinsics.exp=3DvldX.c"
-
-If there is anything I can do to further triage the issue, or gain more
-insight into what is going on, please let me know! I am eager to help
-however I can.
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1828429
-
-Title:
-  qemu-system-aarch64 crashes with assertion failed while running GCC 9
-  test suite
-
-Status in QEMU:
-  New
-
-Bug description:
-  I am using QEMU 4.0.0 on an x86_64 Linux 4.19.0 host, the guest is an
-  Aarch64 linux 5.0.0 system. The same issue occurred on QEMU 3.1.0.
-
-  While running the GCC 9.1 test suite on the guest system, QEMU crashes
-  with:
-
-  qemu-system-aarch64: [...]/qemu-4.0.0/tcg/tcg.c:3952: tcg_gen_code:
-  Assertion `s->gen_insn_end_off[num_insns] =3D=3D off' failed.
-
-  I am able to reproduce the issue reliably, which is encouraging. The
-  full QEMU command line is:
-
-  qemu-system-aarch64 -kernel kernel-5.0.0cbl1 -append "root=3D/dev/vda1
-  ro init=3D/sbin/init console=3DttyAMA0" -name guest=3Dcbl -drive
-  file=3Dcbl.qcow2,index=3D0,media=3Ddisk,format=3Dqcow2 -drive
-  file=3Dswap.qcow2,index=3D1,media=3Ddisk,format=3Dqcow2 -machine virt -cpu
-  cortex-a57 -smp 4,sockets=3D1,cores=3D2,threads=3D2 -m size=3D8192 -netdev
-  tap,id=3Dnetwork0,ifname=3Dtapcbl2,script=3Dno,downscript=3Dno -device vi=
-rtio-
-  net-device,netdev=3Dnetwork0,mac=3Daa:bb:cc:dd:ee:02 -nographic
-
-  The specific GCC test that causes QEMU to crash is vldX.c run from
-  advsimd-intrinsics.exp; I can reproduce via "make check-gcc
-  RUNTESTFLAGS=3Dadvsimd-intrinsics.exp=3DvldX.c"
-
-  If there is anything I can do to further triage the issue, or gain
-  more insight into what is going on, please let me know! I am eager to
-  help however I can.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1828429/+subscriptions
+thanks
+-- PMM
 
