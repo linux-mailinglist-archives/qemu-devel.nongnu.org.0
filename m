@@ -2,50 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB00F184EC
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 07:44:21 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48316 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDED0184E7
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 07:42:07 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48293 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hObqv-0004is-3w
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 01:44:21 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41039)
+	id 1hObok-00034N-55
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 01:42:06 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40760)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hObog-0003Qg-AM
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 01:42:03 -0400
+	(envelope-from <thuth@redhat.com>) id 1hObnR-0001w0-Tl
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 01:40:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hObof-0001fV-4C
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 01:42:02 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:40231 helo=ozlabs.org)
+	(envelope-from <thuth@redhat.com>) id 1hObnO-0000j5-2i
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 01:40:43 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38686)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
-	id 1hOboe-0001ZI-E0; Thu, 09 May 2019 01:42:01 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
-	id 4502KB5cNRz9sBr; Thu,  9 May 2019 15:41:50 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=gibson.dropbear.id.au; s=201602; t=1557380510;
-	bh=u0RCeZzCbmldhb+JRNB3Fb33PDYzCE+hnE7neIl+AuM=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=oINT04KEccVxXetvO5ui9EVTPyj1aDo0MjIkn0GzWEd9oKP710DmHiKR9QyiQdh1X
-	LuU7b0/Q4hWn24Mg8+2gxnfbLLrEywDapv4IxFC2b1NmLwAl4yPDDPbQcdm7BNT6Z9
-	KYi42WaNPth34+iTQPmFF9tCpEw10fQ4xytMtOq0=
-Date: Thu, 9 May 2019 15:40:31 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Message-ID: <20190509054031.GU7073@umbus.fritz.box>
-References: <20190508171946.657-1-clg@kaod.org>
-	<20190508171946.657-4-clg@kaod.org>
+	(Exim 4.71) (envelope-from <thuth@redhat.com>) id 1hObnL-0000dL-Ov
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 01:40:41 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 9F0A13DDBE;
+	Thu,  9 May 2019 05:40:38 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-116-115.ams2.redhat.com [10.36.116.115])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 4ECC845CB;
+	Thu,  9 May 2019 05:40:34 +0000 (UTC)
+To: Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org
+References: <20190508182339.22447-1-ehabkost@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=thuth@redhat.com; keydata=
+	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
+Organization: Red Hat
+Message-ID: <0f95754b-966e-0581-b8ce-6801692238ce@redhat.com>
+Date: Thu, 9 May 2019 07:40:33 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="pzbqGaOtRNiVr7w4"
-Content-Disposition: inline
-In-Reply-To: <20190508171946.657-4-clg@kaod.org>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [PATCH 3/3] spapr/xive: print out the EQ page
- address in the monitor
+In-Reply-To: <20190508182339.22447-1-ehabkost@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.29]);
+	Thu, 09 May 2019 05:40:38 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH] configure: Require python3 >= 3.5
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -57,80 +103,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+	Markus Armbruster <armbru@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+	=?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
---pzbqGaOtRNiVr7w4
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, May 08, 2019 at 07:19:46PM +0200, C=E9dric Le Goater wrote:
-> This proved to be a useful information when debugging issues with OS
-> event queues allocated above 64GB.
->=20
-> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
-
-Applied, thanks.
-
+On 08/05/2019 20.23, Eduardo Habkost wrote:
+> The oldest python3 version in distros that will be supported by
+> QEMU 4.1 is 3.5.3 (the one in Debian Stretch).  Error out if
+> running python3 < 3.5.
+> 
+> We have a .travis.yml job configured to use Python 3.4.  Change
+> it to use Python 3.5.
+> 
+> Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
 > ---
->  hw/intc/spapr_xive.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
->=20
-> diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-> index 810435c30cc7..7faf03b1fb7c 100644
-> --- a/hw/intc/spapr_xive.c
-> +++ b/hw/intc/spapr_xive.c
-> @@ -120,6 +120,7 @@ static int spapr_xive_target_to_end(uint32_t target, =
-uint8_t prio,
->  static void spapr_xive_end_pic_print_info(SpaprXive *xive, XiveEND *end,
->                                            Monitor *mon)
->  {
-> +    uint64_t qaddr_base =3D xive_end_qaddr(end);
->      uint32_t qindex =3D xive_get_field32(END_W1_PAGE_OFF, end->w1);
->      uint32_t qgen =3D xive_get_field32(END_W1_GENERATION, end->w1);
->      uint32_t qsize =3D xive_get_field32(END_W0_QSIZE, end->w0);
-> @@ -127,9 +128,9 @@ static void spapr_xive_end_pic_print_info(SpaprXive *=
-xive, XiveEND *end,
->      uint32_t nvt =3D xive_get_field32(END_W6_NVT_INDEX, end->w6);
->      uint8_t priority =3D xive_get_field32(END_W7_F0_PRIORITY, end->w7);
-> =20
-> -    monitor_printf(mon, "%3d/%d % 6d/%5d ^%d",
-> +    monitor_printf(mon, "%3d/%d % 6d/%5d @%"PRIx64" ^%d",
->                     spapr_xive_nvt_to_target(0, nvt),
-> -                   priority, qindex, qentries, qgen);
-> +                   priority, qindex, qentries, qaddr_base, qgen);
-> =20
->      xive_end_queue_pic_print_info(end, 6, mon);
->      monitor_printf(mon, "]");
+>  configure   | 5 +++--
+>  .travis.yml | 2 +-
+>  2 files changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/configure b/configure
+> index 6b3ed8c532..520c207d66 100755
+> --- a/configure
+> +++ b/configure
+> @@ -1841,8 +1841,9 @@ fi
+>  
+>  # Note that if the Python conditional here evaluates True we will exit
+>  # with status 1 which is a shell 'false' value.
+> -if ! $python -c 'import sys; sys.exit(sys.version_info < (2,7))'; then
+> -  error_exit "Cannot use '$python', Python 2 >= 2.7 or Python 3 is required." \
+> +if ! $python -c 'import sys; sys.exit(sys.version_info < (2,7) or \
+> +                                      (3,0) <= sys.version_info < (3,5))'; then
+> +  error_exit "Cannot use '$python', Python 2 >= 2.7 or Python 3 >= 3.5 is required." \
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Nit: There won't be a Python2 > 2.7 anymore, so you could also replace
+"2 >= 2.7" with "2.7" here. But well, it will go away next year anyway, so:
 
---pzbqGaOtRNiVr7w4
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlzTvU4ACgkQbDjKyiDZ
-s5J9kQ/+PH38gSr4N05voUowWefVDdDQyAR24yr/Ac578HnDa0ImN5DYLakwqGix
-gkaoBA7h4NdFxhsIUbFQLVh+QIReFHsCzTUOZlmSBWneRrbgSApxcymYx7Fpy+ng
-OWdslKUfZN3Kn7RoHPfTpNloDp+U76zj85rtAXyaESsgyMiNpHXZnbf4/ETfYMTK
-jVUjBbUPbMPbkQX1J3nXxzypydlcQsgeJW12SQjK8Ie7xa6k0xNGugzndZPZJYSV
-8tpFwyaC7VVmSycOHCfaib7+4XhpT6J/qv2ztjEWVmZQqNW2847LOQ4unJVn3AYZ
-AFNX/9FQUm1ECJw9o9xHWiWal/I4sc0VUeg7Mn2iDplUOlF6+JYmqlrwfk5Lr42F
-taQXMyXPsBAggZV1V0mFAKn/3I7PrtMzV6bciAWoxOV5rQxIX2m0PmmCm7pA5yj2
-bRMU46stiJtKiDkqIYZDHZOIy/QYv7VVdy4d4Y82OFCtrEmkU0r3qk/eFnvui5jt
-KaaHD/pMK/SoBF7+EaM5WFlGNprnCKiYV5SkPtVPDcW5RMRWaLoEzJ4lCclTYoUp
-CZXiitrrw3lLu2GGEAUEcRjwrDQ1gZqgtYF+EXG4Z3VUu1XmdaE935VjJaMvYSM9
-TUg/FTObE2MU+v3MkgghT2yoIHeLrZwZWy+cMNdTSc+Zg7uLVDk=
-=ps4d
------END PGP SIGNATURE-----
-
---pzbqGaOtRNiVr7w4--
+Reviewed-by: Thomas Huth <thuth@redhat.com>
 
