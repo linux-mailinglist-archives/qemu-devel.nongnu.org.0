@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 479E918521
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 08:11:06 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48673 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3E0B18543
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 08:17:09 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48775 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOcGn-0004Ep-92
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 02:11:05 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44959)
+	id 1hOcMf-00026r-3X
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 02:17:09 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44944)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOc98-00066w-NM
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 02:03:12 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hOc98-00066M-1x
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 02:03:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOc95-00079T-QT
+	(envelope-from <richard.henderson@linaro.org>) id 1hOc96-0007A5-RS
 	for qemu-devel@nongnu.org; Thu, 09 May 2019 02:03:10 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:36223)
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:32782)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hOc95-000790-Ik
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 02:03:07 -0400
-Received: by mail-pl1-x643.google.com with SMTP id d21so591906plr.3
-	for <qemu-devel@nongnu.org>; Wed, 08 May 2019 23:03:07 -0700 (PDT)
+	id 1hOc96-00079e-L9
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 02:03:08 -0400
+Received: by mail-pf1-x444.google.com with SMTP id z28so733749pfk.0
+	for <qemu-devel@nongnu.org>; Wed, 08 May 2019 23:03:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=8egen5zzcY5oFOy4H1qXOj5SeE6rAeyMWy2A1ca7FKQ=;
-	b=UTDPg7E417IjOtNwyh3KfljIzXZ3kWxHIPPW1O/Q6YNrsZ8aZO4ZIni+ydHhskWbIl
-	TudV3CYaKtUaGuHOIA9k3MB4QJb0rff+0TgvkhxIvj2/s4uRWD560o6+8/KygIbtWUuz
-	OUbOcGjHNTcsvmsgj9UMee01QkkRAhLYtIMXfvcMSTqMI0oLTArjjut5dwUYPpQdqhHF
-	gLhcXt8+7Q/TN8uVKCs2EbktcXTyPnlr6BrHEe3ifZGnD1tSSQnfcGQAdjSZ7sn00e0w
-	EwjKnNCsxFMCilx+IUd5ogCot/R7925uOzuAUS+j+nZanjJ+bcq2/ig/Qsmc4jfxY3XG
-	9viw==
+	bh=Po065qxrjk3XsW6DqLkqX6sS5n4nQgII0U5vHcIO+W8=;
+	b=ZA1JPYJHsS8cLBlNDoL7OcZzzfYHKYIz5i4eP+RN21EJNZT0L9VXaKb/Eer3dn/wO6
+	eDHaYXI0pXHMIF9Optzey+AXayrkZa/TZjlsgwNg2R8N/t8ClCDyR0oUXOhLn+HkF/i/
+	fCA1bqIx4qGvtxRxV4wa+WbL+S3sJsB2cftI00JG6DiaZ0tW0K7v5VZGNA68t3ZWlEQj
+	f3ATNDz7uJ0tEULL1DianRcxm6R5eEt0eIDzqTXjZ7XrCx72rjcK3FZtRB4zYIU4BIaV
+	GGedQgBDLp3/jioxrFMFzOk5/yJpyB44WKb/arI3pBAMV3AwE/l6gnd2nnZwMvXP14Lv
+	Cz2Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=8egen5zzcY5oFOy4H1qXOj5SeE6rAeyMWy2A1ca7FKQ=;
-	b=J38SIuzKByDjxqrXOAUUejYjpGGGtGtf/trPZNr6of5+27Nz3mztQoMwivRIH+90+H
-	SbXnIgH7+iFMCabDpjEYxwMyATNBGWvTwyRKPIdA7BgNhN/4iUGfe9Vh5O1zctkzVAxD
-	/BLcNUJT8vmiCVN82jyAg1nOG+udw287S7i32kJhHTjAJma8M4wF05lqYOuxfEL05jyt
-	ryxhxQIL6oFhSrdDb7vTNBxM4oYCA6ywp3Xdx3K6WzmoI/0SFOobCOkrnyiGO9zLTC0A
-	oSB3eD4+CkcmAEh1rO6P97uA0CFLKQDh/Wmi7/yghCu/inFs5rlUvL+ue0/AJRdeGM/o
-	tqIQ==
-X-Gm-Message-State: APjAAAVVGYu9z29sV8pRatzFEc0hYgCkr443TWm1jm4hQUTgBjz9s+HM
-	vGp+w97mjtPZ7tmofdNaadk2RHmXbaY=
-X-Google-Smtp-Source: APXvYqwQrI6tRWl6deBbp3QlsO4KwViUFR++/C9QkvYULz3jq4RvnX2oxjboDpK+6M0G82s4klyuLA==
-X-Received: by 2002:a17:902:7205:: with SMTP id
-	ba5mr2693897plb.285.1557381786274; 
-	Wed, 08 May 2019 23:03:06 -0700 (PDT)
+	bh=Po065qxrjk3XsW6DqLkqX6sS5n4nQgII0U5vHcIO+W8=;
+	b=c6e7VSII3H2Xcd8XNAFXm56l4WhBl409pXILDf3XiXStYkVXh9XHu55cBOk7SLPPAE
+	wf5FbLfAimR+kB+mrySfnGnXmhRLADIfv1RDAg73wYPEDtt1wQYryvXa/K1SmE5Atg3V
+	OjV308BCXiQXoHJxxWFw0J3ILPvjprFcubVwLYtQciBlj8umRPFnmoayYxrWkm9XV5aT
+	wE/La7VOcnyBAGfp5ITyky1UKlEG0PwSHcsLa4Eo8MNG7ikKXqFPzTx9Tl/V9nGcHjzJ
+	8lTKCXK1fV3fByLLQePLBnt+jWqao44OB1lp2DPIxxpv7cAFzg6r6V8ctbPtk8srQpWN
+	SYmQ==
+X-Gm-Message-State: APjAAAWLC1bMP5ytPLdATqo1dhxBcLhVJCOUGMA6YRuxQuR/Y37IrOeh
+	rIkWs+hSVxRG3LIhaGoSgybSYsU5iOM=
+X-Google-Smtp-Source: APXvYqzK5r85UhrCbW61JXQExYPxader4N2BNlqL7zbv+teB3e5PqjuovGp469OUhF9M9Kh4mPgVbg==
+X-Received: by 2002:aa7:980e:: with SMTP id e14mr2609706pfl.142.1557381787349; 
+	Wed, 08 May 2019 23:03:07 -0700 (PDT)
 Received: from localhost.localdomain (97-113-27-95.tukw.qwest.net.
 	[97.113.27.95])
-	by smtp.gmail.com with ESMTPSA id n7sm1496109pff.45.2019.05.08.23.03.05
+	by smtp.gmail.com with ESMTPSA id n7sm1496109pff.45.2019.05.08.23.03.06
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 08 May 2019 23:03:05 -0700 (PDT)
+	Wed, 08 May 2019 23:03:06 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed,  8 May 2019 23:02:33 -0700
-Message-Id: <20190509060246.4031-15-richard.henderson@linaro.org>
+Date: Wed,  8 May 2019 23:02:34 -0700
+Message-Id: <20190509060246.4031-16-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190509060246.4031-1-richard.henderson@linaro.org>
 References: <20190509060246.4031-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::643
-Subject: [Qemu-devel] [PATCH v2 14/27] target/nios2: Convert to
+X-Received-From: 2607:f8b0:4864:20::444
+Subject: [Qemu-devel] [PATCH v2 15/27] target/openrisc: Convert to
  CPUClass::tlb_fill
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
@@ -77,280 +76,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Marek Vasut <marex@denx.de>, Chris Wulff <crwulff@gmail.com>
+Cc: Stafford Horne <shorne@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove the leftover debugging cpu_dump_state.
-
-Cc: Chris Wulff <crwulff@gmail.com>
-Cc: Marek Vasut <marex@denx.de>
+Cc: Stafford Horne <shorne@gmail.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v2: Keep user-only and system tlb_fill separate.
----
- target/nios2/cpu.h    |   5 +-
- target/nios2/cpu.c    |   5 +-
- target/nios2/helper.c | 172 +++++++++++++++++++++---------------------
- target/nios2/mmu.c    |  12 ---
- 4 files changed, 91 insertions(+), 103 deletions(-)
+ target/openrisc/cpu.h |  5 ++--
+ target/openrisc/cpu.c |  5 ++--
+ target/openrisc/mmu.c | 65 ++++++++++++++++++++++---------------------
+ 3 files changed, 39 insertions(+), 36 deletions(-)
 
-diff --git a/target/nios2/cpu.h b/target/nios2/cpu.h
-index 881e7d58c9..60a916b2e5 100644
---- a/target/nios2/cpu.h
-+++ b/target/nios2/cpu.h
-@@ -252,8 +252,9 @@ static inline int cpu_mmu_index(CPUNios2State *env, bool ifetch)
-                                                   MMU_SUPERVISOR_IDX;
- }
+diff --git a/target/openrisc/cpu.h b/target/openrisc/cpu.h
+index a50861955a..5b1ae803a1 100644
+--- a/target/openrisc/cpu.h
++++ b/target/openrisc/cpu.h
+@@ -344,8 +344,9 @@ hwaddr openrisc_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
+ int openrisc_cpu_gdb_read_register(CPUState *cpu, uint8_t *buf, int reg);
+ int openrisc_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
+ void openrisc_translate_init(void);
+-int openrisc_cpu_handle_mmu_fault(CPUState *cpu, vaddr address, int size,
+-                                  int rw, int mmu_idx);
++bool openrisc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
++                           MMUAccessType access_type, int mmu_idx,
++                           bool probe, uintptr_t retaddr);
+ int cpu_openrisc_signal_handler(int host_signum, void *pinfo, void *puc);
+ int print_insn_or1k(bfd_vma addr, disassemble_info *info);
  
--int nios2_cpu_handle_mmu_fault(CPUState *env, vaddr address, int size,
--                               int rw, int mmu_idx);
-+bool nios2_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                        MMUAccessType access_type, int mmu_idx,
-+                        bool probe, uintptr_t retaddr);
- 
- static inline int cpu_interrupts_enabled(CPUNios2State *env)
- {
-diff --git a/target/nios2/cpu.c b/target/nios2/cpu.c
-index fbfaa2ce26..186af4913d 100644
---- a/target/nios2/cpu.c
-+++ b/target/nios2/cpu.c
-@@ -200,9 +200,8 @@ static void nios2_cpu_class_init(ObjectClass *oc, void *data)
-     cc->dump_state = nios2_cpu_dump_state;
-     cc->set_pc = nios2_cpu_set_pc;
-     cc->disas_set_info = nios2_cpu_disas_set_info;
+diff --git a/target/openrisc/cpu.c b/target/openrisc/cpu.c
+index d125236977..3816baee70 100644
+--- a/target/openrisc/cpu.c
++++ b/target/openrisc/cpu.c
+@@ -149,9 +149,8 @@ static void openrisc_cpu_class_init(ObjectClass *oc, void *data)
+     cc->set_pc = openrisc_cpu_set_pc;
+     cc->gdb_read_register = openrisc_cpu_gdb_read_register;
+     cc->gdb_write_register = openrisc_cpu_gdb_write_register;
 -#ifdef CONFIG_USER_ONLY
--    cc->handle_mmu_fault = nios2_cpu_handle_mmu_fault;
+-    cc->handle_mmu_fault = openrisc_cpu_handle_mmu_fault;
 -#else
-+    cc->tlb_fill = nios2_cpu_tlb_fill;
++    cc->tlb_fill = openrisc_cpu_tlb_fill;
 +#ifndef CONFIG_USER_ONLY
-     cc->do_unaligned_access = nios2_cpu_do_unaligned_access;
-     cc->get_phys_page_debug = nios2_cpu_get_phys_page_debug;
+     cc->get_phys_page_debug = openrisc_cpu_get_phys_page_debug;
+     dc->vmsd = &vmstate_openrisc_cpu;
  #endif
-diff --git a/target/nios2/helper.c b/target/nios2/helper.c
-index e01fc1ff3e..72884e4260 100644
---- a/target/nios2/helper.c
-+++ b/target/nios2/helper.c
-@@ -38,15 +38,16 @@ void nios2_cpu_do_interrupt(CPUState *cs)
-     env->regs[R_EA] = env->regs[R_PC] + 4;
+diff --git a/target/openrisc/mmu.c b/target/openrisc/mmu.c
+index e7d5219e11..991f3fafe8 100644
+--- a/target/openrisc/mmu.c
++++ b/target/openrisc/mmu.c
+@@ -107,16 +107,42 @@ static void raise_mmu_exception(OpenRISCCPU *cpu, target_ulong address,
+     cpu->env.lock_addr = -1;
  }
  
--int nios2_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size,
--                               int rw, int mmu_idx)
-+bool nios2_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                        MMUAccessType access_type, int mmu_idx,
-+                        bool probe, uintptr_t retaddr)
+-int openrisc_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size,
+-                                  int rw, int mmu_idx)
++bool openrisc_cpu_tlb_fill(CPUState *cs, vaddr addr, int size,
++                           MMUAccessType access_type, int mmu_idx,
++                           bool probe, uintptr_t retaddr)
  {
-     cs->exception_index = 0xaa;
-     /* Page 0x1000 is kuser helper */
-     if (address < 0x1000 || address >= 0x2000) {
-         cpu_dump_state(cs, stderr, 0);
-     }
+-#ifdef CONFIG_USER_ONLY
+     OpenRISCCPU *cpu = OPENRISC_CPU(cs);
+-    raise_mmu_exception(cpu, address, EXCP_DPF);
 -    return 1;
-+    cpu_loop_exit_restore(cs, retaddr);
- }
- 
- #else /* !CONFIG_USER_ONLY */
-@@ -203,89 +204,6 @@ void nios2_cpu_do_interrupt(CPUState *cs)
-     }
- }
- 
--static int cpu_nios2_handle_virtual_page(
--    CPUState *cs, target_ulong address, int rw, int mmu_idx)
--{
--    Nios2CPU *cpu = NIOS2_CPU(cs);
--    CPUNios2State *env = &cpu->env;
--    target_ulong vaddr, paddr;
--    Nios2MMULookup lu;
--    unsigned int hit;
--    hit = mmu_translate(env, &lu, address, rw, mmu_idx);
--    if (hit) {
--        vaddr = address & TARGET_PAGE_MASK;
--        paddr = lu.paddr + vaddr - lu.vaddr;
--
--        if (((rw == 0) && (lu.prot & PAGE_READ)) ||
--            ((rw == 1) && (lu.prot & PAGE_WRITE)) ||
--            ((rw == 2) && (lu.prot & PAGE_EXEC))) {
--
--            tlb_set_page(cs, vaddr, paddr, lu.prot,
--                         mmu_idx, TARGET_PAGE_SIZE);
--            return 0;
--        } else {
--            /* Permission violation */
--            cs->exception_index = (rw == 0) ? EXCP_TLBR :
--                                               ((rw == 1) ? EXCP_TLBW :
--                                                            EXCP_TLBX);
--        }
--    } else {
--        cs->exception_index = EXCP_TLBD;
--    }
--
--    if (rw == 2) {
--        env->regs[CR_TLBMISC] &= ~CR_TLBMISC_D;
--    } else {
--        env->regs[CR_TLBMISC] |= CR_TLBMISC_D;
--    }
--    env->regs[CR_PTEADDR] &= CR_PTEADDR_PTBASE_MASK;
--    env->regs[CR_PTEADDR] |= (address >> 10) & CR_PTEADDR_VPN_MASK;
--    env->mmu.pteaddr_wr = env->regs[CR_PTEADDR];
--    env->regs[CR_BADADDR] = address;
--    return 1;
--}
--
--int nios2_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size,
--                               int rw, int mmu_idx)
--{
--    Nios2CPU *cpu = NIOS2_CPU(cs);
--    CPUNios2State *env = &cpu->env;
--
--    if (cpu->mmu_present) {
--        if (MMU_SUPERVISOR_IDX == mmu_idx) {
--            if (address >= 0xC0000000) {
--                /* Kernel physical page - TLB bypassed */
--                address &= TARGET_PAGE_MASK;
--                tlb_set_page(cs, address, address, PAGE_BITS,
--                             mmu_idx, TARGET_PAGE_SIZE);
--            } else if (address >= 0x80000000) {
--                /* Kernel virtual page */
--                return cpu_nios2_handle_virtual_page(cs, address, rw, mmu_idx);
--            } else {
--                /* User virtual page */
--                return cpu_nios2_handle_virtual_page(cs, address, rw, mmu_idx);
--            }
--        } else {
--            if (address >= 0x80000000) {
--                /* Illegal access from user mode */
--                cs->exception_index = EXCP_SUPERA;
--                env->regs[CR_BADADDR] = address;
--                return 1;
--            } else {
--                /* User virtual page */
--                return cpu_nios2_handle_virtual_page(cs, address, rw, mmu_idx);
--            }
--        }
--    } else {
--        /* No MMU */
--        address &= TARGET_PAGE_MASK;
--        tlb_set_page(cs, address, address, PAGE_BITS,
--                     mmu_idx, TARGET_PAGE_SIZE);
--    }
--
--    return 0;
--}
--
- hwaddr nios2_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
- {
-     Nios2CPU *cpu = NIOS2_CPU(cs);
-@@ -321,4 +239,86 @@ void nios2_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-     env->regs[CR_EXCEPTION] = EXCP_UNALIGN << 2;
-     helper_raise_exception(env, EXCP_UNALIGN);
- }
+-#else
+-    g_assert_not_reached();
++    int excp = EXCP_DPF;
 +
-+bool nios2_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                        MMUAccessType access_type, int mmu_idx,
-+                        bool probe, uintptr_t retaddr)
-+{
-+    Nios2CPU *cpu = NIOS2_CPU(cs);
-+    CPUNios2State *env = &cpu->env;
-+    unsigned int excp = EXCP_TLBD;
-+    target_ulong vaddr, paddr;
-+    Nios2MMULookup lu;
-+    unsigned int hit;
++#ifndef CONFIG_USER_ONLY
++    int prot;
++    hwaddr phys_addr;
 +
-+    if (!cpu->mmu_present) {
-+        /* No MMU */
-+        address &= TARGET_PAGE_MASK;
-+        tlb_set_page(cs, address, address, PAGE_BITS,
++    if (mmu_idx == MMU_NOMMU_IDX) {
++        /* The mmu is disabled; lookups never fail.  */
++        get_phys_nommu(&phys_addr, &prot, addr);
++        excp = 0;
++    } else {
++        bool super = mmu_idx == MMU_SUPERVISOR_IDX;
++        int need = (access_type == MMU_INST_FETCH ? PAGE_EXEC
++                    : access_type == MMU_DATA_STORE ? PAGE_WRITE
++                    : PAGE_READ);
++        excp = get_phys_mmu(cpu, &phys_addr, &prot, addr, need, super);
++    }
++
++    if (likely(excp == 0)) {
++        tlb_set_page(cs, addr & TARGET_PAGE_MASK,
++                     phys_addr & TARGET_PAGE_MASK, prot,
 +                     mmu_idx, TARGET_PAGE_SIZE);
 +        return true;
 +    }
-+
-+    if (MMU_SUPERVISOR_IDX == mmu_idx) {
-+        if (address >= 0xC0000000) {
-+            /* Kernel physical page - TLB bypassed */
-+            address &= TARGET_PAGE_MASK;
-+            tlb_set_page(cs, address, address, PAGE_BITS,
-+                         mmu_idx, TARGET_PAGE_SIZE);
-+            return true;
-+        }
-+    } else {
-+        if (address >= 0x80000000) {
-+            /* Illegal access from user mode */
-+            if (probe) {
-+                return false;
-+            }
-+            cs->exception_index = EXCP_SUPERA;
-+            env->regs[CR_BADADDR] = address;
-+            cpu_loop_exit_restore(cs, retaddr);
-+        }
-+    }
-+
-+    /* Virtual page.  */
-+    hit = mmu_translate(env, &lu, address, access_type, mmu_idx);
-+    if (hit) {
-+        vaddr = address & TARGET_PAGE_MASK;
-+        paddr = lu.paddr + vaddr - lu.vaddr;
-+
-+        if (((access_type == MMU_DATA_LOAD) && (lu.prot & PAGE_READ)) ||
-+            ((access_type == MMU_DATA_STORE) && (lu.prot & PAGE_WRITE)) ||
-+            ((access_type == MMU_INST_FETCH) && (lu.prot & PAGE_EXEC))) {
-+            tlb_set_page(cs, vaddr, paddr, lu.prot,
-+                         mmu_idx, TARGET_PAGE_SIZE);
-+            return true;
-+        }
-+
-+        /* Permission violation */
-+        excp = (access_type == MMU_DATA_LOAD ? EXCP_TLBR :
-+                access_type == MMU_DATA_STORE ? EXCP_TLBW : EXCP_TLBX);
-+    }
-+
 +    if (probe) {
 +        return false;
 +    }
-+
-+    if (access_type == MMU_INST_FETCH) {
-+        env->regs[CR_TLBMISC] &= ~CR_TLBMISC_D;
-+    } else {
-+        env->regs[CR_TLBMISC] |= CR_TLBMISC_D;
-+    }
-+    env->regs[CR_PTEADDR] &= CR_PTEADDR_PTBASE_MASK;
-+    env->regs[CR_PTEADDR] |= (address >> 10) & CR_PTEADDR_VPN_MASK;
-+    env->mmu.pteaddr_wr = env->regs[CR_PTEADDR];
-+
-+    cs->exception_index = excp;
-+    env->regs[CR_BADADDR] = address;
-+    cpu_loop_exit_restore(cs, retaddr);
-+}
-+
-+void tlb_fill(CPUState *cs, target_ulong addr, int size,
-+              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
-+{
-+    nios2_cpu_tlb_fill(cs, addr, size, access_type, mmu_idx, false, retaddr);
-+}
- #endif /* !CONFIG_USER_ONLY */
-diff --git a/target/nios2/mmu.c b/target/nios2/mmu.c
-index 5acf442d8b..47fa474efb 100644
---- a/target/nios2/mmu.c
-+++ b/target/nios2/mmu.c
-@@ -36,18 +36,6 @@
- #define MMU_LOG(x)
  #endif
++
++    raise_mmu_exception(cpu, addr, excp);
++    cpu_loop_exit_restore(cs, retaddr);
+ }
  
--void tlb_fill(CPUState *cs, target_ulong addr, int size,
--              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
--{
--    int ret;
+ #ifndef CONFIG_USER_ONLY
+@@ -156,29 +182,6 @@ hwaddr openrisc_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
+ void tlb_fill(CPUState *cs, target_ulong addr, int size,
+               MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
+ {
+-    OpenRISCCPU *cpu = OPENRISC_CPU(cs);
+-    int prot, excp;
+-    hwaddr phys_addr;
 -
--    ret = nios2_cpu_handle_mmu_fault(cs, addr, size, access_type, mmu_idx);
--    if (unlikely(ret)) {
--        /* now we have a real cpu fault */
+-    if (mmu_idx == MMU_NOMMU_IDX) {
+-        /* The mmu is disabled; lookups never fail.  */
+-        get_phys_nommu(&phys_addr, &prot, addr);
+-        excp = 0;
+-    } else {
+-        bool super = mmu_idx == MMU_SUPERVISOR_IDX;
+-        int need = (access_type == MMU_INST_FETCH ? PAGE_EXEC
+-                    : access_type == MMU_DATA_STORE ? PAGE_WRITE
+-                    : PAGE_READ);
+-        excp = get_phys_mmu(cpu, &phys_addr, &prot, addr, need, super);
+-    }
+-
+-    if (unlikely(excp)) {
+-        raise_mmu_exception(cpu, addr, excp);
 -        cpu_loop_exit_restore(cs, retaddr);
 -    }
--}
 -
- void mmu_read_debug(CPUNios2State *env, uint32_t rn)
- {
-     switch (rn) {
+-    tlb_set_page(cs, addr & TARGET_PAGE_MASK,
+-                 phys_addr & TARGET_PAGE_MASK, prot,
+-                 mmu_idx, TARGET_PAGE_SIZE);
++    openrisc_cpu_tlb_fill(cs, addr, size, access_type, mmu_idx, 0, retaddr);
+ }
+ #endif
 -- 
 2.17.1
 
