@@ -2,80 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98C9B18BB6
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 16:27:50 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55607 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E52E718BC1
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 16:30:10 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:55635 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOk1V-0006h4-O7
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 10:27:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:32973)
+	id 1hOk3m-0008Fr-4v
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 10:30:10 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33276)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hOk0C-000654-Sy
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 10:26:30 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hOk1H-0006ot-0R
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 10:27:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hOk0B-0001Al-8j
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 10:26:28 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39152)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hOk07-000182-CR; Thu, 09 May 2019 10:26:23 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
-	[10.5.11.14])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id D930230238F0;
-	Thu,  9 May 2019 14:26:21 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-204-168.brq.redhat.com
-	[10.40.204.168])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id A80CE5DF4B;
-	Thu,  9 May 2019 14:26:18 +0000 (UTC)
-To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
-References: <20190508155147.10645-1-berto@igalia.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
-	mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
-	/PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
-	U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
-	mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
-	awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
-	AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
-	CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
-	B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
-	2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
-	AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
-	8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
-	4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
-	BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
-	xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
-	W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
-	DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
-	64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
-	ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
-	sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
-	alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
-	/ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
-	bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
-	R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <ad47a268-b853-6941-34a6-51f73ac992b1@redhat.com>
-Date: Thu, 9 May 2019 16:26:15 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <peter.maydell@linaro.org>) id 1hOk1F-0001Rd-3k
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 10:27:34 -0400
+Received: from mail-ot1-x330.google.com ([2607:f8b0:4864:20::330]:34772)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hOk1B-0001Pu-GN
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 10:27:31 -0400
+Received: by mail-ot1-x330.google.com with SMTP id l17so2484450otq.1
+	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 07:27:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=6LJyyErWpleJNO3piNiSstINguX+qYjhgSHzysSFEsc=;
+	b=ymQNgseSTD7IsNFO6WmwM6s4AmETujq/N/Y4B14FGhnbmVkn04FG/XaqSwzrUwIRkG
+	riYC6qj629MvlWGzJOmVK+p5AYlRI1uZxzNbnf1vc9QGc0XtcWmsQeUh5RrxssGm0pJM
+	+rjY7W/Rb0bOEGCeDoNFSscTSXFuXQa4r9CIqoqq0AMjpfHCi8+ylsRc0QW4VBT9t/FL
+	r9cideb7t3cnQfU5LLx3Z0D4I0bxnVHCRiLZDKqUJhRNoBphVsVJw4nuJdB5guGJPpF7
+	yQCtSYuQw7yeTSV36aKE9AqTXHM1E7hrred2S9h+X68aItb41xpGnnFGppAixuCpR/N2
+	pCLQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=6LJyyErWpleJNO3piNiSstINguX+qYjhgSHzysSFEsc=;
+	b=YXxow1vsmaDR4zL2C9cR75QefTqDcXvxaveJt9ZKku8Zf9Ta+0+z4zTMQC7GB/JNaI
+	K5vbY5J+WH+++rM2cKtZg04KrpPv08OikHWtow2nfsiXqNAPSgupKUFb5ZaO7cpeJncS
+	S/gaDM5VSTCJr7Pfymy+dqAsEx02amLHYvMm7idOzuaNRjX10fV4Iy7QLTJm/10vEl7b
+	ZItNz/yuXHO+oOA9X85Vd+u9yPfio3sOpc2f+Xz2cEsVEL8tA1WQx7Dge+zY7g1vNULe
+	YWq3DyMfy+FBLGYbOVudu4JLiLlt/LBxD10FFWgRhHf0fTrnvcwxydZDJAtpMoBaCEdJ
+	bliA==
+X-Gm-Message-State: APjAAAV21P5XW2hvyuySPfIR/U/FHc7V7zlYel8MmlFuh1WcTE54q4Rh
+	kKIc9VCIWBSqtxpuubt4kZWHwE9WcbY2+J684HZy6A==
+X-Google-Smtp-Source: APXvYqxug6RbA8/NU0haF7VjVXSRmFQPOGZ8qh/JQ6WJZ5XjtE0nZ1ThSxR62nx57W9goKHcTr7LWwa8zRtb5tMa8mI=
+X-Received: by 2002:a05:6830:1258:: with SMTP id
+	s24mr2744486otp.238.1557412047216; 
+	Thu, 09 May 2019 07:27:27 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190508155147.10645-1-berto@igalia.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature";
-	boundary="TzulHUoabsk8eO0pFuJR22zp7fN3l3rhZ"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.43]);
-	Thu, 09 May 2019 14:26:22 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PATCH v2] block: Use bdrv_unref_child() for all
- children in bdrv_close()
+References: <20190503112654.4393-1-laurent@vivier.eu>
+	<80fb3313-239a-5828-94fa-d27137bfcb05@vivier.eu>
+	<CAFEAcA_y24gpugttDTR-QrJ0fA7JCQeC0XXsR6pjm2rQ19rfCA@mail.gmail.com>
+	<CAFEAcA9ZRSxPK17Zgx0WuhvjyVATL5-0Mp7LvBtv5O4+UGRVyg@mail.gmail.com>
+	<2ada4cde-cece-4855-8499-90183a30fb0c@vivier.eu>
+In-Reply-To: <2ada4cde-cece-4855-8499-90183a30fb0c@vivier.eu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 9 May 2019 15:27:16 +0100
+Message-ID: <CAFEAcA9dyNWQ=Jes8xB5ZgmGhZ+c3ryiUOP2Uwe1GcWdDi-5DA@mail.gmail.com>
+To: Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::330
+Subject: Re: [Qemu-devel] [PULL v2 00/12] Trivial branch patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -87,158 +76,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+Cc: QEMU Trivial <qemu-trivial@nongnu.org>,
+	Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+	Jason Wang <jasowang@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
+	QEMU Developers <qemu-devel@nongnu.org>,
+	Fabien Chouteau <chouteau@adacore.com>,
+	Michael Roth <mdroth@linux.vnet.ibm.com>,
+	Gerd Hoffmann <kraxel@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+	=?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
+	Artyom Tarasenko <atar4qemu@gmail.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---TzulHUoabsk8eO0pFuJR22zp7fN3l3rhZ
-From: Max Reitz <mreitz@redhat.com>
-To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
-Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>
-Message-ID: <ad47a268-b853-6941-34a6-51f73ac992b1@redhat.com>
-Subject: Re: [PATCH v2] block: Use bdrv_unref_child() for all children in
- bdrv_close()
-References: <20190508155147.10645-1-berto@igalia.com>
-In-Reply-To: <20190508155147.10645-1-berto@igalia.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+On Thu, 9 May 2019 at 09:58, Laurent Vivier <laurent@vivier.eu> wrote:
+>
+> On 09/05/2019 10:51, Peter Maydell wrote:
+> > On Tue, 7 May 2019 at 21:48, Peter Maydell <peter.maydell@linaro.org> wrote:
+> >>
+> >> On Tue, 7 May 2019 at 20:10, Laurent Vivier <laurent@vivier.eu> wrote:
+> >>>
+> >>> Ping ?
+> >>
+> >> This is in my queue to process, but there are still a bunch of
+> >> other pullreqs in the queue too; I am working through them.
+> >
+> > Wait, I'm confused now. Looking back through my emails you
+> > said "Forget this series, the send has been aborted for an
+> > unknown reason.". So should I be applying something ?
+>
+> Yes, it's why I pinged.
+>
+> I sent the v2 three times because the sent was aborted for an known
+> reason two times. The third is the good one.
+>
+> You must apply this series.
 
-On 08.05.19 17:51, Alberto Garcia wrote:
-> bdrv_unref_child() does the following things:
->=20
->   - Updates the child->bs->inherits_from pointer.
->   - Calls bdrv_detach_child() to remove the BdrvChild from bs->children=
-=2E
->   - Calls bdrv_unref() to unref the child BlockDriverState.
->=20
-> When bdrv_unref_child() was introduced in commit 33a604075c it was not
-> used in bdrv_close() because the drivers that had additional children
-> (like quorum or blkverify) had already called bdrv_unref() on their
-> children during their own close functions.
->=20
-> This was changed later (in 0bd6e91a7e for quorum, in 3e586be0b2 for
-> blkverify) so there's no reason not to use bdrv_unref_child() in
-> bdrv_close() anymore.
->=20
-> After this there's also no need to remove bs->backing and bs->file
-> separately from the rest of the children, so bdrv_close() can be
-> simplified.
->=20
-> This patch also updates a couple of tests that were doing their own
-> bdrv_unref().
->=20
-> Signed-off-by: Alberto Garcia <berto@igalia.com>
-> ---
->  block.c                     | 16 +++-------------
->  tests/test-bdrv-drain.c     |  6 ------
->  tests/test-bdrv-graph-mod.c |  1 -
->  3 files changed, 3 insertions(+), 20 deletions(-)
->=20
-> diff --git a/block.c b/block.c
-> index 9ae5c0ed2f..96f8e431da 100644
-> --- a/block.c
-> +++ b/block.c
-> @@ -3843,22 +3843,12 @@ static void bdrv_close(BlockDriverState *bs)
->          bs->drv =3D NULL;
->      }
-> =20
-> -    bdrv_set_backing_hd(bs, NULL, &error_abort);
-> -
-> -    if (bs->file !=3D NULL) {
-> -        bdrv_unref_child(bs, bs->file);
-> -        bs->file =3D NULL;
-> -    }
-> -
->      QLIST_FOREACH_SAFE(child, &bs->children, next, next) {
-> -        /* TODO Remove bdrv_unref() from drivers' close function and u=
-se
-> -         * bdrv_unref_child() here */
-> -        if (child->bs->inherits_from =3D=3D bs) {
-> -            child->bs->inherits_from =3D NULL;
-> -        }
-> -        bdrv_detach_child(child);
-> +        bdrv_unref_child(bs, child);
->      }
-> =20
-> +    bs->backing =3D NULL;
-> +    bs->file =3D NULL;
->      g_free(bs->opaque);
->      bs->opaque =3D NULL;
->      atomic_set(&bs->copy_on_read, 0);
-> diff --git a/tests/test-bdrv-drain.c b/tests/test-bdrv-drain.c
-> index eda90750eb..5534c2adf9 100644
-> --- a/tests/test-bdrv-drain.c
-> +++ b/tests/test-bdrv-drain.c
-> @@ -1436,12 +1436,6 @@ static void test_detach_indirect(bool by_parent_=
-cb)
->      bdrv_unref(parent_b);
->      blk_unref(blk);
-> =20
-> -    /* XXX Once bdrv_close() unref's children instead of just detachin=
-g them,
-> -     * this won't be necessary any more. */
-> -    bdrv_unref(a);
-> -    bdrv_unref(a);
-> -    bdrv_unref(c);
-> -
->      g_assert_cmpint(a->refcnt, =3D=3D, 1);
->      g_assert_cmpint(b->refcnt, =3D=3D, 1);
->      g_assert_cmpint(c->refcnt, =3D=3D, 1);
-> diff --git a/tests/test-bdrv-graph-mod.c b/tests/test-bdrv-graph-mod.c
-> index 283dc84869..747c0bf8fc 100644
-> --- a/tests/test-bdrv-graph-mod.c
-> +++ b/tests/test-bdrv-graph-mod.c
-> @@ -116,7 +116,6 @@ static void test_update_perm_tree(void)
->      g_assert_nonnull(local_err);
->      error_free(local_err);
-> =20
-> -    bdrv_unref(bs);
->      blk_unref(root);
->  }
+Applied, thanks.
 
-Hm, yes, the comment in test-bdrv-drain makes these changes obvious enoug=
-h.
-
-So the =E2=80=9Cproblem=E2=80=9D was that this patch effectively makes
-bdrv_attach_child() take the reference to the child BDS on success.
-Well, it always kind of did so; it did not increase the refcount for the
-link it creates.  But someone still needed to invoke some unref function
-to drop the refcount, which is no longer the case as of this patch.
-
-But taking the reference only on success is a bit wonky.  Usually such
-functions promise to always take the reference, even on error (they will
-just bdrv_unref() the BDS then).  And looking at the callers, that seems
-to make sense, actually.  All of them invoke bdrv_unref() on the child
-if bdrv_attach_child() fails.  This extends to bdrv_root_attach_child()
--- two of its three callers do not bdrv_unref() the child on failure,
-but that's just because they haven't even taken their own reference yet.
- So if bdrv_root_attach_child() always took the reference, they'd just
-need to call bdrv_ref() before bdrv_root_attach_child() rather than
-afterwards.
-
-Do you agree?  If so, would you mind changing the behavior of
-bdrv_attach_child() and bdrv_root_attach_child() and document it?
-
-Max
-
-
---TzulHUoabsk8eO0pFuJR22zp7fN3l3rhZ
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAlzUOIcACgkQ9AfbAGHV
-z0Br2Qf/bQ9eyYE0JCumg516z3AaUmacPcBM7pr40+N/kgmYHrOvhbjAAqzhIcY3
-LqyAHQDfNZHHF/OhiJPjgK22aFCvZiPtwR3E/OOcBNBhAOfnVH81pHd5pbn4XllH
-d6zuHl3VZ23QRUhefbQpn8ecLFrd5vbJLqEbWdM7uZcfVOPejcvt83qUdfknASbc
-WJBhvPlAnjQJsbjs0EkwkUfwj6EGvGpnUrC/L1dDEtWnQEJnEqHim2VS9AKMZOVz
-bS4MSXPxmGrMyFSkEJdqq5akNPxHDSGXILh3Pv50+i0L+VvpbOkzEDRXGxZGoeuE
-6tKVPYdH5c5POsbuV/Ci9pNZyypX0g==
-=v0M+
------END PGP SIGNATURE-----
-
---TzulHUoabsk8eO0pFuJR22zp7fN3l3rhZ--
+-- PMM
 
