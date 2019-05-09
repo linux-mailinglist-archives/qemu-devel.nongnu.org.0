@@ -2,72 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C961F18ABE
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 15:31:44 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54630 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7542E18AD5
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 15:37:29 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54710 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOj9D-0006rA-Vc
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 09:31:44 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49402)
+	id 1hOjEm-0001Ud-5K
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 09:37:28 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50643)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <stefanha@gmail.com>) id 1hOj79-0005lj-Mt
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 09:29:37 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hOjCc-0000MH-VY
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 09:35:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <stefanha@gmail.com>) id 1hOj78-0005F8-RF
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 09:29:35 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:46108)
+	(envelope-from <peter.maydell@linaro.org>) id 1hOjCb-0008Rf-MP
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 09:35:14 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:43597)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <stefanha@gmail.com>)
-	id 1hOj78-0005Ek-Ed; Thu, 09 May 2019 09:29:34 -0400
-Received: by mail-wr1-x444.google.com with SMTP id r7so2439003wrr.13;
-	Thu, 09 May 2019 06:29:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=nO05n2b4bwpw+2Hj0vzxgDLt5R1AGAuoaXeAmu2XMF0=;
-	b=fvTFzYs1lRPv4CrioYrK3g8ALkn5o24hmW/ZZ6M+tj30ioyMqnEn4+gRrrfrh2wV+r
-	eWF3g2cEXZXR+57eQ23+eNW9OIzTQRIvIaVgFnrHSI+diWnR/oGElqyTma4FmrJ/gomc
-	AZIs3Diud0FlH0vjgAJ95hLc9Hqhx/LaWyN21MRA5UPCPfxGkMMao+XixPT6ivWngBI/
-	33FjGv+idHdEb2nOvtQry0kjtkBSv1XakhwDoIg3f5ojx5ujXduRdtqHkPgRIvR9F9k+
-	uj5vgqxwVBogapy175gcoIH+jhTMW8nVdlf2rauhmWRTMrTlZ9z2FZBCIiLIl++B5oAa
-	UNcQ==
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hOjCb-0008R8-Dk
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 09:35:13 -0400
+Received: by mail-ot1-x343.google.com with SMTP id i8so2257372oth.10
+	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 06:35:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=fo7hbPyZIIstVs2SEBBFQ2JxtjYBVAlfcShN7okdhYU=;
+	b=Mh3xDUQY3uqihe9aSDVBXXgMjdFYhSsj7yG8WgEU6KUY08gj63Abj74m0nZ5hQRkPZ
+	1wBKsaXxU/E9RlE1kkx5SJJx6SbujFZDJGvg5z+r7rzHpdyjBJw7kM07/F/HUoGfB/22
+	fEkC8Vy16rTlmvEzKZY9Hg2Zc+/xkfJwXWXhIBB42Jh4RK42W7D8sFWv3OGURKWKbc54
+	KAS/hiFu2cg03BMdaTJ2y8KXpXRIiPVamewbWkWHfhibpvCbvrYgpIYiqDdqDM544agV
+	q+A2GqetsDthPzGBw22a1N6V43Lpx6KzF2KxcN9fYOSmgaFtMH/xkcT/TiaC819T0/kp
+	ybhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=nO05n2b4bwpw+2Hj0vzxgDLt5R1AGAuoaXeAmu2XMF0=;
-	b=O65RUk63yhBR4OqpDiKfIivP3b/7fH999c71LNy7xch8K83zD8TB7diVpnvCvUw1xf
-	q4nB8eFciBv6zfTC0QtDKmleP8TLrlQKPx59tQ3hYCoKLBOWKRjzsRg/Ago3QhaMR3MF
-	SFwQ05WSZHYsN+gA64WEioguRwQh+T/znC/n7bzh7u3iANQY/MmIZ18ePzAmvptyHD03
-	5t8/hnEHs5kuLaYTa2P2a41JJqZiQuOKLSW3kCHPCpnM2naAJdPUmTN2E1siOctqXRrj
-	/mLxeh0Yo+Fy/mhkPjqaaQ9lQlVkJFj8DYW7RMnae5QiAm765aWHy8XaqcLrYD4BHQW6
-	B0ng==
-X-Gm-Message-State: APjAAAU9rAoY/YhSMAL291Fx360SaVgOosr8n9kMbQqIgUzV7lJwLNH5
-	10C/uYZNqiOV12Vhzu2qSyg=
-X-Google-Smtp-Source: APXvYqxcfh9E/nf0cNd6IUDR0fORdOG00LYkotJM+q/kMfTK47WXKCUuCTY3dlg7Q3l6fpjUSIrrWA==
-X-Received: by 2002:adf:8567:: with SMTP id 94mr3312323wrh.286.1557408573167; 
-	Thu, 09 May 2019 06:29:33 -0700 (PDT)
-Received: from localhost ([51.15.41.238]) by smtp.gmail.com with ESMTPSA id
-	i127sm6971825wmg.21.2019.05.09.06.29.31
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 09 May 2019 06:29:32 -0700 (PDT)
-Date: Thu, 9 May 2019 14:29:31 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <20190509132931.GC17133@stefanha-x1.localdomain>
-References: <20190504120528.6389-1-pbonzini@redhat.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=fo7hbPyZIIstVs2SEBBFQ2JxtjYBVAlfcShN7okdhYU=;
+	b=Z5EAQJ7vIyfg7n0CKCsQvk7ShbvDFb6RX6yDgCpbn1xlJL3TZqYPceJQjxk5l4eVry
+	aUqQwAuM2uoqGISQbZhfBn3ljSW2+DsbLNBm023S/sUzCh6sTIMvLgQZBnJEw+pzCvtE
+	KRpOIuS0+qaymh3r1OMiRxZHMzWyJR8QIgazh4lbQmSLJPYHORetlG65qx7yS5GC0dWx
+	DvdUEq18M2v4whmN6HPd1WIsGZNjAbuYOMpMhC72bYxBl+Ze7aNWBVHhNoQ8xmfut7vf
+	6HUdj+azLMnuzMD0/MuV8EotbifS/4/CLZGQn1t58op3H2AmzRLXdmEn+WnucpzgXDOE
+	ieKA==
+X-Gm-Message-State: APjAAAXuY5cIkzcFgHoQXldBStzm8CBasYVXebpcnAUqZzACkZ1JE2af
+	aHw1pwwsEy1C3/8fE/4R/TfeduLGiHji+7ZGJZXAKQ==
+X-Google-Smtp-Source: APXvYqxtV2nMVIpNc+UCZx9TNEH4hsBFToHWwUXVMexfDWIP6CsI7aJ45RSck/twvdA/PVFoIwwPx9dTKcovSktkrRk=
+X-Received: by 2002:a9d:6156:: with SMTP id c22mr2442199otk.363.1557408912296; 
+	Thu, 09 May 2019 06:35:12 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="ncSAzJYg3Aa9+CRW"
-Content-Disposition: inline
-In-Reply-To: <20190504120528.6389-1-pbonzini@redhat.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+References: <20190509060246.4031-1-richard.henderson@linaro.org>
+	<20190509060246.4031-21-richard.henderson@linaro.org>
+In-Reply-To: <20190509060246.4031-21-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 9 May 2019 14:35:01 +0100
+Message-ID: <CAFEAcA_2SbYfaOf4_p1r5O2iCLmoBWixWpgBnAcZYaWixr2KKQ@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: Re: [Qemu-devel] [PATCH 0/9] Assembly coroutine backend and x86 CET
- support
+X-Received-From: 2607:f8b0:4864:20::343
+Subject: Re: [Qemu-devel] [PATCH v2 20/27] target/sparc: Convert to
+ CPUClass::tlb_fill
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -79,79 +73,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, cohuck@redhat.com, richard.henderson@linaro.org,
-	qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+	QEMU Developers <qemu-devel@nongnu.org>,
+	Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, 9 May 2019 at 07:17, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Cc: Artyom Tarasenko <atar4qemu@gmail.com>
+> Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+> v2: Keep user-only, sparc32, and sparc64 tlb_fill separate.
+> ---
+>  target/sparc/cpu.h         |  5 ++-
+>  target/sparc/cpu.c         |  5 +--
+>  target/sparc/ldst_helper.c | 11 +-----
+>  target/sparc/mmu_helper.c  | 78 ++++++++++++++++++++++----------------
+>  4 files changed, 51 insertions(+), 48 deletions(-)
 
---ncSAzJYg3Aa9+CRW
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+>  /* Perform address translation */
+> -int sparc_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size, int rw,
+> -                               int mmu_idx)
+> +bool sparc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+> +                        MMUAccessType access_type, int mmu_idx,
+> +                        bool probe, uintptr_t retaddr)
+>  {
+>      SPARCCPU *cpu = SPARC_CPU(cs);
+>      CPUSPARCState *env = &cpu->env;
+> @@ -220,22 +222,18 @@ int sparc_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size, int rw,
+>
+>      address &= TARGET_PAGE_MASK;
+>      error_code = get_physical_address(env, &paddr, &prot, &access_index,
+> -                                      address, rw, mmu_idx, &page_size);
+> +                                      address, access_type,
+> +                                      mmu_idx, &page_size);
+>      vaddr = address;
+> -    if (error_code == 0) {
+> +    if (likely(error_code == 0)) {
+>          qemu_log_mask(CPU_LOG_MMU,
+> -                "Translate at %" VADDR_PRIx " -> " TARGET_FMT_plx ", vaddr "
+> -                TARGET_FMT_lx "\n", address, paddr, vaddr);
+> +                      "Translate at %" VADDR_PRIx " -> "
+> +                      TARGET_FMT_plx ", vaddr " TARGET_FMT_lx "\n",
+> +                      address, paddr, vaddr);
+>          tlb_set_page(cs, vaddr, paddr, prot, mmu_idx, page_size);
+> -        return 0;
+> +        return true;
+>      }
+>
+> -    if (env->mmuregs[3]) { /* Fault status register */
+> -        env->mmuregs[3] = 1; /* overflow (not read before another fault) */
+> -    }
+> -    env->mmuregs[3] |= (access_index << 5) | error_code | 2;
+> -    env->mmuregs[4] = address; /* Fault address register */
+> -
 
-On Sat, May 04, 2019 at 06:05:18AM -0600, Paolo Bonzini wrote:
-> *** BLURB HERE ***
->=20
-> Paolo Bonzini (10):
->   qemugdb: allow adding support for other coroutine backends
->   qemugdb: allow adding support for other architectures
->   coroutine: add host specific coroutine backend for 64-bit x86
->   coroutine: add host specific coroutine backend for 64-bit ARM
->   coroutine: add host specific coroutine backend for 64-bit s390
->   configure: add control-flow protection support
->   tcg: add tcg_out_start
->   tcg/i386: add support for IBT
->   linux-user: add IBT support to x86 safe-syscall.S
->   coroutine-asm: add x86 CET shadow stack support
->=20
->  Makefile.target                           |   5 +
->  configure                                 |  62 ++++
->  include/qemu/cpuid.h                      |   5 +
->  linux-user/host/i386/safe-syscall.inc.S   |  19 ++
->  linux-user/host/x86_64/safe-syscall.inc.S |  19 ++
->  scripts/qemugdb/coroutine.py              | 107 ++----
->  scripts/qemugdb/coroutine_asm.py          |  24 ++
->  scripts/qemugdb/coroutine_ucontext.py     |  69 ++++
->  tcg/aarch64/tcg-target.inc.c              |   4 +
->  tcg/arm/tcg-target.inc.c                  |   4 +
->  tcg/i386/tcg-target.inc.c                 |  23 ++
->  tcg/mips/tcg-target.inc.c                 |   4 +
->  tcg/ppc/tcg-target.inc.c                  |   4 +
->  tcg/riscv/tcg-target.inc.c                |   4 +
->  tcg/s390/tcg-target.inc.c                 |   4 +
->  tcg/sparc/tcg-target.inc.c                |   4 +
->  tcg/tcg.c                                 |   2 +
->  tcg/tci/tcg-target.inc.c                  |   4 +
->  util/Makefile.objs                        |  10 +
->  util/coroutine-asm.c                      | 387 ++++++++++++++++++++++
->  20 files changed, 689 insertions(+), 75 deletions(-)
->  create mode 100644 scripts/qemugdb/coroutine_asm.py
->  create mode 100644 scripts/qemugdb/coroutine_ucontext.py
->  create mode 100644 util/coroutine-asm.c
->=20
-> --=20
-> 2.21.0
->=20
->=20
+In the old code, we set these MMU registers before checking
+for the MMU_NF case...
 
-Aside from the comments I posted:
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+>      if ((env->mmuregs[0] & MMU_NF) || env->psret == 0)  {
+>          /* No fault mode: if a mapping is available, just override
+>             permissions. If no mapping is available, redirect accesses to
+> @@ -243,15 +241,25 @@ int sparc_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size, int rw,
+>             switching to normal mode. */
+>          prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
+>          tlb_set_page(cs, vaddr, paddr, prot, mmu_idx, TARGET_PAGE_SIZE);
+> -        return 0;
+> -    } else {
+> -        if (rw & 2) {
+> -            cs->exception_index = TT_TFAULT;
+> -        } else {
+> -            cs->exception_index = TT_DFAULT;
+> -        }
+> -        return 1;
+> +        return true;
+>      }
+> +
+> +    if (probe) {
+> +        return false;
+> +    }
+> +
+> +    if (env->mmuregs[3]) { /* Fault status register */
+> +        env->mmuregs[3] = 1; /* overflow (not read before another fault) */
+> +    }
+> +    env->mmuregs[3] |= (access_index << 5) | error_code | 2;
+> +    env->mmuregs[4] = address; /* Fault address register */
+> +
+> +    if (access_type == MMU_INST_FETCH) {
+> +        cs->exception_index = TT_TFAULT;
+> +    } else {
+> +        cs->exception_index = TT_DFAULT;
+> +    }
+> +    cpu_loop_exit_restore(cs, retaddr);
+>  }
 
---ncSAzJYg3Aa9+CRW
-Content-Type: application/pgp-signature; name="signature.asc"
+...but in the new code we only set them if we're really
+going to fault.
 
------BEGIN PGP SIGNATURE-----
+The v8 SPARC architecture manual appending H says that
+when the NF bit is 1 faults detected by the MMU cause
+FSR and FAR to be updated even though no fault is generated
+to the processor. So I think the change here is not correct.
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAlzUKzsACgkQnKSrs4Gr
-c8hFmAf8DjtS9h9LvH3yDIB8opdbLHiCUf8goBuL+kGQiLc8Npea6bu1QuBLk0zD
-virHPHIbwbL4z22Cs5AruCFZVVOnZbqU+wnTJqgXtQNSmFCGipPds/a79Dt4baVl
-NeHyo6s8gmzdl/fraSpghEVgaOSEUdA5Yz653MW7T7mgi7nnzP0Lseqzmdp902MZ
-gc8ZMjj+4nOtxVUKlnZe/8bmzQtQA8SofeEWUY44Hr60JvRkr5r0tJGZzn9TyT+o
-MdtnUN8Xvs+vsGBkAKbqBDUCNVYdtLtJCIgT+xSTIjRtUfrqblfbt/ca+DfJ/cn6
-K085yg9qnjOKhb/VZ2u3Pqxz7bLxPg==
-=5+uW
------END PGP SIGNATURE-----
+(The spec also says that ASI 9 is supposed to be special and
+not affected by NF==1; and I think that since we put entries in
+the TLB for the NF case we won't correctly set the fault address
+register if the CPU makes two successive accesses to the same
+page, because the second access won't take the slow path and
+won't update the FAR. But those are pre-existing bugs.)
 
---ncSAzJYg3Aa9+CRW--
+thanks
+-- PMM
 
