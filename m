@@ -2,75 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7556F18EF0
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 19:25:29 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58412 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 26EAF18E92
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 19:01:35 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57993 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOmnQ-0003sP-G0
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 13:25:28 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52136)
+	id 1hOmQH-0007xF-TQ
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 13:01:34 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49428)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hOmU5-0003ne-Ul
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:05:32 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hOmNw-0006sT-VZ
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:59:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hOmU4-0008Bk-D1
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:05:29 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:40709)
+	(envelope-from <richard.henderson@linaro.org>) id 1hOmNw-0004nF-1A
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:59:08 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:34393)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hOmU4-000890-4N
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:05:28 -0400
-Received: by mail-wr1-x444.google.com with SMTP id h4so4064055wre.7
-	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 10:05:26 -0700 (PDT)
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hOmNv-0004mk-PR
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:59:07 -0400
+Received: by mail-pg1-x544.google.com with SMTP id c13so1528340pgt.1
+	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 09:59:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=lgZfPbopRUJXrj/AngwFpop/a9mtHOqlBcsdu25DOWg=;
-	b=NFg8fjAvpDRy2r5DC+OveaTtXK+YXnZFT5NHQizoJWoqnFBAxtGPtOLJwuGXNhuonX
-	ql1WyRUMnN0vSlpUUYSqGCudMeDOC+E9tc33wPMbsFGqQpuprDhIVpf7fB2nIMTsn8qQ
-	Pqx6FdK9D/keacrqxX9PuDY8w+dpwM8QOYcx2tjnH3CxEnRMTo5FoR0GCW3VgBgDYpX5
-	n5dkWEwsW90GufyewAe1H9P4l73V6I5Nprz/FWralka9Iz6Uua0fxQTqneP3d9Eim7sb
-	1GdjHp7OVw05ZrWGugAD34eHd9FqDP/j6L+SdzH3JC4SX/bIfcD0uvgPPcR0ICDWWNjy
-	UhDw==
+	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=7RuyQx//oo2EMwy5keSM46lL/6qbPwtXookn1XI1hcQ=;
+	b=DzbI1zvvwFFDr3j6gnuf0QauCmv1tIL+xE/PM3ITa1QPhhZyBT/ZMHGv/vnZoNjSXF
+	y81wUWroBaddYI/DegKTNXtapV+gzXI3vxGk7uee/NJ8/hgxciTj3Fcua82JJz5z6AtN
+	35gSv9RIwaOk3+WKTf42xy92iCpvhPxHtBvG4KtdeEfkAt0efmzvPMGQs02BJClpnFDA
+	I70fVstxpyQDBOwLaDadTr5tqemZ6ycnhEtW0zeTtaq8JUZS5X5WIhcdvAmbuQY9QYgy
+	aBaQXocDWUCr3zw5qAtB+kAo1mOG4wbiQckDSNVb/tyqYXRnNp9/V2P+Z2o2jlWaEZBV
+	umGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=lgZfPbopRUJXrj/AngwFpop/a9mtHOqlBcsdu25DOWg=;
-	b=g4dwqU134Fbm7h2zg2//iSZ9d+zia1Ftnw7E3n8z3FfHTcRpVOjvbiXTzVvtb8dvPe
-	JnNNheFFQJwwoBOWWWBf4su3hLggVsmZHYffz9buiMYb+wWL9IxyhTxR3a2RnqaNyTZc
-	cAPU5zHlGs6YTEFSY+wVc/wyDX3mOONwOSzJZs/VFQxM3TG6b3t5e4zLlxTkFDb6u1Q4
-	2OKBf0xxNECI+84JCCZTxVYGW4BaylGU6ENXfzw2bqtmGq3D5e0m4bDpeN322pI0M4MZ
-	59Q91OoBykz5QLXNODIAamuR97fqFyOw38JQoFPLSjsz4cWTOkKysbqCHSPIk64cNHUg
-	UCFw==
-X-Gm-Message-State: APjAAAUD9uS8kHyj+lEn3optXpn5JRWL4u8/1czMReHV6G3G6PkcmUi8
-	GtsfIk68SYIdx5kNJ1tc2jlgUA==
-X-Google-Smtp-Source: APXvYqyM1luflISmoum1Nje49YAak4VMBUcU4vwKcubmOizv+naa9HSW+j/4MXIHyGLgClZLnsZP0A==
-X-Received: by 2002:a5d:6a46:: with SMTP id t6mr3894461wrw.210.1557421525366; 
-	Thu, 09 May 2019 10:05:25 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
-	by smtp.gmail.com with ESMTPSA id v5sm5463369wra.83.2019.05.09.10.05.22
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 09 May 2019 10:05:23 -0700 (PDT)
-Received: from zen.linaroharston. (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id 4C1221FF9F;
-	Thu,  9 May 2019 17:59:13 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Thu,  9 May 2019 17:59:03 +0100
-Message-Id: <20190509165912.10512-16-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190509165912.10512-1-alex.bennee@linaro.org>
-References: <20190509165912.10512-1-alex.bennee@linaro.org>
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=7RuyQx//oo2EMwy5keSM46lL/6qbPwtXookn1XI1hcQ=;
+	b=azaTLhzTLGPQy/it4qUO5cPhkfNllCuUDwArC60IRgGzGDOg3wt7VOE98Ek1pD+dA/
+	ew0Sk15P887zUkWyDajWgBfgxWUec3374gROEA4Ul8x9ZXHUXrnWl8yxdtfIi8rRKvE2
+	pIW/sY03Q6uJ4igXO9D1Zej+Jawgp/UUm7yVzxM2jV91WPsed4ByO8m1dc/BTs0cwR6l
+	nWo6a4gKh1d6K3PzOSFK7UBoy6SgKD1tDxdemld9Cp8tJEmMjBHsT2TmA0Qo89imprLX
+	pvw7Ic92x6TWWKLkXy6ye3bA58GERNNhhzFFUp426nqPM2LA8pOHNQnye+9cVlpONk/G
+	/Hwg==
+X-Gm-Message-State: APjAAAXwSJiQyI1RUCgpIZQG37EOZTrjoDhz3JEFzVIoL3DtTE9Auw4m
+	ra6cNqOjZFKkSItkUaopA3b3yQ==
+X-Google-Smtp-Source: APXvYqzIv1Sn1yQJyVEEaf5iyqirAL3+SDH4uj3bBN7OzNu+s/NrOSvAulLOWE3Q4avkWzITVAqSOQ==
+X-Received: by 2002:a63:5f42:: with SMTP id t63mr6802560pgb.275.1557421146613; 
+	Thu, 09 May 2019 09:59:06 -0700 (PDT)
+Received: from [172.31.99.192] (50-248-210-99-static.hfc.comcastbusiness.net.
+	[50.248.210.99]) by smtp.gmail.com with ESMTPSA id
+	n64sm4422879pfb.38.2019.05.09.09.59.05
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 09 May 2019 09:59:05 -0700 (PDT)
+To: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org
+References: <20190509142342.6132-1-lvivier@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <1a0649e8-b283-2cb5-9621-4eacf086d300@linaro.org>
+Date: Thu, 9 May 2019 09:59:03 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190509142342.6132-1-lvivier@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: [Qemu-devel] [PATCH v1 15/23] Makefile.target: support per-target
- coverage reports
+X-Received-From: 2607:f8b0:4864:20::544
+Subject: Re: [Qemu-devel] [RFC] rng-builtin: add an RNG backend that uses
+ qemu_guest_getrandom()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,49 +84,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
-	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Markus Armbruster <armbru@redhat.com>, Amit Shah <amit@kernel.org>,
+	"Richard W . M . Jones" <rjones@redhat.com>,
+	Kashyap Chamarthy <kchamart@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add support for generating a single targets coverage report. Execute:
+On 5/9/19 7:23 AM, Laurent Vivier wrote:
+> Add a new RNG backend using QEMU builtin getrandom function.
+> 
+> It can be created with "-object rng-builtin".
+> 
+> This patch applies on top of
+> "[PATCH v4 00/24] Add qemu_getrandom and ARMv8.5-RNG etc"
+> Based-on: <20190506173353.32206-1-richard.henderson@linaro.org>
+> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+> ---
+>  backends/Makefile.objs |  2 +-
+>  backends/rng-builtin.c | 56 ++++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 57 insertions(+), 1 deletion(-)
+>  create mode 100644 backends/rng-builtin.c
 
-  make coverage-report
+Looks good.  Thanks for picking this up.
 
-In the target build directory. This coverage report only cares about
-target specific blobs so only searches the target build subdirectory.
-
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
----
- Makefile.target | 16 ++++++++++++++++
- 1 file changed, 16 insertions(+)
 
-diff --git a/Makefile.target b/Makefile.target
-index ae02495951d..aa5d9d6ba66 100644
---- a/Makefile.target
-+++ b/Makefile.target
-@@ -238,3 +238,19 @@ endif
- 
- GENERATED_FILES += config-target.h
- Makefile: $(GENERATED_FILES)
-+
-+# Reports/Analysis
-+#
-+# The target specific coverage report only cares about target specific
-+# blobs and not the shared code.
-+#
-+
-+%/coverage-report.html:
-+	@mkdir -p $*
-+	$(call quiet-command,\
-+		gcovr -r $(SRC_PATH) --object-directory $(CURDIR) \
-+		-p --html --html-details -o $@, \
-+		"GEN", "coverage-report.html")
-+
-+.PHONY: coverage-report
-+coverage-report: $(CURDIR)/reports/coverage/coverage-report.html
--- 
-2.20.1
+> +static void rng_builtin_request_entropy(RngBackend *b, RngRequest *req)
+> +{
+> +    RngBuiltin *s = RNG_BUILTIN(b);
+> +
+> +    while (!QSIMPLEQ_EMPTY(&s->parent.requests)) {
+> +        RngRequest *req = QSIMPLEQ_FIRST(&s->parent.requests);
+> +
+> +        qemu_guest_getrandom_nofail(req->data, req->size);
+> +
+> +        req->receive_entropy(req->opaque, req->data, req->size);
+> +
+> +        rng_backend_finalize_request(&s->parent, req);
+> +    }
+> +}
 
+As an aside, with all of the callbacks involved, does anyone know if this gets
+processed on the same thread as issued the cpu that issued the i/o operation?
+
+The question is only relevant to debugging mode (w/ -seed), in that if we're
+processing this from an i/o worker thread we won't have completely
+deterministic results, as we may compete with other cpus for the same RNG.
+
+There's probably not much that can reasonably be done if this does cross
+threads, and certainly it would not affect normal usage, but I just wondered.
+
+
+r~
 
