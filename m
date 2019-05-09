@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B5DE19550
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 00:39:31 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33593 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4085119557
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 00:42:36 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33651 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOrhK-0001eg-OH
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 18:39:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33233)
+	id 1hOrkJ-00049I-BR
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 18:42:35 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33251)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOrVP-0007zq-1v
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 18:27:12 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hOrVR-00081V-0f
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 18:27:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOrVN-0005df-S4
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 18:27:11 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:41760)
+	(envelope-from <richard.henderson@linaro.org>) id 1hOrVP-0005eD-Iw
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 18:27:12 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:36144)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hOrVN-0005d6-MC
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 18:27:09 -0400
-Received: by mail-pl1-x641.google.com with SMTP id d9so1801142pls.8
-	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 15:27:09 -0700 (PDT)
+	id 1hOrVP-0005dl-2E
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 18:27:11 -0400
+Received: by mail-pg1-x542.google.com with SMTP id a3so1926741pgb.3
+	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 15:27:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=7X2wC9JBm7qMTyCvU+ISYeQpejo5eFPlqgIZBbqHM2A=;
-	b=pHXQ54sBAviErVPY8IYOEID7pbmPziscvQGTT8a0hh4Bt6VXLbuWAscUCay4jqQve5
-	36gWCV+xMoNrFkLltghBp0p8o+VXqO/RwibwXS5BCsOn000d2s7bk5T0EaRscTRpLydk
-	Rt+UNuZHM5/uZk0u/Jwko6XMKUi7zAylAKXEIm6zig0CGHevmZIX8XHhJICLgt7J3E0/
-	+Z7a7/gIWCi0Moz5Bq5RomNLTvD2CjsYZry5RbBQpOvpZP3FgByZSDmXjs5uwBQJs5Rw
-	iNkftczqGL9OE7WzNXziFNLM5C0sTzcebpOs0+TexflApcDjZogTOzNcqfTYCywEeQhX
-	i7PQ==
+	bh=g3xnMlX0kQIIsZFf0jn7V0Z3ghhMjOB9lPUnQDGY3Jc=;
+	b=k4sHyyoIY8KL33M+u+uAPHFbeyMOYET+ZBPf8krxWJw3y3FfyOcJsO1Pw2aryidZP2
+	IF88MWUL32XgK6NEAUXBe/kiQZQ7W8s/rTL96l5bo9bg42hKSA2RFn5z76yEx5qPB5ao
+	zt8os/f2HAd9vLlKUxa1JDNEBMoo9Mgl6psZyZI1iiXkS3qWeGFYbIUEVwc0IL1PY/2z
+	49O4ZmrVzXYeXD7Vrros5v+n8NV3LKy8NcfPnlI/ORGEwGSWjw1cggrJsOaDUxvhjubj
+	D7PsQ4NqbZumsIrXiIJiAh9sCP9zv7JH9FPulcIXwI+rAROfEcPm3NTmKU0EtiXTwsIS
+	awRw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=7X2wC9JBm7qMTyCvU+ISYeQpejo5eFPlqgIZBbqHM2A=;
-	b=M8wRftqF7mQaOBheMVf692DajZyspjwj27V8te7EBglqrs9So4mw2YghcgEbz/zn3e
-	fkGivHLus3VeUrIuNxeIxnmVzPXApIIeZQ2S2yqcUgSjbfKFPNT9U8X5qlxwIlEDonBd
-	LfXyrG3n5y1aEkhtqqiwHTC25zSxuEXcFKKENADalIX7J6N4mxsrOC9gLkQs8MvXcJdq
-	o6GDH3Z8OMLO0vuzB6k+vK7nPJCwUeabSSGAVt7aHFwo/V44Jg9Bs92zTY0qgdKHi5jB
-	cH3kBcOve9at8Ldko/yNXYkXQoOH6A4GV80dnbF5wLsubidgYr0Y4i7tVsSNibNnf1jn
-	1jxQ==
-X-Gm-Message-State: APjAAAXXy/+hU7JEzvMGIcdJcuB0dm2QoMfMG54Mh3GeWJ2zKmb7xTCx
-	x6YGnI8Hnmwlphvmng9LvuvjLDv+r4I=
-X-Google-Smtp-Source: APXvYqyws4Zlj1r8NmQ3+yyop9LCA8ZYDnQn4yzl9YJuwJz+ccmIisuCCE+fzsbi6/HkTnY3P1gxMA==
-X-Received: by 2002:a17:902:9007:: with SMTP id
-	a7mr8362961plp.221.1557440827989; 
-	Thu, 09 May 2019 15:27:07 -0700 (PDT)
+	bh=g3xnMlX0kQIIsZFf0jn7V0Z3ghhMjOB9lPUnQDGY3Jc=;
+	b=Kr/i8A7mZY6w9UVi7uULn2zPtaYdkmEj7sBLXPna4qQ2n3pfbCLfQUR5anpooz6uH9
+	5ZdeftMdncbZto3mJeIk5JM2PHmR+dBbOehefAS2U+mGw2NNxpw9cVxywoem60ow0An/
+	tEFs6HmqIOO4cxI6JglI/oWcDXoIcUGgdmfGjkPaqFbCrQtuXT/9K8ZjK6w9/DuHBEe1
+	N+ZB1mfJtCtWRjdLtaGpuY+0byZt5XgxTodXj6EeF1UprwYt4uEPEPQLZglzbfur2OIt
+	LgTV/ORCVCNNLTYa6Gnrd2zmTSaBdz5m+CRAKCkbUpXGrKH9vr5ynsyZk/otQUVfezcY
+	8EaQ==
+X-Gm-Message-State: APjAAAUIfyA/2FQbgfzxUOSzVTAy2sttU80lgOYB7ItbzZDIkfWu+U1F
+	QhckQYoPvuy0EqMhowM/Bf9c9mwqcgs=
+X-Google-Smtp-Source: APXvYqz7TgSVUAlewtf5/Nc60IqQGia8I5OgHD1rKqgXKSlJxAAQ0A9mUQ6+Q5C9d+QmXM5BtLAmwg==
+X-Received: by 2002:a62:2703:: with SMTP id n3mr8887158pfn.199.1557440829250; 
+	Thu, 09 May 2019 15:27:09 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231])
-	by smtp.gmail.com with ESMTPSA id m2sm4490521pfi.24.2019.05.09.15.27.06
+	by smtp.gmail.com with ESMTPSA id m2sm4490521pfi.24.2019.05.09.15.27.08
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 09 May 2019 15:27:07 -0700 (PDT)
+	Thu, 09 May 2019 15:27:08 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu,  9 May 2019 15:26:30 -0700
-Message-Id: <20190509222631.14271-27-richard.henderson@linaro.org>
+Date: Thu,  9 May 2019 15:26:31 -0700
+Message-Id: <20190509222631.14271-28-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190509222631.14271-1-richard.henderson@linaro.org>
 References: <20190509222631.14271-1-richard.henderson@linaro.org>
@@ -68,8 +67,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::641
-Subject: [Qemu-devel] [PATCH v3 26/27] tcg: Remove CPUClass::handle_mmu_fault
+X-Received-From: 2607:f8b0:4864:20::542
+Subject: [Qemu-devel] [PATCH v3 27/27] tcg: Use tlb_fill probe from
+ tlb_vaddr_to_host
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -84,68 +84,205 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This hook is now completely replaced by tlb_fill.
+Most of the existing users would continue around a loop which
+would fault the tlb entry in via a normal load/store.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+But for AArch64 SVE we have an existing emulation bug wherein we
+would mark the first element of a no-fault vector load as faulted
+(within the FFR, not via exception) just because we did not have
+its address in the TLB.  Now we can properly only mark it as faulted
+if there really is no valid, readable translation, while still not
+raising an exception.  (Note that beyond the first element of the
+vector, the hardware may report a fault for any reason whatsoever;
+with at least one element loaded, forward progress is guaranteed.)
+
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/qom/cpu.h     |  3 ---
- accel/tcg/user-exec.c | 13 +++----------
- 2 files changed, 3 insertions(+), 13 deletions(-)
+v2: Update function docs comment.
+---
+ include/exec/cpu_ldst.h | 50 ++++++-----------------------
+ accel/tcg/cputlb.c      | 69 ++++++++++++++++++++++++++++++++++++-----
+ target/arm/sve_helper.c |  6 +---
+ 3 files changed, 72 insertions(+), 53 deletions(-)
 
-diff --git a/include/qom/cpu.h b/include/qom/cpu.h
-index c1f267b4e0..32983f27c3 100644
---- a/include/qom/cpu.h
-+++ b/include/qom/cpu.h
-@@ -117,7 +117,6 @@ struct TranslationBlock;
-  *       This always includes at least the program counter; some targets
-  *       will need to do more. If this hook is not implemented then the
-  *       default is to call @set_pc(tb->pc).
-- * @handle_mmu_fault: Callback for handling an MMU fault.
-  * @tlb_fill: Callback for handling a softmmu tlb miss or user-only
-  *       address fault.  For system mode, if the access is valid, call
-  *       tlb_set_page and return true; if the access is invalid, and
-@@ -195,8 +194,6 @@ typedef struct CPUClass {
-                                Error **errp);
-     void (*set_pc)(CPUState *cpu, vaddr value);
-     void (*synchronize_from_tb)(CPUState *cpu, struct TranslationBlock *tb);
--    int (*handle_mmu_fault)(CPUState *cpu, vaddr address, int size, int rw,
--                            int mmu_index);
-     bool (*tlb_fill)(CPUState *cpu, vaddr address, int size,
-                      MMUAccessType access_type, int mmu_idx,
-                      bool probe, uintptr_t retaddr);
-diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-index 199f88c826..8cfbeb1b56 100644
---- a/accel/tcg/user-exec.c
-+++ b/accel/tcg/user-exec.c
-@@ -63,7 +63,6 @@ static inline int handle_cpu_signal(uintptr_t pc, siginfo_t *info,
+diff --git a/include/exec/cpu_ldst.h b/include/exec/cpu_ldst.h
+index d78041d7a0..7b28a839d2 100644
+--- a/include/exec/cpu_ldst.h
++++ b/include/exec/cpu_ldst.h
+@@ -433,50 +433,20 @@ static inline CPUTLBEntry *tlb_entry(CPUArchState *env, uintptr_t mmu_idx,
+  * @mmu_idx: MMU index to use for lookup
+  *
+  * Look up the specified guest virtual index in the TCG softmmu TLB.
+- * If the TLB contains a host virtual address suitable for direct RAM
+- * access, then return it. Otherwise (TLB miss, TLB entry is for an
+- * I/O access, etc) return NULL.
+- *
+- * This is the equivalent of the initial fast-path code used by
+- * TCG backends for guest load and store accesses.
++ * If we can translate a host virtual address suitable for direct RAM
++ * access, without causing a guest exception, then return it.
++ * Otherwise (TLB entry is for an I/O access, guest software
++ * TLB fill required, etc) return NULL.
+  */
++#ifdef CONFIG_USER_ONLY
+ static inline void *tlb_vaddr_to_host(CPUArchState *env, abi_ptr addr,
+-                                      int access_type, int mmu_idx)
++                                      MMUAccessType access_type, int mmu_idx)
  {
-     CPUState *cpu = current_cpu;
-     CPUClass *cc;
--    int ret;
-     unsigned long address = (unsigned long)info->si_addr;
-     MMUAccessType access_type;
- 
-@@ -156,15 +155,9 @@ static inline int handle_cpu_signal(uintptr_t pc, siginfo_t *info,
-     helper_retaddr = 0;
- 
-     cc = CPU_GET_CLASS(cpu);
--    if (cc->tlb_fill) {
--        access_type = is_write ? MMU_DATA_STORE : MMU_DATA_LOAD;
--        cc->tlb_fill(cpu, address, 0, access_type, MMU_USER_IDX, false, pc);
+-#if defined(CONFIG_USER_ONLY)
+     return g2h(addr);
+-#else
+-    CPUTLBEntry *tlbentry = tlb_entry(env, mmu_idx, addr);
+-    abi_ptr tlb_addr;
+-    uintptr_t haddr;
+-
+-    switch (access_type) {
+-    case 0:
+-        tlb_addr = tlbentry->addr_read;
+-        break;
+-    case 1:
+-        tlb_addr = tlb_addr_write(tlbentry);
+-        break;
+-    case 2:
+-        tlb_addr = tlbentry->addr_code;
+-        break;
+-    default:
 -        g_assert_not_reached();
--    } else {
--        ret = cc->handle_mmu_fault(cpu, address, 0, is_write, MMU_USER_IDX);
--        g_assert(ret > 0);
--        cpu_loop_exit_restore(cpu, pc);
 -    }
-+    access_type = is_write ? MMU_DATA_STORE : MMU_DATA_LOAD;
-+    cc->tlb_fill(cpu, address, 0, access_type, MMU_USER_IDX, false, pc);
-+    g_assert_not_reached();
+-
+-    if (!tlb_hit(tlb_addr, addr)) {
+-        /* TLB entry is for a different page */
+-        return NULL;
+-    }
+-
+-    if (tlb_addr & ~TARGET_PAGE_MASK) {
+-        /* IO access */
+-        return NULL;
+-    }
+-
+-    haddr = addr + tlbentry->addend;
+-    return (void *)haddr;
+-#endif /* defined(CONFIG_USER_ONLY) */
+ }
++#else
++void *tlb_vaddr_to_host(CPUArchState *env, abi_ptr addr,
++                        MMUAccessType access_type, int mmu_idx);
++#endif
+ 
+ #endif /* CPU_LDST_H */
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index dfcd9ae168..45a5c4e123 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -1007,6 +1007,16 @@ static void io_writex(CPUArchState *env, CPUIOTLBEntry *iotlbentry,
+     }
  }
  
- #if defined(__i386__)
++static inline target_ulong tlb_read_ofs(CPUTLBEntry *entry, size_t ofs)
++{
++#if TCG_OVERSIZED_GUEST
++    return *(target_ulong *)((uintptr_t)entry + ofs);
++#else
++    /* ofs might correspond to .addr_write, so use atomic_read */
++    return atomic_read((target_ulong *)((uintptr_t)entry + ofs));
++#endif
++}
++
+ /* Return true if ADDR is present in the victim tlb, and has been copied
+    back to the main tlb.  */
+ static bool victim_tlb_hit(CPUArchState *env, size_t mmu_idx, size_t index,
+@@ -1017,14 +1027,7 @@ static bool victim_tlb_hit(CPUArchState *env, size_t mmu_idx, size_t index,
+     assert_cpu_is_self(ENV_GET_CPU(env));
+     for (vidx = 0; vidx < CPU_VTLB_SIZE; ++vidx) {
+         CPUTLBEntry *vtlb = &env->tlb_v_table[mmu_idx][vidx];
+-        target_ulong cmp;
+-
+-        /* elt_ofs might correspond to .addr_write, so use atomic_read */
+-#if TCG_OVERSIZED_GUEST
+-        cmp = *(target_ulong *)((uintptr_t)vtlb + elt_ofs);
+-#else
+-        cmp = atomic_read((target_ulong *)((uintptr_t)vtlb + elt_ofs));
+-#endif
++        target_ulong cmp = tlb_read_ofs(vtlb, elt_ofs);
+ 
+         if (cmp == page) {
+             /* Found entry in victim tlb, swap tlb and iotlb.  */
+@@ -1108,6 +1111,56 @@ void probe_write(CPUArchState *env, target_ulong addr, int size, int mmu_idx,
+     }
+ }
+ 
++void *tlb_vaddr_to_host(CPUArchState *env, abi_ptr addr,
++                        MMUAccessType access_type, int mmu_idx)
++{
++    CPUTLBEntry *entry = tlb_entry(env, mmu_idx, addr);
++    uintptr_t tlb_addr, page;
++    size_t elt_ofs;
++
++    switch (access_type) {
++    case MMU_DATA_LOAD:
++        elt_ofs = offsetof(CPUTLBEntry, addr_read);
++        break;
++    case MMU_DATA_STORE:
++        elt_ofs = offsetof(CPUTLBEntry, addr_write);
++        break;
++    case MMU_INST_FETCH:
++        elt_ofs = offsetof(CPUTLBEntry, addr_code);
++        break;
++    default:
++        g_assert_not_reached();
++    }
++
++    page = addr & TARGET_PAGE_MASK;
++    tlb_addr = tlb_read_ofs(entry, elt_ofs);
++
++    if (!tlb_hit_page(tlb_addr, page)) {
++        uintptr_t index = tlb_index(env, mmu_idx, addr);
++
++        if (!victim_tlb_hit(env, mmu_idx, index, elt_ofs, page)) {
++            CPUState *cs = ENV_GET_CPU(env);
++            CPUClass *cc = CPU_GET_CLASS(cs);
++
++            if (!cc->tlb_fill(cs, addr, 0, access_type, mmu_idx, true, 0)) {
++                /* Non-faulting page table read failed.  */
++                return NULL;
++            }
++
++            /* TLB resize via tlb_fill may have moved the entry.  */
++            entry = tlb_entry(env, mmu_idx, addr);
++        }
++        tlb_addr = tlb_read_ofs(entry, elt_ofs);
++    }
++
++    if (tlb_addr & ~TARGET_PAGE_MASK) {
++        /* IO access */
++        return NULL;
++    }
++
++    return (void *)(addr + entry->addend);
++}
++
+ /* Probe for a read-modify-write atomic operation.  Do not allow unaligned
+  * operations, or io operations to proceed.  Return the host address.  */
+ static void *atomic_mmu_lookup(CPUArchState *env, target_ulong addr,
+diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
+index bc847250dd..fd434c66ea 100644
+--- a/target/arm/sve_helper.c
++++ b/target/arm/sve_helper.c
+@@ -4598,11 +4598,7 @@ static void sve_ldnf1_r(CPUARMState *env, void *vg, const target_ulong addr,
+      * in the real world, obviously.)
+      *
+      * Then there are the annoying special cases with watchpoints...
+-     *
+-     * TODO: Add a form of tlb_fill that does not raise an exception,
+-     * with a form of tlb_vaddr_to_host and a set of loads to match.
+-     * The non_fault_vaddr_to_host would handle everything, usually,
+-     * and the loads would handle the iomem path for watchpoints.
++     * TODO: Add a form of non-faulting loads using cc->tlb_fill(probe=true).
+      */
+     host = tlb_vaddr_to_host(env, addr + mem_off, MMU_DATA_LOAD, mmu_idx);
+     split = max_for_page(addr, mem_off, mem_max);
 -- 
 2.17.1
 
