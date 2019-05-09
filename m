@@ -2,76 +2,117 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2334B18EDA
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 19:21:52 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58366 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1836318EDC
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 19:22:46 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58371 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOmjv-0000tL-77
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 13:21:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52271)
-	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hOmU8-0003pq-NZ
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:05:35 -0400
+	id 1hOmkn-0001cc-67
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 13:22:45 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50553)
+	by lists.gnu.org with esmtp (Exim 4.71) (envelope-from <n54@gmx.com>)
+	id 1hOmQP-00017M-9q
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:01:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hOmU4-0008Dd-Ul
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:05:32 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:55798)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hOmU4-0008Al-LB
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:05:28 -0400
-Received: by mail-wm1-x344.google.com with SMTP id y2so4153066wmi.5
-	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 10:05:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=iHi8P5Y+fYb6nyulM6KxlZkFZ/na7aLikDVfLgDRiak=;
-	b=u439D07EEYGjhUmMS2JFWYGKjhYT3YoFJ8Wi1NaAAEEDcf4k1etHXHy3TwBIdSGGtb
-	nCRR83cZVx7l82EnlKn11okIMUvrqtUnaOGuVQ+aE+k9Adjc5lHqD9/Je9kE3sYlZa2d
-	8N9WVA+OTlJ7CnbyeD1URFO13qBtvOTiexAPdSGkAH68bEi9EgRE74C7jezrGrvKQ7+Y
-	iQkYFXngzgG1CXNCgHCx1cUBJm05VRZ8ktF4PODXQkHn/gK+6XHmN2fzE/DOVFrfSB/P
-	6ZQxLoBUA3gkrEhUHWbmOScs0+FuKuxZcW2lICRiluE3pSHHf9F3Bhw9lP948+dAm9U+
-	GyRQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=iHi8P5Y+fYb6nyulM6KxlZkFZ/na7aLikDVfLgDRiak=;
-	b=KrriGnvqfn1dtnmwwB+dA6KeETdZ69cu26Vrr9pE2vZIcTnr7TJgVRqBa46iwDegfL
-	GwAQFfzmKJ+Iohs7NZt2UGF92xxejWVcdqs0qjdJFZLTEFZMAT3dmdrHcPxJPjznQi+F
-	HdKQQdPKrlI4sEvbVj73MG/8q2+GiWdXHvDFp30tQ8EOobIhrGyBcQTLJ9jV53fqPdI+
-	xuZugBeLmWCGj6BqMC/S2OSyUkC73VIAulE62Z0niOlKk1qQpgloDmlgFDR4Ys6903So
-	pSgOjFkxelZ7dtKyJDkifn6zVb1jzgiEvT+mo21e2AjIRIsELLipFRSu1sVV/AW1R6tp
-	vemA==
-X-Gm-Message-State: APjAAAXgACQ+ddQ2GiWjU8hrUvfIPesmZEaWzNaU7F6IQgNCD3MuwYZf
-	4AOk3DQCNSlPFzfIRZDQrl+0dA==
-X-Google-Smtp-Source: APXvYqxdcQLcVhZHxIuAekZU2TADDTkZO+4LBWcuU0e5YSo9sgOIIEV5zAHDhRanThZhXFepEH6zbw==
-X-Received: by 2002:a1c:1d4:: with SMTP id 203mr3954770wmb.76.1557421527426;
-	Thu, 09 May 2019 10:05:27 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
-	by smtp.gmail.com with ESMTPSA id
-	p24sm1748448wma.18.2019.05.09.10.05.22
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 09 May 2019 10:05:23 -0700 (PDT)
-Received: from zen.linaroharston. (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id 8F2D71FFAB;
-	Thu,  9 May 2019 17:59:14 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Thu,  9 May 2019 17:59:11 +0100
-Message-Id: <20190509165912.10512-24-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190509165912.10512-1-alex.bennee@linaro.org>
-References: <20190509165912.10512-1-alex.bennee@linaro.org>
+	(envelope-from <n54@gmx.com>) id 1hOmQN-0006Bx-QM
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:01:41 -0400
+Received: from mout.gmx.net ([212.227.17.21]:51215)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <n54@gmx.com>) id 1hOmQM-00069r-S6
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:01:39 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+	s=badeba3b8450; t=1557421256;
+	bh=UaaR2XHEjAgofrU4SY9cqTiNUO3OlUB+Zp8FArS3luU=;
+	h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
+	b=G4LOoSY4xdSStLGPAIOAq2secxPQGPDmyQwjKH8FRzv4V+/wp1r7hgu+ECOzNr3+c
+	03xgDfFJHOWShnSKK0FY4j8KX0Sx2rdRJkkngY9s0sA+g8bkX9NMh0t6WRavYrisaK
+	ROEfq5fTcArrG+HMFISAXnHLtlCUqsZX7zCKsjdI=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.0.241] ([89.71.135.231]) by mail.gmx.com (mrgmx102
+	[212.227.17.174]) with ESMTPSA (Nemesis) id 0Ldbqw-1gz6a20hve-00ikmn;
+	Thu, 09 May 2019 19:00:56 +0200
+To: Gerd Hoffmann <kraxel@redhat.com>
+References: <20190508085645.11595-1-kraxel@redhat.com>
+	<20190508085645.11595-12-kraxel@redhat.com>
+	<461b0a0f-2843-afc3-6289-db08d6415771@gmx.com>
+	<20190509064716.pcxsg3lbbfqv5ltl@sirius.home.kraxel.org>
+From: Kamil Rytarowski <n54@gmx.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=n54@gmx.com; prefer-encrypt=mutual; keydata=
+	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
+	4XSbcg==
+Message-ID: <411bde53-b574-97a9-edf6-4516a88ae00a@gmx.com>
+Date: Thu, 9 May 2019 19:01:39 +0200
+User-Agent: Mozilla/5.0 (X11; NetBSD amd64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::344
-Subject: [Qemu-devel] [PATCH v1 23/23] tests: Run the iotests during "make
- check" again
+In-Reply-To: <20190509064716.pcxsg3lbbfqv5ltl@sirius.home.kraxel.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature";
+	boundary="5Cj71KibBLvEEalKQuIAIY8sg6m9CI5kR"
+X-Provags-ID: V03:K1:tzNFe+KqnUYadl6MuJfwHPlSOFZTLYccM6/ec9fSs2Oh6ejgsvd
+	iD8ag/CVtCUToX7UbEtcHSQTXXzAMYub34lqjP8YFMtrxpxImCNEMgpkwbH8F1cjhkODVuk
+	kVkCPxuZAQL57MyzgiJszCsFqHoW7sJ2k4QDqqa89bNxkCZBrPkCaZP+2Naib0wI35IMpjm
+	EQ+4zlc5Xd1rJC++SDr2w==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:r8uBXtrg8b4=:LJ/6OWp+Wdx02DZKUB4sID
+	rND4nJiu7LydbPuO2L2Nhb8JZaMn2eexAl0FKedUexbZjVk9apGkYxi7ImirE1ylw3vhym1XI
+	19XvUk3rAQZHIvylfaU3oAkwjzRK7E6ca45JcQOYQjKKYgYHqJQlf1mNwM6teguHjiifeM76w
+	GoAluBOoxQnCcajvHsTnNEMPBuSrS4zUTL7XxUz8UcMBNyOsRerdKHWRD1MaCdGkrLwQWb4WV
+	ZWOTnyQYh1uzGpiirg9ZtC9tArvEF0LcKbtK1mTXC6JbOtdHqhQKHmbEGgnNMS9Y7Z1IrOSW2
+	hBA0nh3mr6eEptiH+VeMQKXYoG5KDDuZPtzLlBc9697sK/TBnve81e4NRIKBSkINk8pK70+xR
+	WsQ9yE1FA6rm+6/nN6BqCoM+FwN2r6aYl9bO5GUrOcMSriXWXlXVNhyjBZuYOynQFQM17GyBo
+	n8aezKCy+UZf14mRNC5gEaQ8IYIFSvrXVPGkG5UipaFDBN3H9ukBP0bloPibQAWH1b6aSUw01
+	0nwQ1fVRRvUj7Vce5KkCj3w1JvHNLv22WsD0hq3fmQ0nh3zWMvHCyIX1G+ogKsF5KRAdgclB5
+	d2qo92PGdR28h5Qv4GpZaGi+m5k5OWtjq/uT21U0pVzs6LR/0xMfUBFYSg/iGhr2Vk/a/FGNQ
+	pEi5rVtd+K+0RI9K0/wAfQoz8SPZFI8whbciVg4fhWLZqxS4HXEzHrZQmK6huvjq3Pl4c7uKJ
+	/dpsK+/SfsJuwBGGCz5sjodgk9RJDG41FZEfj2VBhaC29asQAnV4fcPOHBjm8iiGzOEsaNtle
+	y/hM8x0aDWtRtcJn7sp6SZ3CNiz2feIB4fD+zEgjkj1h+4mP7nclSrhgws4x4oOE3eOq3+f2t
+	1yMde81KxYvU9h0+cCHD4lKzde/tnEJ+UJzeWkjyo=
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 212.227.17.21
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [PATCH 11/13] tests/vm: netbsd autoinstall,
+ using serial console
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -83,153 +124,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, qemu-arm@nongnu.org,
-	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+Cc: Fam Zheng <fam@euphon.net>, Ed Maste <emaste@freebsd.org>,
+	=?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+	qemu-devel@nongnu.org, Kamil Rytarowski <kamil@netbsd.org>,
+	=?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+	Li-Wen Hsu <lwhsu@freebsd.org>, Brad Smith <brad@comstyle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Thomas Huth <thuth@redhat.com>
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--5Cj71KibBLvEEalKQuIAIY8sg6m9CI5kR
+From: Kamil Rytarowski <n54@gmx.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-devel@nongnu.org, Fam Zheng <fam@euphon.net>,
+ Ed Maste <emaste@freebsd.org>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
+ <alex.bennee@linaro.org>, Kamil Rytarowski <kamil@netbsd.org>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Li-Wen Hsu <lwhsu@freebsd.org>, Brad Smith <brad@comstyle.com>
+Message-ID: <411bde53-b574-97a9-edf6-4516a88ae00a@gmx.com>
+Subject: Re: [Qemu-devel] [PATCH 11/13] tests/vm: netbsd autoinstall, using
+ serial console
+References: <20190508085645.11595-1-kraxel@redhat.com>
+ <20190508085645.11595-12-kraxel@redhat.com>
+ <461b0a0f-2843-afc3-6289-db08d6415771@gmx.com>
+ <20190509064716.pcxsg3lbbfqv5ltl@sirius.home.kraxel.org>
+In-Reply-To: <20190509064716.pcxsg3lbbfqv5ltl@sirius.home.kraxel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-People often forget to run the iotests before submitting patches or
-pull requests - this is likely due to the fact that we do not run the
-tests during our mandatory "make check" tests yet. Now that we've got
-a proper "auto" group of iotests that should be fine to run in every
-environment, we can enable the iotests during "make check" again by
-running the "auto" tests by default from the check-block.sh script.
+On 09.05.2019 08:47, Gerd Hoffmann wrote:
+>   Hi,
+>=20
+>> I recommend to add one extra step into generated image:
+>>
+>> echo security.pax.mprotect.enabled=3D0 >> /etc/sysctl.conf
+>=20
+> Done.
+>=20
 
-Some cases still need to be checked first, though: iotests need bash
-and GNU sed (otherwise they fail), and if gprof is enabled, it spoils
-the output of some test cases causing them to fail. So if we detect
-that one of the required programs is missing or that gprof is enabled,
-we still have to skip the iotests to avoid failures.
+Thanks! Once there will be PaX MPROTECT support in qemu, we can and
+should drop it.
 
-And finally, since we are using check-block.sh now again, this patch also
-removes the qemu-iotests-quick.sh script since we do not need that anymore
-(and having two shell wrapper scripts around the block tests seem
-rather confusing than helpful).
+>> Alternatively (and preferably) enhance qemu to handle RWX allocation f=
+or
+>> JIT on NetBSD.
+>>
+>> Example in libffi.
+>>
+>> https://github.com/libffi/libffi/commit/2bfcd29955c02b67fa10a68cc4200f=
+6838181e0f
+>=20
+> So, from looking at the patch it seems you need two mappings of the sam=
+e
+> page, one writable and one executable.
+> > Or, maybe it is also possible with one mapping which is writable firs=
+t
+> when you fill it with code, then gets flipped over to executable when
+> you are done with the initialization and want use it.
+>=20
+> Is that correct?
+>=20
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20190502084506.8009-8-thuth@redhat.com>
-[AJB: add -pretty to check-block.sh]
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
----
- tests/Makefile.include      |  8 +++----
- tests/check-block.sh        | 44 ++++++++++++++++++++++++++++---------
- tests/qemu-iotests-quick.sh |  8 -------
- 3 files changed, 38 insertions(+), 22 deletions(-)
- delete mode 100755 tests/qemu-iotests-quick.sh
+If we need RWX in the same time we need double mapping (RW and RX). This
+has been done in libffi.
 
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 60de085ee1f..e865daaa897 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -140,7 +140,7 @@ check-unit-y += tests/test-uuid$(EXESUF)
- check-unit-y += tests/ptimer-test$(EXESUF)
- check-unit-y += tests/test-qapi-util$(EXESUF)
- 
--check-block-$(CONFIG_POSIX) += tests/qemu-iotests-quick.sh
-+check-block-$(CONFIG_POSIX) += tests/check-block.sh
- 
- # All QTests for now are POSIX-only, but the dependencies are
- # really in libqtest, not in the testcases themselves.
-@@ -1077,8 +1077,8 @@ clean-tcg: $(CLEAN_TCG_TARGET_RULES)
- 
- QEMU_IOTESTS_HELPERS-$(call land,$(CONFIG_SOFTMMU),$(CONFIG_LINUX)) = tests/qemu-iotests/socket_scm_helper$(EXESUF)
- 
--.PHONY: check-tests/qemu-iotests-quick.sh
--check-tests/qemu-iotests-quick.sh: tests/qemu-iotests-quick.sh qemu-img$(EXESUF) qemu-io$(EXESUF) qemu-nbd$(EXESUF) $(QEMU_IOTESTS_HELPERS-y)
-+.PHONY: check-tests/check-block.sh
-+check-tests/check-block.sh: tests/check-block.sh qemu-img$(EXESUF) qemu-io$(EXESUF) qemu-nbd$(EXESUF) $(QEMU_IOTESTS_HELPERS-y)
- 	$<
- 
- .PHONY: $(patsubst %, check-%, $(check-qapi-schema-y))
-@@ -1152,7 +1152,7 @@ check-acceptance: check-venv $(TESTS_RESULTS_DIR)
- check-qapi-schema: $(patsubst %,check-%, $(check-qapi-schema-y)) check-tests/qapi-schema/doc-good.texi
- check-qtest: $(patsubst %,check-qtest-%, $(QTEST_TARGETS))
- check-block: $(patsubst %,check-%, $(check-block-y))
--check: check-qapi-schema check-unit check-softfloat check-qtest check-decodetree
-+check: check-qapi-schema check-unit check-softfloat check-qtest check-decodetree check-block
- check-clean:
- 	rm -rf $(check-unit-y) tests/*.o $(QEMU_IOTESTS_HELPERS-y)
- 	rm -rf $(sort $(foreach target,$(SYSEMU_TARGET_LIST), $(check-qtest-$(target)-y)) $(check-qtest-generic-y))
-diff --git a/tests/check-block.sh b/tests/check-block.sh
-index f3d12fd602d..9f636feccb2 100755
---- a/tests/check-block.sh
-+++ b/tests/check-block.sh
-@@ -1,24 +1,48 @@
- #!/bin/sh
- 
--FORMAT_LIST="raw qcow2 qed vmdk vpc"
-+# Honor the SPEED environment variable, just like we do it for the qtests.
-+if [ "$SPEED" = "slow" ]; then
-+    format_list="raw qcow2"
-+    group=
-+elif [ "$SPEED" = "thorough" ]; then
-+    format_list="raw qcow2 qed vmdk vpc"
-+    group=
-+else
-+    format_list=qcow2
-+    group="-g auto"
-+fi
-+
- if [ "$#" -ne 0 ]; then
--    FORMAT_LIST="$@"
-+    format_list="$@"
-+fi
-+
-+if grep -q "TARGET_GPROF=y" *-softmmu/config-target.mak 2>/dev/null ; then
-+    echo "GPROF is enabled ==> Not running the qemu-iotests."
-+    exit 0
- fi
- 
--export QEMU_PROG="$PWD/x86_64-softmmu/qemu-system-x86_64"
--export QEMU_IMG_PROG="$PWD/qemu-img"
--export QEMU_IO_PROG="$PWD/qemu-io"
-+if [ -z "$(find . -name 'qemu-system-*' -print)" ]; then
-+    echo "No qemu-system binary available ==> Not running the qemu-iotests."
-+    exit 0
-+fi
-+
-+if ! command -v bash >/dev/null 2>&1 ; then
-+    echo "bash not available ==> Not running the qemu-iotests."
-+    exit 0
-+fi
- 
--if [ ! -x $QEMU_PROG ]; then
--    echo "'make check-block' requires qemu-system-x86_64"
--    exit 1
-+if ! (sed --version | grep 'GNU sed') > /dev/null 2>&1 ; then
-+    if ! command -v gsed >/dev/null 2>&1; then
-+        echo "GNU sed not available ==> Not running the qemu-iotests."
-+        exit 0
-+    fi
- fi
- 
- cd tests/qemu-iotests
- 
- ret=0
--for FMT in $FORMAT_LIST ; do
--    ./check -T -nocache -$FMT || ret=1
-+for fmt in $format_list ; do
-+    ./check -pretty -$fmt $group || ret=1
- done
- 
- exit $ret
-diff --git a/tests/qemu-iotests-quick.sh b/tests/qemu-iotests-quick.sh
-deleted file mode 100755
-index 0e554bb9724..00000000000
---- a/tests/qemu-iotests-quick.sh
-+++ /dev/null
-@@ -1,8 +0,0 @@
--#!/bin/sh
--
--cd tests/qemu-iotests
--
--ret=0
--TEST_DIR=${TEST_DIR:-/tmp/qemu-iotests-quick-$$} ./check -T -qcow2 -g quick || ret=1
--
--exit $ret
--- 
-2.20.1
+If we can switch between RW and RX it's sufficient to use a single
+mapping, however there is need to allocate a memory region with mmap(2)
+using the PROT_MPROTECT() macro.
 
+Example from the LLVM code:
+
+https://github.com/llvm-mirror/llvm/blob/90dd07f5c5946a3d9d6861effe329162=
+0c88c06f/lib/Support/Unix/Memory.inc#L99
+
+> I suspect supporting that in tcg isn't exactly trivial.
+> Does OpenBSD work the same way btw?
+>=20
+
+No. OpenBSD does not implement escape API.
+
+There is need to pass "-z wxneeded" to the linker flags, but I'm not the
+right person to test this or write a patch.
+
+https://man.openbsd.org/ld
+
+FreeBSD does not support W^X.
+
+> cheers,
+>   Gerd
+>=20
+
+
+
+--5Cj71KibBLvEEalKQuIAIY8sg6m9CI5kR
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEELaxVpweEzw+lMDwuS7MI6bAudmwFAlzUXPoACgkQS7MI6bAu
+dmxethAArf0pz191LeK7D7L2UNeLPZjyFch3mVIgymcrZcoHf4r1mvz01jI4T7Bv
+Ynf5FaJcneZ5PaYqjTUouRvZlYNiTSmWYo+iE43Mg/zCBbeWoKkuCLq1GKEMM53H
+/zH3N2gfyU0x4sQZFrh/+AFfjolIWZbTA4Y+6Q7PyWdN5v+F0ZsNtxDln/16he6d
+W6GvKO1m7juJYzjPIgmtC0m3+VdoO5qiZ/zSpiD4u6K1ZpM41toPiLESmD1qQxgp
+ws3b/aSlw8pZbM5K9VSdVjF4MWPCAwCzsy7XbGtMQZScKPAc7lNslInsgzlZMYfU
+pCYU/c6VdlExaENngb7sp08D1DqGp4KeC4Tvg2m9IawCOL1vBzXrqk8B8s80icfa
+GeDE6zz7GMMm5ZfuMcGcBaWjxnvJS2deoQpoyvDJx3deKNdA4EmrFiyRezlxqYPn
+kjqZKqBLIXUUdZhS2ywWqHjDpCDTv/odDbrhtCslNIS1qvcQVaH7mH1cR7L52VSv
+r5KA+vOZzGoho0CC9dORK4C6J770KlgnTGNe0Bxdziq+2xy4Qazdzph9mCUBFCAp
+AYQ8EQEiORyPfH6hk5zZouggxZbCLiBNMNz+4zCSK8BZuIynbgpKBgE51LkGSiMO
+BDVQ5fN1H4YWg8W4dhG37j9C6ghMvY8B0+yY74AVvGLTKh54dao=
+=JxNF
+-----END PGP SIGNATURE-----
+
+--5Cj71KibBLvEEalKQuIAIY8sg6m9CI5kR--
 
