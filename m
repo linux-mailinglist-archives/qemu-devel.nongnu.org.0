@@ -2,70 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0DD618F73
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 19:42:55 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58649 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C565D18F92
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 19:48:53 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58731 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOn4I-0004sI-SL
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 13:42:54 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60562)
+	id 1hOnA5-0000lI-12
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 13:48:53 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33387)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alistair23@gmail.com>) id 1hOn2i-000453-Bq
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:41:18 -0400
+	(envelope-from <bounces@canonical.com>) id 1hOn6y-0007Av-V8
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:45:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alistair23@gmail.com>) id 1hOn2g-0008V1-TY
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:41:16 -0400
-Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:43473)
+	(envelope-from <bounces@canonical.com>) id 1hOn6w-0002Vk-PF
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:45:40 -0400
+Received: from indium.canonical.com ([91.189.90.7]:38192)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <alistair23@gmail.com>)
-	id 1hOn2g-0008R2-LP
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:41:14 -0400
-Received: by mail-lf1-x141.google.com with SMTP id u27so2159734lfg.10
-	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 10:41:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=ro51JLy0np+viiHkEO8nfpRuXeKBegwQ9LGuJkv+aVs=;
-	b=pJmpVr+ZQyAL6b1kJeirDgLhYA8xFN9wuNK3bTltT+XY1RPZxr4xH+NNmRVBw5aJ9s
-	eFP3mCWAXk2+9C7yurEN/pOSU1gzuRKCv/zUd/k4mSqAyVXHP9wbWumTJXs7pgu4qdxC
-	VPpcefSpADNxNwPO9FCfKCtV8g70ltGfAuC9Bb0TplWS9Pgtk/ffjPtx0i84tm1N5cjx
-	16H8M8H6JTgHAMNcvxioxiH+IXz09SPt/g9fBXaKOuKiBtOOLQZvUts/5qjiA4SKVyYM
-	Va0ym14YxKG25da0UimIB1ufyXHmTdEl4+4KtWFl2m+ANdSv7Mh/bCrNCWp5mNlPyuMB
-	Ihsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=ro51JLy0np+viiHkEO8nfpRuXeKBegwQ9LGuJkv+aVs=;
-	b=K02hfzC2JJlpYfAjj2qSBzU6yJ9iG3rrj1woYkIx5FpF160RkC9oW7D2k5BR0OHGRN
-	ryJZdub2aiuEsEHY8cIQUBqzIed+NyqC9zqozECd5Olkt9RmuvXosY19zlTGP1XGTbay
-	UovLp+UrJLNQ9m1CwAcPIv7bCqCDUARlrj1ME4j5mlbp9UkINa934LQ0eb/ggbborETE
-	jWkNviul3cq1PF3SDPuXbRsL9ZuBurQaIOO+tZ/5xvD++LhEM/gG69aPN3b9VjioqcnV
-	B3gJlthU32w9zj/UhMSSjksfzEwVzl8Y2A1rWMdFly7eg15ngLs1GMu7foqqVah+Z+ZL
-	JZYw==
-X-Gm-Message-State: APjAAAWS/F7CZ1jdc/MOUFTXG/t9dOhV4zzn83NO9LVlwpPVCfyDbVgF
-	uxv6GwoHLms3LsY6IM1ltPM1QcO6izr7sVbP2WI=
-X-Google-Smtp-Source: APXvYqyBG6/J3QhnKVVmiAQMIcNvXw9j8BZUy18xT9A8BC8yZD9gzi3PZR9ovOa5BHyKcFDnQBYgbYg13flnGxJXHzY=
-X-Received: by 2002:a19:4a04:: with SMTP id x4mr3157344lfa.124.1557423667705; 
-	Thu, 09 May 2019 10:41:07 -0700 (PDT)
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hOn6w-0002RY-Cb
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:45:38 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hOn6u-0004rM-V5
+	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 17:45:36 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id E8AB92E80CB
+	for <qemu-devel@nongnu.org>; Thu,  9 May 2019 17:45:36 +0000 (UTC)
 MIME-Version: 1.0
-References: <20190509060246.4031-1-richard.henderson@linaro.org>
-	<20190509060246.4031-2-richard.henderson@linaro.org>
-In-Reply-To: <20190509060246.4031-2-richard.henderson@linaro.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 9 May 2019 10:39:00 -0700
-Message-ID: <CAKmqyKPPAHaD48pMxrdGgCUEhgz4g5=5MVVScg4v=GL7eX+_fg@mail.gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::141
-Subject: Re: [Qemu-devel] [PATCH v2 01/27] tcg: Add CPUClass::tlb_fill
+Date: Thu, 09 May 2019 17:39:41 -0000
+From: Philippe Coval <1689367@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
+	assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: janitor pgnet pmaydell rzr
+X-Launchpad-Bug-Reporter: pgnet (pgnet)
+X-Launchpad-Bug-Modifier: Philippe Coval (rzr)
+References: <20170508175438.13498.58008.malonedeb@chaenomeles.canonical.com>
+Message-Id: <155742358163.16625.3460599929836191227.malone@gac.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18961";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 79c27c3e73efc8e0d0a26a6a981b824d45d46f8d
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1689367] Re: In qemu chroot,
+ repeating "qemu: Unsupported syscall: 384" messages. sys_getrandom ?
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -74,139 +65,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Reply-To: Bug 1689367 <1689367@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 8, 2019 at 11:03 PM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> This hook will replace the (user-only mode specific) handle_mmu_fault
-> hook, and the (system mode specific) tlb_fill function.
->
-> The handle_mmu_fault hook was written as if there was a valid
-> way to recover from an mmu fault, and had 3 possible return states.
-> In reality, the only valid action is to raise an exception,
-> return to the main loop, and deliver the SIGSEGV to the guest.
->
-> Note that all of the current implementations of handle_mmu_fault
-> for guests which support linux-user do in fact only ever return 1,
-> which is the signal to return to the main loop.
->
-> Using the hook for system mode requires that all targets be converted,
-> so for now the hook is (optionally) used only from user-only mode.
->
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+I am able to reproduce using docker and qemu-arm version 1.5.93
 
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+-- =
 
-Alistair
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1689367
 
-> ---
->  include/qom/cpu.h     |  9 +++++++++
->  accel/tcg/user-exec.c | 39 ++++++++++++++-------------------------
->  2 files changed, 23 insertions(+), 25 deletions(-)
->
-> diff --git a/include/qom/cpu.h b/include/qom/cpu.h
-> index 08abcbd3fe..c1f267b4e0 100644
-> --- a/include/qom/cpu.h
-> +++ b/include/qom/cpu.h
-> @@ -118,6 +118,12 @@ struct TranslationBlock;
->   *       will need to do more. If this hook is not implemented then the
->   *       default is to call @set_pc(tb->pc).
->   * @handle_mmu_fault: Callback for handling an MMU fault.
-> + * @tlb_fill: Callback for handling a softmmu tlb miss or user-only
-> + *       address fault.  For system mode, if the access is valid, call
-> + *       tlb_set_page and return true; if the access is invalid, and
-> + *       probe is true, return false; otherwise raise an exception and
-> + *       do not return.  For user-only mode, always raise an exception
-> + *       and do not return.
->   * @get_phys_page_debug: Callback for obtaining a physical address.
->   * @get_phys_page_attrs_debug: Callback for obtaining a physical address=
- and the
->   *       associated memory transaction attributes to use for the access.
-> @@ -191,6 +197,9 @@ typedef struct CPUClass {
->      void (*synchronize_from_tb)(CPUState *cpu, struct TranslationBlock *=
-tb);
->      int (*handle_mmu_fault)(CPUState *cpu, vaddr address, int size, int =
-rw,
->                              int mmu_index);
-> +    bool (*tlb_fill)(CPUState *cpu, vaddr address, int size,
-> +                     MMUAccessType access_type, int mmu_idx,
-> +                     bool probe, uintptr_t retaddr);
->      hwaddr (*get_phys_page_debug)(CPUState *cpu, vaddr addr);
->      hwaddr (*get_phys_page_attrs_debug)(CPUState *cpu, vaddr addr,
->                                          MemTxAttrs *attrs);
-> diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-> index 0789984fe6..199f88c826 100644
-> --- a/accel/tcg/user-exec.c
-> +++ b/accel/tcg/user-exec.c
-> @@ -65,6 +65,7 @@ static inline int handle_cpu_signal(uintptr_t pc, sigin=
-fo_t *info,
->      CPUClass *cc;
->      int ret;
->      unsigned long address =3D (unsigned long)info->si_addr;
-> +    MMUAccessType access_type;
->
->      /* We must handle PC addresses from two different sources:
->       * a call return address and a signal frame address.
-> @@ -147,35 +148,23 @@ static inline int handle_cpu_signal(uintptr_t pc, s=
-iginfo_t *info,
->         are still valid segv ones */
->      address =3D h2g_nocheck(address);
->
-> -    cc =3D CPU_GET_CLASS(cpu);
-> -    /* see if it is an MMU fault */
-> -    g_assert(cc->handle_mmu_fault);
-> -    ret =3D cc->handle_mmu_fault(cpu, address, 0, is_write, MMU_USER_IDX=
-);
-> -
-> -    if (ret =3D=3D 0) {
-> -        /* The MMU fault was handled without causing real CPU fault.
-> -         *  Retain helper_retaddr for a possible second fault.
-> -         */
-> -        return 1;
-> -    }
-> -
-> -    /* All other paths lead to cpu_exit; clear helper_retaddr
-> -     * for next execution.
-> +    /*
-> +     * There is no way the target can handle this other than raising
-> +     * an exception.  Undo signal and retaddr state prior to longjmp.
->       */
-> +    sigprocmask(SIG_SETMASK, old_set, NULL);
->      helper_retaddr =3D 0;
->
-> -    if (ret < 0) {
-> -        return 0; /* not an MMU fault */
-> +    cc =3D CPU_GET_CLASS(cpu);
-> +    if (cc->tlb_fill) {
-> +        access_type =3D is_write ? MMU_DATA_STORE : MMU_DATA_LOAD;
-> +        cc->tlb_fill(cpu, address, 0, access_type, MMU_USER_IDX, false, =
-pc);
-> +        g_assert_not_reached();
-> +    } else {
-> +        ret =3D cc->handle_mmu_fault(cpu, address, 0, is_write, MMU_USER=
-_IDX);
-> +        g_assert(ret > 0);
-> +        cpu_loop_exit_restore(cpu, pc);
->      }
-> -
-> -    /* Now we have a real cpu fault.  */
-> -    cpu_restore_state(cpu, pc, true);
-> -
-> -    sigprocmask(SIG_SETMASK, old_set, NULL);
-> -    cpu_loop_exit(cpu);
-> -
-> -    /* never comes here */
-> -    return 1;
->  }
->
->  #if defined(__i386__)
-> --
-> 2.17.1
->
->
+Title:
+  In qemu chroot, repeating "qemu: Unsupported syscall: 384" messages.
+  sys_getrandom ?
+
+Status in QEMU:
+  Expired
+
+Bug description:
+  On exec of an armv7 qemu chroot on my local x86_64 desktop, launched
+  via
+
+          /usr/sbin/qemu-binfmt-conf.sh
+
+  from
+
+          qemu-linux-user-2.9.0-374.1.x86_64
+
+  on the host, inside the chroot any compile activity is laced with
+  repetitions of
+
+          qemu: Unsupported syscall: 384
+
+  messages.
+
+  This wasn't always the case -- but, TBH, it's been ~ 6 months since I
+  used this env, and there have been scads of usual pkg updates in the
+  interim.  These messages appear to be non-fatal, with no particular
+  effect at all; at least not so far ...
+
+  From a chat in #IRC,
+
+  	[10:05] davidgiluk clever/pgnd: I see it as getrandom
+  	[10:05] davidgiluk pgnd: https://fedora.juszkiewicz.com.pl/syscalls.html=
+   sort it on the ARM table and you can easily see it
+  	[10:05] clever arch/arm/tools/syscall.tbl:384  common  getrandom        =
+       sys_getrandom
+  	[10:06] davidgiluk pgnd: my *guess* is that something is calling getrand=
+om, getting told it's not implemented and then falling back to using /dev/u=
+random
+  	[10:10] pgnd davidgiluk: If that *is* the case, is it to be considered a=
+ problem, or just informational?
+  	[10:12] davidgiluk pgnd: As long as it's falling back probably informati=
+onal; but someone should probably go and wire up sys_getrandom at some point
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1689367/+subscriptions
 
