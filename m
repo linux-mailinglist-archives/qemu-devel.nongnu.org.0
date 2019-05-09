@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 537EB18548
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 08:18:13 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48777 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EC8118540
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 08:16:45 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48773 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOcNg-0003AS-CJ
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 02:18:12 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45101)
+	id 1hOcMG-0001IT-6U
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 02:16:44 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45075)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOc9K-0006IX-1R
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 02:03:25 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hOc9G-0006FS-Ku
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 02:03:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOc9E-0007F2-KR
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 02:03:21 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:46869)
+	(envelope-from <richard.henderson@linaro.org>) id 1hOc9F-0007Fh-Lr
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 02:03:18 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:35406)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hOc9E-0007EZ-Cg
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 02:03:16 -0400
-Received: by mail-pf1-x444.google.com with SMTP id y11so702824pfm.13
-	for <qemu-devel@nongnu.org>; Wed, 08 May 2019 23:03:16 -0700 (PDT)
+	id 1hOc9F-0007FD-Ff
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 02:03:17 -0400
+Received: by mail-pg1-x543.google.com with SMTP id h1so637947pgs.2
+	for <qemu-devel@nongnu.org>; Wed, 08 May 2019 23:03:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=H2QT/JgMiYgSHVXC+HP+NSmIDhr8i4LWMx/ucpMQgvg=;
-	b=jX82uMqx0G7AB+n5uSgRtY6LmAA+jKlcyL9Jh7PbrUMJI4zk0Z9A26jd8qa3MZW+kC
-	tX73eZXpx/pF8fCY7FS511pMpfxrB6jOb3VD6srFGuhbqEml8sOfjHN2AtnMWBay2I/W
-	XU6Y34Srt1AOZXlif2H3rfK1KMB/93Z4Znzb41uQdJ6dl5aKnWVNJKvAwJ+gKRDtkopl
-	jvu8i5pWrru6TRaVcqX3maSd4fhh8YOjgopXPzdIHa8RkaEJCznx3Jv5d7epVeozHeWh
-	HBYUk/ZmVW0ks6r5JqsGwWGi9wDSKrdRkJjwY1CqGXmUmP6lMHaj4e6770Bq3ZZxwwl/
-	Zq3Q==
+	h=from:to:subject:date:message-id:in-reply-to:references;
+	bh=s4MN+agLoZqxLhzSptzqanZ4wwu5I/aQQC+BedaVD0U=;
+	b=B+E9kacGpyzB7L3CvPy2mjiuDYpq0w2ZzDcSFGdNHg0kMMwNiS2E87BSspTUpCKrQs
+	NXbLhKW/RiOrU9C34kNMqxxrcFJqn24BXvNPC06bgshYiur6G5qs/VjMBDGPSIQzUN9V
+	KAw1LZb25eVEqzFxApIbG0v5XnG1iSR3OnA4qQYiM33AXYzsuR+8bRUMPL3o2FavYT56
+	nWt9XiRYCItvu4aH5RnygW/e+A9g1HoZ28VBYK8QNR7AMWkhCEVtNKyjNrm+zx9nW2PE
+	PUOZaMzUTfVS7r3d/+0aRIRvNt2nJXAcD5Bg4NXxmDTinmKYWTOdfP+5agKuyR69l/+g
+	mfCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=H2QT/JgMiYgSHVXC+HP+NSmIDhr8i4LWMx/ucpMQgvg=;
-	b=Iu7m+uSgezl024qltfN1sNEe36MmhILSGNE+aTrcyyZwJZ0KL/i9Z96tkOrWSkCCux
-	6wCOJOCMafvYRdgOHKd4p28yZsIk3f0fX6VkN5xRrbw2OBeLzdv3WiGAOh8jHCGsdefK
-	YMNlXEtSNmqbc3z0ftnG9Gxe+NK/2O0KtlcqRJCQPq3NP5nY8stNspeyuGz0pd5Yjlbr
-	AC27s+7+x8H2btJ4w6/moVWFbDJIQQz461ej2/N5l8I7eC/vUFK3E0xwKisgHHDjCp+r
-	QXM+nFKwByt/PGx0EbV91iJgs5HmrYU7AaX4SOWDF6ppxN+nPB5r5aquC3OtbjGocu5v
-	hTrg==
-X-Gm-Message-State: APjAAAUugFhWZTf5HkiIMgHQdbUQSaW3P2JJ6TIFXDcExHMMrBcCW2id
-	k5n4erurDowR2V3ZtP2KRZPiIVN5Fx0=
-X-Google-Smtp-Source: APXvYqycRFVA1JH/UohKR1luUWpNnlLQUhigdxcHdqpKstfkHds0Nib9b3ZmELJUL+ry4ira2cGfpw==
-X-Received: by 2002:a63:2a89:: with SMTP id q131mr3044519pgq.359.1557381795167;
-	Wed, 08 May 2019 23:03:15 -0700 (PDT)
+	bh=s4MN+agLoZqxLhzSptzqanZ4wwu5I/aQQC+BedaVD0U=;
+	b=THY+FdZRMU1GGJfllP5zD/qqozBbmd+gnwBYL1IpnMcECf9RCI3ggflSKpiP8Mlsq2
+	YXEU0dZuEZozvDUz1OE2cW9jh5EzZbpSzV9CMcvr7Nu1VOo34rjr1mT2DO1AY4aDXWuG
+	WzdXvnUNKvA/pqFibVkV1wWcjl30drZEx9n36OQwXF5e8Lw5LZ8tuLDpAlbAt0SwrcDa
+	n4pGNhh29Eh5xGvwJ2ObhKRz1ClaTVpeKK1mVoQ6DetB31NNYBXUByzFDdqut2yirJ6+
+	lJBxmI5bHE9J/u3mIzpNX30tw81PLZX4HamSUYyWxgsh1sGBLx2Xp4BhR57robA4u3mm
+	bDkQ==
+X-Gm-Message-State: APjAAAWoLPGHmXGiM2hAxJ007Msc85AFn/6/slnTEQkeinyfwNY8K8Jg
+	NnpxsRzD1TB1DkCcE5BtGbG4gSOBqQw=
+X-Google-Smtp-Source: APXvYqxKDMYSJBnXXia8hd79KYLV+wwV1S9D+eR+GoVTcwtPlcGRkQMli1TYyqPHgR5Yyb1zuMylmg==
+X-Received: by 2002:a62:7995:: with SMTP id u143mr2566428pfc.61.1557381796318; 
+	Wed, 08 May 2019 23:03:16 -0700 (PDT)
 Received: from localhost.localdomain (97-113-27-95.tukw.qwest.net.
 	[97.113.27.95])
-	by smtp.gmail.com with ESMTPSA id n7sm1496109pff.45.2019.05.08.23.03.13
+	by smtp.gmail.com with ESMTPSA id n7sm1496109pff.45.2019.05.08.23.03.15
+	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 08 May 2019 23:03:14 -0700 (PDT)
+	Wed, 08 May 2019 23:03:15 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed,  8 May 2019 23:02:39 -0700
-Message-Id: <20190509060246.4031-21-richard.henderson@linaro.org>
+Date: Wed,  8 May 2019 23:02:40 -0700
+Message-Id: <20190509060246.4031-22-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190509060246.4031-1-richard.henderson@linaro.org>
 References: <20190509060246.4031-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::444
-Subject: [Qemu-devel] [PATCH v2 20/27] target/sparc: Convert to
+X-Received-From: 2607:f8b0:4864:20::543
+Subject: [Qemu-devel] [PATCH v2 21/27] target/tilegx: Convert to
  CPUClass::tlb_fill
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
@@ -76,230 +77,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
-	Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc: Artyom Tarasenko <atar4qemu@gmail.com>
-Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v2: Keep user-only, sparc32, and sparc64 tlb_fill separate.
----
- target/sparc/cpu.h         |  5 ++-
- target/sparc/cpu.c         |  5 +--
- target/sparc/ldst_helper.c | 11 +-----
- target/sparc/mmu_helper.c  | 78 ++++++++++++++++++++++----------------
- 4 files changed, 51 insertions(+), 48 deletions(-)
+ target/tilegx/cpu.c | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/target/sparc/cpu.h b/target/sparc/cpu.h
-index 85b9665ccc..f31e8535df 100644
---- a/target/sparc/cpu.h
-+++ b/target/sparc/cpu.h
-@@ -579,8 +579,9 @@ void cpu_raise_exception_ra(CPUSPARCState *, int, uintptr_t) QEMU_NORETURN;
- void cpu_sparc_set_id(CPUSPARCState *env, unsigned int cpu);
- void sparc_cpu_list(void);
- /* mmu_helper.c */
--int sparc_cpu_handle_mmu_fault(CPUState *cpu, vaddr address, int size, int rw,
--                               int mmu_idx);
-+bool sparc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                        MMUAccessType access_type, int mmu_idx,
-+                        bool probe, uintptr_t retaddr);
- target_ulong mmu_probe(CPUSPARCState *env, target_ulong address, int mmulev);
- void dump_mmu(CPUSPARCState *env);
+diff --git a/target/tilegx/cpu.c b/target/tilegx/cpu.c
+index b9d37105fa..b209c55387 100644
+--- a/target/tilegx/cpu.c
++++ b/target/tilegx/cpu.c
+@@ -25,6 +25,7 @@
+ #include "hw/qdev-properties.h"
+ #include "linux-user/syscall_defs.h"
+ #include "qemu/qemu-print.h"
++#include "exec/exec-all.h"
  
-diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
-index 4654c2a6a0..f93ce72eb9 100644
---- a/target/sparc/cpu.c
-+++ b/target/sparc/cpu.c
-@@ -875,9 +875,8 @@ static void sparc_cpu_class_init(ObjectClass *oc, void *data)
-     cc->synchronize_from_tb = sparc_cpu_synchronize_from_tb;
-     cc->gdb_read_register = sparc_cpu_gdb_read_register;
-     cc->gdb_write_register = sparc_cpu_gdb_write_register;
--#ifdef CONFIG_USER_ONLY
--    cc->handle_mmu_fault = sparc_cpu_handle_mmu_fault;
--#else
-+    cc->tlb_fill = sparc_cpu_tlb_fill;
-+#ifndef CONFIG_USER_ONLY
-     cc->do_unassigned_access = sparc_cpu_unassigned_access;
-     cc->do_unaligned_access = sparc_cpu_do_unaligned_access;
-     cc->get_phys_page_debug = sparc_cpu_get_phys_page_debug;
-diff --git a/target/sparc/ldst_helper.c b/target/sparc/ldst_helper.c
-index a7fcb84ac0..2558c08a64 100644
---- a/target/sparc/ldst_helper.c
-+++ b/target/sparc/ldst_helper.c
-@@ -1925,18 +1925,9 @@ void QEMU_NORETURN sparc_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-     cpu_raise_exception_ra(env, TT_UNALIGNED, retaddr);
+ static void tilegx_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+ {
+@@ -111,8 +112,9 @@ static void tilegx_cpu_do_interrupt(CPUState *cs)
+     cs->exception_index = -1;
  }
  
--/* try to fill the TLB and return an exception if error. If retaddr is
--   NULL, it means that the function was called in C code (i.e. not
--   from generated code or from helper.c) */
--/* XXX: fix it to restore all registers */
- void tlb_fill(CPUState *cs, target_ulong addr, int size,
-               MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
+-static int tilegx_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size,
+-                                       int rw, int mmu_idx)
++static bool tilegx_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
++                                MMUAccessType access_type, int mmu_idx,
++                                bool probe, uintptr_t retaddr)
  {
--    int ret;
--
--    ret = sparc_cpu_handle_mmu_fault(cs, addr, size, access_type, mmu_idx);
--    if (ret) {
--        cpu_loop_exit_restore(cs, retaddr);
--    }
-+    sparc_cpu_tlb_fill(cs, addr, size, access_type, mmu_idx, false, retaddr);
- }
- #endif
-diff --git a/target/sparc/mmu_helper.c b/target/sparc/mmu_helper.c
-index afcc5b617d..7f811ea031 100644
---- a/target/sparc/mmu_helper.c
-+++ b/target/sparc/mmu_helper.c
-@@ -27,13 +27,14 @@
+     TileGXCPU *cpu = TILEGX_CPU(cs);
  
- #if defined(CONFIG_USER_ONLY)
+@@ -122,7 +124,7 @@ static int tilegx_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size,
+     cpu->env.signo = TARGET_SIGSEGV;
+     cpu->env.sigcode = 0;
  
--int sparc_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size, int rw,
--                               int mmu_idx)
-+bool sparc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                        MMUAccessType access_type, int mmu_idx,
-+                        bool probe, uintptr_t retaddr)
- {
-     SPARCCPU *cpu = SPARC_CPU(cs);
-     CPUSPARCState *env = &cpu->env;
- 
--    if (rw & 2) {
-+    if (access_type == MMU_INST_FETCH) {
-         cs->exception_index = TT_TFAULT;
-     } else {
-         cs->exception_index = TT_DFAULT;
-@@ -43,7 +44,7 @@ int sparc_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size, int rw,
-         env->mmuregs[4] = address;
- #endif
-     }
 -    return 1;
 +    cpu_loop_exit_restore(cs, retaddr);
  }
  
- #else
-@@ -208,8 +209,9 @@ static int get_physical_address(CPUSPARCState *env, hwaddr *physical,
+ static bool tilegx_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+@@ -152,7 +154,7 @@ static void tilegx_cpu_class_init(ObjectClass *oc, void *data)
+     cc->cpu_exec_interrupt = tilegx_cpu_exec_interrupt;
+     cc->dump_state = tilegx_cpu_dump_state;
+     cc->set_pc = tilegx_cpu_set_pc;
+-    cc->handle_mmu_fault = tilegx_cpu_handle_mmu_fault;
++    cc->tlb_fill = tilegx_cpu_tlb_fill;
+     cc->gdb_num_core_regs = 0;
+     cc->tcg_initialize = tilegx_tcg_init;
  }
- 
- /* Perform address translation */
--int sparc_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size, int rw,
--                               int mmu_idx)
-+bool sparc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                        MMUAccessType access_type, int mmu_idx,
-+                        bool probe, uintptr_t retaddr)
- {
-     SPARCCPU *cpu = SPARC_CPU(cs);
-     CPUSPARCState *env = &cpu->env;
-@@ -220,22 +222,18 @@ int sparc_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size, int rw,
- 
-     address &= TARGET_PAGE_MASK;
-     error_code = get_physical_address(env, &paddr, &prot, &access_index,
--                                      address, rw, mmu_idx, &page_size);
-+                                      address, access_type,
-+                                      mmu_idx, &page_size);
-     vaddr = address;
--    if (error_code == 0) {
-+    if (likely(error_code == 0)) {
-         qemu_log_mask(CPU_LOG_MMU,
--                "Translate at %" VADDR_PRIx " -> " TARGET_FMT_plx ", vaddr "
--                TARGET_FMT_lx "\n", address, paddr, vaddr);
-+                      "Translate at %" VADDR_PRIx " -> "
-+                      TARGET_FMT_plx ", vaddr " TARGET_FMT_lx "\n",
-+                      address, paddr, vaddr);
-         tlb_set_page(cs, vaddr, paddr, prot, mmu_idx, page_size);
--        return 0;
-+        return true;
-     }
- 
--    if (env->mmuregs[3]) { /* Fault status register */
--        env->mmuregs[3] = 1; /* overflow (not read before another fault) */
--    }
--    env->mmuregs[3] |= (access_index << 5) | error_code | 2;
--    env->mmuregs[4] = address; /* Fault address register */
--
-     if ((env->mmuregs[0] & MMU_NF) || env->psret == 0)  {
-         /* No fault mode: if a mapping is available, just override
-            permissions. If no mapping is available, redirect accesses to
-@@ -243,15 +241,25 @@ int sparc_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size, int rw,
-            switching to normal mode. */
-         prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
-         tlb_set_page(cs, vaddr, paddr, prot, mmu_idx, TARGET_PAGE_SIZE);
--        return 0;
--    } else {
--        if (rw & 2) {
--            cs->exception_index = TT_TFAULT;
--        } else {
--            cs->exception_index = TT_DFAULT;
--        }
--        return 1;
-+        return true;
-     }
-+
-+    if (probe) {
-+        return false;
-+    }
-+
-+    if (env->mmuregs[3]) { /* Fault status register */
-+        env->mmuregs[3] = 1; /* overflow (not read before another fault) */
-+    }
-+    env->mmuregs[3] |= (access_index << 5) | error_code | 2;
-+    env->mmuregs[4] = address; /* Fault address register */
-+
-+    if (access_type == MMU_INST_FETCH) {
-+        cs->exception_index = TT_TFAULT;
-+    } else {
-+        cs->exception_index = TT_DFAULT;
-+    }
-+    cpu_loop_exit_restore(cs, retaddr);
- }
- 
- target_ulong mmu_probe(CPUSPARCState *env, target_ulong address, int mmulev)
-@@ -713,20 +721,22 @@ static int get_physical_address(CPUSPARCState *env, hwaddr *physical,
- }
- 
- /* Perform address translation */
--int sparc_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size, int rw,
--                               int mmu_idx)
-+bool sparc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                        MMUAccessType access_type, int mmu_idx,
-+                        bool probe, uintptr_t retaddr)
- {
-     SPARCCPU *cpu = SPARC_CPU(cs);
-     CPUSPARCState *env = &cpu->env;
--    target_ulong vaddr;
-     hwaddr paddr;
-+    target_ulong vaddr;
-     target_ulong page_size;
-     int error_code = 0, prot, access_index;
- 
-     address &= TARGET_PAGE_MASK;
-     error_code = get_physical_address(env, &paddr, &prot, &access_index,
--                                      address, rw, mmu_idx, &page_size);
--    if (error_code == 0) {
-+                                      address, access_type,
-+                                      mmu_idx, &page_size);
-+    if (likely(error_code == 0)) {
-         vaddr = address;
- 
-         trace_mmu_helper_mmu_fault(address, paddr, mmu_idx, env->tl,
-@@ -734,10 +744,12 @@ int sparc_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size, int rw,
-                                    env->dmmu.mmu_secondary_context);
- 
-         tlb_set_page(cs, vaddr, paddr, prot, mmu_idx, page_size);
--        return 0;
-+        return true;
-     }
--    /* XXX */
--    return 1;
-+    if (probe) {
-+        return false;
-+    }
-+    cpu_loop_exit_restore(cs, retaddr);
- }
- 
- void dump_mmu(CPUSPARCState *env)
 -- 
 2.17.1
 
