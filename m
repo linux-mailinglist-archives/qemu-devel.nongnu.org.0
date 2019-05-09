@@ -2,80 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 05A8918E48
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 18:41:14 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57747 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3251118E68
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 18:48:59 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57828 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOm6b-0005Or-6T
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 12:41:13 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43013)
+	id 1hOmE6-0001p3-DC
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 12:48:58 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45536)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOm4h-0004Nm-PR
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:39:16 -0400
+	(envelope-from <mreitz@redhat.com>) id 1hOmB4-0000QE-SC
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:45:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOm4g-0000S7-3k
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:39:15 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:38318)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hOm4f-0000RF-NQ
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:39:13 -0400
-Received: by mail-pf1-x443.google.com with SMTP id 10so1606296pfo.5
-	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 09:39:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=7QanXo+t8UOZcAfjBJwbK8Cm6GQVP5+6DmXsezGXDIc=;
-	b=AaOwVXGVsubqur/dUEm8rf9g6HW6sOhh56bVivG1ZqV6AYactdxgvJ9K70BY4cl9gf
-	4V+gQoHy9dptvkyvmUk6iRLJK9MK8x55oa8zr35BvrqQbjbvzHmnNwgZ0LzsOo7n1a5x
-	matB86VtSF5GFj9bFW7FTOvux9oeUkCb2yR7bB649rJ6CkWvHWwaVeXh78CZFLMyO26g
-	dXCJayqAgYVYvOqjzBURK6zD8EBHZnenYCK6pK1U1Nk5CaXSpcjxGKaDLIGcJEyEXb8t
-	m2GClsvBPHqj5+UnaHTq8WBYm/Z1KLhK3+e+5b0eptSJ6G27DigmixK7DhhLkP80HUX3
-	hCIQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=7QanXo+t8UOZcAfjBJwbK8Cm6GQVP5+6DmXsezGXDIc=;
-	b=ExvG39sL5TDTsteD6grqYDmddKebF/1Ur+r9ZI7YlveqoKGbSX0XsmvniSXsCQf/Ep
-	36hbhZFhZi0P+P60E6dlx3fBQn7vJ3egLnrFLkEcyBLEqJGE6BZiU/kd8+xCn1SrhXvc
-	4g9YI9Mc3BunpulLtOfhOjcWd6f5DSqfxODNeVWcU/7Py5FHPf5SAEJ3j+hbAgv8wK7J
-	ew0DrsP3IlaqFeruoIP4A7riAfbaYlFc8t52boCSg+v+DXmLL9Z0aOJPq+gcEUrRbije
-	993MkXbLWszIqZ+3sz87KKGUY2fpf72wlNAtN0u4QFQpeyIEYziSLvUF7eRl8blCQnHZ
-	NSnw==
-X-Gm-Message-State: APjAAAW3j2KGCiC3fUPyf+T3V9zuYnp41t2maKeLu+y/eSjrgaC1cdGe
-	W9u9qmE+B5TFy1G2sFm2RI8V1A==
-X-Google-Smtp-Source: APXvYqz8O+jqrdAnGFazYg4qukcCyBLQr6x1GpaOZAavGl4xC7/XucCp56U6HvsldRxb7iqF4b2kug==
-X-Received: by 2002:a63:d04b:: with SMTP id s11mr6903091pgi.187.1557419950823; 
-	Thu, 09 May 2019 09:39:10 -0700 (PDT)
-Received: from [172.31.99.192] (50-248-210-99-static.hfc.comcastbusiness.net.
-	[50.248.210.99]) by smtp.gmail.com with ESMTPSA id
-	g24sm6002632pfi.126.2019.05.09.09.39.09
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 09 May 2019 09:39:10 -0700 (PDT)
-To: Gerd Hoffmann <kraxel@redhat.com>, Kamil Rytarowski <n54@gmx.com>
-References: <20190508085645.11595-1-kraxel@redhat.com>
-	<20190508085645.11595-12-kraxel@redhat.com>
-	<461b0a0f-2843-afc3-6289-db08d6415771@gmx.com>
-	<20190509064716.pcxsg3lbbfqv5ltl@sirius.home.kraxel.org>
-From: Richard Henderson <richard.henderson@linaro.org>
+	(envelope-from <mreitz@redhat.com>) id 1hOmB4-0003aA-1t
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:45:50 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37656)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
+	id 1hOmAy-0003Y5-3x; Thu, 09 May 2019 12:45:45 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+	[10.5.11.12])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 0B851C0568FE;
+	Thu,  9 May 2019 16:45:42 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-204-168.brq.redhat.com
+	[10.40.204.168])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id C930960C62;
+	Thu,  9 May 2019 16:45:40 +0000 (UTC)
+To: qemu-block@nongnu.org
+References: <20190508140139.32722-1-mreitz@redhat.com>
+	<20190508140139.32722-4-mreitz@redhat.com>
+From: Max Reitz <mreitz@redhat.com>
 Openpgp: preference=signencrypt
-Message-ID: <d4939e4c-4e31-4330-0180-8c3c73378d24@linaro.org>
-Date: Thu, 9 May 2019 09:39:07 -0700
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+	mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+	/PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+	U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+	mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+	awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+	AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+	CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+	B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+	2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+	AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+	8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+	4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+	BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+	xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+	W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+	DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+	64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+	ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+	sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+	alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+	/ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+	bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+	R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <b3d8f9f4-a6a4-0f64-1ac4-56f62e1439a4@redhat.com>
+Date: Thu, 9 May 2019 18:45:39 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190509064716.pcxsg3lbbfqv5ltl@sirius.home.kraxel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::443
-Subject: Re: [Qemu-devel] [PATCH 11/13] tests/vm: netbsd autoinstall,
- using serial console
+In-Reply-To: <20190508140139.32722-4-mreitz@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature";
+	boundary="vZVCzSbq0DXzEFYB6zywXzRcADEWHNa0m"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.32]);
+	Thu, 09 May 2019 16:45:42 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [PATCH v2 3/3] iotests: Add test for rebase
+ without input base
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -87,34 +88,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Ed Maste <emaste@freebsd.org>,
-	=?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
-	qemu-devel@nongnu.org, Kamil Rytarowski <kamil@netbsd.org>,
-	=?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
-	Li-Wen Hsu <lwhsu@freebsd.org>, Brad Smith <brad@comstyle.com>
+Cc: Kevin Wolf <kwolf@redhat.com>,
+	Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+	qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/8/19 11:47 PM, Gerd Hoffmann wrote:
-> So, from looking at the patch it seems you need two mappings of the same
-> page, one writable and one executable.
-> 
-> Or, maybe it is also possible with one mapping which is writable first
-> when you fill it with code, then gets flipped over to executable when
-> you are done with the initialization and want use it.
-> 
-> Is that correct?
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--vZVCzSbq0DXzEFYB6zywXzRcADEWHNa0m
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, Eric Blake <eblake@redhat.com>,
+ Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ Kevin Wolf <kwolf@redhat.com>
+Message-ID: <b3d8f9f4-a6a4-0f64-1ac4-56f62e1439a4@redhat.com>
+Subject: Re: [PATCH v2 3/3] iotests: Add test for rebase without input base
+References: <20190508140139.32722-1-mreitz@redhat.com>
+ <20190508140139.32722-4-mreitz@redhat.com>
+In-Reply-To: <20190508140139.32722-4-mreitz@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-That's certainly the way I read that patch.
+On 08.05.19 16:01, Max Reitz wrote:
+> This patch adds a test for rebasing an image that currently does not
+> have a backing file.
+>=20
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> ---
+>  tests/qemu-iotests/024     | 70 ++++++++++++++++++++++++++++++++++++++=
 
-> I suspect supporting that in tcg isn't exactly trivial.
+>  tests/qemu-iotests/024.out | 37 ++++++++++++++++++++
+>  2 files changed, 107 insertions(+)
 
-It shouldn't be too hard, if required.  All of the writing to the buffer is
-isolated to a couple of inline functions.
+This test requires zero clusters, so it doesn=E2=80=99t work with qed and=
+ qcow2
+v2.  I=E2=80=99ll put it into a separate file.
 
-I do wonder if using paxctl -m as a part of the build process for affected *BSD
-isn't just as easy?
+Max
 
 
-r~
+--vZVCzSbq0DXzEFYB6zywXzRcADEWHNa0m
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAlzUWTMACgkQ9AfbAGHV
+z0AFfgf/evCJTNmePaHON5jsCRSk+SdYo9MUT6g0v4O/Iparm5AayFQ0ln17xj3A
+SF8Gc+RHMRaWdHxj3SWPj0yTzqZA7wIeZKtun5l68RxUmaUu7k65ioJKtbgLg0DS
+FlHnPxWXB+4feLc31SUtx4Kbn8AsQF2iO18/x39n9QEbHYtUVU1zYQ3P/59LHfCx
+3HcQ9DCpxE+/b/gKCPh5r/uf6O+D+5howNZoDsldQ+G9bPR7nx5/QDRavLZ0mViL
+VDHbvUwtHge1YOyfWrZAw0tKBYbIAqosce3sdUDXRuJOY24WZ6RNiyJMVfZ6yGsG
+Ua3BAWvLFKJ9oH5WPH4ZhKhGDlf65Q==
+=FKiN
+-----END PGP SIGNATURE-----
+
+--vZVCzSbq0DXzEFYB6zywXzRcADEWHNa0m--
 
