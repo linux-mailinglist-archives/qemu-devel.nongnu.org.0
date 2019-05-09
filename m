@@ -2,61 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E3F218DD7
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 18:17:13 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57456 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CCCC18DAA
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 18:08:11 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57292 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOljM-0002UD-Nc
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 12:17:12 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33953)
+	id 1hOlac-0005IN-Dj
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 12:08:10 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59089)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hOli9-0001ss-7z
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:15:58 -0400
+	(envelope-from <imammedo@redhat.com>) id 1hOlYi-0004Qj-FS
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:06:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hOli4-0005tZ-Qh
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:15:56 -0400
-Received: from indium.canonical.com ([91.189.90.7]:46828)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hOli4-0005sI-GP
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:15:52 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
-	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hOli1-00028u-0n
-	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 16:15:49 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id 18D312E80DB
-	for <qemu-devel@nongnu.org>; Thu,  9 May 2019 16:15:46 +0000 (UTC)
+	(envelope-from <imammedo@redhat.com>) id 1hOlYh-0001c4-Aj
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:06:12 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46066)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1hOlYh-0001bp-4U
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:06:11 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+	[10.5.11.12])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id BDA7381259;
+	Thu,  9 May 2019 16:06:09 +0000 (UTC)
+Received: from Igors-MacBook-Pro (ovpn-204-72.brq.redhat.com [10.40.204.72])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 7396C60CC0;
+	Thu,  9 May 2019 16:06:08 +0000 (UTC)
+Date: Thu, 9 May 2019 18:06:03 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Message-ID: <20190509180603.424c8277@Igors-MacBook-Pro>
+In-Reply-To: <20190509135617.GH4189@habkost.net>
+References: <20190422234742.15780-1-ehabkost@redhat.com>
+	<20190509133537.GK7181@orkuz.int.mamuti.net>
+	<20190509135617.GH4189@habkost.net>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 09 May 2019 16:00:55 -0000
-From: Brett Neumeier <1828429@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: bneumeier pmaydell
-X-Launchpad-Bug-Reporter: Brett Neumeier (bneumeier)
-X-Launchpad-Bug-Modifier: Brett Neumeier (bneumeier)
-X-Launchpad-Bug-Duplicate: 1824853
-References: <155741248596.25660.12793938251081176084.malonedeb@chaenomeles.canonical.com>
-Message-Id: <155741765530.32394.4452121474160881397.malone@soybean.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18961";
-	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 724640a79a36c4cd5e7e12da0b4fe231ccc90370
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.25]);
+	Thu, 09 May 2019 16:06:09 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1828429] Re: qemu-system-aarch64 crashes with
- assertion failed while running GCC 9 test suite
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 0/2] i386: "unavailable-features" QOM
+ property
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,63 +59,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1828429 <1828429@bugs.launchpad.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jiri Denemark <jdenemar@redhat.com>,
+	qemu-devel@nongnu.org, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-*** This bug is a duplicate of bug 1824853 ***
-    https://bugs.launchpad.net/bugs/1824853
+On Thu, 9 May 2019 10:56:17 -0300
+Eduardo Habkost <ehabkost@redhat.com> wrote:
 
-Confirmed, this is a duplicate of 1824853 and is resolved in
-68a7b9724fe80bedb85060bde605213ce3f9baec.
+> On Thu, May 09, 2019 at 03:35:37PM +0200, Jiri Denemark wrote:
+> > On Mon, Apr 22, 2019 at 20:47:40 -0300, Eduardo Habkost wrote:
+> > > Currently, libvirt uses the "filtered-features" QOM property at
+> > > runtime to ensure no feature was accidentally disabled on VCPUs
+> > > because it's not available on the host.
+> > > 
+> > > However, the code for "feature-words" assumes that all missing
+> > > features have a corresponding CPUID bit, which is not true for
+> > > MSR-based features like the ones at FEAT_ARCH_CAPABILITIES.
+> > > 
+> > > We could extend X86CPUFeatureWordInfo to include information
+> > > about MSR features, but it's impossible to do that while keeping
+> > > compatibility with clients that (reasonably) expect all elements
+> > > of "filtered-features" to have the cpuid-* fields.
+> > > 
+> > > We have a field in "query-cpu-definitions" that already describes
+> > > all features that are missing on a CPU, including MSR features:
+> > > CpuDefinitionInfo.unavailable-features.  The existing code for
+> > > building the unavailable-features array even uses
+> > > X86CPU::filtered_features to build the feature list.
+> > > 
+> > > This series adds a "unavailable-features" QOM property to X86CPU
+> > > objects that have the same semantics of "unavailable-features" on
+> > > query-cpu-definitions.  The new property has the same goal of
+> > > "filtered-features", but is generic enough to let any kind of CPU
+> > > feature to be listed there without relying on low level details
+> > > like CPUID leaves or MSR numbers.
+> > 
+> > Thanks.
+> > 
+> > Would this unavailable-features property contain only canonical names of
+> > the features or all possible aliases of all features? For example,
+> > "tsc-adjust" can also be spelled as "tsc_adjust". When calling
+> > query-cpu-model-expansion, we have a way to request all variants by
+> > running full expansion on the result of a previous static expansion. Can
+> > we get something like this for unavailable-features too?
+> 
+> I'd like to avoid that, and refer only to the canonical names.
 
-** This bug has been marked a duplicate of bug 1824853
-   4.0.0-rc3 crashes with tcg/tcg.c:3952: tcg_gen_code: Assertion `s->gen_i=
-nsn_end_off[num_insns] =3D=3D off' failed
+Can we deprecate aliases to avoid confusion in future?
+(there aren't that many of them that used pre-QOM name format)
 
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1828429
-
-Title:
-  qemu-system-aarch64 crashes with assertion failed while running GCC 9
-  test suite
-
-Status in QEMU:
-  New
-
-Bug description:
-  I am using QEMU 4.0.0 on an x86_64 Linux 4.19.0 host, the guest is an
-  Aarch64 linux 5.0.0 system. The same issue occurred on QEMU 3.1.0.
-
-  While running the GCC 9.1 test suite on the guest system, QEMU crashes
-  with:
-
-  qemu-system-aarch64: [...]/qemu-4.0.0/tcg/tcg.c:3952: tcg_gen_code:
-  Assertion `s->gen_insn_end_off[num_insns] =3D=3D off' failed.
-
-  I am able to reproduce the issue reliably, which is encouraging. The
-  full QEMU command line is:
-
-  qemu-system-aarch64 -kernel kernel-5.0.0cbl1 -append "root=3D/dev/vda1
-  ro init=3D/sbin/init console=3DttyAMA0" -name guest=3Dcbl -drive
-  file=3Dcbl.qcow2,index=3D0,media=3Ddisk,format=3Dqcow2 -drive
-  file=3Dswap.qcow2,index=3D1,media=3Ddisk,format=3Dqcow2 -machine virt -cpu
-  cortex-a57 -smp 4,sockets=3D1,cores=3D2,threads=3D2 -m size=3D8192 -netdev
-  tap,id=3Dnetwork0,ifname=3Dtapcbl2,script=3Dno,downscript=3Dno -device vi=
-rtio-
-  net-device,netdev=3Dnetwork0,mac=3Daa:bb:cc:dd:ee:02 -nographic
-
-  The specific GCC test that causes QEMU to crash is vldX.c run from
-  advsimd-intrinsics.exp; I can reproduce via "make check-gcc
-  RUNTESTFLAGS=3Dadvsimd-intrinsics.exp=3DvldX.c"
-
-  If there is anything I can do to further triage the issue, or gain
-  more insight into what is going on, please let me know! I am eager to
-  help however I can.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1828429/+subscriptions
 
