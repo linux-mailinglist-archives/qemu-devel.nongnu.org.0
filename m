@@ -2,72 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4AC718B04
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 15:54:50 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54917 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DED4818B0F
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 15:56:00 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54957 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOjVa-0001zs-3U
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 09:54:50 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54293)
+	id 1hOjWi-0002na-2z
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 09:56:00 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54435)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <stefanha@gmail.com>) id 1hOjUV-0001is-Le
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 09:53:44 -0400
+	(envelope-from <marcandre.lureau@gmail.com>) id 1hOjVO-000289-Nu
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 09:54:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <stefanha@gmail.com>) id 1hOjUP-0005SQ-Ko
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 09:53:43 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:53984)
+	(envelope-from <marcandre.lureau@gmail.com>) id 1hOjVN-0005qh-QH
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 09:54:38 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:38819)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1hOjUJ-00056h-GB
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 09:53:32 -0400
-Received: by mail-wm1-x341.google.com with SMTP id 198so3373420wme.3
-	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 06:53:22 -0700 (PDT)
+	(Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+	id 1hOjVN-0005qF-KG; Thu, 09 May 2019 09:54:37 -0400
+Received: by mail-wr1-x443.google.com with SMTP id v11so3206273wru.5;
+	Thu, 09 May 2019 06:54:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=m5bv1+lGLOEyQrAwYfQqLnYlP4D6TKEP1An7v5r9cxY=;
-	b=C0P+aEwQgtPY7iEN1zvZ+NFgRQ8PqY8WtxlltfzMNNuYyxEmLrLTtZTDD06wdOpReV
-	IWU9nZJZI6ez6zbWWT5Nrlpr1eI+q2SUuKPnz/1lL2iT36MTuFOf3Z0c+rCbMf7i/VIZ
-	5lFaLcRHjqzzrmqqoXRROdTbPhQjBlgp5obx/buFZfNJKtSdisD5vI60fvY6C9eQ+D6n
-	GcbIMmy7JbwQ+7GIxi4POccmpPB1Fx0LUxJFw1aXAKa3IZPHTdCsXLYBWfWzMkdeydNN
-	s6wj3pXJyqE2Dk5bqhASaW0iH7eqnTrlEPMlg0vt6QFQWismM8FOYvKJ15H15M6tza8E
-	cv4w==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=k6RRKwWPLYth/9ZFL0q6xP+XfwMD3JRmUnwbWJFR320=;
+	b=Dsq7XGhe/7gClCA9LmjT6nYfwDFWqdydCigU+sRo0Nkplq81Rm82ECGepXastpQGcJ
+	d/fppOTkmoQM5aXDwYnHH8+3D9/cRtLQdBCoKBSSKRRmhN9JXOOm5CREvxlC/go+OJWO
+	ad9yGaOIRo3Fsls0fovn3UDcUtpPh8nejd/QtTMJ2F+pbGLlJ7DZ0YzXONM1hcUcXopJ
+	o9121jYlZDBO4qhUeDwWlVgEUd9PoACw7kEb+SLFSBKMbdhUvQcIMQCrYmY1ngpQTlFt
+	BEHJ9G16E9i4RENyllTUM8Tio5X4ZPE+xSmelvkldI/EMSIejWp5fc0x6veo7f+gY3gn
+	B8Tg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=m5bv1+lGLOEyQrAwYfQqLnYlP4D6TKEP1An7v5r9cxY=;
-	b=JI7g7989z4NTDJLk3X9n9Gi/33MywqYd0Zjys4TjgmjtPyf6u96/P6Ak80jKCfuOYQ
-	kQ+toYO9G1t/Uu+e4YuJf6LnNVeCM+2bz+qcMXMCuk8lPzBIEQQh5/3/elX/ZFPd8NsG
-	4bx2WU3ACYBMPqmQDQR6XlNcoGT1wmLKkN65wjTSYju3ybrgr193aj4cp0qJe1ugeaJj
-	U/nBG6QKUIcDmleDPYnApEN9xeEwYniZn28ajkOL3tpo+X4vdkmrju+JEM7of6wcj8Z+
-	T0g2E+PiBQVemkQ5IhwtXsV1Tix4aaqY6ZEyOqslkaAEB74OUajgWefRqpEuEEGzq+JZ
-	XJ5g==
-X-Gm-Message-State: APjAAAX2+4IPRrxK6b4aW2X1a2zBu7IXQVcCPwet3djn66vNDhCm3xPY
-	FALvppPM1hAFVV74cebR8j0=
-X-Google-Smtp-Source: APXvYqxF9t3n+Qd4+wN6AQ4lHjPNSv3dA7GQ9eiP78FgCMtX2SzEnAM87DFsahi2AIhqhzzD9JOcZQ==
-X-Received: by 2002:a1c:9689:: with SMTP id y131mr3247916wmd.74.1557410001929; 
-	Thu, 09 May 2019 06:53:21 -0700 (PDT)
-Received: from localhost ([51.15.41.238]) by smtp.gmail.com with ESMTPSA id
-	d17sm1347529wrw.73.2019.05.09.06.53.20
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 09 May 2019 06:53:20 -0700 (PDT)
-Date: Thu, 9 May 2019 14:53:20 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Kashyap Chamarthy <kchamart@redhat.com>
-Message-ID: <20190509135320.GE17133@stefanha-x1.localdomain>
-References: <20190503154613.4192-1-kchamart@redhat.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=k6RRKwWPLYth/9ZFL0q6xP+XfwMD3JRmUnwbWJFR320=;
+	b=R8OWSBflCy3SS2r3i04dufN1qxk00fUjWMo6cwz8bTnXZ5tf5FVlpjN7jtE6tkB0xz
+	k2k3XyECIuhPFR+mOXyJ00dWcbxfXJcVH2Hjk5XJ/jqKUgBAcnq9Tso0RaRXZCgQUCEp
+	l1IjepipwSb7f5l/kV2GHewoqdA53MnsQAcb0wFioSG02fYy+gtV2J6SYJzfd0N1pdiJ
+	vMPqs+7Tmys9cl72/oghgKgIvwTOSXcEWQCvbcl2SSnsuf0GOtDqg08L4/Z83HXNlChz
+	DzmAtuAxwm4Jz/0jDqUILdUnJmEXMMdrGzqBUCna0SXMhCbGsuo9sgN16y7p9cAOEpgk
+	XVaQ==
+X-Gm-Message-State: APjAAAVPQwNH41e80YX+/rRajeeVwVETwEx3ofYWiYCggZxqEXKPpbJs
+	CvFlwM/XMLqyYrDT98UTRL1TW1H+EaKu6xP5RAA=
+X-Google-Smtp-Source: APXvYqxKjtmC2DRBbLGw3i37wG7R0DJ4R5h7t+6wYrgyKdjC0RO06zjmhsQuntmaDW+rNeF+zThkGm33kEoUnqQe4ng=
+X-Received: by 2002:adf:9042:: with SMTP id h60mr3225042wrh.248.1557410076357; 
+	Thu, 09 May 2019 06:54:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="2qXFWqzzG3v1+95a"
-Content-Disposition: inline
-In-Reply-To: <20190503154613.4192-1-kchamart@redhat.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+References: <20190509133737.242548-1-sgarzare@redhat.com>
+In-Reply-To: <20190509133737.242548-1-sgarzare@redhat.com>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Thu, 9 May 2019 15:54:24 +0200
+Message-ID: <CAJ+F1CJth8eCirh6qQK=mL-LDVStSEJhe9R+vsLX-iWytFZ0+Q@mail.gmail.com>
+To: Stefano Garzarella <sgarzare@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::341
-Subject: Re: [Qemu-devel] [PATCH] VirtIO-RNG: Update default entropy source
- to `/dev/urandom`
+X-Received-From: 2a00:1450:4864:20::443
+Subject: Re: [Qemu-devel] [PATCH] net/slirp: fix the error message when the
+ prefix len is invalid
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -79,60 +73,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: armbru@redhat.com, amit@kernel.org, qemu-devel@nongnu.org,
-	rjones@redhat.com
+Cc: qemu trival <qemu-trivial@nongnu.org>, Jan Kiszka <jan.kiszka@siemens.com>,
+	Jason Wang <jasowang@redhat.com>, QEMU <qemu-devel@nongnu.org>,
+	Samuel Thibault <samuel.thibault@ens-lyon.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Thu, May 9, 2019 at 3:39 PM Stefano Garzarella <sgarzare@redhat.com> wro=
+te:
+>
+> Add a missing parentheses at the end of the error message,
+> when we have an invalid prefix len.
+>
+> Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
 
---2qXFWqzzG3v1+95a
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
 
-On Fri, May 03, 2019 at 05:46:12PM +0200, Kashyap Chamarthy wrote:
-> When QEMU exposes a VirtIO-RNG device to the guest, that device needs a
-> source of entropy, and that source needs to be "non-blocking", like
-> `/dev/urandom`.  However, currently QEMU defaults to the problematic
-> `/dev/random`, which is "blocking" (as in, it waits until sufficient
-> entropy is available).
->=20
-> So change the entropy source to the recommended `/dev/urandom`.
+> ---
+>  net/slirp.c | 3 ++-
+>  1 file changed, 2 insertions(+), 1 deletion(-)
+>
+> diff --git a/net/slirp.c b/net/slirp.c
+> index 95934fb36d..0f4ae0abc0 100644
+> --- a/net/slirp.c
+> +++ b/net/slirp.c
+> @@ -498,7 +498,8 @@ static int net_slirp_init(NetClientState *peer, const=
+ char *model,
+>      }
+>      if (vprefix6_len < 0 || vprefix6_len > 126) {
+>          error_setg(errp,
+> -                   "Invalid prefix provided (prefix len must be in range=
+ 0-126");
+> +                   "Invalid prefix provided "
+> +                   "(prefix len must be in range 0-126)");
+>          return -1;
+>      }
+>
+> --
+> 2.20.1
+>
+>
 
-Why is /dev/urandom "recommended"?
 
-I understand the requirement for instant random numbers, but what about
-the concerns about quality?  Have you decided that the consumers of
-these random numbers are safe with /dev/urandom?
-
->=20
-> Related discussion in these[1][2] past threads.
->=20
-> [1] https://lists.nongnu.org/archive/html/qemu-devel/2018-06/msg08335.html
->     -- "RNG: Any reason QEMU doesn't default to `/dev/urandom`?"
-> [2] https://lists.nongnu.org/archive/html/qemu-devel/2018-09/msg02724.html
->     -- "[RFC] Virtio RNG: Consider changing the default entropy source to
->        /dev/urandom"
-
-Please include actual justification in the commit description instead of
-linking to email threads that need to be read and interpreted.
-
-Stefan
-
---2qXFWqzzG3v1+95a
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAlzUMM8ACgkQnKSrs4Gr
-c8iQwwf+KjLlClpI+ycFWYiXsFUqKKE8sKek82Uq+NinqAPTipE61q+Hir3kzZUl
-ZQjE3kt+9q2MZoLNYYnPTHEtQgGLUFokxRqW592gDaCXph41IyIg4Qa+sN3Q0A7K
-FBQex1NpTgfpAWm1C3i7T7Ox3XOPSWblBKIg8OwKf/7jC3eMZ2JRydhU4AmZukCe
-B8AZG7SIgMQq3QaaUJwZjBQ9QtLBgMFS8ejCmChhFjEWPFKZM7cJATII6CV+7xty
-+htBkmF0jK7TiHq37+u6Gko8HGGFPgESJDo1Lz4vSlUZS8iqWeffloZCKEysBYRN
-lKIpCXwJxG8vEWGnbs2aRBjp5E1ZYQ==
-=e4Br
------END PGP SIGNATURE-----
-
---2qXFWqzzG3v1+95a--
+--=20
+Marc-Andr=C3=A9 Lureau
 
