@@ -2,75 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9366193A1
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 22:39:57 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60675 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C3B8B193C1
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 22:47:46 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60769 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOppc-0002PJ-V6
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 16:39:56 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45535)
+	id 1hOpxB-0005YW-Lf
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 16:47:45 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46688)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hOpo7-0001up-8Q
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 16:38:24 -0400
+	(envelope-from <eblake@redhat.com>) id 1hOpvd-000598-8Z
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 16:46:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hOpo4-0007Fu-0V
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 16:38:22 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:33525)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hOpo0-00070u-9U
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 16:38:18 -0400
-Received: by mail-wr1-x443.google.com with SMTP id e11so4852423wrs.0
-	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 13:38:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=references:user-agent:from:to:cc:subject:in-reply-to:date
-	:message-id:mime-version:content-transfer-encoding;
-	bh=gBnnSw8DDjHftfLOZf/DfW7ZTaTXiUnNoR2RNfDvnGU=;
-	b=VJwyT15nNP33wOJ2eYfAnKXbRPpRMICm76hs5qT+Jqof9nfjkTHQI1U9ee9hTmqJUc
-	EDIv9QSr17f20EjMB0SZSu5K4y481ZNGlllgBA3iw/K/r+JPHvKrMY/gqZDoJK2yKD2Z
-	cLN4C5FBuEWr6WuQRkXxJTqMOy1apcsBDm5WPV9iuJXcWuYRp3Nq7VoWbZUj3Mu+BIrd
-	3xPO10dvZtqPTYbUgSJN06FxWI7ICqM2rqnGRa9UN85arlG0DWww/cYvhm6PJqZI9ha/
-	appu/JG9Tb6XXNfLiWqL2AK3KZuLR7GaNZQOoKTg7H8eMWlJi7S1LHdnHwZNbEvpYicK
-	VgEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:references:user-agent:from:to:cc:subject
-	:in-reply-to:date:message-id:mime-version:content-transfer-encoding;
-	bh=gBnnSw8DDjHftfLOZf/DfW7ZTaTXiUnNoR2RNfDvnGU=;
-	b=cWWaMXHeZj+t5bnv5Be30z0fwj6gGHIwDRdkyD5gjDqLsNS8y2jX/hLFi7fDh/Scw1
-	GPfaveECI4NhJ0S+/pt6h8ESnhXbqKi9IfojLrlEkhlbkUiwiiehLFbs7/D42m6IZoBS
-	iZDWEqV0GcUtyFvEGaJU9C+pWST43IZaZp54jl1aMidclnAprCKaXaJZWKaEXelPpA4M
-	Ql3tch4BDuS0rI9ooTk61DsEsi9bdQk3guQySuDdlUux0ZGxlxVifZSLkr5NoaL3BPUj
-	Xi1vpQsAI8zfthoZJGZjbm7cZw2FC+jRT6iQgvR2c/jvQvZKEZ3tQWBZngq8YQY1qT9r
-	I+FQ==
-X-Gm-Message-State: APjAAAUJLRY8GNsnHK9mCqRBA8QgVbEH/H8xCN8qE5mV3Hf+fM2RFh6R
-	qwDVhMohrzEZO+xkw7Vy6i7MHA==
-X-Google-Smtp-Source: APXvYqzB0UVCTy7nJWyE5canFTLuDG252MRztirUBpkPmCCwjn6FAmEbci+IpOGdZrl5OPm+7X7BBQ==
-X-Received: by 2002:a5d:4e90:: with SMTP id e16mr4528430wru.312.1557434290714; 
-	Thu, 09 May 2019 13:38:10 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
-	by smtp.gmail.com with ESMTPSA id y6sm2262008wrw.60.2019.05.09.13.38.09
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 09 May 2019 13:38:09 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id 7EFE11FF87;
-	Thu,  9 May 2019 21:38:09 +0100 (BST)
+	(envelope-from <eblake@redhat.com>) id 1hOpvc-0002Ga-9s
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 16:46:09 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56180)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <eblake@redhat.com>)
+	id 1hOpvW-0002Dk-5p; Thu, 09 May 2019 16:46:02 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+	[10.5.11.16])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id A0F2F30917F0;
+	Thu,  9 May 2019 20:45:59 +0000 (UTC)
+Received: from [10.3.116.15] (ovpn-116-15.phx2.redhat.com [10.3.116.15])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 9E0475C269;
+	Thu,  9 May 2019 20:45:58 +0000 (UTC)
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+	Max Reitz <mreitz@redhat.com>
 References: <20190509165912.10512-1-alex.bennee@linaro.org>
 	<20190509165912.10512-23-alex.bennee@linaro.org>
 	<2dcd2689-ca10-b014-e7f0-1967f4901fe2@redhat.com>
-User-agent: mu4e 1.3.1; emacs 26.1
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Max Reitz <mreitz@redhat.com>
-In-reply-to: <2dcd2689-ca10-b014-e7f0-1967f4901fe2@redhat.com>
-Date: Thu, 09 May 2019 21:38:09 +0100
-Message-ID: <87r2974b4e.fsf@zen.linaroharston>
+	<87r2974b4e.fsf@zen.linaroharston>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+	xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+	xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+	TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+	GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+	sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+	AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+	CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+	RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+	wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+	Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+	gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+	pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+	zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+	pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+	3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+	NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+	cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+	SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+	I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+	mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+	Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+	2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <35209a95-7ee0-5818-00a1-05da6115de3f@redhat.com>
+Date: Thu, 9 May 2019 15:45:57 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::443
+In-Reply-To: <87r2974b4e.fsf@zen.linaroharston>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature";
+	boundary="BxNB9stheBw9htyCXhBSkjSTvFQu3ssn4"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.41]);
+	Thu, 09 May 2019 20:45:59 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
 Subject: Re: [Qemu-devel] [PATCH v1 22/23] tests/qemu-iotests: re-format
  output to for make check-block
 X-BeenThere: qemu-devel@nongnu.org
@@ -89,70 +95,100 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-arm@nongnu.org, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--BxNB9stheBw9htyCXhBSkjSTvFQu3ssn4
+From: Eric Blake <eblake@redhat.com>
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Max Reitz <mreitz@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-arm@nongnu.org,
+ qemu-devel@nongnu.org, "open list:Block layer core" <qemu-block@nongnu.org>
+Message-ID: <35209a95-7ee0-5818-00a1-05da6115de3f@redhat.com>
+Subject: Re: [Qemu-devel] [PATCH v1 22/23] tests/qemu-iotests: re-format
+ output to for make check-block
+References: <20190509165912.10512-1-alex.bennee@linaro.org>
+ <20190509165912.10512-23-alex.bennee@linaro.org>
+ <2dcd2689-ca10-b014-e7f0-1967f4901fe2@redhat.com>
+ <87r2974b4e.fsf@zen.linaroharston>
+In-Reply-To: <87r2974b4e.fsf@zen.linaroharston>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Max Reitz <mreitz@redhat.com> writes:
+On 5/9/19 3:38 PM, Alex Benn=C3=A9e wrote:
 
-> On 09.05.19 18:59, Alex Benn=C3=A9e wrote:
->> This attempts to clean-up the output to better match the output of the
->> rest of the QEMU check system. This includes:
+>> Hm, this makes every iotest print two lines:
 >>
->>   - formatting as "  TEST    iotest: nnn"
->>   - calculating time diff at the end
->>   - only dumping config on failure
->>
->> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->> Message-Id: <20190503143904.31211-1-alex.bennee@linaro.org>
->> ---
->>  tests/qemu-iotests/check | 101 +++++++++++++++++++++++----------------
->>  1 file changed, 61 insertions(+), 40 deletions(-)
->
-> Hm, this makes every iotest print two lines:
->
-> $ ./check -T -qcow2
-> [...]
-> 001 [20:06:27] -> [20:06:27]
-> 001 0s (last 1s)
+>> $ ./check -T -qcow2
+>> [...]
+>> 001 [20:06:27] -> [20:06:27]
+>> 001 0s (last 1s)
+>=20
+> Yes - it was a compromise to ensure we printed a start and end
+> timestamp but I guess we can fix it up with a bit more shell ugliness:
+>=20
+> --8<---------------cut here---------------start------------->8---
+>=20
+> Subject: [PATCH] fixup! tests/qemu-iotests: re-format output to for mak=
+e
+>  check-block
+>=20
+> ---
+>  tests/qemu-iotests/check | 8 ++++++--
+>  1 file changed, 6 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
+> index fb239967a32..9f083f06b46 100755
+> --- a/tests/qemu-iotests/check
+> +++ b/tests/qemu-iotests/check
+> @@ -726,7 +726,11 @@ _report_test_result()
+>      if $pretty; then
+>          echo "  TEST    iotest: $1 $2"
+>      else
+> -        echo "$1 $2"
+> +        if $timestamp; then
+> +            echo " $2"
+> +        else
+> +            echo "$1 $2"
+> +        fi
 
-Yes - it was a compromise to ensure we printed a start and end
-timestamp but I guess we can fix it up with a bit more shell ugliness:
+Why not just make $1 '' in the case where you've already printed a
+timestamp, so that this code is still unconditionally echo "$1 $2"?
 
---8<---------------cut here---------------start------------->8---
+>      fi
+>  }
+>=20
+> @@ -793,7 +797,7 @@ do
+>                      $run_command >$tmp.out 2>&1)
+>          fi
+>          sts=3D$?
+> -        $timestamp && echo " [$(date "+%T")]"
+> +        $timestamp && echo -n " [$(date "+%T")]"
 
-Subject: [PATCH] fixup! tests/qemu-iotests: re-format output to for make
- check-block
+'echo -n' is not portable (even in bash, since you can compile a
+different default for shopt xpg_echo). Better is to use 'printf %s', as
+is already done in _timestamp().
 
----
- tests/qemu-iotests/check | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
-diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
-index fb239967a32..9f083f06b46 100755
---- a/tests/qemu-iotests/check
-+++ b/tests/qemu-iotests/check
-@@ -726,7 +726,11 @@ _report_test_result()
-     if $pretty; then
-         echo "  TEST    iotest: $1 $2"
-     else
--        echo "$1 $2"
-+        if $timestamp; then
-+            echo " $2"
-+        else
-+            echo "$1 $2"
-+        fi
-     fi
- }
 
-@@ -793,7 +797,7 @@ do
-                     $run_command >$tmp.out 2>&1)
-         fi
-         sts=3D$?
--        $timestamp && echo " [$(date "+%T")]"
-+        $timestamp && echo -n " [$(date "+%T")]"
-         stop=3D$(_wallclock)
+--BxNB9stheBw9htyCXhBSkjSTvFQu3ssn4
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-         if [ -f core ]
---8<---------------cut here---------------end--------------->8---
+-----BEGIN PGP SIGNATURE-----
 
---
-Alex Benn=C3=A9e
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlzUkYUACgkQp6FrSiUn
+Q2oD3QgAipa3ETF2rQ1zvovTU8unzAn53rm01h3gvbM7L4GBLJxUu2ptNxOqLr6E
+a9GD7CXHYtHjf3gQ3MX5Fx1/LExGiSG1x1lKwfwXemZ1rPFWUBvULe4ukhE2z4yW
+LR/dnJ+x3XqYfrbICzMONS9cd0nFNYWPHS0TcFcVrqaiy9XFNMFqKJo7ByEJwDoW
+9CWpnkblPlDiGnQqo/1zKCdFVGl3m0254OWhpMTbI2t6GND3sgrUtGDPQU3RYvP7
+sszlWC7WgDPo03OxvBS1JGROAsMdrm/F5hP1rCPQV06XUkTOnTDamOubVKIQrxSZ
+yPCHba6/7kHcpTGooR70AUGJPMdaVg==
+=pQEa
+-----END PGP SIGNATURE-----
+
+--BxNB9stheBw9htyCXhBSkjSTvFQu3ssn4--
 
