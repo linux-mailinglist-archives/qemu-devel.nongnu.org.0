@@ -2,54 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E46C18680
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 10:04:45 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49992 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9EA981867C
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 10:03:11 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49982 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOe2m-0004kt-O0
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 04:04:44 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40933)
+	id 1hOe1G-0003nV-R9
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 04:03:10 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40929)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hOdzQ-0002VK-Jc
+	(envelope-from <samuel.thibault@ens-lyon.org>) id 1hOdzQ-0002V5-6s
 	for qemu-devel@nongnu.org; Thu, 09 May 2019 04:01:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hOdzP-000588-Bc
+	(envelope-from <samuel.thibault@ens-lyon.org>) id 1hOdzL-00056W-Fn
 	for qemu-devel@nongnu.org; Thu, 09 May 2019 04:01:16 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50462)
+Received: from hera.aquilenet.fr ([2a0c:e300::1]:44742)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <kwolf@redhat.com>)
-	id 1hOdzH-00053d-L2; Thu, 09 May 2019 04:01:07 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 61205306034D;
-	Thu,  9 May 2019 08:01:06 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-116-186.ams2.redhat.com
-	[10.36.116.186])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id ED6765B680;
-	Thu,  9 May 2019 08:00:57 +0000 (UTC)
-Date: Thu, 9 May 2019 10:00:56 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Message-ID: <20190509080056.GA6850@localhost.localdomain>
-References: <20190506203344.30781-1-jsnow@redhat.com>
-	<20190507085021.GB5808@localhost.localdomain>
-	<a7ce7d95-7c77-b087-372f-a22b4dc8bfcd@redhat.com>
+	(Exim 4.71) (envelope-from <samuel.thibault@ens-lyon.org>)
+	id 1hOdzL-000545-9K
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 04:01:11 -0400
+Received: from localhost (localhost [127.0.0.1])
+	by hera.aquilenet.fr (Postfix) with ESMTP id F02EB5411;
+	Thu,  9 May 2019 10:01:06 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at aquilenet.fr
+Received: from hera.aquilenet.fr ([127.0.0.1])
+	by localhost (hera.aquilenet.fr [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id AN2XbjM5NFCO; Thu,  9 May 2019 10:01:05 +0200 (CEST)
+Received: from function (dhcp-13-82.lip.ens-lyon.fr [140.77.13.82])
+	by hera.aquilenet.fr (Postfix) with ESMTPSA id C8332596;
+	Thu,  9 May 2019 10:01:05 +0200 (CEST)
+Received: from samy by function with local (Exim 4.92)
+	(envelope-from <samuel.thibault@ens-lyon.org>)
+	id 1hOdzF-0005nE-4T; Thu, 09 May 2019 10:01:05 +0200
+From: Samuel Thibault <samuel.thibault@ens-lyon.org>
+To: qemu-devel@nongnu.org,
+	peter.maydell@linaro.org
+Date: Thu,  9 May 2019 10:01:04 +0200
+Message-Id: <20190509080105.22228-1-samuel.thibault@ens-lyon.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a7ce7d95-7c77-b087-372f-a22b4dc8bfcd@redhat.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.47]);
-	Thu, 09 May 2019 08:01:06 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] blockdev-backup: don't check aio_context
- too early
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2a0c:e300::1
+Subject: [Qemu-devel] [PULL 0/1] Update upstream slirp
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,91 +57,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aihua liang <aliang@redhat.com>, qemu-block@nongnu.org,
-	qemu-devel@nongnu.org, qemu-stable@nongnu.org,
-	Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>
+Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>, stefanha@redhat.com,
+	jan.kiszka@siemens.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 09.05.2019 um 00:55 hat John Snow geschrieben:
-> 
-> On 5/7/19 4:50 AM, Kevin Wolf wrote:
-> > Am 06.05.2019 um 22:33 hat John Snow geschrieben:
-> >> in blockdev_backup_prepare, we check to make sure that the target is
-> >> associated with a compatible aio context. However, do_blockdev_backup is
-> >> called later and has some logic to move the target to a compatible
-> >> aio_context. The transaction version will fail certain commands
-> >> needlessly early as a result.
-> >>
-> >> Allow blockdev_backup_prepare to simply call do_blockdev_backup, which
-> >> will ultimately decide if the contexts are compatible or not.
-> >>
-> >> Note: the transaction version has always disallowed this operation since
-> >> its initial commit bd8baecd (2014), whereas the version of
-> >> qmp_blockdev_backup at the time, from commit c29c1dd312f, tried to
-> >> enforce the aio_context switch instead. It's not clear, and I can't see
-> >> from the mailing list archives at the time, why the two functions take a
-> >> different approach. It wasn't until later in efd7556708b (2016) that the
-> >> standalone version tried to determine if it could set the context or
-> >> not.
-> >>
-> >> Reported-by: aihua liang <aliang@redhat.com>
-> >> Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1683498
-> > 
-> > Signed-off-by is missing, and a testcase, too. :-)
-> > 
-> >> diff --git a/blockdev.c b/blockdev.c
-> >> index 79fbac8450..a81d88980c 100644
-> >> --- a/blockdev.c
-> >> +++ b/blockdev.c
-> >> @@ -1872,10 +1872,6 @@ static void blockdev_backup_prepare(BlkActionState *common, Error **errp)
-> >>      }
-> >>  
-> >>      aio_context = bdrv_get_aio_context(bs);
-> >> -    if (aio_context != bdrv_get_aio_context(target)) {
-> >> -        error_setg(errp, "Backup between two IO threads is not implemented");
-> >> -        return;
-> >> -    }
-> >>      aio_context_acquire(aio_context);
-> >>      state->bs = bs;
-> > 
-> > The actual change looks good to me.
-> > 
-> > Kevin
-> > 
-> 
-> (See the Red Hat BZ for details on the test I am more or less trying to
-> replicate in iotests -- but the jist of it is using an iothread on one
-> device and not specifying one for the other, then backing up both to two
-> blockdev-add created nodes not attached to any device.)
-> 
-> Is there some trick to getting this to fail with accel=qtest? I'm
-> noticing that if the VM is paused or if I use accel=qtest, the iothread
-> contexts for the drives appear to go ... unresolved? and the test passes.
-> 
-> I've only had luck (so far) reproducing this with accel=kvm on a running
-> VM (the drives can be empty) and I don't actually know why that is just
-> yet -- I guess these aio_context objects get resolved at runtime?
-> 
-> Anyway, this seems to be a little tricky so far, maybe you have some
-> advice for me?
+The following changes since commit 30302acee710881cb248ec3391adcd54dcf523=
+96:
 
-Are you using virtio-blk? I think it only actually enables dataplane
-(and moves its node to an iothread) during initialisation of the guest
-driver. This makes it quite annoying for testing, I've had the same
-problem before.
+  Update upstream slirp (2019-05-09 09:58:57 +0200)
 
-However, virtio-scsi does what you would expect and puts the node into
-the right AioContext directly on creation.
+are available in the Git repository at:
 
-So maybe just switching to virtio-scsi solves you problem?
+  https://people.debian.org/~sthibault/qemu.git tags/samuel-thibault
 
-> (Also note: doing a full backup and an incremental backup for two
-> perfectly empty 64GB qcow2 drives takes over 6 seconds in total. It
-> probably shouldn't, right? There's something about the initial backup
-> that appears to take a pretty long time.)
+for you to fetch changes up to 30302acee710881cb248ec3391adcd54dcf52396:
 
-Sounds like Someone (TM) should have a closer look, yes.
+  Update upstream slirp (2019-05-09 09:58:57 +0200)
 
-Kevin
+----------------------------------------------------------------
+Update slirp submodule
+
+Samuel Thibault (1):
+  Update upstream slirp
+  Adds gitignore, README file, and fixes ident protocol parsing.
+
+----------------------------------------------------------------
 
