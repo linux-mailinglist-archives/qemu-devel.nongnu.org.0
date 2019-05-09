@@ -2,56 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FAC4187E6
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 11:42:10 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:51433 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CE331880B
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 11:56:49 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:51610 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOfZ3-0004bq-MM
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 05:42:09 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34231)
+	id 1hOfnE-0003CF-P4
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 05:56:48 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37123)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <berrange@redhat.com>) id 1hOfY5-0004Dd-B4
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 05:41:10 -0400
+	(envelope-from <bounces@canonical.com>) id 1hOfm7-0002AB-Di
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 05:55:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <berrange@redhat.com>) id 1hOfY4-0001j3-5t
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 05:41:09 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34746)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hOfY3-0001if-Fk
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 05:41:08 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id AC1EDC057F2B;
-	Thu,  9 May 2019 09:41:06 +0000 (UTC)
-Received: from redhat.com (ovpn-112-55.ams2.redhat.com [10.36.112.55])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id E53EA5C221;
-	Thu,  9 May 2019 09:40:54 +0000 (UTC)
-Date: Thu, 9 May 2019 10:40:51 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Message-ID: <20190509094051.GI31299@redhat.com>
-References: <20190508182339.22447-1-ehabkost@redhat.com>
-	<87ftpo89le.fsf@dusky.pond.sub.org>
-	<20190509092425.GB6850@localhost.localdomain>
-	<20190509093604.GC6850@localhost.localdomain>
+	(envelope-from <bounces@canonical.com>) id 1hOfm6-0001i3-37
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 05:55:39 -0400
+Received: from indium.canonical.com ([91.189.90.7]:46318)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hOfm5-0001g9-UD
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 05:55:38 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hOfm4-0000DN-KA
+	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 09:55:36 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id 97A5D2E80CB
+	for <qemu-devel@nongnu.org>; Thu,  9 May 2019 09:55:36 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190509093604.GC6850@localhost.localdomain>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.32]);
-	Thu, 09 May 2019 09:41:06 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 09 May 2019 09:41:51 -0000
+From: Daniel Berrange <1828272@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: berrange metzengerstein
+X-Launchpad-Bug-Reporter: Frederick Metzengerstein (metzengerstein)
+X-Launchpad-Bug-Modifier: Daniel Berrange (berrange)
+References: <155733764243.16739.6026352756192984678.malonedeb@gac.canonical.com>
+Message-Id: <155739491120.31646.3463843446183069023.malone@soybean.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18961";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 34da49fa85da47b6ebd1aac400ec761b87cfbb6e
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] configure: Require python3 >= 3.5
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1828272] Re: 4.0 breaks keyboard autorepeat in
+ guests with xserver
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -60,80 +64,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
-	Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
-	Markus Armbruster <armbru@redhat.com>,
-	Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
-	Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Reply-To: Bug 1828272 <1828272@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 09, 2019 at 11:36:04AM +0200, Kevin Wolf wrote:
-> Am 09.05.2019 um 11:24 hat Kevin Wolf geschrieben:
-> > Am 09.05.2019 um 07:45 hat Markus Armbruster geschrieben:
-> > > Eduardo Habkost <ehabkost@redhat.com> writes:
-> > > > diff --git a/.travis.yml b/.travis.yml
-> > > > index 66448d99d6..0f6986b3f1 100644
-> > > > --- a/.travis.yml
-> > > > +++ b/.travis.yml
-> > > > @@ -211,7 +211,7 @@ matrix:
-> > > >          - CONFIG="--target-list=x86_64-softmmu"
-> > > >        language: python
-> > > >        python:
-> > > > -        - "3.4"
-> > > > +        - "3.5"
-> > > >  
-> > > >  
-> > > >      - env:
-> > > 
-> > > Easily missed, good work.
-> > > 
-> > > My grep for similar references to Python versions we don't support found
-> > > a few 2.x, x < 7.  Not this patch's problem, of course, but let me show
-> > > them anyway:
-> > 
-> > I'm sure that we have a few more instances of Python 2 compatibility
-> > code in qemu-iotests that can be removed after this is merged. These are
-> > what I could find quickly, but there are probably more:
-> > 
-> >     242:        # Read one byte in a way compatible with Python 2
-> >     iotests.py:        # Python < 3.4 needs to know not to add whitespace when pretty-printing:
-> > 
-> >     149:from __future__ import print_function
-> >     165:from __future__ import print_function
-> >     iotests.py:from __future__ import print_function
-> >     nbd-fault-injector.py:from __future__ import print_function
-> >     qcow2.py:from __future__ import print_function
-> >     qed.py:from __future__ import print_function
-> > 
-> >     044:if sys.version_info.major == 2:
-> >     163:if sys.version_info.major == 2:
-> >     iotests.py:    if sys.version_info.major >= 3:
-> >     iotests.py:        if sys.version_info.major >= 3:
-> >     nbd-fault-injector.py:if sys.version_info.major >= 3:
-> > 
-> > I'm planning to take care of the qemu-iotests ones.
-> > 
-> > Also, with Python 3.5 as the new minimum, I think I'd like to add type
-> > hints to iotests.py and possibly the qemu package (for QEMUQtestMachine
-> > and friends). The syntax isn't as nice as if we could go straight to
-> > 3.6, but still, finally some type checking instead of running into
-> > stupid runtime bugs!
-> 
-> Ah, sorry, I was getting too excited there. We only deprecate 2.x now
-> (and not even in this patch), but don't remove it yet. So I guess this
-> will have to wait until next year.
+Adding Gerd to the CC, since this is possibly caused by recent work to
+keyboard state tracking code.
 
-If you're happy using one of the comment based hinting syntax, that
-will work, or at least not break, with python 2
+-- =
 
-https://www.bernat.tech/the-state-of-type-hints-in-python/
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1828272
 
-Regards,
-Daniel
--- 
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+Title:
+  4.0 breaks keyboard autorepeat in guests with xserver
+
+Status in QEMU:
+  New
+
+Bug description:
+  Description:
+  In a linux/bsd guest within X, pressing and holding a key for a short tim=
+e causes an endless repeat of that key in the guest. The release of the key=
+ gets ignored.
+  Example 1: pressing and holding 'a' for a few seconds results in typing o=
+f 'aaaaaaaaaaaa...' endlessly.
+  Example 2: pressing and holding 'Backspace' for a few seconds results in =
+deleting all your previously typed text.
+
+  It doesn't happen within a VT in the guest. It also doesn't happen
+  with guests that run windows, reactos or haiku for example.
+
+  The problem goes away when disabling xorgs autorepeat function via "xset =
+-r" in the host.
+  Normally, this setting should not have any effect on the guest, since it =
+has it's own autorepeat setting. So there is some conflict here.
+
+  Steps to reproduce:
+  Start any linux/bsd guest system with xserver, open a terminal, press and=
+ hold a key for a short time: Look how it gets typed endlessly (Try a few t=
+imes if it doesn't happen immediately).
+  The easiest way is to run a linux live cd, like this (Link to example iso=
+ :http://download.grml.org/grml64-full_2018.12.iso)
+  $ qemu-system-x86_64 -enable-kvm -m 512 -net none -boot d -cdrom grml64-f=
+ull_2018.12.iso
+
+  Qemu version info:
+  QEMU emulator version 4.0.0
+  Copyright (c) 2003-2019 Fabrice Bellard and the QEMU Project developers
+
+  System info:
+  Linux **** 5.0.13-arch1-1-ARCH #1 SMP PREEMPT Sun May 5 18:05:41 UTC 2019=
+ x86_64 GNU/Linux
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1828272/+subscriptions
 
