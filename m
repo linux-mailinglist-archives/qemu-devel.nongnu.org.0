@@ -2,53 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0914618C7C
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 16:56:31 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:56027 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C1C4918C85
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 16:58:34 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:56059 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOkTG-0002OZ-85
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 10:56:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40487)
+	id 1hOkVG-0003mX-18
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 10:58:34 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41229)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <berrange@redhat.com>) id 1hOkRh-0001gQ-Ja
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 10:54:54 -0400
+	(envelope-from <mreitz@redhat.com>) id 1hOkTk-000389-Np
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 10:57:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <berrange@redhat.com>) id 1hOkRg-0000Et-IU
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 10:54:53 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48002)
+	(envelope-from <mreitz@redhat.com>) id 1hOkTh-0001Kp-Uc
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 10:57:00 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37442)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hOkRg-0000Ee-Cu
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 10:54:52 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
-	[10.5.11.11])
+	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
+	id 1hOkTf-0001JS-EU; Thu, 09 May 2019 10:56:55 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+	[10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id AABF7753FC;
-	Thu,  9 May 2019 14:54:51 +0000 (UTC)
-Received: from redhat.com (ovpn-112-55.ams2.redhat.com [10.36.112.55])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id EC596600CC;
-	Thu,  9 May 2019 14:54:49 +0000 (UTC)
-Date: Thu, 9 May 2019 15:54:47 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Message-ID: <20190509145447.GG31299@redhat.com>
-References: <20190503154613.4192-1-kchamart@redhat.com>
-	<20190509135320.GE17133@stefanha-x1.localdomain>
+	by mx1.redhat.com (Postfix) with ESMTPS id DB8173078ABD;
+	Thu,  9 May 2019 14:56:50 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-204-168.brq.redhat.com
+	[10.40.204.168])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 903F860FE6;
+	Thu,  9 May 2019 14:56:48 +0000 (UTC)
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+	qemu-devel@nongnu.org, qemu-block@nongnu.org
+References: <20190506142741.41731-1-vsementsov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+	mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+	/PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+	U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+	mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+	awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+	AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+	CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+	B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+	2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+	AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+	8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+	4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+	BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+	xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+	W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+	DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+	64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+	ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+	sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+	alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+	/ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+	bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+	R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <5a643d95-3732-e22d-7cc5-122ae5792641@redhat.com>
+Date: Thu, 9 May 2019 16:56:46 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190509135320.GE17133@stefanha-x1.localdomain>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+In-Reply-To: <20190506142741.41731-1-vsementsov@virtuozzo.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature";
+	boundary="jff3sLgP2iVO0yPsmqkAJYqt8f98vOzJM"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.39]);
-	Thu, 09 May 2019 14:54:51 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+	(mx1.redhat.com [10.5.110.48]);
+	Thu, 09 May 2019 14:56:54 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] VirtIO-RNG: Update default entropy source
- to `/dev/urandom`
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [PATCH v6 0/8] qcow2: encryption threads
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -60,58 +87,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: qemu-devel@nongnu.org, rjones@redhat.com, amit@kernel.org,
-	armbru@redhat.com, Kashyap Chamarthy <kchamart@redhat.com>
+Cc: kwolf@redhat.com, pbonzini@redhat.com, berto@igalia.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, May 09, 2019 at 02:53:20PM +0100, Stefan Hajnoczi wrote:
-> On Fri, May 03, 2019 at 05:46:12PM +0200, Kashyap Chamarthy wrote:
-> > When QEMU exposes a VirtIO-RNG device to the guest, that device needs=
- a
-> > source of entropy, and that source needs to be "non-blocking", like
-> > `/dev/urandom`.  However, currently QEMU defaults to the problematic
-> > `/dev/random`, which is "blocking" (as in, it waits until sufficient
-> > entropy is available).
-> >=20
-> > So change the entropy source to the recommended `/dev/urandom`.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--jff3sLgP2iVO0yPsmqkAJYqt8f98vOzJM
+From: Max Reitz <mreitz@redhat.com>
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+ qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: kwolf@redhat.com, berto@igalia.com, pbonzini@redhat.com,
+ berrange@redhat.com, den@openvz.org
+Message-ID: <5a643d95-3732-e22d-7cc5-122ae5792641@redhat.com>
+Subject: Re: [PATCH v6 0/8] qcow2: encryption threads
+References: <20190506142741.41731-1-vsementsov@virtuozzo.com>
+In-Reply-To: <20190506142741.41731-1-vsementsov@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+On 06.05.19 16:27, Vladimir Sementsov-Ogievskiy wrote:
+> v6:
+>  - Rebase on master, so 02 changed to reflect changes in
+>    qcow2_compress(), keep r-b.
+>  - Rewrite 06 to even simpler locking [Max], drop r-b
+>    Drop following
+>    "qcow2: qcow2_co_preadv: skip using hd_qiov when possible", I'll do
+>    it in my other coming soon series, and it is actually unrelated to
+>    current.
+>  - Drop controversial perf test, hope I'll return to this topic, but no=
+t
+>    in context of these series.
+>  - Add Max's r-b's to all here, except 06
 >=20
-> Why is /dev/urandom "recommended"?
+> Vladimir Sementsov-Ogievskiy (8):
+>   qcow2.h: add missing include
+>   qcow2: add separate file for threaded data processing functions
+>   qcow2-threads: use thread_pool_submit_co
+>   qcow2-threads: qcow2_co_do_compress: protect queuing by mutex
+>   qcow2-threads: split out generic path
+>   qcow2: qcow2_co_preadv: improve locking
+>   qcow2: bdrv_co_pwritev: move encryption code out of the lock
+>   qcow2: do encryption in threads
 >=20
-> I understand the requirement for instant random numbers, but what about
-> the concerns about quality?  Have you decided that the consumers of
-> these random numbers are safe with /dev/urandom?
+>  block/qcow2.h          |  20 ++-
+>  block/qcow2-bitmap.c   |   1 -
+>  block/qcow2-cache.c    |   1 -
+>  block/qcow2-cluster.c  |   8 +-
+>  block/qcow2-refcount.c |   1 -
+>  block/qcow2-snapshot.c |   1 -
+>  block/qcow2-threads.c  | 268 +++++++++++++++++++++++++++++++++++++++++=
 
-The current random(4) man page says:
+>  block/qcow2.c          | 241 +++++-------------------------------
+>  block/Makefile.objs    |   2 +-
+>  9 files changed, 321 insertions(+), 222 deletions(-)
+>  create mode 100644 block/qcow2-threads.c
 
-       The /dev/random interface is considered a legacy inter=E2=80=90
-       face, and /dev/urandom is preferred and  sufficient  in
-       all use cases, with the exception of applications which
-       require randomness during early boot  time;  for  these
-       applications,   getrandom(2)   must  be  used  instead,
-       because it will block until the entropy  pool  is  ini=E2=80=90
-       tialized.
+Thanks, applied to my block branch:
 
-"early boot" is a bit of an ill-defined term here, but I think in
-general QEMU can reasonably be said to not be running in early boot.
+https://git.xanclic.moe/XanClic/qemu/commits/branch/block
 
-In any case the newly proposed RNG backend should ultimately become
-the preferred choice for mgmt apps:
+Max
 
-  https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg02062.html
 
-This new rng-builtin delegates to our crypto random APIs, which are
-backed by GNUTLS, libgcrypt, getrandom (or Windows equiv), and
-finally /dev/urandom as last ditch effort.
+--jff3sLgP2iVO0yPsmqkAJYqt8f98vOzJM
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAlzUP64ACgkQ9AfbAGHV
+z0DZNgf+MGUD2gl3dFrYQLH5bQHYY5pXifXit0Po65mGL1Bpdr8g+RwA3S4V7iUg
+2SowSHlf8zo4OHwS7PhEVOKmVj1gNJaNbN/Q33OtYATjszIVAVdg39WEXKvWF6Q3
+jbwRfmrPtW7LH5+WbxC7TuoSwyWmP1aD+JXE14+AFC39m8p5J4xJsRKx19N40hMT
+pbx8s653m1hFLA/nW2ZMnzBrhQ5G56/0RECPDWR1mjagyd5rgNNcvXgYOhAvk4lg
+Gjr5dUruLbRTpTxHNol8HeAYAXSrxDJ35TKE01YcXfVsLBtjx9kskuu97w7qgOs1
+hmZUvkMQy0IFR0cdfkWO1KpG4vQGYg==
+=Xi62
+-----END PGP SIGNATURE-----
+
+--jff3sLgP2iVO0yPsmqkAJYqt8f98vOzJM--
 
