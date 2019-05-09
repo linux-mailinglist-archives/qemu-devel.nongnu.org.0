@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BEB8184ED
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 07:45:14 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48323 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6AE3184F0
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 07:47:08 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48374 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hObrl-0005SB-Fx
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 01:45:13 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41007)
+	id 1hObtb-0007g2-SM
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 01:47:07 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41027)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hObof-0003Pj-3T
+	(envelope-from <dgibson@ozlabs.org>) id 1hObof-0003Q6-M7
 	for qemu-devel@nongnu.org; Thu, 09 May 2019 01:42:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hObod-0001eg-Qe
+	(envelope-from <dgibson@ozlabs.org>) id 1hOboe-0001ev-9z
 	for qemu-devel@nongnu.org; Thu, 09 May 2019 01:42:01 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:50381)
+Received: from ozlabs.org ([2401:3900:2:1::2]:54843)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
-	id 1hObod-0001ZF-E7; Thu, 09 May 2019 01:41:59 -0400
+	id 1hObod-0001ZX-Jr; Thu, 09 May 2019 01:42:00 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
-	id 4502KB54TRz9sBp; Thu,  9 May 2019 15:41:50 +1000 (AEST)
+	id 4502KB6NWTz9sD4; Thu,  9 May 2019 15:41:50 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
 	d=gibson.dropbear.id.au; s=201602; t=1557380510;
-	bh=xgfnGfX6+FeTELrd78HNe0kwwdXcmDk9nZ1+L26y//s=;
+	bh=NkVlvdV0uGTjk/2Af9y53Hhd5h0R2lQlTGMcrSEYleU=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=K5n4c27OxR6ivslFSts0YgIAEJlW33qkExVJuW7akKCuiyqqpAkW0dUGfZg1JMkDw
-	wbxRPr1QVZ48SSC0KRyT7fHqA+pq6yDuTEBV3ZRE2v7rwpjHuN7yk8qbz0J+NW58ee
-	PYIu1tm+lDkmW0/joYXASJiDsO/B/BwQkSz25YEc=
-Date: Thu, 9 May 2019 15:37:00 +1000
+	b=PaEi65RbXMOJNM5bkTsYcLu0nnJ0jQgqYFBAElySaO+EnUUKu/CUZi3IYPn3bzpQX
+	DPAtQloZioMLIVt88xMJzgB+6sjG7lV5TwXV1fuCV/LN9fNq44rOOiRle7JHuIDIhP
+	J1PeBAC0c5k+VTiHxkbyhQzG74ncuHuir+eGpXK0=
+Date: Thu, 9 May 2019 15:40:01 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Message-ID: <20190509053700.GS7073@umbus.fritz.box>
+Message-ID: <20190509054000.GT7073@umbus.fritz.box>
 References: <20190508171946.657-1-clg@kaod.org>
-	<20190508171946.657-2-clg@kaod.org>
+	<20190508171946.657-3-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="Bk6L21jbBNK7V1Rv"
+	protocol="application/pgp-signature"; boundary="aEcIyhw0mmnxygNd"
 Content-Disposition: inline
-In-Reply-To: <20190508171946.657-2-clg@kaod.org>
+In-Reply-To: <20190508171946.657-3-clg@kaod.org>
 User-Agent: Mutt/1.11.4 (2019-03-13)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
 X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [PATCH 1/3] spapr/xive: EQ page should be
- naturally aligned
+Subject: Re: [Qemu-devel] [PATCH 2/3] spapr/xive: fix EQ page addresses
+ above 64GB
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,43 +62,114 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---Bk6L21jbBNK7V1Rv
+--aEcIyhw0mmnxygNd
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 08, 2019 at 07:19:44PM +0200, C=E9dric Le Goater wrote:
-> When the OS configures the EQ page in which to receive event
-> notifications from the XIVE interrupt controller, the page should be
-> naturally aligned. Add this check.
+On Wed, May 08, 2019 at 07:19:45PM +0200, C=E9dric Le Goater wrote:
+> The high order bits of the address of the OS event queue is stored in
+> bits [4-31] of word2 of the XIVE END internal structures and the low
+> order bits in word3. This structure is using Big Endian ordering and
+> computing the value requires some simple arithmetic which happens to
+> be wrong. The mask removing bits [0-3] of word2 is applied to the
+> wrong value and the resulting address is bogus when above 64GB.
+>=20
+> Guests with more than 64GB of RAM will allocate pages for the OS event
+> queues which will reside above the 64GB limit. In this case, the XIVE
+> device model will wake up the CPUs in case of a notification, such as
+> IPIs, but the update of the event queue will be written at the wrong
+> place in memory. The result is uncertain as the guest memory is
+> trashed and IPI are not delivered.
+>=20
+> Introduce a helper xive_end_qaddr() to compute this value correctly in
+> all places where it is used.
 >=20
 > Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
 
 Applied, thanks.
 
 > ---
->  hw/intc/spapr_xive.c | 6 ++++++
->  1 file changed, 6 insertions(+)
+>  include/hw/ppc/xive_regs.h | 6 ++++++
+>  hw/intc/spapr_xive.c       | 3 +--
+>  hw/intc/xive.c             | 9 +++------
+>  3 files changed, 10 insertions(+), 8 deletions(-)
 >=20
+> diff --git a/include/hw/ppc/xive_regs.h b/include/hw/ppc/xive_regs.h
+> index bf36678a242c..1a8c5b5e64f0 100644
+> --- a/include/hw/ppc/xive_regs.h
+> +++ b/include/hw/ppc/xive_regs.h
+> @@ -208,6 +208,12 @@ typedef struct XiveEND {
+>  #define xive_end_is_backlog(end)  (be32_to_cpu((end)->w0) & END_W0_BACKL=
+OG)
+>  #define xive_end_is_escalate(end) (be32_to_cpu((end)->w0) & END_W0_ESCAL=
+ATE_CTL)
+> =20
+> +static inline uint64_t xive_end_qaddr(XiveEND *end)
+> +{
+> +    return ((uint64_t) be32_to_cpu(end->w2) & 0x0fffffff) << 32 |
+> +        be32_to_cpu(end->w3);
+> +}
+> +
+>  /* Notification Virtual Target (NVT) */
+>  typedef struct XiveNVT {
+>          uint32_t        w0;
 > diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-> index 097f88d4608d..666e24e9b447 100644
+> index 666e24e9b447..810435c30cc7 100644
 > --- a/hw/intc/spapr_xive.c
 > +++ b/hw/intc/spapr_xive.c
-> @@ -993,6 +993,12 @@ static target_ulong h_int_set_queue_config(PowerPCCP=
-U *cpu,
->      case 16:
->      case 21:
->      case 24:
-> +        if (!QEMU_IS_ALIGNED(qpage, 1ul << qsize)) {
-> +            qemu_log_mask(LOG_GUEST_ERROR, "XIVE: EQ @0x%" HWADDR_PRIx
-> +                          " is not naturally aligned with %" HWADDR_PRIx=
- "\n",
-> +                          qpage, 1ul << qsize);
-> +            return H_P4;
-> +        }
->          end.w2 =3D cpu_to_be32((qpage >> 32) & 0x0fffffff);
->          end.w3 =3D cpu_to_be32(qpage & 0xffffffff);
->          end.w0 |=3D cpu_to_be32(END_W0_ENQUEUE);
+> @@ -1150,8 +1150,7 @@ static target_ulong h_int_get_queue_config(PowerPCC=
+PU *cpu,
+>      }
+> =20
+>      if (xive_end_is_enqueue(end)) {
+> -        args[1] =3D (uint64_t) be32_to_cpu(end->w2 & 0x0fffffff) << 32
+> -            | be32_to_cpu(end->w3);
+> +        args[1] =3D xive_end_qaddr(end);
+>          args[2] =3D xive_get_field32(END_W0_QSIZE, end->w0) + 12;
+>      } else {
+>          args[1] =3D 0;
+> diff --git a/hw/intc/xive.c b/hw/intc/xive.c
+> index a0b87001da25..dcf2fcd10893 100644
+> --- a/hw/intc/xive.c
+> +++ b/hw/intc/xive.c
+> @@ -1042,8 +1042,7 @@ static const TypeInfo xive_source_info =3D {
+> =20
+>  void xive_end_queue_pic_print_info(XiveEND *end, uint32_t width, Monitor=
+ *mon)
+>  {
+> -    uint64_t qaddr_base =3D (uint64_t) be32_to_cpu(end->w2 & 0x0fffffff)=
+ << 32
+> -        | be32_to_cpu(end->w3);
+> +    uint64_t qaddr_base =3D xive_end_qaddr(end);
+>      uint32_t qsize =3D xive_get_field32(END_W0_QSIZE, end->w0);
+>      uint32_t qindex =3D xive_get_field32(END_W1_PAGE_OFF, end->w1);
+>      uint32_t qentries =3D 1 << (qsize + 10);
+> @@ -1072,8 +1071,7 @@ void xive_end_queue_pic_print_info(XiveEND *end, ui=
+nt32_t width, Monitor *mon)
+> =20
+>  void xive_end_pic_print_info(XiveEND *end, uint32_t end_idx, Monitor *mo=
+n)
+>  {
+> -    uint64_t qaddr_base =3D (uint64_t) be32_to_cpu(end->w2 & 0x0fffffff)=
+ << 32
+> -        | be32_to_cpu(end->w3);
+> +    uint64_t qaddr_base =3D xive_end_qaddr(end);
+>      uint32_t qindex =3D xive_get_field32(END_W1_PAGE_OFF, end->w1);
+>      uint32_t qgen =3D xive_get_field32(END_W1_GENERATION, end->w1);
+>      uint32_t qsize =3D xive_get_field32(END_W0_QSIZE, end->w0);
+> @@ -1101,8 +1099,7 @@ void xive_end_pic_print_info(XiveEND *end, uint32_t=
+ end_idx, Monitor *mon)
+> =20
+>  static void xive_end_enqueue(XiveEND *end, uint32_t data)
+>  {
+> -    uint64_t qaddr_base =3D (uint64_t) be32_to_cpu(end->w2 & 0x0fffffff)=
+ << 32
+> -        | be32_to_cpu(end->w3);
+> +    uint64_t qaddr_base =3D xive_end_qaddr(end);
+>      uint32_t qsize =3D xive_get_field32(END_W0_QSIZE, end->w0);
+>      uint32_t qindex =3D xive_get_field32(END_W1_PAGE_OFF, end->w1);
+>      uint32_t qgen =3D xive_get_field32(END_W1_GENERATION, end->w1);
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -106,25 +177,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---Bk6L21jbBNK7V1Rv
+--aEcIyhw0mmnxygNd
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlzTvHsACgkQbDjKyiDZ
-s5J1FRAAy6CRUF6dRmSk+B/Q3dqHxmUWNMoMjWzacK9ENt7NUOnnYSirCRIqrsjd
-jyFeiVLBavnHLGofPLzHmeUp7t/H3BB2UwQBtz9jXGccBdGtyWgJRG0Jf4zDQjn7
-UfqDJV/dcohYNIs1Dy4i8UDQOlXwiJlEyP/hgBq2ZF2zn0eeDQXGNVFcUGfTCcEX
-Ry0UU0h6MyChORSUolr4bMAueCKP3gPUuLvDnsc8+qzJaRaXv/0hy/KAmKl3q/0k
-drV7QDc3bM0taXweWf7PGCDwDi+BbMSePqG7Pz/E1i6Gmdxzmrw7p+qbHxUiqcWR
-rgq1AK7S4M5w+Rjm4nsn4pjiSqfIkL45Hl3q/raN/5CJfrR1V5UbySFmBgiJSXHs
-8jjgPTmfmi5JKDaKrstw+YRVoa80NI15epO4PdED/u8H6wE9VEoEUds5wjsaOsUC
-zBw1xSlbOs16hiQ87rTpoTI/zQ/2mLGCJJGGyhvTQq1yg4Zvi+FHfohQpIN1LzPU
-TwZeZmO7LbIrsgeB4v703Bk4gzncKinq3CB/MKrQz3YJl9bL2mf0CUoeGx60XApK
-zAPcoMKdBRkkmQd4aMdPNQYu9EOlcZMh0E3sACiPcIMN0lnW322bsktD7U8i0QK2
-v6jySR2tzdSd/QTcv4WfapLncLhgvI8Ghqz9DV7IPdlhYbyaQwE=
-=s4l+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlzTvTAACgkQbDjKyiDZ
+s5LVwQ//UC8pcwLLn1l4QP1KFkQF47zOut1RAmFSZt13IyVSgQGGobEadRw8cR1U
+Mjj63PDaBJBwf9CI6q/U8dGUXB+QaT6yW7+4W0QOG0Y7p5ixoCbPYuQZOVDFiIuN
+21MQAaCk2KJlGZmJmeBXd14ozb4kvRTrp9eVtzTbSpbduCD/6AXm+JFTe/2cmyuG
+woy6R4AVEV/GTAEHPeQCqqICfeabGNTS0NHCILiY4Uct40eKviHzU+YIwfWPPhwE
+V3jzsA621r6elS/i61cmVZRKCpm/XgiOiaa/6g39gwAQOC30QOXMmkVrBOhOk696
+006/kMrxmcJszmLkrsH8YqqRdCa+PXn5G51Keq+ikwD/IyexvS4VTftw8Xd/8NEh
+huKNdtGFwuFFZSQXzBfeLd0Ct79c4gBLttOmCDMBhY3pN9teTceJLtrmKH3miB4J
+8Vj+QEPJr67sDQ2tKXfszViod0zzA2MoO9zJPCvd8C5koohPco+9N/7Uk6rO4gfM
+FPQHsQZXaqjH81uD1xahPEkOBtD6cpeyCZRWCbBkTNEtTt9g4kr7OCieUVJZxj9X
+qpUBqH0pRmyKod1D74zZae/IYeWuG4Pyna8tbPZxDo7aFPqhBbSnH+QmSIwRgeKI
+ovtWhdWvdYI0/loSenERQ3U2tKAwssMpo2pmIygTXomaYcj12ec=
+=EGqM
 -----END PGP SIGNATURE-----
 
---Bk6L21jbBNK7V1Rv--
+--aEcIyhw0mmnxygNd--
 
