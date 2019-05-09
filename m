@@ -2,72 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0EC901953E
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 00:33:20 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33506 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D74019538
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 00:29:21 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33446 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOrbL-0003ai-4E
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 18:33:19 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:32980)
+	id 1hOrXU-0000Wx-Fm
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 18:29:20 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:32990)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOrV5-0007iY-DG
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 18:26:52 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hOrV6-0007ju-Im
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 18:26:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOrV4-0005Ui-49
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 18:26:51 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:37572)
+	(envelope-from <richard.henderson@linaro.org>) id 1hOrV5-0005VB-Dk
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 18:26:52 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:34376)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hOrV3-0005U2-Ty
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 18:26:50 -0400
-Received: by mail-pg1-x541.google.com with SMTP id e6so1924332pgc.4
-	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 15:26:49 -0700 (PDT)
+	id 1hOrV5-0005Uo-7E
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 18:26:51 -0400
+Received: by mail-pf1-x443.google.com with SMTP id n19so2057572pfa.1
+	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 15:26:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=t5VoKM+l3Lq9jc+URQ3PZSk53GmjO2/IoQkt1bRH1n8=;
-	b=bQ0N9wvliHWfwB6xiRY3293N8XBBGA1FEXdS7WZPjZm3S40hJBRwPQVNbAAmi9FsFT
-	gezc5dhZ0gNxxmkTpCCH8rvp/cpl5xMhud5Ai1BbyFa+QsDeQyuN3Ml0YOecE7d3O0HC
-	saqrymv7VOizP7UhZoeb0Mn97esNq/b3E7Yv6x9rDQ+SasbHkHIjc/5N+haCbXrA3wVx
-	qmaiUrlTvA08Y3NtCde0svxHFsBD0dJfp/VEvjhhZyfLicVVhFdSGdgnV4NlPXC1IMTk
-	dZ7eSX4ZsxuIgcjNYpFPCyQKMKOn35msD261O5p6uiOs15Oh10VK3j9OlsJpAQwISyXZ
-	7Gpg==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=SbdgfaYjW8ILfhiu0/mJqWKm/tBVnd5f44zvoNG8J24=;
+	b=yrmaTw1isYlaWL0h+7ulMQ5InyN7qPN1b6Vv8b3I86iMq+GoPcz0+KSzsakznlng0B
+	JDD5fj8I4FK3bxucKKhEpvlWt+7wCYbD6jHWh6fI49PU8Sd9OKat5nuo2w3taJSvOkkI
+	8GNDqQjYUPDWUnOgHgwt/C2DzyeHctU07jK++Vdg6v9Gmr9bdcO445CPlddAN885sMqr
+	WLW9oSlyEDJw8+FN9SQ2D8gRQw45siWMhhLMNF+TIp7PC9EaDWGTywBsRHOP4n5TiCxr
+	OyVJkoB4mv7eodqTpo+N6/d7uMfpBWr+N+bx7ZGe7I7IFpjRvxKRFo+ZdUPwTHkHlryt
+	/VrA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=t5VoKM+l3Lq9jc+URQ3PZSk53GmjO2/IoQkt1bRH1n8=;
-	b=MvDbHwombVSDdki/Jb+8PU2RzuhzbCozL7yDH7Nv/OiWc0x4Y9HOGiQSUQ8oxUR5UF
-	LwgNFAf71fRpKXWv2kHJaISpIuqsWTYpfnsUsqER8Z7LTIe1waciaHhA1J7/iNCDcoRN
-	FdrfY0oY4XNgHG+W4C6JCphy5xEU4SVDDxrnojfdZYwzUVOnj8GZuev33DZJiasuvBOl
-	+pvgjs0cO3kbCxEVLCcBnOhGRsXTyZhWT0zq538OASFI5YBZ8tUdqh4SomSl9i0KgBld
-	oO5un2pbz8M98LGkQBx/JxIkupOMyx/IHVqgv+Y5emFKaouikBcxZUBqnpu7eJXtl1fJ
-	87Eg==
-X-Gm-Message-State: APjAAAUp33KkcKfiGURuID62Ax/YT6zlorMMbyA4vP3qGE9c6ugH1xtd
-	umg2yWGaNx6P6LupQaVHegHdsCuZnJA=
-X-Google-Smtp-Source: APXvYqyWDIV4Owc7UJN9M+nKlXe0O+KvIJqPlFl9/EKy0LPgE5JcWyP7u0lT7IxnogbhwEqZhm3ygQ==
-X-Received: by 2002:a63:7d03:: with SMTP id y3mr8736562pgc.8.1557440808714;
-	Thu, 09 May 2019 15:26:48 -0700 (PDT)
+	:references;
+	bh=SbdgfaYjW8ILfhiu0/mJqWKm/tBVnd5f44zvoNG8J24=;
+	b=HucpIPX2+9GhkFk9PWJr1hW+BuSqN6lWnr2MOdGQx+KQ0fdIgjzEwpiypQGwyV/mbX
+	l9QeccyquBIdkiaJd6tY5FE3Sk9RCsROkxb6DKEu4RttjLypXw4L98MfYjncSh80n05P
+	NUlW3J8TfdH7x8UCALEnfDkexQEXpqWPmiWUHCnXPfirfdAYQOt7LrbQSKfdk8GN2uPj
+	HA7ENbSDbGpRH/RbELY3jXp/IjWhvd0/C3ICQZ2YpBFdtsc000RzD965RfhZuBpvBHsx
+	WPAcQYRBdA3idtWm9kUWx3cFLzkfZbMpc5Uro/HaXaSxIBCuypoEOwEUYs0uxLdXkuSo
+	iv9g==
+X-Gm-Message-State: APjAAAVk/v6VrvXSFZ1Es5ZI/rnRQAXfaWsmmLZyatkHyeWNnwApib+I
+	sGAkP8hcQd/wUH/5N1dCX3655bvr9do=
+X-Google-Smtp-Source: APXvYqwpxgHkkUFlnOasIkZ8iKDO2JPj61Cs4qqWju6M7Zvv4H4rixRKjU6369WnXE0MfMbzdUYWZg==
+X-Received: by 2002:aa7:8ec6:: with SMTP id b6mr8882550pfr.234.1557440809813; 
+	Thu, 09 May 2019 15:26:49 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231])
-	by smtp.gmail.com with ESMTPSA id m2sm4490521pfi.24.2019.05.09.15.26.47
+	by smtp.gmail.com with ESMTPSA id m2sm4490521pfi.24.2019.05.09.15.26.48
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 09 May 2019 15:26:47 -0700 (PDT)
+	Thu, 09 May 2019 15:26:49 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu,  9 May 2019 15:26:16 -0700
-Message-Id: <20190509222631.14271-13-richard.henderson@linaro.org>
+Date: Thu,  9 May 2019 15:26:17 -0700
+Message-Id: <20190509222631.14271-14-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190509222631.14271-1-richard.henderson@linaro.org>
 References: <20190509222631.14271-1-richard.henderson@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::541
-Subject: [Qemu-devel] [PATCH v3 12/27] target/mips: Convert to
+X-Received-From: 2607:f8b0:4864:20::443
+Subject: [Qemu-devel] [PATCH v3 13/27] target/moxie: Convert to
  CPUClass::tlb_fill
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
@@ -80,182 +76,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <arikalo@wavecomp.com>,
-	Aleksandar Markovic <amarkovic@wavecomp.com>
+Cc: Anthony Green <green@moxielogic.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Note that env->active_tc.PC is removed from the qemu_log as that value
-is garbage.  The PC isn't recovered until cpu_restore_state, called from
-cpu_loop_exit_restore, called from do_raise_exception_err.
+Remove the user-only functions, as we don't have a user-only config.
+Fix the unconditional call to tlb_set_page, even if the translation
+failed.
 
-Cc: Aleksandar Markovic <amarkovic@wavecomp.com>
-Cc: Aleksandar Rikalo <arikalo@wavecomp.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Cc: Anthony Green <green@moxielogic.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v2: Split out other mips cleanups to simplify the diff
----
- target/mips/internal.h  |  5 +++--
- target/mips/cpu.c       |  5 ++---
- target/mips/helper.c    | 45 ++++++++++++++++++++++-------------------
- target/mips/op_helper.c | 15 --------------
- 4 files changed, 29 insertions(+), 41 deletions(-)
+ target/moxie/cpu.h    |  5 ++--
+ target/moxie/cpu.c    |  5 ++--
+ target/moxie/helper.c | 61 ++++++++++---------------------------------
+ 3 files changed, 19 insertions(+), 52 deletions(-)
 
-diff --git a/target/mips/internal.h b/target/mips/internal.h
-index 286e3888ab..b2b41a51ab 100644
---- a/target/mips/internal.h
-+++ b/target/mips/internal.h
-@@ -202,8 +202,9 @@ void cpu_mips_start_count(CPUMIPSState *env);
- void cpu_mips_stop_count(CPUMIPSState *env);
+diff --git a/target/moxie/cpu.h b/target/moxie/cpu.h
+index f3b6d83ae7..a63a96bc05 100644
+--- a/target/moxie/cpu.h
++++ b/target/moxie/cpu.h
+@@ -139,7 +139,8 @@ static inline void cpu_get_tb_cpu_state(CPUMoxieState *env, target_ulong *pc,
+     *flags = 0;
+ }
  
- /* helper.c */
--int mips_cpu_handle_mmu_fault(CPUState *cpu, vaddr address, int size, int rw,
--                              int mmu_idx);
-+bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                       MMUAccessType access_type, int mmu_idx,
-+                       bool probe, uintptr_t retaddr);
+-int moxie_cpu_handle_mmu_fault(CPUState *cpu, vaddr address, int size,
+-                               int rw, int mmu_idx);
++bool moxie_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
++                        MMUAccessType access_type, int mmu_idx,
++                        bool probe, uintptr_t retaddr);
  
- /* op_helper.c */
- uint32_t float_class_s(uint32_t arg, float_status *fst);
-diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-index e217fb3e36..ebdb834b97 100644
---- a/target/mips/cpu.c
-+++ b/target/mips/cpu.c
-@@ -197,9 +197,8 @@ static void mips_cpu_class_init(ObjectClass *c, void *data)
-     cc->synchronize_from_tb = mips_cpu_synchronize_from_tb;
-     cc->gdb_read_register = mips_cpu_gdb_read_register;
-     cc->gdb_write_register = mips_cpu_gdb_write_register;
+ #endif /* MOXIE_CPU_H */
+diff --git a/target/moxie/cpu.c b/target/moxie/cpu.c
+index 46434e65ba..02b2b47574 100644
+--- a/target/moxie/cpu.c
++++ b/target/moxie/cpu.c
+@@ -112,9 +112,8 @@ static void moxie_cpu_class_init(ObjectClass *oc, void *data)
+     cc->do_interrupt = moxie_cpu_do_interrupt;
+     cc->dump_state = moxie_cpu_dump_state;
+     cc->set_pc = moxie_cpu_set_pc;
 -#ifdef CONFIG_USER_ONLY
--    cc->handle_mmu_fault = mips_cpu_handle_mmu_fault;
+-    cc->handle_mmu_fault = moxie_cpu_handle_mmu_fault;
 -#else
-+    cc->tlb_fill = mips_cpu_tlb_fill;
++    cc->tlb_fill = moxie_cpu_tlb_fill;
 +#ifndef CONFIG_USER_ONLY
-     cc->do_unassigned_access = mips_cpu_unassigned_access;
-     cc->do_unaligned_access = mips_cpu_do_unaligned_access;
-     cc->get_phys_page_debug = mips_cpu_get_phys_page_debug;
-diff --git a/target/mips/helper.c b/target/mips/helper.c
-index 86e622efb8..3a4917ce7b 100644
---- a/target/mips/helper.c
-+++ b/target/mips/helper.c
-@@ -874,31 +874,25 @@ refill:
+     cc->get_phys_page_debug = moxie_cpu_get_phys_page_debug;
+     cc->vmsd = &vmstate_moxie_cpu;
  #endif
- #endif
+diff --git a/target/moxie/helper.c b/target/moxie/helper.c
+index 287a45232c..216cef057e 100644
+--- a/target/moxie/helper.c
++++ b/target/moxie/helper.c
+@@ -26,18 +26,10 @@
+ #include "qemu/host-utils.h"
+ #include "exec/helper-proto.h"
  
--int mips_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size, int rw,
--                              int mmu_idx)
-+bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                       MMUAccessType access_type, int mmu_idx,
-+                       bool probe, uintptr_t retaddr)
+-/* Try to fill the TLB and return an exception if error. If retaddr is
+-   NULL, it means that the function was called in C code (i.e. not
+-   from generated code or from helper.c) */
+ void tlb_fill(CPUState *cs, target_ulong addr, int size,
+               MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
  {
-     MIPSCPU *cpu = MIPS_CPU(cs);
-     CPUMIPSState *env = &cpu->env;
- #if !defined(CONFIG_USER_ONLY)
-     hwaddr physical;
-     int prot;
--    int access_type;
-+    int mips_access_type;
- #endif
-     int ret = TLBRET_BADADDR;
- 
--#if 0
--    log_cpu_state(cs, 0);
--#endif
--    qemu_log_mask(CPU_LOG_MMU,
--              "%s pc " TARGET_FMT_lx " ad %" VADDR_PRIx " rw %d mmu_idx %d\n",
--              __func__, env->active_tc.PC, address, rw, mmu_idx);
--
-     /* data access */
- #if !defined(CONFIG_USER_ONLY)
-     /* XXX: put correct access by using cpu_restore_state() correctly */
--    access_type = ACCESS_INT;
--    ret = get_physical_address(env, &physical, &prot,
--                               address, rw, access_type, mmu_idx);
-+    mips_access_type = ACCESS_INT;
-+    ret = get_physical_address(env, &physical, &prot, address,
-+                               access_type, mips_access_type, mmu_idx);
-     switch (ret) {
-     case TLBRET_MATCH:
-         qemu_log_mask(CPU_LOG_MMU,
-@@ -915,7 +909,7 @@ int mips_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size, int rw,
-         tlb_set_page(cs, address & TARGET_PAGE_MASK,
-                      physical & TARGET_PAGE_MASK, prot | PAGE_EXEC,
-                      mmu_idx, TARGET_PAGE_SIZE);
--        return 0;
-+        return true;
-     }
- #if !defined(TARGET_MIPS64)
-     if ((ret == TLBRET_NOMATCH) && (env->tlb->nb_tlb > 1)) {
-@@ -926,27 +920,36 @@ int mips_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size, int rw,
-         int mode = (env->hflags & MIPS_HFLAG_KSU);
-         bool ret_walker;
-         env->hflags &= ~MIPS_HFLAG_KSU;
--        ret_walker = page_table_walk_refill(env, address, rw, mmu_idx);
-+        ret_walker = page_table_walk_refill(env, address, access_type, mmu_idx);
-         env->hflags |= mode;
-         if (ret_walker) {
--            ret = get_physical_address(env, &physical, &prot,
--                                       address, rw, access_type, mmu_idx);
-+            ret = get_physical_address(env, &physical, &prot, address,
-+                                       access_type, mips_access_type, mmu_idx);
-             if (ret == TLBRET_MATCH) {
-                 tlb_set_page(cs, address & TARGET_PAGE_MASK,
-                              physical & TARGET_PAGE_MASK, prot | PAGE_EXEC,
-                              mmu_idx, TARGET_PAGE_SIZE);
--                return 0;
-+                return true;
-             }
-         }
-     }
- #endif
-+    if (probe) {
-+        return false;
-+    }
- #endif
- 
--    raise_mmu_exception(env, address, rw, ret);
--    return 1;
-+    raise_mmu_exception(env, address, access_type, ret);
-+    do_raise_exception_err(env, cs->exception_index, env->error_code, retaddr);
-+}
-+
-+#ifndef CONFIG_USER_ONLY
-+void tlb_fill(CPUState *cs, target_ulong addr, int size,
-+              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
-+{
-+    mips_cpu_tlb_fill(cs, addr, size, access_type, mmu_idx, false, retaddr);
- }
- 
--#if !defined(CONFIG_USER_ONLY)
- hwaddr cpu_mips_translate_address(CPUMIPSState *env, target_ulong address, int rw)
- {
-     hwaddr physical;
-diff --git a/target/mips/op_helper.c b/target/mips/op_helper.c
-index 0f272a5b93..6d86912958 100644
---- a/target/mips/op_helper.c
-+++ b/target/mips/op_helper.c
-@@ -2669,21 +2669,6 @@ void mips_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-     do_raise_exception_err(env, excp, error_code, retaddr);
- }
- 
--void tlb_fill(CPUState *cs, target_ulong addr, int size,
--              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
--{
 -    int ret;
 -
--    ret = mips_cpu_handle_mmu_fault(cs, addr, size, access_type, mmu_idx);
--    if (ret) {
--        MIPSCPU *cpu = MIPS_CPU(cs);
--        CPUMIPSState *env = &cpu->env;
--
--        do_raise_exception_err(env, cs->exception_index,
--                               env->error_code, retaddr);
+-    ret = moxie_cpu_handle_mmu_fault(cs, addr, size, access_type, mmu_idx);
+-    if (unlikely(ret)) {
+-        cpu_loop_exit_restore(cs, retaddr);
 -    }
++    moxie_cpu_tlb_fill(cs, addr, size, access_type, mmu_idx, false, retaddr);
+ }
+ 
+ void helper_raise_exception(CPUMoxieState *env, int ex)
+@@ -85,53 +77,29 @@ void helper_debug(CPUMoxieState *env)
+     cpu_loop_exit(cs);
+ }
+ 
+-#if defined(CONFIG_USER_ONLY)
+-
+-void moxie_cpu_do_interrupt(CPUState *cs)
+-{
+-    CPUState *cs = CPU(moxie_env_get_cpu(env));
+-
+-    cs->exception_index = -1;
 -}
 -
- void mips_cpu_unassigned_access(CPUState *cs, hwaddr addr,
-                                 bool is_write, bool is_exec, int unused,
-                                 unsigned size)
+-int moxie_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size,
+-                               int rw, int mmu_idx)
+-{
+-    MoxieCPU *cpu = MOXIE_CPU(cs);
+-
+-    cs->exception_index = 0xaa;
+-    cpu->env.debug1 = address;
+-    cpu_dump_state(cs, stderr, 0);
+-    return 1;
+-}
+-
+-#else /* !CONFIG_USER_ONLY */
+-
+-int moxie_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size,
+-                               int rw, int mmu_idx)
++bool moxie_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
++                        MMUAccessType access_type, int mmu_idx,
++                        bool probe, uintptr_t retaddr)
+ {
+     MoxieCPU *cpu = MOXIE_CPU(cs);
+     CPUMoxieState *env = &cpu->env;
+     MoxieMMUResult res;
+     int prot, miss;
+-    target_ulong phy;
+-    int r = 1;
+ 
+     address &= TARGET_PAGE_MASK;
+     prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
+-    miss = moxie_mmu_translate(&res, env, address, rw, mmu_idx);
+-    if (miss) {
+-        /* handle the miss.  */
+-        phy = 0;
+-        cs->exception_index = MOXIE_EX_MMU_MISS;
+-    } else {
+-        phy = res.phy;
+-        r = 0;
++    miss = moxie_mmu_translate(&res, env, address, access_type, mmu_idx);
++    if (likely(!miss)) {
++        tlb_set_page(cs, address, res.phy, prot, mmu_idx, TARGET_PAGE_SIZE);
++        return true;
++    }
++    if (probe) {
++        return false;
+     }
+-    tlb_set_page(cs, address, phy, prot, mmu_idx, TARGET_PAGE_SIZE);
+-    return r;
+-}
+ 
++    cs->exception_index = MOXIE_EX_MMU_MISS;
++    cpu_loop_exit_restore(cs, retaddr);
++}
+ 
+ void moxie_cpu_do_interrupt(CPUState *cs)
+ {
+@@ -156,4 +124,3 @@ hwaddr moxie_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
+     }
+     return phy;
+ }
+-#endif
 -- 
 2.17.1
 
