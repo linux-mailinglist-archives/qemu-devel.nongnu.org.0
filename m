@@ -2,72 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 175BA18A34
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 15:02:12 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54246 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4526118A4C
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 15:06:55 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54294 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOigd-0007BD-3D
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 09:02:11 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43031)
+	id 1hOilC-00016S-DD
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 09:06:54 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43744)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <stefanha@gmail.com>) id 1hOifW-0006sC-UB
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 09:01:07 -0400
+	(envelope-from <sgarzare@redhat.com>) id 1hOiin-0007pk-Sr
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 09:04:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <stefanha@gmail.com>) id 1hOifV-0004Kb-Ud
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 09:01:02 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:41085)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1hOifV-0004Gt-Nb
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 09:01:01 -0400
-Received: by mail-wr1-x442.google.com with SMTP id d12so2932280wrm.8
-	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 06:00:59 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=Xsv7nhlVWRjNIucZKrV0nDBdcCmbyf3/aSy5Se95SYI=;
-	b=GZa8xEv/ejPCI276I2Zoqb0xZdw9BlTClPDZjoD7gC51+oqyANQbA2jfbvfPS3TPoi
-	j4+GHb5PrdqbznOc+RdkQTKFGhpkKiRuy2sW1O3Z5qQyy1W0EP6YMDpLXy2DsUpgxxvW
-	NOtGiflGE1LJlvIUa1ySE1FUNGycBfTwag9gEMACRVZDlMYHnxU0hbRQz9ES6DsVOyGh
-	ahlqMGZvB3bvsX7oXqV2UR9ZvcsUX8+okZqUOQabSqXoc/AgZstdZhzXws2d0KXpMHoJ
-	kiiJJ/iwOzhJ9PwK9yPBGkY1+cP4VYp8yV6wzNnmPDUgA0k8ICyATkut0BfWvzCz+xCn
-	/q7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=Xsv7nhlVWRjNIucZKrV0nDBdcCmbyf3/aSy5Se95SYI=;
-	b=I0KERe0y8OPGbTBIk6SKT1759PTGGNhCGUph5sJXNAPF0jXql3eO1vojEjEoGQeQKj
-	0UoeCYYieo+nCOk70aYR5MzA318hlGPOA3/+4DycrMlQzLWRSt7NocTbtVe5wXddekUm
-	ufAutI9uZCPK86Y5eeWUKf5xer8E1PzodKVbLHifHr7IdyUbNy2zQd1xl1Lk5MLEg2cQ
-	TRUv/GPP/JcGlUIPrY5S6Lcpodzm/6Fw/w3WTnAYDMMBghwH2RYNt2uyh388uGmQxspN
-	uvEFzIsfiOJPCPhnJDPrp/q3xc9O5iazOdOZHJHXSSJ+5JOXdYfUyR0Jsutd1R2N/Kft
-	ULbw==
-X-Gm-Message-State: APjAAAU7w6XKvdWVCorDQuuow49EbLxVawjvkiHT4CGSxTV6MgRYxuVI
-	Uj35ZkeuUvdE3piAmVCsSu8=
-X-Google-Smtp-Source: APXvYqwapS13d8W0aKEVgzxF7odsEkolIzteHAwWvMx2ypjMLEzHEFbMw24JDKt5mfdDrMoCN1goDQ==
-X-Received: by 2002:adf:da4a:: with SMTP id r10mr2993003wrl.216.1557406858755; 
-	Thu, 09 May 2019 06:00:58 -0700 (PDT)
-Received: from localhost ([51.15.41.238])
-	by smtp.gmail.com with ESMTPSA id k2sm3248401wrg.22.2019.05.09.06.00.57
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 09 May 2019 06:00:57 -0700 (PDT)
-Date: Thu, 9 May 2019 14:00:56 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Ernest Esene <eroken1@gmail.com>
-Message-ID: <20190509130056.GA17133@stefanha-x1.localdomain>
-References: <20190504181119.GA3317@erokenlabserver>
+	(envelope-from <sgarzare@redhat.com>) id 1hOiim-0007lW-Os
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 09:04:25 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:61883)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1hOiik-0007Jf-NG
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 09:04:23 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+	[10.5.11.12])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 4AD41308219E
+	for <qemu-devel@nongnu.org>; Thu,  9 May 2019 13:03:49 +0000 (UTC)
+Received: from steredhat.redhat.com (ovpn-116-227.ams2.redhat.com
+	[10.36.116.227])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 0514B60FA6;
+	Thu,  9 May 2019 13:03:45 +0000 (UTC)
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Thu,  9 May 2019 15:03:41 +0200
+Message-Id: <20190509130345.227526-1-sgarzare@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="a8Wt8u1KmwUX3Y2C"
-Content-Disposition: inline
-In-Reply-To: <20190504181119.GA3317@erokenlabserver>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::442
-Subject: Re: [Qemu-devel] [PATCH v2] chardev/char-i2c: Implement Linux I2C
- character device
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.47]);
+	Thu, 09 May 2019 13:03:49 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v2 0/4] Clean ups in net/net.c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -79,76 +54,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
-	Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
-	Stefan Hajnoczi <stefanha@redhat.com>,
-	Markus Armbruster <armbru@redhat.com>
+Cc: Jason Wang <jasowang@redhat.com>, Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This series is a follow up of "[PATCH] net: avoid to use variable length
+array in net_client_init()" [1], so it contains the v2 of that patch,
+plus other new related patches.
 
---a8Wt8u1KmwUX3Y2C
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I discovered an assertion failure while I was testing the patches, so I
+added the patch 1 to solve this issue.
 
-On Sat, May 04, 2019 at 07:11:19PM +0100, Ernest Esene wrote:
-> Add support for Linux I2C character device for I2C device passthrough
-> For example:
-> -chardev linux-i2c,address=3D0x46,path=3D/dev/i2c-N,id=3Di2c-chardev
+Following the Markus' advice, I modified the parsing of IPv6 prefix
+(patch 2) and IPv4 host:port (patch 3). Then I removed the get_str_sep()
+function (patch 4) because it is no longer used.
 
-There is a mixture of "linux-i2c" and "char-i2c" names in this patch,
-which I find confusing.  Maybe you changed your mind while writing this
-code.  There are two options:
+@Markus, I modified a little bit what you suggested, introducing
+g_strsplit() in order to de-duplicate the qemu_opt_set() and
+qemu_opt_set_number(). I hope it's good for you.
 
-1. Call it "linux-i2c".  Other host operating systems will need their
-   own equivalent objects.
+v2:
+ - Added patches 1,3 and 4
+ - Patch 2:
+   - clean up parsing of IPv6 prefix [Markus]
+   - fixed subject line [Eric]
 
-2. Call it "char-i2c" and make all the parameters optional since they
-   are likely to work differently on other host operating systems.
+[1] https://www.mail-archive.com/qemu-devel@nongnu.org/msg614561.html
 
-I tend towards the second approach because I think I2C is simple enough
-that a single user-visible object can work on all host operating
-systems.
+Stefano Garzarella (4):
+  net: fix assertion failure when ipv6-prefixlen is not a number
+  net: avoid using variable length array in net_client_init()
+  net: use g_strsplit() for parsing host address and port
+  net: remove unused get_str_sep() function
 
-Please make the naming consistent in the next revision of this patch.
+ net/net.c | 101 +++++++++++++++++++++++++++---------------------------
+ 1 file changed, 51 insertions(+), 50 deletions(-)
 
->=20
-> Signed-off-by: Ernest Esene <eroken1@gmail.com>
->=20
-> ---
-> v2:
->   * Fix errors
->   * update "MAINTAINERS" file.
-> ---
->  MAINTAINERS                |   6 ++
->  chardev/Makefile.objs      |   1 +
->  chardev/char-i2c.c         | 140 +++++++++++++++++++++++++++++++++++++++=
-++++++
->  chardev/char.c             |   3 +
->  include/chardev/char-i2c.h |  35 ++++++++++++
->  include/chardev/char.h     |   1 +
->  qapi/char.json             |  18 ++++++
->  7 files changed, 204 insertions(+)
->  create mode 100644 chardev/char-i2c.c
->  create mode 100644 include/chardev/char-i2c.h
+--=20
+2.20.1
 
-Please update the qemu-options.texi user documentation.
-
---a8Wt8u1KmwUX3Y2C
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAlzUJGsACgkQnKSrs4Gr
-c8j7tQgAorfguVIcz7L0RXU9y9nf88CxTmEiJhbXmSorszkYWWIlUDnJDRlLa4CO
-jmE01VTbC1pbCan+C7CzLJZGbDeRQHccCsfvDBUvUuWuZn3Myx9EbzpbYUsdCsoY
-NopH+AcKA6eBHPdVVbpW9wsGnKps6TI55VPbytMMI0Y+kpOPwiJ36k349RBhnP5y
-Q8mNfTOnVP1QeHhjrvISLF5ppFdV12AMqAgbopwLyEhCPp367P4jvnnaOEceLwQu
-lvlyIc86SrGFYiWsNrBjLglsy0y7gW40R3zkGEMg7nKQxhA/8m7tJtI+g1KFRS8x
-UpkJf/ti2E82P0WPYcO2fE5JBY8vzw==
-=UCqN
------END PGP SIGNATURE-----
-
---a8Wt8u1KmwUX3Y2C--
 
