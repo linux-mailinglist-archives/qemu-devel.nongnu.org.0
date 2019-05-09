@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39F4E186BF
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 10:24:49 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50290 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA739186C8
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 10:29:31 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50358 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOeMC-0006y4-BD
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 04:24:48 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44707)
+	id 1hOeQk-00030A-Fp
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 04:29:30 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44722)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hOeHT-00024T-Qr
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 04:19:56 -0400
+	(envelope-from <thuth@redhat.com>) id 1hOeHV-000281-Kd
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 04:19:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hOeHS-0000OF-Ta
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 04:19:55 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39858)
+	(envelope-from <thuth@redhat.com>) id 1hOeHU-0000P2-DH
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 04:19:57 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60293)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <thuth@redhat.com>) id 1hOeHS-0000Ns-OE
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 04:19:54 -0400
+	(Exim 4.71) (envelope-from <thuth@redhat.com>) id 1hOeHU-0000Ok-68
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 04:19:56 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
 	[10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 16EAD3058951;
-	Thu,  9 May 2019 08:19:54 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 8369B3066497;
+	Thu,  9 May 2019 08:19:55 +0000 (UTC)
 Received: from thuth.com (ovpn-116-115.ams2.redhat.com [10.36.116.115])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 08C145B680;
-	Thu,  9 May 2019 08:19:52 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 72D555B680;
+	Thu,  9 May 2019 08:19:54 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Date: Thu,  9 May 2019 10:19:24 +0200
-Message-Id: <20190509081930.19081-9-thuth@redhat.com>
+Date: Thu,  9 May 2019 10:19:25 +0200
+Message-Id: <20190509081930.19081-10-thuth@redhat.com>
 In-Reply-To: <20190509081930.19081-1-thuth@redhat.com>
 References: <20190509081930.19081-1-thuth@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
 	(mx1.redhat.com [10.5.110.41]);
-	Thu, 09 May 2019 08:19:54 +0000 (UTC)
+	Thu, 09 May 2019 08:19:55 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 08/14] tests/Makefile: Remove unused test-obj-y
- variable
+Subject: [Qemu-devel] [PULL 09/14] tests/drive_del-test: Use qtest_init()
+ instead of qtest_start()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,52 +61,167 @@ Cc: ehabkost@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I recently noticed that test-obj-y contains a file called
-tests/check-block-qtest.o which simply does not belong to any .c
-file and thus wondered why this is not causing any trouble. It is
-only used to add -Itests to the command line (which refers to the
-build directory). However, it is not needed because "-iquote $(@D)"
-already sets this up in rules.mak. Thus we can simply remove this
-variable.
+qtest_start() + qtest_end() should be avoided, since they use the
+global_qtest variable that we want to get rid of in the long run
+Use qtest_init() and qtest_quit() instead.
 
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20190508075527.32164-1-thuth@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Message-Id: <20190508142153.21555-1-thuth@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/Makefile.include | 19 -------------------
- 1 file changed, 19 deletions(-)
+ tests/drive_del-test.c | 63 +++++++++++++++++++++---------------------
+ 1 file changed, 32 insertions(+), 31 deletions(-)
 
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index af88ab6f8b..60de085ee1 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -482,25 +482,6 @@ GENERATED_FILES +=3D tests/test-qapi-types.h \
- 	tests/test-qapi-events-sub-sub-module.h \
- 	tests/test-qapi-introspect.h
+diff --git a/tests/drive_del-test.c b/tests/drive_del-test.c
+index 2f9474e03c..b56b223fc2 100644
+--- a/tests/drive_del-test.c
++++ b/tests/drive_del-test.c
+@@ -16,32 +16,32 @@
+ #include "qapi/qmp/qdict.h"
 =20
--test-obj-y =3D tests/check-qnum.o tests/check-qstring.o tests/check-qdic=
-t.o \
--	tests/check-qlist.o tests/check-qnull.o tests/check-qobject.o \
--	tests/check-qjson.o tests/check-qlit.o \
--	tests/check-block-qtest.o \
--	tests/test-coroutine.o tests/test-string-output-visitor.o \
--	tests/test-string-input-visitor.o tests/test-qobject-output-visitor.o \
--	tests/test-clone-visitor.o \
--	tests/test-qobject-input-visitor.o \
--	tests/test-qmp-cmds.o tests/test-visitor-serialization.o \
--	tests/test-x86-cpuid.o tests/test-mul64.o tests/test-int128.o \
--	tests/test-opts-visitor.o tests/test-qmp-event.o \
--	tests/rcutorture.o tests/test-rcu-list.o \
--	tests/test-rcu-simpleq.o \
--	tests/test-rcu-tailq.o \
--	tests/test-qdist.o tests/test-shift128.o \
--	tests/test-qht.o tests/qht-bench.o tests/test-qht-par.o \
--	tests/atomic_add-bench.o tests/atomic64-bench.o
--
--$(test-obj-y): QEMU_INCLUDES +=3D -Itests
- QEMU_CFLAGS +=3D -I$(SRC_PATH)/tests
+ /* TODO actually test the results and get rid of this */
+-#define qmp_discard_response(...) qobject_unref(qmp(__VA_ARGS__))
++#define qmp_discard_response(q, ...) qobject_unref(qtest_qmp(q, __VA_ARG=
+S__))
 =20
+-static void drive_add(void)
++static void drive_add(QTestState *qts)
+ {
+-    char *resp =3D hmp("drive_add 0 if=3Dnone,id=3Ddrive0");
++    char *resp =3D qtest_hmp(qts, "drive_add 0 if=3Dnone,id=3Ddrive0");
 =20
+     g_assert_cmpstr(resp, =3D=3D, "OK\r\n");
+     g_free(resp);
+ }
+=20
+-static void drive_del(void)
++static void drive_del(QTestState *qts)
+ {
+-    char *resp =3D hmp("drive_del drive0");
++    char *resp =3D qtest_hmp(qts, "drive_del drive0");
+=20
+     g_assert_cmpstr(resp, =3D=3D, "");
+     g_free(resp);
+ }
+=20
+-static void device_del(void)
++static void device_del(QTestState *qts)
+ {
+     QDict *response;
+=20
+     /* Complication: ignore DEVICE_DELETED event */
+-    qmp_discard_response("{'execute': 'device_del',"
++    qmp_discard_response(qts, "{'execute': 'device_del',"
+                          " 'arguments': { 'id': 'dev0' } }");
+-    response =3D qmp_receive();
++    response =3D qtest_qmp_receive(qts);
+     g_assert(response);
+     g_assert(qdict_haskey(response, "return"));
+     qobject_unref(response);
+@@ -49,18 +49,20 @@ static void device_del(void)
+=20
+ static void test_drive_without_dev(void)
+ {
++    QTestState *qts;
++
+     /* Start with an empty drive */
+-    qtest_start("-drive if=3Dnone,id=3Ddrive0");
++    qts =3D qtest_init("-drive if=3Dnone,id=3Ddrive0");
+=20
+     /* Delete the drive */
+-    drive_del();
++    drive_del(qts);
+=20
+     /* Ensure re-adding the drive works - there should be no duplicate I=
+D error
+      * because the old drive must be gone.
+      */
+-    drive_add();
++    drive_add(qts);
+=20
+-    qtest_end();
++    qtest_quit(qts);
+ }
+=20
+ /*
+@@ -85,54 +87,53 @@ static void test_after_failed_device_add(void)
+ {
+     char driver[32];
+     QDict *response;
++    QTestState *qts;
+=20
+     snprintf(driver, sizeof(driver), "virtio-blk-%s",
+              qvirtio_get_dev_type());
+=20
+-    qtest_start("-drive if=3Dnone,id=3Ddrive0");
++    qts =3D qtest_init("-drive if=3Dnone,id=3Ddrive0");
+=20
+     /* Make device_add fail. If this leaks the virtio-blk device then a
+      * reference to drive0 will also be held (via qdev properties).
+      */
+-    response =3D qmp("{'execute': 'device_add',"
+-                   " 'arguments': {"
+-                   "   'driver': %s,"
+-                   "   'drive': 'drive0'"
+-                   "}}", driver);
++    response =3D qtest_qmp(qts, "{'execute': 'device_add',"
++                              " 'arguments': {"
++                              "   'driver': %s,"
++                              "   'drive': 'drive0'"
++                              "}}", driver);
+     g_assert(response);
+     qmp_assert_error_class(response, "GenericError");
+=20
+     /* Delete the drive */
+-    drive_del();
++    drive_del(qts);
+=20
+     /* Try to re-add the drive.  This fails with duplicate IDs if a leak=
+ed
+      * virtio-blk device exists that holds a reference to the old drive0=
+.
+      */
+-    drive_add();
++    drive_add(qts);
+=20
+-    qtest_end();
++    qtest_quit(qts);
+ }
+=20
+ static void test_drive_del_device_del(void)
+ {
+-    char *args;
++    QTestState *qts;
+=20
+     /* Start with a drive used by a device that unplugs instantaneously =
+*/
+-    args =3D g_strdup_printf("-drive if=3Dnone,id=3Ddrive0,file=3Dnull-c=
+o://,format=3Draw"
+-                           " -device virtio-scsi-%s"
+-                           " -device scsi-hd,drive=3Ddrive0,id=3Ddev0",
+-                           qvirtio_get_dev_type());
+-    qtest_start(args);
++    qts =3D qtest_initf("-drive if=3Dnone,id=3Ddrive0,file=3Dnull-co://,=
+format=3Draw"
++                      " -device virtio-scsi-%s"
++                      " -device scsi-hd,drive=3Ddrive0,id=3Ddev0",
++                      qvirtio_get_dev_type());
+=20
+     /*
+      * Delete the drive, and then the device
+      * Doing it in this order takes notoriously tricky special paths
+      */
+-    drive_del();
+-    device_del();
++    drive_del(qts);
++    device_del(qts);
+=20
+-    qtest_end();
+-    g_free(args);
++    qtest_quit(qts);
+ }
+=20
+ int main(int argc, char **argv)
 --=20
 2.21.0
 
