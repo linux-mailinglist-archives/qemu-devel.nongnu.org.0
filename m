@@ -2,80 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BA7718FC8
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 19:59:13 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58880 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EBCA18FC0
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 19:57:42 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58863 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOnK4-0007w5-Hd
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 13:59:12 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35052)
+	id 1hOnIb-0006Z6-BL
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 13:57:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35737)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOnEm-0003Uu-2A
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:53:45 -0400
+	(envelope-from <laurent@vivier.eu>) id 1hOnGi-00053V-Va
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:55:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOnEk-0006gb-3g
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:53:43 -0400
-Received: from mail-pl1-x633.google.com ([2607:f8b0:4864:20::633]:45105)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hOnEi-0006at-5D
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:53:41 -0400
-Received: by mail-pl1-x633.google.com with SMTP id a5so1486297pls.12
-	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 10:53:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=tZspNkHDi8B5NZIIUZTWWcNPDy926n62xxi1IYNKWpQ=;
-	b=H/gF1hGhcPgPCwni3wGQ3VFe2MBb/6CQYvgvF2L/ZYQ44H5slIfni5P9qotMqvkOq6
-	n3W8uJPEUg/FdBiVuWv0hRsvPEdQ7J4spMEVqPjrYW1uU4ezRROQSC7lL0npJbHVLNq5
-	p6ExPE+CffJF+Wu8LkR2Z4qXdlIhaeH7Uxf6sBN9vbQFooBFae+obsEY2GkZKhGwMqD2
-	ns8RUHq5CW9KcoGvUvHmAxumUGLJers2eBf7zqNhaaPwRc8MgndbHsvJ0JMpetfcoLPj
-	XVs38QOb8ZStZxuWOIXJXLpLj03Bgfy+Scqws70XHnDC2MxEJscEj47YzuwtKzTCKioL
-	7zdQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=tZspNkHDi8B5NZIIUZTWWcNPDy926n62xxi1IYNKWpQ=;
-	b=UsxA998aKRf5Xddm1ofcd2DgNIA8SX0NKFS/7oiujG90j8tdlH3HbnCWt+S5I7O51e
-	ScX16f0Psu58u6EciCf0lJtugjVhszkJYQ/jyVG3cXnKZi3+vL/OZ+/bP7IhZ+XvhGxY
-	oKrYgEZ5G5czAOKGvyPoP045D0lobDKiLAC6R5QIpUA31t5HF1SYNmxs0RbA6aCcTk3W
-	qC1RfqhIhGZ1j1V+veiQGs9NlsXgqVb5YKBeaJy01Q1ju74EXKf67b2Uo3p+SzZ+xHW+
-	uGlXLJRjVlEpLFiMYceklVJ58+oWKfl1QPh3LoTxIsBM1l/TA7Kt/SvNHdjR/aOIN2Tt
-	Jc2A==
-X-Gm-Message-State: APjAAAUmQ8jDxFybY1k7mbrtvnw6wYAzYpHP4WtQkGWUnKpue3zRA/zd
-	9POmRNFynHgeI6EPlSiXVDLP/w==
-X-Google-Smtp-Source: APXvYqwmo/IyNC7Dy2evI+0thCJTFVfN03rAch6TRCyrTzuanFjUw9FP6rH/cdfOjb7Ci7EE142X+w==
-X-Received: by 2002:a17:902:521:: with SMTP id
-	30mr6810185plf.248.1557424410953; 
-	Thu, 09 May 2019 10:53:30 -0700 (PDT)
-Received: from [172.31.99.192] (50-248-210-99-static.hfc.comcastbusiness.net.
-	[50.248.210.99]) by smtp.gmail.com with ESMTPSA id
-	i27sm9531986pfk.162.2019.05.09.10.53.29
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 09 May 2019 10:53:29 -0700 (PDT)
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
-	qemu-devel@nongnu.org
-References: <20190509165912.10512-1-alex.bennee@linaro.org>
-	<20190509165912.10512-3-alex.bennee@linaro.org>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <37051934-a02b-1461-537d-9f6ed93ae4a9@linaro.org>
-Date: Thu, 9 May 2019 10:53:27 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <laurent@vivier.eu>) id 1hOnGh-00088u-Us
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:55:44 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:59479)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hOnGh-00088R-MP
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:55:43 -0400
+Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
+	(mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
+	1N0Zfg-1gSaUs0fDA-00wXBy; Thu, 09 May 2019 19:55:10 +0200
+To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>, qemu-devel@nongnu.org
+References: <1556905846-14074-1-git-send-email-aleksandar.markovic@rt-rk.com>
+	<1556905846-14074-2-git-send-email-aleksandar.markovic@rt-rk.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <f23a5f3f-6536-ab15-13cc-656f641b84a4@vivier.eu>
+Date: Thu, 9 May 2019 19:55:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190509165912.10512-3-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <1556905846-14074-2-git-send-email-aleksandar.markovic@rt-rk.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::633
-Subject: Re: [Qemu-devel] [PATCH v1 02/23] tests/docker: Test more
- components on the Fedora default image
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:hh/RhXH0OY3U7OHBwSBwmw8211QjDoNmhwGLs2aksUopDRO3G2n
+	WD0N00w+s5n3v+jOSWsvql97HpW6nf1Rt9nbhsJ/AeaMX17Efdk/faCLMOp5nR9uBoW7civ
+	vNzxes689bBzry+9x8HWaIzRW4rJ4MT3nwwG/9yIHJrW7qkiVtr82lsnc+nxn1qjcRQNxcl
+	uLMWrnOmPtSxcpoKWDvDw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:XybKPSXskKY=:4Wv1KOPyNhZ5Rp/juDt/Yx
+	S0SsD2mEn2YVeRcLgq5NkUt1aGpdDX2sVzix+Ck70+VRkt+P84WfvguP1S+kWMUM29fS194oS
+	IlodyM59LsFgurTclg1PlU5qzzPYC5gcSEoYh2B+IBJqHX4/P97VURVHJYCPEBXOFgfrZLm/g
+	Ne3ChVzBthOzTs12dkTcwNAEhKYLm52NoWV6MRDID3ipmJXseOYU/kh8iOHGIi6DzR2humUO1
+	JrKpEGudTcarnUO8chFTdr3uXRQI6/woByTcmAhBFnnEGQi6VTPlnFjbiqyOdmerVCozgLc3R
+	QNMcy6VuF+sag9/W1r6RzQQQcv8oHL5deJu6PCG1hVCmvNVpyWZ9hn7QXoXq+wjnlMU4t/aMq
+	CiIExtg+gH5JInuo8OgcRB1wxBGg++Hr1BZh/YMj6uu6WBHkRWL5ofRi8egn1Z7O2qAOdk4t+
+	VtYq7o4y3/o0TCDdiJnpwl6X2trdGjYTwiwsfKSnI4RyAldVRAnsCwmI5S1HrjjIMzn9kyCvC
+	p5WYpdXQ7tPLfWzcCzIrg52wooKUjQCjuseLRJv1ZHIJlgg6SOlnBDjeGSQZgfKpch6hoqcaq
+	kFfx4Siy/DB7xUCvONXMrLt37FYwt919vMmd4HS6eQsaYRDTkh8vA+oIF5RnL3xgAYIl3yjUP
+	Dt9OYroI1HMfol3JVv2p7eBL+pqrQbrMTM6jyowdfEO7bdvedPepcGW5/zlTMOPPptAn0VtV8
+	S+82unOjZnE7ysvGDq8XHlfS7fApxHIDQ3yEw+nwkbv40surPQvwx+8HnVw=
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 212.227.126.135
+Subject: Re: [Qemu-devel] [PATCH v4 1/5] linux-user: Fix support for the
+ SIOCATMARK and SIOCGPGRP ioctls for xtensa
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -87,40 +67,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, qemu-arm@nongnu.org,
-	=?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Cc: lvivier@redhat.com, thuth@redhat.com, daniel.santos@pobox.com,
+	arikalo@wavecomp.com, jcmvbkbc@gmail.com, amarkovic@wavecomp.com,
+	nchen@wavecomp.com, philmd@redhat.com, aurelien@aurel32.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/9/19 9:58 AM, Alex Bennée wrote:
-> From: Philippe Mathieu-Daudé <philmd@redhat.com>
+On 03/05/2019 19:50, Aleksandar Markovic wrote:
+> From: Aleksandar Markovic <amarkovic@wavecomp.com>
 > 
-> Install optional dependencies of QEMU to get better coverage.
+> Fix support for the SIOCATMARK and SIOCGPGRP ioctls for xtensa by
+> correcting corresponding macro definition.
 > 
-> The following components are now enabled:
+> Values for TARGET_SIOCATMARK and TARGET_SIOCGPGRP are determined by
+> Linux kernel. Following relevant lines (obtained by grep) are from
+> the kernel source tree:
 > 
->   $ ./configure
->   ...
->   Multipath support yes
->   VNC SASL support  yes
->   RDMA support      yes
->   PVRDMA support    yes
->   libiscsi support  yes
->   seccomp support   yes
->   libpmem support   yes
->   libudev           yes
+> arch/ia64/include/uapi/asm/sockios.h:#define SIOCATMARK    0x8905
+> arch/mips/include/uapi/asm/sockios.h:#define SIOCATMARK    _IOR('s', 7, int)
+> arch/parisc/include/uapi/asm/sockios.h:#define SIOCATMARK  0x8905
+> arch/sh/include/uapi/asm/sockios.h:#define SIOCATMARK      _IOR('s', 7, int)
+> arch/xtensa/include/uapi/asm/sockios.h:#define SIOCATMARK  _IOR('s', 7, int)
+> arch/alpha/include/uapi/asm/sockios.h:#define SIOCATMARK   _IOR('s', 7, int)
+> arch/sparc/include/uapi/asm/sockios.h:#define SIOCATMARK   0x8905
+> include/uapi/asm-generic/sockios.h:#define SIOCATMARK	   0x8905
 > 
-> Note: The udev-devel package is provided by systemd-devel.
+> arch/ia64/include/uapi/asm/sockios.h:#define SIOCGPGRP     0x8904
+> arch/mips/include/uapi/asm/sockios.h:#define SIOCGPGRP     _IOR('s', 9, pid_t)
+> arch/parisc/include/uapi/asm/sockios.h:#define SIOCGPGRP   0x8904
+> arch/sh/include/uapi/asm/sockios.h:#define SIOCGPGRP       _IOR('s', 9, pid_t)
+> arch/xtensa/include/uapi/asm/sockios.h:#define SIOCGPGRP   _IOR('s', 9, pid_t)
+> arch/alpha/include/uapi/asm/sockios.h:#define SIOCGPGRP    _IOR('s', 9, pid_t)
+> arch/sparc/include/uapi/asm/sockios.h:#define SIOCGPGRP    0x8904
+> include/uapi/asm-generic/sockios.h:#define SIOCGPGRP       0x8904
 > 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> Message-Id: <20190504055440.20406-1-philmd@redhat.com>
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> It is visible from above that xtensa should have the same definitions
+> as alpha, mips and sh4 already do. This patch brings QEMU to the accurate
+> state wrt these two ioctls.
+> 
+> Acked-by: Max Filippov <jcmvbkbc@gmail.com>
+> Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 > ---
->  tests/docker/dockerfiles/fedora.docker | 7 +++++++
->  1 file changed, 7 insertions(+)
+>   linux-user/syscall_defs.h | 3 ++-
+>   1 file changed, 2 insertions(+), 1 deletion(-)
+> 
+> diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+> index 12c8407..1e86fb9 100644
+> --- a/linux-user/syscall_defs.h
+> +++ b/linux-user/syscall_defs.h
+> @@ -736,7 +736,8 @@ struct target_pollfd {
+>   #define TARGET_KDSETLED        0x4B32	/* set led state [lights, not flags] */
+>   #define TARGET_KDSIGACCEPT     0x4B4E
+>   
+> -#if defined(TARGET_ALPHA) || defined(TARGET_MIPS) || defined(TARGET_SH4)
+> +#if defined(TARGET_ALPHA) || defined(TARGET_MIPS) || defined(TARGET_SH4) ||    \
+> +       defined(TARGET_XTENSA)
+>   #define TARGET_SIOCATMARK      TARGET_IOR('s', 7, int)
+>   #define TARGET_SIOCGPGRP       TARGET_IOR('s', 9, pid_t)
+>   #else
+> 
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
-
-r~
 
