@@ -2,50 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 853CB187CE
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 11:33:33 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:51335 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1D325187D8
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 11:34:24 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:51339 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOfQi-0007sD-M4
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 05:33:32 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60854)
+	id 1hOfRX-0000IE-BM
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 05:34:23 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:32865)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hOfOl-0007GI-Hr
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 05:31:32 -0400
+	(envelope-from <philmd@redhat.com>) id 1hOfPh-0007mu-T8
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 05:32:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hOfOk-0004kd-LF
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 05:31:31 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39970)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hOfOk-0004k2-Em
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 05:31:30 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 5DD5F8124A
-	for <qemu-devel@nongnu.org>; Thu,  9 May 2019 09:31:29 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-117-74.ams2.redhat.com
-	[10.36.117.74])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 7FB49F6D2;
-	Thu,  9 May 2019 09:31:27 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-	id CF42DA1E4; Thu,  9 May 2019 11:31:26 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Thu,  9 May 2019 11:31:21 +0200
-Message-Id: <20190509093121.25974-2-kraxel@redhat.com>
-In-Reply-To: <20190509093121.25974-1-kraxel@redhat.com>
-References: <20190509093121.25974-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.25]);
-	Thu, 09 May 2019 09:31:29 +0000 (UTC)
+	(envelope-from <philmd@redhat.com>) id 1hOfPg-0005KZ-BP
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 05:32:29 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:46065)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hOfPg-0005Jp-4n
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 05:32:28 -0400
+Received: by mail-wr1-f68.google.com with SMTP id s15so1981291wra.12
+	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 02:32:27 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=QwH74LETBaF+UY2LT9XQQKL1D1uQjZEUPv8hnsq76J8=;
+	b=eE9LJTSR/b910ZrvUKLgHzVc4u8kL0I1NiNcZgBDLqqrohlIFCGCew9/TcKzaOSEnP
+	OCw1TEPo6ooLYwIJgQDHIT3wwsDYBZ5bPCQ4BGtevldPb/EFhMrXExTpEe/MkdRbltCx
+	OgX5gJaS8gTOfrxIu/Pz7aSlFX9jrxray1rwFQCPRgLydDCU9N4TtDJ4Sw1nOXGIEzbU
+	Epx1kSXBuhp23G0keuGCSR+UnOBJizUCu93FNBHqQ2WBv2ReTOsEd0RZJhCp7HqxA7Hd
+	/cgjEkey9zu92x5PPIVbYEaNrjgwFkHSqwUS2g+qtjFWygTKBnkgCueYUbslTHaSHSDf
+	1/EA==
+X-Gm-Message-State: APjAAAU8rVZV90KFUBX7uvCUW8rrjLBUcEWn3/sH6bvXppH7ZBAPwIBS
+	QCHigav3kCmnLjliIhY0naYPCHcPKiw=
+X-Google-Smtp-Source: APXvYqwH3ArKrpQ6T1ubZMh8A9knAavpnnj7tTr9F7WF59HmyObQUFCaRhPSv4DcLe8GGryJlsnF6A==
+X-Received: by 2002:a5d:5282:: with SMTP id c2mr2259891wrv.88.1557394346192;
+	Thu, 09 May 2019 02:32:26 -0700 (PDT)
+Received: from [192.168.1.37] (193.red-88-21-103.staticip.rima-tde.net.
+	[88.21.103.193])
+	by smtp.gmail.com with ESMTPSA id f6sm2029940wro.12.2019.05.09.02.32.25
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Thu, 09 May 2019 02:32:25 -0700 (PDT)
+To: Thomas Huth <thuth@redhat.com>, Peter Maydell <peter.maydell@linaro.org>
+References: <20190507134521.31044-1-thuth@redhat.com>
+	<CAFEAcA-j+wQXjPW+puxk=foi2T8O=MzXHtxdWJ6E5P7o89WQSg@mail.gmail.com>
+	<c0cda8fc-cc68-eadd-0750-cc9eeca094a4@redhat.com>
+	<b93b1eb4-d2ff-67cd-a293-5ceb4db9b957@redhat.com>
+	<CAP+75-XRZ22uhxfLF6uOpjDtKOf_EDC8uGgbu=DgYw-kcBSAGQ@mail.gmail.com>
+	<20a27c22-cd1a-f5a8-9e36-db171c4ae19e@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <f8186f0c-2852-956b-5a01-e42ec6c90d7f@redhat.com>
+Date: Thu, 9 May 2019 11:32:24 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <20a27c22-cd1a-f5a8-9e36-db171c4ae19e@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 2/2] virtio-input: fix Kconfig dependency and
- Makefile
+	[fuzzy]
+X-Received-From: 209.85.221.68
+Subject: Re: [Qemu-devel] [PULL v2 00/28] Kconfig for Arm machines
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -57,48 +78,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>, John Snow <jsnow@redhat.com>,
+	QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make VIRTIO_INPUT_HOST depend on VIRTIO_INPUT.
-Use CONFIG_VIRTIO_INPUT_HOST in Makefile.
+On 5/9/19 7:34 AM, Thomas Huth wrote:
+> On 08/05/2019 18.45, Philippe Mathieu-Daudé wrote:
+>> [clicked ctrl+enter too fast]
+>>
+>> On Wed, May 8, 2019 at 6:43 PM Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
+>>> On 5/8/19 5:33 PM, Thomas Huth wrote:
+>>>> On 08/05/2019 17.09, Peter Maydell wrote:
+>>>>> On Tue, 7 May 2019 at 14:45, Thomas Huth <thuth@redhat.com> wrote:
+>>>>>>
+>>>>>>  Hi Peter,
+>>>>>>
+>>>>>> the following changes since commit a6ae23831b05a11880b40f7d58e332c45a6b04f7:
+>>>>>>
+>>>>>>   Merge remote-tracking branch 'remotes/ehabkost/tags/python-next-pull-request' into staging (2019-05-03 15:26:09 +0100)
+>>>>>>
+>>>>>> are available in the Git repository at:
+>>>>>>
+>>>>>>   https://gitlab.com/huth/qemu.git tags/pull-request-2019-05-07
+>>>>>>
+>>>>>> for you to fetch changes up to 69f879e9fefab9aaf24893fe4ce23e07756d703c:
+>>>>>>
+>>>>>>   hw/arm: Remove hard-enablement of the remaining PCI devices (2019-05-07 15:01:47 +0200)
+>>>>>>
+>>>>>> ----------------------------------------------------------------
+>>>>>> Kconfig settings for the Arm machines
+>>>>>> (v2: Fix the dependency of q35 to AHCI_ICH9 in the second patch)
+>>>>>> ----------------------------------------------------------------
+>>>>>
+>>>>> Hi -- this is still failing in the build test where I 'make clean'
+>>>>
+>>>> Very weird. What is running before the "make clean"? Could you provide
+>>>> me with the content of i386-softmmu/config-devices.mak please?
+>>>
+>>> It worked for me after running 'git fetch --tags', maybe because Thomas
+>>> used the same tag?
+>>
+>> Maybe because Thomas used the same tag you are still trying the
+>> previous version?
+> 
+> I did not use the same tag. v1 had pull-request-2019-05-05 while v2 has
+> pull-request-2019-05-07. So this can not be the reason.
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- hw/input/Kconfig       | 2 +-
- hw/input/Makefile.objs | 4 +---
- 2 files changed, 2 insertions(+), 4 deletions(-)
-
-diff --git a/hw/input/Kconfig b/hw/input/Kconfig
-index 50e55e353847..889363d8aef1 100644
---- a/hw/input/Kconfig
-+++ b/hw/input/Kconfig
-@@ -27,7 +27,7 @@ config VIRTIO_INPUT
- config VIRTIO_INPUT_HOST
-     bool
-     default y
--    depends on VIRTIO && LINUX
-+    depends on VIRTIO_INPUT && LINUX
- 
- config VHOST_USER_INPUT
-     bool
-diff --git a/hw/input/Makefile.objs b/hw/input/Makefile.objs
-index 3eddf00f2bba..d1de30770854 100644
---- a/hw/input/Makefile.objs
-+++ b/hw/input/Makefile.objs
-@@ -9,9 +9,7 @@ common-obj-$(CONFIG_TSC2005) += tsc2005.o
- 
- common-obj-$(CONFIG_VIRTIO_INPUT) += virtio-input.o
- common-obj-$(CONFIG_VIRTIO_INPUT) += virtio-input-hid.o
--ifeq ($(CONFIG_LINUX),y)
--common-obj-$(CONFIG_VIRTIO_INPUT) += virtio-input-host.o
--endif
-+common-obj-$(CONFIG_VIRTIO_INPUT_HOST) += virtio-input-host.o
- common-obj-$(CONFIG_VHOST_USER_INPUT) += vhost-user-input.o
- 
- obj-$(CONFIG_MILKYMIST) += milkymist-softusb.o
--- 
-2.18.1
-
+Oh, I might have mixed up because I ran "git fetch" -> no change,
+because tags are not fetched by default. "pull-request-2019-05-07" is
+what I tested, with/without running "make clean". I can not reproduce
+the error Peter is having.
 
