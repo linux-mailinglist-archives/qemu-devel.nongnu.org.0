@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1E001953C
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 00:32:28 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33502 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51E6419565
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 00:47:51 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33757 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOraV-0002yF-Vg
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 18:32:28 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33015)
+	id 1hOrpO-0000VX-Ir
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 18:47:50 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33066)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOrV9-0007mg-Fx
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 18:26:56 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hOrVB-0007oQ-6h
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 18:26:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOrV8-0005WZ-CC
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 18:26:55 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:41759)
+	(envelope-from <richard.henderson@linaro.org>) id 1hOrVA-0005Xn-0A
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 18:26:57 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:41939)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hOrV8-0005WP-6G
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 18:26:54 -0400
-Received: by mail-pl1-x641.google.com with SMTP id d9so1800873pls.8
-	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 15:26:54 -0700 (PDT)
+	id 1hOrV9-0005XC-Qh
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 18:26:55 -0400
+Received: by mail-pf1-x444.google.com with SMTP id l132so2041397pfc.8
+	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 15:26:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=pyOmNQehrxQ+vJN1rBIdXnxr1kqTHPzFsWgERMP7ALs=;
-	b=f/cLIwy2OMjK1HB+Myp61BRRwUEr+BM8LJ3ybmbIFg9F+7iAwj2Fo//gX5ih6O1koc
-	0hfwPqMytjRS1T/IVyvLRIR47A26Oqq+Sz2+Ybv/8RkbKMcGPZdK92qi2gqZ6SJRS6P3
-	Vv2iTwqtU7TWQRX0FJOBbD+hq75YuI4B0s3/O0SRCXoroUxDzJq33Bv7uOlIl6bMAoDG
-	j5m8Ow2AIwOqBurt9Hpnf9KQ2o3mivjqZ244Q2bM2FGkgHEUcOsyqxyPaoKBmYkFpnvy
-	aTI5R5GIgWUb81HcivxzHPif+rWKxAGY4AYqtIM7+OM8gVQGlhGUQtI6zZ9agNwms3nx
-	T72g==
+	bh=i61mEex2vpahjushkr4y22Y6q9/HL9JKMG8d2fXnTE0=;
+	b=nm4DjUfSsSj9UfmRYqY4EAiqgB0VEcXrhjFYdPPYjrlMaGjIY1XNMkvzF0XI5vhSt5
+	73Eo8mjCsJ5zpnbjgik2+uolkQYlg/LsLuZ18vhkYvQ4ULJmKpdOgBskmVw4V4Tv0wrt
+	DtEjWUOCoUaCnLYRq/Jq6C/cOEuTtsIehLsfAYjhJ3XoZYwmPaxVweYq1rrshrugGMx0
+	3IlUNEXxIXWOvJlZnc8EOMxKrJTtXsUMFurE8O8sFDAy/aLDO+k3QjkG4M5yuY94Sh8Z
+	HgDq4lessUItxsgIpI5SRPYvXXde1BsymjjmxpzGtKOJV4sAkKv1V9FiGdSiJP8ac67n
+	4UpA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=pyOmNQehrxQ+vJN1rBIdXnxr1kqTHPzFsWgERMP7ALs=;
-	b=IEdhW0JJ3gVT15J5rmDKXNf+rwEXyFOP1Q16sh4wVmtut2wElKl9e9rf0tulOGPhlK
-	iOUXSHLHmRUkD85Dq6KYjGZqSvCzaoVQ47GTvZowT/qmmJkF3bd1pBY23+GwXyWMxDsd
-	kmIAG3dDOwwIY88VicylDeuHaB40tVoCHMRg6cYTrUqJLyxFm4yYnW9rc1rwJ2aoUP/t
-	4kPELO+j6Vq+8gRKYjtXhZ5VRTdIcjF/1I9lU7Sn2qKP0bPItePQyaXBOuFCu3l3Y4xL
-	vokohWiflKHKirwwUqmX0f+4Xb+J3I50cogzx9KMOlADUnswAf31+nI58Y9pRF5mRNbd
-	jT4A==
-X-Gm-Message-State: APjAAAUiT+M7yWvW3knLAdbEXNFhWy011lq2zy2z0aV+XRCqdiqrF6ic
-	WZCRHPgUE452Ym6foEcDLQWRFte/EKM=
-X-Google-Smtp-Source: APXvYqyWy5/oNyQltvggk5llVfWmxDVecjdXdqT8LyftywvGUIZiGDH35I4yGteQIp9MBAUS6MZmEA==
-X-Received: by 2002:a17:902:102a:: with SMTP id
-	b39mr8585437pla.188.1557440812996; 
-	Thu, 09 May 2019 15:26:52 -0700 (PDT)
+	bh=i61mEex2vpahjushkr4y22Y6q9/HL9JKMG8d2fXnTE0=;
+	b=laPQ7SKYRyYYXRsSfRLxXFvuUY8O9PNQC/VSLUksu4xBRiegeGcp97j0btmi4MpQuv
+	OwLtHq/mwqN9L12SSYvsb1RVsyI4GXkTQNKhr9QI5yYYkh0fhopKpuDLNhbAQcvJcZKg
+	oq/efFuh20W2eZnoH5JitlBKlJCCO0qin+lMdAzSVWy+O8txawECnaGbowQaiuiJTqlM
+	RTrCSp5EVPKSIYv1Zb40UJcrf+93fcWdXr19oGEa8pVhbjXBHOdJ2bgpOqhR5/4ytvrM
+	tRCUCsf1Vg195jhHZu1kHZoSFXzkCi2NUkC3na0UCawEiQ+B2I7jpsB7PyJ5ThQB6ggm
+	GztQ==
+X-Gm-Message-State: APjAAAUFRILuRwQvaK8ekEDrl/+fWz1oQqsDdx+RXfI4JXp4LwMJT6vy
+	S12pu4o+Z76k4FgFlcGoof1ZI87eLHw=
+X-Google-Smtp-Source: APXvYqy4cWjJwrgeqwh2DKvQHCMk9UnZg2GJa3y2dibrGD7+FYLV33CZrmbHZ47jtqY8Iw8o6CmVHA==
+X-Received: by 2002:a63:5c5b:: with SMTP id n27mr9165423pgm.52.1557440814573; 
+	Thu, 09 May 2019 15:26:54 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231])
-	by smtp.gmail.com with ESMTPSA id m2sm4490521pfi.24.2019.05.09.15.26.51
+	by smtp.gmail.com with ESMTPSA id m2sm4490521pfi.24.2019.05.09.15.26.53
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 09 May 2019 15:26:51 -0700 (PDT)
+	Thu, 09 May 2019 15:26:53 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu,  9 May 2019 15:26:19 -0700
-Message-Id: <20190509222631.14271-16-richard.henderson@linaro.org>
+Date: Thu,  9 May 2019 15:26:20 -0700
+Message-Id: <20190509222631.14271-17-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190509222631.14271-1-richard.henderson@linaro.org>
 References: <20190509222631.14271-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::641
-Subject: [Qemu-devel] [PATCH v3 15/27] target/openrisc: Convert to
+X-Received-From: 2607:f8b0:4864:20::444
+Subject: [Qemu-devel] [PATCH v3 16/27] target/ppc: Convert to
  CPUClass::tlb_fill
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
@@ -77,136 +76,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Stafford Horne <shorne@gmail.com>
+Cc: qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc: Stafford Horne <shorne@gmail.com>
+Cc: qemu-ppc@nongnu.org
+Cc: David Gibson <david@gibson.dropbear.id.au>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/openrisc/cpu.h |  5 ++--
- target/openrisc/cpu.c |  5 ++--
- target/openrisc/mmu.c | 65 ++++++++++++++++++++++---------------------
- 3 files changed, 39 insertions(+), 36 deletions(-)
+ target/ppc/cpu.h                |  7 +++----
+ target/ppc/mmu_helper.c         | 22 +++++++++++++---------
+ target/ppc/translate_init.inc.c |  5 ++---
+ target/ppc/user_only_helper.c   | 14 ++++++++------
+ 4 files changed, 26 insertions(+), 22 deletions(-)
 
-diff --git a/target/openrisc/cpu.h b/target/openrisc/cpu.h
-index 88a8c70092..9473d94d0c 100644
---- a/target/openrisc/cpu.h
-+++ b/target/openrisc/cpu.h
-@@ -344,8 +344,9 @@ hwaddr openrisc_cpu_get_phys_page_debug(CPUState *cpu, vaddr addr);
- int openrisc_cpu_gdb_read_register(CPUState *cpu, uint8_t *buf, int reg);
- int openrisc_cpu_gdb_write_register(CPUState *cpu, uint8_t *buf, int reg);
- void openrisc_translate_init(void);
--int openrisc_cpu_handle_mmu_fault(CPUState *cpu, vaddr address, int size,
--                                  int rw, int mmu_idx);
-+bool openrisc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                           MMUAccessType access_type, int mmu_idx,
-+                           bool probe, uintptr_t retaddr);
- int cpu_openrisc_signal_handler(int host_signum, void *pinfo, void *puc);
- int print_insn_or1k(bfd_vma addr, disassemble_info *info);
+diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+index 5e7cf54b2f..d7f23ad5e0 100644
+--- a/target/ppc/cpu.h
++++ b/target/ppc/cpu.h
+@@ -1311,10 +1311,9 @@ void ppc_translate_init(void);
+  * is returned if the signal was handled by the virtual CPU.
+  */
+ int cpu_ppc_signal_handler(int host_signum, void *pinfo, void *puc);
+-#if defined(CONFIG_USER_ONLY)
+-int ppc_cpu_handle_mmu_fault(CPUState *cpu, vaddr address, int size, int rw,
+-                             int mmu_idx);
+-#endif
++bool ppc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
++                      MMUAccessType access_type, int mmu_idx,
++                      bool probe, uintptr_t retaddr);
  
-diff --git a/target/openrisc/cpu.c b/target/openrisc/cpu.c
-index d125236977..3816baee70 100644
---- a/target/openrisc/cpu.c
-+++ b/target/openrisc/cpu.c
-@@ -149,9 +149,8 @@ static void openrisc_cpu_class_init(ObjectClass *oc, void *data)
-     cc->set_pc = openrisc_cpu_set_pc;
-     cc->gdb_read_register = openrisc_cpu_gdb_read_register;
-     cc->gdb_write_register = openrisc_cpu_gdb_write_register;
--#ifdef CONFIG_USER_ONLY
--    cc->handle_mmu_fault = openrisc_cpu_handle_mmu_fault;
--#else
-+    cc->tlb_fill = openrisc_cpu_tlb_fill;
-+#ifndef CONFIG_USER_ONLY
-     cc->get_phys_page_debug = openrisc_cpu_get_phys_page_debug;
-     dc->vmsd = &vmstate_openrisc_cpu;
- #endif
-diff --git a/target/openrisc/mmu.c b/target/openrisc/mmu.c
-index 5dec68dcff..94c65a25fa 100644
---- a/target/openrisc/mmu.c
-+++ b/target/openrisc/mmu.c
-@@ -107,16 +107,42 @@ static void raise_mmu_exception(OpenRISCCPU *cpu, target_ulong address,
-     cpu->env.lock_addr = -1;
- }
+ #if !defined(CONFIG_USER_ONLY)
+ void ppc_store_sdr1(CPUPPCState *env, target_ulong value);
+diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
+index 1dbc9acb75..afcca50530 100644
+--- a/target/ppc/mmu_helper.c
++++ b/target/ppc/mmu_helper.c
+@@ -3057,15 +3057,9 @@ void helper_check_tlb_flush_global(CPUPPCState *env)
  
--int openrisc_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size,
--                                  int rw, int mmu_idx)
-+bool openrisc_cpu_tlb_fill(CPUState *cs, vaddr addr, int size,
-+                           MMUAccessType access_type, int mmu_idx,
-+                           bool probe, uintptr_t retaddr)
+ /*****************************************************************************/
+ 
+-/*
+- * try to fill the TLB and return an exception if error. If retaddr is
+- * NULL, it means that the function was called in C code (i.e. not
+- * from generated code or from helper.c)
+- *
+- * XXX: fix it to restore all registers
+- */
+-void tlb_fill(CPUState *cs, target_ulong addr, int size,
+-              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
++bool ppc_cpu_tlb_fill(CPUState *cs, vaddr addr, int size,
++                      MMUAccessType access_type, int mmu_idx,
++                      bool probe, uintptr_t retaddr)
  {
+     PowerPCCPU *cpu = POWERPC_CPU(cs);
+     PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cs);
+@@ -3078,7 +3072,17 @@ void tlb_fill(CPUState *cs, target_ulong addr, int size,
+         ret = cpu_ppc_handle_mmu_fault(env, addr, access_type, mmu_idx);
+     }
+     if (unlikely(ret != 0)) {
++        if (probe) {
++            return false;
++        }
+         raise_exception_err_ra(env, cs->exception_index, env->error_code,
+                                retaddr);
+     }
++    return true;
++}
++
++void tlb_fill(CPUState *cs, target_ulong addr, int size,
++              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
++{
++    ppc_cpu_tlb_fill(cs, addr, size, access_type, mmu_idx, false, retaddr);
+ }
+diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.inc.c
+index 0394a9ddad..3f847de36c 100644
+--- a/target/ppc/translate_init.inc.c
++++ b/target/ppc/translate_init.inc.c
+@@ -10592,9 +10592,8 @@ static void ppc_cpu_class_init(ObjectClass *oc, void *data)
+     cc->gdb_read_register = ppc_cpu_gdb_read_register;
+     cc->gdb_write_register = ppc_cpu_gdb_write_register;
+     cc->do_unaligned_access = ppc_cpu_do_unaligned_access;
 -#ifdef CONFIG_USER_ONLY
-     OpenRISCCPU *cpu = OPENRISC_CPU(cs);
--    raise_mmu_exception(cpu, address, EXCP_DPF);
--    return 1;
+-    cc->handle_mmu_fault = ppc_cpu_handle_mmu_fault;
 -#else
--    g_assert_not_reached();
-+    int excp = EXCP_DPF;
-+
++    cc->tlb_fill = ppc_cpu_tlb_fill;
 +#ifndef CONFIG_USER_ONLY
-+    int prot;
-+    hwaddr phys_addr;
-+
-+    if (mmu_idx == MMU_NOMMU_IDX) {
-+        /* The mmu is disabled; lookups never fail.  */
-+        get_phys_nommu(&phys_addr, &prot, addr);
-+        excp = 0;
-+    } else {
-+        bool super = mmu_idx == MMU_SUPERVISOR_IDX;
-+        int need = (access_type == MMU_INST_FETCH ? PAGE_EXEC
-+                    : access_type == MMU_DATA_STORE ? PAGE_WRITE
-+                    : PAGE_READ);
-+        excp = get_phys_mmu(cpu, &phys_addr, &prot, addr, need, super);
-+    }
-+
-+    if (likely(excp == 0)) {
-+        tlb_set_page(cs, addr & TARGET_PAGE_MASK,
-+                     phys_addr & TARGET_PAGE_MASK, prot,
-+                     mmu_idx, TARGET_PAGE_SIZE);
-+        return true;
-+    }
-+    if (probe) {
-+        return false;
-+    }
+     cc->get_phys_page_debug = ppc_cpu_get_phys_page_debug;
+     cc->vmsd = &vmstate_ppc_cpu;
  #endif
+diff --git a/target/ppc/user_only_helper.c b/target/ppc/user_only_helper.c
+index 2f1477f102..683c03390d 100644
+--- a/target/ppc/user_only_helper.c
++++ b/target/ppc/user_only_helper.c
+@@ -20,21 +20,24 @@
+ 
+ #include "qemu/osdep.h"
+ #include "cpu.h"
++#include "exec/exec-all.h"
+ 
+-int ppc_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size, int rw,
+-                             int mmu_idx)
 +
-+    raise_mmu_exception(cpu, addr, excp);
++bool ppc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
++                      MMUAccessType access_type, int mmu_idx,
++                      bool probe, uintptr_t retaddr)
+ {
+     PowerPCCPU *cpu = POWERPC_CPU(cs);
+     CPUPPCState *env = &cpu->env;
+     int exception, error_code;
+ 
+-    if (rw == 2) {
++    if (access_type == MMU_INST_FETCH) {
+         exception = POWERPC_EXCP_ISI;
+         error_code = 0x40000000;
+     } else {
+         exception = POWERPC_EXCP_DSI;
+         error_code = 0x40000000;
+-        if (rw) {
++        if (access_type == MMU_DATA_STORE) {
+             error_code |= 0x02000000;
+         }
+         env->spr[SPR_DAR] = address;
+@@ -42,6 +45,5 @@ int ppc_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size, int rw,
+     }
+     cs->exception_index = exception;
+     env->error_code = error_code;
+-
+-    return 1;
 +    cpu_loop_exit_restore(cs, retaddr);
  }
- 
- #ifndef CONFIG_USER_ONLY
-@@ -156,29 +182,6 @@ hwaddr openrisc_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
- void tlb_fill(CPUState *cs, target_ulong addr, int size,
-               MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
- {
--    OpenRISCCPU *cpu = OPENRISC_CPU(cs);
--    int prot, excp;
--    hwaddr phys_addr;
--
--    if (mmu_idx == MMU_NOMMU_IDX) {
--        /* The mmu is disabled; lookups never fail.  */
--        get_phys_nommu(&phys_addr, &prot, addr);
--        excp = 0;
--    } else {
--        bool super = mmu_idx == MMU_SUPERVISOR_IDX;
--        int need = (access_type == MMU_INST_FETCH ? PAGE_EXEC
--                    : access_type == MMU_DATA_STORE ? PAGE_WRITE
--                    : PAGE_READ);
--        excp = get_phys_mmu(cpu, &phys_addr, &prot, addr, need, super);
--    }
--
--    if (unlikely(excp)) {
--        raise_mmu_exception(cpu, addr, excp);
--        cpu_loop_exit_restore(cs, retaddr);
--    }
--
--    tlb_set_page(cs, addr & TARGET_PAGE_MASK,
--                 phys_addr & TARGET_PAGE_MASK, prot,
--                 mmu_idx, TARGET_PAGE_SIZE);
-+    openrisc_cpu_tlb_fill(cs, addr, size, access_type, mmu_idx, 0, retaddr);
- }
- #endif
 -- 
 2.17.1
 
