@@ -2,56 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBAB018BB9
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 16:29:37 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55631 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1150B18C3B
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 16:47:13 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:55881 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOk3E-0007om-Vu
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 10:29:37 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33374)
+	id 1hOkKG-0006UC-7y
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 10:47:12 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38186)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <imammedo@redhat.com>) id 1hOk1Z-000722-Qs
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 10:27:56 -0400
+	(envelope-from <bounces@canonical.com>) id 1hOkIm-0005zB-VA
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 10:45:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <imammedo@redhat.com>) id 1hOk1Y-0001a2-Ht
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 10:27:53 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40516)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <imammedo@redhat.com>)
-	id 1hOk1V-0001Yn-Gh; Thu, 09 May 2019 10:27:49 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 0FDEC3078DC9;
-	Thu,  9 May 2019 14:27:48 +0000 (UTC)
-Received: from Igors-MacBook-Pro (ovpn-204-72.brq.redhat.com [10.40.204.72])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 0B13F643F2;
-	Thu,  9 May 2019 14:27:42 +0000 (UTC)
-Date: Thu, 9 May 2019 16:27:36 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Hongbo Zhang <hongbo.zhang@linaro.org>
-Message-ID: <20190509162736.133418f9@Igors-MacBook-Pro>
-In-Reply-To: <CAHmQWvAM3Jj_49Kq45jUgHnLmN-p3Yn-+GPQChpfTo1BS5hUJg@mail.gmail.com>
-References: <1555560291-3415-1-git-send-email-hongbo.zhang@linaro.org>
-	<1555560291-3415-2-git-send-email-hongbo.zhang@linaro.org>
-	<CAFEAcA9rTL_4co1JvHrpJcqJqdrBsOiHo8sZS6wKWJOWphCCSA@mail.gmail.com>
-	<CAHmQWvAM3Jj_49Kq45jUgHnLmN-p3Yn-+GPQChpfTo1BS5hUJg@mail.gmail.com>
+	(envelope-from <bounces@canonical.com>) id 1hOkIl-0004X0-6b
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 10:45:40 -0400
+Received: from indium.canonical.com ([91.189.90.7]:41576)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hOkIk-0004UG-5H
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 10:45:38 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hOkIi-0001gB-UF
+	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 14:45:36 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id E09A52E80C7
+	for <qemu-devel@nongnu.org>; Thu,  9 May 2019 14:45:36 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.43]);
-	Thu, 09 May 2019 14:27:48 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Thu, 09 May 2019 14:34:45 -0000
+From: Brett Neumeier <1828429@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: bneumeier
+X-Launchpad-Bug-Reporter: Brett Neumeier (bneumeier)
+X-Launchpad-Bug-Modifier: Brett Neumeier (bneumeier)
+Message-Id: <155741248596.25660.12793938251081176084.malonedeb@chaenomeles.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18961";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 18a1fd991aa7b816d80374d13e2aa00d0fc98895
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v7 1/2] hw/arm: Add arm SBSA reference
- machine, skeleton part
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1828429] [NEW] qemu-system-aarch64 crashes with
+ assertion failed while running GCC 9 test suite
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -60,171 +63,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
-	Radoslaw Biernacki <radoslaw.biernacki@linaro.org>,
-	Ard Biesheuvel <ard.biesheuvel@linaro.org>,
-	QEMU Developers <qemu-devel@nongnu.org>,
-	Leif Lindholm <leif.lindholm@linaro.org>,
-	Eric Auger <eric.auger@redhat.com>, qemu-arm <qemu-arm@nongnu.org>
+Reply-To: Bug 1828429 <1828429@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 8 May 2019 19:22:53 +0800
-Hongbo Zhang <hongbo.zhang@linaro.org> wrote:
+Public bug reported:
 
-> On Tue, 30 Apr 2019 at 22:04, Peter Maydell <peter.maydell@linaro.org> wrote:
-> >
-> > On Thu, 18 Apr 2019 at 05:05, Hongbo Zhang <hongbo.zhang@linaro.org> wrote:
-> > >
-> > > For the Aarch64, there is one machine 'virt', it is primarily meant to
-> > > run on KVM and execute virtualization workloads, but we need an
-> > > environment as faithful as possible to physical hardware, for supporting
-> > > firmware and OS development for pysical Aarch64 machines.
-> > >
-> > > This patch introduces new machine type 'sbsa-ref' with main features:
-> > >  - Based on 'virt' machine type.
-> > >  - A new memory map.
-> > >  - CPU type cortex-a57.
-> > >  - EL2 and EL3 are enabled.
-> > >  - GIC version 3.
-> > >  - System bus AHCI controller.
-> > >  - System bus EHCI controller.
-> > >  - CDROM and hard disc on AHCI bus.
-> > >  - E1000E ethernet card on PCIE bus.
-> > >  - VGA display adaptor on PCIE bus.
-> > >  - No virtio deivces.
-> > >  - No fw_cfg device.
-> > >  - No ACPI table supplied.
-> > >  - Only minimal device tree nodes.
-> > >
-> > > Arm Trusted Firmware and UEFI porting to this are done accordingly, and
-> > > it should supply ACPI tables to load OS, the minimal device tree nodes
-> > > supplied from this platform are only to pass the dynamic info reflecting
-> > > command line input to firmware, not for loading OS.
-> > >
-> > > To make the review easier, this task is split into two patches, the
-> > > fundamental sceleton part and the peripheral devices part, this patch is
-> > > the first part.
-> > >
-> > > Signed-off-by: Hongbo Zhang <hongbo.zhang@linaro.org>
-> >
-> > Hi. This patch looks good to me. I have a couple of very minor
-> > comments below.
-> >
-> > The only other thing I'm not sure about is whether the recent work
-> > (both in master and in pending patchset) to add support for memory
-> > hotplug and nvdimms to the 'virt' board is applicable here. I've
-> > cc'd Igor and Eric to ask their opinion on that question.
-> >
-> My opinnion is, if we don't have conclusion before I send out next
-> iteration, we can just abandon it at this time, currently from my side
-> I don't see any reqirement for such features, what's more even if in
-> the future we need it, we can still add it by seperate patch, maybe we
-> probably have other features to be added in future too.
+I am using QEMU 4.0.0 on an x86_64 Linux 4.19.0 host, the guest is an
+Aarch64 linux 5.0.0 system. The same issue occurred on QEMU 3.1.0.
 
-It should be possible to add nvdimm and memory hotplug later.
-(I don't see big issues here, as long as it would be possible
-to carve out continuous range in address space for it.
+While running the GCC 9.1 test suite on the guest system, QEMU crashes
+with:
 
-Considering ABI to guest, one could reuse QEMU's notification/enumeration
-code for that or implement their own.
+qemu-system-aarch64: [...]/qemu-4.0.0/tcg/tcg.c:3952: tcg_gen_code:
+Assertion `s->gen_insn_end_off[num_insns] =3D=3D off' failed.
 
-PS:
-However there will be the same issues that we've had with Seabios when
-ACPI tables were generated there (i.e. cease-less invention of interfaces
-to to pass information from QEMU to firmware). But if I recall correctly,
-it seems that it's intentional design decision for this board,
-where user supplies/builds in firmware a board description (acpi/dt/...)
-manually.
+I am able to reproduce the issue reliably, which is encouraging. The
+full QEMU command line is:
 
- 
-> > > +static const MemMapEntry sbsa_ref_memmap[] = {
-> > > +    /* 512M boot ROM */
-> > > +    [SBSA_FLASH] =              {          0, 0x20000000 },
-> > > +    /* 512M secure memory */
-> > > +    [SBSA_SECURE_MEM] =         { 0x20000000, 0x20000000 },
-> > > +    /* Space reserved for CPU peripheral devices */
-> > > +    [SBSA_CPUPERIPHS] =         { 0x40000000, 0x00040000 },
-> > > +    [SBSA_GIC_DIST] =           { 0x40060000, 0x00010000 },
-> > > +    [SBSA_GIC_REDIST] =         { 0x40080000, 0x04000000 },
-> > > +    [SBSA_UART] =               { 0x60000000, 0x00001000 },
-> > > +    [SBSA_RTC] =                { 0x60010000, 0x00001000 },
-> > > +    [SBSA_GPIO] =               { 0x60020000, 0x00001000 },
-> > > +    [SBSA_SECURE_UART] =        { 0x60030000, 0x00001000 },
-> > > +    [SBSA_SECURE_UART_MM] =     { 0x60040000, 0x00001000 },
-> > > +    [SBSA_SMMU] =               { 0x60050000, 0x00020000 },
-> > > +    /* Space here reserved for more SMMUs */
-> > > +    [SBSA_AHCI] =               { 0x60100000, 0x00010000 },
-> > > +    [SBSA_EHCI] =               { 0x60110000, 0x00010000 },
-> > > +    /* Space here reserved for other devices */
-> > > +    [SBSA_PCIE_PIO] =           { 0x7fff0000, 0x00010000 },
-> > > +    /* 32-bit address PCIE MMIO space */
-> > > +    [SBSA_PCIE_MMIO] =          { 0x80000000, 0x70000000 },
-> > > +    /* 256M PCIE ECAM space */
-> > > +    [SBSA_PCIE_ECAM] =          { 0xf0000000, 0x10000000 },
-> > > +    /* ~1TB PCIE MMIO space (4GB to 1024GB boundary) */
-> > > +    [SBSA_PCIE_MMIO_HIGH] =     { 0x100000000ULL, 0xFF00000000ULL },
-> > > +    [SBSA_MEM] =                { 0x10000000000ULL, RAMLIMIT_BYTES },
-> > > +};
-> > > +
-> > > +static const int sbsa_ref_irqmap[] = {
-> > > +    [SBSA_UART] = 1,
-> > > +    [SBSA_RTC] = 2,
-> > > +    [SBSA_PCIE] = 3, /* ... to 6 */
-> > > +    [SBSA_GPIO] = 7,
-> > > +    [SBSA_SECURE_UART] = 8,
-> > > +    [SBSA_SECURE_UART_MM] = 9,
-> > > +    [SBSA_AHCI] = 10,
-> > > +    [SBSA_EHCI] = 11,
-> > > +};
-> >
-> > Since we only have one memory map and one irqmap, I think that
-> > rather than setting up vms->memmap[x] and vms->irqmap[x] and then
-> > always using those, we should just refer directly to the globals.
-> > The indirection in virt is originally because I was thinking we
-> > might want to have more than one layout (and because the code
-> > derives from the vexpress boards, which really do have two
-> > different layouts depending on the version), and then it turned
-> > out to be useful that we could pass the VirtMachineState* to
-> > the ACPI table generation code and let it get at the addresses
-> > and IRQ numbers that way. But neither of those applies here, I think.
-> >
-> Yes, good.
-> 
-> > > +
-> > > +static void sbsa_ref_init(MachineState *machine)
-> > > +{
-> > > +    SBSAMachineState *vms = SBSA_MACHINE(machine);
-> >
-> > This is a very trivial nitpick, but I think we should call
-> > this variable 'sms', not 'vms', since we changed the name of
-> > the struct type. (Same applies in some other functions later.)
-> >
-> Good catch, this is not 'trivial' I think, they should be changed obviously.
-> 
-> > > +    MachineClass *mc = MACHINE_GET_CLASS(machine);
-> > > +    MemoryRegion *sysmem = get_system_memory();
-> > > +    MemoryRegion *secure_sysmem = NULL;
-> > > +    MemoryRegion *ram = g_new(MemoryRegion, 1);
-> > > +    bool firmware_loaded = bios_name || drive_get(IF_PFLASH, 0, 0);
-> > > +    const CPUArchIdList *possible_cpus;
-> > > +    int n, sbsa_max_cpus;
-> > > +
-> > > +    if (strcmp(machine->cpu_type, ARM_CPU_TYPE_NAME("cortex-a57"))) {
-> > > +        error_report("sbsa-ref: CPU type other than the built-in "
-> > > +                     "cortex-a57 not supported");
-> > > +        exit(1);
-> > > +    }
-> > > +
-> > > +    if (kvm_enabled()) {
-> > > +        error_report("sbsa-ref: KVM is not supported at this machine");
-> >
-> > "for this machine".
-> >
-> > > +        exit(1);
-> > > +    }
-> >
-> > thanks
-> > -- PMM
+qemu-system-aarch64 -kernel kernel-5.0.0cbl1 -append "root=3D/dev/vda1 ro
+init=3D/sbin/init console=3DttyAMA0" -name guest=3Dcbl -drive
+file=3Dcbl.qcow2,index=3D0,media=3Ddisk,format=3Dqcow2 -drive
+file=3Dswap.qcow2,index=3D1,media=3Ddisk,format=3Dqcow2 -machine virt -cpu
+cortex-a57 -smp 4,sockets=3D1,cores=3D2,threads=3D2 -m size=3D8192 -netdev
+tap,id=3Dnetwork0,ifname=3Dtapcbl2,script=3Dno,downscript=3Dno -device virt=
+io-
+net-device,netdev=3Dnetwork0,mac=3Daa:bb:cc:dd:ee:02 -nographic
 
+The specific GCC test that causes QEMU to crash is vldX.c run from
+advsimd-intrinsics.exp; I can reproduce via "make check-gcc RUNTESTFLAGS
+=3Dadvsimd-intrinsics.exp=3DvldX.c"
+
+If there is anything I can do to further triage the issue, or gain more
+insight into what is going on, please let me know! I am eager to help
+however I can.
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1828429
+
+Title:
+  qemu-system-aarch64 crashes with assertion failed while running GCC 9
+  test suite
+
+Status in QEMU:
+  New
+
+Bug description:
+  I am using QEMU 4.0.0 on an x86_64 Linux 4.19.0 host, the guest is an
+  Aarch64 linux 5.0.0 system. The same issue occurred on QEMU 3.1.0.
+
+  While running the GCC 9.1 test suite on the guest system, QEMU crashes
+  with:
+
+  qemu-system-aarch64: [...]/qemu-4.0.0/tcg/tcg.c:3952: tcg_gen_code:
+  Assertion `s->gen_insn_end_off[num_insns] =3D=3D off' failed.
+
+  I am able to reproduce the issue reliably, which is encouraging. The
+  full QEMU command line is:
+
+  qemu-system-aarch64 -kernel kernel-5.0.0cbl1 -append "root=3D/dev/vda1
+  ro init=3D/sbin/init console=3DttyAMA0" -name guest=3Dcbl -drive
+  file=3Dcbl.qcow2,index=3D0,media=3Ddisk,format=3Dqcow2 -drive
+  file=3Dswap.qcow2,index=3D1,media=3Ddisk,format=3Dqcow2 -machine virt -cpu
+  cortex-a57 -smp 4,sockets=3D1,cores=3D2,threads=3D2 -m size=3D8192 -netdev
+  tap,id=3Dnetwork0,ifname=3Dtapcbl2,script=3Dno,downscript=3Dno -device vi=
+rtio-
+  net-device,netdev=3Dnetwork0,mac=3Daa:bb:cc:dd:ee:02 -nographic
+
+  The specific GCC test that causes QEMU to crash is vldX.c run from
+  advsimd-intrinsics.exp; I can reproduce via "make check-gcc
+  RUNTESTFLAGS=3Dadvsimd-intrinsics.exp=3DvldX.c"
+
+  If there is anything I can do to further triage the issue, or gain
+  more insight into what is going on, please let me know! I am eager to
+  help however I can.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1828429/+subscriptions
 
