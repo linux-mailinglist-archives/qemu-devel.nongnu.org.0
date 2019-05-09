@@ -2,117 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1836318EDC
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 19:22:46 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58371 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 67E4818EB3
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 19:09:44 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58110 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOmkn-0001cc-67
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 13:22:45 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50553)
-	by lists.gnu.org with esmtp (Exim 4.71) (envelope-from <n54@gmx.com>)
-	id 1hOmQP-00017M-9q
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:01:42 -0400
+	id 1hOmYB-00074x-Gk
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 13:09:43 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51060)
+	by lists.gnu.org with esmtp (Exim 4.71)
+	(envelope-from <laurent@vivier.eu>) id 1hOmRC-0001i4-P2
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:02:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <n54@gmx.com>) id 1hOmQN-0006Bx-QM
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:01:41 -0400
-Received: from mout.gmx.net ([212.227.17.21]:51215)
+	(envelope-from <laurent@vivier.eu>) id 1hOmRB-0006c7-MP
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:02:30 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:49069)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <n54@gmx.com>) id 1hOmQM-00069r-S6
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:01:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
-	s=badeba3b8450; t=1557421256;
-	bh=UaaR2XHEjAgofrU4SY9cqTiNUO3OlUB+Zp8FArS3luU=;
-	h=X-UI-Sender-Class:Subject:To:Cc:References:From:Date:In-Reply-To;
-	b=G4LOoSY4xdSStLGPAIOAq2secxPQGPDmyQwjKH8FRzv4V+/wp1r7hgu+ECOzNr3+c
-	03xgDfFJHOWShnSKK0FY4j8KX0Sx2rdRJkkngY9s0sA+g8bkX9NMh0t6WRavYrisaK
-	ROEfq5fTcArrG+HMFISAXnHLtlCUqsZX7zCKsjdI=
-X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
-Received: from [192.168.0.241] ([89.71.135.231]) by mail.gmx.com (mrgmx102
-	[212.227.17.174]) with ESMTPSA (Nemesis) id 0Ldbqw-1gz6a20hve-00ikmn;
-	Thu, 09 May 2019 19:00:56 +0200
-To: Gerd Hoffmann <kraxel@redhat.com>
-References: <20190508085645.11595-1-kraxel@redhat.com>
-	<20190508085645.11595-12-kraxel@redhat.com>
-	<461b0a0f-2843-afc3-6289-db08d6415771@gmx.com>
-	<20190509064716.pcxsg3lbbfqv5ltl@sirius.home.kraxel.org>
-From: Kamil Rytarowski <n54@gmx.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=n54@gmx.com; prefer-encrypt=mutual; keydata=
-	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
-	4XSbcg==
-Message-ID: <411bde53-b574-97a9-edf6-4516a88ae00a@gmx.com>
-Date: Thu, 9 May 2019 19:01:39 +0200
-User-Agent: Mozilla/5.0 (X11; NetBSD amd64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.0
+	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hOmRB-0006bf-DD
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:02:29 -0400
+Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
+	(mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
+	1MDyoW-1hWVg617P2-009wnW; Thu, 09 May 2019 19:02:18 +0200
+To: Giuseppe Musacchio <thatlemon@gmail.com>, qemu-devel@nongnu.org
+References: <20190503122007.lkjsvztgt4ycovac@debian>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <466e8902-df09-1f20-1c9e-9e625608744e@vivier.eu>
+Date: Thu, 9 May 2019 19:02:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190509064716.pcxsg3lbbfqv5ltl@sirius.home.kraxel.org>
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature";
-	boundary="5Cj71KibBLvEEalKQuIAIY8sg6m9CI5kR"
-X-Provags-ID: V03:K1:tzNFe+KqnUYadl6MuJfwHPlSOFZTLYccM6/ec9fSs2Oh6ejgsvd
-	iD8ag/CVtCUToX7UbEtcHSQTXXzAMYub34lqjP8YFMtrxpxImCNEMgpkwbH8F1cjhkODVuk
-	kVkCPxuZAQL57MyzgiJszCsFqHoW7sJ2k4QDqqa89bNxkCZBrPkCaZP+2Naib0wI35IMpjm
-	EQ+4zlc5Xd1rJC++SDr2w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:r8uBXtrg8b4=:LJ/6OWp+Wdx02DZKUB4sID
-	rND4nJiu7LydbPuO2L2Nhb8JZaMn2eexAl0FKedUexbZjVk9apGkYxi7ImirE1ylw3vhym1XI
-	19XvUk3rAQZHIvylfaU3oAkwjzRK7E6ca45JcQOYQjKKYgYHqJQlf1mNwM6teguHjiifeM76w
-	GoAluBOoxQnCcajvHsTnNEMPBuSrS4zUTL7XxUz8UcMBNyOsRerdKHWRD1MaCdGkrLwQWb4WV
-	ZWOTnyQYh1uzGpiirg9ZtC9tArvEF0LcKbtK1mTXC6JbOtdHqhQKHmbEGgnNMS9Y7Z1IrOSW2
-	hBA0nh3mr6eEptiH+VeMQKXYoG5KDDuZPtzLlBc9697sK/TBnve81e4NRIKBSkINk8pK70+xR
-	WsQ9yE1FA6rm+6/nN6BqCoM+FwN2r6aYl9bO5GUrOcMSriXWXlXVNhyjBZuYOynQFQM17GyBo
-	n8aezKCy+UZf14mRNC5gEaQ8IYIFSvrXVPGkG5UipaFDBN3H9ukBP0bloPibQAWH1b6aSUw01
-	0nwQ1fVRRvUj7Vce5KkCj3w1JvHNLv22WsD0hq3fmQ0nh3zWMvHCyIX1G+ogKsF5KRAdgclB5
-	d2qo92PGdR28h5Qv4GpZaGi+m5k5OWtjq/uT21U0pVzs6LR/0xMfUBFYSg/iGhr2Vk/a/FGNQ
-	pEi5rVtd+K+0RI9K0/wAfQoz8SPZFI8whbciVg4fhWLZqxS4HXEzHrZQmK6huvjq3Pl4c7uKJ
-	/dpsK+/SfsJuwBGGCz5sjodgk9RJDG41FZEfj2VBhaC29asQAnV4fcPOHBjm8iiGzOEsaNtle
-	y/hM8x0aDWtRtcJn7sp6SZ3CNiz2feIB4fD+zEgjkj1h+4mP7nclSrhgws4x4oOE3eOq3+f2t
-	1yMde81KxYvU9h0+cCHD4lKzde/tnEJ+UJzeWkjyo=
+In-Reply-To: <20190503122007.lkjsvztgt4ycovac@debian>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:jQVOXQQ9GYng1acHe89GwQNWYZj+tHoSJzGrxHWxUI8x4LPFXLg
+	NNxcT+SU1tXU1znxTdNynY005fDHrYmb2LTJOINBlBDWlmBaQW4GNn1pDrijdZUJ3bgf0wD
+	4WhvmQMorLOxini4IIdTPmM1CF/bIjM5GVS8GZXkjF1RuHqOV92w3DBs1DJJ59b9Vw9X4Uc
+	ylccJ+utLkQy3FG853+jw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:dywa3hX6Q6I=:S6g0RkvMFzJoDnPib75HVC
+	5rQ/ZFbV8WP0+SrVShVLhW/uUJFLtRMHpDvfg2j6NHOqJ72xvGHwJTPEgBMtCnpf7zWHK8sKO
+	f10dDnwNQ2uULCHufiWHLc7QJ6PNUoosgfYiZa07OXbU/chtCIcKnEoS9OHtD0kq2eUJjDEGg
+	QFWsB2FiIsYvNyVZu3aHyvX/Gn2GSnZ0tEpFSZemVc2nhAXNIpij7833VPHoMAVdvrHUoGSfM
+	sqWVWhcKMEe7Ses9fEOCL1na/J4yX885QkJ8ZhoQPGX8au9B2awqBgBqPc7WF7ZD8DSCBP1ID
+	WoUglz/G+86qvwhb/O3BrW+v5RJhldSIEuNasvAfXerL3zvvcv9yf5YLsilJWuhVnNQTBtJsh
+	KyYKdYbTfvL2wPiGLUIuipw6unKV7H5d+cRIoevVAzIN4nAXM9yPFiYSWPw1cbMQBoTzML21i
+	5GsTUWKxUkAm77gpHeTBONNSjtuetAXjMmhHIcp+/wd0WsL5xHODHzFAo0yjQveawaP+vcmR/
+	SZ9kErEtuxtjMGfPioo4o/vYCPVsrt+fTbkFP72jDCxgUeuYIXCTKQOH5+YFmrR7KxYfG0XZZ
+	ZsP30WD1ec99KekIspIAt1TvRuEOg/dv+qbE44japu1hfmYJt+BBisUI9HWJM9aZSP6nNNifn
+	h5NzQf/3EeSybz8DesVD3j1LzphEnTqJc5vljdQJJR6oJhWW5tuB7+9j2pM1JQQfmeVM1TqP0
+	RAl34hkMevynBpK8jq9+ONV9RoOOHV0VtHRqjdB1E1+JxZzTTdGj2HEr/Zg=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.21
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PATCH 11/13] tests/vm: netbsd autoinstall,
- using serial console
+X-Received-From: 212.227.126.134
+Subject: Re: [Qemu-devel] [PATCH v2] linux-user: elf: Map empty PT_LOAD
+ segments
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -124,119 +66,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Ed Maste <emaste@freebsd.org>,
-	=?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
-	qemu-devel@nongnu.org, Kamil Rytarowski <kamil@netbsd.org>,
-	=?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
-	Li-Wen Hsu <lwhsu@freebsd.org>, Brad Smith <brad@comstyle.com>
+Cc: peter.maydell@linaro.org, riku.voipio@iki.fi
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---5Cj71KibBLvEEalKQuIAIY8sg6m9CI5kR
-From: Kamil Rytarowski <n54@gmx.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Cc: qemu-devel@nongnu.org, Fam Zheng <fam@euphon.net>,
- Ed Maste <emaste@freebsd.org>, =?UTF-8?Q?Alex_Benn=c3=a9e?=
- <alex.bennee@linaro.org>, Kamil Rytarowski <kamil@netbsd.org>,
- =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
- Li-Wen Hsu <lwhsu@freebsd.org>, Brad Smith <brad@comstyle.com>
-Message-ID: <411bde53-b574-97a9-edf6-4516a88ae00a@gmx.com>
-Subject: Re: [Qemu-devel] [PATCH 11/13] tests/vm: netbsd autoinstall, using
- serial console
-References: <20190508085645.11595-1-kraxel@redhat.com>
- <20190508085645.11595-12-kraxel@redhat.com>
- <461b0a0f-2843-afc3-6289-db08d6415771@gmx.com>
- <20190509064716.pcxsg3lbbfqv5ltl@sirius.home.kraxel.org>
-In-Reply-To: <20190509064716.pcxsg3lbbfqv5ltl@sirius.home.kraxel.org>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+On 03/05/2019 14:20, Giuseppe Musacchio wrote:
+> Some PT_LOAD segments may be completely zeroed out and their p_filesize
+> is zero, in that case the loader should just allocate a page that's at
+> least p_memsz bytes large (plus eventual alignment padding).
+> 
+> Calling zero_bss does this job for us, all we have to do is make sure we
+> don't try to mmap a zero-length page.
+> 
+> Signed-off-by: Giuseppe Musacchio <thatlemon@gmail.com>
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> ---
+>   linux-user/elfload.c | 18 +++++++++++++-----
+>   1 file changed, 13 insertions(+), 5 deletions(-)
+> 
+> diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+> index c1a2602..138735b 100644
+> --- a/linux-user/elfload.c
+> +++ b/linux-user/elfload.c
+> @@ -2366,11 +2366,19 @@ static void load_elf_image(const char *image_name, int image_fd,
+>               vaddr_ps = TARGET_ELF_PAGESTART(vaddr);
+>               vaddr_len = TARGET_ELF_PAGELENGTH(eppnt->p_filesz + vaddr_po);
+>   
+> -            error = target_mmap(vaddr_ps, vaddr_len,
+> -                                elf_prot, MAP_PRIVATE | MAP_FIXED,
+> -                                image_fd, eppnt->p_offset - vaddr_po);
+> -            if (error == -1) {
+> -                goto exit_perror;
+> +            /*
+> +             * Some segments may be completely empty without any backing file
+> +             * segment, in that case just let zero_bss allocate an empty buffer
+> +             * for it.
+> +             */
+> +            if (eppnt->p_filesz != 0) {
+> +                error = target_mmap(vaddr_ps, vaddr_len, elf_prot,
+> +                                    MAP_PRIVATE | MAP_FIXED,
+> +                                    image_fd, eppnt->p_offset - vaddr_po);
+> +
+> +                if (error == -1) {
+> +                    goto exit_perror;
+> +                }
+>               }
+>   
+>               vaddr_ef = vaddr + eppnt->p_filesz;
+> 
 
-On 09.05.2019 08:47, Gerd Hoffmann wrote:
->   Hi,
->=20
->> I recommend to add one extra step into generated image:
->>
->> echo security.pax.mprotect.enabled=3D0 >> /etc/sysctl.conf
->=20
-> Done.
->=20
+Applied to my linux-user branch.
 
-Thanks! Once there will be PaX MPROTECT support in qemu, we can and
-should drop it.
-
->> Alternatively (and preferably) enhance qemu to handle RWX allocation f=
-or
->> JIT on NetBSD.
->>
->> Example in libffi.
->>
->> https://github.com/libffi/libffi/commit/2bfcd29955c02b67fa10a68cc4200f=
-6838181e0f
->=20
-> So, from looking at the patch it seems you need two mappings of the sam=
-e
-> page, one writable and one executable.
-> > Or, maybe it is also possible with one mapping which is writable firs=
-t
-> when you fill it with code, then gets flipped over to executable when
-> you are done with the initialization and want use it.
->=20
-> Is that correct?
->=20
-
-If we need RWX in the same time we need double mapping (RW and RX). This
-has been done in libffi.
-
-If we can switch between RW and RX it's sufficient to use a single
-mapping, however there is need to allocate a memory region with mmap(2)
-using the PROT_MPROTECT() macro.
-
-Example from the LLVM code:
-
-https://github.com/llvm-mirror/llvm/blob/90dd07f5c5946a3d9d6861effe329162=
-0c88c06f/lib/Support/Unix/Memory.inc#L99
-
-> I suspect supporting that in tcg isn't exactly trivial.
-> Does OpenBSD work the same way btw?
->=20
-
-No. OpenBSD does not implement escape API.
-
-There is need to pass "-z wxneeded" to the linker flags, but I'm not the
-right person to test this or write a patch.
-
-https://man.openbsd.org/ld
-
-FreeBSD does not support W^X.
-
-> cheers,
->   Gerd
->=20
-
-
-
---5Cj71KibBLvEEalKQuIAIY8sg6m9CI5kR
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEELaxVpweEzw+lMDwuS7MI6bAudmwFAlzUXPoACgkQS7MI6bAu
-dmxethAArf0pz191LeK7D7L2UNeLPZjyFch3mVIgymcrZcoHf4r1mvz01jI4T7Bv
-Ynf5FaJcneZ5PaYqjTUouRvZlYNiTSmWYo+iE43Mg/zCBbeWoKkuCLq1GKEMM53H
-/zH3N2gfyU0x4sQZFrh/+AFfjolIWZbTA4Y+6Q7PyWdN5v+F0ZsNtxDln/16he6d
-W6GvKO1m7juJYzjPIgmtC0m3+VdoO5qiZ/zSpiD4u6K1ZpM41toPiLESmD1qQxgp
-ws3b/aSlw8pZbM5K9VSdVjF4MWPCAwCzsy7XbGtMQZScKPAc7lNslInsgzlZMYfU
-pCYU/c6VdlExaENngb7sp08D1DqGp4KeC4Tvg2m9IawCOL1vBzXrqk8B8s80icfa
-GeDE6zz7GMMm5ZfuMcGcBaWjxnvJS2deoQpoyvDJx3deKNdA4EmrFiyRezlxqYPn
-kjqZKqBLIXUUdZhS2ywWqHjDpCDTv/odDbrhtCslNIS1qvcQVaH7mH1cR7L52VSv
-r5KA+vOZzGoho0CC9dORK4C6J770KlgnTGNe0Bxdziq+2xy4Qazdzph9mCUBFCAp
-AYQ8EQEiORyPfH6hk5zZouggxZbCLiBNMNz+4zCSK8BZuIynbgpKBgE51LkGSiMO
-BDVQ5fN1H4YWg8W4dhG37j9C6ghMvY8B0+yY74AVvGLTKh54dao=
-=JxNF
------END PGP SIGNATURE-----
-
---5Cj71KibBLvEEalKQuIAIY8sg6m9CI5kR--
+Thanks,
+Laurent
 
