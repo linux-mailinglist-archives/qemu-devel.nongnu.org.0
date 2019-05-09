@@ -2,69 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 73B9219556
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 00:42:07 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33649 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 039291955B
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 00:44:47 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33690 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOrjq-0003hM-EM
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 18:42:06 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33210)
+	id 1hOrmQ-0005z9-66
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 18:44:46 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33243)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOrVN-0007zc-MU
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 18:27:11 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hOrVP-00080H-NO
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 18:27:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOrVL-0005cy-T5
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 18:27:09 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:41939)
+	(envelope-from <richard.henderson@linaro.org>) id 1hOrVN-0005dZ-Q7
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 18:27:11 -0400
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:33756)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hOrVL-0005c8-9V
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 18:27:07 -0400
-Received: by mail-pf1-x442.google.com with SMTP id l132so2041626pfc.8
-	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 15:27:06 -0700 (PDT)
+	id 1hOrVM-0005cl-TB
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 18:27:09 -0400
+Received: by mail-pl1-x644.google.com with SMTP id y3so1820011plp.0
+	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 15:27:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=6SefBoWhVf7/YvoPOnvszs/RCMWdrbDkY7M6I88brqA=;
-	b=L/GpDSRZ4ItoK09yAgGBxWKh0uQ4rsnaY+D0ZTwZjnVMX+sihFDQ0dcfblOk9BOEzW
-	f5jKuWAyuwlRQ1mKiCX/HelNffzDtjJzAvfQwfaLQm3p/MlTuDpHyv1d2ZC9EUjWdDgs
-	e9tfXn048LO0n4OWEaUt4CUarLGfXbrfCsiyuiJ8BoCOT6obnlIWZAMVutTNUa7P4mY2
-	bQh8e3cSrVQThxOLDW1dFfnBbUXuQee6Qn5D9z4m1fAt4z26DApL925vLfN5pelcUK4c
-	QbRDO1/nH3rrMeaRY2N5/8CxdAo4RspipCubUnXqz/2+zuCA2kU3rZwCCSK6HHIja82w
-	YPAA==
+	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
+	:content-transfer-encoding;
+	bh=bMzkXC60BcwoBHMpxgJsN6EUo1CWOtE3C+TOmL7271Q=;
+	b=ResWjWV5KJkQBdGlgZrPOyo6k2tBirWGsNl1YTsZdxFJjrMLe1e3tFP1xKu+sc9e2l
+	/QnBIp546R9lLCmEuyMVYVHsvqOHpza6lAebZTyX9ErXqEL3UBZifsNXh/PtcnIfF8m5
+	FXgNiWlXUuKbu/q1aqsvYY5RWSCmMF5+lJ/0+dRLcnh5UNgBRvELkgfIOASJ+3zK3JU3
+	BlvkV2NzXv7RmK4weppm4/oGYDKNcS6aEM4alP8t+6RFHsbf5c0NjXSTiHUVuxWRH0hd
+	/XOCexMqSn91tK9p0s4+5nFgjMkjxiO3iIFnQTVtwBnyzueWIcsJqmtY86D7OibQxjVz
+	5EeQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=6SefBoWhVf7/YvoPOnvszs/RCMWdrbDkY7M6I88brqA=;
-	b=cwOaQmPzbSIPqjUmQtUflf+P0V95G3A155Z/xJtGe9ECV5Dq6ydSRgMXpJoj2UHjb7
-	1utc+2BdDYhRFjodSS/k/h5KMZq59FY3s0zTsOPu2gdhKlpQJzYs2g1nInRPoZ39dbbM
-	P/wUrI1Quw1YwUBGxUtruJtVvnq8U/Bi/ZQWaklSqStbpko3xjwgutHuNIWtgKm3V5vF
-	A+YhJQuy+6AkJDhAz7jwAuyU4v0w3ztA1NM6+IZH0U+N7JhqMwc8FNJqs9+/5ZrxxZDm
-	EIIwqswL/BV8CS6fztt3qEcJcnSlzfbrgsYcv42Dca1GpUpYyfoXUXzfozpQ1vb3bWx8
-	NN5Q==
-X-Gm-Message-State: APjAAAU1B+Jo6d124RijGfg6Qutdy6BF1BRcWSbzWLzrADHH/DGqdQ1Q
-	iqDYN2twlkdGllOXNaLKx11NKxreREc=
-X-Google-Smtp-Source: APXvYqzyq0g6QkekX6jIs5AJVKArzDtNAmUfVTRH1UUdNfg1s8lV4Np8ErVjJnN+rFENgtjegSCzzw==
-X-Received: by 2002:a63:5742:: with SMTP id h2mr9019931pgm.194.1557440825390; 
-	Thu, 09 May 2019 15:27:05 -0700 (PDT)
+	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=bMzkXC60BcwoBHMpxgJsN6EUo1CWOtE3C+TOmL7271Q=;
+	b=RQRL+rl0wt5yOg70oJdy3rqqzAu9odetUmtAABphBAdHAScPrQXMboZU14VULuZgYl
+	8OAR6L/oHNZUgADgU2bW/mwXsB1yXlKATYtdFC2vMrbu/ax2ErPk2Oa5hCm55BHSG6mY
+	/YjA9+Ze77LDEw0n2VKtjGhUU9RcHRRLXUqqQ8DwwhEbkLj4yd7w0CiC9VDlJHoOGKin
+	2PivVJMgMYkZCza89W2uwVuDEkedeXYaBhf3qYqcZXe7XEbxjo6NwTyu62r753KJ6Pfd
+	/VY5r9lj15TC1JQXIPpJnMbOKOFXPn1gPPuS8DWARrBYMtGJecmMdjM5KpEdE7Mqpnsj
+	vnUg==
+X-Gm-Message-State: APjAAAU99YE2pbXZUI1T77JCJMQ342E+y0Z/DBXnM6znCaxN3deAQ1dI
+	8qTYP0kw53i0uMo8ZBPP+oSjW01BNiE=
+X-Google-Smtp-Source: APXvYqwMmTrBOSO0MZpmV8loFJHFGT3XNryj7mTZE8GbeU0uRILun9MtHCm6M/Pw/35OO2px5kSsgg==
+X-Received: by 2002:a17:902:3281:: with SMTP id
+	z1mr8445158plb.44.1557440826680; 
+	Thu, 09 May 2019 15:27:06 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231])
-	by smtp.gmail.com with ESMTPSA id m2sm4490521pfi.24.2019.05.09.15.27.04
+	by smtp.gmail.com with ESMTPSA id m2sm4490521pfi.24.2019.05.09.15.27.05
+	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 09 May 2019 15:27:04 -0700 (PDT)
+	Thu, 09 May 2019 15:27:05 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu,  9 May 2019 15:26:28 -0700
-Message-Id: <20190509222631.14271-25-richard.henderson@linaro.org>
+Date: Thu,  9 May 2019 15:26:29 -0700
+Message-Id: <20190509222631.14271-26-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190509222631.14271-1-richard.henderson@linaro.org>
 References: <20190509222631.14271-1-richard.henderson@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::442
-Subject: [Qemu-devel] [PATCH v3 24/27] target/xtensa: Convert to
- CPUClass::tlb_fill
+X-Received-From: 2607:f8b0:4864:20::644
+Subject: [Qemu-devel] [PATCH v3 25/27] tcg: Use CPUClass::tlb_fill in
+ cputlb.c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -76,132 +82,423 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Max Filippov <jcmvbkbc@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc: Max Filippov <jcmvbkbc@gmail.com>
+We can now use the CPUClass hook instead of a named function.
+
+Create a static tlb_fill function to avoid other changes within
+cputlb.c.  This also isolates the asserts within.  Remove the
+named tlb_fill function from all of the targets.
+
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v2: Keep user-only and system tlb_fill separate.
----
- target/xtensa/cpu.h    |  5 +++--
- target/xtensa/cpu.c    |  5 ++---
- target/xtensa/helper.c | 39 ++++++++++++++++++++++++++-------------
- 3 files changed, 31 insertions(+), 18 deletions(-)
+ include/exec/exec-all.h    |  9 ---------
+ accel/tcg/cputlb.c         | 19 +++++++++++++++++++
+ target/alpha/helper.c      |  6 ------
+ target/arm/helper.c        |  8 --------
+ target/cris/helper.c       |  6 ------
+ target/hppa/mem_helper.c   |  6 ------
+ target/i386/excp_helper.c  |  8 --------
+ target/lm32/helper.c       |  6 ------
+ target/m68k/helper.c       |  8 --------
+ target/microblaze/helper.c |  6 ------
+ target/mips/helper.c       |  6 ------
+ target/moxie/helper.c      |  6 ------
+ target/nios2/helper.c      |  6 ------
+ target/openrisc/mmu.c      |  6 ------
+ target/ppc/mmu_helper.c    |  6 ------
+ target/riscv/cpu_helper.c  |  6 ------
+ target/s390x/excp_helper.c |  6 ------
+ target/sh4/helper.c        |  8 --------
+ target/sparc/ldst_helper.c |  6 ------
+ target/tricore/helper.c    |  6 ------
+ target/unicore32/softmmu.c |  6 ------
+ target/xtensa/helper.c     |  6 ------
+ 22 files changed, 19 insertions(+), 137 deletions(-)
 
-diff --git a/target/xtensa/cpu.h b/target/xtensa/cpu.h
-index 5d23e1345b..68d89f8faf 100644
---- a/target/xtensa/cpu.h
-+++ b/target/xtensa/cpu.h
-@@ -552,8 +552,9 @@ static inline XtensaCPU *xtensa_env_get_cpu(const CPUXtensaState *env)
- #define ENV_OFFSET offsetof(XtensaCPU, env)
+diff --git a/include/exec/exec-all.h b/include/exec/exec-all.h
+index 58e988b3b1..31f0ecc461 100644
+--- a/include/exec/exec-all.h
++++ b/include/exec/exec-all.h
+@@ -474,15 +474,6 @@ static inline void assert_no_pages_locked(void)
+  */
+ struct MemoryRegionSection *iotlb_to_section(CPUState *cpu,
+                                              hwaddr index, MemTxAttrs attrs);
+-
+-/*
+- * Note: tlb_fill() can trigger a resize of the TLB. This means that all of the
+- * caller's prior references to the TLB table (e.g. CPUTLBEntry pointers) must
+- * be discarded and looked up again (e.g. via tlb_entry()).
+- */
+-void tlb_fill(CPUState *cpu, target_ulong addr, int size,
+-              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr);
+-
+ #endif
  
- 
--int xtensa_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int rw, int size,
--                                int mmu_idx);
-+bool xtensa_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                         MMUAccessType access_type, int mmu_idx,
-+                         bool probe, uintptr_t retaddr);
- void xtensa_cpu_do_interrupt(CPUState *cpu);
- bool xtensa_cpu_exec_interrupt(CPUState *cpu, int interrupt_request);
- void xtensa_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr, vaddr addr,
-diff --git a/target/xtensa/cpu.c b/target/xtensa/cpu.c
-index a54dbe4260..da1236377e 100644
---- a/target/xtensa/cpu.c
-+++ b/target/xtensa/cpu.c
-@@ -181,9 +181,8 @@ static void xtensa_cpu_class_init(ObjectClass *oc, void *data)
-     cc->gdb_read_register = xtensa_cpu_gdb_read_register;
-     cc->gdb_write_register = xtensa_cpu_gdb_write_register;
-     cc->gdb_stop_before_watchpoint = true;
--#ifdef CONFIG_USER_ONLY
--    cc->handle_mmu_fault = xtensa_cpu_handle_mmu_fault;
--#else
-+    cc->tlb_fill = xtensa_cpu_tlb_fill;
-+#ifndef CONFIG_USER_ONLY
-     cc->do_unaligned_access = xtensa_cpu_do_unaligned_access;
-     cc->get_phys_page_debug = xtensa_cpu_get_phys_page_debug;
-     cc->do_transaction_failed = xtensa_cpu_do_transaction_failed;
-diff --git a/target/xtensa/helper.c b/target/xtensa/helper.c
-index 5f37f378a3..5c94f934dd 100644
---- a/target/xtensa/helper.c
-+++ b/target/xtensa/helper.c
-@@ -240,19 +240,21 @@ void xtensa_cpu_list(void)
- 
- #ifdef CONFIG_USER_ONLY
- 
--int xtensa_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size, int rw,
--                                int mmu_idx)
-+bool xtensa_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                         MMUAccessType access_type, int mmu_idx,
-+                         bool probe, uintptr_t retaddr)
- {
-     XtensaCPU *cpu = XTENSA_CPU(cs);
-     CPUXtensaState *env = &cpu->env;
- 
-     qemu_log_mask(CPU_LOG_INT,
-                   "%s: rw = %d, address = 0x%08" VADDR_PRIx ", size = %d\n",
--                  __func__, rw, address, size);
-+                  __func__, access_type, address, size);
-     env->sregs[EXCVADDR] = address;
--    env->sregs[EXCCAUSE] = rw ? STORE_PROHIBITED_CAUSE : LOAD_PROHIBITED_CAUSE;
-+    env->sregs[EXCCAUSE] = (access_type == MMU_DATA_STORE ?
-+                            STORE_PROHIBITED_CAUSE : LOAD_PROHIBITED_CAUSE);
-     cs->exception_index = EXC_USER;
--    return 1;
-+    cpu_loop_exit_restore(cs, retaddr);
+ #if defined(CONFIG_USER_ONLY)
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index f2f618217d..dfcd9ae168 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -855,6 +855,25 @@ static inline ram_addr_t qemu_ram_addr_from_host_nofail(void *ptr)
+     return ram_addr;
  }
  
- #else
-@@ -273,31 +275,42 @@ void xtensa_cpu_do_unaligned_access(CPUState *cs,
++/*
++ * Note: tlb_fill() can trigger a resize of the TLB. This means that all of the
++ * caller's prior references to the TLB table (e.g. CPUTLBEntry pointers) must
++ * be discarded and looked up again (e.g. via tlb_entry()).
++ */
++static void tlb_fill(CPUState *cpu, target_ulong addr, int size,
++                     MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
++{
++    CPUClass *cc = CPU_GET_CLASS(cpu);
++    bool ok;
++
++    /*
++     * This is not a probe, so only valid return is success; failure
++     * should result in exception + longjmp to the cpu loop.
++     */
++    ok = cc->tlb_fill(cpu, addr, size, access_type, mmu_idx, false, retaddr);
++    assert(ok);
++}
++
+ static uint64_t io_readx(CPUArchState *env, CPUIOTLBEntry *iotlbentry,
+                          int mmu_idx,
+                          target_ulong addr, uintptr_t retaddr,
+diff --git a/target/alpha/helper.c b/target/alpha/helper.c
+index 929a217455..5fe9c87912 100644
+--- a/target/alpha/helper.c
++++ b/target/alpha/helper.c
+@@ -275,12 +275,6 @@ bool alpha_cpu_tlb_fill(CPUState *cs, vaddr addr, int size,
+                  prot, mmu_idx, TARGET_PAGE_SIZE);
+     return true;
+ }
+-
+-void tlb_fill(CPUState *cs, target_ulong addr, int size,
+-              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
+-{
+-    alpha_cpu_tlb_fill(cs, addr, size, access_type, mmu_idx, false, retaddr);
+-}
+ #endif /* USER_ONLY */
+ 
+ void alpha_cpu_do_interrupt(CPUState *cs)
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index f1a2b94ddb..e2d5c8e34f 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -13127,14 +13127,6 @@ bool arm_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+ #endif
+ }
+ 
+-#ifndef CONFIG_USER_ONLY
+-void tlb_fill(CPUState *cs, target_ulong addr, int size,
+-              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
+-{
+-    arm_cpu_tlb_fill(cs, addr, size, access_type, mmu_idx, false, retaddr);
+-}
+-#endif
+-
+ void HELPER(dc_zva)(CPUARMState *env, uint64_t vaddr_in)
+ {
+     /* Implement DC ZVA, which zeroes a fixed-length block of memory.
+diff --git a/target/cris/helper.c b/target/cris/helper.c
+index 69464837c8..b5159b8357 100644
+--- a/target/cris/helper.c
++++ b/target/cris/helper.c
+@@ -123,12 +123,6 @@ bool cris_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     cpu_loop_exit(cs);
+ }
+ 
+-void tlb_fill(CPUState *cs, target_ulong addr, int size,
+-              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
+-{
+-    cris_cpu_tlb_fill(cs, addr, size, access_type, mmu_idx, false, retaddr);
+-}
+-
+ void crisv10_cpu_do_interrupt(CPUState *cs)
+ {
+     CRISCPU *cpu = CRIS_CPU(cs);
+diff --git a/target/hppa/mem_helper.c b/target/hppa/mem_helper.c
+index 5cee0c19b1..0fd3ac6645 100644
+--- a/target/hppa/mem_helper.c
++++ b/target/hppa/mem_helper.c
+@@ -260,12 +260,6 @@ bool hppa_cpu_tlb_fill(CPUState *cs, vaddr addr, int size,
+     return true;
+ }
+ 
+-void tlb_fill(CPUState *cs, target_ulong addr, int size,
+-              MMUAccessType type, int mmu_idx, uintptr_t retaddr)
+-{
+-    hppa_cpu_tlb_fill(cs, addr, size, type, mmu_idx, false, retaddr);
+-}
+-
+ /* Insert (Insn/Data) TLB Address.  Note this is PA 1.1 only.  */
+ void HELPER(itlba)(CPUHPPAState *env, target_ulong addr, target_ureg reg)
+ {
+diff --git a/target/i386/excp_helper.c b/target/i386/excp_helper.c
+index 68bf8e3f7c..fa1ead6404 100644
+--- a/target/i386/excp_helper.c
++++ b/target/i386/excp_helper.c
+@@ -700,11 +700,3 @@ bool x86_cpu_tlb_fill(CPUState *cs, vaddr addr, int size,
+     return true;
+ #endif
+ }
+-
+-#if !defined(CONFIG_USER_ONLY)
+-void tlb_fill(CPUState *cs, target_ulong addr, int size,
+-              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
+-{
+-    x86_cpu_tlb_fill(cs, addr, size, access_type, mmu_idx, false, retaddr);
+-}
+-#endif
+diff --git a/target/lm32/helper.c b/target/lm32/helper.c
+index 1db9a5562e..20ea17ba23 100644
+--- a/target/lm32/helper.c
++++ b/target/lm32/helper.c
+@@ -44,12 +44,6 @@ bool lm32_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     return true;
+ }
+ 
+-void tlb_fill(CPUState *cs, target_ulong addr, int size,
+-              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
+-{
+-    lm32_cpu_tlb_fill(cs, addr, size, access_type, mmu_idx, false, retaddr);
+-}
+-
+ hwaddr lm32_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
+ {
+     LM32CPU *cpu = LM32_CPU(cs);
+diff --git a/target/m68k/helper.c b/target/m68k/helper.c
+index 862f955f7b..9fc9e646ff 100644
+--- a/target/m68k/helper.c
++++ b/target/m68k/helper.c
+@@ -884,14 +884,6 @@ bool m68k_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     cpu_loop_exit_restore(cs, retaddr);
+ }
+ 
+-#ifndef CONFIG_USER_ONLY
+-void tlb_fill(CPUState *cs, target_ulong addr, int size,
+-              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
+-{
+-    m68k_cpu_tlb_fill(cs, addr, size, access_type, mmu_idx, false, retaddr);
+-}
+-#endif
+-
+ uint32_t HELPER(bitrev)(uint32_t x)
+ {
+     x = ((x >> 1) & 0x55555555u) | ((x << 1) & 0xaaaaaaaau);
+diff --git a/target/microblaze/helper.c b/target/microblaze/helper.c
+index a523c77959..ab2ceeb055 100644
+--- a/target/microblaze/helper.c
++++ b/target/microblaze/helper.c
+@@ -108,12 +108,6 @@ bool mb_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     cpu_loop_exit_restore(cs, retaddr);
+ }
+ 
+-void tlb_fill(CPUState *cs, target_ulong addr, int size,
+-              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
+-{
+-    mb_cpu_tlb_fill(cs, addr, size, access_type, mmu_idx, false, retaddr);
+-}
+-
+ void mb_cpu_do_interrupt(CPUState *cs)
+ {
+     MicroBlazeCPU *cpu = MICROBLAZE_CPU(cs);
+diff --git a/target/mips/helper.c b/target/mips/helper.c
+index 3a4917ce7b..9799f2ede1 100644
+--- a/target/mips/helper.c
++++ b/target/mips/helper.c
+@@ -944,12 +944,6 @@ bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+ }
+ 
+ #ifndef CONFIG_USER_ONLY
+-void tlb_fill(CPUState *cs, target_ulong addr, int size,
+-              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
+-{
+-    mips_cpu_tlb_fill(cs, addr, size, access_type, mmu_idx, false, retaddr);
+-}
+-
+ hwaddr cpu_mips_translate_address(CPUMIPSState *env, target_ulong address, int rw)
+ {
+     hwaddr physical;
+diff --git a/target/moxie/helper.c b/target/moxie/helper.c
+index 216cef057e..f5c1d4181c 100644
+--- a/target/moxie/helper.c
++++ b/target/moxie/helper.c
+@@ -26,12 +26,6 @@
+ #include "qemu/host-utils.h"
+ #include "exec/helper-proto.h"
+ 
+-void tlb_fill(CPUState *cs, target_ulong addr, int size,
+-              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
+-{
+-    moxie_cpu_tlb_fill(cs, addr, size, access_type, mmu_idx, false, retaddr);
+-}
+-
+ void helper_raise_exception(CPUMoxieState *env, int ex)
+ {
+     CPUState *cs = CPU(moxie_env_get_cpu(env));
+diff --git a/target/nios2/helper.c b/target/nios2/helper.c
+index eb2eed7ad3..ffb83fc104 100644
+--- a/target/nios2/helper.c
++++ b/target/nios2/helper.c
+@@ -311,10 +311,4 @@ bool nios2_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     env->regs[CR_BADADDR] = address;
+     cpu_loop_exit_restore(cs, retaddr);
+ }
+-
+-void tlb_fill(CPUState *cs, target_ulong addr, int size,
+-              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
+-{
+-    nios2_cpu_tlb_fill(cs, addr, size, access_type, mmu_idx, false, retaddr);
+-}
+ #endif /* !CONFIG_USER_ONLY */
+diff --git a/target/openrisc/mmu.c b/target/openrisc/mmu.c
+index 94c65a25fa..a73b12af03 100644
+--- a/target/openrisc/mmu.c
++++ b/target/openrisc/mmu.c
+@@ -178,10 +178,4 @@ hwaddr openrisc_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
+         return phys_addr;
+     }
+ }
+-
+-void tlb_fill(CPUState *cs, target_ulong addr, int size,
+-              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
+-{
+-    openrisc_cpu_tlb_fill(cs, addr, size, access_type, mmu_idx, 0, retaddr);
+-}
+ #endif
+diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
+index afcca50530..e605efa883 100644
+--- a/target/ppc/mmu_helper.c
++++ b/target/ppc/mmu_helper.c
+@@ -3080,9 +3080,3 @@ bool ppc_cpu_tlb_fill(CPUState *cs, vaddr addr, int size,
+     }
+     return true;
+ }
+-
+-void tlb_fill(CPUState *cs, target_ulong addr, int size,
+-              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
+-{
+-    ppc_cpu_tlb_fill(cs, addr, size, access_type, mmu_idx, false, retaddr);
+-}
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 2535435260..41d6db41c3 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -378,12 +378,6 @@ void riscv_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+     env->badaddr = addr;
+     riscv_raise_exception(env, cs->exception_index, retaddr);
+ }
+-
+-void tlb_fill(CPUState *cs, target_ulong addr, int size,
+-        MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
+-{
+-    riscv_cpu_tlb_fill(cs, addr, size, access_type, mmu_idx, false, retaddr);
+-}
+ #endif
+ 
+ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+diff --git a/target/s390x/excp_helper.c b/target/s390x/excp_helper.c
+index a4e134bcab..3a467b72c5 100644
+--- a/target/s390x/excp_helper.c
++++ b/target/s390x/excp_helper.c
+@@ -178,12 +178,6 @@ bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     cpu_loop_exit(cs);
+ }
+ 
+-void tlb_fill(CPUState *cs, target_ulong addr, int size,
+-              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
+-{
+-    s390_cpu_tlb_fill(cs, addr, size, access_type, mmu_idx, false, retaddr);
+-}
+-
+ static void do_program_interrupt(CPUS390XState *env)
+ {
+     uint64_t mask, addr;
+diff --git a/target/sh4/helper.c b/target/sh4/helper.c
+index 1517a6152f..fda195e7cb 100644
+--- a/target/sh4/helper.c
++++ b/target/sh4/helper.c
+@@ -872,11 +872,3 @@ bool superh_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     }
+     cpu_loop_exit_restore(cs, retaddr);
+ }
+-
+-#ifndef CONFIG_USER_ONLY
+-void tlb_fill(CPUState *cs, target_ulong addr, int size,
+-              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
+-{
+-    superh_cpu_tlb_fill(cs, addr, size, access_type, mmu_idx, false, retaddr);
+-}
+-#endif
+diff --git a/target/sparc/ldst_helper.c b/target/sparc/ldst_helper.c
+index 2558c08a64..b4bf6faf41 100644
+--- a/target/sparc/ldst_helper.c
++++ b/target/sparc/ldst_helper.c
+@@ -1924,10 +1924,4 @@ void QEMU_NORETURN sparc_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+ #endif
+     cpu_raise_exception_ra(env, TT_UNALIGNED, retaddr);
+ }
+-
+-void tlb_fill(CPUState *cs, target_ulong addr, int size,
+-              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
+-{
+-    sparc_cpu_tlb_fill(cs, addr, size, access_type, mmu_idx, false, retaddr);
+-}
+ #endif
+diff --git a/target/tricore/helper.c b/target/tricore/helper.c
+index ed184fee3a..a680336850 100644
+--- a/target/tricore/helper.c
++++ b/target/tricore/helper.c
+@@ -85,12 +85,6 @@ bool tricore_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     }
+ }
+ 
+-void tlb_fill(CPUState *cs, target_ulong addr, int size,
+-              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
+-{
+-    tricore_cpu_tlb_fill(cs, addr, size, access_type, mmu_idx, false, retaddr);
+-}
+-
+ static void tricore_cpu_list_entry(gpointer data, gpointer user_data)
+ {
+     ObjectClass *oc = data;
+diff --git a/target/unicore32/softmmu.c b/target/unicore32/softmmu.c
+index 13678df4d7..27f218abf0 100644
+--- a/target/unicore32/softmmu.c
++++ b/target/unicore32/softmmu.c
+@@ -275,12 +275,6 @@ bool uc32_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     cpu_loop_exit_restore(cs, retaddr);
+ }
+ 
+-void tlb_fill(CPUState *cs, target_ulong addr, int size,
+-              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
+-{
+-    uc32_cpu_tlb_fill(cs, addr, size, access_type, mmu_idx, false, retaddr);
+-}
+-
+ hwaddr uc32_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
+ {
+     error_report("function uc32_cpu_get_phys_page_debug not "
+diff --git a/target/xtensa/helper.c b/target/xtensa/helper.c
+index 5c94f934dd..efb966b3bf 100644
+--- a/target/xtensa/helper.c
++++ b/target/xtensa/helper.c
+@@ -305,12 +305,6 @@ bool xtensa_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
      }
  }
  
 -void tlb_fill(CPUState *cs, target_ulong vaddr, int size,
 -              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
-+bool xtensa_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                         MMUAccessType access_type, int mmu_idx,
-+                         bool probe, uintptr_t retaddr)
- {
-     XtensaCPU *cpu = XTENSA_CPU(cs);
-     CPUXtensaState *env = &cpu->env;
-     uint32_t paddr;
-     uint32_t page_size;
-     unsigned access;
--    int ret = xtensa_get_physical_addr(env, true, vaddr, access_type, mmu_idx,
--                                       &paddr, &page_size, &access);
-+    int ret = xtensa_get_physical_addr(env, true, address, access_type,
-+                                       mmu_idx, &paddr, &page_size, &access);
- 
--    qemu_log_mask(CPU_LOG_MMU, "%s(%08x, %d, %d) -> %08x, ret = %d\n",
--                  __func__, vaddr, access_type, mmu_idx, paddr, ret);
-+    qemu_log_mask(CPU_LOG_MMU, "%s(%08" VADDR_PRIx
-+                  ", %d, %d) -> %08x, ret = %d\n",
-+                  __func__, address, access_type, mmu_idx, paddr, ret);
- 
-     if (ret == 0) {
-         tlb_set_page(cs,
--                     vaddr & TARGET_PAGE_MASK,
-+                     address & TARGET_PAGE_MASK,
-                      paddr & TARGET_PAGE_MASK,
-                      access, mmu_idx, page_size);
-+        return true;
-+    } else if (probe) {
-+        return false;
-     } else {
-         cpu_restore_state(cs, retaddr, true);
--        HELPER(exception_cause_vaddr)(env, env->pc, ret, vaddr);
-+        HELPER(exception_cause_vaddr)(env, env->pc, ret, address);
-     }
- }
- 
-+void tlb_fill(CPUState *cs, target_ulong vaddr, int size,
-+              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
-+{
-+    xtensa_cpu_tlb_fill(cs, vaddr, size, access_type, mmu_idx, false, retaddr);
-+}
-+
+-{
+-    xtensa_cpu_tlb_fill(cs, vaddr, size, access_type, mmu_idx, false, retaddr);
+-}
+-
  void xtensa_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr, vaddr addr,
                                        unsigned size, MMUAccessType access_type,
                                        int mmu_idx, MemTxAttrs attrs,
