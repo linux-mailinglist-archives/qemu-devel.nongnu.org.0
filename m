@@ -2,61 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C565D18F92
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 19:48:53 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58731 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AD0E118F6B
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 19:41:28 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58639 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOnA5-0000lI-12
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 13:48:53 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33387)
+	id 1hOn2t-0003s2-MQ
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 13:41:27 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60337)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hOn6y-0007Av-V8
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:45:41 -0400
+	(envelope-from <philmd@redhat.com>) id 1hOn1g-0003Ow-R2
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:40:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hOn6w-0002Vk-PF
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:45:40 -0400
-Received: from indium.canonical.com ([91.189.90.7]:38192)
+	(envelope-from <philmd@redhat.com>) id 1hOn1f-0007IA-N8
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:40:12 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:38835)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hOn6w-0002RY-Cb
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:45:38 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
-	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hOn6u-0004rM-V5
-	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 17:45:36 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id E8AB92E80CB
-	for <qemu-devel@nongnu.org>; Thu,  9 May 2019 17:45:36 +0000 (UTC)
+	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hOn1f-0007H0-Ca
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:40:11 -0400
+Received: by mail-wm1-f66.google.com with SMTP id f2so4222959wmj.3
+	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 10:40:11 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=fevb3l/p5zVEWGTm7Zi/zkky6bCKPzqheYXEJdK+uUA=;
+	b=TV3wrKVzOg7+pFXOG0B3tHiBDqVmnKU70B0XqllxM7cbu8yUFeCcWxJxvHqFJ40lZj
+	P9EbNG/+3dbykXG6QVf1Gt/pxdrlQzmfHHFZDCm7d1aHwxe+1x/slcA5wNCCCpXnzyic
+	rjl/MSHFlExGZl+iiW1CZSePkAE2oDKZqjFvNJ8mkKi+zYYpQAa8RZPxYu764Ii2oKum
+	x90O0Mhz/uceFxEPzD4Gb4dtaw/L7y/FbhsdS+Y+qglpASyaV7VmkyQ7A09NWjGe5W4C
+	gKweIps1IfCw7lw6825vtW5hDQSE0Tr5+9V+k/ZKUXQKXFCJShoBSn7RyWp+yT+Ys8fa
+	zQbg==
+X-Gm-Message-State: APjAAAUGWzF8e0ucBWef0vvmqMNyvQExhDwIMLaCDNtiO7TAMSMp/sJK
+	SopzvOC6aKN9tnAPjiqZ8939nw==
+X-Google-Smtp-Source: APXvYqxo9tb18hOiu2nizx1mU2PxBMC9v4YJIlPg148ZlOJyCi4eWAJ3a/nELO2XiYhT1dekEilZzA==
+X-Received: by 2002:a1c:7518:: with SMTP id o24mr3815304wmc.42.1557423610191; 
+	Thu, 09 May 2019 10:40:10 -0700 (PDT)
+Received: from [192.168.1.33] (193.red-88-21-103.staticip.rima-tde.net.
+	[88.21.103.193]) by smtp.gmail.com with ESMTPSA id
+	h12sm1674857wrq.95.2019.05.09.10.40.09
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Thu, 09 May 2019 10:40:09 -0700 (PDT)
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+	qemu-devel@nongnu.org
+References: <20190509165912.10512-1-alex.bennee@linaro.org>
+	<20190509165912.10512-3-alex.bennee@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <089bf7b5-8461-699b-4c9a-30c4d735282e@redhat.com>
+Date: Thu, 9 May 2019 19:40:08 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Thu, 09 May 2019 17:39:41 -0000
-From: Philippe Coval <1689367@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Expired; importance=Undecided;
-	assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: janitor pgnet pmaydell rzr
-X-Launchpad-Bug-Reporter: pgnet (pgnet)
-X-Launchpad-Bug-Modifier: Philippe Coval (rzr)
-References: <20170508175438.13498.58008.malonedeb@chaenomeles.canonical.com>
-Message-Id: <155742358163.16625.3460599929836191227.malone@gac.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18961";
-	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 79c27c3e73efc8e0d0a26a6a981b824d45d46f8d
+In-Reply-To: <20190509165912.10512-3-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1689367] Re: In qemu chroot,
- repeating "qemu: Unsupported syscall: 384" messages. sys_getrandom ?
+	[fuzzy]
+X-Received-From: 209.85.128.66
+Subject: Re: [Qemu-devel] [PATCH v1 02/23] tests/docker: Test more
+ components on the Fedora default image
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,62 +76,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1689367 <1689367@bugs.launchpad.net>
+Cc: Fam Zheng <fam@euphon.net>, qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I am able to reproduce using docker and qemu-arm version 1.5.93
+On 5/9/19 6:58 PM, Alex Bennée wrote:
+> From: Philippe Mathieu-Daudé <philmd@redhat.com>
+> 
+> Install optional dependencies of QEMU to get better coverage.
+> 
+> The following components are now enabled:
+> 
+>   $ ./configure
+>   ...
+>   Multipath support yes
+>   VNC SASL support  yes
+>   RDMA support      yes
+>   PVRDMA support    yes
+>   libiscsi support  yes
+>   seccomp support   yes
+>   libpmem support   yes
+>   libudev           yes
+> 
+> Note: The udev-devel package is provided by systemd-devel.
+> 
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
--- =
+Acked-by: Marcel Apfelbaum<marcel.apfelbaum@gmail.com>
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1689367
-
-Title:
-  In qemu chroot, repeating "qemu: Unsupported syscall: 384" messages.
-  sys_getrandom ?
-
-Status in QEMU:
-  Expired
-
-Bug description:
-  On exec of an armv7 qemu chroot on my local x86_64 desktop, launched
-  via
-
-          /usr/sbin/qemu-binfmt-conf.sh
-
-  from
-
-          qemu-linux-user-2.9.0-374.1.x86_64
-
-  on the host, inside the chroot any compile activity is laced with
-  repetitions of
-
-          qemu: Unsupported syscall: 384
-
-  messages.
-
-  This wasn't always the case -- but, TBH, it's been ~ 6 months since I
-  used this env, and there have been scads of usual pkg updates in the
-  interim.  These messages appear to be non-fatal, with no particular
-  effect at all; at least not so far ...
-
-  From a chat in #IRC,
-
-  	[10:05] davidgiluk clever/pgnd: I see it as getrandom
-  	[10:05] davidgiluk pgnd: https://fedora.juszkiewicz.com.pl/syscalls.html=
-   sort it on the ARM table and you can easily see it
-  	[10:05] clever arch/arm/tools/syscall.tbl:384  common  getrandom        =
-       sys_getrandom
-  	[10:06] davidgiluk pgnd: my *guess* is that something is calling getrand=
-om, getting told it's not implemented and then falling back to using /dev/u=
-random
-  	[10:10] pgnd davidgiluk: If that *is* the case, is it to be considered a=
- problem, or just informational?
-  	[10:12] davidgiluk pgnd: As long as it's falling back probably informati=
-onal; but someone should probably go and wire up sys_getrandom at some point
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1689367/+subscriptions
+> Message-Id: <20190504055440.20406-1-philmd@redhat.com>
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>  tests/docker/dockerfiles/fedora.docker | 7 +++++++
+>  1 file changed, 7 insertions(+)
+> 
+> diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
+> index 69d4a7f5d75..afbba29adaa 100644
+> --- a/tests/docker/dockerfiles/fedora.docker
+> +++ b/tests/docker/dockerfiles/fedora.docker
+> @@ -8,6 +8,7 @@ ENV PACKAGES \
+>      bzip2-devel \
+>      ccache \
+>      clang \
+> +    cyrus-sasl-devel \
+>      device-mapper-multipath-devel \
+>      findutils \
+>      flex \
+> @@ -23,13 +24,17 @@ ENV PACKAGES \
+>      libaio-devel \
+>      libasan \
+>      libattr-devel \
+> +    libblockdev-mpath-devel \
+>      libcap-devel \
+>      libcap-ng-devel \
+>      libcurl-devel \
+>      libfdt-devel \
+> +    libiscsi-devel \
+>      libjpeg-devel \
+> +    libpmem-devel \
+>      libpng-devel \
+>      librbd-devel \
+> +    libseccomp-devel \
+>      libssh2-devel \
+>      libubsan \
+>      libusbx-devel \
+> @@ -74,10 +79,12 @@ ENV PACKAGES \
+>      pixman-devel \
+>      python3 \
+>      PyYAML \
+> +    rdma-core-devel \
+>      SDL2-devel \
+>      snappy-devel \
+>      sparse \
+>      spice-server-devel \
+> +    systemd-devel \
+>      systemtap-sdt-devel \
+>      tar \
+>      usbredir-devel \
+> 
 
