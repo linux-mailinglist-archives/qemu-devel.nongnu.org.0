@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2159519378
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 22:35:53 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60650 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2120193A2
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 22:40:34 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60677 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOplf-0000kv-Hy
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 16:35:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44953)
+	id 1hOpqE-0002mq-33
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 16:40:34 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45565)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alistair23@gmail.com>) id 1hOpkS-0000LK-Lr
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 16:34:38 -0400
+	(envelope-from <alistair23@gmail.com>) id 1hOpoI-0001zZ-EL
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 16:38:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alistair23@gmail.com>) id 1hOpkQ-000493-PS
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 16:34:36 -0400
-Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:42775)
+	(envelope-from <alistair23@gmail.com>) id 1hOpoF-0007P1-OS
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 16:38:34 -0400
+Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:33260)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <alistair23@gmail.com>)
-	id 1hOpkQ-00047v-EF
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 16:34:34 -0400
-Received: by mail-lf1-x142.google.com with SMTP id w23so2511990lfc.9
-	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 13:34:34 -0700 (PDT)
+	id 1hOpoD-0007N7-DZ
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 16:38:30 -0400
+Received: by mail-lj1-x241.google.com with SMTP id w1so628379ljw.0
+	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 13:38:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=XxAmdjRUOsVZk+HMyo3IPS4THu1eDVK77Nu5V5EUZYs=;
-	b=iQi8LrMGN12nEeHcQGBYftMRXPFnbLJTkaQCSBXq7FT+CMmUj9ie/80ZQFP1hUVJUS
-	q26PPqRZuJF3r6zAUQ8TECUa1RimoUQk+F5XRR3ho9sccgu4AtBv0wCJwVXZJ/1oz732
-	8pLA6Ntmnpn12ekXAhamXr1GvHuEKOPpvzwGl+d/OHAbFxdJHoontMcBUTc6xIpYhX8k
-	yunPzLY7Gz87/gqJjFjy8xdatUi6f6Dg5Ar1jN/SoFlbCo34j9owywLzEY0lHg0byMPp
-	Vy1Ab9P6OAHJnNx1a4LD+BjdpoVkESKPh4GecWPQHImgS7x4fOXMxiaHWSROUiSmvjnJ
-	CB3A==
+	:cc; bh=w/+zCG/HTYnuP54zXDikeHz5BqH+bYNP3/1n3M/MzBc=;
+	b=k/VZlo/3T7veOfOQ2b6UQKyS1XZomvoAxuMXFIH08DkeCMc36ViLf96ryT1zQ5Zb1Y
+	Mpz4TIC+Ut7mU1L5DcPOaIQeWNCiVLNOufRn4Dvd3YhoOoWwvfixThX7gWfoFGmoqWWs
+	nCm3BIbAKK/fo6hgozBVIQsPQXUbl/c4CmKSdm6448P9kU615d29XuGOp0f4Aysno+Zn
+	UnArNweEacBmXc0gEwTlf+1L8vHmBFu6cATaL7LT4YUtZRWFRFTT5guRZV7IZe71SCO1
+	9zmHvmj3nCsk5a8YFplWAvwkUZgKFCfUcFMjvYMMa1kzNpjbOuV86Af7/++Y+tkFuYv/
+	O2rA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=XxAmdjRUOsVZk+HMyo3IPS4THu1eDVK77Nu5V5EUZYs=;
-	b=HDWPlclAtIDwL091Jvuuw7HpQnEeG9mulCsrfA3r5M8oJ5OPMaZhgb6i+Zf3zqfpxd
-	HngQqX6YZiz2N8sIO9rLe65RFJ/rp7zN8Uv1es0fqRRLGrs1pCKssK4Vg2VERYxLLb/v
-	t/jtIRlEO10rbrPEf0eAbi6gxnIJ3RLh81JiamYdsuvxqhdArVQNE88c7G4e+ikjW317
-	KfHRfPPmeWvehr7ZjkBx5hxaT23z6qlqda3DtrH6R9dFpN1+mGmsCg/VGhNEJ5sUp1f6
-	sgUqQWgQodZJNsWzsNt4fhrUMkNEp9lyKM1XmPh3vaDl6GIdRR//sGNk7mkp1/rpNzqb
-	cdXA==
-X-Gm-Message-State: APjAAAXljY1Z+XUy/XpJcrf1O7wtZcr8VYmIVI1xcqCHLfrrq42rWFRn
-	29Uun1AiIeQWQ0RRJwLEVNx3muF+BJIgx5IR7cE=
-X-Google-Smtp-Source: APXvYqx2Roz7nAnmH8VIGgGYjUsOPEPrCLRNSyrvJzZNkBfGneS/eiS/JlGkw/o8JWcei37Jz8WH/9IlwHHPPzutNHk=
-X-Received: by 2002:a19:189:: with SMTP id 131mr3571288lfb.74.1557434072719;
-	Thu, 09 May 2019 13:34:32 -0700 (PDT)
+	bh=w/+zCG/HTYnuP54zXDikeHz5BqH+bYNP3/1n3M/MzBc=;
+	b=M+bPqsh5gfj2uQecyEVTdEvwODDQiVhjp3xz4F48HKLk7Asb6oQxdDayncE/g+2NPw
+	QM0WiRfvf+X2zU9PbrwUkrDxZ2GHUsZ45PMh3zD+ExbSjhDsV5lWr9PMA880R2LeETfV
+	3HgW6eWhFo0nj//HvI0N3vhuBwT2JYmJ0zn2YTHkKXZ4kEJm1MUg5JWujSDZLm0MGkbO
+	ds8uCKHlAd/Eqyx6UeiCrB1y5ebuDlWcZlCkj1pDBuQDnKe/Vk7PU8x/M/bj4m67Y/HY
+	Sg5nsIxxSJdjRZ9mLko4QAIKrRLSFkB+FdVBIJ7oUUoLmKDcu+u5GGKt/nxn4Yho6008
+	oLlg==
+X-Gm-Message-State: APjAAAVmrntOlDDb+j7uYojdqaMG8QjtqTGQMiADBjyd4eqlSucuQBiI
+	MEtH7KI2tpuNr+ZC45oA8s1YVMiTpcO3YUGmVdI=
+X-Google-Smtp-Source: APXvYqwjRhdeHOQPk9IDT5/kdHEow1zIloJtNlxcbgXkVdycEjDO+3jvBdKqUCsNxa39EqHc5zZZAcD4exMlQi/Zxcs=
+X-Received: by 2002:a2e:9c89:: with SMTP id x9mr3510559lji.28.1557434308059;
+	Thu, 09 May 2019 13:38:28 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190508000641.19090-1-richard.henderson@linaro.org>
-	<20190508000641.19090-33-richard.henderson@linaro.org>
-In-Reply-To: <20190508000641.19090-33-richard.henderson@linaro.org>
+	<20190508000641.19090-34-richard.henderson@linaro.org>
+In-Reply-To: <20190508000641.19090-34-richard.henderson@linaro.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Thu, 9 May 2019 13:32:25 -0700
-Message-ID: <CAKmqyKPCdEvGy_QPwA_jsEUakAJ1QOm_HoHRcD9ukUmROD=KtQ@mail.gmail.com>
+Date: Thu, 9 May 2019 13:36:21 -0700
+Message-ID: <CAKmqyKNyQNvivOsGAPtzJAXkbfX2xEga-XbF+7NjXUHZsnKDeQ@mail.gmail.com>
 To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::142
-Subject: Re: [Qemu-devel] [PATCH v3 32/39] cpu: Introduce
- cpu_set_cpustate_pointers
+X-Received-From: 2a00:1450:4864:20::241
+Subject: Re: [Qemu-devel] [PATCH v3 33/39] cpu: Introduce
+ CPUNegativeOffsetState
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -77,10 +77,11 @@ Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 7, 2019 at 5:37 PM Richard Henderson
+On Tue, May 7, 2019 at 5:26 PM Richard Henderson
 <richard.henderson@linaro.org> wrote:
 >
-> Consolidate some boilerplate from foo_cpu_initfn.
+> Nothing in there so far, but all of the plumbing done
+> within the target ArchCPU state.
 >
 > Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 > Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
@@ -90,422 +91,350 @@ Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Alistair
 
 > ---
->  include/exec/cpu-all.h          | 11 +++++++++++
->  target/alpha/cpu.c              |  3 +--
->  target/arm/cpu.c                |  3 +--
->  target/cris/cpu.c               |  3 +--
->  target/hppa/cpu.c               |  2 +-
->  target/i386/cpu.c               |  3 +--
->  target/lm32/cpu.c               |  3 +--
->  target/m68k/cpu.c               |  4 +---
->  target/microblaze/cpu.c         |  3 +--
->  target/mips/cpu.c               |  3 +--
->  target/moxie/cpu.c              |  3 +--
->  target/nios2/cpu.c              |  6 ++----
->  target/openrisc/cpu.c           |  3 +--
->  target/ppc/translate_init.inc.c |  3 +--
->  target/riscv/cpu.c              |  3 +--
->  target/s390x/cpu.c              |  9 +++++----
->  target/sh4/cpu.c                |  3 +--
->  target/sparc/cpu.c              |  3 +--
->  target/tilegx/cpu.c             |  4 +---
->  target/tricore/cpu.c            |  4 +---
->  target/unicore32/cpu.c          |  3 +--
->  target/xtensa/cpu.c             |  3 +--
->  22 files changed, 37 insertions(+), 48 deletions(-)
+>  include/exec/cpu-all.h  | 24 ++++++++++++++++++++++++
+>  include/exec/cpu-defs.h |  8 ++++++++
+>  target/alpha/cpu.h      |  1 +
+>  target/arm/cpu.h        |  1 +
+>  target/cris/cpu.h       |  1 +
+>  target/hppa/cpu.h       |  1 +
+>  target/i386/cpu.h       |  1 +
+>  target/lm32/cpu.h       |  1 +
+>  target/m68k/cpu.h       |  1 +
+>  target/microblaze/cpu.h |  5 +++--
+>  target/mips/cpu.h       |  1 +
+>  target/moxie/cpu.h      |  1 +
+>  target/nios2/cpu.h      |  2 ++
+>  target/openrisc/cpu.h   |  2 +-
+>  target/ppc/cpu.h        |  2 ++
+>  target/riscv/cpu.h      |  1 +
+>  target/s390x/cpu.h      |  1 +
+>  target/sh4/cpu.h        |  1 +
+>  target/sparc/cpu.h      |  1 +
+>  target/tilegx/cpu.h     |  1 +
+>  target/tricore/cpu.h    |  1 +
+>  target/unicore32/cpu.h  |  1 +
+>  target/xtensa/cpu.h     |  1 +
+>  23 files changed, 57 insertions(+), 3 deletions(-)
 >
 > diff --git a/include/exec/cpu-all.h b/include/exec/cpu-all.h
-> index c62f07b354..71154070a7 100644
+> index 71154070a7..5ae83405c8 100644
 > --- a/include/exec/cpu-all.h
 > +++ b/include/exec/cpu-all.h
-> @@ -371,6 +371,17 @@ int cpu_memory_rw_debug(CPUState *cpu, target_ulong addr,
->
->  int cpu_exec(CPUState *cpu);
+> @@ -404,4 +404,28 @@ static inline CPUState *env_cpu(CPUArchState *env)
+>      return &env_archcpu(env)->parent_obj;
+>  }
 >
 > +/**
-> + * cpu_set_cpustate_pointers(cpu)
-> + * @cpu: The cpu object
+> + * env_neg(env)
+> + * @env: The architecture environment
 > + *
-> + * Set the generic pointers in CPUState into the outer object.
+> + * Return the CPUNegativeOffsetState associated with the environment.
 > + */
-> +static inline void cpu_set_cpustate_pointers(ArchCPU *cpu)
+> +static inline CPUNegativeOffsetState *env_neg(CPUArchState *env)
 > +{
-> +    cpu->parent_obj.env_ptr = &cpu->env;
+> +    ArchCPU *arch_cpu = container_of(env, ArchCPU, env);
+> +    return &arch_cpu->neg;
 > +}
 > +
->  /**
->   * env_archcpu(env)
->   * @env: The architecture environment
-> diff --git a/target/alpha/cpu.c b/target/alpha/cpu.c
-> index ad3588a44a..b771b9f3fe 100644
-> --- a/target/alpha/cpu.c
-> +++ b/target/alpha/cpu.c
-> @@ -191,11 +191,10 @@ static void ev67_cpu_initfn(Object *obj)
+> +/**
+> + * cpu_neg(cpu)
+> + * @cpu: The generic CPUState
+> + *
+> + * Return the CPUNegativeOffsetState associated with the cpu.
+> + */
+> +static inline CPUNegativeOffsetState *cpu_neg(CPUState *cpu)
+> +{
+> +    ArchCPU *arch_cpu = container_of(cpu, ArchCPU, parent_obj);
+> +    return &arch_cpu->neg;
+> +}
+> +
+>  #endif /* CPU_ALL_H */
+> diff --git a/include/exec/cpu-defs.h b/include/exec/cpu-defs.h
+> index fbe8945606..ad97991faf 100644
+> --- a/include/exec/cpu-defs.h
+> +++ b/include/exec/cpu-defs.h
+> @@ -227,4 +227,12 @@ typedef struct CPUTLB {
 >
->  static void alpha_cpu_initfn(Object *obj)
->  {
-> -    CPUState *cs = CPU(obj);
->      AlphaCPU *cpu = ALPHA_CPU(obj);
->      CPUAlphaState *env = &cpu->env;
+>  #endif  /* !CONFIG_USER_ONLY && CONFIG_TCG */
 >
-> -    cs->env_ptr = env;
-> +    cpu_set_cpustate_pointers(cpu);
->
->      env->lock_addr = -1;
->  #if defined(CONFIG_USER_ONLY)
-> diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-> index a181fa8dc1..79d5096270 100644
-> --- a/target/arm/cpu.c
-> +++ b/target/arm/cpu.c
-> @@ -698,10 +698,9 @@ static void cpreg_hashtable_data_destroy(gpointer data)
->
->  static void arm_cpu_initfn(Object *obj)
->  {
-> -    CPUState *cs = CPU(obj);
->      ARMCPU *cpu = ARM_CPU(obj);
->
-> -    cs->env_ptr = &cpu->env;
-> +    cpu_set_cpustate_pointers(cpu);
->      cpu->cp_regs = g_hash_table_new_full(g_int_hash, g_int_equal,
->                                           g_free, cpreg_hashtable_data_destroy);
->
-> diff --git a/target/cris/cpu.c b/target/cris/cpu.c
-> index 75729bfdd5..070f8be363 100644
-> --- a/target/cris/cpu.c
-> +++ b/target/cris/cpu.c
-> @@ -172,12 +172,11 @@ static void cris_disas_set_info(CPUState *cpu, disassemble_info *info)
->
->  static void cris_cpu_initfn(Object *obj)
->  {
-> -    CPUState *cs = CPU(obj);
->      CRISCPU *cpu = CRIS_CPU(obj);
->      CRISCPUClass *ccc = CRIS_CPU_GET_CLASS(obj);
->      CPUCRISState *env = &cpu->env;
->
-> -    cs->env_ptr = env;
-> +    cpu_set_cpustate_pointers(cpu);
->
->      env->pregs[PR_VR] = ccc->vr;
->
-> diff --git a/target/hppa/cpu.c b/target/hppa/cpu.c
-> index e64f48581e..fdff057793 100644
-> --- a/target/hppa/cpu.c
-> +++ b/target/hppa/cpu.c
-> @@ -134,7 +134,7 @@ static void hppa_cpu_initfn(Object *obj)
->      HPPACPU *cpu = HPPA_CPU(obj);
->      CPUHPPAState *env = &cpu->env;
->
-> -    cs->env_ptr = env;
-> +    cpu_set_cpustate_pointers(cpu);
->      cs->exception_index = -1;
->      cpu_hppa_loaded_fr0(env);
->      cpu_hppa_put_psw(env, PSW_W);
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 5b84629f91..7eff4c4dea 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -5588,13 +5588,12 @@ static void x86_cpu_get_crash_info_qom(Object *obj, Visitor *v,
->
->  static void x86_cpu_initfn(Object *obj)
->  {
-> -    CPUState *cs = CPU(obj);
->      X86CPU *cpu = X86_CPU(obj);
->      X86CPUClass *xcc = X86_CPU_GET_CLASS(obj);
->      CPUX86State *env = &cpu->env;
->      FeatureWord w;
->
-> -    cs->env_ptr = env;
-> +    cpu_set_cpustate_pointers(cpu);
->
->      object_property_add(obj, "family", "int",
->                          x86_cpuid_version_get_family,
-> diff --git a/target/lm32/cpu.c b/target/lm32/cpu.c
-> index 282da19994..ebcbd2faa8 100644
-> --- a/target/lm32/cpu.c
-> +++ b/target/lm32/cpu.c
-> @@ -142,11 +142,10 @@ static void lm32_cpu_realizefn(DeviceState *dev, Error **errp)
->
->  static void lm32_cpu_initfn(Object *obj)
->  {
-> -    CPUState *cs = CPU(obj);
->      LM32CPU *cpu = LM32_CPU(obj);
->      CPULM32State *env = &cpu->env;
->
-> -    cs->env_ptr = env;
-> +    cpu_set_cpustate_pointers(cpu);
->
->      env->flags = 0;
->  }
-> diff --git a/target/m68k/cpu.c b/target/m68k/cpu.c
-> index 582e3a73b3..930e1be59f 100644
-> --- a/target/m68k/cpu.c
-> +++ b/target/m68k/cpu.c
-> @@ -238,11 +238,9 @@ static void m68k_cpu_realizefn(DeviceState *dev, Error **errp)
->
->  static void m68k_cpu_initfn(Object *obj)
->  {
-> -    CPUState *cs = CPU(obj);
->      M68kCPU *cpu = M68K_CPU(obj);
-> -    CPUM68KState *env = &cpu->env;
->
-> -    cs->env_ptr = env;
-> +    cpu_set_cpustate_pointers(cpu);
->  }
->
->  static const VMStateDescription vmstate_m68k_cpu = {
-> diff --git a/target/microblaze/cpu.c b/target/microblaze/cpu.c
-> index 5596cd5485..db4dcdb4ad 100644
-> --- a/target/microblaze/cpu.c
-> +++ b/target/microblaze/cpu.c
-> @@ -221,11 +221,10 @@ static void mb_cpu_realizefn(DeviceState *dev, Error **errp)
->
->  static void mb_cpu_initfn(Object *obj)
->  {
-> -    CPUState *cs = CPU(obj);
->      MicroBlazeCPU *cpu = MICROBLAZE_CPU(obj);
->      CPUMBState *env = &cpu->env;
->
-> -    cs->env_ptr = env;
-> +    cpu_set_cpustate_pointers(cpu);
->
->      set_float_rounding_mode(float_round_nearest_even, &env->fp_status);
->
-> diff --git a/target/mips/cpu.c b/target/mips/cpu.c
-> index e217fb3e36..3d1b693eef 100644
-> --- a/target/mips/cpu.c
-> +++ b/target/mips/cpu.c
-> @@ -152,12 +152,11 @@ static void mips_cpu_realizefn(DeviceState *dev, Error **errp)
->
->  static void mips_cpu_initfn(Object *obj)
->  {
-> -    CPUState *cs = CPU(obj);
->      MIPSCPU *cpu = MIPS_CPU(obj);
->      CPUMIPSState *env = &cpu->env;
->      MIPSCPUClass *mcc = MIPS_CPU_GET_CLASS(obj);
->
-> -    cs->env_ptr = env;
-> +    cpu_set_cpustate_pointers(cpu);
->      env->cpu_model = mcc->cpu_def;
->  }
->
-> diff --git a/target/moxie/cpu.c b/target/moxie/cpu.c
-> index 46434e65ba..316ee9c534 100644
-> --- a/target/moxie/cpu.c
-> +++ b/target/moxie/cpu.c
-> @@ -74,10 +74,9 @@ static void moxie_cpu_realizefn(DeviceState *dev, Error **errp)
->
->  static void moxie_cpu_initfn(Object *obj)
->  {
-> -    CPUState *cs = CPU(obj);
->      MoxieCPU *cpu = MOXIE_CPU(obj);
->
-> -    cs->env_ptr = &cpu->env;
-> +    cpu_set_cpustate_pointers(cpu);
->  }
->
->  static ObjectClass *moxie_cpu_class_by_name(const char *cpu_model)
-> diff --git a/target/nios2/cpu.c b/target/nios2/cpu.c
-> index fbfaa2ce26..43677fa802 100644
-> --- a/target/nios2/cpu.c
-> +++ b/target/nios2/cpu.c
-> @@ -66,14 +66,12 @@ static void nios2_cpu_reset(CPUState *cs)
->
->  static void nios2_cpu_initfn(Object *obj)
->  {
-> -    CPUState *cs = CPU(obj);
->      Nios2CPU *cpu = NIOS2_CPU(obj);
-> -    CPUNios2State *env = &cpu->env;
->
-> -    cs->env_ptr = env;
-> +    cpu_set_cpustate_pointers(cpu);
->
->  #if !defined(CONFIG_USER_ONLY)
-> -    mmu_init(env);
-> +    mmu_init(&cpu->env);
+> +/*
+> + * This structure must be placed in ArchCPU immedately
+> + * before CPUArchState, as a field named "neg".
+> + */
+> +typedef struct CPUNegativeOffsetState {
+> +    /* Empty */
+> +} CPUNegativeOffsetState;
+> +
 >  #endif
->  }
+> diff --git a/target/alpha/cpu.h b/target/alpha/cpu.h
+> index 66782cf5d4..f4bb67c101 100644
+> --- a/target/alpha/cpu.h
+> +++ b/target/alpha/cpu.h
+> @@ -267,6 +267,7 @@ struct AlphaCPU {
+>      CPUState parent_obj;
+>      /*< public >*/
 >
-> diff --git a/target/openrisc/cpu.c b/target/openrisc/cpu.c
-> index d125236977..5177575821 100644
-> --- a/target/openrisc/cpu.c
-> +++ b/target/openrisc/cpu.c
-> @@ -92,10 +92,9 @@ static void openrisc_cpu_realizefn(DeviceState *dev, Error **errp)
+> +    CPUNegativeOffsetState neg;
+>      CPUAlphaState env;
 >
->  static void openrisc_cpu_initfn(Object *obj)
->  {
-> -    CPUState *cs = CPU(obj);
->      OpenRISCCPU *cpu = OPENRISC_CPU(obj);
+>      /* This alarm doesn't exist in real hardware; we wish it did.  */
+> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+> index 23beb1de9a..909cb4604d 100644
+> --- a/target/arm/cpu.h
+> +++ b/target/arm/cpu.h
+> @@ -719,6 +719,7 @@ struct ARMCPU {
+>      CPUState parent_obj;
+>      /*< public >*/
 >
-> -    cs->env_ptr = &cpu->env;
-> +    cpu_set_cpustate_pointers(cpu);
->  }
+> +    CPUNegativeOffsetState neg;
+>      CPUARMState env;
 >
->  /* CPU models */
-> diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.inc.c
-> index 6343e25624..739c14fd26 100644
-> --- a/target/ppc/translate_init.inc.c
-> +++ b/target/ppc/translate_init.inc.c
-> @@ -10473,12 +10473,11 @@ static bool ppc_cpu_is_big_endian(CPUState *cs)
+>      /* Coprocessor information */
+> diff --git a/target/cris/cpu.h b/target/cris/cpu.h
+> index c19fdcec1e..eeab483dba 100644
+> --- a/target/cris/cpu.h
+> +++ b/target/cris/cpu.h
+> @@ -180,6 +180,7 @@ struct CRISCPU {
+>      CPUState parent_obj;
+>      /*< public >*/
 >
->  static void ppc_cpu_instance_init(Object *obj)
->  {
-> -    CPUState *cs = CPU(obj);
->      PowerPCCPU *cpu = POWERPC_CPU(obj);
->      PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cpu);
->      CPUPPCState *env = &cpu->env;
+> +    CPUNegativeOffsetState neg;
+>      CPUCRISState env;
+>  };
 >
-> -    cs->env_ptr = env;
-> +    cpu_set_cpustate_pointers(cpu);
->      cpu->vcpu_id = UNASSIGNED_CPU_INDEX;
+> diff --git a/target/hppa/cpu.h b/target/hppa/cpu.h
+> index 58b2bf2933..0661ff60c1 100644
+> --- a/target/hppa/cpu.h
+> +++ b/target/hppa/cpu.h
+> @@ -218,6 +218,7 @@ struct HPPACPU {
+>      CPUState parent_obj;
+>      /*< public >*/
 >
->      env->msr_mask = pcc->msr_mask;
-> diff --git a/target/riscv/cpu.c b/target/riscv/cpu.c
-> index 1bcf4eaeb8..35e69a9e12 100644
-> --- a/target/riscv/cpu.c
-> +++ b/target/riscv/cpu.c
-> @@ -315,10 +315,9 @@ static void riscv_cpu_realize(DeviceState *dev, Error **errp)
+> +    CPUNegativeOffsetState neg;
+>      CPUHPPAState env;
+>      QEMUTimer *alarm_timer;
+>  };
+> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+> index a9cfb42b22..43bb6ab841 100644
+> --- a/target/i386/cpu.h
+> +++ b/target/i386/cpu.h
+> @@ -1368,6 +1368,7 @@ struct X86CPU {
+>      CPUState parent_obj;
+>      /*< public >*/
 >
->  static void riscv_cpu_init(Object *obj)
->  {
-> -    CPUState *cs = CPU(obj);
->      RISCVCPU *cpu = RISCV_CPU(obj);
+> +    CPUNegativeOffsetState neg;
+>      CPUX86State env;
 >
-> -    cs->env_ptr = &cpu->env;
-> +    cpu_set_cpustate_pointers(cpu);
->  }
+>      bool hyperv_vapic;
+> diff --git a/target/lm32/cpu.h b/target/lm32/cpu.h
+> index 4234a439a3..0ec898eb1d 100644
+> --- a/target/lm32/cpu.h
+> +++ b/target/lm32/cpu.h
+> @@ -186,6 +186,7 @@ struct LM32CPU {
+>      CPUState parent_obj;
+>      /*< public >*/
 >
->  static const VMStateDescription vmstate_riscv_cpu = {
-> diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-> index b58ef0a8ef..16bcb933ec 100644
-> --- a/target/s390x/cpu.c
-> +++ b/target/s390x/cpu.c
-> @@ -282,17 +282,18 @@ static void s390_cpu_initfn(Object *obj)
->  {
->      CPUState *cs = CPU(obj);
->      S390CPU *cpu = S390_CPU(obj);
-> -    CPUS390XState *env = &cpu->env;
+> +    CPUNegativeOffsetState neg;
+>      CPULM32State env;
 >
-> -    cs->env_ptr = env;
-> +    cpu_set_cpustate_pointers(cpu);
->      cs->halted = 1;
->      cs->exception_index = EXCP_HLT;
->      object_property_add(obj, "crash-information", "GuestPanicInformation",
->                          s390_cpu_get_crash_info_qom, NULL, NULL, NULL, NULL);
->      s390_cpu_model_register_props(obj);
->  #if !defined(CONFIG_USER_ONLY)
-> -    env->tod_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, s390x_tod_timer, cpu);
-> -    env->cpu_timer = timer_new_ns(QEMU_CLOCK_VIRTUAL, s390x_cpu_timer, cpu);
-> +    cpu->env.tod_timer =
-> +        timer_new_ns(QEMU_CLOCK_VIRTUAL, s390x_tod_timer, cpu);
-> +    cpu->env.cpu_timer =
-> +        timer_new_ns(QEMU_CLOCK_VIRTUAL, s390x_cpu_timer, cpu);
->      s390_cpu_set_state(S390_CPU_STATE_STOPPED, cpu);
->  #endif
->  }
-> diff --git a/target/sh4/cpu.c b/target/sh4/cpu.c
-> index da2799082e..62a9123173 100644
-> --- a/target/sh4/cpu.c
-> +++ b/target/sh4/cpu.c
-> @@ -194,11 +194,10 @@ static void superh_cpu_realizefn(DeviceState *dev, Error **errp)
+>      uint32_t revision;
+> diff --git a/target/m68k/cpu.h b/target/m68k/cpu.h
+> index 02fbff3625..096d1eb588 100644
+> --- a/target/m68k/cpu.h
+> +++ b/target/m68k/cpu.h
+> @@ -160,6 +160,7 @@ struct M68kCPU {
+>      CPUState parent_obj;
+>      /*< public >*/
 >
->  static void superh_cpu_initfn(Object *obj)
->  {
-> -    CPUState *cs = CPU(obj);
->      SuperHCPU *cpu = SUPERH_CPU(obj);
->      CPUSH4State *env = &cpu->env;
+> +    CPUNegativeOffsetState neg;
+>      CPUM68KState env;
+>  };
 >
-> -    cs->env_ptr = env;
-> +    cpu_set_cpustate_pointers(cpu);
+> diff --git a/target/microblaze/cpu.h b/target/microblaze/cpu.h
+> index 1becb9270b..732653caed 100644
+> --- a/target/microblaze/cpu.h
+> +++ b/target/microblaze/cpu.h
+> @@ -287,6 +287,9 @@ struct MicroBlazeCPU {
 >
->      env->movcal_backup_tail = &(env->movcal_backup);
->  }
-> diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
-> index 4654c2a6a0..90109754eb 100644
-> --- a/target/sparc/cpu.c
-> +++ b/target/sparc/cpu.c
-> @@ -774,12 +774,11 @@ static void sparc_cpu_realizefn(DeviceState *dev, Error **errp)
+>      /*< public >*/
 >
->  static void sparc_cpu_initfn(Object *obj)
->  {
-> -    CPUState *cs = CPU(obj);
->      SPARCCPU *cpu = SPARC_CPU(obj);
->      SPARCCPUClass *scc = SPARC_CPU_GET_CLASS(obj);
->      CPUSPARCState *env = &cpu->env;
+> +    CPUNegativeOffsetState neg;
+> +    CPUMBState env;
+> +
+>      /* Microblaze Configuration Settings */
+>      struct {
+>          bool stackprot;
+> @@ -306,8 +309,6 @@ struct MicroBlazeCPU {
+>          char *version;
+>          uint8_t pvr;
+>      } cfg;
+> -
+> -    CPUMBState env;
+>  };
 >
-> -    cs->env_ptr = env;
-> +    cpu_set_cpustate_pointers(cpu);
 >
->      if (scc->cpu_def) {
->          env->def = *scc->cpu_def;
-> diff --git a/target/tilegx/cpu.c b/target/tilegx/cpu.c
-> index b9d37105fa..0bfd4187b8 100644
-> --- a/target/tilegx/cpu.c
-> +++ b/target/tilegx/cpu.c
-> @@ -99,11 +99,9 @@ static void tilegx_cpu_realizefn(DeviceState *dev, Error **errp)
+> diff --git a/target/mips/cpu.h b/target/mips/cpu.h
+> index 52286fcb0e..2d9c5f26eb 100644
+> --- a/target/mips/cpu.h
+> +++ b/target/mips/cpu.h
+> @@ -1048,6 +1048,7 @@ struct MIPSCPU {
+>      CPUState parent_obj;
+>      /*< public >*/
 >
->  static void tilegx_cpu_initfn(Object *obj)
->  {
-> -    CPUState *cs = CPU(obj);
->      TileGXCPU *cpu = TILEGX_CPU(obj);
-> -    CPUTLGState *env = &cpu->env;
+> +    CPUNegativeOffsetState neg;
+>      CPUMIPSState env;
+>  };
 >
-> -    cs->env_ptr = env;
-> +    cpu_set_cpustate_pointers(cpu);
->  }
+> diff --git a/target/moxie/cpu.h b/target/moxie/cpu.h
+> index ebe1c66f52..f5ee8a02f4 100644
+> --- a/target/moxie/cpu.h
+> +++ b/target/moxie/cpu.h
+> @@ -87,6 +87,7 @@ typedef struct MoxieCPU {
+>      CPUState parent_obj;
+>      /*< public >*/
 >
->  static void tilegx_cpu_do_interrupt(CPUState *cs)
-> diff --git a/target/tricore/cpu.c b/target/tricore/cpu.c
-> index e8d37e4040..fc3c3075b3 100644
-> --- a/target/tricore/cpu.c
-> +++ b/target/tricore/cpu.c
-> @@ -104,11 +104,9 @@ static void tricore_cpu_realizefn(DeviceState *dev, Error **errp)
+> +    CPUNegativeOffsetState neg;
+>      CPUMoxieState env;
+>  } MoxieCPU;
 >
->  static void tricore_cpu_initfn(Object *obj)
->  {
-> -    CPUState *cs = CPU(obj);
->      TriCoreCPU *cpu = TRICORE_CPU(obj);
-> -    CPUTriCoreState *env = &cpu->env;
+> diff --git a/target/nios2/cpu.h b/target/nios2/cpu.h
+> index 96c8193179..cd06a2ef41 100644
+> --- a/target/nios2/cpu.h
+> +++ b/target/nios2/cpu.h
+> @@ -181,7 +181,9 @@ typedef struct Nios2CPU {
+>      CPUState parent_obj;
+>      /*< public >*/
 >
-> -    cs->env_ptr = env;
-> +    cpu_set_cpustate_pointers(cpu);
->  }
+> +    CPUNegativeOffsetState neg;
+>      CPUNios2State env;
+> +
+>      bool mmu_present;
+>      uint32_t pid_num_bits;
+>      uint32_t tlb_num_ways;
+> diff --git a/target/openrisc/cpu.h b/target/openrisc/cpu.h
+> index 150227d450..e1acd48652 100644
+> --- a/target/openrisc/cpu.h
+> +++ b/target/openrisc/cpu.h
+> @@ -313,8 +313,8 @@ typedef struct OpenRISCCPU {
+>      CPUState parent_obj;
+>      /*< public >*/
 >
->  static ObjectClass *tricore_cpu_class_by_name(const char *cpu_model)
-> diff --git a/target/unicore32/cpu.c b/target/unicore32/cpu.c
-> index 2b49d1ca40..700c5c5585 100644
-> --- a/target/unicore32/cpu.c
-> +++ b/target/unicore32/cpu.c
-> @@ -103,11 +103,10 @@ static void uc32_cpu_realizefn(DeviceState *dev, Error **errp)
+> +    CPUNegativeOffsetState neg;
+>      CPUOpenRISCState env;
+> -
+>  } OpenRISCCPU;
 >
->  static void uc32_cpu_initfn(Object *obj)
->  {
-> -    CPUState *cs = CPU(obj);
->      UniCore32CPU *cpu = UNICORE32_CPU(obj);
->      CPUUniCore32State *env = &cpu->env;
 >
-> -    cs->env_ptr = env;
-> +    cpu_set_cpustate_pointers(cpu);
+> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> index f970853556..bb57496212 100644
+> --- a/target/ppc/cpu.h
+> +++ b/target/ppc/cpu.h
+> @@ -1184,7 +1184,9 @@ struct PowerPCCPU {
+>      CPUState parent_obj;
+>      /*< public >*/
 >
->  #ifdef CONFIG_USER_ONLY
->      env->uncached_asr = ASR_MODE_USER;
-> diff --git a/target/xtensa/cpu.c b/target/xtensa/cpu.c
-> index a54dbe4260..9461ebad02 100644
-> --- a/target/xtensa/cpu.c
-> +++ b/target/xtensa/cpu.c
-> @@ -138,12 +138,11 @@ static void xtensa_cpu_realizefn(DeviceState *dev, Error **errp)
+> +    CPUNegativeOffsetState neg;
+>      CPUPPCState env;
+> +
+>      int vcpu_id;
+>      uint32_t compat_pvr;
+>      PPCVirtualHypervisor *vhyp;
+> diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
+> index 818692dde5..30a01e8386 100644
+> --- a/target/riscv/cpu.h
+> +++ b/target/riscv/cpu.h
+> @@ -208,6 +208,7 @@ typedef struct RISCVCPU {
+>      /*< private >*/
+>      CPUState parent_obj;
+>      /*< public >*/
+> +    CPUNegativeOffsetState neg;
+>      CPURISCVState env;
+>  } RISCVCPU;
 >
->  static void xtensa_cpu_initfn(Object *obj)
->  {
-> -    CPUState *cs = CPU(obj);
->      XtensaCPU *cpu = XTENSA_CPU(obj);
->      XtensaCPUClass *xcc = XTENSA_CPU_GET_CLASS(obj);
->      CPUXtensaState *env = &cpu->env;
+> diff --git a/target/s390x/cpu.h b/target/s390x/cpu.h
+> index 971dc0ccbd..ebcf7863e4 100644
+> --- a/target/s390x/cpu.h
+> +++ b/target/s390x/cpu.h
+> @@ -156,6 +156,7 @@ struct S390CPU {
+>      CPUState parent_obj;
+>      /*< public >*/
 >
-> -    cs->env_ptr = env;
-> +    cpu_set_cpustate_pointers(cpu);
->      env->config = xcc->config;
+> +    CPUNegativeOffsetState neg;
+>      CPUS390XState env;
+>      S390CPUModel *model;
+>      /* needed for live migration */
+> diff --git a/target/sh4/cpu.h b/target/sh4/cpu.h
+> index 3f2f4043e0..944854dbe0 100644
+> --- a/target/sh4/cpu.h
+> +++ b/target/sh4/cpu.h
+> @@ -204,6 +204,7 @@ struct SuperHCPU {
+>      CPUState parent_obj;
+>      /*< public >*/
 >
->  #ifndef CONFIG_USER_ONLY
+> +    CPUNegativeOffsetState neg;
+>      CPUSH4State env;
+>  };
+>
+> diff --git a/target/sparc/cpu.h b/target/sparc/cpu.h
+> index b170dd592e..ae9ac07a9d 100644
+> --- a/target/sparc/cpu.h
+> +++ b/target/sparc/cpu.h
+> @@ -529,6 +529,7 @@ struct SPARCCPU {
+>      CPUState parent_obj;
+>      /*< public >*/
+>
+> +    CPUNegativeOffsetState neg;
+>      CPUSPARCState env;
+>  };
+>
+> diff --git a/target/tilegx/cpu.h b/target/tilegx/cpu.h
+> index 643b7dbd17..deb3e836ea 100644
+> --- a/target/tilegx/cpu.h
+> +++ b/target/tilegx/cpu.h
+> @@ -135,6 +135,7 @@ typedef struct TileGXCPU {
+>      CPUState parent_obj;
+>      /*< public >*/
+>
+> +    CPUNegativeOffsetState neg;
+>      CPUTLGState env;
+>  } TileGXCPU;
+>
+> diff --git a/target/tricore/cpu.h b/target/tricore/cpu.h
+> index 581e68e37c..43ef29b6bd 100644
+> --- a/target/tricore/cpu.h
+> +++ b/target/tricore/cpu.h
+> @@ -205,6 +205,7 @@ struct TriCoreCPU {
+>      CPUState parent_obj;
+>      /*< public >*/
+>
+> +    CPUNegativeOffsetState neg;
+>      CPUTriCoreState env;
+>  };
+>
+> diff --git a/target/unicore32/cpu.h b/target/unicore32/cpu.h
+> index abb36b5d48..140c590ec1 100644
+> --- a/target/unicore32/cpu.h
+> +++ b/target/unicore32/cpu.h
+> @@ -73,6 +73,7 @@ struct UniCore32CPU {
+>      CPUState parent_obj;
+>      /*< public >*/
+>
+> +    CPUNegativeOffsetState neg;
+>      CPUUniCore32State env;
+>  };
+>
+> diff --git a/target/xtensa/cpu.h b/target/xtensa/cpu.h
+> index 748b6fca25..1bbb839bed 100644
+> --- a/target/xtensa/cpu.h
+> +++ b/target/xtensa/cpu.h
+> @@ -526,6 +526,7 @@ struct XtensaCPU {
+>      CPUState parent_obj;
+>      /*< public >*/
+>
+> +    CPUNegativeOffsetState neg;
+>      CPUXtensaState env;
+>  };
+>
 > --
 > 2.17.1
 >
