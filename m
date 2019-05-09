@@ -2,64 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2E123189DB
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 14:37:33 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53974 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 175BA18A34
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 15:02:12 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54246 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOiIm-0001MA-Bs
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 08:37:32 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38609)
+	id 1hOigd-0007BD-3D
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 09:02:11 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43031)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hOiHB-0000JM-92
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 08:35:54 -0400
+	(envelope-from <stefanha@gmail.com>) id 1hOifW-0006sC-UB
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 09:01:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hOiHA-000631-EH
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 08:35:53 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:43217)
+	(envelope-from <stefanha@gmail.com>) id 1hOifV-0004Kb-Ud
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 09:01:02 -0400
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:41085)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hOiH8-00062O-Of
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 08:35:51 -0400
-Received: by mail-ot1-x343.google.com with SMTP id i8so2082939oth.10
-	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 05:35:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=/c8NpCtB6f7vBdcPoqJZX2eSeWl6Pti4f5HPBrBZ1b0=;
-	b=ND/Hytvu7c6FeyNL5vf/yp7JdDXLdj34MDwXYYfRDAVAuZkADSM+fNKXUtiw+zNJsc
-	wMGQujsPq5cJJxG1gptjtMm2xdEacib0FoMZkySP5AgOhpfeaeA9raruMx2noC4AjZRD
-	M34ybXpmiKU3nDc59iVHi5C+jfokRXm5PM6lyFAjuVJhCxzhhFVx1OHeQIv/bIViXKrM
-	qKVi4YVvCo21WzGxods5tJBKuJjFnU0p/XUlUG4Q6XrkoqleFQyui3b8d9epZ0ywpzu5
-	BRnr6mH5v7T8MLcCAhcqSpU3YBM+KbVSG3NK6FjnDx04XXXcDiv+feBPTO0wONJmr20i
-	Ww5Q==
+	(Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1hOifV-0004Gt-Nb
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 09:01:01 -0400
+Received: by mail-wr1-x442.google.com with SMTP id d12so2932280wrm.8
+	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 06:00:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=Xsv7nhlVWRjNIucZKrV0nDBdcCmbyf3/aSy5Se95SYI=;
+	b=GZa8xEv/ejPCI276I2Zoqb0xZdw9BlTClPDZjoD7gC51+oqyANQbA2jfbvfPS3TPoi
+	j4+GHb5PrdqbznOc+RdkQTKFGhpkKiRuy2sW1O3Z5qQyy1W0EP6YMDpLXy2DsUpgxxvW
+	NOtGiflGE1LJlvIUa1ySE1FUNGycBfTwag9gEMACRVZDlMYHnxU0hbRQz9ES6DsVOyGh
+	ahlqMGZvB3bvsX7oXqV2UR9ZvcsUX8+okZqUOQabSqXoc/AgZstdZhzXws2d0KXpMHoJ
+	kiiJJ/iwOzhJ9PwK9yPBGkY1+cP4VYp8yV6wzNnmPDUgA0k8ICyATkut0BfWvzCz+xCn
+	/q7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=/c8NpCtB6f7vBdcPoqJZX2eSeWl6Pti4f5HPBrBZ1b0=;
-	b=q/dzak652sKTeG9ePB8OpBSmvYXXd+JmxoUVECdVuxMy8fFrsCf0baJxPV7Vu1ln5u
-	YSLSfsXsJd+HndjHAS6A+mkYGe8UGeLGG1Te6Eh+EuvTi05SoWQyvZ91MYpGHhK7g6Xg
-	Y+jg2IuHwTK8nM3eTDw6/4rZHhaLRr2JyvCej5NTDpm39SSXqJ6JReafGvE2mA3WPN/D
-	fN44dv8MK94CjpikPN/AgIuyRGy0J6szRn4nGxpshPrwOGDyPeb1iA5W/2jySx6WtC6F
-	CeSY1SpK1IwzRF1G1rRE7kh3LqFV0eYvDyB//LfkcnN7+7M74YtgtSNFmj+1F81LoHo+
-	SGNA==
-X-Gm-Message-State: APjAAAUeY67Aw4nflhveBwOELQixq96c3Xi1lfv81WgR9/2q/q90Twqx
-	JRxg0ewX14ZmF9r0IczdJKw/lMvRK4UeF/073EEvWw==
-X-Google-Smtp-Source: APXvYqy07K2JAjrHgxr70bXNP2NdpECTJnEJkIH6gp9TuUedktgjPxyycBtaODJ5e4s4BJazSehdZooyRFK5zoMMAoQ=
-X-Received: by 2002:a9d:6156:: with SMTP id c22mr2233139otk.363.1557405349420; 
-	Thu, 09 May 2019 05:35:49 -0700 (PDT)
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=Xsv7nhlVWRjNIucZKrV0nDBdcCmbyf3/aSy5Se95SYI=;
+	b=I0KERe0y8OPGbTBIk6SKT1759PTGGNhCGUph5sJXNAPF0jXql3eO1vojEjEoGQeQKj
+	0UoeCYYieo+nCOk70aYR5MzA318hlGPOA3/+4DycrMlQzLWRSt7NocTbtVe5wXddekUm
+	ufAutI9uZCPK86Y5eeWUKf5xer8E1PzodKVbLHifHr7IdyUbNy2zQd1xl1Lk5MLEg2cQ
+	TRUv/GPP/JcGlUIPrY5S6Lcpodzm/6Fw/w3WTnAYDMMBghwH2RYNt2uyh388uGmQxspN
+	uvEFzIsfiOJPCPhnJDPrp/q3xc9O5iazOdOZHJHXSSJ+5JOXdYfUyR0Jsutd1R2N/Kft
+	ULbw==
+X-Gm-Message-State: APjAAAU7w6XKvdWVCorDQuuow49EbLxVawjvkiHT4CGSxTV6MgRYxuVI
+	Uj35ZkeuUvdE3piAmVCsSu8=
+X-Google-Smtp-Source: APXvYqwapS13d8W0aKEVgzxF7odsEkolIzteHAwWvMx2ypjMLEzHEFbMw24JDKt5mfdDrMoCN1goDQ==
+X-Received: by 2002:adf:da4a:: with SMTP id r10mr2993003wrl.216.1557406858755; 
+	Thu, 09 May 2019 06:00:58 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+	by smtp.gmail.com with ESMTPSA id k2sm3248401wrg.22.2019.05.09.06.00.57
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 09 May 2019 06:00:57 -0700 (PDT)
+Date: Thu, 9 May 2019 14:00:56 +0100
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Ernest Esene <eroken1@gmail.com>
+Message-ID: <20190509130056.GA17133@stefanha-x1.localdomain>
+References: <20190504181119.GA3317@erokenlabserver>
 MIME-Version: 1.0
-References: <20190509080105.22228-1-samuel.thibault@ens-lyon.org>
-In-Reply-To: <20190509080105.22228-1-samuel.thibault@ens-lyon.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 9 May 2019 13:35:38 +0100
-Message-ID: <CAFEAcA8A8JVZuwrj+yDgQGkN4-UYhy1-_Mq10FbHGLUVMJ5=kQ@mail.gmail.com>
-To: Samuel Thibault <samuel.thibault@ens-lyon.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="a8Wt8u1KmwUX3Y2C"
+Content-Disposition: inline
+In-Reply-To: <20190504181119.GA3317@erokenlabserver>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::343
-Subject: Re: [Qemu-devel] [PULL 0/1] Update upstream slirp
+X-Received-From: 2a00:1450:4864:20::442
+Subject: Re: [Qemu-devel] [PATCH v2] chardev/char-i2c: Implement Linux I2C
+ character device
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -71,42 +79,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jan Kiszka <jan.kiszka@siemens.com>,
-	QEMU Developers <qemu-devel@nongnu.org>,
-	Stefan Hajnoczi <stefanha@redhat.com>
+Cc: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+	Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 9 May 2019 at 09:01, Samuel Thibault
-<samuel.thibault@ens-lyon.org> wrote:
->
-> The following changes since commit 30302acee710881cb248ec3391adcd54dcf52396:
->
->   Update upstream slirp (2019-05-09 09:58:57 +0200)
->
-> are available in the Git repository at:
->
->   https://people.debian.org/~sthibault/qemu.git tags/samuel-thibault
->
-> for you to fetch changes up to 30302acee710881cb248ec3391adcd54dcf52396:
->
->   Update upstream slirp (2019-05-09 09:58:57 +0200)
->
-> ----------------------------------------------------------------
-> Update slirp submodule
->
-> Samuel Thibault (1):
->   Update upstream slirp
->   Adds gitignore, README file, and fixes ident protocol parsing.
->
-> ----------------------------------------------------------------
 
+--a8Wt8u1KmwUX3Y2C
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Sat, May 04, 2019 at 07:11:19PM +0100, Ernest Esene wrote:
+> Add support for Linux I2C character device for I2C device passthrough
+> For example:
+> -chardev linux-i2c,address=3D0x46,path=3D/dev/i2c-N,id=3Di2c-chardev
 
-Applied, thanks.
+There is a mixture of "linux-i2c" and "char-i2c" names in this patch,
+which I find confusing.  Maybe you changed your mind while writing this
+code.  There are two options:
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
-for any user-visible changes.
+1. Call it "linux-i2c".  Other host operating systems will need their
+   own equivalent objects.
 
--- PMM
+2. Call it "char-i2c" and make all the parameters optional since they
+   are likely to work differently on other host operating systems.
+
+I tend towards the second approach because I think I2C is simple enough
+that a single user-visible object can work on all host operating
+systems.
+
+Please make the naming consistent in the next revision of this patch.
+
+>=20
+> Signed-off-by: Ernest Esene <eroken1@gmail.com>
+>=20
+> ---
+> v2:
+>   * Fix errors
+>   * update "MAINTAINERS" file.
+> ---
+>  MAINTAINERS                |   6 ++
+>  chardev/Makefile.objs      |   1 +
+>  chardev/char-i2c.c         | 140 +++++++++++++++++++++++++++++++++++++++=
+++++++
+>  chardev/char.c             |   3 +
+>  include/chardev/char-i2c.h |  35 ++++++++++++
+>  include/chardev/char.h     |   1 +
+>  qapi/char.json             |  18 ++++++
+>  7 files changed, 204 insertions(+)
+>  create mode 100644 chardev/char-i2c.c
+>  create mode 100644 include/chardev/char-i2c.h
+
+Please update the qemu-options.texi user documentation.
+
+--a8Wt8u1KmwUX3Y2C
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAlzUJGsACgkQnKSrs4Gr
+c8j7tQgAorfguVIcz7L0RXU9y9nf88CxTmEiJhbXmSorszkYWWIlUDnJDRlLa4CO
+jmE01VTbC1pbCan+C7CzLJZGbDeRQHccCsfvDBUvUuWuZn3Myx9EbzpbYUsdCsoY
+NopH+AcKA6eBHPdVVbpW9wsGnKps6TI55VPbytMMI0Y+kpOPwiJ36k349RBhnP5y
+Q8mNfTOnVP1QeHhjrvISLF5ppFdV12AMqAgbopwLyEhCPp367P4jvnnaOEceLwQu
+lvlyIc86SrGFYiWsNrBjLglsy0y7gW40R3zkGEMg7nKQxhA/8m7tJtI+g1KFRS8x
+UpkJf/ti2E82P0WPYcO2fE5JBY8vzw==
+=UCqN
+-----END PGP SIGNATURE-----
+
+--a8Wt8u1KmwUX3Y2C--
 
