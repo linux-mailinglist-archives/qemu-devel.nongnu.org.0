@@ -2,41 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD1C418CA4
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 17:03:38 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:56134 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0668F18CCC
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 17:18:34 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:56365 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOka9-0006Uh-BE
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 11:03:37 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42668)
+	id 1hOkoa-00044Y-1h
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 11:18:32 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45737)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <brogers@suse.com>) id 1hOkYv-00060x-7b
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 11:02:22 -0400
+	(envelope-from <sgarzare@redhat.com>) id 1hOkmn-0003Ml-TC
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 11:16:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <brogers@suse.com>) id 1hOkYq-0004CR-6u
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 11:02:21 -0400
-Received: from prv-mh.provo.novell.com ([137.65.248.74]:34243)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <brogers@suse.com>) id 1hOkYp-00045W-Tp
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 11:02:16 -0400
-Received: from INET-PRV-MTA by prv-mh.provo.novell.com
-	with Novell_GroupWise; Thu, 09 May 2019 09:02:11 -0600
-Message-Id: <5CD44158020000480009E63D@prv-mh.provo.novell.com>
-X-Mailer: Novell GroupWise Internet Agent 18.1.1 
-Date: Thu, 09 May 2019 09:03:52 -0600
-From: "Bruce Rogers" <brogers@suse.com>
-To: <qemu-devel@nongnu.org>,"Bruce Rogers" <BROGERS@suse.com>
-References: <20190411175138.12838-1-brogers@suse.com>
-In-Reply-To: <20190411175138.12838-1-brogers@suse.com>
-Mime-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+	(envelope-from <sgarzare@redhat.com>) id 1hOkmm-0003jF-VB
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 11:16:41 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:44738)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1hOkmm-0003hp-O8
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 11:16:40 -0400
+Received: by mail-wr1-f65.google.com with SMTP id c5so3560734wrs.11
+	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 08:16:40 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=Qv21UG6PYs6XfxcKFP3vb31xomhEI8qGAEW0Lzkhx7o=;
+	b=AoCgqL5QheHL1S9o2yKEy/pcnsaav+7tMZc6BWcFIP6rfgTJnh/i/JElWySRTCznW0
+	CWDFL1sowzlVXti+HS2Am7Sg9D/6rdU5yCIm3vHIESmImnkWRqVoJKk9OAmkoBlmpolb
+	uorzFi8Fg/+9kXeER+453UT+f5xQ5L9+CjrhnxCE5tm5/EEH0F8rCx3HF0I/CEfI1NbD
+	uyBVSYke4B3OD7Z0MuaCiaQUuncLZ5rSrq6xd9zbTAwawEqpC1N908QCYCw3kksA3eDD
+	5dNSzS710SyKBmvkPnx+CSaB7ZQB+Vf+Sk6e164FQtJn4R6DVbttPw5zlyC84AfYKN3m
+	MI5g==
+X-Gm-Message-State: APjAAAWWVPCcc4jJKX8l29tJMQ+0u0uOHrsy7iR95vdDmiYFbrpnnhGJ
+	pQ/D6xDhLKxqi757Sgf2ciYKaQ==
+X-Google-Smtp-Source: APXvYqzzqS5lDB6na5PrI+thN3kmicuan3RYFlTdCFpIbyPZX5iVs4+9ryLMuxmkKoDlerLFPGXEqQ==
+X-Received: by 2002:a5d:4111:: with SMTP id l17mr3559227wrp.242.1557414999488; 
+	Thu, 09 May 2019 08:16:39 -0700 (PDT)
+Received: from steredhat (host151-251-static.12-87-b.business.telecomitalia.it.
+	[87.12.251.151]) by smtp.gmail.com with ESMTPSA id
+	q24sm1604065wmc.18.2019.05.09.08.16.38
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 09 May 2019 08:16:38 -0700 (PDT)
+Date: Thu, 9 May 2019 17:16:36 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Message-ID: <20190509151636.xcon4rt7ybdo32pz@steredhat>
+References: <20190509133737.242548-1-sgarzare@redhat.com>
+	<87y33f1xw4.fsf@dusky.pond.sub.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 137.65.248.74
-Subject: Re: [Qemu-devel] [PATCH] hw/smbios: handle both file formats
- regardless of machine type
+In-Reply-To: <87y33f1xw4.fsf@dusky.pond.sub.org>
+User-Agent: NeoMutt/20180716
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+	[fuzzy]
+X-Received-From: 209.85.221.65
+Subject: Re: [Qemu-devel] [PATCH] net/slirp: fix the error message when the
+ prefix len is invalid
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -48,127 +70,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Michael S. Tsirkin" <mst@redhat.com>
+Cc: qemu-trivial@nongnu.org, Jan Kiszka <jan.kiszka@siemens.com>,
+	Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
+	Samuel Thibault <samuel.thibault@ens-lyon.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
->>> On 4/11/2019 at 11:51 AM, Bruce Rogers <brogers@suse.com> wrote:
-> It's easy enough to handle either per=E2=80=91spec or legacy smbios =
-structures
-> in the smbios file input without regard to the machine type used, by
-> simply applying the basic smbios formatting rules. then depending on
-> what is detected. terminal numm bytes are added or removed for machine
-> type specific processing.
->=20
-> Signed=E2=80=91off=E2=80=91by: Bruce Rogers <brogers@suse.com>
-> =E2=80=91=E2=80=91=E2=80=91
->  hw/smbios/smbios.c | 43 +++++++++++++++++++++++++++++++++++++++=E2=80=91=
-=E2=80=91=E2=80=91=E2=80=91
->  1 file changed, 39 insertions(+), 4 deletions(=E2=80=91)
->=20
-> diff =E2=80=91=E2=80=91git a/hw/smbios/smbios.c b/hw/smbios/smbios.c
-> index 47be9071fa..d4b95ebc84 100644
-> =E2=80=91=E2=80=91=E2=80=91 a/hw/smbios/smbios.c
-> +++ b/hw/smbios/smbios.c
-> @@ =E2=80=91960,6 +960,7 @@ void smbios_entry_add(QemuOpts *opts, Error =
-**errp)
->          struct smbios_structure_header *header;
->          int size;
->          struct smbios_table *table; /* legacy mode only */
-> +        uint8_t *dbl_nulls, *orig_end;
-> =20
->          qemu_opts_validate(opts, qemu_smbios_file_opts, &err);
->          if (err) {
-> @@ =E2=80=91974,11 +975,21 @@ void smbios_entry_add(QemuOpts *opts, =
-Error **errp)
->          }
-> =20
->          /*
-> =E2=80=91         * NOTE: standard double '\0' terminator expected, per =
-smbios spec.
-> =E2=80=91         * (except in legacy mode, where the second '\0' is =
-implicit and
-> =E2=80=91         *  will be inserted by the BIOS).
-> +         * NOTE: standard double '\0' terminator expected, per smbios =
-spec,
-> +         * unless the data is formatted for legacy mode, which is used =
-by
-> +         * pc=E2=80=91i440fx=E2=80=912.0 and earlier machine types. =
-Legacy mode structures
-> +         * without strings have no '\0' terminators, and those with =
-strings
-> +         * also don't have an additional '\0' terminator at the end of =
-the
-> +         * final string '\0' terminator. The BIOS will add the '\0'=20
-> terminators
-> +         * to comply with the smbios spec.
-> +         * For greater compatibility, regardless of the machine type =
-used,
-> +         * either format is accepted.
->           */
-> =E2=80=91        smbios_tables =3D g_realloc(smbios_tables, smbios_tables=
-_len + size);
-> +        smbios_tables =3D g_realloc(smbios_tables, smbios_tables_len + =
-size +=20
-> 2);
-> +        orig_end =3D smbios_tables + smbios_tables_len + size;
-> +        /* add extra null bytes to end in case of legacy file data */
-> +        *orig_end =3D '\0';
-> +        *(orig_end + 1) =3D '\0';
->          header =3D (struct smbios_structure_header *)(smbios_tables +
->                                                      smbios_tables_len);
-> =20
-> @@ =E2=80=91993,6 +1004,19 @@ void smbios_entry_add(QemuOpts *opts, =
-Error **errp)
->                         header=E2=80=91>type);
->              return;
->          }
-> +        for (dbl_nulls =3D smbios_tables + smbios_tables_len + =
-header=E2=80=91>length;
-> +             dbl_nulls + 2 <=3D orig_end; dbl_nulls++) {
-> +            if (*dbl_nulls =3D=3D '\0' && *(dbl_nulls + 1) =3D=3D '\0') =
-{
-> +                break;
-> +            }
-> +        }
-> +        if (dbl_nulls + 2  < orig_end) {
-> +            error_setg(errp, "SMBIOS file data malformed");
-> +            return;
-> +        }
-> +        /* increase size by how many extra nulls were actually needed =
-*/
-> +        size +=3D dbl_nulls + 2 =E2=80=91 orig_end;
-> +        smbios_tables =3D g_realloc(smbios_tables, smbios_tables_len + =
-size);
->          set_bit(header=E2=80=91>type, have_binfile_bitmap);
-> =20
->          if (header=E2=80=91>type =3D=3D 4) {
-> @@ =E2=80=911013,6 +1037,17 @@ void smbios_entry_add(QemuOpts *opts, =
-Error **errp)
->           *       delete the one we don't need from smbios_set_defaults()=
-,
->           *       once we know which machine version has been requested.
->           */
-> +        if (dbl_nulls + 2 =3D=3D orig_end) {
-> +            /* chop off nulls to get legacy format */
-> +            if (header=E2=80=91>length + 2 =3D=3D size) {
-> +                size =E2=80=91=3D 2;
-> +            } else {
-> +                size =E2=80=91=3D 1;
-> +        
-    }
-> +        } else {
-> +            /* undo conversion from legacy format to per=E2=80=91spec =
-format */
-> +            size =E2=80=91=3D dbl_nulls + 2 =E2=80=91 orig_end;
-> +        }
->          if (!smbios_entries) {
->              smbios_entries_len =3D sizeof(uint16_t);
->              smbios_entries =3D g_malloc0(smbios_entries_len);
-> =E2=80=91=E2=80=91=20
-> 2.21.0
+On Thu, May 09, 2019 at 04:54:35PM +0200, Markus Armbruster wrote:
+> Stefano Garzarella <sgarzare@redhat.com> writes:
+> 
+> > Add a missing parentheses at the end of the error message,
+> > when we have an invalid prefix len.
+> >
+> > Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+> > ---
+> >  net/slirp.c | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/net/slirp.c b/net/slirp.c
+> > index 95934fb36d..0f4ae0abc0 100644
+> > --- a/net/slirp.c
+> > +++ b/net/slirp.c
+> > @@ -498,7 +498,8 @@ static int net_slirp_init(NetClientState *peer, const char *model,
+> >      }
+> >      if (vprefix6_len < 0 || vprefix6_len > 126) {
+> >          error_setg(errp,
+> > -                   "Invalid prefix provided (prefix len must be in range 0-126");
+> > +                   "Invalid prefix provided "
+> > +                   "(prefix len must be in range 0-126)");
+> >          return -1;
+> >      }
+> 
+> Preexisting: the error message fails to identify the offending
+> parameter.  The user needs to make the connection to "ipv6-prefixlen"
+> based on the fact that the only parameters with "prefix" in name or
+> description are "ipv6-prefix" and "ipv6-prefixlen", and only the latter
+> is a length.
+> 
+> What about "Parameter 'ipv6-prefixlen' expects a length below 127", or
+> "Parameter 'ipv6-prefixlen' expects a value between 0 and 126"?
 
-ping
+"Parameter 'ipv6-prefixlen' expects a value between 0 and 126" should be
+fine.
 
-- Bruce
+Otherwise, since other errors didn't refer to the parameter name, we can
+simply add IPv6 in this way:
+"Invalid IPv6 prefix provided (IPv6 prefix len must be between 0 and 126)"
+
+But I'm fine also with your proposal.
+
+Thanks,
+Stefano
 
