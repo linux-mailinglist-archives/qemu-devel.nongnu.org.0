@@ -2,67 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBB4618C33
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 16:43:42 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55826 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8880D18C42
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 16:48:42 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:55901 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOkGs-0005UN-2N
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 10:43:42 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37417)
+	id 1hOkLh-0007k7-Ph
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 10:48:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38381)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hOkFq-00056f-Gh
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 10:42:39 -0400
+	(envelope-from <berrange@redhat.com>) id 1hOkJe-0006Wk-5u
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 10:46:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hOkFp-00035n-1O
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 10:42:38 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:44112)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hOkFo-00035D-Tb
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 10:42:36 -0400
-Received: by mail-ot1-x342.google.com with SMTP id g18so2280724otj.11
-	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 07:42:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=O6m3IXwg6vCfQkt0Baoa8IrX9DyythtztZcrJxNudz8=;
-	b=fQGfaOXlnnR9/9VfJ3kGudEozxXcQGSib7oK7AVRt0WH0h2Is5snEjNiWcw5d6gRwG
-	DKu9S9oeJANdLqBwRw4BGVfdqm8YAeLN+N5b37HC3mxR4Zf+TXuyPH6bTEzlVD1I5hhA
-	yvVh7J4V0gRyELCcqikJAN+hVC0iitJ45yNJVvBgmtLLEazUoWnXxufRBBgjqwzXQ0bN
-	/jSiGLpPILIOUP1ojqA4YzEpnF2xmqfV5DqnGs0zGE2NEdC6v3Ndxc0mzqDMirO4Y/aE
-	8A9mPGf9egWrLMgPB6/zA1z0HefpEH682H3tIac5p3Y+TwDiGkSb5kBvbjAwGLbheJtR
-	SucA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=O6m3IXwg6vCfQkt0Baoa8IrX9DyythtztZcrJxNudz8=;
-	b=Bf1HGjCVBFFX1u67XBGEirZSMnq7gTqmyHob5+B5rN7hrcxBfe3gRaXlb/vSN0SD6q
-	Tx0PCdl2nYqIVorQV2NeFboTbiRJYB0OCJBETQ7vkNGODy+v+rhDhHSBceYgY+sjWtlQ
-	Ho3utmN1ZkHjIR4IPbpZzUolAraR9Dvfl9EiPFuC4FSxMusCUHmtYnnHL2+Me0HgbeWt
-	sejHQv1t8Lq+nUA02EjtmcAuFSK8U6vOnVk/WG1BMoFrqgW6mZfyihs/z/Mlw7e9gaLH
-	NolzqpBUOCKLzpnZnf4VxMBW788WbZGET97n1C/gI2jLiQrHYRGPUBoZceuT5n7BICWl
-	0r6A==
-X-Gm-Message-State: APjAAAVeb0gMm9DkQvRxbBwlVy+TF9WyT4sZc+oVMeRlFgF5M6wPrLw+
-	FhlXjlQouMiGwNVHI9nHOtQGol4pzo25kBqwFekMyssKjgQ=
-X-Google-Smtp-Source: APXvYqzVlFuSy58r6XomBEhrCKT+r+i9pHkWZ/C3NhK++0FRzdD09Xh0RMXDCbxICZC2BJK0DjG9QGYbfs4pyJ7QS/c=
-X-Received: by 2002:a9d:404:: with SMTP id 4mr2755296otc.352.1557412956005;
-	Thu, 09 May 2019 07:42:36 -0700 (PDT)
+	(envelope-from <berrange@redhat.com>) id 1hOkJc-00058z-O0
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 10:46:34 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60831)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hOkJc-00058g-7F
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 10:46:32 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+	[10.5.11.16])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 405D4806D3;
+	Thu,  9 May 2019 14:46:31 +0000 (UTC)
+Received: from redhat.com (ovpn-112-55.ams2.redhat.com [10.36.112.55])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5708F5C582;
+	Thu,  9 May 2019 14:46:20 +0000 (UTC)
+Date: Thu, 9 May 2019 15:46:17 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Laurent Vivier <lvivier@redhat.com>
+Message-ID: <20190509144617.GE31299@redhat.com>
+References: <20190509142342.6132-1-lvivier@redhat.com>
 MIME-Version: 1.0
-References: <20190503082728.16485-1-ao2@ao2.it>
-	<20190503082728.16485-3-ao2@ao2.it>
-	<541bfc5c-0e45-58e6-f0b1-81e9b0c8881d@redhat.com>
-In-Reply-To: <541bfc5c-0e45-58e6-f0b1-81e9b0c8881d@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 9 May 2019 15:42:25 +0100
-Message-ID: <CAFEAcA8An-KWOc3gOz2=45eCHCmUJEJw_bTrrCW6bYO23H8TPw@mail.gmail.com>
-To: Eric Blake <eblake@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::342
-Subject: Re: [Qemu-devel] [PATCH v2 2/2] configure: disallow spaces and
- colons in source path and build path
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190509142342.6132-1-lvivier@redhat.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.26]);
+	Thu, 09 May 2019 14:46:31 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [RFC] rng-builtin: add an RNG backend that uses
+ qemu_guest_getrandom()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -74,73 +58,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Antonio Ospite <ao2@ao2.it>,
-	Antonio Ospite <antonio.ospite@collabora.com>,
-	QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Amit Shah <amit@kernel.org>, qemu-devel@nongnu.org,
+	Kashyap Chamarthy <kchamart@redhat.com>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Markus Armbruster <armbru@redhat.com>,
+	"Richard W . M . Jones" <rjones@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 6 May 2019 at 18:27, Eric Blake <eblake@redhat.com> wrote:
->
-> On 5/3/19 3:27 AM, Antonio Ospite wrote:
-> > From: Antonio Ospite <antonio.ospite@collabora.com>
-> >
-> > The configure script breaks when the qemu source directory is in a path
-> > containing white spaces, in particular the list of targets is not
-> > correctly generated when calling "./configure --help" because of how the
-> > default_target_list variable is built.
-> >
-> > In addition to that, *building* qemu from a directory with spaces breaks
-> > some assumptions in the Makefiles, even if the original source path does
-> > not contain spaces like in the case of an out-of-tree build, or when
-> > symlinks are involved.
-> >
-> > To avoid these issues, refuse to run the configure script and the
-> > Makefile if there are spaces or colons in the source path or the build
-> > path, taking as inspiration what the kbuild system in linux does.
-> >
-> > Buglink: https://bugs.launchpad.net/qemu/+bug/1817345
-> >
-> > Signed-off-by: Antonio Ospite <antonio.ospite@collabora.com>
-> > ---
-> >  Makefile  | 4 ++++
-> >  configure | 6 ++++++
-> >  2 files changed, 10 insertions(+)
-> >
->
-> > +++ b/Makefile
-> > @@ -1,5 +1,9 @@
-> >  # Makefile for QEMU.
-> >
-> > +ifneq ($(words $(subst :, ,$(CURDIR))), 1)
-> > +  $(error main directory cannot contain spaces nor colons)
-> > +endif
-> > +
-> >  # Always point to the root of the build tree (needs GNU make).
-> >  BUILD_DIR=$(CURDIR)
-> >
-> > diff --git a/configure b/configure
-> > index 9832cbca5c..f7ad4381bd 100755
-> > --- a/configure
-> > +++ b/configure
-> > @@ -279,6 +279,12 @@ ld_has() {
-> >  # make source path absolute
-> >  source_path=$(cd "$(dirname -- "$0")"; pwd)
-> >
-> > +if printf "%s\n" "$source_path" | grep -q "[[:space:]:]" ||
-> > +  printf "%s\n" "$PWD" | grep -q "[[:space:]:]";
->
-> For less typing and fewer processes, you could shorten this to:
->
-> if printf %s\\n "$source_path" "$PWD" | grep -q "[[:space:]:]";
->
-> but that's trivial enough for a maintainer to fold in if desired.
->
-> Reviewed-by: Eric Blake <eblake@redhat.com>
+On Thu, May 09, 2019 at 04:23:42PM +0200, Laurent Vivier wrote:
+> Add a new RNG backend using QEMU builtin getrandom function.
+> 
+> It can be created with "-object rng-builtin".
+> 
+> This patch applies on top of
+> "[PATCH v4 00/24] Add qemu_getrandom and ARMv8.5-RNG etc"
+> Based-on: <20190506173353.32206-1-richard.henderson@linaro.org>
 
-What tree is this going to go in via? I suggest the
--trivial tree.
+These 3 lines ought to be below the "---" since they're not
+relevant once merged.
 
-thanks
--- PMM
+> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+> ---
+>  backends/Makefile.objs |  2 +-
+>  backends/rng-builtin.c | 56 ++++++++++++++++++++++++++++++++++++++++++
+>  2 files changed, 57 insertions(+), 1 deletion(-)
+>  create mode 100644 backends/rng-builtin.c
+
+qemu-options.hx has docs for each backend object type. We should
+add rng-builtin there, and also perhaps update rng-random docs to
+have it encourse use of rng-builtin by default instead.
+
+The code itself looks good.
+
+> 
+> diff --git a/backends/Makefile.objs b/backends/Makefile.objs
+> index ff619d31b461..8da4a508d97b 100644
+> --- a/backends/Makefile.objs
+> +++ b/backends/Makefile.objs
+> @@ -1,4 +1,4 @@
+> -common-obj-y += rng.o rng-egd.o
+> +common-obj-y += rng.o rng-egd.o rng-builtin.o
+>  common-obj-$(CONFIG_POSIX) += rng-random.o
+>  
+>  common-obj-$(CONFIG_TPM) += tpm.o
+> diff --git a/backends/rng-builtin.c b/backends/rng-builtin.c
+> new file mode 100644
+> index 000000000000..b1264b745407
+> --- /dev/null
+> +++ b/backends/rng-builtin.c
+> @@ -0,0 +1,56 @@
+> +/*
+> + * QEMU Builtin Random Number Generator Backend
+> + *
+> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> + * See the COPYING file in the top-level directory.
+> + */
+> +
+> +#include "qemu/osdep.h"
+> +#include "sysemu/rng.h"
+> +#include "qapi/error.h"
+> +#include "qapi/qmp/qerror.h"
+> +#include "qemu/main-loop.h"
+> +#include "qemu/guest-random.h"
+> +
+> +#define TYPE_RNG_BUILTIN "rng-builtin"
+> +#define RNG_BUILTIN(obj) OBJECT_CHECK(RngBuiltin, (obj), TYPE_RNG_BUILTIN)
+> +
+> +typedef struct RngBuiltin {
+> +    RngBackend parent;
+> +} RngBuiltin;
+> +
+> +static void rng_builtin_request_entropy(RngBackend *b, RngRequest *req)
+> +{
+> +    RngBuiltin *s = RNG_BUILTIN(b);
+> +
+> +    while (!QSIMPLEQ_EMPTY(&s->parent.requests)) {
+> +        RngRequest *req = QSIMPLEQ_FIRST(&s->parent.requests);
+> +
+> +        qemu_guest_getrandom_nofail(req->data, req->size);
+> +
+> +        req->receive_entropy(req->opaque, req->data, req->size);
+> +
+> +        rng_backend_finalize_request(&s->parent, req);
+> +    }
+> +}
+> +
+> +static void rng_builtin_class_init(ObjectClass *klass, void *data)
+> +{
+> +    RngBackendClass *rbc = RNG_BACKEND_CLASS(klass);
+> +
+> +    rbc->request_entropy = rng_builtin_request_entropy;
+> +}
+> +
+> +static const TypeInfo rng_builtin_info = {
+> +    .name = TYPE_RNG_BUILTIN,
+> +    .parent = TYPE_RNG_BACKEND,
+> +    .instance_size = sizeof(RngBuiltin),
+> +    .class_init = rng_builtin_class_init,
+> +};
+> +
+> +static void register_types(void)
+> +{
+> +    type_register_static(&rng_builtin_info);
+> +}
+> +
+> +type_init(register_types);
+> -- 
+> 2.20.1
+> 
+
+Regards,
+Daniel
+-- 
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.com :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
 
