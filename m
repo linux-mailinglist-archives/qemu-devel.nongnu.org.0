@@ -2,58 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 92ACE18500
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 07:57:10 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48515 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7A801850A
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 08:05:25 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48567 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOc3J-0003zR-R3
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 01:57:09 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43677)
+	id 1hOcBI-00078U-Ti
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 02:05:24 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44738)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hOc2C-0003Hq-NO
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 01:56:01 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hOc8q-0005v9-NB
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 02:02:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hOc2A-00025L-LX
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 01:56:00 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55122)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hOc29-000237-MK
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 01:55:58 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 58AD0307EA8E;
-	Thu,  9 May 2019 05:55:54 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-28.ams2.redhat.com
-	[10.36.116.28])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 006D01001DE7;
-	Thu,  9 May 2019 05:55:53 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
-	id 89C081132B35; Thu,  9 May 2019 07:55:52 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-References: <20190419061429.17695-1-ehabkost@redhat.com>
-	<87ftprre87.fsf@dusky.pond.sub.org>
-	<20190506195321.GB28722@habkost.net>
-	<877eb173a3.fsf@dusky.pond.sub.org>
-	<20190508194622.GD4189@habkost.net>
-Date: Thu, 09 May 2019 07:55:52 +0200
-In-Reply-To: <20190508194622.GD4189@habkost.net> (Eduardo Habkost's message of
-	"Wed, 8 May 2019 16:46:22 -0300")
-Message-ID: <87bm0c893r.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+	(envelope-from <richard.henderson@linaro.org>) id 1hOc8p-00070O-FO
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 02:02:52 -0400
+Received: from mail-pf1-x436.google.com ([2607:f8b0:4864:20::436]:38435)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hOc8p-0006zl-5B
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 02:02:51 -0400
+Received: by mail-pf1-x436.google.com with SMTP id 10so722985pfo.5
+	for <qemu-devel@nongnu.org>; Wed, 08 May 2019 23:02:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=v+OZD7XeZ0xihN95A1VXMos8Py5FqJIr9OLxNhWl3Hc=;
+	b=GD43A1RQqptsAD4M7h+0PJ7i3dQMzstimm6vFBWPzzWsjQ+CtWy/S8MjO0BaEWr4zX
+	VmzRseTpQey0cOwJg1FJek2yohKzeiZl3Og1vd0H3hielCNH2+aWbyNMiaUnNPxv7Ign
+	G8rkRmbGrSl1jBiLPMYKLWBw5RyoA/nYWMS7m8nIA9oTmMomoGrvKHORWvuq5ZcWUVwW
+	Cuv0TwwRu8kAHOHHsRp030LteMQhJa5UmTSaRPEYKONj1Y5dPHsgdi/c+uZjWVeQ/zaC
+	yb3/JT3iTMoGrJs6Mup9P4zLfAZWMahe8zkYsLTuTKJQ1isFHwBZf+9mTkrooVqATfjX
+	8bIw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=v+OZD7XeZ0xihN95A1VXMos8Py5FqJIr9OLxNhWl3Hc=;
+	b=Z+MKPZAifXEt6EFRXeY4S8MB7s7jlLBGAskmhprK+HDbC/7nf+f2imtP7gUwdK9Ary
+	BFLpKGUkm9YoMkIFhkpQu4KkHiwkDscQtU7JouRK1cJGM0MhnPNxfc5mC8nbdIC/paCJ
+	R4WsPeBjx7btnHcvPVPniZf1dfnAeA9gnkDsWwhPBI6CKjY6H4FdfAumQjuZS3Z1LMpr
+	Q5gJ7VsLmiLCpb8snX+1iUS8fl90x+mCcB+RMVTlfwDA2mK0dl5bIpJGZHnSUZNg56Va
+	zdHphDnHMFVv88e9YeaRz51BjMGGo026KwZpFWdwBMk7cm/3HEN6Mp9OI+9UHZuwnHGX
+	50Zg==
+X-Gm-Message-State: APjAAAV250Rf1HkJ95KPTKZFV+l4mDKJY1KAAZEY1/VgoKyJ+QjddD4E
+	rQLmJel1AmJ+hoiMS2mOMZltrxe1Fms=
+X-Google-Smtp-Source: APXvYqztTgiNGHcnUK+xTdQRrW4EW4cqJG1/UWfjOp5SFj4d/fHLYG9bXpcRqOAEl0UpXKIatyYxNg==
+X-Received: by 2002:a63:9d8d:: with SMTP id i135mr3163483pgd.245.1557381768728;
+	Wed, 08 May 2019 23:02:48 -0700 (PDT)
+Received: from localhost.localdomain (97-113-27-95.tukw.qwest.net.
+	[97.113.27.95])
+	by smtp.gmail.com with ESMTPSA id n7sm1496109pff.45.2019.05.08.23.02.47
+	for <qemu-devel@nongnu.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 08 May 2019 23:02:47 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Date: Wed,  8 May 2019 23:02:19 -0700
+Message-Id: <20190509060246.4031-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.44]);
-	Thu, 09 May 2019 05:55:54 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 0/7] Delete 16 *_cpu_class_by_name()
- functions
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::436
+Subject: [Qemu-devel] [PATCH v2 00/27] tcg: Add CPUClass::tlb_fill
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -65,109 +78,160 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
-	Richard Henderson <rth@twiddle.net>, qemu-devel@nongnu.org,
-	Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eduardo Habkost <ehabkost@redhat.com> writes:
+Changes from v1:
+  * Do not unify user-only and system tlb_fill functions
+    (alpha, microblaze, nios2, s390x, sparc, xtensa).
+  * Split the mips patch into multiple.
+  * Other random changes per review.
 
-> On Wed, May 08, 2019 at 10:34:44AM +0200, Markus Armbruster wrote:
->> Eduardo Habkost <ehabkost@redhat.com> writes:
->> 
->> > On Mon, May 06, 2019 at 01:53:28PM +0200, Markus Armbruster wrote:
->> >> Eduardo Habkost <ehabkost@redhat.com> writes:
->> >> 
->> >> > This series adds a new CPUClass::class_name_format field, which
->> >> > allows us to delete 16 of the 21 *_cpu_class_by_name() functions
->> >> > that exist today.
->> >> 
->> >> Which five remain, and why?
->> >
->> > alpha_cpu_class_by_name:
->> > * Translates aliases based on alpha_cpu_aliases;
->> > * Falls back to "ev67" unconditionally
->> >   (there's a "TODO: remove match everything nonsense" comment).
->> >
->> > cris_cpu_class_by_name:
->> > * Translates "any" alias to "crisv32" if CONFIG_USER_ONLY.
->> >
->> > ppc_cpu_class_by_name:
->> > * Supports lookup by PVR if CPU model is a 8 digit hex number;
->> > * Converts CPU model to lowercase.
->> >
->> > superh_cpu_class_by_name:
->> > * Translates "any" alias to TYPE_SH7750R_CPU.
->> >
->> > sparc_cpu_class_by_name:
->> > * Replaces whitespaces with '-' on CPU model name.
->> 
->> I'm of course asking because I wonder whether we can dumb down this CPU
->> naming business to something simpler and more regular.
->
-> We can, but that's not on my list of priorities.  Any volunteers?
+Patches without review:
+0009-target-microblaze-Convert-to-CPUClass-tlb_fill.patch
+0010-target-mips-Pass-a-valid-error-to-raise_mmu_excep.patch (new)
+0011-target-mips-Tidy-control-flow-in-mips_cpu_handle_.patch (new)
+0012-target-mips-Convert-to-CPUClass-tlb_fill.patch
+0014-target-nios2-Convert-to-CPUClass-tlb_fill.patch
+0018-target-s390x-Convert-to-CPUClass-tlb_fill.patch
+0020-target-sparc-Convert-to-CPUClass-tlb_fill.patch
+0024-target-xtensa-Convert-to-CPUClass-tlb_fill.patch
 
-Fair enough.  Except for...
+Blurb from v1:
 
->> 
-> [...]
->> Observations:
->> 
->> * The CPU type name format is generally "%s-T-cpu", where T is either
->>   <TARGET> or <TARGET>64.
->> 
->>   Exceptions:
->> 
->>   - openrisc, sh4 uses or1k, superh instead.  Looks pointless to me.
->> 
->>   - i386 uses x86_64 instead of i38664.  Makes sense.
->> 
->>   - hppa, microblaze, nios2 and tilegx use CPU type name format "T-cpu",
->>     ignoring the user's cpu model.  These exceptions looks pointless to
->>     me.
->> 
->> * The user's CPU model is generally the "%s" part of the format.
->> 
->>   Exceptions:
->> 
->>   - alpha additionaly recognizes full type names.  If that's useful for
->>     alpha (I'm not sure it is), why isn't it useful for all other
->>     targets?
->> 
->>   - cris and sh4 additionaly recognize an "any" alias, cris only #ifdef
->>     CONFIG_USER_ONLY.
->> 
->>     Until PATCH 4, arm also recognizes an "any" alias #ifdef
->>     CONFIG_USER_ONLY.  PATCH 4 drops that, because it's redundant with
->>     the "any" CPU, which is a copy instead of an alias.  Sure we want to
->>     do have different targets do "any" in different ways?
->> 
->>     See aliases below.
->> 
->>   - ppc additionaly recognizes PVR aliases and additional (case
->>     insensitive) aliases.  Feels overengineered to me.  See aliases
->>     below.
->> 
->>   - sparc additionally recognizes aliases with ' ' instead of '-'.
->>     Feels pointless to me.  See aliases below.
+There is currently a lot of confusion between foo_cpu_handle_mmu_fault
+and tlb_fill.
 
-... this, perhaps:
+In particular, foo_cpu_handle_mmu_fault was only defined for user-only,
+and its only valid action was to set up the cpu for cpu_loop_exit so
+that we can deliver a SIGSEGV to the guest.  And yet, we had code that
+tried to return from the host SIGSEGV handler to retry the instruction.
 
->> * What about deprecating pointless exceptions?
+We had, for some targets, a definition of foo_cpu_handle_mmu_fault
+for softmmu.  Sometimes this was called from tlb_fill, sometimes not.
 
-Deprecating unwanted stuff now is likely to make a later cleanup so much
-easier.
+Finally, we have a use case for SVE that wants a non-faulting tlb_fill,
+so while we're changing the interface, let's go ahead and include that.
 
->> * Aliases
->> 
->>   We have several targets roll their own CPU name aliases code.
->>   Assuming aliases are here to stay (i.e. we're not deprecating all of
->>   them): what about letting each CPU type specify a set of aliases, so
->>   we can recognize them in generic code?
->
-> Yes.  I considered adding alias support to generic code, but
-> decided to do this one step at a time.
 
-Okay.  Consider adding suitable TODO comments.
+r~
+
+
+Richard Henderson (27):
+  tcg: Add CPUClass::tlb_fill
+  target/alpha: Convert to CPUClass::tlb_fill
+  target/arm: Convert to CPUClass::tlb_fill
+  target/cris: Convert to CPUClass::tlb_fill
+  target/hppa: Convert to CPUClass::tlb_fill
+  target/i386: Convert to CPUClass::tlb_fill
+  target/lm32: Convert to CPUClass::tlb_fill
+  target/m68k: Convert to CPUClass::tlb_fill
+  target/microblaze: Convert to CPUClass::tlb_fill
+  target/mips: Pass a valid error to raise_mmu_exception for user-only
+  target/mips: Tidy control flow in mips_cpu_handle_mmu_fault
+  target/mips: Convert to CPUClass::tlb_fill
+  target/moxie: Convert to CPUClass::tlb_fill
+  target/nios2: Convert to CPUClass::tlb_fill
+  target/openrisc: Convert to CPUClass::tlb_fill
+  target/ppc: Convert to CPUClass::tlb_fill
+  target/riscv: Convert to CPUClass::tlb_fill
+  target/s390x: Convert to CPUClass::tlb_fill
+  target/sh4: Convert to CPUClass::tlb_fill
+  target/sparc: Convert to CPUClass::tlb_fill
+  target/tilegx: Convert to CPUClass::tlb_fill
+  target/tricore: Convert to CPUClass::tlb_fill
+  target/unicore32: Convert to CPUClass::tlb_fill
+  target/xtensa: Convert to CPUClass::tlb_fill
+  tcg: Use CPUClass::tlb_fill in cputlb.c
+  tcg: Remove CPUClass::handle_mmu_fault
+  tcg: Use tlb_fill probe from tlb_vaddr_to_host
+
+ include/exec/cpu_ldst.h         |  50 ++-------
+ include/exec/exec-all.h         |   9 --
+ include/qom/cpu.h               |  12 +-
+ target/alpha/cpu.h              |   5 +-
+ target/arm/internals.h          |  10 +-
+ target/cris/cpu.h               |   5 +-
+ target/hppa/cpu.h               |   8 +-
+ target/i386/cpu.h               |   5 +-
+ target/lm32/cpu.h               |   5 +-
+ target/m68k/cpu.h               |   5 +-
+ target/microblaze/cpu.h         |   5 +-
+ target/mips/internal.h          |   5 +-
+ target/moxie/cpu.h              |   5 +-
+ target/nios2/cpu.h              |   5 +-
+ target/openrisc/cpu.h           |   5 +-
+ target/ppc/cpu.h                |   7 +-
+ target/riscv/cpu.h              |   5 +-
+ target/s390x/internal.h         |   5 +-
+ target/sh4/cpu.h                |   5 +-
+ target/sparc/cpu.h              |   5 +-
+ target/tricore/cpu.h            |   6 +-
+ target/unicore32/cpu.h          |   5 +-
+ target/xtensa/cpu.h             |   5 +-
+ accel/tcg/cputlb.c              |  88 +++++++++++++--
+ accel/tcg/user-exec.c           |  36 ++----
+ target/alpha/cpu.c              |   5 +-
+ target/alpha/helper.c           |  24 ++--
+ target/alpha/mem_helper.c       |  16 ---
+ target/arm/cpu.c                |  22 +---
+ target/arm/helper.c             |  90 ++++++++-------
+ target/arm/op_helper.c          |  29 +----
+ target/arm/sve_helper.c         |   6 +-
+ target/cris/cpu.c               |   5 +-
+ target/cris/helper.c            |  61 ++++++-----
+ target/cris/op_helper.c         |  28 -----
+ target/hppa/cpu.c               |   5 +-
+ target/hppa/mem_helper.c        |  16 ++-
+ target/i386/cpu.c               |   5 +-
+ target/i386/excp_helper.c       |  53 +++++----
+ target/i386/mem_helper.c        |  21 ----
+ target/lm32/cpu.c               |   5 +-
+ target/lm32/helper.c            |   8 +-
+ target/lm32/op_helper.c         |  16 ---
+ target/m68k/cpu.c               |   2 +-
+ target/m68k/helper.c            |  89 ++++++++-------
+ target/m68k/op_helper.c         |  15 ---
+ target/microblaze/cpu.c         |   5 +-
+ target/microblaze/helper.c      | 101 ++++++++---------
+ target/microblaze/op_helper.c   |  19 ----
+ target/mips/cpu.c               |   5 +-
+ target/mips/helper.c            |  81 ++++++--------
+ target/mips/op_helper.c         |  15 ---
+ target/moxie/cpu.c              |   5 +-
+ target/moxie/helper.c           |  65 +++--------
+ target/nios2/cpu.c              |   5 +-
+ target/nios2/helper.c           | 166 ++++++++++++++--------------
+ target/nios2/mmu.c              |  12 --
+ target/openrisc/cpu.c           |   5 +-
+ target/openrisc/mmu.c           |  69 ++++++------
+ target/ppc/mmu_helper.c         |  16 ++-
+ target/ppc/translate_init.inc.c |   5 +-
+ target/ppc/user_only_helper.c   |  14 ++-
+ target/riscv/cpu.c              |   5 +-
+ target/riscv/cpu_helper.c       |  50 ++++-----
+ target/s390x/cpu.c              |   5 +-
+ target/s390x/excp_helper.c      |  67 +++++++----
+ target/s390x/mem_helper.c       |  16 ---
+ target/sh4/cpu.c                |   5 +-
+ target/sh4/helper.c             | 189 +++++++++++++++-----------------
+ target/sh4/op_helper.c          |  12 --
+ target/sparc/cpu.c              |   5 +-
+ target/sparc/ldst_helper.c      |  15 ---
+ target/sparc/mmu_helper.c       |  78 +++++++------
+ target/tilegx/cpu.c             |  10 +-
+ target/tricore/cpu.c            |   1 +
+ target/tricore/helper.c         |  23 ++--
+ target/tricore/op_helper.c      |  26 -----
+ target/unicore32/cpu.c          |   5 +-
+ target/unicore32/helper.c       |  23 ----
+ target/unicore32/op_helper.c    |  14 ---
+ target/unicore32/softmmu.c      |  13 ++-
+ target/xtensa/cpu.c             |   5 +-
+ target/xtensa/helper.c          |  33 +++---
+ 83 files changed, 876 insertions(+), 1139 deletions(-)
+
+-- 
+2.17.1
+
 
