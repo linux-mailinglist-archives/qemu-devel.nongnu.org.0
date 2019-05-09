@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 26EAF18E92
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 19:01:35 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57993 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6488C18ED7
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 19:20:03 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58309 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOmQH-0007xF-TQ
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 13:01:34 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49428)
+	id 1hOmiA-0007jp-F6
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 13:20:02 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52176)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOmNw-0006sT-VZ
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:59:09 -0400
+	(envelope-from <alex.bennee@linaro.org>) id 1hOmU6-0003oV-T5
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:05:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOmNw-0004nF-1A
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:59:08 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:34393)
+	(envelope-from <alex.bennee@linaro.org>) id 1hOmU4-0008Ci-LU
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:05:30 -0400
+Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:56074)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hOmNv-0004mk-PR
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:59:07 -0400
-Received: by mail-pg1-x544.google.com with SMTP id c13so1528340pgt.1
-	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 09:59:07 -0700 (PDT)
+	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+	id 1hOmU4-00086D-B5
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:05:28 -0400
+Received: by mail-wm1-x32c.google.com with SMTP id y2so4152735wmi.5
+	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 10:05:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=7RuyQx//oo2EMwy5keSM46lL/6qbPwtXookn1XI1hcQ=;
-	b=DzbI1zvvwFFDr3j6gnuf0QauCmv1tIL+xE/PM3ITa1QPhhZyBT/ZMHGv/vnZoNjSXF
-	y81wUWroBaddYI/DegKTNXtapV+gzXI3vxGk7uee/NJ8/hgxciTj3Fcua82JJz5z6AtN
-	35gSv9RIwaOk3+WKTf42xy92iCpvhPxHtBvG4KtdeEfkAt0efmzvPMGQs02BJClpnFDA
-	I70fVstxpyQDBOwLaDadTr5tqemZ6ycnhEtW0zeTtaq8JUZS5X5WIhcdvAmbuQY9QYgy
-	aBaQXocDWUCr3zw5qAtB+kAo1mOG4wbiQckDSNVb/tyqYXRnNp9/V2P+Z2o2jlWaEZBV
-	umGw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=muJ0lhsFZDTe5BSnwOJzWaWmbULUUdO9c3pN21PKLLc=;
+	b=zeaxHLxxcJQveWOqTBef0MWfX70Bj7Y1sFIH5+gmKF3irTA9bmFTKeNHKbKrBC5Dym
+	OTwYpa10ks0jhN0KHt5p+htPZVJIXyj7pdLAi5n5fvd0GoWhnozmD37SdayOESID47gj
+	yzpuhulsGC8IQ+1F/19VZsuUGnxfSJIw/iV1fwZrR76WmKnH0v8b/AKAYxTeKz50l9b2
+	cZSd4nO1ZWx2k1twx/Yc+2YgXfMPF2h4NjMm0VTm9bhlkT+oVwkI6sM5DGCylC0jzaIU
+	3ZtL7AMbyOInLJJ8AE3TAHqEUV5LVSiSD9inSe5oL37vx8VedSmPXp6wYA1p+lFAwdfM
+	K9sw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=7RuyQx//oo2EMwy5keSM46lL/6qbPwtXookn1XI1hcQ=;
-	b=azaTLhzTLGPQy/it4qUO5cPhkfNllCuUDwArC60IRgGzGDOg3wt7VOE98Ek1pD+dA/
-	ew0Sk15P887zUkWyDajWgBfgxWUec3374gROEA4Ul8x9ZXHUXrnWl8yxdtfIi8rRKvE2
-	pIW/sY03Q6uJ4igXO9D1Zej+Jawgp/UUm7yVzxM2jV91WPsed4ByO8m1dc/BTs0cwR6l
-	nWo6a4gKh1d6K3PzOSFK7UBoy6SgKD1tDxdemld9Cp8tJEmMjBHsT2TmA0Qo89imprLX
-	pvw7Ic92x6TWWKLkXy6ye3bA58GERNNhhzFFUp426nqPM2LA8pOHNQnye+9cVlpONk/G
-	/Hwg==
-X-Gm-Message-State: APjAAAXwSJiQyI1RUCgpIZQG37EOZTrjoDhz3JEFzVIoL3DtTE9Auw4m
-	ra6cNqOjZFKkSItkUaopA3b3yQ==
-X-Google-Smtp-Source: APXvYqzIv1Sn1yQJyVEEaf5iyqirAL3+SDH4uj3bBN7OzNu+s/NrOSvAulLOWE3Q4avkWzITVAqSOQ==
-X-Received: by 2002:a63:5f42:: with SMTP id t63mr6802560pgb.275.1557421146613; 
-	Thu, 09 May 2019 09:59:06 -0700 (PDT)
-Received: from [172.31.99.192] (50-248-210-99-static.hfc.comcastbusiness.net.
-	[50.248.210.99]) by smtp.gmail.com with ESMTPSA id
-	n64sm4422879pfb.38.2019.05.09.09.59.05
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 09 May 2019 09:59:05 -0700 (PDT)
-To: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org
-References: <20190509142342.6132-1-lvivier@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <1a0649e8-b283-2cb5-9621-4eacf086d300@linaro.org>
-Date: Thu, 9 May 2019 09:59:03 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=muJ0lhsFZDTe5BSnwOJzWaWmbULUUdO9c3pN21PKLLc=;
+	b=GqCvU8c6e/fWRpUsgpKJQ8sT+jZrOGKRtCPJ5o32MwPXQq1vtDnOuB0GZmqNaVPB/W
+	DezxH2Wh2VELqGcchlsYK3IfwyDIi6WaDefFuy/eQR8bNn3sY4NyfmjFyWLp4khX7Wxh
+	5DVnBVmXlU7bjcSCC3FwUoE63cOwDpIsp9Up3ZVUkbzv1aMt/oJtbebxX9cFZOT+8GxJ
+	2n+jEuPG7aqBx8bt4Q5Vi1z6R8oV3mcAtsdXMJ6qa3YCtCsXYj3DXwzozQOb0nAKky/3
+	73jcH7O2Icphj3Jror/AaLPEmEu/xBHpzVjf9iX1jvSejvjNsWu7HJYmhF9P6tplSlCU
+	T+BA==
+X-Gm-Message-State: APjAAAUAIYaPoQFexBy3k/mV+fy6NZVPApP8iQHECkbzaOxARcergGNE
+	HnNXHPvw1XQofBXgHc1aafeibw==
+X-Google-Smtp-Source: APXvYqyvOjaClIcV1sYTaUvLOlWqkYiD3UmmLAnsvG4P8abeM/e5j5OU36HlSaA4qwFqzEcx7JF/0w==
+X-Received: by 2002:a05:600c:552:: with SMTP id
+	k18mr3743590wmc.67.1557421521849; 
+	Thu, 09 May 2019 10:05:21 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+	by smtp.gmail.com with ESMTPSA id
+	a184sm3939204wmh.36.2019.05.09.10.05.20
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 09 May 2019 10:05:20 -0700 (PDT)
+Received: from zen.linaroharston. (localhost [127.0.0.1])
+	by zen.linaroharston (Postfix) with ESMTP id 609E41FFA3;
+	Thu,  9 May 2019 17:59:13 +0100 (BST)
+From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+Date: Thu,  9 May 2019 17:59:04 +0100
+Message-Id: <20190509165912.10512-17-alex.bennee@linaro.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20190509165912.10512-1-alex.bennee@linaro.org>
+References: <20190509165912.10512-1-alex.bennee@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20190509142342.6132-1-lvivier@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::544
-Subject: Re: [Qemu-devel] [RFC] rng-builtin: add an RNG backend that uses
- qemu_guest_getrandom()
+X-Received-From: 2a00:1450:4864:20::32c
+Subject: [Qemu-devel] [PATCH v1 16/23] tests/qemu-iotests/005: Add a sanity
+ check for large sparse file support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -84,56 +84,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>, Amit Shah <amit@kernel.org>,
-	"Richard W . M . Jones" <rjones@redhat.com>,
-	Kashyap Chamarthy <kchamart@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
+	"open list:Block layer core" <qemu-block@nongnu.org>,
+	Max Reitz <mreitz@redhat.com>, qemu-arm@nongnu.org,
+	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/9/19 7:23 AM, Laurent Vivier wrote:
-> Add a new RNG backend using QEMU builtin getrandom function.
-> 
-> It can be created with "-object rng-builtin".
-> 
-> This patch applies on top of
-> "[PATCH v4 00/24] Add qemu_getrandom and ARMv8.5-RNG etc"
-> Based-on: <20190506173353.32206-1-richard.henderson@linaro.org>
-> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
-> ---
->  backends/Makefile.objs |  2 +-
->  backends/rng-builtin.c | 56 ++++++++++++++++++++++++++++++++++++++++++
->  2 files changed, 57 insertions(+), 1 deletion(-)
->  create mode 100644 backends/rng-builtin.c
+From: Thomas Huth <thuth@redhat.com>
 
-Looks good.  Thanks for picking this up.
+"check -raw 005" fails when running on certain filesystems - these do not
+support such large sparse files. Use the same check as in test 220 to
+skip the test in this case.
 
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Suggested-by: Eric Blake <eblake@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+Message-Id: <20190502084506.8009-2-thuth@redhat.com>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+---
+ tests/qemu-iotests/005 | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-> +static void rng_builtin_request_entropy(RngBackend *b, RngRequest *req)
-> +{
-> +    RngBuiltin *s = RNG_BUILTIN(b);
-> +
-> +    while (!QSIMPLEQ_EMPTY(&s->parent.requests)) {
-> +        RngRequest *req = QSIMPLEQ_FIRST(&s->parent.requests);
-> +
-> +        qemu_guest_getrandom_nofail(req->data, req->size);
-> +
-> +        req->receive_entropy(req->opaque, req->data, req->size);
-> +
-> +        rng_backend_finalize_request(&s->parent, req);
-> +    }
-> +}
+diff --git a/tests/qemu-iotests/005 b/tests/qemu-iotests/005
+index 2fef63af882..9c7681c19bc 100755
+--- a/tests/qemu-iotests/005
++++ b/tests/qemu-iotests/005
+@@ -55,6 +55,15 @@ if [ "$IMGPROTO" = "sheepdog" ]; then
+     _notrun "image protocol $IMGPROTO does not support large image sizes"
+ fi
+ 
++# Sanity check: For raw, we require a file system that permits the creation
++# of a HUGE (but very sparse) file. Check we can create it before continuing.
++if [ "$IMGFMT" = "raw" ]; then
++    if ! truncate --size=5T "$TEST_IMG"; then
++        _notrun "file system on $TEST_DIR does not support large enough files"
++    fi
++    rm "$TEST_IMG"
++fi
++
+ echo
+ echo "creating large image"
+ _make_test_img 5000G
+-- 
+2.20.1
 
-As an aside, with all of the callbacks involved, does anyone know if this gets
-processed on the same thread as issued the cpu that issued the i/o operation?
-
-The question is only relevant to debugging mode (w/ -seed), in that if we're
-processing this from an i/o worker thread we won't have completely
-deterministic results, as we may compete with other cpus for the same RNG.
-
-There's probably not much that can reasonably be done if this does cross
-threads, and certainly it would not affect normal usage, but I just wondered.
-
-
-r~
 
