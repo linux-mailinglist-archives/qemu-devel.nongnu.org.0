@@ -2,65 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E1EF818E94
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 19:01:59 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57997 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 997DF18EA4
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 19:05:21 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58035 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOmQg-0008LX-TY
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 13:01:58 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49477)
+	id 1hOmTw-0002pI-Ni
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 13:05:20 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49506)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hOmO4-0006w0-KO
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:59:17 -0400
+	(envelope-from <alex.bennee@linaro.org>) id 1hOmO5-0006wO-9i
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:59:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hOmO3-0004pm-K0
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:59:16 -0400
-Received: from mail-wm1-x32c.google.com ([2a00:1450:4864:20::32c]:51419)
+	(envelope-from <alex.bennee@linaro.org>) id 1hOmO4-0004qE-6F
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:59:17 -0400
+Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:44896)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hOmO3-0004pI-CT
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:59:15 -0400
-Received: by mail-wm1-x32c.google.com with SMTP id o189so4179425wmb.1
+	id 1hOmO3-0004pU-Vj
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 12:59:16 -0400
+Received: by mail-wr1-x42a.google.com with SMTP id c5so4014876wrs.11
 	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 09:59:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=GPWkl0UZnL+LwntGtFPT1SPNtCHAc7QYKT2apLIn060=;
-	b=RkifXN5H2o81L7Q9CxT0Xoqgl3MzoHci0nTItRsIciLS7azOnmr3X20Xt/KuPKBrUQ
-	cxSspFNBCB6rEfrvEiKYPhbNkHO3bFnRcz9TaS987NbrKb38ar5vxV1akgUsuCgRgWGN
-	Syq9EuqYWTrA5A/xeYQKEfN1t3qWxCxxHmaECqX5Dwy8Wow6AYKXVcp99SZw+7+dG6r4
-	qqq6qnb4EROqOhfK7P4cRydnJMj7VPk/vnHHsbLjY+0M4KTPp7YDg4AOoasU4Y9aiQ2z
-	QgDVe8fvNGor7Hj9iiD2pFCefOBoUULtYCQxVbCx35z8lPLEZ0zp5rcsEt6V+JmoSgBS
-	ofRQ==
+	bh=bMInk10U9DPIdxrDVbgVpcIvGvM3TC9tcdyqpqFFzTY=;
+	b=ZDfoYvFjwFGI+53DIh0UGgKquZ04X5GPXQ/2iQBEx/TaxptET+iCyTZ0kSD4LGNQix
+	jgbWJxrhltyNHlppjJMAtUguXsVLA4hPWFaWWREDBI4Rkaea97gZP4uspnOdHI7OcB6Z
+	6n+GPtvjUXFpPmoIuGrjISk/NyE/fRWmPKkFDZAfHLJ+BmTLeu1jde8PZdfmlTorxml2
+	wuPboAekmv3YIAUF31EfabfqqqwTs04yx2+tUyh5V6rjYAJzRKCW3PfTTOAtENwlHucC
+	UezInEfGzvncMj6k1vCBem4ahPbpO3DkpO0HFlHgAd01aQL4p3KfL3BeTYIn5eghhbbY
+	z8WA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=GPWkl0UZnL+LwntGtFPT1SPNtCHAc7QYKT2apLIn060=;
-	b=jgbL6gw2zrLaisz7qGklbVtI3TlTEsP+vyVE5LT2/Tcv8HVBBgQ2cc/CBbLGC3SCPJ
-	qhmgyIT7VgpOwfdF3dYlS93GC0Ce1gP/Um5HRV2pII/NB7wqrCeYHvpfcsY6WpO2ZvBV
-	Sr3inScGP5aT3ri+c8mlVV0lXfsXJdLtEa92KHmKKznklsbouMLpjb7/9afibpPftYU8
-	ijChHTZKs5GeWDCjM0DTpbrKg6LnE8sasL+3QRm6oJTE8ZE5BDexZHznf4ztBsCiEySy
-	dGsB5zTPA9u4r1tFHkjDRmMbJUhE78voJdBNIfoVL2MitMQEbCcqhKjLtiNXa0HWw0Z5
-	0ZQg==
-X-Gm-Message-State: APjAAAUzGREPRubEzAIpan7GyN3NMb9ARmsQbsMB04w0tv9Tbd7V3wxe
-	WQh2uoYy5fTGoNaqQmMyr2q2Uw==
-X-Google-Smtp-Source: APXvYqxO4mrI+IZ8G6oo79UFvT+XfLjPHMDH6jzJuMPF67uoLomgBv+RNp5fRpIFDhvOsJkZVejksw==
-X-Received: by 2002:a7b:c3da:: with SMTP id t26mr3875216wmj.40.1557421154104; 
+	bh=bMInk10U9DPIdxrDVbgVpcIvGvM3TC9tcdyqpqFFzTY=;
+	b=mjGJDVVpA1MQWgpQ5FG0ZoXxVKiMnG0chC9lUHYlc90CHbtMHgAOUXoxzVc60MXYv8
+	tl3BKHJGBIl0AWO2yLw1si/iiNTj9S0Py8RCTY9exMtNJAeLKRdmdfOgBU3hA3pFJB/8
+	7T0XsB8F0A/s5qY8xmGu0RYf5nz44HBPjn9cbc6r9quzSJ7OzZm4rqZXTNtKT+5Grxc1
+	CGGQYfDrfiTrTWcLG9jJzPcf6C9v845WcjPkDOIEuwsuJhwPb9WKZHs5GR8cLUiNZNej
+	Mx3TwYdB8cKBqgqGGUKKjm/E/BiCEXkpcKhiNTyi45+q5LMRVXje/Yd/LdBKDRI3mS4J
+	JEFQ==
+X-Gm-Message-State: APjAAAU7obqHf3LtcP6bTxCQRh85qGVasP8/MuMGGIhGfE+/ATYg+JN5
+	Yu1SH8yPIKE88M8KgGvamXmmqA==
+X-Google-Smtp-Source: APXvYqwjPY0jChYLruJRkImEkTPFzM5D5E8J9V0Hs2Si3HeJ0qEAmb9nU2bIsxgYksM3bvBudKMNbg==
+X-Received: by 2002:a5d:4704:: with SMTP id y4mr3849907wrq.86.1557421154902;
 	Thu, 09 May 2019 09:59:14 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
 	by smtp.gmail.com with ESMTPSA id
-	e16sm3494812wrw.24.2019.05.09.09.59.12
+	i127sm7871188wmg.21.2019.05.09.09.59.12
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 09 May 2019 09:59:12 -0700 (PDT)
+	Thu, 09 May 2019 09:59:14 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id 1F4D41FF8C;
+	by zen.linaroharston (Postfix) with ESMTP id 3335B1FF8F;
 	Thu,  9 May 2019 17:59:12 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu,  9 May 2019 17:58:49 +0100
-Message-Id: <20190509165912.10512-2-alex.bennee@linaro.org>
+Date: Thu,  9 May 2019 17:58:50 +0100
+Message-Id: <20190509165912.10512-3-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190509165912.10512-1-alex.bennee@linaro.org>
 References: <20190509165912.10512-1-alex.bennee@linaro.org>
@@ -69,8 +69,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::32c
-Subject: [Qemu-devel] [PATCH  v1 01/23] tests/docker: add ubuntu 18.04
+X-Received-From: 2a00:1450:4864:20::42a
+Subject: [Qemu-devel] [PATCH v1 02/23] tests/docker: Test more components on
+ the Fedora default image
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -83,90 +84,81 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Fam Zheng <fam@euphon.net>,
-	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
-	qemu-arm@nongnu.org,
 	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
-	Gerd Hoffmann <kraxel@redhat.com>
+	qemu-arm@nongnu.org,
+	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Gerd Hoffmann <kraxel@redhat.com>
+From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Based on the ubuntu.docker file.
-Used to reproduce the build failure Peter was seeing.
-Others might find this useful too ;)
+Install optional dependencies of QEMU to get better coverage.
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Message-Id: <20190503070241.24786-1-kraxel@redhat.com>
+The following components are now enabled:
+
+  $ ./configure
+  ...
+  Multipath support yes
+  VNC SASL support  yes
+  RDMA support      yes
+  PVRDMA support    yes
+  libiscsi support  yes
+  seccomp support   yes
+  libpmem support   yes
+  libudev           yes
+
+Note: The udev-devel package is provided by systemd-devel.
+
+Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20190504055440.20406-1-philmd@redhat.com>
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- tests/docker/dockerfiles/ubuntu1804.docker | 57 ++++++++++++++++++++++
- 1 file changed, 57 insertions(+)
- create mode 100644 tests/docker/dockerfiles/ubuntu1804.docker
+ tests/docker/dockerfiles/fedora.docker | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
-new file mode 100644
-index 00000000000..2e2900150b0
---- /dev/null
-+++ b/tests/docker/dockerfiles/ubuntu1804.docker
-@@ -0,0 +1,57 @@
-+FROM ubuntu:18.04
-+ENV PACKAGES flex bison \
-+    ccache \
-+    clang \
-+    gcc \
-+    gettext \
-+    git \
-+    glusterfs-common \
-+    libaio-dev \
-+    libattr1-dev \
-+    libbluetooth-dev \
-+    libbrlapi-dev \
-+    libbz2-dev \
-+    libcacard-dev \
-+    libcap-dev \
-+    libcap-ng-dev \
-+    libcurl4-gnutls-dev \
-+    libdrm-dev \
-+    libepoxy-dev \
-+    libfdt-dev \
-+    libgbm-dev \
-+    libgtk-3-dev \
-+    libibverbs-dev \
-+    libiscsi-dev \
-+    libjemalloc-dev \
-+    libjpeg-turbo8-dev \
-+    liblzo2-dev \
-+    libncurses5-dev \
-+    libncursesw5-dev \
-+    libnfs-dev \
-+    libnss3-dev \
-+    libnuma-dev \
-+    libpixman-1-dev \
-+    librados-dev \
-+    librbd-dev \
-+    librdmacm-dev \
-+    libsasl2-dev \
-+    libsdl2-dev \
-+    libseccomp-dev \
-+    libsnappy-dev \
-+    libspice-protocol-dev \
-+    libspice-server-dev \
-+    libssh2-1-dev \
-+    libusb-1.0-0-dev \
-+    libusbredirhost-dev \
-+    libvdeplug-dev \
-+    libvte-2.91-dev \
-+    libxen-dev \
-+    make \
-+    python-yaml \
-+    sparse \
-+    texinfo \
-+    xfslibs-dev
-+RUN apt-get update && \
-+    apt-get -y install $PACKAGES
-+RUN dpkg -l $PACKAGES | sort > /packages.txt
-+ENV FEATURES clang pyyaml sdl2
+diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
+index 69d4a7f5d75..afbba29adaa 100644
+--- a/tests/docker/dockerfiles/fedora.docker
++++ b/tests/docker/dockerfiles/fedora.docker
+@@ -8,6 +8,7 @@ ENV PACKAGES \
+     bzip2-devel \
+     ccache \
+     clang \
++    cyrus-sasl-devel \
+     device-mapper-multipath-devel \
+     findutils \
+     flex \
+@@ -23,13 +24,17 @@ ENV PACKAGES \
+     libaio-devel \
+     libasan \
+     libattr-devel \
++    libblockdev-mpath-devel \
+     libcap-devel \
+     libcap-ng-devel \
+     libcurl-devel \
+     libfdt-devel \
++    libiscsi-devel \
+     libjpeg-devel \
++    libpmem-devel \
+     libpng-devel \
+     librbd-devel \
++    libseccomp-devel \
+     libssh2-devel \
+     libubsan \
+     libusbx-devel \
+@@ -74,10 +79,12 @@ ENV PACKAGES \
+     pixman-devel \
+     python3 \
+     PyYAML \
++    rdma-core-devel \
+     SDL2-devel \
+     snappy-devel \
+     sparse \
+     spice-server-devel \
++    systemd-devel \
+     systemtap-sdt-devel \
+     tar \
+     usbredir-devel \
 -- 
 2.20.1
 
