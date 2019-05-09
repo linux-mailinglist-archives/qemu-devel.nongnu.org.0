@@ -2,103 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C85B318EBC
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 19:12:57 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58177 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA6C518F28
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 19:30:50 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58536 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOmbI-0001Wr-Qd
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 13:12:56 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51319)
+	id 1hOmsb-0007wa-ST
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 13:30:49 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53138)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <rth7680@gmail.com>) id 1hOmS4-0002Mf-M7
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:03:25 -0400
+	(envelope-from <laurent@vivier.eu>) id 1hOmX1-0006tr-PN
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:08:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <rth7680@gmail.com>) id 1hOmS3-0006um-Q1
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:03:24 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:39350)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <rth7680@gmail.com>)
-	id 1hOmS1-0006tm-Uf; Thu, 09 May 2019 13:03:22 -0400
-Received: by mail-pf1-x444.google.com with SMTP id z26so1636711pfg.6;
-	Thu, 09 May 2019 10:03:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=sender:subject:to:cc:references:from:openpgp:autocrypt:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=IIuO5kDuhc+1kljyLHIpwp4aYnt0QxoweXrTUyYLx0E=;
-	b=Ze0YLmR0td2vHu0oL1PM56kdXJiChCcmAr9bKQzUXjxZSo6y2BmN60KKXsy6b6gdFM
-	sNid6lrruXvFIR4q4DQamak1F+1Trc+fIQBdmHfZe7m1KQv5HTKBbpf/sDf4/H4TC8K4
-	GljQvm40WkC/9+f75fT5C7oCD79dK4LSv/qSijvmgIlLYRztsc2rhqLLWniUeFbm7l3n
-	mj2LHbTIGO64Y/joaswwZPNB7HNordRPMDwcVDEVSnlzOVzO/DBcraqV1yc539sMgbdv
-	fZkofFVii272dxIs2/jGRDqnfIlBgEiPyygESv27TzcEbXCTKF7H/TIYwnrNd2JUj+U/
-	TDJg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:sender:subject:to:cc:references:from:openpgp
-	:autocrypt:message-id:date:user-agent:mime-version:in-reply-to
-	:content-language:content-transfer-encoding;
-	bh=IIuO5kDuhc+1kljyLHIpwp4aYnt0QxoweXrTUyYLx0E=;
-	b=pneX6+951lgIOF5fAAoBPGd6SkqFLibHqpqpZ74clRhFcohJyiSg4Esmm6i8YoZFaB
-	k3BTgQNC6Yv0CgvuIfHjDGXS8D3lo6bzI0E5Oc86reXxI4lQ4oKBnZVDMV3BWjlTGEch
-	JYOPIgkjdoe0XAuP/kG2wB8BdN3OmfPH/yYS0FMzHQTxFWFn1zU3g/Nk+k5GP2uj09he
-	ZJVVmEePkvyrfU+QZEkbAsqyU2T/SNcjYHqwSse//FoOZoQL4hZ6OTkEZVvy898vSM2u
-	zf39TUGLNndaVDxL7BrEgYbNU3fjVXsxlKTm4/4iEHNw2NBtlQCL2QksbOn4FrQUMl2l
-	vX2w==
-X-Gm-Message-State: APjAAAWW1cRDMhNiYIk5wrotEraGy0U4ou3XL8W9GP7+/U3Uy/FYnx3v
-	BV4SdSP53oHpVEr9uHvubzo=
-X-Google-Smtp-Source: APXvYqylwXxRxLhEqHkAQ2znYIVqOrIGWyH/7aK/puSfE3RASjQK1Jkqm7HoXMdzVptvOnVcpLr0Zw==
-X-Received: by 2002:a63:b1d:: with SMTP id 29mr6993073pgl.103.1557421399819;
-	Thu, 09 May 2019 10:03:19 -0700 (PDT)
-Received: from [172.31.99.192] (50-248-210-99-static.hfc.comcastbusiness.net.
-	[50.248.210.99]) by smtp.googlemail.com with ESMTPSA id
-	l9sm2886206pgq.48.2019.05.09.10.03.17
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 09 May 2019 10:03:18 -0700 (PDT)
+	(envelope-from <laurent@vivier.eu>) id 1hOmX0-0001sF-Vl
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:08:31 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:44373)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hOmX0-0001rk-N3
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:08:30 -0400
+Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
+	(mreue009 [213.165.67.103]) with ESMTPSA (Nemesis) id
+	1N2E9e-1giWRw1wP0-013gs9; Thu, 09 May 2019 19:08:26 +0200
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
 	qemu-devel@nongnu.org
-References: <20190509165912.10512-1-alex.bennee@linaro.org>
-	<20190509165912.10512-11-alex.bennee@linaro.org>
-From: Richard Henderson <rth@twiddle.net>
-Openpgp: preference=signencrypt
-Autocrypt: addr=rth@twiddle.net; prefer-encrypt=mutual; keydata=
-	mQENBFGuLC8BCADcAoWcnW9lTsDMzbO3MBU+KbiGaj5JPatEUscRDkQYM2fyNjJp2tIWDK5a
-	n4yngeXB3eX61WbYR3QraRK8mlYLGxyAdHMEQfPipbqf3TmN043fssT2bc82ApJcs1zvLYgI
-	rhMht7Dck7A0wNC1jo+ZjVVFig5gDTN7gOzaAdBtV8tVNUddwkLzzaGpfihhSD6U46NdqKOG
-	Wlnn6TrkMy0QGdQ5NaXHkRlUjnnUTSW/nKfoxD+EI+A9V4sYOd8mc/TL4aJh/i/AiU57eLbo
-	n17uQI6/VTWDUWl8USiz4x9c8vmqlywLx00tAFxxoRWqk4KVJlj+Sh0up/D/sJ+vPpgBABEB
-	AAG0I1JpY2hhcmQgSGVuZGVyc29uIDxydGhAdHdpZGRsZS5uZXQ+iQFBBBMBAgArAhsDBgsJ
-	CAcDAgYVCAIJCgsEFgIDAQIeAQIXgAUJC7UHogUCWaDNVgIZAQAKCRCtEnDMTdAnm9N5CADO
-	cB8F/SudJ72IupxQf40hbJdBK176+gb3sHMsixyLtrU59lee+lIM1OZmlNjsnCYmiSnbA5ks
-	Q7p0HfO7DgdmfLzcK6xsHZukqSZy5LByw348Y913ZyjOrJZFdPP7kDg1MnqRqH4+3ZdzxV4y
-	eYBWFU9GYMIF06JbUubossOOO4ArNVZbnIPu8Vn2tDZVVqsCBqkoCSBMj519xrvyOu5z4mHS
-	LkCglXmVDOXMbqLuNAC3rfNXSnyM4hYkLUyfALJlAAy1Ro+jUqYhu7XUFV/MiwRuFMh5GbtY
-	Urkx7tqsWQXLT3GeDk/LqvpWJQwk4cHHckYjRih+70CHIenm81PVuQENBFGuLC8BCACyEx3x
-	94HIkTX0CHu2sA0w75+h9wuoA8ggJ7+S4ri0y2YsijWad5TTt6z6MMiqxk9kSA5bppaj4HXh
-	86hBF/dWCtMpNr3Rb8FNOKyeA/qkYHVD6HiAiw9c6D8Dr9hWmOk3/HSmGrNURxeUFOckDXsv
-	I+yGGKBNshj59j7QZr7ZiuIi2rWlBL8dFN/OWa/o3x7HKsE4k6K8ngwvCKP/QbDLwLLBOWH+
-	VEUtpyeyxTr3OJ47ECTxdYvXoAV2iJaKr+6doVQiiR5eVFiMYrUPUECJeolOCwqc/JlWE18L
-	+PCAFaW1H+/mpPVfSpN4wnkJ5cQiQVB41IaCM4p20iRzx7ZJABEBAAGJASUEGAECAA8CGwwF
-	AlmgzYEFCQu1CEoACgkQrRJwzE3QJ5s7rggAwABzDAGrZ6uWsMxg5PeiiAYPy6LBnCBJSpB5
-	Tfy5jH8QTmLfXW+u4Ib4sWXG7PYNR7sIrtqUHjRqXLVXrSnBX9ASGcYw/Xil45khW6LsRpO1
-	prHv9gkwQfa6fTiWXVfSfm2Nant6u02q+MaYtQpCVTiz/9ki4FfftUwUHFLU0MhIQogjd11y
-	/E08RJsqBwaHQdt14PwU1HphDOzSkhOXRXQLSd3ysyeGUXvL+gqQoXl5XYdvk8IId4PoJRo4
-	jcyJ4VbnldvXh5gdGhFA/f9JgkLk9tPW+C3wNtNWyRUq8azR9hF2fg2HJUf4IXQlIu8OOgh1
-	VcROBqvtH3ecaIL9iw==
-Message-ID: <fa94b57f-12e1-62c4-e67c-f83667adea59@twiddle.net>
-Date: Thu, 9 May 2019 10:03:16 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+References: <877eb86hcf.fsf@zen.linaroharston>
+	<20190502145846.26226-1-alex.bennee@linaro.org>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <652f7793-8c6c-7fce-c099-41c2d00b1346@vivier.eu>
+Date: Thu, 9 May 2019 19:08:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <20190509165912.10512-11-alex.bennee@linaro.org>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20190502145846.26226-1-alex.bennee@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::444
-Subject: Re: [Qemu-devel] [PATCH v1 10/23] tests/tcg/multiarch: expand
- system memory test to cover more
+X-Provags-ID: V03:K1:dAHPKQnUAS8DCrWo3JohYnNEUo/t6iMtsmV+czWCaP0tQZ/nHhV
+	tl5wpQLiULQTzkn44Pt+LqVJ1qqiqKijWsqLY7EknytmotVKOHuZsqkMPHfW/QIrEEweS03
+	GZ+cRBYmDOZQ6S3FuGkuKicdTbUFZW+VMRvtLzR4bFZEl9HNOq32YeKkWhX/QCBI7dflZFv
+	y5m5UAKJpHDCirKklfv1g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ps7U2n6CXoI=:7kQBfd33xHBZ9oWY+uXl7k
+	0ucBqD5ujkWYdbLZjOeHyTbo8tdsb/DD9Dxn6UHZRbedEesGXkADZJSpywv5idxTW+804tfbN
+	yzbWNGvWHYHUgwa00Gzz1jBpC6jzDTpeLewzgn8Exc+cXal5PDdEtdZVH6rFP3cN/eMiiYXv0
+	1GRyTWNDugyrRMC4B+xJBLRdF5qNr2kla11J8P7wWA4XrZA26ULSkZTI47FNSmnpcyw4i5LMY
+	VpmNfR9GRiFptFRE/fg2Oe2T+rkb+vS8eeyTf3e4ZejjnBwb70Sxcpbkb9t170kWA5eifE0ky
+	HWwTr+jhyyYJa8m2CdWgrgDXlHdSzJvNeTA1yD4SJqQLTpJl2/GHhhTftQHLbSQSKKmtUac36
+	iUiyGVEHgPPVeujQTmqj9DFsSqJoy49THoXqbm1jymTgMLLZAhTpGrUNeELPIKf7vUH4I/iuO
+	3EAn7V7F0gFNQaqVRDJYwJy2W40/1O4ngQLKi0phYhXwhjvt5oi5RaUzkWHbbesN1c8cGOoJg
+	4xDPmI3Id3yRl1ZJQvGDAi3w3tHQ+dgQl6TQ9Vj+eYJAvgbAhmoGmdh4PVXetQfNFCsWqBXwj
+	Gxcl2vi26izj69zJRtUou5Q1wo2q9hKVSLKG37ZT74D+cSepv/0gcIsTWuh1hcpyEgchAw5QW
+	57bu+g/Pm4GkEf1oosBrhtJTxO1ixD702kUS6gnc0hkfEY7YjnqH4HCU4PDT3t1hNk+xu43X1
+	Sa4t1I2OhEE6XzBSjmZHx8OTNlV5lCRNsXlF1tyJXzkVPFoH9QV9vdbD79Q=
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 212.227.126.187
+Subject: Re: [Qemu-devel] [PATCH] linux-user: avoid treading on gprof's
+ SIGPROF signals
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -110,23 +68,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Eduardo Habkost <ehabkost@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Riku Voipio <riku.voipio@iki.fi>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/9/19 9:58 AM, Alex Bennée wrote:
-> +memory: CFLAGS+=-DCHECK_UNALIGNED
+On 02/05/2019 16:58, Alex Bennée wrote:
+> The guest tends to get confused when it receives signals it doesn't
+> know about. Given the gprof magic has also set up it's own handler we
+> would do well to avoid stomping on it as well.
+> 
+> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+> ---
+>   linux-user/signal.c | 5 +++++
+>   1 file changed, 5 insertions(+)
+> 
+> diff --git a/linux-user/signal.c b/linux-user/signal.c
+> index e2c0b37173..44b2d3b35a 100644
+> --- a/linux-user/signal.c
+> +++ b/linux-user/signal.c
+> @@ -508,6 +508,11 @@ void signal_init(void)
+>       act.sa_flags = SA_SIGINFO;
+>       act.sa_sigaction = host_signal_handler;
+>       for(i = 1; i <= TARGET_NSIG; i++) {
+> +#ifdef TARGET_GPROF
+> +        if (i == SIGPROF) {
+> +            continue;
+> +        }
+> +#endif
+>           host_sig = target_to_host_signal(i);
+>           sigaction(host_sig, NULL, &oact);
+>           if (oact.sa_sigaction == (void *)SIG_IGN) {
+> 
 
-I suggest -DCHECK_UNALIGNED=1 here, and elsewhere -DCHECK_UNALIGNED=0, and then
+Applied to my linux-user branch.
 
-#ifndef CHECK_UNALIGNED
-# error "Target does not specify CHECK_UNALIGNED"
-#endif
-
-Then you don't need conditional compilation within the tests as well.
-
-
-r~
+Thanks,
+Laurent
 
