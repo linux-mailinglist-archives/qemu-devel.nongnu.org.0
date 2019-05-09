@@ -2,60 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2EBCA18FC0
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 19:57:42 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58863 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DAF2918FD0
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 20:02:21 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58932 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOnIb-0006Z6-BL
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 13:57:41 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35737)
+	id 1hOnN6-0002ud-Lz
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 14:02:20 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36233)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hOnGi-00053V-Va
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:55:46 -0400
+	(envelope-from <alistair23@gmail.com>) id 1hOnJ3-0007Wy-Rw
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:58:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hOnGh-00088u-Us
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:55:44 -0400
-Received: from mout.kundenserver.de ([212.227.126.135]:59479)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hOnGh-00088R-MP
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:55:43 -0400
-Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
-	(mreue012 [213.165.67.103]) with ESMTPSA (Nemesis) id
-	1N0Zfg-1gSaUs0fDA-00wXBy; Thu, 09 May 2019 19:55:10 +0200
-To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>, qemu-devel@nongnu.org
-References: <1556905846-14074-1-git-send-email-aleksandar.markovic@rt-rk.com>
-	<1556905846-14074-2-git-send-email-aleksandar.markovic@rt-rk.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <f23a5f3f-6536-ab15-13cc-656f641b84a4@vivier.eu>
-Date: Thu, 9 May 2019 19:55:07 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
+	(envelope-from <alistair23@gmail.com>) id 1hOnJ2-0000fp-DC
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:58:09 -0400
+Received: from mail-lf1-x141.google.com ([2a00:1450:4864:20::141]:43537)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <alistair23@gmail.com>)
+	id 1hOnJ2-0000fR-5b
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:58:08 -0400
+Received: by mail-lf1-x141.google.com with SMTP id u27so2194806lfg.10
+	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 10:58:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=tzmKJLehJT89eW8ekZejP+oZP8e9ssWy9e+lkPe1YPU=;
+	b=geecjAVu6XtVVJ9NjC32Lg2uO8BCwpNod8Dd0N4vPPjkMPXdICiPMJgkcMWGGafByQ
+	XH9zT+061WAayNujJd1IkzKXBA7GYQIfgvlB6sMn7dJPZUJKpcOLbWWzZnMA1QM52anZ
+	2oj7aKRgZFAkfZAa3gOR85FptuhVstC65Rc3IdxCgYYP27YGhPcrh6AodXmVg5rEppTt
+	VycTIm4Ub5lgLu/2PFPRajMu11NvSW+u/8WFlKSyeUoucNjldA97etaiK2WgMVNrwKlY
+	bD12VZid9YfYwX5PI0LK2399LdE/kzGyFgOtTkSxj9AJM9BZS3iGr6ooigaPQh175TW5
+	3x3g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=tzmKJLehJT89eW8ekZejP+oZP8e9ssWy9e+lkPe1YPU=;
+	b=NuVLSHU9eehu3dXGTvOa9kSsiESH/uldt5L9JoFCZZSWbCnEnipl9/YGZlKkMHaayg
+	vJBjJl3b+sUOAGfP2YJdjkzvKEHMCXcsDYkcmFLU5OYULNIHqX36vuZTBwDTDNzWIYwo
+	UNNToZeyHafR70EvjD2mDmcxZswcXmaP8nBmMClgVx0cMf6RextoDcWXxGJpTY5jpchY
+	OTPCaUuzKq9To4y+Ycjq2vs1Bj81HiKzBfiF2uNgztcRTihf4TSHniS/796vEoyrtvAt
+	9Lu6maDeF6hcvS95j0pvvi0v6DcFshwhgBNRowueNzGkn/jvjEhrlmyKl+lF6ZL6j9ZR
+	XLJw==
+X-Gm-Message-State: APjAAAVukPUn16nAEYJNB7kiFSlU4bkEeWGZkd3Jn0EDRz49cJ6YtV5/
+	x07KLtrZ93eK/CjwETLx11IJuCBWm+Bkq9qA/QA=
+X-Google-Smtp-Source: APXvYqwIK87BsG80P0J+UHWh21fKL9UpyH5MzA505bvQFZYSSSHXmp8OjnP8CbQHP+Z8lchPG23l0ipswWAO30N2C04=
+X-Received: by 2002:a19:189:: with SMTP id 131mr3206800lfb.74.1557424686827;
+	Thu, 09 May 2019 10:58:06 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1556905846-14074-2-git-send-email-aleksandar.markovic@rt-rk.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:hh/RhXH0OY3U7OHBwSBwmw8211QjDoNmhwGLs2aksUopDRO3G2n
-	WD0N00w+s5n3v+jOSWsvql97HpW6nf1Rt9nbhsJ/AeaMX17Efdk/faCLMOp5nR9uBoW7civ
-	vNzxes689bBzry+9x8HWaIzRW4rJ4MT3nwwG/9yIHJrW7qkiVtr82lsnc+nxn1qjcRQNxcl
-	uLMWrnOmPtSxcpoKWDvDw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:XybKPSXskKY=:4Wv1KOPyNhZ5Rp/juDt/Yx
-	S0SsD2mEn2YVeRcLgq5NkUt1aGpdDX2sVzix+Ck70+VRkt+P84WfvguP1S+kWMUM29fS194oS
-	IlodyM59LsFgurTclg1PlU5qzzPYC5gcSEoYh2B+IBJqHX4/P97VURVHJYCPEBXOFgfrZLm/g
-	Ne3ChVzBthOzTs12dkTcwNAEhKYLm52NoWV6MRDID3ipmJXseOYU/kh8iOHGIi6DzR2humUO1
-	JrKpEGudTcarnUO8chFTdr3uXRQI6/woByTcmAhBFnnEGQi6VTPlnFjbiqyOdmerVCozgLc3R
-	QNMcy6VuF+sag9/W1r6RzQQQcv8oHL5deJu6PCG1hVCmvNVpyWZ9hn7QXoXq+wjnlMU4t/aMq
-	CiIExtg+gH5JInuo8OgcRB1wxBGg++Hr1BZh/YMj6uu6WBHkRWL5ofRi8egn1Z7O2qAOdk4t+
-	VtYq7o4y3/o0TCDdiJnpwl6X2trdGjYTwiwsfKSnI4RyAldVRAnsCwmI5S1HrjjIMzn9kyCvC
-	p5WYpdXQ7tPLfWzcCzIrg52wooKUjQCjuseLRJv1ZHIJlgg6SOlnBDjeGSQZgfKpch6hoqcaq
-	kFfx4Siy/DB7xUCvONXMrLt37FYwt919vMmd4HS6eQsaYRDTkh8vA+oIF5RnL3xgAYIl3yjUP
-	Dt9OYroI1HMfol3JVv2p7eBL+pqrQbrMTM6jyowdfEO7bdvedPepcGW5/zlTMOPPptAn0VtV8
-	S+82unOjZnE7ysvGDq8XHlfS7fApxHIDQ3yEw+nwkbv40surPQvwx+8HnVw=
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.135
-Subject: Re: [Qemu-devel] [PATCH v4 1/5] linux-user: Fix support for the
- SIOCATMARK and SIOCGPGRP ioctls for xtensa
+References: <20190508000641.19090-1-richard.henderson@linaro.org>
+	<20190508000641.19090-9-richard.henderson@linaro.org>
+In-Reply-To: <20190508000641.19090-9-richard.henderson@linaro.org>
+From: Alistair Francis <alistair23@gmail.com>
+Date: Thu, 9 May 2019 10:56:00 -0700
+Message-ID: <CAKmqyKP8Qgbzv3V=hq4zktd0bDs-EnXRS_p=t6agd=CT37pjkQ@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2a00:1450:4864:20::141
+Subject: Re: [Qemu-devel] [PATCH v3 08/39] target/alpha: Use env_cpu,
+ env_archcpu
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -67,66 +73,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, thuth@redhat.com, daniel.santos@pobox.com,
-	arikalo@wavecomp.com, jcmvbkbc@gmail.com, amarkovic@wavecomp.com,
-	nchen@wavecomp.com, philmd@redhat.com, aurelien@aurel32.net
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/05/2019 19:50, Aleksandar Markovic wrote:
-> From: Aleksandar Markovic <amarkovic@wavecomp.com>
-> 
-> Fix support for the SIOCATMARK and SIOCGPGRP ioctls for xtensa by
-> correcting corresponding macro definition.
-> 
-> Values for TARGET_SIOCATMARK and TARGET_SIOCGPGRP are determined by
-> Linux kernel. Following relevant lines (obtained by grep) are from
-> the kernel source tree:
-> 
-> arch/ia64/include/uapi/asm/sockios.h:#define SIOCATMARK    0x8905
-> arch/mips/include/uapi/asm/sockios.h:#define SIOCATMARK    _IOR('s', 7, int)
-> arch/parisc/include/uapi/asm/sockios.h:#define SIOCATMARK  0x8905
-> arch/sh/include/uapi/asm/sockios.h:#define SIOCATMARK      _IOR('s', 7, int)
-> arch/xtensa/include/uapi/asm/sockios.h:#define SIOCATMARK  _IOR('s', 7, int)
-> arch/alpha/include/uapi/asm/sockios.h:#define SIOCATMARK   _IOR('s', 7, int)
-> arch/sparc/include/uapi/asm/sockios.h:#define SIOCATMARK   0x8905
-> include/uapi/asm-generic/sockios.h:#define SIOCATMARK	   0x8905
-> 
-> arch/ia64/include/uapi/asm/sockios.h:#define SIOCGPGRP     0x8904
-> arch/mips/include/uapi/asm/sockios.h:#define SIOCGPGRP     _IOR('s', 9, pid_t)
-> arch/parisc/include/uapi/asm/sockios.h:#define SIOCGPGRP   0x8904
-> arch/sh/include/uapi/asm/sockios.h:#define SIOCGPGRP       _IOR('s', 9, pid_t)
-> arch/xtensa/include/uapi/asm/sockios.h:#define SIOCGPGRP   _IOR('s', 9, pid_t)
-> arch/alpha/include/uapi/asm/sockios.h:#define SIOCGPGRP    _IOR('s', 9, pid_t)
-> arch/sparc/include/uapi/asm/sockios.h:#define SIOCGPGRP    0x8904
-> include/uapi/asm-generic/sockios.h:#define SIOCGPGRP       0x8904
-> 
-> It is visible from above that xtensa should have the same definitions
-> as alpha, mips and sh4 already do. This patch brings QEMU to the accurate
-> state wrt these two ioctls.
-> 
-> Acked-by: Max Filippov <jcmvbkbc@gmail.com>
-> Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+On Tue, May 7, 2019 at 5:07 PM Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> With exactly one exception, most uses of alpha_env_get_cpu
+> were failures to use the more proper, ENV_GET_CPU macro,
+> now replaced by env_cpu.
+>
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+
+Alistair
+
 > ---
->   linux-user/syscall_defs.h | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-> index 12c8407..1e86fb9 100644
-> --- a/linux-user/syscall_defs.h
-> +++ b/linux-user/syscall_defs.h
-> @@ -736,7 +736,8 @@ struct target_pollfd {
->   #define TARGET_KDSETLED        0x4B32	/* set led state [lights, not flags] */
->   #define TARGET_KDSIGACCEPT     0x4B4E
->   
-> -#if defined(TARGET_ALPHA) || defined(TARGET_MIPS) || defined(TARGET_SH4)
-> +#if defined(TARGET_ALPHA) || defined(TARGET_MIPS) || defined(TARGET_SH4) ||    \
-> +       defined(TARGET_XTENSA)
->   #define TARGET_SIOCATMARK      TARGET_IOR('s', 7, int)
->   #define TARGET_SIOCGPGRP       TARGET_IOR('s', 9, pid_t)
->   #else
-> 
-
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-
+>  target/alpha/cpu.h          | 5 -----
+>  linux-user/alpha/cpu_loop.c | 2 +-
+>  target/alpha/helper.c       | 8 +++-----
+>  target/alpha/sys_helper.c   | 8 ++++----
+>  4 files changed, 8 insertions(+), 15 deletions(-)
+>
+> diff --git a/target/alpha/cpu.h b/target/alpha/cpu.h
+> index 2c7f75f584..53c085f691 100644
+> --- a/target/alpha/cpu.h
+> +++ b/target/alpha/cpu.h
+> @@ -273,11 +273,6 @@ struct AlphaCPU {
+>      QEMUTimer *alarm_timer;
+>  };
+>
+> -static inline AlphaCPU *alpha_env_get_cpu(CPUAlphaState *env)
+> -{
+> -    return container_of(env, AlphaCPU, env);
+> -}
+> -
+>  #define ENV_OFFSET offsetof(AlphaCPU, env)
+>
+>  #ifndef CONFIG_USER_ONLY
+> diff --git a/linux-user/alpha/cpu_loop.c b/linux-user/alpha/cpu_loop.c
+> index 61992571e1..7a94eee84c 100644
+> --- a/linux-user/alpha/cpu_loop.c
+> +++ b/linux-user/alpha/cpu_loop.c
+> @@ -23,7 +23,7 @@
+>
+>  void cpu_loop(CPUAlphaState *env)
+>  {
+> -    CPUState *cs = CPU(alpha_env_get_cpu(env));
+> +    CPUState *cs = env_cpu(env);
+>      int trapnr;
+>      target_siginfo_t info;
+>      abi_long sysret;
+> diff --git a/target/alpha/helper.c b/target/alpha/helper.c
+> index 7201576aae..08dfb834a5 100644
+> --- a/target/alpha/helper.c
+> +++ b/target/alpha/helper.c
+> @@ -119,7 +119,7 @@ static int get_physical_address(CPUAlphaState *env, target_ulong addr,
+>                                  int prot_need, int mmu_idx,
+>                                  target_ulong *pphys, int *pprot)
+>  {
+> -    CPUState *cs = CPU(alpha_env_get_cpu(env));
+> +    CPUState *cs = env_cpu(env);
+>      target_long saddr = addr;
+>      target_ulong phys = 0;
+>      target_ulong L1pte, L2pte, L3pte;
+> @@ -463,8 +463,7 @@ void alpha_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+>     We expect that ENV->PC has already been updated.  */
+>  void QEMU_NORETURN helper_excp(CPUAlphaState *env, int excp, int error)
+>  {
+> -    AlphaCPU *cpu = alpha_env_get_cpu(env);
+> -    CPUState *cs = CPU(cpu);
+> +    CPUState *cs = env_cpu(env);
+>
+>      cs->exception_index = excp;
+>      env->error_code = error;
+> @@ -475,8 +474,7 @@ void QEMU_NORETURN helper_excp(CPUAlphaState *env, int excp, int error)
+>  void QEMU_NORETURN dynamic_excp(CPUAlphaState *env, uintptr_t retaddr,
+>                                  int excp, int error)
+>  {
+> -    AlphaCPU *cpu = alpha_env_get_cpu(env);
+> -    CPUState *cs = CPU(cpu);
+> +    CPUState *cs = env_cpu(env);
+>
+>      cs->exception_index = excp;
+>      env->error_code = error;
+> diff --git a/target/alpha/sys_helper.c b/target/alpha/sys_helper.c
+> index ac22323191..f9c34b1144 100644
+> --- a/target/alpha/sys_helper.c
+> +++ b/target/alpha/sys_helper.c
+> @@ -44,17 +44,17 @@ uint64_t helper_load_pcc(CPUAlphaState *env)
+>  #ifndef CONFIG_USER_ONLY
+>  void helper_tbia(CPUAlphaState *env)
+>  {
+> -    tlb_flush(CPU(alpha_env_get_cpu(env)));
+> +    tlb_flush(env_cpu(env));
+>  }
+>
+>  void helper_tbis(CPUAlphaState *env, uint64_t p)
+>  {
+> -    tlb_flush_page(CPU(alpha_env_get_cpu(env)), p);
+> +    tlb_flush_page(env_cpu(env), p);
+>  }
+>
+>  void helper_tb_flush(CPUAlphaState *env)
+>  {
+> -    tb_flush(CPU(alpha_env_get_cpu(env)));
+> +    tb_flush(env_cpu(env));
+>  }
+>
+>  void helper_halt(uint64_t restart)
+> @@ -78,7 +78,7 @@ uint64_t helper_get_walltime(void)
+>
+>  void helper_set_alarm(CPUAlphaState *env, uint64_t expire)
+>  {
+> -    AlphaCPU *cpu = alpha_env_get_cpu(env);
+> +    AlphaCPU *cpu = env_archcpu(env);
+>
+>      if (expire) {
+>          env->alarm_expire = expire;
+> --
+> 2.17.1
+>
+>
 
