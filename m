@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A5AA119548
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 00:35:15 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33529 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1E9671953B
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 00:32:12 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33500 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOrdC-0006AA-P1
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 18:35:14 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:32804)
+	id 1hOraF-0002i5-5R
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 18:32:11 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:32822)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOrUr-0007Vi-Ns
+	(envelope-from <richard.henderson@linaro.org>) id 1hOrUt-0007Vl-Bq
 	for qemu-devel@nongnu.org; Thu, 09 May 2019 18:26:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOrUq-0005Mr-KN
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 18:26:37 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:42306)
+	(envelope-from <richard.henderson@linaro.org>) id 1hOrUs-0005NK-7M
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 18:26:39 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:41913)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hOrUq-0005Ma-E8
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 18:26:36 -0400
-Received: by mail-pg1-x542.google.com with SMTP id 145so1916389pgg.9
-	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 15:26:36 -0700 (PDT)
+	id 1hOrUs-0005N4-1M
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 18:26:38 -0400
+Received: by mail-pg1-x541.google.com with SMTP id z3so1917845pgp.8
+	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 15:26:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=7ZAIu4sKS6YB4WebUUhTxA56tE0hF5se6ULN034aZNQ=;
-	b=x7C7VdUR/J75eALT7laVxfbag0DNejwYdKa1FQi1YfsU5rw7mEhcs/G2Tn52tQR0Jk
-	8wfpxpSfT1KfGA02VsKNsDh6sR2sgb8WpmqI3I++ZqKX6jACMmh6x38yuvn0E4qel5mO
-	vtI7kZBBGmUTq7O32LKgnuwJQwVH1uROLPn+zIdBTIi3/qR/pxRerZXK4zmD6ZunYXwB
-	1dVQ4j46dwKAvMjRFY6G4QMngs+WkU7zMTx+K18Ba/AvctbusToTIur84dC3VISrnL43
-	bSqMddxCXyTwJGYbS17qbfRN2lyyZKp3XYyDV6T+qWL2Ow3rUS/r02Q3c8+2aR11WyDK
-	ka3g==
+	bh=nXQKQmWv/YKHXQBl4iXWce1fvy4Q62aar83khsKjymg=;
+	b=QIufI29MTORtO+OHVlp9TjqlBuZZiKinoDQc/iLnX2ChP1xYp2lwQJPTOpI3N5NpGO
+	tcqTBc7unyWtOiY5QNQ1469ryqPQzuNJ2Lw87pmw6NQYUFg2/j4w5TgVoSupJiCD1+cY
+	7lXb7EEP7SoqpNUTHEcsckqRqqiN/fLFxb4DepEK6d6EN436mx6qW58XZ00oanChQfqN
+	kkDTPmDVZUtW/TCaMyspA8CwhB6K4YU5ycyvCVqlqFh1UyBOnO/S4SdRaHYjH9D4TcRG
+	Qs+WN9bS7fgZEQwvS6RISQ8UX1SNO9fRCEocsE5gsxvCCgDZ82J1xQmvmUCcXRzjlT4s
+	ZJBA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=7ZAIu4sKS6YB4WebUUhTxA56tE0hF5se6ULN034aZNQ=;
-	b=fAcBkdrTwW72Qs/D/xzsDNyVVXrG3gLY4v5BOh8s2U3flVakhSPJn3gnOQMb2kEAeY
-	ae0ZOnKs17BmeJVBZCqce2RjmYtk7Uj2kmZ2hW0Wm7jHxPXRbcb5l3JfB5f6AiT2dM8d
-	8PwUbSQFSLkg0e3Hke8s3XdcvUuzRp+tAa/1e1Mi3Wwu+0Au/2a9SGezLM1mEgvgrIXS
-	XNDtB0oiLhvTjWQvamoIWv10u4k7Pu0hZmnQpznXBf+Tm2cNruse3BKCify297LTWPwL
-	Um4iM2uQx6mXyVstZDz7EmUVjMDqG8vrq3i2I3uMRxK/Oe/+2Z7ld1PkG1AigzacoReD
-	xWXw==
-X-Gm-Message-State: APjAAAVlNfOczWncHBZ6hPxkjZZitICPq7tkbVLuBXoPc08QyXLdKyA4
-	xfhvCPbRHC+uUE+d2BkcaZcqL8InhuU=
-X-Google-Smtp-Source: APXvYqyyEjm37f/QnYr/uejeCMMjlx3vp1L3LnYaL+w+gWz/GJ1FVLYiSkMbYk8BUivF+AMimJXraA==
-X-Received: by 2002:a63:1d05:: with SMTP id d5mr8881169pgd.157.1557440795175; 
-	Thu, 09 May 2019 15:26:35 -0700 (PDT)
+	bh=nXQKQmWv/YKHXQBl4iXWce1fvy4Q62aar83khsKjymg=;
+	b=C9SI0YnSj5BTZKe8qOL4lbESZ+DaDe5Q4UMR/PF+mhYCspeW3gV2Ktc16NUyIHNwq1
+	StkNKXrNCcIgoc0C8/Ss/p1TBnwj1UOFQcEBdQ7jgV0kcGufOrWHQ3nLg8OZS6l6Rn2N
+	EKZPPDl/oxLh5Cg29H396Guh/xNtCeCv0QbHdMUVy/CKfAXTlE8zbOTr7cnC2haeD3fB
+	TDHeTCwIwbpagAx/joJi5da0XwNjKoOvPopMj/dqcUilz6CS22OWUml3W7OiQgfsadm7
+	EK3Llk2uqfjxc+HZJwXXnGqMtmXlAU5qfgYHUxNpgz+5Ft+zh9KOXSu31jNnPMs2oN05
+	veUg==
+X-Gm-Message-State: APjAAAUokJ8+MXTcfFzxMRXlO+SbdM1NfPAYOtz7HROVPG2LX8vdOnDi
+	P/vRV9KljqZOydTFh/fQpMEkWMzywuk=
+X-Google-Smtp-Source: APXvYqyFkXGjcEQT82nLW8p3wpqf4g628Ax9hrRvP5Vf0LRKkS354X0dyb2viULCYbBHtSFfMQW61w==
+X-Received: by 2002:a63:5742:: with SMTP id h2mr9017998pgm.194.1557440796601; 
+	Thu, 09 May 2019 15:26:36 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231])
-	by smtp.gmail.com with ESMTPSA id m2sm4490521pfi.24.2019.05.09.15.26.34
+	by smtp.gmail.com with ESMTPSA id m2sm4490521pfi.24.2019.05.09.15.26.35
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 09 May 2019 15:26:34 -0700 (PDT)
+	Thu, 09 May 2019 15:26:35 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu,  9 May 2019 15:26:05 -0700
-Message-Id: <20190509222631.14271-2-richard.henderson@linaro.org>
+Date: Thu,  9 May 2019 15:26:06 -0700
+Message-Id: <20190509222631.14271-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190509222631.14271-1-richard.henderson@linaro.org>
 References: <20190509222631.14271-1-richard.henderson@linaro.org>
@@ -67,8 +67,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::542
-Subject: [Qemu-devel] [PATCH v3 01/27] tcg: Add CPUClass::tlb_fill
+X-Received-From: 2607:f8b0:4864:20::541
+Subject: [Qemu-devel] [PATCH v3 02/27] target/alpha: Convert to
+ CPUClass::tlb_fill
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -83,118 +84,142 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This hook will replace the (user-only mode specific) handle_mmu_fault
-hook, and the (system mode specific) tlb_fill function.
-
-The handle_mmu_fault hook was written as if there was a valid
-way to recover from an mmu fault, and had 3 possible return states.
-In reality, the only valid action is to raise an exception,
-return to the main loop, and deliver the SIGSEGV to the guest.
-
-Note that all of the current implementations of handle_mmu_fault
-for guests which support linux-user do in fact only ever return 1,
-which is the signal to return to the main loop.
-
-Using the hook for system mode requires that all targets be converted,
-so for now the hook is (optionally) used only from user-only mode.
-
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/qom/cpu.h     |  9 +++++++++
- accel/tcg/user-exec.c | 39 ++++++++++++++-------------------------
- 2 files changed, 23 insertions(+), 25 deletions(-)
+v2: Keep user-only and system tlb_fill separate.
+---
+ target/alpha/cpu.h        |  5 +++--
+ target/alpha/cpu.c        |  5 ++---
+ target/alpha/helper.c     | 30 +++++++++++++++++++++---------
+ target/alpha/mem_helper.c | 16 ----------------
+ 4 files changed, 26 insertions(+), 30 deletions(-)
 
-diff --git a/include/qom/cpu.h b/include/qom/cpu.h
-index 08abcbd3fe..c1f267b4e0 100644
---- a/include/qom/cpu.h
-+++ b/include/qom/cpu.h
-@@ -118,6 +118,12 @@ struct TranslationBlock;
-  *       will need to do more. If this hook is not implemented then the
-  *       default is to call @set_pc(tb->pc).
-  * @handle_mmu_fault: Callback for handling an MMU fault.
-+ * @tlb_fill: Callback for handling a softmmu tlb miss or user-only
-+ *       address fault.  For system mode, if the access is valid, call
-+ *       tlb_set_page and return true; if the access is invalid, and
-+ *       probe is true, return false; otherwise raise an exception and
-+ *       do not return.  For user-only mode, always raise an exception
-+ *       and do not return.
-  * @get_phys_page_debug: Callback for obtaining a physical address.
-  * @get_phys_page_attrs_debug: Callback for obtaining a physical address and the
-  *       associated memory transaction attributes to use for the access.
-@@ -191,6 +197,9 @@ typedef struct CPUClass {
-     void (*synchronize_from_tb)(CPUState *cpu, struct TranslationBlock *tb);
-     int (*handle_mmu_fault)(CPUState *cpu, vaddr address, int size, int rw,
-                             int mmu_index);
-+    bool (*tlb_fill)(CPUState *cpu, vaddr address, int size,
-+                     MMUAccessType access_type, int mmu_idx,
-+                     bool probe, uintptr_t retaddr);
-     hwaddr (*get_phys_page_debug)(CPUState *cpu, vaddr addr);
-     hwaddr (*get_phys_page_attrs_debug)(CPUState *cpu, vaddr addr,
-                                         MemTxAttrs *attrs);
-diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
-index 0789984fe6..199f88c826 100644
---- a/accel/tcg/user-exec.c
-+++ b/accel/tcg/user-exec.c
-@@ -65,6 +65,7 @@ static inline int handle_cpu_signal(uintptr_t pc, siginfo_t *info,
-     CPUClass *cc;
-     int ret;
-     unsigned long address = (unsigned long)info->si_addr;
-+    MMUAccessType access_type;
+diff --git a/target/alpha/cpu.h b/target/alpha/cpu.h
+index 63bf3618ff..cf09112b6a 100644
+--- a/target/alpha/cpu.h
++++ b/target/alpha/cpu.h
+@@ -475,8 +475,9 @@ void alpha_cpu_list(void);
+    is returned if the signal was handled by the virtual CPU.  */
+ int cpu_alpha_signal_handler(int host_signum, void *pinfo,
+                              void *puc);
+-int alpha_cpu_handle_mmu_fault(CPUState *cpu, vaddr address, int size, int rw,
+-                               int mmu_idx);
++bool alpha_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
++                        MMUAccessType access_type, int mmu_idx,
++                        bool probe, uintptr_t retaddr);
+ void QEMU_NORETURN dynamic_excp(CPUAlphaState *, uintptr_t, int, int);
+ void QEMU_NORETURN arith_excp(CPUAlphaState *, uintptr_t, int, uint64_t);
  
-     /* We must handle PC addresses from two different sources:
-      * a call return address and a signal frame address.
-@@ -147,35 +148,23 @@ static inline int handle_cpu_signal(uintptr_t pc, siginfo_t *info,
-        are still valid segv ones */
-     address = h2g_nocheck(address);
- 
--    cc = CPU_GET_CLASS(cpu);
--    /* see if it is an MMU fault */
--    g_assert(cc->handle_mmu_fault);
--    ret = cc->handle_mmu_fault(cpu, address, 0, is_write, MMU_USER_IDX);
--
--    if (ret == 0) {
--        /* The MMU fault was handled without causing real CPU fault.
--         *  Retain helper_retaddr for a possible second fault.
--         */
--        return 1;
--    }
--
--    /* All other paths lead to cpu_exit; clear helper_retaddr
--     * for next execution.
-+    /*
-+     * There is no way the target can handle this other than raising
-+     * an exception.  Undo signal and retaddr state prior to longjmp.
-      */
-+    sigprocmask(SIG_SETMASK, old_set, NULL);
-     helper_retaddr = 0;
- 
--    if (ret < 0) {
--        return 0; /* not an MMU fault */
-+    cc = CPU_GET_CLASS(cpu);
-+    if (cc->tlb_fill) {
-+        access_type = is_write ? MMU_DATA_STORE : MMU_DATA_LOAD;
-+        cc->tlb_fill(cpu, address, 0, access_type, MMU_USER_IDX, false, pc);
-+        g_assert_not_reached();
-+    } else {
-+        ret = cc->handle_mmu_fault(cpu, address, 0, is_write, MMU_USER_IDX);
-+        g_assert(ret > 0);
-+        cpu_loop_exit_restore(cpu, pc);
-     }
--
--    /* Now we have a real cpu fault.  */
--    cpu_restore_state(cpu, pc, true);
--
--    sigprocmask(SIG_SETMASK, old_set, NULL);
--    cpu_loop_exit(cpu);
--
--    /* never comes here */
--    return 1;
+diff --git a/target/alpha/cpu.c b/target/alpha/cpu.c
+index ad3588a44a..7c81be4111 100644
+--- a/target/alpha/cpu.c
++++ b/target/alpha/cpu.c
+@@ -225,9 +225,8 @@ static void alpha_cpu_class_init(ObjectClass *oc, void *data)
+     cc->set_pc = alpha_cpu_set_pc;
+     cc->gdb_read_register = alpha_cpu_gdb_read_register;
+     cc->gdb_write_register = alpha_cpu_gdb_write_register;
+-#ifdef CONFIG_USER_ONLY
+-    cc->handle_mmu_fault = alpha_cpu_handle_mmu_fault;
+-#else
++    cc->tlb_fill = alpha_cpu_tlb_fill;
++#ifndef CONFIG_USER_ONLY
+     cc->do_transaction_failed = alpha_cpu_do_transaction_failed;
+     cc->do_unaligned_access = alpha_cpu_do_unaligned_access;
+     cc->get_phys_page_debug = alpha_cpu_get_phys_page_debug;
+diff --git a/target/alpha/helper.c b/target/alpha/helper.c
+index 7201576aae..929a217455 100644
+--- a/target/alpha/helper.c
++++ b/target/alpha/helper.c
+@@ -104,14 +104,15 @@ void cpu_alpha_store_gr(CPUAlphaState *env, unsigned reg, uint64_t val)
  }
  
- #if defined(__i386__)
+ #if defined(CONFIG_USER_ONLY)
+-int alpha_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size,
+-                               int rw, int mmu_idx)
++bool alpha_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
++                        MMUAccessType access_type, int mmu_idx,
++                        bool probe, uintptr_t retaddr)
+ {
+     AlphaCPU *cpu = ALPHA_CPU(cs);
+ 
+     cs->exception_index = EXCP_MMFAULT;
+     cpu->env.trap_arg0 = address;
+-    return 1;
++    cpu_loop_exit_restore(cs, retaddr);
+ }
+ #else
+ /* Returns the OSF/1 entMM failure indication, or -1 on success.  */
+@@ -248,26 +249,37 @@ hwaddr alpha_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
+     return (fail >= 0 ? -1 : phys);
+ }
+ 
+-int alpha_cpu_handle_mmu_fault(CPUState *cs, vaddr addr, int size, int rw,
+-                               int mmu_idx)
++bool alpha_cpu_tlb_fill(CPUState *cs, vaddr addr, int size,
++                        MMUAccessType access_type, int mmu_idx,
++                        bool probe, uintptr_t retaddr)
+ {
+     AlphaCPU *cpu = ALPHA_CPU(cs);
+     CPUAlphaState *env = &cpu->env;
+     target_ulong phys;
+     int prot, fail;
+ 
+-    fail = get_physical_address(env, addr, 1 << rw, mmu_idx, &phys, &prot);
++    fail = get_physical_address(env, addr, 1 << access_type,
++                                mmu_idx, &phys, &prot);
+     if (unlikely(fail >= 0)) {
++        if (probe) {
++            return false;
++        }
+         cs->exception_index = EXCP_MMFAULT;
+         env->trap_arg0 = addr;
+         env->trap_arg1 = fail;
+-        env->trap_arg2 = (rw == 2 ? -1 : rw);
+-        return 1;
++        env->trap_arg2 = (access_type == MMU_INST_FETCH ? -1 : access_type);
++        cpu_loop_exit_restore(cs, retaddr);
+     }
+ 
+     tlb_set_page(cs, addr & TARGET_PAGE_MASK, phys & TARGET_PAGE_MASK,
+                  prot, mmu_idx, TARGET_PAGE_SIZE);
+-    return 0;
++    return true;
++}
++
++void tlb_fill(CPUState *cs, target_ulong addr, int size,
++              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
++{
++    alpha_cpu_tlb_fill(cs, addr, size, access_type, mmu_idx, false, retaddr);
+ }
+ #endif /* USER_ONLY */
+ 
+diff --git a/target/alpha/mem_helper.c b/target/alpha/mem_helper.c
+index 011bc73dca..934faa1d6f 100644
+--- a/target/alpha/mem_helper.c
++++ b/target/alpha/mem_helper.c
+@@ -62,20 +62,4 @@ void alpha_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
+     env->error_code = 0;
+     cpu_loop_exit_restore(cs, retaddr);
+ }
+-
+-/* try to fill the TLB and return an exception if error. If retaddr is
+-   NULL, it means that the function was called in C code (i.e. not
+-   from generated code or from helper.c) */
+-/* XXX: fix it to restore all registers */
+-void tlb_fill(CPUState *cs, target_ulong addr, int size,
+-              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
+-{
+-    int ret;
+-
+-    ret = alpha_cpu_handle_mmu_fault(cs, addr, size, access_type, mmu_idx);
+-    if (unlikely(ret != 0)) {
+-        /* Exception index and error code are already set */
+-        cpu_loop_exit_restore(cs, retaddr);
+-    }
+-}
+ #endif /* CONFIG_USER_ONLY */
 -- 
 2.17.1
 
