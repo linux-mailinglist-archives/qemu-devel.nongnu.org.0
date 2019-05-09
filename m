@@ -2,62 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CB5A189D7
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 14:36:06 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53960 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C237189E6
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 14:38:03 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53976 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOiHN-0008OU-3C
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 08:36:05 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38421)
+	id 1hOiJG-0001dd-Im
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 08:38:02 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38519)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hOiGF-00081l-SY
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 08:34:56 -0400
+	(envelope-from <thuth@redhat.com>) id 1hOiGi-0008Iw-Sp
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 08:35:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hOiGE-0005Q0-VV
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 08:34:55 -0400
-Received: from mail-qk1-f194.google.com ([209.85.222.194]:45714)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hOiGE-0005Op-RE
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 08:34:54 -0400
-Received: by mail-qk1-f194.google.com with SMTP id j1so1279503qkk.12
-	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 05:34:54 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:content-transfer-encoding
-	:in-reply-to;
-	bh=8XmsuH2o0LvBvg5tUckPQbDc8c87HJ4A7XWUd1kSXvs=;
-	b=nEXREVinMuvDidBgPzFqi7DOr8ck1A0mY11ewL4b7r74o3DalJR8whd84Rw2KMH9Oc
-	3pUiqcfl8QrEnOuP/6ruqGjayoWYVBF0YNfoYNLYtqcBQITCIGOpNY4lA6hxfwADN6+A
-	KhJXle423blvSCASIe6L6oQ6uY9w2xRqNdXsHYhrYTkoeXixnT7MOTk2PacCPh9lUpv8
-	VXjUnxQ61nlgs5qNJoSF6QlH5QNB8UxSZu8Vzki3cCcuqjogzaSbBpJmqiaeQN0GhSHi
-	V55UAqagFjKcFeC/99i77i2/n7+lIKrP6pnwGESEux0mGaM4aqomlVPNG8FrBXHmNMwX
-	eSRA==
-X-Gm-Message-State: APjAAAWCoFTVyidFSK6b+JhqcKCtYnDBwXqUYM0noMX/ZaEgM/6KwL3f
-	rrP1el4/LSuSq7MJpB30a1qQkw==
-X-Google-Smtp-Source: APXvYqz+NHhgOjjuC31IWvHCko1R6u4f8L2rVmc4T1YZHjdvPhSfnyN8OnDHyJhp+ktJMdTu0JO97g==
-X-Received: by 2002:a37:4e4d:: with SMTP id c74mr3100181qkb.230.1557405293406; 
-	Thu, 09 May 2019 05:34:53 -0700 (PDT)
-Received: from redhat.com (pool-173-76-105-71.bstnma.fios.verizon.net.
-	[173.76.105.71])
-	by smtp.gmail.com with ESMTPSA id q3sm984259qtd.2.2019.05.09.05.34.51
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 09 May 2019 05:34:52 -0700 (PDT)
-Date: Thu, 9 May 2019 08:34:49 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>
-Message-ID: <20190509083409-mutt-send-email-mst@kernel.org>
-References: <20190503130034.24916-1-marcandre.lureau@redhat.com>
+	(envelope-from <thuth@redhat.com>) id 1hOiGh-0005r1-QU
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 08:35:24 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53239)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <thuth@redhat.com>) id 1hOiGh-0005pM-Ii
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 08:35:23 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 72EC5821EF;
+	Thu,  9 May 2019 12:35:22 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-116-115.ams2.redhat.com [10.36.116.115])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id CD4401A8F1;
+	Thu,  9 May 2019 12:35:14 +0000 (UTC)
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+	Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
+References: <20190508085645.11595-1-kraxel@redhat.com>
+	<38ea2334-b819-a439-7a43-92b52263b402@redhat.com>
+	<a8d4aea0-cf45-45f2-604e-adc79bbeb135@redhat.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=thuth@redhat.com; keydata=
+	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
+Organization: Red Hat
+Message-ID: <eebaa68b-59d8-91fd-bdec-49b34dd25eff@redhat.com>
+Date: Thu, 9 May 2019 14:35:13 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190503130034.24916-1-marcandre.lureau@redhat.com>
+In-Reply-To: <a8d4aea0-cf45-45f2-604e-adc79bbeb135@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.28]);
+	Thu, 09 May 2019 12:35:22 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.222.194
-Subject: Re: [Qemu-devel] [PATCH v2 0/6] Add vhost-user-input
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 00/13] tests/vm: serial console autoinstall,
+ misc fixes.
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -69,64 +107,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, kraxel@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Ed Maste <emaste@freebsd.org>,
+	Eduardo Habkost <ehabkost@redhat.com>, Kamil Rytarowski <kamil@netbsd.org>,
+	=?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+	Li-Wen Hsu <lwhsu@freebsd.org>, Brad Smith <brad@comstyle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 03, 2019 at 03:00:28PM +0200, Marc-André Lureau wrote:
-> Hi,
-> 
-> This is the vhost-user-input part of "[PATCH v6 00/11] vhost-user for input & GPU".
-> 
-> v2:
-> - build fixes
-> 
-> v1: (changes since original v6 series)
-> - add "libvhost-user: fix -Waddress-of-packed-member" & "util: simplify unix_listen()"
-> - use unix_listen()
-> - build vhost-user-input by default (when applicable)
-> 
-> Marc-André Lureau (6):
->   libvhost-user: fix -Waddress-of-packed-member
->   libvhost-user: add PROTOCOL_F_CONFIG if {set,get}_config
->   Add vhost-user-backend
->   Add vhost-user-input-pci
->   util: simplify unix_listen()
->   contrib: add vhost-user-input
+On 09/05/2019 14.04, Philippe Mathieu-Daud=C3=A9 wrote:
+[...]
+>> I now gave your series another try and replaced patch 3 with the pytho=
+n3
+>> fix from Eduardo locally here. FreeBSD works great. OpenBSD is fine to=
+o,
+>> except for the known issue that the "gmake check" does not work - but
+>> this issue has been there before already. [...]
+>=20
+> "gmake check" was working on OpenBSD with this series:
+> https://lists.gnu.org/archive/html/qemu-devel/2019-01/msg07513.html
+> I think most of the patch proposed there have been merged, so are you
+> talking about a new issue?
 
-OK looks sane.
+Oh, true, I remembered the patches, but was not aware that they've been
+merged.
 
-Gerd, IIUC you are going to merge this right?
-If so
+The issue that I've seen is this one:
 
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+  [...]
+  TEST    check-qtest-arm: tests/pca9552-test
+  TEST    check-qtest-arm: tests/ds1338-test
+  TEST    check-qtest-arm: tests/microbit-test
+  TEST    check-qtest-arm: tests/m25p80-test
+  TEST    check-qtest-arm: tests/test-arm-mptimer
+  TEST    check-qtest-arm: tests/boot-serial-test
+qemu-system-arm: cannot set up guest memory 'ram': Cannot allocate memory
+Broken pipe
+/home/qemu/qemu-test.znJ6fy/src/tests/libqtest.c:135: kill_qemu() tried
+to terminate QEMU process but encountered exit status 1
+ERROR - too few tests run (expected 2, got 0)
+Abort trap (core dumped)
+gmake: *** [/home/qemu/qemu-test.znJ6fy/src/tests/Makefile.include:903:
+check-qtest-arm] Error 1
 
-thanks!
-
-
->  include/sysemu/vhost-user-backend.h    |  57 ++++
->  backends/vhost-user.c                  | 209 +++++++++++++
->  contrib/libvhost-user/libvhost-user.c  |  10 +-
->  contrib/vhost-user-input/main.c        | 393 +++++++++++++++++++++++++
->  hw/input/vhost-user-input.c            | 129 ++++++++
->  hw/virtio/vhost-user-input-pci.c       |  53 ++++
->  util/qemu-sockets.c                    |  18 +-
->  MAINTAINERS                            |   4 +
->  Makefile                               |  11 +
->  Makefile.objs                          |   1 +
->  backends/Makefile.objs                 |   2 +
->  contrib/vhost-user-input/Makefile.objs |   1 +
->  hw/input/Kconfig                       |   5 +
->  hw/input/Makefile.objs                 |   1 +
->  hw/virtio/Makefile.objs                |   1 +
->  16 files changed, 890 insertions(+), 19 deletions(-)
->  create mode 100644 include/sysemu/vhost-user-backend.h
->  create mode 100644 backends/vhost-user.c
->  create mode 100644 contrib/vhost-user-input/main.c
->  create mode 100644 hw/input/vhost-user-input.c
->  create mode 100644 hw/virtio/vhost-user-input-pci.c
->  create mode 100644 contrib/vhost-user-input/Makefile.objs
-> 
-> -- 
-> 2.21.0.777.g83232e3864
+ Thomas
 
