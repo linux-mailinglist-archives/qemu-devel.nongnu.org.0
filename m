@@ -2,64 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6856186C9
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 10:30:12 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50360 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1996A186D7
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 10:34:17 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50508 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOeRP-0003Wf-RU
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 04:30:11 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46597)
+	id 1hOeVM-00073d-8J
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 04:34:16 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48319)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <sgarzare@redhat.com>) id 1hOeOD-0001bY-06
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 04:26:54 -0400
+	(envelope-from <armbru@redhat.com>) id 1hOeTQ-0006Kb-2o
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 04:32:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <sgarzare@redhat.com>) id 1hOeOB-0005gS-K6
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 04:26:52 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:37400)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1hOeOB-0005fr-Do
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 04:26:51 -0400
-Received: by mail-wm1-f67.google.com with SMTP id y5so1989705wma.2
-	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 01:26:51 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=dIARWU2C6vwWQhEwoqdu+eSEzCP1J09c4Eb6k1zy/MY=;
-	b=FPtfETVz/rV1JwvxdKCQKqk5evMytRVfdZWWNYL1fEPtyArM6vb6ZUW2IOlTYxVS5T
-	jJVh4EafH60S7pwAKmyB9raUkHAzO76wwtdPw4exic4RQk1eBWEnaV4qySq7dhHKU02m
-	r+W4KoVyFsF4C5yrrGOcAWrtewJWtb+d/wKh0gIxEVRXvd+TlvZB90t5IKrGUTEs+8Sp
-	7rNk6cR+aLjku1UiCjMHEjFgeV7Yr4x9lh4l2KDMkDogrymgFPWhhaaXFdHh8Zn5pNSA
-	j7baw8RqLhgA3QAWDLRyV6/ezwKm17bVQe08Z7Eeu8eYY+jlbVs6ZX+uvUoVV+5yAmjP
-	nb0g==
-X-Gm-Message-State: APjAAAWFZXkiqxCgeLX+qN1IPeLVyqI2s/g+zwzGt3eb/kHj3Lqu2Opp
-	4pwfOGo3FIuqXv/jiBIFW34gNg==
-X-Google-Smtp-Source: APXvYqxrqie+HNWtMp07iiaCp37Z7hXQavoT7AZfv7dRvml6+EFci4kKFEV3g7WlGrlESjuphZiy3w==
-X-Received: by 2002:a7b:c304:: with SMTP id k4mr1963293wmj.22.1557390410088;
-	Thu, 09 May 2019 01:26:50 -0700 (PDT)
-Received: from steredhat (host151-251-static.12-87-b.business.telecomitalia.it.
-	[87.12.251.151]) by smtp.gmail.com with ESMTPSA id
-	s22sm1886603wmh.45.2019.05.09.01.26.48
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 09 May 2019 01:26:49 -0700 (PDT)
-Date: Thu, 9 May 2019 10:26:46 +0200
-From: Stefano Garzarella <sgarzare@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Message-ID: <20190509082646.lrfllcqszjlmnyfe@steredhat>
-References: <20190427113625.46594-1-sgarzare@redhat.com>
-	<877eb2hiwk.fsf@dusky.pond.sub.org>
-	<20190507083615.as7shlq7fwjgwz54@steredhat>
-	<8736lp5fxg.fsf@dusky.pond.sub.org>
+	(envelope-from <armbru@redhat.com>) id 1hOeTN-00013C-Jh
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 04:32:15 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34100)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hOeTN-0000pN-9o
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 04:32:13 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 5940F4628A
+	for <qemu-devel@nongnu.org>; Thu,  9 May 2019 08:31:48 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-28.ams2.redhat.com
+	[10.36.116.28])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id EF5E5608E4;
+	Thu,  9 May 2019 08:31:47 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+	id 705E51132B35; Thu,  9 May 2019 10:31:46 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+References: <20190423212246.3542-1-ehabkost@redhat.com>
+	<87imumj1jb.fsf@dusky.pond.sub.org>
+	<20190507161845.GL28722@habkost.net>
+	<87lfzh5mrh.fsf@dusky.pond.sub.org>
+	<20190508202830.GF4189@habkost.net>
+Date: Thu, 09 May 2019 10:31:46 +0200
+In-Reply-To: <20190508202830.GF4189@habkost.net> (Eduardo Habkost's message of
+	"Wed, 8 May 2019 17:28:30 -0300")
+Message-ID: <874l646nbh.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8736lp5fxg.fsf@dusky.pond.sub.org>
-User-Agent: NeoMutt/20180716
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.29]);
+	Thu, 09 May 2019 08:31:48 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.128.67
-Subject: Re: [Qemu-devel] Use of PreallocMode in block drivers
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 0/3] Export machine type deprecation info
+ through QMP
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -71,244 +65,293 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Josh Durgin <jdurgin@redhat.com>,
-	Peter Krempa <pkrempa@redhat.com>, qemu-block@nongnu.org,
-	qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: mprivozn@redhat.com, qemu-devel@nongnu.org,
+	Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 08, 2019 at 01:44:27PM +0200, Markus Armbruster wrote:
-> Stefano Garzarella <sgarzare@redhat.com> writes:
-> 
-> > On Tue, May 07, 2019 at 08:34:51AM +0200, Markus Armbruster wrote:
-> >> Cc: Peter for a libvirt perspective.
-> >> 
-> >> Stefano Garzarella <sgarzare@redhat.com> writes:
-> >> 
-> >> > This patch adds the support of preallocation (off/full) for the RBD
-> >> > block driver.
-> >> > If available, we use rbd_writesame() to quickly fill the image when
-> >> > full preallocation is required.
-> >> >
-> >> > Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
-> >> > ---
-> >> >  block/rbd.c          | 149 ++++++++++++++++++++++++++++++++++++++-----
-> >> >  qapi/block-core.json |   4 +-
-> >> >  2 files changed, 136 insertions(+), 17 deletions(-)
-> >> >
-> >> > diff --git a/block/rbd.c b/block/rbd.c
-> >> > index 0c549c9935..29dd1bb040 100644
-> >> > --- a/block/rbd.c
-> >> > +++ b/block/rbd.c
-> >> > @@ -13,6 +13,7 @@
-> >> >  
-> >> >  #include "qemu/osdep.h"
-> >> >  
-> >> > +#include "qemu/units.h"
-> >> >  #include <rbd/librbd.h>
-> >> >  #include "qapi/error.h"
-> >> >  #include "qemu/error-report.h"
-> >> > @@ -331,6 +332,110 @@ static void qemu_rbd_memset(RADOSCB *rcb, int64_t offs)
-> >> >      }
-> >> >  }
-> >> >  
-> >> > +static int qemu_rbd_do_truncate(rbd_image_t image, int64_t offset,
-> >> > +                                PreallocMode prealloc, Error **errp)
-> >> > +{
-> >> > +    uint64_t current_length;
-> >> > +    char *buf = NULL;
-> >> > +    int ret;
-> >> > +
-> >> > +    ret = rbd_get_size(image, &current_length);
-> >> > +    if (ret < 0) {
-> >> > +        error_setg_errno(errp, -ret, "Failed to get file length");
-> >> > +        goto out;
-> >> > +    }
-> >> > +
-> >> > +    if (current_length > offset && prealloc != PREALLOC_MODE_OFF) {
-> >> > +        error_setg(errp, "Cannot use preallocation for shrinking files");
-> >> > +        ret = -ENOTSUP;
-> >> > +        goto out;
-> >> > +    }
-> >> > +
-> >> > +    switch (prealloc) {
-> >> > +    case PREALLOC_MODE_FULL: {
-> >> [...]
-> >> > +    case PREALLOC_MODE_OFF:
-> >> [...]
-> >> > +    default:
-> >> > +        error_setg(errp, "Unsupported preallocation mode: %s",
-> >> > +                   PreallocMode_str(prealloc));
-> >> > +        ret = -ENOTSUP;
-> >> > +        goto out;
-> >> > +    }
-> >> 
-> >> Other block drivers also accept only some values of PreallocMode.  Okay.
-> >> 
-> >> I wonder whether management applications need to know which values are
-> >> supported.
-> >
-> > Good point!
-> 
-> We can continue to assume they don't until somebody tells us otherwise.
-> 
-> >> Let me review support in drivers:
-> >> 
-> >> * file (file-win32.c)
-> >> * iscsi
-> >> * nfs
-> >> * qed
-> >> * ssh
-> >> 
-> >>   - Reject all but PREALLOC_MODE_OFF
-> >> 
-> >> * copy-on-read
-> >> * luks (crypto.c)
-> >> * raw
-> >> 
-> >>   - Pass through only
-> >> 
-> >> * file host_cdrom host_device (file-posix.c)
-> >> 
-> >>   - Reject all but PREALLOC_MODE_OFF when shrinking and for non-regular
-> >>     files
-> >>   - Reject PREALLOC_MODE_FALLOC unless CONFIG_POSIX_FALLOCATE
-> >>   - Reject PREALLOC_MODE_METADATA
-> >> 
-> >> * gluster
-> >> 
-> >>   - Reject all but PREALLOC_MODE_OFF when shrinking
-> >>   - Reject PREALLOC_MODE_FALLOC unless CONFIG_GLUSTERFS_FALLOCATE
-> >>   - Reject PREALLOC_MODE_FULL unless CONFIG_GLUSTERFS_ZEROFILL
-> >>   - Reject PREALLOC_MODE_METADATA
-> >> 
-> >> * qcow2
-> >> 
-> >>   - Reject all but PREALLOC_MODE_OFF when shrinking and with a backing
-> >>     file
-> >>   
-> >> * rbd with this patch
-> >> 
-> >>   - Reject all but PREALLOC_MODE_OFF when shrinking
-> >>   - Reject PREALLOC_MODE_METADATA and PREALLOC_MODE_FALLOC
-> >> 
-> >> * sheepdog
-> >> 
-> >>   - Reject PREALLOC_MODE_METADATA and PREALLOC_MODE_FALLOC
-> >>   - Doesn't support shrinking
-> >> 
-> >> * vdi
-> >> 
-> >>   - Reject PREALLOC_MODE_FALLOC and PREALLOC_MODE_FULL
-> >>   - Doesn't support shrinking
-> >> 
-> >> * blkdebug
-> >> * blklogwrites
-> >> * blkverify
-> >> * bochs
-> >> * cloop
-> >> * dmg
-> >> * ftp
-> >> * ftps
-> >> * http
-> >> * https
-> >> * luks
-> >> * nbd
-> >> * null-aio
-> >> * null-co
-> >> * nvme
-> >> * parallels
-> >> * qcow
-> >> * quorum
-> >> * replication
-> >> * throttle
-> >> * vhdx
-> >> * vmdk
-> >> * vpc
-> >> * vvfat
-> >> * vxhs
-> >> 
-> >>   - These appear not to use PreallocMode: they don't implement
-> >>     .bdrv_co_truncate(), and either don't implement .bdrv_co_create() or
-> >>     implement it without a prealloc parameter.
-> >> 
-> >> Looks good to me.
-> >>
-> >
-> > Thanks for the analysis!
-> >
-> >> > +
-> >> > +    ret = 0;
-> >> > +
-> >> > +out:
-> >> > +    g_free(buf);
-> >> > +    return ret;
-> >> > +}
-> >> > +
-> >> >  static QemuOptsList runtime_opts = {
-> >> >      .name = "rbd",
-> >> >      .head = QTAILQ_HEAD_INITIALIZER(runtime_opts.head),
-> >> [...]
-> >> > diff --git a/qapi/block-core.json b/qapi/block-core.json
-> >> > index 7ccbfff9d0..db25a4065b 100644
-> >> > --- a/qapi/block-core.json
-> >> > +++ b/qapi/block-core.json
-> >> > @@ -4277,13 +4277,15 @@
-> >> >  #                   point to a snapshot.
-> >> >  # @size             Size of the virtual disk in bytes
-> >> >  # @cluster-size     RBD object size
-> >> > +# @preallocation    Preallocation mode (allowed values: off, full)
-> >> >  #
-> >> >  # Since: 2.12
-> >> >  ##
-> >> >  { 'struct': 'BlockdevCreateOptionsRbd',
-> >> >    'data': { 'location':         'BlockdevOptionsRbd',
-> >> >              'size':             'size',
-> >> > -            '*cluster-size' :   'size' } }
-> >> > +            '*cluster-size' :   'size',
-> >> > +            '*preallocation':   'PreallocMode' } }
-> >> >  
-> >> >  ##
-> >> >  # @BlockdevVmdkSubformat:
-> >> 
-> >> The non-support of values 'metadata' and 'falloc' is not visible in
-> >> introspection, only in documentation.  No reason to block this patch, as
-> >> the other block drivers have the same introspection weakness (only
-> >> sheepdog and vdi bother to document).
-> >> 
-> >> Should we address the introspection weakness?  Only if there's a use for
-> >> the information, I think.
-> >
-> > If the management applications will use that information (or maybe also
-> > our help pages), could be useful to have an array of 'PreallocMode'
-> > supported per-driver.
-> 
-> Ideally, query-qmp-schema would show only the supported values.
-> 
-> Not hard to do, just tedious: we'd get a number of sub-enums in addition
-> to the full one, and we'd have to map from sub-enum to the full one.
-> 
-> QAPI language support for sub-enums would remove most of the tedium.
-> Not worthwhile unless the need for sub-enums is actually common.
+We've wandered into the QAPI vs. QOM swamp.  Cc: Paolo.
 
-I should study better the QMP and QAPI to understand how to implement
-the sub-enums.
+Eduardo Habkost <ehabkost@redhat.com> writes:
 
-If you agree, I'll put it as a background task, until somebody from
-management applications tell us his interest.
+> On Wed, May 08, 2019 at 11:16:50AM +0200, Markus Armbruster wrote:
+>> Eduardo Habkost <ehabkost@redhat.com> writes:
+>> 
+>> > On Tue, May 07, 2019 at 07:07:04AM +0200, Markus Armbruster wrote:
+>> >> Eduardo Habkost <ehabkost@redhat.com> writes:
+>> >> 
+>> >> > This series adds machine type deprecation information to the
+>> >> > output of the `query-machines` QMP command.  With this, libvirt
+>> >> > and management software will be able to show this information to
+>> >> > users and/or suggest changes to VM configuration to avoid
+>> >> > deprecated machine types.
+>> >> 
+>> >> This overlaps with something I want to try, namely using Kevin's
+>> >> proposed QAPI feature flags for deprecation markings.  Let's compare the
+>> >> two.
+>> >> 
+>> >> To mark something as deprecated with your patches, you add a
+>> >> @support-status member somewhere, where "somewhere" is related to
+>> >> "something" by "provides information on".
+>> >> 
+>> >> Example: MachineInfo (returned by query-machines) provides information
+>> >> on possible values of -machine parameter type.  If -machine was
+>> >> QAPIfied, it would provide information on possible values of a QAPI
+>> >> object type's member.  The type might be anonymous.  The member should
+>> >> be an enum (we currently use 'str' in MachineInfo).
+>> >
+>> > QAPIfying -machine, -cpu, and -device would be wonderful.
+>> >
+>> >> 
+>> >> Example: say we want to deprecate block driver "vfat",
+>> >> i.e. BlockdevDriver member @vfat.  Type BlockdevDriver is used in
+>> >> multiple places; let's ignore all but BlockdevOptions.  We need to add
+>> >> @support-status to something that provides information on
+>> >> BlockdevDriver, or maybe on BlockdevOptions.  There is no ad hoc query
+>> >> providing information on either of the two, because QAPI/QMP
+>> >> introspection has been sufficient.  What now?
+>> >> 
+>> >> Can we add deprecation information to (general) QAPI/QMP introspection
+>> >
+>> > Yes, we can.  I think it's a good idea.  But:
+>> >
+>> >> instead of ad hoc queries?
+>> >
+>> > I'm not sure about the "instead of" part.  I don't want perfect
+>> > to be the enemy of done, and I don't want QAPIfication of
+>> > -machine to be a requirement to start reporting machine type
+>> > deprecation information.
+>> 
+>> Valid point.  Still, I believe we should at least try to predict how the
+>> pieces we create now would fit with the pieces we plan to create later
+>> on.
+>
+> Sure.
+>
+>> 
+>> Note that full QAPIfication of -machine isn't necessary to make QAPI
+>> feature "deprecated" work for machine types.  Turning MachineInfo member
+>> @name into an enum, so we can tack "deprecated" onto its values, would
+>> suffice.
+>> 
+>> Such a QAPIfication of machine types is still hard: QOM types are
+>> defined at compile time just like the QAPI schema, but their definition
+>> is distributed, and collected into one place only at run time.  I
+>> discussed this on slide 39 of my "QEMU interface introspection: From
+>> hacks to solutions" talk (KVM Form 2015).  Just for device_add, but it's
+>> just a special case of QOM.  Choices listed there:
+>> 
+>> * Collect drivers at compile time? Hard...
+>> * Make QAPI schema dynamic? Hard...
+>> * Forgo driver-specific arguments in schema?
+>>   Defeats introspection...
+>> 
+>> I'd like to add to the last item:
+>> 
+>>   Provide QOM introspection on par with QAPI schema introspection
+>> 
+>> The QOM introspection we have (qom-list-types etc. is not on par.
+>
+> Agreed, but do we really want to do it?  We have been avoiding
+> exposing QOM internals to the outside on purpose.  I believe
+> there are at least two reasons for that:
+>
+> 1) Not every QOM type/property is supposed to be visible to the
+>    outside
 
-> 
-> >> Should we improve documentation for the other block drivers?
-> >> 
-> >
-> > Yes, e.g. for Gluster it is not updated.
-> > If you agree, I can check and update the documentation of all drivers following
-> > your analysis.
-> 
-> Yes, please!
+True.
 
-Okay, I'll send a patch to update it.
+However, the parts of QOM exposed via device_add and object-add are
+definitely part of the stable external interface (unless explicitly
+marked unstable).
 
-Thanks,
-Stefano
+>            (and nobody really knows what's the full set of
+>    supported external QOM interfaces);
+
+Also true.  And terrible.
+
+> 2) QAPI is our preferred interface interface specification/introspection
+>    mechanism.
+
+When preferences and requirements collide, preferences tend to get run
+over.
+
+The QAPI schema is *declarative*: the schema declares QAPI objects and
+properties.  We generate C from the schema, which we then compile and
+link into QEMU.
+
+QOM is by design *imperative*: we execute compiled C at QEMU run-time to
+define QOM objects and properties.  Maximizes flexibility.  See also
+Turing tarpit.
+
+No matter how much we'd prefer to use QAPI to specify external
+interfaces to QOM, we can't without making QAPI much more dynamic or QOM
+much more static.  Either is hard.  Quite possibly infeasible.
+
+We could try to extend QAPI/QMP introspection to somehow merge in
+additional information at run-time[1].  Could be regarded as a limited
+way to make QAPI more dynamic.  This is in the "vague idea, not sure
+it's feasible" stage.
+
+We could try to rearchitect QOM so that you can optionally specify QOM
+stuff in the QAPI schema, then require that for QOM stuff that's part of
+a stable external interface.  Same "vague idea" stage, feasibility even
+more doubtful.
+
+If I remember correctly, Paolo suggested to abandon the idea to have
+query-qmp-schema cover device_add as infeasible.  Instead, cover it
+separately.
+
+I think this separate introspection mechanism should be as similar to
+query-qmp-schema as practical.  It should cover not just device_add, but
+also object-add, and whatever other external interface to QOM we deem
+stable.
+
+Should there be more stable external interfaces that can't be defined in
+the QAPI schema, we might want to cover them in this second
+introspection mechanism, too.
+
+>> Back to exposing machine type deprecation.
+>> 
+>> I'm doubtful your proposed solution can be applied widely.  It relies on
+>> adding @support-status to something that provides information on
+>> whatever is deprecated.  The initial use is with a something that is an
+>> ad hoc query, namely query-machines.  To use it, the management
+>> application needs to understand what query-machines' @support-status
+>> applies to.  Certainly feasible.  But I fear every use will be a special
+>> case.  Furthermore, a suitable ad hoc query need not exist.  What then?
+>> Create suitable ad hoc queries just for communicating deprecation?
+>> 
+>> Instead, I'd like us to think about a more genral solution.  Or perhaps
+>> two: one for properly QAPIfied stuff, and one for QOM.
+>
+> Should we really spend our time designing a second solution, if
+> we could build this on top of QAPI abstractions?  Making the QAPI
+> schema dynamic might be hard, but reinventing QAPI and
+> maintaining the two systems in parallel seems harder.
+
+I'd love to see a practical way forward that keeps QAPI/QMP
+introspection the only game in town.
+
+>> >> Kevin's proposed QAPI feature flags[*] extend the QAPI language so that
+>> >> struct types can optionally have a list of feature flags, which are
+>> >> strings.  Struct types suffice for his immediate needs.  I'd like to use
+>> >> feature flags to mark deprecation by tacking a "deprecated" feature onto
+>> >> whatever is deprecated.  This obviously needs feature support for
+>> >> everything we want to be able to deprecate: commands, and events, as
+>> >> well as members of enum and object types.
+>> >> 
+>> >> Example: to deprecate block driver "vfat", add feature "deprecated" to
+>> >> BlockdevDriver member @vfat.
+>> >> 
+>> >> Unlike your patches, this does not require finding a "somewhere" that
+>> >> provides information on "something".  You simply tack "deprecated" right
+>> >> onto "something".
+>> >> 
+>> >> Your patches provide more information, however: human-readable messages.
+>> >
+>> > It also includes a machine-friendly suggested alternative (which
+>> > I think is even more important that the human-readable message).
+>> 
+>> I agree we should point to a preferred replacement whenever we deprecate
+>> something.
+>> 
+>> We have to do it in documentation.  And we generally do, in
+>> qemu-deprecated.texi.
+>> 
+>> How useful would doing it in QMP as well be?  Depends on what management
+>> applications can do with the additional information.
+>
+> I expect it to be useful for things that have obvious
+> replacements, like old machine type or CPU model versions.
+
+I doubt a management application should apply suggested replacements
+automatically, and I doubt libvirt would.  Not even when QEMU developers
+deem them "obvious".
+
+>> > We could extend QAPI introspection to return that if necessary,
+>> > right?
+>> 
+>> I'm confident we can come up with *something*.  It might kill the neat
+>> and simple "use QAPI features to communicate deprecation" idea, though.
+>
+> If something is important enough to be communicated through
+> stderr, it's important enough to be communicated through QMP.
+
+Mostly.  Differences are due to the different consumers.
+
+stderr is primarily for human users.  We print stuff useful to human
+users.
+
+QMP is primarily for machines, secondarily for the humans building these
+machines.  We send stuff useful to the machines themselves, and stuff
+the machines can use to be more useful for their users (which may be
+machines or humans).  We can also send stuff to help the humans building
+the machines.
+
+In any case, the information we provide is limited by the cost to
+provide it.
+
+> Is that enough reason to provide something more complex?
+
+We need to consider cost / benefit.
+
+On benefit, I'd like to know what libvirt would do with the additional
+information beyond logging it.
+
+Is the additional information you propose to provide static or dynamic?
+
+By "static", I mean each occurence of a feature in the QAPI schema is
+tied to one fixed instance of "additional information".
+
+> Do we need QAPI features to be just strings?  Can't they be a
+> more complex type, like a QAPI alternate?
+
+Adds complexity.
+
+We currently imagine QAPI features enum-like, i.e. a list of strings,
+optionally with conditions.  The conditions are evaluated at QAPI
+generation time, and not visible in introspection.
+
+This is probably the stupidest solution that could possibly work.  The
+structure of features is trivial.
+
+More expressive solutions include:
+
+* List of 'any'.  Feels like a bad idea, because it's completely
+  unstructured.
+
+* List of some 'QapiFeatures' object type.  Lets us expose the variable
+  structure of features in introspection.
+
+* List of some 'QapiFeatures' alternate type.  Like the previous, but
+  permits coding simple feature flags as strings.
+
+All of the more expressive solutions I listed treat the additional
+information as dynamic.  Overly general in case the information is
+actually always static.
+
+>> >> Food for thought :)
+>> >> 
+>> >> 
+>> >> [*] Hiding in
+>> >> Subject: [PATCH 0/4] file-posix: Add dynamic-auto-read-only QAPI feature
+>> >> Date: Mon,  8 Apr 2019 16:35:39 +0200
+>> >> Message-Id: <20190408143543.3982-1-kwolf@redhat.com>
+
+
+[1] Special case of "merge additional information into QAPI/QMP
+introspection at run-time, relegated to a footnote, because I think it's
+of mostly historical interest now.
+
+Qdev was designed to be declarative, but the declarations always got
+collected only at run-time.  It has since been rebased onto imperative
+QOM.  Since you can mix declarative qdev and imperative QOM, the
+combination is effectively imperative.
+
+We could collect the declarative parts of qdev at compile-time somehow,
+and fold them into QAPI introspection.  That's the "Collect drives at
+compile time" item from the slide I quoted.  I think this idea has
+become pretty much worthless, since it would cover device_add only in
+part, and object-add not at all.
 
