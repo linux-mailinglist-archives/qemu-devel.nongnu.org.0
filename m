@@ -2,65 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D6F3C18F00
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 19:26:57 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58476 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7556F18EF0
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 19:25:29 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58412 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOmor-0005Yf-2Y
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 13:26:57 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52127)
+	id 1hOmnQ-0003sP-G0
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 13:25:28 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52136)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hOmU5-0003nN-Ji
+	(envelope-from <alex.bennee@linaro.org>) id 1hOmU5-0003ne-Ul
 	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:05:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hOmU4-0008BA-3v
+	(envelope-from <alex.bennee@linaro.org>) id 1hOmU4-0008Bk-D1
 	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:05:29 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:50286)
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:40709)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hOmU3-00088H-RW
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:05:27 -0400
-Received: by mail-wm1-x342.google.com with SMTP id y17so3237912wmj.0
-	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 10:05:24 -0700 (PDT)
+	id 1hOmU4-000890-4N
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:05:28 -0400
+Received: by mail-wr1-x444.google.com with SMTP id h4so4064055wre.7
+	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 10:05:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=3OsvAqRpGCpyIsZPwRA2TrRs2ee15ZUjq1ExWCyXpJs=;
-	b=ibiMJ0eAd6Rc8gH7ufafmwKVLWzWEnig8fbShtf9FiNsWFKRJFaxe6jFZ788hjpmzG
-	iDZ/V/D6E0thUxiFRNsoHO/ca+ZL8abITKpxiZlFTD0hFRAdDCSBtIl7YGlPwQARUZlK
-	S4d0905179gJHMTSvYHNLFvLcBisUasWHGIWzfGWr8wLlXJjD3Pw38xCq2KozwRC8a6Y
-	jBrtkrg8w/nUOiuqt6vC9vFpz86TEafDv71ja//34asZSadzbXuaddk4+jkfReONi3Ah
-	YpkmSQjS+2nGwDzqb3xngsdNOCVIDsah3b8zdn+W7IILt9Wm+kKXaDtJ9ltgWHvKneYf
-	883g==
+	bh=lgZfPbopRUJXrj/AngwFpop/a9mtHOqlBcsdu25DOWg=;
+	b=NFg8fjAvpDRy2r5DC+OveaTtXK+YXnZFT5NHQizoJWoqnFBAxtGPtOLJwuGXNhuonX
+	ql1WyRUMnN0vSlpUUYSqGCudMeDOC+E9tc33wPMbsFGqQpuprDhIVpf7fB2nIMTsn8qQ
+	Pqx6FdK9D/keacrqxX9PuDY8w+dpwM8QOYcx2tjnH3CxEnRMTo5FoR0GCW3VgBgDYpX5
+	n5dkWEwsW90GufyewAe1H9P4l73V6I5Nprz/FWralka9Iz6Uua0fxQTqneP3d9Eim7sb
+	1GdjHp7OVw05ZrWGugAD34eHd9FqDP/j6L+SdzH3JC4SX/bIfcD0uvgPPcR0ICDWWNjy
+	UhDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=3OsvAqRpGCpyIsZPwRA2TrRs2ee15ZUjq1ExWCyXpJs=;
-	b=LXWha3sSy3oWhCHz7wlV2QhwFXfNkLg0oGJvuSWOTf6hOcnx85HUc/xN8U/PVNFyGo
-	KDXXCbw2SfpZYShxPExBY0ugU+5HHoOQGuZRY9ZhvHAt2cowGVS8GcrY58CCo7u/5uAZ
-	DW6j8zM5rxX7N/D1EtU/1pGPNSyekr788YfSmwUVxiwxfAwDKsSyNSJmUojS/RLKDJ8W
-	D/qScvoIsGPcZR/ZHpNOnvISwCKaY/PhVu7vzb4YEFf9rADlp7PnRo5sVBGbxxuBME1T
-	RuKit2+rf19GPXPK6ho/+Q4mVQTyfIuwBB2nOlX/EfYu18+b6vl9fU6nXDJe2lS4BOhy
-	a35g==
-X-Gm-Message-State: APjAAAWkcMCzIFlUf6tGFTMNZtsxF0suleZO/bbrTL8r7fOyhA2XES/g
-	cWz8GSc49nYiIKmFS/XhqHvY7Zhuz0I=
-X-Google-Smtp-Source: APXvYqx/uBp+aJJNZSEQ/2FTaQhQMC9Mxwy9gNE9S2MUiN00r5MvXvt6IlWIZuLJh0aCPCqRkrVr7g==
-X-Received: by 2002:a7b:c053:: with SMTP id u19mr3595551wmc.63.1557421523804; 
-	Thu, 09 May 2019 10:05:23 -0700 (PDT)
+	bh=lgZfPbopRUJXrj/AngwFpop/a9mtHOqlBcsdu25DOWg=;
+	b=g4dwqU134Fbm7h2zg2//iSZ9d+zia1Ftnw7E3n8z3FfHTcRpVOjvbiXTzVvtb8dvPe
+	JnNNheFFQJwwoBOWWWBf4su3hLggVsmZHYffz9buiMYb+wWL9IxyhTxR3a2RnqaNyTZc
+	cAPU5zHlGs6YTEFSY+wVc/wyDX3mOONwOSzJZs/VFQxM3TG6b3t5e4zLlxTkFDb6u1Q4
+	2OKBf0xxNECI+84JCCZTxVYGW4BaylGU6ENXfzw2bqtmGq3D5e0m4bDpeN322pI0M4MZ
+	59Q91OoBykz5QLXNODIAamuR97fqFyOw38JQoFPLSjsz4cWTOkKysbqCHSPIk64cNHUg
+	UCFw==
+X-Gm-Message-State: APjAAAUD9uS8kHyj+lEn3optXpn5JRWL4u8/1czMReHV6G3G6PkcmUi8
+	GtsfIk68SYIdx5kNJ1tc2jlgUA==
+X-Google-Smtp-Source: APXvYqyM1luflISmoum1Nje49YAak4VMBUcU4vwKcubmOizv+naa9HSW+j/4MXIHyGLgClZLnsZP0A==
+X-Received: by 2002:a5d:6a46:: with SMTP id t6mr3894461wrw.210.1557421525366; 
+	Thu, 09 May 2019 10:05:25 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
-	by smtp.gmail.com with ESMTPSA id
-	h24sm4458598wmb.40.2019.05.09.10.05.21
+	by smtp.gmail.com with ESMTPSA id v5sm5463369wra.83.2019.05.09.10.05.22
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 09 May 2019 10:05:21 -0700 (PDT)
+	Thu, 09 May 2019 10:05:23 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id 395F41FF9E;
+	by zen.linaroharston (Postfix) with ESMTP id 4C1221FF9F;
 	Thu,  9 May 2019 17:59:13 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu,  9 May 2019 17:59:02 +0100
-Message-Id: <20190509165912.10512-15-alex.bennee@linaro.org>
+Date: Thu,  9 May 2019 17:59:03 +0100
+Message-Id: <20190509165912.10512-16-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190509165912.10512-1-alex.bennee@linaro.org>
 References: <20190509165912.10512-1-alex.bennee@linaro.org>
@@ -69,9 +68,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::342
-Subject: [Qemu-devel] [PATCH v1 14/23] Makefile: include per-target build
- directories in coverage report
+X-Received-From: 2a00:1450:4864:20::444
+Subject: [Qemu-devel] [PATCH v1 15/23] Makefile.target: support per-target
+ coverage reports
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -88,27 +87,43 @@ Cc: Richard Henderson <richard.henderson@linaro.org>, qemu-arm@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Add support for generating a single targets coverage report. Execute:
+
+  make coverage-report
+
+In the target build directory. This coverage report only cares about
+target specific blobs so only searches the target build subdirectory.
+
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- Makefile | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ Makefile.target | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/Makefile b/Makefile
-index 78d83244849..a1c844eb87a 100644
---- a/Makefile
-+++ b/Makefile
-@@ -995,7 +995,9 @@ $(filter %.1 %.7 %.8,$(DOCS)): scripts/texi2pod.pl
- %/coverage-report.html:
- 	@mkdir -p $*
- 	$(call quiet-command,\
--		gcovr -r $(SRC_PATH) --object-directory $(BUILD_DIR) \
-+		gcovr -r $(SRC_PATH) \
-+		$(foreach t, $(TARGET_DIRS), --object-directory $(BUILD_DIR)/$(t)) \
-+		 --object-directory $(BUILD_DIR) \
- 		-p --html --html-details -o $@, \
- 		"GEN", "coverage-report.html")
+diff --git a/Makefile.target b/Makefile.target
+index ae02495951d..aa5d9d6ba66 100644
+--- a/Makefile.target
++++ b/Makefile.target
+@@ -238,3 +238,19 @@ endif
  
+ GENERATED_FILES += config-target.h
+ Makefile: $(GENERATED_FILES)
++
++# Reports/Analysis
++#
++# The target specific coverage report only cares about target specific
++# blobs and not the shared code.
++#
++
++%/coverage-report.html:
++	@mkdir -p $*
++	$(call quiet-command,\
++		gcovr -r $(SRC_PATH) --object-directory $(CURDIR) \
++		-p --html --html-details -o $@, \
++		"GEN", "coverage-report.html")
++
++.PHONY: coverage-report
++coverage-report: $(CURDIR)/reports/coverage/coverage-report.html
 -- 
 2.20.1
 
