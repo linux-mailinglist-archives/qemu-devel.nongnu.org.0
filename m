@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7773E1954E
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 00:39:04 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33591 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B2D01955A
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 00:44:31 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33688 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOrgt-0001Jz-Jx
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 18:39:03 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33174)
+	id 1hOrmA-0005px-BG
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 18:44:30 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33193)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOrVK-0007w7-Iv
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 18:27:07 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hOrVL-0007xJ-R2
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 18:27:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOrVJ-0005bs-C5
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 18:27:06 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:35319)
+	(envelope-from <richard.henderson@linaro.org>) id 1hOrVK-0005cB-4Y
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 18:27:07 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:46894)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hOrVJ-0005az-53
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 18:27:05 -0400
-Received: by mail-pf1-x443.google.com with SMTP id t87so2057394pfa.2
-	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 15:27:03 -0700 (PDT)
+	id 1hOrVJ-0005bE-UJ
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 18:27:06 -0400
+Received: by mail-pg1-x542.google.com with SMTP id t187so1908435pgb.13
+	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 15:27:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=m8b1TfwrtSp/bIRpBWvKs+DLGDtPKUANT8NhwLlWDyg=;
-	b=jWLDyA5jMLjv47uzbhTxFJ8YDNqF6mf9PAjZqLZtjOH3TiwiGTSXPFc1VjYICmakaE
-	yk64kaPBMxJmjaVMCeL4Hkv4aUEk8bpCLBV8fNdVNoD5KsneOaapktLuyRhOLMdTVtym
-	N/nIzo+6hWTRzWf1bQdfPyyDpDJVkk9DEjMMPYR7ctvVIpA7M6qGAemtJ8c3pHtF1zoq
-	RmiHWym3PnR4PDv/kEgar/hgj715yFB+Yg0w1YtopBa4KJZdG56QoJ9qKDEKDymdzUap
-	UiC9jLD89aF+I8KNfOtzKvsEtipmXAOus0TuTRcnS95LpJd/iEHdEyjO0vTaRG7yIu6L
-	td1g==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=LTrRBAzo3ZXhs7/OIQshe/0vUKzYgpD3ylIgF8SzGa8=;
+	b=cF+grQo68Bk3UiRIPZiIGyy8MYaUpqaiNh9SDWNHZv6q/2IcdRSQLapaQl3GMeRPL+
+	5oiL1cEsHlBSjudZVvZtG2Fu6utCOK2+Jl3dRx9DoXgHY35WT4Lb13JopQH4TYf1yep4
+	nmlypSkZ8Ga5hYM0yWxEWZcy7LaovC6X8Qe3lNy/HJwRIOaFfx/Z4f104otmVjH1RRgg
+	Rzs3Iz4nStxa9Y/ifkA5wrn4bqYd4EY/0vdBl+e1lO5OQ5tjcvipi+WjdhJQL48TYwVR
+	nKzxcqsTxKxzRORdlCqhFjmL+aXG5e3jRbrs0uR8Cb5RH3MoUVKyM9kgS/mRgBWulBPJ
+	GaBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=m8b1TfwrtSp/bIRpBWvKs+DLGDtPKUANT8NhwLlWDyg=;
-	b=qvMOylUFXDeCNDmRkACuSb6gZYNw9MKN/P5b2zdXTErojEGujQ5r+UJr+ow9KcmXgy
-	j0ja7/4gR4Vatb7gJEdXRdYXrI9Wxy9wibgJG+OJpp14MpbYINZUWYMqlbdIZbATffCY
-	m5fk019deSLHiwAGK/vqMJCKypxEi8e+QGmDQpJWly6cxcn3MJ+E5E8vIbxwyq5onbUC
-	kIEmU2sLv5l3i8EiEMvdcju2HNDNKL/XY8CdJMFYOM9IGqBM+mC6Mzb5osYc9/5StR5e
-	4VJihL9Eab8j3z0XtC9r+ddTNag6ECaQQMoa1sDYDZ4/v+nOi327qQn8hPlwwbhNEG0j
-	OKUw==
-X-Gm-Message-State: APjAAAWz3OojHEhxE4dMoe8sPBgWir6jT6po2YdIY+zp1TGeveV879GN
-	AHl4bQtnagW0umXM6fAISGHC++7PUC4=
-X-Google-Smtp-Source: APXvYqx495eEHIy8Bo02eR0SuiFG1U/h8/JOgxaco6TNq2To0KHv7mNkKibqmAY67SXw+vR9X/Nq5Q==
-X-Received: by 2002:a65:5845:: with SMTP id s5mr8910438pgr.286.1557440822826; 
-	Thu, 09 May 2019 15:27:02 -0700 (PDT)
+	bh=LTrRBAzo3ZXhs7/OIQshe/0vUKzYgpD3ylIgF8SzGa8=;
+	b=H7EcC/NH64S/SWVjqnHiRxul8pWC/0++zjvy3ymliPNiVmfmiTJvECqftkaWXWg5Bx
+	zzq5FIZLfEyx+Qv0WcFS23xVoBXZtx8jpRo3YzYKR152bIrxxgkDEj5LEAWJDrj9PVd9
+	a/df+r9chLCs7Ou2K9sgwppmtpsvrvLP6WYrP3GzQe4i9u0eRkVZzcQ0smE2w42xr5Wp
+	4Q+u/7NTszXJHZ2G19iu7hlbBCANy51V5Xba04Xd0M6lHYihpKhVs/fSCOgfF1EHTsme
+	1BhkIJx11cCZvOJ4FmYuYVfkmJIyI06IWKQBK8dUIDtUFrgrxGPj1yqef8vRcdyrnjb/
+	Yojw==
+X-Gm-Message-State: APjAAAXC1yf8mNxCAf6oD45TkLYfuNhyF5nb6PXvtfIS/FVASVcwh9Fe
+	me8cKM71Rwtp62n+XtEW4ui2ZXgKCgU=
+X-Google-Smtp-Source: APXvYqwo0VvdNraOqqym9N01PNnXRNvhNTHXv1xikrQAS5SicN8mnlx4dxEiU6vuPRTspg/HGRmtHw==
+X-Received: by 2002:a65:48ca:: with SMTP id o10mr9091642pgs.136.1557440824221; 
+	Thu, 09 May 2019 15:27:04 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231])
-	by smtp.gmail.com with ESMTPSA id m2sm4490521pfi.24.2019.05.09.15.27.01
-	for <qemu-devel@nongnu.org>
+	by smtp.gmail.com with ESMTPSA id m2sm4490521pfi.24.2019.05.09.15.27.03
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 09 May 2019 15:27:02 -0700 (PDT)
+	Thu, 09 May 2019 15:27:03 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu,  9 May 2019 15:26:26 -0700
-Message-Id: <20190509222631.14271-23-richard.henderson@linaro.org>
+Date: Thu,  9 May 2019 15:26:27 -0700
+Message-Id: <20190509222631.14271-24-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190509222631.14271-1-richard.henderson@linaro.org>
 References: <20190509222631.14271-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::443
-Subject: [Qemu-devel] [PATCH v3 22/27] target/tricore: Convert to
+X-Received-From: 2607:f8b0:4864:20::542
+Subject: [Qemu-devel] [PATCH v3 23/27] target/unicore32: Convert to
  CPUClass::tlb_fill
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
@@ -77,134 +76,157 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Guan Xuetao <gxt@mprc.pku.edu.cn>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Acked-by: Bastian Koppelmann <kbastian@mail.uni-paderborn.de>
+Remove the user-only functions, as we no longer
+have a user-only config.
+
+Cc: Guan Xuetao <gxt@mprc.pku.edu.cn>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/tricore/cpu.h       |  6 +++---
- target/tricore/cpu.c       |  1 +
- target/tricore/helper.c    | 27 +++++++++++++++++++--------
- target/tricore/op_helper.c | 26 --------------------------
- 4 files changed, 23 insertions(+), 37 deletions(-)
+ target/unicore32/cpu.h       |  5 +++--
+ target/unicore32/cpu.c       |  5 +----
+ target/unicore32/helper.c    | 23 -----------------------
+ target/unicore32/op_helper.c | 14 --------------
+ target/unicore32/softmmu.c   | 19 +++++++++++++++----
+ 5 files changed, 19 insertions(+), 47 deletions(-)
 
-diff --git a/target/tricore/cpu.h b/target/tricore/cpu.h
-index 64d1a9c75e..287f4328a3 100644
---- a/target/tricore/cpu.h
-+++ b/target/tricore/cpu.h
-@@ -417,8 +417,8 @@ static inline void cpu_get_tb_cpu_state(CPUTriCoreState *env, target_ulong *pc,
- #define CPU_RESOLVING_TYPE TYPE_TRICORE_CPU
- 
- /* helpers.c */
--int cpu_tricore_handle_mmu_fault(CPUState *cpu, target_ulong address,
--                                 int rw, int mmu_idx);
--#define cpu_handle_mmu_fault cpu_tricore_handle_mmu_fault
-+bool tricore_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                          MMUAccessType access_type, int mmu_idx,
-+                          bool probe, uintptr_t retaddr);
- 
- #endif /* TRICORE_CPU_H */
-diff --git a/target/tricore/cpu.c b/target/tricore/cpu.c
-index e8d37e4040..ea1199d27e 100644
---- a/target/tricore/cpu.c
-+++ b/target/tricore/cpu.c
-@@ -166,6 +166,7 @@ static void tricore_cpu_class_init(ObjectClass *c, void *data)
-     cc->synchronize_from_tb = tricore_cpu_synchronize_from_tb;
-     cc->get_phys_page_attrs_debug = tricore_cpu_get_phys_page_attrs_debug;
-     cc->tcg_initialize = tricore_tcg_init;
-+    cc->tlb_fill = tricore_cpu_tlb_fill;
- }
- 
- #define DEFINE_TRICORE_CPU_TYPE(cpu_model, initfn) \
-diff --git a/target/tricore/helper.c b/target/tricore/helper.c
-index 78ee87c9ea..ed184fee3a 100644
---- a/target/tricore/helper.c
-+++ b/target/tricore/helper.c
-@@ -50,8 +50,9 @@ static void raise_mmu_exception(CPUTriCoreState *env, target_ulong address,
- {
- }
- 
--int cpu_tricore_handle_mmu_fault(CPUState *cs, target_ulong address,
--                                 int rw, int mmu_idx)
-+bool tricore_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                          MMUAccessType rw, int mmu_idx,
-+                          bool probe, uintptr_t retaddr)
- {
-     TriCoreCPU *cpu = TRICORE_CPU(cs);
-     CPUTriCoreState *env = &cpu->env;
-@@ -64,20 +65,30 @@ int cpu_tricore_handle_mmu_fault(CPUState *cs, target_ulong address,
-     access_type = ACCESS_INT;
-     ret = get_physical_address(env, &physical, &prot,
-                                address, rw, access_type);
--    qemu_log_mask(CPU_LOG_MMU, "%s address=" TARGET_FMT_lx " ret %d physical " TARGET_FMT_plx
--                  " prot %d\n", __func__, address, ret, physical, prot);
-+
-+    qemu_log_mask(CPU_LOG_MMU, "%s address=" TARGET_FMT_lx " ret %d physical "
-+                  TARGET_FMT_plx " prot %d\n",
-+                  __func__, (target_ulong)address, ret, physical, prot);
- 
-     if (ret == TLBRET_MATCH) {
-         tlb_set_page(cs, address & TARGET_PAGE_MASK,
-                      physical & TARGET_PAGE_MASK, prot | PAGE_EXEC,
-                      mmu_idx, TARGET_PAGE_SIZE);
--        ret = 0;
--    } else if (ret < 0) {
-+        return true;
-+    } else {
-+        assert(ret < 0);
-+        if (probe) {
-+            return false;
-+        }
-         raise_mmu_exception(env, address, rw, ret);
--        ret = 1;
-+        cpu_loop_exit_restore(cs, retaddr);
+diff --git a/target/unicore32/cpu.h b/target/unicore32/cpu.h
+index 24abe5e5c0..f052ee08bf 100644
+--- a/target/unicore32/cpu.h
++++ b/target/unicore32/cpu.h
+@@ -178,8 +178,9 @@ static inline void cpu_get_tb_cpu_state(CPUUniCore32State *env, target_ulong *pc
      }
-+}
- 
--    return ret;
-+void tlb_fill(CPUState *cs, target_ulong addr, int size,
-+              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
-+{
-+    tricore_cpu_tlb_fill(cs, addr, size, access_type, mmu_idx, false, retaddr);
  }
  
- static void tricore_cpu_list_entry(gpointer data, gpointer user_data)
-diff --git a/target/tricore/op_helper.c b/target/tricore/op_helper.c
-index ed9dc0c83e..601e92f92a 100644
---- a/target/tricore/op_helper.c
-+++ b/target/tricore/op_helper.c
-@@ -2793,29 +2793,3 @@ uint32_t helper_psw_read(CPUTriCoreState *env)
- {
-     return psw_read(env);
+-int uc32_cpu_handle_mmu_fault(CPUState *cpu, vaddr address, int size, int rw,
+-                              int mmu_idx);
++bool uc32_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
++                       MMUAccessType access_type, int mmu_idx,
++                       bool probe, uintptr_t retaddr);
+ void uc32_translate_init(void);
+ void switch_mode(CPUUniCore32State *, int);
+ 
+diff --git a/target/unicore32/cpu.c b/target/unicore32/cpu.c
+index 2b49d1ca40..3f57c508a0 100644
+--- a/target/unicore32/cpu.c
++++ b/target/unicore32/cpu.c
+@@ -138,11 +138,8 @@ static void uc32_cpu_class_init(ObjectClass *oc, void *data)
+     cc->cpu_exec_interrupt = uc32_cpu_exec_interrupt;
+     cc->dump_state = uc32_cpu_dump_state;
+     cc->set_pc = uc32_cpu_set_pc;
+-#ifdef CONFIG_USER_ONLY
+-    cc->handle_mmu_fault = uc32_cpu_handle_mmu_fault;
+-#else
++    cc->tlb_fill = uc32_cpu_tlb_fill;
+     cc->get_phys_page_debug = uc32_cpu_get_phys_page_debug;
+-#endif
+     cc->tcg_initialize = uc32_translate_init;
+     dc->vmsd = &vmstate_uc32_cpu;
  }
--
--
--static inline void QEMU_NORETURN do_raise_exception_err(CPUTriCoreState *env,
--                                                        uint32_t exception,
--                                                        int error_code,
--                                                        uintptr_t pc)
+diff --git a/target/unicore32/helper.c b/target/unicore32/helper.c
+index a5ff2ddb74..0d4914b48d 100644
+--- a/target/unicore32/helper.c
++++ b/target/unicore32/helper.c
+@@ -215,29 +215,6 @@ void helper_cp1_putc(target_ulong x)
+ }
+ #endif
+ 
+-#ifdef CONFIG_USER_ONLY
+-void switch_mode(CPUUniCore32State *env, int mode)
 -{
--    CPUState *cs = CPU(tricore_env_get_cpu(env));
--    cs->exception_index = exception;
--    env->error_code = error_code;
--    /* now we have a real cpu fault */
--    cpu_loop_exit_restore(cs, pc);
+-    UniCore32CPU *cpu = uc32_env_get_cpu(env);
+-
+-    if (mode != ASR_MODE_USER) {
+-        cpu_abort(CPU(cpu), "Tried to switch out of user mode\n");
+-    }
 -}
 -
+-void uc32_cpu_do_interrupt(CPUState *cs)
+-{
+-    cpu_abort(cs, "NO interrupt in user mode\n");
+-}
+-
+-int uc32_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size,
+-                              int access_type, int mmu_idx)
+-{
+-    cpu_abort(cs, "NO mmu fault in user mode\n");
+-    return 1;
+-}
+-#endif
+-
+ bool uc32_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+ {
+     if (interrupt_request & CPU_INTERRUPT_HARD) {
+diff --git a/target/unicore32/op_helper.c b/target/unicore32/op_helper.c
+index e0a15882d3..797ba60dc9 100644
+--- a/target/unicore32/op_helper.c
++++ b/target/unicore32/op_helper.c
+@@ -242,17 +242,3 @@ uint32_t HELPER(ror_cc)(CPUUniCore32State *env, uint32_t x, uint32_t i)
+         return ((uint32_t)x >> shift) | (x << (32 - shift));
+     }
+ }
+-
+-#ifndef CONFIG_USER_ONLY
 -void tlb_fill(CPUState *cs, target_ulong addr, int size,
 -              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
 -{
 -    int ret;
--    ret = cpu_tricore_handle_mmu_fault(cs, addr, access_type, mmu_idx);
--    if (ret) {
--        TriCoreCPU *cpu = TRICORE_CPU(cs);
--        CPUTriCoreState *env = &cpu->env;
--        do_raise_exception_err(env, cs->exception_index,
--                               env->error_code, retaddr);
+-
+-    ret = uc32_cpu_handle_mmu_fault(cs, addr, size, access_type, mmu_idx);
+-    if (unlikely(ret)) {
+-        /* now we have a real cpu fault */
+-        cpu_loop_exit_restore(cs, retaddr);
 -    }
 -}
+-#endif
+diff --git a/target/unicore32/softmmu.c b/target/unicore32/softmmu.c
+index 00c7e0d028..13678df4d7 100644
+--- a/target/unicore32/softmmu.c
++++ b/target/unicore32/softmmu.c
+@@ -215,8 +215,9 @@ do_fault:
+     return code;
+ }
+ 
+-int uc32_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size,
+-                              int access_type, int mmu_idx)
++bool uc32_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
++                       MMUAccessType access_type, int mmu_idx,
++                       bool probe, uintptr_t retaddr)
+ {
+     UniCore32CPU *cpu = UNICORE32_CPU(cs);
+     CPUUniCore32State *env = &cpu->env;
+@@ -257,7 +258,11 @@ int uc32_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size,
+         phys_addr &= TARGET_PAGE_MASK;
+         address &= TARGET_PAGE_MASK;
+         tlb_set_page(cs, address, phys_addr, prot, mmu_idx, page_size);
+-        return 0;
++        return true;
++    }
++
++    if (probe) {
++        return false;
+     }
+ 
+     env->cp0.c3_faultstatus = ret;
+@@ -267,7 +272,13 @@ int uc32_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size,
+     } else {
+         cs->exception_index = UC32_EXCP_DTRAP;
+     }
+-    return ret;
++    cpu_loop_exit_restore(cs, retaddr);
++}
++
++void tlb_fill(CPUState *cs, target_ulong addr, int size,
++              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
++{
++    uc32_cpu_tlb_fill(cs, addr, size, access_type, mmu_idx, false, retaddr);
+ }
+ 
+ hwaddr uc32_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
 -- 
 2.17.1
 
