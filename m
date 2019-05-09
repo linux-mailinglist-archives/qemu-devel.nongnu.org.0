@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AD0E118F6B
-	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 19:41:28 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58639 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3925718F7A
+	for <lists+qemu-devel@lfdr.de>; Thu,  9 May 2019 19:43:19 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58651 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOn2t-0003s2-MQ
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 13:41:27 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60337)
+	id 1hOn4g-0005Gp-CZ
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 13:43:18 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60736)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hOn1g-0003Ow-R2
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:40:13 -0400
+	(envelope-from <philmd@redhat.com>) id 1hOn38-0004QA-Id
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:41:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hOn1f-0007IA-N8
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:40:12 -0400
-Received: from mail-wm1-f66.google.com ([209.85.128.66]:38835)
+	(envelope-from <philmd@redhat.com>) id 1hOn37-0000IX-IK
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:41:42 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:37594)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hOn1f-0007H0-Ca
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:40:11 -0400
-Received: by mail-wm1-f66.google.com with SMTP id f2so4222959wmj.3
-	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 10:40:11 -0700 (PDT)
+	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hOn37-0000HW-Cf
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 13:41:41 -0400
+Received: by mail-wm1-f66.google.com with SMTP id y5so4229345wma.2
+	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 10:41:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
 	:date:user-agent:mime-version:in-reply-to:content-language
 	:content-transfer-encoding;
-	bh=fevb3l/p5zVEWGTm7Zi/zkky6bCKPzqheYXEJdK+uUA=;
-	b=TV3wrKVzOg7+pFXOG0B3tHiBDqVmnKU70B0XqllxM7cbu8yUFeCcWxJxvHqFJ40lZj
-	P9EbNG/+3dbykXG6QVf1Gt/pxdrlQzmfHHFZDCm7d1aHwxe+1x/slcA5wNCCCpXnzyic
-	rjl/MSHFlExGZl+iiW1CZSePkAE2oDKZqjFvNJ8mkKi+zYYpQAa8RZPxYu764Ii2oKum
-	x90O0Mhz/uceFxEPzD4Gb4dtaw/L7y/FbhsdS+Y+qglpASyaV7VmkyQ7A09NWjGe5W4C
-	gKweIps1IfCw7lw6825vtW5hDQSE0Tr5+9V+k/ZKUXQKXFCJShoBSn7RyWp+yT+Ys8fa
-	zQbg==
-X-Gm-Message-State: APjAAAUGWzF8e0ucBWef0vvmqMNyvQExhDwIMLaCDNtiO7TAMSMp/sJK
-	SopzvOC6aKN9tnAPjiqZ8939nw==
-X-Google-Smtp-Source: APXvYqxo9tb18hOiu2nizx1mU2PxBMC9v4YJIlPg148ZlOJyCi4eWAJ3a/nELO2XiYhT1dekEilZzA==
-X-Received: by 2002:a1c:7518:: with SMTP id o24mr3815304wmc.42.1557423610191; 
-	Thu, 09 May 2019 10:40:10 -0700 (PDT)
+	bh=yBWqIVlYzQPBJGo2C/fDVtzjo9zv+2KOatBDLPbG498=;
+	b=PigjaqisnTtJyxgv+ar7ddn8EuyMxv37ntxwO9G0EAsQoiSO698OoTgIi2Pi9t2h+J
+	n7tdqUk4QZRIU6G0Zt2RLAuH/jGoUsWmASoLsuUOGPIznvxsOv55K/xw1conG6T7RqZS
+	9SIMdvUBiqJNiEXJAe8sz7soWgrrKCYYTpgpggPE3fOcqOsZHozvJ8NKl48wh44/E046
+	h8XSd8zOnxjSuGXUFceCqiW2080yvDYBwusj51T2vh6E/LqesAWTY5Sqox5sxHeIwmlQ
+	6ijSyPNn8oSz7xtGJKZtvFb0im++4UgRuLuvDLLPWe3877UR9MtvNYz4nA0yEL5yonoD
+	VQ8A==
+X-Gm-Message-State: APjAAAX2FPyyqtTz18AWa6vJnpMe+59iQcFdMYNNrwIprEPq/E8fuyN6
+	1LcIX47lF9fTBWNJVUzVvvn7/ydxAvE=
+X-Google-Smtp-Source: APXvYqxgqOYxuQT1Wd1mIbBcZdP8Uu97209LlfieXlZXkhSccxuGuqaFpBeg8VUD//bONAUjGZB13w==
+X-Received: by 2002:a1c:cc15:: with SMTP id h21mr3817090wmb.85.1557423700509; 
+	Thu, 09 May 2019 10:41:40 -0700 (PDT)
 Received: from [192.168.1.33] (193.red-88-21-103.staticip.rima-tde.net.
-	[88.21.103.193]) by smtp.gmail.com with ESMTPSA id
-	h12sm1674857wrq.95.2019.05.09.10.40.09
+	[88.21.103.193])
+	by smtp.gmail.com with ESMTPSA id y6sm1877103wrw.60.2019.05.09.10.41.39
 	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Thu, 09 May 2019 10:40:09 -0700 (PDT)
+	Thu, 09 May 2019 10:41:39 -0700 (PDT)
 To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
 	qemu-devel@nongnu.org
 References: <20190509165912.10512-1-alex.bennee@linaro.org>
-	<20190509165912.10512-3-alex.bennee@linaro.org>
+	<20190509165912.10512-2-alex.bennee@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
 	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <089bf7b5-8461-699b-4c9a-30c4d735282e@redhat.com>
-Date: Thu, 9 May 2019 19:40:08 +0200
+Message-ID: <90a1309d-7e93-1023-773f-ef23db0c7438@redhat.com>
+Date: Thu, 9 May 2019 19:41:39 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190509165912.10512-3-alex.bennee@linaro.org>
+In-Reply-To: <20190509165912.10512-2-alex.bennee@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
 X-Received-From: 209.85.128.66
-Subject: Re: [Qemu-devel] [PATCH v1 02/23] tests/docker: Test more
- components on the Fedora default image
+Subject: Re: [Qemu-devel] [PATCH v1 01/23] tests/docker: add ubuntu 18.04
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -76,82 +75,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, qemu-arm@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, qemu-arm@nongnu.org,
+	Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/9/19 6:58 PM, Alex Bennée wrote:
-> From: Philippe Mathieu-Daudé <philmd@redhat.com>
+> From: Gerd Hoffmann <kraxel@redhat.com>
 > 
-> Install optional dependencies of QEMU to get better coverage.
+> Based on the ubuntu.docker file.
+> Used to reproduce the build failure Peter was seeing.
+> Others might find this useful too ;)
 > 
-> The following components are now enabled:
-> 
->   $ ./configure
->   ...
->   Multipath support yes
->   VNC SASL support  yes
->   RDMA support      yes
->   PVRDMA support    yes
->   libiscsi support  yes
->   seccomp support   yes
->   libpmem support   yes
->   libudev           yes
-> 
-> Note: The udev-devel package is provided by systemd-devel.
-> 
-> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 
-Acked-by: Marcel Apfelbaum<marcel.apfelbaum@gmail.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-> Message-Id: <20190504055440.20406-1-philmd@redhat.com>
+> Message-Id: <20190503070241.24786-1-kraxel@redhat.com>
 > Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 > ---
->  tests/docker/dockerfiles/fedora.docker | 7 +++++++
->  1 file changed, 7 insertions(+)
+>  tests/docker/dockerfiles/ubuntu1804.docker | 57 ++++++++++++++++++++++
+>  1 file changed, 57 insertions(+)
+>  create mode 100644 tests/docker/dockerfiles/ubuntu1804.docker
 > 
-> diff --git a/tests/docker/dockerfiles/fedora.docker b/tests/docker/dockerfiles/fedora.docker
-> index 69d4a7f5d75..afbba29adaa 100644
-> --- a/tests/docker/dockerfiles/fedora.docker
-> +++ b/tests/docker/dockerfiles/fedora.docker
-> @@ -8,6 +8,7 @@ ENV PACKAGES \
->      bzip2-devel \
->      ccache \
->      clang \
-> +    cyrus-sasl-devel \
->      device-mapper-multipath-devel \
->      findutils \
->      flex \
-> @@ -23,13 +24,17 @@ ENV PACKAGES \
->      libaio-devel \
->      libasan \
->      libattr-devel \
-> +    libblockdev-mpath-devel \
->      libcap-devel \
->      libcap-ng-devel \
->      libcurl-devel \
->      libfdt-devel \
-> +    libiscsi-devel \
->      libjpeg-devel \
-> +    libpmem-devel \
->      libpng-devel \
->      librbd-devel \
-> +    libseccomp-devel \
->      libssh2-devel \
->      libubsan \
->      libusbx-devel \
-> @@ -74,10 +79,12 @@ ENV PACKAGES \
->      pixman-devel \
->      python3 \
->      PyYAML \
-> +    rdma-core-devel \
->      SDL2-devel \
->      snappy-devel \
->      sparse \
->      spice-server-devel \
-> +    systemd-devel \
->      systemtap-sdt-devel \
->      tar \
->      usbredir-devel \
+> diff --git a/tests/docker/dockerfiles/ubuntu1804.docker b/tests/docker/dockerfiles/ubuntu1804.docker
+> new file mode 100644
+> index 00000000000..2e2900150b0
+> --- /dev/null
+> +++ b/tests/docker/dockerfiles/ubuntu1804.docker
+> @@ -0,0 +1,57 @@
+> +FROM ubuntu:18.04
+> +ENV PACKAGES flex bison \
+> +    ccache \
+> +    clang \
+> +    gcc \
+> +    gettext \
+> +    git \
+> +    glusterfs-common \
+> +    libaio-dev \
+> +    libattr1-dev \
+> +    libbluetooth-dev \
+> +    libbrlapi-dev \
+> +    libbz2-dev \
+> +    libcacard-dev \
+> +    libcap-dev \
+> +    libcap-ng-dev \
+> +    libcurl4-gnutls-dev \
+> +    libdrm-dev \
+> +    libepoxy-dev \
+> +    libfdt-dev \
+> +    libgbm-dev \
+> +    libgtk-3-dev \
+> +    libibverbs-dev \
+> +    libiscsi-dev \
+> +    libjemalloc-dev \
+> +    libjpeg-turbo8-dev \
+> +    liblzo2-dev \
+> +    libncurses5-dev \
+> +    libncursesw5-dev \
+> +    libnfs-dev \
+> +    libnss3-dev \
+> +    libnuma-dev \
+> +    libpixman-1-dev \
+> +    librados-dev \
+> +    librbd-dev \
+> +    librdmacm-dev \
+> +    libsasl2-dev \
+> +    libsdl2-dev \
+> +    libseccomp-dev \
+> +    libsnappy-dev \
+> +    libspice-protocol-dev \
+> +    libspice-server-dev \
+> +    libssh2-1-dev \
+> +    libusb-1.0-0-dev \
+> +    libusbredirhost-dev \
+> +    libvdeplug-dev \
+> +    libvte-2.91-dev \
+> +    libxen-dev \
+> +    make \
+> +    python-yaml \
+> +    sparse \
+> +    texinfo \
+> +    xfslibs-dev
+> +RUN apt-get update && \
+> +    apt-get -y install $PACKAGES
+> +RUN dpkg -l $PACKAGES | sort > /packages.txt
+> +ENV FEATURES clang pyyaml sdl2
 > 
 
