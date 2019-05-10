@@ -2,64 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBAB119860
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 08:29:53 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:37649 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2166519881
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 08:39:14 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37752 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOz2W-0003Eg-MX
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 02:29:52 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42441)
+	id 1hOzBZ-0008D8-Ab
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 02:39:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43529)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hOz0v-0002hj-Fi
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 02:28:14 -0400
+	(envelope-from <dgibson@ozlabs.org>) id 1hOz7o-0005AP-Pu
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 02:35:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hOz0u-0001Rv-CI
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 02:28:13 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46396)
+	(envelope-from <dgibson@ozlabs.org>) id 1hOz7n-0004uF-AP
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 02:35:20 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:42589 helo=ozlabs.org)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hOz0u-0001RN-53
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 02:28:12 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 12D01307C94A
-	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 06:28:11 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-28.ams2.redhat.com
-	[10.36.116.28])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id A5B5E5D70D;
-	Fri, 10 May 2019 06:28:10 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
-	id 0B3281132B35; Fri, 10 May 2019 08:28:04 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-References: <20190423212246.3542-1-ehabkost@redhat.com>
-	<87imumj1jb.fsf@dusky.pond.sub.org>
-	<20190507161845.GL28722@habkost.net>
-	<87lfzh5mrh.fsf@dusky.pond.sub.org>
-	<20190508202830.GF4189@habkost.net>
-	<874l646nbh.fsf@dusky.pond.sub.org>
-	<20190509091452.GF31299@redhat.com>
-	<20190509155247.GJ4189@habkost.net>
-	<20190509160811.GL31299@redhat.com>
-	<20190509174432.GM4189@habkost.net>
-Date: Fri, 10 May 2019 08:28:04 +0200
-In-Reply-To: <20190509174432.GM4189@habkost.net> (Eduardo Habkost's message of
-	"Thu, 9 May 2019 14:44:32 -0300")
-Message-ID: <874l62x1qj.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+	id 1hOz7m-0004oW-Kz; Fri, 10 May 2019 02:35:19 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+	id 450gSD1njjz9sD4; Fri, 10 May 2019 16:35:08 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=gibson.dropbear.id.au; s=201602; t=1557470108;
+	bh=e1qCbiYEA7h3sNT5f2cyRqokYftvC12FuCu7cuL0tPw=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=lWNMRKW66z624J+o4FkXX7rDj2dCgMYR2+zNiiJYXOWH4rO0IArCHaxmnzFRLJ3Vn
+	bIX3r7n9EnkHKcRn7w90i0LbLEf+/O0qX4F0LI772UqqwkEAng6tPCqallSaoY1qPk
+	pkeOG5hktRfQ4itWa1VUXKt0ddH96d0x1b3XH/7I=
+Date: Fri, 10 May 2019 16:28:34 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
+Message-ID: <20190510062834.GF20559@umbus.fritz.box>
+References: <20190503055316.6441-1-sjitindarsingh@gmail.com>
+	<20190503055316.6441-11-sjitindarsingh@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.46]);
-	Fri, 10 May 2019 06:28:11 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 0/3] Export machine type deprecation info
- through QMP
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="E7i4zwmWs5DOuDSH"
+Content-Disposition: inline
+In-Reply-To: <20190503055316.6441-11-sjitindarsingh@gmail.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2401:3900:2:1::2
+Subject: Re: [Qemu-devel] [QEMU-PPC] [PATCH 10/13] target/ppc: Implement
+ hcall H_TLB_INVALIDATE
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -71,106 +57,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mprivozn@redhat.com, qemu-devel@nongnu.org,
-	Paolo Bonzini <pbonzini@redhat.com>
+Cc: groug@kaod.org, qemu-ppc@nongnu.org, qemu-devel@nongnu.org, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eduardo Habkost <ehabkost@redhat.com> writes:
 
-> On Thu, May 09, 2019 at 05:08:11PM +0100, Daniel P. Berrang=C3=A9 wrote:
->> On Thu, May 09, 2019 at 12:52:47PM -0300, Eduardo Habkost wrote:
->> > On Thu, May 09, 2019 at 10:14:52AM +0100, Daniel P. Berrang=C3=A9 wrot=
-e:
->> > > On Thu, May 09, 2019 at 10:31:46AM +0200, Markus Armbruster wrote:
->> > > > We've wandered into the QAPI vs. QOM swamp.  Cc: Paolo.
->> > > >=20
->> > > > Eduardo Habkost <ehabkost@redhat.com> writes:
->> > > >=20
->> > > > > On Wed, May 08, 2019 at 11:16:50AM +0200, Markus Armbruster wrot=
-e:
-[...]
->> > > > >> I agree we should point to a preferred replacement whenever we =
-deprecate
->> > > > >> something.
->> > > > >>=20
->> > > > >> We have to do it in documentation.  And we generally do, in
->> > > > >> qemu-deprecated.texi.
->> > > > >>=20
->> > > > >> How useful would doing it in QMP as well be?  Depends on what m=
-anagement
->> > > > >> applications can do with the additional information.
->> > > > >
->> > > > > I expect it to be useful for things that have obvious
->> > > > > replacements, like old machine type or CPU model versions.
->> > > >=20
->> > > > I doubt a management application should apply suggested replacemen=
-ts
->> > > > automatically, and I doubt libvirt would.  Not even when QEMU deve=
-lopers
->> > > > deem them "obvious".
->> > >=20
->> > > We certainly won't apply the suggested replacement as in many cases
->> > > it is not going to be a functionally equivalent drop-in.
->> >=20
->> > Who's "we"?
->>=20
->> I was refering to libvirt here.
->>=20
->> > > If QEMU logs it to stderr, it will end up in the per-VM log file
->> > > libvirt has under /var/log/libvirt/qemu/$GUESTNAME.log.  If QEMU
->> > > doesn't log it to stderr, then libvirt would just write it to
->> > > that same log file itself.
->> > >=20
->> > > If libvirt gains some API or event for notifying apps of deprecation
->> > > we might bubble it up to the mgmt app that way.
->> > >=20
->> > > I still feel it is useful to have the suggested replacement in the
->> > > logs, rather  than only leaving it in qemu-deprecated.texi.  This
->> > > way the info is immediately visible to both app developers and any
->> > > support person dealing with bugs.
->> > >=20
->> > > If the app dev see the suggested replacement upfront they're more
->> > > likely to make an immediate decision to update their code if the
->> > > suggestion is trivial. If they need to go find the QEMU docs to
->> > > lookup what action is required I feel they'll more likely just
->> > > put the item on their long todo list where it will languish.
->> >=20
->> > Agreed.  However, note that the audience for deprecation
->> > information is not just developers and support people.  End users
->> > need to know when they are relying on a deprecated feature, and
->> > applications should make it as easy as possible for them to
->> > update their configurations.
->> >=20
->> > I'm not suggesting the alternative would be applied
->> > automatically.  But having the alternative available in a
->> > machine-friendly way may be the difference between a unhelpful UI
->> > that just tells the user there's some problem but can't give a
->> > solution, and one that can really assist the user to fix the
->> > problem.
->>=20
->> For some aspects of QEMU it might be possible, but considering the
->> broader set of things which can be deprecated, I don't think it is
->> possible to expose a machine consumable "suggestion".
->>=20
->> Consider the deprecation of the ACL feature. We deprecated monitor
->> commands "acl_add", "acl_policy", "acl_reset", etc. The suggested
->> replacement is to use one of the many possible QAuthZ types combined
->> with the -object arg. Even if we invented some way to express this
->> in the schema, I don't think any app would usefully consume it.
->
-> No problem, we don't need to suggest a machine consumable
-> alternative for everything.
+--E7i4zwmWs5DOuDSH
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Sure, but we need to get enough value out of it to justify its cost.
+On Fri, May 03, 2019 at 03:53:13PM +1000, Suraj Jitindar Singh wrote:
+> The hcall H_TLB_INVALIDATE is used by a guest acting as a nested
+> hypervisor to perform partition scoped tlb invalidation since these
+> instructions are hypervisor privileged.
+>=20
+> Check the arguments are valid and then invalidate the entire tlb since
+> this is about all we can do in tcg.
+>=20
+> Signed-off-by: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
 
-> I'm thinking about features that are visible to the end user and
-> require user action to fix their configuration, like machine type
-> versions or CPU model versions.
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 
-Even those may need translation as we cross layers of the stack.
+> ---
+>  hw/ppc/spapr_hcall.c   | 28 ++++++++++++++++++++++++++++
+>  include/hw/ppc/spapr.h |  3 ++-
+>  2 files changed, 30 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+> index 68f3282214..a84d5e2163 100644
+> --- a/hw/ppc/spapr_hcall.c
+> +++ b/hw/ppc/spapr_hcall.c
+> @@ -2131,6 +2131,33 @@ void h_exit_nested(PowerPCCPU *cpu)
+>      env->gpr[3] =3D trap;
+>  }
+> =20
+> +static target_ulong h_nested_tlb_invalidate(PowerPCCPU *cpu,
+> +                                            SpaprMachineState *spapr,
+> +                                            target_ulong opcode,
+> +                                            target_ulong *args)
+> +{
+> +    target_ulong instr =3D args[0];
+> +    target_ulong rbval =3D args[2];
+> +    int r, ric, prs, is;
+> +
+> +    if (spapr_get_cap(spapr, SPAPR_CAP_NESTED_KVM_HV) =3D=3D 0) {
+> +        return H_FUNCTION;
+> +    }
+> +
+> +    ric =3D (instr >> 18) & 0x3;
+> +    prs =3D (instr >> 17) & 0x1;
+> +    r =3D (instr >> 16) & 0x1;
+> +    is =3D (rbval >> 10) & 0x3;
+> +
+> +    if ((!r) || (prs) || (ric =3D=3D 3) || (is =3D=3D 1) || ((!is) && (r=
+ic =3D=3D 1 ||
+> +                                                               ric =3D=
+=3D 2)))
+> +        return H_PARAMETER;
+> +
+> +    /* Invalidate everything, not much else we can do */
+> +    cpu->env.tlb_need_flush =3D TLB_NEED_GLOBAL_FLUSH | TLB_NEED_LOCAL_F=
+LUSH;
+> +    return H_SUCCESS;
+> +}
+> +
+>  static spapr_hcall_fn papr_hypercall_table[(MAX_HCALL_OPCODE / 4) + 1];
+>  static spapr_hcall_fn kvmppc_hypercall_table[KVMPPC_HCALL_MAX - KVMPPC_H=
+CALL_BASE + 1];
+> =20
+> @@ -2240,6 +2267,7 @@ static void hypercall_register_types(void)
+>      /* Platform-specific hcalls used for nested HV KVM */
+>      spapr_register_hypercall(H_SET_PARTITION_TABLE, h_set_partition_tabl=
+e);
+>      spapr_register_hypercall(H_ENTER_NESTED, h_enter_nested);
+> +    spapr_register_hypercall(H_TLB_INVALIDATE, h_nested_tlb_invalidate);
+> =20
+>      /* Virtual Processor Home Node */
+>      spapr_register_hypercall(H_HOME_NODE_ASSOCIATIVITY,
+> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> index 7083dea9ef..6a614c445f 100644
+> --- a/include/hw/ppc/spapr.h
+> +++ b/include/hw/ppc/spapr.h
+> @@ -504,7 +504,8 @@ struct SpaprMachineState {
+>  /* Platform-specific hcalls used for nested HV KVM */
+>  #define H_SET_PARTITION_TABLE   0xF800
+>  #define H_ENTER_NESTED          0xF804
+> -#define KVMPPC_HCALL_MAX        H_ENTER_NESTED
+> +#define H_TLB_INVALIDATE        0xF808
+> +#define KVMPPC_HCALL_MAX        H_TLB_INVALIDATE
+> =20
+>  typedef struct SpaprDeviceTreeUpdateHeader {
+>      uint32_t version_id;
 
-The fewer cases we have where the machinery for machine-readable
-deprecation advice is actually useful, the worse its cost / benefit
-ratio is going to be.
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--E7i4zwmWs5DOuDSH
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlzVGg8ACgkQbDjKyiDZ
+s5J3fBAAgU4X4hN1Dnpr+Pkoveqtc5cfRB7vRlJT67NCbimkqesN9fN0F7qx1ADh
+mLg7jg7EFEXY53ifLj8o8Hd77OySsiGIBxoeUPUXyYp0SjKRKdHgD6E7yDlMsc4+
+KdfQgTYwjXLmS+r3ZHSCSRUwFxv3Zb3pUp7a8ZOVHVySA+H0Kr3mYQsXouUB58lB
+r3oQuve0zelowRldJzHPyAktnP5AO3HvJZ2UnTZY5fV2SZKK3DvEvasMwANIOjnc
+AYSO95shqPTp7xPT7NGdVQZeulq4B3JPLczzn1FbBy/ui0DQk1OxN5xvjbkXPsat
+FKbKaj5OsLIOmcFdDUiWqa+icz5HTWsOk1JUT0pUHR57AqC571h6kuQorPrB9Cn/
+J7ic8bPu0AzQ6FyyqLvMm/UGu4MQtpfBniCT7xBl/O+BOn6aEG4lsk71jK7rjH01
+p/uk/xnLZ7AhkLkobxOZxyDG9uvfRY4U0AEeg7bVuRONYdXXjI3+xEFKWXUGk5Jr
+jGrznS8aqjxqBLQdYZTNDe5vSDsW12gQfWYNOKMevxxr/WvDyV1f9pmLtuhtgO26
+k7btVwI+jCRhgWAWTmeL1vdsCQxt4/bHJwEoXLrw342T0n/s+xXO0OBsRMZS8r4t
+53MUWuwhuASpGoAJYtfx7fUIPtM3Yt9GkHkRoN7AEVBja57xtE8=
+=El53
+-----END PGP SIGNATURE-----
+
+--E7i4zwmWs5DOuDSH--
 
