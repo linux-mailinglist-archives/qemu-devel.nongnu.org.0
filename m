@@ -2,50 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 153061A0F4
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 18:06:13 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:45932 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA29D1A0D7
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 17:59:50 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:45612 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hP82G-00068j-9x
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 12:06:12 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35843)
+	id 1hP7w5-0001hE-W9
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 11:59:50 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36177)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <pagupta@redhat.com>) id 1hP7rj-00063t-AI
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 11:55:20 -0400
+	(envelope-from <lvivier@redhat.com>) id 1hP7t2-0007N7-H0
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 11:56:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <pagupta@redhat.com>) id 1hP7ri-0003Gs-DB
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 11:55:19 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43322)
+	(envelope-from <lvivier@redhat.com>) id 1hP7t1-0005WN-Kn
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 11:56:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54298)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <pagupta@redhat.com>) id 1hP7ri-0003Fs-7L
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 11:55:18 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
-	[10.5.11.12])
+	(Exim 4.71) (envelope-from <lvivier@redhat.com>) id 1hP7t1-0005VF-EG
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 11:56:39 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+	[10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 38D3D4E93D;
-	Fri, 10 May 2019 15:55:17 +0000 (UTC)
-Received: from dhcp201-121.englab.pnq.redhat.com (unknown [10.65.16.148])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id DB1A660BFB;
-	Fri, 10 May 2019 15:54:53 +0000 (UTC)
-From: Pankaj Gupta <pagupta@redhat.com>
-To: linux-nvdimm@lists.01.org, linux-kernel@vger.kernel.org,
-	virtualization@lists.linux-foundation.org, kvm@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-acpi@vger.kernel.org,
-	qemu-devel@nongnu.org, linux-ext4@vger.kernel.org,
-	linux-xfs@vger.kernel.org
-Date: Fri, 10 May 2019 21:22:02 +0530
-Message-Id: <20190510155202.14737-7-pagupta@redhat.com>
-In-Reply-To: <20190510155202.14737-1-pagupta@redhat.com>
-References: <20190510155202.14737-1-pagupta@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+	by mx1.redhat.com (Postfix) with ESMTPS id B47977E9C4;
+	Fri, 10 May 2019 15:56:38 +0000 (UTC)
+Received: from [10.40.205.9] (unknown [10.40.205.9])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 1335D66D22;
+	Fri, 10 May 2019 15:56:30 +0000 (UTC)
+To: =?UTF-8?Q?Daniel_P._Berrang=c3=a9?= <berrange@redhat.com>
+References: <20190510102637.10209-1-lvivier@redhat.com>
+	<87zhnuqyu0.fsf@dusky.pond.sub.org>
+	<87991c2b-da9d-0e7f-bc09-9fbadbda4ef8@redhat.com>
+	<20190510153227.GO7671@redhat.com>
+From: Laurent Vivier <lvivier@redhat.com>
+Message-ID: <a19fde61-159e-45da-f652-1dbc1f94b9ee@redhat.com>
+Date: Fri, 10 May 2019 17:56:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
+MIME-Version: 1.0
+In-Reply-To: <20190510153227.GO7671@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.38]);
-	Fri, 10 May 2019 15:55:17 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.26]);
+	Fri, 10 May 2019 15:56:38 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v8 6/6] xfs: disable map_sync for async flush
+Subject: Re: [Qemu-devel] [PATCH v2] rng-builtin: add an RNG backend that
+ uses qemu_guest_getrandom()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -57,55 +63,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pagupta@redhat.com, jack@suse.cz, mst@redhat.com, jasowang@redhat.com,
-	david@fromorbit.com, lcapitulino@redhat.com,
-	adilger.kernel@dilger.ca, zwisler@kernel.org,
-	aarcange@redhat.com, dave.jiang@intel.com, jstaron@google.com,
-	darrick.wong@oracle.com, vishal.l.verma@intel.com,
-	david@redhat.com, willy@infradead.org, hch@infradead.org,
-	jmoyer@redhat.com, nilal@redhat.com, lenb@kernel.org,
-	kilobyte@angband.pl, riel@surriel.com, yuval.shaia@oracle.com,
-	stefanha@redhat.com, pbonzini@redhat.com,
-	dan.j.williams@intel.com, kwolf@redhat.com, tytso@mit.edu,
-	xiaoguangrong.eric@gmail.com, cohuck@redhat.com,
-	rjw@rjwysocki.net, imammedo@redhat.com
+Cc: Kashyap Chamarthy <kchamart@redhat.com>,
+	Markus Armbruster <armbru@redhat.com>, Amit Shah <amit@kernel.org>,
+	Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+	"Richard W . M . Jones" <rjones@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Dont support 'MAP_SYNC' with non-DAX files and DAX files
-with asynchronous dax_device. Virtio pmem provides
-asynchronous host page cache flush mechanism. We don't
-support 'MAP_SYNC' with virtio pmem and xfs.
+On 10/05/2019 17:32, Daniel P. Berrang=C3=A9 wrote:
+> On Fri, May 10, 2019 at 02:37:41PM +0200, Laurent Vivier wrote:
+>> On 10/05/2019 14:27, Markus Armbruster wrote:
+>>> Laurent Vivier <lvivier@redhat.com> writes:
+>>> The new rng-builtin is considerably simpler than both rng-random and
+>>> rng-egd.  Moreover, it just works, whereas rng-random is limited to
+>>> CONFIG_POSIX, and rng-egd needs egd running (which I suspect basicall=
+y
+>>> nobody does).  Have we considered deprecating these two backends in
+>>> favor of rng-builtin?
+>>
+>> I have several bugzilla involving these backends: as there are blockin=
+g, the
+>> virtio-rng device in the guest can hang, or crash during hot-unplug. F=
+rom my
+>> point of view, life would be easier without them...
+>=20
+> Are you sure about that ?
+>=20
+> The EGD impl looks like it is requesting entropy in an async manner.
 
-Signed-off-by: Pankaj Gupta <pagupta@redhat.com>
-Reviewed-by: Darrick J. Wong <darrick.wong@oracle.com>
----
- fs/xfs/xfs_file.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+The virtio-rng driver waits until it receives enough entropy from the=20
+RNG backend while a mutex is taken.
 
-diff --git a/fs/xfs/xfs_file.c b/fs/xfs/xfs_file.c
-index a7ceae90110e..f17652cca5ff 100644
---- a/fs/xfs/xfs_file.c
-+++ b/fs/xfs/xfs_file.c
-@@ -1203,11 +1203,14 @@ xfs_file_mmap(
- 	struct file	*filp,
- 	struct vm_area_struct *vma)
- {
-+	struct dax_device 	*dax_dev;
-+
-+	dax_dev = xfs_find_daxdev_for_inode(file_inode(filp));
- 	/*
--	 * We don't support synchronous mappings for non-DAX files. At least
--	 * until someone comes with a sensible use case.
-+	 * We don't support synchronous mappings for non-DAX files and
-+	 * for DAX files if underneath dax_device is not synchronous.
- 	 */
--	if (!IS_DAX(file_inode(filp)) && (vma->vm_flags & VM_SYNC))
-+	if (!daxdev_mapping_supported(vma, dax_dev))
- 		return -EOPNOTSUPP;
- 
- 	file_accessed(filp);
--- 
-2.20.1
+If the EGD daemon doesn't provide enough data to the RNG backend,=20
+virtio-rng driver can hang.
+
+It's easy to have if we start EGD backend with a socket in server,nowait=20
+mode and no EGD daemon connects to the port.
+
+Thanks,
+Laurent
 
 
