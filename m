@@ -2,50 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 764121A1AB
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 18:40:04 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46494 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 882A51A1C1
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 18:44:28 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46611 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hP8Z1-0000kY-Kk
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 12:40:03 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42894)
+	id 1hP8dH-0004Ie-Lf
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 12:44:27 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42687)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <groug@kaod.org>) id 1hP8MB-00074T-Nu
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:26:49 -0400
+	(envelope-from <berrange@redhat.com>) id 1hP8Le-00065a-83
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:26:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <groug@kaod.org>) id 1hP8MA-000283-8u
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:26:47 -0400
-Received: from 16.mo5.mail-out.ovh.net ([87.98.174.144]:52378)
+	(envelope-from <berrange@redhat.com>) id 1hP8LY-0001Zl-1W
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:26:09 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58332)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <groug@kaod.org>) id 1hP8MA-00026U-0w
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:26:46 -0400
-Received: from player789.ha.ovh.net (unknown [10.108.54.209])
-	by mo5.mail-out.ovh.net (Postfix) with ESMTP id DB3B122F670
-	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 18:26:43 +0200 (CEST)
-Received: from kaod.org (deibp9eh1--blueice1n4.emea.ibm.com [195.212.29.166])
-	(Authenticated sender: groug@kaod.org)
-	by player789.ha.ovh.net (Postfix) with ESMTPSA id A79AB595BCE5;
-	Fri, 10 May 2019 16:26:32 +0000 (UTC)
-Date: Fri, 10 May 2019 18:25:41 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
-Message-ID: <20190510182541.1c2e81ac@bahia.lab.toulouse-stg.fr.ibm.com>
-In-Reply-To: <155591659639.20338.6078212293519133016.stgit@aravinda>
-References: <155591636364.20338.844048953355207313.stgit@aravinda>
-	<155591659639.20338.6078212293519133016.stgit@aravinda>
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+	(Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hP8LV-0001X3-Ov
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:26:05 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id AC048308402A;
+	Fri, 10 May 2019 16:26:03 +0000 (UTC)
+Received: from redhat.com (ovpn-112-68.ams2.redhat.com [10.36.112.68])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 288B45D6A9;
+	Fri, 10 May 2019 16:25:56 +0000 (UTC)
+Date: Fri, 10 May 2019 17:25:54 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Message-ID: <20190510162554.GQ7671@redhat.com>
+References: <20190510134203.24012-1-lvivier@redhat.com>
+	<20190510134203.24012-2-lvivier@redhat.com>
+	<20190510121135-mutt-send-email-mst@kernel.org>
+	<20190510161644.GP7671@redhat.com>
+	<20190510121939-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 11980419436914317716
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddrkeekgddutdefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190510121939-mutt-send-email-mst@kernel.org>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.40]);
+	Fri, 10 May 2019 16:26:03 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 87.98.174.144
-Subject: Re: [Qemu-devel] [Qemu-ppc] [PATCH v8 3/6] target/ppc: Handle NMI
- guest exit
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v3 1/3] VirtIO-RNG: Update default entropy
+ source to `/dev/urandom`
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -57,208 +63,87 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aik@au1.ibm.com, qemu-devel@nongnu.org, paulus@ozlabs.org,
-	qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+	Kashyap Chamarthy <kchamart@redhat.com>, Amit Shah <amit@kernel.org>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
+	"Richard W . M . Jones" <rjones@redhat.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 22 Apr 2019 12:33:16 +0530
-Aravinda Prasad <aravinda@linux.vnet.ibm.com> wrote:
+On Fri, May 10, 2019 at 12:21:19PM -0400, Michael S. Tsirkin wrote:
+> On Fri, May 10, 2019 at 05:16:44PM +0100, Daniel P. Berrang=C3=A9 wrote=
+:
+> > On Fri, May 10, 2019 at 12:12:41PM -0400, Michael S. Tsirkin wrote:
+> > > On Fri, May 10, 2019 at 03:42:01PM +0200, Laurent Vivier wrote:
+> > > > From: Kashyap Chamarthy <kchamart@redhat.com>
+> > > >=20
+> > > > When QEMU exposes a VirtIO-RNG device to the guest, that device n=
+eeds a
+> > > > source of entropy, and that source needs to be "non-blocking", li=
+ke
+> > > > `/dev/urandom`.  However, currently QEMU defaults to the problema=
+tic
+> > > > `/dev/random`, which is "blocking" (as in, it waits until suffici=
+ent
+> > > > entropy is available).
+> > > >=20
+> > > > Why prefer `/dev/urandom` over `/dev/random`?
+> > > > ---------------------------------------------
+> > > >=20
+> > > > The man pages of urandom(4) and random(4) state:
+> > > >=20
+> > > >     "The /dev/random device is a legacy interface which dates bac=
+k to a
+> > > >     time where the cryptographic primitives used in the implement=
+ation
+> > > >     of /dev/urandom were not widely trusted.  It will return rand=
+om
+> > > >     bytes only within the estimated number of bits of fresh noise=
+ in the
+> > > >     entropy pool, blocking if necessary.  /dev/random is suitable=
+ for
+> > > >     applications that need high quality randomness, and can affor=
+d
+> > > >     indeterminate delays."
+> > > >=20
+> > > > Further, the "Usage" section of the said man pages state:
+> > > >=20
+> > > >     "The /dev/random interface is considered a legacy interface, =
+and
+> > > >     /dev/urandom is preferred and sufficient in all use cases, wi=
+th the
+> > > >     exception of applications which require randomness during ear=
+ly boot
+> > > >     time; for these applications, getrandom(2) must be used inste=
+ad,
+> > > >     because it will block until the entropy pool is initialized.
+> > >=20
+> > > So how about just using getrandom then?
+> >=20
+> > The 3rd patch in this series addresses that.
+>=20
+> It seems to use qemu_guest_getrandom which in turn
+> with patch 1 calls /dev/urandom...
+> Did I miss something?
 
-> Memory error such as bit flips that cannot be corrected
-> by hardware are passed on to the kernel for handling.
-> If the memory address in error belongs to guest then
-> the guest kernel is responsible for taking suitable action.
-> Patch [1] enhances KVM to exit guest with exit reason
-> set to KVM_EXIT_NMI in such cases. This patch handles
-> KVM_EXIT_NMI exit.
-> 
-> [1] https://www.spinics.net/lists/kvm-ppc/msg12637.html
->     (e20bbd3d and related commits)
-> 
-> Signed-off-by: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
-> ---
->  hw/ppc/spapr.c          |    3 +++
->  hw/ppc/spapr_events.c   |   22 ++++++++++++++++++++++
->  hw/ppc/spapr_rtas.c     |    5 +++++
->  include/hw/ppc/spapr.h  |    6 ++++++
->  target/ppc/kvm.c        |   16 ++++++++++++++++
->  target/ppc/kvm_ppc.h    |    2 ++
->  target/ppc/trace-events |    2 ++
->  7 files changed, 56 insertions(+)
-> 
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 6642cb5..2779efe 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -1806,6 +1806,7 @@ static void spapr_machine_reset(void)
->  
->      spapr->cas_reboot = false;
->  
-> +    spapr->mc_status = -1;
->      spapr->guest_machine_check_addr = -1;
->  
->      /* Signal all vCPUs waiting on this condition */
-> @@ -2106,6 +2107,7 @@ static const VMStateDescription vmstate_spapr_machine_check = {
->      .minimum_version_id = 1,
->      .fields = (VMStateField[]) {
->          VMSTATE_UINT64(guest_machine_check_addr, SpaprMachineState),
-> +        VMSTATE_INT32(mc_status, SpaprMachineState),
->          VMSTATE_END_OF_LIST()
->      },
->  };
-> @@ -3085,6 +3087,7 @@ static void spapr_machine_init(MachineState *machine)
->          kvmppc_spapr_enable_inkernel_multitce();
->      }
->  
-> +    spapr->mc_status = -1;
+qemu_guest_getrandom will preferentially use the crypto library random
+APIs (gnutls, or gcrypt). If both are compiled out that it will use
+getrandom() if supported by the C library and current kernel. If that
+fails then it will try /dev/urandom if it exists, finally /dev/random.=20
+On Windows it uses their native crypto API. See this dependant series:
 
-Since this is done at reset, do we need it here ?
+https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg02237.html
 
->      qemu_cond_init(&spapr->mc_delivery_cond);
->  }
->  
-> diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
-> index ae0f093..9922a23 100644
-> --- a/hw/ppc/spapr_events.c
-> +++ b/hw/ppc/spapr_events.c
-> @@ -620,6 +620,28 @@ void spapr_hotplug_req_remove_by_count_indexed(SpaprDrcType drc_type,
->                              RTAS_LOG_V6_HP_ACTION_REMOVE, drc_type, &drc_id);
->  }
->  
-> +void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered)
-> +{
-> +    SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
-> +
-> +    while (spapr->mc_status != -1) {
-> +        /*
-> +         * Check whether the same CPU got machine check error
-> +         * while still handling the mc error (i.e., before
-> +         * that CPU called "ibm,nmi-interlock"
-
-Missing )
-
-> +         */
-> +        if (spapr->mc_status == cpu->vcpu_id) {
-> +            qemu_system_guest_panicked(NULL);
-
-If we don't also return, is there a chance we end up stuck in
-qemu_cond_wait_iothread() below ?
-
-> +        }
-> +        qemu_cond_wait_iothread(&spapr->mc_delivery_cond);
-> +        /* Meanwhile if the system is reset, then just return */
-> +        if (spapr->guest_machine_check_addr == -1) {
-> +            return;
-> +        }
-> +    }
-> +    spapr->mc_status = cpu->vcpu_id;
-> +}
-> +
->  static void check_exception(PowerPCCPU *cpu, SpaprMachineState *spapr,
->                              uint32_t token, uint32_t nargs,
->                              target_ulong args,
-> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-> index c2f3991..d3499f9 100644
-> --- a/hw/ppc/spapr_rtas.c
-> +++ b/hw/ppc/spapr_rtas.c
-> @@ -375,6 +375,11 @@ static void rtas_ibm_nmi_interlock(PowerPCCPU *cpu,
->          /* NMI register not called */
->          rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
->      } else {
-> +        /*
-> +         * vCPU issuing "ibm,nmi-interlock" is done with NMI handling,
-> +         * hence unset mc_status.
-> +         */
-> +        spapr->mc_status = -1;
->          qemu_cond_signal(&spapr->mc_delivery_cond);
->          rtas_st(rets, 0, RTAS_OUT_SUCCESS);
->      }
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index ec6f33e..f7204d0 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -189,6 +189,11 @@ struct SpaprMachineState {
->  
->      /* State related to "ibm,nmi-register" and "ibm,nmi-interlock" calls */
->      target_ulong guest_machine_check_addr;
-> +    /*
-> +     * mc_status is set to -1 if mc is not in progress, else is set to the CPU
-> +     * handling the mc.
-> +     */
-> +    int mc_status;
->      QemuCond mc_delivery_cond;
->  
->      /*< public >*/
-> @@ -792,6 +797,7 @@ void spapr_clear_pending_events(SpaprMachineState *spapr);
->  int spapr_max_server_number(SpaprMachineState *spapr);
->  void spapr_store_hpte(PowerPCCPU *cpu, hwaddr ptex,
->                        uint64_t pte0, uint64_t pte1);
-> +void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered);
->  
->  /* DRC callbacks. */
->  void spapr_core_release(DeviceState *dev);
-> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-> index 9e86db0..5eedce8 100644
-> --- a/target/ppc/kvm.c
-> +++ b/target/ppc/kvm.c
-> @@ -1759,6 +1759,11 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
->          ret = 0;
->          break;
->  
-> +    case KVM_EXIT_NMI:
-> +        trace_kvm_handle_nmi_exception();
-> +        ret = kvm_handle_nmi(cpu, run);
-> +        break;
-> +
->      default:
->          fprintf(stderr, "KVM: unknown exit reason %d\n", run->exit_reason);
->          ret = -1;
-> @@ -2837,6 +2842,17 @@ int kvm_arch_msi_data_to_gsi(uint32_t data)
->      return data & 0xffff;
->  }
->  
-> +int kvm_handle_nmi(PowerPCCPU *cpu, struct kvm_run *run)
-> +{
-> +    bool recovered = run->flags & KVM_RUN_PPC_NMI_DISP_FULLY_RECOV;
-> +
-> +    cpu_synchronize_state(CPU(cpu));
-> +
-> +    spapr_mce_req_event(cpu, recovered);
-> +
-> +    return 0;
-> +}
-> +
->  int kvmppc_enable_hwrng(void)
->  {
->      if (!kvm_enabled() || !kvm_check_extension(kvm_state, KVM_CAP_PPC_HWRNG)) {
-> diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
-> index 2238513..6edc42f 100644
-> --- a/target/ppc/kvm_ppc.h
-> +++ b/target/ppc/kvm_ppc.h
-> @@ -80,6 +80,8 @@ bool kvmppc_hpt_needs_host_contiguous_pages(void);
->  void kvm_check_mmu(PowerPCCPU *cpu, Error **errp);
->  void kvmppc_set_reg_ppc_online(PowerPCCPU *cpu, unsigned int online);
->  
-> +int kvm_handle_nmi(PowerPCCPU *cpu, struct kvm_run *run);
-> +
->  #else
->  
->  static inline uint32_t kvmppc_get_tbfreq(void)
-> diff --git a/target/ppc/trace-events b/target/ppc/trace-events
-> index 7b3cfe1..d5691d2 100644
-> --- a/target/ppc/trace-events
-> +++ b/target/ppc/trace-events
-> @@ -28,3 +28,5 @@ kvm_handle_papr_hcall(void) "handle PAPR hypercall"
->  kvm_handle_epr(void) "handle epr"
->  kvm_handle_watchdog_expiry(void) "handle watchdog expiry"
->  kvm_handle_debug_exception(void) "handle debug exception"
-> +kvm_handle_nmi_exception(void) "handle NMI exception"
-> +
-
-new blank line at EOF.
-
-> 
-> 
-
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 
