@@ -2,71 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8825A1A007
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 17:22:27 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:44997 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 028C01A02D
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 17:28:48 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:45085 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hP7Lt-0000Ma-Ub
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 11:22:25 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55911)
+	id 1hP7S3-0006rM-2i
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 11:28:47 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55922)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hP7JN-0007OD-Un
+	(envelope-from <richard.henderson@linaro.org>) id 1hP7JO-0007Oi-MZ
 	for qemu-devel@nongnu.org; Fri, 10 May 2019 11:19:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hP7JM-00088U-LW
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 11:19:49 -0400
-Received: from mail-pl1-x62a.google.com ([2607:f8b0:4864:20::62a]:34686)
+	(envelope-from <richard.henderson@linaro.org>) id 1hP7JN-0008By-CD
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 11:19:50 -0400
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:46643)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hP7JM-00086s-68
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 11:19:48 -0400
-Received: by mail-pl1-x62a.google.com with SMTP id w7so3005796plz.1
-	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 08:19:48 -0700 (PDT)
+	id 1hP7JN-00088E-4S
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 11:19:49 -0400
+Received: by mail-pf1-x42b.google.com with SMTP id y11so3385952pfm.13
+	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 08:19:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=W4vu8agVHwvbXrsKUiOITU+gaO6bmn5JUQXLjONPufY=;
-	b=qDZ19RST39rN7iPL3XmiCMPx33dTaWKcO78va4YYAcUTDl7JI0aVNAz2v25THaEUv8
-	5YDPtDkwkyLWa8nSqJ169FQ3J2wi2G9cZ1LykgWGRcJEhSF9BZPJn80HLUK0tx04Tw5L
-	A1S0ryo3CEyHuoQKmtyoF1XqCxLTd0Zryr33Se7XWVFud8LjzcfUd6xx0KftWbkziBed
-	WhIYYT99Bcbe7N+3D/cq/k2W0BYgX0uSI+AnFjkxIctXjCOdpQF6mkzZG/CQaLqaGCiV
-	uoD6gtY3BynuL1t8s9xcfJusdQvIDOrm2QjAM6KvXB1ws0fvxbJz+DRSYsBiAuI+z77S
-	T4+g==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=7ZAIu4sKS6YB4WebUUhTxA56tE0hF5se6ULN034aZNQ=;
+	b=WzX5/Kg3wXGGAAVo4Q5/PLRYl3vm580BE/g9KL3k/ouTDQOpiKB6T9XBcmZeFCy/1X
+	WcLldaII9Gyjk1PcYLTKMKKSKZTe8+1xo0gaxyobfTrF2fLDI7xalsVOLeJEP2ewcaYA
+	n/CYwb2ltPliqWgFePK4/Cr5u4CHXaMe2B79eRMfkBIz5ZBsOdgmfKxCmQ5ofrB8QG9t
+	n+C3LYTzZLwv9Ku96lJ13FT0VGp2IR+CYTudPQxrJ2YFw5pEP0IBzLgzzk/iwRzDY2+h
+	LX581NsUX1zvQUyL5S1EXb0LD1kFBwEGFk+eyXZWH7M4pFPcYdaXurt4y+1Ti0iK2NG3
+	O0pw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=W4vu8agVHwvbXrsKUiOITU+gaO6bmn5JUQXLjONPufY=;
-	b=rjz9Sxawh5M6kCs/+2qrRsy9j5GxD+q7xP6d1OJv7cB8+rrV/H6mG2D/hrDbNT3LQ5
-	hEJOKLxZ5nTQhhEj6+k6SfiCnZPP83pmJzBZvKQEYglkUFqhWNbvLdXT9OUcY839xbta
-	07oYCuhf148NKErYXN5G0kLLupRZQonPwpaSEwDsDMrX0cSalUetmGcrMFttiyLryUcy
-	EH9An4FxTPtHHucnlKqj4eGbWHa+f5fQbZbyTv2Padm/aLyrct0ryhNP9lY2cpOIcn30
-	1GGxUXkBx3rKQWv5xJOu+d+Do0RTdiEaGgnvoHboVjLSpMXsCR6WgH1QdDuhAOarfWyV
-	ZLbw==
-X-Gm-Message-State: APjAAAU5nE2ObI7VgtTsOnjccgw2TZd3k3gxG/Mv7ATMqXOFNngJhYDr
-	6aL9OfC2VMI5/ikysFRaVuNJBcNKsfc=
-X-Google-Smtp-Source: APXvYqwtmDeY5MG0Nl/9Ye1TK0v0EYWHC30rLpG2u7xYedf3tOBtWVpblvsPP8LeSn8ketKEvtw7rw==
-X-Received: by 2002:a17:902:854a:: with SMTP id
-	d10mr14049128plo.8.1557501586311; 
-	Fri, 10 May 2019 08:19:46 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=7ZAIu4sKS6YB4WebUUhTxA56tE0hF5se6ULN034aZNQ=;
+	b=fHfQxcNYUdyNdu5we/GtcVYoMuQpa8BMO4xSj16TAWpUV1anqBq3kMwLDBo6cSjTbI
+	UWxa4OU5fMiOqNmjjbSrK9mndiaECojWn2hzzolKLYSVQQCKrJd6371BN8tGI0rYAWOM
+	7hPWgBOMin6JVB1Zv5U/JYhky3js09OP9M9Tj3obulnmFBGUSTJj75CplSQuDlanlyJK
+	8xBDpWAjFNc4RDNIIpwt1G49pC5OO66PfjBiw5T3kGwq1c2MXPcfMoGWPi7+LRXh1Qua
+	0xen6+cSbZShSycUPG57KygE4QyzzAaKctOHuhFQzs6W1G9UfFu3ubYEChlGHHEMMMmq
+	WtSQ==
+X-Gm-Message-State: APjAAAVd0jWLzi5Alx3kdccVj+oyz2fw2YXKD0iF/6QPzspORuUi93Wk
+	XlhMzHsDWgvQvHyGh1phxc/Oic+YHnY=
+X-Google-Smtp-Source: APXvYqzlyhy5QN67Ew0xUp9Kk/YdZKdPyyvDDLWOAwaCuTSUuq3kJY/rCilVhfCjfz8eHcMT/LHNrA==
+X-Received: by 2002:a62:2703:: with SMTP id n3mr14915651pfn.199.1557501587657; 
+	Fri, 10 May 2019 08:19:47 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231])
-	by smtp.gmail.com with ESMTPSA id 19sm5920517pgz.24.2019.05.10.08.19.45
+	by smtp.gmail.com with ESMTPSA id 19sm5920517pgz.24.2019.05.10.08.19.46
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 10 May 2019 08:19:45 -0700 (PDT)
+	Fri, 10 May 2019 08:19:46 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri, 10 May 2019 08:19:17 -0700
-Message-Id: <20190510151944.22981-1-richard.henderson@linaro.org>
+Date: Fri, 10 May 2019 08:19:18 -0700
+Message-Id: <20190510151944.22981-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190510151944.22981-1-richard.henderson@linaro.org>
+References: <20190510151944.22981-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::62a
-Subject: [Qemu-devel] [PULL 00/27] tcg: Add CPUClass::tlb_fill
+X-Received-From: 2607:f8b0:4864:20::42b
+Subject: [Qemu-devel] [PULL 01/27] tcg: Add CPUClass::tlb_fill
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,134 +83,119 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit efb4f3b62c69383a7308d7b739a3193e7c0ccae8:
+This hook will replace the (user-only mode specific) handle_mmu_fault
+hook, and the (system mode specific) tlb_fill function.
 
-  Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-request' into staging (2019-05-10 14:49:36 +0100)
+The handle_mmu_fault hook was written as if there was a valid
+way to recover from an mmu fault, and had 3 possible return states.
+In reality, the only valid action is to raise an exception,
+return to the main loop, and deliver the SIGSEGV to the guest.
 
-are available in the Git repository at:
+Note that all of the current implementations of handle_mmu_fault
+for guests which support linux-user do in fact only ever return 1,
+which is the signal to return to the main loop.
 
-  https://github.com/rth7680/qemu.git tags/pull-tcg-20190510
+Using the hook for system mode requires that all targets be converted,
+so for now the hook is (optionally) used only from user-only mode.
 
-for you to fetch changes up to 5f32c102ec3a0db4773d0f74b398191b578c0720:
+Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ include/qom/cpu.h     |  9 +++++++++
+ accel/tcg/user-exec.c | 39 ++++++++++++++-------------------------
+ 2 files changed, 23 insertions(+), 25 deletions(-)
 
-  tcg: Use tlb_fill probe from tlb_vaddr_to_host (2019-05-10 07:58:11 -0700)
+diff --git a/include/qom/cpu.h b/include/qom/cpu.h
+index 08abcbd3fe..c1f267b4e0 100644
+--- a/include/qom/cpu.h
++++ b/include/qom/cpu.h
+@@ -118,6 +118,12 @@ struct TranslationBlock;
+  *       will need to do more. If this hook is not implemented then the
+  *       default is to call @set_pc(tb->pc).
+  * @handle_mmu_fault: Callback for handling an MMU fault.
++ * @tlb_fill: Callback for handling a softmmu tlb miss or user-only
++ *       address fault.  For system mode, if the access is valid, call
++ *       tlb_set_page and return true; if the access is invalid, and
++ *       probe is true, return false; otherwise raise an exception and
++ *       do not return.  For user-only mode, always raise an exception
++ *       and do not return.
+  * @get_phys_page_debug: Callback for obtaining a physical address.
+  * @get_phys_page_attrs_debug: Callback for obtaining a physical address and the
+  *       associated memory transaction attributes to use for the access.
+@@ -191,6 +197,9 @@ typedef struct CPUClass {
+     void (*synchronize_from_tb)(CPUState *cpu, struct TranslationBlock *tb);
+     int (*handle_mmu_fault)(CPUState *cpu, vaddr address, int size, int rw,
+                             int mmu_index);
++    bool (*tlb_fill)(CPUState *cpu, vaddr address, int size,
++                     MMUAccessType access_type, int mmu_idx,
++                     bool probe, uintptr_t retaddr);
+     hwaddr (*get_phys_page_debug)(CPUState *cpu, vaddr addr);
+     hwaddr (*get_phys_page_attrs_debug)(CPUState *cpu, vaddr addr,
+                                         MemTxAttrs *attrs);
+diff --git a/accel/tcg/user-exec.c b/accel/tcg/user-exec.c
+index 0789984fe6..199f88c826 100644
+--- a/accel/tcg/user-exec.c
++++ b/accel/tcg/user-exec.c
+@@ -65,6 +65,7 @@ static inline int handle_cpu_signal(uintptr_t pc, siginfo_t *info,
+     CPUClass *cc;
+     int ret;
+     unsigned long address = (unsigned long)info->si_addr;
++    MMUAccessType access_type;
+ 
+     /* We must handle PC addresses from two different sources:
+      * a call return address and a signal frame address.
+@@ -147,35 +148,23 @@ static inline int handle_cpu_signal(uintptr_t pc, siginfo_t *info,
+        are still valid segv ones */
+     address = h2g_nocheck(address);
+ 
+-    cc = CPU_GET_CLASS(cpu);
+-    /* see if it is an MMU fault */
+-    g_assert(cc->handle_mmu_fault);
+-    ret = cc->handle_mmu_fault(cpu, address, 0, is_write, MMU_USER_IDX);
+-
+-    if (ret == 0) {
+-        /* The MMU fault was handled without causing real CPU fault.
+-         *  Retain helper_retaddr for a possible second fault.
+-         */
+-        return 1;
+-    }
+-
+-    /* All other paths lead to cpu_exit; clear helper_retaddr
+-     * for next execution.
++    /*
++     * There is no way the target can handle this other than raising
++     * an exception.  Undo signal and retaddr state prior to longjmp.
+      */
++    sigprocmask(SIG_SETMASK, old_set, NULL);
+     helper_retaddr = 0;
+ 
+-    if (ret < 0) {
+-        return 0; /* not an MMU fault */
++    cc = CPU_GET_CLASS(cpu);
++    if (cc->tlb_fill) {
++        access_type = is_write ? MMU_DATA_STORE : MMU_DATA_LOAD;
++        cc->tlb_fill(cpu, address, 0, access_type, MMU_USER_IDX, false, pc);
++        g_assert_not_reached();
++    } else {
++        ret = cc->handle_mmu_fault(cpu, address, 0, is_write, MMU_USER_IDX);
++        g_assert(ret > 0);
++        cpu_loop_exit_restore(cpu, pc);
+     }
+-
+-    /* Now we have a real cpu fault.  */
+-    cpu_restore_state(cpu, pc, true);
+-
+-    sigprocmask(SIG_SETMASK, old_set, NULL);
+-    cpu_loop_exit(cpu);
+-
+-    /* never comes here */
+-    return 1;
+ }
+ 
+ #if defined(__i386__)
+-- 
+2.17.1
 
-----------------------------------------------------------------
-Add CPUClass::tlb_fill.
-Improve tlb_vaddr_to_host for use by ARM SVE no-fault loads.
-
-----------------------------------------------------------------
-Richard Henderson (27):
-      tcg: Add CPUClass::tlb_fill
-      target/alpha: Convert to CPUClass::tlb_fill
-      target/arm: Convert to CPUClass::tlb_fill
-      target/cris: Convert to CPUClass::tlb_fill
-      target/hppa: Convert to CPUClass::tlb_fill
-      target/i386: Convert to CPUClass::tlb_fill
-      target/lm32: Convert to CPUClass::tlb_fill
-      target/m68k: Convert to CPUClass::tlb_fill
-      target/microblaze: Convert to CPUClass::tlb_fill
-      target/mips: Pass a valid error to raise_mmu_exception for user-only
-      target/mips: Tidy control flow in mips_cpu_handle_mmu_fault
-      target/mips: Convert to CPUClass::tlb_fill
-      target/moxie: Convert to CPUClass::tlb_fill
-      target/nios2: Convert to CPUClass::tlb_fill
-      target/openrisc: Convert to CPUClass::tlb_fill
-      target/ppc: Convert to CPUClass::tlb_fill
-      target/riscv: Convert to CPUClass::tlb_fill
-      target/s390x: Convert to CPUClass::tlb_fill
-      target/sh4: Convert to CPUClass::tlb_fill
-      target/sparc: Convert to CPUClass::tlb_fill
-      target/tilegx: Convert to CPUClass::tlb_fill
-      target/tricore: Convert to CPUClass::tlb_fill
-      target/unicore32: Convert to CPUClass::tlb_fill
-      target/xtensa: Convert to CPUClass::tlb_fill
-      tcg: Use CPUClass::tlb_fill in cputlb.c
-      tcg: Remove CPUClass::handle_mmu_fault
-      tcg: Use tlb_fill probe from tlb_vaddr_to_host
-
- include/exec/cpu_ldst.h         |  50 +++--------
- include/exec/exec-all.h         |   9 --
- include/qom/cpu.h               |  12 ++-
- target/alpha/cpu.h              |   5 +-
- target/arm/internals.h          |  10 ++-
- target/cris/cpu.h               |   5 +-
- target/hppa/cpu.h               |   8 +-
- target/i386/cpu.h               |   5 +-
- target/lm32/cpu.h               |   5 +-
- target/m68k/cpu.h               |   5 +-
- target/microblaze/cpu.h         |   5 +-
- target/mips/internal.h          |   5 +-
- target/moxie/cpu.h              |   5 +-
- target/nios2/cpu.h              |   5 +-
- target/openrisc/cpu.h           |   5 +-
- target/ppc/cpu.h                |   7 +-
- target/riscv/cpu.h              |   5 +-
- target/s390x/internal.h         |   5 +-
- target/sh4/cpu.h                |   5 +-
- target/sparc/cpu.h              |   5 +-
- target/tricore/cpu.h            |   6 +-
- target/unicore32/cpu.h          |   5 +-
- target/xtensa/cpu.h             |   5 +-
- accel/tcg/cputlb.c              |  88 +++++++++++++++++--
- accel/tcg/user-exec.c           |  36 ++------
- target/alpha/cpu.c              |   5 +-
- target/alpha/helper.c           |  24 +++--
- target/alpha/mem_helper.c       |  16 ----
- target/arm/cpu.c                |  22 +----
- target/arm/helper.c             |  90 +++++++++++--------
- target/arm/op_helper.c          |  29 +-----
- target/arm/sve_helper.c         |   6 +-
- target/cris/cpu.c               |   5 +-
- target/cris/helper.c            |  61 ++++++-------
- target/cris/op_helper.c         |  28 ------
- target/hppa/cpu.c               |   5 +-
- target/hppa/mem_helper.c        |  16 ++--
- target/i386/cpu.c               |   5 +-
- target/i386/excp_helper.c       |  53 ++++++-----
- target/i386/mem_helper.c        |  21 -----
- target/lm32/cpu.c               |   5 +-
- target/lm32/helper.c            |   8 +-
- target/lm32/op_helper.c         |  16 ----
- target/m68k/cpu.c               |   2 +-
- target/m68k/helper.c            |  89 +++++++++----------
- target/m68k/op_helper.c         |  15 ----
- target/microblaze/cpu.c         |   5 +-
- target/microblaze/helper.c      | 101 ++++++++++-----------
- target/microblaze/op_helper.c   |  19 ----
- target/mips/cpu.c               |   5 +-
- target/mips/helper.c            |  81 ++++++++---------
- target/mips/op_helper.c         |  15 ----
- target/moxie/cpu.c              |   5 +-
- target/moxie/helper.c           |  65 +++-----------
- target/nios2/cpu.c              |   5 +-
- target/nios2/helper.c           | 170 +++++++++++++++++-------------------
- target/nios2/mmu.c              |  12 ---
- target/openrisc/cpu.c           |   5 +-
- target/openrisc/mmu.c           |  69 +++++++--------
- target/ppc/mmu_helper.c         |  16 ++--
- target/ppc/translate_init.inc.c |   5 +-
- target/ppc/user_only_helper.c   |  14 +--
- target/riscv/cpu.c              |   5 +-
- target/riscv/cpu_helper.c       |  50 +++++------
- target/s390x/cpu.c              |   5 +-
- target/s390x/excp_helper.c      |  67 +++++++++-----
- target/s390x/mem_helper.c       |  16 ----
- target/sh4/cpu.c                |   5 +-
- target/sh4/helper.c             | 189 +++++++++++++++++++---------------------
- target/sh4/op_helper.c          |  12 ---
- target/sparc/cpu.c              |   5 +-
- target/sparc/ldst_helper.c      |  15 ----
- target/sparc/mmu_helper.c       |  58 +++++++-----
- target/tilegx/cpu.c             |  10 ++-
- target/tricore/cpu.c            |   1 +
- target/tricore/helper.c         |  23 +++--
- target/tricore/op_helper.c      |  26 ------
- target/unicore32/cpu.c          |   5 +-
- target/unicore32/helper.c       |  23 -----
- target/unicore32/op_helper.c    |  14 ---
- target/unicore32/softmmu.c      |  13 ++-
- target/xtensa/cpu.c             |   5 +-
- target/xtensa/helper.c          |  33 ++++---
- 83 files changed, 868 insertions(+), 1131 deletions(-)
 
