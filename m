@@ -2,53 +2,85 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C057319C12
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 12:59:05 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:41102 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2CBE519C1A
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 13:02:06 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:41163 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hP3F2-0001Rb-Tg
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 06:59:04 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60852)
+	id 1hP3Hx-0003xD-7w
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 07:02:05 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:32793)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hP37z-0003oi-HD
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 06:51:48 -0400
+	(envelope-from <marcel.apfelbaum@gmail.com>) id 1hP393-0004yq-KN
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 06:52:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hP37y-0000lB-Lp
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 06:51:47 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60050)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hP37y-0000kq-Gn
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 06:51:46 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id BEE8430821AE
-	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 10:51:45 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-117-74.ams2.redhat.com
-	[10.36.117.74])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 7D82D5C29A;
-	Fri, 10 May 2019 10:51:45 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-	id CDDCC9DAE; Fri, 10 May 2019 12:51:44 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Fri, 10 May 2019 12:51:37 +0200
-Message-Id: <20190510105137.17481-2-kraxel@redhat.com>
-In-Reply-To: <20190510105137.17481-1-kraxel@redhat.com>
-References: <20190510105137.17481-1-kraxel@redhat.com>
+	(envelope-from <marcel.apfelbaum@gmail.com>) id 1hP392-0001Nu-JM
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 06:52:53 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36594)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <marcel.apfelbaum@gmail.com>)
+	id 1hP392-0001N9-D5
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 06:52:52 -0400
+Received: by mail-wr1-x444.google.com with SMTP id o4so7329080wra.3
+	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 03:52:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=subject:to:cc:references:from:message-id:date:user-agent
+	:mime-version:in-reply-to:content-transfer-encoding:content-language;
+	bh=xHNdFnVAuh6l8PENFLVrR1X5PKoTCZIAYaFqvyp6FNg=;
+	b=XbhterWMPdtEUlPW0lxU2Lx58uOa06XCdwuyG3dQ1H4p4GhQ6aot6hrAj4ktCNTiAf
+	SugJVpIDJtWDo/ICxc6i6EK5+hg3jKwQSu6FB6WQOm9vw6q2td+trcv1SN5yzPoc1Uas
+	6pPw+GuORr2MlZ0F6e8M2v1wvnJQJDIHWGZQCmQwfbIOlg3Ab7Un1RdboB7uUOzEE/1x
+	Y09A8gLNkz9jIXYxLDPvLLyZZtfThMpkF7RdTdVvp2+g1IAMLzwC2L7E+1ANJ6BW66c4
+	QHqUwivoifUybH+wabULPS8qgTmh2boDlxOcxp8Ks9LQ0dW5H24ItZk02DFnRcZ9bvEP
+	kGUA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-transfer-encoding
+	:content-language;
+	bh=xHNdFnVAuh6l8PENFLVrR1X5PKoTCZIAYaFqvyp6FNg=;
+	b=jpaXJ8BGRRxcuA3DVfThEcG1irC2kCS3AzbER7RVsRDXwIoIC+kIDp4EHpDIqyrtDP
+	jJcPtFI7gG2/UdyovGhXJQxOdjrCDNNk2CAw6CMuGRq362H5/Rg0KYfcYHw2BJzhlZd8
+	ngeta3qauLqZR97KkD5dtOWTq3jI6lKK5KLe63eAW8J9jXHQARw3nuy9SSbNmZn4JF+1
+	f58gWsADkKrwGgeTNyE6Rmb9frDyAcootSlBJPFxF8tj3l1rbb8Q/IurrMIHVwn2DBJT
+	IGcyQsoZrwKTM6MOtnwGqXpw4qtqBRwLZHGu28Wy/bBjpaH8X8RFwIIIqbwRF139RKBw
+	Xwxg==
+X-Gm-Message-State: APjAAAVx9x2d8xWKy9Mli+iHYNBkb8TH5FZtdLlT9T9KC71dO3e5BeJU
+	TZc494M9viUEDhPWlRh4u6ubqvLNaVo=
+X-Google-Smtp-Source: APXvYqyqydfw2YhiIW3Q27CmhnE1czyUm92kcKP8mRSIjaBQekhNSzBI5j7ZSweuM1hXGC9hd2A7Jw==
+X-Received: by 2002:a5d:4712:: with SMTP id y18mr6907619wrq.23.1557485570478; 
+	Fri, 10 May 2019 03:52:50 -0700 (PDT)
+Received: from localhost.localdomain ([2a02:2f0d:c0b:ba00:6fce:9bd8:fb12:6a42])
+	by smtp.gmail.com with ESMTPSA id
+	h11sm2136246wrr.44.2019.05.10.03.52.49
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Fri, 10 May 2019 03:52:49 -0700 (PDT)
+To: Gerd Hoffmann <kraxel@redhat.com>
+References: <CABSdmrnNW6f=P64PviPP8CTJ5SVfYS8_6kmAtpw9yPObTEkpxg@mail.gmail.com>
+	<CABSdmrnocrqLKWncgy_Lak33__GRPYfs-RzSA14e=vh4cRn2ag@mail.gmail.com>
+	<20190509064848.wjhchsfov7q6komj@sirius.home.kraxel.org>
+	<CABSdmrmm+wJ=+Ccav=X5Gw_oueQvPRejCWVG2SQeCw=K4BM9EA@mail.gmail.com>
+	<CABSdmrndpONH_fVHbktHbBXvXPKESeRfis06TjrNRRfBpJzXLA@mail.gmail.com>
+	<b6064b77-5ca4-03e1-80ef-027313096cb2@gmail.com>
+	<CABSdmrkW6G23ZGDA7iLucM45vL0HHGsr2F76H0Mf8S0xkhPnsQ@mail.gmail.com>
+	<3e619b5c-8fb3-2655-2d92-37598db098d8@gmail.com>
+	<20190510085947.y62lttdtrg5cxx6b@sirius.home.kraxel.org>
+	<3fb8b79d-9f68-2342-d3ae-3aefa873109b@gmail.com>
+	<20190510103900.botgnbbo2ii4jxgo@sirius.home.kraxel.org>
+From: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Message-ID: <01de4824-5c19-6b6c-5b75-fa54a883ab4a@gmail.com>
+Date: Fri, 10 May 2019 13:52:48 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.47]);
-	Fri, 10 May 2019 10:51:45 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 2/2] virtio-input: fix Kconfig dependency
- and Makefile
+In-Reply-To: <20190510103900.botgnbbo2ii4jxgo@sirius.home.kraxel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2a00:1450:4864:20::444
+Subject: Re: [Qemu-devel] [PATCH 3/3] ramfb enhancement
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -60,49 +92,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Hou Qiming <hqm03ster@gmail.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make VIRTIO_INPUT_HOST depend on VIRTIO_INPUT.
-Use CONFIG_VIRTIO_INPUT_HOST in Makefile.
+Hi Gerd,
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
----
- hw/input/Kconfig       | 2 +-
- hw/input/Makefile.objs | 4 +---
- 2 files changed, 2 insertions(+), 4 deletions(-)
+On 5/10/19 1:39 PM, Gerd Hoffmann wrote:
+> On Fri, May 10, 2019 at 12:20:56PM +0300, Marcel Apfelbaum wrote:
+>> Hi Gerd,
+>>
+>> On 5/10/19 11:59 AM, Gerd Hoffmann wrote:
+>>>     Hi,
+>>>
+>>>> Got it, thanks. Is a pity ramfb is not a PCI device :), it was worth the
+>>>> question anyway.
+>>> If you look for a simple pci display device check out bochs-display.
+>>> It's simliar to stdvga (so ovmf and bochs-drm.ko can drive it just
+>>> fine), but without legacy vga emulation, only a linear framebuffer is
+>>> supported.  And code size is a fraction of stdvga ...
+>> I actually need the ramfb display in conjunction with kvmgt.
+>>
+>> I want to be able to save the VM state to disk, which is actually a kind
+>> of 'live migration' as far as I understand, but live-migration can't work
+>> since
+>> we use device assignment  (vfio-pci-nohotplug device).
+> vfio live migration is being worked on btw.
+>
+>> I was hoping to be able to hot-unplug/hot-plug the vfio device,
+>> but as the name suggests, can't do so since
+>> the ramfb display uses fw-config to pass the configuration to firmware.
+> Yes, fw_cfg files can't be hotplugged, that is where this restriction
+> comes from.
+>
+>> How hard/possible is to make ramfb display a PCI device and move the
+>> configuration from fw-config to PCI configuration space?
+> Well, the whole point of using ramfb is that it is *not* a pci device,
+> but something you can attach to other devices as boot display.  Right
+> now we have that for vfio only, in theory it can likewise be done for
+> virtio (so you can use virtio-ramfb instead of virtio-vga for bios
+> display support).  Prototype exists.  Given that OVMF has a full
+> virtio-gpu driver there isn't much need for that though ...
+>
+> Piggyback on the pci config space of the device you are attaching ramfb
+> to isn't going to work very well for unknown devices (i.e. vfio case).
+> For virtio it would have worked without too much trouble probably, using
+> a vendor capability to grab some register space.
+>
+> For a separate pci device you can just use bochs-display.  Maybe add
+> some logic for the automagic display switching (i.e. if vfio has a valid
+> framebuffer use that and bochs-display otherwise).
 
-diff --git a/hw/input/Kconfig b/hw/input/Kconfig
-index 50e55e353847..889363d8aef1 100644
---- a/hw/input/Kconfig
-+++ b/hw/input/Kconfig
-@@ -27,7 +27,7 @@ config VIRTIO_INPUT
- config VIRTIO_INPUT_HOST
-     bool
-     default y
--    depends on VIRTIO && LINUX
-+    depends on VIRTIO_INPUT && LINUX
-=20
- config VHOST_USER_INPUT
-     bool
-diff --git a/hw/input/Makefile.objs b/hw/input/Makefile.objs
-index 3eddf00f2bba..d1de30770854 100644
---- a/hw/input/Makefile.objs
-+++ b/hw/input/Makefile.objs
-@@ -9,9 +9,7 @@ common-obj-$(CONFIG_TSC2005) +=3D tsc2005.o
-=20
- common-obj-$(CONFIG_VIRTIO_INPUT) +=3D virtio-input.o
- common-obj-$(CONFIG_VIRTIO_INPUT) +=3D virtio-input-hid.o
--ifeq ($(CONFIG_LINUX),y)
--common-obj-$(CONFIG_VIRTIO_INPUT) +=3D virtio-input-host.o
--endif
-+common-obj-$(CONFIG_VIRTIO_INPUT_HOST) +=3D virtio-input-host.o
- common-obj-$(CONFIG_VHOST_USER_INPUT) +=3D vhost-user-input.o
-=20
- obj-$(CONFIG_MILKYMIST) +=3D milkymist-softusb.o
---=20
-2.18.1
+Thanks for the explanation and the pointers!
+I'll try to come up with something.
+
+Thanks,
+Marcel
+
+> cheers,
+>    Gerd
+>
 
 
