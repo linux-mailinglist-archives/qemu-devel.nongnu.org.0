@@ -2,50 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65F2719898
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 08:54:08 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:37899 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 78844198A0
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 08:56:32 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37951 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOzPz-0005Qr-FF
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 02:54:07 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45603)
+	id 1hOzSH-0007n9-14
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 02:56:29 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46076)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hOzNz-0004GQ-Jd
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 02:52:04 -0400
+	(envelope-from <alex.bennee@linaro.org>) id 1hOzQx-0006rX-Kw
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 02:55:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hOzNx-0005ai-37
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 02:52:02 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:60151 helo=ozlabs.org)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
-	id 1hOzNw-0005Zx-Dc; Fri, 10 May 2019 02:52:01 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
-	id 450gqY6Gvvz9sMM; Fri, 10 May 2019 16:51:53 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=gibson.dropbear.id.au; s=201602; t=1557471113;
-	bh=yrF/2PsA7qhR6pp+ry5x8aqC0PCzrS1QbFawARHTp8w=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=n2eIEY5FsKdEoftI2A1+de9DSw9t66z4f+y7sjzVYp7RzNMe8kG7+tqK3IsVnFKkK
-	3rqWETJ/4iNq9cmi1/KlXUCuW2xopcsOHaRapGCWRN/E9/JvQUx85+rV5JgYvzlBw9
-	RceSrgazvbHSyBwyXlW60V+js3m+aCrH50F6+gJE=
-Date: Fri, 10 May 2019 16:51:44 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
-Message-ID: <20190510065144.GM20559@umbus.fritz.box>
-References: <155591636364.20338.844048953355207313.stgit@aravinda>
-	<155591662496.20338.3862565585716109724.stgit@aravinda>
+	(envelope-from <alex.bennee@linaro.org>) id 1hOzQw-0006a6-On
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 02:55:07 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:35109)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+	id 1hOzQw-0006ZY-IQ
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 02:55:06 -0400
+Received: by mail-wm1-x342.google.com with SMTP id q15so2089334wmj.0
+	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 23:55:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=references:user-agent:from:to:cc:subject:in-reply-to:date
+	:message-id:mime-version:content-transfer-encoding;
+	bh=VEPt2+y5np+/H92Mis5IRgWKmtWBIk/T2lX4XEV17Bc=;
+	b=bmfMoLDH3Pr4ppchKOCuUyz+r25s5r9nPC5C2k3Ii5+RTwjyUt9CwXgB9iZX8mXUP+
+	W5bDDqoWZAMk2R/akDCWWigMWtxgBJaLfoyboBdrwBN02eE1Icy8nW74lJO93XZtS3lY
+	s1xpq0aoYnPLlXUHD1/nDgBmdHVp0CEk8BtVr8okxtp6oZdC4/ymjJUy/wiXliA4T2BZ
+	bxjlgUNWmtBXMM+VATEE9hiz4/QAT0jq6M6SGugPTVBMbPmkCADj2FgTvhhvP5/dNWBl
+	NIX3kox/GAEX3+t7o5/sM3tDhY2jUIvpULQcE2OqorsS/ebHeGBtrU8vMQkHsw2QEBzv
+	6JKA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:references:user-agent:from:to:cc:subject
+	:in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+	bh=VEPt2+y5np+/H92Mis5IRgWKmtWBIk/T2lX4XEV17Bc=;
+	b=INgjX7aRE/FV0ijeeD5nwgSm6Rt77FriP7uSU5kQDffv8FoT6/1TgrpFjSoyEX0j5B
+	gi3ECA8ff0biyx8iGuD+h/v24WSQ/wo888w2CsssgjIEJZNfrYui+p2wlk7pLOQ4aBul
+	El/wZqiMnB8tI3ZiO0PUcLiH7tlO2+bHJX/kH+2j3sUIN8SRHUZIeQI6CJEaWpcUOts0
+	JjcFf4HnDrSzv71hQK2x1AnnwZJXfOmQXgEeNJc5am19T8zLOiTnasjsIrap5juN7K1A
+	si816ia5Q+Ex6HXZWCU8oJIxdUlZCUBpGwBOUluX6ocpp6bi/UnplAAEBtgN8RZCP+ma
+	hJtQ==
+X-Gm-Message-State: APjAAAUTAYNR2PQE89rOZAHwzvpH57UTNPT0MIo9IHE3bNoCoiSM/+vV
+	BFuY2bLATJEVKiyCEqdbRIKBOQ==
+X-Google-Smtp-Source: APXvYqzcAG1Tb9a2K1/yThKPJUh9CfyxdB8c2i4AeTDYZIcRNtlaKy5ZOq7h4hiUGQsBwkQ5Du0g+w==
+X-Received: by 2002:a1c:6342:: with SMTP id x63mr5751377wmb.58.1557471305070; 
+	Thu, 09 May 2019 23:55:05 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+	by smtp.gmail.com with ESMTPSA id
+	j46sm10386129wre.54.2019.05.09.23.55.04
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Thu, 09 May 2019 23:55:04 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+	by zen.linaroharston (Postfix) with ESMTP id 00FE01FF87;
+	Fri, 10 May 2019 07:55:03 +0100 (BST)
+References: <20190509165912.10512-1-alex.bennee@linaro.org>
+	<20190509165912.10512-6-alex.bennee@linaro.org>
+	<252a5c4b-6ba7-6fa7-8792-fe597e766757@linaro.org>
+User-agent: mu4e 1.3.1; emacs 26.1
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+In-reply-to: <252a5c4b-6ba7-6fa7-8792-fe597e766757@linaro.org>
+Date: Fri, 10 May 2019 07:55:03 +0100
+Message-ID: <87pnoq4x4o.fsf@zen.linaroharston>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="2YJj5f1P6Th4nBRw"
-Content-Disposition: inline
-In-Reply-To: <155591662496.20338.3862565585716109724.stgit@aravinda>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [PATCH v8 6/6] migration: Block migration while
- handling machine check
+X-Received-From: 2a00:1450:4864:20::342
+Subject: Re: [Qemu-devel] [PATCH v1 05/23] semihosting: enable chardev
+ backed output
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -57,149 +85,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: paulus@ozlabs.org, qemu-ppc@nongnu.org, aik@au1.ibm.com,
-	qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---2YJj5f1P6Th4nBRw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-On Mon, Apr 22, 2019 at 12:33:45PM +0530, Aravinda Prasad wrote:
-> Block VM migration requests until the machine check
-> error handling is complete as (i) these errors are
-> specific to the source hardware and is irrelevant on
-> the target hardware, (ii) these errors cause data
-> corruption and should be handled before migration.
->=20
-> Signed-off-by: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
-> ---
->  hw/ppc/spapr_events.c  |   17 +++++++++++++++++
->  hw/ppc/spapr_rtas.c    |    4 ++++
->  include/hw/ppc/spapr.h |    3 +++
->  3 files changed, 24 insertions(+)
->=20
-> diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
-> index 4032db0..45b990c 100644
-> --- a/hw/ppc/spapr_events.c
-> +++ b/hw/ppc/spapr_events.c
-> @@ -41,6 +41,7 @@
->  #include "qemu/bcd.h"
->  #include "hw/ppc/spapr_ovec.h"
->  #include <libfdt.h>
-> +#include "migration/blocker.h"
-> =20
->  #define RTAS_LOG_VERSION_MASK                   0xff000000
->  #define   RTAS_LOG_VERSION_6                    0x06000000
-> @@ -864,6 +865,22 @@ static void spapr_mce_dispatch_elog(PowerPCCPU *cpu,=
- bool recovered)
->  void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered)
->  {
->      SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
-> +    int ret;
-> +    Error *local_err =3D NULL;
-> +
-> +    error_setg(&spapr->migration_blocker,
-> +            "Live migration not supported during machine check handling"=
-);
-> +    ret =3D migrate_add_blocker(spapr->migration_blocker, &local_err);
-> +    if (ret < 0) {
-> +        /*
-> +         * We don't want to abort and let the migration to continue. In a
-> +         * rare case, the machine check handler will run on the target
-> +         * hardware. Though this is not preferable, it is better than ab=
-orting
-> +         * the migration or killing the VM.
-> +         */
-> +        error_free(spapr->migration_blocker);
-> +        fprintf(stderr, "Warning: Machine check during VM migration\n");
+> On 5/9/19 9:58 AM, Alex Benn=C3=A9e wrote:
+>> @@ -51,12 +51,18 @@ static inline const char *semihosting_get_cmdline(vo=
+id)
+>>  {
+>>      return NULL;
+>>  }
+>> +
+>> +static inline Chardev *semihosting_get_chardev(void)
+>> +{
+>> +    return NULL;
+>> +}
+>
+> Isn't the point of this function to avoid...
 
-Use report_err() instead of a raw fprintf().
+Yes... but...
 
-> +    }
-> =20
->      while (spapr->mc_status !=3D -1) {
->          /*
-> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-> index 997cf19..1229a0e 100644
-> --- a/hw/ppc/spapr_rtas.c
-> +++ b/hw/ppc/spapr_rtas.c
-> @@ -50,6 +50,7 @@
->  #include "target/ppc/mmu-hash64.h"
->  #include "target/ppc/mmu-book3s-v3.h"
->  #include "kvm_ppc.h"
-> +#include "migration/blocker.h"
-> =20
->  static void rtas_display_character(PowerPCCPU *cpu, SpaprMachineState *s=
-papr,
->                                     uint32_t token, uint32_t nargs,
-> @@ -396,6 +397,9 @@ static void rtas_ibm_nmi_interlock(PowerPCCPU *cpu,
->          spapr->mc_status =3D -1;
->          qemu_cond_signal(&spapr->mc_delivery_cond);
->          rtas_st(rets, 0, RTAS_OUT_SUCCESS);
-> +        migrate_del_blocker(spapr->migration_blocker);
-> +        error_free(spapr->migration_blocker);
-> +        spapr->migration_blocker =3D NULL;
->      }
->  }
-> =20
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index 9d16ad1..dda5fd2 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -10,6 +10,7 @@
->  #include "hw/ppc/spapr_irq.h"
->  #include "hw/ppc/spapr_xive.h"  /* For SpaprXive */
->  #include "hw/ppc/xics.h"        /* For ICSState */
-> +#include "qapi/error.h"
-> =20
->  struct SpaprVioBus;
->  struct SpaprPhbState;
-> @@ -213,6 +214,8 @@ struct SpaprMachineState {
->      SpaprCapabilities def, eff, mig;
-> =20
->      unsigned gpu_numa_id;
-> +
-> +    Error *migration_blocker;
+>
+>> -                return write(STDERR_FILENO, &c, 1);
+>> +#ifdef CONFIG_SOFTMMU
+>> +              Chardev *chardev =3D semihosting_get_chardev();
+>> +              if (chardev) {
+>> +                  return qemu_chr_write_all(chardev, (uint8_t *) &c,
+>1);
 
-This name doesn't seem good - it's specific to fwnmi, not any other
-migration blockers we might have in future.  It also always contains
-the same string - could you just initialize that in a global and just
-do the migrate_add_blocker() / migrate_del_blocker() instead?
+The qemu_chr device stuff doesn't have such stubs and is softmmu only as
+well. *sigh*
 
->  };
-> =20
->  #define H_SUCCESS         0
->=20
+I guess stub it out in the header as well?
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+>> +              } else
+>> +#endif
+>> +              {
+>> +                  return write(STDERR_FILENO, &c, 1);
+>> +              }
+>
+> ... this ifdef?
+>
+> Better to change
+>
+> - char c;
+> + uint8_t c;
+>
+> above to avoid the cast in the call to qemu_chr_write_all?
+> Or perhaps we should adjust qemu_chr_write_all to take void*?
+>
+>
+> r~
 
---2YJj5f1P6Th4nBRw
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlzVH4AACgkQbDjKyiDZ
-s5IYOg/8DGmFNmMsZeTK2r4V4ORgh9i0oFZFbu4iN4I0W8a0CJ764NmcqjSwLIZ4
-ZmUaSGTIDpQdBWAwKLgZtUx6EqLHco1mmpFqwwAhQIkfrElPM15XpqUAFf3puLt4
-frAS3ROJA81lZRO6FTeqlfX+yDUEtnv1BxxGZWJQJfRmN/638kSxhJyGSYKkmPTs
-U2Twd0hv0CG+LThaOtbKdFiybOI3Qc0xjTE2njVSZ+NUfcPqZQvMyR0abhWADO6j
-2JF+p/4iHQqwedyIx/UTrqQXnPbtIpbed+PoKFlDZewV6F+adm/MsVvbj3mD/6mZ
-hrskRhcfYqeVCwAWZxgpKNdKelNbe19XylFqrRiGYBXYjkWLslTs3MSdGHJPwLk/
-ryYSf1wWgz4wGwTxQJDHwkYknRx3tKISgJyR6Kx+tivhiJh0WmUzQ3dW3URZ07J7
-v7SQmLOSbqy6JcKbrAiZb4+gcJ32ZMnrMFCzvfJJVsQJHHJNyw/blzxmcMAoz9iW
-k0c9hE0zoEuJ2oTpDSv862wdkzzOEYC4pKh1ngNI6fSwhXrbWOQjWPd6hmTbkMDS
-/1MWH3RUVlCUotRFYE2ONYmtquRJYm+hJ0ksqyOrdrT0p8IOp9J0o1+ACSVzaIQb
-ggqapU8S9DZNdia0/Jrj2W+AOVGlrZvU+lAu04oEph16QksCsRM=
-=AZD+
------END PGP SIGNATURE-----
-
---2YJj5f1P6Th4nBRw--
+--
+Alex Benn=C3=A9e
 
