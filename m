@@ -2,66 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3A09A1A196
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 18:34:43 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46392 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A24FB1A1B2
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 18:40:57 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46546 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hP8Tq-0004dq-AL
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 12:34:42 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41513)
+	id 1hP8Zs-0001XX-QS
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 12:40:56 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41653)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hP8Gy-0008AA-JO
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:21:25 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hP8HV-0000ON-PJ
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:21:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hP8Gx-0005JX-F6
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:21:24 -0400
-Received: from mail-qk1-f194.google.com ([209.85.222.194]:40879)
+	(envelope-from <richard.henderson@linaro.org>) id 1hP8HV-0005pG-12
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:21:57 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:33308)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hP8Gx-0005JH-Am
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:21:23 -0400
-Received: by mail-qk1-f194.google.com with SMTP id w20so4000895qka.7
-	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 09:21:23 -0700 (PDT)
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hP8HU-0005oU-QG
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:21:56 -0400
+Received: by mail-pg1-x542.google.com with SMTP id h17so3267405pgv.0
+	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 09:21:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=LYwXj/zIKGqLD1lzPG3utwcn8WPCNvZ+A5GG/rMQKTU=;
+	b=ZJq5voqtjhaaVMisl5B7cEwu4L0v+QMhTuvb4Gx82D8PtmetqWaSPZuJxSshA9CMpH
+	hfqjiaOBaoRxHxaM2YZBA2MuoAXBK05sR3muNh6ExAHsEAiAwkbmke0Zd7JZUW5+Xo+P
+	S3VRBPYTbA6qDnt1F09iDizKt7i+Uev4nCZwYVJl8TiOgfnw2IWtiUcb5a/3UvnM4Ik4
+	qEKAcGCK299At8s3GKdvYIvMP6GkQHPyutBSjiCi0Kso4WB/IDOHm2ZDtgjEJhFuTO7H
+	e+dzTC/KP2N7gMbOcdBJKBtq+E58lWpUugEDkYpxJayiInQoJiqux3qDMi7TSOHf7v98
+	9drg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:content-transfer-encoding
-	:in-reply-to;
-	bh=Pq8EQnGmHZ7vcLmT/c+CCq6p/+Ah0urV54Z8VVHTOS0=;
-	b=p33VfzluoJqgf8o02ULOYAxPJ2KxNXfFVBZd1HBEob0tVPgTjC/Q4jvEDTp+sErSM9
-	cVFCNYzDWe0HLj1DueSUGxxwxtZjywRliy7FnD1FiqUbIYOumlQpVxS0qseWUHT0qvW8
-	ORSts91kKvNNZAB57kLYTlNKWwg7ZBXTJK5CttOuRxjl6nXJVRMkW3loPPrEHiREw0KL
-	Mz55hrY42Wu2uEQocI7YbIRiBqSmhrhQSYr2xeq4hHF9QHsqNoiETbXPOOxc2+dFaM9+
-	M2t4h6SqVCbRlYa2PkSKpbqZjv8R+7LSiB4Vln244W08UoVusnYr6ikRXTOvPQmxLNmc
-	z0eg==
-X-Gm-Message-State: APjAAAUz5h15m25YCucVb2MMMgNkGEbgLpSdNDuQG9axH4/jIjqWhbNY
-	RrxZSHxiOz8dyMjrbrK8QkH9Iw==
-X-Google-Smtp-Source: APXvYqx2QqnXOiTlT0vPdlB1ep0UKVKnhXS3Yy+lvb8Jin3Cb3Oe0gTOUl2ZLfe+DdJTGafTMdlRcQ==
-X-Received: by 2002:ae9:df44:: with SMTP id t65mr9538151qkf.126.1557505282756; 
-	Fri, 10 May 2019 09:21:22 -0700 (PDT)
-Received: from redhat.com (pool-173-76-105-71.bstnma.fios.verizon.net.
-	[173.76.105.71])
-	by smtp.gmail.com with ESMTPSA id p6sm2969264qkc.13.2019.05.10.09.21.21
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Fri, 10 May 2019 09:21:21 -0700 (PDT)
-Date: Fri, 10 May 2019 12:21:19 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Message-ID: <20190510121939-mutt-send-email-mst@kernel.org>
-References: <20190510134203.24012-1-lvivier@redhat.com>
-	<20190510134203.24012-2-lvivier@redhat.com>
-	<20190510121135-mutt-send-email-mst@kernel.org>
-	<20190510161644.GP7671@redhat.com>
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=LYwXj/zIKGqLD1lzPG3utwcn8WPCNvZ+A5GG/rMQKTU=;
+	b=cyB6JLlMILvWaPBL7hj27C7CyoXRzWPioWlLPtgYuAZPeZ2X+EjfhjISx+Xk/j5xkN
+	4EGiFkdL8QKdri4aSQ2DjiSe5FpdEu6je2+KjIKt3BEzkyAuhdaAKW+Jw7gXEGnu0r36
+	BavZIe6i56Fs1Ephvjr9drIhdJitLIN0NRladfPsPOA1/8AnwWbUnVw6bPW6rfbNkrM1
+	N3q+GhEYiLey+Sqp7LasrTKoudZkH35m6dGP5XP8qIjZrFk/IvaPHGhz/qt7nq9EQ1Z6
+	f+dub99z0K0ms1TGXDqSk9AOBkGHhkfpYxJgGy7ur23moOlDFcfmgydUS2HHkt7aujuT
+	j0Lw==
+X-Gm-Message-State: APjAAAXtjR3nS2ZyPeP/w3VVf8RiqsK2RYT1Ure2G9mDhLmd28d7nPt2
+	/zYvkYb76KESDUcGKnHTtotXdg==
+X-Google-Smtp-Source: APXvYqw40WVmTA1jf6NPiKD8Q59utQVpnYBztYbHMloPWhzYRUngFxQNMUiL+nwZqri2taBpwgYlng==
+X-Received: by 2002:a62:579b:: with SMTP id i27mr15796721pfj.205.1557505315450;
+	Fri, 10 May 2019 09:21:55 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-13-231.tukw.qwest.net. [97.113.13.231])
+	by smtp.gmail.com with ESMTPSA id
+	s78sm16069720pfs.187.2019.05.10.09.21.54
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 10 May 2019 09:21:54 -0700 (PDT)
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20190510012458.22706-1-richard.henderson@linaro.org>
+	<20190510012458.22706-23-richard.henderson@linaro.org>
+	<CAFEAcA9uwaev+Q=BgLBz+fgO6C7VGmw4Nxcozg2vm6TOm+LJww@mail.gmail.com>
+	<dd180f6d-27e8-2f2b-a7ac-ed1d8bbc9498@linaro.org>
+	<CAFEAcA-wXNKoen0bn8a7D=GzsyM38F1uummVbfVQ=B8haswCDA@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <73e7038c-b40d-0f60-68ef-b3555c4e7576@linaro.org>
+Date: Fri, 10 May 2019 09:21:52 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190510161644.GP7671@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.222.194
-Subject: Re: [Qemu-devel] [PATCH v3 1/3] VirtIO-RNG: Update default entropy
- source to `/dev/urandom`
+In-Reply-To: <CAFEAcA-wXNKoen0bn8a7D=GzsyM38F1uummVbfVQ=B8haswCDA@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::542
+Subject: Re: [Qemu-devel] [PATCH v5 22/24] target/arm: Implement ARMv8.5-RNG
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -73,60 +87,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
-	Kashyap Chamarthy <kchamart@redhat.com>, Amit Shah <amit@kernel.org>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
-	"Richard W . M . Jones" <rjones@redhat.com>,
-	Stefan Hajnoczi <stefanha@redhat.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 10, 2019 at 05:16:44PM +0100, Daniel P. Berrangé wrote:
-> On Fri, May 10, 2019 at 12:12:41PM -0400, Michael S. Tsirkin wrote:
-> > On Fri, May 10, 2019 at 03:42:01PM +0200, Laurent Vivier wrote:
-> > > From: Kashyap Chamarthy <kchamart@redhat.com>
-> > > 
-> > > When QEMU exposes a VirtIO-RNG device to the guest, that device needs a
-> > > source of entropy, and that source needs to be "non-blocking", like
-> > > `/dev/urandom`.  However, currently QEMU defaults to the problematic
-> > > `/dev/random`, which is "blocking" (as in, it waits until sufficient
-> > > entropy is available).
-> > > 
-> > > Why prefer `/dev/urandom` over `/dev/random`?
-> > > ---------------------------------------------
-> > > 
-> > > The man pages of urandom(4) and random(4) state:
-> > > 
-> > >     "The /dev/random device is a legacy interface which dates back to a
-> > >     time where the cryptographic primitives used in the implementation
-> > >     of /dev/urandom were not widely trusted.  It will return random
-> > >     bytes only within the estimated number of bits of fresh noise in the
-> > >     entropy pool, blocking if necessary.  /dev/random is suitable for
-> > >     applications that need high quality randomness, and can afford
-> > >     indeterminate delays."
-> > > 
-> > > Further, the "Usage" section of the said man pages state:
-> > > 
-> > >     "The /dev/random interface is considered a legacy interface, and
-> > >     /dev/urandom is preferred and sufficient in all use cases, with the
-> > >     exception of applications which require randomness during early boot
-> > >     time; for these applications, getrandom(2) must be used instead,
-> > >     because it will block until the entropy pool is initialized.
-> > 
-> > So how about just using getrandom then?
+On 5/10/19 9:20 AM, Peter Maydell wrote:
+> On Fri, 10 May 2019 at 17:17, Richard Henderson
+> <richard.henderson@linaro.org> wrote:
+>>
+>> On 5/10/19 9:01 AM, Peter Maydell wrote:
+>>> Don't these need to be marked ARM_CP_IO for the benefit
+>>> of -icount ?
+>>
+>> I don't think so.  There's no lock taken, as for mmio devices.  It's not not
+>> related to time, virtual or otherwise.  There are no possible exceptions.  I
+>> can't think of anything that would make icount care.
+>>
+>> Have I missed something?
 > 
-> The 3rd patch in this series addresses that.
+> If icount decides it needs to replay execution of the TB
+> which the RNDR access is in, won't it get a different
+> number back the second time it executes ?
 
-It seems to use qemu_guest_getrandom which in turn
-with patch 1 calls /dev/urandom...
-Did I miss something?
+Yes, it will.  I forgot about replay.
 
-> 
-> Regards,
-> Daniel
-> -- 
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+
+r~
 
