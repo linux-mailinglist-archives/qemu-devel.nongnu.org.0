@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EEF61A28D
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 19:43:33 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:47635 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29B8E1A287
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 19:42:27 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:47629 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hP9YS-0002Oq-8g
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 13:43:32 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59086)
+	id 1hP9XO-00019q-7o
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 13:42:26 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59095)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hP9MQ-0007Ot-Cs
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 13:31:07 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hP9MR-0007Pg-CV
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 13:31:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hP9MP-00064f-0k
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 13:31:06 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:46678)
+	(envelope-from <richard.henderson@linaro.org>) id 1hP9MQ-00065I-5V
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 13:31:07 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:37843)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hP9MO-00064I-Ql
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 13:31:04 -0400
-Received: by mail-pf1-x442.google.com with SMTP id y11so3561168pfm.13
-	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 10:31:04 -0700 (PDT)
+	id 1hP9MP-000653-VI
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 13:31:06 -0400
+Received: by mail-pf1-x444.google.com with SMTP id g3so3586230pfi.4
+	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 10:31:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=4MrsM8HWkl5HnptGJNmid/oZc3Q7MB8Exr59LxaGIMY=;
-	b=ie/EHeAVA9pSgYM5Z78Xp7IJywF6LnvPfcK6Q+HzrN9c3NbJqdfuQbVRG7TJ0N+n/U
-	zvUbQn3vJNhxFb9z/+iGQ7DWsK8L0j5xhvCDIJXtzKtoERAfwDCC2tVrawLHrAajEuLZ
-	eJxIag5wSG/GMWh2OLc/O6BUH4KkjoPtshchdMYDS+tw8FyOYdsccGmdOvtZclNygRmh
-	n46FESvA2g/FYg0Y3L4ef4yLyZPsUorSnZVHTciyCdybmeIuNsOwZ8c2QNv13Q5TiCU+
-	RaHu2V+8d/ue5EZbgObRBcJsOKCH71JN6qNxzpLzM9pGnkv4HjKEf0lLvIkxDRtTzbya
-	tlHw==
+	bh=CCvph4F0+gsWZSKZYyRUd00rEVqCU0cysWzx7Ki8dAo=;
+	b=XhA+pXlR8e0RNUXPWtWVNimjmg3Im0ATqmR7L1NDpEcJFBVuCMDLyB+9tdR1cESaJc
+	klGlyzU6AopnoZbNqxUG4f3T/lKayuqZB7r/ud0Wn99QDfyK4/xNtnsolmBYODXLsgy0
+	a8gths3Pz6XLS/kbvrlH49ry9+51SZy80svCFITgsgU0JWJCHXNSYgWKYhEjkdR+4Fuf
+	y5pBBi4u9OLJ3l6lL+WNUMlEkSrDqrWYam7cbQLRMN6N0O43A/SeLyJ7FJ4SZWE72aF2
+	RGoZ0A+VMiypiEc5gz6wDOjsS26LpUXf+cNK6JDsRpLFyUPTyUdNk09UuBozIZoxg1dL
+	InnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=4MrsM8HWkl5HnptGJNmid/oZc3Q7MB8Exr59LxaGIMY=;
-	b=iVyYMI7pwh/6jzqEfTwJN8MONeulSpKZMkxWz9wT9KptcF+EWa48guSBS2lqJ5wNYo
-	s4JihFFvQcKEcV9cvXqlCJCB2NclgSj0i2fCVeGt5w3SSHp+10bp2RkUrg0u6I95BuqJ
-	lylsPa7CAy7tgR3T6Wl71Fka22Eu4xXQccq5SH3gICysUCQKG8y3TBGB1pMbSscb8Jmn
-	4pI04MMgajLXbCt5gKhdVI05h+om0On7ApIvYaaPgeiP4q25nQT8uk/ybXSEP8CMJhWs
-	54ubY+cyqjBrEeJ5u2fvmZP+rUBHpJ4M8rCu2OijzgBAox5JUkxnA70Fu4veqTBB6tH6
-	2W+A==
-X-Gm-Message-State: APjAAAVSWyYTDFHLDwsulqf/DKDCUjlfbgmb7VxVETO6YvkcQxaRmHEp
-	bhBSfyn8e4cGztJPuj9ek7BDQnqrn+0=
-X-Google-Smtp-Source: APXvYqxe7mf9dEZQgCAJtBZddERLZVijQFpf3TFTP+2NhYNug2vCPeXQagTAPa015n0JcELARGOkWw==
-X-Received: by 2002:a63:f212:: with SMTP id v18mr14316410pgh.231.1557509463551;
-	Fri, 10 May 2019 10:31:03 -0700 (PDT)
+	bh=CCvph4F0+gsWZSKZYyRUd00rEVqCU0cysWzx7Ki8dAo=;
+	b=SNdjOtyEV1X5CwrV7U0nB0XLkYlDPyZDQor/fDofa0/laHpgZhPEGEwrddPO8e34vw
+	N+db8Ljb8hDOv7kxZZHXUIlzIEVS50z0WxsRnX8QAY3/qe0bQULgWrRqyBiMTossZxRh
+	cBuh8KR6ifBgtGL0UYzVE+6cv4Ab0Dm9BsOOjPxi75Dk9lB1bdeMnsoIQjOOxrxInBU0
+	F4jMTBIE6D1mBAmBuAnvI5R7ZvhIvaj7VLUapjuCfNtSouynIw9CLqSFmNfuwXTxy2QN
+	V4RD4JOlj1OIYeq/v94DKA6nic82FcWyzOpxznj8drFZkzCQyV94/yv5V2icBlr/EN3D
+	dXmg==
+X-Gm-Message-State: APjAAAXxJNT9RmJOb/h7fbMehwuWK/Ek5zUJgn0pHpCzR5jrV2gElOHq
+	ESlKGiHC0kuKtbu38SAf03ouvCQROJI=
+X-Google-Smtp-Source: APXvYqzMEDDCikaTwJ1q0Gy0XhKXaqmIIVQxzrr7B53K2Ly49WSpKUNPOASYkYSMr7biGYEUfb5zyg==
+X-Received: by 2002:a62:604:: with SMTP id 4mr16094082pfg.38.1557509464762;
+	Fri, 10 May 2019 10:31:04 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	v64sm7936792pfv.106.2019.05.10.10.31.02 for <qemu-devel@nongnu.org>
+	v64sm7936792pfv.106.2019.05.10.10.31.03 for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 10 May 2019 10:31:02 -0700 (PDT)
+	Fri, 10 May 2019 10:31:03 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri, 10 May 2019 10:30:34 -0700
-Message-Id: <20190510173049.28171-11-richard.henderson@linaro.org>
+Date: Fri, 10 May 2019 10:30:35 -0700
+Message-Id: <20190510173049.28171-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190510173049.28171-1-richard.henderson@linaro.org>
 References: <20190510173049.28171-1-richard.henderson@linaro.org>
@@ -66,9 +66,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::442
-Subject: [Qemu-devel] [PATCH v6 10/25] util: Add qemu_guest_getrandom and
- associated routines
+X-Received-From: 2607:f8b0:4864:20::444
+Subject: [Qemu-devel] [PATCH v6 11/25] cpus: Initialize pseudo-random seeds
+ for all guest cpus
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -83,207 +83,153 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This routine is intended to produce high-quality random numbers to the
-guest.  Normally, such numbers are crypto quality from the host, but a
-command-line option can force the use of a fully deterministic sequence
-for use while debugging.
+When the -seed option is given, call qemu_guest_random_seed_main,
+putting the subsystem into deterministic mode.  Pass derived seeds
+to each cpu created; which is a no-op unless the subsystem is in
+deterministic mode.
 
 Reviewed-by: Laurent Vivier <lvivier@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/qemu/guest-random.h | 68 +++++++++++++++++++++++++++
- util/guest-random.c         | 93 +++++++++++++++++++++++++++++++++++++
- util/Makefile.objs          |  1 +
- 3 files changed, 162 insertions(+)
- create mode 100644 include/qemu/guest-random.h
- create mode 100644 util/guest-random.c
+ include/qom/cpu.h |  1 +
+ cpus.c            |  9 +++++++++
+ vl.c              |  4 ++++
+ qemu-options.hx   | 10 ++++++++++
+ 4 files changed, 24 insertions(+)
 
-diff --git a/include/qemu/guest-random.h b/include/qemu/guest-random.h
-new file mode 100644
-index 0000000000..09ff9c2236
---- /dev/null
-+++ b/include/qemu/guest-random.h
-@@ -0,0 +1,68 @@
-+/*
-+ * QEMU guest-visible random functions
-+ *
-+ * Copyright 2019 Linaro, Ltd.
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms of the GNU General Public License as published by the Free
-+ * Software Foundation; either version 2 of the License, or (at your option)
-+ * any later version.
-+ */
-+
-+#ifndef QEMU_GUEST_RANDOM_H
-+#define QEMU_GUEST_RANDOM_H
-+
-+/**
-+ * qemu_guest_random_seed_main(const char *optarg, Error **errp)
-+ * @optarg: a non-NULL pointer to a C string
-+ * @errp: an error indicator
-+ *
-+ * The @optarg value is that which accompanies the -seed argument.
-+ * This forces qemu_guest_getrandom into deterministic mode.
-+ *
-+ * Returns 0 on success, < 0 on failure while setting *errp.
-+ */
-+int qemu_guest_random_seed_main(const char *optarg, Error **errp);
-+
-+/**
-+ * qemu_guest_random_seed_thread_part1(void)
-+ *
-+ * If qemu_getrandom is in deterministic mode, returns an
-+ * independent seed for the new thread.  Otherwise returns 0.
-+ */
-+uint64_t qemu_guest_random_seed_thread_part1(void);
-+
-+/**
-+ * qemu_guest_random_seed_thread_part2(uint64_t seed)
-+ * @seed: a value for the new thread.
-+ *
-+ * If qemu_guest_getrandom is in deterministic mode, this stores an
-+ * independent seed for the new thread.  Otherwise a no-op.
-+ */
-+void qemu_guest_random_seed_thread_part2(uint64_t seed);
-+
-+/**
-+ * qemu_guest_getrandom(void *buf, size_t len, Error **errp)
-+ * @buf: a buffer of bytes to be written
-+ * @len: the number of bytes in @buf
-+ * @errp: an error indicator
-+ *
-+ * Fills len bytes in buf with random data.  This should only be used
-+ * for data presented to the guest.  Host-side crypto services should
-+ * use qcrypto_random_bytes.
-+ *
-+ * Returns 0 on success, < 0 on failure while setting *errp.
-+ */
-+int qemu_guest_getrandom(void *buf, size_t len, Error **errp);
-+
-+/**
-+ * qemu_guest_getrandom_nofail(void *buf, size_t len)
-+ * @buf: a buffer of bytes to be written
-+ * @len: the number of bytes in @buf
-+ *
-+ * Like qemu_guest_getrandom, but will assert for failure.
-+ * Use this when there is no reasonable recovery.
-+ */
-+void qemu_guest_getrandom_nofail(void *buf, size_t len);
-+
-+#endif /* QEMU_GUEST_RANDOM_H */
-diff --git a/util/guest-random.c b/util/guest-random.c
-new file mode 100644
-index 0000000000..e8124a3cad
---- /dev/null
-+++ b/util/guest-random.c
-@@ -0,0 +1,93 @@
-+/*
-+ * QEMU guest-visible random functions
-+ *
-+ * Copyright 2019 Linaro, Ltd.
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms of the GNU General Public License as published by the Free
-+ * Software Foundation; either version 2 of the License, or (at your option)
-+ * any later version.
-+ */
-+
-+#include "qemu/osdep.h"
-+#include "qemu-common.h"
-+#include "qemu/cutils.h"
-+#include "qapi/error.h"
-+#include "qemu/guest-random.h"
-+#include "crypto/random.h"
-+
-+
-+static __thread GRand *thread_rand;
-+static bool deterministic;
-+
-+
-+static int glib_random_bytes(void *buf, size_t len)
-+{
-+    GRand *rand = thread_rand;
-+    size_t i;
-+    uint32_t x;
-+
-+    if (unlikely(rand == NULL)) {
-+        /* Thread not initialized for a cpu, or main w/o -seed.  */
-+        thread_rand = rand = g_rand_new();
-+    }
-+
-+    for (i = 0; i + 4 <= len; i += 4) {
-+        x = g_rand_int(rand);
-+        __builtin_memcpy(buf + i, &x, 4);
-+    }
-+    if (i < len) {
-+        x = g_rand_int(rand);
-+        __builtin_memcpy(buf + i, &x, i - len);
-+    }
-+    return 0;
-+}
-+
-+int qemu_guest_getrandom(void *buf, size_t len, Error **errp)
-+{
-+    if (unlikely(deterministic)) {
-+        /* Deterministic implementation using Glib's Mersenne Twister.  */
-+        return glib_random_bytes(buf, len);
-+    } else {
-+        /* Non-deterministic implementation using crypto routines.  */
-+        return qcrypto_random_bytes(buf, len, errp);
-+    }
-+}
-+
-+void qemu_guest_getrandom_nofail(void *buf, size_t len)
-+{
-+    qemu_guest_getrandom(buf, len, &error_fatal);
-+}
-+
-+uint64_t qemu_guest_random_seed_thread_part1(void)
-+{
-+    if (deterministic) {
-+        uint64_t ret;
-+        glib_random_bytes(&ret, sizeof(ret));
-+        return ret;
-+    }
-+    return 0;
-+}
-+
-+void qemu_guest_random_seed_thread_part2(uint64_t seed)
-+{
-+    g_assert(thread_rand == NULL);
-+    if (deterministic) {
-+        thread_rand =
-+            g_rand_new_with_seed_array((const guint32 *)&seed,
-+                                       sizeof(seed) / sizeof(guint32));
-+    }
-+}
-+
-+int qemu_guest_random_seed_main(const char *optarg, Error **errp)
-+{
-+    unsigned long long seed;
-+    if (parse_uint_full(optarg, &seed, 0)) {
-+        error_setg(errp, "Invalid seed number: %s", optarg);
-+        return -1;
-+    } else {
-+        deterministic = true;
-+        qemu_guest_random_seed_thread_part2(seed);
-+        return 0;
-+    }
-+}
-diff --git a/util/Makefile.objs b/util/Makefile.objs
-index 9206878dec..c27a923dbe 100644
---- a/util/Makefile.objs
-+++ b/util/Makefile.objs
-@@ -54,5 +54,6 @@ util-obj-y += iova-tree.o
- util-obj-$(CONFIG_INOTIFY1) += filemonitor-inotify.o
- util-obj-$(CONFIG_LINUX) += vfio-helpers.o
- util-obj-$(CONFIG_OPENGL) += drm.o
-+util-obj-y += guest-random.o
+diff --git a/include/qom/cpu.h b/include/qom/cpu.h
+index 08abcbd3fe..9793ec39bc 100644
+--- a/include/qom/cpu.h
++++ b/include/qom/cpu.h
+@@ -369,6 +369,7 @@ struct CPUState {
+     int singlestep_enabled;
+     int64_t icount_budget;
+     int64_t icount_extra;
++    uint64_t random_seed;
+     sigjmp_buf jmp_env;
  
- stub-obj-y += filemonitor-stub.o
+     QemuMutex work_mutex;
+diff --git a/cpus.c b/cpus.c
+index e58e7ab0f6..ffc57119ca 100644
+--- a/cpus.c
++++ b/cpus.c
+@@ -50,6 +50,7 @@
+ #include "qemu/option.h"
+ #include "qemu/bitmap.h"
+ #include "qemu/seqlock.h"
++#include "qemu/guest-random.h"
+ #include "tcg.h"
+ #include "hw/nmi.h"
+ #include "sysemu/replay.h"
+@@ -1276,6 +1277,7 @@ static void *qemu_kvm_cpu_thread_fn(void *arg)
+     /* signal CPU creation */
+     cpu->created = true;
+     qemu_cond_signal(&qemu_cpu_cond);
++    qemu_guest_random_seed_thread_part2(cpu->random_seed);
+ 
+     do {
+         if (cpu_can_run(cpu)) {
+@@ -1319,6 +1321,7 @@ static void *qemu_dummy_cpu_thread_fn(void *arg)
+     /* signal CPU creation */
+     cpu->created = true;
+     qemu_cond_signal(&qemu_cpu_cond);
++    qemu_guest_random_seed_thread_part2(cpu->random_seed);
+ 
+     do {
+         qemu_mutex_unlock_iothread();
+@@ -1478,6 +1481,7 @@ static void *qemu_tcg_rr_cpu_thread_fn(void *arg)
+     cpu->created = true;
+     cpu->can_do_io = 1;
+     qemu_cond_signal(&qemu_cpu_cond);
++    qemu_guest_random_seed_thread_part2(cpu->random_seed);
+ 
+     /* wait for initial kick-off after machine start */
+     while (first_cpu->stopped) {
+@@ -1592,6 +1596,7 @@ static void *qemu_hax_cpu_thread_fn(void *arg)
+ 
+     hax_init_vcpu(cpu);
+     qemu_cond_signal(&qemu_cpu_cond);
++    qemu_guest_random_seed_thread_part2(cpu->random_seed);
+ 
+     do {
+         if (cpu_can_run(cpu)) {
+@@ -1631,6 +1636,7 @@ static void *qemu_hvf_cpu_thread_fn(void *arg)
+     /* signal CPU creation */
+     cpu->created = true;
+     qemu_cond_signal(&qemu_cpu_cond);
++    qemu_guest_random_seed_thread_part2(cpu->random_seed);
+ 
+     do {
+         if (cpu_can_run(cpu)) {
+@@ -1671,6 +1677,7 @@ static void *qemu_whpx_cpu_thread_fn(void *arg)
+     /* signal CPU creation */
+     cpu->created = true;
+     qemu_cond_signal(&qemu_cpu_cond);
++    qemu_guest_random_seed_thread_part2(cpu->random_seed);
+ 
+     do {
+         if (cpu_can_run(cpu)) {
+@@ -1724,6 +1731,7 @@ static void *qemu_tcg_cpu_thread_fn(void *arg)
+     cpu->can_do_io = 1;
+     current_cpu = cpu;
+     qemu_cond_signal(&qemu_cpu_cond);
++    qemu_guest_random_seed_thread_part2(cpu->random_seed);
+ 
+     /* process any pending work */
+     cpu->exit_request = 1;
+@@ -2071,6 +2079,7 @@ void qemu_init_vcpu(CPUState *cpu)
+     cpu->nr_cores = smp_cores;
+     cpu->nr_threads = smp_threads;
+     cpu->stopped = true;
++    cpu->random_seed = qemu_guest_random_seed_thread_part1();
+ 
+     if (!cpu->as) {
+         /* If the target cpu hasn't set up any address spaces itself,
+diff --git a/vl.c b/vl.c
+index b6709514c1..e1d75a047f 100644
+--- a/vl.c
++++ b/vl.c
+@@ -128,6 +128,7 @@ int main(int argc, char **argv)
+ #include "qapi/qapi-commands-ui.h"
+ #include "qapi/qmp/qerror.h"
+ #include "sysemu/iothread.h"
++#include "qemu/guest-random.h"
+ 
+ #define MAX_VIRTIO_CONSOLES 1
+ 
+@@ -3347,6 +3348,9 @@ int main(int argc, char **argv, char **envp)
+             case QEMU_OPTION_DFILTER:
+                 qemu_set_dfilter_ranges(optarg, &error_fatal);
+                 break;
++            case QEMU_OPTION_seed:
++                qemu_guest_random_seed_main(optarg, &error_fatal);
++                break;
+             case QEMU_OPTION_s:
+                 add_device_config(DEV_GDB, "tcp::" DEFAULT_GDBSTUB_PORT);
+                 break;
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 51802cbb26..0191ef8b1e 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -3601,6 +3601,16 @@ the 0x200 sized block starting at 0xffffffc000080000 and another 0x1000 sized
+ block starting at 0xffffffc00005f000.
+ ETEXI
+ 
++DEF("seed", HAS_ARG, QEMU_OPTION_seed, \
++    "-seed number       seed the pseudo-random number generator\n",
++    QEMU_ARCH_ALL)
++STEXI
++@item -seed @var{number}
++@findex -seed
++Force the guest to use a deterministic pseudo-random number generator, seeded
++with @var{number}.  This does not affect crypto routines within the host.
++ETEXI
++
+ DEF("L", HAS_ARG, QEMU_OPTION_L, \
+     "-L path         set the directory for the BIOS, VGA BIOS and keymaps\n",
+     QEMU_ARCH_ALL)
 -- 
 2.17.1
 
