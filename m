@@ -2,57 +2,93 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5607E198DE
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 09:18:54 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38176 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5DD46198EE
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 09:22:19 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38241 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOznu-00072p-36
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 03:18:50 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49040)
+	id 1hOzrG-0001on-E8
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 03:22:18 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49255)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hOzlL-0005hW-Uy
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 03:16:12 -0400
+	(envelope-from <aravinda@linux.vnet.ibm.com>) id 1hOzmB-0006ZS-Iw
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 03:17:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hOzlL-0001gB-4H
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 03:16:11 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:58619)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hOzlK-0001fd-RL
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 03:16:11 -0400
-Received: from localhost.localdomain ([78.238.229.36]) by
-	mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA
-	(Nemesis)
-	id 1N1Oft-1gjefj1bUR-012tSC; Fri, 10 May 2019 09:16:08 +0200
-From: Laurent Vivier <laurent@vivier.eu>
-To: qemu-devel@nongnu.org
-Date: Fri, 10 May 2019 09:15:57 +0200
-Message-Id: <20190510071557.30126-8-laurent@vivier.eu>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190510071557.30126-1-laurent@vivier.eu>
-References: <20190510071557.30126-1-laurent@vivier.eu>
+	(envelope-from <aravinda@linux.vnet.ibm.com>) id 1hOzm9-0002GA-H2
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 03:17:03 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:36936)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <aravinda@linux.vnet.ibm.com>)
+	id 1hOzm8-0002EH-It
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 03:17:00 -0400
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+	x4A7DH0n031387
+	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 03:16:58 -0400
+Received: from e13.ny.us.ibm.com (e13.ny.us.ibm.com [129.33.205.203])
+	by mx0a-001b2d01.pphosted.com with ESMTP id 2sd41c9gsw-1
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 03:16:58 -0400
+Received: from localhost
+	by e13.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+	Violators will be prosecuted
+	for <qemu-devel@nongnu.org> from <aravinda@linux.vnet.ibm.com>;
+	Fri, 10 May 2019 08:16:56 +0100
+Received: from b01cxnp23032.gho.pok.ibm.com (9.57.198.27)
+	by e13.ny.us.ibm.com (146.89.104.200) with IBM ESMTP SMTP Gateway:
+	Authorized Use Only! Violators will be prosecuted; 
+	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+	Fri, 10 May 2019 08:16:53 +0100
+Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
+	[9.57.199.109])
+	by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+	x4A7Gqgc33357942
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=OK); Fri, 10 May 2019 07:16:52 GMT
+Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 8F722112061;
+	Fri, 10 May 2019 07:16:52 +0000 (GMT)
+Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 68179112062;
+	Fri, 10 May 2019 07:16:50 +0000 (GMT)
+Received: from [9.199.33.229] (unknown [9.199.33.229])
+	by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
+	Fri, 10 May 2019 07:16:50 +0000 (GMT)
+To: David Gibson <david@gibson.dropbear.id.au>
+References: <155591636364.20338.844048953355207313.stgit@aravinda>
+	<155591662496.20338.3862565585716109724.stgit@aravinda>
+	<20190510065144.GM20559@umbus.fritz.box>
+From: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
+Date: Fri, 10 May 2019 12:46:48 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:XzJq04w+5M3m2BSeE6X/5R7ET+xs+0l4O0ib+jrUACU8+B1n9xN
-	J69RSVffYV0Tyt+Y0MewNajtzss6nVbO94XYCGrhhkmFYoMOc5z1GPzuaST4HJ5xTY0oMzt
-	Ug1fTCMUIj8fGYYQc8f6I0TLMZ+56kVDVgaQERH1SKIyzgOcj4lUH49KWmnQKOjp86QfQpf
-	PXZjUTmiUInV4x5p+1tiQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:h2wjnWxYZd0=:tlCZ9Szuf0tdY4wTA7ZyIP
-	pHg33CnZoW6KFUqhR3J3CrfeKicCt+fGkh7UwYjvDZqwz/rUNO/MMLejzEFM4kBXW3dLGOvTl
-	fAN2bwwteJ2WDVqcvhoMPGOssQeFcK+t7jGJrMTlHlRDqXmOgdPCe6IbkbXGsBotYUvMB96+T
-	gdIXAEpQsk8xbYJzQ0lkGcTjdpOfJNXJ62zm5rDhlBn4Np3FGn5xAVDr6Otd80plB43oOtmij
-	lTZNiufFC7UpQe02M9LKm7iQZvGIMohUWZFDbZ56k8RB1j0HIZ3VHYwnMF8qoEHnRJWoe4rcl
-	TASpQHAZIcumem+0iquEeSPMWURO1PAuufbhmMnka6WbUOXCZoKJBAiP9TM+ZR2zTz3HLw5S1
-	EqIKx9RQus2YYc49stP1twXRjIPUIb2CyTiv39uoknyhVC9aTSskPzo+JiZaYTk/n63Uh/Lef
-	wrq5/j/0M9XdKNBkjBSlKB8rBqBhAimQzduhaBPNdhc2IIKvfE+n6lEoEYzo8jqcni49/6ERh
-	b2dW4X7uRdFbhAEwaG68orhqkucEJA5BfySujiXlj+6MC726MNp+E6hUnW8YBLNSvKgUtxKpS
-	yDixn/kZ4V4mUv8bCBSsKJGBzcOn3MeWWm3O/PoZdCTPd2kVh5EobAbsNik5wKuWeNnCgHtVm
-	iP4rbkN5FFcXB1VXleFQQD0xe7gxj89b36HHHro+zU762HABjr5lhW69vdooBoAZPcAJzm4sk
-	KCK8jVopG+nvD+PFFX4qhANaPcguS3rIMI/MFL4Jzxzqzq8pkoLLtjSu3Vc=
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.10
-Subject: [Qemu-devel] [PULL 7/7] linux-user: fix GPROF build failure
+In-Reply-To: <20190510065144.GM20559@umbus.fritz.box>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 19051007-0064-0000-0000-000003DC9C7C
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00011081; HX=3.00000242; KW=3.00000007;
+	PH=3.00000004; SC=3.00000285; SDB=6.01201187; UDB=6.00630319;
+	IPR=6.00982083; 
+	MB=3.00026825; MTD=3.00000008; XFM=3.00000015; UTC=2019-05-10 07:16:54
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19051007-0065-0000-0000-00003D6A2504
+Message-Id: <7f54cc6e-7d81-1d08-ea62-0ad8ea95b93d@linux.vnet.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+	definitions=2019-05-09_02:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+	priorityscore=1501
+	malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
+	clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+	mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+	scancount=1 engine=8.0.1-1810050000 definitions=main-1905100050
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.156.1
+Subject: Re: [Qemu-devel] [PATCH v8 6/6] migration: Block migration while
+ handling machine check
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -64,57 +100,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Desnogues <laurent.desnogues@gmail.com>,
-	Riku Voipio <riku.voipio@iki.fi>,
-	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
-	Laurent Vivier <laurent@vivier.eu>
+Cc: paulus@ozlabs.org, qemu-ppc@nongnu.org, aik@au1.ibm.com,
+	qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alex Bennée <alex.bennee@linaro.org>
 
-When linux-user/exit was introduced we failed to move the gprof
-include at the same time. The CI didn't notice because it only builds
-system emulation. Fix it for those that still find gprof useful.
 
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Tested-by: Laurent Desnogues <laurent.desnogues@gmail.com>
-Message-Id: <20190502092728.32727-1-alex.bennee@linaro.org>
-Signed-off-by: Laurent Vivier <laurent@vivier.eu>
----
- linux-user/exit.c    | 3 +++
- linux-user/syscall.c | 3 ---
- 2 files changed, 3 insertions(+), 3 deletions(-)
+On Friday 10 May 2019 12:21 PM, David Gibson wrote:
+> On Mon, Apr 22, 2019 at 12:33:45PM +0530, Aravinda Prasad wrote:
+>> Block VM migration requests until the machine check
+>> error handling is complete as (i) these errors are
+>> specific to the source hardware and is irrelevant on
+>> the target hardware, (ii) these errors cause data
+>> corruption and should be handled before migration.
+>>
+>> Signed-off-by: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
+>> ---
+>>  hw/ppc/spapr_events.c  |   17 +++++++++++++++++
+>>  hw/ppc/spapr_rtas.c    |    4 ++++
+>>  include/hw/ppc/spapr.h |    3 +++
+>>  3 files changed, 24 insertions(+)
+>>
+>> diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
+>> index 4032db0..45b990c 100644
+>> --- a/hw/ppc/spapr_events.c
+>> +++ b/hw/ppc/spapr_events.c
+>> @@ -41,6 +41,7 @@
+>>  #include "qemu/bcd.h"
+>>  #include "hw/ppc/spapr_ovec.h"
+>>  #include <libfdt.h>
+>> +#include "migration/blocker.h"
+>>  
+>>  #define RTAS_LOG_VERSION_MASK                   0xff000000
+>>  #define   RTAS_LOG_VERSION_6                    0x06000000
+>> @@ -864,6 +865,22 @@ static void spapr_mce_dispatch_elog(PowerPCCPU *cpu, bool recovered)
+>>  void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered)
+>>  {
+>>      SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
+>> +    int ret;
+>> +    Error *local_err = NULL;
+>> +
+>> +    error_setg(&spapr->migration_blocker,
+>> +            "Live migration not supported during machine check handling");
+>> +    ret = migrate_add_blocker(spapr->migration_blocker, &local_err);
+>> +    if (ret < 0) {
+>> +        /*
+>> +         * We don't want to abort and let the migration to continue. In a
+>> +         * rare case, the machine check handler will run on the target
+>> +         * hardware. Though this is not preferable, it is better than aborting
+>> +         * the migration or killing the VM.
+>> +         */
+>> +        error_free(spapr->migration_blocker);
+>> +        fprintf(stderr, "Warning: Machine check during VM migration\n");
+> 
+> Use report_err() instead of a raw fprintf().
 
-diff --git a/linux-user/exit.c b/linux-user/exit.c
-index 14e94e28faf8..bdda7205532e 100644
---- a/linux-user/exit.c
-+++ b/linux-user/exit.c
-@@ -18,6 +18,9 @@
-  */
- #include "qemu/osdep.h"
- #include "qemu.h"
-+#ifdef TARGET_GPROF
-+#include <sys/gmon.h>
-+#endif
- 
- #ifdef CONFIG_GCOV
- extern void __gcov_dump(void);
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 44b593b81161..f5ff6f5dc8a8 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -59,9 +59,6 @@
- #ifdef CONFIG_TIMERFD
- #include <sys/timerfd.h>
- #endif
--#ifdef TARGET_GPROF
--#include <sys/gmon.h>
--#endif
- #ifdef CONFIG_EVENTFD
- #include <sys/eventfd.h>
- #endif
+sure..
+
+> 
+>> +    }
+>>  
+>>      while (spapr->mc_status != -1) {
+>>          /*
+>> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+>> index 997cf19..1229a0e 100644
+>> --- a/hw/ppc/spapr_rtas.c
+>> +++ b/hw/ppc/spapr_rtas.c
+>> @@ -50,6 +50,7 @@
+>>  #include "target/ppc/mmu-hash64.h"
+>>  #include "target/ppc/mmu-book3s-v3.h"
+>>  #include "kvm_ppc.h"
+>> +#include "migration/blocker.h"
+>>  
+>>  static void rtas_display_character(PowerPCCPU *cpu, SpaprMachineState *spapr,
+>>                                     uint32_t token, uint32_t nargs,
+>> @@ -396,6 +397,9 @@ static void rtas_ibm_nmi_interlock(PowerPCCPU *cpu,
+>>          spapr->mc_status = -1;
+>>          qemu_cond_signal(&spapr->mc_delivery_cond);
+>>          rtas_st(rets, 0, RTAS_OUT_SUCCESS);
+>> +        migrate_del_blocker(spapr->migration_blocker);
+>> +        error_free(spapr->migration_blocker);
+>> +        spapr->migration_blocker = NULL;
+>>      }
+>>  }
+>>  
+>> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+>> index 9d16ad1..dda5fd2 100644
+>> --- a/include/hw/ppc/spapr.h
+>> +++ b/include/hw/ppc/spapr.h
+>> @@ -10,6 +10,7 @@
+>>  #include "hw/ppc/spapr_irq.h"
+>>  #include "hw/ppc/spapr_xive.h"  /* For SpaprXive */
+>>  #include "hw/ppc/xics.h"        /* For ICSState */
+>> +#include "qapi/error.h"
+>>  
+>>  struct SpaprVioBus;
+>>  struct SpaprPhbState;
+>> @@ -213,6 +214,8 @@ struct SpaprMachineState {
+>>      SpaprCapabilities def, eff, mig;
+>>  
+>>      unsigned gpu_numa_id;
+>> +
+>> +    Error *migration_blocker;
+> 
+> This name doesn't seem good - it's specific to fwnmi, not any other
+> migration blockers we might have in future.  It also always contains
+> the same string - could you just initialize that in a global and just
+> do the migrate_add_blocker() / migrate_del_blocker() instead?
+
+sure..
+
+> 
+>>  };
+>>  
+>>  #define H_SUCCESS         0
+>>
+> 
+
 -- 
-2.20.1
+Regards,
+Aravinda
 
 
