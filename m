@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B56151A15C
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 18:23:42 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46215 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 148AD1A197
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 18:34:48 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46394 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hP8JB-0001cF-Pe
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 12:23:41 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40229)
+	id 1hP8Tv-0004hb-3U
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 12:34:47 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40310)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hP8Cf-0004Vg-Kd
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:16:59 -0400
+	(envelope-from <kwolf@redhat.com>) id 1hP8Cj-0004ZX-Ee
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:17:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hP8Cd-0000KH-JI
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:16:57 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35970)
+	(envelope-from <kwolf@redhat.com>) id 1hP8Ch-0000SU-ID
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:17:01 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48206)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <kwolf@redhat.com>)
-	id 1hP8CZ-0000Bo-1h; Fri, 10 May 2019 12:16:51 -0400
+	id 1hP8Cb-0000Em-N0; Fri, 10 May 2019 12:16:54 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
 	[10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 6355886679;
-	Fri, 10 May 2019 16:16:49 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 92C81307D9D0;
+	Fri, 10 May 2019 16:16:50 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-116-183.ams2.redhat.com
 	[10.36.116.183])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 7E2E117797;
-	Fri, 10 May 2019 16:16:48 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id AF37017797;
+	Fri, 10 May 2019 16:16:49 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Date: Fri, 10 May 2019 18:16:10 +0200
-Message-Id: <20190510161614.23236-12-kwolf@redhat.com>
+Date: Fri, 10 May 2019 18:16:11 +0200
+Message-Id: <20190510161614.23236-13-kwolf@redhat.com>
 In-Reply-To: <20190510161614.23236-1-kwolf@redhat.com>
 References: <20190510161614.23236-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.26]);
-	Fri, 10 May 2019 16:16:49 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.48]);
+	Fri, 10 May 2019 16:16:50 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 11/15] block: Remove bdrv_read() and bdrv_write()
+Subject: [Qemu-devel] [PULL 12/15] qcow2: Remove
+ BDRVQcow2State.cluster_sectors
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,109 +63,42 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alberto Garcia <berto@igalia.com>
 
-No one is using these functions anymore, all callers have switched to
-the byte-based bdrv_pread() and bdrv_pwrite()
+The last user of this field disappeared when we replace the
+sector-based bdrv_write() with the byte-based bdrv_pwrite().
 
 Signed-off-by: Alberto Garcia <berto@igalia.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- include/block/block.h |  4 ----
- block/io.c            | 43 +++++++------------------------------------
- 2 files changed, 7 insertions(+), 40 deletions(-)
+ block/qcow2.h | 1 -
+ block/qcow2.c | 1 -
+ 2 files changed, 2 deletions(-)
 
-diff --git a/include/block/block.h b/include/block/block.h
-index c7a26199aa..5e2b98b0ee 100644
---- a/include/block/block.h
-+++ b/include/block/block.h
-@@ -316,10 +316,6 @@ int bdrv_reopen_prepare(BDRVReopenState *reopen_stat=
-e,
-                         BlockReopenQueue *queue, Error **errp);
- void bdrv_reopen_commit(BDRVReopenState *reopen_state);
- void bdrv_reopen_abort(BDRVReopenState *reopen_state);
--int bdrv_read(BdrvChild *child, int64_t sector_num,
--              uint8_t *buf, int nb_sectors);
--int bdrv_write(BdrvChild *child, int64_t sector_num,
--               const uint8_t *buf, int nb_sectors);
- int bdrv_pwrite_zeroes(BdrvChild *child, int64_t offset,
-                        int bytes, BdrvRequestFlags flags);
- int bdrv_make_zero(BdrvChild *child, BdrvRequestFlags flags);
-diff --git a/block/io.c b/block/io.c
-index 0412a51314..aeebc9c23c 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -837,42 +837,6 @@ static int bdrv_prwv_co(BdrvChild *child, int64_t of=
-fset,
-     return rwco.ret;
- }
+diff --git a/block/qcow2.h b/block/qcow2.h
+index fdee297f33..e62508d1ce 100644
+--- a/block/qcow2.h
++++ b/block/qcow2.h
+@@ -266,7 +266,6 @@ typedef struct Qcow2BitmapHeaderExt {
+ typedef struct BDRVQcow2State {
+     int cluster_bits;
+     int cluster_size;
+-    int cluster_sectors;
+     int l2_slice_size;
+     int l2_bits;
+     int l2_size;
+diff --git a/block/qcow2.c b/block/qcow2.c
+index a520d116ef..8e024007db 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -1259,7 +1259,6 @@ static int coroutine_fn qcow2_do_open(BlockDriverSt=
+ate *bs, QDict *options,
 =20
--/*
-- * Process a synchronous request using coroutines
-- */
--static int bdrv_rw_co(BdrvChild *child, int64_t sector_num, uint8_t *buf=
-,
--                      int nb_sectors, bool is_write, BdrvRequestFlags fl=
-ags)
--{
--    QEMUIOVector qiov =3D QEMU_IOVEC_INIT_BUF(qiov, buf,
--                                            nb_sectors * BDRV_SECTOR_SIZ=
-E);
--
--    if (nb_sectors < 0 || nb_sectors > BDRV_REQUEST_MAX_SECTORS) {
--        return -EINVAL;
--    }
--
--    return bdrv_prwv_co(child, sector_num << BDRV_SECTOR_BITS,
--                        &qiov, is_write, flags);
--}
--
--/* return < 0 if error. See bdrv_write() for the return codes */
--int bdrv_read(BdrvChild *child, int64_t sector_num,
--              uint8_t *buf, int nb_sectors)
--{
--    return bdrv_rw_co(child, sector_num, buf, nb_sectors, false, 0);
--}
--
--/* Return < 0 if error. Important errors are:
--  -EIO         generic I/O error (may happen for all errors)
--  -ENOMEDIUM   No media inserted.
--  -EINVAL      Invalid sector number or nb_sectors
--  -EACCES      Trying to write a read-only device
--*/
--int bdrv_write(BdrvChild *child, int64_t sector_num,
--               const uint8_t *buf, int nb_sectors)
--{
--    return bdrv_rw_co(child, sector_num, (uint8_t *)buf, nb_sectors, tru=
-e, 0);
--}
--
- int bdrv_pwrite_zeroes(BdrvChild *child, int64_t offset,
-                        int bytes, BdrvRequestFlags flags)
- {
-@@ -935,6 +899,7 @@ int bdrv_preadv(BdrvChild *child, int64_t offset, QEM=
-UIOVector *qiov)
-     return qiov->size;
- }
+     s->cluster_bits =3D header.cluster_bits;
+     s->cluster_size =3D 1 << s->cluster_bits;
+-    s->cluster_sectors =3D 1 << (s->cluster_bits - BDRV_SECTOR_BITS);
 =20
-+/* See bdrv_pwrite() for the return codes */
- int bdrv_pread(BdrvChild *child, int64_t offset, void *buf, int bytes)
- {
-     QEMUIOVector qiov =3D QEMU_IOVEC_INIT_BUF(qiov, buf, bytes);
-@@ -958,6 +923,12 @@ int bdrv_pwritev(BdrvChild *child, int64_t offset, Q=
-EMUIOVector *qiov)
-     return qiov->size;
- }
-=20
-+/* Return no. of bytes on success or < 0 on error. Important errors are:
-+  -EIO         generic I/O error (may happen for all errors)
-+  -ENOMEDIUM   No media inserted.
-+  -EINVAL      Invalid offset or number of bytes
-+  -EACCES      Trying to write a read-only device
-+*/
- int bdrv_pwrite(BdrvChild *child, int64_t offset, const void *buf, int b=
-ytes)
- {
-     QEMUIOVector qiov =3D QEMU_IOVEC_INIT_BUF(qiov, buf, bytes);
+     /* Initialise version 3 header fields */
+     if (header.version =3D=3D 2) {
 --=20
 2.20.1
 
