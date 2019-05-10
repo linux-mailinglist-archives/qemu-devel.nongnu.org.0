@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EEC019C18
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 13:01:27 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:41136 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5193B19C0C
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 12:58:35 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:41098 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hP3HK-0003P8-6K
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 07:01:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59759)
+	id 1hP3EY-00010g-D6
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 06:58:34 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59746)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hP334-0008Kr-W7
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 06:46:44 -0400
+	(envelope-from <kraxel@redhat.com>) id 1hP334-0008JX-HX
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 06:46:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hP333-00044X-I3
+	(envelope-from <kraxel@redhat.com>) id 1hP333-00044R-HI
 	for qemu-devel@nongnu.org; Fri, 10 May 2019 06:46:42 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43472)
+Received: from mx1.redhat.com ([209.132.183.28]:57590)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hP333-00043p-Cg
+	(Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hP333-00043m-C8
 	for qemu-devel@nongnu.org; Fri, 10 May 2019 06:46:41 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
 	[10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 804E0A4D21;
+	by mx1.redhat.com (Postfix) with ESMTPS id 8C9AD36883;
 	Fri, 10 May 2019 10:46:40 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-117-74.ams2.redhat.com
 	[10.36.117.74])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 075E65D6A9;
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 0799F5D70D;
 	Fri, 10 May 2019 10:46:34 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-	id 7648CA1E9; Fri, 10 May 2019 12:46:33 +0200 (CEST)
+	id 7F391A1EA; Fri, 10 May 2019 12:46:33 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 10 May 2019 12:46:23 +0200
-Message-Id: <20190510104633.9428-4-kraxel@redhat.com>
+Date: Fri, 10 May 2019 12:46:24 +0200
+Message-Id: <20190510104633.9428-5-kraxel@redhat.com>
 In-Reply-To: <20190510104633.9428-1-kraxel@redhat.com>
 References: <20190510104633.9428-1-kraxel@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.38]);
+	(mx1.redhat.com [10.5.110.30]);
 	Fri, 10 May 2019 10:46:40 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 03/13] tests/vm: use ssh with pty
- unconditionally
+Subject: [Qemu-devel] [PATCH v2 04/13] tests/vm: run test builds on snapshot
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -65,59 +64,30 @@ Cc: Fam Zheng <fam@euphon.net>, Ed Maste <emaste@freebsd.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Allways ask ssh to run with a pseudo terminal.
-Not having a terminal causes problems now and then.
+The build script doesn't shutdown the guest VMs properly,
+which results in filesystem corruption and guest boot
+failures sooner or later.
+
+Use the --snapshot to run builds on a snapshot,
+That way killing the VM doesn't corrupt the base image.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 ---
- tests/vm/basevm.py | 13 ++++---------
- 1 file changed, 4 insertions(+), 9 deletions(-)
+ tests/vm/Makefile.include | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-index 6b46674f4497..89bfa0fe4425 100755
---- a/tests/vm/basevm.py
-+++ b/tests/vm/basevm.py
-@@ -106,16 +106,14 @@ class BaseVM(object):
-         os.rename(fname + ".download", fname)
-         return fname
- 
--    def _ssh_do(self, user, cmd, check, interactive=False):
--        ssh_cmd = ["ssh", "-q",
-+    def _ssh_do(self, user, cmd, check):
-+        ssh_cmd = ["ssh", "-q", "-t",
-                    "-o", "StrictHostKeyChecking=no",
-                    "-o", "UserKnownHostsFile=" + os.devnull,
-                    "-o", "ConnectTimeout=1",
-                    "-p", self.ssh_port, "-i", self._ssh_key_file]
-         for var in self.envvars:
-             ssh_cmd += ['-o', "SendEnv=%s" % var ]
--        if interactive:
--            ssh_cmd += ['-t']
-         assert not isinstance(cmd, str)
-         ssh_cmd += ["%s@127.0.0.1" % user] + list(cmd)
-         logging.debug("ssh_cmd: %s", " ".join(ssh_cmd))
-@@ -127,9 +125,6 @@ class BaseVM(object):
-     def ssh(self, *cmd):
-         return self._ssh_do(self.GUEST_USER, cmd, False)
- 
--    def ssh_interactive(self, *cmd):
--        return self._ssh_do(self.GUEST_USER, cmd, False, True)
--
-     def ssh_root(self, *cmd):
-         return self._ssh_do("root", cmd, False)
- 
-@@ -283,9 +278,9 @@ def main(vmcls):
-         return 2
- 
-     if args.interactive:
--        if vm.ssh_interactive(*cmd) == 0:
-+        if vm.ssh(*cmd) == 0:
-             return 0
--        vm.ssh_interactive()
-+        vm.ssh()
-         return 3
-     else:
-         if vm.ssh(*cmd) != 0:
+diff --git a/tests/vm/Makefile.include b/tests/vm/Makefile.include
+index 992d823f6bd2..d628e0a986f6 100644
+--- a/tests/vm/Makefile.include
++++ b/tests/vm/Makefile.include
+@@ -53,6 +53,7 @@ vm-build-%: $(IMAGES_DIR)/%.img
+ 		$(if $(V),--verbose) \
+ 		--image "$<" \
+ 		$(if $(BUILD_TARGET),--build-target $(BUILD_TARGET)) \
++		--snapshot \
+ 		--build-qemu $(SRC_PATH) -- \
+ 		$(if $(TARGET_LIST),--target-list=$(TARGET_LIST)) \
+ 		$(if $(EXTRA_CONFIGURE_OPTS),$(EXTRA_CONFIGURE_OPTS)), \
 -- 
 2.18.1
 
