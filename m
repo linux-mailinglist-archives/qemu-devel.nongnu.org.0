@@ -2,58 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2228A19BF3
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 12:52:00 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40988 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E40E19BD7
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 12:48:40 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40954 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hP38B-0002mW-6q
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 06:51:59 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59534)
+	id 1hP34x-0000Py-Iz
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 06:48:39 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59545)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hP32C-00077u-OH
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 06:45:49 -0400
+	(envelope-from <laurent@vivier.eu>) id 1hP32D-000788-Kl
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 06:45:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hP32B-0003V7-Ql
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 06:45:48 -0400
-Received: from mout.kundenserver.de ([212.227.126.130]:49353)
+	(envelope-from <laurent@vivier.eu>) id 1hP32C-0003Vc-Lk
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 06:45:49 -0400
+Received: from mout.kundenserver.de ([212.227.126.131]:44149)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hP32B-0003Uc-IK
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 06:45:47 -0400
+	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hP32C-0003Uz-DW
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 06:45:48 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
 	mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA
 	(Nemesis)
-	id 1M4bd0-1hOUXP06vW-001fG9; Fri, 10 May 2019 12:45:45 +0200
+	id 1MmQUL-1gyY3M2LI1-00iS8Y; Fri, 10 May 2019 12:45:45 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Fri, 10 May 2019 12:45:35 +0200
-Message-Id: <20190510104536.17483-7-laurent@vivier.eu>
+Date: Fri, 10 May 2019 12:45:36 +0200
+Message-Id: <20190510104536.17483-8-laurent@vivier.eu>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190510104536.17483-1-laurent@vivier.eu>
 References: <20190510104536.17483-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:P0YC4i9p+55HDi78kXQ9LCtYjqHPaDZL+otsOi5KUhIp/yCpDfV
-	N5J4vho4xHSiC6F2uik5CberFNieN+pXALZGX0PUkU2DFTXjGSrolBZR5rUHWP+L/fk+nMK
-	uumd0klNDxn1XY8PreUx0j8spLasGp5UKc+5VmcpQqz/acamB2HIYz63ZIYexpCLir7wzwM
-	k9uH16rrxHHCKM4VnYDJw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:iGIZFBUxNC4=:fgaoKx6VuBrOfekjOxLDDN
-	dZUoBRFVXmZ+TB08ahXSWHou/R2izKTaGn02ybd02WTVbIZ9NkDu+NRcGmeO0NdAEpl5PHjl1
-	V1C+1MXO+jnbEsxx1OWSePQ8ZIkjY2F0f6/909SMwBPCGqmRsdjY6HxH5GPdLKWzVU9scq4gG
-	e4WvqderD5cq61KVAnsgdRd557evj7kMif+Egddz4pecCoYaeQpGQRYHbNI2nLBHEvfhhYU8+
-	O8cafQctmGyzxWWpCyZQrNkZaiGyrn7bwaTs1vM0smxN7rc9BVcujKfyiS0aoDDCc3Uk7YbTo
-	ccLdeNODm9VRwYirFZQZtn/+rHj1iQltH102s32wxrjI65S3WPWgurTDzm51ShJIawxu9wXuG
-	GvOCnNHW9coMqxMVpTYWIluHcRyfqmR9x8cFlrBffWKIKpv926xE4dqnHePJLkYHcII/Pg2EN
-	rloguQAd66S8pBDuvR54f/4XEUTXtoDD95/zHAirMbhkALn6fAFxpEjNjDcXqxFAbqOrvGyGU
-	vOLUMnY5vmWKOIAqnmxXRaa5MgC/pfPFancQPuapjuhgVeq2VLQWerfD35wZnBSnbEU/8PVEc
-	yMUgyFZsgkFWFHGMhfrGNV+8g85lPpY99N/wB2PeVgcRY+03LvJAh9aFcFqS9HNumKarEEDZL
-	gBSMvZD4qnnopUXTZYRH+5YkRDqOxoZqCHJlvEPhQuC95W96uv4WEuM00W4qcGaN0iEGra11H
-	cQhhAdwRiyzoA0Wbri42JTeZSV8qFK0qBYQL9Yci084ZHkX6MOtVNfizg6A=
+X-Provags-ID: V03:K1:Vnp9sO9bsBtHY23Rv87ruW1IedEDylnTSw/JngGbdN+Sn+v5ue6
+	V+vY+jfX4MHALsCDR5+cSVm9jteOu4TnUaidu0wb7TGmOjJpdzoxTKuQmp4aZzEgCTMVRVI
+	otWkieotbHPkf/5TUQcyOpglPAZFMJnUCErtN4u0Rk1k8jq6cOb0bDsPlqSJpcE/F1TLRsD
+	Q+fhbx0p7qBnpkKUHt5TQ==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:ehbUMQwMp48=:lTlwX7co5kT9WRvo/BOo0I
+	WgSoBguHeSS0rVG3VI91IKeekgoaM6d0sbEWZE5lZ0FXnGnaCbUqVBMmuYeIAvxEzOxrZ3NwG
+	3nD2crBA1+qz9v/RNEE3oUsA92t7IuZxf58EgEuKMT4aOA5mmXSHDeEEK9q3fBRSTwySFb5wF
+	WEMC7gPFRpPi4nEtkaHsFoV7CYV67jsFqF1Bx7qolzn/6NsszqxzTJGOwRaNBL79RDXPU7zf9
+	ZpcA5Ld5EuJx/0uvw7zdVsyU/DaJgabnFlw/ImPLDT1Oy0SkqhHlG1VrrQwsJ0Ir5gY5dnTlF
+	W1E0zCqTYoarhOvLXyubdSASFaf6MPQXHhj/LuYRFfxeEHQ2KaOvEWO0irC7ru5fIBAoiKw2u
+	9nE87HQNYjvb9JuajqOOFeKlXmjmTKIS2aaqjB4LuesSfExUvTxlxg0sZjEyuOCxm6NsN8UNm
+	TVnpe3PhhuKc9xpVGn6N3dxui6uy24KxWSWrn5jMdrNxhR+ESyASN719BrYCVu1SrpwLskeU6
+	Je+SnPamx5g4D09O3wKkKLVuXiuVsZlZ8DTmdCX2o0Mh9rWy7I3WKQZDdeZWTKRVj1CbwnmPe
+	T/rwVbR6a0nwbCwsEKKc1Z1+4g8x3+tMLf2ZUcOAe/1iu+mhdc4HiK49rW3Q3pJsfB2G2Efds
+	3cc3UwkBtaTlsCg5TYgPIKgV9/HULAU+SDbM72pHOkg4DKkbsbz1vvFq2kVG8AkSvjZ3P6C9A
+	u1pRWJ9kThY+vbQa1iLor9p3mjsUENQA6CbwqiApyPZiR8ZyywBTnKxXklg=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.130
-Subject: [Qemu-devel] [PULL v2 6/7] linux-user: avoid treading on gprof's
- SIGPROF signals
+X-Received-From: 212.227.126.131
+Subject: [Qemu-devel] [PULL v2 7/7] linux-user: fix GPROF build failure
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -65,7 +64,8 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>,
+Cc: Laurent Desnogues <laurent.desnogues@gmail.com>,
+	Riku Voipio <riku.voipio@iki.fi>,
 	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
 	Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
@@ -73,33 +73,47 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alex Bennée <alex.bennee@linaro.org>
 
-The guest tends to get confused when it receives signals it doesn't
-know about. Given the gprof magic has also set up it's own handler we
-would do well to avoid stomping on it as well.
+When linux-user/exit was introduced we failed to move the gprof
+include at the same time. The CI didn't notice because it only builds
+system emulation. Fix it for those that still find gprof useful.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Message-Id: <20190502145846.26226-1-alex.bennee@linaro.org>
+Tested-by: Laurent Desnogues <laurent.desnogues@gmail.com>
+Message-Id: <20190502092728.32727-1-alex.bennee@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/signal.c | 5 +++++
- 1 file changed, 5 insertions(+)
+ linux-user/exit.c    | 3 +++
+ linux-user/syscall.c | 3 ---
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/linux-user/signal.c b/linux-user/signal.c
-index e2c0b3717357..44b2d3b35a0d 100644
---- a/linux-user/signal.c
-+++ b/linux-user/signal.c
-@@ -508,6 +508,11 @@ void signal_init(void)
-     act.sa_flags = SA_SIGINFO;
-     act.sa_sigaction = host_signal_handler;
-     for(i = 1; i <= TARGET_NSIG; i++) {
+diff --git a/linux-user/exit.c b/linux-user/exit.c
+index 14e94e28faf8..bdda7205532e 100644
+--- a/linux-user/exit.c
++++ b/linux-user/exit.c
+@@ -18,6 +18,9 @@
+  */
+ #include "qemu/osdep.h"
+ #include "qemu.h"
 +#ifdef TARGET_GPROF
-+        if (i == SIGPROF) {
-+            continue;
-+        }
++#include <sys/gmon.h>
 +#endif
-         host_sig = target_to_host_signal(i);
-         sigaction(host_sig, NULL, &oact);
-         if (oact.sa_sigaction == (void *)SIG_IGN) {
+ 
+ #ifdef CONFIG_GCOV
+ extern void __gcov_dump(void);
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index 44b593b81161..f5ff6f5dc8a8 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -59,9 +59,6 @@
+ #ifdef CONFIG_TIMERFD
+ #include <sys/timerfd.h>
+ #endif
+-#ifdef TARGET_GPROF
+-#include <sys/gmon.h>
+-#endif
+ #ifdef CONFIG_EVENTFD
+ #include <sys/eventfd.h>
+ #endif
 -- 
 2.20.1
 
