@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99F5A1A05A
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 17:40:54 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:45274 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 01C3B1A046
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 17:33:52 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:45166 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hP7dl-0001cN-Ol
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 11:40:53 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56318)
+	id 1hP7Wx-0003IE-50
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 11:33:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56332)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hP7Jl-0007jb-CA
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 11:20:14 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hP7Jm-0007mE-Kl
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 11:20:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hP7Jj-0000Cb-PW
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 11:20:13 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:41798)
+	(envelope-from <richard.henderson@linaro.org>) id 1hP7Jl-0000Ea-Ay
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 11:20:14 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:38789)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hP7Jj-0000BS-Hi
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 11:20:11 -0400
-Received: by mail-pg1-x542.google.com with SMTP id z3so3175178pgp.8
-	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 08:20:11 -0700 (PDT)
+	id 1hP7Jl-0000DM-3F
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 11:20:13 -0400
+Received: by mail-pf1-x444.google.com with SMTP id 10so3404426pfo.5
+	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 08:20:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=13zPpr8eu2CJQOgqlDgYW1euE5CjP18/vmWEohkbXwc=;
-	b=fDlCn18UKtMmkf3KNXSl+izmHVQq2M7sw8GZb2r0jiE7FmEtsBiaux2VJwK5Jp0DmG
-	X44fWbN9wsCB8FDuy8SJ/FEg9HqC4lg0MmJW+4IFdlAObXxeyOmUVGIAhp2rrw2TwF/O
-	AW65UgC9mrxzHDmEuft9ZwAlbYekzgf8lULqU/ME6akEmFRXQg0vQaH267mrF+En3HQW
-	ZqsoLA7hqn8cKp+y/8ZvTlHIj/OpNj6cYBzKqUvnrK8GxwSFDCwOm4HFpsCXHr/6DMiO
-	SucxGXRUIor/yx5HUUVlbnbE1lH8uXPvLSpzP2n2eso5NaQHmXYWJRBYwyvG93icM65h
-	67Tg==
+	bh=31uk4YjQMNkXp7x9DtppMMcO/OZFqofAl5izW1hAuMk=;
+	b=g1nhb+LXT/rD9mXKm+Qn3BTNHG4VcTPDGKD4xfSatkGioggBzYi4HpKyn/ZObWpHXn
+	oW7rVsOaYuDU4YJAR2pohuNrHzImhf6hdAbM/LMAUhvXEUgFRT3A+PC7Z4P/27GOyTtp
+	4HLlIMP2Vu77GTMQX9Sph3IMlnNL9gr+AacDW4DaK4cwGyW++BiWTAaIjaoYQJyzRpbg
+	wcepPhRt+eOKIWG1zUO+S1WG7aylHTB2M/14BD8H2Z9+eLrSI2TuHwG+lgU1xHo986dG
+	ItdaCoUVl1ZxDAgLMzV4+C4SL2j+Zuqw+GroPFB0Ap6+Bmtu1szEj4+Aa8sPjkv5wEqe
+	/hyQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=13zPpr8eu2CJQOgqlDgYW1euE5CjP18/vmWEohkbXwc=;
-	b=Ud4SFlQkVlKmw/AL7gWqXfoIJQXuObkpk7SJYZfv13YN4s7ZCLZhW0duZkJj+aGfCD
-	u5skRbbLDFbAYEQwdG9B6F1qskiCbnSOkUXzkckTAZ9kWucjanZQlEidFVJ9jxHe+ULi
-	IkJ9ukiPueAO76L1/r21qFH6Kj9rkq4f4lgxwPao8xJre+YWVp3A3O5HV9N3hoV2xId0
-	jnsLaW3pM18MLX+I+N978QpxHGcyvncxykso2LwrSjVpChxbwyiAgx6nGy/ZGUKQ/Kq6
-	5aLzn73lH9cOB+aqOtSCnm2FhVXEz2ixfZM9jAMT3ifLLuJVqAX1aGY8yf2RqSiztOs4
-	td7g==
-X-Gm-Message-State: APjAAAUDG+d6ka9JFRZBzkkShJ6P+Vs3p8XdUzilHCIwZFysKHT31jDN
-	llPS4qjs8NKsTRZWdCphvOLAdH1L+bM=
-X-Google-Smtp-Source: APXvYqz9sL8LvWfwGcYDfsAxRh4rCJ+jocwQjWNoJYqTkwHvlLmUUlQM9kQwY7xLDK44v2BXf1johw==
-X-Received: by 2002:a62:ee05:: with SMTP id e5mr13260336pfi.117.1557501610322; 
-	Fri, 10 May 2019 08:20:10 -0700 (PDT)
+	bh=31uk4YjQMNkXp7x9DtppMMcO/OZFqofAl5izW1hAuMk=;
+	b=IuAocMJ0VD+lA+Pkd0yCXDFSSdnv0UVLcS8e6RIvFkN+NQrnuS70+zulTYoPT9K1lV
+	uanQprXf3gPTmzOu4cn5WX4RjWpVyCaYFo9XyBOAO8ULcGPkq2HLVZXmjb1bFykpAJF/
+	FFI00vvsy7RztP09YIHOdz5dal0NOXSZEA+SvgPKFhXUoJtmGWA4dtrLCy/dszoSGhSQ
+	lBVMcw7RikHyWZ3yze5smu2lz3N9vg2I1vWgdVi7TnvA+axkhnETbNhbBFA6znzd5y0S
+	cFJn6gD3Fi7qqjMPGOvLOKydqnrJSvEBmNuRv8LsdhVfSRLCcdG3bc+fzh0G+s4bDnU/
+	8WdQ==
+X-Gm-Message-State: APjAAAVu5DlemfePax05HslbRb/+xHrYJL9SQfCyhAMmZ5fA66R4oms7
+	WwPpnFvXY0X2Ef7kMOO5mO2YThwCNhQ=
+X-Google-Smtp-Source: APXvYqx/B/89IM9k0UhcjQqvlrCAzJy+dEu0vS6rs6WztCtsqNzLJh7OkTPjNGdv32UW5lzpA1zpwQ==
+X-Received: by 2002:aa7:95bb:: with SMTP id a27mr3076563pfk.30.1557501611584; 
+	Fri, 10 May 2019 08:20:11 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231])
-	by smtp.gmail.com with ESMTPSA id 19sm5920517pgz.24.2019.05.10.08.20.09
+	by smtp.gmail.com with ESMTPSA id 19sm5920517pgz.24.2019.05.10.08.20.10
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 10 May 2019 08:20:09 -0700 (PDT)
+	Fri, 10 May 2019 08:20:10 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri, 10 May 2019 08:19:36 -0700
-Message-Id: <20190510151944.22981-20-richard.henderson@linaro.org>
+Date: Fri, 10 May 2019 08:19:37 -0700
+Message-Id: <20190510151944.22981-21-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190510151944.22981-1-richard.henderson@linaro.org>
 References: <20190510151944.22981-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::542
-Subject: [Qemu-devel] [PULL 19/27] target/sh4: Convert to CPUClass::tlb_fill
+X-Received-From: 2607:f8b0:4864:20::444
+Subject: [Qemu-devel] [PULL 20/27] target/sparc: Convert to
+ CPUClass::tlb_fill
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -75,308 +76,211 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Aurelien Jarno <aurelien@aurel32.net>
+Cc: peter.maydell@linaro.org, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+	Artyom Tarasenko <atar4qemu@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc: Aurelien Jarno <aurelien@aurel32.net>
+Cc: Artyom Tarasenko <atar4qemu@gmail.com>
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/sh4/cpu.h       |   5 +-
- target/sh4/cpu.c       |   5 +-
- target/sh4/helper.c    | 197 ++++++++++++++++++++---------------------
- target/sh4/op_helper.c |  12 ---
- 4 files changed, 101 insertions(+), 118 deletions(-)
+ target/sparc/cpu.h         |  5 ++--
+ target/sparc/cpu.c         |  5 ++--
+ target/sparc/ldst_helper.c | 11 +-------
+ target/sparc/mmu_helper.c  | 58 ++++++++++++++++++++++++--------------
+ 4 files changed, 43 insertions(+), 36 deletions(-)
 
-diff --git a/target/sh4/cpu.h b/target/sh4/cpu.h
-index 1be36fe875..547194aac7 100644
---- a/target/sh4/cpu.h
-+++ b/target/sh4/cpu.h
-@@ -243,8 +243,9 @@ void superh_cpu_do_unaligned_access(CPUState *cpu, vaddr addr,
- void sh4_translate_init(void);
- int cpu_sh4_signal_handler(int host_signum, void *pinfo,
-                            void *puc);
--int superh_cpu_handle_mmu_fault(CPUState *cpu, vaddr address, int size, int rw,
--                                int mmu_idx);
-+bool superh_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                         MMUAccessType access_type, int mmu_idx,
-+                         bool probe, uintptr_t retaddr);
+diff --git a/target/sparc/cpu.h b/target/sparc/cpu.h
+index 85b9665ccc..f31e8535df 100644
+--- a/target/sparc/cpu.h
++++ b/target/sparc/cpu.h
+@@ -579,8 +579,9 @@ void cpu_raise_exception_ra(CPUSPARCState *, int, uintptr_t) QEMU_NORETURN;
+ void cpu_sparc_set_id(CPUSPARCState *env, unsigned int cpu);
+ void sparc_cpu_list(void);
+ /* mmu_helper.c */
+-int sparc_cpu_handle_mmu_fault(CPUState *cpu, vaddr address, int size, int rw,
+-                               int mmu_idx);
++bool sparc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
++                        MMUAccessType access_type, int mmu_idx,
++                        bool probe, uintptr_t retaddr);
+ target_ulong mmu_probe(CPUSPARCState *env, target_ulong address, int mmulev);
+ void dump_mmu(CPUSPARCState *env);
  
- void sh4_cpu_list(void);
- #if !defined(CONFIG_USER_ONLY)
-diff --git a/target/sh4/cpu.c b/target/sh4/cpu.c
-index da2799082e..c4736a0a73 100644
---- a/target/sh4/cpu.c
-+++ b/target/sh4/cpu.c
-@@ -229,9 +229,8 @@ static void superh_cpu_class_init(ObjectClass *oc, void *data)
-     cc->synchronize_from_tb = superh_cpu_synchronize_from_tb;
-     cc->gdb_read_register = superh_cpu_gdb_read_register;
-     cc->gdb_write_register = superh_cpu_gdb_write_register;
+diff --git a/target/sparc/cpu.c b/target/sparc/cpu.c
+index 4654c2a6a0..f93ce72eb9 100644
+--- a/target/sparc/cpu.c
++++ b/target/sparc/cpu.c
+@@ -875,9 +875,8 @@ static void sparc_cpu_class_init(ObjectClass *oc, void *data)
+     cc->synchronize_from_tb = sparc_cpu_synchronize_from_tb;
+     cc->gdb_read_register = sparc_cpu_gdb_read_register;
+     cc->gdb_write_register = sparc_cpu_gdb_write_register;
 -#ifdef CONFIG_USER_ONLY
--    cc->handle_mmu_fault = superh_cpu_handle_mmu_fault;
+-    cc->handle_mmu_fault = sparc_cpu_handle_mmu_fault;
 -#else
-+    cc->tlb_fill = superh_cpu_tlb_fill;
++    cc->tlb_fill = sparc_cpu_tlb_fill;
 +#ifndef CONFIG_USER_ONLY
-     cc->do_unaligned_access = superh_cpu_do_unaligned_access;
-     cc->get_phys_page_debug = superh_cpu_get_phys_page_debug;
- #endif
-diff --git a/target/sh4/helper.c b/target/sh4/helper.c
-index fa51269fb1..1517a6152f 100644
---- a/target/sh4/helper.c
-+++ b/target/sh4/helper.c
-@@ -27,43 +27,6 @@
- #include "hw/sh4/sh_intc.h"
- #endif
- 
--#if defined(CONFIG_USER_ONLY)
--
--void superh_cpu_do_interrupt(CPUState *cs)
--{
--    cs->exception_index = -1;
--}
--
--int superh_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size, int rw,
--                                int mmu_idx)
--{
--    SuperHCPU *cpu = SUPERH_CPU(cs);
--    CPUSH4State *env = &cpu->env;
--
--    env->tea = address;
--    cs->exception_index = -1;
--    switch (rw) {
--    case 0:
--        cs->exception_index = 0x0a0;
--        break;
--    case 1:
--        cs->exception_index = 0x0c0;
--        break;
--    case 2:
--        cs->exception_index = 0x0a0;
--        break;
--    }
--    return 1;
--}
--
--int cpu_sh4_is_cached(CPUSH4State * env, target_ulong addr)
--{
--    /* For user mode, only U0 area is cacheable. */
--    return !(addr & 0x80000000);
--}
--
--#else /* !CONFIG_USER_ONLY */
--
- #define MMU_OK                   0
- #define MMU_ITLB_MISS            (-1)
- #define MMU_ITLB_MULTIPLE        (-2)
-@@ -79,6 +42,21 @@ int cpu_sh4_is_cached(CPUSH4State * env, target_ulong addr)
- #define MMU_DADDR_ERROR_READ     (-12)
- #define MMU_DADDR_ERROR_WRITE    (-13)
- 
-+#if defined(CONFIG_USER_ONLY)
-+
-+void superh_cpu_do_interrupt(CPUState *cs)
-+{
-+    cs->exception_index = -1;
-+}
-+
-+int cpu_sh4_is_cached(CPUSH4State *env, target_ulong addr)
-+{
-+    /* For user mode, only U0 area is cacheable. */
-+    return !(addr & 0x80000000);
-+}
-+
-+#else /* !CONFIG_USER_ONLY */
-+
- void superh_cpu_do_interrupt(CPUState *cs)
- {
-     SuperHCPU *cpu = SUPERH_CPU(cs);
-@@ -458,69 +436,6 @@ static int get_physical_address(CPUSH4State * env, target_ulong * physical,
-     return get_mmu_address(env, physical, prot, address, rw, access_type);
+     cc->do_unassigned_access = sparc_cpu_unassigned_access;
+     cc->do_unaligned_access = sparc_cpu_do_unaligned_access;
+     cc->get_phys_page_debug = sparc_cpu_get_phys_page_debug;
+diff --git a/target/sparc/ldst_helper.c b/target/sparc/ldst_helper.c
+index a7fcb84ac0..2558c08a64 100644
+--- a/target/sparc/ldst_helper.c
++++ b/target/sparc/ldst_helper.c
+@@ -1925,18 +1925,9 @@ void QEMU_NORETURN sparc_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
+     cpu_raise_exception_ra(env, TT_UNALIGNED, retaddr);
  }
  
--int superh_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size, int rw,
--                                int mmu_idx)
--{
--    SuperHCPU *cpu = SUPERH_CPU(cs);
--    CPUSH4State *env = &cpu->env;
--    target_ulong physical;
--    int prot, ret, access_type;
--
--    access_type = ACCESS_INT;
--    ret =
--	get_physical_address(env, &physical, &prot, address, rw,
--			     access_type);
--
--    if (ret != MMU_OK) {
--	env->tea = address;
--	if (ret != MMU_DTLB_MULTIPLE && ret != MMU_ITLB_MULTIPLE) {
--	    env->pteh = (env->pteh & PTEH_ASID_MASK) |
--		    (address & PTEH_VPN_MASK);
--	}
--	switch (ret) {
--	case MMU_ITLB_MISS:
--	case MMU_DTLB_MISS_READ:
--            cs->exception_index = 0x040;
--	    break;
--	case MMU_DTLB_MULTIPLE:
--	case MMU_ITLB_MULTIPLE:
--            cs->exception_index = 0x140;
--	    break;
--	case MMU_ITLB_VIOLATION:
--            cs->exception_index = 0x0a0;
--	    break;
--	case MMU_DTLB_MISS_WRITE:
--            cs->exception_index = 0x060;
--	    break;
--	case MMU_DTLB_INITIAL_WRITE:
--            cs->exception_index = 0x080;
--	    break;
--	case MMU_DTLB_VIOLATION_READ:
--            cs->exception_index = 0x0a0;
--	    break;
--	case MMU_DTLB_VIOLATION_WRITE:
--            cs->exception_index = 0x0c0;
--	    break;
--	case MMU_IADDR_ERROR:
--	case MMU_DADDR_ERROR_READ:
--            cs->exception_index = 0x0e0;
--	    break;
--	case MMU_DADDR_ERROR_WRITE:
--            cs->exception_index = 0x100;
--	    break;
--	default:
--            cpu_abort(cs, "Unhandled MMU fault");
--	}
--	return 1;
--    }
--
--    address &= TARGET_PAGE_MASK;
--    physical &= TARGET_PAGE_MASK;
--
--    tlb_set_page(cs, address, physical, prot, mmu_idx, TARGET_PAGE_SIZE);
--    return 0;
--}
--
- hwaddr superh_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
+-/* try to fill the TLB and return an exception if error. If retaddr is
+-   NULL, it means that the function was called in C code (i.e. not
+-   from generated code or from helper.c) */
+-/* XXX: fix it to restore all registers */
+ void tlb_fill(CPUState *cs, target_ulong addr, int size,
+               MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
  {
-     SuperHCPU *cpu = SUPERH_CPU(cs);
-@@ -745,7 +660,6 @@ void cpu_sh4_write_mmaped_utlb_addr(CPUSH4State *s, hwaddr addr,
-         if (needs_tlb_flush) {
-             tlb_flush_page(CPU(sh_env_get_cpu(s)), vpn << 10);
-         }
--        
+-    int ret;
+-
+-    ret = sparc_cpu_handle_mmu_fault(cs, addr, size, access_type, mmu_idx);
+-    if (ret) {
+-        cpu_loop_exit_restore(cs, retaddr);
+-    }
++    sparc_cpu_tlb_fill(cs, addr, size, access_type, mmu_idx, false, retaddr);
+ }
+ #endif
+diff --git a/target/sparc/mmu_helper.c b/target/sparc/mmu_helper.c
+index afcc5b617d..facc0c60e9 100644
+--- a/target/sparc/mmu_helper.c
++++ b/target/sparc/mmu_helper.c
+@@ -27,13 +27,14 @@
+ 
+ #if defined(CONFIG_USER_ONLY)
+ 
+-int sparc_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size, int rw,
+-                               int mmu_idx)
++bool sparc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
++                        MMUAccessType access_type, int mmu_idx,
++                        bool probe, uintptr_t retaddr)
+ {
+     SPARCCPU *cpu = SPARC_CPU(cs);
+     CPUSPARCState *env = &cpu->env;
+ 
+-    if (rw & 2) {
++    if (access_type == MMU_INST_FETCH) {
+         cs->exception_index = TT_TFAULT;
      } else {
-         int index = (addr & 0x00003f00) >> 8;
-         tlb_t * entry = &s->utlb[index];
-@@ -885,3 +799,84 @@ bool superh_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+         cs->exception_index = TT_DFAULT;
+@@ -43,7 +44,7 @@ int sparc_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size, int rw,
+         env->mmuregs[4] = address;
+ #endif
      }
-     return false;
+-    return 1;
++    cpu_loop_exit_restore(cs, retaddr);
  }
+ 
+ #else
+@@ -208,8 +209,9 @@ static int get_physical_address(CPUSPARCState *env, hwaddr *physical,
+ }
+ 
+ /* Perform address translation */
+-int sparc_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size, int rw,
+-                               int mmu_idx)
++bool sparc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
++                        MMUAccessType access_type, int mmu_idx,
++                        bool probe, uintptr_t retaddr)
+ {
+     SPARCCPU *cpu = SPARC_CPU(cs);
+     CPUSPARCState *env = &cpu->env;
+@@ -218,16 +220,26 @@ int sparc_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size, int rw,
+     target_ulong page_size;
+     int error_code = 0, prot, access_index;
+ 
++    /*
++     * TODO: If we ever need tlb_vaddr_to_host for this target,
++     * then we must figure out how to manipulate FSR and FAR
++     * when both MMU_NF and probe are set.  In the meantime,
++     * do not support this use case.
++     */
++    assert(!probe);
 +
-+bool superh_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                         MMUAccessType access_type, int mmu_idx,
-+                         bool probe, uintptr_t retaddr)
-+{
-+    SuperHCPU *cpu = SUPERH_CPU(cs);
-+    CPUSH4State *env = &cpu->env;
-+    int ret;
-+
-+#ifdef CONFIG_USER_ONLY
-+    ret = (access_type == MMU_DATA_STORE ? MMU_DTLB_VIOLATION_WRITE :
-+           access_type == MMU_INST_FETCH ? MMU_ITLB_VIOLATION :
-+           MMU_DTLB_VIOLATION_READ);
-+#else
-+    target_ulong physical;
-+    int prot, sh_access_type;
-+
-+    sh_access_type = ACCESS_INT;
-+    ret = get_physical_address(env, &physical, &prot, address,
-+                               access_type, sh_access_type);
-+
-+    if (ret == MMU_OK) {
-+        address &= TARGET_PAGE_MASK;
-+        physical &= TARGET_PAGE_MASK;
-+        tlb_set_page(cs, address, physical, prot, mmu_idx, TARGET_PAGE_SIZE);
+     address &= TARGET_PAGE_MASK;
+     error_code = get_physical_address(env, &paddr, &prot, &access_index,
+-                                      address, rw, mmu_idx, &page_size);
++                                      address, access_type,
++                                      mmu_idx, &page_size);
+     vaddr = address;
+-    if (error_code == 0) {
++    if (likely(error_code == 0)) {
+         qemu_log_mask(CPU_LOG_MMU,
+-                "Translate at %" VADDR_PRIx " -> " TARGET_FMT_plx ", vaddr "
+-                TARGET_FMT_lx "\n", address, paddr, vaddr);
++                      "Translate at %" VADDR_PRIx " -> "
++                      TARGET_FMT_plx ", vaddr " TARGET_FMT_lx "\n",
++                      address, paddr, vaddr);
+         tlb_set_page(cs, vaddr, paddr, prot, mmu_idx, page_size);
+-        return 0;
 +        return true;
-+    }
+     }
+ 
+     if (env->mmuregs[3]) { /* Fault status register */
+@@ -243,14 +255,14 @@ int sparc_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size, int rw,
+            switching to normal mode. */
+         prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
+         tlb_set_page(cs, vaddr, paddr, prot, mmu_idx, TARGET_PAGE_SIZE);
+-        return 0;
++        return true;
+     } else {
+-        if (rw & 2) {
++        if (access_type == MMU_INST_FETCH) {
+             cs->exception_index = TT_TFAULT;
+         } else {
+             cs->exception_index = TT_DFAULT;
+         }
+-        return 1;
++        cpu_loop_exit_restore(cs, retaddr);
+     }
+ }
+ 
+@@ -713,8 +725,9 @@ static int get_physical_address(CPUSPARCState *env, hwaddr *physical,
+ }
+ 
+ /* Perform address translation */
+-int sparc_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size, int rw,
+-                               int mmu_idx)
++bool sparc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
++                        MMUAccessType access_type, int mmu_idx,
++                        bool probe, uintptr_t retaddr)
+ {
+     SPARCCPU *cpu = SPARC_CPU(cs);
+     CPUSPARCState *env = &cpu->env;
+@@ -725,8 +738,9 @@ int sparc_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size, int rw,
+ 
+     address &= TARGET_PAGE_MASK;
+     error_code = get_physical_address(env, &paddr, &prot, &access_index,
+-                                      address, rw, mmu_idx, &page_size);
+-    if (error_code == 0) {
++                                      address, access_type,
++                                      mmu_idx, &page_size);
++    if (likely(error_code == 0)) {
+         vaddr = address;
+ 
+         trace_mmu_helper_mmu_fault(address, paddr, mmu_idx, env->tl,
+@@ -734,10 +748,12 @@ int sparc_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size, int rw,
+                                    env->dmmu.mmu_secondary_context);
+ 
+         tlb_set_page(cs, vaddr, paddr, prot, mmu_idx, page_size);
+-        return 0;
++        return true;
+     }
+-    /* XXX */
+-    return 1;
 +    if (probe) {
 +        return false;
 +    }
-+
-+    if (ret != MMU_DTLB_MULTIPLE && ret != MMU_ITLB_MULTIPLE) {
-+        env->pteh = (env->pteh & PTEH_ASID_MASK) | (address & PTEH_VPN_MASK);
-+    }
-+#endif
-+
-+    env->tea = address;
-+    switch (ret) {
-+    case MMU_ITLB_MISS:
-+    case MMU_DTLB_MISS_READ:
-+        cs->exception_index = 0x040;
-+        break;
-+    case MMU_DTLB_MULTIPLE:
-+    case MMU_ITLB_MULTIPLE:
-+        cs->exception_index = 0x140;
-+        break;
-+    case MMU_ITLB_VIOLATION:
-+        cs->exception_index = 0x0a0;
-+        break;
-+    case MMU_DTLB_MISS_WRITE:
-+        cs->exception_index = 0x060;
-+        break;
-+    case MMU_DTLB_INITIAL_WRITE:
-+        cs->exception_index = 0x080;
-+        break;
-+    case MMU_DTLB_VIOLATION_READ:
-+        cs->exception_index = 0x0a0;
-+        break;
-+    case MMU_DTLB_VIOLATION_WRITE:
-+        cs->exception_index = 0x0c0;
-+        break;
-+    case MMU_IADDR_ERROR:
-+    case MMU_DADDR_ERROR_READ:
-+        cs->exception_index = 0x0e0;
-+        break;
-+    case MMU_DADDR_ERROR_WRITE:
-+        cs->exception_index = 0x100;
-+        break;
-+    default:
-+        cpu_abort(cs, "Unhandled MMU fault");
-+    }
 +    cpu_loop_exit_restore(cs, retaddr);
-+}
-+
-+#ifndef CONFIG_USER_ONLY
-+void tlb_fill(CPUState *cs, target_ulong addr, int size,
-+              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
-+{
-+    superh_cpu_tlb_fill(cs, addr, size, access_type, mmu_idx, false, retaddr);
-+}
-+#endif
-diff --git a/target/sh4/op_helper.c b/target/sh4/op_helper.c
-index 28027f9e0b..bd5d782b50 100644
---- a/target/sh4/op_helper.c
-+++ b/target/sh4/op_helper.c
-@@ -41,18 +41,6 @@ void superh_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-     cpu_loop_exit_restore(cs, retaddr);
  }
  
--void tlb_fill(CPUState *cs, target_ulong addr, int size,
--              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
--{
--    int ret;
--
--    ret = superh_cpu_handle_mmu_fault(cs, addr, size, access_type, mmu_idx);
--    if (ret) {
--        /* now we have a real cpu fault */
--        cpu_loop_exit_restore(cs, retaddr);
--    }
--}
--
- #endif
- 
- void helper_ldtlb(CPUSH4State *env)
+ void dump_mmu(CPUSPARCState *env)
 -- 
 2.17.1
 
