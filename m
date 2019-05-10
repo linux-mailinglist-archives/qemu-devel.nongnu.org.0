@@ -2,65 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 310721A20D
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 18:58:31 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46949 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F0DC1A20B
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 18:57:26 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46905 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hP8qs-000295-Ej
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 12:58:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48417)
+	id 1hP8pp-0000Dc-9k
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 12:57:25 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48825)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hP8iL-0000my-Cn
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:49:42 -0400
+	(envelope-from <armbru@redhat.com>) id 1hP8ju-0002C4-0A
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:51:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hP8iK-0005gc-Fh
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:49:41 -0400
-Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:41031)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hP8iK-0005g8-96
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:49:40 -0400
-Received: by mail-oi1-x242.google.com with SMTP id y10so4990576oia.8
-	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 09:49:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=gCX+seDemu8LJPPgW5WuGOwnjcJKRB79k4K8XCw1BT4=;
-	b=fWXqvhpH0fVitQT36Y+CZG9+X9EFLkxRGjmv5cJnnhAdM9AMkYOaY7h4GBDvd4WWz/
-	9qdIk2WdTQYhUKZ0JdnQYSdoPZk0USGqpCoSf3/g+EfKRbDF3uq3O8jbujtPs/w0MknM
-	+7m01BfmrfrZy8SWbbuiQKQCdG/xES4PByXrtUHB249CdACw1mbJxrMpRHnDGAsW5TN8
-	520oIWL9gKDlVkT3DPUZJ4hAz19gzaoIQgNk3e+SVB3wyXRKozxDkGkxvaYmIFvIcifD
-	6Nw6S9n8NbGW2LnhTd3zIYyRMBVQcZvbQyyK1GFwuQtLMIYaB1Qldxf/achR4TNdwwa0
-	jCYA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=gCX+seDemu8LJPPgW5WuGOwnjcJKRB79k4K8XCw1BT4=;
-	b=SxVgCaf4uuNKo8NwmQ1X3iIZ/s4huFoSgVhSxCM1lM72ckBHynBUDp3wlpYmQEiLqB
-	1y9ZHFIN4R3EjioZeA9zY+14KLNspw29bRLm8bqYnos6GLITeueivOZBCdZE899UlZjP
-	UdNwhieoJcpreWN+eDuYq0gom0FH4m5uaruAum7QkDS9QvU8+LuPbB1C8fTnnvjsFs1X
-	3SGxQXgcaVNCFUdultJXOct9FDPjsK4IaSRcTrWFWd9/Rs7tXWFPAiTuqvQXK920jkS5
-	Nr/SIdk3LPylufzQdPAYlm796Qtrqp64NBiIxiifYzF8t8vRNwLDrCEL77mhix/q7YO7
-	rKDA==
-X-Gm-Message-State: APjAAAUnvak3Ve169Xs3NHbgf2P7Vv81jwkFPMq0OC4KvLzZuUUeWWpx
-	tJlSJ1cvtL6h1FoYfhtetBBtE2M4qMc59DWH6tIptg==
-X-Google-Smtp-Source: APXvYqxxznaOj0KQ57jzIBYNB2SwLVqDywtBH3Er9UIsY3yOkiiyjPZS9CtqdI1mYltMaraMZ9DQZvJE/bhynXTdU/Q=
-X-Received: by 2002:aca:5785:: with SMTP id l127mr5358148oib.48.1557506979339; 
-	Fri, 10 May 2019 09:49:39 -0700 (PDT)
+	(envelope-from <armbru@redhat.com>) id 1hP8js-0007LS-W0
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:51:17 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58822)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <armbru@redhat.com>)
+	id 1hP8js-0007Ko-QM; Fri, 10 May 2019 12:51:16 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 4915E811DC;
+	Fri, 10 May 2019 16:51:15 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-28.ams2.redhat.com
+	[10.36.116.28])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 51BDF1018A2F;
+	Fri, 10 May 2019 16:51:11 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+	id A6F9A11385E4; Fri, 10 May 2019 18:51:09 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20190502185835.15185-1-laurent@vivier.eu>
+	<CAFEAcA9-hAU5dxUmSWtbvrPEXE-nCP1uLvLbOby-_EXZ27o+8g@mail.gmail.com>
+	<87sgtv4wjo.fsf@zen.linaroharston> <87imulaude.fsf@dusky.pond.sub.org>
+	<87tve53sy7.fsf@zen.linaroharston> <87zhnw58pa.fsf@dusky.pond.sub.org>
+	<CAFEAcA-s0UYr0VW3ccG07r=BiGCVtDHkRb6yW0X_ev-zAkOxvw@mail.gmail.com>
+	<87o94amjud.fsf@dusky.pond.sub.org>
+	<CAFEAcA8h8ry3XiT1dUOZknTYK78_W=_b3R4CzfFNnS_Z1G9Bww@mail.gmail.com>
+Date: Fri, 10 May 2019 18:51:09 +0200
+In-Reply-To: <CAFEAcA8h8ry3XiT1dUOZknTYK78_W=_b3R4CzfFNnS_Z1G9Bww@mail.gmail.com>
+	(Peter Maydell's message of "Fri, 10 May 2019 17:25:57 +0100")
+Message-ID: <87o94ai77m.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-References: <20190510163536.4242-1-mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20190510163536.4242-1-mark.cave-ayland@ilande.co.uk>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 10 May 2019 17:49:28 +0100
-Message-ID: <CAFEAcA8tHGciDGyDwCZ02S5km8XNf32PfgSbtbRzqLxcT9JWhA@mail.gmail.com>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::242
-Subject: Re: [Qemu-devel] [PATCH] configure: copy MacOS NDRV driver into
- sharedir for out-of-tree builds
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.27]);
+	Fri, 10 May 2019 16:51:15 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PULL 00/13] Trivial branch patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -72,52 +66,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Howard Spoelstra <hsp.cat7@gmail.com>, qemu-ppc <qemu-ppc@nongnu.org>,
+Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
 	QEMU Developers <qemu-devel@nongnu.org>,
-	David Gibson <david@gibson.dropbear.id.au>
+	Eduardo Habkost <ehabkost@redhat.com>,
+	Viktor Prutyanov <viktor.prutyanov@phystech.edu>,
+	QEMU Trivial <qemu-trivial@nongnu.org>, Michael Tokarev <mjt@tls.msk.ru>,
+	Jason Wang <jasowang@redhat.com>,
+	Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+	Michael Roth <mdroth@linux.vnet.ibm.com>,
+	Fabien Chouteau <chouteau@adacore.com>, Laurent Vivier <laurent@vivier.eu>,
+	Gerd Hoffmann <kraxel@redhat.com>, Artyom Tarasenko <atar4qemu@gmail.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>,
+	Andreas =?utf-8?Q?F=C3=A4rber?= <afaerber@suse.de>,
+	Aurelien Jarno <aurelien@aurel32.net>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 10 May 2019 at 17:37, Mark Cave-Ayland
-<mark.cave-ayland@ilande.co.uk> wrote:
+Peter Maydell <peter.maydell@linaro.org> writes:
+
+> On Fri, 10 May 2019 at 16:05, Markus Armbruster <armbru@redhat.com> wrote:
+>> I tried to reproduce on a ppc64 box in the gcc compile farm, no dice.  I
+>> double-checked config-host.h has #define HOST_WORDS_BIGENDIAN 1.
 >
-> Make sure that we include *.ndrv files with those being copied to sharedir
-> during out-of-tree builds. This ensures that the MacOS driver is correctly
-> located and loaded by qemu-system-ppc.
+> On s390:
+>  git clone git://git.qemu.org/qemu.git qemu-tmp
+>  cd qemu-tmp
+>  mkdir build
+>  cd build
+>  ../configure
+>  make -j3
+>  make -j3 check V=1  # passes
+>  wget https://patchew.org/QEMU/20190313162812.8885-1-armbru@redhat.com/mbox
+>  git am mbox
+>  make -j3
+>  make -j3 check V=1 # fails
 >
-> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-> ---
->  configure | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/configure b/configure
-> index 63f312bd1f..9493537301 100755
-> --- a/configure
-> +++ b/configure
-> @@ -7886,6 +7886,7 @@ for bios_file in \
->      $source_path/pc-bios/*.dtb \
->      $source_path/pc-bios/*.img \
->      $source_path/pc-bios/openbios-* \
-> +    $source_path/pc-bios/*.ndrv \
->      $source_path/pc-bios/u-boot.* \
->      $source_path/pc-bios/edk2-*.fd.bz2 \
->      $source_path/pc-bios/palcode-*
+> thanks
+> -- PMM
 
-The comment above this bit of code says:
-
-# Caution: do not add files or directories here using wildcards. This
-# will result in problems later if a new file matching the wildcard is
-# added to the source tree -- nothing will cause configure to be rerun
-# so the build tree will be missing the link back to the new file, and
-# tests might fail.
-
-The pc-bios/ directory is awkward legacy which we
-can't really apply the next part of the comment to
-("Prefer to keep the relevant files in their own
-directory and symlink the directory instead"), but since
-there is only one *.ndrv file we can at least avoid the
-wildcard by writing "qemu_vga.ndrv" instead of "*.ndrv".
-
-thanks
--- PMM
+I double-checked my testing and found where I screwed up.  Thanks for
+your help!
 
