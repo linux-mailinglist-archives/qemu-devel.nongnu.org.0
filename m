@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D6A31962C
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 03:30:40 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:35044 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89BA619637
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 03:36:46 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:35150 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOuMx-00022y-Eb
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 21:30:39 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58666)
+	id 1hOuSr-0007Th-LR
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 21:36:45 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58653)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOuHl-0006JE-6z
+	(envelope-from <richard.henderson@linaro.org>) id 1hOuHk-0006Iy-TT
 	for qemu-devel@nongnu.org; Thu, 09 May 2019 21:25:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOuHj-00014r-Hm
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 21:25:17 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:46793)
+	(envelope-from <richard.henderson@linaro.org>) id 1hOuHj-000150-JL
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 21:25:16 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:46176)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hOuHj-0000wf-9W
+	id 1hOuHj-0000zZ-AA
 	for qemu-devel@nongnu.org; Thu, 09 May 2019 21:25:15 -0400
-Received: by mail-pg1-x544.google.com with SMTP id t187so2110959pgb.13
-	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 18:25:09 -0700 (PDT)
+Received: by mail-pf1-x444.google.com with SMTP id y11so2239129pfm.13
+	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 18:25:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=BFNXO+CSJUIyB4vBsJmwl02buO19GtyllxlmqyS+gn0=;
-	b=XxvdoYnu/rv+yVFaQhy06prW9DgtX1zofcjIsKgTv4Vg+lbuzWn/7KYvh+qt7Ev5aY
-	7uN1GvLgirtJ0T87KDGPIhqKAVUecvVj0EHZoP/zDM2+tM73IlWJ8IO4BMxtFwP4FIBi
-	7wGbn2eJ5t/eeZ8N+PXxbk+c7lMD9al9Roa81UagbADYK8qlvBtlnYYhKiuv64yIypXj
-	kHU7eX4G5sxjJLhevNWYE9I02jJHtifpWeiZQ5v8V7DZxoAogbvPAmj4X87Eh8rxduQ1
-	bBGc1PFXifsGZtbaYRHPLo/r5DYJNDMPrU3P2SnWPZN3fNRfL66MQgz3la9ZfT1y5H+T
-	FZWw==
+	bh=z+TkCJ+Ncy1KMgA4q+7eFD+GiqzlCrNmhclplUZOTOM=;
+	b=x1MhPPBzSmgGNoeKDU1r/iSLWIObmL4ruPAPjFk2gF5V2hkUlPbign0V91FQliMEv+
+	C+T9mFpCzsNhyWICh2G7bqVQ0aXjWQ5ihnA2i3gW2QGeQIHXfTnRUSgJvJ6JYhcluEVl
+	jLGMP+5jh79dk38+nY5/GV+Z+2g1TgNapKFkRHyvflkEUT5QPkt+ySDMmIXjPObBkjG5
+	FxzBpP5kTLmRxqC4j7xtBaa3L7EwNA6uRSbymKdO7xrSh/aZwwHuqkKuUXVQZbH2EK9m
+	uNekuTGPLhar1Dl9rvQ9XzIZr2KrGgzcAu+d7clb1ThKMX/32gXgNub7VQZfeU4C4UP7
+	Kyuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=BFNXO+CSJUIyB4vBsJmwl02buO19GtyllxlmqyS+gn0=;
-	b=P/IaUWn5ev0gDn7ofDw/Nsqh27lYTuqRwUGsqYls1m1J6y2GagxFIAYYzX94H8cZ4T
-	akf2S9HvE4Ung6D8PULeV8v/3QvIsyYJZabM0G735HNCWf1j4v8ibLIaxUlcUTbxgkMP
-	jXmk4g77AkWaK0e1ZCeqAtqCB87ji9sNLTyrmiVv0rSIqK/8kn5SulArDkljFx1TIyt3
-	FBGqoCdi94NIV0vFRDNu6bX3LKk+GFbIV9t6T9dYDs2UnZj+jOzAIpfZSjR5063+E3rd
-	EmYlDPKSp04nhkpUyfVXrNKPY8gzGt1ZgTbHyNm355R0lvDyYBtVrPSSlu8EFAZWnM0/
-	iU1Q==
-X-Gm-Message-State: APjAAAWRv6DISxWH1iVKQ3Adamls/H9kDH7cPQy2mkc3iAGWeKF7LnZb
-	4tZGJEN0CRZ0dBn975DzdtB8iy8EgnA=
-X-Google-Smtp-Source: APXvYqzRJmbHJJXTgSh6D+CDba/eqXWEuAgshJkccQFhqRb2ez8M6nDv+5Ua77YWJrV0Rb9A767GWg==
-X-Received: by 2002:a62:582:: with SMTP id 124mr9913664pff.209.1557451508029; 
-	Thu, 09 May 2019 18:25:08 -0700 (PDT)
+	bh=z+TkCJ+Ncy1KMgA4q+7eFD+GiqzlCrNmhclplUZOTOM=;
+	b=ijwMdb3mu2wUQE5kYs+0ycMiN+VxmgiPFNHxFmoMqwtAeNKG8leUMVAEpL0vLd2Y+t
+	EofsvhGK7LhpFGyy97ifQTY4xfQSg3yXJhR5L42Wplfiiy7SmgNUWeG1S9yKJieLVnNx
+	wsgQnwjDMM8Tbl0yRYK0VZEhZkfTFZx/OykKkC8VUulctzsLntZkvM1DBpz969QtiLwf
+	bPw36DI8hIa140+4qhznFTq1okDmioBSai48CqV+zH3oMso83MRrsEu0i7PIN0kNTR5u
+	35UaXQwFHSZSvBA68XtcYKvyRuOMUVfygH+r/zLdgKjqFLPq75iyP30y8dV6v3/gfpPf
+	Heeg==
+X-Gm-Message-State: APjAAAVWajt0EsJL80fhVP6Cjhov3bMDvGtaMx232k7boWURJNc5j7I/
+	+SJsNp7ZcsB8yP6iyb5XlVbIDH2IJyQ=
+X-Google-Smtp-Source: APXvYqzHOb6BQY0AS/MelGNgiv+MsvSaQAJ4M3ojJ8IAZCoCFjcom5iTS2+DJRHxK2UbWcN4ETT0dw==
+X-Received: by 2002:a62:5e42:: with SMTP id s63mr8247249pfb.78.1557451509230; 
+	Thu, 09 May 2019 18:25:09 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	n18sm8252700pfi.48.2019.05.09.18.25.07 for <qemu-devel@nongnu.org>
+	n18sm8252700pfi.48.2019.05.09.18.25.08 for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 09 May 2019 18:25:07 -0700 (PDT)
+	Thu, 09 May 2019 18:25:08 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu,  9 May 2019 18:24:40 -0700
-Message-Id: <20190510012458.22706-7-richard.henderson@linaro.org>
+Date: Thu,  9 May 2019 18:24:41 -0700
+Message-Id: <20190510012458.22706-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190510012458.22706-1-richard.henderson@linaro.org>
 References: <20190510012458.22706-1-richard.henderson@linaro.org>
@@ -66,9 +66,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::544
-Subject: [Qemu-devel] [PATCH v5 06/24] crypto: Use getrandom for
- qcrypto_random_bytes
+X-Received-From: 2607:f8b0:4864:20::444
+Subject: [Qemu-devel] [PATCH v5 07/24] crypto: Change the
+ qcrypto_random_bytes buffer type to void*
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -83,121 +83,74 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Prefer it to direct use of /dev/urandom.
+Using uint8_t* merely requires useless casts for use with
+other types to be filled with randomness.
 
 Reviewed-by: Laurent Vivier <lvivier@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v3: If getrandom is not present, fall back on /dev/(u)random.
----
- crypto/random-platform.c | 37 ++++++++++++++++++++++++++++++++-----
- configure                | 18 +++++++++++++++++-
- 2 files changed, 49 insertions(+), 6 deletions(-)
+ include/crypto/random.h  | 2 +-
+ crypto/random-gcrypt.c   | 2 +-
+ crypto/random-gnutls.c   | 2 +-
+ crypto/random-platform.c | 4 ++--
+ 4 files changed, 5 insertions(+), 5 deletions(-)
 
+diff --git a/include/crypto/random.h b/include/crypto/random.h
+index 8764ca0562..fde592904e 100644
+--- a/include/crypto/random.h
++++ b/include/crypto/random.h
+@@ -34,7 +34,7 @@
+  *
+  * Returns 0 on success, -1 on error
+  */
+-int qcrypto_random_bytes(uint8_t *buf,
++int qcrypto_random_bytes(void *buf,
+                          size_t buflen,
+                          Error **errp);
+ 
+diff --git a/crypto/random-gcrypt.c b/crypto/random-gcrypt.c
+index 9f1c9ee60e..7aea4ac81f 100644
+--- a/crypto/random-gcrypt.c
++++ b/crypto/random-gcrypt.c
+@@ -24,7 +24,7 @@
+ 
+ #include <gcrypt.h>
+ 
+-int qcrypto_random_bytes(uint8_t *buf,
++int qcrypto_random_bytes(void *buf,
+                          size_t buflen,
+                          Error **errp G_GNUC_UNUSED)
+ {
+diff --git a/crypto/random-gnutls.c b/crypto/random-gnutls.c
+index 445fd6a30b..ed6c9ca12f 100644
+--- a/crypto/random-gnutls.c
++++ b/crypto/random-gnutls.c
+@@ -26,7 +26,7 @@
+ #include <gnutls/gnutls.h>
+ #include <gnutls/crypto.h>
+ 
+-int qcrypto_random_bytes(uint8_t *buf,
++int qcrypto_random_bytes(void *buf,
+                          size_t buflen,
+                          Error **errp)
+ {
 diff --git a/crypto/random-platform.c b/crypto/random-platform.c
-index 6df40744c7..cb3ca1bc09 100644
+index cb3ca1bc09..66624106fe 100644
 --- a/crypto/random-platform.c
 +++ b/crypto/random-platform.c
-@@ -27,7 +27,11 @@
- #include <wincrypt.h>
- static HCRYPTPROV hCryptProv;
- #else
--static int fd; /* a file handle to either /dev/urandom or /dev/random */
-+# ifdef CONFIG_GETRANDOM
-+#  include <sys/random.h>
-+# endif
-+/* This is -1 for getrandom(), or a file handle for /dev/{u,}random.  */
-+static int fd;
- #endif
+@@ -64,8 +64,8 @@ int qcrypto_random_init(Error **errp)
+     return 0;
+ }
  
- int qcrypto_random_init(Error **errp)
-@@ -40,15 +44,20 @@ int qcrypto_random_init(Error **errp)
-         return -1;
-     }
- #else
--    /* TBD perhaps also add support for BSD getentropy / Linux
--     * getrandom syscalls directly */
-+# ifdef CONFIG_GETRANDOM
-+    if (getrandom(NULL, 0, 0) == 0) {
-+        /* Use getrandom() */
-+        fd = -1;
-+        return 0;
-+    }
-+    /* Fall through to /dev/urandom case.  */
-+# endif
-     fd = open("/dev/urandom", O_RDONLY | O_CLOEXEC);
-     if (fd == -1 && errno == ENOENT) {
-         fd = open("/dev/random", O_RDONLY | O_CLOEXEC);
-     }
--
-     if (fd < 0) {
--        error_setg(errp, "No /dev/urandom or /dev/random found");
-+        error_setg_errno(errp, errno, "No /dev/urandom or /dev/random");
-         return -1;
-     }
- #endif
-@@ -66,6 +75,24 @@ int qcrypto_random_bytes(uint8_t *buf G_GNUC_UNUSED,
-         return -1;
-     }
- #else
-+# ifdef CONFIG_GETRANDOM
-+    if (likely(fd < 0)) {
-+        while (1) {
-+            ssize_t got = getrandom(buf, buflen, 0);
-+            if (likely(got == buflen)) {
-+                return 0;
-+            }
-+            if (got >= 0) {
-+                buflen -= got;
-+                buf += got;
-+            } else if (errno != EINTR) {
-+                error_setg_errno(errp, errno, "getrandom");
-+                return -1;
-+            }
-+        }
-+    }
-+    /* Fall through to /dev/urandom case.  */
-+# endif
-     while (1) {
-         ssize_t got = read(fd, buf, buflen);
-         if (likely(got == buflen)) {
-diff --git a/configure b/configure
-index 68b34a93eb..346f89ea6c 100755
---- a/configure
-+++ b/configure
-@@ -5815,6 +5815,20 @@ if compile_prog "" "" ; then
-     have_utmpx=yes
- fi
- 
-+##########################################
-+# check for getrandom()
-+
-+have_getrandom=no
-+cat > $TMPC << EOF
-+#include <sys/random.h>
-+int main(void) {
-+    return getrandom(0, 0, GRND_NONBLOCK);
-+}
-+EOF
-+if compile_prog "" "" ; then
-+    have_getrandom=yes
-+fi
-+
- ##########################################
- # checks for sanitizers
- 
-@@ -7202,7 +7216,9 @@ fi
- if test "$have_utmpx" = "yes" ; then
-   echo "HAVE_UTMPX=y" >> $config_host_mak
- fi
--
-+if test "$have_getrandom" = "yes" ; then
-+  echo "CONFIG_GETRANDOM=y" >> $config_host_mak
-+fi
- if test "$ivshmem" = "yes" ; then
-   echo "CONFIG_IVSHMEM=y" >> $config_host_mak
- fi
+-int qcrypto_random_bytes(uint8_t *buf G_GNUC_UNUSED,
+-                         size_t buflen G_GNUC_UNUSED,
++int qcrypto_random_bytes(void *buf,
++                         size_t buflen,
+                          Error **errp)
+ {
+ #ifdef _WIN32
 -- 
 2.17.1
 
