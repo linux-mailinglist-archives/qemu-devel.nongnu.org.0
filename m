@@ -2,70 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0276D19634
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 03:34:15 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:35100 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44882196E2
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 05:01:29 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:35876 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOuQQ-0005Lx-41
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 21:34:14 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58980)
+	id 1hOvmq-0002fF-Bw
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 23:01:28 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44141)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOuI0-0006Td-0W
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 21:25:33 -0400
+	(envelope-from <dgibson@ozlabs.org>) id 1hOvjK-0000Um-CD
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 22:57:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOuHy-0001R3-Tx
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 21:25:31 -0400
-Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:44292)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hOuHy-0001QY-Nu
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 21:25:30 -0400
-Received: by mail-pl1-x634.google.com with SMTP id d3so1979954plj.11
-	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 18:25:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=Zy7Bl/NY6R6WV/KALAMj7Mld2mS+F9Ia+hHvDF6MXjc=;
-	b=m3XLC8XWpdIMgME4VXjsjRL9+9ZdEqWuDnPdFmEFMv3EG4Gh1FR5YVZUDwtH5VlIlo
-	1BCrxKVPOWAoYPZNHd5aCXStA3rOMJ5+4f8YZyIfHu1mhwtrVeh9dGbUns/ouEFpfm+t
-	l5cLWY51p4EmeGaHfGQHmlSa6KRMLdrrhmEoUl+4yQm8sB9xM8MojIh2eZlIO8uR7w9w
-	QQzyiYGi/bhb0YfDaGipW5plgKJztDymSvNzJ21zcj/B9nawQKCcpmbBUuLHWnMgqvTi
-	xs7QZfMpwAsEqM4a7jnJZYh0bJ9l3vERaxvLy2sliTLXnNp+pbUYHe6GovCZxm4wcJAs
-	AV/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=Zy7Bl/NY6R6WV/KALAMj7Mld2mS+F9Ia+hHvDF6MXjc=;
-	b=kcGvWWX1u+6+o1ToSpLlGikCM/p3A6JIokL1xakGPEsySLZ8iu4DmLuZ5JWA61f0wy
-	fxV7Mije3a2Ba1nZPJqyRCZweZ0vuimddEsV0e/f+X78EE3EjS0nYdePIWx3HgUc+sMs
-	b2OhNOEYIHlwDx6HlJsCAWfbefS+IR6vwsdqNo2HBsb1RqmZJc27rGPzXPunpX/YhK2W
-	Jvs7eHSeeJqBoqehMXOJ4A6sB2162SjnWDwFho3xoSSxVEs0G9nx1Fb72HM4ejhlmOwX
-	La+CQ1VZybdaGihJjj1a5UuPWOZhsQV4Wy344VrbUrxZmoZJuOu/oBPUzJITm/gfCDvB
-	T+cg==
-X-Gm-Message-State: APjAAAVVSqw55gQ2nNF/RvAGQ9VhAkhO+4uZDCCam8sTB1MIdeavm9ka
-	yvN8AJsdpumlse2rC7T3YYG3UQKyVHY=
-X-Google-Smtp-Source: APXvYqx8UPN3VZon+kgTUOnzW0JjpZHCMwL9WVKuIr91i+A4+Wcdwo9ClbFfB0nFRPYhjlFFZsu2lg==
-X-Received: by 2002:a17:902:29ab:: with SMTP id
-	h40mr9335922plb.269.1557451529423; 
-	Thu, 09 May 2019 18:25:29 -0700 (PDT)
-Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
-	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	n18sm8252700pfi.48.2019.05.09.18.25.28
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 09 May 2019 18:25:28 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Thu,  9 May 2019 18:24:58 -0700
-Message-Id: <20190510012458.22706-25-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190510012458.22706-1-richard.henderson@linaro.org>
-References: <20190510012458.22706-1-richard.henderson@linaro.org>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::634
-Subject: [Qemu-devel] [PATCH v5 24/24] target/i386: Implement
- CPUID_EXT_RDRAND
+	(envelope-from <dgibson@ozlabs.org>) id 1hOvjJ-0001A4-0l
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 22:57:50 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:48619 helo=ozlabs.org)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+	id 1hOvjH-000172-Dy; Thu, 09 May 2019 22:57:48 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+	id 450ZdL10ynz9sD4; Fri, 10 May 2019 12:57:42 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=gibson.dropbear.id.au; s=201602; t=1557457062;
+	bh=C5Mo6UoVGX0PMn65WZ+a+4nOq8cCWHotBN3VvPl5K/w=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=C3vI51j6jOopqc72nffyr1gFvhDJAoVeGHrYSbAT7aTAds8Qw1MW3PxFMwXe76Vwn
+	UXuoRujAQTgUD7Pwaw8venSuJBK6kqQrJtrSzgQXtjhHT9FzwTcxwL+fusXdLxxouW
+	6FMYP1jyIkUHxBK9wLJO2G4u94EfOi4yK+/zfiKo=
+Date: Fri, 10 May 2019 11:39:29 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <20190510013929.GX7073@umbus.fritz.box>
+References: <20190509222631.14271-1-richard.henderson@linaro.org>
+	<20190509222631.14271-17-richard.henderson@linaro.org>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="BtNCO5h84ExDStzY"
+Content-Disposition: inline
+In-Reply-To: <20190509222631.14271-17-richard.henderson@linaro.org>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 203.11.71.1
+Subject: Re: [Qemu-devel] [PATCH v3 16/27] target/ppc: Convert to
+ CPUClass::tlb_fill
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -77,166 +56,183 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We now have an interface for guest visible random numbers.
 
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/i386/helper.h     |  2 ++
- target/i386/cpu.c        |  5 ++--
- target/i386/int_helper.c | 21 +++++++++++++++
- target/i386/translate.c  | 55 +++++++++++++++++++++++++++++-----------
- 4 files changed, 66 insertions(+), 17 deletions(-)
+--BtNCO5h84ExDStzY
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/target/i386/helper.h b/target/i386/helper.h
-index 6fb8fb9b74..8f9e1905c3 100644
---- a/target/i386/helper.h
-+++ b/target/i386/helper.h
-@@ -226,3 +226,5 @@ DEF_HELPER_3(rcrl, tl, env, tl, tl)
- DEF_HELPER_3(rclq, tl, env, tl, tl)
- DEF_HELPER_3(rcrq, tl, env, tl, tl)
- #endif
-+
-+DEF_HELPER_1(rdrand, tl, env)
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 722c5514d4..1386814957 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -730,13 +730,14 @@ static void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
-           CPUID_EXT_MONITOR | CPUID_EXT_SSSE3 | CPUID_EXT_CX16 | \
-           CPUID_EXT_SSE41 | CPUID_EXT_SSE42 | CPUID_EXT_POPCNT | \
-           CPUID_EXT_XSAVE | /* CPUID_EXT_OSXSAVE is dynamic */   \
--          CPUID_EXT_MOVBE | CPUID_EXT_AES | CPUID_EXT_HYPERVISOR)
-+          CPUID_EXT_MOVBE | CPUID_EXT_AES | CPUID_EXT_HYPERVISOR | \
-+          CPUID_EXT_RDRAND)
-           /* missing:
-           CPUID_EXT_DTES64, CPUID_EXT_DSCPL, CPUID_EXT_VMX, CPUID_EXT_SMX,
-           CPUID_EXT_EST, CPUID_EXT_TM2, CPUID_EXT_CID, CPUID_EXT_FMA,
-           CPUID_EXT_XTPR, CPUID_EXT_PDCM, CPUID_EXT_PCID, CPUID_EXT_DCA,
-           CPUID_EXT_X2APIC, CPUID_EXT_TSC_DEADLINE_TIMER, CPUID_EXT_AVX,
--          CPUID_EXT_F16C, CPUID_EXT_RDRAND */
-+          CPUID_EXT_F16C */
- 
- #ifdef TARGET_X86_64
- #define TCG_EXT2_X86_64_FEATURES (CPUID_EXT2_SYSCALL | CPUID_EXT2_LM)
-diff --git a/target/i386/int_helper.c b/target/i386/int_helper.c
-index 4dc5c65991..334469ca8c 100644
---- a/target/i386/int_helper.c
-+++ b/target/i386/int_helper.c
-@@ -22,6 +22,8 @@
- #include "exec/exec-all.h"
- #include "qemu/host-utils.h"
- #include "exec/helper-proto.h"
-+#include "qapi/error.h"
-+#include "qemu/guest-random.h"
- 
- //#define DEBUG_MULDIV
- 
-@@ -470,3 +472,22 @@ void helper_cr4_testbit(CPUX86State *env, uint32_t bit)
-         raise_exception_ra(env, EXCP06_ILLOP, GETPC());
-     }
- }
-+
-+target_ulong HELPER(rdrand)(CPUX86State *env)
-+{
-+    Error *err = NULL;
-+    target_ulong ret;
-+
-+    if (qemu_guest_getrandom(&ret, sizeof(ret), &err) < 0) {
-+        qemu_log_mask(LOG_UNIMP, "rdrand: Crypto failure: %s",
-+                      error_get_pretty(err));
-+        error_free(err);
-+        /* Failure clears CF and all other flags, and returns 0.  */
-+        env->cc_src = 0;
-+        return 0;
-+    }
-+
-+    /* Success sets CF and clears all others.  */
-+    env->cc_src = CC_C;
-+    return ret;
-+}
-diff --git a/target/i386/translate.c b/target/i386/translate.c
-index 77d6b73e42..62fa45d778 100644
---- a/target/i386/translate.c
-+++ b/target/i386/translate.c
-@@ -5332,31 +5332,56 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-     case 0x1c7: /* cmpxchg8b */
-         modrm = x86_ldub_code(env, s);
-         mod = (modrm >> 6) & 3;
--        if ((mod == 3) || ((modrm & 0x38) != 0x8))
--            goto illegal_op;
--#ifdef TARGET_X86_64
--        if (dflag == MO_64) {
--            if (!(s->cpuid_ext_features & CPUID_EXT_CX16))
-+        switch ((modrm >> 3) & 7) {
-+        case 1: /* CMPXCHG8, CMPXCHG16 */
-+            if (mod == 3) {
-                 goto illegal_op;
--            gen_lea_modrm(env, s, modrm);
--            if ((s->prefix & PREFIX_LOCK) && (tb_cflags(s->base.tb) & CF_PARALLEL)) {
--                gen_helper_cmpxchg16b(cpu_env, s->A0);
--            } else {
--                gen_helper_cmpxchg16b_unlocked(cpu_env, s->A0);
-             }
--        } else
-+#ifdef TARGET_X86_64
-+            if (dflag == MO_64) {
-+                if (!(s->cpuid_ext_features & CPUID_EXT_CX16)) {
-+                    goto illegal_op;
-+                }
-+                gen_lea_modrm(env, s, modrm);
-+                if ((s->prefix & PREFIX_LOCK) &&
-+                    (tb_cflags(s->base.tb) & CF_PARALLEL)) {
-+                    gen_helper_cmpxchg16b(cpu_env, s->A0);
-+                } else {
-+                    gen_helper_cmpxchg16b_unlocked(cpu_env, s->A0);
-+                }
-+                set_cc_op(s, CC_OP_EFLAGS);
-+                break;
-+            }
- #endif        
--        {
--            if (!(s->cpuid_features & CPUID_CX8))
-+            if (!(s->cpuid_features & CPUID_CX8)) {
-                 goto illegal_op;
-+            }
-             gen_lea_modrm(env, s, modrm);
--            if ((s->prefix & PREFIX_LOCK) && (tb_cflags(s->base.tb) & CF_PARALLEL)) {
-+            if ((s->prefix & PREFIX_LOCK) &&
-+                (tb_cflags(s->base.tb) & CF_PARALLEL)) {
-                 gen_helper_cmpxchg8b(cpu_env, s->A0);
-             } else {
-                 gen_helper_cmpxchg8b_unlocked(cpu_env, s->A0);
-             }
-+            set_cc_op(s, CC_OP_EFLAGS);
-+            break;
-+
-+        case 7: /* RDSEED */
-+        case 6: /* RDRAND */
-+            if (mod != 3 ||
-+                (s->prefix & (PREFIX_LOCK | PREFIX_REPZ | PREFIX_REPNZ)) ||
-+                !(s->cpuid_ext_features & CPUID_EXT_RDRAND)) {
-+                goto illegal_op;
-+            }
-+            gen_helper_rdrand(s->T0, cpu_env);
-+            rm = (modrm & 7) | REX_B(s);
-+            gen_op_mov_reg_v(s, dflag, rm, s->T0);
-+            set_cc_op(s, CC_OP_EFLAGS);
-+            break;
-+
-+        default:
-+            goto illegal_op;
-         }
--        set_cc_op(s, CC_OP_EFLAGS);
-         break;
- 
-         /**************************/
--- 
-2.17.1
+On Thu, May 09, 2019 at 03:26:20PM -0700, Richard Henderson wrote:
+> Cc: qemu-ppc@nongnu.org
+> Cc: David Gibson <david@gibson.dropbear.id.au>
+> Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
+
+> ---
+>  target/ppc/cpu.h                |  7 +++----
+>  target/ppc/mmu_helper.c         | 22 +++++++++++++---------
+>  target/ppc/translate_init.inc.c |  5 ++---
+>  target/ppc/user_only_helper.c   | 14 ++++++++------
+>  4 files changed, 26 insertions(+), 22 deletions(-)
+>=20
+> diff --git a/target/ppc/cpu.h b/target/ppc/cpu.h
+> index 5e7cf54b2f..d7f23ad5e0 100644
+> --- a/target/ppc/cpu.h
+> +++ b/target/ppc/cpu.h
+> @@ -1311,10 +1311,9 @@ void ppc_translate_init(void);
+>   * is returned if the signal was handled by the virtual CPU.
+>   */
+>  int cpu_ppc_signal_handler(int host_signum, void *pinfo, void *puc);
+> -#if defined(CONFIG_USER_ONLY)
+> -int ppc_cpu_handle_mmu_fault(CPUState *cpu, vaddr address, int size, int=
+ rw,
+> -                             int mmu_idx);
+> -#endif
+> +bool ppc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+> +                      MMUAccessType access_type, int mmu_idx,
+> +                      bool probe, uintptr_t retaddr);
+> =20
+>  #if !defined(CONFIG_USER_ONLY)
+>  void ppc_store_sdr1(CPUPPCState *env, target_ulong value);
+> diff --git a/target/ppc/mmu_helper.c b/target/ppc/mmu_helper.c
+> index 1dbc9acb75..afcca50530 100644
+> --- a/target/ppc/mmu_helper.c
+> +++ b/target/ppc/mmu_helper.c
+> @@ -3057,15 +3057,9 @@ void helper_check_tlb_flush_global(CPUPPCState *en=
+v)
+> =20
+>  /***********************************************************************=
+******/
+> =20
+> -/*
+> - * try to fill the TLB and return an exception if error. If retaddr is
+> - * NULL, it means that the function was called in C code (i.e. not
+> - * from generated code or from helper.c)
+> - *
+> - * XXX: fix it to restore all registers
+> - */
+> -void tlb_fill(CPUState *cs, target_ulong addr, int size,
+> -              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
+> +bool ppc_cpu_tlb_fill(CPUState *cs, vaddr addr, int size,
+> +                      MMUAccessType access_type, int mmu_idx,
+> +                      bool probe, uintptr_t retaddr)
+>  {
+>      PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+>      PowerPCCPUClass *pcc =3D POWERPC_CPU_GET_CLASS(cs);
+> @@ -3078,7 +3072,17 @@ void tlb_fill(CPUState *cs, target_ulong addr, int=
+ size,
+>          ret =3D cpu_ppc_handle_mmu_fault(env, addr, access_type, mmu_idx=
+);
+>      }
+>      if (unlikely(ret !=3D 0)) {
+> +        if (probe) {
+> +            return false;
+> +        }
+>          raise_exception_err_ra(env, cs->exception_index, env->error_code,
+>                                 retaddr);
+>      }
+> +    return true;
+> +}
+> +
+> +void tlb_fill(CPUState *cs, target_ulong addr, int size,
+> +              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
+> +{
+> +    ppc_cpu_tlb_fill(cs, addr, size, access_type, mmu_idx, false, retadd=
+r);
+>  }
+> diff --git a/target/ppc/translate_init.inc.c b/target/ppc/translate_init.=
+inc.c
+> index 0394a9ddad..3f847de36c 100644
+> --- a/target/ppc/translate_init.inc.c
+> +++ b/target/ppc/translate_init.inc.c
+> @@ -10592,9 +10592,8 @@ static void ppc_cpu_class_init(ObjectClass *oc, v=
+oid *data)
+>      cc->gdb_read_register =3D ppc_cpu_gdb_read_register;
+>      cc->gdb_write_register =3D ppc_cpu_gdb_write_register;
+>      cc->do_unaligned_access =3D ppc_cpu_do_unaligned_access;
+> -#ifdef CONFIG_USER_ONLY
+> -    cc->handle_mmu_fault =3D ppc_cpu_handle_mmu_fault;
+> -#else
+> +    cc->tlb_fill =3D ppc_cpu_tlb_fill;
+> +#ifndef CONFIG_USER_ONLY
+>      cc->get_phys_page_debug =3D ppc_cpu_get_phys_page_debug;
+>      cc->vmsd =3D &vmstate_ppc_cpu;
+>  #endif
+> diff --git a/target/ppc/user_only_helper.c b/target/ppc/user_only_helper.c
+> index 2f1477f102..683c03390d 100644
+> --- a/target/ppc/user_only_helper.c
+> +++ b/target/ppc/user_only_helper.c
+> @@ -20,21 +20,24 @@
+> =20
+>  #include "qemu/osdep.h"
+>  #include "cpu.h"
+> +#include "exec/exec-all.h"
+> =20
+> -int ppc_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size, int =
+rw,
+> -                             int mmu_idx)
+> +
+> +bool ppc_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+> +                      MMUAccessType access_type, int mmu_idx,
+> +                      bool probe, uintptr_t retaddr)
+>  {
+>      PowerPCCPU *cpu =3D POWERPC_CPU(cs);
+>      CPUPPCState *env =3D &cpu->env;
+>      int exception, error_code;
+> =20
+> -    if (rw =3D=3D 2) {
+> +    if (access_type =3D=3D MMU_INST_FETCH) {
+>          exception =3D POWERPC_EXCP_ISI;
+>          error_code =3D 0x40000000;
+>      } else {
+>          exception =3D POWERPC_EXCP_DSI;
+>          error_code =3D 0x40000000;
+> -        if (rw) {
+> +        if (access_type =3D=3D MMU_DATA_STORE) {
+>              error_code |=3D 0x02000000;
+>          }
+>          env->spr[SPR_DAR] =3D address;
+> @@ -42,6 +45,5 @@ int ppc_cpu_handle_mmu_fault(CPUState *cs, vaddr addres=
+s, int size, int rw,
+>      }
+>      cs->exception_index =3D exception;
+>      env->error_code =3D error_code;
+> -
+> -    return 1;
+> +    cpu_loop_exit_restore(cs, retaddr);
+>  }
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--BtNCO5h84ExDStzY
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlzU1k8ACgkQbDjKyiDZ
+s5LkZw/9GF4kwBitjfNGlolmWOVAO3LLMVLUGlYtuW6iDsZNh3Mw9FVxAL7ZBQw9
+Tp17ALIXv5G8/KZvBcGyLZaisDZ3v51XozV3SZVREl3+aoZU9jc1DRShj+f8RuBZ
+lcYbQOjaf/X4fHGXTf17/eJ0Dfschy2DMXeYrZ88a2zgOhLCNnfqNw7//joIVfzu
+TinQWm9VNZC7krAFuLT3GDqyhfWJWWSQ3GoaI7of3a9BGDG6K0PeOKEaJ2/WPJPp
+W8lazYylNRtNRl8FNBistYnps6LfJMHSZbjkrhqV+8C4/GUCRoZxUO3jiwscvYzB
+iaGdnbk79af8vLumsOSCCxcpwqGaQOvi+rrGV8xQvlndzOVyO4cCsy39zJDBb2m6
+UiUnWYMGMScao/WeIhKcd7zW4ZQ9b4J3Z1EyNRjM3Ja7l1K/8t3HLKvA5r6nu12x
+eCvdhA+9/3dhD+yeHWE0MVUYPZfoKObLGOeIhBFoG3oMIBQ3wT1OIMcjEekDCzcH
+OJcJPUSrc6q5E+uGjumSATaZquwjyy0LDMaFPNGjdJBwlZrIv50Y0pCxWrEMP6Vb
+GvYycerQBXpl6jtq45BtDu8+yRt6XbPztb0+ysmXNR759lZZJ4fm+s8WBtqZrUEi
+WGrWbUYoQyd5GhQw6Z57frvcXDeLO59+P9l9hVpmt4avCJNN0b8=
+=U5FD
+-----END PGP SIGNATURE-----
+
+--BtNCO5h84ExDStzY--
 
