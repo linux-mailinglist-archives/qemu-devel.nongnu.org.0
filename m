@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68D571A204
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 18:55:17 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46835 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE8B31A1FC
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 18:52:58 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46802 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hP8nk-0006l1-I1
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 12:55:16 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48726)
+	id 1hP8lV-0003GD-US
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 12:52:57 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48723)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hP8jV-0001lq-6V
+	(envelope-from <bounces@canonical.com>) id 1hP8jU-0001lj-W4
 	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:50:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hP8jU-0007Ek-6l
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:50:53 -0400
-Received: from indium.canonical.com ([91.189.90.7]:40048)
+	(envelope-from <bounces@canonical.com>) id 1hP8jU-0007EY-2S
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:50:52 -0400
+Received: from indium.canonical.com ([91.189.90.7]:40052)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hP8jU-0007EI-1c
+	id 1hP8jT-0007EL-Tf
 	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:50:52 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
 	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hP8jS-0003Sc-8J
+	id 1hP8jS-0003Tc-Nt
 	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 16:50:50 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id 2751D2E80CB
+	by loganberry.canonical.com (Postfix) with ESMTP id ADA1B2E80CB
 	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 16:50:50 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 10 May 2019 16:40:38 -0000
+Date: Fri, 10 May 2019 16:40:51 -0000
 From: Erik Kline <1814352@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -45,13 +45,13 @@ X-Launchpad-Bug-Commenters: ekline pmaydell
 X-Launchpad-Bug-Reporter: Erik Kline (ekline)
 X-Launchpad-Bug-Modifier: Erik Kline (ekline)
 References: <154907151753.31178.12938166708527410326.malonedeb@gac.canonical.com>
-Message-Id: <155750643835.15426.2910102569530150227.malone@gac.canonical.com>
+Message-Id: <155750645168.26633.1285763542066636816.malone@soybean.canonical.com>
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="18962";
 	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 32e7fb18647a1393f3a1e355d4780b5ac15eaf80
+X-Launchpad-Hash: 4dc514e4d1cd65ae1fc705e75ab1e6aa9cedddff
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 Subject: [Qemu-devel] [Bug 1814352] Re: SIOCGIFNAME takes a struct ifreq not
@@ -70,8 +70,10 @@ Reply-To: Bug 1814352 <1814352@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-https://git.qemu.org/?p=3Dqemu.git;a=3Dcommit;h=3D43330b7169ae76222472a4b20=
-c7f4db9d8880527
+Thank you, all.
+
+** Changed in: qemu
+       Status: Confirmed =3D> Fix Committed
 
 -- =
 
