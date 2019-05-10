@@ -2,56 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B9BA198E0
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 09:18:56 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38178 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F2B74198F7
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 09:24:30 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38260 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOznz-00077x-Id
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 03:18:55 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49052)
+	id 1hOztO-0003w0-5G
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 03:24:30 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49119)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hOzlQ-0005l2-I1
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 03:16:17 -0400
+	(envelope-from <laurent@vivier.eu>) id 1hOzlU-0005oB-0C
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 03:16:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hOzlP-0001iU-KV
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 03:16:16 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:47427)
+	(envelope-from <laurent@vivier.eu>) id 1hOzlT-0001lA-11
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 03:16:19 -0400
+Received: from mout.kundenserver.de ([217.72.192.73]:45747)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hOzlP-0001hs-Bk
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 03:16:15 -0400
+	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hOzlS-0001kV-OF
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 03:16:18 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
 	mrelayeu.kundenserver.de (mreue109 [212.227.15.183]) with ESMTPSA
 	(Nemesis)
-	id 1MekvT-1goYTp3cGb-00aj9S; Fri, 10 May 2019 09:16:05 +0200
+	id 1N7iKq-1gdL8x21jO-014nGL; Fri, 10 May 2019 09:16:05 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Fri, 10 May 2019 09:15:51 +0200
-Message-Id: <20190510071557.30126-2-laurent@vivier.eu>
+Date: Fri, 10 May 2019 09:15:52 +0200
+Message-Id: <20190510071557.30126-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190510071557.30126-1-laurent@vivier.eu>
 References: <20190510071557.30126-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:hErQGaTBbND5t7nJ/LWEJl/IglfzKsDSI624jFpB1FY/W+RCTan
-	IBnBPvj4e77HNKYlOc+KT70s2rgqEJxT0X+sU0N5aZnT/RoKuzNoau3J9K7JxAEzPCmOk2O
-	5T9kUDPRklS8hjscapJUyujltG3Z8CGaxbr9fuT8Er+q/5FRs6ESBead6H5N/R7cYk0Ua9+
-	5jv6fmgDI4Y0CHzPaYmaA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:tC5HB4Broy0=:/ykASt97M8pVIoX3m12re9
-	uKgv4XCcLxZXevzzG27NgAC4K/tgzwX7tvGWKVmABjPgCV7245fWwui6lUG7/rcURzm/gPhlY
-	AIdc++H+t0r54HbYDw181WvaIn2FDsm92F5QDAPVaK4IN5c9kP58hnBQmUBLEUqAqnj1Uwzvj
-	86xYFkJMMCUdL8KCc/J65pzcqShOdRIOQ9MKK8meh1uXOE0L4gAk6ZlJaWQ6xX6x+Hdlmfzst
-	lEePawuMmLUbAINAzNUrnjK0UuQDj0p2B1dXSXf2jk2Bga/JpaEcJsnsRCL/T+kYZ0TP9oQP8
-	le+IfZkQFcvjQF/VUjQ3cmn6nl8oJvNVwyqi+cwXXZm643MvGwY0fl1qMaXdzuwfbDa87hGQ9
-	B+1yptwluxh64id3vBh5XFIR7pcihVMlUGk9pquuYQOkPIDlZH9e7QnU62x1Ly7hbFcNKodl2
-	o3J6Be1fvsSaAnD6d+qjwLMBEMQecS+ROZlBnw1+tqyVKPXA06VbKy0c39rlCtY46cCT0+4pt
-	y8v02oFG8ljRrt/qmqD98nQLoJMBl4EWns73aJGLKGDayJ3KZLsARln5x/2khJjWbhlkX/Yjo
-	aQvNhiIESioJX1+Zx88oeDRRj4ZY+dZ+5N3kW2j3y2K4RxYGkLWG1eE9kfL3d1wwsEdB2/8z+
-	ud6i0KiduzpfotLndQ6XDDw3HZ20v1kTkjyKYX70NP0jm6EpeGPG1DFXxii/xLvGCDT5lXX1q
-	3kr4IrI5LvV1FriztedSZ2xSgL69aULF7nKFgw==
+X-Provags-ID: V03:K1:owK2vc3S+Zw1Nlmut8ymxmTtbgoD+kYzp7L9DFd/pAjXX+mxpyA
+	pujHFa5TnhOOpW4ML+bDkADDLoF67o3xyGhz6oAabkjv5aUb7vpNkURYGtLAa84pNJQ1H7K
+	+2bePamZRCfmTT/9ogxTsXwscjsdj6d8nFxu4N/REzfBHsapeMZGTu61qrfoSoLLWpc3P7L
+	+A+TJLyoPrauuBAlRwMCw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:xaT1F1bhi4A=:mf5Ib+j+dNJwtuzChqNqVP
+	whV1x85qqLQE3ZJmS/DUTbiGSKVMHIEsB899VmcdGf5cyMrc1qRQFmkI0bvo53vla+rPrOVFO
+	N8AgOpi87NP4bR86r5cBzehGQj9ALDEhfMO+j1nG5vUiWH3DbkbbLmbEbPtj5qV5kHP0Zd0Uy
+	VUiTXg2yEg/TabXgFV3jhcZCe6/gc2dWY1zfnPmaOOfQMVaY9dDLu7XpJCqkj8x6bJLrrjAmD
+	Ct5j713YZ9tbX8rDA+HhJTzfR0/URyCvbJcjTH4XRiYPrugQPgVZVqUNz6xkwQpnYDaZceplD
+	q6IK1JY92Trz86bhr6J/4ImWq1WBY30Ud0nPig53z75PpABVg+/qa7n0vZAFQLFM+c4sqHKdz
+	okyaIVP/oNlZ6fK4XoKE+0PH2/LyP1PC4ISNwVwaCFc05hfAptsbGV0YtU1Z/3Obs7Mkstr0T
+	jLTBI6cWcWYtQfIUQcEf3hh6cezljI95Sf5WqPFCMZftF+bMV8XKfMTkO75mTLUpA7x3bpey/
+	7wb6/jlPATA3MCdh55Szuw6UH94ogOdwOIYtex4ycsj5TjMAndqd4RL6AJL45RACzvezbIuJM
+	xfotMTZrjP+/xpcR9TSbD/3vLwovhigarKr+1uFuG9xmwMqnMPm9P+Sz0XYiKZWxO53PIbkP6
+	82S0bzCqGuxQzhe5CihpkSUciJ1+toWjSSjFocO+RJxtTTJ8jNBf54jiZlCqmBkzgrg0ay6dn
+	zqqY3ADTm4OOfm0OjFW6u+F767qD9KK/CvHmffu7C0KzHi1ME86KyA5QFuI=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.10
-Subject: [Qemu-devel] [PULL 1/7] linux-user: Add missing IPV6 sockopts
+X-Received-From: 217.72.192.73
+Subject: [Qemu-devel] [PULL 2/7] linux-user/elfload: Fix GCC 9 build warnings
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -63,88 +64,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Helge Deller <deller@gmx.de>, Riku Voipio <riku.voipio@iki.fi>,
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+	Riku Voipio <riku.voipio@iki.fi>,
+	Alistair Francis <alistair.francis@wdc.com>,
 	Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Helge Deller <deller@gmx.de>
+From: Alistair Francis <Alistair.Francis@wdc.com>
 
-When running ssh over IPv6 with linux-user I faced this warning:
- Unsupported setsockopt level=41 optname=67
- setsockopt IPV6_TCLASS 32: Protocol not available:
+Fix this warning when building with GCC9 on Fedora 30:
+In function ‘strncpy’,
+    inlined from ‘fill_psinfo’ at /home/alistair/qemu/linux-user/elfload.c:3208:12,
+    inlined from ‘fill_note_info’ at /home/alistair/qemu/linux-user/elfload.c:3390:5,
+    inlined from ‘elf_core_dump’ at /home/alistair/qemu/linux-user/elfload.c:3539:9:
+/usr/include/bits/string_fortified.h:106:10: error: ‘__builtin_strncpy’ specified bound 16 equals destination size [-Werror=stringop-truncation]
+  106 |   return __builtin___strncpy_chk (__dest, __src, __len, __bos (__dest));
+      |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-This patch adds code to the linux-user emulatation for setting and
-retrieving of a few missing IPV6 options, including IPV6_TCLASS.
-
-Signed-off-by: Helge Deller <deller@gmx.de>
+Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
+Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+Message-Id: <c4d2b1de9efadcf1c900b91361af9302823a72a9.1556666645.git.alistair.francis@wdc.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/syscall.c | 44 ++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 44 insertions(+)
+ linux-user/elfload.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 96cd4bf86dd3..44b593b81161 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -1864,6 +1864,28 @@ static abi_long do_setsockopt(int sockfd, int level, int optname,
-         case IPV6_RECVHOPLIMIT:
-         case IPV6_2292HOPLIMIT:
-         case IPV6_CHECKSUM:
-+        case IPV6_ADDRFORM:
-+        case IPV6_2292PKTINFO:
-+        case IPV6_RECVTCLASS:
-+        case IPV6_RECVRTHDR:
-+        case IPV6_2292RTHDR:
-+        case IPV6_RECVHOPOPTS:
-+        case IPV6_2292HOPOPTS:
-+        case IPV6_RECVDSTOPTS:
-+        case IPV6_2292DSTOPTS:
-+        case IPV6_TCLASS:
-+#ifdef IPV6_RECVPATHMTU
-+        case IPV6_RECVPATHMTU:
-+#endif
-+#ifdef IPV6_TRANSPARENT
-+        case IPV6_TRANSPARENT:
-+#endif
-+#ifdef IPV6_FREEBIND
-+        case IPV6_FREEBIND:
-+#endif
-+#ifdef IPV6_RECVORIGDSTADDR
-+        case IPV6_RECVORIGDSTADDR:
-+#endif
-             val = 0;
-             if (optlen < sizeof(uint32_t)) {
-                 return -TARGET_EINVAL;
-@@ -2358,6 +2380,28 @@ static abi_long do_getsockopt(int sockfd, int level, int optname,
-         case IPV6_RECVHOPLIMIT:
-         case IPV6_2292HOPLIMIT:
-         case IPV6_CHECKSUM:
-+        case IPV6_ADDRFORM:
-+        case IPV6_2292PKTINFO:
-+        case IPV6_RECVTCLASS:
-+        case IPV6_RECVRTHDR:
-+        case IPV6_2292RTHDR:
-+        case IPV6_RECVHOPOPTS:
-+        case IPV6_2292HOPOPTS:
-+        case IPV6_RECVDSTOPTS:
-+        case IPV6_2292DSTOPTS:
-+        case IPV6_TCLASS:
-+#ifdef IPV6_RECVPATHMTU
-+        case IPV6_RECVPATHMTU:
-+#endif
-+#ifdef IPV6_TRANSPARENT
-+        case IPV6_TRANSPARENT:
-+#endif
-+#ifdef IPV6_FREEBIND
-+        case IPV6_FREEBIND:
-+#endif
-+#ifdef IPV6_RECVORIGDSTADDR
-+        case IPV6_RECVORIGDSTADDR:
-+#endif
-             if (get_user_u32(len, optlen))
-                 return -TARGET_EFAULT;
-             if (len < 0)
+diff --git a/linux-user/elfload.c b/linux-user/elfload.c
+index c1a26021f8d7..d08fe2346683 100644
+--- a/linux-user/elfload.c
++++ b/linux-user/elfload.c
+@@ -2872,7 +2872,7 @@ struct target_elf_prpsinfo {
+     target_gid_t pr_gid;
+     target_pid_t pr_pid, pr_ppid, pr_pgrp, pr_sid;
+     /* Lots missing */
+-    char    pr_fname[16];           /* filename of executable */
++    char    pr_fname[16] QEMU_NONSTRING; /* filename of executable */
+     char    pr_psargs[ELF_PRARGSZ]; /* initial part of arg list */
+ };
+ 
 -- 
 2.20.1
 
