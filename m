@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FAE51A338
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 20:59:44 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48558 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BF1E31A330
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 20:57:09 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48532 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hPAkB-0003Yp-OY
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 14:59:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48214)
+	id 1hPAhg-0000d2-14
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 14:57:08 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48292)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hPAfT-0007u0-JJ
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 14:55:02 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hPAfU-0007uh-Te
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 14:55:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hPAfM-0005i4-I6
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 14:54:51 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:39584)
+	(envelope-from <richard.henderson@linaro.org>) id 1hPAfN-0005lf-SU
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 14:54:52 -0400
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:34041)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hPAfM-0005eR-6N
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 14:54:44 -0400
-Received: by mail-pg1-x541.google.com with SMTP id w22so3431263pgi.6
-	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 11:54:44 -0700 (PDT)
+	id 1hPAfN-0005jA-I3
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 14:54:45 -0400
+Received: by mail-pl1-x634.google.com with SMTP id w7so3253047plz.1
+	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 11:54:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=kIP0+bD2TyEk2xdUzlyahVOJ4L+pRPnpI72gFvuwbRA=;
-	b=mw+PYPGiEtM5fnbmPVxbWryQ6otCh/D7zbvkm3SMJHW0Ve08Db9c39Tlm2+9a4XdJB
-	U18iVDkJZYHvol1aWrtyTuKPhrpt8wM4PAVtdL86pTToPJ7jVfVjChbxGQam66QvmGam
-	23tMWAvuc4Dk/XX3fnV/PUiFqzACbTeOOOnrU2D0ckMYr3HTA1v6P4vmCkxVyFOG0z+6
-	VJ61T6lNo/rbFAuNAPnEJd7Kb984af+DRIptgFNPl1icT0+mzLlDEwulxA1XvikS2hFT
-	8tQfOiZ20NYT46Tw7baAqWndcnaw3Y9sfxLtdwEdQ7xyTlM45Wm/vfpBnnuuqXvxDvNH
-	Hkmg==
+	bh=7sj9GIEuhTArqwILM67FCe/uDj2RVB+d9OsVw0TMgJw=;
+	b=ceN6wPQ5RHOwrXdQvckRBkr28MdbNAPX5fRmDKtjmkVnKI4D1Xj9+NPsxIag/FF86K
+	/jaH9c6aILlykXxI8tTH5UuVBKewsWQHSPsEjy9ofvO/pID1QQ7Ak9vJv1rtY+BgcvmF
+	j4Rck6ZgW8UHE0pvJqEYn6wOVx3oSVetiKcgvGgls3I8SusVH4JhbAcVLyY6E5W3tPK5
+	YrtcowkbXub28/UBunMmyymEmIDd6DwoZcySfUfGQbiXphxiDK61GHWLKa1bgFDcz/A7
+	/ZNFHijmQux30qTxdoyFAuyVGW8PxYMZpPuELyVWDnNxO7oQepxXrDG48IMBsDEs5zEs
+	AenQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=kIP0+bD2TyEk2xdUzlyahVOJ4L+pRPnpI72gFvuwbRA=;
-	b=hkHFQqfXMcc7UvYiitMbbC59iZVFLXHZLJ1oUBynXBoUq3bz9wR5Y3H3301mhivp6H
-	FBDIlccV01UM0ZecQFUvTDudeQz5BbcnT4twpVz25LsorXQF2P1ifdrkt9TZujiwCh0J
-	uezKZHwKmwOmNYeqgm6nlZeam1xHWwGYF8MgByYfQXobFFVjxGN+lWPt/RFYG5DfN9RJ
-	mTsHa82zTKzYiiS1jfY/hDSoKRpaSvZwZI+dztm+a+CPgb1TMMoULlEdW+UGYEnS2ht9
-	+2aGL+Nomzj1qgHV+cJemqgEIcGr8MnGZhe6I2rEycpv2LdOwCedTOTQssnou4oX6IB/
-	QUjw==
-X-Gm-Message-State: APjAAAXtUd5/vScEV0hkEDgyCe6Pxzlt0/qBTZaIWKPesUXZJN2SGTpP
-	MUj413x1kG+i5XStHLqiC3zMWIrRalw=
-X-Google-Smtp-Source: APXvYqz2VnlePNPKY3HW3iFjsZVX9uTkaq0VrECR9ACQYmlbl1sKA3nmIk7a7DBvMzLoV+ZpB3H/XQ==
-X-Received: by 2002:a63:5c5b:: with SMTP id n27mr16053073pgm.52.1557514482716; 
-	Fri, 10 May 2019 11:54:42 -0700 (PDT)
+	bh=7sj9GIEuhTArqwILM67FCe/uDj2RVB+d9OsVw0TMgJw=;
+	b=bM86HeLYkyOngKeYAEX4rKdVor1QX+OdMnHh2I/IJuvspIPN6Z1JCbyU92q/CyB2NY
+	WmpsmMCWBchAQt5n3cdBb/LKE9L2xi7HOgN3g971sZJNxozfO+Z8Vy2jK6bpJMEzVl6v
+	mQ95SYNsjvlsHkq0Z70f5TVpERdwdV76QFbAkbFBlBx53QX+WZgPx+pbxxxw87QfEwTF
+	ouFChMVSq81E/g/xVujT2HRVqxIB3KLFjdwONNLFgOdkWFcgYWM99OwSI4GmlgZLzOMX
+	D0fv5RlIXXFoSIEYm6U5sxJLCTnAum+eRz8gSOa2wrf0skCY1wXAK+zGUqo07AMzhYsc
+	t2Yg==
+X-Gm-Message-State: APjAAAVlUJyj2kQjrLsdfAsvlvh6C/SHQeYGgR1GPHSwuLKPT0b3Skgo
+	YYsC1/7e7bgreHXv5OazGLcBxLX4vVQ=
+X-Google-Smtp-Source: APXvYqzWocZhfZcY59qCoPuNRlnCz6+wB49zdNIAXRstzSBuh1jKODd11D4Hc4kJje/qDjSfTXiiSw==
+X-Received: by 2002:a17:902:e583:: with SMTP id
+	cl3mr15237805plb.35.1557514483948; 
+	Fri, 10 May 2019 11:54:43 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	q20sm12733146pfi.166.2019.05.10.11.54.41
+	q20sm12733146pfi.166.2019.05.10.11.54.42
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 10 May 2019 11:54:41 -0700 (PDT)
+	Fri, 10 May 2019 11:54:43 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri, 10 May 2019 11:54:32 -0700
-Message-Id: <20190510185438.29533-2-richard.henderson@linaro.org>
+Date: Fri, 10 May 2019 11:54:33 -0700
+Message-Id: <20190510185438.29533-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190510185438.29533-1-richard.henderson@linaro.org>
 References: <20190510185438.29533-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::541
-Subject: [Qemu-devel] [PULL v2 03/27] target/arm: Convert to
+X-Received-From: 2607:f8b0:4864:20::634
+Subject: [Qemu-devel] [PULL v2 06/27] target/i386: Convert to
  CPUClass::tlb_fill
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
@@ -76,265 +77,175 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-arm@nongnu.org
+Cc: peter.maydell@linaro.org, Eduardo Habkost <ehabkost@redhat.com>,
+	Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc: qemu-arm@nongnu.org
+We do not support probing, but we do not need it yet either.
+
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/internals.h | 10 +++--
- target/arm/cpu.c       | 22 +---------
- target/arm/helper.c    | 98 ++++++++++++++++++++++++++----------------
- target/arm/op_helper.c | 29 ++-----------
- 4 files changed, 73 insertions(+), 86 deletions(-)
+ target/i386/cpu.h         |  5 ++--
+ target/i386/cpu.c         |  5 ++--
+ target/i386/excp_helper.c | 61 +++++++++++++++++++++++++--------------
+ target/i386/mem_helper.c  | 21 --------------
+ 4 files changed, 44 insertions(+), 48 deletions(-)
 
-diff --git a/target/arm/internals.h b/target/arm/internals.h
-index 587a1ddf58..5a02f458f3 100644
---- a/target/arm/internals.h
-+++ b/target/arm/internals.h
-@@ -761,10 +761,12 @@ static inline bool arm_extabort_type(MemTxResult result)
-     return result != MEMTX_DECODE_ERROR;
- }
+diff --git a/target/i386/cpu.h b/target/i386/cpu.h
+index 0128910661..fce6660bac 100644
+--- a/target/i386/cpu.h
++++ b/target/i386/cpu.h
+@@ -1656,8 +1656,9 @@ void host_cpuid(uint32_t function, uint32_t count,
+ void host_vendor_fms(char *vendor, int *family, int *model, int *stepping);
  
--/* Do a page table walk and add page to TLB if possible */
--bool arm_tlb_fill(CPUState *cpu, vaddr address,
--                  MMUAccessType access_type, int mmu_idx,
--                  ARMMMUFaultInfo *fi);
-+bool arm_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+ /* helper.c */
+-int x86_cpu_handle_mmu_fault(CPUState *cpu, vaddr addr, int size,
+-                             int is_write, int mmu_idx);
++bool x86_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
 +                      MMUAccessType access_type, int mmu_idx,
 +                      bool probe, uintptr_t retaddr);
-+
-+void arm_deliver_fault(ARMCPU *cpu, vaddr addr, MMUAccessType access_type,
-+                       int mmu_idx, ARMMMUFaultInfo *fi) QEMU_NORETURN;
+ void x86_cpu_set_a20(X86CPU *cpu, int a20_state);
  
- /* Return true if the stage 1 translation regime is using LPAE format page
-  * tables */
-diff --git a/target/arm/cpu.c b/target/arm/cpu.c
-index a181fa8dc1..8eee1d8c59 100644
---- a/target/arm/cpu.c
-+++ b/target/arm/cpu.c
-@@ -2133,23 +2133,6 @@ static Property arm_cpu_properties[] = {
-     DEFINE_PROP_END_OF_LIST()
- };
- 
+ #ifndef CONFIG_USER_ONLY
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 722c5514d4..2df56fa977 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -5915,9 +5915,7 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
+     cc->gdb_write_register = x86_cpu_gdb_write_register;
+     cc->get_arch_id = x86_cpu_get_arch_id;
+     cc->get_paging_enabled = x86_cpu_get_paging_enabled;
 -#ifdef CONFIG_USER_ONLY
--static int arm_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size,
--                                    int rw, int mmu_idx)
--{
--    ARMCPU *cpu = ARM_CPU(cs);
--    CPUARMState *env = &cpu->env;
--
--    env->exception.vaddress = address;
--    if (rw == 2) {
--        cs->exception_index = EXCP_PREFETCH_ABORT;
--    } else {
--        cs->exception_index = EXCP_DATA_ABORT;
--    }
--    return 1;
--}
--#endif
--
- static gchar *arm_gdb_arch_name(CPUState *cs)
- {
-     ARMCPU *cpu = ARM_CPU(cs);
-@@ -2182,9 +2165,7 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
-     cc->synchronize_from_tb = arm_cpu_synchronize_from_tb;
-     cc->gdb_read_register = arm_cpu_gdb_read_register;
-     cc->gdb_write_register = arm_cpu_gdb_write_register;
--#ifdef CONFIG_USER_ONLY
--    cc->handle_mmu_fault = arm_cpu_handle_mmu_fault;
+-    cc->handle_mmu_fault = x86_cpu_handle_mmu_fault;
 -#else
 +#ifndef CONFIG_USER_ONLY
-     cc->do_interrupt = arm_cpu_do_interrupt;
-     cc->do_unaligned_access = arm_cpu_do_unaligned_access;
-     cc->do_transaction_failed = arm_cpu_do_transaction_failed;
-@@ -2209,6 +2190,7 @@ static void arm_cpu_class_init(ObjectClass *oc, void *data)
-     cc->disas_set_info = arm_disas_set_info;
+     cc->asidx_from_attrs = x86_asidx_from_attrs;
+     cc->get_memory_mapping = x86_cpu_get_memory_mapping;
+     cc->get_phys_page_debug = x86_cpu_get_phys_page_debug;
+@@ -5942,6 +5940,7 @@ static void x86_cpu_common_class_init(ObjectClass *oc, void *data)
+     cc->cpu_exec_exit = x86_cpu_exec_exit;
  #ifdef CONFIG_TCG
-     cc->tcg_initialize = arm_translate_init;
-+    cc->tlb_fill = arm_cpu_tlb_fill;
+     cc->tcg_initialize = tcg_x86_init;
++    cc->tlb_fill = x86_cpu_tlb_fill;
  #endif
+     cc->disas_set_info = x86_disas_set_info;
+ 
+diff --git a/target/i386/excp_helper.c b/target/i386/excp_helper.c
+index 49231f6b69..68bf8e3f7c 100644
+--- a/target/i386/excp_helper.c
++++ b/target/i386/excp_helper.c
+@@ -137,26 +137,7 @@ void raise_exception_ra(CPUX86State *env, int exception_index, uintptr_t retaddr
+     raise_interrupt2(env, exception_index, 0, 0, 0, retaddr);
  }
  
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 1e6eb0d0f3..f1a2b94ddb 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -12596,43 +12596,6 @@ static bool get_phys_addr(CPUARMState *env, target_ulong address,
-     }
- }
- 
--/* Walk the page table and (if the mapping exists) add the page
-- * to the TLB. Return false on success, or true on failure. Populate
-- * fsr with ARM DFSR/IFSR fault register format value on failure.
-- */
--bool arm_tlb_fill(CPUState *cs, vaddr address,
--                  MMUAccessType access_type, int mmu_idx,
--                  ARMMMUFaultInfo *fi)
+-#if defined(CONFIG_USER_ONLY)
+-int x86_cpu_handle_mmu_fault(CPUState *cs, vaddr addr, int size,
+-                             int is_write, int mmu_idx)
 -{
--    ARMCPU *cpu = ARM_CPU(cs);
--    CPUARMState *env = &cpu->env;
--    hwaddr phys_addr;
--    target_ulong page_size;
--    int prot;
--    int ret;
--    MemTxAttrs attrs = {};
+-    X86CPU *cpu = X86_CPU(cs);
+-    CPUX86State *env = &cpu->env;
 -
--    ret = get_phys_addr(env, address, access_type,
--                        core_to_arm_mmu_idx(env, mmu_idx), &phys_addr,
--                        &attrs, &prot, &page_size, fi, NULL);
--    if (!ret) {
--        /*
--         * Map a single [sub]page. Regions smaller than our declared
--         * target page size are handled specially, so for those we
--         * pass in the exact addresses.
--         */
--        if (page_size >= TARGET_PAGE_SIZE) {
--            phys_addr &= TARGET_PAGE_MASK;
--            address &= TARGET_PAGE_MASK;
--        }
--        tlb_set_page_with_attrs(cs, address, phys_addr, attrs,
--                                prot, mmu_idx, page_size);
--        return 0;
--    }
--
--    return ret;
+-    /* user mode only emulation */
+-    is_write &= 1;
+-    env->cr[2] = addr;
+-    env->error_code = (is_write << PG_ERROR_W_BIT);
+-    env->error_code |= PG_ERROR_U_MASK;
+-    cs->exception_index = EXCP0E_PAGE;
+-    env->exception_is_int = 0;
+-    env->exception_next_eip = -1;
+-    return 1;
 -}
 -
- hwaddr arm_cpu_get_phys_page_attrs_debug(CPUState *cs, vaddr addr,
-                                          MemTxAttrs *attrs)
+-#else
+-
++#if !defined(CONFIG_USER_ONLY)
+ static hwaddr get_hphys(CPUState *cs, hwaddr gphys, MMUAccessType access_type,
+                         int *prot)
  {
-@@ -13111,6 +13074,67 @@ uint32_t HELPER(v7m_tt)(CPUARMState *env, uint32_t addr, uint32_t op)
- 
+@@ -365,8 +346,8 @@ static hwaddr get_hphys(CPUState *cs, hwaddr gphys, MMUAccessType access_type,
+  * 0  = nothing more to do
+  * 1  = generate PF fault
+  */
+-int x86_cpu_handle_mmu_fault(CPUState *cs, vaddr addr, int size,
+-                             int is_write1, int mmu_idx)
++static int handle_mmu_fault(CPUState *cs, vaddr addr, int size,
++                            int is_write1, int mmu_idx)
+ {
+     X86CPU *cpu = X86_CPU(cs);
+     CPUX86State *env = &cpu->env;
+@@ -691,3 +672,39 @@ do_check_protect_pse36:
+     return 1;
+ }
  #endif
- 
-+bool arm_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
++
++bool x86_cpu_tlb_fill(CPUState *cs, vaddr addr, int size,
 +                      MMUAccessType access_type, int mmu_idx,
 +                      bool probe, uintptr_t retaddr)
 +{
-+    ARMCPU *cpu = ARM_CPU(cs);
++    X86CPU *cpu = X86_CPU(cs);
++    CPUX86State *env = &cpu->env;
 +
 +#ifdef CONFIG_USER_ONLY
-+    cpu->env.exception.vaddress = address;
-+    if (access_type == MMU_INST_FETCH) {
-+        cs->exception_index = EXCP_PREFETCH_ABORT;
-+    } else {
-+        cs->exception_index = EXCP_DATA_ABORT;
-+    }
++    /* user mode only emulation */
++    env->cr[2] = addr;
++    env->error_code = (access_type == MMU_DATA_STORE) << PG_ERROR_W_BIT;
++    env->error_code |= PG_ERROR_U_MASK;
++    cs->exception_index = EXCP0E_PAGE;
++    env->exception_is_int = 0;
++    env->exception_next_eip = -1;
 +    cpu_loop_exit_restore(cs, retaddr);
 +#else
-+    hwaddr phys_addr;
-+    target_ulong page_size;
-+    int prot, ret;
-+    MemTxAttrs attrs = {};
-+    ARMMMUFaultInfo fi = {};
-+
-+    /*
-+     * Walk the page table and (if the mapping exists) add the page
-+     * to the TLB.  On success, return true.  Otherwise, if probing,
-+     * return false.  Otherwise populate fsr with ARM DFSR/IFSR fault
-+     * register format, and signal the fault.
-+     */
-+    ret = get_phys_addr(&cpu->env, address, access_type,
-+                        core_to_arm_mmu_idx(&cpu->env, mmu_idx),
-+                        &phys_addr, &attrs, &prot, &page_size, &fi, NULL);
-+    if (likely(!ret)) {
-+        /*
-+         * Map a single [sub]page. Regions smaller than our declared
-+         * target page size are handled specially, so for those we
-+         * pass in the exact addresses.
-+         */
-+        if (page_size >= TARGET_PAGE_SIZE) {
-+            phys_addr &= TARGET_PAGE_MASK;
-+            address &= TARGET_PAGE_MASK;
-+        }
-+        tlb_set_page_with_attrs(cs, address, phys_addr, attrs,
-+                                prot, mmu_idx, page_size);
-+        return true;
-+    } else if (probe) {
-+        return false;
-+    } else {
-+        /* now we have a real cpu fault */
-+        cpu_restore_state(cs, retaddr, true);
-+        arm_deliver_fault(cpu, address, access_type, mmu_idx, &fi);
++    env->retaddr = retaddr;
++    if (handle_mmu_fault(cs, addr, size, access_type, mmu_idx)) {
++        /* FIXME: On error in get_hphys we have already jumped out.  */
++        g_assert(!probe);
++        raise_exception_err_ra(env, cs->exception_index,
++                               env->error_code, retaddr);
 +    }
++    return true;
 +#endif
 +}
 +
-+#ifndef CONFIG_USER_ONLY
++#if !defined(CONFIG_USER_ONLY)
 +void tlb_fill(CPUState *cs, target_ulong addr, int size,
 +              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
 +{
-+    arm_cpu_tlb_fill(cs, addr, size, access_type, mmu_idx, false, retaddr);
++    x86_cpu_tlb_fill(cs, addr, size, access_type, mmu_idx, false, retaddr);
 +}
 +#endif
-+
- void HELPER(dc_zva)(CPUARMState *env, uint64_t vaddr_in)
- {
-     /* Implement DC ZVA, which zeroes a fixed-length block of memory.
-diff --git a/target/arm/op_helper.c b/target/arm/op_helper.c
-index 8698b4dc83..8ee15a4bd4 100644
---- a/target/arm/op_helper.c
-+++ b/target/arm/op_helper.c
-@@ -126,8 +126,8 @@ static inline uint32_t merge_syn_data_abort(uint32_t template_syn,
-     return syn;
+diff --git a/target/i386/mem_helper.c b/target/i386/mem_helper.c
+index 6cc53bcb40..1885df29d2 100644
+--- a/target/i386/mem_helper.c
++++ b/target/i386/mem_helper.c
+@@ -191,24 +191,3 @@ void helper_boundl(CPUX86State *env, target_ulong a0, int v)
+         raise_exception_ra(env, EXCP05_BOUND, GETPC());
+     }
  }
- 
--static void deliver_fault(ARMCPU *cpu, vaddr addr, MMUAccessType access_type,
--                          int mmu_idx, ARMMMUFaultInfo *fi)
-+void arm_deliver_fault(ARMCPU *cpu, vaddr addr, MMUAccessType access_type,
-+                       int mmu_idx, ARMMMUFaultInfo *fi)
- {
-     CPUARMState *env = &cpu->env;
-     int target_el;
-@@ -179,27 +179,6 @@ static void deliver_fault(ARMCPU *cpu, vaddr addr, MMUAccessType access_type,
-     raise_exception(env, exc, syn, target_el);
- }
- 
+-
+-#if !defined(CONFIG_USER_ONLY)
 -/* try to fill the TLB and return an exception if error. If retaddr is
 - * NULL, it means that the function was called in C code (i.e. not
 - * from generated code or from helper.c)
 - */
+-/* XXX: fix it to restore all registers */
 -void tlb_fill(CPUState *cs, target_ulong addr, int size,
 -              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
 -{
--    bool ret;
--    ARMMMUFaultInfo fi = {};
+-    X86CPU *cpu = X86_CPU(cs);
+-    CPUX86State *env = &cpu->env;
+-    int ret;
 -
--    ret = arm_tlb_fill(cs, addr, access_type, mmu_idx, &fi);
--    if (unlikely(ret)) {
--        ARMCPU *cpu = ARM_CPU(cs);
--
--        /* now we have a real cpu fault */
--        cpu_restore_state(cs, retaddr, true);
--
--        deliver_fault(cpu, addr, access_type, mmu_idx, &fi);
+-    env->retaddr = retaddr;
+-    ret = x86_cpu_handle_mmu_fault(cs, addr, size, access_type, mmu_idx);
+-    if (ret) {
+-        raise_exception_err_ra(env, cs->exception_index, env->error_code, retaddr);
 -    }
 -}
--
- /* Raise a data fault alignment exception for the specified virtual address */
- void arm_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
-                                  MMUAccessType access_type,
-@@ -212,7 +191,7 @@ void arm_cpu_do_unaligned_access(CPUState *cs, vaddr vaddr,
-     cpu_restore_state(cs, retaddr, true);
- 
-     fi.type = ARMFault_Alignment;
--    deliver_fault(cpu, vaddr, access_type, mmu_idx, &fi);
-+    arm_deliver_fault(cpu, vaddr, access_type, mmu_idx, &fi);
- }
- 
- /* arm_cpu_do_transaction_failed: handle a memory system error response
-@@ -233,7 +212,7 @@ void arm_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr,
- 
-     fi.ea = arm_extabort_type(response);
-     fi.type = ARMFault_SyncExternal;
--    deliver_fault(cpu, addr, access_type, mmu_idx, &fi);
-+    arm_deliver_fault(cpu, addr, access_type, mmu_idx, &fi);
- }
- 
- #endif /* !defined(CONFIG_USER_ONLY) */
+-#endif
 -- 
 2.17.1
 
