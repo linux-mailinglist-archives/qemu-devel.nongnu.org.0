@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 70D4E1A177
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 18:28:32 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46306 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9C4C11A164
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 18:25:09 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46245 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hP8Nr-0007lc-EN
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 12:28:31 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40136)
+	id 1hP8Ka-0003uy-NG
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 12:25:08 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40164)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hP8Ca-0004Oh-EM
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:16:53 -0400
+	(envelope-from <kwolf@redhat.com>) id 1hP8Cb-0004Pv-MC
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:16:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hP8CY-0000DD-10
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:16:51 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39364)
+	(envelope-from <kwolf@redhat.com>) id 1hP8Ca-0000GQ-FM
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:16:53 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54180)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <kwolf@redhat.com>)
-	id 1hP8CU-0008TT-Fm; Fri, 10 May 2019 12:16:46 -0400
+	id 1hP8CV-000067-Nr; Fri, 10 May 2019 12:16:47 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
 	[10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id C429F308FB9D;
-	Fri, 10 May 2019 16:16:45 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 0841C30842A9;
+	Fri, 10 May 2019 16:16:47 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-116-183.ams2.redhat.com
 	[10.36.116.183])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id DC57C17791;
-	Fri, 10 May 2019 16:16:44 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 1BA1218504;
+	Fri, 10 May 2019 16:16:45 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Date: Fri, 10 May 2019 18:16:07 +0200
-Message-Id: <20190510161614.23236-9-kwolf@redhat.com>
+Date: Fri, 10 May 2019 18:16:08 +0200
+Message-Id: <20190510161614.23236-10-kwolf@redhat.com>
 In-Reply-To: <20190510161614.23236-1-kwolf@redhat.com>
 References: <20190510161614.23236-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.43]);
-	Fri, 10 May 2019 16:16:45 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.40]);
+	Fri, 10 May 2019 16:16:47 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 08/15] qcow2: Replace bdrv_write() with
- bdrv_pwrite()
+Subject: [Qemu-devel] [PULL 09/15] vdi: Replace bdrv_{read,
+ write}() with bdrv_{pread, pwrite}()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -63,32 +63,77 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Alberto Garcia <berto@igalia.com>
 
-There's only one bdrv_write() call left in the qcow2 code, and it can
-be trivially replaced with the byte-based bdrv_pwrite().
+There's only a couple of bdrv_read() and bdrv_write() calls left in
+the vdi code, and they can be trivially replaced with the byte-based
+bdrv_pread() and bdrv_pwrite().
 
 Signed-off-by: Alberto Garcia <berto@igalia.com>
 Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/qcow2-refcount.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ block/vdi.c | 15 +++++++++------
+ 1 file changed, 9 insertions(+), 6 deletions(-)
 
-diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
-index fa7ac1f7cb..7481903396 100644
---- a/block/qcow2-refcount.c
-+++ b/block/qcow2-refcount.c
-@@ -2429,8 +2429,8 @@ write_refblocks:
-         on_disk_refblock =3D (void *)((char *) *refcount_table +
-                                     refblock_index * s->cluster_size);
+diff --git a/block/vdi.c b/block/vdi.c
+index e1c42ad732..d7ef6628e7 100644
+--- a/block/vdi.c
++++ b/block/vdi.c
+@@ -171,6 +171,8 @@ typedef struct {
+     uint64_t unused2[7];
+ } QEMU_PACKED VdiHeader;
 =20
--        ret =3D bdrv_write(bs->file, refblock_offset / BDRV_SECTOR_SIZE,
--                         on_disk_refblock, s->cluster_sectors);
-+        ret =3D bdrv_pwrite(bs->file, refblock_offset, on_disk_refblock,
-+                          s->cluster_size);
-         if (ret < 0) {
-             fprintf(stderr, "ERROR writing refblock: %s\n", strerror(-re=
-t));
-             goto fail;
++QEMU_BUILD_BUG_ON(sizeof(VdiHeader) !=3D 512);
++
+ typedef struct {
+     /* The block map entries are little endian (even in memory). */
+     uint32_t *bmap;
+@@ -384,7 +386,7 @@ static int vdi_open(BlockDriverState *bs, QDict *opti=
+ons, int flags,
+=20
+     logout("\n");
+=20
+-    ret =3D bdrv_read(bs->file, 0, (uint8_t *)&header, 1);
++    ret =3D bdrv_pread(bs->file, 0, &header, sizeof(header));
+     if (ret < 0) {
+         goto fail;
+     }
+@@ -484,8 +486,8 @@ static int vdi_open(BlockDriverState *bs, QDict *opti=
+ons, int flags,
+         goto fail;
+     }
+=20
+-    ret =3D bdrv_read(bs->file, s->bmap_sector, (uint8_t *)s->bmap,
+-                    bmap_size);
++    ret =3D bdrv_pread(bs->file, header.offset_bmap, s->bmap,
++                     bmap_size * SECTOR_SIZE);
+     if (ret < 0) {
+         goto fail_free_bmap;
+     }
+@@ -704,7 +706,7 @@ nonallocating_write:
+         assert(VDI_IS_ALLOCATED(bmap_first));
+         *header =3D s->header;
+         vdi_header_to_le(header);
+-        ret =3D bdrv_write(bs->file, 0, block, 1);
++        ret =3D bdrv_pwrite(bs->file, 0, block, sizeof(VdiHeader));
+         g_free(block);
+         block =3D NULL;
+=20
+@@ -722,10 +724,11 @@ nonallocating_write:
+         base =3D ((uint8_t *)&s->bmap[0]) + bmap_first * SECTOR_SIZE;
+         logout("will write %u block map sectors starting from entry %u\n=
+",
+                n_sectors, bmap_first);
+-        ret =3D bdrv_write(bs->file, offset, base, n_sectors);
++        ret =3D bdrv_pwrite(bs->file, offset * SECTOR_SIZE, base,
++                          n_sectors * SECTOR_SIZE);
+     }
+=20
+-    return ret;
++    return ret < 0 ? ret : 0;
+ }
+=20
+ static int coroutine_fn vdi_co_do_create(BlockdevCreateOptions *create_o=
+ptions,
 --=20
 2.20.1
 
