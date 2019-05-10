@@ -2,60 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4FF7B1A1D8
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 18:49:30 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46726 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 97E9D1A1A9
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 18:39:23 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46480 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hP8i9-0000ET-Fo
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 12:49:29 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45196)
+	id 1hP8YM-0008VO-PE
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 12:39:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43486)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hP8Ug-00068f-Te
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:35:37 -0400
+	(envelope-from <hqm03ster@gmail.com>) id 1hP8Or-00010d-K6
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:29:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hP8Uf-0006yI-TX
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:35:34 -0400
-Received: from indium.canonical.com ([91.189.90.7]:57998)
+	(envelope-from <hqm03ster@gmail.com>) id 1hP8Oq-0003iR-4H
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:29:33 -0400
+Received: from mail-qt1-x843.google.com ([2607:f8b0:4864:20::843]:46331)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hP8Uf-0006xu-OF
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:35:33 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
-	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hP8Ue-0007xu-Tl
-	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 16:35:32 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id E000F2E80C0
-	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 16:35:32 +0000 (UTC)
+	(Exim 4.71) (envelope-from <hqm03ster@gmail.com>) id 1hP8Op-0003hQ-U0
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:29:32 -0400
+Received: by mail-qt1-x843.google.com with SMTP id i31so7218775qti.13
+	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 09:29:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=w8JGVpuHGo+uhEjuFvHrCYkHRVhdiYlJuc2gGsqrCIA=;
+	b=f4eiruZuoJLKSAbD7mZD0KnDay4EkbSaQA2/fIltAp0xDNmXVK6YNNNXcma41wIL8k
+	W9B5rMw5IB7A+kqC86yheyJuoTOEwRThBgLRBJuRvpvs12MjFtVKO9WcKoRc5+9I9o/j
+	zadZd5ubAMP0eCPtllBUYnzDKZBWnOcQ0Z2TfnmXmfNjZ+LxAKaHefMX0joEa+BjYVf6
+	6dza8xQ/B/ES8Pmu4a88QNjqcfo7DMnMnxZuMU2Yj2BVsUU7qx/8ZPKViTEwwXr1IB0G
+	UQ2yXa7nnmASO5U+XSCDeIx6yS7KcTg74qtCHQNhllgyiolQEHwl2CrmSTuhHwvbsZY/
+	yp5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=w8JGVpuHGo+uhEjuFvHrCYkHRVhdiYlJuc2gGsqrCIA=;
+	b=YymsJz3wD8w+BfsqWWdzjG3otcIekIxrVCvAzM/7Y1la570n/2fACkKlS5WaLYk3pS
+	oYmzfYr/D0t0R0M2ndqjuEjcoPIisVpx3Vs2iu7bcx0pwVlfbTWJU/zFbR3o410hYwHZ
+	a204PXIdc505icC5LhFz68rkFsl1vgE1pB9y8kqY1dr1Qih8AkURBpVtgF5EqzDeoPrr
+	38+Eh1Z/ULWh+WEjmg7++46KaKqPhKa9hbPusf4dhwrdA9xNp/ji99b62xCGkgSYxIVc
+	G3cOxvY2NY47YbAt+SiLUbK/1kl5Dzk9KuSfMCipvd0iBfg2UA6+oU1OZkmtB6zxBiki
+	WVsA==
+X-Gm-Message-State: APjAAAUDYfuYGFAsWydMU9VI5P0ofI/JVjPp4v44L8Hd0zKKr2fEcWgH
+	axFXdVF9R5P/DCxC8dvi/EieFMOIZASHJayFFsLOcjzj
+X-Google-Smtp-Source: APXvYqz/46wYvi86q3FnjQobiOJ4keKOwdOIUyeyowyW2BtstNboCoSZK+pyT2oynSjk7WZ3pjHpEmXMvUsgw+MqKXs=
+X-Received: by 2002:aed:224d:: with SMTP id o13mr10291759qtc.56.1557505768608; 
+	Fri, 10 May 2019 09:29:28 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 10 May 2019 16:28:09 -0000
-From: Daniel Berrange <1828608@bugs.launchpad.net>
+References: <CABSdmrnNW6f=P64PviPP8CTJ5SVfYS8_6kmAtpw9yPObTEkpxg@mail.gmail.com>
+	<CABSdmrnocrqLKWncgy_Lak33__GRPYfs-RzSA14e=vh4cRn2ag@mail.gmail.com>
+	<20190509064848.wjhchsfov7q6komj@sirius.home.kraxel.org>
+	<CABSdmrmm+wJ=+Ccav=X5Gw_oueQvPRejCWVG2SQeCw=K4BM9EA@mail.gmail.com>
+	<CABSdmrndpONH_fVHbktHbBXvXPKESeRfis06TjrNRRfBpJzXLA@mail.gmail.com>
+	<b6064b77-5ca4-03e1-80ef-027313096cb2@gmail.com>
+	<CABSdmrkW6G23ZGDA7iLucM45vL0HHGsr2F76H0Mf8S0xkhPnsQ@mail.gmail.com>
+	<3e619b5c-8fb3-2655-2d92-37598db098d8@gmail.com>
+	<20190510085947.y62lttdtrg5cxx6b@sirius.home.kraxel.org>
+	<3fb8b79d-9f68-2342-d3ae-3aefa873109b@gmail.com>
+	<20190510103900.botgnbbo2ii4jxgo@sirius.home.kraxel.org>
+	<01de4824-5c19-6b6c-5b75-fa54a883ab4a@gmail.com>
+	<CABSdmrnVzi5ZTF58tnt8T8=gsVe2ZNqtZKCBcbZQ9Lb+CCCkdg@mail.gmail.com>
+In-Reply-To: <CABSdmrnVzi5ZTF58tnt8T8=gsVe2ZNqtZKCBcbZQ9Lb+CCCkdg@mail.gmail.com>
+From: Hou Qiming <hqm03ster@gmail.com>
+Date: Sat, 11 May 2019 00:29:00 +0800
+Message-ID: <CABSdmrmesDkUH0ALpM-8cGtyG5qD6Rn-=6f8=7L5zX-ae8PO7w@mail.gmail.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: anisse berrange
-X-Launchpad-Bug-Reporter: Anisse Astier (anisse)
-X-Launchpad-Bug-Modifier: Daniel Berrange (berrange)
-References: <155750549613.15038.5455007066011551794.malonedeb@wampee.canonical.com>
-Message-Id: <155750568929.21598.15422700614768176532.malone@chaenomeles.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18962";
-	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 9134f6809f3fb98a09eb5c09af8493d4c3e6347f
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1828608] Re: Chardev websocket might not support
- pasting more than a few chars
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::843
+Content-Type: text/plain; charset="UTF-8"
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: [Qemu-devel] [PATCH v2 2/3] hw/display/ramfb: lock guest resolution
+ after it's set
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,36 +84,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1828608 <1828608@bugs.launchpad.net>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If the problem only happens with a websockets channel enabled, it
-possibly a bug in the QIOChannelWebsock impl rather than the chardev
+Only allow one resolution change per guest boot, which prevents a
+crash when the guest writes garbage to the configuration space (e.g.
+when rebooting).
 
--- =
+Signed-off-by: HOU Qiming <hqm03ster@gmail.com>
+---
+ hw/display/ramfb.c | 26 ++++++++++++++++++++++----
+ 1 file changed, 22 insertions(+), 4 deletions(-)
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1828608
+diff --git a/hw/display/ramfb.c b/hw/display/ramfb.c
+index 98703f7..d255ddc 100644
+--- a/hw/display/ramfb.c
++++ b/hw/display/ramfb.c
+@@ -30,6 +30,7 @@ struct RAMFBState {
+     DisplaySurface *ds;
+     uint32_t width, height;
+     struct RAMFBCfg cfg;
++    bool locked;
+ };
 
-Title:
-  Chardev websocket might not support pasting more than a few chars
+ static void qemu_unmap_displaysurface_guestmem(pixman_image_t *image,
+@@ -72,18 +73,25 @@ static DisplaySurface
+*qemu_create_displaysurface_guestmem(
+ static void ramfb_fw_cfg_write(void *dev, off_t offset, size_t len)
+ {
+     RAMFBState *s = dev;
+-    uint32_t fourcc, format;
++    uint32_t fourcc, format, width, height;
+     hwaddr stride, addr;
 
-Status in QEMU:
-  New
+-    s->width  = be32_to_cpu(s->cfg.width);
+-    s->height = be32_to_cpu(s->cfg.height);
++    width     = be32_to_cpu(s->cfg.width);
++    height    = be32_to_cpu(s->cfg.height);
+     stride    = be32_to_cpu(s->cfg.stride);
+     fourcc    = be32_to_cpu(s->cfg.fourcc);
+     addr      = be64_to_cpu(s->cfg.addr);
+     format    = qemu_drm_format_to_pixman(fourcc);
 
-Bug description:
-  When sending more than 4-5 characters on the websocket serial console
-  (with pasting for example), the guest might not receive all of them,
-  or worse interpret the input as Magic SysRq keys.
+     fprintf(stderr, "%s: %dx%d @ 0x%" PRIx64 "\n", __func__,
+-            s->width, s->height, addr);
++            width, height, addr);
++    if (s->locked) {
++        fprintf(stderr, "%s: resolution locked, change rejected\n",
+__func__);
++        return;
++    }
++    s->locked = true;
++    s->width = width;
++    s->height = height;
+     s->ds = qemu_create_displaysurface_guestmem(s->width, s->height,
+                                                 format, stride, addr);
+ }
+@@ -103,6 +111,13 @@ void ramfb_display_update(QemuConsole *con, RAMFBState
+*s)
+     dpy_gfx_update_full(con);
+ }
 
-  This might be due to the io loop not checking the backend readiness
-  before calling the read function.
++static void ramfb_reset(void *opaque)
++{
++    RAMFBState *s = (RAMFBState *)opaque;
++    s->locked = false;
++    memset(&s->cfg, 0, sizeof(s->cfg));
++}
++
+ RAMFBState *ramfb_setup(Error **errp)
+ {
+     FWCfgState *fw_cfg = fw_cfg_find();
+@@ -115,9 +130,12 @@ RAMFBState *ramfb_setup(Error **errp)
 
-  Attached patched fixes the problem on my system. I'm not sure it's the
-  proper approach, this is just to start discussion.
+     s = g_new0(RAMFBState, 1);
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1828608/+subscriptions
-
++    s->locked = false;
++
+     rom_add_vga("vgabios-ramfb.bin");
+     fw_cfg_add_file_callback(fw_cfg, "etc/ramfb",
+                              NULL, ramfb_fw_cfg_write, s,
+                              &s->cfg, sizeof(s->cfg), false);
++    qemu_register_reset(ramfb_reset, s);
+     return s;
+ }
+-- 
+2.17.1
