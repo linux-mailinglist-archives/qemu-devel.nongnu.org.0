@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C43D419BF5
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 12:52:09 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40995 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2228A19BF3
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 12:52:00 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40988 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hP38K-0002vL-Rl
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 06:52:08 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59583)
+	id 1hP38B-0002mW-6q
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 06:51:59 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59534)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hP32J-0007Ge-1e
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 06:45:56 -0400
+	(envelope-from <laurent@vivier.eu>) id 1hP32C-00077u-OH
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 06:45:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hP32I-0003a4-4u
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 06:45:55 -0400
-Received: from mout.kundenserver.de ([212.227.126.187]:41519)
+	(envelope-from <laurent@vivier.eu>) id 1hP32B-0003V7-Ql
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 06:45:48 -0400
+Received: from mout.kundenserver.de ([212.227.126.130]:49353)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hP32H-0003ZS-Sc
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 06:45:54 -0400
+	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hP32B-0003Uc-IK
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 06:45:47 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
 	mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA
 	(Nemesis)
-	id 1MGxYh-1hTjrv2HSt-00E5T6; Fri, 10 May 2019 12:45:44 +0200
+	id 1M4bd0-1hOUXP06vW-001fG9; Fri, 10 May 2019 12:45:45 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Fri, 10 May 2019 12:45:34 +0200
-Message-Id: <20190510104536.17483-6-laurent@vivier.eu>
+Date: Fri, 10 May 2019 12:45:35 +0200
+Message-Id: <20190510104536.17483-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190510104536.17483-1-laurent@vivier.eu>
 References: <20190510104536.17483-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:XTBnFtqzqOl1augywSMETV/XokhJfZPtKFteLyMcMV1wCHIzu1r
-	mtszKZUX+/G84uveq+tSFMPOKMNBCDu8ypqIPzOZqyJ71rvn1Q59lERCS9kmD6w2Zck7fTf
-	TsSupJqbhdLY6tcTJbyBsw+UwEuNjkYThwY/z7oJaXNwx7sVl94XEz2cO7JrFmb6r2DVWVy
-	UurXWy785I478K6kgnQUQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:glrErueLIBo=:iAXBGMbIdHKDVAVN4EYJK6
-	y1hvovHyjlhqRacqF14MMmWlxOBP9z68dPlhIB52fzBdafH6uGIn0q0OXjKI/IJVkbVKE2ifm
-	Z8GIEfWHlyNf/kB51g/jdQgB4vkuRqWSRUtB1tbfcHJk/A4jWnlZAFpKm9CkkQp6sY3+StMGD
-	gjMIZYbP0nZWeHVkLEQzZtdiP0mzHDfzboj86IaYkEwUXXixiGeM2Xy6gZ/mg6lqzfyXBIGKG
-	11hqwCreWGd0Ul342GjpG5cKMUkuHzCc55Z9IA02wnsb5uR5ZnxLK/sO6mDingSSJMqZ2N13c
-	kIL3w8X5TmMAJg6kLpo4MA7XJsmuSIwAcX0faw8gbd7QuAwk9NBa4Om/F43jDCyn1Sw6NjPR/
-	NRWu8pjl/sYjtxmht1+mgvz0XS0K72u6R3HcYzmqvBRc6vkrdbLmv/fC65HmiBqjkLtbTPa98
-	px40B2LxHUEyr/i4ELNJkr2IUT8RmLaGL44p8sMdGmKWMCylK2ah2W5to9viSVchdTql2+vap
-	UiwliR+jFIov0GYgfUi35dk11JiBbWoPefembDaIQUBZImJakzMXUM1ahqwsOas7EW3YzRX4a
-	fEfBnUJf0yfRqWnBXdSto8IFWMpq+1LtdfNi7lICqxN6zm9JAf6G4eW8JUwV9WFNc46Ei1LB5
-	Qe5ufzrCddhGfnMoSpEjnY2/bvv2CXmHfrPH26FUSGHafH9EalCHlgnv26NgCi9Fai4XqUy2u
-	gMR+IFi2jUGaPXX70xP/pCmHw300tGdAOl6wIA==
+X-Provags-ID: V03:K1:P0YC4i9p+55HDi78kXQ9LCtYjqHPaDZL+otsOi5KUhIp/yCpDfV
+	N5J4vho4xHSiC6F2uik5CberFNieN+pXALZGX0PUkU2DFTXjGSrolBZR5rUHWP+L/fk+nMK
+	uumd0klNDxn1XY8PreUx0j8spLasGp5UKc+5VmcpQqz/acamB2HIYz63ZIYexpCLir7wzwM
+	k9uH16rrxHHCKM4VnYDJw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:iGIZFBUxNC4=:fgaoKx6VuBrOfekjOxLDDN
+	dZUoBRFVXmZ+TB08ahXSWHou/R2izKTaGn02ybd02WTVbIZ9NkDu+NRcGmeO0NdAEpl5PHjl1
+	V1C+1MXO+jnbEsxx1OWSePQ8ZIkjY2F0f6/909SMwBPCGqmRsdjY6HxH5GPdLKWzVU9scq4gG
+	e4WvqderD5cq61KVAnsgdRd557evj7kMif+Egddz4pecCoYaeQpGQRYHbNI2nLBHEvfhhYU8+
+	O8cafQctmGyzxWWpCyZQrNkZaiGyrn7bwaTs1vM0smxN7rc9BVcujKfyiS0aoDDCc3Uk7YbTo
+	ccLdeNODm9VRwYirFZQZtn/+rHj1iQltH102s32wxrjI65S3WPWgurTDzm51ShJIawxu9wXuG
+	GvOCnNHW9coMqxMVpTYWIluHcRyfqmR9x8cFlrBffWKIKpv926xE4dqnHePJLkYHcII/Pg2EN
+	rloguQAd66S8pBDuvR54f/4XEUTXtoDD95/zHAirMbhkALn6fAFxpEjNjDcXqxFAbqOrvGyGU
+	vOLUMnY5vmWKOIAqnmxXRaa5MgC/pfPFancQPuapjuhgVeq2VLQWerfD35wZnBSnbEU/8PVEc
+	yMUgyFZsgkFWFHGMhfrGNV+8g85lPpY99N/wB2PeVgcRY+03LvJAh9aFcFqS9HNumKarEEDZL
+	gBSMvZD4qnnopUXTZYRH+5YkRDqOxoZqCHJlvEPhQuC95W96uv4WEuM00W4qcGaN0iEGra11H
+	cQhhAdwRiyzoA0Wbri42JTeZSV8qFK0qBYQL9Yci084ZHkX6MOtVNfizg6A=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.187
-Subject: [Qemu-devel] [PULL v2 5/7] linux-user: elf: Map empty PT_LOAD
- segments
+X-Received-From: 212.227.126.130
+Subject: [Qemu-devel] [PULL v2 6/7] linux-user: avoid treading on gprof's
+ SIGPROF signals
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -64,58 +65,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Giuseppe Musacchio <thatlemon@gmail.com>,
-	Peter Maydell <peter.maydell@linaro.org>, Riku Voipio <riku.voipio@iki.fi>,
+Cc: Riku Voipio <riku.voipio@iki.fi>,
+	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
 	Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Giuseppe Musacchio <thatlemon@gmail.com>
+From: Alex Bennée <alex.bennee@linaro.org>
 
-Some PT_LOAD segments may be completely zeroed out and their p_filesize
-is zero, in that case the loader should just allocate a page that's at
-least p_memsz bytes large (plus eventual alignment padding).
+The guest tends to get confused when it receives signals it doesn't
+know about. Given the gprof magic has also set up it's own handler we
+would do well to avoid stomping on it as well.
 
-Calling zero_bss does this job for us, all we have to do is make sure we
-don't try to mmap a zero-length page.
-
-Signed-off-by: Giuseppe Musacchio <thatlemon@gmail.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Message-Id: <20190503122007.lkjsvztgt4ycovac@debian>
+Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
+Message-Id: <20190502145846.26226-1-alex.bennee@linaro.org>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/elfload.c | 18 +++++++++++++-----
- 1 file changed, 13 insertions(+), 5 deletions(-)
+ linux-user/signal.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index d08fe2346683..ef42e02d8233 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -2366,11 +2366,19 @@ static void load_elf_image(const char *image_name, int image_fd,
-             vaddr_ps = TARGET_ELF_PAGESTART(vaddr);
-             vaddr_len = TARGET_ELF_PAGELENGTH(eppnt->p_filesz + vaddr_po);
- 
--            error = target_mmap(vaddr_ps, vaddr_len,
--                                elf_prot, MAP_PRIVATE | MAP_FIXED,
--                                image_fd, eppnt->p_offset - vaddr_po);
--            if (error == -1) {
--                goto exit_perror;
-+            /*
-+             * Some segments may be completely empty without any backing file
-+             * segment, in that case just let zero_bss allocate an empty buffer
-+             * for it.
-+             */
-+            if (eppnt->p_filesz != 0) {
-+                error = target_mmap(vaddr_ps, vaddr_len, elf_prot,
-+                                    MAP_PRIVATE | MAP_FIXED,
-+                                    image_fd, eppnt->p_offset - vaddr_po);
-+
-+                if (error == -1) {
-+                    goto exit_perror;
-+                }
-             }
- 
-             vaddr_ef = vaddr + eppnt->p_filesz;
+diff --git a/linux-user/signal.c b/linux-user/signal.c
+index e2c0b3717357..44b2d3b35a0d 100644
+--- a/linux-user/signal.c
++++ b/linux-user/signal.c
+@@ -508,6 +508,11 @@ void signal_init(void)
+     act.sa_flags = SA_SIGINFO;
+     act.sa_sigaction = host_signal_handler;
+     for(i = 1; i <= TARGET_NSIG; i++) {
++#ifdef TARGET_GPROF
++        if (i == SIGPROF) {
++            continue;
++        }
++#endif
+         host_sig = target_to_host_signal(i);
+         sigaction(host_sig, NULL, &oact);
+         if (oact.sa_sigaction == (void *)SIG_IGN) {
 -- 
 2.20.1
 
