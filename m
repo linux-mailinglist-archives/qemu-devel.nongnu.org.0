@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD7CA1A269
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 19:36:59 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:47548 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 87B5A1A27D
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 19:39:53 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:47576 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hP9S6-0003ZC-SZ
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 13:36:58 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59031)
+	id 1hP9Uu-0006Az-Jf
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 13:39:52 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59047)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hP9MM-0007Mt-7F
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 13:31:03 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hP9MN-0007O8-Gi
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 13:31:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hP9ML-00062F-8d
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 13:31:02 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:42232)
+	(envelope-from <richard.henderson@linaro.org>) id 1hP9MM-000635-IY
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 13:31:03 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:46841)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hP9ML-00061w-2q
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 13:31:01 -0400
-Received: by mail-pg1-x542.google.com with SMTP id 145so3326791pgg.9
-	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 10:31:01 -0700 (PDT)
+	id 1hP9MM-00062e-Cf
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 13:31:02 -0400
+Received: by mail-pg1-x543.google.com with SMTP id t187so3317134pgb.13
+	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 10:31:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=z+TkCJ+Ncy1KMgA4q+7eFD+GiqzlCrNmhclplUZOTOM=;
-	b=j3X58ZE1k7hy5YSY4BDHgwcCYZD3EhMDS84VcsG7JsqgUAFqVeGU42oVDvrITnrB8H
-	5vDR+S35M/tU3ca9/dbv5x9qFGWivH4Dk3W54Oz1gdKw+LqRVM4oXGxh0g95w+3xz4T3
-	m+ongJtMi+ZGN3TKijgLFYU1JudIKbnmF14IO74uQfLkHs5HaaosdtmCYKEMpbcStM5P
-	MHw2/Lvh2L9dHR8IEIIruB7TcxBCt/gUk5MG/g6RnkXCRBRCDhVcNwswn0x07khxV1UP
-	1d8tYyjn3orljsVlnVcJ3Ly+0DCaCMT+LPFyD8zn88gQppRRmzqZtkznDIeEpi9jmJck
-	jW0g==
+	bh=zQEKMjfpCTDyJlIECnLYp610ugeuDB8/XWCLVFEbpkI=;
+	b=ZkucTqx1ygwD5C7Hj7PhsTB7jxIMlQ6e2F/EH6+aLcbGpH8Lak2jiwj+iX0sjdFPK2
+	v+tjvLeqFnN53/nOHpGuIJ+zNdtZpEUabe8zw8WkItXLIt0qlNMkV8pPBgTDplvJH8N2
+	R4KdhQfH4Snnhsw6CC9NnfXxLiucvRsPUAikqaeUWnWTfy9Cj3RipAXKXohkQrV105dB
+	bF/2yFL/yE/LXlQjBTPDBoRln0PGeevBO+BvGbIKBoHnMla0CMtwdpP14b88GjFMsqZU
+	zBOp6hnXGav/NKaoty5Et1ZQ8wZ579pKYezO97/EvOGEXgJIda+F5xbMJ33g78m67Zoy
+	RzSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=z+TkCJ+Ncy1KMgA4q+7eFD+GiqzlCrNmhclplUZOTOM=;
-	b=TQArVo5MjwkLw6hNzLdilmwlQK4lqlntV+/qqhpHiHzhwzWZrm6CCcr5bD/gmJhVnT
-	6qH8SBxve6u8BTvlcK/R9JWSX+zbl+Yt2FJdLbW8Oe1+hCSwGnKIH7FRkBBxHswJ90zw
-	WPvYc5pyUpQ8dl8ucbTdIQUT6yc/iF2JNoRLQwzmeie6i070soOWgmB4qF3X6bN8vmSF
-	7n1lNYWS3UaW0xGS6BskckGtYtv5RLFscXeevVEdEc9AiI5L/zXkRqu0OvTzjHm9YZYh
-	GNlaeYLBLkqvV7wNlcQv5Hsft6O1yHrND39mrkYfCivOF42zPjO9SMdrgeKLBQNbX6h4
-	SxoA==
-X-Gm-Message-State: APjAAAV/beMcNeDEfmTCqjTQhoLvmj6QNAmclQps8Gi+9hovdJymHMYz
-	O1OBJ6NRYKdVUhiMRL6D5FAyFj6lyQ0=
-X-Google-Smtp-Source: APXvYqyvU+R10Z68ltotgmq2A4wa6z3tDMH6ntZiRsBvhH8P2HYNFJDmQQl1lKfQvWlvAdeqHQuQTA==
-X-Received: by 2002:aa7:842f:: with SMTP id q15mr16120205pfn.161.1557509459887;
-	Fri, 10 May 2019 10:30:59 -0700 (PDT)
+	bh=zQEKMjfpCTDyJlIECnLYp610ugeuDB8/XWCLVFEbpkI=;
+	b=jNYA32t9dFW+QxWmsYjqFaPS7jQQ6ttlZPHrR7ADfVkV5qPeMUIlT3zmXpz2INnosT
+	Pcj59oKQwu20Q95zuzFfpx2JhOWiNMGgj4uhdQmGnxIInKxcRhgykc4jBiFZBECuFzql
+	JorXstLW07cH9M/8peNF1Dp/tvTkee6QSYqzRH9TbqHNj/QtZA7ZF7CUzodfI5n8SSLS
+	89qf1+OgUaEfW0OostbKd80e4G36+Nz4CNzRcl7FXTkOHwnNj/i1w0jP165a4XdNcO9q
+	uGn1LMhoP5/Xmw2uXjChnONgQIvLoKBz7VWstrp+P3geW424lIfUTmXw+Z3AnP263z2i
+	dOfA==
+X-Gm-Message-State: APjAAAXwy/TFm+LcMdkV7eGUh2Yq6cl5gCp4AG0b1BAuqB462VQCsETd
+	/tUnXWUL4HfC73eRC6k5e2LuLAazEy4=
+X-Google-Smtp-Source: APXvYqweiFPe2mQ2M+2Tzxxwd70ivNWbSJ4t+uMFoAz4G5y7bnRO0dQtYhtvlfZqvz8B0vWmg2/YwQ==
+X-Received: by 2002:aa7:9356:: with SMTP id 22mr15760191pfn.188.1557509461094; 
+	Fri, 10 May 2019 10:31:01 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	v64sm7936792pfv.106.2019.05.10.10.30.58 for <qemu-devel@nongnu.org>
+	v64sm7936792pfv.106.2019.05.10.10.31.00 for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 10 May 2019 10:30:59 -0700 (PDT)
+	Fri, 10 May 2019 10:31:00 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri, 10 May 2019 10:30:31 -0700
-Message-Id: <20190510173049.28171-8-richard.henderson@linaro.org>
+Date: Fri, 10 May 2019 10:30:32 -0700
+Message-Id: <20190510173049.28171-9-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190510173049.28171-1-richard.henderson@linaro.org>
 References: <20190510173049.28171-1-richard.henderson@linaro.org>
@@ -66,9 +66,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::542
-Subject: [Qemu-devel] [PATCH v6 07/25] crypto: Change the
- qcrypto_random_bytes buffer type to void*
+X-Received-From: 2607:f8b0:4864:20::543
+Subject: [Qemu-devel] [PATCH v6 08/25] ui/vnc: Split out
+ authentication_failed
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -83,74 +83,87 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Using uint8_t* merely requires useless casts for use with
-other types to be filled with randomness.
+There were 3 copies of this code, one of which used the wrong
+data size for the failure indicator.
 
 Reviewed-by: Laurent Vivier <lvivier@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Gerd Hoffmann <kraxel@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/crypto/random.h  | 2 +-
- crypto/random-gcrypt.c   | 2 +-
- crypto/random-gnutls.c   | 2 +-
- crypto/random-platform.c | 4 ++--
- 4 files changed, 5 insertions(+), 5 deletions(-)
+ ui/vnc.c | 37 +++++++++++++++----------------------
+ 1 file changed, 15 insertions(+), 22 deletions(-)
 
-diff --git a/include/crypto/random.h b/include/crypto/random.h
-index 8764ca0562..fde592904e 100644
---- a/include/crypto/random.h
-+++ b/include/crypto/random.h
-@@ -34,7 +34,7 @@
-  *
-  * Returns 0 on success, -1 on error
-  */
--int qcrypto_random_bytes(uint8_t *buf,
-+int qcrypto_random_bytes(void *buf,
-                          size_t buflen,
-                          Error **errp);
- 
-diff --git a/crypto/random-gcrypt.c b/crypto/random-gcrypt.c
-index 9f1c9ee60e..7aea4ac81f 100644
---- a/crypto/random-gcrypt.c
-+++ b/crypto/random-gcrypt.c
-@@ -24,7 +24,7 @@
- 
- #include <gcrypt.h>
- 
--int qcrypto_random_bytes(uint8_t *buf,
-+int qcrypto_random_bytes(void *buf,
-                          size_t buflen,
-                          Error **errp G_GNUC_UNUSED)
- {
-diff --git a/crypto/random-gnutls.c b/crypto/random-gnutls.c
-index 445fd6a30b..ed6c9ca12f 100644
---- a/crypto/random-gnutls.c
-+++ b/crypto/random-gnutls.c
-@@ -26,7 +26,7 @@
- #include <gnutls/gnutls.h>
- #include <gnutls/crypto.h>
- 
--int qcrypto_random_bytes(uint8_t *buf,
-+int qcrypto_random_bytes(void *buf,
-                          size_t buflen,
-                          Error **errp)
- {
-diff --git a/crypto/random-platform.c b/crypto/random-platform.c
-index cb3ca1bc09..66624106fe 100644
---- a/crypto/random-platform.c
-+++ b/crypto/random-platform.c
-@@ -64,8 +64,8 @@ int qcrypto_random_init(Error **errp)
-     return 0;
+diff --git a/ui/vnc.c b/ui/vnc.c
+index 1871422e1d..785edf3af1 100644
+--- a/ui/vnc.c
++++ b/ui/vnc.c
+@@ -2535,6 +2535,18 @@ void start_client_init(VncState *vs)
+     vnc_read_when(vs, protocol_client_init, 1);
  }
  
--int qcrypto_random_bytes(uint8_t *buf G_GNUC_UNUSED,
--                         size_t buflen G_GNUC_UNUSED,
-+int qcrypto_random_bytes(void *buf,
-+                         size_t buflen,
-                          Error **errp)
++static void authentication_failed(VncState *vs)
++{
++    vnc_write_u32(vs, 1); /* Reject auth */
++    if (vs->minor >= 8) {
++        static const char err[] = "Authentication failed";
++        vnc_write_u32(vs, sizeof(err));
++        vnc_write(vs, err, sizeof(err));
++    }
++    vnc_flush(vs);
++    vnc_client_error(vs);
++}
++
+ static void make_challenge(VncState *vs)
  {
- #ifdef _WIN32
+     int i;
+@@ -2609,14 +2621,7 @@ static int protocol_client_auth_vnc(VncState *vs, uint8_t *data, size_t len)
+     return 0;
+ 
+ reject:
+-    vnc_write_u32(vs, 1); /* Reject auth */
+-    if (vs->minor >= 8) {
+-        static const char err[] = "Authentication failed";
+-        vnc_write_u32(vs, sizeof(err));
+-        vnc_write(vs, err, sizeof(err));
+-    }
+-    vnc_flush(vs);
+-    vnc_client_error(vs);
++    authentication_failed(vs);
+     qcrypto_cipher_free(cipher);
+     return 0;
+ }
+@@ -2638,13 +2643,7 @@ static int protocol_client_auth(VncState *vs, uint8_t *data, size_t len)
+      * must pick the one we sent. Verify this */
+     if (data[0] != vs->auth) { /* Reject auth */
+        trace_vnc_auth_reject(vs, vs->auth, (int)data[0]);
+-       vnc_write_u32(vs, 1);
+-       if (vs->minor >= 8) {
+-           static const char err[] = "Authentication failed";
+-           vnc_write_u32(vs, sizeof(err));
+-           vnc_write(vs, err, sizeof(err));
+-       }
+-       vnc_client_error(vs);
++       authentication_failed(vs);
+     } else { /* Accept requested auth */
+        trace_vnc_auth_start(vs, vs->auth);
+        switch (vs->auth) {
+@@ -2673,13 +2672,7 @@ static int protocol_client_auth(VncState *vs, uint8_t *data, size_t len)
+ 
+        default: /* Should not be possible, but just in case */
+            trace_vnc_auth_fail(vs, vs->auth, "Unhandled auth method", "");
+-           vnc_write_u8(vs, 1);
+-           if (vs->minor >= 8) {
+-               static const char err[] = "Authentication failed";
+-               vnc_write_u32(vs, sizeof(err));
+-               vnc_write(vs, err, sizeof(err));
+-           }
+-           vnc_client_error(vs);
++           authentication_failed(vs);
+        }
+     }
+     return 0;
 -- 
 2.17.1
 
