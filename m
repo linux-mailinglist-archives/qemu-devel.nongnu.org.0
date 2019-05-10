@@ -2,59 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD6601A1F5
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 18:52:24 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46796 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 764121A1AB
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 18:40:04 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46494 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hP8kx-0002TA-WF
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 12:52:24 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45193)
+	id 1hP8Z1-0000kY-Kk
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 12:40:03 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42894)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hP8Ug-00068N-IN
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:35:37 -0400
+	(envelope-from <groug@kaod.org>) id 1hP8MB-00074T-Nu
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:26:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hP8Uf-0006y6-H3
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:35:34 -0400
-Received: from indium.canonical.com ([91.189.90.7]:57962)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hP8Uf-0006xi-BU
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:35:33 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
-	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hP8Ue-0007xu-9e
-	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 16:35:32 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id 47DCB2E806D
-	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 16:35:32 +0000 (UTC)
+	(envelope-from <groug@kaod.org>) id 1hP8MA-000283-8u
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:26:47 -0400
+Received: from 16.mo5.mail-out.ovh.net ([87.98.174.144]:52378)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <groug@kaod.org>) id 1hP8MA-00026U-0w
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:26:46 -0400
+Received: from player789.ha.ovh.net (unknown [10.108.54.209])
+	by mo5.mail-out.ovh.net (Postfix) with ESMTP id DB3B122F670
+	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 18:26:43 +0200 (CEST)
+Received: from kaod.org (deibp9eh1--blueice1n4.emea.ibm.com [195.212.29.166])
+	(Authenticated sender: groug@kaod.org)
+	by player789.ha.ovh.net (Postfix) with ESMTPSA id A79AB595BCE5;
+	Fri, 10 May 2019 16:26:32 +0000 (UTC)
+Date: Fri, 10 May 2019 18:25:41 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
+Message-ID: <20190510182541.1c2e81ac@bahia.lab.toulouse-stg.fr.ibm.com>
+In-Reply-To: <155591659639.20338.6078212293519133016.stgit@aravinda>
+References: <155591636364.20338.844048953355207313.stgit@aravinda>
+	<155591659639.20338.6078212293519133016.stgit@aravinda>
+X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 10 May 2019 16:24:55 -0000
-From: Anisse Astier <1828608@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: anisse berrange
-X-Launchpad-Bug-Reporter: Anisse Astier (anisse)
-X-Launchpad-Bug-Modifier: Anisse Astier (anisse)
-Message-Id: <155750549613.15038.5455007066011551794.malonedeb@wampee.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18962";
-	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 0965b70af1c42320743ad79608125fc5a4ed2861
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 11980419436914317716
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddrkeekgddutdefucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1828608] [NEW] Chardev websocket might not
- support pasting more than a few chars
+X-Received-From: 87.98.174.144
+Subject: Re: [Qemu-devel] [Qemu-ppc] [PATCH v8 3/6] target/ppc: Handle NMI
+ guest exit
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -63,54 +57,208 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1828608 <1828608@bugs.launchpad.net>
+Cc: aik@au1.ibm.com, qemu-devel@nongnu.org, paulus@ozlabs.org,
+	qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+On Mon, 22 Apr 2019 12:33:16 +0530
+Aravinda Prasad <aravinda@linux.vnet.ibm.com> wrote:
 
-When sending more than 4-5 characters on the websocket serial console
-(with pasting for example), the guest might not receive all of them, or
-worse interpret the input as Magic SysRq keys.
+> Memory error such as bit flips that cannot be corrected
+> by hardware are passed on to the kernel for handling.
+> If the memory address in error belongs to guest then
+> the guest kernel is responsible for taking suitable action.
+> Patch [1] enhances KVM to exit guest with exit reason
+> set to KVM_EXIT_NMI in such cases. This patch handles
+> KVM_EXIT_NMI exit.
+> 
+> [1] https://www.spinics.net/lists/kvm-ppc/msg12637.html
+>     (e20bbd3d and related commits)
+> 
+> Signed-off-by: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
+> ---
+>  hw/ppc/spapr.c          |    3 +++
+>  hw/ppc/spapr_events.c   |   22 ++++++++++++++++++++++
+>  hw/ppc/spapr_rtas.c     |    5 +++++
+>  include/hw/ppc/spapr.h  |    6 ++++++
+>  target/ppc/kvm.c        |   16 ++++++++++++++++
+>  target/ppc/kvm_ppc.h    |    2 ++
+>  target/ppc/trace-events |    2 ++
+>  7 files changed, 56 insertions(+)
+> 
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 6642cb5..2779efe 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -1806,6 +1806,7 @@ static void spapr_machine_reset(void)
+>  
+>      spapr->cas_reboot = false;
+>  
+> +    spapr->mc_status = -1;
+>      spapr->guest_machine_check_addr = -1;
+>  
+>      /* Signal all vCPUs waiting on this condition */
+> @@ -2106,6 +2107,7 @@ static const VMStateDescription vmstate_spapr_machine_check = {
+>      .minimum_version_id = 1,
+>      .fields = (VMStateField[]) {
+>          VMSTATE_UINT64(guest_machine_check_addr, SpaprMachineState),
+> +        VMSTATE_INT32(mc_status, SpaprMachineState),
+>          VMSTATE_END_OF_LIST()
+>      },
+>  };
+> @@ -3085,6 +3087,7 @@ static void spapr_machine_init(MachineState *machine)
+>          kvmppc_spapr_enable_inkernel_multitce();
+>      }
+>  
+> +    spapr->mc_status = -1;
 
-This might be due to the io loop not checking the backend readiness
-before calling the read function.
+Since this is done at reset, do we need it here ?
 
-Attached patched fixes the problem on my system. I'm not sure it's the
-proper approach, this is just to start discussion.
+>      qemu_cond_init(&spapr->mc_delivery_cond);
+>  }
+>  
+> diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
+> index ae0f093..9922a23 100644
+> --- a/hw/ppc/spapr_events.c
+> +++ b/hw/ppc/spapr_events.c
+> @@ -620,6 +620,28 @@ void spapr_hotplug_req_remove_by_count_indexed(SpaprDrcType drc_type,
+>                              RTAS_LOG_V6_HP_ACTION_REMOVE, drc_type, &drc_id);
+>  }
+>  
+> +void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered)
+> +{
+> +    SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
+> +
+> +    while (spapr->mc_status != -1) {
+> +        /*
+> +         * Check whether the same CPU got machine check error
+> +         * while still handling the mc error (i.e., before
+> +         * that CPU called "ibm,nmi-interlock"
 
-** Affects: qemu
-     Importance: Undecided
-         Status: New
+Missing )
 
-** Patch added: "0001-socket-check-char-backend-readiness-before-sending-i.=
-patch"
-   https://bugs.launchpad.net/bugs/1828608/+attachment/5262964/+files/0001-=
-socket-check-char-backend-readiness-before-sending-i.patch
+> +         */
+> +        if (spapr->mc_status == cpu->vcpu_id) {
+> +            qemu_system_guest_panicked(NULL);
 
--- =
+If we don't also return, is there a chance we end up stuck in
+qemu_cond_wait_iothread() below ?
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1828608
+> +        }
+> +        qemu_cond_wait_iothread(&spapr->mc_delivery_cond);
+> +        /* Meanwhile if the system is reset, then just return */
+> +        if (spapr->guest_machine_check_addr == -1) {
+> +            return;
+> +        }
+> +    }
+> +    spapr->mc_status = cpu->vcpu_id;
+> +}
+> +
+>  static void check_exception(PowerPCCPU *cpu, SpaprMachineState *spapr,
+>                              uint32_t token, uint32_t nargs,
+>                              target_ulong args,
+> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+> index c2f3991..d3499f9 100644
+> --- a/hw/ppc/spapr_rtas.c
+> +++ b/hw/ppc/spapr_rtas.c
+> @@ -375,6 +375,11 @@ static void rtas_ibm_nmi_interlock(PowerPCCPU *cpu,
+>          /* NMI register not called */
+>          rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
+>      } else {
+> +        /*
+> +         * vCPU issuing "ibm,nmi-interlock" is done with NMI handling,
+> +         * hence unset mc_status.
+> +         */
+> +        spapr->mc_status = -1;
+>          qemu_cond_signal(&spapr->mc_delivery_cond);
+>          rtas_st(rets, 0, RTAS_OUT_SUCCESS);
+>      }
+> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> index ec6f33e..f7204d0 100644
+> --- a/include/hw/ppc/spapr.h
+> +++ b/include/hw/ppc/spapr.h
+> @@ -189,6 +189,11 @@ struct SpaprMachineState {
+>  
+>      /* State related to "ibm,nmi-register" and "ibm,nmi-interlock" calls */
+>      target_ulong guest_machine_check_addr;
+> +    /*
+> +     * mc_status is set to -1 if mc is not in progress, else is set to the CPU
+> +     * handling the mc.
+> +     */
+> +    int mc_status;
+>      QemuCond mc_delivery_cond;
+>  
+>      /*< public >*/
+> @@ -792,6 +797,7 @@ void spapr_clear_pending_events(SpaprMachineState *spapr);
+>  int spapr_max_server_number(SpaprMachineState *spapr);
+>  void spapr_store_hpte(PowerPCCPU *cpu, hwaddr ptex,
+>                        uint64_t pte0, uint64_t pte1);
+> +void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered);
+>  
+>  /* DRC callbacks. */
+>  void spapr_core_release(DeviceState *dev);
+> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
+> index 9e86db0..5eedce8 100644
+> --- a/target/ppc/kvm.c
+> +++ b/target/ppc/kvm.c
+> @@ -1759,6 +1759,11 @@ int kvm_arch_handle_exit(CPUState *cs, struct kvm_run *run)
+>          ret = 0;
+>          break;
+>  
+> +    case KVM_EXIT_NMI:
+> +        trace_kvm_handle_nmi_exception();
+> +        ret = kvm_handle_nmi(cpu, run);
+> +        break;
+> +
+>      default:
+>          fprintf(stderr, "KVM: unknown exit reason %d\n", run->exit_reason);
+>          ret = -1;
+> @@ -2837,6 +2842,17 @@ int kvm_arch_msi_data_to_gsi(uint32_t data)
+>      return data & 0xffff;
+>  }
+>  
+> +int kvm_handle_nmi(PowerPCCPU *cpu, struct kvm_run *run)
+> +{
+> +    bool recovered = run->flags & KVM_RUN_PPC_NMI_DISP_FULLY_RECOV;
+> +
+> +    cpu_synchronize_state(CPU(cpu));
+> +
+> +    spapr_mce_req_event(cpu, recovered);
+> +
+> +    return 0;
+> +}
+> +
+>  int kvmppc_enable_hwrng(void)
+>  {
+>      if (!kvm_enabled() || !kvm_check_extension(kvm_state, KVM_CAP_PPC_HWRNG)) {
+> diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
+> index 2238513..6edc42f 100644
+> --- a/target/ppc/kvm_ppc.h
+> +++ b/target/ppc/kvm_ppc.h
+> @@ -80,6 +80,8 @@ bool kvmppc_hpt_needs_host_contiguous_pages(void);
+>  void kvm_check_mmu(PowerPCCPU *cpu, Error **errp);
+>  void kvmppc_set_reg_ppc_online(PowerPCCPU *cpu, unsigned int online);
+>  
+> +int kvm_handle_nmi(PowerPCCPU *cpu, struct kvm_run *run);
+> +
+>  #else
+>  
+>  static inline uint32_t kvmppc_get_tbfreq(void)
+> diff --git a/target/ppc/trace-events b/target/ppc/trace-events
+> index 7b3cfe1..d5691d2 100644
+> --- a/target/ppc/trace-events
+> +++ b/target/ppc/trace-events
+> @@ -28,3 +28,5 @@ kvm_handle_papr_hcall(void) "handle PAPR hypercall"
+>  kvm_handle_epr(void) "handle epr"
+>  kvm_handle_watchdog_expiry(void) "handle watchdog expiry"
+>  kvm_handle_debug_exception(void) "handle debug exception"
+> +kvm_handle_nmi_exception(void) "handle NMI exception"
+> +
 
-Title:
-  Chardev websocket might not support pasting more than a few chars
+new blank line at EOF.
 
-Status in QEMU:
-  New
+> 
+> 
 
-Bug description:
-  When sending more than 4-5 characters on the websocket serial console
-  (with pasting for example), the guest might not receive all of them,
-  or worse interpret the input as Magic SysRq keys.
-
-  This might be due to the io loop not checking the backend readiness
-  before calling the read function.
-
-  Attached patched fixes the problem on my system. I'm not sure it's the
-  proper approach, this is just to start discussion.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1828608/+subscriptions
 
