@@ -2,77 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 39ABA1A3A0
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 22:03:27 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49291 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B78051A3D6
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 22:15:37 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49405 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hPBjq-0003MJ-DP
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 16:03:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33862)
+	id 1hPBvX-0002Jc-Nv
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 16:15:32 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36190)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hPBhk-0002SB-Jq
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 16:01:17 -0400
+	(envelope-from <dan.j.williams@intel.com>) id 1hPBuV-000203-Fs
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 16:14:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hPBhh-0002UX-F6
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 16:01:16 -0400
-Received: from mail-wm1-x32d.google.com ([2a00:1450:4864:20::32d]:36288)
+	(envelope-from <dan.j.williams@intel.com>) id 1hPBuU-0002nc-KH
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 16:14:27 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:35128)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hPBhd-0002QC-RW
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 16:01:10 -0400
-Received: by mail-wm1-x32d.google.com with SMTP id j187so8604743wmj.1
-	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 13:01:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=P6OpXLABH0bE0gbKxQnLm+pXDLfhXNolnZxvDMNERq8=;
-	b=xhEzya3U9fREEkpXMVzA1gW7VCa1JRlmW+ax4krdH1cg6AfVfG+pRTIADUgvrwP3ui
-	wY2i0oSPOacSY2m4GajImz3JrG5CKdrSBmV5Z2P/OPpmS+BtVN06A21Yp6AWDqjd1saU
-	sciyBX6CQV1VaqlnlDXVDwzmjsTgHjez5t8RzfrQOFE2lGYhzrGtM+38fCT+0ZqE+n4s
-	g9NMU6SPP+OlchhNRq0K5K4rxnY13SFjCqSFN3BdgYzn6ND5tsS7OLGPWjhicjJaANsT
-	6KLke5mTmGNfZGqZvhq2yg1zIcD1BmUY7ms1hus77DcYZEBNrnpd+5EWNKXfQ6N7pHGz
-	t8Fg==
+	(Exim 4.71) (envelope-from <dan.j.williams@intel.com>)
+	id 1hPBuT-0002Oq-UB
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 16:14:26 -0400
+Received: by mail-oi1-x241.google.com with SMTP id a132so5455734oib.2
+	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 13:14:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=intel-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=glYXor0GQ9DfKpghbnKPKxe+zUzoJeb7GoYJ26Vk6ps=;
+	b=yf8U/VwdNl5tfgFPEKe5qh3THkRWZb9un60SOgkfJ/5LhvAwk90OALPbQmqH8NGPZg
+	Cr23IQd+McBJGud2E9ep2+5K3niud5mH6fhTcdytKwGg0ifP80vvI1KiLl0J9xx4xwjq
+	TEllzhY/P52SG7Zgqu0zO0TcVHYyKzcfJiA7uwMKIIPnUXohIrhjvrd+s0fzp7fbWFpQ
+	y62fi/8hXK8LlUhb+lV4PauDhwTsmzrWQoEzPH1EBWKu2DNHNpcM/c0ugQiTxq1CS/Pn
+	ELZfOgWViQuoOxYDdqZ2L8n4KiCZbfdn+ONJLYDNxFTBB6M7dS0ALwRsezeWWJXIVakV
+	lNVg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=P6OpXLABH0bE0gbKxQnLm+pXDLfhXNolnZxvDMNERq8=;
-	b=nNiXuA2qaSyIkvfflGFfbTzdPmsumY2neMEJeaKcTl3LrGaWlNKaIbpfXWqymsFV/1
-	kdE2q7RI5FtUOaB4vPJWMdN8hdBKVdFdx3+gktf4hp1VRjAnmjBmmJxGpy4O27qlUNPs
-	BDjp6EQMWV36i2eYkE8s9aIto4x9yC/x7Eniqv3qBGg1zBJU/GaGAJIUOOhrHdfOov1R
-	BWUvnmYZ0OGIVq/VaGKJ6XpvRNwS9qnOlHV+9W7WHGJjqeP2/1R8ntv1PZKIcrfRSPJZ
-	+bdtvCKUnw1fA7hfZ6Y70vyS2qB5cXj6gakXPbFQBx3+lra/4g0Y4FQ5u9+1XrOzxxU2
-	w5Dg==
-X-Gm-Message-State: APjAAAUNMBz8ztdBAY3OUi0GKdxmjxckfXznMADKVqR1Y8w77E4Tq7QV
-	mUtEoPQokGkLLQvrKZLuutH2kQ==
-X-Google-Smtp-Source: APXvYqwCu5mhIa6kBL1ZH+y9XQaX2oLvrikJsJu5jvhcN0saWhHCSC3IHDrTJShfsx7Qh6FCEnwOUw==
-X-Received: by 2002:a05:600c:1191:: with SMTP id
-	i17mr318389wmf.84.1557518467333; 
-	Fri, 10 May 2019 13:01:07 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
-	by smtp.gmail.com with ESMTPSA id
-	b10sm11569023wrh.59.2019.05.10.13.01.03
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 10 May 2019 13:01:06 -0700 (PDT)
-Received: from zen.linaroharston. (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id 428801FF92;
-	Fri, 10 May 2019 21:01:02 +0100 (BST)
-From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: peter.maydell@linaro.org
-Date: Fri, 10 May 2019 21:01:01 +0100
-Message-Id: <20190510200101.31096-6-alex.bennee@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190510200101.31096-1-alex.bennee@linaro.org>
-References: <20190510200101.31096-1-alex.bennee@linaro.org>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=glYXor0GQ9DfKpghbnKPKxe+zUzoJeb7GoYJ26Vk6ps=;
+	b=uZoQmQUvVUsOi5TWgzWcIwfMsIkfNxIZhA79i4DdQ38p34GLekekOCTMr7O1kIlSeF
+	GH5ivaasYj362/iZnmjge37Mwqe/KrLaPMeO2e+va+rhgJ9kuvgJx0pLbbIIXaYQB4FR
+	UU+ZxH8slMyWjI5CQVw21JUwpio7XBzGrYwWmFodpbNceS8Wyt2rQbfsD8vWiJnse6wN
+	s1zjZ3WiGAWtSHEEvPrYlOBomRAxneAEFE92M9WHev2ToFf68+zgoGhoR3m3hUPFH1V1
+	6C5WKAg0poPcJVYVYtcjW/Yhl/Lz0zOOrvttum/5MBgOvyQMc+38VbPzqKmviXrPXXOP
+	th3Q==
+X-Gm-Message-State: APjAAAXp0jQ0NmzyujTLzkgvwbdWKYtVpL/kXLVUYbPz4ftwknUEHZTC
+	8PDX7lOz5LZ3RTfhoyLH0UEUz2ZSlvcXe1+tGOtJdw==
+X-Google-Smtp-Source: APXvYqx7Iy3DOMIV9DNLu2fGaxr7KgtVySuDwyKCLAPX5/jruFRFKJ7CbI+68cxoMCTMjkHKJ+jW3/SnCYNqZpzsnJI=
+X-Received: by 2002:aca:4208:: with SMTP id p8mr6821131oia.105.1557519257995; 
+	Fri, 10 May 2019 13:14:17 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+References: <20190510155202.14737-1-pagupta@redhat.com>
+	<20190510155202.14737-4-pagupta@redhat.com>
+In-Reply-To: <20190510155202.14737-4-pagupta@redhat.com>
+From: Dan Williams <dan.j.williams@intel.com>
+Date: Fri, 10 May 2019 13:14:07 -0700
+Message-ID: <CAPcyv4hbVNRFSyS2CTbmO88uhnbeH4eiukAng2cxgbDzLfizwg@mail.gmail.com>
+To: Pankaj Gupta <pagupta@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::32d
-Subject: [Qemu-devel] [PULL 5/5] cputlb: Do unaligned store recursion to
- outermost function
+X-Received-From: 2607:f8b0:4864:20::241
+Subject: Re: [Qemu-devel] [PATCH v8 3/6] libnvdimm: add dax_dev sync flag
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -84,50 +73,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
-	Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
-	qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
-	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
-	Richard Henderson <rth@twiddle.net>
+Cc: cohuck@redhat.com, Jan Kara <jack@suse.cz>, KVM list <kvm@vger.kernel.org>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>, david <david@fromorbit.com>,
+	Qemu Developers <qemu-devel@nongnu.org>,
+	virtualization@lists.linux-foundation.org,
+	Andreas Dilger <adilger.kernel@dilger.ca>,
+	Ross Zwisler <zwisler@kernel.org>, Andrea Arcangeli <aarcange@redhat.com>,
+	Dave Jiang <dave.jiang@intel.com>, jstaron@google.com,
+	linux-nvdimm <linux-nvdimm@lists.01.org>,
+	Vishal L Verma <vishal.l.verma@intel.com>,
+	David Hildenbrand <david@redhat.com>, Matthew Wilcox <willy@infradead.org>,
+	Christoph Hellwig <hch@infradead.org>,
+	Linux ACPI <linux-acpi@vger.kernel.org>, jmoyer <jmoyer@redhat.com>,
+	linux-ext4 <linux-ext4@vger.kernel.org>,
+	Len Brown <lenb@kernel.org>, Adam Borowski <kilobyte@angband.pl>,
+	Rik van Riel <riel@surriel.com>, yuval shaia <yuval.shaia@oracle.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	Paolo Bonzini <pbonzini@redhat.com>, lcapitulino@redhat.com,
+	Kevin Wolf <kwolf@redhat.com>, Nitesh Narayan Lal <nilal@redhat.com>,
+	Theodore Ts'o <tytso@mit.edu>,
+	Xiao Guangrong <xiaoguangrong.eric@gmail.com>,
+	"Darrick J. Wong" <darrick.wong@oracle.com>,
+	"Rafael J. Wysocki" <rjw@rjwysocki.net>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	linux-xfs <linux-xfs@vger.kernel.org>,
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+	Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Richard Henderson <richard.henderson@linaro.org>
+On Fri, May 10, 2019 at 8:53 AM Pankaj Gupta <pagupta@redhat.com> wrote:
+>
+> This patch adds 'DAXDEV_SYNC' flag which is set
+> for nd_region doing synchronous flush. This later
+> is used to disable MAP_SYNC functionality for
+> ext4 & xfs filesystem for devices don't support
+> synchronous flush.
+>
+> Signed-off-by: Pankaj Gupta <pagupta@redhat.com>
+> ---
+>  drivers/dax/bus.c            |  2 +-
+>  drivers/dax/super.c          | 13 ++++++++++++-
+>  drivers/md/dm.c              |  3 ++-
+>  drivers/nvdimm/pmem.c        |  5 ++++-
+>  drivers/nvdimm/region_devs.c |  7 +++++++
+>  include/linux/dax.h          |  8 ++++++--
+>  include/linux/libnvdimm.h    |  1 +
+>  7 files changed, 33 insertions(+), 6 deletions(-)
+[..]
+> diff --git a/drivers/md/dm.c b/drivers/md/dm.c
+> index 043f0761e4a0..ee007b75d9fd 100644
+> --- a/drivers/md/dm.c
+> +++ b/drivers/md/dm.c
+> @@ -1969,7 +1969,8 @@ static struct mapped_device *alloc_dev(int minor)
+>         sprintf(md->disk->disk_name, "dm-%d", minor);
+>
+>         if (IS_ENABLED(CONFIG_DAX_DRIVER)) {
+> -               dax_dev = alloc_dax(md, md->disk->disk_name, &dm_dax_ops);
+> +               dax_dev = alloc_dax(md, md->disk->disk_name, &dm_dax_ops,
+> +                                                        DAXDEV_F_SYNC);
 
-This is less tricky than for loads, because we always fall
-back to single byte stores to implement unaligned stores.
-
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index e4d0c943011..a0833247684 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -1413,9 +1413,9 @@ tcg_target_ulong helper_be_ldsl_mmu(CPUArchState *env, target_ulong addr,
-  * Store Helpers
-  */
- 
--static void store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
--                         TCGMemOpIdx oi, uintptr_t retaddr, size_t size,
--                         bool big_endian)
-+static inline void __attribute__((always_inline))
-+store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
-+             TCGMemOpIdx oi, uintptr_t retaddr, size_t size, bool big_endian)
- {
-     uintptr_t mmu_idx = get_mmuidx(oi);
-     uintptr_t index = tlb_index(env, mmu_idx, addr);
-@@ -1514,7 +1514,7 @@ static void store_helper(CPUArchState *env, target_ulong addr, uint64_t val,
-                 /* Little-endian extract.  */
-                 val8 = val >> (i * 8);
-             }
--            store_helper(env, addr + i, val8, oi, retaddr, 1, big_endian);
-+            helper_ret_stb_mmu(env, addr + i, val8, oi, retaddr);
-         }
-         return;
-     }
--- 
-2.20.1
-
+Apologies for not realizing this until now, but this is broken.
+Imaging a device-mapper configuration composed of both 'async'
+virtio-pmem and 'sync' pmem. The 'sync' flag needs to be unified
+across all members. I would change this argument to '0' and then
+arrange for it to be set at dm_table_supports_dax() time after
+validating that all components support synchronous dax.
 
