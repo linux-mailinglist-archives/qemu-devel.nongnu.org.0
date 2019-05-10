@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C32651A337
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 20:59:36 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48556 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10FEF1A33E
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 21:01:54 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48612 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hPAk3-0003WT-Vy
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 14:59:36 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48865)
+	id 1hPAmH-0005oU-9q
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 15:01:53 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48891)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hPAff-00080B-Qg
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 14:55:12 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hPAfg-00080T-1s
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 14:55:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hPAfS-0005yA-Mo
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 14:55:01 -0400
-Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:42950)
+	(envelope-from <richard.henderson@linaro.org>) id 1hPAfU-00061Y-0Q
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 14:55:03 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:36229)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hPAfS-0005vV-CF
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 14:54:50 -0400
-Received: by mail-pf1-x42c.google.com with SMTP id 13so3687496pfw.9
-	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 11:54:50 -0700 (PDT)
+	id 1hPAfT-0005ye-I2
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 14:54:51 -0400
+Received: by mail-pf1-x443.google.com with SMTP id v80so3700849pfa.3
+	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 11:54:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=8Iw4WcROeIjDVSbOqaJK16F98amSvn2ezBmf0bQYqcE=;
-	b=ZEnP+0mDq9lqyepPxPw6HCq8GrAg9zeQZ8/eK35webOD6LUfWtq81bfLBNNVEA7e4Y
-	rT3WqjE7BmY+l53H1FTppq6cxpyxSfmMRkoGPvnAaKVlEy8rbdVBGwCobhbNk5Q1Ydjn
-	leHZCPbEyhWBBKmPVDhsstp3aK+2XnEuY14o9UOR6KK1KxS/ia+vf0DmBvrFFMKAGbrI
-	8ReMQowtRmLO+pGR34FeqtPVCnP1Ah9Dan/jThuhXEQFcnUyPOnM+XHWVIphpuJGEFBa
-	4yy6pYGDQIXwoqC0cKitO9Y0QEdhi5mE9V7LGHTLKD4IYODIx/h7C6aJsxGntCmoPge/
-	Z08A==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=FhdWRxPNUBrHfeekmUh0a/Oh8OYPBRAtdrB9qKNSsEA=;
+	b=QXANxkQCu+tSWDVBFP6yfBuTtYSrbCGh5lWkDtXdtKPlNL7/YAX2/4jlPV/JAL82id
+	2ZyuYQBTbo24rodmmlZTvdxiV5LN13dAP8eNlhhRApgXFARF08ABNovWT57GJhTZbQLH
+	J0fMnNuHoXBe7iIfO4AAtgz4aFHJLHi6WAJxcj+AvxCkSNkePSLisLRGsS6kkGR/kgJV
+	rCpBCf9H6C0T+t6oulTiaeDREFDrqrhfJ3pBV7lhRvosmBSyK7lLXJToWWtvTBUsVLzK
+	+BqdG5DTAwm1ZwZHm2aI/mqLQaAQHgoxVvlx8hVr7MMX0Ko/cfsE8d546Uhwxmb8TlAy
+	To0g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=8Iw4WcROeIjDVSbOqaJK16F98amSvn2ezBmf0bQYqcE=;
-	b=Wwv6E47T+J0WqBIyx0MljPXj0BFDKAEUCyBvhDurn+RWM3TKpZxFlIdakx1BAa/t0T
-	CHw+oPupyo8qVxg+XeQvodF3JTet1IbV3jL8H8MAmLW+cxrN7NueweEJzAggJcn9yeNS
-	IbdNpDDdqR7WCAOPQLazZndRhZqwJTQhDYw2SoVhWcBUaZIC7LS7Bg/Td+0G+gRR9CaL
-	2zSdMJvaGHsTpdurTf6y3i5ia6UEF+Ntw8L3FMszgFMZqmvjJcObRmNqStaCRHwVTAbb
-	nYhVuEcFql/ehSzoDe0IwDVxQNRiTcppCBhShsvP5HFqd5ROWAcxkzoo2r2PI547V17P
-	G0hQ==
-X-Gm-Message-State: APjAAAU2aKUSPwr3ofDQmGYUaavuyF4cBw2wd21mbdA+/ouNkWmVGX55
-	xYEcTfdJiyAlFnN21r6JQsTXN7yKOhg=
-X-Google-Smtp-Source: APXvYqxS5T5bRX6xtO1gP/ucp3mMdZZKnunMWKx0KmseZhYeekqYQ6dWtjbZq+LzfqkIjY2GTJnBxQ==
-X-Received: by 2002:aa7:8289:: with SMTP id s9mr16541129pfm.208.1557514488809; 
-	Fri, 10 May 2019 11:54:48 -0700 (PDT)
+	:references:mime-version:content-transfer-encoding;
+	bh=FhdWRxPNUBrHfeekmUh0a/Oh8OYPBRAtdrB9qKNSsEA=;
+	b=We4SKbPm+3YCF9IwbcIscBSN7oOnimaZFRNLXqHD5wxpqyuVRTm0erDVSewunLe1SK
+	NB3rqkUj1TcRAlplZgc8GpGkTKcRf4NRYMeGOpQECQznScyyZfzszqiP5E3m3EnO9RT5
+	mh/Jwc5C6aW9npTNZnQbhanKGMNjtBGVw2CsTu0BKv3O/jT2IkDLoHcPTeILqe7/w75l
+	EzwN+Rby+LKqUQwdnKxW51udf9V9AtJxiRmRVEi0C4mGfzDBe6ZT7sXLhACQQXussGJx
+	nCQC5e1scyO+47JQRmXH+RFejYsU9QB5QhkiC36ZCFw/13SC71F+39EDnh+2q1co7zZN
+	h/7Q==
+X-Gm-Message-State: APjAAAURdpcpa4pvKHPqMKXLkjIslBkbxhvDugRHrOVEC5M5VxXlAf2Z
+	fkaa2u+aMz5iYBq5VtiM0ujhc7IUIYI=
+X-Google-Smtp-Source: APXvYqxyohnZHscv4GG2E1ZYaZJ6tw1XX857317IrVlxO8aud7QG3NtGVkOQWGaKUVLR44lWKPHRhQ==
+X-Received: by 2002:a62:bd14:: with SMTP id a20mr16497437pff.107.1557514490087;
+	Fri, 10 May 2019 11:54:50 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	q20sm12733146pfi.166.2019.05.10.11.54.47
+	q20sm12733146pfi.166.2019.05.10.11.54.48
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 10 May 2019 11:54:48 -0700 (PDT)
+	Fri, 10 May 2019 11:54:49 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri, 10 May 2019 11:54:37 -0700
-Message-Id: <20190510185438.29533-7-richard.henderson@linaro.org>
+Date: Fri, 10 May 2019 11:54:38 -0700
+Message-Id: <20190510185438.29533-8-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190510185438.29533-1-richard.henderson@linaro.org>
 References: <20190510185438.29533-1-richard.henderson@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::42c
-Subject: [Qemu-devel] [PULL v2 18/27] target/s390x: Convert to
- CPUClass::tlb_fill
+X-Received-From: 2607:f8b0:4864:20::443
+Subject: [Qemu-devel] [PULL v2 27/27] tcg: Use tlb_fill probe from
+ tlb_vaddr_to_host
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -76,219 +80,207 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-s390x@nongnu.org,
-	Cornelia Huck <cohuck@redhat.com>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cc: qemu-s390x@nongnu.org
-Cc: Cornelia Huck <cohuck@redhat.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
+Most of the existing users would continue around a loop which
+would fault the tlb entry in via a normal load/store.
+
+But for AArch64 SVE we have an existing emulation bug wherein we
+would mark the first element of a no-fault vector load as faulted
+(within the FFR, not via exception) just because we did not have
+its address in the TLB.  Now we can properly only mark it as faulted
+if there really is no valid, readable translation, while still not
+raising an exception.  (Note that beyond the first element of the
+vector, the hardware may report a fault for any reason whatsoever;
+with at least one element loaded, forward progress is guaranteed.)
+
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/s390x/internal.h    |  5 +--
- target/s390x/cpu.c         |  5 ++-
- target/s390x/excp_helper.c | 73 ++++++++++++++++++++++++++------------
- target/s390x/mem_helper.c  | 16 ---------
- 4 files changed, 55 insertions(+), 44 deletions(-)
+ include/exec/cpu_ldst.h | 50 ++++++-----------------------
+ accel/tcg/cputlb.c      | 69 ++++++++++++++++++++++++++++++++++++-----
+ target/arm/sve_helper.c |  6 +---
+ 3 files changed, 72 insertions(+), 53 deletions(-)
 
-diff --git a/target/s390x/internal.h b/target/s390x/internal.h
-index 26575f2130..56534b38e0 100644
---- a/target/s390x/internal.h
-+++ b/target/s390x/internal.h
-@@ -263,8 +263,9 @@ ObjectClass *s390_cpu_class_by_name(const char *name);
- void s390x_cpu_debug_excp_handler(CPUState *cs);
- void s390_cpu_do_interrupt(CPUState *cpu);
- bool s390_cpu_exec_interrupt(CPUState *cpu, int int_req);
--int s390_cpu_handle_mmu_fault(CPUState *cpu, vaddr address, int size, int rw,
--                              int mmu_idx);
-+bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                       MMUAccessType access_type, int mmu_idx,
-+                       bool probe, uintptr_t retaddr);
- void s390x_cpu_do_unaligned_access(CPUState *cs, vaddr addr,
-                                    MMUAccessType access_type,
-                                    int mmu_idx, uintptr_t retaddr);
-diff --git a/target/s390x/cpu.c b/target/s390x/cpu.c
-index b58ef0a8ef..b1df63d82c 100644
---- a/target/s390x/cpu.c
-+++ b/target/s390x/cpu.c
-@@ -478,9 +478,7 @@ static void s390_cpu_class_init(ObjectClass *oc, void *data)
-     cc->set_pc = s390_cpu_set_pc;
-     cc->gdb_read_register = s390_cpu_gdb_read_register;
-     cc->gdb_write_register = s390_cpu_gdb_write_register;
--#ifdef CONFIG_USER_ONLY
--    cc->handle_mmu_fault = s390_cpu_handle_mmu_fault;
+diff --git a/include/exec/cpu_ldst.h b/include/exec/cpu_ldst.h
+index d78041d7a0..7b28a839d2 100644
+--- a/include/exec/cpu_ldst.h
++++ b/include/exec/cpu_ldst.h
+@@ -433,50 +433,20 @@ static inline CPUTLBEntry *tlb_entry(CPUArchState *env, uintptr_t mmu_idx,
+  * @mmu_idx: MMU index to use for lookup
+  *
+  * Look up the specified guest virtual index in the TCG softmmu TLB.
+- * If the TLB contains a host virtual address suitable for direct RAM
+- * access, then return it. Otherwise (TLB miss, TLB entry is for an
+- * I/O access, etc) return NULL.
+- *
+- * This is the equivalent of the initial fast-path code used by
+- * TCG backends for guest load and store accesses.
++ * If we can translate a host virtual address suitable for direct RAM
++ * access, without causing a guest exception, then return it.
++ * Otherwise (TLB entry is for an I/O access, guest software
++ * TLB fill required, etc) return NULL.
+  */
++#ifdef CONFIG_USER_ONLY
+ static inline void *tlb_vaddr_to_host(CPUArchState *env, abi_ptr addr,
+-                                      int access_type, int mmu_idx)
++                                      MMUAccessType access_type, int mmu_idx)
+ {
+-#if defined(CONFIG_USER_ONLY)
+     return g2h(addr);
 -#else
-+#ifndef CONFIG_USER_ONLY
-     cc->get_phys_page_debug = s390_cpu_get_phys_page_debug;
-     cc->vmsd = &vmstate_s390_cpu;
-     cc->write_elf64_note = s390_cpu_write_elf64_note;
-@@ -493,6 +491,7 @@ static void s390_cpu_class_init(ObjectClass *oc, void *data)
-     cc->disas_set_info = s390_cpu_disas_set_info;
- #ifdef CONFIG_TCG
-     cc->tcg_initialize = s390x_translate_init;
-+    cc->tlb_fill = s390_cpu_tlb_fill;
- #endif
- 
-     cc->gdb_num_core_regs = S390_NUM_CORE_REGS;
-diff --git a/target/s390x/excp_helper.c b/target/s390x/excp_helper.c
-index f84bfb1284..a4e134bcab 100644
---- a/target/s390x/excp_helper.c
-+++ b/target/s390x/excp_helper.c
-@@ -74,8 +74,9 @@ void s390_cpu_do_interrupt(CPUState *cs)
-     cs->exception_index = -1;
+-    CPUTLBEntry *tlbentry = tlb_entry(env, mmu_idx, addr);
+-    abi_ptr tlb_addr;
+-    uintptr_t haddr;
+-
+-    switch (access_type) {
+-    case 0:
+-        tlb_addr = tlbentry->addr_read;
+-        break;
+-    case 1:
+-        tlb_addr = tlb_addr_write(tlbentry);
+-        break;
+-    case 2:
+-        tlb_addr = tlbentry->addr_code;
+-        break;
+-    default:
+-        g_assert_not_reached();
+-    }
+-
+-    if (!tlb_hit(tlb_addr, addr)) {
+-        /* TLB entry is for a different page */
+-        return NULL;
+-    }
+-
+-    if (tlb_addr & ~TARGET_PAGE_MASK) {
+-        /* IO access */
+-        return NULL;
+-    }
+-
+-    haddr = addr + tlbentry->addend;
+-    return (void *)haddr;
+-#endif /* defined(CONFIG_USER_ONLY) */
  }
++#else
++void *tlb_vaddr_to_host(CPUArchState *env, abi_ptr addr,
++                        MMUAccessType access_type, int mmu_idx);
++#endif
  
--int s390_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size,
--                              int rw, int mmu_idx)
-+bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                       MMUAccessType access_type, int mmu_idx,
-+                       bool probe, uintptr_t retaddr)
- {
-     S390CPU *cpu = S390_CPU(cs);
- 
-@@ -83,7 +84,7 @@ int s390_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size,
-     /* On real machines this value is dropped into LowMem.  Since this
-        is userland, simply put this someplace that cpu_loop can find it.  */
-     cpu->env.__excp_addr = address;
--    return 1;
-+    cpu_loop_exit_restore(cs, retaddr);
- }
- 
- #else /* !CONFIG_USER_ONLY */
-@@ -102,19 +103,20 @@ static inline uint64_t cpu_mmu_idx_to_asc(int mmu_idx)
+ #endif /* CPU_LDST_H */
+diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
+index dfcd9ae168..685e0f2ee4 100644
+--- a/accel/tcg/cputlb.c
++++ b/accel/tcg/cputlb.c
+@@ -1007,6 +1007,16 @@ static void io_writex(CPUArchState *env, CPUIOTLBEntry *iotlbentry,
      }
  }
  
--int s390_cpu_handle_mmu_fault(CPUState *cs, vaddr orig_vaddr, int size,
--                              int rw, int mmu_idx)
-+bool s390_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                       MMUAccessType access_type, int mmu_idx,
-+                       bool probe, uintptr_t retaddr)
- {
-     S390CPU *cpu = S390_CPU(cs);
-     CPUS390XState *env = &cpu->env;
-     target_ulong vaddr, raddr;
-     uint64_t asc;
--    int prot;
-+    int prot, fail;
- 
-     qemu_log_mask(CPU_LOG_MMU, "%s: addr 0x%" VADDR_PRIx " rw %d mmu_idx %d\n",
--                  __func__, orig_vaddr, rw, mmu_idx);
-+                  __func__, address, access_type, mmu_idx);
- 
--    vaddr = orig_vaddr;
-+    vaddr = address;
- 
-     if (mmu_idx < MMU_REAL_IDX) {
-         asc = cpu_mmu_idx_to_asc(mmu_idx);
-@@ -122,39 +124,64 @@ int s390_cpu_handle_mmu_fault(CPUState *cs, vaddr orig_vaddr, int size,
-         if (!(env->psw.mask & PSW_MASK_64)) {
-             vaddr &= 0x7fffffff;
-         }
--        if (mmu_translate(env, vaddr, rw, asc, &raddr, &prot, true)) {
--            return 1;
--        }
-+        fail = mmu_translate(env, vaddr, access_type, asc, &raddr, &prot, true);
-     } else if (mmu_idx == MMU_REAL_IDX) {
-         /* 31-Bit mode */
-         if (!(env->psw.mask & PSW_MASK_64)) {
-             vaddr &= 0x7fffffff;
-         }
--        if (mmu_translate_real(env, vaddr, rw, &raddr, &prot)) {
--            return 1;
--        }
-+        fail = mmu_translate_real(env, vaddr, access_type, &raddr, &prot);
-     } else {
--        abort();
-+        g_assert_not_reached();
-     }
- 
-     /* check out of RAM access */
--    if (!address_space_access_valid(&address_space_memory, raddr,
--                                    TARGET_PAGE_SIZE, rw,
-+    if (!fail &&
-+        !address_space_access_valid(&address_space_memory, raddr,
-+                                    TARGET_PAGE_SIZE, access_type,
-                                     MEMTXATTRS_UNSPECIFIED)) {
-         qemu_log_mask(CPU_LOG_MMU,
-                       "%s: raddr %" PRIx64 " > ram_size %" PRIx64 "\n",
-                       __func__, (uint64_t)raddr, (uint64_t)ram_size);
-         trigger_pgm_exception(env, PGM_ADDRESSING, ILEN_AUTO);
--        return 1;
-+        fail = 1;
-     }
- 
--    qemu_log_mask(CPU_LOG_MMU, "%s: set tlb %" PRIx64 " -> %" PRIx64 " (%x)\n",
--            __func__, (uint64_t)vaddr, (uint64_t)raddr, prot);
-+    if (!fail) {
-+        qemu_log_mask(CPU_LOG_MMU,
-+                      "%s: set tlb %" PRIx64 " -> %" PRIx64 " (%x)\n",
-+                      __func__, (uint64_t)vaddr, (uint64_t)raddr, prot);
-+        tlb_set_page(cs, address & TARGET_PAGE_MASK, raddr, prot,
-+                     mmu_idx, TARGET_PAGE_SIZE);
-+        return true;
-+    }
-+    if (probe) {
-+        return false;
-+    }
- 
--    tlb_set_page(cs, orig_vaddr & TARGET_PAGE_MASK, raddr, prot,
--                 mmu_idx, TARGET_PAGE_SIZE);
-+    cpu_restore_state(cs, retaddr, true);
- 
--    return 0;
-+    /*
-+     * The ILC value for code accesses is undefined.  The important
-+     * thing here is to *not* leave env->int_pgm_ilen set to ILEN_AUTO,
-+     * which would cause do_program_interrupt to attempt to read from
-+     * env->psw.addr again.  C.f. the condition in trigger_page_fault,
-+     * but is not universally applied.
-+     *
-+     * ??? If we remove ILEN_AUTO, by moving the computation of ILEN
-+     * into cpu_restore_state, then we may remove this entirely.
-+     */
-+    if (access_type == MMU_INST_FETCH) {
-+        env->int_pgm_ilen = 2;
-+    }
-+
-+    cpu_loop_exit(cs);
++static inline target_ulong tlb_read_ofs(CPUTLBEntry *entry, size_t ofs)
++{
++#if TCG_OVERSIZED_GUEST
++    return *(target_ulong *)((uintptr_t)entry + ofs);
++#else
++    /* ofs might correspond to .addr_write, so use atomic_read */
++    return atomic_read((target_ulong *)((uintptr_t)entry + ofs));
++#endif
 +}
 +
-+void tlb_fill(CPUState *cs, target_ulong addr, int size,
-+              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
-+{
-+    s390_cpu_tlb_fill(cs, addr, size, access_type, mmu_idx, false, retaddr);
+ /* Return true if ADDR is present in the victim tlb, and has been copied
+    back to the main tlb.  */
+ static bool victim_tlb_hit(CPUArchState *env, size_t mmu_idx, size_t index,
+@@ -1017,14 +1027,7 @@ static bool victim_tlb_hit(CPUArchState *env, size_t mmu_idx, size_t index,
+     assert_cpu_is_self(ENV_GET_CPU(env));
+     for (vidx = 0; vidx < CPU_VTLB_SIZE; ++vidx) {
+         CPUTLBEntry *vtlb = &env->tlb_v_table[mmu_idx][vidx];
+-        target_ulong cmp;
+-
+-        /* elt_ofs might correspond to .addr_write, so use atomic_read */
+-#if TCG_OVERSIZED_GUEST
+-        cmp = *(target_ulong *)((uintptr_t)vtlb + elt_ofs);
+-#else
+-        cmp = atomic_read((target_ulong *)((uintptr_t)vtlb + elt_ofs));
+-#endif
++        target_ulong cmp = tlb_read_ofs(vtlb, elt_ofs);
+ 
+         if (cmp == page) {
+             /* Found entry in victim tlb, swap tlb and iotlb.  */
+@@ -1108,6 +1111,56 @@ void probe_write(CPUArchState *env, target_ulong addr, int size, int mmu_idx,
+     }
  }
  
- static void do_program_interrupt(CPUS390XState *env)
-diff --git a/target/s390x/mem_helper.c b/target/s390x/mem_helper.c
-index 3f76a8abfd..ffd5f02fbe 100644
---- a/target/s390x/mem_helper.c
-+++ b/target/s390x/mem_helper.c
-@@ -33,22 +33,6 @@
- 
- /*****************************************************************************/
- /* Softmmu support */
--#if !defined(CONFIG_USER_ONLY)
--
--/* try to fill the TLB and return an exception if error. If retaddr is
--   NULL, it means that the function was called in C code (i.e. not
--   from generated code or from helper.c) */
--/* XXX: fix it to restore all registers */
--void tlb_fill(CPUState *cs, target_ulong addr, int size,
--              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
--{
--    int ret = s390_cpu_handle_mmu_fault(cs, addr, size, access_type, mmu_idx);
--    if (unlikely(ret != 0)) {
--        cpu_loop_exit_restore(cs, retaddr);
--    }
--}
--
--#endif
- 
- /* #define DEBUG_HELPER */
- #ifdef DEBUG_HELPER
++void *tlb_vaddr_to_host(CPUArchState *env, abi_ptr addr,
++                        MMUAccessType access_type, int mmu_idx)
++{
++    CPUTLBEntry *entry = tlb_entry(env, mmu_idx, addr);
++    uintptr_t tlb_addr, page;
++    size_t elt_ofs;
++
++    switch (access_type) {
++    case MMU_DATA_LOAD:
++        elt_ofs = offsetof(CPUTLBEntry, addr_read);
++        break;
++    case MMU_DATA_STORE:
++        elt_ofs = offsetof(CPUTLBEntry, addr_write);
++        break;
++    case MMU_INST_FETCH:
++        elt_ofs = offsetof(CPUTLBEntry, addr_code);
++        break;
++    default:
++        g_assert_not_reached();
++    }
++
++    page = addr & TARGET_PAGE_MASK;
++    tlb_addr = tlb_read_ofs(entry, elt_ofs);
++
++    if (!tlb_hit_page(tlb_addr, page)) {
++        uintptr_t index = tlb_index(env, mmu_idx, addr);
++
++        if (!victim_tlb_hit(env, mmu_idx, index, elt_ofs, page)) {
++            CPUState *cs = ENV_GET_CPU(env);
++            CPUClass *cc = CPU_GET_CLASS(cs);
++
++            if (!cc->tlb_fill(cs, addr, 0, access_type, mmu_idx, true, 0)) {
++                /* Non-faulting page table read failed.  */
++                return NULL;
++            }
++
++            /* TLB resize via tlb_fill may have moved the entry.  */
++            entry = tlb_entry(env, mmu_idx, addr);
++        }
++        tlb_addr = tlb_read_ofs(entry, elt_ofs);
++    }
++
++    if (tlb_addr & ~TARGET_PAGE_MASK) {
++        /* IO access */
++        return NULL;
++    }
++
++    return (void *)((uintptr_t)addr + entry->addend);
++}
++
+ /* Probe for a read-modify-write atomic operation.  Do not allow unaligned
+  * operations, or io operations to proceed.  Return the host address.  */
+ static void *atomic_mmu_lookup(CPUArchState *env, target_ulong addr,
+diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
+index bc847250dd..fd434c66ea 100644
+--- a/target/arm/sve_helper.c
++++ b/target/arm/sve_helper.c
+@@ -4598,11 +4598,7 @@ static void sve_ldnf1_r(CPUARMState *env, void *vg, const target_ulong addr,
+      * in the real world, obviously.)
+      *
+      * Then there are the annoying special cases with watchpoints...
+-     *
+-     * TODO: Add a form of tlb_fill that does not raise an exception,
+-     * with a form of tlb_vaddr_to_host and a set of loads to match.
+-     * The non_fault_vaddr_to_host would handle everything, usually,
+-     * and the loads would handle the iomem path for watchpoints.
++     * TODO: Add a form of non-faulting loads using cc->tlb_fill(probe=true).
+      */
+     host = tlb_vaddr_to_host(env, addr + mem_off, MMU_DATA_LOAD, mmu_idx);
+     split = max_for_page(addr, mem_off, mem_max);
 -- 
 2.17.1
 
