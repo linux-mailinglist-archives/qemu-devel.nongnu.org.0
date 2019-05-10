@@ -2,90 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B227619CE9
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 13:50:01 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:41754 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9192919CF2
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 13:59:43 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:41856 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hP42K-0004Y8-Mp
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 07:50:00 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41681)
+	id 1hP4Bi-0001C5-HD
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 07:59:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42823)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <liran.alon@oracle.com>) id 1hP412-0004E6-6T
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 07:48:45 -0400
+	(envelope-from <alex.bennee@linaro.org>) id 1hP496-00085Z-Ft
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 07:57:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <liran.alon@oracle.com>) id 1hP411-0003YA-7Z
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 07:48:40 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:47596)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <liran.alon@oracle.com>)
-	id 1hP410-0003Wz-UR
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 07:48:39 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-	by userp2120.oracle.com (8.16.0.27/8.16.0.27) with SMTP id
-	x4ABiKZm196079; Fri, 10 May 2019 11:48:34 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com;
-	h=content-type :
-	mime-version : subject : from : in-reply-to : date : cc :
-	content-transfer-encoding : message-id : references : to;
-	s=corp-2018-07-02; bh=zUMPKnY54+IgOat56fY6McWPnlrNyrFK25KVmwlrYNY=;
-	b=sMzyoZZSox/g4IgvNRnXY120HqgzLAPhoN7HkKG3jf+tmsE/XcmwcpleIcn0PkFHkfw8
-	8xXAmhQnWct0G9057mrb8AVIuymbFpY4R2Aec9/hhS8FS9I6KAKnnzQRosg/POtIJ+co
-	jZrQ/3Vkg3lLXSRwGkr7BYUM8r9dA7qElKJQh/Aa0oNOoTYHLdlShGxoIjO4weLz9NkA
-	0xvY+y0JR68bgEB2sfVQF0ypqqYvqpvOhnzij0QTlWdlkNJTpJtEiGUGmEbffbdEdmd3
-	GzLexmNmKxx1mPtq6MNPbj97XYcAwOuJYMIJ7d1tTwoFdmCRMuFfm2ZpvITR3mQdKB63
-	8w== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-	by userp2120.oracle.com with ESMTP id 2s94b18g0g-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 10 May 2019 11:48:34 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-	by userp3030.oracle.com (8.16.0.27/8.16.0.27) with SMTP id
-	x4ABm3ux086103; Fri, 10 May 2019 11:48:34 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-	by userp3030.oracle.com with ESMTP id 2sagyvstf3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-	Fri, 10 May 2019 11:48:33 +0000
-Received: from abhmp0004.oracle.com (abhmp0004.oracle.com [141.146.116.10])
-	by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id x4ABmV4V013638;
-	Fri, 10 May 2019 11:48:31 GMT
-Received: from [192.168.14.112] (/79.181.223.222)
-	by default (Oracle Beehive Gateway v4.0)
-	with ESMTP ; Fri, 10 May 2019 04:48:31 -0700
-Content-Type: text/plain;
-	charset=utf-8
-Mime-Version: 1.0 (Mac OS X Mail 11.1 \(3445.4.7\))
-From: Liran Alon <liran.alon@oracle.com>
-In-Reply-To: <20190425135319-mutt-send-email-mst@kernel.org>
-Date: Fri, 10 May 2019 14:48:23 +0300
+	(envelope-from <alex.bennee@linaro.org>) id 1hP495-00019P-Mo
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 07:57:00 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:42300)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+	id 1hP495-00017L-H2
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 07:56:59 -0400
+Received: by mail-wr1-x443.google.com with SMTP id l2so7552321wrb.9
+	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 04:56:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=references:user-agent:from:to:cc:subject:in-reply-to:date
+	:message-id:mime-version:content-transfer-encoding;
+	bh=ft+/1Fmo2fKzbbcBOYigLmMl0lRnapKdieGqd1xvaUQ=;
+	b=dcvFpyR3pzJLJ4BBTYi9WG5N24kNHm3l9GNetmghOBznZg+8UK3hnI/ziblWVyQUVL
+	wPBca7VEmeZxmDfsanqZcjCrpqsthTeFMErf/HeCYT1yUiDPZSz/m6W6z/Zvb5O7wJ9i
+	JwD/8MHJ6+NgiTU1gl75llRjvoebKMmxdFZfXTlFIbAQ5pZEyB+6G//Tpx8OpmUwQDun
+	XQ02WPK+PXajcauXu/dpJArGg5XEQ0IHA9GlX4ak78Z5L5J03d+WVJVEUiquQ36I260h
+	eak4CG6rkMzl/lpEEIfiW1G5ec9N/sNvM3PRDStIHh0n1ccY5gkhut+Dc810W3DKPmsi
+	MRNQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:references:user-agent:from:to:cc:subject
+	:in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+	bh=ft+/1Fmo2fKzbbcBOYigLmMl0lRnapKdieGqd1xvaUQ=;
+	b=rhxiNHQZSVOkfz3fA7orn8t6IU3gwVnmfOO8DVpDFbesSNy7N0JDisyOXZ3UDSQKbY
+	m3Bh9sV4IzNi9S71CZ89rLTPI9QAt4nOIH7weceuZnYbItl6ed8csvIJsfV8KI8Jvfst
+	VI5HhQVqyAchzDqD05WV2yZIJxFmAYWfwTsIzMT6XaQJLnS/E/Id4oii2SS5EPHanM4Y
+	kEQIDKG2CRRUV2kuYud/W+zYMO2EcMDQ7hTN6CKx/VnicEugLcWg74lkBBCux3yTEYJT
+	ivsl7GXFFtJoyoeTUwsecEYsVsfhF0RbAgvrzhllIKGzhU3GV/0uKh1+3OI5oX1TifwY
+	iHEA==
+X-Gm-Message-State: APjAAAVGsTxz5i6dUv0248Dv7nGpbKy4492IhtIVArkF0hNWKYxK1aHz
+	M21P6IFxRycJlvWa3LGCH4eWvQ==
+X-Google-Smtp-Source: APXvYqyQNiAvbi/HAbFbCRq5284sFiHZ+irrw5sKs3ecW32lJRlup7qQekhiZBIWRfRZvIzjcYuNjQ==
+X-Received: by 2002:adf:ee8d:: with SMTP id b13mr7124954wro.219.1557489417978; 
+	Fri, 10 May 2019 04:56:57 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+	by smtp.gmail.com with ESMTPSA id z7sm6410263wme.26.2019.05.10.04.56.57
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 10 May 2019 04:56:57 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+	by zen.linaroharston (Postfix) with ESMTP id F3B0D1FF87;
+	Fri, 10 May 2019 12:56:56 +0100 (BST)
+References: <20190510102918.2705-1-alex.bennee@linaro.org>
+	<55dd9cf4-cb06-48b1-0cec-ff03113c7c17@redhat.com>
+	<b8b1c003-ed0d-d6f2-f970-9fb36165afb7@redhat.com>
+User-agent: mu4e 1.3.1; emacs 26.1
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Thomas Huth <thuth@redhat.com>
+In-reply-to: <b8b1c003-ed0d-d6f2-f970-9fb36165afb7@redhat.com>
+Date: Fri, 10 May 2019 12:56:56 +0100
+Message-ID: <87k1ey4j5j.fsf@zen.linaroharston>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-Message-Id: <41141B94-B9FC-4198-A3A2-236B4C09D33D@oracle.com>
-References: <20190416125912.44001-1-liran.alon@oracle.com>
-	<20190418094101.GA23876@stefanha-x1.localdomain>
-	<17635C1F-A477-4C0F-B052-2948D853E6CD@oracle.com>
-	<20190425083819.GE30231@stefanha-x1.localdomain>
-	<20190425135319-mutt-send-email-mst@kernel.org>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-X-Mailer: Apple Mail (2.3445.4.7)
-X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9252
-	signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0
-	malwarescore=0
-	phishscore=0 bulkscore=0 spamscore=0 mlxscore=0 mlxlogscore=692
-	adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
-	engine=8.0.1-1810050000 definitions=main-1905100084
-X-Proofpoint-Virus-Version: vendor=nai engine=5900 definitions=9252
-	signatures=668686
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
-	priorityscore=1501 malwarescore=0
-	suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1015
-	lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=729
-	adultscore=0
-	classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
-	definitions=main-1905100084
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 156.151.31.85
-Subject: Re: [Qemu-devel] [PATCH v2 0/3] vhost-scsi: Support migration
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2a00:1450:4864:20::443
+Subject: Re: [Qemu-devel] [PATCH v3] tests/qemu-iotests: re-format output to
+ for make check-block
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -97,65 +84,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ehabkost@redhat.com, Stefan Hajnoczi <stefanha@gmail.com>,
-	mtosatti@redhat.com, qemu-devel@nongnu.org,
-	bijan.mottahedeh@oracle.com, pbonzini@redhat.com,
-	nir.weiner@oracle.com, rth@twiddle.net
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+	mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+Thomas Huth <thuth@redhat.com> writes:
 
-> On 25 Apr 2019, at 20:53, Michael S. Tsirkin <mst@redhat.com> wrote:
->=20
-> On Thu, Apr 25, 2019 at 09:38:19AM +0100, Stefan Hajnoczi wrote:
->> On Wed, Apr 24, 2019 at 07:38:57PM +0300, Liran Alon wrote:
->>>=20
->>>=20
->>>> On 18 Apr 2019, at 12:41, Stefan Hajnoczi <stefanha@gmail.com> =
-wrote:
->>>>=20
->>>> On Tue, Apr 16, 2019 at 03:59:09PM +0300, Liran Alon wrote:
->>>>> Hi,
->>>>>=20
->>>>> This patch series aims to add supprot to migrate a VM with a =
-vhost-scsi device.
->>>>>=20
->>>>> The 1st patch fixes a bug of mistakenly not stopping vhost-scsi =
-backend when a
->>>>> VM is stopped (As happens on migratino pre-copy completion).
->>>>>=20
->>>>> The 2nd patch adds ability to save/load vhost-scsi device state in =
-VMState.
->>>>>=20
->>>>> The 3rd and final paqtch adds a flag to vhost-scsi which allows =
-admin to specify
->>>>> it's setup supports vhost-scsi migratino. For more detailed =
-information on why
->>>>> this is valid, see commit message of specific patch.
->>>>>=20
->>>>> Regards,
->>>>> -Liran
->>>>=20
->>>> Looks fine for vhost_scsi.ko.  I have not checked how this =
-interacts
->>>> with vhost-user-scsi.
->>>>=20
->>>> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
->>>=20
->>> Gentle Ping.
->>=20
->> This should go either through Michael's virtio/vhost tree or Paolo's
->> SCSI tree.
->>=20
->> Stefan
->=20
-> OK I'll queue it.
+> On 10/05/2019 12.48, Thomas Huth wrote:
+> [...]
+>>
+>> I think the "make check" mode should only print out one time for each
+>> test, preferable at the end, like the other tests (like qtests) are
+>> doing it...?
+>
+> s/preferable at the end/preferably at the beginning/
+>
+> ... I think the makefile rules for the other tests are printing out
+> "  TEST xyz" *before* the test is started. And the iotests "check"
+> script should do the same.
 
-Thanks.
-When is this expected to be merged to QEMU=E2=80=99s master?
+That mean dropping the execution time (and previous execution time and
+possible failure). We could just duplicate on failure modes so you get:
 
--Liran
+  TEST    iotest: 007
+  TEST    iotest: 007 [not run] not suitable for this image format: raw
+
+when there is something other than a passed test to report.
+
+>
+>  Thomas
 
 
+--
+Alex Benn=C3=A9e
 
