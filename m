@@ -2,82 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 57D1419EDE
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 16:17:11 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:44119 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 64B4C19F13
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 16:24:27 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:44202 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hP6Kk-0003kf-71
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 10:17:10 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41359)
+	id 1hP6Rm-0007d9-HW
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 10:24:26 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44223)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hP69p-0002h3-KQ
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 10:05:54 -0400
+	(envelope-from <bounces@canonical.com>) id 1hP6OC-0005aX-OU
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 10:20:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hP69n-0005NO-Dx
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 10:05:52 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:36761)
+	(envelope-from <bounces@canonical.com>) id 1hP6OA-0007nH-T6
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 10:20:44 -0400
+Received: from indium.canonical.com ([91.189.90.7]:33558)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hP69j-0005IZ-La
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 10:05:47 -0400
-Received: by mail-wm1-x341.google.com with SMTP id j187so7680263wmj.1
-	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 07:05:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=references:user-agent:from:to:cc:subject:in-reply-to:date
-	:message-id:mime-version:content-transfer-encoding;
-	bh=RNUPI5+XhJ6O3/esqlvjExYTl4YbpYlpj/x4Osi/CI4=;
-	b=Eop+2Hfp/CynP4eB4NaEczIdzrEh8ngUIKe6lihDYrj9Ow2r/4yTHLUZ2DFh3w9kg7
-	uEiTdxxlnJyc4zFvu+vnkqdu/4X3Nfs4nJb6zsKO2o2sypL0VsxTPsjXSqcP+6bCMPTY
-	MVAW2fssioapvR9rgmTSvg1QXlvW1kh6OzCerbW8W0Js+62RpqTqe65tFZLxD5bcSxoe
-	zIcqxmU2UliII0kwknj//ZhmIcp2RnSh3ZMm5B3Ul5MAa9qP7h7pqxye4NjcQvCaHEXb
-	U0rqg25o9hCHG2uMUXqpzqyu+SwUG4oIH0mWcUZ3MEI8FmTG9PsF3AEkFAupOKmb9wob
-	ZqDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:references:user-agent:from:to:cc:subject
-	:in-reply-to:date:message-id:mime-version:content-transfer-encoding;
-	bh=RNUPI5+XhJ6O3/esqlvjExYTl4YbpYlpj/x4Osi/CI4=;
-	b=NVuEUaNrTqveaEemUt30CJyr+YMMk2R9BHrW2MXzJo6bl7fG4ohitNhHCOTJRvVXtw
-	zPwDJ5wapLu6MjVr92OO0OTraTl0GvM64oErr3JWAIhR43l8ghApXNebl2b7WVpvVXDb
-	gBqkBU4lYZ1X7LbEo9jwGEv6+XRymt0+LvxJQJwrRQvBq92ZWsrymeUTz9WeJLU8YEC9
-	Uv+nWQRC7S/7kqoTHlkczkcUp4YO+DRs2mnYM1hU3LsVwqwM6iSd94QnxST0YuP0doTR
-	stcLdf4Zywx1VURkoeW/MiZRi/6xet3oTmrR8Tl8sqC8rOnrPw1aEuZmLIXIxlg31W4u
-	mXzg==
-X-Gm-Message-State: APjAAAUK+o6kvJNZmLSldHpe6DtNWJG4+vOMXI2vWUgMvccGmQqd6NZ6
-	BixtKe+w69ztxT1DONWaJKVo2w==
-X-Google-Smtp-Source: APXvYqygs9OZOlWIkk1ZdyEljW3Q4MonCnL6vKifjhlKuV7Qdd29En9kXW3I5Z8RxN2G1yA1GDIDpA==
-X-Received: by 2002:a1c:d181:: with SMTP id i123mr7495393wmg.33.1557497146073; 
-	Fri, 10 May 2019 07:05:46 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
-	by smtp.gmail.com with ESMTPSA id s7sm5575315wrn.84.2019.05.10.07.05.45
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Fri, 10 May 2019 07:05:45 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id EFFBD1FF87;
-	Fri, 10 May 2019 15:05:44 +0100 (BST)
-References: <20190509165912.10512-1-alex.bennee@linaro.org>
-	<20190509165912.10512-6-alex.bennee@linaro.org>
-	<252a5c4b-6ba7-6fa7-8792-fe597e766757@linaro.org>
-	<87pnoq4x4o.fsf@zen.linaroharston>
-	<f6abf67c-94af-22a6-c648-2fdbfe73974d@linaro.org>
-User-agent: mu4e 1.3.1; emacs 26.1
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Richard Henderson <richard.henderson@linaro.org>
-In-reply-to: <f6abf67c-94af-22a6-c648-2fdbfe73974d@linaro.org>
-Date: Fri, 10 May 2019 15:05:44 +0100
-Message-ID: <87v9yibe13.fsf@zen.linaroharston>
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hP6O9-0007lw-6I
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 10:20:42 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hP6O8-0003FH-3G
+	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 14:20:40 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id 118312E80C0
+	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 14:20:40 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::341
-Subject: Re: [Qemu-devel] [PATCH v1 05/23] semihosting: enable chardev
- backed output
+Date: Fri, 10 May 2019 14:05:51 -0000
+From: Amol Surati <1828507@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: asurati
+X-Launchpad-Bug-Reporter: Amol Surati (asurati)
+X-Launchpad-Bug-Modifier: Amol Surati (asurati)
+References: <155746816636.22030.3977137421670178751.malonedeb@chaenomeles.canonical.com>
+Message-Id: <155749715145.21772.2580380546136901249.malone@chaenomeles.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18962";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 982181184ea65adfe99b0cfebdc495cf750b2826
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1828507] Re: qemu-system-ppc64 smp crash on
+ manual reset
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -86,59 +64,80 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Reply-To: Bug 1828507 <1828507@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+If one continues with the iso, and installs the OS in the
+guest, the rebooting of the guest from within the guest
+OS too causes qemu to exit fatally. So, one can run
+'systemctl reboot' or 'reboot' within the guest OS and
+see qemu crash (immediately after SLOF prints version,
+etc. as part of the reboot sequence, as described before).
 
-Richard Henderson <richard.henderson@linaro.org> writes:
+-- =
 
-> On 5/9/19 11:55 PM, Alex Benn=C3=A9e wrote:
->>
->> Richard Henderson <richard.henderson@linaro.org> writes:
->>
->>> On 5/9/19 9:58 AM, Alex Benn=C3=A9e wrote:
->>>> @@ -51,12 +51,18 @@ static inline const char *semihosting_get_cmdline(=
-void)
->>>>  {
->>>>      return NULL;
->>>>  }
->>>> +
->>>> +static inline Chardev *semihosting_get_chardev(void)
->>>> +{
->>>> +    return NULL;
->>>> +}
->>>
->>> Isn't the point of this function to avoid...
->>
->> Yes... but...
->>
->>>
->>>> -                return write(STDERR_FILENO, &c, 1);
->>>> +#ifdef CONFIG_SOFTMMU
->>>> +              Chardev *chardev =3D semihosting_get_chardev();
->>>> +              if (chardev) {
->>>> +                  return qemu_chr_write_all(chardev, (uint8_t *) &c,
->>> 1);
->>
->> The qemu_chr device stuff doesn't have such stubs and is softmmu only as
->> well. *sigh*
->
-> Ah, I see.  Yes that's a problem.
->
-> Well at least you don't need the "else\n#endif\n{" ugliness.  You have the
-> return out of the then block.
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1828507
 
-Only for the first one though.. that said I'm sure the write string is
-leaking when we do gdb output with whatever lock_user_string is trying
-to achieve.
+Title:
+  qemu-system-ppc64 smp crash on manual reset
 
->
->
-> r~
+Status in QEMU:
+  New
 
+Bug description:
+  Host Environment:
+     x86_64 Linux v5.0.2
+     QEMU emulator version 4.0.50 (v4.0.0-354-g812b835fb4)
+     SLOF:
+         Build Date =3D Jan 14 2019 18:00:39
+         FW Version =3D git-a5b428e1c1eae703
 
---
-Alex Benn=C3=A9e
+  Problem: Qemu crash immediately after a manual reset
+           (this is not the initial reset which launches the guest).
+
+  Steps:
+
+  1. Download Debian ppc64el mini.iso:
+     http://ftp.debian.org/debian/dists/sid/main/installer-ppc64el/current/=
+images/netboot/mini.iso
+  2. Run qemu on the host. Ensure that it runs with more than one CPUs. Wit=
+h a single CPU, I was unable
+     to reproduce the crash.
+     qemu-system-ppc64 -M pseries -cpu power9 -smp 2 -m 512 -cdrom mini.iso
+  3. SLOF prints the version info on the serial device, and proceeds to boo=
+t.
+  4. After a few seconds, the GRUB menu appears on the VGA screen.
+  5. Select one of the install options (I have tested with Default and Expe=
+rt), and wait
+     for the Debian's text-mode installer (blue-gray-red) screen to appear.
+  6. Click Machine->Reset (or enter system_reset on the qemu monitor).
+  7. Notice that, on the serial device, SLOF has printed the version info. =
+That is, the system
+     has reset and is attempting to boot again.
+  8. On the host cmd prompt, qemu dies after printing this fatal error and =
+spewing the
+     contents of the CPU registers:
+
+     qemu: fatal: Trying to deliver HV exception (MSR) 70 with no HV support
+     <CPU contents> (See attached out.txt for details)
+     Aborted (core dumped)
+
+  =
+
+  The HV exception is either
+     (a) 70 =3D HISI, which occurs when NIP contains an outright bogus or i=
+naccessible value, or
+     (b) 69 =3D HDSI, which occurs when NIP happens to contain a somewhat s=
+aner value, and
+         the cpu attempts to run the instruction at that address.
+
+  The exception can occur on either of the CPUs. It occurs when qemu is run=
+ning the SLOF
+  code.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1828507/+subscriptions
 
