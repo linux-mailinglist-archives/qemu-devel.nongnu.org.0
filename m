@@ -2,70 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3163019C3E
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 13:10:52 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:41300 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3C97C19C43
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 13:12:40 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:41326 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hP3QR-000385-B3
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 07:10:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34815)
+	id 1hP3SB-0004o4-D4
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 07:12:39 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35990)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hP3Jx-0006mr-5Q
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 07:04:10 -0400
+	(envelope-from <alex.bennee@linaro.org>) id 1hP3QS-0003ak-He
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 07:10:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hP3Jr-0007Y6-UZ
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 07:04:09 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:52779)
+	(envelope-from <alex.bennee@linaro.org>) id 1hP3QR-0004aj-Dw
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 07:10:52 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:37459)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hP3Jq-0007WR-HF
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 07:04:03 -0400
-Received: by mail-wm1-x344.google.com with SMTP id g26so5167712wmh.2
-	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 04:04:01 -0700 (PDT)
+	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+	id 1hP3QR-0004ND-5b
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 07:10:51 -0400
+Received: by mail-wr1-x444.google.com with SMTP id a12so7395416wrn.4
+	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 04:10:50 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=UTmgSX3YsyDWEgPgMU0oX1llXMLo7/qNT1U4uupCMLM=;
-	b=BhIOPxWkX9rNrRiwgC5jphJezvVFyZonp4r5Jh+gGXEFFpUCLzKUACOLZOgGMvaHWk
-	dhGnrNctd/qvxnLl4ZoeEmy7dsK9hty/ecWc0ZyjkcBVxnWkKB+KxALHlRO7XuacxvaT
-	cC+H7N79eq0+UlR98Cdpq1MpuZh6MJZxPkdk4orW5IKnopojBiwQCrUb3uYocx0tdH3p
-	rt/Z/j4DFnuIATqXD8fnOLiZ9B9KsgCJ313lYpGFBUhDwx4t9LX6vluptPzcQTZ9rCe5
-	FKXLyMJLWF/o9yHNWtGYjA4eR84oSLZ1c/C2FcNmKmPx1qXxagdn+0UhynZMXMFwCjz4
-	baAA==
+	h=references:user-agent:from:to:cc:subject:in-reply-to:date
+	:message-id:mime-version:content-transfer-encoding;
+	bh=0fy1QeZ2w8TmPzjU3QT3KHycC9g8zHV1Lux0sKT0PAg=;
+	b=iLKDVQQxj1fZ69YZ3g6NN5+Tnz71f8ukgE8Ht4S2jAhsZBZ4bUryaLysqDsw9d29Ig
+	sB3i/PX9lBYFo/tv5uI1VNaIrhp+uJ8BH83nEU2gW7yACyQUUVpphZ2FEFGFnRotV7Ce
+	1yJh05DTHZbgvd8yuS33oGIF+lI/K7MN5Lbe/wuL9u5lPMQeWNp4M2xK4RHM0yD/Opf+
+	hNVkvDLhUVHCyjmdWm/LV0ZI+qzO4DxPvBLx2uMD3iFRNcIM51627HNO/tYa6i+RmzP+
+	1H5hPuPsr2KNDwLEV/TgA5DkWujb0CLQacKomPBR982qX9bXAVfUdBLpW5c5wOSVZQg4
+	s3fQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=UTmgSX3YsyDWEgPgMU0oX1llXMLo7/qNT1U4uupCMLM=;
-	b=fMPa2zP0KRxvW1ZH7Om6lYzXT8VerSZdHxoTLZMiR0oVKB1SuTw8+QowNmmOQTcYIL
-	9lJCxHUSx/k+syjaf0RDchJonhuzuyYRjgBlsjegwoLflYh7DJ+2ParBuJm7O9ucKh6Z
-	MJFbOYfJvMKUJkDvKFsGw2SpRCLlcfJ2J3QIRRps0u60KGOLFMCtozvmBgIhoeAMDn0g
-	7HGfPqW6NN2oxL4N9G0zOSGNEUftY0HXy+VYTHxJ0YkJAVNmOwpffdkLXD3XNjoJ5IvB
-	n1i7D/Nny0fnplow1nQMPNwEsz5h7ic2pJtaiqmotGlo0bE84iMB6WEwOY1RO1NB2Sd3
-	jBLw==
-X-Gm-Message-State: APjAAAXz23OgJTlkt2V+jbzsePPxBtAsECX01x7xOf/AoEf+YI8+RS1O
-	CEmWWC8OxKW6Qr5UEStYzP3USw==
-X-Google-Smtp-Source: APXvYqzEbu+zPuVXyTcO4L9G4MazQNVAjghqENvFyOklPqwNEeJO8pmLo4KRBj4D9ldmISMLKgelkA==
-X-Received: by 2002:a1c:7c18:: with SMTP id x24mr6653589wmc.15.1557486240207; 
-	Fri, 10 May 2019 04:04:00 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
-	by smtp.gmail.com with ESMTPSA id o8sm9849074wra.4.2019.05.10.04.03.58
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 10 May 2019 04:03:59 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Date: Fri, 10 May 2019 12:03:57 +0100
-Message-Id: <20190510110357.18825-1-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
+	h=x-gm-message-state:references:user-agent:from:to:cc:subject
+	:in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+	bh=0fy1QeZ2w8TmPzjU3QT3KHycC9g8zHV1Lux0sKT0PAg=;
+	b=ApQUoA2qoOJtEe9151EzQA9zJl7Vrds8+ejxI77koCit6YDsQG0pXU09u7pDiQjcKR
+	a2vRz0fDt3fek2MRIMytFmIGaPtJziJI6Vug065K2CgbuhgcmnJOyc88K+A+8zZg/jGR
+	AmAoz0+ECwjNm1k7goMNJk6GPavMF/vI95eonXNGdZm4/qa4od13p+U1qZizHKw3Z+Zi
+	jMRVPgVY8wgdHmCnQcR3sdZfz75elMX7SnWNSVggMwAbVuUKF6xeE57vY6RCyfGsgIRW
+	Rfa5qr4PsQ/rVo9eGIm4BrIjlKjW2Tm5dbL7tWmEUf6h05utytn7hebaj1dqbsIjFvIb
+	rJjA==
+X-Gm-Message-State: APjAAAURKqhC+1vUNQ/nY+j17VM6K8S4EW//Fy/TY+YpRbVo1rUkKxXA
+	KTqxE0FANRPmTEbz8merqaxRww==
+X-Google-Smtp-Source: APXvYqyeZuIUwqvtUbxsSBQap0E21RuxuK/Pq8l/bdOOvZOjwn3+gZ4ByINsvkw2I93GEgCKVKkKTA==
+X-Received: by 2002:a5d:6249:: with SMTP id m9mr7034094wrv.255.1557486649131; 
+	Fri, 10 May 2019 04:10:49 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+	by smtp.gmail.com with ESMTPSA id
+	u125sm7815401wme.15.2019.05.10.04.10.48
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 10 May 2019 04:10:48 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+	by zen.linaroharston (Postfix) with ESMTP id 1E3861FF87;
+	Fri, 10 May 2019 12:10:48 +0100 (BST)
+References: <20190510102918.2705-1-alex.bennee@linaro.org>
+	<55dd9cf4-cb06-48b1-0cec-ff03113c7c17@redhat.com>
+User-agent: mu4e 1.3.1; emacs 26.1
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Thomas Huth <thuth@redhat.com>
+In-reply-to: <55dd9cf4-cb06-48b1-0cec-ff03113c7c17@redhat.com>
+Date: Fri, 10 May 2019 12:10:48 +0100
+Message-ID: <87lfze4laf.fsf@zen.linaroharston>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::344
-Subject: [Qemu-devel] [PATCH v2] target/arm: Implement NSACR gating of
- floating point
+X-Received-From: 2a00:1450:4864:20::444
+Subject: Re: [Qemu-devel] [PATCH v3] tests/qemu-iotests: re-format output to
+ for make check-block
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -77,148 +84,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>
+Cc: kwolf@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+	mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The NSACR register allows secure code to configure the FPU
-to be inaccessible to non-secure code. If the NSACR.CP10
-bit is set then:
- * NS accesses to the FPU trap as UNDEF (ie to NS EL1 or EL2)
- * CPACR.{CP10,CP11} behave as if RAZ/WI
- * HCPTR.{TCP11,TCP10} behave as if RAO/WI
 
-Note that we do not implement the NSACR.NSASEDIS bit which
-gates only access to Advanced SIMD, in the same way that
-we don't implement the equivalent CPACR.ASEDIS and HCPTR.TASE.
+Thomas Huth <thuth@redhat.com> writes:
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
-Changes v1->v2:
- * fixed bug in cptr_el2_read() that meant we were forcing
-   HCPTR.{TCP11,TCP10} to 0 when they should be 1
----
- target/arm/helper.c | 75 +++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 73 insertions(+), 2 deletions(-)
+> On 10/05/2019 12.29, Alex Benn=C3=A9e wrote:
+>> This attempts to clean-up the output to better match the output of the
+>> rest of the QEMU check system when called with -pretty. This includes:
+>>
+>>   - formatting as "  TEST    iotest: nnn"
+>>   - calculating time diff at the end
+>>   - only dumping config on failure (when -pretty enabled)
+>>
+>> The existing output is mostly preserved although the dumping of the
+>> old time at the start "Ns ..." was removed to keep the logic simple.
+>> The timestamp mode can still be used to see which tests are "hanging".
+>>
+>> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+>> Message-Id: <20190503143904.31211-1-alex.bennee@linaro.org>
+>>
+>> ---
+>> v3
+>>   - revert echo to printf
+>>   - add _report_test_start
+>> ---
+>>  tests/qemu-iotests/check | 101 ++++++++++++++++++++++++++-------------
+>>  1 file changed, 68 insertions(+), 33 deletions(-)
+>>
+>> diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
+>> index 922c5d1d3d3..ac481f905bf 100755
+>> --- a/tests/qemu-iotests/check
+>> +++ b/tests/qemu-iotests/check
+>> @@ -27,6 +27,7 @@ bad=3D""
+>>  notrun=3D""
+>>  casenotrun=3D""
+>>  interrupt=3Dtrue
+>> +pretty=3Dfalse
+>>
+>>  # by default don't output timestamps
+>>  timestamp=3D${TIMESTAMP:=3Dfalse}
+>> @@ -88,6 +89,22 @@ _full_platform_details()
+>>      echo "$os/$platform $host $kernel"
+>>  }
+>>
+>> +_full_env_details()
+>> +{
+>> +    cat <<EOF
+>> +QEMU          -- "$QEMU_PROG" $QEMU_OPTIONS
+>> +QEMU_IMG      -- "$QEMU_IMG_PROG" $QEMU_IMG_OPTIONS
+>> +QEMU_IO       -- "$QEMU_IO_PROG" $QEMU_IO_OPTIONS
+>> +QEMU_NBD      -- "$QEMU_NBD_PROG" $QEMU_NBD_OPTIONS
+>> +IMGFMT        -- $FULL_IMGFMT_DETAILS
+>> +IMGPROTO      -- $IMGPROTO
+>> +PLATFORM      -- $FULL_HOST_DETAILS
+>> +TEST_DIR      -- $TEST_DIR
+>> +SOCKET_SCM_HELPER -- $SOCKET_SCM_HELPER
+>> +
+>> +EOF
+>> +}
+>> +
+>>  # $1 =3D prog to look for
+>>  set_prog_path()
+>>  {
+>> @@ -256,6 +273,7 @@ other options
+>>      -o options          -o options to pass to qemu-img create/convert
+>>      -T                  output timestamps
+>>      -c mode             cache mode
+>> +    -pretty             pretty print output for make check
+>
+> "pretty" is likely just a matter of taste ... so maybe this should be
+> named differently instead? "--makecheck" ? Or "--one-shot" ?
+>
+>>  testlist options
+>>      -g group[,group...]        include tests from these groups
+>> @@ -403,7 +421,10 @@ testlist options
+>>                  command -v xxdiff >/dev/null 2>&1 && diff=3Dxxdiff
+>>              fi
+>>              ;;
+>> -
+>> +        -pretty)   # pretty print output
+>> +            pretty=3Dtrue
+>> +            xpand=3Dfalse
+>> +            ;;
+>>          -n)        # show me, don't do it
+>>              showme=3Dtrue
+>>              xpand=3Dfalse
+>> @@ -704,23 +725,30 @@ END        { if (NR > 0) {
+>>
+>>  trap "_wrapup; exit \$status" 0 1 2 3 15
+>>
+>> +# Report the test start and results, optionally pretty printing for make
+>> +# args: $seq
+>> +_report_test_start()
+>> +{
+>> +    if $pretty; then
+>> +        printf "  TEST    iotest: %s" "$1"
+>
+> Could you maybe change the "iotest:" into "iotest-$IMGFMT:" ? ... so
+> that when you run "make check SPEED=3Dslow" you also see which kind of
+> format is currently under test?
 
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 1e6eb0d0f36..f1fcce0313b 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -928,9 +928,36 @@ static void cpacr_write(CPUARMState *env, const ARMCPRegInfo *ri,
-         }
-         value &= mask;
-     }
-+
-+    /*
-+     * For A-profile AArch32 EL3 (but not M-profile secure mode), if NSACR.CP10
-+     * is 0 then CPACR.{CP11,CP10} ignore writes and read as 0b00.
-+     */
-+    if (arm_feature(env, ARM_FEATURE_EL3) && !arm_el_is_aa64(env, 3) &&
-+        !arm_is_secure(env) && !extract32(env->cp15.nsacr, 10, 1)) {
-+        value &= ~(0xf << 20);
-+        value |= env->cp15.cpacr_el1 & (0xf << 20);
-+    }
-+
-     env->cp15.cpacr_el1 = value;
- }
- 
-+static uint64_t cpacr_read(CPUARMState *env, const ARMCPRegInfo *ri)
-+{
-+    /*
-+     * For A-profile AArch32 EL3 (but not M-profile secure mode), if NSACR.CP10
-+     * is 0 then CPACR.{CP11,CP10} ignore writes and read as 0b00.
-+     */
-+    uint64_t value = env->cp15.cpacr_el1;
-+
-+    if (arm_feature(env, ARM_FEATURE_EL3) && !arm_el_is_aa64(env, 3) &&
-+        !arm_is_secure(env) && !extract32(env->cp15.nsacr, 10, 1)) {
-+        value &= ~(0xf << 20);
-+    }
-+    return value;
-+}
-+
-+
- static void cpacr_reset(CPUARMState *env, const ARMCPRegInfo *ri)
- {
-     /* Call cpacr_write() so that we reset with the correct RAO bits set
-@@ -996,7 +1023,7 @@ static const ARMCPRegInfo v6_cp_reginfo[] = {
-     { .name = "CPACR", .state = ARM_CP_STATE_BOTH, .opc0 = 3,
-       .crn = 1, .crm = 0, .opc1 = 0, .opc2 = 2, .accessfn = cpacr_access,
-       .access = PL1_RW, .fieldoffset = offsetof(CPUARMState, cp15.cpacr_el1),
--      .resetfn = cpacr_reset, .writefn = cpacr_write },
-+      .resetfn = cpacr_reset, .writefn = cpacr_write, .readfn = cpacr_read },
-     REGINFO_SENTINEL
- };
- 
-@@ -4681,6 +4708,36 @@ uint64_t arm_hcr_el2_eff(CPUARMState *env)
-     return ret;
- }
- 
-+static void cptr_el2_write(CPUARMState *env, const ARMCPRegInfo *ri,
-+                           uint64_t value)
-+{
-+    /*
-+     * For A-profile AArch32 EL3, if NSACR.CP10
-+     * is 0 then HCPTR.{TCP11,TCP10} ignore writes and read as 1.
-+     */
-+    if (arm_feature(env, ARM_FEATURE_EL3) && !arm_el_is_aa64(env, 3) &&
-+        !arm_is_secure(env) && !extract32(env->cp15.nsacr, 10, 1)) {
-+        value &= ~(0x3 << 10);
-+        value |= env->cp15.cptr_el[2] & (0x3 << 10);
-+    }
-+    env->cp15.cptr_el[2] = value;
-+}
-+
-+static uint64_t cptr_el2_read(CPUARMState *env, const ARMCPRegInfo *ri)
-+{
-+    /*
-+     * For A-profile AArch32 EL3, if NSACR.CP10
-+     * is 0 then HCPTR.{TCP11,TCP10} ignore writes and read as 1.
-+     */
-+    uint64_t value = env->cp15.cptr_el[2];
-+
-+    if (arm_feature(env, ARM_FEATURE_EL3) && !arm_el_is_aa64(env, 3) &&
-+        !arm_is_secure(env) && !extract32(env->cp15.nsacr, 10, 1)) {
-+        value |= 0x3 << 10;
-+    }
-+    return value;
-+}
-+
- static const ARMCPRegInfo el2_cp_reginfo[] = {
-     { .name = "HCR_EL2", .state = ARM_CP_STATE_AA64,
-       .type = ARM_CP_IO,
-@@ -4728,7 +4785,8 @@ static const ARMCPRegInfo el2_cp_reginfo[] = {
-     { .name = "CPTR_EL2", .state = ARM_CP_STATE_BOTH,
-       .opc0 = 3, .opc1 = 4, .crn = 1, .crm = 1, .opc2 = 2,
-       .access = PL2_RW, .accessfn = cptr_access, .resetvalue = 0,
--      .fieldoffset = offsetof(CPUARMState, cp15.cptr_el[2]) },
-+      .fieldoffset = offsetof(CPUARMState, cp15.cptr_el[2]),
-+      .readfn = cptr_el2_read, .writefn = cptr_el2_write },
-     { .name = "MAIR_EL2", .state = ARM_CP_STATE_BOTH,
-       .opc0 = 3, .opc1 = 4, .crn = 10, .crm = 2, .opc2 = 0,
-       .access = PL2_RW, .fieldoffset = offsetof(CPUARMState, cp15.mair_el[2]),
-@@ -13527,6 +13585,19 @@ int fp_exception_el(CPUARMState *env, int cur_el)
-         break;
-     }
- 
-+    /*
-+     * The NSACR allows A-profile AArch32 EL3 and M-profile secure mode
-+     * to control non-secure access to the FPU. It doesn't have any
-+     * effect if EL3 is AArch64 or if EL3 doesn't exist at all.
-+     */
-+    if ((arm_feature(env, ARM_FEATURE_EL3) && !arm_el_is_aa64(env, 3) &&
-+         cur_el <= 2 && !arm_is_secure_below_el3(env))) {
-+        if (!extract32(env->cp15.nsacr, 10, 1)) {
-+            /* FP insns act as UNDEF */
-+            return cur_el == 2 ? 2 : 1;
-+        }
-+    }
-+
-     /* For the CPTR registers we don't need to guard with an ARM_FEATURE
-      * check because zero bits in the registers mean "don't trap".
-      */
--- 
-2.20.1
+Sure I can do that.
 
+>
+> And this currently also does not play very nicely when running "make -j8
+> check" in parallel:
+>
+>   [...]
+>   TEST    iotest: 001  TEST    check-qtest-alpha: tests/qmp-test
+>   TEST    check-qtest-alpha: tests/qmp-cmd-test
+>   TEST    check-qtest-aarch64: tests/boot-serial-test
+>   TEST    check-qtest-aarch64: tests/migration-test
+>   TEST    check-qtest-arm: tests/tmp105-test
+>   TEST    check-unit: tests/check-qnum
+>   TEST    check-unit: tests/check-qstring
+>   TEST    check-unit: tests/check-qlist
+>   TEST    check-unit: tests/check-qnull
+>  2s (last 2s)
+>   TEST    iotest: 002  TEST    check-qtest-arm: tests/pca9552-test
+>   TEST    check-unit: tests/check-qobject
+>   TEST    check-qtest-cris: tests/qmp-test
+>   [...]
+>
+> I think the "make check" mode should only print out one time for each
+> test, preferable at the end, like the other tests (like qtests) are
+> doing it...?
+
+*sigh* and this is of course why deferred everything to the end in the
+last revision. Should we just assume the -pretty/-make whatever is
+incompatible with -T for the timestamp mode?
+
+>
+>  Thomas
+
+
+--
+Alex Benn=C3=A9e
 
