@@ -2,68 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38AC81A20C
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 18:57:30 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46907 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD3171A210
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 19:00:58 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:47019 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hP8pt-0000Ll-Bb
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 12:57:29 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49817)
+	id 1hP8tG-00030O-32
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 13:00:58 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50958)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hP8ns-0007Ry-4W
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:55:25 -0400
+	(envelope-from <alex.bennee@linaro.org>) id 1hP8sA-0002ev-DO
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:59:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hP8nq-0001Ox-Tq
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:55:24 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:43755)
+	(envelope-from <alex.bennee@linaro.org>) id 1hP8s9-0003ZE-EI
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:59:50 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:51376)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hP8nq-0001MU-Pk
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:55:22 -0400
-Received: by mail-qt1-f195.google.com with SMTP id r3so7337299qtp.10
-	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 09:55:22 -0700 (PDT)
+	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+	id 1hP8s9-0003Y4-70
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:59:49 -0400
+Received: by mail-wm1-x342.google.com with SMTP id o189so8344349wmb.1
+	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 09:59:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=references:user-agent:from:to:cc:subject:in-reply-to:date
+	:message-id:mime-version:content-transfer-encoding;
+	bh=k6TxiI/rYAa2sdWfRcGuvApguTy8/i+roGMq4e+FTS4=;
+	b=uawn0eRWUX53z8dKMoEWGQE0b9Tu1d55oX23ttgeS/1mlRpcrwLObDlqpWXSJW842g
+	nwJYYKE9/mP6coughF6lWo+JoAK2BKuU6DBNFohKsnUPHNqCoU60Cta+JgLxtzvdHmVE
+	Ha6mwp3sYkGqWQ0i2RhMUEfUViE+OWPxSEhvNpOFeEXu2HJ8LL23zKPJnDtAGUpN3JA2
+	hmangFml3w6V511V5tvlplLBJI/+pZtBNGDsfsxPIOeDysE+z3M32k5wqFyOV7gNSizu
+	QBOUslwQvoQ77Z+CSjcqbIfGw6bVUhvXKl4mreq17Vu+ROEOyWe1YWFaba1XGHRyX1fj
+	uVbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:content-transfer-encoding
-	:in-reply-to;
-	bh=zBBybsEO/90v9Y7tTC5Cis3b4wxdo55wRnHxYazFoio=;
-	b=P2rudfw9cF2f2FY/knLft1HoeUJKOQSCgTRxllxuvyZmzuMLQdRCAHjBrPn50wjY8v
-	l8YE7IGPF55zQHSRhbbZvMa1A2VNVFW58HjJl/Y4ziyxmnt4x1QP9DW4UrqdP56Ufdu6
-	YbQjYMDYK87iHldsL28Bkv/M/QpO+tggvucaqXfoBEWVI/wLFXsjF6dgoFoCpESfzXtM
-	VIntzVRlnStYeXvgC2jWSzcimePnhUbqG8ogmu2pAunYBkWm05SirKUGgJcanz64E7+H
-	ed3jwNfyXT7Po2Lb7Oibm1wm/dR0GFkREUysoV6BVEnUhJeqdZeE3uZtojkmzNPPP8NO
-	3wtw==
-X-Gm-Message-State: APjAAAVXWHyR+pnqgEIL/8Znxetp5AkaTTopSZ5zmn5lhVYEVtQVEGAJ
-	papy9JeCkS2fApxGe9nGxHcOZQ==
-X-Google-Smtp-Source: APXvYqxh7vqfREnIXLphmIaQkRDCTeGvY71lcU4wUTWumuKAqtNv53nJfsV3XrfXo0TjrMdiVZOgjw==
-X-Received: by 2002:ac8:3862:: with SMTP id r31mr10562565qtb.26.1557507321161; 
-	Fri, 10 May 2019 09:55:21 -0700 (PDT)
-Received: from redhat.com (pool-173-76-105-71.bstnma.fios.verizon.net.
-	[173.76.105.71]) by smtp.gmail.com with ESMTPSA id
-	t63sm2793230qka.33.2019.05.10.09.55.19
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Fri, 10 May 2019 09:55:20 -0700 (PDT)
-Date: Fri, 10 May 2019 12:55:18 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Message-ID: <20190510125323-mutt-send-email-mst@kernel.org>
-References: <20190510134203.24012-1-lvivier@redhat.com>
-	<20190510134203.24012-2-lvivier@redhat.com>
-	<20190510121135-mutt-send-email-mst@kernel.org>
-	<20190510161644.GP7671@redhat.com>
-	<20190510121939-mutt-send-email-mst@kernel.org>
-	<20190510162554.GQ7671@redhat.com>
+	h=x-gm-message-state:references:user-agent:from:to:cc:subject
+	:in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+	bh=k6TxiI/rYAa2sdWfRcGuvApguTy8/i+roGMq4e+FTS4=;
+	b=rChb8pMrCqd2mGU0XQzR4ghD3nEuyVcrq5A1h0+XMbfOPIwJNfJLclG/g4zIRGZ4Lc
+	hQFKXyHHnvna74BEJKUfTcfOuD7x3/1Gb3sX9lyUScDrm/inXGRN+m/8neFBE4f1i/nA
+	GWt91cGW66wEhBh8qDgkUapWOW7WG5mzae+Nvl1atiM2Tkpm3jcWbb+1nxUzHFmYHNqP
+	bnDy3YcB5PJNoAT+FP19GkYlzS9oN0/JIXLd6xffMPUhMufC5KXb3n2s7CICI32veXEy
+	E4zSTb3f0GgDGuonqlnjPmbhFOssEBvBqoY2Ncd63Yqgg51KoVoAbqgLr7z+DJRiNnD7
+	vnwA==
+X-Gm-Message-State: APjAAAW+T0Mcf5h4gdFazQCyW34rEJ0GQI8xitkoTMSJPEPpKncxSuKJ
+	WvaZ2H/Lk9FOA+wKNKycpwcw3g==
+X-Google-Smtp-Source: APXvYqyc7VZuaDWnKGW6f74XjzlRQtV0r65l21I0Voq3wzTopDbFuNKaavLbX4vek90ZmZlqdAYLog==
+X-Received: by 2002:a1c:ab09:: with SMTP id u9mr7334865wme.29.1557507587153;
+	Fri, 10 May 2019 09:59:47 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+	by smtp.gmail.com with ESMTPSA id
+	j190sm8376252wmb.19.2019.05.10.09.59.46
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 10 May 2019 09:59:46 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+	by zen.linaroharston (Postfix) with ESMTP id A64391FF87;
+	Fri, 10 May 2019 17:59:45 +0100 (BST)
+References: <20190509165912.10512-1-alex.bennee@linaro.org>
+	<20190509165912.10512-6-alex.bennee@linaro.org>
+	<CAFEAcA8Dsdp2rnORnzqemWspfFxfhVwkAz=2EXdupo8iDj_=Hw@mail.gmail.com>
+User-agent: mu4e 1.3.1; emacs 26.1
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Peter Maydell <peter.maydell@linaro.org>
+In-reply-to: <CAFEAcA8Dsdp2rnORnzqemWspfFxfhVwkAz=2EXdupo8iDj_=Hw@mail.gmail.com>
+Date: Fri, 10 May 2019 17:59:45 +0100
+Message-ID: <87tve2b5z2.fsf@zen.linaroharston>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190510162554.GQ7671@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.160.195
-Subject: Re: [Qemu-devel] [PATCH v3 1/3] VirtIO-RNG: Update default entropy
- source to `/dev/urandom`
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2a00:1450:4864:20::342
+Subject: Re: [Qemu-devel] [PATCH v1 05/23] semihosting: enable chardev
+ backed output
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -75,80 +85,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
-	Kashyap Chamarthy <kchamart@redhat.com>, Amit Shah <amit@kernel.org>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	qemu-devel@nongnu.org, Markus Armbruster <armbru@redhat.com>,
-	"Richard W . M . Jones" <rjones@redhat.com>,
-	Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
+	QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 10, 2019 at 05:25:54PM +0100, Daniel P. Berrangé wrote:
-> On Fri, May 10, 2019 at 12:21:19PM -0400, Michael S. Tsirkin wrote:
-> > On Fri, May 10, 2019 at 05:16:44PM +0100, Daniel P. Berrangé wrote:
-> > > On Fri, May 10, 2019 at 12:12:41PM -0400, Michael S. Tsirkin wrote:
-> > > > On Fri, May 10, 2019 at 03:42:01PM +0200, Laurent Vivier wrote:
-> > > > > From: Kashyap Chamarthy <kchamart@redhat.com>
-> > > > > 
-> > > > > When QEMU exposes a VirtIO-RNG device to the guest, that device needs a
-> > > > > source of entropy, and that source needs to be "non-blocking", like
-> > > > > `/dev/urandom`.  However, currently QEMU defaults to the problematic
-> > > > > `/dev/random`, which is "blocking" (as in, it waits until sufficient
-> > > > > entropy is available).
-> > > > > 
-> > > > > Why prefer `/dev/urandom` over `/dev/random`?
-> > > > > ---------------------------------------------
-> > > > > 
-> > > > > The man pages of urandom(4) and random(4) state:
-> > > > > 
-> > > > >     "The /dev/random device is a legacy interface which dates back to a
-> > > > >     time where the cryptographic primitives used in the implementation
-> > > > >     of /dev/urandom were not widely trusted.  It will return random
-> > > > >     bytes only within the estimated number of bits of fresh noise in the
-> > > > >     entropy pool, blocking if necessary.  /dev/random is suitable for
-> > > > >     applications that need high quality randomness, and can afford
-> > > > >     indeterminate delays."
-> > > > > 
-> > > > > Further, the "Usage" section of the said man pages state:
-> > > > > 
-> > > > >     "The /dev/random interface is considered a legacy interface, and
-> > > > >     /dev/urandom is preferred and sufficient in all use cases, with the
-> > > > >     exception of applications which require randomness during early boot
-> > > > >     time; for these applications, getrandom(2) must be used instead,
-> > > > >     because it will block until the entropy pool is initialized.
-> > > > 
-> > > > So how about just using getrandom then?
-> > > 
-> > > The 3rd patch in this series addresses that.
-> > 
-> > It seems to use qemu_guest_getrandom which in turn
-> > with patch 1 calls /dev/urandom...
-> > Did I miss something?
-> 
-> qemu_guest_getrandom will preferentially use the crypto library random
-> APIs (gnutls, or gcrypt). If both are compiled out that it will use
-> getrandom() if supported by the C library and current kernel. If that
-> fails then it will try /dev/urandom if it exists, finally /dev/random. 
-> On Windows it uses their native crypto API. See this dependant series:
-> 
-> https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg02237.html
-> 
-> Regards,
-> Daniel
 
-In particular
+Peter Maydell <peter.maydell@linaro.org> writes:
 
-https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg02238.html
+> On Thu, 9 May 2019 at 17:59, Alex Benn=C3=A9e <alex.bennee@linaro.org> wr=
+ote:
+>>
+>> For running system tests we want to be able to re-direct output to a
+>> file like we do with serial output. This does the wiring to allow us
+>> to treat semihosting like just another character output device.
+>>
+>> diff --git a/qemu-options.hx b/qemu-options.hx
+>> index 51802cbb266..6aa3a08c2fb 100644
+>> --- a/qemu-options.hx
+>> +++ b/qemu-options.hx
+>> @@ -3975,12 +3975,12 @@ STEXI
+>>  Enable semihosting mode (ARM, M68K, Xtensa, MIPS, Nios II only).
+>>  ETEXI
+>>  DEF("semihosting-config", HAS_ARG, QEMU_OPTION_semihosting_config,
+>> -    "-semihosting-config [enable=3Don|off][,target=3Dnative|gdb|auto][,=
+arg=3Dstr[,...]]\n" \
+>> +    "-semihosting-config [enable=3Don|off][,target=3Dnative|gdb|auto][,=
+chardev=3Did][,arg=3Dstr[,...]]\n" \
+>>      "                semihosting configuration\n",
+>>  QEMU_ARCH_ARM | QEMU_ARCH_M68K | QEMU_ARCH_XTENSA | QEMU_ARCH_LM32 |
+>>  QEMU_ARCH_MIPS | QEMU_ARCH_NIOS2)
+>
+> As you can see in the docs here, semihosting is supported on
+> five guest architectures, so we should implement this new
+> feature for all of them, not just arm.
 
+As I've introduced this for testing I see no reason not to add support
+for other architectures. However I was hoping this is something that
+could be done organically as other system tests get enabled.
 
-maybe clarify this is just for systems without getrandom then.
-
-
-
-
-> -- 
-> |: https://berrange.com      -o-    https://www.flickr.com/photos/dberrange :|
-> |: https://libvirt.org         -o-            https://fstop138.berrange.com :|
-> |: https://entangle-photo.org    -o-    https://www.instagram.com/dberrange :|
+--
+Alex Benn=C3=A9e
 
