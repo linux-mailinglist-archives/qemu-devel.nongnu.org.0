@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C64411A28E
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 19:45:14 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:47655 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9BC5C1A2A1
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 19:49:39 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:47724 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hP9a5-0003rm-SX
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 13:45:13 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59340)
+	id 1hP9eM-00082j-Ju
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 13:49:38 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59623)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hP9Mi-0007cn-Dy
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 13:31:25 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hP9O2-0000Ul-5K
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 13:32:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hP9Mh-0006Fj-8f
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 13:31:24 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:33850)
+	(envelope-from <peter.maydell@linaro.org>) id 1hP9O0-0006x5-JM
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 13:32:46 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:33089)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hP9Mh-0006FJ-2V
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 13:31:23 -0400
-Received: by mail-pf1-x442.google.com with SMTP id n19so3589385pfa.1
-	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 10:31:23 -0700 (PDT)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hP9O0-0006wH-EU
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 13:32:44 -0400
+Received: by mail-ot1-x343.google.com with SMTP id 66so6319018otq.0
+	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 10:32:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=UWh6WQgwFaXoTdfyv00kbbEUIrTl3FpRNOTur6Egg74=;
-	b=eh4AvxOqrDh4W5UMdULNAvxVGhFICsbs4PafZ7zkHF+wUijkF1klUht7xO4iGNe/98
-	ge8baytdCPDsR/N60Ib6J9a3xF7s/uLKcaKuA2saFrWXOxY1FUmb8T0ekbTOVoHiP0TF
-	kix1+Q6lkMMIiT+oq1ODSzcl+e+NzU/c8mQsO+BrxIQKRqEww0cbcM9B6iBBekeVz904
-	Jeer8oLjq8o+vzBLFkKlDmMfRezIimwu/++mo625jvEJnELcQKq1l6+pSE4I6yc3EGNO
-	avsmiwRcB4UkWPhs12oYTIGz5bbFV6sT3rtns+YDrvkIMD5t58ZI6FwcvjWhd6fUAvQv
-	KFpg==
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=SykRo9qqs1+mrTffhpwy+lr8qZ04FP5p4jBbzV76rAk=;
+	b=VMra7s9bL7joupEnunClIHPG/S6DY7vsM+lio5V3agL4h8W5iGQ4svprUeyIeMaFUt
+	ufe6mBw555nFAH69jt4urmslniBDkOpHww4ufiXfyQOxnXGFZYbH8h+KV6rd8h17+r1C
+	S4YTQT1LYNH7vfe119z1pMp4DLx8lN+uWZ0jALsSX0DcRNPNwiechmb7Is7G0qNABcEm
+	RxPy4xjAzGcfZTwTT/T/ThIxZ7MHgZkxyebjhHNDH3qHIsXHQ2HjsC5XjWfXuDVDzmuA
+	0XKiR2Z+Xl5HvCIFKHvmaOAwriCdfalMldtVmHGCopeeK1cUTZVhKx7v14iFd/Wd8KPf
+	kvag==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=UWh6WQgwFaXoTdfyv00kbbEUIrTl3FpRNOTur6Egg74=;
-	b=Oi8B6//DjzgHHrKnGUAMsy7MTePjDdwd0M6WkZNDroCJshKDmkkPOSp/YwORmfUCgc
-	+vQrxKCBaTK6uO1fVqpGpVp7dVuS2o+1cmSZVxTMuRtbDMl8y79nVILfV2eHOBRr2h8z
-	JR5H0k92VNk0SZYh4uIBH1mtSCNme4bEJ8vf5GwaRG5A5s418UjzEgSNWzMhMeOlqCBV
-	7U0EtXjPAL8sDROZqNv23043kh9gP86rrgVvtCO4Aqg8HRB6FLArdVGRbLYJsBKjhLnm
-	hq2Oh3sas8rtECiGBlQ7P2aYMrcCEn46K1bN5NkwSBSpxrm4ddq5purZ7+PPGGTPye/+
-	iG9Q==
-X-Gm-Message-State: APjAAAVteJSvqpgH8i0k73oY3ONgNcYvm6Jz5brLGkk3LJY0VnRNybYm
-	600L8KJ9S7UFanmkRdt2iPOJbYImWIg=
-X-Google-Smtp-Source: APXvYqzC+IHeN/ei+ebHkO1st1rB4tFJ9tUreAR5QX7NAl2DnwMzqEam6IRghemKacdFJzlU/JAsgg==
-X-Received: by 2002:aa7:92c4:: with SMTP id k4mr16581392pfa.183.1557509481869; 
-	Fri, 10 May 2019 10:31:21 -0700 (PDT)
-Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
-	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	v64sm7936792pfv.106.2019.05.10.10.31.20
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 10 May 2019 10:31:21 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Fri, 10 May 2019 10:30:49 -0700
-Message-Id: <20190510173049.28171-26-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190510173049.28171-1-richard.henderson@linaro.org>
-References: <20190510173049.28171-1-richard.henderson@linaro.org>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=SykRo9qqs1+mrTffhpwy+lr8qZ04FP5p4jBbzV76rAk=;
+	b=gm9eF8WW+4SlFNM6MsZFTzDKBtA0meaKX2XHLZvPtMdXgEVWmfy0i0sBQ9yiZVP4Vl
+	cEeS28mCaTUtlt3gjb8vIcE2TfklPchgcHiU5vf0JRgGaaVEyJMojMsqRtMF+kYr35IL
+	+NCrFD4CueKhGODOwIQTtYSL7dGM0JbwaT+nWOGdjZrjktKuIrTLs8z5p88bcrufK57y
+	V2QGVE8KiliA8wCyiq7gvXI8ADp7GnEwgcGYLKIslzD4uXclbutYMuXbxNYNhzJVcwyR
+	IYct2OWBzAlsr3El/DjMRd+Qhy75WyFZx08qp86tzCTbJ9ZDz+96Omf28Rg38JmyKQI+
+	MRRg==
+X-Gm-Message-State: APjAAAWHi7da6ijS3TjjqiGUFWcO5PJSuu/nwUnK8KqnPaAp5tnwBZoG
+	Kdhr8Ahr9L9oVx/ylYGFK2uLPwFtOy/2t1D/Y6/uZw==
+X-Google-Smtp-Source: APXvYqx+tIf3Xny4SCWi+obxdw4DoHRGa7McDCpJ8Th3YUtdhAL530+D8vblQth9bvnLbxd78jAPXvfEm0MXSdMvbP4=
+X-Received: by 2002:a9d:4793:: with SMTP id b19mr3207595otf.238.1557509563504; 
+	Fri, 10 May 2019 10:32:43 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190510163536.4242-1-mark.cave-ayland@ilande.co.uk>
+	<CAFEAcA8tHGciDGyDwCZ02S5km8XNf32PfgSbtbRzqLxcT9JWhA@mail.gmail.com>
+	<4232e4b8-45fb-8fd8-3740-d6955dbf1e19@ilande.co.uk>
+In-Reply-To: <4232e4b8-45fb-8fd8-3740-d6955dbf1e19@ilande.co.uk>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 10 May 2019 18:32:32 +0100
+Message-ID: <CAFEAcA99bfhu7fWDyOzcRa1bqXVRNHp-xCKSdB2yNOrAQFz3+Q@mail.gmail.com>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::442
-Subject: [Qemu-devel] [PATCH v6 25/25] target/i386: Implement
- CPUID_EXT_RDRAND
+X-Received-From: 2607:f8b0:4864:20::343
+Subject: Re: [Qemu-devel] [PATCH] configure: copy MacOS NDRV driver into
+ sharedir for out-of-tree builds
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -76,175 +74,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
+Cc: Howard Spoelstra <hsp.cat7@gmail.com>, qemu-ppc <qemu-ppc@nongnu.org>,
+	QEMU Developers <qemu-devel@nongnu.org>,
+	David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We now have an interface for guest visible random numbers.
+On Fri, 10 May 2019 at 18:18, Mark Cave-Ayland
+<mark.cave-ayland@ilande.co.uk> wrote:
+>
+> On 10/05/2019 17:49, Peter Maydell wrote:
+> > The comment above this bit of code says:
+> >
+> > # Caution: do not add files or directories here using wildcards. This
+> > # will result in problems later if a new file matching the wildcard is
+> > # added to the source tree -- nothing will cause configure to be rerun
+> > # so the build tree will be missing the link back to the new file, and
+> > # tests might fail.
+> >
+> > The pc-bios/ directory is awkward legacy which we
+> > can't really apply the next part of the comment to
+> > ("Prefer to keep the relevant files in their own
+> > directory and symlink the directory instead"), but since
+> > there is only one *.ndrv file we can at least avoid the
+> > wildcard by writing "qemu_vga.ndrv" instead of "*.ndrv".
+>
+> I did spot that, but figured that it was outdated because no-one else was really
+> following it. The reason for adding the explicit wildcard is that the driver build
+> produces 2 separate .ndrv files - debug, and non-debug - and so it saves me a bit of
+> effort after a rebase and rebuild.
 
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
-v6: Add gen_io_start/end for -icount.
----
- target/i386/helper.h     |  2 ++
- target/i386/cpu.c        |  5 ++--
- target/i386/int_helper.c | 21 ++++++++++++++
- target/i386/translate.c  | 62 ++++++++++++++++++++++++++++++----------
- 4 files changed, 73 insertions(+), 17 deletions(-)
+It's followed by everything except for the legacy pc-bios
+files that were too painful to clean up.
 
-diff --git a/target/i386/helper.h b/target/i386/helper.h
-index 6fb8fb9b74..8f9e1905c3 100644
---- a/target/i386/helper.h
-+++ b/target/i386/helper.h
-@@ -226,3 +226,5 @@ DEF_HELPER_3(rcrl, tl, env, tl, tl)
- DEF_HELPER_3(rclq, tl, env, tl, tl)
- DEF_HELPER_3(rcrq, tl, env, tl, tl)
- #endif
-+
-+DEF_HELPER_1(rdrand, tl, env)
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 722c5514d4..1386814957 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -730,13 +730,14 @@ static void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
-           CPUID_EXT_MONITOR | CPUID_EXT_SSSE3 | CPUID_EXT_CX16 | \
-           CPUID_EXT_SSE41 | CPUID_EXT_SSE42 | CPUID_EXT_POPCNT | \
-           CPUID_EXT_XSAVE | /* CPUID_EXT_OSXSAVE is dynamic */   \
--          CPUID_EXT_MOVBE | CPUID_EXT_AES | CPUID_EXT_HYPERVISOR)
-+          CPUID_EXT_MOVBE | CPUID_EXT_AES | CPUID_EXT_HYPERVISOR | \
-+          CPUID_EXT_RDRAND)
-           /* missing:
-           CPUID_EXT_DTES64, CPUID_EXT_DSCPL, CPUID_EXT_VMX, CPUID_EXT_SMX,
-           CPUID_EXT_EST, CPUID_EXT_TM2, CPUID_EXT_CID, CPUID_EXT_FMA,
-           CPUID_EXT_XTPR, CPUID_EXT_PDCM, CPUID_EXT_PCID, CPUID_EXT_DCA,
-           CPUID_EXT_X2APIC, CPUID_EXT_TSC_DEADLINE_TIMER, CPUID_EXT_AVX,
--          CPUID_EXT_F16C, CPUID_EXT_RDRAND */
-+          CPUID_EXT_F16C */
- 
- #ifdef TARGET_X86_64
- #define TCG_EXT2_X86_64_FEATURES (CPUID_EXT2_SYSCALL | CPUID_EXT2_LM)
-diff --git a/target/i386/int_helper.c b/target/i386/int_helper.c
-index 4dc5c65991..334469ca8c 100644
---- a/target/i386/int_helper.c
-+++ b/target/i386/int_helper.c
-@@ -22,6 +22,8 @@
- #include "exec/exec-all.h"
- #include "qemu/host-utils.h"
- #include "exec/helper-proto.h"
-+#include "qapi/error.h"
-+#include "qemu/guest-random.h"
- 
- //#define DEBUG_MULDIV
- 
-@@ -470,3 +472,22 @@ void helper_cr4_testbit(CPUX86State *env, uint32_t bit)
-         raise_exception_ra(env, EXCP06_ILLOP, GETPC());
-     }
- }
-+
-+target_ulong HELPER(rdrand)(CPUX86State *env)
-+{
-+    Error *err = NULL;
-+    target_ulong ret;
-+
-+    if (qemu_guest_getrandom(&ret, sizeof(ret), &err) < 0) {
-+        qemu_log_mask(LOG_UNIMP, "rdrand: Crypto failure: %s",
-+                      error_get_pretty(err));
-+        error_free(err);
-+        /* Failure clears CF and all other flags, and returns 0.  */
-+        env->cc_src = 0;
-+        return 0;
-+    }
-+
-+    /* Success sets CF and clears all others.  */
-+    env->cc_src = CC_C;
-+    return ret;
-+}
-diff --git a/target/i386/translate.c b/target/i386/translate.c
-index 77d6b73e42..03150a86e2 100644
---- a/target/i386/translate.c
-+++ b/target/i386/translate.c
-@@ -5332,31 +5332,63 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-     case 0x1c7: /* cmpxchg8b */
-         modrm = x86_ldub_code(env, s);
-         mod = (modrm >> 6) & 3;
--        if ((mod == 3) || ((modrm & 0x38) != 0x8))
--            goto illegal_op;
--#ifdef TARGET_X86_64
--        if (dflag == MO_64) {
--            if (!(s->cpuid_ext_features & CPUID_EXT_CX16))
-+        switch ((modrm >> 3) & 7) {
-+        case 1: /* CMPXCHG8, CMPXCHG16 */
-+            if (mod == 3) {
-                 goto illegal_op;
--            gen_lea_modrm(env, s, modrm);
--            if ((s->prefix & PREFIX_LOCK) && (tb_cflags(s->base.tb) & CF_PARALLEL)) {
--                gen_helper_cmpxchg16b(cpu_env, s->A0);
--            } else {
--                gen_helper_cmpxchg16b_unlocked(cpu_env, s->A0);
-             }
--        } else
-+#ifdef TARGET_X86_64
-+            if (dflag == MO_64) {
-+                if (!(s->cpuid_ext_features & CPUID_EXT_CX16)) {
-+                    goto illegal_op;
-+                }
-+                gen_lea_modrm(env, s, modrm);
-+                if ((s->prefix & PREFIX_LOCK) &&
-+                    (tb_cflags(s->base.tb) & CF_PARALLEL)) {
-+                    gen_helper_cmpxchg16b(cpu_env, s->A0);
-+                } else {
-+                    gen_helper_cmpxchg16b_unlocked(cpu_env, s->A0);
-+                }
-+                set_cc_op(s, CC_OP_EFLAGS);
-+                break;
-+            }
- #endif        
--        {
--            if (!(s->cpuid_features & CPUID_CX8))
-+            if (!(s->cpuid_features & CPUID_CX8)) {
-                 goto illegal_op;
-+            }
-             gen_lea_modrm(env, s, modrm);
--            if ((s->prefix & PREFIX_LOCK) && (tb_cflags(s->base.tb) & CF_PARALLEL)) {
-+            if ((s->prefix & PREFIX_LOCK) &&
-+                (tb_cflags(s->base.tb) & CF_PARALLEL)) {
-                 gen_helper_cmpxchg8b(cpu_env, s->A0);
-             } else {
-                 gen_helper_cmpxchg8b_unlocked(cpu_env, s->A0);
-             }
-+            set_cc_op(s, CC_OP_EFLAGS);
-+            break;
-+
-+        case 7: /* RDSEED */
-+        case 6: /* RDRAND */
-+            if (mod != 3 ||
-+                (s->prefix & (PREFIX_LOCK | PREFIX_REPZ | PREFIX_REPNZ)) ||
-+                !(s->cpuid_ext_features & CPUID_EXT_RDRAND)) {
-+                goto illegal_op;
-+            }
-+            if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
-+                gen_io_start();
-+            }
-+            gen_helper_rdrand(s->T0, cpu_env);
-+            rm = (modrm & 7) | REX_B(s);
-+            gen_op_mov_reg_v(s, dflag, rm, s->T0);
-+            set_cc_op(s, CC_OP_EFLAGS);
-+            if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
-+                gen_io_end();
-+                gen_jmp(s, s->pc - s->cs_base);
-+            }
-+            break;
-+
-+        default:
-+            goto illegal_op;
-         }
--        set_cc_op(s, CC_OP_EFLAGS);
-         break;
- 
-         /**************************/
--- 
-2.17.1
+> Should we say up front as part of the conversion to o-o-t builds that all files must
+> be explicitly listed in that section as per the comment? Or should each type of
+> driver live in its own subdirectory?
 
+The problem here really is that there are two possible
+failure modes:
+ (1) we use a wildcard, and then when we add a new file
+     the link isn't added, and incremental builds fail
+ (2) we don't use a wildcard, and then when we add a new
+     file we have to manually list it, and if we forget
+     then builds fail (both incremental and not)
+
+The ideal way to avoid this is to have an entire directory
+which contains pregenerated bios blobs and nothing else,
+so we can just symlink the whole directory into the build
+tree. But pc-bios has this awkward mix of files which
+are pre-generated (and thus in git in the source tree)
+and files which will get built by make (and which must
+live only in the build tree).
+
+thanks
+-- PMM
 
