@@ -2,53 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F5D919ED1
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 16:13:51 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:44049 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57D1419EDE
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 16:17:11 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:44119 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hP6HW-0001c3-JI
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 10:13:50 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40483)
+	id 1hP6Kk-0003kf-71
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 10:17:10 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41359)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hP65L-0007AH-Pr
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 10:01:16 -0400
+	(envelope-from <alex.bennee@linaro.org>) id 1hP69p-0002h3-KQ
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 10:05:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hP65K-00023l-S1
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 10:01:15 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60988)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hP65K-00023E-MU
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 10:01:14 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 0A14880082
-	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 14:01:14 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-117-74.ams2.redhat.com
-	[10.36.117.74])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 834525C69A;
-	Fri, 10 May 2019 14:01:09 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-	id 81F759D84; Fri, 10 May 2019 16:01:03 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Fri, 10 May 2019 16:01:03 +0200
-Message-Id: <20190510140103.3834-9-kraxel@redhat.com>
-In-Reply-To: <20190510140103.3834-1-kraxel@redhat.com>
-References: <20190510140103.3834-1-kraxel@redhat.com>
+	(envelope-from <alex.bennee@linaro.org>) id 1hP69n-0005NO-Dx
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 10:05:52 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:36761)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+	id 1hP69j-0005IZ-La
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 10:05:47 -0400
+Received: by mail-wm1-x341.google.com with SMTP id j187so7680263wmj.1
+	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 07:05:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=references:user-agent:from:to:cc:subject:in-reply-to:date
+	:message-id:mime-version:content-transfer-encoding;
+	bh=RNUPI5+XhJ6O3/esqlvjExYTl4YbpYlpj/x4Osi/CI4=;
+	b=Eop+2Hfp/CynP4eB4NaEczIdzrEh8ngUIKe6lihDYrj9Ow2r/4yTHLUZ2DFh3w9kg7
+	uEiTdxxlnJyc4zFvu+vnkqdu/4X3Nfs4nJb6zsKO2o2sypL0VsxTPsjXSqcP+6bCMPTY
+	MVAW2fssioapvR9rgmTSvg1QXlvW1kh6OzCerbW8W0Js+62RpqTqe65tFZLxD5bcSxoe
+	zIcqxmU2UliII0kwknj//ZhmIcp2RnSh3ZMm5B3Ul5MAa9qP7h7pqxye4NjcQvCaHEXb
+	U0rqg25o9hCHG2uMUXqpzqyu+SwUG4oIH0mWcUZ3MEI8FmTG9PsF3AEkFAupOKmb9wob
+	ZqDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:references:user-agent:from:to:cc:subject
+	:in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+	bh=RNUPI5+XhJ6O3/esqlvjExYTl4YbpYlpj/x4Osi/CI4=;
+	b=NVuEUaNrTqveaEemUt30CJyr+YMMk2R9BHrW2MXzJo6bl7fG4ohitNhHCOTJRvVXtw
+	zPwDJ5wapLu6MjVr92OO0OTraTl0GvM64oErr3JWAIhR43l8ghApXNebl2b7WVpvVXDb
+	gBqkBU4lYZ1X7LbEo9jwGEv6+XRymt0+LvxJQJwrRQvBq92ZWsrymeUTz9WeJLU8YEC9
+	Uv+nWQRC7S/7kqoTHlkczkcUp4YO+DRs2mnYM1hU3LsVwqwM6iSd94QnxST0YuP0doTR
+	stcLdf4Zywx1VURkoeW/MiZRi/6xet3oTmrR8Tl8sqC8rOnrPw1aEuZmLIXIxlg31W4u
+	mXzg==
+X-Gm-Message-State: APjAAAUK+o6kvJNZmLSldHpe6DtNWJG4+vOMXI2vWUgMvccGmQqd6NZ6
+	BixtKe+w69ztxT1DONWaJKVo2w==
+X-Google-Smtp-Source: APXvYqygs9OZOlWIkk1ZdyEljW3Q4MonCnL6vKifjhlKuV7Qdd29En9kXW3I5Z8RxN2G1yA1GDIDpA==
+X-Received: by 2002:a1c:d181:: with SMTP id i123mr7495393wmg.33.1557497146073; 
+	Fri, 10 May 2019 07:05:46 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+	by smtp.gmail.com with ESMTPSA id s7sm5575315wrn.84.2019.05.10.07.05.45
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Fri, 10 May 2019 07:05:45 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+	by zen.linaroharston (Postfix) with ESMTP id EFFBD1FF87;
+	Fri, 10 May 2019 15:05:44 +0100 (BST)
+References: <20190509165912.10512-1-alex.bennee@linaro.org>
+	<20190509165912.10512-6-alex.bennee@linaro.org>
+	<252a5c4b-6ba7-6fa7-8792-fe597e766757@linaro.org>
+	<87pnoq4x4o.fsf@zen.linaroharston>
+	<f6abf67c-94af-22a6-c648-2fdbfe73974d@linaro.org>
+User-agent: mu4e 1.3.1; emacs 26.1
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Richard Henderson <richard.henderson@linaro.org>
+In-reply-to: <f6abf67c-94af-22a6-c648-2fdbfe73974d@linaro.org>
+Date: Fri, 10 May 2019 15:05:44 +0100
+Message-ID: <87v9yibe13.fsf@zen.linaroharston>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.28]);
-	Fri, 10 May 2019 14:01:14 +0000 (UTC)
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 8/8] virtio-input: fix Kconfig dependency and
- Makefile
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2a00:1450:4864:20::341
+Subject: Re: [Qemu-devel] [PATCH v1 05/23] semihosting: enable chardev
+ backed output
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -60,51 +86,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
-	Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Make VIRTIO_INPUT_HOST depend on VIRTIO_INPUT.
-Use CONFIG_VIRTIO_INPUT_HOST in Makefile.
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-Message-id: 20190510105137.17481-2-kraxel@redhat.com
----
- hw/input/Kconfig       | 2 +-
- hw/input/Makefile.objs | 4 +---
- 2 files changed, 2 insertions(+), 4 deletions(-)
+Richard Henderson <richard.henderson@linaro.org> writes:
 
-diff --git a/hw/input/Kconfig b/hw/input/Kconfig
-index 50e55e353847..889363d8aef1 100644
---- a/hw/input/Kconfig
-+++ b/hw/input/Kconfig
-@@ -27,7 +27,7 @@ config VIRTIO_INPUT
- config VIRTIO_INPUT_HOST
-     bool
-     default y
--    depends on VIRTIO && LINUX
-+    depends on VIRTIO_INPUT && LINUX
-=20
- config VHOST_USER_INPUT
-     bool
-diff --git a/hw/input/Makefile.objs b/hw/input/Makefile.objs
-index 3eddf00f2bba..d1de30770854 100644
---- a/hw/input/Makefile.objs
-+++ b/hw/input/Makefile.objs
-@@ -9,9 +9,7 @@ common-obj-$(CONFIG_TSC2005) +=3D tsc2005.o
-=20
- common-obj-$(CONFIG_VIRTIO_INPUT) +=3D virtio-input.o
- common-obj-$(CONFIG_VIRTIO_INPUT) +=3D virtio-input-hid.o
--ifeq ($(CONFIG_LINUX),y)
--common-obj-$(CONFIG_VIRTIO_INPUT) +=3D virtio-input-host.o
--endif
-+common-obj-$(CONFIG_VIRTIO_INPUT_HOST) +=3D virtio-input-host.o
- common-obj-$(CONFIG_VHOST_USER_INPUT) +=3D vhost-user-input.o
-=20
- obj-$(CONFIG_MILKYMIST) +=3D milkymist-softusb.o
---=20
-2.18.1
+> On 5/9/19 11:55 PM, Alex Benn=C3=A9e wrote:
+>>
+>> Richard Henderson <richard.henderson@linaro.org> writes:
+>>
+>>> On 5/9/19 9:58 AM, Alex Benn=C3=A9e wrote:
+>>>> @@ -51,12 +51,18 @@ static inline const char *semihosting_get_cmdline(=
+void)
+>>>>  {
+>>>>      return NULL;
+>>>>  }
+>>>> +
+>>>> +static inline Chardev *semihosting_get_chardev(void)
+>>>> +{
+>>>> +    return NULL;
+>>>> +}
+>>>
+>>> Isn't the point of this function to avoid...
+>>
+>> Yes... but...
+>>
+>>>
+>>>> -                return write(STDERR_FILENO, &c, 1);
+>>>> +#ifdef CONFIG_SOFTMMU
+>>>> +              Chardev *chardev =3D semihosting_get_chardev();
+>>>> +              if (chardev) {
+>>>> +                  return qemu_chr_write_all(chardev, (uint8_t *) &c,
+>>> 1);
+>>
+>> The qemu_chr device stuff doesn't have such stubs and is softmmu only as
+>> well. *sigh*
+>
+> Ah, I see.  Yes that's a problem.
+>
+> Well at least you don't need the "else\n#endif\n{" ugliness.  You have the
+> return out of the then block.
 
+Only for the first one though.. that said I'm sure the write string is
+leaking when we do gdb output with whatever lock_user_string is trying
+to achieve.
+
+>
+>
+> r~
+
+
+--
+Alex Benn=C3=A9e
 
