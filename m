@@ -2,69 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 018891A181
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 18:30:24 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46328 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98C401A1BA
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 18:41:54 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46577 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hP8Pf-0000wL-3s
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 12:30:23 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42712)
+	id 1hP8an-0002J3-Qb
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 12:41:53 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43270)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hP8Lg-00067f-PY
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:26:20 -0400
+	(envelope-from <hqm03ster@gmail.com>) id 1hP8Ni-0008RD-O2
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:28:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hP8Le-0001kS-V7
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:26:16 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:35441)
+	(envelope-from <hqm03ster@gmail.com>) id 1hP8Nh-0003BP-G4
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:28:22 -0400
+Received: from mail-qk1-x741.google.com ([2607:f8b0:4864:20::741]:40795)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hP8Le-0001a8-CL
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:26:14 -0400
-Received: by mail-ot1-x343.google.com with SMTP id g24so1560247otq.2
-	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 09:26:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	(Exim 4.71) (envelope-from <hqm03ster@gmail.com>) id 1hP8Nh-0003B6-BP
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:28:21 -0400
+Received: by mail-qk1-x741.google.com with SMTP id w20so4014223qka.7
+	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 09:28:21 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=sPfzql6A26Y7SGTwPH39Gt8yMgNkTb9ZzSWCy7itmZk=;
-	b=GCfhutfp51798vAFOvO7Zy3D1XU5IoY9JwH5ezuclDJcECt6Ld+bufQt/u1I0OUcwd
-	FvwCVy/TCqJhd7YsCTIszh2DPgSAiwdS2LtysJlZTTDikG8BaKkxb5Sm1QAw19oUl5yc
-	WTpPSqqOYauAnRRob8KUBRVNhM89vcOMTft0ML0GfEe9NHZCHcbwNyMqvRKGt35r9lV+
-	AMFigQbiy3kwI9rbhpKMt5ulnGnWpdNVuBOJBCbhZgAOgYTHj/qdaR8q074T2WeSIAsN
-	p2yW5ckleUW1wkGThIXbE3bFVFgtZOkCpwCVI00lGuKNECVbxGONNiOJ+GTmUQZz+v74
-	/u/Q==
+	:cc; bh=pajFOVN2jwVk6oanPLNaIV/SoTrhlAKI9cBxsW51JCM=;
+	b=XjVS2ET6auZxKldc/TYTgyW/lbxv7KyjesbQhi4OxIRJz0O+B+HRKeYJW8/lnSkfSj
+	yfqkvQsDQZmXf7Z9VJrrewi6dL13F4bbknjQZbW96N32ZfawbScFxQ/hSZvsjvVtrbs0
+	xEJkAXuGeskl1cjhu0DVKyyy+QPIe2ies7ulzX/W2oHYsrGgn5memWl8vkmtavu1cE1b
+	2FXkLikDLsJCQLElaFWwYxE4wJhR9DAQzVP6aYTRz20VnaQVqHV5BH+IANIVGlI2rW1l
+	MXchmGM2WhrTmGx0DUWJ6NmwsIYYckhxosvV+2TF382r6wxz5KfLDUGhu1RSf4TclSBq
+	zj0w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=sPfzql6A26Y7SGTwPH39Gt8yMgNkTb9ZzSWCy7itmZk=;
-	b=OpwllUs5s0Hkj40qHpqD3eonnfHnK1hvT1YQs+1cQuKSvTT5KbvRFq9kyz38bLx34h
-	eFwb1IaDQaxKZdwtvQLxeridbkY0CGgGKllfu+ENrGDQOJxoH/hNj7ix9byWxE7lz0gF
-	sXHbCCcEtmsDIqx7UCG9oJxNv2uuVRajCscxEpQ2qfmAu6omT3wmkmrBeE0KwA7nif0Z
-	7gfdQJ/C3Zll531HFL9N3nSBck1wnuFMO7xJ/YdS3DP+iClxnVDmfb97b58B9IZT8Qbz
-	In+MXLwSZMTgCS4padISYJQURN+2nQrDB5Vm5DaKQCXjKxSNcyGm2n4weN3Zyd1DZmDU
-	VjRA==
-X-Gm-Message-State: APjAAAXOhb3llaCW4nnHoxgCZOhgePmlLvZ+taOScNER7KWA+tn20AO5
-	AGRRaeVhPJmDLkX8Q5R0ERnPTeqDn/AGHtIAwz0TZg==
-X-Google-Smtp-Source: APXvYqyG1UinZ5zsgWCI4aoeysMgy9qNIN/HkXdKKDs0hQeA/iHpnsrFosQl+0jArC32IOqdT79ICfb1DxRvFYGYj/k=
-X-Received: by 2002:a9d:61c6:: with SMTP id h6mr7368004otk.316.1557505568390; 
-	Fri, 10 May 2019 09:26:08 -0700 (PDT)
+	bh=pajFOVN2jwVk6oanPLNaIV/SoTrhlAKI9cBxsW51JCM=;
+	b=dzR1nuZJTNYDHKTtSXMdSWA4oRNvRBk6ywEMSpqxEvPa6EFLttbvqNai0GejMkFWIt
+	nqRM0lLcLuTo0oavFFSuizbi6U7BoKL14e6ga7NdskvfOythk2kIVZHAYXPnyd69cAZZ
+	Bz8f+LISJo5+WAsD1LDqIPXeuA3DxRCDIA8rjbHhiDAJy8/Fvy3TOWn4PmTUyWnF1k8Y
+	aX7XRvMRUAXmQ/vsUKK/cphwI6pTnVWH9rqWceQtxL3PgApaujYL/NOCroHY4qdPoPJa
+	YWkaq1QiXSE9PavBh64AuYPJJPlr9jSR4Kt5keRZVBClna1zrsiW2HIH313MPPf+aVvG
+	niPQ==
+X-Gm-Message-State: APjAAAV0UsjP8dpQBJ9hiioDemwpomp0uRT3v3tS32dnD+DHEqeOgrpd
+	N0Ste9sU97GKhuPQhHyT4FBqnPKHBXKY5Egx9qTqn9Hi
+X-Google-Smtp-Source: APXvYqzuishv7O28/B2wbm0CWJ1A/w4gMRShYT2jDWX19anghzDGU8TJZPdhkfdnkfb9hQ3ZZ5MS/sNPFQTwKcMvuLE=
+X-Received: by 2002:a37:9587:: with SMTP id x129mr9914122qkd.9.1557505699768; 
+	Fri, 10 May 2019 09:28:19 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190502185835.15185-1-laurent@vivier.eu>
-	<CAFEAcA9-hAU5dxUmSWtbvrPEXE-nCP1uLvLbOby-_EXZ27o+8g@mail.gmail.com>
-	<87sgtv4wjo.fsf@zen.linaroharston> <87imulaude.fsf@dusky.pond.sub.org>
-	<87tve53sy7.fsf@zen.linaroharston> <87zhnw58pa.fsf@dusky.pond.sub.org>
-	<CAFEAcA-s0UYr0VW3ccG07r=BiGCVtDHkRb6yW0X_ev-zAkOxvw@mail.gmail.com>
-	<87o94amjud.fsf@dusky.pond.sub.org>
-In-Reply-To: <87o94amjud.fsf@dusky.pond.sub.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 10 May 2019 17:25:57 +0100
-Message-ID: <CAFEAcA8h8ry3XiT1dUOZknTYK78_W=_b3R4CzfFNnS_Z1G9Bww@mail.gmail.com>
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+References: <CABSdmrnNW6f=P64PviPP8CTJ5SVfYS8_6kmAtpw9yPObTEkpxg@mail.gmail.com>
+	<CABSdmrnocrqLKWncgy_Lak33__GRPYfs-RzSA14e=vh4cRn2ag@mail.gmail.com>
+	<20190509064848.wjhchsfov7q6komj@sirius.home.kraxel.org>
+	<CABSdmrmm+wJ=+Ccav=X5Gw_oueQvPRejCWVG2SQeCw=K4BM9EA@mail.gmail.com>
+	<CABSdmrndpONH_fVHbktHbBXvXPKESeRfis06TjrNRRfBpJzXLA@mail.gmail.com>
+	<b6064b77-5ca4-03e1-80ef-027313096cb2@gmail.com>
+	<CABSdmrkW6G23ZGDA7iLucM45vL0HHGsr2F76H0Mf8S0xkhPnsQ@mail.gmail.com>
+	<3e619b5c-8fb3-2655-2d92-37598db098d8@gmail.com>
+	<20190510085947.y62lttdtrg5cxx6b@sirius.home.kraxel.org>
+	<3fb8b79d-9f68-2342-d3ae-3aefa873109b@gmail.com>
+	<20190510103900.botgnbbo2ii4jxgo@sirius.home.kraxel.org>
+	<01de4824-5c19-6b6c-5b75-fa54a883ab4a@gmail.com>
+In-Reply-To: <01de4824-5c19-6b6c-5b75-fa54a883ab4a@gmail.com>
+From: Hou Qiming <hqm03ster@gmail.com>
+Date: Sat, 11 May 2019 00:28:04 +0800
+Message-ID: <CABSdmrnVzi5ZTF58tnt8T8=gsVe2ZNqtZKCBcbZQ9Lb+CCCkdg@mail.gmail.com>
+To: qemu-devel@nongnu.org
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::343
-Subject: Re: [Qemu-devel] [PULL 00/13] Trivial branch patches
+X-Received-From: 2607:f8b0:4864:20::741
+Content-Type: text/plain; charset="UTF-8"
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: [Qemu-devel] [PATCH v2 1/3] hw/display/ramfb: fix guest memory
+ un-mapping
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -76,40 +83,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
-	Michael Roth <mdroth@linux.vnet.ibm.com>, Thomas Huth <thuth@redhat.com>,
-	Eduardo Habkost <ehabkost@redhat.com>,
-	Viktor Prutyanov <viktor.prutyanov@phystech.edu>,
-	QEMU Trivial <qemu-trivial@nongnu.org>,
-	Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
-	Jason Wang <jasowang@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
-	Laurent Vivier <laurent@vivier.eu>, Fabien Chouteau <chouteau@adacore.com>,
-	QEMU Developers <qemu-devel@nongnu.org>, Gerd Hoffmann <kraxel@redhat.com>,
-	Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
-	=?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
-	=?UTF-8?Q?Andreas_F=C3=A4rber?= <afaerber@suse.de>,
-	Aurelien Jarno <aurelien@aurel32.net>,
-	Artyom Tarasenko <atar4qemu@gmail.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 10 May 2019 at 16:05, Markus Armbruster <armbru@redhat.com> wrote:
-> I tried to reproduce on a ppc64 box in the gcc compile farm, no dice.  I
-> double-checked config-host.h has #define HOST_WORDS_BIGENDIAN 1.
+Pulled back the `qemu_create_displaysurface_guestmem` function to create
+the display surface so that the guest memory gets properly unmapped.
 
-On s390:
- git clone git://git.qemu.org/qemu.git qemu-tmp
- cd qemu-tmp
- mkdir build
- cd build
- ../configure
- make -j3
- make -j3 check V=1  # passes
- wget https://patchew.org/QEMU/20190313162812.8885-1-armbru@redhat.com/mbox
- git am mbox
- make -j3
- make -j3 check V=1 # fails
+Signed-off-by: HOU Qiming <hqm03ster@gmail.com>
+---
+ hw/display/ramfb.c | 53 ++++++++++++++++++++++++++++++++++------------
+ 1 file changed, 40 insertions(+), 13 deletions(-)
 
-thanks
--- PMM
+diff --git a/hw/display/ramfb.c b/hw/display/ramfb.c
+index 25c8ad7..98703f7 100644
+--- a/hw/display/ramfb.c
++++ b/hw/display/ramfb.c
+@@ -32,33 +32,60 @@ struct RAMFBState {
+     struct RAMFBCfg cfg;
+ };
 
++static void qemu_unmap_displaysurface_guestmem(pixman_image_t *image,
++                                               void *unused)
++{
++    void *data = pixman_image_get_data(image);
++    uint32_t size = pixman_image_get_stride(image) *
++        pixman_image_get_height(image);
++    cpu_physical_memory_unmap(data, size, 0, 0);
++}
++
++static DisplaySurface *qemu_create_displaysurface_guestmem(
++    int width, int height,
++    pixman_format_code_t format,
++    int linesize, uint64_t addr)
++{
++    DisplaySurface *surface;
++    hwaddr size;
++    void *data;
++
++    if (linesize == 0) {
++        linesize = width * PIXMAN_FORMAT_BPP(format) / 8;
++    }
++
++    size = (hwaddr)linesize * height;
++    data = cpu_physical_memory_map(addr, &size, 0);
++    if (size != (hwaddr)linesize * height) {
++        cpu_physical_memory_unmap(data, size, 0, 0);
++        return NULL;
++    }
++
++    surface = qemu_create_displaysurface_from
++        (width, height, format, linesize, data);
++    pixman_image_set_destroy_function
++        (surface->image, qemu_unmap_displaysurface_guestmem, NULL);
++
++    return surface;
++}
++
+ static void ramfb_fw_cfg_write(void *dev, off_t offset, size_t len)
+ {
+     RAMFBState *s = dev;
+-    void *framebuffer;
+     uint32_t fourcc, format;
+-    hwaddr stride, addr, length;
++    hwaddr stride, addr;
+
+     s->width  = be32_to_cpu(s->cfg.width);
+     s->height = be32_to_cpu(s->cfg.height);
+     stride    = be32_to_cpu(s->cfg.stride);
+     fourcc    = be32_to_cpu(s->cfg.fourcc);
+     addr      = be64_to_cpu(s->cfg.addr);
+-    length    = stride * s->height;
+     format    = qemu_drm_format_to_pixman(fourcc);
+
+     fprintf(stderr, "%s: %dx%d @ 0x%" PRIx64 "\n", __func__,
+             s->width, s->height, addr);
+-    framebuffer = address_space_map(&address_space_memory,
+-                                    addr, &length, false,
+-                                    MEMTXATTRS_UNSPECIFIED);
+-    if (!framebuffer || length < stride * s->height) {
+-        s->width = 0;
+-        s->height = 0;
+-        return;
+-    }
+-    s->ds = qemu_create_displaysurface_from(s->width, s->height,
+-                                            format, stride, framebuffer);
++    s->ds = qemu_create_displaysurface_guestmem(s->width, s->height,
++                                                format, stride, addr);
+ }
+
+ void ramfb_display_update(QemuConsole *con, RAMFBState *s)
+-- 
+2.17.1
