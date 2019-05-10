@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9C4C11A164
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 18:25:09 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46245 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 224A91A18C
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 18:31:39 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46364 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hP8Ka-0003uy-NG
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 12:25:08 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40164)
+	id 1hP8Qs-0001vX-6l
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 12:31:38 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40230)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hP8Cb-0004Pv-MC
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:16:56 -0400
+	(envelope-from <kwolf@redhat.com>) id 1hP8Cf-0004Vh-Kb
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:16:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hP8Ca-0000GQ-FM
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:16:53 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54180)
+	(envelope-from <kwolf@redhat.com>) id 1hP8Cd-0000KK-JP
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:16:57 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:10460)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <kwolf@redhat.com>)
-	id 1hP8CV-000067-Nr; Fri, 10 May 2019 12:16:47 -0400
+	id 1hP8CX-00008B-Uu; Fri, 10 May 2019 12:16:50 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
 	[10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 0841C30842A9;
-	Fri, 10 May 2019 16:16:47 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 310773087BA9;
+	Fri, 10 May 2019 16:16:48 +0000 (UTC)
 Received: from linux.fritz.box.com (ovpn-116-183.ams2.redhat.com
 	[10.36.116.183])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 1BA1218504;
-	Fri, 10 May 2019 16:16:45 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 4D83717797;
+	Fri, 10 May 2019 16:16:47 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Date: Fri, 10 May 2019 18:16:08 +0200
-Message-Id: <20190510161614.23236-10-kwolf@redhat.com>
+Date: Fri, 10 May 2019 18:16:09 +0200
+Message-Id: <20190510161614.23236-11-kwolf@redhat.com>
 In-Reply-To: <20190510161614.23236-1-kwolf@redhat.com>
 References: <20190510161614.23236-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.40]);
-	Fri, 10 May 2019 16:16:47 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.45]);
+	Fri, 10 May 2019 16:16:48 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 09/15] vdi: Replace bdrv_{read,
+Subject: [Qemu-devel] [PULL 10/15] vvfat: Replace bdrv_{read,
  write}() with bdrv_{pread, pwrite}()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
@@ -64,76 +64,58 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Alberto Garcia <berto@igalia.com>
 
 There's only a couple of bdrv_read() and bdrv_write() calls left in
-the vdi code, and they can be trivially replaced with the byte-based
+the vvfat code, and they can be trivially replaced with the byte-based
 bdrv_pread() and bdrv_pwrite().
 
 Signed-off-by: Alberto Garcia <berto@igalia.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block/vdi.c | 15 +++++++++------
- 1 file changed, 9 insertions(+), 6 deletions(-)
+ block/vvfat.c | 12 +++++++-----
+ 1 file changed, 7 insertions(+), 5 deletions(-)
 
-diff --git a/block/vdi.c b/block/vdi.c
-index e1c42ad732..d7ef6628e7 100644
---- a/block/vdi.c
-+++ b/block/vdi.c
-@@ -171,6 +171,8 @@ typedef struct {
-     uint64_t unused2[7];
- } QEMU_PACKED VdiHeader;
-=20
-+QEMU_BUILD_BUG_ON(sizeof(VdiHeader) !=3D 512);
-+
- typedef struct {
-     /* The block map entries are little endian (even in memory). */
-     uint32_t *bmap;
-@@ -384,7 +386,7 @@ static int vdi_open(BlockDriverState *bs, QDict *opti=
-ons, int flags,
-=20
-     logout("\n");
-=20
--    ret =3D bdrv_read(bs->file, 0, (uint8_t *)&header, 1);
-+    ret =3D bdrv_pread(bs->file, 0, &header, sizeof(header));
+diff --git a/block/vvfat.c b/block/vvfat.c
+index 5f66787890..253cc716dd 100644
+--- a/block/vvfat.c
++++ b/block/vvfat.c
+@@ -1494,8 +1494,8 @@ static int vvfat_read(BlockDriverState *bs, int64_t=
+ sector_num,
+                 DLOG(fprintf(stderr, "sectors %" PRId64 "+%" PRId64
+                              " allocated\n", sector_num,
+                              n >> BDRV_SECTOR_BITS));
+-                if (bdrv_read(s->qcow, sector_num, buf + i * 0x200,
+-                              n >> BDRV_SECTOR_BITS)) {
++                if (bdrv_pread(s->qcow, sector_num * BDRV_SECTOR_SIZE,
++                               buf + i * 0x200, n) < 0) {
+                     return -1;
+                 }
+                 i +=3D (n >> BDRV_SECTOR_BITS) - 1;
+@@ -1983,8 +1983,9 @@ static uint32_t get_cluster_count_for_direntry(BDRV=
+VVFATState* s,
+                         if (res) {
+                             return -1;
+                         }
+-                        res =3D bdrv_write(s->qcow, offset, s->cluster_b=
+uffer, 1);
+-                        if (res) {
++                        res =3D bdrv_pwrite(s->qcow, offset * BDRV_SECTO=
+R_SIZE,
++                                          s->cluster_buffer, BDRV_SECTOR=
+_SIZE);
++                        if (res < 0) {
+                             return -2;
+                         }
+                     }
+@@ -3050,7 +3051,8 @@ DLOG(checkpoint());
+      * Use qcow backend. Commit later.
+      */
+ DLOG(fprintf(stderr, "Write to qcow backend: %d + %d\n", (int)sector_num=
+, nb_sectors));
+-    ret =3D bdrv_write(s->qcow, sector_num, buf, nb_sectors);
++    ret =3D bdrv_pwrite(s->qcow, sector_num * BDRV_SECTOR_SIZE, buf,
++                      nb_sectors * BDRV_SECTOR_SIZE);
      if (ret < 0) {
-         goto fail;
-     }
-@@ -484,8 +486,8 @@ static int vdi_open(BlockDriverState *bs, QDict *opti=
-ons, int flags,
-         goto fail;
-     }
-=20
--    ret =3D bdrv_read(bs->file, s->bmap_sector, (uint8_t *)s->bmap,
--                    bmap_size);
-+    ret =3D bdrv_pread(bs->file, header.offset_bmap, s->bmap,
-+                     bmap_size * SECTOR_SIZE);
-     if (ret < 0) {
-         goto fail_free_bmap;
-     }
-@@ -704,7 +706,7 @@ nonallocating_write:
-         assert(VDI_IS_ALLOCATED(bmap_first));
-         *header =3D s->header;
-         vdi_header_to_le(header);
--        ret =3D bdrv_write(bs->file, 0, block, 1);
-+        ret =3D bdrv_pwrite(bs->file, 0, block, sizeof(VdiHeader));
-         g_free(block);
-         block =3D NULL;
-=20
-@@ -722,10 +724,11 @@ nonallocating_write:
-         base =3D ((uint8_t *)&s->bmap[0]) + bmap_first * SECTOR_SIZE;
-         logout("will write %u block map sectors starting from entry %u\n=
-",
-                n_sectors, bmap_first);
--        ret =3D bdrv_write(bs->file, offset, base, n_sectors);
-+        ret =3D bdrv_pwrite(bs->file, offset * SECTOR_SIZE, base,
-+                          n_sectors * SECTOR_SIZE);
-     }
-=20
--    return ret;
-+    return ret < 0 ? ret : 0;
- }
-=20
- static int coroutine_fn vdi_co_do_create(BlockdevCreateOptions *create_o=
-ptions,
+         fprintf(stderr, "Error writing to qcow backend\n");
+         return ret;
 --=20
 2.20.1
 
