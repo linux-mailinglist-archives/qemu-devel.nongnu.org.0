@@ -2,79 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3C0521A176
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 18:28:31 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46304 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D87D1A18B
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 18:31:23 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46359 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hP8Nq-0007k9-AO
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 12:28:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40477)
+	id 1hP8Qc-0001fi-6u
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 12:31:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40840)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hP8D0-0004o9-Bg
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:17:19 -0400
+	(envelope-from <armbru@redhat.com>) id 1hP8Ef-000638-3M
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:19:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hP8Cz-0000jh-Dw
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:17:18 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:41438)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hP8Cz-0000if-6l
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:17:17 -0400
-Received: by mail-pl1-x641.google.com with SMTP id f12so1036269plt.8
-	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 09:17:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=1yWDOpNYnn7RE5roKzHhAppICNQzXylMOJNgQpdiiZ4=;
-	b=FyQOGMsvbXacwPKUHKnds0NIL6d0EUPIoOnk58AZjwgxkLOXJQCZxhjftrgEGnAzou
-	GeBHjV4mWCqCDTC52mtk9CcB0lT49jZg3UE+SL2CPcu9jIVNGkgt/JcckH0c3e0+bnXp
-	9X4rXPDMVigipASwOOBf12+2ZVnRNGrKJ3+G+Ned30CYy7C/TelqK19G4zBApECd3d38
-	4nj1TkSSD5AQrz1av6PPz3dKOr1VOBypbHndMnEe587waws9Hob6b4bYykz8BcFqcQ1z
-	wivli62EMKRMHL5ty0RHZk2+Q0V1b5r5oi5QwXSezx8pWl65cy1GdqUxAtELdnUMFxWu
-	9xZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=1yWDOpNYnn7RE5roKzHhAppICNQzXylMOJNgQpdiiZ4=;
-	b=HCO7M+bqMHin2m3xqXg5skfdvS23tmLgp896Pw1DQ3eQFIM73HHAyqI6U/qohW20Xr
-	rBUQufXhum9sblKDRkLBbLARkUKlaXmDA/vq2Ad5lWSSjKGt+rd2sTF3NKg1lYgBCVqO
-	uyKKellVN99c0Mk7b6i/z9NUwlQQWAqdgpSrZjUHcE6ZYIthjRAiFxB72CjsTpe2p8f5
-	8u1alqc3t1hZ/HSWztCDC+iLHulOA4hvFimusG+C4F7mmRsJCaoWvlu1dCetLQc2P0+h
-	lAIQGeEKUEEdxl+73POp8ZIP7t+DxMVFrE6vtke8gQ+NsYk1h73lr/WaSk3zazRig2XD
-	W/pQ==
-X-Gm-Message-State: APjAAAUpoIMpI8fP46GKG5BodmK/lNhCBGBn39/wm14eJqk6HTj5/kDU
-	Y4v+dblz+sMz8bSLJxc5l4QbCQ==
-X-Google-Smtp-Source: APXvYqwHb6QPsXfhwixY8A5zRJVeMNKbxwFODP7DpBOo8oCWOWIPwu/J0ObokpsOdEPMic0Z/g2Xdg==
-X-Received: by 2002:a17:902:8698:: with SMTP id
-	g24mr14755195plo.151.1557505035983; 
-	Fri, 10 May 2019 09:17:15 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-13-231.tukw.qwest.net. [97.113.13.231])
-	by smtp.gmail.com with ESMTPSA id
-	m2sm7993808pfi.24.2019.05.10.09.17.14
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 10 May 2019 09:17:15 -0700 (PDT)
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20190510012458.22706-1-richard.henderson@linaro.org>
-	<20190510012458.22706-23-richard.henderson@linaro.org>
-	<CAFEAcA9uwaev+Q=BgLBz+fgO6C7VGmw4Nxcozg2vm6TOm+LJww@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <dd180f6d-27e8-2f2b-a7ac-ed1d8bbc9498@linaro.org>
-Date: Fri, 10 May 2019 09:17:13 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <armbru@redhat.com>) id 1hP8Ed-0002sF-UO
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:19:01 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33134)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hP8Ed-0002rj-Md
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:18:59 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id EA0E8306034D;
+	Fri, 10 May 2019 16:18:58 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-28.ams2.redhat.com
+	[10.36.116.28])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 229C31779C;
+	Fri, 10 May 2019 16:18:54 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+	id 9BA4F11385E4; Fri, 10 May 2019 18:18:52 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Laurent Vivier <lvivier@redhat.com>
+References: <20190510134203.24012-1-lvivier@redhat.com>
+	<20190510134203.24012-2-lvivier@redhat.com>
+Date: Fri, 10 May 2019 18:18:52 +0200
+In-Reply-To: <20190510134203.24012-2-lvivier@redhat.com> (Laurent Vivier's
+	message of "Fri, 10 May 2019 15:42:01 +0200")
+Message-ID: <877eayjn9v.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA9uwaev+Q=BgLBz+fgO6C7VGmw4Nxcozg2vm6TOm+LJww@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::641
-Subject: Re: [Qemu-devel] [PATCH v5 22/24] target/arm: Implement ARMv8.5-RNG
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.47]);
+	Fri, 10 May 2019 16:18:58 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v3 1/3] VirtIO-RNG: Update default entropy
+ source to `/dev/urandom`
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -86,46 +63,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: "Daniel P . =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>, "Michael
+	S. Tsirkin" <mst@redhat.com>, Kashyap Chamarthy <kchamart@redhat.com>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	qemu-devel@nongnu.org, Amit Shah <amit@kernel.org>,
+	Markus Armbruster <armbru@redhat.com>,
+	"Richard W . M . Jones" <rjones@redhat.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/10/19 9:01 AM, Peter Maydell wrote:
-> On Fri, 10 May 2019 at 02:25, Richard Henderson
-> <richard.henderson@linaro.org> wrote:
->>
->> Cc: qemu-arm@nongnu.org
->> Cc: Peter Maydell <peter.maydell@linaro.org>
->> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
->> ---
->> v3: Log errors with -d unimp, for lack of a better flag.
->> ---
->>  target/arm/cpu.h    |  5 +++++
->>  target/arm/cpu64.c  |  1 +
->>  target/arm/helper.c | 44 ++++++++++++++++++++++++++++++++++++++++++++
->>  3 files changed, 50 insertions(+)
-> 
->> +/* We do not support re-seeding, so the two registers operate the same.  */
->> +static const ARMCPRegInfo rndr_reginfo[] = {
->> +    { .name = "RNDR", .state = ARM_CP_STATE_AA64,
->> +      .type = ARM_CP_NO_RAW | ARM_CP_SUPPRESS_TB_END,
->> +      .opc0 = 3, .opc1 = 3, .crn = 2, .crm = 4, .opc2 = 0,
->> +      .access = PL0_R, .readfn = rndr_readfn },
->> +    { .name = "RNDRRS", .state = ARM_CP_STATE_AA64,
->> +      .type = ARM_CP_NO_RAW | ARM_CP_SUPPRESS_TB_END,
->> +      .opc0 = 3, .opc1 = 3, .crn = 2, .crm = 4, .opc2 = 1,
->> +      .access = PL0_R, .readfn = rndr_readfn },
-> 
-> Don't these need to be marked ARM_CP_IO for the benefit
-> of -icount ?
+Laurent Vivier <lvivier@redhat.com> writes:
 
-I don't think so.  There's no lock taken, as for mmio devices.  It's not not
-related to time, virtual or otherwise.  There are no possible exceptions.  I
-can't think of anything that would make icount care.
+> From: Kashyap Chamarthy <kchamart@redhat.com>
+>
+> When QEMU exposes a VirtIO-RNG device to the guest, that device needs a
+> source of entropy, and that source needs to be "non-blocking", like
+> `/dev/urandom`.  However, currently QEMU defaults to the problematic
+> `/dev/random`, which is "blocking" (as in, it waits until sufficient
+> entropy is available).
+>
+> Why prefer `/dev/urandom` over `/dev/random`?
+> ---------------------------------------------
+>
+> The man pages of urandom(4) and random(4) state:
+>
+>     "The /dev/random device is a legacy interface which dates back to a
+>     time where the cryptographic primitives used in the implementation
+>     of /dev/urandom were not widely trusted.  It will return random
+>     bytes only within the estimated number of bits of fresh noise in the
+>     entropy pool, blocking if necessary.  /dev/random is suitable for
+>     applications that need high quality randomness, and can afford
+>     indeterminate delays."
+>
+> Further, the "Usage" section of the said man pages state:
+>
+>     "The /dev/random interface is considered a legacy interface, and
+>     /dev/urandom is preferred and sufficient in all use cases, with the
+>     exception of applications which require randomness during early boot
+>     time; for these applications, getrandom(2) must be used instead,
+>     because it will block until the entropy pool is initialized.
+>
+>     "If a seed file is saved across reboots as recommended below (all
+>     major Linux distributions have done this since 2000 at least), the
+>     output is cryptographically secure against attackers without local
+>     root access as soon as it is reloaded in the boot sequence, and
+>     perfectly adequate for network encryption session keys.  Since reads
+>     from /dev/random may block, users will usually want to open it in
+>     nonblocking mode (or perform a read with timeout), and provide some
+>     sort of user notification if the desired entropy is not immediately
+>     available."
+>
+> And refer to random(7) for a comparison of `/dev/random` and
+> `/dev/urandom`.
+>
+>     - - -
+>
+> Given the above, change the entropy source for VirtIO-RNG device to
+> `/dev/urandom`.
+>
+> Related discussion in these[1][2] past threads.
+>
+> [1] https://lists.nongnu.org/archive/html/qemu-devel/2018-06/msg08335.html
+>     -- "RNG: Any reason QEMU doesn't default to `/dev/urandom`?"
+> [2] https://lists.nongnu.org/archive/html/qemu-devel/2018-09/msg02724.html
+>     -- "[RFC] Virtio RNG: Consider changing the default entropy source to
+>        /dev/urandom"
+>
+> Signed-off-by: Kashyap Chamarthy <kchamart@redhat.com>
+> Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+> Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
 
-Have I missed something?
+Suggest to work Daniel's analysis into the commit message, like this:
 
+  When QEMU exposes a VirtIO-RNG device to the guest, that device needs a
+  source of entropy, and that source needs to be "non-blocking", like
+  `/dev/urandom`.  However, currently QEMU defaults to the problematic
+  `/dev/random`, which on Linux is "blocking" (as in, it waits until
+  sufficient entropy is available).
 
-r~
+  Why prefer `/dev/urandom` over `/dev/random` on Linux?
+  ------------------------------------------------------
+  [...]
 
+  What about other OSes?
+  ----------------------
+
+  /dev/urandom exists and works on OS-X, FreeBSD, DragonFlyBSD, NetBSD
+  and OpenBSD, which covers all the non-Linux platforms we explicitly
+  support, aside from Windows.
+
+  On Windows /dev/random doesn't work either so we don't regress. This
+  is actually another argument in favour of using the newly proposed
+  rng-builtin backend by default, as that will work on Windows.
+
+      - - -
+
+  Given the above, change the entropy source for VirtIO-RNG device to
+  `/dev/urandom`.
+  [...]
 
