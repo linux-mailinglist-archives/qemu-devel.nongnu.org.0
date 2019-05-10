@@ -2,56 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA29D1A0D7
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 17:59:50 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:45612 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CE0311A0FB
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 18:08:59 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46013 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hP7w5-0001hE-W9
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 11:59:50 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36177)
+	id 1hP84w-0007y2-If
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 12:08:58 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37190)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <lvivier@redhat.com>) id 1hP7t2-0007N7-H0
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 11:56:41 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hP7xU-00036q-Ez
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:01:17 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <lvivier@redhat.com>) id 1hP7t1-0005WN-Kn
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 11:56:40 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54298)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <lvivier@redhat.com>) id 1hP7t1-0005VF-EG
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 11:56:39 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id B47977E9C4;
-	Fri, 10 May 2019 15:56:38 +0000 (UTC)
-Received: from [10.40.205.9] (unknown [10.40.205.9])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 1335D66D22;
-	Fri, 10 May 2019 15:56:30 +0000 (UTC)
-To: =?UTF-8?Q?Daniel_P._Berrang=c3=a9?= <berrange@redhat.com>
-References: <20190510102637.10209-1-lvivier@redhat.com>
-	<87zhnuqyu0.fsf@dusky.pond.sub.org>
-	<87991c2b-da9d-0e7f-bc09-9fbadbda4ef8@redhat.com>
-	<20190510153227.GO7671@redhat.com>
-From: Laurent Vivier <lvivier@redhat.com>
-Message-ID: <a19fde61-159e-45da-f652-1dbc1f94b9ee@redhat.com>
-Date: Fri, 10 May 2019 17:56:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
+	(envelope-from <peter.maydell@linaro.org>) id 1hP7xT-0004MF-Hz
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:01:16 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:45145)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hP7xT-0004LI-BC
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:01:15 -0400
+Received: by mail-ot1-x343.google.com with SMTP id a10so3707862otl.12
+	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 09:01:15 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=Dy8EhEUL2zVhXDJiWFjxCwIcgr3gV584fPxJ19AkQfE=;
+	b=TJlQqWMuDb8BYcqOW6x39cfka8o0a8zS7/dVoGofIqyfy6bZm21Okfw5YbQ05kVxb/
+	J6De+Tj/9hnaX8WUbxLBpZ7fvz4Hr8AxS2xwPp5iYxmNPpDOCNno29nqQwiyFgd88NkZ
+	7AZJaW+3N5o51mLvvV4foxsDeashWN7qCnAu1ONBwwTCl2UUaHhf1Krht9QmCoS3Qo16
+	/A5yrMoX3x0Sa4Lg3wJEXZl2rmghTWdIiBxOR+hjRB/AObuD1YY7+eem7WE4Rpxl+Xaw
+	PZkpBjkqUWisw3Sf3Rnb9bQMqS+LpTZLnw9RjeBUYG5G93uqUnUlq8mzQikfnlEK0Hct
+	V8AQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=Dy8EhEUL2zVhXDJiWFjxCwIcgr3gV584fPxJ19AkQfE=;
+	b=a+Oy0s3Cs5e/eCaWUChUH65TEae3LAdNmPLZgBzVMCSfuh5uLYzwYX5OvQiWYfDYXy
+	bL+gRmTfgfl40O2QICRFTEDw/wnd6X3N+WRG9v1I4RnSGKnz7BzZQ8YUmeudZAMRJTvg
+	fEFk+robgsv8d+KidKVzNYHDoZw/LhFaLXJngnagmeCALACX7W1niDT1Jdcd/nE6FnkX
+	LieHGnuNehbJTX/HX0XSRJYubxA3Rl2yvZDwdEMlzjm5YpuS3oMEX6QMWkdkZTjmA6YE
+	+/CUWD3hoF4hms8NH8j12y5mZBTqpArcxb3qjadIX7cnif0r91pAiHTpQhtiE8JieDFO
+	tPvw==
+X-Gm-Message-State: APjAAAVqL2byJCvwgbDaPLmMjcl2YqhyWNzWKHbcfkzzlHfVjhoWW1aS
+	i5cym57dp61XlELKoSWJLejUwXRpccJCA94kKtNx0w==
+X-Google-Smtp-Source: APXvYqzJ4CW6XdrGPlpFFxuwLYzQ4ndUzf7Ol1TM6CrJZ5oDa5f3PiG+g1oTRooXJuY0BNAifStBdYX0k/HCo4uHHi0=
+X-Received: by 2002:a9d:4793:: with SMTP id b19mr2871763otf.238.1557504074140; 
+	Fri, 10 May 2019 09:01:14 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190510153227.GO7671@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.26]);
-	Fri, 10 May 2019 15:56:38 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2] rng-builtin: add an RNG backend that
- uses qemu_guest_getrandom()
+References: <20190510012458.22706-1-richard.henderson@linaro.org>
+	<20190510012458.22706-23-richard.henderson@linaro.org>
+In-Reply-To: <20190510012458.22706-23-richard.henderson@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 10 May 2019 17:01:03 +0100
+Message-ID: <CAFEAcA9uwaev+Q=BgLBz+fgO6C7VGmw4Nxcozg2vm6TOm+LJww@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::343
+Subject: Re: [Qemu-devel] [PATCH v5 22/24] target/arm: Implement ARMv8.5-RNG
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -63,44 +72,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kashyap Chamarthy <kchamart@redhat.com>,
-	Markus Armbruster <armbru@redhat.com>, Amit Shah <amit@kernel.org>,
-	Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
-	"Richard W . M . Jones" <rjones@redhat.com>
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/05/2019 17:32, Daniel P. Berrang=C3=A9 wrote:
-> On Fri, May 10, 2019 at 02:37:41PM +0200, Laurent Vivier wrote:
->> On 10/05/2019 14:27, Markus Armbruster wrote:
->>> Laurent Vivier <lvivier@redhat.com> writes:
->>> The new rng-builtin is considerably simpler than both rng-random and
->>> rng-egd.  Moreover, it just works, whereas rng-random is limited to
->>> CONFIG_POSIX, and rng-egd needs egd running (which I suspect basicall=
-y
->>> nobody does).  Have we considered deprecating these two backends in
->>> favor of rng-builtin?
->>
->> I have several bugzilla involving these backends: as there are blockin=
-g, the
->> virtio-rng device in the guest can hang, or crash during hot-unplug. F=
-rom my
->> point of view, life would be easier without them...
->=20
-> Are you sure about that ?
->=20
-> The EGD impl looks like it is requesting entropy in an async manner.
+On Fri, 10 May 2019 at 02:25, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> Cc: qemu-arm@nongnu.org
+> Cc: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+> v3: Log errors with -d unimp, for lack of a better flag.
+> ---
+>  target/arm/cpu.h    |  5 +++++
+>  target/arm/cpu64.c  |  1 +
+>  target/arm/helper.c | 44 ++++++++++++++++++++++++++++++++++++++++++++
+>  3 files changed, 50 insertions(+)
 
-The virtio-rng driver waits until it receives enough entropy from the=20
-RNG backend while a mutex is taken.
+> +/* We do not support re-seeding, so the two registers operate the same.  */
+> +static const ARMCPRegInfo rndr_reginfo[] = {
+> +    { .name = "RNDR", .state = ARM_CP_STATE_AA64,
+> +      .type = ARM_CP_NO_RAW | ARM_CP_SUPPRESS_TB_END,
+> +      .opc0 = 3, .opc1 = 3, .crn = 2, .crm = 4, .opc2 = 0,
+> +      .access = PL0_R, .readfn = rndr_readfn },
+> +    { .name = "RNDRRS", .state = ARM_CP_STATE_AA64,
+> +      .type = ARM_CP_NO_RAW | ARM_CP_SUPPRESS_TB_END,
+> +      .opc0 = 3, .opc1 = 3, .crn = 2, .crm = 4, .opc2 = 1,
+> +      .access = PL0_R, .readfn = rndr_readfn },
 
-If the EGD daemon doesn't provide enough data to the RNG backend,=20
-virtio-rng driver can hang.
+Don't these need to be marked ARM_CP_IO for the benefit
+of -icount ?
 
-It's easy to have if we start EGD backend with a socket in server,nowait=20
-mode and no EGD daemon connects to the port.
+Otherwise
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 
-Thanks,
-Laurent
-
+thanks
+-- PMM
 
