@@ -2,59 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BAA219832
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 07:58:02 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:37397 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6526519841
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 08:11:57 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37505 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOyXh-0001aD-0p
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 01:58:01 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38367)
+	id 1hOylA-0005q6-Js
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 02:11:56 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40158)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hOyWf-0001E9-84
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 01:56:58 -0400
+	(envelope-from <bounces@canonical.com>) id 1hOyk5-0004zo-Tt
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 02:10:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hOyWa-0001Jh-Ff
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 01:56:53 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40544)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <armbru@redhat.com>)
-	id 1hOyWZ-0001Iu-6a; Fri, 10 May 2019 01:56:52 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 963E33082A2A;
-	Fri, 10 May 2019 05:56:49 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-28.ams2.redhat.com
-	[10.36.116.28])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5547B60C81;
-	Fri, 10 May 2019 05:56:49 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
-	id A76AA1132B35; Fri, 10 May 2019 07:56:47 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Stefano Garzarella <sgarzare@redhat.com>
-References: <20190509133737.242548-1-sgarzare@redhat.com>
-	<87y33f1xw4.fsf@dusky.pond.sub.org>
-	<20190509151636.xcon4rt7ybdo32pz@steredhat>
-Date: Fri, 10 May 2019 07:56:47 +0200
-In-Reply-To: <20190509151636.xcon4rt7ybdo32pz@steredhat> (Stefano Garzarella's
-	message of "Thu, 9 May 2019 17:16:36 +0200")
-Message-ID: <87h8a2x36o.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+	(envelope-from <bounces@canonical.com>) id 1hOyk4-0007m1-Ll
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 02:10:49 -0400
+Received: from indium.canonical.com ([91.189.90.7]:49720)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hOyk4-0007hW-G5
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 02:10:48 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hOyk2-00053h-L3
+	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 06:10:46 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id 98C7C2E80C7
+	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 06:10:46 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.45]);
-	Fri, 10 May 2019 05:56:49 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 10 May 2019 06:02:46 -0000
+From: Amol Surati <1828507@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: asurati
+X-Launchpad-Bug-Reporter: Amol Surati (asurati)
+X-Launchpad-Bug-Modifier: Amol Surati (asurati)
+Message-Id: <155746816636.22030.3977137421670178751.malonedeb@chaenomeles.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18962";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 5b2e968ee02091a1e8bac5b8a104a22c7ca13e05
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] net/slirp: fix the error message when the
- prefix len is invalid
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1828507] [NEW] qemu-system-ppc64 smp crash on
+ manual reset
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -63,61 +63,131 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Jan Kiszka <jan.kiszka@siemens.com>,
-	Jason Wang <jasowang@redhat.com>, qemu-devel@nongnu.org,
-	Samuel Thibault <samuel.thibault@ens-lyon.org>
+Reply-To: Bug 1828507 <1828507@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Stefano Garzarella <sgarzare@redhat.com> writes:
+Public bug reported:
 
-> On Thu, May 09, 2019 at 04:54:35PM +0200, Markus Armbruster wrote:
->> Stefano Garzarella <sgarzare@redhat.com> writes:
->> 
->> > Add a missing parentheses at the end of the error message,
->> > when we have an invalid prefix len.
->> >
->> > Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
->> > ---
->> >  net/slirp.c | 3 ++-
->> >  1 file changed, 2 insertions(+), 1 deletion(-)
->> >
->> > diff --git a/net/slirp.c b/net/slirp.c
->> > index 95934fb36d..0f4ae0abc0 100644
->> > --- a/net/slirp.c
->> > +++ b/net/slirp.c
->> > @@ -498,7 +498,8 @@ static int net_slirp_init(NetClientState *peer, const char *model,
->> >      }
->> >      if (vprefix6_len < 0 || vprefix6_len > 126) {
->> >          error_setg(errp,
->> > -                   "Invalid prefix provided (prefix len must be in range 0-126");
->> > +                   "Invalid prefix provided "
->> > +                   "(prefix len must be in range 0-126)");
->> >          return -1;
->> >      }
->> 
->> Preexisting: the error message fails to identify the offending
->> parameter.  The user needs to make the connection to "ipv6-prefixlen"
->> based on the fact that the only parameters with "prefix" in name or
->> description are "ipv6-prefix" and "ipv6-prefixlen", and only the latter
->> is a length.
->> 
->> What about "Parameter 'ipv6-prefixlen' expects a length below 127", or
->> "Parameter 'ipv6-prefixlen' expects a value between 0 and 126"?
->
-> "Parameter 'ipv6-prefixlen' expects a value between 0 and 126" should be
-> fine.
->
-> Otherwise, since other errors didn't refer to the parameter name, we can
-> simply add IPv6 in this way:
-> "Invalid IPv6 prefix provided (IPv6 prefix len must be between 0 and 126)"
+Host Environment:
+   x86_64 Linux v5.0.2
+   QEMU emulator version 4.0.50 (v4.0.0-354-g812b835fb4)
+   SLOF:
+       Build Date =3D Jan 14 2019 18:00:39
+       FW Version =3D git-a5b428e1c1eae703
 
-"len" is not a word.  Either say "ipv6-prefixlen", or say "IPv6 prefix
-length".
+Problem: Qemu crash immediately after a manual reset
+         (this is not the initial reset which launches the guest).
 
-> But I'm fine also with your proposal.
+Steps:
 
-It's just a suggestion.  Feel free to leave the error messages
-consistently vague (apply your patch as is), improve just this one, or
-improve more messages.
+1. Download Debian ppc64el mini.iso:
+   http://ftp.debian.org/debian/dists/sid/main/installer-ppc64el/current/im=
+ages/netboot/mini.iso
+2. Run qemu on the host. Ensure that it runs with more than one CPUs. With =
+a single CPU, I was unable
+   to reproduce the crash.
+   qemu-system-ppc64 -M pseries -cpu power9 -smp 2 -m 512 -cdrom mini.iso
+3. SLOF prints the version info on the serial device, and proceeds to boot.
+4. After a few seconds, the GRUB menu appears on the VGA screen.
+5. Select one of the install options (I have tested with Default and Expert=
+), and wait
+   for the Debian's text-mode installer (blue-gray-red) screen to appear.
+6. Click Machine->Reset (or enter system_reset on the qemu monitor).
+7. Notice that, on the serial device, SLOF has printed the version info. Th=
+at is, the system
+   has reset and is attempting to boot again.
+8. On the host cmd prompt, qemu dies after printing this fatal error and sp=
+ewing the
+   contents of the CPU registers:
+
+   qemu: fatal: Trying to deliver HV exception (MSR) 70 with no HV support
+   <CPU contents> (See attached out.txt for details)
+   Aborted (core dumped)
+
+
+The HV exception is either
+   (a) 70 =3D HISI, which occurs when NIP contains an outright bogus or ina=
+ccessible value, or
+   (b) 69 =3D HDSI, which occurs when NIP happens to contain a somewhat san=
+er value, and
+       the cpu attempts to run the instruction at that address.
+
+The exception can occur on either of the CPUs. It occurs when qemu is runni=
+ng the SLOF
+code.
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+** Attachment added: "a few instances of the crash"
+   https://bugs.launchpad.net/bugs/1828507/+attachment/5262806/+files/out.t=
+xt
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1828507
+
+Title:
+  qemu-system-ppc64 smp crash on manual reset
+
+Status in QEMU:
+  New
+
+Bug description:
+  Host Environment:
+     x86_64 Linux v5.0.2
+     QEMU emulator version 4.0.50 (v4.0.0-354-g812b835fb4)
+     SLOF:
+         Build Date =3D Jan 14 2019 18:00:39
+         FW Version =3D git-a5b428e1c1eae703
+
+  Problem: Qemu crash immediately after a manual reset
+           (this is not the initial reset which launches the guest).
+
+  Steps:
+
+  1. Download Debian ppc64el mini.iso:
+     http://ftp.debian.org/debian/dists/sid/main/installer-ppc64el/current/=
+images/netboot/mini.iso
+  2. Run qemu on the host. Ensure that it runs with more than one CPUs. Wit=
+h a single CPU, I was unable
+     to reproduce the crash.
+     qemu-system-ppc64 -M pseries -cpu power9 -smp 2 -m 512 -cdrom mini.iso
+  3. SLOF prints the version info on the serial device, and proceeds to boo=
+t.
+  4. After a few seconds, the GRUB menu appears on the VGA screen.
+  5. Select one of the install options (I have tested with Default and Expe=
+rt), and wait
+     for the Debian's text-mode installer (blue-gray-red) screen to appear.
+  6. Click Machine->Reset (or enter system_reset on the qemu monitor).
+  7. Notice that, on the serial device, SLOF has printed the version info. =
+That is, the system
+     has reset and is attempting to boot again.
+  8. On the host cmd prompt, qemu dies after printing this fatal error and =
+spewing the
+     contents of the CPU registers:
+
+     qemu: fatal: Trying to deliver HV exception (MSR) 70 with no HV support
+     <CPU contents> (See attached out.txt for details)
+     Aborted (core dumped)
+
+  =
+
+  The HV exception is either
+     (a) 70 =3D HISI, which occurs when NIP contains an outright bogus or i=
+naccessible value, or
+     (b) 69 =3D HDSI, which occurs when NIP happens to contain a somewhat s=
+aner value, and
+         the cpu attempts to run the instruction at that address.
+
+  The exception can occur on either of the CPUs. It occurs when qemu is run=
+ning the SLOF
+  code.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1828507/+subscriptions
 
