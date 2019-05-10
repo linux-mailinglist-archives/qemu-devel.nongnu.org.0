@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC67B1962D
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 03:31:06 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:35046 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0276D19634
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 03:34:15 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:35100 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOuNO-0002PZ-1D
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 21:31:06 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58958)
+	id 1hOuQQ-0005Lx-41
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 21:34:14 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58980)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOuHy-0006TY-Ee
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 21:25:32 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hOuI0-0006Td-0W
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 21:25:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOuHx-0001Q7-Ib
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 21:25:30 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:40871)
+	(envelope-from <richard.henderson@linaro.org>) id 1hOuHy-0001R3-Tx
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 21:25:31 -0400
+Received: from mail-pl1-x634.google.com ([2607:f8b0:4864:20::634]:44292)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hOuHx-0001Pc-D8
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 21:25:29 -0400
-Received: by mail-pl1-x641.google.com with SMTP id b3so1992003plr.7
-	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 18:25:29 -0700 (PDT)
+	id 1hOuHy-0001QY-Nu
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 21:25:30 -0400
+Received: by mail-pl1-x634.google.com with SMTP id d3so1979954plj.11
+	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 18:25:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=dA7IdM9XxYp0KA0mciB9Wmn94LeseL1766ubkiFpUuY=;
-	b=R9QrGTMbhpFv2ooDE+rHY1/EyvH3DxR/YxJSC/g2s5Gs6Rr70N9h6O+6AU6/5WBRfC
-	U72/8Oa50Lb3jN6+s1dizVR/WJfPz/mCAcOOefsqRuNoQeLmWoPnVf8DAka9HXfnEHCA
-	Q2N+OMuQ353YW+xHvdX032IyOWr9b0EoXAfyERsO7N15QDd9lIdyygdvxRzGmGCjSfP/
-	2sO/ytnNDccHpuILQ1Vo3xizTzd84J6FuauNfCJhiPp/DKI9cv2yJ7u+EeAHGsezZEJE
-	PNfLcEHkUg7zAHrv9zo4FONf69Wk8aTbjuW6Pv9VCwWunqulpknwewDqXNua8gsztflC
-	1qAA==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=Zy7Bl/NY6R6WV/KALAMj7Mld2mS+F9Ia+hHvDF6MXjc=;
+	b=m3XLC8XWpdIMgME4VXjsjRL9+9ZdEqWuDnPdFmEFMv3EG4Gh1FR5YVZUDwtH5VlIlo
+	1BCrxKVPOWAoYPZNHd5aCXStA3rOMJ5+4f8YZyIfHu1mhwtrVeh9dGbUns/ouEFpfm+t
+	l5cLWY51p4EmeGaHfGQHmlSa6KRMLdrrhmEoUl+4yQm8sB9xM8MojIh2eZlIO8uR7w9w
+	QQzyiYGi/bhb0YfDaGipW5plgKJztDymSvNzJ21zcj/B9nawQKCcpmbBUuLHWnMgqvTi
+	xs7QZfMpwAsEqM4a7jnJZYh0bJ9l3vERaxvLy2sliTLXnNp+pbUYHe6GovCZxm4wcJAs
+	AV/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=dA7IdM9XxYp0KA0mciB9Wmn94LeseL1766ubkiFpUuY=;
-	b=nIBGEZzhobfw2AwAD4Yqa2JuPGO1yZooQ7pEBQPdJ7QnMZxqaVl8su91mqE/hJM/v1
-	GNOspaQWja5NQFKxocteeQ6cX1VXfMfOFrImthGmj2dXMkWD9YbV1u4kS1hV5LR9WB2Z
-	8/yBINcPbRj51CWjWI6q8zP3R8/GTpNgxOCG7xe3aaBZGnvrkPFestm1OQUPrzSLsonJ
-	slHW3XuTUXTZD3kb1zL/Hi90kX95Lm01plPHUM3hYC8A68cELrM/OapBA3zMrixi3bws
-	CCMMZk9brPKqQmrnfcSv9L00GlBXhdPloojo7BJc1VmfmGfYDH6tgxi/u9TuRM1/H/5n
-	zyNg==
-X-Gm-Message-State: APjAAAXswqowxkGDn0toRC9DSA4MPTBkuIN/jed58dFmwPxhW7FxcaKz
-	Ew6mMBx61yLAVu4CDUwWh0L7LHICoy4=
-X-Google-Smtp-Source: APXvYqy5dzaF4U8GduIeEIw7MuTfv8nZJrsGlXv2lcf1NF3P1m3Rmz+JHaJTwNrpiQ5qGWRfJGqAKw==
-X-Received: by 2002:a17:902:b202:: with SMTP id
-	t2mr9102123plr.69.1557451528176; 
-	Thu, 09 May 2019 18:25:28 -0700 (PDT)
+	bh=Zy7Bl/NY6R6WV/KALAMj7Mld2mS+F9Ia+hHvDF6MXjc=;
+	b=kcGvWWX1u+6+o1ToSpLlGikCM/p3A6JIokL1xakGPEsySLZ8iu4DmLuZ5JWA61f0wy
+	fxV7Mije3a2Ba1nZPJqyRCZweZ0vuimddEsV0e/f+X78EE3EjS0nYdePIWx3HgUc+sMs
+	b2OhNOEYIHlwDx6HlJsCAWfbefS+IR6vwsdqNo2HBsb1RqmZJc27rGPzXPunpX/YhK2W
+	Jvs7eHSeeJqBoqehMXOJ4A6sB2162SjnWDwFho3xoSSxVEs0G9nx1Fb72HM4ejhlmOwX
+	La+CQ1VZybdaGihJjj1a5UuPWOZhsQV4Wy344VrbUrxZmoZJuOu/oBPUzJITm/gfCDvB
+	T+cg==
+X-Gm-Message-State: APjAAAVVSqw55gQ2nNF/RvAGQ9VhAkhO+4uZDCCam8sTB1MIdeavm9ka
+	yvN8AJsdpumlse2rC7T3YYG3UQKyVHY=
+X-Google-Smtp-Source: APXvYqx8UPN3VZon+kgTUOnzW0JjpZHCMwL9WVKuIr91i+A4+Wcdwo9ClbFfB0nFRPYhjlFFZsu2lg==
+X-Received: by 2002:a17:902:29ab:: with SMTP id
+	h40mr9335922plb.269.1557451529423; 
+	Thu, 09 May 2019 18:25:29 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	n18sm8252700pfi.48.2019.05.09.18.25.27 for <qemu-devel@nongnu.org>
+	n18sm8252700pfi.48.2019.05.09.18.25.28
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 09 May 2019 18:25:27 -0700 (PDT)
+	Thu, 09 May 2019 18:25:28 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu,  9 May 2019 18:24:57 -0700
-Message-Id: <20190510012458.22706-24-richard.henderson@linaro.org>
+Date: Thu,  9 May 2019 18:24:58 -0700
+Message-Id: <20190510012458.22706-25-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190510012458.22706-1-richard.henderson@linaro.org>
 References: <20190510012458.22706-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::641
-Subject: [Qemu-devel] [PATCH v5 23/24] target/ppc: Use qemu_guest_getrandom
- for DARN
+X-Received-From: 2607:f8b0:4864:20::634
+Subject: [Qemu-devel] [PATCH v5 24/24] target/i386: Implement
+ CPUID_EXT_RDRAND
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -77,83 +77,165 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 We now have an interface for guest visible random numbers.
 
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
+Cc: Paolo Bonzini <pbonzini@redhat.com>
+Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v5: Do not loop for darn64; use sizeof.
----
- target/ppc/int_helper.c | 39 +++++++++++++++++++++++++++------------
- 1 file changed, 27 insertions(+), 12 deletions(-)
+ target/i386/helper.h     |  2 ++
+ target/i386/cpu.c        |  5 ++--
+ target/i386/int_helper.c | 21 +++++++++++++++
+ target/i386/translate.c  | 55 +++++++++++++++++++++++++++++-----------
+ 4 files changed, 66 insertions(+), 17 deletions(-)
 
-diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
-index f6a088ac08..9af779ad38 100644
---- a/target/ppc/int_helper.c
-+++ b/target/ppc/int_helper.c
-@@ -23,6 +23,8 @@
+diff --git a/target/i386/helper.h b/target/i386/helper.h
+index 6fb8fb9b74..8f9e1905c3 100644
+--- a/target/i386/helper.h
++++ b/target/i386/helper.h
+@@ -226,3 +226,5 @@ DEF_HELPER_3(rcrl, tl, env, tl, tl)
+ DEF_HELPER_3(rclq, tl, env, tl, tl)
+ DEF_HELPER_3(rcrq, tl, env, tl, tl)
+ #endif
++
++DEF_HELPER_1(rdrand, tl, env)
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 722c5514d4..1386814957 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -730,13 +730,14 @@ static void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
+           CPUID_EXT_MONITOR | CPUID_EXT_SSSE3 | CPUID_EXT_CX16 | \
+           CPUID_EXT_SSE41 | CPUID_EXT_SSE42 | CPUID_EXT_POPCNT | \
+           CPUID_EXT_XSAVE | /* CPUID_EXT_OSXSAVE is dynamic */   \
+-          CPUID_EXT_MOVBE | CPUID_EXT_AES | CPUID_EXT_HYPERVISOR)
++          CPUID_EXT_MOVBE | CPUID_EXT_AES | CPUID_EXT_HYPERVISOR | \
++          CPUID_EXT_RDRAND)
+           /* missing:
+           CPUID_EXT_DTES64, CPUID_EXT_DSCPL, CPUID_EXT_VMX, CPUID_EXT_SMX,
+           CPUID_EXT_EST, CPUID_EXT_TM2, CPUID_EXT_CID, CPUID_EXT_FMA,
+           CPUID_EXT_XTPR, CPUID_EXT_PDCM, CPUID_EXT_PCID, CPUID_EXT_DCA,
+           CPUID_EXT_X2APIC, CPUID_EXT_TSC_DEADLINE_TIMER, CPUID_EXT_AVX,
+-          CPUID_EXT_F16C, CPUID_EXT_RDRAND */
++          CPUID_EXT_F16C */
+ 
+ #ifdef TARGET_X86_64
+ #define TCG_EXT2_X86_64_FEATURES (CPUID_EXT2_SYSCALL | CPUID_EXT2_LM)
+diff --git a/target/i386/int_helper.c b/target/i386/int_helper.c
+index 4dc5c65991..334469ca8c 100644
+--- a/target/i386/int_helper.c
++++ b/target/i386/int_helper.c
+@@ -22,6 +22,8 @@
+ #include "exec/exec-all.h"
+ #include "qemu/host-utils.h"
  #include "exec/helper-proto.h"
- #include "crypto/aes.h"
- #include "fpu/softfloat.h"
 +#include "qapi/error.h"
 +#include "qemu/guest-random.h"
  
- #include "helper_regs.h"
- /*****************************************************************************/
-@@ -158,25 +160,38 @@ uint32_t helper_cmpeqb(target_ulong ra, target_ulong rb)
- #undef hasvalue
+ //#define DEBUG_MULDIV
  
- /*
-- * Return invalid random number.
-- *
-- * FIXME: Add rng backend or other mechanism to get cryptographically suitable
-- * random number
-+ * Return a random number.
-  */
--target_ulong helper_darn32(void)
-+uint64_t helper_darn32(void)
- {
--    return -1;
+@@ -470,3 +472,22 @@ void helper_cr4_testbit(CPUX86State *env, uint32_t bit)
+         raise_exception_ra(env, EXCP06_ILLOP, GETPC());
+     }
+ }
++
++target_ulong HELPER(rdrand)(CPUX86State *env)
++{
 +    Error *err = NULL;
-+    uint32_t ret;
++    target_ulong ret;
 +
 +    if (qemu_guest_getrandom(&ret, sizeof(ret), &err) < 0) {
-+        qemu_log_mask(LOG_UNIMP, "darn: Crypto failure: %s",
++        qemu_log_mask(LOG_UNIMP, "rdrand: Crypto failure: %s",
 +                      error_get_pretty(err));
 +        error_free(err);
-+        return -1;
++        /* Failure clears CF and all other flags, and returns 0.  */
++        env->cc_src = 0;
++        return 0;
 +    }
 +
++    /* Success sets CF and clears all others.  */
++    env->cc_src = CC_C;
 +    return ret;
- }
- 
--target_ulong helper_darn64(void)
-+uint64_t helper_darn64(void)
- {
--    return -1;
-+    Error *err = NULL;
-+    uint64_t ret;
++}
+diff --git a/target/i386/translate.c b/target/i386/translate.c
+index 77d6b73e42..62fa45d778 100644
+--- a/target/i386/translate.c
++++ b/target/i386/translate.c
+@@ -5332,31 +5332,56 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
+     case 0x1c7: /* cmpxchg8b */
+         modrm = x86_ldub_code(env, s);
+         mod = (modrm >> 6) & 3;
+-        if ((mod == 3) || ((modrm & 0x38) != 0x8))
+-            goto illegal_op;
+-#ifdef TARGET_X86_64
+-        if (dflag == MO_64) {
+-            if (!(s->cpuid_ext_features & CPUID_EXT_CX16))
++        switch ((modrm >> 3) & 7) {
++        case 1: /* CMPXCHG8, CMPXCHG16 */
++            if (mod == 3) {
+                 goto illegal_op;
+-            gen_lea_modrm(env, s, modrm);
+-            if ((s->prefix & PREFIX_LOCK) && (tb_cflags(s->base.tb) & CF_PARALLEL)) {
+-                gen_helper_cmpxchg16b(cpu_env, s->A0);
+-            } else {
+-                gen_helper_cmpxchg16b_unlocked(cpu_env, s->A0);
+             }
+-        } else
++#ifdef TARGET_X86_64
++            if (dflag == MO_64) {
++                if (!(s->cpuid_ext_features & CPUID_EXT_CX16)) {
++                    goto illegal_op;
++                }
++                gen_lea_modrm(env, s, modrm);
++                if ((s->prefix & PREFIX_LOCK) &&
++                    (tb_cflags(s->base.tb) & CF_PARALLEL)) {
++                    gen_helper_cmpxchg16b(cpu_env, s->A0);
++                } else {
++                    gen_helper_cmpxchg16b_unlocked(cpu_env, s->A0);
++                }
++                set_cc_op(s, CC_OP_EFLAGS);
++                break;
++            }
+ #endif        
+-        {
+-            if (!(s->cpuid_features & CPUID_CX8))
++            if (!(s->cpuid_features & CPUID_CX8)) {
+                 goto illegal_op;
++            }
+             gen_lea_modrm(env, s, modrm);
+-            if ((s->prefix & PREFIX_LOCK) && (tb_cflags(s->base.tb) & CF_PARALLEL)) {
++            if ((s->prefix & PREFIX_LOCK) &&
++                (tb_cflags(s->base.tb) & CF_PARALLEL)) {
+                 gen_helper_cmpxchg8b(cpu_env, s->A0);
+             } else {
+                 gen_helper_cmpxchg8b_unlocked(cpu_env, s->A0);
+             }
++            set_cc_op(s, CC_OP_EFLAGS);
++            break;
 +
-+    if (qemu_guest_getrandom(&ret, sizeof(ret), &err) < 0) {
-+        qemu_log_mask(LOG_UNIMP, "darn: Crypto failure: %s",
-+                      error_get_pretty(err));
-+        error_free(err);
-+        return -1;
-+    }
++        case 7: /* RDSEED */
++        case 6: /* RDRAND */
++            if (mod != 3 ||
++                (s->prefix & (PREFIX_LOCK | PREFIX_REPZ | PREFIX_REPNZ)) ||
++                !(s->cpuid_ext_features & CPUID_EXT_RDRAND)) {
++                goto illegal_op;
++            }
++            gen_helper_rdrand(s->T0, cpu_env);
++            rm = (modrm & 7) | REX_B(s);
++            gen_op_mov_reg_v(s, dflag, rm, s->T0);
++            set_cc_op(s, CC_OP_EFLAGS);
++            break;
 +
-+    return ret;
- }
++        default:
++            goto illegal_op;
+         }
+-        set_cc_op(s, CC_OP_EFLAGS);
+         break;
  
--#endif
--
--#if defined(TARGET_PPC64)
--
- uint64_t helper_bpermd(uint64_t rs, uint64_t rb)
- {
-     int i;
+         /**************************/
 -- 
 2.17.1
 
