@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A436B1971A
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 05:29:47 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36126 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB9A619723
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 05:32:25 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36174 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOwEE-000476-Os
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 23:29:46 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48076)
+	id 1hOwGn-00072n-4I
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 23:32:25 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48097)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOwBr-0002wt-7D
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 23:27:19 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hOwBs-0002xn-Ax
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 23:27:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOwBq-0001QX-EP
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 23:27:19 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:35591)
+	(envelope-from <richard.henderson@linaro.org>) id 1hOwBr-0001RR-FR
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 23:27:20 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:40909)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hOwBq-0001PJ-9B
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 23:27:18 -0400
-Received: by mail-pl1-x644.google.com with SMTP id g5so2133892plt.2
-	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 20:27:18 -0700 (PDT)
+	id 1hOwBr-0001Qh-A5
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 23:27:19 -0400
+Received: by mail-pg1-x544.google.com with SMTP id d31so2270413pgl.7
+	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 20:27:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=ynany7TpuwIOWZBHNBqsv0L1yKHGvVYa7cOFengyx/8=;
-	b=yjT0simJO9u2OuwMQdQp6mWSIr/NSNxCUkdo/UGM6kQ7Lqqyfy1RVOjW9p0fcorW+o
-	WgkEmCt874s6HU4n+oXj9Ub3A1J1ArN4erWkQAX8VuuNdf2+ZIV5prdaZei0I/O1Q9Xd
-	adPuiLjPINlXBfZfqeNIRurnRQMBexi7csVqe8q8f4/TuZ4ILuqEyjB8Y8bssTIfnVol
-	LJP1nVtK08TmONJQgF8Keon25pFt+iV+pScAKPrGJhYypyk4YSWkJyAgh9/Zd8q/u9dI
-	L2S4Jxh6UWs7qSdrc+2eSl6MR1Zrpm+FJjVehn+WPfayu5rJryxAWQNkiK2dqNVuq1H/
-	frSw==
+	bh=k6JHJxPH4SUjOY+2AFOQmSeRVHdVtcQpQvqTv9tIMgY=;
+	b=qy0i2ErqsZmVU4FeGmusySdXgZApMG8P7vPdmyhVVVbwMiLPsZcCYSG8L54/gcG1SY
+	QMxagzZ6nWUSbaI5u8FMKEU1JkoUV1bNEfiSbW0gcobxqYZym17ysMcvZxZWobbCS0ln
+	pAKqB8qVF8vRx5GtIUbrKELrqaV4DFrYRs1oa7RbNZke4wYf4++QFTABTAHzCff6bR+1
+	FZFamuSIp/o78Q6oKpwQSv8Hz1wPJZIAa/Z/MGYltiN0fH9DIg1UHTFRcekD+zSBnm+G
+	c2bf0/GEcZuUkHwEN7gzaFubBELbggJuJyzBNUoNt3n6sTgUIfNG435kp6pSXCo0UF4L
+	pJ5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=ynany7TpuwIOWZBHNBqsv0L1yKHGvVYa7cOFengyx/8=;
-	b=h0EdQw9MUaMYUCX0KJQ5kiWralzkRtSxMBsI4X2aLdw2iEQWE5JK1jYkL/fFs83A8N
-	PppyBecbinLG8exrqhYDfdtE+Pj/mFypPfSGILqtXc/gWRsr8TXMXRhKnN0bvTM0sF8z
-	zd3/oirPmxpQ2KLRNRX0kwVxnbyHYd8ihp7cSFVH9j5ysK3L3514vxM3VLuH/EnoW5Pm
-	ePxL4kXndzlQG7jzDushB/okjM9ElUlLl6M+00W3xtFvxnAmVqKX+07NDw7gjKtYSReZ
-	gSgcf+dXrn16HntbAhWxtZ9OSNiaaq+bvMDEIDvWe1Dx5ZbJ6h0RIFbRQM9jzgJS+qzF
-	b+XQ==
-X-Gm-Message-State: APjAAAUcguASXjzvcC+K/zvVf12K2uuHb9EwsoGz1w5qOAWF1xujkbJa
-	FJQW8/vPvmN/3xnZ18AbfJCmqFTo00c=
-X-Google-Smtp-Source: APXvYqwMcKgpSE2r788iiQxW5LBAz7RRtw2q3ryosUWSzsWQSXeNhAYt9UCC0bgtg4hRItIe1ibQBA==
-X-Received: by 2002:a17:902:b412:: with SMTP id
-	x18mr10205522plr.304.1557458836901; 
-	Thu, 09 May 2019 20:27:16 -0700 (PDT)
+	bh=k6JHJxPH4SUjOY+2AFOQmSeRVHdVtcQpQvqTv9tIMgY=;
+	b=OS7ZOK4UrEsX+hBWcJiTAVzfY2NaC+l267a0GY2GKUNSTWaGeiUld78L5Ggjpto6wK
+	faVWaPzlKsZzy6uSoaRGmpz467bhNyftosUQoFjU8jsFQWOBYGS+HP+eq1AALS15lFOV
+	l8Uvq8Dr6nRcibzhStsu7D+56iBOUnigpmVgX7o93Tdir6amw52b1F/7guHdN9wqpGO/
+	29GHOK6gbtuBs+8Yz30Hj+4ZbmssJ7c1lHzvR5UaAqLHUpNKIAfx/3JorjhrAEjQspyK
+	eINeIESQ7rmV6O/+iwag8UHdNXzO6+MQf5kt4r3PbhJHzclfp5rWKrye+g1UvD8kek8u
+	qEpg==
+X-Gm-Message-State: APjAAAVVmvmGBwkdd2ds1FytYmdHsZ4utw4+kgfL1tX0EEsdf8MkgA1d
+	t5/LiTNT/X5gsllt1Khq2d9NlkTcE58=
+X-Google-Smtp-Source: APXvYqzlzM2QphKzoQxKlRKN5Jqzl7swgU+hLInPJHAaszF3+U6eah4dB9FBrgWcCCc/snseAtVSdQ==
+X-Received: by 2002:a63:cf:: with SMTP id 198mr10410723pga.228.1557458838080; 
+	Thu, 09 May 2019 20:27:18 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	t26sm6259695pgk.62.2019.05.09.20.27.15
+	t26sm6259695pgk.62.2019.05.09.20.27.17
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 09 May 2019 20:27:16 -0700 (PDT)
+	Thu, 09 May 2019 20:27:17 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu,  9 May 2019 20:27:05 -0700
-Message-Id: <20190510032710.23910-4-richard.henderson@linaro.org>
+Date: Thu,  9 May 2019 20:27:06 -0700
+Message-Id: <20190510032710.23910-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190510032710.23910-1-richard.henderson@linaro.org>
 References: <20190510032710.23910-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::644
-Subject: [Qemu-devel] [PATCH v2 3/8] target/sparc: Define an enumeration for
- accessing env->regwptr
+X-Received-From: 2607:f8b0:4864:20::544
+Subject: [Qemu-devel] [PATCH v2 4/8] linux-user/sparc: Use WREG constants in
+ sparc/target_cpu.h
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -81,55 +80,37 @@ Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This fixes a naming bug wherein we used "UREG_FP" to access the
+stack pointer.  OTOH, the "UREG_FP" constant was also defined
+incorrectly such that it *did* reference the stack pointer.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/sparc/cpu.h | 33 +++++++++++++++++++++++++++++++++
- 1 file changed, 33 insertions(+)
+ linux-user/sparc/target_cpu.h | 10 ++--------
+ 1 file changed, 2 insertions(+), 8 deletions(-)
 
-diff --git a/target/sparc/cpu.h b/target/sparc/cpu.h
-index 85b9665ccc..08f7d1a3c6 100644
---- a/target/sparc/cpu.h
-+++ b/target/sparc/cpu.h
-@@ -31,6 +31,39 @@
+diff --git a/linux-user/sparc/target_cpu.h b/linux-user/sparc/target_cpu.h
+index a92748cae3..567351d564 100644
+--- a/linux-user/sparc/target_cpu.h
++++ b/linux-user/sparc/target_cpu.h
+@@ -42,15 +42,9 @@ static inline void cpu_set_tls(CPUSPARCState *env, target_ulong newtls)
+     env->gregs[7] = newtls;
+ }
  
- /*#define EXCP_INTERRUPT 0x100*/
- 
-+/* Windowed register indexes.  */
-+enum {
-+    WREG_O0,
-+    WREG_O1,
-+    WREG_O2,
-+    WREG_O3,
-+    WREG_O4,
-+    WREG_O5,
-+    WREG_O6,
-+    WREG_O7,
+-#ifndef UREG_I6
+-#define UREG_I6        6
+-#endif
+-#ifndef UREG_FP
+-#define UREG_FP        UREG_I6
+-#endif
+-
+ static inline abi_ulong get_sp_from_cpustate(CPUSPARCState *state)
+ {
+-    return state->regwptr[UREG_FP];
++    return state->regwptr[WREG_SP];
+ }
 +
-+    WREG_L0,
-+    WREG_L1,
-+    WREG_L2,
-+    WREG_L3,
-+    WREG_L4,
-+    WREG_L5,
-+    WREG_L6,
-+    WREG_L7,
-+
-+    WREG_I0,
-+    WREG_I1,
-+    WREG_I2,
-+    WREG_I3,
-+    WREG_I4,
-+    WREG_I5,
-+    WREG_I6,
-+    WREG_I7,
-+
-+    WREG_SP = WREG_O6,
-+    WREG_FP = WREG_I6,
-+};
-+
- /* trap definitions */
- #ifndef TARGET_SPARC64
- #define TT_TFAULT   0x01
+ #endif
 -- 
 2.17.1
 
