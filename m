@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A7F2B1A04D
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 17:36:55 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:45220 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 943611A071
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 17:46:51 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:45385 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hP7Zu-0005sP-Ra
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 11:36:54 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56381)
+	id 1hP7jW-000712-Q3
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 11:46:50 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56395)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hP7Jq-0007rH-1l
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 11:20:19 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hP7Jr-0007sm-HU
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 11:20:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hP7Jo-0000Hb-Kl
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 11:20:18 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:34226)
+	(envelope-from <richard.henderson@linaro.org>) id 1hP7Jq-0000K7-6Z
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 11:20:19 -0400
+Received: from mail-pf1-x42c.google.com ([2607:f8b0:4864:20::42c]:32819)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hP7Jo-0000Gh-Ea
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 11:20:16 -0400
-Received: by mail-pl1-x642.google.com with SMTP id w7so3006367plz.1
-	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 08:20:16 -0700 (PDT)
+	id 1hP7Jp-0000JY-WC
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 11:20:18 -0400
+Received: by mail-pf1-x42c.google.com with SMTP id z28so3419549pfk.0
+	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 08:20:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=LTrRBAzo3ZXhs7/OIQshe/0vUKzYgpD3ylIgF8SzGa8=;
-	b=HvtWRwwVB1w9aF10ma3266UkhJwugJ2Xe237/AcUu98AJ0mWShJrnsyeNI9Lc/r5UO
-	GVNbtYnI8EWn/nGjON+9NWJI6CXQSLNpAU6ne+9LYILoXin9r7d5eVSN6efyl8xN2ybU
-	8Ca09Y6WpgB0ALaztAQ8dt2X2OQH2oywhjmAUHFh2VLzTd6c+Xzx/GZwL7oZ3C8Fk3d3
-	jKF5UKibHLqKbs8L3NK8BijGdCsU39ZGH5e60WZ5bKWLZD1wvPADmiCwxe+ZNsIQXDMx
-	71EyIl1BJj9dkDjk6BJCLtlOdanGzRxAb2GpEMycn86abCne7kQUerf9KxVQlDUSBXBI
-	K21g==
+	bh=bWfPEK+qkU+H+gRl4yZYfGof/Snf7uW20Ba+qkEL858=;
+	b=UoWgTuLQZR1/s5vdZUOVe5/548PhR4bjgDwviQ5/ypWDXRVGNHotq52am3pdItJ7/V
+	krQ2CZyHn6DsbECkPiFiJpq9EbKKi3ZCQBQCqSpTXOGJ/jnA3+vtgUty0V+6b9pCOQID
+	ZpfS5PHY92BR018U3FcQEUHulqSjdIEspu5krE+E4jSep3RYh44SsdSfOvTXdknHVdjN
+	RSahWcHRAqPGbcQ0gU8y66f8FPDHnZpy7Q4nSv89pvM4FHUw5ByV+HQmurc5uHF+BxZ5
+	FGAitO8SxCArx9N1OPby0+r9UumgEa6+QCyvzj4kvf4Va2dx2wdZF7W1Orb0InOT9jFQ
+	pivQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=LTrRBAzo3ZXhs7/OIQshe/0vUKzYgpD3ylIgF8SzGa8=;
-	b=P2TWrznBmPY89/XJny//j0AInD7KKTygESgbyZcjwKdnFFkUMidxw9iRaD6Zrqnv0C
-	VVxKm2/cU7anmTr0pT4NnOkOGOVqBblKABnWGpZ0plDg9rOe92v7HRRwmpjjnLBEKZeT
-	JN8IdTocQOxdbtKBOAxwdYm1BSDTUPc0L5J87BssS3sAwjEcEjjzIK2ihBUbIiuyQFq9
-	tK/aKzJYZ8uCuEL8sjffQXs9Fv9gMZ1frsJ0wo2AGMCe9+AdpeeiAvyyNjhsS15/1UTi
-	H02dS1VjoHgBwLL+x1zNPNaEcHrirgXBs9/9deqzCUog6PRbSUv8wfA9C6mzZYVRRz1R
-	j2vQ==
-X-Gm-Message-State: APjAAAVDN4r8GeNQqKpczgchaHAv/y0OAz2NqUKz0lupkbNlujGtMhHG
-	uPMaomuEEmNKOwKIYN5CBtRdSfT0vl0=
-X-Google-Smtp-Source: APXvYqxy6tX9Mi6oLp0cu6mQnMLweSIFsnt80yXlbL/MnQ/JTRS8u16EaIBK4o1v7Jr+4NMSCS0Dgg==
-X-Received: by 2002:a17:902:9a08:: with SMTP id
-	v8mr13552234plp.105.1557501615201; 
-	Fri, 10 May 2019 08:20:15 -0700 (PDT)
+	bh=bWfPEK+qkU+H+gRl4yZYfGof/Snf7uW20Ba+qkEL858=;
+	b=cTQyXY9Hrpqv7OFdPsg0MX5l8DqEKG5EiXhZLTeNaABB58BQsoCBl2eM+6+xJ7TAsB
+	OLUgI8Y+SdnCNlQ5KdnHTWyjZDoB4b60kQqTKb15xlv6OXl+hRl2S98JyrQmubnljgih
+	yg/E22nblSiYcYXDzbxbxIvD8RPQNoz+IEwLto90RVjkI90nTSk5brAlylTNwqFqWNw7
+	RBnTDX9NSxn1msDpQ6fFyVG6MeEkxiwMoM+KHZgW8ZEl3VBrGXzmpCuqUi1HYxcLbyTg
+	kO/liENz6ArwgbnSP4sP0YZsy28zg3wfzqT8jqMwU4ixDg60MnjI6zf0XsKv+Vyxg52k
+	RxtA==
+X-Gm-Message-State: APjAAAW7JGr/cgRjNszq2K/KFY2uQN0OUGigP2YNOuQ2IKTls9ViEARt
+	hYULQMsbxutRSZrW7p7is52EM7DkxYA=
+X-Google-Smtp-Source: APXvYqxRrSzUMLXBVDjIpDD2Ip9mllM2Ch1rQKEosvnfdvjB7NFQzCMD9n7enEly/G53rDL+3htUMA==
+X-Received: by 2002:a62:3381:: with SMTP id z123mr15461144pfz.42.1557501616646;
+	Fri, 10 May 2019 08:20:16 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231])
-	by smtp.gmail.com with ESMTPSA id 19sm5920517pgz.24.2019.05.10.08.20.14
+	by smtp.gmail.com with ESMTPSA id 19sm5920517pgz.24.2019.05.10.08.20.15
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 10 May 2019 08:20:14 -0700 (PDT)
+	Fri, 10 May 2019 08:20:15 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri, 10 May 2019 08:19:40 -0700
-Message-Id: <20190510151944.22981-24-richard.henderson@linaro.org>
+Date: Fri, 10 May 2019 08:19:41 -0700
+Message-Id: <20190510151944.22981-25-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190510151944.22981-1-richard.henderson@linaro.org>
 References: <20190510151944.22981-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::642
-Subject: [Qemu-devel] [PULL 23/27] target/unicore32: Convert to
+X-Received-From: 2607:f8b0:4864:20::42c
+Subject: [Qemu-devel] [PULL 24/27] target/xtensa: Convert to
  CPUClass::tlb_fill
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
@@ -77,157 +76,133 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, Guan Xuetao <gxt@mprc.pku.edu.cn>
+Cc: peter.maydell@linaro.org, Max Filippov <jcmvbkbc@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Remove the user-only functions, as we no longer
-have a user-only config.
-
-Cc: Guan Xuetao <gxt@mprc.pku.edu.cn>
+Cc: Max Filippov <jcmvbkbc@gmail.com>
 Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/unicore32/cpu.h       |  5 +++--
- target/unicore32/cpu.c       |  5 +----
- target/unicore32/helper.c    | 23 -----------------------
- target/unicore32/op_helper.c | 14 --------------
- target/unicore32/softmmu.c   | 19 +++++++++++++++----
- 5 files changed, 19 insertions(+), 47 deletions(-)
+ target/xtensa/cpu.h    |  5 +++--
+ target/xtensa/cpu.c    |  5 ++---
+ target/xtensa/helper.c | 39 ++++++++++++++++++++++++++-------------
+ 3 files changed, 31 insertions(+), 18 deletions(-)
 
-diff --git a/target/unicore32/cpu.h b/target/unicore32/cpu.h
-index 24abe5e5c0..f052ee08bf 100644
---- a/target/unicore32/cpu.h
-+++ b/target/unicore32/cpu.h
-@@ -178,8 +178,9 @@ static inline void cpu_get_tb_cpu_state(CPUUniCore32State *env, target_ulong *pc
-     }
- }
+diff --git a/target/xtensa/cpu.h b/target/xtensa/cpu.h
+index 5d23e1345b..68d89f8faf 100644
+--- a/target/xtensa/cpu.h
++++ b/target/xtensa/cpu.h
+@@ -552,8 +552,9 @@ static inline XtensaCPU *xtensa_env_get_cpu(const CPUXtensaState *env)
+ #define ENV_OFFSET offsetof(XtensaCPU, env)
  
--int uc32_cpu_handle_mmu_fault(CPUState *cpu, vaddr address, int size, int rw,
--                              int mmu_idx);
-+bool uc32_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                       MMUAccessType access_type, int mmu_idx,
-+                       bool probe, uintptr_t retaddr);
- void uc32_translate_init(void);
- void switch_mode(CPUUniCore32State *, int);
  
-diff --git a/target/unicore32/cpu.c b/target/unicore32/cpu.c
-index 2b49d1ca40..3f57c508a0 100644
---- a/target/unicore32/cpu.c
-+++ b/target/unicore32/cpu.c
-@@ -138,11 +138,8 @@ static void uc32_cpu_class_init(ObjectClass *oc, void *data)
-     cc->cpu_exec_interrupt = uc32_cpu_exec_interrupt;
-     cc->dump_state = uc32_cpu_dump_state;
-     cc->set_pc = uc32_cpu_set_pc;
+-int xtensa_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int rw, int size,
+-                                int mmu_idx);
++bool xtensa_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
++                         MMUAccessType access_type, int mmu_idx,
++                         bool probe, uintptr_t retaddr);
+ void xtensa_cpu_do_interrupt(CPUState *cpu);
+ bool xtensa_cpu_exec_interrupt(CPUState *cpu, int interrupt_request);
+ void xtensa_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr, vaddr addr,
+diff --git a/target/xtensa/cpu.c b/target/xtensa/cpu.c
+index a54dbe4260..da1236377e 100644
+--- a/target/xtensa/cpu.c
++++ b/target/xtensa/cpu.c
+@@ -181,9 +181,8 @@ static void xtensa_cpu_class_init(ObjectClass *oc, void *data)
+     cc->gdb_read_register = xtensa_cpu_gdb_read_register;
+     cc->gdb_write_register = xtensa_cpu_gdb_write_register;
+     cc->gdb_stop_before_watchpoint = true;
 -#ifdef CONFIG_USER_ONLY
--    cc->handle_mmu_fault = uc32_cpu_handle_mmu_fault;
+-    cc->handle_mmu_fault = xtensa_cpu_handle_mmu_fault;
 -#else
-+    cc->tlb_fill = uc32_cpu_tlb_fill;
-     cc->get_phys_page_debug = uc32_cpu_get_phys_page_debug;
--#endif
-     cc->tcg_initialize = uc32_translate_init;
-     dc->vmsd = &vmstate_uc32_cpu;
- }
-diff --git a/target/unicore32/helper.c b/target/unicore32/helper.c
-index a5ff2ddb74..0d4914b48d 100644
---- a/target/unicore32/helper.c
-+++ b/target/unicore32/helper.c
-@@ -215,29 +215,6 @@ void helper_cp1_putc(target_ulong x)
- }
- #endif
++    cc->tlb_fill = xtensa_cpu_tlb_fill;
++#ifndef CONFIG_USER_ONLY
+     cc->do_unaligned_access = xtensa_cpu_do_unaligned_access;
+     cc->get_phys_page_debug = xtensa_cpu_get_phys_page_debug;
+     cc->do_transaction_failed = xtensa_cpu_do_transaction_failed;
+diff --git a/target/xtensa/helper.c b/target/xtensa/helper.c
+index 5f37f378a3..5c94f934dd 100644
+--- a/target/xtensa/helper.c
++++ b/target/xtensa/helper.c
+@@ -240,19 +240,21 @@ void xtensa_cpu_list(void)
  
--#ifdef CONFIG_USER_ONLY
--void switch_mode(CPUUniCore32State *env, int mode)
--{
--    UniCore32CPU *cpu = uc32_env_get_cpu(env);
--
--    if (mode != ASR_MODE_USER) {
--        cpu_abort(CPU(cpu), "Tried to switch out of user mode\n");
--    }
--}
--
--void uc32_cpu_do_interrupt(CPUState *cs)
--{
--    cpu_abort(cs, "NO interrupt in user mode\n");
--}
--
--int uc32_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size,
--                              int access_type, int mmu_idx)
--{
--    cpu_abort(cs, "NO mmu fault in user mode\n");
+ #ifdef CONFIG_USER_ONLY
+ 
+-int xtensa_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size, int rw,
+-                                int mmu_idx)
++bool xtensa_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
++                         MMUAccessType access_type, int mmu_idx,
++                         bool probe, uintptr_t retaddr)
+ {
+     XtensaCPU *cpu = XTENSA_CPU(cs);
+     CPUXtensaState *env = &cpu->env;
+ 
+     qemu_log_mask(CPU_LOG_INT,
+                   "%s: rw = %d, address = 0x%08" VADDR_PRIx ", size = %d\n",
+-                  __func__, rw, address, size);
++                  __func__, access_type, address, size);
+     env->sregs[EXCVADDR] = address;
+-    env->sregs[EXCCAUSE] = rw ? STORE_PROHIBITED_CAUSE : LOAD_PROHIBITED_CAUSE;
++    env->sregs[EXCCAUSE] = (access_type == MMU_DATA_STORE ?
++                            STORE_PROHIBITED_CAUSE : LOAD_PROHIBITED_CAUSE);
+     cs->exception_index = EXC_USER;
 -    return 1;
--}
--#endif
--
- bool uc32_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
- {
-     if (interrupt_request & CPU_INTERRUPT_HARD) {
-diff --git a/target/unicore32/op_helper.c b/target/unicore32/op_helper.c
-index e0a15882d3..797ba60dc9 100644
---- a/target/unicore32/op_helper.c
-+++ b/target/unicore32/op_helper.c
-@@ -242,17 +242,3 @@ uint32_t HELPER(ror_cc)(CPUUniCore32State *env, uint32_t x, uint32_t i)
-         return ((uint32_t)x >> shift) | (x << (32 - shift));
-     }
- }
--
--#ifndef CONFIG_USER_ONLY
--void tlb_fill(CPUState *cs, target_ulong addr, int size,
--              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
--{
--    int ret;
--
--    ret = uc32_cpu_handle_mmu_fault(cs, addr, size, access_type, mmu_idx);
--    if (unlikely(ret)) {
--        /* now we have a real cpu fault */
--        cpu_loop_exit_restore(cs, retaddr);
--    }
--}
--#endif
-diff --git a/target/unicore32/softmmu.c b/target/unicore32/softmmu.c
-index 00c7e0d028..13678df4d7 100644
---- a/target/unicore32/softmmu.c
-+++ b/target/unicore32/softmmu.c
-@@ -215,8 +215,9 @@ do_fault:
-     return code;
- }
- 
--int uc32_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size,
--                              int access_type, int mmu_idx)
-+bool uc32_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-+                       MMUAccessType access_type, int mmu_idx,
-+                       bool probe, uintptr_t retaddr)
- {
-     UniCore32CPU *cpu = UNICORE32_CPU(cs);
-     CPUUniCore32State *env = &cpu->env;
-@@ -257,7 +258,11 @@ int uc32_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size,
-         phys_addr &= TARGET_PAGE_MASK;
-         address &= TARGET_PAGE_MASK;
-         tlb_set_page(cs, address, phys_addr, prot, mmu_idx, page_size);
--        return 0;
-+        return true;
-+    }
-+
-+    if (probe) {
-+        return false;
-     }
- 
-     env->cp0.c3_faultstatus = ret;
-@@ -267,7 +272,13 @@ int uc32_cpu_handle_mmu_fault(CPUState *cs, vaddr address, int size,
-     } else {
-         cs->exception_index = UC32_EXCP_DTRAP;
-     }
--    return ret;
 +    cpu_loop_exit_restore(cs, retaddr);
-+}
-+
-+void tlb_fill(CPUState *cs, target_ulong addr, int size,
+ }
+ 
+ #else
+@@ -273,31 +275,42 @@ void xtensa_cpu_do_unaligned_access(CPUState *cs,
+     }
+ }
+ 
+-void tlb_fill(CPUState *cs, target_ulong vaddr, int size,
+-              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
++bool xtensa_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
++                         MMUAccessType access_type, int mmu_idx,
++                         bool probe, uintptr_t retaddr)
+ {
+     XtensaCPU *cpu = XTENSA_CPU(cs);
+     CPUXtensaState *env = &cpu->env;
+     uint32_t paddr;
+     uint32_t page_size;
+     unsigned access;
+-    int ret = xtensa_get_physical_addr(env, true, vaddr, access_type, mmu_idx,
+-                                       &paddr, &page_size, &access);
++    int ret = xtensa_get_physical_addr(env, true, address, access_type,
++                                       mmu_idx, &paddr, &page_size, &access);
+ 
+-    qemu_log_mask(CPU_LOG_MMU, "%s(%08x, %d, %d) -> %08x, ret = %d\n",
+-                  __func__, vaddr, access_type, mmu_idx, paddr, ret);
++    qemu_log_mask(CPU_LOG_MMU, "%s(%08" VADDR_PRIx
++                  ", %d, %d) -> %08x, ret = %d\n",
++                  __func__, address, access_type, mmu_idx, paddr, ret);
+ 
+     if (ret == 0) {
+         tlb_set_page(cs,
+-                     vaddr & TARGET_PAGE_MASK,
++                     address & TARGET_PAGE_MASK,
+                      paddr & TARGET_PAGE_MASK,
+                      access, mmu_idx, page_size);
++        return true;
++    } else if (probe) {
++        return false;
+     } else {
+         cpu_restore_state(cs, retaddr, true);
+-        HELPER(exception_cause_vaddr)(env, env->pc, ret, vaddr);
++        HELPER(exception_cause_vaddr)(env, env->pc, ret, address);
+     }
+ }
+ 
++void tlb_fill(CPUState *cs, target_ulong vaddr, int size,
 +              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
 +{
-+    uc32_cpu_tlb_fill(cs, addr, size, access_type, mmu_idx, false, retaddr);
- }
- 
- hwaddr uc32_cpu_get_phys_page_debug(CPUState *cs, vaddr addr)
++    xtensa_cpu_tlb_fill(cs, vaddr, size, access_type, mmu_idx, false, retaddr);
++}
++
+ void xtensa_cpu_do_transaction_failed(CPUState *cs, hwaddr physaddr, vaddr addr,
+                                       unsigned size, MMUAccessType access_type,
+                                       int mmu_idx, MemTxAttrs attrs,
 -- 
 2.17.1
 
