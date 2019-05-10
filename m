@@ -2,39 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19F571A2B7
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 19:55:59 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:47868 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 36E951A2BF
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 19:58:14 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:47905 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hP9kU-0005Ko-Au
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 13:55:58 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:32913)
+	id 1hP9mf-00075y-FS
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 13:58:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33282)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hP9UW-0006c3-Cb
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 13:39:29 -0400
+	(envelope-from <mreitz@redhat.com>) id 1hP9Vw-0007xr-QG
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 13:40:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hP9UQ-0002SF-C0
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 13:39:24 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37388)
+	(envelope-from <mreitz@redhat.com>) id 1hP9Vv-0003Ur-3Y
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 13:40:56 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36254)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hP9UH-0002Kc-J4; Fri, 10 May 2019 13:39:13 -0400
+	id 1hP9Vr-0003Rx-EK; Fri, 10 May 2019 13:40:51 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
 	[10.5.11.11])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 9FF123082E20;
-	Fri, 10 May 2019 17:39:12 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id E4474356D5;
+	Fri, 10 May 2019 17:40:49 +0000 (UTC)
 Received: from dresden.str.redhat.com (ovpn-204-59.brq.redhat.com
 	[10.40.204.59])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id E716A6013B;
-	Fri, 10 May 2019 17:39:10 +0000 (UTC)
-To: Thomas Huth <thuth@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
-	QEMU Developers <qemu-devel@nongnu.org>
-References: <68cc5bbc-ed6f-e001-e376-ccd986683b88@redhat.com>
-	<b121ec96-4cfe-47fe-0415-533cfd842777@redhat.com>
-	<0eb76ceb-8fdd-6db3-86ff-b0aa7ca32141@redhat.com>
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 45D2D6015A;
+	Fri, 10 May 2019 17:40:40 +0000 (UTC)
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+References: <20190502084506.8009-1-thuth@redhat.com>
+	<20190502084506.8009-8-thuth@redhat.com>
+	<413645a6-385c-e112-ad9c-8525ef3d9e52@redhat.com>
+	<eda4c5c1-45b8-79d2-1337-f5ee4c68f759@redhat.com>
+	<a3ef5755-4c5d-98d9-3f22-e776d5b48b73@redhat.com>
+	<60bbf536-fd61-aade-dbff-f0914615c412@redhat.com>
+	<3f86e4a2-a985-7c70-d8ea-fe28740b4c1b@redhat.com>
+	<ffdd7491-92dc-aacb-8912-92ddba450761@redhat.com>
 From: Max Reitz <mreitz@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
@@ -61,23 +65,24 @@ Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
 	/ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
 	bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
 	R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <de630a2d-7b49-f909-4827-79fdb0ecc4cc@redhat.com>
-Date: Fri, 10 May 2019 19:39:09 +0200
+Message-ID: <22bd2d94-80ae-fef3-5a48-80a4f6f8ef74@redhat.com>
+Date: Fri, 10 May 2019 19:40:38 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <0eb76ceb-8fdd-6db3-86ff-b0aa7ca32141@redhat.com>
+In-Reply-To: <ffdd7491-92dc-aacb-8912-92ddba450761@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
 	protocol="application/pgp-signature";
-	boundary="P7jPRJiPCL5nA0mUniShdnoaMkaHpwMTC"
+	boundary="NEABNleZ2s88P12IEIv1KuwJjOADHi42E"
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.46]);
-	Fri, 10 May 2019 17:39:12 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.30]);
+	Fri, 10 May 2019 17:40:50 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] Failing QEMU iotest 175
+Subject: Re: [Qemu-devel] [PATCH v3 7/7] tests: Run the iotests during "make
+ check" again
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -89,128 +94,163 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Nir Soffer <nirsof@gmail.com>
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+	Ed Maste <emaste@freebsd.org>, qemu-block@nongnu.org,
+	=?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+	Markus Armbruster <armbru@redhat.com>,
+	Christophe Fergeau <cfergeau@redhat.com>,
+	Wainer dos Santos Moschetta <wainersm@redhat.com>,
+	=?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+	Li-Wen Hsu <lwhsu@freebsd.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---P7jPRJiPCL5nA0mUniShdnoaMkaHpwMTC
+--NEABNleZ2s88P12IEIv1KuwJjOADHi42E
 From: Max Reitz <mreitz@redhat.com>
-To: Thomas Huth <thuth@redhat.com>, Qemu-block <qemu-block@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>
-Cc: Kevin Wolf <kwolf@redhat.com>, Eric Blake <eblake@redhat.com>,
- Nir Soffer <nirsof@gmail.com>
-Message-ID: <de630a2d-7b49-f909-4827-79fdb0ecc4cc@redhat.com>
-Subject: Re: Failing QEMU iotest 175
-References: <68cc5bbc-ed6f-e001-e376-ccd986683b88@redhat.com>
- <b121ec96-4cfe-47fe-0415-533cfd842777@redhat.com>
- <0eb76ceb-8fdd-6db3-86ff-b0aa7ca32141@redhat.com>
-In-Reply-To: <0eb76ceb-8fdd-6db3-86ff-b0aa7ca32141@redhat.com>
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>,
+ Ed Maste <emaste@freebsd.org>, qemu-block@nongnu.org,
+ Markus Armbruster <armbru@redhat.com>,
+ Christophe Fergeau <cfergeau@redhat.com>,
+ =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+ Wainer dos Santos Moschetta <wainersm@redhat.com>,
+ =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+ Li-Wen Hsu <lwhsu@freebsd.org>
+Message-ID: <22bd2d94-80ae-fef3-5a48-80a4f6f8ef74@redhat.com>
+Subject: Re: [PATCH v3 7/7] tests: Run the iotests during "make check" again
+References: <20190502084506.8009-1-thuth@redhat.com>
+ <20190502084506.8009-8-thuth@redhat.com>
+ <413645a6-385c-e112-ad9c-8525ef3d9e52@redhat.com>
+ <eda4c5c1-45b8-79d2-1337-f5ee4c68f759@redhat.com>
+ <a3ef5755-4c5d-98d9-3f22-e776d5b48b73@redhat.com>
+ <60bbf536-fd61-aade-dbff-f0914615c412@redhat.com>
+ <3f86e4a2-a985-7c70-d8ea-fe28740b4c1b@redhat.com>
+ <ffdd7491-92dc-aacb-8912-92ddba450761@redhat.com>
+In-Reply-To: <ffdd7491-92dc-aacb-8912-92ddba450761@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On 10.05.19 18:42, Thomas Huth wrote:
-> On 10/05/2019 15.54, Max Reitz wrote:
->> On 28.04.19 17:18, Thomas Huth wrote:
->>> QEMU iotest 175 is failing for me when I run it with -raw:
->>>
->>> $ ./check -raw 175
->>> QEMU          --
->>> "/home/thuth/tmp/qemu-build/tests/qemu-iotests/../../x86_64-softmmu/q=
-emu-system-x86_64"
->>> -nodefaults -machine accel=3Dqtest
->>> QEMU_IMG      --
->>> "/home/thuth/tmp/qemu-build/tests/qemu-iotests/../../qemu-img"
->>> QEMU_IO       --
->>> "/home/thuth/tmp/qemu-build/tests/qemu-iotests/../../qemu-io"  --cach=
-e
->>> writeback -f raw
->>> QEMU_NBD      --
->>> "/home/thuth/tmp/qemu-build/tests/qemu-iotests/../../qemu-nbd"
->>> IMGFMT        -- raw
->>> IMGPROTO      -- file
->>> PLATFORM      -- Linux/x86_64 thuth 3.10.0-957.10.1.el7.x86_64
->>> TEST_DIR      -- /home/thuth/tmp/qemu-build/tests/qemu-iotests/scratc=
-h
->>> SOCKET_SCM_HELPER --
->>> /home/thuth/tmp/qemu-build/tests/qemu-iotests/socket_scm_helper
->>>
->>> 175         - output mismatch (see 175.out.bad)
->>> --- /home/thuth/devel/qemu/tests/qemu-iotests/175.out	2019-04-23
->>> 16:43:12.000000000 +0200
->>> +++ /home/thuth/tmp/qemu-build/tests/qemu-iotests/175.out.bad	2019-04=
--28
->>> 17:17:32.000000000 +0200
->>> @@ -2,17 +2,17 @@
->>>
->>>  =3D=3D creating image with default preallocation =3D=3D
->>>  Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1048576
->>> -size=3D1048576, blocks=3D0
->>> +size=3D1048576, blocks=3D2
->>>
->>>  =3D=3D creating image with preallocation off =3D=3D
->>>  Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1048576 prealloc=
-ation=3Doff
->>> -size=3D1048576, blocks=3D0
->>> +size=3D1048576, blocks=3D2
->>>
->>>  =3D=3D creating image with preallocation full =3D=3D
->>>  Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1048576 prealloc=
-ation=3Dfull
->>> -size=3D1048576, blocks=3D2048
->>> +size=3D1048576, blocks=3D2050
->>>
->>>  =3D=3D creating image with preallocation falloc =3D=3D
->>>  Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1048576
->>> preallocation=3Dfalloc
->>> -size=3D1048576, blocks=3D2048
->>> +size=3D1048576, blocks=3D2050
->>>   *** done
->>> Failures: 175
->>> Failed 1 of 1 tests
->>>
->>> Any ideas how to fix this?
->>
->> Hm.  What output does
->>
->> $ touch foo
->> $ stat -c "size=3D%s, blocks=3D%b" foo
->> $ truncate -s 1M foo
->> $ stat -c "size=3D%s, blocks=3D%b" foo
->>
->> give for you?
->>
->> If any of that returns blocks=3D2, we can probably just use that opera=
-tion
->> to fix the result, then.
->=20
-> $ stat -c "size=3D%s, blocks=3D%b" foo
-> size=3D0, blocks=3D2
-> $ truncate -s 1M foo
-> $ stat -c "size=3D%s, blocks=3D%b" foo
-> size=3D1048576, blocks=3D2
+On 10.05.19 18:20, Thomas Huth wrote:
+> On 10/05/2019 15.47, Max Reitz wrote:
+>> On 10.05.19 15:36, Thomas Huth wrote:
+>>> On 10/05/2019 15.34, Max Reitz wrote:
+>>>> On 10.05.19 06:29, Thomas Huth wrote:
+>>>>> On 09/05/2019 20.08, Max Reitz wrote:
+>>>>>> On 02.05.19 10:45, Thomas Huth wrote:
+>>>>>>> People often forget to run the iotests before submitting patches =
+or
+>>>>>>> pull requests - this is likely due to the fact that we do not run=
+ the
+>>>>>>> tests during our mandatory "make check" tests yet. Now that we've=
+ got
+>>>>>>> a proper "auto" group of iotests that should be fine to run in ev=
+ery
+>>>>>>> environment, we can enable the iotests during "make check" again =
+by
+>>>>>>> running the "auto" tests by default from the check-block.sh scrip=
+t.
+>>>>>>>
+>>>>>>> Some cases still need to be checked first, though: iotests need b=
+ash
+>>>>>>> and GNU sed (otherwise they fail), and if gprof is enabled, it sp=
+oils
+>>>>>>> the output of some test cases causing them to fail. So if we dete=
+ct
+>>>>>>> that one of the required programs is missing or that gprof is ena=
+bled,
+>>>>>>> we still have to skip the iotests to avoid failures.
+>>>>>>>
+>>>>>>> And finally, since we are using check-block.sh now again, this pa=
+tch also
+>>>>>>> removes the qemu-iotests-quick.sh script since we do not need tha=
+t anymore
+>>>>>>> (and having two shell wrapper scripts around the block tests seem=
 
-Thanks, that should be useful, then.
+>>>>>>> rather confusing than helpful).
+>>>>>>>
+>>>>>>> Signed-off-by: Thomas Huth <thuth@redhat.com>
+>>>>>>> ---
+>>>>>>>  tests/Makefile.include      |  8 +++----
+>>>>>>>  tests/check-block.sh        | 44 ++++++++++++++++++++++++++++---=
+------
+>>>>>>>  tests/qemu-iotests-quick.sh |  8 -------
+>>>>>>>  3 files changed, 38 insertions(+), 22 deletions(-)
+>>>>>>>  delete mode 100755 tests/qemu-iotests-quick.sh
+>>>>>>
+>>>>>> Can I interest you in a Makefile target that explicitly excludes
+>>>>>> check-block?  I run the iotests anyway, but I also run make check.=
+
+>>>>>> Running some iotests twice would be a bit pointless.
+>>>>>
+>>>>> Can't you simply run
+>>>>>
+>>>>>  ./check -qcow2 -x auto
+>>>>>
+>>>>> instead?
+>>>>
+>>>> I don=E2=80=99t run just qcow2 tests.  I run qcow2, qcow2 with compa=
+t=3D0.10,
+>>>> qcow2 with refcount_bits=3D1, raw, nbd, qed, vmdk, vhdx, ...  A lot.=
+
+>>>>
+>>>> So for which of the protocol/format combinations do I exclude the au=
+to
+>>>> group?  check-block.sh says it runs raw, qcow2, qed, vmdk, and vpc. =
+ But
+>>>> may that not be subject to change?
+>>>
+>>> With my patch series, the auto group is only used for qcow2.
+>>
+>> And that is not subject to change?  Like, maybe someone wants to add n=
+bd
+>> in the future?
+>=20
+> The current set of qcow2 auto tests takes already quite a while, so I
+> don't think that this will change soon.
+> And if the "normal" users want to run more tests, they can simply use
+> "make check SPEED=3Dslow" or SPEED=3Dthorough, so IMHO no need to exten=
+d the
+> quick default list right now.
+>=20
+>> I mean, I have a test branch anyway which collects a number of patches=
+
+>> on top of master that make everything pass more or less reliably for m=
+e
+>> (11 patches currently...).  I suppose I can just revert your patch on
+>> top of that.  But that doesn=E2=80=99t feel right.
+>=20
+> Hmm, sure, non-upstream patches are always a bad thing. But I still
+> don't see why you really need an extra Makefile target for this. In the=
+
+> worst case, you could also simply change your script to run something
+> this instead:
+>=20
+>  make $(grep ^check: tests/Makefile.include | sed s/check-block//)
+>=20
+> ?
+
+Hm.  I didn=E2=80=99t think of that.  Thanks. :-)
 
 Max
 
 
---P7jPRJiPCL5nA0mUniShdnoaMkaHpwMTC
+--NEABNleZ2s88P12IEIv1KuwJjOADHi42E
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAlzVtz0ACgkQ9AfbAGHV
-z0D7vQf/YAMulxXPcST6pHh/75xSwFsX93kYHC1RhJ0jZe3Q3RB3BUClocr1RFrE
-gvGGIEGFWoRUA+BRdzHOu/QZCaE4HHqL/ZqvBGregRW9d4oJQaw3j0tZEttH572E
-vXYniWH6U+iYnUC48LyKL2QmGwy5AZ4epV/4U341u8AtTAd++Du4d/dk7gBJ0Gyo
-3ikyoSl8mSqiNxoW1jzV+xTo4jm5A3gvXbY1haPnG0KcCRRhoA1HpfFfGLwtMOz6
-ZfMu236ABfGuCtSZVSo6FFmU5eo61IsoTLprCXj9mhH+XLOorwLWjbMjBa9K0eTA
-qScvlvpKeKMuR7GeuF+a7G3N59tGfg==
-=vFga
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAlzVt5YACgkQ9AfbAGHV
+z0Baagf+IzuF3VEJ8zq/CoJv73W3i35Hn2+/K3daTkwVlUQkMeqmD02SzanSZb8n
+drihmcpK+CcVVURK9Q2I6WNPJIUyY0QtD1L/2sBbzIxINwYpnjc36MeH2jNLYFzC
+nQJQO/JDtcmYuDgbyn350S+KQv28lys+ZZ38Kn8f6sHHEgfLigtB57c7rdenTwVy
+ZE2dB+dxKdtdRrVL39IiOlcFBlrXLubMpDX17Gbg7TOpzgJdTouqblqOmmlColIs
+hocV2jLZiWRDhRdLhAJ8O1J9tXz7RjqQKFiSHL70A+f+onlwJpGbnhII6JWLleDB
+bE2EvR9/S5ng0IiDORvqwXzQX/CnAg==
+=yshR
 -----END PGP SIGNATURE-----
 
---P7jPRJiPCL5nA0mUniShdnoaMkaHpwMTC--
+--NEABNleZ2s88P12IEIv1KuwJjOADHi42E--
 
