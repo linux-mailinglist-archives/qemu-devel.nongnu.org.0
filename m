@@ -2,53 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35DA319ED2
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 16:13:55 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:44051 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 423B119EEA
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 16:20:12 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:44137 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hP6Ha-0001fE-CM
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 10:13:54 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41767)
+	id 1hP6Nf-0004ch-BV
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 10:20:11 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43769)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hP6BW-00048h-GM
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 10:07:41 -0400
+	(envelope-from <eroken1@gmail.com>) id 1hP6M5-0004Hp-C1
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 10:18:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hP6BU-0007F8-UI
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 10:07:38 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:42882)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <kwolf@redhat.com>)
-	id 1hP6BO-0007Bn-Vx; Fri, 10 May 2019 10:07:31 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id C46FC307CB5F;
-	Fri, 10 May 2019 14:07:29 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-116-183.ams2.redhat.com
-	[10.36.116.183])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 30C835D6A9;
-	Fri, 10 May 2019 14:07:28 +0000 (UTC)
-Date: Fri, 10 May 2019 16:07:26 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>
-Message-ID: <20190510140726.GB5887@localhost.localdomain>
-References: <20190510102918.2705-1-alex.bennee@linaro.org>
+	(envelope-from <eroken1@gmail.com>) id 1hP6M4-0005uy-FF
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 10:18:33 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:38056)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <eroken1@gmail.com>) id 1hP6M4-0005u3-4Q
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 10:18:32 -0400
+Received: by mail-wr1-x444.google.com with SMTP id v11so8143880wru.5
+	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 07:18:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=fMcy7VYhF4u9Q3gcp6UxV2VlPOzrkNa5b7WbXMtLnrA=;
+	b=bX2p8gj+EsuJ0SPmloRw3WuXcieAEKfrhS0LMN9svM7Pak4dc4oQDwk5Wz164YlYlz
+	osMxLo62/WTWq/czIhStR3b0MPqYfzdsHxJ7HC8I8RMHpL/NOou83vby8OtLxZsTjrSk
+	XLD1mltKtqOtHA29VC30wGLCOY5zjyjtE4LgHska58/4yZyBfdMjfZN01aSItJWZScgv
+	JYP3pCAq8RuZ1SRPgQ9ygyG0A2RyUFZjfWXtaB4hqZNzojFtgTpHTLlHfcvZ2aWs82WV
+	C6yFwBKv/mhmYdEN7bIGteO5sD2DVIARvOIuWMxNHB//OGYjwcc8ztW9YFxmhaBQM8cU
+	EWeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=fMcy7VYhF4u9Q3gcp6UxV2VlPOzrkNa5b7WbXMtLnrA=;
+	b=odeYdpQdEdK+F+YZa/ls7oPXz0jcoYjto1B88jkCXHi7MNhTvXkcfsVRgqxQgpAHlZ
+	ELHZ5w3eGwf44XXCrrzL3QIC+42yZtDHFYiwwjBJmkpaaOiALZ7wpj4V2twAsi3rxaV3
+	kYAyMnmXlPAbq8QkeiiIJrXd5IMg5zy0oeeIdpv+zLP9J4Nofb6POe3D10I9A525jC9w
+	NI1dvRZuAunpZmj09pr4D0t4sR4rd3JDIM4K+MjAWcEes1mQAPYdTu6503a8Sld33lVr
+	20Ngjv9IjXEWPE98UNAvYHHWKcUB8CMsTb4L1CE/OPyRa50MclZ5FsSyJyXf8ZWWk+DP
+	cIvQ==
+X-Gm-Message-State: APjAAAXg2wMMTENlxOk+ADF/2mqebyn5qC5xZt4f9NLSmzXT6tEZnl5t
+	uJ/ecjY/6k85gEXW8C1uKDo=
+X-Google-Smtp-Source: APXvYqy07a8TLtOR8Qj4iJGiIsAaytoSQjUvWHTv7uON3s0YkWTclJDV8XTBawTnAJyefL8cBv3WLQ==
+X-Received: by 2002:a5d:4712:: with SMTP id y18mr7660364wrq.23.1557497910393; 
+	Fri, 10 May 2019 07:18:30 -0700 (PDT)
+Received: from erokenlabserver ([41.203.78.145])
+	by smtp.gmail.com with ESMTPSA id x5sm5247120wrt.72.2019.05.10.07.18.27
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Fri, 10 May 2019 07:18:29 -0700 (PDT)
+Date: Fri, 10 May 2019 15:19:45 +0100
+From: Ernest Esene <eroken1@gmail.com>
+To: Markus Armbruster <armbru@redhat.com>
+Message-ID: <20190510141945.GA1927@erokenlabserver>
+References: <20190504181119.GA3317@erokenlabserver>
+	<87ftpqb25m.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="y0ulUmNC+osPPQO6"
 Content-Disposition: inline
-In-Reply-To: <20190510102918.2705-1-alex.bennee@linaro.org>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.42]);
-	Fri, 10 May 2019 14:07:29 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3] tests/qemu-iotests: re-format output to
- for make check-block
+In-Reply-To: <87ftpqb25m.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2a00:1450:4864:20::444
+Subject: Re: [Qemu-devel] [PATCH v2] chardev/char-i2c: Implement Linux I2C
+ character device
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -60,337 +80,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: thuth@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org,
-	mreitz@redhat.com
+Cc: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
+	qemu-devel@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>,
+	Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 10.05.2019 um 12:29 hat Alex Benn=E9e geschrieben:
-> This attempts to clean-up the output to better match the output of the
-> rest of the QEMU check system when called with -pretty. This includes:
+
+--y0ulUmNC+osPPQO6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+On Tue, May 07, 2019 at 07:33:09PM +0200, Markus Armbruster wrote:
+> Ernest Esene <eroken1@gmail.com> writes:
 >=20
->   - formatting as "  TEST    iotest: nnn"
->   - calculating time diff at the end
->   - only dumping config on failure (when -pretty enabled)
+> > Add support for Linux I2C character device for I2C device passthrough
+> > For example:
+> > -chardev linux-i2c,address=3D0x46,path=3D/dev/i2c-N,id=3Di2c-chardev
+> >
+> > Signed-off-by: Ernest Esene <eroken1@gmail.com>
 >=20
-> The existing output is mostly preserved although the dumping of the
-> old time at the start "Ns ..." was removed to keep the logic simple.
-> The timestamp mode can still be used to see which tests are "hanging".
+> Could you explain briefly how passing through a host's I2C device can be
+> useful?
+QEMU supports emulation of I2C devices in software but currently can't
+passthrough to real I2C devices. This feature is needed by developers
+using QEMU for writing and testing software for I2C devices.
+
 >=20
-> Signed-off-by: Alex Benn=E9e <alex.bennee@linaro.org>
-> Message-Id: <20190503143904.31211-1-alex.bennee@linaro.org>
+> Any particular reason not to use GPLv2+?
+No, I used the wrong script. I'll update the licence.
 
-I played with it a bit more and ended up with the following patch to be
-applied on top. Maybe you like some parts of it.
+> > +
+> > +        if (addr > CHR_I2C_ADDR_7BIT_MAX) {
+> > +            /*
+> > +             * TODO: check if adapter support 10-bit addr
+> > +             * I2C_FUNC_10BIT_ADDR
+> > +             */
+>=20
+> What's the impact of not having done this TODO?
+Not all I2C adapters supports 10-bit address.
+> Should it be mentioned in the commit message?
+I have handled it already.
 
-I'm now printing an \r at the end of the line that is printed at the
-start of the test case. Normally that will be overwritten by the result
-line which contains the same information again, but if you're running
-multiple tests in parallel, it will be overwritten by something else -
-which I think isn't a big problem because at the end, the result line
-will still appear somewhere.
+> > +        return;
+> > +    }
+> > +    qemu_set_block(fd);
+>=20
+> Sure we want *blocking* I/O?  No other character device does.
+No, it is a mistake.
+>=20
+> > +    qemu_chr_open_fd(chr, fd, fd);
+> > +    addr =3D (void *) (long) i2c->address;
+>=20
+>=20
+> Why not make option "addr" QEMU_OPT_NUMBER and use
+> qemu_opt_get_number()?
+I never knew QEMU_OPT_NUMBER can handle inputs such: "0x08 and 8",
+appropriately.
+>=20
+> Missing: documentation update for qemu-options.hx.
+I don't know much about this format (.hx), I'll be happy to have any
+useful documentation on this.
 
-I fixed some bugs, too, like the "not run" list being broken.
+Thank you.
+-Ernest Esene
 
-Kevin
+--y0ulUmNC+osPPQO6
+Content-Type: application/pgp-signature; name="signature.asc"
 
+-----BEGIN PGP SIGNATURE-----
 
-diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
-index 4cfe2362f5..463ff82854 100755
---- a/tests/qemu-iotests/check
-+++ b/tests/qemu-iotests/check
-@@ -27,7 +27,7 @@ bad=3D""
- notrun=3D""
- casenotrun=3D""
- interrupt=3Dtrue
--pretty=3Dfalse
-+make_check=3Dfalse
-=20
- # by default don't output timestamps
- timestamp=3D${TIMESTAMP:=3Dfalse}
-@@ -274,7 +274,7 @@ other options
-     -o options          -o options to pass to qemu-img create/convert
-     -T                  output timestamps
-     -c mode             cache mode
--    -pretty             pretty print output for make check
-+    -make-check         print short output for make check
-=20
- testlist options
-     -g group[,group...]        include tests from these groups
-@@ -422,8 +422,8 @@ testlist options
-                 command -v xxdiff >/dev/null 2>&1 && diff=3Dxxdiff
-             fi
-             ;;
--        -pretty)   # pretty print output
--            pretty=3Dtrue
-+        -make-check)   # output for make check
-+            make_check=3Dtrue
-             xpand=3Dfalse
-             ;;
-         -n)        # show me, don't do it
-@@ -643,12 +643,6 @@ _wallclock()
-     date "+%H %M %S" | awk '{ print $1*3600 + $2*60 + $3 }'
- }
-=20
--_timestamp()
--{
--    now=3D$(date "+%T")
--    printf %s " [$now]"
--}
--
- _wrapup()
- {
-     if $showme
-@@ -671,11 +665,10 @@ END        { if (NR > 0) {
-=20
-         if [ -f $tmp.expunged ]
-         then
--            notrun=3D$(wc -l <$tmp.expunged | sed -e 's/  *//g')
--            try=3D$(expr $try - $notrun)
-             list=3D$(echo "$list" | sed -f $tmp.expunged)
-         fi
-=20
-+        echo
-         echo "" >>check.log
-         date >>check.log
-         echo $list | fmt | sed -e 's/^/    /' >>check.log
-@@ -714,20 +707,48 @@ END        { if (NR > 0) {
-=20
- trap "_wrapup; exit \$status" 0 1 2 3 15
-=20
--# Report the test start and results, optionally pretty printing for make
--# args: $seq
-+# Report the test start and results, optionally short format for make ch=
-eck
-+# args: $seq, $starttime, $lasttime
- _report_test_start()
- {
--    if $pretty; then
--        printf "  TEST    iotest: %s" "$1"
--    else
--        printf "%s" "$1"
-+    if $make_check; then
-+        printf "  TEST    iotest: %s\r" "$1"
-+        return
-     fi
-+
-+    if [ -n "$3" ]; then
-+        local lasttime=3D" (last: $3s)"
-+    fi
-+    printf "%-8s %-10s [%s]            %4s%-14s\r" "$1" "..." "$2" "..."=
- "$lasttime"
- }
--# args: output
-+
-+# args: $seq, $starttime, $lasttime, $thistime, $status, details
- _report_test_result()
- {
--    printf "%s\n" "$1"
-+    local status lasttime thistime
-+
-+    if $make_check; then
-+        if [ -n "$5" ] && [ "$5" !=3D "pass" ]; then
-+            status=3D" [$5]"
-+        fi
-+        printf "  TEST    iotest: %s%s\n" "$1" "$status"
-+        return
-+    fi
-+
-+    if [ -n "$3" ]; then
-+        lasttime=3D" (last: $3s)"
-+    fi
-+    if [ -n "$4" ]; then
-+        thistime=3D" $4s"
-+    fi
-+    case "$5" in
-+        "pass")     status=3D$(printf "\e[32m%-10s\e[0m" "$5") ;;
-+        "fail")     status=3D$(printf "\e[1m\e[31m%-10s\e[0m" "$5") ;;
-+        "not run")  status=3D$(printf "\e[33m%-10s\e[0m" "$5") ;;
-+        *)          status=3D$(printf "%-10s" "$5") ;;
-+    esac
-+
-+    printf "%-8s %s [%s] [%s] %4s%-14s %s\n" "$1" "$status" "$2" "$(date=
- '+%T')" "$thistime" "$lasttime" "$6"
- }
-=20
- [ -f $TIMESTAMP_FILE ] || touch $TIMESTAMP_FILE
-@@ -735,7 +756,7 @@ _report_test_result()
- FULL_IMGFMT_DETAILS=3D$(_full_imgfmt_details)
- FULL_HOST_DETAILS=3D$(_full_platform_details)
-=20
--if ! $pretty; then
-+if ! $make_check; then
-     _full_env_details
- fi
-=20
-@@ -745,10 +766,10 @@ seq=3D"check"
-=20
- for seq in $list
- do
--    _report_test_start $seq
--    err=3Dfalse     # error flag
--    reason=3D""     # reason for error
--    results=3D""    # results for non-error/skip
-+    err=3Dfalse       # error flag
-+    printdiff=3Dfalse # show diff to reference output?
-+    status=3D""       # test result summary
-+    results=3D""      # test result details
-=20
-     if [ -n "$TESTS_REMAINING_LOG" ] ; then
-         sed -e "s/$seq//" -e 's/  / /' -e 's/^ *//' $TESTS_REMAINING_LOG=
- > $TESTS_REMAINING_LOG.tmp
-@@ -756,17 +777,23 @@ do
-         sync
-     fi
-=20
-+    lasttime=3D$(sed -n -e "/^$seq /s/.* //p" <$TIMESTAMP_FILE)
-+    starttime=3D$(date "+%T")
-+    _report_test_start $seq $starttime $lasttime
-+
-     if $showme
-     then
--        continue
-+        status=3D"not run"
-     elif [ -f expunged ] && $expunge && egrep "^$seq([         ]|\$)" ex=
-punged >/dev/null
-     then
--        echo " - expunged"
-+        status=3D"not run"
-+        results=3D"expunged"
-         rm -f $seq.out.bad
-         echo "/^$seq\$/d" >>$tmp.expunged
-     elif [ ! -f "$source_iotests/$seq" ]
-     then
--        echo " - no such test?"
-+        status=3D"not run"
-+        results=3D"no such test?"
-         echo "/^$seq\$/d" >>$tmp.expunged
-     else
-         # really going to try and run this one
-@@ -776,7 +803,6 @@ do
-         rm -f $seq.casenotrun
-=20
-         start=3D$(_wallclock)
--        $timestamp && _timestamp
-=20
-         if [ "$(head -n 1 "$source_iotests/$seq")" =3D=3D "#!/usr/bin/en=
-v python" ]; then
-             run_command=3D"$PYTHON $seq"
-@@ -794,24 +820,26 @@ do
-                     $run_command >$tmp.out 2>&1)
-         fi
-         sts=3D$?
--        $timestamp && _timestamp
-         stop=3D$(_wallclock)
-=20
-         if [ -f core ]
-         then
-             mv core $seq.core
--            reason=3D"[dumped core] $seq.core"
-+            status=3D"fail"
-+            results=3D"[dumped core] $seq.core"
-             err=3Dtrue
-         fi
-=20
-         if [ -f $seq.notrun ]
-         then
-             # overwrites timestamp output
--            results=3D"[not run] $(cat $seq.notrun)"
-+            status=3D"not run"
-+            results=3D"$(cat $seq.notrun)"
-         else
-             if [ $sts -ne 0 ]
-             then
--                reason=3D$(printf %s "[failed, exit status $sts]")
-+                status=3D"fail"
-+                results=3D$(printf %s "[failed, exit status $sts]")
-                 err=3Dtrue
-             fi
-=20
-@@ -830,31 +858,24 @@ do
-                 [ -f "$source_iotests/$seq.out.nocache" ] && reference=3D=
-"$source_iotests/$seq.out.nocache"
-             fi
-=20
-+            thistime=3D$(expr $stop - $start)
-             if [ ! -f "$reference" ]
-             then
--                reason=3D"- no qualified output"
-+                status=3D"fail"
-+                results=3D"no qualified output"
-                 err=3Dtrue
-             else
-                 if diff -w "$reference" $tmp.out >/dev/null 2>&1
-                 then
--                    if $err
--                    then
--                        :
--                    else
--                        lasttime=3D$(sed -n -e "/^$seq /s/.* //p" <$TIME=
-STAMP_FILE)
--                        thistime=3D$(expr $stop - $start)
-+                    if ! $err; then
-+                        status=3D"pass"
-                         echo "$seq $thistime" >>$tmp.time
--
--                        if [ "X$lasttime" !=3D X ]; then
--                            results=3D"${results}${thistime}s (last ${la=
-sttime}s)"
--                        else
--                            results=3D"${results}${thistime}s"
--                        fi
-                     fi
-                 else
-                     mv $tmp.out $seq.out.bad
--                    $diff -w "$reference" "$PWD"/$seq.out.bad
--                    reason=3D"- output mismatch (see $seq.out.bad)"
-+                    status=3D"fail"
-+                    results=3D"output mismatch (see $seq.out.bad)"
-+                    printdiff=3Dtrue
-                     err=3Dtrue
-                 fi
-             fi
-@@ -868,19 +889,28 @@ do
-=20
-     # come here for each test, except when $showme is true
-     #
--    if $err
--    then
--        _report_test_result " FAILED $reason"
--        if $pretty; then
--            _full_env_details
--        fi
--        bad=3D"$bad $seq"
--        n_bad=3D$(expr $n_bad + 1)
--        quick=3Dfalse
--    else
--        _report_test_result " $results"
--    fi
--    [ -f $seq.notrun ] || try=3D$(expr $try + 1)
-+    _report_test_result $seq "$starttime" "$lasttime" "$thistime" "$stat=
-us" "$results"
-+
-+    case "$status" in
-+        "pass")
-+            try=3D$(expr $try + 1)
-+            ;;
-+        "fail")
-+            try=3D$(expr $try + 1)
-+            if $make_check; then
-+                _full_env_details
-+            fi
-+            if $printdiff; then
-+                $diff -w "$reference" "$PWD"/$seq.out.bad
-+            fi
-+            bad=3D"$bad $seq"
-+            n_bad=3D$(expr $n_bad + 1)
-+            quick=3Dfalse
-+            ;;
-+        "not run")
-+            notrun=3D"$notrun $seq"
-+            ;;
-+    esac
-=20
-     seq=3D"after_$seq"
- done
+iQIzBAABCAAdFiEEFkNmxXgplc+HqgQGJZ4JoaCvxKoFAlzViHcACgkQJZ4JoaCv
+xKoI+hAAutv6JlDh8BX+gFPlNZ/W2TufzMQw2XJpJlQs3XprNIwIB0I3+zWDP7A6
+JpcAqGeVc83bDHWipLyA1SuMgfbfdasZeNM3hP+alnhtvNv0fIXohOLFsfkeeuoE
+jKCxmRHBDSAj2Bz01RLXF2Xh/9oWDr6f78z9Abv58UGfBH/OI3QreuL2/mfHqpcG
+0z8yKeVrfKDHSmB39fAtqs+aGdPmdG0klffckU5hwP8ngYdCf+dykU6m0OUwglAb
+3vyDCaVteGhbw+Xoc1EqHkV2OTZnjnzkExsia9p5gM761bQdQtHtBkotNmEc6Ff7
+jJ1QsLDBncnoIYQxWvdV13R15pyIeqcmuz2SFZHTVWKhRLuwZPaWw/Zva6+TZOvK
+ZhedOoZSOP4C0VC7OOEigmldv7wsEbkoS34kVis4bUih5z04ZqHUOoxhvx03uXg2
+16SNTkpgI7CFJyJOezw+zAPQ+pJsI/P/N2Sy4JGCDoaMekO+9033Y5AYrZUUvOkA
+pH4kBgQClh66lS7zgzYlstbUjQSaDGbXm8wAo1jbmHM+dFzOV9wWvhXvaMSygJYy
+Y2PNpYzqT3J7BgYXUMMPPio1MoKizhv4rr+Tj/NMINrvd9nhvapc/7yG2zSL1oAJ
+kP0zhMR2yz6Y1wR5b7wzBW+0QLZTgeFjKZKp+E18pbPtZzTvUvQ=
+=XAoU
+-----END PGP SIGNATURE-----
+
+--y0ulUmNC+osPPQO6--
 
