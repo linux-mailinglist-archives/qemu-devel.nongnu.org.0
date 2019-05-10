@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DAB9319882
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 08:39:14 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:37754 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30C5B1986E
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 08:37:10 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37740 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOzBa-0008Eo-2v
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 02:39:14 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43539)
+	id 1hOz9Z-0006fZ-Bg
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 02:37:09 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43534)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hOz7p-0005AV-6v
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 02:35:23 -0400
+	(envelope-from <dgibson@ozlabs.org>) id 1hOz7o-0005AQ-W5
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 02:35:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hOz7n-0004uM-Ch
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 02:35:21 -0400
-Received: from ozlabs.org ([203.11.71.1]:46463)
+	(envelope-from <dgibson@ozlabs.org>) id 1hOz7n-0004ug-OC
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 02:35:20 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:41557)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
-	id 1hOz7m-0004oQ-Pf; Fri, 10 May 2019 02:35:19 -0400
+	id 1hOz7l-0004oV-1g; Fri, 10 May 2019 02:35:19 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
-	id 450gSD2XcHz9sBr; Fri, 10 May 2019 16:35:08 +1000 (AEST)
+	id 450gSD34VKz9sML; Fri, 10 May 2019 16:35:08 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
 	d=gibson.dropbear.id.au; s=201602; t=1557470108;
-	bh=6Op+JlPdjESusEIExY2bcebxvAnvD8/N8whtz/p/sZo=;
+	bh=oY7agreCv0QLhCAfJdtst3+nE5cmRq/lTG9j7qBIejA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Hvv6/z6iY0PiAR1r0+MpSfKdtoDcCxqP5kIWjagY7J8VnCXS5AC8+NW225wg8BBdV
-	XRJ+t1uPX2l4iE1Xs8mGRExu1/4TOML7GzZvY2Vjab7UBnzNbClbX+yxCKHgTRyEzC
-	WdAfzG3UsGA6XKpiwLVJFG+YIVtWz767ikeGLFM4=
-Date: Fri, 10 May 2019 16:32:10 +1000
+	b=jvhqWkLgYh88UQLMkrYYLdLtxIDY6jhIeVZ3iUtOK5dnlwIJGlKoTvVTAo17A5EoL
+	PEZ3ckW6xiXHNKc9Amn8f3pspMRfZ/qS+DyA65EpDjgsbFe4O8IwaNyDtq2rKjGVTH
+	YkWun+gII7+6YxZI3AdLo2NtPYwODNfLNpOa50NY=
+Date: Fri, 10 May 2019 16:32:49 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
 To: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
-Message-ID: <20190510063209.GG20559@umbus.fritz.box>
+Message-ID: <20190510063249.GH20559@umbus.fritz.box>
 References: <20190503055316.6441-1-sjitindarsingh@gmail.com>
-	<20190503055316.6441-12-sjitindarsingh@gmail.com>
+	<20190503055316.6441-13-sjitindarsingh@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="kjpMrWxdCilgNbo1"
+	protocol="application/pgp-signature"; boundary="GBDnBH7+ZvLx8QD4"
 Content-Disposition: inline
-In-Reply-To: <20190503055316.6441-12-sjitindarsingh@gmail.com>
+In-Reply-To: <20190503055316.6441-13-sjitindarsingh@gmail.com>
 User-Agent: Mutt/1.11.4 (2019-03-13)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
-Subject: Re: [Qemu-devel] [QEMU-PPC] [PATCH 11/13] target/ppc: Implement
- hcall H_COPY_TOFROM_GUEST
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2401:3900:2:1::2
+Subject: Re: [Qemu-devel] [QEMU-PPC] [PATCH 12/13] target/ppc: Introduce
+ POWER9 DD2.2 cpu type
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,194 +62,69 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---kjpMrWxdCilgNbo1
+--GBDnBH7+ZvLx8QD4
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 03, 2019 at 03:53:14PM +1000, Suraj Jitindar Singh wrote:
-> The hcall H_COPY_TOFROM_GUEST of used by a guest acting as a nested
-> hypervisor to access quadrants since quadrant access is hypervisor
-> privileged.
+On Fri, May 03, 2019 at 03:53:15PM +1000, Suraj Jitindar Singh wrote:
+> Introduce a POWER9 DD2.2 cpu type with pvr 0x004E1202.
 >=20
-> Translate the guest address to be accessed, map the memory and perform
-> the access on behalf of the guest. If the parameters are invalid, the
-> address can't be translated or the memory cannot be mapped then fail
-> the access.
+> A DD2.2 POWER9 cpu type is needed to enable kvm for pseries tcg guests
+> since it means they will use the H_ENTER_NESTED hcall to run a guest
+> rather than trying the generic entry path which will fail.
 >=20
 > Signed-off-by: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
+
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+
 > ---
->  hw/ppc/spapr_hcall.c     | 74 ++++++++++++++++++++++++++++++++++++++++++=
-++++++
->  include/hw/ppc/spapr.h   |  3 +-
->  target/ppc/mmu-radix64.c |  7 ++---
->  target/ppc/mmu-radix64.h |  4 +++
->  4 files changed, 83 insertions(+), 5 deletions(-)
+>  hw/ppc/spapr_cpu_core.c | 1 +
+>  target/ppc/cpu-models.c | 2 ++
+>  target/ppc/cpu-models.h | 1 +
+>  3 files changed, 4 insertions(+)
 >=20
-> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-> index a84d5e2163..a370d70500 100644
-> --- a/hw/ppc/spapr_hcall.c
-> +++ b/hw/ppc/spapr_hcall.c
-> @@ -17,6 +17,7 @@
->  #include "mmu-book3s-v3.h"
->  #include "hw/mem/memory-device.h"
->  #include "hw/ppc/ppc.h"
-> +#include "mmu-radix64.h"
+> diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
+> index 40e7010cf0..98d46c6edb 100644
+> --- a/hw/ppc/spapr_cpu_core.c
+> +++ b/hw/ppc/spapr_cpu_core.c
+> @@ -399,6 +399,7 @@ static const TypeInfo spapr_cpu_core_type_infos[] =3D=
+ {
+>      DEFINE_SPAPR_CPU_CORE_TYPE("power8nvl_v1.0"),
+>      DEFINE_SPAPR_CPU_CORE_TYPE("power9_v1.0"),
+>      DEFINE_SPAPR_CPU_CORE_TYPE("power9_v2.0"),
+> +    DEFINE_SPAPR_CPU_CORE_TYPE("power9_v2.2"),
+>  #ifdef CONFIG_KVM
+>      DEFINE_SPAPR_CPU_CORE_TYPE("host"),
+>  #endif
+> diff --git a/target/ppc/cpu-models.c b/target/ppc/cpu-models.c
+> index 7c75963e3c..603ae7f5b4 100644
+> --- a/target/ppc/cpu-models.c
+> +++ b/target/ppc/cpu-models.c
+> @@ -773,6 +773,8 @@
+>                  "POWER9 v1.0")
+>      POWERPC_DEF("power9_v2.0",   CPU_POWERPC_POWER9_DD20,            POW=
+ER9,
+>                  "POWER9 v2.0")
+> +    POWERPC_DEF("power9_v2.2",   CPU_POWERPC_POWER9_DD22,            POW=
+ER9,
+> +                "POWER9 v2.2")
+>  #endif /* defined (TARGET_PPC64) */
 > =20
->  static bool has_spr(PowerPCCPU *cpu, int spr)
->  {
-> @@ -2158,6 +2159,78 @@ static target_ulong h_nested_tlb_invalidate(PowerP=
-CCPU *cpu,
->      return H_SUCCESS;
->  }
-> =20
-> +static target_ulong h_copy_tofrom_guest(PowerPCCPU *cpu,
-> +                                        SpaprMachineState *spapr,
-> +                                        target_ulong opcode, target_ulon=
-g *args)
-> +{
-> +    target_ulong lpid =3D args[0];
-> +    target_ulong pid =3D args[1];
-> +    vaddr eaddr =3D args[2];
-> +    target_ulong gp_to =3D args[3];
-> +    target_ulong gp_from =3D args[4];
-> +    target_ulong n =3D args[5];
-> +    int is_load =3D !!gp_to;
-
-Looks like this should be a bool.
-
-> +    void *from, *to;
-> +    int prot, psize;
-> +    hwaddr raddr, to_len, from_len;
-> +
-> +    if (spapr_get_cap(spapr, SPAPR_CAP_NESTED_KVM_HV) =3D=3D 0) {
-> +        return H_FUNCTION;
-> +    }
-> +
-> +    if ((gp_to && gp_from) || (!gp_to && !gp_from)) {
-> +        return H_PARAMETER;
-> +    }
-> +
-> +    if (eaddr & (0xFFFUL << 52)) {
-> +        return H_PARAMETER;
-> +    }
-> +
-> +    if (!lpid) {
-> +        return H_PARAMETER;
-> +    }
-> +
-> +    /* Translate eaddr to raddr */
-> +    if (ppc_radix64_xlate(cpu, eaddr, is_load, lpid, pid, 1, &raddr, &ps=
-ize,
-
-Don't we need some validation that the guest is in radix mode?
-
-> +                          &prot, 0)) {
-> +        return H_NOT_FOUND;
-> +    }
-> +    if (((raddr & ((1UL << psize) - 1)) + n) >=3D (1UL << psize)) {
-> +        return H_PARAMETER;
-> +    }
-> +
-> +    if (is_load) {
-> +        gp_from =3D raddr;
-> +    } else {
-> +        gp_to =3D raddr;
-> +    }
-> +
-> +    /* Map the memory regions and perform a memory copy */
-> +    from =3D cpu_physical_memory_map(gp_from, &from_len, 0);
-> +    if (!from) {
-> +        return H_NOT_FOUND;
-> +    }
-> +    if (from_len < n) {
-> +        cpu_physical_memory_unmap(from, from_len, 0, 0);
-> +        return H_PARAMETER;
-> +    }
-> +    to =3D cpu_physical_memory_map(gp_to, &to_len, 1);
-> +    if (!to) {
-> +        cpu_physical_memory_unmap(from, from_len, 0, 0);
-> +        return H_PARAMETER;
-> +    }
-> +    if (to_len < n) {
-> +        cpu_physical_memory_unmap(from, from_len, 0, 0);
-> +        cpu_physical_memory_unmap(to, to_len, 1, 0);
-> +        return H_PARAMETER;
-> +    }
-> +    memcpy(to, from, n);
-> +    cpu_physical_memory_unmap(from, from_len, 0, n);
-> +    cpu_physical_memory_unmap(to, to_len, 1, n);
-> +
-> +    return H_SUCCESS;
-> +}
-> +
->  static spapr_hcall_fn papr_hypercall_table[(MAX_HCALL_OPCODE / 4) + 1];
->  static spapr_hcall_fn kvmppc_hypercall_table[KVMPPC_HCALL_MAX - KVMPPC_H=
-CALL_BASE + 1];
-> =20
-> @@ -2268,6 +2341,7 @@ static void hypercall_register_types(void)
->      spapr_register_hypercall(H_SET_PARTITION_TABLE, h_set_partition_tabl=
-e);
->      spapr_register_hypercall(H_ENTER_NESTED, h_enter_nested);
->      spapr_register_hypercall(H_TLB_INVALIDATE, h_nested_tlb_invalidate);
-> +    spapr_register_hypercall(H_COPY_TOFROM_GUEST, h_copy_tofrom_guest);
-> =20
->      /* Virtual Processor Home Node */
->      spapr_register_hypercall(H_HOME_NODE_ASSOCIATIVITY,
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index 6a614c445f..d62f4108d4 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -505,7 +505,8 @@ struct SpaprMachineState {
->  #define H_SET_PARTITION_TABLE   0xF800
->  #define H_ENTER_NESTED          0xF804
->  #define H_TLB_INVALIDATE        0xF808
-> -#define KVMPPC_HCALL_MAX        H_TLB_INVALIDATE
-> +#define H_COPY_TOFROM_GUEST     0xF80C
-> +#define KVMPPC_HCALL_MAX        H_COPY_TOFROM_GUEST
-> =20
->  typedef struct SpaprDeviceTreeUpdateHeader {
->      uint32_t version_id;
-> diff --git a/target/ppc/mmu-radix64.c b/target/ppc/mmu-radix64.c
-> index 6118ad1b00..2a8147fc38 100644
-> --- a/target/ppc/mmu-radix64.c
-> +++ b/target/ppc/mmu-radix64.c
-> @@ -429,10 +429,9 @@ static bool validate_pate(PowerPCCPU *cpu, uint64_t =
-lpid, ppc_v3_pate_t *pate)
->      return true;
->  }
-> =20
-> -static int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, int rwx,
-> -                             uint64_t lpid, uint64_t pid, bool relocatio=
-n,
-> -                             hwaddr *raddr, int *psizep, int *protp,
-> -                             bool cause_excp)
-> +int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, int rwx, uint64_t lp=
-id,
-> +                      uint64_t pid, bool relocation, hwaddr *raddr, int =
-*psizep,
-> +                      int *protp, bool cause_excp)
->  {
->      CPUPPCState *env =3D &cpu->env;
->      ppc_v3_pate_t pate;
-> diff --git a/target/ppc/mmu-radix64.h b/target/ppc/mmu-radix64.h
-> index 96228546aa..c0bbd5c332 100644
-> --- a/target/ppc/mmu-radix64.h
-> +++ b/target/ppc/mmu-radix64.h
-> @@ -66,6 +66,10 @@ static inline int ppc_radix64_get_prot_amr(PowerPCCPU =
-*cpu)
->             (iamr & 0x1 ? 0 : PAGE_EXEC);
->  }
-> =20
-> +int ppc_radix64_xlate(PowerPCCPU *cpu, vaddr eaddr, int rwx, uint64_t lp=
-id,
-> +                      uint64_t pid, bool relocation, hwaddr *raddr, int =
-*psizep,
-> +                      int *protp, bool cause_excp);
-> +
->  #endif /* TARGET_PPC64 */
-> =20
->  #endif /* CONFIG_USER_ONLY */
+>  /***********************************************************************=
+****/
+> diff --git a/target/ppc/cpu-models.h b/target/ppc/cpu-models.h
+> index efdb2fa53c..820e94b0c8 100644
+> --- a/target/ppc/cpu-models.h
+> +++ b/target/ppc/cpu-models.h
+> @@ -373,6 +373,7 @@ enum {
+>      CPU_POWERPC_POWER9_BASE        =3D 0x004E0000,
+>      CPU_POWERPC_POWER9_DD1         =3D 0x004E0100,
+>      CPU_POWERPC_POWER9_DD20        =3D 0x004E1200,
+> +    CPU_POWERPC_POWER9_DD22        =3D 0x004E1202,
+>      CPU_POWERPC_970_v22            =3D 0x00390202,
+>      CPU_POWERPC_970FX_v10          =3D 0x00391100,
+>      CPU_POWERPC_970FX_v20          =3D 0x003C0200,
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -256,25 +132,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---kjpMrWxdCilgNbo1
+--GBDnBH7+ZvLx8QD4
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlzVGukACgkQbDjKyiDZ
-s5JjARAA2gb9Q3x6ykeihSyJUR7bKQlrorDaMkyYVxaKwvbhJJB20aoliiAXxjSm
-PgE24rxzz+g2oTHdlMZ/u589XvGaiK2X8lUkJewqcTlzuqCKGVFfpAlgbHBWqH6L
-rTeTWMqarpXI+Kq6SthOXkN4A+mtS9CrRh6loosWxWxP3U7Vv89QArIhVNr5VntF
-If0nMnSn/AvnzzGX9WXiWAF4vkphRxhi7DxoJAUCGVmR0yvIPUG9Ufh1E2j5/Lm2
-wLMZ6KUhTBmLmbOERu/eXr/ixMLN13eqAaFROGA/rPlVGDrtwVYQMjH/4+o63hyW
-5SZzsPAcloVVmD4fhb0d2e88jjREKpFg4QiUoeIk41yrlXWqUi97N+lDsF8cNYB6
-SHGz1ylemjRuN0xZQvrDJAaucF0rpkNE8awcbWQO8MYJ8luEzv6yd3c05YsKGk5V
-bMUo1JbjGFShXLBTYOMFX//iSYQsO1FVJ4+Yfi9gzUbTpMe+x4DfMzXmJS5xU/7n
-dJVeKYpnoMn6eBS2hC+DghLfBdqAZynwGmXAnfET+LZh0jYmP7uTvE/fhw6vi2v+
-0IMmR+3NZmv7fiRr24n02fA1NIfYdImzgSzl3B5avkatm3uq63SmZMG5zeB/uz40
-mKOx+ggnfXIDSAaEEwwwmOlw4KajkruQO0l4NXNR9LZtyXkj/Rg=
-=hQUa
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlzVGxEACgkQbDjKyiDZ
+s5LaGBAArwHwM7R5LEMF2goOmrSukrIRNfYxoXkhyHooAckBcW3Jn/O0WBMgnYJy
+t31rQUpG8JyMo/6OXR4czDJJ8jhML9KgXWBfEa63plJaQdZZ4iJ7gVcOhNHAHav0
+RiCh1oMSGlVGfz6oB+X/dfxXRRF9pfPKPyWYAbTeFwRnyszftQSfz7i+AClLTURn
+V3EhvCaqtSj7eXT1P3yquBmNP2nI5NbKlpy/HQlx875RiO6o30YI4b8U9U40cuYF
+BRnMvbfw8H2IPMPCGP/VBGKr0FvUlYgEfQADqlX9jm589v6vCfncacq2hkyOZMuK
+kIewocEJgyZ5YEbmwLEliOhw3y+VEmKFxiFLilLqIouryQpQTBD7gITq4EZknpgA
+Z97nUXYxOGoj5KMf17bB1vzOKqO+r5nkx3G1niMxyEf52oW3pEHG8/fe8PrSzQo1
+7P/wGuPXHaOUmQQguMuGouON3igQUfEsnDUDYBDfsPUPk1kilxQ8dwBZ0tePp34h
+QRtbDoaNNVZw7e+yPd/nW+UCnwK/iSLUMJngrzOkUtMbipPLHXQRV4lEriTyHn73
+cJHtkUxgTxsDxe3VlyU3sNgB5jsd/9DxxLBVuOZjqqHBklGpBeD/MpA38fcY2jV7
+qzFwKLICAeJ87V+GGPAztIvLxGrUXkp1CFsy+lIT3V4G1JZfai4=
+=ZgUe
 -----END PGP SIGNATURE-----
 
---kjpMrWxdCilgNbo1--
+--GBDnBH7+ZvLx8QD4--
 
