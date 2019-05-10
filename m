@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EFDF519E6B
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 15:44:03 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43570 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2475E19E70
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 15:45:42 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43617 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hP5oh-0003E9-3f
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 09:44:03 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35305)
+	id 1hP5qH-0004bD-Bn
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 09:45:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35319)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <lvivier@redhat.com>) id 1hP5n0-0002V6-HD
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 09:42:19 -0400
+	(envelope-from <lvivier@redhat.com>) id 1hP5n8-0002ab-8A
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 09:42:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <lvivier@redhat.com>) id 1hP5mz-0007Uz-8T
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 09:42:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57154)
+	(envelope-from <lvivier@redhat.com>) id 1hP5n6-0007XJ-HU
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 09:42:26 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46028)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <lvivier@redhat.com>) id 1hP5my-0007Ue-Te
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 09:42:17 -0400
+	(Exim 4.71) (envelope-from <lvivier@redhat.com>) id 1hP5n6-0007Wc-A3
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 09:42:24 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
 	[10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 2DAFE3086212;
-	Fri, 10 May 2019 13:42:16 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 5329E308FBA6;
+	Fri, 10 May 2019 13:42:22 +0000 (UTC)
 Received: from thinkpad.redhat.com (unknown [10.40.205.9])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 453D01001E78;
-	Fri, 10 May 2019 13:42:11 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 94A121018A2A;
+	Fri, 10 May 2019 13:42:16 +0000 (UTC)
 From: Laurent Vivier <lvivier@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 10 May 2019 15:42:01 +0200
-Message-Id: <20190510134203.24012-2-lvivier@redhat.com>
+Date: Fri, 10 May 2019 15:42:02 +0200
+Message-Id: <20190510134203.24012-3-lvivier@redhat.com>
 In-Reply-To: <20190510134203.24012-1-lvivier@redhat.com>
 References: <20190510134203.24012-1-lvivier@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.42]);
-	Fri, 10 May 2019 13:42:16 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.43]);
+	Fri, 10 May 2019 13:42:22 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 1/3] VirtIO-RNG: Update default entropy
- source to `/dev/urandom`
+Subject: [Qemu-devel] [PATCH v3 2/3] rng-builtin: add an RNG backend that
+ uses qemu_guest_getrandom()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -63,102 +62,126 @@ Cc: Laurent Vivier <lvivier@redhat.com>,
 	"Michael S. Tsirkin" <mst@redhat.com>,
 	Richard Henderson <richard.henderson@linaro.org>,
 	Markus Armbruster <armbru@redhat.com>, Amit Shah <amit@kernel.org>,
-	"Richard W . M . Jones" <rjones@redhat.com>,
-	Stefan Hajnoczi <stefanha@redhat.com>
+	"Richard W . M . Jones" <rjones@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Kashyap Chamarthy <kchamart@redhat.com>
+Add a new RNG backend using QEMU builtin getrandom function.
 
-When QEMU exposes a VirtIO-RNG device to the guest, that device needs a
-source of entropy, and that source needs to be "non-blocking", like
-`/dev/urandom`.  However, currently QEMU defaults to the problematic
-`/dev/random`, which is "blocking" (as in, it waits until sufficient
-entropy is available).
+It can be created and used with something like:
 
-Why prefer `/dev/urandom` over `/dev/random`?
----------------------------------------------
+    ... -object rng-builtin,id=3Drng0 -device virtio-rng,rng=3Drng0 ...
 
-The man pages of urandom(4) and random(4) state:
-
-    "The /dev/random device is a legacy interface which dates back to a
-    time where the cryptographic primitives used in the implementation
-    of /dev/urandom were not widely trusted.  It will return random
-    bytes only within the estimated number of bits of fresh noise in the
-    entropy pool, blocking if necessary.  /dev/random is suitable for
-    applications that need high quality randomness, and can afford
-    indeterminate delays."
-
-Further, the "Usage" section of the said man pages state:
-
-    "The /dev/random interface is considered a legacy interface, and
-    /dev/urandom is preferred and sufficient in all use cases, with the
-    exception of applications which require randomness during early boot
-    time; for these applications, getrandom(2) must be used instead,
-    because it will block until the entropy pool is initialized.
-
-    "If a seed file is saved across reboots as recommended below (all
-    major Linux distributions have done this since 2000 at least), the
-    output is cryptographically secure against attackers without local
-    root access as soon as it is reloaded in the boot sequence, and
-    perfectly adequate for network encryption session keys.  Since reads
-    from /dev/random may block, users will usually want to open it in
-    nonblocking mode (or perform a read with timeout), and provide some
-    sort of user notification if the desired entropy is not immediately
-    available."
-
-And refer to random(7) for a comparison of `/dev/random` and
-`/dev/urandom`.
-
-    - - -
-
-Given the above, change the entropy source for VirtIO-RNG device to
-`/dev/urandom`.
-
-Related discussion in these[1][2] past threads.
-
-[1] https://lists.nongnu.org/archive/html/qemu-devel/2018-06/msg08335.htm=
-l
-    -- "RNG: Any reason QEMU doesn't default to `/dev/urandom`?"
-[2] https://lists.nongnu.org/archive/html/qemu-devel/2018-09/msg02724.htm=
-l
-    -- "[RFC] Virtio RNG: Consider changing the default entropy source to
-       /dev/urandom"
-
-Signed-off-by: Kashyap Chamarthy <kchamart@redhat.com>
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Laurent Vivier <lvivier@redhat.com>
 ---
- backends/rng-random.c | 2 +-
- qemu-options.hx       | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ backends/Makefile.objs |  2 +-
+ backends/rng-builtin.c | 56 ++++++++++++++++++++++++++++++++++++++++++
+ qemu-options.hx        | 10 +++++++-
+ 3 files changed, 66 insertions(+), 2 deletions(-)
+ create mode 100644 backends/rng-builtin.c
 
-diff --git a/backends/rng-random.c b/backends/rng-random.c
-index e2a49b0571d7..eff36ef14084 100644
---- a/backends/rng-random.c
-+++ b/backends/rng-random.c
-@@ -112,7 +112,7 @@ static void rng_random_init(Object *obj)
-                             rng_random_set_filename,
-                             NULL);
+diff --git a/backends/Makefile.objs b/backends/Makefile.objs
+index ff619d31b461..8da4a508d97b 100644
+--- a/backends/Makefile.objs
++++ b/backends/Makefile.objs
+@@ -1,4 +1,4 @@
+-common-obj-y +=3D rng.o rng-egd.o
++common-obj-y +=3D rng.o rng-egd.o rng-builtin.o
+ common-obj-$(CONFIG_POSIX) +=3D rng-random.o
 =20
--    s->filename =3D g_strdup("/dev/random");
-+    s->filename =3D g_strdup("/dev/urandom");
-     s->fd =3D -1;
- }
-=20
+ common-obj-$(CONFIG_TPM) +=3D tpm.o
+diff --git a/backends/rng-builtin.c b/backends/rng-builtin.c
+new file mode 100644
+index 000000000000..b1264b745407
+--- /dev/null
++++ b/backends/rng-builtin.c
+@@ -0,0 +1,56 @@
++/*
++ * QEMU Builtin Random Number Generator Backend
++ *
++ * This work is licensed under the terms of the GNU GPL, version 2 or la=
+ter.
++ * See the COPYING file in the top-level directory.
++ */
++
++#include "qemu/osdep.h"
++#include "sysemu/rng.h"
++#include "qapi/error.h"
++#include "qapi/qmp/qerror.h"
++#include "qemu/main-loop.h"
++#include "qemu/guest-random.h"
++
++#define TYPE_RNG_BUILTIN "rng-builtin"
++#define RNG_BUILTIN(obj) OBJECT_CHECK(RngBuiltin, (obj), TYPE_RNG_BUILTI=
+N)
++
++typedef struct RngBuiltin {
++    RngBackend parent;
++} RngBuiltin;
++
++static void rng_builtin_request_entropy(RngBackend *b, RngRequest *req)
++{
++    RngBuiltin *s =3D RNG_BUILTIN(b);
++
++    while (!QSIMPLEQ_EMPTY(&s->parent.requests)) {
++        RngRequest *req =3D QSIMPLEQ_FIRST(&s->parent.requests);
++
++        qemu_guest_getrandom_nofail(req->data, req->size);
++
++        req->receive_entropy(req->opaque, req->data, req->size);
++
++        rng_backend_finalize_request(&s->parent, req);
++    }
++}
++
++static void rng_builtin_class_init(ObjectClass *klass, void *data)
++{
++    RngBackendClass *rbc =3D RNG_BACKEND_CLASS(klass);
++
++    rbc->request_entropy =3D rng_builtin_request_entropy;
++}
++
++static const TypeInfo rng_builtin_info =3D {
++    .name =3D TYPE_RNG_BUILTIN,
++    .parent =3D TYPE_RNG_BACKEND,
++    .instance_size =3D sizeof(RngBuiltin),
++    .class_init =3D rng_builtin_class_init,
++};
++
++static void register_types(void)
++{
++    type_register_static(&rng_builtin_info);
++}
++
++type_init(register_types);
 diff --git a/qemu-options.hx b/qemu-options.hx
-index 0191ef8b1eb7..4df0ea3aed5c 100644
+index 4df0ea3aed5c..6ab920f12be4 100644
 --- a/qemu-options.hx
 +++ b/qemu-options.hx
-@@ -4286,7 +4286,7 @@ Creates a random number generator backend which obt=
-ains entropy from
+@@ -4280,13 +4280,21 @@ other options.
+=20
+ The @option{share} boolean option is @var{on} by default with memfd.
+=20
++@item -object rng-builtin,id=3D@var{id}
++
++Creates a random number generator backend which obtains entropy from
++QEMU builtin functions. The @option{id} parameter is a unique ID that
++will be used to reference this entropy backend from the @option{virtio-r=
+ng}
++device.
++
+ @item -object rng-random,id=3D@var{id},filename=3D@var{/dev/random}
+=20
+ Creates a random number generator backend which obtains entropy from
  a device on the host. The @option{id} parameter is a unique ID that
  will be used to reference this entropy backend from the @option{virtio-r=
 ng}
  device. The @option{filename} parameter specifies which file to obtain
--entropy from and if omitted defaults to @option{/dev/random}.
-+entropy from and if omitted defaults to @option{/dev/urandom}.
+-entropy from and if omitted defaults to @option{/dev/urandom}.
++entropy from and if omitted defaults to @option{/dev/urandom}. By defaul=
+t,
++the @option{virtio-rng} device uses this RNG backend.
 =20
  @item -object rng-egd,id=3D@var{id},chardev=3D@var{chardevid}
 =20
