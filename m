@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 97FBA1A26A
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 19:37:03 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:47546 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A83341A253
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 19:34:02 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:47494 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hP9SA-0003Yf-MP
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 13:37:02 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58976)
+	id 1hP9PF-0000Nq-PJ
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 13:34:01 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58980)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hP9MH-0007Ie-Ck
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 13:30:59 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hP9MH-0007It-Mo
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 13:30:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hP9MF-0005z5-MM
+	(envelope-from <richard.henderson@linaro.org>) id 1hP9MG-0005zW-Kf
 	for qemu-devel@nongnu.org; Fri, 10 May 2019 13:30:57 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:37468)
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:45948)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hP9MF-0005yQ-EL
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 13:30:55 -0400
-Received: by mail-pg1-x543.google.com with SMTP id e6so3334537pgc.4
-	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 10:30:55 -0700 (PDT)
+	id 1hP9MG-0005zH-Ey
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 13:30:56 -0400
+Received: by mail-pg1-x542.google.com with SMTP id i21so3315306pgi.12
+	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 10:30:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=oNLcNEzx1AVg7pEqaHg2NYbCmOShRlwabHt9Wio1gps=;
-	b=ra9jDxTLNuYDLE4J3yl9KdiHEBJGrDx7pjW0tLlJVVdcBLy5LZBEkAYeOSLF2wjnVy
-	Y8kolHTu5n4okpuUwx/w1MflqCDGZi1xDb0LLba4RR62uygPHcFux/v974VByjgo+dgF
-	IBwOlD8yTbr6EzaswuoxJOvSdu042Wir78Yn/s8jjo4QLhgT5sAofakRL6gNzKgSMEFM
-	x7sknDvhDZgF06XQaEwtplmMW4VLe+0HGTHtcZ2P6YFTDu2mat08+ivsO1bCr8fi1LAg
-	TP3jTvxST8GWGWqL/he32neiI5T6Ep1/HhnxDba9lPSFWJ1381Jl13NL2ZQ4YZlFt5qu
-	RZcA==
+	bh=WcaPjSSW8mCEGy+vfZffpT+ukMC7uteGhxOw5c2wJXo=;
+	b=xAjEu1X4VlwRNknwmCYR+OOCLDvWztfWn8u8HXL2EOv1yj13dUGgXj20X7w/OaSivF
+	rNvoEyyBkHTS2a723pigY9zxxhaJ6uqFF3oTOF498ZLQSqGXEQkujln9Cica1O57I/wb
+	HJzBcqNke4rvAV74vwV6rMrwnYt5YImMGdOS91S1bvm1lCe0iBwnmYqOLUaJKadk9vma
+	krOvoxFt2kdGlamxH2HhL2tqJZxNYyTzm4tPNhCu7eiwnZtaoARcBBnrkLGly/wz4ZB3
+	2JCPBGdj3CmePAXZTmz/qbR2Zb3JNAmvewTtX8HRxgrBhC+F6MA+9OXsdAB5Bi9wrVb3
+	cy6A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=oNLcNEzx1AVg7pEqaHg2NYbCmOShRlwabHt9Wio1gps=;
-	b=J1XxxaZEogGN0rHcEJVv2wKSyDH7y4mvegO8wUVtwFjJHeDfOwUnjiAXVRd7oMDufd
-	M+t3zZmVx1V1tl9uTKjhVf7VXlDfd8pRDkWTbh1/aXOxMN+lHK7j0YQb3EuGgGC7FIzD
-	0Ua1qco7WgCjevZMa29WjMdfAURLTbuSF0EwnEiKeDVbE6kyDxRoqQlPBXcxPrEonWSP
-	a23EIDpJv7FeszOSZfHXUnVbbDjdp9Qa227fdsrOF7q/6xe4Y6vQk+epeXX64s57o/+f
-	fRd81gPQpXMFLaqw/3d4E5BG35+FHF4GfP96JUmosH+cyelM7KTc8H29j+fA7eRjWsXn
-	NagQ==
-X-Gm-Message-State: APjAAAUReWeXks2XCWPe+a8ayUrzvL/ItJ5MDRAYXv8PdpEaCxR0kuYk
-	cv1cs70RB4AwzIzixIPqB19Kwzb5Stk=
-X-Google-Smtp-Source: APXvYqxtiRCxaDnBdWjPoVGilxVzq6JeJnZgKCPrjWqD5nWFx+1i/0xi7C1ktF6CJN9VQOxYg4rzkg==
-X-Received: by 2002:a65:448b:: with SMTP id l11mr15097201pgq.185.1557509453909;
-	Fri, 10 May 2019 10:30:53 -0700 (PDT)
+	bh=WcaPjSSW8mCEGy+vfZffpT+ukMC7uteGhxOw5c2wJXo=;
+	b=H/37sbIeO7BUzawcBwbkZZq9yavTeATFKy5etOVKQHik5NBGMZPEKCIgO+r6f/Nzs0
+	UuZo/Fa3WI4SX7uBQnmL65NvGrdblgb5vyDepC1bpc9v+UFJsQODuSCw1VpLWZDNeP5F
+	DmyOp+CKzD9j3g9MGQrQyUm717OBpJzOvv7RKwrdCMUjlF5yGikskv2f7RaYUIvdHDfw
+	u1qKw5rqmkQpSI+tTB+3r36DY+IRb31EUnNQbQ50+EiuzVjWfy8iMRVI3AdHvj3Xwwcu
+	e8F526Qo5Wy9oDhSA4yAaNiFBHCQ5fduOInoRFsdakwNoYUr/Hf3D/Ee/r8P/ytsTHnw
+	E4lw==
+X-Gm-Message-State: APjAAAV8DnsK9eROcTsGz+N2Dad5XM2uby+OrkrVPGvWCJUQcRBx2b4k
+	tUBYitjG8IRQd3OynkVi/BenFcToLUk=
+X-Google-Smtp-Source: APXvYqz1xyT4EJQd+Dav5geMMhH3pZxWJj5l5LQE4zF2FambOv4Ia7Bq/gp3cseR5/06lMD/QHPWsw==
+X-Received: by 2002:a63:2c4a:: with SMTP id s71mr15157285pgs.373.1557509455148;
+	Fri, 10 May 2019 10:30:55 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	v64sm7936792pfv.106.2019.05.10.10.30.52 for <qemu-devel@nongnu.org>
+	v64sm7936792pfv.106.2019.05.10.10.30.54 for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 10 May 2019 10:30:53 -0700 (PDT)
+	Fri, 10 May 2019 10:30:54 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Fri, 10 May 2019 10:30:26 -0700
-Message-Id: <20190510173049.28171-3-richard.henderson@linaro.org>
+Date: Fri, 10 May 2019 10:30:27 -0700
+Message-Id: <20190510173049.28171-4-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190510173049.28171-1-richard.henderson@linaro.org>
 References: <20190510173049.28171-1-richard.henderson@linaro.org>
@@ -66,9 +66,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::543
-Subject: [Qemu-devel] [PATCH v6 02/25] crypto: Merge crypto-obj-y into
- libqemuutil.a
+X-Received-From: 2607:f8b0:4864:20::542
+Subject: [Qemu-devel] [PATCH v6 03/25] crypto: Reverse code blocks in
+ random-platform.c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -83,257 +83,84 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We will shortly need this in the user-only binaries, so drop the split
-into system and tools binaries.  Remove crypto-obj-y and crypto-aes-obj-y,
-moving the objects into util-obj-y.
+Use #ifdef _WIN32 instead of #ifndef _WIN32.
+This will make other tests easier to sequence.
 
 Reviewed-by: Laurent Vivier <lvivier@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v6: Remove a stray crypto-aes-obj-$(COND) -- (lvivier)
-    Remove crypto-obj-y entirely -- (berrange)
----
- Makefile               | 14 +++-----
- Makefile.objs          |  8 +----
- Makefile.target        |  4 ---
- configure              |  9 ++---
- crypto/Makefile.objs   | 77 ++++++++++++++++++++----------------------
- tests/Makefile.include |  3 +-
- 6 files changed, 47 insertions(+), 68 deletions(-)
+ crypto/random-platform.c | 35 +++++++++++++++++------------------
+ 1 file changed, 17 insertions(+), 18 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index 4a8ae0ef95..acf13f5eaa 100644
---- a/Makefile
-+++ b/Makefile
-@@ -409,8 +409,6 @@ dummy := $(call unnest-vars,, \
-                 qga-vss-dll-obj-y \
-                 block-obj-y \
-                 block-obj-m \
--                crypto-obj-y \
--                crypto-aes-obj-y \
-                 qom-obj-y \
-                 io-obj-y \
-                 common-obj-y \
-@@ -446,7 +444,6 @@ SOFTMMU_SUBDIR_RULES=$(filter %-softmmu,$(SUBDIR_RULES))
+diff --git a/crypto/random-platform.c b/crypto/random-platform.c
+index 7541b4cae7..f995fc0ef1 100644
+--- a/crypto/random-platform.c
++++ b/crypto/random-platform.c
+@@ -32,7 +32,14 @@ static int fd; /* a file handle to either /dev/urandom or /dev/random */
  
- $(SOFTMMU_SUBDIR_RULES): $(authz-obj-y)
- $(SOFTMMU_SUBDIR_RULES): $(block-obj-y)
--$(SOFTMMU_SUBDIR_RULES): $(crypto-obj-y)
- $(SOFTMMU_SUBDIR_RULES): $(io-obj-y)
- $(SOFTMMU_SUBDIR_RULES): config-all-devices.mak
- $(SOFTMMU_SUBDIR_RULES): $(edk2-decompressed)
-@@ -482,8 +479,7 @@ subdir-capstone: .git-submodule-status
- subdir-slirp: .git-submodule-status
- 	$(call quiet-command,$(MAKE) -C $(SRC_PATH)/slirp BUILD_DIR="$(BUILD_DIR)/slirp" CC="$(CC)" AR="$(AR)" LD="$(LD)" RANLIB="$(RANLIB)" CFLAGS="$(QEMU_CFLAGS) $(CFLAGS)" LDFLAGS="$(LDFLAGS)")
- 
--$(SUBDIR_RULES): libqemuutil.a $(common-obj-y) $(chardev-obj-y) \
--	$(qom-obj-y) $(crypto-aes-obj-$(CONFIG_USER_ONLY))
-+$(SUBDIR_RULES): libqemuutil.a $(common-obj-y) $(chardev-obj-y) $(qom-obj-y)
- 
- ROMSUBDIR_RULES=$(patsubst %,romsubdir-%, $(ROMS))
- # Only keep -O and -g cflags
-@@ -511,9 +507,9 @@ COMMON_LDADDS = libqemuutil.a
- 
- qemu-img.o: qemu-img-cmds.h
- 
--qemu-img$(EXESUF): qemu-img.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
--qemu-nbd$(EXESUF): qemu-nbd.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
--qemu-io$(EXESUF): qemu-io.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
-+qemu-img$(EXESUF): qemu-img.o $(authz-obj-y) $(block-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
-+qemu-nbd$(EXESUF): qemu-nbd.o $(authz-obj-y) $(block-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
-+qemu-io$(EXESUF): qemu-io.o $(authz-obj-y) $(block-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
- 
- qemu-bridge-helper$(EXESUF): qemu-bridge-helper.o $(COMMON_LDADDS)
- 
-@@ -524,7 +520,7 @@ qemu-edid$(EXESUF): qemu-edid.o hw/display/edid-generate.o $(COMMON_LDADDS)
- fsdev/virtfs-proxy-helper$(EXESUF): fsdev/virtfs-proxy-helper.o fsdev/9p-marshal.o fsdev/9p-iov-marshal.o $(COMMON_LDADDS)
- fsdev/virtfs-proxy-helper$(EXESUF): LIBS += -lcap
- 
--scsi/qemu-pr-helper$(EXESUF): scsi/qemu-pr-helper.o scsi/utils.o $(authz-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
-+scsi/qemu-pr-helper$(EXESUF): scsi/qemu-pr-helper.o scsi/utils.o $(authz-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
- ifdef CONFIG_MPATH
- scsi/qemu-pr-helper$(EXESUF): LIBS += -ludev -lmultipath -lmpathpersist
- endif
-diff --git a/Makefile.objs b/Makefile.objs
-index cf065de5ed..4875b6f2e5 100644
---- a/Makefile.objs
-+++ b/Makefile.objs
-@@ -1,7 +1,7 @@
- #######################################################################
- # Common libraries for tools and emulators
- stub-obj-y = stubs/ util/ crypto/
--util-obj-y = util/ qobject/ qapi/
-+util-obj-y = util/ crypto/ qobject/ qapi/
- 
- chardev-obj-y = chardev/
- 
-@@ -21,12 +21,6 @@ block-obj-$(CONFIG_REPLICATION) += replication.o
- 
- block-obj-m = block/
- 
--#######################################################################
--# crypto-obj-y is code used by both qemu system emulation and qemu-img
+ int qcrypto_random_init(Error **errp)
+ {
+-#ifndef _WIN32
++#ifdef _WIN32
++    if (!CryptAcquireContext(&hCryptProv, NULL, NULL, PROV_RSA_FULL,
++                             CRYPT_SILENT | CRYPT_VERIFYCONTEXT)) {
++        error_setg_win32(errp, GetLastError(),
++                         "Unable to create cryptographic provider");
++        return -1;
++    }
++#else
+     /* TBD perhaps also add support for BSD getentropy / Linux
+      * getrandom syscalls directly */
+     fd = open("/dev/urandom", O_RDONLY);
+@@ -44,15 +51,7 @@ int qcrypto_random_init(Error **errp)
+         error_setg(errp, "No /dev/urandom or /dev/random found");
+         return -1;
+     }
+-#else
+-    if (!CryptAcquireContext(&hCryptProv, NULL, NULL, PROV_RSA_FULL,
+-                             CRYPT_SILENT | CRYPT_VERIFYCONTEXT)) {
+-        error_setg_win32(errp, GetLastError(),
+-                         "Unable to create cryptographic provider");
+-        return -1;
+-    }
+ #endif
 -
--crypto-obj-y = crypto/
--crypto-aes-obj-y = crypto/
--
- #######################################################################
- # qom-obj-y is code used by both qemu system emulation and qemu-img
+     return 0;
+ }
  
-diff --git a/Makefile.target b/Makefile.target
-index ae02495951..ce02924ffb 100644
---- a/Makefile.target
-+++ b/Makefile.target
-@@ -179,8 +179,6 @@ dummy := $(call unnest-vars,.., \
-                block-obj-y \
-                block-obj-m \
-                chardev-obj-y \
--               crypto-obj-y \
--               crypto-aes-obj-y \
-                qom-obj-y \
-                io-obj-y \
-                common-obj-y \
-@@ -189,8 +187,6 @@ all-obj-y += $(common-obj-y)
- all-obj-y += $(qom-obj-y)
- all-obj-$(CONFIG_SOFTMMU) += $(authz-obj-y)
- all-obj-$(CONFIG_SOFTMMU) += $(block-obj-y) $(chardev-obj-y)
--all-obj-$(CONFIG_USER_ONLY) += $(crypto-aes-obj-y)
--all-obj-$(CONFIG_SOFTMMU) += $(crypto-obj-y)
- all-obj-$(CONFIG_SOFTMMU) += $(io-obj-y)
+@@ -60,7 +59,15 @@ int qcrypto_random_bytes(uint8_t *buf G_GNUC_UNUSED,
+                          size_t buflen G_GNUC_UNUSED,
+                          Error **errp)
+ {
+-#ifndef _WIN32
++#ifdef _WIN32
++    if (!CryptGenRandom(hCryptProv, buflen, buf)) {
++        error_setg_win32(errp, GetLastError(),
++                         "Unable to read random bytes");
++        return -1;
++    }
++
++    return 0;
++#else
+     int ret = -1;
+     int got;
  
- ifdef CONFIG_SOFTMMU
-diff --git a/configure b/configure
-index c4f27ed453..68b34a93eb 100755
---- a/configure
-+++ b/configure
-@@ -2792,8 +2792,7 @@ if test "$gnutls" != "no"; then
-         # At least ubuntu 18.04 ships only shared libraries.
-         write_c_skeleton
-         if compile_prog "" "$gnutls_libs" ; then
--            libs_softmmu="$gnutls_libs $libs_softmmu"
--            libs_tools="$gnutls_libs $libs_tools"
-+            LIBS="$gnutls_libs $LIBS"
-             QEMU_CFLAGS="$QEMU_CFLAGS $gnutls_cflags"
-             pass="yes"
-         fi
-@@ -2864,8 +2863,7 @@ if test "$nettle" != "no"; then
-         # Link test to make sure the given libraries work (e.g for static).
-         write_c_skeleton
-         if compile_prog "" "$nettle_libs" ; then
--            libs_softmmu="$nettle_libs $libs_softmmu"
--            libs_tools="$nettle_libs $libs_tools"
-+            LIBS="$nettle_libs $LIBS"
-             QEMU_CFLAGS="$QEMU_CFLAGS $nettle_cflags"
-             if test -z "$gcrypt"; then
-                gcrypt="no"
-@@ -2896,8 +2894,7 @@ if test "$gcrypt" != "no"; then
-         # Link test to make sure the given libraries work (e.g for static).
-         write_c_skeleton
-         if compile_prog "" "$gcrypt_libs" ; then
--            libs_softmmu="$gcrypt_libs $libs_softmmu"
--            libs_tools="$gcrypt_libs $libs_tools"
-+            LIBS="$gcrypt_libs $LIBS"
-             QEMU_CFLAGS="$QEMU_CFLAGS $gcrypt_cflags"
-             pass="yes"
-         fi
-diff --git a/crypto/Makefile.objs b/crypto/Makefile.objs
-index 256c9aca1f..8fafffb048 100644
---- a/crypto/Makefile.objs
-+++ b/crypto/Makefile.objs
-@@ -1,41 +1,38 @@
--crypto-obj-y = init.o
--crypto-obj-y += hash.o
--crypto-obj-$(CONFIG_NETTLE) += hash-nettle.o
--crypto-obj-$(if $(CONFIG_NETTLE),n,$(CONFIG_GCRYPT)) += hash-gcrypt.o
--crypto-obj-$(if $(CONFIG_NETTLE),n,$(if $(CONFIG_GCRYPT),n,y)) += hash-glib.o
--crypto-obj-y += hmac.o
--crypto-obj-$(CONFIG_NETTLE) += hmac-nettle.o
--crypto-obj-$(CONFIG_GCRYPT_HMAC) += hmac-gcrypt.o
--crypto-obj-$(if $(CONFIG_NETTLE),n,$(if $(CONFIG_GCRYPT_HMAC),n,y)) += hmac-glib.o
--crypto-obj-y += aes.o
--crypto-obj-y += desrfb.o
--crypto-obj-y += cipher.o
--crypto-obj-$(CONFIG_AF_ALG) += afalg.o
--crypto-obj-$(CONFIG_AF_ALG) += cipher-afalg.o
--crypto-obj-$(CONFIG_AF_ALG) += hash-afalg.o
--crypto-obj-y += tlscreds.o
--crypto-obj-y += tlscredsanon.o
--crypto-obj-y += tlscredspsk.o
--crypto-obj-y += tlscredsx509.o
--crypto-obj-y += tlssession.o
--crypto-obj-y += secret.o
--crypto-obj-$(CONFIG_GCRYPT) += random-gcrypt.o
--crypto-obj-$(if $(CONFIG_GCRYPT),n,$(CONFIG_GNUTLS)) += random-gnutls.o
--crypto-obj-$(if $(CONFIG_GCRYPT),n,$(if $(CONFIG_GNUTLS),n,y)) += random-platform.o
--crypto-obj-y += pbkdf.o
--crypto-obj-$(CONFIG_NETTLE) += pbkdf-nettle.o
--crypto-obj-$(if $(CONFIG_NETTLE),n,$(CONFIG_GCRYPT)) += pbkdf-gcrypt.o
--crypto-obj-y += ivgen.o
--crypto-obj-y += ivgen-essiv.o
--crypto-obj-y += ivgen-plain.o
--crypto-obj-y += ivgen-plain64.o
--crypto-obj-y += afsplit.o
--crypto-obj-y += xts.o
--crypto-obj-y += block.o
--crypto-obj-y += block-qcow.o
--crypto-obj-y += block-luks.o
+@@ -82,13 +89,5 @@ int qcrypto_random_bytes(uint8_t *buf G_GNUC_UNUSED,
+     ret = 0;
+  cleanup:
+     return ret;
+-#else
+-    if (!CryptGenRandom(hCryptProv, buflen, buf)) {
+-        error_setg_win32(errp, GetLastError(),
+-                         "Unable to read random bytes");
+-        return -1;
+-    }
 -
--# Let the userspace emulators avoid linking gnutls/etc
--crypto-aes-obj-y = aes.o
--
-+util-obj-y = init.o
-+util-obj-y += hash.o
-+util-obj-$(CONFIG_NETTLE) += hash-nettle.o
-+util-obj-$(if $(CONFIG_NETTLE),n,$(CONFIG_GCRYPT)) += hash-gcrypt.o
-+util-obj-$(if $(CONFIG_NETTLE),n,$(if $(CONFIG_GCRYPT),n,y)) += hash-glib.o
-+util-obj-y += hmac.o
-+util-obj-$(CONFIG_NETTLE) += hmac-nettle.o
-+util-obj-$(CONFIG_GCRYPT_HMAC) += hmac-gcrypt.o
-+util-obj-$(if $(CONFIG_NETTLE),n,$(if $(CONFIG_GCRYPT_HMAC),n,y)) += hmac-glib.o
-+util-obj-y += aes.o
-+util-obj-y += desrfb.o
-+util-obj-y += cipher.o
-+util-obj-$(CONFIG_AF_ALG) += afalg.o
-+util-obj-$(CONFIG_AF_ALG) += cipher-afalg.o
-+util-obj-$(CONFIG_AF_ALG) += hash-afalg.o
-+util-obj-y += tlscreds.o
-+util-obj-y += tlscredsanon.o
-+util-obj-y += tlscredspsk.o
-+util-obj-y += tlscredsx509.o
-+util-obj-y += tlssession.o
-+util-obj-y += secret.o
-+util-obj-$(CONFIG_GCRYPT) += random-gcrypt.o
-+util-obj-$(if $(CONFIG_GCRYPT),n,$(CONFIG_GNUTLS)) += random-gnutls.o
-+util-obj-$(if $(CONFIG_GCRYPT),n,$(if $(CONFIG_GNUTLS),n,y)) += random-platform.o
-+util-obj-y += pbkdf.o
-+util-obj-$(CONFIG_NETTLE) += pbkdf-nettle.o
-+util-obj-$(if $(CONFIG_NETTLE),n,$(CONFIG_GCRYPT)) += pbkdf-gcrypt.o
-+util-obj-y += ivgen.o
-+util-obj-y += ivgen-essiv.o
-+util-obj-y += ivgen-plain.o
-+util-obj-y += ivgen-plain64.o
-+util-obj-y += afsplit.o
-+util-obj-y += xts.o
-+util-obj-y += block.o
-+util-obj-y += block-qcow.o
-+util-obj-y += block-luks.o
-+util-obj-y += aes.o
- stub-obj-y += pbkdf-stub.o
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 60de085ee1..96bf071992 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -496,8 +496,7 @@ test-qapi-obj-y = tests/test-qapi-types.o \
- 	tests/test-qapi-visit-sub-sub-module.o \
- 	tests/test-qapi-introspect.o \
- 	$(test-qom-obj-y)
--benchmark-crypto-obj-y = $(authz-obj-y) $(crypto-obj-y) $(test-qom-obj-y)
--test-crypto-obj-y = $(authz-obj-y) $(crypto-obj-y) $(test-qom-obj-y)
-+test-crypto-obj-y = $(authz-obj-y) $(test-qom-obj-y)
- test-io-obj-y = $(io-obj-y) $(test-crypto-obj-y)
- test-authz-obj-y = $(test-qom-obj-y) $(authz-obj-y)
- test-block-obj-y = $(block-obj-y) $(test-io-obj-y) tests/iothread.o
+-    return 0;
+ #endif
+ }
 -- 
 2.17.1
 
