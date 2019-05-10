@@ -2,68 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B67EC1963B
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 03:39:42 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:35180 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 49EDD1963E
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 03:42:04 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:35231 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOuVh-0001zP-Sd
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 21:39:41 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58854)
+	id 1hOuXz-0004A9-Fb
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 21:42:03 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58886)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOuHt-0006NW-2w
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 21:25:26 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hOuHu-0006P3-Bc
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 21:25:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOuHr-0001Io-Vm
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 21:25:25 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:33020)
+	(envelope-from <richard.henderson@linaro.org>) id 1hOuHt-0001LZ-BA
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 21:25:26 -0400
+Received: from mail-pg1-x52d.google.com ([2607:f8b0:4864:20::52d]:37563)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hOuHr-0001I3-QW
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 21:25:23 -0400
-Received: by mail-pf1-x441.google.com with SMTP id z28so2271820pfk.0
-	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 18:25:23 -0700 (PDT)
+	id 1hOuHt-0001Jn-5i
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 21:25:25 -0400
+Received: by mail-pg1-x52d.google.com with SMTP id e6so2127761pgc.4
+	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 18:25:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=iRt1ekpVqMBTFPlbEkwvccpMEH6z9s1kPn0wCee76Ys=;
-	b=xZKBvI5wkHxN8vjZl6NblWPq5dSgQO4dYbU3Bgo5lChSGqLdi8PvGxQsaPmWTMXKUZ
-	prPiD6tUxsooCy/3NbroKaReKsUjU2y7JhTaph/hTZnBk5B/kt0ISR0iUZ5ZAue0M1Dr
-	UzJMuyWoGIW85R+sqeMwRFV+6tpYmwVzaBBLSuzYtJdqd+TMvxeQVCCDg5rI02Loah1S
-	OtQFJQn1X4liUzI2pp8Zi6UEb2lfk41tWRuSOMA6MN5lizf+F2U0naiPVrRll/cIy9Rt
-	A85xKvcWmrTsztX+lZDaTNeghRqz2kOcinMD+0uYVdfZ/UzOaT/dnwhuaY2INaqW/ItK
-	6hIw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=CbChhlXQdosoI4MWUK/zk2WTRGwUvizy4vwPQDmKAqs=;
+	b=mGlxs+IkXNYa9y7ymy9eoOjb1uY9oIleFJoAdb2sQNqtgw9XGoWKqDvOQQ0KHuyHWP
+	GBqOzvAQZXaQyKYddxNliA2cj/LQ+BWNKktDhMxaziCB7gQ7eQ3VxC7waceUkjIci+vh
+	O6F/UBGLbxI86EhfpCRx7vInAa41BvVpwauHa30wEjgyaWmYCLFSo7utNrSdLnlnv6d6
+	bcY754D/Va8ma506KyuJpKTtNv1e+Ikep8BjK3GEjxEEFggMz6xAGUxoZYkrKskARBD3
+	+ujpaYssXBI0o3IXk/rID2La/D7wGbflEbA0gXG8cvQU8wKXyak0+36rK8oM8lnzXXzZ
+	fmLA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=iRt1ekpVqMBTFPlbEkwvccpMEH6z9s1kPn0wCee76Ys=;
-	b=COe5TcuM12Am6FNniBFTKa5oGAD9+wagS5mtdCjogD4A2IlG0Pbhtx9aOMTlwKKd6S
-	EVss67lUjsgv1agny/1WmOD+4EHtQoULuB1ZioRPhjjhjERJjrVqefEPX8Tw4U2K96r8
-	fjqEVTe0l2LjDPQeHjgSxe4W72R7LTcLdo0FoaoAsN7lHT3CQNJ4nYV+3fOx4led+Fpn
-	fUo7nCSsuoBxeEECzfJ5kmTOALm61oNQuD5Q3jZQhPg5GZhbh/WH43nylnNMhlcqBlcL
-	kaX2CScou10h5mS8dVOGReAMacSG65/b33ug0ZumSvfUMBW7BAE9VBRm2ZiMAZr33oSC
-	w2Ng==
-X-Gm-Message-State: APjAAAW+6w9tEuqos9ZnLHtLhWt32CCxtEUnDmoWPxa5pLlMgT4G7K0m
-	b9ToSk0jZ2EPUYrbujpbT2GTuBdf9KM=
-X-Google-Smtp-Source: APXvYqzzSH5vBOg/Fqdstq2Ekp30Iu0CwF8mdFR7Cer7l8fiiOSZlF4/wY9bLTIAeeVcsS4YAP3XkQ==
-X-Received: by 2002:a62:4281:: with SMTP id h1mr9882033pfd.162.1557451522632; 
-	Thu, 09 May 2019 18:25:22 -0700 (PDT)
+	:references:mime-version:content-transfer-encoding;
+	bh=CbChhlXQdosoI4MWUK/zk2WTRGwUvizy4vwPQDmKAqs=;
+	b=mKSB4FldhNIZW2U5qt/uVrJ1iZnp6g3W2wGede2Opm7/W+fJY8BDA+ow9LTUPyGFIB
+	B9xzaWoTX+02E1qbnN5jykqf+Lpc7FH0kfxI1nwitO9QBk1OyS7EYNrQywtvB9Vm4eot
+	qaMHe1OdXa3aAnOWx3SwAUmYw0OhkUjXrFfkwdYgjmA4uilD41q5hTMkqz/lcMMZTyd1
+	RTnvIlhKxhORXl1HNjs5BCj+XgTdkHXL8/kCCN+txPGhRDiK/fHZwsN7wElvr0EIOVhK
+	5fO3NYR3D36TPqGRcPeljjX8693DZtbc39Py3FINFyZ8p4k3xUW445AR5UHj4QJUWpzQ
+	16wA==
+X-Gm-Message-State: APjAAAU9lGRRz406PS8uJdToOI/ZjhG9icV4uG1RIUnS/fEMsrmAN1zb
+	IdRY4bJmZo8G+gLcZY/sOuinK8WPMTw=
+X-Google-Smtp-Source: APXvYqxX8tzL2SGTwOMM8DwwKDNC/kk9jb7lyZKg2K+nwpn6pwZrkht0teX7OrO+/jNzP6YeG3DmBg==
+X-Received: by 2002:a63:6804:: with SMTP id d4mr9965353pgc.240.1557451523832; 
+	Thu, 09 May 2019 18:25:23 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	n18sm8252700pfi.48.2019.05.09.18.25.21
+	n18sm8252700pfi.48.2019.05.09.18.25.22
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 09 May 2019 18:25:21 -0700 (PDT)
+	Thu, 09 May 2019 18:25:23 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu,  9 May 2019 18:24:52 -0700
-Message-Id: <20190510012458.22706-19-richard.henderson@linaro.org>
+Date: Thu,  9 May 2019 18:24:53 -0700
+Message-Id: <20190510012458.22706-20-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190510012458.22706-1-richard.henderson@linaro.org>
 References: <20190510012458.22706-1-richard.henderson@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::441
-Subject: [Qemu-devel] [PATCH v5 18/24] hw/misc/nrf51_rng: Use
+X-Received-From: 2607:f8b0:4864:20::52d
+Subject: [Qemu-devel] [PATCH v5 19/24] hw/misc/bcm2835_rng: Use
  qemu_guest_getrandom_nofail
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
@@ -76,44 +80,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org
+Cc: qemu-arm@nongnu.org, Andrew Baumann <Andrew.Baumann@microsoft.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 The random number is intended for use by the guest.  As such, we should
 honor the -seed argument for reproducibility.  Use the *_nofail routine
-instead of error_abort directly.
+instead of rolling our own error handling locally.
 
 Cc: qemu-arm@nongnu.org
+Cc: Andrew Baumann <Andrew.Baumann@microsoft.com>
 Reviewed-by: Laurent Vivier <lvivier@redhat.com>
-Reviewed-by: Joel Stanley <joel@jms.id.au>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/misc/nrf51_rng.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/misc/bcm2835_rng.c | 32 ++++++++++++++------------------
+ 1 file changed, 14 insertions(+), 18 deletions(-)
 
-diff --git a/hw/misc/nrf51_rng.c b/hw/misc/nrf51_rng.c
-index d188f044f4..3400e90a9b 100644
---- a/hw/misc/nrf51_rng.c
-+++ b/hw/misc/nrf51_rng.c
-@@ -14,7 +14,7 @@
- #include "qapi/error.h"
- #include "hw/arm/nrf51.h"
- #include "hw/misc/nrf51_rng.h"
+diff --git a/hw/misc/bcm2835_rng.c b/hw/misc/bcm2835_rng.c
+index 4d62143b24..fe59c868f5 100644
+--- a/hw/misc/bcm2835_rng.c
++++ b/hw/misc/bcm2835_rng.c
+@@ -9,30 +9,26 @@
+ 
+ #include "qemu/osdep.h"
+ #include "qemu/log.h"
+-#include "qapi/error.h"
 -#include "crypto/random.h"
 +#include "qemu/guest-random.h"
+ #include "hw/misc/bcm2835_rng.h"
  
- static void update_irq(NRF51RNGState *s)
+ static uint32_t get_random_bytes(void)
  {
-@@ -145,7 +145,7 @@ static void nrf51_rng_timer_expire(void *opaque)
- {
-     NRF51RNGState *s = NRF51_RNG(opaque);
+     uint32_t res;
+-    Error *err = NULL;
  
--    qcrypto_random_bytes(&s->value, 1, &error_abort);
-+    qemu_guest_getrandom_nofail(&s->value, 1);
+-    if (qcrypto_random_bytes((uint8_t *)&res, sizeof(res), &err) < 0) {
+-        /* On failure we don't want to return the guest a non-random
+-         * value in case they're really using it for cryptographic
+-         * purposes, so the best we can do is die here.
+-         * This shouldn't happen unless something's broken.
+-         * In theory we could implement this device's full FIFO
+-         * and interrupt semantics and then just stop filling the
+-         * FIFO. That's a lot of work, though, so we assume any
+-         * errors are systematic problems and trust that if we didn't
+-         * fail as the guest inited then we won't fail later on
+-         * mid-run.
+-         */
+-        error_report_err(err);
+-        exit(1);
+-    }
++    /*
++     * On failure we don't want to return the guest a non-random
++     * value in case they're really using it for cryptographic
++     * purposes, so the best we can do is die here.
++     * This shouldn't happen unless something's broken.
++     * In theory we could implement this device's full FIFO
++     * and interrupt semantics and then just stop filling the
++     * FIFO. That's a lot of work, though, so we assume any
++     * errors are systematic problems and trust that if we didn't
++     * fail as the guest inited then we won't fail later on
++     * mid-run.
++     */
++    qemu_guest_getrandom_nofail(&res, sizeof(res));
+     return res;
+ }
  
-     s->event_valrdy = 1;
-     qemu_set_irq(s->eep_valrdy, 1);
 -- 
 2.17.1
 
