@@ -2,67 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 279271A2F9
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 20:29:11 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48248 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8632E1A331
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 20:57:24 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48534 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hPAGb-0000lV-Uy
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 14:29:09 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41692)
+	id 1hPAhv-0000ro-LM
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 14:57:23 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48113)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hPAFY-0000Th-HA
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 14:28:06 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hPAfS-0007tN-8j
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 14:54:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hPAFW-0000Mo-Ts
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 14:28:04 -0400
-Received: from indium.canonical.com ([91.189.90.7]:47586)
+	(envelope-from <richard.henderson@linaro.org>) id 1hPAfM-0005ga-3L
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 14:54:50 -0400
+Received: from mail-pg1-x52f.google.com ([2607:f8b0:4864:20::52f]:36008)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hPAFW-0000IB-N8
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 14:28:02 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
-	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hPAFT-0004qA-44
-	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 18:27:59 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id AFC422E884B
-	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 18:21:35 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 10 May 2019 18:07:35 -0000
-From: Bug Watch Updater <1718719@bugs.launchpad.net>
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hPAfL-0005bc-Ko
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 14:54:43 -0400
+Received: by mail-pg1-x52f.google.com with SMTP id a3so3433564pgb.3
+	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 11:54:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=sm/vFWJ2/zn2MDsb8Ww+k6vI3sYGZF9sJp17u5ObOjU=;
+	b=gbRUT0heXxbg4nl3/0N/cwwAyp/KcdnDpKDKHVmtoVD24H1SA3RDHZU0o1cT8eYhAd
+	iF/fT3WDyJiYFdHQAF+9NvKUtcosQgDmE+Ch137k5UGXiJ5aVsOOVFSwYegQjOum2B3N
+	Tfpmfv+hesXD295+AAQR66fHaHLPnVTVklSg2zsQyO6lJlHv3bNiXz37Z0JqGsIZRxMw
+	bud7Zt77k3eJGvuyS1DjBw/KKLbZMKKyBI5em3Cy5XUoKloG9K2gaKVOvOBatp/sXfBt
+	rDYp7Z3xRTl2O9Phjiu5/oprpwbIqIh4Pt6UUeNtjveTCtQGlvL2XsM5WQbPVynXqi2V
+	DYIA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=sm/vFWJ2/zn2MDsb8Ww+k6vI3sYGZF9sJp17u5ObOjU=;
+	b=laIsqiMZeUmABkRGI7TpTgBTqRAB5oNMpSWlUmh2IALzISrs+ichfGTXfDqTb0mwWb
+	hzDhVfrKLB18WPDajzHl68ggrCqsvNiYierB9SvxFt5Moh9q+XO51M5NjWs6CPG1WvXf
+	7GfvVytc3uCkP6OH5UDr7e7x0Iep8wsHvZO01qfjlaAJ0Y032H1BG1JS1dmSsY8mlkCH
+	Q4K3CpaaNgwj1APuh/E1UBtpZJTHhCHj+VgHfdOzA2PDp/d+zbMhUudDbPcUT0Nonfpq
+	PlFwn8mE0MIiqBc7pI0sNuegKwJ6CoAjgBwhcHyb8ck798u0hO49qf8tUCwJhNE/XbQi
+	JZCQ==
+X-Gm-Message-State: APjAAAXdYnIyZCbcTYxZy5020cDEnYkoiQJtEiO9OXe/EZa/JoAl/n3u
+	LNiysbdXuJKFShPeOlGk+1MW+ulxt2s=
+X-Google-Smtp-Source: APXvYqwczwjVG5SPgknKO+4Hf4iOOmuH17S/rAEO5j26d/b6TzUK+4hKCHNNytNke27dB2rr+ZzxXA==
+X-Received: by 2002:aa7:8a53:: with SMTP id n19mr16322015pfa.11.1557514481039; 
+	Fri, 10 May 2019 11:54:41 -0700 (PDT)
+Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
+	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
+	q20sm12733146pfi.166.2019.05.10.11.54.38
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 10 May 2019 11:54:39 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug: product=xserver; status=Unknown; importance=Medium;
-	assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
-	status=Confirmed; importance=Undecided; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=xorg-server; component=main;
-	status=Triaged; importance=Undecided; assignee=tjaalton@ubuntu.com; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: cyphermox fourdan gitlab-migration jadahl janitor
-	paelzer powersj seb128 tjaalton
-X-Launchpad-Bug-Reporter: Mathieu Trudel-Lapierre (cyphermox)
-X-Launchpad-Bug-Modifier: Bug Watch Updater (bug-watch-updater)
-References: <150601012428.28823.10384460665730601462.malonedeb@gac.canonical.com>
-Message-Id: <155751165750.11270.13117501324011965425.launchpad@loganberry.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18962";
-	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: f2b852ee82b22171156dc8e1aae7f307a2377b77
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1718719] Re: qemu can't capture keys properly
- under wayland
+Date: Fri, 10 May 2019 11:54:31 -0700
+Message-Id: <20190510185438.29533-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.17.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::52f
+Subject: [Qemu-devel] [PULL v2 00/27] tcg: Add CPUClass::tlb_fill
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -71,234 +77,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1718719 <1718719@bugs.launchpad.net>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Launchpad has imported 9 comments from the remote bug at
-https://bugs.freedesktop.org/show_bug.cgi?id=3D102475.
-
-If you reply to an imported comment from within Launchpad, your comment
-will be sent to the remote bug automatically. Read more about
-Launchpad's inter-bugtracker facilities at
-https://help.launchpad.net/InterBugTracking.
-
-------------------------------------------------------------------------
-On 2017-08-30T11:42:57+00:00 Sebastien Bacher wrote:
-
-The Ubuntu maintainer backported the recent change to add keyboard
-grabbing to xwayland, with that change the keyboard arrow keys stop
-working in kvm
-
-Reply at:
-https://bugs.launchpad.net/ubuntu/+source/qemu/+bug/1718719/comments/0
-
-------------------------------------------------------------------------
-On 2017-08-30T12:40:12+00:00 Olivier Fourdan wrote:
-
-Can you please elaborate of what exactly has been backported and the
-resulting patches?
-
-Which Wayland compositor do you use?
-
-It's worth noting that the xwayland patches in themselves won't make a
-difference *unless* the Wayland compositor implements the corresponding
-protocol, and I am aware of none for now (the patch for mutter is still
-pending).
-
-Reply at:
-https://bugs.launchpad.net/ubuntu/+source/qemu/+bug/1718719/comments/1
-
-------------------------------------------------------------------------
-On 2017-08-30T13:36:16+00:00 Sebastien Bacher wrote:
-
-The Ubuntu diff is
-http://launchpadlibrarian.net/334552966/xorg-server_2%3A1.19.3-1ubuntu3_2%3=
-A1.19.3-1ubuntu4.diff.gz
-
-it looks like the backported commits are
-
-xwayland-pointer-confine.diff
-+d5e2f271ad93e50 xwayland: Remove two unused proc pointers.
-+ca17f3e9fd3b59f xwayland: Lock the pointer if it is confined and has no cu=
-rsor
-+513e3bd3870fdb8 xwayland: Update root window size when desktop size changes
-+fafdb0cc9697eb5 xwayland: "Accept" confineTo on InputOnly windows
-+c217fcb4c4640ff xwayland: Allow pointer warp on root/None window
-
-xwayland-add-grab-protocol-support.diff
-https://cgit.freedesktop.org/xorg/xserver/commit/?id=3D0a448d133
-
-Ubuntu doesn't have any compositor change, it's standard GNOME 3.24 so
-there is must be something wrong and it does make a difference without
-implementing the protocole.
-
-Note that reverting 0a448d133 does fix the issue
-
-Reply at:
-https://bugs.launchpad.net/ubuntu/+source/qemu/+bug/1718719/comments/2
-
-------------------------------------------------------------------------
-On 2017-08-30T14:57:34+00:00 Olivier Fourdan wrote:
-
-Tried reproducing the issue with the arrow keys using the current
-Xwayland from master with mutter/gnome-shell from master, using qemu-kvm
-with SDL backend (-display sdl) but failedto reproduce, all keys
-(including the arrow keys) work fine in the guest.
-
-Reply at:
-https://bugs.launchpad.net/ubuntu/+source/qemu/+bug/1718719/comments/3
-
-------------------------------------------------------------------------
-On 2017-08-31T16:26:13+00:00 Olivier Fourdan wrote:
-
-Created attachment 133910
-Test patch
-
-Can you try the attached patch (this is for testing purpose *only*) and
-report back if that makes any difference?
-
-With this patch, if the compositor has no support for Xwayland keyboard
-grab protocol as you said you haven't in Ubuntu, Xwayland won't set up
-its grab handler at all.
-
-Reply at:
-https://bugs.launchpad.net/ubuntu/+source/qemu/+bug/1718719/comments/4
-
-------------------------------------------------------------------------
-On 2017-08-31T23:04:19+00:00 Sebastien Bacher wrote:
-
-the patch doesn't seem to make a difference
-
-Reply at:
-https://bugs.launchpad.net/ubuntu/+source/qemu/+bug/1718719/comments/5
-
-------------------------------------------------------------------------
-On 2017-09-01T07:15:06+00:00 Olivier Fourdan wrote:
-
-Well, what this patch does is disabling any specific grab handler if the
-Xwayland grab protocol is not available, by postponing the setup of
-those handler until Xwayland can bind to the relevant interface as
-advertised by the compositor.
-
-If the compositor doesn't support the Xwayland grab protocol, then all
-those routines are not "enabled" in Xwayland, I don't see how they could
-break anything if not used...
-
-Unfortunately, we cannot tell whether or not the compositor supports the
-Xwayland grab protocol using something like weston-info because, for
-security reasons, the compositor will (should) only advertiset he given
-protocl to Xwayland alone and hide it to any other client.
-
-So, if that patch makes no difference, it means that:
-
- - The Wayland compositor claim to support Xwayland grab protocol but is
-buggy and doesn't send all key events as expected
-
- - Or the problem is completely unrelated to this patch.
-
-So next step for you is to:
-
- - Check the actual patches applied to mutter in Ubuntu
- - Check what happens at the protocol level
-
-To do so, yo can use the envvar WAYLAND_DEBUG prior to start gnome-shell
-(which will spawn Xwayland) so that we can tell what globals are listed
-in the wl_registry and see if "zwp_xwayland_keyboard_grab_manager_v1" is
-one of them.
-
-e.g., from a console:
-
-  $ WAYLAND_DEBUG=3D1 dbus-run-session -- gnome-shell --display-server
---wayland |& tee ~/wayland-debug.log
-
-The wl_registry globals will be listed at the beginning of the log so
-that should be enough to tell if the compositor claims to be supporting
-"zwp_xwayland_keyboard_grab_manager_v1".
-
-Then, you can start qemu-kvm as usual and try to press the keys that do
-not work, those will be captured in the log as well, so we can tell if
-the compositor sends those key events to the client (Xwayland, in which
-case the problem lies in Xwayland) or not (in which case the problem
-lies in the compositor).
-
-Please attach the "wayland-debug.log" to this bugzilla once you've
-performed those tests (but make sure you don't type any sensitive data
-in any application while the log is being captured as any key event will
-be logged).
-
-Reply at:
-https://bugs.launchpad.net/ubuntu/+source/qemu/+bug/1718719/comments/6
-
-------------------------------------------------------------------------
-On 2017-09-01T16:43:07+00:00 Sebastien Bacher wrote:
-
-the issue isn't there when using your debug command but it begins in
-that session if gsd-media-keys is started... I'm calling it a week now
-but I'm going to poke to it a bit more on monday
-
-Reply at:
-https://bugs.launchpad.net/ubuntu/+source/qemu/+bug/1718719/comments/7
-
-------------------------------------------------------------------------
-On 2019-05-10T15:53:05+00:00 Gitlab-migration wrote:
-
--- GitLab Migration Automatic Message --
-
-This bug has been migrated to freedesktop.org's GitLab instance and has
-been closed from further activity.
-
-You can subscribe and participate further through the new bug through
-this link to our GitLab instance:
-https://gitlab.freedesktop.org/xorg/xserver/issues/706.
-
-Reply at:
-https://bugs.launchpad.net/ubuntu/+source/qemu/+bug/1718719/comments/18
-
-
-** Changed in: xserver
-       Status: Incomplete =3D> Unknown
-
-** Bug watch added: gitlab.freedesktop.org/xorg/xserver/issues #706
-   https://gitlab.freedesktop.org/xorg/xserver/issues/706
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1718719
-
-Title:
-  qemu can't capture keys properly under wayland
-
-Status in QEMU:
-  New
-Status in XServer:
-  Unknown
-Status in qemu package in Ubuntu:
-  Confirmed
-Status in xorg-server package in Ubuntu:
-  Triaged
-
-Bug description:
-  This appears to be different than the previous similar bugs; patches
-  do look to be applied to use libinput in the wayland case. Still:
-
-  unknown keycodes `(unnamed)', please report to qemu-devel@nongnu.org
-
-  I am using qemu-system-x86                       1:2.10+dfsg-0ubuntu1
-  on artful.
-
-  Many key inputs work correctly, but at boot the system will not
-  properly catch the arrow keys, the above error shows up immediately
-  after hitting Esc (for instance) to get to the boot menu. Booting from
-  CD onto a daily Ubuntu desktop image, I can't navigate the splash
-  menu.
-
-  The same works correctly through virt-manager (which uses spice
-  AFAICT, but wayland tends to crash when running virt-manager), and
-  things work if I switch my session to Xorg rather than wayland.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1718719/+subscriptions
+Changes in v2:
+
+  * Fix --disable-tcg compilation for x86 and s390x.
+    I adjusted every target/ that used any CONFIG_TCG in cpu.c.
+    but then afterward I see that only x86 and s390x have had
+    their Makefiles adjusted to make --disable-tcg actually work.
+
+  * Fix Werror for 64-bit on 32-bit.
+
+Only re-posting changed patches.
+
+
+r~
+
+
+The following changes since commit efb4f3b62c69383a7308d7b739a3193e7c0ccae8:
+
+  Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-request' into staging (2019-05-10 14:49:36 +0100)
+
+are available in the Git repository at:
+
+  https://github.com/rth7680/qemu.git tags/pull-tcg-20190510
+
+for you to fetch changes up to 4811e9095c0491bc6f5450e5012c9c4796b9e59d:
+
+  tcg: Use tlb_fill probe from tlb_vaddr_to_host (2019-05-10 11:12:50 -0700)
+
+----------------------------------------------------------------
+Add CPUClass::tlb_fill.
+Improve tlb_vaddr_to_host for use by ARM SVE no-fault loads.
+
+----------------------------------------------------------------
+Richard Henderson (27):
+      tcg: Add CPUClass::tlb_fill
+      target/alpha: Convert to CPUClass::tlb_fill
+      target/arm: Convert to CPUClass::tlb_fill
+      target/cris: Convert to CPUClass::tlb_fill
+      target/hppa: Convert to CPUClass::tlb_fill
+      target/i386: Convert to CPUClass::tlb_fill
+      target/lm32: Convert to CPUClass::tlb_fill
+      target/m68k: Convert to CPUClass::tlb_fill
+      target/microblaze: Convert to CPUClass::tlb_fill
+      target/mips: Pass a valid error to raise_mmu_exception for user-only
+      target/mips: Tidy control flow in mips_cpu_handle_mmu_fault
+      target/mips: Convert to CPUClass::tlb_fill
+      target/moxie: Convert to CPUClass::tlb_fill
+      target/nios2: Convert to CPUClass::tlb_fill
+      target/openrisc: Convert to CPUClass::tlb_fill
+      target/ppc: Convert to CPUClass::tlb_fill
+      target/riscv: Convert to CPUClass::tlb_fill
+      target/s390x: Convert to CPUClass::tlb_fill
+      target/sh4: Convert to CPUClass::tlb_fill
+      target/sparc: Convert to CPUClass::tlb_fill
+      target/tilegx: Convert to CPUClass::tlb_fill
+      target/tricore: Convert to CPUClass::tlb_fill
+      target/unicore32: Convert to CPUClass::tlb_fill
+      target/xtensa: Convert to CPUClass::tlb_fill
+      tcg: Use CPUClass::tlb_fill in cputlb.c
+      tcg: Remove CPUClass::handle_mmu_fault
+      tcg: Use tlb_fill probe from tlb_vaddr_to_host
+
+ include/exec/cpu_ldst.h         |  50 +++--------
+ include/exec/exec-all.h         |   9 --
+ include/qom/cpu.h               |  12 ++-
+ target/alpha/cpu.h              |   5 +-
+ target/arm/internals.h          |  10 ++-
+ target/cris/cpu.h               |   5 +-
+ target/hppa/cpu.h               |   8 +-
+ target/i386/cpu.h               |   5 +-
+ target/lm32/cpu.h               |   5 +-
+ target/m68k/cpu.h               |   5 +-
+ target/microblaze/cpu.h         |   5 +-
+ target/mips/internal.h          |   5 +-
+ target/moxie/cpu.h              |   5 +-
+ target/nios2/cpu.h              |   5 +-
+ target/openrisc/cpu.h           |   5 +-
+ target/ppc/cpu.h                |   7 +-
+ target/riscv/cpu.h              |   5 +-
+ target/s390x/internal.h         |   5 +-
+ target/sh4/cpu.h                |   5 +-
+ target/sparc/cpu.h              |   5 +-
+ target/tricore/cpu.h            |   6 +-
+ target/unicore32/cpu.h          |   5 +-
+ target/xtensa/cpu.h             |   5 +-
+ accel/tcg/cputlb.c              |  88 +++++++++++++++++--
+ accel/tcg/user-exec.c           |  36 ++------
+ target/alpha/cpu.c              |   5 +-
+ target/alpha/helper.c           |  24 +++--
+ target/alpha/mem_helper.c       |  16 ----
+ target/arm/cpu.c                |  22 +----
+ target/arm/helper.c             |  90 +++++++++++--------
+ target/arm/op_helper.c          |  29 +-----
+ target/arm/sve_helper.c         |   6 +-
+ target/cris/cpu.c               |   5 +-
+ target/cris/helper.c            |  61 ++++++-------
+ target/cris/op_helper.c         |  28 ------
+ target/hppa/cpu.c               |   5 +-
+ target/hppa/mem_helper.c        |  16 ++--
+ target/i386/cpu.c               |   5 +-
+ target/i386/excp_helper.c       |  53 ++++++-----
+ target/i386/mem_helper.c        |  21 -----
+ target/lm32/cpu.c               |   5 +-
+ target/lm32/helper.c            |   8 +-
+ target/lm32/op_helper.c         |  16 ----
+ target/m68k/cpu.c               |   2 +-
+ target/m68k/helper.c            |  89 +++++++++----------
+ target/m68k/op_helper.c         |  15 ----
+ target/microblaze/cpu.c         |   5 +-
+ target/microblaze/helper.c      | 101 ++++++++++-----------
+ target/microblaze/op_helper.c   |  19 ----
+ target/mips/cpu.c               |   5 +-
+ target/mips/helper.c            |  81 ++++++++---------
+ target/mips/op_helper.c         |  15 ----
+ target/moxie/cpu.c              |   5 +-
+ target/moxie/helper.c           |  65 +++-----------
+ target/nios2/cpu.c              |   5 +-
+ target/nios2/helper.c           | 170 +++++++++++++++++-------------------
+ target/nios2/mmu.c              |  12 ---
+ target/openrisc/cpu.c           |   5 +-
+ target/openrisc/mmu.c           |  69 +++++++--------
+ target/ppc/mmu_helper.c         |  16 ++--
+ target/ppc/translate_init.inc.c |   5 +-
+ target/ppc/user_only_helper.c   |  14 +--
+ target/riscv/cpu.c              |   5 +-
+ target/riscv/cpu_helper.c       |  50 +++++------
+ target/s390x/cpu.c              |   5 +-
+ target/s390x/excp_helper.c      |  67 +++++++++-----
+ target/s390x/mem_helper.c       |  16 ----
+ target/sh4/cpu.c                |   5 +-
+ target/sh4/helper.c             | 189 +++++++++++++++++++---------------------
+ target/sh4/op_helper.c          |  12 ---
+ target/sparc/cpu.c              |   5 +-
+ target/sparc/ldst_helper.c      |  15 ----
+ target/sparc/mmu_helper.c       |  58 +++++++-----
+ target/tilegx/cpu.c             |  10 ++-
+ target/tricore/cpu.c            |   1 +
+ target/tricore/helper.c         |  23 +++--
+ target/tricore/op_helper.c      |  26 ------
+ target/unicore32/cpu.c          |   5 +-
+ target/unicore32/helper.c       |  23 -----
+ target/unicore32/op_helper.c    |  14 ---
+ target/unicore32/softmmu.c      |  13 ++-
+ target/xtensa/cpu.c             |   5 +-
+ target/xtensa/helper.c          |  33 ++++---
+ 83 files changed, 868 insertions(+), 1131 deletions(-)
 
