@@ -2,51 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F2D71A1FD
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 18:54:01 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46815 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 310721A20D
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 18:58:31 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46949 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hP8mW-0004wG-QL
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 12:54:00 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47349)
+	id 1hP8qs-000295-Ej
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 12:58:30 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48417)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <liq3ea@163.com>) id 1hP8d1-0004c7-KR
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:44:12 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hP8iL-0000my-Cn
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:49:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <liq3ea@163.com>) id 1hP8cz-0002U4-KH
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:44:11 -0400
-Received: from m12-13.163.com ([220.181.12.13]:46185)
-	by eggs.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <liq3ea@163.com>) id 1hP8cw-0002S2-1x
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:44:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id; bh=bD784GuXCTHvAqf9FL
-	z4k1N7zeMg3+JJ22MHAx8bcDQ=; b=gvgXbDqQJ88U/EfOciI8Ua4IWLZPhNd0Ws
-	PiNDCS75OV/F8BM7HN3MKYyOoigE6MKf8r01SYMNcJca9oC24nYTPbybMlGWlzwt
-	qLqMez8wumAWg7X9wsN7arm1rFQ4jyC055wQJwlMHp2c234AN0DyogFa1YXOxbmu
-	93cAp1/oc=
-Received: from localhost.localdomain (unknown [183.159.64.133])
-	by smtp9 (Coremail) with SMTP id DcCowAB3fTFLqtVcVYWnCg--.3399S5;
-	Sat, 11 May 2019 00:44:02 +0800 (CST)
-From: Li Qiang <liq3ea@163.com>
-To: pbonzini@redhat.com,
-	jslaby@suse.cz
-Date: Fri, 10 May 2019 09:43:49 -0700
-Message-Id: <20190510164349.81507-4-liq3ea@163.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190510164349.81507-1-liq3ea@163.com>
-References: <20190510164349.81507-1-liq3ea@163.com>
-X-CM-TRANSID: DcCowAB3fTFLqtVcVYWnCg--.3399S5
-X-Coremail-Antispam: 1Uf129KBjvJXoW7uF45WF15KFWxury7Xr1UKFg_yoW8ZFW5p3
-	45Grn3XF4FgFyfJry5Aw4DXr1rGrn5tF4rK3y8CrsY9ayrXFs7CFyUJ3429rWxW34Ivr13
-	uFZYqF43uF4xZrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
-	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07j4wZ7UUUUU=
-X-Originating-IP: [183.159.64.133]
-X-CM-SenderInfo: 5oltjvrd6rljoofrz/1tbiFBKwbVaD0qDHjwAAs0
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 220.181.12.13
-Subject: [Qemu-devel] [PATCH v4 3/3] edu: uses uint64_t in dma operation
+	(envelope-from <peter.maydell@linaro.org>) id 1hP8iK-0005gc-Fh
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:49:41 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:41031)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hP8iK-0005g8-96
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:49:40 -0400
+Received: by mail-oi1-x242.google.com with SMTP id y10so4990576oia.8
+	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 09:49:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=gCX+seDemu8LJPPgW5WuGOwnjcJKRB79k4K8XCw1BT4=;
+	b=fWXqvhpH0fVitQT36Y+CZG9+X9EFLkxRGjmv5cJnnhAdM9AMkYOaY7h4GBDvd4WWz/
+	9qdIk2WdTQYhUKZ0JdnQYSdoPZk0USGqpCoSf3/g+EfKRbDF3uq3O8jbujtPs/w0MknM
+	+7m01BfmrfrZy8SWbbuiQKQCdG/xES4PByXrtUHB249CdACw1mbJxrMpRHnDGAsW5TN8
+	520oIWL9gKDlVkT3DPUZJ4hAz19gzaoIQgNk3e+SVB3wyXRKozxDkGkxvaYmIFvIcifD
+	6Nw6S9n8NbGW2LnhTd3zIYyRMBVQcZvbQyyK1GFwuQtLMIYaB1Qldxf/achR4TNdwwa0
+	jCYA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=gCX+seDemu8LJPPgW5WuGOwnjcJKRB79k4K8XCw1BT4=;
+	b=SxVgCaf4uuNKo8NwmQ1X3iIZ/s4huFoSgVhSxCM1lM72ckBHynBUDp3wlpYmQEiLqB
+	1y9ZHFIN4R3EjioZeA9zY+14KLNspw29bRLm8bqYnos6GLITeueivOZBCdZE899UlZjP
+	UdNwhieoJcpreWN+eDuYq0gom0FH4m5uaruAum7QkDS9QvU8+LuPbB1C8fTnnvjsFs1X
+	3SGxQXgcaVNCFUdultJXOct9FDPjsK4IaSRcTrWFWd9/Rs7tXWFPAiTuqvQXK920jkS5
+	Nr/SIdk3LPylufzQdPAYlm796Qtrqp64NBiIxiifYzF8t8vRNwLDrCEL77mhix/q7YO7
+	rKDA==
+X-Gm-Message-State: APjAAAUnvak3Ve169Xs3NHbgf2P7Vv81jwkFPMq0OC4KvLzZuUUeWWpx
+	tJlSJ1cvtL6h1FoYfhtetBBtE2M4qMc59DWH6tIptg==
+X-Google-Smtp-Source: APXvYqxxznaOj0KQ57jzIBYNB2SwLVqDywtBH3Er9UIsY3yOkiiyjPZS9CtqdI1mYltMaraMZ9DQZvJE/bhynXTdU/Q=
+X-Received: by 2002:aca:5785:: with SMTP id l127mr5358148oib.48.1557506979339; 
+	Fri, 10 May 2019 09:49:39 -0700 (PDT)
+MIME-Version: 1.0
+References: <20190510163536.4242-1-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20190510163536.4242-1-mark.cave-ayland@ilande.co.uk>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 10 May 2019 17:49:28 +0100
+Message-ID: <CAFEAcA8tHGciDGyDwCZ02S5km8XNf32PfgSbtbRzqLxcT9JWhA@mail.gmail.com>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::242
+Subject: Re: [Qemu-devel] [PATCH] configure: copy MacOS NDRV driver into
+ sharedir for out-of-tree builds
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,76 +72,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: liq3ea@gmail.com, philmd@redhat.com, qemu-devel@nongnu.org,
-	Li Qiang <liq3ea@163.com>
+Cc: Howard Spoelstra <hsp.cat7@gmail.com>, qemu-ppc <qemu-ppc@nongnu.org>,
+	QEMU Developers <qemu-devel@nongnu.org>,
+	David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The dma related variable dma.dst/src/cnt is dma_addr_t, it is
-uint64_t in x64 platform. Change these usage from uint32_to
-uint64_t to avoid trancation in edu_dma_timer.
+On Fri, 10 May 2019 at 17:37, Mark Cave-Ayland
+<mark.cave-ayland@ilande.co.uk> wrote:
+>
+> Make sure that we include *.ndrv files with those being copied to sharedir
+> during out-of-tree builds. This ensures that the MacOS driver is correctly
+> located and loaded by qemu-system-ppc.
+>
+> Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> ---
+>  configure | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/configure b/configure
+> index 63f312bd1f..9493537301 100755
+> --- a/configure
+> +++ b/configure
+> @@ -7886,6 +7886,7 @@ for bios_file in \
+>      $source_path/pc-bios/*.dtb \
+>      $source_path/pc-bios/*.img \
+>      $source_path/pc-bios/openbios-* \
+> +    $source_path/pc-bios/*.ndrv \
+>      $source_path/pc-bios/u-boot.* \
+>      $source_path/pc-bios/edk2-*.fd.bz2 \
+>      $source_path/pc-bios/palcode-*
 
-Signed-off-by: Li Qiang <liq3ea@163.com>
----
-Change since v3:
-Change 'size2' para of 'edu_check_range' to 64-bits.
+The comment above this bit of code says:
 
- hw/misc/edu.c | 17 +++++++++--------
- 1 file changed, 9 insertions(+), 8 deletions(-)
+# Caution: do not add files or directories here using wildcards. This
+# will result in problems later if a new file matching the wildcard is
+# added to the source tree -- nothing will cause configure to be rerun
+# so the build tree will be missing the link back to the new file, and
+# tests might fail.
 
-diff --git a/hw/misc/edu.c b/hw/misc/edu.c
-index 33de05141f..19e5545e2c 100644
---- a/hw/misc/edu.c
-+++ b/hw/misc/edu.c
-@@ -98,23 +98,24 @@ static void edu_lower_irq(EduState *edu, uint32_t val)
-     }
- }
- 
--static bool within(uint32_t addr, uint32_t start, uint32_t end)
-+static bool within(uint64_t addr, uint64_t start, uint64_t end)
- {
-     return start <= addr && addr < end;
- }
- 
--static void edu_check_range(uint32_t addr, uint32_t size1, uint32_t start,
--                uint32_t size2)
-+static void edu_check_range(uint64_t addr, uint64_t size1, uint64_t start,
-+                uint64_t size2)
- {
--    uint32_t end1 = addr + size1;
--    uint32_t end2 = start + size2;
-+    uint64_t end1 = addr + size1;
-+    uint64_t end2 = start + size2;
- 
-     if (within(addr, start, end2) &&
-             end1 > addr && within(end1, start, end2)) {
-         return;
-     }
- 
--    hw_error("EDU: DMA range 0x%.8x-0x%.8x out of bounds (0x%.8x-0x%.8x)!",
-+    hw_error("EDU: DMA range 0x%016"PRIx64"-0x%016"PRIx64
-+             " out of bounds (0x%016"PRIx64"-0x%016"PRIx64")!",
-             addr, end1 - 1, start, end2 - 1);
- }
- 
-@@ -139,13 +140,13 @@ static void edu_dma_timer(void *opaque)
-     }
- 
-     if (EDU_DMA_DIR(edu->dma.cmd) == EDU_DMA_FROM_PCI) {
--        uint32_t dst = edu->dma.dst;
-+        uint64_t dst = edu->dma.dst;
-         edu_check_range(dst, edu->dma.cnt, DMA_START, DMA_SIZE);
-         dst -= DMA_START;
-         pci_dma_read(&edu->pdev, edu_clamp_addr(edu, edu->dma.src),
-                 edu->dma_buf + dst, edu->dma.cnt);
-     } else {
--        uint32_t src = edu->dma.src;
-+        uint64_t src = edu->dma.src;
-         edu_check_range(src, edu->dma.cnt, DMA_START, DMA_SIZE);
-         src -= DMA_START;
-         pci_dma_write(&edu->pdev, edu_clamp_addr(edu, edu->dma.dst),
--- 
-2.17.1
+The pc-bios/ directory is awkward legacy which we
+can't really apply the next part of the comment to
+("Prefer to keep the relevant files in their own
+directory and symlink the directory instead"), but since
+there is only one *.ndrv file we can at least avoid the
+wildcard by writing "qemu_vga.ndrv" instead of "*.ndrv".
 
-
+thanks
+-- PMM
 
