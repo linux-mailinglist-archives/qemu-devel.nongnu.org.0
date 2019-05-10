@@ -2,45 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BAB631A348
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 21:04:02 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48630 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5523C1A350
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 21:07:06 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48694 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hPAoL-0007O9-5a
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 15:04:01 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51107)
+	id 1hPArJ-0001V2-Fo
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 15:07:05 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52671)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hPAh2-0000nv-3N
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 14:56:29 -0400
+	(envelope-from <dgilbert@redhat.com>) id 1hPAmH-0006dM-1M
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 15:01:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hPAh0-0000VU-4R
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 14:56:28 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:32806)
+	(envelope-from <dgilbert@redhat.com>) id 1hPAmE-00055u-Vp
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 15:01:52 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41382)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hPAgz-0000Rq-V2
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 14:56:26 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
-	[10.5.11.14])
+	(Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hPAmD-000524-0R
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 15:01:49 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+	[10.5.11.11])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 19ACA307DAC8
-	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 18:56:22 +0000 (UTC)
-Received: from localhost (ovpn-116-40.gru2.redhat.com [10.97.116.40])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 9B7615ED46;
-	Fri, 10 May 2019 18:56:21 +0000 (UTC)
-From: Eduardo Habkost <ehabkost@redhat.com>
+	by mx1.redhat.com (Postfix) with ESMTPS id 6F3E3307EAA2
+	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 19:01:43 +0000 (UTC)
+Received: from dgilbert-t580.localhost (ovpn-117-163.ams2.redhat.com
+	[10.36.117.163])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id E267D60126
+	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 19:01:42 +0000 (UTC)
+From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 10 May 2019 15:56:20 -0300
-Message-Id: <20190510185620.15757-1-ehabkost@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Date: Fri, 10 May 2019 20:01:40 +0100
+Message-Id: <20190510190140.17589-1-dgilbert@redhat.com>
+MIME-Version: 1.0
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.42]);
-	Fri, 10 May 2019 18:56:22 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.44]);
+	Fri, 10 May 2019 19:01:43 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH] monitor: Call mon_get_cpu() only once at
- hmp_gva2gpa()
+Subject: [Qemu-devel] [PATCH] monitor: Fix gva2gpa coverityism
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -52,36 +54,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "Dr. David Alan Gilbert" <dgilbert@redhat.com>,
-	Stefan Hajnoczi <stefanha@redhat.com>,
-	Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-hmp_gva2gpa() calls mon_get_cpu() twice, which is unnecessary.
-Not an actual bug, but this is reported as a defect by Coverity
-Scan (CID 1401346).
+From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
 
-Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+Coverity is complaining that while I'm checking the return
+value of mon_get_cpu(), I'm not actually using the checked value,
+I'm calling it again and thus it's worried I might get null;
+I don't think that's actually possible since i'm under
+lock anyway.
+However, it's a sensible cleanup.
+
+CID: 1401346
+
+Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- monitor.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ monitor.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/monitor.c b/monitor.c
-index bb48997913..6428eb3b7e 100644
+index bb48997913..f93c4b5c76 100644
 --- a/monitor.c
 +++ b/monitor.c
-@@ -1685,8 +1685,7 @@ static void hmp_gva2gpa(Monitor *mon, const QDict *qdict)
+@@ -1685,7 +1685,7 @@ static void hmp_gva2gpa(Monitor *mon, const QDict *=
+qdict)
          return;
      }
- 
--    gpa  = cpu_get_phys_page_attrs_debug(mon_get_cpu(),
--                                         addr & TARGET_PAGE_MASK, &attrs);
-+    gpa  = cpu_get_phys_page_attrs_debug(cs, addr & TARGET_PAGE_MASK, &attrs);
-     if (gpa == -1) {
+=20
+-    gpa  =3D cpu_get_phys_page_attrs_debug(mon_get_cpu(),
++    gpa  =3D cpu_get_phys_page_attrs_debug(cs,
+                                          addr & TARGET_PAGE_MASK, &attrs=
+);
+     if (gpa =3D=3D -1) {
          monitor_printf(mon, "Unmapped\n");
-     } else {
--- 
-2.18.0.rc1.1.g3f1ff2140
+--=20
+2.21.0
 
 
