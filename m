@@ -2,93 +2,100 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5DD46198EE
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 09:22:19 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38241 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91AE51993A
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 09:53:55 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38512 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOzrG-0001on-E8
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 03:22:18 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49255)
+	id 1hP0Lq-0003hR-5D
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 03:53:54 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54173)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <aravinda@linux.vnet.ibm.com>) id 1hOzmB-0006ZS-Iw
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 03:17:04 -0400
+	(envelope-from <thuth@redhat.com>) id 1hP0Kl-0003JP-BM
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 03:52:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <aravinda@linux.vnet.ibm.com>) id 1hOzm9-0002GA-H2
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 03:17:03 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:36936)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <aravinda@linux.vnet.ibm.com>)
-	id 1hOzm8-0002EH-It
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 03:17:00 -0400
-Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
-	x4A7DH0n031387
-	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 03:16:58 -0400
-Received: from e13.ny.us.ibm.com (e13.ny.us.ibm.com [129.33.205.203])
-	by mx0a-001b2d01.pphosted.com with ESMTP id 2sd41c9gsw-1
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 03:16:58 -0400
-Received: from localhost
-	by e13.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
-	Violators will be prosecuted
-	for <qemu-devel@nongnu.org> from <aravinda@linux.vnet.ibm.com>;
-	Fri, 10 May 2019 08:16:56 +0100
-Received: from b01cxnp23032.gho.pok.ibm.com (9.57.198.27)
-	by e13.ny.us.ibm.com (146.89.104.200) with IBM ESMTP SMTP Gateway:
-	Authorized Use Only! Violators will be prosecuted; 
-	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-	Fri, 10 May 2019 08:16:53 +0100
-Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
-	[9.57.199.109])
-	by b01cxnp23032.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
-	x4A7Gqgc33357942
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK); Fri, 10 May 2019 07:16:52 GMT
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8F722112061;
-	Fri, 10 May 2019 07:16:52 +0000 (GMT)
-Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 68179112062;
-	Fri, 10 May 2019 07:16:50 +0000 (GMT)
-Received: from [9.199.33.229] (unknown [9.199.33.229])
-	by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
-	Fri, 10 May 2019 07:16:50 +0000 (GMT)
-To: David Gibson <david@gibson.dropbear.id.au>
-References: <155591636364.20338.844048953355207313.stgit@aravinda>
-	<155591662496.20338.3862565585716109724.stgit@aravinda>
-	<20190510065144.GM20559@umbus.fritz.box>
-From: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
-Date: Fri, 10 May 2019 12:46:48 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
+	(envelope-from <thuth@redhat.com>) id 1hP0Kk-0005g1-DO
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 03:52:47 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44362)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <thuth@redhat.com>)
+	id 1hP0Kg-0005am-2z; Fri, 10 May 2019 03:52:42 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+	[10.5.11.11])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 699E13082AED;
+	Fri, 10 May 2019 07:52:40 +0000 (UTC)
+Received: from thuth.remote.csb (ovpn-116-72.ams2.redhat.com [10.36.116.72])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 633CF600C7;
+	Fri, 10 May 2019 07:52:33 +0000 (UTC)
+To: Peter Maydell <peter.maydell@linaro.org>,
+	Paolo Bonzini <pbonzini@redhat.com>
+References: <20190507134521.31044-1-thuth@redhat.com>
+	<CAFEAcA-j+wQXjPW+puxk=foi2T8O=MzXHtxdWJ6E5P7o89WQSg@mail.gmail.com>
+	<c0cda8fc-cc68-eadd-0750-cc9eeca094a4@redhat.com>
+	<CAFEAcA8RoJ-ZSsn3Lhzj5hd3oYOE7Uxy8MvUUWrzhNfBmD=AWQ@mail.gmail.com>
+From: Thomas Huth <thuth@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=thuth@redhat.com; keydata=
+	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
+Organization: Red Hat
+Message-ID: <a5711506-3f6a-bc5e-f991-9d730d2f7dee@redhat.com>
+Date: Fri, 10 May 2019 09:52:32 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190510065144.GM20559@umbus.fritz.box>
-Content-Type: text/plain; charset=windows-1252
+In-Reply-To: <CAFEAcA8RoJ-ZSsn3Lhzj5hd3oYOE7Uxy8MvUUWrzhNfBmD=AWQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 19051007-0064-0000-0000-000003DC9C7C
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00011081; HX=3.00000242; KW=3.00000007;
-	PH=3.00000004; SC=3.00000285; SDB=6.01201187; UDB=6.00630319;
-	IPR=6.00982083; 
-	MB=3.00026825; MTD=3.00000008; XFM=3.00000015; UTC=2019-05-10 07:16:54
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19051007-0065-0000-0000-00003D6A2504
-Message-Id: <7f54cc6e-7d81-1d08-ea62-0ad8ea95b93d@linux.vnet.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
-	definitions=2019-05-09_02:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
-	priorityscore=1501
-	malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
-	clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
-	mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
-	scancount=1 engine=8.0.1-1810050000 definitions=main-1905100050
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.156.1
-Subject: Re: [Qemu-devel] [PATCH v8 6/6] migration: Block migration while
- handling machine check
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.45]);
+	Fri, 10 May 2019 07:52:40 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PULL v2 00/28] Kconfig for Arm machines
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -100,126 +107,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: paulus@ozlabs.org, qemu-ppc@nongnu.org, aik@au1.ibm.com,
-	qemu-devel@nongnu.org
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+	qemu-arm <qemu-arm@nongnu.org>, John Snow <jsnow@redhat.com>,
+	QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On Friday 10 May 2019 12:21 PM, David Gibson wrote:
-> On Mon, Apr 22, 2019 at 12:33:45PM +0530, Aravinda Prasad wrote:
->> Block VM migration requests until the machine check
->> error handling is complete as (i) these errors are
->> specific to the source hardware and is irrelevant on
->> the target hardware, (ii) these errors cause data
->> corruption and should be handled before migration.
+On 09/05/2019 18.54, Peter Maydell wrote:
+> On Wed, 8 May 2019 at 16:33, Thomas Huth <thuth@redhat.com> wrote:
 >>
->> Signed-off-by: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
->> ---
->>  hw/ppc/spapr_events.c  |   17 +++++++++++++++++
->>  hw/ppc/spapr_rtas.c    |    4 ++++
->>  include/hw/ppc/spapr.h |    3 +++
->>  3 files changed, 24 insertions(+)
+>> On 08/05/2019 17.09, Peter Maydell wrote:
+>>> On Tue, 7 May 2019 at 14:45, Thomas Huth <thuth@redhat.com> wrote:
+>>>> ----------------------------------------------------------------
+>>>> Kconfig settings for the Arm machines
+>>>> (v2: Fix the dependency of q35 to AHCI_ICH9 in the second patch)
+>>>> ----------------------------------------------------------------
+>>>
+>>> Hi -- this is still failing in the build test where I 'make clean'
 >>
->> diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
->> index 4032db0..45b990c 100644
->> --- a/hw/ppc/spapr_events.c
->> +++ b/hw/ppc/spapr_events.c
->> @@ -41,6 +41,7 @@
->>  #include "qemu/bcd.h"
->>  #include "hw/ppc/spapr_ovec.h"
->>  #include <libfdt.h>
->> +#include "migration/blocker.h"
->>  
->>  #define RTAS_LOG_VERSION_MASK                   0xff000000
->>  #define   RTAS_LOG_VERSION_6                    0x06000000
->> @@ -864,6 +865,22 @@ static void spapr_mce_dispatch_elog(PowerPCCPU *cpu, bool recovered)
->>  void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered)
->>  {
->>      SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
->> +    int ret;
->> +    Error *local_err = NULL;
->> +
->> +    error_setg(&spapr->migration_blocker,
->> +            "Live migration not supported during machine check handling");
->> +    ret = migrate_add_blocker(spapr->migration_blocker, &local_err);
->> +    if (ret < 0) {
->> +        /*
->> +         * We don't want to abort and let the migration to continue. In a
->> +         * rare case, the machine check handler will run on the target
->> +         * hardware. Though this is not preferable, it is better than aborting
->> +         * the migration or killing the VM.
->> +         */
->> +        error_free(spapr->migration_blocker);
->> +        fprintf(stderr, "Warning: Machine check during VM migration\n");
-> 
-> Use report_err() instead of a raw fprintf().
+>> Very weird. What is running before the "make clean"? Could you provide
+>> me with the content of i386-softmmu/config-devices.mak please?
+>=20
+> Nothing runs before make clean -- my scripts effectively just do
+> a git merge, then make clean, then make, then make check.
 
-sure..
+I tried to reproduce it for a while, but for me, switching between
+master and the kconfig-for-arm tree always triggers a "configure" run
+and thus the dependencies get regenerated right...
 
-> 
->> +    }
->>  
->>      while (spapr->mc_status != -1) {
->>          /*
->> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
->> index 997cf19..1229a0e 100644
->> --- a/hw/ppc/spapr_rtas.c
->> +++ b/hw/ppc/spapr_rtas.c
->> @@ -50,6 +50,7 @@
->>  #include "target/ppc/mmu-hash64.h"
->>  #include "target/ppc/mmu-book3s-v3.h"
->>  #include "kvm_ppc.h"
->> +#include "migration/blocker.h"
->>  
->>  static void rtas_display_character(PowerPCCPU *cpu, SpaprMachineState *spapr,
->>                                     uint32_t token, uint32_t nargs,
->> @@ -396,6 +397,9 @@ static void rtas_ibm_nmi_interlock(PowerPCCPU *cpu,
->>          spapr->mc_status = -1;
->>          qemu_cond_signal(&spapr->mc_delivery_cond);
->>          rtas_st(rets, 0, RTAS_OUT_SUCCESS);
->> +        migrate_del_blocker(spapr->migration_blocker);
->> +        error_free(spapr->migration_blocker);
->> +        spapr->migration_blocker = NULL;
->>      }
->>  }
->>  
->> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
->> index 9d16ad1..dda5fd2 100644
->> --- a/include/hw/ppc/spapr.h
->> +++ b/include/hw/ppc/spapr.h
->> @@ -10,6 +10,7 @@
->>  #include "hw/ppc/spapr_irq.h"
->>  #include "hw/ppc/spapr_xive.h"  /* For SpaprXive */
->>  #include "hw/ppc/xics.h"        /* For ICSState */
->> +#include "qapi/error.h"
->>  
->>  struct SpaprVioBus;
->>  struct SpaprPhbState;
->> @@ -213,6 +214,8 @@ struct SpaprMachineState {
->>      SpaprCapabilities def, eff, mig;
->>  
->>      unsigned gpu_numa_id;
->> +
->> +    Error *migration_blocker;
-> 
-> This name doesn't seem good - it's specific to fwnmi, not any other
-> migration blockers we might have in future.  It also always contains
-> the same string - could you just initialize that in a global and just
-> do the migrate_add_blocker() / migrate_del_blocker() instead?
+> I notice that "make clean" does not delete config-devices.mak,
+> and "make" doesn't cause anything to update it, either.
 
-sure..
+They are only removed during "distclean", but not for "clean" (which is
+what we want, IMHO).
 
-> 
->>  };
->>  
->>  #define H_SUCCESS         0
->>
-> 
+> Further, if I "touch hw/i386/Kconfig" and then run make, nothing
+> is rebuilt at all, so something seems to be wrong with our
+> makefile dependencies somewhere.
 
--- 
-Regards,
-Aravinda
+Now that's a good hint. There is definitely something wrong with the
+dependencies here. I can see that I've got a file called
+"x86_64-softmmu-config.devices.mak.d" in my build directory, but
+apparently the Makefile tries to include
+x86_64-softmmu/config-devices.mak.d via the SUBDIR_DEVICES_MAK_DEP
+variable instead. Since that file does not exist, the dependencies are
+completely ignored... Paolo, what was the intention here? Should the
+dependencies always be generated in the *softmmu folders instead?
 
+ Thomas
 
