@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B547719C01
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 12:54:59 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:41037 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F92019C10
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 12:58:54 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:41100 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hP3B4-0005oa-SR
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 06:54:58 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59560)
+	id 1hP3Er-0001KY-F4
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 06:58:53 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59588)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hP32F-0007CF-3c
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 06:45:52 -0400
+	(envelope-from <laurent@vivier.eu>) id 1hP32J-0007Hf-Ba
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 06:45:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hP32E-0003Xj-51
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 06:45:51 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:48533)
+	(envelope-from <laurent@vivier.eu>) id 1hP32I-0003aN-EE
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 06:45:55 -0400
+Received: from mout.kundenserver.de ([212.227.126.187]:50657)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hP32D-0003Wz-T4
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 06:45:50 -0400
+	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hP32I-0003Zg-5q
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 06:45:54 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
 	mrelayeu.kundenserver.de (mreue012 [212.227.15.167]) with ESMTPSA
 	(Nemesis)
-	id 1MxYT3-1gVq0t3NyD-00xtYQ; Fri, 10 May 2019 12:45:43 +0200
+	id 1M1rGy-1hRFxX1zo0-002CQV; Fri, 10 May 2019 12:45:43 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Fri, 10 May 2019 12:45:31 +0200
-Message-Id: <20190510104536.17483-3-laurent@vivier.eu>
+Date: Fri, 10 May 2019 12:45:32 +0200
+Message-Id: <20190510104536.17483-4-laurent@vivier.eu>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190510104536.17483-1-laurent@vivier.eu>
 References: <20190510104536.17483-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:B18h2bbB+DvXy/LsGfaQGDwqnqdRjV9ivPqai/M0fqd84uX/P47
-	jwYv/rOJRgznf2CrQR/vv5QmaMFSm6U8YhB3u0ms7w6p6WyUvspTWCNUzylrBnOWewi82rw
-	tKGIvSwr1+SRAROvHF1kB0Un78QHb1q+/VdO8e8/Zb6aDrqyP9Qczhp0wK71EQ4lAoPecXH
-	iBd8J0GYzVbrsyaNNMD6Q==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:IfQqvT2QTQk=:dxB6v6qyZjcCCBdsBN6crE
-	RsQkbGYXKbITCpSXR6oZhAZ0lHW5twErXvSyV6vPQN9eqpuVM4vBN3XnsjOpTvedYL8cMByOK
-	sGpAYLlt6KLtKDbI1YVySJTPm2Ru7vLSiNj8yUZYOVSOsp0WqwptTMPIhURsics4b/Hw5kWQ7
-	N92m4nUs5xiPKrvyMqjh8Qusa654rLLEAWBcCLmp25hq3PZMrGFWY4FtZ4Ae+7gbIiA67XNrm
-	zh2OQBvtb72DApweYlki5kpLbJxh2/17ySn1beHJjlT0BcP/aPQvVzttxH6x3h+zuGZ1KJDmI
-	kJHKR2sSLtnrVjFlwaA8bRaBZcBnkp9GKVlmETndhRjgt6b+i+ZO40v+GiWC916Li1/YhS5eh
-	XhBu2uVh9Z/0M7pkcHb1fTwG6yY84PV5U01a+abEjNrR97nC/ZI9QBeqFRCDTwsisszifcASo
-	qRT0fRmO61t5kNPr4c/yhIYnLzRZo2KM/g2NXgx2nq7h9r8TZiazZ7Qli2ejKGPXbBvYqea5S
-	DVzlAQhU7sQe0wmMcXhmmlOpWvuDR+B4scgQdy40MbFnjTTslGBzHAVo2WfkOvZACWuzxkfvm
-	sbU0PGgvdnSN2ONHcA+3/aT/xraMWLVIf7NwdU0G17D4R7s66iXnrdkW/2FIunCgEq/HdbqQu
-	4IUFTnV+V1pOhOAspMwGcNVkWHsRGYXk5jGEDbzSPcPbmu9nX5ohqlapDw2r/eS9s3/GV35jQ
-	pcybh9ZS9wbnGziBFmw5HEpTMtepQl3RQevUqjbfKOShRF5b2+Lgqt/ThuU=
+X-Provags-ID: V03:K1:zwCQFbEF2oiMW0z/Mnw23Pi0cFeUSvW5cM2E7CsUIGrKz7gFYEh
+	jnJxELBGEr6sT1q/AWgWP/+/XHRs/eHkz/XfdCC4M6a37/BKEAqf7IbtqsVGOk7m6AFpkoW
+	Fvgtj1QuJSbjlm3WrlfctRbPXkG5naS4sOxcUlRcbs6lom0YBQnk8GawoVoNuuB5jQa1KSF
+	4BHz0ekebS0Pz3SIqoJ3A==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:UtHemGKOe4Y=:ILJzR47XEXM8h1R1Tp79MI
+	ccdW5T3Hh6oFWR0aKyY67Big8cOhzmidY4sU+e18sStxzzYTBJ41gfNSm8FlYU1Az1K2cllVY
+	DSL99F2VQUFznRTFEoZja3DwSlrAhn/aWTdg7kFJF6wJovBvQUWzKdCuliCrTSFdadCdrZSGu
+	SW7oB9QlemKO7n0jEpGpbAQ5Mm5e+aPUYsHBNH1dMRoc7U89OBMydeZOP79cdpI4emFhHvmwP
+	AoFTO/5fmYzPwURG/eLcSbjmLBhpgWhyx3NG4BSLJu1ed+koXAJY1uohadwSbnzoXUGVEIpPy
+	V3b7OMD2blXf9Ob10Gfds+3cGdO/zXQSjFiOSsbvC1f74Tj9cEAKR1fvFW/HFgZH8hr8u8Yz8
+	GJ0hzU5u4cOeHuwHI6o3pCfOFUasv5jDRvYW66+XGOtGkrtJVkjUw69fjYHcSMJWITHTy0CuI
+	R9COzPCAeJWPh+pCGRgwDDGAsGpI/AyUKphUC0vX0RcJ3/NKIs3Wlm8FySQC6vuI47t70Oacd
+	c6R/IOWp1168qLCBvsljPL92TWBz/ReiHwUj0R93bnnkk2ob3xs5CLLthUXa1K4YhGqfc476N
+	WpAxXxdOtwkSqoNCJd6A7HukqiXardoYVeaBUWIqZd/pC8O4ua54O0A8XAnuDH7dIxCfRHTmn
+	t+8SUReSNheClC6+TvAI8MeiDqG3vg3U7FV5JRbosByCcCdEUyhGXPXpJS51/iRUiQ3+oO13g
+	nGQrufji/X2w42BkNxbdoSUdZvLbdRToyCwi3rqfxTqtHLcgp774yc5cfyk=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.134
-Subject: [Qemu-devel] [PULL v2 2/7] linux-user/elfload: Fix GCC 9 build
- warnings
+X-Received-From: 212.227.126.187
+Subject: [Qemu-devel] [PULL v2 3/7] linux-user: avoid string truncation
+ warnings in uname field copying
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -65,46 +65,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Richard Henderson <richard.henderson@linaro.org>,
+Cc: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 	Riku Voipio <riku.voipio@iki.fi>,
-	Alistair Francis <alistair.francis@wdc.com>,
+	=?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 	Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Alistair Francis <Alistair.Francis@wdc.com>
+From: Daniel P. Berrangé <berrange@redhat.com>
 
-Fix this warning when building with GCC9 on Fedora 30:
+In file included from /usr/include/string.h:494,
+                 from include/qemu/osdep.h:101,
+                 from linux-user/uname.c:20:
 In function ‘strncpy’,
-    inlined from ‘fill_psinfo’ at /home/alistair/qemu/linux-user/elfload.c:3208:12,
-    inlined from ‘fill_note_info’ at /home/alistair/qemu/linux-user/elfload.c:3390:5,
-    inlined from ‘elf_core_dump’ at /home/alistair/qemu/linux-user/elfload.c:3539:9:
-/usr/include/bits/string_fortified.h:106:10: error: ‘__builtin_strncpy’ specified bound 16 equals destination size [-Werror=stringop-truncation]
+    inlined from ‘sys_uname’ at linux-user/uname.c:94:3:
+/usr/include/bits/string_fortified.h:106:10: warning: ‘__builtin_strncpy’ output may be truncated copying 64 bytes from a string of length 64 [-Wstringop-truncation]
   106 |   return __builtin___strncpy_chk (__dest, __src, __len, __bos (__dest));
       |          ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Signed-off-by: Alistair Francis <alistair.francis@wdc.com>
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
-Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-Message-Id: <c4d2b1de9efadcf1c900b91361af9302823a72a9.1556666645.git.alistair.francis@wdc.com>
+We don't care where the NUL terminator in the original uname
+field was. It suffices to copy the entire original field and
+simply force a NUL terminator at the end of the new field.
+
+Signed-off-by: Daniel P. Berrangé <berrange@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20190501144646.4851-1-berrange@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/elfload.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ linux-user/uname.c | 5 ++---
+ 1 file changed, 2 insertions(+), 3 deletions(-)
 
-diff --git a/linux-user/elfload.c b/linux-user/elfload.c
-index c1a26021f8d7..d08fe2346683 100644
---- a/linux-user/elfload.c
-+++ b/linux-user/elfload.c
-@@ -2872,7 +2872,7 @@ struct target_elf_prpsinfo {
-     target_gid_t pr_gid;
-     target_pid_t pr_pid, pr_ppid, pr_pgrp, pr_sid;
-     /* Lots missing */
--    char    pr_fname[16];           /* filename of executable */
-+    char    pr_fname[16] QEMU_NONSTRING; /* filename of executable */
-     char    pr_psargs[ELF_PRARGSZ]; /* initial part of arg list */
- };
+diff --git a/linux-user/uname.c b/linux-user/uname.c
+index 313b79dbad47..1c05f95387f4 100644
+--- a/linux-user/uname.c
++++ b/linux-user/uname.c
+@@ -72,9 +72,8 @@ const char *cpu_to_uname_machine(void *cpu_env)
  
+ #define COPY_UTSNAME_FIELD(dest, src) \
+   do { \
+-      /* __NEW_UTS_LEN doesn't include terminating null */ \
+-      (void) strncpy((dest), (src), __NEW_UTS_LEN); \
+-      (dest)[__NEW_UTS_LEN] = '\0'; \
++      memcpy((dest), (src), MIN(sizeof(src), sizeof(dest))); \
++      (dest)[sizeof(dest) - 1] = '\0'; \
+   } while (0)
+ 
+ int sys_uname(struct new_utsname *buf)
 -- 
 2.20.1
 
