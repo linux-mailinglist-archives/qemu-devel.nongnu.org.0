@@ -2,48 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD8041A19F
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 18:37:23 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46462 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD6601A1F5
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 18:52:24 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46796 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hP8WQ-0006XK-TN
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 12:37:22 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42138)
+	id 1hP8kx-0002TA-WF
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 12:52:24 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45193)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <berto@igalia.com>) id 1hP8JA-0003TE-Jd
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:23:41 -0400
+	(envelope-from <bounces@canonical.com>) id 1hP8Ug-00068N-IN
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:35:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <berto@igalia.com>) id 1hP8J9-0007J5-GI
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:23:40 -0400
-Received: from fanzine.igalia.com ([91.117.99.155]:46149)
+	(envelope-from <bounces@canonical.com>) id 1hP8Uf-0006y6-H3
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:35:34 -0400
+Received: from indium.canonical.com ([91.189.90.7]:57962)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <berto@igalia.com>)
-	id 1hP8J8-0006yM-Tq; Fri, 10 May 2019 12:23:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Message-Id:Date:Subject:Cc:To:From;
-	bh=91sFCodM9pLXbNdaRNQnNcfrAYNV5Ra/NXos9gA7MJE=; 
-	b=q0C7xZDt2tMX7nyt/CAEGL50fysltZxnDz7DLJkNailv4sxtr8AxleZpNDMISS7qf3uNsH6DNEoUWgypbP7F+7kzTBvJNX+IbQZOizBcUvGmNtE4wTKcTMnBsMdIZqkELIWQB0RSR58vWWAEnNVbpAHeXYVhA6hyFEG/XjaFWrECMLZb+s4dXzTwiYgGIh/aulRbqK6N4jl7u+2xfAragVkgtrB0j4spb4ovL+VZCgitLeQej50wTjkeY5kf3VVYFvt8zqYdyV5pTPXSl8voIN//RsupOUOQEYMd3gyxkcHjfGO4V+W5rf8P3mMFLHR8tCLIREaz5k7/fPD/fTJ1DA==;
-Received: from 87-92-6-174.bb.dnainternet.fi ([87.92.6.174] helo=perseus.local)
-	by fanzine.igalia.com with esmtpsa 
-	(Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
-	id 1hP8Ip-0001p6-Kk; Fri, 10 May 2019 18:23:19 +0200
-Received: from berto by perseus.local with local (Exim 4.89)
-	(envelope-from <berto@igalia.com>)
-	id 1hP8Ia-00028G-T9; Fri, 10 May 2019 19:23:04 +0300
-From: Alberto Garcia <berto@igalia.com>
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hP8Uf-0006xi-BU
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 12:35:33 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hP8Ue-0007xu-9e
+	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 16:35:32 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id 47DCB2E806D
+	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 16:35:32 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 10 May 2019 16:24:55 -0000
+From: Anisse Astier <1828608@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
-Date: Fri, 10 May 2019 19:22:54 +0300
-Message-Id: <20190510162254.8152-1-berto@igalia.com>
-X-Mailer: git-send-email 2.11.0
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
-	timestamps) [generic] [fuzzy]
-X-Received-From: 91.117.99.155
-Subject: [Qemu-devel] [PATCH] qcow2: Define and use
- QCOW2_COMPRESSED_SECTOR_SIZE
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: anisse berrange
+X-Launchpad-Bug-Reporter: Anisse Astier (anisse)
+X-Launchpad-Bug-Modifier: Anisse Astier (anisse)
+Message-Id: <155750549613.15038.5455007066011551794.malonedeb@wampee.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18962";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 0965b70af1c42320743ad79608125fc5a4ed2861
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1828608] [NEW] Chardev websocket might not
+ support pasting more than a few chars
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -52,123 +63,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
-	qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Reply-To: Bug 1828608 <1828608@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When an L2 table entry points to a compressed cluster the space used
-by the data is specified in 512-byte sectors. This size is independent
-from BDRV_SECTOR_SIZE and is specific to the qcow2 file format.
+Public bug reported:
 
-The QCOW2_COMPRESSED_SECTOR_SIZE constant defined in this patch makes
-this explicit.
+When sending more than 4-5 characters on the websocket serial console
+(with pasting for example), the guest might not receive all of them, or
+worse interpret the input as Magic SysRq keys.
 
-Signed-off-by: Alberto Garcia <berto@igalia.com>
----
- block/qcow2-cluster.c  |  5 +++--
- block/qcow2-refcount.c | 25 ++++++++++++++-----------
- block/qcow2.c          |  3 ++-
- block/qcow2.h          |  4 ++++
- 4 files changed, 23 insertions(+), 14 deletions(-)
+This might be due to the io loop not checking the backend readiness
+before calling the read function.
 
-diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
-index 974a4e8656..b36f4aa84a 100644
---- a/block/qcow2-cluster.c
-+++ b/block/qcow2-cluster.c
-@@ -796,8 +796,9 @@ int qcow2_alloc_compressed_cluster_offset(BlockDriverState *bs,
-         return cluster_offset;
-     }
- 
--    nb_csectors = ((cluster_offset + compressed_size - 1) >> 9) -
--                  (cluster_offset >> 9);
-+    nb_csectors =
-+        (cluster_offset + compressed_size - 1) / QCOW2_COMPRESSED_SECTOR_SIZE -
-+        (cluster_offset / QCOW2_COMPRESSED_SECTOR_SIZE);
- 
-     cluster_offset |= QCOW_OFLAG_COMPRESSED |
-                       ((uint64_t)nb_csectors << s->csize_shift);
-diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
-index fa7ac1f7cb..780bd49a00 100644
---- a/block/qcow2-refcount.c
-+++ b/block/qcow2-refcount.c
-@@ -1172,12 +1172,11 @@ void qcow2_free_any_clusters(BlockDriverState *bs, uint64_t l2_entry,
-     switch (ctype) {
-     case QCOW2_CLUSTER_COMPRESSED:
-         {
--            int nb_csectors;
--            nb_csectors = ((l2_entry >> s->csize_shift) &
--                           s->csize_mask) + 1;
--            qcow2_free_clusters(bs,
--                (l2_entry & s->cluster_offset_mask) & ~511,
--                nb_csectors * 512, type);
-+            int64_t offset = (l2_entry & s->cluster_offset_mask)
-+                & QCOW2_COMPRESSED_SECTOR_MASK;
-+            int size = QCOW2_COMPRESSED_SECTOR_SIZE *
-+                (((l2_entry >> s->csize_shift) & s->csize_mask) + 1);
-+            qcow2_free_clusters(bs, offset, size, type);
-         }
-         break;
-     case QCOW2_CLUSTER_NORMAL:
-@@ -1317,9 +1316,12 @@ int qcow2_update_snapshot_refcount(BlockDriverState *bs,
-                         nb_csectors = ((entry >> s->csize_shift) &
-                                        s->csize_mask) + 1;
-                         if (addend != 0) {
-+                            uint64_t coffset = (entry & s->cluster_offset_mask)
-+                                & QCOW2_COMPRESSED_SECTOR_MASK;
-                             ret = update_refcount(
--                                bs, (entry & s->cluster_offset_mask) & ~511,
--                                nb_csectors * 512, abs(addend), addend < 0,
-+                                bs, coffset,
-+                                nb_csectors * QCOW2_COMPRESSED_SECTOR_SIZE,
-+                                abs(addend), addend < 0,
-                                 QCOW2_DISCARD_SNAPSHOT);
-                             if (ret < 0) {
-                                 goto fail;
-@@ -1635,9 +1637,10 @@ static int check_refcounts_l2(BlockDriverState *bs, BdrvCheckResult *res,
-             nb_csectors = ((l2_entry >> s->csize_shift) &
-                            s->csize_mask) + 1;
-             l2_entry &= s->cluster_offset_mask;
--            ret = qcow2_inc_refcounts_imrt(bs, res,
--                                           refcount_table, refcount_table_size,
--                                           l2_entry & ~511, nb_csectors * 512);
-+            ret = qcow2_inc_refcounts_imrt(
-+                bs, res, refcount_table, refcount_table_size,
-+                l2_entry & QCOW2_COMPRESSED_SECTOR_MASK,
-+                nb_csectors * QCOW2_COMPRESSED_SECTOR_SIZE);
-             if (ret < 0) {
-                 goto fail;
-             }
-diff --git a/block/qcow2.c b/block/qcow2.c
-index a520d116ef..80679a84d2 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -4188,7 +4188,8 @@ qcow2_co_preadv_compressed(BlockDriverState *bs,
- 
-     coffset = file_cluster_offset & s->cluster_offset_mask;
-     nb_csectors = ((file_cluster_offset >> s->csize_shift) & s->csize_mask) + 1;
--    csize = nb_csectors * 512 - (coffset & 511);
-+    csize = nb_csectors * QCOW2_COMPRESSED_SECTOR_SIZE -
-+        (coffset & ~QCOW2_COMPRESSED_SECTOR_MASK);
- 
-     buf = g_try_malloc(csize);
-     if (!buf) {
-diff --git a/block/qcow2.h b/block/qcow2.h
-index fdee297f33..7e796877d6 100644
---- a/block/qcow2.h
-+++ b/block/qcow2.h
-@@ -74,6 +74,10 @@
- #define MIN_CLUSTER_BITS 9
- #define MAX_CLUSTER_BITS 21
- 
-+/* Defined in the qcow2 spec (compressed cluster descriptor) */
-+#define QCOW2_COMPRESSED_SECTOR_SIZE 512U
-+#define QCOW2_COMPRESSED_SECTOR_MASK (~(QCOW2_COMPRESSED_SECTOR_SIZE - 1))
-+
- /* Must be at least 2 to cover COW */
- #define MIN_L2_CACHE_SIZE 2 /* cache entries */
- 
--- 
-2.11.0
+Attached patched fixes the problem on my system. I'm not sure it's the
+proper approach, this is just to start discussion.
 
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+** Patch added: "0001-socket-check-char-backend-readiness-before-sending-i.=
+patch"
+   https://bugs.launchpad.net/bugs/1828608/+attachment/5262964/+files/0001-=
+socket-check-char-backend-readiness-before-sending-i.patch
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1828608
+
+Title:
+  Chardev websocket might not support pasting more than a few chars
+
+Status in QEMU:
+  New
+
+Bug description:
+  When sending more than 4-5 characters on the websocket serial console
+  (with pasting for example), the guest might not receive all of them,
+  or worse interpret the input as Magic SysRq keys.
+
+  This might be due to the io loop not checking the backend readiness
+  before calling the read function.
+
+  Attached patched fixes the problem on my system. I'm not sure it's the
+  proper approach, this is just to start discussion.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1828608/+subscriptions
 
