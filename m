@@ -2,51 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A59A219E46
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 15:35:03 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43421 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C9B019E45
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 15:35:02 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43419 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hP5fy-0005EP-N9
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 09:35:02 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:32807)
+	id 1hP5fx-0005DX-4E
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 09:35:01 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:32800)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hP5dP-00046P-V4
+	(envelope-from <dgibson@ozlabs.org>) id 1hP5dP-00046O-Ms
 	for qemu-devel@nongnu.org; Fri, 10 May 2019 09:32:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hP5dO-0001Z6-8y
+	(envelope-from <dgibson@ozlabs.org>) id 1hP5dO-0001Z1-8j
 	for qemu-devel@nongnu.org; Fri, 10 May 2019 09:32:23 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:40097 helo=ozlabs.org)
+Received: from bilbo.ozlabs.org ([203.11.71.1]:36543 helo=ozlabs.org)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
-	id 1hP5dN-0001XQ-5y; Fri, 10 May 2019 09:32:22 -0400
+	id 1hP5dM-0001XS-Vc; Fri, 10 May 2019 09:32:22 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
-	id 450rjX5TnYz9sBr; Fri, 10 May 2019 23:32:16 +1000 (AEST)
+	id 450rjX6ttMz9sD4; Fri, 10 May 2019 23:32:16 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
 	d=gibson.dropbear.id.au; s=201602; t=1557495136;
-	bh=C51wn5AT7X10cFwBUwuzjoeQqweqFl7d/ueqaqsTNd8=;
+	bh=ZPYdKTxRS7EweEfjJPGa0MFYCiBOyvqhDBPObu1NCC0=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=gSjTjhTFopdqYNL0xPBncAvArb7IDfvkqWLlVzU/vb8XKj4QauW1D5aHUBi4I2GZw
-	8CNK0tDdWnOe/Nh9VkbLTVEQBjzxZDEEdA3b2hB3+uK260GQs4ec6vD3BrY028I/8c
-	m59H5LL9x5HlBCiRf9KlFwL6F1CjSXE60HKHteKk=
-Date: Fri, 10 May 2019 19:53:21 +1000
+	b=OtE1dG0eHjeR1gY+70JCnWoeftkuFatxoNoT9fIkfl0u/8xijk6wxZw/dj+vrEy4u
+	AoHg7wM1ilURxw28+6lJjNupvggBdeH1RoRkoXjJ6mmqq/MwqRxWf8NNxtaI54U/Ab
+	xajLlvuDpmvqh6TCXFCh/Xfwvemz4K5VE4DYnCyQ=
+Date: Fri, 10 May 2019 19:54:39 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
-Message-ID: <20190510095321.GB5030@umbus.fritz.box>
+To: Greg Kurz <groug@kaod.org>
+Message-ID: <20190510095439.GC5030@umbus.fritz.box>
 References: <155591636364.20338.844048953355207313.stgit@aravinda>
-	<155591661564.20338.10693276428550708820.stgit@aravinda>
-	<20190510064620.GL20559@umbus.fritz.box>
-	<fa3f0f81-17bc-ce71-7fa0-e0bc706b3c17@linux.vnet.ibm.com>
+	<155591657807.20338.12115795588476734752.stgit@aravinda>
+	<20190510110604.67c0d18d@bahia.lan>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="5/uDoXvLw7AC5HRs"
+	protocol="application/pgp-signature"; boundary="xesSdrSSBC0PokLI"
 Content-Disposition: inline
-In-Reply-To: <fa3f0f81-17bc-ce71-7fa0-e0bc706b3c17@linux.vnet.ibm.com>
+In-Reply-To: <20190510110604.67c0d18d@bahia.lan>
 User-Agent: Mutt/1.11.4 (2019-03-13)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 203.11.71.1
-Subject: Re: [Qemu-devel] [Qemu-ppc] [PATCH v8 5/6] ppc: spapr: Enable FWNMI
- capability
+Subject: Re: [Qemu-devel] [Qemu-ppc] [PATCH v8 1/6] ppc: spapr: Handle "ibm,
+ nmi-register" and "ibm, nmi-interlock" RTAS calls
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,259 +57,196 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: paulus@ozlabs.org, aik@au1.ibm.com, qemu-ppc@nongnu.org,
-	qemu-devel@nongnu.org
+Cc: aik@au1.ibm.com, qemu-devel@nongnu.org, paulus@ozlabs.org,
+	qemu-ppc@nongnu.org, Aravinda Prasad <aravinda@linux.vnet.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---5/uDoXvLw7AC5HRs
+--xesSdrSSBC0PokLI
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 10, 2019 at 12:45:29PM +0530, Aravinda Prasad wrote:
+On Fri, May 10, 2019 at 11:06:04AM +0200, Greg Kurz wrote:
+> On Mon, 22 Apr 2019 12:32:58 +0530
+> Aravinda Prasad <aravinda@linux.vnet.ibm.com> wrote:
 >=20
->=20
-> On Friday 10 May 2019 12:16 PM, David Gibson wrote:
-> > On Mon, Apr 22, 2019 at 12:33:35PM +0530, Aravinda Prasad wrote:
-> >> Enable the KVM capability KVM_CAP_PPC_FWNMI so that
-> >> the KVM causes guest exit with NMI as exit reason
-> >> when it encounters a machine check exception on the
-> >> address belonging to a guest. Without this capability
-> >> enabled, KVM redirects machine check exceptions to
-> >> guest's 0x200 vector.
-> >>
-> >> This patch also deals with the case when a guest with
-> >> the KVM_CAP_PPC_FWNMI capability enabled is attempted
-> >> to migrate to a host that does not support this
-> >> capability.
-> >>
-> >> Signed-off-by: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
-> >> ---
-> >>  hw/ppc/spapr.c         |    1 +
-> >>  hw/ppc/spapr_caps.c    |   26 ++++++++++++++++++++++++++
-> >>  hw/ppc/spapr_rtas.c    |   14 ++++++++++++++
-> >>  include/hw/ppc/spapr.h |    4 +++-
-> >>  target/ppc/kvm.c       |   14 ++++++++++++++
-> >>  target/ppc/kvm_ppc.h   |    6 ++++++
-> >>  6 files changed, 64 insertions(+), 1 deletion(-)
-> >>
-> >> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> >> index ffd1715..44e09bb 100644
-> >> --- a/hw/ppc/spapr.c
-> >> +++ b/hw/ppc/spapr.c
-> >> @@ -4372,6 +4372,7 @@ static void spapr_machine_class_init(ObjectClass=
- *oc, void *data)
-> >>      smc->default_caps.caps[SPAPR_CAP_NESTED_KVM_HV] =3D SPAPR_CAP_OFF;
-> >>      smc->default_caps.caps[SPAPR_CAP_LARGE_DECREMENTER] =3D SPAPR_CAP=
-_ON;
-> >>      smc->default_caps.caps[SPAPR_CAP_CCF_ASSIST] =3D SPAPR_CAP_OFF;
-> >> +    smc->default_caps.caps[SPAPR_CAP_FWNMI_MCE] =3D SPAPR_CAP_OFF;
-> >>      spapr_caps_add_properties(smc, &error_abort);
-> >>      smc->irq =3D &spapr_irq_xics;
-> >>      smc->dr_phb_enabled =3D true;
-> >> diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-> >> index edc5ed0..5b3af04 100644
-> >> --- a/hw/ppc/spapr_caps.c
-> >> +++ b/hw/ppc/spapr_caps.c
-> >> @@ -473,6 +473,22 @@ static void cap_ccf_assist_apply(SpaprMachineStat=
-e *spapr, uint8_t val,
-> >>      }
-> >>  }
-> >> =20
-> >> +static void cap_fwnmi_mce_apply(SpaprMachineState *spapr, uint8_t val,
-> >> +                                Error **errp)
-> >> +{
-> >> +    PowerPCCPU *cpu =3D POWERPC_CPU(first_cpu);
-> >> +
-> >> +    if (!val) {
-> >> +        return; /* Disabled by default */
-> >> +    }
-> >> +
-> >> +    if (kvm_enabled()) {
-> >> +        if (kvmppc_fwnmi_enable(cpu)) {
-> >> +            error_setg(errp, "Requested fwnmi capability not support =
-by KVM");
-> >> +        }
-> >> +    }
-> >> +}
-> >> +
-> >>  SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] =3D {
-> >>      [SPAPR_CAP_HTM] =3D {
-> >>          .name =3D "htm",
-> >> @@ -571,6 +587,15 @@ SpaprCapabilityInfo capability_table[SPAPR_CAP_NU=
-M] =3D {
-> >>          .type =3D "bool",
-> >>          .apply =3D cap_ccf_assist_apply,
-> >>      },
-> >> +    [SPAPR_CAP_FWNMI_MCE] =3D {
-> >> +        .name =3D "fwnmi-mce",
-> >> +        .description =3D "Handle fwnmi machine check exceptions",
-> >> +        .index =3D SPAPR_CAP_FWNMI_MCE,
-> >> +        .get =3D spapr_cap_get_bool,
-> >> +        .set =3D spapr_cap_set_bool,
-> >> +        .type =3D "bool",
-> >> +        .apply =3D cap_fwnmi_mce_apply,
-> >> +    },
-> >>  };
-> >> =20
-> >>  static SpaprCapabilities default_caps_with_cpu(SpaprMachineState *spa=
-pr,
-> >> @@ -706,6 +731,7 @@ SPAPR_CAP_MIG_STATE(ibs, SPAPR_CAP_IBS);
-> >>  SPAPR_CAP_MIG_STATE(nested_kvm_hv, SPAPR_CAP_NESTED_KVM_HV);
-> >>  SPAPR_CAP_MIG_STATE(large_decr, SPAPR_CAP_LARGE_DECREMENTER);
-> >>  SPAPR_CAP_MIG_STATE(ccf_assist, SPAPR_CAP_CCF_ASSIST);
-> >> +SPAPR_CAP_MIG_STATE(fwnmi, SPAPR_CAP_FWNMI_MCE);
-> >> =20
-> >>  void spapr_caps_init(SpaprMachineState *spapr)
-> >>  {
-> >> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-> >> index d3499f9..997cf19 100644
-> >> --- a/hw/ppc/spapr_rtas.c
-> >> +++ b/hw/ppc/spapr_rtas.c
-> >> @@ -49,6 +49,7 @@
-> >>  #include "hw/ppc/fdt.h"
-> >>  #include "target/ppc/mmu-hash64.h"
-> >>  #include "target/ppc/mmu-book3s-v3.h"
-> >> +#include "kvm_ppc.h"
-> >> =20
-> >>  static void rtas_display_character(PowerPCCPU *cpu, SpaprMachineState=
- *spapr,
-> >>                                     uint32_t token, uint32_t nargs,
-> >> @@ -354,6 +355,7 @@ static void rtas_ibm_nmi_register(PowerPCCPU *cpu,
-> >>                                    target_ulong args,
-> >>                                    uint32_t nret, target_ulong rets)
-> >>  {
-> >> +    int ret;
-> >>      uint64_t rtas_addr =3D spapr_get_rtas_addr();
-> >> =20
-> >>      if (!rtas_addr) {
-> >> @@ -361,6 +363,18 @@ static void rtas_ibm_nmi_register(PowerPCCPU *cpu,
-> >>          return;
-> >>      }
-> >> =20
-> >> +    ret =3D kvmppc_fwnmi_enable(cpu);
+> > This patch adds support in QEMU to handle "ibm,nmi-register"
+> > and "ibm,nmi-interlock" RTAS calls.
 > >=20
-> > You shouldn't need this here as well as in cap_fwnmi_mce_apply().
+> > The machine check notification address is saved when the
+> > OS issues "ibm,nmi-register" RTAS call.
 > >=20
-> > Instead, you should unconditionally fail the nmi-register if the
-> > capability is not enabled.
+> > This patch also handles the case when multiple processors
+> > experience machine check at or about the same time by
+> > handling "ibm,nmi-interlock" call. In such cases, as per
+> > PAPR, subsequent processors serialize waiting for the first
+> > processor to issue the "ibm,nmi-interlock" call. The second
+> > processor that also received a machine check error waits
+> > till the first processor is done reading the error log.
+> > The first processor issues "ibm,nmi-interlock" call
+> > when the error log is consumed. This patch implements the
+> > releasing part of the error-log while subsequent patch
+> > (which builds error log) handles the locking part.
+> >=20
+> > Signed-off-by: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
+> > ---
+> >  hw/ppc/spapr.c         |   18 ++++++++++++++
+> >  hw/ppc/spapr_rtas.c    |   61 ++++++++++++++++++++++++++++++++++++++++=
+++++++++
+> >  include/hw/ppc/spapr.h |    9 ++++++-
+> >  3 files changed, 87 insertions(+), 1 deletion(-)
+> >=20
+> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> > index c56939a..6642cb5 100644
+> > --- a/hw/ppc/spapr.c
+> > +++ b/hw/ppc/spapr.c
+> > @@ -1805,6 +1805,11 @@ static void spapr_machine_reset(void)
+> >      first_ppc_cpu->env.gpr[5] =3D 0;
+> > =20
+> >      spapr->cas_reboot =3D false;
+> > +
+> > +    spapr->guest_machine_check_addr =3D -1;
+> > +
+> > +    /* Signal all vCPUs waiting on this condition */
+> > +    qemu_cond_broadcast(&spapr->mc_delivery_cond);
+> >  }
+> > =20
+> >  static void spapr_create_nvram(SpaprMachineState *spapr)
+> > @@ -2095,6 +2100,16 @@ static const VMStateDescription vmstate_spapr_dt=
+b =3D {
+> >      },
+> >  };
+> > =20
+> > +static const VMStateDescription vmstate_spapr_machine_check =3D {
+> > +    .name =3D "spapr_machine_check",
+> > +    .version_id =3D 1,
+> > +    .minimum_version_id =3D 1,
+> > +    .fields =3D (VMStateField[]) {
+> > +        VMSTATE_UINT64(guest_machine_check_addr, SpaprMachineState),
+> > +        VMSTATE_END_OF_LIST()
+> > +    },
 >=20
-> cap_fwnmi is not enabled by default, because if it is enabled by default
-> them KVM will start routing machine check exceptions via guest exit
-> instead of routing it to guest's 0x200.
+> This VMState descriptor is missing a .needed field because we only want
+> to migrate the subsection if the guest has called NMI register, ie.
+> spapr->guest_machine_check_addr !=3D (target_ulong) -1.
 >=20
-> During early boot since guest has not yet issued nmi-register, KVM is
-> expected to route exceptions to 0x200. Therefore we enable cap_fwnmi
-> only when a guest issues nmi-register.
+> > +};
+> > +
+> >  static const VMStateDescription vmstate_spapr =3D {
+> >      .name =3D "spapr",
+> >      .version_id =3D 3,
+> > @@ -2127,6 +2142,7 @@ static const VMStateDescription vmstate_spapr =3D=
+ {
+> >          &vmstate_spapr_dtb,
+> >          &vmstate_spapr_cap_large_decr,
+> >          &vmstate_spapr_cap_ccf_assist,
+> > +        &vmstate_spapr_machine_check,
+> >          NULL
+> >      }
+> >  };
+> > @@ -3068,6 +3084,8 @@ static void spapr_machine_init(MachineState *mach=
+ine)
+> > =20
+> >          kvmppc_spapr_enable_inkernel_multitce();
+> >      }
+> > +
+> > +    qemu_cond_init(&spapr->mc_delivery_cond);
+> >  }
+> > =20
+> >  static int spapr_kvm_type(MachineState *machine, const char *vm_type)
+> > diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+> > index ee24212..c2f3991 100644
+> > --- a/hw/ppc/spapr_rtas.c
+> > +++ b/hw/ppc/spapr_rtas.c
+> > @@ -348,6 +348,39 @@ static void rtas_get_power_level(PowerPCCPU *cpu, =
+SpaprMachineState *spapr,
+> >      rtas_st(rets, 1, 100);
+> >  }
+> > =20
+> > +static void rtas_ibm_nmi_register(PowerPCCPU *cpu,
+> > +                                  SpaprMachineState *spapr,
+> > +                                  uint32_t token, uint32_t nargs,
+> > +                                  target_ulong args,
+> > +                                  uint32_t nret, target_ulong rets)
+> > +{
+> > +    uint64_t rtas_addr =3D spapr_get_rtas_addr();
+> > +
+> > +    if (!rtas_addr) {
+> > +        rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
+> > +        return;
+> > +    }
+> > +
+> > +    spapr->guest_machine_check_addr =3D rtas_ld(args, 1);
+> > +    rtas_st(rets, 0, RTAS_OUT_SUCCESS);
+> > +}
+> > +
+> > +static void rtas_ibm_nmi_interlock(PowerPCCPU *cpu,
+> > +                                   SpaprMachineState *spapr,
+> > +                                   uint32_t token, uint32_t nargs,
+> > +                                   target_ulong args,
+> > +                                   uint32_t nret, target_ulong rets)
+> > +{
+> > +    if (!spapr->guest_machine_check_addr) {
+>=20
+> Hmm... the default value is -1. It looks like the check should rather be:
+>=20
+>     if (spapr->guest_machine_check_addr =3D=3D (target_ulong) -1) {
+>=20
+>=20
+> > +        /* NMI register not called */
+> > +        rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
+> > +    } else {
+> > +        qemu_cond_signal(&spapr->mc_delivery_cond);
+> > +        rtas_st(rets, 0, RTAS_OUT_SUCCESS);
+> > +    }
+> > +}
+> > +
+> > +
+> >  static struct rtas_call {
+> >      const char *name;
+> >      spapr_rtas_fn fn;
+> > @@ -466,6 +499,30 @@ void spapr_load_rtas(SpaprMachineState *spapr, voi=
+d *fdt, hwaddr addr)
+> >      }
+> >  }
+> > =20
+> > +uint64_t spapr_get_rtas_addr(void)
+>=20
+> Shouldn't this be hwaddr instead of uint64_t ?
+>=20
+> > +{
+> > +    SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
+> > +    int rtas_node;
+> > +    const struct fdt_property *rtas_addr_prop;
+> > +    void *fdt =3D spapr->fdt_blob;
+> > +    uint32_t rtas_addr;
+> > +
+> > +    /* fetch rtas addr from fdt */
+> > +    rtas_node =3D fdt_path_offset(fdt, "/rtas");
+> > +    if (rtas_node =3D=3D 0) {
+> > +        return 0;
+> > +    }
+> > +
+> > +    rtas_addr_prop =3D fdt_get_property(fdt, rtas_node, "linux,rtas-ba=
+se", NULL);
+> > +    if (!rtas_addr_prop) {
+>=20
+> Just for curiosity: this is ok for linux, but what about other OSes (eg. =
+AIX) ?
+>=20
+> > +        return 0;
+> > +    }
+> > +
+> > +    rtas_addr =3D fdt32_to_cpu(*(uint32_t *)rtas_addr_prop->data);
+>=20
+> Also this assumes the OS called RTAS instantiate-rtas, but some other
+> OS might have called RTAS instantiate-rtas-64 instead. I guess it is
+> ok for now because SLOF only provides the 32-bit variant, but a
+> comment would certainly help IMHO.
 
-Except that's not true - you enable it in cap_fwnmi_mce_apply() which
-will be executed whenever the machine capability is enabled.
-
-> Or we should take the approach of enabling this capability by default
-> and then from QEMU route the error to 0x200 if guest has not issued
-> nmi-register.
->=20
-> >=20
-> >> +    if (ret =3D=3D 1) {
-> >> +        rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
-> >> +        return;
-> >> +    }
-> >> +
-> >> +    if (ret < 0) {
-> >> +        rtas_st(rets, 0, RTAS_OUT_HW_ERROR);
-> >> +        return;
-> >> +    }
-> >> +
-> >>      spapr->guest_machine_check_addr =3D rtas_ld(args, 1);
-> >>      rtas_st(rets, 0, RTAS_OUT_SUCCESS);
-> >>  }
-> >> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> >> index 03f34bf..9d16ad1 100644
-> >> --- a/include/hw/ppc/spapr.h
-> >> +++ b/include/hw/ppc/spapr.h
-> >> @@ -78,8 +78,10 @@ typedef enum {
-> >>  #define SPAPR_CAP_LARGE_DECREMENTER     0x08
-> >>  /* Count Cache Flush Assist HW Instruction */
-> >>  #define SPAPR_CAP_CCF_ASSIST            0x09
-> >> +/* FWNMI machine check handling */
-> >> +#define SPAPR_CAP_FWNMI_MCE             0x0A
-> >>  /* Num Caps */
-> >> -#define SPAPR_CAP_NUM                   (SPAPR_CAP_CCF_ASSIST + 1)
-> >> +#define SPAPR_CAP_NUM                   (SPAPR_CAP_FWNMI_MCE + 1)
-> >> =20
-> >>  /*
-> >>   * Capability Values
-> >> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-> >> index 5eedce8..9c7b71d 100644
-> >> --- a/target/ppc/kvm.c
-> >> +++ b/target/ppc/kvm.c
-> >> @@ -83,6 +83,7 @@ static int cap_ppc_safe_indirect_branch;
-> >>  static int cap_ppc_count_cache_flush_assist;
-> >>  static int cap_ppc_nested_kvm_hv;
-> >>  static int cap_large_decr;
-> >> +static int cap_ppc_fwnmi;
-> >> =20
-> >>  static uint32_t debug_inst_opcode;
-> >> =20
-> >> @@ -150,6 +151,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
-> >>      kvmppc_get_cpu_characteristics(s);
-> >>      cap_ppc_nested_kvm_hv =3D kvm_vm_check_extension(s, KVM_CAP_PPC_N=
-ESTED_HV);
-> >>      cap_large_decr =3D kvmppc_get_dec_bits();
-> >> +    cap_ppc_fwnmi =3D kvm_check_extension(s, KVM_CAP_PPC_FWNMI);
-> >>      /*
-> >>       * Note: setting it to false because there is not such capability
-> >>       * in KVM at this moment.
-> >> @@ -2117,6 +2119,18 @@ void kvmppc_set_mpic_proxy(PowerPCCPU *cpu, int=
- mpic_proxy)
-> >>      }
-> >>  }
-> >> =20
-> >> +int kvmppc_fwnmi_enable(PowerPCCPU *cpu)
-> >> +{
-> >> +    CPUState *cs =3D CPU(cpu);
-> >> +
-> >> +    if (!cap_ppc_fwnmi) {
-> >> +        return 1;
-> >> +    }
-> >> +
-> >> +    return kvm_vcpu_enable_cap(cs, KVM_CAP_PPC_FWNMI, 0);
-> >> +}
-> >> +
-> >> +
-> >>  int kvmppc_smt_threads(void)
-> >>  {
-> >>      return cap_ppc_smt ? cap_ppc_smt : 1;
-> >> diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
-> >> index 6edc42f..28919d3 100644
-> >> --- a/target/ppc/kvm_ppc.h
-> >> +++ b/target/ppc/kvm_ppc.h
-> >> @@ -27,6 +27,7 @@ void kvmppc_enable_h_page_init(void);
-> >>  void kvmppc_set_papr(PowerPCCPU *cpu);
-> >>  int kvmppc_set_compat(PowerPCCPU *cpu, uint32_t compat_pvr);
-> >>  void kvmppc_set_mpic_proxy(PowerPCCPU *cpu, int mpic_proxy);
-> >> +int kvmppc_fwnmi_enable(PowerPCCPU *cpu);
-> >>  int kvmppc_smt_threads(void);
-> >>  void kvmppc_hint_smt_possible(Error **errp);
-> >>  int kvmppc_set_smt_threads(int smt);
-> >> @@ -159,6 +160,11 @@ static inline void kvmppc_set_mpic_proxy(PowerPCC=
-PU *cpu, int mpic_proxy)
-> >>  {
-> >>  }
-> >> =20
-> >> +static inline int kvmppc_fwnmi_enable(PowerPCCPU *cpu)
-> >> +{
-> >> +    return 1;
-> >> +}
-> >> +
-> >>  static inline int kvmppc_smt_threads(void)
-> >>  {
-> >>      return 1;
-> >>
-> >=20
->=20
+I have a feeling kvm-unit-tests may not call instantiate-rtas at all.
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -318,25 +254,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---5/uDoXvLw7AC5HRs
+--xesSdrSSBC0PokLI
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlzVShEACgkQbDjKyiDZ
-s5J9tQ/9H8BowS+J6FZtqjQGq0LENenuKnHIgINi121SvbnE+qubWysnjwjWTUQZ
-CEz+4ldFF63OOyCxq3gWOCNWeCK2sXxv7QIN95kIo+Fxysz/KNvB8Lyn3FxjKnVJ
-OY2O4vL3WRhRV68kYvpeCZch10A750T5AaHxAPD/JLW5IJ1aj7boM2jYRjyYwdYU
-jELU8yqemelxJBkEYGU2d2zOHJCYjYDG8yjfnSEerE5c2pbqHsNfIanZWTotvXIf
-pRm7T5H5TE1nMHstBtbLUn5Xi/8PMSgUDwx6SA+pmrjQ/eEACeuLPFJHvohjuysA
-soUHJQ3zeQNhjqu4u+bipgYVLLEMiQnfsDvTsoqcY55ytv5fjhaG67W9NmgU7AzO
-m/Zol93BFcju8VU0XpqVm/PGWNSv//IfODGi4zojx7t18IrhE9xHKIVJPYEIbgJy
-S4w6QOSsSHtVupS1agf5FEBzWrWblc8V2GsiJoSYSQtyXqYB9Y2lLz7PvIQE5gjJ
-jC3FdllO8pzdlNLSIU9NSwp0Io4EbMmnUDT2r41y4qldpsasfcUxNgzwOtuO1qu9
-3VTmck5LMz4Jdi4zNpuCslrZTkC8N17iA8JV0qXRyjL3KkuCYas8tPT/yvZSr7qI
-toCbbBPrtojtGMTRKxwqZUg18wqFuXm09oiSLh8abHRBjTHDkFc=
-=uz1v
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlzVSl8ACgkQbDjKyiDZ
+s5L36RAAjJImQwdn6OOLbTmAM+OeM/nRfi1kQVXujAVfTrJico58HNa5EBmKlrWU
+CemIY7ZwCIpKALXso9Onyz/cIGl1B69v+lRuCc0/Xg8xUAPyA3z8vmUNQfyLFHLS
+zgS2jFFw4Mf8ApWsKNm0fiw9Opi8chMzkkjs1e/nDPCjbDSZHJFsw1AKqOk1xaIR
+R/JQzIcJOBcMmRJ0739zks/dg5RjcWuZvhxKAd5EPKM2DIS91+ZYoZJgqrnOilKC
+DRwneYvqX6Z2WV0lKxQ1fmsqoiXM0IR0jjPwORXRelHVG/MHbLUmFG9zMPprmOnA
+A5rZtTeL/N2+bSSu/pIXFE+lLetFTTbWTijZahq7UZPTH7Fv3uOkNMD5KgLOzY1v
+BMLGhUILRiZY8tNM585/g26qLdKeXQ2C069XmvA362FHZoq9BI6E+BNuxNztgF0w
+ynyhjHTygFE/Is7AlhJa2cc6aazBA8N5L0cJHMyavbTMXTBTjQaaMav+dHM9t6+i
+fzXT5pA7V5yfOzrHmU/WrlxhhZFBiG2dsZUR2m71tX3woyMYBqNdfcIHr529LjOr
+TUNwHhoxJ5yF0c/L3uYG2TVi+gXHocPYzN6qGMsuZCdZfdZh7lpUvAooNtfQ/nCG
+DM8RlGxavxoy069NoOHxJo9SS12goIWt+GHrgKuDInNMSKooOIk=
+=wR86
 -----END PGP SIGNATURE-----
 
---5/uDoXvLw7AC5HRs--
+--xesSdrSSBC0PokLI--
 
