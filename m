@@ -2,35 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F09119FB3
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 17:00:24 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:44671 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CEB519FD0
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 17:07:14 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:44784 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hP70Z-0003yG-4r
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 11:00:23 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51250)
+	id 1hP77B-0000Pr-Q0
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 11:07:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52405)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hP6zN-0003C8-5f
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 10:59:10 -0400
+	(envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hP75L-0006gy-V9
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 11:05:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hP6zM-0007mB-B4
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 10:59:09 -0400
-Received: from mail.ilande.co.uk ([46.43.2.167]:45722
+	(envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hP75H-0006cr-5b
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 11:05:19 -0400
+Received: from mail.ilande.co.uk ([46.43.2.167]:45752
 	helo=mail.default.ilande.uk0.bigv.io)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
-	id 1hP6zK-0006lT-BM; Fri, 10 May 2019 10:59:06 -0400
+	id 1hP75F-0006Xo-AP; Fri, 10 May 2019 11:05:13 -0400
 Received: from host109-147-184-225.range109-147.btcentralplus.com
 	([109.147.184.225] helo=[192.168.1.65])
 	by mail.default.ilande.uk0.bigv.io with esmtpsa
 	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
 	(envelope-from <mark.cave-ayland@ilande.co.uk>)
-	id 1hP6vZ-0000gq-89; Fri, 10 May 2019 15:55:13 +0100
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
-	qemu-devel@nongnu.org
-References: <20190430165234.32272-1-alex.bennee@linaro.org>
-	<87muju4mvi.fsf@zen.linaroharston>
+	id 1hP72R-0000iO-Fc; Fri, 10 May 2019 16:02:19 +0100
+To: Anton Blanchard <anton@ozlabs.org>,
+	David Gibson <david@gibson.dropbear.id.au>
+References: <20190507004811.29968-1-anton@ozlabs.org>
+	<20190507004811.29968-5-anton@ozlabs.org>
+	<20190507052243.GH7073@umbus.fritz.box>
+	<20190509104912.6b754dff@kryten>
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Openpgp: preference=signencrypt
 Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
@@ -57,23 +59,23 @@ Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
 	Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
 	KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
 	imgcU9TTGC5qd9g=
-Message-ID: <98b34bae-c62f-8195-df93-80422ae2e58d@ilande.co.uk>
-Date: Fri, 10 May 2019 15:55:50 +0100
+Message-ID: <bf74cceb-eb22-7d64-fd6b-6b14d11c444f@ilande.co.uk>
+Date: Fri, 10 May 2019 16:02:56 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <87muju4mvi.fsf@zen.linaroharston>
+In-Reply-To: <20190509104912.6b754dff@kryten>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-SA-Exim-Connect-IP: 109.147.184.225
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
 X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 46.43.2.167
-Subject: Re: [Qemu-devel] [PATCH v5 00/15] demacro softmmu (plus
- tests/coverage)
+Subject: Re: [Qemu-devel] [PATCH v2] target/ppc: Fix xvabs[sd]p, xvnabs[sd]p,
+ xvneg[sd]p, xvcpsgn[sd]p
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -85,30 +87,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm@nongnu.org, cota@braap.org
+Cc: ego@linux.vnet.ibm.com, sandipandas1990@gmail.com,
+	richard.henderson@linaro.org, f4bug@amsat.org,
+	qemu-devel@nongnu.org, qemu-ppc@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/05/2019 11:36, Alex Bennée wrote:
+On 09/05/2019 01:49, Anton Blanchard wrote:
 
-> Alex Bennée <alex.bennee@linaro.org> writes:
+> We were using set_cpu_vsr*() when we should have used get_cpu_vsr*().
 > 
->> Hi,
->>
->> This is the latest iteration of the softmmu demacro series. The main
->> changes from the last submission are some updates from Richard.
+> Fixes: 8b3b2d75c7c0 ("introduce get_cpu_vsr{l,h}() and set_cpu_vsr{l,h}() helpers for VSR register access")
+> Signed-off-by: Anton Blanchard <anton@ozlabs.org>
+> ---
+>  target/ppc/translate/vsx-impl.inc.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
-> Ping Emilio/Mark
-> 
-> Would you be able to re-run your tests to check there are no other
-> regressions? I can then get the PR prepared for merging ;-)
+> diff --git a/target/ppc/translate/vsx-impl.inc.c b/target/ppc/translate/vsx-impl.inc.c
+> index b487136d52..4b7627f53b 100644
+> --- a/target/ppc/translate/vsx-impl.inc.c
+> +++ b/target/ppc/translate/vsx-impl.inc.c
+> @@ -859,8 +859,8 @@ static void glue(gen_, name)(DisasContext *ctx)                  \
+>          xbh = tcg_temp_new_i64();                                \
+>          xbl = tcg_temp_new_i64();                                \
+>          sgm = tcg_temp_new_i64();                                \
+> -        set_cpu_vsrh(xB(ctx->opcode), xbh);                      \
+> -        set_cpu_vsrl(xB(ctx->opcode), xbl);                      \
+> +        get_cpu_vsrh(xbh, xB(ctx->opcode));                      \
+> +        get_cpu_vsrl(xbl, xB(ctx->opcode));                      \
+>          tcg_gen_movi_i64(sgm, sgn_mask);                         \
+>          switch (op) {                                            \
+>              case OP_ABS: {                                       \
 
-Hi Alex,
-
-Sorry for the delay - I've run this through my complete set of PPC/SPARC32/SPARC64
-test images and no regressions as far as I can see with this latest version.
-
-Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
 
 ATB,
