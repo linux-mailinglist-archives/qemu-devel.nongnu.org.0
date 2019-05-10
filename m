@@ -2,85 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2CBE519C1A
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 13:02:06 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:41163 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3163019C3E
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 13:10:52 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:41300 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hP3Hx-0003xD-7w
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 07:02:05 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:32793)
+	id 1hP3QR-000385-B3
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 07:10:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34815)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <marcel.apfelbaum@gmail.com>) id 1hP393-0004yq-KN
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 06:52:54 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hP3Jx-0006mr-5Q
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 07:04:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <marcel.apfelbaum@gmail.com>) id 1hP392-0001Nu-JM
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 06:52:53 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36594)
+	(envelope-from <peter.maydell@linaro.org>) id 1hP3Jr-0007Y6-UZ
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 07:04:09 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:52779)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <marcel.apfelbaum@gmail.com>)
-	id 1hP392-0001N9-D5
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 06:52:52 -0400
-Received: by mail-wr1-x444.google.com with SMTP id o4so7329080wra.3
-	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 03:52:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=subject:to:cc:references:from:message-id:date:user-agent
-	:mime-version:in-reply-to:content-transfer-encoding:content-language;
-	bh=xHNdFnVAuh6l8PENFLVrR1X5PKoTCZIAYaFqvyp6FNg=;
-	b=XbhterWMPdtEUlPW0lxU2Lx58uOa06XCdwuyG3dQ1H4p4GhQ6aot6hrAj4ktCNTiAf
-	SugJVpIDJtWDo/ICxc6i6EK5+hg3jKwQSu6FB6WQOm9vw6q2td+trcv1SN5yzPoc1Uas
-	6pPw+GuORr2MlZ0F6e8M2v1wvnJQJDIHWGZQCmQwfbIOlg3Ab7Un1RdboB7uUOzEE/1x
-	Y09A8gLNkz9jIXYxLDPvLLyZZtfThMpkF7RdTdVvp2+g1IAMLzwC2L7E+1ANJ6BW66c4
-	QHqUwivoifUybH+wabULPS8qgTmh2boDlxOcxp8Ks9LQ0dW5H24ItZk02DFnRcZ9bvEP
-	kGUA==
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hP3Jq-0007WR-HF
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 07:04:03 -0400
+Received: by mail-wm1-x344.google.com with SMTP id g26so5167712wmh.2
+	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 04:04:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=UTmgSX3YsyDWEgPgMU0oX1llXMLo7/qNT1U4uupCMLM=;
+	b=BhIOPxWkX9rNrRiwgC5jphJezvVFyZonp4r5Jh+gGXEFFpUCLzKUACOLZOgGMvaHWk
+	dhGnrNctd/qvxnLl4ZoeEmy7dsK9hty/ecWc0ZyjkcBVxnWkKB+KxALHlRO7XuacxvaT
+	cC+H7N79eq0+UlR98Cdpq1MpuZh6MJZxPkdk4orW5IKnopojBiwQCrUb3uYocx0tdH3p
+	rt/Z/j4DFnuIATqXD8fnOLiZ9B9KsgCJ313lYpGFBUhDwx4t9LX6vluptPzcQTZ9rCe5
+	FKXLyMJLWF/o9yHNWtGYjA4eR84oSLZ1c/C2FcNmKmPx1qXxagdn+0UhynZMXMFwCjz4
+	baAA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-transfer-encoding
-	:content-language;
-	bh=xHNdFnVAuh6l8PENFLVrR1X5PKoTCZIAYaFqvyp6FNg=;
-	b=jpaXJ8BGRRxcuA3DVfThEcG1irC2kCS3AzbER7RVsRDXwIoIC+kIDp4EHpDIqyrtDP
-	jJcPtFI7gG2/UdyovGhXJQxOdjrCDNNk2CAw6CMuGRq362H5/Rg0KYfcYHw2BJzhlZd8
-	ngeta3qauLqZR97KkD5dtOWTq3jI6lKK5KLe63eAW8J9jXHQARw3nuy9SSbNmZn4JF+1
-	f58gWsADkKrwGgeTNyE6Rmb9frDyAcootSlBJPFxF8tj3l1rbb8Q/IurrMIHVwn2DBJT
-	IGcyQsoZrwKTM6MOtnwGqXpw4qtqBRwLZHGu28Wy/bBjpaH8X8RFwIIIqbwRF139RKBw
-	Xwxg==
-X-Gm-Message-State: APjAAAVx9x2d8xWKy9Mli+iHYNBkb8TH5FZtdLlT9T9KC71dO3e5BeJU
-	TZc494M9viUEDhPWlRh4u6ubqvLNaVo=
-X-Google-Smtp-Source: APXvYqyqydfw2YhiIW3Q27CmhnE1czyUm92kcKP8mRSIjaBQekhNSzBI5j7ZSweuM1hXGC9hd2A7Jw==
-X-Received: by 2002:a5d:4712:: with SMTP id y18mr6907619wrq.23.1557485570478; 
-	Fri, 10 May 2019 03:52:50 -0700 (PDT)
-Received: from localhost.localdomain ([2a02:2f0d:c0b:ba00:6fce:9bd8:fb12:6a42])
-	by smtp.gmail.com with ESMTPSA id
-	h11sm2136246wrr.44.2019.05.10.03.52.49
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Fri, 10 May 2019 03:52:49 -0700 (PDT)
-To: Gerd Hoffmann <kraxel@redhat.com>
-References: <CABSdmrnNW6f=P64PviPP8CTJ5SVfYS8_6kmAtpw9yPObTEkpxg@mail.gmail.com>
-	<CABSdmrnocrqLKWncgy_Lak33__GRPYfs-RzSA14e=vh4cRn2ag@mail.gmail.com>
-	<20190509064848.wjhchsfov7q6komj@sirius.home.kraxel.org>
-	<CABSdmrmm+wJ=+Ccav=X5Gw_oueQvPRejCWVG2SQeCw=K4BM9EA@mail.gmail.com>
-	<CABSdmrndpONH_fVHbktHbBXvXPKESeRfis06TjrNRRfBpJzXLA@mail.gmail.com>
-	<b6064b77-5ca4-03e1-80ef-027313096cb2@gmail.com>
-	<CABSdmrkW6G23ZGDA7iLucM45vL0HHGsr2F76H0Mf8S0xkhPnsQ@mail.gmail.com>
-	<3e619b5c-8fb3-2655-2d92-37598db098d8@gmail.com>
-	<20190510085947.y62lttdtrg5cxx6b@sirius.home.kraxel.org>
-	<3fb8b79d-9f68-2342-d3ae-3aefa873109b@gmail.com>
-	<20190510103900.botgnbbo2ii4jxgo@sirius.home.kraxel.org>
-From: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Message-ID: <01de4824-5c19-6b6c-5b75-fa54a883ab4a@gmail.com>
-Date: Fri, 10 May 2019 13:52:48 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.4.0
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=UTmgSX3YsyDWEgPgMU0oX1llXMLo7/qNT1U4uupCMLM=;
+	b=fMPa2zP0KRxvW1ZH7Om6lYzXT8VerSZdHxoTLZMiR0oVKB1SuTw8+QowNmmOQTcYIL
+	9lJCxHUSx/k+syjaf0RDchJonhuzuyYRjgBlsjegwoLflYh7DJ+2ParBuJm7O9ucKh6Z
+	MJFbOYfJvMKUJkDvKFsGw2SpRCLlcfJ2J3QIRRps0u60KGOLFMCtozvmBgIhoeAMDn0g
+	7HGfPqW6NN2oxL4N9G0zOSGNEUftY0HXy+VYTHxJ0YkJAVNmOwpffdkLXD3XNjoJ5IvB
+	n1i7D/Nny0fnplow1nQMPNwEsz5h7ic2pJtaiqmotGlo0bE84iMB6WEwOY1RO1NB2Sd3
+	jBLw==
+X-Gm-Message-State: APjAAAXz23OgJTlkt2V+jbzsePPxBtAsECX01x7xOf/AoEf+YI8+RS1O
+	CEmWWC8OxKW6Qr5UEStYzP3USw==
+X-Google-Smtp-Source: APXvYqzEbu+zPuVXyTcO4L9G4MazQNVAjghqENvFyOklPqwNEeJO8pmLo4KRBj4D9ldmISMLKgelkA==
+X-Received: by 2002:a1c:7c18:: with SMTP id x24mr6653589wmc.15.1557486240207; 
+	Fri, 10 May 2019 04:04:00 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+	by smtp.gmail.com with ESMTPSA id o8sm9849074wra.4.2019.05.10.04.03.58
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 10 May 2019 04:03:59 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Date: Fri, 10 May 2019 12:03:57 +0100
+Message-Id: <20190510110357.18825-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20190510103900.botgnbbo2ii4jxgo@sirius.home.kraxel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 8bit
-Content-Language: en-US
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: Re: [Qemu-devel] [PATCH 3/3] ramfb enhancement
+X-Received-From: 2a00:1450:4864:20::344
+Subject: [Qemu-devel] [PATCH v2] target/arm: Implement NSACR gating of
+ floating point
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -92,65 +77,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Hou Qiming <hqm03ster@gmail.com>, qemu-devel@nongnu.org
+Cc: Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Gerd,
+The NSACR register allows secure code to configure the FPU
+to be inaccessible to non-secure code. If the NSACR.CP10
+bit is set then:
+ * NS accesses to the FPU trap as UNDEF (ie to NS EL1 or EL2)
+ * CPACR.{CP10,CP11} behave as if RAZ/WI
+ * HCPTR.{TCP11,TCP10} behave as if RAO/WI
 
-On 5/10/19 1:39 PM, Gerd Hoffmann wrote:
-> On Fri, May 10, 2019 at 12:20:56PM +0300, Marcel Apfelbaum wrote:
->> Hi Gerd,
->>
->> On 5/10/19 11:59 AM, Gerd Hoffmann wrote:
->>>     Hi,
->>>
->>>> Got it, thanks. Is a pity ramfb is not a PCI device :), it was worth the
->>>> question anyway.
->>> If you look for a simple pci display device check out bochs-display.
->>> It's simliar to stdvga (so ovmf and bochs-drm.ko can drive it just
->>> fine), but without legacy vga emulation, only a linear framebuffer is
->>> supported.  And code size is a fraction of stdvga ...
->> I actually need the ramfb display in conjunction with kvmgt.
->>
->> I want to be able to save the VM state to disk, which is actually a kind
->> of 'live migration' as far as I understand, but live-migration can't work
->> since
->> we use device assignment  (vfio-pci-nohotplug device).
-> vfio live migration is being worked on btw.
->
->> I was hoping to be able to hot-unplug/hot-plug the vfio device,
->> but as the name suggests, can't do so since
->> the ramfb display uses fw-config to pass the configuration to firmware.
-> Yes, fw_cfg files can't be hotplugged, that is where this restriction
-> comes from.
->
->> How hard/possible is to make ramfb display a PCI device and move the
->> configuration from fw-config to PCI configuration space?
-> Well, the whole point of using ramfb is that it is *not* a pci device,
-> but something you can attach to other devices as boot display.  Right
-> now we have that for vfio only, in theory it can likewise be done for
-> virtio (so you can use virtio-ramfb instead of virtio-vga for bios
-> display support).  Prototype exists.  Given that OVMF has a full
-> virtio-gpu driver there isn't much need for that though ...
->
-> Piggyback on the pci config space of the device you are attaching ramfb
-> to isn't going to work very well for unknown devices (i.e. vfio case).
-> For virtio it would have worked without too much trouble probably, using
-> a vendor capability to grab some register space.
->
-> For a separate pci device you can just use bochs-display.  Maybe add
-> some logic for the automagic display switching (i.e. if vfio has a valid
-> framebuffer use that and bochs-display otherwise).
+Note that we do not implement the NSACR.NSASEDIS bit which
+gates only access to Advanced SIMD, in the same way that
+we don't implement the equivalent CPACR.ASEDIS and HCPTR.TASE.
 
-Thanks for the explanation and the pointers!
-I'll try to come up with something.
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+---
+Changes v1->v2:
+ * fixed bug in cptr_el2_read() that meant we were forcing
+   HCPTR.{TCP11,TCP10} to 0 when they should be 1
+---
+ target/arm/helper.c | 75 +++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 73 insertions(+), 2 deletions(-)
 
-Thanks,
-Marcel
-
-> cheers,
->    Gerd
->
+diff --git a/target/arm/helper.c b/target/arm/helper.c
+index 1e6eb0d0f36..f1fcce0313b 100644
+--- a/target/arm/helper.c
++++ b/target/arm/helper.c
+@@ -928,9 +928,36 @@ static void cpacr_write(CPUARMState *env, const ARMCPRegInfo *ri,
+         }
+         value &= mask;
+     }
++
++    /*
++     * For A-profile AArch32 EL3 (but not M-profile secure mode), if NSACR.CP10
++     * is 0 then CPACR.{CP11,CP10} ignore writes and read as 0b00.
++     */
++    if (arm_feature(env, ARM_FEATURE_EL3) && !arm_el_is_aa64(env, 3) &&
++        !arm_is_secure(env) && !extract32(env->cp15.nsacr, 10, 1)) {
++        value &= ~(0xf << 20);
++        value |= env->cp15.cpacr_el1 & (0xf << 20);
++    }
++
+     env->cp15.cpacr_el1 = value;
+ }
+ 
++static uint64_t cpacr_read(CPUARMState *env, const ARMCPRegInfo *ri)
++{
++    /*
++     * For A-profile AArch32 EL3 (but not M-profile secure mode), if NSACR.CP10
++     * is 0 then CPACR.{CP11,CP10} ignore writes and read as 0b00.
++     */
++    uint64_t value = env->cp15.cpacr_el1;
++
++    if (arm_feature(env, ARM_FEATURE_EL3) && !arm_el_is_aa64(env, 3) &&
++        !arm_is_secure(env) && !extract32(env->cp15.nsacr, 10, 1)) {
++        value &= ~(0xf << 20);
++    }
++    return value;
++}
++
++
+ static void cpacr_reset(CPUARMState *env, const ARMCPRegInfo *ri)
+ {
+     /* Call cpacr_write() so that we reset with the correct RAO bits set
+@@ -996,7 +1023,7 @@ static const ARMCPRegInfo v6_cp_reginfo[] = {
+     { .name = "CPACR", .state = ARM_CP_STATE_BOTH, .opc0 = 3,
+       .crn = 1, .crm = 0, .opc1 = 0, .opc2 = 2, .accessfn = cpacr_access,
+       .access = PL1_RW, .fieldoffset = offsetof(CPUARMState, cp15.cpacr_el1),
+-      .resetfn = cpacr_reset, .writefn = cpacr_write },
++      .resetfn = cpacr_reset, .writefn = cpacr_write, .readfn = cpacr_read },
+     REGINFO_SENTINEL
+ };
+ 
+@@ -4681,6 +4708,36 @@ uint64_t arm_hcr_el2_eff(CPUARMState *env)
+     return ret;
+ }
+ 
++static void cptr_el2_write(CPUARMState *env, const ARMCPRegInfo *ri,
++                           uint64_t value)
++{
++    /*
++     * For A-profile AArch32 EL3, if NSACR.CP10
++     * is 0 then HCPTR.{TCP11,TCP10} ignore writes and read as 1.
++     */
++    if (arm_feature(env, ARM_FEATURE_EL3) && !arm_el_is_aa64(env, 3) &&
++        !arm_is_secure(env) && !extract32(env->cp15.nsacr, 10, 1)) {
++        value &= ~(0x3 << 10);
++        value |= env->cp15.cptr_el[2] & (0x3 << 10);
++    }
++    env->cp15.cptr_el[2] = value;
++}
++
++static uint64_t cptr_el2_read(CPUARMState *env, const ARMCPRegInfo *ri)
++{
++    /*
++     * For A-profile AArch32 EL3, if NSACR.CP10
++     * is 0 then HCPTR.{TCP11,TCP10} ignore writes and read as 1.
++     */
++    uint64_t value = env->cp15.cptr_el[2];
++
++    if (arm_feature(env, ARM_FEATURE_EL3) && !arm_el_is_aa64(env, 3) &&
++        !arm_is_secure(env) && !extract32(env->cp15.nsacr, 10, 1)) {
++        value |= 0x3 << 10;
++    }
++    return value;
++}
++
+ static const ARMCPRegInfo el2_cp_reginfo[] = {
+     { .name = "HCR_EL2", .state = ARM_CP_STATE_AA64,
+       .type = ARM_CP_IO,
+@@ -4728,7 +4785,8 @@ static const ARMCPRegInfo el2_cp_reginfo[] = {
+     { .name = "CPTR_EL2", .state = ARM_CP_STATE_BOTH,
+       .opc0 = 3, .opc1 = 4, .crn = 1, .crm = 1, .opc2 = 2,
+       .access = PL2_RW, .accessfn = cptr_access, .resetvalue = 0,
+-      .fieldoffset = offsetof(CPUARMState, cp15.cptr_el[2]) },
++      .fieldoffset = offsetof(CPUARMState, cp15.cptr_el[2]),
++      .readfn = cptr_el2_read, .writefn = cptr_el2_write },
+     { .name = "MAIR_EL2", .state = ARM_CP_STATE_BOTH,
+       .opc0 = 3, .opc1 = 4, .crn = 10, .crm = 2, .opc2 = 0,
+       .access = PL2_RW, .fieldoffset = offsetof(CPUARMState, cp15.mair_el[2]),
+@@ -13527,6 +13585,19 @@ int fp_exception_el(CPUARMState *env, int cur_el)
+         break;
+     }
+ 
++    /*
++     * The NSACR allows A-profile AArch32 EL3 and M-profile secure mode
++     * to control non-secure access to the FPU. It doesn't have any
++     * effect if EL3 is AArch64 or if EL3 doesn't exist at all.
++     */
++    if ((arm_feature(env, ARM_FEATURE_EL3) && !arm_el_is_aa64(env, 3) &&
++         cur_el <= 2 && !arm_is_secure_below_el3(env))) {
++        if (!extract32(env->cp15.nsacr, 10, 1)) {
++            /* FP insns act as UNDEF */
++            return cur_el == 2 ? 2 : 1;
++        }
++    }
++
+     /* For the CPTR registers we don't need to guard with an ARM_FEATURE
+      * check because zero bits in the registers mean "don't trap".
+      */
+-- 
+2.20.1
 
 
