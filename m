@@ -2,67 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0BBA1A41C
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 22:53:59 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49815 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C4F441A428
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 22:56:21 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49888 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hPCWl-0002Yc-0d
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 16:53:59 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41839)
+	id 1hPCZ2-0004eW-Jb
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 16:56:20 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41981)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alistair23@gmail.com>) id 1hPCU1-0000td-3y
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 16:51:10 -0400
+	(envelope-from <alistair23@gmail.com>) id 1hPCUp-0001iK-Ji
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 16:52:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alistair23@gmail.com>) id 1hPCTz-0002tx-UD
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 16:51:09 -0400
-Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:37476)
+	(envelope-from <alistair23@gmail.com>) id 1hPCUo-00043h-GE
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 16:51:59 -0400
+Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:37477)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <alistair23@gmail.com>)
-	id 1hPCTz-0002rJ-Kw; Fri, 10 May 2019 16:51:07 -0400
-Received: by mail-lj1-x242.google.com with SMTP id n4so6197613ljg.4;
-	Fri, 10 May 2019 13:51:07 -0700 (PDT)
+	id 1hPCUo-000425-8T; Fri, 10 May 2019 16:51:58 -0400
+Received: by mail-lj1-x241.google.com with SMTP id n4so6199091ljg.4;
+	Fri, 10 May 2019 13:51:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
 	:cc:content-transfer-encoding;
-	bh=6fAiRzgNXrfYcpso+96yNIf18bf+QqR1W7fdgjYw+40=;
-	b=QZdKudUDnx8QPMQ9C8TnAsOaWpOVIpo1VsEymgjQHuf0KsrmRMg7FVd85G1KP3j5zn
-	jivqqyzJCqjy/zwcUKDO4n9A/zrfSrrl5gdx6MhyU/1W6rWo4wSNzUUzGvzd5Xkp8nk4
-	s3OhwBMic7GV5M7b9RKnDKyVwJEJbywImdMbLlzOpFXHZNrVpXbwj0nK2XSjz3ldJ4IK
-	YshcEl0QNHVDadMBrxvR5oEeksEnbj47/1Q0r9oXZQV33OpmPzk2V7K7qT2qVy/c1YE+
-	/lPyh3Fxqp3lxc7R4s8j1znyjyd/NCpOARhKlP6DFFQAh6LFvl2e9PqOixK8Ry93CstV
-	UbDA==
+	bh=V4FO/4vDfUYXhv0hUf0VkpD2C+NuA0Nhc2FW6S1ZLPE=;
+	b=aBviLL1LffFjlUPTlOrkIPYWamZFF+z40+aaxA5agV21Oab4LKj6j/QP414LyoH6J8
+	kEjmQtOfuoFzbUfjXSHEPli4sU/6FA2KIHc47EHeCL4X7bovL23/J30Th7/6fRqhYdVu
+	dWnJUoIL0vJXe3qFbftHWuD93+hLNXGHsRjqd8AdRjfoT7AxZeFfftrsa7jLx9IvGNDI
+	SazUqTnmrGIu6uMxbh+vethmsCX8uTHVfscpRatqKrBtg6sZ6Yhgqiu8ju8jiyF5PVkE
+	WbudynB54437gSjYKL/ZDbH0iu6eELb4fW+b/dH2XwridFZeyln1dyIzSh6//Rvz0S76
+	4ACA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=6fAiRzgNXrfYcpso+96yNIf18bf+QqR1W7fdgjYw+40=;
-	b=EyTiSi73Rx/jiPmSnxy34REe/fpKFim/CvnowCcb2nQqulqw0spmV33aBvmFBpmBSu
-	0XcFMh0I3N8firDJioJJFU48xRbOZrvZi2LdaOqJJodng5qPBYDLlEbgPQP6/l0pOc+o
-	E6RBE+H62JfGwGQaeOhJxGr1qKHoAc+HzL6Qn9SN1jG0KZiuKq8y5n/DIOHXEgIKeFFD
-	AaI25/u2IVLMZCw9lUg/toZ9mp/hTTEwTMrP9OnD81WeSsxEni2dznFarXhrm1fD6L4q
-	GLrWlpQip0IjK26DvAu1Xn4nquoE46l1PU5neMAN8wFVGVQxvpugEM13P9J8h1gGXBa0
-	nAxA==
-X-Gm-Message-State: APjAAAUjUnTOwl3mYIv4fIA9+ki0owU7DHpzNFXsEzNPubrWJkXBCKQR
-	PYy3PQp4K9ff+/49XVt0ad7W7cVK3UhX015FqJc=
-X-Google-Smtp-Source: APXvYqyj55VFSCf05xK6+qHy4TxI42Xy612m52EPs3Y57I9OnN2qfQMv1xLB3knnsHWDZMQyPK+1Bk1ndeMdUznF10w=
-X-Received: by 2002:a2e:8988:: with SMTP id c8mr2966973lji.99.1557521466373;
-	Fri, 10 May 2019 13:51:06 -0700 (PDT)
+	bh=V4FO/4vDfUYXhv0hUf0VkpD2C+NuA0Nhc2FW6S1ZLPE=;
+	b=DPc7vAE0JmeR86K3J2UzhVH1UdZKR0o4lRIRpWZcJfml9rP7psg9Y/x4woPHqqS3IO
+	SyMVsKpdLZCHQ/PT7CvbdtCLSowBTswx6FTxAqBmAvOY97aQcNN87EGa5VV5qI6KojCF
+	3M1ISZqMcUgoJUAOnu4oyDKGUoPZ9mP8eO7JHAtJPdGreKyPAOJIwx72ZrE4DY7e3OLO
+	amaaH0AUgFL+BU2ji0c8/dA02F+KwtH+NnBKLCm4UBnTxIX5z17zdOwxVGfP8S1iKJ/I
+	5Fmri5XYQ9xyuDTVi5ZdDN0zZg4Zgm3muocp594BjDpsOBjI5ohThZ1G2pHpG0G4RpEp
+	yJDg==
+X-Gm-Message-State: APjAAAVUsmrEUSBoT3gxEOXN/VgFfHkuNkWMRE4g2p/QNY8sOW3hyISn
+	vgqR3hvR1E4MRlc0HJi/Z2snH20zfWNZd2Z7ZRM=
+X-Google-Smtp-Source: APXvYqySDjtZkPawt/zPDDyuVmeBiGqd1O2c2u9DwLr6ghfYiJguDYIMataXJkkMknn0XfzQTCizQvKDoPwTSlKB0k4=
+X-Received: by 2002:a2e:824b:: with SMTP id j11mr6832502ljh.197.1557521516851; 
+	Fri, 10 May 2019 13:51:56 -0700 (PDT)
 MIME-Version: 1.0
 References: <20190507163416.24647-1-philmd@redhat.com>
-	<20190507163416.24647-15-philmd@redhat.com>
-In-Reply-To: <20190507163416.24647-15-philmd@redhat.com>
+	<20190507163416.24647-17-philmd@redhat.com>
+In-Reply-To: <20190507163416.24647-17-philmd@redhat.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Fri, 10 May 2019 13:48:57 -0700
-Message-ID: <CAKmqyKMkQR6FTXSo=zLm48mD8L-66g1iTiU0uupejTe4V0fmYA@mail.gmail.com>
+Date: Fri, 10 May 2019 13:49:48 -0700
+Message-ID: <CAKmqyKN_rKoPCf4Lk+v4Ly0P0gvp0gJYJSqm-ivWdE5+wFXy4w@mail.gmail.com>
 To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::242
-Subject: Re: [Qemu-devel] [PATCH v2 14/16] hw/microblaze/zynqmp: Use
- object_initialize_child for correct ref. counting
+X-Received-From: 2a00:1450:4864:20::241
+Subject: Re: [Qemu-devel] [PATCH v2 16/16] hw/intc/nvic: Use
+ object_initialize_child for correct reference counting
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -98,7 +98,7 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 7, 2019 at 9:52 AM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
+On Tue, May 7, 2019 at 9:48 AM Philippe Mathieu-Daud=C3=A9 <philmd@redhat.c=
 om> wrote:
 >
 > As explained in commit aff39be0ed97:
@@ -111,44 +111,40 @@ om> wrote:
 >   Thus let's use now object_initialize_child() instead to get the
 >   reference counting here right.
 >
-> This patch was generated using the following Coccinelle script
-> (with a bit of manual fix-up for overly long lines):
+> This patch was generated using the following Coccinelle script:
 >
->  @use_object_initialize_child@
->  expression parent_obj;
+>  @use_sysbus_init_child_obj_missing_parent@
 >  expression child_ptr;
->  expression child_name;
 >  expression child_type;
 >  expression child_size;
->  expression errp;
 >  @@
->  (
 >  -   object_initialize(child_ptr, child_size, child_type);
->  +   object_initialize_child(parent_obj, child_name,  child_ptr, child_si=
-ze,
->  +                           child_type, &error_abort, NULL);
->      ... when !=3D parent_obj
->  -   object_property_add_child(parent_obj, child_name, OBJECT(child_ptr),=
- NULL);
 >      ...
-> ?-   object_unref(OBJECT(child_ptr));
->  |
->  -   object_initialize(child_ptr, child_size, child_type);
->  +   object_initialize_child(parent_obj, child_name,  child_ptr, child_si=
-ze,
->  +                            child_type, errp, NULL);
->      ... when !=3D parent_obj
->  -   object_property_add_child(parent_obj, child_name, OBJECT(child_ptr),=
- errp);
+>  -   qdev_set_parent_bus(DEVICE(child_ptr), sysbus_get_default());
 >      ...
-> ?-   object_unref(OBJECT(child_ptr));
->  )
+>  ?-  object_unref(OBJECT(child_ptr));
+>  +   sysbus_init_child_obj(OBJECT(PARENT_OBJ), "CHILD_NAME", child_ptr,
+>  +                         child_size, child_type);
+>
+> We let NVIC adopt the SysTick timer.
 >
 > While the object_initialize() function doesn't take an
 > 'Error *errp' argument, the object_initialize_child() does.
 > Since this code is used when a machine is created (and is not
 > yet running), we deliberately choose to use the &error_abort
 > argument instead of ignoring errors if an object creation failed.
+> This choice also matches when using sysbus_init_child_obj(),
+> since its code is:
+>
+>   void sysbus_init_child_obj(Object *parent,
+>                              const char *childname, void *child,
+>                              size_t childsize, const char *childtype)
+>   {
+>       object_initialize_child(parent, childname, child, childsize,
+>                               childtype, &error_abort, NULL);
+>
+>       qdev_set_parent_bus(DEVICE(child), sysbus_get_default());
+>   }
 >
 > Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
 > Inspired-by: Thomas Huth <thuth@redhat.com>
@@ -159,31 +155,31 @@ Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 Alistair
 
 > ---
->  hw/microblaze/xlnx-zynqmp-pmu.c | 6 +++---
+>  hw/intc/armv7m_nvic.c | 6 +++---
 >  1 file changed, 3 insertions(+), 3 deletions(-)
 >
-> diff --git a/hw/microblaze/xlnx-zynqmp-pmu.c b/hw/microblaze/xlnx-zynqmp-=
-pmu.c
-> index 0948b1fd5f2..df6c0048aa6 100644
-> --- a/hw/microblaze/xlnx-zynqmp-pmu.c
-> +++ b/hw/microblaze/xlnx-zynqmp-pmu.c
-> @@ -176,9 +176,9 @@ static void xlnx_zynqmp_pmu_init(MachineState *machin=
-e)
->                                  pmu_ram);
+> diff --git a/hw/intc/armv7m_nvic.c b/hw/intc/armv7m_nvic.c
+> index fff6e694e60..2334fe51426 100644
+> --- a/hw/intc/armv7m_nvic.c
+> +++ b/hw/intc/armv7m_nvic.c
+> @@ -2568,9 +2568,9 @@ static void armv7m_nvic_realize(DeviceState *dev, E=
+rror **errp)
+>           * as we didn't know then if the CPU had the security extensions=
+;
+>           * so we have to do it here.
+>           */
+> -        object_initialize(&s->systick[M_REG_S], sizeof(s->systick[M_REG_=
+S]),
+> -                          TYPE_SYSTICK);
+> -        qdev_set_parent_bus(DEVICE(&s->systick[M_REG_S]), sysbus_get_def=
+ault());
+> +        sysbus_init_child_obj(OBJECT(dev), "systick-reg-s",
+> +                              &s->systick[M_REG_S],
+> +                              sizeof(s->systick[M_REG_S]), TYPE_SYSTICK)=
+;
 >
->      /* Create the PMU device */
-> -    object_initialize(pmu, sizeof(XlnxZynqMPPMUSoCState), TYPE_XLNX_ZYNQ=
-MP_PMU_SOC);
-> -    object_property_add_child(OBJECT(machine), "pmu", OBJECT(pmu),
-> -                              &error_abort);
-> +    object_initialize_child(OBJECT(machine), "pmu", pmu,
-> +                            sizeof(XlnxZynqMPPMUSoCState),
-> +                            TYPE_XLNX_ZYNQMP_PMU_SOC, &error_abort, NULL=
-);
->      object_property_set_bool(OBJECT(pmu), true, "realized", &error_fatal=
-);
->
->      /* Load the kernel */
+>          object_property_set_bool(OBJECT(&s->systick[M_REG_S]), true,
+>                                   "realized", &err);
 > --
 > 2.20.1
 >
