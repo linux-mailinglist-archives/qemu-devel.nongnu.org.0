@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 207201963D
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 03:41:37 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:35229 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BED1919627
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 03:27:44 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:35018 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hOuXY-0003ic-AU
-	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 21:41:36 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58639)
+	id 1hOuK7-0007vC-SJ
+	for lists+qemu-devel@lfdr.de; Thu, 09 May 2019 21:27:43 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58564)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOuHk-0006Iw-K5
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 21:25:21 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hOuHj-00014L-6x
+	(envelope-from <richard.henderson@linaro.org>) id 1hOuHi-0006Ii-Sb
 	for qemu-devel@nongnu.org; Thu, 09 May 2019 21:25:16 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:41833)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+	(envelope-from <richard.henderson@linaro.org>) id 1hOuHg-00012i-VH
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 21:25:14 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:44638)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hOuHj-0000tH-04
-	for qemu-devel@nongnu.org; Thu, 09 May 2019 21:25:15 -0400
-Received: by mail-pf1-x444.google.com with SMTP id l132so2251967pfc.8
-	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 18:25:02 -0700 (PDT)
+	id 1hOuHZ-0000tr-E2
+	for qemu-devel@nongnu.org; Thu, 09 May 2019 21:25:07 -0400
+Received: by mail-pf1-x442.google.com with SMTP id g9so2244262pfo.11
+	for <qemu-devel@nongnu.org>; Thu, 09 May 2019 18:25:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=5jZKWwQgoaRofSd9MpX36fg/EnNSkz9sJL+VHY1E4dI=;
-	b=Jlw2BOZlKaGi4oH9ckPffXjBPBWonfzGjuoLuJCXqBKIfZo1izQxjfnMkEUDtp2eqe
-	sNODli5s71TxhSrvKmTWjD1HB08x7h1IrNQkDfmFEQymsvdzubDehDiSiIn++6NptVwU
-	CCS/Dz4S+pKOJUDPMhnrBVtiJHNivHUKt908SKDe9rOC7hlvsD4JfFJUillV24psR4zj
-	d+AgUynHsDNpamr4I+Mnb0z5h40LeWLosjNr/cr/qUi7EDejRx0wWCArI440gvqlZmK3
-	LcxHhRrG992xIZgAvXugzILeT9vbbH50j1dq6mbJLrP/s8vA96nZ2k9ntn/e+QZIVhcQ
-	wQfQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=Fwm1k5v3NRHCLn/Bn3EHiCpV8kVUpNoBlaYzJ8dxxt0=;
+	b=l/MAxEtbYYxCF6JVXlX9X5JLnFHYh60XhUl//ffcjufrkLID03DBGv1I3gKaXQLLWB
+	fetxxcF3LjTfPH1/6i80/BCbURKuCQUZy63lZBof30hnepXQzCZEPSCXHAqmKOrfNlGb
+	isA/UQNb47tN5b2Pv92dHMK0h9w6EoWE0UJ7S5CpfgIGG3lMBmjvqPONBdK7jfu9WV/y
+	qgHDAPR1RgNzY7Cd2QyT6V6+8TQOo/IwojVW6rYMeN+5NvMXg75v7qLEbQiBo9yn3XeU
+	zaMtBpaeA7LHWaR1mK6LG9uk7ug1AcUlk65D9gaReKPReEwi0HCzSRkR7hVTdhjJhMAy
+	fzDA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=5jZKWwQgoaRofSd9MpX36fg/EnNSkz9sJL+VHY1E4dI=;
-	b=hSu5S39RR+6GU1hECNcpUfuwV6kVRvX9PK0xP7seU2VLLyUlpt9y1FFsAhx4HF1rz4
-	pkB53UakX4pGakBIiRgfKJWspX+N2ssk2vKt70NkWk9jdayLSI25s7Irg0akDvyPx0IP
-	NVLt04C92UPArKPENqAHyK7oWST179lX3+bmin/SS3AIuBH7GCN+jwmMFVoY9tEUoI8s
-	1qGoD5xaY6H9+AxG6J8M+zNtfLXJ38HfYDspXaWuSr5SvZBRFrgy18FcPQS+9mWrsaCc
-	NCEj24DcVQuXt/tzyNzdkmOZdQPAnAr1w7lPoRS2Ndi4ixUlFU+Aakh15RMpBuiLVzU5
-	zagw==
-X-Gm-Message-State: APjAAAUlkEYdBWAyB+/k7+G1rZKKXE6GqoJrNiPTQaH/Meib9E8CuVOn
-	H0ScnfJexY71QNJVTmqwvWfkI9I6pAA=
-X-Google-Smtp-Source: APXvYqyhmQH8QbpGJVycUlEjGb/NQnnmJVCjjY/iiyANrl8s/KQ/JQ3ku44IgqBYilCTMjWaHy3erQ==
-X-Received: by 2002:a63:682:: with SMTP id 124mr10106503pgg.243.1557451501382; 
-	Thu, 09 May 2019 18:25:01 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references:mime-version:content-transfer-encoding;
+	bh=Fwm1k5v3NRHCLn/Bn3EHiCpV8kVUpNoBlaYzJ8dxxt0=;
+	b=kuuDxHa7b/lOlmHEBLln6sM9BUxB8RElkHUdLES2SnzYA7ttn96ky4tgAFF+ciXIKu
+	Osm6lhyve8Ga2BWhYaX1y1X687IO9CRcMVG2zc9fj8RsOiC8Peu/wfMnKRh3oJTOwQPj
+	klmlVS5DuEXc+LvGvH+RCx+efM9Nld2692c2MtNsh3eIwNEnsLdeBaFYULTSqirRAjIb
+	ArTwroHGzJZ9sAz914zsM/JcC9cQitsC9za6OMthka86p77qDtbh3Pu0S3n8cMeL8nEK
+	e0JODx1o8riN2pWYAaG4GqUeIYl/9bF+eqcjar5a5n7AlbXugUB+uc6MuNgLioFzdg2E
+	N9uw==
+X-Gm-Message-State: APjAAAX5tvUX0fIHg4QKhaI/D4JJ37T7eVamrWxzovAkieu8KlVimpif
+	05cwhiEEx5kIgwkR3kncy2dcKlEOaH0=
+X-Google-Smtp-Source: APXvYqxuW7+44DHkLNDTBuxufYZBzWQZYGN0pFdRm+mscNuz59yYj4gskI0lfDB3u6bu8ysm2qfkmg==
+X-Received: by 2002:a63:2b0d:: with SMTP id r13mr10039683pgr.400.1557451502591;
+	Thu, 09 May 2019 18:25:02 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	n18sm8252700pfi.48.2019.05.09.18.25.00 for <qemu-devel@nongnu.org>
+	n18sm8252700pfi.48.2019.05.09.18.25.01
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 09 May 2019 18:25:00 -0700 (PDT)
+	Thu, 09 May 2019 18:25:01 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu,  9 May 2019 18:24:35 -0700
-Message-Id: <20190510012458.22706-2-richard.henderson@linaro.org>
+Date: Thu,  9 May 2019 18:24:36 -0700
+Message-Id: <20190510012458.22706-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190510012458.22706-1-richard.henderson@linaro.org>
 References: <20190510012458.22706-1-richard.henderson@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::444
-Subject: [Qemu-devel] [PATCH v5 01/24] configure: Link test before
- auto-enabling crypto libraries
+X-Received-From: 2607:f8b0:4864:20::442
+Subject: [Qemu-devel] [PATCH v5 02/24] crypto: Merge crypto-obj-y into
+ libqemuutil.a
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -79,139 +83,167 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-At least ubuntu 18.04 does not package static gnutls libraries.
-At least Fedora 30 does not ship static nettle and gcrypt libraries.
+We will shortly need this in the user-only binaries, so drop the split
+into system and tools binaries.  This also means that crypto-aes-obj-y
+can be merged back into crypto-obj-y.
 
+Cc: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
-v5: Include nettle, gcrypt.
----
- configure | 72 +++++++++++++++++++++++++++++++++----------------------
- 1 file changed, 44 insertions(+), 28 deletions(-)
+ Makefile             | 12 +++++-------
+ Makefile.objs        |  8 ++------
+ Makefile.target      |  4 ----
+ configure            |  9 +++------
+ crypto/Makefile.objs |  5 +----
+ 5 files changed, 11 insertions(+), 27 deletions(-)
 
+diff --git a/Makefile b/Makefile
+index a971247cac..7c9c208207 100644
+--- a/Makefile
++++ b/Makefile
+@@ -410,7 +410,6 @@ dummy := $(call unnest-vars,, \
+                 block-obj-y \
+                 block-obj-m \
+                 crypto-obj-y \
+-                crypto-aes-obj-y \
+                 qom-obj-y \
+                 io-obj-y \
+                 common-obj-y \
+@@ -446,7 +445,6 @@ SOFTMMU_SUBDIR_RULES=$(filter %-softmmu,$(SUBDIR_RULES))
+ 
+ $(SOFTMMU_SUBDIR_RULES): $(authz-obj-y)
+ $(SOFTMMU_SUBDIR_RULES): $(block-obj-y)
+-$(SOFTMMU_SUBDIR_RULES): $(crypto-obj-y)
+ $(SOFTMMU_SUBDIR_RULES): $(io-obj-y)
+ $(SOFTMMU_SUBDIR_RULES): config-all-devices.mak
+ $(SOFTMMU_SUBDIR_RULES): $(edk2-decompressed)
+@@ -502,7 +500,7 @@ Makefile: $(version-obj-y)
+ ######################################################################
+ # Build libraries
+ 
+-libqemuutil.a: $(util-obj-y) $(trace-obj-y) $(stub-obj-y)
++libqemuutil.a: $(util-obj-y) $(trace-obj-y) $(stub-obj-y) $(crypto-obj-y)
+ libvhost-user.a: $(libvhost-user-obj-y) $(util-obj-y) $(stub-obj-y)
+ 
+ ######################################################################
+@@ -511,9 +509,9 @@ COMMON_LDADDS = libqemuutil.a
+ 
+ qemu-img.o: qemu-img-cmds.h
+ 
+-qemu-img$(EXESUF): qemu-img.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
+-qemu-nbd$(EXESUF): qemu-nbd.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
+-qemu-io$(EXESUF): qemu-io.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
++qemu-img$(EXESUF): qemu-img.o $(authz-obj-y) $(block-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
++qemu-nbd$(EXESUF): qemu-nbd.o $(authz-obj-y) $(block-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
++qemu-io$(EXESUF): qemu-io.o $(authz-obj-y) $(block-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
+ 
+ qemu-bridge-helper$(EXESUF): qemu-bridge-helper.o $(COMMON_LDADDS)
+ 
+@@ -524,7 +522,7 @@ qemu-edid$(EXESUF): qemu-edid.o hw/display/edid-generate.o $(COMMON_LDADDS)
+ fsdev/virtfs-proxy-helper$(EXESUF): fsdev/virtfs-proxy-helper.o fsdev/9p-marshal.o fsdev/9p-iov-marshal.o $(COMMON_LDADDS)
+ fsdev/virtfs-proxy-helper$(EXESUF): LIBS += -lcap
+ 
+-scsi/qemu-pr-helper$(EXESUF): scsi/qemu-pr-helper.o scsi/utils.o $(authz-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
++scsi/qemu-pr-helper$(EXESUF): scsi/qemu-pr-helper.o scsi/utils.o $(authz-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
+ ifdef CONFIG_MPATH
+ scsi/qemu-pr-helper$(EXESUF): LIBS += -ludev -lmultipath -lmpathpersist
+ endif
+diff --git a/Makefile.objs b/Makefile.objs
+index cf065de5ed..0ce429c1af 100644
+--- a/Makefile.objs
++++ b/Makefile.objs
+@@ -3,6 +3,8 @@
+ stub-obj-y = stubs/ util/ crypto/
+ util-obj-y = util/ qobject/ qapi/
+ 
++crypto-obj-y = crypto/
++
+ chardev-obj-y = chardev/
+ 
+ #######################################################################
+@@ -21,12 +23,6 @@ block-obj-$(CONFIG_REPLICATION) += replication.o
+ 
+ block-obj-m = block/
+ 
+-#######################################################################
+-# crypto-obj-y is code used by both qemu system emulation and qemu-img
+-
+-crypto-obj-y = crypto/
+-crypto-aes-obj-y = crypto/
+-
+ #######################################################################
+ # qom-obj-y is code used by both qemu system emulation and qemu-img
+ 
+diff --git a/Makefile.target b/Makefile.target
+index ae02495951..ce02924ffb 100644
+--- a/Makefile.target
++++ b/Makefile.target
+@@ -179,8 +179,6 @@ dummy := $(call unnest-vars,.., \
+                block-obj-y \
+                block-obj-m \
+                chardev-obj-y \
+-               crypto-obj-y \
+-               crypto-aes-obj-y \
+                qom-obj-y \
+                io-obj-y \
+                common-obj-y \
+@@ -189,8 +187,6 @@ all-obj-y += $(common-obj-y)
+ all-obj-y += $(qom-obj-y)
+ all-obj-$(CONFIG_SOFTMMU) += $(authz-obj-y)
+ all-obj-$(CONFIG_SOFTMMU) += $(block-obj-y) $(chardev-obj-y)
+-all-obj-$(CONFIG_USER_ONLY) += $(crypto-aes-obj-y)
+-all-obj-$(CONFIG_SOFTMMU) += $(crypto-obj-y)
+ all-obj-$(CONFIG_SOFTMMU) += $(io-obj-y)
+ 
+ ifdef CONFIG_SOFTMMU
 diff --git a/configure b/configure
-index 63f312bd1f..c4f27ed453 100755
+index c4f27ed453..68b34a93eb 100755
 --- a/configure
 +++ b/configure
-@@ -2784,17 +2784,24 @@ fi
- # GNUTLS probe
- 
- if test "$gnutls" != "no"; then
-+    pass="no"
-     if $pkg_config --exists "gnutls >= 3.1.18"; then
-         gnutls_cflags=$($pkg_config --cflags gnutls)
-         gnutls_libs=$($pkg_config --libs gnutls)
--        libs_softmmu="$gnutls_libs $libs_softmmu"
--        libs_tools="$gnutls_libs $libs_tools"
--	QEMU_CFLAGS="$QEMU_CFLAGS $gnutls_cflags"
--        gnutls="yes"
--    elif test "$gnutls" = "yes"; then
-+        # Packaging for the static libraries is not always correct.
-+        # At least ubuntu 18.04 ships only shared libraries.
-+        write_c_skeleton
-+        if compile_prog "" "$gnutls_libs" ; then
-+            libs_softmmu="$gnutls_libs $libs_softmmu"
-+            libs_tools="$gnutls_libs $libs_tools"
-+            QEMU_CFLAGS="$QEMU_CFLAGS $gnutls_cflags"
-+            pass="yes"
-+        fi
-+    fi
-+    if test "$pass" = "no" && test "$gnutls" = "yes"; then
- 	feature_not_found "gnutls" "Install gnutls devel >= 3.1.18"
-     else
--        gnutls="no"
-+        gnutls="$pass"
-     fi
- fi
- 
-@@ -2849,43 +2856,54 @@ has_libgcrypt() {
- 
- 
- if test "$nettle" != "no"; then
-+    pass="no"
-     if $pkg_config --exists "nettle >= 2.7.1"; then
-         nettle_cflags=$($pkg_config --cflags nettle)
-         nettle_libs=$($pkg_config --libs nettle)
-         nettle_version=$($pkg_config --modversion nettle)
--        libs_softmmu="$nettle_libs $libs_softmmu"
--        libs_tools="$nettle_libs $libs_tools"
--        QEMU_CFLAGS="$QEMU_CFLAGS $nettle_cflags"
--        nettle="yes"
+@@ -2792,8 +2792,7 @@ if test "$gnutls" != "no"; then
+         # At least ubuntu 18.04 ships only shared libraries.
+         write_c_skeleton
+         if compile_prog "" "$gnutls_libs" ; then
+-            libs_softmmu="$gnutls_libs $libs_softmmu"
+-            libs_tools="$gnutls_libs $libs_tools"
++            LIBS="$gnutls_libs $LIBS"
+             QEMU_CFLAGS="$QEMU_CFLAGS $gnutls_cflags"
+             pass="yes"
+         fi
+@@ -2864,8 +2863,7 @@ if test "$nettle" != "no"; then
+         # Link test to make sure the given libraries work (e.g for static).
+         write_c_skeleton
+         if compile_prog "" "$nettle_libs" ; then
+-            libs_softmmu="$nettle_libs $libs_softmmu"
+-            libs_tools="$nettle_libs $libs_tools"
++            LIBS="$nettle_libs $LIBS"
+             QEMU_CFLAGS="$QEMU_CFLAGS $nettle_cflags"
+             if test -z "$gcrypt"; then
+                gcrypt="no"
+@@ -2896,8 +2894,7 @@ if test "$gcrypt" != "no"; then
+         # Link test to make sure the given libraries work (e.g for static).
+         write_c_skeleton
+         if compile_prog "" "$gcrypt_libs" ; then
+-            libs_softmmu="$gcrypt_libs $libs_softmmu"
+-            libs_tools="$gcrypt_libs $libs_tools"
++            LIBS="$gcrypt_libs $LIBS"
+             QEMU_CFLAGS="$QEMU_CFLAGS $gcrypt_cflags"
+             pass="yes"
+         fi
+diff --git a/crypto/Makefile.objs b/crypto/Makefile.objs
+index 256c9aca1f..a291bc5b9a 100644
+--- a/crypto/Makefile.objs
++++ b/crypto/Makefile.objs
+@@ -34,8 +34,5 @@ crypto-obj-y += xts.o
+ crypto-obj-y += block.o
+ crypto-obj-y += block-qcow.o
+ crypto-obj-y += block-luks.o
 -
--        if test -z "$gcrypt"; then
--           gcrypt="no"
-+        # Link test to make sure the given libraries work (e.g for static).
-+        write_c_skeleton
-+        if compile_prog "" "$nettle_libs" ; then
-+            libs_softmmu="$nettle_libs $libs_softmmu"
-+            libs_tools="$nettle_libs $libs_tools"
-+            QEMU_CFLAGS="$QEMU_CFLAGS $nettle_cflags"
-+            if test -z "$gcrypt"; then
-+               gcrypt="no"
-+            fi
-+            pass="yes"
-         fi
-+    fi
-+    if test "$pass" = "no" && test "$nettle" = "yes"; then
-+        feature_not_found "nettle" "Install nettle devel >= 2.7.1"
-     else
--        if test "$nettle" = "yes"; then
--            feature_not_found "nettle" "Install nettle devel >= 2.7.1"
--        else
--            nettle="no"
--        fi
-+        nettle="$pass"
-     fi
- fi
- 
- if test "$gcrypt" != "no"; then
-+    pass="no"
-     if has_libgcrypt; then
-         gcrypt_cflags=$(libgcrypt-config --cflags)
-         gcrypt_libs=$(libgcrypt-config --libs)
--        # Debian has remove -lgpg-error from libgcrypt-config
-+        # Debian has removed -lgpg-error from libgcrypt-config
-         # as it "spreads unnecessary dependencies" which in
-         # turn breaks static builds...
-         if test "$static" = "yes"
-         then
-             gcrypt_libs="$gcrypt_libs -lgpg-error"
-         fi
--        libs_softmmu="$gcrypt_libs $libs_softmmu"
--        libs_tools="$gcrypt_libs $libs_tools"
--        QEMU_CFLAGS="$QEMU_CFLAGS $gcrypt_cflags"
--        gcrypt="yes"
- 
-+        # Link test to make sure the given libraries work (e.g for static).
-+        write_c_skeleton
-+        if compile_prog "" "$gcrypt_libs" ; then
-+            libs_softmmu="$gcrypt_libs $libs_softmmu"
-+            libs_tools="$gcrypt_libs $libs_tools"
-+            QEMU_CFLAGS="$QEMU_CFLAGS $gcrypt_cflags"
-+            pass="yes"
-+        fi
-+    fi
-+    if test "$pass" = "yes"; then
-+        gcrypt="yes"
-         cat > $TMPC << EOF
- #include <gcrypt.h>
- int main(void) {
-@@ -2898,12 +2916,10 @@ EOF
-         if compile_prog "$gcrypt_cflags" "$gcrypt_libs" ; then
-             gcrypt_hmac=yes
-         fi
-+    elif test "$gcrypt" = "yes"; then
-+        feature_not_found "gcrypt" "Install gcrypt devel >= 1.5.0"
-     else
--        if test "$gcrypt" = "yes"; then
--            feature_not_found "gcrypt" "Install gcrypt devel >= 1.5.0"
--        else
--            gcrypt="no"
--        fi
-+        gcrypt="no"
-     fi
- fi
- 
+-# Let the userspace emulators avoid linking gnutls/etc
+-crypto-aes-obj-y = aes.o
+-
++crypto-obj-y += aes.o
+ stub-obj-y += pbkdf-stub.o
 -- 
 2.17.1
 
