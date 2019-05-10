@@ -2,73 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 127591A073
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 17:48:56 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:45401 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A89781A056
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 17:39:39 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:45246 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hP7lX-0000U1-8I
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 11:48:55 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56435)
+	id 1hP7cY-0000fv-RM
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 11:39:38 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57467)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hP7Jx-0007yv-JY
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 11:20:26 -0400
+	(envelope-from <eblake@redhat.com>) id 1hP7OH-0003zZ-TS
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 11:24:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hP7Jv-0000RN-Kb
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 11:20:25 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:37591)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hP7Jv-0000QR-5X
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 11:20:23 -0400
-Received: by mail-pg1-x542.google.com with SMTP id e6so3181674pgc.4
-	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 08:20:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=r0SecknPCOTFJNz8WLFcQ0P40WSPEdkeOXrJuI8JGJI=;
-	b=zGljSz4bJljiC8FoZ9eUzfl5/oy4Wu44aO3MYyh8+Q9v2PKF+Ef6Bcl+KnP0Js/l/f
-	yODquTmoi1EY0M05+Qg7kDhyYsjEdSJOFk9G5GYysQHgBR6DdvjQEEMqsIkCavtwBJuD
-	yEgLY06f33NVCe/HLlcnDK7L3euu0DOq4UvktnwVoSloEQW4jQjVJqua18BdRcaA5AGm
-	7M7dA/tAHWa1HWQQ9ejYFC+mSgdar9QxgMCU/pbM9UlOI5IeUDCQPfiz0SbSgphGqLVE
-	wTLTJDCq6uIJUPqva0n6Tp8VemzfI9qwj9/AQDp6oTjTst9Rqp0jkzJB793BEtL8RJ1J
-	Ai8g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=r0SecknPCOTFJNz8WLFcQ0P40WSPEdkeOXrJuI8JGJI=;
-	b=X1LqZCuVEuAuha+hdE0cnhjjjnTQav6nGPM9B8Ph+CsWA2b7jiD/z1OJsee0dD8Pu+
-	oYdwxUeM2oxJ1TwqJ+GqKLNthYtVkt8725Sg4h9LsGqXae2jftedOmDcIpIFclfMjanY
-	I8h7IbDLiysRaXkOTpG5Sne5voIoL3mZi4Zg7TULKATiUO6LUVc7cp6RJihyvZnnEa09
-	dJrn1/5uF1dc742AJrXObgu/vNs1XbRW5bilBJmOqungoivu9iAPJht6YNa4fYLyenRq
-	yZB3WsE+2v0vHVQk1kS6T7QbJTLDbIM/xEhJJ5jMjiaGW60mE+LmwgFAotB+crMojeif
-	LqaA==
-X-Gm-Message-State: APjAAAU+kKicwBy1uEtzKk9ZeVu+PAN/C/cKDyZf+GEl5iaYJLd9Wi1K
-	sTv6cHH5K8jgzpfAOyJCiU14aTZuAWQ=
-X-Google-Smtp-Source: APXvYqyF/mK0iKfAqT5tXSNVBy29c4hozGirtrUJT4LZTI2pT1/Oqa5eL3o4ZhtzSmoEAH1zN1q1Eg==
-X-Received: by 2002:a63:6e0b:: with SMTP id j11mr1552224pgc.291.1557501621145; 
-	Fri, 10 May 2019 08:20:21 -0700 (PDT)
-Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
-	[97.113.13.231])
-	by smtp.gmail.com with ESMTPSA id 19sm5920517pgz.24.2019.05.10.08.20.19
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 10 May 2019 08:20:20 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Fri, 10 May 2019 08:19:44 -0700
-Message-Id: <20190510151944.22981-28-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190510151944.22981-1-richard.henderson@linaro.org>
-References: <20190510151944.22981-1-richard.henderson@linaro.org>
+	(envelope-from <eblake@redhat.com>) id 1hP7OG-0004Sf-1q
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 11:24:53 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44454)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <eblake@redhat.com>)
+	id 1hP7OD-0004Pq-JU; Fri, 10 May 2019 11:24:50 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 7CB513092654;
+	Fri, 10 May 2019 15:24:47 +0000 (UTC)
+Received: from [10.3.116.15] (ovpn-116-15.phx2.redhat.com [10.3.116.15])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id C00EC1001E6D;
+	Fri, 10 May 2019 15:24:46 +0000 (UTC)
+To: Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+	qemu-devel@nongnu.org
+References: <20190510052239.21947-1-thuth@redhat.com>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+	xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+	xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+	TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+	GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+	sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+	AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+	CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+	RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+	wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+	Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+	gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+	pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+	zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+	pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+	3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+	NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+	cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+	SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+	I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+	mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+	Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+	2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <ac4a7ace-813d-31a8-9aae-1b5523988de8@redhat.com>
+Date: Fri, 10 May 2019 10:24:45 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::542
-Subject: [Qemu-devel] [PULL 27/27] tcg: Use tlb_fill probe from
- tlb_vaddr_to_host
+In-Reply-To: <20190510052239.21947-1-thuth@redhat.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature";
+	boundary="b22CqjwEZZwXRLoaG6V4mezwuQYn8qAOw"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.43]);
+	Fri, 10 May 2019 15:24:47 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [PATCH] tests/libqtest: Remove unused
+ global_qtest-related wrapper functions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -80,208 +87,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Most of the existing users would continue around a loop which
-would fault the tlb entry in via a normal load/store.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--b22CqjwEZZwXRLoaG6V4mezwuQYn8qAOw
+From: Eric Blake <eblake@redhat.com>
+To: Thomas Huth <thuth@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+ qemu-devel@nongnu.org
+Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <ac4a7ace-813d-31a8-9aae-1b5523988de8@redhat.com>
+Subject: Re: [Qemu-devel] [PATCH] tests/libqtest: Remove unused
+ global_qtest-related wrapper functions
+References: <20190510052239.21947-1-thuth@redhat.com>
+In-Reply-To: <20190510052239.21947-1-thuth@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-But for AArch64 SVE we have an existing emulation bug wherein we
-would mark the first element of a no-fault vector load as faulted
-(within the FFR, not via exception) just because we did not have
-its address in the TLB.  Now we can properly only mark it as faulted
-if there really is no valid, readable translation, while still not
-raising an exception.  (Note that beyond the first element of the
-vector, the hardware may report a fault for any reason whatsoever;
-with at least one element loaded, forward progress is guaranteed.)
+On 5/10/19 12:22 AM, Thomas Huth wrote:
+> A bunch of the wrapper functions that use global_qtest are not used
+> anymore. Remove them to avoid that they are used in new code again.
+>=20
+> Signed-off-by: Thomas Huth <thuth@redhat.com>
+> ---
+>  tests/libqtest.c |  11 +----
+>  tests/libqtest.h | 108 -----------------------------------------------=
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- include/exec/cpu_ldst.h | 50 ++++++-----------------------
- accel/tcg/cputlb.c      | 69 ++++++++++++++++++++++++++++++++++++-----
- target/arm/sve_helper.c |  6 +---
- 3 files changed, 72 insertions(+), 53 deletions(-)
+>  2 files changed, 1 insertion(+), 118 deletions(-)
 
-diff --git a/include/exec/cpu_ldst.h b/include/exec/cpu_ldst.h
-index d78041d7a0..7b28a839d2 100644
---- a/include/exec/cpu_ldst.h
-+++ b/include/exec/cpu_ldst.h
-@@ -433,50 +433,20 @@ static inline CPUTLBEntry *tlb_entry(CPUArchState *env, uintptr_t mmu_idx,
-  * @mmu_idx: MMU index to use for lookup
-  *
-  * Look up the specified guest virtual index in the TCG softmmu TLB.
-- * If the TLB contains a host virtual address suitable for direct RAM
-- * access, then return it. Otherwise (TLB miss, TLB entry is for an
-- * I/O access, etc) return NULL.
-- *
-- * This is the equivalent of the initial fast-path code used by
-- * TCG backends for guest load and store accesses.
-+ * If we can translate a host virtual address suitable for direct RAM
-+ * access, without causing a guest exception, then return it.
-+ * Otherwise (TLB entry is for an I/O access, guest software
-+ * TLB fill required, etc) return NULL.
-  */
-+#ifdef CONFIG_USER_ONLY
- static inline void *tlb_vaddr_to_host(CPUArchState *env, abi_ptr addr,
--                                      int access_type, int mmu_idx)
-+                                      MMUAccessType access_type, int mmu_idx)
- {
--#if defined(CONFIG_USER_ONLY)
-     return g2h(addr);
--#else
--    CPUTLBEntry *tlbentry = tlb_entry(env, mmu_idx, addr);
--    abi_ptr tlb_addr;
--    uintptr_t haddr;
--
--    switch (access_type) {
--    case 0:
--        tlb_addr = tlbentry->addr_read;
--        break;
--    case 1:
--        tlb_addr = tlb_addr_write(tlbentry);
--        break;
--    case 2:
--        tlb_addr = tlbentry->addr_code;
--        break;
--    default:
--        g_assert_not_reached();
--    }
--
--    if (!tlb_hit(tlb_addr, addr)) {
--        /* TLB entry is for a different page */
--        return NULL;
--    }
--
--    if (tlb_addr & ~TARGET_PAGE_MASK) {
--        /* IO access */
--        return NULL;
--    }
--
--    haddr = addr + tlbentry->addend;
--    return (void *)haddr;
--#endif /* defined(CONFIG_USER_ONLY) */
- }
-+#else
-+void *tlb_vaddr_to_host(CPUArchState *env, abi_ptr addr,
-+                        MMUAccessType access_type, int mmu_idx);
-+#endif
- 
- #endif /* CPU_LDST_H */
-diff --git a/accel/tcg/cputlb.c b/accel/tcg/cputlb.c
-index dfcd9ae168..45a5c4e123 100644
---- a/accel/tcg/cputlb.c
-+++ b/accel/tcg/cputlb.c
-@@ -1007,6 +1007,16 @@ static void io_writex(CPUArchState *env, CPUIOTLBEntry *iotlbentry,
-     }
- }
- 
-+static inline target_ulong tlb_read_ofs(CPUTLBEntry *entry, size_t ofs)
-+{
-+#if TCG_OVERSIZED_GUEST
-+    return *(target_ulong *)((uintptr_t)entry + ofs);
-+#else
-+    /* ofs might correspond to .addr_write, so use atomic_read */
-+    return atomic_read((target_ulong *)((uintptr_t)entry + ofs));
-+#endif
-+}
-+
- /* Return true if ADDR is present in the victim tlb, and has been copied
-    back to the main tlb.  */
- static bool victim_tlb_hit(CPUArchState *env, size_t mmu_idx, size_t index,
-@@ -1017,14 +1027,7 @@ static bool victim_tlb_hit(CPUArchState *env, size_t mmu_idx, size_t index,
-     assert_cpu_is_self(ENV_GET_CPU(env));
-     for (vidx = 0; vidx < CPU_VTLB_SIZE; ++vidx) {
-         CPUTLBEntry *vtlb = &env->tlb_v_table[mmu_idx][vidx];
--        target_ulong cmp;
--
--        /* elt_ofs might correspond to .addr_write, so use atomic_read */
--#if TCG_OVERSIZED_GUEST
--        cmp = *(target_ulong *)((uintptr_t)vtlb + elt_ofs);
--#else
--        cmp = atomic_read((target_ulong *)((uintptr_t)vtlb + elt_ofs));
--#endif
-+        target_ulong cmp = tlb_read_ofs(vtlb, elt_ofs);
- 
-         if (cmp == page) {
-             /* Found entry in victim tlb, swap tlb and iotlb.  */
-@@ -1108,6 +1111,56 @@ void probe_write(CPUArchState *env, target_ulong addr, int size, int mmu_idx,
-     }
- }
- 
-+void *tlb_vaddr_to_host(CPUArchState *env, abi_ptr addr,
-+                        MMUAccessType access_type, int mmu_idx)
-+{
-+    CPUTLBEntry *entry = tlb_entry(env, mmu_idx, addr);
-+    uintptr_t tlb_addr, page;
-+    size_t elt_ofs;
-+
-+    switch (access_type) {
-+    case MMU_DATA_LOAD:
-+        elt_ofs = offsetof(CPUTLBEntry, addr_read);
-+        break;
-+    case MMU_DATA_STORE:
-+        elt_ofs = offsetof(CPUTLBEntry, addr_write);
-+        break;
-+    case MMU_INST_FETCH:
-+        elt_ofs = offsetof(CPUTLBEntry, addr_code);
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
-+
-+    page = addr & TARGET_PAGE_MASK;
-+    tlb_addr = tlb_read_ofs(entry, elt_ofs);
-+
-+    if (!tlb_hit_page(tlb_addr, page)) {
-+        uintptr_t index = tlb_index(env, mmu_idx, addr);
-+
-+        if (!victim_tlb_hit(env, mmu_idx, index, elt_ofs, page)) {
-+            CPUState *cs = ENV_GET_CPU(env);
-+            CPUClass *cc = CPU_GET_CLASS(cs);
-+
-+            if (!cc->tlb_fill(cs, addr, 0, access_type, mmu_idx, true, 0)) {
-+                /* Non-faulting page table read failed.  */
-+                return NULL;
-+            }
-+
-+            /* TLB resize via tlb_fill may have moved the entry.  */
-+            entry = tlb_entry(env, mmu_idx, addr);
-+        }
-+        tlb_addr = tlb_read_ofs(entry, elt_ofs);
-+    }
-+
-+    if (tlb_addr & ~TARGET_PAGE_MASK) {
-+        /* IO access */
-+        return NULL;
-+    }
-+
-+    return (void *)(addr + entry->addend);
-+}
-+
- /* Probe for a read-modify-write atomic operation.  Do not allow unaligned
-  * operations, or io operations to proceed.  Return the host address.  */
- static void *atomic_mmu_lookup(CPUArchState *env, target_ulong addr,
-diff --git a/target/arm/sve_helper.c b/target/arm/sve_helper.c
-index bc847250dd..fd434c66ea 100644
---- a/target/arm/sve_helper.c
-+++ b/target/arm/sve_helper.c
-@@ -4598,11 +4598,7 @@ static void sve_ldnf1_r(CPUARMState *env, void *vg, const target_ulong addr,
-      * in the real world, obviously.)
-      *
-      * Then there are the annoying special cases with watchpoints...
--     *
--     * TODO: Add a form of tlb_fill that does not raise an exception,
--     * with a form of tlb_vaddr_to_host and a set of loads to match.
--     * The non_fault_vaddr_to_host would handle everything, usually,
--     * and the loads would handle the iomem path for watchpoints.
-+     * TODO: Add a form of non-faulting loads using cc->tlb_fill(probe=true).
-      */
-     host = tlb_vaddr_to_host(env, addr + mem_off, MMU_DATA_LOAD, mmu_idx);
-     split = max_for_page(addr, mem_off, mem_max);
--- 
-2.17.1
+Nice!
 
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+
+> -/**
+> - * qtest_irq_intercept_out:
+> - * @string: QOM path of a device.
+> - *
+> - * Associate qtest irqs with the GPIO-out pins of the device
+> - * whose path is specified by @string.
+> - */
+> -static inline void irq_intercept_out(const char *string)
+
+Fixes a copy-and-paste misdocumentation bug while at it :)
+
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
+
+--b22CqjwEZZwXRLoaG6V4mezwuQYn8qAOw
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlzVl70ACgkQp6FrSiUn
+Q2p/FQf/dj1CPIcTSq9VHRTcDx2/vVsRLhzlePO7EtRevsGVfu8OdEpy20Yfny63
+wiFIss4GYFsKLyMtns5bQNcBDhfhk7yzUAX9L4d5FeXC7KXs0kBwFGq7o67jTo/P
+eOCsaItPv0xTsgzVYjFbC29xvo2l4q2+aWxTFWyD9d6wSVorW7Z/Shvt2ncAIpXF
+L0jv7NQ1OoiY+sHFLYY/0dcKjD2tLvkQLSpwHH08v2x2uEIGX2t/0RhzXLXe7753
++V1q/JxLNBZJkDUhJsulx6yXSEEhVlN5x6ybvtbUgUT5SRUzJp/onvbRlvOnpy11
+d9n3fYyfexDU6kdnlHXx98QmtPGRFA==
+=V4FT
+-----END PGP SIGNATURE-----
+
+--b22CqjwEZZwXRLoaG6V4mezwuQYn8qAOw--
 
