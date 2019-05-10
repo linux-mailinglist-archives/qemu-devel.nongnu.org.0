@@ -2,50 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5C9B019E45
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 15:35:02 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43419 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F0B3019AF0
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 11:56:21 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40353 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hP5fx-0005DX-4E
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 09:35:01 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:32800)
+	id 1hP2GL-0004p8-3w
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 05:56:21 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51774)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hP5dP-00046O-Ms
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 09:32:25 -0400
+	(envelope-from <stefanha@redhat.com>) id 1hP2Ey-0004LP-UU
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 05:54:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hP5dO-0001Z1-8j
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 09:32:23 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:36543 helo=ozlabs.org)
+	(envelope-from <stefanha@redhat.com>) id 1hP2Ex-0000rq-PT
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 05:54:56 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51182)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
-	id 1hP5dM-0001XS-Vc; Fri, 10 May 2019 09:32:22 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
-	id 450rjX6ttMz9sD4; Fri, 10 May 2019 23:32:16 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=gibson.dropbear.id.au; s=201602; t=1557495136;
-	bh=ZPYdKTxRS7EweEfjJPGa0MFYCiBOyvqhDBPObu1NCC0=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=OtE1dG0eHjeR1gY+70JCnWoeftkuFatxoNoT9fIkfl0u/8xijk6wxZw/dj+vrEy4u
-	AoHg7wM1ilURxw28+6lJjNupvggBdeH1RoRkoXjJ6mmqq/MwqRxWf8NNxtaI54U/Ab
-	xajLlvuDpmvqh6TCXFCh/Xfwvemz4K5VE4DYnCyQ=
-Date: Fri, 10 May 2019 19:54:39 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Message-ID: <20190510095439.GC5030@umbus.fritz.box>
-References: <155591636364.20338.844048953355207313.stgit@aravinda>
-	<155591657807.20338.12115795588476734752.stgit@aravinda>
-	<20190510110604.67c0d18d@bahia.lan>
+	(Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1hP2Ex-0000rH-Jv
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 05:54:55 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 64C3B3082B46;
+	Fri, 10 May 2019 09:54:54 +0000 (UTC)
+Received: from localhost (ovpn-117-147.ams2.redhat.com [10.36.117.147])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 9313360C81;
+	Fri, 10 May 2019 09:54:48 +0000 (UTC)
+Date: Fri, 10 May 2019 10:54:47 +0100
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Message-ID: <20190510095447.GC22311@stefanha-x1.localdomain>
+References: <20190509121820.16294-1-stefanha@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="xesSdrSSBC0PokLI"
+	protocol="application/pgp-signature"; boundary="S1BNGpv0yoYahz37"
 Content-Disposition: inline
-In-Reply-To: <20190510110604.67c0d18d@bahia.lan>
+In-Reply-To: <20190509121820.16294-1-stefanha@redhat.com>
 User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.45]);
+	Fri, 10 May 2019 09:54:54 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
-Subject: Re: [Qemu-devel] [Qemu-ppc] [PATCH v8 1/6] ppc: spapr: Handle "ibm,
- nmi-register" and "ibm, nmi-interlock" RTAS calls
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v3 0/2] security.rst: add Security Guide to
+ developer docs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -57,222 +59,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aik@au1.ibm.com, qemu-devel@nongnu.org, paulus@ozlabs.org,
-	qemu-ppc@nongnu.org, Aravinda Prasad <aravinda@linux.vnet.ibm.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+	Daniel Berrange <berrange@redhat.com>,
+	Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>,
+	Alex =?iso-8859-1?Q?Benn=E9e?= <alex.bennee@linaro.org>,
+	Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---xesSdrSSBC0PokLI
+--S1BNGpv0yoYahz37
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, May 10, 2019 at 11:06:04AM +0200, Greg Kurz wrote:
-> On Mon, 22 Apr 2019 12:32:58 +0530
-> Aravinda Prasad <aravinda@linux.vnet.ibm.com> wrote:
+On Thu, May 09, 2019 at 01:18:18PM +0100, Stefan Hajnoczi wrote:
+> v3:
+>  * Split into security.texi for qemu-doc and secure-coding-practices.rst =
+for
+>    the developer documentation [danpb]
+>  * Mentioned that QEMU can be started as non-root using UNIX groups on
+>    /dev/kvm, /dev/net/tun, etc [Alex Bennee]
+>  * Kept Acked-by and Reviewed-by since the v3 changes are minor
+> v2:
+>  * Added mention of passthrough USB and PCI devices [philmd]
+>  * Reworded resource limits [philmd]
+>  * Added qemu_log_mask(LOG_GUEST_ERROR) [philmd]
 >=20
-> > This patch adds support in QEMU to handle "ibm,nmi-register"
-> > and "ibm,nmi-interlock" RTAS calls.
-> >=20
-> > The machine check notification address is saved when the
-> > OS issues "ibm,nmi-register" RTAS call.
-> >=20
-> > This patch also handles the case when multiple processors
-> > experience machine check at or about the same time by
-> > handling "ibm,nmi-interlock" call. In such cases, as per
-> > PAPR, subsequent processors serialize waiting for the first
-> > processor to issue the "ibm,nmi-interlock" call. The second
-> > processor that also received a machine check error waits
-> > till the first processor is done reading the error log.
-> > The first processor issues "ibm,nmi-interlock" call
-> > when the error log is consumed. This patch implements the
-> > releasing part of the error-log while subsequent patch
-> > (which builds error log) handles the locking part.
-> >=20
-> > Signed-off-by: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
-> > ---
-> >  hw/ppc/spapr.c         |   18 ++++++++++++++
-> >  hw/ppc/spapr_rtas.c    |   61 ++++++++++++++++++++++++++++++++++++++++=
-++++++++
-> >  include/hw/ppc/spapr.h |    9 ++++++-
-> >  3 files changed, 87 insertions(+), 1 deletion(-)
-> >=20
-> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> > index c56939a..6642cb5 100644
-> > --- a/hw/ppc/spapr.c
-> > +++ b/hw/ppc/spapr.c
-> > @@ -1805,6 +1805,11 @@ static void spapr_machine_reset(void)
-> >      first_ppc_cpu->env.gpr[5] =3D 0;
-> > =20
-> >      spapr->cas_reboot =3D false;
-> > +
-> > +    spapr->guest_machine_check_addr =3D -1;
-> > +
-> > +    /* Signal all vCPUs waiting on this condition */
-> > +    qemu_cond_broadcast(&spapr->mc_delivery_cond);
-> >  }
-> > =20
-> >  static void spapr_create_nvram(SpaprMachineState *spapr)
-> > @@ -2095,6 +2100,16 @@ static const VMStateDescription vmstate_spapr_dt=
-b =3D {
-> >      },
-> >  };
-> > =20
-> > +static const VMStateDescription vmstate_spapr_machine_check =3D {
-> > +    .name =3D "spapr_machine_check",
-> > +    .version_id =3D 1,
-> > +    .minimum_version_id =3D 1,
-> > +    .fields =3D (VMStateField[]) {
-> > +        VMSTATE_UINT64(guest_machine_check_addr, SpaprMachineState),
-> > +        VMSTATE_END_OF_LIST()
-> > +    },
+> At KVM Forum 2018 I gave a presentation on security in QEMU:
+> https://www.youtube.com/watch?v=3DYAdRf_hwxU8 (video)
+> https://vmsplice.net/~stefan/stefanha-kvm-forum-2018.pdf (slides)
 >=20
-> This VMState descriptor is missing a .needed field because we only want
-> to migrate the subsection if the guest has called NMI register, ie.
-> spapr->guest_machine_check_addr !=3D (target_ulong) -1.
+> This patch series extends the QEMU documentation to cover security topics,
+> though this is just the beginning and we could flesh it out more in the f=
+uture.
 >=20
-> > +};
-> > +
-> >  static const VMStateDescription vmstate_spapr =3D {
-> >      .name =3D "spapr",
-> >      .version_id =3D 3,
-> > @@ -2127,6 +2142,7 @@ static const VMStateDescription vmstate_spapr =3D=
- {
-> >          &vmstate_spapr_dtb,
-> >          &vmstate_spapr_cap_large_decr,
-> >          &vmstate_spapr_cap_ccf_assist,
-> > +        &vmstate_spapr_machine_check,
-> >          NULL
-> >      }
-> >  };
-> > @@ -3068,6 +3084,8 @@ static void spapr_machine_init(MachineState *mach=
-ine)
-> > =20
-> >          kvmppc_spapr_enable_inkernel_multitce();
-> >      }
-> > +
-> > +    qemu_cond_init(&spapr->mc_delivery_cond);
-> >  }
-> > =20
-> >  static int spapr_kvm_type(MachineState *machine, const char *vm_type)
-> > diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-> > index ee24212..c2f3991 100644
-> > --- a/hw/ppc/spapr_rtas.c
-> > +++ b/hw/ppc/spapr_rtas.c
-> > @@ -348,6 +348,39 @@ static void rtas_get_power_level(PowerPCCPU *cpu, =
-SpaprMachineState *spapr,
-> >      rtas_st(rets, 1, 100);
-> >  }
-> > =20
-> > +static void rtas_ibm_nmi_register(PowerPCCPU *cpu,
-> > +                                  SpaprMachineState *spapr,
-> > +                                  uint32_t token, uint32_t nargs,
-> > +                                  target_ulong args,
-> > +                                  uint32_t nret, target_ulong rets)
-> > +{
-> > +    uint64_t rtas_addr =3D spapr_get_rtas_addr();
-> > +
-> > +    if (!rtas_addr) {
-> > +        rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
-> > +        return;
-> > +    }
-> > +
-> > +    spapr->guest_machine_check_addr =3D rtas_ld(args, 1);
-> > +    rtas_st(rets, 0, RTAS_OUT_SUCCESS);
-> > +}
-> > +
-> > +static void rtas_ibm_nmi_interlock(PowerPCCPU *cpu,
-> > +                                   SpaprMachineState *spapr,
-> > +                                   uint32_t token, uint32_t nargs,
-> > +                                   target_ulong args,
-> > +                                   uint32_t nret, target_ulong rets)
-> > +{
-> > +    if (!spapr->guest_machine_check_addr) {
+> Stefan Hajnoczi (2):
+>   docs: add Secure Coding Practices to developer docs
+>   docs: add Security chapter to the documentation
 >=20
-> Hmm... the default value is -1. It looks like the check should rather be:
+>  Makefile                               |   2 +-
+>  docs/devel/index.rst                   |   1 +
+>  docs/devel/secure-coding-practices.rst | 106 ++++++++++++++++++++
+>  docs/security.texi                     | 131 +++++++++++++++++++++++++
+>  qemu-doc.texi                          |   3 +
+>  5 files changed, 242 insertions(+), 1 deletion(-)
+>  create mode 100644 docs/devel/secure-coding-practices.rst
+>  create mode 100644 docs/security.texi
 >=20
->     if (spapr->guest_machine_check_addr =3D=3D (target_ulong) -1) {
+> --=20
+> 2.21.0
 >=20
->=20
-> > +        /* NMI register not called */
-> > +        rtas_st(rets, 0, RTAS_OUT_PARAM_ERROR);
-> > +    } else {
-> > +        qemu_cond_signal(&spapr->mc_delivery_cond);
-> > +        rtas_st(rets, 0, RTAS_OUT_SUCCESS);
-> > +    }
-> > +}
-> > +
-> > +
-> >  static struct rtas_call {
-> >      const char *name;
-> >      spapr_rtas_fn fn;
-> > @@ -466,6 +499,30 @@ void spapr_load_rtas(SpaprMachineState *spapr, voi=
-d *fdt, hwaddr addr)
-> >      }
-> >  }
-> > =20
-> > +uint64_t spapr_get_rtas_addr(void)
->=20
-> Shouldn't this be hwaddr instead of uint64_t ?
->=20
-> > +{
-> > +    SpaprMachineState *spapr =3D SPAPR_MACHINE(qdev_get_machine());
-> > +    int rtas_node;
-> > +    const struct fdt_property *rtas_addr_prop;
-> > +    void *fdt =3D spapr->fdt_blob;
-> > +    uint32_t rtas_addr;
-> > +
-> > +    /* fetch rtas addr from fdt */
-> > +    rtas_node =3D fdt_path_offset(fdt, "/rtas");
-> > +    if (rtas_node =3D=3D 0) {
-> > +        return 0;
-> > +    }
-> > +
-> > +    rtas_addr_prop =3D fdt_get_property(fdt, rtas_node, "linux,rtas-ba=
-se", NULL);
-> > +    if (!rtas_addr_prop) {
->=20
-> Just for curiosity: this is ok for linux, but what about other OSes (eg. =
-AIX) ?
->=20
-> > +        return 0;
-> > +    }
-> > +
-> > +    rtas_addr =3D fdt32_to_cpu(*(uint32_t *)rtas_addr_prop->data);
->=20
-> Also this assumes the OS called RTAS instantiate-rtas, but some other
-> OS might have called RTAS instantiate-rtas-64 instead. I guess it is
-> ok for now because SLOF only provides the 32-bit variant, but a
-> comment would certainly help IMHO.
 
-I have a feeling kvm-unit-tests may not call instantiate-rtas at all.
+Thanks, applied to my block tree:
+https://github.com/stefanha/qemu/commits/block
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Stefan
 
---xesSdrSSBC0PokLI
+--S1BNGpv0yoYahz37
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlzVSl8ACgkQbDjKyiDZ
-s5L36RAAjJImQwdn6OOLbTmAM+OeM/nRfi1kQVXujAVfTrJico58HNa5EBmKlrWU
-CemIY7ZwCIpKALXso9Onyz/cIGl1B69v+lRuCc0/Xg8xUAPyA3z8vmUNQfyLFHLS
-zgS2jFFw4Mf8ApWsKNm0fiw9Opi8chMzkkjs1e/nDPCjbDSZHJFsw1AKqOk1xaIR
-R/JQzIcJOBcMmRJ0739zks/dg5RjcWuZvhxKAd5EPKM2DIS91+ZYoZJgqrnOilKC
-DRwneYvqX6Z2WV0lKxQ1fmsqoiXM0IR0jjPwORXRelHVG/MHbLUmFG9zMPprmOnA
-A5rZtTeL/N2+bSSu/pIXFE+lLetFTTbWTijZahq7UZPTH7Fv3uOkNMD5KgLOzY1v
-BMLGhUILRiZY8tNM585/g26qLdKeXQ2C069XmvA362FHZoq9BI6E+BNuxNztgF0w
-ynyhjHTygFE/Is7AlhJa2cc6aazBA8N5L0cJHMyavbTMXTBTjQaaMav+dHM9t6+i
-fzXT5pA7V5yfOzrHmU/WrlxhhZFBiG2dsZUR2m71tX3woyMYBqNdfcIHr529LjOr
-TUNwHhoxJ5yF0c/L3uYG2TVi+gXHocPYzN6qGMsuZCdZfdZh7lpUvAooNtfQ/nCG
-DM8RlGxavxoy069NoOHxJo9SS12goIWt+GHrgKuDInNMSKooOIk=
-=wR86
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAlzVSmcACgkQnKSrs4Gr
+c8i0tgf9HrowlLyQqLZHFEayNv+IMUhvMo4vKMTsnVGN8qUBNq8U75EZdgjE2Zkf
+zS0EtGUwGynItcBMnkenY1HKhUrmYMgDm3QSbVTf/XEJHg3h3NXPF5SYXOAlGAwn
+++lIqPTmD+QCemeodYX92Ba3ide0Ifh4KNQDo+MrmULtw7HeRfL+TQ2B0AP/GQZZ
+YfljjMTrRcAMNkkSvE/1XcsoomZzHBLwjgQ6rmTR71R4ZxlAROvGeCpH9vRoSTOX
+llgS61Ou+AJc5OhNjjjm47yzqbKKvCeReLilfq/HmkS2Xx6CD0tl/I6v/PWCu7oZ
+tfs0N16PE4J8bDvhBVUzYF8CUSVxZg==
+=ejiG
 -----END PGP SIGNATURE-----
 
---xesSdrSSBC0PokLI--
+--S1BNGpv0yoYahz37--
 
