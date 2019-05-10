@@ -2,94 +2,129 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA29319E93
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 15:57:21 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43820 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AF8519EA0
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 16:00:33 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43845 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hP61Z-0002xJ-3u
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 09:57:21 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39141)
+	id 1hP64e-0005rk-OR
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 10:00:32 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39943)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <jjherne@linux.ibm.com>) id 1hP5zd-0001xf-9T
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 09:55:22 -0400
+	(envelope-from <borntraeger@de.ibm.com>) id 1hP63O-0005VM-OA
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 09:59:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <jjherne@linux.ibm.com>) id 1hP5zc-0006ZY-BU
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 09:55:21 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:46344
-	helo=mx0a-001b2d01.pphosted.com)
+	(envelope-from <borntraeger@de.ibm.com>) id 1hP63N-0000n4-IZ
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 09:59:14 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:41936)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <jjherne@linux.ibm.com>)
-	id 1hP5zc-0006XQ-6i
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 09:55:20 -0400
-Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+	(Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
+	id 1hP63N-0000ma-Ai
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 09:59:13 -0400
+Received: from pps.filterd (m0098394.ppops.net [127.0.0.1])
 	by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
-	x4ADrdLe098632
-	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 09:55:15 -0400
-Received: from e34.co.us.ibm.com (e34.co.us.ibm.com [32.97.110.152])
-	by mx0a-001b2d01.pphosted.com with ESMTP id 2sda14stj1-1
+	x4ADrmT7144204
+	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 09:59:11 -0400
+Received: from e06smtp07.uk.ibm.com (e06smtp07.uk.ibm.com [195.75.94.103])
+	by mx0a-001b2d01.pphosted.com with ESMTP id 2sd76ksk3r-1
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 09:55:15 -0400
+	for <qemu-devel@nongnu.org>; Fri, 10 May 2019 09:59:10 -0400
 Received: from localhost
-	by e34.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
-	Violators will be prosecuted
-	for <qemu-devel@nongnu.org> from <jjherne@linux.ibm.com>;
-	Fri, 10 May 2019 14:55:14 +0100
-Received: from b03cxnp08028.gho.boulder.ibm.com (9.17.130.20)
-	by e34.co.us.ibm.com (192.168.1.134) with IBM ESMTP SMTP Gateway:
+	by e06smtp07.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use
+	Only! Violators will be prosecuted
+	for <qemu-devel@nongnu.org> from <borntraeger@de.ibm.com>;
+	Fri, 10 May 2019 14:59:03 +0100
+Received: from b06cxnps4075.portsmouth.uk.ibm.com (9.149.109.197)
+	by e06smtp07.uk.ibm.com (192.168.101.137) with IBM ESMTP SMTP Gateway:
 	Authorized Use Only! Violators will be prosecuted; 
 	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-	Fri, 10 May 2019 14:55:12 +0100
-Received: from b03ledav005.gho.boulder.ibm.com
-	(b03ledav005.gho.boulder.ibm.com [9.17.130.236])
-	by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with
-	ESMTP id x4ADtBQc17105366
+	Fri, 10 May 2019 14:59:02 +0100
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+	by b06cxnps4075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with
+	ESMTP id x4ADx1RB48824574
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK); Fri, 10 May 2019 13:55:11 GMT
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 116D3BE053;
-	Fri, 10 May 2019 13:55:11 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 44E9CBE04F;
-	Fri, 10 May 2019 13:55:10 +0000 (GMT)
-Received: from [9.80.222.222] (unknown [9.80.222.222])
-	by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTP;
-	Fri, 10 May 2019 13:55:10 +0000 (GMT)
+	verify=OK); Fri, 10 May 2019 13:59:01 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 77A6642041;
+	Fri, 10 May 2019 13:59:01 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 32DC14203F;
+	Fri, 10 May 2019 13:59:01 +0000 (GMT)
+Received: from oc7455500831.ibm.com (unknown [9.152.96.15])
+	by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+	Fri, 10 May 2019 13:59:01 +0000 (GMT)
 To: Thomas Huth <thuth@redhat.com>, cohuck@redhat.com, qemu-s390x@nongnu.org
 References: <20190508094857.21145-1-thuth@redhat.com>
-	<20190508094857.21145-4-thuth@redhat.com>
-From: "Jason J. Herne" <jjherne@linux.ibm.com>
-Organization: IBM
-Date: Fri, 10 May 2019 09:55:09 -0400
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
+	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
+	syiRa+UVlsKmx1hsEg==
+Date: Fri, 10 May 2019 15:59:00 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.2.1
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190508094857.21145-4-thuth@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20190508094857.21145-1-thuth@redhat.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
-x-cbid: 19051013-0016-0000-0000-000009B03C6B
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00011081; HX=3.00000242; KW=3.00000007;
-	PH=3.00000004; SC=3.00000285; SDB=6.01201320; UDB=6.00630398;
-	IPR=6.00982216; 
-	MB=3.00026828; MTD=3.00000008; XFM=3.00000015; UTC=2019-05-10 13:55:14
+x-cbid: 19051013-0028-0000-0000-0000036C5B25
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19051013-0017-0000-0000-000043294538
-Message-Id: <8dc04a38-91d9-059d-8cf2-7601d77ec937@linux.ibm.com>
+x-cbparentid: 19051013-0029-0000-0000-0000242BE14B
+Message-Id: <2737a744-3636-ee97-0c6b-a1f7237c58b6@de.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
 	definitions=2019-05-09_02:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
 	priorityscore=1501
 	malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
 	clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
-	mlxlogscore=986 adultscore=0 classifier=spam adjust=0 reason=mlx
+	mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
 	scancount=1 engine=8.0.1-1810050000 definitions=main-1905100097
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
-Subject: Re: [Qemu-devel] [PULL SUBSYSTEM s390x 3/3] pc-bios/s390: Update
- firmware image with "Skip bootmap signature entries" fix
+X-Received-From: 148.163.156.1
+Subject: Re: [Qemu-devel] [PULL SUBSYSTEM s390x 0/3] s390-ccw-bios: Skip
+ bootmap signature entries
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -101,30 +136,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: jjherne@linux.ibm.com
-Cc: borntraeger@de.ibm.com, qemu-devel@nongnu.org, armbru@redhat.com
+Cc: jjherne@linux.ibm.com, qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/8/19 5:48 AM, Thomas Huth wrote:
-> Firmware now skips the unsupported signature entries instead of
-> aborting the boot process.
-> 
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->   pc-bios/s390-ccw.img | Bin 42608 -> 42608 bytes
->   1 file changed, 0 insertions(+), 0 deletions(-)
-> 
-> diff --git a/pc-bios/s390-ccw.img b/pc-bios/s390-ccw.img
-> index ba054828d35d72fd1ed5521a48f43f593a1c291f..a0234bf748e10fdfaab27b8a751bee1db1865256 100644
-> GIT binary patch
-> literal 42608
-> zcmeHwd3==B)&HGjvJe7HRwfC{GbBJ*5+(^t*kmRPCW<g@8lb)sl7U3BkxW=zYO1NC
-...
+Shall we actually CC stable that feature?
 
-I've tested this build with signature entries in the bootmap and everything appears to work.
-
--- 
--- Jason J. Herne (jjherne@linux.ibm.com)
+On 08.05.19 11:48, Thomas Huth wrote:
+> This pull request is not for master.
+> 
+> 
+>  Hi Cornelia,
+> 
+> the following changes since commit a6f6d24757a73f7176989134b97284a1a7df11e5:
+> 
+>   Merge remote-tracking branch 'remotes/kraxel/tags/vga-20190507-pull-request' into staging (2019-05-07 21:39:28 +0100)
+> 
+> are available in the Git repository at:
+> 
+>   https://gitlab.com/huth/qemu.git tags/s390-ccw-bios-2019-05-08
+> 
+> for you to fetch changes up to f7a339a5ba48a8a5c5bf4f1fdb1463bf8ac5f5bb:
+> 
+>   pc-bios/s390: Update firmware image with "Skip bootmap signature entries" fix (2019-05-08 11:26:01 +0200)
+> 
+> ----------------------------------------------------------------
+> Skip unsupported bootmap signature entries instead of aborting the boot process
+> ----------------------------------------------------------------
+> 
+> Jason J. Herne (1):
+>       s390-bios: Skip bootmap signature entries
+> 
+> Markus Armbruster (1):
+>       pc-bios/s390-ccw: Clean up harmless misuse of isdigit()
+> 
+> Thomas Huth (1):
+>       pc-bios/s390: Update firmware image with "Skip bootmap signature entries" fix
+> 
+>  pc-bios/s390-ccw.img       | Bin 42608 -> 42608 bytes
+>  pc-bios/s390-ccw/bootmap.c |  19 +++++++++++++++++--
+>  pc-bios/s390-ccw/bootmap.h |  10 ++++++----
+>  pc-bios/s390-ccw/libc.c    |   2 +-
+>  pc-bios/s390-ccw/menu.c    |   2 +-
+>  5 files changed, 25 insertions(+), 8 deletions(-)
+> 
 
 
