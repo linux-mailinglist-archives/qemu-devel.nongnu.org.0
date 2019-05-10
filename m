@@ -2,47 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2D5CD1A00B
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 17:23:25 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:45001 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5906E1A015
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 17:26:08 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:45053 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hP7Mq-0001Oc-8H
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 11:23:24 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55415)
+	id 1hP7PT-0004F7-Cz
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 11:26:07 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55763)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <eblake@redhat.com>) id 1hP7HK-00062k-4M
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 11:17:43 -0400
+	(envelope-from <armbru@redhat.com>) id 1hP7Ir-00072b-S5
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 11:19:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <eblake@redhat.com>) id 1hP7HJ-0006LD-3l
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 11:17:42 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45596)
+	(envelope-from <armbru@redhat.com>) id 1hP7Ip-0007Tf-T9
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 11:19:17 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46524)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <eblake@redhat.com>)
-	id 1hP7HG-0006Ik-Tc; Fri, 10 May 2019 11:17:39 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
+	(Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hP7Ip-0007QY-Cp
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 11:19:15 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+	[10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 40B5180F6D;
-	Fri, 10 May 2019 15:17:38 +0000 (UTC)
-Received: from blue.redhat.com (ovpn-116-15.phx2.redhat.com [10.3.116.15])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id A19051001E86;
-	Fri, 10 May 2019 15:17:37 +0000 (UTC)
-From: Eric Blake <eblake@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Fri, 10 May 2019 10:17:35 -0500
-Message-Id: <20190510151735.29687-1-eblake@redhat.com>
+	by mx1.redhat.com (Postfix) with ESMTPS id B4FF87DCD9;
+	Fri, 10 May 2019 15:19:14 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-28.ams2.redhat.com
+	[10.36.116.28])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 5AA3461982;
+	Fri, 10 May 2019 15:19:14 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+	id D68BE11385E4; Fri, 10 May 2019 17:19:12 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Laurent Vivier <lvivier@redhat.com>
+References: <20190510102637.10209-1-lvivier@redhat.com>
+	<87zhnuqyu0.fsf@dusky.pond.sub.org>
+	<87991c2b-da9d-0e7f-bc09-9fbadbda4ef8@redhat.com>
+Date: Fri, 10 May 2019 17:19:12 +0200
+In-Reply-To: <87991c2b-da9d-0e7f-bc09-9fbadbda4ef8@redhat.com> (Laurent
+	Vivier's message of "Fri, 10 May 2019 14:37:41 +0200")
+Message-ID: <878svemj67.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
 	(mx1.redhat.com [10.5.110.27]);
-	Fri, 10 May 2019 15:17:38 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+	Fri, 10 May 2019 15:19:14 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH] nbd/server: Nicer spelling of max BLOCK_STATUS
- reply length
+Subject: Re: [Qemu-devel] [PATCH v2] rng-builtin: add an RNG backend that
+ uses qemu_guest_getrandom()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -54,77 +63,173 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: vsementsov@virtuozzo.com,
-	"open list:Network Block Dev..." <qemu-block@nongnu.org>
+Cc: =?utf-8?Q?Daniel_P=2EBerrang=C3=A9?= <berrange@redhat.com>,
+	Kashyap Chamarthy <kchamart@redhat.com>, Amit Shah <amit@kernel.org>,
+	Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
+	"Richard W . M . Jones" <rjones@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Commit 3d068aff (3.0) introduced NBD_MAX_BITMAP_EXTENTS as a limit on
-how large we would allow a reply to NBD_CMD_BLOCK_STATUS to grow when
-it is visiting a qemu:dirty-bitmap: context.  Later, commit fb7afc79
-(3.1) reused the constant to limit base:allocation context replies,
-although the name is now less appropriate in that situation.
+Laurent Vivier <lvivier@redhat.com> writes:
 
-Rename things, and improve the macro to use units.h for better
-legibility. Then reformat the comment to comply with checkpatch rules
-added in the meantime. No semantic change.
+> On 10/05/2019 14:27, Markus Armbruster wrote:
+>> Laurent Vivier <lvivier@redhat.com> writes:
+>>
+>>> Add a new RNG backend using QEMU builtin getrandom function.
+>>>
+>>> It can be created and used with something like:
+>>>
+>>>      ... -object rng-builtin,id=rng0 -device virtio-rng,rng=rng0 ...
+>>>
+>>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+>>> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+>>> ---
+>>>
+>>> Notes:
+>>>      This patch applies on top of
+>>>      "[PATCH v5 00/24] Add qemu_getrandom and ARMv8.5-RNG etc"
+>>>      Based-on: 20190510012458.22706-1-richard.henderson@linaro.org
+>>>           v2: Update qemu-options.hx
+>>>          describe the new backend and specify virtio-rng uses the
+>>>          rng-random by default (do we want to change this?)
+>>>
+>>>   backends/Makefile.objs |  2 +-
+>>>   backends/rng-builtin.c | 56 ++++++++++++++++++++++++++++++++++++++++++
+>>>   qemu-options.hx        | 10 +++++++-
+>>>   3 files changed, 66 insertions(+), 2 deletions(-)
+>>>   create mode 100644 backends/rng-builtin.c
+>>>
+>>> diff --git a/backends/Makefile.objs b/backends/Makefile.objs
+>>> index ff619d31b461..8da4a508d97b 100644
+>>> --- a/backends/Makefile.objs
+>>> +++ b/backends/Makefile.objs
+>>> @@ -1,4 +1,4 @@
+>>> -common-obj-y += rng.o rng-egd.o
+>>> +common-obj-y += rng.o rng-egd.o rng-builtin.o
+>>>   common-obj-$(CONFIG_POSIX) += rng-random.o
+>>>     common-obj-$(CONFIG_TPM) += tpm.o
+>>> diff --git a/backends/rng-builtin.c b/backends/rng-builtin.c
+>>> new file mode 100644
+>>> index 000000000000..b1264b745407
+>>> --- /dev/null
+>>> +++ b/backends/rng-builtin.c
+>>> @@ -0,0 +1,56 @@
+>>> +/*
+>>> + * QEMU Builtin Random Number Generator Backend
+>>> + *
+>>> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+>>> + * See the COPYING file in the top-level directory.
+>>> + */
+>>> +
+>>> +#include "qemu/osdep.h"
+>>> +#include "sysemu/rng.h"
+>>> +#include "qapi/error.h"
+>>> +#include "qapi/qmp/qerror.h"
+>>> +#include "qemu/main-loop.h"
+>>> +#include "qemu/guest-random.h"
+>>> +
+>>> +#define TYPE_RNG_BUILTIN "rng-builtin"
+>>> +#define RNG_BUILTIN(obj) OBJECT_CHECK(RngBuiltin, (obj), TYPE_RNG_BUILTIN)
+>>> +
+>>> +typedef struct RngBuiltin {
+>>> +    RngBackend parent;
+>>> +} RngBuiltin;
+>>> +
+>>> +static void rng_builtin_request_entropy(RngBackend *b, RngRequest *req)
+>>> +{
+>>> +    RngBuiltin *s = RNG_BUILTIN(b);
+>>> +
+>>> +    while (!QSIMPLEQ_EMPTY(&s->parent.requests)) {
+>>> +        RngRequest *req = QSIMPLEQ_FIRST(&s->parent.requests);
+>>> +
+>>> +        qemu_guest_getrandom_nofail(req->data, req->size);
+>>> +
+>>> +        req->receive_entropy(req->opaque, req->data, req->size);
+>>> +
+>>> +        rng_backend_finalize_request(&s->parent, req);
+>>> +    }
+>>> +}
+>>> +
+>>> +static void rng_builtin_class_init(ObjectClass *klass, void *data)
+>>> +{
+>>> +    RngBackendClass *rbc = RNG_BACKEND_CLASS(klass);
+>>> +
+>>> +    rbc->request_entropy = rng_builtin_request_entropy;
+>>> +}
+>>> +
+>>> +static const TypeInfo rng_builtin_info = {
+>>> +    .name = TYPE_RNG_BUILTIN,
+>>> +    .parent = TYPE_RNG_BACKEND,
+>>> +    .instance_size = sizeof(RngBuiltin),
+>>> +    .class_init = rng_builtin_class_init,
+>>> +};
+>>> +
+>>> +static void register_types(void)
+>>> +{
+>>> +    type_register_static(&rng_builtin_info);
+>>> +}
+>>> +
+>>> +type_init(register_types);
+>>> diff --git a/qemu-options.hx b/qemu-options.hx
+>>> index 0191ef8b1eb7..3e2a51c691b0 100644
+>>> --- a/qemu-options.hx
+>>> +++ b/qemu-options.hx
+>>> @@ -4280,13 +4280,21 @@ other options.
+>>>     The @option{share} boolean option is @var{on} by default with
+>>> memfd.
+>>>   +@item -object rng-builtin,id=@var{id}
+>>> +
+>>> +Creates a random number generator backend which obtains entropy from
+>>> +QEMU builtin functions. The @option{id} parameter is a unique ID that
+>>> +will be used to reference this entropy backend from the @option{virtio-rng}
+>>> +device.
+>>> +
+>>>   @item -object rng-random,id=@var{id},filename=@var{/dev/random}
+>>>     Creates a random number generator backend which obtains entropy
+>>> from
+>>>   a device on the host. The @option{id} parameter is a unique ID that
+>>>   will be used to reference this entropy backend from the @option{virtio-rng}
+>>>   device.
+>>
+>> There's also the "spapr-rng" device, I think.
+>
+> spapr-rng doesn't have default. You must specify one to be able to use it:
+>    qemu-system-ppc64: -device spapr-rng: spapr-rng needs an RNG backend!
 
-Signed-off-by: Eric Blake <eblake@redhat.com>
----
- nbd/server.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+You're right.
 
-diff --git a/nbd/server.c b/nbd/server.c
-index e21bd501dc6..2c49744fc43 100644
---- a/nbd/server.c
-+++ b/nbd/server.c
-@@ -21,15 +21,18 @@
- #include "qapi/error.h"
- #include "trace.h"
- #include "nbd-internal.h"
-+#include "qemu/units.h"
+>>>           The @option{filename} parameter specifies which file to obtain
+>>> -entropy from and if omitted defaults to @option{/dev/random}.
+>>> +entropy from and if omitted defaults to @option{/dev/random}. By default,
+>>> +the @option{virtio-rng} device uses this RNG backend.
+>>>     @item -object rng-egd,id=@var{id},chardev=@var{chardevid}
+>>
+>> Trivial conflict with Kashyap's "[PATCH v2] VirtIO-RNG: Update default
+>> entropy source to `/dev/urandom`".
+>>
+>> virtio-rng indeed creates an rng-random backend when the user doesn't
+>> specify one.  I consider having device model frontends create backends a
+>> bad idea.  Not this patch's fault, of course.
+>>
+>> That said, would rng-builtin be a better default?  For starters, it's
+>> available when !CONFIG_POSIX.  I suspect virtio-rng crashes when it
+>> tries to create an rng-random that isn't available.
+>
+> I will send a v3 with rng-builtin as a default. Maintainer will be
+> able to pick one of his choice, v2 or v3.
+>
+>>
+>> The new rng-builtin is considerably simpler than both rng-random and
+>> rng-egd.  Moreover, it just works, whereas rng-random is limited to
+>> CONFIG_POSIX, and rng-egd needs egd running (which I suspect basically
+>> nobody does).  Have we considered deprecating these two backends in
+>> favor of rng-builtin?
+>
+> I have several bugzilla involving these backends: as there are
+> blocking, the virtio-rng device in the guest can hang, or crash during
+> hot-unplug. From my point of view, life would be easier without
+> them...
 
- #define NBD_META_ID_BASE_ALLOCATION 0
- #define NBD_META_ID_DIRTY_BITMAP 1
-
--/* NBD_MAX_BITMAP_EXTENTS: 1 mb of extents data. An empirical
-+/*
-+ * NBD_MAX_BLOCK_STATUS_EXTENTS: 1 mb of extents data. An empirical
-  * constant. If an increase is needed, note that the NBD protocol
-  * recommends no larger than 32 mb, so that the client won't consider
-- * the reply as a denial of service attack. */
--#define NBD_MAX_BITMAP_EXTENTS (0x100000 / 8)
-+ * the reply as a denial of service attack.
-+ */
-+#define NBD_MAX_BLOCK_STATUS_EXTENTS (1 * MiB / 8)
-
- static int system_errno_to_nbd_errno(int err)
- {
-@@ -1958,7 +1961,7 @@ static int nbd_co_send_block_status(NBDClient *clie=
-nt, uint64_t handle,
-                                     Error **errp)
- {
-     int ret;
--    unsigned int nb_extents =3D dont_fragment ? 1 : NBD_MAX_BITMAP_EXTEN=
-TS;
-+    unsigned int nb_extents =3D dont_fragment ? 1 : NBD_MAX_BLOCK_STATUS=
-_EXTENTS;
-     NBDExtent *extents =3D g_new(NBDExtent, nb_extents);
-     uint64_t final_length =3D length;
-
-@@ -2043,7 +2046,7 @@ static int nbd_co_send_bitmap(NBDClient *client, ui=
-nt64_t handle,
-                               uint32_t context_id, Error **errp)
- {
-     int ret;
--    unsigned int nb_extents =3D dont_fragment ? 1 : NBD_MAX_BITMAP_EXTEN=
-TS;
-+    unsigned int nb_extents =3D dont_fragment ? 1 : NBD_MAX_BLOCK_STATUS=
-_EXTENTS;
-     NBDExtent *extents =3D g_new(NBDExtent, nb_extents);
-     uint64_t final_length =3D length;
-
---=20
-2.20.1
-
+Sounds like perfectly fine reasons for deprecating them.  Amit, what do
+you think?
 
