@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D005C19DCF
-	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 15:07:33 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43010 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A2EF19DD7
+	for <lists+qemu-devel@lfdr.de>; Fri, 10 May 2019 15:09:28 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43033 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hP5FM-0007gg-VZ
-	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 09:07:33 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52529)
+	id 1hP5HD-0001A1-OL
+	for lists+qemu-devel@lfdr.de; Fri, 10 May 2019 09:09:27 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52562)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <stefanha@redhat.com>) id 1hP5Au-0004Ko-2n
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 09:02:57 -0400
+	(envelope-from <stefanha@redhat.com>) id 1hP5Av-0004MD-NW
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 09:02:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <stefanha@redhat.com>) id 1hP5As-00047a-SR
-	for qemu-devel@nongnu.org; Fri, 10 May 2019 09:02:56 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60351)
+	(envelope-from <stefanha@redhat.com>) id 1hP5Au-0004AH-Ht
+	for qemu-devel@nongnu.org; Fri, 10 May 2019 09:02:57 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56062)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <stefanha@redhat.com>)
-	id 1hP5Aq-00040V-3l; Fri, 10 May 2019 09:02:52 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
-	[10.5.11.14])
+	id 1hP5Ar-00044l-SB; Fri, 10 May 2019 09:02:54 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 54DC93004151;
-	Fri, 10 May 2019 13:02:51 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 26C8B821EF;
+	Fri, 10 May 2019 13:02:53 +0000 (UTC)
 Received: from localhost (ovpn-116-89.ams2.redhat.com [10.36.116.89])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 7E2255E7B8;
-	Fri, 10 May 2019 13:02:48 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id ADFF21001E86;
+	Fri, 10 May 2019 13:02:52 +0000 (UTC)
 From: Stefan Hajnoczi <stefanha@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 10 May 2019 14:02:36 +0100
-Message-Id: <20190510130243.8887-2-stefanha@redhat.com>
+Date: Fri, 10 May 2019 14:02:37 +0100
+Message-Id: <20190510130243.8887-3-stefanha@redhat.com>
 In-Reply-To: <20190510130243.8887-1-stefanha@redhat.com>
 References: <20190510130243.8887-1-stefanha@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.46]);
-	Fri, 10 May 2019 13:02:51 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.28]);
+	Fri, 10 May 2019 13:02:53 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 1/8] util/readline: add a space to fix errors by
- checkpatch tool
+Subject: [Qemu-devel] [PULL 2/8] util: readline: replace tab indent by four
+ spaces to fix checkpatch errors
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -66,146 +66,174 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Jules Irenge <jbi.octave@gmail.com>
 
-util/readline: add a space to fix errors reported by checkpatch.pl tool
-"ERROR: space required before the open parenthesis"
-"ERROR: space required after that ..."
-within "util/redline.c" file
+Replace tab indent by four spaces to fix errors issued by checkpatch.pl t=
+ool
+"ERROR: code indent should never use tabs" within "util/readline.c" file.
 
 Signed-off-by: Jules Irenge <jbi.octave@gmail.com>
 Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-id: 20190401024406.10819-2-jbi.octave@gmail.com
-Message-Id: <20190401024406.10819-2-jbi.octave@gmail.com>
+Message-id: 20190401024406.10819-3-jbi.octave@gmail.com
+Message-Id: <20190401024406.10819-3-jbi.octave@gmail.com>
 Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
 ---
- util/readline.c | 34 +++++++++++++++++-----------------
- 1 file changed, 17 insertions(+), 17 deletions(-)
+ util/readline.c | 98 ++++++++++++++++++++++++-------------------------
+ 1 file changed, 49 insertions(+), 49 deletions(-)
 
 diff --git a/util/readline.c b/util/readline.c
-index ec91ee0fea..db399d3948 100644
+index db399d3948..3eb5a66dfc 100644
 --- a/util/readline.c
 +++ b/util/readline.c
-@@ -48,13 +48,13 @@ static void readline_update(ReadLineState *rs)
+@@ -179,20 +179,20 @@ static void readline_up_char(ReadLineState *rs)
+     int idx;
 =20
-     if (rs->cmd_buf_size !=3D rs->last_cmd_buf_size ||
-         memcmp(rs->cmd_buf, rs->last_cmd_buf, rs->cmd_buf_size) !=3D 0) =
-{
--        for(i =3D 0; i < rs->last_cmd_buf_index; i++) {
-+        for (i =3D 0; i < rs->last_cmd_buf_index; i++) {
-             rs->printf_func(rs->opaque, "\033[D");
-         }
-         rs->cmd_buf[rs->cmd_buf_size] =3D '\0';
-         if (rs->read_password) {
-             len =3D strlen(rs->cmd_buf);
--            for(i =3D 0; i < len; i++)
-+            for (i =3D 0; i < len; i++)
-                 rs->printf_func(rs->opaque, "*");
-         } else {
-             rs->printf_func(rs->opaque, "%s", rs->cmd_buf);
-@@ -67,12 +67,12 @@ static void readline_update(ReadLineState *rs)
-     if (rs->cmd_buf_index !=3D rs->last_cmd_buf_index) {
-         delta =3D rs->cmd_buf_index - rs->last_cmd_buf_index;
-         if (delta > 0) {
--            for(i =3D 0;i < delta; i++) {
-+            for (i =3D 0; i < delta; i++) {
-                 rs->printf_func(rs->opaque, "\033[C");
-             }
-         } else {
-             delta =3D -delta;
--            for(i =3D 0;i < delta; i++) {
-+            for (i =3D 0; i < delta; i++) {
-                 rs->printf_func(rs->opaque, "\033[D");
-             }
-         }
-@@ -301,7 +301,7 @@ static void readline_completion(ReadLineState *rs)
+     if (rs->hist_entry =3D=3D 0)
+-	return;
++        return;
+     if (rs->hist_entry =3D=3D -1) {
+-	/* Find latest entry */
+-	for (idx =3D 0; idx < READLINE_MAX_CMDS; idx++) {
+-	    if (rs->history[idx] =3D=3D NULL)
+-		break;
+-	}
+-	rs->hist_entry =3D idx;
++        /* Find latest entry */
++        for (idx =3D 0; idx < READLINE_MAX_CMDS; idx++) {
++            if (rs->history[idx] =3D=3D NULL)
++                break;
++        }
++        rs->hist_entry =3D idx;
+     }
+     rs->hist_entry--;
+     if (rs->hist_entry >=3D 0) {
+-	pstrcpy(rs->cmd_buf, sizeof(rs->cmd_buf),
++        pstrcpy(rs->cmd_buf, sizeof(rs->cmd_buf),
+                 rs->history[rs->hist_entry]);
+-	rs->cmd_buf_index =3D rs->cmd_buf_size =3D strlen(rs->cmd_buf);
++        rs->cmd_buf_index =3D rs->cmd_buf_size =3D strlen(rs->cmd_buf);
+     }
+ }
+=20
+@@ -202,11 +202,11 @@ static void readline_down_char(ReadLineState *rs)
          return;
-     if (rs->nb_completions =3D=3D 1) {
-         len =3D strlen(rs->completions[0]);
--        for(i =3D rs->completion_index; i < len; i++) {
-+        for (i =3D rs->completion_index; i < len; i++) {
-             readline_insert_char(rs, rs->completions[0][i]);
-         }
-         /* extra space for next argument. XXX: make it more generic */
-@@ -312,15 +312,15 @@ static void readline_completion(ReadLineState *rs)
-               completion_comp);
-         rs->printf_func(rs->opaque, "\n");
-         max_width =3D 0;
--        max_prefix =3D 0;=09
--        for(i =3D 0; i < rs->nb_completions; i++) {
-+        max_prefix =3D 0;
-+        for (i =3D 0; i < rs->nb_completions; i++) {
-             len =3D strlen(rs->completions[i]);
--            if (i=3D=3D0) {
-+            if (i =3D=3D 0) {
-                 max_prefix =3D len;
-             } else {
-                 if (len < max_prefix)
-                     max_prefix =3D len;
--                for(j=3D0; j<max_prefix; j++) {
-+                for (j =3D 0; j < max_prefix; j++) {
-                     if (rs->completions[i][j] !=3D rs->completions[0][j]=
-)
-                         max_prefix =3D j;
-                 }
-@@ -328,8 +328,8 @@ static void readline_completion(ReadLineState *rs)
-             if (len > max_width)
-                 max_width =3D len;
-         }
--        if (max_prefix > 0)=20
--            for(i =3D rs->completion_index; i < max_prefix; i++) {
-+        if (max_prefix > 0)
-+            for (i =3D rs->completion_index; i < max_prefix; i++) {
-                 readline_insert_char(rs, rs->completions[0][i]);
-             }
-         max_width +=3D 2;
-@@ -339,7 +339,7 @@ static void readline_completion(ReadLineState *rs)
-             max_width =3D 80;
-         nb_cols =3D 80 / max_width;
-         j =3D 0;
--        for(i =3D 0; i < rs->nb_completions; i++) {
-+        for (i =3D 0; i < rs->nb_completions; i++) {
-             rs->printf_func(rs->opaque, "%-*s", max_width, rs->completio=
-ns[i]);
-             if (++j =3D=3D nb_cols || i =3D=3D (rs->nb_completions - 1))=
- {
-                 rs->printf_func(rs->opaque, "\n");
-@@ -362,9 +362,9 @@ static void readline_clear_screen(ReadLineState *rs)
- /* return true if command handled */
- void readline_handle_byte(ReadLineState *rs, int ch)
- {
--    switch(rs->esc_state) {
-+    switch (rs->esc_state) {
-     case IS_NORM:
--        switch(ch) {
-+        switch (ch) {
-         case 1:
-             readline_bol(rs);
+     if (rs->hist_entry < READLINE_MAX_CMDS - 1 &&
+         rs->history[++rs->hist_entry] !=3D NULL) {
+-	pstrcpy(rs->cmd_buf, sizeof(rs->cmd_buf),
++        pstrcpy(rs->cmd_buf, sizeof(rs->cmd_buf),
+                 rs->history[rs->hist_entry]);
+     } else {
+         rs->cmd_buf[0] =3D 0;
+-	rs->hist_entry =3D -1;
++        rs->hist_entry =3D -1;
+     }
+     rs->cmd_buf_index =3D rs->cmd_buf_size =3D strlen(rs->cmd_buf);
+ }
+@@ -217,42 +217,42 @@ static void readline_hist_add(ReadLineState *rs, co=
+nst char *cmdline)
+     int idx;
+=20
+     if (cmdline[0] =3D=3D '\0')
+-	return;
++        return;
+     new_entry =3D NULL;
+     if (rs->hist_entry !=3D -1) {
+-	/* We were editing an existing history entry: replace it */
+-	hist_entry =3D rs->history[rs->hist_entry];
+-	idx =3D rs->hist_entry;
+-	if (strcmp(hist_entry, cmdline) =3D=3D 0) {
+-	    goto same_entry;
+-	}
++        /* We were editing an existing history entry: replace it */
++        hist_entry =3D rs->history[rs->hist_entry];
++        idx =3D rs->hist_entry;
++        if (strcmp(hist_entry, cmdline) =3D=3D 0) {
++            goto same_entry;
++        }
+     }
+     /* Search cmdline in history buffers */
+     for (idx =3D 0; idx < READLINE_MAX_CMDS; idx++) {
+-	hist_entry =3D rs->history[idx];
+-	if (hist_entry =3D=3D NULL)
+-	    break;
+-	if (strcmp(hist_entry, cmdline) =3D=3D 0) {
+-	same_entry:
+-	    new_entry =3D hist_entry;
+-	    /* Put this entry at the end of history */
+-	    memmove(&rs->history[idx], &rs->history[idx + 1],
+-		    (READLINE_MAX_CMDS - (idx + 1)) * sizeof(char *));
+-	    rs->history[READLINE_MAX_CMDS - 1] =3D NULL;
+-	    for (; idx < READLINE_MAX_CMDS; idx++) {
+-		if (rs->history[idx] =3D=3D NULL)
+-		    break;
+-	    }
+-	    break;
+-	}
++        hist_entry =3D rs->history[idx];
++        if (hist_entry =3D=3D NULL)
++            break;
++        if (strcmp(hist_entry, cmdline) =3D=3D 0) {
++        same_entry:
++            new_entry =3D hist_entry;
++            /* Put this entry at the end of history */
++            memmove(&rs->history[idx], &rs->history[idx + 1],
++                    (READLINE_MAX_CMDS - (idx + 1)) * sizeof(char *));
++            rs->history[READLINE_MAX_CMDS - 1] =3D NULL;
++            for (; idx < READLINE_MAX_CMDS; idx++) {
++                if (rs->history[idx] =3D=3D NULL)
++                    break;
++            }
++            break;
++        }
+     }
+     if (idx =3D=3D READLINE_MAX_CMDS) {
+-	/* Need to get one free slot */
++        /* Need to get one free slot */
+         g_free(rs->history[0]);
+-	memmove(rs->history, &rs->history[1],
+-	        (READLINE_MAX_CMDS - 1) * sizeof(char *));
+-	rs->history[READLINE_MAX_CMDS - 1] =3D NULL;
+-	idx =3D READLINE_MAX_CMDS - 1;
++        memmove(rs->history, &rs->history[1],
++                (READLINE_MAX_CMDS - 1) * sizeof(char *));
++        rs->history[READLINE_MAX_CMDS - 1] =3D NULL;
++        idx =3D READLINE_MAX_CMDS - 1;
+     }
+     if (new_entry =3D=3D NULL)
+         new_entry =3D g_strdup(cmdline);
+@@ -403,9 +403,9 @@ void readline_handle_byte(ReadLineState *rs, int ch)
+         case 8:
+             readline_backspace(rs);
              break;
-@@ -425,7 +425,7 @@ void readline_handle_byte(ReadLineState *rs, int ch)
-         }
+-	case 155:
++        case 155:
+             rs->esc_state =3D IS_CSI;
+-	    break;
++            break;
+         default:
+             if (ch >=3D 32) {
+                 readline_insert_char(rs, ch);
+@@ -426,14 +426,14 @@ void readline_handle_byte(ReadLineState *rs, int ch=
+)
          break;
      case IS_CSI:
--        switch(ch) {
-+        switch (ch) {
- 	case 'A':
- 	case 'F':
- 	    readline_up_char(rs);
-@@ -444,7 +444,7 @@ void readline_handle_byte(ReadLineState *rs, int ch)
-             rs->esc_param =3D rs->esc_param * 10 + (ch - '0');
-             goto the_end;
-         case '~':
--            switch(rs->esc_param) {
-+            switch (rs->esc_param) {
-             case 1:
-                 readline_bol(rs);
-                 break;
-@@ -463,7 +463,7 @@ void readline_handle_byte(ReadLineState *rs, int ch)
-     the_end:
-         break;
-     case IS_SS3:
--        switch(ch) {
-+        switch (ch) {
-         case 'F':
-             readline_eol(rs);
+         switch (ch) {
+-	case 'A':
+-	case 'F':
+-	    readline_up_char(rs);
+-	    break;
+-	case 'B':
+-	case 'E':
+-	    readline_down_char(rs);
+-	    break;
++        case 'A':
++        case 'F':
++            readline_up_char(rs);
++            break;
++        case 'B':
++        case 'E':
++            readline_down_char(rs);
++            break;
+         case 'D':
+             readline_backward_char(rs);
              break;
 --=20
 2.21.0
