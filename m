@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3ED391AD1D
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 May 2019 18:51:28 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:45265 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 401BC1AD1B
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 May 2019 18:49:31 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:45210 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hPrh9-0000fp-GC
-	for lists+qemu-devel@lfdr.de; Sun, 12 May 2019 12:51:27 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37444)
+	id 1hPrfG-0007Zx-29
+	for lists+qemu-devel@lfdr.de; Sun, 12 May 2019 12:49:30 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41980)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <sp3478@gmail.com>) id 1hPq7z-0003YL-Ox
-	for qemu-devel@nongnu.org; Sun, 12 May 2019 11:11:04 -0400
+	(envelope-from <sp3478@gmail.com>) id 1hPqgY-0001ZT-Vd
+	for qemu-devel@nongnu.org; Sun, 12 May 2019 11:46:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <sp3478@gmail.com>) id 1hPq7x-0006I0-N1
-	for qemu-devel@nongnu.org; Sun, 12 May 2019 11:11:02 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:45298)
+	(envelope-from <sp3478@gmail.com>) id 1hPqgY-0001pF-38
+	for qemu-devel@nongnu.org; Sun, 12 May 2019 11:46:46 -0400
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:46803)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <sp3478@gmail.com>)
-	id 1hPq7u-0006Aa-Gx; Sun, 12 May 2019 11:10:58 -0400
-Received: by mail-pl1-x643.google.com with SMTP id a5so5114082pls.12;
-	Sun, 12 May 2019 08:10:55 -0700 (PDT)
+	id 1hPqgW-0001me-03; Sun, 12 May 2019 11:46:44 -0400
+Received: by mail-pl1-x643.google.com with SMTP id r18so380273pls.13;
+	Sun, 12 May 2019 08:46:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=Ebt6rBfRioXzugo4iVq6Vhz0P1s14Wfm0wmZbroY6M0=;
-	b=eO2KUUE6D4fgHyQyg57EYPfd+EhrlMSrIqDxhEkSDV7yrvaqgQmHPbqIYl54IRvnuM
-	H+rxL17QlBu/nkwqSUeASrM9Vqj5w7O9KXrYuI1OW6tgDfI+hv8bBzKu57TJ0fp/leEQ
-	9M4KZEfHgtTvOeC+G4eEilDHYBt1oml1AtNjeSbC5YCxgmIjM5s3ZpeeulCqTncqT4wb
-	6kXl9bj3I1iX+uVBS449DVw6fazRSYzueece4hE7H7ar+rNNblLtwo3NzL39x5DyYriT
-	ugNR/fJk2brRhlVnpskQoTksDXIWtfqZ5Au76UZMNgUaDObqwcZQttlcI0izEhZKGoq5
-	Emjw==
+	bh=Kik0fJl/2iMZFqWKyvyA3O5RdlpXtiD5DVAADEVguEA=;
+	b=Q4T5nwdeGOGTx/WILyk4aNyX8RTfTcUGnynWG1mW4nzRFTwOFGEkycEIxOPIZZTm/D
+	skUCn1Yrjg2uXnGPWbfQ/QSgpNo7yBCHRFJ2OJkkKFg8O2tQNKLbWuLymOmv3DlEYl6a
+	8fGZXBvkEUmsmEugQa91tsEex+EWAxAAO6JpVcUF7YHS/uN9J+CQC1wZFJ+VigfwXcJ7
+	nXQruyaWJlK/CBnp1lv0xXRG0AfFmzezbW6Rfr8auX6xFap6ImaRFzEKTfvFNVmcgwFU
+	dhO2/YxbSt+G8ZJTrDaPy2GH2QuGOj/w3pTDVWQaQUbstBy0ftA3z0YhuLEnSfyrlScZ
+	HT+A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=Ebt6rBfRioXzugo4iVq6Vhz0P1s14Wfm0wmZbroY6M0=;
-	b=SzZO71rnCtsDlmYio6ga3e0dJ2xNHYBOeIXxZAHURS3vTuub8y2hZ+wQLB7GIKOkV8
-	kEv9zS9IjVkFZJ5dL1OAA+WNC6kWQp30+qAjHt4ecYCN1yDLAFV4HGFPTu7aMQ68MQ33
-	3rukwtS+F5ZG8ZA/gJ2SlZJw24UVQsjyJqNFeXZYbBL8Svz1o+6AJOmRH7eL/hcN7psq
-	fmv4WNO41NEA3B1ysGbXQw7SlV2cj7q2vUMTLIFaTevOiMh5MjjRgmDpjImOOg9khhwG
-	/kiAvPTrUDXM4WbH7yNxnJb0F9jXWLn7rHKvq0DTWMg1JpuAruRdNqse+VustU1/+z5z
-	HXGw==
-X-Gm-Message-State: APjAAAXgoopHSC91FEiIClHHH1g6/ArMiBlZ+pJ8vTDEOxK2iYpvHbud
-	Nr2NsSPMSnfh2Zo8wqGoVNn5/RkvtlGq6KaJ
-X-Google-Smtp-Source: APXvYqxTJXlZ8c/E4KS2V2dnXWN/Nu47w23zjAjsnltpPAxYD9RttA9k/otn+PFDp1AT5f0EwWYb/Q==
-X-Received: by 2002:a17:902:aa5:: with SMTP id
-	34mr25718171plp.263.1557673853989; 
-	Sun, 12 May 2019 08:10:53 -0700 (PDT)
+	bh=Kik0fJl/2iMZFqWKyvyA3O5RdlpXtiD5DVAADEVguEA=;
+	b=AnRIRL96sO4LhzENQJgh/rp+JJ/+5jD9JqL5lI9Qxi3nJG6cf4qqv3Xbc/icjMpv3J
+	5bLG+08INVrllQ6xRVbt9wIkRYHtLs906Paiiy/xToCVBdFDCd/44RoYEkHT5kH9nCEt
+	nVHzHyqmQ3msE5zWja/iiyiviVaMhHGesAmWDVCt69tnyRT4IeVbZ77oHzMKkGw768Bn
+	kyEnQ1Pl1Yo8isv21CmcElN+2uVz9NWy80bcpbcA/18aTrf+Skky1wLqt6GORt37Fnxs
+	vApVrPBqds3VHjSUjaYQnsiamfDFR05wgDMEcVW8uIRDA0izQZ6hmT63kNLZtgMvgcUH
+	HaDA==
+X-Gm-Message-State: APjAAAVQkrvF5+Z4s5NumajOTO5N7dupa3rABXhBtfdjMBL+4Bca8iZX
+	jh5em5dlbWF53d+6W7UB7KQJbkXsjVmeE9EB
+X-Google-Smtp-Source: APXvYqxqjz2bXKEJkIkWaf3IffyGJh1V8pVh/26ag0S7U7h4e9WzN9gqG4RNRvEAtv4kZLdUqTMiLg==
+X-Received: by 2002:a17:902:5995:: with SMTP id
+	p21mr25975831pli.216.1557676002463; 
+	Sun, 12 May 2019 08:46:42 -0700 (PDT)
 Received: from LEGENDTANG-MB0.ust.hk (wf120-214.ust.hk. [175.159.120.214])
 	by smtp.googlemail.com with ESMTPSA id
-	v66sm7533220pfa.38.2019.05.12.08.10.50
+	125sm2382037pge.45.2019.05.12.08.46.40
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Sun, 12 May 2019 08:10:52 -0700 (PDT)
+	Sun, 12 May 2019 08:46:41 -0700 (PDT)
 From: Wensheng Tang <sp3478@gmail.com>
 To: qemu-block@nongnu.org
-Date: Sun, 12 May 2019 23:10:48 +0800
-Message-Id: <20190512151048.72412-1-sp3478@gmail.com>
+Date: Sun, 12 May 2019 23:46:20 +0800
+Message-Id: <20190512154620.84143-1-sp3478@gmail.com>
 X-Mailer: git-send-email 2.20.1 (Apple Git-117)
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
@@ -83,7 +83,11 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Wensheng Tang <sp3478@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+(The last email does not include signed-off-by line. Please ignoreit)
+
 We should keep the error handling consistent. ENOMEDIUM is more meaningful than ENOENT a when driver cannot be loaded.
+
+Signed-off-by: Wensheng Tang <sp3478@gmail.com>
 ---
  block.c | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
