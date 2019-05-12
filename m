@@ -2,103 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75DBC1AC84
-	for <lists+qemu-devel@lfdr.de>; Sun, 12 May 2019 15:51:42 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43460 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3ED391AD1D
+	for <lists+qemu-devel@lfdr.de>; Sun, 12 May 2019 18:51:28 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:45265 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hPotB-0007FI-CT
-	for lists+qemu-devel@lfdr.de; Sun, 12 May 2019 09:51:41 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53980)
+	id 1hPrh9-0000fp-GC
+	for lists+qemu-devel@lfdr.de; Sun, 12 May 2019 12:51:27 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37444)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hPorz-0006Wk-BC
-	for qemu-devel@nongnu.org; Sun, 12 May 2019 09:50:28 -0400
+	(envelope-from <sp3478@gmail.com>) id 1hPq7z-0003YL-Ox
+	for qemu-devel@nongnu.org; Sun, 12 May 2019 11:11:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hPopV-0007AS-Jc
-	for qemu-devel@nongnu.org; Sun, 12 May 2019 09:47:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44358)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <thuth@redhat.com>) id 1hPopV-00079N-Bp
-	for qemu-devel@nongnu.org; Sun, 12 May 2019 09:47:53 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
-	[10.5.11.14])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id B8A81C057F31;
-	Sun, 12 May 2019 13:47:51 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-116-60.ams2.redhat.com [10.36.116.60])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 4CF9E5D9C6;
-	Sun, 12 May 2019 13:47:50 +0000 (UTC)
-To: Programmingkid <programmingkidx@gmail.com>
-References: <20190418224706.14014-1-programmingkidx@gmail.com>
-	<723372ae-a37a-d7cd-098f-452c7513ce8a@redhat.com>
-	<4B73E5E6-2129-43B8-A35E-0CF7DCAE163B@gmail.com>
-	<1c4c309a-b785-64d2-60ce-4f0501fcc415@redhat.com>
-	<E694EDDC-BFF1-4BE9-BFCC-43B303DE6BF7@gmail.com>
-	<99b26a5a-d756-c1d7-0690-5e419075f5e0@redhat.com>
-	<3D0C069E-C946-47E0-8A1C-EF5B28CFFB09@gmail.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=thuth@redhat.com; keydata=
-	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
-Organization: Red Hat
-Message-ID: <2f0545db-a95c-d4ba-cc46-110c3b15e1e8@redhat.com>
-Date: Sun, 12 May 2019 15:47:49 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <sp3478@gmail.com>) id 1hPq7x-0006I0-N1
+	for qemu-devel@nongnu.org; Sun, 12 May 2019 11:11:02 -0400
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:45298)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <sp3478@gmail.com>)
+	id 1hPq7u-0006Aa-Gx; Sun, 12 May 2019 11:10:58 -0400
+Received: by mail-pl1-x643.google.com with SMTP id a5so5114082pls.12;
+	Sun, 12 May 2019 08:10:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Ebt6rBfRioXzugo4iVq6Vhz0P1s14Wfm0wmZbroY6M0=;
+	b=eO2KUUE6D4fgHyQyg57EYPfd+EhrlMSrIqDxhEkSDV7yrvaqgQmHPbqIYl54IRvnuM
+	H+rxL17QlBu/nkwqSUeASrM9Vqj5w7O9KXrYuI1OW6tgDfI+hv8bBzKu57TJ0fp/leEQ
+	9M4KZEfHgtTvOeC+G4eEilDHYBt1oml1AtNjeSbC5YCxgmIjM5s3ZpeeulCqTncqT4wb
+	6kXl9bj3I1iX+uVBS449DVw6fazRSYzueece4hE7H7ar+rNNblLtwo3NzL39x5DyYriT
+	ugNR/fJk2brRhlVnpskQoTksDXIWtfqZ5Au76UZMNgUaDObqwcZQttlcI0izEhZKGoq5
+	Emjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=Ebt6rBfRioXzugo4iVq6Vhz0P1s14Wfm0wmZbroY6M0=;
+	b=SzZO71rnCtsDlmYio6ga3e0dJ2xNHYBOeIXxZAHURS3vTuub8y2hZ+wQLB7GIKOkV8
+	kEv9zS9IjVkFZJ5dL1OAA+WNC6kWQp30+qAjHt4ecYCN1yDLAFV4HGFPTu7aMQ68MQ33
+	3rukwtS+F5ZG8ZA/gJ2SlZJw24UVQsjyJqNFeXZYbBL8Svz1o+6AJOmRH7eL/hcN7psq
+	fmv4WNO41NEA3B1ysGbXQw7SlV2cj7q2vUMTLIFaTevOiMh5MjjRgmDpjImOOg9khhwG
+	/kiAvPTrUDXM4WbH7yNxnJb0F9jXWLn7rHKvq0DTWMg1JpuAruRdNqse+VustU1/+z5z
+	HXGw==
+X-Gm-Message-State: APjAAAXgoopHSC91FEiIClHHH1g6/ArMiBlZ+pJ8vTDEOxK2iYpvHbud
+	Nr2NsSPMSnfh2Zo8wqGoVNn5/RkvtlGq6KaJ
+X-Google-Smtp-Source: APXvYqxTJXlZ8c/E4KS2V2dnXWN/Nu47w23zjAjsnltpPAxYD9RttA9k/otn+PFDp1AT5f0EwWYb/Q==
+X-Received: by 2002:a17:902:aa5:: with SMTP id
+	34mr25718171plp.263.1557673853989; 
+	Sun, 12 May 2019 08:10:53 -0700 (PDT)
+Received: from LEGENDTANG-MB0.ust.hk (wf120-214.ust.hk. [175.159.120.214])
+	by smtp.googlemail.com with ESMTPSA id
+	v66sm7533220pfa.38.2019.05.12.08.10.50
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
+	Sun, 12 May 2019 08:10:52 -0700 (PDT)
+From: Wensheng Tang <sp3478@gmail.com>
+To: qemu-block@nongnu.org
+Date: Sun, 12 May 2019 23:10:48 +0800
+Message-Id: <20190512151048.72412-1-sp3478@gmail.com>
+X-Mailer: git-send-email 2.20.1 (Apple Git-117)
 MIME-Version: 1.0
-In-Reply-To: <3D0C069E-C946-47E0-8A1C-EF5B28CFFB09@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.32]);
-	Sun, 12 May 2019 13:47:51 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] configure: Change capstone's default state
- to disabled
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::643
+X-Mailman-Approved-At: Sun, 12 May 2019 12:47:49 -0400
+Subject: [Qemu-devel] [PATCH] block: Make block error codes consistent
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -110,107 +77,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org,
-	=?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
-	qemu-devel@nongnu.org, Richard Henderson <rth@twiddle.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, Wensheng Tang <sp3478@gmail.com>,
+	"open list:All patches CC here" <qemu-devel@nongnu.org>,
+	Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 11/05/2019 20.28, Programmingkid wrote:
->=20
->> On May 11, 2019, at 2:05 PM, Thomas Huth <thuth@redhat.com> wrote:
->>
->> On 11/05/2019 19.21, Programmingkid wrote:
->>>
->>>> On Apr 20, 2019, at 6:40 AM, Thomas Huth <thuth@redhat.com> wrote:
->>>>
->>>> On 19/04/2019 15.44, G 3 wrote:
-[...]
->>>>> Thank you for replying. Capstone comes with QEMU? Every time I try =
-to
->>>>> compile QEMU I see an error relating to Capstone not being on my sy=
-stem.
->>>>> Why do you feel that disabling Capstone by default is not a good id=
-ea?
->>>>>
->>>>> Here is the error message I see when compiling QEMU:
->>>>>
->>>>> CHK version_gen.h
->>>>> make[1]: *** No rule to make target
->>>>> `/Users/John/qemu-git/capstone/libcapstone.a'.  Stop.
->>>>> make: *** [subdir-capstone] Error 2
->>>>
->>>> I assume you're using a git checkout here, right? For git checkouts,=
- the
->>>> Makefile should take care of calling the scripts/git-submodule.sh sc=
-ript
->>>> which should initialize the submodule in the capstone directory.
->>>>
->>>> What's the content of your .git-submodule-status file? What does
->>>> "configure" say about capstone support on your system?
->>>>
->>>> Thomas
->>>
->>> Yes I use a git checkout.
->>>
->>> This is the contents of my .git-submodule-status file:
->>> #!/bin/sh
->> [...]
->>
->> That were the contents of scripts/git-submodule.sh. I meant the hidden
->> file .git-submodule-status in the main directory.
->=20
-> This is it:
->  88f18909db731a627456f26d779445f84e449536 dtc (v1.4.7)
->  f0da6726207b740f6101028b2992f918477a4b08 slirp (v4.0.0-rc0-25-gf0da672=
-)
->  b64af41c3276f97f0e181920400ee056b9c88037 tests/fp/berkeley-softfloat-3=
- (heads/master)
->  5a59dcec19327396a011a17fd924aed4fec416b3 tests/fp/berkeley-testfloat-3=
- (remotes/origin/HEAD)
->  6b3d716e2b6472eb7189d3220552280ef3d832ce ui/keycodemapdb (heads/master=
--4-g6b3d716)
+We should keep the error handling consistent. ENOMEDIUM is more meaningful than ENOENT a when driver cannot be loaded.
+---
+ block.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-There should be an entry for capstone in here, too. :-/
+diff --git a/block.c b/block.c
+index 5c2c6aa..6685be7 100644
+--- a/block.c
++++ b/block.c
+@@ -770,7 +770,7 @@ static int find_image_format(BlockBackend *file, const char *filename,
+     if (!drv) {
+         error_setg(errp, "Could not determine image format: No compatible "
+                    "driver found");
+-        ret = -ENOENT;
++        ret = -ENOMEDIUM;
+     }
+     *pdrv = drv;
+     return ret;
+@@ -1619,7 +1619,7 @@ static int bdrv_fill_options(QDict **options, const char *filename,
+         drv = bdrv_find_format(drvname);
+         if (!drv) {
+             error_setg(errp, "Unknown driver '%s'", drvname);
+-            return -ENOENT;
++            return -ENOMEDIUM;
+         }
+         /* If the user has explicitly specified the driver, this choice should
+          * override the BDRV_O_PROTOCOL flag */
+@@ -1655,7 +1655,7 @@ static int bdrv_fill_options(QDict **options, const char *filename,
+         if (filename) {
+             drv = bdrv_find_protocol(filename, parse_filename, errp);
+             if (!drv) {
+-                return -EINVAL;
++                return -ENOMEDIUM;
+             }
+ 
+             drvname = drv->format_name;
+-- 
+2.20.1 (Apple Git-117)
 
->>> I did a 'make clean' followed by a 'make distclean'. Then tried build=
-ing again using this command line:
->>>
->>> ./configure --target-list=3Dppc-softmmu,i386-softmmu,x86_64-softmmu
->>> make -j 4
->>
->> That should normally populate the capstone directory. What happens if
->> you run "make git-submodule-update" directly?
->=20
-> Here is the result:
-> $ make git-submodule-update
-> make[1]: Nothing to be done for `all'.
-> make[1]: *** No rule to make target `/Users/John/Documents/Development/=
-Projects/Qemu/qemu-git/capstone/libcapstone.a'.  Stop.
-> make: *** [subdir-capstone] Error 2
-
-Apparently the submodule update is not working right for you. What do
-you get when you run:
-
- git submodule update capstone
-
-?
-
->>> I took a look at the capstone folder. There is no 'make' file in this=
- folder. Should there be one?
->>
->> Yes, the capstone folder should be populated automatically. Is it
->> completely empty for you?
->=20
-> It isn't empty. All I see are two folders: obj and docs.
-
-Maybe try to clean the folder first:
-
- rm -r capstone
- mkdir capstone
- make git-submodule-update
-
-If that does not help, maybe try a completely fresh git checkout?
-
- Thomas
 
