@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E0F1E1B0DE
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 09:10:42 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52236 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AFE791B0EB
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 09:11:37 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52272 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQ56e-0003er-LS
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 03:10:40 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43174)
+	id 1hQ57Y-0004Qz-Qu
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 03:11:36 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43030)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hQ54E-0002ST-70
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 03:08:11 -0400
+	(envelope-from <kraxel@redhat.com>) id 1hQ54D-0002RU-HG
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 03:08:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hQ4pv-0002Jq-3B
+	(envelope-from <kraxel@redhat.com>) id 1hQ4pv-0002Jx-3j
 	for qemu-devel@nongnu.org; Mon, 13 May 2019 02:53:25 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43466)
+Received: from mx1.redhat.com ([209.132.183.28]:45890)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hQ4pt-0002Hv-35
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 02:53:22 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
+	(Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hQ4pt-0002I5-3r
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 02:53:23 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 1DA44882F0
+	by mx1.redhat.com (Postfix) with ESMTPS id 9CD8DF74CD
 	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 06:53:18 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-117-74.ams2.redhat.com
 	[10.36.117.74])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id A759019C6A;
+	by smtp.corp.redhat.com (Postfix) with ESMTP id A9F9C6B8C8;
 	Mon, 13 May 2019 06:53:16 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-	id 6986BA208; Mon, 13 May 2019 08:53:10 +0200 (CEST)
+	id 71DFCA212; Mon, 13 May 2019 08:53:10 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 13 May 2019 08:53:08 +0200
-Message-Id: <20190513065310.10263-6-kraxel@redhat.com>
+Date: Mon, 13 May 2019 08:53:09 +0200
+Message-Id: <20190513065310.10263-7-kraxel@redhat.com>
 In-Reply-To: <20190513065310.10263-1-kraxel@redhat.com>
 References: <20190513065310.10263-1-kraxel@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.28]);
+	(mx1.redhat.com [10.5.110.38]);
 	Mon, 13 May 2019 06:53:18 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 5/7] util: simplify unix_listen()
+Subject: [Qemu-devel] [PULL 6/7] virtio-input-host-pci: cleanup types
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -59,60 +59,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
-	=?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>,
 	Gerd Hoffmann <kraxel@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+virtio input is virtio-1.0 only, so we don't need the -transitional and
+-non-transitional variants.
 
-The only caller of unix_listen() left is qga/channel-posix.c.
-
-There is no need to deal with legacy coma-trailing options ",...".
-
-Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
-Message-id: 20190503130034.24916-6-marcandre.lureau@redhat.com
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+Message-id: 20190510105137.17481-1-kraxel@redhat.com
 ---
- util/qemu-sockets.c | 18 ++----------------
- 1 file changed, 2 insertions(+), 16 deletions(-)
+ hw/virtio/virtio-input-host-pci.c | 7 ++-----
+ 1 file changed, 2 insertions(+), 5 deletions(-)
 
-diff --git a/util/qemu-sockets.c b/util/qemu-sockets.c
-index ba6335e71a95..8850a280a84b 100644
---- a/util/qemu-sockets.c
-+++ b/util/qemu-sockets.c
-@@ -970,26 +970,12 @@ static int unix_connect_saddr(UnixSocketAddress *sa=
-ddr, Error **errp)
- /* compatibility wrapper */
- int unix_listen(const char *str, Error **errp)
- {
--    char *path, *optstr;
--    int sock, len;
-     UnixSocketAddress *saddr;
-+    int sock;
+diff --git a/hw/virtio/virtio-input-host-pci.c b/hw/virtio/virtio-input-h=
+ost-pci.c
+index 725a51ad30b4..124c4f344742 100644
+--- a/hw/virtio/virtio-input-host-pci.c
++++ b/hw/virtio/virtio-input-host-pci.c
+@@ -13,7 +13,7 @@
 =20
-     saddr =3D g_new0(UnixSocketAddress, 1);
--
--    optstr =3D strchr(str, ',');
--    if (optstr) {
--        len =3D optstr - str;
--        if (len) {
--            path =3D g_malloc(len+1);
--            snprintf(path, len+1, "%.*s", len, str);
--            saddr->path =3D path;
--        }
--    } else {
--        saddr->path =3D g_strdup(str);
--    }
--
-+    saddr->path =3D g_strdup(str);
-     sock =3D unix_listen_saddr(saddr, errp);
--
-     qapi_free_UnixSocketAddress(saddr);
-     return sock;
+ typedef struct VirtIOInputHostPCI VirtIOInputHostPCI;
+=20
+-#define TYPE_VIRTIO_INPUT_HOST_PCI "virtio-input-host-pci-base"
++#define TYPE_VIRTIO_INPUT_HOST_PCI "virtio-input-host-pci"
+ #define VIRTIO_INPUT_HOST_PCI(obj) \
+         OBJECT_CHECK(VirtIOInputHostPCI, (obj), TYPE_VIRTIO_INPUT_HOST_P=
+CI)
+=20
+@@ -31,10 +31,7 @@ static void virtio_host_initfn(Object *obj)
  }
+=20
+ static const VirtioPCIDeviceTypeInfo virtio_input_host_pci_info =3D {
+-    .base_name             =3D TYPE_VIRTIO_INPUT_HOST_PCI,
+-    .generic_name          =3D "virtio-input-host-pci",
+-    .transitional_name     =3D "virtio-input-host-pci-transitional",
+-    .non_transitional_name =3D "virtio-input-host-pci-non-transitional",
++    .generic_name  =3D TYPE_VIRTIO_INPUT_HOST_PCI,
+     .parent        =3D TYPE_VIRTIO_INPUT_PCI,
+     .instance_size =3D sizeof(VirtIOInputHostPCI),
+     .instance_init =3D virtio_host_initfn,
 --=20
 2.18.1
 
