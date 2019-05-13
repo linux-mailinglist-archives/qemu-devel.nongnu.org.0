@@ -2,47 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D82771B070
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 08:40:33 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:51972 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5AD271B02B
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 08:22:12 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:51750 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQ4dV-0005Q8-2K
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 02:40:33 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37356)
+	id 1hQ4Lj-00049N-6z
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 02:22:11 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35105)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richardw.yang@linux.intel.com>) id 1hQ4Zs-0002mj-UF
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 02:36:50 -0400
+	(envelope-from <dgibson@ozlabs.org>) id 1hQ4JQ-0002gy-Tl
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 02:19:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richardw.yang@linux.intel.com>) id 1hQ4KK-000509-F8
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 02:20:46 -0400
-Received: from mga07.intel.com ([134.134.136.100]:24552)
+	(envelope-from <dgibson@ozlabs.org>) id 1hQ4JP-0004LP-Qy
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 02:19:48 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:60419 helo=ozlabs.org)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
-	id 1hQ4KJ-0004ds-BF
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 02:20:43 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 May 2019 23:20:43 -0700
-X-ExtLoop1: 1
-Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
-	by orsmga003.jf.intel.com with ESMTP; 12 May 2019 23:20:41 -0700
-From: Wei Yang <richardw.yang@linux.intel.com>
-To: qemu-devel@nongnu.org
-Date: Mon, 13 May 2019 14:19:13 +0800
-Message-Id: <20190513061913.9284-10-richardw.yang@linux.intel.com>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20190513061913.9284-1-richardw.yang@linux.intel.com>
-References: <20190513061913.9284-1-richardw.yang@linux.intel.com>
+	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+	id 1hQ4JP-0004KJ-0m; Mon, 13 May 2019 02:19:47 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+	id 452Vz22nVVz9sBr; Mon, 13 May 2019 16:19:42 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=gibson.dropbear.id.au; s=201602; t=1557728382;
+	bh=3meNiWKeCMSH1H6VF02jPY1B6QxQ4zMUps7w6jp5uy4=;
+	h=From:To:Cc:Subject:Date:From;
+	b=DsvQDTAmueqKMWF6sUmRw3T9g3pyTKLrylV/A8OUiwJKTo2Wt7V3hNaABtaMwJwBR
+	t5OMT7UioLj25EWAwAqiYf+lTAXJt11cdFIk7W+xkMvECbC1ME5fMiTbOJ7ebjowwG
+	9rYqunHRuwHg/c6XubqedJwjQLriUWG7sawF8u2w=
+From: David Gibson <david@gibson.dropbear.id.au>
+To: mst@redhat.com,
+	qemu-devel@nongnu.org
+Date: Mon, 13 May 2019 16:19:34 +1000
+Message-Id: <20190513061939.3464-1-david@gibson.dropbear.id.au>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 134.134.136.100
-Subject: [Qemu-devel] [RFC PATCH 9/9] hw/acpi: implement madt_main to
- manipulate main madt table
+X-Received-From: 2401:3900:2:1::2
+Subject: [Qemu-devel] [PATCH v4 0/5] Simplify some not-really-necessary PCI
+ bus callbacks
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -54,104 +53,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yang.zhong@intel.com, ehabkost@redhat.com, mst@redhat.com,
-	Wei Yang <richardw.yang@linux.intel.com>, pbonzini@redhat.com,
-	imammedo@redhat.com, rth@twiddle.net
+Cc: aik@ozlabs.ru, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+	groug@kaod.org, qemu-ppc@nongnu.org,
+	David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Different arch would handle the main madt table differently. Add a
-helper function to achieve this goal.
+c2077e2c "pci: Adjust PCI config limit based on bus topology"
+introduced checking the availability of extended config space for
+PCI-E devices which are in a bus topology that doesn't permit extended
+config space access (e.g. under PCI-E to PCI then PCI to PCI-E
+bridges).
 
-Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
----
- hw/acpi/piix4.c                      |  1 +
- hw/i386/acpi-build.c                 | 13 +++++++++++--
- hw/isa/lpc_ich9.c                    |  1 +
- include/hw/acpi/acpi_dev_interface.h |  1 +
- include/hw/i386/pc.h                 |  1 +
- 5 files changed, 15 insertions(+), 2 deletions(-)
+This caused some problems for the spapr para-virtual PCI bus which
+_does_ allow extended config space access, despite acting in most ways
+like a vanilla PCI bus.
 
-diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-index f4336b9238..d7d097daee 100644
---- a/hw/acpi/piix4.c
-+++ b/hw/acpi/piix4.c
-@@ -723,6 +723,7 @@ static void piix4_pm_class_init(ObjectClass *klass, void *data)
-     adevc->ospm_status = piix4_ospm_status;
-     adevc->send_event = piix4_send_gpe;
-     adevc->madt_sub = i386_madt_sub;
-+    adevc->madt_main = i386_madt_main;
- }
- 
- static const TypeInfo piix4_pm_info = {
-diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 74a34e297e..e73e9fddee 100644
---- a/hw/i386/acpi-build.c
-+++ b/hw/i386/acpi-build.c
-@@ -454,6 +454,14 @@ madt_operations i386_madt_sub = {
-     [ACPI_APIC_LOCAL_NMI] = pc_madt_nmi_entry,
- };
- 
-+void i386_madt_main(GArray *entry, void *opaque)
-+{
-+    AcpiMultipleApicTable *madt = opaque;
-+
-+    madt->local_apic_address = cpu_to_le32(APIC_DEFAULT_ADDRESS);
-+    madt->flags = cpu_to_le32(1);
-+}
-+
- static void
- build_madt(GArray *table_data, BIOSLinker *linker, PCMachineState *pcms,
-            struct madt_input *input)
-@@ -466,8 +474,9 @@ build_madt(GArray *table_data, BIOSLinker *linker, PCMachineState *pcms,
-     void *opaque;
- 
-     madt = acpi_data_push(table_data, sizeof *madt);
--    madt->local_apic_address = cpu_to_le32(APIC_DEFAULT_ADDRESS);
--    madt->flags = cpu_to_le32(1);
-+    if (adevc->madt_main) {
-+        adevc->madt_main(table_data, madt);
-+    }
- 
-     for (i = 0; ; i++) {
-         sub_id = input[i].sub_id;
-diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
-index efb0fd8e94..21afd1a12d 100644
---- a/hw/isa/lpc_ich9.c
-+++ b/hw/isa/lpc_ich9.c
-@@ -812,6 +812,7 @@ static void ich9_lpc_class_init(ObjectClass *klass, void *data)
-     adevc->ospm_status = ich9_pm_ospm_status;
-     adevc->send_event = ich9_send_gpe;
-     adevc->madt_sub = i386_madt_sub;
-+    adevc->madt_main = i386_madt_main;
- }
- 
- static const TypeInfo ich9_lpc_info = {
-diff --git a/include/hw/acpi/acpi_dev_interface.h b/include/hw/acpi/acpi_dev_interface.h
-index 3a3a12d543..d3b216544d 100644
---- a/include/hw/acpi/acpi_dev_interface.h
-+++ b/include/hw/acpi/acpi_dev_interface.h
-@@ -52,6 +52,7 @@ typedef struct AcpiDeviceIfClass {
-     /* <public> */
-     void (*ospm_status)(AcpiDeviceIf *adev, ACPIOSTInfoList ***list);
-     void (*send_event)(AcpiDeviceIf *adev, AcpiEventStatusBits ev);
-+    madt_operation madt_main;
-     madt_operation *madt_sub;
- } AcpiDeviceIfClass;
- #endif
-diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
-index db4ec693d3..6b7dd060ac 100644
---- a/include/hw/i386/pc.h
-+++ b/include/hw/i386/pc.h
-@@ -282,6 +282,7 @@ void pc_system_firmware_init(PCMachineState *pcms, MemoryRegion *rom_memory);
- void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
-                        const CPUArchIdList *apic_ids, GArray *entry);
- extern madt_operations i386_madt_sub;
-+void i386_madt_main(GArray *entry, void *opaque);
- 
- /* e820 types */
- #define E820_RAM        1
--- 
-2.19.1
+Greg Kurz made a fix for that which was merged as 1c685a90263 "pci:
+Allow PCI bus subtypes to support extended config space accesses".
+While that was an appropriate minimal fix for the 4.0 hard freeze, it
+was kind of a hack longer term.
+
+This series implements a simpler way of handling the extended config
+space permission, which works for both the normal and weird-PAPR
+cases.  While we're there, we also make other small cleanups to the
+PCI code.
+
+Changes since v3:
+ * Remove a redundant call to pci_find_bus_nr() found during review
+
+Changes since v2:
+ * Add some minor additional cleanups (patches 4 & 5)
+ * Minor whitespace tweak to patch 3
+
+David Gibson (5):
+  pcie: Remove redundant test in pcie_mmcfg_data_{read,write}()
+  pci: Simplify pci_bus_is_root()
+  pcie: Simplify pci_adjust_config_limit()
+  pci: Make is_bridge a bool
+  pci: Fold pci_get_bus_devfn() into its sole caller
+
+ hw/pci-bridge/dec.c                 |   4 +-
+ hw/pci-bridge/i82801b11.c           |   2 +-
+ hw/pci-bridge/pci_bridge_dev.c      |   2 +-
+ hw/pci-bridge/pci_expander_bridge.c |   6 --
+ hw/pci-bridge/pcie_pci_bridge.c     |   2 +-
+ hw/pci-bridge/pcie_root_port.c      |   2 +-
+ hw/pci-bridge/simba.c               |   2 +-
+ hw/pci-bridge/xio3130_downstream.c  |   2 +-
+ hw/pci-bridge/xio3130_upstream.c    |   2 +-
+ hw/pci/pci.c                        | 115 +++++++++++++---------------
+ hw/pci/pci_host.c                   |  13 +---
+ hw/pci/pcie_host.c                  |  10 ---
+ hw/ppc/spapr_pci.c                  |  34 +++-----
+ hw/virtio/virtio-pci.c              |   1 +
+ include/hw/pci/pci.h                |   4 +-
+ include/hw/pci/pci_bus.h            |  20 ++++-
+ 16 files changed, 95 insertions(+), 126 deletions(-)
+
+--=20
+2.21.0
 
 
