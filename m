@@ -2,130 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F1621BE0A
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 21:32:05 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:34005 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEC691BE12
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 21:34:43 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:34029 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQGg8-0005mo-A1
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 15:32:04 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36235)
+	id 1hQGig-0007qn-TV
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 15:34:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36993)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <jsnow@redhat.com>) id 1hQGdV-0004Ul-Em
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 15:29:22 -0400
+	(envelope-from <nsoffer@redhat.com>) id 1hQGgL-0006i4-9s
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 15:32:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <jsnow@redhat.com>) id 1hQGWL-0006d3-Cf
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 15:21:58 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43762)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <jsnow@redhat.com>)
-	id 1hQGWJ-0006cD-1U; Mon, 13 May 2019 15:21:55 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 1F09E81F07;
-	Mon, 13 May 2019 19:21:54 +0000 (UTC)
-Received: from [10.18.17.188] (dhcp-17-188.bos.redhat.com [10.18.17.188])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 4AA885C1B4;
-	Mon, 13 May 2019 19:21:53 +0000 (UTC)
-To: Stefan Hajnoczi <stefanha@gmail.com>,
-	Kenneth Heitke <kenneth.heitke@intel.com>
-References: <20190405214117.1850-1-kenneth.heitke@intel.com>
-	<20190409131903.GF16944@stefanha-x1.localdomain>
-From: John Snow <jsnow@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
-	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
-Message-ID: <bcc74555-fe96-2859-db50-001a462ce4a7@redhat.com>
-Date: Mon, 13 May 2019 15:21:52 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <nsoffer@redhat.com>) id 1hQGgJ-0002Bu-OM
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 15:32:17 -0400
+Received: from mail-oi1-f172.google.com ([209.85.167.172]:44380)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <nsoffer@redhat.com>) id 1hQGgJ-0002Ae-HT
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 15:32:15 -0400
+Received: by mail-oi1-f172.google.com with SMTP id z65so3040520oia.11
+	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 12:32:13 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=KVTe2WOIT1HDg/9VNCr0mTjf9oVbirz2WXQ6fQjyQ8Q=;
+	b=PJzoY+0ILqiPYWrM2lpdaYvC2gI04xRVRB/FEvX/B+os9IyUQKH/aB5oVLKv/VKlZd
+	DLm2QAJYaZFxdfzKbaXKzfEky29fz84+ofYrclZLL4zrRExBBBjPC1fUgOn8cgbXzQ93
+	ckqYsRqJPfCkhAiH7G7Xzyxb9Gs5ErVqFw08tn35I48jaz26Y6S8fFU/uK/Rj5xTNciY
+	Un4ICBLt18vTm7zP+W2UOMbOjgp/QQN0vsrVsqJ/KKapU+BvH0wRzIoHfYXBhtb0F503
+	NNdN9ZCksXn0oQnyOBFuthIoxZXqfNUP1RQmkGaiDVx2s0szEEF7bkJh3xmxV40jdGeA
+	noVA==
+X-Gm-Message-State: APjAAAXM4nCTr4DYODfwj6zBGPh9Cs2S9esueSQB+K1LV6DP/oAusgNl
+	N+eFrZ4ymvw5DGZeedN86legq3/RoQVsR6e8mnN6Ug==
+X-Google-Smtp-Source: APXvYqyrBgUEq0bs6m6bbTqF51JcrfgilNX2XYAiAPWqaROzNUesZy6Kr3GvQwGm73ZoJM814P6qCizVm7m7jtazQtE=
+X-Received: by 2002:aca:3d57:: with SMTP id k84mr497640oia.106.1557775932199; 
+	Mon, 13 May 2019 12:32:12 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190409131903.GF16944@stefanha-x1.localdomain>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.25]);
-	Mon, 13 May 2019 19:21:54 +0000 (UTC)
+References: <20190513155254.27773-1-mreitz@redhat.com>
+In-Reply-To: <20190513155254.27773-1-mreitz@redhat.com>
+From: Nir Soffer <nsoffer@redhat.com>
+Date: Mon, 13 May 2019 22:31:59 +0300
+Message-ID: <CAMRbyytLLb_+D1KEPz2gUmrzu7NBFFM3=ziNvXdOhpy7S-u6OA@mail.gmail.com>
+To: Max Reitz <mreitz@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [Qemu-block] [PATCH] nvme: add Get/Set Feature
- Timestamp support
+	[fuzzy]
+X-Received-From: 209.85.167.172
+Content-Type: text/plain; charset="UTF-8"
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [PATCH v2] iotests: Filter 175's allocation
+ information
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -137,26 +63,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, keith.busch@intel.com, qemu-devel@nongnu.org,
-	qemu-block@nongnu.org, mreitz@redhat.com
+Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
+	QEMU Developers <qemu-devel@nongnu.org>, qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, May 13, 2019, 18:52 Max Reitz <mreitz@redhat.com> wrote:
+
+> It is possible for an empty file to take up blocks on a filesystem.
+> Make iotest 175 take this into account.
+>
+> Reported-by: Thomas Huth <thuth@redhat.com>
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> ---
+> v2: [Nir]
+> - Use a function for filtering
+> - s/empty_blocks/extra_blocks/
+> ---
+>  tests/qemu-iotests/175     | 26 ++++++++++++++++++++++----
+>  tests/qemu-iotests/175.out |  8 ++++----
+>  2 files changed, 26 insertions(+), 8 deletions(-)
+>
+> diff --git a/tests/qemu-iotests/175 b/tests/qemu-iotests/175
+> index d0ffc495c2..b5eb0aa856 100755
+> --- a/tests/qemu-iotests/175
+> +++ b/tests/qemu-iotests/175
+> @@ -28,10 +28,25 @@ status=1    # failure is the default!
+>
+>  _cleanup()
+>  {
+> -       _cleanup_test_img
+> +    _cleanup_test_img
+> +    rm -f "$TEST_DIR/empty"
+>  }
+>  trap "_cleanup; exit \$status" 0 1 2 3 15
+>
+> +# Some file systems sometimes allocate extra blocks independently of
+> +# the file size.  This function hides the resulting difference in the
+> +# stat -c '%b' output.
+> +# Parameter 1: Number of blocks an empty file occupies
+> +# Parameter 2: Image size in bytes
+> +_filter_blocks()
+> +{
+> +    extra_blocks=$1
+> +    img_size=$2
+> +
+> +    sed -e "s/blocks=$extra_blocks/nothing allocated/" \
+> +        -e "s/blocks=$((extra_blocks + img_size / 512))/everything
+> allocated/"
+> +}
+> +
+>  # get standard environment, filters and checks
+>  . ./common.rc
+>  . ./common.filter
+> @@ -40,18 +55,21 @@ _supported_fmt raw
+>  _supported_proto file
+>  _supported_os Linux
+>
+> -size=1m
+> +size=$((1 * 1024 * 1024))
+> +
+> +touch "$TEST_DIR/empty"
+> +extra_blocks=$(stat -c '%b' "$TEST_DIR/empty")
+>
+>  echo
+>  echo "== creating image with default preallocation =="
+>  _make_test_img $size | _filter_imgfmt
+> -stat -c "size=%s, blocks=%b" $TEST_IMG
+> +stat -c "size=%s, blocks=%b" $TEST_IMG | _filter_blocks $extra_blocks
+> $size
+>
+>  for mode in off full falloc; do
+>      echo
+>      echo "== creating image with preallocation $mode =="
+>      IMGOPTS=preallocation=$mode _make_test_img $size | _filter_imgfmt
+> -    stat -c "size=%s, blocks=%b" $TEST_IMG
+> +    stat -c "size=%s, blocks=%b" $TEST_IMG | _filter_blocks $extra_blocks
+> $size
+>  done
+>
+>  # success, all done
+> diff --git a/tests/qemu-iotests/175.out b/tests/qemu-iotests/175.out
+> index 76c02c6a57..6d9a5ed84e 100644
+> --- a/tests/qemu-iotests/175.out
+> +++ b/tests/qemu-iotests/175.out
+> @@ -2,17 +2,17 @@ QA output created by 175
+>
+>  == creating image with default preallocation ==
+>  Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
+> -size=1048576, blocks=0
+> +size=1048576, nothing allocated
+>
+>  == creating image with preallocation off ==
+>  Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 preallocation=off
+> -size=1048576, blocks=0
+> +size=1048576, nothing allocated
+>
+>  == creating image with preallocation full ==
+>  Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 preallocation=full
+> -size=1048576, blocks=2048
+> +size=1048576, everything allocated
+>
+>  == creating image with preallocation falloc ==
+>  Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
+> preallocation=falloc
+> -size=1048576, blocks=2048
+> +size=1048576, everything allocated
+>   *** done
+> --
+> 2.21.0
 
 
-On 4/9/19 9:19 AM, Stefan Hajnoczi wrote:
-> On Fri, Apr 05, 2019 at 03:41:17PM -0600, Kenneth Heitke wrote:
->> Signed-off-by: Kenneth Heitke <kenneth.heitke@intel.com>
->> ---
->>  hw/block/nvme.c       | 120 +++++++++++++++++++++++++++++++++++++++++-
->>  hw/block/nvme.h       |   3 ++
->>  hw/block/trace-events |   2 +
->>  include/block/nvme.h  |   2 +
->>  4 files changed, 125 insertions(+), 2 deletions(-)
-> 
-> CCing Maxim Levitsky <mlevitsk@redhat.com>, who is also working on NVMe
-> emulation at the moment.
-> 
+Reviewed-by: Nir Soffer <nsoffer@redhat.com>
 
-Did this patch stall? Do we still want it? Do we need reviewers?
-
+>
