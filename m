@@ -2,60 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCD2D1B55E
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 13:58:52 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55704 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADD581B56C
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 14:01:49 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:55763 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQ9bY-0003gX-2F
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 07:58:52 -0400
+	id 1hQ9eO-00064K-PU
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 08:01:48 -0400
 Received: from eggs.gnu.org ([209.51.188.92]:38665)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hQ9XD-0000l5-Bi
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:54:24 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hQ9XE-0000l5-Fo
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:54:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hQ9Pw-0003gq-8z
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:46:53 -0400
-Received: from mout.kundenserver.de ([212.227.126.134]:40253)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hQ9Pv-0003gI-VI
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:46:52 -0400
-Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
-	(mreue010 [213.165.67.103]) with ESMTPSA (Nemesis) id
-	1MPp0l-1h4LIq2Lw3-00Mv6J; Mon, 13 May 2019 13:46:15 +0200
-To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>, qemu-devel@nongnu.org
-References: <1556905846-14074-1-git-send-email-aleksandar.markovic@rt-rk.com>
-	<1556905846-14074-4-git-send-email-aleksandar.markovic@rt-rk.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <8acf2e45-f2c4-36aa-7064-d23aa3f1bca2@vivier.eu>
-Date: Mon, 13 May 2019 13:46:12 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
+	(envelope-from <peter.maydell@linaro.org>) id 1hQ9Pr-0003ej-4l
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:46:49 -0400
+Received: from mail-oi1-x235.google.com ([2607:f8b0:4864:20::235]:44194)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hQ9Pn-0003cO-Jh
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:46:45 -0400
+Received: by mail-oi1-x235.google.com with SMTP id z65so1818260oia.11
+	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 04:46:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=Q9SOicrrtTczbrcda5tZpSyF/s7AqO5v7E7dfJBVzaA=;
+	b=ghCHnCEqpesKGm+kztjg7F7ZVroDFsMY6MAaMPjMGBl5rJYSqg86Qmlq8GSRKHu/tM
+	ec7JrnHVihlbPRvOpwh5t9/aBseE7eQw4VDUGtPDDdhClKLdgYO5gt2XkVZlx6zm6Klj
+	MDfRZMaf+D00yuTkRDBn7c1VkoJQNgA/brhQ5OZ4U+RsZwHz39GhN+Ebe1vPRVd8TY0o
+	PaGy46uHiuswaSl1V3uCrpxPQYooylp4baDLHrt8uTThK2sm3uOGlQUzoaIKbZILRhpA
+	FIFSbEo5NiJIeNaQDwLH1+ne65LdObSdzquyfbqxQuXwXYrwIw5KLaTM9jbEEoLOc6cc
+	k9xg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=Q9SOicrrtTczbrcda5tZpSyF/s7AqO5v7E7dfJBVzaA=;
+	b=DXcnjK+WdVApu9u2GgpW6i+XEPkBlKKWDytPVy1/qNnawB8xMshQtEbCu4g3SptcTn
+	C9xUn4CNhO+eYZQVL9gmt1sf4iF+B7JNJnb8PUyESC9+MaGBzG1V4EE+1dBKqZgAdvG3
+	/huyZGFz+ZfOCYtptCo+3A4P1ZfswrNVwwXdy2PoP8a7/+Ok9BVbu3SlhH/PW5dK6zqr
+	ffkq7fUghL6+HI3y1x3YH9ZFeuNRdpNyp4bcCJwX118Eowr9mR/vssMRaY0irPrkrnPj
+	j4QtXPhcBfttqgc2tF3iFBZ8258J5dxEvpy6qLo83O9/lu+/vp1/gZikxD4i7s2u/Ugj
+	klbg==
+X-Gm-Message-State: APjAAAVey0WkleW/BB9DQ2Hd6d5VtbMY22nWQbbMbRIVuBViP+X3xo+U
+	dZr+PvceuD02SsH6QyxzH94zLV75foA9wFvTMVBQXA==
+X-Google-Smtp-Source: APXvYqxEG0FbIhRiz1TUHdFCMvqRbVpnhX3xmCFcwS9bXvmW5tXDBgAboehUbG9OqNZmrwFq4R75G9yaFstUZHDqMAQ=
+X-Received: by 2002:aca:5785:: with SMTP id l127mr12235653oib.48.1557748000634;
+	Mon, 13 May 2019 04:46:40 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <1556905846-14074-4-git-send-email-aleksandar.markovic@rt-rk.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:R279r3hxeBq9BzeqznatG1S6W1kc2XsOsiWlbNDMakhoU3pUTMS
-	alC1lNgqANNf0uXsQ9TYg0ctWj28uIbNospsiduRPQkOibEqSfO9Zupu1Exa24zAjfmRrlD
-	EMRnIK69JtHZkyxqtyo60hAbGhoauLGrkRNSN6T3CdLVqdJqcq9udWgCgkgFg2t/bLY8dmm
-	5v680ktFwcKWfEAmjnAFQ==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:SAOMlRHzpTc=:uTkiH4IluFIK3eH1O3H5Tv
-	t2vTYzBh4z7Vihj4oQ4PwqMYJREdvTbbOcyjMv4u6dEda0vL2UHfqUgaXwzjaEU5a9pm3TGpS
-	NJPQCizjZ0YhpneYQKCYecaClYYjRM5zUsI+mLnDds7HET2YLYjDCb/tw9Cm1FG3vUMczuy+P
-	aa71rxohufiV38gqt8BDlCMpvp9FD+rgTMlXUeM2iFxM0Mim8IUfv3q28IaIDWILIze2SeHjR
-	LwDEryFby2C9192buoa0Bp3hbLgxeLIKKxE4CvFr35OifQ6G28seSaz7z5S4TYubpZgXMZXaq
-	5J6cjqe4T3a0yAvZRKetqo22WaNz2vxczDGy408vitYRymFXY9RjtfFmdZ9dWU1NoWqIyUYRL
-	qIFiSJpPPGt4N+GA2HqoT2rhgya44U92mT7+i4OSo2Y6JnoaTJyvUspWKR1T+0Uzo4c2HZwfD
-	youV9324KOdtSjMjddbD6A4YEwAkMh4ujm4Mv2uR6BN7DM5pjrxtFRvspZmcUr+KwWO49Rzzc
-	mU2UCw08QFs0fjHHEEQvCEXdmUurzGXl2h91CfiumAs8Qyqt0IH9Nb5b50xEcKDnJaO2Re3Pg
-	00rWSjLzKeYUlbpV3pYlJJqEOKcuPSRN389YNleSNczM5UgG49x+RXvolY6HhLMMUcC6+C9Bd
-	7MME3GggYJ5/CbrK5GdLgAZM9qP36SqIGe+TF7bDIt85q/RZjdN7+c/Z6yyHZ2Bt3dPaHTUJY
-	7wxrLHeYzN/hWIE7fF+o47x33CJB0PzI79jZPxQXl7PpG07XdJO5+ENCJrc=
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.134
-Subject: Re: [Qemu-devel] [PATCH v4 3/5] linux-user: Add support the
- SIOC<G|S>IFPFLAGS ioctls for all targets
+References: <20190510200101.31096-1-alex.bennee@linaro.org>
+In-Reply-To: <20190510200101.31096-1-alex.bennee@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 13 May 2019 12:46:29 +0100
+Message-ID: <CAFEAcA9Mn5pP5XSEjtnmd2N7XqhmQ_7FGHHBPh1B0ciXpifWDA@mail.gmail.com>
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::235
+Subject: Re: [Qemu-devel] [PULL 0/5] demacro SoftMMU
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -67,38 +73,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, thuth@redhat.com, daniel.santos@pobox.com,
-	arikalo@wavecomp.com, jcmvbkbc@gmail.com, amarkovic@wavecomp.com,
-	nchen@wavecomp.com, philmd@redhat.com, aurelien@aurel32.net
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 03/05/2019 19:50, Aleksandar Markovic wrote:
-> From: Neng Chen <nchen@wavecomp.com>
-> 
-> Add support for getting and setting extended private flags of a
-> network device via SIOCSIFPFLAGS and SIOCGIFPFLAGS ioctls.
-> 
-> The ioctl numeric values are platform-independent and determined by
-> the file include/uapi/linux/sockios.h in Linux kernel source code:
-> 
->    #define SIOCSIFPFLAGS 0x8934
->    #define SIOCGIFPFLAGS	0x8935
-> 
-> These ioctls get (or set) the field ifr_flags of type short in the
-> structure ifreq. Such functionality is achieved in QEMU by using
-> MK_STRUCT() and MK_PTR() macros with an appropriate argument, as
-> it was done for existing similar cases.
-> 
-> Signed-off-by: Neng Chen <nchen@wavecomp.com>
-> Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-> Message-Id: <1554839486-3527-1-git-send-email-aleksandar.markovic@rt-rk.com>
-> ---
->   linux-user/ioctls.h       | 2 ++
->   linux-user/syscall_defs.h | 2 ++
->   2 files changed, 4 insertions(+)
+On Fri, 10 May 2019 at 21:01, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
+>
+> The following changes since commit a6ae23831b05a11880b40f7d58e332c45a6b04=
+f7:
+>
+>   Merge remote-tracking branch 'remotes/ehabkost/tags/python-next-pull-re=
+quest' into staging (2019-05-03 15:26:09 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/stsquad/qemu.git tags/pull-demacro-softmmu-100519-1
+>
+> for you to fetch changes up to 4601f8d10d7628bcaf2a8179af36e04b42879e91:
+>
+>   cputlb: Do unaligned store recursion to outermost function (2019-05-10 =
+20:23:21 +0100)
+>
+> ----------------------------------------------------------------
+> Demacrofy the SoftMMU
+>
+>   - the demacro itself
+>   - refactor TLB_RECHECK and fix bug
+>   - move unaligned handler out
+>
 
-Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 
+Applied, thanks.
 
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
+for any user-visible changes.
+
+-- PMM
 
