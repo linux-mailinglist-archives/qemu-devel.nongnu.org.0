@@ -2,86 +2,87 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B53901B424
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 12:37:12 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54866 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DA531B47B
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 13:03:14 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:55118 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQ8KV-0006ek-UZ
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 06:37:11 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53823)
+	id 1hQ8jh-0004AZ-Ah
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 07:03:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58178)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <groug@kaod.org>) id 1hQ8Ho-000580-Gb
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 06:34:26 -0400
+	(envelope-from <bounces@canonical.com>) id 1hQ8hi-00034u-FL
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:01:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <groug@kaod.org>) id 1hQ8Hm-0007I3-Fa
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 06:34:24 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:56080)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <groug@kaod.org>) id 1hQ8Hm-0007HS-6S
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 06:34:22 -0400
-Received: from pps.filterd (m0098404.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
-	x4DAVkIB093283
-	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 06:34:19 -0400
-Received: from e06smtp05.uk.ibm.com (e06smtp05.uk.ibm.com [195.75.94.101])
-	by mx0a-001b2d01.pphosted.com with ESMTP id 2sf3dt0ppb-1
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 06:34:17 -0400
-Received: from localhost
-	by e06smtp05.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use
-	Only! Violators will be prosecuted
-	for <qemu-devel@nongnu.org> from <groug@kaod.org>;
-	Mon, 13 May 2019 11:34:15 +0100
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
-	by e06smtp05.uk.ibm.com (192.168.101.135) with IBM ESMTP SMTP Gateway:
-	Authorized Use Only! Violators will be prosecuted; 
-	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-	Mon, 13 May 2019 11:34:12 +0100
-Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com
-	[9.149.105.62])
-	by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with
-	ESMTP id x4DAYBkZ59375634
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK); Mon, 13 May 2019 10:34:11 GMT
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 44DB0AE053;
-	Mon, 13 May 2019 10:34:11 +0000 (GMT)
-Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 0BBA1AE056;
-	Mon, 13 May 2019 10:34:11 +0000 (GMT)
-Received: from bahia.lan (unknown [9.145.37.105])
-	by d06av26.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-	Mon, 13 May 2019 10:34:10 +0000 (GMT)
-From: Greg Kurz <groug@kaod.org>
-To: qemu-devel@nongnu.org
-Date: Mon, 13 May 2019 12:34:10 +0200
-In-Reply-To: <155774341935.175576.9256391991091401927.stgit@bahia.lan>
-References: <155774341935.175576.9256391991091401927.stgit@bahia.lan>
-User-Agent: StGit/unknown-version
+	(envelope-from <bounces@canonical.com>) id 1hQ8hg-0004T7-Lb
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:01:10 -0400
+Received: from indium.canonical.com ([91.189.90.7]:49642)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hQ8hg-0004Sj-G4
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:01:08 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hQ8he-0007Wi-Vd
+	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 11:01:07 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id BC1642E80D7
+	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 11:01:06 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 19051310-0020-0000-0000-0000033C12F2
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19051310-0021-0000-0000-0000218EC7A0
-Message-Id: <155774365069.175576.5671141718062840805.stgit@bahia.lan>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
-	definitions=2019-05-13_06:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
-	priorityscore=1501
-	malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
-	clxscore=1034 lowpriorityscore=0 mlxscore=0 impostorscore=0
-	mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
-	scancount=1 engine=8.0.1-1810050000 definitions=main-1905130076
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.156.1
-Subject: [Qemu-devel] [PATCH v2 2/2] virtfs: Fix documentation of -fsdev and
- -virtfs
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 13 May 2019 10:54:38 -0000
+From: =?utf-8?q?=C5=81ukasz_Zemczak?= <1823458@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=cloud-archive; status=Fix Released;
+	importance=Undecided; assignee=None; 
+X-Launchpad-Bug: product=cloud-archive; productseries=mitaka;
+	status=Fix Committed; importance=Medium; assignee=None; 
+X-Launchpad-Bug: product=cloud-archive; productseries=ocata;
+	status=Fix Committed; importance=Medium; assignee=None; 
+X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
+	assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
+	status=Fix Released; importance=Medium; assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=trusty; sourcepackage=qemu; 
+	component=main; status=Won't Fix; importance=Medium;
+	assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=xenial; sourcepackage=qemu; 
+	component=main; status=Fix Committed; importance=Medium;
+	assignee=dan.streetman@canonical.com; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=bionic; sourcepackage=qemu; 
+	component=main; status=Fix Released; importance=Medium;
+	assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=cosmic; sourcepackage=qemu; 
+	component=main; status=Fix Released; importance=Medium;
+	assignee=None; 
+X-Launchpad-Bug: distribution=ubuntu; distroseries=disco; sourcepackage=qemu; 
+	component=main; status=Fix Released; importance=Medium;
+	assignee=None; 
+X-Launchpad-Bug-Tags: verification-done verification-done-xenial
+	verification-mitaka-done verification-ocata-done
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: brian-murray corey.bryant ddstreet paelzer racb
+	sil2100
+X-Launchpad-Bug-Reporter: Dan Streetman (ddstreet)
+X-Launchpad-Bug-Modifier: =?utf-8?q?=C5=81ukasz_Zemczak_=28sil2100=29?=
+References: <155455149397.14414.11595397789908732027.malonedeb@gac.canonical.com>
+Message-Id: <155774487824.15002.7678230900575336511.malone@wampee.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18962";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 96c6f748a981a1c79ccb271e2d2c4debc497eddf
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1823458] Re: race condition between
+ vhost_net_stop and CHR_EVENT_CLOSED on shutdown crashes qemu
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -90,194 +91,193 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
-	Greg Kurz <groug@kaod.org>
+Reply-To: Bug 1823458 <1823458@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This fixes several things:
-- add "id" description to -virtfs documentation
-- split the description into several lines in both usage and documentation
-  for accurateness and clarity
-- add documentation and usage of the synth fsdriver
-- add "throttling.*" description to -fsdev local
-- add some missing periods
-- add proper reference to the virtfs-proxy-helper(1) manual page
-- document that the virtio device may be either virtio-9p-pci, virtio-9p-ccw
-  or virtio-9p-device, depending on the machine type
+This is even more than what I wanted, thanks!
 
-Buglink: https://bugs.launchpad.net/qemu/+bug/1581976
-Signed-off-by: Greg Kurz <groug@kaod.org>
----
-v2: - mention virtfs-proxy-helper(1) change in the changelog
-    - mention virtio-9p-ccw and virtio-9p-device
----
- qemu-options.hx |   93 +++++++++++++++++++++++++++++++++++++++----------------
- 1 file changed, 66 insertions(+), 27 deletions(-)
+-- =
 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 03c50ba0f0b2..fa705b63b157 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -1232,26 +1232,35 @@ the write back by pressing @key{C-a s} (@pxref{disk_images}).
- ETEXI
- 
- DEF("fsdev", HAS_ARG, QEMU_OPTION_fsdev,
--    "-fsdev fsdriver,id=id[,path=path,][security_model={mapped-xattr|mapped-file|passthrough|none}]\n"
--    " [,writeout=immediate][,readonly][,socket=socket|sock_fd=sock_fd][,fmode=fmode][,dmode=dmode]\n"
-+    "-fsdev local,id=id,path=path,security_model=mapped-xattr|mapped-file|passthrough|none\n"
-+    " [,writeout=immediate][,readonly][,fmode=fmode][,dmode=dmode]\n"
-     " [[,throttling.bps-total=b]|[[,throttling.bps-read=r][,throttling.bps-write=w]]]\n"
-     " [[,throttling.iops-total=i]|[[,throttling.iops-read=r][,throttling.iops-write=w]]]\n"
-     " [[,throttling.bps-total-max=bm]|[[,throttling.bps-read-max=rm][,throttling.bps-write-max=wm]]]\n"
-     " [[,throttling.iops-total-max=im]|[[,throttling.iops-read-max=irm][,throttling.iops-write-max=iwm]]]\n"
--    " [[,throttling.iops-size=is]]\n",
-+    " [[,throttling.iops-size=is]]\n"
-+    "-fsdev proxy,id=id,socket=socket[,writeout=immediate][,readonly]\n"
-+    "-fsdev proxy,id=id,sock_fd=sock_fd[,writeout=immediate][,readonly]\n"
-+    "-fsdev synth,id=id\n",
-     QEMU_ARCH_ALL)
- 
- STEXI
- 
--@item -fsdev @var{fsdriver},id=@var{id},path=@var{path},[security_model=@var{security_model}][,writeout=@var{writeout}][,readonly][,socket=@var{socket}|sock_fd=@var{sock_fd}][,fmode=@var{fmode}][,dmode=@var{dmode}]
-+@item -fsdev local,id=@var{id},path=@var{path},security_model=@var{security_model} [,writeout=@var{writeout}][,readonly][,fmode=@var{fmode}][,dmode=@var{dmode}] [,throttling.@var{option}=@var{value}[,throttling.@var{option}=@var{value}[,...]]]
-+@itemx -fsdev proxy,id=@var{id},socket=@var{socket}[,writeout=@var{writeout}][,readonly]
-+@itemx -fsdev proxy,id=@var{id},sock_fd=@var{sock_fd}[,writeout=@var{writeout}][,readonly]
-+@itemx -fsdev synth,id=@var{id}[,readonly]
- @findex -fsdev
- Define a new file system device. Valid options are:
- @table @option
--@item @var{fsdriver}
--This option specifies the fs driver backend to use.
--Currently "local" and "proxy" file system drivers are supported.
-+@item local
-+Accesses to the filesystem are done by QEMU.
-+@item proxy
-+Accesses to the filesystem are done by virtfs-proxy-helper(1).
-+@item synth
-+Synthetic filesystem, only used by QTests.
- @item id=@var{id}
--Specifies identifier for this device
-+Specifies identifier for this device.
- @item path=@var{path}
- Specifies the export path for the file system device. Files under
- this path will be available to the 9p client on the guest.
-@@ -1279,48 +1288,76 @@ Enables exporting 9p share as a readonly mount for guests. By default
- read-write access is given.
- @item socket=@var{socket}
- Enables proxy filesystem driver to use passed socket file for communicating
--with virtfs-proxy-helper
-+with virtfs-proxy-helper(1).
- @item sock_fd=@var{sock_fd}
- Enables proxy filesystem driver to use passed socket descriptor for
--communicating with virtfs-proxy-helper. Usually a helper like libvirt
--will create socketpair and pass one of the fds as sock_fd
-+communicating with virtfs-proxy-helper(1). Usually a helper like libvirt
-+will create socketpair and pass one of the fds as sock_fd.
- @item fmode=@var{fmode}
- Specifies the default mode for newly created files on the host. Works only
- with security models "mapped-xattr" and "mapped-file".
- @item dmode=@var{dmode}
- Specifies the default mode for newly created directories on the host. Works
- only with security models "mapped-xattr" and "mapped-file".
-+@item throttling.bps-total=@var{b},throttling.bps-read=@var{r},throttling.bps-write=@var{w}
-+Specify bandwidth throttling limits in bytes per second, either for all request
-+types or for reads or writes only.
-+@item throttling.bps-total-max=@var{bm},bps-read-max=@var{rm},bps-write-max=@var{wm}
-+Specify bursts in bytes per second, either for all request types or for reads
-+or writes only.  Bursts allow the guest I/O to spike above the limit
-+temporarily.
-+@item throttling.iops-total=@var{i},throttling.iops-read=@var{r}, throttling.iops-write=@var{w}
-+Specify request rate limits in requests per second, either for all request
-+types or for reads or writes only.
-+@item throttling.iops-total-max=@var{im},throttling.iops-read-max=@var{irm}, throttling.iops-write-max=@var{iwm}
-+Specify bursts in requests per second, either for all request types or for reads
-+or writes only.  Bursts allow the guest I/O to spike above the limit temporarily.
-+@item throttling.iops-size=@var{is}
-+Let every @var{is} bytes of a request count as a new request for iops
-+throttling purposes.
- @end table
- 
---fsdev option is used along with -device driver "virtio-9p-pci".
--@item -device virtio-9p-pci,fsdev=@var{id},mount_tag=@var{mount_tag}
--Options for virtio-9p-pci driver are:
-+-fsdev option is used along with -device driver "virtio-9p-...".
-+@item -device virtio-9p-@var{type},fsdev=@var{id},mount_tag=@var{mount_tag}
-+Options for virtio-9p-... driver are:
- @table @option
-+@item @var{type}
-+Specifies the variant to be used. Supported values are "pci", "ccw" or "device",
-+depending on the machine type.
- @item fsdev=@var{id}
--Specifies the id value specified along with -fsdev option
-+Specifies the id value specified along with -fsdev option.
- @item mount_tag=@var{mount_tag}
--Specifies the tag name to be used by the guest to mount this export point
-+Specifies the tag name to be used by the guest to mount this export point.
- @end table
- 
- ETEXI
- 
- DEF("virtfs", HAS_ARG, QEMU_OPTION_virtfs,
--    "-virtfs local,path=path,mount_tag=tag,security_model=[mapped-xattr|mapped-file|passthrough|none]\n"
--    "        [,id=id][,writeout=immediate][,readonly][,socket=socket|sock_fd=sock_fd][,fmode=fmode][,dmode=dmode]\n",
-+    "-virtfs local,path=path,mount_tag=tag,security_model=mapped-xattr|mapped-file|passthrough|none\n"
-+    "        [,id=id][,writeout=immediate][,readonly][,fmode=fmode][,dmode=dmode]\n"
-+    "-virtfs proxy,mount_tag=tag,socket=socket[,id=id][,writeout=immediate][,readonly]\n"
-+    "-virtfs proxy,mount_tag=tag,sock_fd=sock_fd[,id=id][,writeout=immediate][,readonly]\n"
-+    "-virtfs synth,mount_tag=tag[,id=id][,readonly]\n",
-     QEMU_ARCH_ALL)
- 
- STEXI
- 
--@item -virtfs @var{fsdriver}[,path=@var{path}],mount_tag=@var{mount_tag}[,security_model=@var{security_model}][,writeout=@var{writeout}][,readonly][,socket=@var{socket}|sock_fd=@var{sock_fd}][,fmode=@var{fmode}][,dmode=@var{dmode}]
-+@item -virtfs local,path=@var{path},mount_tag=@var{mount_tag} ,security_model=@var{security_model}[,writeout=@var{writeout}][,readonly] [,fmode=@var{fmode}][,dmode=@var{dmode}]
-+@itemx -virtfs proxy,socket=@var{socket},mount_tag=@var{mount_tag} [,writeout=@var{writeout}][,readonly]
-+@itemx -virtfs proxy,sock_fd=@var{sock_fd},mount_tag=@var{mount_tag} [,writeout=@var{writeout}][,readonly]
-+@itemx -virtfs synth,mount_tag=@var{mount_tag}
- @findex -virtfs
- 
--The general form of a Virtual File system pass-through options are:
-+Define a new filesystem device and expose it to the guest using a virtio-9p-device. The general form of a Virtual File system pass-through options are:
- @table @option
--@item @var{fsdriver}
--This option specifies the fs driver backend to use.
--Currently "local" and "proxy" file system drivers are supported.
-+@item local
-+Accesses to the filesystem are done by QEMU.
-+@item proxy
-+Accesses to the filesystem are done by virtfs-proxy-helper(1).
-+@item synth
-+Synthetic filesystem, only used by QTests.
- @item id=@var{id}
--Specifies identifier for this device
-+Specifies identifier for the filesystem device
- @item path=@var{path}
- Specifies the export path for the file system device. Files under
- this path will be available to the 9p client on the guest.
-@@ -1348,17 +1385,19 @@ Enables exporting 9p share as a readonly mount for guests. By default
- read-write access is given.
- @item socket=@var{socket}
- Enables proxy filesystem driver to use passed socket file for
--communicating with virtfs-proxy-helper. Usually a helper like libvirt
--will create socketpair and pass one of the fds as sock_fd
-+communicating with virtfs-proxy-helper(1). Usually a helper like libvirt
-+will create socketpair and pass one of the fds as sock_fd.
- @item sock_fd
- Enables proxy filesystem driver to use passed 'sock_fd' as the socket
--descriptor for interfacing with virtfs-proxy-helper
-+descriptor for interfacing with virtfs-proxy-helper(1).
- @item fmode=@var{fmode}
- Specifies the default mode for newly created files on the host. Works only
- with security models "mapped-xattr" and "mapped-file".
- @item dmode=@var{dmode}
- Specifies the default mode for newly created directories on the host. Works
- only with security models "mapped-xattr" and "mapped-file".
-+@item mount_tag=@var{mount_tag}
-+Specifies the tag name to be used by the guest to mount this export point.
- @end table
- ETEXI
- 
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1823458
 
+Title:
+  race condition between vhost_net_stop and CHR_EVENT_CLOSED on shutdown
+  crashes qemu
+
+Status in Ubuntu Cloud Archive:
+  Fix Released
+Status in Ubuntu Cloud Archive mitaka series:
+  Fix Committed
+Status in Ubuntu Cloud Archive ocata series:
+  Fix Committed
+Status in QEMU:
+  Fix Released
+Status in qemu package in Ubuntu:
+  Fix Released
+Status in qemu source package in Trusty:
+  Won't Fix
+Status in qemu source package in Xenial:
+  Fix Committed
+Status in qemu source package in Bionic:
+  Fix Released
+Status in qemu source package in Cosmic:
+  Fix Released
+Status in qemu source package in Disco:
+  Fix Released
+
+Bug description:
+  [impact]
+
+  on shutdown of a guest, there is a race condition that results in qemu
+  crashing instead of normally shutting down.  The bt looks similar to
+  this (depending on the specific version of qemu, of course; this is
+  taken from 2.5 version of qemu):
+
+  (gdb) bt
+  #0  __GI___pthread_mutex_lock (mutex=3D0x0) at ../nptl/pthread_mutex_lock=
+.c:66
+  #1  0x00005636c0bc4389 in qemu_mutex_lock (mutex=3Dmutex@entry=3D0x0) at =
+/build/qemu-7I4i1R/qemu-2.5+dfsg/util/qemu-thread-posix.c:73
+  #2  0x00005636c0988130 in qemu_chr_fe_write_all (s=3Ds@entry=3D0x0, buf=
+=3Dbuf@entry=3D0x7ffe65c086a0 "\v", len=3Dlen@entry=3D20) at /build/qemu-7I=
+4i1R/qemu-2.5+dfsg/qemu-char.c:205
+  #3  0x00005636c08f3483 in vhost_user_write (msg=3Dmsg@entry=3D0x7ffe65c08=
+6a0, fds=3Dfds@entry=3D0x0, fd_num=3Dfd_num@entry=3D0, dev=3D0x5636c1bf6b70=
+, dev=3D0x5636c1bf6b70)
+  =C2=A0=C2=A0=C2=A0=C2=A0at /build/qemu-7I4i1R/qemu-2.5+dfsg/hw/virtio/vho=
+st-user.c:195
+  #4  0x00005636c08f411c in vhost_user_get_vring_base (dev=3D0x5636c1bf6b70=
+, ring=3D0x7ffe65c087e0) at /build/qemu-7I4i1R/qemu-2.5+dfsg/hw/virtio/vhos=
+t-user.c:364
+  #5  0x00005636c08efff0 in vhost_virtqueue_stop (dev=3Ddev@entry=3D0x5636c=
+1bf6b70, vdev=3Dvdev@entry=3D0x5636c2853338, vq=3D0x5636c1bf6d00, idx=3D1) =
+at /build/qemu-7I4i1R/qemu-2.5+dfsg/hw/virtio/vhost.c:895
+  #6  0x00005636c08f2944 in vhost_dev_stop (hdev=3Dhdev@entry=3D0x5636c1bf6=
+b70, vdev=3Dvdev@entry=3D0x5636c2853338) at /build/qemu-7I4i1R/qemu-2.5+dfs=
+g/hw/virtio/vhost.c:1262
+  #7  0x00005636c08db2a8 in vhost_net_stop_one (net=3D0x5636c1bf6b70, dev=
+=3Ddev@entry=3D0x5636c2853338) at /build/qemu-7I4i1R/qemu-2.5+dfsg/hw/net/v=
+host_net.c:293
+  #8  0x00005636c08dbe5b in vhost_net_stop (dev=3Ddev@entry=3D0x5636c285333=
+8, ncs=3D0x5636c209d110, total_queues=3Dtotal_queues@entry=3D1) at /build/q=
+emu-7I4i1R/qemu-2.5+dfsg/hw/net/vhost_net.c:371
+  #9  0x00005636c08d7745 in virtio_net_vhost_status (status=3D7 '\a', n=3D0=
+x5636c2853338) at /build/qemu-7I4i1R/qemu-2.5+dfsg/hw/net/virtio-net.c:150
+  #10 virtio_net_set_status (vdev=3D<optimized out>, status=3D<optimized ou=
+t>) at /build/qemu-7I4i1R/qemu-2.5+dfsg/hw/net/virtio-net.c:162
+  #11 0x00005636c08ec42c in virtio_set_status (vdev=3D0x5636c2853338, val=
+=3D<optimized out>) at /build/qemu-7I4i1R/qemu-2.5+dfsg/hw/virtio/virtio.c:=
+624
+  #12 0x00005636c098fed2 in vm_state_notify (running=3Drunning@entry=3D0, s=
+tate=3Dstate@entry=3DRUN_STATE_SHUTDOWN) at /build/qemu-7I4i1R/qemu-2.5+dfs=
+g/vl.c:1605
+  #13 0x00005636c089172a in do_vm_stop (state=3DRUN_STATE_SHUTDOWN) at /bui=
+ld/qemu-7I4i1R/qemu-2.5+dfsg/cpus.c:724
+  #14 vm_stop (state=3DRUN_STATE_SHUTDOWN) at /build/qemu-7I4i1R/qemu-2.5+d=
+fsg/cpus.c:1407
+  #15 0x00005636c085d240 in main_loop_should_exit () at /build/qemu-7I4i1R/=
+qemu-2.5+dfsg/vl.c:1883
+  #16 main_loop () at /build/qemu-7I4i1R/qemu-2.5+dfsg/vl.c:1931
+  #17 main (argc=3D<optimized out>, argv=3D<optimized out>, envp=3D<optimiz=
+ed out>) at /build/qemu-7I4i1R/qemu-2.5+dfsg/vl.c:4683
+
+  [test case]
+
+  unfortunately since this is a race condition, it's very hard to
+  arbitrarily reproduce; it depends very much on the overall
+  configuration of the guest as well as how exactly it's shut down -
+  specifically, its vhost user net must be closed from the host side at
+  a specific time during qemu shutdown.
+
+  I have someone with such a setup who has reported to me their setup is
+  able to reproduce this reliably, but the config is too complex for me
+  to reproduce so I have relied on their reproduction and testing to
+  debug and craft the patch for this.
+
+  [regression potential]
+
+  the change adds a flag to prevent repeated calls to vhost_net_stop().
+  This also prevents any calls to vhost_net_cleanup() from
+  net_vhost_user_event().  Any regression would be seen when stopping
+  and/or cleaning up a vhost net.  Regressions might include failure to
+  hot-remove a vhost net from a guest, or failure to cleanup (i.e. mem
+  leak), or crashes during cleanup or stopping a vhost net.
+
+  [other info]
+
+  this was originally seen in the 2.5 version of qemu - specifically,
+  the UCA version in trusty-mitaka (which uses the xenial qemu
+  codebase).
+
+  After discussion upstream, it appears this was fixed upstream by
+  commit e7c83a885f8, which is included starting in version 2.9.
+  However, this commit depends on at least commit 5345fdb4467, and
+  likely more other previous commits, which make widespread code changes
+  and are unsuitable to backport.  Therefore this seems like it should
+  be specifically worked around in the Xenial qemu codebase.
+
+  =
+
+  The specific race condition for this (in the qemu 2.5 code version) is:
+
+  as shown in above bt, thread A starts shutting down qemu, e.g.:
+
+  vm_stop->do_vm_stop->vm_state_notify
+  =C2=A0=C2=A0virtio_set_status
+  =C2=A0=C2=A0=C2=A0=C2=A0virtio_net_set_status
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0virtio_net_vhost_status
+
+  in this function, code gets to an if-else check for
+  (!n->vhost_started), which is false (i.e. vhost_started is true) and
+  enters the else code block, which calls vhost_net_stop() and then sets
+  n->vhost_started to false.
+
+  While thread A is inside vhost_net_stop(), thread B is triggered by
+  the vhost net chr handler with a user event and calls:
+
+  net_vhost_user_event
+  =C2=A0=C2=A0qmp_set_link (from case CHR_EVENT_CLOSED)
+  =C2=A0=C2=A0=C2=A0=C2=A0virtio_net_set_link_status (via ->link_status_cha=
+nged)
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0virtio_net_set_status
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0virtio_net_vhost_status
+
+  notice thread B has now reached the same function that thread A is in;
+  since the checks in the function have not changed, thread B follows
+  the same path that thread A followed, and enters vhost_net_stop().
+
+  Since thread A has already shut down and cleaned up some of the
+  internals, once thread B starts trying to also clean up things, it
+  segfaults as the shown in the bt.
+
+  Avoiding only this duplicate call to vhost_net_stop() is required, but
+  not enough - let's continue to look at what thread B does after its
+  call to qmp_set_link() returns:
+
+  net_vhost_user_event
+  =C2=A0=C2=A0vhost_user_stop
+  =C2=A0=C2=A0=C2=A0=C2=A0vhost_net_cleanup
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0vhost_dev_cleanup
+
+  However, in main() qemu registers atexit(net_cleanup()), which does:
+  net_cleanup
+  =C2=A0=C2=A0qemu_del_nic (or qemu_del_net_client, depending on ->type)
+  =C2=A0=C2=A0=C2=A0=C2=A0qemu_cleanup_net_client
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0vhost_user_cleanup (via ->cleanup)
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0vhost_net_cleanup
+  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0vhost_dev_cle=
+anup
+
+  and the duplicate vhost_dev_cleanup fails assertions since things were
+  already cleaned up.  Additionally, if thread B's call to
+  vhost_dev_cleanup() comes before thread A finishes vhost_net_stop(),
+  then that will call vhost_dev_stop() and vhost_disable_notifiers()
+  which both try to access things that have been freed/cleared/disabled
+  by vhost_dev_cleanup().
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/cloud-archive/+bug/1823458/+subscriptions
 
