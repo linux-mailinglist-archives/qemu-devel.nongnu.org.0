@@ -2,56 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEC691BE12
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 21:34:43 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:34029 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 66DD51BE46
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 21:59:10 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:34276 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQGig-0007qn-TV
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 15:34:42 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36993)
-	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <nsoffer@redhat.com>) id 1hQGgL-0006i4-9s
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 15:32:18 -0400
+	id 1hQH6L-0004ZT-JQ
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 15:59:09 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38969)
+	by lists.gnu.org with esmtp (Exim 4.71) (envelope-from
+	<bounce+cf442f.9b4e76-qemu-devel=nongnu.org@fintelia.io>)
+	id 1hQH43-0002pf-Ql
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 15:56:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <nsoffer@redhat.com>) id 1hQGgJ-0002Bu-OM
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 15:32:17 -0400
-Received: from mail-oi1-f172.google.com ([209.85.167.172]:44380)
+	(envelope-from
+	<bounce+cf442f.9b4e76-qemu-devel=nongnu.org@fintelia.io>)
+	id 1hQGs2-0006DQ-29
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 15:44:23 -0400
+Received: from rs224.mailgun.us ([209.61.151.224]:35386)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <nsoffer@redhat.com>) id 1hQGgJ-0002Ae-HT
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 15:32:15 -0400
-Received: by mail-oi1-f172.google.com with SMTP id z65so3040520oia.11
-	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 12:32:13 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=KVTe2WOIT1HDg/9VNCr0mTjf9oVbirz2WXQ6fQjyQ8Q=;
-	b=PJzoY+0ILqiPYWrM2lpdaYvC2gI04xRVRB/FEvX/B+os9IyUQKH/aB5oVLKv/VKlZd
-	DLm2QAJYaZFxdfzKbaXKzfEky29fz84+ofYrclZLL4zrRExBBBjPC1fUgOn8cgbXzQ93
-	ckqYsRqJPfCkhAiH7G7Xzyxb9Gs5ErVqFw08tn35I48jaz26Y6S8fFU/uK/Rj5xTNciY
-	Un4ICBLt18vTm7zP+W2UOMbOjgp/QQN0vsrVsqJ/KKapU+BvH0wRzIoHfYXBhtb0F503
-	NNdN9ZCksXn0oQnyOBFuthIoxZXqfNUP1RQmkGaiDVx2s0szEEF7bkJh3xmxV40jdGeA
-	noVA==
-X-Gm-Message-State: APjAAAXM4nCTr4DYODfwj6zBGPh9Cs2S9esueSQB+K1LV6DP/oAusgNl
-	N+eFrZ4ymvw5DGZeedN86legq3/RoQVsR6e8mnN6Ug==
-X-Google-Smtp-Source: APXvYqyrBgUEq0bs6m6bbTqF51JcrfgilNX2XYAiAPWqaROzNUesZy6Kr3GvQwGm73ZoJM814P6qCizVm7m7jtazQtE=
-X-Received: by 2002:aca:3d57:: with SMTP id k84mr497640oia.106.1557775932199; 
-	Mon, 13 May 2019 12:32:12 -0700 (PDT)
+	(Exim 4.71) (envelope-from
+	<bounce+cf442f.9b4e76-qemu-devel=nongnu.org@fintelia.io>)
+	id 1hQGs1-0006BQ-ON
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 15:44:21 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=fintelia.io; q=dns/txt;
+	s=pic; 
+	t=1557776656; h=Content-Transfer-Encoding: MIME-Version: Message-Id:
+	Date: Subject: Cc: To: From: Sender;
+	bh=JFArtSKxX6WxWKnDEeGgk0yfPgX6AyEApuoe0fykhQU=;
+	b=iCGNNjFGvqSOur+4PA2HWAJUMHkGuaRttAPFSZPY5A8mjB1OMTgKa5Grbqz64TkkIMkdYdx+
+	8GG5FOaioRdFsLPXqcSg3cs+FWtSjT7NTYXhHcTgdeZ+f8Q3xtz0vdO5XVc59gnCMF0rAKW2
+	4upQ7YL4DB/QjGTygxu16BTPlwFQxZSepy6DteOD7rqZ/3UORVKri/9/y7gXaP0aLSUSfCPs
+	l612nxvNcAcKQfSKxKD2CADCdKWNVCE+syO9F7Cg5PEJkH1tScV1uPwa1KVurwkRShoeSa9i
+	NgzXLuNitL963+hZQt0z+3dFrAo4WF2I0WAOAS5PFn1MLSyEB+vX4w==
+X-Mailgun-Sending-Ip: 209.61.151.224
+X-Mailgun-Sid: WyJlMGM5NSIsICJxZW11LWRldmVsQG5vbmdudS5vcmciLCAiOWI0ZTc2Il0=
+Received: from jonathan-ThinkPad-X1-Carbon.csail.mit.edu
+	(30-9-187.wireless.csail.mit.edu [128.30.9.187])
+	by mxa.mailgun.org with ESMTP id 5cd9c90e.7f66b0793030-smtp-out-n03;
+	Mon, 13 May 2019 19:44:14 -0000 (UTC)
+From: Jonathan Behrens <jonathan@fintelia.io>
+To: qemu-devel@nongnu.org
+Date: Mon, 13 May 2019 15:43:28 -0400
+Message-Id: <20190513194328.11045-1-jonathan@fintelia.io>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-References: <20190513155254.27773-1-mreitz@redhat.com>
-In-Reply-To: <20190513155254.27773-1-mreitz@redhat.com>
-From: Nir Soffer <nsoffer@redhat.com>
-Date: Mon, 13 May 2019 22:31:59 +0300
-Message-ID: <CAMRbyytLLb_+D1KEPz2gUmrzu7NBFFM3=ziNvXdOhpy7S-u6OA@mail.gmail.com>
-To: Max Reitz <mreitz@redhat.com>
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.167.172
-Content-Type: text/plain; charset="UTF-8"
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PATCH v2] iotests: Filter 175's allocation
- information
+X-Received-From: 209.61.151.224
+Subject: [Qemu-devel] [PATCH] cadence_gem: Don't define GEM_INT_Q1_MASK twice
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -63,117 +62,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
-	QEMU Developers <qemu-devel@nongnu.org>, qemu-block <qemu-block@nongnu.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+	Jonathan Behrens <jonathan@fintelia.io>, Jason Wang <jasowang@redhat.com>,
+	Alistair Francis <alistair@alistair23.me>,
+	Jonathan Behrens <fintelia@gmail.com>,
+	"open list:Xilinx Zynq" <qemu-arm@nongnu.org>,
+	"Edgar E. Iglesias" <edgar.iglesias@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 13, 2019, 18:52 Max Reitz <mreitz@redhat.com> wrote:
+Signed-off-by: Jonathan Behrens <jonathan@fintelia.io>
+---
+ hw/net/cadence_gem.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-> It is possible for an empty file to take up blocks on a filesystem.
-> Make iotest 175 take this into account.
->
-> Reported-by: Thomas Huth <thuth@redhat.com>
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
-> v2: [Nir]
-> - Use a function for filtering
-> - s/empty_blocks/extra_blocks/
-> ---
->  tests/qemu-iotests/175     | 26 ++++++++++++++++++++++----
->  tests/qemu-iotests/175.out |  8 ++++----
->  2 files changed, 26 insertions(+), 8 deletions(-)
->
-> diff --git a/tests/qemu-iotests/175 b/tests/qemu-iotests/175
-> index d0ffc495c2..b5eb0aa856 100755
-> --- a/tests/qemu-iotests/175
-> +++ b/tests/qemu-iotests/175
-> @@ -28,10 +28,25 @@ status=1    # failure is the default!
->
->  _cleanup()
->  {
-> -       _cleanup_test_img
-> +    _cleanup_test_img
-> +    rm -f "$TEST_DIR/empty"
->  }
->  trap "_cleanup; exit \$status" 0 1 2 3 15
->
-> +# Some file systems sometimes allocate extra blocks independently of
-> +# the file size.  This function hides the resulting difference in the
-> +# stat -c '%b' output.
-> +# Parameter 1: Number of blocks an empty file occupies
-> +# Parameter 2: Image size in bytes
-> +_filter_blocks()
-> +{
-> +    extra_blocks=$1
-> +    img_size=$2
-> +
-> +    sed -e "s/blocks=$extra_blocks/nothing allocated/" \
-> +        -e "s/blocks=$((extra_blocks + img_size / 512))/everything
-> allocated/"
-> +}
-> +
->  # get standard environment, filters and checks
->  . ./common.rc
->  . ./common.filter
-> @@ -40,18 +55,21 @@ _supported_fmt raw
->  _supported_proto file
->  _supported_os Linux
->
-> -size=1m
-> +size=$((1 * 1024 * 1024))
-> +
-> +touch "$TEST_DIR/empty"
-> +extra_blocks=$(stat -c '%b' "$TEST_DIR/empty")
->
->  echo
->  echo "== creating image with default preallocation =="
->  _make_test_img $size | _filter_imgfmt
-> -stat -c "size=%s, blocks=%b" $TEST_IMG
-> +stat -c "size=%s, blocks=%b" $TEST_IMG | _filter_blocks $extra_blocks
-> $size
->
->  for mode in off full falloc; do
->      echo
->      echo "== creating image with preallocation $mode =="
->      IMGOPTS=preallocation=$mode _make_test_img $size | _filter_imgfmt
-> -    stat -c "size=%s, blocks=%b" $TEST_IMG
-> +    stat -c "size=%s, blocks=%b" $TEST_IMG | _filter_blocks $extra_blocks
-> $size
->  done
->
->  # success, all done
-> diff --git a/tests/qemu-iotests/175.out b/tests/qemu-iotests/175.out
-> index 76c02c6a57..6d9a5ed84e 100644
-> --- a/tests/qemu-iotests/175.out
-> +++ b/tests/qemu-iotests/175.out
-> @@ -2,17 +2,17 @@ QA output created by 175
->
->  == creating image with default preallocation ==
->  Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
-> -size=1048576, blocks=0
-> +size=1048576, nothing allocated
->
->  == creating image with preallocation off ==
->  Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 preallocation=off
-> -size=1048576, blocks=0
-> +size=1048576, nothing allocated
->
->  == creating image with preallocation full ==
->  Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576 preallocation=full
-> -size=1048576, blocks=2048
-> +size=1048576, everything allocated
->
->  == creating image with preallocation falloc ==
->  Formatting 'TEST_DIR/t.IMGFMT', fmt=IMGFMT size=1048576
-> preallocation=falloc
-> -size=1048576, blocks=2048
-> +size=1048576, everything allocated
->   *** done
-> --
-> 2.21.0
+diff --git a/hw/net/cadence_gem.c b/hw/net/cadence_gem.c
+index 7f63411430..37cb8a4e5c 100644
+--- a/hw/net/cadence_gem.c
++++ b/hw/net/cadence_gem.c
+@@ -146,7 +146,6 @@
+ #define GEM_DESCONF7      (0x00000298/4)
+ 
+ #define GEM_INT_Q1_STATUS               (0x00000400 / 4)
+-#define GEM_INT_Q1_MASK                 (0x00000640 / 4)
+ 
+ #define GEM_TRANSMIT_Q1_PTR             (0x00000440 / 4)
+ #define GEM_TRANSMIT_Q7_PTR             (GEM_TRANSMIT_Q1_PTR + 6)
+-- 
+2.20.1
 
-
-Reviewed-by: Nir Soffer <nsoffer@redhat.com>
-
->
