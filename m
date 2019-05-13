@@ -2,53 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE77A1B76D
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 15:52:54 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57675 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 633701B790
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 15:58:27 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57820 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQBNt-0004B0-TK
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 09:52:53 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59668)
+	id 1hQBTG-0000vJ-IS
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 09:58:26 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60862)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <berto@igalia.com>) id 1hQBLZ-0002eK-SX
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:50:30 -0400
+	(envelope-from <armbru@redhat.com>) id 1hQBOR-0005U9-LG
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:53:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <berto@igalia.com>) id 1hQBJo-0006PB-EX
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:48:41 -0400
-Received: from fanzine.igalia.com ([91.117.99.155]:36420)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <berto@igalia.com>)
-	id 1hQBJo-0006Og-4X; Mon, 13 May 2019 09:48:40 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; 
-	h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
-	bh=yTO/i8kQ9l/2/EhGCTNpDDPi+O7TF6OMyYzwsJ5PsXY=; 
-	b=OgJRzaLRHt8GMbcHWMYVAnNBET+Ny1a3l58AjrLryT8W+9PQYFdRrHmSHHxugIhLhG8kMp7Zlws12b5ULuyZTFS/QS7cjh7Lo+Hb38UOiVQ7FriF0eeyf9VZnQLzhdpoaGTHOBAh2NISHxWJ9Cyl0oDhzGqfsqJrcLzHBCZe7dMVCXoeb3FuVSicvcxNLxIyvKGVP6zKb+u1SlUHIgv7u0htia3OyKMLIoWM6THMyVH2Vb33sLB3AC0ICn+K4kUPmlcWR2QhEs7h2NPJQgbCDz1HC/Hcgd8zl0yBnKt5iOOgVchkoo0vA9dZOhh6y3ZYGGMJYFEM3Bu+r286zz9CnA==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
-	by fanzine.igalia.com with esmtps 
-	(Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
-	id 1hQBJm-0003zE-SU; Mon, 13 May 2019 15:48:38 +0200
-Received: from berto by mail.igalia.com with local (Exim)
-	id 1hQBJm-0005J9-Pr; Mon, 13 May 2019 15:48:38 +0200
-From: Alberto Garcia <berto@igalia.com>
-To: Stefano Garzarella <sgarzare@redhat.com>
-In-Reply-To: <20190513131440.kdtj6jchn3uo6ihq@steredhat>
-References: <20190510162254.8152-1-berto@igalia.com>
-	<20190513112846.ggnhopjwbopfexum@steredhat>
-	<w51d0km7eyc.fsf@maestria.local.igalia.com>
-	<20190513131440.kdtj6jchn3uo6ihq@steredhat>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
-	(i586-pc-linux-gnu)
-Date: Mon, 13 May 2019 15:48:38 +0200
-Message-ID: <w51a7fq79e1.fsf@maestria.local.igalia.com>
+	(envelope-from <armbru@redhat.com>) id 1hQBOQ-0000Bn-HN
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:53:27 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48374)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hQBOQ-0000BM-CO
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:53:26 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+	[10.5.11.16])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 4DC8D356E9
+	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 13:53:25 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-28.ams2.redhat.com
+	[10.36.116.28])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 3C34E6928F;
+	Mon, 13 May 2019 13:53:21 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+	id AF33711385E4; Mon, 13 May 2019 15:53:19 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
+References: <20190430131919.GN6818@redhat.com> <20190430144546.GA3065@work-vm>
+	<20190430150556.GA2423@redhat.com>
+	<87sgtqejn9.fsf@dusky.pond.sub.org>
+	<20190507093954.GG27205@redhat.com>
+	<875zql3ylk.fsf@dusky.pond.sub.org>
+	<20190513120856.GH15029@redhat.com>
+Date: Mon, 13 May 2019 15:53:19 +0200
+In-Reply-To: <20190513120856.GH15029@redhat.com> ("Daniel P. =?utf-8?Q?Ber?=
+	=?utf-8?Q?rang=C3=A9=22's?=
+	message of "Mon, 13 May 2019 13:08:56 +0100")
+Message-ID: <87ef525uls.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
-	timestamps) [generic] [fuzzy]
-X-Received-From: 91.117.99.155
-Subject: Re: [Qemu-devel] [PATCH] qcow2: Define and use
- QCOW2_COMPRESSED_SECTOR_SIZE
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.30]);
+	Mon, 13 May 2019 13:53:25 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] QMP; unsigned 64-bit ints;
+ JSON standards compliance
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -60,23 +68,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org,
-	Max Reitz <mreitz@redhat.com>
+Cc: libvir-list@redhat.com, =?utf-8?Q?J=C3=A1n?= Tomko <jtomko@redhat.com>,
+	"Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon 13 May 2019 03:14:40 PM CEST, Stefano Garzarella wrote:
->> Since the maximum allowed cluster size is 2MB, the value of the
->> 'size' variable can never be larger than 4MB, which fits comfortably
->> on a 32-bit integer. We would need to support 512MB clusters in order
->> to have problems with this.
+Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+
+> On Wed, May 08, 2019 at 02:44:07PM +0200, Markus Armbruster wrote:
+[...]
+>> Double-checking: do you propose to encode *all* numbers as strings, or
+>> just certain "problematic" numbers?
+>>=20
+>> If the latter, I guess your idea of "problematic" is "not representable
+>> exactly as double precision floating-point".
 >
-> Thanks for the explaination and sorry for that!
+> We have a few options
+>
+>  1. Use string format for values > 2^53-1, int format below that
+>  2. Use string format for all fields which are 64-bit ints whether
+>     signed or unsigned
+>  3. Use string format for all fields which are integers, even 32-bit
+>     ones
+>
+> I would probably suggest option 2. It would make the QEMU impl quite
+> easy IIUC, we we'd just change the QAPI visitor's impl for the int64
+> and uint64 fields to use string format (when the right capability is
+> negotiated by QMP).
+>
+> I include 3 only for completeness - I don't think there's a hugely
+> compelling reason to mess with 32-bit ints.
 
-No need to say sorry, the question was perfectly valid and it could have
-been an actual bug, so I appreciate that you wrote the e-mail.
+Agree.
 
-Thanks,
+> Option 1 is the bare minimum needed to ensure precision, but to me
+> it feels a bit dirty to say a given field will have different encoding
+> depending on the value. If apps need to deal with string encoding, they
+> might as well just use it for all values in a given field.
 
-Berto
+I guess that depends on what this interoperability capability does for
+QMP *input*.
+
+For *output*, QEMU has to encode a number either as JSON number or as
+JSON string
+
+For *input*, QEMU could accept either.  Or it could accept only the
+encoding it produces on output.
+
+Got a preference?
+
+[...]
+>> You wrote Jansson "raises a fatal parse error for unsigned 64-bit values
+>> above 2^63-1".  Does that mean it rejects 9223372036854775808, but
+>> accepts 9223372036854775808.0 (with loss of precision)?
+>
+> If it sees a '.' in the number, then it call strtod() and checks for
+> the overflow conditions.
+>
+> If it doesn't see a '.' in the number then it calls strtoll and checks
+> for the overflow conditions.
+>
+> So to answer you question, yes, it looks like it will reject
+> 9223372036854775808 and accept 9223372036854775808.0 with loss of
+> precision.
+
+Sucks :)
+
+But then JSON does.
 
