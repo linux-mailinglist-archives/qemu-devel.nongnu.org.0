@@ -2,55 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C10501BA1F
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 17:32:29 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:59167 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B46DF1BA2F
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 17:36:46 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:59275 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQCwG-0004TT-GL
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 11:32:28 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50999)
+	id 1hQD0P-0007Yd-Us
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 11:36:45 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51462)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hQCud-0003hZ-CV
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 11:30:48 -0400
+	(envelope-from <Dave.Martin@arm.com>) id 1hQCvg-0004YT-BR
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 11:31:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hQCpU-0002WJ-5c
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 11:25:28 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48166)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <armbru@redhat.com>)
-	id 1hQCpT-0002Uu-0m; Mon, 13 May 2019 11:25:27 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
-	[10.5.11.12])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 2690F59451;
-	Mon, 13 May 2019 15:25:26 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-28.ams2.redhat.com
-	[10.36.116.28])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id C59666A490;
-	Mon, 13 May 2019 15:25:25 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
-	id 42ADE11385E4; Mon, 13 May 2019 17:25:23 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
+	(envelope-from <Dave.Martin@arm.com>) id 1hQCvd-0006DM-Qr
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 11:31:52 -0400
+Received: from foss.arm.com ([217.140.101.70]:56126)
+	by eggs.gnu.org with esmtp (Exim 4.71)
+	(envelope-from <Dave.Martin@arm.com>)
+	id 1hQCvK-0005zt-4f; Mon, 13 May 2019 11:31:30 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id CA0D9341;
+	Mon, 13 May 2019 08:31:20 -0700 (PDT)
+Received: from e103592.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+	[10.72.51.249])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4E3B93F71E;
+	Mon, 13 May 2019 08:31:19 -0700 (PDT)
+Date: Mon, 13 May 2019 16:31:16 +0100
+From: Dave Martin <Dave.Martin@arm.com>
 To: Andrew Jones <drjones@redhat.com>
+Message-ID: <20190513153116.GL28398@e103592.cambridge.arm.com>
 References: <20190512083624.8916-1-drjones@redhat.com>
-	<20190512083624.8916-12-drjones@redhat.com>
-Date: Mon, 13 May 2019 17:25:23 +0200
-In-Reply-To: <20190512083624.8916-12-drjones@redhat.com> (Andrew Jones's
-	message of "Sun, 12 May 2019 10:36:22 +0200")
-Message-ID: <875zqefkbg.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+	<20190512083624.8916-6-drjones@redhat.com>
+	<20190513123110.GE28398@e103592.cambridge.arm.com>
+	<20190513135501.ztggqdac57qbpuft@kamzik.brq.redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.39]);
-	Mon, 13 May 2019 15:25:26 +0000 (UTC)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190513135501.ztggqdac57qbpuft@kamzik.brq.redhat.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 11/13] target/arm/cpu64: max cpu: Introduce
- sve-vls-map
+X-Received-From: 217.140.101.70
+Subject: Re: [Qemu-devel] [PATCH 05/13] target/arm/kvm: Add
+ kvm_arch_get/put_sve
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,32 +55,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
-	qemu-devel@nongnu.org, abologna@redhat.com, qemu-arm@nongnu.org,
-	alex.bennee@linaro.org, Dave.Martin@arm.com
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+	"armbru@redhat.com" <armbru@redhat.com>,
+	"richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+	"abologna@redhat.com" <abologna@redhat.com>,
+	"qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+	"alex.bennee@linaro.org" <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Andrew Jones <drjones@redhat.com> writes:
+On Mon, May 13, 2019 at 02:55:01PM +0100, Andrew Jones wrote:
+> On Mon, May 13, 2019 at 01:31:11PM +0100, Dave Martin wrote:
+> > On Sun, May 12, 2019 at 09:36:16AM +0100, Andrew Jones wrote:
+> > > These are the SVE equivalents to kvm_arch_get/put_fpsimd.
+> > > 
+> > > Signed-off-by: Andrew Jones <drjones@redhat.com>
+> > > ---
+> > >  target/arm/kvm64.c | 127 +++++++++++++++++++++++++++++++++++++++++++--
+> > >  1 file changed, 123 insertions(+), 4 deletions(-)
+> > 
+> > [...]
+> > 
+> > > +static int kvm_arch_put_sve(CPUState *cs)
+> > > +{
+> > > +    ARMCPU *cpu = ARM_CPU(cs);
+> > > +    CPUARMState *env = &cpu->env;
+> > > +    struct kvm_one_reg reg;
+> > > +    int n, ret;
+> > > +
+> > > +    for (n = 0; n < KVM_ARM64_SVE_NUM_ZREGS; n++) {
+> > > +        uint64_t *q = aa64_vfp_qreg(env, n);
+> > > +#ifdef HOST_WORDS_BIGENDIAN
+> > > +        uint64_t d[ARM_MAX_VQ * 2];
+> > > +        int i;
+> > > +        for (i = 0; i < cpu->sve_max_vq * 2; i++) {
+> > > +            d[i] = q[cpu->sve_max_vq * 2 - 1 - i];
+> > > +        }
+> > 
+> > Out of interest, why do all this swabbing?  It seems expensive.
+> >
+> 
+> QEMU keeps its 128-bit and larger words in the same order (least
+> significant word first) for both host endian types. We need to
+> do word swapping every time we set/get them to/from KVM.
 
-> Introduce another cpu property to control SVE vector lengths,
-> sve-vls-map, which allows the user to explicitly select the
-> set of vector lengths the guest can use. The map must conform
-> to QEMU's limits and architectural constraints, checked when
-> the property is set. Inconsistencies with sve-max-vq are also
-> checked. The bit number of a set bit in the map represents the
-> allowed vector length in number of quadwords.
->
-> Note, as the map is implemented with a single 64-bit word we
-> currently only support up to 8192-bit vectors. As QEMU and
-> KVM only support up to 2048-bit vectors then this sufficient
-> now, and probably for some time. Extending the bitmap beyond
-> a single word will likely require changing the property to
-> a string and adding yet another parser to QEMU.
->
-> Signed-off-by: Andrew Jones <drjones@redhat.com>
+I'm not sure whether this is appropriate here, though it depends on
+what QEMU does with the data.
 
-Please add an example of how the new property should be used on the
-command line to your commit message.  I'd ask for a documentation update
-as well if we had any to update.
+Something non-obvious to be aware of:
+
+As exposed through the signal frame and the KVM ABI, the memory
+representation of an SVE reg is invariant with respect to the
+endianness.
+
+IIUC, the byte order seen for a V-reg in KVM_REG_ARM_CORE and for
+the equivalent Z-reg in KVM_REG_ARM64_SVE would be the opposite of each
+other on BE, but the same on LE.
+
+This is a feature of the archtiecture: a V-reg can be stored as a single
+value, but Z-regs are in general too big to be treated as a single
+value: they are always treated as a sequence of elements, and the
+largest element size supported is 64 bits, not 128.  IIUC, there is no
+direct native way to store with 128-bit swabbing: some explicit data
+processing operation would also be needed to swap adjacent 64-bit
+elements in the vector around the store/load.
+
+This is not specified in the ABI documentation -- I should address that.
+
+If this is infeasible for KVM to work with, we could perhaps change it,
+but I'm not too keen on that at this stage.  KVM_REG_ARM64_SVE_VLS
+has a similar behaviour: it's a vector of 64-bit possibly-swabbed words,
+not a single possibly-swabbed 512-bit word.
+
+
+Looking at the kernel, I may have screwed up in places where the
+two representations interact, like fpsimd_to_sve().  I should take a
+look at that...  This doesn't affect the KVM ABI though.
+
+Cheers
+---Dave
+
 
