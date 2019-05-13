@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 99D4C1B576
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 14:04:44 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55906 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A61161B560
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 14:00:05 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:55708 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQ9hD-0008Vs-PO
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 08:04:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39809)
+	id 1hQ9ci-0004hp-PP
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 08:00:04 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39820)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <marcel.apfelbaum@gmail.com>) id 1hQ9aN-0003WC-CS
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:57:40 -0400
+	(envelope-from <marcel.apfelbaum@gmail.com>) id 1hQ9aO-0003XL-UB
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:57:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <marcel.apfelbaum@gmail.com>) id 1hQ9aM-0001Qy-AO
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:57:39 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:37797)
+	(envelope-from <marcel.apfelbaum@gmail.com>) id 1hQ9aN-0001Ry-T8
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:57:40 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36593)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <marcel.apfelbaum@gmail.com>)
-	id 1hQ9aM-0001QU-40
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:57:38 -0400
-Received: by mail-wm1-x342.google.com with SMTP id 7so7385814wmo.2
-	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 04:57:38 -0700 (PDT)
+	id 1hQ9aN-0001RL-Mn
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:57:39 -0400
+Received: by mail-wr1-x444.google.com with SMTP id o4so14949734wra.3
+	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 04:57:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=RRxHfRV+Nkj7T9UQbflCHFwgeYBhi6zGD4PURH16caQ=;
-	b=ObM3p8NR3XUkME4KrKzX97ce3DeISoRGewIytawGsJiDu4HKVFKzigLi7Cm9vTBhkt
-	qSCxrxvt8sy3qCFkXjK1vUmBedn1XSRIrnmqTuP2tTWQ3Spm71KcMcXRgjSxGAWklVd5
-	FW/V94XZL+X8Kf7QUjLEid6mBjNClJexcwN5yXvYxLWkIaGxjiEDty7vF8HpUZJP8v5p
-	bCk0OFgsDrhHFX/u2XjbeFn09aiVbozGG5tReIZEb+f7/APT4wuuJvNzvY90YOnTIYCr
-	Hd83C6kjcTtHZXTNPNePb4rQyOn/lEvD8eczM47THeg2Oua0fmF1IL5bacCBSEpK/l+Z
-	/syA==
+	bh=Nnd8FYZPm/MLulz3Akv9891/p6EUv5PIMcaH5c6XG9k=;
+	b=bYUJE4JPlOZnPo0KYhnqkF9fn+yBVwhdAcRerhGa9IAAYMEyxgdAq1ZhuPDwxZqyH6
+	f85SHsvGvt+V0zG44R9A1CyrGeS6knlshZr0dl384JgPp3EU8t+V9+ilK/71yyt17ovo
+	1oZo6StGYsSjuLlC3ZzDOtl9ZUkYj662/vYkige9ANiTySc9vclXxbpFRNVlNO6hwf6B
+	ZV7onw8X4b64PkKKL49QZSb4rSGdUwoaUEelkluicFEbUvrHMgJfwnpEP8sB4FGYntf3
+	qwrSEpdrTsWByEsbtpYbsp4rgQRROZsxKNIEntYwkb3Yn4dPJnGClPfj8ygtlo8X93gK
+	xAlw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=RRxHfRV+Nkj7T9UQbflCHFwgeYBhi6zGD4PURH16caQ=;
-	b=U9gfegPP2EMs4CqQyA/o4hbs9mXk1w7HFcV2vBW4F++BZ1VgFMWSQJwliZQzRHXVTL
-	QdgEqV5/WfQjLuOktruheQQ7Z2JYhfyS1y5RE4j9e/z4RpdyfiDbo6Rx5KJvspw1syrM
-	hGYe4clYz8NkBFh+MkoQJQ9nK8n/HGcbIFYbgGcaw2Vw9acVXunrExnT6OWgYoCy2c1o
-	kf1Srn2+9BZXL+lvxpFNrISD4/9yVObKtogj7jrZruq9nJVLR1YfBwT4gSmesX/VdJfE
-	XsOcNDrDuzZQ3tGN2cim3fdHMcndUEmnywCrOGlbmWtGhpuAG8/OEsKIZYSQ6Hlhc0VJ
-	HDpg==
-X-Gm-Message-State: APjAAAW9P9y4haYAV/Qya+aEwiB7lKXoC5+bYAnubfVLbFasEEX9A5w1
-	XChggL7fdvU3F6TKd/2kNvVL7jjF
-X-Google-Smtp-Source: APXvYqyIoIvrqoIw2lGEZ5Hzf26BKPmk0OkIINBe6lgaodB/JeMZr5jBWnVXlc+4VZ6f1XvGRStvdQ==
-X-Received: by 2002:a7b:cb81:: with SMTP id m1mr16295012wmi.9.1557748656762;
-	Mon, 13 May 2019 04:57:36 -0700 (PDT)
+	bh=Nnd8FYZPm/MLulz3Akv9891/p6EUv5PIMcaH5c6XG9k=;
+	b=dfCHyWZepWbOWVf8Y4xiau5VGbClaySehQjaFoUBbvGpLlc1EUy5vcALPTxFOAMH8E
+	ZQ4axDXNtaUqnLJ9hQ40zla/Inv54pOXcgE8mQJ4Q8VIfbH4jD6LnwnWoZ6ZwHVuledr
+	QEhynbtnAO5evTJdLiIP+Pa62wCTC/cqCRZYTefK5aVRNumHYpnoZWq/OGkX1s/ufHXQ
+	YRHQdVOT8oXMN4tgK1UhBQrE6lpi4U9GANAUoInsvbmuIOqiDoLHtS46RlwYgPY+Yz9X
+	bFZ2b78T5kGbRmS1BewDWVdESsDUoMplXZJL3a6H7AnRDp24DS3k5M3GeZITTNea5kC/
+	xo9g==
+X-Gm-Message-State: APjAAAWlm58GQXgkI932Ol5RCT4IAGItT0QRH8f0s9WoGl6QA3xT7MaX
+	KqzVQcTY4tLu0OhEj0bVNdBvV+Ef
+X-Google-Smtp-Source: APXvYqwZiOmKbkkNsp/7A+fQ/jMH4LL2MS5zEwSCV0rHlGrgvyrTZjQnn4+DqKir17z6lP+a9xhxaQ==
+X-Received: by 2002:a5d:4f88:: with SMTP id d8mr2847906wru.34.1557748658455;
+	Mon, 13 May 2019 04:57:38 -0700 (PDT)
 Received: from localhost.localdomain ([37.142.144.27])
-	by smtp.gmail.com with ESMTPSA id z5sm5238554wmi.34.2019.05.13.04.57.34
+	by smtp.gmail.com with ESMTPSA id z5sm5238554wmi.34.2019.05.13.04.57.36
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 13 May 2019 04:57:35 -0700 (PDT)
+	Mon, 13 May 2019 04:57:37 -0700 (PDT)
 From: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 13 May 2019 14:57:29 +0300
-Message-Id: <20190513115731.17588-2-marcel.apfelbaum@gmail.com>
+Date: Mon, 13 May 2019 14:57:30 +0300
+Message-Id: <20190513115731.17588-3-marcel.apfelbaum@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190513115731.17588-1-marcel.apfelbaum@gmail.com>
 References: <20190513115731.17588-1-marcel.apfelbaum@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::342
-Subject: [Qemu-devel] [PATCH V3 1/3] hw/display/ramfb: fix guest memory
- un-mapping
+X-Received-From: 2a00:1450:4864:20::444
+Subject: [Qemu-devel] [PATCH V3 2/3] hw/display/ramfb: lock guest resolution
+ after it's set
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -81,92 +81,86 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hou Qiming <hqm03ster@gmail.com>
 
-Pulled back the `qemu_create_displaysurface_guestmem` function to create
-the display surface so that the guest memory gets properly unmapped.
+Only allow one resolution change per guest boot, which prevents a
+crash when the guest writes garbage to the configuration space (e.g.
+when rebooting).
 
 Signed-off-by: HOU Qiming <hqm03ster@gmail.com>
-[rename the new functions and use QEMU coding style]
+[fixed malformed patch]
 Signed-off-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 ---
- hw/display/ramfb.c | 51 ++++++++++++++++++++++++++++++++++------------
- 1 file changed, 38 insertions(+), 13 deletions(-)
+ hw/display/ramfb.c | 26 ++++++++++++++++++++++----
+ 1 file changed, 22 insertions(+), 4 deletions(-)
 
 diff --git a/hw/display/ramfb.c b/hw/display/ramfb.c
-index 25c8ad7c25..1955b048dd 100644
+index 1955b048dd..0fe79aa856 100644
 --- a/hw/display/ramfb.c
 +++ b/hw/display/ramfb.c
-@@ -32,33 +32,58 @@ struct RAMFBState {
+@@ -30,6 +30,7 @@ struct RAMFBState {
+     DisplaySurface *ds;
+     uint32_t width, height;
      struct RAMFBCfg cfg;
++    bool locked;
  };
  
-+static void ramfb_unmap_display_surface(pixman_image_t *image, void *unused)
-+{
-+    void *data = pixman_image_get_data(image);
-+    uint32_t size = pixman_image_get_stride(image) *
-+        pixman_image_get_height(image);
-+    cpu_physical_memory_unmap(data, size, 0, 0);
-+}
-+
-+static DisplaySurface *ramfb_create_display_surface(int width, int height,
-+                                                    pixman_format_code_t format,
-+                                                    int linesize, uint64_t addr)
-+{
-+    DisplaySurface *surface;
-+    hwaddr size;
-+    void *data;
-+
-+    if (linesize == 0) {
-+        linesize = width * PIXMAN_FORMAT_BPP(format) / 8;
-+    }
-+
-+    size = (hwaddr)linesize * height;
-+    data = cpu_physical_memory_map(addr, &size, 0);
-+    if (size != (hwaddr)linesize * height) {
-+        cpu_physical_memory_unmap(data, size, 0, 0);
-+        return NULL;
-+    }
-+
-+    surface = qemu_create_displaysurface_from(width, height,
-+                                              format, linesize, data);
-+    pixman_image_set_destroy_function(surface->image,
-+                                      ramfb_unmap_display_surface, NULL);
-+
-+    return surface;
-+}
-+
+ static void ramfb_unmap_display_surface(pixman_image_t *image, void *unused)
+@@ -70,18 +71,25 @@ static DisplaySurface *ramfb_create_display_surface(int width, int height,
  static void ramfb_fw_cfg_write(void *dev, off_t offset, size_t len)
  {
      RAMFBState *s = dev;
--    void *framebuffer;
-     uint32_t fourcc, format;
--    hwaddr stride, addr, length;
-+    hwaddr stride, addr;
+-    uint32_t fourcc, format;
++    uint32_t fourcc, format, width, height;
+     hwaddr stride, addr;
  
-     s->width  = be32_to_cpu(s->cfg.width);
-     s->height = be32_to_cpu(s->cfg.height);
+-    s->width  = be32_to_cpu(s->cfg.width);
+-    s->height = be32_to_cpu(s->cfg.height);
++    width     = be32_to_cpu(s->cfg.width);
++    height    = be32_to_cpu(s->cfg.height);
      stride    = be32_to_cpu(s->cfg.stride);
      fourcc    = be32_to_cpu(s->cfg.fourcc);
      addr      = be64_to_cpu(s->cfg.addr);
--    length    = stride * s->height;
      format    = qemu_drm_format_to_pixman(fourcc);
  
      fprintf(stderr, "%s: %dx%d @ 0x%" PRIx64 "\n", __func__,
-             s->width, s->height, addr);
--    framebuffer = address_space_map(&address_space_memory,
--                                    addr, &length, false,
--                                    MEMTXATTRS_UNSPECIFIED);
--    if (!framebuffer || length < stride * s->height) {
--        s->width = 0;
--        s->height = 0;
--        return;
--    }
--    s->ds = qemu_create_displaysurface_from(s->width, s->height,
--                                            format, stride, framebuffer);
-+    s->ds = ramfb_create_display_surface(s->width, s->height,
-+                                         format, stride, addr);
+-            s->width, s->height, addr);
++            width, height, addr);
++    if (s->locked) {
++        fprintf(stderr, "%s: resolution locked, change rejected\n", __func__);
++        return;
++    }
++    s->locked = true;
++    s->width = width;
++    s->height = height;
+     s->ds = ramfb_create_display_surface(s->width, s->height,
+                                          format, stride, addr);
+ }
+@@ -101,6 +109,13 @@ void ramfb_display_update(QemuConsole *con, RAMFBState *s)
+     dpy_gfx_update_full(con);
  }
  
- void ramfb_display_update(QemuConsole *con, RAMFBState *s)
++static void ramfb_reset(void *opaque)
++{
++    RAMFBState *s = (RAMFBState *)opaque;
++    s->locked = false;
++    memset(&s->cfg, 0, sizeof(s->cfg));
++}
++
+ RAMFBState *ramfb_setup(Error **errp)
+ {
+     FWCfgState *fw_cfg = fw_cfg_find();
+@@ -113,9 +128,12 @@ RAMFBState *ramfb_setup(Error **errp)
+ 
+     s = g_new0(RAMFBState, 1);
+ 
++    s->locked = false;
++
+     rom_add_vga("vgabios-ramfb.bin");
+     fw_cfg_add_file_callback(fw_cfg, "etc/ramfb",
+                              NULL, ramfb_fw_cfg_write, s,
+                              &s->cfg, sizeof(s->cfg), false);
++    qemu_register_reset(ramfb_reset, s);
+     return s;
+ }
 -- 
 2.17.1
 
