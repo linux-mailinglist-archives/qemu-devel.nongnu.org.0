@@ -2,60 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFDBB1B6E6
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 15:18:12 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57214 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0BC81B6F6
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 15:24:19 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57379 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQAqJ-0007xi-PM
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 09:18:11 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53593)
+	id 1hQAwE-0004KT-Po
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 09:24:18 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54539)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hQAnn-0006Ns-Nx
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:15:37 -0400
+	(envelope-from <mreitz@redhat.com>) id 1hQAsf-0002IK-5Y
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:20:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hQAnl-0005WJ-B4
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:15:35 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39074)
+	(envelope-from <mreitz@redhat.com>) id 1hQAse-00081v-2n
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:20:37 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41160)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <kwolf@redhat.com>)
-	id 1hQAng-0005N3-NB; Mon, 13 May 2019 09:15:28 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
+	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
+	id 1hQAsZ-0007yf-Qp; Mon, 13 May 2019 09:20:32 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+	[10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id D82153086213;
-	Mon, 13 May 2019 13:15:27 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-117-130.ams2.redhat.com [10.36.117.130])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 1B62319C70;
-	Mon, 13 May 2019 13:15:22 +0000 (UTC)
-Date: Mon, 13 May 2019 15:15:21 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Message-ID: <20190513131521.GD19114@linux.fritz.box>
-References: <20190505070059.4664-1-zhengxiang9@huawei.com>
-	<87a7fyb0v7.fsf@dusky.pond.sub.org>
-	<72adbed8-f650-42df-98d5-e98154baec08@redhat.com>
-	<87h8a513sl.fsf@dusky.pond.sub.org>
-	<fb04cdb2-910d-58be-fb21-db7050cdc669@huawei.com>
-	<87ef574z4e.fsf@dusky.pond.sub.org>
-	<ac4ac85f-67ae-a526-9172-fef190fdc23a@huawei.com>
-	<87ef56mjbi.fsf@dusky.pond.sub.org>
-	<bfa0d642-e425-f90c-f776-9e7e25e66c25@huawei.com>
-	<87bm06a7k3.fsf@dusky.pond.sub.org>
+	by mx1.redhat.com (Postfix) with ESMTPS id EA7CF3091753;
+	Mon, 13 May 2019 13:20:28 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.40.206.26])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 8EA4260C4D;
+	Mon, 13 May 2019 13:20:27 +0000 (UTC)
+To: Nir Soffer <nsoffer@redhat.com>
+References: <20190510211954.29574-1-mreitz@redhat.com>
+	<CAMRbyytDVz=tTgPKOxZNBR=suohjw6bi7EsP=u5682ZRCsHfag@mail.gmail.com>
+From: Max Reitz <mreitz@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+	mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+	/PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+	U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+	mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+	awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+	AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+	CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+	B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+	2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+	AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+	8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+	4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+	BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+	xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+	W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+	DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+	64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+	ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+	sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+	alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+	/ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+	bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+	R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <cafef82a-a00c-f1a2-3202-1f2b1b8b82f1@redhat.com>
+Date: Mon, 13 May 2019 15:20:25 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87bm06a7k3.fsf@dusky.pond.sub.org>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+In-Reply-To: <CAMRbyytDVz=tTgPKOxZNBR=suohjw6bi7EsP=u5682ZRCsHfag@mail.gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature";
+	boundary="jefPE3Y4QmQrhcPt4Xj1ivPCguzFFw8mg"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.42]);
-	Mon, 13 May 2019 13:15:27 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.41]);
+	Mon, 13 May 2019 13:20:28 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] pflash: Only read non-zero parts of
- backend image
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [PATCH] iotests: Filter 175's allocation
+ information
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -67,258 +87,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-block@nongnu.org, ard.biesheuvel@linaro.org,
-	qemu-devel@nongnu.org, mreitz@redhat.com,
-	Xiang Zheng <zhengxiang9@huawei.com>, stefanha@redhat.com,
-	guoheyi@huawei.com, wanghaibin.wang@huawei.com,
-	Laszlo Ersek <lersek@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
+	QEMU Developers <qemu-devel@nongnu.org>, qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 13.05.2019 um 13:59 hat Markus Armbruster geschrieben:
-> Xiang Zheng <zhengxiang9@huawei.com> writes:
-> 
-> > On 2019/5/10 23:16, Markus Armbruster wrote:
-> >> Xiang Zheng <zhengxiang9@huawei.com> writes:
-> >> 
-> >>> On 2019/5/9 19:59, Markus Armbruster wrote:
-> >>>> Xiang Zheng <zhengxiang9@huawei.com> writes:
-> >>>>
-> >>>>> On 2019/5/8 21:20, Markus Armbruster wrote:
-> >>>>>> Laszlo Ersek <lersek@redhat.com> writes:
-> >>>>>>
-> >>>>>>> Hi Markus,
-> >>>>>>>
-> >>>>>>> On 05/07/19 20:01, Markus Armbruster wrote:
-> >>>>>>>> The subject is slightly misleading.  Holes read as zero.  So do
-> >>>>>>>> non-holes full of zeroes.  The patch avoids reading the former, but
-> >>>>>>>> still reads the latter.
-> >>>>>>>>
-> >>>>>>>> Xiang Zheng <zhengxiang9@huawei.com> writes:
-> >>>>>>>>
-> >>>>>>>>> Currently we fill the memory space with two 64MB NOR images when
-> >>>>>>>>> using persistent UEFI variables on virt board. Actually we only use
-> >>>>>>>>> a very small(non-zero) part of the memory while the rest significant
-> >>>>>>>>> large(zero) part of memory is wasted.
-> >>>>>>>>
-> >>>>>>>> Neglects to mention that the "virt board" is ARM.
-> >>>>>>>>
-> >>>>>>>>> So this patch checks the block status and only writes the non-zero part
-> >>>>>>>>> into memory. This requires pflash devices to use sparse files for
-> >>>>>>>>> backends.
-> >>>>>>>>
-> >>>>>>>> I started to draft an improved commit message, but then I realized this
-> >>>>>>>> patch can't work.
-> >>>>>>>>
-> >>>>>>>> The pflash_cfi01 device allocates its device memory like this:
-> >>>>>>>>
-> >>>>>>>>     memory_region_init_rom_device(
-> >>>>>>>>         &pfl->mem, OBJECT(dev),
-> >>>>>>>>         &pflash_cfi01_ops,
-> >>>>>>>>         pfl,
-> >>>>>>>>         pfl->name, total_len, &local_err);
-> >>>>>>>>
-> >>>>>>>> pflash_cfi02 is similar.
-> >>>>>>>>
-> >>>>>>>> memory_region_init_rom_device() calls
-> >>>>>>>> memory_region_init_rom_device_nomigrate() calls qemu_ram_alloc() calls
-> >>>>>>>> qemu_ram_alloc_internal() calls g_malloc0().  Thus, all the device
-> >>>>>>>> memory gets written to even with this patch.
-> >>>>>>>
-> >>>>>>> As far as I can see, qemu_ram_alloc_internal() calls g_malloc0() only to
-> >>>>>>> allocate the the new RAMBlock object called "new_block". The actual
-> >>>>>>> guest RAM allocation occurs inside ram_block_add(), which is also called
-> >>>>>>> by qemu_ram_alloc_internal().
-> >>>>>>
-> >>>>>> You're right.  I should've read more attentively.
-> >>>>>>
-> >>>>>>> One frame outwards the stack, qemu_ram_alloc() passes NULL to
-> >>>>>>> qemu_ram_alloc_internal(), for the 4th ("host") parameter. Therefore, in
-> >>>>>>> qemu_ram_alloc_internal(), we set "new_block->host" to NULL as well.
-> >>>>>>>
-> >>>>>>> Then in ram_block_add(), we take the (!new_block->host) branch, and call
-> >>>>>>> phys_mem_alloc().
-> >>>>>>>
-> >>>>>>> Unfortunately, "phys_mem_alloc" is a function pointer, set with
-> >>>>>>> phys_mem_set_alloc(). The phys_mem_set_alloc() function is called from
-> >>>>>>> "target/s390x/kvm.c" (setting the function pointer to
-> >>>>>>> legacy_s390_alloc()), so it doesn't apply in this case. Therefore we end
-> >>>>>>> up calling the default qemu_anon_ram_alloc() function, through the
-> >>>>>>> funcptr. (I think anyway.)
-> >>>>>>>
-> >>>>>>> And qemu_anon_ram_alloc() boils down to mmap() + MAP_ANONYMOUS, in
-> >>>>>>> qemu_ram_mmap(). (Even on PPC64 hosts, because qemu_anon_ram_alloc()
-> >>>>>>> passes (-1) for "fd".)
-> >>>>>>>
-> >>>>>>> I may have missed something, of course -- I obviously didn't test it,
-> >>>>>>> just speculated from the source.
-> >>>>>>
-> >>>>>> Thanks for your sleuthing!
-> >>>>>>
-> >>>>>>>> I'm afraid you neglected to test.
-> >>>>>>
-> >>>>>> Accusation actually unsupported.  I apologize, and replace it by a
-> >>>>>> question: have you observed the improvement you're trying to achieve,
-> >>>>>> and if yes, how?
-> >>>>>>
-> >>>>>
-> >>>>> Yes, we need to create sparse files as the backing images for pflash device.
-> >>>>> To create sparse files like:
-> >>>>>
-> >>>>>    dd of="QEMU_EFI-pflash.raw" if="/dev/zero" bs=1M seek=64 count=0
-> >>>>>    dd of="QEMU_EFI-pflash.raw" if="QEMU_EFI.fd" conv=notrunc
-> >>>>
-> >>>> This creates a copy of firmware binary QEMU_EFI.fd padded with a hole to
-> >>>> 64MiB.
-> >>>>
-> >>>>>    dd of="empty_VARS.fd" if="/dev/zero" bs=1M seek=64 count=0
-> >>>>
-> >>>> This creates the varstore as a 64MiB hole.  As far as I know (very
-> >>>> little), you should use the varstore template that comes with the
-> >>>> firmware binary.
-> >>>>
-> >>>> I use
-> >>>>
-> >>>>     cp --sparse=always bld/pc-bios/edk2-arm-vars.fd .
-> >>>>     cp --sparse=always bld/pc-bios/edk2-aarch64-code.fd .
-> >>>>
-> >>>> These guys are already zero-padded, and I use cp to sparsify.
-> >>>>
-> >>>>> Start a VM with below commandline:
-> >>>>>
-> >>>>>     -drive file=/usr/share/edk2/aarch64/QEMU_EFI-pflash.raw,if=pflash,format=raw,unit=0,readonly=on\
-> >>>>>     -drive file=/usr/share/edk2/aarch64/empty_VARS.fd,if=pflash,format=raw,unit=1 \
-> >>>>>
-> >>>>> Then observe the memory usage of the qemu process (THP is on).
-> >>>>>
-> >>>>> 1) Without this patch:
-> >>>>> # cat /proc/`pidof qemu-system-aarch64`/smaps | grep AnonHugePages: | grep -v ' 0 kB'
-> >>>>> AnonHugePages:    706560 kB
-> >>>>> AnonHugePages:      2048 kB
-> >>>>> AnonHugePages:     65536 kB    // pflash memory device
-> >>>>> AnonHugePages:     65536 kB    // pflash memory device
-> >>>>> AnonHugePages:      2048 kB
-> >>>>>
-> >>>>> # ps aux | grep qemu-system-aarch64
-> >>>>> RSS: 879684
-> >>>>>
-> >>>>> 2) After applying this patch:
-> >>>>> # cat /proc/`pidof qemu-system-aarch64`/smaps | grep AnonHugePages: | grep -v ' 0 kB'
-> >>>>> AnonHugePages:    700416 kB
-> >>>>> AnonHugePages:      2048 kB
-> >>>>> AnonHugePages:      2048 kB    // pflash memory device
-> >>>>> AnonHugePages:      2048 kB    // pflash memory device
-> >>>>> AnonHugePages:      2048 kB
-> >>>>>
-> >>>>> # ps aux | grep qemu-system-aarch64
-> >>>>> RSS: 744380
-> >>>>
-> >>>> Okay, this demonstrates the patch succeeds at mapping parts of the
-> >>>> pflash memory as holes.
-> >>>>
-> >>>> Do the guests in these QEMU processes run?
-> >>>
-> >>> Yes.
-> >> 
-> >> Good to know, thanks.
-> >> 
-> >>>>> Obviously, there are at least 100MiB memory saved for each guest.
-> >>>>
-> >>>> For a definition of "memory".
-> >>>>
-> >>>> Next question: what impact on system performance do you observe?
-> >>>>
-> >>>> Let me explain.
-> >>>>
-> >>>> Virtual memory holes get filled in by demand paging on access.  In other
-> >>>> words, they remain holes only as long as nothing accesses the memory.
-> >>>>
-> >>>> Without your patch, we allocate pages at image read time and fill them
-> >>>> with zeroes. If we don't access them again, the kernel will eventually
-> >>>> page them out (assuming you're running with swap).  So the steady state
-> >>>> is "we waste some swap space", not "we waste some physical RAM".
-> >>>>
-> >>>
-> >>> Not everybody wants to run with swap because it may cause low performance.
-> >> 
-> >> Someone running without swap because he heard someone say someone said
-> >> swap may be slow is probably throwing away performance.
-> >> 
-> >> But I assume you mean people running without swap because they measured
-> >> their workload and found it more performant without swap.  Legitimate.
-> >
-> > Yes, and I had ever suffered from the high IO waits with swap.:)
-> >
-> >> 
-> >>>> Your patch lets us map pflash memory pages containing only zeros as
-> >>>> holes.
-> >>>>
-> >>>> For pages that never get accessed, your patch avoids page allocation,
-> >>>> filling with zeroes, writing to swap (all one-time costs), and saves
-> >>>> some swap space (not commonly an issue).
-> >>>>
-> >>>> For pflash memory that gets accessed, your patch merely delays page
-> >>>> allocation from image read time to first access.
-> >>>>
-> >>>> I wonder how these savings and delays affect actual system performance.
-> >>>> Without an observable change in system performance, all we'd accomplish
-> >>>> is changing a bunch of numers in /proc/$pid/.
-> >>>>
-> >>>> What improvement(s) can you observe?
-> >>>
-> >>> We only use pflash device for UEFI, and we hardly care about the performance.
-> >>> I think the bottleneck of the performance is the MMIO emulation, even this
-> >>> patch would delay page allocation at the first access.
-> >> 
-> >> I wasn't inquiring about the performance of the pflash device.  I was
-> >> inquiring about *system* performance.  But let me rephrase my question.
-> >> 
-> >> Doing work to save resources is only worthwhile if something valuable
-> >> gets better in a measurable way.  I'm asking you
-> >> 
-> >> (1) to explain what exactly you value, and 
-> >> 
-> >> (2) to provide measurements that show improvement.
-> >> 
-> >
-> > What we exactly value is the cost of memory resources and it is the only
-> > thing that this patch aims to resolve.
-> 
-> Then measure this cost!
-> 
-> > I am confused that why you think it will impact the system performance? Did I
-> > neglect something?
-> 
-> If the patch does not impact how the system as a whole performs, then
-> it's useless.
-> 
-> Since you find it useful, it must have some valuable[*] observable
-> effect for you.  Tell us about it!
-> 
-> I keep asking not to torment you, but to guide you towards building a
-> compelling justification for your patch.  However, I can only show you
-> the path; the walking you'll have to do yourself.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--jefPE3Y4QmQrhcPt4Xj1ivPCguzFFw8mg
+From: Max Reitz <mreitz@redhat.com>
+To: Nir Soffer <nsoffer@redhat.com>
+Cc: qemu-block <qemu-block@nongnu.org>,
+ QEMU Developers <qemu-devel@nongnu.org>, Kevin Wolf <kwolf@redhat.com>,
+ Thomas Huth <thuth@redhat.com>
+Message-ID: <cafef82a-a00c-f1a2-3202-1f2b1b8b82f1@redhat.com>
+Subject: Re: [PATCH] iotests: Filter 175's allocation information
+References: <20190510211954.29574-1-mreitz@redhat.com>
+ <CAMRbyytDVz=tTgPKOxZNBR=suohjw6bi7EsP=u5682ZRCsHfag@mail.gmail.com>
+In-Reply-To: <CAMRbyytDVz=tTgPKOxZNBR=suohjw6bi7EsP=u5682ZRCsHfag@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-Is this discussion really a good use of our time?
+On 10.05.19 23:45, Nir Soffer wrote:
+> On Sat, May 11, 2019 at 12:19 AM Max Reitz <mreitz@redhat.com
+> <mailto:mreitz@redhat.com>> wrote:
+>=20
+>     It is possible for an empty file to take up blocks on a filesystem.=
 
-The patch is simple, and a few obvious improvements it brings were
-mentioned (even by yourself), such as avoiding OOM without swap; and
-with swap enabled, saving swap space for more useful content and
-saving unnecessary I/O related to accessing swap needlessly.
+>     Make iotest 175 take this into account.
+>=20
+>     Reported-by: Thomas Huth <thuth@redhat.com <mailto:thuth@redhat.com=
+>>
+>     Signed-off-by: Max Reitz <mreitz@redhat.com <mailto:mreitz@redhat.c=
+om>>
+>     ---
+>     =C2=A0tests/qemu-iotests/175=C2=A0 =C2=A0 =C2=A0| 15 +++++++++++---=
+-
+>     =C2=A0tests/qemu-iotests/175.out |=C2=A0 8 ++++----
+>     =C2=A02 files changed, 15 insertions(+), 8 deletions(-)
+>=20
+>     diff --git a/tests/qemu-iotests/175 b/tests/qemu-iotests/175
+>     index d0ffc495c2..b5652a3889 100755
+>     --- a/tests/qemu-iotests/175
+>     +++ b/tests/qemu-iotests/175
+>     @@ -28,7 +28,8 @@ status=3D1=C2=A0 =C2=A0 =C2=A0 # failure is the d=
+efault!
+>=20
+>     =C2=A0_cleanup()
+>     =C2=A0{
+>     -=C2=A0 =C2=A0 =C2=A0 =C2=A0_cleanup_test_img
+>     +=C2=A0 =C2=A0 _cleanup_test_img
+>     +=C2=A0 =C2=A0 rm -f "$TEST_DIR/empty"
+>     =C2=A0}
+>     =C2=A0trap "_cleanup; exit \$status" 0 1 2 3 15
+>=20
+>     @@ -40,18 +41,24 @@ _supported_fmt raw
+>     =C2=A0_supported_proto file
+>     =C2=A0_supported_os Linux
+>=20
+>     -size=3D1m
+>     +size=3D$((1 * 1024 * 1024))
+>=20
+>     +
+>     +touch "$TEST_DIR/empty"
+>     +empty_blocks=3D$(stat -c '%b' "$TEST_DIR/empty")
+>=20
+>=20
+> Maybe extra_blocks?
 
-You may consider these improvements neglegible, but even small
-improvments can add up. If you really want to measure them, it should be
-clear how to do it. I don't see value in actually setting up such
-environments just to get some numbers that show what we already know.
+Why not.
 
-So, what's the downside of the patch? The worst case is, the memory
-usage numbers only look better, but most people don't have a use case
-where the improvement matters. There might be some maintenance cost
-associated with the code, but it's small and I suspect this discussion
-has already cost us more time than maintaining the code will ever cost
-us.
+>     =C2=A0echo
+>     =C2=A0echo "=3D=3D creating image with default preallocation =3D=3D=
+"
+>     =C2=A0_make_test_img $size | _filter_imgfmt
+>     -stat -c "size=3D%s, blocks=3D%b" $TEST_IMG
+>     +stat -c "size=3D%s, blocks=3D%b" $TEST_IMG \
+>     +=C2=A0 =C2=A0 | sed -e "s/blocks=3D$empty_blocks/nothing allocated=
+/"
+>=20
+>     =C2=A0for mode in off full falloc; do
+>     =C2=A0 =C2=A0 =C2=A0echo
+>     =C2=A0 =C2=A0 =C2=A0echo "=3D=3D creating image with preallocation =
+$mode =3D=3D"
+>     =C2=A0 =C2=A0 =C2=A0IMGOPTS=3Dpreallocation=3D$mode _make_test_img =
+$size | _filter_imgfmt
+>     -=C2=A0 =C2=A0 stat -c "size=3D%s, blocks=3D%b" $TEST_IMG
+>     +=C2=A0 =C2=A0 stat -c "size=3D%s, blocks=3D%b" $TEST_IMG \
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 | sed -e "s/blocks=3D$empty_blocks/not=
+hing allocated/" \
+>     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 | sed -e "s/blocks=3D$((empty_blocks +=
+ size /
+>     512))/everything allocated/"
+>=20
+>=20
+> "fully allocated"?
 
-So why not just take it?
+I didn=E2=80=99t like that because that sounds like it only applies to
+preallocation=3Dfull.
 
-Kevin
+> Maybe add a helper like this:
+>=20
+> _filter_blocks() {
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Some file systems sometimes allocate extr=
+a blocks
+> =C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0sed -e "s/blocks=3D$empty_blocks/=
+nothing allocated/" \
+> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-e "s/blocks=3D$=
+((empty_blocks + size / 512))/everything
+> allocated/"
+> }
+>=20
+> So we can do:
+>=20
+> =C2=A0 =C2=A0=C2=A0stat -c "size=3D%s, blocks=3D%b" $TEST_IMG | _filter=
+_blocks
+>=20
+> And it is also clear why we need to run sed without looking up the
+> commit message.
+
+Makes sense to me, but I find it a bit awkward to make a filter rely on
+a data value determined outside of the filter...  I=E2=80=99ll see what I=
+ can do
+to calm my conscience.
+
+Max
+
+
+--jefPE3Y4QmQrhcPt4Xj1ivPCguzFFw8mg
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAlzZbxkACgkQ9AfbAGHV
+z0BVSwf/Wl0/8/DSH4wfiBsVbzw3OLWgsTw1gqCDcHBAHcTwFMPSv71xLP79HQR5
+D1I1T2maPDCzWgOTOYt6z1ffvZL3+kLiI4c6ugo117osn3/qTiMgHR+zH919STOb
+/+5lFiV+Rwdtv7nAtEeMWZKfUU7neeHq5ZbvcyNZS2z1IWX6hP+ZqKKyddXWPJT9
+ubkGRniFEBgzEX6VDU+lpyyZkqsxTbyN5jC8/AmPnbPaJiNn2/pMZ+kYQomQpsxM
+B8e9EMO1BBzEXM6RLyrm0WJwXge7sEiJ1Pp4IkdZJvzvvBSNxMdpNs6zdcjbEl8a
+WxUXc0ZthSnjA40vunQJQvTqFKbtvA==
+=Dxeg
+-----END PGP SIGNATURE-----
+
+--jefPE3Y4QmQrhcPt4Xj1ivPCguzFFw8mg--
 
