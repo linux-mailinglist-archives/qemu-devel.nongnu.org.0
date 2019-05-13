@@ -2,76 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0FB701BD70
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 20:53:02 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33602 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C29B1BE11
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 21:33:46 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:34025 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQG4I-00010T-RF
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 14:53:01 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58095)
+	id 1hQGhl-0007Ae-Of
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 15:33:45 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36465)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hQFy8-0004l1-W5
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 14:46:39 -0400
+	(envelope-from <drjones@redhat.com>) id 1hQGeQ-000552-Fj
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 15:30:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hQFy7-00056I-CU
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 14:46:36 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:41050)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hQFy7-00052X-2O
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 14:46:35 -0400
-Received: by mail-pg1-x544.google.com with SMTP id z3so7213359pgp.8
-	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 11:46:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=mfztUT8HThQnL4EPiJVtdwKXVUVQdkxXqoa2KIl4nV4=;
-	b=i/VFDbkMoQMJoX6pEeyVAe8gvd+PLxjrK9EEd0yaRjTN19LXINYNbiLCOdA4oN1sxF
-	4I/Li3TAC0YQu3sRb82FoCTfA5CXvhZz5CYmv+U7Zoy/BSE8f30eCfv/q0dZies4KDHH
-	Hnta+8WoZTWbXmD7Ck4605xo0No7Qg/VxbrnarbwFh+V4Otv4mQP/VrOpLgf6DIDEnTD
-	J5VGAd9FrnDxp5MTrcPVTpT7gnMzmbjn4QAjz1fDowvAzDtxVG1lJ6M0rjOshkxoTfZP
-	+viWE3s1xcV6yo+tfIKDjrBlUoospK/HggGXGO1fsdDRcVlWXgXSoJTcFujtBvbQJqWc
-	KXjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=mfztUT8HThQnL4EPiJVtdwKXVUVQdkxXqoa2KIl4nV4=;
-	b=bFyCHmfNDTMuvgB67FHBHZUT1rw+/sB93S2w8QutssKJzlgHq0B32B+O7geDTT7tqM
-	CohqFbXA0rb83xrCCtP7fGa2s9egqjGFc6agRu69/WoxaGrGUaYAWdo95IO8OC6p2Kf3
-	JgOtRx+w0QrzEmMdVMTEmZZ9qR8nd63fyvhGfTJ4ecoFmR6bPBwhZ9WwlE3869oTqbvd
-	VgiboCsLniFtPOM8iDx/qpWQBJIX+98wroU4RwWJWuEBamNhC0lhTnwpv3wcwehT4DX0
-	aIcZhE8mb/V1RKDeb19yXcLzEEYozVKbnGNZ07ZvtzzPyvfOdKJH1+rU/Qkl+gke6yzS
-	ZxyA==
-X-Gm-Message-State: APjAAAU+OaSbY+lPHMFcVkPHWHPA/37cJ6tzcAH23rHF+CH2OTkeC0Q4
-	ttOyXMmPIo3SaosE8sQCE5nJ6w==
-X-Google-Smtp-Source: APXvYqzeGm6Y0Hi9OkOkxhjsX58wH4dH6UD4wYD+cmmIFZU3uyMZVni2lFc2S3lh5plE/x6eVCwdOw==
-X-Received: by 2002:a63:1a42:: with SMTP id a2mr32676995pgm.358.1557773191927; 
-	Mon, 13 May 2019 11:46:31 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-13-231.tukw.qwest.net. [97.113.13.231])
-	by smtp.gmail.com with ESMTPSA id
-	m123sm25519294pfm.39.2019.05.13.11.46.30
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 13 May 2019 11:46:31 -0700 (PDT)
-To: Andrew Jones <drjones@redhat.com>, qemu-devel@nongnu.org,
-	qemu-arm@nongnu.org
+	(envelope-from <drjones@redhat.com>) id 1hQGRk-0004Te-Ty
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 15:17:15 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50984)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <drjones@redhat.com>)
+	id 1hQGRh-0004Rq-D0; Mon, 13 May 2019 15:17:10 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id A8E0D3082E66;
+	Mon, 13 May 2019 19:17:05 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (ovpn-116-151.ams2.redhat.com
+	[10.36.116.151])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 9DB3C60856;
+	Mon, 13 May 2019 19:17:02 +0000 (UTC)
+Date: Mon, 13 May 2019 21:16:59 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <20190513191659.2vmrw3act5qkudou@kamzik.brq.redhat.com>
 References: <20190512083624.8916-1-drjones@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <fa220ee2-b4bc-cdfa-ddde-90206e417cf3@linaro.org>
-Date: Mon, 13 May 2019 11:46:29 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	<fa220ee2-b4bc-cdfa-ddde-90206e417cf3@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <20190512083624.8916-1-drjones@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::544
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <fa220ee2-b4bc-cdfa-ddde-90206e417cf3@linaro.org>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.46]);
+	Mon, 13 May 2019 19:17:05 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
 Subject: Re: [Qemu-devel] [PATCH 00/13] target/arm/kvm: enable SVE in guests
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
@@ -84,53 +59,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, abologna@redhat.com, armbru@redhat.com,
-	alex.bennee@linaro.org, Dave.Martin@arm.com
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org, armbru@redhat.com,
+	qemu-arm@nongnu.org, abologna@redhat.com, alex.bennee@linaro.org,
+	Dave.Martin@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/12/19 1:36 AM, Andrew Jones wrote:
->    CPU type | accel | sve-max-vq | sve-vls-map
->    -------------------------------------------
->  1)     max | tcg   |  $MAX_VQ   |  $VLS_MAP
->  2)     max | kvm   |  $MAX_VQ   |  $VLS_MAP
->  3)    host | kvm   |  N/A       |  $VLS_MAP
-
-This doesn't seem right.  Why is -cpu host not whatever the host supports?  It
-certainly has been so far.  I really don't see how -cpu max makes any sense for
-kvm.
-
-
-> The QMP query returns a list of valid vq lists. For example, if
-> a guest can use vqs 1, 2, 3, and 4, then the following list will
-> be returned
+On Mon, May 13, 2019 at 11:46:29AM -0700, Richard Henderson wrote:
+> On 5/12/19 1:36 AM, Andrew Jones wrote:
+> >    CPU type | accel | sve-max-vq | sve-vls-map
+> >    -------------------------------------------
+> >  1)     max | tcg   |  $MAX_VQ   |  $VLS_MAP
+> >  2)     max | kvm   |  $MAX_VQ   |  $VLS_MAP
+> >  3)    host | kvm   |  N/A       |  $VLS_MAP
 > 
->  [ [ 1 ], [ 1, 2 ], [ 1, 2, 3 ], [ 1, 2, 3, 4 ] ]
+> This doesn't seem right.  Why is -cpu host not whatever the host supports?  It
+> certainly has been so far. 
+
+-cpu host can support whatever the host (hardware + KVM ) supports, but if
+a user doesn't want to expose all of it to the guest, then the user doesn't
+have to. For example, the host cpu may have a PMU, but the guest doesn't
+necessarily get one (-cpu host,pmu=off).
+
+> I really don't see how -cpu max makes any sense for
+> kvm.
+>
+
+It's already supported for kvm. This series just extends that support
+to match tcg's sve support. The reason it's supported is that you can
+then use '-cpu max' along with '-machine accel=kvm:tcg' in a command
+line and it'll just work.
+ 
 > 
-> Another example might be 1, 2, 4, as the architecture states 3
-> is optional. In that case the list would be
+> > The QMP query returns a list of valid vq lists. For example, if
+> > a guest can use vqs 1, 2, 3, and 4, then the following list will
+> > be returned
+> > 
+> >  [ [ 1 ], [ 1, 2 ], [ 1, 2, 3 ], [ 1, 2, 3, 4 ] ]
+> > 
+> > Another example might be 1, 2, 4, as the architecture states 3
+> > is optional. In that case the list would be
+> > 
+> >  [ [ 1 ], [ 1, 2 ], [ 1, 2, 4 ] ]
+> > 
+> > This may look redundant, but it's necessary to provide a future-
+> > proof query, because while KVM currently requires vector sets to
+> > be strict truncations of the full valid vector set, that may change
+> > at some point.
 > 
->  [ [ 1 ], [ 1, 2 ], [ 1, 2, 4 ] ]
+> How and why would that make sense?
 > 
-> This may look redundant, but it's necessary to provide a future-
-> proof query, because while KVM currently requires vector sets to
-> be strict truncations of the full valid vector set, that may change
-> at some point.
+> Real hardware is going to support one set of vector lengths.
 
-How and why would that make sense?
+The guest's view of the hardware will be a single set. That set can be
+different for different guests though, within the constraints of the
+architecture and KVM or TCG implementations.
 
-Real hardware is going to support one set of vector lengths.  Whether VQ=3 is
-valid or not is not going to depend on the maximum VQ, surely.
+> Whether VQ=3 is
+> valid or not is not going to depend on the maximum VQ, surely.
 
-I'll also note that if we want to support the theoretical
-beyond-current-architecture maximum VQ=512, such that migration works
-seemlessly with current hardware, then we're going to have to change the
-migration format.
+Exactly. That's why we need a way to explicitly state what is supported.
+We can't assume anything from the max VQ alone. Additionally, while
+strict truncation is required now for KVM, things may be more flexible
+later. TCG is already more flexible. For TCG, all sets that at least
+include all the power-of-2 lengths up to the maximum VQ are valid, as
+the architecture states. Plus, all the sets that can be derived by adding
+one ore more optional lengths to those sets are also valid. Listing each
+of them allows management software to know what's going to work and what's
+not without having to know all the rules itself.
 
-So far I'm supporting only the current architecture maximum VQ=16.  Which
-seemed plenty, given that the first round of hardware only supports VQ=4.
+> 
+> I'll also note that if we want to support the theoretical
+> beyond-current-architecture maximum VQ=512, such that migration works
+> seemlessly with current hardware, then we're going to have to change the
+> migration format.
+> 
+> So far I'm supporting only the current architecture maximum VQ=16.  Which
+> seemed plenty, given that the first round of hardware only supports VQ=4.
+> 
 
+I agree. The changes won't be small to QEMU, but hopefully we can design
+a QMP query that won't need to change, saving libvirt some pain.
 
-
-r~
+Thanks,
+drew
 
