@@ -2,50 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 884491B77D
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 15:55:52 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57727 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BE77A1B76D
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 15:52:54 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57675 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQBQl-0006es-M6
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 09:55:51 -0400
+	id 1hQBNt-0004B0-TK
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 09:52:53 -0400
 Received: from eggs.gnu.org ([209.51.188.92]:59668)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <berto@igalia.com>) id 1hQBLu-0002eK-UP
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:50:53 -0400
+	(envelope-from <berto@igalia.com>) id 1hQBLZ-0002eK-SX
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:50:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <berto@igalia.com>) id 1hQBHr-0005dg-Ps
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:46:41 -0400
-Received: from fanzine.igalia.com ([91.117.99.155]:36075)
+	(envelope-from <berto@igalia.com>) id 1hQBJo-0006PB-EX
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:48:41 -0400
+Received: from fanzine.igalia.com ([91.117.99.155]:36420)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <berto@igalia.com>)
-	id 1hQBHr-0005cl-8A; Mon, 13 May 2019 09:46:39 -0400
+	id 1hQBJo-0006Og-4X; Mon, 13 May 2019 09:48:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
 	s=20170329; 
-	h=References:In-Reply-To:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
-	bh=Bp2rDBX4jzQoNNjJIRpWbG7q9lv1oZ+IR+SGedfJbBo=; 
-	b=ikv5K70b8TAi/pKku4NjQPD09aFc5LOUWJvL6zr6AOrPcz9FAAYGouVgYkmg1iH3AODi0hsinfyTnu+VGa9lIe0suRpFYBKZheDA1fmOoAiQlm+zp9uVOjBkj+womiQxqZSZRVDn1yEZCKvmcp+LzNfBWYsIz3pDnT6z8wPkvBVZuZ5Q4IVopPOZmbFdGkLMJQCSB9rj/nQCvYD9hBZqEt/arZBnugAj65Efhodn7K0fdPnPfbgVUPy5XJYSKSF/Lw0829lepzouga1vwmCvISVVzEH+5AOIey6MuPpc1ASvNIrCkL5wr3hpY98Jgm/mujV4Yw+vG8JNH/WezthrKQ==;
-Received: from mobile-access-bcee32-86.dhcp.inet.fi ([188.238.50.86]
-	helo=perseus.local) by fanzine.igalia.com with esmtpsa 
-	(Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
-	id 1hQBHo-0003gd-Dq; Mon, 13 May 2019 15:46:36 +0200
-Received: from berto by perseus.local with local (Exim 4.89)
-	(envelope-from <berto@igalia.com>)
-	id 1hQBHb-0003By-9i; Mon, 13 May 2019 16:46:23 +0300
+	h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+	bh=yTO/i8kQ9l/2/EhGCTNpDDPi+O7TF6OMyYzwsJ5PsXY=; 
+	b=OgJRzaLRHt8GMbcHWMYVAnNBET+Ny1a3l58AjrLryT8W+9PQYFdRrHmSHHxugIhLhG8kMp7Zlws12b5ULuyZTFS/QS7cjh7Lo+Hb38UOiVQ7FriF0eeyf9VZnQLzhdpoaGTHOBAh2NISHxWJ9Cyl0oDhzGqfsqJrcLzHBCZe7dMVCXoeb3FuVSicvcxNLxIyvKGVP6zKb+u1SlUHIgv7u0htia3OyKMLIoWM6THMyVH2Vb33sLB3AC0ICn+K4kUPmlcWR2QhEs7h2NPJQgbCDz1HC/Hcgd8zl0yBnKt5iOOgVchkoo0vA9dZOhh6y3ZYGGMJYFEM3Bu+r286zz9CnA==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+	by fanzine.igalia.com with esmtps 
+	(Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+	id 1hQBJm-0003zE-SU; Mon, 13 May 2019 15:48:38 +0200
+Received: from berto by mail.igalia.com with local (Exim)
+	id 1hQBJm-0005J9-Pr; Mon, 13 May 2019 15:48:38 +0200
 From: Alberto Garcia <berto@igalia.com>
-To: qemu-devel@nongnu.org
-Date: Mon, 13 May 2019 16:46:18 +0300
-Message-Id: <20dfb3d9ccec559cdd1a9690146abad5d204a186.1557754872.git.berto@igalia.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <cover.1557754872.git.berto@igalia.com>
-References: <cover.1557754872.git.berto@igalia.com>
-In-Reply-To: <cover.1557754872.git.berto@igalia.com>
-References: <cover.1557754872.git.berto@igalia.com>
+To: Stefano Garzarella <sgarzare@redhat.com>
+In-Reply-To: <20190513131440.kdtj6jchn3uo6ihq@steredhat>
+References: <20190510162254.8152-1-berto@igalia.com>
+	<20190513112846.ggnhopjwbopfexum@steredhat>
+	<w51d0km7eyc.fsf@maestria.local.igalia.com>
+	<20190513131440.kdtj6jchn3uo6ihq@steredhat>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+	(i586-pc-linux-gnu)
+Date: Mon, 13 May 2019 15:48:38 +0200
+Message-ID: <w51a7fq79e1.fsf@maestria.local.igalia.com>
+MIME-Version: 1.0
+Content-Type: text/plain
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
 	timestamps) [generic] [fuzzy]
 X-Received-From: 91.117.99.155
-Subject: [Qemu-devel] [PATCH v3 2/2] block: Make bdrv_root_attach_child()
- unref child_bs on failure
+Subject: Re: [Qemu-devel] [PATCH] qcow2: Define and use
+ QCOW2_COMPRESSED_SECTOR_SIZE
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -57,158 +60,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
-	qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+	Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A consequence of the previous patch is that bdrv_attach_child()
-transfers the reference to child_bs from the caller to parent_bs,
-which will drop it on bdrv_close() or when someone calls
-bdrv_unref_child().
+On Mon 13 May 2019 03:14:40 PM CEST, Stefano Garzarella wrote:
+>> Since the maximum allowed cluster size is 2MB, the value of the
+>> 'size' variable can never be larger than 4MB, which fits comfortably
+>> on a 32-bit integer. We would need to support 512MB clusters in order
+>> to have problems with this.
+>
+> Thanks for the explaination and sorry for that!
 
-But this only happens when bdrv_attach_child() succeeds. If it fails
-then the caller is responsible for dropping the reference to child_bs.
+No need to say sorry, the question was perfectly valid and it could have
+been an actual bug, so I appreciate that you wrote the e-mail.
 
-This patch makes bdrv_attach_child() take the reference also when
-there is an error, freeing the caller for having to do it.
+Thanks,
 
-A similar situation happens with bdrv_root_attach_child(), so the
-changes on this patch affect both functions.
-
-Signed-off-by: Alberto Garcia <berto@igalia.com>
----
- block.c               | 25 +++++++++++++++++--------
- block/block-backend.c |  3 +--
- block/quorum.c        |  1 -
- blockjob.c            |  2 +-
- 4 files changed, 19 insertions(+), 12 deletions(-)
-
-diff --git a/block.c b/block.c
-index 3c3bd0f8d2..df727314ff 100644
---- a/block.c
-+++ b/block.c
-@@ -2208,6 +2208,13 @@ static void bdrv_replace_child(BdrvChild *child, BlockDriverState *new_bs)
-     }
- }
- 
-+/*
-+ * This function steals the reference to child_bs from the caller.
-+ * That reference is later dropped by bdrv_root_unref_child().
-+ *
-+ * On failure NULL is returned, errp is set and the reference to
-+ * child_bs is also dropped.
-+ */
- BdrvChild *bdrv_root_attach_child(BlockDriverState *child_bs,
-                                   const char *child_name,
-                                   const BdrvChildRole *child_role,
-@@ -2220,6 +2227,7 @@ BdrvChild *bdrv_root_attach_child(BlockDriverState *child_bs,
-     ret = bdrv_check_update_perm(child_bs, NULL, perm, shared_perm, NULL, errp);
-     if (ret < 0) {
-         bdrv_abort_perm_update(child_bs);
-+        bdrv_unref(child_bs);
-         return NULL;
-     }
- 
-@@ -2239,6 +2247,14 @@ BdrvChild *bdrv_root_attach_child(BlockDriverState *child_bs,
-     return child;
- }
- 
-+/*
-+ * This function transfers the reference to child_bs from the caller
-+ * to parent_bs. That reference is later dropped by parent_bs on
-+ * bdrv_close() or if someone calls bdrv_unref_child().
-+ *
-+ * On failure NULL is returned, errp is set and the reference to
-+ * child_bs is also dropped.
-+ */
- BdrvChild *bdrv_attach_child(BlockDriverState *parent_bs,
-                              BlockDriverState *child_bs,
-                              const char *child_name,
-@@ -2366,12 +2382,9 @@ void bdrv_set_backing_hd(BlockDriverState *bs, BlockDriverState *backing_hd,
-     /* If backing_hd was already part of bs's backing chain, and
-      * inherits_from pointed recursively to bs then let's update it to
-      * point directly to bs (else it will become NULL). */
--    if (update_inherits_from) {
-+    if (bs->backing && update_inherits_from) {
-         backing_hd->inherits_from = bs;
-     }
--    if (!bs->backing) {
--        bdrv_unref(backing_hd);
--    }
- 
- out:
-     bdrv_refresh_limits(bs, NULL);
-@@ -2569,10 +2582,6 @@ BdrvChild *bdrv_open_child(const char *filename,
-     }
- 
-     c = bdrv_attach_child(parent, bs, bdref_key, child_role, errp);
--    if (!c) {
--        bdrv_unref(bs);
--        return NULL;
--    }
- 
-     return c;
- }
-diff --git a/block/block-backend.c b/block/block-backend.c
-index f78e82a707..7a621597e7 100644
---- a/block/block-backend.c
-+++ b/block/block-backend.c
-@@ -383,7 +383,6 @@ BlockBackend *blk_new_open(const char *filename, const char *reference,
-     blk->root = bdrv_root_attach_child(bs, "root", &child_root,
-                                        perm, BLK_PERM_ALL, blk, errp);
-     if (!blk->root) {
--        bdrv_unref(bs);
-         blk_unref(blk);
-         return NULL;
-     }
-@@ -791,12 +790,12 @@ void blk_remove_bs(BlockBackend *blk)
- int blk_insert_bs(BlockBackend *blk, BlockDriverState *bs, Error **errp)
- {
-     ThrottleGroupMember *tgm = &blk->public.throttle_group_member;
-+    bdrv_ref(bs);
-     blk->root = bdrv_root_attach_child(bs, "root", &child_root,
-                                        blk->perm, blk->shared_perm, blk, errp);
-     if (blk->root == NULL) {
-         return -EPERM;
-     }
--    bdrv_ref(bs);
- 
-     notifier_list_notify(&blk->insert_bs_notifiers, blk);
-     if (tgm->throttle_state) {
-diff --git a/block/quorum.c b/block/quorum.c
-index 352f729136..133ee18204 100644
---- a/block/quorum.c
-+++ b/block/quorum.c
-@@ -1019,7 +1019,6 @@ static void quorum_add_child(BlockDriverState *bs, BlockDriverState *child_bs,
-     child = bdrv_attach_child(bs, child_bs, indexstr, &child_format, errp);
-     if (child == NULL) {
-         s->next_child_index--;
--        bdrv_unref(child_bs);
-         goto out;
-     }
-     s->children = g_renew(BdrvChild *, s->children, s->num_children + 1);
-diff --git a/blockjob.c b/blockjob.c
-index 730101d282..b68fa4b13e 100644
---- a/blockjob.c
-+++ b/blockjob.c
-@@ -208,6 +208,7 @@ int block_job_add_bdrv(BlockJob *job, const char *name, BlockDriverState *bs,
- {
-     BdrvChild *c;
- 
-+    bdrv_ref(bs);
-     c = bdrv_root_attach_child(bs, name, &child_job, perm, shared_perm,
-                                job, errp);
-     if (c == NULL) {
-@@ -215,7 +216,6 @@ int block_job_add_bdrv(BlockJob *job, const char *name, BlockDriverState *bs,
-     }
- 
-     job->nodes = g_slist_prepend(job->nodes, c);
--    bdrv_ref(bs);
-     bdrv_op_block_all(bs, job->blocker);
- 
-     return 0;
--- 
-2.11.0
-
+Berto
 
