@@ -2,54 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 98A581B84F
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 16:28:06 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58311 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4D9AC1B83D
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 16:23:11 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58160 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQBvx-0000Zd-Qh
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 10:28:05 -0400
+	id 1hQBrC-0005Ab-GG
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 10:23:10 -0400
 Received: from eggs.gnu.org ([209.51.188.92]:36696)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <drjones@redhat.com>) id 1hQBlL-0000f5-MM
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 10:17:10 -0400
+	(envelope-from <berrange@redhat.com>) id 1hQBlJ-0000f5-1f
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 10:17:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <drjones@redhat.com>) id 1hQBcJ-0007L4-Kz
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 10:07:48 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33828)
+	(envelope-from <berrange@redhat.com>) id 1hQBeg-00087u-5o
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 10:10:15 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47642)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <drjones@redhat.com>)
-	id 1hQBcE-0007JT-MS; Mon, 13 May 2019 10:07:42 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
-	[10.5.11.12])
+	(Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hQBef-00087Z-WD
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 10:10:14 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+	[10.5.11.11])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id DAB053092676;
-	Mon, 13 May 2019 14:07:35 +0000 (UTC)
-Received: from kamzik.brq.redhat.com (ovpn-116-151.ams2.redhat.com
-	[10.36.116.151])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 20F536A498;
-	Mon, 13 May 2019 14:07:29 +0000 (UTC)
-Date: Mon, 13 May 2019 16:07:26 +0200
-From: Andrew Jones <drjones@redhat.com>
-To: Dave Martin <Dave.Martin@arm.com>
-Message-ID: <20190513140726.vpmenrfw4uocmtnc@kamzik.brq.redhat.com>
-References: <20190512083624.8916-1-drjones@redhat.com>
-	<20190512083624.8916-6-drjones@redhat.com>
-	<20190513124356.GG28398@e103592.cambridge.arm.com>
+	by mx1.redhat.com (Postfix) with ESMTPS id 334EF85363
+	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 14:10:13 +0000 (UTC)
+Received: from redhat.com (unknown [10.42.22.189])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id A056663F84;
+	Mon, 13 May 2019 14:10:09 +0000 (UTC)
+Date: Mon, 13 May 2019 15:10:07 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Message-ID: <20190513141007.GK15029@redhat.com>
+References: <20190430131919.GN6818@redhat.com> <20190430144546.GA3065@work-vm>
+	<20190430150556.GA2423@redhat.com>
+	<87sgtqejn9.fsf@dusky.pond.sub.org>
+	<20190507093954.GG27205@redhat.com>
+	<875zql3ylk.fsf@dusky.pond.sub.org>
+	<20190513120856.GH15029@redhat.com>
+	<87ef525uls.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20190513124356.GG28398@e103592.cambridge.arm.com>
-User-Agent: NeoMutt/20180716
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <87ef525uls.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.43]);
-	Mon, 13 May 2019 14:07:41 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.25]);
+	Mon, 13 May 2019 14:10:13 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 05/13] target/arm/kvm: Add
- kvm_arch_get/put_sve
+Subject: Re: [Qemu-devel] QMP; unsigned 64-bit ints;
+ JSON standards compliance
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,64 +65,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
-	"armbru@redhat.com" <armbru@redhat.com>,
-	"richard.henderson@linaro.org" <richard.henderson@linaro.org>,
-	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
-	"abologna@redhat.com" <abologna@redhat.com>,
-	"qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
-	"alex.bennee@linaro.org" <alex.bennee@linaro.org>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: libvir-list@redhat.com, =?utf-8?Q?J=C3=A1n?= Tomko <jtomko@redhat.com>,
+	"Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 13, 2019 at 01:43:56PM +0100, Dave Martin wrote:
-> On Sun, May 12, 2019 at 09:36:16AM +0100, Andrew Jones wrote:
-> > These are the SVE equivalents to kvm_arch_get/put_fpsimd.
-> > 
-> > Signed-off-by: Andrew Jones <drjones@redhat.com>
-> > ---
-> >  target/arm/kvm64.c | 127 +++++++++++++++++++++++++++++++++++++++++++--
-> >  1 file changed, 123 insertions(+), 4 deletions(-)
-> 
+On Mon, May 13, 2019 at 03:53:19PM +0200, Markus Armbruster wrote:
+> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+>=20
+> > On Wed, May 08, 2019 at 02:44:07PM +0200, Markus Armbruster wrote:
 > [...]
-> 
-> > +static int kvm_arch_put_sve(CPUState *cs)
-> > +{
-> > +    ARMCPU *cpu = ARM_CPU(cs);
-> > +    CPUARMState *env = &cpu->env;
-> > +    struct kvm_one_reg reg;
-> > +    int n, ret;
-> > +
-> > +    for (n = 0; n < KVM_ARM64_SVE_NUM_ZREGS; n++) {
-> > +        uint64_t *q = aa64_vfp_qreg(env, n);
-> > +#ifdef HOST_WORDS_BIGENDIAN
-> > +        uint64_t d[ARM_MAX_VQ * 2];
-> > +        int i;
-> > +        for (i = 0; i < cpu->sve_max_vq * 2; i++) {
-> > +            d[i] = q[cpu->sve_max_vq * 2 - 1 - i];
-> > +        }
-> > +        reg.addr = (uintptr_t)d;
-> > +#else
-> > +        reg.addr = (uintptr_t)q;
-> > +#endif
-> > +        reg.id = KVM_REG_ARM64_SVE_ZREG(n, 0);
-> 
-> Will this silently go wrong if more than one slice is required (i.e.,
-> the register size grows beyond 8192 bits?)
+> >> Double-checking: do you propose to encode *all* numbers as strings, =
+or
+> >> just certain "problematic" numbers?
+> >>=20
+> >> If the latter, I guess your idea of "problematic" is "not representa=
+ble
+> >> exactly as double precision floating-point".
+> >
+> > We have a few options
+> >
+> >  1. Use string format for values > 2^53-1, int format below that
+> >  2. Use string format for all fields which are 64-bit ints whether
+> >     signed or unsigned
+> >  3. Use string format for all fields which are integers, even 32-bit
+> >     ones
+> >
+> > I would probably suggest option 2. It would make the QEMU impl quite
+> > easy IIUC, we we'd just change the QAPI visitor's impl for the int64
+> > and uint64 fields to use string format (when the right capability is
+> > negotiated by QMP).
+> >
+> > I include 3 only for completeness - I don't think there's a hugely
+> > compelling reason to mess with 32-bit ints.
+>=20
+> Agree.
+>=20
+> > Option 1 is the bare minimum needed to ensure precision, but to me
+> > it feels a bit dirty to say a given field will have different encodin=
+g
+> > depending on the value. If apps need to deal with string encoding, th=
+ey
+> > might as well just use it for all values in a given field.
+>=20
+> I guess that depends on what this interoperability capability does for
+> QMP *input*.
+>=20
+> For *output*, QEMU has to encode a number either as JSON number or as
+> JSON string
+>=20
+> For *input*, QEMU could accept either.  Or it could accept only the
+> encoding it produces on output.
+>=20
+> Got a preference?
 
-Yeah, I could probably implement the slice loop now and add a
-function that returns 1 (for now) like your vcpu_sve_slices()
-function in KVM. I'll do that for v2.
-
-Thanks,
-drew
+IMHO if a mgmt app enables the (hypothetically named) "int64-as-string"
+capability, then we should be strict and require string format on both
+input & output. If QEMU accepted either, it would silently hide bugs
+where the app has mistakenly not used string formatting.
 
 
-
-> 
-> [...]
-> 
-> Cheers
-> ---Dave
-> 
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 
