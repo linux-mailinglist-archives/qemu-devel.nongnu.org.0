@@ -2,40 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D1471B284
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 11:14:38 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53750 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 51D8E1B2D2
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 11:25:18 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53910 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQ72b-0008J7-Oj
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 05:14:37 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35215)
+	id 1hQ7Cv-0004OG-76
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 05:25:17 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38400)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <schwab@suse.de>) id 1hQ6rJ-0001Gy-HV
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 05:02:58 -0400
+	(envelope-from <imammedo@redhat.com>) id 1hQ78g-0001Bx-QK
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 05:20:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <schwab@suse.de>) id 1hQ6rI-0006ys-Cf
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 05:02:57 -0400
-Received: from mx2.suse.de ([195.135.220.15]:38554 helo=mx1.suse.de)
+	(envelope-from <imammedo@redhat.com>) id 1hQ6tL-0008OB-HY
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 05:05:04 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39606)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <schwab@suse.de>) id 1hQ6rI-0006xU-6q
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 05:02:56 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.220.254])
-	by mx1.suse.de (Postfix) with ESMTP id 5F656AECD;
-	Mon, 13 May 2019 09:02:54 +0000 (UTC)
-From: Andreas Schwab <schwab@suse.de>
-To: qemu-devel@nongnu.org
-X-Yow: HELLO KITTY gang terrorizes town, family STICKERED to death!
-Date: Mon, 13 May 2019 11:02:53 +0200
-Message-ID: <mvmpnomohfm.fsf@suse.de>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+	(Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1hQ6tK-0008Ml-V7
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 05:05:03 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+	[10.5.11.16])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id E0EE54E90E;
+	Mon, 13 May 2019 09:05:00 +0000 (UTC)
+Received: from Igors-MacBook-Pro (unknown [10.40.205.133])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 8C95668D74;
+	Mon, 13 May 2019 09:04:45 +0000 (UTC)
+Date: Mon, 13 May 2019 11:04:40 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Message-ID: <20190513110440.7b03eb0d@Igors-MacBook-Pro>
+In-Reply-To: <20190512141838-mutt-send-email-mst@kernel.org>
+References: <1556808723-226478-2-git-send-email-imammedo@redhat.com>
+	<20190512141838-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
-	timestamps) [generic]
-X-Received-From: 195.135.220.15
-Subject: [Qemu-devel] [PATCH] linux-user: Implement membarrier syscall
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.38]);
+	Mon, 13 May 2019 09:05:01 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v4 01/15] tests: acpi: rename
+ acpi_parse_rsdp_table() into acpi_fetch_rsdp_table()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -47,46 +58,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>
+Cc: Andrew Jones <drjones@redhat.com>, Ben Warren <ben@skyportsystems.com>,
+	Laszlo Ersek <lersek@redhat.com>, qemu-devel@nongnu.org,
+	Shameer Kolothum <shameerali.kolothum.thodi@huawei.com>,
+	linuxarm@huawei.com, Shannon Zhao <shannon.zhaosl@gmail.com>,
+	Gonglei <arei.gonglei@huawei.com>,
+	Wei Yang <richardw.yang@linux.intel.com>, xuwei5@huawei.com,
+	xuwei5@hisilicon.com,
+	Philippe =?UTF-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Andreas Schwab <schwab@suse.de>
----
- linux-user/syscall.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+On Sun, 12 May 2019 14:19:08 -0400
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index f5ff6f5dc8..80399f4eb0 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -313,6 +313,9 @@ _syscall3(int, getrandom, void *, buf, size_t, buflen, unsigned int, flags)
- _syscall5(int, kcmp, pid_t, pid1, pid_t, pid2, int, type,
-           unsigned long, idx1, unsigned long, idx2)
- #endif
-+#if defined(TARGET_NR_membarrier) && defined(__NR_membarrier)
-+_syscall2(int, membarrier, int, cmd, int, flags)
-+#endif
- 
- static bitmask_transtbl fcntl_flags_tbl[] = {
-   { TARGET_O_ACCMODE,   TARGET_O_WRONLY,    O_ACCMODE,   O_WRONLY,    },
-@@ -11620,6 +11623,10 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-         /* PowerPC specific.  */
-         return do_swapcontext(cpu_env, arg1, arg2, arg3);
- #endif
-+#if defined TARGET_NR_membarrier && defined __NR_membarrier
-+    case TARGET_NR_membarrier:
-+        return get_errno(membarrier(arg1, arg2));
-+#endif
- 
-     default:
-         qemu_log_mask(LOG_UNIMP, "Unsupported syscall: %d\n", num);
--- 
-2.21.0
+> On Thu, May 02, 2019 at 04:51:49PM +0200, Igor Mammedov wrote:
+> > so name would reflect what the function does
+> >=20
+> > Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+> > Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> > Reviewed-by: Wei Yang <richardw.yang@linux.intel.com>
+> > ---
+> > v4:
+> >  * make it as the first patch in series
+> > ---
+>=20
+>=20
+> FYI this trips up git am.
+> Don't do two --- please: just one is enough,
+> second is not needed.
 
+strange, git am works for me just fine.
+I've always formated par patch comments this way and I think it's rather
+common approach on the list.
 
--- 
-Andreas Schwab, SUSE Labs, schwab@suse.de
-GPG Key fingerprint = 0196 BAD8 1CE9 1970 F4BE  1748 E4D4 88E3 0EEA B9D7
-"And now for something completely different."
+What version of git do you use?
+
+Anyways,
+shall I rebase and resend series? (it doesn't apply to master anymore)
+
+>=20
+[...]
+
 
