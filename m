@@ -2,54 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DECFC1B6C6
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 15:11:15 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57097 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2B7EB1B6B0
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 15:06:24 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57010 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQAja-0001S2-VB
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 09:11:15 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50302)
+	id 1hQAet-0005gz-9q
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 09:06:23 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50264)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <lvivier@redhat.com>) id 1hQAbZ-0003Zw-4O
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:02:58 -0400
+	(envelope-from <Dave.Martin@arm.com>) id 1hQAbW-0003Xj-5d
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:02:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <lvivier@redhat.com>) id 1hQANl-0000qH-Qh
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 08:48:42 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36992)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <lvivier@redhat.com>) id 1hQANl-0000pw-Kp
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 08:48:41 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 4C66D307D854;
-	Mon, 13 May 2019 12:48:40 +0000 (UTC)
-Received: from [10.40.204.20] (ovpn-204-20.brq.redhat.com [10.40.204.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 5A05B5C206;
-	Mon, 13 May 2019 12:48:38 +0000 (UTC)
-To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
-References: <20190510173049.28171-1-richard.henderson@linaro.org>
-	<20190510173049.28171-25-richard.henderson@linaro.org>
-From: Laurent Vivier <lvivier@redhat.com>
-Message-ID: <837325fe-a3db-14fb-4b61-2eaaa63829aa@redhat.com>
-Date: Mon, 13 May 2019 14:48:37 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
+	(envelope-from <Dave.Martin@arm.com>) id 1hQAQ1-0002DW-EN
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 08:51:02 -0400
+Received: from foss.arm.com ([217.140.101.70]:51746)
+	by eggs.gnu.org with esmtp (Exim 4.71)
+	(envelope-from <Dave.Martin@arm.com>)
+	id 1hQAQ0-0002C2-2E; Mon, 13 May 2019 08:51:00 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5AC4780D;
+	Mon, 13 May 2019 05:50:58 -0700 (PDT)
+Received: from e103592.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+	[10.72.51.249])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AFAF83F6C4;
+	Mon, 13 May 2019 05:50:56 -0700 (PDT)
+Date: Mon, 13 May 2019 13:50:54 +0100
+From: Dave Martin <Dave.Martin@arm.com>
+To: Andrew Jones <drjones@redhat.com>
+Message-ID: <20190513125053.GH28398@e103592.cambridge.arm.com>
+References: <20190512083624.8916-1-drjones@redhat.com>
+	<9f57bfa56715b3128c1823150457ddb866e6054c.camel@redhat.com>
+	<20190513111555.GC28398@e103592.cambridge.arm.com>
+	<20190513123857.xjgwnkdlizdunlpz@kamzik.brq.redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190510173049.28171-25-richard.henderson@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.48]);
-	Mon, 13 May 2019 12:48:40 +0000 (UTC)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190513123857.xjgwnkdlizdunlpz@kamzik.brq.redhat.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v6 24/25] target/ppc: Use gen_io_start/end
- around DARN
+X-Received-From: 217.140.101.70
+Subject: Re: [Qemu-devel] [PATCH 00/13] target/arm/kvm: enable SVE in guests
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,56 +54,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Gibson <david@gibson.dropbear.id.au>
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+	"armbru@redhat.com" <armbru@redhat.com>,
+	"richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+	Andrea Bolognani <abologna@redhat.com>,
+	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+	"qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+	"alex.bennee@linaro.org" <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 10/05/2019 19:30, Richard Henderson wrote:
-> Generating a random number counts as I/O, as it cannot be
-> replayed and produce the same results.
-> 
-> Cc: David Gibson <david@gibson.dropbear.id.au>
-> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->   target/ppc/translate.c | 21 +++++++++++++++------
->   1 file changed, 15 insertions(+), 6 deletions(-)
-> 
-> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-> index 8d08625c33..76628df6dd 100644
-> --- a/target/ppc/translate.c
-> +++ b/target/ppc/translate.c
-> @@ -1847,13 +1847,22 @@ static void gen_darn(DisasContext *ctx)
->   {
->       int l = L(ctx->opcode);
->   
-> -    if (l == 0) {
-> -        gen_helper_darn32(cpu_gpr[rD(ctx->opcode)]);
-> -    } else if (l <= 2) {
-> -        /* Return 64-bit random for both CRN and RRN */
-> -        gen_helper_darn64(cpu_gpr[rD(ctx->opcode)]);
-> -    } else {
-> +    if (l > 2) {
->           tcg_gen_movi_i64(cpu_gpr[rD(ctx->opcode)], -1);
-> +    } else {
-> +        if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> +            gen_io_start();
-> +        }
-> +        if (l == 0) {
-> +            gen_helper_darn32(cpu_gpr[rD(ctx->opcode)]);
-> +        } else {
-> +            /* Return 64-bit random for both CRN and RRN */
-> +            gen_helper_darn64(cpu_gpr[rD(ctx->opcode)]);
-> +        }
-> +        if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> +            gen_io_end();
-> +            gen_stop_exception(ctx);
-> +        }
->       }
->   }
->   #endif
-> 
+On Mon, May 13, 2019 at 01:38:57PM +0100, Andrew Jones wrote:
+> On Mon, May 13, 2019 at 12:15:56PM +0100, Dave Martin wrote:
+> > On Mon, May 13, 2019 at 10:32:46AM +0100, Andrea Bolognani wrote:
+> > > On Sun, 2019-05-12 at 10:36 +0200, Andrew Jones wrote:
 
-Reviewed-by: Laurent Vivier <lvivier@redhat.com>
+[...]
 
+> > > > The QMP query returns a list of valid vq lists. For example, if
+> > > > a guest can use vqs 1, 2, 3, and 4, then the following list will
+> > > > be returned
+> > > > 
+> > > >  [ [ 1 ], [ 1, 2 ], [ 1, 2, 3 ], [ 1, 2, 3, 4 ] ]
+> > > > 
+> > > > Another example might be 1, 2, 4, as the architecture states 3
+> > > > is optional. In that case the list would be
+> > > > 
+> > > >  [ [ 1 ], [ 1, 2 ], [ 1, 2, 4 ] ]
+> > > 
+> > > I think the proposed QMP command is problematic, because it reports
+> > > the valid vector lengths for either KVM or TCG based on which
+> > > accelerator is currently enabled: it should report all information
+> > > at all times instead, similarly to how query-gic-capabilities does
+> > > it.
+> > 
+> > I wonder if this is premature flexibility?
+> > 
+> > The size of these lists is going to get cumbersome if the architecture
+> > is ever extended.  Even today, we might need over 100 items in this
+> > (nested) list.  If this is to be presented to the user this will be
+> > far from friendly, it could get much worse if the architecutre changes
+> > in future to allow larger vectors or more flexible virtualisation.
+> > 
+> > Could we just have a list of supported vector lengths and a possibly
+> > empty list of additional capabilities that describe what kinds of
+> > flexibility are allowed?
+> > 
+> > So, for example, we might support vector lengths of 1, 2, 4 and 8
+> > quadwords, with the the ability to clamp the max vector length the
+> > guest sees: the kernel ABI guarantees that you can do this, even
+> > if you can't disable/enable each individual vector length independently.
+> > 
+> > So, [ 1, 2, 4, 8 ] seems sufficient to describe this in a forwards
+> > compatible way.
+> > 
+> > Some day, we might report { "independent", [ 1, 2, 4, 8, 16, 32, ... ] }
+> > 
+> > I'm guessing about the data representation here.
+> > 
+> 
+> I think that could work, and something along those lines even crossed my
+> mind. Let's see what libvirt folk say. I'm not overly concerned about
+> user friendless here though, as users aren't running QMP commands and
+> parsing json by hand too much.
+
+One concern I have is that if the architecture ever supports masking out
+vector lengths individually, the size of this description becomes
+something like O(2^n) in the maximum vector length, instead of O(n^2).
+
+That could be very painful to deal with...
+
+Cheers
+---Dave
 
