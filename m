@@ -2,66 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CA2A1B6AB
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 15:05:33 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:56974 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D24ED1B6B4
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 15:07:43 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57028 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQAe4-0004v8-Eb
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 09:05:32 -0400
+	id 1hQAgA-0006no-S2
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 09:07:42 -0400
 Received: from eggs.gnu.org ([209.51.188.92]:50006)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hQAbT-0003DN-RB
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:02:53 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hQAbE-0003DN-8t
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:02:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hQARI-0002hd-CY
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 08:52:21 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:33938)
+	(envelope-from <peter.maydell@linaro.org>) id 1hQATu-0003dv-K4
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 08:55:04 -0400
+Received: from mail-ot1-x32d.google.com ([2607:f8b0:4864:20::32d]:35620)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hQARI-0002gw-2h
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 08:52:20 -0400
-Received: by mail-ot1-x341.google.com with SMTP id l17so11619532otq.1
-	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 05:52:19 -0700 (PDT)
+	id 1hQATs-0003d1-Ps
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 08:55:01 -0400
+Received: by mail-ot1-x32d.google.com with SMTP id n14so4664960otk.2
+	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 05:55:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=/h7YDU+P6MUHl6sVj0WLp+MoxyBRTBEzmvX8oGYQxPw=;
-	b=HIV6Xgt0hlwXHD88KEhJy0PqeRJraTxBfxR2EpWUqn7bD/MeMl+qPLfovJYIfQlXUH
-	BKJMP7+97uiq3Sr1Jp5kVTSvFBqmtBv8vKN9ijEX0gtHlHTaOPcxijD/NevmbmDRkp54
-	hsj5T93JiqUv5kV0a2dNDqrk7iUOHjoOYjT36htvtDJUwnyrqR2ew0OiHD7YtdZSQ0o/
-	NVC+WITkg5D1YjYGKsfgnWdj9YvqukCY4z4QKhdpKiaLiekXV1oc07yjdUahfPkf2N08
-	Y9ojpNQiS5gvxBxhv+ysFu3dXqPbJddhbNScx/bcQ70HfiU0IfoCQcBhQSb24S4Pg0BH
-	BGyg==
+	:cc; bh=lANA2A4KU2VF9Qo8bQhqs9WDxzYC3cC60ozvv/Pjl20=;
+	b=QdIO+6ASw2ItWygJTwCWopXoRHehykjkVIkjrJpWWs2IysvgoHJStspmTL9IPrm/lm
+	e6smslRtsunM5jcXsZDDQVi1TtzpCnhFdtiDT/ndQzJLtaO5LT1n35//ztScHgD8XgDu
+	komaL4Rp+b51FS8l0VnCTByTWewrVtCk5akVL6BrcfWMC4Tkhy+jwXTrHCOHDFTv3X1v
+	tbqNbVG4/VhnZvCx8pCd/RQVk+4dZ9H61+kt1e1pzjlTC3uRPmfDxUqSJ8e/elADYibc
+	iRDZZ/MR4jWTb4Cgjc5vCn0TSE2hVeLx4TXJ5RWjIsX2rx5k8SMfVFZ+0bRhKUVlHr9f
+	zP5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=/h7YDU+P6MUHl6sVj0WLp+MoxyBRTBEzmvX8oGYQxPw=;
-	b=pQaVWokwwB3cqOnNCWkZZkCRwRdh1FDI7EqUBuuD5lCFiSVquoxMmE+TAF7DG0Futm
-	jr6tyg/hbVT2lvPEnm6afPtqO62jzJj3IPOT7DE++NNEGlVuOwHiFW+3cNhd6uRfdYRI
-	8lhYxiGD5mNmX2qBgvLDD24NBOf9zMgZZ6vkYmeSIU3VJlKIz0Wrkt2mG5J+7qJ2vt4v
-	Eh0dod3Vyc3qS/5jmgQFQjxeuy9FcGg32UeWSptdjaXhSsgKxWdquVMw7hLI3T+DegeK
-	LpGYh2Rb7QH44HRqvKTucD2cWFgI1LEqHUncHSzgbpEm3dgpQNuzcjXlzKCy6IjioO5S
-	qTXg==
-X-Gm-Message-State: APjAAAUn6dJEg2NwyR0K/bN/LjigOBPSEit0rzcsEawjn0wjvqOLpefO
-	VJVg4gYwzMd7ezD8gEH4732wOio5xhzT7vsqmteUBQ==
-X-Google-Smtp-Source: APXvYqzU1KagDuT8cYSQvW6nJUrBFKBgehNsCEbpnaW4NclGbCz1NWGRZC8o9SUsmJnUBwuuLvv5/OMp+Rgu8aGJhEM=
-X-Received: by 2002:a9d:4793:: with SMTP id b19mr12407690otf.238.1557751938700;
-	Mon, 13 May 2019 05:52:18 -0700 (PDT)
+	bh=lANA2A4KU2VF9Qo8bQhqs9WDxzYC3cC60ozvv/Pjl20=;
+	b=gP1AaqCjSAKY54irVUZMOEafvJ9WKxJW2Nm8YHPDDC4XOK1ywDQV+VEdam3adCnHpY
+	QXuNayyRq/uda7evSsubNunlCC1HAwYV/eexXdiR1x1GjtG+TQCABb19tzpvonI4PlaY
+	rFFEwfvhz1YQSQ9A2l2CtreqhZDfK/Bm1B5ZOIUh9UcJN03VaTCtFZHS5nOa+ej48Q6c
+	6YAEQTnUcmhId8NaU15dCl4DjJsjyVoJu0ke/03+jfLww/jBtpVCdXdaA+evVrFnyyDF
+	5HMRaHOziCEwr1YSIXjcfnuCBR49rL5hBgD+AYZhE/JuL3WxpA5QLJEpEcR/WcZlCQBO
+	5cuA==
+X-Gm-Message-State: APjAAAUOtsyyP0OVGI/afoaTRxXDRQ97M6+Wi3bk18Pg0PYhZu8BAZ7H
+	RGPC67aXWEzesPyR44m6t3QLgl25ENAnY9/6WMYjug==
+X-Google-Smtp-Source: APXvYqypt/66aOG43o/2Va8ASjGrtpfrdqooVuK3G5w132sQ+uVPWQuweCX3sWKm760o4Poelhcw6QiOlAhSdlz6BmY=
+X-Received: by 2002:a9d:2002:: with SMTP id n2mr13351812ota.363.1557752099541; 
+	Mon, 13 May 2019 05:54:59 -0700 (PDT)
 MIME-Version: 1.0
-References: <1557751388-27063-1-git-send-email-gengdongjiu@huawei.com>
-	<1557751388-27063-11-git-send-email-gengdongjiu@huawei.com>
-In-Reply-To: <1557751388-27063-11-git-send-email-gengdongjiu@huawei.com>
+References: <20190513065310.10263-1-kraxel@redhat.com>
+In-Reply-To: <20190513065310.10263-1-kraxel@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 13 May 2019 13:52:07 +0100
-Message-ID: <CAFEAcA81nMkHdCvQTcv2ixNB7sg+3Qx+9mpNgF0XLaBPY7-PNQ@mail.gmail.com>
-To: Dongjiu Geng <gengdongjiu@huawei.com>
+Date: Mon, 13 May 2019 13:54:48 +0100
+Message-ID: <CAFEAcA9CFFx6M1f93NV631RSd7gt3H32PPWJz_5qJAyfcy_fMQ@mail.gmail.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::341
-Subject: Re: [Qemu-devel] [PATCH v16 10/10] target-arm: kvm64: handle SIGBUS
- signal from kernel or KVM
+X-Received-From: 2607:f8b0:4864:20::32d
+Subject: Re: [Qemu-devel] [PULL 0/7] Input 20190513 v2 patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -73,82 +71,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm-devel <kvm@vger.kernel.org>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Marcelo Tosatti <mtosatti@redhat.com>,
-	QEMU Developers <qemu-devel@nongnu.org>, Linuxarm <linuxarm@huawei.com>,
-	Shannon Zhao <shannon.zhaosl@gmail.com>,
-	Zheng Xiang <zhengxiang9@huawei.com>, qemu-arm <qemu-arm@nongnu.org>,
-	James Morse <james.morse@arm.com>,
-	Jonathan Cameron <jonathan.cameron@huawei.com>,
-	Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
-	"xuwei \(O\)" <xuwei5@huawei.com>, Laszlo Ersek <lersek@redhat.com>,
-	Richard Henderson <rth@twiddle.net>
+Cc: =?UTF-8?Q?Daniel_P=2E_Berrang=C3=A9?= <berrange@redhat.com>,
+	QEMU Developers <qemu-devel@nongnu.org>,
+	"Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 13 May 2019 at 13:46, Dongjiu Geng <gengdongjiu@huawei.com> wrote:
+On Mon, 13 May 2019 at 08:13, Gerd Hoffmann <kraxel@redhat.com> wrote:
 >
-> Add SIGBUS signal handler. In this handler, it checks the SIGBUS type,
-> translates the host VA delivered by host to guest PA, then fill this PA
-> to guest APEI GHES memory, then notify guest according to the SIGBUS type.
+> The following changes since commit 812b835fb4d23dd108b2f9802158472d50b73579:
 >
-> If guest accesses the poisoned memory, it generates Synchronous External
-> Abort(SEA). Then host kernel gets an APEI notification and call memory_failure()
-> to unmapped the affected page for the guest's stage 2, finally return
-> to guest.
+>   Merge remote-tracking branch 'remotes/maxreitz/tags/pull-block-2019-05-07' into staging (2019-05-09 16:31:12 +0100)
 >
-> Guest continues to access PG_hwpoison page, it will trap to KVM as stage2 fault,
-> then a SIGBUS_MCEERR_AR synchronous signal is delivered to Qemu, Qemu record this
-> error address into guest APEI GHES memory and notify guest using
-> Synchronous-External-Abort(SEA).
+> are available in the Git repository at:
 >
-> Suggested-by: James Morse <james.morse@arm.com>
-> Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
+>   git://git.kraxel.org/qemu tags/input-20190513-v2-pull-request
+>
+> for you to fetch changes up to 503591cb6c28c3ddbe38ea50cab2f0dd3d6cd929:
+>
+>   virtio-input: fix Kconfig dependency and Makefile (2019-05-13 08:49:30 +0200)
+>
+> ----------------------------------------------------------------
+> input: add vhost-user-input, virtio-input fixes.
+>
+> ----------------------------------------------------------------
 
+Applied, thanks.
 
-> +void kvm_arch_on_sigbus_vcpu(CPUState *c, int code, void *addr)
-> +{
-> +    ARMCPU *cpu = ARM_CPU(c);
-> +    CPUARMState *env = &cpu->env;
-> +    ram_addr_t ram_addr;
-> +    hwaddr paddr;
-> +
-> +    assert(code == BUS_MCEERR_AR || code == BUS_MCEERR_AO);
-> +
-> +    if (addr) {
-> +        ram_addr = qemu_ram_addr_from_host(addr);
-> +        if (ram_addr != RAM_ADDR_INVALID &&
-> +            kvm_physical_memory_addr_from_host(c->kvm_state, addr, &paddr)) {
-> +            kvm_hwpoison_page_add(ram_addr);
-> +            /* Asynchronous signal will be masked by main thread, so
-> +             * only handle synchronous signal.
-> +             */
-> +            if (code == BUS_MCEERR_AR) {
-> +                kvm_cpu_synchronize_state(c);
-> +                if (GHES_CPER_FAIL != ghes_record_errors(ACPI_HEST_NOTIFY_SEA, paddr)) {
-> +                    kvm_inject_arm_sea(c);
-> +                } else {
-> +                    fprintf(stderr, "failed to record the error\n");
-> +                }
-> +            }
-> +            return;
-> +        }
-> +        fprintf(stderr, "Hardware memory error for memory used by "
-> +                "QEMU itself instead of guest system!\n");
-> +    }
-> +
-> +    if (code == BUS_MCEERR_AR) {
-> +        fprintf(stderr, "Hardware memory error!\n");
-> +        exit(1);
-> +    }
-> +}
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
+for any user-visible changes.
 
-This code appears to still be unconditionally trying to
-notify the guest of the error via the ACPI tables without
-checking whether those ACPI tables even exist. I told you
-about this in a previous round of review :-(
-
-thanks
 -- PMM
 
