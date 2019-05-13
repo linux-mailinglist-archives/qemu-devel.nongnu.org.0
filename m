@@ -2,80 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0BC81B6F6
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 15:24:19 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57379 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56E561B708
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 15:29:25 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57472 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQAwE-0004KT-Po
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 09:24:18 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54539)
+	id 1hQB19-0007QM-PW
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 09:29:23 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56400)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hQAsf-0002IK-5Y
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:20:39 -0400
+	(envelope-from <eskultet@redhat.com>) id 1hQB0D-00075d-4v
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:28:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hQAse-00081v-2n
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:20:37 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41160)
+	(envelope-from <eskultet@redhat.com>) id 1hQB0B-0003c4-ST
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:28:25 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:39910)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hQAsZ-0007yf-Qp; Mon, 13 May 2019 09:20:32 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
-	[10.5.11.12])
+	(Exim 4.71) (envelope-from <eskultet@redhat.com>) id 1hQB0B-0003b9-KQ
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:28:23 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id EA7CF3091753;
-	Mon, 13 May 2019 13:20:28 +0000 (UTC)
-Received: from dresden.str.redhat.com (unknown [10.40.206.26])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 8EA4260C4D;
-	Mon, 13 May 2019 13:20:27 +0000 (UTC)
-To: Nir Soffer <nsoffer@redhat.com>
-References: <20190510211954.29574-1-mreitz@redhat.com>
-	<CAMRbyytDVz=tTgPKOxZNBR=suohjw6bi7EsP=u5682ZRCsHfag@mail.gmail.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
-	mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
-	/PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
-	U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
-	mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
-	awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
-	AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
-	CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
-	B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
-	2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
-	AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
-	8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
-	4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
-	BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
-	xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
-	W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
-	DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
-	64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
-	ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
-	sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
-	alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
-	/ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
-	bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
-	R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <cafef82a-a00c-f1a2-3202-1f2b1b8b82f1@redhat.com>
-Date: Mon, 13 May 2019 15:20:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	by mx1.redhat.com (Postfix) with ESMTPS id 285468830B;
+	Mon, 13 May 2019 13:28:20 +0000 (UTC)
+Received: from beluga.usersys.redhat.com (unknown [10.43.2.166])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 3D1EE10027DA;
+	Mon, 13 May 2019 13:28:07 +0000 (UTC)
+Date: Mon, 13 May 2019 15:28:04 +0200
+From: Erik Skultety <eskultet@redhat.com>
+To: Cornelia Huck <cohuck@redhat.com>
+Message-ID: <20190513132804.GD11139@beluga.usersys.redhat.com>
+References: <20190506014514.3555-1-yan.y.zhao@intel.com>
+	<20190506014904.3621-1-yan.y.zhao@intel.com>
+	<20190507151826.502be009@x1.home>
+	<20190509173839.2b9b2b46.cohuck@redhat.com>
+	<20190509154857.GF2868@work-vm>
+	<20190509175404.512ae7aa.cohuck@redhat.com>
+	<20190509164825.GG2868@work-vm>
+	<20190510110838.2df4c4d0.cohuck@redhat.com>
+	<20190510093608.GD2854@work-vm>
+	<20190510114838.7e16c3d6.cohuck@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAMRbyytDVz=tTgPKOxZNBR=suohjw6bi7EsP=u5682ZRCsHfag@mail.gmail.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature";
-	boundary="jefPE3Y4QmQrhcPt4Xj1ivPCguzFFw8mg"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190510114838.7e16c3d6.cohuck@redhat.com>
+User-Agent: Mutt/1.11.3 (2019-02-01)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.41]);
-	Mon, 13 May 2019 13:20:28 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.28]);
+	Mon, 13 May 2019 13:28:20 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PATCH] iotests: Filter 175's allocation
- information
+Subject: Re: [Qemu-devel] [PATCH v2 1/2] vfio/mdev: add version attribute
+ for mdev device
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -87,148 +67,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
-	QEMU Developers <qemu-devel@nongnu.org>, qemu-block <qemu-block@nongnu.org>
+Cc: cjia@nvidia.com, kvm@vger.kernel.org, aik@ozlabs.ru,
+	Zhengxiao.zx@alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
+	qemu-devel@nongnu.org, kwankhede@nvidia.com, eauger@redhat.com,
+	yi.l.liu@intel.com, ziye.yang@intel.com, mlevitsk@redhat.com,
+	pasic@linux.ibm.com, libvir-list@redhat.com,
+	arei.gonglei@huawei.com, felipe@nutanix.com, Ken.Xue@amd.com,
+	kevin.tian@intel.com, Yan Zhao <yan.y.zhao@intel.com>,
+	"Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+	zhenyuw@linux.intel.com, dinechin@redhat.com,
+	Alex Williamson <alex.williamson@redhat.com>,
+	intel-gvt-dev@lists.freedesktop.org, changpeng.liu@intel.com,
+	berrange@redhat.com, linux-kernel@vger.kernel.org,
+	zhi.a.wang@intel.com, jonathan.davies@nutanix.com, shaopeng.he@intel.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---jefPE3Y4QmQrhcPt4Xj1ivPCguzFFw8mg
-From: Max Reitz <mreitz@redhat.com>
-To: Nir Soffer <nsoffer@redhat.com>
-Cc: qemu-block <qemu-block@nongnu.org>,
- QEMU Developers <qemu-devel@nongnu.org>, Kevin Wolf <kwolf@redhat.com>,
- Thomas Huth <thuth@redhat.com>
-Message-ID: <cafef82a-a00c-f1a2-3202-1f2b1b8b82f1@redhat.com>
-Subject: Re: [PATCH] iotests: Filter 175's allocation information
-References: <20190510211954.29574-1-mreitz@redhat.com>
- <CAMRbyytDVz=tTgPKOxZNBR=suohjw6bi7EsP=u5682ZRCsHfag@mail.gmail.com>
-In-Reply-To: <CAMRbyytDVz=tTgPKOxZNBR=suohjw6bi7EsP=u5682ZRCsHfag@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+On Fri, May 10, 2019 at 11:48:38AM +0200, Cornelia Huck wrote:
+> On Fri, 10 May 2019 10:36:09 +0100
+> "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+>
+> > * Cornelia Huck (cohuck@redhat.com) wrote:
+> > > On Thu, 9 May 2019 17:48:26 +0100
+> > > "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+> > >
+> > > > * Cornelia Huck (cohuck@redhat.com) wrote:
+> > > > > On Thu, 9 May 2019 16:48:57 +0100
+> > > > > "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+> > > > >
+> > > > > > * Cornelia Huck (cohuck@redhat.com) wrote:
+> > > > > > > On Tue, 7 May 2019 15:18:26 -0600
+> > > > > > > Alex Williamson <alex.williamson@redhat.com> wrote:
+> > > > > > >
+> > > > > > > > On Sun,  5 May 2019 21:49:04 -0400
+> > > > > > > > Yan Zhao <yan.y.zhao@intel.com> wrote:
+> > > > > > >
+> > > > > > > > > +  Errno:
+> > > > > > > > > +  If vendor driver wants to claim a mdev device incompatible to all other mdev
+> > > > > > > > > +  devices, it should not register version attribute for this mdev device. But if
+> > > > > > > > > +  a vendor driver has already registered version attribute and it wants to claim
+> > > > > > > > > +  a mdev device incompatible to all other mdev devices, it needs to return
+> > > > > > > > > +  -ENODEV on access to this mdev device's version attribute.
+> > > > > > > > > +  If a mdev device is only incompatible to certain mdev devices, write of
+> > > > > > > > > +  incompatible mdev devices's version strings to its version attribute should
+> > > > > > > > > +  return -EINVAL;
+> > > > > > > >
+> > > > > > > > I think it's best not to define the specific errno returned for a
+> > > > > > > > specific situation, let the vendor driver decide, userspace simply
+> > > > > > > > needs to know that an errno on read indicates the device does not
+> > > > > > > > support migration version comparison and that an errno on write
+> > > > > > > > indicates the devices are incompatible or the target doesn't support
+> > > > > > > > migration versions.
+> > > > > > >
+> > > > > > > I think I have to disagree here: It's probably valuable to have an
+> > > > > > > agreed error for 'cannot migrate at all' vs 'cannot migrate between
+> > > > > > > those two particular devices'. Userspace might want to do different
+> > > > > > > things (e.g. trying with different device pairs).
+> > > > > >
+> > > > > > Trying to stuff these things down an errno seems a bad idea; we can't
+> > > > > > get much information that way.
+> > > > >
+> > > > > So, what would be a reasonable approach? Userspace should first read
+> > > > > the version attributes on both devices (to find out whether migration
+> > > > > is supported at all), and only then figure out via writing whether they
+> > > > > are compatible?
+> > > > >
+> > > > > (Or just go ahead and try, if it does not care about the reason.)
+> > > >
+> > > > Well, I'm OK with something like writing to test whether it's
+> > > > compatible, it's just we need a better way of saying 'no'.
+> > > > I'm not sure if that involves reading back from somewhere after
+> > > > the write or what.
+> > >
+> > > Hm, so I basically see two ways of doing that:
+> > > - standardize on some error codes... problem: error codes can be hard
+> > >   to fit to reasons
+> > > - make the error available in some attribute that can be read
+> > >
+> > > I'm not sure how we can serialize the readback with the last write,
+> > > though (this looks inherently racy).
+> > >
+> > > How important is detailed error reporting here?
+> >
+> > I think we need something, otherwise we're just going to get vague
+> > user reports of 'but my VM doesn't migrate'; I'd like the error to be
+> > good enough to point most users to something they can understand
+> > (e.g. wrong card family/too old a driver etc).
+>
+> Ok, that sounds like a reasonable point. Not that I have a better idea
+> how to achieve that, though... we could also log a more verbose error
+> message to the kernel log, but that's not necessarily where a user will
+> look first.
 
-On 10.05.19 23:45, Nir Soffer wrote:
-> On Sat, May 11, 2019 at 12:19 AM Max Reitz <mreitz@redhat.com
-> <mailto:mreitz@redhat.com>> wrote:
->=20
->     It is possible for an empty file to take up blocks on a filesystem.=
+In case of libvirt checking the compatibility, it won't matter how good the
+error message in the kernel log is and regardless of how many error states you
+want to handle, libvirt's only limited to errno here, since we're going to do
+plain read/write, so our internal error message returned to the user is only
+going to contain what the errno says - okay, of course we can (and we DO)
+provide libvirt specific string, further specifying the error but like I
+mentioned, depending on how many error cases we want to distinguish this may be
+hard for anyone to figure out solely on the error code, as apps will most
+probably not parse the
+logs.
 
->     Make iotest 175 take this into account.
->=20
->     Reported-by: Thomas Huth <thuth@redhat.com <mailto:thuth@redhat.com=
->>
->     Signed-off-by: Max Reitz <mreitz@redhat.com <mailto:mreitz@redhat.c=
-om>>
->     ---
->     =C2=A0tests/qemu-iotests/175=C2=A0 =C2=A0 =C2=A0| 15 +++++++++++---=
--
->     =C2=A0tests/qemu-iotests/175.out |=C2=A0 8 ++++----
->     =C2=A02 files changed, 15 insertions(+), 8 deletions(-)
->=20
->     diff --git a/tests/qemu-iotests/175 b/tests/qemu-iotests/175
->     index d0ffc495c2..b5652a3889 100755
->     --- a/tests/qemu-iotests/175
->     +++ b/tests/qemu-iotests/175
->     @@ -28,7 +28,8 @@ status=3D1=C2=A0 =C2=A0 =C2=A0 # failure is the d=
-efault!
->=20
->     =C2=A0_cleanup()
->     =C2=A0{
->     -=C2=A0 =C2=A0 =C2=A0 =C2=A0_cleanup_test_img
->     +=C2=A0 =C2=A0 _cleanup_test_img
->     +=C2=A0 =C2=A0 rm -f "$TEST_DIR/empty"
->     =C2=A0}
->     =C2=A0trap "_cleanup; exit \$status" 0 1 2 3 15
->=20
->     @@ -40,18 +41,24 @@ _supported_fmt raw
->     =C2=A0_supported_proto file
->     =C2=A0_supported_os Linux
->=20
->     -size=3D1m
->     +size=3D$((1 * 1024 * 1024))
->=20
->     +
->     +touch "$TEST_DIR/empty"
->     +empty_blocks=3D$(stat -c '%b' "$TEST_DIR/empty")
->=20
->=20
-> Maybe extra_blocks?
-
-Why not.
-
->     =C2=A0echo
->     =C2=A0echo "=3D=3D creating image with default preallocation =3D=3D=
-"
->     =C2=A0_make_test_img $size | _filter_imgfmt
->     -stat -c "size=3D%s, blocks=3D%b" $TEST_IMG
->     +stat -c "size=3D%s, blocks=3D%b" $TEST_IMG \
->     +=C2=A0 =C2=A0 | sed -e "s/blocks=3D$empty_blocks/nothing allocated=
-/"
->=20
->     =C2=A0for mode in off full falloc; do
->     =C2=A0 =C2=A0 =C2=A0echo
->     =C2=A0 =C2=A0 =C2=A0echo "=3D=3D creating image with preallocation =
-$mode =3D=3D"
->     =C2=A0 =C2=A0 =C2=A0IMGOPTS=3Dpreallocation=3D$mode _make_test_img =
-$size | _filter_imgfmt
->     -=C2=A0 =C2=A0 stat -c "size=3D%s, blocks=3D%b" $TEST_IMG
->     +=C2=A0 =C2=A0 stat -c "size=3D%s, blocks=3D%b" $TEST_IMG \
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 | sed -e "s/blocks=3D$empty_blocks/not=
-hing allocated/" \
->     +=C2=A0 =C2=A0 =C2=A0 =C2=A0 | sed -e "s/blocks=3D$((empty_blocks +=
- size /
->     512))/everything allocated/"
->=20
->=20
-> "fully allocated"?
-
-I didn=E2=80=99t like that because that sounds like it only applies to
-preallocation=3Dfull.
-
-> Maybe add a helper like this:
->=20
-> _filter_blocks() {
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 # Some file systems sometimes allocate extr=
-a blocks
-> =C2=A0 =C2=A0=C2=A0=C2=A0 =C2=A0=C2=A0sed -e "s/blocks=3D$empty_blocks/=
-nothing allocated/" \
-> =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-e "s/blocks=3D$=
-((empty_blocks + size / 512))/everything
-> allocated/"
-> }
->=20
-> So we can do:
->=20
-> =C2=A0 =C2=A0=C2=A0stat -c "size=3D%s, blocks=3D%b" $TEST_IMG | _filter=
-_blocks
->=20
-> And it is also clear why we need to run sed without looking up the
-> commit message.
-
-Makes sense to me, but I find it a bit awkward to make a filter rely on
-a data value determined outside of the filter...  I=E2=80=99ll see what I=
- can do
-to calm my conscience.
-
-Max
+Regards,
+Erik
+>
+> Ideally, we'd want to have the user space program setting up things
+> querying the general compatibility for migration (so that it becomes
+> their problem on how to alert the user to problems :), but I'm not sure
+> how to eliminate the race between asking the vendor driver for
+> compatibility and getting the result of that operation.
+>
+> Unless we introduce an interface that can retrieve _all_ results
+> together with the written value? Or is that not going to be much of a
+> problem in practice?
 
 
---jefPE3Y4QmQrhcPt4Xj1ivPCguzFFw8mg
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAlzZbxkACgkQ9AfbAGHV
-z0BVSwf/Wl0/8/DSH4wfiBsVbzw3OLWgsTw1gqCDcHBAHcTwFMPSv71xLP79HQR5
-D1I1T2maPDCzWgOTOYt6z1ffvZL3+kLiI4c6ugo117osn3/qTiMgHR+zH919STOb
-/+5lFiV+Rwdtv7nAtEeMWZKfUU7neeHq5ZbvcyNZS2z1IWX6hP+ZqKKyddXWPJT9
-ubkGRniFEBgzEX6VDU+lpyyZkqsxTbyN5jC8/AmPnbPaJiNn2/pMZ+kYQomQpsxM
-B8e9EMO1BBzEXM6RLyrm0WJwXge7sEiJ1Pp4IkdZJvzvvBSNxMdpNs6zdcjbEl8a
-WxUXc0ZthSnjA40vunQJQvTqFKbtvA==
-=Dxeg
------END PGP SIGNATURE-----
-
---jefPE3Y4QmQrhcPt4Xj1ivPCguzFFw8mg--
 
