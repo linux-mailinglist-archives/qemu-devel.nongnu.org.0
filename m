@@ -2,44 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BF1691B76A
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 15:52:50 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57673 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 526F21B76F
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 15:53:32 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57679 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQBNp-00049B-JL
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 09:52:49 -0400
+	id 1hQBOV-0004jA-D5
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 09:53:31 -0400
 Received: from eggs.gnu.org ([209.51.188.92]:59662)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <berto@igalia.com>) id 1hQBLZ-0002eJ-7V
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:50:30 -0400
+	(envelope-from <berto@igalia.com>) id 1hQBLu-0002eJ-NN
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:50:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <berto@igalia.com>) id 1hQBHr-0005da-OO
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:46:42 -0400
-Received: from fanzine.igalia.com ([91.117.99.155]:36073)
+	(envelope-from <berto@igalia.com>) id 1hQBHs-0005e2-B5
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:46:41 -0400
+Received: from fanzine.igalia.com ([91.117.99.155]:36074)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <berto@igalia.com>)
-	id 1hQBHr-0005ck-7o; Mon, 13 May 2019 09:46:39 -0400
+	id 1hQBHs-0005cj-1o; Mon, 13 May 2019 09:46:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; h=Message-Id:Date:Subject:Cc:To:From;
-	bh=btReAHRHCuFvfQx+iG6AzyW0yUEQEzXCyNk3tScU0jU=; 
-	b=GJXDbLsnRaAKSlSsOti0XE9nlazNF67/9JFIek3jIp6qc+XHsnaMqbdFSOHls15NtdMp84/1s6VVrPRiJCQcAZxic87t52ld/yg3WSoJRd35LEuiefKEEVSVeWnFotzqmH/U4ilCmmw1nW0mJR9dF53NjznJvaRC+uoYlmQ6Btbzdb36RaV35a7Ua60v6owLxD3M5Ve8NsOughh8yTeI4iStc5Ifw6lDAM1e7FnASiQO6Zdmcjfre531IJI+cBE8sfUaox+As/pT+oAWcon+Vt15z2LoiW7NvLYGQO8CYnTLiksQ1Yyu/WQaJCuBtJBg2IQn5xW0tl6ecFfwNN6Dmg==;
+	s=20170329; 
+	h=References:In-Reply-To:References:In-Reply-To:Message-Id:Date:Subject:Cc:To:From;
+	bh=10jZxo2pQTHlyRjmSoGjzlkHOLb5jm8EaFasG2y36X0=; 
+	b=f+l+AsnFa70e60IZi128u+ezhCl1fLrmvkhoIQf/iWGGVrACCmAlNUfEt3Ii2alEvQ/U+WREaYL1MG9Mhzx7Y3glUyopX1F/bfXy2LKH/ncefYoH+eUh7XPPmD4RY9xJvde3SUeP/ehzH8cABSOUtGPOoKU8WVdtULQwIk7c1D2kO8NE6KnMkzzWw2leIMPSMPMSGa3XpVBEvi8EL4erWJ3IbNb8P6CT9Y8ek6pyDJXTcONl3WAyaDZd2XD/RfuUkRFX6N7NZR+VT8VNtpQRfwweMYjoftYWUH247x7+78kGPTB6exHBUp+oizfcFS6PFOYJqQLA39rxBAf7eONIZA==;
 Received: from mobile-access-bcee32-86.dhcp.inet.fi ([188.238.50.86]
 	helo=perseus.local) by fanzine.igalia.com with esmtpsa 
 	(Cipher TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim)
-	id 1hQBHo-0003gg-DY; Mon, 13 May 2019 15:46:36 +0200
+	id 1hQBHo-0003gf-ER; Mon, 13 May 2019 15:46:36 +0200
 Received: from berto by perseus.local with local (Exim 4.89)
 	(envelope-from <berto@igalia.com>)
-	id 1hQBHb-0003Bu-7O; Mon, 13 May 2019 16:46:23 +0300
+	id 1hQBHb-0003Bw-8e; Mon, 13 May 2019 16:46:23 +0300
 From: Alberto Garcia <berto@igalia.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 13 May 2019 16:46:16 +0300
-Message-Id: <cover.1557754872.git.berto@igalia.com>
+Date: Mon, 13 May 2019 16:46:17 +0300
+Message-Id: <6d1d5feaa53aa1ab127adb73d605dc4503e3abd5.1557754872.git.berto@igalia.com>
 X-Mailer: git-send-email 2.11.0
+In-Reply-To: <cover.1557754872.git.berto@igalia.com>
+References: <cover.1557754872.git.berto@igalia.com>
+In-Reply-To: <cover.1557754872.git.berto@igalia.com>
+References: <cover.1557754872.git.berto@igalia.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
 	timestamps) [generic] [fuzzy]
 X-Received-From: 91.117.99.155
-Subject: [Qemu-devel] [PATCH v3 0/2] block: Use bdrv_unref_child() for all
+Subject: [Qemu-devel] [PATCH v3 1/2] block: Use bdrv_unref_child() for all
  children in bdrv_close()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
@@ -57,31 +62,97 @@ Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+bdrv_unref_child() does the following things:
 
-the first patch is the same as in v2 (with an updated commit
-message). The second patch is new and makes bdrv_root_attach_child()
-unref child_bs on failure, as suggested by Max.
+  - Updates the child->bs->inherits_from pointer.
+  - Calls bdrv_detach_child() to remove the BdrvChild from bs->children.
+  - Calls bdrv_unref() to unref the child BlockDriverState.
 
-Regards,
+When bdrv_unref_child() was introduced in commit 33a604075c it was not
+used in bdrv_close() because the drivers that had additional children
+(like quorum or blkverify) had already called bdrv_unref() on their
+children during their own close functions.
 
-Berto
+This was changed later (in 0bd6e91a7e for quorum, in 3e586be0b2 for
+blkverify) so there's no reason not to use bdrv_unref_child() in
+bdrv_close() anymore.
 
-v2: https://lists.gnu.org/archive/html/qemu-block/2019-05/msg00325.html
-v1: https://lists.gnu.org/archive/html/qemu-block/2019-03/msg01040.html
+After this there's also no need to remove bs->backing and bs->file
+separately from the rest of the children, so bdrv_close() can be
+simplified.
 
-Alberto Garcia (2):
-  block: Use bdrv_unref_child() for all children in bdrv_close()
-  block: Make bdrv_root_attach_child() unref child_bs on failure
+Now bdrv_close() unrefs all children (before this patch it was only
+bs->file and bs->backing). As a result, none of the callers of
+brvd_attach_child() should remove their reference to child_bs (because
+this function effectively steals that reference). This patch updates a
+couple of tests that where doing their own bdrv_unref().
 
- block.c                     | 41 ++++++++++++++++++++---------------------
- block/block-backend.c       |  3 +--
- block/quorum.c              |  1 -
- blockjob.c                  |  2 +-
+Signed-off-by: Alberto Garcia <berto@igalia.com>
+---
+ block.c                     | 16 +++-------------
  tests/test-bdrv-drain.c     |  6 ------
  tests/test-bdrv-graph-mod.c |  1 -
- 6 files changed, 22 insertions(+), 32 deletions(-)
+ 3 files changed, 3 insertions(+), 20 deletions(-)
 
+diff --git a/block.c b/block.c
+index 5c2c6aa761..3c3bd0f8d2 100644
+--- a/block.c
++++ b/block.c
+@@ -3842,22 +3842,12 @@ static void bdrv_close(BlockDriverState *bs)
+         bs->drv = NULL;
+     }
+ 
+-    bdrv_set_backing_hd(bs, NULL, &error_abort);
+-
+-    if (bs->file != NULL) {
+-        bdrv_unref_child(bs, bs->file);
+-        bs->file = NULL;
+-    }
+-
+     QLIST_FOREACH_SAFE(child, &bs->children, next, next) {
+-        /* TODO Remove bdrv_unref() from drivers' close function and use
+-         * bdrv_unref_child() here */
+-        if (child->bs->inherits_from == bs) {
+-            child->bs->inherits_from = NULL;
+-        }
+-        bdrv_detach_child(child);
++        bdrv_unref_child(bs, child);
+     }
+ 
++    bs->backing = NULL;
++    bs->file = NULL;
+     g_free(bs->opaque);
+     bs->opaque = NULL;
+     atomic_set(&bs->copy_on_read, 0);
+diff --git a/tests/test-bdrv-drain.c b/tests/test-bdrv-drain.c
+index eda90750eb..5534c2adf9 100644
+--- a/tests/test-bdrv-drain.c
++++ b/tests/test-bdrv-drain.c
+@@ -1436,12 +1436,6 @@ static void test_detach_indirect(bool by_parent_cb)
+     bdrv_unref(parent_b);
+     blk_unref(blk);
+ 
+-    /* XXX Once bdrv_close() unref's children instead of just detaching them,
+-     * this won't be necessary any more. */
+-    bdrv_unref(a);
+-    bdrv_unref(a);
+-    bdrv_unref(c);
+-
+     g_assert_cmpint(a->refcnt, ==, 1);
+     g_assert_cmpint(b->refcnt, ==, 1);
+     g_assert_cmpint(c->refcnt, ==, 1);
+diff --git a/tests/test-bdrv-graph-mod.c b/tests/test-bdrv-graph-mod.c
+index 283dc84869..747c0bf8fc 100644
+--- a/tests/test-bdrv-graph-mod.c
++++ b/tests/test-bdrv-graph-mod.c
+@@ -116,7 +116,6 @@ static void test_update_perm_tree(void)
+     g_assert_nonnull(local_err);
+     error_free(local_err);
+ 
+-    bdrv_unref(bs);
+     blk_unref(root);
+ }
+ 
 -- 
 2.11.0
 
