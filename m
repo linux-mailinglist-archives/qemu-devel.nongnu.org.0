@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC7A51B069
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 08:38:59 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:51958 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D82771B070
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 08:40:33 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:51972 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQ4by-0004CK-Uh
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 02:38:59 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37639)
+	id 1hQ4dV-0005Q8-2K
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 02:40:33 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37356)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richardw.yang@linux.intel.com>) id 1hQ4Zt-0002z4-RI
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 02:36:51 -0400
+	(envelope-from <richardw.yang@linux.intel.com>) id 1hQ4Zs-0002mj-UF
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 02:36:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richardw.yang@linux.intel.com>) id 1hQ4KG-0004w1-Q1
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 02:20:42 -0400
+	(envelope-from <richardw.yang@linux.intel.com>) id 1hQ4KK-000509-F8
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 02:20:46 -0400
 Received: from mga07.intel.com ([134.134.136.100]:24552)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
-	id 1hQ4KG-0004ds-I4
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 02:20:40 -0400
+	id 1hQ4KJ-0004ds-BF
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 02:20:43 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
 	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 May 2019 23:20:40 -0700
+	12 May 2019 23:20:43 -0700
 X-ExtLoop1: 1
 Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
-	by orsmga003.jf.intel.com with ESMTP; 12 May 2019 23:20:38 -0700
+	by orsmga003.jf.intel.com with ESMTP; 12 May 2019 23:20:41 -0700
 From: Wei Yang <richardw.yang@linux.intel.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 13 May 2019 14:19:12 +0800
-Message-Id: <20190513061913.9284-9-richardw.yang@linux.intel.com>
+Date: Mon, 13 May 2019 14:19:13 +0800
+Message-Id: <20190513061913.9284-10-richardw.yang@linux.intel.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <20190513061913.9284-1-richardw.yang@linux.intel.com>
 References: <20190513061913.9284-1-richardw.yang@linux.intel.com>
@@ -41,8 +41,8 @@ Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
 X-Received-From: 134.134.136.100
-Subject: [Qemu-devel] [RFC PATCH 8/9] hw/acpi: factor build_madt with
- madt_input
+Subject: [Qemu-devel] [RFC PATCH 9/9] hw/acpi: implement madt_main to
+ manipulate main madt table
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -60,176 +60,97 @@ Cc: yang.zhong@intel.com, ehabkost@redhat.com, mst@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-struct madt_input is introduced to represent one sub madt table.
-
-With help of madt_sub[] for related sub madt table, build_madt could
-be agnostic.
+Different arch would handle the main madt table differently. Add a
+helper function to achieve this goal.
 
 Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
 ---
- hw/i386/acpi-build.c | 103 +++++++++++++++++++++++++++----------------
- 1 file changed, 65 insertions(+), 38 deletions(-)
+ hw/acpi/piix4.c                      |  1 +
+ hw/i386/acpi-build.c                 | 13 +++++++++++--
+ hw/isa/lpc_ich9.c                    |  1 +
+ include/hw/acpi/acpi_dev_interface.h |  1 +
+ include/hw/i386/pc.h                 |  1 +
+ 5 files changed, 15 insertions(+), 2 deletions(-)
 
+diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
+index f4336b9238..d7d097daee 100644
+--- a/hw/acpi/piix4.c
++++ b/hw/acpi/piix4.c
+@@ -723,6 +723,7 @@ static void piix4_pm_class_init(ObjectClass *klass, void *data)
+     adevc->ospm_status = piix4_ospm_status;
+     adevc->send_event = piix4_send_gpe;
+     adevc->madt_sub = i386_madt_sub;
++    adevc->madt_main = i386_madt_main;
+ }
+ 
+ static const TypeInfo piix4_pm_info = {
 diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index a7aeb215fc..74a34e297e 100644
+index 74a34e297e..e73e9fddee 100644
 --- a/hw/i386/acpi-build.c
 +++ b/hw/i386/acpi-build.c
-@@ -284,6 +284,54 @@ static void acpi_get_pci_holes(Range *hole, Range *hole64)
-                                                NULL));
- }
- 
-+struct madt_input {
-+    int sub_id;
-+    void *opaque;
-+};
-+
-+int xrupt_override_idx[] = {0, 5, 9, 10, 11};
-+static struct madt_input *
-+acpi_get_madt_input(PCMachineState *pcms, int *processor_id)
-+{
-+    MachineClass *mc = MACHINE_GET_CLASS(pcms);
-+    const CPUArchIdList *apic_ids = mc->possible_cpu_arch_ids(MACHINE(pcms));
-+    int i, sub_heads = 0;
-+    uint32_t apic_id;
-+    struct madt_input *input = NULL;
-+
-+    sub_heads = apic_ids->len                      /* PROCESSOR/X2APIC */
-+                + 1                                /* APIC_IO */
-+                + ARRAY_SIZE(xrupt_override_idx)   /* XRUPT_OVERRIDE */
-+                + 1                                /* NMI/X2APIC_NMI */
-+                + 1;                               /* END MARK */
-+    input = g_new0(struct madt_input, sub_heads);
-+    for (i = 0, sub_heads = 0; i < apic_ids->len; i++, sub_heads++) {
-+        apic_id = apic_ids->cpus[i].arch_id;
-+        if (apic_id < 255) {
-+            input[sub_heads].sub_id = ACPI_APIC_PROCESSOR;
-+        } else {
-+            input[sub_heads].sub_id = ACPI_APIC_LOCAL_X2APIC;
-+        }
-+        input[sub_heads].opaque = processor_id;
-+    }
-+    input[sub_heads++].sub_id = ACPI_APIC_IO;
-+    for (i = 0; i < ARRAY_SIZE(xrupt_override_idx); i++, sub_heads++) {
-+        if (i == 0 && !pcms->apic_xrupt_override) {
-+            continue;
-+        }
-+        input[sub_heads].sub_id = ACPI_APIC_XRUPT_OVERRIDE;
-+        input[sub_heads].opaque = &xrupt_override_idx[i];
-+    }
-+    if (apic_id > 254) {
-+        input[sub_heads++].sub_id = ACPI_APIC_LOCAL_X2APIC_NMI;
-+    } else {
-+        input[sub_heads++].sub_id = ACPI_APIC_LOCAL_NMI;
-+    }
-+    input[sub_heads].sub_id = ACPI_APIC_RESERVED;
-+
-+    return input;
-+}
-+
- static void acpi_align_size(GArray *blob, unsigned align)
- {
-     /* Align size to multiple of given size. This reduces the chance
-@@ -318,6 +366,7 @@ static void pc_madt_apic_entry(GArray *entry, void *opaque)
-     } else {
-         apic->flags = cpu_to_le32(0);
-     }
-+    (*processor_id)++;
- }
- 
- static void pc_madt_x2apic_entry(GArray *entry, void *opaque)
-@@ -337,6 +386,7 @@ static void pc_madt_x2apic_entry(GArray *entry, void *opaque)
-     } else {
-         apic->flags = cpu_to_le32(0);
-     }
-+    (*processor_id)++;
- }
- 
- static void pc_madt_io_entry(GArray *entry, void *opaque)
-@@ -405,54 +455,27 @@ madt_operations i386_madt_sub = {
+@@ -454,6 +454,14 @@ madt_operations i386_madt_sub = {
+     [ACPI_APIC_LOCAL_NMI] = pc_madt_nmi_entry,
  };
  
++void i386_madt_main(GArray *entry, void *opaque)
++{
++    AcpiMultipleApicTable *madt = opaque;
++
++    madt->local_apic_address = cpu_to_le32(APIC_DEFAULT_ADDRESS);
++    madt->flags = cpu_to_le32(1);
++}
++
  static void
--build_madt(GArray *table_data, BIOSLinker *linker, PCMachineState *pcms)
-+build_madt(GArray *table_data, BIOSLinker *linker, PCMachineState *pcms,
-+           struct madt_input *input)
- {
--    MachineClass *mc = MACHINE_GET_CLASS(pcms);
--    const CPUArchIdList *apic_ids = mc->possible_cpu_arch_ids(MACHINE(pcms));
-     int madt_start = table_data->len;
-     AcpiDeviceIfClass *adevc = ACPI_DEVICE_IF_GET_CLASS(pcms->acpi_dev);
- 
--    bool x2apic_mode = false;
--
-     AcpiMultipleApicTable *madt;
--    int i;
-+    int i, sub_id;
-+    void *opaque;
+ build_madt(GArray *table_data, BIOSLinker *linker, PCMachineState *pcms,
+            struct madt_input *input)
+@@ -466,8 +474,9 @@ build_madt(GArray *table_data, BIOSLinker *linker, PCMachineState *pcms,
+     void *opaque;
  
      madt = acpi_data_push(table_data, sizeof *madt);
-     madt->local_apic_address = cpu_to_le32(APIC_DEFAULT_ADDRESS);
-     madt->flags = cpu_to_le32(1);
+-    madt->local_apic_address = cpu_to_le32(APIC_DEFAULT_ADDRESS);
+-    madt->flags = cpu_to_le32(1);
++    if (adevc->madt_main) {
++        adevc->madt_main(table_data, madt);
++    }
  
--    for (i = 0; i < apic_ids->len; i++) {
--        uint32_t apic_id = apic_ids->cpus[i].arch_id;
--        int processor_id = i;
--        if (apic_id < 255) {
--            adevc->madt_sub[ACPI_APIC_PROCESSOR](table_data, &processor_id);
--        } else {
--            adevc->madt_sub[ACPI_APIC_LOCAL_X2APIC](table_data, &processor_id);
-+    for (i = 0; ; i++) {
-+        sub_id = input[i].sub_id;
-+        if (sub_id == ACPI_APIC_RESERVED) {
-+            break;
-         }
--        if (apic_id > 254) {
--            x2apic_mode = true;
--        }
--    }
--
--    adevc->madt_sub[ACPI_APIC_IO](table_data, NULL);
--
--    if (pcms->apic_xrupt_override) {
--        i = 0;
--        adevc->madt_sub[ACPI_APIC_XRUPT_OVERRIDE](table_data, &i);
--    }
--    for (i = 1; i < 16; i++) {
--#define ACPI_BUILD_PCI_IRQS ((1<<5) | (1<<9) | (1<<10) | (1<<11))
--        if (!(ACPI_BUILD_PCI_IRQS & (1 << i))) {
--            /* No need for a INT source override structure. */
--            continue;
--        }
--        adevc->madt_sub[ACPI_APIC_XRUPT_OVERRIDE](table_data, &i);
--    }
--
--    if (x2apic_mode) {
--        adevc->madt_sub[ACPI_APIC_LOCAL_X2APIC_NMI](table_data, NULL);
--    } else {
--        adevc->madt_sub[ACPI_APIC_LOCAL_NMI](table_data, NULL);
-+        opaque = input[i].opaque;
-+        adevc->madt_sub[sub_id](table_data, opaque);
-     }
+     for (i = 0; ; i++) {
+         sub_id = input[i].sub_id;
+diff --git a/hw/isa/lpc_ich9.c b/hw/isa/lpc_ich9.c
+index efb0fd8e94..21afd1a12d 100644
+--- a/hw/isa/lpc_ich9.c
++++ b/hw/isa/lpc_ich9.c
+@@ -812,6 +812,7 @@ static void ich9_lpc_class_init(ObjectClass *klass, void *data)
+     adevc->ospm_status = ich9_pm_ospm_status;
+     adevc->send_event = ich9_send_gpe;
+     adevc->madt_sub = i386_madt_sub;
++    adevc->madt_main = i386_madt_main;
+ }
  
-     build_header(linker, table_data,
-@@ -2627,6 +2650,8 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
-     GArray *tables_blob = tables->table_data;
-     AcpiSlicOem slic_oem = { .id = NULL, .table_id = NULL };
-     Object *vmgenid_dev;
-+    struct madt_input *input = NULL;
-+    int processor_id = 0;
+ static const TypeInfo ich9_lpc_info = {
+diff --git a/include/hw/acpi/acpi_dev_interface.h b/include/hw/acpi/acpi_dev_interface.h
+index 3a3a12d543..d3b216544d 100644
+--- a/include/hw/acpi/acpi_dev_interface.h
++++ b/include/hw/acpi/acpi_dev_interface.h
+@@ -52,6 +52,7 @@ typedef struct AcpiDeviceIfClass {
+     /* <public> */
+     void (*ospm_status)(AcpiDeviceIf *adev, ACPIOSTInfoList ***list);
+     void (*send_event)(AcpiDeviceIf *adev, AcpiEventStatusBits ev);
++    madt_operation madt_main;
+     madt_operation *madt_sub;
+ } AcpiDeviceIfClass;
+ #endif
+diff --git a/include/hw/i386/pc.h b/include/hw/i386/pc.h
+index db4ec693d3..6b7dd060ac 100644
+--- a/include/hw/i386/pc.h
++++ b/include/hw/i386/pc.h
+@@ -282,6 +282,7 @@ void pc_system_firmware_init(PCMachineState *pcms, MemoryRegion *rom_memory);
+ void pc_madt_cpu_entry(AcpiDeviceIf *adev, int uid,
+                        const CPUArchIdList *apic_ids, GArray *entry);
+ extern madt_operations i386_madt_sub;
++void i386_madt_main(GArray *entry, void *opaque);
  
-     acpi_get_pm_info(&pm);
-     acpi_get_misc_info(&misc);
-@@ -2671,7 +2696,9 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
-     aml_len += tables_blob->len - fadt;
- 
-     acpi_add_table(table_offsets, tables_blob);
--    build_madt(tables_blob, tables->linker, pcms);
-+    input = acpi_get_madt_input(pcms, &processor_id);
-+    build_madt(tables_blob, tables->linker, pcms, input);
-+    g_free(input);
- 
-     vmgenid_dev = find_vmgenid_dev();
-     if (vmgenid_dev) {
+ /* e820 types */
+ #define E820_RAM        1
 -- 
 2.19.1
 
