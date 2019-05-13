@@ -2,55 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BE2231BADF
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 18:19:39 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60074 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 766431BADD
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 18:19:23 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60072 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQDfu-00011p-VB
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 12:19:38 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33191)
+	id 1hQDfe-0000pK-8q
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 12:19:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33110)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hQDeB-0000P1-3i
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 12:17:52 -0400
+	(envelope-from <pbonzini@redhat.com>) id 1hQDdz-0000IL-8D
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 12:17:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hQDe9-0007wf-PV
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 12:17:51 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51402)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <armbru@redhat.com>)
-	id 1hQDZG-0005HF-JG; Mon, 13 May 2019 12:12:46 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
-	[10.5.11.11])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 7C04F11B768;
-	Mon, 13 May 2019 16:12:45 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-28.ams2.redhat.com
-	[10.36.116.28])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id AA37F64420;
-	Mon, 13 May 2019 16:12:42 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
-	id 27C7A11385E4; Mon, 13 May 2019 18:12:38 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Andrew Jones <drjones@redhat.com>
-References: <20190512083624.8916-1-drjones@redhat.com>
-	<20190512083624.8916-9-drjones@redhat.com>
-Date: Mon, 13 May 2019 18:12:38 +0200
-In-Reply-To: <20190512083624.8916-9-drjones@redhat.com> (Andrew Jones's
-	message of "Sun, 12 May 2019 10:36:19 +0200")
-Message-ID: <87ftpie3k9.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+	(envelope-from <pbonzini@redhat.com>) id 1hQDdy-0007pU-2I
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 12:17:39 -0400
+Received: from mail-ed1-f66.google.com ([209.85.208.66]:46913)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hQDdx-0007l7-Qu
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 12:17:37 -0400
+Received: by mail-ed1-f66.google.com with SMTP id f37so18337862edb.13
+	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 09:17:35 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=nRxuZ8iZ6u0ZlWBgUOQj9VVFXzZHN68tXZRk3DjzP6w=;
+	b=SrKryQC0tXQQZ+qYngBKxIf4DGqmxXF+2JmVG8n2/eQbxyqOM4bh4VkxjtUBzxdTds
+	fJW8b86ncAAwbs9rCeUq5gBgWsupqHpoQ8Xhf4Vjss+5TDkdAAJ1BzVJYc1Z+EarX+uz
+	mlh+68YrTaTVs/C4Dz4rbZGIpCHU20DWrz8xpXKOS0bTWWq7HKEKpUH3Hbix7xvBX/yI
+	afF002CfmGZDxeSKyF02r1vf0ovQOcuJkNYenOubxMiqO7wsVHLCyKFF4fmyAD6gajD/
+	Rc3kK8rV5HjC64XmPqphGeOT1Ze6Gh84+oZYiRBwptVwX5/IcC4UkR1qQvpSPq5eAaHa
+	JS4w==
+X-Gm-Message-State: APjAAAWM0GjACWcuvH8TuYajzaAlIXcvTkDpXWLnzfXakKlCmA/cs/LB
+	NxDxEeEw8EIjnBdFwS5e0OCnFefpB7/DCbCHpjk5xA==
+X-Google-Smtp-Source: APXvYqwWLMztybmPOhwaYtkvii3A6db5Jm7eRiiJkMt5A0JSjZ+B4tvlMGrCU/Xloc9ENSAzte8vVshq3YlHuwl0Gmk=
+X-Received: by 2002:a50:a951:: with SMTP id m17mr29361506edc.79.1557764254528; 
+	Mon, 13 May 2019 09:17:34 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.38]);
-	Mon, 13 May 2019 16:12:45 +0000 (UTC)
+References: <20190401141222.30034-1-lvivier@redhat.com>
+	<6f3c5f49-9be7-85cb-d693-d608135975b5@redhat.com>
+	<b8d003fb-1d53-3723-4eef-b39a3d965bc0@redhat.com>
+In-Reply-To: <b8d003fb-1d53-3723-4eef-b39a3d965bc0@redhat.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Date: Mon, 13 May 2019 17:17:21 +0100
+Message-ID: <CABgObfbmhGSA9BRSHMiCsn8VMfPejHCYc=QU9HnmforWvxH+zw@mail.gmail.com>
+To: Laurent Vivier <lvivier@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 08/13] target/arm/monitor: Add
- query-sve-vector-lengths
+	[fuzzy]
+X-Received-From: 209.85.208.66
+Content-Type: text/plain; charset="UTF-8"
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [PATCH v3 0/5] build: cleanup in Makefile.objs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,199 +64,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
-	qemu-devel@nongnu.org, abologna@redhat.com, qemu-arm@nongnu.org,
-	alex.bennee@linaro.org, Dave.Martin@arm.com
+Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
+	Cornelia Huck <cohuck@redhat.com>,
+	qemu-devel <qemu-devel@nongnu.org>, qemu-s390x@nongnu.org,
+	Gerd Hoffmann <kraxel@redhat.com>, "Hajnoczi,
+	Stefan" <stefanha@redhat.com>,
+	=?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
+	=?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
+	Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Andrew Jones <drjones@redhat.com> writes:
+Will send it out this week.
 
-> Provide a QMP interface to query the supported SVE vector lengths.
-> A migratable guest will need to explicitly specify a valid set of
-> lengths on the command line and that set can be obtained from the
-> list returned with this QMP command.
+Paolo
+
+
+Il lun 13 mag 2019, 16:18 Laurent Vivier <lvivier@redhat.com> ha scritto:
+
+> On 02/04/2019 10:08, Paolo Bonzini wrote:
+> > On 01/04/19 16:12, Laurent Vivier wrote:
+> >> This cleanup removes hardware objects from the list of files to be
+> >> built for linux-user only targets.
+> >>
+> >> It also builds traces files only when the related file is built.
+> >>
+> >> Tested with all combinations of --{disable,enable}-{system,user,tools}
+> >>
+> >> v3:
+> >>    - don't move hw/display to CONFIG_BLOCK section
+> >> v2:
+> >>    - add CONFIG_TOOLS and CONFIG_BLOCK
+> >>    - replace GENERATED_FILES by generated-files-y
+> >>      and use generated-files-${CONFIG_TRACE_UST} and
+> >>      generated-files-${CONFIG_SOFTMMU}
+> >>    - move chardev-obj-y from SUBDIR_RULES to SOFTMMU_SUBDIR_RULES
+> >>    - use $(CONFIG_BLOCK) in tests/Makefile.include
+> >>    - disable qemu-ga with linux-user only
+> >>
+> >> Laurent Vivier (5):
+> >>    trace: only include trace-event-subdirs when they are needed
+> >>    build: replace GENERATED_FILES by generated-files-y
+> >>    configure: qemu-ga is only needed with softmmu targets
+> >>    build: chardev is only needed for softmmu targets
+> >>    build: don't build hardware objects with linux-user
+> >>
+> >>   Makefile                   |  43 +++++++-------
+> >>   Makefile.objs              |  22 ++++---
+> >>   Makefile.target            |   6 +-
+> >>   configure                  |   4 +-
+> >>   target/s390x/Makefile.objs |   2 +-
+> >>   tests/Makefile.include     | 116 ++++++++++++++++++-------------------
+> >>   6 files changed, 102 insertions(+), 91 deletions(-)
+> >>
+> >
+> > Queued for 4.1, thanks.
 >
-> This patch only introduces the QMP command with the TCG implementation.
-> The result may not yet be correct for KVM. Following patches ensure
-> the KVM result is correct.
+> Any news?
 >
-> Signed-off-by: Andrew Jones <drjones@redhat.com>
-> ---
->  qapi/target.json     | 34 ++++++++++++++++++++++++
->  target/arm/monitor.c | 62 ++++++++++++++++++++++++++++++++++++++++++++
->  tests/qmp-cmd-test.c |  1 +
->  3 files changed, 97 insertions(+)
+> Thanks,
+> Laurent
 >
-> diff --git a/qapi/target.json b/qapi/target.json
-> index 1d4d54b6002e..ca1e85254780 100644
-> --- a/qapi/target.json
-> +++ b/qapi/target.json
-> @@ -397,6 +397,40 @@
->  { 'command': 'query-gic-capabilities', 'returns': ['GICCapability'],
->    'if': 'defined(TARGET_ARM)' }
->  
-> +##
-> +# @SVEVectorLengths:
-> +#
-> +# The struct contains a list of integers where each integer is a valid
-
-Suggest to s/The struct contains/Contains/.
-
-> +# SVE vector length for a KVM guest on this host. The vector lengths
-> +# are in quadword (128-bit) units, e.g. '4' means 512 bits (64 bytes).
-
-Any particular reason for counting quad-words instead of bytes, or
-perhaps bits?
-
-> +#
-> +# @vls:      list of vector lengths in quadwords.
-> +#
-> +# Since: 4.1
-> +##
-> +{ 'struct': 'SVEVectorLengths',
-> +  'data': { 'vls': ['int'] },
-> +  'if': 'defined(TARGET_ARM)' }
-> +
-> +##
-> +# @query-sve-vector-lengths:
-> +#
-> +# This command is ARM-only. It will return a list of SVEVectorLengths
-
-No other target-specific command documents its target-specificness like
-this.  Suggest
-
-   # Query valid SVE vector length sets.
-
-> +# objects. The list describes all valid SVE vector length sets.
-> +#
-> +# Returns: a list of SVEVectorLengths objects
-> +#
-> +# Since: 4.1
-> +#
-> +# -> { "execute": "query-sve-vector-lengths" }
-> +# <- { "return": [ { "vls": [ 1 ] },
-> +#                  { "vls": [ 1, 2 ] },
-> +#                  { "vls": [ 1, 2, 4 ] } ] }
-> +#
-> +##
-> +{ 'command': 'query-sve-vector-lengths', 'returns': ['SVEVectorLengths'],
-> +  'if': 'defined(TARGET_ARM)' }
-> +
->  ##
->  # @CpuModelExpansionInfo:
->  #
-> diff --git a/target/arm/monitor.c b/target/arm/monitor.c
-> index 41b32b94b258..8b2afa255c92 100644
-> --- a/target/arm/monitor.c
-> +++ b/target/arm/monitor.c
-> @@ -24,6 +24,7 @@
->  #include "hw/boards.h"
->  #include "kvm_arm.h"
->  #include "qapi/qapi-commands-target.h"
-> +#include "monitor/hmp-target.h"
-
-Uh, hmp-target.h when the patch is supposedly about QMP only...
-
->  
->  static GICCapability *gic_cap_new(int version)
->  {
-> @@ -82,3 +83,64 @@ GICCapabilityList *qmp_query_gic_capabilities(Error **errp)
->  
->      return head;
->  }
-> +
-> +static SVEVectorLengths *qmp_sve_vls_get(void)
-> +{
-> +    CPUArchState *env = mon_get_cpu_env();
-
-Aha, you need it for mon_get_cpu_env().
-
-mon_get_cpu_env() returns the current monitor's current CPU.  This is an
-HMP thing, QMP commands should never access it.
-
-Looks like you use it to find one of the CPUs, so you can access its
-->sve_max_vq.
-
-"One of the CPUs" smells odd: what if they aren't all the same?  Perhaps
-that can't happen.  I don't know, you tell me :)
-
-If any CPU will do, what about simply using first_cpu?
-
-> +    ARMCPU *cpu = arm_env_get_cpu(env);
-> +    SVEVectorLengths *vls = g_new(SVEVectorLengths, 1);
-> +    intList **v = &vls->vls;
-> +    int i;
-> +
-> +    if (cpu->sve_max_vq == 0) {
-> +        *v = g_new0(intList, 1); /* one vl of 0 means none supported */
-> +        return vls;
-> +    }
-> +
-> +    for (i = 1; i <= cpu->sve_max_vq; ++i) {
-> +        *v = g_new0(intList, 1);
-> +        (*v)->value = i;
-> +        v = &(*v)->next;
-> +    }
-
-What this loop does is not immediately obvious.  I think you could use a
-function comment.
-
-> +
-> +    return vls;
-> +}
-> +
-> +static SVEVectorLengths *qmp_sve_vls_dup_and_truncate(SVEVectorLengths *vls)
-> +{
-> +    SVEVectorLengths *trunc_vls;
-> +    intList **v, *p = vls->vls;
-> +
-> +    if (!p->next) {
-> +        return NULL;
-> +    }
-> +
-> +    trunc_vls = g_new(SVEVectorLengths, 1);
-> +    v = &trunc_vls->vls;
-> +
-> +    for (; p->next; p = p->next) {
-> +        *v = g_new0(intList, 1);
-> +        (*v)->value = p->value;
-> +        v = &(*v)->next;
-> +    }
-> +
-> +    return trunc_vls;
-> +}
-
-More so.
-
-> +
-> +SVEVectorLengthsList *qmp_query_sve_vector_lengths(Error **errp)
-> +{
-> +    SVEVectorLengthsList *vls_list = g_new0(SVEVectorLengthsList, 1);
-> +    SVEVectorLengths *vls = qmp_sve_vls_get();
-> +
-> +    while (vls) {
-> +        vls_list->value = vls;
-> +        vls = qmp_sve_vls_dup_and_truncate(vls);
-> +        if (vls) {
-> +            SVEVectorLengthsList *next = vls_list;
-> +            vls_list = g_new0(SVEVectorLengthsList, 1);
-> +            vls_list->next = next;
-> +        }
-> +    }
-> +
-> +    return vls_list;
-> +}
-> diff --git a/tests/qmp-cmd-test.c b/tests/qmp-cmd-test.c
-> index 9f5228cd9951..3d714dbc6a4a 100644
-> --- a/tests/qmp-cmd-test.c
-> +++ b/tests/qmp-cmd-test.c
-> @@ -90,6 +90,7 @@ static bool query_is_blacklisted(const char *cmd)
->          /* Success depends on target arch: */
->          "query-cpu-definitions",  /* arm, i386, ppc, s390x */
->          "query-gic-capabilities", /* arm */
-> +        "query-sve-vector-lengths", /* arm */
->          /* Success depends on target-specific build configuration: */
->          "query-pci",              /* CONFIG_PCI */
->          /* Success depends on launching SEV guest */
-
+>
