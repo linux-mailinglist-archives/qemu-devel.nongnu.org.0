@@ -2,68 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 76C3B1B56F
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 14:03:10 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55774 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EACBE1B589
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 14:10:20 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:56286 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQ9fh-0007UW-JO
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 08:03:09 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39831)
+	id 1hQ9md-0003sZ-Nu
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 08:10:19 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41888)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <marcel.apfelbaum@gmail.com>) id 1hQ9aQ-0003Yn-FX
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:57:43 -0400
+	(envelope-from <armbru@redhat.com>) id 1hQ9hd-0001B3-MV
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 08:05:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <marcel.apfelbaum@gmail.com>) id 1hQ9aP-0001So-98
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:57:42 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:45886)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <marcel.apfelbaum@gmail.com>)
-	id 1hQ9aP-0001SF-2P
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:57:41 -0400
-Received: by mail-wr1-x443.google.com with SMTP id b18so4953261wrq.12
-	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 04:57:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=Cb6ypY+QVCjZPXzcsPv+3xj/2MSR1UVyWcvLGS9tb9s=;
-	b=b+bdhhH1pgI1LdW9aezyT+xGnySlMx4o8eETBpGD/dN4TlvjOHgBmerRYPp+QV+kUN
-	ekwslQArVwfQjkmFDXGpFDGvI1Qt3+p2U8OZuDMN6JlAn0AW8t46nVEnH+R1fPwhodRm
-	07ESRsTbVBPpb1vPKdGatVvTcu3w8xedcY5GFG4mawaiidErQ+DnxCQlW1weacF6K2wo
-	t6XHg0dXEb1e99XvkjkKLioUvBdI9GCeEKJWakUxps3TVMVRF/wafg61whLr5FQ5Tfst
-	RhR63q7IyUuU1uwmqAVqBpu5pg0I0gy5d0fnCf459tu5BSxLEki+WnMpAb5zsTEg0fdc
-	E1BA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=Cb6ypY+QVCjZPXzcsPv+3xj/2MSR1UVyWcvLGS9tb9s=;
-	b=uTVxnHtTF8pUiU0okJmpVU6Cx9T/SuyoiEBqCQjegMAbcvV/NRfXdPMTx4gGAG1Lmj
-	dDnSg2MoSJjfbGRy2HA/Md5mgw8Nt/+afdKTYrIsvu9soE3o9/7GINptoE/tyhJn2yC1
-	GxiB7pa8nqen3OnfKmADrThyJHexywDM49Bzmt2asCOS0gUg7Fl8lmzcXl5VST9QGwJ0
-	HBewCwg2QDJuGyTPXz0D17FzexOGLkbyr3o3i3QemL9RfFoNcrrx+Rwk3ui1HEn7YpVh
-	rLlhLunze3NJBNLPvzqTph9HDnxhZD77kLt53RtAMINiIfCpuysy57Zub0XyQcc3e2Sn
-	8mSA==
-X-Gm-Message-State: APjAAAVTUI3GfGmzd6dQhIyQb2jXvfJQnkwuWJ64plyqIgRW7KLuuGI2
-	uoXV+n954nFPdq6vANclK62H+3DE
-X-Google-Smtp-Source: APXvYqy/jP/gflelwq2PBs5IonjeRzkA6p0agrevW21QoogKb1FfJyoOY18MGQg/9QrZbiUY5rTk6g==
-X-Received: by 2002:a5d:5701:: with SMTP id a1mr17843450wrv.52.1557748659876; 
-	Mon, 13 May 2019 04:57:39 -0700 (PDT)
-Received: from localhost.localdomain ([37.142.144.27])
-	by smtp.gmail.com with ESMTPSA id z5sm5238554wmi.34.2019.05.13.04.57.38
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 13 May 2019 04:57:39 -0700 (PDT)
-From: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-To: qemu-devel@nongnu.org
-Date: Mon, 13 May 2019 14:57:31 +0300
-Message-Id: <20190513115731.17588-4-marcel.apfelbaum@gmail.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190513115731.17588-1-marcel.apfelbaum@gmail.com>
-References: <20190513115731.17588-1-marcel.apfelbaum@gmail.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::443
-Subject: [Qemu-devel] [PATCH V3 3/3] hw/display/ramfb: initialize fw-config
- space with xres/ yres
+	(envelope-from <armbru@redhat.com>) id 1hQ9hb-0005fN-N8
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 08:05:09 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47448)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <armbru@redhat.com>)
+	id 1hQ9cf-0002jt-Pk; Mon, 13 May 2019 08:00:02 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id C534B3082E24;
+	Mon, 13 May 2019 12:00:00 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-28.ams2.redhat.com
+	[10.36.116.28])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 2ACD05D71E;
+	Mon, 13 May 2019 11:59:58 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+	id 9E95D11385E4; Mon, 13 May 2019 13:59:56 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Xiang Zheng <zhengxiang9@huawei.com>
+References: <20190505070059.4664-1-zhengxiang9@huawei.com>
+	<87a7fyb0v7.fsf@dusky.pond.sub.org>
+	<72adbed8-f650-42df-98d5-e98154baec08@redhat.com>
+	<87h8a513sl.fsf@dusky.pond.sub.org>
+	<fb04cdb2-910d-58be-fb21-db7050cdc669@huawei.com>
+	<87ef574z4e.fsf@dusky.pond.sub.org>
+	<ac4ac85f-67ae-a526-9172-fef190fdc23a@huawei.com>
+	<87ef56mjbi.fsf@dusky.pond.sub.org>
+	<bfa0d642-e425-f90c-f776-9e7e25e66c25@huawei.com>
+Date: Mon, 13 May 2019 13:59:56 +0200
+In-Reply-To: <bfa0d642-e425-f90c-f776-9e7e25e66c25@huawei.com> (Xiang Zheng's
+	message of "Sat, 11 May 2019 16:36:53 +0800")
+Message-ID: <87bm06a7k3.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+MIME-Version: 1.0
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.46]);
+	Mon, 13 May 2019 12:00:00 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH] pflash: Only read non-zero parts of
+ backend image
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -75,171 +69,242 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.williamson@redhat.com, kraxel@redhat.com, hqm03ster@gmail.com
+Cc: kwolf@redhat.com, peter.maydell@linaro.org, qemu-block@nongnu.org,
+	ard.biesheuvel@linaro.org, qemu-devel@nongnu.org,
+	mreitz@redhat.com, stefanha@redhat.com, guoheyi@huawei.com,
+	wanghaibin.wang@huawei.com, Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Hou Qiming <hqm03ster@gmail.com>
+Xiang Zheng <zhengxiang9@huawei.com> writes:
 
-If xres / yres were specified in QEMU command line, write them as an initial
-resolution to the fw-config space on guest reset, which a later BIOS / OVMF
-patch can take advantage of.
+> On 2019/5/10 23:16, Markus Armbruster wrote:
+>> Xiang Zheng <zhengxiang9@huawei.com> writes:
+>> 
+>>> On 2019/5/9 19:59, Markus Armbruster wrote:
+>>>> Xiang Zheng <zhengxiang9@huawei.com> writes:
+>>>>
+>>>>> On 2019/5/8 21:20, Markus Armbruster wrote:
+>>>>>> Laszlo Ersek <lersek@redhat.com> writes:
+>>>>>>
+>>>>>>> Hi Markus,
+>>>>>>>
+>>>>>>> On 05/07/19 20:01, Markus Armbruster wrote:
+>>>>>>>> The subject is slightly misleading.  Holes read as zero.  So do
+>>>>>>>> non-holes full of zeroes.  The patch avoids reading the former, but
+>>>>>>>> still reads the latter.
+>>>>>>>>
+>>>>>>>> Xiang Zheng <zhengxiang9@huawei.com> writes:
+>>>>>>>>
+>>>>>>>>> Currently we fill the memory space with two 64MB NOR images when
+>>>>>>>>> using persistent UEFI variables on virt board. Actually we only use
+>>>>>>>>> a very small(non-zero) part of the memory while the rest significant
+>>>>>>>>> large(zero) part of memory is wasted.
+>>>>>>>>
+>>>>>>>> Neglects to mention that the "virt board" is ARM.
+>>>>>>>>
+>>>>>>>>> So this patch checks the block status and only writes the non-zero part
+>>>>>>>>> into memory. This requires pflash devices to use sparse files for
+>>>>>>>>> backends.
+>>>>>>>>
+>>>>>>>> I started to draft an improved commit message, but then I realized this
+>>>>>>>> patch can't work.
+>>>>>>>>
+>>>>>>>> The pflash_cfi01 device allocates its device memory like this:
+>>>>>>>>
+>>>>>>>>     memory_region_init_rom_device(
+>>>>>>>>         &pfl->mem, OBJECT(dev),
+>>>>>>>>         &pflash_cfi01_ops,
+>>>>>>>>         pfl,
+>>>>>>>>         pfl->name, total_len, &local_err);
+>>>>>>>>
+>>>>>>>> pflash_cfi02 is similar.
+>>>>>>>>
+>>>>>>>> memory_region_init_rom_device() calls
+>>>>>>>> memory_region_init_rom_device_nomigrate() calls qemu_ram_alloc() calls
+>>>>>>>> qemu_ram_alloc_internal() calls g_malloc0().  Thus, all the device
+>>>>>>>> memory gets written to even with this patch.
+>>>>>>>
+>>>>>>> As far as I can see, qemu_ram_alloc_internal() calls g_malloc0() only to
+>>>>>>> allocate the the new RAMBlock object called "new_block". The actual
+>>>>>>> guest RAM allocation occurs inside ram_block_add(), which is also called
+>>>>>>> by qemu_ram_alloc_internal().
+>>>>>>
+>>>>>> You're right.  I should've read more attentively.
+>>>>>>
+>>>>>>> One frame outwards the stack, qemu_ram_alloc() passes NULL to
+>>>>>>> qemu_ram_alloc_internal(), for the 4th ("host") parameter. Therefore, in
+>>>>>>> qemu_ram_alloc_internal(), we set "new_block->host" to NULL as well.
+>>>>>>>
+>>>>>>> Then in ram_block_add(), we take the (!new_block->host) branch, and call
+>>>>>>> phys_mem_alloc().
+>>>>>>>
+>>>>>>> Unfortunately, "phys_mem_alloc" is a function pointer, set with
+>>>>>>> phys_mem_set_alloc(). The phys_mem_set_alloc() function is called from
+>>>>>>> "target/s390x/kvm.c" (setting the function pointer to
+>>>>>>> legacy_s390_alloc()), so it doesn't apply in this case. Therefore we end
+>>>>>>> up calling the default qemu_anon_ram_alloc() function, through the
+>>>>>>> funcptr. (I think anyway.)
+>>>>>>>
+>>>>>>> And qemu_anon_ram_alloc() boils down to mmap() + MAP_ANONYMOUS, in
+>>>>>>> qemu_ram_mmap(). (Even on PPC64 hosts, because qemu_anon_ram_alloc()
+>>>>>>> passes (-1) for "fd".)
+>>>>>>>
+>>>>>>> I may have missed something, of course -- I obviously didn't test it,
+>>>>>>> just speculated from the source.
+>>>>>>
+>>>>>> Thanks for your sleuthing!
+>>>>>>
+>>>>>>>> I'm afraid you neglected to test.
+>>>>>>
+>>>>>> Accusation actually unsupported.  I apologize, and replace it by a
+>>>>>> question: have you observed the improvement you're trying to achieve,
+>>>>>> and if yes, how?
+>>>>>>
+>>>>>
+>>>>> Yes, we need to create sparse files as the backing images for pflash device.
+>>>>> To create sparse files like:
+>>>>>
+>>>>>    dd of="QEMU_EFI-pflash.raw" if="/dev/zero" bs=1M seek=64 count=0
+>>>>>    dd of="QEMU_EFI-pflash.raw" if="QEMU_EFI.fd" conv=notrunc
+>>>>
+>>>> This creates a copy of firmware binary QEMU_EFI.fd padded with a hole to
+>>>> 64MiB.
+>>>>
+>>>>>    dd of="empty_VARS.fd" if="/dev/zero" bs=1M seek=64 count=0
+>>>>
+>>>> This creates the varstore as a 64MiB hole.  As far as I know (very
+>>>> little), you should use the varstore template that comes with the
+>>>> firmware binary.
+>>>>
+>>>> I use
+>>>>
+>>>>     cp --sparse=always bld/pc-bios/edk2-arm-vars.fd .
+>>>>     cp --sparse=always bld/pc-bios/edk2-aarch64-code.fd .
+>>>>
+>>>> These guys are already zero-padded, and I use cp to sparsify.
+>>>>
+>>>>> Start a VM with below commandline:
+>>>>>
+>>>>>     -drive file=/usr/share/edk2/aarch64/QEMU_EFI-pflash.raw,if=pflash,format=raw,unit=0,readonly=on\
+>>>>>     -drive file=/usr/share/edk2/aarch64/empty_VARS.fd,if=pflash,format=raw,unit=1 \
+>>>>>
+>>>>> Then observe the memory usage of the qemu process (THP is on).
+>>>>>
+>>>>> 1) Without this patch:
+>>>>> # cat /proc/`pidof qemu-system-aarch64`/smaps | grep AnonHugePages: | grep -v ' 0 kB'
+>>>>> AnonHugePages:    706560 kB
+>>>>> AnonHugePages:      2048 kB
+>>>>> AnonHugePages:     65536 kB    // pflash memory device
+>>>>> AnonHugePages:     65536 kB    // pflash memory device
+>>>>> AnonHugePages:      2048 kB
+>>>>>
+>>>>> # ps aux | grep qemu-system-aarch64
+>>>>> RSS: 879684
+>>>>>
+>>>>> 2) After applying this patch:
+>>>>> # cat /proc/`pidof qemu-system-aarch64`/smaps | grep AnonHugePages: | grep -v ' 0 kB'
+>>>>> AnonHugePages:    700416 kB
+>>>>> AnonHugePages:      2048 kB
+>>>>> AnonHugePages:      2048 kB    // pflash memory device
+>>>>> AnonHugePages:      2048 kB    // pflash memory device
+>>>>> AnonHugePages:      2048 kB
+>>>>>
+>>>>> # ps aux | grep qemu-system-aarch64
+>>>>> RSS: 744380
+>>>>
+>>>> Okay, this demonstrates the patch succeeds at mapping parts of the
+>>>> pflash memory as holes.
+>>>>
+>>>> Do the guests in these QEMU processes run?
+>>>
+>>> Yes.
+>> 
+>> Good to know, thanks.
+>> 
+>>>>> Obviously, there are at least 100MiB memory saved for each guest.
+>>>>
+>>>> For a definition of "memory".
+>>>>
+>>>> Next question: what impact on system performance do you observe?
+>>>>
+>>>> Let me explain.
+>>>>
+>>>> Virtual memory holes get filled in by demand paging on access.  In other
+>>>> words, they remain holes only as long as nothing accesses the memory.
+>>>>
+>>>> Without your patch, we allocate pages at image read time and fill them
+>>>> with zeroes. If we don't access them again, the kernel will eventually
+>>>> page them out (assuming you're running with swap).  So the steady state
+>>>> is "we waste some swap space", not "we waste some physical RAM".
+>>>>
+>>>
+>>> Not everybody wants to run with swap because it may cause low performance.
+>> 
+>> Someone running without swap because he heard someone say someone said
+>> swap may be slow is probably throwing away performance.
+>> 
+>> But I assume you mean people running without swap because they measured
+>> their workload and found it more performant without swap.  Legitimate.
+>
+> Yes, and I had ever suffered from the high IO waits with swap.:)
+>
+>> 
+>>>> Your patch lets us map pflash memory pages containing only zeros as
+>>>> holes.
+>>>>
+>>>> For pages that never get accessed, your patch avoids page allocation,
+>>>> filling with zeroes, writing to swap (all one-time costs), and saves
+>>>> some swap space (not commonly an issue).
+>>>>
+>>>> For pflash memory that gets accessed, your patch merely delays page
+>>>> allocation from image read time to first access.
+>>>>
+>>>> I wonder how these savings and delays affect actual system performance.
+>>>> Without an observable change in system performance, all we'd accomplish
+>>>> is changing a bunch of numers in /proc/$pid/.
+>>>>
+>>>> What improvement(s) can you observe?
+>>>
+>>> We only use pflash device for UEFI, and we hardly care about the performance.
+>>> I think the bottleneck of the performance is the MMIO emulation, even this
+>>> patch would delay page allocation at the first access.
+>> 
+>> I wasn't inquiring about the performance of the pflash device.  I was
+>> inquiring about *system* performance.  But let me rephrase my question.
+>> 
+>> Doing work to save resources is only worthwhile if something valuable
+>> gets better in a measurable way.  I'm asking you
+>> 
+>> (1) to explain what exactly you value, and 
+>> 
+>> (2) to provide measurements that show improvement.
+>> 
+>
+> What we exactly value is the cost of memory resources and it is the only
+> thing that this patch aims to resolve.
 
-Signed-off-by: HOU Qiming <hqm03ster@gmail.com>
-[fixed malformed patch]
-Signed-off-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
----
- hw/display/ramfb-standalone.c | 12 +++++++++++-
- hw/display/ramfb.c            | 16 +++++++++++++++-
- hw/vfio/display.c             |  4 ++--
- include/hw/display/ramfb.h    |  2 +-
- stubs/ramfb.c                 |  2 +-
- 5 files changed, 30 insertions(+), 6 deletions(-)
+Then measure this cost!
 
-diff --git a/hw/display/ramfb-standalone.c b/hw/display/ramfb-standalone.c
-index da3229a1f6..6441449e7b 100644
---- a/hw/display/ramfb-standalone.c
-+++ b/hw/display/ramfb-standalone.c
-@@ -1,6 +1,7 @@
- #include "qemu/osdep.h"
- #include "qapi/error.h"
- #include "hw/loader.h"
-+#include "hw/isa/isa.h"
- #include "hw/display/ramfb.h"
- #include "ui/console.h"
- #include "sysemu/sysemu.h"
-@@ -11,6 +12,8 @@ typedef struct RAMFBStandaloneState {
-     SysBusDevice parent_obj;
-     QemuConsole *con;
-     RAMFBState *state;
-+    uint32_t xres;
-+    uint32_t yres;
- } RAMFBStandaloneState;
- 
- static void display_update_wrapper(void *dev)
-@@ -33,15 +36,22 @@ static void ramfb_realizefn(DeviceState *dev, Error **errp)
-     RAMFBStandaloneState *ramfb = RAMFB(dev);
- 
-     ramfb->con = graphic_console_init(dev, 0, &wrapper_ops, dev);
--    ramfb->state = ramfb_setup(errp);
-+    ramfb->state = ramfb_setup(dev, errp);
- }
- 
-+static Property ramfb_properties[] = {
-+    DEFINE_PROP_UINT32("xres", RAMFBStandaloneState, xres, 0),
-+    DEFINE_PROP_UINT32("yres", RAMFBStandaloneState, yres, 0),
-+    DEFINE_PROP_END_OF_LIST(),
-+};
-+
- static void ramfb_class_initfn(ObjectClass *klass, void *data)
- {
-     DeviceClass *dc = DEVICE_CLASS(klass);
- 
-     set_bit(DEVICE_CATEGORY_DISPLAY, dc->categories);
-     dc->realize = ramfb_realizefn;
-+    dc->props = ramfb_properties;
-     dc->desc = "ram framebuffer standalone device";
-     dc->user_creatable = true;
- }
-diff --git a/hw/display/ramfb.c b/hw/display/ramfb.c
-index 0fe79aa856..b4eb283ef8 100644
---- a/hw/display/ramfb.c
-+++ b/hw/display/ramfb.c
-@@ -12,6 +12,7 @@
-  */
- #include "qemu/osdep.h"
- #include "qapi/error.h"
-+#include "qemu/option.h"
- #include "hw/loader.h"
- #include "hw/display/ramfb.h"
- #include "ui/console.h"
-@@ -29,6 +30,7 @@ struct QEMU_PACKED RAMFBCfg {
- struct RAMFBState {
-     DisplaySurface *ds;
-     uint32_t width, height;
-+    uint32_t starting_width, starting_height;
-     struct RAMFBCfg cfg;
-     bool locked;
- };
-@@ -114,9 +116,11 @@ static void ramfb_reset(void *opaque)
-     RAMFBState *s = (RAMFBState *)opaque;
-     s->locked = false;
-     memset(&s->cfg, 0, sizeof(s->cfg));
-+    s->cfg.width = s->starting_width;
-+    s->cfg.height = s->starting_height;
- }
- 
--RAMFBState *ramfb_setup(Error **errp)
-+RAMFBState *ramfb_setup(DeviceState* dev, Error **errp)
- {
-     FWCfgState *fw_cfg = fw_cfg_find();
-     RAMFBState *s;
-@@ -128,6 +132,16 @@ RAMFBState *ramfb_setup(Error **errp)
- 
-     s = g_new0(RAMFBState, 1);
- 
-+    const char *s_fb_width = qemu_opt_get(dev->opts, "xres");
-+    const char *s_fb_height = qemu_opt_get(dev->opts, "yres");
-+    if (s_fb_width) {
-+        s->cfg.width = atoi(s_fb_width);
-+        s->starting_width = s->cfg.width;
-+    }
-+    if (s_fb_height) {
-+        s->cfg.height = atoi(s_fb_height);
-+        s->starting_height = s->cfg.height;
-+    }
-     s->locked = false;
- 
-     rom_add_vga("vgabios-ramfb.bin");
-diff --git a/hw/vfio/display.c b/hw/vfio/display.c
-index a3d9c8f5be..2c2d3e5b71 100644
---- a/hw/vfio/display.c
-+++ b/hw/vfio/display.c
-@@ -352,7 +352,7 @@ static int vfio_display_dmabuf_init(VFIOPCIDevice *vdev, Error **errp)
-                                           &vfio_display_dmabuf_ops,
-                                           vdev);
-     if (vdev->enable_ramfb) {
--        vdev->dpy->ramfb = ramfb_setup(errp);
-+        vdev->dpy->ramfb = ramfb_setup(DEVICE(vdev), errp);
-     }
-     vfio_display_edid_init(vdev);
-     return 0;
-@@ -478,7 +478,7 @@ static int vfio_display_region_init(VFIOPCIDevice *vdev, Error **errp)
-                                           &vfio_display_region_ops,
-                                           vdev);
-     if (vdev->enable_ramfb) {
--        vdev->dpy->ramfb = ramfb_setup(errp);
-+        vdev->dpy->ramfb = ramfb_setup(DEVICE(vdev), errp);
-     }
-     return 0;
- }
-diff --git a/include/hw/display/ramfb.h b/include/hw/display/ramfb.h
-index b33a2c467b..f6c2de93b2 100644
---- a/include/hw/display/ramfb.h
-+++ b/include/hw/display/ramfb.h
-@@ -4,7 +4,7 @@
- /* ramfb.c */
- typedef struct RAMFBState RAMFBState;
- void ramfb_display_update(QemuConsole *con, RAMFBState *s);
--RAMFBState *ramfb_setup(Error **errp);
-+RAMFBState *ramfb_setup(DeviceState *dev, Error **errp);
- 
- /* ramfb-standalone.c */
- #define TYPE_RAMFB_DEVICE "ramfb"
-diff --git a/stubs/ramfb.c b/stubs/ramfb.c
-index 48143f3354..0799093a5d 100644
---- a/stubs/ramfb.c
-+++ b/stubs/ramfb.c
-@@ -6,7 +6,7 @@ void ramfb_display_update(QemuConsole *con, RAMFBState *s)
- {
- }
- 
--RAMFBState *ramfb_setup(Error **errp)
-+RAMFBState *ramfb_setup(DeviceState* dev, Error **errp)
- {
-     error_setg(errp, "ramfb support not available");
-     return NULL;
--- 
-2.17.1
+> I am confused that why you think it will impact the system performance? Did I
+> neglect something?
 
+If the patch does not impact how the system as a whole performs, then
+it's useless.
+
+Since you find it useful, it must have some valuable[*] observable
+effect for you.  Tell us about it!
+
+I keep asking not to torment you, but to guide you towards building a
+compelling justification for your patch.  However, I can only show you
+the path; the walking you'll have to do yourself.
+
+>>>> I guess the best case for your patch is many guests with relatively
+>>>> small RAM sizes.
+>> 
+>> .
+>> 
+
+
+[*] Changing a bunch of numbers in /proc is not valuable.
 
