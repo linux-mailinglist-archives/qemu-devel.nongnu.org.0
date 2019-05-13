@@ -2,87 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BDF671BD82
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 20:56:39 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33669 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CD78A1BD58
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 20:43:56 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33481 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQG7q-0003sh-Pu
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 14:56:38 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59015)
+	id 1hQFvY-0002vk-0a
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 14:43:56 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57375)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hQG2O-0008G9-9G
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 14:51:03 -0400
+	(envelope-from <drjones@redhat.com>) id 1hQFuV-0002d4-UU
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 14:42:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hQG2L-0007RB-Ha
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 14:51:00 -0400
-Received: from indium.canonical.com ([91.189.90.7]:47422)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hQG2K-0007Ok-VW
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 14:50:57 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
-	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hQG2I-0000Ad-IQ
-	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 18:50:54 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id 7D4902E80D0
-	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 18:50:54 +0000 (UTC)
+	(envelope-from <drjones@redhat.com>) id 1hQFuU-0002Kd-3g
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 14:42:51 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41934)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <drjones@redhat.com>) id 1hQFuT-0002K2-Rg
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 14:42:50 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id BAA9759461;
+	Mon, 13 May 2019 18:42:48 +0000 (UTC)
+Received: from kamzik.brq.redhat.com (ovpn-116-151.ams2.redhat.com
+	[10.36.116.151])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0AA7D104C512;
+	Mon, 13 May 2019 18:42:40 +0000 (UTC)
+Date: Mon, 13 May 2019 20:42:37 +0200
+From: Andrew Jones <drjones@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Message-ID: <20190513184237.i2ha3ixvhjqzkn5q@kamzik.brq.redhat.com>
+References: <20190418092841.fzrcegkbal7dpfcy@kamzik.brq.redhat.com>
+	<20190418112610.GO13773@redhat.com>
+	<877ebrmch2.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <877ebrmch2.fsf@dusky.pond.sub.org>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.39]);
+	Mon, 13 May 2019 18:42:48 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 13 May 2019 18:40:13 -0000
-From: Corey Bryant <corey.bryant@canonical.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=cloud-archive; status=Fix Released;
-	importance=Undecided; assignee=None; 
-X-Launchpad-Bug: product=cloud-archive; productseries=mitaka;
-	status=Fix Released; importance=Medium; assignee=None; 
-X-Launchpad-Bug: product=cloud-archive; productseries=ocata;
-	status=Fix Released; importance=Medium; assignee=None; 
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
-	assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
-	status=Fix Released; importance=Medium; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=trusty; sourcepackage=qemu; 
-	component=main; status=Won't Fix; importance=Medium;
-	assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=xenial; sourcepackage=qemu; 
-	component=main; status=Fix Released; importance=Medium;
-	assignee=dan.streetman@canonical.com; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=bionic; sourcepackage=qemu; 
-	component=main; status=Fix Released; importance=Medium;
-	assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=cosmic; sourcepackage=qemu; 
-	component=main; status=Fix Released; importance=Medium;
-	assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=disco; sourcepackage=qemu; 
-	component=main; status=Fix Released; importance=Medium;
-	assignee=None; 
-X-Launchpad-Bug-Tags: verification-done verification-done-xenial
-	verification-mitaka-done verification-ocata-done
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: brian-murray corey.bryant ddstreet janitor paelzer
-	racb sil2100
-X-Launchpad-Bug-Reporter: Dan Streetman (ddstreet)
-X-Launchpad-Bug-Modifier: Corey Bryant (corey.bryant)
-References: <155455149397.14414.11595397789908732027.malonedeb@gac.canonical.com>
-Message-Id: <155777281330.15139.10915349559281446941.malone@wampee.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18962";
-	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: b5e758505b71b957971e27b9dc99b2ecc10b67b0
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1823458] Re: race condition between
- vhost_net_stop and CHR_EVENT_CLOSED on shutdown crashes qemu
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] How do we do user input bitmap properties?
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -91,214 +61,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1823458 <1823458@bugs.launchpad.net>
+Cc: peter.maydell@linaro.org,
+	Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>,
+	dgilbert@redhat.com, qemu-devel@nongnu.org, imammedo@redhat.com,
+	Dave.Martin@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This bug was fixed in the package qemu - 1:2.5+dfsg-5ubuntu10.37~cloud0
----------------
+On Thu, Apr 18, 2019 at 07:48:09PM +0200, Markus Armbruster wrote:
+> Daniel P. Berrang=E9 <berrange@redhat.com> writes:
+>=20
+> > On Thu, Apr 18, 2019 at 11:28:41AM +0200, Andrew Jones wrote:
+> >> Hi all,
+> >>=20
+> >> First some background:
+> >>=20
+> >> For the userspace side of AArch64 guest SVE support we need to
+> >> expose KVM's allowed vector lengths bitmap to the user and allow
+> >> the user to choose a subset of that bitmap. Since bitmaps are a
+> >> bit awkward to work with then we'll likely want to expose it as
+> >> an array of vector lengths instead. Also, assuming we want to
+> >> expose the lengths as number-of-quadwords (quadword =3D=3D 128 bits
+> >> for AArch64 and vector lengths must be multiples of quadwords)
+> >> rather than number-of-bits, then an example array (which will
+> >> always be a sequence) might be
+> >>=20
+> >>  [ 8, 16, 32 ]
+> >>=20
+> >> The user may choose a subsequence, but only through truncation,
+> >> i.e. [ 8, 32 ] is not valid, but [ 8, 16 ] is.
+> >>=20
+> >> Furthermore, different hosts may support different sequences
+> >> which have the same maximum. For example, if the above sequence
+> >> is for Host_A, then Host_B could be
+> >>=20
+> >>  [ 8, 16, 24, 32 ]
+> >>=20
+> >> The host must support all lengths in the sequence, which means
+> >> that while Host_A supports 32, since it doesn't support 24 and
+> >> we can only truncate sequences, we must use either [ 8 ] or
+> >> [ 8, 16 ] for a compatible sequence if we intend to migrate
+> >> between the hosts.
+> >>=20
+> >> Now to the $SUBJECT question:
+> >>=20
+> >> My feeling is that we should require the sequence to be
+> >> provided on the command line as a cpu property. Something
+> >> like
+> >>=20
+> >>   -cpu host,sve-vl-list=3D8:16
+> >>=20
+> >> (I chose ':' for the delimiter because ',' can't work, but
+> >> if there's a better choice, then that's fine by me.)
+> >>=20
+> >> Afaict a property list like this will require a new parser,
+>=20
+> We had 20+ of those when I last counted.  Among the more annoying
+> reasons CLI QAPIfication is hard[1].
+>=20
+> >> which feels a bit funny since it seems we should already
+> >> have support for this type of thing somewhere in QEMU. So,
+> >> the question is: do we? I see we have array properties, but
+> >> I don't believe that works with the command line. Should we
+> >> only use QMP for this? We already want some QMP in order to
+> >> query the supported vector lengths. Maybe we should use QMP
+> >> to set the selection too? But then what about command line
+> >> support for developers? And if the property is on the command
+> >> line then we don't have to add it to the migration stream.
+> >
+> > You should be able to use arrays from the CLI with QemuOpts by repeat=
+ing
+> > the same option name many times, though I can't say it is a very
+> > nice approach if you have many values to list as it gets very repetat=
+ive.
+>=20
+> Yes, this is one of the ways the current CLI does lists.  It's also one
+> of the more annoying reasons CLI QAPIfication is hard[2].
+>=20
+> QemuOpts let the last param=3Dvalue win the stupidest way that could
+> possibly work (I respect that): add to the front of the list, search it
+> front to back.
+>=20
+> Then somebody discovered that if you search the list manually, you can
+> see them all, and abuse that to get a list-valued param.  I'm sure that
+> felt clever at the time.
+>=20
+> Another way to do lists the funky list feature of string input and opts
+> visitor.  Yet another annoying reason CLI QAPIfication is hard[3].
+>=20
+> We use the opts visitor's list feature for -numa node,cpus=3D...  Hmm,
+> looks like we even combine it with the "multiple param=3Dvalue build up=
+ a
+> list" technique: -smp node,cpus=3D0-1,cpus=3D4-5 denotes [0,1,4,5].
+>=20
+> > That's the curse of not having a good CLI syntax for non-scalar data =
+in
+> > QemuOpts & why Markus believes we should switch to JSON for the CLI t=
+oo
+> >
+> >      -cpu host,sve-vl=3D8,sve-vl=3D16
+>=20
+> We actually have CLI syntax for non-scalar data: dotted keys.  Dotted
+> keys are syntactic sugar for JSON.  It looks friendlier than JSON for
+> simple cases, then gets uglier as things get more complex, and then it
+> falls apart: it can't quite express all of JSON.
+>=20
+> Example: sve-vl.0=3D8,sve-vl.1=3D16
+>     gets desugared into {"sve": [8, 16]}
+>     if the QAPI schema has 'sve': ['int'].
+>=20
+> The comment at the beginning of util/keyval.c explains it in more
+> detail.
+>=20
+> It powers -blockdev and -display.  Both options accept either JSON or
+> dotted keys.  If the option argument starts with '{', it's JSON.
+> Management applications should stick to JSON.
+>=20
+>=20
+> [1] Towards a more expressive and introspectable QEMU command line
+> https://www.linux-kvm.org/images/f/f2/Armbru-qapi-cmdline_1.pdf
+> Slide 34 "Backward compatibility" item 1
+>=20
+> [2] ibid, item 4
+>=20
+> [3] ibid, item 3
+>
 
- qemu (1:2.5+dfsg-5ubuntu10.37~cloud0) trusty-mitaka; urgency=3Dmedium
- .
-   * New update for the Ubuntu Cloud Archive.
- .
- qemu (1:2.5+dfsg-5ubuntu10.37) xenial; urgency=3Dmedium
- .
-   * d/p/lp1823458/add-VirtIONet-vhost_stopped-flag-to-prevent-multiple.pat=
-ch,
-     d/p/lp1823458/do-not-call-vhost_net_cleanup-on-running-net-from-ch.pat=
-ch:
-     - Prevent crash due to race condition on shutdown;
-       this is fixed differently upstream (starting in Bionic), but
-       the change is too large to backport into Xenial.  These two very
-       small patches work around the problem in an unintrusive way.
-       (LP: #1823458)
+Sorry I forgot to follow up to this earlier. I looked at the examples
+provided and saw they were all for independent command line options,
+rather than command line options like '-cpu' that then accepts additional
+properties. I couldn't see how I could use ',' to separate array members
+when using properties or to use an array property input on the command
+line. In the end I opted to use a single uint64_t for a bitmap, as 64 is
+big enough for now, and even though passing some hex number on the comman=
+d
+line isn't user friendly at all, it didn't seem like a long list of a
+repeated parameter was that user friendly either. Of course I'm still ope=
+n
+to suggestions to try to find the best balance between user friendliness,
+current QEMU command line parsing support, and just getting a bitmap into
+cpu state one way or another.
 
-
-** Changed in: cloud-archive/mitaka
-       Status: Fix Committed =3D> Fix Released
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1823458
-
-Title:
-  race condition between vhost_net_stop and CHR_EVENT_CLOSED on shutdown
-  crashes qemu
-
-Status in Ubuntu Cloud Archive:
-  Fix Released
-Status in Ubuntu Cloud Archive mitaka series:
-  Fix Released
-Status in Ubuntu Cloud Archive ocata series:
-  Fix Released
-Status in QEMU:
-  Fix Released
-Status in qemu package in Ubuntu:
-  Fix Released
-Status in qemu source package in Trusty:
-  Won't Fix
-Status in qemu source package in Xenial:
-  Fix Released
-Status in qemu source package in Bionic:
-  Fix Released
-Status in qemu source package in Cosmic:
-  Fix Released
-Status in qemu source package in Disco:
-  Fix Released
-
-Bug description:
-  [impact]
-
-  on shutdown of a guest, there is a race condition that results in qemu
-  crashing instead of normally shutting down.  The bt looks similar to
-  this (depending on the specific version of qemu, of course; this is
-  taken from 2.5 version of qemu):
-
-  (gdb) bt
-  #0  __GI___pthread_mutex_lock (mutex=3D0x0) at ../nptl/pthread_mutex_lock=
-.c:66
-  #1  0x00005636c0bc4389 in qemu_mutex_lock (mutex=3Dmutex@entry=3D0x0) at =
-/build/qemu-7I4i1R/qemu-2.5+dfsg/util/qemu-thread-posix.c:73
-  #2  0x00005636c0988130 in qemu_chr_fe_write_all (s=3Ds@entry=3D0x0, buf=
-=3Dbuf@entry=3D0x7ffe65c086a0 "\v", len=3Dlen@entry=3D20) at /build/qemu-7I=
-4i1R/qemu-2.5+dfsg/qemu-char.c:205
-  #3  0x00005636c08f3483 in vhost_user_write (msg=3Dmsg@entry=3D0x7ffe65c08=
-6a0, fds=3Dfds@entry=3D0x0, fd_num=3Dfd_num@entry=3D0, dev=3D0x5636c1bf6b70=
-, dev=3D0x5636c1bf6b70)
-  =C2=A0=C2=A0=C2=A0=C2=A0at /build/qemu-7I4i1R/qemu-2.5+dfsg/hw/virtio/vho=
-st-user.c:195
-  #4  0x00005636c08f411c in vhost_user_get_vring_base (dev=3D0x5636c1bf6b70=
-, ring=3D0x7ffe65c087e0) at /build/qemu-7I4i1R/qemu-2.5+dfsg/hw/virtio/vhos=
-t-user.c:364
-  #5  0x00005636c08efff0 in vhost_virtqueue_stop (dev=3Ddev@entry=3D0x5636c=
-1bf6b70, vdev=3Dvdev@entry=3D0x5636c2853338, vq=3D0x5636c1bf6d00, idx=3D1) =
-at /build/qemu-7I4i1R/qemu-2.5+dfsg/hw/virtio/vhost.c:895
-  #6  0x00005636c08f2944 in vhost_dev_stop (hdev=3Dhdev@entry=3D0x5636c1bf6=
-b70, vdev=3Dvdev@entry=3D0x5636c2853338) at /build/qemu-7I4i1R/qemu-2.5+dfs=
-g/hw/virtio/vhost.c:1262
-  #7  0x00005636c08db2a8 in vhost_net_stop_one (net=3D0x5636c1bf6b70, dev=
-=3Ddev@entry=3D0x5636c2853338) at /build/qemu-7I4i1R/qemu-2.5+dfsg/hw/net/v=
-host_net.c:293
-  #8  0x00005636c08dbe5b in vhost_net_stop (dev=3Ddev@entry=3D0x5636c285333=
-8, ncs=3D0x5636c209d110, total_queues=3Dtotal_queues@entry=3D1) at /build/q=
-emu-7I4i1R/qemu-2.5+dfsg/hw/net/vhost_net.c:371
-  #9  0x00005636c08d7745 in virtio_net_vhost_status (status=3D7 '\a', n=3D0=
-x5636c2853338) at /build/qemu-7I4i1R/qemu-2.5+dfsg/hw/net/virtio-net.c:150
-  #10 virtio_net_set_status (vdev=3D<optimized out>, status=3D<optimized ou=
-t>) at /build/qemu-7I4i1R/qemu-2.5+dfsg/hw/net/virtio-net.c:162
-  #11 0x00005636c08ec42c in virtio_set_status (vdev=3D0x5636c2853338, val=
-=3D<optimized out>) at /build/qemu-7I4i1R/qemu-2.5+dfsg/hw/virtio/virtio.c:=
-624
-  #12 0x00005636c098fed2 in vm_state_notify (running=3Drunning@entry=3D0, s=
-tate=3Dstate@entry=3DRUN_STATE_SHUTDOWN) at /build/qemu-7I4i1R/qemu-2.5+dfs=
-g/vl.c:1605
-  #13 0x00005636c089172a in do_vm_stop (state=3DRUN_STATE_SHUTDOWN) at /bui=
-ld/qemu-7I4i1R/qemu-2.5+dfsg/cpus.c:724
-  #14 vm_stop (state=3DRUN_STATE_SHUTDOWN) at /build/qemu-7I4i1R/qemu-2.5+d=
-fsg/cpus.c:1407
-  #15 0x00005636c085d240 in main_loop_should_exit () at /build/qemu-7I4i1R/=
-qemu-2.5+dfsg/vl.c:1883
-  #16 main_loop () at /build/qemu-7I4i1R/qemu-2.5+dfsg/vl.c:1931
-  #17 main (argc=3D<optimized out>, argv=3D<optimized out>, envp=3D<optimiz=
-ed out>) at /build/qemu-7I4i1R/qemu-2.5+dfsg/vl.c:4683
-
-  [test case]
-
-  unfortunately since this is a race condition, it's very hard to
-  arbitrarily reproduce; it depends very much on the overall
-  configuration of the guest as well as how exactly it's shut down -
-  specifically, its vhost user net must be closed from the host side at
-  a specific time during qemu shutdown.
-
-  I have someone with such a setup who has reported to me their setup is
-  able to reproduce this reliably, but the config is too complex for me
-  to reproduce so I have relied on their reproduction and testing to
-  debug and craft the patch for this.
-
-  [regression potential]
-
-  the change adds a flag to prevent repeated calls to vhost_net_stop().
-  This also prevents any calls to vhost_net_cleanup() from
-  net_vhost_user_event().  Any regression would be seen when stopping
-  and/or cleaning up a vhost net.  Regressions might include failure to
-  hot-remove a vhost net from a guest, or failure to cleanup (i.e. mem
-  leak), or crashes during cleanup or stopping a vhost net.
-
-  [other info]
-
-  this was originally seen in the 2.5 version of qemu - specifically,
-  the UCA version in trusty-mitaka (which uses the xenial qemu
-  codebase).
-
-  After discussion upstream, it appears this was fixed upstream by
-  commit e7c83a885f8, which is included starting in version 2.9.
-  However, this commit depends on at least commit 5345fdb4467, and
-  likely more other previous commits, which make widespread code changes
-  and are unsuitable to backport.  Therefore this seems like it should
-  be specifically worked around in the Xenial qemu codebase.
-
-  =
-
-  The specific race condition for this (in the qemu 2.5 code version) is:
-
-  as shown in above bt, thread A starts shutting down qemu, e.g.:
-
-  vm_stop->do_vm_stop->vm_state_notify
-  =C2=A0=C2=A0virtio_set_status
-  =C2=A0=C2=A0=C2=A0=C2=A0virtio_net_set_status
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0virtio_net_vhost_status
-
-  in this function, code gets to an if-else check for
-  (!n->vhost_started), which is false (i.e. vhost_started is true) and
-  enters the else code block, which calls vhost_net_stop() and then sets
-  n->vhost_started to false.
-
-  While thread A is inside vhost_net_stop(), thread B is triggered by
-  the vhost net chr handler with a user event and calls:
-
-  net_vhost_user_event
-  =C2=A0=C2=A0qmp_set_link (from case CHR_EVENT_CLOSED)
-  =C2=A0=C2=A0=C2=A0=C2=A0virtio_net_set_link_status (via ->link_status_cha=
-nged)
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0virtio_net_set_status
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0virtio_net_vhost_status
-
-  notice thread B has now reached the same function that thread A is in;
-  since the checks in the function have not changed, thread B follows
-  the same path that thread A followed, and enters vhost_net_stop().
-
-  Since thread A has already shut down and cleaned up some of the
-  internals, once thread B starts trying to also clean up things, it
-  segfaults as the shown in the bt.
-
-  Avoiding only this duplicate call to vhost_net_stop() is required, but
-  not enough - let's continue to look at what thread B does after its
-  call to qmp_set_link() returns:
-
-  net_vhost_user_event
-  =C2=A0=C2=A0vhost_user_stop
-  =C2=A0=C2=A0=C2=A0=C2=A0vhost_net_cleanup
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0vhost_dev_cleanup
-
-  However, in main() qemu registers atexit(net_cleanup()), which does:
-  net_cleanup
-  =C2=A0=C2=A0qemu_del_nic (or qemu_del_net_client, depending on ->type)
-  =C2=A0=C2=A0=C2=A0=C2=A0qemu_cleanup_net_client
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0vhost_user_cleanup (via ->cleanup)
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0vhost_net_cleanup
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0vhost_dev_cle=
-anup
-
-  and the duplicate vhost_dev_cleanup fails assertions since things were
-  already cleaned up.  Additionally, if thread B's call to
-  vhost_dev_cleanup() comes before thread A finishes vhost_net_stop(),
-  then that will call vhost_dev_stop() and vhost_disable_notifiers()
-  which both try to access things that have been freed/cleared/disabled
-  by vhost_dev_cleanup().
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/cloud-archive/+bug/1823458/+subscriptions
+Thanks,
+drew
 
