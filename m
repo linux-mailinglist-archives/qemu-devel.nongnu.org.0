@@ -2,46 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9519F1B63C
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 14:45:28 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:56693 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DECFC1B6C6
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 15:11:15 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57097 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQAKd-0007t8-RJ
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 08:45:27 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47831)
+	id 1hQAja-0001S2-VB
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 09:11:15 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50302)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <Dave.Martin@arm.com>) id 1hQAJL-0007IJ-AS
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 08:44:08 -0400
+	(envelope-from <lvivier@redhat.com>) id 1hQAbZ-0003Zw-4O
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:02:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <Dave.Martin@arm.com>) id 1hQAJK-00070O-Es
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 08:44:07 -0400
-Received: from usa-sjc-mx-foss1.foss.arm.com ([217.140.101.70]:51556
-	helo=foss.arm.com) by eggs.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <Dave.Martin@arm.com>)
-	id 1hQAJG-0006yS-9t; Mon, 13 May 2019 08:44:02 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B77C380D;
-	Mon, 13 May 2019 05:44:00 -0700 (PDT)
-Received: from e103592.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
-	[10.72.51.249])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 1719F3F6C4;
-	Mon, 13 May 2019 05:43:58 -0700 (PDT)
-Date: Mon, 13 May 2019 13:43:56 +0100
-From: Dave Martin <Dave.Martin@arm.com>
-To: Andrew Jones <drjones@redhat.com>
-Message-ID: <20190513124356.GG28398@e103592.cambridge.arm.com>
-References: <20190512083624.8916-1-drjones@redhat.com>
-	<20190512083624.8916-6-drjones@redhat.com>
+	(envelope-from <lvivier@redhat.com>) id 1hQANl-0000qH-Qh
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 08:48:42 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:36992)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <lvivier@redhat.com>) id 1hQANl-0000pw-Kp
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 08:48:41 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+	[10.5.11.16])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 4C66D307D854;
+	Mon, 13 May 2019 12:48:40 +0000 (UTC)
+Received: from [10.40.204.20] (ovpn-204-20.brq.redhat.com [10.40.204.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 5A05B5C206;
+	Mon, 13 May 2019 12:48:38 +0000 (UTC)
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20190510173049.28171-1-richard.henderson@linaro.org>
+	<20190510173049.28171-25-richard.henderson@linaro.org>
+From: Laurent Vivier <lvivier@redhat.com>
+Message-ID: <837325fe-a3db-14fb-4b61-2eaaa63829aa@redhat.com>
+Date: Mon, 13 May 2019 14:48:37 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190512083624.8916-6-drjones@redhat.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <20190510173049.28171-25-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.48]);
+	Mon, 13 May 2019 12:48:40 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.140.101.70
-Subject: Re: [Qemu-devel] [PATCH 05/13] target/arm/kvm: Add
- kvm_arch_get/put_sve
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v6 24/25] target/ppc: Use gen_io_start/end
+ around DARN
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -53,52 +61,56 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
-	"richard.henderson@linaro.org" <richard.henderson@linaro.org>,
-	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
-	"armbru@redhat.com" <armbru@redhat.com>,
-	"qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
-	"abologna@redhat.com" <abologna@redhat.com>,
-	"alex.bennee@linaro.org" <alex.bennee@linaro.org>
+Cc: David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, May 12, 2019 at 09:36:16AM +0100, Andrew Jones wrote:
-> These are the SVE equivalents to kvm_arch_get/put_fpsimd.
+On 10/05/2019 19:30, Richard Henderson wrote:
+> Generating a random number counts as I/O, as it cannot be
+> replayed and produce the same results.
 > 
-> Signed-off-by: Andrew Jones <drjones@redhat.com>
+> Cc: David Gibson <david@gibson.dropbear.id.au>
+> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 > ---
->  target/arm/kvm64.c | 127 +++++++++++++++++++++++++++++++++++++++++++--
->  1 file changed, 123 insertions(+), 4 deletions(-)
-
-[...]
-
-> +static int kvm_arch_put_sve(CPUState *cs)
-> +{
-> +    ARMCPU *cpu = ARM_CPU(cs);
-> +    CPUARMState *env = &cpu->env;
-> +    struct kvm_one_reg reg;
-> +    int n, ret;
-> +
-> +    for (n = 0; n < KVM_ARM64_SVE_NUM_ZREGS; n++) {
-> +        uint64_t *q = aa64_vfp_qreg(env, n);
-> +#ifdef HOST_WORDS_BIGENDIAN
-> +        uint64_t d[ARM_MAX_VQ * 2];
-> +        int i;
-> +        for (i = 0; i < cpu->sve_max_vq * 2; i++) {
-> +            d[i] = q[cpu->sve_max_vq * 2 - 1 - i];
+>   target/ppc/translate.c | 21 +++++++++++++++------
+>   1 file changed, 15 insertions(+), 6 deletions(-)
+> 
+> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+> index 8d08625c33..76628df6dd 100644
+> --- a/target/ppc/translate.c
+> +++ b/target/ppc/translate.c
+> @@ -1847,13 +1847,22 @@ static void gen_darn(DisasContext *ctx)
+>   {
+>       int l = L(ctx->opcode);
+>   
+> -    if (l == 0) {
+> -        gen_helper_darn32(cpu_gpr[rD(ctx->opcode)]);
+> -    } else if (l <= 2) {
+> -        /* Return 64-bit random for both CRN and RRN */
+> -        gen_helper_darn64(cpu_gpr[rD(ctx->opcode)]);
+> -    } else {
+> +    if (l > 2) {
+>           tcg_gen_movi_i64(cpu_gpr[rD(ctx->opcode)], -1);
+> +    } else {
+> +        if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
+> +            gen_io_start();
 > +        }
-> +        reg.addr = (uintptr_t)d;
-> +#else
-> +        reg.addr = (uintptr_t)q;
-> +#endif
-> +        reg.id = KVM_REG_ARM64_SVE_ZREG(n, 0);
+> +        if (l == 0) {
+> +            gen_helper_darn32(cpu_gpr[rD(ctx->opcode)]);
+> +        } else {
+> +            /* Return 64-bit random for both CRN and RRN */
+> +            gen_helper_darn64(cpu_gpr[rD(ctx->opcode)]);
+> +        }
+> +        if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
+> +            gen_io_end();
+> +            gen_stop_exception(ctx);
+> +        }
+>       }
+>   }
+>   #endif
+> 
 
-Will this silently go wrong if more than one slice is required (i.e.,
-the register size grows beyond 8192 bits?)
+Reviewed-by: Laurent Vivier <lvivier@redhat.com>
 
-[...]
-
-Cheers
----Dave
 
