@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B9471B075
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 08:42:41 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52019 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 71BC71B06A
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 08:39:00 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:51960 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQ4fY-0007H8-Rl
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 02:42:40 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37356)
+	id 1hQ4bz-0004Du-Ig
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 02:38:59 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37639)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richardw.yang@linux.intel.com>) id 1hQ4Zy-0002mj-6t
+	(envelope-from <richardw.yang@linux.intel.com>) id 1hQ4Zy-0002z4-6u
 	for qemu-devel@nongnu.org; Mon, 13 May 2019 02:36:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richardw.yang@linux.intel.com>) id 1hQ4K5-0004mx-1y
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 02:20:30 -0400
+	(envelope-from <richardw.yang@linux.intel.com>) id 1hQ4K9-0004sl-1r
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 02:20:34 -0400
 Received: from mga07.intel.com ([134.134.136.100]:24552)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
-	id 1hQ4K4-0004ds-QY
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 02:20:28 -0400
+	id 1hQ4K8-0004ds-QZ
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 02:20:33 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from orsmga003.jf.intel.com ([10.7.209.27])
 	by orsmga105.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	12 May 2019 23:20:28 -0700
+	12 May 2019 23:20:32 -0700
 X-ExtLoop1: 1
 Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
-	by orsmga003.jf.intel.com with ESMTP; 12 May 2019 23:20:26 -0700
+	by orsmga003.jf.intel.com with ESMTP; 12 May 2019 23:20:29 -0700
 From: Wei Yang <richardw.yang@linux.intel.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 13 May 2019 14:19:08 +0800
-Message-Id: <20190513061913.9284-5-richardw.yang@linux.intel.com>
+Date: Mon, 13 May 2019 14:19:09 +0800
+Message-Id: <20190513061913.9284-6-richardw.yang@linux.intel.com>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <20190513061913.9284-1-richardw.yang@linux.intel.com>
 References: <20190513061913.9284-1-richardw.yang@linux.intel.com>
@@ -41,8 +41,8 @@ Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
 X-Received-From: 134.134.136.100
-Subject: [Qemu-devel] [RFC PATCH 4/9] hw/acpi: implement
- madt_sub[ACPI_APIC_IO]
+Subject: [Qemu-devel] [RFC PATCH 5/9] hw/acpi: implement
+ madt_sub[ACPI_APIC_XRUPT_OVERRIDE]
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,58 +62,82 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
 ---
- hw/i386/acpi-build.c | 21 ++++++++++++++-------
- 1 file changed, 14 insertions(+), 7 deletions(-)
+ hw/i386/acpi-build.c | 37 ++++++++++++++++++++++++-------------
+ 1 file changed, 24 insertions(+), 13 deletions(-)
 
 diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 4b480efff9..a661fff51d 100644
+index a661fff51d..f48cc5b292 100644
 --- a/hw/i386/acpi-build.c
 +++ b/hw/i386/acpi-build.c
-@@ -339,9 +339,22 @@ static void pc_madt_x2apic_entry(GArray *entry, void *opaque)
-     }
+@@ -351,10 +351,31 @@ static void pc_madt_io_entry(GArray *entry, void *opaque)
+     io_apic->interrupt = cpu_to_le32(0);
  }
  
-+static void pc_madt_io_entry(GArray *entry, void *opaque)
++static void pc_madt_xrupt_override_entry(GArray *entry, void *opaque)
 +{
-+    AcpiMadtIoApic *io_apic;
++    AcpiMadtIntsrcovr *intsrcovr;
++    int *idx = opaque;
 +
-+    io_apic = acpi_data_push(entry, sizeof *io_apic);
-+    io_apic->type = ACPI_APIC_IO;
-+    io_apic->length = sizeof(*io_apic);
-+    io_apic->io_apic_id = ACPI_BUILD_IOAPIC_ID;
-+    io_apic->address = cpu_to_le32(IO_APIC_DEFAULT_ADDRESS);
-+    io_apic->interrupt = cpu_to_le32(0);
++    intsrcovr = acpi_data_push(entry, sizeof *intsrcovr);
++    intsrcovr->type   = ACPI_APIC_XRUPT_OVERRIDE;
++    intsrcovr->length = sizeof(*intsrcovr);
++    intsrcovr->source = *idx;
++    if (*idx == 0) {
++        intsrcovr->gsi    = cpu_to_le32(2);
++        /* conforms to bus specifications */
++        intsrcovr->flags = cpu_to_le16(0);
++    } else {
++        intsrcovr->gsi    = cpu_to_le32(*idx);
++        /* active high, level triggered */
++        intsrcovr->flags = cpu_to_le16(0xd);
++    }
 +}
 +
  madt_operations i386_madt_sub = {
      [ACPI_APIC_PROCESSOR] = pc_madt_apic_entry,
      [ACPI_APIC_LOCAL_X2APIC] = pc_madt_x2apic_entry,
-+    [ACPI_APIC_IO] = pc_madt_io_entry,
+     [ACPI_APIC_IO] = pc_madt_io_entry,
++    [ACPI_APIC_XRUPT_OVERRIDE] = pc_madt_xrupt_override_entry,
  };
  
  static void
-@@ -355,7 +368,6 @@ build_madt(GArray *table_data, BIOSLinker *linker, PCMachineState *pcms)
+@@ -368,7 +389,6 @@ build_madt(GArray *table_data, BIOSLinker *linker, PCMachineState *pcms)
      bool x2apic_mode = false;
  
      AcpiMultipleApicTable *madt;
--    AcpiMadtIoApic *io_apic;
-     AcpiMadtIntsrcovr *intsrcovr;
+-    AcpiMadtIntsrcovr *intsrcovr;
      int i;
  
-@@ -376,12 +388,7 @@ build_madt(GArray *table_data, BIOSLinker *linker, PCMachineState *pcms)
-         }
-     }
- 
--    io_apic = acpi_data_push(table_data, sizeof *io_apic);
--    io_apic->type = ACPI_APIC_IO;
--    io_apic->length = sizeof(*io_apic);
--    io_apic->io_apic_id = ACPI_BUILD_IOAPIC_ID;
--    io_apic->address = cpu_to_le32(IO_APIC_DEFAULT_ADDRESS);
--    io_apic->interrupt = cpu_to_le32(0);
-+    adevc->madt_sub[ACPI_APIC_IO](table_data, NULL);
+     madt = acpi_data_push(table_data, sizeof *madt);
+@@ -391,12 +411,8 @@ build_madt(GArray *table_data, BIOSLinker *linker, PCMachineState *pcms)
+     adevc->madt_sub[ACPI_APIC_IO](table_data, NULL);
  
      if (pcms->apic_xrupt_override) {
-         intsrcovr = acpi_data_push(table_data, sizeof *intsrcovr);
+-        intsrcovr = acpi_data_push(table_data, sizeof *intsrcovr);
+-        intsrcovr->type   = ACPI_APIC_XRUPT_OVERRIDE;
+-        intsrcovr->length = sizeof(*intsrcovr);
+-        intsrcovr->source = 0;
+-        intsrcovr->gsi    = cpu_to_le32(2);
+-        intsrcovr->flags  = cpu_to_le16(0); /* conforms to bus specifications */
++        i = 0;
++        adevc->madt_sub[ACPI_APIC_XRUPT_OVERRIDE](table_data, &i);
+     }
+     for (i = 1; i < 16; i++) {
+ #define ACPI_BUILD_PCI_IRQS ((1<<5) | (1<<9) | (1<<10) | (1<<11))
+@@ -404,12 +420,7 @@ build_madt(GArray *table_data, BIOSLinker *linker, PCMachineState *pcms)
+             /* No need for a INT source override structure. */
+             continue;
+         }
+-        intsrcovr = acpi_data_push(table_data, sizeof *intsrcovr);
+-        intsrcovr->type   = ACPI_APIC_XRUPT_OVERRIDE;
+-        intsrcovr->length = sizeof(*intsrcovr);
+-        intsrcovr->source = i;
+-        intsrcovr->gsi    = cpu_to_le32(i);
+-        intsrcovr->flags  = cpu_to_le16(0xd); /* active high, level triggered */
++        adevc->madt_sub[ACPI_APIC_XRUPT_OVERRIDE](table_data, &i);
+     }
+ 
+     if (x2apic_mode) {
 -- 
 2.19.1
 
