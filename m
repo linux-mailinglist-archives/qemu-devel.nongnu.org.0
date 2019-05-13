@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2C88B1BD81
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 20:54:31 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33612 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BDF671BD82
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 20:56:39 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33669 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQG5m-0002Aa-9V
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 14:54:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58984)
+	id 1hQG7q-0003sh-Pu
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 14:56:38 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59015)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hQG2I-00088q-DH
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 14:50:56 -0400
+	(envelope-from <bounces@canonical.com>) id 1hQG2O-0008G9-9G
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 14:51:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hQG2G-0007NF-Gx
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 14:50:54 -0400
-Received: from indium.canonical.com ([91.189.90.7]:47188)
+	(envelope-from <bounces@canonical.com>) id 1hQG2L-0007RB-Ha
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 14:51:00 -0400
+Received: from indium.canonical.com ([91.189.90.7]:47422)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hQG2G-0007Mc-Bo
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 14:50:52 -0400
+	id 1hQG2K-0007Ok-VW
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 14:50:57 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
 	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hQG2E-00005U-KE
-	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 18:50:50 +0000
+	id 1hQG2I-0000Ad-IQ
+	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 18:50:54 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id 922862E80D1
-	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 18:50:50 +0000 (UTC)
+	by loganberry.canonical.com (Postfix) with ESMTP id 7D4902E80D0
+	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 18:50:54 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 13 May 2019 18:40:11 -0000
+Date: Mon, 13 May 2019 18:40:13 -0000
 From: Corey Bryant <corey.bryant@canonical.com>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -70,16 +70,17 @@ X-Launchpad-Bug-Commenters: brian-murray corey.bryant ddstreet janitor paelzer
 X-Launchpad-Bug-Reporter: Dan Streetman (ddstreet)
 X-Launchpad-Bug-Modifier: Corey Bryant (corey.bryant)
 References: <155455149397.14414.11595397789908732027.malonedeb@gac.canonical.com>
-Message-Id: <155777281168.21554.17027344535724003782.malone@chaenomeles.canonical.com>
+Message-Id: <155777281330.15139.10915349559281446941.malone@wampee.canonical.com>
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="18962";
 	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: e08907b4e07b42f6ea0ca9d525f99864d555a4cf
+X-Launchpad-Hash: b5e758505b71b957971e27b9dc99b2ecc10b67b0
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1823458] Update Released
+Subject: [Qemu-devel] [Bug 1823458] Re: race condition between
+ vhost_net_stop and CHR_EVENT_CLOSED on shutdown crashes qemu
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 List-Id: <qemu-devel.nongnu.org>
@@ -94,11 +95,28 @@ Reply-To: Bug 1823458 <1823458@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The verification of the Stable Release Update for qemu has completed
-successfully and the package has now been released to -updates. In the
-event that you encounter a regression using the package from -updates
-please report a new bug using ubuntu-bug and tag the bug report
-regression-update so we can easily find any regressions.
+This bug was fixed in the package qemu - 1:2.5+dfsg-5ubuntu10.37~cloud0
+---------------
+
+ qemu (1:2.5+dfsg-5ubuntu10.37~cloud0) trusty-mitaka; urgency=3Dmedium
+ .
+   * New update for the Ubuntu Cloud Archive.
+ .
+ qemu (1:2.5+dfsg-5ubuntu10.37) xenial; urgency=3Dmedium
+ .
+   * d/p/lp1823458/add-VirtIONet-vhost_stopped-flag-to-prevent-multiple.pat=
+ch,
+     d/p/lp1823458/do-not-call-vhost_net_cleanup-on-running-net-from-ch.pat=
+ch:
+     - Prevent crash due to race condition on shutdown;
+       this is fixed differently upstream (starting in Bionic), but
+       the change is too large to backport into Xenial.  These two very
+       small patches work around the problem in an unintrusive way.
+       (LP: #1823458)
+
+
+** Changed in: cloud-archive/mitaka
+       Status: Fix Committed =3D> Fix Released
 
 -- =
 
