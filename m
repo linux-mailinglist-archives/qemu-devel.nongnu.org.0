@@ -2,51 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 650511B50A
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 13:34:56 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55465 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7B0A51B4ED
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 13:31:14 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:55412 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQ9EN-00063F-KZ
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 07:34:55 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34532)
+	id 1hQ9An-0003BK-8e
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 07:31:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34434)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hQ98Z-000250-S0
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:28:58 -0400
+	(envelope-from <Dave.Martin@arm.com>) id 1hQ98T-0001zM-6U
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:28:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hQ8tj-0003aZ-Kl
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:13:40 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53906)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <kwolf@redhat.com>)
-	id 1hQ8tg-0003Z9-Pp; Mon, 13 May 2019 07:13:33 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
-	[10.5.11.11])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id B4E24308FC22;
-	Mon, 13 May 2019 11:13:31 +0000 (UTC)
-Received: from linux.fritz.box (ovpn-117-130.ams2.redhat.com [10.36.117.130])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 4B4B363BAD;
-	Mon, 13 May 2019 11:13:27 +0000 (UTC)
-Date: Mon, 13 May 2019 13:13:21 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: John Snow <jsnow@redhat.com>
-Message-ID: <20190513111321.GB19114@linux.fritz.box>
-References: <20190510215212.8413-1-jsnow@redhat.com>
+	(envelope-from <Dave.Martin@arm.com>) id 1hQ8w8-0004bP-Bx
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:16:05 -0400
+Received: from foss.arm.com ([217.140.101.70]:49308)
+	by eggs.gnu.org with esmtp (Exim 4.71)
+	(envelope-from <Dave.Martin@arm.com>)
+	id 1hQ8w6-0004a0-Rq; Mon, 13 May 2019 07:16:03 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4BAA5374;
+	Mon, 13 May 2019 04:16:00 -0700 (PDT)
+Received: from e103592.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+	[10.72.51.249])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A0B6D3F703;
+	Mon, 13 May 2019 04:15:58 -0700 (PDT)
+Date: Mon, 13 May 2019 12:15:56 +0100
+From: Dave Martin <Dave.Martin@arm.com>
+To: Andrea Bolognani <abologna@redhat.com>
+Message-ID: <20190513111555.GC28398@e103592.cambridge.arm.com>
+References: <20190512083624.8916-1-drjones@redhat.com>
+	<9f57bfa56715b3128c1823150457ddb866e6054c.camel@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190510215212.8413-1-jsnow@redhat.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.43]);
-	Mon, 13 May 2019 11:13:31 +0000 (UTC)
+In-Reply-To: <9f57bfa56715b3128c1823150457ddb866e6054c.camel@redhat.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] blockdev: fix missed target unref for
- drive-backup
+X-Received-From: 217.140.101.70
+Subject: Re: [Qemu-devel] [PATCH 00/13] target/arm/kvm: enable SVE in guests
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,76 +52,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Max Reitz <mreitz@redhat.com>, aihua liang <aliang@redhat.com>,
-	qemu-devel@nongnu.org, qemu-block@nongnu.org,
-	Markus Armbruster <armbru@redhat.com>
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+	Andrew Jones <drjones@redhat.com>,
+	"richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+	"armbru@redhat.com" <armbru@redhat.com>,
+	"qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+	"alex.bennee@linaro.org" <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 10.05.2019 um 23:52 hat John Snow geschrieben:
-> If the bitmap can't be used for whatever reason, we skip putting down
-> the reference. Fix that.
+On Mon, May 13, 2019 at 10:32:46AM +0100, Andrea Bolognani wrote:
+> On Sun, 2019-05-12 at 10:36 +0200, Andrew Jones wrote:
+> [...]
+> >    CPU type | accel | sve-max-vq | sve-vls-map
+> >    -------------------------------------------
+> >  1)     max | tcg   |  $MAX_VQ   |  $VLS_MAP
+> >  2)     max | kvm   |  $MAX_VQ   |  $VLS_MAP
+> >  3)    host | kvm   |  N/A       |  $VLS_MAP
+> > 
+> > Where for (1) $MAX_VQ sets the maximum vq and smaller vqs are
+> > all supported when $VLS_MAP is zero, or when the vqs are selected
+> > in $VLS_MAP.
 > 
-> In practice, this means that if you attempt to gracefully exit QEMU
-> after a backup command being rejected, bdrv_close_all will fail and
-> tell you some unpleasant things via assert().
+> I'm a bit confused by the nomenclature here. VL clearly stands for
+> Vector Length, but what does VQ stand for? You seem to be using the
+> two terms pretty much interchangeably throughout the cover letter.
+
+From the Linux end, "vector length" or VL refers to the size of a vector
+register, either in no particular unit or in bytes.
+
+"VQ" refers specifically to the vector length in 128-bit quadwords.
+
+In some situations, neither terminology is obviously better than the
+other, such as in the way KVM_REG_ARM64_SVE_VLS is encoded.
+
+> [...]
+> > There is never any need to provide both properties, but if both
+> > are provided then they are checked for consistency.
 > 
-> Reported-by: aihua liang <aliang@redhat.com>
-> Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1703916
-> Signed-off-by: John Snow <jsnow@redhat.com>
-> ---
->  blockdev.c | 12 +++++-------
->  1 file changed, 5 insertions(+), 7 deletions(-)
+> I would personally just error out when both are provided.
 > 
-> diff --git a/blockdev.c b/blockdev.c
-> index 79fbac8450..278ecdd122 100644
-> --- a/blockdev.c
-> +++ b/blockdev.c
-> @@ -3525,8 +3525,7 @@ static BlockJob *do_drive_backup(DriveBackup *backup, JobTxn *txn,
->      if (set_backing_hd) {
->          bdrv_set_backing_hd(target_bs, source, &local_err);
->          if (local_err) {
-> -            bdrv_unref(target_bs);
-> -            goto out;
-> +            goto unref;
->          }
->      }
->  
-> @@ -3534,11 +3533,10 @@ static BlockJob *do_drive_backup(DriveBackup *backup, JobTxn *txn,
->          bmap = bdrv_find_dirty_bitmap(bs, backup->bitmap);
->          if (!bmap) {
->              error_setg(errp, "Bitmap '%s' could not be found", backup->bitmap);
-> -            bdrv_unref(target_bs);
-> -            goto out;
-> +            goto unref;
->          }
->          if (bdrv_dirty_bitmap_check(bmap, BDRV_BITMAP_DEFAULT, errp)) {
-> -            goto out;
-> +            goto unref;
->          }
->      }
->      if (!backup->auto_finalize) {
-> @@ -3552,12 +3550,12 @@ static BlockJob *do_drive_backup(DriveBackup *backup, JobTxn *txn,
->                              backup->sync, bmap, backup->compress,
->                              backup->on_source_error, backup->on_target_error,
->                              job_flags, NULL, NULL, txn, &local_err);
-> -    bdrv_unref(target_bs);
->      if (local_err != NULL) {
->          error_propagate(errp, local_err);
-> -        goto out;
+> > The QMP query returns a list of valid vq lists. For example, if
+> > a guest can use vqs 1, 2, 3, and 4, then the following list will
+> > be returned
+> > 
+> >  [ [ 1 ], [ 1, 2 ], [ 1, 2, 3 ], [ 1, 2, 3, 4 ] ]
+> > 
+> > Another example might be 1, 2, 4, as the architecture states 3
+> > is optional. In that case the list would be
+> > 
+> >  [ [ 1 ], [ 1, 2 ], [ 1, 2, 4 ] ]
+> 
+> I think the proposed QMP command is problematic, because it reports
+> the valid vector lengths for either KVM or TCG based on which
+> accelerator is currently enabled: it should report all information
+> at all times instead, similarly to how query-gic-capabilities does
+> it.
 
-Please leave a 'goto unref' here so we can later add more code without
-modifying unrelated error paths (or, more likely, forgetting to modify
-them).
+I wonder if this is premature flexibility?
 
->      }
->  
-> +unref:
-> +    bdrv_unref(target_bs);
->  out:
->      aio_context_release(aio_context);
->      return job;
+The size of these lists is going to get cumbersome if the architecture
+is ever extended.  Even today, we might need over 100 items in this
+(nested) list.  If this is to be presented to the user this will be
+far from friendly, it could get much worse if the architecutre changes
+in future to allow larger vectors or more flexible virtualisation.
 
-With this fixed:
-Reviewed-by: Kevin Wolf <kwolf@redhat.com>
+Could we just have a list of supported vector lengths and a possibly
+empty list of additional capabilities that describe what kinds of
+flexibility are allowed?
+
+So, for example, we might support vector lengths of 1, 2, 4 and 8
+quadwords, with the the ability to clamp the max vector length the
+guest sees: the kernel ABI guarantees that you can do this, even
+if you can't disable/enable each individual vector length independently.
+
+So, [ 1, 2, 4, 8 ] seems sufficient to describe this in a forwards
+compatible way.
+
+Some day, we might report { "independent", [ 1, 2, 4, 8, 16, 32, ... ] }
+
+I'm guessing about the data representation here.
+
+[...]
+
+Cheers
+---Dave
 
