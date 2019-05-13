@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6FCDC1BD26
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 20:26:17 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33226 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72C4F1BD27
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 20:28:10 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33260 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQFeS-0001Td-8Z
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 14:26:16 -0400
+	id 1hQFgG-0003RC-O1
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 14:28:08 -0400
 Received: from eggs.gnu.org ([209.51.188.92]:46715)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hQF3d-0004Qz-9Z
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 13:48:15 -0400
+	(envelope-from <bounces@canonical.com>) id 1hQF3b-0004Qz-SB
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 13:48:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hQEwO-0000ZF-GU
+	(envelope-from <bounces@canonical.com>) id 1hQEwO-0000aj-P5
 	for qemu-devel@nongnu.org; Mon, 13 May 2019 13:40:45 -0400
-Received: from indium.canonical.com ([91.189.90.7]:37454)
+Received: from indium.canonical.com ([91.189.90.7]:37470)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hQEwO-0000U3-Al
+	id 1hQEwO-0000Ur-Jf
 	for qemu-devel@nongnu.org; Mon, 13 May 2019 13:40:44 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
 	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hQEwM-0002Pe-Jt
-	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 17:40:42 +0000
+	id 1hQEwN-0002QV-Fp
+	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 17:40:43 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id 930A12E80C7
-	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 17:40:42 +0000 (UTC)
+	by loganberry.canonical.com (Postfix) with ESMTP id 72C4A2E80C7
+	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 17:40:43 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 13 May 2019 17:30:27 -0000
+Date: Mon, 13 May 2019 17:31:40 -0000
 From: "Sonicadvance1@gmail.com" <Sonicadvance1@gmail.com>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -42,17 +42,18 @@ X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: sonicadvance1
 X-Launchpad-Bug-Reporter: Sonicadvance1@gmail.com (sonicadvance1)
 X-Launchpad-Bug-Modifier: Sonicadvance1@gmail.com (sonicadvance1)
-Message-Id: <155776862725.26593.3375928624162381326.malonedeb@soybean.canonical.com>
+References: <155776862725.26593.3375928624162381326.malonedeb@soybean.canonical.com>
+Message-Id: <155776870052.15426.11272393228830701047.malone@gac.canonical.com>
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="18962";
 	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: a6a67ef28cac58dacbc1857d81f5ad42e3aa457c
+X-Launchpad-Hash: 21c2dd0f7c65694f62b02f4363dce5f0061c9227
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
-X-Mailman-Approved-At: Mon, 13 May 2019 14:24:00 -0400
-Subject: [Qemu-devel] [Bug 1828867] [NEW] QEmu translation is incorrect when
+X-Mailman-Approved-At: Mon, 13 May 2019 14:23:57 -0400
+Subject: [Qemu-devel] [Bug 1828867] Re: QEmu translation is incorrect when
  using REX in combination with LAHF/SAHF
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
@@ -68,28 +69,13 @@ Reply-To: Bug 1828867 <1828867@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+Here's also a basic test that can be run on hardware and have rflags and
+rsp inspected after each instruction just to see how hardware doesn't
+effect it.
 
-When translating code that is using LAHF and SAHF in combination with the R=
-EX prefix then qemu translates incorrectly.
-These two instructions only ever use the AH register. Contrary to other ins=
-tructions where if you use REX + high bit offsets then it'll pull in rsp an=
-d a few other registers.
-On hardware the REX prefix doesn't effect behaviour of these instructions a=
-t all.
-QEMU incorrectly selects RSP as the register of choice here due to this com=
-bination of REX + AH register usage.
-
-I've attached a patch that is super terrible just so I can work around
-the issue locally and to sort of show off how it is to be "fixed"
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
-** Patch added: "Terrible terrible patch"
-   https://bugs.launchpad.net/bugs/1828867/+attachment/5263494/+files/lahf_=
-sahf.diff
+** Attachment added: "a.cpp"
+   https://bugs.launchpad.net/qemu/+bug/1828867/+attachment/5263495/+files/=
+a.cpp
 
 -- =
 
