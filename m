@@ -2,79 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C44EF1BB2A
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 18:41:56 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60377 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D008B1BC05
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 19:33:34 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60870 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQE1T-00063x-LR
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 12:41:55 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37044)
+	id 1hQEpS-0002ki-26
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 13:33:34 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45066)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hQE0C-0005d2-30
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 12:40:37 -0400
+	(envelope-from <amitshah@gmx.net>) id 1hQEo3-0002M5-JK
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 13:32:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hQE0B-0006yQ-4i
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 12:40:36 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:41358)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hQE0A-0006xN-TQ
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 12:40:35 -0400
-Received: by mail-pg1-x541.google.com with SMTP id z3so7044549pgp.8
-	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 09:40:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=9emRe7+SQWHfpiOONHat52ULNuh6E+wMqmRqVatJvPg=;
-	b=jOrrFFKVbrFhFs9mhivPp/tHHCJPMqi7iJ/yk+u+YInvHU0ZTLiKoDbE55rHelZHUP
-	mH3V/2me9vDUytT0DCABn1oeyNZ3rrAPj0i+g4kRqiz+jj+TBugiR6QSBv9TLOsHzFRU
-	cCUX6Y1HluAbzShlsLkNAZZcV+YExMLUh3LcZzS0Buw8zSJREZPfqElkDWHtbcinSLPu
-	zo53Yu8icM3cdD1TNoBcJwa2khCWFkV8TM2JuED0ngSBlmuPJA3o42yRetVyNiUKUo9/
-	FgEbEXVdcfoi4x4u7/W/2NZuDB7jG8rnnxYrWsVIvSDvTOFPwEu1RuOHPZkEiIA+a0XU
-	B3CQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=9emRe7+SQWHfpiOONHat52ULNuh6E+wMqmRqVatJvPg=;
-	b=J4oHdcrs1EBu+8e3IjcSCauB6u7htfgUfBBO69tSE8PH1GR3jxwyggA27ewCTwrCch
-	gNxPBiEn7fcz3lw+9oAnZdb0PjB18tpBuu7jjLqhdUQ1H301V24EE0nhmUb0+ZqzYZBK
-	fBAKUzWvq2eavBrTbq5HbugcDvT4IEArsK230/5Ty80lh2evIY1GbdZfWEV7Ko1R4+Yi
-	eo6CScrg3J5S8eLfFO8qZEpq4VoDt8qmNJsmOkg8pnGHMlyc8GJ+zLcAMOlul0CjTy8q
-	bWnV1iGouQBqzgcGSr+INuZ9PFfNtY31UO90Yfb9DIetgCYtBJGqJbZ+bGjb7FHoUxgd
-	GZZA==
-X-Gm-Message-State: APjAAAVG4d9eueGgClDjbn36EsnNyA1ja4MwbElGrKtYgfpCfRgZTNL6
-	cznp1vgbgOnR27h9G+kYNWYD1g==
-X-Google-Smtp-Source: APXvYqxJyB2o2w7xR7AQfxdrxQnvD5Mf72IuIvvADwPnOKN/uXcJxStjd3ufP7T6U2ARb5Ghbzl1Ng==
-X-Received: by 2002:a63:90c7:: with SMTP id a190mr33206956pge.23.1557765632636;
-	Mon, 13 May 2019 09:40:32 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-13-231.tukw.qwest.net. [97.113.13.231])
-	by smtp.gmail.com with ESMTPSA id
-	17sm21449966pfw.65.2019.05.13.09.40.31
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 13 May 2019 09:40:31 -0700 (PDT)
-To: Dave Martin <Dave.Martin@arm.com>, Andrew Jones <drjones@redhat.com>
-References: <20190512083624.8916-1-drjones@redhat.com>
-	<20190512083624.8916-6-drjones@redhat.com>
-	<20190513123110.GE28398@e103592.cambridge.arm.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <e35ba07e-2844-fe2d-ca4a-0f795a1485b1@linaro.org>
-Date: Mon, 13 May 2019 09:40:29 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <amitshah@gmx.net>) id 1hQEo1-0004Ea-Lh
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 13:32:07 -0400
+Received: from mslow2.mail.gandi.net ([217.70.178.242]:51684)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <amitshah@gmx.net>) id 1hQEo0-0004Bm-0j
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 13:32:05 -0400
+Received: from relay6-d.mail.gandi.net (unknown [217.70.183.198])
+	by mslow2.mail.gandi.net (Postfix) with ESMTP id 987A63AFE5F
+	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 16:41:22 +0000 (UTC)
+X-Originating-IP: 109.201.152.8
+Received: from localhost (tsn109-201-152-8.dyn.nltelcom.net [109.201.152.8])
+	(Authenticated sender: amit@amitshah.net)
+	by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id E2152C0005;
+	Mon, 13 May 2019 16:40:53 +0000 (UTC)
+Date: Mon, 13 May 2019 18:40:52 +0200
+From: Amit Shah <amitshah@gmx.net>
+To: Markus Armbruster <armbru@redhat.com>
+Message-ID: <20190513164052.GA10558@grmbl.mre>
+References: <20190510102637.10209-1-lvivier@redhat.com>
+	<87zhnuqyu0.fsf@dusky.pond.sub.org>
+	<87991c2b-da9d-0e7f-bc09-9fbadbda4ef8@redhat.com>
+	<878svemj67.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
-In-Reply-To: <20190513123110.GE28398@e103592.cambridge.arm.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::541
-Subject: Re: [Qemu-devel] [PATCH 05/13] target/arm/kvm: Add
- kvm_arch_get/put_sve
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <878svemj67.fsf@dusky.pond.sub.org>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 217.70.178.242
+Subject: Re: [Qemu-devel] [PATCH v2] rng-builtin: add an RNG backend that
+ uses qemu_guest_getrandom()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -86,57 +55,190 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
-	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
-	"armbru@redhat.com" <armbru@redhat.com>,
-	"qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
-	"abologna@redhat.com" <abologna@redhat.com>,
-	"alex.bennee@linaro.org" <alex.bennee@linaro.org>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+	Daniel =?iso-8859-1?Q?P=2EBerrang=E9?= <berrange@redhat.com>,
+	Kashyap Chamarthy <kchamart@redhat.com>, Amit Shah <amit@kernel.org>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	"Richard W . M . Jones" <rjones@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/13/19 5:31 AM, Dave Martin wrote:
-> On Sun, May 12, 2019 at 09:36:16AM +0100, Andrew Jones wrote:
->> These are the SVE equivalents to kvm_arch_get/put_fpsimd.
->>
->> Signed-off-by: Andrew Jones <drjones@redhat.com>
->> ---
->>  target/arm/kvm64.c | 127 +++++++++++++++++++++++++++++++++++++++++++--
->>  1 file changed, 123 insertions(+), 4 deletions(-)
+On (Fri) 10 May 2019 [17:19:12], Markus Armbruster wrote:
+> Laurent Vivier <lvivier@redhat.com> writes:
 > 
-> [...]
+> > On 10/05/2019 14:27, Markus Armbruster wrote:
+> >> Laurent Vivier <lvivier@redhat.com> writes:
+> >>
+> >>> Add a new RNG backend using QEMU builtin getrandom function.
+> >>>
+> >>> It can be created and used with something like:
+> >>>
+> >>>      ... -object rng-builtin,id=rng0 -device virtio-rng,rng=rng0 ...
+> >>>
+> >>> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
+> >>> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
+> >>> ---
+> >>>
+> >>> Notes:
+> >>>      This patch applies on top of
+> >>>      "[PATCH v5 00/24] Add qemu_getrandom and ARMv8.5-RNG etc"
+> >>>      Based-on: 20190510012458.22706-1-richard.henderson@linaro.org
+> >>>           v2: Update qemu-options.hx
+> >>>          describe the new backend and specify virtio-rng uses the
+> >>>          rng-random by default (do we want to change this?)
+> >>>
+> >>>   backends/Makefile.objs |  2 +-
+> >>>   backends/rng-builtin.c | 56 ++++++++++++++++++++++++++++++++++++++++++
+> >>>   qemu-options.hx        | 10 +++++++-
+> >>>   3 files changed, 66 insertions(+), 2 deletions(-)
+> >>>   create mode 100644 backends/rng-builtin.c
+> >>>
+> >>> diff --git a/backends/Makefile.objs b/backends/Makefile.objs
+> >>> index ff619d31b461..8da4a508d97b 100644
+> >>> --- a/backends/Makefile.objs
+> >>> +++ b/backends/Makefile.objs
+> >>> @@ -1,4 +1,4 @@
+> >>> -common-obj-y += rng.o rng-egd.o
+> >>> +common-obj-y += rng.o rng-egd.o rng-builtin.o
+> >>>   common-obj-$(CONFIG_POSIX) += rng-random.o
+> >>>     common-obj-$(CONFIG_TPM) += tpm.o
+> >>> diff --git a/backends/rng-builtin.c b/backends/rng-builtin.c
+> >>> new file mode 100644
+> >>> index 000000000000..b1264b745407
+> >>> --- /dev/null
+> >>> +++ b/backends/rng-builtin.c
+> >>> @@ -0,0 +1,56 @@
+> >>> +/*
+> >>> + * QEMU Builtin Random Number Generator Backend
+> >>> + *
+> >>> + * This work is licensed under the terms of the GNU GPL, version 2 or later.
+> >>> + * See the COPYING file in the top-level directory.
+> >>> + */
+> >>> +
+> >>> +#include "qemu/osdep.h"
+> >>> +#include "sysemu/rng.h"
+> >>> +#include "qapi/error.h"
+> >>> +#include "qapi/qmp/qerror.h"
+> >>> +#include "qemu/main-loop.h"
+> >>> +#include "qemu/guest-random.h"
+> >>> +
+> >>> +#define TYPE_RNG_BUILTIN "rng-builtin"
+> >>> +#define RNG_BUILTIN(obj) OBJECT_CHECK(RngBuiltin, (obj), TYPE_RNG_BUILTIN)
+> >>> +
+> >>> +typedef struct RngBuiltin {
+> >>> +    RngBackend parent;
+> >>> +} RngBuiltin;
+> >>> +
+> >>> +static void rng_builtin_request_entropy(RngBackend *b, RngRequest *req)
+> >>> +{
+> >>> +    RngBuiltin *s = RNG_BUILTIN(b);
+> >>> +
+> >>> +    while (!QSIMPLEQ_EMPTY(&s->parent.requests)) {
+> >>> +        RngRequest *req = QSIMPLEQ_FIRST(&s->parent.requests);
+> >>> +
+> >>> +        qemu_guest_getrandom_nofail(req->data, req->size);
+> >>> +
+> >>> +        req->receive_entropy(req->opaque, req->data, req->size);
+> >>> +
+> >>> +        rng_backend_finalize_request(&s->parent, req);
+> >>> +    }
+> >>> +}
+> >>> +
+> >>> +static void rng_builtin_class_init(ObjectClass *klass, void *data)
+> >>> +{
+> >>> +    RngBackendClass *rbc = RNG_BACKEND_CLASS(klass);
+> >>> +
+> >>> +    rbc->request_entropy = rng_builtin_request_entropy;
+> >>> +}
+> >>> +
+> >>> +static const TypeInfo rng_builtin_info = {
+> >>> +    .name = TYPE_RNG_BUILTIN,
+> >>> +    .parent = TYPE_RNG_BACKEND,
+> >>> +    .instance_size = sizeof(RngBuiltin),
+> >>> +    .class_init = rng_builtin_class_init,
+> >>> +};
+> >>> +
+> >>> +static void register_types(void)
+> >>> +{
+> >>> +    type_register_static(&rng_builtin_info);
+> >>> +}
+> >>> +
+> >>> +type_init(register_types);
+> >>> diff --git a/qemu-options.hx b/qemu-options.hx
+> >>> index 0191ef8b1eb7..3e2a51c691b0 100644
+> >>> --- a/qemu-options.hx
+> >>> +++ b/qemu-options.hx
+> >>> @@ -4280,13 +4280,21 @@ other options.
+> >>>     The @option{share} boolean option is @var{on} by default with
+> >>> memfd.
+> >>>   +@item -object rng-builtin,id=@var{id}
+> >>> +
+> >>> +Creates a random number generator backend which obtains entropy from
+> >>> +QEMU builtin functions. The @option{id} parameter is a unique ID that
+> >>> +will be used to reference this entropy backend from the @option{virtio-rng}
+> >>> +device.
+> >>> +
+> >>>   @item -object rng-random,id=@var{id},filename=@var{/dev/random}
+> >>>     Creates a random number generator backend which obtains entropy
+> >>> from
+> >>>   a device on the host. The @option{id} parameter is a unique ID that
+> >>>   will be used to reference this entropy backend from the @option{virtio-rng}
+> >>>   device.
+> >>
+> >> There's also the "spapr-rng" device, I think.
+> >
+> > spapr-rng doesn't have default. You must specify one to be able to use it:
+> >    qemu-system-ppc64: -device spapr-rng: spapr-rng needs an RNG backend!
 > 
->> +static int kvm_arch_put_sve(CPUState *cs)
->> +{
->> +    ARMCPU *cpu = ARM_CPU(cs);
->> +    CPUARMState *env = &cpu->env;
->> +    struct kvm_one_reg reg;
->> +    int n, ret;
->> +
->> +    for (n = 0; n < KVM_ARM64_SVE_NUM_ZREGS; n++) {
->> +        uint64_t *q = aa64_vfp_qreg(env, n);
->> +#ifdef HOST_WORDS_BIGENDIAN
->> +        uint64_t d[ARM_MAX_VQ * 2];
->> +        int i;
->> +        for (i = 0; i < cpu->sve_max_vq * 2; i++) {
->> +            d[i] = q[cpu->sve_max_vq * 2 - 1 - i];
->> +        }
+> You're right.
 > 
-> Out of interest, why do all this swabbing?  It seems expensive.
+> >>>           The @option{filename} parameter specifies which file to obtain
+> >>> -entropy from and if omitted defaults to @option{/dev/random}.
+> >>> +entropy from and if omitted defaults to @option{/dev/random}. By default,
+> >>> +the @option{virtio-rng} device uses this RNG backend.
+> >>>     @item -object rng-egd,id=@var{id},chardev=@var{chardevid}
+> >>
+> >> Trivial conflict with Kashyap's "[PATCH v2] VirtIO-RNG: Update default
+> >> entropy source to `/dev/urandom`".
+> >>
+> >> virtio-rng indeed creates an rng-random backend when the user doesn't
+> >> specify one.  I consider having device model frontends create backends a
+> >> bad idea.  Not this patch's fault, of course.
+> >>
+> >> That said, would rng-builtin be a better default?  For starters, it's
+> >> available when !CONFIG_POSIX.  I suspect virtio-rng crashes when it
+> >> tries to create an rng-random that isn't available.
+> >
+> > I will send a v3 with rng-builtin as a default. Maintainer will be
+> > able to pick one of his choice, v2 or v3.
+> >
+> >>
+> >> The new rng-builtin is considerably simpler than both rng-random and
+> >> rng-egd.  Moreover, it just works, whereas rng-random is limited to
+> >> CONFIG_POSIX, and rng-egd needs egd running (which I suspect basically
+> >> nobody does).  Have we considered deprecating these two backends in
+> >> favor of rng-builtin?
+> >
+> > I have several bugzilla involving these backends: as there are
+> > blocking, the virtio-rng device in the guest can hang, or crash during
+> > hot-unplug. From my point of view, life would be easier without
+> > them...
+> 
+> Sounds like perfectly fine reasons for deprecating them.  Amit, what do
+> you think?
 
-Indeed, to me this seems to be the wrong kind of swabbing here.  Exactly what
-format is KVM expecting?  Surely it should be the one used by the unpredicated
-LDR/STR instructions.  Anything else would seem to be working against the
-architecture.
+The egd backend wasn't too useful - so I don't mind deprecating it
+using the usual deprecation notice.
 
-If so, the format is, architecturally, a stream of bytes in index order, which
-corresponds to a little-endian stream of words.  So the loop I'd expect to see
-here is
+The rng-random backend can stay with the multiple fallbacks as
+discussed in the other threads - with getrandom() being the most
+preferred one on Linux.  BSDs have /dev/srandom which is quite similar
+to getrandom(), but that can be an additional backend that can come later.
 
-    for (i = 0, n = cpu->sve_max_vq; i < n; ++i) {
-        d[i] = bswap64(q[i]);
-    }
+Overall, I like the way these series turned out..
 
 
-r~
+		Amit
+-- 
+http://amitshah.net/
 
