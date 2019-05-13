@@ -2,65 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 35C081BFC6
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 01:19:24 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36238 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A7231C0D9
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 05:20:43 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38341 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQKE6-0003U1-Te
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 19:19:22 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56085)
+	id 1hQNze-0003mg-8V
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 23:20:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54788)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alistair23@gmail.com>) id 1hQKCh-0002cX-DH
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 19:18:20 -0400
+	(envelope-from <alistair23@gmail.com>) id 1hQNyX-0003Th-Oj
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 23:19:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alistair23@gmail.com>) id 1hQK1t-0001tg-83
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 19:07:23 -0400
-Received: from mail-lf1-x143.google.com ([2a00:1450:4864:20::143]:45696)
+	(envelope-from <alistair23@gmail.com>) id 1hQK7p-0001Fh-Tj
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 19:13:17 -0400
+Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:36980)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <alistair23@gmail.com>)
-	id 1hQK1s-0001o5-QM; Mon, 13 May 2019 19:06:45 -0400
-Received: by mail-lf1-x143.google.com with SMTP id n22so10278305lfe.12;
-	Mon, 13 May 2019 16:06:41 -0700 (PDT)
+	id 1hQK7j-0000we-LU
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 19:12:49 -0400
+Received: by mail-lf1-x144.google.com with SMTP id h126so10321379lfh.4
+	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 16:12:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=2vHz03zI+JINIBclxZbsNHslHVrte/25NIt2rGtgjnY=;
-	b=m02C9uQKsPUfSqGCArA4wK/5F6UU3CfAIGYxLypeEoOu+3okHBZJ8XtmJL6TPAewhb
-	2K5ifoC/Joq40zaTdtMigjvmExlPrM24WDenpNQA0pOVR2+Q2tqfgEftzywYDtJqx6VX
-	Q/qjjD+zl8MDtTd5zfZOQeYa6pOKe4mT1AkrUkEhzSLCIPE92DONAgdPsJCAF3CZ5uNv
-	McVz1jZ7+rpVE6hw+nv24lBC2Eu77qfaC+P5Z8qrjkFFNbVtK3tnSI3A3ulua4ZPJFpr
-	/HeMMw377ahsGkfxo6UdZK8UYmTQvSsXu3ykoa8qyvjn4KYF4hLCHpXUVVT++TTftrs9
-	aGUg==
+	:cc; bh=4eFUZYyr8KNeadgMclSKpUtShszfc8t2iXqXurCvJ9M=;
+	b=B12kg9ziYNc0NrUvp4J3AmT7j5EpFzjd/0wN2HFiGDzgeC/o6+5+lkMuSe+WjoeZaw
+	ss9S+DZ65t5RQSIJVsVvmJEKrDOeAA918mBDKykj8ASOkl9F7QADatRgk8eo98IQc6Sj
+	pXgumCXeAUS1LkIvkPMNTfsDMjVxpryPR/5ErfhtZZ+Ot5bsu8loTMOZ/OoRq/OGa6qf
+	M/0BYEDwV2rNHDCWM3LNXSNgK7zMweBH+VyQ0ZatPzcf+XCk0h4OGUySgsAsHVspPDdn
+	4LuMWTfnAugDqMCNzmMGlrDIUx7u99PZFcdaPiw4tn7d7zoJkeIZuUhKpJujUjIE8nST
+	BgTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=2vHz03zI+JINIBclxZbsNHslHVrte/25NIt2rGtgjnY=;
-	b=EMfkbFrEX2+sG6Vd4HnyOMPDqsQdoGE7DIXPJKtWlLPJlSW+yyUg0bSvr5XF0budk3
-	KxP4a34xCLCL966mra5p8VQ7bBrUqADveiS9mXPRuhazovo2NM0g6qsasI/z1vhC/7g4
-	OJx2dRccrokd1mo2ynrKixdBWRXl9WNKpQu2lCWwF+8xQfp+IA6WTrT06mHcsl5SMDFY
-	iZiEIeNO7ufIYTW/5U+9Mndv1YLvP9KdamhWIrnqadmHKjyrDAdFspMS6wCCL78Cj6hW
-	vOrRctybanysj7JbCZ5inehEjvEcN/S0GwCSOeAwFpaaktFk9UgQvyWQQQIbG8wDObMU
-	WPOQ==
-X-Gm-Message-State: APjAAAUMeiuhTQqgm6Ilj3V7x+931OFdD9ESgAa3nb90fMEZBCosOFIU
-	vyjqbyycx8I7U/tz5HSgKDQHCAlGg3U2kzgzY6A=
-X-Google-Smtp-Source: APXvYqyQCaArhqiuRNRMd0DNX4WEJvaUdMVJ8S/K0zKHOqByX7/LSj7OkAaxCuryXybOQ0GNJtNdw20/EMPNdmShh+0=
+	bh=4eFUZYyr8KNeadgMclSKpUtShszfc8t2iXqXurCvJ9M=;
+	b=A401GTGS4Q+mGP15CQL8UYIuj/4xLdSKa6SZGGTu2laUVne9sj8p6rvhvt0WRkEu1f
+	oIfOs+5CKg9skQP98o1odN93VY3dxKuLRUD9zwlZLonwJQGxKC5O65HxD7Gj5Qvh5Ham
+	Nn1hF7x5M2Qnto/6QgMrSZEkAFCavgVQbhgeaLRu+N0ucNlnvy/hcJDH+15mnjtgT+oJ
+	TDdB3ZYimwXVWo45bNJuilZrioFDGAz9sNaj0+etb9gegtWK34eIlgJ698BOq2bbc3ou
+	v7iw9eTHtpbr1tRYWHAuH3nZc9lHvu1IQDV/SQ1OHNfn30POmlCi1e6h/yfx+F4M99Vf
+	IWzA==
+X-Gm-Message-State: APjAAAVqxf1geLKdFimiwB0ByYepg7YY2RjMHhLC6BZOwYNkHW1Qtvoi
+	0QYMj8eT7rd2fGCMwh+4/usW+IRbkUZ9KKHZSwk=
+X-Google-Smtp-Source: APXvYqwK/Qgzo8ERbwy6oJtzWSuC6mL8AkQ/nV3rw6CHFrpMCJXNsCg1dBrS87+Y3NoddwKsmVF0WiXMPegI+AitclI=
 X-Received: by 2002:a05:6512:309:: with SMTP id
-	t9mr14617630lfp.103.1557788799792; 
-	Mon, 13 May 2019 16:06:39 -0700 (PDT)
+	t9mr14627369lfp.103.1557789154860; 
+	Mon, 13 May 2019 16:12:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190513194328.11045-1-jonathan@fintelia.io>
-In-Reply-To: <20190513194328.11045-1-jonathan@fintelia.io>
+References: <20190508000641.19090-1-richard.henderson@linaro.org>
+	<20190508000641.19090-39-richard.henderson@linaro.org>
+	<CAKmqyKN5BmdUwv92UzCVZzNQsykeFSq_TwTvb7h5Ld9UWBuyyw@mail.gmail.com>
+	<9e60945f-5d27-c90b-79af-8e57a9dce78b@linaro.org>
+In-Reply-To: <9e60945f-5d27-c90b-79af-8e57a9dce78b@linaro.org>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 13 May 2019 16:04:26 -0700
-Message-ID: <CAKmqyKNGXrvnJSuBN-BqtoyjE6FQ3niNMkWpwv1w2e1GN8ESHg@mail.gmail.com>
-To: Jonathan Behrens <jonathan@fintelia.io>
+Date: Mon, 13 May 2019 16:10:22 -0700
+Message-ID: <CAKmqyKMyUHucSTTN+MJ9YBpKQqFvPgL38vLXrdoQ732qmwFQ+g@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::143
-Subject: Re: [Qemu-devel] [PATCH] cadence_gem: Don't define GEM_INT_Q1_MASK
- twice
+X-Received-From: 2a00:1450:4864:20::144
+Subject: Re: [Qemu-devel] [PATCH v3 38/39] tcg/arm: Use LDRD to load tlb
+ mask+table
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -72,44 +76,30 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
-	Alistair Francis <alistair@alistair23.me>,
-	"qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
-	Jonathan Behrens <fintelia@gmail.com>,
-	"open list:Xilinx Zynq" <qemu-arm@nongnu.org>,
-	"Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 13, 2019 at 12:57 PM Jonathan Behrens <jonathan@fintelia.io> wrote:
+On Sat, May 11, 2019 at 12:13 PM Richard Henderson
+<richard.henderson@linaro.org> wrote:
 >
-> Signed-off-by: Jonathan Behrens <jonathan@fintelia.io>
+> On 5/10/19 2:08 PM, Alistair Francis wrote:
+> >> +        if (use_armv6_instructions && TARGET_LONG_BITS == 64) {
+> >> +            tcg_out_ldrd_8(s, COND_AL, TCG_REG_R2, TCG_REG_R1, cmp_off);
+> ...
+> >
+> > This is complex and I'm probably misunderstanding something but isn't
+> > it possible for TCG_REG_R3 to not be set if use_armv6_instructions is
+> > true and TARGET_LONG_BITS is 64?
+>
+> No, the LDRD instruction loads data into both R2 and R2+1 = R3.
 
-Good find. Thanks for the patch!
-
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-
-Can this go via your tree Jason?
+Ah ok. This looks fine to me then but I don't think I fully grasp it
+enough to Ack it.
 
 Alistair
 
-> ---
->  hw/net/cadence_gem.c | 1 -
->  1 file changed, 1 deletion(-)
 >
-> diff --git a/hw/net/cadence_gem.c b/hw/net/cadence_gem.c
-> index 7f63411430..37cb8a4e5c 100644
-> --- a/hw/net/cadence_gem.c
-> +++ b/hw/net/cadence_gem.c
-> @@ -146,7 +146,6 @@
->  #define GEM_DESCONF7      (0x00000298/4)
 >
->  #define GEM_INT_Q1_STATUS               (0x00000400 / 4)
-> -#define GEM_INT_Q1_MASK                 (0x00000640 / 4)
->
->  #define GEM_TRANSMIT_Q1_PTR             (0x00000440 / 4)
->  #define GEM_TRANSMIT_Q7_PTR             (GEM_TRANSMIT_Q1_PTR + 6)
-> --
-> 2.20.1
->
+> r~
 
