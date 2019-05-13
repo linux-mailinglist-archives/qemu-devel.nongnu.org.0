@@ -2,53 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 254FD1BA23
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 17:33:47 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:59190 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C10501BA1F
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 17:32:29 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:59167 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQCxW-0005MY-9c
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 11:33:46 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50954)
+	id 1hQCwG-0004TT-GL
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 11:32:28 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50999)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <lvivier@redhat.com>) id 1hQCuo-0003gn-JX
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 11:31:03 -0400
+	(envelope-from <armbru@redhat.com>) id 1hQCud-0003hZ-CV
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 11:30:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <lvivier@redhat.com>) id 1hQCiZ-0006Pn-5G
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 11:18:20 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36104)
+	(envelope-from <armbru@redhat.com>) id 1hQCpU-0002WJ-5c
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 11:25:28 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48166)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <lvivier@redhat.com>)
-	id 1hQCiY-0006P4-Vc; Mon, 13 May 2019 11:18:19 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
+	(Exim 4.71) (envelope-from <armbru@redhat.com>)
+	id 1hQCpT-0002Uu-0m; Mon, 13 May 2019 11:25:27 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+	[10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 3D51685363;
-	Mon, 13 May 2019 15:18:18 +0000 (UTC)
-Received: from [10.40.204.20] (ovpn-204-20.brq.redhat.com [10.40.204.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 24E3D5D71E;
-	Mon, 13 May 2019 15:17:52 +0000 (UTC)
-To: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
-References: <20190401141222.30034-1-lvivier@redhat.com>
-	<6f3c5f49-9be7-85cb-d693-d608135975b5@redhat.com>
-From: Laurent Vivier <lvivier@redhat.com>
-Message-ID: <b8d003fb-1d53-3723-4eef-b39a3d965bc0@redhat.com>
-Date: Mon, 13 May 2019 17:17:51 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
+	by mx1.redhat.com (Postfix) with ESMTPS id 2690F59451;
+	Mon, 13 May 2019 15:25:26 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-28.ams2.redhat.com
+	[10.36.116.28])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id C59666A490;
+	Mon, 13 May 2019 15:25:25 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+	id 42ADE11385E4; Mon, 13 May 2019 17:25:23 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Andrew Jones <drjones@redhat.com>
+References: <20190512083624.8916-1-drjones@redhat.com>
+	<20190512083624.8916-12-drjones@redhat.com>
+Date: Mon, 13 May 2019 17:25:23 +0200
+In-Reply-To: <20190512083624.8916-12-drjones@redhat.com> (Andrew Jones's
+	message of "Sun, 12 May 2019 10:36:22 +0200")
+Message-ID: <875zqefkbg.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-In-Reply-To: <6f3c5f49-9be7-85cb-d693-d608135975b5@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.25]);
-	Mon, 13 May 2019 15:18:18 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.39]);
+	Mon, 13 May 2019 15:25:26 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 0/5] build: cleanup in Makefile.objs
+Subject: Re: [Qemu-devel] [PATCH 11/13] target/arm/cpu64: max cpu: Introduce
+ sve-vls-map
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -60,56 +62,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
-	Cornelia Huck <cohuck@redhat.com>, qemu-s390x@nongnu.org,
-	Gerd Hoffmann <kraxel@redhat.com>, Stefan Hajnoczi <stefanha@redhat.com>,
-	=?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
-	=?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
-	Richard Henderson <rth@twiddle.net>
+Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
+	qemu-devel@nongnu.org, abologna@redhat.com, qemu-arm@nongnu.org,
+	alex.bennee@linaro.org, Dave.Martin@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 02/04/2019 10:08, Paolo Bonzini wrote:
-> On 01/04/19 16:12, Laurent Vivier wrote:
->> This cleanup removes hardware objects from the list of files to be
->> built for linux-user only targets.
->>
->> It also builds traces files only when the related file is built.
->>
->> Tested with all combinations of --{disable,enable}-{system,user,tools}
->>
->> v3:
->>    - don't move hw/display to CONFIG_BLOCK section
->> v2:
->>    - add CONFIG_TOOLS and CONFIG_BLOCK
->>    - replace GENERATED_FILES by generated-files-y
->>      and use generated-files-${CONFIG_TRACE_UST} and
->>      generated-files-${CONFIG_SOFTMMU}
->>    - move chardev-obj-y from SUBDIR_RULES to SOFTMMU_SUBDIR_RULES
->>    - use $(CONFIG_BLOCK) in tests/Makefile.include
->>    - disable qemu-ga with linux-user only
->>
->> Laurent Vivier (5):
->>    trace: only include trace-event-subdirs when they are needed
->>    build: replace GENERATED_FILES by generated-files-y
->>    configure: qemu-ga is only needed with softmmu targets
->>    build: chardev is only needed for softmmu targets
->>    build: don't build hardware objects with linux-user
->>
->>   Makefile                   |  43 +++++++-------
->>   Makefile.objs              |  22 ++++---
->>   Makefile.target            |   6 +-
->>   configure                  |   4 +-
->>   target/s390x/Makefile.objs |   2 +-
->>   tests/Makefile.include     | 116 ++++++++++++++++++-------------------
->>   6 files changed, 102 insertions(+), 91 deletions(-)
->>
-> 
-> Queued for 4.1, thanks.
+Andrew Jones <drjones@redhat.com> writes:
 
-Any news?
+> Introduce another cpu property to control SVE vector lengths,
+> sve-vls-map, which allows the user to explicitly select the
+> set of vector lengths the guest can use. The map must conform
+> to QEMU's limits and architectural constraints, checked when
+> the property is set. Inconsistencies with sve-max-vq are also
+> checked. The bit number of a set bit in the map represents the
+> allowed vector length in number of quadwords.
+>
+> Note, as the map is implemented with a single 64-bit word we
+> currently only support up to 8192-bit vectors. As QEMU and
+> KVM only support up to 2048-bit vectors then this sufficient
+> now, and probably for some time. Extending the bitmap beyond
+> a single word will likely require changing the property to
+> a string and adding yet another parser to QEMU.
+>
+> Signed-off-by: Andrew Jones <drjones@redhat.com>
 
-Thanks,
-Laurent
-
+Please add an example of how the new property should be used on the
+command line to your commit message.  I'd ask for a documentation update
+as well if we had any to update.
 
