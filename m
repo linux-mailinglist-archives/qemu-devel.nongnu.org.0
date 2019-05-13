@@ -2,62 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 834A51B80C
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 16:20:36 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58095 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 605521B859
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 16:33:50 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58422 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQBoh-0002qU-Hv
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 10:20:35 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36849)
+	id 1hQC1V-0003J2-1z
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 10:33:49 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40538)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hQBlI-0000uu-I3
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 10:17:07 -0400
+	(envelope-from <mreitz@redhat.com>) id 1hQBzA-0002XZ-8G
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 10:31:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hQBfU-0000Eb-IF
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 10:11:06 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48790)
+	(envelope-from <mreitz@redhat.com>) id 1hQBz9-00017a-AF
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 10:31:24 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46034)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hQBfU-0000EK-Ar
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 10:11:04 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
-	[10.5.11.12])
+	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
+	id 1hQBz6-00014n-Ot; Mon, 13 May 2019 10:31:20 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id AEFF5309B14B
-	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 14:11:03 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-28.ams2.redhat.com
-	[10.36.116.28])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id E33A06A497;
-	Mon, 13 May 2019 14:10:59 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
-	id 63A6111385E4; Mon, 13 May 2019 16:10:58 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Daniel P. =?utf-8?Q?Berrang=C3=A9?= <berrange@redhat.com>
-References: <20190430131919.GN6818@redhat.com> <20190430144546.GA3065@work-vm>
-	<20190430150556.GA2423@redhat.com>
-	<87sgtqejn9.fsf@dusky.pond.sub.org>
-	<20190507093954.GG27205@redhat.com>
-	<875zql3ylk.fsf@dusky.pond.sub.org>
-	<20190513120856.GH15029@redhat.com> <20190513122933.GC2786@work-vm>
-	<20190513123542.GJ15029@redhat.com>
-Date: Mon, 13 May 2019 16:10:58 +0200
-In-Reply-To: <20190513123542.GJ15029@redhat.com> ("Daniel P. =?utf-8?Q?Ber?=
-	=?utf-8?Q?rang=C3=A9=22's?=
-	message of "Mon, 13 May 2019 13:35:42 +0100")
-Message-ID: <878sva5tsd.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+	by mx1.redhat.com (Postfix) with ESMTPS id 43EC7307C94F;
+	Mon, 13 May 2019 14:31:19 +0000 (UTC)
+Received: from dresden.str.redhat.com (unknown [10.40.206.26])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id F036E1001DE1;
+	Mon, 13 May 2019 14:31:17 +0000 (UTC)
+To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
+References: <cover.1557754872.git.berto@igalia.com>
+	<20dfb3d9ccec559cdd1a9690146abad5d204a186.1557754872.git.berto@igalia.com>
+From: Max Reitz <mreitz@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+	mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+	/PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+	U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+	mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+	awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+	AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+	CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+	B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+	2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+	AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+	8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+	4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+	BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+	xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+	W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+	DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+	64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+	ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+	sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+	alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+	/ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+	bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+	R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <5783a050-5866-80d5-4699-7ea0bf122398@redhat.com>
+Date: Mon, 13 May 2019 16:31:16 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20dfb3d9ccec559cdd1a9690146abad5d204a186.1557754872.git.berto@igalia.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature";
+	boundary="t974NlSDzOl3d1xWbLGZYVng0SMqck0zD"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.49]);
-	Mon, 13 May 2019 14:11:03 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.46]);
+	Mon, 13 May 2019 14:31:19 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] QMP; unsigned 64-bit ints;
- JSON standards compliance
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [PATCH v3 2/2] block: Make
+ bdrv_root_attach_child() unref child_bs on failure
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -69,230 +87,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, =?utf-8?Q?J=C3=A1n?= Tomko <jtomko@redhat.com>,
-	"Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--t974NlSDzOl3d1xWbLGZYVng0SMqck0zD
+From: Max Reitz <mreitz@redhat.com>
+To: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org
+Cc: qemu-block@nongnu.org, Kevin Wolf <kwolf@redhat.com>
+Message-ID: <5783a050-5866-80d5-4699-7ea0bf122398@redhat.com>
+Subject: Re: [PATCH v3 2/2] block: Make bdrv_root_attach_child() unref
+ child_bs on failure
+References: <cover.1557754872.git.berto@igalia.com>
+ <20dfb3d9ccec559cdd1a9690146abad5d204a186.1557754872.git.berto@igalia.com>
+In-Reply-To: <20dfb3d9ccec559cdd1a9690146abad5d204a186.1557754872.git.berto@igalia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 
-> On Mon, May 13, 2019 at 01:29:34PM +0100, Dr. David Alan Gilbert wrote:
->> * Daniel P. Berrang=C3=A9 (berrange@redhat.com) wrote:
->> > On Wed, May 08, 2019 at 02:44:07PM +0200, Markus Armbruster wrote:
->> > > Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
->> > >=20
->> > > > On Tue, May 07, 2019 at 10:47:06AM +0200, Markus Armbruster wrote:
->> > > >
->> > > >> >> > I can think of some options:
->> > > >> >> >=20
->> > > >> >> >   1. Encode unsigned 64-bit integers as signed 64-bit intege=
-rs.
->> > > >> >> >=20
->> > > >> >> >      This follows the example that most C libraries map JSON=
- ints
->> > > >> >> >      to 'long long int'. This is still relying on undefined
->> > > >> >> >      behaviour as apps don't need to support > 2^53-1.
->> > > >> >> >=20
->> > > >> >> >      Apps would need to cast back to 'unsigned long long' for
->> > > >> >> >      those QMP fields they know are supposed to be unsigned.
->> > > >>=20
->> > > >> Ugly.  It's also what we did until v2.10, August 2017.  QMP's inp=
-ut
->> > > >> direction still does it, for backward compatibility.
->> > > >>=20
->> > > >> >> >=20
->> > > >> >> >=20
->> > > >> >> >   2. Encode all 64-bit integers as a pair of 32-bit integers.
->> > > >> >> >=20=20=20=20=20
->> > > >> >> >      This is fully compliant with the JSON spec as each half
->> > > >> >> >      is fully within the declared limits. App has to split or
->> > > >> >> >      assemble the 2 pieces from/to a signed/unsigned 64-bit
->> > > >> >> >      int as needed.
->> > > >>=20
->> > > >> Differently ugly.
->> > > >>=20
->> > > >> >> >=20
->> > > >> >> >=20
->> > > >> >> >   3. Encode all 64-bit integers as strings
->> > > >> >> >=20
->> > > >> >> >      The application has todo all parsing/formatting client
->> > > >> >> >      side.
->> > > >>=20
->> > > >> Yet another ugly.
->> > > >>=20
->> > > >> >> >=20
->> > > >> >> >=20
->> > > >> >> > None of these changes are backwards compatible, so I doubt w=
-e could make
->> > > >> >> > the change transparently in QMP.  Instead we would have to h=
-ave a
->> > > >> >> > QMP greeting message capability where the client can request=
- enablement
->> > > >> >> > of the enhanced integer handling.
->> > > >>=20
->> > > >> We might be able to do option 1 without capability negotiation.  =
-v2.10's
->> > > >> change from option 1 to what we have now produced zero complaints.
->> > > >>=20
->> > > >> On the other hand, we made that change for a reason, so we may wa=
-nt a
->> > > >> "send large integers as negative integers" capability regardless.
->> > > >>=20
->> > > >> >> >=20
->> > > >> >> > Any of the three options above would likely work for libvirt=
-, but I
->> > > >> >> > would have a slight preference for either 2 or 3, so that we=
- become
->> > > >> >> > 100% standards compliant.
->> > > >>=20
->> > > >> There's no such thing.  You mean "we maximize interoperability wi=
-th
->> > > >> common implementations of JSON".
->> > > >
->> > > > s/common/any/
->> > >=20
->> > > info: error correction applied, future applications will be silent ;=
--P
->> > >=20
->> > > >> Let's talk implementation for a bit.
->> > > >>=20
->> > > >> Encoding and decoding integers in funny ways should be fairly eas=
-y in
->> > > >> the QObject visitors.  The generated QMP marshallers all use them.
->> > > >> Trouble is a few commands still bypass the generated marshallers,=
- and
->> > > >> mess with the QObject themselves:
->> > > >>=20
->> > > >> * query-qmp-schema: minor hack explained in qmp_query_qmp_schema(=
-)'s
->> > > >>   comment.  Should be harmless.
->> > > >>=20
->> > > >> * netdev_add: not QAPIfied.  Eric's patches to QAPIfy it got stuck
->> > > >>   because they reject some abuses like passing numbers and bools =
-as
->> > > >>   strings.
->> > > >>=20
->> > > >> * device_add: not QAPIfied.  We're not sure QAPIfication is feasi=
-ble.
->> > > >>=20
->> > > >> netdev_add and device_add both use qemu_opts_from_qdict().  Perha=
-ps we
->> > > >> could hack that to mirror what the QObject visitor do.
->> > > >>=20
->> > > >> Else, we might have to do it in the JSON parser.  Should be possi=
-ble,
->> > > >> but I'd rather not.
->> > > >>=20
->> > > >> >> My preference would be 3 with the strings defined as being
->> > > >> >> %x lower case hex formated with a 0x prefix and no longer than=
- 18 characters
->> > > >> >> ("0x" + 16 nybbles). Zero padding allowed but not required.
->> > > >> >> It's readable and unambiguous when dealing with addresses; I d=
-on't want
->> > > >> >> to have to start decoding (2) by hand when debugging.
->> > > >> >
->> > > >> > Yep, that's a good point about readability.
->> > > >>=20
->> > > >> QMP sending all integers in decimal is inconvenient for some valu=
-es,
->> > > >> such as addresses.  QMP sending all (large) integers in hexadecim=
-al
->> > > >> would be inconvenient for other values.
->> > > >>=20
->> > > >> Let's keep it simple & stupid.  If you want sophistication, JSON =
-is the
->> > > >> wrong choice.
->> > > >>=20
->> > > >>=20
->> > > >> Option 1 feels simplest.
->> > > >
->> > > > But will still fail with any JSON impl that uses double precision =
-floating
->> > > > point for integers as it will loose precision.
->> > > >
->> > > >> Option 2 feels ugliest.  Less simple, more interoperable than opt=
-ion 1.
->> > > >
->> > > > If we assume any JSON impl can do 32-bit integers without loss of
->> > > > precision, then I think we can say it is guaranteed portable, but
->> > > > it is certainly horrible / ugly.
->> > > >
->> > > >> Option 3 is like option 2, just not quite as ugly.
->> > > >
->> > > > I think option 3 can be guaranteed to be loss-less with /any/ JSON=
- impl
->> > > > that exists, since you're delegating all string -> int conversion =
-to
->> > > > the application code taking the JSON parser/formatter out of the e=
-quation.
->> > >=20
->> > > Double-checking: do you propose to encode *all* numbers as strings, =
-or
->> > > just certain "problematic" numbers?
->> > >=20
->> > > If the latter, I guess your idea of "problematic" is "not representa=
-ble
->> > > exactly as double precision floating-point".
->> >=20
->> > We have a few options
->> >=20
->> >  1. Use string format for values > 2^53-1, int format below that
->> >  2. Use string format for all fields which are 64-bit ints whether
->> >     signed or unsigned
->> >  3. Use string format for all fields which are integers, even 32-bit
->> >     ones
->> >=20
->> > I would probably suggest option 2. It would make the QEMU impl quite
->> > easy IIUC, we we'd just change the QAPI visitor's impl for the int64
->> > and uint64 fields to use string format (when the right capability is
->> > negotiated by QMP).
->> >=20
->> > I include 3 only for completeness - I don't think there's a hugely
->> > compelling reason to mess with 32-bit ints.
->>=20
->> What about when the size is architecture dependent?
->
-> The QAPI visitor for 'int' uses an 'int64_t' parameters, so I think
-> that will want to be string encoded, as if it was a 64-bit int, even
-> if built on a 32-bit platform.
+On 13.05.19 15:46, Alberto Garcia wrote:
+> A consequence of the previous patch is that bdrv_attach_child()
+> transfers the reference to child_bs from the caller to parent_bs,
+> which will drop it on bdrv_close() or when someone calls
+> bdrv_unref_child().
+>=20
+> But this only happens when bdrv_attach_child() succeeds. If it fails
+> then the caller is responsible for dropping the reference to child_bs.
+>=20
+> This patch makes bdrv_attach_child() take the reference also when
+> there is an error, freeing the caller for having to do it.
+>=20
+> A similar situation happens with bdrv_root_attach_child(), so the
+> changes on this patch affect both functions.
+>=20
+> Signed-off-by: Alberto Garcia <berto@igalia.com>
+> ---
+>  block.c               | 25 +++++++++++++++++--------
+>  block/block-backend.c |  3 +--
+>  block/quorum.c        |  1 -
+>  blockjob.c            |  2 +-
+>  4 files changed, 19 insertions(+), 12 deletions(-)
+>=20
+> diff --git a/block.c b/block.c
+> index 3c3bd0f8d2..df727314ff 100644
+> --- a/block.c
+> +++ b/block.c
 
-Yes, QAPI type 'int' is int64_t.  All of QAPI's integer types map to
-exact-width C integer types.
+[...]
 
->>=20
->> > Option 1 is the bare minimum needed to ensure precision, but to me
->> > it feels a bit dirty to say a given field will have different encoding
->> > depending on the value. If apps need to deal with string encoding, they
->> > might as well just use it for all values in a given field.
->>=20
->> Yeh, 1 is horrid; it's too easy to miss a case which forgot to handle
->>  the 2^53-1 because we hadn't forced a large value down that check.
+> @@ -2569,10 +2582,6 @@ BdrvChild *bdrv_open_child(const char *filename,=
 
-If we had many places where we could forget to handle the
-interoperability capability, I'd shoot down the idea of having it :)
+>      }
+> =20
+>      c =3D bdrv_attach_child(parent, bs, bdref_key, child_role, errp);
+> -    if (!c) {
+> -        bdrv_unref(bs);
+> -        return NULL;
+> -    }
+> =20
+>      return c;
+>  }
 
-Fortunately, we don't: the qobject visitors take care of it, and they
-come with unit tests.
+(That could have been simplified even further. *shrug*)
 
-I listed the few exceptions above under "Let's talk implementation for a
-bit."
 
-* query-qmp-schema
+--t974NlSDzOl3d1xWbLGZYVng0SMqck0zD
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
 
-  No input.
+-----BEGIN PGP SIGNATURE-----
 
-  Output contains no numbers.  Should it acquire numbers, we'll probably
-  want to get rid of the hack, so the output goes through the visitor.
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAlzZf7QACgkQ9AfbAGHV
+z0DdOQf/bKdfYar4Uvwzi4oYIIF219eU+BCwL054KjyO3eyjp4xlSdLCO6BOFKsC
+akGyQUhVW/4oL3d+88oaQi/18hnXBWlRWZD+16ZRDUKwOzI/ynDxbs3lNepVObwv
+8ixfUSqG67edj6DU+iVLBT3I19Jx2vcTptjdVLmIchV9XkoMLFIiBgWg5y6JpIvM
+Cg07zIsfMbw314YTgqLXdmP0tA5NqjKhaCP81d+0DMtN67fKaUDf/29U76JgLNaN
+YkoUVVLk/ZnCTHXeqpxWVyJNmopYxPoeTZ6rLrw+oB0ga/AyCpcKcqjUASUzJ4dm
+f9RBDnD2X7fVTY9cHhkZd3BSXXJhkA==
+=P0QD
+-----END PGP SIGNATURE-----
 
-* netdev_add
-
-  Input gets stringified anyway (misfeature).
-
-  No output.
-
-* device_add
-
-  Input gets stringified anyway (misfeature).
-
-  No output.
+--t974NlSDzOl3d1xWbLGZYVng0SMqck0zD--
 
