@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 86E6E1B246
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 11:06:49 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53644 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 990F71B238
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 11:02:11 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53550 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQ6v2-0003Gw-NN
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 05:06:48 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33622)
+	id 1hQ6qY-0008On-QF
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 05:02:10 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33558)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <clg@kaod.org>) id 1hQ6oC-0006kh-Oc
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 04:59:47 -0400
+	(envelope-from <clg@kaod.org>) id 1hQ6oA-0006iZ-GD
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 04:59:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <clg@kaod.org>) id 1hQ6Yw-0004D8-Kw
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 04:44:00 -0400
-Received: from 6.mo68.mail-out.ovh.net ([46.105.63.100]:35599)
+	(envelope-from <clg@kaod.org>) id 1hQ6Z2-0004F9-Qg
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 04:44:06 -0400
+Received: from 6.mo177.mail-out.ovh.net ([46.105.51.249]:47605)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <clg@kaod.org>) id 1hQ6Yw-0004CS-FQ
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 04:43:58 -0400
-Received: from player778.ha.ovh.net (unknown [10.108.57.18])
-	by mo68.mail-out.ovh.net (Postfix) with ESMTP id B558F129AEB
-	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 10:43:56 +0200 (CEST)
+	(Exim 4.71) (envelope-from <clg@kaod.org>) id 1hQ6Z2-0004ER-Ks
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 04:44:04 -0400
+Received: from player778.ha.ovh.net (unknown [10.109.159.248])
+	by mo177.mail-out.ovh.net (Postfix) with ESMTP id 1F9B7F6C48
+	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 10:44:02 +0200 (CEST)
 Received: from kaod.org (lfbn-1-10649-41.w90-89.abo.wanadoo.fr [90.89.235.41])
 	(Authenticated sender: clg@kaod.org)
-	by player778.ha.ovh.net (Postfix) with ESMTPSA id 50F5E59C3FDB;
-	Mon, 13 May 2019 08:43:49 +0000 (UTC)
+	by player778.ha.ovh.net (Postfix) with ESMTPSA id 9D9FC59C40A6;
+	Mon, 13 May 2019 08:43:56 +0000 (UTC)
 From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Date: Mon, 13 May 2019 10:42:40 +0200
-Message-Id: <20190513084245.25755-10-clg@kaod.org>
+Date: Mon, 13 May 2019 10:42:41 +0200
+Message-Id: <20190513084245.25755-11-clg@kaod.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190513084245.25755-1-clg@kaod.org>
 References: <20190513084245.25755-1-clg@kaod.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 3336041424952462310
+X-Ovh-Tracer-Id: 3337730274498087910
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
 X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddrleeggddtiecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.63.100
-Subject: [Qemu-devel] [PATCH v4 09/14] spapr: introduce routines to delete
+X-Received-From: 46.105.51.249
+Subject: [Qemu-devel] [PATCH v4 10/14] spapr: check for the activation of
  the KVM IRQ device
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
@@ -61,197 +61,210 @@ Cc: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>, qemu-ppc@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If a new interrupt mode is chosen by CAS, the machine generates a
-reset to reconfigure. At this point, the connection with the previous
-KVM device needs to be closed and a new connection needs to opened
-with the KVM device operating the chosen interrupt mode.
-
-New routines are introduced to destroy the XICS and the XIVE KVM
-devices. They make use of a new KVM device ioctl which destroys the
-device and also disconnects the IRQ presenters from the vCPUs.
+The activation of the KVM IRQ device depends on the interrupt mode
+chosen at CAS time by the machine and some methods used at reset or by
+the migration need to be protected.
 
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
+Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
+
+ May be we can improve these checkd by using spapr->ov5_cas in some
+ cases.
 
  Changes since v3:
 
- - removed KVM_DESTROY_DEVICE control. KVM device is destroyed when
-   the fd is closed.
+ - update in kvmppc_xive_source_reset_one()
 
- include/hw/ppc/spapr_xive.h |  1 +
- include/hw/ppc/xics_spapr.h |  1 +
- hw/intc/spapr_xive_kvm.c    | 56 +++++++++++++++++++++++++++++++++++++
- hw/intc/xics_kvm.c          | 51 +++++++++++++++++++++++++++++++++
- 4 files changed, 109 insertions(+)
+ hw/intc/spapr_xive_kvm.c | 33 +++++++++++++++++++++++++++++++++
+ hw/intc/xics_kvm.c       | 31 ++++++++++++++++++++++++++++++-
+ 2 files changed, 63 insertions(+), 1 deletion(-)
 
-diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
-index 04294b0ca266..0b5e972d52c8 100644
---- a/include/hw/ppc/spapr_xive.h
-+++ b/include/hw/ppc/spapr_xive.h
-@@ -71,6 +71,7 @@ int spapr_xive_end_to_target(uint8_t end_blk, uint32_t =
-end_idx,
-  * KVM XIVE device helpers
-  */
- void kvmppc_xive_connect(SpaprXive *xive, Error **errp);
-+void kvmppc_xive_disconnect(SpaprXive *xive, Error **errp);
- void kvmppc_xive_reset(SpaprXive *xive, Error **errp);
- void kvmppc_xive_set_source_config(SpaprXive *xive, uint32_t lisn, XiveE=
-AS *eas,
-                                    Error **errp);
-diff --git a/include/hw/ppc/xics_spapr.h b/include/hw/ppc/xics_spapr.h
-index 15a8dcff66fc..2476b540edfa 100644
---- a/include/hw/ppc/xics_spapr.h
-+++ b/include/hw/ppc/xics_spapr.h
-@@ -34,6 +34,7 @@
- void spapr_dt_xics(SpaprMachineState *spapr, uint32_t nr_servers, void *=
-fdt,
-                    uint32_t phandle);
- int xics_kvm_init(SpaprMachineState *spapr, Error **errp);
-+void xics_kvm_disconnect(SpaprMachineState *spapr, Error **errp);
- void xics_spapr_init(SpaprMachineState *spapr);
-=20
- #endif /* XICS_SPAPR_H */
 diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
-index 3999e4b7edfb..259cd1db9582 100644
+index 259cd1db9582..078d18d7757f 100644
 --- a/hw/intc/spapr_xive_kvm.c
 +++ b/hw/intc/spapr_xive_kvm.c
-@@ -58,6 +58,16 @@ static void kvm_cpu_enable(CPUState *cs)
-     QLIST_INSERT_HEAD(&kvm_enabled_cpus, enabled_cpu, node);
- }
+@@ -90,9 +90,15 @@ static void kvmppc_xive_cpu_set_state(XiveTCTX *tctx, =
+Error **errp)
 =20
-+static void kvm_cpu_disable_all(void)
-+{
-+    KVMEnabledCPU *enabled_cpu, *next;
-+
-+    QLIST_FOREACH_SAFE(enabled_cpu, &kvm_enabled_cpus, node, next) {
-+        QLIST_REMOVE(enabled_cpu, node);
-+        g_free(enabled_cpu);
-+    }
-+}
-+
- /*
-  * XIVE Thread Interrupt Management context (KVM)
-  */
-@@ -709,3 +719,49 @@ void kvmppc_xive_connect(SpaprXive *xive, Error **er=
-rp)
-     /* Map all regions */
-     spapr_xive_map_mmio(xive);
- }
-+
-+void kvmppc_xive_disconnect(SpaprXive *xive, Error **errp)
-+{
-+    XiveSource *xsrc;
-+    size_t esb_len;
-+
+ void kvmppc_xive_cpu_get_state(XiveTCTX *tctx, Error **errp)
+ {
++    SpaprXive *xive =3D SPAPR_MACHINE(qdev_get_machine())->xive;
+     uint64_t state[2] =3D { 0 };
+     int ret;
+=20
 +    /* The KVM XIVE device is not in use */
-+    if (!xive || xive->fd =3D=3D -1) {
++    if (xive->fd =3D=3D -1) {
 +        return;
 +    }
 +
-+    if (!kvmppc_has_cap_xive()) {
-+        error_setg(errp, "IRQ_XIVE capability must be present for KVM");
+     ret =3D kvm_get_one_reg(tctx->cs, KVM_REG_PPC_VP_STATE, state);
+     if (ret !=3D 0) {
+         error_setg_errno(errp, errno,
+@@ -143,6 +149,11 @@ void kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error *=
+*errp)
+     unsigned long vcpu_id;
+     int ret;
+=20
++    /* The KVM XIVE device is not in use */
++    if (xive->fd =3D=3D -1) {
 +        return;
 +    }
 +
-+    /* Clear the KVM mapping */
-+    xsrc =3D &xive->source;
-+    esb_len =3D (1ull << xsrc->esb_shift) * xsrc->nr_irqs;
+     /* Check if CPU was hot unplugged and replugged. */
+     if (kvm_cpu_is_enabled(tctx->cs)) {
+         return;
+@@ -219,6 +230,11 @@ void kvmppc_xive_source_reset_one(XiveSource *xsrc, =
+int srcno, Error **errp)
+     SpaprXive *xive =3D SPAPR_XIVE(xsrc->xive);
+     uint64_t state =3D 0;
+=20
++    /* The KVM XIVE device is not in use */
++    if (xive->fd =3D=3D -1) {
++        return;
++    }
 +
-+    sysbus_mmio_unmap(SYS_BUS_DEVICE(xive), 0);
-+    munmap(xsrc->esb_mmap, esb_len);
+     if (xive_source_irq_is_lsi(xsrc, srcno)) {
+         state |=3D KVM_XIVE_LEVEL_SENSITIVE;
+         if (xsrc->status[srcno] & XIVE_STATUS_ASSERTED) {
+@@ -319,9 +335,13 @@ static void kvmppc_xive_source_get_state(XiveSource =
+*xsrc)
+ void kvmppc_xive_source_set_irq(void *opaque, int srcno, int val)
+ {
+     XiveSource *xsrc =3D opaque;
++    SpaprXive *xive =3D SPAPR_XIVE(xsrc->xive);
+     struct kvm_irq_level args;
+     int rc;
+=20
++    /* The KVM XIVE device should be in use */
++    assert(xive->fd !=3D -1);
 +
-+    sysbus_mmio_unmap(SYS_BUS_DEVICE(xive), 1);
+     args.irq =3D srcno;
+     if (!xive_source_irq_is_lsi(xsrc, srcno)) {
+         if (!val) {
+@@ -546,6 +566,11 @@ static void kvmppc_xive_change_state_handler(void *o=
+paque, int running,
+=20
+ void kvmppc_xive_synchronize_state(SpaprXive *xive, Error **errp)
+ {
++    /* The KVM XIVE device is not in use */
++    if (xive->fd =3D=3D -1) {
++        return;
++    }
 +
-+    sysbus_mmio_unmap(SYS_BUS_DEVICE(xive), 2);
-+    munmap(xive->tm_mmap, 4ull << TM_SHIFT);
+     /*
+      * When the VM is stopped, the sources are masked and the previous
+      * state is saved in anticipation of a migration. We should not
+@@ -571,6 +596,11 @@ int kvmppc_xive_pre_save(SpaprXive *xive)
+ {
+     Error *local_err =3D NULL;
+=20
++    /* The KVM XIVE device is not in use */
++    if (xive->fd =3D=3D -1) {
++        return 0;
++    }
 +
-+    /*
-+     * When the KVM device fd is closed, the KVM device is destroyed
-+     * and removed from the list of devices of the VM. The VCPU
-+     * presenters are also detached from the device.
-+     */
-+    close(xive->fd);
-+    xive->fd =3D -1;
+     /* EAT: there is no extra state to query from KVM */
+=20
+     /* ENDT */
+@@ -595,6 +625,9 @@ int kvmppc_xive_post_load(SpaprXive *xive, int versio=
+n_id)
+     CPUState *cs;
+     int i;
+=20
++    /* The KVM XIVE device should be in use */
++    assert(xive->fd !=3D -1);
 +
-+    kvm_kernel_irqchip =3D false;
-+    kvm_msi_via_irqfd_allowed =3D false;
-+    kvm_gsi_direct_mapping =3D false;
-+
-+    /* Clear the local list of presenter (hotplug) */
-+    kvm_cpu_disable_all();
-+
-+    /* VM Change state handler is not needed anymore */
-+    qemu_del_vm_change_state_handler(xive->change);
-+}
+     /* Restore the ENDT first. The targetting depends on it. */
+     for (i =3D 0; i < xive->nr_ends; i++) {
+         if (!xive_end_is_valid(&xive->endt[i])) {
 diff --git a/hw/intc/xics_kvm.c b/hw/intc/xics_kvm.c
-index 78a252e6dfd4..1185846ff183 100644
+index 1185846ff183..12bd5190cfad 100644
 --- a/hw/intc/xics_kvm.c
 +++ b/hw/intc/xics_kvm.c
-@@ -51,6 +51,16 @@ typedef struct KVMEnabledICP {
- static QLIST_HEAD(, KVMEnabledICP)
-     kvm_enabled_icps =3D QLIST_HEAD_INITIALIZER(&kvm_enabled_icps);
+@@ -69,6 +69,11 @@ void icp_get_kvm_state(ICPState *icp)
+     uint64_t state;
+     int ret;
 =20
-+static void kvm_disable_icps(void)
-+{
-+    KVMEnabledICP *enabled_icp, *next;
-+
-+    QLIST_FOREACH_SAFE(enabled_icp, &kvm_enabled_icps, node, next) {
-+        QLIST_REMOVE(enabled_icp, node);
-+        g_free(enabled_icp);
-+    }
-+}
-+
- /*
-  * ICP-KVM
-  */
-@@ -360,3 +370,44 @@ fail:
-     kvmppc_define_rtas_kernel_token(0, "ibm,int-off");
-     return -1;
- }
-+
-+void xics_kvm_disconnect(SpaprMachineState *spapr, Error **errp)
-+{
 +    /* The KVM XICS device is not in use */
 +    if (kernel_xics_fd =3D=3D -1) {
 +        return;
 +    }
 +
-+    if (!kvm_enabled() || !kvm_check_extension(kvm_state, KVM_CAP_IRQ_XI=
-CS)) {
-+        error_setg(errp,
-+                   "KVM and IRQ_XICS capability must be present for KVM =
-XICS device");
+     /* ICP for this CPU thread is not in use, exiting */
+     if (!icp->cs) {
+         return;
+@@ -105,6 +110,11 @@ int icp_set_kvm_state(ICPState *icp)
+     uint64_t state;
+     int ret;
+=20
++    /* The KVM XICS device is not in use */
++    if (kernel_xics_fd =3D=3D -1) {
++        return 0;
++    }
++
+     /* ICP for this CPU thread is not in use, exiting */
+     if (!icp->cs) {
+         return 0;
+@@ -133,8 +143,9 @@ void icp_kvm_realize(DeviceState *dev, Error **errp)
+     unsigned long vcpu_id;
+     int ret;
+=20
++    /* The KVM XICS device is not in use */
+     if (kernel_xics_fd =3D=3D -1) {
+-        abort();
++        return;
+     }
+=20
+     cs =3D icp->cs;
+@@ -170,6 +181,11 @@ void ics_get_kvm_state(ICSState *ics)
+     uint64_t state;
+     int i;
+=20
++    /* The KVM XICS device is not in use */
++    if (kernel_xics_fd =3D=3D -1) {
 +        return;
 +    }
 +
-+    /*
-+     * Only on P9 using the XICS-on XIVE KVM device:
-+     *
-+     * When the KVM device fd is closed, the device is destroyed and
-+     * removed from the list of devices of the VM. The VCPU presenters
-+     * are also detached from the device.
-+     */
-+    close(kernel_xics_fd);
-+    kernel_xics_fd =3D -1;
+     for (i =3D 0; i < ics->nr_irqs; i++) {
+         ICSIRQState *irq =3D &ics->irqs[i];
+=20
+@@ -230,6 +246,11 @@ int ics_set_kvm_state_one(ICSState *ics, int srcno)
+     ICSIRQState *irq =3D &ics->irqs[srcno];
+     int ret;
+=20
++    /* The KVM XICS device is not in use */
++    if (kernel_xics_fd =3D=3D -1) {
++        return 0;
++    }
 +
-+    spapr_rtas_unregister(RTAS_IBM_SET_XIVE);
-+    spapr_rtas_unregister(RTAS_IBM_GET_XIVE);
-+    spapr_rtas_unregister(RTAS_IBM_INT_OFF);
-+    spapr_rtas_unregister(RTAS_IBM_INT_ON);
+     state =3D irq->server;
+     state |=3D (uint64_t)(irq->saved_priority & KVM_XICS_PRIORITY_MASK)
+         << KVM_XICS_PRIORITY_SHIFT;
+@@ -269,6 +290,11 @@ int ics_set_kvm_state(ICSState *ics)
+ {
+     int i;
+=20
++    /* The KVM XICS device is not in use */
++    if (kernel_xics_fd =3D=3D -1) {
++        return 0;
++    }
 +
-+    kvmppc_define_rtas_kernel_token(0, "ibm,set-xive");
-+    kvmppc_define_rtas_kernel_token(0, "ibm,get-xive");
-+    kvmppc_define_rtas_kernel_token(0, "ibm,int-on");
-+    kvmppc_define_rtas_kernel_token(0, "ibm,int-off");
+     for (i =3D 0; i < ics->nr_irqs; i++) {
+         int ret;
+=20
+@@ -286,6 +312,9 @@ void ics_kvm_set_irq(ICSState *ics, int srcno, int va=
+l)
+     struct kvm_irq_level args;
+     int rc;
+=20
++    /* The KVM XICS device should be in use */
++    assert(kernel_xics_fd !=3D -1);
 +
-+    kvm_kernel_irqchip =3D false;
-+    kvm_msi_via_irqfd_allowed =3D false;
-+    kvm_gsi_direct_mapping =3D false;
-+
-+    /* Clear the presenter from the VCPUs */
-+    kvm_disable_icps();
-+}
+     args.irq =3D srcno + ics->offset;
+     if (ics->irqs[srcno].flags & XICS_FLAGS_IRQ_MSI) {
+         if (!val) {
 --=20
 2.20.1
 
