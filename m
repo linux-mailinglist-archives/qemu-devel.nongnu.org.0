@@ -2,50 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B8221B1DD
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 10:27:08 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53062 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 116E21B1E5
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 10:29:14 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53082 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQ6Id-0002ny-JM
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 04:27:07 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54434)
+	id 1hQ6Kf-0004aV-89
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 04:29:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54436)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hQ6Ae-0004fM-On
+	(envelope-from <armbru@redhat.com>) id 1hQ6Af-0004fZ-2p
 	for qemu-devel@nongnu.org; Mon, 13 May 2019 04:18:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hQ6Ab-0007eK-Cv
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 04:18:52 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52939)
+	(envelope-from <armbru@redhat.com>) id 1hQ6Ab-0007eV-Fi
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 04:18:53 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:3236)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hQ6Ab-0007dC-4G
+	(Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hQ6Ab-0007dF-69
 	for qemu-devel@nongnu.org; Mon, 13 May 2019 04:18:49 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 6D442C049DFC
+	by mx1.redhat.com (Postfix) with ESMTPS id 6FF5C3082DDD
 	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 08:18:48 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-28.ams2.redhat.com
 	[10.36.116.28])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id DBCD219C72
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id DE3D81001E79
 	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 08:18:47 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
-	id DDEBE113304E; Mon, 13 May 2019 10:18:44 +0200 (CEST)
+	id E16BC113306B; Mon, 13 May 2019 10:18:44 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 13 May 2019 10:18:41 +0200
-Message-Id: <20190513081844.26699-7-armbru@redhat.com>
+Date: Mon, 13 May 2019 10:18:42 +0200
+Message-Id: <20190513081844.26699-8-armbru@redhat.com>
 In-Reply-To: <20190513081844.26699-1-armbru@redhat.com>
 References: <20190513081844.26699-1-armbru@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.31]);
+	(mx1.redhat.com [10.5.110.46]);
 	Mon, 13 May 2019 08:18:48 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 6/9] Clean up header guards that don't match
- their file name
+Subject: [Qemu-devel] [PULL 7/9] Clean up ill-advised or unusual header
+ guards
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -60,603 +63,783 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Header guard symbols should match their file name to make guard
-collisions less likely.
+Leading underscores are ill-advised because such identifiers are
+reserved.  Trailing underscores are merely ugly.  Strip both.
 
-Cleaned up with scripts/clean-header-guards.pl, followed by some
-renaming of new guard symbols picked by the script to better ones.
+Our header guards commonly end in _H.  Normalize the exceptions.
+
+Done with scripts/clean-header-guards.pl.
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20190315145123.28030-6-armbru@redhat.com>
-[Rebase to master: update include/hw/net/ne2000-isa.h]
+Message-Id: <20190315145123.28030-7-armbru@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+[Changes to slirp/ dropped, as we're about to spin it off]
 ---
- contrib/elf2dmp/qemu_elf.h            | 6 +++---
- disas/nanomips.h                      | 4 ++--
- fsdev/qemu-fsdev-throttle.h           | 7 ++++---
- hw/arm/smmuv3-internal.h              | 4 ++--
- hw/display/vga_regs.h                 | 6 +++---
- hw/rdma/vmw/pvrdma_qp_ops.h           | 4 ++--
- hw/sd/sdmmc-internal.h                | 5 +++--
- include/authz/listfile.h              | 8 +++-----
- include/authz/pamacct.h               | 7 +++----
- include/hw/audio/soundhw.h            | 4 ++--
- include/hw/i386/x86-iommu.h           | 4 ++--
- include/hw/intc/heathrow_pic.h        | 6 +++---
- include/hw/intc/xlnx-pmu-iomod-intc.h | 6 +++---
- include/hw/misc/armsse-mhu.h          | 4 ++--
- include/hw/net/ne2000-isa.h           | 4 ++--
- include/hw/pci-host/sabre.h           | 4 ++--
- include/hw/watchdog/wdt_aspeed.h      | 7 ++++---
- include/hw/xen/xen-legacy-backend.h   | 6 +++---
- include/hw/xtensa/xtensa-isa.h        | 6 +++---
- include/migration/qemu-file-types.h   | 4 ++--
- include/qemu/filemonitor.h            | 6 +++---
- include/scsi/constants.h              | 4 ++--
- net/colo.h                            | 6 +++---
- target/i386/hax-posix.h               | 6 +++---
- target/i386/hvf/x86_task.h            | 6 ++++--
- target/nios2/cpu.h                    | 7 ++++---
- target/nios2/mmu.h                    | 7 ++++---
- target/ppc/mmu-book3s-v3.h            | 6 +++---
- tests/libqos/qgraph_internal.h        | 4 ++--
- tests/migration/migration-test.h      | 7 ++++---
- 30 files changed, 85 insertions(+), 80 deletions(-)
+ block/crypto.h                     | 6 +++---
+ hw/i386/amd_iommu.h                | 4 ++--
+ hw/tpm/tpm_ioctl.h                 | 7 ++++---
+ hw/xtensa/xtensa_memory.h          | 4 ++--
+ include/authz/base.h               | 7 +++----
+ include/authz/list.h               | 7 +++----
+ include/authz/simple.h             | 7 +++----
+ include/chardev/spice.h            | 4 ++--
+ include/hw/ppc/pnv.h               | 7 ++++---
+ include/hw/ppc/pnv_core.h          | 7 ++++---
+ include/hw/ppc/pnv_lpc.h           | 7 ++++---
+ include/hw/ppc/pnv_occ.h           | 7 ++++---
+ include/hw/ppc/pnv_psi.h           | 7 ++++---
+ include/hw/ppc/pnv_xscom.h         | 7 ++++---
+ include/hw/ppc/spapr_ovec.h        | 7 ++++---
+ include/hw/timer/pl031.h           | 4 ++--
+ include/hw/virtio/vhost-vsock.h    | 6 +++---
+ include/hw/virtio/virtio-crypto.h  | 6 +++---
+ include/hw/xen/start_info.h        | 6 +++---
+ include/hw/xtensa/mx_pic.h         | 4 ++--
+ include/qemu/drm.h                 | 4 ++--
+ include/qemu/jhash.h               | 6 +++---
+ include/sysemu/hvf.h               | 5 +++--
+ linux-user/xtensa/syscall_nr.h     | 6 +++---
+ linux-user/xtensa/target_structs.h | 4 ++--
+ linux-user/xtensa/termbits.h       | 6 +++---
+ qga/vss-win32/vss-handles.h        | 4 ++--
+ target/i386/hax-i386.h             | 4 ++--
+ target/i386/hax-interface.h        | 4 ++--
+ target/i386/hvf/hvf-i386.h         | 4 ++--
+ target/i386/hvf/vmcs.h             | 4 ++--
+ target/i386/hvf/x86_emu.h          | 5 +++--
+ target/i386/hvf/x86_flags.h        | 7 ++++---
+ target/i386/hvf/x86_mmu.h          | 7 ++++---
+ target/riscv/pmp.h                 | 4 ++--
+ target/sparc/asi.h                 | 6 +++---
+ tests/libqos/e1000e.h              | 4 ++--
+ tests/libqos/sdhci.h               | 4 ++--
+ 38 files changed, 109 insertions(+), 100 deletions(-)
 
-diff --git a/contrib/elf2dmp/qemu_elf.h b/contrib/elf2dmp/qemu_elf.h
-index 2a7963821a..66ee1f0ed5 100644
---- a/contrib/elf2dmp/qemu_elf.h
-+++ b/contrib/elf2dmp/qemu_elf.h
-@@ -5,8 +5,8 @@
+diff --git a/block/crypto.h b/block/crypto.h
+index dd7d47903c..b935695e79 100644
+--- a/block/crypto.h
++++ b/block/crypto.h
+@@ -18,8 +18,8 @@
   *
   */
- 
--#ifndef ELF2DMP_ELF_H
--#define ELF2DMP_ELF_H
-+#ifndef EMPF2DMP_QEMU_ELF_H
-+#define EMPF2DMP_QEMU_ELF_H
- 
- #include "elf.h"
- 
-@@ -47,4 +47,4 @@ void QEMU_Elf_exit(QEMU_Elf *qe);
- Elf64_Phdr *elf64_getphdr(void *map);
- Elf64_Half elf_getphdrnum(void *map);
- 
--#endif /* ELF2DMP_ELF_H */
-+#endif /* ELF2DMP_QEMU_ELF_H */
-diff --git a/disas/nanomips.h b/disas/nanomips.h
-index 243c3e38d2..a0a2225301 100644
---- a/disas/nanomips.h
-+++ b/disas/nanomips.h
-@@ -20,8 +20,8 @@
-  *
-  */
- 
--#ifndef NANOMIPS_DISASSEMBLER_H
--#define NANOMIPS_DISASSEMBLER_H
-+#ifndef DISAS_NANOMIPS_H
-+#define DISAS_NANOMIPS_H
- 
- #include <string>
- 
-diff --git a/fsdev/qemu-fsdev-throttle.h b/fsdev/qemu-fsdev-throttle.h
-index 4e83bdac25..7d6211d499 100644
---- a/fsdev/qemu-fsdev-throttle.h
-+++ b/fsdev/qemu-fsdev-throttle.h
-@@ -12,8 +12,8 @@
-  *
-  */
- 
--#ifndef _FSDEV_THROTTLE_H
--#define _FSDEV_THROTTLE_H
-+#ifndef QEMU_FSDEV_THROTTLE_H
-+#define QEMU_FSDEV_THROTTLE_H
- 
- #include "block/aio.h"
- #include "qemu/main-loop.h"
-@@ -35,4 +35,5 @@ void coroutine_fn fsdev_co_throttle_request(FsThrottle *, bool ,
-                                             struct iovec *, int);
- 
- void fsdev_throttle_cleanup(FsThrottle *);
--#endif /* _FSDEV_THROTTLE_H */
-+
-+#endif /* QEMU_FSDEV_THROTTLE_H */
-diff --git a/hw/arm/smmuv3-internal.h b/hw/arm/smmuv3-internal.h
-index 19540f8f41..b160289cd1 100644
---- a/hw/arm/smmuv3-internal.h
-+++ b/hw/arm/smmuv3-internal.h
+=20
+-#ifndef BLOCK_CRYPTO_H__
+-#define BLOCK_CRYPTO_H__
++#ifndef BLOCK_CRYPTO_H
++#define BLOCK_CRYPTO_H
+=20
+ #define BLOCK_CRYPTO_OPT_DEF_KEY_SECRET(prefix, helpstr)                =
+\
+     {                                                                   =
+\
+@@ -94,4 +94,4 @@ block_crypto_create_opts_init(QDict *opts, Error **errp=
+);
+ QCryptoBlockOpenOptions *
+ block_crypto_open_opts_init(QDict *opts, Error **errp);
+=20
+-#endif /* BLOCK_CRYPTO_H__ */
++#endif /* BLOCK_CRYPTO_H */
+diff --git a/hw/i386/amd_iommu.h b/hw/i386/amd_iommu.h
+index 0ff9095f32..3a694b186b 100644
+--- a/hw/i386/amd_iommu.h
++++ b/hw/i386/amd_iommu.h
 @@ -18,8 +18,8 @@
   * with this program; if not, see <http://www.gnu.org/licenses/>.
   */
- 
--#ifndef HW_ARM_SMMU_V3_INTERNAL_H
--#define HW_ARM_SMMU_V3_INTERNAL_H
-+#ifndef HW_ARM_SMMUV3_INTERNAL_H
-+#define HW_ARM_SMMUV3_INTERNAL_H
- 
- #include "hw/arm/smmu-common.h"
- 
-diff --git a/hw/display/vga_regs.h b/hw/display/vga_regs.h
-index 16886f5eed..30a98b8736 100644
---- a/hw/display/vga_regs.h
-+++ b/hw/display/vga_regs.h
-@@ -14,8 +14,8 @@
+=20
+-#ifndef AMD_IOMMU_H_
+-#define AMD_IOMMU_H_
++#ifndef AMD_IOMMU_H
++#define AMD_IOMMU_H
+=20
+ #include "hw/hw.h"
+ #include "hw/pci/pci.h"
+diff --git a/hw/tpm/tpm_ioctl.h b/hw/tpm/tpm_ioctl.h
+index 59a0b0595d..f5f5c553a9 100644
+--- a/hw/tpm/tpm_ioctl.h
++++ b/hw/tpm/tpm_ioctl.h
+@@ -5,8 +5,9 @@
+  *
+  * This file is licensed under the terms of the 3-clause BSD license
+  */
+-#ifndef _TPM_IOCTL_H_
+-#define _TPM_IOCTL_H_
++
++#ifndef TPM_IOCTL_H
++#define TPM_IOCTL_H
+=20
+ #include <sys/uio.h>
+ #include <sys/ioctl.h>
+@@ -267,4 +268,4 @@ enum {
+     CMD_SET_BUFFERSIZE,
+ };
+=20
+-#endif /* _TPM_IOCTL_H */
++#endif /* TPM_IOCTL_H */
+diff --git a/hw/xtensa/xtensa_memory.h b/hw/xtensa/xtensa_memory.h
+index e9aa08749d..89125c4a0d 100644
+--- a/hw/xtensa/xtensa_memory.h
++++ b/hw/xtensa/xtensa_memory.h
+@@ -25,8 +25,8 @@
+  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  */
+=20
+-#ifndef _XTENSA_MEMORY_H
+-#define _XTENSA_MEMORY_H
++#ifndef XTENSA_MEMORY_H
++#define XTENSA_MEMORY_H
+=20
+ #include "qemu-common.h"
+ #include "cpu.h"
+diff --git a/include/authz/base.h b/include/authz/base.h
+index 55ac9581ad..14a59a0425 100644
+--- a/include/authz/base.h
++++ b/include/authz/base.h
+@@ -18,8 +18,8 @@
   *
   */
- 
--#ifndef LINUX_VIDEO_VGA_H
--#define LINUX_VIDEO_VGA_H
-+#ifndef HW_VGA_REGS_H
-+#define HW_VGA_REGS_H
- 
- /* Some of the code below is taken from SVGAlib.  The original,
-    unmodified copyright notice for that code is below. */
-@@ -156,4 +156,4 @@
- /* VGA graphics controller bit masks */
- #define VGA_GR06_GRAPHICS_MODE  0x01
- 
--#endif /* LINUX_VIDEO_VGA_H */
-+#endif /* HW_VGA_REGS_H */
-diff --git a/hw/rdma/vmw/pvrdma_qp_ops.h b/hw/rdma/vmw/pvrdma_qp_ops.h
-index 82e720a76f..bf2b15c5ce 100644
---- a/hw/rdma/vmw/pvrdma_qp_ops.h
-+++ b/hw/rdma/vmw/pvrdma_qp_ops.h
+=20
+-#ifndef QAUTHZ_BASE_H__
+-#define QAUTHZ_BASE_H__
++#ifndef QAUTHZ_BASE_H
++#define QAUTHZ_BASE_H
+=20
+ #include "qemu-common.h"
+ #include "qapi/error.h"
+@@ -108,5 +108,4 @@ bool qauthz_is_allowed_by_id(const char *authzid,
+                              const char *identity,
+                              Error **errp);
+=20
+-#endif /* QAUTHZ_BASE_H__ */
+-
++#endif /* QAUTHZ_BASE_H */
+diff --git a/include/authz/list.h b/include/authz/list.h
+index 138ae7047c..a88cdbbcf8 100644
+--- a/include/authz/list.h
++++ b/include/authz/list.h
+@@ -18,8 +18,8 @@
+  *
+  */
+=20
+-#ifndef QAUTHZ_LIST_H__
+-#define QAUTHZ_LIST_H__
++#ifndef QAUTHZ_LIST_H
++#define QAUTHZ_LIST_H
+=20
+ #include "authz/base.h"
+ #include "qapi/qapi-types-authz.h"
+@@ -102,5 +102,4 @@ ssize_t qauthz_list_delete_rule(QAuthZList *auth,
+                                 const char *match);
+=20
+=20
+-#endif /* QAUTHZ_LIST_H__ */
+-
++#endif /* QAUTHZ_LIST_H */
+diff --git a/include/authz/simple.h b/include/authz/simple.h
+index 30b932dfeb..2b7ab0cdd9 100644
+--- a/include/authz/simple.h
++++ b/include/authz/simple.h
+@@ -18,8 +18,8 @@
+  *
+  */
+=20
+-#ifndef QAUTHZ_SIMPLE_H__
+-#define QAUTHZ_SIMPLE_H__
++#ifndef QAUTHZ_SIMPLE_H
++#define QAUTHZ_SIMPLE_H
+=20
+ #include "authz/base.h"
+=20
+@@ -80,5 +80,4 @@ QAuthZSimple *qauthz_simple_new(const char *id,
+                                 Error **errp);
+=20
+=20
+-#endif /* QAUTHZ_SIMPLE_H__ */
+-
++#endif /* QAUTHZ_SIMPLE_H */
+diff --git a/include/chardev/spice.h b/include/chardev/spice.h
+index 6431da3205..1f7339b649 100644
+--- a/include/chardev/spice.h
++++ b/include/chardev/spice.h
+@@ -1,5 +1,5 @@
+-#ifndef CHARDEV_SPICE_H_
+-#define CHARDEV_SPICE_H_
++#ifndef CHARDEV_SPICE_H
++#define CHARDEV_SPICE_H
+=20
+ #include <spice.h>
+ #include "chardev/char-fe.h"
+diff --git a/include/hw/ppc/pnv.h b/include/hw/ppc/pnv.h
+index e5b00d373e..fc4678f757 100644
+--- a/include/hw/ppc/pnv.h
++++ b/include/hw/ppc/pnv.h
+@@ -16,8 +16,9 @@
+  * You should have received a copy of the GNU Lesser General Public
+  * License along with this library; if not, see <http://www.gnu.org/lice=
+nses/>.
+  */
+-#ifndef _PPC_PNV_H
+-#define _PPC_PNV_H
++
++#ifndef PPC_PNV_H
++#define PPC_PNV_H
+=20
+ #include "hw/boards.h"
+ #include "hw/sysbus.h"
+@@ -255,4 +256,4 @@ void pnv_bmc_powerdown(IPMIBmc *bmc);
+ #define PNV9_PSIHB_ESB_SIZE          0x0000000000010000ull
+ #define PNV9_PSIHB_ESB_BASE(chip)    PNV9_CHIP_BASE(chip, 0x00060302031c=
+0000ull)
+=20
+-#endif /* _PPC_PNV_H */
++#endif /* PPC_PNV_H */
+diff --git a/include/hw/ppc/pnv_core.h b/include/hw/ppc/pnv_core.h
+index 50cdb2b358..d0926454a9 100644
+--- a/include/hw/ppc/pnv_core.h
++++ b/include/hw/ppc/pnv_core.h
+@@ -16,8 +16,9 @@
+  * You should have received a copy of the GNU Lesser General Public
+  * License along with this library; if not, see <http://www.gnu.org/lice=
+nses/>.
+  */
+-#ifndef _PPC_PNV_CORE_H
+-#define _PPC_PNV_CORE_H
++
++#ifndef PPC_PNV_CORE_H
++#define PPC_PNV_CORE_H
+=20
+ #include "hw/cpu/core.h"
+=20
+@@ -68,4 +69,4 @@ typedef struct PnvQuad {
+     uint32_t id;
+     MemoryRegion xscom_regs;
+ } PnvQuad;
+-#endif /* _PPC_PNV_CORE_H */
++#endif /* PPC_PNV_CORE_H */
+diff --git a/include/hw/ppc/pnv_lpc.h b/include/hw/ppc/pnv_lpc.h
+index 413579792e..f659410716 100644
+--- a/include/hw/ppc/pnv_lpc.h
++++ b/include/hw/ppc/pnv_lpc.h
+@@ -16,8 +16,9 @@
+  * You should have received a copy of the GNU Lesser General Public
+  * License along with this library; if not, see <http://www.gnu.org/lice=
+nses/>.
+  */
+-#ifndef _PPC_PNV_LPC_H
+-#define _PPC_PNV_LPC_H
++
++#ifndef PPC_PNV_LPC_H
++#define PPC_PNV_LPC_H
+=20
+ #include "hw/ppc/pnv_psi.h"
+=20
+@@ -98,4 +99,4 @@ struct PnvChip;
+ ISABus *pnv_lpc_isa_create(PnvLpcController *lpc, bool use_cpld, Error *=
+*errp);
+ int pnv_dt_lpc(struct PnvChip *chip, void *fdt, int root_offset);
+=20
+-#endif /* _PPC_PNV_LPC_H */
++#endif /* PPC_PNV_LPC_H */
+diff --git a/include/hw/ppc/pnv_occ.h b/include/hw/ppc/pnv_occ.h
+index d22b65a71a..ed0709bfc0 100644
+--- a/include/hw/ppc/pnv_occ.h
++++ b/include/hw/ppc/pnv_occ.h
+@@ -16,8 +16,9 @@
+  * You should have received a copy of the GNU Lesser General Public
+  * License along with this library; if not, see <http://www.gnu.org/lice=
+nses/>.
+  */
+-#ifndef _PPC_PNV_OCC_H
+-#define _PPC_PNV_OCC_H
++
++#ifndef PPC_PNV_OCC_H
++#define PPC_PNV_OCC_H
+=20
+ #include "hw/ppc/pnv_psi.h"
+=20
+@@ -52,4 +53,4 @@ typedef struct PnvOCCClass {
+     int psi_irq;
+ } PnvOCCClass;
+=20
+-#endif /* _PPC_PNV_OCC_H */
++#endif /* PPC_PNV_OCC_H */
+diff --git a/include/hw/ppc/pnv_psi.h b/include/hw/ppc/pnv_psi.h
+index 2c1b27e865..e82df9709f 100644
+--- a/include/hw/ppc/pnv_psi.h
++++ b/include/hw/ppc/pnv_psi.h
+@@ -16,8 +16,9 @@
+  * You should have received a copy of the GNU Lesser General Public
+  * License along with this library; if not, see <http://www.gnu.org/lice=
+nses/>.
+  */
+-#ifndef _PPC_PNV_PSI_H
+-#define _PPC_PNV_PSI_H
++
++#ifndef PPC_PNV_PSI_H
++#define PPC_PNV_PSI_H
+=20
+ #include "hw/sysbus.h"
+ #include "hw/ppc/xics.h"
+@@ -118,4 +119,4 @@ void pnv_psi_irq_set(PnvPsi *psi, int irq, bool state=
+);
+=20
+ void pnv_psi_pic_print_info(Pnv9Psi *psi, Monitor *mon);
+=20
+-#endif /* _PPC_PNV_PSI_H */
++#endif /* PPC_PNV_PSI_H */
+diff --git a/include/hw/ppc/pnv_xscom.h b/include/hw/ppc/pnv_xscom.h
+index 68dfae0dfe..c842d950d2 100644
+--- a/include/hw/ppc/pnv_xscom.h
++++ b/include/hw/ppc/pnv_xscom.h
+@@ -16,8 +16,9 @@
+  * You should have received a copy of the GNU Lesser General Public
+  * License along with this library; if not, see <http://www.gnu.org/lice=
+nses/>.
+  */
+-#ifndef _PPC_PNV_XSCOM_H
+-#define _PPC_PNV_XSCOM_H
++
++#ifndef PPC_PNV_XSCOM_H
++#define PPC_PNV_XSCOM_H
+=20
+ #include "qom/object.h"
+=20
+@@ -98,4 +99,4 @@ extern void pnv_xscom_region_init(MemoryRegion *mr,
+                                   const char *name,
+                                   uint64_t size);
+=20
+-#endif /* _PPC_PNV_XSCOM_H */
++#endif /* PPC_PNV_XSCOM_H */
+diff --git a/include/hw/ppc/spapr_ovec.h b/include/hw/ppc/spapr_ovec.h
+index 188a9367e2..5de5ecf5de 100644
+--- a/include/hw/ppc/spapr_ovec.h
++++ b/include/hw/ppc/spapr_ovec.h
+@@ -33,8 +33,9 @@
+  * This work is licensed under the terms of the GNU GPL, version 2 or la=
+ter.
+  * See the COPYING file in the top-level directory.
+  */
+-#ifndef _SPAPR_OVEC_H
+-#define _SPAPR_OVEC_H
++
++#ifndef SPAPR_OVEC_H
++#define SPAPR_OVEC_H
+=20
+ #include "cpu.h"
+ #include "migration/vmstate.h"
+@@ -80,4 +81,4 @@ int spapr_ovec_populate_dt(void *fdt, int fdt_offset,
+ /* migration */
+ extern const VMStateDescription vmstate_spapr_ovec;
+=20
+-#endif /* !defined (_SPAPR_OVEC_H) */
++#endif /* SPAPR_OVEC_H */
+diff --git a/include/hw/timer/pl031.h b/include/hw/timer/pl031.h
+index 99416d8ba5..8857c24ca5 100644
+--- a/include/hw/timer/pl031.h
++++ b/include/hw/timer/pl031.h
+@@ -11,8 +11,8 @@
+  * GNU GPL, version 2 or (at your option) any later version.
+  */
+=20
+-#ifndef HW_TIMER_PL031
+-#define HW_TIMER_PL031
++#ifndef HW_TIMER_PL031_H
++#define HW_TIMER_PL031_H
+=20
+ #include "hw/sysbus.h"
+=20
+diff --git a/include/hw/virtio/vhost-vsock.h b/include/hw/virtio/vhost-vs=
+ock.h
+index 7b9205fe3f..d509d67c4a 100644
+--- a/include/hw/virtio/vhost-vsock.h
++++ b/include/hw/virtio/vhost-vsock.h
+@@ -11,8 +11,8 @@
+  * top-level directory.
+  */
+=20
+-#ifndef _QEMU_VHOST_VSOCK_H
+-#define _QEMU_VHOST_VSOCK_H
++#ifndef QEMU_VHOST_VSOCK_H
++#define QEMU_VHOST_VSOCK_H
+=20
+ #include "hw/virtio/virtio.h"
+ #include "hw/virtio/vhost.h"
+@@ -38,4 +38,4 @@ typedef struct {
+     /*< public >*/
+ } VHostVSock;
+=20
+-#endif /* _QEMU_VHOST_VSOCK_H */
++#endif /* QEMU_VHOST_VSOCK_H */
+diff --git a/include/hw/virtio/virtio-crypto.h b/include/hw/virtio/virtio=
+-crypto.h
+index ca3a04938e..ffe2391ece 100644
+--- a/include/hw/virtio/virtio-crypto.h
++++ b/include/hw/virtio/virtio-crypto.h
+@@ -11,8 +11,8 @@
+  * top-level directory.
+  */
+=20
+-#ifndef _QEMU_VIRTIO_CRYPTO_H
+-#define _QEMU_VIRTIO_CRYPTO_H
++#ifndef QEMU_VIRTIO_CRYPTO_H
++#define QEMU_VIRTIO_CRYPTO_H
+=20
+ #include "standard-headers/linux/virtio_crypto.h"
+ #include "hw/virtio/virtio.h"
+@@ -99,4 +99,4 @@ typedef struct VirtIOCrypto {
+     uint8_t vhost_started;
+ } VirtIOCrypto;
+=20
+-#endif /* _QEMU_VIRTIO_CRYPTO_H */
++#endif /* QEMU_VIRTIO_CRYPTO_H */
+diff --git a/include/hw/xen/start_info.h b/include/hw/xen/start_info.h
+index 348779eb10..6ed4877794 100644
+--- a/include/hw/xen/start_info.h
++++ b/include/hw/xen/start_info.h
+@@ -20,8 +20,8 @@
+  * Copyright (c) 2016, Citrix Systems, Inc.
+  */
+=20
+-#ifndef __XEN_PUBLIC_ARCH_X86_HVM_START_INFO_H__
+-#define __XEN_PUBLIC_ARCH_X86_HVM_START_INFO_H__
++#ifndef XEN_PUBLIC_ARCH_X86_HVM_START_INFO_H
++#define XEN_PUBLIC_ARCH_X86_HVM_START_INFO_H
+=20
+ /*
+  * Start of day structure passed to PVH guests and to HVM guests in %ebx=
+.
+@@ -143,4 +143,4 @@ struct hvm_memmap_table_entry {
+     uint32_t reserved;
+ };
+=20
+-#endif /* __XEN_PUBLIC_ARCH_X86_HVM_START_INFO_H__ */
++#endif /* XEN_PUBLIC_ARCH_X86_HVM_START_INFO_H */
+diff --git a/include/hw/xtensa/mx_pic.h b/include/hw/xtensa/mx_pic.h
+index e6cd8cf016..c9ea9e737c 100644
+--- a/include/hw/xtensa/mx_pic.h
++++ b/include/hw/xtensa/mx_pic.h
+@@ -25,8 +25,8 @@
+  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  */
+=20
+-#ifndef _XTENSA_MX_PIC_H
+-#define _XTENSA_MX_PIC_H
++#ifndef XTENSA_MX_PIC_H
++#define XTENSA_MX_PIC_H
+=20
+ #include "exec/memory.h"
+ #include "hw/irq.h"
+diff --git a/include/qemu/drm.h b/include/qemu/drm.h
+index 4c3e622f5c..fab74d4be9 100644
+--- a/include/qemu/drm.h
++++ b/include/qemu/drm.h
+@@ -1,5 +1,5 @@
+-#ifndef QEMU_DRM_H_
+-#define QEMU_DRM_H_
++#ifndef QEMU_DRM_H
++#define QEMU_DRM_H
+=20
+ int qemu_drm_rendernode_open(const char *rendernode);
+=20
+diff --git a/include/qemu/jhash.h b/include/qemu/jhash.h
+index 7222242615..84d14dc7f7 100644
+--- a/include/qemu/jhash.h
++++ b/include/qemu/jhash.h
+@@ -21,8 +21,8 @@
+   * Jozsef
+   */
+=20
+-#ifndef QEMU_JHASH_H__
+-#define QEMU_JHASH_H__
++#ifndef QEMU_JHASH_H
++#define QEMU_JHASH_H
+=20
+ #include "qemu/bitops.h"
+=20
+@@ -56,4 +56,4 @@
+ /* An arbitrary initial parameter */
+ #define JHASH_INITVAL           0xdeadbeef
+=20
+-#endif /* QEMU_JHASH_H__ */
++#endif /* QEMU_JHASH_H */
+diff --git a/include/sysemu/hvf.h b/include/sysemu/hvf.h
+index aaa51d2c51..300bf3e9a8 100644
+--- a/include/sysemu/hvf.h
++++ b/include/sysemu/hvf.h
+@@ -9,8 +9,9 @@
+  */
+=20
+ /* header to be included in non-HVF-specific code */
+-#ifndef _HVF_H
+-#define _HVF_H
++
++#ifndef HVF_H
++#define HVF_H
+=20
+ #include "qemu-common.h"
+ #include "qemu/bitops.h"
+diff --git a/linux-user/xtensa/syscall_nr.h b/linux-user/xtensa/syscall_n=
+r.h
+index cd5ef45f84..27645bea47 100644
+--- a/linux-user/xtensa/syscall_nr.h
++++ b/linux-user/xtensa/syscall_nr.h
+@@ -8,8 +8,8 @@
+  * Copyright (C) 2001 - 2009 Tensilica Inc.
+  */
+=20
+-#ifndef _XTENSA_UNISTD_H
+-#define _XTENSA_UNISTD_H
++#ifndef XTENSA_SYSCALL_NR_H
++#define XTENSA_SYSCALL_NR_H
+=20
+ #define TARGET_NR_spill                                0
+ #define TARGET_NR_xtensa                               1
+@@ -434,4 +434,4 @@
+=20
+ #define TARGET_NR_syscall_count                      352
+=20
+-#endif  /* _XTENSA_UNISTD_H */
++#endif /* XTENSA_SYSCALL_NR_H */
+diff --git a/linux-user/xtensa/target_structs.h b/linux-user/xtensa/targe=
+t_structs.h
+index 1b3d9ca314..9cde6844b8 100644
+--- a/linux-user/xtensa/target_structs.h
++++ b/linux-user/xtensa/target_structs.h
+@@ -1,5 +1,5 @@
+-#ifndef XTENSA_TARGET_STRUCTS_T
+-#define XTENSA_TARGET_STRUCTS_T
++#ifndef XTENSA_TARGET_STRUCTS_H
++#define XTENSA_TARGET_STRUCTS_H
+=20
+ struct target_ipc_perm {
+     abi_int __key;                      /* Key.  */
+diff --git a/linux-user/xtensa/termbits.h b/linux-user/xtensa/termbits.h
+index eed8286de7..d1e09e61a6 100644
+--- a/linux-user/xtensa/termbits.h
++++ b/linux-user/xtensa/termbits.h
+@@ -10,8 +10,8 @@
+  * Copyright (C) 2001 - 2005 Tensilica Inc.
+  */
+=20
+-#ifndef _XTENSA_TERMBITS_H
+-#define _XTENSA_TERMBITS_H
++#ifndef XTENSA_TERMBITS_H
++#define XTENSA_TERMBITS_H
+=20
+ #include <linux/posix_types.h>
+=20
+@@ -325,4 +325,4 @@ struct target_ktermios {
+=20
+ #define TARGET_TIOCMIWAIT  _IO('T', 92) /* wait for a change on serial i=
+nput line(s) */
+ #define TARGET_TIOCGICOUNT 0x545D  /* read serial port inline interrupt =
+counts */
+-#endif  /* _XTENSA_TERMBITS_H */
++#endif /* XTENSA_TERMBITS_H */
+diff --git a/qga/vss-win32/vss-handles.h b/qga/vss-win32/vss-handles.h
+index ff399dd73a..0f8a741ad2 100644
+--- a/qga/vss-win32/vss-handles.h
++++ b/qga/vss-win32/vss-handles.h
+@@ -1,5 +1,5 @@
+-#ifndef VSS_HANDLES
+-#define VSS_HANDLES
++#ifndef VSS_HANDLES_H
++#define VSS_HANDLES_H
+=20
+ /* Constants for QGA VSS Provider */
+=20
+diff --git a/target/i386/hax-i386.h b/target/i386/hax-i386.h
+index f13fa4638f..54e9d8b057 100644
+--- a/target/i386/hax-i386.h
++++ b/target/i386/hax-i386.h
+@@ -10,8 +10,8 @@
+  *
+  */
+=20
+-#ifndef _HAX_I386_H
+-#define _HAX_I386_H
++#ifndef HAX_I386_H
++#define HAX_I386_H
+=20
+ #include "cpu.h"
+ #include "sysemu/hax.h"
+diff --git a/target/i386/hax-interface.h b/target/i386/hax-interface.h
+index 93d5fcb1dc..537ae084e9 100644
+--- a/target/i386/hax-interface.h
++++ b/target/i386/hax-interface.h
+@@ -14,8 +14,8 @@
+=20
+ /* Interface with HAX kernel module */
+=20
+-#ifndef _HAX_INTERFACE_H
+-#define _HAX_INTERFACE_H
++#ifndef HAX_INTERFACE_H
++#define HAX_INTERFACE_H
+=20
+ /* fx_layout has 3 formats table 3-56, 512bytes */
+ struct fx_layout {
+diff --git a/target/i386/hvf/hvf-i386.h b/target/i386/hvf/hvf-i386.h
+index 2232501552..15ee4835cf 100644
+--- a/target/i386/hvf/hvf-i386.h
++++ b/target/i386/hvf/hvf-i386.h
 @@ -13,8 +13,8 @@
   *
   */
- 
--#ifndef PVRDMA_QP_H
--#define PVRDMA_QP_H
-+#ifndef PVRDMA_QP_OPS_H
-+#define PVRDMA_QP_OPS_H
- 
- #include "pvrdma.h"
- 
-diff --git a/hw/sd/sdmmc-internal.h b/hw/sd/sdmmc-internal.h
-index 9aa04766fc..d8bf17d204 100644
---- a/hw/sd/sdmmc-internal.h
-+++ b/hw/sd/sdmmc-internal.h
-@@ -7,8 +7,9 @@
-  * See the COPYING file in the top-level directory.
-  * SPDX-License-Identifier: GPL-2.0-or-later
+=20
+-#ifndef _HVF_I386_H
+-#define _HVF_I386_H
++#ifndef HVF_I386_H
++#define HVF_I386_H
+=20
+ #include "sysemu/hvf.h"
+ #include "cpu.h"
+diff --git a/target/i386/hvf/vmcs.h b/target/i386/hvf/vmcs.h
+index 2a8c0424a5..42de7ebc3a 100644
+--- a/target/i386/hvf/vmcs.h
++++ b/target/i386/hvf/vmcs.h
+@@ -26,8 +26,8 @@
+  * $FreeBSD$
   */
--#ifndef SD_INTERNAL_H
--#define SD_INTERNAL_H
+=20
+-#ifndef _VMCS_H_
+-#define _VMCS_H_
++#ifndef VMCS_H
++#define VMCS_H
+=20
+ #include <Hypervisor/hv.h>
+ #include <Hypervisor/hv_vmx.h>
+diff --git a/target/i386/hvf/x86_emu.h b/target/i386/hvf/x86_emu.h
+index fbb4832576..f92a9c54b5 100644
+--- a/target/i386/hvf/x86_emu.h
++++ b/target/i386/hvf/x86_emu.h
+@@ -15,8 +15,9 @@
+  * You should have received a copy of the GNU Lesser General Public
+  * License along with this program; if not, see <http://www.gnu.org/lice=
+nses/>.
+  */
+-#ifndef __X86_EMU_H__
+-#define __X86_EMU_H__
 +
-+#ifndef SDMMC_INTERNAL_H
-+#define SDMMC_INTERNAL_H
- 
- #define SDMMC_CMD_MAX 64
- 
-diff --git a/include/authz/listfile.h b/include/authz/listfile.h
-index 0d618c903c..33b728d873 100644
---- a/include/authz/listfile.h
-+++ b/include/authz/listfile.h
-@@ -18,8 +18,8 @@
-  *
-  */
- 
--#ifndef QAUTHZ_LIST_FILE_H__
--#define QAUTHZ_LIST_FILE_H__
-+#ifndef QAUTHZ_LISTFILE_H
-+#define QAUTHZ_LISTFILE_H
- 
- #include "authz/list.h"
- #include "qapi/qapi-types-authz.h"
-@@ -106,6 +106,4 @@ QAuthZListFile *qauthz_list_file_new(const char *id,
-                                      bool refresh,
-                                      Error **errp);
- 
--
--#endif /* QAUTHZ_LIST_FILE_H__ */
--
-+#endif /* QAUTHZ_LISTFILE_H */
-diff --git a/include/authz/pamacct.h b/include/authz/pamacct.h
-index cad5b11d47..f3a7ef1011 100644
---- a/include/authz/pamacct.h
-+++ b/include/authz/pamacct.h
-@@ -18,8 +18,8 @@
-  *
-  */
- 
--#ifndef QAUTHZ_PAM_H__
--#define QAUTHZ_PAM_H__
-+#ifndef QAUTHZ_PAMACCT_H
-+#define QAUTHZ_PAMACCT_H
- 
- #include "authz/base.h"
- 
-@@ -96,5 +96,4 @@ QAuthZPAM *qauthz_pam_new(const char *id,
-                           const char *service,
-                           Error **errp);
- 
--
--#endif /* QAUTHZ_PAM_H__ */
-+#endif /* QAUTHZ_PAMACCT_H */
-diff --git a/include/hw/audio/soundhw.h b/include/hw/audio/soundhw.h
-index 119f7d78d5..c8eef82418 100644
---- a/include/hw/audio/soundhw.h
-+++ b/include/hw/audio/soundhw.h
-@@ -1,5 +1,5 @@
--#ifndef HW_AUDIO_H
--#define HW_AUDIO_H
-+#ifndef HW_SOUNDHW_H
-+#define HW_SOUNDHW_H
- 
- void isa_register_soundhw(const char *name, const char *descr,
-                           int (*init_isa)(ISABus *bus));
-diff --git a/include/hw/i386/x86-iommu.h b/include/hw/i386/x86-iommu.h
-index dcd9719a2c..8e10383b11 100644
---- a/include/hw/i386/x86-iommu.h
-+++ b/include/hw/i386/x86-iommu.h
-@@ -17,8 +17,8 @@
-  * with this program; if not, see <http://www.gnu.org/licenses/>.
-  */
- 
--#ifndef IOMMU_COMMON_H
--#define IOMMU_COMMON_H
-+#ifndef HW_I386_X86_IOMMU_H
-+#define HW_I386_X86_IOMMU_H
- 
- #include "hw/sysbus.h"
- #include "hw/pci/pci.h"
-diff --git a/include/hw/intc/heathrow_pic.h b/include/hw/intc/heathrow_pic.h
-index 56c2ef339f..6c91ec91bb 100644
---- a/include/hw/intc/heathrow_pic.h
-+++ b/include/hw/intc/heathrow_pic.h
-@@ -23,8 +23,8 @@
-  * THE SOFTWARE.
-  */
- 
--#ifndef HEATHROW_H
--#define HEATHROW_H
-+#ifndef HW_INTC_HEATHROW_PIC_H
-+#define HW_INTC_HEATHROW_PIC_H
- 
- #define TYPE_HEATHROW "heathrow"
- #define HEATHROW(obj) OBJECT_CHECK(HeathrowState, (obj), TYPE_HEATHROW)
-@@ -46,4 +46,4 @@ typedef struct HeathrowState {
- 
- #define HEATHROW_NUM_IRQS 64
- 
--#endif /* HEATHROW_H */
-+#endif /* HW_INTC_HEATHROW_PIC_H */
-diff --git a/include/hw/intc/xlnx-pmu-iomod-intc.h b/include/hw/intc/xlnx-pmu-iomod-intc.h
-index 01c9d040b8..0bd118884a 100644
---- a/include/hw/intc/xlnx-pmu-iomod-intc.h
-+++ b/include/hw/intc/xlnx-pmu-iomod-intc.h
-@@ -22,8 +22,8 @@
-  * THE SOFTWARE.
-  */
- 
--#ifndef XLNX_PMU_IO_INTC_H
--#define XLNX_PMU_IO_INTC_H
-+#ifndef HW_INTC_XLNX_PMU_IOMOD_INTC_H
-+#define HW_INTC_XLNX_PMU_IOMOD_INTC_H
- 
- #include "hw/sysbus.h"
- #include "hw/register.h"
-@@ -54,4 +54,4 @@ typedef struct XlnxPMUIOIntc {
-     RegisterInfo regs_info[XLNXPMUIOINTC_R_MAX];
- } XlnxPMUIOIntc;
- 
--#endif /* XLNX_PMU_IO_INTC_H */
-+#endif /* HW_INTC_XLNX_PMU_IOMOD_INTC_H */
-diff --git a/include/hw/misc/armsse-mhu.h b/include/hw/misc/armsse-mhu.h
-index e57eafc252..cf5d8a73e6 100644
---- a/include/hw/misc/armsse-mhu.h
-+++ b/include/hw/misc/armsse-mhu.h
-@@ -20,8 +20,8 @@
-  *  + sysbus IRQ 1: interrupt for CPU 1
-  */
- 
--#ifndef HW_MISC_SSE_MHU_H
--#define HW_MISC_SSE_MHU_H
-+#ifndef HW_MISC_ARMSSE_MHU_H
-+#define HW_MISC_ARMSSE_MHU_H
- 
- #include "hw/sysbus.h"
- 
-diff --git a/include/hw/net/ne2000-isa.h b/include/hw/net/ne2000-isa.h
-index 527337c454..5acf4a494e 100644
---- a/include/hw/net/ne2000-isa.h
-+++ b/include/hw/net/ne2000-isa.h
-@@ -7,8 +7,8 @@
-  * See the COPYING file in the top-level directory.
-  */
- 
--#ifndef HW_NET_NE2K_ISA_H
--#define HW_NET_NE2K_ISA_H
-+#ifndef HW_NET_NE2000_ISA_H
-+#define HW_NET_NE2000_ISA_H
- 
- #include "hw/hw.h"
- #include "hw/qdev.h"
-diff --git a/include/hw/pci-host/sabre.h b/include/hw/pci-host/sabre.h
-index 0f2ccc01c6..9afa4938fd 100644
---- a/include/hw/pci-host/sabre.h
-+++ b/include/hw/pci-host/sabre.h
-@@ -1,5 +1,5 @@
--#ifndef PCI_HOST_APB_H
--#define PCI_HOST_APB_H
-+#ifndef HW_PCI_HOST_SABRE_H
-+#define HW_PCI_HOST_SABRE_H
- 
- #include "hw/sparc/sun4u_iommu.h"
- 
-diff --git a/include/hw/watchdog/wdt_aspeed.h b/include/hw/watchdog/wdt_aspeed.h
-index 7de3e5c224..88d8be4f78 100644
---- a/include/hw/watchdog/wdt_aspeed.h
-+++ b/include/hw/watchdog/wdt_aspeed.h
-@@ -6,8 +6,9 @@
-  * This code is licensed under the GPL version 2 or later. See the
-  * COPYING file in the top-level directory.
-  */
--#ifndef ASPEED_WDT_H
--#define ASPEED_WDT_H
-+
-+#ifndef WDT_ASPEED_H
-+#define WDT_ASPEED_H
- 
- #include "hw/sysbus.h"
- 
-@@ -31,4 +32,4 @@ typedef struct AspeedWDTState {
-     uint32_t ext_pulse_width_mask;
- } AspeedWDTState;
- 
--#endif  /* ASPEED_WDT_H */
-+#endif /* WDT_ASPEED_H */
-diff --git a/include/hw/xen/xen-legacy-backend.h b/include/hw/xen/xen-legacy-backend.h
-index 20cb47b5bf..07d4176ac1 100644
---- a/include/hw/xen/xen-legacy-backend.h
-+++ b/include/hw/xen/xen-legacy-backend.h
-@@ -1,5 +1,5 @@
--#ifndef QEMU_HW_XEN_BACKEND_H
--#define QEMU_HW_XEN_BACKEND_H
-+#ifndef HW_XEN_LEGACY_BACKEND_H
-+#define HW_XEN_LEGACY_BACKEND_H
- 
- #include "hw/xen/xen_common.h"
- #include "hw/xen/xen_pvdev.h"
-@@ -101,4 +101,4 @@ int xen_config_dev_vfb(int vdev, const char *type);
- int xen_config_dev_vkbd(int vdev);
- int xen_config_dev_console(int vdev);
- 
--#endif /* QEMU_HW_XEN_BACKEND_H */
-+#endif /* HW_XEN_LEGACY_BACKEND_H */
-diff --git a/include/hw/xtensa/xtensa-isa.h b/include/hw/xtensa/xtensa-isa.h
-index bd68ada640..a289531bdc 100644
---- a/include/hw/xtensa/xtensa-isa.h
-+++ b/include/hw/xtensa/xtensa-isa.h
-@@ -22,8 +22,8 @@
-  * SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-  */
- 
--#ifndef XTENSA_LIBISA_H
--#define XTENSA_LIBISA_H
-+#ifndef HW_XTENSA_XTENSA_ISA_H
-+#define HW_XTENSA_XTENSA_ISA_H
- 
- #ifdef __cplusplus
- extern "C" {
-@@ -833,4 +833,4 @@ int xtensa_funcUnit_num_copies(xtensa_isa isa, xtensa_funcUnit fun);
- #ifdef __cplusplus
- }
- #endif
--#endif /* XTENSA_LIBISA_H */
-+#endif /* HW_XTENSA_XTENSA_ISA_H */
-diff --git a/include/migration/qemu-file-types.h b/include/migration/qemu-file-types.h
-index bbe04d4484..c0a1988155 100644
---- a/include/migration/qemu-file-types.h
-+++ b/include/migration/qemu-file-types.h
-@@ -22,8 +22,8 @@
-  * THE SOFTWARE.
-  */
- 
--#ifndef QEMU_FILE_H
--#define QEMU_FILE_H
-+#ifndef MIGRATION_QEMU_FILE_TYPES_H
-+#define MIGRATION_QEMU_FILE_TYPES_H
- 
- int qemu_file_get_error(QEMUFile *f);
- 
-diff --git a/include/qemu/filemonitor.h b/include/qemu/filemonitor.h
-index 64267d09b2..70e613dfe3 100644
---- a/include/qemu/filemonitor.h
-+++ b/include/qemu/filemonitor.h
-@@ -18,8 +18,8 @@
-  *
-  */
- 
--#ifndef QEMU_FILE_MONITOR_H
--#define QEMU_FILE_MONITOR_H
-+#ifndef QEMU_FILEMONITOR_H
-+#define QEMU_FILEMONITOR_H
- 
- #include "qemu-common.h"
- 
-@@ -125,4 +125,4 @@ void qemu_file_monitor_remove_watch(QFileMonitor *mon,
-                                     const char *dirpath,
-                                     int64_t id);
- 
--#endif /* QEMU_FILE_MONITOR_H */
-+#endif /* QEMU_FILEMONITOR_H */
-diff --git a/include/scsi/constants.h b/include/scsi/constants.h
-index 0dc550732d..874176019e 100644
---- a/include/scsi/constants.h
-+++ b/include/scsi/constants.h
-@@ -20,8 +20,8 @@
-  * the scsi code for linux.
-  */
- 
--#ifndef BLOCK_SCSI_H
--#define BLOCK_SCSI_H
-+#ifndef SCSI_CONSTANTS_H
-+#define SCSI_CONSTANTS_H
- 
++#ifndef X86_EMU_H
++#define X86_EMU_H
+=20
+ #include "x86.h"
+ #include "x86_decode.h"
+diff --git a/target/i386/hvf/x86_flags.h b/target/i386/hvf/x86_flags.h
+index 8942745988..785e80cfca 100644
+--- a/target/i386/hvf/x86_flags.h
++++ b/target/i386/hvf/x86_flags.h
+@@ -20,8 +20,9 @@
  /*
-  *      SCSI opcodes
-diff --git a/net/colo.h b/net/colo.h
-index b21c6830b5..679314b1ca 100644
---- a/net/colo.h
-+++ b/net/colo.h
-@@ -12,8 +12,8 @@
-  * later.  See the COPYING file in the top-level directory.
+  * x86 eflags functions
   */
- 
--#ifndef QEMU_COLO_PROXY_H
--#define QEMU_COLO_PROXY_H
-+#ifndef NET_COLO_H
-+#define NET_COLO_H
- 
- #include "qemu/jhash.h"
- #include "qemu/timer.h"
-@@ -103,4 +103,4 @@ void connection_hashtable_reset(GHashTable *connection_track_table);
- Packet *packet_new(const void *data, int size, int vnet_hdr_len);
- void packet_destroy(void *opaque, void *user_data);
- 
--#endif /* QEMU_COLO_PROXY_H */
-+#endif /* NET_COLO_H */
-diff --git a/target/i386/hax-posix.h b/target/i386/hax-posix.h
-index 51af0e8c88..fb7c64426d 100644
---- a/target/i386/hax-posix.h
-+++ b/target/i386/hax-posix.h
-@@ -12,8 +12,8 @@
+-#ifndef __X86_FLAGS_H__
+-#define __X86_FLAGS_H__
++
++#ifndef X86_FLAGS_H
++#define X86_FLAGS_H
+=20
+ #include "cpu.h"
+ void lflags_to_rflags(CPUX86State *env);
+@@ -77,4 +78,4 @@ void SET_FLAGS_OSZAPC_LOGIC16(CPUX86State *env, uint16_=
+t v1, uint16_t v2,
+ void SET_FLAGS_OSZAPC_LOGIC8(CPUX86State *env, uint8_t v1, uint8_t v2,
+                              uint8_t diff);
+=20
+-#endif /* __X86_FLAGS_H__ */
++#endif /* X86_FLAGS_H */
+diff --git a/target/i386/hvf/x86_mmu.h b/target/i386/hvf/x86_mmu.h
+index 0bd1acc94f..cd6e137e79 100644
+--- a/target/i386/hvf/x86_mmu.h
++++ b/target/i386/hvf/x86_mmu.h
+@@ -15,8 +15,9 @@
+  * You should have received a copy of the GNU Lesser General Public
+  * License along with this program; if not, see <http://www.gnu.org/lice=
+nses/>.
+  */
+-#ifndef __X86_MMU_H__
+-#define __X86_MMU_H__
++
++#ifndef X86_MMU_H
++#define X86_MMU_H
+=20
+ #define PT_PRESENT      (1 << 0)
+ #define PT_WRITE        (1 << 1)
+@@ -40,4 +41,4 @@ bool mmu_gva_to_gpa(struct CPUState *cpu, target_ulong =
+gva, uint64_t *gpa);
+ void vmx_write_mem(struct CPUState *cpu, target_ulong gva, void *data, i=
+nt bytes);
+ void vmx_read_mem(struct CPUState *cpu, void *data, target_ulong gva, in=
+t bytes);
+=20
+-#endif /* __X86_MMU_H__ */
++#endif /* X86_MMU_H */
+diff --git a/target/riscv/pmp.h b/target/riscv/pmp.h
+index e3953c885f..66790950eb 100644
+--- a/target/riscv/pmp.h
++++ b/target/riscv/pmp.h
+@@ -19,8 +19,8 @@
+  * this program.  If not, see <http://www.gnu.org/licenses/>.
+  */
+=20
+-#ifndef _RISCV_PMP_H_
+-#define _RISCV_PMP_H_
++#ifndef RISCV_PMP_H
++#define RISCV_PMP_H
+=20
+ typedef enum {
+     PMP_READ  =3D 1 << 0,
+diff --git a/target/sparc/asi.h b/target/sparc/asi.h
+index d8d6284125..bb58735ddb 100644
+--- a/target/sparc/asi.h
++++ b/target/sparc/asi.h
+@@ -1,5 +1,5 @@
+-#ifndef _SPARC_ASI_H
+-#define _SPARC_ASI_H
++#ifndef SPARC_ASI_H
++#define SPARC_ASI_H
+=20
+ /* asi.h:  Address Space Identifier values for the sparc.
   *
-  */
- 
--#ifndef TARGET_I386_HAX_DARWIN_H
--#define TARGET_I386_HAX_DARWIN_H
-+#ifndef TARGET_I386_HAX_POSIX_H
-+#define TARGET_I386_HAX_POSIX_H
- 
- #include <sys/ioctl.h>
- 
-@@ -58,4 +58,4 @@ static inline void hax_close_fd(hax_fd fd)
- #define HAX_VCPU_SET_REGS       _IOWR(0, 0xc7, struct vcpu_state_t)
- #define HAX_VCPU_GET_REGS       _IOWR(0, 0xc8, struct vcpu_state_t)
- 
--#endif /* TARGET_I386_HAX_DARWIN_H */
-+#endif /* TARGET_I386_HAX_POSIX_H */
-diff --git a/target/i386/hvf/x86_task.h b/target/i386/hvf/x86_task.h
-index 4f1b188d2e..4eaa61a7de 100644
---- a/target/i386/hvf/x86_task.h
-+++ b/target/i386/hvf/x86_task.h
-@@ -11,8 +11,10 @@
-  * You should have received a copy of the GNU General Public License along
-  * with this program; if not, see <http://www.gnu.org/licenses/>.
-  */
--#ifndef HVF_TASK
--#define HVF_TASK
-+
-+#ifndef HVF_X86_TASK_H
-+#define HVF_X86_TASK_H
-+
- void vmx_handle_task_switch(CPUState *cpu, x68_segment_selector tss_sel,
-         int reason, bool gate_valid, uint8_t gate, uint64_t gate_type);
- #endif
-diff --git a/target/nios2/cpu.h b/target/nios2/cpu.h
-index 881e7d58c9..adc90722c6 100644
---- a/target/nios2/cpu.h
-+++ b/target/nios2/cpu.h
-@@ -17,8 +17,9 @@
-  * License along with this library; if not, see
-  * <http://www.gnu.org/licenses/lgpl-2.1.html>
-  */
--#ifndef CPU_NIOS2_H
--#define CPU_NIOS2_H
-+
-+#ifndef NIOS2_CPU_H
-+#define NIOS2_CPU_H
- 
- #include "qemu-common.h"
- 
-@@ -270,4 +271,4 @@ static inline void cpu_get_tb_cpu_state(CPUNios2State *env, target_ulong *pc,
-     *flags = (env->regs[CR_STATUS] & (CR_STATUS_EH | CR_STATUS_U));
- }
- 
--#endif /* CPU_NIOS2_H */
-+#endif /* NIOS2_CPU_H */
-diff --git a/target/nios2/mmu.h b/target/nios2/mmu.h
-index 51d3d1f43a..4f46fbb82e 100644
---- a/target/nios2/mmu.h
-+++ b/target/nios2/mmu.h
-@@ -17,8 +17,9 @@
-  * License along with this library; if not, see
-  * <http://www.gnu.org/licenses/lgpl-2.1.html>
-  */
--#ifndef MMU_NIOS2_H
--#define MMU_NIOS2_H
-+
-+#ifndef NIOS2_MMU_H
-+#define NIOS2_MMU_H
- 
- typedef struct Nios2TLBEntry {
-     target_ulong tag;
-@@ -47,4 +48,4 @@ void mmu_read_debug(CPUNios2State *env, uint32_t rn);
- void mmu_write(CPUNios2State *env, uint32_t rn, uint32_t v);
- void mmu_init(CPUNios2State *env);
- 
--#endif /* MMU_NIOS2_H */
-+#endif /* NIOS2_MMU_H */
-diff --git a/target/ppc/mmu-book3s-v3.h b/target/ppc/mmu-book3s-v3.h
-index ee8288e32d..0f3c9d09c6 100644
---- a/target/ppc/mmu-book3s-v3.h
-+++ b/target/ppc/mmu-book3s-v3.h
-@@ -17,8 +17,8 @@
-  * License along with this library; if not, see <http://www.gnu.org/licenses/>.
-  */
- 
--#ifndef MMU_BOOOK3S_V3_H
--#define MMU_BOOOK3S_V3_H
-+#ifndef PPC_MMU_BOOK3S_V3_H
-+#define PPC_MMU_BOOK3S_V3_H
- 
- #include "mmu-hash64.h"
- 
-@@ -118,4 +118,4 @@ static inline hwaddr ppc_hash64_hpt_mask(PowerPCCPU *cpu)
- 
- #endif /* CONFIG_USER_ONLY */
- 
--#endif /* MMU_BOOOK3S_V3_H */
-+#endif /* PPC_MMU_BOOK3S_V3_H */
-diff --git a/tests/libqos/qgraph_internal.h b/tests/libqos/qgraph_internal.h
-index 2ef748baf6..f4734c8681 100644
---- a/tests/libqos/qgraph_internal.h
-+++ b/tests/libqos/qgraph_internal.h
+@@ -309,4 +309,4 @@
+ 				      * implicit, little-endian
+ 				      */
+=20
+-#endif /* _SPARC_ASI_H */
++#endif /* SPARC_ASI_H */
+diff --git a/tests/libqos/e1000e.h b/tests/libqos/e1000e.h
+index 9d37094f43..dc4ab10f58 100644
+--- a/tests/libqos/e1000e.h
++++ b/tests/libqos/e1000e.h
 @@ -16,8 +16,8 @@
-  * License along with this library; if not, see <http://www.gnu.org/licenses/>
+  * License along with this library; if not, see <http://www.gnu.org/lice=
+nses/>
   */
- 
--#ifndef QGRAPH_EXTRA_H
--#define QGRAPH_EXTRA_H
-+#ifndef QGRAPH_INTERNAL_H
-+#define QGRAPH_INTERNAL_H
- 
- /* This header is declaring additional helper functions defined in
-  * libqos/qgraph.c
-diff --git a/tests/migration/migration-test.h b/tests/migration/migration-test.h
-index 03c252368a..aa3c3a9625 100644
---- a/tests/migration/migration-test.h
-+++ b/tests/migration/migration-test.h
-@@ -4,8 +4,9 @@
-  * This work is licensed under the terms of the GNU GPL, version 2 or later.
-  * See the COPYING file in the top-level directory.
+=20
+-#ifndef QGRAPH_E1000E
+-#define QGRAPH_E1000E
++#ifndef QGRAPH_E1000E_H
++#define QGRAPH_E1000E_H
+=20
+ #include "libqos/qgraph.h"
+ #include "pci.h"
+diff --git a/tests/libqos/sdhci.h b/tests/libqos/sdhci.h
+index 032d815c38..a88b45ae9d 100644
+--- a/tests/libqos/sdhci.h
++++ b/tests/libqos/sdhci.h
+@@ -16,8 +16,8 @@
+  * License along with this library; if not, see <http://www.gnu.org/lice=
+nses/>
   */
--#ifndef _TEST_MIGRATION_H_
--#define _TEST_MIGRATION_H_
-+
-+#ifndef MIGRATION_TEST_H
-+#define MIGRATION_TEST_H
- 
- /* Common */
- #define TEST_MEM_PAGE_SIZE 4096
-@@ -31,4 +32,4 @@
-  */
- #define ARM_TEST_MAX_KERNEL_SIZE (512 * 1024)
- 
--#endif /* _TEST_MIGRATION_H_ */
-+#endif /* _MIGRATION_TEST_H */
--- 
+=20
+-#ifndef QGRAPH_QSDHCI
+-#define QGRAPH_QSDHCI
++#ifndef QGRAPH_QSDHCI_H
++#define QGRAPH_QSDHCI_H
+=20
+ #include "libqos/qgraph.h"
+ #include "pci.h"
+--=20
 2.17.2
 
 
