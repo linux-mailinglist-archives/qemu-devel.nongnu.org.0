@@ -2,69 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6DA971BA44
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 17:42:15 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:59376 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 835531BA96
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 18:05:41 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:59670 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQD5i-0002cN-Ln
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 11:42:14 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53858)
+	id 1hQDSO-0002VA-0P
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 12:05:40 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56724)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hQD4b-000276-8n
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 11:41:06 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hQDKR-0005Tz-Pk
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 11:57:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hQD4a-0004cH-6V
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 11:41:05 -0400
-Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:41094)
+	(envelope-from <peter.maydell@linaro.org>) id 1hQD5E-0004yC-AF
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 11:41:46 -0400
+Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:46621)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hQD4a-0004bb-0U
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 11:41:04 -0400
-Received: by mail-ot1-x343.google.com with SMTP id g8so12164505otl.8
-	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 08:41:03 -0700 (PDT)
+	id 1hQD5C-0004wW-Mp
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 11:41:43 -0400
+Received: by mail-ot1-x341.google.com with SMTP id j49so4517370otc.13
+	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 08:41:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=2WtiAmLbnppF5wdYRwwdYOHNgP4UsBxqvFA32h2u9G8=;
-	b=WB+Nhl7c68MSZAYYp+dtLDMiI3zkm0/8X7dMzFpOJXTpHShrn/G5jDLTTmScVCwkyl
-	Fpp/gs5r4yqPOsT8nT4kaD1kUy3mD/g/TheRs04VzR656nnEFo5o9NowQqJ4/5iqXwBw
-	3fAN2zo685RLbUd6ALXlIYPGlwv1agUqC66gZNcsI+xGksSJMUTjrNf4PhNb1z3vyHVA
-	86ZT6g27aCD1NCEN5PC5nnO2UPmFLJpXeCTDEA1d8+/Yut3C+MBudza6xWy3v6bPtYL0
-	EsY9IynoQUHszdjXy9vy2AZa7n8MGHNU6ACTZ86GzpP2cslSqSHeq+X8sEzmg+acSdTL
-	zgmQ==
+	:cc; bh=RIQG0vK4M+MGByMGZLuI5pY/Ty564v3mPFm2c9YTl98=;
+	b=EmUUimGhqnIUtoVdKOQoMowUqRx3gD6H+oOMB3ea4/3sHboAoRwbatrxaNV0D+o3uN
+	ku1JkJ6pLmd24hbv6NFaDNsDdpEkqDjC/TzayKN/SwSzAjbRkEcQqEykj1njZU/VwjNB
+	CSb1cbfumrCFjFoKoRilH2q/fqpcRNfHSO3XwNHSrTE7Y8LJ3Fn1clL9HFqyngQujVba
+	pKEUmD7uKMwjZ4F9Tlno8us1sLt70vfFvQLfDE7bPJmeFhbb0zkFwUAXTa4GQfTzV4lO
+	I830MbjRstUCoZSU8KK0mE8szqalcyKvsml21r8OnhI+kJUJywxeNyvMxHTP/MVLEX/h
+	cYMQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=2WtiAmLbnppF5wdYRwwdYOHNgP4UsBxqvFA32h2u9G8=;
-	b=YSG43wQ/AHh0dn5NEj7MwAXKDNQehvq19OgOjK3etma4vuptAgf9X4sXwKOSKCl1ui
-	nzIU5FmTdW/mmR+cRh5elnWjdQPitnyQMolHft1lD5pS/bTI7x3lnfTNHeoCYYSXi7Zi
-	XCTm6Gu3es5pyt0Hecj3+b5ycuLOGjFHLY/ybBUaszG1tvY85KziwYs4DW7uiE5JAUjv
-	IytQ/W3XIA1kRp3sCHnWdRVni/gIzNDgg6o5MJsUD9Zm92Ayts2aPLj21YyIVFeODnDu
-	Q6Ee73rpaB0ZI5IP2bAgmHZCWWPldwp71rPTeVpxNlJWSWOQA4IN0YuoUYJNITLPEtGM
-	cCXQ==
-X-Gm-Message-State: APjAAAV0ov7iAaAsdjmBZWufeHl0G090ODK8rfhmBJLbDVdUPBKoy4qG
-	av8Wlm20Cr+E7KYRRSiTIvw494haybveWAcvUbciJg==
-X-Google-Smtp-Source: APXvYqwH/5qZu17agIjGYc0FSyUggL70xbuawBciikn7GtT3GCIIQJbuX9X6C6rfbeSNldIVuRLpUqf1ioT1A1omw1U=
-X-Received: by 2002:a9d:404:: with SMTP id 4mr7099927otc.352.1557762063062;
-	Mon, 13 May 2019 08:41:03 -0700 (PDT)
+	bh=RIQG0vK4M+MGByMGZLuI5pY/Ty564v3mPFm2c9YTl98=;
+	b=VH4hxF4w2Id2jJ7L/MKfPXwjFKeg5udaVxUXgTrfz9znCFvVLbnXZXZwhBAUs5VfOX
+	GrviztzlPPwDdMzKSeNJNVDZo8lWHJhZimPiI8skCyCNWMYf4osa6S29Yk97kIOlleWg
+	jaAGMTvAGq02oL1qBMaiKp33Q4J9JRSEAe+/P//u4V+kCflAdlOm68HCkEdYKZLJeE2r
+	tuLgn9ipC7N4fZETOU5x1I63alBp08TnxJIyzuAORbHv1jrmxICQS7FGFi9vwMYJvNMm
+	X6PpkfO6N0MfxjFflIZQvqNpJornResOloq45VKPUcePBBAA8dLMFRhIY5r5Eo4V/kdx
+	8uYQ==
+X-Gm-Message-State: APjAAAV80HDJjLlmDKaPbxeusUMvBqfbxltssKBWVnSyBeJDLAHgXFEO
+	03cf4sUkggClx0MpfraIUZVfFa6kQtKqlVp+SxlFkY3jAk0=
+X-Google-Smtp-Source: APXvYqy4WUjMjTZ2AWBakDE1r+rIbDfVlfe2JxvsKg3WIOj518dmVXBEpSJTlvmT/vW6TfqURaDJDgyVM39Vr1A8tR0=
+X-Received: by 2002:a9d:6855:: with SMTP id c21mr15646262oto.151.1557762100663;
+	Mon, 13 May 2019 08:41:40 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190512083624.8916-1-drjones@redhat.com>
-	<20190512083624.8916-6-drjones@redhat.com>
-	<20190513123110.GE28398@e103592.cambridge.arm.com>
-	<20190513135501.ztggqdac57qbpuft@kamzik.brq.redhat.com>
-	<20190513153116.GL28398@e103592.cambridge.arm.com>
-In-Reply-To: <20190513153116.GL28398@e103592.cambridge.arm.com>
+References: <20190513081844.26699-1-armbru@redhat.com>
+In-Reply-To: <20190513081844.26699-1-armbru@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 13 May 2019 16:40:52 +0100
-Message-ID: <CAFEAcA95LbXZOJNUAYuYoVDkM0auj-RGACXPp9Qe9ANp_b3C=w@mail.gmail.com>
-To: Dave Martin <Dave.Martin@arm.com>
+Date: Mon, 13 May 2019 16:41:29 +0100
+Message-ID: <CAFEAcA9jjVDKsmnmoZ_qye+zbnN8hq9qudV0A+gJ_g1aHEKGQQ@mail.gmail.com>
+To: Markus Armbruster <armbru@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::343
-Subject: Re: [Qemu-devel] [PATCH 05/13] target/arm/kvm: Add
- kvm_arch_get/put_sve
+X-Received-From: 2607:f8b0:4864:20::341
+Subject: Re: [Qemu-devel] [PULL 0/9] Miscellaneous patches for 2019-05-13
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -76,38 +71,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jones <drjones@redhat.com>, "armbru@redhat.com" <armbru@redhat.com>,
-	"richard.henderson@linaro.org" <richard.henderson@linaro.org>,
-	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
-	"abologna@redhat.com" <abologna@redhat.com>,
-	"qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
-	"alex.bennee@linaro.org" <alex.bennee@linaro.org>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 13 May 2019 at 16:31, Dave Martin <Dave.Martin@arm.com> wrote:
+On Mon, 13 May 2019 at 09:24, Markus Armbruster <armbru@redhat.com> wrote:
 >
-> On Mon, May 13, 2019 at 02:55:01PM +0100, Andrew Jones wrote:
-> > QEMU keeps its 128-bit and larger words in the same order (least
-> > significant word first) for both host endian types. We need to
-> > do word swapping every time we set/get them to/from KVM.
+> This is actually a fixed rebase of "[PULL for-4.1 0/9] Miscellaneous
+> patches for 2019-04-18", but that subject has since become misleading,
+> so I changed it.
 >
-> I'm not sure whether this is appropriate here, though it depends on
-> what QEMU does with the data.
-
-The layout is optimised for TCG emulation to be able
-to work with it, I think (rth would have the definite
-reason, though).
-
-> Something non-obvious to be aware of:
+> v2:
+> * Back out the change to tests/fp/platform.h that breaks big endian
+> * Rebase
 >
-> As exposed through the signal frame and the KVM ABI, the memory
-> representation of an SVE reg is invariant with respect to the
-> endianness.
+> The following changes since commit efb4f3b62c69383a7308d7b739a3193e7c0ccae8:
+>
+>   Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-request' into staging (2019-05-10 14:49:36 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://repo.or.cz/qemu/armbru.git tags/pull-misc-2019-05-13
+>
+> for you to fetch changes up to 6834c3f410f6ce77dd9cad78f3a9a864e7fc8ec5:
+>
+>   Clean up decorations and whitespace around header guards (2019-05-13 08:58:55 +0200)
+>
+> ----------------------------------------------------------------
+> Miscellaneous patches for 2019-05-13
+>
+> ----------------------------------------------------------------
 
-Yes; we handle this conversion as we write out the signal frame:
-https://github.com/qemu/qemu/blob/master/linux-user/aarch64/signal.c#L184
 
-thanks
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
+for any user-visible changes.
+
 -- PMM
 
