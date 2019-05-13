@@ -2,70 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 899201B6EB
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 15:19:36 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57247 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B96CC1B6F8
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 15:24:41 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57381 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQArf-0000um-Mh
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 09:19:35 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51414)
+	id 1hQAwa-0004cK-Sb
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 09:24:40 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54081)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hQAe2-0005mO-2i
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:05:31 -0400
+	(envelope-from <Dave.Martin@arm.com>) id 1hQAq9-0000Me-VY
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:18:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hQAe1-0008PG-1O
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:05:30 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:36354)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hQAe0-0008LU-Qx
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:05:28 -0400
-Received: by mail-wr1-f65.google.com with SMTP id o4so15209801wra.3
-	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 06:05:20 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=6itApyjXnEbSCeJT5c9l/Z/GIJifu4LTHrClxtvqmpg=;
-	b=pG3DbGQFnG7kcdgkaBOD9icSGbVf7cPkYPEzTEzIH/IxuOKskgBwDFpkV1I7qdaS7R
-	vJddj7F4YYSD2rm2i+5NG0UN5ehFQLS6DRhE0HuGMG8isEj2WPNx4c4S8PvLapWm9EfA
-	16VdblZkkFKgkB/hADVywkHVtWNmXyIum6wYZcbDFyKwiztbTYXWGs0++yZOn2Cj0cud
-	EwMdKJaVqPck704sKfv2A5fivuMct6novNb5hEb6qF/j/u/sWPb2spAZS90CMwMVuZJL
-	81fFEWGUrmFzxDQ4BYZUTDa7bqS467yw4ERuFS14TlSfxKGfDMNjdx+FTx83a8MiVaiY
-	Bvkg==
-X-Gm-Message-State: APjAAAUaxIQvGJ+TodNJ/LcXDxEdxO4/w6/nD6oUemkXmxz4fywUhO89
-	ja3J+TWIeKrzKkxMGYjD1OZ44V98edE=
-X-Google-Smtp-Source: APXvYqwByNiCAGzAfrPMzf33PHKf7w2imfCWj35SfH4eij3Z6KNMbGnDDD6pcs/ExZSso8h7pe0E8w==
-X-Received: by 2002:adf:f80f:: with SMTP id s15mr8008680wrp.322.1557752719281; 
-	Mon, 13 May 2019 06:05:19 -0700 (PDT)
-Received: from [10.201.33.53] ([195.166.127.210])
-	by smtp.gmail.com with ESMTPSA id
-	q4sm10246700wrx.25.2019.05.13.06.05.18
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Mon, 13 May 2019 06:05:18 -0700 (PDT)
-To: Markus Armbruster <armbru@redhat.com>
-References: <20190418145355.21100-1-armbru@redhat.com>
-	<20190418145355.21100-4-armbru@redhat.com>
-	<78da03ed-2b9f-2357-6f28-44115d8b2955@redhat.com>
-	<87ef527clf.fsf@dusky.pond.sub.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
-	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <cd22d43c-6a97-1fe7-5d61-0b84e5710b4c@redhat.com>
-Date: Mon, 13 May 2019 15:05:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <Dave.Martin@arm.com>) id 1hQAq8-0006q7-Hg
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:18:01 -0400
+Received: from foss.arm.com ([217.140.101.70]:52142)
+	by eggs.gnu.org with esmtp (Exim 4.71)
+	(envelope-from <Dave.Martin@arm.com>)
+	id 1hQAlB-000479-QI; Mon, 13 May 2019 09:12:54 -0400
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 7277B80D;
+	Mon, 13 May 2019 06:12:52 -0700 (PDT)
+Received: from e103592.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
+	[10.72.51.249])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id EC2F33F720;
+	Mon, 13 May 2019 06:12:50 -0700 (PDT)
+Date: Mon, 13 May 2019 14:12:48 +0100
+From: Dave Martin <Dave.Martin@arm.com>
+To: Andrew Jones <drjones@redhat.com>
+Message-ID: <20190513131248.GI28398@e103592.cambridge.arm.com>
+References: <20190512083624.8916-1-drjones@redhat.com>
+	<20190512083624.8916-12-drjones@redhat.com>
+	<20190513112635.GD28398@e103592.cambridge.arm.com>
+	<20190513123023.h4q5sihktqctkgml@kamzik.brq.redhat.com>
+	<20190513124126.GF28398@e103592.cambridge.arm.com>
+	<20190513125740.ukyx4vuili3f5wbe@kamzik.brq.redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <87ef527clf.fsf@dusky.pond.sub.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190513125740.ukyx4vuili3f5wbe@kamzik.brq.redhat.com>
+User-Agent: Mutt/1.5.23 (2014-03-12)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.221.65
-Subject: Re: [Qemu-devel] [PATCH 3/6] gdbstub: Reject invalid RLE repeat
- counts
+X-Received-From: 217.140.101.70
+Subject: Re: [Qemu-devel] [PATCH 11/13] target/arm/cpu64: max cpu: Introduce
+ sve-vls-map
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -77,64 +57,138 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
+	"armbru@redhat.com" <armbru@redhat.com>,
+	"richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+	"abologna@redhat.com" <abologna@redhat.com>,
+	"qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+	"alex.bennee@linaro.org" <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/13/19 2:39 PM, Markus Armbruster wrote:
-> Philippe Mathieu-Daudé <philmd@redhat.com> writes:
+On Mon, May 13, 2019 at 01:57:40PM +0100, Andrew Jones wrote:
+> On Mon, May 13, 2019 at 01:41:26PM +0100, Dave Martin wrote:
+> > On Mon, May 13, 2019 at 01:30:23PM +0100, Andrew Jones wrote:
+> > > On Mon, May 13, 2019 at 12:26:36PM +0100, Dave Martin wrote:
+> > > > On Sun, May 12, 2019 at 09:36:22AM +0100, Andrew Jones wrote:
+> > > > > Introduce another cpu property to control SVE vector lengths,
+> > > > > sve-vls-map, which allows the user to explicitly select the
+> > > > > set of vector lengths the guest can use. The map must conform
+> > > > > to QEMU's limits and architectural constraints, checked when
+> > > > > the property is set. Inconsistencies with sve-max-vq are also
+> > > > > checked. The bit number of a set bit in the map represents the
+> > > > > allowed vector length in number of quadwords.
+> > > > > 
+> > > > > Note, as the map is implemented with a single 64-bit word we
+> > > > > currently only support up to 8192-bit vectors. As QEMU and
+> > > > > KVM only support up to 2048-bit vectors then this sufficient
+> > > > > now, and probably for some time. Extending the bitmap beyond
+> > > > > a single word will likely require changing the property to
+> > > > > a string and adding yet another parser to QEMU.
+> > > > > 
+> > > > > Signed-off-by: Andrew Jones <drjones@redhat.com>
+> > > > > ---
+> > > > >  target/arm/cpu.c     |  4 +++
+> > > > >  target/arm/cpu.h     |  3 ++
+> > > > >  target/arm/cpu64.c   | 70 +++++++++++++++++++++++++++++++++++++++++---
+> > > > >  target/arm/helper.c  | 10 ++++++-
+> > > > >  target/arm/monitor.c |  9 ++++--
+> > > > >  5 files changed, 88 insertions(+), 8 deletions(-)
+> > > > > 
+> > > > 
+> > > > [...]
+> > > > 
+> > > > > diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+> > > > > index 8292d547e8f9..f0d0ce759ba8 100644
+> > > > > --- a/target/arm/cpu.h
+> > > > > +++ b/target/arm/cpu.h
+> > > > > @@ -920,6 +920,9 @@ struct ARMCPU {
+> > > > >  
+> > > > >      /* Used to set the maximum vector length the cpu will support.  */
+> > > > >      uint32_t sve_max_vq;
+> > > > > +
+> > > > > +    /* Each bit represents a supported vector length of (bitnum * 16) bytes */
+> > > > > +    uint64_t sve_vls_map;
+> > > > 
+> > > > Just to be clear, the representation here is different from the
+> > > > representation in KVM_REG_ARM64_SVE_VLS?
+> > > > 
+> > > > In the latter, bit n represents vector length ((n + 1) * 16) bytes.
+> > > 
+> > > KVM also uses bitnum * 16. bitnum is the the bit number, not the shift.
+> > 
+> > Can you point to the relevant kernel code?  This isn't what I thought I
+> > wrote...
 > 
->> On 4/18/19 4:53 PM, Markus Armbruster wrote:
->>> "Debugging with GDB / Appendix E GDB Remote Serial Protocol /
->>> Overview" specifies "The printable characters '#' and '$' or with a
->>> numeric value greater than 126 must not be used."  gdb_read_byte()
->>> only rejects values < 32.  This is wrong.  Impact depends on the caller:
->>>
->>> * gdb_handlesig() passes a char.  Incorrectly accepts '#', '$' and
->>>   '\127'.
->>>
->>> * gdb_chr_receive() passes an uint8_t.  Additionally accepts
->>>   characters with the most-significant bit set.
->>>
->>> Correct the validity check to match the specification.
->>>
->>> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->>> ---
->>>  gdbstub.c | 2 +-
->>>  1 file changed, 1 insertion(+), 1 deletion(-)
->>>
->>> diff --git a/gdbstub.c b/gdbstub.c
->>> index d54abd17cc..a6dce1b027 100644
->>> --- a/gdbstub.c
->>> +++ b/gdbstub.c
->>> @@ -2064,7 +2064,7 @@ static void gdb_read_byte(GDBState *s, int ch)
->>>              }
->>>              break;
->>>          case RS_GETLINE_RLE:
->>> -            if (ch < ' ') {
->>
->> Can you add a comment referring to the ""Debugging with GDB / Appendix E
->> GDB Remote Serial Protocol / Overview" here?
+> The Documentation/virtual/kvm/api.txt documentation has
 > 
-> Like this?
+>  > if (vq >= SVE_VQ_MIN && vq <= SVE_VQ_MAX &&
+>  >    ((vector_lengths[(vq - KVM_ARM64_SVE_VQ_MIN) / 64] >>
+>  >                ((vq - KVM_ARM64_SVE_VQ_MIN) % 64)) & 1))
+>  >        /* Vector length vq * 16 bytes supported */
+>  > else
+>  >        /* Vector length vq * 16 bytes not supported */
 > 
->         case RS_GETLINE_RLE:
->             /*
->              * Run-length encoding is explained in "Debugging with GDB /
->              * Appendix E GDB Remote Serial Protocol / Overview".
->              */
->             if (ch < ' ') {
+> Taking vq=1, we check (vector_lengths[0] >> 0) to see if we have the
+> length (1 * 16) bytes. Since bitnum 1 is (1 << 0) that means the shift
+> is zero and (bitnum * 16) is the same as (vq * 16). With ((n + 1) * 16),
+> n would have to be zero, which is not a valid bitnum, but is a valid
+> bit shift.
 
-Yes, thanks!
+OK, so it sounds like the interpretation of the KVM ABI is what I intended.
 
+What is "bitnum" though?  Most of the time, people seem to number bits
+starting from 0 -- though of course that's just a convention.
+
+> > > So you can't have bitnum=0. 'n' must be a shift, as it would need to
+> > > allow zero in order to represent KVM_ARM64_SVE_VQ_MIN.
+
+[...]
+
+> > > > > diff --git a/target/arm/helper.c b/target/arm/helper.c
+> > > > > index 1e6eb0d0f360..bedec1ea0b27 100644
+> > > > > --- a/target/arm/helper.c
+> > > > > +++ b/target/arm/helper.c
+> > > > > @@ -5254,12 +5254,20 @@ uint32_t sve_zcr_len_for_el(CPUARMState *env, int el)
+> > > > >  static void zcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
+> > > > >                        uint64_t value)
+> > > > >  {
+> > > > > +    ARMCPU *cpu = arm_env_get_cpu(env);
+> > > > >      int cur_el = arm_current_el(env);
+> > > > >      int old_len = sve_zcr_len_for_el(env, cur_el);
+> > > > >      int new_len;
+> > > > >  
+> > > > >      /* Bits other than [3:0] are RAZ/WI.  */
+> > > > > -    raw_write(env, ri, value & 0xf);
+> > > > > +    value &= 0xf;
+> > > > 
+> > > > You might want to sanity-check that the max vq you configured for the
+> > > > vcpu is <= 16 here.
+> > > 
+> > > It's already checked by the cpu property set function at input time.
+> > 
+> > The check is in one place, but the assumptions based on it are
+> > potentially all over the place -- it may be tricky to track them
+> > all down if you ever add support for >8192-bit vectors.
+> > 
+> > (Not a big deal from my point of view, but I'd migration to larger
+> > vectors to be as smooth as reasonably possible if we ever find we have
+> > to do it.)
+> >
 > 
->> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> 
-> Thanks!
-> 
->>> +            if (ch < ' ' || ch == '#' || ch == '$' || ch > 126) {
->>>                  /* invalid RLE count encoding */
->>>                  trace_gdbstub_err_invalid_repeat((uint8_t)ch);
->>>                  s->state = RS_GETLINE;
->>>
+> Adding asserts might be a good idea to catch bugs when expanding the
+> supported vector lengths. I can certainly add one here. Maybe Richard
+> has some ideas as well for this.
+
+Sure, just wanted to make the point, since this might be an issue in the
+future.
+
+The compromise in the kernel implementation was similar: in many places
+the code is agnostic to larger vectors, but in a few (such as the ioctl
+reg accessors) this seemed too cumbersome to justify for now, so I went
+with a simpler implementation with some added sanity-checks.
+
+Cheers
+---Dave
 
