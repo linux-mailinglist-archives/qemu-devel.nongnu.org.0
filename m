@@ -2,48 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C82691BA8C
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 18:03:17 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:59591 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C1991BA7C
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 17:59:32 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:59510 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQDQ4-0000gu-TY
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 12:03:17 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56560)
+	id 1hQDMR-0006YZ-F3
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 11:59:31 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56446)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hQDK5-0005Fz-C2
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 11:57:06 -0400
+	(envelope-from <mreitz@redhat.com>) id 1hQDJw-00057t-BA
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 11:56:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hQDBN-0008Aa-Pp
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 11:48:06 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48358)
+	(envelope-from <mreitz@redhat.com>) id 1hQDG8-0002fs-0Q
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 11:53:01 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42306)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <thuth@redhat.com>)
-	id 1hQDBN-00089x-K3; Mon, 13 May 2019 11:48:05 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
+	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
+	id 1hQDG6-0002dX-My; Mon, 13 May 2019 11:52:58 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+	[10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 13541308A968;
-	Mon, 13 May 2019 15:48:04 +0000 (UTC)
-Received: from thuth.com (ovpn-116-122.ams2.redhat.com [10.36.116.122])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id EB87819C6A;
-	Mon, 13 May 2019 15:48:02 +0000 (UTC)
-From: Thomas Huth <thuth@redhat.com>
-To: qemu-devel@nongnu.org,
-	Laurent Vivier <lvivier@redhat.com>
-Date: Mon, 13 May 2019 17:47:59 +0200
-Message-Id: <20190513154759.24973-1-thuth@redhat.com>
+	by mx1.redhat.com (Postfix) with ESMTPS id EEB2A307D923;
+	Mon, 13 May 2019 15:52:57 +0000 (UTC)
+Received: from localhost (unknown [10.40.206.26])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 811135C1B4;
+	Mon, 13 May 2019 15:52:57 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Date: Mon, 13 May 2019 17:52:54 +0200
+Message-Id: <20190513155254.27773-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.41]);
-	Mon, 13 May 2019 15:48:04 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.48]);
+	Mon, 13 May 2019 15:52:58 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH] tests/libqtest: Fix description of
- qtest_vinitf() and qtest_initf()
+Subject: [Qemu-devel] [PATCH v2] iotests: Filter 175's allocation information
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -55,42 +53,115 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc: Nir Soffer <nsoffer@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
+	Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+	Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-These functions are convenience wrappers of qtest_init() and not of
-qtest_start().
+It is possible for an empty file to take up blocks on a filesystem.
+Make iotest 175 take this into account.
 
-Signed-off-by: Thomas Huth <thuth@redhat.com>
+Reported-by: Thomas Huth <thuth@redhat.com>
+Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- tests/libqtest.h | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+v2: [Nir]
+- Use a function for filtering
+- s/empty_blocks/extra_blocks/
+---
+ tests/qemu-iotests/175     | 26 ++++++++++++++++++++++----
+ tests/qemu-iotests/175.out |  8 ++++----
+ 2 files changed, 26 insertions(+), 8 deletions(-)
 
-diff --git a/tests/libqtest.h b/tests/libqtest.h
-index 3f7675fcf0..a98ea15b7d 100644
---- a/tests/libqtest.h
-+++ b/tests/libqtest.h
-@@ -29,7 +29,7 @@ extern QTestState *global_qtest;
-  * @fmt...: Format for creating other arguments to pass to QEMU, formatt=
-ed
-  * like sprintf().
-  *
-- * Convenience wrapper around qtest_start().
-+ * Convenience wrapper around qtest_init().
-  *
-  * Returns: #QTestState instance.
-  */
-@@ -41,7 +41,7 @@ QTestState *qtest_initf(const char *fmt, ...) GCC_FMT_A=
-TTR(1, 2);
-  * like vsprintf().
-  * @ap: Format arguments.
-  *
-- * Convenience wrapper around qtest_start().
-+ * Convenience wrapper around qtest_init().
-  *
-  * Returns: #QTestState instance.
-  */
+diff --git a/tests/qemu-iotests/175 b/tests/qemu-iotests/175
+index d0ffc495c2..b5eb0aa856 100755
+--- a/tests/qemu-iotests/175
++++ b/tests/qemu-iotests/175
+@@ -28,10 +28,25 @@ status=3D1	# failure is the default!
+=20
+ _cleanup()
+ {
+-	_cleanup_test_img
++    _cleanup_test_img
++    rm -f "$TEST_DIR/empty"
+ }
+ trap "_cleanup; exit \$status" 0 1 2 3 15
+=20
++# Some file systems sometimes allocate extra blocks independently of
++# the file size.  This function hides the resulting difference in the
++# stat -c '%b' output.
++# Parameter 1: Number of blocks an empty file occupies
++# Parameter 2: Image size in bytes
++_filter_blocks()
++{
++    extra_blocks=3D$1
++    img_size=3D$2
++
++    sed -e "s/blocks=3D$extra_blocks/nothing allocated/" \
++        -e "s/blocks=3D$((extra_blocks + img_size / 512))/everything all=
+ocated/"
++}
++
+ # get standard environment, filters and checks
+ . ./common.rc
+ . ./common.filter
+@@ -40,18 +55,21 @@ _supported_fmt raw
+ _supported_proto file
+ _supported_os Linux
+=20
+-size=3D1m
++size=3D$((1 * 1024 * 1024))
++
++touch "$TEST_DIR/empty"
++extra_blocks=3D$(stat -c '%b' "$TEST_DIR/empty")
+=20
+ echo
+ echo "=3D=3D creating image with default preallocation =3D=3D"
+ _make_test_img $size | _filter_imgfmt
+-stat -c "size=3D%s, blocks=3D%b" $TEST_IMG
++stat -c "size=3D%s, blocks=3D%b" $TEST_IMG | _filter_blocks $extra_block=
+s $size
+=20
+ for mode in off full falloc; do
+     echo
+     echo "=3D=3D creating image with preallocation $mode =3D=3D"
+     IMGOPTS=3Dpreallocation=3D$mode _make_test_img $size | _filter_imgfm=
+t
+-    stat -c "size=3D%s, blocks=3D%b" $TEST_IMG
++    stat -c "size=3D%s, blocks=3D%b" $TEST_IMG | _filter_blocks $extra_b=
+locks $size
+ done
+=20
+ # success, all done
+diff --git a/tests/qemu-iotests/175.out b/tests/qemu-iotests/175.out
+index 76c02c6a57..6d9a5ed84e 100644
+--- a/tests/qemu-iotests/175.out
++++ b/tests/qemu-iotests/175.out
+@@ -2,17 +2,17 @@ QA output created by 175
+=20
+ =3D=3D creating image with default preallocation =3D=3D
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1048576
+-size=3D1048576, blocks=3D0
++size=3D1048576, nothing allocated
+=20
+ =3D=3D creating image with preallocation off =3D=3D
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1048576 preallocatio=
+n=3Doff
+-size=3D1048576, blocks=3D0
++size=3D1048576, nothing allocated
+=20
+ =3D=3D creating image with preallocation full =3D=3D
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1048576 preallocatio=
+n=3Dfull
+-size=3D1048576, blocks=3D2048
++size=3D1048576, everything allocated
+=20
+ =3D=3D creating image with preallocation falloc =3D=3D
+ Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1048576 preallocatio=
+n=3Dfalloc
+-size=3D1048576, blocks=3D2048
++size=3D1048576, everything allocated
+  *** done
 --=20
 2.21.0
 
