@@ -2,60 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56E561B708
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 15:29:25 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57472 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EECFB1B78B
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 15:56:55 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57767 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQB19-0007QM-PW
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 09:29:23 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56400)
+	id 1hQBRn-0007pu-3H
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 09:56:55 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60049)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <eskultet@redhat.com>) id 1hQB0D-00075d-4v
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:28:26 -0400
+	(envelope-from <armbru@redhat.com>) id 1hQBMc-0003k9-2q
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:51:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <eskultet@redhat.com>) id 1hQB0B-0003c4-ST
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:28:25 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39910)
+	(envelope-from <armbru@redhat.com>) id 1hQB7y-0000A9-IK
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:36:31 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55196)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <eskultet@redhat.com>) id 1hQB0B-0003b9-KQ
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:28:23 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
+	(Exim 4.71) (envelope-from <armbru@redhat.com>)
+	id 1hQB7w-00008f-7M; Mon, 13 May 2019 09:36:24 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+	[10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 285468830B;
-	Mon, 13 May 2019 13:28:20 +0000 (UTC)
-Received: from beluga.usersys.redhat.com (unknown [10.43.2.166])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 3D1EE10027DA;
-	Mon, 13 May 2019 13:28:07 +0000 (UTC)
-Date: Mon, 13 May 2019 15:28:04 +0200
-From: Erik Skultety <eskultet@redhat.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Message-ID: <20190513132804.GD11139@beluga.usersys.redhat.com>
-References: <20190506014514.3555-1-yan.y.zhao@intel.com>
-	<20190506014904.3621-1-yan.y.zhao@intel.com>
-	<20190507151826.502be009@x1.home>
-	<20190509173839.2b9b2b46.cohuck@redhat.com>
-	<20190509154857.GF2868@work-vm>
-	<20190509175404.512ae7aa.cohuck@redhat.com>
-	<20190509164825.GG2868@work-vm>
-	<20190510110838.2df4c4d0.cohuck@redhat.com>
-	<20190510093608.GD2854@work-vm>
-	<20190510114838.7e16c3d6.cohuck@redhat.com>
+	by mx1.redhat.com (Postfix) with ESMTPS id 166C230821FF;
+	Mon, 13 May 2019 13:36:23 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-28.ams2.redhat.com
+	[10.36.116.28])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id C72656A497;
+	Mon, 13 May 2019 13:36:19 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+	id 23CAE11385E4; Mon, 13 May 2019 15:36:17 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Kevin Wolf <kwolf@redhat.com>
+References: <20190505070059.4664-1-zhengxiang9@huawei.com>
+	<87a7fyb0v7.fsf@dusky.pond.sub.org>
+	<72adbed8-f650-42df-98d5-e98154baec08@redhat.com>
+	<87h8a513sl.fsf@dusky.pond.sub.org>
+	<fb04cdb2-910d-58be-fb21-db7050cdc669@huawei.com>
+	<87ef574z4e.fsf@dusky.pond.sub.org>
+	<ac4ac85f-67ae-a526-9172-fef190fdc23a@huawei.com>
+	<87ef56mjbi.fsf@dusky.pond.sub.org>
+	<bfa0d642-e425-f90c-f776-9e7e25e66c25@huawei.com>
+	<87bm06a7k3.fsf@dusky.pond.sub.org>
+	<20190513131521.GD19114@linux.fritz.box>
+Date: Mon, 13 May 2019 15:36:17 +0200
+In-Reply-To: <20190513131521.GD19114@linux.fritz.box> (Kevin Wolf's message of
+	"Mon, 13 May 2019 15:15:21 +0200")
+Message-ID: <87pnom5ve6.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190510114838.7e16c3d6.cohuck@redhat.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.28]);
-	Mon, 13 May 2019 13:28:20 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.47]);
+	Mon, 13 May 2019 13:36:23 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 1/2] vfio/mdev: add version attribute
- for mdev device
+Subject: Re: [Qemu-devel] [PATCH] pflash: Only read non-zero parts of
+ backend image
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -67,121 +71,266 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: cjia@nvidia.com, kvm@vger.kernel.org, aik@ozlabs.ru,
-	Zhengxiao.zx@alibaba-inc.com, shuangtai.tst@alibaba-inc.com,
-	qemu-devel@nongnu.org, kwankhede@nvidia.com, eauger@redhat.com,
-	yi.l.liu@intel.com, ziye.yang@intel.com, mlevitsk@redhat.com,
-	pasic@linux.ibm.com, libvir-list@redhat.com,
-	arei.gonglei@huawei.com, felipe@nutanix.com, Ken.Xue@amd.com,
-	kevin.tian@intel.com, Yan Zhao <yan.y.zhao@intel.com>,
-	"Dr. David Alan Gilbert" <dgilbert@redhat.com>,
-	zhenyuw@linux.intel.com, dinechin@redhat.com,
-	Alex Williamson <alex.williamson@redhat.com>,
-	intel-gvt-dev@lists.freedesktop.org, changpeng.liu@intel.com,
-	berrange@redhat.com, linux-kernel@vger.kernel.org,
-	zhi.a.wang@intel.com, jonathan.davies@nutanix.com, shaopeng.he@intel.com
+Cc: peter.maydell@linaro.org, qemu-block@nongnu.org, ard.biesheuvel@linaro.org,
+	qemu-devel@nongnu.org, mreitz@redhat.com,
+	Xiang Zheng <zhengxiang9@huawei.com>, stefanha@redhat.com,
+	guoheyi@huawei.com, wanghaibin.wang@huawei.com,
+	Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 10, 2019 at 11:48:38AM +0200, Cornelia Huck wrote:
-> On Fri, 10 May 2019 10:36:09 +0100
-> "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
->
-> > * Cornelia Huck (cohuck@redhat.com) wrote:
-> > > On Thu, 9 May 2019 17:48:26 +0100
-> > > "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
-> > >
-> > > > * Cornelia Huck (cohuck@redhat.com) wrote:
-> > > > > On Thu, 9 May 2019 16:48:57 +0100
-> > > > > "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
-> > > > >
-> > > > > > * Cornelia Huck (cohuck@redhat.com) wrote:
-> > > > > > > On Tue, 7 May 2019 15:18:26 -0600
-> > > > > > > Alex Williamson <alex.williamson@redhat.com> wrote:
-> > > > > > >
-> > > > > > > > On Sun,  5 May 2019 21:49:04 -0400
-> > > > > > > > Yan Zhao <yan.y.zhao@intel.com> wrote:
-> > > > > > >
-> > > > > > > > > +  Errno:
-> > > > > > > > > +  If vendor driver wants to claim a mdev device incompatible to all other mdev
-> > > > > > > > > +  devices, it should not register version attribute for this mdev device. But if
-> > > > > > > > > +  a vendor driver has already registered version attribute and it wants to claim
-> > > > > > > > > +  a mdev device incompatible to all other mdev devices, it needs to return
-> > > > > > > > > +  -ENODEV on access to this mdev device's version attribute.
-> > > > > > > > > +  If a mdev device is only incompatible to certain mdev devices, write of
-> > > > > > > > > +  incompatible mdev devices's version strings to its version attribute should
-> > > > > > > > > +  return -EINVAL;
-> > > > > > > >
-> > > > > > > > I think it's best not to define the specific errno returned for a
-> > > > > > > > specific situation, let the vendor driver decide, userspace simply
-> > > > > > > > needs to know that an errno on read indicates the device does not
-> > > > > > > > support migration version comparison and that an errno on write
-> > > > > > > > indicates the devices are incompatible or the target doesn't support
-> > > > > > > > migration versions.
-> > > > > > >
-> > > > > > > I think I have to disagree here: It's probably valuable to have an
-> > > > > > > agreed error for 'cannot migrate at all' vs 'cannot migrate between
-> > > > > > > those two particular devices'. Userspace might want to do different
-> > > > > > > things (e.g. trying with different device pairs).
-> > > > > >
-> > > > > > Trying to stuff these things down an errno seems a bad idea; we can't
-> > > > > > get much information that way.
-> > > > >
-> > > > > So, what would be a reasonable approach? Userspace should first read
-> > > > > the version attributes on both devices (to find out whether migration
-> > > > > is supported at all), and only then figure out via writing whether they
-> > > > > are compatible?
-> > > > >
-> > > > > (Or just go ahead and try, if it does not care about the reason.)
-> > > >
-> > > > Well, I'm OK with something like writing to test whether it's
-> > > > compatible, it's just we need a better way of saying 'no'.
-> > > > I'm not sure if that involves reading back from somewhere after
-> > > > the write or what.
-> > >
-> > > Hm, so I basically see two ways of doing that:
-> > > - standardize on some error codes... problem: error codes can be hard
-> > >   to fit to reasons
-> > > - make the error available in some attribute that can be read
-> > >
-> > > I'm not sure how we can serialize the readback with the last write,
-> > > though (this looks inherently racy).
-> > >
-> > > How important is detailed error reporting here?
-> >
-> > I think we need something, otherwise we're just going to get vague
-> > user reports of 'but my VM doesn't migrate'; I'd like the error to be
-> > good enough to point most users to something they can understand
-> > (e.g. wrong card family/too old a driver etc).
->
-> Ok, that sounds like a reasonable point. Not that I have a better idea
-> how to achieve that, though... we could also log a more verbose error
-> message to the kernel log, but that's not necessarily where a user will
-> look first.
+Kevin Wolf <kwolf@redhat.com> writes:
 
-In case of libvirt checking the compatibility, it won't matter how good the
-error message in the kernel log is and regardless of how many error states you
-want to handle, libvirt's only limited to errno here, since we're going to do
-plain read/write, so our internal error message returned to the user is only
-going to contain what the errno says - okay, of course we can (and we DO)
-provide libvirt specific string, further specifying the error but like I
-mentioned, depending on how many error cases we want to distinguish this may be
-hard for anyone to figure out solely on the error code, as apps will most
-probably not parse the
-logs.
-
-Regards,
-Erik
+> Am 13.05.2019 um 13:59 hat Markus Armbruster geschrieben:
+>> Xiang Zheng <zhengxiang9@huawei.com> writes:
+>> 
+>> > On 2019/5/10 23:16, Markus Armbruster wrote:
+>> >> Xiang Zheng <zhengxiang9@huawei.com> writes:
+>> >> 
+>> >>> On 2019/5/9 19:59, Markus Armbruster wrote:
+>> >>>> Xiang Zheng <zhengxiang9@huawei.com> writes:
+>> >>>>
+>> >>>>> On 2019/5/8 21:20, Markus Armbruster wrote:
+>> >>>>>> Laszlo Ersek <lersek@redhat.com> writes:
+>> >>>>>>
+>> >>>>>>> Hi Markus,
+>> >>>>>>>
+>> >>>>>>> On 05/07/19 20:01, Markus Armbruster wrote:
+>> >>>>>>>> The subject is slightly misleading.  Holes read as zero.  So do
+>> >>>>>>>> non-holes full of zeroes.  The patch avoids reading the former, but
+>> >>>>>>>> still reads the latter.
+>> >>>>>>>>
+>> >>>>>>>> Xiang Zheng <zhengxiang9@huawei.com> writes:
+>> >>>>>>>>
+>> >>>>>>>>> Currently we fill the memory space with two 64MB NOR images when
+>> >>>>>>>>> using persistent UEFI variables on virt board. Actually we only use
+>> >>>>>>>>> a very small(non-zero) part of the memory while the rest significant
+>> >>>>>>>>> large(zero) part of memory is wasted.
+>> >>>>>>>>
+>> >>>>>>>> Neglects to mention that the "virt board" is ARM.
+>> >>>>>>>>
+>> >>>>>>>>> So this patch checks the block status and only writes the non-zero part
+>> >>>>>>>>> into memory. This requires pflash devices to use sparse files for
+>> >>>>>>>>> backends.
+>> >>>>>>>>
+>> >>>>>>>> I started to draft an improved commit message, but then I realized this
+>> >>>>>>>> patch can't work.
+>> >>>>>>>>
+>> >>>>>>>> The pflash_cfi01 device allocates its device memory like this:
+>> >>>>>>>>
+>> >>>>>>>>     memory_region_init_rom_device(
+>> >>>>>>>>         &pfl->mem, OBJECT(dev),
+>> >>>>>>>>         &pflash_cfi01_ops,
+>> >>>>>>>>         pfl,
+>> >>>>>>>>         pfl->name, total_len, &local_err);
+>> >>>>>>>>
+>> >>>>>>>> pflash_cfi02 is similar.
+>> >>>>>>>>
+>> >>>>>>>> memory_region_init_rom_device() calls
+>> >>>>>>>> memory_region_init_rom_device_nomigrate() calls qemu_ram_alloc() calls
+>> >>>>>>>> qemu_ram_alloc_internal() calls g_malloc0().  Thus, all the device
+>> >>>>>>>> memory gets written to even with this patch.
+>> >>>>>>>
+>> >>>>>>> As far as I can see, qemu_ram_alloc_internal() calls g_malloc0() only to
+>> >>>>>>> allocate the the new RAMBlock object called "new_block". The actual
+>> >>>>>>> guest RAM allocation occurs inside ram_block_add(), which is also called
+>> >>>>>>> by qemu_ram_alloc_internal().
+>> >>>>>>
+>> >>>>>> You're right.  I should've read more attentively.
+>> >>>>>>
+>> >>>>>>> One frame outwards the stack, qemu_ram_alloc() passes NULL to
+>> >>>>>>> qemu_ram_alloc_internal(), for the 4th ("host") parameter. Therefore, in
+>> >>>>>>> qemu_ram_alloc_internal(), we set "new_block->host" to NULL as well.
+>> >>>>>>>
+>> >>>>>>> Then in ram_block_add(), we take the (!new_block->host) branch, and call
+>> >>>>>>> phys_mem_alloc().
+>> >>>>>>>
+>> >>>>>>> Unfortunately, "phys_mem_alloc" is a function pointer, set with
+>> >>>>>>> phys_mem_set_alloc(). The phys_mem_set_alloc() function is called from
+>> >>>>>>> "target/s390x/kvm.c" (setting the function pointer to
+>> >>>>>>> legacy_s390_alloc()), so it doesn't apply in this case. Therefore we end
+>> >>>>>>> up calling the default qemu_anon_ram_alloc() function, through the
+>> >>>>>>> funcptr. (I think anyway.)
+>> >>>>>>>
+>> >>>>>>> And qemu_anon_ram_alloc() boils down to mmap() + MAP_ANONYMOUS, in
+>> >>>>>>> qemu_ram_mmap(). (Even on PPC64 hosts, because qemu_anon_ram_alloc()
+>> >>>>>>> passes (-1) for "fd".)
+>> >>>>>>>
+>> >>>>>>> I may have missed something, of course -- I obviously didn't test it,
+>> >>>>>>> just speculated from the source.
+>> >>>>>>
+>> >>>>>> Thanks for your sleuthing!
+>> >>>>>>
+>> >>>>>>>> I'm afraid you neglected to test.
+>> >>>>>>
+>> >>>>>> Accusation actually unsupported.  I apologize, and replace it by a
+>> >>>>>> question: have you observed the improvement you're trying to achieve,
+>> >>>>>> and if yes, how?
+>> >>>>>>
+>> >>>>>
+>> >>>>> Yes, we need to create sparse files as the backing images for pflash device.
+>> >>>>> To create sparse files like:
+>> >>>>>
+>> >>>>>    dd of="QEMU_EFI-pflash.raw" if="/dev/zero" bs=1M seek=64 count=0
+>> >>>>>    dd of="QEMU_EFI-pflash.raw" if="QEMU_EFI.fd" conv=notrunc
+>> >>>>
+>> >>>> This creates a copy of firmware binary QEMU_EFI.fd padded with a hole to
+>> >>>> 64MiB.
+>> >>>>
+>> >>>>>    dd of="empty_VARS.fd" if="/dev/zero" bs=1M seek=64 count=0
+>> >>>>
+>> >>>> This creates the varstore as a 64MiB hole.  As far as I know (very
+>> >>>> little), you should use the varstore template that comes with the
+>> >>>> firmware binary.
+>> >>>>
+>> >>>> I use
+>> >>>>
+>> >>>>     cp --sparse=always bld/pc-bios/edk2-arm-vars.fd .
+>> >>>>     cp --sparse=always bld/pc-bios/edk2-aarch64-code.fd .
+>> >>>>
+>> >>>> These guys are already zero-padded, and I use cp to sparsify.
+>> >>>>
+>> >>>>> Start a VM with below commandline:
+>> >>>>>
+>> >>>>>     -drive file=/usr/share/edk2/aarch64/QEMU_EFI-pflash.raw,if=pflash,format=raw,unit=0,readonly=on\
+>> >>>>>     -drive file=/usr/share/edk2/aarch64/empty_VARS.fd,if=pflash,format=raw,unit=1 \
+>> >>>>>
+>> >>>>> Then observe the memory usage of the qemu process (THP is on).
+>> >>>>>
+>> >>>>> 1) Without this patch:
+>> >>>>> # cat /proc/`pidof qemu-system-aarch64`/smaps | grep AnonHugePages: | grep -v ' 0 kB'
+>> >>>>> AnonHugePages:    706560 kB
+>> >>>>> AnonHugePages:      2048 kB
+>> >>>>> AnonHugePages:     65536 kB    // pflash memory device
+>> >>>>> AnonHugePages:     65536 kB    // pflash memory device
+>> >>>>> AnonHugePages:      2048 kB
+>> >>>>>
+>> >>>>> # ps aux | grep qemu-system-aarch64
+>> >>>>> RSS: 879684
+>> >>>>>
+>> >>>>> 2) After applying this patch:
+>> >>>>> # cat /proc/`pidof qemu-system-aarch64`/smaps | grep AnonHugePages: | grep -v ' 0 kB'
+>> >>>>> AnonHugePages:    700416 kB
+>> >>>>> AnonHugePages:      2048 kB
+>> >>>>> AnonHugePages:      2048 kB    // pflash memory device
+>> >>>>> AnonHugePages:      2048 kB    // pflash memory device
+>> >>>>> AnonHugePages:      2048 kB
+>> >>>>>
+>> >>>>> # ps aux | grep qemu-system-aarch64
+>> >>>>> RSS: 744380
+>> >>>>
+>> >>>> Okay, this demonstrates the patch succeeds at mapping parts of the
+>> >>>> pflash memory as holes.
+>> >>>>
+>> >>>> Do the guests in these QEMU processes run?
+>> >>>
+>> >>> Yes.
+>> >> 
+>> >> Good to know, thanks.
+>> >> 
+>> >>>>> Obviously, there are at least 100MiB memory saved for each guest.
+>> >>>>
+>> >>>> For a definition of "memory".
+>> >>>>
+>> >>>> Next question: what impact on system performance do you observe?
+>> >>>>
+>> >>>> Let me explain.
+>> >>>>
+>> >>>> Virtual memory holes get filled in by demand paging on access.  In other
+>> >>>> words, they remain holes only as long as nothing accesses the memory.
+>> >>>>
+>> >>>> Without your patch, we allocate pages at image read time and fill them
+>> >>>> with zeroes. If we don't access them again, the kernel will eventually
+>> >>>> page them out (assuming you're running with swap).  So the steady state
+>> >>>> is "we waste some swap space", not "we waste some physical RAM".
+>> >>>>
+>> >>>
+>> >>> Not everybody wants to run with swap because it may cause low performance.
+>> >> 
+>> >> Someone running without swap because he heard someone say someone said
+>> >> swap may be slow is probably throwing away performance.
+>> >> 
+>> >> But I assume you mean people running without swap because they measured
+>> >> their workload and found it more performant without swap.  Legitimate.
+>> >
+>> > Yes, and I had ever suffered from the high IO waits with swap.:)
+>> >
+>> >> 
+>> >>>> Your patch lets us map pflash memory pages containing only zeros as
+>> >>>> holes.
+>> >>>>
+>> >>>> For pages that never get accessed, your patch avoids page allocation,
+>> >>>> filling with zeroes, writing to swap (all one-time costs), and saves
+>> >>>> some swap space (not commonly an issue).
+>> >>>>
+>> >>>> For pflash memory that gets accessed, your patch merely delays page
+>> >>>> allocation from image read time to first access.
+>> >>>>
+>> >>>> I wonder how these savings and delays affect actual system performance.
+>> >>>> Without an observable change in system performance, all we'd accomplish
+>> >>>> is changing a bunch of numers in /proc/$pid/.
+>> >>>>
+>> >>>> What improvement(s) can you observe?
+>> >>>
+>> >>> We only use pflash device for UEFI, and we hardly care about the performance.
+>> >>> I think the bottleneck of the performance is the MMIO emulation, even this
+>> >>> patch would delay page allocation at the first access.
+>> >> 
+>> >> I wasn't inquiring about the performance of the pflash device.  I was
+>> >> inquiring about *system* performance.  But let me rephrase my question.
+>> >> 
+>> >> Doing work to save resources is only worthwhile if something valuable
+>> >> gets better in a measurable way.  I'm asking you
+>> >> 
+>> >> (1) to explain what exactly you value, and 
+>> >> 
+>> >> (2) to provide measurements that show improvement.
+>> >> 
+>> >
+>> > What we exactly value is the cost of memory resources and it is the only
+>> > thing that this patch aims to resolve.
+>> 
+>> Then measure this cost!
+>> 
+>> > I am confused that why you think it will impact the system performance? Did I
+>> > neglect something?
+>> 
+>> If the patch does not impact how the system as a whole performs, then
+>> it's useless.
+>> 
+>> Since you find it useful, it must have some valuable[*] observable
+>> effect for you.  Tell us about it!
+>> 
+>> I keep asking not to torment you, but to guide you towards building a
+>> compelling justification for your patch.  However, I can only show you
+>> the path; the walking you'll have to do yourself.
 >
-> Ideally, we'd want to have the user space program setting up things
-> querying the general compatibility for migration (so that it becomes
-> their problem on how to alert the user to problems :), but I'm not sure
-> how to eliminate the race between asking the vendor driver for
-> compatibility and getting the result of that operation.
+> Is this discussion really a good use of our time?
 >
-> Unless we introduce an interface that can retrieve _all_ results
-> together with the written value? Or is that not going to be much of a
-> problem in practice?
+> The patch is simple, and a few obvious improvements it brings were
+> mentioned (even by yourself), such as avoiding OOM without swap; and
+> with swap enabled, saving swap space for more useful content and
+> saving unnecessary I/O related to accessing swap needlessly.
+>
+> You may consider these improvements neglegible, but even small
+> improvments can add up. If you really want to measure them, it should be
+> clear how to do it. I don't see value in actually setting up such
+> environments just to get some numbers that show what we already know.
+>
+> So, what's the downside of the patch? The worst case is, the memory
+> usage numbers only look better, but most people don't have a use case
+> where the improvement matters. There might be some maintenance cost
+> associated with the code, but it's small and I suspect this discussion
+> has already cost us more time than maintaining the code will ever cost
+> us.
+>
+> So why not just take it?
 
+As is, the patch's commit message fails to meet the standards I set as a
+maintainer, because (1) it's too vague on what the patch does, and what
+its limitations are (relies on well-behaved guests), and (2) it fails to
+make the case for the patch.
 
+Fortunately, I'm not the maintainer here, Philippe is.  My standards do
+not matter.
 
