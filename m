@@ -2,46 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5AD271B02B
+	by mail.lfdr.de (Postfix) with ESMTPS id 932F91B02D
 	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 08:22:12 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:51750 helo=lists.gnu.org)
+Received: from localhost ([127.0.0.1]:51752 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQ4Lj-00049N-6z
+	id 1hQ4Lj-0004A1-LA
 	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 02:22:11 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35105)
+Received: from eggs.gnu.org ([209.51.188.92]:35100)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hQ4JQ-0002gy-Tl
+	(envelope-from <dgibson@ozlabs.org>) id 1hQ4JQ-0002gx-PT
 	for qemu-devel@nongnu.org; Mon, 13 May 2019 02:19:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hQ4JP-0004LP-Qy
+	(envelope-from <dgibson@ozlabs.org>) id 1hQ4JP-0004LA-Mf
 	for qemu-devel@nongnu.org; Mon, 13 May 2019 02:19:48 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:60419 helo=ozlabs.org)
+Received: from ozlabs.org ([2401:3900:2:1::2]:40881)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
-	id 1hQ4JP-0004KJ-0m; Mon, 13 May 2019 02:19:47 -0400
+	id 1hQ4JO-0004KC-QR; Mon, 13 May 2019 02:19:47 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
-	id 452Vz22nVVz9sBr; Mon, 13 May 2019 16:19:42 +1000 (AEST)
+	id 452Vz25GCyz9sN1; Mon, 13 May 2019 16:19:42 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
 	d=gibson.dropbear.id.au; s=201602; t=1557728382;
-	bh=3meNiWKeCMSH1H6VF02jPY1B6QxQ4zMUps7w6jp5uy4=;
-	h=From:To:Cc:Subject:Date:From;
-	b=DsvQDTAmueqKMWF6sUmRw3T9g3pyTKLrylV/A8OUiwJKTo2Wt7V3hNaABtaMwJwBR
-	t5OMT7UioLj25EWAwAqiYf+lTAXJt11cdFIk7W+xkMvECbC1ME5fMiTbOJ7ebjowwG
-	9rYqunHRuwHg/c6XubqedJwjQLriUWG7sawF8u2w=
+	bh=ArXxfw3U498/kSOjRaZfo1gZZ/LtA1dl87OZ9AXBazU=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=GlXMtOToiYNABkSywlJFYcsW5hukDnamHlm3PeFXse8o0ddsImq8I12obW8uSmMX8
+	2SI0okym7I2XrfQ3quBtA1huLfG/LesT0TFZWYY5t+QHMfaN5w/qXbyhiuw4kchvSs
+	Uw0yBm6H9MopFBT2WR5vaS08TFdIrfFbCv7TEeh8=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: mst@redhat.com,
 	qemu-devel@nongnu.org
-Date: Mon, 13 May 2019 16:19:34 +1000
-Message-Id: <20190513061939.3464-1-david@gibson.dropbear.id.au>
+Date: Mon, 13 May 2019 16:19:35 +1000
+Message-Id: <20190513061939.3464-2-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
+In-Reply-To: <20190513061939.3464-1-david@gibson.dropbear.id.au>
+References: <20190513061939.3464-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
 X-Received-From: 2401:3900:2:1::2
-Subject: [Qemu-devel] [PATCH v4 0/5] Simplify some not-really-necessary PCI
- bus callbacks
+Subject: [Qemu-devel] [PATCH v4 1/5] pcie: Remove redundant test in
+ pcie_mmcfg_data_{read, write}()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -59,58 +61,46 @@ Cc: aik@ozlabs.ru, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-c2077e2c "pci: Adjust PCI config limit based on bus topology"
-introduced checking the availability of extended config space for
-PCI-E devices which are in a bus topology that doesn't permit extended
-config space access (e.g. under PCI-E to PCI then PCI to PCI-E
-bridges).
+These functions have an explicit test for accesses above the device's
+config size.  But pci_host_config_{read,write}_common() which they're
+about to call already have checks against the config space limit and
+do the right thing.  So, remove the redundant tests.
 
-This caused some problems for the spapr para-virtual PCI bus which
-_does_ allow extended config space access, despite acting in most ways
-like a vanilla PCI bus.
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+---
+ hw/pci/pcie_host.c | 10 ----------
+ 1 file changed, 10 deletions(-)
 
-Greg Kurz made a fix for that which was merged as 1c685a90263 "pci:
-Allow PCI bus subtypes to support extended config space accesses".
-While that was an appropriate minimal fix for the 4.0 hard freeze, it
-was kind of a hack longer term.
-
-This series implements a simpler way of handling the extended config
-space permission, which works for both the normal and weird-PAPR
-cases.  While we're there, we also make other small cleanups to the
-PCI code.
-
-Changes since v3:
- * Remove a redundant call to pci_find_bus_nr() found during review
-
-Changes since v2:
- * Add some minor additional cleanups (patches 4 & 5)
- * Minor whitespace tweak to patch 3
-
-David Gibson (5):
-  pcie: Remove redundant test in pcie_mmcfg_data_{read,write}()
-  pci: Simplify pci_bus_is_root()
-  pcie: Simplify pci_adjust_config_limit()
-  pci: Make is_bridge a bool
-  pci: Fold pci_get_bus_devfn() into its sole caller
-
- hw/pci-bridge/dec.c                 |   4 +-
- hw/pci-bridge/i82801b11.c           |   2 +-
- hw/pci-bridge/pci_bridge_dev.c      |   2 +-
- hw/pci-bridge/pci_expander_bridge.c |   6 --
- hw/pci-bridge/pcie_pci_bridge.c     |   2 +-
- hw/pci-bridge/pcie_root_port.c      |   2 +-
- hw/pci-bridge/simba.c               |   2 +-
- hw/pci-bridge/xio3130_downstream.c  |   2 +-
- hw/pci-bridge/xio3130_upstream.c    |   2 +-
- hw/pci/pci.c                        | 115 +++++++++++++---------------
- hw/pci/pci_host.c                   |  13 +---
- hw/pci/pcie_host.c                  |  10 ---
- hw/ppc/spapr_pci.c                  |  34 +++-----
- hw/virtio/virtio-pci.c              |   1 +
- include/hw/pci/pci.h                |   4 +-
- include/hw/pci/pci_bus.h            |  20 ++++-
- 16 files changed, 95 insertions(+), 126 deletions(-)
-
+diff --git a/hw/pci/pcie_host.c b/hw/pci/pcie_host.c
+index 553db56778..1ee4945a6d 100644
+--- a/hw/pci/pcie_host.c
++++ b/hw/pci/pcie_host.c
+@@ -47,11 +47,6 @@ static void pcie_mmcfg_data_write(void *opaque, hwaddr=
+ mmcfg_addr,
+     }
+     addr =3D PCIE_MMCFG_CONFOFFSET(mmcfg_addr);
+     limit =3D pci_config_size(pci_dev);
+-    if (limit <=3D addr) {
+-        /* conventional pci device can be behind pcie-to-pci bridge.
+-           256 <=3D addr < 4K has no effects. */
+-        return;
+-    }
+     pci_host_config_write_common(pci_dev, addr, limit, val, len);
+ }
+=20
+@@ -70,11 +65,6 @@ static uint64_t pcie_mmcfg_data_read(void *opaque,
+     }
+     addr =3D PCIE_MMCFG_CONFOFFSET(mmcfg_addr);
+     limit =3D pci_config_size(pci_dev);
+-    if (limit <=3D addr) {
+-        /* conventional pci device can be behind pcie-to-pci bridge.
+-           256 <=3D addr < 4K has no effects. */
+-        return ~0x0;
+-    }
+     return pci_host_config_read_common(pci_dev, addr, limit, len);
+ }
+=20
 --=20
 2.21.0
 
