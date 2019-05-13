@@ -2,86 +2,141 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 059F61B479
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 13:03:11 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55116 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6241E1B45E
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 12:56:50 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:55041 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQ8je-00047N-7Q
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 07:03:10 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58213)
+	id 1hQ8dV-00016N-9c
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 06:56:49 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56864)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hQ8hm-000376-9N
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:01:15 -0400
+	(envelope-from <borntraeger@de.ibm.com>) id 1hQ8cM-0000km-7Y
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 06:55:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hQ8hk-0004Ue-IA
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:01:14 -0400
-Received: from indium.canonical.com ([91.189.90.7]:49820)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hQ8hk-0004UI-Cp
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:01:12 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
-	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hQ8hj-0007bl-9a
-	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 11:01:11 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id 430912E8024
-	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 11:01:11 +0000 (UTC)
+	(envelope-from <borntraeger@de.ibm.com>) id 1hQ8cK-0001ga-UO
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 06:55:38 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:36656)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
+	id 1hQ8cK-0001g7-Mi
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 06:55:36 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+	x4DAkscA066194
+	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 06:55:35 -0400
+Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
+	by mx0a-001b2d01.pphosted.com with ESMTP id 2sf5rsbv6q-1
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 06:55:34 -0400
+Received: from localhost
+	by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use
+	Only! Violators will be prosecuted
+	for <qemu-devel@nongnu.org> from <borntraeger@de.ibm.com>;
+	Mon, 13 May 2019 11:55:32 +0100
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+	by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
+	Authorized Use Only! Violators will be prosecuted; 
+	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+	Mon, 13 May 2019 11:55:28 +0100
+Received: from d06av24.portsmouth.uk.ibm.com (mk.ibm.com [9.149.105.60])
+	by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with
+	ESMTP id x4DAtRnp44630110
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=OK); Mon, 13 May 2019 10:55:27 GMT
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id F380C42045;
+	Mon, 13 May 2019 10:55:26 +0000 (GMT)
+Received: from d06av24.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 9BA6542041;
+	Mon, 13 May 2019 10:55:26 +0000 (GMT)
+Received: from oc7455500831.ibm.com (unknown [9.152.224.86])
+	by d06av24.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+	Mon, 13 May 2019 10:55:26 +0000 (GMT)
+To: David Hildenbrand <david@redhat.com>,
+	Collin Walling <walling@linux.ibm.com>, qemu-devel@nongnu.org,
+	qemu-s390x@nongnu.org, cohuck@redhat.com, rth@twiddle.net,
+	pasic@linux.ibm.com, mst@redhat.com, pbonzini@redhat.com
+References: <1556749903-19221-1-git-send-email-walling@linux.ibm.com>
+	<a87c71be-5bf8-a115-5843-720c9ad10c7b@redhat.com>
+	<bc2fd9bb-7b94-eac7-590b-f01d2063ef9c@redhat.com>
+	<e948a030-bd30-180e-bbd6-76f4a2390bb9@de.ibm.com>
+	<ea6df6b1-4062-c057-92ea-5be40d778fe9@redhat.com>
+	<09293a1c-d000-83a8-46b8-b97ad4fa9774@de.ibm.com>
+	<56e3ace1-6e48-0e20-47d5-b07ac6dfcf31@redhat.com>
+From: Christian Borntraeger <borntraeger@de.ibm.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
+	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
+	syiRa+UVlsKmx1hsEg==
+Date: Mon, 13 May 2019 12:55:26 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 13 May 2019 10:54:51 -0000
-From: =?utf-8?q?=C5=81ukasz_Zemczak?= <1823458@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=cloud-archive; status=Fix Released;
-	importance=Undecided; assignee=None; 
-X-Launchpad-Bug: product=cloud-archive; productseries=mitaka;
-	status=Fix Committed; importance=Medium; assignee=None; 
-X-Launchpad-Bug: product=cloud-archive; productseries=ocata;
-	status=Fix Committed; importance=Medium; assignee=None; 
-X-Launchpad-Bug: product=qemu; status=Fix Released; importance=Undecided;
-	assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; sourcepackage=qemu; component=main;
-	status=Fix Released; importance=Medium; assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=trusty; sourcepackage=qemu; 
-	component=main; status=Won't Fix; importance=Medium;
-	assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=xenial; sourcepackage=qemu; 
-	component=main; status=Fix Committed; importance=Medium;
-	assignee=dan.streetman@canonical.com; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=bionic; sourcepackage=qemu; 
-	component=main; status=Fix Released; importance=Medium;
-	assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=cosmic; sourcepackage=qemu; 
-	component=main; status=Fix Released; importance=Medium;
-	assignee=None; 
-X-Launchpad-Bug: distribution=ubuntu; distroseries=disco; sourcepackage=qemu; 
-	component=main; status=Fix Released; importance=Medium;
-	assignee=None; 
-X-Launchpad-Bug-Tags: verification-done verification-done-xenial
-	verification-mitaka-done verification-ocata-done
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: brian-murray corey.bryant ddstreet paelzer racb
-	sil2100
-X-Launchpad-Bug-Reporter: Dan Streetman (ddstreet)
-X-Launchpad-Bug-Modifier: =?utf-8?q?=C5=81ukasz_Zemczak_=28sil2100=29?=
-References: <155455149397.14414.11595397789908732027.malonedeb@gac.canonical.com>
-Message-Id: <155774489145.21554.2082210266211557370.malone@chaenomeles.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18962";
-	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: b0d8e257edf630f83cdd78d6ea376abc7bb77aaa
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1823458] Update Released
+In-Reply-To: <56e3ace1-6e48-0e20-47d5-b07ac6dfcf31@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+x-cbid: 19051310-0008-0000-0000-000002E611AC
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19051310-0009-0000-0000-00002252A5A4
+Message-Id: <e140a076-28a0-0db6-4c59-80e0f2ab44bb@de.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+	definitions=2019-05-13_06:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+	priorityscore=1501
+	malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+	clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+	mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+	scancount=1 engine=8.0.1-1810050000 definitions=main-1905130078
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.156.1
+Subject: Re: [Qemu-devel] [PATCH v4] s390: diagnose 318 info reset and
+ migration support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -90,199 +145,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1823458 <1823458@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The verification of the Stable Release Update for qemu has completed
-successfully and the package has now been released to -updates.
-Subsequently, the Ubuntu Stable Release Updates Team is being
-unsubscribed and will not receive messages about this bug report.  In
-the event that you encounter a regression using the package from
--updates please report a new bug using ubuntu-bug and tag the bug report
-regression-update so we can easily find any regressions.
 
--- =
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1823458
+On 13.05.19 11:57, David Hildenbrand wrote:
+> On 13.05.19 11:51, Christian Borntraeger wrote:
+>>
+>>
+>> On 13.05.19 11:40, David Hildenbrand wrote:
+>>> On 13.05.19 11:34, Christian Borntraeger wrote:
+>>>>
+>>>>
+>>>> On 13.05.19 10:03, David Hildenbrand wrote:
+>>>>>>> +    if ((SCCB_SIZE - sizeof(ReadInfo)) / sizeof(CPUEntry) < S390_MAX_CPUS)
+>>>>>>> +        mc->max_cpus = S390_MAX_CPUS - 8;
+>>>>>>
+>>>>>> This is too complicated, just set it always to 240.
+>>>>>>
+>>>>>> However, I am still not sure how to best handle this scenario. One
+>>>>>> solution is
+>>>>>>
+>>>>>> 1. Set it statically to 240 for machine > 4.1
+>>>>>> 2. Keep the old machines unmodifed
+>>>>>> 3. Don't indicate the CPU feature for machines <= 4.0
+>>>>>>
+>>>>>> #3 is the problematic part, as it mixes host CPU features and machines.
+>>>>>> Bad. The host CPU model should always look the same on all machines. I
+>>>>>> don't like this.
+>>>>>>
+>>>>>
+>>>>> FWIW, #3 is only an issue when modeling it via the CPU model, like
+>>>>> Christian suggested.
+>>>>>
+>>>>> I suggest the following
+>>>>>
+>>>>> 1. Set the max #cpus for 4.1 to 240 (already done)
+>>>>> 2. Keep it for the other machines unmodified (as suggested by Thomas)
+>>>>> 3. Create the layout of the SCCB depending on the machine type (to be done)
+>>>>>
+>>>>> If we want to model diag318 via a CPU feature (which makes sense for
+>>>>> migration):
+>>>>>
+>>>>> 4. Disable diag318 with a warning if used with a machine < 4.1
+>>>>>
+>>>>
+>>>> I think there is a simpler solution. It is perfectly fine to fail the startup
+>>>> if we cannot fulfil the cpu model. So lets just allow 248 and allow this feature 
+>>>> also for older machines. And if somebody chooses both at the same time,
+>>>> lets fails the startup.
+>>>
+>>> To which knob do you want to glue the layout of the SCLP response? Like
+>>> I described?  Do you mean instead of warning and masking the feature off
+>>> as I suggested, simply failing?
+>>
+>> The sclp response will depend on the dia318 cpu model flag. If its on, the sclp
+>> response will have it, otherwise not.
+>> - host-passthrough: not migration safe anyway
+>> - host-model: if the target has diag318 good, otherwise we reject migration 
+>>>
+>>> In that case, -machine ..-4.0 -cpu host will not work on new HW with new
+>>> KVM. Just noting.
+>>
+>> Only if you have 248 CPUs (which is unlikely). My point was to do that for all
+>> machine levels.
+>>
+> 
+> The issue with this approach is that e.g. libvirt is not aware of this
+> restriction. It could query "max_cpus" and expand the host-cpu model,
+> but starting a guest with > 240 cpus would fail. Maybe this is acceptable.
 
-Title:
-  race condition between vhost_net_stop and CHR_EVENT_CLOSED on shutdown
-  crashes qemu
+As of today we do the cpu model check in the same way. libvirt actually tries
+to run QEMU and handles failures.
 
-Status in Ubuntu Cloud Archive:
-  Fix Released
-Status in Ubuntu Cloud Archive mitaka series:
-  Fix Committed
-Status in Ubuntu Cloud Archive ocata series:
-  Fix Committed
-Status in QEMU:
-  Fix Released
-Status in qemu package in Ubuntu:
-  Fix Released
-Status in qemu source package in Trusty:
-  Won't Fix
-Status in qemu source package in Xenial:
-  Fix Committed
-Status in qemu source package in Bionic:
-  Fix Released
-Status in qemu source package in Cosmic:
-  Fix Released
-Status in qemu source package in Disco:
-  Fix Released
+For a failure, the user still has still to use >240 CPUs in its XML. The only downside
+is that libvirt will not reject this right away.
 
-Bug description:
-  [impact]
+During startup we would then print an error message like
 
-  on shutdown of a guest, there is a race condition that results in qemu
-  crashing instead of normally shutting down.  The bt looks similar to
-  this (depending on the specific version of qemu, of course; this is
-  taken from 2.5 version of qemu):
+"The diag318 cpu feature is only supported for 240 and less CPUs."
 
-  (gdb) bt
-  #0  __GI___pthread_mutex_lock (mutex=3D0x0) at ../nptl/pthread_mutex_lock=
-.c:66
-  #1  0x00005636c0bc4389 in qemu_mutex_lock (mutex=3Dmutex@entry=3D0x0) at =
-/build/qemu-7I4i1R/qemu-2.5+dfsg/util/qemu-thread-posix.c:73
-  #2  0x00005636c0988130 in qemu_chr_fe_write_all (s=3Ds@entry=3D0x0, buf=
-=3Dbuf@entry=3D0x7ffe65c086a0 "\v", len=3Dlen@entry=3D20) at /build/qemu-7I=
-4i1R/qemu-2.5+dfsg/qemu-char.c:205
-  #3  0x00005636c08f3483 in vhost_user_write (msg=3Dmsg@entry=3D0x7ffe65c08=
-6a0, fds=3Dfds@entry=3D0x0, fd_num=3Dfd_num@entry=3D0, dev=3D0x5636c1bf6b70=
-, dev=3D0x5636c1bf6b70)
-  =C2=A0=C2=A0=C2=A0=C2=A0at /build/qemu-7I4i1R/qemu-2.5+dfsg/hw/virtio/vho=
-st-user.c:195
-  #4  0x00005636c08f411c in vhost_user_get_vring_base (dev=3D0x5636c1bf6b70=
-, ring=3D0x7ffe65c087e0) at /build/qemu-7I4i1R/qemu-2.5+dfsg/hw/virtio/vhos=
-t-user.c:364
-  #5  0x00005636c08efff0 in vhost_virtqueue_stop (dev=3Ddev@entry=3D0x5636c=
-1bf6b70, vdev=3Dvdev@entry=3D0x5636c2853338, vq=3D0x5636c1bf6d00, idx=3D1) =
-at /build/qemu-7I4i1R/qemu-2.5+dfsg/hw/virtio/vhost.c:895
-  #6  0x00005636c08f2944 in vhost_dev_stop (hdev=3Dhdev@entry=3D0x5636c1bf6=
-b70, vdev=3Dvdev@entry=3D0x5636c2853338) at /build/qemu-7I4i1R/qemu-2.5+dfs=
-g/hw/virtio/vhost.c:1262
-  #7  0x00005636c08db2a8 in vhost_net_stop_one (net=3D0x5636c1bf6b70, dev=
-=3Ddev@entry=3D0x5636c2853338) at /build/qemu-7I4i1R/qemu-2.5+dfsg/hw/net/v=
-host_net.c:293
-  #8  0x00005636c08dbe5b in vhost_net_stop (dev=3Ddev@entry=3D0x5636c285333=
-8, ncs=3D0x5636c209d110, total_queues=3Dtotal_queues@entry=3D1) at /build/q=
-emu-7I4i1R/qemu-2.5+dfsg/hw/net/vhost_net.c:371
-  #9  0x00005636c08d7745 in virtio_net_vhost_status (status=3D7 '\a', n=3D0=
-x5636c2853338) at /build/qemu-7I4i1R/qemu-2.5+dfsg/hw/net/virtio-net.c:150
-  #10 virtio_net_set_status (vdev=3D<optimized out>, status=3D<optimized ou=
-t>) at /build/qemu-7I4i1R/qemu-2.5+dfsg/hw/net/virtio-net.c:162
-  #11 0x00005636c08ec42c in virtio_set_status (vdev=3D0x5636c2853338, val=
-=3D<optimized out>) at /build/qemu-7I4i1R/qemu-2.5+dfsg/hw/virtio/virtio.c:=
-624
-  #12 0x00005636c098fed2 in vm_state_notify (running=3Drunning@entry=3D0, s=
-tate=3Dstate@entry=3DRUN_STATE_SHUTDOWN) at /build/qemu-7I4i1R/qemu-2.5+dfs=
-g/vl.c:1605
-  #13 0x00005636c089172a in do_vm_stop (state=3DRUN_STATE_SHUTDOWN) at /bui=
-ld/qemu-7I4i1R/qemu-2.5+dfsg/cpus.c:724
-  #14 vm_stop (state=3DRUN_STATE_SHUTDOWN) at /build/qemu-7I4i1R/qemu-2.5+d=
-fsg/cpus.c:1407
-  #15 0x00005636c085d240 in main_loop_should_exit () at /build/qemu-7I4i1R/=
-qemu-2.5+dfsg/vl.c:1883
-  #16 main_loop () at /build/qemu-7I4i1R/qemu-2.5+dfsg/vl.c:1931
-  #17 main (argc=3D<optimized out>, argv=3D<optimized out>, envp=3D<optimiz=
-ed out>) at /build/qemu-7I4i1R/qemu-2.5+dfsg/vl.c:4683
+This is of similar quality as
+"Selected CPU GA level is too new. Maximum supported model in the configuration: \'%s\'",
 
-  [test case]
+and others that we have today.
 
-  unfortunately since this is a race condition, it's very hard to
-  arbitrarily reproduce; it depends very much on the overall
-  configuration of the guest as well as how exactly it's shut down -
-  specifically, its vhost user net must be closed from the host side at
-  a specific time during qemu shutdown.
+So yes, I think this would be acceptable.
 
-  I have someone with such a setup who has reported to me their setup is
-  able to reproduce this reliably, but the config is too complex for me
-  to reproduce so I have relied on their reproduction and testing to
-  debug and craft the patch for this.
 
-  [regression potential]
 
-  the change adds a flag to prevent repeated calls to vhost_net_stop().
-  This also prevents any calls to vhost_net_cleanup() from
-  net_vhost_user_event().  Any regression would be seen when stopping
-  and/or cleaning up a vhost net.  Regressions might include failure to
-  hot-remove a vhost net from a guest, or failure to cleanup (i.e. mem
-  leak), or crashes during cleanup or stopping a vhost net.
+> 
+> The approach you describe is actually pretty nice. We would have to
+> 
+> 1. Modify SCLP code to change the layout based on the feature availability
+> 2. Check against the cpus when trying to enable the cpu model.
+> 
 
-  [other info]
-
-  this was originally seen in the 2.5 version of qemu - specifically,
-  the UCA version in trusty-mitaka (which uses the xenial qemu
-  codebase).
-
-  After discussion upstream, it appears this was fixed upstream by
-  commit e7c83a885f8, which is included starting in version 2.9.
-  However, this commit depends on at least commit 5345fdb4467, and
-  likely more other previous commits, which make widespread code changes
-  and are unsuitable to backport.  Therefore this seems like it should
-  be specifically worked around in the Xenial qemu codebase.
-
-  =
-
-  The specific race condition for this (in the qemu 2.5 code version) is:
-
-  as shown in above bt, thread A starts shutting down qemu, e.g.:
-
-  vm_stop->do_vm_stop->vm_state_notify
-  =C2=A0=C2=A0virtio_set_status
-  =C2=A0=C2=A0=C2=A0=C2=A0virtio_net_set_status
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0virtio_net_vhost_status
-
-  in this function, code gets to an if-else check for
-  (!n->vhost_started), which is false (i.e. vhost_started is true) and
-  enters the else code block, which calls vhost_net_stop() and then sets
-  n->vhost_started to false.
-
-  While thread A is inside vhost_net_stop(), thread B is triggered by
-  the vhost net chr handler with a user event and calls:
-
-  net_vhost_user_event
-  =C2=A0=C2=A0qmp_set_link (from case CHR_EVENT_CLOSED)
-  =C2=A0=C2=A0=C2=A0=C2=A0virtio_net_set_link_status (via ->link_status_cha=
-nged)
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0virtio_net_set_status
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0virtio_net_vhost_status
-
-  notice thread B has now reached the same function that thread A is in;
-  since the checks in the function have not changed, thread B follows
-  the same path that thread A followed, and enters vhost_net_stop().
-
-  Since thread A has already shut down and cleaned up some of the
-  internals, once thread B starts trying to also clean up things, it
-  segfaults as the shown in the bt.
-
-  Avoiding only this duplicate call to vhost_net_stop() is required, but
-  not enough - let's continue to look at what thread B does after its
-  call to qmp_set_link() returns:
-
-  net_vhost_user_event
-  =C2=A0=C2=A0vhost_user_stop
-  =C2=A0=C2=A0=C2=A0=C2=A0vhost_net_cleanup
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0vhost_dev_cleanup
-
-  However, in main() qemu registers atexit(net_cleanup()), which does:
-  net_cleanup
-  =C2=A0=C2=A0qemu_del_nic (or qemu_del_net_client, depending on ->type)
-  =C2=A0=C2=A0=C2=A0=C2=A0qemu_cleanup_net_client
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0vhost_user_cleanup (via ->cleanup)
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0vhost_net_cleanup
-  =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0vhost_dev_cle=
-anup
-
-  and the duplicate vhost_dev_cleanup fails assertions since things were
-  already cleaned up.  Additionally, if thread B's call to
-  vhost_dev_cleanup() comes before thread A finishes vhost_net_stop(),
-  then that will call vhost_dev_stop() and vhost_disable_notifiers()
-  which both try to access things that have been freed/cleared/disabled
-  by vhost_dev_cleanup().
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/cloud-archive/+bug/1823458/+subscriptions
 
