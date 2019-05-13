@@ -2,67 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 605B31B6F9
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 15:25:00 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57383 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E73F41B6F2
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 15:22:27 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57354 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQAwt-0004rU-FO
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 09:24:59 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53434)
+	id 1hQAuR-0002yg-2U
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 09:22:27 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53414)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hQAn3-0005f9-L7
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:14:51 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hQAn1-0004sd-9K
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:14:49 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:35795)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hQAn0-0004ri-LM
+	(envelope-from <sgarzare@redhat.com>) id 1hQAmz-0005cF-QF
 	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:14:46 -0400
-Received: by mail-oi1-x243.google.com with SMTP id a132so9272485oib.2
-	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 06:14:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=cMjzGnLVpq/xIUfb1kG6VVA/5QDnB2YJfyhx77XPFnU=;
-	b=Iau5J0OB1acoqv4NGhWEilNM+KrrBitlOkhwzn4Nwgp+SMCsWrXbl59AdmD6hApedk
-	XbBr1PFtn32j8VZ1CXVpo+rl9hG0qf5wXVjPXASw+b0jfZSy4OrTwgnNNd0c7pCY1EB3
-	RHzmfud2Q1/EYadZ1Yb+QsVaOnlV4Gw5Qts9KujraW7P1y5iC5+M4XWqWBUI3jSI5pca
-	7HoGJ9d4gp+ve6ahH0mSjw+/KHtBPEzDzSKsZfrerEsxB4RSjSKQ9g82FEwsLwZZDMn3
-	pAAFtcaLd/AJgyp7BBsk9OGQcWuql0nlBkvwRW1iYdLCsU4D8ERLqQIuoT2bg/QZOR1E
-	9NfA==
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+	(envelope-from <sgarzare@redhat.com>) id 1hQAmy-0004r8-S8
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:14:45 -0400
+Received: from mail-wr1-f49.google.com ([209.85.221.49]:46479)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1hQAmy-0004qV-Lo
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:14:44 -0400
+Received: by mail-wr1-f49.google.com with SMTP id r7so14591676wrr.13
+	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 06:14:44 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=cMjzGnLVpq/xIUfb1kG6VVA/5QDnB2YJfyhx77XPFnU=;
-	b=WAuMsiWgxwfD8lYKMkkEF1Rp8gSLoAdqzRgOwfXeBsWajul5X7yLr9ln3oYCifHKCn
-	OLs8g/SgQ5VW8ZdGO3iXYYhsigKrDKRL0CUbdtLKaBbhBGK+T3PLDniwHtGxfo+tUd6X
-	cZVvSQWsNScEy9qaD30Gc3ZnyCdfMVms+AZBBTl2dh/YnIvDhThdN/l3aGfwgM9oGxWR
-	/ZaYYg5KnM7PmhokT6f+4a5AOr/vhTKGZVqCFHWLs0AGNmp/PIZgfQAjJvGrKtFGrP1s
-	VrE9cOADoL373wcrl1GbG5NfTfb9xNOqeojKGRaugkhKKKq4hJ6E2LDQ0XOkItSCZh6v
-	od4w==
-X-Gm-Message-State: APjAAAW8bvYxbL5ouiAYnb5DndL2rGy6EE7i7p1x1a2CvvCCDVH9d0EA
-	5cE3wn/wC1LKmAp+GgxHvulDcTuSQ80gsr6uBk/JIw==
-X-Google-Smtp-Source: APXvYqw46T1KaAmGEyN8Sm1bee2greOSqmZxJRyiK+tiovQDTYbgROmixfaz0sUX461S57H48SrDXB8PhjoozHkcaBs=
-X-Received: by 2002:aca:5785:: with SMTP id l127mr12444924oib.48.1557753285412;
-	Mon, 13 May 2019 06:14:45 -0700 (PDT)
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=axH69f6xpSrQqDAMq3iIBe29wy2JrYNfYmwLzkbZPO4=;
+	b=BARQlpLHiT4DW3AnFXeEqv7Z1uvSKxRZBYp80S7d90KazcOjA8xzLpcsdVXMrcW4jV
+	4NiKTvEYERHeLO+sYGNsEy8iDNXKNw8kpTM273Q71/t9/RKFahJZbqxq5d5HAD3gCd31
+	87qxRiW67EkSmjUUr7vxRQml06WMiblBeQGNti0Sy/04yHpXCNe4ecy6KCjz4uVqt1BC
+	bTjZHdUcKWwSR7oBUhSz/YgZHqe9iDyuzmg8ccTMgKdkdQN7NLB+92cDkedK5/ODNigG
+	nlymbaEKxASixu9sl2iNvFzgFaSQWHJYFQoLdCpzbKikL3nDQv153OsZ+gpMnt1bmPwG
+	dfXA==
+X-Gm-Message-State: APjAAAWqaRZQ8uHAAsiJT0MlVelLgdnJfiRyAsVRFNLno9qRxWNPteDb
+	QsAU++WAsrqzu7Iqlc1lxpklQA==
+X-Google-Smtp-Source: APXvYqz0naggVvHM4SJCReb5/VzA9TwQzI3XQM0gEFiJKnWb9fhSeGhW6I/6kUia/uH17O6xZDDEVg==
+X-Received: by 2002:adf:eb84:: with SMTP id t4mr15114226wrn.43.1557753283489; 
+	Mon, 13 May 2019 06:14:43 -0700 (PDT)
+Received: from steredhat (host151-251-static.12-87-b.business.telecomitalia.it.
+	[87.12.251.151]) by smtp.gmail.com with ESMTPSA id
+	91sm25709100wrs.43.2019.05.13.06.14.42
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 13 May 2019 06:14:42 -0700 (PDT)
+Date: Mon, 13 May 2019 15:14:40 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Alberto Garcia <berto@igalia.com>
+Message-ID: <20190513131440.kdtj6jchn3uo6ihq@steredhat>
+References: <20190510162254.8152-1-berto@igalia.com>
+	<20190513112846.ggnhopjwbopfexum@steredhat>
+	<w51d0km7eyc.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-References: <20190510191051.5973-1-alex.bennee@linaro.org>
-In-Reply-To: <20190510191051.5973-1-alex.bennee@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 13 May 2019 14:14:34 +0100
-Message-ID: <CAFEAcA8iZuU+xw--1WLH0=+TzeXrgGF7-rauKMSK_vqp98x0dQ@mail.gmail.com>
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::243
-Subject: Re: [Qemu-devel] [RFC PATCH] target/arm: semihosting docs,
- formatting and return clean-ups
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <w51d0km7eyc.fsf@maestria.local.igalia.com>
+User-Agent: NeoMutt/20180716
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+	[fuzzy]
+X-Received-From: 209.85.221.49
+Subject: Re: [Qemu-devel] [PATCH] qcow2: Define and use
+ QCOW2_COMPRESSED_SECTOR_SIZE
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -74,207 +71,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+	Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 10 May 2019 at 20:10, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
-te:
->
-> This is a clean-up of the semihosting calls after reading ver 2.0 of
-> the specification. There are a number of small fixes that seemed too
-> insignificant to split into smaller patches:
->
->   - add reference to the ARM semihosting spec
->   - add some additional commentary on return values
->   - fixup block comments as per standard
->   - audit return values, return 0xdeadbeef for corrupted values
->   - fix up leaks from early returns with lock_user_string
->   - return bytes not written/read instead of -1
->   - add LOG_UNIMP for missing functionality
->
-> This is very much a Friday patch. It might be worth splitting up if
-> coming back for a more concerted clean-up series for semihosting as
-> the asynchronous gdb calls probably need more attention.
->
-> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
-> ---
->  target/arm/arm-semi.c | 180 +++++++++++++++++++++++++-----------------
->  1 file changed, 109 insertions(+), 71 deletions(-)
->
-> diff --git a/target/arm/arm-semi.c b/target/arm/arm-semi.c
-> index 4c326fdc2fb..8deaed2807c 100644
-> --- a/target/arm/arm-semi.c
-> +++ b/target/arm/arm-semi.c
-> @@ -2,6 +2,7 @@
->   *  Arm "Angel" semihosting syscalls
->   *
->   *  Copyright (c) 2005, 2007 CodeSourcery.
-> + *  Copyright (c) 2019 Linaro
->   *  Written by Paul Brook.
->   *
->   *  This program is free software; you can redistribute it and/or modify
-> @@ -15,13 +16,19 @@
->   *  GNU General Public License for more details.
->   *
->   *  You should have received a copy of the GNU General Public License
-> - *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-> + *  along with this program; if not, see
-> + *  <http://www.gnu.org/licenses/>.
-> + *
-> + *  ARM Semihosting is documented in:
-> + *     Semihosting for AArch32 and AArch64 Release 2.0
-> + *     https://static.docs.arm.com/100863/0200/semihosting.pdf
->   */
->
->  #include "qemu/osdep.h"
->
->  #include "cpu.h"
->  #include "exec/semihost.h"
-> +#include "exec/log.h"
->  #ifdef CONFIG_USER_ONLY
->  #include "qemu.h"
->
-> @@ -241,13 +248,18 @@ static target_ulong arm_gdb_syscall(ARMCPU *cpu, gd=
-b_syscall_complete_cb cb,
->       put_user_u64(val, args + (n) * 8) :                \
->       put_user_u32(val, args + (n) * 4))
->
-> +/*
-> + * Do a semihosting call. Returns the "RETURN REGISTER" which is
-> + * documented as corrupted for some calls. In this case we use the
-> + * venerable 0xdeadbeef.
-> + */
+On Mon, May 13, 2019 at 01:48:27PM +0200, Alberto Garcia wrote:
+> On Mon 13 May 2019 01:28:46 PM CEST, Stefano Garzarella wrote:
+> >> +            int size = QCOW2_COMPRESSED_SECTOR_SIZE *
+> >> +                (((l2_entry >> s->csize_shift) & s->csize_mask) + 1);
+> >
+> > What about using int64_t type for the 'size' variable?
+> > (because the qcow2_free_clusters() 'size' parameter is int64_t)
+> 
+> The maximum size that can be read from a compressed cluster descriptor
+> using the formula above is twice the cluster size (more information on
+> commit abd3622cc03cf41ed542126a540385f30a4c0175 and on the Compressed
+> Clusters Descriptor spec in docs/interop/qcow2.txt).
+> 
+> Since the maximum allowed cluster size is 2MB, the value of the 'size'
+> variable can never be larger than 4MB, which fits comfortably on a
+> 32-bit integer. We would need to support 512MB clusters in order to have
+> problems with this.
 
-I think what you mean here is something like "the specification always
-says that the "return register" either returns a specific value or
-is corrupted, so we don't need to report to our caller whether we
-are returning a value or trying to leave the register unchanged.
-We use 0xdeadbeef as the return value when there isn't a defined
-return value for the call."
+Thanks for the explaination and sorry for that!
 
->  target_ulong do_arm_semihosting(CPUARMState *env)
->  {
->      ARMCPU *cpu =3D arm_env_get_cpu(env);
->      CPUState *cs =3D CPU(cpu);
->      target_ulong args;
->      target_ulong arg0, arg1, arg2, arg3;
-> -    char * s;
-> +    char *s;
->      int nr;
->      uint32_t ret;
->      uint32_t len;
-> @@ -273,9 +285,9 @@ target_ulong do_arm_semihosting(CPUARMState *env)
->          GET_ARG(2);
->          s =3D lock_user_string(arg0);
->          if (!s) {
-> -            /* FIXME - should this error code be -TARGET_EFAULT ? */
-
-We definitely don't want to return -TARGET_EFAULT, but we could
-in theory call set_swi_errno(ts, EFAULT). The spec says that
-it's up to the implementation, effectively, so I think I agree
-we don't need to bother. Any caller which has messed things up
-sufficiently to be passing us bogus memory is unlikely to be
-in a state to successfully call SYS_ERRNO anyway.
-
->              return (uint32_t)-1;
->          }
-> +        /* check for invalid open mode */
->          if (arg1 >=3D 12) {
->              unlock_user(s, arg0, 0);
->              return (uint32_t)-1;
-> @@ -287,7 +299,7 @@ target_ulong do_arm_semihosting(CPUARMState *env)
->          }
->          if (use_gdb_syscalls()) {
->              ret =3D arm_gdb_syscall(cpu, arm_semi_cb, "open,%s,%x,1a4", =
-arg0,
-> -                                  (int)arg2+1, gdb_open_modeflags[arg1])=
-;
-> +                                  (int) arg2 + 1, gdb_open_modeflags[arg=
-1]);
-
-The space after the cast looks a bit odd here.
-
->          } else {
->              ret =3D set_swi_errno(ts, open(s, open_modeflags[arg1], 0644=
-));
->          }
-> @@ -301,48 +313,51 @@ target_ulong do_arm_semihosting(CPUARMState *env)
->              return set_swi_errno(ts, close(arg0));
->          }
->      case TARGET_SYS_WRITEC:
-> -        {
-> -          char c;
-> -
-> -          if (get_user_u8(c, args))
-> -              /* FIXME - should this error code be -TARGET_EFAULT ? */
-> -              return (uint32_t)-1;
-> -          /* Write to debug console.  stderr is near enough.  */
-> -          if (use_gdb_syscalls()) {
-> +    {
-> +        char c;
-> +        if (!get_user_u8(c, args)) {
-> +            /* Write to debug console.  stderr is near enough.  */
-> +            if (use_gdb_syscalls()) {
->                  return arm_gdb_syscall(cpu, arm_semi_cb, "write,2,%x,1",=
- args);
-> -          } else {
-> +            } else {
->  #ifdef CONFIG_SOFTMMU
-> -              Chardev *chardev =3D semihosting_get_chardev();
-> -              if (chardev) {
-> -                  return qemu_chr_write_all(chardev, (uint8_t *) &c, 1);
-> -              } else
-> +                Chardev *chardev =3D semihosting_get_chardev();
-> +                if (chardev) {
-> +                    return qemu_chr_write_all(chardev, (uint8_t *) &c, 1=
-);
-> +                }
->  #endif
-
-Looks like this patch is dependent on some other patchset?
-
-
-> @@ -447,20 +474,23 @@ target_ulong do_arm_semihosting(CPUARMState *env)
->          GET_ARG(3);
->          if (use_gdb_syscalls()) {
->              return arm_gdb_syscall(cpu, arm_semi_cb, "rename,%s,%s",
-> -                                   arg0, (int)arg1+1, arg2, (int)arg3+1)=
-;
-> +                                   arg0, (int)arg1 + 1, arg2, (int)arg3 =
-+ 1);
->          } else {
->              char *s2;
->              s =3D lock_user_string(arg0);
->              s2 =3D lock_user_string(arg2);
-> -            if (!s || !s2)
-> -                /* FIXME - should this error code be -TARGET_EFAULT ? */
-> -                ret =3D (uint32_t)-1;
-> -            else
-> +            if (s && s2) {
->                  ret =3D set_swi_errno(ts, rename(s, s2));
-> -            if (s2)
-> +            } else {
-> +                ret =3D -EIO;
-
-I would stick with -1 personally. The spec says "host-specific error
-code", but since there's not a lot the guest can do with the result
-anyway we can just use -1 in our implementation. Also, EIO is an
-odd choice for "you passed us non-readable memory", which is more
-usually EFAULT.
-
-More generally, can you keep changes in behaviour in a separate patch
-from code reformatting, please ?
-
-> @@ -472,7 +502,7 @@ target_ulong do_arm_semihosting(CPUARMState *env)
->          GET_ARG(1);
->          if (use_gdb_syscalls()) {
->              return arm_gdb_syscall(cpu, arm_semi_cb, "system,%s",
-> -                                   arg0, (int)arg1+1);
-> +                                   arg0, (int)arg1 + 1);
-
-...here you don't have the space after the cast. I prefer this way.
-
-thanks
--- PMM
+Cheers,
+Stefano
 
