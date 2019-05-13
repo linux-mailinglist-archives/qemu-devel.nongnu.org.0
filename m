@@ -2,46 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 628641B4EA
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 13:29:31 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55357 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C93011B503
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 13:33:40 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:55451 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQ998-0001x5-8I
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 07:29:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34170)
+	id 1hQ9DA-0005Jr-1Q
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 07:33:40 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34525)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <Dave.Martin@arm.com>) id 1hQ97a-0001Zd-5u
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:27:55 -0400
+	(envelope-from <sgarzare@redhat.com>) id 1hQ98X-00024e-IQ
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:28:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <Dave.Martin@arm.com>) id 1hQ96R-0000cX-PV
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:26:44 -0400
-Received: from foss.arm.com ([217.140.101.70]:49710)
-	by eggs.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <Dave.Martin@arm.com>)
-	id 1hQ96Q-0000bT-0x; Mon, 13 May 2019 07:26:42 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 57CCF374;
-	Mon, 13 May 2019 04:26:40 -0700 (PDT)
-Received: from e103592.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
-	[10.72.51.249])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AD5993F703;
-	Mon, 13 May 2019 04:26:38 -0700 (PDT)
-Date: Mon, 13 May 2019 12:26:36 +0100
-From: Dave Martin <Dave.Martin@arm.com>
-To: Andrew Jones <drjones@redhat.com>
-Message-ID: <20190513112635.GD28398@e103592.cambridge.arm.com>
-References: <20190512083624.8916-1-drjones@redhat.com>
-	<20190512083624.8916-12-drjones@redhat.com>
+	(envelope-from <sgarzare@redhat.com>) id 1hQ98V-0001LM-V0
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:28:53 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:34057)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1hQ98U-0001KV-Pz
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:28:50 -0400
+Received: by mail-wr1-f65.google.com with SMTP id f8so5178751wrt.1
+	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 04:28:50 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=C5scM0EhoZDBCl9zdBg/6udl8HCkO0WkzT79qKgiwEA=;
+	b=cI8+QVALwIIcnlgFeb+VVRiqa55DXPosQwDWnHSV19fH99owZHmbf/OSrZO3pQW8mC
+	yVjitVIIEwcs1zx7Rf+5p/SA46IEqf5qahGd6e2xRJkOtZUqBTWWWnc2pP5gCHEEoteh
+	hEeLuqAVAhJkBQxO5cGPFvD3agaVae4azgAC/mvJNlRnKHbSKb2ExjtDXqNJwzt7c4FW
+	F4tdx4IGZ2l0v+1MazrKt11OodtAr8RuO/I8DsFQt2qpJrOpTRlIygo1gNxWHpR3zUYO
+	t6fv3A0MULnYafb9yCiO3gVWtZa6xza9x5C0JV+rhBnWplJ2L2Y5FtbAaqwQSIUpzU+G
+	/wCw==
+X-Gm-Message-State: APjAAAXFASrZtZE3/ohVSENpX6vz8x6S3YiGr5hvvVpahHj1R7MCBiA+
+	44P77WQMmgqi6U3F3Rk4QKntUw==
+X-Google-Smtp-Source: APXvYqyTo/1hvKfgqph0pEadVfPd7PMUvbTVEWJbFsoEnyMSDkAJ/JXiNNvZGVDPCaYjoImFoWYVgg==
+X-Received: by 2002:a5d:4b0b:: with SMTP id v11mr16576170wrq.317.1557746929410;
+	Mon, 13 May 2019 04:28:49 -0700 (PDT)
+Received: from steredhat (host151-251-static.12-87-b.business.telecomitalia.it.
+	[87.12.251.151])
+	by smtp.gmail.com with ESMTPSA id g6sm9154645wro.29.2019.05.13.04.28.48
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 13 May 2019 04:28:48 -0700 (PDT)
+Date: Mon, 13 May 2019 13:28:46 +0200
+From: Stefano Garzarella <sgarzare@redhat.com>
+To: Alberto Garcia <berto@igalia.com>
+Message-ID: <20190513112846.ggnhopjwbopfexum@steredhat>
+References: <20190510162254.8152-1-berto@igalia.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190512083624.8916-12-drjones@redhat.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <20190510162254.8152-1-berto@igalia.com>
+User-Agent: NeoMutt/20180716
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.140.101.70
-Subject: Re: [Qemu-devel] [PATCH 11/13] target/arm/cpu64: max cpu: Introduce
- sve-vls-map
+	[fuzzy]
+X-Received-From: 209.85.221.65
+Subject: Re: [Qemu-devel] [PATCH] qcow2: Define and use
+ QCOW2_COMPRESSED_SECTOR_SIZE
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -53,120 +69,127 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
-	"richard.henderson@linaro.org" <richard.henderson@linaro.org>,
-	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
-	"armbru@redhat.com" <armbru@redhat.com>,
-	"qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
-	"abologna@redhat.com" <abologna@redhat.com>,
-	"alex.bennee@linaro.org" <alex.bennee@linaro.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org,
+	Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, May 12, 2019 at 09:36:22AM +0100, Andrew Jones wrote:
-> Introduce another cpu property to control SVE vector lengths,
-> sve-vls-map, which allows the user to explicitly select the
-> set of vector lengths the guest can use. The map must conform
-> to QEMU's limits and architectural constraints, checked when
-> the property is set. Inconsistencies with sve-max-vq are also
-> checked. The bit number of a set bit in the map represents the
-> allowed vector length in number of quadwords.
+The patch LGTM, just a comment below.
+
+On Fri, May 10, 2019 at 07:22:54PM +0300, Alberto Garcia wrote:
+> When an L2 table entry points to a compressed cluster the space used
+> by the data is specified in 512-byte sectors. This size is independent
+> from BDRV_SECTOR_SIZE and is specific to the qcow2 file format.
 > 
-> Note, as the map is implemented with a single 64-bit word we
-> currently only support up to 8192-bit vectors. As QEMU and
-> KVM only support up to 2048-bit vectors then this sufficient
-> now, and probably for some time. Extending the bitmap beyond
-> a single word will likely require changing the property to
-> a string and adding yet another parser to QEMU.
+> The QCOW2_COMPRESSED_SECTOR_SIZE constant defined in this patch makes
+> this explicit.
 > 
-> Signed-off-by: Andrew Jones <drjones@redhat.com>
+> Signed-off-by: Alberto Garcia <berto@igalia.com>
 > ---
->  target/arm/cpu.c     |  4 +++
->  target/arm/cpu.h     |  3 ++
->  target/arm/cpu64.c   | 70 +++++++++++++++++++++++++++++++++++++++++---
->  target/arm/helper.c  | 10 ++++++-
->  target/arm/monitor.c |  9 ++++--
->  5 files changed, 88 insertions(+), 8 deletions(-)
+>  block/qcow2-cluster.c  |  5 +++--
+>  block/qcow2-refcount.c | 25 ++++++++++++++-----------
+>  block/qcow2.c          |  3 ++-
+>  block/qcow2.h          |  4 ++++
+>  4 files changed, 23 insertions(+), 14 deletions(-)
 > 
-
-[...]
-
-> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-> index 8292d547e8f9..f0d0ce759ba8 100644
-> --- a/target/arm/cpu.h
-> +++ b/target/arm/cpu.h
-> @@ -920,6 +920,9 @@ struct ARMCPU {
+> diff --git a/block/qcow2-cluster.c b/block/qcow2-cluster.c
+> index 974a4e8656..b36f4aa84a 100644
+> --- a/block/qcow2-cluster.c
+> +++ b/block/qcow2-cluster.c
+> @@ -796,8 +796,9 @@ int qcow2_alloc_compressed_cluster_offset(BlockDriverState *bs,
+>          return cluster_offset;
+>      }
 >  
->      /* Used to set the maximum vector length the cpu will support.  */
->      uint32_t sve_max_vq;
-> +
-> +    /* Each bit represents a supported vector length of (bitnum * 16) bytes */
-> +    uint64_t sve_vls_map;
-
-Just to be clear, the representation here is different from the
-representation in KVM_REG_ARM64_SVE_VLS?
-
-In the latter, bit n represents vector length ((n + 1) * 16) bytes.
-
-(QEMU is free to choose its own internal representation, naturally.)
-
-[...]
-
-> diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-
-[...]
-
-> +static void cpu_set_sve_vls_map(Object *obj, Visitor *v, const char *name,
-> +                                void *opaque, Error **errp)
-> +{
-> +    ARMCPU *cpu = ARM_CPU(obj);
-> +    Error *err = NULL;
-> +    uint64_t mask = ~(BIT_MASK(ARM_MAX_VQ - 1) - 1);
-> +    int i;
-> +
-> +    visit_type_uint64(v, name, &cpu->sve_vls_map, errp);
-> +
-> +    if (!err) {
-> +        if (cpu->sve_vls_map == 0) {
-> +            error_setg(&err, "SVE vector length map cannot be zero");
-
-Maybe say "empty" here, since the map represents a set?
-
-(But it this is just for debug rather than reporting errors to the user,
-it probably doesn't matter much.)
-
-[...]
-
-> diff --git a/target/arm/helper.c b/target/arm/helper.c
-> index 1e6eb0d0f360..bedec1ea0b27 100644
-> --- a/target/arm/helper.c
-> +++ b/target/arm/helper.c
-> @@ -5254,12 +5254,20 @@ uint32_t sve_zcr_len_for_el(CPUARMState *env, int el)
->  static void zcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
->                        uint64_t value)
->  {
-> +    ARMCPU *cpu = arm_env_get_cpu(env);
->      int cur_el = arm_current_el(env);
->      int old_len = sve_zcr_len_for_el(env, cur_el);
->      int new_len;
+> -    nb_csectors = ((cluster_offset + compressed_size - 1) >> 9) -
+> -                  (cluster_offset >> 9);
+> +    nb_csectors =
+> +        (cluster_offset + compressed_size - 1) / QCOW2_COMPRESSED_SECTOR_SIZE -
+> +        (cluster_offset / QCOW2_COMPRESSED_SECTOR_SIZE);
 >  
->      /* Bits other than [3:0] are RAZ/WI.  */
-> -    raw_write(env, ri, value & 0xf);
-> +    value &= 0xf;
+>      cluster_offset |= QCOW_OFLAG_COMPRESSED |
+>                        ((uint64_t)nb_csectors << s->csize_shift);
+> diff --git a/block/qcow2-refcount.c b/block/qcow2-refcount.c
+> index fa7ac1f7cb..780bd49a00 100644
+> --- a/block/qcow2-refcount.c
+> +++ b/block/qcow2-refcount.c
+> @@ -1172,12 +1172,11 @@ void qcow2_free_any_clusters(BlockDriverState *bs, uint64_t l2_entry,
+>      switch (ctype) {
+>      case QCOW2_CLUSTER_COMPRESSED:
+>          {
+> -            int nb_csectors;
+> -            nb_csectors = ((l2_entry >> s->csize_shift) &
+> -                           s->csize_mask) + 1;
+> -            qcow2_free_clusters(bs,
+> -                (l2_entry & s->cluster_offset_mask) & ~511,
+> -                nb_csectors * 512, type);
+> +            int64_t offset = (l2_entry & s->cluster_offset_mask)
+> +                & QCOW2_COMPRESSED_SECTOR_MASK;
+> +            int size = QCOW2_COMPRESSED_SECTOR_SIZE *
+> +                (((l2_entry >> s->csize_shift) & s->csize_mask) + 1);
 
-You might want to sanity-check that the max vq you configured for the
-vcpu is <= 16 here.
+What about using int64_t type for the 'size' variable?
+(because the qcow2_free_clusters() 'size' parameter is int64_t)
 
+> +            qcow2_free_clusters(bs, offset, size, type);
+>          }
+>          break;
+>      case QCOW2_CLUSTER_NORMAL:
+> @@ -1317,9 +1316,12 @@ int qcow2_update_snapshot_refcount(BlockDriverState *bs,
+>                          nb_csectors = ((entry >> s->csize_shift) &
+>                                         s->csize_mask) + 1;
+>                          if (addend != 0) {
+> +                            uint64_t coffset = (entry & s->cluster_offset_mask)
+> +                                & QCOW2_COMPRESSED_SECTOR_MASK;
+>                              ret = update_refcount(
+> -                                bs, (entry & s->cluster_offset_mask) & ~511,
+> -                                nb_csectors * 512, abs(addend), addend < 0,
+> +                                bs, coffset,
+> +                                nb_csectors * QCOW2_COMPRESSED_SECTOR_SIZE,
+> +                                abs(addend), addend < 0,
+>                                  QCOW2_DISCARD_SNAPSHOT);
+>                              if (ret < 0) {
+>                                  goto fail;
+> @@ -1635,9 +1637,10 @@ static int check_refcounts_l2(BlockDriverState *bs, BdrvCheckResult *res,
+>              nb_csectors = ((l2_entry >> s->csize_shift) &
+>                             s->csize_mask) + 1;
+>              l2_entry &= s->cluster_offset_mask;
+> -            ret = qcow2_inc_refcounts_imrt(bs, res,
+> -                                           refcount_table, refcount_table_size,
+> -                                           l2_entry & ~511, nb_csectors * 512);
+> +            ret = qcow2_inc_refcounts_imrt(
+> +                bs, res, refcount_table, refcount_table_size,
+> +                l2_entry & QCOW2_COMPRESSED_SECTOR_MASK,
+> +                nb_csectors * QCOW2_COMPRESSED_SECTOR_SIZE);
+>              if (ret < 0) {
+>                  goto fail;
+>              }
+> diff --git a/block/qcow2.c b/block/qcow2.c
+> index a520d116ef..80679a84d2 100644
+> --- a/block/qcow2.c
+> +++ b/block/qcow2.c
+> @@ -4188,7 +4188,8 @@ qcow2_co_preadv_compressed(BlockDriverState *bs,
+>  
+>      coffset = file_cluster_offset & s->cluster_offset_mask;
+>      nb_csectors = ((file_cluster_offset >> s->csize_shift) & s->csize_mask) + 1;
+> -    csize = nb_csectors * 512 - (coffset & 511);
+> +    csize = nb_csectors * QCOW2_COMPRESSED_SECTOR_SIZE -
+> +        (coffset & ~QCOW2_COMPRESSED_SECTOR_MASK);
+>  
+>      buf = g_try_malloc(csize);
+>      if (!buf) {
+> diff --git a/block/qcow2.h b/block/qcow2.h
+> index fdee297f33..7e796877d6 100644
+> --- a/block/qcow2.h
+> +++ b/block/qcow2.h
+> @@ -74,6 +74,10 @@
+>  #define MIN_CLUSTER_BITS 9
+>  #define MAX_CLUSTER_BITS 21
+>  
+> +/* Defined in the qcow2 spec (compressed cluster descriptor) */
+> +#define QCOW2_COMPRESSED_SECTOR_SIZE 512U
+> +#define QCOW2_COMPRESSED_SECTOR_MASK (~(QCOW2_COMPRESSED_SECTOR_SIZE - 1))
 > +
-> +    if (value && !(BIT_MASK(value) & cpu->sve_vls_map)) {
-> +        uint64_t map = cpu->sve_vls_map & (BIT_MASK(value) - 1);
-> +        value = arm_cpu_fls64(map) - 1;
-> +    }
-> +
-> +    raw_write(env, ri, value);
-
-[...]
-
-Cheers
----Dave
+>  /* Must be at least 2 to cover COW */
+>  #define MIN_L2_CACHE_SIZE 2 /* cache entries */
+>  
 
