@@ -2,36 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1DA531B47B
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 13:03:14 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55118 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 059F61B479
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 13:03:11 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:55116 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQ8jh-0004AZ-Ah
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 07:03:13 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58178)
+	id 1hQ8je-00047N-7Q
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 07:03:10 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58213)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hQ8hi-00034u-FL
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:01:16 -0400
+	(envelope-from <bounces@canonical.com>) id 1hQ8hm-000376-9N
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:01:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hQ8hg-0004T7-Lb
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:01:10 -0400
-Received: from indium.canonical.com ([91.189.90.7]:49642)
+	(envelope-from <bounces@canonical.com>) id 1hQ8hk-0004Ue-IA
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:01:14 -0400
+Received: from indium.canonical.com ([91.189.90.7]:49820)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hQ8hg-0004Sj-G4
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:01:08 -0400
+	id 1hQ8hk-0004UI-Cp
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:01:12 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
 	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hQ8he-0007Wi-Vd
-	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 11:01:07 +0000
+	id 1hQ8hj-0007bl-9a
+	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 11:01:11 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id BC1642E80D7
-	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 11:01:06 +0000 (UTC)
+	by loganberry.canonical.com (Postfix) with ESMTP id 430912E8024
+	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 11:01:11 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Mon, 13 May 2019 10:54:38 -0000
+Date: Mon, 13 May 2019 10:54:51 -0000
 From: =?utf-8?q?=C5=81ukasz_Zemczak?= <1823458@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
@@ -70,17 +70,16 @@ X-Launchpad-Bug-Commenters: brian-murray corey.bryant ddstreet paelzer racb
 X-Launchpad-Bug-Reporter: Dan Streetman (ddstreet)
 X-Launchpad-Bug-Modifier: =?utf-8?q?=C5=81ukasz_Zemczak_=28sil2100=29?=
 References: <155455149397.14414.11595397789908732027.malonedeb@gac.canonical.com>
-Message-Id: <155774487824.15002.7678230900575336511.malone@wampee.canonical.com>
+Message-Id: <155774489145.21554.2082210266211557370.malone@chaenomeles.canonical.com>
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="18962";
 	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 96c6f748a981a1c79ccb271e2d2c4debc497eddf
+X-Launchpad-Hash: b0d8e257edf630f83cdd78d6ea376abc7bb77aaa
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1823458] Re: race condition between
- vhost_net_stop and CHR_EVENT_CLOSED on shutdown crashes qemu
+Subject: [Qemu-devel] [Bug 1823458] Update Released
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 List-Id: <qemu-devel.nongnu.org>
@@ -95,7 +94,13 @@ Reply-To: Bug 1823458 <1823458@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is even more than what I wanted, thanks!
+The verification of the Stable Release Update for qemu has completed
+successfully and the package has now been released to -updates.
+Subsequently, the Ubuntu Stable Release Updates Team is being
+unsubscribed and will not receive messages about this bug report.  In
+the event that you encounter a regression using the package from
+-updates please report a new bug using ubuntu-bug and tag the bug report
+regression-update so we can easily find any regressions.
 
 -- =
 
