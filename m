@@ -2,47 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9FA7B1B04B
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 08:27:18 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:51841 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 136AD1B045
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 08:25:43 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:51785 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQ4Qf-0000aQ-Pw
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 02:27:17 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35170)
+	id 1hQ4P8-00075J-6E
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 02:25:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35282)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hQ4JT-0002hP-Dn
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 02:19:52 -0400
+	(envelope-from <dgibson@ozlabs.org>) id 1hQ4Jl-0002xX-IB
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 02:20:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hQ4JS-0004NR-22
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 02:19:51 -0400
-Received: from ozlabs.org ([203.11.71.1]:43219)
+	(envelope-from <dgibson@ozlabs.org>) id 1hQ4Jk-0004VZ-7n
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 02:20:09 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:43631)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
-	id 1hQ4JR-0004Lb-Ms; Mon, 13 May 2019 02:19:49 -0400
+	id 1hQ4Jj-0004Uh-Hr; Mon, 13 May 2019 02:20:08 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
-	id 452Vz30kjtz9sNC; Mon, 13 May 2019 16:19:42 +1000 (AEST)
+	id 452VzT0nvPz9sN1; Mon, 13 May 2019 16:20:05 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=gibson.dropbear.id.au; s=201602; t=1557728383;
-	bh=mybf5FDA6IImZhZVbU1H3yLsmp5YpbEYQgGyqUuw+t8=;
-	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=ZMeXejUachaIiRBjZKphqRAm/Ew0gW4tDTV4cutULxCDmMRdzbFJi9fI+gWKLkh5I
-	G/5xXpwUmsndvImUAcZO5Q6xvzK41bYyVsDNpTMCasEsD+EQJLzlbQ2B5yc3t2owOm
-	b2kuAiqXMD+XIfvsarjbWxiMBi1HcCzQsaEqw2G4=
+	d=gibson.dropbear.id.au; s=201602; t=1557728405;
+	bh=6wS1lCZIQMuYZznUmvyFK4FnfOxqM5hHsR8n0isUCWs=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=UypcDcY5WNnI4G/F4WK+S+0qJwoyOdfFZSTUKenv3Xsp09H/ztOR2QVy/2GRtmqFT
+	YM0QAd9ak0KQh+akgzb9ebQPx2s4HfEQxq/T9ehU7KVNwipVxVu+C00BVnLVeLbZ7f
+	JzXq1suvB0mQmoFyhhSknSNEwm4sFj08LDSbfga0=
+Date: Mon, 13 May 2019 16:20:00 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: mst@redhat.com,
-	qemu-devel@nongnu.org
-Date: Mon, 13 May 2019 16:19:39 +1000
-Message-Id: <20190513061939.3464-6-david@gibson.dropbear.id.au>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190513061939.3464-1-david@gibson.dropbear.id.au>
-References: <20190513061939.3464-1-david@gibson.dropbear.id.au>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Message-ID: <20190513062000.GD12044@umbus.fritz.box>
+References: <20190424041959.4087-1-david@gibson.dropbear.id.au>
+	<20190424041959.4087-4-david@gibson.dropbear.id.au>
+	<0890a0ab-e176-5549-1ec9-98c00a9c8026@ozlabs.ru>
+	<20190507044837.GC7073@umbus.fritz.box>
+	<20190512141309-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
-Subject: [Qemu-devel] [PATCH v4 5/5] pci: Fold pci_get_bus_devfn() into its
- sole caller
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="C1iGAkRnbeBonpVg"
+Content-Disposition: inline
+In-Reply-To: <20190512141309-mutt-send-email-mst@kernel.org>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2401:3900:2:1::2
+Subject: Re: [Qemu-devel] [Qemu-ppc] [PATCH v2 3/3] pcie: Simplify
+ pci_adjust_config_limit()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -54,113 +60,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aik@ozlabs.ru, Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
-	groug@kaod.org, qemu-ppc@nongnu.org,
-	David Gibson <david@gibson.dropbear.id.au>
+Cc: Alexey Kardashevskiy <aik@ozlabs.ru>, qemu-devel@nongnu.org,
+	Greg Kurz <groug@kaod.org>, Alex Williamson <alex.williamson@redhat.com>,
+	qemu-ppc@nongnu.org, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The only remaining caller of pci_get_bus_devfn() is pci_nic_init_nofail()=
-,
-itself an old compatibility function.  Fold the two together to avoid
-re-using the stale interface.
 
-While we're there replace the explicit fprintf()s with error_report().
+--C1iGAkRnbeBonpVg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
----
- hw/pci/pci.c | 60 ++++++++++++++++++++++++----------------------------
- 1 file changed, 28 insertions(+), 32 deletions(-)
+On Sun, May 12, 2019 at 02:13:30PM -0400, Michael S. Tsirkin wrote:
+> On Tue, May 07, 2019 at 02:48:38PM +1000, David Gibson wrote:
+> > On Fri, Apr 26, 2019 at 04:40:17PM +1000, Alexey Kardashevskiy wrote:
+> > >=20
+> > >=20
+> > > On 24/04/2019 14:19, David Gibson wrote:
+> > > > Since c2077e2c "pci: Adjust PCI config limit based on bus topology",
+> > > > pci_adjust_config_limit() has been used in the config space read an=
+d write
+> > > > paths to only permit access to extended config space on buses which=
+ permit
+> > > > it.  Specifically it prevents access on devices below a vanilla-PCI=
+ bus via
+> > > > some combination of bridges, even if both the host bridge and the d=
+evice
+> > > > itself are PCI-E.
+> > > >=20
+> > > > It accomplishes this with a somewhat complex call up the chain of b=
+ridges
+> > > > to see if any of them prohibit extended config space access.  This =
+is
+> > > > overly complex, since we can always know if the bus will support su=
+ch
+> > > > access at the point it is constructed.
+> > > >=20
+> > > > This patch simplifies the test by using a flag in the PCIBus instan=
+ce
+> > > > indicating whether extended configuration space is accessible.  It =
+is
+> > > > false for vanilla PCI buses.  For PCI-E buses, it is true for root
+> > > > buses and equal to the parent bus's's capability otherwise.
+> > > >=20
+> > > > For the special case of sPAPR's paravirtualized PCI root bus, which
+> > > > acts mostly like vanilla PCI, but does allow extended config space
+> > > > access, we override the default value of the flag from the host bri=
+dge
+> > > > code.
+> > > >=20
+> > > > This should cause no behavioural change.
+> > > >=20
+> > > > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>cd
+> > > > ---
+> > > >  hw/pci/pci.c             | 41 ++++++++++++++++++++++--------------=
+----
+> > > >  hw/pci/pci_host.c        | 13 +++----------
+> > > >  hw/ppc/spapr_pci.c       | 34 ++++++++++-----------------------
+> > > >  include/hw/pci/pci.h     |  1 -
+> > > >  include/hw/pci/pci_bus.h |  9 ++++++++-
+> > > >  5 files changed, 44 insertions(+), 54 deletions(-)
+> > > >=20
+> > > > diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+> > > > index ea5941fb22..59ee034331 100644
+> > > > --- a/hw/pci/pci.c
+> > > > +++ b/hw/pci/pci.c
+> > > > @@ -120,6 +120,27 @@ static void pci_bus_realize(BusState *qbus, Er=
+ror **errp)
+> > > >      vmstate_register(NULL, -1, &vmstate_pcibus, bus);
+> > > >  }
+> > > > =20
+> > > > +static void pcie_bus_realize(BusState *qbus, Error **errp)
+> > > > +{
+> > > > +    PCIBus *bus =3D PCI_BUS(qbus);
+> > > > +
+> > > > +    pci_bus_realize(qbus, errp);
+> > > > +
+> > > > +    /*
+> > > > +     * A PCI-E bus can support extended config space if it's the r=
+oot
+> > > > +     * bus, or if the bus/bridge above it does as well
+> > > > +     */
+> > > > +    if (pci_bus_is_root(bus)) {
+> > > > +        bus->flags |=3D PCI_BUS_EXTENDED_CONFIG_SPACE;
+> > > > +    } else {
+> > > > +        PCIBus *parent_bus =3D pci_get_bus(bus->parent_dev);
+> > >=20
+> > >=20
+> > > g_assert(bus->parent_dev) ?
+> > >=20
+> > > Slightly confusingly bus->parent_dev is not the same as bus->qbus.par=
+ent
+> > > and can be NULL, I'd even look into ditching parent_dev and using
+> > > bus->qbus.parent instead (if possible).
+> >=20
+> > Oh boy, the can of worms I reached into following up that simple
+> > comment.  Yes, they're subtly different, and yes it's confusing.  In
+> > practice parent_dev is NULL when on a root bus, that's not a PXB bus,
+> > and otherwise equal to qbus.parent.
+> >=20
+> > After a *lot* of thinking about this, I think parent_dev is actually
+> > correct here - we're explicitly looking at the parent as a P2P bridge,
+> > not anything else.
+> >=20
+> > But, I'll try to do some later cleanups making the parent_dev /
+> > qbus.parent confusion a bit better.
+> > > > +static inline bool pci_bus_allows_extended_config_space(PCIBus *bu=
+s)
+> > > > +{
+> > > > +    return !!(bus->flags & PCI_BUS_EXTENDED_CONFIG_SPACE);
+> > > > +}
+> > > > +
+> > > > +
+> > >=20
+> > > An extra empty line.
+> > >=20
+> > > Anyway, these are minor comments, so
+> > >=20
+> > > Reviewed-by: Alexey Kardashevskiy <aik@ozlabs.ru>
+> > >=20
+> > >=20
+> > >=20
+> > >=20
+> > > >  #endif /* QEMU_PCI_BUS_H */
+> > > >=20
+> > >=20
+>=20
+> Pls address comments and repost ok?
 
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index 7e5f8d001b..d3893bdfe1 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -723,37 +723,6 @@ static int pci_parse_devaddr(const char *addr, int *=
-domp, int *busp,
-     return 0;
- }
-=20
--static PCIBus *pci_get_bus_devfn(int *devfnp, PCIBus *root,
--                                 const char *devaddr)
--{
--    int dom, bus;
--    unsigned slot;
--
--    if (!root) {
--        fprintf(stderr, "No primary PCI bus\n");
--        return NULL;
--    }
--
--    assert(!root->parent_dev);
--
--    if (!devaddr) {
--        *devfnp =3D -1;
--        return pci_find_bus_nr(root, 0);
--    }
--
--    if (pci_parse_devaddr(devaddr, &dom, &bus, &slot, NULL) < 0) {
--        return NULL;
--    }
--
--    if (dom !=3D 0) {
--        fprintf(stderr, "No support for non-zero PCI domains\n");
--        return NULL;
--    }
--
--    *devfnp =3D PCI_DEVFN(slot, 0);
--    return pci_find_bus_nr(root, bus);
--}
--
- static void pci_init_cmask(PCIDevice *dev)
- {
-     pci_set_word(dev->cmask + PCI_VENDOR_ID, 0xffff);
-@@ -1895,6 +1864,8 @@ PCIDevice *pci_nic_init_nofail(NICInfo *nd, PCIBus =
-*rootbus,
-     DeviceState *dev;
-     int devfn;
-     int i;
-+    int dom, busnr;
-+    unsigned slot;
-=20
-     if (nd->model && !strcmp(nd->model, "virtio")) {
-         g_free(nd->model);
-@@ -1928,7 +1899,32 @@ PCIDevice *pci_nic_init_nofail(NICInfo *nd, PCIBus=
- *rootbus,
-         exit(1);
-     }
-=20
--    bus =3D pci_get_bus_devfn(&devfn, rootbus, devaddr);
-+    if (!rootbus) {
-+        error_report("No primary PCI bus");
-+        exit(1);
-+    }
-+
-+    assert(!rootbus->parent_dev);
-+
-+    if (!devaddr) {
-+        devfn =3D -1;
-+        busnr =3D 0;
-+    } else {
-+        if (pci_parse_devaddr(devaddr, &dom, &busnr, &slot, NULL) < 0) {
-+            error_report("Invalid PCI device address %s for device %s",
-+                         devaddr, nd->model);
-+            exit(1);
-+        }
-+
-+        if (dom !=3D 0) {
-+            error_report("No support for non-zero PCI domains");
-+            exit(1);
-+        }
-+
-+        devfn =3D PCI_DEVFN(slot, 0);
-+    }
-+
-+    bus =3D pci_find_bus_nr(rootbus, busnr);
-     if (!bus) {
-         error_report("Invalid PCI device address %s for device %s",
-                      devaddr, nd->model);
+Done.
+
 --=20
-2.21.0
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
+--C1iGAkRnbeBonpVg
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlzZDI4ACgkQbDjKyiDZ
+s5JU1g/9GfBW+P79Hr9b6vDiT7Rc1j3VIEBGwk6D7HJRx5wzYDcIwWjqQqOi+phD
+grX4JYdWpO3SxMhF7kntFn+JLZOQztJsK2nQTC2OjGPZPYFc9/Pw+05Rikj/LIFk
+OzzCkzoL8cNrXdPOnPgooAZ59Cphg6w9ANtC21rudLyPYTpWMtW88hwJwVmhdWO4
+zTqCMuCgp9sCR5OLLf0sh5XtMTZ6UrK9UHD7LgcjS6B0ikSpWDebVigfYBaVAsbi
+HVLMAOG9lHCVZXMrID9egvpvba+I1774BcDTG8cJg5GYArsPS8uucityvU3h7gLi
+XkaUJ+5QAGWg+9QSC9rTZ/zE+B7FLII9TcPDOtbpMGUAN2F0O/xPyX1t/LomCAE5
+1UWyMd767CBe2bRmEwpTu5Supkd6FPVG9ujyhQiQDshxuW/jjgZ7+ouBrQMrEouU
+sIE2CIW6iXXykIiDaP8MtsTITyMDkZW0dnnlZFnTKfLft9fXaPUhL3Eq455g5zsD
+sn1v1lgjDwTS9RgxEMckQZdlC7lnNAzaHiv7SiIkHhNHATRXpM0SBR4zbR9w6y6z
+WDh7xU4CnL3w1SO6LYwp80A5W1eqmnoYorQsXcsNHOv/IKeT5RHIuQPsMKJhP/Ou
+k8TcMmUkX+toT5OUGuLB9WklXnP0udmSJJQQURaGIsD+SsHWVqk=
+=4E07
+-----END PGP SIGNATURE-----
+
+--C1iGAkRnbeBonpVg--
 
