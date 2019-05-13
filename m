@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A61161B560
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 14:00:05 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55708 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76C3B1B56F
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 14:03:10 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:55774 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQ9ci-0004hp-PP
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 08:00:04 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39820)
+	id 1hQ9fh-0007UW-JO
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 08:03:09 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39831)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <marcel.apfelbaum@gmail.com>) id 1hQ9aO-0003XL-UB
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:57:41 -0400
+	(envelope-from <marcel.apfelbaum@gmail.com>) id 1hQ9aQ-0003Yn-FX
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:57:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <marcel.apfelbaum@gmail.com>) id 1hQ9aN-0001Ry-T8
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:57:40 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:36593)
+	(envelope-from <marcel.apfelbaum@gmail.com>) id 1hQ9aP-0001So-98
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:57:42 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:45886)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <marcel.apfelbaum@gmail.com>)
-	id 1hQ9aN-0001RL-Mn
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:57:39 -0400
-Received: by mail-wr1-x444.google.com with SMTP id o4so14949734wra.3
-	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 04:57:39 -0700 (PDT)
+	id 1hQ9aP-0001SF-2P
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:57:41 -0400
+Received: by mail-wr1-x443.google.com with SMTP id b18so4953261wrq.12
+	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 04:57:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=Nnd8FYZPm/MLulz3Akv9891/p6EUv5PIMcaH5c6XG9k=;
-	b=bYUJE4JPlOZnPo0KYhnqkF9fn+yBVwhdAcRerhGa9IAAYMEyxgdAq1ZhuPDwxZqyH6
-	f85SHsvGvt+V0zG44R9A1CyrGeS6knlshZr0dl384JgPp3EU8t+V9+ilK/71yyt17ovo
-	1oZo6StGYsSjuLlC3ZzDOtl9ZUkYj662/vYkige9ANiTySc9vclXxbpFRNVlNO6hwf6B
-	ZV7onw8X4b64PkKKL49QZSb4rSGdUwoaUEelkluicFEbUvrHMgJfwnpEP8sB4FGYntf3
-	qwrSEpdrTsWByEsbtpYbsp4rgQRROZsxKNIEntYwkb3Yn4dPJnGClPfj8ygtlo8X93gK
-	xAlw==
+	bh=Cb6ypY+QVCjZPXzcsPv+3xj/2MSR1UVyWcvLGS9tb9s=;
+	b=b+bdhhH1pgI1LdW9aezyT+xGnySlMx4o8eETBpGD/dN4TlvjOHgBmerRYPp+QV+kUN
+	ekwslQArVwfQjkmFDXGpFDGvI1Qt3+p2U8OZuDMN6JlAn0AW8t46nVEnH+R1fPwhodRm
+	07ESRsTbVBPpb1vPKdGatVvTcu3w8xedcY5GFG4mawaiidErQ+DnxCQlW1weacF6K2wo
+	t6XHg0dXEb1e99XvkjkKLioUvBdI9GCeEKJWakUxps3TVMVRF/wafg61whLr5FQ5Tfst
+	RhR63q7IyUuU1uwmqAVqBpu5pg0I0gy5d0fnCf459tu5BSxLEki+WnMpAb5zsTEg0fdc
+	E1BA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=Nnd8FYZPm/MLulz3Akv9891/p6EUv5PIMcaH5c6XG9k=;
-	b=dfCHyWZepWbOWVf8Y4xiau5VGbClaySehQjaFoUBbvGpLlc1EUy5vcALPTxFOAMH8E
-	ZQ4axDXNtaUqnLJ9hQ40zla/Inv54pOXcgE8mQJ4Q8VIfbH4jD6LnwnWoZ6ZwHVuledr
-	QEhynbtnAO5evTJdLiIP+Pa62wCTC/cqCRZYTefK5aVRNumHYpnoZWq/OGkX1s/ufHXQ
-	YRHQdVOT8oXMN4tgK1UhBQrE6lpi4U9GANAUoInsvbmuIOqiDoLHtS46RlwYgPY+Yz9X
-	bFZ2b78T5kGbRmS1BewDWVdESsDUoMplXZJL3a6H7AnRDp24DS3k5M3GeZITTNea5kC/
-	xo9g==
-X-Gm-Message-State: APjAAAWlm58GQXgkI932Ol5RCT4IAGItT0QRH8f0s9WoGl6QA3xT7MaX
-	KqzVQcTY4tLu0OhEj0bVNdBvV+Ef
-X-Google-Smtp-Source: APXvYqwZiOmKbkkNsp/7A+fQ/jMH4LL2MS5zEwSCV0rHlGrgvyrTZjQnn4+DqKir17z6lP+a9xhxaQ==
-X-Received: by 2002:a5d:4f88:: with SMTP id d8mr2847906wru.34.1557748658455;
-	Mon, 13 May 2019 04:57:38 -0700 (PDT)
+	bh=Cb6ypY+QVCjZPXzcsPv+3xj/2MSR1UVyWcvLGS9tb9s=;
+	b=uTVxnHtTF8pUiU0okJmpVU6Cx9T/SuyoiEBqCQjegMAbcvV/NRfXdPMTx4gGAG1Lmj
+	dDnSg2MoSJjfbGRy2HA/Md5mgw8Nt/+afdKTYrIsvu9soE3o9/7GINptoE/tyhJn2yC1
+	GxiB7pa8nqen3OnfKmADrThyJHexywDM49Bzmt2asCOS0gUg7Fl8lmzcXl5VST9QGwJ0
+	HBewCwg2QDJuGyTPXz0D17FzexOGLkbyr3o3i3QemL9RfFoNcrrx+Rwk3ui1HEn7YpVh
+	rLlhLunze3NJBNLPvzqTph9HDnxhZD77kLt53RtAMINiIfCpuysy57Zub0XyQcc3e2Sn
+	8mSA==
+X-Gm-Message-State: APjAAAVTUI3GfGmzd6dQhIyQb2jXvfJQnkwuWJ64plyqIgRW7KLuuGI2
+	uoXV+n954nFPdq6vANclK62H+3DE
+X-Google-Smtp-Source: APXvYqy/jP/gflelwq2PBs5IonjeRzkA6p0agrevW21QoogKb1FfJyoOY18MGQg/9QrZbiUY5rTk6g==
+X-Received: by 2002:a5d:5701:: with SMTP id a1mr17843450wrv.52.1557748659876; 
+	Mon, 13 May 2019 04:57:39 -0700 (PDT)
 Received: from localhost.localdomain ([37.142.144.27])
-	by smtp.gmail.com with ESMTPSA id z5sm5238554wmi.34.2019.05.13.04.57.36
+	by smtp.gmail.com with ESMTPSA id z5sm5238554wmi.34.2019.05.13.04.57.38
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 13 May 2019 04:57:37 -0700 (PDT)
+	Mon, 13 May 2019 04:57:39 -0700 (PDT)
 From: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 13 May 2019 14:57:30 +0300
-Message-Id: <20190513115731.17588-3-marcel.apfelbaum@gmail.com>
+Date: Mon, 13 May 2019 14:57:31 +0300
+Message-Id: <20190513115731.17588-4-marcel.apfelbaum@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190513115731.17588-1-marcel.apfelbaum@gmail.com>
 References: <20190513115731.17588-1-marcel.apfelbaum@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: [Qemu-devel] [PATCH V3 2/3] hw/display/ramfb: lock guest resolution
- after it's set
+X-Received-From: 2a00:1450:4864:20::443
+Subject: [Qemu-devel] [PATCH V3 3/3] hw/display/ramfb: initialize fw-config
+ space with xres/ yres
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -81,86 +81,164 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Hou Qiming <hqm03ster@gmail.com>
 
-Only allow one resolution change per guest boot, which prevents a
-crash when the guest writes garbage to the configuration space (e.g.
-when rebooting).
+If xres / yres were specified in QEMU command line, write them as an initial
+resolution to the fw-config space on guest reset, which a later BIOS / OVMF
+patch can take advantage of.
 
 Signed-off-by: HOU Qiming <hqm03ster@gmail.com>
 [fixed malformed patch]
 Signed-off-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
 ---
- hw/display/ramfb.c | 26 ++++++++++++++++++++++----
- 1 file changed, 22 insertions(+), 4 deletions(-)
+ hw/display/ramfb-standalone.c | 12 +++++++++++-
+ hw/display/ramfb.c            | 16 +++++++++++++++-
+ hw/vfio/display.c             |  4 ++--
+ include/hw/display/ramfb.h    |  2 +-
+ stubs/ramfb.c                 |  2 +-
+ 5 files changed, 30 insertions(+), 6 deletions(-)
 
+diff --git a/hw/display/ramfb-standalone.c b/hw/display/ramfb-standalone.c
+index da3229a1f6..6441449e7b 100644
+--- a/hw/display/ramfb-standalone.c
++++ b/hw/display/ramfb-standalone.c
+@@ -1,6 +1,7 @@
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
+ #include "hw/loader.h"
++#include "hw/isa/isa.h"
+ #include "hw/display/ramfb.h"
+ #include "ui/console.h"
+ #include "sysemu/sysemu.h"
+@@ -11,6 +12,8 @@ typedef struct RAMFBStandaloneState {
+     SysBusDevice parent_obj;
+     QemuConsole *con;
+     RAMFBState *state;
++    uint32_t xres;
++    uint32_t yres;
+ } RAMFBStandaloneState;
+ 
+ static void display_update_wrapper(void *dev)
+@@ -33,15 +36,22 @@ static void ramfb_realizefn(DeviceState *dev, Error **errp)
+     RAMFBStandaloneState *ramfb = RAMFB(dev);
+ 
+     ramfb->con = graphic_console_init(dev, 0, &wrapper_ops, dev);
+-    ramfb->state = ramfb_setup(errp);
++    ramfb->state = ramfb_setup(dev, errp);
+ }
+ 
++static Property ramfb_properties[] = {
++    DEFINE_PROP_UINT32("xres", RAMFBStandaloneState, xres, 0),
++    DEFINE_PROP_UINT32("yres", RAMFBStandaloneState, yres, 0),
++    DEFINE_PROP_END_OF_LIST(),
++};
++
+ static void ramfb_class_initfn(ObjectClass *klass, void *data)
+ {
+     DeviceClass *dc = DEVICE_CLASS(klass);
+ 
+     set_bit(DEVICE_CATEGORY_DISPLAY, dc->categories);
+     dc->realize = ramfb_realizefn;
++    dc->props = ramfb_properties;
+     dc->desc = "ram framebuffer standalone device";
+     dc->user_creatable = true;
+ }
 diff --git a/hw/display/ramfb.c b/hw/display/ramfb.c
-index 1955b048dd..0fe79aa856 100644
+index 0fe79aa856..b4eb283ef8 100644
 --- a/hw/display/ramfb.c
 +++ b/hw/display/ramfb.c
-@@ -30,6 +30,7 @@ struct RAMFBState {
+@@ -12,6 +12,7 @@
+  */
+ #include "qemu/osdep.h"
+ #include "qapi/error.h"
++#include "qemu/option.h"
+ #include "hw/loader.h"
+ #include "hw/display/ramfb.h"
+ #include "ui/console.h"
+@@ -29,6 +30,7 @@ struct QEMU_PACKED RAMFBCfg {
+ struct RAMFBState {
      DisplaySurface *ds;
      uint32_t width, height;
++    uint32_t starting_width, starting_height;
      struct RAMFBCfg cfg;
-+    bool locked;
+     bool locked;
  };
- 
- static void ramfb_unmap_display_surface(pixman_image_t *image, void *unused)
-@@ -70,18 +71,25 @@ static DisplaySurface *ramfb_create_display_surface(int width, int height,
- static void ramfb_fw_cfg_write(void *dev, off_t offset, size_t len)
- {
-     RAMFBState *s = dev;
--    uint32_t fourcc, format;
-+    uint32_t fourcc, format, width, height;
-     hwaddr stride, addr;
- 
--    s->width  = be32_to_cpu(s->cfg.width);
--    s->height = be32_to_cpu(s->cfg.height);
-+    width     = be32_to_cpu(s->cfg.width);
-+    height    = be32_to_cpu(s->cfg.height);
-     stride    = be32_to_cpu(s->cfg.stride);
-     fourcc    = be32_to_cpu(s->cfg.fourcc);
-     addr      = be64_to_cpu(s->cfg.addr);
-     format    = qemu_drm_format_to_pixman(fourcc);
- 
-     fprintf(stderr, "%s: %dx%d @ 0x%" PRIx64 "\n", __func__,
--            s->width, s->height, addr);
-+            width, height, addr);
-+    if (s->locked) {
-+        fprintf(stderr, "%s: resolution locked, change rejected\n", __func__);
-+        return;
-+    }
-+    s->locked = true;
-+    s->width = width;
-+    s->height = height;
-     s->ds = ramfb_create_display_surface(s->width, s->height,
-                                          format, stride, addr);
- }
-@@ -101,6 +109,13 @@ void ramfb_display_update(QemuConsole *con, RAMFBState *s)
-     dpy_gfx_update_full(con);
+@@ -114,9 +116,11 @@ static void ramfb_reset(void *opaque)
+     RAMFBState *s = (RAMFBState *)opaque;
+     s->locked = false;
+     memset(&s->cfg, 0, sizeof(s->cfg));
++    s->cfg.width = s->starting_width;
++    s->cfg.height = s->starting_height;
  }
  
-+static void ramfb_reset(void *opaque)
-+{
-+    RAMFBState *s = (RAMFBState *)opaque;
-+    s->locked = false;
-+    memset(&s->cfg, 0, sizeof(s->cfg));
-+}
-+
- RAMFBState *ramfb_setup(Error **errp)
+-RAMFBState *ramfb_setup(Error **errp)
++RAMFBState *ramfb_setup(DeviceState* dev, Error **errp)
  {
      FWCfgState *fw_cfg = fw_cfg_find();
-@@ -113,9 +128,12 @@ RAMFBState *ramfb_setup(Error **errp)
+     RAMFBState *s;
+@@ -128,6 +132,16 @@ RAMFBState *ramfb_setup(Error **errp)
  
      s = g_new0(RAMFBState, 1);
  
-+    s->locked = false;
-+
++    const char *s_fb_width = qemu_opt_get(dev->opts, "xres");
++    const char *s_fb_height = qemu_opt_get(dev->opts, "yres");
++    if (s_fb_width) {
++        s->cfg.width = atoi(s_fb_width);
++        s->starting_width = s->cfg.width;
++    }
++    if (s_fb_height) {
++        s->cfg.height = atoi(s_fb_height);
++        s->starting_height = s->cfg.height;
++    }
+     s->locked = false;
+ 
      rom_add_vga("vgabios-ramfb.bin");
-     fw_cfg_add_file_callback(fw_cfg, "etc/ramfb",
-                              NULL, ramfb_fw_cfg_write, s,
-                              &s->cfg, sizeof(s->cfg), false);
-+    qemu_register_reset(ramfb_reset, s);
-     return s;
+diff --git a/hw/vfio/display.c b/hw/vfio/display.c
+index a3d9c8f5be..2c2d3e5b71 100644
+--- a/hw/vfio/display.c
++++ b/hw/vfio/display.c
+@@ -352,7 +352,7 @@ static int vfio_display_dmabuf_init(VFIOPCIDevice *vdev, Error **errp)
+                                           &vfio_display_dmabuf_ops,
+                                           vdev);
+     if (vdev->enable_ramfb) {
+-        vdev->dpy->ramfb = ramfb_setup(errp);
++        vdev->dpy->ramfb = ramfb_setup(DEVICE(vdev), errp);
+     }
+     vfio_display_edid_init(vdev);
+     return 0;
+@@ -478,7 +478,7 @@ static int vfio_display_region_init(VFIOPCIDevice *vdev, Error **errp)
+                                           &vfio_display_region_ops,
+                                           vdev);
+     if (vdev->enable_ramfb) {
+-        vdev->dpy->ramfb = ramfb_setup(errp);
++        vdev->dpy->ramfb = ramfb_setup(DEVICE(vdev), errp);
+     }
+     return 0;
  }
+diff --git a/include/hw/display/ramfb.h b/include/hw/display/ramfb.h
+index b33a2c467b..f6c2de93b2 100644
+--- a/include/hw/display/ramfb.h
++++ b/include/hw/display/ramfb.h
+@@ -4,7 +4,7 @@
+ /* ramfb.c */
+ typedef struct RAMFBState RAMFBState;
+ void ramfb_display_update(QemuConsole *con, RAMFBState *s);
+-RAMFBState *ramfb_setup(Error **errp);
++RAMFBState *ramfb_setup(DeviceState *dev, Error **errp);
+ 
+ /* ramfb-standalone.c */
+ #define TYPE_RAMFB_DEVICE "ramfb"
+diff --git a/stubs/ramfb.c b/stubs/ramfb.c
+index 48143f3354..0799093a5d 100644
+--- a/stubs/ramfb.c
++++ b/stubs/ramfb.c
+@@ -6,7 +6,7 @@ void ramfb_display_update(QemuConsole *con, RAMFBState *s)
+ {
+ }
+ 
+-RAMFBState *ramfb_setup(Error **errp)
++RAMFBState *ramfb_setup(DeviceState* dev, Error **errp)
+ {
+     error_setg(errp, "ramfb support not available");
+     return NULL;
 -- 
 2.17.1
 
