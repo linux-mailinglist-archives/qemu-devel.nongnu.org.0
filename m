@@ -2,45 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7B0A51B4ED
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 13:31:14 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55412 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 628641B4EA
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 13:29:31 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:55357 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQ9An-0003BK-8e
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 07:31:13 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34434)
+	id 1hQ998-0001x5-8I
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 07:29:30 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34170)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <Dave.Martin@arm.com>) id 1hQ98T-0001zM-6U
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:28:50 -0400
+	(envelope-from <Dave.Martin@arm.com>) id 1hQ97a-0001Zd-5u
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:27:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <Dave.Martin@arm.com>) id 1hQ8w8-0004bP-Bx
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:16:05 -0400
-Received: from foss.arm.com ([217.140.101.70]:49308)
+	(envelope-from <Dave.Martin@arm.com>) id 1hQ96R-0000cX-PV
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 07:26:44 -0400
+Received: from foss.arm.com ([217.140.101.70]:49710)
 	by eggs.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <Dave.Martin@arm.com>)
-	id 1hQ8w6-0004a0-Rq; Mon, 13 May 2019 07:16:03 -0400
+	id 1hQ96Q-0000bT-0x; Mon, 13 May 2019 07:26:42 -0400
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 4BAA5374;
-	Mon, 13 May 2019 04:16:00 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 57CCF374;
+	Mon, 13 May 2019 04:26:40 -0700 (PDT)
 Received: from e103592.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
 	[10.72.51.249])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A0B6D3F703;
-	Mon, 13 May 2019 04:15:58 -0700 (PDT)
-Date: Mon, 13 May 2019 12:15:56 +0100
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id AD5993F703;
+	Mon, 13 May 2019 04:26:38 -0700 (PDT)
+Date: Mon, 13 May 2019 12:26:36 +0100
 From: Dave Martin <Dave.Martin@arm.com>
-To: Andrea Bolognani <abologna@redhat.com>
-Message-ID: <20190513111555.GC28398@e103592.cambridge.arm.com>
+To: Andrew Jones <drjones@redhat.com>
+Message-ID: <20190513112635.GD28398@e103592.cambridge.arm.com>
 References: <20190512083624.8916-1-drjones@redhat.com>
-	<9f57bfa56715b3128c1823150457ddb866e6054c.camel@redhat.com>
+	<20190512083624.8916-12-drjones@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <9f57bfa56715b3128c1823150457ddb866e6054c.camel@redhat.com>
+In-Reply-To: <20190512083624.8916-12-drjones@redhat.com>
 User-Agent: Mutt/1.5.23 (2014-03-12)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 217.140.101.70
-Subject: Re: [Qemu-devel] [PATCH 00/13] target/arm/kvm: enable SVE in guests
+Subject: Re: [Qemu-devel] [PATCH 11/13] target/arm/cpu64: max cpu: Introduce
+ sve-vls-map
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -53,86 +54,116 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
-	Andrew Jones <drjones@redhat.com>,
 	"richard.henderson@linaro.org" <richard.henderson@linaro.org>,
 	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
 	"armbru@redhat.com" <armbru@redhat.com>,
 	"qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+	"abologna@redhat.com" <abologna@redhat.com>,
 	"alex.bennee@linaro.org" <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 13, 2019 at 10:32:46AM +0100, Andrea Bolognani wrote:
-> On Sun, 2019-05-12 at 10:36 +0200, Andrew Jones wrote:
-> [...]
-> >    CPU type | accel | sve-max-vq | sve-vls-map
-> >    -------------------------------------------
-> >  1)     max | tcg   |  $MAX_VQ   |  $VLS_MAP
-> >  2)     max | kvm   |  $MAX_VQ   |  $VLS_MAP
-> >  3)    host | kvm   |  N/A       |  $VLS_MAP
-> > 
-> > Where for (1) $MAX_VQ sets the maximum vq and smaller vqs are
-> > all supported when $VLS_MAP is zero, or when the vqs are selected
-> > in $VLS_MAP.
+On Sun, May 12, 2019 at 09:36:22AM +0100, Andrew Jones wrote:
+> Introduce another cpu property to control SVE vector lengths,
+> sve-vls-map, which allows the user to explicitly select the
+> set of vector lengths the guest can use. The map must conform
+> to QEMU's limits and architectural constraints, checked when
+> the property is set. Inconsistencies with sve-max-vq are also
+> checked. The bit number of a set bit in the map represents the
+> allowed vector length in number of quadwords.
 > 
-> I'm a bit confused by the nomenclature here. VL clearly stands for
-> Vector Length, but what does VQ stand for? You seem to be using the
-> two terms pretty much interchangeably throughout the cover letter.
-
-From the Linux end, "vector length" or VL refers to the size of a vector
-register, either in no particular unit or in bytes.
-
-"VQ" refers specifically to the vector length in 128-bit quadwords.
-
-In some situations, neither terminology is obviously better than the
-other, such as in the way KVM_REG_ARM64_SVE_VLS is encoded.
-
-> [...]
-> > There is never any need to provide both properties, but if both
-> > are provided then they are checked for consistency.
+> Note, as the map is implemented with a single 64-bit word we
+> currently only support up to 8192-bit vectors. As QEMU and
+> KVM only support up to 2048-bit vectors then this sufficient
+> now, and probably for some time. Extending the bitmap beyond
+> a single word will likely require changing the property to
+> a string and adding yet another parser to QEMU.
 > 
-> I would personally just error out when both are provided.
+> Signed-off-by: Andrew Jones <drjones@redhat.com>
+> ---
+>  target/arm/cpu.c     |  4 +++
+>  target/arm/cpu.h     |  3 ++
+>  target/arm/cpu64.c   | 70 +++++++++++++++++++++++++++++++++++++++++---
+>  target/arm/helper.c  | 10 ++++++-
+>  target/arm/monitor.c |  9 ++++--
+>  5 files changed, 88 insertions(+), 8 deletions(-)
 > 
-> > The QMP query returns a list of valid vq lists. For example, if
-> > a guest can use vqs 1, 2, 3, and 4, then the following list will
-> > be returned
-> > 
-> >  [ [ 1 ], [ 1, 2 ], [ 1, 2, 3 ], [ 1, 2, 3, 4 ] ]
-> > 
-> > Another example might be 1, 2, 4, as the architecture states 3
-> > is optional. In that case the list would be
-> > 
-> >  [ [ 1 ], [ 1, 2 ], [ 1, 2, 4 ] ]
-> 
-> I think the proposed QMP command is problematic, because it reports
-> the valid vector lengths for either KVM or TCG based on which
-> accelerator is currently enabled: it should report all information
-> at all times instead, similarly to how query-gic-capabilities does
-> it.
 
-I wonder if this is premature flexibility?
+[...]
 
-The size of these lists is going to get cumbersome if the architecture
-is ever extended.  Even today, we might need over 100 items in this
-(nested) list.  If this is to be presented to the user this will be
-far from friendly, it could get much worse if the architecutre changes
-in future to allow larger vectors or more flexible virtualisation.
+> diff --git a/target/arm/cpu.h b/target/arm/cpu.h
+> index 8292d547e8f9..f0d0ce759ba8 100644
+> --- a/target/arm/cpu.h
+> +++ b/target/arm/cpu.h
+> @@ -920,6 +920,9 @@ struct ARMCPU {
+>  
+>      /* Used to set the maximum vector length the cpu will support.  */
+>      uint32_t sve_max_vq;
+> +
+> +    /* Each bit represents a supported vector length of (bitnum * 16) bytes */
+> +    uint64_t sve_vls_map;
 
-Could we just have a list of supported vector lengths and a possibly
-empty list of additional capabilities that describe what kinds of
-flexibility are allowed?
+Just to be clear, the representation here is different from the
+representation in KVM_REG_ARM64_SVE_VLS?
 
-So, for example, we might support vector lengths of 1, 2, 4 and 8
-quadwords, with the the ability to clamp the max vector length the
-guest sees: the kernel ABI guarantees that you can do this, even
-if you can't disable/enable each individual vector length independently.
+In the latter, bit n represents vector length ((n + 1) * 16) bytes.
 
-So, [ 1, 2, 4, 8 ] seems sufficient to describe this in a forwards
-compatible way.
+(QEMU is free to choose its own internal representation, naturally.)
 
-Some day, we might report { "independent", [ 1, 2, 4, 8, 16, 32, ... ] }
+[...]
 
-I'm guessing about the data representation here.
+> diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+
+[...]
+
+> +static void cpu_set_sve_vls_map(Object *obj, Visitor *v, const char *name,
+> +                                void *opaque, Error **errp)
+> +{
+> +    ARMCPU *cpu = ARM_CPU(obj);
+> +    Error *err = NULL;
+> +    uint64_t mask = ~(BIT_MASK(ARM_MAX_VQ - 1) - 1);
+> +    int i;
+> +
+> +    visit_type_uint64(v, name, &cpu->sve_vls_map, errp);
+> +
+> +    if (!err) {
+> +        if (cpu->sve_vls_map == 0) {
+> +            error_setg(&err, "SVE vector length map cannot be zero");
+
+Maybe say "empty" here, since the map represents a set?
+
+(But it this is just for debug rather than reporting errors to the user,
+it probably doesn't matter much.)
+
+[...]
+
+> diff --git a/target/arm/helper.c b/target/arm/helper.c
+> index 1e6eb0d0f360..bedec1ea0b27 100644
+> --- a/target/arm/helper.c
+> +++ b/target/arm/helper.c
+> @@ -5254,12 +5254,20 @@ uint32_t sve_zcr_len_for_el(CPUARMState *env, int el)
+>  static void zcr_write(CPUARMState *env, const ARMCPRegInfo *ri,
+>                        uint64_t value)
+>  {
+> +    ARMCPU *cpu = arm_env_get_cpu(env);
+>      int cur_el = arm_current_el(env);
+>      int old_len = sve_zcr_len_for_el(env, cur_el);
+>      int new_len;
+>  
+>      /* Bits other than [3:0] are RAZ/WI.  */
+> -    raw_write(env, ri, value & 0xf);
+> +    value &= 0xf;
+
+You might want to sanity-check that the max vq you configured for the
+vcpu is <= 16 here.
+
+> +
+> +    if (value && !(BIT_MASK(value) & cpu->sve_vls_map)) {
+> +        uint64_t map = cpu->sve_vls_map & (BIT_MASK(value) - 1);
+> +        value = arm_cpu_fls64(map) - 1;
+> +    }
+> +
+> +    raw_write(env, ri, value);
 
 [...]
 
