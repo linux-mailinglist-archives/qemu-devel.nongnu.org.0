@@ -2,51 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C66511BA39
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 17:40:04 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:59301 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6DA971BA44
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 17:42:15 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:59376 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQD3b-00015j-V6
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 11:40:04 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53087)
+	id 1hQD5i-0002cN-Ln
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 11:42:14 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53858)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <stefanha@redhat.com>) id 1hQD1p-0000Ck-Lb
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 11:38:14 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hQD4b-000276-8n
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 11:41:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <stefanha@redhat.com>) id 1hQD1o-0002V3-FG
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 11:38:13 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57016)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1hQD1o-0002To-8H
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 11:38:12 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 8F71C307D850;
-	Mon, 13 May 2019 15:38:10 +0000 (UTC)
-Received: from localhost (ovpn-116-138.ams2.redhat.com [10.36.116.138])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id D74CE1001E75;
-	Mon, 13 May 2019 15:38:07 +0000 (UTC)
-Date: Mon, 13 May 2019 16:38:06 +0100
-From: Stefan Hajnoczi <stefanha@redhat.com>
-To: Rob Bradford <robert.bradford@intel.com>,
-	Samuel Ortiz <sameo@linux.intel.com>, Cleber Rosa <crosa@redhat.com>,
-	Wainer dos Santos Moschetta <wainersm@redhat.com>
-Message-ID: <20190513153806.GA28978@stefanha-x1.localdomain>
+	(envelope-from <peter.maydell@linaro.org>) id 1hQD4a-0004cH-6V
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 11:41:05 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:41094)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hQD4a-0004bb-0U
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 11:41:04 -0400
+Received: by mail-ot1-x343.google.com with SMTP id g8so12164505otl.8
+	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 08:41:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=2WtiAmLbnppF5wdYRwwdYOHNgP4UsBxqvFA32h2u9G8=;
+	b=WB+Nhl7c68MSZAYYp+dtLDMiI3zkm0/8X7dMzFpOJXTpHShrn/G5jDLTTmScVCwkyl
+	Fpp/gs5r4yqPOsT8nT4kaD1kUy3mD/g/TheRs04VzR656nnEFo5o9NowQqJ4/5iqXwBw
+	3fAN2zo685RLbUd6ALXlIYPGlwv1agUqC66gZNcsI+xGksSJMUTjrNf4PhNb1z3vyHVA
+	86ZT6g27aCD1NCEN5PC5nnO2UPmFLJpXeCTDEA1d8+/Yut3C+MBudza6xWy3v6bPtYL0
+	EsY9IynoQUHszdjXy9vy2AZa7n8MGHNU6ACTZ86GzpP2cslSqSHeq+X8sEzmg+acSdTL
+	zgmQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=2WtiAmLbnppF5wdYRwwdYOHNgP4UsBxqvFA32h2u9G8=;
+	b=YSG43wQ/AHh0dn5NEj7MwAXKDNQehvq19OgOjK3etma4vuptAgf9X4sXwKOSKCl1ui
+	nzIU5FmTdW/mmR+cRh5elnWjdQPitnyQMolHft1lD5pS/bTI7x3lnfTNHeoCYYSXi7Zi
+	XCTm6Gu3es5pyt0Hecj3+b5ycuLOGjFHLY/ybBUaszG1tvY85KziwYs4DW7uiE5JAUjv
+	IytQ/W3XIA1kRp3sCHnWdRVni/gIzNDgg6o5MJsUD9Zm92Ayts2aPLj21YyIVFeODnDu
+	Q6Ee73rpaB0ZI5IP2bAgmHZCWWPldwp71rPTeVpxNlJWSWOQA4IN0YuoUYJNITLPEtGM
+	cCXQ==
+X-Gm-Message-State: APjAAAV0ov7iAaAsdjmBZWufeHl0G090ODK8rfhmBJLbDVdUPBKoy4qG
+	av8Wlm20Cr+E7KYRRSiTIvw494haybveWAcvUbciJg==
+X-Google-Smtp-Source: APXvYqwH/5qZu17agIjGYc0FSyUggL70xbuawBciikn7GtT3GCIIQJbuX9X6C6rfbeSNldIVuRLpUqf1ioT1A1omw1U=
+X-Received: by 2002:a9d:404:: with SMTP id 4mr7099927otc.352.1557762063062;
+	Mon, 13 May 2019 08:41:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="7AUc2qLy4jB3hD7Z"
-Content-Disposition: inline
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.48]);
-	Mon, 13 May 2019 15:38:10 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] Porting NATS test cases to Avocado
+References: <20190512083624.8916-1-drjones@redhat.com>
+	<20190512083624.8916-6-drjones@redhat.com>
+	<20190513123110.GE28398@e103592.cambridge.arm.com>
+	<20190513135501.ztggqdac57qbpuft@kamzik.brq.redhat.com>
+	<20190513153116.GL28398@e103592.cambridge.arm.com>
+In-Reply-To: <20190513153116.GL28398@e103592.cambridge.arm.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 13 May 2019 16:40:52 +0100
+Message-ID: <CAFEAcA95LbXZOJNUAYuYoVDkM0auj-RGACXPp9Qe9ANp_b3C=w@mail.gmail.com>
+To: Dave Martin <Dave.Martin@arm.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::343
+Subject: Re: [Qemu-devel] [PATCH 05/13] target/arm/kvm: Add
+ kvm_arch_get/put_sve
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,45 +76,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Andrew Jones <drjones@redhat.com>, "armbru@redhat.com" <armbru@redhat.com>,
+	"richard.henderson@linaro.org" <richard.henderson@linaro.org>,
+	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+	"abologna@redhat.com" <abologna@redhat.com>,
+	"qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
+	"alex.bennee@linaro.org" <alex.bennee@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Mon, 13 May 2019 at 16:31, Dave Martin <Dave.Martin@arm.com> wrote:
+>
+> On Mon, May 13, 2019 at 02:55:01PM +0100, Andrew Jones wrote:
+> > QEMU keeps its 128-bit and larger words in the same order (least
+> > significant word first) for both host endian types. We need to
+> > do word swapping every time we set/get them to/from KVM.
+>
+> I'm not sure whether this is appropriate here, though it depends on
+> what QEMU does with the data.
 
---7AUc2qLy4jB3hD7Z
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+The layout is optimised for TCG emulation to be able
+to work with it, I think (rth would have the definite
+reason, though).
 
-Hi,
-NEMU has test cases written with the NATS framework.  They could be
-upstreamed into qemu.git and converted to use the Avocado framework.
-This way the existing NATS test cases can become part of qemu.git and
-also run by upstream CI.
+> Something non-obvious to be aware of:
+>
+> As exposed through the signal frame and the KVM ABI, the memory
+> representation of an SVE reg is invariant with respect to the
+> endianness.
 
-At the OpenStack Denver PTG event I suggested to Samuel that an Avocado
-developer could convert a NATS test case as an example.  Cleber and/or
-Wainer can help do that.
+Yes; we handle this conversion as we write out the signal frame:
+https://github.com/qemu/qemu/blob/master/linux-user/aarch64/signal.c#L184
 
-Is a NEMU developer willing to port the remaining tests and upstream
-them?
-
-Thanks,
-Stefan
-
---7AUc2qLy4jB3hD7Z
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAlzZj14ACgkQnKSrs4Gr
-c8iFMgf+PWwcQ9kmeY2wAErvv7zrJdci2DBR5SVH06tMVQqCFsh1aDBrgb65Xvph
-E8IWqwE9+sXrZG7oBi09joMQyglwxIIcSfRXzGWbfMZFTAsPWhkMyP+tH1gAZM0/
-HGDT43Gx7Ng41dd89okMWa+ySusuTCsqQocgcDtu/FjTLRceEU/GUO5xeXsYVgB9
-3f5zDLsfbN4OBCqeVsP5XVmvK+DE1LK9M8yfH0xTPka+IzJAwgRffpbpc4k2Ov/q
-zTQa79X3UGcP+jcTIQ7nqXuh6JbvVva4bXjEQ5YfLLbvzRqNca3Od/KHeHQ5ecM+
-DV5HA5C0JXwN/6+SQKdzOnCS3E+wVg==
-=BjtF
------END PGP SIGNATURE-----
-
---7AUc2qLy4jB3hD7Z--
+thanks
+-- PMM
 
