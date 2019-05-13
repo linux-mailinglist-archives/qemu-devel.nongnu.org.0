@@ -2,48 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C96A31B1E9
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 10:32:15 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53135 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 180F11B1EA
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 10:32:18 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53137 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQ6Na-0006kO-Ew
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 04:32:14 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56992)
+	id 1hQ6Nd-0006qU-7q
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 04:32:17 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56991)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hQ6LX-0005ZL-B3
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 04:30:08 -0400
+	(envelope-from <thuth@redhat.com>) id 1hQ6LX-0005ZK-Az
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 04:30:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hQ6LO-0005UY-9J
+	(envelope-from <thuth@redhat.com>) id 1hQ6LO-0005UU-9C
 	for qemu-devel@nongnu.org; Mon, 13 May 2019 04:30:01 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41760)
+Received: from mx1.redhat.com ([209.132.183.28]:45220)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <thuth@redhat.com>)
-	id 1hQ6LB-0005NB-Cv; Mon, 13 May 2019 04:29:45 -0400
+	id 1hQ6LC-0005Nb-9u; Mon, 13 May 2019 04:29:46 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
 	[10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 3B512C057F2E;
-	Mon, 13 May 2019 08:29:44 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 666813092648;
+	Mon, 13 May 2019 08:29:45 +0000 (UTC)
 Received: from thuth.com (ovpn-116-122.ams2.redhat.com [10.36.116.122])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 5BDED6A97B;
-	Mon, 13 May 2019 08:29:43 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 862956B8D1;
+	Mon, 13 May 2019 08:29:44 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Date: Mon, 13 May 2019 10:29:38 +0200
-Message-Id: <20190513082940.30295-1-thuth@redhat.com>
+Date: Mon, 13 May 2019 10:29:39 +0200
+Message-Id: <20190513082940.30295-2-thuth@redhat.com>
+In-Reply-To: <20190513082940.30295-1-thuth@redhat.com>
+References: <20190513082940.30295-1-thuth@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.32]);
-	Mon, 13 May 2019 08:29:44 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.43]);
+	Mon, 13 May 2019 08:29:45 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL v3 00/29] Kconfig for Arm
+Subject: [Qemu-devel] [PULL v3 02/29] Makefile: Fix inclusion of the
+ config-devices.mak.d Kconfig dependencies
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -59,81 +61,67 @@ Cc: qemu-arm@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
- Hi Peter,
+The Makefile tries to include device Kconfig dependencies via
 
-the following changes since commit efb4f3b62c69383a7308d7b739a3193e7c0cca=
-e8:
+ -include $(SUBDIR_DEVICES_MAK_DEP)
 
-  Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-request'=
- into staging (2019-05-10 14:49:36 +0100)
+and thus expects files that match *-softmmu/config-devices.mak.d ...
+however, the minikconf script currently generates files a la
+"*-softmmu-config.devices.mak.d" instead, so the dependency files
+simply got ignored so far. For example, after a "touch hw/arm/Kconfig",
+the arm-softmmu/config-devices.mak file is currently not re-generated.
+Fix it by putting the dependency files in the *-softmmu folders now.
 
-are available in the Git repository at:
+Reported-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Thomas Huth <thuth@redhat.com>
+---
+ Makefile               | 2 +-
+ configure              | 2 +-
+ docs/devel/kconfig.rst | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-  https://gitlab.com/huth/qemu.git tags/pull-request-2019-05-13
+diff --git a/Makefile b/Makefile
+index 4a8ae0ef95..66d5c65156 100644
+--- a/Makefile
++++ b/Makefile
+@@ -350,7 +350,7 @@ endif
+ # This has to be kept in sync with Kconfig.host.
+ MINIKCONF_ARGS =3D \
+     $(CONFIG_MINIKCONF_MODE) \
+-    $@ $*-config.devices.mak.d $< $(MINIKCONF_INPUTS) \
++    $@ $*/config-devices.mak.d $< $(MINIKCONF_INPUTS) \
+     CONFIG_KVM=3D$(CONFIG_KVM) \
+     CONFIG_SPICE=3D$(CONFIG_SPICE) \
+     CONFIG_IVSHMEM=3D$(CONFIG_IVSHMEM) \
+diff --git a/configure b/configure
+index 63f312bd1f..8999698bc2 100755
+--- a/configure
++++ b/configure
+@@ -1832,7 +1832,7 @@ exit 0
+ fi
+=20
+ # Remove old dependency files to make sure that they get properly regene=
+rated
+-rm -f *-config-devices.mak.d
++rm -f */config-devices.mak.d
+=20
+ if test -z "$python"
+ then
+diff --git a/docs/devel/kconfig.rst b/docs/devel/kconfig.rst
+index cce146f87d..d6f8eb0977 100644
+--- a/docs/devel/kconfig.rst
++++ b/docs/devel/kconfig.rst
+@@ -299,7 +299,7 @@ and also listed as follows in the top-level Makefile'=
+s ``MINIKCONF_ARGS``
+ variable::
+=20
+     MINIKCONF_ARGS =3D \
+-      $@ $*-config.devices.mak.d $< $(MINIKCONF_INPUTS) \
++      $@ $*/config-devices.mak.d $< $(MINIKCONF_INPUTS) \
+       CONFIG_KVM=3D$(CONFIG_KVM) \
+       CONFIG_SPICE=3D$(CONFIG_SPICE) \
+       CONFIG_TPM=3D$(CONFIG_TPM) \
+--=20
+2.21.0
 
-for you to fetch changes up to 704d9892561d3b7ac4728296240a1b3ccfa2045a:
-
-  hw/arm: Remove hard-enablement of the remaining PCI devices (2019-05-13=
- 09:36:32 +0200)
-
-----------------------------------------------------------------
-Kconfig settings for the Arm machines
-(v3: Added the config-devices.mak.d patch to fix the dependencies)
-----------------------------------------------------------------
-
-Thomas Huth (29):
-      hw/pci/pci-stub: Add msi_enabled() and msi_notify() to the pci stub=
-s
-      Makefile: Fix inclusion of the config-devices.mak.d Kconfig depende=
-ncies
-      hw/ide/ahci: Add a Kconfig switch for the AHCI-ICH9 device
-      hw/arm: Express dependencies of the exynos machines with Kconfig
-      hw/arm: Express dependencies of the highbank machines with Kconfig
-      hw/arm: Express dependencies of integratorcp with Kconfig
-      hw/arm: Express dependencies of the fsl-imx31 machine with Kconfig
-      hw/arm: Express dependencies of musicpal with Kconfig
-      hw/arm: Express dependencies of the OMAP machines with Kconfig
-      hw/arm: Express dependencies of stellaris with Kconfig
-      hw/arm: Express dependencies of realview, versatile and vexpress wi=
-th Kconfig
-      hw/arm: Express dependencies of the PXA2xx machines with Kconfig
-      hw/arm: Express dependencies of xilinx-zynq with Kconfig
-      hw/arm: Express dependencies of collie with Kconfig
-      hw/arm: Express dependencies of the aspeed boards with Kconfig
-      hw/arm: Express dependencies of the virt machine with Kconfig
-      hw/arm: Express dependencies of netduino / stm32f2xx with Kconfig
-      hw/arm: Express dependencies of allwinner / cubieboard with Kconfig
-      hw/arm: Express dependencies of the MPS2 boards with Kconfig
-      hw/arm: Express dependencies of the raspi machines with Kconfig
-      hw/arm: Express dependencies of canon-a1100 with Kconfig
-      hw/arm: Express dependencies of sabrelite with Kconfig
-      hw/arm: Express dependencies of the MSF2 / EMCRAFT_SF2 machine with=
- Kconfig
-      hw/arm: Express dependencies of the remaining IMX boards with Kconf=
-ig
-      hw/arm: Express dependencies of the microbit / nrf51 machine with K=
-config
-      hw/arm: Express dependencies of the ZynqMP zcu102 machine with Kcon=
-fig
-      hw/arm: Express dependencies of the xlnx-versal-virt machine with K=
-config
-      hw/arm: Express dependencies of the musca machines with Kconfig
-      hw/arm: Remove hard-enablement of the remaining PCI devices
-
- Makefile                            |   2 +-
- configure                           |   2 +-
- default-configs/aarch64-softmmu.mak |   5 -
- default-configs/arm-softmmu.mak     | 179 ++++----------------
- docs/devel/kconfig.rst              |   2 +-
- hw/arm/Kconfig                      | 317 ++++++++++++++++++++++++++++++=
-+++++-
- hw/arm/Makefile.objs                |  25 ++-
- hw/display/Kconfig                  |   3 +
- hw/i2c/Kconfig                      |   2 +-
- hw/i386/Kconfig                     |   2 +-
- hw/ide/Kconfig                      |   6 +-
- hw/ide/Makefile.objs                |   2 +-
- hw/misc/Kconfig                     |   2 +
- hw/pci/pci-stub.c                   |  11 ++
- 14 files changed, 387 insertions(+), 173 deletions(-)
 
