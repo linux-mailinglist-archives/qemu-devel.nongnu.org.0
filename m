@@ -2,95 +2,41 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A32E81AF9A
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 07:01:53 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50995 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E94591B7DC
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 16:14:17 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58000 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQ360-0005RL-Rs
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 01:01:52 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52283)
+	id 1hQBib-0006Gv-3J
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 10:14:17 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55929)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <aravinda@linux.vnet.ibm.com>) id 1hQ34Z-0004ik-Bx
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 01:00:24 -0400
+	(envelope-from <yo-satoh@sios.com>) id 1hQ3Sv-0000do-4T
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 01:25:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <aravinda@linux.vnet.ibm.com>) id 1hQ34Y-0001BZ-7M
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 01:00:23 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:51308)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <aravinda@linux.vnet.ibm.com>)
-	id 1hQ34X-0001Aj-UO
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 01:00:22 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
-	x4D4vRjf068880
-	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 01:00:21 -0400
-Received: from e33.co.us.ibm.com (e33.co.us.ibm.com [32.97.110.151])
-	by mx0a-001b2d01.pphosted.com with ESMTP id 2sew3p7wnu-1
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 01:00:20 -0400
-Received: from localhost
-	by e33.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
-	Violators will be prosecuted
-	for <qemu-devel@nongnu.org> from <aravinda@linux.vnet.ibm.com>;
-	Mon, 13 May 2019 06:00:20 +0100
-Received: from b03cxnp08028.gho.boulder.ibm.com (9.17.130.20)
-	by e33.co.us.ibm.com (192.168.1.133) with IBM ESMTP SMTP Gateway:
-	Authorized Use Only! Violators will be prosecuted; 
-	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-	Mon, 13 May 2019 06:00:16 +0100
-Received: from b03ledav001.gho.boulder.ibm.com
-	(b03ledav001.gho.boulder.ibm.com [9.17.130.232])
-	by b03cxnp08028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with
-	ESMTP id x4D50FIq24576306
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK); Mon, 13 May 2019 05:00:15 GMT
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 404686E054;
-	Mon, 13 May 2019 05:00:15 +0000 (GMT)
-Received: from b03ledav001.gho.boulder.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 8C6F16E058;
-	Mon, 13 May 2019 05:00:13 +0000 (GMT)
-Received: from [9.124.31.31] (unknown [9.124.31.31])
-	by b03ledav001.gho.boulder.ibm.com (Postfix) with ESMTP;
-	Mon, 13 May 2019 05:00:13 +0000 (GMT)
-To: David Gibson <david@gibson.dropbear.id.au>
-References: <155591636364.20338.844048953355207313.stgit@aravinda>
-	<155591660602.20338.9804738040071843715.stgit@aravinda>
-	<20190510064213.GK20559@umbus.fritz.box>
-	<2cf9df3f-c3ea-5a36-e5fc-1a40386d1586@linux.vnet.ibm.com>
-	<20190510095201.GA5030@umbus.fritz.box>
-From: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
-Date: Mon, 13 May 2019 10:30:12 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
-MIME-Version: 1.0
-In-Reply-To: <20190510095201.GA5030@umbus.fritz.box>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 19051305-0036-0000-0000-00000AB899EE
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00011091; HX=3.00000242; KW=3.00000007;
-	PH=3.00000004; SC=3.00000285; SDB=6.01202560; UDB=6.00631155;
-	IPR=6.00983477; 
-	MB=3.00026861; MTD=3.00000008; XFM=3.00000015; UTC=2019-05-13 05:00:18
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19051305-0037-0000-0000-00004BC41914
-Message-Id: <8404cefd-cc74-0df4-a863-04572e827eff@linux.vnet.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
-	definitions=2019-05-13_04:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
-	priorityscore=1501
-	malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
-	clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
-	mlxlogscore=762 adultscore=0 classifier=spam adjust=0 reason=mlx
-	scancount=1 engine=8.0.1-1810050000 definitions=main-1905130036
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.156.1
-Subject: Re: [Qemu-devel] [PATCH v8 4/6] target/ppc: Build rtas error log
- upon an MCE
+	(envelope-from <yo-satoh@sios.com>) id 1hQ3St-0006Kh-Hy
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 01:25:33 -0400
+Received: from mail03.asahi-net.or.jp ([202.224.55.15]:56137)
+	by eggs.gnu.org with esmtp (Exim 4.71)
+	(envelope-from <yo-satoh@sios.com>) id 1hQ3St-0006Hu-8u
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 01:25:31 -0400
+Received: from h61-195-96-97.vps.ablenet.jp (h61-195-96-97.vps.ablenet.jp
+	[61.195.96.97]) (Authenticated sender: PQ4Y-STU)
+	by mail03.asahi-net.or.jp (Postfix) with ESMTPA id 0C43B41CCB;
+	Mon, 13 May 2019 14:25:27 +0900 (JST)
+Received: from ysato.dip.jp (ZM005235.ppp.dion.ne.jp [222.8.5.235])
+	by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id 4F190240085; 
+	Mon, 13 May 2019 14:25:26 +0900 (JST)
+From: Yoshinori Sato <yo-satoh@sios.com>
+To: qemu-devel@nongnu.org
+Date: Mon, 13 May 2019 14:25:06 +0900
+Message-Id: <20190513052518.6274-1-yo-satoh@sios.com>
+X-Mailer: git-send-email 2.11.0
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 202.224.55.15
+X-Mailman-Approved-At: Mon, 13 May 2019 10:11:53 -0400
+Subject: [Qemu-devel] [PATCH v11 00/12] Add RX archtecture support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -102,90 +48,124 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: paulus@ozlabs.org, qemu-ppc@nongnu.org, aik@au1.ibm.com,
-	qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
+	Yoshinori Sato <yo-satoh@sios.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hello.
+This patch series is added Renesas RX target emulation.
 
+Fixed build errors and cleaned up the code.
 
-On Friday 10 May 2019 03:22 PM, David Gibson wrote:
-> On Fri, May 10, 2019 at 12:35:13PM +0530, Aravinda Prasad wrote:
->>
->>
->> On Friday 10 May 2019 12:12 PM, David Gibson wrote:
->>> On Mon, Apr 22, 2019 at 12:33:26PM +0530, Aravinda Prasad wrote:
+My git repository is bellow.
+git://git.pf.osdn.net/gitroot/y/ys/ysato/qemu.git tags/rx-20190513
 
-[...]
+Testing binaries bellow.
+u-boot
+Download - https://osdn.net/users/ysato/pf/qemu/dl/u-boot.bin.gz
 
->>>> +    /* Save gpr[3] in the guest endian mode */
->>>> +    if ((*pcc->interrupts_big_endian)(cpu)) {
->>>> +        env->gpr[3] = cpu_to_be64(rtas_addr + RTAS_ERRLOG_OFFSET);
->>>
->>> I don't think this is right.  AIUI env->gpr[] are all stored in *host*
->>> endianness (for ease of doing arithmetic).
->>
->> env-gpr[3] is later used by guest to fetch the RTAS log. My guess is
->> that we will not do an endianness change of all the gprs during a switch
->> from host to guest (that will be costly).
-> 
-> There's no need to "change endianness".  In TCG the host needs to do
-> arithmetic on the values and so they are in host endian.  With KVM the
-> env values are only synchronized when we enter/exit KVM and they're
-> going to registers, not memory and so have no endianness.
+starting
+$ gzip -d u-boot.bin.gz
+$ qemu-system-rx -bios u-boot.bin
 
-Ah.. ok.
+linux and pico-root (only sash)
+Download - https://osdn.net/users/ysato/pf/qemu/dl/zImage (kernel)
+           https://osdn.net/users/ysato/pf/qemu/dl/rx-qemu.dtb (DeviceTree)
 
-> 
->> But let me cross check.
->>
->>>
->>>> +    } else {
->>>> +        env->gpr[3] = cpu_to_le64(rtas_addr + RTAS_ERRLOG_OFFSET);
->>>> +    }
->>>> +
->>>> +    env->nip = spapr->guest_machine_check_addr;
->>>> +}
->>>> +
->>>>  void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered)
->>>>  {
->>>>      SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
->>>> @@ -640,6 +881,10 @@ void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered)
->>>>          }
->>>>      }
->>>>      spapr->mc_status = cpu->vcpu_id;
->>>> +
->>>> +    spapr_mce_dispatch_elog(cpu, recovered);
->>>> +
->>>> +    return;
->>>>  }
->>>>  
->>>>  static void check_exception(PowerPCCPU *cpu, SpaprMachineState *spapr,
->>>> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
->>>> index f7204d0..03f34bf 100644
->>>> --- a/include/hw/ppc/spapr.h
->>>> +++ b/include/hw/ppc/spapr.h
->>>> @@ -661,6 +661,9 @@ target_ulong spapr_hypercall(PowerPCCPU *cpu, target_ulong opcode,
->>>>  #define DIAGNOSTICS_RUN_MODE_IMMEDIATE 2
->>>>  #define DIAGNOSTICS_RUN_MODE_PERIODIC  3
->>>>  
->>>> +/* Offset from rtas-base where error log is placed */
->>>> +#define RTAS_ERRLOG_OFFSET       0x25
->>>
->>> Is this offset PAPR defined, or chosen here?  Using an entirely
->>> unaliged (odd) address seems a very strange choice.
->>
->> This is not PAPR defined. I will make it 0x30. Or do you prefer any
->> other offset?
-> 
-> 0x30 should be fine.
+starting
+$ qemu-system-rx -kernel zImage -dtb rx-qemu.dtb -append "earlycon"
 
-ok..
+Changes for v10.
+- Fix build error for 32bit system.
+- Use "object_initialize_child" in create device instance.
+- Remove unused headers.
+- Avoid some magic number.
+- Clean up Kconfig symbols.
 
-> 
+Yoshinori Sato (12):
+  target/rx: TCG translation
+  target/rx: TCG helper
+  target/rx: CPU definition
+  target/rx: RX disassembler
+  hw/intc: RX62N interrupt controller (ICUa)
+  hw/timer: RX62N internal timer modules
+  hw/char: RX62N serial communication interface (SCI)
+  hw/rx: RX Target hardware definition
+  hw/registerfields.h: Add 8bit and 16bit register macros.
+  qemu/bitops.h: Add extract8 and extract16
+  Add rx-softmmu
+  MAINTAINERS: Add RX
+
+ MAINTAINERS                    |   19 +
+ arch_init.c                    |    2 +
+ configure                      |    8 +
+ default-configs/rx-softmmu.mak |    3 +
+ hw/Kconfig                     |    1 +
+ hw/char/Kconfig                |    3 +
+ hw/char/Makefile.objs          |    1 +
+ hw/char/renesas_sci.c          |  340 ++++++
+ hw/intc/Kconfig                |    3 +
+ hw/intc/Makefile.objs          |    1 +
+ hw/intc/rx_icu.c               |  376 +++++++
+ hw/rx/Kconfig                  |   14 +
+ hw/rx/Makefile.objs            |    2 +
+ hw/rx/rx-virt.c                |  105 ++
+ hw/rx/rx62n.c                  |  238 ++++
+ hw/timer/Kconfig               |    6 +
+ hw/timer/Makefile.objs         |    3 +
+ hw/timer/renesas_cmt.c         |  275 +++++
+ hw/timer/renesas_tmr.c         |  455 ++++++++
+ include/disas/dis-asm.h        |    5 +
+ include/hw/char/renesas_sci.h  |   45 +
+ include/hw/intc/rx_icu.h       |   57 +
+ include/hw/registerfields.h    |   32 +-
+ include/hw/rx/rx.h             |    7 +
+ include/hw/rx/rx62n.h          |   94 ++
+ include/hw/timer/renesas_cmt.h |   38 +
+ include/hw/timer/renesas_tmr.h |   50 +
+ include/qemu/bitops.h          |   38 +
+ include/sysemu/arch_init.h     |    1 +
+ target/rx/Makefile.objs        |   12 +
+ target/rx/cpu.c                |  222 ++++
+ target/rx/cpu.h                |  227 ++++
+ target/rx/disas.c              | 1480 ++++++++++++++++++++++++
+ target/rx/gdbstub.c            |  112 ++
+ target/rx/helper.c             |  148 +++
+ target/rx/helper.h             |   31 +
+ target/rx/insns.decode         |  621 ++++++++++
+ target/rx/monitor.c            |   38 +
+ target/rx/op_helper.c          |  481 ++++++++
+ target/rx/translate.c          | 2432 ++++++++++++++++++++++++++++++++++++++++
+ 40 files changed, 8025 insertions(+), 1 deletion(-)
+ create mode 100644 default-configs/rx-softmmu.mak
+ create mode 100644 hw/char/renesas_sci.c
+ create mode 100644 hw/intc/rx_icu.c
+ create mode 100644 hw/rx/Kconfig
+ create mode 100644 hw/rx/Makefile.objs
+ create mode 100644 hw/rx/rx-virt.c
+ create mode 100644 hw/rx/rx62n.c
+ create mode 100644 hw/timer/renesas_cmt.c
+ create mode 100644 hw/timer/renesas_tmr.c
+ create mode 100644 include/hw/char/renesas_sci.h
+ create mode 100644 include/hw/intc/rx_icu.h
+ create mode 100644 include/hw/rx/rx.h
+ create mode 100644 include/hw/rx/rx62n.h
+ create mode 100644 include/hw/timer/renesas_cmt.h
+ create mode 100644 include/hw/timer/renesas_tmr.h
+ create mode 100644 target/rx/Makefile.objs
+ create mode 100644 target/rx/cpu.c
+ create mode 100644 target/rx/cpu.h
+ create mode 100644 target/rx/disas.c
+ create mode 100644 target/rx/gdbstub.c
+ create mode 100644 target/rx/helper.c
+ create mode 100644 target/rx/helper.h
+ create mode 100644 target/rx/insns.decode
+ create mode 100644 target/rx/monitor.c
+ create mode 100644 target/rx/op_helper.c
+ create mode 100644 target/rx/translate.c
 
 -- 
-Regards,
-Aravinda
+2.11.0
 
 
