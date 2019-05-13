@@ -2,58 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 940111B6F0
-	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 15:22:09 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57351 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 605B31B6F9
+	for <lists+qemu-devel@lfdr.de>; Mon, 13 May 2019 15:25:00 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57383 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQAu8-0002lO-OV
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 09:22:08 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53111)
+	id 1hQAwt-0004rU-FO
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 09:24:59 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53434)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hQAle-0004Sx-4j
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:13:23 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hQAn3-0005f9-L7
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:14:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hQAld-0004JX-38
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:13:22 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46884)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hQAlc-0004Ir-SG
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:13:21 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
-	[10.5.11.14])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 7D14E30842A8
-	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 13:13:19 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-28.ams2.redhat.com
-	[10.36.116.28])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id A914E424F;
-	Mon, 13 May 2019 13:13:16 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
-	id 27F8111385E4; Mon, 13 May 2019 15:13:15 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-References: <20190418145355.21100-1-armbru@redhat.com>
-	<20190418145355.21100-2-armbru@redhat.com>
-	<2679829b-cc1d-83ce-9949-2b80d970ddec@redhat.com>
-Date: Mon, 13 May 2019 15:13:15 +0200
-In-Reply-To: <2679829b-cc1d-83ce-9949-2b80d970ddec@redhat.com> ("Philippe
-	=?utf-8?Q?Mathieu-Daud=C3=A9=22's?= message of "Thu,
-	18 Apr 2019 17:19:45 +0200")
-Message-ID: <875zqe7b10.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+	(envelope-from <peter.maydell@linaro.org>) id 1hQAn1-0004sd-9K
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:14:49 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:35795)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hQAn0-0004ri-LM
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 09:14:46 -0400
+Received: by mail-oi1-x243.google.com with SMTP id a132so9272485oib.2
+	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 06:14:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=cMjzGnLVpq/xIUfb1kG6VVA/5QDnB2YJfyhx77XPFnU=;
+	b=Iau5J0OB1acoqv4NGhWEilNM+KrrBitlOkhwzn4Nwgp+SMCsWrXbl59AdmD6hApedk
+	XbBr1PFtn32j8VZ1CXVpo+rl9hG0qf5wXVjPXASw+b0jfZSy4OrTwgnNNd0c7pCY1EB3
+	RHzmfud2Q1/EYadZ1Yb+QsVaOnlV4Gw5Qts9KujraW7P1y5iC5+M4XWqWBUI3jSI5pca
+	7HoGJ9d4gp+ve6ahH0mSjw+/KHtBPEzDzSKsZfrerEsxB4RSjSKQ9g82FEwsLwZZDMn3
+	pAAFtcaLd/AJgyp7BBsk9OGQcWuql0nlBkvwRW1iYdLCsU4D8ERLqQIuoT2bg/QZOR1E
+	9NfA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=cMjzGnLVpq/xIUfb1kG6VVA/5QDnB2YJfyhx77XPFnU=;
+	b=WAuMsiWgxwfD8lYKMkkEF1Rp8gSLoAdqzRgOwfXeBsWajul5X7yLr9ln3oYCifHKCn
+	OLs8g/SgQ5VW8ZdGO3iXYYhsigKrDKRL0CUbdtLKaBbhBGK+T3PLDniwHtGxfo+tUd6X
+	cZVvSQWsNScEy9qaD30Gc3ZnyCdfMVms+AZBBTl2dh/YnIvDhThdN/l3aGfwgM9oGxWR
+	/ZaYYg5KnM7PmhokT6f+4a5AOr/vhTKGZVqCFHWLs0AGNmp/PIZgfQAjJvGrKtFGrP1s
+	VrE9cOADoL373wcrl1GbG5NfTfb9xNOqeojKGRaugkhKKKq4hJ6E2LDQ0XOkItSCZh6v
+	od4w==
+X-Gm-Message-State: APjAAAW8bvYxbL5ouiAYnb5DndL2rGy6EE7i7p1x1a2CvvCCDVH9d0EA
+	5cE3wn/wC1LKmAp+GgxHvulDcTuSQ80gsr6uBk/JIw==
+X-Google-Smtp-Source: APXvYqw46T1KaAmGEyN8Sm1bee2greOSqmZxJRyiK+tiovQDTYbgROmixfaz0sUX461S57H48SrDXB8PhjoozHkcaBs=
+X-Received: by 2002:aca:5785:: with SMTP id l127mr12444924oib.48.1557753285412;
+	Mon, 13 May 2019 06:14:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+References: <20190510191051.5973-1-alex.bennee@linaro.org>
+In-Reply-To: <20190510191051.5973-1-alex.bennee@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 13 May 2019 14:14:34 +0100
+Message-ID: <CAFEAcA8iZuU+xw--1WLH0=+TzeXrgGF7-rauKMSK_vqp98x0dQ@mail.gmail.com>
+To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.40]);
-	Mon, 13 May 2019 13:13:19 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 1/6] qemu-bridge-helper: Fix misuse of
- isspace()
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::243
+Subject: Re: [Qemu-devel] [RFC PATCH] target/arm: semihosting docs,
+ formatting and return clean-ups
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -65,102 +74,207 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
-
-> On 4/18/19 4:53 PM, Markus Armbruster wrote:
->> parse_acl_file() passes char values to isspace().  Undefined behavior
->> when the value is negative.  Not a security issue, because the
->> characters come from trusted $prefix/etc/qemu/bridge.conf and the
->> files it includes.
->>=20
->> Fix by using qemu_isspace() instead.
+On Fri, 10 May 2019 at 20:10, Alex Benn=C3=A9e <alex.bennee@linaro.org> wro=
+te:
 >
-> Can we use g_ascii_isspace() and remove qemu_isspace()?
+> This is a clean-up of the semihosting calls after reading ver 2.0 of
+> the specification. There are a number of small fixes that seemed too
+> insignificant to split into smaller patches:
+>
+>   - add reference to the ARM semihosting spec
+>   - add some additional commentary on return values
+>   - fixup block comments as per standard
+>   - audit return values, return 0xdeadbeef for corrupted values
+>   - fix up leaks from early returns with lock_user_string
+>   - return bytes not written/read instead of -1
+>   - add LOG_UNIMP for missing functionality
+>
+> This is very much a Friday patch. It might be worth splitting up if
+> coming back for a more concerted clean-up series for semihosting as
+> the asynchronous gdb calls probably need more attention.
+>
+> Signed-off-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+> ---
+>  target/arm/arm-semi.c | 180 +++++++++++++++++++++++++-----------------
+>  1 file changed, 109 insertions(+), 71 deletions(-)
+>
+> diff --git a/target/arm/arm-semi.c b/target/arm/arm-semi.c
+> index 4c326fdc2fb..8deaed2807c 100644
+> --- a/target/arm/arm-semi.c
+> +++ b/target/arm/arm-semi.c
+> @@ -2,6 +2,7 @@
+>   *  Arm "Angel" semihosting syscalls
+>   *
+>   *  Copyright (c) 2005, 2007 CodeSourcery.
+> + *  Copyright (c) 2019 Linaro
+>   *  Written by Paul Brook.
+>   *
+>   *  This program is free software; you can redistribute it and/or modify
+> @@ -15,13 +16,19 @@
+>   *  GNU General Public License for more details.
+>   *
+>   *  You should have received a copy of the GNU General Public License
+> - *  along with this program; if not, see <http://www.gnu.org/licenses/>.
+> + *  along with this program; if not, see
+> + *  <http://www.gnu.org/licenses/>.
+> + *
+> + *  ARM Semihosting is documented in:
+> + *     Semihosting for AArch32 and AArch64 Release 2.0
+> + *     https://static.docs.arm.com/100863/0200/semihosting.pdf
+>   */
+>
+>  #include "qemu/osdep.h"
+>
+>  #include "cpu.h"
+>  #include "exec/semihost.h"
+> +#include "exec/log.h"
+>  #ifdef CONFIG_USER_ONLY
+>  #include "qemu.h"
+>
+> @@ -241,13 +248,18 @@ static target_ulong arm_gdb_syscall(ARMCPU *cpu, gd=
+b_syscall_complete_cb cb,
+>       put_user_u64(val, args + (n) * 8) :                \
+>       put_user_u32(val, args + (n) * 4))
+>
+> +/*
+> + * Do a semihosting call. Returns the "RETURN REGISTER" which is
+> + * documented as corrupted for some calls. In this case we use the
+> + * venerable 0xdeadbeef.
+> + */
 
-Hmm, I wasn't aware of that one.
+I think what you mean here is something like "the specification always
+says that the "return register" either returns a specific value or
+is corrupted, so we don't need to report to our caller whether we
+are returning a value or trying to leave the register unchanged.
+We use 0xdeadbeef as the return value when there isn't a defined
+return value for the call."
 
-                    arg type  arg values              obeys locale?
-ctype.h isFOO()     int       unsigned char, EOF [1]  yes [4]
-qemu_isFOO()        int       any char [2]            yes [4]
-g_ascii_isFOO()     char      any char [3]            no
+>  target_ulong do_arm_semihosting(CPUARMState *env)
+>  {
+>      ARMCPU *cpu =3D arm_env_get_cpu(env);
+>      CPUState *cs =3D CPU(cpu);
+>      target_ulong args;
+>      target_ulong arg0, arg1, arg2, arg3;
+> -    char * s;
+> +    char *s;
+>      int nr;
+>      uint32_t ret;
+>      uint32_t len;
+> @@ -273,9 +285,9 @@ target_ulong do_arm_semihosting(CPUARMState *env)
+>          GET_ARG(2);
+>          s =3D lock_user_string(arg0);
+>          if (!s) {
+> -            /* FIXME - should this error code be -TARGET_EFAULT ? */
 
-[1] Undefined behavior when the argument is a negative plain or signed
-char.  Well-known trap.
+We definitely don't want to return -TARGET_EFAULT, but we could
+in theory call set_swi_errno(ts, EFAULT). The spec says that
+it's up to the implementation, effectively, so I think I agree
+we don't need to bother. Any caller which has messed things up
+sufficiently to be passing us bogus memory is unlikely to be
+in a state to successfully call SYS_ERRNO anyway.
 
-[2] qemu_isFOO(arg) expands into isFOO((unsigned char)arg), which works
-fine for plain, signed and unsigned char arg.
+>              return (uint32_t)-1;
+>          }
+> +        /* check for invalid open mode */
+>          if (arg1 >=3D 12) {
+>              unlock_user(s, arg0, 0);
+>              return (uint32_t)-1;
+> @@ -287,7 +299,7 @@ target_ulong do_arm_semihosting(CPUARMState *env)
+>          }
+>          if (use_gdb_syscalls()) {
+>              ret =3D arm_gdb_syscall(cpu, arm_semi_cb, "open,%s,%x,1a4", =
+arg0,
+> -                                  (int)arg2+1, gdb_open_modeflags[arg1])=
+;
+> +                                  (int) arg2 + 1, gdb_open_modeflags[arg=
+1]);
 
-[3] When plain char is signed, and the actual argument is unsigned char
-and not representable as char, then behavior is implementation-defined.
-No problem; the implementations we care for reinterpret as two's
-complement.
+The space after the cast looks a bit odd here.
 
-[4] Obeying the locale is commonly unwanted.
+>          } else {
+>              ret =3D set_swi_errno(ts, open(s, open_modeflags[arg1], 0644=
+));
+>          }
+> @@ -301,48 +313,51 @@ target_ulong do_arm_semihosting(CPUARMState *env)
+>              return set_swi_errno(ts, close(arg0));
+>          }
+>      case TARGET_SYS_WRITEC:
+> -        {
+> -          char c;
+> -
+> -          if (get_user_u8(c, args))
+> -              /* FIXME - should this error code be -TARGET_EFAULT ? */
+> -              return (uint32_t)-1;
+> -          /* Write to debug console.  stderr is near enough.  */
+> -          if (use_gdb_syscalls()) {
+> +    {
+> +        char c;
+> +        if (!get_user_u8(c, args)) {
+> +            /* Write to debug console.  stderr is near enough.  */
+> +            if (use_gdb_syscalls()) {
+>                  return arm_gdb_syscall(cpu, arm_semi_cb, "write,2,%x,1",=
+ args);
+> -          } else {
+> +            } else {
+>  #ifdef CONFIG_SOFTMMU
+> -              Chardev *chardev =3D semihosting_get_chardev();
+> -              if (chardev) {
+> -                  return qemu_chr_write_all(chardev, (uint8_t *) &c, 1);
+> -              } else
+> +                Chardev *chardev =3D semihosting_get_chardev();
+> +                if (chardev) {
+> +                    return qemu_chr_write_all(chardev, (uint8_t *) &c, 1=
+);
+> +                }
+>  #endif
 
-Replacing isFOO() by qemu_isFOO() gets rid of trap [1] (and loses EOF,
-but that rarely matters).
+Looks like this patch is dependent on some other patchset?
 
-Replacing qemu_isFOO() by g_ascii_isFOO() gets rid of the commonly
-unwanted locale dependence.  Each such replacement needs review, no
-matter how common "unwanted" may be.
 
-I suspect we'd almost always be better off with g_ascii_isFOO() instead
-of qemu_isFOO().  If that's the case, then the few exceptions (if any)
-could use standard isFOO(), so we can drop qemu_isFOO().
+> @@ -447,20 +474,23 @@ target_ulong do_arm_semihosting(CPUARMState *env)
+>          GET_ARG(3);
+>          if (use_gdb_syscalls()) {
+>              return arm_gdb_syscall(cpu, arm_semi_cb, "rename,%s,%s",
+> -                                   arg0, (int)arg1+1, arg2, (int)arg3+1)=
+;
+> +                                   arg0, (int)arg1 + 1, arg2, (int)arg3 =
++ 1);
+>          } else {
+>              char *s2;
+>              s =3D lock_user_string(arg0);
+>              s2 =3D lock_user_string(arg2);
+> -            if (!s || !s2)
+> -                /* FIXME - should this error code be -TARGET_EFAULT ? */
+> -                ret =3D (uint32_t)-1;
+> -            else
+> +            if (s && s2) {
+>                  ret =3D set_swi_errno(ts, rename(s, s2));
+> -            if (s2)
+> +            } else {
+> +                ret =3D -EIO;
 
-I'd rather not do that myself globally now due to the "needs review"
-part.
+I would stick with -1 personally. The spec says "host-specific error
+code", but since there's not a lot the guest can do with the result
+anyway we can just use -1 in our implementation. Also, EIO is an
+odd choice for "you passed us non-readable memory", which is more
+usually EFAULT.
 
-Perhaps I should do it just for this file while I touch it anyway.  The
-question to ask: should parse_acl_file() obey the locale for whitespace
-recognition?
+More generally, can you keep changes in behaviour in a separate patch
+from code reformatting, please ?
 
->> Signed-off-by: Markus Armbruster <armbru@redhat.com>
->> ---
->>  qemu-bridge-helper.c | 7 ++++---
->>  1 file changed, 4 insertions(+), 3 deletions(-)
->>=20
->> diff --git a/qemu-bridge-helper.c b/qemu-bridge-helper.c
->> index 5396fbfbb6..0d60c07655 100644
->> --- a/qemu-bridge-helper.c
->> +++ b/qemu-bridge-helper.c
->> @@ -29,6 +29,7 @@
->>  #include <linux/if_bridge.h>
->>  #endif
->>=20=20
->> +#include "qemu-common.h"
->>  #include "qemu/queue.h"
->>=20=20
->>  #include "net/tap-linux.h"
->> @@ -75,7 +76,7 @@ static int parse_acl_file(const char *filename, ACLLis=
-t *acl_list)
->>          char *ptr =3D line;
->>          char *cmd, *arg, *argend;
->>=20=20
->> -        while (isspace(*ptr)) {
->> +        while (qemu_isspace(*ptr)) {
->>              ptr++;
->>          }
->>=20=20
->> @@ -99,12 +100,12 @@ static int parse_acl_file(const char *filename, ACL=
-List *acl_list)
->>=20=20
->>          *arg =3D 0;
->>          arg++;
->> -        while (isspace(*arg)) {
->> +        while (qemu_isspace(*arg)) {
->>              arg++;
->>          }
->>=20=20
->>          argend =3D arg + strlen(arg);
->> -        while (arg !=3D argend && isspace(*(argend - 1))) {
->> +        while (arg !=3D argend && qemu_isspace(*(argend - 1))) {
->>              argend--;
->>          }
->>          *argend =3D 0;
->>=20
+> @@ -472,7 +502,7 @@ target_ulong do_arm_semihosting(CPUARMState *env)
+>          GET_ARG(1);
+>          if (use_gdb_syscalls()) {
+>              return arm_gdb_syscall(cpu, arm_semi_cb, "system,%s",
+> -                                   arg0, (int)arg1+1);
+> +                                   arg0, (int)arg1 + 1);
+
+...here you don't have the space after the cast. I prefer this way.
+
+thanks
+-- PMM
 
