@@ -2,59 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D15101C337
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 08:25:00 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40179 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1F4A01C32E
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 08:20:33 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40112 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQQs0-0002C0-1R
-	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 02:25:00 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53896)
+	id 1hQQng-0007H6-8J
+	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 02:20:32 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51879)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <yan.y.zhao@intel.com>) id 1hQQld-0006Fx-6e
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 02:18:26 -0400
+	(envelope-from <ysato@users.sourceforge.jp>) id 1hQQig-0003Y1-RD
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 02:15:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <yan.y.zhao@intel.com>) id 1hQQlb-00036G-Sm
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 02:18:25 -0400
-Received: from mga04.intel.com ([192.55.52.120]:56310)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <yan.y.zhao@intel.com>)
-	id 1hQQlb-00032I-Jc
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 02:18:23 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	13 May 2019 23:18:19 -0700
-X-ExtLoop1: 1
-Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
-	([10.239.13.9])
-	by fmsmga004.fm.intel.com with ESMTP; 13 May 2019 23:18:14 -0700
-Date: Tue, 14 May 2019 02:12:35 -0400
-From: Yan Zhao <yan.y.zhao@intel.com>
-To: Erik Skultety <eskultet@redhat.com>
-Message-ID: <20190514061235.GC20407@joy-OptiPlex-7040>
-References: <20190506014904.3621-1-yan.y.zhao@intel.com>
-	<20190507151826.502be009@x1.home>
-	<20190509173839.2b9b2b46.cohuck@redhat.com>
-	<20190509154857.GF2868@work-vm>
-	<20190509175404.512ae7aa.cohuck@redhat.com>
-	<20190509164825.GG2868@work-vm>
-	<20190510110838.2df4c4d0.cohuck@redhat.com>
-	<20190510093608.GD2854@work-vm>
-	<20190510114838.7e16c3d6.cohuck@redhat.com>
-	<20190513132804.GD11139@beluga.usersys.redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190513132804.GD11139@beluga.usersys.redhat.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+	(envelope-from <ysato@users.sourceforge.jp>) id 1hQQif-0007fP-6Z
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 02:15:22 -0400
+Received: from mail01.asahi-net.or.jp ([202.224.55.13]:34370)
+	by eggs.gnu.org with esmtp (Exim 4.71)
+	(envelope-from <ysato@users.sourceforge.jp>) id 1hQQid-0007VY-4h
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 02:15:21 -0400
+Received: from h61-195-96-97.vps.ablenet.jp (h61-195-96-97.vps.ablenet.jp
+	[61.195.96.97]) (Authenticated sender: PQ4Y-STU)
+	by mail01.asahi-net.or.jp (Postfix) with ESMTPA id 744AB11D011;
+	Tue, 14 May 2019 15:15:13 +0900 (JST)
+Received: from ysato.dip.jp (ZM005235.ppp.dion.ne.jp [222.8.5.235])
+	by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id 7B245240085; 
+	Tue, 14 May 2019 15:15:11 +0900 (JST)
+From: Yoshinori Sato <ysato@users.sourceforge.jp>
+To: qemu-devel@nongnu.org
+Date: Tue, 14 May 2019 15:14:46 +0900
+Message-Id: <20190514061458.125225-1-ysato@users.sourceforge.jp>
+X-Mailer: git-send-email 2.11.0
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 192.55.52.120
-Subject: Re: [Qemu-devel] [PATCH v2 1/2] vfio/mdev: add version attribute
- for mdev device
+X-Received-From: 202.224.55.13
+Subject: [Qemu-devel] [PATCH v12 00/12] Add RX archtecture support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -66,148 +47,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Yan Zhao <yan.y.zhao@intel.com>
-Cc: "cjia@nvidia.com" <cjia@nvidia.com>,
-	"kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-	"aik@ozlabs.ru" <aik@ozlabs.ru>,
-	"Zhengxiao.zx@alibaba-inc.com" <Zhengxiao.zx@alibaba-inc.com>,
-	"shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
-	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
-	"kwankhede@nvidia.com" <kwankhede@nvidia.com>,
-	"eauger@redhat.com" <eauger@redhat.com>, "Liu,
-	Yi L" <yi.l.liu@intel.com>, "Yang, Ziye" <ziye.yang@intel.com>,
-	"mlevitsk@redhat.com" <mlevitsk@redhat.com>,
-	"pasic@linux.ibm.com" <pasic@linux.ibm.com>,
-	"libvir-list@redhat.com" <libvir-list@redhat.com>,
-	"arei.gonglei@huawei.com" <arei.gonglei@huawei.com>,
-	"felipe@nutanix.com" <felipe@nutanix.com>,
-	"Ken.Xue@amd.com" <Ken.Xue@amd.com>, "Tian, Kevin" <kevin.tian@intel.com>,
-	"Dr. David Alan Gilbert" <dgilbert@redhat.com>,
-	"zhenyuw@linux.intel.com" <zhenyuw@linux.intel.com>,
-	"dinechin@redhat.com" <dinechin@redhat.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	"intel-gvt-dev@lists.freedesktop.org"
-	<intel-gvt-dev@lists.freedesktop.org>, "Liu,
-	Changpeng" <changpeng.liu@intel.com>,
-	"berrange@redhat.com" <berrange@redhat.com>,
-	Cornelia Huck <cohuck@redhat.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-	"Wang, Zhi A" <zhi.a.wang@intel.com>,
-	"jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>, "He,
-	Shaopeng" <shaopeng.he@intel.com>
+Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
+	Yoshinori Sato <ysato@users.sourceforge.jp>, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 13, 2019 at 09:28:04PM +0800, Erik Skultety wrote:
-> On Fri, May 10, 2019 at 11:48:38AM +0200, Cornelia Huck wrote:
-> > On Fri, 10 May 2019 10:36:09 +0100
-> > "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
-> >
-> > > * Cornelia Huck (cohuck@redhat.com) wrote:
-> > > > On Thu, 9 May 2019 17:48:26 +0100
-> > > > "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
-> > > >
-> > > > > * Cornelia Huck (cohuck@redhat.com) wrote:
-> > > > > > On Thu, 9 May 2019 16:48:57 +0100
-> > > > > > "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
-> > > > > >
-> > > > > > > * Cornelia Huck (cohuck@redhat.com) wrote:
-> > > > > > > > On Tue, 7 May 2019 15:18:26 -0600
-> > > > > > > > Alex Williamson <alex.williamson@redhat.com> wrote:
-> > > > > > > >
-> > > > > > > > > On Sun,  5 May 2019 21:49:04 -0400
-> > > > > > > > > Yan Zhao <yan.y.zhao@intel.com> wrote:
-> > > > > > > >
-> > > > > > > > > > +  Errno:
-> > > > > > > > > > +  If vendor driver wants to claim a mdev device incompatible to all other mdev
-> > > > > > > > > > +  devices, it should not register version attribute for this mdev device. But if
-> > > > > > > > > > +  a vendor driver has already registered version attribute and it wants to claim
-> > > > > > > > > > +  a mdev device incompatible to all other mdev devices, it needs to return
-> > > > > > > > > > +  -ENODEV on access to this mdev device's version attribute.
-> > > > > > > > > > +  If a mdev device is only incompatible to certain mdev devices, write of
-> > > > > > > > > > +  incompatible mdev devices's version strings to its version attribute should
-> > > > > > > > > > +  return -EINVAL;
-> > > > > > > > >
-> > > > > > > > > I think it's best not to define the specific errno returned for a
-> > > > > > > > > specific situation, let the vendor driver decide, userspace simply
-> > > > > > > > > needs to know that an errno on read indicates the device does not
-> > > > > > > > > support migration version comparison and that an errno on write
-> > > > > > > > > indicates the devices are incompatible or the target doesn't support
-> > > > > > > > > migration versions.
-> > > > > > > >
-> > > > > > > > I think I have to disagree here: It's probably valuable to have an
-> > > > > > > > agreed error for 'cannot migrate at all' vs 'cannot migrate between
-> > > > > > > > those two particular devices'. Userspace might want to do different
-> > > > > > > > things (e.g. trying with different device pairs).
-> > > > > > >
-> > > > > > > Trying to stuff these things down an errno seems a bad idea; we can't
-> > > > > > > get much information that way.
-> > > > > >
-> > > > > > So, what would be a reasonable approach? Userspace should first read
-> > > > > > the version attributes on both devices (to find out whether migration
-> > > > > > is supported at all), and only then figure out via writing whether they
-> > > > > > are compatible?
-> > > > > >
-> > > > > > (Or just go ahead and try, if it does not care about the reason.)
-> > > > >
-> > > > > Well, I'm OK with something like writing to test whether it's
-> > > > > compatible, it's just we need a better way of saying 'no'.
-> > > > > I'm not sure if that involves reading back from somewhere after
-> > > > > the write or what.
-> > > >
-> > > > Hm, so I basically see two ways of doing that:
-> > > > - standardize on some error codes... problem: error codes can be hard
-> > > >   to fit to reasons
-> > > > - make the error available in some attribute that can be read
-> > > >
-> > > > I'm not sure how we can serialize the readback with the last write,
-> > > > though (this looks inherently racy).
-> > > >
-> > > > How important is detailed error reporting here?
-> > >
-> > > I think we need something, otherwise we're just going to get vague
-> > > user reports of 'but my VM doesn't migrate'; I'd like the error to be
-> > > good enough to point most users to something they can understand
-> > > (e.g. wrong card family/too old a driver etc).
-> >
-> > Ok, that sounds like a reasonable point. Not that I have a better idea
-> > how to achieve that, though... we could also log a more verbose error
-> > message to the kernel log, but that's not necessarily where a user will
-> > look first.
-> 
-> In case of libvirt checking the compatibility, it won't matter how good the
-> error message in the kernel log is and regardless of how many error states you
-> want to handle, libvirt's only limited to errno here, since we're going to do
-> plain read/write, so our internal error message returned to the user is only
-> going to contain what the errno says - okay, of course we can (and we DO)
-> provide libvirt specific string, further specifying the error but like I
-> mentioned, depending on how many error cases we want to distinguish this may be
-> hard for anyone to figure out solely on the error code, as apps will most
-> probably not parse the
-> logs.
-> 
-> Regards,
-> Erik
-hi Erik
-do you mean you are agreeing on defining common errors and only returning errno?
+Hello.
+This patch series is added Renesas RX target emulation.
 
-e.g.
-#define ENOMIGRATION         140  /* device not supporting migration */
-#define EUNATCH              49  /* software version not match */
-#define EHWNM                142  /* hardware not matching*/
+I fixed the ROM address because v11 was incorrect.
 
-Thanks
-Yan
-> >
-> > Ideally, we'd want to have the user space program setting up things
-> > querying the general compatibility for migration (so that it becomes
-> > their problem on how to alert the user to problems :), but I'm not sure
-> > how to eliminate the race between asking the vendor driver for
-> > compatibility and getting the result of that operation.
-> >
-> > Unless we introduce an interface that can retrieve _all_ results
-> > together with the written value? Or is that not going to be much of a
-> > problem in practice?
-> 
-> 
+My git repository is bellow.
+git://git.pf.osdn.net/gitroot/y/ys/ysato/qemu.git tags/rx-20190514
+
+Testing binaries bellow.
+u-boot
+Download - https://osdn.net/users/ysato/pf/qemu/dl/u-boot.bin.gz
+
+starting
+$ gzip -d u-boot.bin.gz
+$ qemu-system-rx -bios u-boot.bin
+
+linux and pico-root (only sash)
+Download - https://osdn.net/users/ysato/pf/qemu/dl/zImage (kernel)
+           https://osdn.net/users/ysato/pf/qemu/dl/rx-qemu.dtb (DeviceTree)
+
+starting
+$ qemu-system-rx -kernel zImage -dtb rx-qemu.dtb -append "earlycon"
+
+Changes for v11.
+- Fix ROM address.
+
+Yoshinori Sato (12):
+  target/rx: TCG translation
+  target/rx: TCG helper
+  target/rx: CPU definition
+  target/rx: RX disassembler
+  hw/intc: RX62N interrupt controller (ICUa)
+  hw/timer: RX62N internal timer modules
+  hw/char: RX62N serial communication interface (SCI)
+  hw/rx: RX Target hardware definition
+  Add rx-softmmu
+  hw/registerfields.h: Add 8bit and 16bit register macros.
+  qemu/bitops.h: Add extract8 and extract16
+  MAINTAINERS: Add RX
+
+ configure                      |    8 +
+ default-configs/rx-softmmu.mak |    3 +
+ include/disas/dis-asm.h        |    5 +
+ include/hw/char/renesas_sci.h  |   45 +
+ include/hw/intc/rx_icu.h       |   57 +
+ include/hw/registerfields.h    |   32 +-
+ include/hw/rx/rx.h             |    7 +
+ include/hw/rx/rx62n.h          |   94 ++
+ include/hw/timer/renesas_cmt.h |   38 +
+ include/hw/timer/renesas_tmr.h |   50 +
+ include/qemu/bitops.h          |   38 +
+ include/sysemu/arch_init.h     |    1 +
+ target/rx/cpu.h                |  227 ++++
+ target/rx/helper.h             |   31 +
+ arch_init.c                    |    2 +
+ hw/char/renesas_sci.c          |  340 ++++++
+ hw/intc/rx_icu.c               |  376 +++++++
+ hw/rx/rx-virt.c                |  105 ++
+ hw/rx/rx62n.c                  |  238 ++++
+ hw/timer/renesas_cmt.c         |  275 +++++
+ hw/timer/renesas_tmr.c         |  455 ++++++++
+ target/rx/cpu.c                |  222 ++++
+ target/rx/disas.c              | 1480 ++++++++++++++++++++++++
+ target/rx/gdbstub.c            |  112 ++
+ target/rx/helper.c             |  148 +++
+ target/rx/monitor.c            |   38 +
+ target/rx/op_helper.c          |  481 ++++++++
+ target/rx/translate.c          | 2432 ++++++++++++++++++++++++++++++++++++++++
+ MAINTAINERS                    |   19 +
+ hw/Kconfig                     |    1 +
+ hw/char/Kconfig                |    3 +
+ hw/char/Makefile.objs          |    1 +
+ hw/intc/Kconfig                |    3 +
+ hw/intc/Makefile.objs          |    1 +
+ hw/rx/Kconfig                  |   14 +
+ hw/rx/Makefile.objs            |    2 +
+ hw/timer/Kconfig               |    6 +
+ hw/timer/Makefile.objs         |    3 +
+ target/rx/Makefile.objs        |   12 +
+ target/rx/insns.decode         |  621 ++++++++++
+ 40 files changed, 8025 insertions(+), 1 deletion(-)
+ create mode 100644 default-configs/rx-softmmu.mak
+ create mode 100644 include/hw/char/renesas_sci.h
+ create mode 100644 include/hw/intc/rx_icu.h
+ create mode 100644 include/hw/rx/rx.h
+ create mode 100644 include/hw/rx/rx62n.h
+ create mode 100644 include/hw/timer/renesas_cmt.h
+ create mode 100644 include/hw/timer/renesas_tmr.h
+ create mode 100644 target/rx/cpu.h
+ create mode 100644 target/rx/helper.h
+ create mode 100644 hw/char/renesas_sci.c
+ create mode 100644 hw/intc/rx_icu.c
+ create mode 100644 hw/rx/rx-virt.c
+ create mode 100644 hw/rx/rx62n.c
+ create mode 100644 hw/timer/renesas_cmt.c
+ create mode 100644 hw/timer/renesas_tmr.c
+ create mode 100644 target/rx/cpu.c
+ create mode 100644 target/rx/disas.c
+ create mode 100644 target/rx/gdbstub.c
+ create mode 100644 target/rx/helper.c
+ create mode 100644 target/rx/monitor.c
+ create mode 100644 target/rx/op_helper.c
+ create mode 100644 target/rx/translate.c
+ create mode 100644 hw/rx/Kconfig
+ create mode 100644 hw/rx/Makefile.objs
+ create mode 100644 target/rx/Makefile.objs
+ create mode 100644 target/rx/insns.decode
+
+-- 
+2.11.0
+
 
