@@ -2,69 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFB211C7B0
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 13:21:50 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:45836 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B8F901C7CF
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 13:30:17 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:45985 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQVVF-0005dt-Nq
-	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 07:21:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47799)
+	id 1hQVdQ-0003mV-RO
+	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 07:30:16 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49276)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <marcandre.lureau@gmail.com>) id 1hQVUE-00054l-5N
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 07:20:47 -0400
+	(envelope-from <gengdongjiu@huawei.com>) id 1hQVZ5-0000XE-GI
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 07:25:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <marcandre.lureau@gmail.com>) id 1hQVUD-0001Aq-8b
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 07:20:46 -0400
-Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:44098)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
-	id 1hQVUC-00019i-WA
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 07:20:45 -0400
-Received: by mail-wr1-x443.google.com with SMTP id c5so18721005wrs.11
-	for <qemu-devel@nongnu.org>; Tue, 14 May 2019 04:20:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=bgBMpTCMNLCK26Kqndnd3AJ1Ok3A71IDOIWMZ79Wr14=;
-	b=KHKcbk/huhRfzzGi6p1A5LfQ6wLBy9GL68iflwe2M4qMXw+m2lHYqrK8bECI+G36dG
-	A/OJYYjHlDLzwvKK55aZDJ079bM+nEXz7ryAEE1h+j22NKIGM8kG4mTApB+2C3zu33Jg
-	Wb2Z+bDTmRr9boC0+ZAxdgtXQ5QXF2Wqh5S6L69Cxjsy/4e3iCIeCujKFlHZXX7zlcsv
-	hf39M/PAKDku0skl4WssWF8H+sQmcNWMW8lw6W48QJcso1nafQ6pbUIa/rs2ZBiNj6f9
-	DDLJLZHQnmUORE0Gl4oEr6gDhpzhqVDld/EArA+TsjlwYcZaNdCuOCdbXRi6mDxR2ypt
-	gyQQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=bgBMpTCMNLCK26Kqndnd3AJ1Ok3A71IDOIWMZ79Wr14=;
-	b=U3PK6cat0fOJHux5fsERPKvrsUkgGa/QZiRb035sWHKGySUOpL/beB5Dnw57as7z1b
-	qcOmyhy12kRhF9X7aIKlL0lJ9TLB1OIDLvK35TQkJYr9lHGp8PywEk/dFV2dwTguimiD
-	yxTjvxCmWHuUtEbBuvbz8qyFW94TvX3opqF4OcOs5gaiTmq8OJpHqLfpqacaT2Uu/rZE
-	NmbMAYQkA+fgtCMXfy6B526Ec42is6pj+NNS8lA69zLF3FiRaKCnWyqnQfxk1XcW3GXB
-	g5uDuZLS81wCumfZk/oyDgn/b8qvbzG5FQcwoejICFx9PcVuIH6FgBE4xZCIMEmEI0xb
-	W+dw==
-X-Gm-Message-State: APjAAAU+dAOOrsM2c5LDt6PCjBeG8BLjaMG7IwGyVi6xyOYT/jlIQ36v
-	Qq81ImbxgyDhJ1bqqrgXRsRxubT+6rkt82GrZ8w=
-X-Google-Smtp-Source: APXvYqyObUjl1R6Ji/528axfrk0oBmDFh5CiaaWg0GCIypON9omBr5jyqwuTKrLzB7N/lcmfP4D0bkZxJpD/7AaFPTk=
-X-Received: by 2002:adf:b641:: with SMTP id i1mr21149350wre.288.1557832843514; 
-	Tue, 14 May 2019 04:20:43 -0700 (PDT)
+	(envelope-from <gengdongjiu@huawei.com>) id 1hQVZ3-0004ha-Jh
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 07:25:47 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:56260 helo=huawei.com)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <gengdongjiu@huawei.com>)
+	id 1hQVYw-0004ZH-0e; Tue, 14 May 2019 07:25:39 -0400
+Received: from DGGEMS412-HUB.china.huawei.com (unknown [172.30.72.60])
+	by Forcepoint Email with ESMTP id 381A0BE33AB50F181077;
+	Tue, 14 May 2019 19:25:33 +0800 (CST)
+Received: from [127.0.0.1] (10.142.68.147) by DGGEMS412-HUB.china.huawei.com
+	(10.3.19.212) with Microsoft SMTP Server id 14.3.439.0; Tue, 14 May 2019
+	19:25:22 +0800
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <1557751388-27063-1-git-send-email-gengdongjiu@huawei.com>
+	<1557751388-27063-11-git-send-email-gengdongjiu@huawei.com>
+	<CAFEAcA81nMkHdCvQTcv2ixNB7sg+3Qx+9mpNgF0XLaBPY7-PNQ@mail.gmail.com>
+From: gengdongjiu <gengdongjiu@huawei.com>
+Message-ID: <d23719b7-65e4-1136-ffb4-f58de774d8cd@huawei.com>
+Date: Tue, 14 May 2019 19:25:20 +0800
+User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64; rv:52.0) Gecko/20100101
+	Thunderbird/52.3.0
 MIME-Version: 1.0
-References: <20190513184433.21038-1-marcandre.lureau@redhat.com>
-	<20190513184433.21038-2-marcandre.lureau@redhat.com>
-	<20190514053747.os6lwvzwhe2ojsuu@sirius.home.kraxel.org>
-In-Reply-To: <20190514053747.os6lwvzwhe2ojsuu@sirius.home.kraxel.org>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 14 May 2019 13:20:31 +0200
-Message-ID: <CAJ+F1CLO2Wn1kJYrR5DYcyOXnM1e0JToZ7CJruhWbYEbWbeRHg@mail.gmail.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::443
-Subject: Re: [Qemu-devel] [PATCH v7 1/8] vhost-user: add
- vhost_user_gpu_set_socket()
+In-Reply-To: <CAFEAcA81nMkHdCvQTcv2ixNB7sg+3Qx+9mpNgF0XLaBPY7-PNQ@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.142.68.147]
+X-CFilter-Loop: Reflected
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 45.249.212.35
+Subject: Re: [Qemu-devel] [PATCH v16 10/10] target-arm: kvm64: handle SIGBUS
+ signal from kernel or KVM
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -76,83 +57,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, QEMU <qemu-devel@nongnu.org>,
-	"Michael S. Tsirkin" <mst@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>, kvm-devel <kvm@vger.kernel.org>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Marcelo Tosatti <mtosatti@redhat.com>,
+	QEMU Developers <qemu-devel@nongnu.org>, Linuxarm <linuxarm@huawei.com>,
+	Shannon Zhao <shannon.zhaosl@gmail.com>, Zheng
+	Xiang <zhengxiang9@huawei.com>, qemu-arm <qemu-arm@nongnu.org>,
+	James Morse <james.morse@arm.com>,
+	Jonathan Cameron <jonathan.cameron@huawei.com>,
+	Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+	"xuwei \(O\)" <xuwei5@huawei.com>,
+	Laszlo Ersek <lersek@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
 
-On Tue, May 14, 2019 at 7:38 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
->
->   Hi,
->
-> > +VhostUserGpuCursorUpdate
-> > +^^^^^^^^^^^^^^^^^^^^^^^^
-> > +
-> > ++-----+-------+-------+--------+
-> > +| pos | hot_x | hot_y | cursor |
-> > ++-----+-------+-------+--------+
-> > +
-> > +:pos: a ``VhostUserGpuCursorPos``, the cursor location
-> > +
-> > +:hot_x/hot_y: ``u32``, the cursor hot location
-> > +
-> > +:cursor: ``[u32; 64 * 64]``, 64x64 RGBA cursor data
->
-> Should clarify here what exactly RGBA is. (PIXMAN_a8r8g8b8 I guess).
+> 
+>> +void kvm_arch_on_sigbus_vcpu(CPUState *c, int code, void *addr)
+>> +{
+>> +    ARMCPU *cpu = ARM_CPU(c);
+>> +    CPUARMState *env = &cpu->env;
+>> +    ram_addr_t ram_addr;
+>> +    hwaddr paddr;
+>> +
+>> +    assert(code == BUS_MCEERR_AR || code == BUS_MCEERR_AO);
+>> +
+>> +    if (addr) {
+>> +        ram_addr = qemu_ram_addr_from_host(addr);
+>> +        if (ram_addr != RAM_ADDR_INVALID &&
+>> +            kvm_physical_memory_addr_from_host(c->kvm_state, addr, &paddr)) {
+>> +            kvm_hwpoison_page_add(ram_addr);
+>> +            /* Asynchronous signal will be masked by main thread, so
+>> +             * only handle synchronous signal.
+>> +             */
+>> +            if (code == BUS_MCEERR_AR) {
+>> +                kvm_cpu_synchronize_state(c);
+>> +                if (GHES_CPER_FAIL != ghes_record_errors(ACPI_HEST_NOTIFY_SEA, paddr)) {
+>> +                    kvm_inject_arm_sea(c);
+>> +                } else {
+>> +                    fprintf(stderr, "failed to record the error\n");
+>> +                }
+>> +            }
+>> +            return;
+>> +        }
+>> +        fprintf(stderr, "Hardware memory error for memory used by "
+>> +                "QEMU itself instead of guest system!\n");
+>> +    }
+>> +
+>> +    if (code == BUS_MCEERR_AR) {
+>> +        fprintf(stderr, "Hardware memory error!\n");
+>> +        exit(1);
+>> +    }
+>> +}
+> 
+> This code appears to still be unconditionally trying to
+> notify the guest of the error via the ACPI tables without
+> checking whether those ACPI tables even exist. I told you
+> about this in a previous round of review :-(
 
-ok
+Thanks very much for the comments, and sorry for my forgetting
+I added the ACPI checking in the new V17 version.
 
->
-> > +VhostUserGpuUpdate
-> > +^^^^^^^^^^^^^^^^^^
-> > +
-> > ++------------+---+---+---+---+------+
-> > +| scanout-id | x | y | w | h | data |
-> > ++------------+---+---+---+---+------+
-> > +
-> > +:scanout-id: ``u32``, the scanout content to update
-> > +
-> > +:x/y/w/h: ``u32``, region of the update
-> > +
-> > +:data: RGBA data (the size is computed based on the region size, and
-> > +       the request type)
->
-> Likewise.  Also: alpha channel for the framebuffer?
+> 
+> thanks
+> -- PMM
+> .
+> 
 
-It is actually PIXMAN_x8r8g8b8, fixed
-
->
-> > +C structure
-> > +-----------
-> > +
-> > +In QEMU the vhost-user-gpu message is implemented with the following s=
-truct:
-> > +
-> > +.. code:: c
-> > +
-> > +  typedef struct VhostUserGpuMsg {
-> > +      uint32_t request; /* VhostUserGpuRequest */
-> > +      uint32_t flags;
-> > +      uint32_t size; /* the following payload size */
->
-> uint32_t padding;
->
-> > +      union {
-> > +          VhostUserGpuCursorPos cursor_pos;
-> > +          VhostUserGpuCursorUpdate cursor_update;
-> > +          VhostUserGpuScanout scanout;
-> > +          VhostUserGpuUpdate update;
-> > +          VhostUserGpuDMABUFScanout dmabuf_scanout;
-> > +          struct virtio_gpu_resp_display_info display_info;
-> > +          uint64_t u64;
->
-> ... so this 64bit value will be aligned.
-
-vhost-user didn't bother. Should we?
-
-
---=20
-Marc-Andr=C3=A9 Lureau
 
