@@ -2,55 +2,45 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 611A31C7E6
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 13:40:16 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46127 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 268E61C7DB
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 13:35:22 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46061 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQVn5-00029z-K8
-	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 07:40:15 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50884)
+	id 1hQViL-0007PB-AG
+	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 07:35:21 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51840)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <berto@igalia.com>) id 1hQVdy-0004vW-RK
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 07:30:51 -0400
+	(envelope-from <dovgaluk@ispras.ru>) id 1hQVgd-0006o8-18
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 07:33:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <berto@igalia.com>) id 1hQVdx-0000WA-1N
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 07:30:50 -0400
-Received: from fanzine.igalia.com ([91.117.99.155]:46376)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <berto@igalia.com>)
-	id 1hQVdw-0000UJ-Gs; Tue, 14 May 2019 07:30:48 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; 
-	h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
-	bh=zeRhDyuOgbos4V2gRSVpS+hp9CKkviEcnuxA8WAfoMs=; 
-	b=cIn0I/wfwJLmZIeU2BcZQR67mKrGUOqqPG20dXrWPHTZ4Wzx0gv266XOKE5Q83vlwS4QvSr1Q9i0CHN4wBgfN6x7sVlyR/BIPX8e6eu2aOwzNitYwthKRYopSeHyom2L83Rf7WJpAPysk1ioo+1PlzGKTocQj64+zYCXq93DITFrAhjCjWJl8ERNC50/bP/5BJiqRAOLvMCecjLnxMcoZybIKmWQz1r3df/KM9IzoO7hXHMZQTGYvBCqCV5wRgTT3lGoBRbpeD/vpoLeaBGIN5FBDRTg9HP7XQtPlU2IjboeV9nzqRWII9+QYb5eJWIljowhY4x49/F57kKEb3SOog==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
-	by fanzine.igalia.com with esmtps 
-	(Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
-	id 1hQVdr-0007BV-VC; Tue, 14 May 2019 13:30:43 +0200
-Received: from berto by mail.igalia.com with local (Exim)
-	id 1hQVdr-0001KI-Sh; Tue, 14 May 2019 13:30:43 +0200
-From: Alberto Garcia <berto@igalia.com>
-To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
-In-Reply-To: <5f16da0c-d689-b06c-883b-3911a2c9ff9d@redhat.com>
-References: <cover.1551895813.git.berto@igalia.com>
-	<e25b416f8646a476017f21a8484a05931b0e3f5a.1551895814.git.berto@igalia.com>
-	<1df28c23-7efe-310d-2955-432b9a4bb1ad@redhat.com>
-	<w515zrkveul.fsf@maestria.local.igalia.com>
-	<5f16da0c-d689-b06c-883b-3911a2c9ff9d@redhat.com>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
-	(i586-pc-linux-gnu)
-Date: Tue, 14 May 2019 13:30:43 +0200
-Message-ID: <w51k1etqnmk.fsf@maestria.local.igalia.com>
+	(envelope-from <dovgaluk@ispras.ru>) id 1hQVgc-0002G3-1r
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 07:33:35 -0400
+Received: from mail.ispras.ru ([83.149.199.45]:47480)
+	by eggs.gnu.org with esmtp (Exim 4.71)
+	(envelope-from <dovgaluk@ispras.ru>) id 1hQVgb-0002ET-R0
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 07:33:34 -0400
+Received: from PASHAISP (unknown [85.142.117.226])
+	by mail.ispras.ru (Postfix) with ESMTPSA id 7BE2B540089;
+	Tue, 14 May 2019 14:33:30 +0300 (MSK)
+From: "Pavel Dovgalyuk" <dovgaluk@ispras.ru>
+To: "'Markus Armbruster'" <armbru@redhat.com>
+References: <155593197705.21079.8238359471765771689.stgit@pasha-Precision-3630-Tower>	<004401d503db$9e66b530$db341f90$@ru>
+	<874l669lnw.fsf@dusky.pond.sub.org>
+In-Reply-To: <874l669lnw.fsf@dusky.pond.sub.org>
+Date: Tue, 14 May 2019 14:33:31 +0300
+Message-ID: <000f01d50a48$dc15d8c0$94418a40$@ru>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
-	timestamps) [generic] [fuzzy]
-X-Received-From: 91.117.99.155
-Subject: Re: [Qemu-devel] [PATCH v2 13/13] qemu-iotests: Test the
- x-blockdev-reopen QMP command
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+X-Mailer: Microsoft Office Outlook 12.0
+Thread-Index: AdUFAMPGVd4vdh7iRGmcsZHWzLMgVQFR5bTA
+Content-Language: ru
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 83.149.199.45
+Subject: Re: [Qemu-devel] [PATCH for-4.1 00/24] Fix record/replay and add
+ reverse debugging
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,46 +52,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
+Cc: kwolf@redhat.com, peter.maydell@linaro.org, war2jordan@live.com,
+	boost.lists@gmail.com, artem.k.pisarenko@gmail.com,
+	crosthwaite.peter@gmail.com, ciro.santilli@gmail.com,
+	jasowang@redhat.com, quintela@redhat.com, qemu-devel@nongnu.org,
+	mreitz@redhat.com, 'Pavel Dovgalyuk' <pavel.dovgaluk@gmail.com>,
+	maria.klimushenkova@ispras.ru, mst@redhat.com, kraxel@redhat.com,
+	pavel.dovgaluk@ispras.ru, thomas.dullien@googlemail.com,
+	pbonzini@redhat.com, alex.bennee@linaro.org, dgilbert@redhat.com,
+	rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat 13 Apr 2019 02:53:42 AM CEST, Max Reitz wrote:
->> Calling x-blockdev-reopen without 'backing' should only fail if
->>=20
->>  a) the image has a backing file attached to it.
->>     In this case it doesn't: we just detached it in the previous line.
->>=20
->>  b) there's a default backing file written on the image header.
->>     In this case there isn't (hd0 is created without one in setUp()).
->
-> That=E2=80=99s what I thought, too, hence me applying effectively the same
-> change to the test in v4 of my series as you in your "Fix check for
-> default backing files" series:
->
-> http://lists.nongnu.org/archive/html/qemu-block/2019-04/msg00308.html
->
->> So it should not fail. I think the bug is that the test for condition
->> (b) in bdrv_reopen_prepare() that returns "backing is missing..." is
->> using backing_file but it should use (correct me if I'm wrong)
->> auto_backing_file.
->
-> Well, I think both should be fine, because...
+> From: Markus Armbruster [mailto:armbru@redhat.com]
+> "Pavel Dovgalyuk" <dovgaluk@ispras.ru> writes:
+> 
+> > Ping.
+> > Can anyone PULL these patches?
+> 
+> Paolo?
 
-Why would both be fine? backing_file refers to the backing file
-currently attached, and auto_backing_file refers to the one written on
-the image metadata, or am I wrong?
+Is there anything new?
 
->> Not directly related to this, but should bdrv_backing_detach() also
->> clear backing_file ?
->
-> ...I don=E2=80=99t think it should.  That=E2=80=99s what that my patch ad=
-dresses. The
-> real problem is that bs->backing_file is not a cache for
-> bs->backing->bs->filename, so it shouldn=E2=80=99t be treated as such.
+Pavel Dovgalyuk
 
-But what's the point of having backing_file set if no backing file is
-attached?
-
-Berto
 
