@@ -2,71 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C8B71C160
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 06:29:28 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38905 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2ED421C0B7
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 04:47:58 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38085 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQP4B-0001gc-AI
-	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 00:29:27 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54347)
+	id 1hQNTw-0007aT-St
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 22:47:56 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55870)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hQP3B-0001Ma-NI
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 00:28:28 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hQNSq-0007A8-If
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 22:46:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hQP3A-0008Fk-V9
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 00:28:25 -0400
-Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:34829)
+	(envelope-from <richard.henderson@linaro.org>) id 1hQNSo-0003KU-K2
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 22:46:48 -0400
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:40071)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hQLzX-0005Ot-Ti
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 21:12:30 -0400
-Received: by mail-pl1-x62e.google.com with SMTP id g5so7345579plt.2
-	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 18:11:34 -0700 (PDT)
+	id 1hQLzV-0005RB-Ua
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 21:12:26 -0400
+Received: by mail-pl1-x643.google.com with SMTP id b3so7336778plr.7
+	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 18:11:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=808gD/RWuW8ph7gRO3e1PjmafMp7jgBxuh7bwpr9apE=;
-	b=AaT6VvYmgnWz0SfRQbsGmI4jk8u8tC6Cb6tCHx/gCktlANa9Y1oiccsSs6BI4GwT0v
-	5JGzc2p27I7EStV1L4v9MT3rg75ur3+55DPTG0+oBJbpSI41CRt8v8l6RwgpJLwpf2ux
-	0Yaxyi2PU3L4w2d6zAnITwlAWASK4eFCPqSyf2ZAyJyTCmG9SJm/zQvYaWDl/upzcmf8
-	EusA9UEyQM9Pbdcr5J+pYNooz1W80NPNZhKENrAfUAMlHv4dSxuEG5DhPea1U1T8Svm+
-	0ACiQSU8/E2pRGlT9MhsVqzNlC7Hc3ADdhgFcQfzjsmsh+mXc7FpbI63E/8AziGhUJI5
-	HFPQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=UNTNcU8NTc7XelmI6QIbWOMz3/5RDKMpurk3x3KqTCI=;
+	b=wKxpzDN5p9sW1US72yyS6VBUq0hOrHMBsdWkSAl75jp4y9t6QJy1TkdOJhPNC3VxVu
+	SZXL+fNFxpJCoK+3PEBvJDRhsX+vhPHNUGaMg9Bu/205GdQc99u/AOOQN7kcYSfrKZ7Y
+	Q6oNuLFhmLnPcXFjxH/UtFhMLFpQRutVbdob0J/fQ3GfYLVfGoUqPHuyccaUpkJTTewr
+	mQv6AdIOM10nnXMDBYID5xL/rmu4gOX1JppvzRycx1ik9pu3SIEt/Zvc0GK+GVLPO4du
+	U/iZw+18Sn3quedC2fGT6BWKtB9PRZou/AW9uM6NP0Ks7oNROeuMxcOoQuExnaicW+Ev
+	FgfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=808gD/RWuW8ph7gRO3e1PjmafMp7jgBxuh7bwpr9apE=;
-	b=VRUIYFhxMY6RA3iwUOup23lh7IrLBogfqW0qR/0PsygBVgRPVsg80d2gclaYMXg9aM
-	XT3EjolrufqFSX3dPDzDNI/4LRiKwFoxzQLMKoKsNzb/Nkd8cYKmMs8LKW+VOoTwq21i
-	mVAlXp/xX96dCNNM6zqUIUbrHQ8+tO247l+UFDVB5OPB0YoeWbRMu5xfVpxJkQEIELtf
-	TRcmq0PSO4r+xx2ue/JoNcufmuI/ojwenpeV73VBvySiMPVOaIhb2PpjdqdKDlFdUYLG
-	SDPMK98XCBCeeFKcrQMK/qfIMl0bu7BASNqR1Y5RJwXo+BMvCPHDmxIsG7ckv+kLzB03
-	eLlQ==
-X-Gm-Message-State: APjAAAVovymfUSDURcSuur+OUTEni6yvGnxzYxbZKsby/If+VA3Ql+mc
-	XrYeg8ApJuyp41PSCg6p+4TwJi6YjRo=
-X-Google-Smtp-Source: APXvYqzB+MKSuURnWLfyG3RFOAwqwjrJGsjRlJuIaNpjYHFjtzxFLiCRS9x7nMMbTBJMtb/GsfHXXQ==
-X-Received: by 2002:a17:902:294a:: with SMTP id
-	g68mr8962233plb.169.1557796291917; 
-	Mon, 13 May 2019 18:11:31 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=UNTNcU8NTc7XelmI6QIbWOMz3/5RDKMpurk3x3KqTCI=;
+	b=OtLJpfb/8w+/gvhKU4wXry1AssqSXwRoLF7OpnJcK6BcyMEcSd8TSMOn/Fd2fMcXz7
+	w7fLg3Ii5qdGfrp81tD+whgIWHsvpj0AtLYPAAFnG99V1iPLCPoNLyz+JHACTMNWzl4h
+	wXopc8k4Zs3mJvp82V3FFxLNfeD5fN1/TgyG2Jq0m6r1tYEHIrAsmfj9goqqRnOf37x4
+	EDrD1VUiFpFgC8NG+poIa+wy88ge4uI3oVfqvXoBqraPlONtpv66fk8i8qiPXg4HFPZz
+	7CHmL/ldI8/Q//9nQmme81DZl1+P/S0/cjPMWppyKqW4mFjJAlZYYihYpHmLW85KUVOh
+	VXlQ==
+X-Gm-Message-State: APjAAAUzELRmUx6fL+NLUVIDrlzge9A4I6f+3WxeSKzrgKjsnCNCnJLy
+	8IYY2YZdNX2egySzrjkFEzIFtjBscTI=
+X-Google-Smtp-Source: APXvYqx+Mdr/wkp8ot7Hb7rPuxslVTZLzrcL/pBqgS8A48OgLz0cg1j1T2nJjekKJRAF3vYER6bDhg==
+X-Received: by 2002:a17:902:54f:: with SMTP id
+	73mr35148246plf.140.1557796293841; 
+	Mon, 13 May 2019 18:11:33 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	b67sm20029147pfb.150.2019.05.13.18.11.30
+	b67sm20029147pfb.150.2019.05.13.18.11.31
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 13 May 2019 18:11:30 -0700 (PDT)
+	Mon, 13 May 2019 18:11:32 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 13 May 2019 18:11:27 -0700
-Message-Id: <20190514011129.11330-1-richard.henderson@linaro.org>
+Date: Mon, 13 May 2019 18:11:28 -0700
+Message-Id: <20190514011129.11330-2-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20190514011129.11330-1-richard.henderson@linaro.org>
+References: <20190514011129.11330-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::62e
-Subject: [Qemu-devel] [PATCH 0/2] target/arm: Minor bit field improvements
+X-Received-From: 2607:f8b0:4864:20::643
+Subject: [Qemu-devel] [PATCH 1/2] target/arm: Use extract2 for EXTR
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,19 +80,64 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The tcg extract2 patch on which this depended is now in master.
+This is, after all, how we implement extract2 in tcg/aarch64.
 
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+---
+ target/arm/translate-a64.c | 38 ++++++++++++++++++++------------------
+ 1 file changed, 20 insertions(+), 18 deletions(-)
 
-r~
-
-
-Richard Henderson (2):
-  target/arm: Use extract2 for EXTR
-  target/arm: Simplify BFXIL expansion
-
- target/arm/translate-a64.c | 44 ++++++++++++++++++++------------------
- 1 file changed, 23 insertions(+), 21 deletions(-)
-
+diff --git a/target/arm/translate-a64.c b/target/arm/translate-a64.c
+index 9dcc5ff3a3..c4bee74ce5 100644
+--- a/target/arm/translate-a64.c
++++ b/target/arm/translate-a64.c
+@@ -4114,25 +4114,27 @@ static void disas_extract(DisasContext *s, uint32_t insn)
+             } else {
+                 tcg_gen_ext32u_i64(tcg_rd, cpu_reg(s, rm));
+             }
+-        } else if (rm == rn) { /* ROR */
+-            tcg_rm = cpu_reg(s, rm);
+-            if (sf) {
+-                tcg_gen_rotri_i64(tcg_rd, tcg_rm, imm);
+-            } else {
+-                TCGv_i32 tmp = tcg_temp_new_i32();
+-                tcg_gen_extrl_i64_i32(tmp, tcg_rm);
+-                tcg_gen_rotri_i32(tmp, tmp, imm);
+-                tcg_gen_extu_i32_i64(tcg_rd, tmp);
+-                tcg_temp_free_i32(tmp);
+-            }
+         } else {
+-            tcg_rm = read_cpu_reg(s, rm, sf);
+-            tcg_rn = read_cpu_reg(s, rn, sf);
+-            tcg_gen_shri_i64(tcg_rm, tcg_rm, imm);
+-            tcg_gen_shli_i64(tcg_rn, tcg_rn, bitsize - imm);
+-            tcg_gen_or_i64(tcg_rd, tcg_rm, tcg_rn);
+-            if (!sf) {
+-                tcg_gen_ext32u_i64(tcg_rd, tcg_rd);
++            tcg_rm = cpu_reg(s, rm);
++            tcg_rn = cpu_reg(s, rn);
++
++            if (sf) {
++                /* Specialization to ROR happens in EXTRACT2.  */
++                tcg_gen_extract2_i64(tcg_rd, tcg_rm, tcg_rn, imm);
++            } else {
++                TCGv_i32 t0 = tcg_temp_new_i32();
++
++                tcg_gen_extrl_i64_i32(t0, tcg_rm);
++                if (rm == rn) {
++                    tcg_gen_rotri_i32(t0, t0, imm);
++                } else {
++                    TCGv_i32 t1 = tcg_temp_new_i32();
++                    tcg_gen_extrl_i64_i32(t1, tcg_rn);
++                    tcg_gen_extract2_i32(t0, t0, t1, imm);
++                    tcg_temp_free_i32(t1);
++                }
++                tcg_gen_extu_i32_i64(tcg_rd, t0);
++                tcg_temp_free_i32(t0);
+             }
+         }
+     }
 -- 
 2.17.1
 
