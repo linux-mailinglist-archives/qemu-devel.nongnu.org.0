@@ -2,66 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9EF2D1C6AC
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 12:10:47 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:44698 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 068951C6F5
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 12:22:53 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:44944 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQUOU-0004fM-OU
-	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 06:10:46 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52327)
+	id 1hQUaB-0001W0-Kz
+	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 06:22:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57759)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hQUMm-00041r-1U
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 06:09:01 -0400
+	(envelope-from <marcandre.lureau@gmail.com>) id 1hQUZ6-0001AX-J5
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 06:21:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hQUMk-0003tV-3D
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 06:08:59 -0400
-Received: from mail-oi1-x244.google.com ([2607:f8b0:4864:20::244]:43751)
+	(envelope-from <marcandre.lureau@gmail.com>) id 1hQUZ5-00045Q-MA
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 06:21:44 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:51255)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hQUMi-0003iK-Bi
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 06:08:56 -0400
-Received: by mail-oi1-x244.google.com with SMTP id t187so8344773oie.10
-	for <qemu-devel@nongnu.org>; Tue, 14 May 2019 03:08:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	(Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
+	id 1hQUZ5-0003zt-Ez
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 06:21:43 -0400
+Received: by mail-wm1-x342.google.com with SMTP id o189so2261836wmb.1
+	for <qemu-devel@nongnu.org>; Tue, 14 May 2019 03:21:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=ieeBAjC7rpZuKx1Vo4jU6/Nl1XP+QTqXW/y6IG+o4pc=;
-	b=B0xJnxhq1R5cxGp1jHWjFsh1nZBukb3pqwtpRvb+wRBqp4tuPL20yENIH5UIdGgSKe
-	TjLmt74fl8aLmfHvZKJL53FiE18akQ0c8YOUwfnLGtVvtGoLb/Tj3RIOVBq0EsgGEEHO
-	cH41m3Oy/SVZRjCJaNYh8RUinmTOawdxY7c+aOts1eH4kdTJEhc4Il0QlYP2/g+RkZEc
-	bXNITqGgI+EZwtf9oku1ZvpfWyQl8QN4Z9OBRLQCmSMSUP7C5qM0POaqPL5dzhFde/ns
-	Ut/Tox2xFhVDi3L05luAQNCFkbO1ci7RL9mdwkRUNdIuCcnCXRR4kySYMWuEoXJI1tgQ
-	ZL4A==
+	:cc:content-transfer-encoding;
+	bh=q1bwrXGqrHFXXuWx7Jfvjk+A+/ggJ7v6BeBYYO9QDps=;
+	b=HZLBWtjsfsVt4TgAMxo9pbeixbdXZScP9jRw6vjObs1j2qKHUbzrwUFday4pKHuB3/
+	WB6qmHfpaSvOeSmRWQt8yxqX75ivIf5MUR0bEqOqjtz3wkyvfnpgVIZu1Y+IZwcmaqUD
+	zZjRCkamwD8jYQ246gSVLSWdpfteSASCPjwnhrzq/3JQQdblrW3rYB3KLCBNyswIrrX4
+	dDepnQGTPGDOdK6pYsXrXZQb3fIZrIYgQ9IyLS57BPlRgkati99tKYuZmf1EysPLsvX0
+	TcpNe1CkAk3t7ZdBCKIEBQ1F8pXobvYCzQKqk3mloniZxPTFb08LBh2psurrcxghYZFB
+	8FwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=ieeBAjC7rpZuKx1Vo4jU6/Nl1XP+QTqXW/y6IG+o4pc=;
-	b=WZZu3LeSMYzBud58DVJpn8acstbx0OVzybVz4/18YIJVYdhVF4TesvycJjoYZ4ci6b
-	KmwljlxfKMoN+t0xx1XUFY6SCy/mEBSFyf6GKlgq1rlpqC8SRBYgqH/cJFlQFToCkKl1
-	D/8fCz7O7RE0trLCs+GkcRknJOpBFRp9OldH00YjRmHUqNpu3xsOhcwtyAzoVeZiQvJx
-	t+zRKnX7BNao+0sVGqsxlIJI2lkmOS/QfjARlGriOKnr/SkhlD+I+r7mRUenPItPIYw4
-	vhZ4uxYbOeKv8p52OJJB5UOcDBrbMvbJlIiaG5PXijNwn6c8v8r5ZDCbjC6rn4M7NY4M
-	lHPg==
-X-Gm-Message-State: APjAAAU6SDbMfNBFdttX5Vt6qxrepllKNU4c1Briwxzvn2FnbfvdYpGh
-	EuRZz9vVcH8qeEbuuiFBEGvP6yLC1B074RLAjC6ChQ==
-X-Google-Smtp-Source: APXvYqxg9Hv8LjlRUigO2PmtU444YGhXU31fLs8EVrvXrA2sm+FsxqyLFLl6dpOX6QkpeFRiSArNt2ljAS/WsiOPy6o=
-X-Received: by 2002:aca:5785:: with SMTP id l127mr2203222oib.48.1557828532815; 
-	Tue, 14 May 2019 03:08:52 -0700 (PDT)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=q1bwrXGqrHFXXuWx7Jfvjk+A+/ggJ7v6BeBYYO9QDps=;
+	b=Vx2pzgb0FAO5eGpMGAHw19sPAlOeor6/g7XjaEgWg8I+KxCKLKkDuXB+QrNkzcYSF9
+	E8AOxMBqAHB1rBmxxRYC7Cwjqbh34MFuCJ2mZNm6iqngBMhmDblZ4vBfKHUxwYimF3Kb
+	dg3RGUvewjMznvHMfiOLfmBcV/v0TKJ/3XZE7A7ej+5o5MiLP/e9t6Nf3kX96nULH1Ld
+	j905hZH5MLaTWFZJrUPxO77JOruB1gVwb6MPsHnBGl34WmDXlUBfaB83ZvU9gKkzhOHJ
+	fcquHVZQQIHe+v4L8HrNapVvCd4opEnW39UqeEWIGz5c38yhqNlfZdYkBxYooeRHKL5A
+	vWyQ==
+X-Gm-Message-State: APjAAAX+nHhqlWVXJowX48aNHZl+BcXGBg/LAa5iV9gxOb28zfOdRqBq
+	lmaPBJ05hXM8jZs1Ig2BMmP3/JOpEf97Erc1pkI=
+X-Google-Smtp-Source: APXvYqyH/7dWWyj4SyTpmJb4ymwY4yh3VuVzTwqF14Q/Wka4Jn5vY6Wtiz49nqTWgzjXWQehbQhfRbX5nJbyvhVeaVc=
+X-Received: by 2002:a1c:5f02:: with SMTP id t2mr18440541wmb.19.1557829301795; 
+	Tue, 14 May 2019 03:21:41 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190514100019.13263-1-thuth@redhat.com>
-	<20190514100019.13263-5-thuth@redhat.com>
-In-Reply-To: <20190514100019.13263-5-thuth@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 14 May 2019 11:08:41 +0100
-Message-ID: <CAFEAcA_WVjE5hZh0EibxiqV+NtqY0VsMPs-tqC3Y=GRCbvhEpg@mail.gmail.com>
-To: Thomas Huth <thuth@redhat.com>
+References: <20190513183325.8596-1-marcandre.lureau@redhat.com>
+	<20190513183325.8596-4-marcandre.lureau@redhat.com>
+	<20190514065109.eitymbi7d5gdjqpr@sirius.home.kraxel.org>
+In-Reply-To: <20190514065109.eitymbi7d5gdjqpr@sirius.home.kraxel.org>
+From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
+Date: Tue, 14 May 2019 12:21:30 +0200
+Message-ID: <CAJ+F1CJkofOcoBh53BVUTtRh0woAaa0yd-LqUSqLOhzRVQ1Jbg@mail.gmail.com>
+To: Gerd Hoffmann <kraxel@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::244
-Subject: Re: [Qemu-devel] [Qemu-arm] [PATCH 4/4] hw/misc: Add a config
- switch for the "unimplemented" device
+X-Received-From: 2a00:1450:4864:20::342
+Subject: Re: [Qemu-devel] [PATCH v3 3/3] contrib: add vhost-user-input
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -73,31 +75,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Paolo Bonzini <pbonzini@redhat.com>,
-	qemu-arm <qemu-arm@nongnu.org>,
-	=?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
-	QEMU Developers <qemu-devel@nongnu.org>
+Cc: QEMU <qemu-devel@nongnu.org>, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 14 May 2019 at 11:02, Thomas Huth <thuth@redhat.com> wrote:
->
-> The device is only used by certain Arm boards. Now that we have
-> fine-grained Kconfig for these machines, too, we can enable the
-> "unimplemented" devices only for the machines that really need it.
->
-> Signed-off-by: Thomas Huth <thuth@redhat.com>
-> ---
->  hw/arm/Kconfig        | 9 +++++++++
->  hw/microblaze/Kconfig | 1 +
->  hw/misc/Kconfig       | 3 +++
->  hw/misc/Makefile.objs | 2 +-
->  hw/sparc64/Kconfig    | 1 +
->  5 files changed, 15 insertions(+), 1 deletion(-)
+Hi
 
-Commit message says "only Arm" but code change changes
-sparc and microblaze Kconfigs too :-)
+On Tue, May 14, 2019 at 8:51 AM Gerd Hoffmann <kraxel@redhat.com> wrote:
+>
+> On Mon, May 13, 2019 at 08:33:25PM +0200, Marc-Andr=C3=A9 Lureau wrote:
+> > Add a vhost-user input backend example, based on virtio-input-host
+> > device. It takes an evdev path as argument, and can be associated with
+> > a vhost-user-input device via a UNIX socket:
+> >
+> > $ vhost-user-input -p /dev/input/eventX -s /tmp/vui.sock
+> >
+> > $ qemu ... -chardev socket,id=3Dvuic,path=3D/tmp/vui.sock
+> >   -device vhost-user-input-pci,chardev=3Dvuic
+> >
+> > This example is intentionally not included in $TOOLS, and not
+> > installed by default.
+>
+> Patch doesn't apply cleanly to git master.  Also git complains that it
+> can't find the sha1 and therefore can't try a 3way merge.  Does this
+> depend on unmerged local patches?
+>
+> (same goes for the vhost-user-gpu patch in the other series btw).
 
-thanks
--- PMM
+Nothing special, patchew managed to apply the series.
+
+But patch 2/3 here is bad, I'll resend.
+
+
+--=20
+Marc-Andr=C3=A9 Lureau
 
