@@ -2,66 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6C7BB1CC78
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 18:06:13 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50469 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6B521CC5E
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 18:01:59 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50332 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQZwS-00071F-CP
-	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 12:06:12 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60487)
+	id 1hQZsM-0003YX-Kl
+	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 12:01:58 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60500)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hQZjr-0004p4-Qz
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 11:53:12 -0400
+	(envelope-from <alex.bennee@linaro.org>) id 1hQZjs-0004pZ-7K
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 11:53:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hQZjq-0006Ll-IY
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 11:53:11 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:51782)
+	(envelope-from <alex.bennee@linaro.org>) id 1hQZjr-0006Mf-49
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 11:53:12 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:41256)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hQZjq-0006Iq-BT
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 11:53:10 -0400
-Received: by mail-wm1-x342.google.com with SMTP id o189so3432238wmb.1
+	id 1hQZjq-0006Ke-TG
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 11:53:11 -0400
+Received: by mail-wr1-x444.google.com with SMTP id d12so19775965wrm.8
 	for <qemu-devel@nongnu.org>; Tue, 14 May 2019 08:53:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=U06wLwXAasasiurhZZxcEyeJ76fELq2p37jmN4PgTWk=;
-	b=VDpoQjdjJpqv+U5DNs7MC4BPRsNXGv0ozijKDokDNKL0x3caANIo9R84k8QzHa0QCh
-	6BmLy8z17jQKiHV5Hj7HYPHQAfqkrmgqiIqSIRUdg1+8B5QfmU1fq7b6OFyg5BvjnKHT
-	VwJscLuuHnH5ZNUiGQ+v253h+gJFc7ukG0zmFxLSOQjYgIZyDzCJNPolJ+L60B/Vew4S
-	UFmhECwyWsh/AcafCy6xEJ96z1df/tLcKc5G70iees5sNm2TnjWd/owiN1twiwQR3Aqv
-	EZQ9ihWHt573Qqc/6IG/J0udH7GQERlCqO+6CLCP/SNQlC4V38LPnRIVD7j9hB+nmHHb
-	7VLw==
+	bh=/LCsl9Du5Zb3JNBgOo6lbNCwiqPK/NFNHlF5WOB9yB0=;
+	b=YDPRcD4TwCfdkuQSRZLeMT9Sr9bRTKQZSSJ2O7XBGrHXcItE5Dx5rpRmM/+KPbg8DT
+	bLXx7ZJqb2CbMTPlriruH/MCzUIP9A5HntnKc/oxpREb4rwtTsuAPnBojlK5kh0Lro5a
+	8OYnZffrNOBSh/fr4sACpQNW5jVEuV0UDQe0bBcj9UUBiT93I0J6UDB7nt+dVW1sl77T
+	WFhxQ5/77K3kb2IwLtj/vh20/cwP36kQ3qa2FlhCY3cxepF7s3dPd78rp5Jr5unM/E8A
+	0tz4npDuHpVSpBkz/UT8eRL2QGbIbUrTrcDtfpqpAvUNsu3zvCNW3cn4i6X5vQCDmbtx
+	/gjA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=U06wLwXAasasiurhZZxcEyeJ76fELq2p37jmN4PgTWk=;
-	b=VQnD88UKEM9aR9vEiN8dVBRSf7JIBuJZ/2wJuKSNFi46VQVJYXX4g2C+zcVZR8UVBk
-	GadYAq9dlkmElyR0iEhLpylr9hMD3A3PWE+zkAY5OGwaJtwfo2kZffOHL/wykqzrj1ek
-	bfNMP5mh2duC8Xq/64dMujanmA0MUy9VQkJAlXuA+TdmGoLHu5868xTEqCsTvkdczXCY
-	4QIgpkuYOFkVazegSbM3ysBswCnhko6DxrrT9WbB5oYwHjPO29LDhQ/H2Ua6P6UoIzL4
-	RZ1xVTdCx33/qCa347iQTu4nzU4SAfr3ADENSpZerQ4V8254XSwL/pOD8OB1ullXiH+t
-	qzxQ==
-X-Gm-Message-State: APjAAAVXqga9qe5Wf7OrGHSldc7fRd7D/PHJg466VdH5vFh3gl2aUDbi
-	Mtrbl7YcFvBHJxTgsTQfnOITsg==
-X-Google-Smtp-Source: APXvYqzqxYSpNpfTBNkNShbjXnCSPYuJLHDDlfjNy1q7VkVFZpd9/L+MLb5paAyh5Atas8WPqwKVWQ==
-X-Received: by 2002:a1c:2c89:: with SMTP id
-	s131mr19508380wms.142.1557849189250; 
+	bh=/LCsl9Du5Zb3JNBgOo6lbNCwiqPK/NFNHlF5WOB9yB0=;
+	b=B5ZGN+9nubC4xZagEku+G1k9AvX5m1VM0kapepC68UEH9vdv44wV7FNkQARpWNvbQ7
+	6/ohILstA1BUxgITcHne5RrK2HGUHQ6eXhbZETJ3zl98j6xwQd6sLJiQLn0ibSaGo1/y
+	ehGgcp7LJIMYkq4uAAO8g+UvoyO2tKwRor3DcHU4jqZD08FmjkOKvWgpQ+ePDxQ6htzv
+	ZHawmyt67ifpMi6ha50R1O1AO7KihOKP0YiIbv+k5P0B/xwAaP/k7Ko6Kprtqe1bQlDp
+	6DRA0V13uDbpLOf5VlgljMOt69JyesQHQBtQ6LUId9yRIymhmQW+2UzqsdYkh6nb8N3J
+	POmg==
+X-Gm-Message-State: APjAAAVTM0nPboQNsXKWXNgaX7v14bOjVC2enY2OTRT4xtiQFXKl8nW/
+	3z0h46halO1NiWNleEPyzZMK7zJMS6c=
+X-Google-Smtp-Source: APXvYqzAykb8ticQn2EAU5voWaABgy754IDQf+PQ6AXO9cf1a6fgqRaGsut4zUBn7fn+hl2Ya8h/5w==
+X-Received: by 2002:a5d:4988:: with SMTP id r8mr11283170wrq.57.1557849189770; 
 	Tue, 14 May 2019 08:53:09 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
 	by smtp.gmail.com with ESMTPSA id
-	y40sm19431367wrd.96.2019.05.14.08.53.04
+	c9sm12598826wrv.62.2019.05.14.08.53.04
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
 	Tue, 14 May 2019 08:53:05 -0700 (PDT)
 Received: from zen.linaroharston. (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id CF5701FF99;
+	by zen.linaroharston (Postfix) with ESMTP id E24A31FF87;
 	Tue, 14 May 2019 16:53:02 +0100 (BST)
 From: =?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue, 14 May 2019 16:52:59 +0100
-Message-Id: <20190514155301.16123-10-alex.bennee@linaro.org>
+Date: Tue, 14 May 2019 16:53:00 +0100
+Message-Id: <20190514155301.16123-11-alex.bennee@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190514155301.16123-1-alex.bennee@linaro.org>
 References: <20190514155301.16123-1-alex.bennee@linaro.org>
@@ -70,9 +69,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::342
-Subject: [Qemu-devel] [RFC PATCH 09/11] target/mips: only build mips-semi
- for softmmu
+X-Received-From: 2a00:1450:4864:20::444
+Subject: [Qemu-devel] [RFC PATCH 10/11] target/mips: convert UHI_plog to use
+ common semihosting code
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -91,61 +90,47 @@ Cc: Aleksandar Rikalo <arikalo@wavecomp.com>, qemu-arm@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The is_uhi gates all semihosting calls and always returns false for
-CONFIG_USER_ONLY builds. There is no reason to build and link
-mips-semi for these builds so lets fix that.
+Rather than printing directly to stdout lets use our common
+semihosting code. There is one minor difference in that the output
+currently defaults to stderr instead of stdout however this can be
+controlled by connecting semihosting to a chardev.
 
 Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
 ---
- target/mips/Makefile.objs | 3 ++-
- target/mips/helper.h      | 2 ++
- target/mips/translate.c   | 8 ++++++++
- 3 files changed, 12 insertions(+), 1 deletion(-)
+ target/mips/mips-semi.c | 12 ++++++------
+ 1 file changed, 6 insertions(+), 6 deletions(-)
 
-diff --git a/target/mips/Makefile.objs b/target/mips/Makefile.objs
-index 651f36f5176..3448ad5e193 100644
---- a/target/mips/Makefile.objs
-+++ b/target/mips/Makefile.objs
-@@ -1,4 +1,5 @@
- obj-y += translate.o dsp_helper.o op_helper.o lmi_helper.o helper.o cpu.o
--obj-y += gdbstub.o msa_helper.o mips-semi.o
-+obj-y += gdbstub.o msa_helper.o
-+obj-$(CONFIG_SOFTMMU) += mips-semi.o
- obj-$(CONFIG_SOFTMMU) += machine.o cp0_timer.o
- obj-$(CONFIG_KVM) += kvm.o
-diff --git a/target/mips/helper.h b/target/mips/helper.h
-index a6d687e3405..90ab03b76e3 100644
---- a/target/mips/helper.h
-+++ b/target/mips/helper.h
-@@ -2,7 +2,9 @@ DEF_HELPER_3(raise_exception_err, noreturn, env, i32, int)
- DEF_HELPER_2(raise_exception, noreturn, env, i32)
- DEF_HELPER_1(raise_exception_debug, noreturn, env)
+diff --git a/target/mips/mips-semi.c b/target/mips/mips-semi.c
+index eac8374fb34..35bdfd7c77e 100644
+--- a/target/mips/mips-semi.c
++++ b/target/mips/mips-semi.c
+@@ -23,6 +23,7 @@
+ #include "exec/helper-proto.h"
+ #include "exec/softmmu-semi.h"
+ #include "hw/semihosting/semihost.h"
++#include "hw/semihosting/console.h"
  
-+#ifndef CONFIG_USER_ONLY
- DEF_HELPER_1(do_semihosting, void, env)
-+#endif
- 
- #ifdef TARGET_MIPS64
- DEF_HELPER_4(sdl, void, env, tl, tl, int)
-diff --git a/target/mips/translate.c b/target/mips/translate.c
-index 3cd5b11b16b..fb905c88b57 100644
---- a/target/mips/translate.c
-+++ b/target/mips/translate.c
-@@ -13726,6 +13726,14 @@ static inline bool is_uhi(int sdbbp_code)
- #endif
- }
- 
-+#ifdef CONFIG_USER_ONLY
-+/* The above should dead-code away any calls to this..*/
-+static inline void gen_helper_do_semihosting(void *env)
-+{
-+    g_assert_not_reached();
-+}
-+#endif
-+
- static int decode_mips16_opc (CPUMIPSState *env, DisasContext *ctx)
- {
-     int rx, ry;
+ typedef enum UHIOp {
+     UHI_exit = 1,
+@@ -329,13 +330,12 @@ void helper_do_semihosting(CPUMIPSState *env)
+         p2 = strstr(p, "%d");
+         if (p2) {
+             int char_num = p2 - p;
+-            char *buf = g_malloc(char_num + 1);
+-            strncpy(buf, p, char_num);
+-            buf[char_num] = '\0';
+-            gpr[2] = printf("%s%d%s", buf, (int)gpr[5], p2 + 2);
+-            g_free(buf);
++            GString *s = g_string_new_len(p, char_num);
++            g_string_append_printf(s, "%d%s", (int)gpr[5], p2 + 2);
++            gpr[2] = qemu_semihosting_log_out(s->str, s->len);
++            g_string_free(s, true);
+         } else {
+-            gpr[2] = printf("%s", p);
++            gpr[2] = qemu_semihosting_log_out(p, strlen(p));
+         }
+         FREE_TARGET_STRING(p, gpr[4]);
+         break;
 -- 
 2.20.1
 
