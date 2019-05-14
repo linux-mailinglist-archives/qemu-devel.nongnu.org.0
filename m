@@ -2,68 +2,92 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE9E51D103
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 23:07:04 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54188 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4BFBC1D141
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 23:24:57 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54603 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQedb-000582-Qg
-	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 17:07:03 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39003)
+	id 1hQeuu-0003Sc-72
+	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 17:24:56 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44878)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <jcmvbkbc@gmail.com>) id 1hQeV2-0007lu-NN
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 16:58:14 -0400
+	(envelope-from <farman@linux.ibm.com>) id 1hQetr-00032f-29
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 17:23:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <jcmvbkbc@gmail.com>) id 1hQeIl-0007cB-2f
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 16:45:32 -0400
-Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:45619)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <jcmvbkbc@gmail.com>) id 1hQeIk-0007Vb-Nq
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 16:45:31 -0400
-Received: by mail-lf1-x144.google.com with SMTP id n22so220195lfe.12
-	for <qemu-devel@nongnu.org>; Tue, 14 May 2019 13:45:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=FXb6aboJp5Icq+FwNf9gA5rmibu3GFrNef50fwTDTPg=;
-	b=KlkZZMZa+q+uA6Pkttf8tc6v+XK1gPv9hxxzCQCNeS1wq2HX5Nd/ARG6xPsy/jvSOs
-	JMShqZxtLwB9cAuAaCbc/9426yH768oYn+5s/WVQzH3EoD9nq+f+L7zIGrxrN3TVPF+5
-	bs1tpm9lOfWGVQqP3z4rFOIJANKR1azDd2314Ys67WbWk5cedP9br/+sW9cdELEoSv35
-	jTfsTa/D312obWzPqzQ+mNBVPOZy3mOFpnS/JI+iXX92uGowYyzRfm/QJFuGzZaQjhQz
-	pBYgeJJDps6Gk9ySId5pDNLwp+XFyMYkGIhRWu7/gqvi8meKoVyTv9em/17SDh2DqC6m
-	pfvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=FXb6aboJp5Icq+FwNf9gA5rmibu3GFrNef50fwTDTPg=;
-	b=Vb4shJVnK6VqAUFxkMDFQ4KFn4/T7iQa8wmtN5zuKUY9AEYrdasXiv9BEPCxgO7Uwh
-	AUNgxL8AmsAvDtmRGyUpFwToX1YQrSl7Ob0i3feiC6+rLUsFvX+7YqVwxdZrpZfcFncJ
-	Qc5AKm5PKNJqXI98OqaQiuT7Y4mcJrPwd/OAlvgf35os2miMVg6ifEUIFuKm3/VyrPjI
-	hvkut9BIVQTte5gflqkRn5Pa2CjNOLkAQFcSFuW02/rxo+eHYSPo44A8bv58CZiFLfoj
-	YkarOo9ysI9ZS9Bif3YQgBZdqtv3i/LCnA3lOeth+BXNse5KiSeE8y2g4fKWQDaZtjo4
-	2oiw==
-X-Gm-Message-State: APjAAAXHuN4Gr9Q8a2SvVSSkGVI2YScSslCMvjK5Y0gzCB2CTriqtAC6
-	m/Ah7AxryFs5X/4fxJ/K8HNM55nNb5A=
-X-Google-Smtp-Source: APXvYqxSvg/4cQ1JhSl+358rAsvj4erFdhsGrsS/ACvQ3q0JhGTh2O9PNsETmwmcU+u4kqHGtWI6/g==
-X-Received: by 2002:a19:9c8f:: with SMTP id f137mr18065772lfe.94.1557866726555;
-	Tue, 14 May 2019 13:45:26 -0700 (PDT)
-Received: from octofox.cadence.com
-	(jcmvbkbc-1-pt.tunnel.tserv24.sto1.ipv6.he.net. [2001:470:27:1fa::2])
-	by smtp.gmail.com with ESMTPSA id 78sm4011lje.81.2019.05.14.13.45.24
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 14 May 2019 13:45:26 -0700 (PDT)
-From: Max Filippov <jcmvbkbc@gmail.com>
-To: qemu-devel@nongnu.org
-Date: Tue, 14 May 2019 13:44:47 -0700
-Message-Id: <20190514204447.17486-10-jcmvbkbc@gmail.com>
-X-Mailer: git-send-email 2.11.0
-In-Reply-To: <20190514204447.17486-1-jcmvbkbc@gmail.com>
-References: <20190514204447.17486-1-jcmvbkbc@gmail.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::144
-Subject: [Qemu-devel] [PATCH 9/9] target/xtensa: implement exclusive access
- option
+	(envelope-from <farman@linux.ibm.com>) id 1hQeto-0008Mv-Fk
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 17:23:51 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:34282
+	helo=mx0a-001b2d01.pphosted.com)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <farman@linux.ibm.com>)
+	id 1hQeto-0008KA-AT
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 17:23:48 -0400
+Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
+	by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+	x4ELHTUr106426
+	for <qemu-devel@nongnu.org>; Tue, 14 May 2019 17:23:45 -0400
+Received: from e17.ny.us.ibm.com (e17.ny.us.ibm.com [129.33.205.207])
+	by mx0b-001b2d01.pphosted.com with ESMTP id 2sg28fras3-1
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <qemu-devel@nongnu.org>; Tue, 14 May 2019 17:23:45 -0400
+Received: from localhost
+	by e17.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+	Violators will be prosecuted
+	for <qemu-devel@nongnu.org> from <farman@linux.ibm.com>;
+	Tue, 14 May 2019 22:23:44 +0100
+Received: from b01cxnp22034.gho.pok.ibm.com (9.57.198.24)
+	by e17.ny.us.ibm.com (146.89.104.204) with IBM ESMTP SMTP Gateway:
+	Authorized Use Only! Violators will be prosecuted; 
+	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+	Tue, 14 May 2019 22:23:42 +0100
+Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
+	[9.57.199.109])
+	by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+	x4ELNdEX32440508
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=OK); Tue, 14 May 2019 21:23:39 GMT
+Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A445F112063;
+	Tue, 14 May 2019 21:23:39 +0000 (GMT)
+Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 50980112062;
+	Tue, 14 May 2019 21:23:39 +0000 (GMT)
+Received: from [9.85.182.11] (unknown [9.85.182.11])
+	by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
+	Tue, 14 May 2019 21:23:39 +0000 (GMT)
+To: Cornelia Huck <cohuck@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@de.ibm.com>
+References: <20190508091219.13799-1-cohuck@redhat.com>
+From: Eric Farman <farman@linux.ibm.com>
+Date: Tue, 14 May 2019 17:23:39 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <20190508091219.13799-1-cohuck@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 19051421-0040-0000-0000-000004EFA070
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00011098; HX=3.00000242; KW=3.00000007;
+	PH=3.00000004; SC=3.00000285; SDB=6.01203362; UDB=6.00631639;
+	IPR=6.00984284; 
+	MB=3.00026891; MTD=3.00000008; XFM=3.00000015; UTC=2019-05-14 21:23:43
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19051421-0041-0000-0000-000008FBAEC0
+Message-Id: <e9919f24-a9a0-7978-cf98-6d75b2a8f50a@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+	definitions=2019-05-14_12:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+	priorityscore=1501
+	malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+	clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+	mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+	scancount=1 engine=8.0.1-1810050000 definitions=main-1905140140
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.158.5
+Subject: Re: [Qemu-devel] [PATCH RFC v3] s390/css: handle CCW_FLAG_SKIP
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -75,374 +99,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Max Filippov <jcmvbkbc@gmail.com>
+Cc: qemu-s390x@nongnu.org, qemu-devel@nongnu.org,
+	Pierre Morel <pmorel@linux.ibm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The Exclusive Instructions provide a general-purpose mechanism for
-atomic updates of memory-based synchronization variables that can be
-used for exclusion algorithms.
 
-Use cmpxchg-based implementation that is sufficient for the typical use
-of exclusive access in atomic operations.
 
-Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
----
- target/xtensa/cpu.c               |   1 +
- target/xtensa/cpu.h               |   2 +
- target/xtensa/helper.h            |   1 +
- target/xtensa/op_helper.c         |  42 ++++++++++++++++
- target/xtensa/overlay_tool.h      |   8 ++-
- target/xtensa/translate.c         | 100 ++++++++++++++++++++++++++++++++++++++
- tests/tcg/xtensa/test_exclusive.S |  48 ++++++++++++++++++
- 7 files changed, 200 insertions(+), 2 deletions(-)
- create mode 100644 tests/tcg/xtensa/test_exclusive.S
+On 5/8/19 5:12 AM, Cornelia Huck wrote:
+> If a ccw has CCW_FLAG_SKIP set, and the command is of type
+> read, read backwards, or sense, no data should be written
+> to the guest for that command.
+> 
+> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+> ---
+> 
+> v2 -> v3: fixed checks even more [Pierre]
+> v1 -> v2: fixed checks for command type [Eric]
+> 
+> ---
+>   hw/s390x/css.c         | 22 ++++++++++++++++++----
+>   include/hw/s390x/css.h |  1 +
+>   2 files changed, 19 insertions(+), 4 deletions(-)
+> 
+> diff --git a/hw/s390x/css.c b/hw/s390x/css.c
+> index 8fc9e35ba5d3..0fbaa233ffb5 100644
+> --- a/hw/s390x/css.c
+> +++ b/hw/s390x/css.c
+> @@ -830,8 +830,12 @@ static int ccw_dstream_rw_noflags(CcwDataStream *cds, void *buff, int len,
+>       if (op == CDS_OP_A) {
+>           goto incr;
+>       }
+> -    ret = address_space_rw(&address_space_memory, cds->cda,
+> -                           MEMTXATTRS_UNSPECIFIED, buff, len, op);
+> +    if (!cds->do_skip) {
+> +        ret = address_space_rw(&address_space_memory, cds->cda,
+> +                               MEMTXATTRS_UNSPECIFIED, buff, len, op);
+> +    } else {
+> +        ret = 0;
 
-diff --git a/target/xtensa/cpu.c b/target/xtensa/cpu.c
-index 4215a1881ec7..54c834228a91 100644
---- a/target/xtensa/cpu.c
-+++ b/target/xtensa/cpu.c
-@@ -82,6 +82,7 @@ static void xtensa_cpu_reset(CPUState *s)
-             XTENSA_OPTION_ATOMCTL) ? 0x28 : 0x15;
-     env->sregs[CONFIGID0] = env->config->configid[0];
-     env->sregs[CONFIGID1] = env->config->configid[1];
-+    env->exclusive_addr = -1;
- 
- #ifndef CONFIG_USER_ONLY
-     reset_mmu(env);
-diff --git a/target/xtensa/cpu.h b/target/xtensa/cpu.h
-index 8301923e4c4a..28a6fb4d796d 100644
---- a/target/xtensa/cpu.h
-+++ b/target/xtensa/cpu.h
-@@ -527,6 +527,8 @@ typedef struct CPUXtensaState {
-     } fregs[16];
-     float_status fp_status;
-     uint32_t windowbase_next;
-+    uint32_t exclusive_addr;
-+    uint32_t exclusive_val;
- 
- #ifndef CONFIG_USER_ONLY
-     xtensa_tlb_entry itlb[7][MAX_TLB_WAY_SIZE];
-diff --git a/target/xtensa/helper.h b/target/xtensa/helper.h
-index 9216bee57e9a..8532de0b35f5 100644
---- a/target/xtensa/helper.h
-+++ b/target/xtensa/helper.h
-@@ -24,6 +24,7 @@ DEF_HELPER_1(check_interrupts, void, env)
- DEF_HELPER_2(intset, void, env, i32)
- DEF_HELPER_2(intclear, void, env, i32)
- DEF_HELPER_3(check_atomctl, void, env, i32, i32)
-+DEF_HELPER_4(check_exclusive, void, env, i32, i32, i32)
- DEF_HELPER_2(wsr_memctl, void, env, i32)
- 
- DEF_HELPER_2(itlb_hit_test, void, env, i32)
-diff --git a/target/xtensa/op_helper.c b/target/xtensa/op_helper.c
-index 04971b044fac..09f4962d008a 100644
---- a/target/xtensa/op_helper.c
-+++ b/target/xtensa/op_helper.c
-@@ -130,6 +130,48 @@ void HELPER(check_atomctl)(CPUXtensaState *env, uint32_t pc, uint32_t vaddr)
-     }
- }
- 
-+void HELPER(check_exclusive)(CPUXtensaState *env, uint32_t pc, uint32_t vaddr,
-+                             uint32_t is_write)
-+{
-+    uint32_t paddr, page_size, access;
-+    uint32_t atomctl = env->sregs[ATOMCTL];
-+    int rc = xtensa_get_physical_addr(env, true, vaddr, is_write,
-+                                      xtensa_get_cring(env), &paddr,
-+                                      &page_size, &access);
-+
-+    if (rc) {
-+        HELPER(exception_cause_vaddr)(env, pc, rc, vaddr);
-+    }
-+
-+    /* When data cache is not configured use ATOMCTL bypass field. */
-+    if (!xtensa_option_enabled(env->config, XTENSA_OPTION_DCACHE)) {
-+        access = PAGE_CACHE_BYPASS;
-+    }
-+
-+    switch (access & PAGE_CACHE_MASK) {
-+    case PAGE_CACHE_WB:
-+        atomctl >>= 2;
-+        /* fall through */
-+    case PAGE_CACHE_WT:
-+        atomctl >>= 2;
-+        /* fall through */
-+    case PAGE_CACHE_BYPASS:
-+        if ((atomctl & 0x3) == 0) {
-+            HELPER(exception_cause_vaddr)(env, pc,
-+                                          EXCLUSIVE_ERROR_CAUSE, vaddr);
-+        }
-+        break;
-+
-+    case PAGE_CACHE_ISOLATE:
-+        HELPER(exception_cause_vaddr)(env, pc,
-+                LOAD_STORE_ERROR_CAUSE, vaddr);
-+        break;
-+
-+    default:
-+        break;
-+    }
-+}
-+
- void HELPER(wsr_memctl)(CPUXtensaState *env, uint32_t v)
- {
-     if (xtensa_option_enabled(env->config, XTENSA_OPTION_ICACHE)) {
-diff --git a/target/xtensa/overlay_tool.h b/target/xtensa/overlay_tool.h
-index 4925b21f0edf..f0cc33adfe05 100644
---- a/target/xtensa/overlay_tool.h
-+++ b/target/xtensa/overlay_tool.h
-@@ -76,6 +76,10 @@
- #define XCHAL_HAVE_MPU 0
- #endif
- 
-+#ifndef XCHAL_HAVE_EXCLUSIVE
-+#define XCHAL_HAVE_EXCLUSIVE 0
-+#endif
-+
- #define XCHAL_OPTION(xchal, qemu) ((xchal) ? XTENSA_OPTION_BIT(qemu) : 0)
- 
- #define XTENSA_OPTIONS ( \
-@@ -96,8 +100,8 @@
-     XCHAL_OPTION(XCHAL_HAVE_FP, XTENSA_OPTION_FP_COPROCESSOR) | \
-     XCHAL_OPTION(XCHAL_HAVE_RELEASE_SYNC, XTENSA_OPTION_MP_SYNCHRO) | \
-     XCHAL_OPTION(XCHAL_HAVE_S32C1I, XTENSA_OPTION_CONDITIONAL_STORE) | \
--    XCHAL_OPTION(XCHAL_HAVE_S32C1I && XCHAL_HW_MIN_VERSION >= 230000, \
--        XTENSA_OPTION_ATOMCTL) | \
-+    XCHAL_OPTION(((XCHAL_HAVE_S32C1I && XCHAL_HW_MIN_VERSION >= 230000) || \
-+                  XCHAL_HAVE_EXCLUSIVE), XTENSA_OPTION_ATOMCTL) | \
-     XCHAL_OPTION(XCHAL_HAVE_DEPBITS, XTENSA_OPTION_DEPBITS) | \
-     /* Interrupts and exceptions */ \
-     XCHAL_OPTION(XCHAL_HAVE_EXCEPTIONS, XTENSA_OPTION_EXCEPTION) | \
-diff --git a/target/xtensa/translate.c b/target/xtensa/translate.c
-index 356eb9948701..158a600b4293 100644
---- a/target/xtensa/translate.c
-+++ b/target/xtensa/translate.c
-@@ -87,6 +87,8 @@ static TCGv_i32 cpu_BR8[2];
- static TCGv_i32 cpu_SR[256];
- static TCGv_i32 cpu_UR[256];
- static TCGv_i32 cpu_windowbase_next;
-+static TCGv_i32 cpu_exclusive_addr;
-+static TCGv_i32 cpu_exclusive_val;
- 
- static GHashTable *xtensa_regfile_table;
- 
-@@ -216,6 +218,14 @@ void xtensa_translate_init(void)
-         tcg_global_mem_new_i32(cpu_env,
-                                offsetof(CPUXtensaState, windowbase_next),
-                                "windowbase_next");
-+    cpu_exclusive_addr =
-+        tcg_global_mem_new_i32(cpu_env,
-+                               offsetof(CPUXtensaState, exclusive_addr),
-+                               "exclusive_addr");
-+    cpu_exclusive_val =
-+        tcg_global_mem_new_i32(cpu_env,
-+                               offsetof(CPUXtensaState, exclusive_val),
-+                               "exclusive_val");
- }
- 
- void **xtensa_get_regfile_by_name(const char *name)
-@@ -1592,6 +1602,12 @@ static void translate_clrb_expstate(DisasContext *dc, const OpcodeArg arg[],
-     tcg_gen_andi_i32(cpu_UR[EXPSTATE], cpu_UR[EXPSTATE], ~(1u << arg[0].imm));
- }
- 
-+static void translate_clrex(DisasContext *dc, const OpcodeArg arg[],
-+                            const uint32_t par[])
-+{
-+    tcg_gen_movi_i32(cpu_exclusive_addr, -1);
-+}
-+
- static void translate_const16(DisasContext *dc, const OpcodeArg arg[],
-                              const uint32_t par[])
- {
-@@ -1667,6 +1683,17 @@ static void translate_extui(DisasContext *dc, const OpcodeArg arg[],
-     tcg_temp_free(tmp);
- }
- 
-+static void translate_getex(DisasContext *dc, const OpcodeArg arg[],
-+                            const uint32_t par[])
-+{
-+    TCGv_i32 tmp = tcg_temp_new_i32();
-+
-+    tcg_gen_extract_i32(tmp, cpu_SR[ATOMCTL], 8, 1);
-+    tcg_gen_deposit_i32(cpu_SR[ATOMCTL], cpu_SR[ATOMCTL], arg[0].in, 8, 1);
-+    tcg_gen_mov_i32(arg[0].out, tmp);
-+    tcg_temp_free(tmp);
-+}
-+
- static void translate_icache(DisasContext *dc, const OpcodeArg arg[],
-                              const uint32_t par[])
- {
-@@ -1714,6 +1741,38 @@ static void translate_l32e(DisasContext *dc, const OpcodeArg arg[],
-     tcg_temp_free(addr);
- }
- 
-+#ifdef CONFIG_USER_ONLY
-+static void gen_check_exclusive(DisasContext *dc, TCGv_i32 addr, bool is_write)
-+{
-+}
-+#else
-+static void gen_check_exclusive(DisasContext *dc, TCGv_i32 addr, bool is_write)
-+{
-+    if (!option_enabled(dc, XTENSA_OPTION_MPU)) {
-+        TCGv_i32 tpc = tcg_const_i32(dc->pc);
-+        TCGv_i32 write = tcg_const_i32(is_write);
-+
-+        gen_helper_check_exclusive(cpu_env, tpc, addr, write);
-+        tcg_temp_free(tpc);
-+        tcg_temp_free(write);
-+    }
-+}
-+#endif
-+
-+static void translate_l32ex(DisasContext *dc, const OpcodeArg arg[],
-+                            const uint32_t par[])
-+{
-+    TCGv_i32 addr = tcg_temp_new_i32();
-+
-+    tcg_gen_mov_i32(addr, arg[1].in);
-+    gen_load_store_alignment(dc, 2, addr, true);
-+    gen_check_exclusive(dc, addr, false);
-+    tcg_gen_qemu_ld_i32(arg[0].out, addr, dc->ring, MO_TEUL);
-+    tcg_gen_mov_i32(cpu_exclusive_addr, addr);
-+    tcg_gen_mov_i32(cpu_exclusive_val, arg[0].out);
-+    tcg_temp_free(addr);
-+}
-+
- static void translate_ldst(DisasContext *dc, const OpcodeArg arg[],
-                            const uint32_t par[])
- {
-@@ -2269,6 +2328,33 @@ static void translate_s32e(DisasContext *dc, const OpcodeArg arg[],
-     tcg_temp_free(addr);
- }
- 
-+static void translate_s32ex(DisasContext *dc, const OpcodeArg arg[],
-+                            const uint32_t par[])
-+{
-+    TCGv_i32 prev = tcg_temp_new_i32();
-+    TCGv_i32 addr = tcg_temp_local_new_i32();
-+    TCGv_i32 res = tcg_temp_local_new_i32();
-+    TCGLabel *label = gen_new_label();
-+
-+    tcg_gen_movi_i32(res, 0);
-+    tcg_gen_mov_i32(addr, arg[1].in);
-+    gen_load_store_alignment(dc, 2, addr, true);
-+    tcg_gen_brcond_i32(TCG_COND_NE, addr, cpu_exclusive_addr, label);
-+    gen_check_exclusive(dc, addr, true);
-+    tcg_gen_atomic_cmpxchg_i32(prev, cpu_exclusive_addr, cpu_exclusive_val,
-+                               arg[0].in, dc->cring, MO_TEUL);
-+    tcg_gen_setcond_i32(TCG_COND_EQ, res, prev, cpu_exclusive_val);
-+    tcg_gen_movcond_i32(TCG_COND_EQ, cpu_exclusive_val,
-+                        prev, cpu_exclusive_val, prev, cpu_exclusive_val);
-+    tcg_gen_movi_i32(cpu_exclusive_addr, -1);
-+    gen_set_label(label);
-+    tcg_gen_extract_i32(arg[0].out, cpu_SR[ATOMCTL], 8, 1);
-+    tcg_gen_deposit_i32(cpu_SR[ATOMCTL], cpu_SR[ATOMCTL], res, 8, 1);
-+    tcg_temp_free(prev);
-+    tcg_temp_free(addr);
-+    tcg_temp_free(res);
-+}
-+
- static void translate_salt(DisasContext *dc, const OpcodeArg arg[],
-                            const uint32_t par[])
- {
-@@ -3068,6 +3154,9 @@ static const XtensaOpcodeOps core_ops[] = {
-         .name = "clrb_expstate",
-         .translate = translate_clrb_expstate,
-     }, {
-+        .name = "clrex",
-+        .translate = translate_clrex,
-+    }, {
-         .name = "const16",
-         .translate = translate_const16,
-     }, {
-@@ -3173,6 +3262,9 @@ static const XtensaOpcodeOps core_ops[] = {
-         .name = "extw",
-         .translate = translate_memw,
-     }, {
-+        .name = "getex",
-+        .translate = translate_getex,
-+    }, {
-         .name = "hwwdtlba",
-         .op_flags = XTENSA_OP_ILL,
-     }, {
-@@ -3244,6 +3336,10 @@ static const XtensaOpcodeOps core_ops[] = {
-         .translate = translate_l32e,
-         .op_flags = XTENSA_OP_PRIVILEGED | XTENSA_OP_LOAD,
-     }, {
-+        .name = "l32ex",
-+        .translate = translate_l32ex,
-+        .op_flags = XTENSA_OP_LOAD,
-+    }, {
-         .name = (const char * const[]) {
-             "l32i", "l32i.n", NULL,
-         },
-@@ -4557,6 +4653,10 @@ static const XtensaOpcodeOps core_ops[] = {
-         .translate = translate_s32e,
-         .op_flags = XTENSA_OP_PRIVILEGED | XTENSA_OP_STORE,
-     }, {
-+        .name = "s32ex",
-+        .translate = translate_s32ex,
-+        .op_flags = XTENSA_OP_LOAD | XTENSA_OP_STORE,
-+    }, {
-         .name = (const char * const[]) {
-             "s32i", "s32i.n", "s32nb", NULL,
-         },
-diff --git a/tests/tcg/xtensa/test_exclusive.S b/tests/tcg/xtensa/test_exclusive.S
-new file mode 100644
-index 000000000000..7757a552ea00
---- /dev/null
-+++ b/tests/tcg/xtensa/test_exclusive.S
-@@ -0,0 +1,48 @@
-+#include "macros.inc"
-+
-+test_suite exclusive
-+
-+#if XCHAL_HAVE_EXCLUSIVE
-+
-+test exclusive_nowrite
-+    movi    a2, 0x29
-+    wsr     a2, atomctl
-+    clrex
-+    movi    a2, 1f
-+    movi    a3, 1
-+    s32ex   a3, a2
-+    getex   a3
-+    assert  eqi, a3, 0
-+    l32i    a3, a2, 0
-+    assert  eqi, a3, 3
-+
-+.data
-+.align 4
-+1:
-+    .word   3
-+.text
-+test_end
-+
-+test exclusive_write
-+    movi    a2, 0x29
-+    wsr     a2, atomctl
-+    movi    a2, 1f
-+    l32ex   a3, a2
-+    assert  eqi, a3, 3
-+    movi    a3, 2
-+    s32ex   a3, a2
-+    getex   a3
-+    assert  eqi, a3, 1
-+    l32i    a3, a2, 0
-+    assert  eqi, a3, 2
-+
-+.data
-+.align 4
-+1:
-+    .word   3
-+.text
-+test_end
-+
-+#endif
-+
-+test_suite_end
--- 
-2.11.0
+Maybe set this to MEMTX_OK (defined as zero), just so it's clear based 
+on the existing check below?
+
+> +    }
+>       if (ret != MEMTX_OK) {
+>           cds->flags |= CDS_F_STREAM_BROKEN;
+>           return -EINVAL;
+> @@ -928,8 +932,13 @@ static int ccw_dstream_rw_ida(CcwDataStream *cds, void *buff, int len,
+>       do {
+>           iter_len = MIN(len, cont_left);
+>           if (op != CDS_OP_A) {
+> -            ret = address_space_rw(&address_space_memory, cds->cda,
+> -                                   MEMTXATTRS_UNSPECIFIED, buff, iter_len, op);
+> +            if (!cds->do_skip) {
+> +                ret = address_space_rw(&address_space_memory, cds->cda,
+> +                                       MEMTXATTRS_UNSPECIFIED, buff, iter_len,
+> +                                       op);
+> +            } else {
+> +                ret = 0;
+
+(here too)
+
+Either way, this seems reasonable to me.
+
+Reviewed-by: Eric Farman <farman@linux.ibm.com>
+
+> +            }
+>               if (ret != MEMTX_OK) {
+>                   /* assume inaccessible address */
+>                   ret = -EINVAL; /* channel program check */
+> @@ -968,6 +977,11 @@ void ccw_dstream_init(CcwDataStream *cds, CCW1 const *ccw, ORB const *orb)
+>   
+>       cds->count = ccw->count;
+>       cds->cda_orig = ccw->cda;
+> +    /* skip is only effective for read, read backwards, or sense commands */
+> +    cds->do_skip = (ccw->flags & CCW_FLAG_SKIP) &&
+> +        ((ccw->cmd_code & 0x0f) == CCW_CMD_BASIC_SENSE ||
+> +         (ccw->cmd_code & 0x03) == 0x02 /* read */ ||
+> +         (ccw->cmd_code & 0x0f) == 0x0c /* read backwards */);
+>       ccw_dstream_rewind(cds);
+>       if (!(cds->flags & CDS_F_IDA)) {
+>           cds->op_handler = ccw_dstream_rw_noflags;
+> diff --git a/include/hw/s390x/css.h b/include/hw/s390x/css.h
+> index aae19c427229..7cc183ef4366 100644
+> --- a/include/hw/s390x/css.h
+> +++ b/include/hw/s390x/css.h
+> @@ -97,6 +97,7 @@ typedef struct CcwDataStream {
+>       int (*op_handler)(struct CcwDataStream *cds, void *buff, int len,
+>                         CcwDataStreamOp op);
+>       hwaddr cda;
+> +    bool do_skip;
+>   } CcwDataStream;
+>   
+>   /*
+> 
 
 
