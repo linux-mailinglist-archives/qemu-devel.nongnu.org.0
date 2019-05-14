@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 035231C5A9
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 11:07:47 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43521 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2EC7B1C5B4
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 11:10:38 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43566 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQTPW-0004Zy-3f
-	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 05:07:46 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57849)
+	id 1hQTSF-0006cf-L6
+	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 05:10:37 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57966)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hQTNJ-0003Fx-VT
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 05:05:34 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hQTNe-0003UO-GH
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 05:05:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hQTNI-000512-J2
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 05:05:29 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:42465)
+	(envelope-from <peter.maydell@linaro.org>) id 1hQTNd-0005hq-KD
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 05:05:50 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:35302)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hQTNI-0004zB-8u
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 05:05:28 -0400
-Received: by mail-wr1-f67.google.com with SMTP id l2so18253361wrb.9
-	for <qemu-devel@nongnu.org>; Tue, 14 May 2019 02:05:28 -0700 (PDT)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hQTNd-0005f1-8o
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 05:05:49 -0400
+Received: by mail-oi1-x241.google.com with SMTP id a132so11564199oib.2
+	for <qemu-devel@nongnu.org>; Tue, 14 May 2019 02:05:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=lQfHjVoUdY/Zjg/bbAHFtmht1fdfMgXRH2qGBcHEpvE=;
+	b=uhrwDZBG2gHuinTkNp5th8+X9YKd+maFSk1QWjRg8oIF9ayjx6qo180vgykJO9XhEJ
+	Bs1IxYz/uwYP0J0p97H6tAcwNxBilEleALrmcGlJ1j10l+e2iGQMzeeuZJ2uGA48ceCt
+	F7RKo0P8VlQXkIDTUcqX6BeU8tY8Rc/xhPIVtNJEUvCyYv0yEON8po3/PgbI076Sg8ec
+	9SKLI+56yaxXQyHpJUSKTXqzdBa2qbCGVcycVanwH/lenyDP2QBlnBHMpgEQKsV6X1mv
+	7ILPnrKdPwB1KaXn+ZQZ/iPgpsIIAZOgsg/neUFlnSddqrvirfmJ/3vo+vJC1+9BXB3I
+	s7Jg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=npa3QAVRn4TLgu6ikRWrfw8hEYktXFq50xCvlagqQf0=;
-	b=ZfuXaHhBad7iVnpMVGY2lXK48N9IHD/zzqv0hzP0bO67pu0YMjZWOExKkzwitqk8WS
-	KF1mZo9xmQov2Iah9BzYmP05VgVv7NDLm3WGZZoCiTMYE8yrMYhoix2k/4Y2lJf+Is72
-	zoD0zNwjxFu45ptzLwvKiGXwe1IzrKcy94oHQBQEAVh+bAwJDoKp6nPywSaP+KpehiJN
-	maHi16Ub8WJ9K3RSDGMWPsyMPoHTEjFe9h/SwZ5zzymwZoDzT1NeVftkn2Em0k5j7aOQ
-	oIT60RBEdM5JAkW23cbaQNJ/2i88av5u5Qrjbtq7LW5Vv+IH5oiA1AGGAHolcRVRNJ7D
-	2iEg==
-X-Gm-Message-State: APjAAAWUVK2Hu83vJd/CWTb0Ajo3AeQjY7q7HcM1un4Cx6o/Fm0EpLv9
-	jLcRcCsy97zar5ZmFQdwjIGJiQ==
-X-Google-Smtp-Source: APXvYqwZGHC7CsnSTViP/QVcxo09y5dX57aiNbsJ7gUuJEEWRqpxgVeyTyDmb5TwB16VaqQH+X9jSQ==
-X-Received: by 2002:a5d:68cf:: with SMTP id p15mr20862802wrw.105.1557824727226;
-	Tue, 14 May 2019 02:05:27 -0700 (PDT)
-Received: from [192.168.1.33] (193.red-88-21-103.staticip.rima-tde.net.
-	[88.21.103.193]) by smtp.gmail.com with ESMTPSA id
-	a22sm2292454wma.41.2019.05.14.02.05.26
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Tue, 14 May 2019 02:05:26 -0700 (PDT)
-To: Jonathan Behrens <jonathan@fintelia.io>, qemu-devel@nongnu.org
-References: <20190513194328.11045-1-jonathan@fintelia.io>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
-	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <bc2e8bd3-e2d1-5a20-301e-023dcdc677a4@redhat.com>
-Date: Tue, 14 May 2019 11:05:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=lQfHjVoUdY/Zjg/bbAHFtmht1fdfMgXRH2qGBcHEpvE=;
+	b=O6WnlevTchu7JZGWrFALx/Pko+WRXk8wPBK99r9fcY21FSYuqurTVcX7HV+F3a30mG
+	71nJ3tIxx2tR1U8PNOr8WBCrtJ17morw8DSLvJObElju7cUuz/nMs2Yg07ksLo8og9kL
+	7AEOt+zAanCR1KeqGrHbbh4BuxH2u/Yukay7YGSvdoH1z4PjKdhpJSzM86GGdQfIueZU
+	xTQTljxh6aBHLFwcSSyKPmjbQxIZMiK+aboGW3Z9f+dZs6NgjfoVF1RY8luj6L86okaC
+	DvCI94fyC6+Yqkdbh5CnXgPl9VL+X8Q7Spnusi5Wm2VRQg1cS8t09/2E+YicN4yfysXD
+	3qSQ==
+X-Gm-Message-State: APjAAAUyEdA3C1HoE6iWJ0giKoWNr2Y3MnV3aPzaC8uhsrLbAOwP8P+j
+	Br0mauaksSi2c2yVC3Jp2veJ2lvxkpu+f3ttz9w5DQ==
+X-Google-Smtp-Source: APXvYqytDZ/5esP1ofaBsoAxcYWiw+cbSIns04Do8eZn5fnClWYK7A4LMT9RHXqGU2LrK5GIWnzx/HxP5LJSS+BsZfo=
+X-Received: by 2002:aca:4e42:: with SMTP id c63mr2265638oib.170.1557824747870; 
+	Tue, 14 May 2019 02:05:47 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190513194328.11045-1-jonathan@fintelia.io>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.221.67
-Subject: Re: [Qemu-devel] [PATCH] cadence_gem: Don't define GEM_INT_Q1_MASK
- twice
+References: <20190512083624.8916-1-drjones@redhat.com>
+	<fa220ee2-b4bc-cdfa-ddde-90206e417cf3@linaro.org>
+In-Reply-To: <fa220ee2-b4bc-cdfa-ddde-90206e417cf3@linaro.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 14 May 2019 10:05:36 +0100
+Message-ID: <CAFEAcA96qUkfW1nHxm4U4S8z6B_87E=ZZfyXTgD3r=CVeyJGOg@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::241
+Subject: Re: [Qemu-devel] [PATCH 00/13] target/arm/kvm: enable SVE in guests
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -74,33 +72,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>,
-	Alistair Francis <alistair@alistair23.me>,
-	Jonathan Behrens <fintelia@gmail.com>,
-	"open list:Xilinx Zynq" <qemu-arm@nongnu.org>,
-	"Edgar E. Iglesias" <edgar.iglesias@gmail.com>
+Cc: Andrew Jones <drjones@redhat.com>,
+	=?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+	QEMU Developers <qemu-devel@nongnu.org>,
+	Markus Armbruster <armbru@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
+	Andrea Bolognani <abologna@redhat.com>, Dave P Martin <Dave.Martin@arm.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/13/19 9:43 PM, Jonathan Behrens wrote:
-> Signed-off-by: Jonathan Behrens <jonathan@fintelia.io>
-> ---
->  hw/net/cadence_gem.c | 1 -
->  1 file changed, 1 deletion(-)
-> 
-> diff --git a/hw/net/cadence_gem.c b/hw/net/cadence_gem.c
-> index 7f63411430..37cb8a4e5c 100644
-> --- a/hw/net/cadence_gem.c
-> +++ b/hw/net/cadence_gem.c
-> @@ -146,7 +146,6 @@
->  #define GEM_DESCONF7      (0x00000298/4)
->  
->  #define GEM_INT_Q1_STATUS               (0x00000400 / 4)
-> -#define GEM_INT_Q1_MASK                 (0x00000640 / 4)
->  
->  #define GEM_TRANSMIT_Q1_PTR             (0x00000440 / 4)
->  #define GEM_TRANSMIT_Q7_PTR             (GEM_TRANSMIT_Q1_PTR + 6)
-> 
+On Mon, 13 May 2019 at 19:46, Richard Henderson
+<richard.henderson@linaro.org> wrote:
+>
+> On 5/12/19 1:36 AM, Andrew Jones wrote:
+> >    CPU type | accel | sve-max-vq | sve-vls-map
+> >    -------------------------------------------
+> >  1)     max | tcg   |  $MAX_VQ   |  $VLS_MAP
+> >  2)     max | kvm   |  $MAX_VQ   |  $VLS_MAP
+> >  3)    host | kvm   |  N/A       |  $VLS_MAP
+>
+> This doesn't seem right.  Why is -cpu host not whatever the host supports?  It
+> certainly has been so far.  I really don't see how -cpu max makes any sense for
+> kvm.
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+The point of '-cpu max' is that it works and gives you the
+best thing QEMU can support regardless of what accelerator
+is in use. This means that you don't need to do tedious
+workarounds like "if KVM then -cpu host else -cpu somethingelse".
+
+thanks
+-- PMM
 
