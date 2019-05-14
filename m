@@ -2,52 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06A931C7E4
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 13:38:54 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46113 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AF29B1C7D6
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 13:32:36 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46036 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQVll-0001G9-6w
-	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 07:38:53 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49886)
+	id 1hQVff-0005qk-SX
+	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 07:32:35 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50747)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <clg@kaod.org>) id 1hQVb4-0002SQ-Ee
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 07:27:51 -0400
+	(envelope-from <cohuck@redhat.com>) id 1hQVdb-0004c6-Ar
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 07:30:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <clg@kaod.org>) id 1hQVb3-0006XK-3e
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 07:27:50 -0400
-Received: from 6.mo177.mail-out.ovh.net ([46.105.51.249]:50973)
+	(envelope-from <cohuck@redhat.com>) id 1hQVdZ-0000Gb-Th
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 07:30:27 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:51136)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <clg@kaod.org>) id 1hQVb2-0006VZ-TT
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 07:27:49 -0400
-Received: from player779.ha.ovh.net (unknown [10.108.57.43])
-	by mo177.mail-out.ovh.net (Postfix) with ESMTP id 0BEDFFA29D
-	for <qemu-devel@nongnu.org>; Tue, 14 May 2019 13:27:45 +0200 (CEST)
-Received: from kaod.org (deibp9eh1--blueice1n0.emea.ibm.com [195.212.29.162])
-	(Authenticated sender: clg@kaod.org)
-	by player779.ha.ovh.net (Postfix) with ESMTPSA id F175A5A0F6B1;
-	Tue, 14 May 2019 11:27:37 +0000 (UTC)
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20190514064627.3838-1-clg@kaod.org>
-	<CAFEAcA__w9ZXzvAVemstba1=tU6rpKn73m8E5+vJQaArkZzzVw@mail.gmail.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <2245e3b0-7573-60f5-7a22-9140b909f74f@kaod.org>
-Date: Tue, 14 May 2019 13:27:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1hQVdZ-0000Ew-Ly
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 07:30:25 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+	[10.5.11.11])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id C265A3082E5A;
+	Tue, 14 May 2019 11:30:22 +0000 (UTC)
+Received: from gondolin (dhcp-192-222.str.redhat.com [10.33.192.222])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 04D9760BCF;
+	Tue, 14 May 2019 11:30:09 +0000 (UTC)
+Date: Tue, 14 May 2019 13:30:07 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Message-ID: <20190514133007.5e1c6c2e.cohuck@redhat.com>
+In-Reply-To: <20190514110143.GD2753@work-vm>
+References: <20190510110838.2df4c4d0.cohuck@redhat.com>
+	<20190510093608.GD2854@work-vm>
+	<20190510114838.7e16c3d6.cohuck@redhat.com>
+	<20190513132804.GD11139@beluga.usersys.redhat.com>
+	<20190514061235.GC20407@joy-OptiPlex-7040>
+	<20190514072039.GA2089@beluga.usersys.redhat.com>
+	<20190514073219.GD20407@joy-OptiPlex-7040>
+	<20190514074344.GB2089@beluga.usersys.redhat.com>
+	<20190514074736.GE20407@joy-OptiPlex-7040>
+	<20190514115135.078bbaf7.cohuck@redhat.com>
+	<20190514110143.GD2753@work-vm>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA__w9ZXzvAVemstba1=tU6rpKn73m8E5+vJQaArkZzzVw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Ovh-Tracer-Id: 11975352887614409685
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddrleeigdegtdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.46]);
+	Tue, 14 May 2019 11:30:23 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.51.249
-Subject: Re: [Qemu-devel] [PATCH] docs: provide documentation on the POWER9
- XIVE interrupt controller
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 1/2] vfio/mdev: add version attribute
+ for mdev device
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -59,84 +68,63 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>,
-	Greg Kurz <groug@kaod.org>, qemu-ppc <qemu-ppc@nongnu.org>,
-	QEMU Developers <qemu-devel@nongnu.org>,
-	David Gibson <david@gibson.dropbear.id.au>
+Cc: "cjia@nvidia.com" <cjia@nvidia.com>,
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+	"aik@ozlabs.ru" <aik@ozlabs.ru>,
+	"Zhengxiao.zx@alibaba-inc.com" <Zhengxiao.zx@alibaba-inc.com>,
+	"shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
+	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+	"kwankhede@nvidia.com" <kwankhede@nvidia.com>,
+	"eauger@redhat.com" <eauger@redhat.com>, "Liu, Yi
+	L" <yi.l.liu@intel.com>, Erik Skultety <eskultet@redhat.com>, "Yang,
+	Ziye" <ziye.yang@intel.com>, "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
+	"pasic@linux.ibm.com" <pasic@linux.ibm.com>,
+	"libvir-list@redhat.com" <libvir-list@redhat.com>,
+	"arei.gonglei@huawei.com" <arei.gonglei@huawei.com>,
+	"felipe@nutanix.com" <felipe@nutanix.com>,
+	"Ken.Xue@amd.com" <Ken.Xue@amd.com>, "Tian,
+	Kevin" <kevin.tian@intel.com>, Yan Zhao <yan.y.zhao@intel.com>,
+	"zhenyuw@linux.intel.com" <zhenyuw@linux.intel.com>,
+	"jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	"intel-gvt-dev@lists.freedesktop.org"
+	<intel-gvt-dev@lists.freedesktop.org>, "Liu,
+	Changpeng" <changpeng.liu@intel.com>,
+	"berrange@redhat.com" <berrange@redhat.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Wang, Zhi
+	A" <zhi.a.wang@intel.com>, "dinechin@redhat.com" <dinechin@redhat.com>,
+	"He, Shaopeng" <shaopeng.he@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/14/19 11:17 AM, Peter Maydell wrote:
-> On Tue, 14 May 2019 at 07:46, C=C3=A9dric Le Goater <clg@kaod.org> wrot=
-e:
->>
->> This documents the overall XIVE architecture and gives an overview of
->> the QEMU models. It also provides documentation on the 'info pic'
->> command.
->>
->> Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
->> ---
->>  docs/index.rst     |   1 +
->>  docs/ppc/index.rst |  13 ++
->>  docs/ppc/xive.rst  | 344 ++++++++++++++++++++++++++++++++++++++++++++=
-+
->>  MAINTAINERS        |   1 +
->>  4 files changed, 359 insertions(+)
->>  create mode 100644 docs/ppc/index.rst
->>  create mode 100644 docs/ppc/xive.rst
->=20
-> Hi -- it's great to see this documentation. Unfortunately,
-> where you've put it doesn't match our intended layout for docs.
+On Tue, 14 May 2019 12:01:45 +0100
+"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
 
-OK. I guess I need to split the file in multiple parts.
-=20
-> Each subdirectory of docs/ becomes its own manual, and
-> the intention is to eventually have five manuals
-> (as sketched out in https://wiki.qemu.org/Features/Documentation):
->  * QEMU user mode emulation -- docs/user
->  * QEMU full-system emulation user's guide -- docs/system
+> * Cornelia Huck (cohuck@redhat.com) wrote:
+> > On Tue, 14 May 2019 03:47:36 -0400
+> > Yan Zhao <yan.y.zhao@intel.com> wrote:
 
-Should we put the documentation of machine options under this directory ?=
-=20
+> > > hi Cornelia and Dave,
+> > > do you also agree on:
+> > > 1. "not to define the specific errno returned for a specific situation,
+> > > let the vendor driver decide, userspace simply needs to know that an errno on
+> > > read indicates the device does not support migration version comparison and
+> > > that an errno on write indicates the devices are incompatible or the target
+> > > doesn't support migration versions. "
+> > > 2. vendor driver should log detailed error reasons in kernel log.  
+> > 
+> > Two questions:
+> > - How reasonable is it to refer to the system log in order to find out
+> >   what exactly went wrong?
+> > - If detailed error reporting is basically done to the syslog, do
+> >   different error codes still provide useful information? Or should the
+> >   vendor driver decide what it wants to do?  
+> 
+> I don't see error codes as being that helpful; if we can't actually get
+> an error message back up the stack (which was my preference), then I guess
+> syslog is as good as it will get.
 
->  * QEMU full-system emulation management and interoperability guide --
-> docs/interop
-
-There, I could put the 'info pic' documentation.
-
->  * QEMU full-system emulation guest hardware specifications  -- docs/sp=
-ecs
-
-and there, the low level information on the XIVE controller.
-
->  * QEMU developer's guide -- docs/devel
-
-and finally, there, some of the documentation on QEMU modeling. =20
-
-> We don't want to have a separate PPC-specific manual.
-
-OK.
-
-> Currently we only have interop and devel. I have on
-> my todo list to try to sort out the others, including
-> figuring out how to transition from our current set
-> of texinfo-based manuals to this layout.
->=20
-> I'm not sure exactly where this document should live.
-> From a quick scan it appears to be mixing together
-> information aimed at several different audiences --
-> the "Overview of the QEMU models for XIVE" part looks
-> like information about QEMU internals which belongs
-> in docs/devel, but some other parts seem to be user
-> facing information which should go in one of the
-> other manuals.
-
-What is nice about the single file model is that you find all=20
-the information related to one topic in one place.=20
-
-Can manuals reference each another ?=20
-
-Thanks,
-
-C.=20
+Ok, so letting the vendor driver simply return an(y) error and possibly
+dumping an error message into the syslog seems to be the most
+reasonable approach.
 
