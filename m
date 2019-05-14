@@ -2,71 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5ED511CCB9
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 18:16:09 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50745 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8AEF91CCCB
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 18:19:15 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50779 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQa64-0006R9-Bu
-	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 12:16:08 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38381)
+	id 1hQa94-0000Vw-LW
+	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 12:19:14 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38659)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hQa49-0005L6-RL
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 12:14:10 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hQa54-0006Af-Jb
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 12:15:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hQa47-0004bU-Re
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 12:14:09 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:53981)
+	(envelope-from <richard.henderson@linaro.org>) id 1hQa51-0005gu-S2
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 12:15:06 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:38815)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hQa44-0004Li-BP
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 12:14:07 -0400
-Received: by mail-wm1-f67.google.com with SMTP id 198so3497522wme.3
-	for <qemu-devel@nongnu.org>; Tue, 14 May 2019 09:13:55 -0700 (PDT)
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hQa51-0005eL-1z
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 12:15:03 -0400
+Received: by mail-pf1-x443.google.com with SMTP id b76so964815pfb.5
+	for <qemu-devel@nongnu.org>; Tue, 14 May 2019 09:15:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=f+ihmt7uz/vPBIVvH0CQvYowvzdq4bUkA1K9sLwv9tI=;
+	b=HqMDsDX53loQOfb1OjElNYER2G6Xijd5rN0LPkP3ZAkaRWvqfkaYvOYfZkzrUApmZw
+	CjCR2qJ9GihTQYjIclVvbtxD9OX54WU56x6astinmnPoS/tyq/Wcvo5HJ5KpZYZbqw1c
+	iWYNftgrJS72iJ95LlOeqqtRFg2rYD6x9v+ptciEOuzU38QZBftM9pW7J1OLjulqmJra
+	CDBFe4Jy0RQYYHA8ojtedjg8xiBkcOxas6fUOFWidnnYnqMQX3VZtIc6tEbOGdoveCpv
+	wQpuN9w3UFbaHK4hnOw/B2H2mTUFvmwmsi6VRt/BB8kNGDf82/EcHs/+2DiQLiJKKGEp
+	TlWA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
 	:date:user-agent:mime-version:in-reply-to:content-language
 	:content-transfer-encoding;
-	bh=EdoZQthCrUH1rq9oZofl1NSqIzFWV+CPYyxzTmP7mww=;
-	b=q74cAw3BjcBT2WtGXjPcUdPErJ0DXxtNjYoXR+2a56f7yhUzYi18tRxFZCsCQ5B9ja
-	11g6vTzE2sSfX2a4lhOTpqHH2iTTH1T5UdLW9aFoSLMr6PMkyRgPHrPjuJQfaeBwid4h
-	nqx75XaIHcIKCCXRqixjqlHAQHQJVm3NRiNH9MonZTi5zwuvRpVg24E5vnaB2NUDyrpu
-	cIv2dmcJ1L0heI24L6gwsV3zaPNMj/zFbuavzXfVCau3X1CLxDlTFGeunzHw5YEgXdj9
-	FaPxfdNLVm+QxkfpxcDB6EqAZP42gUn9sh14SYqaW6PpaiPA54EKsR8eGg78PCwoKi7z
-	NWZg==
-X-Gm-Message-State: APjAAAUtr+iQ2hrn4/LdOcKuREMRlm3od+u33SaLI/+cqLUXRq2xzp8m
-	ymrnAEZrBxCW/40kJOGoxBmUcg==
-X-Google-Smtp-Source: APXvYqz+g/UJuf2BLMUQBC6CBgui230K25N0+aE5mgfMSAxfUuGLVznkdcbrWXmdjTWONaSaqqfQlA==
-X-Received: by 2002:a7b:c04c:: with SMTP id u12mr18865434wmc.59.1557850434383; 
-	Tue, 14 May 2019 09:13:54 -0700 (PDT)
-Received: from [192.168.1.43] (193.red-88-21-103.staticip.rima-tde.net.
-	[88.21.103.193])
-	by smtp.gmail.com with ESMTPSA id y1sm3817734wma.14.2019.05.14.09.13.53
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Tue, 14 May 2019 09:13:53 -0700 (PDT)
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
-	qemu-devel@nongnu.org
-References: <20190510185438.29533-1-richard.henderson@linaro.org>
-	<20190510185438.29533-4-richard.henderson@linaro.org>
-	<CAL1e-=hRXg7eykwjDxTDXt33FiFOAkkGQk23mEZRB3ChaZcAQA@mail.gmail.com>
-	<87bm05nijn.fsf@zen.linaroharston>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
-	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <e7cc54ef-c40c-1ea4-792b-b3d44abe7739@redhat.com>
-Date: Tue, 14 May 2019 18:13:52 +0200
+	bh=f+ihmt7uz/vPBIVvH0CQvYowvzdq4bUkA1K9sLwv9tI=;
+	b=DQLkrAm2Rkteiq2m37A1IPuv0atRRC+SxAkKdfxjaadoxKendOxXBM78wMJAY9xKFi
+	Mm7menZrkGhoSjunT32rru7kqupB4HK6WNPNR+b6ICnpruECWGSIZjr1oPgyQ97m5i/F
+	xlchcL6nKZyCGa3VQ0/bV7AjSnXvQHBCYUlxYWhVAgw+/5Itg0BsRfmsDPG7eJ3nZNYy
+	OP314dMiWIruyTnLChu+aBdPSTrmRMM/lACKBJ5bBpuZqb/OMjIUYkl1nuj+XtS9ITcP
+	GV39xgLmVAMb7fMY4/K+p+AishhZBkYc85IS5k8N7BTbVXeUHA7QTbEU2/t8s93/TfPq
+	jmDQ==
+X-Gm-Message-State: APjAAAVD8e9aRmH8qLiv574Og6kLA3WOxwBPe6shakkPobfBQB5/EZ4u
+	0KavkUSm3WECGj/wfxa5y3E6T1AypHo=
+X-Google-Smtp-Source: APXvYqwMnl/4bXxMw+0g8sUPS1qCafjGyO2jfwCmciybPG+VesaEzuZzEH0oEfBhcKh/jDlnznhKcw==
+X-Received: by 2002:a63:2a89:: with SMTP id
+	q131mr37836913pgq.359.1557850500864; 
+	Tue, 14 May 2019 09:15:00 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-13-231.tukw.qwest.net. [97.113.13.231])
+	by smtp.gmail.com with ESMTPSA id
+	z11sm13446720pfg.187.2019.05.14.09.14.59
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 14 May 2019 09:15:00 -0700 (PDT)
+To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
+	Markus Armbruster <armbru@redhat.com>
+References: <20190510173049.28171-1-richard.henderson@linaro.org>
+	<877eatdq3w.fsf@dusky.pond.sub.org> <20190514152331.GJ25916@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <d050fa9d-8e4b-7b87-31e5-05a7fa78feb9@linaro.org>
+Date: Tue, 14 May 2019 09:14:57 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <87bm05nijn.fsf@zen.linaroharston>
+In-Reply-To: <20190514152331.GJ25916@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.128.67
-Subject: Re: [Qemu-devel] [PULL v2 12/27] target/mips: Convert to
- CPUClass::tlb_fill
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::443
+Subject: Re: [Qemu-devel] [PATCH v6 00/25] Add qemu_getrandom and
+ ARMv8.5-RNG etc
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -78,48 +87,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <arikalo@wavecomp.com>, peter.maydell@linaro.org,
-	Richard Henderson <richard.henderson@linaro.org>,
-	Aleksandar Markovic <amarkovic@wavecomp.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/14/19 5:48 PM, Alex Bennée wrote:
-> 
-> Aleksandar Markovic <aleksandar.m.mail@gmail.com> writes:
-> 
->> On May 10, 2019 8:57 PM, "Richard Henderson" <richard.henderson@linaro.org>
->> wrote:
->>>
+On 5/14/19 8:23 AM, Daniel P. Berrangé wrote:
+> On Tue, May 14, 2019 at 05:15:31PM +0200, Markus Armbruster wrote:
+>> "make check-unit" fails for me:
 >>
->> Please change the title to 'target/mips: Switch to using
->> mips_cpu_tlb_fill()', or something along that line.
+>>   TEST    check-unit: tests/test-crypto-tlscredsx509
+>> Unexpected error in object_new_with_propv() at /work/armbru/qemu/qom/object.c:674:
+>> invalid object type: tls-creds-x509
+>>
+>> and
+>>
+>>   TEST    check-unit: tests/test-io-channel-tls
+>> Unexpected error in object_new_with_propv() at /work/armbru/qemu/qom/object.c:674:
+>> invalid object type: tls-creds-x509
+>>
+>> I haven't looked further.
 > 
-> It does seem a little redundant as "target/mips:" already marks it as a
-> mips specific change and viewing the log you can see a series of
-> architectures being converted to a new API.
+> I have a nasty feeling it is caused by
 > 
->> Also, the reason for changing the field access_type to mips_access type
->> should be explained in the commit message.
+>   Subject: [PATCH v6 02/25] crypto: Merge crypto-obj-y into libqemuutil.a
 > 
-> ok
+> The QOM objects are not directly used by most of the code. We rely on
+> the constructor registering the QOM object and then we request an
+> instance of it via the type name. So there's no direct function calls
+> from any code into the crypto object impls.
 > 
->> This commit message is generally poor, as it explains relatively
->> unimportant logging issue, while not explaining the core of the
->> change.
-> 
-> Surely the core of the change is explained in the main patches that
-> introduce the new API? I think it would be redundant to repeat that for
-> every individual architecture touched. It's a shame it's hard to
-> explicitly reference a patch in the same series as the commit hashes are
-> not yet permanent. At least when we fix things referring to the short
-> hash of the original commit is fairly easy.
+> When we put the crypto objects into libqemuutil.a the linker is not
+> intelligent enough to see the constructor and so thinks all these
+> QOM object impls are unused and discards them when linking the final
+> binary.
 
-Except in the case the maintainer is sending a pull request (like here)
-where he can manually fix the commits. Still this is a PITA...
+Yes, that would do it.  We would need something in the test that forces the
+objects into the link.  Without having yet looked at the test cases, any ideas?
 
-> 
-> Generally for an architecture conversion I want to know what might be
-> different from other architectures converted. If it is a broadly
-> mechanical change it doesn't need to be too detailed.
+
+r~
+
 
