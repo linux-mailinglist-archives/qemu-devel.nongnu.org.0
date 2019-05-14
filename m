@@ -2,83 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A1FD1C15F
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 06:28:12 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38899 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 340781C176
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 06:39:42 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:39016 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQP2x-00011k-Gy
-	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 00:28:11 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53433)
+	id 1hQPE5-0004GA-Dn
+	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 00:39:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59848)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <aravinda@linux.vnet.ibm.com>) id 1hQP1r-0000gd-Cz
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 00:27:05 -0400
+	(envelope-from <dgibson@ozlabs.org>) id 1hQPCq-0003si-E1
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 00:38:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <aravinda@linux.vnet.ibm.com>) id 1hQP1p-0007dM-Dj
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 00:27:03 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:53908
-	helo=mx0a-001b2d01.pphosted.com)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <aravinda@linux.vnet.ibm.com>)
-	id 1hQP1k-0007ZY-SK; Tue, 14 May 2019 00:26:57 -0400
-Received: from pps.filterd (m0098413.ppops.net [127.0.0.1])
-	by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
-	x4E4QAbK020190; Tue, 14 May 2019 00:26:48 -0400
-Received: from ppma01dal.us.ibm.com (83.d6.3fa9.ip4.static.sl-reverse.com
-	[169.63.214.131])
-	by mx0b-001b2d01.pphosted.com with ESMTP id 2sfhem1pec-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Tue, 14 May 2019 00:26:47 -0400
-Received: from pps.filterd (ppma01dal.us.ibm.com [127.0.0.1])
-	by ppma01dal.us.ibm.com (8.16.0.27/8.16.0.27) with SMTP id
-	x4DMSA7a000550; Mon, 13 May 2019 22:31:07 GMT
-Received: from b01cxnp22034.gho.pok.ibm.com (b01cxnp22034.gho.pok.ibm.com
-	[9.57.198.24]) by ppma01dal.us.ibm.com with ESMTP id 2sdp14kcua-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=NOT); Mon, 13 May 2019 22:31:07 +0000
-Received: from b01ledav002.gho.pok.ibm.com (b01ledav002.gho.pok.ibm.com
-	[9.57.199.107])
-	by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
-	x4E4QjgK17301512
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK); Tue, 14 May 2019 04:26:45 GMT
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id AB03612405A;
-	Tue, 14 May 2019 04:26:45 +0000 (GMT)
-Received: from b01ledav002.gho.pok.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 2059A124054;
-	Tue, 14 May 2019 04:26:43 +0000 (GMT)
-Received: from [9.199.60.51] (unknown [9.199.60.51])
-	by b01ledav002.gho.pok.ibm.com (Postfix) with ESMTP;
-	Tue, 14 May 2019 04:26:42 +0000 (GMT)
-To: David Gibson <david@gibson.dropbear.id.au>, Greg Kurz <groug@kaod.org>
-References: <155591636364.20338.844048953355207313.stgit@aravinda>
-	<155591660602.20338.9804738040071843715.stgit@aravinda>
-	<20190513133053.4d900d4a@bahia.lan>
-	<20190514000819.GA6441@umbus.fritz.box>
-From: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
-Message-ID: <9eb7a5a6-a018-d08a-4556-26da0b6cc3ca@linux.vnet.ibm.com>
-Date: Tue, 14 May 2019 09:56:41 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
+	(envelope-from <dgibson@ozlabs.org>) id 1hQPCo-0003lq-FK
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 00:38:24 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:45333)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+	id 1hQPCn-0003Wm-BG; Tue, 14 May 2019 00:38:22 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+	id 4534gY1RFKz9sBr; Tue, 14 May 2019 14:38:17 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=gibson.dropbear.id.au; s=201602; t=1557808697;
+	bh=ofSAnoDMz09yDfzweqfjl7/3YBtshBHYWsFvpVTgJkg=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=f3KzeSiHgGhj+IlohiLFClaadJq05SZmm5dR1zerg2VWbt2bCyADpFp+yrUmUMxFw
+	Jl8I8eAYXZRc/oUi9wSqMpmGbO0DEuuHg1OQNuQXLe2q3OO+jZGwlZ+miR4Im+ZBe6
+	C/AnPrT4C/mUCo2CEdSEoS+SCIHQmolCwz/xhGnc=
+Date: Tue, 14 May 2019 14:38:11 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+Message-ID: <20190514043811.GG6441@umbus.fritz.box>
+References: <155773946961.49142.5208084426066783536.stgit@lep8c.aus.stglabs.ibm.com>
+	<155773968985.49142.1164691973469833295.stgit@lep8c.aus.stglabs.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <20190514000819.GA6441@umbus.fritz.box>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
-	definitions=2019-05-14_02:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
-	priorityscore=1501
-	malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
-	clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
-	mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
-	scancount=1 engine=8.0.1-1810050000 definitions=main-1905140029
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
-Subject: Re: [Qemu-devel] [Qemu-ppc] [PATCH v8 4/6] target/ppc: Build rtas
- error log upon an MCE
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="p8PhoBjPxaQXD0vg"
+Content-Disposition: inline
+In-Reply-To: <155773968985.49142.1164691973469833295.stgit@lep8c.aus.stglabs.ibm.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2401:3900:2:1::2
+Subject: Re: [Qemu-devel] [RFC v2 PATCH 3/3] spapr: Add Hcalls to support
+ PAPR NVDIMM device
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -90,418 +57,381 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: paulus@ozlabs.org, qemu-ppc@nongnu.org, aik@au1.ibm.com,
-	qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, imammedo@redhat.com, qemu-ppc@nongnu.org,
+	xiaoguangrong.eric@gmail.com, mst@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
+--p8PhoBjPxaQXD0vg
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Tuesday 14 May 2019 05:38 AM, David Gibson wrote:
-> On Mon, May 13, 2019 at 01:30:53PM +0200, Greg Kurz wrote:
->> On Mon, 22 Apr 2019 12:33:26 +0530
->> Aravinda Prasad <aravinda@linux.vnet.ibm.com> wrote:
->>
->>> Upon a machine check exception (MCE) in a guest address space,
->>> KVM causes a guest exit to enable QEMU to build and pass the
->>> error to the guest in the PAPR defined rtas error log format.
->>>
->>> This patch builds the rtas error log, copies it to the rtas_addr
->>> and then invokes the guest registered machine check handler. The
->>> handler in the guest takes suitable action(s) depending on the type
->>> and criticality of the error. For example, if an error is
->>> unrecoverable memory corruption in an application inside the
->>> guest, then the guest kernel sends a SIGBUS to the application.
->>> For recoverable errors, the guest performs recovery actions and
->>> logs the error.
->>>
->>> Signed-off-by: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
->>> ---
->>>  hw/ppc/spapr.c         |    4 +
->>>  hw/ppc/spapr_events.c  |  245 ++++++++++++++++++++++++++++++++++++++++++++++++
->>>  include/hw/ppc/spapr.h |    4 +
->>>  3 files changed, 253 insertions(+)
->>>
->>> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
->>> index 2779efe..ffd1715 100644
->>> --- a/hw/ppc/spapr.c
->>> +++ b/hw/ppc/spapr.c
->>> @@ -2918,6 +2918,10 @@ static void spapr_machine_init(MachineState *machine)
->>>          error_report("Could not get size of LPAR rtas '%s'", filename);
->>>          exit(1);
->>>      }
->>> +
->>> +    /* Resize blob to accommodate error log. */
->>> +    spapr->rtas_size = spapr_get_rtas_size(spapr->rtas_size);
->>> +
->>
->> This is the only user for spapr_get_rtas_size(), which is trivial.
->> I suggest you simply open-code it here.
-> 
-> I agree.
+On Mon, May 13, 2019 at 04:28:36AM -0500, Shivaprasad G Bhat wrote:
+> This patch implements few of the necessary hcalls for the nvdimm support.
+>=20
+> PAPR semantics is such that each NVDIMM device is comprising of multiple
+> SCM(Storage Class Memory) blocks. The guest requests the hypervisor to bi=
+nd
+> each of the SCM blocks of the NVDIMM device using hcalls. There can be
+> SCM block unbind requests in case of driver errors or unplug(not supporte=
+d now)
+> use cases. The NVDIMM label read/writes are done through hcalls.
+>=20
+> Since each virtual NVDIMM device is divided into multiple SCM blocks, the=
+ bind,
+> unbind, and queries using hcalls on those blocks can come independently. =
+This
+> doesn't fit well into the qemu device semantics, where the map/unmap are =
+done
+> at the (whole)device/object level granularity. The patch doesnt actually
+> bind/unbind on hcalls but let it happen at the object_add/del phase itself
+> instead.
+>=20
+> The guest kernel makes bind/unbind requests for the virtual NVDIMM device=
+ at the
+> region level granularity. Without interleaving, each virtual NVDIMM devic=
+e is
+> presented as separate region. There is no way to configure the virtual NV=
+DIMM
+> interleaving for the guests today. So, there is no way a partial bind/unb=
+ind
+> request can come for the vNVDIMM in a hcall for a subset of SCM blocks of=
+ a
+> virtual NVDIMM. Hence it is safe to do bind/unbind everything during the
+> object_add/del.
+>=20
+> Signed-off-by: Shivaprasad G Bhat <sbhat@linux.ibm.com>
+> ---
+>  hw/ppc/spapr_hcall.c   |  202 ++++++++++++++++++++++++++++++++++++++++++=
+++++++
+>  include/hw/ppc/spapr.h |    7 +-
+>  2 files changed, 208 insertions(+), 1 deletion(-)
+>=20
+> diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
+> index 6c16d2b120..b6e7d04dcf 100644
+> --- a/hw/ppc/spapr_hcall.c
+> +++ b/hw/ppc/spapr_hcall.c
+> @@ -3,11 +3,13 @@
+>  #include "sysemu/hw_accel.h"
+>  #include "sysemu/sysemu.h"
+>  #include "qemu/log.h"
+> +#include "qemu/range.h"
+>  #include "qemu/error-report.h"
+>  #include "cpu.h"
+>  #include "exec/exec-all.h"
+>  #include "helper_regs.h"
+>  #include "hw/ppc/spapr.h"
+> +#include "hw/ppc/spapr_drc.h"
+>  #include "hw/ppc/spapr_cpu_core.h"
+>  #include "mmu-hash64.h"
+>  #include "cpu-models.h"
+> @@ -16,6 +18,7 @@
+>  #include "hw/ppc/spapr_ovec.h"
+>  #include "mmu-book3s-v3.h"
+>  #include "hw/mem/memory-device.h"
+> +#include "hw/mem/nvdimm.h"
+> =20
+>  static bool has_spr(PowerPCCPU *cpu, int spr)
+>  {
+> @@ -1795,6 +1798,199 @@ static target_ulong h_update_dt(PowerPCCPU *cpu, =
+SpaprMachineState *spapr,
+>      return H_SUCCESS;
+>  }
+> =20
+> +static target_ulong h_scm_read_metadata(PowerPCCPU *cpu,
+> +                                        SpaprMachineState *spapr,
+> +                                        target_ulong opcode,
+> +                                        target_ulong *args)
+> +{
+> +    uint32_t drc_index =3D args[0];
+> +    uint64_t offset =3D args[1];
+> +    uint64_t numBytesToRead =3D args[2];
+> +    SpaprDrc *drc =3D spapr_drc_by_index(drc_index);
+> +    NVDIMMDevice *nvdimm =3D NULL;
+> +    NVDIMMClass *ddc =3D NULL;
+> +
+> +    if (drc && spapr_drc_type(drc) !=3D SPAPR_DR_CONNECTOR_TYPE_PMEM) {
+> +        return H_PARAMETER;
+> +    }
+> +
+> +    if (numBytesToRead !=3D 1 && numBytesToRead !=3D 2 &&
+> +        numBytesToRead !=3D 4 && numBytesToRead !=3D 8) {
+> +        return H_P3;
+> +    }
+> +
+> +    nvdimm =3D NVDIMM(drc->dev);
+> +    if ((offset + numBytesToRead < offset) ||
+> +        (nvdimm->label_size < numBytesToRead + offset)) {
+> +        return H_P2;
+> +    }
+> +
+> +    ddc =3D NVDIMM_GET_CLASS(nvdimm);
+> +    ddc->read_label_data(nvdimm, &args[0], numBytesToRead, offset);
 
-Sure.
+I'm pretty sure this will need some sort of byteswap.  args[0] is
+effectively in host native order (since it maps to a register, not
+memory).  But the guest will have to assume some byteorder (BE, I'm
+guessing, because PAPR) in order to map that register to an in-memory
+byteorder.  So, you'll need to compensate for that here.
 
-> 
->> But also, spapr->rtas_size is a guest visible thing, "rtas-size" prop in the
->> DT. Since existing machine types don't do that, I guess we should only use
->> the new size if cap-fwnmi-mce=on for the sake of compatibility.
-> 
-> Yes, that's a good idea.  Changing this is very unlikely to break a
-> guest, but it's easy to be safe here so let's do it.
+> +    return H_SUCCESS;
+> +}
+> +
+> +
+> +static target_ulong h_scm_write_metadata(PowerPCCPU *cpu,
+> +                                         SpaprMachineState *spapr,
+> +                                         target_ulong opcode,
+> +                                         target_ulong *args)
+> +{
+> +    uint32_t drc_index =3D args[0];
+> +    uint64_t offset =3D args[1];
+> +    uint64_t data =3D args[2];
+> +    int8_t numBytesToWrite =3D args[3];
+> +    SpaprDrc *drc =3D spapr_drc_by_index(drc_index);
+> +    NVDIMMDevice *nvdimm =3D NULL;
+> +    DeviceState *dev =3D NULL;
+> +    NVDIMMClass *ddc =3D NULL;
+> +
+> +    if (drc && spapr_drc_type(drc) !=3D SPAPR_DR_CONNECTOR_TYPE_PMEM) {
+> +        return H_PARAMETER;
+> +    }
+> +
+> +    if (numBytesToWrite !=3D 1 && numBytesToWrite !=3D 2 &&
+> +        numBytesToWrite !=3D 4 && numBytesToWrite !=3D 8) {
+> +        return H_P4;
+> +    }
+> +
+> +    dev =3D drc->dev;
+> +    nvdimm =3D NVDIMM(dev);
+> +    if ((nvdimm->label_size < numBytesToWrite + offset) ||
+> +        (offset + numBytesToWrite < offset)) {
+> +        return H_P2;
+> +    }
+> +
+> +    ddc =3D NVDIMM_GET_CLASS(nvdimm);
+> +    ddc->write_label_data(nvdimm, &data, numBytesToWrite, offset);
 
-I did it like that because the rtas_blob is allocated based on rtas_size
-in spapr_machine_init(). During spapr_machine_init() it is not know if
-the guest calls "ibm, nmi-register". So if we want to use the new size
-only when cap_fwnmi=on, then we have to realloc the blob in "ibm,
-nmi-register".
+Likewise here.
 
+> +
+> +    return H_SUCCESS;
+> +}
+> +
+> +static target_ulong h_scm_bind_mem(PowerPCCPU *cpu, SpaprMachineState *s=
+papr,
+> +                                        target_ulong opcode,
+> +                                        target_ulong *args)
+> +{
+> +    uint32_t drc_index =3D args[0];
+> +    uint64_t starting_idx =3D args[1];
+> +    uint64_t no_of_scm_blocks_to_bind =3D args[2];
+> +    uint64_t target_logical_mem_addr =3D args[3];
+> +    uint64_t continue_token =3D args[4];
+> +    uint64_t size;
+> +    uint64_t total_no_of_scm_blocks;
+> +
+> +    SpaprDrc *drc =3D spapr_drc_by_index(drc_index);
+> +    hwaddr addr;
+> +    DeviceState *dev =3D NULL;
+> +    PCDIMMDevice *dimm =3D NULL;
+> +    Error *local_err =3D NULL;
+> +
+> +    if (drc && spapr_drc_type(drc) !=3D SPAPR_DR_CONNECTOR_TYPE_PMEM) {
+> +        return H_PARAMETER;
+> +    }
+> +
+> +    dev =3D drc->dev;
+> +    dimm =3D PC_DIMM(dev);
+> +
+> +    size =3D object_property_get_uint(OBJECT(dimm),
+> +                                    PC_DIMM_SIZE_PROP, &local_err);
+> +    if (local_err) {
+> +        error_report_err(local_err);
+> +        return H_PARAMETER;
+> +    }
+> +
+> +    total_no_of_scm_blocks =3D size / SPAPR_MINIMUM_SCM_BLOCK_SIZE;
+> +
+> +    if ((starting_idx > total_no_of_scm_blocks) ||
+> +        (no_of_scm_blocks_to_bind > total_no_of_scm_blocks)) {
+> +        return H_P2;
+> +    }
+> +
+> +    if (((starting_idx + no_of_scm_blocks_to_bind) < starting_idx) ||
+> +        ((starting_idx + no_of_scm_blocks_to_bind) > total_no_of_scm_blo=
+cks)) {
+> +        return H_P3;
+> +    }
+> +
+> +    /* Currently qemu assigns the address. */
+> +    if (target_logical_mem_addr !=3D 0xffffffffffffffff) {
+> +        return H_OVERLAP;
 
-> 
->>
->>>      spapr->rtas_blob = g_malloc(spapr->rtas_size);
->>>      if (load_image_size(filename, spapr->rtas_blob, spapr->rtas_size) < 0) {
->>>          error_report("Could not load LPAR rtas '%s'", filename);
->>> diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
->>> index 9922a23..4032db0 100644
->>> --- a/hw/ppc/spapr_events.c
->>> +++ b/hw/ppc/spapr_events.c
->>> @@ -212,6 +212,106 @@ struct hp_extended_log {
->>>      struct rtas_event_log_v6_hp hp;
->>>  } QEMU_PACKED;
->>>  
->>> +struct rtas_event_log_v6_mc {
->>
->> Even if the rest of the code in this file seems to ignore CODING_STYLE,
->> maybe it's time to start using CamelCase.
->>
->> David ?
-> 
-> Out of scope here, I think.
-> 
->>> +#define RTAS_LOG_V6_SECTION_ID_MC                   0x4D43 /* MC */
->>> +    struct rtas_event_log_v6_section_header hdr;
->>> +    uint32_t fru_id;
->>> +    uint32_t proc_id;
->>> +    uint8_t error_type;
->>> +#define RTAS_LOG_V6_MC_TYPE_UE                           0
->>> +#define RTAS_LOG_V6_MC_TYPE_SLB                          1
->>> +#define RTAS_LOG_V6_MC_TYPE_ERAT                         2
->>> +#define RTAS_LOG_V6_MC_TYPE_TLB                          4
->>> +#define RTAS_LOG_V6_MC_TYPE_D_CACHE                      5
->>> +#define RTAS_LOG_V6_MC_TYPE_I_CACHE                      7
->>> +    uint8_t sub_err_type;
->>> +#define RTAS_LOG_V6_MC_UE_INDETERMINATE                  0
->>> +#define RTAS_LOG_V6_MC_UE_IFETCH                         1
->>> +#define RTAS_LOG_V6_MC_UE_PAGE_TABLE_WALK_IFETCH         2
->>> +#define RTAS_LOG_V6_MC_UE_LOAD_STORE                     3
->>> +#define RTAS_LOG_V6_MC_UE_PAGE_TABLE_WALK_LOAD_STORE     4
->>> +#define RTAS_LOG_V6_MC_SLB_PARITY                        0
->>> +#define RTAS_LOG_V6_MC_SLB_MULTIHIT                      1
->>> +#define RTAS_LOG_V6_MC_SLB_INDETERMINATE                 2
->>> +#define RTAS_LOG_V6_MC_ERAT_PARITY                       1
->>> +#define RTAS_LOG_V6_MC_ERAT_MULTIHIT                     2
->>> +#define RTAS_LOG_V6_MC_ERAT_INDETERMINATE                3
->>> +#define RTAS_LOG_V6_MC_TLB_PARITY                        1
->>> +#define RTAS_LOG_V6_MC_TLB_MULTIHIT                      2
->>> +#define RTAS_LOG_V6_MC_TLB_INDETERMINATE                 3
->>> +    uint8_t reserved_1[6];
->>> +    uint64_t effective_address;
->>> +    uint64_t logical_address;
->>> +} QEMU_PACKED;
->>> +
->>> +struct mc_extended_log {
->>> +    struct rtas_event_log_v6 v6hdr;
->>> +    struct rtas_event_log_v6_mc mc;
->>> +} QEMU_PACKED;
->>> +
->>> +struct MC_ierror_table {
->>> +    unsigned long srr1_mask;
->>> +    unsigned long srr1_value;
->>> +    bool nip_valid; /* nip is a valid indicator of faulting address */
->>> +    uint8_t error_type;
->>> +    uint8_t error_subtype;
->>> +    unsigned int initiator;
->>> +    unsigned int severity;
->>> +};
->>> +
->>> +static const struct MC_ierror_table mc_ierror_table[] = {
->>> +{ 0x00000000081c0000, 0x0000000000040000, true,
->>> +  RTAS_LOG_V6_MC_TYPE_UE, RTAS_LOG_V6_MC_UE_IFETCH,
->>> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
->>> +{ 0x00000000081c0000, 0x0000000000080000, true,
->>> +  RTAS_LOG_V6_MC_TYPE_SLB, RTAS_LOG_V6_MC_SLB_PARITY,
->>> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
->>> +{ 0x00000000081c0000, 0x00000000000c0000, true,
->>> +  RTAS_LOG_V6_MC_TYPE_SLB, RTAS_LOG_V6_MC_SLB_MULTIHIT,
->>> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
->>> +{ 0x00000000081c0000, 0x0000000000100000, true,
->>> +  RTAS_LOG_V6_MC_TYPE_ERAT, RTAS_LOG_V6_MC_ERAT_MULTIHIT,
->>> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
->>> +{ 0x00000000081c0000, 0x0000000000140000, true,
->>> +  RTAS_LOG_V6_MC_TYPE_TLB, RTAS_LOG_V6_MC_TLB_MULTIHIT,
->>> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
->>> +{ 0x00000000081c0000, 0x0000000000180000, true,
->>> +  RTAS_LOG_V6_MC_TYPE_UE, RTAS_LOG_V6_MC_UE_PAGE_TABLE_WALK_IFETCH,
->>> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
->>> +{ 0, 0, 0, 0, 0, 0 } };
->>> +
->>> +struct MC_derror_table {
->>> +    unsigned long dsisr_value;
->>> +    bool dar_valid; /* dar is a valid indicator of faulting address */
->>> +    uint8_t error_type;
->>> +    uint8_t error_subtype;
->>> +    unsigned int initiator;
->>> +    unsigned int severity;
->>> +};
->>> +
->>> +static const struct MC_derror_table mc_derror_table[] = {
->>> +{ 0x00008000, false,
->>> +  RTAS_LOG_V6_MC_TYPE_UE, RTAS_LOG_V6_MC_UE_LOAD_STORE,
->>> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
->>> +{ 0x00004000, true,
->>> +  RTAS_LOG_V6_MC_TYPE_UE, RTAS_LOG_V6_MC_UE_PAGE_TABLE_WALK_LOAD_STORE,
->>> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
->>> +{ 0x00000800, true,
->>> +  RTAS_LOG_V6_MC_TYPE_ERAT, RTAS_LOG_V6_MC_ERAT_MULTIHIT,
->>> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
->>> +{ 0x00000400, true,
->>> +  RTAS_LOG_V6_MC_TYPE_TLB, RTAS_LOG_V6_MC_TLB_MULTIHIT,
->>> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
->>> +{ 0x00000080, true,
->>> +  RTAS_LOG_V6_MC_TYPE_SLB, RTAS_LOG_V6_MC_SLB_MULTIHIT,  /* Before PARITY */
->>> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
->>> +{ 0x00000100, true,
->>> +  RTAS_LOG_V6_MC_TYPE_SLB, RTAS_LOG_V6_MC_SLB_PARITY,
->>> +  RTAS_LOG_INITIATOR_CPU, RTAS_LOG_SEVERITY_ERROR_SYNC, },
->>> +{ 0, false, 0, 0, 0, 0 } };
->>> +
->>> +#define SRR1_MC_LOADSTORE(srr1) ((srr1) & PPC_BIT(42))
->>> +
->>>  typedef enum EventClass {
->>>      EVENT_CLASS_INTERNAL_ERRORS     = 0,
->>>      EVENT_CLASS_EPOW                = 1,
->>> @@ -620,6 +720,147 @@ void spapr_hotplug_req_remove_by_count_indexed(SpaprDrcType drc_type,
->>>                              RTAS_LOG_V6_HP_ACTION_REMOVE, drc_type, &drc_id);
->>>  }
->>>  
->>> +ssize_t spapr_get_rtas_size(ssize_t old_rtas_size)
->>> +{
->>> +    g_assert(old_rtas_size < RTAS_ERRLOG_OFFSET);
->>> +    return RTAS_ERROR_LOG_MAX;
->>> +}
->>> +
->>> +static uint32_t spapr_mce_get_elog_type(PowerPCCPU *cpu, bool recovered,
->>> +                                        struct mc_extended_log *ext_elog)
->>> +{
->>> +    int i;
->>> +    CPUPPCState *env = &cpu->env;
->>> +    uint32_t summary;
->>> +    uint64_t dsisr = env->spr[SPR_DSISR];
->>> +
->>> +    summary = RTAS_LOG_VERSION_6 | RTAS_LOG_OPTIONAL_PART_PRESENT;
->>> +    if (recovered) {
->>> +        summary |= RTAS_LOG_DISPOSITION_FULLY_RECOVERED;
->>> +    } else {
->>> +        summary |= RTAS_LOG_DISPOSITION_NOT_RECOVERED;
->>> +    }
->>> +
->>> +    if (SRR1_MC_LOADSTORE(env->spr[SPR_SRR1])) {
->>> +        for (i = 0; mc_derror_table[i].dsisr_value; i++) {
->>> +            if (!(dsisr & mc_derror_table[i].dsisr_value)) {
->>> +                continue;
->>> +            }
->>> +
->>> +            ext_elog->mc.error_type = mc_derror_table[i].error_type;
->>> +            ext_elog->mc.sub_err_type = mc_derror_table[i].error_subtype;
->>> +            if (mc_derror_table[i].dar_valid) {
->>> +                ext_elog->mc.effective_address = cpu_to_be64(env->spr[SPR_DAR]);
->>> +            }
->>> +
->>> +            summary |= mc_derror_table[i].initiator
->>> +                        | mc_derror_table[i].severity;
->>> +
->>> +            return summary;
->>> +        }
->>> +    } else {
->>> +        for (i = 0; mc_ierror_table[i].srr1_mask; i++) {
->>> +            if ((env->spr[SPR_SRR1] & mc_ierror_table[i].srr1_mask) !=
->>> +                    mc_ierror_table[i].srr1_value) {
->>> +                continue;
->>> +            }
->>> +
->>> +            ext_elog->mc.error_type = mc_ierror_table[i].error_type;
->>> +            ext_elog->mc.sub_err_type = mc_ierror_table[i].error_subtype;
->>> +            if (mc_ierror_table[i].nip_valid) {
->>> +                ext_elog->mc.effective_address = cpu_to_be64(env->nip);
->>> +            }
->>> +
->>> +            summary |= mc_ierror_table[i].initiator
->>> +                        | mc_ierror_table[i].severity;
->>> +
->>> +            return summary;
->>> +        }
->>> +    }
->>> +
->>> +    summary |= RTAS_LOG_INITIATOR_CPU;
->>> +    return summary;
->>> +}
->>> +
->>> +static void spapr_mce_dispatch_elog(PowerPCCPU *cpu, bool recovered)
->>> +{
->>> +    SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
->>> +    CPUState *cs = CPU(cpu);
->>> +    uint64_t rtas_addr;
->>> +    CPUPPCState *env = &cpu->env;
->>> +    PowerPCCPUClass *pcc = POWERPC_CPU_GET_CLASS(cpu);
->>> +    target_ulong r3, msr = 0;
->>> +    struct rtas_error_log log;
->>> +    struct mc_extended_log *ext_elog;
->>> +    uint32_t summary;
->>> +
->>> +    /*
->>> +     * Properly set bits in MSR before we invoke the handler.
->>> +     * SRR0/1, DAR and DSISR are properly set by KVM
->>> +     */
->>> +    if (!(*pcc->interrupts_big_endian)(cpu)) {
->>> +        msr |= (1ULL << MSR_LE);
->>> +    }
->>> +
->>> +    if (env->msr && (1ULL << MSR_SF)) {
->>> +        msr |= (1ULL << MSR_SF);
->>> +    }
->>> +
->>> +    msr |= (1ULL << MSR_ME);
->>> +
->>> +    if (spapr->guest_machine_check_addr == -1) {
->>
->> Should be (target_ulong) -1
-> 
-> I think the == itself should perform the necessary coercion.
-> 
->>> +        /*
->>> +         * This implies that we have hit a machine check between system
->>> +         * reset and "ibm,nmi-register". Fall back to the old machine
->>> +         * check behavior in such cases.
->>> +         */
->>> +        env->spr[SPR_SRR0] = env->nip;
->>> +        env->spr[SPR_SRR1] = env->msr;
->>> +        env->msr = msr;
->>> +        env->nip = 0x200;
->>> +        return;
->>> +    }
->>> +
->>> +    ext_elog = g_malloc0(sizeof(struct mc_extended_log));
->>
->> sizeof(*ext_elog) is preferable IMHO, same remark for the other sizeof sites.
-> 
-> Agreed.
+So, only supporting one mode of the interface is reasonable.  However,
+it seems a somewhat unnatural way to handle the PAPR interface.  It
+seems to me it would be more natural to instantiate the underlying
+NVDIMM objects so that they're not in address_space_memory, but rather
+in their own initially inaccssible address_space.  Then the BIND call
+would alias a chunk of address_space_memory into the NVDIMMs address
+space.
 
-ok.
+> +    }
+> +
+> +    /*
+> +     * Currently continue token should be zero qemu has already bound
+> +     * everything and this hcall doesnt return H_BUSY.
+> +     */
+> +    if (continue_token > 0) {
+> +        return H_P5;
+> +    }
+> +
+> +    /* NB : Already bound, Return target logical address in R4 */
+> +    addr =3D object_property_get_uint(OBJECT(dimm),
+> +                                    PC_DIMM_ADDR_PROP, &local_err);
+> +    if (local_err) {
+> +        error_report_err(local_err);
+> +        return H_PARAMETER;
+> +    }
+> +
+> +    args[1] =3D addr;
 
-> 
->> Also, I can't find the corresponding call to g_free(), which should be
->> somewhere in this function IIUC.
-> 
-> Yes, that needs fixing.
+Don't you need to adjust this if start_idx is non-zero?
 
-Yes, missed calling free. Will fix it.
+> +    args[2] =3D no_of_scm_blocks_to_bind;
+> +
+> +    return H_SUCCESS;
+> +}
+> +
+> +static target_ulong h_scm_unbind_mem(PowerPCCPU *cpu, SpaprMachineState =
+*spapr,
+> +                                        target_ulong opcode,
+> +                                        target_ulong *args)
+> +{
+> +    uint32_t drc_index =3D args[0];
+> +    uint64_t starting_scm_logical_addr =3D args[1];
+> +    uint64_t no_of_scm_blocks_to_unbind =3D args[2];
+> +    uint64_t size_to_unbind;
+> +    uint64_t continue_token =3D args[3];
+> +    Range blockrange =3D range_empty;
+> +    Range nvdimmrange =3D range_empty;
+> +    SpaprDrc *drc =3D spapr_drc_by_index(drc_index);
+> +    DeviceState *dev =3D NULL;
+> +    PCDIMMDevice *dimm =3D NULL;
+> +    uint64_t size, addr;
+> +
+> +    if (drc && spapr_drc_type(drc) !=3D SPAPR_DR_CONNECTOR_TYPE_PMEM) {
+> +        return H_PARAMETER;
+> +    }
+> +
+> +    /* Check if starting_scm_logical_addr is block aligned */
+> +    if (!QEMU_IS_ALIGNED(starting_scm_logical_addr,
+> +                         SPAPR_MINIMUM_SCM_BLOCK_SIZE)) {
+> +        return H_P2;
+> +    }
+> +
+> +    dev =3D drc->dev;
+> +    dimm =3D PC_DIMM(dev);
+> +    size =3D object_property_get_int(OBJECT(dimm), PC_DIMM_SIZE_PROP, NU=
+LL);
+> +    addr =3D object_property_get_int(OBJECT(dimm), PC_DIMM_ADDR_PROP, NU=
+LL);
+> +
+> +    range_init_nofail(&nvdimmrange, addr, size);
+> +
+> +    size_to_unbind =3D no_of_scm_blocks_to_unbind * SPAPR_MINIMUM_SCM_BL=
+OCK_SIZE;
+> +
+> +
+> +    range_init_nofail(&blockrange, starting_scm_logical_addr, size_to_un=
+bind);
+> +
+> +    if (!range_contains_range(&nvdimmrange, &blockrange)) {
+> +        return H_P3;
+> +    }
+> +
+> +    if (continue_token > 0) {
+> +        return H_P3;
+> +    }
+> +
+> +    args[1] =3D no_of_scm_blocks_to_unbind;
+> +
+> +    /*NB : dont do anything, let object_del take care of this for now. */
+> +    return H_SUCCESS;
+> +}
+> +
+>  static spapr_hcall_fn papr_hypercall_table[(MAX_HCALL_OPCODE / 4) + 1];
+>  static spapr_hcall_fn kvmppc_hypercall_table[KVMPPC_HCALL_MAX - KVMPPC_H=
+CALL_BASE + 1];
+> =20
+> @@ -1894,6 +2090,12 @@ static void hypercall_register_types(void)
+>      /* qemu/KVM-PPC specific hcalls */
+>      spapr_register_hypercall(KVMPPC_H_RTAS, h_rtas);
+> =20
+> +    /* qemu/scm specific hcalls */
+> +    spapr_register_hypercall(H_SCM_READ_METADATA, h_scm_read_metadata);
+> +    spapr_register_hypercall(H_SCM_WRITE_METADATA, h_scm_write_metadata);
+> +    spapr_register_hypercall(H_SCM_BIND_MEM, h_scm_bind_mem);
+> +    spapr_register_hypercall(H_SCM_UNBIND_MEM, h_scm_unbind_mem);
+> +
+>      /* ibm,client-architecture-support support */
+>      spapr_register_hypercall(KVMPPC_H_CAS, h_client_architecture_support=
+);
+> =20
+> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> index 394ea26335..48e2cc9d67 100644
+> --- a/include/hw/ppc/spapr.h
+> +++ b/include/hw/ppc/spapr.h
+> @@ -283,6 +283,7 @@ struct SpaprMachineState {
+>  #define H_P7              -60
+>  #define H_P8              -61
+>  #define H_P9              -62
+> +#define H_OVERLAP         -68
+>  #define H_UNSUPPORTED_FLAG -256
+>  #define H_MULTI_THREADS_ACTIVE -9005
+> =20
+> @@ -490,8 +491,12 @@ struct SpaprMachineState {
+>  #define H_INT_ESB               0x3C8
+>  #define H_INT_SYNC              0x3CC
+>  #define H_INT_RESET             0x3D0
+> +#define H_SCM_READ_METADATA     0x3E4
+> +#define H_SCM_WRITE_METADATA    0x3E8
+> +#define H_SCM_BIND_MEM          0x3EC
+> +#define H_SCM_UNBIND_MEM        0x3F0
+> =20
+> -#define MAX_HCALL_OPCODE        H_INT_RESET
+> +#define MAX_HCALL_OPCODE        H_SCM_UNBIND_MEM
+> =20
+>  /* The hcalls above are standardized in PAPR and implemented by pHyp
+>   * as well.
+>=20
 
-> 
->>
->>> +    summary = spapr_mce_get_elog_type(cpu, recovered, ext_elog);
->>> +
->>> +    log.summary = cpu_to_be32(summary);
->>> +    log.extended_length = cpu_to_be32(sizeof(struct mc_extended_log));
->>> +
->>> +    /* r3 should be in BE always */
->>> +    r3 = cpu_to_be64(env->gpr[3]);
->>> +    env->msr = msr;
->>> +
->>> +    spapr_init_v6hdr(&ext_elog->v6hdr);
->>> +    ext_elog->mc.hdr.section_id = cpu_to_be16(RTAS_LOG_V6_SECTION_ID_MC);
->>> +    ext_elog->mc.hdr.section_length =
->>> +                    cpu_to_be16(sizeof(struct rtas_event_log_v6_mc));
->>> +    ext_elog->mc.hdr.section_version = 1;
->>> +
->>> +    /* get rtas addr from fdt */
->>> +    rtas_addr = spapr_get_rtas_addr();
->>> +    if (!rtas_addr) {
->>> +        /* Unable to fetch rtas_addr. Hence reset the guest */
->>> +        ppc_cpu_do_system_reset(cs);
->>> +    }
->>> +
->>> +    cpu_physical_memory_write(rtas_addr + RTAS_ERRLOG_OFFSET, &r3, sizeof(r3));
->>> +    cpu_physical_memory_write(rtas_addr + RTAS_ERRLOG_OFFSET + sizeof(r3),
->>> +                              &log, sizeof(log));
->>> +    cpu_physical_memory_write(rtas_addr + RTAS_ERRLOG_OFFSET + sizeof(r3) +
->>> +                              sizeof(log), ext_elog,
->>> +                              sizeof(struct mc_extended_log));
->>> +
->>> +    /* Save gpr[3] in the guest endian mode */
->>> +    if ((*pcc->interrupts_big_endian)(cpu)) {
->>> +        env->gpr[3] = cpu_to_be64(rtas_addr + RTAS_ERRLOG_OFFSET);
->>> +    } else {
->>> +        env->gpr[3] = cpu_to_le64(rtas_addr + RTAS_ERRLOG_OFFSET);
->>> +    }
->>> +
->>> +    env->nip = spapr->guest_machine_check_addr;
->>> +}
->>> +
->>>  void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered)
->>>  {
->>>      SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
->>> @@ -640,6 +881,10 @@ void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered)
->>>          }
->>>      }
->>>      spapr->mc_status = cpu->vcpu_id;
->>> +
->>> +    spapr_mce_dispatch_elog(cpu, recovered);
->>> +
->>> +    return;
->>>  }
->>>  
->>>  static void check_exception(PowerPCCPU *cpu, SpaprMachineState *spapr,
->>> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
->>> index f7204d0..03f34bf 100644
->>> --- a/include/hw/ppc/spapr.h
->>> +++ b/include/hw/ppc/spapr.h
->>> @@ -661,6 +661,9 @@ target_ulong spapr_hypercall(PowerPCCPU *cpu, target_ulong opcode,
->>>  #define DIAGNOSTICS_RUN_MODE_IMMEDIATE 2
->>>  #define DIAGNOSTICS_RUN_MODE_PERIODIC  3
->>>  
->>> +/* Offset from rtas-base where error log is placed */
->>> +#define RTAS_ERRLOG_OFFSET       0x25
->>> +
->>
->> We already have an RTAS_ERROR_LOG_MAX macro defined in this file.
->> Maybe use the same "ERROR_LOG" wording for consistency.
-> 
-> Agreed.
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
 
-ok.
+--p8PhoBjPxaQXD0vg
+Content-Type: application/pgp-signature; name="signature.asc"
 
-Regards,
-Aravinda
+-----BEGIN PGP SIGNATURE-----
 
-> 
->>>  static inline uint64_t ppc64_phys_to_real(uint64_t addr)
->>>  {
->>>      return addr & ~0xF000000000000000ULL;
->>> @@ -798,6 +801,7 @@ int spapr_max_server_number(SpaprMachineState *spapr);
->>>  void spapr_store_hpte(PowerPCCPU *cpu, hwaddr ptex,
->>>                        uint64_t pte0, uint64_t pte1);
->>>  void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered);
->>> +ssize_t spapr_get_rtas_size(ssize_t old_rtas_sizea);
->>>  
->>>  /* DRC callbacks. */
->>>  void spapr_core_release(DeviceState *dev);
->>>
->>>
->>
-> 
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlzaRjEACgkQbDjKyiDZ
+s5J2yg/+KC5W/pWASRow05WfVu6gALbgTj2UqItVa3cDvDg8dGhY0Z4aWfsw23R5
+jow6EdlGkT9BLGT1vEHpR2nj4GB9pTmBpkmpLrjgX8/imfP8otUfvqrpATk8oBHk
+esImnb2XcB5KJOmQn913MF0Y/kcSKhO/5AOW5oh7Hg10LhimOqXkjvPCBK7UJW9K
+4IskuZWBwTAYtCmlmAhVDSgtkrJngth7pdrxQ5/eNcNpRU3xy6iTVj3HLOvgXexB
+hh9sYGMpsUkS7W0pf6WAu7owNQ6wQbYLpLJAz5vmPpt9Ahl6X8wFL/9/6S+9Saz7
+flJbvhxrj9oXdRv9HzeP3MsZYp4REwQU4emjGC3a20BZ5FJnoAI9+glulmoKuHCV
+6suCQpHBZbb9QIdpbhYTbB98MZwMZj+YK70ybt/6Dotvo+SgOxwBexYA4etwoDd2
+7cCaJcOzy9mDTrtP1DTbqxZNA99Mlm3YSreako63BQMvW85syU0uorT5qPYGCkrw
+fe8jaOZZgQ+EpXPW1OZzk4z0kulwdUlWpzNH5gmmx2CWQrjYQVRuImd+jKCIEAQt
+2RAjvPTwbu5/rT3LVRZlbYDpJiyqtNVUqjYxcybiu9nUpEYN7MiaL9ndE/z0G0Xv
+PsVlLyLdEQctm7isr2p9hk7FUzAt8C9D/rXHu0mdlP3dDoPDzGY=
+=bVi/
+-----END PGP SIGNATURE-----
 
--- 
-Regards,
-Aravinda
+--p8PhoBjPxaQXD0vg--
 
