@@ -2,40 +2,36 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E05B11E41F
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 23:47:49 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55159 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 503DF1E424
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 23:52:18 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:55302 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQfH3-0002ty-5O
-	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 17:47:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49677)
+	id 1hQfLN-0005Cu-I7
+	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 17:52:17 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51591)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <eblake@redhat.com>) id 1hQfD1-0000c5-DO
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 17:43:40 -0400
+	(envelope-from <eblake@redhat.com>) id 1hQfK7-0004lL-Fp
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 17:51:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <eblake@redhat.com>) id 1hQfD0-0007ur-0E
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 17:43:39 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49162)
+	(envelope-from <eblake@redhat.com>) id 1hQfK6-0005Lb-8B
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 17:50:59 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56096)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <eblake@redhat.com>) id 1hQfCy-0007qe-Sm
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 17:43:37 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
+	(Exim 4.71) (envelope-from <eblake@redhat.com>)
+	id 1hQfJz-0005Fy-LZ; Tue, 14 May 2019 17:50:53 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 5D691307D910;
-	Tue, 14 May 2019 21:43:35 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id B8653308FED4;
+	Tue, 14 May 2019 21:50:49 +0000 (UTC)
 Received: from [10.3.116.43] (ovpn-116-43.phx2.redhat.com [10.3.116.43])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id AA0B65D6A6;
-	Tue, 14 May 2019 21:43:34 +0000 (UTC)
-To: Richard Henderson <richard.henderson@linaro.org>,
-	=?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-References: <20190510173049.28171-1-richard.henderson@linaro.org>
-	<877eatdq3w.fsf@dusky.pond.sub.org> <20190514152331.GJ25916@redhat.com>
-	<d050fa9d-8e4b-7b87-31e5-05a7fa78feb9@linaro.org>
-	<20190514165036.GA7680@redhat.com>
-	<f0da55b5-e14d-e718-0608-fa37d1cb6c2b@linaro.org>
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 9C2501001E67;
+	Tue, 14 May 2019 21:50:40 +0000 (UTC)
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+References: <20190514214230.22601-1-mreitz@redhat.com>
+	<20190514214230.22601-2-mreitz@redhat.com>
 From: Eric Blake <eblake@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=eblake@redhat.com; keydata=
@@ -62,24 +58,24 @@ Autocrypt: addr=eblake@redhat.com; keydata=
 	Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
 	2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
 Organization: Red Hat, Inc.
-Message-ID: <dfed572d-6104-8ada-3bd8-1231dc6d6392@redhat.com>
-Date: Tue, 14 May 2019 16:43:33 -0500
+Message-ID: <88ab9614-e1ec-650f-8834-4a906768aedb@redhat.com>
+Date: Tue, 14 May 2019 16:50:39 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <f0da55b5-e14d-e718-0608-fa37d1cb6c2b@linaro.org>
+In-Reply-To: <20190514214230.22601-2-mreitz@redhat.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
 	protocol="application/pgp-signature";
-	boundary="YfrUyl5bOcMKTyAn9h7EDSbuyEqdNFc74"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+	boundary="wvHelhw4PiKCjPM2sbVXIUGhjhEl9fFaY"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.48]);
-	Tue, 14 May 2019 21:43:35 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.49]);
+	Tue, 14 May 2019 21:50:49 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PATCH v6 00/25] Add qemu_getrandom and
- ARMv8.5-RNG etc
+Subject: Re: [Qemu-devel] [PATCH 1/2] block/file-posix: Unaligned O_DIRECT
+ block-status
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -91,67 +87,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
+	qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---YfrUyl5bOcMKTyAn9h7EDSbuyEqdNFc74
+--wvHelhw4PiKCjPM2sbVXIUGhjhEl9fFaY
 From: Eric Blake <eblake@redhat.com>
-To: Richard Henderson <richard.henderson@linaro.org>,
- =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>
-Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
-Message-ID: <dfed572d-6104-8ada-3bd8-1231dc6d6392@redhat.com>
-Subject: Re: [Qemu-devel] [PATCH v6 00/25] Add qemu_getrandom and ARMv8.5-RNG
- etc
-References: <20190510173049.28171-1-richard.henderson@linaro.org>
- <877eatdq3w.fsf@dusky.pond.sub.org> <20190514152331.GJ25916@redhat.com>
- <d050fa9d-8e4b-7b87-31e5-05a7fa78feb9@linaro.org>
- <20190514165036.GA7680@redhat.com>
- <f0da55b5-e14d-e718-0608-fa37d1cb6c2b@linaro.org>
-In-Reply-To: <f0da55b5-e14d-e718-0608-fa37d1cb6c2b@linaro.org>
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, Kevin Wolf <kwolf@redhat.com>,
+ qemu-stable@nongnu.org
+Message-ID: <88ab9614-e1ec-650f-8834-4a906768aedb@redhat.com>
+Subject: Re: [PATCH 1/2] block/file-posix: Unaligned O_DIRECT block-status
+References: <20190514214230.22601-1-mreitz@redhat.com>
+ <20190514214230.22601-2-mreitz@redhat.com>
+In-Reply-To: <20190514214230.22601-2-mreitz@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On 5/14/19 12:46 PM, Richard Henderson wrote:
-> On 5/14/19 9:50 AM, Daniel P. Berrang=C3=A9 wrote:
->> On Tue, May 14, 2019 at 09:14:57AM -0700, Richard Henderson wrote:
->>> Yes, that would do it.  We would need something in the test that forc=
-es the
->>> objects into the link.  Without having yet looked at the test cases, =
-any ideas?
->>
->> I don't think this is only the test suite. I think it will affect all =
-the
->> binaries we build
+On 5/14/19 4:42 PM, Max Reitz wrote:
+> Currently, qemu crashes whenever someone queries the block status of an=
+
+> unaligned image tail of an O_DIRECT image:
+> $ echo > foo
+> $ qemu-img map --image-opts driver=3Dfile,filename=3Dfoo,cache.direct=3D=
+on
+> Offset          Length          Mapped to       File
+> qemu-img: block/io.c:2093: bdrv_co_block_status: Assertion `*pnum &&
+> QEMU_IS_ALIGNED(*pnum, align) && align > offset - aligned_offset'
+> failed.
 >=20
-> You're right, it does.
+> This is because bdrv_co_block_status() checks that the result returned
+> by the driver's implementation is aligned to the request_alignment, but=
+
+> file-posix can fail to do so, which is actually mentioned in a comment
+> there: "[...] possibly including a partial sector at EOF".
 >=20
-> $ nm aarch64-softmmu/qemu-system-aarch64  \
->   | grep qcrypto_tls_creds_x509_register_types
+> Fix this by rounding up those partial sectors.
 >=20
-> comes up empty.
+> There are two possible alternative fixes:
+> (1) We could refuse to open unaligned image files with O_DIRECT
+>     altogether.  That sounds reasonable until you realize that qcow2
+>     does necessarily not fill up its metadata clusters, and that nobody=
+
+>     runs qemu-img create with O_DIRECT.  Therefore, unpreallocated qcow=
+2
+>     files usually have an unaligned image tail.
+
+Yep, non-starter.
+
 >=20
-> It didn't occur to me that there was nothing in the object files for th=
-e
-> reference.  I'll have to drop the crypto-obj-y patch and come up with a=
+> (2) bdrv_co_block_status() could ignore unaligned tails.  It actually
+>     throws away everything past the EOF already, so that sounds
+>     reasonable.
+>     Unfortunately, the block layer knows file lengths only with a
+>     granularity of BDRV_SECTOR_SIZE, so bdrv_co_block_status() usually
+>     would have to guess whether its file length information is inexact
+>     or whether the driver is broken.
 
-> different solution.
+Well, if I ever get around to my thread of making the block layer honor
+byte-accurate sizes, instead of rounding up, then there is no longer
+than inexactness. I think our mails crossed, and you missed another idea
+of mine of having block drivers (probably only file-posix, per your
+audit) set BDRV_BLOCK_EOF when returning an unaligned answer due to EOF,
+as the key for letting the block layer know whether the unaligned answer
+was due to size rounding.
 
-Isn't there a gcc annotation for marking a simple as mandatorily
-included during link?
+>=20
+> Fixing what raw_co_block_status() returns is the safest thing to do.
 
-/me goes looking...
+Agree.
 
-__attribute__((externally_visible)) sounds promising (it nullifies the
-effects of -fwhole-program, so that a function remains visible even if
-the linker would have otherwise suppressed it)
+>=20
+> There seems to be no other block driver that sets request_alignment and=
 
-__attribute__((used)) also sounds useful (the function must be emitted
-even if it does not appear to be referenced, which may be enough for the
-linker to infer that it is used)
+> does not make sure that it always returns aligned values.
 
-There may be other tricks, although I didn't go searching very hard.
+Thanks for auditing.
+
+>=20
+> Cc: qemu-stable@nongnu.org
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> ---
+>  block/file-posix.c | 17 +++++++++++++++++
+>  1 file changed, 17 insertions(+)
+>=20
+> diff --git a/block/file-posix.c b/block/file-posix.c
+> index e09e15bbf8..f489a5420c 100644
+> --- a/block/file-posix.c
+> +++ b/block/file-posix.c
+> @@ -2488,6 +2488,9 @@ static int coroutine_fn raw_co_block_status(Block=
+DriverState *bs,
+>      off_t data =3D 0, hole =3D 0;
+>      int ret;
+> =20
+> +    assert(QEMU_IS_ALIGNED(offset, bs->bl.request_alignment) &&
+> +           QEMU_IS_ALIGNED(bytes, bs->bl.request_alignment));
+> +
+
+Can write in one line as:
+
+assert(QEMU_IS_ALIGNED(offset | bytes, bs->bl.request_alignment));
+
+>      ret =3D fd_open(bs);
+>      if (ret < 0) {
+>          return ret;
+> @@ -2513,6 +2516,20 @@ static int coroutine_fn raw_co_block_status(Bloc=
+kDriverState *bs,
+>          /* On a data extent, compute bytes to the end of the extent,
+>           * possibly including a partial sector at EOF. */
+>          *pnum =3D MIN(bytes, hole - offset);
+> +
+> +        /*
+> +         * We are not allowed to return partial sectors, though, so
+> +         * round up if necessary.
+> +         */
+> +        if (!QEMU_IS_ALIGNED(*pnum, bs->bl.request_alignment)) {
+> +            int64_t file_length =3D raw_getlength(bs);
+> +            if (file_length > 0) {
+> +                /* Ignore errors, this is just a safeguard */
+> +                assert(hole =3D=3D file_length);
+> +            }
+> +            *pnum =3D ROUND_UP(*pnum, bs->bl.request_alignment);
+> +        }
+
+Reviewed-by: Eric Blake <eblake@redhat.com>
+
+bl.request_alignment is normally 1 (making this a no-op), but is
+definitely larger for O_DIRECT images (where rounding up and treating
+the post-EOF hole the same as the rest of the sector is the same thing
+that NBD chose to do).
 
 --=20
 Eric Blake, Principal Software Engineer
@@ -159,22 +225,22 @@ Red Hat, Inc.           +1-919-301-3226
 Virtualization:  qemu.org | libvirt.org
 
 
---YfrUyl5bOcMKTyAn9h7EDSbuyEqdNFc74
+--wvHelhw4PiKCjPM2sbVXIUGhjhEl9fFaY
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlzbNoUACgkQp6FrSiUn
-Q2r4/wgAjaSc1QCHYQvuMoAL6zHXl+Vbacs0JZnYTvvY+Kf3ttJ1TX9qdGRr8jCi
-h7gSEZCSweA+D28jduW/wVg581yK6OJkXmT5x9iEv25e99MZSwBwiyhm/l8sFfP7
-BeWkuJUErg6qVd02F9ro6H8vCGwCdZfIeQCY6NHCnm+Kbjo7VaHOc0Ha30+TK0Vf
-2g6Kzurmg9B7SAkXwGmv0TmBTxk1nZr/gPEuPkDFexof+lfM5VpmT+Zx+SKrQLZp
-2mnAU/vDTysqxTIgGVuQ9Z++C5PQ0WpaGEBd95BGCtmQxMeFH6ZqNdwf36sCj7Mg
-/IRpJ8RUeC+bCkWuj4dhSB4Q/1T3Eg==
-=SmN1
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlzbOC8ACgkQp6FrSiUn
+Q2oOJQf6A6mIaz+Ca8ufpHWA+l4HsmYAqtvbsngFOD825+SvYRb7I+OdDuEt01H1
+4M9OA7bGN86MHal3GiVipa3fZwqrcVacvlhuK8XItHsO1qMbw/agOHmjFJeYxQMr
+V6WkUYBMdMRcrVvb+4kTRaPhgDsNqHfefYG1wuNqYQwBH6VcUPcpXkiCBRaBCpg0
+Ymse4Bybse6T24udPpcb77cSxe4hmKVLi3nqFIDLNt5rDVdcefMXYZeHeF1lQCrY
+baVbUwYVVJESf8k2uFEaSFIedzBGvyuyl/d2K2tCifKBoRQjOhC7X2ve+KGyB7G3
+AQeeVyuPN32zTBvdaSgFy/FVA5ndfg==
+=Gtms
 -----END PGP SIGNATURE-----
 
---YfrUyl5bOcMKTyAn9h7EDSbuyEqdNFc74--
+--wvHelhw4PiKCjPM2sbVXIUGhjhEl9fFaY--
 
