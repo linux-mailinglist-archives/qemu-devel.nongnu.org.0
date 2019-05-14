@@ -2,68 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E1FE1D0F6
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 23:00:48 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54041 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2EF11D107
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 23:09:25 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54222 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQeXV-0000cM-9s
-	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 17:00:45 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39078)
+	id 1hQefs-00072g-V1
+	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 17:09:25 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39003)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <jcmvbkbc@gmail.com>) id 1hQeUz-0007pr-OZ
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 16:58:10 -0400
+	(envelope-from <jcmvbkbc@gmail.com>) id 1hQeV4-0007lu-PB
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 16:58:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <jcmvbkbc@gmail.com>) id 1hQeIW-0007Fc-36
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 16:45:17 -0400
-Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:35271)
+	(envelope-from <jcmvbkbc@gmail.com>) id 1hQeIi-0007W1-I0
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 16:45:30 -0400
+Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:36819)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <jcmvbkbc@gmail.com>) id 1hQeIV-0007Bz-Fg
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 16:45:16 -0400
-Received: by mail-lf1-x144.google.com with SMTP id c17so261317lfi.2
-	for <qemu-devel@nongnu.org>; Tue, 14 May 2019 13:45:15 -0700 (PDT)
+	(Exim 4.71) (envelope-from <jcmvbkbc@gmail.com>) id 1hQeIb-0007H4-Pi
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 16:45:23 -0400
+Received: by mail-lj1-x242.google.com with SMTP id z1so510734ljb.3
+	for <qemu-devel@nongnu.org>; Tue, 14 May 2019 13:45:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=6XuVQs+UbdqBAxCFcAT1em7q9SaDATzG83gL/sJvK+Y=;
-	b=HVQFqmA4xlQXaLzwLSp4bPZD8cQeF+msCahRfoJdaD/Qi+IvYwqtEqOOiYD5ZQgESE
-	QGKdzrLN/uISL9pvNrE96nbdlbrJk8BjccYjtsQDzKLyMOdMStVhPUzzSjORQXNaP6sk
-	xwqXi9+bzgt6p3M++O0+75YUjzPXqZGOTV2PCzqayDaw6uhDbRXfLaKf+xpXwWqpLEjV
-	PvbWHJmP9Kh93mF8B1SGnteJbVEhnGoEPWTCdsZvnS5rja+JtnkLRrzygeecsTDvlOlQ
-	OUfqHnYCisK5x63ak6Sz+6bTIiL+gehccJBhzlk2j3IZT9TjSdajnfDQTyear29Oncx3
-	p5/A==
+	bh=hm1pySXCYRyqzKQMsacqw1+6viA6OKMUTJF5TynmyL0=;
+	b=S0V2dexG17iC1iWmg+LukVUPWeX1ZOy5gO3+sUlQ5TK+8MjfHAKuNQLAG5PCIlMBgs
+	jt57yZO9B2RFndZp/f+URFr6hNF/CpO4IrLtKhiqV7EZlruqXoIHMd5PLHeupxO17NgN
+	0Kw40ImRwSgmCdgNV6YXvhYZnPRNChGeYtIZy99r8ajeSjECTY/RAr497duWK6Ii3Lcm
+	pUVO3BWJX4Cww8rfzaVaZ9bx8Sck/cH0vEU4ucEOcVBUIdUuoohul05328F4e2p2NfSt
+	bOgK3Lw4nBfc9k+PX15M7hgScwKmnGq+bmOibsk2B1C0N7kzMs4C7upNPihwN9wVlT5g
+	c7fg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=6XuVQs+UbdqBAxCFcAT1em7q9SaDATzG83gL/sJvK+Y=;
-	b=cxe3WCf0S0sxEDBYkoagcR1gZP6w0wzEkJnWPfFoeAZykC9PAQSqpx8GoHOjSqpOeo
-	f4hHxAWJLHsVeC5lcGZeVBQFXQpkwEx8ZIHLW9ytZTEJik0l+qMAFZ3plRV95lLnhNq2
-	1Rl7M1S92iCzT6C9O9RIEwegkIk+2Gm9PYJgyyIHWNezI98OVRP4wqcqCP1i9Kqk7/55
-	kG3mP9i0yUFi3w014AWTT8Tjk8ku1GhKFRvG+oFtD8y6d+0ku3uVO3oBkzv2Pih+427m
-	zXThDfQm4lTNyXINOD644b4foSEbf0HhKA1viTmibOH1bw5+01CV7qyBD8OZGl+ScyvG
-	uRFg==
-X-Gm-Message-State: APjAAAVeBT5XQ1CeHfzk1I8SBDuV6gZp5X9FTspsSpk/HUkbLe1W53sE
-	XuFbAHRuhUSTiMBOw4+rMFhtExO/6RQ=
-X-Google-Smtp-Source: APXvYqwgaB+XP3GWIHAopJCdjUY/U1ovWNM0GiU3jbX/UUmfdjvKPPQxcjv+D4xWGzqWMlPoKMssgA==
-X-Received: by 2002:ac2:41da:: with SMTP id d26mr17719241lfi.34.1557866714106; 
-	Tue, 14 May 2019 13:45:14 -0700 (PDT)
+	bh=hm1pySXCYRyqzKQMsacqw1+6viA6OKMUTJF5TynmyL0=;
+	b=eou27rs+Bm6wodf5ffh5D2sj2T6Xbc2UbPhSvhEokP5GAzcAOt63eygjKPgOymgL9B
+	npFvql53cHpRGQJrRpWXPObRZWYg422i0Tnjgd/nonfUXnwnTJUMyCbvWszMi/mVZdQY
+	9t9+B+IwMZ/XC+L+cfRrd/bFvWADW0+TD42wE4UJOf+xUrWqCjud7uj1KJvy9xGS9my7
+	So7vw1xKn+UIGdtudIfoNye8pWltlhPjtb1cJAQxcOambilFjXLVEm0t7ZOX2Wx2ZXOL
+	rjPYPPjf8ngLE1paPHaBYKd/gvd6vR0/ipQZkCEYzHREblYw+hdycDInWKPXIBlApRna
+	wBkg==
+X-Gm-Message-State: APjAAAVeaczYq+QlBh/p5o1HWWwdhiS7P/bzBz2UZrhhBZR+mEeLbiR7
+	ZF5pvjid9IFYBBOoFPxMIj5X+12RgOQ=
+X-Google-Smtp-Source: APXvYqyR923CIrLtuXBWFXuI2Fa22yH/Ancp6Sr+NSy0RmG6NtMMSuJTCHfWndqKX1e/GVLOasKmew==
+X-Received: by 2002:a2e:9a1a:: with SMTP id o26mr3344579lji.174.1557866716300; 
+	Tue, 14 May 2019 13:45:16 -0700 (PDT)
 Received: from octofox.cadence.com
 	(jcmvbkbc-1-pt.tunnel.tserv24.sto1.ipv6.he.net. [2001:470:27:1fa::2])
-	by smtp.gmail.com with ESMTPSA id 78sm4011lje.81.2019.05.14.13.45.12
+	by smtp.gmail.com with ESMTPSA id 78sm4011lje.81.2019.05.14.13.45.14
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 14 May 2019 13:45:13 -0700 (PDT)
+	Tue, 14 May 2019 13:45:15 -0700 (PDT)
 From: Max Filippov <jcmvbkbc@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 14 May 2019 13:44:41 -0700
-Message-Id: <20190514204447.17486-4-jcmvbkbc@gmail.com>
+Date: Tue, 14 May 2019 13:44:42 -0700
+Message-Id: <20190514204447.17486-5-jcmvbkbc@gmail.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20190514204447.17486-1-jcmvbkbc@gmail.com>
 References: <20190514204447.17486-1-jcmvbkbc@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::144
-Subject: [Qemu-devel] [PATCH 3/9] target/xtensa: define IDMA and
- gather/scatter IRQ types
+X-Received-From: 2a00:1450:4864:20::242
+Subject: [Qemu-devel] [PATCH 4/9] target/xtensa: add parity/ECC option SRs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -79,43 +78,233 @@ Cc: Max Filippov <jcmvbkbc@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-IDMA and scatter/gather features introduced new IRQ types that
-overlay_tool.h need to initialize Xtensa configuration.
+Add SRs and rsr/wsr/xsr opcodes defined by the parity/ECC xtensa option.
+The implementation is trivial since we don't emulate parity/ECC yet.
 
 Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
 ---
- target/xtensa/cpu.h          | 3 +++
- target/xtensa/overlay_tool.h | 3 +++
- 2 files changed, 6 insertions(+)
+ target/xtensa/cpu.h          |   6 ++
+ target/xtensa/overlay_tool.h |   2 +
+ target/xtensa/translate.c    | 162 +++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 170 insertions(+)
 
 diff --git a/target/xtensa/cpu.h b/target/xtensa/cpu.h
-index 502d41688365..d4258fcc6199 100644
+index d4258fcc6199..74ee7d125360 100644
 --- a/target/xtensa/cpu.h
 +++ b/target/xtensa/cpu.h
-@@ -298,6 +298,9 @@ typedef enum {
-     INTTYPE_DEBUG,
-     INTTYPE_WRITE_ERR,
-     INTTYPE_PROFILING,
-+    INTTYPE_IDMA_DONE,
-+    INTTYPE_IDMA_ERR,
-+    INTTYPE_GS_ERR,
-     INTTYPE_MAX
- } interrupt_type;
- 
+@@ -144,6 +144,12 @@ enum {
+     CACHEATTR = 98,
+     ATOMCTL = 99,
+     DDR = 104,
++    MEPC = 106,
++    MEPS = 107,
++    MESAVE = 108,
++    MESR = 109,
++    MECR = 110,
++    MEVADDR = 111,
+     IBREAKA = 128,
+     DBREAKA = 144,
+     DBREAKC = 160,
 diff --git a/target/xtensa/overlay_tool.h b/target/xtensa/overlay_tool.h
-index ea07576bc921..8b380ce5e329 100644
+index 8b380ce5e329..ffaab4b094cc 100644
 --- a/target/xtensa/overlay_tool.h
 +++ b/target/xtensa/overlay_tool.h
-@@ -200,6 +200,9 @@
- #define XTHAL_INTTYPE_TBD2 INTTYPE_WRITE_ERR
- #define XTHAL_INTTYPE_WRITE_ERROR INTTYPE_WRITE_ERR
- #define XTHAL_INTTYPE_PROFILING INTTYPE_PROFILING
-+#define XTHAL_INTTYPE_IDMA_DONE INTTYPE_IDMA_DONE
-+#define XTHAL_INTTYPE_IDMA_ERR INTTYPE_IDMA_ERR
-+#define XTHAL_INTTYPE_GS_ERR INTTYPE_GS_ERR
- 
- 
- #define INTERRUPT(i) { \
+@@ -112,6 +112,8 @@
+     XCHAL_OPTION(XCHAL_DCACHE_LINE_LOCKABLE, \
+             XTENSA_OPTION_DCACHE_INDEX_LOCK) | \
+     XCHAL_OPTION(XCHAL_UNALIGNED_LOAD_HW, XTENSA_OPTION_HW_ALIGNMENT) | \
++    XCHAL_OPTION(XCHAL_HAVE_MEM_ECC_PARITY, \
++                 XTENSA_OPTION_MEMORY_ECC_PARITY) | \
+     /* Memory protection and translation */ \
+     XCHAL_OPTION(XCHAL_HAVE_MIMIC_CACHEATTR, \
+             XTENSA_OPTION_REGION_PROTECTION) | \
+diff --git a/target/xtensa/translate.c b/target/xtensa/translate.c
+index 100d6e126590..63a90fdd17dc 100644
+--- a/target/xtensa/translate.c
++++ b/target/xtensa/translate.c
+@@ -4216,6 +4216,60 @@ static const XtensaOpcodeOps core_ops[] = {
+         .par = (const uint32_t[]){MEMCTL},
+         .op_flags = XTENSA_OP_PRIVILEGED,
+     }, {
++        .name = "rsr.mecr",
++        .translate = translate_rsr,
++        .test_ill = test_ill_sr,
++        .par = (const uint32_t[]){
++            MECR,
++            XTENSA_OPTION_MEMORY_ECC_PARITY,
++        },
++        .op_flags = XTENSA_OP_PRIVILEGED,
++    }, {
++        .name = "rsr.mepc",
++        .translate = translate_rsr,
++        .test_ill = test_ill_sr,
++        .par = (const uint32_t[]){
++            MEPC,
++            XTENSA_OPTION_MEMORY_ECC_PARITY,
++        },
++        .op_flags = XTENSA_OP_PRIVILEGED,
++    }, {
++        .name = "rsr.meps",
++        .translate = translate_rsr,
++        .test_ill = test_ill_sr,
++        .par = (const uint32_t[]){
++            MEPS,
++            XTENSA_OPTION_MEMORY_ECC_PARITY,
++        },
++        .op_flags = XTENSA_OP_PRIVILEGED,
++    }, {
++        .name = "rsr.mesave",
++        .translate = translate_rsr,
++        .test_ill = test_ill_sr,
++        .par = (const uint32_t[]){
++            MESAVE,
++            XTENSA_OPTION_MEMORY_ECC_PARITY,
++        },
++        .op_flags = XTENSA_OP_PRIVILEGED,
++    }, {
++        .name = "rsr.mesr",
++        .translate = translate_rsr,
++        .test_ill = test_ill_sr,
++        .par = (const uint32_t[]){
++            MESR,
++            XTENSA_OPTION_MEMORY_ECC_PARITY,
++        },
++        .op_flags = XTENSA_OP_PRIVILEGED,
++    }, {
++        .name = "rsr.mevaddr",
++        .translate = translate_rsr,
++        .test_ill = test_ill_sr,
++        .par = (const uint32_t[]){
++            MESR,
++            XTENSA_OPTION_MEMORY_ECC_PARITY,
++        },
++        .op_flags = XTENSA_OP_PRIVILEGED,
++    }, {
+         .name = "rsr.misc0",
+         .translate = translate_rsr,
+         .test_ill = test_ill_sr,
+@@ -5036,6 +5090,60 @@ static const XtensaOpcodeOps core_ops[] = {
+         .par = (const uint32_t[]){MEMCTL},
+         .op_flags = XTENSA_OP_PRIVILEGED,
+     }, {
++        .name = "wsr.mecr",
++        .translate = translate_wsr,
++        .test_ill = test_ill_sr,
++        .par = (const uint32_t[]){
++            MECR,
++            XTENSA_OPTION_MEMORY_ECC_PARITY,
++        },
++        .op_flags = XTENSA_OP_PRIVILEGED,
++    }, {
++        .name = "wsr.mepc",
++        .translate = translate_wsr,
++        .test_ill = test_ill_sr,
++        .par = (const uint32_t[]){
++            MEPC,
++            XTENSA_OPTION_MEMORY_ECC_PARITY,
++        },
++        .op_flags = XTENSA_OP_PRIVILEGED,
++    }, {
++        .name = "wsr.meps",
++        .translate = translate_wsr,
++        .test_ill = test_ill_sr,
++        .par = (const uint32_t[]){
++            MEPS,
++            XTENSA_OPTION_MEMORY_ECC_PARITY,
++        },
++        .op_flags = XTENSA_OP_PRIVILEGED,
++    }, {
++        .name = "wsr.mesave",
++        .translate = translate_wsr,
++        .test_ill = test_ill_sr,
++        .par = (const uint32_t[]){
++            MESAVE,
++            XTENSA_OPTION_MEMORY_ECC_PARITY,
++        },
++        .op_flags = XTENSA_OP_PRIVILEGED,
++    }, {
++        .name = "wsr.mesr",
++        .translate = translate_wsr,
++        .test_ill = test_ill_sr,
++        .par = (const uint32_t[]){
++            MESR,
++            XTENSA_OPTION_MEMORY_ECC_PARITY,
++        },
++        .op_flags = XTENSA_OP_PRIVILEGED,
++    }, {
++        .name = "wsr.mevaddr",
++        .translate = translate_wsr,
++        .test_ill = test_ill_sr,
++        .par = (const uint32_t[]){
++            MESR,
++            XTENSA_OPTION_MEMORY_ECC_PARITY,
++        },
++        .op_flags = XTENSA_OP_PRIVILEGED,
++    }, {
+         .name = "wsr.misc0",
+         .translate = translate_wsr,
+         .test_ill = test_ill_sr,
+@@ -5702,6 +5810,60 @@ static const XtensaOpcodeOps core_ops[] = {
+         .par = (const uint32_t[]){MEMCTL},
+         .op_flags = XTENSA_OP_PRIVILEGED,
+     }, {
++        .name = "xsr.mecr",
++        .translate = translate_xsr,
++        .test_ill = test_ill_sr,
++        .par = (const uint32_t[]){
++            MECR,
++            XTENSA_OPTION_MEMORY_ECC_PARITY,
++        },
++        .op_flags = XTENSA_OP_PRIVILEGED,
++    }, {
++        .name = "xsr.mepc",
++        .translate = translate_xsr,
++        .test_ill = test_ill_sr,
++        .par = (const uint32_t[]){
++            MEPC,
++            XTENSA_OPTION_MEMORY_ECC_PARITY,
++        },
++        .op_flags = XTENSA_OP_PRIVILEGED,
++    }, {
++        .name = "xsr.meps",
++        .translate = translate_xsr,
++        .test_ill = test_ill_sr,
++        .par = (const uint32_t[]){
++            MEPS,
++            XTENSA_OPTION_MEMORY_ECC_PARITY,
++        },
++        .op_flags = XTENSA_OP_PRIVILEGED,
++    }, {
++        .name = "xsr.mesave",
++        .translate = translate_xsr,
++        .test_ill = test_ill_sr,
++        .par = (const uint32_t[]){
++            MESAVE,
++            XTENSA_OPTION_MEMORY_ECC_PARITY,
++        },
++        .op_flags = XTENSA_OP_PRIVILEGED,
++    }, {
++        .name = "xsr.mesr",
++        .translate = translate_xsr,
++        .test_ill = test_ill_sr,
++        .par = (const uint32_t[]){
++            MESR,
++            XTENSA_OPTION_MEMORY_ECC_PARITY,
++        },
++        .op_flags = XTENSA_OP_PRIVILEGED,
++    }, {
++        .name = "xsr.mevaddr",
++        .translate = translate_xsr,
++        .test_ill = test_ill_sr,
++        .par = (const uint32_t[]){
++            MESR,
++            XTENSA_OPTION_MEMORY_ECC_PARITY,
++        },
++        .op_flags = XTENSA_OP_PRIVILEGED,
++    }, {
+         .name = "xsr.misc0",
+         .translate = translate_xsr,
+         .test_ill = test_ill_sr,
 -- 
 2.11.0
 
