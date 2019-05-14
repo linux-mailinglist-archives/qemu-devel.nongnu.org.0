@@ -2,72 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A2AD1C2CE
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 08:08:04 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:39955 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D15101C337
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 08:25:00 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40179 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQQbb-0000xt-IE
-	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 02:08:03 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46442)
+	id 1hQQs0-0002C0-1R
+	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 02:25:00 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53896)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kernellwp@gmail.com>) id 1hQQaX-0000eY-UR
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 02:06:58 -0400
+	(envelope-from <yan.y.zhao@intel.com>) id 1hQQld-0006Fx-6e
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 02:18:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kernellwp@gmail.com>) id 1hQQaU-0004mb-2w
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 02:06:55 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:45015)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <kernellwp@gmail.com>) id 1hQQaS-0004fk-0a
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 02:06:52 -0400
-Received: by mail-pf1-x443.google.com with SMTP id g9so8505231pfo.11
-	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 23:06:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=UrRUImMU/16S9UAMUsLS/q7MrwOXI/8T+fLWmLkbtpk=;
-	b=cQxM4/0chR+C985qN3q14TJSSikOLPQqUpuR37SNGjCMNW7I4SwIC9ugrS2PjIeKDA
-	xu9VgedpqyFLsmmcPlCX/9Gyd/lHPncrrOg6xsNJoDMBE9nnc1RXzmCRAHDE8djyCkMm
-	NG/pKYbP6SF8aOqUOOAA7BiSOeUqvFWTbZaN6apKw83TBsBnh1CuTYePPJd4o1fSLC8o
-	SIvs0WAoRjQBC/sKwi8PFTBoNOMZLAMCyP1v/UDu6kcFeeC1bQPWtrfH2XxGEsq7fWD0
-	eMiBYqosKLCuuKCPJPxFWnQIPUcHxLEHRgG4li3+8AcHJXkJwD+x0fX3XzNGMAKHzXd5
-	fsEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=UrRUImMU/16S9UAMUsLS/q7MrwOXI/8T+fLWmLkbtpk=;
-	b=fFPTiSqe0q1efMIFDJVI3NxajFweWGhJpWbgQnNRoE/P42v8CujmEHMMwRt6Uh3IfM
-	tr9ouP/igXOjqBZE1YjsPO64uNJ0AIXVnHBCKX9N8IJnY/Y3KcwH1IQt8MSfT9+ogykV
-	hK4v82dlcIJBMNOED5ZXXve94d0A44i7cJEwTtCs8uviHRY9EM7894umoBnXcavnVYnD
-	k2dXPrIETWsZ+Th3wyL4kOWZnf1C8KfeyMKBr2RjV5/gZEhLx70zRvze79NSc+idSsC0
-	OLI3WuHrkX10FEL+ivtowB2GAk/N+3ct3JK2BN/MpcUmqdcHqnEfxt+8oglS6jMl0bXK
-	JPfQ==
-X-Gm-Message-State: APjAAAV3ejFa/Y9Vpbb7t8A68r67BPyUQtowIaxLSGvLzrAQXqUWFwDx
-	HfblJEnbDWQAzLIJZMJutW7mfauv
-X-Google-Smtp-Source: APXvYqyln5zEc+3GWTHA6GymIAAfFqv+OL+uw6EJvSUs0EIPQ0z+P7AJ7eAmy0a5hXlJz0zthX18Sg==
-X-Received: by 2002:a62:d044:: with SMTP id p65mr19008527pfg.37.1557814003379; 
-	Mon, 13 May 2019 23:06:43 -0700 (PDT)
-Received: from localhost.localdomain ([203.205.141.123])
-	by smtp.googlemail.com with ESMTPSA id
-	a80sm41480296pfj.105.2019.05.13.23.06.41
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-SHA bits=128/128);
-	Mon, 13 May 2019 23:06:42 -0700 (PDT)
-From: Wanpeng Li <kernellwp@gmail.com>
-X-Google-Original-From: Wanpeng Li <wanpengli@tencent.com>
-To: qemu-devel@nongnu.org,
-	kvm@vger.kernel.org
-Date: Tue, 14 May 2019 14:06:39 +0800
-Message-Id: <1557813999-9175-1-git-send-email-wanpengli@tencent.com>
-X-Mailer: git-send-email 2.7.4
+	(envelope-from <yan.y.zhao@intel.com>) id 1hQQlb-00036G-Sm
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 02:18:25 -0400
+Received: from mga04.intel.com ([192.55.52.120]:56310)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <yan.y.zhao@intel.com>)
+	id 1hQQlb-00032I-Jc
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 02:18:23 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	13 May 2019 23:18:19 -0700
+X-ExtLoop1: 1
+Received: from joy-optiplex-7040.sh.intel.com (HELO joy-OptiPlex-7040)
+	([10.239.13.9])
+	by fmsmga004.fm.intel.com with ESMTP; 13 May 2019 23:18:14 -0700
+Date: Tue, 14 May 2019 02:12:35 -0400
+From: Yan Zhao <yan.y.zhao@intel.com>
+To: Erik Skultety <eskultet@redhat.com>
+Message-ID: <20190514061235.GC20407@joy-OptiPlex-7040>
+References: <20190506014904.3621-1-yan.y.zhao@intel.com>
+	<20190507151826.502be009@x1.home>
+	<20190509173839.2b9b2b46.cohuck@redhat.com>
+	<20190509154857.GF2868@work-vm>
+	<20190509175404.512ae7aa.cohuck@redhat.com>
+	<20190509164825.GG2868@work-vm>
+	<20190510110838.2df4c4d0.cohuck@redhat.com>
+	<20190510093608.GD2854@work-vm>
+	<20190510114838.7e16c3d6.cohuck@redhat.com>
+	<20190513132804.GD11139@beluga.usersys.redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190513132804.GD11139@beluga.usersys.redhat.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::443
-Subject: [Qemu-devel] [PATCH] i386: Enable IA32_MISC_ENABLE MWAIT bit when
- exposing mwait/monitor
+X-Received-From: 192.55.52.120
+Subject: Re: [Qemu-devel] [PATCH v2 1/2] vfio/mdev: add version attribute
+ for mdev device
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -79,54 +66,148 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
-	=?UTF-8?q?Radim=20Kr=C4=8Dm=C3=A1=C5=99?= <rkrcmar@redhat.com>
+Reply-To: Yan Zhao <yan.y.zhao@intel.com>
+Cc: "cjia@nvidia.com" <cjia@nvidia.com>,
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+	"aik@ozlabs.ru" <aik@ozlabs.ru>,
+	"Zhengxiao.zx@alibaba-inc.com" <Zhengxiao.zx@alibaba-inc.com>,
+	"shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
+	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+	"kwankhede@nvidia.com" <kwankhede@nvidia.com>,
+	"eauger@redhat.com" <eauger@redhat.com>, "Liu,
+	Yi L" <yi.l.liu@intel.com>, "Yang, Ziye" <ziye.yang@intel.com>,
+	"mlevitsk@redhat.com" <mlevitsk@redhat.com>,
+	"pasic@linux.ibm.com" <pasic@linux.ibm.com>,
+	"libvir-list@redhat.com" <libvir-list@redhat.com>,
+	"arei.gonglei@huawei.com" <arei.gonglei@huawei.com>,
+	"felipe@nutanix.com" <felipe@nutanix.com>,
+	"Ken.Xue@amd.com" <Ken.Xue@amd.com>, "Tian, Kevin" <kevin.tian@intel.com>,
+	"Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+	"zhenyuw@linux.intel.com" <zhenyuw@linux.intel.com>,
+	"dinechin@redhat.com" <dinechin@redhat.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	"intel-gvt-dev@lists.freedesktop.org"
+	<intel-gvt-dev@lists.freedesktop.org>, "Liu,
+	Changpeng" <changpeng.liu@intel.com>,
+	"berrange@redhat.com" <berrange@redhat.com>,
+	Cornelia Huck <cohuck@redhat.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+	"Wang, Zhi A" <zhi.a.wang@intel.com>,
+	"jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>, "He,
+	Shaopeng" <shaopeng.he@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Wanpeng Li <wanpengli@tencent.com>
+On Mon, May 13, 2019 at 09:28:04PM +0800, Erik Skultety wrote:
+> On Fri, May 10, 2019 at 11:48:38AM +0200, Cornelia Huck wrote:
+> > On Fri, 10 May 2019 10:36:09 +0100
+> > "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+> >
+> > > * Cornelia Huck (cohuck@redhat.com) wrote:
+> > > > On Thu, 9 May 2019 17:48:26 +0100
+> > > > "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+> > > >
+> > > > > * Cornelia Huck (cohuck@redhat.com) wrote:
+> > > > > > On Thu, 9 May 2019 16:48:57 +0100
+> > > > > > "Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+> > > > > >
+> > > > > > > * Cornelia Huck (cohuck@redhat.com) wrote:
+> > > > > > > > On Tue, 7 May 2019 15:18:26 -0600
+> > > > > > > > Alex Williamson <alex.williamson@redhat.com> wrote:
+> > > > > > > >
+> > > > > > > > > On Sun,  5 May 2019 21:49:04 -0400
+> > > > > > > > > Yan Zhao <yan.y.zhao@intel.com> wrote:
+> > > > > > > >
+> > > > > > > > > > +  Errno:
+> > > > > > > > > > +  If vendor driver wants to claim a mdev device incompatible to all other mdev
+> > > > > > > > > > +  devices, it should not register version attribute for this mdev device. But if
+> > > > > > > > > > +  a vendor driver has already registered version attribute and it wants to claim
+> > > > > > > > > > +  a mdev device incompatible to all other mdev devices, it needs to return
+> > > > > > > > > > +  -ENODEV on access to this mdev device's version attribute.
+> > > > > > > > > > +  If a mdev device is only incompatible to certain mdev devices, write of
+> > > > > > > > > > +  incompatible mdev devices's version strings to its version attribute should
+> > > > > > > > > > +  return -EINVAL;
+> > > > > > > > >
+> > > > > > > > > I think it's best not to define the specific errno returned for a
+> > > > > > > > > specific situation, let the vendor driver decide, userspace simply
+> > > > > > > > > needs to know that an errno on read indicates the device does not
+> > > > > > > > > support migration version comparison and that an errno on write
+> > > > > > > > > indicates the devices are incompatible or the target doesn't support
+> > > > > > > > > migration versions.
+> > > > > > > >
+> > > > > > > > I think I have to disagree here: It's probably valuable to have an
+> > > > > > > > agreed error for 'cannot migrate at all' vs 'cannot migrate between
+> > > > > > > > those two particular devices'. Userspace might want to do different
+> > > > > > > > things (e.g. trying with different device pairs).
+> > > > > > >
+> > > > > > > Trying to stuff these things down an errno seems a bad idea; we can't
+> > > > > > > get much information that way.
+> > > > > >
+> > > > > > So, what would be a reasonable approach? Userspace should first read
+> > > > > > the version attributes on both devices (to find out whether migration
+> > > > > > is supported at all), and only then figure out via writing whether they
+> > > > > > are compatible?
+> > > > > >
+> > > > > > (Or just go ahead and try, if it does not care about the reason.)
+> > > > >
+> > > > > Well, I'm OK with something like writing to test whether it's
+> > > > > compatible, it's just we need a better way of saying 'no'.
+> > > > > I'm not sure if that involves reading back from somewhere after
+> > > > > the write or what.
+> > > >
+> > > > Hm, so I basically see two ways of doing that:
+> > > > - standardize on some error codes... problem: error codes can be hard
+> > > >   to fit to reasons
+> > > > - make the error available in some attribute that can be read
+> > > >
+> > > > I'm not sure how we can serialize the readback with the last write,
+> > > > though (this looks inherently racy).
+> > > >
+> > > > How important is detailed error reporting here?
+> > >
+> > > I think we need something, otherwise we're just going to get vague
+> > > user reports of 'but my VM doesn't migrate'; I'd like the error to be
+> > > good enough to point most users to something they can understand
+> > > (e.g. wrong card family/too old a driver etc).
+> >
+> > Ok, that sounds like a reasonable point. Not that I have a better idea
+> > how to achieve that, though... we could also log a more verbose error
+> > message to the kernel log, but that's not necessarily where a user will
+> > look first.
+> 
+> In case of libvirt checking the compatibility, it won't matter how good the
+> error message in the kernel log is and regardless of how many error states you
+> want to handle, libvirt's only limited to errno here, since we're going to do
+> plain read/write, so our internal error message returned to the user is only
+> going to contain what the errno says - okay, of course we can (and we DO)
+> provide libvirt specific string, further specifying the error but like I
+> mentioned, depending on how many error cases we want to distinguish this may be
+> hard for anyone to figure out solely on the error code, as apps will most
+> probably not parse the
+> logs.
+> 
+> Regards,
+> Erik
+hi Erik
+do you mean you are agreeing on defining common errors and only returning errno?
 
-The CPUID.01H:ECX[bit 3] ought to mirror the value of the MSR 
-IA32_MISC_ENABLE MWAIT bit and as userspace has control of them 
-both, it is userspace's job to configure both bits to match on 
-the initial setup.
+e.g.
+#define ENOMIGRATION         140  /* device not supporting migration */
+#define EUNATCH              49  /* software version not match */
+#define EHWNM                142  /* hardware not matching*/
 
-Cc: Eduardo Habkost <ehabkost@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>
-Cc: Radim Krčmář <rkrcmar@redhat.com>
-Signed-off-by: Wanpeng Li <wanpengli@tencent.com>
----
- target/i386/cpu.c | 3 +++
- target/i386/cpu.h | 1 +
- 2 files changed, 4 insertions(+)
-
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 722c551..40b6108 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -4729,6 +4729,9 @@ static void x86_cpu_reset(CPUState *s)
- 
-     env->pat = 0x0007040600070406ULL;
-     env->msr_ia32_misc_enable = MSR_IA32_MISC_ENABLE_DEFAULT;
-+    if (enable_cpu_pm) {
-+        env->msr_ia32_misc_enable |= MSR_IA32_MISC_ENABLE_MWAIT;
-+    }
- 
-     memset(env->dr, 0, sizeof(env->dr));
-     env->dr[6] = DR6_FIXED_1;
-diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-index 0128910..b94c329 100644
---- a/target/i386/cpu.h
-+++ b/target/i386/cpu.h
-@@ -387,6 +387,7 @@ typedef enum X86Seg {
- #define MSR_IA32_MISC_ENABLE            0x1a0
- /* Indicates good rep/movs microcode on some processors: */
- #define MSR_IA32_MISC_ENABLE_DEFAULT    1
-+#define MSR_IA32_MISC_ENABLE_MWAIT      (1ULL << 18)
- 
- #define MSR_MTRRphysBase(reg)           (0x200 + 2 * (reg))
- #define MSR_MTRRphysMask(reg)           (0x200 + 2 * (reg) + 1)
--- 
-2.7.4
-
+Thanks
+Yan
+> >
+> > Ideally, we'd want to have the user space program setting up things
+> > querying the general compatibility for migration (so that it becomes
+> > their problem on how to alert the user to problems :), but I'm not sure
+> > how to eliminate the race between asking the vendor driver for
+> > compatibility and getting the result of that operation.
+> >
+> > Unless we introduce an interface that can retrieve _all_ results
+> > together with the written value? Or is that not going to be much of a
+> > problem in practice?
+> 
+> 
 
