@@ -2,30 +2,30 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF9B51C7C1
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 13:25:00 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:45890 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FF641C7C9
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 13:27:34 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:45955 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQVYJ-0007QS-V1
-	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 07:25:00 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48275)
+	id 1hQVan-0001TR-Jn
+	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 07:27:33 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48282)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <gengdongjiu@huawei.com>) id 1hQVVX-0005zN-Nb
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 07:22:08 -0400
+	(envelope-from <gengdongjiu@huawei.com>) id 1hQVVX-0005zf-Ve
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 07:22:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <gengdongjiu@huawei.com>) id 1hQVVW-0002Bu-My
+	(envelope-from <gengdongjiu@huawei.com>) id 1hQVVW-0002C1-NH
 	for qemu-devel@nongnu.org; Tue, 14 May 2019 07:22:07 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:33832 helo=huawei.com)
+Received: from szxga06-in.huawei.com ([45.249.212.32]:33848 helo=huawei.com)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <gengdongjiu@huawei.com>)
-	id 1hQVVT-00024G-BN; Tue, 14 May 2019 07:22:03 -0400
+	id 1hQVVT-00024O-CY; Tue, 14 May 2019 07:22:03 -0400
 Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.60])
-	by Forcepoint Email with ESMTP id 2FDC12560BFF5A8ED008;
+	by Forcepoint Email with ESMTP id 3F83D18CFD8C6B38241D;
 	Tue, 14 May 2019 19:22:00 +0800 (CST)
 Received: from ros.huawei.com (10.143.28.118) by
 	DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server
-	id 14.3.439.0; Tue, 14 May 2019 19:21:49 +0800
+	id 14.3.439.0; Tue, 14 May 2019 19:21:50 +0800
 From: Dongjiu Geng <gengdongjiu@huawei.com>
 To: <pbonzini@redhat.com>, <mst@redhat.com>, <imammedo@redhat.com>,
 	<shannon.zhaosl@gmail.com>, <peter.maydell@linaro.org>,
@@ -34,8 +34,8 @@ To: <pbonzini@redhat.com>, <mst@redhat.com>, <imammedo@redhat.com>,
 	<rth@twiddle.net>, <ehabkost@redhat.com>, <zhengxiang9@huawei.com>,
 	<jonathan.cameron@huawei.com>, <xuwei5@huawei.com>, <kvm@vger.kernel.org>, 
 	<qemu-devel@nongnu.org>, <qemu-arm@nongnu.org>, <linuxarm@huawei.com>
-Date: Tue, 14 May 2019 04:18:14 -0700
-Message-ID: <1557832703-42620-2-git-send-email-gengdongjiu@huawei.com>
+Date: Tue, 14 May 2019 04:18:15 -0700
+Message-ID: <1557832703-42620-3-git-send-email-gengdongjiu@huawei.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1557832703-42620-1-git-send-email-gengdongjiu@huawei.com>
 References: <1557832703-42620-1-git-send-email-gengdongjiu@huawei.com>
@@ -45,8 +45,8 @@ X-Originating-IP: [10.143.28.118]
 X-CFilter-Loop: Reflected
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 45.249.212.32
-Subject: [Qemu-devel] [PATCH v17 01/10] hw/arm/virt: Add RAS platform
- version for migration
+Subject: [Qemu-devel] [PATCH v17 02/10] ACPI: add some GHES structures and
+ macros definition
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,46 +61,85 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Support this feature since version 4.1, disable it by
-default in the old version.
+Add Generic Error Status Block structures and some macros
+definitions, which is referred to the ACPI 4.0 or ACPI 6.2. The
+HEST table generation and CPER record will use them.
 
 Signed-off-by: Dongjiu Geng <gengdongjiu@huawei.com>
 ---
- hw/arm/virt.c         | 6 ++++++
- include/hw/arm/virt.h | 1 +
- 2 files changed, 7 insertions(+)
+ include/hw/acpi/acpi-defs.h | 52 +++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 52 insertions(+)
 
-diff --git a/hw/arm/virt.c b/hw/arm/virt.c
-index 5331ab7..7bdd41b 100644
---- a/hw/arm/virt.c
-+++ b/hw/arm/virt.c
-@@ -2043,8 +2043,14 @@ DEFINE_VIRT_MACHINE_AS_LATEST(4, 1)
+diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
+index f9aa4bd..d1996fb 100644
+--- a/include/hw/acpi/acpi-defs.h
++++ b/include/hw/acpi/acpi-defs.h
+@@ -224,6 +224,25 @@ typedef struct AcpiMultipleApicTable AcpiMultipleApicTable;
+ #define ACPI_APIC_RESERVED              16   /* 16 and greater are reserved */
  
- static void virt_machine_4_0_options(MachineClass *mc)
- {
-+    VirtMachineClass *vmc = VIRT_MACHINE_CLASS(OBJECT_CLASS(mc));
+ /*
++ * Values for Hardware Error Notification Type field
++ */
++enum AcpiHestNotifyType {
++    ACPI_HEST_NOTIFY_POLLED = 0,
++    ACPI_HEST_NOTIFY_EXTERNAL = 1,
++    ACPI_HEST_NOTIFY_LOCAL = 2,
++    ACPI_HEST_NOTIFY_SCI = 3,
++    ACPI_HEST_NOTIFY_NMI = 4,
++    ACPI_HEST_NOTIFY_CMCI = 5,  /* ACPI 5.0: 18.3.2.7, Table 18-290 */
++    ACPI_HEST_NOTIFY_MCE = 6,   /* ACPI 5.0: 18.3.2.7, Table 18-290 */
++    ACPI_HEST_NOTIFY_GPIO = 7,  /* ACPI 6.0: 18.3.2.7, Table 18-332 */
++    ACPI_HEST_NOTIFY_SEA = 8,   /* ACPI 6.1: 18.3.2.9, Table 18-345 */
++    ACPI_HEST_NOTIFY_SEI = 9,   /* ACPI 6.1: 18.3.2.9, Table 18-345 */
++    ACPI_HEST_NOTIFY_GSIV = 10, /* ACPI 6.1: 18.3.2.9, Table 18-345 */
++    ACPI_HEST_NOTIFY_SDEI = 11, /* ACPI 6.2: 18.3.2.9, Table 18-383 */
++    ACPI_HEST_NOTIFY_RESERVED = 12 /* 12 and greater are reserved */
++};
 +
-     virt_machine_4_1_options(mc);
-     compat_props_add(mc->compat_props, hw_compat_4_0, hw_compat_4_0_len);
-+    /* Disable memory recovery feature for 4.0 as RAS support was
-+     * introduced with 4.1.
-+     */
-+    vmc->no_ras = true;
- }
- DEFINE_VIRT_MACHINE(4, 0)
++/*
+  * MADT sub-structures (Follow MULTIPLE_APIC_DESCRIPTION_TABLE)
+  */
+ #define ACPI_SUB_HEADER_DEF   /* Common ACPI sub-structure header */\
+@@ -400,6 +419,39 @@ struct AcpiSystemResourceAffinityTable {
+ } QEMU_PACKED;
+ typedef struct AcpiSystemResourceAffinityTable AcpiSystemResourceAffinityTable;
  
-diff --git a/include/hw/arm/virt.h b/include/hw/arm/virt.h
-index 4240709..7f1a033 100644
---- a/include/hw/arm/virt.h
-+++ b/include/hw/arm/virt.h
-@@ -104,6 +104,7 @@ typedef struct {
-     bool disallow_affinity_adjustment;
-     bool no_its;
-     bool no_pmu;
-+    bool no_ras;
-     bool claim_edge_triggered_timers;
-     bool smbios_old_sys_ver;
-     bool no_highmem_ecam;
++/*
++ * Generic Error Status Block
++ */
++struct AcpiGenericErrorStatus {
++    /* It is a bitmask composed of ACPI_GEBS_xxx macros */
++    uint32_t block_status;
++    uint32_t raw_data_offset;
++    uint32_t raw_data_length;
++    uint32_t data_length;
++    uint32_t error_severity;
++} QEMU_PACKED;
++typedef struct AcpiGenericErrorStatus AcpiGenericErrorStatus;
++
++/*
++ * Masks for block_status flags above
++ */
++#define ACPI_GEBS_UNCORRECTABLE         1
++
++/*
++ * Values for error_severity field above
++ */
++enum AcpiGenericErrorSeverity {
++    ACPI_CPER_SEV_RECOVERABLE,
++    ACPI_CPER_SEV_FATAL,
++    ACPI_CPER_SEV_CORRECTED,
++    ACPI_CPER_SEV_NONE,
++};
++
++/*
++ * Generic Hardware Error Source version 2
++ */
++#define ACPI_HEST_SOURCE_GENERIC_ERROR_V2    10
++
+ #define ACPI_SRAT_PROCESSOR_APIC     0
+ #define ACPI_SRAT_MEMORY             1
+ #define ACPI_SRAT_PROCESSOR_x2APIC   2
 -- 
 1.8.3.1
 
