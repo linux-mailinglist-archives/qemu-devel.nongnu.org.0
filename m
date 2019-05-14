@@ -2,48 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8946D1C732
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 12:47:32 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:45258 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E3D3B1C73B
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 12:50:28 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:45292 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQUy3-00010U-Mt
-	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 06:47:31 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35956)
+	id 1hQV0t-0003FI-Uc
+	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 06:50:27 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36017)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <marcandre.lureau@redhat.com>) id 1hQUsM-0005fG-GO
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 06:41:39 -0400
+	(envelope-from <marcandre.lureau@redhat.com>) id 1hQUsZ-0005ni-MK
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 06:41:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <marcandre.lureau@redhat.com>) id 1hQUsL-0000tD-L6
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 06:41:38 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57108)
+	(envelope-from <marcandre.lureau@redhat.com>) id 1hQUsY-0001AE-Mf
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 06:41:51 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57166)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <marcandre.lureau@redhat.com>)
-	id 1hQUsL-0000sQ-G0
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 06:41:37 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
-	[10.5.11.12])
+	id 1hQUsW-00015e-Kj
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 06:41:50 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id C621E307D935
-	for <qemu-devel@nongnu.org>; Tue, 14 May 2019 10:41:36 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id C42C0307D942
+	for <qemu-devel@nongnu.org>; Tue, 14 May 2019 10:41:46 +0000 (UTC)
 Received: from localhost (unknown [10.36.112.10])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id CCD5562723;
-	Tue, 14 May 2019 10:41:27 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id CE1B41001DC2;
+	Tue, 14 May 2019 10:41:38 +0000 (UTC)
 From: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 14 May 2019 12:41:23 +0200
-Message-Id: <20190514104126.6294-1-marcandre.lureau@redhat.com>
+Date: Tue, 14 May 2019 12:41:24 +0200
+Message-Id: <20190514104126.6294-2-marcandre.lureau@redhat.com>
+In-Reply-To: <20190514104126.6294-1-marcandre.lureau@redhat.com>
+References: <20190514104126.6294-1-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
 	(mx1.redhat.com [10.5.110.48]);
-	Tue, 14 May 2019 10:41:36 +0000 (UTC)
+	Tue, 14 May 2019 10:41:46 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v4 0/3] Add vhost-user-input
+Subject: [Qemu-devel] [PATCH v4 1/3] libvhost-user: fix cast warnings on 32
+ bits
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -60,38 +63,52 @@ Cc: =?UTF-8?q?Marc-Andr=C3=A9=20Lureau?= <marcandre.lureau@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Fixes warnings:
+ warning: cast to pointer from integer of different size
+ [-Wint-to-pointer-cast]
 
-v4:
-- update "libvhost-user: fix -Werror=3Dformat=3D on ppc64"
+Signed-off-by: Marc-Andr=C3=A9 Lureau <marcandre.lureau@redhat.com>
+---
+ contrib/libvhost-user/libvhost-user.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-v3:
-- rebased, fixing some warnings found during merge
-
-v2:
-- build fixes
-
-v1: (changes since original v6 series)
-- add "libvhost-user: fix -Waddress-of-packed-member" & "util: simplify u=
-nix_listen()"
-- use unix_listen()
-- build vhost-user-input by default (when applicable)
-
-Marc-Andr=C3=A9 Lureau (3):
-  libvhost-user: fix cast warnings on 32 bits
-  libvhost-user: fix -Werror=3Dformat=3D on ppc64
-  contrib: add vhost-user-input
-
- contrib/libvhost-user/libvhost-user.c  |  12 +-
- contrib/vhost-user-input/main.c        | 393 +++++++++++++++++++++++++
- MAINTAINERS                            |   1 +
- Makefile                               |  11 +
- Makefile.objs                          |   1 +
- contrib/vhost-user-input/Makefile.objs |   1 +
- 6 files changed, 414 insertions(+), 5 deletions(-)
- create mode 100644 contrib/vhost-user-input/main.c
- create mode 100644 contrib/vhost-user-input/Makefile.objs
-
+diff --git a/contrib/libvhost-user/libvhost-user.c b/contrib/libvhost-use=
+r/libvhost-user.c
+index 74d42177c5..40443a3daa 100644
+--- a/contrib/libvhost-user/libvhost-user.c
++++ b/contrib/libvhost-user/libvhost-user.c
+@@ -621,7 +621,7 @@ vu_set_mem_table_exec_postcopy(VuDev *dev, VhostUserM=
+sg *vmsg)
+          * data that's already arrived in the shared process.
+          * TODO: How to do hugepage
+          */
+-        ret =3D madvise((void *)dev_region->mmap_addr,
++        ret =3D madvise((void *)(uintptr_t)dev_region->mmap_addr,
+                       dev_region->size + dev_region->mmap_offset,
+                       MADV_DONTNEED);
+         if (ret) {
+@@ -633,7 +633,7 @@ vu_set_mem_table_exec_postcopy(VuDev *dev, VhostUserM=
+sg *vmsg)
+          * in neighbouring pages.
+          * TODO: Turn this backon later.
+          */
+-        ret =3D madvise((void *)dev_region->mmap_addr,
++        ret =3D madvise((void *)(uintptr_t)dev_region->mmap_addr,
+                       dev_region->size + dev_region->mmap_offset,
+                       MADV_NOHUGEPAGE);
+         if (ret) {
+@@ -666,7 +666,7 @@ vu_set_mem_table_exec_postcopy(VuDev *dev, VhostUserM=
+sg *vmsg)
+         DPRINT("%s: region %d: Registered userfault for %llx + %llx\n",
+                 __func__, i, reg_struct.range.start, reg_struct.range.le=
+n);
+         /* Now it's registered we can let the client at it */
+-        if (mprotect((void *)dev_region->mmap_addr,
++        if (mprotect((void *)(uintptr_t)dev_region->mmap_addr,
+                      dev_region->size + dev_region->mmap_offset,
+                      PROT_READ | PROT_WRITE)) {
+             vu_panic(dev, "failed to mprotect region %d for postcopy (%s=
+)",
 --=20
 2.21.0.777.g83232e3864
 
