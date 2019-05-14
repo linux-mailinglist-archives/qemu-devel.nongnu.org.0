@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 124DB1CFC0
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 21:20:07 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52922 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C75211CFD8
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 21:26:18 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53035 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQcy6-0003fZ-4q
-	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 15:20:06 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48732)
+	id 1hQd45-0000xY-S2
+	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 15:26:17 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48750)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hQcv8-0002SE-Fb
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 15:17:03 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hQcv9-0002TJ-OJ
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 15:17:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hQcv7-0006cz-HD
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 15:17:02 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:46217)
+	(envelope-from <richard.henderson@linaro.org>) id 1hQcv8-0006fl-Tl
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 15:17:03 -0400
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:38783)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hQcv7-0006by-By
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 15:17:01 -0400
-Received: by mail-pl1-x644.google.com with SMTP id r18so59138pls.13
-	for <qemu-devel@nongnu.org>; Tue, 14 May 2019 12:17:01 -0700 (PDT)
+	id 1hQcv8-0006e9-OA
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 15:17:02 -0400
+Received: by mail-pl1-x643.google.com with SMTP id f97so79423plb.5
+	for <qemu-devel@nongnu.org>; Tue, 14 May 2019 12:17:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=VqY3mH4YRn0WtpmEi7qlWT5KRhdZPDg5AxBMBXlF56s=;
-	b=MV1an0vg/aEqlkOwBdnA9NRpAfsJuH1ukbkckmaIgldQYs+e8INRbWBqaMeKoFt/RH
-	H3WtchNWEb3bXwtdWHJi9JvqgmzvsuQ2a/YCoZgqQpj9N/izR4jldIXaXmdPivg1+qtg
-	R09ts4LpJQrvvpj2FRSGAdmBO/VsmL/ni0IakBhLSLFPcXadNvVDohPmvo1e6FxBpYm+
-	sI29s+bMRGnRVnsTckOg5sgSSywdrVRd+mvWhXDcULZ5uq0EVendavYO9AzYLCJclOy/
-	7XJ0Zs24mUD597t8Ok3pUDInm8NRmJZyZKcjKeiut+5SQGbZ/exf2CsozEIh/5ho9TxH
-	/zqw==
+	bh=p/AR+QB1/uCfqQ+ytrGBnYCYqwPtnBM3b7CBgieQEw0=;
+	b=V27bejYPJ1d5Edg9q46vscEtm89bOnKxzU5r7sWIv8IilaDLnIMOP8AXYgW3Xxmbfw
+	SpvIgUJF5QDDrzpY7eDH6SkqZHfgFRo9iC/F0BZP3p2SuyNGN0WYELh02fK8KNKPkzTV
+	77NabADkpyartaqjMMG1gZSrfKYsd2qg01kwjhEtfFSdYlr9J/Dv8/WmDvGOCe2Ug5nF
+	SzFIAHLAqupumigka2FnjCWRAyN/Hci3xBBOR7CDqTrZcSyKpBeDLg9tY+Iw7WrijMhX
+	CnsHMjfjs5b9A9yK1NJgABaM0qSjIHWVekLX6/8gBPa2a0RT+Lp01K+G3a3rAFwf9U3s
+	YrmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=VqY3mH4YRn0WtpmEi7qlWT5KRhdZPDg5AxBMBXlF56s=;
-	b=rnZnGLZbU8sCUxS1cAaDvk8b1KABeIDgQk84u8vvDIujg94bDCpqjL1lN0VGDY1AQ/
-	1AFFjcNUfLa5hJQMPHrk7g+Iucl7WKbZQtSXw7aSYZFu/7gBP60FUC2x7GqrziEJnJnE
-	Uyehy1y/CbbJUnXBJ0Wxt/1qC9x5b9tVOl1BdJnq7ktXNmWp1v6zDkjX4QrBtpIB8kUW
-	9l7ebeI+KJ5VeVrkTH3mD3SHuFNWBI3Waphh+e8FUQawi534Sh4NAG6G8YAhBDxngtvU
-	mPNKU+2qylyEmKs+yUx5+r1XteWPHG99NuI4CXtaSbHgIH3KmMhEKluBEpc8bfcAmGuU
-	oduA==
-X-Gm-Message-State: APjAAAXGd+N4pzCN3vFeGGzzi3VxiZz3l6F7aJfCupenWjH7t8c2+58p
-	6EYqwy3IrYkKzeQd1xgkwnQyzzaMMhk=
-X-Google-Smtp-Source: APXvYqy/9kjNWrfKiRjJ2jkACGJwi/jjbI1W/q0zvF+tIyzE7Teewbnb+GYLZkbhUs1ZwILezt9J5A==
-X-Received: by 2002:a17:902:5e1:: with SMTP id
-	f88mr38615351plf.226.1557861420082; 
-	Tue, 14 May 2019 12:17:00 -0700 (PDT)
+	bh=p/AR+QB1/uCfqQ+ytrGBnYCYqwPtnBM3b7CBgieQEw0=;
+	b=HnhEWc6H8lVna1qB9hEKz5J3KHrlVNHg7pG9QdtQnVRu/UNBogdHkJ89YktAHWd+0Z
+	JCquR8OjsKWOk96vJdPv7uBzmQn9nK+M55VitaOOmKCeJiPXjxmjTyfk386LcQ3zgZig
+	AHoj0SxDGmFZ57P4HmozaZzV9nx/7Soc3bXyuKcxKmrhg+9W7jpdMERij14CnYyjnNrg
+	PdlA5j5LYdfjVWRg1/ARq+AlXw4PUCJfiRqXOe6C49GGQYNlDxutBnSPejXUCKnPuUj1
+	C1Blw0u1hJKALSJn715tfglOdBoYGUG2j7sypKsslILKOAlf4HLp6pj0BVp2m6Ia/xvv
+	cufw==
+X-Gm-Message-State: APjAAAWX0724ZpCE2+ax3IAzk2mpppkut/WtguQirdiIWBJNHRGSEdPV
+	dh5uP/8A/uSPm0rhJXufaIpP8tpT6fk=
+X-Google-Smtp-Source: APXvYqwyK3gkJx0xK8LNpZ45oQmm+Su+9Z+Muc0tSHRYW182TPlLzzVbxa4gQMh6pqMrZW9UCtzOfA==
+X-Received: by 2002:a17:902:8b8a:: with SMTP id
+	ay10mr31193869plb.74.1557861421412; 
+	Tue, 14 May 2019 12:17:01 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	o6sm18682982pfa.88.2019.05.14.12.16.58
+	o6sm18682982pfa.88.2019.05.14.12.17.00
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 14 May 2019 12:16:59 -0700 (PDT)
+	Tue, 14 May 2019 12:17:00 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue, 14 May 2019 12:16:32 -0700
-Message-Id: <20190514191653.31488-4-richard.henderson@linaro.org>
+Date: Tue, 14 May 2019 12:16:33 -0700
+Message-Id: <20190514191653.31488-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190514191653.31488-1-richard.henderson@linaro.org>
 References: <20190514191653.31488-1-richard.henderson@linaro.org>
@@ -67,9 +67,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::644
-Subject: [Qemu-devel] [PATCH v7 03/24] crypto: Do not fail for EINTR during
- qcrypto_random_bytes
+X-Received-From: 2607:f8b0:4864:20::643
+Subject: [Qemu-devel] [PATCH v7 04/24] crypto: Use O_CLOEXEC in
+ qcrypto_random_init
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -85,68 +85,32 @@ Cc: lvivier@redhat.com, berrange@redhat.com, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can always get EINTR for read; /dev/urandom is no exception.
-
-Rearrange the order of tests for likelihood; allow degenerate buflen==0
-case to perform a no-op zero-length read.  This means that the normal
-success path is a straight line with a single test for success.
+Avoids leaking the /dev/urandom fd into any child processes.
 
 Reviewed-by: Laurent Vivier <lvivier@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- crypto/random-platform.c | 36 +++++++++++++++---------------------
- 1 file changed, 15 insertions(+), 21 deletions(-)
+ crypto/random-platform.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/crypto/random-platform.c b/crypto/random-platform.c
-index f995fc0ef1..260b64564d 100644
+index 260b64564d..6df40744c7 100644
 --- a/crypto/random-platform.c
 +++ b/crypto/random-platform.c
-@@ -65,29 +65,23 @@ int qcrypto_random_bytes(uint8_t *buf G_GNUC_UNUSED,
-                          "Unable to read random bytes");
-         return -1;
-     }
--
--    return 0;
+@@ -42,9 +42,9 @@ int qcrypto_random_init(Error **errp)
  #else
--    int ret = -1;
--    int got;
--
--    while (buflen > 0) {
--        got = read(fd, buf, buflen);
--        if (got < 0) {
--            error_setg_errno(errp, errno,
--                             "Unable to read random bytes");
--            goto cleanup;
--        } else if (!got) {
--            error_setg(errp,
--                       "Unexpected EOF reading random bytes");
--            goto cleanup;
-+    while (1) {
-+        ssize_t got = read(fd, buf, buflen);
-+        if (likely(got == buflen)) {
-+            return 0;
-+        }
-+        if (got > 0) {
-+            buflen -= got;
-+            buf += got;
-+        } else if (got == 0) {
-+            error_setg(errp, "Unexpected EOF reading random bytes");
-+            return -1;
-+        } else if (errno != EINTR) {
-+            error_setg_errno(errp, errno, "Unable to read random bytes");
-+            return -1;
-         }
--        buflen -= got;
--        buf += got;
+     /* TBD perhaps also add support for BSD getentropy / Linux
+      * getrandom syscalls directly */
+-    fd = open("/dev/urandom", O_RDONLY);
++    fd = open("/dev/urandom", O_RDONLY | O_CLOEXEC);
+     if (fd == -1 && errno == ENOENT) {
+-        fd = open("/dev/random", O_RDONLY);
++        fd = open("/dev/random", O_RDONLY | O_CLOEXEC);
      }
--
--    ret = 0;
-- cleanup:
--    return ret;
- #endif
-+    return 0;
- }
+ 
+     if (fd < 0) {
 -- 
 2.17.1
 
