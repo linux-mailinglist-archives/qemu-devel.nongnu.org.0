@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0BC1C1CF4F
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 20:45:40 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52506 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E94C41CF62
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 20:50:24 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52589 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQcQl-0006sW-4R
-	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 14:45:39 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39946)
+	id 1hQcVM-0002fd-5h
+	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 14:50:24 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39960)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgilbert@redhat.com>) id 1hQcHU-0007Os-Hx
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 14:36:05 -0400
+	(envelope-from <dgilbert@redhat.com>) id 1hQcHX-0007S3-Vn
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 14:36:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgilbert@redhat.com>) id 1hQcHT-0001rS-Gh
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 14:36:04 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:49410)
+	(envelope-from <dgilbert@redhat.com>) id 1hQcHW-0001uI-Ie
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 14:36:07 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37922)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hQcHT-0001pz-9B
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 14:36:03 -0400
+	(Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hQcHW-0001tl-B5
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 14:36:06 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
 	[10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 82CBD3079B6B;
-	Tue, 14 May 2019 18:36:02 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id A25C0307D979;
+	Tue, 14 May 2019 18:36:05 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-117-232.ams2.redhat.com
 	[10.36.117.232])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 94661608B9;
-	Tue, 14 May 2019 18:35:58 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id C46E7608A6;
+	Tue, 14 May 2019 18:36:02 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, quintela@redhat.com, peterx@redhat.com,
 	ehabkost@redhat.com, richardw.yang@linux.intel.com,
 	yury-kotov@yandex-team.ru, chen.zhang@intel.com
-Date: Tue, 14 May 2019 19:34:51 +0100
-Message-Id: <20190514183454.12758-14-dgilbert@redhat.com>
+Date: Tue, 14 May 2019 19:34:52 +0100
+Message-Id: <20190514183454.12758-15-dgilbert@redhat.com>
 In-Reply-To: <20190514183454.12758-1-dgilbert@redhat.com>
 References: <20190514183454.12758-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.41]);
-	Tue, 14 May 2019 18:36:02 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.48]);
+	Tue, 14 May 2019 18:36:05 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 13/16] migration/savevm: wrap into
- qemu_loadvm_state_header()
+Subject: [Qemu-devel] [PULL 14/16] migration: Fix use-after-free during
+ process exit
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,122 +62,226 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Wei Yang <richardw.yang@linux.intel.com>
+From: Yury Kotov <yury-kotov@yandex-team.ru>
 
-On source side, we have qemu_savevm_state_header() to send related data,
-while on the receiving side those steps are scattered in
-qemu_loadvm_state().
+It fixes heap-use-after-free which was found by clang's ASAN.
 
-This patch wrap those related steps into qemu_loadvm_state_header() to
-make it friendly to read.
+Control flow of this use-after-free:
+main_thread:
+    * Got SIGTERM and completes main loop
+    * Calls migration_shutdown
+      - migrate_fd_cancel (so, migration_thread begins to complete)
+      - object_unref(OBJECT(current_migration));
 
-Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
-Message-Id: <20190424004700.12766-5-richardw.yang@linux.intel.com>
-Reviewed-by: Daniel Henrique Barboza <danielhb413@gmail.com>
+migration_thread:
+    * migration_iteration_finish -> schedule cleanup bh
+    * object_unref(OBJECT(s)); (Now, current_migration is freed)
+    * exits
+
+main_thread:
+    * Calls vm_shutdown -> drain bdrvs -> main loop
+      -> cleanup_bh -> use after free
+
+If you want to reproduce, these couple of sleeps will help:
+vl.c:4613:
+     migration_shutdown();
++    sleep(2);
+migration.c:3269:
++    sleep(1);
+     trace_migration_thread_after_loop();
+     migration_iteration_finish(s);
+
+Original output:
+qemu-system-x86_64: terminating on signal 15 from pid 31980 (<unknown pro=
+cess>)
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+=3D=3D31958=3D=3DERROR: AddressSanitizer: heap-use-after-free on address =
+0x61900001d210
+  at pc 0x555558a535ca bp 0x7fffffffb190 sp 0x7fffffffb188
+READ of size 8 at 0x61900001d210 thread T0 (qemu-vm-0)
+    #0 0x555558a535c9 in migrate_fd_cleanup migration/migration.c:1502:23
+    #1 0x5555594fde0a in aio_bh_call util/async.c:90:5
+    #2 0x5555594fe522 in aio_bh_poll util/async.c:118:13
+    #3 0x555559524783 in aio_poll util/aio-posix.c:725:17
+    #4 0x555559504fb3 in aio_wait_bh_oneshot util/aio-wait.c:71:5
+    #5 0x5555573bddf6 in virtio_blk_data_plane_stop
+      hw/block/dataplane/virtio-blk.c:282:5
+    #6 0x5555589d5c09 in virtio_bus_stop_ioeventfd hw/virtio/virtio-bus.c=
+:246:9
+    #7 0x5555589e9917 in virtio_pci_stop_ioeventfd hw/virtio/virtio-pci.c=
+:287:5
+    #8 0x5555589e22bf in virtio_pci_vmstate_change hw/virtio/virtio-pci.c=
+:1072:9
+    #9 0x555557628931 in virtio_vmstate_change hw/virtio/virtio.c:2257:9
+    #10 0x555557c36713 in vm_state_notify vl.c:1605:9
+    #11 0x55555716ef53 in do_vm_stop cpus.c:1074:9
+    #12 0x55555716eeff in vm_shutdown cpus.c:1092:12
+    #13 0x555557c4283e in main vl.c:4617:5
+    #14 0x7fffdfdb482f in __libc_start_main
+      (/lib/x86_64-linux-gnu/libc.so.6+0x2082f)
+    #15 0x555556ecb118 in _start (x86_64-softmmu/qemu-system-x86_64+0x197=
+7118)
+
+0x61900001d210 is located 144 bytes inside of 952-byte region
+  [0x61900001d180,0x61900001d538)
+freed by thread T6 (live_migration) here:
+    #0 0x555556f76782 in __interceptor_free
+      /tmp/final/llvm.src/projects/compiler-rt/lib/asan/asan_malloc_linux=
+.cc:124:3
+    #1 0x555558d5fa94 in object_finalize qom/object.c:618:9
+    #2 0x555558d57651 in object_unref qom/object.c:1068:9
+    #3 0x555558a55588 in migration_thread migration/migration.c:3272:5
+    #4 0x5555595393f2 in qemu_thread_start util/qemu-thread-posix.c:502:9
+    #5 0x7fffe057f6b9 in start_thread (/lib/x86_64-linux-gnu/libpthread.s=
+o.0+0x76b9)
+
+previously allocated by thread T0 (qemu-vm-0) here:
+    #0 0x555556f76b03 in __interceptor_malloc
+      /tmp/final/llvm.src/projects/compiler-rt/lib/asan/asan_malloc_linux=
+.cc:146:3
+    #1 0x7ffff6ee37b8 in g_malloc (/lib/x86_64-linux-gnu/libglib-2.0.so.0=
++0x4f7b8)
+    #2 0x555558d58031 in object_new qom/object.c:640:12
+    #3 0x555558a31f21 in migration_object_init migration/migration.c:139:=
+25
+    #4 0x555557c41398 in main vl.c:4320:5
+    #5 0x7fffdfdb482f in __libc_start_main (/lib/x86_64-linux-gnu/libc.so=
+.6+0x2082f)
+
+Thread T6 (live_migration) created by T0 (qemu-vm-0) here:
+    #0 0x555556f5f0dd in pthread_create
+      /tmp/final/llvm.src/projects/compiler-rt/lib/asan/asan_interceptors=
+.cc:210:3
+    #1 0x555559538cf9 in qemu_thread_create util/qemu-thread-posix.c:539:=
+11
+    #2 0x555558a53304 in migrate_fd_connect migration/migration.c:3332:5
+    #3 0x555558a72bd8 in migration_channel_connect migration/channel.c:92=
+:5
+    #4 0x555558a6ef87 in exec_start_outgoing_migration migration/exec.c:4=
+2:5
+    #5 0x555558a4f3c2 in qmp_migrate migration/migration.c:1922:9
+    #6 0x555558bb4f6a in qmp_marshal_migrate qapi/qapi-commands-migration=
+.c:607:5
+    #7 0x555559363738 in do_qmp_dispatch qapi/qmp-dispatch.c:131:5
+    #8 0x555559362a15 in qmp_dispatch qapi/qmp-dispatch.c:174:11
+    #9 0x5555571bac15 in monitor_qmp_dispatch monitor.c:4124:11
+    #10 0x55555719a22d in monitor_qmp_bh_dispatcher monitor.c:4207:9
+    #11 0x5555594fde0a in aio_bh_call util/async.c:90:5
+    #12 0x5555594fe522 in aio_bh_poll util/async.c:118:13
+    #13 0x5555595201e0 in aio_dispatch util/aio-posix.c:460:5
+    #14 0x555559503553 in aio_ctx_dispatch util/async.c:261:5
+    #15 0x7ffff6ede196 in g_main_context_dispatch
+      (/lib/x86_64-linux-gnu/libglib-2.0.so.0+0x4a196)
+
+SUMMARY: AddressSanitizer: heap-use-after-free migration/migration.c:1502=
+:23
+  in migrate_fd_cleanup
+Shadow bytes around the buggy address:
+  0x0c327fffb9f0: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c327fffba00: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c327fffba10: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c327fffba20: fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa fa
+  0x0c327fffba30: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+=3D>0x0c327fffba40: fd fd[fd]fd fd fd fd fd fd fd fd fd fd fd fd fd
+  0x0c327fffba50: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+  0x0c327fffba60: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+  0x0c327fffba70: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+  0x0c327fffba80: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+  0x0c327fffba90: fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd fd
+Shadow byte legend (one shadow byte represents 8 application bytes):
+  Addressable: 00
+  Partially addressable: 01 02 03 04 05 06 07
+  Heap left redzone: fa
+  Freed heap region: fd
+  Stack left redzone: f1
+  Stack mid redzone: f2
+  Stack right redzone: f3
+  Stack after return: f5
+  Stack use after scope: f8
+  Global redzone: f9
+  Global init order: f6
+  Poisoned by user: f7
+  Container overflow: fc
+  Array cookie: ac
+  Intra object redzone: bb
+  ASan internal: fe
+  Left alloca redzone: ca
+  Right alloca redzone: cb
+  Shadow gap: cc
+=3D=3D31958=3D=3DABORTING
+
+Signed-off-by: Yury Kotov <yury-kotov@yandex-team.ru>
+Message-Id: <20190408113343.2370-1-yury-kotov@yandex-team.ru>
+Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+  Fixed up comment formatting
 ---
- migration/savevm.c | 69 +++++++++++++++++++++++++++-------------------
- 1 file changed, 40 insertions(+), 29 deletions(-)
+ migration/migration.c | 25 ++++++++++++++++++++-----
+ 1 file changed, 20 insertions(+), 5 deletions(-)
 
-diff --git a/migration/savevm.c b/migration/savevm.c
-index 4c7b8379e8..c0e557b4c2 100644
---- a/migration/savevm.c
-+++ b/migration/savevm.c
-@@ -2262,6 +2262,43 @@ qemu_loadvm_section_part_end(QEMUFile *f, Migratio=
-nIncomingState *mis)
-     return 0;
+diff --git a/migration/migration.c b/migration/migration.c
+index 4844ad438b..d0a0f68f11 100644
+--- a/migration/migration.c
++++ b/migration/migration.c
+@@ -1495,10 +1495,8 @@ static void block_cleanup_parameters(MigrationStat=
+e *s)
+     }
  }
 =20
-+static int qemu_loadvm_state_header(QEMUFile *f)
+-static void migrate_fd_cleanup(void *opaque)
++static void migrate_fd_cleanup(MigrationState *s)
+ {
+-    MigrationState *s =3D opaque;
+-
+     qemu_bh_delete(s->cleanup_bh);
+     s->cleanup_bh =3D NULL;
+=20
+@@ -1543,6 +1541,23 @@ static void migrate_fd_cleanup(void *opaque)
+     block_cleanup_parameters(s);
+ }
+=20
++static void migrate_fd_cleanup_schedule(MigrationState *s)
 +{
-+    unsigned int v;
-+    int ret;
-+
-+    v =3D qemu_get_be32(f);
-+    if (v !=3D QEMU_VM_FILE_MAGIC) {
-+        error_report("Not a migration stream");
-+        return -EINVAL;
-+    }
-+
-+    v =3D qemu_get_be32(f);
-+    if (v =3D=3D QEMU_VM_FILE_VERSION_COMPAT) {
-+        error_report("SaveVM v2 format is obsolete and don't work anymor=
-e");
-+        return -ENOTSUP;
-+    }
-+    if (v !=3D QEMU_VM_FILE_VERSION) {
-+        error_report("Unsupported migration stream version");
-+        return -ENOTSUP;
-+    }
-+
-+    if (migrate_get_current()->send_configuration) {
-+        if (qemu_get_byte(f) !=3D QEMU_VM_CONFIGURATION) {
-+            error_report("Configuration section missing");
-+            qemu_loadvm_state_cleanup();
-+            return -EINVAL;
-+        }
-+        ret =3D vmstate_load_state(f, &vmstate_configuration, &savevm_st=
-ate, 0);
-+
-+        if (ret) {
-+            qemu_loadvm_state_cleanup();
-+            return ret;
-+        }
-+    }
-+    return 0;
++    /*
++     * Ref the state for bh, because it may be called when
++     * there're already no other refs
++     */
++    object_ref(OBJECT(s));
++    qemu_bh_schedule(s->cleanup_bh);
 +}
 +
- static int qemu_loadvm_state_setup(QEMUFile *f)
++static void migrate_fd_cleanup_bh(void *opaque)
++{
++    MigrationState *s =3D opaque;
++    migrate_fd_cleanup(s);
++    object_unref(OBJECT(s));
++}
++
+ void migrate_set_error(MigrationState *s, const Error *error)
  {
-     SaveStateEntry *se;
-@@ -2410,7 +2447,6 @@ int qemu_loadvm_state(QEMUFile *f)
- {
-     MigrationIncomingState *mis =3D migration_incoming_get_current();
-     Error *local_err =3D NULL;
--    unsigned int v;
-     int ret;
-=20
-     if (qemu_savevm_state_blocked(&local_err)) {
-@@ -2418,34 +2454,9 @@ int qemu_loadvm_state(QEMUFile *f)
-         return -EINVAL;
+     qemu_mutex_lock(&s->error_mutex);
+@@ -3143,7 +3158,7 @@ static void migration_iteration_finish(MigrationSta=
+te *s)
+         error_report("%s: Unknown ending state %d", __func__, s->state);
+         break;
      }
+-    qemu_bh_schedule(s->cleanup_bh);
++    migrate_fd_cleanup_schedule(s);
+     qemu_mutex_unlock_iothread();
+ }
 =20
--    v =3D qemu_get_be32(f);
--    if (v !=3D QEMU_VM_FILE_MAGIC) {
--        error_report("Not a migration stream");
--        return -EINVAL;
--    }
--
--    v =3D qemu_get_be32(f);
--    if (v =3D=3D QEMU_VM_FILE_VERSION_COMPAT) {
--        error_report("SaveVM v2 format is obsolete and don't work anymor=
-e");
--        return -ENOTSUP;
--    }
--    if (v !=3D QEMU_VM_FILE_VERSION) {
--        error_report("Unsupported migration stream version");
--        return -ENOTSUP;
--    }
--
--    if (migrate_get_current()->send_configuration) {
--        if (qemu_get_byte(f) !=3D QEMU_VM_CONFIGURATION) {
--            error_report("Configuration section missing");
--            qemu_loadvm_state_cleanup();
--            return -EINVAL;
--        }
--        ret =3D vmstate_load_state(f, &vmstate_configuration, &savevm_st=
-ate, 0);
--
--        if (ret) {
--            qemu_loadvm_state_cleanup();
--            return ret;
--        }
-+    ret =3D qemu_loadvm_state_header(f);
-+    if (ret) {
-+        return ret;
-     }
+@@ -3278,7 +3293,7 @@ void migrate_fd_connect(MigrationState *s, Error *e=
+rror_in)
+     bool resume =3D s->state =3D=3D MIGRATION_STATUS_POSTCOPY_PAUSED;
 =20
-     if (qemu_loadvm_state_setup(f) !=3D 0) {
+     s->expected_downtime =3D s->parameters.downtime_limit;
+-    s->cleanup_bh =3D qemu_bh_new(migrate_fd_cleanup, s);
++    s->cleanup_bh =3D qemu_bh_new(migrate_fd_cleanup_bh, s);
+     if (error_in) {
+         migrate_fd_error(s, error_in);
+         migrate_fd_cleanup(s);
 --=20
 2.21.0
 
