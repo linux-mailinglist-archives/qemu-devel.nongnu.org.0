@@ -2,80 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8FD581CCFB
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 18:30:26 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50977 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44BA01CD41
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 18:51:55 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:51222 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQaJt-0008NQ-Nu
-	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 12:30:25 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43091)
+	id 1hQaeg-0006pI-5x
+	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 12:51:54 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47747)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hQaHg-0007Df-RW
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 12:28:09 -0400
+	(envelope-from <berrange@redhat.com>) id 1hQadY-0006U8-BG
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 12:50:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hQaHf-0006ki-Am
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 12:28:08 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:35082)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hQaHd-0006fj-1z
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 12:28:06 -0400
-Received: by mail-wm1-x343.google.com with SMTP id q15so3471877wmj.0
-	for <qemu-devel@nongnu.org>; Tue, 14 May 2019 09:28:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=references:user-agent:from:to:cc:subject:in-reply-to:date
-	:message-id:mime-version:content-transfer-encoding;
-	bh=FOBIwleDOITLjJTRYiV7KAftp8+vkxSSQrHmlaJusGo=;
-	b=mhU3X0y+uYTPTAzE73MRSqSApann6Vk7hQ60zpOq9/swjsXgKKABcyUljWgGmihriE
-	iNJNce0JdZNpCe5tGJSVOvz19w9VDsiPO9DvVTD78p5XcjDlr71otOg9a60Jvn+fnpgl
-	rt3SADik5Vp7PxUWFLDBHNqOAKvY4eC2qSlCY+OeI//U1CFmFZAqXlOhZjBaJDGAMt67
-	OG9MPUXgpKqzRoJ5OwaBlFB75D0gPR8dDuCBmbPpJKfQ3N9UBrr/vcvAPBAc5zm5pdbj
-	ZJ8Jy84iZGu5CY606lNDzl+0ks2/OCQyTslsPXfH/gUdv88KLxUB73YYeyl3jB8nYPYU
-	DmkQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:references:user-agent:from:to:cc:subject
-	:in-reply-to:date:message-id:mime-version:content-transfer-encoding;
-	bh=FOBIwleDOITLjJTRYiV7KAftp8+vkxSSQrHmlaJusGo=;
-	b=jp73yhTOjHE1Y4PMgPBZKH7v/pDCnbB/z5DasC34YNSgco9a21V8s/0ArKU/ooBen8
-	BdJUbTmJC176vHziT3AbG5RiMOOtcLdU/2vKo1lwLhgxaCNfKOMTZsF/xuCvI+kBMOYO
-	1On096ZeWqdELxu5Klg2f5OIL8E7aQ2iOlPl0R1gttzcLiHiFP7M98jVoavBIGBujbkN
-	b4ah6yF2qbucXVPf4Uq+tF3S9J9RqP5nG5cGh9BuJ46zKG4m7OF4LLK3NSUuTX1t8d1P
-	LvYeAtuD4vL4xVSPzJcRXdOWHKqixOayEL6zLM6SkIYpc4q1Bfl512ZkjYyg9nt0sHq5
-	rxuQ==
-X-Gm-Message-State: APjAAAWVDWSGZw0Lo3ysfifQuE/ivboywY7TSB2OJwzjiwgtvy3BUy+a
-	IHUChldJKtLb4iUnAieZe12NPw==
-X-Google-Smtp-Source: APXvYqwmq4DQX6wziXY2TM8VtNu3Fugld/+NNnGkilf45f3jZutcE4OYozyyPBI9tRMnox5hAqlkpw==
-X-Received: by 2002:a1c:9e04:: with SMTP id h4mr21254964wme.135.1557851281789; 
-	Tue, 14 May 2019 09:28:01 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
-	by smtp.gmail.com with ESMTPSA id
-	o6sm41353506wrh.55.2019.05.14.09.28.00
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 14 May 2019 09:28:01 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id 8BE911FF87;
-	Tue, 14 May 2019 17:28:00 +0100 (BST)
-References: <20190510185438.29533-1-richard.henderson@linaro.org>
-	<20190510185438.29533-4-richard.henderson@linaro.org>
-	<CAL1e-=hRXg7eykwjDxTDXt33FiFOAkkGQk23mEZRB3ChaZcAQA@mail.gmail.com>
-	<87bm05nijn.fsf@zen.linaroharston>
-	<e7cc54ef-c40c-1ea4-792b-b3d44abe7739@redhat.com>
-User-agent: mu4e 1.3.1; emacs 26.1
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
-In-reply-to: <e7cc54ef-c40c-1ea4-792b-b3d44abe7739@redhat.com>
-Date: Tue, 14 May 2019 17:28:00 +0100
-Message-ID: <87a7fpngq7.fsf@zen.linaroharston>
+	(envelope-from <berrange@redhat.com>) id 1hQadV-0001Uv-Ec
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 12:50:43 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37858)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hQadV-0001Sn-7C
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 12:50:41 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 4CCD330089B5;
+	Tue, 14 May 2019 16:50:40 +0000 (UTC)
+Received: from redhat.com (ovpn-112-20.ams2.redhat.com [10.36.112.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 2106A608A6;
+	Tue, 14 May 2019 16:50:38 +0000 (UTC)
+Date: Tue, 14 May 2019 17:50:36 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <20190514165036.GA7680@redhat.com>
+References: <20190510173049.28171-1-richard.henderson@linaro.org>
+	<877eatdq3w.fsf@dusky.pond.sub.org>
+	<20190514152331.GJ25916@redhat.com>
+	<d050fa9d-8e4b-7b87-31e5-05a7fa78feb9@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <d050fa9d-8e4b-7b87-31e5-05a7fa78feb9@linaro.org>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.46]);
+	Tue, 14 May 2019 16:50:40 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::343
-Subject: Re: [Qemu-devel] [PULL v2 12/27] target/mips: Convert to
- CPUClass::tlb_fill
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v6 00/25] Add qemu_getrandom and
+ ARMv8.5-RNG etc
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -87,55 +62,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <arikalo@wavecomp.com>, peter.maydell@linaro.org,
-	Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org,
-	Aleksandar Markovic <amarkovic@wavecomp.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, May 14, 2019 at 09:14:57AM -0700, Richard Henderson wrote:
+> On 5/14/19 8:23 AM, Daniel P. Berrang=C3=A9 wrote:
+> > On Tue, May 14, 2019 at 05:15:31PM +0200, Markus Armbruster wrote:
+> >> "make check-unit" fails for me:
+> >>
+> >>   TEST    check-unit: tests/test-crypto-tlscredsx509
+> >> Unexpected error in object_new_with_propv() at /work/armbru/qemu/qom=
+/object.c:674:
+> >> invalid object type: tls-creds-x509
+> >>
+> >> and
+> >>
+> >>   TEST    check-unit: tests/test-io-channel-tls
+> >> Unexpected error in object_new_with_propv() at /work/armbru/qemu/qom=
+/object.c:674:
+> >> invalid object type: tls-creds-x509
+> >>
+> >> I haven't looked further.
+> >=20
+> > I have a nasty feeling it is caused by
+> >=20
+> >   Subject: [PATCH v6 02/25] crypto: Merge crypto-obj-y into libqemuut=
+il.a
+> >=20
+> > The QOM objects are not directly used by most of the code. We rely on
+> > the constructor registering the QOM object and then we request an
+> > instance of it via the type name. So there's no direct function calls
+> > from any code into the crypto object impls.
+> >=20
+> > When we put the crypto objects into libqemuutil.a the linker is not
+> > intelligent enough to see the constructor and so thinks all these
+> > QOM object impls are unused and discards them when linking the final
+> > binary.
+>=20
+> Yes, that would do it.  We would need something in the test that forces=
+ the
+> objects into the link.  Without having yet looked at the test cases, an=
+y ideas?
 
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> writes:
+I don't think this is only the test suite. I think it will affect all the
+binaries we build
 
-> On 5/14/19 5:48 PM, Alex Benn=C3=A9e wrote:
->>
->> Aleksandar Markovic <aleksandar.m.mail@gmail.com> writes:
->>
->>> On May 10, 2019 8:57 PM, "Richard Henderson" <richard.henderson@linaro.=
-org>
->>> wrote:
->>>>
->>>
->>> Please change the title to 'target/mips: Switch to using
->>> mips_cpu_tlb_fill()', or something along that line.
->>
->> It does seem a little redundant as "target/mips:" already marks it as a
->> mips specific change and viewing the log you can see a series of
->> architectures being converted to a new API.
->>
->>> Also, the reason for changing the field access_type to mips_access type
->>> should be explained in the commit message.
->>
->> ok
->>
->>> This commit message is generally poor, as it explains relatively
->>> unimportant logging issue, while not explaining the core of the
->>> change.
->>
->> Surely the core of the change is explained in the main patches that
->> introduce the new API? I think it would be redundant to repeat that for
->> every individual architecture touched. It's a shame it's hard to
->> explicitly reference a patch in the same series as the commit hashes are
->> not yet permanent. At least when we fix things referring to the short
->> hash of the original commit is fairly easy.
->
-> Except in the case the maintainer is sending a pull request (like here)
-> where he can manually fix the commits. Still this is a PITA...
+The only way you can force it is to use -Wl,--whole-archive arg to tell l=
+d
+to include everything from libqemuutil.la, but that will break the way
+the stubs work, as we want make of the stubs to be discarded.
 
-If there was tooling that can go from a patch series to a pull request
-then maybe. But generally a PR is a series of patches that have now
-passed some standard and can now be sent. I'm not sure I'd want to go
-over all my commits and re-edit the messages at that point.
+The only other option is to not build $(crypto-obj-y) into libqemuutil.la=
+,
+but list that variable explicitly everywhere that we list libqemuutil.la
 
---
-Alex Benn=C3=A9e
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 
