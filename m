@@ -2,68 +2,117 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3B9311C613
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 11:32:03 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:44116 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C3B81C60D
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 11:29:45 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:44042 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQTn0-0003IN-Eh
-	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 05:32:02 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37445)
+	id 1hQTkm-0000nN-5h
+	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 05:29:44 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37573)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hQTiR-0007UP-B5
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 05:27:21 -0400
+	(envelope-from <david@redhat.com>) id 1hQTip-0007r9-EH
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 05:27:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hQTiP-0001ac-Da
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 05:27:19 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:42936)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hQTiP-0001YT-4i
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 05:27:17 -0400
-Received: by mail-wr1-f65.google.com with SMTP id l2so18333615wrb.9
-	for <qemu-devel@nongnu.org>; Tue, 14 May 2019 02:27:17 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=/jGquczaI3r5wCsBpvmEnRbuRBlEbj38AHeOWWFtLB0=;
-	b=r25DwGpnBNlZKX7AUcGU/dVukWIg7hiVCxzySyb86EImkXEwk/l7XT3TFpNadmEeT7
-	bqrBDwMGKU7hk21vnBG/i/7cmOzB/A4s3V+JTBYRLx243PrFV6v1Igc3e7ZsecEoEmoe
-	V1JQPRaQQs1VUiEG80TFMKoO+ZLoti1CEdhohx1fwHchbMiJu5TrgHFW98h+yVRe0T3D
-	faLtp+cnJnkY1G/vRT7wlJZKr5advPG5cCkTt0yGHwixT38GK3b8fjQj4nV7l2h/P1LK
-	rji6wWBefy1vdcDCqQuIWUElTd848VGJ6Agi2peUPgaLlMR5g6uhe2nqsYkrOszly66K
-	Ltgw==
-X-Gm-Message-State: APjAAAXgZzE0h+Z1HRwlWd82D1cxmP9uTG+4Bhbxca7+3jgnI7J2mlxP
-	VhVhFuOay+tkpu6vPUqk/rd03zt2IgY=
-X-Google-Smtp-Source: APXvYqwwqyjrLm2CC8PSih4vYTyI+XES+OGIylU/B4ESerNRKuUIK/oww7Pbna3llW7bRoe1RJVzNg==
-X-Received: by 2002:a05:6000:10c4:: with SMTP id
-	b4mr8216543wrx.145.1557826035656; 
-	Tue, 14 May 2019 02:27:15 -0700 (PDT)
-Received: from [192.168.1.33] (193.red-88-21-103.staticip.rima-tde.net.
-	[88.21.103.193]) by smtp.gmail.com with ESMTPSA id
-	y6sm26665891wrw.60.2019.05.14.02.27.14
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Tue, 14 May 2019 02:27:15 -0700 (PDT)
-To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>, qemu-arm@nongnu.org
-References: <20190510191051.5973-1-alex.bennee@linaro.org>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
-	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <90485cb4-4263-6b6e-2250-7717c064f439@redhat.com>
-Date: Tue, 14 May 2019 11:27:13 +0200
+	(envelope-from <david@redhat.com>) id 1hQTin-0002OY-Ha
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 05:27:43 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35840)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <david@redhat.com>)
+	id 1hQTil-0002Gc-Hn; Tue, 14 May 2019 05:27:41 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id A3A773082E0F;
+	Tue, 14 May 2019 09:27:37 +0000 (UTC)
+Received: from [10.36.117.118] (ovpn-117-118.ams2.redhat.com [10.36.117.118])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 45F971001947;
+	Tue, 14 May 2019 09:27:33 +0000 (UTC)
+To: Christian Borntraeger <borntraeger@de.ibm.com>,
+	Cornelia Huck <cohuck@redhat.com>
+References: <1556749903-19221-1-git-send-email-walling@linux.ibm.com>
+	<a87c71be-5bf8-a115-5843-720c9ad10c7b@redhat.com>
+	<bc2fd9bb-7b94-eac7-590b-f01d2063ef9c@redhat.com>
+	<e948a030-bd30-180e-bbd6-76f4a2390bb9@de.ibm.com>
+	<ea6df6b1-4062-c057-92ea-5be40d778fe9@redhat.com>
+	<09293a1c-d000-83a8-46b8-b97ad4fa9774@de.ibm.com>
+	<56e3ace1-6e48-0e20-47d5-b07ac6dfcf31@redhat.com>
+	<e140a076-28a0-0db6-4c59-80e0f2ab44bb@de.ibm.com>
+	<c690c4a8-c277-e3c6-3697-3f0a1924559b@redhat.com>
+	<20190513134637.3d8bb275.cohuck@redhat.com>
+	<898144e3-615e-5074-fb68-bf9995c64609@de.ibm.com>
+	<155d2ca3-6a48-c99a-fe42-dca8e3fd4344@redhat.com>
+	<066c7470-94a3-a922-9a12-1ca42e474c51@de.ibm.com>
+	<20190514104934.6bba9232.cohuck@redhat.com>
+	<47f7134b-338f-0207-88ae-4c1969be3786@redhat.com>
+	<13b0f0b2-f7c7-01fb-0e17-92bd47d9c346@de.ibm.com>
+	<b280d46f-4a0f-f5dd-c89b-b85210d190ca@redhat.com>
+	<00b5d031-227b-38f7-9512-e36c3b655c62@de.ibm.com>
+	<27bd36e1-a102-e793-6a61-3e7acb6f1255@de.ibm.com>
+From: David Hildenbrand <david@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+	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
+	SE+xAvmumFBY
+Organization: Red Hat GmbH
+Message-ID: <078b7bcd-de03-743d-a150-456be0b09362@redhat.com>
+Date: Tue, 14 May 2019 11:27:32 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190510191051.5973-1-alex.bennee@linaro.org>
+In-Reply-To: <27bd36e1-a102-e793-6a61-3e7acb6f1255@de.ibm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.46]);
+	Tue, 14 May 2019 09:27:37 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.221.65
-Subject: Re: [Qemu-devel] [RFC PATCH] target/arm: semihosting docs,
- formatting and return clean-ups
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [qemu-s390x] [PATCH v4] s390: diagnose 318 info
+ reset and migration support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -75,414 +124,120 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org
+Cc: Collin Walling <walling@linux.ibm.com>, mst@redhat.com,
+	qemu-devel@nongnu.org, pasic@linux.ibm.com,
+	qemu-s390x@nongnu.org, pbonzini@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Alex,
-
-On 5/10/19 9:10 PM, Alex Bennée wrote:
-> This is a clean-up of the semihosting calls after reading ver 2.0 of
-> the specification. There are a number of small fixes that seemed too
-> insignificant to split into smaller patches:
+On 14.05.19 11:25, Christian Borntraeger wrote:
 > 
-
-Can you split at least this one of:
-
->   - fixup block comments as per standard
-
-The rest is probably acceptable as an unique patch:
-
->   - add reference to the ARM semihosting spec
->   - add some additional commentary on return values
->   - audit return values, return 0xdeadbeef for corrupted values
->   - fix up leaks from early returns with lock_user_string
->   - return bytes not written/read instead of -1
->   - add LOG_UNIMP for missing functionality
-
-Thanks!
-
-Phil.
-
 > 
-> This is very much a Friday patch. It might be worth splitting up if
-> coming back for a more concerted clean-up series for semihosting as
-> the asynchronous gdb calls probably need more attention.
+> On 14.05.19 11:23, Christian Borntraeger wrote:
+>>
+>>
+>> On 14.05.19 11:20, David Hildenbrand wrote:
+>>> On 14.05.19 11:10, Christian Borntraeger wrote:
+>>>>
+>>>>
+>>>> On 14.05.19 10:59, David Hildenbrand wrote:
+>>>>> On 14.05.19 10:49, Cornelia Huck wrote:
+>>>>>> On Tue, 14 May 2019 10:37:32 +0200
+>>>>>> Christian Borntraeger <borntraeger@de.ibm.com> wrote:
+>>>>>>
+>>>>>>> On 14.05.19 09:28, David Hildenbrand wrote:
+>>>>>>>>>>> But that can be tested using the runability information if I am not wrong.  
+>>>>>>>>>>
+>>>>>>>>>> You mean the cpu level information, right?  
+>>>>>>>>
+>>>>>>>> Yes, query-cpu-definition includes for each model runability information
+>>>>>>>> via "unavailable-features" (valid under the started QEMU machine).
+>>>>>>>>   
+>>>>>>>>>>  
+>>>>>>>>>>>  
+>>>>>>>>>>>> and others that we have today.
+>>>>>>>>>>>>
+>>>>>>>>>>>> So yes, I think this would be acceptable.    
+>>>>>>>>>>>
+>>>>>>>>>>> I guess it is acceptable yes. I doubt anybody uses that many CPUs in
+>>>>>>>>>>> production either way. But you never know.  
+>>>>>>>>>>
+>>>>>>>>>> I think that using that many cpus is a more uncommon setup, but I still
+>>>>>>>>>> think that having to wait for actual failure  
+>>>>>>>>>
+>>>>>>>>> That can happen all the time today. You can easily say z14 in the xml when 
+>>>>>>>>> on a zEC12. Only at startup you get the error. The question is really:  
+>>>>>>>>
+>>>>>>>> "-smp 248 -cpu host" will no longer work, while e.g. "-smp 248 -cpu z12"
+>>>>>>>> will work. Actually, even "-smp 248" will no longer work on affected
+>>>>>>>> machines.
+>>>>>>>>
+>>>>>>>> That is why wonder if it is better to disable the feature and print a
+>>>>>>>> warning. Similar to CMMA, where want want to tolerate when CMMA is not
+>>>>>>>> possible in the current environment (huge pages).
+>>>>>>>>
+>>>>>>>> "Diag318 will not be enabled because it is not compatible with more than
+>>>>>>>> 240 CPUs".
+>>>>>>>>
+>>>>>>>> However, I still think that implementing support for more than one SCLP
+>>>>>>>> response page is the best solution. Guests will need adaptions for > 240
+>>>>>>>> CPUs with Diag318, but who cares? Existing setups will continue to work.
+>>>>>>>>
+>>>>>>>> Implementing that SCLP thingy will avoid any warnings and any errors. It
+>>>>>>>> just works from the QEMU perspective.
+>>>>>>>>
+>>>>>>>> Is implementing this realistic?  
+>>>>>>>
+>>>>>>> Yes it is but it will take time. I will try to get this rolling. To make
+>>>>>>> progress on the diag318 thing, can we error on startup now and simply
+>>>>>>> remove that check when when have implemented a larger sccb? If we would
+>>>>>>> now do all kinds of "change the max number games" would be harder to "fix".
+>>>>>>
+>>>>>> So, the idea right now is:
+>>>>>>
+>>>>>> - fail to start if you try to specify a diag318 device and more than
+>>>>>>   240 cpus (do we need a knob to turn off the device?)
+>>>>>> - in the future, support more than one SCLP response page
+>>>>>>
+>>>>>> I'm getting a bit lost in the discussion; but the above sounds
+>>>>>> reasonable to me.
+>>>>>>
+>>>>>
+>>>>> We can
+>>>>>
+>>>>> 1. Fail to start with #cpus > 240 when diag318=on
+>>>>> 2. Remove the error once we support more than one SCLP response page
+>>>>>
+>>>>> Or
+>>>>>
+>>>>> 1. Allow to start with #cpus > 240 when diag318=on, but indicate only
+>>>>>    240 CPUs via SCLP
+>>>>> 2. Print a warning
+>>>>> 3. Remove the restriction and the warning once we support more than one
+>>>>>    SCLP response page
+>>>>>
+>>>>> While I prefer the second approach (similar to defining zPCI devices
+>>>>> without zpci=on), I could also live with the first approach.
+>>>>
+>>>> I prefer approach 1.
+>>>>
+>>>
+>>> Isn't approach #2 what we discussed (limiting sclp, but of course to 247
+>>> CPUs), but with an additional warning? I'm confused.
+>>
+>> Different numbering interpretion. I was talking about 1 = "Allow to start with #cpus > 240 when diag318=on, but indicate only
+>> 240 CPUs via SCLP"
 > 
-> Signed-off-by: Alex Bennée <alex.bennee@linaro.org>
-> ---
->  target/arm/arm-semi.c | 180 +++++++++++++++++++++++++-----------------
->  1 file changed, 109 insertions(+), 71 deletions(-)
-> 
-> diff --git a/target/arm/arm-semi.c b/target/arm/arm-semi.c
-> index 4c326fdc2fb..8deaed2807c 100644
-> --- a/target/arm/arm-semi.c
-> +++ b/target/arm/arm-semi.c
-> @@ -2,6 +2,7 @@
->   *  Arm "Angel" semihosting syscalls
->   *
->   *  Copyright (c) 2005, 2007 CodeSourcery.
-> + *  Copyright (c) 2019 Linaro
->   *  Written by Paul Brook.
->   *
->   *  This program is free software; you can redistribute it and/or modify
-> @@ -15,13 +16,19 @@
->   *  GNU General Public License for more details.
->   *
->   *  You should have received a copy of the GNU General Public License
-> - *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-> + *  along with this program; if not, see
-> + *  <http://www.gnu.org/licenses/>.
-> + *
-> + *  ARM Semihosting is documented in:
-> + *     Semihosting for AArch32 and AArch64 Release 2.0
-> + *     https://static.docs.arm.com/100863/0200/semihosting.pdf
->   */
->  
->  #include "qemu/osdep.h"
->  
->  #include "cpu.h"
->  #include "exec/semihost.h"
-> +#include "exec/log.h"
->  #ifdef CONFIG_USER_ONLY
->  #include "qemu.h"
->  
-> @@ -241,13 +248,18 @@ static target_ulong arm_gdb_syscall(ARMCPU *cpu, gdb_syscall_complete_cb cb,
->       put_user_u64(val, args + (n) * 8) :                \
->       put_user_u32(val, args + (n) * 4))
->  
-> +/*
-> + * Do a semihosting call. Returns the "RETURN REGISTER" which is
-> + * documented as corrupted for some calls. In this case we use the
-> + * venerable 0xdeadbeef.
-> + */
->  target_ulong do_arm_semihosting(CPUARMState *env)
->  {
->      ARMCPU *cpu = arm_env_get_cpu(env);
->      CPUState *cs = CPU(cpu);
->      target_ulong args;
->      target_ulong arg0, arg1, arg2, arg3;
-> -    char * s;
-> +    char *s;
->      int nr;
->      uint32_t ret;
->      uint32_t len;
-> @@ -273,9 +285,9 @@ target_ulong do_arm_semihosting(CPUARMState *env)
->          GET_ARG(2);
->          s = lock_user_string(arg0);
->          if (!s) {
-> -            /* FIXME - should this error code be -TARGET_EFAULT ? */
->              return (uint32_t)-1;
->          }
-> +        /* check for invalid open mode */
->          if (arg1 >= 12) {
->              unlock_user(s, arg0, 0);
->              return (uint32_t)-1;
-> @@ -287,7 +299,7 @@ target_ulong do_arm_semihosting(CPUARMState *env)
->          }
->          if (use_gdb_syscalls()) {
->              ret = arm_gdb_syscall(cpu, arm_semi_cb, "open,%s,%x,1a4", arg0,
-> -                                  (int)arg2+1, gdb_open_modeflags[arg1]);
-> +                                  (int) arg2 + 1, gdb_open_modeflags[arg1]);
->          } else {
->              ret = set_swi_errno(ts, open(s, open_modeflags[arg1], 0644));
->          }
-> @@ -301,48 +313,51 @@ target_ulong do_arm_semihosting(CPUARMState *env)
->              return set_swi_errno(ts, close(arg0));
->          }
->      case TARGET_SYS_WRITEC:
-> -        {
-> -          char c;
-> -
-> -          if (get_user_u8(c, args))
-> -              /* FIXME - should this error code be -TARGET_EFAULT ? */
-> -              return (uint32_t)-1;
-> -          /* Write to debug console.  stderr is near enough.  */
-> -          if (use_gdb_syscalls()) {
-> +    {
-> +        char c;
-> +        if (!get_user_u8(c, args)) {
-> +            /* Write to debug console.  stderr is near enough.  */
-> +            if (use_gdb_syscalls()) {
->                  return arm_gdb_syscall(cpu, arm_semi_cb, "write,2,%x,1", args);
-> -          } else {
-> +            } else {
->  #ifdef CONFIG_SOFTMMU
-> -              Chardev *chardev = semihosting_get_chardev();
-> -              if (chardev) {
-> -                  return qemu_chr_write_all(chardev, (uint8_t *) &c, 1);
-> -              } else
-> +                Chardev *chardev = semihosting_get_chardev();
-> +                if (chardev) {
-> +                    return qemu_chr_write_all(chardev, (uint8_t *) &c, 1);
-> +                }
->  #endif
-> -              {
-> -                  return write(STDERR_FILENO, &c, 1);
-> -              }
-> -          }
-> +                return write(STDERR_FILENO, &c, 1);
-> +            }
-> +        } else {
-> +            /* return register is corrupted */
-> +            return 0xdeadbeef;
->          }
-> +    }
->      case TARGET_SYS_WRITE0:
-> -        if (!(s = lock_user_string(args)))
-> -            /* FIXME - should this error code be -TARGET_EFAULT ? */
-> -            return (uint32_t)-1;
-> -        len = strlen(s);
-> -        if (use_gdb_syscalls()) {
-> -            return arm_gdb_syscall(cpu, arm_semi_cb, "write,2,%x,%x",
-> -                                   args, len);
-> -        } else {
-> +    {
-> +        s = lock_user_string(args);
-> +        if (s) {
-> +            len = strlen(s);
-> +            if (use_gdb_syscalls()) {
-> +                arm_gdb_syscall(cpu, arm_semi_cb, "write,2,%x,%x",
-> +                                args, len);
-> +            } else {
->  #ifdef CONFIG_SOFTMMU
-> -            Chardev *chardev = semihosting_get_chardev();
-> -            if (chardev) {
-> -                ret = qemu_chr_write_all(chardev, (uint8_t *) s, len);
-> -            } else
-> +                Chardev *chardev = semihosting_get_chardev();
-> +                if (chardev) {
-> +                    qemu_chr_write_all(chardev, (uint8_t *) s, len);
-> +                } else
->  #endif
-> -            {
-> -                ret = write(STDERR_FILENO, s, len);
-> +                {
-> +                    /* result ignored */
-> +                    ret = write(STDERR_FILENO, s, len);
-> +                }
->              }
->          }
->          unlock_user(s, args, 0);
-> -        return ret;
-> +        /* return register is corrupted */
-> +        return 0xdeadbeef;
-> +    }
->      case TARGET_SYS_WRITE:
->          GET_ARG(0);
->          GET_ARG(1);
-> @@ -355,13 +370,15 @@ target_ulong do_arm_semihosting(CPUARMState *env)
->          } else {
->              s = lock_user(VERIFY_READ, arg1, len, 1);
->              if (!s) {
-> -                /* FIXME - should this error code be -TARGET_EFAULT ? */
-> -                return (uint32_t)-1;
-> +                /* Return bytes not written on error */
-> +                return len;
->              }
->              ret = set_swi_errno(ts, write(arg0, s, len));
->              unlock_user(s, arg1, 0);
-> -            if (ret == (uint32_t)-1)
-> -                return -1;
-> +            if (ret == (uint32_t)-1) {
-> +                ret = 0;
-> +            }
-> +            /* Return bytes not written */
->              return len - ret;
->          }
->      case TARGET_SYS_READ:
-> @@ -376,26 +393,33 @@ target_ulong do_arm_semihosting(CPUARMState *env)
->          } else {
->              s = lock_user(VERIFY_WRITE, arg1, len, 0);
->              if (!s) {
-> -                /* FIXME - should this error code be -TARGET_EFAULT ? */
-> -                return (uint32_t)-1;
-> +                /* return bytes not read */
-> +                return len;
->              }
->              do {
->                  ret = set_swi_errno(ts, read(arg0, s, len));
->              } while (ret == -1 && errno == EINTR);
->              unlock_user(s, arg1, len);
-> -            if (ret == (uint32_t)-1)
-> -                return -1;
-> +            if (ret == (uint32_t)-1) {
-> +                ret = 0;
-> +            }
-> +            /* Return bytes not read */
->              return len - ret;
->          }
->      case TARGET_SYS_READC:
-> -       /* XXX: Read from debug console. Not implemented.  */
-> +        qemu_log_mask(LOG_UNIMP, "%s: TARGET_SYS_READC not implemented",
-> +                      __func__);
->          return 0;
->      case TARGET_SYS_ISTTY:
->          GET_ARG(0);
->          if (use_gdb_syscalls()) {
->              return arm_gdb_syscall(cpu, arm_semi_cb, "isatty,%x", arg0);
->          } else {
-> -            return isatty(arg0);
-> +            if (isatty(arg0)) {
-> +                return 1;
-> +            } else {
-> +                return (errno == EBADF ? -1 : 0);
-> +            }
->          }
->      case TARGET_SYS_SEEK:
->          GET_ARG(0);
-> @@ -405,8 +429,9 @@ target_ulong do_arm_semihosting(CPUARMState *env)
->                                     arg0, arg1);
->          } else {
->              ret = set_swi_errno(ts, lseek(arg0, arg1, SEEK_SET));
-> -            if (ret == (uint32_t)-1)
-> -              return -1;
-> +            if (ret == (uint32_t)-1) {
-> +                return -1;
-> +            }
->              return 0;
->          }
->      case TARGET_SYS_FLEN:
-> @@ -417,28 +442,30 @@ target_ulong do_arm_semihosting(CPUARMState *env)
->          } else {
->              struct stat buf;
->              ret = set_swi_errno(ts, fstat(arg0, &buf));
-> -            if (ret == (uint32_t)-1)
-> +            if (ret == (uint32_t)-1) {
->                  return -1;
-> +            }
->              return buf.st_size;
->          }
->      case TARGET_SYS_TMPNAM:
-> -        /* XXX: Not implemented.  */
-> +        qemu_log_mask(LOG_UNIMP, "%s: TARGET_SYS_TMPNAM not implemented",
-> +                      __func__);
->          return -1;
->      case TARGET_SYS_REMOVE:
->          GET_ARG(0);
->          GET_ARG(1);
->          if (use_gdb_syscalls()) {
->              ret = arm_gdb_syscall(cpu, arm_semi_cb, "unlink,%s",
-> -                                  arg0, (int)arg1+1);
-> +                                  arg0, (int)arg1 + 1);
->          } else {
->              s = lock_user_string(arg0);
->              if (!s) {
-> -                /* FIXME - should this error code be -TARGET_EFAULT ? */
-> -                return (uint32_t)-1;
-> +                return -EIO;
->              }
-> -            ret =  set_swi_errno(ts, remove(s));
-> +            ret = set_swi_errno(ts, remove(s));
->              unlock_user(s, arg0, 0);
->          }
-> +        /* 0 on success or host-specific error code */
->          return ret;
->      case TARGET_SYS_RENAME:
->          GET_ARG(0);
-> @@ -447,20 +474,23 @@ target_ulong do_arm_semihosting(CPUARMState *env)
->          GET_ARG(3);
->          if (use_gdb_syscalls()) {
->              return arm_gdb_syscall(cpu, arm_semi_cb, "rename,%s,%s",
-> -                                   arg0, (int)arg1+1, arg2, (int)arg3+1);
-> +                                   arg0, (int)arg1 + 1, arg2, (int)arg3 + 1);
->          } else {
->              char *s2;
->              s = lock_user_string(arg0);
->              s2 = lock_user_string(arg2);
-> -            if (!s || !s2)
-> -                /* FIXME - should this error code be -TARGET_EFAULT ? */
-> -                ret = (uint32_t)-1;
-> -            else
-> +            if (s && s2) {
->                  ret = set_swi_errno(ts, rename(s, s2));
-> -            if (s2)
-> +            } else {
-> +                ret = -EIO;
-> +            }
-> +            if (s2) {
->                  unlock_user(s2, arg2, 0);
-> -            if (s)
-> +            }
-> +            if (s) {
->                  unlock_user(s, arg0, 0);
-> +            }
-> +            /* 0 on success or host-specific error code */
->              return ret;
->          }
->      case TARGET_SYS_CLOCK:
-> @@ -472,7 +502,7 @@ target_ulong do_arm_semihosting(CPUARMState *env)
->          GET_ARG(1);
->          if (use_gdb_syscalls()) {
->              return arm_gdb_syscall(cpu, arm_semi_cb, "system,%s",
-> -                                   arg0, (int)arg1+1);
-> +                                   arg0, (int)arg1 + 1);
->          } else {
->              s = lock_user_string(arg0);
->              if (!s) {
-> @@ -527,14 +557,16 @@ target_ulong do_arm_semihosting(CPUARMState *env)
->  
->              output_size = ts->info->arg_end - ts->info->arg_start;
->              if (!output_size) {
-> -                /* We special-case the "empty command line" case (argc==0).
-> -                   Just provide the terminating 0. */
-> +                /*
-> +                 * We special-case the "empty command line" case (argc==0).
-> +                 * Just provide the terminating 0.
-> +                 */
->                  output_size = 1;
->              }
->  #endif
->  
->              if (output_size > input_size) {
-> -                 /* Not enough space to store command-line arguments.  */
-> +                /* Not enough space to store command-line arguments.  */
->                  return -1;
->              }
->  
-> @@ -588,8 +620,10 @@ target_ulong do_arm_semihosting(CPUARMState *env)
->              GET_ARG(0);
->  
->  #ifdef CONFIG_USER_ONLY
-> -            /* Some C libraries assume the heap immediately follows .bss, so
-> -               allocate it using sbrk.  */
-> +            /*
-> +             * Some C libraries assume the heap immediately follows .bss, so
-> +             * allocate it using sbrk.
-> +             */
->              if (!ts->heap_limit) {
->                  abi_ulong ret;
->  
-> @@ -637,7 +671,8 @@ target_ulong do_arm_semihosting(CPUARMState *env)
->          }
->      case TARGET_SYS_EXIT:
->          if (is_a64(env)) {
-> -            /* The A64 version of this call takes a parameter block,
-> +            /*
-> +             * The A64 version of this call takes a parameter block,
->               * so the application-exit type can return a subcode which
->               * is the exit status code from the application.
->               */
-> @@ -650,14 +685,17 @@ target_ulong do_arm_semihosting(CPUARMState *env)
->                  ret = 1;
->              }
->          } else {
-> -            /* ARM specifies only Stopped_ApplicationExit as normal
-> -             * exit, everything else is considered an error */
-> +            /*
-> +             * ARM specifies only Stopped_ApplicationExit as normal
-> +             * exit, everything else is considered an error
-> +             */
->              ret = (args == ADP_Stopped_ApplicationExit) ? 0 : 1;
->          }
->          gdb_exit(env, ret);
->          exit(ret);
->      case TARGET_SYS_SYNCCACHE:
-> -        /* Clean the D-cache and invalidate the I-cache for the specified
-> +        /*
-> +         * Clean the D-cache and invalidate the I-cache for the specified
->           * virtual address range. This is a nop for us since we don't
->           * implement caches. This is only present on A64.
->           */
-> 
+> So yes, variant 2 when I use your numbering. The only question is: do we need
+> a warning? It probably does not hurt. 
+
+After all, we are talking about 1 VCPU that the guest can only use by
+indirect probing ... I leave that up to Collin :)
+
+
+-- 
+
+Thanks,
+
+David / dhildenb
 
