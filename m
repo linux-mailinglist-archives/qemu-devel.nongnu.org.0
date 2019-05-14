@@ -2,96 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 61E7E1C1B4
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 07:07:58 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:39296 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E07C81C1D8
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 07:28:42 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:39508 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQPfR-0002cl-2W
-	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 01:07:57 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52574)
+	id 1hQPzV-0006Y1-Pg
+	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 01:28:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39576)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <aravinda@linux.vnet.ibm.com>) id 1hQPeK-0002GC-DS
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 01:06:49 -0400
+	(envelope-from <pagupta@redhat.com>) id 1hQPyO-0006Dn-7q
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 01:27:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <aravinda@linux.vnet.ibm.com>) id 1hQPeG-0005rF-MN
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 01:06:46 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:49838)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <aravinda@linux.vnet.ibm.com>)
-	id 1hQPeB-0005Hw-QL
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 01:06:44 -0400
-Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
-	by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
-	x4E53KBw045137
-	for <qemu-devel@nongnu.org>; Tue, 14 May 2019 01:06:26 -0400
-Received: from e14.ny.us.ibm.com (e14.ny.us.ibm.com [129.33.205.204])
-	by mx0a-001b2d01.pphosted.com with ESMTP id 2sfjwjg9cx-1
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <qemu-devel@nongnu.org>; Tue, 14 May 2019 01:06:26 -0400
-Received: from localhost
-	by e14.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
-	Violators will be prosecuted
-	for <qemu-devel@nongnu.org> from <aravinda@linux.vnet.ibm.com>;
-	Tue, 14 May 2019 06:06:24 +0100
-Received: from b01cxnp22034.gho.pok.ibm.com (9.57.198.24)
-	by e14.ny.us.ibm.com (146.89.104.201) with IBM ESMTP SMTP Gateway:
-	Authorized Use Only! Violators will be prosecuted; 
-	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-	Tue, 14 May 2019 06:06:21 +0100
-Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
-	[9.57.199.110])
-	by b01cxnp22034.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
-	x4E56K8v29098010
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK); Tue, 14 May 2019 05:06:20 GMT
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id C63D1AE068;
-	Tue, 14 May 2019 05:06:20 +0000 (GMT)
-Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id BD698AE062;
-	Tue, 14 May 2019 05:06:18 +0000 (GMT)
-Received: from [9.199.60.51] (unknown [9.199.60.51])
-	by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
-	Tue, 14 May 2019 05:06:18 +0000 (GMT)
-To: David Gibson <david@gibson.dropbear.id.au>
-References: <155591636364.20338.844048953355207313.stgit@aravinda>
-	<155591660602.20338.9804738040071843715.stgit@aravinda>
-	<20190513133053.4d900d4a@bahia.lan>
-	<20190514000819.GA6441@umbus.fritz.box>
-	<9eb7a5a6-a018-d08a-4556-26da0b6cc3ca@linux.vnet.ibm.com>
-	<20190514044005.GH6441@umbus.fritz.box>
-From: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
-Date: Tue, 14 May 2019 10:36:17 +0530
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.6.0
+	(envelope-from <pagupta@redhat.com>) id 1hQPyM-00039f-Uq
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 01:27:32 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:57044)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <pagupta@redhat.com>) id 1hQPyH-0002xt-Nq
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 01:27:26 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+	[10.5.11.11])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 09F663092670;
+	Tue, 14 May 2019 05:27:21 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com
+	(colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id F3478600C6;
+	Tue, 14 May 2019 05:27:19 +0000 (UTC)
+Received: from zmail21.collab.prod.int.phx2.redhat.com
+	(zmail21.collab.prod.int.phx2.redhat.com [10.5.83.24])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 9997218089C8;
+	Tue, 14 May 2019 05:27:18 +0000 (UTC)
+Date: Tue, 14 May 2019 01:27:17 -0400 (EDT)
+From: Pankaj Gupta <pagupta@redhat.com>
+To: Dan Williams <dan.j.williams@intel.com>
+Message-ID: <676644679.28490825.1557811637861.JavaMail.zimbra@redhat.com>
+In-Reply-To: <CAPcyv4genJtCt6dp6N07_6RfPTwC6xXMhLp-dr0GWQy5q52YoA@mail.gmail.com>
+References: <20190510155202.14737-1-pagupta@redhat.com>
+	<20190510155202.14737-4-pagupta@redhat.com>
+	<CAPcyv4hbVNRFSyS2CTbmO88uhnbeH4eiukAng2cxgbDzLfizwg@mail.gmail.com>
+	<864186878.28040999.1557535549792.JavaMail.zimbra@redhat.com>
+	<CAPcyv4gL3ODfOr52Ztgq7BM4gVf1cih6cj0271gcpVvpi9aFSA@mail.gmail.com>
+	<2003480558.28042237.1557537797923.JavaMail.zimbra@redhat.com>
+	<116369545.28425569.1557768748009.JavaMail.zimbra@redhat.com>
+	<CAPcyv4genJtCt6dp6N07_6RfPTwC6xXMhLp-dr0GWQy5q52YoA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20190514044005.GH6441@umbus.fritz.box>
-Content-Type: text/plain; charset=windows-1252
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 7bit
-X-TM-AS-GCONF: 00
-x-cbid: 19051405-0052-0000-0000-000003BEED9A
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00011095; HX=3.00000242; KW=3.00000007;
-	PH=3.00000004; SC=3.00000285; SDB=6.01203036; UDB=6.00631444;
-	IPR=6.00983959; 
-	MB=3.00026878; MTD=3.00000008; XFM=3.00000015; UTC=2019-05-14 05:06:23
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19051405-0053-0000-0000-000060E37FD2
-Message-Id: <2cc48944-4ad7-6fd6-7d59-f041339fc6ec@linux.vnet.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
-	definitions=2019-05-14_02:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
-	priorityscore=1501
-	malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
-	clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
-	mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
-	scancount=1 engine=8.0.1-1810050000 definitions=main-1905140035
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.156.1
-Subject: Re: [Qemu-devel] [Qemu-ppc] [PATCH v8 4/6] target/ppc: Build rtas
- error log upon an MCE
+X-Originating-IP: [10.65.16.148, 10.4.195.17]
+Thread-Topic: libnvdimm: add dax_dev sync flag
+Thread-Index: wQqDJDTh4d6BDzUQZjrFKazK6E2QhQ==
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.43]);
+	Tue, 14 May 2019 05:27:21 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v8 3/6] libnvdimm: add dax_dev sync flag
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -103,91 +71,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: aik@au1.ibm.com, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org,
-	paulus@ozlabs.org, qemu-ppc@nongnu.org
+Cc: Jan Kara <jack@suse.cz>, KVM list <kvm@vger.kernel.org>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Jason Wang <jasowang@redhat.com>, david <david@fromorbit.com>,
+	Qemu Developers <qemu-devel@nongnu.org>,
+	virtualization@lists.linux-foundation.org,
+	Andreas Dilger <adilger.kernel@dilger.ca>,
+	Ross Zwisler <zwisler@kernel.org>, Andrea Arcangeli <aarcange@redhat.com>,
+	Dave Jiang <dave.jiang@intel.com>, jstaron@google.com,
+	linux-nvdimm <linux-nvdimm@lists.01.org>,
+	Vishal L Verma <vishal.l.verma@intel.com>,
+	David Hildenbrand <david@redhat.com>, Matthew Wilcox <willy@infradead.org>,
+	Christoph Hellwig <hch@infradead.org>,
+	Linux ACPI <linux-acpi@vger.kernel.org>, jmoyer <jmoyer@redhat.com>,
+	linux-ext4 <linux-ext4@vger.kernel.org>,
+	Len Brown <lenb@kernel.org>, Adam Borowski <kilobyte@angband.pl>,
+	Rik van Riel <riel@surriel.com>, yuval shaia <yuval.shaia@oracle.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>,
+	Paolo Bonzini <pbonzini@redhat.com>, lcapitulino@redhat.com,
+	Kevin Wolf <kwolf@redhat.com>, Nitesh Narayan Lal <nilal@redhat.com>,
+	Theodore Ts'o <tytso@mit.edu>,
+	Xiao Guangrong <xiaoguangrong.eric@gmail.com>, cohuck@redhat.com,
+	"Rafael J. Wysocki" <rjw@rjwysocki.net>,
+	Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+	linux-xfs <linux-xfs@vger.kernel.org>,
+	linux-fsdevel <linux-fsdevel@vger.kernel.org>,
+	Igor Mammedov <imammedo@redhat.com>,
+	"Darrick J. Wong" <darrick.wong@oracle.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-
-On Tuesday 14 May 2019 10:10 AM, David Gibson wrote:
-> On Tue, May 14, 2019 at 09:56:41AM +0530, Aravinda Prasad wrote:
->>
->>
->> On Tuesday 14 May 2019 05:38 AM, David Gibson wrote:
->>> On Mon, May 13, 2019 at 01:30:53PM +0200, Greg Kurz wrote:
->>>> On Mon, 22 Apr 2019 12:33:26 +0530
->>>> Aravinda Prasad <aravinda@linux.vnet.ibm.com> wrote:
->>>>
->>>>> Upon a machine check exception (MCE) in a guest address space,
->>>>> KVM causes a guest exit to enable QEMU to build and pass the
->>>>> error to the guest in the PAPR defined rtas error log format.
->>>>>
->>>>> This patch builds the rtas error log, copies it to the rtas_addr
->>>>> and then invokes the guest registered machine check handler. The
->>>>> handler in the guest takes suitable action(s) depending on the type
->>>>> and criticality of the error. For example, if an error is
->>>>> unrecoverable memory corruption in an application inside the
->>>>> guest, then the guest kernel sends a SIGBUS to the application.
->>>>> For recoverable errors, the guest performs recovery actions and
->>>>> logs the error.
->>>>>
->>>>> Signed-off-by: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
->>>>> ---
->>>>>  hw/ppc/spapr.c         |    4 +
->>>>>  hw/ppc/spapr_events.c  |  245 ++++++++++++++++++++++++++++++++++++++++++++++++
->>>>>  include/hw/ppc/spapr.h |    4 +
->>>>>  3 files changed, 253 insertions(+)
->>>>>
->>>>> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
->>>>> index 2779efe..ffd1715 100644
->>>>> --- a/hw/ppc/spapr.c
->>>>> +++ b/hw/ppc/spapr.c
->>>>> @@ -2918,6 +2918,10 @@ static void spapr_machine_init(MachineState *machine)
->>>>>          error_report("Could not get size of LPAR rtas '%s'", filename);
->>>>>          exit(1);
->>>>>      }
->>>>> +
->>>>> +    /* Resize blob to accommodate error log. */
->>>>> +    spapr->rtas_size = spapr_get_rtas_size(spapr->rtas_size);
->>>>> +
->>>>
->>>> This is the only user for spapr_get_rtas_size(), which is trivial.
->>>> I suggest you simply open-code it here.
->>>
->>> I agree.
->>
->> Sure.
->>
->>>
->>>> But also, spapr->rtas_size is a guest visible thing, "rtas-size" prop in the
->>>> DT. Since existing machine types don't do that, I guess we should only use
->>>> the new size if cap-fwnmi-mce=on for the sake of compatibility.
->>>
->>> Yes, that's a good idea.  Changing this is very unlikely to break a
->>> guest, but it's easy to be safe here so let's do it.
->>
->> I did it like that because the rtas_blob is allocated based on rtas_size
->> in spapr_machine_init(). During spapr_machine_init() it is not know if
->> the guest calls "ibm, nmi-register". So if we want to use the new size
->> only when cap_fwnmi=on, then we have to realloc the blob in "ibm,
->> nmi-register".
+> >
+> >
+> > Hi Dan,
+> >
+> > While testing device mapper with DAX, I faced a bug with the commit:
+> >
+> > commit ad428cdb525a97d15c0349fdc80f3d58befb50df
+> > Author: Dan Williams <dan.j.williams@intel.com>
+> > Date:   Wed Feb 20 21:12:50 2019 -0800
+> >
+> > When I reverted the condition to old code[1] it worked for me. I
+> > am thinking when we map two different devices (e.g with device mapper),
+> > will
+> > start & end pfn still point to same pgmap? Or there is something else which
+> > I am missing here.
+> >
+> > Note: I tested only EXT4.
+> >
+> > [1]
+> >
+> > -               if (pgmap && pgmap->type == MEMORY_DEVICE_FS_DAX)
+> > +               end_pgmap = get_dev_pagemap(pfn_t_to_pfn(end_pfn), NULL);
+> > +               if (pgmap && pgmap == end_pgmap && pgmap->type ==
+> > MEMORY_DEVICE_FS_DAX
+> > +                               && pfn_t_to_page(pfn)->pgmap == pgmap
+> > +                               && pfn_t_to_page(end_pfn)->pgmap == pgmap
+> > +                               && pfn_t_to_pfn(pfn) ==
+> > PHYS_PFN(__pa(kaddr))
+> > +                               && pfn_t_to_pfn(end_pfn) ==
+> > PHYS_PFN(__pa(end_kaddr)))
 > 
-> What?  Just always allocate the necessary space in
-> spapr_machine_init() if cap_fwnmi=on, it'll be wasted if
-> ibm,nmi-register is never called, but it's not that much space so we
-> don't really care.
+> Ugh, yes, device-mapper continues to be an awkward fit for dax (or
+> vice versa). We would either need a way to have a multi-level pfn to
+> pagemap lookup for composite devices, or a way to discern that even
+> though the pagemap is different that the result is still valid / not
+> an indication that we have leaked into an unassociated address range.
+> Perhaps a per-daxdev callback for ->dax_supported() so that
+> device-mapper internals can be used for this validation.
 
-Yes, not that much space, and ibm,nmi-register is called when the Linux
-kernel boots. I guess, even though other OSes might not call
-ibm,nmi-register, they do not constitute significant QEMU on Power users.
-
-So I think, I will keep the code as is.
+Yes, Will look at it.
 
 > 
+> We need to get that fixed up, but I don't see it as a blocker /
+> pre-requisite for virtio-pmem.
 
--- 
-Regards,
-Aravinda
+Agree. Will send virtio-pmem patch series.
 
+Thank you,
+Pankaj
+> 
+> 
 
