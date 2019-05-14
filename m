@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C6A291CF42
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 20:40:21 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52421 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A99B01CF4C
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 20:43:03 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52479 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQcLc-00025N-VP
-	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 14:40:21 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39878)
+	id 1hQcOE-0004cf-Pi
+	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 14:43:02 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39891)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgilbert@redhat.com>) id 1hQcHJ-00075D-DQ
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 14:35:54 -0400
+	(envelope-from <dgilbert@redhat.com>) id 1hQcHK-00077v-Jr
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 14:35:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgilbert@redhat.com>) id 1hQcHH-0001eE-VU
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 14:35:53 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41072)
+	(envelope-from <dgilbert@redhat.com>) id 1hQcHJ-0001gM-NW
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 14:35:54 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:17723)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hQcHH-0001cw-Px
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 14:35:51 -0400
+	(Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hQcHJ-0001fZ-I4
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 14:35:53 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
 	[10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 1ADD5309702E;
-	Tue, 14 May 2019 18:35:51 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id DBD98C049E20;
+	Tue, 14 May 2019 18:35:52 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-117-232.ams2.redhat.com
 	[10.36.117.232])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 94A02608A6;
-	Tue, 14 May 2019 18:35:49 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 639A9608B9;
+	Tue, 14 May 2019 18:35:51 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, quintela@redhat.com, peterx@redhat.com,
 	ehabkost@redhat.com, richardw.yang@linux.intel.com,
 	yury-kotov@yandex-team.ru, chen.zhang@intel.com
-Date: Tue, 14 May 2019 19:34:46 +0100
-Message-Id: <20190514183454.12758-9-dgilbert@redhat.com>
+Date: Tue, 14 May 2019 19:34:47 +0100
+Message-Id: <20190514183454.12758-10-dgilbert@redhat.com>
 In-Reply-To: <20190514183454.12758-1-dgilbert@redhat.com>
 References: <20190514183454.12758-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.43]);
-	Tue, 14 May 2019 18:35:51 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.31]);
+	Tue, 14 May 2019 18:35:52 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 08/16] qemu-option.hx: Update missed parameter
- for colo-compare
+Subject: [Qemu-devel] [PULL 09/16] migration/ram.c: start of
+ migration_bitmap_sync_range is always 0
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,67 +62,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Zhang Chen <chen.zhang@intel.com>
+From: Wei Yang <richardw.yang@linux.intel.com>
 
-We missed the iothread related args in this file.
-This patch is used to fix this issue.
+We can eliminate to pass 0.
 
-Signed-off-by: Zhang Chen <chen.zhang@intel.com>
-Message-Id: <20190426090730.2691-4-chen.zhang@intel.com>
+Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+Message-Id: <20190430034412.12935-2-richardw.yang@linux.intel.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- qemu-options.hx | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ migration/ram.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 51802cbb26..3faa935929 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -4425,13 +4425,15 @@ Dump the network traffic on netdev @var{dev} to t=
-he file specified by
- The file format is libpcap, so it can be analyzed with tools such as tcp=
-dump
- or Wireshark.
+diff --git a/migration/ram.c b/migration/ram.c
+index 1ca9ba77b6..ec11161d58 100644
+--- a/migration/ram.c
++++ b/migration/ram.c
+@@ -1681,10 +1681,10 @@ static inline bool migration_bitmap_clear_dirty(R=
+AMState *rs,
+ }
 =20
--@item -object colo-compare,id=3D@var{id},primary_in=3D@var{chardevid},se=
-condary_in=3D@var{chardevid},outdev=3D@var{chardevid}[,vnet_hdr_support]
-+@item -object colo-compare,id=3D@var{id},primary_in=3D@var{chardevid},se=
-condary_in=3D@var{chardevid},outdev=3D@var{chardevid},iothread=3D@var{id}=
-[,vnet_hdr_support]
+ static void migration_bitmap_sync_range(RAMState *rs, RAMBlock *rb,
+-                                        ram_addr_t start, ram_addr_t len=
+gth)
++                                        ram_addr_t length)
+ {
+     rs->migration_dirty_pages +=3D
+-        cpu_physical_memory_sync_dirty_bitmap(rb, start, length,
++        cpu_physical_memory_sync_dirty_bitmap(rb, 0, length,
+                                               &rs->num_dirty_pages_perio=
+d);
+ }
 =20
- Colo-compare gets packet from primary_in@var{chardevid} and secondary_in=
-@var{chardevid}, than compare primary packet with
- secondary packet. If the packets are same, we will output primary
- packet to outdev@var{chardevid}, else we will notify colo-frame
- do checkpoint and send primary packet to outdev@var{chardevid}.
--if it has the vnet_hdr_support flag, colo compare will send/recv packet =
-with vnet_hdr_len.
-+In order to improve efficiency, we need to put the task of comparison
-+in another thread. If it has the vnet_hdr_support flag, colo compare
-+will send/recv packet with vnet_hdr_len.
+@@ -1773,7 +1773,7 @@ static void migration_bitmap_sync(RAMState *rs)
+     qemu_mutex_lock(&rs->bitmap_mutex);
+     rcu_read_lock();
+     RAMBLOCK_FOREACH_NOT_IGNORED(block) {
+-        migration_bitmap_sync_range(rs, block, 0, block->used_length);
++        migration_bitmap_sync_range(rs, block, block->used_length);
+     }
+     ram_counters.remaining =3D ram_bytes_remaining();
+     rcu_read_unlock();
+@@ -4196,7 +4196,7 @@ static void colo_flush_ram_cache(void)
+     memory_global_dirty_log_sync();
+     rcu_read_lock();
+     RAMBLOCK_FOREACH_NOT_IGNORED(block) {
+-        migration_bitmap_sync_range(ram_state, block, 0, block->used_len=
+gth);
++        migration_bitmap_sync_range(ram_state, block, block->used_length=
+);
+     }
+     rcu_read_unlock();
 =20
- we must use it with the help of filter-mirror and filter-redirector.
-=20
-@@ -4446,10 +4448,11 @@ primary:
- -chardev socket,id=3Dcompare0-0,host=3D3.3.3.3,port=3D9001
- -chardev socket,id=3Dcompare_out,host=3D3.3.3.3,port=3D9005,server,nowai=
-t
- -chardev socket,id=3Dcompare_out0,host=3D3.3.3.3,port=3D9005
-+-object iothread,id=3Diothread1
- -object filter-mirror,id=3Dm0,netdev=3Dhn0,queue=3Dtx,outdev=3Dmirror0
- -object filter-redirector,netdev=3Dhn0,id=3Dredire0,queue=3Drx,indev=3Dc=
-ompare_out
- -object filter-redirector,netdev=3Dhn0,id=3Dredire1,queue=3Drx,outdev=3D=
-compare0
---object colo-compare,id=3Dcomp0,primary_in=3Dcompare0-0,secondary_in=3Dc=
-ompare1,outdev=3Dcompare_out0
-+-object colo-compare,id=3Dcomp0,primary_in=3Dcompare0-0,secondary_in=3Dc=
-ompare1,outdev=3Dcompare_out0,iothread=3Diothread1
-=20
- secondary:
- -netdev tap,id=3Dhn0,vhost=3Doff,script=3D/etc/qemu-ifup,down script=3D/=
-etc/qemu-ifdown
 --=20
 2.21.0
 
