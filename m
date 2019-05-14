@@ -2,55 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 435011CDA0
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 19:12:25 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:51430 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3E1711CD76
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 19:09:33 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:51354 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQayW-0004wp-BI
-	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 13:12:24 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50353)
+	id 1hQavj-00026V-Rq
+	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 13:09:31 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50237)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hQau0-0001D5-IO
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 13:07:45 -0400
+	(envelope-from <armbru@redhat.com>) id 1hQatW-00013S-Vq
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 13:07:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hQano-00056a-Mt
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 13:01:21 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59273)
+	(envelope-from <armbru@redhat.com>) id 1hQatO-000551-VR
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 13:07:07 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48226)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <armbru@redhat.com>)
-	id 1hQano-00052A-Ax; Tue, 14 May 2019 13:01:20 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
-	[10.5.11.12])
+	(Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hQatO-00054J-Og
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 13:07:06 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id ED016883BA;
-	Tue, 14 May 2019 17:01:17 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id AFA7C3087925;
+	Tue, 14 May 2019 17:07:05 +0000 (UTC)
 Received: from blackfin.pond.sub.org (ovpn-116-28.ams2.redhat.com
 	[10.36.116.28])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 3F06562723;
-	Tue, 14 May 2019 17:01:17 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 28FA51001F40;
+	Tue, 14 May 2019 17:07:03 +0000 (UTC)
 Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
-	id 9E19311385E4; Tue, 14 May 2019 19:01:11 +0200 (CEST)
+	id 9A45C11385E4; Tue, 14 May 2019 19:06:56 +0200 (CEST)
 From: Markus Armbruster <armbru@redhat.com>
-To: Eric Blake <eblake@redhat.com>
-References: <20190514131552.15832-1-yury-kotov@yandex-team.ru>
-	<4e2eabbd-f404-fa61-f23b-e862d7f20b3e@redhat.com>
-Date: Tue, 14 May 2019 19:01:11 +0200
-In-Reply-To: <4e2eabbd-f404-fa61-f23b-e862d7f20b3e@redhat.com> (Eric Blake's
-	message of "Tue, 14 May 2019 09:05:34 -0500")
-Message-ID: <878sv9c6nc.fsf@dusky.pond.sub.org>
+To: Laurent Vivier <lvivier@redhat.com>
+References: <20190514162744.30398-1-lvivier@redhat.com>
+	<20190514162744.30398-5-lvivier@redhat.com>
+Date: Tue, 14 May 2019 19:06:56 +0200
+In-Reply-To: <20190514162744.30398-5-lvivier@redhat.com> (Laurent Vivier's
+	message of "Tue, 14 May 2019 18:27:44 +0200")
+Message-ID: <87y339artb.fsf@dusky.pond.sub.org>
 User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
 Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.26]);
-	Tue, 14 May 2019 17:01:18 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.45]);
+	Tue, 14 May 2019 17:07:05 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH RESEND] monitor: Fix return type of
- monitor_fdset_dup_fd_find
+Subject: Re: [Qemu-devel] [PATCH v5 4/4] virtio-rng: change default backend
+ to rng-builtin
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,62 +62,18 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Yury Kotov <yury-kotov@yandex-team.ru>, qemu-trivial@nongnu.org,
-	qemu-devel@nongnu.org
+Cc: "Daniel P . =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+	Kashyap Chamarthy <kchamart@redhat.com>,
+	"Michael S. Tsirkin" <mst@redhat.com>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	"Richard W . M . Jones" <rjones@redhat.com>,
+	Amit Shah <amit@kernel.org>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eric Blake <eblake@redhat.com> writes:
+Laurent Vivier <lvivier@redhat.com> writes:
 
-> On 5/14/19 8:15 AM, Yury Kotov wrote:
->> monitor_fdset_dup_fd_find_remove() and monitor_fdset_dup_fd_find()
->> returns mon_fdset->id which is int64_t. Downcast from int64_t to int leads to
->> a bug with removing fd from fdset which id >= 2^32.
->> So, fix return types for these function.
->
-> fd's cannot exceed 2^32. We should instead be fixing anything that uses
-> int64_t with an fd to be properly limited to 32 bits.  That is, I think
-> the real problem is in qapi/misc.json:
->
->  { 'struct': 'AddfdInfo', 'data': {'fdset-id': 'int', 'fd': 'int'} }
-> instead of 'fd':'int32'.
+> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
 
-This is actually not related to the patch.  It doesn't touch
-file-descriptors at all, only fdset IDs.
-
-But let's discuss file descriptors briefly.
-
-File descriptors are plain int.  There is no QAPI type corresponding to
-plain int.
-
-I guess plain int is 32 bits wide on all hosts we support.  Narrower int
-(permitted by the standard) wouldn't fly with QEMU.  Wider int should,
-and are theoretically possible.
-
-I'm not sure we want to change the QAPI schema.
-
->                           For that matter, 'fdset-id' larger than 32
-> bits is unlikely to be useful (there's no reason to have more fdsets
-> than you can have possible fds to put in those sets).
-
-Even if we had wider file descriptors: a billion fdsets should be enough
-for anyone.
-
-> NACK to this version, but a v2 that addresses the real problem is
-> worthwhile.
-
-What exactly is wrong with the patch?
-
-It changes the return value of monitor_fdset_dup_fd_find_remove() and
-monitor_fdset_dup_fd_find() from int to int64_t.  Both return an fdset
-ID (a MonFdset member @id, of type int64_t) on success, -1 on error.
-The change removes a truncation from int64_t to int in
-monitor_fdset_dup_fd_find_remove(), and a widening from int to int64_t
-in qemu_close().
-
-I believe the patch is fine as is.  Another patch that changes fdset IDs
-from int64_t to int32_t would also be fine, but it would Require
-tracking down all the places to change.
-
-[...]
+Reviewed-by: Markus Armbruster <armbru@redhat.com>
 
