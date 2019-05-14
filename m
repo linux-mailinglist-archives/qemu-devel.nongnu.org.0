@@ -2,58 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D95E71C5FE
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 11:26:54 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:44004 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7EDA71C60B
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 11:29:15 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:44040 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQTi1-0006t5-NJ
-	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 05:26:53 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36864)
+	id 1hQTkI-000061-LT
+	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 05:29:14 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36921)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <borntraeger@de.ibm.com>) id 1hQTgs-0006W2-Ia
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 05:25:43 -0400
+	(envelope-from <borntraeger@de.ibm.com>) id 1hQTh1-0006bx-WA
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 05:25:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <borntraeger@de.ibm.com>) id 1hQTgq-0007Ab-DL
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 05:25:42 -0400
-Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:44678)
+	(envelope-from <borntraeger@de.ibm.com>) id 1hQTh0-0007K3-58
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 05:25:51 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:43174)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <borntraeger@de.ibm.com>)
-	id 1hQTgp-00078F-UU
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 05:25:40 -0400
-Received: from pps.filterd (m0098399.ppops.net [127.0.0.1])
+	id 1hQTgz-0007GY-Mx
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 05:25:49 -0400
+Received: from pps.filterd (m0098409.ppops.net [127.0.0.1])
 	by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
-	x4E9PTuZ057984
-	for <qemu-devel@nongnu.org>; Tue, 14 May 2019 05:25:38 -0400
+	x4E9Mx8d029124
+	for <qemu-devel@nongnu.org>; Tue, 14 May 2019 05:25:47 -0400
 Received: from e06smtp02.uk.ibm.com (e06smtp02.uk.ibm.com [195.75.94.98])
-	by mx0a-001b2d01.pphosted.com with ESMTP id 2sftsk8k6d-1
+	by mx0a-001b2d01.pphosted.com with ESMTP id 2sft85aa0p-1
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <qemu-devel@nongnu.org>; Tue, 14 May 2019 05:25:38 -0400
+	for <qemu-devel@nongnu.org>; Tue, 14 May 2019 05:25:47 -0400
 Received: from localhost
 	by e06smtp02.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use
 	Only! Violators will be prosecuted
 	for <qemu-devel@nongnu.org> from <borntraeger@de.ibm.com>;
-	Tue, 14 May 2019 10:23:52 +0100
-Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
+	Tue, 14 May 2019 10:25:45 +0100
+Received: from b06cxnps4076.portsmouth.uk.ibm.com (9.149.109.198)
 	by e06smtp02.uk.ibm.com (192.168.101.132) with IBM ESMTP SMTP Gateway:
 	Authorized Use Only! Violators will be prosecuted; 
 	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-	Tue, 14 May 2019 10:23:49 +0100
+	Tue, 14 May 2019 10:25:43 +0100
 Received: from d06av23.portsmouth.uk.ibm.com (d06av23.portsmouth.uk.ibm.com
 	[9.149.105.59])
-	by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with
-	ESMTP id x4E9Nm1s62586958
+	by b06cxnps4076.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with
+	ESMTP id x4E9PfWb11403360
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK); Tue, 14 May 2019 09:23:48 GMT
+	verify=OK); Tue, 14 May 2019 09:25:41 GMT
 Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id EB3F6A404D;
-	Tue, 14 May 2019 09:23:47 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id 4E395A4059;
+	Tue, 14 May 2019 09:25:41 +0000 (GMT)
 Received: from d06av23.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 7EE7FA4051;
-	Tue, 14 May 2019 09:23:47 +0000 (GMT)
+	by IMSVA (Postfix) with ESMTP id E104AA4040;
+	Tue, 14 May 2019 09:25:40 +0000 (GMT)
 Received: from oc7455500831.ibm.com (unknown [9.152.224.133])
 	by d06av23.portsmouth.uk.ibm.com (Postfix) with ESMTP;
-	Tue, 14 May 2019 09:23:47 +0000 (GMT)
+	Tue, 14 May 2019 09:25:40 +0000 (GMT)
+From: Christian Borntraeger <borntraeger@de.ibm.com>
 To: David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>
 References: <1556749903-19221-1-git-send-email-walling@linux.ibm.com>
 	<a87c71be-5bf8-a115-5843-720c9ad10c7b@redhat.com>
@@ -72,7 +73,7 @@ References: <1556749903-19221-1-git-send-email-walling@linux.ibm.com>
 	<47f7134b-338f-0207-88ae-4c1969be3786@redhat.com>
 	<13b0f0b2-f7c7-01fb-0e17-92bd47d9c346@de.ibm.com>
 	<b280d46f-4a0f-f5dd-c89b-b85210d190ca@redhat.com>
-From: Christian Borntraeger <borntraeger@de.ibm.com>
+	<00b5d031-227b-38f7-9512-e36c3b655c62@de.ibm.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
 	mQINBE6cPPgBEAC2VpALY0UJjGmgAmavkL/iAdqul2/F9ONz42K6NrwmT+SI9CylKHIX+fdf
@@ -117,19 +118,19 @@ Autocrypt: addr=borntraeger@de.ibm.com; prefer-encrypt=mutual; keydata=
 	RGIN40QWFVlZvkKIEkzlzqpAyGaRLhXJPv/6tpoQaCQQoSAc5Z9kM/wEd9e2zMeojcWjUXgg
 	oWj8A/wY4UXExGBu+UCzzP/6sQRpBiPFgmqPTytrDo/gsUGqjOudLiHQcMU+uunULYQxVghC
 	syiRa+UVlsKmx1hsEg==
-Date: Tue, 14 May 2019 11:23:47 +0200
+Date: Tue, 14 May 2019 11:25:40 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <b280d46f-4a0f-f5dd-c89b-b85210d190ca@redhat.com>
+In-Reply-To: <00b5d031-227b-38f7-9512-e36c3b655c62@de.ibm.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-TM-AS-GCONF: 00
-x-cbid: 19051409-0008-0000-0000-000002E67544
+x-cbid: 19051409-0008-0000-0000-000002E67571
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19051409-0009-0000-0000-000022530E4E
-Message-Id: <00b5d031-227b-38f7-9512-e36c3b655c62@de.ibm.com>
+x-cbparentid: 19051409-0009-0000-0000-000022530E7C
+Message-Id: <27bd36e1-a102-e793-6a61-3e7acb6f1255@de.ibm.com>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
 	definitions=2019-05-14_05:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
@@ -140,8 +141,8 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
 	scancount=1 engine=8.0.1-1810050000 definitions=main-1905140068
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
 X-Received-From: 148.163.156.1
-Subject: Re: [Qemu-devel] [PATCH v4] s390: diagnose 318 info reset and
- migration support
+Subject: Re: [Qemu-devel] [qemu-s390x] [PATCH v4] s390: diagnose 318 info
+ reset and migration support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -161,96 +162,102 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 14.05.19 11:20, David Hildenbrand wrote:
-> On 14.05.19 11:10, Christian Borntraeger wrote:
->>
->>
->> On 14.05.19 10:59, David Hildenbrand wrote:
->>> On 14.05.19 10:49, Cornelia Huck wrote:
->>>> On Tue, 14 May 2019 10:37:32 +0200
->>>> Christian Borntraeger <borntraeger@de.ibm.com> wrote:
->>>>
->>>>> On 14.05.19 09:28, David Hildenbrand wrote:
->>>>>>>>> But that can be tested using the runability information if I am not wrong.  
->>>>>>>>
->>>>>>>> You mean the cpu level information, right?  
->>>>>>
->>>>>> Yes, query-cpu-definition includes for each model runability information
->>>>>> via "unavailable-features" (valid under the started QEMU machine).
->>>>>>   
->>>>>>>>  
->>>>>>>>>  
->>>>>>>>>> and others that we have today.
->>>>>>>>>>
->>>>>>>>>> So yes, I think this would be acceptable.    
->>>>>>>>>
->>>>>>>>> I guess it is acceptable yes. I doubt anybody uses that many CPUs in
->>>>>>>>> production either way. But you never know.  
->>>>>>>>
->>>>>>>> I think that using that many cpus is a more uncommon setup, but I still
->>>>>>>> think that having to wait for actual failure  
->>>>>>>
->>>>>>> That can happen all the time today. You can easily say z14 in the xml when 
->>>>>>> on a zEC12. Only at startup you get the error. The question is really:  
->>>>>>
->>>>>> "-smp 248 -cpu host" will no longer work, while e.g. "-smp 248 -cpu z12"
->>>>>> will work. Actually, even "-smp 248" will no longer work on affected
->>>>>> machines.
->>>>>>
->>>>>> That is why wonder if it is better to disable the feature and print a
->>>>>> warning. Similar to CMMA, where want want to tolerate when CMMA is not
->>>>>> possible in the current environment (huge pages).
->>>>>>
->>>>>> "Diag318 will not be enabled because it is not compatible with more than
->>>>>> 240 CPUs".
->>>>>>
->>>>>> However, I still think that implementing support for more than one SCLP
->>>>>> response page is the best solution. Guests will need adaptions for > 240
->>>>>> CPUs with Diag318, but who cares? Existing setups will continue to work.
->>>>>>
->>>>>> Implementing that SCLP thingy will avoid any warnings and any errors. It
->>>>>> just works from the QEMU perspective.
->>>>>>
->>>>>> Is implementing this realistic?  
->>>>>
->>>>> Yes it is but it will take time. I will try to get this rolling. To make
->>>>> progress on the diag318 thing, can we error on startup now and simply
->>>>> remove that check when when have implemented a larger sccb? If we would
->>>>> now do all kinds of "change the max number games" would be harder to "fix".
->>>>
->>>> So, the idea right now is:
->>>>
->>>> - fail to start if you try to specify a diag318 device and more than
->>>>   240 cpus (do we need a knob to turn off the device?)
->>>> - in the future, support more than one SCLP response page
->>>>
->>>> I'm getting a bit lost in the discussion; but the above sounds
->>>> reasonable to me.
->>>>
->>>
->>> We can
->>>
->>> 1. Fail to start with #cpus > 240 when diag318=on
->>> 2. Remove the error once we support more than one SCLP response page
->>>
->>> Or
->>>
->>> 1. Allow to start with #cpus > 240 when diag318=on, but indicate only
->>>    240 CPUs via SCLP
->>> 2. Print a warning
->>> 3. Remove the restriction and the warning once we support more than one
->>>    SCLP response page
->>>
->>> While I prefer the second approach (similar to defining zPCI devices
->>> without zpci=on), I could also live with the first approach.
->>
->> I prefer approach 1.
->>
+On 14.05.19 11:23, Christian Borntraeger wrote:
 > 
-> Isn't approach #2 what we discussed (limiting sclp, but of course to 247
-> CPUs), but with an additional warning? I'm confused.
+> 
+> On 14.05.19 11:20, David Hildenbrand wrote:
+>> On 14.05.19 11:10, Christian Borntraeger wrote:
+>>>
+>>>
+>>> On 14.05.19 10:59, David Hildenbrand wrote:
+>>>> On 14.05.19 10:49, Cornelia Huck wrote:
+>>>>> On Tue, 14 May 2019 10:37:32 +0200
+>>>>> Christian Borntraeger <borntraeger@de.ibm.com> wrote:
+>>>>>
+>>>>>> On 14.05.19 09:28, David Hildenbrand wrote:
+>>>>>>>>>> But that can be tested using the runability information if I am not wrong.  
+>>>>>>>>>
+>>>>>>>>> You mean the cpu level information, right?  
+>>>>>>>
+>>>>>>> Yes, query-cpu-definition includes for each model runability information
+>>>>>>> via "unavailable-features" (valid under the started QEMU machine).
+>>>>>>>   
+>>>>>>>>>  
+>>>>>>>>>>  
+>>>>>>>>>>> and others that we have today.
+>>>>>>>>>>>
+>>>>>>>>>>> So yes, I think this would be acceptable.    
+>>>>>>>>>>
+>>>>>>>>>> I guess it is acceptable yes. I doubt anybody uses that many CPUs in
+>>>>>>>>>> production either way. But you never know.  
+>>>>>>>>>
+>>>>>>>>> I think that using that many cpus is a more uncommon setup, but I still
+>>>>>>>>> think that having to wait for actual failure  
+>>>>>>>>
+>>>>>>>> That can happen all the time today. You can easily say z14 in the xml when 
+>>>>>>>> on a zEC12. Only at startup you get the error. The question is really:  
+>>>>>>>
+>>>>>>> "-smp 248 -cpu host" will no longer work, while e.g. "-smp 248 -cpu z12"
+>>>>>>> will work. Actually, even "-smp 248" will no longer work on affected
+>>>>>>> machines.
+>>>>>>>
+>>>>>>> That is why wonder if it is better to disable the feature and print a
+>>>>>>> warning. Similar to CMMA, where want want to tolerate when CMMA is not
+>>>>>>> possible in the current environment (huge pages).
+>>>>>>>
+>>>>>>> "Diag318 will not be enabled because it is not compatible with more than
+>>>>>>> 240 CPUs".
+>>>>>>>
+>>>>>>> However, I still think that implementing support for more than one SCLP
+>>>>>>> response page is the best solution. Guests will need adaptions for > 240
+>>>>>>> CPUs with Diag318, but who cares? Existing setups will continue to work.
+>>>>>>>
+>>>>>>> Implementing that SCLP thingy will avoid any warnings and any errors. It
+>>>>>>> just works from the QEMU perspective.
+>>>>>>>
+>>>>>>> Is implementing this realistic?  
+>>>>>>
+>>>>>> Yes it is but it will take time. I will try to get this rolling. To make
+>>>>>> progress on the diag318 thing, can we error on startup now and simply
+>>>>>> remove that check when when have implemented a larger sccb? If we would
+>>>>>> now do all kinds of "change the max number games" would be harder to "fix".
+>>>>>
+>>>>> So, the idea right now is:
+>>>>>
+>>>>> - fail to start if you try to specify a diag318 device and more than
+>>>>>   240 cpus (do we need a knob to turn off the device?)
+>>>>> - in the future, support more than one SCLP response page
+>>>>>
+>>>>> I'm getting a bit lost in the discussion; but the above sounds
+>>>>> reasonable to me.
+>>>>>
+>>>>
+>>>> We can
+>>>>
+>>>> 1. Fail to start with #cpus > 240 when diag318=on
+>>>> 2. Remove the error once we support more than one SCLP response page
+>>>>
+>>>> Or
+>>>>
+>>>> 1. Allow to start with #cpus > 240 when diag318=on, but indicate only
+>>>>    240 CPUs via SCLP
+>>>> 2. Print a warning
+>>>> 3. Remove the restriction and the warning once we support more than one
+>>>>    SCLP response page
+>>>>
+>>>> While I prefer the second approach (similar to defining zPCI devices
+>>>> without zpci=on), I could also live with the first approach.
+>>>
+>>> I prefer approach 1.
+>>>
+>>
+>> Isn't approach #2 what we discussed (limiting sclp, but of course to 247
+>> CPUs), but with an additional warning? I'm confused.
+> 
+> Different numbering interpretion. I was talking about 1 = "Allow to start with #cpus > 240 when diag318=on, but indicate only
+> 240 CPUs via SCLP"
 
-Different numbering interpretion. I was talking about 1 = "Allow to start with #cpus > 240 when diag318=on, but indicate only
-240 CPUs via SCLP"
+So yes, variant 2 when I use your numbering. The only question is: do we need
+a warning? It probably does not hurt. 
 
 
