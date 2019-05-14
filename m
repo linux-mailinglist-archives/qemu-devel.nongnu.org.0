@@ -2,39 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7BB631CD2A
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 18:44:21 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:51139 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 07E421CB05
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 16:56:34 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49425 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQaXM-00054A-DC
-	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 12:44:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44920)
+	id 1hQYr3-0003S8-8v
+	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 10:56:33 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44902)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <wens@wens.csie.org>) id 1hQYpr-00034L-JK
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 10:55:21 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <wens@wens.csie.org>) id 1hQYpp-0005v2-JN
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 10:55:19 -0400
-Received: from mirror2.csie.ntu.edu.tw ([140.112.30.76]:41966
-	helo=wens.csie.org)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <wens@wens.csie.org>) id 1hQYpo-0005pb-7e
+	(envelope-from <pagupta@redhat.com>) id 1hQYpo-00033l-2S
 	for qemu-devel@nongnu.org; Tue, 14 May 2019 10:55:17 -0400
-Received: by wens.csie.org (Postfix, from userid 1000)
-	id BE4CD5FDB8; Tue, 14 May 2019 22:55:07 +0800 (CST)
-From: Chen-Yu Tsai <wens@kernel.org>
-To: qemu-devel@nongnu.org
-Date: Tue, 14 May 2019 22:53:46 +0800
-Message-Id: <20190514145346.20758-1-wens@kernel.org>
-X-Mailer: git-send-email 2.20.1
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+	(envelope-from <pagupta@redhat.com>) id 1hQYpm-0005sG-7f
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 10:55:16 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48324)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <pagupta@redhat.com>) id 1hQYpl-0005rT-Vr
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 10:55:14 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id DB40B2D7EA;
+	Tue, 14 May 2019 14:55:00 +0000 (UTC)
+Received: from dhcp201-121.englab.pnq.redhat.com (unknown [10.65.16.148])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 1F6AC5D6A6;
+	Tue, 14 May 2019 14:54:30 +0000 (UTC)
+From: Pankaj Gupta <pagupta@redhat.com>
+To: linux-nvdimm@lists.01.org, linux-kernel@vger.kernel.org,
+	virtualization@lists.linux-foundation.org, kvm@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, linux-acpi@vger.kernel.org,
+	qemu-devel@nongnu.org, linux-ext4@vger.kernel.org,
+	linux-xfs@vger.kernel.org
+Date: Tue, 14 May 2019 20:24:15 +0530
+Message-Id: <20190514145422.16923-1-pagupta@redhat.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.30]);
+	Tue, 14 May 2019 14:55:10 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 140.112.30.76
-X-Mailman-Approved-At: Tue, 14 May 2019 12:42:57 -0400
-Subject: [Qemu-devel] [PATCH] linux-user: Pass through nanosecond timestamp
- components for stat syscalls
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v9 0/7] virtio pmem driver
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -46,217 +58,234 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>,
-	Chen-Yu Tsai <wens@kernel.org>
+Cc: pagupta@redhat.com, jack@suse.cz, mst@redhat.com, jasowang@redhat.com,
+	david@fromorbit.com, lcapitulino@redhat.com,
+	adilger.kernel@dilger.ca, zwisler@kernel.org,
+	aarcange@redhat.com, dave.jiang@intel.com, jstaron@google.com,
+	darrick.wong@oracle.com, vishal.l.verma@intel.com,
+	david@redhat.com, willy@infradead.org, hch@infradead.org,
+	jmoyer@redhat.com, nilal@redhat.com, lenb@kernel.org,
+	kilobyte@angband.pl, riel@surriel.com, yuval.shaia@oracle.com,
+	stefanha@redhat.com, pbonzini@redhat.com,
+	dan.j.williams@intel.com, kwolf@redhat.com, tytso@mit.edu,
+	xiaoguangrong.eric@gmail.com, cohuck@redhat.com,
+	rjw@rjwysocki.net, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Chen-Yu Tsai <wens@csie.org>
+ Hi Dan,
 
-Since Linux 2.6 the stat syscalls have mostly supported nanosecond
-components for each of the file-related timestamps.
+ Proposing the patch series to be merged via nvdimm tree
+ as kindly agreed by you. We have ack/review on XFS, EXT4 &
+ VIRTIO patches.=20
 
-QEMU user mode emulation currently does not pass through the nanosecond
-portion of the timestamp, even when the host system fills in the value.
-This results in a mismatch when run on subsecond resolution filesystems
-such as ext4 or XFS.
+ Incorporated all the changes suggested in v8. This version
+ added a new patch 4 for dax for device mapper change and some
+ minor style changes in patch 2. Kept all the reviews. Request
+ to please merge the series.
 
-An example of this leading to inconsistency is cross-debootstraping a
-full desktop root filesystem of Debian Buster. Recent versions of
-fontconfig store the full timestamp (instead of just the second portion)
-of the directory in its per-directory cache file, and checks this against
-the directory to see if the cache is up-to-date. With QEMU user mode
-emulation, the timestamp stored is incorrect, and upon booting the rootfs
-natively, fontconfig discovers the mismatch, and proceeds to rebuild the
-cache on the comparatively slow machine (low-power ARM vs x86). This
-stalls the first attempt to open whatever application that incorporates
-fontconfig.
+ ---
 
-This patch renames the "unused" padding trailing each timestamp element
-to its nanosecond counterpart name if such an element exists in the
-kernel sources for the given platform. Not all do. Then have the syscall
-wrapper fill in the nanosecond portion if the host supports it, as
-specified by the _POSIX_C_SOURCE and _XOPEN_SOURCE feature macros.
+ This patch series has implementation for "virtio pmem".=20
+ "virtio pmem" is fake persistent memory(nvdimm) in guest=20
+ which allows to bypass the guest page cache. This also
+ implements a VIRTIO based asynchronous flush mechanism. =20
+=20
+ Sharing guest kernel driver in this patchset with the=20
+ changes suggested in v4. Tested with Qemu side device=20
+ emulation [6] for virtio-pmem. Documented the impact of
+ possible page cache side channel attacks with suggested
+ countermeasures.
 
-Recent versions of glibc only use stat64 and newfstatat syscalls on
-32-bit and 64-bit platforms respectively. The changes in this patch
-were tested by directly calling the stat, stat64 and newfstatat syscalls
-directly, in addition to the glibc wrapper, on arm and aarch64 little
-endian targets.
+ Details of project idea for 'virtio pmem' flushing interface=20
+ is shared [3] & [4].
 
-Signed-off-by: Chen-Yu Tsai <wens@csie.org>
+ Implementation is divided into two parts:
+ New virtio pmem guest driver and qemu code changes for new=20
+ virtio pmem paravirtualized device.
 
----
+1. Guest virtio-pmem kernel driver
+---------------------------------
+   - Reads persistent memory range from paravirt device and=20
+     registers with 'nvdimm_bus'. =20
+   - 'nvdimm/pmem' driver uses this information to allocate=20
+     persistent memory region and setup filesystem operations=20
+     to the allocated memory.=20
+   - virtio pmem driver implements asynchronous flushing=20
+     interface to flush from guest to host.
 
-This issue was found while integrating some software that uses newer
-versions of fontconfig into Raspbian images. We found that the first
-launch of said software always stalls with fontconfig regenerating its
-font cache files. Upon closer examination I found the timestamps were
-not matching. The rest is explained above. Currently we're just working
-around the problem by patching the correct timestamps into the cache
-files after the fact.
+2. Qemu virtio-pmem device
+---------------------------------
+   - Creates virtio pmem device and exposes a memory range to=20
+     KVM guest.=20
+   - At host side this is file backed memory which acts as=20
+     persistent memory.=20
+   - Qemu side flush uses aio thread pool API's and virtio=20
+     for asynchronous guest multi request handling.=20
 
-Please consider this a drive-by scratch-my-own-itch contribution, but I
-will stick around to deal with any comments raised during review. I'm
-not on the mailing lists either, so please keep me in CC.
+   David Hildenbrand CCed also posted a modified version[7] of=20
+   qemu virtio-pmem code based on updated Qemu memory device API.=20
 
-checkpatch returns "ERROR: code indent should never use tabs" for
-linux-user/syscall_defs.h, however as far as I can tell the whole file
-is indented with tabs. I'm not sure what to make of this.
+ Virtio-pmem security implications and countermeasures:
+ -----------------------------------------------------
 
-Finally, I think this could be worth backporting to older versions.
----
- linux-user/syscall.c      | 18 ++++++++++++++++++
- linux-user/syscall_defs.h | 36 ++++++++++++++++++------------------
- 2 files changed, 36 insertions(+), 18 deletions(-)
+ In previous posting of kernel driver, there was discussion [9]
+ on possible implications of page cache side channel attacks with=20
+ virtio pmem. After thorough analysis of details of known side=20
+ channel attacks, below are the suggestions:
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index f5ff6f5dc8..dcd6f5d806 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -6408,6 +6408,11 @@ static inline abi_long host_to_target_stat64(void =
-*cpu_env,
-         __put_user(host_st->st_atime, &target_st->target_st_atime);
-         __put_user(host_st->st_mtime, &target_st->target_st_mtime);
-         __put_user(host_st->st_ctime, &target_st->target_st_ctime);
-+#if _POSIX_C_SOURCE >=3D 200809L || _XOPEN_SOURCE >=3D 700
-+        __put_user(host_st->st_atim.tv_nsec, &target_st->target_st_atime=
-_nsec);
-+        __put_user(host_st->st_mtim.tv_nsec, &target_st->target_st_mtime=
-_nsec);
-+        __put_user(host_st->st_ctim.tv_nsec, &target_st->target_st_ctime=
-_nsec);
-+#endif
-         unlock_user_struct(target_st, target_addr, 1);
-     } else
- #endif
-@@ -6438,6 +6443,11 @@ static inline abi_long host_to_target_stat64(void =
-*cpu_env,
-         __put_user(host_st->st_atime, &target_st->target_st_atime);
-         __put_user(host_st->st_mtime, &target_st->target_st_mtime);
-         __put_user(host_st->st_ctime, &target_st->target_st_ctime);
-+#if _POSIX_C_SOURCE >=3D 200809L || _XOPEN_SOURCE >=3D 700
-+        __put_user(host_st->st_atim.tv_nsec, &target_st->target_st_atime=
-_nsec);
-+        __put_user(host_st->st_mtim.tv_nsec, &target_st->target_st_mtime=
-_nsec);
-+        __put_user(host_st->st_ctim.tv_nsec, &target_st->target_st_ctime=
-_nsec);
-+#endif
-         unlock_user_struct(target_st, target_addr, 1);
-     }
-=20
-@@ -8866,6 +8876,14 @@ static abi_long do_syscall1(void *cpu_env, int num=
-, abi_long arg1,
-                 __put_user(st.st_atime, &target_st->target_st_atime);
-                 __put_user(st.st_mtime, &target_st->target_st_mtime);
-                 __put_user(st.st_ctime, &target_st->target_st_ctime);
-+#if _POSIX_C_SOURCE >=3D 200809L || _XOPEN_SOURCE >=3D 700
-+                __put_user(st.st_atim.tv_nsec,
-+                           &target_st->target_st_atime_nsec);
-+                __put_user(st.st_mtim.tv_nsec,
-+                           &target_st->target_st_mtime_nsec);
-+                __put_user(st.st_ctim.tv_nsec,
-+                           &target_st->target_st_ctime_nsec);
-+#endif
-                 unlock_user_struct(target_st, arg2, 1);
-             }
-         }
-diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 12c8407144..252e69b76e 100644
---- a/linux-user/syscall_defs.h
-+++ b/linux-user/syscall_defs.h
-@@ -1192,11 +1192,11 @@ struct target_stat {
- 	abi_ulong  st_blksize;
- 	abi_ulong  st_blocks;
- 	abi_ulong  target_st_atime;
--	abi_ulong  __unused1;
-+	abi_ulong  target_st_atime_nsec;
- 	abi_ulong  target_st_mtime;
--	abi_ulong  __unused2;
-+	abi_ulong  target_st_mtime_nsec;
- 	abi_ulong  target_st_ctime;
--	abi_ulong  __unused3;
-+	abi_ulong  target_st_ctime_nsec;
- 	abi_ulong  __unused4;
- 	abi_ulong  __unused5;
- };
-@@ -1228,13 +1228,13 @@ struct target_stat64 {
- 	abi_ulong	__pad4;		/* future possible st_blocks high bits */
-=20
- 	abi_ulong	target_st_atime;
--	abi_ulong	__pad5;
-+	abi_ulong	target_st_atime_nsec;
-=20
- 	abi_ulong	target_st_mtime;
--	abi_ulong	__pad6;
-+	abi_ulong	target_st_mtime_nsec;
-=20
- 	abi_ulong	target_st_ctime;
--	abi_ulong	__pad7;		/* will be high 32 bits of ctime someday */
-+	abi_ulong	target_st_ctime_nsec;
-=20
- 	unsigned long long	st_ino;
- } QEMU_PACKED;
-@@ -1313,13 +1313,13 @@ struct target_stat64 {
- 	unsigned int	st_blocks;
-=20
- 	abi_ulong	target_st_atime;
--	abi_ulong	__unused1;
-+	abi_ulong	target_st_atime_nsec;
-=20
- 	abi_ulong	target_st_mtime;
--	abi_ulong	__unused2;
-+	abi_ulong	target_st_mtime_nsec;
-=20
- 	abi_ulong	target_st_ctime;
--	abi_ulong	__unused3;
-+	abi_ulong	target_st_ctime_nsec;
-=20
- 	abi_ulong	__unused4[3];
- };
-@@ -1336,14 +1336,14 @@ struct target_stat {
- 	unsigned short	st_rdev;
- 	abi_long	st_size;
- 	abi_long	target_st_atime;
--	abi_ulong	__unused1;
-+	abi_ulong	target_st_atime_nsec;
- 	abi_long	target_st_mtime;
--	abi_ulong	__unused2;
-+	abi_ulong	target_st_mtime_nsec;
- 	abi_long	target_st_ctime;
--	abi_ulong	__unused3;
-+	abi_ulong	target_st_ctime_nsec;
- 	abi_long	st_blksize;
- 	abi_long	st_blocks;
--	abi_ulong	__unused4[2];
-+	abi_ulong	__unused1[2];
- };
-=20
- #define TARGET_HAS_STRUCT_STAT64
-@@ -1371,16 +1371,16 @@ struct target_stat64 {
- 	unsigned int	st_blocks;
-=20
- 	unsigned int	target_st_atime;
--	unsigned int	__unused1;
-+	unsigned int	target_st_atime_nsec;
-=20
- 	unsigned int	target_st_mtime;
--	unsigned int	__unused2;
-+	unsigned int	target_st_mtime_nsec;
-=20
- 	unsigned int	target_st_ctime;
--	unsigned int	__unused3;
-+	unsigned int	target_st_ctime_nsec;
-=20
--	unsigned int	__unused4;
--	unsigned int	__unused5;
-+	unsigned int	__unused1;
-+	unsigned int	__unused2;
- };
-=20
- #elif defined(TARGET_PPC)
---=20
-2.20.1
+ - Depends entirely on how host backing image file is mapped=20
+   into guest address space.=20
 
+ - virtio-pmem device emulation, by default shared mapping is used
+   to map host backing file. It is recommended to use separate
+   backing file at host side for every guest. This will prevent
+   any possibility of executing common code from multiple guests
+   and any chance of inferring guest local data based based on=20
+   execution time.
+
+ - If backing file is required to be shared among multiple guests=20
+   it is recommended to don't support host page cache eviction=20
+   commands from the guest driver. This will avoid any possibility
+   of inferring guest local data or host data from another guest.=20
+
+ - Proposed device specification [8] for virtio-pmem device with=20
+   details of possible security implications and suggested=20
+   countermeasures for device emulation.
+
+ Virtio-pmem errors handling:
+ ----------------------------------------
+  Checked behaviour of virtio-pmem for below types of errors
+  Need suggestions on expected behaviour for handling these errors?
+
+  - Hardware Errors: Uncorrectable recoverable Errors:=20
+  a] virtio-pmem:=20
+    - As per current logic if error page belongs to Qemu process,=20
+      host MCE handler isolates(hwpoison) that page and send SIGBUS.=20
+      Qemu SIGBUS handler injects exception to KVM guest.=20
+    - KVM guest then isolates the page and send SIGBUS to guest=20
+      userspace process which has mapped the page.=20
+ =20
+  b] Existing implementation for ACPI pmem driver:=20
+    - Handles such errors with MCE notifier and creates a list=20
+      of bad blocks. Read/direct access DAX operation return EIO=20
+      if accessed memory page fall in bad block list.
+    - It also starts backgound scrubbing. =20
+    - Similar functionality can be reused in virtio-pmem with MCE=20
+      notifier but without scrubbing(no ACPI/ARS)? Need inputs to=20
+      confirm if this behaviour is ok or needs any change?
+
+Changes from PATCH v8: [1]=20
+ - Set device mapper synchronous if all target devices support - Dan
+ - Move virtio_pmem.h to nvdimm directory  - Dan
+ - Style, indentation & better error messages in patch 2 - DavidH
+ - Added MST's ack in patch 2.
+
+Changes from PATCH v7: [2]
+ - Corrected pending request queue logic (patch 2) - Jakub Staro=C5=84
+ - Used unsigned long flags for passing DAXDEV_F_SYNC (patch 3) - Dan
+ - Fixed typo =3D>  vma 'flag' to 'vm_flag' (patch 4)
+ - Added rob in patch 6 & patch 2
+
+Changes from PATCH v6:=20
+ - Corrected comment format in patch 5 & patch 6. [Dave]
+ - Changed variable declaration indentation in patch 6 [Darrick]
+ - Add Reviewed-by tag by 'Jan Kara' in patch 4 & patch 5
+
+Changes from PATCH v5:=20
+  Changes suggested in by - [Cornelia, Yuval]
+- Remove assignment chaining in virtio driver
+- Better error message and remove not required free
+- Check nd_region before use
+
+  Changes suggested by - [Jan Kara]
+- dax_synchronous() for !CONFIG_DAX
+- Correct 'daxdev_mapping_supported' comment and non-dax implementation
+
+  Changes suggested by - [Dan Williams]
+- Pass meaningful flag 'DAXDEV_F_SYNC' to alloc_dax
+- Gate nvdimm_flush instead of additional async parameter
+- Move block chaining logic to flush callback than common nvdimm_flush
+- Use NULL flush callback for generic flush for better readability [Dan, =
+Jan]
+
+- Use virtio device id 27 from 25(already used) - [MST]
+
+Changes from PATCH v4:
+- Factor out MAP_SYNC supported functionality to a common helper
+				[Dave, Darrick, Jan]
+- Comment, indentation and virtqueue_kick failure handle - Yuval Shaia
+
+Changes from PATCH v3:=20
+- Use generic dax_synchronous() helper to check for DAXDEV_SYNC=20
+  flag - [Dan, Darrick, Jan]
+- Add 'is_nvdimm_async' function
+- Document page cache side channel attacks implications &=20
+  countermeasures - [Dave Chinner, Michael]
+
+Changes from PATCH v2:=20
+- Disable MAP_SYNC for ext4 & XFS filesystems - [Dan]=20
+- Use name 'virtio pmem' in place of 'fake dax'=20
+
+Changes from PATCH v1:=20
+- 0-day build test for build dependency on libnvdimm=20
+
+ Changes suggested by - [Dan Williams]
+- Split the driver into two parts virtio & pmem =20
+- Move queuing of async block request to block layer
+- Add "sync" parameter in nvdimm_flush function
+- Use indirect call for nvdimm_flush
+- Don=E2=80=99t move declarations to common global header e.g nd.h
+- nvdimm_flush() return 0 or -EIO if it fails
+- Teach nsio_rw_bytes() that the flush can fail
+- Rename nvdimm_flush() to generic_nvdimm_flush()
+- Use 'nd_region->provider_data' for long dereferencing
+- Remove virtio_pmem_freeze/restore functions
+- Remove BSD license text with SPDX license text
+
+- Add might_sleep() in virtio_pmem_flush - [Luiz]
+- Make spin_lock_irqsave() narrow
+
+Pankaj Gupta (7):
+   libnvdimm: nd_region flush callback support
+   virtio-pmem: Add virtio-pmem guest driver
+   libnvdimm: add nd_region buffered dax_dev flag
+   dax: check synchronous mapping is supported
+   dm: dm: Enable synchronous dax
+   ext4: disable map_sync for virtio pmem
+   xfs: disable map_sync for virtio pmem
+
+[1] https://lkml.org/lkml/2019/5/10/447
+[2] https://lkml.org/lkml/2019/4/26/36
+[3] https://www.spinics.net/lists/kvm/msg149761.html
+[4] https://www.spinics.net/lists/kvm/msg153095.html =20
+[5] https://lkml.org/lkml/2018/8/31/413
+[6] https://marc.info/?l=3Dlinux-kernel&m=3D153572228719237&w=3D2=20
+[7] https://marc.info/?l=3Dqemu-devel&m=3D153555721901824&w=3D2
+[8] https://lists.oasis-open.org/archives/virtio-dev/201903/msg00083.html
+[9] https://lkml.org/lkml/2019/1/9/1191
+
+ drivers/acpi/nfit/core.c         |    4 -
+ drivers/dax/bus.c                |    2=20
+ drivers/dax/super.c              |   19 +++++
+ drivers/md/dm-table.c            |   14 ++++
+ drivers/md/dm.c                  |    3=20
+ drivers/nvdimm/Makefile          |    1=20
+ drivers/nvdimm/claim.c           |    6 +
+ drivers/nvdimm/nd.h              |    1=20
+ drivers/nvdimm/nd_virtio.c       |  126 ++++++++++++++++++++++++++++++++=
++++++++
+ drivers/nvdimm/pmem.c            |   18 +++--
+ drivers/nvdimm/region_devs.c     |   33 +++++++++-
+ drivers/nvdimm/virtio_pmem.c     |  122 ++++++++++++++++++++++++++++++++=
++++++
+ drivers/nvdimm/virtio_pmem.h     |   60 ++++++++++++++++++
+ drivers/virtio/Kconfig           |   11 +++
+ fs/ext4/file.c                   |   10 +--
+ fs/xfs/xfs_file.c                |    9 +-
+ include/linux/dax.h              |   26 +++++++-
+ include/linux/libnvdimm.h        |    9 ++
+ include/uapi/linux/virtio_ids.h  |    1=20
+ include/uapi/linux/virtio_pmem.h |   10 +++
+ 20 files changed, 460 insertions(+), 25 deletions(-)
 
