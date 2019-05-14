@@ -2,65 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E58C31CCD7
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 18:21:17 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50839 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5ED511CCB9
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 18:16:09 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50745 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQaB3-0002Ku-2Y
-	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 12:21:17 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37446)
+	id 1hQa64-0006R9-Bu
+	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 12:16:08 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38381)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alistair23@gmail.com>) id 1hQa10-0002r6-F6
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 12:10:55 -0400
+	(envelope-from <philmd@redhat.com>) id 1hQa49-0005L6-RL
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 12:14:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alistair23@gmail.com>) id 1hQa0z-0000ty-Jm
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 12:10:54 -0400
-Received: from mail-lj1-x242.google.com ([2a00:1450:4864:20::242]:39857)
+	(envelope-from <philmd@redhat.com>) id 1hQa47-0004bU-Re
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 12:14:09 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:53981)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <alistair23@gmail.com>)
-	id 1hQa0y-0000r9-4N; Tue, 14 May 2019 12:10:52 -0400
-Received: by mail-lj1-x242.google.com with SMTP id a10so6880296ljf.6;
-	Tue, 14 May 2019 09:10:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=ZpmdCK+ZGwEPJRy3Nfak62DAqT/DdkPrXc34xgi3TxU=;
-	b=TkzBc7fDo6TZGdbmm5Yqzir6G13RxLdvzfGPBNOoe9WgHrE8JCDX6aHjUaYEVw86X+
-	2c15fiDqHp8uAfU5s0IlfNc0a9cqHrLxgnXEUkoTDHETUjnU2kXQhUHHGz2TR8yKTg37
-	48vWLgHPTqxvfjCXWNdTPPE2oPNWI7rxlvsTWSd+OYFEps7SDTIgsgd9Jir7fSs1jLpV
-	qjOmmp1K0wF1vxMZjXVXjmEagMOuYdy7Ah4e7MHpRtFK2D95+ak9z0B9hLlk4zkbxRrQ
-	c99fZOrShjddDPVXlmkj8KSTmZrlYSUDPttGxvDVZ2xemN9jqPzQ++ZTksejPCM8T1Fa
-	ur3A==
+	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hQa44-0004Li-BP
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 12:14:07 -0400
+Received: by mail-wm1-f67.google.com with SMTP id 198so3497522wme.3
+	for <qemu-devel@nongnu.org>; Tue, 14 May 2019 09:13:55 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=ZpmdCK+ZGwEPJRy3Nfak62DAqT/DdkPrXc34xgi3TxU=;
-	b=UEs5qTbtj0Frm1vJJ1h1clRLFTZvhE7AfJIXu4hlXn9uH6roV3dQPZaVlGZDmBAuHa
-	w10E0S0CxLqILXrsZRNjX43kd9zTj0IT465bmmqWbJVv8j6Wa3f5ZfPGv7JQZqBiowuf
-	lpbZ6OKjN1Dxj2FDxQWckZyCDTvX+GphlVlFeDGoZyZGskUNTEr2C9ttF7lclgmy9L0X
-	QAppGA2Q9ozYeAFzi1oDraQHCNgjZVrPy9wJoN1vt4irPPmkcSO4BHV5CNn/Bqrq3wdl
-	bXtJavCl2D8lNm/Yf1FnPAAVOSJOAeC1SnN4rxRUq++dTlF+jgkhPkgvSptxfcQcfUW/
-	NmPg==
-X-Gm-Message-State: APjAAAXtUvjXF8rsSquxgWT7+H4bgkgzx97+o7BkZyQNjP7u+rkviiqR
-	UvO16ihOHNJ76PPf4mOatpDCgxcLRH34wvSKjOw=
-X-Google-Smtp-Source: APXvYqx73SEdAbxr0FGeaobrMexAhaJyFlcN0leHOQ/G3DF0R9JHqk/jGsWp/g4O0ecG7EjNfyaoqd6Z60kjfUj3pqA=
-X-Received: by 2002:a2e:8709:: with SMTP id m9mr17508557lji.140.1557850248896; 
-	Tue, 14 May 2019 09:10:48 -0700 (PDT)
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=EdoZQthCrUH1rq9oZofl1NSqIzFWV+CPYyxzTmP7mww=;
+	b=q74cAw3BjcBT2WtGXjPcUdPErJ0DXxtNjYoXR+2a56f7yhUzYi18tRxFZCsCQ5B9ja
+	11g6vTzE2sSfX2a4lhOTpqHH2iTTH1T5UdLW9aFoSLMr6PMkyRgPHrPjuJQfaeBwid4h
+	nqx75XaIHcIKCCXRqixjqlHAQHQJVm3NRiNH9MonZTi5zwuvRpVg24E5vnaB2NUDyrpu
+	cIv2dmcJ1L0heI24L6gwsV3zaPNMj/zFbuavzXfVCau3X1CLxDlTFGeunzHw5YEgXdj9
+	FaPxfdNLVm+QxkfpxcDB6EqAZP42gUn9sh14SYqaW6PpaiPA54EKsR8eGg78PCwoKi7z
+	NWZg==
+X-Gm-Message-State: APjAAAUtr+iQ2hrn4/LdOcKuREMRlm3od+u33SaLI/+cqLUXRq2xzp8m
+	ymrnAEZrBxCW/40kJOGoxBmUcg==
+X-Google-Smtp-Source: APXvYqz+g/UJuf2BLMUQBC6CBgui230K25N0+aE5mgfMSAxfUuGLVznkdcbrWXmdjTWONaSaqqfQlA==
+X-Received: by 2002:a7b:c04c:: with SMTP id u12mr18865434wmc.59.1557850434383; 
+	Tue, 14 May 2019 09:13:54 -0700 (PDT)
+Received: from [192.168.1.43] (193.red-88-21-103.staticip.rima-tde.net.
+	[88.21.103.193])
+	by smtp.gmail.com with ESMTPSA id y1sm3817734wma.14.2019.05.14.09.13.53
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Tue, 14 May 2019 09:13:53 -0700 (PDT)
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+	qemu-devel@nongnu.org
+References: <20190510185438.29533-1-richard.henderson@linaro.org>
+	<20190510185438.29533-4-richard.henderson@linaro.org>
+	<CAL1e-=hRXg7eykwjDxTDXt33FiFOAkkGQk23mEZRB3ChaZcAQA@mail.gmail.com>
+	<87bm05nijn.fsf@zen.linaroharston>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <e7cc54ef-c40c-1ea4-792b-b3d44abe7739@redhat.com>
+Date: Tue, 14 May 2019 18:13:52 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <ed7713d9b6c523d1c453ed7ac5de5501ef8cf405.1557792121.git.alistair.francis@wdc.com>
-	<28f47fb8-78e2-942a-a678-0d44553ddc55@linaro.org>
-In-Reply-To: <28f47fb8-78e2-942a-a678-0d44553ddc55@linaro.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Tue, 14 May 2019 09:08:34 -0700
-Message-ID: <CAKmqyKNkWuuyVUMOyM0zfDsWVTiMotzuoxs8nOYJaqKegPbnFQ@mail.gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::242
-Subject: Re: [Qemu-devel] [PATCH v1 1/1] target/arm: Fix vector operation
- segfault
+In-Reply-To: <87bm05nijn.fsf@zen.linaroharston>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+	[fuzzy]
+X-Received-From: 209.85.128.67
+Subject: Re: [Qemu-devel] [PULL v2 12/27] target/mips: Convert to
+ CPUClass::tlb_fill
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -72,28 +78,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
-	"qemu-arm@nongnu.org" <qemu-arm@nongnu.org>,
-	Alistair Francis <Alistair.Francis@wdc.com>,
-	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
+Cc: Aleksandar Rikalo <arikalo@wavecomp.com>, peter.maydell@linaro.org,
+	Richard Henderson <richard.henderson@linaro.org>,
+	Aleksandar Markovic <amarkovic@wavecomp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 13, 2019 at 5:19 PM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 5/13/19 5:08 PM, Alistair Francis wrote:
-> > We hit the second switch case as
-> > NEON_3R_VQADD and NEON_3R_VQSUB don't return from the function in the
-> > first switch case.
->
-> That's the bug, not here in this second switch.
+On 5/14/19 5:48 PM, Alex Bennée wrote:
+> 
+> Aleksandar Markovic <aleksandar.m.mail@gmail.com> writes:
+> 
+>> On May 10, 2019 8:57 PM, "Richard Henderson" <richard.henderson@linaro.org>
+>> wrote:
+>>>
+>>
+>> Please change the title to 'target/mips: Switch to using
+>> mips_cpu_tlb_fill()', or something along that line.
+> 
+> It does seem a little redundant as "target/mips:" already marks it as a
+> mips specific change and viewing the log you can see a series of
+> architectures being converted to a new API.
+> 
+>> Also, the reason for changing the field access_type to mips_access type
+>> should be explained in the commit message.
+> 
+> ok
+> 
+>> This commit message is generally poor, as it explains relatively
+>> unimportant logging issue, while not explaining the core of the
+>> change.
+> 
+> Surely the core of the change is explained in the main patches that
+> introduce the new API? I think it would be redundant to repeat that for
+> every individual architecture touched. It's a shame it's hard to
+> explicitly reference a patch in the same series as the commit hashes are
+> not yet permanent. At least when we fix things referring to the short
+> hash of the original commit is fairly easy.
 
-Ah ok, I couldn't tell if it was there or not, I'll send a v2.
+Except in the case the maintainer is sending a pull request (like here)
+where he can manually fix the commits. Still this is a PITA...
 
-Alistair
-
->
->
-> r~
+> 
+> Generally for an architecture conversion I want to know what might be
+> different from other architectures converted. If it is a broadly
+> mechanical change it doesn't need to be too detailed.
 
