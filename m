@@ -2,67 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C4A461D0FC
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 23:04:50 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54128 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 462FD1D0F9
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 23:01:55 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54079 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQebR-0003d8-Vc
-	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 17:04:50 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38994)
+	id 1hQeYc-0001Rk-Cj
+	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 17:01:54 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38999)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <jcmvbkbc@gmail.com>) id 1hQeV3-0007lR-Lb
+	(envelope-from <jcmvbkbc@gmail.com>) id 1hQeV3-0007lo-IS
 	for qemu-devel@nongnu.org; Tue, 14 May 2019 16:58:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <jcmvbkbc@gmail.com>) id 1hQeIj-0007XG-3n
+	(envelope-from <jcmvbkbc@gmail.com>) id 1hQeIj-0007Yw-MZ
 	for qemu-devel@nongnu.org; Tue, 14 May 2019 16:45:30 -0400
-Received: from mail-lj1-x244.google.com ([2a00:1450:4864:20::244]:46154)
+Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:38450)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <jcmvbkbc@gmail.com>) id 1hQeId-0007Rh-Km
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 16:45:28 -0400
-Received: by mail-lj1-x244.google.com with SMTP id h21so458588ljk.13
-	for <qemu-devel@nongnu.org>; Tue, 14 May 2019 13:45:22 -0700 (PDT)
+	(Exim 4.71) (envelope-from <jcmvbkbc@gmail.com>) id 1hQeIj-0007Tz-4H
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 16:45:29 -0400
+Received: by mail-lj1-x243.google.com with SMTP id 14so501763ljj.5
+	for <qemu-devel@nongnu.org>; Tue, 14 May 2019 13:45:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=TNwKj3NK4xpLU3quun8/1/87vC9zwSKuxU85t6b9WuA=;
-	b=naeemU+B3Dsr9Pb9887eyk9hKazrAQqLIV+zE8jsRV/UhSUadUFy0KyFnlfRBpaCal
-	cH5oBrYFH9kZHO4qk1Ylhs+GdZzJ3+izuEaT+3SaJ74WucyLnkYyh8xdIuhr6X6Hmlzk
-	JEsGweJwKd+4iCVEQvos2czMF0zpB7Qt2ih5U+Q/yEgeiDO0ybkIhQfhp6oJOh7DcolC
-	wPFvw5VTQaIoHsHEatmfGLT8y64nMk4iAgTm9WAZtIJdo0mpCPcY8mBu/FqGAktC672a
-	kJSYp6Qfv3272bPzlQi9hubtMYdoBFPCo85QGI6PcBbhlZiIckFyvjjCwARCGADdJzjQ
-	VDXA==
+	bh=wQy3/F5joNergsR/ABXk05EEEem/roqnfLo8tHgTfa8=;
+	b=aYHsbDOpRKkHD1//NPrG1MNWmGTXj4BQKpBZ5pmGn10shL69RFedWr+h1TT5qApvVP
+	3RLXY2/mNS4pAkNPf6Qr38+H9TU0OvJyZJm8LmsHibCRTgybKqwtxTKyf7Navx74PaPG
+	DeTxF7CAGxNw5ZAR92oO/9gT1hN1C3H444BLnqBJWnFozmeEGX1euzxtm+bQYCa8FrbV
+	IH6PPeskuSoPpE+sg4bB/Eu3g2rnvzjCqaI85eWKzgwOzjDlnh401JsQmnP597Odt1Z+
+	CIBDQa1L3xmyoKRKucL4CurLzwcXX7ga7KZE1xkLSEDEHRU5hV0Jnb2aDAUtkdMW5Trf
+	yMGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=TNwKj3NK4xpLU3quun8/1/87vC9zwSKuxU85t6b9WuA=;
-	b=eZUESdFylfK1LIxPo6sBUzoLB4rQAfeUTlzaBpRDLyMTD5cmseHePEbX1e0dlYSrBJ
-	6cw8jeEyVllOZIaqduLpH+Byb3qt43jADzfdikXWhDuB9hn2zh6a/2J4fI6BZBrGBVBx
-	yg94oUmBFUg3i73Fp4kDEdIUB4znN47ldAgJc7SCu3bZj+a7k1xxhcKzqRkbznT98HOy
-	IvgZlaMgNffYmb97AYYeWhwj2Xz9WiZlH1CYt2VoyQqSm0x6gtSOCat56TVz8PR5X6c+
-	COQLZQheCtRqDvuuKL81okSzfM8PcXdkk0tmo2JMEK+Nwd98SCgIQ3RAYgHG0Vx+wkjE
-	iKNQ==
-X-Gm-Message-State: APjAAAXMWbKAuZyjpcvLw3q5Qt9Yu7g7rNAS6Gw7uk5kxSx7XdiR3wgv
-	riREi7sPYGAHb/LQw59mtoQFlrAkT24=
-X-Google-Smtp-Source: APXvYqyyEJ5GTQ6YtPzM+dXpqNHh6PtiJL6IchaRThMLl/uTogIYxWtOkLS8WrcnXck1CHXzchdDNg==
-X-Received: by 2002:a2e:28d:: with SMTP id y13mr17667712lje.177.1557866720808; 
-	Tue, 14 May 2019 13:45:20 -0700 (PDT)
+	bh=wQy3/F5joNergsR/ABXk05EEEem/roqnfLo8tHgTfa8=;
+	b=HzbpzzCMYmnPdRg5CmKOC6EssmS6/yRYc6BdiY3tN3AX4H402SatGZZUgbKlL0hW0X
+	zpKlfCVD0iOmhtqsqQKe42Xo3l2M4TXM9S8Bhev/VDweOcP4REuV0it92a8TAZ1uoa4C
+	Ke5bkiyO1rYZ+yDyAb3Sq26RrTZJBQydk3oUJilhpscXxR+eot1F8BfPm6y5EVlu2SHx
+	Y+/oBIVOu7Seh4OnbK1AASoXv/EOM0w8EnKxx+FErtEguq1i7qBfEOIPjUkC2KBDSWMF
+	/TvIdgFVwk9aCyNFjV8XKcFc7wzKzdrpbPNOyuPOx24VIPyhccb6pKWWaBrxFbKEPskB
+	rVEw==
+X-Gm-Message-State: APjAAAUKwdHROhON031pslrn8hRjW8skXbWtu2sXKPMebwyMijBdda6b
+	Z5TZj78QhwLA8J+l9YWmNIG57fsUsdg=
+X-Google-Smtp-Source: APXvYqyCHAmIqOFxvd/ykkIeYJDB2r+CsqKeDCyY6UBlgdSkd0IuS5vOISQHUwxqk23b4J3FbOppag==
+X-Received: by 2002:a2e:9ada:: with SMTP id p26mr17592870ljj.167.1557866722717;
+	Tue, 14 May 2019 13:45:22 -0700 (PDT)
 Received: from octofox.cadence.com
 	(jcmvbkbc-1-pt.tunnel.tserv24.sto1.ipv6.he.net. [2001:470:27:1fa::2])
-	by smtp.gmail.com with ESMTPSA id 78sm4011lje.81.2019.05.14.13.45.18
+	by smtp.gmail.com with ESMTPSA id 78sm4011lje.81.2019.05.14.13.45.21
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 14 May 2019 13:45:20 -0700 (PDT)
+	Tue, 14 May 2019 13:45:22 -0700 (PDT)
 From: Max Filippov <jcmvbkbc@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 14 May 2019 13:44:44 -0700
-Message-Id: <20190514204447.17486-7-jcmvbkbc@gmail.com>
+Date: Tue, 14 May 2019 13:44:45 -0700
+Message-Id: <20190514204447.17486-8-jcmvbkbc@gmail.com>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20190514204447.17486-1-jcmvbkbc@gmail.com>
 References: <20190514204447.17486-1-jcmvbkbc@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::244
-Subject: [Qemu-devel] [PATCH 6/9] target/xtensa: implement DIWBUI.P opcode
+X-Received-From: 2a00:1450:4864:20::243
+Subject: [Qemu-devel] [PATCH 7/9] target/xtensa: implement block prefetch
+ option opcodes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -78,67 +79,100 @@ Cc: Max Filippov <jcmvbkbc@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is a recent addition to the set of data cache opcodes.
+Block prefetch option adds a bunch of non-privileged opcodes that may be
+implemented as nops since QEMU doesn't model caches.
 
 Signed-off-by: Max Filippov <jcmvbkbc@gmail.com>
 ---
- target/xtensa/cpu.h          |  1 +
- target/xtensa/overlay_tool.h |  1 +
- target/xtensa/translate.c    | 10 ++++++++++
- 3 files changed, 12 insertions(+)
+ target/xtensa/translate.c | 42 ++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 42 insertions(+)
 
-diff --git a/target/xtensa/cpu.h b/target/xtensa/cpu.h
-index d6e6bf6ca183..ba4ef2b6a729 100644
---- a/target/xtensa/cpu.h
-+++ b/target/xtensa/cpu.h
-@@ -466,6 +466,7 @@ struct XtensaConfig {
- 
-     unsigned icache_ways;
-     unsigned dcache_ways;
-+    unsigned dcache_line_bytes;
-     uint32_t memctl_mask;
- 
-     XtensaMemory instrom;
-diff --git a/target/xtensa/overlay_tool.h b/target/xtensa/overlay_tool.h
-index b61c92539861..4925b21f0edf 100644
---- a/target/xtensa/overlay_tool.h
-+++ b/target/xtensa/overlay_tool.h
-@@ -425,6 +425,7 @@
- #define CACHE_SECTION \
-     .icache_ways = XCHAL_ICACHE_WAYS, \
-     .dcache_ways = XCHAL_DCACHE_WAYS, \
-+    .dcache_line_bytes = XCHAL_DCACHE_LINESIZE, \
-     .memctl_mask = \
-         (XCHAL_ICACHE_SIZE ? MEMCTL_IUSEWAYS_MASK : 0) | \
-         (XCHAL_DCACHE_SIZE ? \
 diff --git a/target/xtensa/translate.c b/target/xtensa/translate.c
-index 782f2ec62099..24eb70d619d5 100644
+index 24eb70d619d5..356eb9948701 100644
 --- a/target/xtensa/translate.c
 +++ b/target/xtensa/translate.c
-@@ -1620,6 +1620,12 @@ static void translate_depbits(DisasContext *dc, const OpcodeArg arg[],
-                         arg[2].imm, arg[3].imm);
- }
- 
-+static void translate_diwbuip(DisasContext *dc, const OpcodeArg arg[],
-+                              const uint32_t par[])
-+{
-+    tcg_gen_addi_i32(arg[0].out, arg[0].in, dc->config->dcache_line_bytes);
-+}
-+
- static bool test_ill_entry(DisasContext *dc, const OpcodeArg arg[],
-                            const uint32_t par[])
- {
-@@ -3098,6 +3104,10 @@ static const XtensaOpcodeOps core_ops[] = {
-         .translate = translate_nop,
-         .op_flags = XTENSA_OP_PRIVILEGED,
-     }, {
-+        .name = "diwbui.p",
-+        .translate = translate_diwbuip,
-+        .op_flags = XTENSA_OP_PRIVILEGED,
-+    }, {
-         .name = "dpfl",
+@@ -3078,6 +3078,9 @@ static const XtensaOpcodeOps core_ops[] = {
          .translate = translate_dcache,
          .op_flags = XTENSA_OP_PRIVILEGED,
+     }, {
++        .name = "dhi.b",
++        .translate = translate_nop,
++    }, {
+         .name = "dhu",
+         .translate = translate_dcache,
+         .op_flags = XTENSA_OP_PRIVILEGED,
+@@ -3085,9 +3088,15 @@ static const XtensaOpcodeOps core_ops[] = {
+         .name = "dhwb",
+         .translate = translate_dcache,
+     }, {
++        .name = "dhwb.b",
++        .translate = translate_nop,
++    }, {
+         .name = "dhwbi",
+         .translate = translate_dcache,
+     }, {
++        .name = "dhwbi.b",
++        .translate = translate_nop,
++    }, {
+         .name = "dii",
+         .translate = translate_nop,
+         .op_flags = XTENSA_OP_PRIVILEGED,
+@@ -3112,15 +3121,33 @@ static const XtensaOpcodeOps core_ops[] = {
+         .translate = translate_dcache,
+         .op_flags = XTENSA_OP_PRIVILEGED,
+     }, {
++        .name = "dpfm.b",
++        .translate = translate_nop,
++    }, {
++        .name = "dpfm.bf",
++        .translate = translate_nop,
++    }, {
+         .name = "dpfr",
+         .translate = translate_nop,
+     }, {
++        .name = "dpfr.b",
++        .translate = translate_nop,
++    }, {
++        .name = "dpfr.bf",
++        .translate = translate_nop,
++    }, {
+         .name = "dpfro",
+         .translate = translate_nop,
+     }, {
+         .name = "dpfw",
+         .translate = translate_nop,
+     }, {
++        .name = "dpfw.b",
++        .translate = translate_nop,
++    }, {
++        .name = "dpfw.bf",
++        .translate = translate_nop,
++    }, {
+         .name = "dpfwo",
+         .translate = translate_nop,
+     }, {
+@@ -3628,6 +3655,21 @@ static const XtensaOpcodeOps core_ops[] = {
+         .par = (const uint32_t[]){true},
+         .op_flags = XTENSA_OP_PRIVILEGED,
+     }, {
++        .name = "pfend.a",
++        .translate = translate_nop,
++    }, {
++        .name = "pfend.o",
++        .translate = translate_nop,
++    }, {
++        .name = "pfnxt.f",
++        .translate = translate_nop,
++    }, {
++        .name = "pfwait.a",
++        .translate = translate_nop,
++    }, {
++        .name = "pfwait.o",
++        .translate = translate_nop,
++    }, {
+         .name = "pitlb",
+         .translate = translate_ptlb,
+         .par = (const uint32_t[]){false},
 -- 
 2.11.0
 
