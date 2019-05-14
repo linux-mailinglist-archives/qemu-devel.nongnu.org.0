@@ -2,60 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A17BA1E421
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 23:50:25 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55220 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 44EA51E41A
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 23:44:31 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:55053 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQfJY-00043Z-C2
-	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 17:50:24 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50159)
+	id 1hQfDp-0000j3-31
+	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 17:44:29 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49288)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hQfEz-0001wl-Us
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 17:45:43 -0400
+	(envelope-from <mreitz@redhat.com>) id 1hQfC4-0008Hw-Ul
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 17:42:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hQfEy-0001Zv-66
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 17:45:41 -0400
-Received: from indium.canonical.com ([91.189.90.7]:45546)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hQfEw-0001X6-U8
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 17:45:39 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
-	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hQfEu-00087v-U5
-	for <qemu-devel@nongnu.org>; Tue, 14 May 2019 21:45:36 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id E29CB2E80C8
-	for <qemu-devel@nongnu.org>; Tue, 14 May 2019 21:45:36 +0000 (UTC)
+	(envelope-from <mreitz@redhat.com>) id 1hQfC2-0006lA-ML
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 17:42:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50296)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
+	id 1hQfBy-0006cU-0b; Tue, 14 May 2019 17:42:34 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 7700D3082E72;
+	Tue, 14 May 2019 21:42:32 +0000 (UTC)
+Received: from localhost (unknown [10.40.205.236])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 06BD95D70A;
+	Tue, 14 May 2019 21:42:31 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Date: Tue, 14 May 2019 23:42:28 +0200
+Message-Id: <20190514214230.22601-1-mreitz@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.46]);
+	Tue, 14 May 2019 21:42:32 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-Date: Tue, 14 May 2019 21:39:11 -0000
-From: Chris Sharp <1746394@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: chrissharp123 jambon
-X-Launchpad-Bug-Reporter: Jeff (jambon)
-X-Launchpad-Bug-Modifier: Chris Sharp (chrissharp123)
-References: <151736593434.17105.9572043390189121151.malonedeb@chaenomeles.canonical.com>
-Message-Id: <155786995172.14518.5361571937841369651.malone@gac.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18962";
-	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: de2c443f893163a9b2adb56882229d30f5add6e5
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1746394] Re: No provider of
- glEGLImageTargetTexture2DOES found with NVIDIA proprietary driver
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH 0/2] block/file-posix: Fix unaligned O_DIRECT
+ block status
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,51 +55,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1746394 <1746394@bugs.launchpad.net>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-stable@nongnu.org,
+	qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I'm hitting this issue on Fedora 30 after an in-place upgrade.  Using
-gnome-boxes, I click on a virtual machine to open the console viewer and
-it crashes after a hang.  Terminal output looks like this:
+The user-visible problem:
+$ echo > foo
+$ qemu-img map --image-opts driver=3Dfile,filename=3Dfoo,cache.direct=3Do=
+n
+Offset          Length          Mapped to       File
+qemu-img: block/io.c:2093: bdrv_co_block_status: Assertion `*pnum &&
+QEMU_IS_ALIGNED(*pnum, align) && align > offset - aligned_offset'
+failed.
 
-[chris@gereon ~]$ gnome-boxes
+The internal problem: file-posix truncates status requests to the EOF.
+If the EOF is not aligned at the request_alignment,
+bdrv_co_block_status() won't like that.
 
-(gnome-boxes:15640): Gtk-WARNING **: 17:21:17.105: GtkFlowBox with a
-model will ignore sort and filter functions
+See patch 1 for a deeper discussion (including two possible alternatives
+how we could address the problem).
+(As I note there, I=E2=80=99ve looked through all block drivers, and I di=
+dn=E2=80=99t
+find any other which could have the same problem.  gluster uses the same
+block-status code, but it doesn=E2=80=99t set a request_alignment.  NBD
+force-aligns the server response in nbd_parse_blockstatus_payload().
+qcow2... Should be fine as long as no crypto driver has a block limit
+exceeding the qcow2 cluster size.  And so on.)
 
-(gnome-boxes:15640): Gtk-WARNING **: 17:21:17.107: GtkListBox with a model =
-will ignore sort and filter functions
-Memory pressure relief: Total: res =3D 11759616/11722752/-36864, res+swap =
-=3D 7540736/7540736/0
-No provider of glEGLImageTargetTexture2DOES found.  Requires one of:
-    GL extension "GL_OES_EGL_image"
-Aborted (core dumped)
+Patch 2 adds a test.  After writing that test, I noticed that we already
+had one: 109 fails with -c none before patch 1.  Er, well, at least the
+new test is more succinct and has the correct default cache mode, so it
+will actually do the test if you run ./check without enforcing any cache
+on a filesystem that supports O_DIRECT.
 
-nvidia driver version: 418.56
 
-01:00.0 VGA compatible controller: NVIDIA Corporation GM206 [GeForce GTX
-960] (rev a1)
+Max Reitz (2):
+  block/file-posix: Unaligned O_DIRECT block-status
+  iotests: Test unaligned raw images with O_DIRECT
 
-Web searches lead me to the closed libepoxy bug posted by the OP.  I'm
-happy to provide more details about my system.
+ block/file-posix.c         | 17 ++++++++
+ tests/qemu-iotests/221     |  4 ++
+ tests/qemu-iotests/253     | 84 ++++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/253.out | 14 +++++++
+ tests/qemu-iotests/group   |  1 +
+ 5 files changed, 120 insertions(+)
+ create mode 100755 tests/qemu-iotests/253
+ create mode 100644 tests/qemu-iotests/253.out
 
--- =
+--=20
+2.21.0
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1746394
-
-Title:
-  No provider of glEGLImageTargetTexture2DOES found with NVIDIA
-  proprietary driver
-
-Status in QEMU:
-  New
-
-Bug description:
-  https://github.com/anholt/libepoxy/issues/148
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1746394/+subscriptions
 
