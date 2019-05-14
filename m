@@ -2,57 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CDE7B1C1E3
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 07:35:02 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:39557 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F2F01C1ED
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 07:39:02 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:39611 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQQ5e-0008Un-0z
-	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 01:35:02 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44117)
+	id 1hQQ9V-0001z0-QL
+	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 01:39:01 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47508)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hQQ3a-0007iP-MD
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 01:32:55 -0400
+	(envelope-from <kraxel@redhat.com>) id 1hQQ8R-0001gK-7B
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 01:37:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hQQ3Z-0001Km-Hg
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 01:32:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53564)
+	(envelope-from <kraxel@redhat.com>) id 1hQQ8Q-0005xd-AI
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 01:37:55 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:43472)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <armbru@redhat.com>)
-	id 1hQQ3W-0001Gd-Pl; Tue, 14 May 2019 01:32:50 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
+	(Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hQQ8Q-0005x6-4g
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 01:37:54 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 56BAC308AA12;
-	Tue, 14 May 2019 05:32:49 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-28.ams2.redhat.com
-	[10.36.116.28])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id EAD155D706;
-	Tue, 14 May 2019 05:32:48 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
-	id 43AD911385E4; Tue, 14 May 2019 07:32:47 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Andrew Jones <drjones@redhat.com>
-References: <20190512083624.8916-1-drjones@redhat.com>
-	<20190512083624.8916-9-drjones@redhat.com>
-	<87ftpie3k9.fsf@dusky.pond.sub.org>
-	<20190513183030.aap4gsxm7rbbkrbj@kamzik.brq.redhat.com>
-Date: Tue, 14 May 2019 07:32:47 +0200
-In-Reply-To: <20190513183030.aap4gsxm7rbbkrbj@kamzik.brq.redhat.com> (Andrew
-	Jones's message of "Mon, 13 May 2019 20:30:30 +0200")
-Message-ID: <874l5xa9ds.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+	by mx1.redhat.com (Postfix) with ESMTPS id 5E41430675B0
+	for <qemu-devel@nongnu.org>; Tue, 14 May 2019 05:37:53 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-117-74.ams2.redhat.com
+	[10.36.117.74])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id C646A608AB;
+	Tue, 14 May 2019 05:37:48 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+	id DBCD41747D; Tue, 14 May 2019 07:37:47 +0200 (CEST)
+Date: Tue, 14 May 2019 07:37:47 +0200
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: =?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>
+Message-ID: <20190514053747.os6lwvzwhe2ojsuu@sirius.home.kraxel.org>
+References: <20190513184433.21038-1-marcandre.lureau@redhat.com>
+	<20190513184433.21038-2-marcandre.lureau@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190513184433.21038-2-marcandre.lureau@redhat.com>
+User-Agent: NeoMutt/20180716
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.41]);
-	Tue, 14 May 2019 05:32:49 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.49]);
+	Tue, 14 May 2019 05:37:53 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 08/13] target/arm/monitor: Add
- query-sve-vector-lengths
+Subject: Re: [Qemu-devel] [PATCH v7 1/8] vhost-user: add
+ vhost_user_gpu_set_socket()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -64,141 +62,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
-	qemu-devel@nongnu.org, abologna@redhat.com, qemu-arm@nongnu.org,
-	alex.bennee@linaro.org, Dave.Martin@arm.com
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
+	"Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Andrew Jones <drjones@redhat.com> writes:
+  Hi,
 
-> On Mon, May 13, 2019 at 06:12:38PM +0200, Markus Armbruster wrote:
->> Andrew Jones <drjones@redhat.com> writes:
->> 
->> > Provide a QMP interface to query the supported SVE vector lengths.
->> > A migratable guest will need to explicitly specify a valid set of
->> > lengths on the command line and that set can be obtained from the
->> > list returned with this QMP command.
->> >
->> > This patch only introduces the QMP command with the TCG implementation.
->> > The result may not yet be correct for KVM. Following patches ensure
->> > the KVM result is correct.
->> >
->> > Signed-off-by: Andrew Jones <drjones@redhat.com>
->> > ---
->> >  qapi/target.json     | 34 ++++++++++++++++++++++++
->> >  target/arm/monitor.c | 62 ++++++++++++++++++++++++++++++++++++++++++++
->> >  tests/qmp-cmd-test.c |  1 +
->> >  3 files changed, 97 insertions(+)
->> >
->> > diff --git a/qapi/target.json b/qapi/target.json
->> > index 1d4d54b6002e..ca1e85254780 100644
->> > --- a/qapi/target.json
->> > +++ b/qapi/target.json
->> > @@ -397,6 +397,40 @@
->> >  { 'command': 'query-gic-capabilities', 'returns': ['GICCapability'],
->> >    'if': 'defined(TARGET_ARM)' }
->> >  
->> > +##
->> > +# @SVEVectorLengths:
->> > +#
->> > +# The struct contains a list of integers where each integer is a valid
->> 
->> Suggest to s/The struct contains/Contains/.
->
-> OK
->
->> 
->> > +# SVE vector length for a KVM guest on this host. The vector lengths
->> > +# are in quadword (128-bit) units, e.g. '4' means 512 bits (64 bytes).
->> 
->> Any particular reason for counting quad-words instead of bytes, or
->> perhaps bits?
->
-> It can be considered just bits here, but when set in sve-vls-map those
-> bits are chosen to mean quadwords as that allows us to get up to 8192-bit
-> vectors with a single 64-bit word. Maybe I should write more of that here
-> to clarify.
+> +VhostUserGpuCursorUpdate
+> +^^^^^^^^^^^^^^^^^^^^^^^^
+> +
+> ++-----+-------+-------+--------+
+> +| pos | hot_x | hot_y | cursor |
+> ++-----+-------+-------+--------+
+> +
+> +:pos: a ``VhostUserGpuCursorPos``, the cursor location
+> +
+> +:hot_x/hot_y: ``u32``, the cursor hot location
+> +
+> +:cursor: ``[u32; 64 * 64]``, 64x64 RGBA cursor data
 
-Please do.
+Should clarify here what exactly RGBA is. (PIXMAN_a8r8g8b8 I guess).
 
-In general, QMP prefers the plain units over arbitrary multiples,
-e.g. Byte, not Mebibyte.  Sadly, many violations of this rule have crept
-in.
+> +VhostUserGpuUpdate
+> +^^^^^^^^^^^^^^^^^^
+> +
+> ++------------+---+---+---+---+------+
+> +| scanout-id | x | y | w | h | data |
+> ++------------+---+---+---+---+------+
+> +
+> +:scanout-id: ``u32``, the scanout content to update
+> +
+> +:x/y/w/h: ``u32``, region of the update
+> +
+> +:data: RGBA data (the size is computed based on the region size, and
+> +       the request type)
 
-More complete documentation should help us determine the unit we want
-here.
+Likewise.  Also: alpha channel for the framebuffer?
 
->> > +#
->> > +# @vls:      list of vector lengths in quadwords.
->> > +#
->> > +# Since: 4.1
->> > +##
->> > +{ 'struct': 'SVEVectorLengths',
->> > +  'data': { 'vls': ['int'] },
->> > +  'if': 'defined(TARGET_ARM)' }
->> > +
->> > +##
->> > +# @query-sve-vector-lengths:
->> > +#
->> > +# This command is ARM-only. It will return a list of SVEVectorLengths
->> 
->> No other target-specific command documents its target-specificness like
->> this.  Suggest
->
-> Well, it's pretty similar to query-gic-capabilities, which is what I used
-> as a template, but I'm happy to change it to whatever you suggest :)
+> +C structure
+> +-----------
+> +
+> +In QEMU the vhost-user-gpu message is implemented with the following struct:
+> +
+> +.. code:: c
+> +
+> +  typedef struct VhostUserGpuMsg {
+> +      uint32_t request; /* VhostUserGpuRequest */
+> +      uint32_t flags;
+> +      uint32_t size; /* the following payload size */
 
-Here's the documentation we generate for query-gic-capabilities:
+uint32_t padding;
 
- -- Command: query-gic-capabilities
+> +      union {
+> +          VhostUserGpuCursorPos cursor_pos;
+> +          VhostUserGpuCursorUpdate cursor_update;
+> +          VhostUserGpuScanout scanout;
+> +          VhostUserGpuUpdate update;
+> +          VhostUserGpuDMABUFScanout dmabuf_scanout;
+> +          struct virtio_gpu_resp_display_info display_info;
+> +          uint64_t u64;
 
-     This command is ARM-only.  It will return a list of GICCapability
-     objects that describe its capability bits.
+... so this 64bit value will be aligned.
 
-     Returns: a list of GICCapability objects.
+cheers,
+  Gerd
 
-     Since: 2.6
-
-     Example:
-          -> { "execute": "query-gic-capabilities" }
-          <- { "return": [{ "version": 2, "emulated": true, "kernel": false },
-                          { "version": 3, "emulated": false, "kernel": true } ] }
-
-     If: 'defined(TARGET_ARM)'
-
-The "If:" line is generated from the schema's condition.  It's not as
-readable as I'd like it to be, but it's there, and it always matches the
-code.
-
-"This command is ARM-only" is redundant.  Escaped review.  A patch to
-drop it would be welcome.
-
->>    # Query valid SVE vector length sets.
->> 
->> > +# objects. The list describes all valid SVE vector length sets.
->> > +#
->> > +# Returns: a list of SVEVectorLengths objects
->> > +#
->> > +# Since: 4.1
->> > +#
->> > +# -> { "execute": "query-sve-vector-lengths" }
->> > +# <- { "return": [ { "vls": [ 1 ] },
->> > +#                  { "vls": [ 1, 2 ] },
->> > +#                  { "vls": [ 1, 2, 4 ] } ] }
->> > +#
->> > +##
->> > +{ 'command': 'query-sve-vector-lengths', 'returns': ['SVEVectorLengths'],
->> > +  'if': 'defined(TARGET_ARM)' }
->> > +
->
-> Yup, will do
-
-Took me a few seconds to connect this to my "# Query valid SVE vector
-length sets." line %-}
-
->> >  ##
->> >  # @CpuModelExpansionInfo:
->> >  #
-[...]
 
