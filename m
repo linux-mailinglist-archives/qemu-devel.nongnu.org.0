@@ -2,60 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6E2D21C67E
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 11:58:33 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:44415 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CCBC81C674
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 11:56:08 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:44383 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQUCd-0004F9-AW
-	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 05:58:31 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46128)
+	id 1hQUAK-00026l-0V
+	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 05:56:08 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46188)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <berrange@redhat.com>) id 1hQU8K-0000lj-A2
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 05:54:06 -0400
+	(envelope-from <pagupta@redhat.com>) id 1hQU8A-0000qT-DM
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 05:53:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <berrange@redhat.com>) id 1hQTyE-0007e8-1O
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 05:43:39 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48870)
+	(envelope-from <pagupta@redhat.com>) id 1hQU1s-0001tU-DB
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 05:47:25 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56904)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hQTyD-0007cd-Pb
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 05:43:37 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
+	(Exim 4.71) (envelope-from <pagupta@redhat.com>) id 1hQU1s-0001s1-4y
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 05:47:24 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id BD48A308A963
-	for <qemu-devel@nongnu.org>; Tue, 14 May 2019 09:43:36 +0000 (UTC)
-Received: from redhat.com (unknown [10.42.17.248])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 54AAB19C70;
-	Tue, 14 May 2019 09:43:33 +0000 (UTC)
-Date: Tue, 14 May 2019 10:43:31 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Message-ID: <20190514094331.GF25916@redhat.com>
-References: <20190430150556.GA2423@redhat.com>
-	<87sgtqejn9.fsf@dusky.pond.sub.org>
-	<20190507093954.GG27205@redhat.com>
-	<875zql3ylk.fsf@dusky.pond.sub.org>
-	<20190513120856.GH15029@redhat.com>
-	<87ef525uls.fsf@dusky.pond.sub.org>
-	<a3378e24-f13f-b51f-7180-8e0bf4661e10@redhat.com>
-	<87tvdx8tfa.fsf@dusky.pond.sub.org>
-	<20190514092638.GE25916@redhat.com> <20190514093754.GC2753@work-vm>
+	by mx1.redhat.com (Postfix) with ESMTPS id 2D76F308427C;
+	Tue, 14 May 2019 09:47:23 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com
+	(colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 0CA275D6A6;
+	Tue, 14 May 2019 09:47:23 +0000 (UTC)
+Received: from zmail21.collab.prod.int.phx2.redhat.com
+	(zmail21.collab.prod.int.phx2.redhat.com [10.5.83.24])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id BDAEA18089CC;
+	Tue, 14 May 2019 09:47:22 +0000 (UTC)
+Date: Tue, 14 May 2019 05:47:22 -0400 (EDT)
+From: Pankaj Gupta <pagupta@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Message-ID: <712871093.28555872.1557827242385.JavaMail.zimbra@redhat.com>
+In-Reply-To: <86298c2c-cc7c-5b97-0f11-335d7da8c450@redhat.com>
+References: <20190510155202.14737-1-pagupta@redhat.com>
+	<20190510155202.14737-3-pagupta@redhat.com>
+	<f2ea35a6-ec98-447c-44fe-0cb3ab309340@redhat.com>
+	<752392764.28554139.1557826022323.JavaMail.zimbra@redhat.com>
+	<86298c2c-cc7c-5b97-0f11-335d7da8c450@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190514093754.GC2753@work-vm>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.65.16.148, 10.4.195.13]
+Thread-Topic: virtio-pmem: Add virtio pmem driver
+Thread-Index: 8wNBImudyN2CQ1nMcWyCrDq+wnVDqg==
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.41]);
-	Tue, 14 May 2019 09:43:36 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+	(mx1.redhat.com [10.5.110.40]);
+	Tue, 14 May 2019 09:47:23 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [libvirt]  QMP; unsigned 64-bit ints;
- JSON standards compliance
+Subject: Re: [Qemu-devel] [PATCH v8 2/6] virtio-pmem: Add virtio pmem driver
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -67,172 +68,194 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: libvir-list@redhat.com, =?utf-8?Q?J=C3=A1n?= Tomko <jtomko@redhat.com>,
-	Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
+Cc: cohuck@redhat.com, jack@suse.cz, kvm@vger.kernel.org, mst@redhat.com,
+	jasowang@redhat.com, david@fromorbit.com, qemu-devel@nongnu.org,
+	virtualization@lists.linux-foundation.org,
+	adilger kernel <adilger.kernel@dilger.ca>, zwisler@kernel.org,
+	aarcange@redhat.com, dave jiang <dave.jiang@intel.com>,
+	jstaron@google.com, linux-nvdimm@lists.01.org,
+	vishal l verma <vishal.l.verma@intel.com>, willy@infradead.org,
+	hch@infradead.org, linux-acpi@vger.kernel.org, jmoyer@redhat.com,
+	linux-ext4@vger.kernel.org, lenb@kernel.org, kilobyte@angband.pl,
+	riel@surriel.com, yuval shaia <yuval.shaia@oracle.com>,
+	stefanha@redhat.com, pbonzini@redhat.com,
+	dan j williams <dan.j.williams@intel.com>,
+	lcapitulino@redhat.com, kwolf@redhat.com, nilal@redhat.com,
+	tytso@mit.edu, xiaoguangrong eric <xiaoguangrong.eric@gmail.com>,
+	darrick wong <darrick.wong@oracle.com>, rjw@rjwysocki.net,
+	linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 14, 2019 at 10:37:55AM +0100, Dr. David Alan Gilbert wrote:
-> * Daniel P. Berrang=C3=A9 (berrange@redhat.com) wrote:
-> > On Tue, May 14, 2019 at 08:02:49AM +0200, Markus Armbruster wrote:
-> > > Eric Blake <eblake@redhat.com> writes:
-> > >=20
-> > > > On 5/13/19 8:53 AM, Markus Armbruster wrote:
-> > > >
-> > > >>> We have a few options
-> > > >>>
-> > > >>>  1. Use string format for values > 2^53-1, int format below tha=
-t
-> > > >>>  2. Use string format for all fields which are 64-bit ints whet=
-her
-> > > >>>     signed or unsigned
-> > > >>>  3. Use string format for all fields which are integers, even 3=
-2-bit
-> > > >>>     ones
-> > > >>>
-> > > >>> I would probably suggest option 2. It would make the QEMU impl =
-quite
-> > > >>> easy IIUC, we we'd just change the QAPI visitor's impl for the =
-int64
-> > > >>> and uint64 fields to use string format (when the right capabili=
-ty is
-> > > >>> negotiated by QMP).
-> > > >>>
-> > > >>> I include 3 only for completeness - I don't think there's a hug=
-ely
-> > > >>> compelling reason to mess with 32-bit ints.
-> > > >>=20
-> > > >> Agree.
-> > > >
-> > > > Other than if we ever change the type of a QMP integer. Right now=
-, if we
-> > > > widen from 'int32' to 'int' (aka 'int64'), it is invisible to cli=
-ents;
-> > > > but once we start stringizing 64-bit numbers (at client request) =
-but NOT
-> > > > 32-bit numbers, then changing a type from 32 to 64 bits (or the
-> > > > converse) becomes an API change to clients. Introspection will at=
- least
-> > > > let a client know which form to expect, but it does mean we have =
-to be
-> > > > more aware of typing issues going forward.
-> > >=20
-> > > Thank you so much for helping my old synapses finally fire!  Option=
- 2 is
-> > > not what we thought it is.  Let me explain.
-> > >=20
-> > > Introspection reports *all* QAPI integer types as "int".  This is
-> > > deliberate.
-> > >=20
-> > > So, when the client that negotiated the interoperability capability=
- sees
-> > > "int", it has to accept *both* integer encodings: JSON number and J=
-SON
-> > > string.
-> > >=20
-> > > The difference between option 1 and option 2 for the client is that
-> > > option 2 will use only one encoding.  But the client must not rely =
-on
-> > > that!  Another QEMU version may well use the other encoding (becaus=
-e we
-> > > narrowed or widened the QAPI integer type in the QAPI schema).
-> > >=20
-> > > Elsewhere in this thread, David pointed out that option 1 complicat=
-es
-> > > testing QEMU: full coverage requires passing both a small number (t=
-o
-> > > cover JSON number encoding) and a large number (to cover JSON strin=
-g
-> > > encoding), to which I replied that there are very few places to tes=
-t.
-> > >=20
-> > > Option 2 complicates testing clients: full coverage requires testin=
-g
-> > > with both a version of QEMU (or a mock-up) that uses wide integers
-> > > (encoded as JSON string) and narrow integers (encoded as JSON numbe=
-r).
-> > > Impractical.
-> > >=20
-> > > >>> Option 1 is the bare minimum needed to ensure precision, but to=
- me
-> > > >>> it feels a bit dirty to say a given field will have different e=
-ncoding
-> > > >>> depending on the value. If apps need to deal with string encodi=
-ng, they
-> > > >>> might as well just use it for all values in a given field.
-> > > >>=20
-> > > >> I guess that depends on what this interoperability capability do=
-es for
-> > > >> QMP *input*.
-> > > >
-> > > > "Be liberal in what you accept, strict in what you produce" - tha=
-t
-> > > > argues we should accept both forms on input (it's easy enough to =
-ALWAYS
-> > > > permit a string in place of an integer, and to take an in-range i=
-nteger
-> > > > even when we would in turn output it as a string).
-> > >=20
-> > > With option 2, QEMU *has* to be liberal in what it accepts, because=
- the
-> > > client cannot deduce from introspection whether the integer is wide=
- or
-> > > narrow.
-> > >=20
-> > > [...]
-> > >=20
-> > > Daniel, you wrote you'd probably suggest option 2.  Would you like =
-to
-> > > reconsider?
-> >=20
-> > Based on the above, let me try & summarize what we need behaviour to =
-be:
-> >=20
-> >   - Integer mode (current default):
-> >=20
-> >        - QEMU & clients MUST format integer fields as numbers
-> >          regardless of size
-> >=20
-> >        - QEMU & clients MUST parse number format for any integer
-> >          fields
-> >=20
-> >   - String mode:
-> >=20
-> >        - QEMU & clients MUST format integer fields as strings
-> >          if their value can not fit in a 32-bit integer.
-> >=20
-> >        - QEMU & clients MAY format integer fields as strings
-> >          even if their value can fit in 32-bit integer
-> >=20
-> >        - QEMU & client MUST parse both string and number format
-> >          for any integer fields.
-> >=20
-> > Unless I'm missing something, this should ensure we don't loose preci=
-sion,
-> > can always parse large numbers, and can internally change QEMU precis=
-ion
-> > from int8/16/32 upto full int64 without breaking clients.
->=20
-> But we could be stricter and simpler in string mode:
->=20
->   - QEMU & clients MUST format integer fields as strings, always
->   - QEMU & clients MUST parse only strings for integer fields.
->=20
-> That's (3) above, but also meets your requirements.
 
-Yep, given that we don't actually expose the int8/int16/int32/int64
-distinction via the QMP introspection data, that would be fine too.
+> 
+> >>
+> >>> +	}
+> >>> +
+> >>> +	/* When host has read buffer, this completes via host_ack */
+> >>
+> >> "A host repsonse results in "host_ack" getting called" ... ?
+> >>
+> >>> +	wait_event(req->host_acked, req->done);
+> >>> +	err = req->ret;
+> >>> +ret:
+> >>> +	kfree(req);
+> >>> +	return err;
+> >>> +};
+> >>> +
+> >>> +/* The asynchronous flush callback function */
+> >>> +int async_pmem_flush(struct nd_region *nd_region, struct bio *bio)
+> >>> +{
+> >>> +	int rc = 0;
+> >>> +
+> >>> +	/* Create child bio for asynchronous flush and chain with
+> >>> +	 * parent bio. Otherwise directly call nd_region flush.
+> >>> +	 */
+> >>> +	if (bio && bio->bi_iter.bi_sector != -1) {
+> >>> +		struct bio *child = bio_alloc(GFP_ATOMIC, 0);
+> >>> +
+> >>> +		if (!child)
+> >>> +			return -ENOMEM;
+> >>> +		bio_copy_dev(child, bio);
+> >>> +		child->bi_opf = REQ_PREFLUSH;
+> >>> +		child->bi_iter.bi_sector = -1;
+> >>> +		bio_chain(child, bio);
+> >>> +		submit_bio(child);
+> >>
+> >> return 0;
+> >>
+> >> Then, drop the "else" case and "int rc" and do directly
+> >>
+> >> if (virtio_pmem_flush(nd_region))
+> >> 	return -EIO;
+> > 
+> > and another 'return 0' here :)
+> > 
+> > I don't like return from multiple places instead I prefer
+> > single exit point from function.
+> 
+> Makes this function more complicated than necessary. I agree when there
+> are locks involved.
 
-Its basically saying we'll never use JSON's number format.
+o.k. I will change as you suggest :)
 
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
+> 
+> >  
+> >>
+> >>> +
+> >>> +	return 0;
+> >>> +};
+> >>> +
+> >>> +static int virtio_pmem_probe(struct virtio_device *vdev)
+> >>> +{
+> >>> +	int err = 0;
+> >>> +	struct resource res;
+> >>> +	struct virtio_pmem *vpmem;
+> >>> +	struct nd_region_desc ndr_desc = {};
+> >>> +	int nid = dev_to_node(&vdev->dev);
+> >>> +	struct nd_region *nd_region;
+> >>
+> >> Nit: use reverse Christmas tree layout :)
+> > 
+> > Done.
+> > 
+> >>
+> >>> +
+> >>> +	if (!vdev->config->get) {
+> >>> +		dev_err(&vdev->dev, "%s failure: config access disabled\n",
+> >>> +			__func__);
+> >>> +		return -EINVAL;
+> >>> +	}
+> >>> +
+> >>> +	vpmem = devm_kzalloc(&vdev->dev, sizeof(*vpmem), GFP_KERNEL);
+> >>> +	if (!vpmem) {
+> >>> +		err = -ENOMEM;
+> >>> +		goto out_err;
+> >>> +	}
+> >>> +
+> >>> +	vpmem->vdev = vdev;
+> >>> +	vdev->priv = vpmem;
+> >>> +	err = init_vq(vpmem);
+> >>> +	if (err)
+> >>> +		goto out_err;
+> >>> +
+> >>> +	virtio_cread(vpmem->vdev, struct virtio_pmem_config,
+> >>> +			start, &vpmem->start);
+> >>> +	virtio_cread(vpmem->vdev, struct virtio_pmem_config,
+> >>> +			size, &vpmem->size);
+> >>> +
+> >>> +	res.start = vpmem->start;
+> >>> +	res.end   = vpmem->start + vpmem->size-1;
+> >>> +	vpmem->nd_desc.provider_name = "virtio-pmem";
+> >>> +	vpmem->nd_desc.module = THIS_MODULE;
+> >>> +
+> >>> +	vpmem->nvdimm_bus = nvdimm_bus_register(&vdev->dev,
+> >>> +						&vpmem->nd_desc);
+> >>> +	if (!vpmem->nvdimm_bus)
+> >>> +		goto out_vq;
+> >>> +
+> >>> +	dev_set_drvdata(&vdev->dev, vpmem->nvdimm_bus);
+> >>> +
+> >>> +	ndr_desc.res = &res;
+> >>> +	ndr_desc.numa_node = nid;
+> >>> +	ndr_desc.flush = async_pmem_flush;
+> >>> +	set_bit(ND_REGION_PAGEMAP, &ndr_desc.flags);
+> >>> +	set_bit(ND_REGION_ASYNC, &ndr_desc.flags);
+> >>> +	nd_region = nvdimm_pmem_region_create(vpmem->nvdimm_bus, &ndr_desc);
+> >>> +
+> >>
+> >> I'd drop this empty line.
+> > 
+> > hmm.
+> > 
+> 
+> The common pattern after allocating something, immediately check for it
+> in the next line (like you do throughout this patch ;) )
+
+Right. But rare times when I see space will beauty the code I tend to
+add it. Maybe I should not :)
+
+> 
+> ...
+> >> You are not freeing "vdev->priv".
+> > 
+> > vdev->priv is vpmem which is allocated using devm API.
+> 
+> I'm confused. Looking at drivers/virtio/virtio_balloon.c:
+> 
+> static void virtballoon_remove(struct virtio_device *vdev)
+> {
+> 	struct virtio_balloon *vb = vdev->priv;
+> 
+> 	...
+> 
+> 	kfree(vb);
+> }
+> 
+> I think you should do the same here, vdev->priv is allocated in
+> virtio_pmem_probe.
+> 
+> But maybe I am missing something important here :)
+
+Because virtio_balloon use "kzalloc" for allocation and needs to be freed. 
+But virtio pmem uses "devm_kzalloc" which takes care of automatically deleting 
+the device memory when associated device is detached.
+
+Thanks,
+Pankaj
+> 
+> >>
+> >>> +	nvdimm_bus_unregister(nvdimm_bus);
+> >>> +	vdev->config->del_vqs(vdev);
+> >>> +	vdev->config->reset(vdev);
+> >>> +}
+> >>> +
+> 
+> --
+> 
+> Thanks,
+> 
+> David / dhildenb
+> 
 
