@@ -2,52 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 67B521CCAD
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 18:13:45 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50641 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1807E1CCC2
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 18:17:50 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50762 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQa3k-0004aF-Is
-	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 12:13:44 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33098)
+	id 1hQa7h-0007ir-6w
+	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 12:17:49 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35174)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgilbert@redhat.com>) id 1hQZmY-0007SZ-2g
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 11:55:59 -0400
+	(envelope-from <abologna@redhat.com>) id 1hQZtq-0005n7-Te
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 12:03:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgilbert@redhat.com>) id 1hQZmV-0001Ni-Kq
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 11:55:57 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58086)
+	(envelope-from <abologna@redhat.com>) id 1hQZtp-0001Jk-RI
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 12:03:30 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56884)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hQZmV-0001Mo-DX
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 11:55:55 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
+	(Exim 4.71) (envelope-from <abologna@redhat.com>)
+	id 1hQZtn-0001Hs-98; Tue, 14 May 2019 12:03:27 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+	[10.5.11.11])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id C70DADBD9C;
-	Tue, 14 May 2019 15:55:53 +0000 (UTC)
-Received: from work-vm (ovpn-117-232.ams2.redhat.com [10.36.117.232])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id F0CA6608A6;
-	Tue, 14 May 2019 15:55:52 +0000 (UTC)
-Date: Tue, 14 May 2019 16:55:50 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Wei Yang <richardw.yang@linux.intel.com>
-Message-ID: <20190514155550.GN2753@work-vm>
-References: <20190424004700.12766-1-richardw.yang@linux.intel.com>
-	<20190424004700.12766-2-richardw.yang@linux.intel.com>
+	by mx1.redhat.com (Postfix) with ESMTPS id C2CAE81E0F;
+	Tue, 14 May 2019 16:03:13 +0000 (UTC)
+Received: from kinshicho (unknown [10.43.2.73])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 1E7912B9E4;
+	Tue, 14 May 2019 16:03:10 +0000 (UTC)
+Message-ID: <1857a74ef586a4e41d93b184498cfcf6c2927cec.camel@redhat.com>
+From: Andrea Bolognani <abologna@redhat.com>
+To: Andrew Jones <drjones@redhat.com>
+Date: Tue, 14 May 2019 18:03:09 +0200
+In-Reply-To: <20190514125329.mi7ctaoujirwm6gs@kamzik.brq.redhat.com>
+References: <20190512083624.8916-1-drjones@redhat.com>
+	<9f57bfa56715b3128c1823150457ddb866e6054c.camel@redhat.com>
+	<20190513123656.6iu7ebu7zucn5mxt@kamzik.brq.redhat.com>
+	<e38aac8cb33c5782499b4ca0356c43267f05dc5e.camel@redhat.com>
+	<20190514125329.mi7ctaoujirwm6gs@kamzik.brq.redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.2 (3.32.2-1.fc30) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190424004700.12766-2-richardw.yang@linux.intel.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.39]);
-	Tue, 14 May 2019 15:55:53 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.25]);
+	Tue, 14 May 2019 16:03:22 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 1/4] migration/savevm: remove duplicate
- check of migration_is_blocked
+Subject: Re: [Qemu-devel] [PATCH 00/13] target/arm/kvm: enable SVE in guests
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -59,47 +61,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, quintela@redhat.com
+Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
+	qemu-devel@nongnu.org, armbru@redhat.com, qemu-arm@nongnu.org,
+	alex.bennee@linaro.org, Dave.Martin@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Wei Yang (richardw.yang@linux.intel.com) wrote:
-> Current call flow of save_snapshot is:
+On Tue, 2019-05-14 at 14:53 +0200, Andrew Jones wrote:
+> On Tue, May 14, 2019 at 02:29:51PM +0200, Andrea Bolognani wrote:
+> > Since we expect management applications to use QMP to discover what
+> > vector lengths are supported and then provide an explicit map, I
+> > think it's fair to say that the ability to specify a single maximum
+> > vector length is going to be exclusively used as a convenience for
+> > command line users.
+> > 
+> > In that light, I think it would be reasonable for the usage to look
+> > along the lines of
+> > 
+> >   -cpu host,sve-vl-map=0xd # machine-friendly variant
+> >   -cpu max,sve-vl-max=512  # user-friendly variant
 > 
->   save_snapshot
->     migration_is_blocked
->       qemu_savevm_state
->         migration_is_blocked
-> 
-> Since qemu_savevm_state is only called in save_snapshot, this means
-> migration_is_blocked has been already checked.
-> 
-> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+> We already have sve-max-vq, so I'm not sure we want to rename it.
 
-Queued 1,3,4
+Oh, I didn't realize that was the case. And of course it already
+takes a number of quadwords as argument, I suppose? That's pretty
+unfortunate :(
 
-> ---
->  migration/savevm.c | 4 ----
->  1 file changed, 4 deletions(-)
+Perhaps we could consider deprecating it in favor of a user-friendly
+variant that's actually suitable for regular humans, like the one I
+suggest above?
+
+[...]
+> > > Dave points out
+> > > we may want to reduce the list to a single set and then add flags
+> > > to indicate what can be done with it in order to derive other sets.
+> > > What do you think about that?
+> > 
+> > So right now all that can be done is truncating the list by removing
+> > an arbitrary number of elements from the end, right? Eg. if you have
+> > [ 1, 2, 4 ] you can use either that or [ 1, 2 ] or [ 1 ]. But in the
+> > future you might also be able to mask single elements in the middle
+> > of the list, thus enabling things like [ 1, 4 ].
+> > 
+> > That doesn't sound very complicated to support in libvirt, though I
+> > have to say that I'm not a big fan of this proposal because as far as
+> > I can see it basically means implementing the very same logic twice,
+> > once in QEMU and then once more in libvirt.
 > 
-> diff --git a/migration/savevm.c b/migration/savevm.c
-> index 92af2471cd..2eea604624 100644
-> --- a/migration/savevm.c
-> +++ b/migration/savevm.c
-> @@ -1412,10 +1412,6 @@ static int qemu_savevm_state(QEMUFile *f, Error **errp)
->          return -EINVAL;
->      }
->  
-> -    if (migration_is_blocked(errp)) {
-> -        return -EINVAL;
-> -    }
-> -
->      if (migrate_use_block()) {
->          error_setg(errp, "Block migration and snapshots are incompatible");
->          return -EINVAL;
-> -- 
-> 2.19.1
+> So if big tables of bits aren't a problem for QMP queries, then I'll
+> just leave the design as it is.
+
+I thought about it a bit more and perhaps the simplified design is
+better after all.
+
+Whatever the interface looks like on the QEMU side, we're going to
+want to offer libvirt users two options for configuring vector
+lengths: listing all desired vector lengths explicitly (basically
+sev-vl-map but more verbose and readable) and providing just the
+biggest desired vector length (like in sev-max-vq).
+
+In the latter case, we'll want to expand the user-provided value
+into an explicit list anyway in order to guarantee guest ABI
+stability, and doing so when a single bitmap has been obtained via
+QMP seems like it would be more manageable.
+
+Sorry for the flip-flop, but after all isn't this exactly what
+upstream design discussion is supposed to be all about? :)
+
+[...]
+> > If the size of the bitmap on the KVM side is 512 bits, why don't we
+> > just make it that size on the QEMU side too from the start?
 > 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> I'd still only want to input 64-bits on the command line, otherwise
+> we get into inputting arrays, which isn't easy. KVM's interface is
+> meant for expansion, but it won't be using most of those bits for
+> quite some time either.
+
+I'm probably missing something entirely obvious, but couldn't you
+just have a single, possibly fairly massive (up to 128 hex digits if
+I'm not mistaken) value on the command line and just work with that
+one, no arrays necessary?
+
+-- 
+Andrea Bolognani / Red Hat / Virtualization
+
 
