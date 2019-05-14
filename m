@@ -2,50 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 099DF1C06D
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 03:57:39 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:37638 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9CB7F1C088
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 04:18:58 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37839 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQMhG-0004UR-5y
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 21:57:38 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51233)
+	id 1hQN1t-0002jF-IR
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 22:18:57 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35447)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hQMfX-0003bp-Cn
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 21:55:53 -0400
+	(envelope-from <yo-satoh@sios.com>) id 1hQN0m-0002QT-Oe
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 22:17:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hQMfS-0000Bp-Qn
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 21:55:48 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:36491)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
-	id 1hQMfN-0008JD-NC; Mon, 13 May 2019 21:55:43 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
-	id 45313p16YLz9sBp; Tue, 14 May 2019 11:55:33 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=gibson.dropbear.id.au; s=201602; t=1557798934;
-	bh=quACPbm4dhlY2E1zLMcd6KUFooODSchUZBAuUGGeVaw=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=Yb/vqvMv+9AulmdE9VSrS5i0lBU2yN+IBSWgItzIPoS1HgTjoEgtM+ZzyRHvSKNBS
-	JVeMxgEr5OPzFwV7SJbI0RiTNynz1wGoaekAmcimSQSOmYaa461hQlZrlDwzPxM+lc
-	F3bPQhootdxWCbjybdN2WfllaOnbtmPgkx7wmQLA=
-Date: Tue, 14 May 2019 11:54:26 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: =?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>
-Message-ID: <20190514015426.GE6441@umbus.fritz.box>
-References: <20190513084245.25755-1-clg@kaod.org>
-	<20190513084245.25755-14-clg@kaod.org>
+	(envelope-from <yo-satoh@sios.com>) id 1hQN0l-000272-87
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 22:17:48 -0400
+Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:37861)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <yo-satoh@sios.com>) id 1hQN0k-00022o-Ie
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 22:17:47 -0400
+Received: by mail-oi1-x243.google.com with SMTP id f4so3612153oib.4
+	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 19:17:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=sios-com.20150623.gappssmtp.com; s=20150623;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=kekiuAhKWFpQtfxb+tr0MtLnqMWV8twIvvIEFcs6Lxs=;
+	b=JuarAmIZy0H6tDUvlywrSRv6GVTBooR1qWefIL0DVgzWrEJoZzgB9kAdxl4S4Rfqnm
+	xj7svg1x/iD+4hx7hV9UurYv9Ft21uY6ApY9Qk7i9O5tioTvCa5I6IyjfN+2SgFAsBVT
+	aTxq78JPhYBlOLgj4khakN5n7FO99iVemCc2zMKwBHwfxrmighjYd/dlArhklUcB4DFe
+	N7J/fIZ67MNVcBFshhBC98FmaArBC7f+GCzuXWKCAwIDhtvzHLnVWxySH3l4FCdPX/fM
+	JMnFkTy+tiecOXRCuiFAUSkhh/KsSC2BmKomDBWmhNbX5PaAN74egHQ/upNGDT4Us2Ya
+	dD8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=kekiuAhKWFpQtfxb+tr0MtLnqMWV8twIvvIEFcs6Lxs=;
+	b=AD8M6055Yd2Uz4e3TINrCpaQfNZgUlLavsigwxLfhRa9RjQJ9fjvPNTeqvA4GNVX8k
+	RSoj23TVBSKMvuqnIBRmXms7+dqUZOaUdQoNAhv2IEKj2HfAiBAGEoe+ITCENVxdKPUf
+	3B1jaiS5yirEkf6v9KXsGUqEe28/cXZ85y4t/aXx4WK0okcoPfI5Kb4E8Q73pwUPqlKf
+	blbDaGcwR09C50BBRalaStKE7jjixGbWWs2ogmzj/T121Cl3eLnNpPhgsrBnosh5Fvac
+	R/Zk2ycnq6Ee2zU6++stsptS292J57qAo9ii8khZau1klX0Cs7tHSZtP3/AM4W02zBOX
+	d1fA==
+X-Gm-Message-State: APjAAAVU8aV1WZFZVfFm0BG3mWeL0y2+OCi9blHm2mw39Ppx5qDOV9zV
+	6PFfzP3+yfopkY/8POQ1TrDZciOlqJVfkWtOLPjP/Q==
+X-Google-Smtp-Source: APXvYqwHXHybRow70GAMBUHsOtaVt4213ZqSvisLDxlAxc+3jhGTKKtRjycTtDVdiLFXYuYLoyVXT/upkvByYogRclA=
+X-Received: by 2002:aca:50d3:: with SMTP id e202mr1473801oib.88.1557800264980; 
+	Mon, 13 May 2019 19:17:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="2Z2K0IlrPCVsbNpk"
-Content-Disposition: inline
-In-Reply-To: <20190513084245.25755-14-clg@kaod.org>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+References: <20190513052518.6274-1-yo-satoh@sios.com>
+	<7fcd8994-1549-fb6f-d7c2-5ad4558767c3@redhat.com>
+In-Reply-To: <7fcd8994-1549-fb6f-d7c2-5ad4558767c3@redhat.com>
+From: Yoshinori Sato <yo-satoh@sios.com>
+Date: Tue, 14 May 2019 11:17:33 +0900
+Message-ID: <CAL_XjKWOimLzHs8JeyEJzEOF-T-poJU5LsYJUQtnSPtiPwh2zg@mail.gmail.com>
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [PATCH v4 13/14] ppc/xics: fix irq priority in
- ics_set_irq_type()
+X-Received-From: 2607:f8b0:4864:20::243
+Subject: Re: [Qemu-devel] [PATCH v11 00/12] Add RX archtecture support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -57,107 +74,173 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
+Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
+	qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Oh. Sorry.
 
---2Z2K0IlrPCVsbNpk
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I fount one other problem.
+I will fix it and re-send later.
 
-On Mon, May 13, 2019 at 10:42:44AM +0200, C=E9dric Le Goater wrote:
-> Recent commits changed the behavior of ics_set_irq_type() to
-> initialize correctly LSIs at the KVM level. ics_set_irq_type() is also
-> called by the realize routine of the different devices of the machine
-> when initial interrupts are claimed, before the ICSState device is
-> reseted.
->=20
-> In the case, the ICSIRQState priority is 0x0 and the call to
-> ics_set_irq_type() results in configuring the target of the
-> interrupt. On P9, when using the KVM XICS-on-XIVE device, the target
-> is configured to be server 0, priority 0 and the event queue 0 is
-> created automatically by KVM.
->=20
-> With the dual interrupt mode creating the KVM device at reset, it
-> leads to unexpected effects on the guest, mostly blocking IPIs. This
-> is wrong, fix it by reseting the ICSIRQState structure when
-> ics_set_irq_type() is called.
->=20
-> Fixes: commit 6cead90c5c9c ("xics: Write source state to KVM at claim tim=
-e")
-> Signed-off-by: Greg Kurz <groug@kaod.org>
-> Signed-off-by: C=E9dric Le Goater <clg@kaod.org>
-
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-
-> ---
->  hw/intc/xics.c | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
->=20
-> diff --git a/hw/intc/xics.c b/hw/intc/xics.c
-> index af7dc709abab..79f5a8a91665 100644
-> --- a/hw/intc/xics.c
-> +++ b/hw/intc/xics.c
-> @@ -610,6 +610,12 @@ static const TypeInfo ics_simple_info =3D {
->      .class_size =3D sizeof(ICSStateClass),
->  };
-> =20
-> +static void ics_reset_irq(ICSIRQState *irq)
-> +{
-> +    irq->priority =3D 0xff;
-> +    irq->saved_priority =3D 0xff;
-> +}
-> +
->  static void ics_base_reset(DeviceState *dev)
->  {
->      ICSState *ics =3D ICS_BASE(dev);
-> @@ -623,8 +629,7 @@ static void ics_base_reset(DeviceState *dev)
->      memset(ics->irqs, 0, sizeof(ICSIRQState) * ics->nr_irqs);
-> =20
->      for (i =3D 0; i < ics->nr_irqs; i++) {
-> -        ics->irqs[i].priority =3D 0xff;
-> -        ics->irqs[i].saved_priority =3D 0xff;
-> +        ics_reset_irq(ics->irqs + i);
->          ics->irqs[i].flags =3D flags[i];
->      }
->  }
-> @@ -760,6 +765,7 @@ void ics_set_irq_type(ICSState *ics, int srcno, bool =
-lsi)
->          lsi ? XICS_FLAGS_IRQ_LSI : XICS_FLAGS_IRQ_MSI;
-> =20
->      if (kvm_irqchip_in_kernel()) {
-> +        ics_reset_irq(ics->irqs + srcno);
->          ics_set_kvm_state_one(ics, srcno);
->      }
->  }
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---2Z2K0IlrPCVsbNpk
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlzaH9IACgkQbDjKyiDZ
-s5LGFA//eSaJetc1/NayJS/FA+fwopHXivYBmHdQ3H5QAzGPZMaC00HFJMDju5Yd
-/N0aGlsj9w3R31buzwGK/q2VaOQfiG7vWmlisqCWtkEwkABPyVeJF7ls65mNfvDw
-ryp4PfWm3E+b5kQ7GcOrhWE2GFOGqIQKy8e1dj8dvCKdtuW3VIWkAsD/SIEEGrc8
-g7o3MKxVUx4hylDoonf12dLMfSm3NWSxv3JpqeyM88ALmF5d9k38edb2VgI6xwxW
-oC9FzRy8WSlUhNHNkvSj0iWZS4gtgjxEQaXd1r8jug/CkeRUjQ+4wnC6RLnjneOn
-RTDEoaV1ZueiIqk68RPz0LRrvKwAHmyfsr+9UtUh+f9s0YQlElJV/daIXq2fbxoK
-qFbL/wlGoZKVjaCj5+5bRpW/kl/F3L6On5IduvL5sk5WHeQsD6GbUwCuucn9ORs8
-yDgDh6rylsIslPmrSCK+NULvLRdbn4J/JR/TiAcKQc4GaMO3vqYotoy2OxZE0Tpb
-MSTrG0QEK/ZQR00CZnM8Sy9nuXr2ellM284zzHFeKcqkiIDpJGNwM5j1swYKrSBR
-wKXqNtUj2JIFEeLWd8rUkZMQ7P2kzegofLI6RGCKXrbLnOcxF1BJZ6TaFMj9lywT
-d+U7ggaXnQ46FYMeuXKZ4LNX5hcB3VBEp0rjKfaF2PCXDjDVfsQ=
-=HRFv
------END PGP SIGNATURE-----
-
---2Z2K0IlrPCVsbNpk--
+2019=E5=B9=B45=E6=9C=8814=E6=97=A5(=E7=81=AB) 2:26 Philippe Mathieu-Daud=C3=
+=A9 <philmd@redhat.com>:
+>
+> Hi Yoshinori,
+>
+> On 5/13/19 7:25 AM, Yoshinori Sato wrote:
+> > Hello.
+> > This patch series is added Renesas RX target emulation.
+> >
+> > Fixed build errors and cleaned up the code.
+> >
+> > My git repository is bellow.
+> > git://git.pf.osdn.net/gitroot/y/ys/ysato/qemu.git tags/rx-20190513
+>
+> This tag isn't exactly the same as the series you posted, some patches
+> are ordered differently, leading to this failure at commit fc564da941a
+> (Add rx-softmmu) of your tag:
+>
+> ((fc564da941a...))$ make -C rx-softmmu hw/intc/rx_icu.o
+>   CC      hw/intc/rx_icu.o
+> hw/intc/rx_icu.c:35:9: error: expected =E2=80=98)=E2=80=99 before numeric=
+ constant
+>  REG8(IR, 0)
+>          ^~
+>          )
+> ...
+> hw/intc/rx_icu.c: In function =E2=80=98icu_read=E2=80=99:
+> hw/intc/rx_icu.c:174:18: error: =E2=80=98A_FIR=E2=80=99 undeclared (first=
+ use in this
+> function); did you mean =E2=80=98A_FPSW=E2=80=99?
+>      if ((addr !=3D A_FIR && size !=3D 1) ||
+>                   ^~~~~
+>                   A_FPSW
+> hw/intc/rx_icu.c:174:18: note: each undeclared identifier is reported
+> only once for each function it appears in
+> hw/intc/rx_icu.c:181:10: error: =E2=80=98A_IR=E2=80=99 undeclared (first =
+use in this
+> function); did you mean =E2=80=98DIR=E2=80=99?
+>      case A_IR ... A_IR + 0xff:
+>           ^~~~
+>           DIR
+> ...
+> hw/intc/rx_icu.c:199:44: error: =E2=80=98R_IRQCR_IRQMD_SHIFT=E2=80=99 und=
+eclared (first
+> use in this function); did you mean =E2=80=98R_IRQCR_IRQMD_MASK=E2=80=99?
+>          return icu->src[64 + reg].sense << R_IRQCR_IRQMD_SHIFT;
+>                                             ^~~~~~~~~~~~~~~~~~~
+>                                             R_IRQCR_IRQMD_MASK
+>
+> This is because the commit "hw/registerfields.h" is added after.
+> I see this series seems ordered correctly, so I'll keep testing.
+>
+> >
+> > Testing binaries bellow.
+> > u-boot
+> > Download - https://osdn.net/users/ysato/pf/qemu/dl/u-boot.bin.gz
+> >
+> > starting
+> > $ gzip -d u-boot.bin.gz
+> > $ qemu-system-rx -bios u-boot.bin
+> >
+> > linux and pico-root (only sash)
+> > Download - https://osdn.net/users/ysato/pf/qemu/dl/zImage (kernel)
+> >            https://osdn.net/users/ysato/pf/qemu/dl/rx-qemu.dtb (DeviceT=
+ree)
+> >
+> > starting
+> > $ qemu-system-rx -kernel zImage -dtb rx-qemu.dtb -append "earlycon"
+> >
+> > Changes for v10.
+> > - Fix build error for 32bit system.
+> > - Use "object_initialize_child" in create device instance.
+> > - Remove unused headers.
+> > - Avoid some magic number.
+> > - Clean up Kconfig symbols.
+> >
+> > Yoshinori Sato (12):
+> >   target/rx: TCG translation
+> >   target/rx: TCG helper
+> >   target/rx: CPU definition
+> >   target/rx: RX disassembler
+> >   hw/intc: RX62N interrupt controller (ICUa)
+> >   hw/timer: RX62N internal timer modules
+> >   hw/char: RX62N serial communication interface (SCI)
+> >   hw/rx: RX Target hardware definition
+> >   hw/registerfields.h: Add 8bit and 16bit register macros.
+> >   qemu/bitops.h: Add extract8 and extract16
+> >   Add rx-softmmu
+> >   MAINTAINERS: Add RX
+> >
+> >  MAINTAINERS                    |   19 +
+> >  arch_init.c                    |    2 +
+> >  configure                      |    8 +
+> >  default-configs/rx-softmmu.mak |    3 +
+> >  hw/Kconfig                     |    1 +
+> >  hw/char/Kconfig                |    3 +
+> >  hw/char/Makefile.objs          |    1 +
+> >  hw/char/renesas_sci.c          |  340 ++++++
+> >  hw/intc/Kconfig                |    3 +
+> >  hw/intc/Makefile.objs          |    1 +
+> >  hw/intc/rx_icu.c               |  376 +++++++
+> >  hw/rx/Kconfig                  |   14 +
+> >  hw/rx/Makefile.objs            |    2 +
+> >  hw/rx/rx-virt.c                |  105 ++
+> >  hw/rx/rx62n.c                  |  238 ++++
+> >  hw/timer/Kconfig               |    6 +
+> >  hw/timer/Makefile.objs         |    3 +
+> >  hw/timer/renesas_cmt.c         |  275 +++++
+> >  hw/timer/renesas_tmr.c         |  455 ++++++++
+> >  include/disas/dis-asm.h        |    5 +
+> >  include/hw/char/renesas_sci.h  |   45 +
+> >  include/hw/intc/rx_icu.h       |   57 +
+> >  include/hw/registerfields.h    |   32 +-
+> >  include/hw/rx/rx.h             |    7 +
+> >  include/hw/rx/rx62n.h          |   94 ++
+> >  include/hw/timer/renesas_cmt.h |   38 +
+> >  include/hw/timer/renesas_tmr.h |   50 +
+> >  include/qemu/bitops.h          |   38 +
+> >  include/sysemu/arch_init.h     |    1 +
+> >  target/rx/Makefile.objs        |   12 +
+> >  target/rx/cpu.c                |  222 ++++
+> >  target/rx/cpu.h                |  227 ++++
+> >  target/rx/disas.c              | 1480 ++++++++++++++++++++++++
+> >  target/rx/gdbstub.c            |  112 ++
+> >  target/rx/helper.c             |  148 +++
+> >  target/rx/helper.h             |   31 +
+> >  target/rx/insns.decode         |  621 ++++++++++
+> >  target/rx/monitor.c            |   38 +
+> >  target/rx/op_helper.c          |  481 ++++++++
+> >  target/rx/translate.c          | 2432 ++++++++++++++++++++++++++++++++=
+++++++++
+> >  40 files changed, 8025 insertions(+), 1 deletion(-)
+> >  create mode 100644 default-configs/rx-softmmu.mak
+> >  create mode 100644 hw/char/renesas_sci.c
+> >  create mode 100644 hw/intc/rx_icu.c
+> >  create mode 100644 hw/rx/Kconfig
+> >  create mode 100644 hw/rx/Makefile.objs
+> >  create mode 100644 hw/rx/rx-virt.c
+> >  create mode 100644 hw/rx/rx62n.c
+> >  create mode 100644 hw/timer/renesas_cmt.c
+> >  create mode 100644 hw/timer/renesas_tmr.c
+> >  create mode 100644 include/hw/char/renesas_sci.h
+> >  create mode 100644 include/hw/intc/rx_icu.h
+> >  create mode 100644 include/hw/rx/rx.h
+> >  create mode 100644 include/hw/rx/rx62n.h
+> >  create mode 100644 include/hw/timer/renesas_cmt.h
+> >  create mode 100644 include/hw/timer/renesas_tmr.h
+> >  create mode 100644 target/rx/Makefile.objs
+> >  create mode 100644 target/rx/cpu.c
+> >  create mode 100644 target/rx/cpu.h
+> >  create mode 100644 target/rx/disas.c
+> >  create mode 100644 target/rx/gdbstub.c
+> >  create mode 100644 target/rx/helper.c
+> >  create mode 100644 target/rx/helper.h
+> >  create mode 100644 target/rx/insns.decode
+> >  create mode 100644 target/rx/monitor.c
+> >  create mode 100644 target/rx/op_helper.c
+> >  create mode 100644 target/rx/translate.c
+> >
 
