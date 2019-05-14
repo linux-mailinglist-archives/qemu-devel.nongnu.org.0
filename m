@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07C941C72D
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 12:45:26 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:45170 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E8F5D1C72A
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 12:43:34 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:45146 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQUw1-0007ly-19
-	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 06:45:25 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34833)
+	id 1hQUuD-0006Jc-NQ
+	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 06:43:33 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34861)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hQUr9-00049o-6U
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 06:40:24 -0400
+	(envelope-from <philmd@redhat.com>) id 1hQUqx-0004Gg-MR
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 06:40:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hQUif-0008RF-RV
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 06:31:40 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:45299)
+	(envelope-from <philmd@redhat.com>) id 1hQUmk-0006Zj-Lq
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 06:35:51 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:32982)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hQUie-0008OF-2h
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 06:31:37 -0400
-Received: by mail-wr1-f67.google.com with SMTP id b18so8609202wrq.12
-	for <qemu-devel@nongnu.org>; Tue, 14 May 2019 03:31:35 -0700 (PDT)
+	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hQUmk-0006ZH-Ex
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 06:35:50 -0400
+Received: by mail-wr1-f67.google.com with SMTP id d9so10240092wrx.0
+	for <qemu-devel@nongnu.org>; Tue, 14 May 2019 03:35:50 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
 	:date:user-agent:mime-version:in-reply-to:content-language
 	:content-transfer-encoding;
-	bh=VmJfXoC2WzST8DEgwuGF4IR2cehYCXYnXTuYbo9V1ek=;
-	b=lSPcZP3lYi7WGvLV+9Y2CBVu9OE0eftuBJ2LGrqazQhyZt2wLOaysxwriFOtRaJ4kY
-	3/rv3qAK/WLYpKieXHrwX6wDvOq+t4VyV7Vh/RwhH2Uc6FeCkeKhe7WOrniKZ9BwtoNH
-	BBICGMvA0VhDquJD3JAnUfjAzv5GIeNGAdU8vVCHMP/sF4KgsybncobLYnXZgziWSONP
-	DDFqTgXsUB0V4sgjjvIXW64z5fJEbGarLKsKs1xIwlcfn9wSciFh6f1PAZlmBGuUfphs
-	Ndqw4v82mOPa66qTLtUhq+LaW4Vn8oe+fUCR9O/5c/Vwy81Vz0xNJh56kJuSV/3Q8Bo1
-	N9ag==
-X-Gm-Message-State: APjAAAWMGGxC75JZlEVvvF2TzRm8viHH+PV0WzgDRfrqGg71hLfglUcS
-	Czx4uGRSKOBHkFJgOpar8Nrrqw==
-X-Google-Smtp-Source: APXvYqyvw0y5IlR+fOse6T5W+dmIwfwmj1mTJIkcz+u97f41RQLvxIXlGwmoaGpyH/qFuxnSdTUNdQ==
-X-Received: by 2002:a05:6000:43:: with SMTP id
-	k3mr21264111wrx.234.1557829894567; 
-	Tue, 14 May 2019 03:31:34 -0700 (PDT)
+	bh=TB0K9v3OzkgaK8Mzqtn7indwDU74Za3mEXU8p1hwlOk=;
+	b=bhDUkvavc1BbG/hTkfI/1DzwQUNc6VwmVq3bZYDu5RY8bR+9Puo3Bbc2sxEhwSWkz7
+	VLQpPoLJNaWbvnABgFCgCH4p9SbaqqfYOZeOJmaXHFJTahAFj4lPQOFA7E/+Pqb7Yz1C
+	DxvHDSrsNMXMGXoB5ukgyKPoZkxS2qJTuH84WUv0TNO+siDBTy1wRsrXKNDjopZqW2ef
+	wP6Mp0Cm4tF5vjwh15D6HYddVfb+KVkNSL/c7ZLAWWd9rpAe5G+sxET8Id29VPYQ8L4i
+	pEyGvWgpULqSMszj1KD7rsggQUMw81noFqb/Tpr1EeX5r6WTOs1aEY9OUPyua/SgLmvF
+	2mkg==
+X-Gm-Message-State: APjAAAWiseoSqZ0QcPJ+W83HF8m37+ftkayYI7b4e0jGmzLCqNZxVJS5
+	+k92XiQNKV+0RpuQ3TBZyS0fxMYC2+0=
+X-Google-Smtp-Source: APXvYqzHMKCpcLSYgid18wNywltR4QlSaz86Dja5uQlxKCk1tnvSOcwssnY91fSgE91il0YU6hA5SA==
+X-Received: by 2002:a5d:68c7:: with SMTP id p7mr3066716wrw.23.1557830149565;
+	Tue, 14 May 2019 03:35:49 -0700 (PDT)
 Received: from [192.168.1.33] (193.red-88-21-103.staticip.rima-tde.net.
-	[88.21.103.193])
-	by smtp.gmail.com with ESMTPSA id o4sm2766773wmc.38.2019.05.14.03.31.33
+	[88.21.103.193]) by smtp.gmail.com with ESMTPSA id
+	h11sm13499699wrr.44.2019.05.14.03.35.48
 	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Tue, 14 May 2019 03:31:33 -0700 (PDT)
+	Tue, 14 May 2019 03:35:49 -0700 (PDT)
 To: Thomas Huth <thuth@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
 	qemu-devel@nongnu.org
 References: <20190514100019.13263-1-thuth@redhat.com>
-	<20190514100019.13263-2-thuth@redhat.com>
+	<20190514100019.13263-3-thuth@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
 	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <b8cd670b-7a76-6197-1949-3600a8d1dbe0@redhat.com>
-Date: Tue, 14 May 2019 12:31:32 +0200
+Message-ID: <aabf08dd-0c9f-63dd-1c49-f31f6c150392@redhat.com>
+Date: Tue, 14 May 2019 12:35:48 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190514100019.13263-2-thuth@redhat.com>
+In-Reply-To: <20190514100019.13263-3-thuth@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
 X-Received-From: 209.85.221.67
-Subject: Re: [Qemu-devel] [PATCH 1/4] hw/core: Add a config switch for the
- "register" device
+Subject: Re: [Qemu-devel] [PATCH 2/4] hw/core: Add a config switch for the
+ "or-irq" device
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,69 +81,82 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/14/19 12:00 PM, Thomas Huth wrote:
-> The "register" device is only used by certain machines. Let's add
+> The "or-irq" device is only used by certain machines. Let's add
 > a proper config switch for it so that it only gets compiled when we
 > really need it.
 > 
 > Signed-off-by: Thomas Huth <thuth@redhat.com>
 > ---
+>  hw/arm/Kconfig        | 2 ++
 >  hw/core/Kconfig       | 3 +++
 >  hw/core/Makefile.objs | 2 +-
->  hw/dma/Kconfig        | 1 +
->  hw/timer/Kconfig      | 1 +
->  4 files changed, 6 insertions(+), 1 deletion(-)
+>  hw/pci-host/Kconfig   | 3 ++-
+>  4 files changed, 8 insertions(+), 2 deletions(-)
 > 
+> diff --git a/hw/arm/Kconfig b/hw/arm/Kconfig
+> index af8cffde9c..0bb3bbe9d3 100644
+> --- a/hw/arm/Kconfig
+> +++ b/hw/arm/Kconfig
+> @@ -277,6 +277,7 @@ config RASPI
+>  config STM32F205_SOC
+>      bool
+>      select ARM_V7M
+> +    select OR_IRQ
+>      select STM32F2XX_TIMER
+>      select STM32F2XX_USART
+>      select STM32F2XX_SYSCFG
+> @@ -424,6 +425,7 @@ config ARMSSE
+>      select IOTKIT_SECCTL
+>      select IOTKIT_SYSCTL
+>      select IOTKIT_SYSINFO
+> +    select OR_IRQ
+>      select TZ_MPC
+>      select TZ_MSC
+>      select TZ_PPC
+
+You missed the MPS2* boards
+
 > diff --git a/hw/core/Kconfig b/hw/core/Kconfig
-> index c2a1ae8122..d11920fcb3 100644
+> index d11920fcb3..984143456a 100644
 > --- a/hw/core/Kconfig
 > +++ b/hw/core/Kconfig
-> @@ -9,3 +9,6 @@ config FITLOADER
+> @@ -7,6 +7,9 @@ config PTIMER
+>  config FITLOADER
+>      bool
 >  
+> +config OR_IRQ
+> +    bool
+> +
 >  config PLATFORM_BUS
 >      bool
-> +
-> +config REGISTER
-> +    bool
+>  
 > diff --git a/hw/core/Makefile.objs b/hw/core/Makefile.objs
-> index a799c83815..d493a051ee 100644
+> index d493a051ee..dd2c2ca812 100644
 > --- a/hw/core/Makefile.objs
 > +++ b/hw/core/Makefile.objs
-> @@ -16,7 +16,7 @@ common-obj-$(CONFIG_SOFTMMU) += machine.o
->  common-obj-$(CONFIG_SOFTMMU) += loader.o
+> @@ -17,7 +17,7 @@ common-obj-$(CONFIG_SOFTMMU) += loader.o
 >  common-obj-$(CONFIG_FITLOADER) += loader-fit.o
 >  common-obj-$(CONFIG_SOFTMMU) += qdev-properties-system.o
-> -common-obj-$(CONFIG_SOFTMMU) += register.o
-> +common-obj-$(CONFIG_REGISTER) += register.o
->  common-obj-$(CONFIG_SOFTMMU) += or-irq.o
+>  common-obj-$(CONFIG_REGISTER) += register.o
+> -common-obj-$(CONFIG_SOFTMMU) += or-irq.o
+> +common-obj-$(CONFIG_OR_IRQ) += or-irq.o
 >  common-obj-$(CONFIG_SOFTMMU) += split-irq.o
 >  common-obj-$(CONFIG_PLATFORM_BUS) += platform-bus.o
-> diff --git a/hw/dma/Kconfig b/hw/dma/Kconfig
-> index 751dec5426..5c61b67bc0 100644
-> --- a/hw/dma/Kconfig
-> +++ b/hw/dma/Kconfig
-> @@ -16,6 +16,7 @@ config I8257
->  
->  config ZYNQ_DEVCFG
+>  common-obj-$(CONFIG_SOFTMMU) += generic-loader.o
+> diff --git a/hw/pci-host/Kconfig b/hw/pci-host/Kconfig
+> index 8c16d96b3f..1edc1a31d4 100644
+> --- a/hw/pci-host/Kconfig
+> +++ b/hw/pci-host/Kconfig
+> @@ -2,8 +2,9 @@ config PAM
 >      bool
-> +    select REGISTER
 >  
->  config STP2000
+>  config PREP_PCI
+> -    select PCI
 >      bool
-> diff --git a/hw/timer/Kconfig b/hw/timer/Kconfig
-> index 51921eb63f..f575481210 100644
-> --- a/hw/timer/Kconfig
-> +++ b/hw/timer/Kconfig
-> @@ -36,6 +36,7 @@ config TWL92230
+> +    select PCI
+> +    select OR_IRQ
 >  
->  config XLNX_ZYNQMP
->      bool
-> +    select REGISTER
->  
->  config ALTERA_TIMER
->      bool
+>  config GRACKLE_PCI
+>      select PCI
 > 
-
-Annoying, this clashes with "hw/microblaze: Kconfig cleanup" which is
-already queued by Paolo:
-https://lists.gnu.org/archive/html/qemu-devel/2019-04/msg04669.html
 
