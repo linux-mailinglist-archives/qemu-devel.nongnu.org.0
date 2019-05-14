@@ -2,61 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AF29B1C7D6
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 13:32:36 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46036 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 611A31C7E6
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 13:40:16 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46127 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQVff-0005qk-SX
-	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 07:32:35 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50747)
+	id 1hQVn5-00029z-K8
+	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 07:40:15 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50884)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <cohuck@redhat.com>) id 1hQVdb-0004c6-Ar
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 07:30:28 -0400
+	(envelope-from <berto@igalia.com>) id 1hQVdy-0004vW-RK
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 07:30:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <cohuck@redhat.com>) id 1hQVdZ-0000Gb-Th
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 07:30:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51136)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1hQVdZ-0000Ew-Ly
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 07:30:25 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
-	[10.5.11.11])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id C265A3082E5A;
-	Tue, 14 May 2019 11:30:22 +0000 (UTC)
-Received: from gondolin (dhcp-192-222.str.redhat.com [10.33.192.222])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 04D9760BCF;
-	Tue, 14 May 2019 11:30:09 +0000 (UTC)
-Date: Tue, 14 May 2019 13:30:07 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Message-ID: <20190514133007.5e1c6c2e.cohuck@redhat.com>
-In-Reply-To: <20190514110143.GD2753@work-vm>
-References: <20190510110838.2df4c4d0.cohuck@redhat.com>
-	<20190510093608.GD2854@work-vm>
-	<20190510114838.7e16c3d6.cohuck@redhat.com>
-	<20190513132804.GD11139@beluga.usersys.redhat.com>
-	<20190514061235.GC20407@joy-OptiPlex-7040>
-	<20190514072039.GA2089@beluga.usersys.redhat.com>
-	<20190514073219.GD20407@joy-OptiPlex-7040>
-	<20190514074344.GB2089@beluga.usersys.redhat.com>
-	<20190514074736.GE20407@joy-OptiPlex-7040>
-	<20190514115135.078bbaf7.cohuck@redhat.com>
-	<20190514110143.GD2753@work-vm>
-Organization: Red Hat GmbH
+	(envelope-from <berto@igalia.com>) id 1hQVdx-0000WA-1N
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 07:30:50 -0400
+Received: from fanzine.igalia.com ([91.117.99.155]:46376)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <berto@igalia.com>)
+	id 1hQVdw-0000UJ-Gs; Tue, 14 May 2019 07:30:48 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; 
+	h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+	bh=zeRhDyuOgbos4V2gRSVpS+hp9CKkviEcnuxA8WAfoMs=; 
+	b=cIn0I/wfwJLmZIeU2BcZQR67mKrGUOqqPG20dXrWPHTZ4Wzx0gv266XOKE5Q83vlwS4QvSr1Q9i0CHN4wBgfN6x7sVlyR/BIPX8e6eu2aOwzNitYwthKRYopSeHyom2L83Rf7WJpAPysk1ioo+1PlzGKTocQj64+zYCXq93DITFrAhjCjWJl8ERNC50/bP/5BJiqRAOLvMCecjLnxMcoZybIKmWQz1r3df/KM9IzoO7hXHMZQTGYvBCqCV5wRgTT3lGoBRbpeD/vpoLeaBGIN5FBDRTg9HP7XQtPlU2IjboeV9nzqRWII9+QYb5eJWIljowhY4x49/F57kKEb3SOog==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+	by fanzine.igalia.com with esmtps 
+	(Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+	id 1hQVdr-0007BV-VC; Tue, 14 May 2019 13:30:43 +0200
+Received: from berto by mail.igalia.com with local (Exim)
+	id 1hQVdr-0001KI-Sh; Tue, 14 May 2019 13:30:43 +0200
+From: Alberto Garcia <berto@igalia.com>
+To: Max Reitz <mreitz@redhat.com>, qemu-devel@nongnu.org
+In-Reply-To: <5f16da0c-d689-b06c-883b-3911a2c9ff9d@redhat.com>
+References: <cover.1551895813.git.berto@igalia.com>
+	<e25b416f8646a476017f21a8484a05931b0e3f5a.1551895814.git.berto@igalia.com>
+	<1df28c23-7efe-310d-2955-432b9a4bb1ad@redhat.com>
+	<w515zrkveul.fsf@maestria.local.igalia.com>
+	<5f16da0c-d689-b06c-883b-3911a2c9ff9d@redhat.com>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+	(i586-pc-linux-gnu)
+Date: Tue, 14 May 2019 13:30:43 +0200
+Message-ID: <w51k1etqnmk.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.46]);
-	Tue, 14 May 2019 11:30:23 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 1/2] vfio/mdev: add version attribute
- for mdev device
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
+	timestamps) [generic] [fuzzy]
+X-Received-From: 91.117.99.155
+Subject: Re: [Qemu-devel] [PATCH v2 13/13] qemu-iotests: Test the
+ x-blockdev-reopen QMP command
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -68,63 +62,46 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "cjia@nvidia.com" <cjia@nvidia.com>,
-	"kvm@vger.kernel.org" <kvm@vger.kernel.org>,
-	"aik@ozlabs.ru" <aik@ozlabs.ru>,
-	"Zhengxiao.zx@alibaba-inc.com" <Zhengxiao.zx@alibaba-inc.com>,
-	"shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
-	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
-	"kwankhede@nvidia.com" <kwankhede@nvidia.com>,
-	"eauger@redhat.com" <eauger@redhat.com>, "Liu, Yi
-	L" <yi.l.liu@intel.com>, Erik Skultety <eskultet@redhat.com>, "Yang,
-	Ziye" <ziye.yang@intel.com>, "mlevitsk@redhat.com" <mlevitsk@redhat.com>,
-	"pasic@linux.ibm.com" <pasic@linux.ibm.com>,
-	"libvir-list@redhat.com" <libvir-list@redhat.com>,
-	"arei.gonglei@huawei.com" <arei.gonglei@huawei.com>,
-	"felipe@nutanix.com" <felipe@nutanix.com>,
-	"Ken.Xue@amd.com" <Ken.Xue@amd.com>, "Tian,
-	Kevin" <kevin.tian@intel.com>, Yan Zhao <yan.y.zhao@intel.com>,
-	"zhenyuw@linux.intel.com" <zhenyuw@linux.intel.com>,
-	"jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>,
-	Alex Williamson <alex.williamson@redhat.com>,
-	"intel-gvt-dev@lists.freedesktop.org"
-	<intel-gvt-dev@lists.freedesktop.org>, "Liu,
-	Changpeng" <changpeng.liu@intel.com>,
-	"berrange@redhat.com" <berrange@redhat.com>,
-	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Wang, Zhi
-	A" <zhi.a.wang@intel.com>, "dinechin@redhat.com" <dinechin@redhat.com>,
-	"He, Shaopeng" <shaopeng.he@intel.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 14 May 2019 12:01:45 +0100
-"Dr. David Alan Gilbert" <dgilbert@redhat.com> wrote:
+On Sat 13 Apr 2019 02:53:42 AM CEST, Max Reitz wrote:
+>> Calling x-blockdev-reopen without 'backing' should only fail if
+>>=20
+>>  a) the image has a backing file attached to it.
+>>     In this case it doesn't: we just detached it in the previous line.
+>>=20
+>>  b) there's a default backing file written on the image header.
+>>     In this case there isn't (hd0 is created without one in setUp()).
+>
+> That=E2=80=99s what I thought, too, hence me applying effectively the same
+> change to the test in v4 of my series as you in your "Fix check for
+> default backing files" series:
+>
+> http://lists.nongnu.org/archive/html/qemu-block/2019-04/msg00308.html
+>
+>> So it should not fail. I think the bug is that the test for condition
+>> (b) in bdrv_reopen_prepare() that returns "backing is missing..." is
+>> using backing_file but it should use (correct me if I'm wrong)
+>> auto_backing_file.
+>
+> Well, I think both should be fine, because...
 
-> * Cornelia Huck (cohuck@redhat.com) wrote:
-> > On Tue, 14 May 2019 03:47:36 -0400
-> > Yan Zhao <yan.y.zhao@intel.com> wrote:
+Why would both be fine? backing_file refers to the backing file
+currently attached, and auto_backing_file refers to the one written on
+the image metadata, or am I wrong?
 
-> > > hi Cornelia and Dave,
-> > > do you also agree on:
-> > > 1. "not to define the specific errno returned for a specific situation,
-> > > let the vendor driver decide, userspace simply needs to know that an errno on
-> > > read indicates the device does not support migration version comparison and
-> > > that an errno on write indicates the devices are incompatible or the target
-> > > doesn't support migration versions. "
-> > > 2. vendor driver should log detailed error reasons in kernel log.  
-> > 
-> > Two questions:
-> > - How reasonable is it to refer to the system log in order to find out
-> >   what exactly went wrong?
-> > - If detailed error reporting is basically done to the syslog, do
-> >   different error codes still provide useful information? Or should the
-> >   vendor driver decide what it wants to do?  
-> 
-> I don't see error codes as being that helpful; if we can't actually get
-> an error message back up the stack (which was my preference), then I guess
-> syslog is as good as it will get.
+>> Not directly related to this, but should bdrv_backing_detach() also
+>> clear backing_file ?
+>
+> ...I don=E2=80=99t think it should.  That=E2=80=99s what that my patch ad=
+dresses. The
+> real problem is that bs->backing_file is not a cache for
+> bs->backing->bs->filename, so it shouldn=E2=80=99t be treated as such.
 
-Ok, so letting the vendor driver simply return an(y) error and possibly
-dumping an error message into the syslog seems to be the most
-reasonable approach.
+But what's the point of having backing_file set if no backing file is
+attached?
+
+Berto
 
