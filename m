@@ -2,69 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A7231C0D9
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 05:20:43 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38341 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4A481C01A
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 02:22:52 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36807 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQNze-0003mg-8V
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 23:20:42 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54788)
+	id 1hQLDV-0006nG-Ta
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 20:22:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55553)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alistair23@gmail.com>) id 1hQNyX-0003Th-Oj
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 23:19:34 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hQL4T-0002wt-QQ
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 20:16:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alistair23@gmail.com>) id 1hQK7p-0001Fh-Tj
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 19:13:17 -0400
-Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:36980)
+	(envelope-from <richard.henderson@linaro.org>) id 1hQKx3-0002yl-5c
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 20:06:21 -0400
+Received: from mail-pl1-x630.google.com ([2607:f8b0:4864:20::630]:44554)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <alistair23@gmail.com>)
-	id 1hQK7j-0000we-LU
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 19:12:49 -0400
-Received: by mail-lf1-x144.google.com with SMTP id h126so10321379lfh.4
-	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 16:12:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=4eFUZYyr8KNeadgMclSKpUtShszfc8t2iXqXurCvJ9M=;
-	b=B12kg9ziYNc0NrUvp4J3AmT7j5EpFzjd/0wN2HFiGDzgeC/o6+5+lkMuSe+WjoeZaw
-	ss9S+DZ65t5RQSIJVsVvmJEKrDOeAA918mBDKykj8ASOkl9F7QADatRgk8eo98IQc6Sj
-	pXgumCXeAUS1LkIvkPMNTfsDMjVxpryPR/5ErfhtZZ+Ot5bsu8loTMOZ/OoRq/OGa6qf
-	M/0BYEDwV2rNHDCWM3LNXSNgK7zMweBH+VyQ0ZatPzcf+XCk0h4OGUySgsAsHVspPDdn
-	4LuMWTfnAugDqMCNzmMGlrDIUx7u99PZFcdaPiw4tn7d7zoJkeIZuUhKpJujUjIE8nST
-	BgTw==
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hQKx1-0002pZ-0E
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 20:05:47 -0400
+Received: by mail-pl1-x630.google.com with SMTP id d3so7261622plj.11
+	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 17:05:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=ZQ1YDg+Qzl3mKc/BMIpSQ76NdqfcVhEXxXk6ITX6eLg=;
+	b=wS895mmgTSDOnEYCyqjes1sBOj244tVFOU/M7mqyTUOPmnTIsASL1eyGsOpsDXsGJ7
+	EOsDBMSKupoddTDcLIjF0CwnwLLwfZmF+qLnVsvsWhOu8gKzR5ydPBpzxgB2Z4zqt7G3
+	aaO0o77FTzRRJhxPFhumw9LWkhyBXV2bv2pOGb68xqTyFxglXSrpr0jLBIbwEkpjR7k0
+	0Mklb9XxvPfPIbSYqdVpT2JsmQpCWSqPRUcBtJ6f1W5CGzIk4Vn2wCOAErzqM4ed8j6Y
+	vJDmUkPW7LgpfG2GYbmuz32F2IHVe7FazyBfNEi82FAaCZFxXzKnctULXRTpJrb1xLpI
+	48nQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=4eFUZYyr8KNeadgMclSKpUtShszfc8t2iXqXurCvJ9M=;
-	b=A401GTGS4Q+mGP15CQL8UYIuj/4xLdSKa6SZGGTu2laUVne9sj8p6rvhvt0WRkEu1f
-	oIfOs+5CKg9skQP98o1odN93VY3dxKuLRUD9zwlZLonwJQGxKC5O65HxD7Gj5Qvh5Ham
-	Nn1hF7x5M2Qnto/6QgMrSZEkAFCavgVQbhgeaLRu+N0ucNlnvy/hcJDH+15mnjtgT+oJ
-	TDdB3ZYimwXVWo45bNJuilZrioFDGAz9sNaj0+etb9gegtWK34eIlgJ698BOq2bbc3ou
-	v7iw9eTHtpbr1tRYWHAuH3nZc9lHvu1IQDV/SQ1OHNfn30POmlCi1e6h/yfx+F4M99Vf
-	IWzA==
-X-Gm-Message-State: APjAAAVqxf1geLKdFimiwB0ByYepg7YY2RjMHhLC6BZOwYNkHW1Qtvoi
-	0QYMj8eT7rd2fGCMwh+4/usW+IRbkUZ9KKHZSwk=
-X-Google-Smtp-Source: APXvYqwK/Qgzo8ERbwy6oJtzWSuC6mL8AkQ/nV3rw6CHFrpMCJXNsCg1dBrS87+Y3NoddwKsmVF0WiXMPegI+AitclI=
-X-Received: by 2002:a05:6512:309:: with SMTP id
-	t9mr14627369lfp.103.1557789154860; 
-	Mon, 13 May 2019 16:12:34 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=ZQ1YDg+Qzl3mKc/BMIpSQ76NdqfcVhEXxXk6ITX6eLg=;
+	b=EqanK9i7K/15mhYvVTHoyO7KxuyemSR1zSHs8VeI2rDTIGx1yg+xz7CrOXzp+h1C9u
+	PY6B3ERs9WhpkcbGEwpQBYX681YnBSOrqcvBI/m9pTtQO8Lb55yrf/CzpYPiooUE/D47
+	uMKOUfhYzgFWNaUnT95SuUounll8EVnqQPKMQjngF1DuKiTrjU6SMoT2dbRED9d2MqqI
+	tjqbtsuKPWvn2+Eo1ZvI3/lOMj4mx9PROI13FcVzPByEOAa4OqavrPQojsP/waOwgqNH
+	+xNkY1+WLY5iGrkYkW0H5/3PuqJ6R+TJKs2+yC/yf6rgB4XDG9nbYpVaSyPKuSDpu1ka
+	k41w==
+X-Gm-Message-State: APjAAAVAAa7WIRIjqSTNBuJ3p36Etk9Y+YX0txFDIqfAM0DtMg/GGnOv
+	fyZvIXGjOKMHSOjXMAvVjUOVJxF/fFE=
+X-Google-Smtp-Source: APXvYqyqkH2/ErF6itAGLfQ83ec+ld1D9u+LYDO0D1lOIQvFbyNUUx71HwRFuG+yjsyaZ9TTaPdMhA==
+X-Received: by 2002:a17:902:b202:: with SMTP id
+	t2mr33523947plr.69.1557792343156; 
+	Mon, 13 May 2019 17:05:43 -0700 (PDT)
+Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
+	[97.113.13.231])
+	by smtp.gmail.com with ESMTPSA id u3sm238151pfn.29.2019.05.13.17.05.41
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 13 May 2019 17:05:41 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Date: Mon, 13 May 2019 17:05:09 -0700
+Message-Id: <20190514000540.4313-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-References: <20190508000641.19090-1-richard.henderson@linaro.org>
-	<20190508000641.19090-39-richard.henderson@linaro.org>
-	<CAKmqyKN5BmdUwv92UzCVZzNQsykeFSq_TwTvb7h5Ld9UWBuyyw@mail.gmail.com>
-	<9e60945f-5d27-c90b-79af-8e57a9dce78b@linaro.org>
-In-Reply-To: <9e60945f-5d27-c90b-79af-8e57a9dce78b@linaro.org>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 13 May 2019 16:10:22 -0700
-Message-ID: <CAKmqyKMyUHucSTTN+MJ9YBpKQqFvPgL38vLXrdoQ732qmwFQ+g@mail.gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::144
-Subject: Re: [Qemu-devel] [PATCH v3 38/39] tcg/arm: Use LDRD to load tlb
- mask+table
+X-Received-From: 2607:f8b0:4864:20::630
+Subject: [Qemu-devel] [PULL 00/31] tcg: gvec improvments
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -76,30 +78,110 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
+Cc: peter.maydell@linux.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, May 11, 2019 at 12:13 PM Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> On 5/10/19 2:08 PM, Alistair Francis wrote:
-> >> +        if (use_armv6_instructions && TARGET_LONG_BITS == 64) {
-> >> +            tcg_out_ldrd_8(s, COND_AL, TCG_REG_R2, TCG_REG_R1, cmp_off);
-> ...
-> >
-> > This is complex and I'm probably misunderstanding something but isn't
-> > it possible for TCG_REG_R3 to not be set if use_armv6_instructions is
-> > true and TARGET_LONG_BITS is 64?
->
-> No, the LDRD instruction loads data into both R2 and R2+1 = R3.
+Most of these patches are in support of David's guest vector
+patches for target/s390x.
 
-Ah ok. This looks fine to me then but I don't think I fully grasp it
-enough to Ack it.
 
-Alistair
+r~
 
->
->
-> r~
+
+The following changes since commit e24f44dbeab8e54c72bdaedbd35453fb2a6c38da:
+
+  Merge remote-tracking branch 'remotes/huth-gitlab/tags/pull-request-2019-05-13' into staging (2019-05-13 16:52:56 +0100)
+
+are available in the Git repository at:
+
+  https://github.com/rth7680/qemu.git tags/pull-tcg-20190513
+
+for you to fetch changes up to a7b6d286cfb5205b9f5330aefc5727269b3d810f:
+
+  tcg/aarch64: Do not advertise minmax for MO_64 (2019-05-13 22:52:08 +0000)
+
+----------------------------------------------------------------
+Improve code generation for vector duplication.
+Add vector expansions for shifts by non-constant scalar.
+Add vector expansions for shifts by vector.
+Add integer and vector expansions for absolute value.
+Several patches in preparation for Altivec.
+Bug fix for tcg/aarch64 vs min/max.
+
+----------------------------------------------------------------
+David Hildenbrand (1):
+      tcg: Implement tcg_gen_gvec_3i()
+
+Philippe Mathieu-Daudé (2):
+      target/ppc: Use tcg_gen_abs_i32
+      target/tricore: Use tcg_gen_abs_tl
+
+Richard Henderson (28):
+      tcg: Do not recreate INDEX_op_neg_vec unless supported
+      tcg: Allow add_vec, sub_vec, neg_vec, not_vec to be expanded
+      tcg: Specify optional vector requirements with a list
+      tcg: Assert fixed_reg is read-only
+      tcg/arm: Use tcg_out_mov_reg in tcg_out_mov
+      tcg: Return bool success from tcg_out_mov
+      tcg: Support cross-class moves without instruction support
+      tcg: Promote tcg_out_{dup,dupi}_vec to backend interface
+      tcg: Manually expand INDEX_op_dup_vec
+      tcg: Add tcg_out_dupm_vec to the backend interface
+      tcg/i386: Implement tcg_out_dupm_vec
+      tcg/aarch64: Implement tcg_out_dupm_vec
+      tcg: Add INDEX_op_dupm_vec
+      tcg: Add gvec expanders for variable shift
+      tcg/i386: Support vector variable shift opcodes
+      tcg/aarch64: Support vector variable shift opcodes
+      tcg: Add gvec expanders for vector shift by scalar
+      tcg/i386: Support vector scalar shift opcodes
+      tcg: Add support for integer absolute value
+      tcg: Add support for vector absolute value
+      tcg/i386: Support vector absolute value
+      tcg/aarch64: Support vector absolute value
+      target/arm: Use tcg_gen_abs_i64 and tcg_gen_gvec_abs
+      target/cris: Use tcg_gen_abs_tl
+      target/ppc: Use tcg_gen_abs_tl
+      target/s390x: Use tcg_gen_abs_i64
+      target/xtensa: Use tcg_gen_abs_i32
+      tcg/aarch64: Do not advertise minmax for MO_64
+
+ accel/tcg/tcg-runtime.h             |  20 +
+ target/arm/helper.h                 |   2 -
+ tcg/aarch64/tcg-target.h            |   3 +-
+ tcg/aarch64/tcg-target.opc.h        |   2 +
+ tcg/i386/tcg-target.h               |   5 +-
+ tcg/tcg-op-gvec.h                   |  64 ++-
+ tcg/tcg-op.h                        |  14 +
+ tcg/tcg-opc.h                       |   2 +
+ tcg/tcg.h                           |  21 +
+ accel/tcg/tcg-runtime-gvec.c        | 192 ++++++++
+ target/arm/neon_helper.c            |   5 -
+ target/arm/translate-a64.c          |  41 +-
+ target/arm/translate-sve.c          |   9 +-
+ target/arm/translate.c              | 144 +++---
+ target/cris/translate.c             |   9 +-
+ target/ppc/translate.c              |  68 +--
+ target/ppc/translate/spe-impl.inc.c |  14 +-
+ target/ppc/translate/vmx-impl.inc.c |   7 +-
+ target/s390x/translate.c            |   8 +-
+ target/tricore/translate.c          |  27 +-
+ target/xtensa/translate.c           |   9 +-
+ tcg/aarch64/tcg-target.inc.c        | 121 ++++-
+ tcg/arm/tcg-target.inc.c            |   5 +-
+ tcg/i386/tcg-target.inc.c           | 163 ++++++-
+ tcg/mips/tcg-target.inc.c           |   3 +-
+ tcg/optimize.c                      |   8 +-
+ tcg/ppc/tcg-target.inc.c            |   3 +-
+ tcg/riscv/tcg-target.inc.c          |   5 +-
+ tcg/s390/tcg-target.inc.c           |   3 +-
+ tcg/sparc/tcg-target.inc.c          |   3 +-
+ tcg/tcg-op-gvec.c                   | 945 ++++++++++++++++++++++++++++++------
+ tcg/tcg-op-vec.c                    | 270 ++++++++++-
+ tcg/tcg-op.c                        |  20 +
+ tcg/tcg.c                           | 271 +++++++++--
+ tcg/tci/tcg-target.inc.c            |   3 +-
+ tcg/README                          |   4 +
+ 36 files changed, 2020 insertions(+), 473 deletions(-)
 
