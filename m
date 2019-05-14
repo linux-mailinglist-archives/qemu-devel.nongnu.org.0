@@ -2,62 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C680D1C675
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 11:56:29 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:44388 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0BD401C673
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 11:56:06 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:44381 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQUAf-0002QL-00
-	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 05:56:29 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46188)
+	id 1hQUAG-00023h-SG
+	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 05:56:04 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46136)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <pkrempa@redhat.com>) id 1hQU86-0000qT-4w
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 05:53:51 -0400
+	(envelope-from <cohuck@redhat.com>) id 1hQU7z-0000mF-0S
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 05:53:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <pkrempa@redhat.com>) id 1hQU2X-0003nW-D7
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 05:48:06 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:39544)
+	(envelope-from <cohuck@redhat.com>) id 1hQU6O-0007zO-DE
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 05:52:06 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60816)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <pkrempa@redhat.com>) id 1hQU2X-0003iT-4t
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 05:48:05 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
+	(Exim 4.71) (envelope-from <cohuck@redhat.com>) id 1hQU6O-0007ww-5f
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 05:52:04 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+	[10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 7AD913082B40
-	for <qemu-devel@nongnu.org>; Tue, 14 May 2019 09:48:03 +0000 (UTC)
-Received: from andariel.pipo.sk (unknown [10.40.205.51])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id EE25919C69;
-	Tue, 14 May 2019 09:47:59 +0000 (UTC)
-Date: Tue, 14 May 2019 11:47:57 +0200
-From: Peter Krempa <pkrempa@redhat.com>
-To: Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>
-Message-ID: <20190514094757.GC2240@andariel.pipo.sk>
-References: <87sgtqejn9.fsf@dusky.pond.sub.org>
-	<20190507093954.GG27205@redhat.com>
-	<875zql3ylk.fsf@dusky.pond.sub.org>
-	<20190513120856.GH15029@redhat.com>
-	<87ef525uls.fsf@dusky.pond.sub.org>
-	<a3378e24-f13f-b51f-7180-8e0bf4661e10@redhat.com>
-	<87tvdx8tfa.fsf@dusky.pond.sub.org>
-	<20190514092638.GE25916@redhat.com> <20190514093754.GC2753@work-vm>
-	<20190514094331.GF25916@redhat.com>
+	by mx1.redhat.com (Postfix) with ESMTPS id 94115308620F;
+	Tue, 14 May 2019 09:52:02 +0000 (UTC)
+Received: from gondolin (dhcp-192-222.str.redhat.com [10.33.192.222])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 042155C207;
+	Tue, 14 May 2019 09:51:37 +0000 (UTC)
+Date: Tue, 14 May 2019 11:51:35 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: Yan Zhao <yan.y.zhao@intel.com>
+Message-ID: <20190514115135.078bbaf7.cohuck@redhat.com>
+In-Reply-To: <20190514074736.GE20407@joy-OptiPlex-7040>
+References: <20190509175404.512ae7aa.cohuck@redhat.com>
+	<20190509164825.GG2868@work-vm>
+	<20190510110838.2df4c4d0.cohuck@redhat.com>
+	<20190510093608.GD2854@work-vm>
+	<20190510114838.7e16c3d6.cohuck@redhat.com>
+	<20190513132804.GD11139@beluga.usersys.redhat.com>
+	<20190514061235.GC20407@joy-OptiPlex-7040>
+	<20190514072039.GA2089@beluga.usersys.redhat.com>
+	<20190514073219.GD20407@joy-OptiPlex-7040>
+	<20190514074344.GB2089@beluga.usersys.redhat.com>
+	<20190514074736.GE20407@joy-OptiPlex-7040>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="O3RTKUHj+75w1tg5"
-Content-Disposition: inline
-In-Reply-To: <20190514094331.GF25916@redhat.com>
-X-PGP-Key-ID: 0xD018682B
-X-PGP-Key-Fingerprint: D294 FF38 A6A2 BF40 6C75  5DEF 36EC 16AC D018 682B
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.45]);
-	Tue, 14 May 2019 09:48:03 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.42]);
+	Tue, 14 May 2019 09:52:03 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [libvirt]    QMP; unsigned 64-bit ints;
- JSON standards compliance
+Subject: Re: [Qemu-devel] [PATCH v2 1/2] vfio/mdev: add version attribute
+ for mdev device
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -69,65 +68,93 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: libvir-list@redhat.com, =?iso-8859-1?B?SuFu?= Tomko <jtomko@redhat.com>,
-	"Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org
+Cc: "cjia@nvidia.com" <cjia@nvidia.com>,
+	"kvm@vger.kernel.org" <kvm@vger.kernel.org>,
+	"aik@ozlabs.ru" <aik@ozlabs.ru>,
+	"Zhengxiao.zx@alibaba-inc.com" <Zhengxiao.zx@alibaba-inc.com>,
+	"shuangtai.tst@alibaba-inc.com" <shuangtai.tst@alibaba-inc.com>,
+	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+	"kwankhede@nvidia.com" <kwankhede@nvidia.com>,
+	"eauger@redhat.com" <eauger@redhat.com>, "Liu,
+	Yi L" <yi.l.liu@intel.com>, Erik Skultety <eskultet@redhat.com>,
+	"Yang, Ziye" <ziye.yang@intel.com>,
+	"mlevitsk@redhat.com" <mlevitsk@redhat.com>,
+	"pasic@linux.ibm.com" <pasic@linux.ibm.com>,
+	"libvir-list@redhat.com" <libvir-list@redhat.com>,
+	"arei.gonglei@huawei.com" <arei.gonglei@huawei.com>,
+	"felipe@nutanix.com" <felipe@nutanix.com>,
+	"Ken.Xue@amd.com" <Ken.Xue@amd.com>, "Tian, Kevin" <kevin.tian@intel.com>,
+	"Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+	"zhenyuw@linux.intel.com" <zhenyuw@linux.intel.com>,
+	"jonathan.davies@nutanix.com" <jonathan.davies@nutanix.com>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	"intel-gvt-dev@lists.freedesktop.org"
+	<intel-gvt-dev@lists.freedesktop.org>, "Liu,
+	Changpeng" <changpeng.liu@intel.com>,
+	"berrange@redhat.com" <berrange@redhat.com>,
+	"linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>, "Wang, Zhi
+	A" <zhi.a.wang@intel.com>, "dinechin@redhat.com" <dinechin@redhat.com>,
+	"He, Shaopeng" <shaopeng.he@intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 14 May 2019 03:47:36 -0400
+Yan Zhao <yan.y.zhao@intel.com> wrote:
 
---O3RTKUHj+75w1tg5
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On Tue, May 14, 2019 at 03:43:44PM +0800, Erik Skultety wrote:
+> > On Tue, May 14, 2019 at 03:32:19AM -0400, Yan Zhao wrote:  
+> > > On Tue, May 14, 2019 at 03:20:40PM +0800, Erik Skultety wrote:  
 
-On Tue, May 14, 2019 at 10:43:31 +0100, Daniel Berrange wrote:
-> On Tue, May 14, 2019 at 10:37:55AM +0100, Dr. David Alan Gilbert wrote:
-> > * Daniel P. Berrang=E9 (berrange@redhat.com) wrote:
-> > > On Tue, May 14, 2019 at 08:02:49AM +0200, Markus Armbruster wrote:
-> > > > Eric Blake <eblake@redhat.com> writes:
+> > > > That said, from libvirt POV as a consumer, I'd expect there to be truly only 2
+> > > > errors (I believe Alex has mentioned something similar in one of his responses
+> > > > in one of the threads):
+> > > >     a) read error indicating that an mdev type doesn't support migration
+> > > >         - I assume if one type doesn't support migration, none of the other
+> > > >           types exposed on the parent device do, is that a fair assumption?
 
-[...]
+Probably; but there might be cases where the migratability depends not
+on the device type, but how the partitioning has been done... or is
+that too contrived?
 
-> > > Unless I'm missing something, this should ensure we don't loose preci=
-sion,
-> > > can always parse large numbers, and can internally change QEMU precis=
-ion
-> > > from int8/16/32 upto full int64 without breaking clients.
-> >=20
-> > But we could be stricter and simpler in string mode:
-> >=20
-> >   - QEMU & clients MUST format integer fields as strings, always
-> >   - QEMU & clients MUST parse only strings for integer fields.
-> >=20
-> > That's (3) above, but also meets your requirements.
->=20
-> Yep, given that we don't actually expose the int8/int16/int32/int64
-> distinction via the QMP introspection data, that would be fine too.
->=20
-> Its basically saying we'll never use JSON's number format.
+> > > >     b) write error indicating that the mdev types are incompatible for
+> > > >     migration
+> > > >
+> > > > Regards,
+> > > > Erik  
+> > > Thanks for this explanation.
+> > > so, can we arrive at below agreements?
+> > >
+> > > 1. "not to define the specific errno returned for a specific situation,
+> > > let the vendor driver decide, userspace simply needs to know that an errno on
+> > > read indicates the device does not support migration version comparison and
+> > > that an errno on write indicates the devices are incompatible or the target
+> > > doesn't support migration versions. "
+> > > 2. vendor driver should log detailed error reasons in kernel log.  
+> > 
+> > That would be my take on this, yes, but I open to hear any other suggestions and
+> > ideas I couldn't think of as well.
 
-I think this would make the most sense. If you are going to switch to
-the "string" mode, why bother doing any compat?
+So, read to find out whether migration is supported at all, write to
+find out whether it is supported for that concrete pairing is
+reasonable for libvirt?
 
---O3RTKUHj+75w1tg5
-Content-Type: application/pgp-signature; name="signature.asc"
+> > 
+> > Erik  
+> got it. thanks a lot!
+> 
+> hi Cornelia and Dave,
+> do you also agree on:
+> 1. "not to define the specific errno returned for a specific situation,
+> let the vendor driver decide, userspace simply needs to know that an errno on
+> read indicates the device does not support migration version comparison and
+> that an errno on write indicates the devices are incompatible or the target
+> doesn't support migration versions. "
+> 2. vendor driver should log detailed error reasons in kernel log.
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEUn7DGLvflazX+2GwHGwCByjY1GoFAlzajsoACgkQHGwCByjY
-1GqmBhAAk0z54ivDqokx1WzZib1Wc++E9RilLWgt2Ee2kW5QtJxkDQrk9JLPQQ1s
-ttoh1yy8mmakf0xr7S7BAIYaatgQNVJIZGsy5W3M+48WJQ1ZjwRnhmyjSWHsBsZO
-xWYPTGd35uPUUgr9yybgQvPlthvOIGU+nfzX2CxWcDiPOqXVQxHtmAOo4Ul2/28Y
-4yyFEK3iCZnXiZrWCQpmZCSc1ikxWjjOKeqs/9p0zyr1ngsp/TiMTRxKqJrzAOdk
-0A7L1NpLgjglVLnP/93vUfBs9Rt+ubHnpEUMwoZZnj7+40niZEwsqoOQ5d1XEpTn
-h4LahYKjq4zmQkqR6ascQASQEe4XxgoDdgi1U+oWYDvmb1oykSSwgW0GXU8b+Y7Q
-T90ZTFpkYhpGsxUKShqnLUWkqfEJyM471EM0bjz8kxTG64g34242deyiyZfYLlUT
-hMdQAKLhg5FnAgWGKU2NwfK2oZj21e6tNrZjZLO28HP+U0Rcr/oerdLU0M3Ndzj0
-uJLu0OFvH5TpuTH4e8oGxA54pNNPdWzkAo7PWRV1F0QQajXrBOCz4mQTL+/TyBVs
-SWm209IhRjdQ22eY9C6i+4Bm2NjunoigBQOlktOXLwi/hmVjl+ZS3ouY5WoeKfDq
-EZJioH6NppuGzlP07m+y2pyAbJfpJz2FrYDo4oOdzd1TUNHMhAE=
-=QuLy
------END PGP SIGNATURE-----
-
---O3RTKUHj+75w1tg5--
+Two questions:
+- How reasonable is it to refer to the system log in order to find out
+  what exactly went wrong?
+- If detailed error reporting is basically done to the syslog, do
+  different error codes still provide useful information? Or should the
+  vendor driver decide what it wants to do?
 
