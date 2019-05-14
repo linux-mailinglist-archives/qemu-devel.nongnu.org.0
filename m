@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16FF41C11D
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 05:53:51 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38576 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C5D1B1C004
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 02:09:59 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36601 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQOVh-0000qy-UC
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 23:53:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56346)
+	id 1hQL14-0002pg-Ua
+	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 20:09:58 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51131)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hQOUU-0000BE-3T
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 23:52:35 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hQKy9-0001dC-2O
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 20:07:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hQOUS-000355-Uk
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 23:52:34 -0400
-Received: from mail-pf1-x42a.google.com ([2607:f8b0:4864:20::42a]:36943)
+	(envelope-from <richard.henderson@linaro.org>) id 1hQKxJ-0003Jf-Fg
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 20:06:55 -0400
+Received: from mail-pf1-x430.google.com ([2607:f8b0:4864:20::430]:42687)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hQKxJ-0003Ay-9X
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 20:06:07 -0400
-Received: by mail-pf1-x42a.google.com with SMTP id g3so8067283pfi.4
-	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 17:05:59 -0700 (PDT)
+	id 1hQKxJ-0003CA-0N
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 20:06:05 -0400
+Received: by mail-pf1-x430.google.com with SMTP id 13so8063103pfw.9
+	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 17:06:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=yjaWcvw9UbJX/NgPrNoAKyN+ZZwbI4Jl9YPntsAKSX4=;
-	b=cI/k2fglzCzVv0W2UtPeSLi5Lo4mXGxJ9Uae728eJQPc2FXSW9n4qUv3tG0dKTNRua
-	fI0eaDJ8V+0JNDwbtKovaO9gGa+OeDA0YnZEdQWDdOYJPLGhoSqJ+cySa6voAT/ay840
-	AE/STidMQbjqfkDERn+rVlRcIXBzwQDUSKU8+F5vDH/m9xtpVQSFyXc4IqG5lm+7KB/i
-	Hu4imRsPpzXwnltiowpjIr1OhtuIuejwJLqF4gy427lgk3s4knHcFIv6eWI7Btojx1/S
-	GCXLqly92L1BnKVh0baAvZ/4Pr0PE2EATks10BZxdqGde1y/WU0bXTtzR1IY3qyjlhm0
-	R0RQ==
+	bh=4qREfMgDOvDIZnxD8mHxrlGbKtAgS56ZNj2GB4ImDXs=;
+	b=VsbJxcyKmRyLl+PMeAvEhUPlSvDfB1Vflk6p0VJD9jxHAY+PWtzH9+/si5XvfI6vWI
+	pwnMO2wY8weJ/Ov+lppwE2cp5PfIo1dR6IH1KImgmq6BFyzu+qN5Z7Uvgl5uWjkCtiyi
+	9dlJuAkrQRQwOZ9innjFLprn/XHgH0dhp3asvpaztEQXTKVNhpbItWmCc6ss9Hun6M7z
+	pno5le59nwuDZDEmmGH45oCR0keVSza5JIi1AG/lXus48ZJgX6VsM3JOT3zaBFVX5p7M
+	UUBYefKH47+j32PVdNEJx8JIXviD9ylMwlEYNES6y6mAwE6tpthsdVHS9hhH5d1ABNZ2
+	zPmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=yjaWcvw9UbJX/NgPrNoAKyN+ZZwbI4Jl9YPntsAKSX4=;
-	b=Lv5Ax1B95WYaMGNx9J/UlBswDWJ/Wft7X7vHeG2DT6RthXahDiNnfy+D8XX6r7lC9T
-	m3IX0wDaptd/lmiUZVE9dkQIETIgJUyZtm2jbqlGUjcsqovREaHd0RQAayB5P6BlJwjn
-	7EFvpPgTZnXVCvpEbWl8CJtLJiWphfpr7LgOcJoYml8I64RWUbFOordsmFw1Yq4qaEDJ
-	gWijQy6kmekPRNUvYMfJWH5dz9b+fd/kyHIAoPCRH9Suqr0Xu2aEcPHpWuf9EUoANdK8
-	YVOty5/xcKT5/zHhjr1eZpO65bQ8weL5UElSq+djoFfgEE36dApzGCRMOELGhUCPm7IE
-	FUEg==
-X-Gm-Message-State: APjAAAUlgwY708Q7+FTcZCtTd5tUmkz7MzciWUVicl0N9JiiLThH6gDJ
-	cxInp50ycwQL+R8owtz08c1xA7d+YT0=
-X-Google-Smtp-Source: APXvYqydk+4PGzlJS7rbgB1f+8+HV7dB6KptajTLSSdx4nJVwJssr0ryCVh/xmt11unpLa0+8EhZQw==
-X-Received: by 2002:a65:5241:: with SMTP id q1mr34254286pgp.298.1557792357975; 
-	Mon, 13 May 2019 17:05:57 -0700 (PDT)
+	bh=4qREfMgDOvDIZnxD8mHxrlGbKtAgS56ZNj2GB4ImDXs=;
+	b=I8CQwGSwBXF0t/liE85FxzdS1kcUthe2LX4gnnzXXlPC7xwYeaKsozdcOsTzNbih2s
+	jWriBNWCPeDf/uWmetCxehpIkJke4MgvE1kWyInp7iomhyYwG+86p2supDzNBSCkg1B1
+	YjPGDtIaj/zcDMLA0145V9yNGlJaTNPcycXl/PIC/CWdrajVkBgx0o7nlLeSr0vez8x6
+	fsbnAkgKhWDP76z5B1qN4qJhsdYdBe72Q3Ubf6o0EtqcjkPHrVY/sKxv2nMVpav4t9oR
+	G+Jk/QOfBv7bf9aho3vyUGDVXBX0d877fD+LZfz732OF4AHzoIQHWFvGnxCMsXmDvxYl
+	5JzQ==
+X-Gm-Message-State: APjAAAUgh+HsPanW4a1B/I+3koebbmyo9VAPqp1DDgrFvI6xfO9lWfqR
+	QV5gvU7CafGvDOLrUuSSvoTCmB0OHXE=
+X-Google-Smtp-Source: APXvYqyMNgvbBEYx+3uVNU7LYC4oavZefnMdaApUV+dOWDeL37xyNzuM9/Y0+lR8n70UFind+BLZkg==
+X-Received: by 2002:a63:1e5b:: with SMTP id p27mr33871719pgm.213.1557792359244;
+	Mon, 13 May 2019 17:05:59 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231])
-	by smtp.gmail.com with ESMTPSA id u3sm238151pfn.29.2019.05.13.17.05.56
+	by smtp.gmail.com with ESMTPSA id u3sm238151pfn.29.2019.05.13.17.05.58
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 13 May 2019 17:05:57 -0700 (PDT)
+	Mon, 13 May 2019 17:05:58 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Mon, 13 May 2019 17:05:20 -0700
-Message-Id: <20190514000540.4313-12-richard.henderson@linaro.org>
+Date: Mon, 13 May 2019 17:05:21 -0700
+Message-Id: <20190514000540.4313-13-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190514000540.4313-1-richard.henderson@linaro.org>
 References: <20190514000540.4313-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::42a
-Subject: [Qemu-devel] [PULL 11/31] tcg: Add tcg_out_dupm_vec to the backend
- interface
+X-Received-From: 2607:f8b0:4864:20::430
+Subject: [Qemu-devel] [PULL 12/31] tcg/i386: Implement tcg_out_dupm_vec
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -80,100 +79,120 @@ Cc: peter.maydell@linux.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently stubbed out in all backends that support vectors.
+At the same time, improve tcg_out_dupi_vec wrt broadcast
+from the constant pool.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/aarch64/tcg-target.inc.c |  6 ++++++
- tcg/i386/tcg-target.inc.c    |  7 +++++++
- tcg/tcg.c                    | 19 ++++++++++++++++++-
- 3 files changed, 31 insertions(+), 1 deletion(-)
+ tcg/i386/tcg-target.inc.c | 57 +++++++++++++++++++++++++++++----------
+ 1 file changed, 43 insertions(+), 14 deletions(-)
 
-diff --git a/tcg/aarch64/tcg-target.inc.c b/tcg/aarch64/tcg-target.inc.c
-index 3cefdd1e43..4a3cfa778a 100644
---- a/tcg/aarch64/tcg-target.inc.c
-+++ b/tcg/aarch64/tcg-target.inc.c
-@@ -822,6 +822,12 @@ static bool tcg_out_dup_vec(TCGContext *s, TCGType type, unsigned vece,
-     return true;
- }
- 
-+static bool tcg_out_dupm_vec(TCGContext *s, TCGType type, unsigned vece,
-+                             TCGReg r, TCGReg base, intptr_t offset)
-+{
-+    return false;
-+}
-+
- static void tcg_out_movi(TCGContext *s, TCGType type, TCGReg rd,
-                          tcg_target_long value)
- {
 diff --git a/tcg/i386/tcg-target.inc.c b/tcg/i386/tcg-target.inc.c
-index 3c8229d413..f04933bc19 100644
+index f04933bc19..f4bd00e24f 100644
 --- a/tcg/i386/tcg-target.inc.c
 +++ b/tcg/i386/tcg-target.inc.c
-@@ -891,6 +891,13 @@ static bool tcg_out_dup_vec(TCGContext *s, TCGType type, unsigned vece,
+@@ -358,7 +358,6 @@ static inline int tcg_target_const_match(tcg_target_long val, TCGType type,
+ #define OPC_MOVBE_MyGy  (0xf1 | P_EXT38)
+ #define OPC_MOVD_VyEy   (0x6e | P_EXT | P_DATA16)
+ #define OPC_MOVD_EyVy   (0x7e | P_EXT | P_DATA16)
+-#define OPC_MOVDDUP     (0x12 | P_EXT | P_SIMDF2)
+ #define OPC_MOVDQA_VxWx (0x6f | P_EXT | P_DATA16)
+ #define OPC_MOVDQA_WxVx (0x7f | P_EXT | P_DATA16)
+ #define OPC_MOVDQU_VxWx (0x6f | P_EXT | P_SIMDF3)
+@@ -458,6 +457,10 @@ static inline int tcg_target_const_match(tcg_target_long val, TCGType type,
+ #define OPC_UD2         (0x0b | P_EXT)
+ #define OPC_VPBLENDD    (0x02 | P_EXT3A | P_DATA16)
+ #define OPC_VPBLENDVB   (0x4c | P_EXT3A | P_DATA16)
++#define OPC_VPINSRB     (0x20 | P_EXT3A | P_DATA16)
++#define OPC_VPINSRW     (0xc4 | P_EXT | P_DATA16)
++#define OPC_VBROADCASTSS (0x18 | P_EXT38 | P_DATA16)
++#define OPC_VBROADCASTSD (0x19 | P_EXT38 | P_DATA16)
+ #define OPC_VPBROADCASTB (0x78 | P_EXT38 | P_DATA16)
+ #define OPC_VPBROADCASTW (0x79 | P_EXT38 | P_DATA16)
+ #define OPC_VPBROADCASTD (0x58 | P_EXT38 | P_DATA16)
+@@ -855,16 +858,17 @@ static bool tcg_out_mov(TCGContext *s, TCGType type, TCGReg ret, TCGReg arg)
      return true;
  }
  
-+static bool tcg_out_dupm_vec(TCGContext *s, TCGType type, unsigned vece,
-+                             TCGReg r, TCGReg base, intptr_t offset)
-+{
-+    return false;
-+}
++static const int avx2_dup_insn[4] = {
++    OPC_VPBROADCASTB, OPC_VPBROADCASTW,
++    OPC_VPBROADCASTD, OPC_VPBROADCASTQ,
++};
 +
-+
+ static bool tcg_out_dup_vec(TCGContext *s, TCGType type, unsigned vece,
+                             TCGReg r, TCGReg a)
+ {
+     if (have_avx2) {
+-        static const int dup_insn[4] = {
+-            OPC_VPBROADCASTB, OPC_VPBROADCASTW,
+-            OPC_VPBROADCASTD, OPC_VPBROADCASTQ,
+-        };
+         int vex_l = (type == TCG_TYPE_V256 ? P_VEXL : 0);
+-        tcg_out_vex_modrm(s, dup_insn[vece] + vex_l, r, 0, a);
++        tcg_out_vex_modrm(s, avx2_dup_insn[vece] + vex_l, r, 0, a);
+     } else {
+         switch (vece) {
+         case MO_8:
+@@ -894,10 +898,35 @@ static bool tcg_out_dup_vec(TCGContext *s, TCGType type, unsigned vece,
+ static bool tcg_out_dupm_vec(TCGContext *s, TCGType type, unsigned vece,
+                              TCGReg r, TCGReg base, intptr_t offset)
+ {
+-    return false;
++    if (have_avx2) {
++        int vex_l = (type == TCG_TYPE_V256 ? P_VEXL : 0);
++        tcg_out_vex_modrm_offset(s, avx2_dup_insn[vece] + vex_l,
++                                 r, 0, base, offset);
++    } else {
++        switch (vece) {
++        case MO_64:
++            tcg_out_vex_modrm_offset(s, OPC_VBROADCASTSD, r, 0, base, offset);
++            break;
++        case MO_32:
++            tcg_out_vex_modrm_offset(s, OPC_VBROADCASTSS, r, 0, base, offset);
++            break;
++        case MO_16:
++            tcg_out_vex_modrm_offset(s, OPC_VPINSRW, r, r, base, offset);
++            tcg_out8(s, 0); /* imm8 */
++            tcg_out_dup_vec(s, type, vece, r, r);
++            break;
++        case MO_8:
++            tcg_out_vex_modrm_offset(s, OPC_VPINSRB, r, r, base, offset);
++            tcg_out8(s, 0); /* imm8 */
++            tcg_out_dup_vec(s, type, vece, r, r);
++            break;
++        default:
++            g_assert_not_reached();
++        }
++    }
++    return true;
+ }
+ 
+-
  static void tcg_out_dupi_vec(TCGContext *s, TCGType type,
                               TCGReg ret, tcg_target_long arg)
  {
-diff --git a/tcg/tcg.c b/tcg/tcg.c
-index 2b715bf099..b9945794c4 100644
---- a/tcg/tcg.c
-+++ b/tcg/tcg.c
-@@ -111,6 +111,8 @@ static void tcg_out_op(TCGContext *s, TCGOpcode opc, const TCGArg *args,
- #if TCG_TARGET_MAYBE_vec
- static bool tcg_out_dup_vec(TCGContext *s, TCGType type, unsigned vece,
-                             TCGReg dst, TCGReg src);
-+static bool tcg_out_dupm_vec(TCGContext *s, TCGType type, unsigned vece,
-+                             TCGReg dst, TCGReg base, intptr_t offset);
- static void tcg_out_dupi_vec(TCGContext *s, TCGType type,
-                              TCGReg dst, tcg_target_long arg);
- static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc, unsigned vecl,
-@@ -122,6 +124,11 @@ static inline bool tcg_out_dup_vec(TCGContext *s, TCGType type, unsigned vece,
- {
-     g_assert_not_reached();
- }
-+static inline bool tcg_out_dupm_vec(TCGContext *s, TCGType type, unsigned vece,
-+                                    TCGReg dst, TCGReg base, intptr_t offset)
-+{
-+    g_assert_not_reached();
-+}
- static inline void tcg_out_dupi_vec(TCGContext *s, TCGType type,
-                                     TCGReg dst, tcg_target_long arg)
- {
-@@ -3422,6 +3429,7 @@ static void tcg_reg_alloc_dup(TCGContext *s, const TCGOp *op)
-     TCGRegSet dup_out_regs, dup_in_regs;
-     TCGTemp *its, *ots;
-     TCGType itype, vtype;
-+    intptr_t endian_fixup;
-     unsigned vece;
-     bool ok;
- 
-@@ -3491,7 +3499,16 @@ static void tcg_reg_alloc_dup(TCGContext *s, const TCGOp *op)
-         /* fall through */
- 
-     case TEMP_VAL_MEM:
--        /* TODO: dup from memory */
-+#ifdef HOST_WORDS_BIGENDIAN
-+        endian_fixup = itype == TCG_TYPE_I32 ? 4 : 8;
-+        endian_fixup -= 1 << vece;
-+#else
-+        endian_fixup = 0;
-+#endif
-+        if (tcg_out_dupm_vec(s, vtype, vece, ots->reg, its->mem_base->reg,
-+                             its->mem_offset + endian_fixup)) {
-+            goto done;
+@@ -918,16 +947,16 @@ static void tcg_out_dupi_vec(TCGContext *s, TCGType type,
+         } else if (have_avx2) {
+             tcg_out_vex_modrm_pool(s, OPC_VPBROADCASTQ + vex_l, ret);
+         } else {
+-            tcg_out_vex_modrm_pool(s, OPC_MOVDDUP, ret);
++            tcg_out_vex_modrm_pool(s, OPC_VBROADCASTSD, ret);
+         }
+         new_pool_label(s, arg, R_386_PC32, s->code_ptr - 4, -4);
+-    } else if (have_avx2) {
+-        tcg_out_vex_modrm_pool(s, OPC_VPBROADCASTD + vex_l, ret);
+-        new_pool_label(s, arg, R_386_32, s->code_ptr - 4, 0);
+     } else {
+-        tcg_out_vex_modrm_pool(s, OPC_MOVD_VyEy, ret);
++        if (have_avx2) {
++            tcg_out_vex_modrm_pool(s, OPC_VBROADCASTSD + vex_l, ret);
++        } else {
++            tcg_out_vex_modrm_pool(s, OPC_VBROADCASTSS, ret);
 +        }
-         tcg_out_ld(s, itype, ots->reg, its->mem_base->reg, its->mem_offset);
-         break;
+         new_pool_label(s, arg, R_386_32, s->code_ptr - 4, 0);
+-        tcg_out_dup_vec(s, type, MO_32, ret, ret);
+     }
+ }
  
 -- 
 2.17.1
