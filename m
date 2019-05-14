@@ -2,65 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0C981C681
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 11:59:26 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:44419 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6E2D21C67E
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 11:58:33 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:44415 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQUDW-00053u-4c
-	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 05:59:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46333)
+	id 1hQUCd-0004F9-AW
+	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 05:58:31 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46128)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <yury-kotov@yandex-team.ru>) id 1hQU8M-0000wa-6F
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 05:54:07 -0400
+	(envelope-from <berrange@redhat.com>) id 1hQU8K-0000lj-A2
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 05:54:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <yury-kotov@yandex-team.ru>) id 1hQTwz-0003py-V5
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 05:42:23 -0400
-Received: from forwardcorp1j.mail.yandex.net ([2a02:6b8:0:1619::183]:36326)
-	by eggs.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <yury-kotov@yandex-team.ru>) id 1hQTwz-0003iN-JT
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 05:42:21 -0400
-Received: from mxbackcorp2j.mail.yandex.net (mxbackcorp2j.mail.yandex.net
-	[IPv6:2a02:6b8:0:1619::119])
-	by forwardcorp1j.mail.yandex.net (Yandex) with ESMTP id A66A62E0458;
-	Tue, 14 May 2019 12:42:16 +0300 (MSK)
-Received: from localhost (localhost [::1])
-	by mxbackcorp2j.mail.yandex.net (nwsmtp/Yandex) with ESMTP id
-	AB4q9vl4lm-gE04pG8j; Tue, 14 May 2019 12:42:16 +0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yandex-team.ru;
-	s=default; 
-	t=1557826936; bh=ZIDgJlBRX58ZykRLlD2eq7KCfAsdxcVkyHj8bZvCYxM=;
-	h=Subject:In-Reply-To:Cc:Date:References:To:From:Message-Id;
-	b=sYzw4ViBBwmXcdszYqWAlLS57bMYg1TRJ8jTllVTwTQG5VS7LDt/Sp1pe8Ii80Wno
-	qnzTaIEloRIz3gfEc7B9Rg3bAIM0/EZBiQ5mN3WVWffVcttX8sMKUjidiJtZRpwvnk
-	pBpqnZmdlw7NgYhOeJJ0VRoOBJHjxpgHsJPJUHRg=
-Authentication-Results: mxbackcorp2j.mail.yandex.net;
-	dkim=pass header.i=@yandex-team.ru
-X-Yandex-Sender-Uid: 1120000000071945
-X-Yandex-Avir: 1
-Received: from mxbackcorp1g.mail.yandex.net ([::1])
-	by mxbackcorp1g.mail.yandex.net with LMTP id GnYCby7g
-	for <yury-kotov@yandex-team.ru>; Tue, 14 May 2019 12:42:09 +0300
-Received: by iva6-8a76e93b6298.qloud-c.yandex.net with HTTP;
-	Tue, 14 May 2019 12:42:09 +0300
-From: Yury Kotov <yury-kotov@yandex-team.ru>
-To: Dr. David Alan Gilbert <dgilbert@redhat.com>
-In-Reply-To: <880271555505167@vla1-9d3c37294942.qloud-c.yandex.net>
-References: <156671554283778@vla1-1374b6242101.qloud-c.yandex.net>
-	<20190404095212.GC2678@work-vm>
-	<111121554372069@iva7-0f652523820f.qloud-c.yandex.net>
-	<880271555505167@vla1-9d3c37294942.qloud-c.yandex.net>
+	(envelope-from <berrange@redhat.com>) id 1hQTyE-0007e8-1O
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 05:43:39 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48870)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hQTyD-0007cd-Pb
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 05:43:37 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id BD48A308A963
+	for <qemu-devel@nongnu.org>; Tue, 14 May 2019 09:43:36 +0000 (UTC)
+Received: from redhat.com (unknown [10.42.17.248])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 54AAB19C70;
+	Tue, 14 May 2019 09:43:33 +0000 (UTC)
+Date: Tue, 14 May 2019 10:43:31 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Message-ID: <20190514094331.GF25916@redhat.com>
+References: <20190430150556.GA2423@redhat.com>
+	<87sgtqejn9.fsf@dusky.pond.sub.org>
+	<20190507093954.GG27205@redhat.com>
+	<875zql3ylk.fsf@dusky.pond.sub.org>
+	<20190513120856.GH15029@redhat.com>
+	<87ef525uls.fsf@dusky.pond.sub.org>
+	<a3378e24-f13f-b51f-7180-8e0bf4661e10@redhat.com>
+	<87tvdx8tfa.fsf@dusky.pond.sub.org>
+	<20190514092638.GE25916@redhat.com> <20190514093754.GC2753@work-vm>
 MIME-Version: 1.0
-X-Mailer: Yamail [ http://yandex.ru ] 5.0
-Date: Tue, 14 May 2019 12:42:14 +0300
-Message-Id: <460551557826929@iva6-8a76e93b6298.qloud-c.yandex.net>
 Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190514093754.GC2753@work-vm>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.41]);
+	Tue, 14 May 2019 09:43:36 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a02:6b8:0:1619::183
-Subject: Re: [Qemu-devel] [RFC PATCH] QEMU may write to system_memory before
- guest starts
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [libvirt]  QMP; unsigned 64-bit ints;
+ JSON standards compliance
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -72,131 +67,172 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
-	Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
-	QEMU Developers <qemu-devel@nongnu.org>,
-	Markus Armbruster <armbru@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	"wrfsh@yandex-team.ru" <wrfsh@yandex-team.ru>,
-	Richard Henderson <rth@twiddle.net>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: libvir-list@redhat.com, =?utf-8?Q?J=C3=A1n?= Tomko <jtomko@redhat.com>,
+	Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping ping
+On Tue, May 14, 2019 at 10:37:55AM +0100, Dr. David Alan Gilbert wrote:
+> * Daniel P. Berrang=C3=A9 (berrange@redhat.com) wrote:
+> > On Tue, May 14, 2019 at 08:02:49AM +0200, Markus Armbruster wrote:
+> > > Eric Blake <eblake@redhat.com> writes:
+> > >=20
+> > > > On 5/13/19 8:53 AM, Markus Armbruster wrote:
+> > > >
+> > > >>> We have a few options
+> > > >>>
+> > > >>>  1. Use string format for values > 2^53-1, int format below tha=
+t
+> > > >>>  2. Use string format for all fields which are 64-bit ints whet=
+her
+> > > >>>     signed or unsigned
+> > > >>>  3. Use string format for all fields which are integers, even 3=
+2-bit
+> > > >>>     ones
+> > > >>>
+> > > >>> I would probably suggest option 2. It would make the QEMU impl =
+quite
+> > > >>> easy IIUC, we we'd just change the QAPI visitor's impl for the =
+int64
+> > > >>> and uint64 fields to use string format (when the right capabili=
+ty is
+> > > >>> negotiated by QMP).
+> > > >>>
+> > > >>> I include 3 only for completeness - I don't think there's a hug=
+ely
+> > > >>> compelling reason to mess with 32-bit ints.
+> > > >>=20
+> > > >> Agree.
+> > > >
+> > > > Other than if we ever change the type of a QMP integer. Right now=
+, if we
+> > > > widen from 'int32' to 'int' (aka 'int64'), it is invisible to cli=
+ents;
+> > > > but once we start stringizing 64-bit numbers (at client request) =
+but NOT
+> > > > 32-bit numbers, then changing a type from 32 to 64 bits (or the
+> > > > converse) becomes an API change to clients. Introspection will at=
+ least
+> > > > let a client know which form to expect, but it does mean we have =
+to be
+> > > > more aware of typing issues going forward.
+> > >=20
+> > > Thank you so much for helping my old synapses finally fire!  Option=
+ 2 is
+> > > not what we thought it is.  Let me explain.
+> > >=20
+> > > Introspection reports *all* QAPI integer types as "int".  This is
+> > > deliberate.
+> > >=20
+> > > So, when the client that negotiated the interoperability capability=
+ sees
+> > > "int", it has to accept *both* integer encodings: JSON number and J=
+SON
+> > > string.
+> > >=20
+> > > The difference between option 1 and option 2 for the client is that
+> > > option 2 will use only one encoding.  But the client must not rely =
+on
+> > > that!  Another QEMU version may well use the other encoding (becaus=
+e we
+> > > narrowed or widened the QAPI integer type in the QAPI schema).
+> > >=20
+> > > Elsewhere in this thread, David pointed out that option 1 complicat=
+es
+> > > testing QEMU: full coverage requires passing both a small number (t=
+o
+> > > cover JSON number encoding) and a large number (to cover JSON strin=
+g
+> > > encoding), to which I replied that there are very few places to tes=
+t.
+> > >=20
+> > > Option 2 complicates testing clients: full coverage requires testin=
+g
+> > > with both a version of QEMU (or a mock-up) that uses wide integers
+> > > (encoded as JSON string) and narrow integers (encoded as JSON numbe=
+r).
+> > > Impractical.
+> > >=20
+> > > >>> Option 1 is the bare minimum needed to ensure precision, but to=
+ me
+> > > >>> it feels a bit dirty to say a given field will have different e=
+ncoding
+> > > >>> depending on the value. If apps need to deal with string encodi=
+ng, they
+> > > >>> might as well just use it for all values in a given field.
+> > > >>=20
+> > > >> I guess that depends on what this interoperability capability do=
+es for
+> > > >> QMP *input*.
+> > > >
+> > > > "Be liberal in what you accept, strict in what you produce" - tha=
+t
+> > > > argues we should accept both forms on input (it's easy enough to =
+ALWAYS
+> > > > permit a string in place of an integer, and to take an in-range i=
+nteger
+> > > > even when we would in turn output it as a string).
+> > >=20
+> > > With option 2, QEMU *has* to be liberal in what it accepts, because=
+ the
+> > > client cannot deduce from introspection whether the integer is wide=
+ or
+> > > narrow.
+> > >=20
+> > > [...]
+> > >=20
+> > > Daniel, you wrote you'd probably suggest option 2.  Would you like =
+to
+> > > reconsider?
+> >=20
+> > Based on the above, let me try & summarize what we need behaviour to =
+be:
+> >=20
+> >   - Integer mode (current default):
+> >=20
+> >        - QEMU & clients MUST format integer fields as numbers
+> >          regardless of size
+> >=20
+> >        - QEMU & clients MUST parse number format for any integer
+> >          fields
+> >=20
+> >   - String mode:
+> >=20
+> >        - QEMU & clients MUST format integer fields as strings
+> >          if their value can not fit in a 32-bit integer.
+> >=20
+> >        - QEMU & clients MAY format integer fields as strings
+> >          even if their value can fit in 32-bit integer
+> >=20
+> >        - QEMU & client MUST parse both string and number format
+> >          for any integer fields.
+> >=20
+> > Unless I'm missing something, this should ensure we don't loose preci=
+sion,
+> > can always parse large numbers, and can internally change QEMU precis=
+ion
+> > from int8/16/32 upto full int64 without breaking clients.
+>=20
+> But we could be stricter and simpler in string mode:
+>=20
+>   - QEMU & clients MUST format integer fields as strings, always
+>   - QEMU & clients MUST parse only strings for integer fields.
+>=20
+> That's (3) above, but also meets your requirements.
 
-17.04.2019, 15:46, "Yury Kotov" <yury-kotov@yandex-team.ru>:
-> Ping
->
-> 04.04.2019, 13:01, "Yury Kotov" <yury-kotov@yandex-team.ru>:
->> =C2=A0I saw Catherine Ho's patch series and it seems ok to me, but in =
-this RFC I asked
->> =C2=A0about a way how to detect other writes which may not be covered =
-by particular
->> =C2=A0fixes.
->> =C2=A0Perhaps this is excessive caution...
->>
->> =C2=A0Regards,
->> =C2=A0Yury
->>
->> =C2=A004.04.2019, 12:52, "Dr. David Alan Gilbert" <dgilbert@redhat.com=
->:
->>> =C2=A0=C2=A0* =D0=AE=D1=80=D0=B8=D0=B9 =D0=9A=D0=BE=D1=82=D0=BE=D0=B2=
- (yury-kotov@yandex-team.ru) wrote:
->>>> =C2=A0=C2=A0=C2=A0Ping
->>>
->>> =C2=A0=C2=A0Is this fixed by Catherine Ho's patch series?
->>>
->>> =C2=A0=C2=A0Dave
->>>
->>>> =C2=A0=C2=A0=C2=A021.03.2019, 19:27, "Yury Kotov" <yury-kotov@yandex=
--team.ru>:
->>>> =C2=A0=C2=A0=C2=A0> Hi,
->>>> =C2=A0=C2=A0=C2=A0>
->>>> =C2=A0=C2=A0=C2=A0> 19.03.2019, 14:52, "Dr. David Alan Gilbert" <dgi=
-lbert@redhat.com>:
->>>> =C2=A0=C2=A0=C2=A0>> =C2=A0* Peter Maydell (peter.maydell@linaro.org=
-) wrote:
->>>> =C2=A0=C2=A0=C2=A0>>> =C2=A0=C2=A0On Tue, 19 Mar 2019 at 11:03, Dr. =
-David Alan Gilbert
->>>> =C2=A0=C2=A0=C2=A0>>> =C2=A0=C2=A0<dgilbert@redhat.com> wrote:
->>>> =C2=A0=C2=A0=C2=A0>>> =C2=A0=C2=A0>
->>>> =C2=A0=C2=A0=C2=A0>>> =C2=A0=C2=A0> * Peter Maydell (peter.maydell@l=
-inaro.org) wrote:
->>>> =C2=A0=C2=A0=C2=A0>>> =C2=A0=C2=A0> > I didn't think migration disti=
-nguished between "main memory"
->>>> =C2=A0=C2=A0=C2=A0>>> =C2=A0=C2=A0> > and any other kind of RAMBlock=
--backed memory ?
->>>> =C2=A0=C2=A0=C2=A0>>> =C2=A0=C2=A0>
->>>> =C2=A0=C2=A0=C2=A0>>> =C2=A0=C2=A0> In Yury's case there's a distinc=
-tion between RAMBlock's that are mapped
->>>> =C2=A0=C2=A0=C2=A0>>> =C2=A0=C2=A0> with RAM_SHARED (which normally =
-ends up as MAP_SHARED) and all others.
->>>> =C2=A0=C2=A0=C2=A0>>> =C2=A0=C2=A0> You can set that for main memory=
- by using -numa to specify a memdev
->>>> =C2=A0=C2=A0=C2=A0>>> =C2=A0=C2=A0> that's backed by a file and has =
-the share=3Don property.
->>>> =C2=A0=C2=A0=C2=A0>>> =C2=A0=C2=A0>
->>>> =C2=A0=C2=A0=C2=A0>>> =C2=A0=C2=A0> On x86 the ROMs end up as separa=
-te RAMBlock's that aren't affected
->>>> =C2=A0=C2=A0=C2=A0>>> =C2=A0=C2=A0> by that -numa/share=3Don - so th=
-ey don't fight Yury's trick.
->>>> =C2=A0=C2=A0=C2=A0>>>
->>>> =C2=A0=C2=A0=C2=A0>>> =C2=A0=C2=A0You can use the generic loader on =
-x86 to load an ELF file
->>>> =C2=A0=C2=A0=C2=A0>>> =C2=A0=C2=A0into RAM if you want, which would =
-I think also trigger this.
->>>> =C2=A0=C2=A0=C2=A0>>
->>>> =C2=A0=C2=A0=C2=A0>> =C2=A0OK, although that doesn't worry me too mu=
-ch - since in the majority
->>>> =C2=A0=C2=A0=C2=A0>> =C2=A0of cases Yury's trick still works well.
->>>> =C2=A0=C2=A0=C2=A0>>
->>>> =C2=A0=C2=A0=C2=A0>> =C2=A0I wonder if there's a way to make Yury's =
-code to detect these cases
->>>> =C2=A0=C2=A0=C2=A0>> =C2=A0and not allow the feature; the best thing=
- for the moment would seem to
->>>> =C2=A0=C2=A0=C2=A0>> =C2=A0be to skip the aarch test that uses elf l=
-oading.
->>>> =C2=A0=C2=A0=C2=A0>
->>>> =C2=A0=C2=A0=C2=A0> Currently, I've no idea how to detect such cases=
-, but there is an ability to
->>>> =C2=A0=C2=A0=C2=A0> detect memory corruption. I want to update the R=
-FC patch to let user to map some
->>>> =C2=A0=C2=A0=C2=A0> memory regions as readonly until incoming migrat=
-ion start.
->>>> =C2=A0=C2=A0=C2=A0>
->>>> =C2=A0=C2=A0=C2=A0> E.g.
->>>> =C2=A0=C2=A0=C2=A0> 1) If x-ignore-shared is enabled in command line=
- or memory region is marked
->>>> =C2=A0=C2=A0=C2=A0> =C2=A0=C2=A0=C2=A0(something like ',readonly=3Do=
-n'),
->>>> =C2=A0=C2=A0=C2=A0> 2) Memory region is shared (,share=3Don),
->>>> =C2=A0=C2=A0=C2=A0> 3) And qemu is started with '-incoming' option
->>>> =C2=A0=C2=A0=C2=A0>
->>>> =C2=A0=C2=A0=C2=A0> Then map such regions as readonly until incoming=
- migration finished.
->>>> =C2=A0=C2=A0=C2=A0> Thus, the patch will be able to detect memory co=
-rruption and will not affect
->>>> =C2=A0=C2=A0=C2=A0> normal cases.
->>>> =C2=A0=C2=A0=C2=A0>
->>>> =C2=A0=C2=A0=C2=A0> How do you think, is it needed?
->>>> =C2=A0=C2=A0=C2=A0>
->>>> =C2=A0=C2=A0=C2=A0> I already have a cleaner version of the RFC patc=
-h, but I'm not sure about 1).
->>>> =C2=A0=C2=A0=C2=A0> Which way is better: enable capability in comman=
-d line, add a new option for
->>>> =C2=A0=C2=A0=C2=A0> memory-backend or something else.
->>>> =C2=A0=C2=A0=C2=A0>
->>>> =C2=A0=C2=A0=C2=A0>> =C2=A0Dave
->>>> =C2=A0=C2=A0=C2=A0>>
->>>> =C2=A0=C2=A0=C2=A0>>> =C2=A0=C2=A0thanks
->>>> =C2=A0=C2=A0=C2=A0>>> =C2=A0=C2=A0-- PMM
->>>> =C2=A0=C2=A0=C2=A0>> =C2=A0--
->>>> =C2=A0=C2=A0=C2=A0>> =C2=A0Dr. David Alan Gilbert / dgilbert@redhat.=
-com / Manchester, UK
->>>> =C2=A0=C2=A0=C2=A0>
->>>> =C2=A0=C2=A0=C2=A0> Regards,
->>>> =C2=A0=C2=A0=C2=A0> Yury
->>> =C2=A0=C2=A0--
->>> =C2=A0=C2=A0Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester=
-, UK
+Yep, given that we don't actually expose the int8/int16/int32/int64
+distinction via the QMP introspection data, that would be fine too.
+
+Its basically saying we'll never use JSON's number format.
+
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 
