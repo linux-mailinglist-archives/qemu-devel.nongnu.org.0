@@ -2,53 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 03CB61C18C
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 06:49:21 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:39097 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED3A41C195
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 06:55:13 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:39159 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQPNP-0006Pd-R8
-	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 00:49:19 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38470)
+	id 1hQPT5-0000Dh-U4
+	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 00:55:11 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42970)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hQPLb-0005l5-Df
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 00:47:29 -0400
+	(envelope-from <armbru@redhat.com>) id 1hQPS7-0008O1-54
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 00:54:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hQPLZ-0006oI-MA
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 00:47:27 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:58179 helo=ozlabs.org)
+	(envelope-from <armbru@redhat.com>) id 1hQPS4-0003hU-IA
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 00:54:10 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60988)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
-	id 1hQPLZ-0006aj-2J; Tue, 14 May 2019 00:47:25 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
-	id 4534sw0FtHz9sBp; Tue, 14 May 2019 14:47:15 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=gibson.dropbear.id.au; s=201602; t=1557809236;
-	bh=ABO85R2nUgHizXiNCLvKMcU4FJ/9nn9mEG/kHeKqM30=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=lWVUw2FYRhTgSkcgT0XFID0RHvtu6H86OjWkhYHDbtpwAaPZhYWFlXR89xVD1Jrzt
-	2Ru60SNKsyvmKiRR042Z2ApQokk+uy7mjtXJRePI5PKJZRdwBT8qLA0P4pCOUxIXdc
-	IhVSaqL6nyh0jTmLxL+hb1Vk5q3ZG9En5oEw9JxY=
-Date: Tue, 14 May 2019 14:47:11 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
-Message-ID: <20190514044711.GI6441@umbus.fritz.box>
-References: <155591636364.20338.844048953355207313.stgit@aravinda>
-	<155591661564.20338.10693276428550708820.stgit@aravinda>
-	<20190510064620.GL20559@umbus.fritz.box>
-	<fa3f0f81-17bc-ce71-7fa0-e0bc706b3c17@linux.vnet.ibm.com>
-	<20190510095321.GB5030@umbus.fritz.box>
-	<69768ad0-7f08-6233-32df-f6a4a4c25d17@linux.vnet.ibm.com>
+	(Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hQPS4-0003c7-Ae
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 00:54:08 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 3FFAB83F51;
+	Tue, 14 May 2019 04:54:06 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-28.ams2.redhat.com
+	[10.36.116.28])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id AA04C608AB;
+	Tue, 14 May 2019 04:54:05 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+	id 07C0311385E4; Tue, 14 May 2019 06:54:04 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Andrew Jones <drjones@redhat.com>
+References: <20190418092841.fzrcegkbal7dpfcy@kamzik.brq.redhat.com>
+	<20190418112610.GO13773@redhat.com>
+	<877ebrmch2.fsf@dusky.pond.sub.org>
+	<20190513184237.i2ha3ixvhjqzkn5q@kamzik.brq.redhat.com>
+Date: Tue, 14 May 2019 06:54:03 +0200
+In-Reply-To: <20190513184237.i2ha3ixvhjqzkn5q@kamzik.brq.redhat.com> (Andrew
+	Jones's message of "Mon, 13 May 2019 20:42:37 +0200")
+Message-ID: <87bm05ab6c.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="rCwQ2Y43eQY6RBgR"
-Content-Disposition: inline
-In-Reply-To: <69768ad0-7f08-6233-32df-f6a4a4c25d17@linux.vnet.ibm.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.27]);
+	Tue, 14 May 2019 04:54:06 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
-Subject: Re: [Qemu-devel] [Qemu-ppc] [PATCH v8 5/6] ppc: spapr: Enable FWNMI
- capability
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] How do we do user input bitmap properties?
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -60,334 +64,189 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: paulus@ozlabs.org, aik@au1.ibm.com, qemu-ppc@nongnu.org,
-	qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org,
+	"Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+	dgilbert@redhat.com, qemu-devel@nongnu.org, imammedo@redhat.com,
+	Dave.Martin@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Andrew Jones <drjones@redhat.com> writes:
 
---rCwQ2Y43eQY6RBgR
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> On Thu, Apr 18, 2019 at 07:48:09PM +0200, Markus Armbruster wrote:
+>> Daniel P. Berrang=C3=A9 <berrange@redhat.com> writes:
+>>=20
+>> > On Thu, Apr 18, 2019 at 11:28:41AM +0200, Andrew Jones wrote:
+>> >> Hi all,
+>> >>=20
+>> >> First some background:
+>> >>=20
+>> >> For the userspace side of AArch64 guest SVE support we need to
+>> >> expose KVM's allowed vector lengths bitmap to the user and allow
+>> >> the user to choose a subset of that bitmap. Since bitmaps are a
+>> >> bit awkward to work with then we'll likely want to expose it as
+>> >> an array of vector lengths instead. Also, assuming we want to
+>> >> expose the lengths as number-of-quadwords (quadword =3D=3D 128 bits
+>> >> for AArch64 and vector lengths must be multiples of quadwords)
+>> >> rather than number-of-bits, then an example array (which will
+>> >> always be a sequence) might be
+>> >>=20
+>> >>  [ 8, 16, 32 ]
+>> >>=20
+>> >> The user may choose a subsequence, but only through truncation,
+>> >> i.e. [ 8, 32 ] is not valid, but [ 8, 16 ] is.
+>> >>=20
+>> >> Furthermore, different hosts may support different sequences
+>> >> which have the same maximum. For example, if the above sequence
+>> >> is for Host_A, then Host_B could be
+>> >>=20
+>> >>  [ 8, 16, 24, 32 ]
+>> >>=20
+>> >> The host must support all lengths in the sequence, which means
+>> >> that while Host_A supports 32, since it doesn't support 24 and
+>> >> we can only truncate sequences, we must use either [ 8 ] or
+>> >> [ 8, 16 ] for a compatible sequence if we intend to migrate
+>> >> between the hosts.
+>> >>=20
+>> >> Now to the $SUBJECT question:
+>> >>=20
+>> >> My feeling is that we should require the sequence to be
+>> >> provided on the command line as a cpu property. Something
+>> >> like
+>> >>=20
+>> >>   -cpu host,sve-vl-list=3D8:16
+>> >>=20
+>> >> (I chose ':' for the delimiter because ',' can't work, but
+>> >> if there's a better choice, then that's fine by me.)
+>> >>=20
+>> >> Afaict a property list like this will require a new parser,
+>>=20
+>> We had 20+ of those when I last counted.  Among the more annoying
+>> reasons CLI QAPIfication is hard[1].
+>>=20
+>> >> which feels a bit funny since it seems we should already
+>> >> have support for this type of thing somewhere in QEMU. So,
+>> >> the question is: do we? I see we have array properties, but
+>> >> I don't believe that works with the command line. Should we
+>> >> only use QMP for this? We already want some QMP in order to
+>> >> query the supported vector lengths. Maybe we should use QMP
+>> >> to set the selection too? But then what about command line
+>> >> support for developers? And if the property is on the command
+>> >> line then we don't have to add it to the migration stream.
+>> >
+>> > You should be able to use arrays from the CLI with QemuOpts by repeati=
+ng
+>> > the same option name many times, though I can't say it is a very
+>> > nice approach if you have many values to list as it gets very repetati=
+ve.
+>>=20
+>> Yes, this is one of the ways the current CLI does lists.  It's also one
+>> of the more annoying reasons CLI QAPIfication is hard[2].
+>>=20
+>> QemuOpts let the last param=3Dvalue win the stupidest way that could
+>> possibly work (I respect that): add to the front of the list, search it
+>> front to back.
+>>=20
+>> Then somebody discovered that if you search the list manually, you can
+>> see them all, and abuse that to get a list-valued param.  I'm sure that
+>> felt clever at the time.
+>>=20
+>> Another way to do lists the funky list feature of string input and opts
+>> visitor.  Yet another annoying reason CLI QAPIfication is hard[3].
+>>=20
+>> We use the opts visitor's list feature for -numa node,cpus=3D...  Hmm,
+>> looks like we even combine it with the "multiple param=3Dvalue build up a
+>> list" technique: -smp node,cpus=3D0-1,cpus=3D4-5 denotes [0,1,4,5].
+>>=20
+>> > That's the curse of not having a good CLI syntax for non-scalar data in
+>> > QemuOpts & why Markus believes we should switch to JSON for the CLI too
+>> >
+>> >      -cpu host,sve-vl=3D8,sve-vl=3D16
+>>=20
+>> We actually have CLI syntax for non-scalar data: dotted keys.  Dotted
+>> keys are syntactic sugar for JSON.  It looks friendlier than JSON for
+>> simple cases, then gets uglier as things get more complex, and then it
+>> falls apart: it can't quite express all of JSON.
+>>=20
+>> Example: sve-vl.0=3D8,sve-vl.1=3D16
+>>     gets desugared into {"sve": [8, 16]}
+>>     if the QAPI schema has 'sve': ['int'].
+>>=20
+>> The comment at the beginning of util/keyval.c explains it in more
+>> detail.
+>>=20
+>> It powers -blockdev and -display.  Both options accept either JSON or
+>> dotted keys.  If the option argument starts with '{', it's JSON.
+>> Management applications should stick to JSON.
+>>=20
+>>=20
+>> [1] Towards a more expressive and introspectable QEMU command line
+>> https://www.linux-kvm.org/images/f/f2/Armbru-qapi-cmdline_1.pdf
+>> Slide 34 "Backward compatibility" item 1
+>>=20
+>> [2] ibid, item 4
+>>=20
+>> [3] ibid, item 3
+>>
+>
+> Sorry I forgot to follow up to this earlier. I looked at the examples
+> provided and saw they were all for independent command line options,
+> rather than command line options like '-cpu' that then accepts additional
+> properties. I couldn't see how I could use ',' to separate array members
+> when using properties or to use an array property input on the command
+> line.
 
-On Mon, May 13, 2019 at 04:00:43PM +0530, Aravinda Prasad wrote:
->=20
->=20
-> On Friday 10 May 2019 03:23 PM, David Gibson wrote:
-> > On Fri, May 10, 2019 at 12:45:29PM +0530, Aravinda Prasad wrote:
-> >>
-> >>
-> >> On Friday 10 May 2019 12:16 PM, David Gibson wrote:
-> >>> On Mon, Apr 22, 2019 at 12:33:35PM +0530, Aravinda Prasad wrote:
-> >>>> Enable the KVM capability KVM_CAP_PPC_FWNMI so that
-> >>>> the KVM causes guest exit with NMI as exit reason
-> >>>> when it encounters a machine check exception on the
-> >>>> address belonging to a guest. Without this capability
-> >>>> enabled, KVM redirects machine check exceptions to
-> >>>> guest's 0x200 vector.
-> >>>>
-> >>>> This patch also deals with the case when a guest with
-> >>>> the KVM_CAP_PPC_FWNMI capability enabled is attempted
-> >>>> to migrate to a host that does not support this
-> >>>> capability.
-> >>>>
-> >>>> Signed-off-by: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
-> >>>> ---
-> >>>>  hw/ppc/spapr.c         |    1 +
-> >>>>  hw/ppc/spapr_caps.c    |   26 ++++++++++++++++++++++++++
-> >>>>  hw/ppc/spapr_rtas.c    |   14 ++++++++++++++
-> >>>>  include/hw/ppc/spapr.h |    4 +++-
-> >>>>  target/ppc/kvm.c       |   14 ++++++++++++++
-> >>>>  target/ppc/kvm_ppc.h   |    6 ++++++
-> >>>>  6 files changed, 64 insertions(+), 1 deletion(-)
-> >>>>
-> >>>> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> >>>> index ffd1715..44e09bb 100644
-> >>>> --- a/hw/ppc/spapr.c
-> >>>> +++ b/hw/ppc/spapr.c
-> >>>> @@ -4372,6 +4372,7 @@ static void spapr_machine_class_init(ObjectCla=
-ss *oc, void *data)
-> >>>>      smc->default_caps.caps[SPAPR_CAP_NESTED_KVM_HV] =3D SPAPR_CAP_O=
-FF;
-> >>>>      smc->default_caps.caps[SPAPR_CAP_LARGE_DECREMENTER] =3D SPAPR_C=
-AP_ON;
-> >>>>      smc->default_caps.caps[SPAPR_CAP_CCF_ASSIST] =3D SPAPR_CAP_OFF;
-> >>>> +    smc->default_caps.caps[SPAPR_CAP_FWNMI_MCE] =3D SPAPR_CAP_OFF;
-> >>>>      spapr_caps_add_properties(smc, &error_abort);
-> >>>>      smc->irq =3D &spapr_irq_xics;
-> >>>>      smc->dr_phb_enabled =3D true;
-> >>>> diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-> >>>> index edc5ed0..5b3af04 100644
-> >>>> --- a/hw/ppc/spapr_caps.c
-> >>>> +++ b/hw/ppc/spapr_caps.c
-> >>>> @@ -473,6 +473,22 @@ static void cap_ccf_assist_apply(SpaprMachineSt=
-ate *spapr, uint8_t val,
-> >>>>      }
-> >>>>  }
-> >>>> =20
-> >>>> +static void cap_fwnmi_mce_apply(SpaprMachineState *spapr, uint8_t v=
-al,
-> >>>> +                                Error **errp)
-> >>>> +{
-> >>>> +    PowerPCCPU *cpu =3D POWERPC_CPU(first_cpu);
-> >>>> +
-> >>>> +    if (!val) {
-> >>>> +        return; /* Disabled by default */
-> >>>> +    }
-> >>>> +
-> >>>> +    if (kvm_enabled()) {
-> >>>> +        if (kvmppc_fwnmi_enable(cpu)) {
-> >>>> +            error_setg(errp, "Requested fwnmi capability not suppor=
-t by KVM");
-> >>>> +        }
-> >>>> +    }
-> >>>> +}
-> >>>> +
-> >>>>  SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] =3D {
-> >>>>      [SPAPR_CAP_HTM] =3D {
-> >>>>          .name =3D "htm",
-> >>>> @@ -571,6 +587,15 @@ SpaprCapabilityInfo capability_table[SPAPR_CAP_=
-NUM] =3D {
-> >>>>          .type =3D "bool",
-> >>>>          .apply =3D cap_ccf_assist_apply,
-> >>>>      },
-> >>>> +    [SPAPR_CAP_FWNMI_MCE] =3D {
-> >>>> +        .name =3D "fwnmi-mce",
-> >>>> +        .description =3D "Handle fwnmi machine check exceptions",
-> >>>> +        .index =3D SPAPR_CAP_FWNMI_MCE,
-> >>>> +        .get =3D spapr_cap_get_bool,
-> >>>> +        .set =3D spapr_cap_set_bool,
-> >>>> +        .type =3D "bool",
-> >>>> +        .apply =3D cap_fwnmi_mce_apply,
-> >>>> +    },
-> >>>>  };
-> >>>> =20
-> >>>>  static SpaprCapabilities default_caps_with_cpu(SpaprMachineState *s=
-papr,
-> >>>> @@ -706,6 +731,7 @@ SPAPR_CAP_MIG_STATE(ibs, SPAPR_CAP_IBS);
-> >>>>  SPAPR_CAP_MIG_STATE(nested_kvm_hv, SPAPR_CAP_NESTED_KVM_HV);
-> >>>>  SPAPR_CAP_MIG_STATE(large_decr, SPAPR_CAP_LARGE_DECREMENTER);
-> >>>>  SPAPR_CAP_MIG_STATE(ccf_assist, SPAPR_CAP_CCF_ASSIST);
-> >>>> +SPAPR_CAP_MIG_STATE(fwnmi, SPAPR_CAP_FWNMI_MCE);
-> >>>> =20
-> >>>>  void spapr_caps_init(SpaprMachineState *spapr)
-> >>>>  {
-> >>>> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-> >>>> index d3499f9..997cf19 100644
-> >>>> --- a/hw/ppc/spapr_rtas.c
-> >>>> +++ b/hw/ppc/spapr_rtas.c
-> >>>> @@ -49,6 +49,7 @@
-> >>>>  #include "hw/ppc/fdt.h"
-> >>>>  #include "target/ppc/mmu-hash64.h"
-> >>>>  #include "target/ppc/mmu-book3s-v3.h"
-> >>>> +#include "kvm_ppc.h"
-> >>>> =20
-> >>>>  static void rtas_display_character(PowerPCCPU *cpu, SpaprMachineSta=
-te *spapr,
-> >>>>                                     uint32_t token, uint32_t nargs,
-> >>>> @@ -354,6 +355,7 @@ static void rtas_ibm_nmi_register(PowerPCCPU *cp=
-u,
-> >>>>                                    target_ulong args,
-> >>>>                                    uint32_t nret, target_ulong rets)
-> >>>>  {
-> >>>> +    int ret;
-> >>>>      uint64_t rtas_addr =3D spapr_get_rtas_addr();
-> >>>> =20
-> >>>>      if (!rtas_addr) {
-> >>>> @@ -361,6 +363,18 @@ static void rtas_ibm_nmi_register(PowerPCCPU *c=
-pu,
-> >>>>          return;
-> >>>>      }
-> >>>> =20
-> >>>> +    ret =3D kvmppc_fwnmi_enable(cpu);
-> >>>
-> >>> You shouldn't need this here as well as in cap_fwnmi_mce_apply().
-> >>>
-> >>> Instead, you should unconditionally fail the nmi-register if the
-> >>> capability is not enabled.
-> >>
-> >> cap_fwnmi is not enabled by default, because if it is enabled by defau=
-lt
-> >> them KVM will start routing machine check exceptions via guest exit
-> >> instead of routing it to guest's 0x200.
-> >>
-> >> During early boot since guest has not yet issued nmi-register, KVM is
-> >> expected to route exceptions to 0x200. Therefore we enable cap_fwnmi
-> >> only when a guest issues nmi-register.
-> >=20
-> > Except that's not true - you enable it in cap_fwnmi_mce_apply() which
-> > will be executed whenever the machine capability is enabled.
->=20
-> I enable cap_fwnmi in cap_fwnmi_mce_apply() only when the "val" argument
-> (which is the effective cap value) is set. In early boot "val" is not
-> set as cap_fwnmi by default is not set, hence cap_fwnmi is not
-> enabled.
+The argument of -cpu is parsed ad hoc.  Unlike QemuOpts and dotted keys,
+parse_cpu_option() doesn't seem to support escaping ','.  Not that
+escaping would be a user-friendly solution.
 
-Uh.. if that's true, something else is horribly wrong.  SPAPR caps are
-designed to have a fixed value for the lifetime of the VM.  Otherwise
-they will fail in their purpose of making sure we have a consistent
-environment across migrations.  So if the 'val' changes after the
-first call to apply(), then something is broken.
+>       In the end I opted to use a single uint64_t for a bitmap, as 64 is
+> big enough for now,
 
->=20
-> My understanding is that, cap_fwnmi_mce_apply() is also called during
-> migration on the target machine.
+Do you think it'll remain big enough?
 
-Only in the sense that the machine is initialized before processing
-the incoming migration.  The capability values must be equal on either
-side of the migration (that's checked elsewhere).  Well, actually,
-you're allowed to increase the cap value across a migration, just not
-decrease it.
+>                     and even though passing some hex number on the command
+> line isn't user friendly at all, it didn't seem like a long list of a
+> repeated parameter was that user friendly either. Of course I'm still open
+> to suggestions to try to find the best balance between user friendliness,
+> current QEMU command line parsing support, and just getting a bitmap into
+> cpu state one way or another.
 
-> If effective cap for cap_fwnmi is
-> enabled on source machine than I think "val" will be set when
-> cap_fwnmi_mce_apply() is called on target machine.
+I'd ask for consistency with existing practice no matter how flawed if
+we had such consistency.
 
-Nope.  The migrated value of the cap will be *validated* against the
-value set on the destination setup, but it won't *alter* the value on
-the destination (the result is that you have it enabled on the source,
-but not the destination, the migration will fail).
+If I understand your "[PATCH 00/13] target/arm/kvm: enable SVE in
+guests" correctly, the bitmap form of [1, 2, 4] is
 
-> I then call
-> kvmppc_fwnmi_enable() to enable cap_fwnmi on target.
->=20
-> Regards,
-> Aravinda
->=20
-> >=20
-> >> Or we should take the approach of enabling this capability by default
-> >> and then from QEMU route the error to 0x200 if guest has not issued
-> >> nmi-register.
-> >>
-> >>>
-> >>>> +    if (ret =3D=3D 1) {
-> >>>> +        rtas_st(rets, 0, RTAS_OUT_NOT_SUPPORTED);
-> >>>> +        return;
-> >>>> +    }
-> >>>> +
-> >>>> +    if (ret < 0) {
-> >>>> +        rtas_st(rets, 0, RTAS_OUT_HW_ERROR);
-> >>>> +        return;
-> >>>> +    }
-> >>>> +
-> >>>>      spapr->guest_machine_check_addr =3D rtas_ld(args, 1);
-> >>>>      rtas_st(rets, 0, RTAS_OUT_SUCCESS);
-> >>>>  }
-> >>>> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> >>>> index 03f34bf..9d16ad1 100644
-> >>>> --- a/include/hw/ppc/spapr.h
-> >>>> +++ b/include/hw/ppc/spapr.h
-> >>>> @@ -78,8 +78,10 @@ typedef enum {
-> >>>>  #define SPAPR_CAP_LARGE_DECREMENTER     0x08
-> >>>>  /* Count Cache Flush Assist HW Instruction */
-> >>>>  #define SPAPR_CAP_CCF_ASSIST            0x09
-> >>>> +/* FWNMI machine check handling */
-> >>>> +#define SPAPR_CAP_FWNMI_MCE             0x0A
-> >>>>  /* Num Caps */
-> >>>> -#define SPAPR_CAP_NUM                   (SPAPR_CAP_CCF_ASSIST + 1)
-> >>>> +#define SPAPR_CAP_NUM                   (SPAPR_CAP_FWNMI_MCE + 1)
-> >>>> =20
-> >>>>  /*
-> >>>>   * Capability Values
-> >>>> diff --git a/target/ppc/kvm.c b/target/ppc/kvm.c
-> >>>> index 5eedce8..9c7b71d 100644
-> >>>> --- a/target/ppc/kvm.c
-> >>>> +++ b/target/ppc/kvm.c
-> >>>> @@ -83,6 +83,7 @@ static int cap_ppc_safe_indirect_branch;
-> >>>>  static int cap_ppc_count_cache_flush_assist;
-> >>>>  static int cap_ppc_nested_kvm_hv;
-> >>>>  static int cap_large_decr;
-> >>>> +static int cap_ppc_fwnmi;
-> >>>> =20
-> >>>>  static uint32_t debug_inst_opcode;
-> >>>> =20
-> >>>> @@ -150,6 +151,7 @@ int kvm_arch_init(MachineState *ms, KVMState *s)
-> >>>>      kvmppc_get_cpu_characteristics(s);
-> >>>>      cap_ppc_nested_kvm_hv =3D kvm_vm_check_extension(s, KVM_CAP_PPC=
-_NESTED_HV);
-> >>>>      cap_large_decr =3D kvmppc_get_dec_bits();
-> >>>> +    cap_ppc_fwnmi =3D kvm_check_extension(s, KVM_CAP_PPC_FWNMI);
-> >>>>      /*
-> >>>>       * Note: setting it to false because there is not such capabili=
-ty
-> >>>>       * in KVM at this moment.
-> >>>> @@ -2117,6 +2119,18 @@ void kvmppc_set_mpic_proxy(PowerPCCPU *cpu, i=
-nt mpic_proxy)
-> >>>>      }
-> >>>>  }
-> >>>> =20
-> >>>> +int kvmppc_fwnmi_enable(PowerPCCPU *cpu)
-> >>>> +{
-> >>>> +    CPUState *cs =3D CPU(cpu);
-> >>>> +
-> >>>> +    if (!cap_ppc_fwnmi) {
-> >>>> +        return 1;
-> >>>> +    }
-> >>>> +
-> >>>> +    return kvm_vcpu_enable_cap(cs, KVM_CAP_PPC_FWNMI, 0);
-> >>>> +}
-> >>>> +
-> >>>> +
-> >>>>  int kvmppc_smt_threads(void)
-> >>>>  {
-> >>>>      return cap_ppc_smt ? cap_ppc_smt : 1;
-> >>>> diff --git a/target/ppc/kvm_ppc.h b/target/ppc/kvm_ppc.h
-> >>>> index 6edc42f..28919d3 100644
-> >>>> --- a/target/ppc/kvm_ppc.h
-> >>>> +++ b/target/ppc/kvm_ppc.h
-> >>>> @@ -27,6 +27,7 @@ void kvmppc_enable_h_page_init(void);
-> >>>>  void kvmppc_set_papr(PowerPCCPU *cpu);
-> >>>>  int kvmppc_set_compat(PowerPCCPU *cpu, uint32_t compat_pvr);
-> >>>>  void kvmppc_set_mpic_proxy(PowerPCCPU *cpu, int mpic_proxy);
-> >>>> +int kvmppc_fwnmi_enable(PowerPCCPU *cpu);
-> >>>>  int kvmppc_smt_threads(void);
-> >>>>  void kvmppc_hint_smt_possible(Error **errp);
-> >>>>  int kvmppc_set_smt_threads(int smt);
-> >>>> @@ -159,6 +160,11 @@ static inline void kvmppc_set_mpic_proxy(PowerP=
-CCPU *cpu, int mpic_proxy)
-> >>>>  {
-> >>>>  }
-> >>>> =20
-> >>>> +static inline int kvmppc_fwnmi_enable(PowerPCCPU *cpu)
-> >>>> +{
-> >>>> +    return 1;
-> >>>> +}
-> >>>> +
-> >>>>  static inline int kvmppc_smt_threads(void)
-> >>>>  {
-> >>>>      return 1;
-> >>>>
-> >>>
-> >>
-> >=20
->=20
+    -cpu max,sve-vls-map=3D11
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Observe bit#0 means 1; better document that clearly.
 
---rCwQ2Y43eQY6RBgR
-Content-Type: application/pgp-signature; name="signature.asc"
+If we used dotted keys to produce an intList, we'd do
 
------BEGIN PGP SIGNATURE-----
+    -cpu max,sve-vls-map.0=3D1,sve-vls-map.1=3D2,sve-vls-map.2=3D4
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlzaSE8ACgkQbDjKyiDZ
-s5KNGA//Uygxygfp6hkpog9opU4+4LzGgEyuUEIpt7iOyJdgE6uX3L3Yj89iULHI
-sQ4jGxK+HvQhWkf7ld4Vp87O63lMxHyrgTxOM5hSIH6oe1oGumIZXB7FhPY+K2sS
-usSPn6dQJ9NdvD/1WxkUvt5VQFiwS961480vPLpIkMBLb/nZYO6lY4yxDkPdJFtz
-TNUANoPsShpgZP83ky8Ytdrj8uh66/r2Y0bsDuj7Rd8A1nnSdX1SAD1Vr1vtD0ss
-MUI1AyCfTFZgaXSGETrUcsAkRXl2mHvqwQIUSrLDUeBmPFvTrrF7fJKejsisadzK
-lyt5Nv79zhd343M+frr87jMR4PG5JBqcU+RlAfm4NjcFyBvBTNIc5Mn/I4BVSe2q
-toXYHnkZuZQJCHOc1LYHUMNhrm0hLJDY0Z/opY9QtU/rfIIkXfG3I8igBfgB05TD
-czX5IrTPvaUYyJbgtueytCwUJJYZbO2LEU+SnZHQ3Y8P5H1JIgrx+7Saj1P/h5VS
-f97B70hmtIVU3RjW+PhImqbD5TFIVdcyqAkij/ANPSv+ApVv8X4lact6hFHqxXtx
-L2K1TnBTviwdDtEe/LGLYfGO7uiwGJEWEGnhWUZZE0/SFDuZLNj9kcw4atloC1gX
-dN3EHz1eO2iIiAMLwxBDvT70NttcvbWQars7kF3/dHiV9oh8jJc=
-=YpRv
------END PGP SIGNATURE-----
+If the option argument is QAPIfied, we additionally get
 
---rCwQ2Y43eQY6RBgR--
+    -cpu '{"type": "max", "sve-vls-map": [1, 2, 4]}'
+
+for free.
+
+If we did it like -numa (please don't), we'd get something like
+
+    -cpu max,sve-vls-map=3D1-2,sve-vls-map=3D4
+
+None of the above is exactly a pinnacle of user-friendliness.  JSON is
+at least ugly in a regular way.  Your bitmap encoded in a number is at
+least concise.
+
+If a numerically encoded bitmap is the least bad option here, I wonder
+why it's not the least bad option for -numa...  Perhaps because there 64
+isn't big enough.
+
+I'm afraid the numerically encoded bitmap will make its way into the
+QAPI schema sooner or later.  This will create an unfortunate
+inconsistency with the [int] encoding already there.
+
+Who's going to use sve-vls-map?  Humans, or pretty much only machines?
 
