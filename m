@@ -2,69 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C9C3D1CFC2
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 21:20:39 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52926 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2E3F11CFCC
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 21:23:36 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52983 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQcyd-00047D-0K
-	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 15:20:39 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48698)
+	id 1hQd1T-00076D-8Q
+	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 15:23:35 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48718)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hQcv6-0002Qk-4E
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 15:17:01 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hQcv7-0002RV-MW
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 15:17:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hQcv5-0006Yk-2w
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 15:17:00 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:38182)
+	(envelope-from <richard.henderson@linaro.org>) id 1hQcv6-0006bA-Ad
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 15:17:01 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:36047)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hQcv4-0006XS-T2
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 15:16:59 -0400
-Received: by mail-pf1-x443.google.com with SMTP id b76so5105pfb.5
-	for <qemu-devel@nongnu.org>; Tue, 14 May 2019 12:16:58 -0700 (PDT)
+	id 1hQcv6-0006ZU-4y
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 15:17:00 -0400
+Received: by mail-pg1-x544.google.com with SMTP id a3so51477pgb.3
+	for <qemu-devel@nongnu.org>; Tue, 14 May 2019 12:17:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=av3lT3tB0E6MniPcJlUSedb9hAsWsyXtFxkAveRaX+4=;
-	b=nvLzqvhnv+ElZBEAG1AOsTIF/YA3g1Fsm/33pqJH3O8JS4Yzkw0N3z1AL09mFKhtwk
-	VOkqh1EytBQ79nQ5vpZzQ4pyiWxPglWq+cgKK1QaV324saRBQN2LQ+rdQ3Mq0xHAaUbY
-	SGDaviQuX6/3TVR+Xh5IoAROzEtFb8+hu9nDt+Pw+rGhQQlBcDJGUZ5Y6u8roUxZqay3
-	6sbLDIcmq7iBqt9EIWVZl0c2r0TAag9UjwkBLRCwfb860DZaFb0LFdWQ9TbjV6Fw0axz
-	4PIc/jpOUfmrxIHMisxeUfgJ6OsrMjvJKus6n3jGpx6ghOR7zhqQFxyxAtKtE+HyrKVf
-	u4DA==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=WcaPjSSW8mCEGy+vfZffpT+ukMC7uteGhxOw5c2wJXo=;
+	b=Gb+xsA4UIYZS7cwRNKCo6SpGCgSreXYfWByMU7/mA9nPjkwQxadgEYrs+xeJJRwj+p
+	HNGJuwCiKp31mt8+sW8yHU3VPhI5m+VM82GA98KMPCb4ScXgK1tBtG9DHPTLHYD4X5Yg
+	chW0MGy7d14uUDyqsFTiaw7u88J484/7B9XqeWCmTHy+CRRUWMr58lhX5iBb9rGnQwO5
+	w+Wm0woCLXjLkAKmbjoQBM9WdUZkxHLT9GhYgU76BEFh77r/GXhg5D4QF6aNKjKRKIXJ
+	HKiOsM235FPdDUcc6A1ni0U7RYdBTUtl7k+cIFhmXPNa5kIwpDn3itHIeRHOoGtUlLKs
+	2MTw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=av3lT3tB0E6MniPcJlUSedb9hAsWsyXtFxkAveRaX+4=;
-	b=YJVFqfrBCAgiUB3haAn2zbC/CLjbL0CkkEFpH839FdTE5+NZc+ax7HVfgn+7pkYAsR
-	wXwU8wcuXYUJA/MlOnFgI9tfOlDZTfuiGD0bI+r7wzUIquiIV0l65FhX9E1j2FXbfDOj
-	xKE3x7/O1t55glKtzeJUmnOgOJFTvwsRmYyd6f0MW8mInv5o+YjZB0YqnAV2dyZrIOQB
-	fZ13XX7U0NsuPqUrBXW93nTxT8DCNGwiA/dnGqSBD+YZ1+x7C8KMarjgQHaoTExT0NfJ
-	2dKsbTNYaL4m/SyjWgCcw0brqhJc9soLAHXoJABQQiv3LIF+WB9xYv+SpCXkQ4+kYQIZ
-	yPsg==
-X-Gm-Message-State: APjAAAWPsmmDShrF01Tf0iWruGq7OjXro7UC6B3YDV0MJUpqS5ajLY4g
-	HwxzFiy1xYYu6Z4nGdvrBbUB0Z5p7g0=
-X-Google-Smtp-Source: APXvYqwfHc+8AeGVIQxBL82j1t9GKOouULDlwIRkflPH4w0i+MML4Iq/GhF5Kuhgpl/LA222pZx0hQ==
-X-Received: by 2002:aa7:8c1a:: with SMTP id c26mr42182591pfd.25.1557861417150; 
-	Tue, 14 May 2019 12:16:57 -0700 (PDT)
+	:references:mime-version:content-transfer-encoding;
+	bh=WcaPjSSW8mCEGy+vfZffpT+ukMC7uteGhxOw5c2wJXo=;
+	b=kQkkUAQS157FF6LY1RAtGze/FA5gRRXp9LjUgvYYY8WHyFVnS4EmxR1llQmkWi/7pV
+	7f41sTShSKfJWkHXw1XR8PaxPvzxy12X3oFJCaSIZFeLkD1wNEv3qOjen2+yxJ+KtOoV
+	mWPPe5vmk3pNWKdBhco4wIcB/fgzOsjY8mPj1smiFRQHQQqxqOe2U+zV0QPm6DWtyICS
+	IFxcp69kqam20wU1gry5TI/blW8Lo7BqKLz+SYhCVqLF7poVSgqSl/DtJ7p0BIZd7WIm
+	G/l/iOaqrnp+9qSFH+bUTvob5Nw+H6jLiXIrAy8EX8VxrWBW+tZpxfJBtSje/YFsvuk/
+	7WxQ==
+X-Gm-Message-State: APjAAAVmrKVD5spIm+g0W/F4i3dguH2S0dL5ouVOEs1YPYfht1/YnA8T
+	uzF5RAaxegonUMSj9rGcFwmHLDD8i8Y=
+X-Google-Smtp-Source: APXvYqwctRHMeI2FniMlH0X5NmEGLWKrgHpwgS5pDI6VemboQXbpmeExGEyHGL+qyi6U+PvXpsu+eQ==
+X-Received: by 2002:a62:160b:: with SMTP id 11mr43761787pfw.88.1557861418821; 
+	Tue, 14 May 2019 12:16:58 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	o6sm18682982pfa.88.2019.05.14.12.16.55
+	o6sm18682982pfa.88.2019.05.14.12.16.57
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 14 May 2019 12:16:56 -0700 (PDT)
+	Tue, 14 May 2019 12:16:57 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue, 14 May 2019 12:16:30 -0700
-Message-Id: <20190514191653.31488-2-richard.henderson@linaro.org>
+Date: Tue, 14 May 2019 12:16:31 -0700
+Message-Id: <20190514191653.31488-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190514191653.31488-1-richard.henderson@linaro.org>
 References: <20190514191653.31488-1-richard.henderson@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::443
-Subject: [Qemu-devel] [PATCH v7 01/24] build: Link user-only with
- crypto-rng-obj-y
+X-Received-From: 2607:f8b0:4864:20::544
+Subject: [Qemu-devel] [PATCH v7 02/24] crypto: Reverse code blocks in
+ random-platform.c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -80,89 +84,84 @@ Cc: lvivier@redhat.com, berrange@redhat.com, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For user-only, we require only the random number bits of the
-crypto subsystem.
+Use #ifdef _WIN32 instead of #ifndef _WIN32.
+This will make other tests easier to sequence.
 
-We need to preserve --static linking, which for many recent Linux
-distributions precludes using GnuTLS or GCrypt.  Instead, use our
-random-platform module unconditionally.
-
+Reviewed-by: Laurent Vivier <lvivier@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Daniel P. Berrangé <berrange@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- Makefile             | 6 ++++--
- Makefile.objs        | 1 +
- Makefile.target      | 3 ++-
- crypto/Makefile.objs | 1 +
- 4 files changed, 8 insertions(+), 3 deletions(-)
+ crypto/random-platform.c | 35 +++++++++++++++++------------------
+ 1 file changed, 17 insertions(+), 18 deletions(-)
 
-diff --git a/Makefile b/Makefile
-index 66d5c65156..524f2f8a57 100644
---- a/Makefile
-+++ b/Makefile
-@@ -411,6 +411,7 @@ dummy := $(call unnest-vars,, \
-                 block-obj-m \
-                 crypto-obj-y \
-                 crypto-aes-obj-y \
-+                crypto-rng-obj-y \
-                 qom-obj-y \
-                 io-obj-y \
-                 common-obj-y \
-@@ -482,8 +483,9 @@ subdir-capstone: .git-submodule-status
- subdir-slirp: .git-submodule-status
- 	$(call quiet-command,$(MAKE) -C $(SRC_PATH)/slirp BUILD_DIR="$(BUILD_DIR)/slirp" CC="$(CC)" AR="$(AR)" LD="$(LD)" RANLIB="$(RANLIB)" CFLAGS="$(QEMU_CFLAGS) $(CFLAGS)" LDFLAGS="$(LDFLAGS)")
+diff --git a/crypto/random-platform.c b/crypto/random-platform.c
+index 7541b4cae7..f995fc0ef1 100644
+--- a/crypto/random-platform.c
++++ b/crypto/random-platform.c
+@@ -32,7 +32,14 @@ static int fd; /* a file handle to either /dev/urandom or /dev/random */
  
--$(SUBDIR_RULES): libqemuutil.a $(common-obj-y) $(chardev-obj-y) \
--	$(qom-obj-y) $(crypto-aes-obj-$(CONFIG_USER_ONLY))
-+$(SUBDIR_RULES): libqemuutil.a $(common-obj-y) $(chardev-obj-y) $(qom-obj-y) \
-+	$(crypto-aes-obj-$(CONFIG_USER_ONLY)) \
-+	$(crypto-rng-obj-$(CONFIG_USER_ONLY))
+ int qcrypto_random_init(Error **errp)
+ {
+-#ifndef _WIN32
++#ifdef _WIN32
++    if (!CryptAcquireContext(&hCryptProv, NULL, NULL, PROV_RSA_FULL,
++                             CRYPT_SILENT | CRYPT_VERIFYCONTEXT)) {
++        error_setg_win32(errp, GetLastError(),
++                         "Unable to create cryptographic provider");
++        return -1;
++    }
++#else
+     /* TBD perhaps also add support for BSD getentropy / Linux
+      * getrandom syscalls directly */
+     fd = open("/dev/urandom", O_RDONLY);
+@@ -44,15 +51,7 @@ int qcrypto_random_init(Error **errp)
+         error_setg(errp, "No /dev/urandom or /dev/random found");
+         return -1;
+     }
+-#else
+-    if (!CryptAcquireContext(&hCryptProv, NULL, NULL, PROV_RSA_FULL,
+-                             CRYPT_SILENT | CRYPT_VERIFYCONTEXT)) {
+-        error_setg_win32(errp, GetLastError(),
+-                         "Unable to create cryptographic provider");
+-        return -1;
+-    }
+ #endif
+-
+     return 0;
+ }
  
- ROMSUBDIR_RULES=$(patsubst %,romsubdir-%, $(ROMS))
- # Only keep -O and -g cflags
-diff --git a/Makefile.objs b/Makefile.objs
-index cf065de5ed..0c13ff47ea 100644
---- a/Makefile.objs
-+++ b/Makefile.objs
-@@ -26,6 +26,7 @@ block-obj-m = block/
+@@ -60,7 +59,15 @@ int qcrypto_random_bytes(uint8_t *buf G_GNUC_UNUSED,
+                          size_t buflen G_GNUC_UNUSED,
+                          Error **errp)
+ {
+-#ifndef _WIN32
++#ifdef _WIN32
++    if (!CryptGenRandom(hCryptProv, buflen, buf)) {
++        error_setg_win32(errp, GetLastError(),
++                         "Unable to read random bytes");
++        return -1;
++    }
++
++    return 0;
++#else
+     int ret = -1;
+     int got;
  
- crypto-obj-y = crypto/
- crypto-aes-obj-y = crypto/
-+crypto-rng-obj-y = crypto/
- 
- #######################################################################
- # qom-obj-y is code used by both qemu system emulation and qemu-img
-diff --git a/Makefile.target b/Makefile.target
-index ae02495951..4e579a0a84 100644
---- a/Makefile.target
-+++ b/Makefile.target
-@@ -181,6 +181,7 @@ dummy := $(call unnest-vars,.., \
-                chardev-obj-y \
-                crypto-obj-y \
-                crypto-aes-obj-y \
-+               crypto-rng-obj-y \
-                qom-obj-y \
-                io-obj-y \
-                common-obj-y \
-@@ -189,7 +190,7 @@ all-obj-y += $(common-obj-y)
- all-obj-y += $(qom-obj-y)
- all-obj-$(CONFIG_SOFTMMU) += $(authz-obj-y)
- all-obj-$(CONFIG_SOFTMMU) += $(block-obj-y) $(chardev-obj-y)
--all-obj-$(CONFIG_USER_ONLY) += $(crypto-aes-obj-y)
-+all-obj-$(CONFIG_USER_ONLY) += $(crypto-aes-obj-y) $(crypto-rng-obj-y)
- all-obj-$(CONFIG_SOFTMMU) += $(crypto-obj-y)
- all-obj-$(CONFIG_SOFTMMU) += $(io-obj-y)
- 
-diff --git a/crypto/Makefile.objs b/crypto/Makefile.objs
-index 256c9aca1f..ee7e628ca6 100644
---- a/crypto/Makefile.objs
-+++ b/crypto/Makefile.objs
-@@ -37,5 +37,6 @@ crypto-obj-y += block-luks.o
- 
- # Let the userspace emulators avoid linking gnutls/etc
- crypto-aes-obj-y = aes.o
-+crypto-rng-obj-y = random-platform.o
- 
- stub-obj-y += pbkdf-stub.o
+@@ -82,13 +89,5 @@ int qcrypto_random_bytes(uint8_t *buf G_GNUC_UNUSED,
+     ret = 0;
+  cleanup:
+     return ret;
+-#else
+-    if (!CryptGenRandom(hCryptProv, buflen, buf)) {
+-        error_setg_win32(errp, GetLastError(),
+-                         "Unable to read random bytes");
+-        return -1;
+-    }
+-
+-    return 0;
+ #endif
+ }
 -- 
 2.17.1
 
