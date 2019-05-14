@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7E3431CF4B
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 20:43:01 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52477 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BFEE01CF59
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 20:48:19 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52565 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQcOC-0004aA-Ky
-	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 14:43:00 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39902)
+	id 1hQcTK-00017v-VQ
+	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 14:48:18 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39915)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgilbert@redhat.com>) id 1hQcHM-0007Ac-Pw
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 14:35:57 -0400
+	(envelope-from <dgilbert@redhat.com>) id 1hQcHO-0007Dx-7t
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 14:35:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgilbert@redhat.com>) id 1hQcHL-0001iK-HE
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 14:35:56 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53638)
+	(envelope-from <dgilbert@redhat.com>) id 1hQcHN-0001kZ-Bt
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 14:35:58 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:10755)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hQcHL-0001hs-C6
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 14:35:55 -0400
+	(Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hQcHN-0001jp-6e
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 14:35:57 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
 	[10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id AEBA4882F2;
-	Tue, 14 May 2019 18:35:54 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 8092E19D05D;
+	Tue, 14 May 2019 18:35:56 +0000 (UTC)
 Received: from dgilbert-t580.localhost (ovpn-117-232.ams2.redhat.com
 	[10.36.117.232])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 3129B608AC;
-	Tue, 14 May 2019 18:35:53 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 03EC2608A6;
+	Tue, 14 May 2019 18:35:54 +0000 (UTC)
 From: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
 To: qemu-devel@nongnu.org, quintela@redhat.com, peterx@redhat.com,
 	ehabkost@redhat.com, richardw.yang@linux.intel.com,
 	yury-kotov@yandex-team.ru, chen.zhang@intel.com
-Date: Tue, 14 May 2019 19:34:48 +0100
-Message-Id: <20190514183454.12758-11-dgilbert@redhat.com>
+Date: Tue, 14 May 2019 19:34:49 +0100
+Message-Id: <20190514183454.12758-12-dgilbert@redhat.com>
 In-Reply-To: <20190514183454.12758-1-dgilbert@redhat.com>
 References: <20190514183454.12758-1-dgilbert@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.28]);
-	Tue, 14 May 2019 18:35:54 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.29]);
+	Tue, 14 May 2019 18:35:56 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 10/16] migration: update comments of migration
- bitmap
+Subject: [Qemu-devel] [PULL 11/16] migration/savevm: remove duplicate check
+ of migration_is_blocked
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,43 +62,43 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Yi Wang <wang.yi59@zte.com.cn>
+From: Wei Yang <richardw.yang@linux.intel.com>
 
-Since the ram bitmap and the unsent bitmap are split by RAMBlock
-in commit 6b6712e, it's better to update the comments about them.
+Current call flow of save_snapshot is:
 
-Signed-off-by: Yi Wang <wang.yi59@zte.com.cn>
-Message-Id: <1555311089-18610-1-git-send-email-wang.yi59@zte.com.cn>
+  save_snapshot
+    migration_is_blocked
+      qemu_savevm_state
+        migration_is_blocked
+
+Since qemu_savevm_state is only called in save_snapshot, this means
+migration_is_blocked has been already checked.
+
+Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+Message-Id: <20190424004700.12766-2-richardw.yang@linux.intel.com>
 Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
 ---
- migration/ram.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ migration/savevm.c | 4 ----
+ 1 file changed, 4 deletions(-)
 
-diff --git a/migration/ram.c b/migration/ram.c
-index ec11161d58..e1fe45311d 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -1630,8 +1630,6 @@ static int save_xbzrle_page(RAMState *rs, uint8_t *=
-*current_data,
- /**
-  * migration_bitmap_find_dirty: find the next dirty page from start
-  *
-- * Called with rcu_read_lock() to protect migration_bitmap
-- *
-  * Returns the byte offset within memory region of the start of a dirty =
-page
-  *
-  * @rs: current RAM state
-@@ -2681,7 +2679,7 @@ static void ram_save_cleanup(void *opaque)
-     RAMBlock *block;
+diff --git a/migration/savevm.c b/migration/savevm.c
+index 81a9a2ef30..6e8912af49 100644
+--- a/migration/savevm.c
++++ b/migration/savevm.c
+@@ -1418,10 +1418,6 @@ static int qemu_savevm_state(QEMUFile *f, Error **=
+errp)
+         return -EINVAL;
+     }
 =20
-     /* caller have hold iothread lock or is in a bh, so there is
--     * no writing race against this migration_bitmap
-+     * no writing race against the migration bitmap
-      */
-     memory_global_dirty_log_stop();
-=20
+-    if (migration_is_blocked(errp)) {
+-        return -EINVAL;
+-    }
+-
+     if (migrate_use_block()) {
+         error_setg(errp, "Block migration and snapshots are incompatible=
+");
+         return -EINVAL;
 --=20
 2.21.0
 
