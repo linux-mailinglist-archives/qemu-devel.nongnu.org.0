@@ -2,80 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC4651C023
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 02:29:19 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36888 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C8B71C160
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 06:29:28 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38905 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQLJn-0002l0-1I
-	for lists+qemu-devel@lfdr.de; Mon, 13 May 2019 20:29:19 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54385)
+	id 1hQP4B-0001gc-AI
+	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 00:29:27 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54347)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hQLD0-0006xS-T2
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 20:22:44 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hQP3B-0001Ma-NI
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 00:28:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hQLAi-0006wQ-Ry
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 20:22:16 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:46808)
+	(envelope-from <richard.henderson@linaro.org>) id 1hQP3A-0008Fk-V9
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 00:28:25 -0400
+Received: from mail-pl1-x62e.google.com ([2607:f8b0:4864:20::62e]:34829)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hQLAS-0006a3-Mp
-	for qemu-devel@nongnu.org; Mon, 13 May 2019 20:19:43 -0400
-Received: by mail-pl1-x643.google.com with SMTP id r18so2518383pls.13
-	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 17:19:36 -0700 (PDT)
+	id 1hQLzX-0005Ot-Ti
+	for qemu-devel@nongnu.org; Mon, 13 May 2019 21:12:30 -0400
+Received: by mail-pl1-x62e.google.com with SMTP id g5so7345579plt.2
+	for <qemu-devel@nongnu.org>; Mon, 13 May 2019 18:11:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=oIkVmNeg/B6R6chvnMOItPsHgkpWpa1zwyyIpqDbq8U=;
-	b=smGEPcvfryodsu89HYqKa+pH71m0dQ4b+n4PT/VkjVHNdcjRgI+pUwOHknA39XXyUR
-	21zXC+jAwQZRzZSvXk2np58yvXS1tLdoTI2q3fj+Zqz9RiqWTOyX8lm9+gOtbWYqRlr+
-	v0YUff3Lna7ayHDdPdiUC7U9VHicqadOvjGDtABD69KeC+ruTCqz+3leBU91kJTBisrv
-	nxCebAT4SZ8KHA1tk8TEB2e/fTHb8Wj4AixPDVwmBu5js4M/5ijxddvUK2gifkqJWnwo
-	q72eezB2EgGo4EqwYpX9C+tfvDZ7u1hW4NIs0ousGgzof4r3uUIdUO5+R9FSHFCSCmWI
-	fHiA==
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=808gD/RWuW8ph7gRO3e1PjmafMp7jgBxuh7bwpr9apE=;
+	b=AaT6VvYmgnWz0SfRQbsGmI4jk8u8tC6Cb6tCHx/gCktlANa9Y1oiccsSs6BI4GwT0v
+	5JGzc2p27I7EStV1L4v9MT3rg75ur3+55DPTG0+oBJbpSI41CRt8v8l6RwgpJLwpf2ux
+	0Yaxyi2PU3L4w2d6zAnITwlAWASK4eFCPqSyf2ZAyJyTCmG9SJm/zQvYaWDl/upzcmf8
+	EusA9UEyQM9Pbdcr5J+pYNooz1W80NPNZhKENrAfUAMlHv4dSxuEG5DhPea1U1T8Svm+
+	0ACiQSU8/E2pRGlT9MhsVqzNlC7Hc3ADdhgFcQfzjsmsh+mXc7FpbI63E/8AziGhUJI5
+	HFPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
 	:content-transfer-encoding;
-	bh=oIkVmNeg/B6R6chvnMOItPsHgkpWpa1zwyyIpqDbq8U=;
-	b=OdR+x9RrpsD9XQ775mYkm5H8zV0Yor0HUI2e+QdTC6aSwv+t7rtgesRq9oHGPNqNo2
-	sMKXS6KkGxrzVkocSPPp05dtXD0uIIhg3yzWSyo52C7BetjOdLJoPsgsWiUALhneu2Ha
-	0czOEuROgUl2IcYTzoXGDsDMt0Rjjte0+4XQj+ygi5exSIYSLZBcupN1fxLLCCS1Srcf
-	zBoPgTyp8tMNxZABNnFiOx7WFJVUg9DKhmsfqzSqxPJ8Qml7BFWUwple/Y5DupM6ZIgn
-	MSBCr7ZfDrcQSZ+r3WQtTY6XoasXFOardxD5FZZIy7oYFeAog+wCtt1Q87si/mgZItDw
-	N0LA==
-X-Gm-Message-State: APjAAAXBasg8wP/V63F682AS1FhPUaUJG4QYqv5O8XLnNS/1DbOs2n14
-	frJXACBd5alJLqF/coqct/j33A==
-X-Google-Smtp-Source: APXvYqyKLcKZgeVS11lth1/OtmQv29bWX9OYnBzsmTA+4BxENjoSbHKZ1KIC04FnJUtY4DrKGExmdQ==
-X-Received: by 2002:a17:902:347:: with SMTP id
-	65mr21660592pld.232.1557793175127; 
-	Mon, 13 May 2019 17:19:35 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-13-231.tukw.qwest.net. [97.113.13.231])
-	by smtp.gmail.com with ESMTPSA id
-	w12sm15385978pgp.51.2019.05.13.17.19.33
+	bh=808gD/RWuW8ph7gRO3e1PjmafMp7jgBxuh7bwpr9apE=;
+	b=VRUIYFhxMY6RA3iwUOup23lh7IrLBogfqW0qR/0PsygBVgRPVsg80d2gclaYMXg9aM
+	XT3EjolrufqFSX3dPDzDNI/4LRiKwFoxzQLMKoKsNzb/Nkd8cYKmMs8LKW+VOoTwq21i
+	mVAlXp/xX96dCNNM6zqUIUbrHQ8+tO247l+UFDVB5OPB0YoeWbRMu5xfVpxJkQEIELtf
+	TRcmq0PSO4r+xx2ue/JoNcufmuI/ojwenpeV73VBvySiMPVOaIhb2PpjdqdKDlFdUYLG
+	SDPMK98XCBCeeFKcrQMK/qfIMl0bu7BASNqR1Y5RJwXo+BMvCPHDmxIsG7ckv+kLzB03
+	eLlQ==
+X-Gm-Message-State: APjAAAVovymfUSDURcSuur+OUTEni6yvGnxzYxbZKsby/If+VA3Ql+mc
+	XrYeg8ApJuyp41PSCg6p+4TwJi6YjRo=
+X-Google-Smtp-Source: APXvYqzB+MKSuURnWLfyG3RFOAwqwjrJGsjRlJuIaNpjYHFjtzxFLiCRS9x7nMMbTBJMtb/GsfHXXQ==
+X-Received: by 2002:a17:902:294a:: with SMTP id
+	g68mr8962233plb.169.1557796291917; 
+	Mon, 13 May 2019 18:11:31 -0700 (PDT)
+Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
+	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
+	b67sm20029147pfb.150.2019.05.13.18.11.30
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 13 May 2019 17:19:34 -0700 (PDT)
-To: Alistair Francis <Alistair.Francis@wdc.com>,
-	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
-	"qemu-arm@nongnu.org" <qemu-arm@nongnu.org>
-References: <ed7713d9b6c523d1c453ed7ac5de5501ef8cf405.1557792121.git.alistair.francis@wdc.com>
+	Mon, 13 May 2019 18:11:30 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <28f47fb8-78e2-942a-a678-0d44553ddc55@linaro.org>
-Date: Mon, 13 May 2019 17:19:32 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+To: qemu-devel@nongnu.org
+Date: Mon, 13 May 2019 18:11:27 -0700
+Message-Id: <20190514011129.11330-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <ed7713d9b6c523d1c453ed7ac5de5501ef8cf405.1557792121.git.alistair.francis@wdc.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::643
-Subject: Re: [Qemu-devel] [PATCH v1 1/1] target/arm: Fix vector operation
- segfault
+X-Received-From: 2607:f8b0:4864:20::62e
+Subject: [Qemu-devel] [PATCH 0/2] target/arm: Minor bit field improvements
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -87,18 +78,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
-	"alistair23@gmail.com" <alistair23@gmail.com>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/13/19 5:08 PM, Alistair Francis wrote:
-> We hit the second switch case as
-> NEON_3R_VQADD and NEON_3R_VQSUB don't return from the function in the
-> first switch case.
-
-That's the bug, not here in this second switch.
+The tcg extract2 patch on which this depended is now in master.
 
 
 r~
+
+
+Richard Henderson (2):
+  target/arm: Use extract2 for EXTR
+  target/arm: Simplify BFXIL expansion
+
+ target/arm/translate-a64.c | 44 ++++++++++++++++++++------------------
+ 1 file changed, 23 insertions(+), 21 deletions(-)
+
+-- 
+2.17.1
+
 
