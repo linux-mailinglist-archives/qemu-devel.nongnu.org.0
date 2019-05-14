@@ -2,45 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1F0E31C9CC
-	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 16:01:44 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48690 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2BA171C2B6
+	for <lists+qemu-devel@lfdr.de>; Tue, 14 May 2019 08:04:12 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:39851 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQXzy-0008LQ-U9
-	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 10:01:42 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41460)
+	id 1hQQXq-0007Pw-Un
+	for lists+qemu-devel@lfdr.de; Tue, 14 May 2019 02:04:10 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41671)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <klaus@birkelund.eu>) id 1hQQWT-0006xK-7J
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 02:02:47 -0400
+	(envelope-from <armbru@redhat.com>) id 1hQQWe-00070d-T3
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 02:02:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <klaus@birkelund.eu>) id 1hQQWN-000198-6p
-	for qemu-devel@nongnu.org; Tue, 14 May 2019 02:02:41 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:59174)
+	(envelope-from <armbru@redhat.com>) id 1hQQWd-0001Lm-KE
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 02:02:56 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:14527)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <klaus@birkelund.eu>)
-	id 1hQQWJ-000149-4m; Tue, 14 May 2019 02:02:35 -0400
-Received: from apples.localdomain (77.241.135.233.mobile.3.dk [77.241.135.233])
-	by charlie.dont.surf (Postfix) with ESMTPSA id 3B6C4BF724;
-	Tue, 14 May 2019 06:02:31 +0000 (UTC)
-Date: Tue, 14 May 2019 08:02:25 +0200
-From: Klaus Birkelund <klaus@birkelund.eu>
-To: Kenneth Heitke <kenneth.heitke@intel.com>
-Message-ID: <20190514060225.GA1350@apples.localdomain>
-Mail-Followup-To: Kenneth Heitke <kenneth.heitke@intel.com>,
-	qemu-block@nongnu.org, keith.busch@intel.com, kwolf@redhat.com,
-	qemu-devel@nongnu.org, mreitz@redhat.com
-References: <20190405214117.1850-1-kenneth.heitke@intel.com>
+	(Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hQQWc-0001KM-Vt
+	for qemu-devel@nongnu.org; Tue, 14 May 2019 02:02:55 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 890EB30820EA
+	for <qemu-devel@nongnu.org>; Tue, 14 May 2019 06:02:53 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-28.ams2.redhat.com
+	[10.36.116.28])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 19E4E1001DE3;
+	Tue, 14 May 2019 06:02:51 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+	id 8CB6611385E4; Tue, 14 May 2019 08:02:49 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Eric Blake <eblake@redhat.com>
+References: <20190430131919.GN6818@redhat.com> <20190430144546.GA3065@work-vm>
+	<20190430150556.GA2423@redhat.com>
+	<87sgtqejn9.fsf@dusky.pond.sub.org>
+	<20190507093954.GG27205@redhat.com>
+	<875zql3ylk.fsf@dusky.pond.sub.org>
+	<20190513120856.GH15029@redhat.com>
+	<87ef525uls.fsf@dusky.pond.sub.org>
+	<a3378e24-f13f-b51f-7180-8e0bf4661e10@redhat.com>
+Date: Tue, 14 May 2019 08:02:49 +0200
+In-Reply-To: <a3378e24-f13f-b51f-7180-8e0bf4661e10@redhat.com> (Eric Blake's
+	message of "Mon, 13 May 2019 10:15:37 -0500")
+Message-ID: <87tvdx8tfa.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190405214117.1850-1-kenneth.heitke@intel.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.47]);
+	Tue, 14 May 2019 06:02:53 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 128.199.63.193
-X-Mailman-Approved-At: Tue, 14 May 2019 09:59:40 -0400
-Subject: Re: [Qemu-devel] [Qemu-block] [PATCH] nvme: add Get/Set Feature
- Timestamp support
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [libvirt]  QMP; unsigned 64-bit ints;
+ JSON standards compliance
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -52,277 +68,86 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: keith.busch@intel.com, kwolf@redhat.com, qemu-devel@nongnu.org,
-	qemu-block@nongnu.org, mreitz@redhat.com
+Cc: libvir-list@redhat.com, =?utf-8?Q?J=C3=A1n?= Tomko <jtomko@redhat.com>,
+	"Daniel P. =?utf-8?Q?Berrang=C3=A9?=" <berrange@redhat.com>,
+	"Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, Apr 05, 2019 at 03:41:17PM -0600, Kenneth Heitke wrote:
-> Signed-off-by: Kenneth Heitke <kenneth.heitke@intel.com>
-> ---
->  hw/block/nvme.c       | 120 +++++++++++++++++++++++++++++++++++++++++-
->  hw/block/nvme.h       |   3 ++
->  hw/block/trace-events |   2 +
->  include/block/nvme.h  |   2 +
->  4 files changed, 125 insertions(+), 2 deletions(-)
-> 
-> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> index 7caf92532a..e775e89299 100644
-> --- a/hw/block/nvme.c
-> +++ b/hw/block/nvme.c
-> @@ -219,6 +219,30 @@ static uint16_t nvme_map_prp(QEMUSGList *qsg, QEMUIOVector *iov, uint64_t prp1,
->      return NVME_INVALID_FIELD | NVME_DNR;
->  }
->  
-> +static uint16_t nvme_dma_write_prp(NvmeCtrl *n, uint8_t *ptr, uint32_t len,
-> +                                   uint64_t prp1, uint64_t prp2)
-> +{
-> +    QEMUSGList qsg;
-> +    QEMUIOVector iov;
-> +    uint16_t status = NVME_SUCCESS;
-> +
-> +    if (nvme_map_prp(&qsg, &iov, prp1, prp2, len, n)) {
-> +        return NVME_INVALID_FIELD | NVME_DNR;
-> +    }
-> +    if (qsg.nsg > 0) {
-> +        if (dma_buf_write(ptr, len, &qsg)) {
-> +            status = NVME_INVALID_FIELD | NVME_DNR;
-> +        }
-> +        qemu_sglist_destroy(&qsg);
-> +    } else {
-> +        if (qemu_iovec_from_buf(&iov, 0, ptr, len) != len) {
+Eric Blake <eblake@redhat.com> writes:
 
-This should be `qemu_iovec_to_buf`.
+> On 5/13/19 8:53 AM, Markus Armbruster wrote:
+>
+>>> We have a few options
+>>>
+>>>  1. Use string format for values > 2^53-1, int format below that
+>>>  2. Use string format for all fields which are 64-bit ints whether
+>>>     signed or unsigned
+>>>  3. Use string format for all fields which are integers, even 32-bit
+>>>     ones
+>>>
+>>> I would probably suggest option 2. It would make the QEMU impl quite
+>>> easy IIUC, we we'd just change the QAPI visitor's impl for the int64
+>>> and uint64 fields to use string format (when the right capability is
+>>> negotiated by QMP).
+>>>
+>>> I include 3 only for completeness - I don't think there's a hugely
+>>> compelling reason to mess with 32-bit ints.
+>> 
+>> Agree.
+>
+> Other than if we ever change the type of a QMP integer. Right now, if we
+> widen from 'int32' to 'int' (aka 'int64'), it is invisible to clients;
+> but once we start stringizing 64-bit numbers (at client request) but NOT
+> 32-bit numbers, then changing a type from 32 to 64 bits (or the
+> converse) becomes an API change to clients. Introspection will at least
+> let a client know which form to expect, but it does mean we have to be
+> more aware of typing issues going forward.
 
-> +            status = NVME_INVALID_FIELD | NVME_DNR;
-> +        }
-> +        qemu_iovec_destroy(&iov);
-> +    }
-> +    return status;
-> +}
-> +
->  static uint16_t nvme_dma_read_prp(NvmeCtrl *n, uint8_t *ptr, uint32_t len,
->      uint64_t prp1, uint64_t prp2)
->  {
-> @@ -678,7 +702,6 @@ static uint16_t nvme_identify_nslist(NvmeCtrl *n, NvmeIdentify *c)
->      return ret;
->  }
->  
-> -
->  static uint16_t nvme_identify(NvmeCtrl *n, NvmeCmd *cmd)
->  {
->      NvmeIdentify *c = (NvmeIdentify *)cmd;
-> @@ -696,6 +719,63 @@ static uint16_t nvme_identify(NvmeCtrl *n, NvmeCmd *cmd)
->      }
->  }
->  
-> +static inline void nvme_set_timestamp(NvmeCtrl *n, uint64_t ts)
-> +{
-> +    n->host_timestamp = ts;
-> +    n->timestamp_set_qemu_clock_ms = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
-> +}
-> +
-> +static inline uint64_t nvme_get_timestamp(const NvmeCtrl *n)
-> +{
-> +    uint64_t current_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
-> +    uint64_t elapsed_time = current_time - n->timestamp_set_qemu_clock_ms;
-> +
-> +    union nvme_timestamp {
-> +        struct {
-> +            uint64_t timestamp:48;
-> +            uint64_t sync:1;
-> +            uint64_t origin:3;
-> +            uint64_t rsvd1:12;
-> +        };
-> +        uint64_t all;
-> +    };
-> +
-> +    union nvme_timestamp ts;
-> +    ts.all = 0;
-> +
-> +    /*
-> +     * If the sum of the Timestamp value set by the host and the elapsed
-> +     * time exceeds 2^48, the value returned should be reduced modulo 2^48.
-> +     */
-> +    ts.timestamp = (n->host_timestamp + elapsed_time) & 0xffffffffffff;
-> +
-> +    /* If the host timestamp is non-zero, set the timestamp origin */
-> +    ts.origin = n->host_timestamp ? 0x01 : 0x00;
-> +
-> +    return ts.all;
-> +}
-> +
-> +static uint16_t nvme_get_feature_timestamp(NvmeCtrl *n, NvmeCmd *cmd)
-> +{
-> +    uint32_t dw10 = le32_to_cpu(cmd->cdw10);
-> +    uint64_t prp1 = le64_to_cpu(cmd->prp1);
-> +    uint64_t prp2 = le64_to_cpu(cmd->prp2);
-> +
-> +    uint64_t timestamp = nvme_get_timestamp(n);
-> +
-> +    if (!(n->oncs & NVME_ONCS_TIMESTAMP)) {
+Thank you so much for helping my old synapses finally fire!  Option 2 is
+not what we thought it is.  Let me explain.
 
-Any particular reason we want to sometimes not support this? Could we
-just do with out this check?
+Introspection reports *all* QAPI integer types as "int".  This is
+deliberate.
 
-> +        trace_nvme_err_invalid_getfeat(dw10);
-> +        return NVME_INVALID_FIELD | NVME_DNR;
-> +    }
-> +
-> +    trace_nvme_getfeat_timestamp(timestamp);
-> +
-> +    timestamp = cpu_to_le64(timestamp);
-> +
-> +    return nvme_dma_read_prp(n, (uint8_t *)&timestamp,
-> +                                 sizeof(timestamp), prp1, prp2);
-> +}
-> +
->  static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
->  {
->      uint32_t dw10 = le32_to_cpu(cmd->cdw10);
-> @@ -710,6 +790,9 @@ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
->          result = cpu_to_le32((n->num_queues - 2) | ((n->num_queues - 2) << 16));
->          trace_nvme_getfeat_numq(result);
->          break;
-> +    case NVME_TIMESTAMP:
-> +        return nvme_get_feature_timestamp(n, cmd);
-> +        break;
->      default:
->          trace_nvme_err_invalid_getfeat(dw10);
->          return NVME_INVALID_FIELD | NVME_DNR;
-> @@ -719,6 +802,31 @@ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
->      return NVME_SUCCESS;
->  }
->  
-> +static uint16_t nvme_set_feature_timestamp(NvmeCtrl *n, NvmeCmd *cmd)
-> +{
-> +    uint16_t ret;
-> +    uint64_t timestamp;
-> +    uint32_t dw10 = le32_to_cpu(cmd->cdw10);
-> +    uint64_t prp1 = le64_to_cpu(cmd->prp1);
-> +    uint64_t prp2 = le64_to_cpu(cmd->prp2);
-> +
-> +    if (!(n->oncs & NVME_ONCS_TIMESTAMP)) {
+So, when the client that negotiated the interoperability capability sees
+"int", it has to accept *both* integer encodings: JSON number and JSON
+string.
 
-Any particular reason we want to sometimes not support this? Could we
-just do with out this check?
+The difference between option 1 and option 2 for the client is that
+option 2 will use only one encoding.  But the client must not rely on
+that!  Another QEMU version may well use the other encoding (because we
+narrowed or widened the QAPI integer type in the QAPI schema).
 
-> +        trace_nvme_err_invalid_setfeat(dw10);
-> +        return NVME_INVALID_FIELD | NVME_DNR;
-> +    }
-> +
-> +    ret = nvme_dma_write_prp(n, (uint8_t *)&timestamp,
-> +                                sizeof(timestamp), prp1, prp2);
-> +    if (ret != NVME_SUCCESS) {
-> +        return ret;
-> +    }
-> +
-> +    nvme_set_timestamp(n, le64_to_cpu(timestamp));
-> +    trace_nvme_setfeat_timestamp(timestamp);
-> +
-> +    return NVME_SUCCESS;
-> +}
-> +
->  static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
->  {
->      uint32_t dw10 = le32_to_cpu(cmd->cdw10);
-> @@ -735,6 +843,11 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
->          req->cqe.result =
->              cpu_to_le32((n->num_queues - 2) | ((n->num_queues - 2) << 16));
->          break;
-> +
-> +    case NVME_TIMESTAMP:
-> +        return nvme_set_feature_timestamp(n, cmd);
-> +        break;
-> +
->      default:
->          trace_nvme_err_invalid_setfeat(dw10);
->          return NVME_INVALID_FIELD | NVME_DNR;
-> @@ -907,6 +1020,8 @@ static int nvme_start_ctrl(NvmeCtrl *n)
->      nvme_init_sq(&n->admin_sq, n, n->bar.asq, 0, 0,
->          NVME_AQA_ASQS(n->bar.aqa) + 1);
->  
-> +    nvme_set_timestamp(n, 0ULL);
-> +
->      return 0;
->  }
->  
-> @@ -1270,7 +1385,7 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
->      id->sqes = (0x6 << 4) | 0x6;
->      id->cqes = (0x4 << 4) | 0x4;
->      id->nn = cpu_to_le32(n->num_namespaces);
-> -    id->oncs = cpu_to_le16(NVME_ONCS_WRITE_ZEROS);
-> +    id->oncs = cpu_to_le16(n->oncs);
->      id->psd[0].mp = cpu_to_le16(0x9c4);
->      id->psd[0].enlat = cpu_to_le32(0x10);
->      id->psd[0].exlat = cpu_to_le32(0x4);
-> @@ -1350,6 +1465,7 @@ static Property nvme_props[] = {
->      DEFINE_PROP_STRING("serial", NvmeCtrl, serial),
->      DEFINE_PROP_UINT32("cmb_size_mb", NvmeCtrl, cmb_size_mb, 0),
->      DEFINE_PROP_UINT32("num_queues", NvmeCtrl, num_queues, 64),
-> +    DEFINE_PROP_UINT16("oncs", NvmeCtrl, oncs, NVME_ONCS_WRITE_ZEROS),
->      DEFINE_PROP_END_OF_LIST(),
->  };
+Elsewhere in this thread, David pointed out that option 1 complicates
+testing QEMU: full coverage requires passing both a small number (to
+cover JSON number encoding) and a large number (to cover JSON string
+encoding), to which I replied that there are very few places to test.
 
-As before, could we just do without the `oncs` parameter for now?
+Option 2 complicates testing clients: full coverage requires testing
+with both a version of QEMU (or a mock-up) that uses wide integers
+(encoded as JSON string) and narrow integers (encoded as JSON number).
+Impractical.
 
->  
-> diff --git a/hw/block/nvme.h b/hw/block/nvme.h
-> index 56c9d4b4b1..d7277e72b7 100644
-> --- a/hw/block/nvme.h
-> +++ b/hw/block/nvme.h
-> @@ -69,6 +69,7 @@ typedef struct NvmeCtrl {
->      uint16_t    max_prp_ents;
->      uint16_t    cqe_size;
->      uint16_t    sqe_size;
-> +    uint16_t    oncs;
->      uint32_t    reg_size;
->      uint32_t    num_namespaces;
->      uint32_t    num_queues;
-> @@ -79,6 +80,8 @@ typedef struct NvmeCtrl {
->      uint32_t    cmbloc;
->      uint8_t     *cmbuf;
->      uint64_t    irq_status;
-> +    uint64_t    host_timestamp;                 /* Timestamp sent by the host */
-> +    uint64_t    timestamp_set_qemu_clock_ms;    /* QEMU clock time */
->  
->      char            *serial;
->      NvmeNamespace   *namespaces;
-> diff --git a/hw/block/trace-events b/hw/block/trace-events
-> index b92039a573..97a17838ed 100644
-> --- a/hw/block/trace-events
-> +++ b/hw/block/trace-events
-> @@ -46,6 +46,8 @@ nvme_identify_nslist(uint16_t ns) "identify namespace list, nsid=%"PRIu16""
->  nvme_getfeat_vwcache(const char* result) "get feature volatile write cache, result=%s"
->  nvme_getfeat_numq(int result) "get feature number of queues, result=%d"
->  nvme_setfeat_numq(int reqcq, int reqsq, int gotcq, int gotsq) "requested cq_count=%d sq_count=%d, responding with cq_count=%d sq_count=%d"
-> +nvme_setfeat_timestamp(uint64_t ts) "set feature timestamp = 0x%"PRIx64""
-> +nvme_getfeat_timestamp(uint64_t ts) "get feature timestamp = 0x%"PRIx64""
->  nvme_mmio_intm_set(uint64_t data, uint64_t new_mask) "wrote MMIO, interrupt mask set, data=0x%"PRIx64", new_mask=0x%"PRIx64""
->  nvme_mmio_intm_clr(uint64_t data, uint64_t new_mask) "wrote MMIO, interrupt mask clr, data=0x%"PRIx64", new_mask=0x%"PRIx64""
->  nvme_mmio_cfg(uint64_t data) "wrote MMIO, config controller config=0x%"PRIx64""
-> diff --git a/include/block/nvme.h b/include/block/nvme.h
-> index 849a6f3fa3..3ec8efcc43 100644
-> --- a/include/block/nvme.h
-> +++ b/include/block/nvme.h
-> @@ -581,6 +581,7 @@ enum NvmeIdCtrlOncs {
->      NVME_ONCS_WRITE_ZEROS   = 1 << 3,
->      NVME_ONCS_FEATURES      = 1 << 4,
->      NVME_ONCS_RESRVATIONS   = 1 << 5,
-> +    NVME_ONCS_TIMESTAMP     = 1 << 6,
->  };
->  
->  #define NVME_CTRL_SQES_MIN(sqes) ((sqes) & 0xf)
-> @@ -622,6 +623,7 @@ enum NvmeFeatureIds {
->      NVME_INTERRUPT_VECTOR_CONF      = 0x9,
->      NVME_WRITE_ATOMICITY            = 0xa,
->      NVME_ASYNCHRONOUS_EVENT_CONF    = 0xb,
-> +    NVME_TIMESTAMP                  = 0xe,
->      NVME_SOFTWARE_PROGRESS_MARKER   = 0x80
->  };
->  
-> -- 
-> 2.17.1
-> 
-> 
+>>> Option 1 is the bare minimum needed to ensure precision, but to me
+>>> it feels a bit dirty to say a given field will have different encoding
+>>> depending on the value. If apps need to deal with string encoding, they
+>>> might as well just use it for all values in a given field.
+>> 
+>> I guess that depends on what this interoperability capability does for
+>> QMP *input*.
+>
+> "Be liberal in what you accept, strict in what you produce" - that
+> argues we should accept both forms on input (it's easy enough to ALWAYS
+> permit a string in place of an integer, and to take an in-range integer
+> even when we would in turn output it as a string).
+
+With option 2, QEMU *has* to be liberal in what it accepts, because the
+client cannot deduce from introspection whether the integer is wide or
+narrow.
+
+[...]
+
+Daniel, you wrote you'd probably suggest option 2.  Would you like to
+reconsider?
 
