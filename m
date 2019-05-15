@@ -2,57 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D1541FB6E
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 May 2019 22:17:48 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:41908 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DABB1FB85
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 May 2019 22:35:26 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:42114 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hR0LT-0006sT-CM
-	for lists+qemu-devel@lfdr.de; Wed, 15 May 2019 16:17:47 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45225)
+	id 1hR0cX-0008GG-9X
+	for lists+qemu-devel@lfdr.de; Wed, 15 May 2019 16:35:25 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47934)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <berrange@redhat.com>) id 1hR0JG-0005uY-Rx
-	for qemu-devel@nongnu.org; Wed, 15 May 2019 16:15:32 -0400
+	(envelope-from <david@redhat.com>) id 1hR0Yf-0005oE-K7
+	for qemu-devel@nongnu.org; Wed, 15 May 2019 16:31:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <berrange@redhat.com>) id 1hR0JF-0007oB-JL
-	for qemu-devel@nongnu.org; Wed, 15 May 2019 16:15:30 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38056)
+	(envelope-from <david@redhat.com>) id 1hR0Yd-0002Bp-M2
+	for qemu-devel@nongnu.org; Wed, 15 May 2019 16:31:25 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40818)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hR0JF-0007eE-CF
-	for qemu-devel@nongnu.org; Wed, 15 May 2019 16:15:29 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
-	[10.5.11.12])
+	(Exim 4.71) (envelope-from <david@redhat.com>)
+	id 1hR0Yb-00029r-QT; Wed, 15 May 2019 16:31:21 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id AEA07E3E00;
-	Wed, 15 May 2019 20:15:19 +0000 (UTC)
-Received: from redhat.com (unknown [10.36.112.15])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id DC4B460BE5;
-	Wed, 15 May 2019 20:15:17 +0000 (UTC)
-Date: Wed, 15 May 2019 21:15:14 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Laurent Vivier <lvivier@redhat.com>
-Message-ID: <20190515201514.GA1417@redhat.com>
-References: <20190514191653.31488-1-richard.henderson@linaro.org>
-	<20190514191653.31488-2-richard.henderson@linaro.org>
-	<20190515165328.GK4751@redhat.com>
-	<314ae411-2d75-00e6-109a-2604a36973b7@linaro.org>
-	<20190515174956.GL4751@redhat.com>
-	<5f4af92c-4db4-dc72-74c2-cfe1dc4eb021@redhat.com>
+	by mx1.redhat.com (Postfix) with ESMTPS id C795F300513A;
+	Wed, 15 May 2019 20:31:17 +0000 (UTC)
+Received: from t460s.redhat.com (ovpn-116-133.ams2.redhat.com [10.36.116.133])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 1BBE66266C;
+	Wed, 15 May 2019 20:31:12 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Wed, 15 May 2019 22:31:07 +0200
+Message-Id: <20190515203112.506-1-david@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <5f4af92c-4db4-dc72-74c2-cfe1dc4eb021@redhat.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.38]);
-	Wed, 15 May 2019 20:15:19 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.43]);
+	Wed, 15 May 2019 20:31:17 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v7 01/24] build: Link user-only with
- crypto-rng-obj-y
+Subject: [Qemu-devel] [PATCH v1 0/5] s390x/tcg: Vector Instruction Support
+ Part 3
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -64,61 +54,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
-	Richard Henderson <richard.henderson@linaro.org>,
-	qemu-devel@nongnu.org, armbru@redhat.com
+Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+	David Hildenbrand <david@redhat.com>, Thomas Huth <thuth@redhat.com>,
+	Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 15, 2019 at 09:38:00PM +0200, Laurent Vivier wrote:
-> On 15/05/2019 19:49, Daniel P. Berrang=C3=A9 wrote:
-> > On Wed, May 15, 2019 at 10:22:08AM -0700, Richard Henderson wrote:
-> >> On 5/15/19 9:53 AM, Daniel P. Berrang=C3=A9 wrote:
-> >>> On Tue, May 14, 2019 at 12:16:30PM -0700, Richard Henderson wrote:
-> >>>> For user-only, we require only the random number bits of the
-> >>>> crypto subsystem.
-> >>>>
-> >>>> We need to preserve --static linking, which for many recent Linux
-> >>>> distributions precludes using GnuTLS or GCrypt.  Instead, use our
-> >>>> random-platform module unconditionally.
-> >>>
-> >>> I don't think we need to special case in this way.
-> >>>
-> >>> Today if you do a default build with all targets & tools and want
-> >>> to use --static, but don't have static libs available for some
-> >>> things you can achieve that
-> >>>
-> >>>  ./configure --static --disable-gnutls --disable-gcrypt --disable-n=
-ettle
-> >>
-> >> But we don't really want all of those --disable arguments by default=
-.  It would
-> >> be one thing if one explicitly used --enable-gnutls and got link err=
-ors.  We
-> >> must preserve --static working all by itself.
-> >=20
-> > That's already not working today unless you add extra args to disable
-> > build of the system emulators and tools.=20
-> >=20
->=20
-> Perhaps it can help, I have a series queued by Paolo to cleanup the
-> build dependencies for --{disable,enable}-{system,user,tools}:
->=20
->     [v3,0/5] build: cleanup in Makefile.objs
->     https://patchwork.kernel.org/cover/10880135/
+This is the third part of vector instruction support for s390x. It is bas=
+ed
+on part 2, which is will send a pull-request for to Conny soon.
 
-I don't think it'll make a difference to use of --static when trying
-to build a default config (ie all targets + tools)
+Part 1: Vector Support Instructions
+Part 2: Vector Integer Instructions
+Part 3: Vector String Instructions
+Part 4: Vector Floating-Point Instructions
 
+The current state can be found at (kept updated):
+    https://github.com/davidhildenbrand/qemu/tree/vx
 
-Regards,
-Daniel
+With the current state I can boot Linux kernel + user space compiled with
+SIMD support. This allows to boot distributions compiled exclusively for
+z13, requiring SIMD support. Also, it is now possible to build a complete
+kernel using rpmbuild as quite some issues have been sorted out.
+
+In this part, all Vector String Instructions introduced with the
+"Vector Facility" are added.
+
+David Hildenbrand (5):
+  s390x/tcg: Implement VECTOR FIND ANY ELEMENT EQUAL
+  s390x/tcg: Implement VECTOR FIND ELEMENT EQUAL
+  s390x/tcg: Implement VECTOR FIND ELEMENT NOT EQUAL
+  s390x/tcg: Implement VECTOR ISOLATE STRING
+  s390x/tcg: Implement VECTOR STRING RANGE COMPARE
+
+ target/s390x/Makefile.objs       |   2 +-
+ target/s390x/helper.h            |  32 +++
+ target/s390x/insn-data.def       |  13 ++
+ target/s390x/translate_vx.inc.c  | 164 ++++++++++++++
+ target/s390x/vec_string_helper.c | 358 +++++++++++++++++++++++++++++++
+ 5 files changed, 568 insertions(+), 1 deletion(-)
+ create mode 100644 target/s390x/vec_string_helper.c
+
 --=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
+2.20.1
+
 
