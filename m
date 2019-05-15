@@ -2,77 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0867C1F46D
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 May 2019 14:30:23 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36493 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6645D1F479
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 May 2019 14:34:28 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36547 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQt38-0008Iy-6x
-	for lists+qemu-devel@lfdr.de; Wed, 15 May 2019 08:30:22 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60104)
+	id 1hQt75-0002Y7-H5
+	for lists+qemu-devel@lfdr.de; Wed, 15 May 2019 08:34:27 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60799)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.weiyang@gmail.com>) id 1hQt1E-0007Se-6O
-	for qemu-devel@nongnu.org; Wed, 15 May 2019 08:28:29 -0400
+	(envelope-from <frederic.konrad@adacore.com>) id 1hQt4a-00018U-3D
+	for qemu-devel@nongnu.org; Wed, 15 May 2019 08:31:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.weiyang@gmail.com>) id 1hQt1D-0006zX-4Q
-	for qemu-devel@nongnu.org; Wed, 15 May 2019 08:28:24 -0400
-Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:41116)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <richard.weiyang@gmail.com>)
-	id 1hQt1C-0006fi-N3
-	for qemu-devel@nongnu.org; Wed, 15 May 2019 08:28:23 -0400
-Received: by mail-ed1-x541.google.com with SMTP id m4so3830194edd.8
-	for <qemu-devel@nongnu.org>; Wed, 15 May 2019 05:28:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=cbaLoTFydWQo72ytbfEQ1owVAhADDT3+OqWdRDyyzto=;
-	b=YcWHLkTcgLPIdP+Cdv8qQu+VlQWfReXEgR9FgWSUp1TH1w06dx9ifp4azRv6kYSldW
-	J5kpQNKzZmMWEHjaKjniZ3XHu30jtkJLHUEQOg1VFVwPwl+wsknX7SWTpu+M3h9BU57O
-	82lwmGonehuRcIDILqjmIJT+9fwcOC9MNUXlQAwJJH/QlkSxuTRGDySysd6ZnuPhh0C5
-	65PJoLedEr0lKRckEb5oA1WPDmsusrVONSir2QbhUi/mSu5u14Fyc/3WMSqX4hFBRkRo
-	MiB9e3GLn1HAoZsCZPYXZbpJeN0KOgZCf35MkC0nIi1bIUj69lmLlyb/5ldVuFdCS9Za
-	gkBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
-	:references:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=cbaLoTFydWQo72ytbfEQ1owVAhADDT3+OqWdRDyyzto=;
-	b=nxdRoRGhcfiveodLskj2UtQfa1KI1joEGwDZLvm1nnc2Zb7Io/JuMNUGaoAwgfxnQc
-	G21OApJq7OlHRYJFU+c0volILOHU303T53Kwc1ZLKFL7q5TYPReMHuc0f6Sp0Cew/AuD
-	ZB925m+PzfU3Bp6Wxzg95TkU+DBZTShMEm8NvQnz2nRWwVZo4JyRkjwvthfjEF5ZIWQC
-	Dc8rCow7t98QRmt4gBtn5qKIh1yR1k2Pq2F/z2+Y0qmuLibxQUd5abEMm0pqR2Yp1Efn
-	mnTx62gFuEAOwfOGt+egEFrdwn4SLZROaUUB3fs+5ATecjoJt84y7yX63M0B/zKuSCIK
-	JlPw==
-X-Gm-Message-State: APjAAAWcgR6syGSdBF2E+CKMgDn4UVRl0zKXzsf5yPV/s7RoMG7MgqNk
-	bWQzmER6bRUYq75EaHyLWXE=
-X-Google-Smtp-Source: APXvYqz35Spzmnks6NyxjaV0PFvJRZwRZ7MMfZoteUQPZ/nvDpOnTUkE0nnz7/+95HIfpcdKiS2oRg==
-X-Received: by 2002:a50:8903:: with SMTP id e3mr40298055ede.11.1557923299241; 
-	Wed, 15 May 2019 05:28:19 -0700 (PDT)
-Received: from localhost ([185.92.221.13])
-	by smtp.gmail.com with ESMTPSA id w14sm441426ejv.58.2019.05.15.05.28.17
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 15 May 2019 05:28:17 -0700 (PDT)
-Date: Wed, 15 May 2019 12:28:17 +0000
-From: Wei Yang <richard.weiyang@gmail.com>
-To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-Message-ID: <20190515122817.of52yngzguy6xfwn@master>
-References: <20190424004700.12766-1-richardw.yang@linux.intel.com>
-	<20190424004700.12766-3-richardw.yang@linux.intel.com>
-	<0eb5e5a5-593e-f4a2-7e2d-a9fed481ab6c@gmail.com>
-	<20190426005133.GB25513@richard> <20190514151813.GL2753@work-vm>
-	<20190515063827.GB11845@richard> <20190515070341.GA24741@richard>
-	<20190515093837.GD2668@work-vm>
+	(envelope-from <frederic.konrad@adacore.com>) id 1hQt4Y-0006EX-SK
+	for qemu-devel@nongnu.org; Wed, 15 May 2019 08:31:52 -0400
+Received: from mel.act-europe.fr ([194.98.77.210]:39574
+	helo=smtp.eu.adacore.com)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <frederic.konrad@adacore.com>)
+	id 1hQt4Y-0006C1-MY
+	for qemu-devel@nongnu.org; Wed, 15 May 2019 08:31:50 -0400
+Received: from localhost (localhost [127.0.0.1])
+	by filtered-smtp.eu.adacore.com (Postfix) with ESMTP id 5027F81396;
+	Wed, 15 May 2019 14:31:48 +0200 (CEST)
+X-Virus-Scanned: Debian amavisd-new at eu.adacore.com
+Received: from smtp.eu.adacore.com ([127.0.0.1])
+	by localhost (smtp.eu.adacore.com [127.0.0.1]) (amavisd-new, port 10024)
+	with ESMTP id UOv47WxQr_8i; Wed, 15 May 2019 14:31:48 +0200 (CEST)
+Received: from wifi-guest-96.act-europe.fr (wifi-guest-96.act-europe.fr
+	[10.10.126.96])
+	(using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by smtp.eu.adacore.com (Postfix) with ESMTPSA id 1A2EC8138C;
+	Wed, 15 May 2019 14:31:48 +0200 (CEST)
+From: KONRAD Frederic <frederic.konrad@adacore.com>
+To: qemu-devel@nongnu.org
+Date: Wed, 15 May 2019 14:31:26 +0200
+Message-Id: <1557923493-4836-1-git-send-email-frederic.konrad@adacore.com>
+X-Mailer: git-send-email 1.8.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190515093837.GD2668@work-vm>
-User-Agent: NeoMutt/20170113 (1.7.2)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::541
-Subject: Re: [Qemu-devel] [PATCH 2/4] migration/savevm: use
- migration_is_blocked to validate
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 194.98.77.210
+Subject: [Qemu-devel] [PATCH v3 0/7] Leon3 patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -84,80 +57,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Wei Yang <richard.weiyang@gmail.com>
-Cc: quintela@redhat.com, Daniel Henrique Barboza <danielhb413@gmail.com>,
-	Wei Yang <richardw.yang@linux.intel.com>, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, mark.cave-ayland@ilande.co.uk,
+	chouteau@adacore.com, frederic.konrad@adacore.com,
+	philmd@redhat.com, atar4qemu@gmail.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 15, 2019 at 10:38:37AM +0100, Dr. David Alan Gilbert wrote:
->* Wei Yang (richardw.yang@linux.intel.com) wrote:
->> On Wed, May 15, 2019 at 02:38:27PM +0800, Wei Yang wrote:
->> >On Tue, May 14, 2019 at 04:18:14PM +0100, Dr. David Alan Gilbert wrote:
->> >>* Wei Yang (richardw.yang@linux.intel.com) wrote:
->> >>> 
->> >>> Well, when you look into the source side of migration:
->> >>> 
->> >>> qmp_migrate
->> >>>   migrate_prepare
->> >>>     migration_is_blocked
->> >>> 
->> >>> This means if migration_is_blocked fails, the source will not start migration.
->> >>> And it is the same as save_snapshot.
->> >>> 
->> >>> From my understanding, when we load a vm, it should check the same
->> >>> requirement.
->> >>
->> >>I've been thinking about this, and I think I agree with Daniel on this.
->> >>The 'migration_blockers' list tells you that something about the
->> >>*current* state of a device means that it can't be migrated - e.g.
->> >>a 9pfs with a mounted filesystem can't be migrated.
->> >>
->> >>If we're about to reload the state from a snapshot, then the saved
->> >>snapshot's state must have been migratable, so that's OK.
->> >>
->> >
->> >The situation is on a vm with 'migration_blockers' still could reload from a
->> >snapshot.
->> >
->> >This sounds reasonable. Thanks :-)
->> >
->> 
->> Well, this is still a little strange. The means source vm and destination vm
->> could have different configuration. Is this common?
->
->It's not different configuration that I'm worried about here; but it's different runtime state.
->Items can get added/removed from migration_blockers dynamically
->depending on the behaviour of the guest; e.g. a device might only
->migratable in certain states.
->
+Hi all,
 
-I am not familiar with the usage of migration_blockers, just found one case
-when we add a reason to it. -- vhost_dev_init().
+Those are some little fixes for the leon3 machine:
+  * The first patch makes an error message more friendly when no kernel /=
+ bios
+    are provided.
+  * The three next one remove the old-style create function as suggested =
+by
+    Mark.
+  * The fifth part initializes the uart and the timer when no bios are
+    provided.
+  * The sixth part adds AHB and APB plug and play devices to allow to boo=
+t
+    linux.
+  * The last part adds myself to the MAINTAINERS for this board.
 
-Per my understanding, this is a device. We specify it in command line or use
-hot-plug to add it. To me, guest may not alter the add/remove? Looks even we
-have one such device, we still could load vm. This looks not bad, but we have
-the different devices from source. 
+The test images are available here: https://www.gaisler.com/anonftp/linux=
+/lin
+ux-2.6/images/leon-linux-4.9/leon-linux-4.9-1.0/up/
 
-BTW, migration works if source and destination have different devices?
+Tested with:
+  qemu-system-sparc -M leon3_generic --nographic --kernel image.ram
 
-As you mentioned, these is some case where guest could add/remove a reason to
-migration_blockers.  This is what you concerned right?
+V2 -> V3:
+  * rebased.
+  * added patches 1, 2, 3, 4 as suggested by Mark.
+  * fixed DEVICE_NATIVE_ENDIAN to DEVICE_BIG_ENDIAN in patch 6 as suggest=
+ed by
+    Mark.
+  * added include/hw/*/grlib* to the MAINTAINED file as suggested by Mark=
+.
+V1 -> V2:
+  * minor fixes in the first patch suggested by Philippe.
 
-Do we need to limit the usage of migration_blockers? Just use this in the case
-you concerned?
+Regards,
+Fred
 
->Dave
->
->
->> -- 
->> Wei Yang
->> Help you, Help me
->--
->Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+KONRAD Frederic (7):
+  leon3: fix the error message when no bios are provided
+  grlib,irqmp: get rid of the old-style create function
+  grlib,gptimer: get rid of the old-style create function
+  grlib,apbuart: get rid of the old-style create function
+  leon3: add a little bootloader
+  leon3: introduce the plug and play mechanism
+  MAINTAINERS: add myself for leon3
 
--- 
-Wei Yang
-Help you, Help me
+ MAINTAINERS                         |   3 +-
+ hw/char/grlib_apbuart.c             |   4 +-
+ hw/intc/grlib_irqmp.c               |   3 +-
+ hw/misc/Makefile.objs               |   2 +
+ hw/misc/grlib_ahb_apb_pnp.c         | 269 ++++++++++++++++++++++++++++++=
+++++++
+ hw/sparc/leon3.c                    | 157 ++++++++++++++++++---
+ hw/timer/grlib_gptimer.c            |   4 +-
+ include/hw/misc/grlib_ahb_apb_pnp.h |  60 ++++++++
+ include/hw/sparc/grlib.h            |  78 +----------
+ 9 files changed, 483 insertions(+), 97 deletions(-)
+ create mode 100644 hw/misc/grlib_ahb_apb_pnp.c
+ create mode 100644 include/hw/misc/grlib_ahb_apb_pnp.h
+
+--=20
+1.8.3.1
+
 
