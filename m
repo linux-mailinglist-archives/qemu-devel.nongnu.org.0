@@ -2,76 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A8A8C1F99D
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 May 2019 19:52:50 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40558 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0B701F99B
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 May 2019 19:52:24 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40554 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQy5B-0002pK-Sf
-	for lists+qemu-devel@lfdr.de; Wed, 15 May 2019 13:52:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49176)
+	id 1hQy4l-0002JF-G9
+	for lists+qemu-devel@lfdr.de; Wed, 15 May 2019 13:52:23 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49510)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hQy1T-0000WZ-VQ
-	for qemu-devel@nongnu.org; Wed, 15 May 2019 13:49:01 -0400
+	(envelope-from <berrange@redhat.com>) id 1hQy2V-0001FX-6F
+	for qemu-devel@nongnu.org; Wed, 15 May 2019 13:50:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hQy1S-0007bn-Uj
-	for qemu-devel@nongnu.org; Wed, 15 May 2019 13:48:59 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:37597)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hQy1S-0007aW-OX
-	for qemu-devel@nongnu.org; Wed, 15 May 2019 13:48:58 -0400
-Received: by mail-wm1-x343.google.com with SMTP id 7so896490wmo.2
-	for <qemu-devel@nongnu.org>; Wed, 15 May 2019 10:48:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=references:user-agent:from:to:cc:subject:in-reply-to:date
-	:message-id:mime-version:content-transfer-encoding;
-	bh=WGQH/XWx5FNcLXxKJxKRg9e3uQ1KUh4DEQVshiOeoVk=;
-	b=OeJ559/gdffWPfotCJNbwuXoCP9Fo2YZP/vK3KXugYTHYpJo4T+i/yTB3GAWVVKZ4R
-	2g6ot7vYhYz1iSjZtHx8JuSIqiT5MppbJ7I7eurU16Oi0LOjPHuSNxJBFvWVRKSE4Gb9
-	r6xUCQRVsEC7xiqJpC8OSvevhvco3qyaoMlIkAhOJFql6Vbled7D8BJ6jztHDcQjkGsw
-	5WFjv+uurZCGId75ZuIVCRnnikEftyZoo//UQcwPM2h6WZBqpWooNZvhqECEz5SvqU78
-	u/oQ9Je21H9OwouTkVOlnZFwoBsVgVU4nJYtDHBdb6tySCr/IvfygDIXalRYlFkZxJ9N
-	70Fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:references:user-agent:from:to:cc:subject
-	:in-reply-to:date:message-id:mime-version:content-transfer-encoding;
-	bh=WGQH/XWx5FNcLXxKJxKRg9e3uQ1KUh4DEQVshiOeoVk=;
-	b=EYLGWuHauRyviHaO2Vm+l94iSg4acAcZBuxwBxQ6XEXZrigo9CHOjN8kgfXOkXVbCf
-	ligfVkLhowTsH7KS4RA1bnDPXD7iT8BKpQmbjnH+uV44heoqcxjvSvB+2UpSKHir+fa7
-	lz6TvcFaDMfOITeVEXWkmGD2MyJ9Jm0snwFUScfozXm29sd3vWlZyqj7SkUA2vclaV5s
-	IjU1/BpCw1IFVIP23dPpXoIDly6Fsm5Jxc88++clFUyrSDxoUpW2uGRgvqty/51mVPfP
-	++fNwyUCJN52TE/Ne+RfF+YiuDGkKRWQNf7N9aEehADAm1R5ZzIkQBBAFVqStfM5Svsr
-	XQWQ==
-X-Gm-Message-State: APjAAAXU1dmJ7JNR6VcOCP3u192MgUVHiRLd8VSzxAMSaoJb7qAWW87q
-	+fMNlPBi3kcn4TE+t71E11PWhA==
-X-Google-Smtp-Source: APXvYqyF6/B7CTd4rVbGtQMdpXO+6QkX2anhlMFDMGnZVK44nggKz+a/OXNG3VjtkzSabvvppE4ZBA==
-X-Received: by 2002:a7b:ca47:: with SMTP id m7mr5832867wml.150.1557942536382; 
-	Wed, 15 May 2019 10:48:56 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
-	by smtp.gmail.com with ESMTPSA id n4sm3831041wmb.22.2019.05.15.10.48.55
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 15 May 2019 10:48:55 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id 1A8E71FF87;
-	Wed, 15 May 2019 18:48:55 +0100 (BST)
-References: <20190502081554.5521-1-arilou@gmail.com>
-	<20190502081554.5521-27-arilou@gmail.com>
-User-agent: mu4e 1.3.1; emacs 26.1
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Jon Doron <arilou@gmail.com>
-In-reply-to: <20190502081554.5521-27-arilou@gmail.com>
-Date: Wed, 15 May 2019 18:48:55 +0100
-Message-ID: <878sv7mwvs.fsf@zen.linaroharston>
+	(envelope-from <berrange@redhat.com>) id 1hQy2T-0008WR-Um
+	for qemu-devel@nongnu.org; Wed, 15 May 2019 13:50:03 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41782)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hQy2T-0008Ui-My
+	for qemu-devel@nongnu.org; Wed, 15 May 2019 13:50:01 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id BD2733083045;
+	Wed, 15 May 2019 17:50:00 +0000 (UTC)
+Received: from redhat.com (ovpn-112-65.ams2.redhat.com [10.36.112.65])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 27689608A6;
+	Wed, 15 May 2019 17:49:58 +0000 (UTC)
+Date: Wed, 15 May 2019 18:49:56 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <20190515174956.GL4751@redhat.com>
+References: <20190514191653.31488-1-richard.henderson@linaro.org>
+	<20190514191653.31488-2-richard.henderson@linaro.org>
+	<20190515165328.GK4751@redhat.com>
+	<314ae411-2d75-00e6-109a-2604a36973b7@linaro.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <314ae411-2d75-00e6-109a-2604a36973b7@linaro.org>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.46]);
+	Wed, 15 May 2019 17:50:00 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::343
-Subject: Re: [Qemu-devel] [PATCH v9 26/27] gdbstub: Add support to read a
- MSR for KVM target
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v7 01/24] build: Link user-only with
+ crypto-rng-obj-y
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -83,102 +62,113 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: lvivier@redhat.com, qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, May 15, 2019 at 10:22:08AM -0700, Richard Henderson wrote:
+> On 5/15/19 9:53 AM, Daniel P. Berrang=C3=A9 wrote:
+> > On Tue, May 14, 2019 at 12:16:30PM -0700, Richard Henderson wrote:
+> >> For user-only, we require only the random number bits of the
+> >> crypto subsystem.
+> >>
+> >> We need to preserve --static linking, which for many recent Linux
+> >> distributions precludes using GnuTLS or GCrypt.  Instead, use our
+> >> random-platform module unconditionally.
+> >=20
+> > I don't think we need to special case in this way.
+> >=20
+> > Today if you do a default build with all targets & tools and want
+> > to use --static, but don't have static libs available for some
+> > things you can achieve that
+> >=20
+> >  ./configure --static --disable-gnutls --disable-gcrypt --disable-net=
+tle
+>=20
+> But we don't really want all of those --disable arguments by default.  =
+It would
+> be one thing if one explicitly used --enable-gnutls and got link errors=
+.  We
+> must preserve --static working all by itself.
 
-Jon Doron <arilou@gmail.com> writes:
+That's already not working today unless you add extra args to disable
+build of the system emulators and tools.=20
 
-> gdb> maint packet qqemu.kvm.Rdmsr:MsrIndex
+> > Previously if you took care to disable system emulators & tools
+> > you could avoid the need to pass the --disable-* args, but I
+> > think that's fairly minor.
+>=20
+> Well, no, you get link errors.
+>=20
+> (As an aside, IMO pkg-config is stupid in being only able to ask "is ve=
+rsion X
+> installed" without also being about to ask "is a static version of X
+> installed".  pkg-config has a --static option, it just doesn't use it.)
 
-gdbserver already has a mechanism for exposing system registers see:
+Yeah it is very frustrating that it isn't actually useful in the way
+you'd expect.
 
-  commit 200bf5b7ffea635079cc05fdfb363372b9544ce7
-  Author: Abdallah Bouassida <abdallah.bouassida@lauterbach.com>
-  Date:   Fri May 18 17:48:07 2018 +0100
+> But suppose we add back the patch for --static sanity check from v6.  W=
+hat are
+> we left with?  No crypto libraries remain on Fedora 30.  It appears tha=
+t Ubuntu
+> Bionic ships a static version of nettle, but nothing else.  Is that use=
+ful on
+> its own?
 
-for an example. As MSR's are very specific to x86 all this should be
-handled via target/i386/gdbstub and kept out of the generic code.
+nettle isn't useful from POV of RNG.
 
->
-> Signed-off-by: Jon Doron <arilou@gmail.com>
-> ---
->  gdbstub.c | 38 +++++++++++++++++++++++++++++++++++++-
->  1 file changed, 37 insertions(+), 1 deletion(-)
->
-> diff --git a/gdbstub.c b/gdbstub.c
-> index 34da10260d..f48c3a2b5f 100644
-> --- a/gdbstub.c
-> +++ b/gdbstub.c
-> @@ -2141,7 +2141,14 @@ static void handle_query_attached(GdbCmdContext *g=
-db_ctx, void *user_ctx)
->
->  static void handle_query_qemu_supported(GdbCmdContext *gdb_ctx, void *us=
-er_ctx)
->  {
-> -    put_packet(gdb_ctx->s, "sstepbits;sstep;PhyMemMode");
-> +    snprintf(gdb_ctx->str_buf, sizeof(gdb_ctx->str_buf),
-> +             "sstepbits;sstep;PhyMemMode");
-> +
-> +    if (kvm_enabled()) {
-> +        pstrcat(gdb_ctx->str_buf, sizeof(gdb_ctx->str_buf), ";kvm.Rdmsr"=
-);
-> +    }
-> +
-> +    put_packet(gdb_ctx->s, gdb_ctx->str_buf);
->  }
->
->  static void handle_query_qemu_phy_mem_mode(GdbCmdContext *gdb_ctx,
-> @@ -2166,6 +2173,29 @@ static void handle_set_qemu_phy_mem_mode(GdbCmdCon=
-text *gdb_ctx, void *user_ctx)
->      put_packet(gdb_ctx->s, "OK");
->  }
->
-> +static void handle_query_kvm_read_msr(GdbCmdContext *gdb_ctx, void *user=
-_ctx)
-> +{
-> +    uint64_t msr_val;
-> +
-> +    if (!kvm_enabled()) {
-> +        return;
-> +    }
-> +
-> +    if (!gdb_ctx->num_params) {
-> +        put_packet(gdb_ctx->s, "E22");
-> +        return;
-> +    }
-> +
-> +    if (kvm_arch_read_msr(gdbserver_state->c_cpu, gdb_ctx->params[0].val=
-_ul,
-> +                          &msr_val)) {
-> +        put_packet(gdb_ctx->s, "E00");
-> +        return;
-> +    }
-> +
-> +    snprintf(gdb_ctx->str_buf, sizeof(gdb_ctx->str_buf), "0x%" PRIx64, m=
-sr_val);
-> +    put_packet(gdb_ctx->s, gdb_ctx->str_buf);
-> +}
-> +
->  static GdbCmdParseEntry gdb_gen_query_set_common_table[] =3D {
->      /* Order is important if has same prefix */
->      {
-> @@ -2250,6 +2280,12 @@ static GdbCmdParseEntry gdb_gen_query_table[] =3D {
->          .handler =3D handle_query_qemu_phy_mem_mode,
->          .cmd =3D "qemu.PhyMemMode",
->      },
-> +    {
-> +        .handler =3D handle_query_kvm_read_msr,
-> +        .cmd =3D "qemu.kvm.Rdmsr:",
-> +        .cmd_startswith =3D 1,
-> +        .schema =3D "l0"
-> +    },
->  };
->
->  static GdbCmdParseEntry gdb_gen_set_table[] =3D {
+> > So I think we should just use $(crypto-obj-y) unconditionally in
+> > the user emulators, and get rid of crypto-aes-obj-y too.
+> >=20
+> > This will give a consistent crypto story across all the things we
+> > build with no special cases.
+>=20
+> Well, maybe.  But what are we trying to accomplish?
+
+With this v7, if building dynamically we get some parts of QEMU using
+the full crypto/ impl and thus GNUTLS for RNG, and some parts of QEMU
+using just the rng-platform.o.  I'd like it all to use the full crypto
+impl when building dynamically.
+
+Similarly if building statically, it should again result in the same
+fallback choices. If a static gnutls is available it should use that,
+but if none is present everything, it will get build with rng-platform.o
+
+IOW, either we just document need to pass
+
+   --disable-gnutls --disable-gcrypt --disable-nettle
+
+if the distro lacks static versions of those libs - we already need
+thus documented as we already suffer from that problem when building
+statically.
+
+Or we need to make configure more clever and check if static linking
+actually works for these libs.
+
+> What use is crypto to the host side of linux-user?  In general, all the=
+ crypto
+> that the application will do is on the guest side, within guest version=
+s of
+> gnutls etc.  All crypto that the guest expects of its kernel is done pa=
+ssing
+> off the syscall to the host kernel.
+>=20
+> That's why, here in v7, I began to think that perhaps all the faffing a=
+bout
+> with pkg-config vs --static was just a waste of time.
+>=20
+> Have I missed something?
 
 
---
-Alex Benn=C3=A9e
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 
