@@ -2,71 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6318A1EC3A
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 May 2019 12:39:53 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:34930 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94D7C1ECB4
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 May 2019 13:01:07 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:35113 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQrKC-0001Lw-KQ
-	for lists+qemu-devel@lfdr.de; Wed, 15 May 2019 06:39:52 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40379)
+	id 1hQrek-0005WE-O7
+	for lists+qemu-devel@lfdr.de; Wed, 15 May 2019 07:01:06 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43419)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <stefanha@gmail.com>) id 1hQrIr-0000lS-Ck
-	for qemu-devel@nongnu.org; Wed, 15 May 2019 06:38:30 -0400
+	(envelope-from <quintela@redhat.com>) id 1hQrcC-0004D2-JT
+	for qemu-devel@nongnu.org; Wed, 15 May 2019 06:58:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <stefanha@gmail.com>) id 1hQrIq-00071g-Ih
-	for qemu-devel@nongnu.org; Wed, 15 May 2019 06:38:29 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:39022)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1hQrIq-000719-9f
-	for qemu-devel@nongnu.org; Wed, 15 May 2019 06:38:28 -0400
-Received: by mail-wr1-x444.google.com with SMTP id w8so2087403wrl.6
-	for <qemu-devel@nongnu.org>; Wed, 15 May 2019 03:38:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=fGQomAmfYsv3QFUEiAS69lY4nkrxcZdpENt6ktQXgJg=;
-	b=EvZUowFzLmzLaPiFsb7SzRRTDd+ytbML8Bwz3fajKFp6WS5+iVh2GPngPEwvp5WBe0
-	WZFmdp8prTUjVjI9uy7ybG4/fZkS0QUAtzlT9IX1NF+U5DS+3AN5wqlQYMCe0hvf4UP8
-	5kRKO6SMqaHaXj7lMt2wigM37KZ0xqyiT0k9398R+bfKXMzV+NmUIGgjDCy3R59TXaz+
-	i+s4uZRUvhm4hqVqJ/9TGA1wGjHZ2s2ORq7dMeuOWz/loqEwfLVf/peUyfOr0/DNI3pQ
-	Xx6rXUA4AJ3m1BniG9VV2X4KmOGVXF4VCIgeNgJtw0n34LZAmADq6/nZ6Ci0La6wkWbl
-	CBZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=fGQomAmfYsv3QFUEiAS69lY4nkrxcZdpENt6ktQXgJg=;
-	b=saoMmxh2clxZq87rc1sR5tozlrXuPTjNmDti+cyFHz7eQqXPz3cG2p8d9jROUEZUrd
-	iyZqAi5pxTXNI9WiJkFqVtylqqnsiCTc5V/DYU8njEkinPiSJC8QmL4oL0rYPo4t3vgL
-	7weJEJm+gZTHbIh7LPOWqkiyhA33hk1CgDcjLMcIaMQb0W03JKa/0IAdVmXqybnjATrr
-	6akwhZMLva+lieqhwTxld+plUFXbcNVDWHYja784ZBgNUKIIj82yvrizKe/6c8Ubq4gz
-	PiSd9E61NfXnMKhqIqOAE0juw6zDMT/vBX9BkM1NGrvZ2lScZeyxeVLKgGq+9JaK2/x1
-	Z6NA==
-X-Gm-Message-State: APjAAAXtTcl1Oufsd6eRpdr3FZuGPC7ywJwy+CKy+33nFLv+G2Pe3fP1
-	ATzfEFHNmzumluEbeilEkxg=
-X-Google-Smtp-Source: APXvYqzziJVp5kAUOFWZexfdl26AUlqeX6Q5E3Thd4PVBUC2SBjd9D/w/vp3BxnDarxN1xFxuOzwYA==
-X-Received: by 2002:adf:e691:: with SMTP id r17mr6338422wrm.50.1557916707090; 
-	Wed, 15 May 2019 03:38:27 -0700 (PDT)
-Received: from localhost ([51.15.41.238]) by smtp.gmail.com with ESMTPSA id
-	u125sm3125319wme.15.2019.05.15.03.38.25
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 15 May 2019 03:38:25 -0700 (PDT)
-Date: Wed, 15 May 2019 11:38:25 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
-Message-ID: <20190515103825.GE29507@stefanha-x1.localdomain>
-References: <20190510190140.17589-1-dgilbert@redhat.com>
+	(envelope-from <quintela@redhat.com>) id 1hQrSl-0007WU-B5
+	for qemu-devel@nongnu.org; Wed, 15 May 2019 06:48:44 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60878)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <quintela@redhat.com>) id 1hQrSl-0007Vz-5o
+	for qemu-devel@nongnu.org; Wed, 15 May 2019 06:48:43 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 4C7483680F
+	for <qemu-devel@nongnu.org>; Wed, 15 May 2019 10:48:42 +0000 (UTC)
+Received: from redhat.com (ovpn-116-74.ams2.redhat.com [10.36.116.74])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id AE11B5B7A9;
+	Wed, 15 May 2019 10:48:41 +0000 (UTC)
+From: Juan Quintela <quintela@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+In-Reply-To: <87tvf8svr3.fsf@dusky.pond.sub.org> (Markus Armbruster's message
+	of "Mon, 08 Apr 2019 11:15:44 +0200")
+References: <20190403114958.3705-1-quintela@redhat.com>
+	<20190403114958.3705-7-quintela@redhat.com>
+	<87tvf8svr3.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.2 (gnu/linux)
+Date: Wed, 15 May 2019 12:48:38 +0200
+Message-ID: <87d0kkj8mx.fsf@trasno.org>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="xJK8B5Wah2CMJs8h"
-Content-Disposition: inline
-In-Reply-To: <20190510190140.17589-1-dgilbert@redhat.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: Re: [Qemu-devel] [PATCH] monitor: Fix gva2gpa coverityism
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.30]);
+	Wed, 15 May 2019 10:48:42 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 6/8] migration: Add multifd-compress
+ parameter
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -78,50 +60,100 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Reply-To: quintela@redhat.com
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+	Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org,
+	"Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Markus Armbruster <armbru@redhat.com> wrote:
+> Juan Quintela <quintela@redhat.com> writes:
+>
+>> Signed-off-by: Juan Quintela <quintela@redhat.com>
+>>
+>> ---
+>> Rename it to NONE
 
---xJK8B5Wah2CMJs8h
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+>> @@ -1822,6 +1826,19 @@ void hmp_migrate_set_parameter(Monitor *mon, const QDict *qdict)
+>>          p->has_multifd_channels = true;
+>>          visit_type_int(v, param, &p->multifd_channels, &err);
+>>          break;
+>> +    case MIGRATION_PARAMETER_MULTIFD_COMPRESS:
+>> +        p->has_multifd_compress = true;
+>> +        visit_type_enum(v, param, &compress_type,
+>> +                        &MultifdCompress_lookup, &err);
+>
+> visit_type_MultifdCompress(), please.
 
-On Fri, May 10, 2019 at 08:01:40PM +0100, Dr. David Alan Gilbert (git) wrot=
-e:
-> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
->=20
-> Coverity is complaining that while I'm checking the return
-> value of mon_get_cpu(), I'm not actually using the checked value,
-> I'm calling it again and thus it's worried I might get null;
-> I don't think that's actually possible since i'm under
-> lock anyway.
-> However, it's a sensible cleanup.
->=20
-> CID: 1401346
->=20
-> Signed-off-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> ---
->  monitor.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+done.
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+Interesting that I can
 
---xJK8B5Wah2CMJs8h
-Content-Type: application/pgp-signature; name="signature.asc"
+#include "qapi/qapi-visit-common.h"
 
------BEGIN PGP SIGNATURE-----
+but not what I would expect/want:
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAlzb7CAACgkQnKSrs4Gr
-c8iNCQf/T3fCkKhEZQr1u1P0gMG9OOdX90X7+ZzRlXbdf7nKl1XT7i2azL69TJXr
-YT4DWoktpbrCdEppVRKCCi/mqOQRENpjjvOif93hJFuaVuLDKVJFz0PB7Vv/h3Vc
-Zoifrasjz1jiKCYyIjs8u1B/wZr97nuJadPURK/0K5YHOScFDFPHA/2aTksnc7Z6
-uNGtkakR3S9l35bEXjkPQqmPX+BuCVEJ29eM4oLxdR+OqbSHEJ3iIrOcxRGDbOTM
-hLFJyayvt8niPyJ5FHY09Gvu9Ps0+KOKU/YY2EMiT8oMlcl83l3NM7SZ/tYTL59W
-x0NocyGVqjU06/z6oNNIxB7J05tjuQ==
-=0ABn
------END PGP SIGNATURE-----
+#include "qapi/qapi-visit.h"
 
---xJK8B5Wah2CMJs8h--
+Perhaps we should remove
+
+#include "qapi-visit-target.h"
+
+from there?
+
+Anyways, independent of this patch.
+
+>> diff --git a/hw/core/qdev-properties.c b/hw/core/qdev-properties.c
+>> index 5da1439a8b..7c8e71532f 100644
+>> --- a/hw/core/qdev-properties.c
+>> +++ b/hw/core/qdev-properties.c
+>> @@ -645,6 +645,17 @@ const PropertyInfo qdev_prop_fdc_drive_type = {
+>>      .set_default_value = set_default_value_enum,
+>>  };
+>>  
+>> +/* --- MultifdCompress --- */
+>> +
+>> +const PropertyInfo qdev_prop_multifd_compress = {
+>> +    .name = "MultifdCompress",
+>> +    .description = "multifd_compress values",
+>
+> Similar property declarations list the valid values in .description.
+
+Fixed, thanks.
+
+>>  
+>> +#define DEFINE_PROP_MULTIFD_COMPRESS(_n, _s, _f, _d) \
+>> +    DEFINE_PROP_SIGNED(_n, _s, _f, _d, qdev_prop_multifd_compress, MultifdCompress)
+>> +
+>
+> As long as qdev_prop_multifd_compress is exposed in qdev-properties.h,
+> hiding the macro using it doesn't make sense to me.
+
+Where do you want it to be?  This should only be used here, but if you
+want it anywhere else, told me where.
+
+
+>> +##
+>> +# @MultifdCompress:
+>> +#
+>> +# An enumeration of multifd compression.
+>> +#
+>> +# @none: no compression.
+>> +#
+>> +# Since: 4.1
+>> +#
+>> +##
+>> +{ 'enum': 'MultifdCompress',
+>> +  'data': [ 'none' ] }
+>
+> Any particular reason for putting this in common.json?  As is, it looks
+> rather migration-specific to me...
+
+Not sure if with new "qapi" compiler it works, it used to be that it
+failed if you declared an enum anywhere else.  See how I have to put
+property info into qdev-properties.c instead of any migration file.
+
+
+Thanks, Juan.
 
