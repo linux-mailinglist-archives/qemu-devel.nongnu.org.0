@@ -2,60 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7FD1A1EC37
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 May 2019 12:39:10 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:34924 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 357431EC13
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 May 2019 12:25:14 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:34724 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQrJV-0000m1-FD
-	for lists+qemu-devel@lfdr.de; Wed, 15 May 2019 06:39:09 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40251)
+	id 1hQr61-0003DQ-Bv
+	for lists+qemu-devel@lfdr.de; Wed, 15 May 2019 06:25:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37678)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hQrIF-0000TE-0s
-	for qemu-devel@nongnu.org; Wed, 15 May 2019 06:37:52 -0400
+	(envelope-from <stefanha@gmail.com>) id 1hQr4R-0002cj-Gq
+	for qemu-devel@nongnu.org; Wed, 15 May 2019 06:23:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hQrID-0006LP-Q1
-	for qemu-devel@nongnu.org; Wed, 15 May 2019 06:37:50 -0400
-Received: from indium.canonical.com ([91.189.90.7]:55070)
+	(envelope-from <stefanha@gmail.com>) id 1hQr4Q-0003oJ-GP
+	for qemu-devel@nongnu.org; Wed, 15 May 2019 06:23:35 -0400
+Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:40774)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hQrID-0006KS-Kl
-	for qemu-devel@nongnu.org; Wed, 15 May 2019 06:37:49 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
-	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hQrIA-0004x3-RT
-	for <qemu-devel@nongnu.org>; Wed, 15 May 2019 10:37:47 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id CDB052E80CF
-	for <qemu-devel@nongnu.org>; Wed, 15 May 2019 10:37:46 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 15 May 2019 10:23:31 -0000
-From: Stefan Hajnoczi <1828508@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: alpha76 stefanha
-X-Launchpad-Bug-Reporter: Jake Mikelson (alpha76)
-X-Launchpad-Bug-Modifier: Stefan Hajnoczi (stefanha)
+	(Exim 4.71) (envelope-from <stefanha@gmail.com>) id 1hQr4Q-0003mO-9P
+	for qemu-devel@nongnu.org; Wed, 15 May 2019 06:23:34 -0400
+Received: by mail-wm1-x343.google.com with SMTP id h11so1895789wmb.5
+	for <qemu-devel@nongnu.org>; Wed, 15 May 2019 03:23:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=date:from:to:cc:subject:message-id:references:mime-version
+	:content-disposition:in-reply-to:user-agent;
+	bh=ORlIJW1ZD0nZ9aWk/z/m+9BDPE634oBXKYOP+njEA2M=;
+	b=Wvp/V7SAK+XaS0KEUQqN0tHtfQg4GhZbrkbU30oH9D3yBuiItxmALROpr6BUdv3cFc
+	fJw4qOPw+UtZ0NOEfNQOcrv/6AMwk7eGmNDnXrNVAjMWm/4jJteTE12bnOikWMM/4tyL
+	uOd9MRbzoCzx8kdeL6JgUeM8li7oF+jsN5QVlmaByinCqh3PJDrx/hCvAsJni+77OeiB
+	yRLhSqQccobGnd4VlU5wGHlSrGwGyUqXiqlx50qkPDA02HzRFAvV3LLp3JRzChMPiqRY
+	ELgALLqJMgGfpeGFbyiGRMO3BA68YBxwmHu3a4n6KiQ+Qo0nzxRD13K2cFra/uc1j+r9
+	hGLg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to:user-agent;
+	bh=ORlIJW1ZD0nZ9aWk/z/m+9BDPE634oBXKYOP+njEA2M=;
+	b=R71Ig8Wee//82NB+jdxfyQrL06yaFbxsNi+wzl9e4KTef65dhnXTF5XRKaQKhvOWZn
+	ehtsnes17oF1DNZ/k9i3bS10K07aCGj9ca0jiYZ0vvyvvWJztpU2X8D7OyI1bEsPZ9ii
+	ZVZAR6p7KzhjI4yKiTZdvvis1kp/ROZmp8ir4GXXao8FAkczV9fF2jdPjG7ISf5vs8L/
+	HTqG5yy9u2fNSvJF0rWi/sk8g+cpwJD9sp6Z4FGN3kRJWC6pI9XsZl7aFnUNGnsdJF/H
+	DEdPusT/xNgkBJyjFTFFghj17hJvt2+2XY1umEOPGBl/t9DBRAYTfQLadiodtzMW/7lh
+	/MFw==
+X-Gm-Message-State: APjAAAX7+3qUtAH+18f8wI/SlPb3a2Sat5O7yPsR9BrDZDjC2Wnkz9rz
+	AwmO4zrvnB+V9SSziklYe/4=
+X-Google-Smtp-Source: APXvYqyC9U/9S2NYRWTUdb/W11hIob9GALohAvHXn+Ut7PiEXLaUCkSPdjMQ3KjvN4x8WP7buaD5ow==
+X-Received: by 2002:a1c:5fc2:: with SMTP id t185mr23189006wmb.95.1557915813322;
+	Wed, 15 May 2019 03:23:33 -0700 (PDT)
+Received: from localhost ([51.15.41.238])
+	by smtp.gmail.com with ESMTPSA id 88sm3612384wrc.33.2019.05.15.03.23.32
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 15 May 2019 03:23:32 -0700 (PDT)
+Date: Wed, 15 May 2019 11:23:31 +0100
+From: Stefan Hajnoczi <stefanha@gmail.com>
+To: Bug 1828508 <1828508@bugs.launchpad.net>
+Message-ID: <20190515102331.GC29507@stefanha-x1.localdomain>
 References: <155746839267.15002.8138674450166661929.malonedeb@wampee.canonical.com>
-Message-Id: <20190515102331.GC29507@stefanha-x1.localdomain>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18962";
-	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: ee47e2f62e51892c3492e814b15dbfd3998dc1c0
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="i7F3eY7HS/tUJxUd"
+Content-Disposition: inline
+In-Reply-To: <155746839267.15002.8138674450166661929.malonedeb@wampee.canonical.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2a00:1450:4864:20::343
 Subject: Re: [Qemu-devel] [Bug 1828508] [NEW] qemu-img created VMDK files
  lead to "Unsupported or invalid disk type 7"
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,32 +79,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1828508 <1828508@bugs.launchpad.net>
+Cc: fam@euphon.net, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+
+--i7F3eY7HS/tUJxUd
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
 On Fri, May 10, 2019 at 06:06:32AM -0000, Jake Mikelson wrote:
 > Public bug reported:
-> =
-
+>=20
 > Using qemu-img version 3.1.50 (v3.1.0-13607-geb2db0f7ba-dirty) on a
 > Windows 10 machine.
-> =
-
+>=20
 > Converting a VHD to VMDK.
 > qemu-img.exe convert "c:\test\AppD-VM01.vhd" -O vmdk -o adapter_type=3Dbu=
 slogic -p "c:\test\AppD-VM01.vmdk"
-> =
-
+>=20
 > I have also tried:
 > qemu-img.exe convert "c:\test\AppD-VM01.vhd" -O vmdk -o adapter_type=3Dbu=
 slogic,hwversion=3D6 -p "c:\test\AppD-VM01.vmdk"
-> =
-
+>=20
 > Attaching the VMDK to a VM in VMware produces the following error when
 > powering on.
-> =
-
+>=20
 > Power On virtual machine:Failed to open disk scsi0:1: Unsupported or inva=
 lid disk type 7. Ensure that the disk has been imported.
 > Target: MyVM1
@@ -97,28 +113,21 @@ lid disk type 7. Ensure that the disk has been imported.
 > Error Stack
 > An error was received from the ESX host while powering on VM MyVM1.
 > Failed to start the virtual machine.
-> Module DevicePowerOn power on failed. =
-
+> Module DevicePowerOn power on failed.=20
 > Unable to create virtual SCSI device for scsi0:1, '/vmfs/volumes/5cca0155=
--bdddf31d-2714-00215acbeb1e/AppD-VM01/AppDdisk1-VM01.vmdk' =
-
+-bdddf31d-2714-00215acbeb1e/AppD-VM01/AppDdisk1-VM01.vmdk'=20
 > Failed to open disk scsi0:1: Unsupported or invalid disk type 7. Ensure t=
 hat the disk has been imported.
-> =
-
-> =
-
+>=20
+>=20
 > If I do not specify the adapter type, it creates an IDE VMDK which works =
 perfectly.
-> =
-
+>=20
 > ** Affects: qemu
 >      Importance: Undecided
 >          Status: New
-> =
-
-> -- =
-
+>=20
+> --=20
 > You received this bug notification because you are a member of qemu-
 > devel-ml, which is subscribed to QEMU.
 > https://bugs.launchpad.net/bugs/1828508
@@ -127,54 +136,20 @@ Which version of VMware are you running?
 
 Stefan
 
--- =
+--i7F3eY7HS/tUJxUd
+Content-Type: application/pgp-signature; name="signature.asc"
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1828508
+-----BEGIN PGP SIGNATURE-----
 
-Title:
-  qemu-img created VMDK files lead to "Unsupported or invalid disk type
-  7"
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAlzb6KMACgkQnKSrs4Gr
+c8hOswf+Nk4HcBAZ5RxLNDt+NlDABcpwPfVb5sVEAkj8LC5oLLjeXZFkph6DrYnX
+y5b+X8YXpygOv8274ExDiQgb+3jtGLX5stTCNYBAkPW3BYMf8cBgSvCXaTG69yPn
+rPIZi0Uw026adxGYupo0kk2I1URLomMaOjAWqhuj9q6/knmT297FqXAdaeahbyqy
+IEPb/j9uGNDkpMGlM8YyLAGRhS41a9u4LzUeaighLbM3bFK4H9xrTc7iM9yTdALQ
+xFCjDdJNCQqhumbm3JcynRxGqJuu9hQpdv9fzzejOi205rVCZK5Kgfq+EL1iaUJl
+HAayyxK5Cc0ZJKU1sIGUV2nW3czHTw==
+=bK94
+-----END PGP SIGNATURE-----
 
-Status in QEMU:
-  New
-
-Bug description:
-  Using qemu-img version 3.1.50 (v3.1.0-13607-geb2db0f7ba-dirty) on a
-  Windows 10 machine.
-
-  Converting a VHD to VMDK.
-  qemu-img.exe convert "c:\test\AppD-VM01.vhd" -O vmdk -o adapter_type=3Dbu=
-slogic -p "c:\test\AppD-VM01.vmdk"
-
-  I have also tried:
-  qemu-img.exe convert "c:\test\AppD-VM01.vhd" -O vmdk -o adapter_type=3Dbu=
-slogic,hwversion=3D6 -p "c:\test\AppD-VM01.vmdk"
-
-  Attaching the VMDK to a VM in VMware produces the following error when
-  powering on.
-
-  Power On virtual machine:Failed to open disk scsi0:1: Unsupported or inva=
-lid disk type 7. Ensure that the disk has been imported.
-  Target: MyVM1
-  vCenter Server: VCENTER
-  Error Stack
-  An error was received from the ESX host while powering on VM MyVM1.
-  Failed to start the virtual machine.
-  Module DevicePowerOn power on failed. =
-
-  Unable to create virtual SCSI device for scsi0:1, '/vmfs/volumes/5cca0155=
--bdddf31d-2714-00215acbeb1e/AppD-VM01/AppDdisk1-VM01.vmdk' =
-
-  Failed to open disk scsi0:1: Unsupported or invalid disk type 7. Ensure t=
-hat the disk has been imported.
-
-  =
-
-  If I do not specify the adapter type, it creates an IDE VMDK which works =
-perfectly.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1828508/+subscriptions
+--i7F3eY7HS/tUJxUd--
 
