@@ -2,51 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CADBC1ECB3
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 May 2019 13:00:45 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:35102 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F0D41ECFB
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 May 2019 13:04:04 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:35167 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQreO-0005Gq-Fq
-	for lists+qemu-devel@lfdr.de; Wed, 15 May 2019 07:00:44 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43305)
+	id 1hQrhb-0007oG-Hw
+	for lists+qemu-devel@lfdr.de; Wed, 15 May 2019 07:04:03 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43761)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <Dave.Martin@arm.com>) id 1hQrc5-00048b-9z
-	for qemu-devel@nongnu.org; Wed, 15 May 2019 06:58:22 -0400
+	(envelope-from <kwolf@redhat.com>) id 1hQrcc-0004ar-Uw
+	for qemu-devel@nongnu.org; Wed, 15 May 2019 06:58:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <Dave.Martin@arm.com>) id 1hQrXt-00085a-7D
-	for qemu-devel@nongnu.org; Wed, 15 May 2019 06:54:02 -0400
-Received: from foss.arm.com ([217.140.101.70]:37182)
-	by eggs.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <Dave.Martin@arm.com>) id 1hQrXt-00084F-09
-	for qemu-devel@nongnu.org; Wed, 15 May 2019 06:54:01 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.72.51.249])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 05FAD80D;
-	Wed, 15 May 2019 03:53:59 -0700 (PDT)
-Received: from e103592.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com
-	[10.72.51.249])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id A13893F703;
-	Wed, 15 May 2019 03:53:57 -0700 (PDT)
-Date: Wed, 15 May 2019 11:53:55 +0100
-From: Dave Martin <Dave.Martin@arm.com>
-To: Andrew Jones <drjones@redhat.com>
-Message-ID: <20190515105352.GP28398@e103592.cambridge.arm.com>
-References: <20190418092841.fzrcegkbal7dpfcy@kamzik.brq.redhat.com>
-	<20190418112610.GO13773@redhat.com>
-	<877ebrmch2.fsf@dusky.pond.sub.org>
-	<20190513184237.i2ha3ixvhjqzkn5q@kamzik.brq.redhat.com>
-	<87bm05ab6c.fsf@dusky.pond.sub.org>
-	<20190514090225.vel4xm4x743o4rge@kamzik.brq.redhat.com>
-	<87woit40wy.fsf@dusky.pond.sub.org>
-	<20190515081520.nazchdnludojzfqe@kamzik.brq.redhat.com>
+	(envelope-from <kwolf@redhat.com>) id 1hQrcb-00059p-Dv
+	for qemu-devel@nongnu.org; Wed, 15 May 2019 06:58:54 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47078)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <kwolf@redhat.com>)
+	id 1hQrcX-000523-Vr; Wed, 15 May 2019 06:58:50 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 461E859454;
+	Wed, 15 May 2019 10:58:49 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-116-220.ams2.redhat.com
+	[10.36.116.220])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 113BF5D71E;
+	Wed, 15 May 2019 10:58:47 +0000 (UTC)
+Date: Wed, 15 May 2019 12:58:46 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Markus Armbruster <armbru@redhat.com>
+Message-ID: <20190515105846.GB7508@localhost.localdomain>
+References: <20190408143543.3982-1-kwolf@redhat.com>
+	<20190408143543.3982-2-kwolf@redhat.com>
+	<87d0ljjd3f.fsf@dusky.pond.sub.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190515081520.nazchdnludojzfqe@kamzik.brq.redhat.com>
-User-Agent: Mutt/1.5.23 (2014-03-12)
+In-Reply-To: <87d0ljjd3f.fsf@dusky.pond.sub.org>
+User-Agent: Mutt/1.11.3 (2019-02-01)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.39]);
+	Wed, 15 May 2019 10:58:49 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.140.101.70
-Subject: Re: [Qemu-devel] How do we do user input bitmap properties?
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 1/4] qapi: Support features for structs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,69 +60,187 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "peter.maydell@linaro.org" <peter.maydell@linaro.org>,
-	Daniel =?iso-8859-1?Q?P=2E_Berrang=E9?= <berrange@redhat.com>,
-	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
-	Markus Armbruster <armbru@redhat.com>,
-	"imammedo@redhat.com" <imammedo@redhat.com>,
-	"dgilbert@redhat.com" <dgilbert@redhat.com>
+Cc: pkrempa@redhat.com, qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 15, 2019 at 09:15:20AM +0100, Andrew Jones wrote:
-> On Tue, May 14, 2019 at 03:32:13PM +0200, Markus Armbruster wrote:
-> > Syntax that can support such growth would be nice.
-> > 
-> > To grow a single unsigned number, we can make it wider (but we don't
-> > have infrastructure for numbers wider than 64 bits), or we can add more
-> > numbers (but under what name?).
-> > 
-> > Dotted keys syntax could grow more easily, but it's rather awkward.
-> > 
-> > Looking more closely at your "[PATCH 11/13] target/arm/cpu64: max cpu:
-> > Introduce sve-vls-map"... your syntax reflects your data structure:
-> > property "sve-vls-map" is of type uint64_t, and interpreted as bit set.
-> > This data type would have to grow, too.
-> > 
-> > We could make widen the integer property (but we don't have
-> > infrastructure for integer properties wider than 64 bits), or we can
-> > turn it into an array of integers (compatibility?), or we can add more
-> > properties to hold the additional integers (yet another silly way to
-> > represent a list/array of integers).
-> > 
-> > I'm not asking you to complicate things just to future-proof this.  Just
-> > pause and think whether you can pick a data type that's similarly
-> > convenient now, and easier to grow.
-> > 
-> > Then pick an external syntax for this data type.  You may have to pick a
-> > reasonable compromise between ease of implementation and ease of use.
+Am 18.04.2019 um 22:03 hat Markus Armbruster geschrieben:
+> Kevin Wolf <kwolf@redhat.com> writes:
 > 
-> Widening the integer property sounds good to me. I just hadn't thought of
-> it (implementation tunnel vision affecting my user interface design).
-> Andrea also mentioned that as a possibility in a reply to the series. I
-> think we can leave the property as a uint64_t right now and then, when/if
-> it needs to expand past 64 bits we can change the property to a string
-> and start parsing arbitrarily large integers from it. The internal state,
-> 'uint64_t sve_vls_map' can easily be changed to a 'uint64_t sve_vls_map[]'
-> at that point too. How's that sound?
+> > Sometimes, the behaviour of QEMU changes compatibly, but without a
+> > change in the QMP syntax (usually by allowing values or operations that
+> > previously resulted in an error). QMP clients may still need to know
+> > whether the extension is available.
+> >
+> > This allows to add a list of features to struct definitions that will be
+> > made visible to QMP clients through schema introspection.
+> 
+> Only a first step, but that's okay.  I think we want to be able to tack
+> features to all user-defined types, commands, and events.  Ideally even
+> to members of enum and object types.
+> 
+> Use case: feature 'deprecated'.  We talked about ways to communicate
+> deprecation to management applications.  Introspection was proposed.
+> Feature 'deprecated' delivers it.
 
-Having an arbitrary-width integer should work.
+How does introspection solve the problem? It requires the client to
+actively look for a deprecation instead of notifying it that it is using
+something deprecated.
 
-It will suck a bit for the common case of sparse vector length support
+Do you expect libvirt to check a full list of all QMP commands, types,
+etc. it ever uses against the schema after starting a VM or something
+like that?
 
-	0x8000000000000000800000008000808b
+> >  def check_exprs(exprs):
+> >      global all_names
+> > @@ -986,8 +1007,10 @@ def check_exprs(exprs):
+> >              normalize_members(expr['data'])
+> >          elif 'struct' in expr:
+> >              meta = 'struct'
+> > -            check_keys(expr_elem, 'struct', ['data'], ['base', 'if'])
+> > +            check_keys(expr_elem, 'struct', ['data'],
+> > +                       ['base', 'if', 'features'])
+> >              normalize_members(expr['data'])
+> > +            normalize_features(expr.get('features'))
+> >              struct_types[expr[meta]] = expr
+> >          elif 'command' in expr:
+> >              meta = 'command'
+> > @@ -1126,10 +1149,12 @@ class QAPISchemaVisitor(object):
+> >      def visit_array_type(self, name, info, ifcond, element_type):
+> >          pass
+> >  
+> > -    def visit_object_type(self, name, info, ifcond, base, members, variants):
+> > +    def visit_object_type(self, name, info, ifcond, base, members, variants,
+> > +                          features):
+> >          pass
+> >  
+> > -    def visit_object_type_flat(self, name, info, ifcond, members, variants):
+> > +    def visit_object_type_flat(self, name, info, ifcond, members, variants,
+> > +                               features):
+> >          pass
+> >  
+> >      def visit_alternate_type(self, name, info, ifcond, variants):
+> > @@ -1290,7 +1315,7 @@ class QAPISchemaArrayType(QAPISchemaType):
+> >  
+> >  class QAPISchemaObjectType(QAPISchemaType):
+> >      def __init__(self, name, info, doc, ifcond,
+> > -                 base, local_members, variants):
+> > +                 base, local_members, variants, features):
+> >          # struct has local_members, optional base, and no variants
+> >          # flat union has base, variants, and no local_members
+> >          # simple union has local_members, variants, and no base
+> > @@ -1307,6 +1332,7 @@ class QAPISchemaObjectType(QAPISchemaType):
+> >          self.local_members = local_members
+> >          self.variants = variants
+> >          self.members = None
+> > +        self.features = features
+> 
+> I think this should be
+> 
+>            self.features = listify_cond(features)
 
-(= [ 1, 2, 4, 8, 16, 32, 64, 128 ] quadwords)
+Not quite, listify_cond() takes the condition it, not the entity that
+contains it. But I can do this:
 
-Since lengths above 16 quadwords remain theoretical for now though it's
-probably OK as a compromise, though.
+    self.features = features
+    for f in self.features or []:
+        f['if'] = listify_cond(f.get('if'))
 
-The most human-compatible approach would be some kind of list
-comprehension syntax, but it's hard to justify that adding a whole new
-syntax is justified at this point.
+> > @@ -1752,9 +1780,10 @@ class QAPISchema(object):
+> >          base = expr.get('base')
+> >          data = expr['data']
+> >          ifcond = expr.get('if')
+> > +        features = expr.get('features')
+> >          self._def_entity(QAPISchemaObjectType(name, info, doc, ifcond, base,
+> >                                                self._make_members(data, info),
+> > -                                              None))
+> > +                                              None, features))
+> 
+> This is struct.  Okay.
+> 
+> For enum, we do:
+> 
+>         self._def_entity(QAPISchemaEnumType(
+>             name, info, doc, ifcond,
+>             self._make_enum_members(data), prefix))
+> 
+> where
+> 
+>     def _make_enum_members(self, values):
+>         return [QAPISchemaMember(v['name'], v.get('if')) for v in values]
+> 
+> i.e. we represent the enum members as a list of QAPISchemaMember.
+> 
+> Features remain a list of dicts.
+> 
+> Any particular reason for not making them QAPISchemaMember?
 
-[...]
+I don't know what QAPISchemaMember is, and the documentation doesn't
+tell me either. Its code looks related to generated C code, but features
+don't generate C code.
 
-Cheers
----Dave
+I guess I could use it anyway and just never call any of its methods but
+just use it to store things in attributes rather than dict entries, but
+somehow creating an object and not making use of anything the class
+provides feels like abuse.
+
+Maybe I could be convinced otherwise if you suggest a docstring to add
+to the QAPISchemaMember class that explains for which cases it is meant.
+
+> > diff --git a/scripts/qapi/introspect.py b/scripts/qapi/introspect.py
+> > index f7f2ca07e4..8909cecde4 100644
+> > --- a/scripts/qapi/introspect.py
+> > +++ b/scripts/qapi/introspect.py
+> > @@ -188,11 +188,15 @@ const QLitObject %(c_name)s = %(c_string)s;
+> >          self._gen_qlit('[' + element + ']', 'array', {'element-type': element},
+> >                         ifcond)
+> >  
+> > -    def visit_object_type_flat(self, name, info, ifcond, members, variants):
+> > +    def visit_object_type_flat(self, name, info, ifcond, members, variants,
+> > +                               features):
+> >          obj = {'members': [self._gen_member(m) for m in members]}
+> >          if variants:
+> >              obj.update(self._gen_variants(variants.tag_member.name,
+> >                                            variants.variants))
+> > +        if features:
+> > +            obj['features'] = [ (f['name'], f) for f in features ]
+> 
+> Compare:
+> 
+>     def visit_enum_type(self, name, info, ifcond, members, prefix):
+>         self._gen_qlit(name, 'enum',
+>                        {'values':
+>                         [(m.name, {'if': m.ifcond}) for m in members]},
+>                        ifcond)
+> 
+> Since f is a dict, not an object, we need to use f['name'].
+> 
+> Since f is a dict, abusing it as the tuple's second element works.
+> Cleaner: (f['name'], {'if': f['if']})
+
+to_qlit() doesn't document what it expects for obj. From the code, if
+it's a tuple, the first item is the content to generate and the second
+item is a dict 'extra' that contains additional information. The 'if'
+and 'comment' keys in it are used, the rest is silently ignored.
+
+f is already a dict that satisfies the expectations of the to_qlit()
+interface, so it feels unnecessary to duplicate it. But if we really
+do want to duplicate it, it would look like this:
+
+        if features:
+            obj['features'] = [ (f['name'],
+                                 {'if': f['if']} if 'if' in f else {})
+                                for f in features ]
+
+Or we could pull the condition one level up:
+
+        if features:
+            obj['features'] = [ (f['name'], {'if': f['if']})
+                                if 'if' in f else f['name']
+                                for f in features ]
+
+I don't consider either way very readable compared to what I currently
+have, but I'll make the change if you insist on it.
+
+Kevin
 
