@@ -2,69 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0C56C1EC12
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 May 2019 12:25:10 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:34722 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7FD1A1EC37
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 May 2019 12:39:10 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:34924 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQr5w-0003BJ-R9
-	for lists+qemu-devel@lfdr.de; Wed, 15 May 2019 06:25:08 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37657)
+	id 1hQrJV-0000m1-FD
+	for lists+qemu-devel@lfdr.de; Wed, 15 May 2019 06:39:09 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40251)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <liq3ea@gmail.com>) id 1hQr4O-0002cd-UH
-	for qemu-devel@nongnu.org; Wed, 15 May 2019 06:23:34 -0400
+	(envelope-from <bounces@canonical.com>) id 1hQrIF-0000TE-0s
+	for qemu-devel@nongnu.org; Wed, 15 May 2019 06:37:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <liq3ea@gmail.com>) id 1hQr4N-0003j5-TT
-	for qemu-devel@nongnu.org; Wed, 15 May 2019 06:23:32 -0400
-Received: from mail-ot1-x332.google.com ([2607:f8b0:4864:20::332]:36282)
+	(envelope-from <bounces@canonical.com>) id 1hQrID-0006LP-Q1
+	for qemu-devel@nongnu.org; Wed, 15 May 2019 06:37:50 -0400
+Received: from indium.canonical.com ([91.189.90.7]:55070)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <liq3ea@gmail.com>) id 1hQr4N-0003fy-NE
-	for qemu-devel@nongnu.org; Wed, 15 May 2019 06:23:31 -0400
-Received: by mail-ot1-x332.google.com with SMTP id c3so1759052otr.3
-	for <qemu-devel@nongnu.org>; Wed, 15 May 2019 03:23:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=cEgmwfK51Q1Ba+5zStcZUA6pkbEUl9FMIXfkZaTlZpo=;
-	b=KIYCzaP36AOcS8D1XSe6TDAhKWEAsLsMB4KaM30NQx9or9vKKM+zsuIdxFw9wMKLhg
-	87iYpIcNY4P+TexgqaBRufbZu3JQQFs55lwIZBG3DLpbtxVj5TYGAnMO6sUII1xJLR72
-	+EOCIwlvVUFST5YzkGywRDWTSE3SypvOkbNl611j30oHNPjwHhZFBdZJgDjzoKDk2U7A
-	lnK25aDwCeyEYRWh33v7ZhSsfHRPD1cmru1f4MnjBXD0nLdD/WSttJucIFO1r/EB57RO
-	WL49TkBqSHnCSA/CuNZUI0bvokGMPmPfquPZ6834su1fsKGB5+gLpbsKKT1b8gcb08e5
-	ClCw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=cEgmwfK51Q1Ba+5zStcZUA6pkbEUl9FMIXfkZaTlZpo=;
-	b=bHOEgUtUM2d+kjAin/TZMKNu3DoiK/ES/1Eq+YzpkfIJITIw7XTyNsbslIz28LMLuQ
-	2zoKwbDsdMRnbzuK8+qC1ppAawYxl6rR1LZuF0cR000U4AYtBA8iJgsQEtCQENvnt+x3
-	JALH01nNORNcZaL7kbBcCirM+oEpfg957HlbBvXVGkCZyVgn21M6kTIqhBLNawtu7NaQ
-	mdPKHaZ5hxFXplmnJGhWa7WAlI18g9us1xtUkboKGA3jNjVg6KLpB2L0CVncWcMuG+Ry
-	A2jxyvwa6q0I0inkrwPaermDGvORIDRQo3dPQG+Sn/xndAsq2SaahZbSL7ar4NXKuUNi
-	CNLw==
-X-Gm-Message-State: APjAAAW4R9U9eyI64pcA+/ci5cJvSi6fu8sWStnvqIX3I7YbV+GeBvSY
-	grKFIguj4eYMRWXAThLrAdq2b06fU0Kp99OzapQ=
-X-Google-Smtp-Source: APXvYqwHOAiI0I+UKhI4fsHyrF0SRZD38KQHcCqmZt1UjXdSYIkkQgaZPzeh3SY8ttdU6kKaK7osuRG8otbfaEiFvf4=
-X-Received: by 2002:a9d:7443:: with SMTP id p3mr17502297otk.72.1557915810623; 
-	Wed, 15 May 2019 03:23:30 -0700 (PDT)
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hQrID-0006KS-Kl
+	for qemu-devel@nongnu.org; Wed, 15 May 2019 06:37:49 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hQrIA-0004x3-RT
+	for <qemu-devel@nongnu.org>; Wed, 15 May 2019 10:37:47 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id CDB052E80CF
+	for <qemu-devel@nongnu.org>; Wed, 15 May 2019 10:37:46 +0000 (UTC)
 MIME-Version: 1.0
-References: <CAKXe6SKBgMcq+p7EB1kRWLSbg9NvZg1Mr24UrX8S+kpzq-GR4Q@mail.gmail.com>
-	<c707e882-e194-355a-d96c-bfb00a8db247@redhat.com>
-In-Reply-To: <c707e882-e194-355a-d96c-bfb00a8db247@redhat.com>
-From: Li Qiang <liq3ea@gmail.com>
-Date: Wed, 15 May 2019 18:22:54 +0800
-Message-ID: <CAKXe6SKetRL1uEww7wZeOCU5d8t+qrDDjzk3uBsQuhiQzt5S6w@mail.gmail.com>
-To: Auger Eric <eric.auger@redhat.com>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::332
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] Question about the vfio device interrupt
+Date: Wed, 15 May 2019 10:23:31 -0000
+From: Stefan Hajnoczi <1828508@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: alpha76 stefanha
+X-Launchpad-Bug-Reporter: Jake Mikelson (alpha76)
+X-Launchpad-Bug-Modifier: Stefan Hajnoczi (stefanha)
+References: <155746839267.15002.8138674450166661929.malonedeb@wampee.canonical.com>
+Message-Id: <20190515102331.GC29507@stefanha-x1.localdomain>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18962";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: ee47e2f62e51892c3492e814b15dbfd3998dc1c0
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: Re: [Qemu-devel] [Bug 1828508] [NEW] qemu-img created VMDK files
+ lead to "Unsupported or invalid disk type 7"
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -73,79 +64,117 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, alex.williamson@redhat.com,
-	Qemu Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1828508 <1828508@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Auger Eric <eric.auger@redhat.com> =E4=BA=8E2019=E5=B9=B45=E6=9C=8815=E6=97=
-=A5=E5=91=A8=E4=B8=89 =E4=B8=8B=E5=8D=886:16=E5=86=99=E9=81=93=EF=BC=9A
+On Fri, May 10, 2019 at 06:06:32AM -0000, Jake Mikelson wrote:
+> Public bug reported:
+> =
 
-> Hi,
->
-> On 5/15/19 12:01 PM, Li Qiang wrote:
-> > Hello Paolo, Alex and all,
-> >
-> > In vfio_intx_enable_kvm(qemu) I see we associate a resamplefd with the
-> > umask function(vfio_pci_intx_unmask_handler in linux).
-> >
-> >     irq_set =3D g_malloc0(argsz);
-> >     irq_set->argsz =3D argsz;
-> >     irq_set->flags =3D VFIO_IRQ_SET_DATA_EVENTFD |
-> VFIO_IRQ_SET_ACTION_UNMASK;
-> >     irq_set->index =3D VFIO_PCI_INTX_IRQ_INDEX;
-> >     irq_set->start =3D 0;
-> >     irq_set->count =3D 1;
-> >     pfd =3D (int32_t *)&irq_set->data;
-> >
-> >     *pfd =3D irqfd.resamplefd;
-> >
-> >     ret =3D ioctl(vdev->vbasedev.fd, VFIO_DEVICE_SET_IRQS, irq_set);
-> >
-> > I know this resamplefd is triggered when the interrupt controller
-> receives
-> > an EOI and
-> > then we unmask and re-enabled the VFIO devices' interrupt.
-> >
-> > So I think there  there must be a mask process(so we unmask it later), =
-I
-> > mean there must a
-> > call of function vfio_pci_set_intx_mask(in linux).
-> >
-> > What I can't understand is when this process(mask VFIO devices'
-> interrupt)
-> > occurs?
-> It is done in the VFIO interrupt handler:
-> vfio_intx_handler/disable_irq_nosync for VFIO PCI (vfio_pci_intrs.c) or
-> vfio_automasked_irq_handler (vfio_platform_irq.c) for VFIO PLATFORM .
->
->
-Thanks Eric,
+> Using qemu-img version 3.1.50 (v3.1.0-13607-geb2db0f7ba-dirty) on a
+> Windows 10 machine.
+> =
 
-Got it.
-I just forget to look at the interrupt handler(vfio_intx_handler)!
+> Converting a VHD to VMDK.
+> qemu-img.exe convert "c:\test\AppD-VM01.vhd" -O vmdk -o adapter_type=3Dbu=
+slogic -p "c:\test\AppD-VM01.vmdk"
+> =
 
+> I have also tried:
+> qemu-img.exe convert "c:\test\AppD-VM01.vhd" -O vmdk -o adapter_type=3Dbu=
+slogic,hwversion=3D6 -p "c:\test\AppD-VM01.vmdk"
+> =
 
-Thanks,
-Li Qiang
+> Attaching the VMDK to a VM in VMware produces the following error when
+> powering on.
+> =
 
+> Power On virtual machine:Failed to open disk scsi0:1: Unsupported or inva=
+lid disk type 7. Ensure that the disk has been imported.
+> Target: MyVM1
+> vCenter Server: VCENTER
+> Error Stack
+> An error was received from the ESX host while powering on VM MyVM1.
+> Failed to start the virtual machine.
+> Module DevicePowerOn power on failed. =
 
+> Unable to create virtual SCSI device for scsi0:1, '/vmfs/volumes/5cca0155=
+-bdddf31d-2714-00215acbeb1e/AppD-VM01/AppDdisk1-VM01.vmdk' =
 
-> Thanks
->
-> Eric
->
-> > I only find a place(vfio_basic_config_write) calls vfio_pci_intx_mask> =
-I
-> think when the guest process the interrupt it may mask this
-> > interrupt(finally call vfio_pci_set_intx_mask), but I can't find the co=
-de
-> > path related with vfio_basic_config_write.
-> >
-> >
-> > Any hints?
-> >
-> > Thanks,
-> > Li Qiang
-> >
->
+> Failed to open disk scsi0:1: Unsupported or invalid disk type 7. Ensure t=
+hat the disk has been imported.
+> =
+
+> =
+
+> If I do not specify the adapter type, it creates an IDE VMDK which works =
+perfectly.
+> =
+
+> ** Affects: qemu
+>      Importance: Undecided
+>          Status: New
+> =
+
+> -- =
+
+> You received this bug notification because you are a member of qemu-
+> devel-ml, which is subscribed to QEMU.
+> https://bugs.launchpad.net/bugs/1828508
+
+Which version of VMware are you running?
+
+Stefan
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1828508
+
+Title:
+  qemu-img created VMDK files lead to "Unsupported or invalid disk type
+  7"
+
+Status in QEMU:
+  New
+
+Bug description:
+  Using qemu-img version 3.1.50 (v3.1.0-13607-geb2db0f7ba-dirty) on a
+  Windows 10 machine.
+
+  Converting a VHD to VMDK.
+  qemu-img.exe convert "c:\test\AppD-VM01.vhd" -O vmdk -o adapter_type=3Dbu=
+slogic -p "c:\test\AppD-VM01.vmdk"
+
+  I have also tried:
+  qemu-img.exe convert "c:\test\AppD-VM01.vhd" -O vmdk -o adapter_type=3Dbu=
+slogic,hwversion=3D6 -p "c:\test\AppD-VM01.vmdk"
+
+  Attaching the VMDK to a VM in VMware produces the following error when
+  powering on.
+
+  Power On virtual machine:Failed to open disk scsi0:1: Unsupported or inva=
+lid disk type 7. Ensure that the disk has been imported.
+  Target: MyVM1
+  vCenter Server: VCENTER
+  Error Stack
+  An error was received from the ESX host while powering on VM MyVM1.
+  Failed to start the virtual machine.
+  Module DevicePowerOn power on failed. =
+
+  Unable to create virtual SCSI device for scsi0:1, '/vmfs/volumes/5cca0155=
+-bdddf31d-2714-00215acbeb1e/AppD-VM01/AppDdisk1-VM01.vmdk' =
+
+  Failed to open disk scsi0:1: Unsupported or invalid disk type 7. Ensure t=
+hat the disk has been imported.
+
+  =
+
+  If I do not specify the adapter type, it creates an IDE VMDK which works =
+perfectly.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1828508/+subscriptions
+
