@@ -2,48 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6A1961FB73
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 May 2019 22:22:17 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:41982 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D1541FB6E
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 May 2019 22:17:48 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:41908 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hR0Pn-0002eN-U1
-	for lists+qemu-devel@lfdr.de; Wed, 15 May 2019 16:22:15 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45323)
+	id 1hR0LT-0006sT-CM
+	for lists+qemu-devel@lfdr.de; Wed, 15 May 2019 16:17:47 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45225)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hR0JK-0005wX-GR
-	for qemu-devel@nongnu.org; Wed, 15 May 2019 16:15:35 -0400
+	(envelope-from <berrange@redhat.com>) id 1hR0JG-0005uY-Rx
+	for qemu-devel@nongnu.org; Wed, 15 May 2019 16:15:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hR0JJ-0007xB-2M
-	for qemu-devel@nongnu.org; Wed, 15 May 2019 16:15:34 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52310)
+	(envelope-from <berrange@redhat.com>) id 1hR0JF-0007oB-JL
+	for qemu-devel@nongnu.org; Wed, 15 May 2019 16:15:30 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38056)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hR0JF-0007c1-Cp; Wed, 15 May 2019 16:15:29 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
+	(Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hR0JF-0007eE-CF
+	for qemu-devel@nongnu.org; Wed, 15 May 2019 16:15:29 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+	[10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id C31373002738;
-	Wed, 15 May 2019 20:15:15 +0000 (UTC)
-Received: from localhost (unknown [10.40.205.95])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 585311001959;
-	Wed, 15 May 2019 20:15:15 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Date: Wed, 15 May 2019 22:15:03 +0200
-Message-Id: <20190515201503.19069-5-mreitz@redhat.com>
-In-Reply-To: <20190515201503.19069-1-mreitz@redhat.com>
-References: <20190515201503.19069-1-mreitz@redhat.com>
+	by mx1.redhat.com (Postfix) with ESMTPS id AEA07E3E00;
+	Wed, 15 May 2019 20:15:19 +0000 (UTC)
+Received: from redhat.com (unknown [10.36.112.15])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id DC4B460BE5;
+	Wed, 15 May 2019 20:15:17 +0000 (UTC)
+Date: Wed, 15 May 2019 21:15:14 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Laurent Vivier <lvivier@redhat.com>
+Message-ID: <20190515201514.GA1417@redhat.com>
+References: <20190514191653.31488-1-richard.henderson@linaro.org>
+	<20190514191653.31488-2-richard.henderson@linaro.org>
+	<20190515165328.GK4751@redhat.com>
+	<314ae411-2d75-00e6-109a-2604a36973b7@linaro.org>
+	<20190515174956.GL4751@redhat.com>
+	<5f4af92c-4db4-dc72-74c2-cfe1dc4eb021@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <5f4af92c-4db4-dc72-74c2-cfe1dc4eb021@redhat.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.46]);
-	Wed, 15 May 2019 20:15:15 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.38]);
+	Wed, 15 May 2019 20:15:19 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 4/4] iotests: Make 245 faster and more reliable
+Subject: Re: [Qemu-devel] [PATCH v7 01/24] build: Link user-only with
+ crypto-rng-obj-y
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -55,158 +64,61 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Alberto Garcia <berto@igalia.com>,
-	qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	qemu-devel@nongnu.org, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Sometimes, 245 fails for me because some stream job has already finished
-while the test expects it to still be active.  (With -c none, it fails
-basically every time.) The most reliable way to fix this is to simply
-set auto_finalize=3Dfalse so the job will remain in the block graph as
-long as we need it.  This allows us to drop the rate limiting, too,
-which makes the test faster.
+On Wed, May 15, 2019 at 09:38:00PM +0200, Laurent Vivier wrote:
+> On 15/05/2019 19:49, Daniel P. Berrang=C3=A9 wrote:
+> > On Wed, May 15, 2019 at 10:22:08AM -0700, Richard Henderson wrote:
+> >> On 5/15/19 9:53 AM, Daniel P. Berrang=C3=A9 wrote:
+> >>> On Tue, May 14, 2019 at 12:16:30PM -0700, Richard Henderson wrote:
+> >>>> For user-only, we require only the random number bits of the
+> >>>> crypto subsystem.
+> >>>>
+> >>>> We need to preserve --static linking, which for many recent Linux
+> >>>> distributions precludes using GnuTLS or GCrypt.  Instead, use our
+> >>>> random-platform module unconditionally.
+> >>>
+> >>> I don't think we need to special case in this way.
+> >>>
+> >>> Today if you do a default build with all targets & tools and want
+> >>> to use --static, but don't have static libs available for some
+> >>> things you can achieve that
+> >>>
+> >>>  ./configure --static --disable-gnutls --disable-gcrypt --disable-n=
+ettle
+> >>
+> >> But we don't really want all of those --disable arguments by default=
+.  It would
+> >> be one thing if one explicitly used --enable-gnutls and got link err=
+ors.  We
+> >> must preserve --static working all by itself.
+> >=20
+> > That's already not working today unless you add extra args to disable
+> > build of the system emulators and tools.=20
+> >=20
+>=20
+> Perhaps it can help, I have a series queued by Paolo to cleanup the
+> build dependencies for --{disable,enable}-{system,user,tools}:
+>=20
+>     [v3,0/5] build: cleanup in Makefile.objs
+>     https://patchwork.kernel.org/cover/10880135/
 
-The only problem with this is that there is a single place that yields a
-different error message depending on whether the stream job is still
-copying data (so COR is enabled) or not (COR has been disabled, but the
-job still has the WRITE_UNCHANGED permission on the target node).  We
-can easily address that by expecting either error message.
+I don't think it'll make a difference to use of --static when trying
+to build a default config (ie all targets + tools)
 
-Note that we do not need auto_finalize=3Dfalse (or rate limiting) for the
-active commit job, because It never completes without an explicit
-block-job-complete anyway.
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- tests/qemu-iotests/245     | 22 ++++++++++++++--------
- tests/qemu-iotests/245.out | 12 ++++++++++++
- 2 files changed, 26 insertions(+), 8 deletions(-)
-
-diff --git a/tests/qemu-iotests/245 b/tests/qemu-iotests/245
-index a04c6235c1..349b94aace 100644
---- a/tests/qemu-iotests/245
-+++ b/tests/qemu-iotests/245
-@@ -862,7 +862,8 @@ class TestBlockdevReopen(iotests.QMPTestCase):
-=20
-         # hd2 <- hd0
-         result =3D self.vm.qmp('block-stream', conv_keys =3D True, job_i=
-d =3D 'stream0',
--                             device =3D 'hd0', base_node =3D 'hd2', spee=
-d =3D 512 * 1024)
-+                             device =3D 'hd0', base_node =3D 'hd2',
-+                             auto_finalize =3D False)
-         self.assert_qmp(result, 'return', {})
-=20
-         # We can't remove hd2 while the stream job is ongoing
-@@ -873,7 +874,7 @@ class TestBlockdevReopen(iotests.QMPTestCase):
-         opts['backing'] =3D None
-         self.reopen(opts, {}, "Cannot change 'backing' link from 'hd0' t=
-o 'hd1'")
-=20
--        self.wait_until_completed(drive =3D 'stream0')
-+        self.vm.run_job('stream0', auto_finalize =3D False, auto_dismiss=
- =3D True)
-=20
-     # Reopen the chain during a block-stream job (from hd2 to hd1)
-     def test_block_stream_4(self):
-@@ -886,12 +887,16 @@ class TestBlockdevReopen(iotests.QMPTestCase):
-=20
-         # hd1 <- hd0
-         result =3D self.vm.qmp('block-stream', conv_keys =3D True, job_i=
-d =3D 'stream0',
--                             device =3D 'hd1', speed =3D 512 * 1024)
-+                             device =3D 'hd1', auto_finalize =3D False)
-         self.assert_qmp(result, 'return', {})
-=20
-         # We can't reopen with the original options because that would
-         # make hd1 read-only and block-stream requires it to be read-wri=
-te
--        self.reopen(opts, {}, "Can't set node 'hd1' to r/o with copy-on-=
-read enabled")
-+        # (Which error message appears depends on whether the stream job=
- is
-+        # already done with copying at this point.)
-+        self.reopen(opts, {},
-+            ["Can't set node 'hd1' to r/o with copy-on-read enabled",
-+             "Cannot make block node read-only, there is a writer on it"=
-])
-=20
-         # We can't remove hd2 while the stream job is ongoing
-         opts['backing']['backing'] =3D None
-@@ -901,7 +906,7 @@ class TestBlockdevReopen(iotests.QMPTestCase):
-         opts['backing'] =3D None
-         self.reopen(opts)
-=20
--        self.wait_until_completed(drive =3D 'stream0')
-+        self.vm.run_job('stream0', auto_finalize =3D False, auto_dismiss=
- =3D True)
-=20
-     # Reopen the chain during a block-commit job (from hd0 to hd2)
-     def test_block_commit_1(self):
-@@ -913,7 +918,7 @@ class TestBlockdevReopen(iotests.QMPTestCase):
-         self.assert_qmp(result, 'return', {})
-=20
-         result =3D self.vm.qmp('block-commit', conv_keys =3D True, job_i=
-d =3D 'commit0',
--                             device =3D 'hd0', speed =3D 1024 * 1024)
-+                             device =3D 'hd0')
-         self.assert_qmp(result, 'return', {})
-=20
-         # We can't remove hd2 while the commit job is ongoing
-@@ -944,7 +949,8 @@ class TestBlockdevReopen(iotests.QMPTestCase):
-         self.assert_qmp(result, 'return', {})
-=20
-         result =3D self.vm.qmp('block-commit', conv_keys =3D True, job_i=
-d =3D 'commit0',
--                             device =3D 'hd0', top_node =3D 'hd1', speed=
- =3D 1024 * 1024)
-+                             device =3D 'hd0', top_node =3D 'hd1',
-+                             auto_finalize =3D False)
-         self.assert_qmp(result, 'return', {})
-=20
-         # We can't remove hd2 while the commit job is ongoing
-@@ -956,7 +962,7 @@ class TestBlockdevReopen(iotests.QMPTestCase):
-         self.reopen(opts, {}, "Cannot change backing link if 'hd0' has a=
-n implicit backing file")
-=20
-         # hd2 <- hd0
--        self.wait_until_completed(drive =3D 'commit0')
-+        self.vm.run_job('commit0', auto_finalize =3D False, auto_dismiss=
- =3D True)
-=20
-         self.assert_qmp(self.get_node('hd0'), 'ro', False)
-         self.assertEqual(self.get_node('hd1'), None)
-diff --git a/tests/qemu-iotests/245.out b/tests/qemu-iotests/245.out
-index 71009c239f..a19de5214d 100644
---- a/tests/qemu-iotests/245.out
-+++ b/tests/qemu-iotests/245.out
-@@ -3,3 +3,15 @@
- Ran 18 tests
-=20
- OK
-+{"execute": "job-finalize", "arguments": {"id": "commit0"}}
-+{"return": {}}
-+{"data": {"id": "commit0", "type": "commit"}, "event": "BLOCK_JOB_PENDIN=
-G", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
-+{"data": {"device": "commit0", "len": 3145728, "offset": 3145728, "speed=
-": 0, "type": "commit"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"m=
-icroseconds": "USECS", "seconds": "SECS"}}
-+{"execute": "job-finalize", "arguments": {"id": "stream0"}}
-+{"return": {}}
-+{"data": {"id": "stream0", "type": "stream"}, "event": "BLOCK_JOB_PENDIN=
-G", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
-+{"data": {"device": "stream0", "len": 3145728, "offset": 3145728, "speed=
-": 0, "type": "stream"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"m=
-icroseconds": "USECS", "seconds": "SECS"}}
-+{"execute": "job-finalize", "arguments": {"id": "stream0"}}
-+{"return": {}}
-+{"data": {"id": "stream0", "type": "stream"}, "event": "BLOCK_JOB_PENDIN=
-G", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
-+{"data": {"device": "stream0", "len": 3145728, "offset": 3145728, "speed=
-": 0, "type": "stream"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"m=
-icroseconds": "USECS", "seconds": "SECS"}}
+Regards,
+Daniel
 --=20
-2.21.0
-
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 
