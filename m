@@ -2,75 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D3761F9BA
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 May 2019 20:08:24 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40698 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A289D1FA14
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 May 2019 20:37:27 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40963 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQyKF-0005pt-Gn
-	for lists+qemu-devel@lfdr.de; Wed, 15 May 2019 14:08:23 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52428)
+	id 1hQymM-0001l9-CA
+	for lists+qemu-devel@lfdr.de; Wed, 15 May 2019 14:37:26 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57303)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hQyIo-00058U-5j
-	for qemu-devel@nongnu.org; Wed, 15 May 2019 14:06:55 -0400
+	(envelope-from <aleksandar.m.mail@gmail.com>) id 1hQylK-0001Rn-AN
+	for qemu-devel@nongnu.org; Wed, 15 May 2019 14:36:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hQyCm-0007v3-T4
-	for qemu-devel@nongnu.org; Wed, 15 May 2019 14:00:41 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:46796)
+	(envelope-from <aleksandar.m.mail@gmail.com>) id 1hQylJ-0005Jd-7l
+	for qemu-devel@nongnu.org; Wed, 15 May 2019 14:36:22 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:35348)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hQyCm-0007uY-Ll
-	for qemu-devel@nongnu.org; Wed, 15 May 2019 14:00:40 -0400
-Received: by mail-wr1-x441.google.com with SMTP id r7so437575wrr.13
-	for <qemu-devel@nongnu.org>; Wed, 15 May 2019 11:00:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=references:user-agent:from:to:cc:subject:in-reply-to:date
-	:message-id:mime-version:content-transfer-encoding;
-	bh=NBfPtcj2+HMzh0Ht+rrKfnIOQfjquRHAord/+1Xd2Fc=;
-	b=VKTz50lWSdCNmRDhb5vyu0JhoplshYuyZFp2fpwSyQtElCHP6WqgKOZ53UgMRYH3Pu
-	3e5ihSFbtgre7qzy5DdTX+VbYjCxk8om2MGaLv5xSsJ6Q2VwzCoSDAXAsgrQPDXIUpbi
-	JJ1SxyLiShieufa6ORY+TkC80uq8pwnJGRzWJyKZZhMWve2sXqpC42RbbZk+NuLcqrBt
-	t/a5AGPB8AbuXNNZMg3Z3ZQdaG+c9SCm8vskEnTxNQHBbEEe+q9K7+N6v0eJBPj/Z7KH
-	o6tNw6JFF6QzXjjZBm1aljX/NSa4qbvzRAjLMsn/aqTFdsTSFhy3lcjmdhW0CY6LVHLQ
-	1I7Q==
+	(Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+	id 1hQylJ-0005IM-2z
+	for qemu-devel@nongnu.org; Wed, 15 May 2019 14:36:21 -0400
+Received: by mail-ot1-x343.google.com with SMTP id n14so993999otk.2
+	for <qemu-devel@nongnu.org>; Wed, 15 May 2019 11:36:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=bFDk7oOF8CGHg+CyLZonr8DfQgDO70pMVkfG9wwNNqY=;
+	b=vgkcQKZuclA0DRLP2KUcGTmeHs0XH8roiN4Rpn+0AaOMjDBgWRIAA5ai5fATJ0l7ly
+	4P/PkiHqTWf9VCtyASHeFtyiHwStzhlj/Vi9O1dai3PxeA7sihYiuY6qWVwCLgvXPlMG
+	o44kkuB1cYfl+QqGLXEHpmtaTencbp9n+cg+1j7RfkhjGgEJMjytPN2EqWmajAH8r1V4
+	3JeE1up4SLMFD36BlRA8amfhtqjbGONSbI6HudcVj7YcDZbF9LF9xnRGAKhh4PxysslY
+	GLM5s6EOi9yKrLXSy+KIIvO/SYg3/szX2ZJ4ArUAKVWgy2jnxZ4DqT7zysmlUU3DmCQB
+	OVYg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:references:user-agent:from:to:cc:subject
-	:in-reply-to:date:message-id:mime-version:content-transfer-encoding;
-	bh=NBfPtcj2+HMzh0Ht+rrKfnIOQfjquRHAord/+1Xd2Fc=;
-	b=fAaAXu2OKZMx1siuGpLK7rKnmEXNx60uSOxfmUnXeInz8pm7BlRhOasm8QXHTxhQS7
-	6+EtvqtoHxtUEMdrecjtkvej7XeVO4Fstd4EB9ZEKN0tGjne/CtwJuiHlQRxTSwlmMuI
-	MwEPfRxWvFAuWDczeUnY1GkzGfau3CpYWVBUcZmcd23HU34n5k3gsNzI9JDbAySeScp6
-	nTomz6fNbfPfoZ3mcbG6iX+CFXOEzBVylx/9s83ff+fdAOn0U3wansmD7PAk5h8APnCK
-	6xGtbDI8g1XcrO8Dp70uH262Avzv0BzCzF02MMRVPPbnyHwINIoKcAy2xvdLob0vDXpj
-	xihA==
-X-Gm-Message-State: APjAAAVK1XVhKZ30jdE2PKOkdlq2Ixocxm+0jtuFPyA9uNDVaOsptEoF
-	id+6RvYzicroEKVIEVBF+HkWUQ==
-X-Google-Smtp-Source: APXvYqwjZzYd7yq3yv8g6G2+JdSZEn/xSwtusFDgu6Hc+BkjgWxM/DFxvFu9oPgVMmgkTMXf8dZ5bw==
-X-Received: by 2002:a5d:4f0b:: with SMTP id c11mr811921wru.35.1557943237136;
-	Wed, 15 May 2019 11:00:37 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
-	by smtp.gmail.com with ESMTPSA id m17sm3374089wmc.6.2019.05.15.11.00.36
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 15 May 2019 11:00:36 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id C1BAD1FF87;
-	Wed, 15 May 2019 19:00:35 +0100 (BST)
-References: <20190502081554.5521-1-arilou@gmail.com>
-User-agent: mu4e 1.3.1; emacs 26.1
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Jon Doron <arilou@gmail.com>
-In-reply-to: <20190502081554.5521-1-arilou@gmail.com>
-Date: Wed, 15 May 2019 19:00:35 +0100
-Message-ID: <877earmwcc.fsf@zen.linaroharston>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=bFDk7oOF8CGHg+CyLZonr8DfQgDO70pMVkfG9wwNNqY=;
+	b=XpA0a9F7PSxt45ZyISelCdzB6Xs9zpVMWH1g0jsAg/+cYSNtkbzqQGvsRmNTRd0xo0
+	JsGRrvBgslffXpLoK5jdCQjQfiF5VdDJ2FBSHDA64zidQLE3POOx1oc4x4kXmi3RuM17
+	RHT0pspfGnll7XZthCchZ9qNeph4iYi6lxUCDUH8EGeTYigpt9SoeDEakmG6vuf5mYpw
+	GJ6ka4YWoR2b0JbYdP8qNgZrQt11nQ9mhew9iCod+X9sseuiAAhm9MwyawKtJsNx+82j
+	0Ju9fy6/z+cnQbaHV+mLdSHNNaoA6xj+0APlEXjaO+Yo1eyv3fvqZumlBO+W/VtI7zOF
+	HrYw==
+X-Gm-Message-State: APjAAAWfUDFYDaFOl7Y7TzYSr0goq5Wl5i/MmoYmxeGo3jb0h0ICmjgo
+	JMdjba7B0bLT2zSAJB6TlDM8HIERrB53ShISwRc=
+X-Google-Smtp-Source: APXvYqyDfS2oYD8GGEXFD0FIlwJDqwCoe04o/oZBETPGM5xtiOSZKs6YOX5TKGV14WSWVLzcx9u67RH60V5mHSk88IQ=
+X-Received: by 2002:a9d:400d:: with SMTP id m13mr6353452ote.100.1557945379327; 
+	Wed, 15 May 2019 11:36:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Received: by 2002:a9d:3be5:0:0:0:0:0 with HTTP; Wed, 15 May 2019 11:36:18
+	-0700 (PDT)
+Received: by 2002:a9d:3be5:0:0:0:0:0 with HTTP; Wed, 15 May 2019 11:36:18
+	-0700 (PDT)
+In-Reply-To: <CAFEAcA9mU7OPhr1Koktzttj3nzXbr6i4DG6Wzy8tgVP95BkjxA@mail.gmail.com>
+References: <20190510203452.11870-1-richard.henderson@linaro.org>
+	<CAL1e-=hE4zMwDewsbD6=Kc32Ss9wcB-AyOtY-G=HhDKS9YMOoQ@mail.gmail.com>
+	<4a2f1364-b7d2-209e-3d17-ca1eef3b53e3@linaro.org>
+	<CAL1e-=hsgj0oq_4VUX97KRm3eJovXLw4G28dXiU9X+XA6wsQ2A@mail.gmail.com>
+	<CAFEAcA9mU7OPhr1Koktzttj3nzXbr6i4DG6Wzy8tgVP95BkjxA@mail.gmail.com>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Wed, 15 May 2019 20:36:18 +0200
+Message-ID: <CAL1e-=ggNR9ZgpKj8kCjgkmpV3un1gZrR-bg=UtMK6KXPF8k=g@mail.gmail.com>
+To: Peter Maydell <peter.maydell@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: Re: [Qemu-devel] [PATCH v9 00/27] gdbstub: Refactor command packets
- handler
+X-Received-From: 2607:f8b0:4864:20::343
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [PATCH] configure: Disable slirp if
+ --disable-system
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,43 +82,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: Samuel Thibault <samuel.thibault@ens-lyon.org>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	QEMU Developers <qemu-devel@nongnu.org>,
+	=?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On May 15, 2019 12:07 PM, "Peter Maydell" <peter.maydell@linaro.org> wrote:
+>
+> On Tue, 14 May 2019 at 20:16, Aleksandar Markovic
+> <aleksandar.m.mail@gmail.com> wrote:
+> >
+> > On May 13, 2019 11:14 PM, "Richard Henderson" <
+richard.henderson@linaro.org>
+> > wrote:
+> > >
+> > > On 5/11/19 5:47 AM, Aleksandar Markovic wrote:
+> > > > If no, the patch shoud be amended. If yes, the commit message
+should be
+> > > > extended.
+> > >
+> > > Like what?  I think it's pretty clear as is.
+> > >
+> >
+> > Richard, no. In this case, there is a glaring discrepancy between the
+title
+> > and the functionality that the change provides. Much better title would
+be
+> > =E2=80=9Cconfigure: Disable slirp if no system mode target is selected=
+=E2=80=9D.
+> >
+> > I leave it to you to find out what can be improved in the commit
+message.
+>
+> Aleksandar: I think this is not really a very productive stance to take.
+> Richard thinks the commit message is reasonable. If you have something
+> you would like him to change, I think we will reach a useful endpoint
+> much more quickly and smoothly if you suggest some new text, rather than
+> effectively saying "you need to think of something, and I'm going to keep
+> making you rewrite it until you telepathically figure out what the text
+> I wanted you to write is".
+>
 
-Jon Doron <arilou@gmail.com> writes:
+OK, Peter, no problem from my side. I was trying to make Richard think more
+about what he writes in his commit messages, and how he organizes his code.
+Sorry if this looked unproductive or even perhaps offensive.
 
-> This patch series refactors the old gdbstub command packets handler
-> with a new infrastructure which should ease extending and adding new
-> and missing gdb command packets.
+Yours,
+Aleksadar
 
-Jon,
-
-I've finished my review and things are looking pretty good. The code is
-a good clean-up and makes adding new features a lot easier. Thanks for
-the examples of extensions - they were worth it to see how this might be
-used although we shouldn't include them in the first merge. As they
-extend the gdbserver ABI we'll want to think carefully about exactly
-what we want to expose before we include it in master.
-
-Going forwards aside from the various comments on each patch it would be
-worth making sure the branch has gone through at least one CI run to
-make sure the non-x86 builds (and disable-tcg and other exotica) haven't
-been broken.
-
-It would be nice if we could extend the testing of the gdbserver. Have
-you been testing this with the gdb test suite or just manually? Now we
-have system test and linux-user binaries being built we could probably
-do better than the manually run tests/guest-debug/test-gdbstub.py.
-
-Finally it would be nice if we could modernise the membuf and strbuf
-handling with a more robust glib based approach. I understand if you
-don't want to do that now and I'll happily accept the patches without it
-but I did notice you can send the gdbserver a bit loopy if you send it
-some very long maint packets so it would be nice to have that a bit
-safer.
-
---
-Alex Benn=C3=A9e
-
+> thanks
+> -- PMM
