@@ -2,96 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 218581E8D5
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 May 2019 09:18:57 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60834 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B1231E8ED
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 May 2019 09:22:55 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60913 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQoBk-0002zI-7y
-	for lists+qemu-devel@lfdr.de; Wed, 15 May 2019 03:18:56 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55115)
+	id 1hQoFa-0005jq-LG
+	for lists+qemu-devel@lfdr.de; Wed, 15 May 2019 03:22:54 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56182)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hQo9l-00021z-HQ
-	for qemu-devel@nongnu.org; Wed, 15 May 2019 03:16:56 -0400
+	(envelope-from <philmd@redhat.com>) id 1hQoEU-0005Lr-Kl
+	for qemu-devel@nongnu.org; Wed, 15 May 2019 03:21:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hQo9k-00074L-GU
-	for qemu-devel@nongnu.org; Wed, 15 May 2019 03:16:53 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57786)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <thuth@redhat.com>)
-	id 1hQo9k-000711-8O; Wed, 15 May 2019 03:16:52 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 4C87F3001839;
-	Wed, 15 May 2019 07:16:51 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-117-96.ams2.redhat.com [10.36.117.96])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 2DA665C297;
-	Wed, 15 May 2019 07:16:46 +0000 (UTC)
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
-	qemu-devel@nongnu.org
+	(envelope-from <philmd@redhat.com>) id 1hQoES-00026w-Iz
+	for qemu-devel@nongnu.org; Wed, 15 May 2019 03:21:46 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:38061)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hQoER-00021a-83
+	for qemu-devel@nongnu.org; Wed, 15 May 2019 03:21:43 -0400
+Received: by mail-wr1-f65.google.com with SMTP id d18so827829wrs.5
+	for <qemu-devel@nongnu.org>; Wed, 15 May 2019 00:21:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=DHU7btz1CbthsCNrHK5WKuk0ODkg7vTcDEeYx/un5e8=;
+	b=gLkyz9V2S3mlVWuyK+8QBGbRz0/HSQOWCPmYdNAywr3SuWbf7NK5WN3mJ7UaLFbQ4b
+	5xlX7TDb1kHDnnP3+zR9O7Th3OvoGYOEo044vBH7CToEV6N/oy31xwNddnbDoHJRZ/Ou
+	0Ij1WJ+QOZlLURIyLWZRt5+yWMHXC8n8qdkq0JQ2oDI6KM4d4rQ62QgnHfVDCZx0aPig
+	Iiycw4lmG9tqcv2CSQVBsBxSYjR+O4wnD9YVaaXuphhHUeovVqxu05VSA29GbXw1QWX4
+	017pHUf4w+SxAtn702QYyzkPXvhrL4I4JCiLuZRdp88e2Lt5syJ4aZRYoloi9DFL8pYY
+	+Bhw==
+X-Gm-Message-State: APjAAAXU0jJL0IBhM7ZmyQvkCK9tcbyafi3XEuOYvELDnO79PFflrOpp
+	qwQPW9QGRM7doVJqav8Lh5TQUA==
+X-Google-Smtp-Source: APXvYqxZJHsU/UUuvLDWEt6o0aTmJ1QmsEUe1zwhcWGF6nV3TxMLqVd3kAW5HEogGMbZaJbTKuDy6g==
+X-Received: by 2002:adf:e8d2:: with SMTP id k18mr17744917wrn.329.1557904901123;
+	Wed, 15 May 2019 00:21:41 -0700 (PDT)
+Received: from [192.168.1.43] (193.red-88-21-103.staticip.rima-tde.net.
+	[88.21.103.193])
+	by smtp.gmail.com with ESMTPSA id 7sm1160221wro.85.2019.05.15.00.21.40
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Wed, 15 May 2019 00:21:40 -0700 (PDT)
+To: Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
 References: <20190515070357.882-1-philmd@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=thuth@redhat.com; keydata=
-	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
-Organization: Red Hat
-Message-ID: <552b024d-39bd-dd3f-bf44-3c3e0a9f1198@redhat.com>
-Date: Wed, 15 May 2019 09:16:46 +0200
+	<552b024d-39bd-dd3f-bf44-3c3e0a9f1198@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <b9ca67e7-e9d4-0f7c-1ec6-166643d4c5cb@redhat.com>
+Date: Wed, 15 May 2019 09:21:39 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190515070357.882-1-philmd@redhat.com>
+In-Reply-To: <552b024d-39bd-dd3f-bf44-3c3e0a9f1198@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.40]);
-	Wed, 15 May 2019 07:16:51 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+	[fuzzy]
+X-Received-From: 209.85.221.65
 Subject: Re: [Qemu-devel] [PATCH] docs/devel/build-system: Update an example
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
@@ -109,55 +79,65 @@ Cc: qemu-trivial@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 15/05/2019 09.03, Philippe Mathieu-Daud=C3=A9 wrote:
-> The default-configs/ example added in 717171bd2025 is no
-> more accurate since fa212a2b8b60 (and various further other
-> commits).
->=20
-> The Kconfig build system is now in place.
-> Use the aarch64-softmmu config as example.
->=20
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  docs/devel/build-system.txt | 15 +++++----------
->  1 file changed, 5 insertions(+), 10 deletions(-)
->=20
-> diff --git a/docs/devel/build-system.txt b/docs/devel/build-system.txt
-> index addd274eebd..79a85bfba06 100644
-> --- a/docs/devel/build-system.txt
-> +++ b/docs/devel/build-system.txt
-> @@ -415,16 +415,11 @@ context.
->  The files under default-configs/ control what emulated hardware is bui=
-lt
->  into each QEMU system and userspace emulator targets. They merely
->  contain a long list of config variable definitions. For example,
+On 5/15/19 9:16 AM, Thomas Huth wrote:
+> On 15/05/2019 09.03, Philippe Mathieu-Daudé wrote:
+>> The default-configs/ example added in 717171bd2025 is no
+>> more accurate since fa212a2b8b60 (and various further other
+>> commits).
+>>
+>> The Kconfig build system is now in place.
+>> Use the aarch64-softmmu config as example.
+>>
+>> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+>> ---
+>>  docs/devel/build-system.txt | 15 +++++----------
+>>  1 file changed, 5 insertions(+), 10 deletions(-)
+>>
+>> diff --git a/docs/devel/build-system.txt b/docs/devel/build-system.txt
+>> index addd274eebd..79a85bfba06 100644
+>> --- a/docs/devel/build-system.txt
+>> +++ b/docs/devel/build-system.txt
+>> @@ -415,16 +415,11 @@ context.
+>>  The files under default-configs/ control what emulated hardware is built
+>>  into each QEMU system and userspace emulator targets. They merely
+>>  contain a long list of config variable definitions. For example,
+> 
+> "long list" is now often also not very accurate anymore. Maybe rephrase
 
-"long list" is now often also not very accurate anymore. Maybe rephrase
-that sentence =C3=A0 la: "contain a list of config variable definitions l=
-ike
-the machines that should be included" ?
+Still accurate for MIPS :(
 
-> -default-configs/x86_64-softmmu.mak has:
-> -
-> -  include sound.mak
-> -  include usb.mak
-> -  CONFIG_QXL=3D$(CONFIG_SPICE)
-> -  CONFIG_VGA_ISA=3Dy
-> -  CONFIG_VGA_CIRRUS=3Dy
-> -  CONFIG_VMWARE_VGA=3Dy
-> -  CONFIG_VIRTIO_VGA=3Dy
-> -  ...snip...
-> +default-configs/aarch64-softmmu.mak has:
-> +
-> +  include arm-softmmu.mak
-> +  CONFIG_XLNX_ZYNQMP_ARM=3Dy
-> +  CONFIG_XLNX_VERSAL=3Dy
-> =20
->  These files rarely need changing unless new devices / hardware need to
->  be enabled for a particular system/userspace emulation target
->=20
+> that sentence à la: "contain a list of config variable definitions like
+> the machines that should be included" ?
 
-Anyway,
+Good idea.
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+> 
+>> -default-configs/x86_64-softmmu.mak has:
+>> -
+>> -  include sound.mak
+>> -  include usb.mak
+>> -  CONFIG_QXL=$(CONFIG_SPICE)
+>> -  CONFIG_VGA_ISA=y
+>> -  CONFIG_VGA_CIRRUS=y
+>> -  CONFIG_VMWARE_VGA=y
+>> -  CONFIG_VIRTIO_VGA=y
+>> -  ...snip...
+>> +default-configs/aarch64-softmmu.mak has:
+>> +
+>> +  include arm-softmmu.mak
+>> +  CONFIG_XLNX_ZYNQMP_ARM=y
+>> +  CONFIG_XLNX_VERSAL=y
+>>  
+>>  These files rarely need changing unless new devices / hardware need to
+>>  be enabled for a particular system/userspace emulation target
+>>
+> 
+> Anyway,
+> 
+> Reviewed-by: Thomas Huth <thuth@redhat.com>
+> 
+
+Thanks!
+
+Phil.
 
