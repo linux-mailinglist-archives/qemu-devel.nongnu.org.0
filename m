@@ -2,49 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2BEF31E9AF
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 May 2019 10:01:58 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33095 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 980681E9C2
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 May 2019 10:05:37 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33111 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQorN-0006Ad-Af
-	for lists+qemu-devel@lfdr.de; Wed, 15 May 2019 04:01:57 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33974)
+	id 1hQouu-0007pL-Qe
+	for lists+qemu-devel@lfdr.de; Wed, 15 May 2019 04:05:36 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34815)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hQooy-00054g-J6
-	for qemu-devel@nongnu.org; Wed, 15 May 2019 03:59:29 -0400
+	(envelope-from <abologna@redhat.com>) id 1hQotX-0007TJ-75
+	for qemu-devel@nongnu.org; Wed, 15 May 2019 04:04:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hQoox-0004aI-Kf
-	for qemu-devel@nongnu.org; Wed, 15 May 2019 03:59:28 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:25798)
+	(envelope-from <abologna@redhat.com>) id 1hQotW-0003b8-3e
+	for qemu-devel@nongnu.org; Wed, 15 May 2019 04:04:11 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33572)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hQoov-0004VJ-Cm; Wed, 15 May 2019 03:59:25 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
+	(Exim 4.71) (envelope-from <abologna@redhat.com>)
+	id 1hQotO-0003Hi-IF; Wed, 15 May 2019 04:04:02 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id A29C23082DD3;
-	Wed, 15 May 2019 07:59:24 +0000 (UTC)
-Received: from localhost (ovpn-204-29.brq.redhat.com [10.40.204.29])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 3AE235D710;
-	Wed, 15 May 2019 07:59:24 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Date: Wed, 15 May 2019 09:59:17 +0200
-Message-Id: <20190515075917.24980-3-mreitz@redhat.com>
-In-Reply-To: <20190515075917.24980-1-mreitz@redhat.com>
-References: <20190515075917.24980-1-mreitz@redhat.com>
+	by mx1.redhat.com (Postfix) with ESMTPS id 91FC3307E04E;
+	Wed, 15 May 2019 08:04:01 +0000 (UTC)
+Received: from kinshicho (unknown [10.43.2.73])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id E2FBA19C69;
+	Wed, 15 May 2019 08:03:59 +0000 (UTC)
+Message-ID: <a24b6d34b99835ea38b021896a57c7af8bf4747c.camel@redhat.com>
+From: Andrea Bolognani <abologna@redhat.com>
+To: Richard Henderson <richard.henderson@linaro.org>, Andrew Jones
+	<drjones@redhat.com>
+Date: Wed, 15 May 2019 10:03:58 +0200
+In-Reply-To: <1cd94ba6-2bfa-645e-1034-dd05e8a77000@linaro.org>
+References: <20190512083624.8916-1-drjones@redhat.com>
+	<9f57bfa56715b3128c1823150457ddb866e6054c.camel@redhat.com>
+	<20190513123656.6iu7ebu7zucn5mxt@kamzik.brq.redhat.com>
+	<e38aac8cb33c5782499b4ca0356c43267f05dc5e.camel@redhat.com>
+	<20190514125329.mi7ctaoujirwm6gs@kamzik.brq.redhat.com>
+	<1857a74ef586a4e41d93b184498cfcf6c2927cec.camel@redhat.com>
+	<1cd94ba6-2bfa-645e-1034-dd05e8a77000@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.32.2 (3.32.2-1.fc30) 
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.46]);
-	Wed, 15 May 2019 07:59:24 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+	(mx1.redhat.com [10.5.110.42]);
+	Wed, 15 May 2019 08:04:01 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 2/2] qemu-img.texi: Describe human-readable
- info output
+Subject: Re: [Qemu-devel] [PATCH 00/13] target/arm/kvm: enable SVE in guests
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -56,81 +64,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
-	Max Reitz <mreitz@redhat.com>
+Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org, armbru@redhat.com,
+	qemu-arm@nongnu.org, alex.bennee@linaro.org, Dave.Martin@arm.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ideally, it should be self-explanatory.  However, keys like "disk size"
-arguably really are not self-explanatory.  In any case, there is no harm
-in going into a some more detail here.
+On Tue, 2019-05-14 at 13:14 -0700, Richard Henderson wrote:
+> On 5/14/19 9:03 AM, Andrea Bolognani wrote:
+> > On Tue, 2019-05-14 at 14:53 +0200, Andrew Jones wrote:
+> > > We already have sve-max-vq, so I'm not sure we want to rename it.
+> > 
+> > Oh, I didn't realize that was the case. And of course it already
+> > takes a number of quadwords as argument, I suppose? That's pretty
+> > unfortunate :(
+> > 
+> > Perhaps we could consider deprecating it in favor of a user-friendly
+> > variant that's actually suitable for regular humans, like the one I
+> > suggest above?
+> 
+> Why is =4 less user-friendly than =512?
+> 
+> I don't actually see "total bits in vector" as more user-friendly than "number
+> of quadwords" when it comes to non-powers-of-2 like =7 vs =896 or =13 vs =1664.
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
----
- qemu-img.texi | 41 +++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 41 insertions(+)
+I would wager most people are intimately familiar with bits, bytes
+and multiples due to having to work with them daily. Quadwords, not
+so much.
 
-diff --git a/qemu-img.texi b/qemu-img.texi
-index 39562317ee..e8bc0fd7a2 100644
---- a/qemu-img.texi
-+++ b/qemu-img.texi
-@@ -428,6 +428,47 @@ The command can output in the format @var{ofmt} whic=
-h is either @code{human} or
- @code{json}.  The JSON output is an object of QAPI type @code{ImageInfo}=
-; with
- @code{--backing-chain}, it is an array of @code{ImageInfo} objects.
-=20
-+@code{--output=3Dhuman} reports the following information (for every ima=
-ge in the
-+chain):
-+@table @var
-+@item image
-+The image file name
-+
-+@item file format
-+The image format
-+
-+@item virtual size
-+The size of the guest disk
-+
-+@item disk size
-+How much space the image file occupies on the host file system (may be s=
-hown as
-+0 if this information is unavailable, e.g. because there is no file syst=
-em)
-+
-+@item cluster_size
-+Cluster size of the image format, if applicable
-+
-+@item encrypted
-+Whether the image is encrypted (only present if so)
-+
-+@item cleanly shut down
-+This is shown as @code{no} if the image is dirty and will have to be
-+auto-repaired the next time it is opened in qemu.
-+
-+@item backing file
-+The backing file name, if present
-+
-+@item backing file format
-+The format of the backing file, if the image enforces it
-+
-+@item Snapshot list
-+A list of all internal snapshots
-+
-+@item Format specific information
-+Further information whose structure depends on the image format.  This s=
-ection
-+is a textual representation of the respective @code{ImageInfoSpecific*} =
-QAPI
-+object (e.g. @code{ImageInfoSpecificQCow2} for qcow2 images).
-+@end table
-+
- @item map [--object @var{objectdef}] [--image-opts] [-f @var{fmt}] [--ou=
-tput=3D@var{ofmt}] [-U] @var{filename}
-=20
- Dump the metadata of image @var{filename} and its backing file chain.
---=20
-2.21.0
+-- 
+Andrea Bolognani / Red Hat / Virtualization
 
 
