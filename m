@@ -2,46 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7D4371E83B
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 May 2019 08:23:24 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:60311 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 72DFE1E8A8
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 May 2019 08:53:52 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:60599 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQnJz-0006oP-02
-	for lists+qemu-devel@lfdr.de; Wed, 15 May 2019 02:23:23 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47591)
+	id 1hQnnT-0005UR-Mk
+	for lists+qemu-devel@lfdr.de; Wed, 15 May 2019 02:53:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50921)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richardw.yang@linux.intel.com>) id 1hQnIt-0006Qw-KE
-	for qemu-devel@nongnu.org; Wed, 15 May 2019 02:22:17 -0400
+	(envelope-from <armbru@redhat.com>) id 1hQnir-0001qi-F5
+	for qemu-devel@nongnu.org; Wed, 15 May 2019 02:49:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richardw.yang@linux.intel.com>) id 1hQnIr-0000Vn-Tn
-	for qemu-devel@nongnu.org; Wed, 15 May 2019 02:22:15 -0400
-Received: from mga06.intel.com ([134.134.136.31]:53409)
+	(envelope-from <armbru@redhat.com>) id 1hQnUe-00020b-6p
+	for qemu-devel@nongnu.org; Wed, 15 May 2019 02:34:25 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55316)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
-	id 1hQnIo-0008Rb-7a; Wed, 15 May 2019 02:22:10 -0400
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-	by orsmga104.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	14 May 2019 23:22:03 -0700
-X-ExtLoop1: 1
-Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
-	by fmsmga006.fm.intel.com with ESMTP; 14 May 2019 23:22:01 -0700
-Date: Wed, 15 May 2019 14:21:30 +0800
-From: Wei Yang <richardw.yang@linux.intel.com>
-To: Wei Yang <richardw.yang@linux.intel.com>
-Message-ID: <20190515062130.GA11845@richard>
-References: <20190326024320.27895-1-richardw.yang@linux.intel.com>
+	(Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hQnUd-0001tC-U0
+	for qemu-devel@nongnu.org; Wed, 15 May 2019 02:34:24 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 479D2307D978;
+	Wed, 15 May 2019 06:34:22 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-28.ams2.redhat.com
+	[10.36.116.28])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id AC11A608AB;
+	Wed, 15 May 2019 06:34:18 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+	id 304C411385E4; Wed, 15 May 2019 08:34:17 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Jason Wang <jasowang@redhat.com>
+References: <20190418145355.21100-1-armbru@redhat.com>
+	<20190418145355.21100-2-armbru@redhat.com>
+	<2679829b-cc1d-83ce-9949-2b80d970ddec@redhat.com>
+	<875zqe7b10.fsf@dusky.pond.sub.org>
+	<CAFEAcA-vqnucYKuV3QKf4wBsfuXMZiC1kqrnaVcA+BEaud__Bw@mail.gmail.com>
+	<877eat6xgm.fsf@dusky.pond.sub.org>
+	<e562c5f5-9d01-59b0-5a4c-d040fa8b8962@redhat.com>
+Date: Wed, 15 May 2019 08:34:17 +0200
+In-Reply-To: <e562c5f5-9d01-59b0-5a4c-d040fa8b8962@redhat.com> (Jason Wang's
+	message of "Wed, 15 May 2019 12:04:43 +0800")
+Message-ID: <87lfz88bva.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190326024320.27895-1-richardw.yang@linux.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 134.134.136.31
-Subject: Re: [Qemu-devel] [PATCH v6] hw/acpi: extract acpi_add_rom_blob()
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.48]);
+	Wed, 15 May 2019 06:34:22 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 1/6] qemu-bridge-helper: Fix misuse of
+ isspace()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -53,255 +68,137 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Wei Yang <richardw.yang@linux.intel.com>
-Cc: yang.zhong@intel.com, peter.maydell@linaro.org, mst@redhat.com,
-	qemu-devel@nongnu.org, shannon.zhaosl@gmail.com,
-	qemu-arm@nongnu.org, imammedo@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+	Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+	QEMU Developers <qemu-devel@nongnu.org>,
+	Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, Mar 26, 2019 at 10:43:20AM +0800, Wei Yang wrote:
->arm and i386 has almost the same function acpi_add_rom_blob(), except
->giving different FWCfgCallback function.
->
->This patch moves acpi_add_rom_blob() to utils.c by passing
->FWCfgCallback to it.
->
->Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
->Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Jason Wang <jasowang@redhat.com> writes:
 
-Hi, all
-
-would someone pick up this?
-
+> On 2019/5/14 =E4=B8=8B=E5=8D=888:18, Markus Armbruster wrote:
+>> Peter Maydell <peter.maydell@linaro.org> writes:
+>>
+>>> On Mon, 13 May 2019 at 14:21, Markus Armbruster <armbru@redhat.com> wro=
+te:
+>>>> Perhaps I should do it just for this file while I touch it anyway.  The
+>>>> question to ask: should parse_acl_file() obey the locale for whitespace
+>>>> recognition?
+>>> I vote for "no".
+>>>
+>>> Q: do we document the format of the ACL file anywhere ?
+>> Support for it was added in commit bdef79a2994, v1.1.  Just code, no
+>> documentation.
+>>
+>> Grepping for qemu-bridge-helper finds just qemu-options.hx.  Contains
+>> -help output and some .texi that goes into qemu-doc and the manual page.
+>> None of it mentions how qemu-bridge-helper is run, or the ACL file
+>> feature, let alone what its format might be.
+>>
+>> I'm afraid all we have is the commit message.  Which doesn't really
+>> define the file format, it merely gives a bunch of examples.
+>>
+>> As far as I can tell, qemu-bridge-helper is for use with -netdev tap and
+>> -netdev bridge.
+>>
+>> Both variations of -netdev call net_bridge_run_helper() to run the
+>> helper.  First argument is -netdev parameter "helper", default usually
+>> "$prefix/libexec/qemu-bridge-helper".  Second argument is parameter
+>> "br", default "br0".
+>>
+>> If @helper contains space or tab, net_bridge_run_helper() guesses its a
+>> full command, else it guesses its the name of the executable.  Bad
+>> magic.
+>>
+>> If it guesses name of executable, it execv()s this executable with
+>> arguments "--use-vnet", "--fd=3DFD", "--br=3D@bridge".
+>>
+>> If it guesses full command, it appends "--use-vnet --fd=3DFD", where FD =
+is
+>> the helper's half of the socketpair used to connect QEMU and the helper.
+>> It further appends "--br=3D@bridge", unless @helper contains "--br=3D".
+>> More bad magic.
+>>
+>> It executes the resulting string with sh -c.  Magic cherry on top.
+>>
+>> When the helper fails, netdev creation fails.
+>>
+>> The helper we ship with QEMU unconditionally tries to read
+>> "$prefix/etc/bridge.conf".  Fatal error if this file doesn't exist.
+>> Errors in this file are fatal.  Errors in files it includes are not
+>> fatal; instead, the remainder of the erroneous file is ignored.
+>> *Boggle*
+>>
+>> As far as I can tell, libvirt runs qemu-bridge-helper itself (Paolo's
+>> commit 2d80fbb14df).  Makes sense, because running QEMU with the
+>> necessary privileges would be unwise, and so would be letting it execute
+>> setuid helpers.  Also bypasses the bad magic in QEMU's
+>> net_bridge_run_helper().
 >
->---
->v6:
->  * change author from Igor to Michael
->v5:
->  * remove unnecessary header glib/gprintf.h
->  * rearrange include header to make it more suitable
->v4:
->  * extract -> moves
->  * adjust comment in source to make checkpatch happy
->v3:
->  * put acpi_add_rom_blob() to hw/acpi/utils.c
->v2:
->  * remove unused header in original source file
 >
->author
->---
-> hw/acpi/Makefile.objs    |  2 +-
-> hw/acpi/utils.c          | 36 ++++++++++++++++++++++++++++++++++++
-> hw/arm/virt-acpi-build.c | 26 ++++++++++----------------
-> hw/i386/acpi-build.c     | 26 ++++++++++----------------
-> include/hw/acpi/utils.h  |  9 +++++++++
-> 5 files changed, 66 insertions(+), 33 deletions(-)
-> create mode 100644 hw/acpi/utils.c
-> create mode 100644 include/hw/acpi/utils.h
->
->diff --git a/hw/acpi/Makefile.objs b/hw/acpi/Makefile.objs
->index 2d46e3789a..ba93c5b64a 100644
->--- a/hw/acpi/Makefile.objs
->+++ b/hw/acpi/Makefile.objs
->@@ -10,7 +10,7 @@ common-obj-$(call lnot,$(CONFIG_ACPI_X86)) += acpi-stub.o
-> 
-> common-obj-y += acpi_interface.o
-> common-obj-y += bios-linker-loader.o
->-common-obj-y += aml-build.o
->+common-obj-y += aml-build.o utils.o
-> common-obj-$(CONFIG_TPM) += tpm.o
-> 
-> common-obj-$(CONFIG_IPMI) += ipmi.o
->diff --git a/hw/acpi/utils.c b/hw/acpi/utils.c
->new file mode 100644
->index 0000000000..77b9e8148f
->--- /dev/null
->+++ b/hw/acpi/utils.c
->@@ -0,0 +1,36 @@
->+/*
->+ * Utilities for generating ACPI tables and passing them to Guests
->+ *
->+ * Copyright (C) 2019 Intel Corporation
->+ * Copyright (C) 2019 Red Hat Inc
->+ *
->+ * Author: Wei Yang <richardw.yang@linux.intel.com>
->+ * Author: Michael S. Tsirkin <mst@redhat.com>
->+ *
->+ * This program is free software; you can redistribute it and/or modify
->+ * it under the terms of the GNU General Public License as published by
->+ * the Free Software Foundation; either version 2 of the License, or
->+ * (at your option) any later version.
->+
->+ * This program is distributed in the hope that it will be useful,
->+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
->+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
->+ * GNU General Public License for more details.
->+
->+ * You should have received a copy of the GNU General Public License along
->+ * with this program; if not, see <http://www.gnu.org/licenses/>.
->+ */
->+
->+#include "qemu/osdep.h"
->+#include "hw/acpi/aml-build.h"
->+#include "hw/acpi/utils.h"
->+#include "hw/loader.h"
->+
->+MemoryRegion *acpi_add_rom_blob(FWCfgCallback update, void *opaque,
->+                                GArray *blob, const char *name,
->+                                uint64_t max_size)
->+{
->+    return rom_add_blob(name, blob->data, acpi_data_len(blob), max_size, -1,
->+                        name, update, opaque, NULL, true);
->+}
->+
->diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
->index 57679a89bf..a846f74a14 100644
->--- a/hw/arm/virt-acpi-build.c
->+++ b/hw/arm/virt-acpi-build.c
->@@ -37,9 +37,9 @@
-> #include "hw/acpi/acpi.h"
-> #include "hw/nvram/fw_cfg.h"
-> #include "hw/acpi/bios-linker-loader.h"
->-#include "hw/loader.h"
-> #include "hw/hw.h"
-> #include "hw/acpi/aml-build.h"
->+#include "hw/acpi/utils.h"
-> #include "hw/pci/pcie_host.h"
-> #include "hw/pci/pci.h"
-> #include "hw/arm/virt.h"
->@@ -881,14 +881,6 @@ static void virt_acpi_build_reset(void *build_opaque)
->     build_state->patched = false;
-> }
-> 
->-static MemoryRegion *acpi_add_rom_blob(AcpiBuildState *build_state,
->-                                       GArray *blob, const char *name,
->-                                       uint64_t max_size)
->-{
->-    return rom_add_blob(name, blob->data, acpi_data_len(blob), max_size, -1,
->-                        name, virt_acpi_build_update, build_state, NULL, true);
->-}
->-
-> static const VMStateDescription vmstate_virt_acpi_build = {
->     .name = "virt_acpi_build",
->     .version_id = 1,
->@@ -920,20 +912,22 @@ void virt_acpi_setup(VirtMachineState *vms)
->     virt_acpi_build(vms, &tables);
-> 
->     /* Now expose it all to Guest */
->-    build_state->table_mr = acpi_add_rom_blob(build_state, tables.table_data,
->-                                               ACPI_BUILD_TABLE_FILE,
->-                                               ACPI_BUILD_TABLE_MAX_SIZE);
->+    build_state->table_mr = acpi_add_rom_blob(virt_acpi_build_update,
->+                                              build_state, tables.table_data,
->+                                              ACPI_BUILD_TABLE_FILE,
->+                                              ACPI_BUILD_TABLE_MAX_SIZE);
->     assert(build_state->table_mr != NULL);
-> 
->     build_state->linker_mr =
->-        acpi_add_rom_blob(build_state, tables.linker->cmd_blob,
->-                          "etc/table-loader", 0);
->+        acpi_add_rom_blob(virt_acpi_build_update, build_state,
->+                          tables.linker->cmd_blob, "etc/table-loader", 0);
-> 
->     fw_cfg_add_file(vms->fw_cfg, ACPI_BUILD_TPMLOG_FILE, tables.tcpalog->data,
->                     acpi_data_len(tables.tcpalog));
-> 
->-    build_state->rsdp_mr = acpi_add_rom_blob(build_state, tables.rsdp,
->-                                              ACPI_BUILD_RSDP_FILE, 0);
->+    build_state->rsdp_mr = acpi_add_rom_blob(virt_acpi_build_update,
->+                                             build_state, tables.rsdp,
->+                                             ACPI_BUILD_RSDP_FILE, 0);
-> 
->     qemu_register_reset(virt_acpi_build_reset, build_state);
->     virt_acpi_build_reset(build_state);
->diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
->index 416da318ae..b17d4a711d 100644
->--- a/hw/i386/acpi-build.c
->+++ b/hw/i386/acpi-build.c
->@@ -37,7 +37,6 @@
-> #include "hw/acpi/cpu.h"
-> #include "hw/nvram/fw_cfg.h"
-> #include "hw/acpi/bios-linker-loader.h"
->-#include "hw/loader.h"
-> #include "hw/isa/isa.h"
-> #include "hw/block/fdc.h"
-> #include "hw/acpi/memory_hotplug.h"
->@@ -58,6 +57,7 @@
-> #include "hw/i386/x86-iommu.h"
-> 
-> #include "hw/acpi/aml-build.h"
->+#include "hw/acpi/utils.h"
-> 
-> #include "qom/qom-qobject.h"
-> #include "hw/i386/amd_iommu.h"
->@@ -2842,14 +2842,6 @@ static void acpi_build_reset(void *build_opaque)
->     build_state->patched = 0;
-> }
-> 
->-static MemoryRegion *acpi_add_rom_blob(AcpiBuildState *build_state,
->-                                       GArray *blob, const char *name,
->-                                       uint64_t max_size)
->-{
->-    return rom_add_blob(name, blob->data, acpi_data_len(blob), max_size, -1,
->-                        name, acpi_build_update, build_state, NULL, true);
->-}
->-
-> static const VMStateDescription vmstate_acpi_build = {
->     .name = "acpi_build",
->     .version_id = 1,
->@@ -2891,14 +2883,15 @@ void acpi_setup(void)
->     acpi_build(&tables, MACHINE(pcms));
-> 
->     /* Now expose it all to Guest */
->-    build_state->table_mr = acpi_add_rom_blob(build_state, tables.table_data,
->-                                               ACPI_BUILD_TABLE_FILE,
->-                                               ACPI_BUILD_TABLE_MAX_SIZE);
->+    build_state->table_mr = acpi_add_rom_blob(acpi_build_update,
->+                                              build_state, tables.table_data,
->+                                              ACPI_BUILD_TABLE_FILE,
->+                                              ACPI_BUILD_TABLE_MAX_SIZE);
->     assert(build_state->table_mr != NULL);
-> 
->     build_state->linker_mr =
->-        acpi_add_rom_blob(build_state, tables.linker->cmd_blob,
->-                          "etc/table-loader", 0);
->+        acpi_add_rom_blob(acpi_build_update, build_state,
->+                          tables.linker->cmd_blob, "etc/table-loader", 0);
-> 
->     fw_cfg_add_file(pcms->fw_cfg, ACPI_BUILD_TPMLOG_FILE,
->                     tables.tcpalog->data, acpi_data_len(tables.tcpalog));
->@@ -2935,8 +2928,9 @@ void acpi_setup(void)
->         build_state->rsdp_mr = NULL;
->     } else {
->         build_state->rsdp = NULL;
->-        build_state->rsdp_mr = acpi_add_rom_blob(build_state, tables.rsdp,
->-                                                  ACPI_BUILD_RSDP_FILE, 0);
->+        build_state->rsdp_mr = acpi_add_rom_blob(acpi_build_update,
->+                                                 build_state, tables.rsdp,
->+                                                 ACPI_BUILD_RSDP_FILE, 0);
->     }
-> 
->     qemu_register_reset(acpi_build_reset, build_state);
->diff --git a/include/hw/acpi/utils.h b/include/hw/acpi/utils.h
->new file mode 100644
->index 0000000000..140b4de603
->--- /dev/null
->+++ b/include/hw/acpi/utils.h
->@@ -0,0 +1,9 @@
->+#ifndef HW_ACPI_UTILS_H
->+#define HW_ACPI_UTILS_H
->+
->+#include "hw/nvram/fw_cfg.h"
->+
->+MemoryRegion *acpi_add_rom_blob(FWCfgCallback update, void *opaque,
->+                                GArray *blob, const char *name,
->+                                uint64_t max_size);
->+#endif
->-- 
->2.19.1
+> I don't notice this before. Is this only for the convenience of
+> development? I guess libvirt should have native support like adding
+> port to bridge/OVS without the help any external command or script.
 
--- 
-Wei Yang
-Help you, Help me
+Commit 2d80fbb14df hints at the reason:
+
+    <source type=3D'bridge'> uses a helper application to do the necessary
+    TUN/TAP setup to use an existing network bridge, thus letting
+    unprivileged users use TUN/TAP interfaces.
+    ~~~~~~~~~~~~~~~~~~
+
+The code confirms:
+
+    /* qemuInterfaceBridgeConnect:
+     * @def: the definition of the VM
+     * @driver: qemu driver data
+     * @net: pointer to the VM's interface description
+     * @tapfd: array of file descriptor return value for the new device
+     * @tapfdsize: number of file descriptors in @tapfd
+     *
+---> * Called *only* called if actualType is VIR_DOMAIN_NET_TYPE_NETWORK or
+---> * VIR_DOMAIN_NET_TYPE_BRIDGE (i.e. if the connection is made with a tap
+     * device connecting to a bridge device)
+     */
+    int
+    qemuInterfaceBridgeConnect(virDomainDefPtr def,
+                               virQEMUDriverPtr driver,
+                               virDomainNetDefPtr net,
+                               int *tapfd,
+                               size_t *tapfdSize)
+    {
+        [...]
+--->    if (virQEMUDriverIsPrivileged(driver)) {
+            [...]
+        } else {
+            if (qemuCreateInBridgePortWithHelper(cfg, brname,
+                                                 &net->ifname,
+                                                 tapfd, tap_create_flags) <=
+ 0) {
+                virDomainAuditNetDevice(def, net, tunpath, false);
+                goto cleanup;
+            }
+            [...]
+        }
+        [...]
+    }
+
+>> qemu-bridge-helper should have a manual page, and its handling of errors
+>> in ACL include files needs work.  There's probably more; I just glanced
+>> at it.  I'm not volunteering, though.  It lacks a maintainer.  Should we
+>> add it to Jason's "Network device backends"?
+>
+>
+> Yes.
+>
+>> -netdev's helper parameter is seriously underdocumented.  Document or
+>> deprecate?
+>
+>
+> I believe management should only use fd parameter of TAP. If we have
+> other, it should be a duplication. So I suggest to deprecate the
+> bridge helper and -netdev bridge.
+
+Objections, anyone?
 
