@@ -2,77 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D9E711EBD8
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 May 2019 12:10:55 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:34592 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 435751EC19
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 May 2019 12:29:17 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:34813 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQqsB-0007lK-2p
-	for lists+qemu-devel@lfdr.de; Wed, 15 May 2019 06:10:55 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35524)
+	id 1hQr9w-0005kD-Eu
+	for lists+qemu-devel@lfdr.de; Wed, 15 May 2019 06:29:16 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38607)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hQqrG-0007Uc-1C
-	for qemu-devel@nongnu.org; Wed, 15 May 2019 06:09:58 -0400
+	(envelope-from <bounces@canonical.com>) id 1hQr8G-0004u5-72
+	for qemu-devel@nongnu.org; Wed, 15 May 2019 06:27:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hQqrF-0002ov-1c
-	for qemu-devel@nongnu.org; Wed, 15 May 2019 06:09:58 -0400
-Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:42926)
+	(envelope-from <bounces@canonical.com>) id 1hQr8E-0007H5-W7
+	for qemu-devel@nongnu.org; Wed, 15 May 2019 06:27:32 -0400
+Received: from indium.canonical.com ([91.189.90.7]:49242)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hQqrE-0002me-T3
-	for qemu-devel@nongnu.org; Wed, 15 May 2019 06:09:56 -0400
-Received: by mail-ot1-x344.google.com with SMTP id f23so1691697otl.9
-	for <qemu-devel@nongnu.org>; Wed, 15 May 2019 03:09:56 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=Nt7yUNl+fxHHqXk3cUA7QSmgiFJwk1O7ULjATBXYI0Q=;
-	b=rTf7Fy4v7QCwUW+OLirLMc7/8p2YwE+yW9Jin3WxKfIV6ug/O3+JUly4MGUnySmjXh
-	qm8tbdY3eHfpjI3VrP6BiNkRHIeNkTc9j+LlGoGcS23caukk9BuybCpBwWL7bZgB+xjg
-	1XefY1dczsv1TrdWROcN3+xgzVyHOHj5lTwFVSHllLI4S2ZtP5Lk3n7cZJwqbWk/ko+a
-	av0tQsSuOfe0sKKGcuTwY9/DVNitf1r6AZUNJBnX1QS/CV3dN6FloQaM72DZPV9PQKva
-	dI0z+J8zi9KGNm8BFEzfQJGfptkMsHBjd3XMkRS3TYfR0vjqQTEydeYj50cn14nuXcIT
-	C88Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=Nt7yUNl+fxHHqXk3cUA7QSmgiFJwk1O7ULjATBXYI0Q=;
-	b=L3+fq0L4D7g26mHnTGb+ZzlOwf9hnV6Bz5YkkzFwYYRdCbCkiW6uWqbPIcMJg6q1WP
-	RxYJtdjtu0wNfmRx+jzXGwKMwN2ylvOw+m8k3MJ+rLMRCRgSmU8BLRuZEF6LMmjCn+yJ
-	2YdGTRGM3ZEGWE0A04b0htNCbYERtcPdAP024+Cc6RVoaX6KmhImLLOswYVMtugwJgDt
-	sHRcvzioBWxBn1a66plyac/Iin07L3zaiaP9J95s4zqbnPX+honDMuHPiZTjYVt+8dN5
-	T9Fd0nfld6NQN+gRZZbf+My+pANivG0CpY8dq21nZxt/9eoHCBZzqkcaGCctpqyjeUT9
-	VhIg==
-X-Gm-Message-State: APjAAAVg9hGWG+q+75eg0qt+Lty5MAObxSJO7hVoWQwnShqW4YJK+GfF
-	i+evekUJntOc2G9HLgpI19Yumam1DtExYGguteKr6Q==
-X-Google-Smtp-Source: APXvYqyUdoSganr5JWqA4O7y7ZjVDMK82anLa4aVmLZc/OZgJYg727u6M+HEOVxZ1YmzukWbjAjJBZwbkYqQgdAhj7o=
-X-Received: by 2002:a9d:61d5:: with SMTP id h21mr24907104otk.306.1557914995552;
-	Wed, 15 May 2019 03:09:55 -0700 (PDT)
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hQr8E-0007Ge-QH
+	for qemu-devel@nongnu.org; Wed, 15 May 2019 06:27:30 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hQr8C-0001yG-Q6
+	for <qemu-devel@nongnu.org>; Wed, 15 May 2019 10:27:28 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id 6BD072E80CB
+	for <qemu-devel@nongnu.org>; Wed, 15 May 2019 10:27:28 +0000 (UTC)
 MIME-Version: 1.0
-References: <20190418145355.21100-1-armbru@redhat.com>
-	<20190418145355.21100-2-armbru@redhat.com>
-	<2679829b-cc1d-83ce-9949-2b80d970ddec@redhat.com>
-	<875zqe7b10.fsf@dusky.pond.sub.org>
-	<CAFEAcA-vqnucYKuV3QKf4wBsfuXMZiC1kqrnaVcA+BEaud__Bw@mail.gmail.com>
-	<877eat6xgm.fsf@dusky.pond.sub.org>
-	<e562c5f5-9d01-59b0-5a4c-d040fa8b8962@redhat.com>
-	<87lfz88bva.fsf@dusky.pond.sub.org>
-In-Reply-To: <87lfz88bva.fsf@dusky.pond.sub.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Wed, 15 May 2019 11:09:44 +0100
-Message-ID: <CAFEAcA_6SC1PuzjjK=4p11Z2CVNziSkNU-Nz4=t9gf30ZmP4qw@mail.gmail.com>
-To: Markus Armbruster <armbru@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::344
-Subject: Re: [Qemu-devel] [PATCH 1/6] qemu-bridge-helper: Fix misuse of
- isspace()
+Date: Wed, 15 May 2019 10:11:30 -0000
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+	assignee=None; 
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: insspir philmd pmaydell th-huth
+X-Launchpad-Bug-Reporter: =?utf-8?q?Dariusz_Zyza=C5=84ski_=28insspir=29?=
+X-Launchpad-Bug-Modifier: Peter Maydell (pmaydell)
+References: <155787117310.15024.60120190997628985.malonedeb@gac.canonical.com>
+Message-Id: <155791509010.15725.18273977661483049091.malone@wampee.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18962";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: c6f2fd78b10eaa47f07e9e6fca9fa521c7018e2e
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1829079] Re: Can't build static on ARM (Raspbian)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -81,31 +64,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Jason Wang <jasowang@redhat.com>,
-	=?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
-	QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1829079 <1829079@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 15 May 2019 at 07:34, Markus Armbruster <armbru@redhat.com> wrote:
->
-> Jason Wang <jasowang@redhat.com> writes:
->
-> > On 2019/5/14 =E4=B8=8B=E5=8D=888:18, Markus Armbruster wrote:
-> >> -netdev's helper parameter is seriously underdocumented.  Document or
-> >> deprecate?
-> >
-> >
-> > I believe management should only use fd parameter of TAP. If we have
-> > other, it should be a duplication. So I suggest to deprecate the
-> > bridge helper and -netdev bridge.
->
-> Objections, anyone?
+You might find that adding --disable-tools to your configure line also
+helps in not trying to statically link random binaries you don't really
+want.
 
-Only the usual "only if we clearly document what the intended
-new functionality is and how to convert your setup from an old
-command line using the old thing to a new one using the new thing"...
+-- =
 
-thanks
--- PMM
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1829079
+
+Title:
+  Can't build static on ARM (Raspbian)
+
+Status in QEMU:
+  Invalid
+
+Bug description:
+  I am trying to build static QEMU on Raspbian, chrooted into using systemd=
+-nspawn with QEMU 4.0.0.
+  This is how my compiling looks:
+  https://pastebin.com/PYZYeRCN
+  Just the problematic part:
+  https://pastebin.com/7LxWPMxA
+  How I do the compiling:
+  https://pastebin.com/pYM17A6R (I plan to share this tutorial when it will=
+ work)
+  It is a coincidence, or the build fails because it cannot find lp11-kit. =
+I did some symlinks:
+  ln -s /usr/lib/arm-linux-gnueabihf/libp11-kit.so.0 /usr/lib/libp11-kit.so=
+.0
+  ln -s /usr/lib/arm-linux-gnueabihf/libp11-kit.so /usr/lib/libp11-kit.so
+  (should I also symlink libp11.so and libp11.so.2? I think I have installe=
+d all required p11 packages!
+
+  Git commit hash: git rev-parse HEAD
+  e329ad2ab72c43b56df88b34954c2c7d839bb373
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1829079/+subscriptions
 
