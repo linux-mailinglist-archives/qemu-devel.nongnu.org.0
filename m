@@ -2,70 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D0F771F718
-	for <lists+qemu-devel@lfdr.de>; Wed, 15 May 2019 17:04:40 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38324 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F032D1F76E
+	for <lists+qemu-devel@lfdr.de>; Wed, 15 May 2019 17:26:32 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38666 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hQvSP-0005oX-6r
-	for lists+qemu-devel@lfdr.de; Wed, 15 May 2019 11:04:37 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39335)
+	id 1hQvnc-0003zX-4X
+	for lists+qemu-devel@lfdr.de; Wed, 15 May 2019 11:26:32 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44075)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <liq3ea@gmail.com>) id 1hQvQ5-0004vd-AW
-	for qemu-devel@nongnu.org; Wed, 15 May 2019 11:02:14 -0400
+	(envelope-from <alex.bennee@linaro.org>) id 1hQvkp-0002Gm-0B
+	for qemu-devel@nongnu.org; Wed, 15 May 2019 11:23:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <liq3ea@gmail.com>) id 1hQvPz-00072E-Lj
-	for qemu-devel@nongnu.org; Wed, 15 May 2019 11:02:13 -0400
-Received: from mail-ot1-x330.google.com ([2607:f8b0:4864:20::330]:34660)
+	(envelope-from <alex.bennee@linaro.org>) id 1hQvac-0001mx-C2
+	for qemu-devel@nongnu.org; Wed, 15 May 2019 11:13:07 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:37276)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <liq3ea@gmail.com>) id 1hQvPz-00070n-8q
-	for qemu-devel@nongnu.org; Wed, 15 May 2019 11:02:07 -0400
-Received: by mail-ot1-x330.google.com with SMTP id l17so325090otq.1
-	for <qemu-devel@nongnu.org>; Wed, 15 May 2019 08:02:07 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=D3+PsrFIkM91AP5VuhcwBaagk2YeyL/RyrrR+O/CEyo=;
-	b=Vy3BcbLdUH7v1p8H8E56jBzZVZPusosFmmZdKZSu7h65prhvEiX7AOc9CRs2B5iiGc
-	Vp0hPNXD3DyVu+o4Uhivs4tkx+XF/JWpsuVOk4ol29DXz2Y3XKaBWY4cuAGsEn09XMat
-	+gIQ/tUuDleqxAgOzJLjeu+2k7ikxUFA+m7K1/DTmgrVR/1NuErvzI/VQvuSl3Pb/vkt
-	22hAembzma2p7hydPGj9x5Dfx2nniXf7R0LCfHZakCFKHOBEmKgLzeSTFD5iN+qYAMob
-	cpb6oZhqQ/X0r25/lodsBFBAPpKtzgFo4o+QYIWUXaOLKSPnwlr7pp7j49V+JRucsv6E
-	ot0Q==
+	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+	id 1hQvac-0001hi-4Z
+	for qemu-devel@nongnu.org; Wed, 15 May 2019 11:13:06 -0400
+Received: by mail-wr1-x443.google.com with SMTP id e15so3119266wrs.4
+	for <qemu-devel@nongnu.org>; Wed, 15 May 2019 08:13:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=references:user-agent:from:to:cc:subject:in-reply-to:date
+	:message-id:mime-version:content-transfer-encoding;
+	bh=ig9fMrZaBNK6PguGD1OfQ26inyYK2n0Bdj94H1/THFs=;
+	b=wO9uBX+5oLBA0qfVT2IiE+g7o4YtID04CY1XKo1sXje9JeUXca3YA4IoJsJq6bTaT+
+	LW6Gjd2XzoKAdBADf6YcPJn6pEKt1I9DsZGHU8wLFACDBXy0whuOr+wx5Fx8FpoFDXXM
+	6biRvCuG1LGoUexigcF0Ao2BLPANgQSznasKU77Pvc6ps916+NGDUImjHxD4I+/Y1coE
+	Ap1rCleNh+Xq36KlXCx4n4FYghyvPTu/MKgiKd6BIYff3bfhlov0BVO2PEUDVFzcixFw
+	9DFhroobY0njIkxEvSuaB+swWnbCKzmTQGH3kP616+zcJunETkrhwEmJxrBDWctioRPN
+	W/Rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=D3+PsrFIkM91AP5VuhcwBaagk2YeyL/RyrrR+O/CEyo=;
-	b=eckFZb+4JThVQ83mu8lPEyyzEQ/qvPTUke5QILiYQ+j+2VNZjlmi5n4ZJzLFDzmw5+
-	wjJsKzsm/9Z3ozkJRQW0qSa4GqbH1g109cducjeN24UZb8/98Y5Kp+fhSvu7oaOqGf6C
-	AJvIVBowmN0y+wIuxYQpp8S9IJg870JNUQR0An1JqjycDF147LdornjcnFovlH9ZprFL
-	2Su/DOnrXiOv45VuoJvKpBNvZDRcNwZHepvwE1oYSQRf3JVgSJRYn0zqZFIyYuYfjyty
-	CY0EBtpePJWWSh3U8PuO6Zvtid2ZaDYdrswF+yj8cTeEuIWIvzfdbPSnvTRO8QxeV7Rr
-	cY/Q==
-X-Gm-Message-State: APjAAAWTbJYZjgUsMq9lYf6dhcEZPbidce2b6bx19P43ebPbKCMNIGCJ
-	crd6WizicKBXf4VPZ+WVHahLABAUQa59y/m+XsM=
-X-Google-Smtp-Source: APXvYqwi//h5edo4jdKjfodY9Cb7gcc3m3PD8yVi9mjD6TRkrBemCaVCaQdys70KPDwWoit3+LFtqB3mucxNH/WhXQA=
-X-Received: by 2002:a9d:2c2a:: with SMTP id f39mr24050037otb.67.1557932526139; 
-	Wed, 15 May 2019 08:02:06 -0700 (PDT)
+	h=x-gm-message-state:references:user-agent:from:to:cc:subject
+	:in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+	bh=ig9fMrZaBNK6PguGD1OfQ26inyYK2n0Bdj94H1/THFs=;
+	b=W6A99/dHso8B7WZ6sACKSpvRsd5TXuGT4KLoDdr4XJlprSKF9uEcUTjmT9/hlFUFey
+	M1FYKJ/bLtnDkwJUsryvATUkDQHgxVrvXv7/1ywnFWuHr8dUlnvnXt/wfNGwCkIXkz3e
+	+kLtj6bBKn8JA8jXb3q3GiET1B7lec8yRiV7GJO+/Cyr0EHKpbtS+aH0wTI/IN+dknyI
+	hwTS+n26n/vhUBvCmvHB8dJoxaNAYtLTjEGu+9Zv6YA5Ez5a4OhcrvuH09J4XsSha3ev
+	HABtZkLkB/QdkOEAwqNWdzGAoWThN3Jf5loFOr5S94d6EoSlQqARDM1ZmdPsbH5n2med
+	iWIw==
+X-Gm-Message-State: APjAAAWNvOjAxLbLM4UEF4EPSV8mRMydR51jvvJetv7Rml0yAfhbAi0J
+	R5UPsfAz6RQN6eIVawe2ZjNCWA==
+X-Google-Smtp-Source: APXvYqxhIq0YU/F9UDQaGyiqlK0qNz1clT5R8LFVAtPlHvioHfXGT6vNS4WdYh2fSYtS66vtcqqoXA==
+X-Received: by 2002:adf:e288:: with SMTP id v8mr20942088wri.7.1557933184544;
+	Wed, 15 May 2019 08:13:04 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+	by smtp.gmail.com with ESMTPSA id
+	a10sm3282483wrm.94.2019.05.15.08.13.03
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Wed, 15 May 2019 08:13:03 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+	by zen.linaroharston (Postfix) with ESMTP id 694261FF87;
+	Wed, 15 May 2019 16:13:03 +0100 (BST)
+References: <20190502081554.5521-1-arilou@gmail.com>
+	<20190502081554.5521-24-arilou@gmail.com>
+User-agent: mu4e 1.3.1; emacs 26.1
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Jon Doron <arilou@gmail.com>
+In-reply-to: <20190502081554.5521-24-arilou@gmail.com>
+Date: Wed, 15 May 2019 16:13:03 +0100
+Message-ID: <87r28zn43k.fsf@zen.linaroharston>
 MIME-Version: 1.0
-References: <CAKXe6SKBgMcq+p7EB1kRWLSbg9NvZg1Mr24UrX8S+kpzq-GR4Q@mail.gmail.com>
-	<c707e882-e194-355a-d96c-bfb00a8db247@redhat.com>
-	<CAKXe6SKetRL1uEww7wZeOCU5d8t+qrDDjzk3uBsQuhiQzt5S6w@mail.gmail.com>
-	<20190515074616.3d6e6b32@x1.home>
-	<9e0c77b53b1507e4a2aab2f6296cc7c716864ad3.camel@redhat.com>
-	<20190515085359.1f94c81f@x1.home>
-In-Reply-To: <20190515085359.1f94c81f@x1.home>
-From: Li Qiang <liq3ea@gmail.com>
-Date: Wed, 15 May 2019 23:01:29 +0800
-Message-ID: <CAKXe6SKybTqSf1J9WD+QfNLHzG+xvRcC5tEsAcdhU3pxn=_vrw@mail.gmail.com>
-To: Alex Williamson <alex.williamson@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::330
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] Question about the vfio device interrupt
+X-Received-From: 2a00:1450:4864:20::443
+Subject: Re: [Qemu-devel] [PATCH v9 23/27] gdbstub: Implement qemu physical
+ memory mode
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -77,87 +84,136 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Auger Eric <eric.auger@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
-	Qemu Developers <qemu-devel@nongnu.org>,
-	Maxim Levitsky <mlevitsk@redhat.com>
+Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Alex Williamson <alex.williamson@redhat.com> =E4=BA=8E2019=E5=B9=B45=E6=9C=
-=8815=E6=97=A5=E5=91=A8=E4=B8=89 =E4=B8=8B=E5=8D=8810:54=E5=86=99=E9=81=93=
-=EF=BC=9A
 
-> On Wed, 15 May 2019 17:27:52 +0300
-> Maxim Levitsky <mlevitsk@redhat.com> wrote:
+Jon Doron <arilou@gmail.com> writes:
+
+> Add a new query/set which changes the memory GDB sees to physical memory
+> only.
 >
-> > Hi!
-> >
-> > Let me add my 0.2 cents to this discussion by sharing my summary of INT=
-x
-> emulation in VFIO:
-> >
-> > COMMON:
-> > * real interrupt is signaled in the kernel
-> > * vfio-pci kernel interrupt hanlder (vfio_intx_handler), masks the INTx
-> flag
-> > * vfio-pci kernel interrupt handler triggers an eventfd, if the
-> interrupt is not virtually intx masked
-> >   (an eventfd which was registred for VFIO_IRQ_SET_DATA_EVENTFD |
-> VFIO_IRQ_SET_ACTION_TRIGGER)
-> >
-> >
-> > KERNEL INTERRUPT CONTROLLER CASE:
-> >
-> > * the vfio-pci eventfd is listened by the kvm (set by KVM_IRQFD ioctl),
-> and delivered to guest ioapic
-> >   (the setup is done by qemu in vfio_intx_enable_kvm, the same eventfd
-> is given to vfio-pci and to kvm)
-> > * when guest writes eoi, an 'resamplefd' is (which is registered by
-> vfio_intx_enable_kvm too)
-> >   is triggered.
-> >   the vfio_intx_enable_kvm tells the vfio pci module
-> (VFIO_IRQ_SET_DATA_EVENTFD | VFIO_IRQ_SET_ACTION_UNMASK)
-> >   to listen to that 'resamplefd' and unmask the interrupt
-> >   (here too, a same eventfd is given to kvm and to vfio-pci, but here
-> the kvm signals it, and vfio-pci listens to it).
-> >
-> >
-> > USERSPACE QEMU CASE:
-> >
-> >   (only happens in short period while vfio_intx_enable is running and
-> before it calles the vfio_intx_enable_kvm)
-> >   (or when vfio_intx_enable_kvm fails)
-> >
-> > * the vfio-pci eventfd is listened by the qemu (vfio_intx_interrupt)
-> > * the vfio_intx_interrupt (in qemu)
-> >       * masks the interrupt using kernel vfio interface
-> >       * unmaps all the device bars and sets a timer to map them again
-> >       * sends the interrupt down the qemu stack till it is reinjected t=
-o
-> the guest
-> > * any bar access now goes to qemu via EPT fault
-> (vfio_region_read/vfio_region_write)
-> > * the bar access
-> >       * triggers (vfio_eoi->vfio_intx_eoi) which unmasks (using
-> vfio-pci) the interrupt
-> >         the idea is that first few bar accesses should ack the interrup=
-t
-> and thus avoid flood
-> >         but some interrupts could still happen (one per bar access)
+> gdb> maint packet qqemu.PhyMemMode
+> will reply the current phy_mem_mode state (1 for enabled, 0 for disabled)
+> gdb> maint packet Qqemu.PhyMemMode:1
+> Will make GDB read/write only to physical memory, set to 0 to disable
 >
-> Full points :)  Thanks,
+> Signed-off-by: Jon Doron <arilou@gmail.com>
+> ---
+>  gdbstub.c | 58 ++++++++++++++++++++++++++++++++++++++++++++++++++++---
+>  1 file changed, 55 insertions(+), 3 deletions(-)
 >
-
-
-Thanks very much Alex and Maxim!
-I appreciate it.
-
-Thanks,
-Li Qiang
-
-
-
-
+> diff --git a/gdbstub.c b/gdbstub.c
+> index 00c07d6ec0..88ff6224e6 100644
+> --- a/gdbstub.c
+> +++ b/gdbstub.c
+> @@ -46,11 +46,23 @@
+>  #define GDB_ATTACHED "1"
+>  #endif
 >
-> Alex
+> +static int phy_memory_mode;
+> +
+>  static inline int target_memory_rw_debug(CPUState *cpu, target_ulong add=
+r,
+>                                           uint8_t *buf, int len, bool is_=
+write)
+>  {
+> -    CPUClass *cc =3D CPU_GET_CLASS(cpu);
+> +    CPUClass *cc;
 >
+> +    if (phy_memory_mode) {
+> +        if (is_write) {
+> +            cpu_physical_memory_write(addr, buf, len);
+> +        } else {
+> +            cpu_physical_memory_read(addr, buf, len);
+> +        }
+> +        return 0;
+> +    }
+> +
+
+I think this is the commit that breaks the build. As the gdbstub can run
+for both system and linux-user emulation modes you need to take care to
+disable the bits that don't make sense for linux-user emulation. You'll
+see other places in the code doing that with #if[n]def CONFIG_USER_ONLY.
+
+
+> +    cc =3D CPU_GET_CLASS(cpu);
+>      if (cc->memory_rw_debug) {
+>          return cc->memory_rw_debug(cpu, addr, buf, len, is_write);
+>      }
+> @@ -2129,7 +2141,29 @@ static void handle_query_attached(GdbCmdContext *g=
+db_ctx, void *user_ctx)
+>
+>  static void handle_query_qemu_supported(GdbCmdContext *gdb_ctx, void *us=
+er_ctx)
+>  {
+> -    put_packet(gdb_ctx->s, "sstepbits;sstep");
+> +    put_packet(gdb_ctx->s, "sstepbits;sstep;PhyMemMode");
+> +}
+> +
+> +static void handle_query_qemu_phy_mem_mode(GdbCmdContext *gdb_ctx,
+> +                                           void *user_ctx)
+> +{
+> +    snprintf(gdb_ctx->str_buf, sizeof(gdb_ctx->str_buf), "%d", phy_memor=
+y_mode);
+> +    put_packet(gdb_ctx->s, gdb_ctx->str_buf);
+> +}
+> +
+> +static void handle_set_qemu_phy_mem_mode(GdbCmdContext *gdb_ctx, void *u=
+ser_ctx)
+> +{
+> +    if (!gdb_ctx->num_params) {
+> +        put_packet(gdb_ctx->s, "E22");
+> +        return;
+> +    }
+> +
+> +    if (!gdb_ctx->params[0].val_ul) {
+> +        phy_memory_mode =3D 0;
+> +    } else {
+> +        phy_memory_mode =3D 1;
+> +    }
+> +    put_packet(gdb_ctx->s, "OK");
+>  }
+>
+>  static GdbCmdParseEntry gdb_gen_query_set_common_table[] =3D {
+> @@ -2212,6 +2246,20 @@ static GdbCmdParseEntry gdb_gen_query_table[] =3D {
+>          .handler =3D handle_query_qemu_supported,
+>          .cmd =3D "qemu.Supported",
+>      },
+> +    {
+> +        .handler =3D handle_query_qemu_phy_mem_mode,
+> +        .cmd =3D "qemu.PhyMemMode",
+> +    },
+> +};
+> +
+> +static GdbCmdParseEntry gdb_gen_set_table[] =3D {
+> +    /* Order is important if has same prefix */
+> +    {
+> +        .handler =3D handle_set_qemu_phy_mem_mode,
+> +        .cmd =3D "qemu.PhyMemMode:",
+> +        .cmd_startswith =3D 1,
+> +        .schema =3D "l0"
+> +    },
+>  };
+>
+>  static void handle_gen_query(GdbCmdContext *gdb_ctx, void *user_ctx)
+> @@ -2245,7 +2293,11 @@ static void handle_gen_set(GdbCmdContext *gdb_ctx,=
+ void *user_ctx)
+>          return;
+>      }
+>
+> -    put_packet(gdb_ctx->s, "");
+> +    if (process_string_cmd(gdb_ctx->s, NULL, gdb_ctx->params[0].data,
+> +                           gdb_gen_set_table,
+> +                           ARRAY_SIZE(gdb_gen_set_table))) {
+> +        put_packet(gdb_ctx->s, "");
+> +    }
+>  }
+>
+>  static void handle_target_halt(GdbCmdContext *gdb_ctx, void *user_ctx)
+
+
+--
+Alex Benn=C3=A9e
+
