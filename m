@@ -2,39 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 127F0209E6
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 16:39:25 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:59192 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A64B20A02
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 16:44:13 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:59287 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRHXY-0003gm-5n
-	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 10:39:24 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55363)
+	id 1hRHcC-0007uA-GQ
+	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 10:44:12 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56745)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <anton.nefedov@virtuozzo.com>) id 1hRHRt-00081f-GZ
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 10:33:35 -0400
+	(envelope-from <bwiedemann@suse.de>) id 1hRHWv-0003qp-Vz
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 10:38:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <anton.nefedov@virtuozzo.com>) id 1hRHRr-0004K7-FL
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 10:33:33 -0400
-Received: from relay.sw.ru ([185.231.240.75]:39694)
+	(envelope-from <bwiedemann@suse.de>) id 1hRHWu-000378-U2
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 10:38:45 -0400
+Received: from mx2.suse.de ([195.135.220.15]:58076 helo=mx1.suse.de)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <anton.nefedov@virtuozzo.com>)
-	id 1hRHRn-0004EI-N5; Thu, 16 May 2019 10:33:27 -0400
-Received: from [172.16.25.154] (helo=xantnef-ws.sw.ru)
-	by relay.sw.ru with esmtp (Exim 4.91)
-	(envelope-from <anton.nefedov@virtuozzo.com>)
-	id 1hRHRm-0007Lk-FQ; Thu, 16 May 2019 17:33:26 +0300
-From: Anton Nefedov <anton.nefedov@virtuozzo.com>
-To: qemu-block@nongnu.org
-Date: Thu, 16 May 2019 17:33:14 +0300
-Message-Id: <20190516143314.81302-10-anton.nefedov@virtuozzo.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190516143314.81302-1-anton.nefedov@virtuozzo.com>
-References: <20190516143314.81302-1-anton.nefedov@virtuozzo.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH v8 9/9] qapi: query-blockstat: add driver
- specific file-posix stats
+	(Exim 4.71) (envelope-from <bwiedemann@suse.de>) id 1hRHWu-0002wh-OY
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 10:38:44 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.220.254])
+	by mx1.suse.de (Postfix) with ESMTP id EAF47AC32
+	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 14:38:42 +0000 (UTC)
+From: "Bernhard M. Wiedemann" <bwiedemann@suse.de>
+To: qemu-devel@nongnu.org
+Date: Thu, 16 May 2019 16:38:39 +0200
+Message-Id: <20190516143839.19173-1-bwiedemann@suse.de>
+X-Mailer: git-send-email 2.16.4
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
+	timestamps) [generic]
+X-Received-From: 195.135.220.15
+Subject: [Qemu-devel] [PATCH] i386: Fix nested SVM on older Opterons
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -46,224 +44,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
-	den@virtuozzo.com, qemu-devel@nongnu.org, mreitz@redhat.com,
-	Anton Nefedov <anton.nefedov@virtuozzo.com>, pbonzini@redhat.com,
-	jsnow@redhat.com
+Cc: "Bernhard M. Wiedemann" <bwiedemann@suse.de>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-A block driver can provide a callback to report driver-specific
-statistics.
+Without this patch, a VM on a Opteron G3 host will have the svm flag, but
+the kvm-amd module fails to load in there, complaining that it needs
+cpuid 0x8000000a
 
-file-posix driver now reports discard statistics
+I have successfully built and tested this for 3+ years in production
+on Opteron G3 servers.
 
-Signed-off-by: Anton Nefedov <anton.nefedov@virtuozzo.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-Acked-by: Markus Armbruster <armbru@redhat.com>
+Signed-off-by: Bernhard M. Wiedemann <bwiedemann@suse.de>
 ---
- qapi/block-core.json      | 38 ++++++++++++++++++++++++++++++++++++++
- include/block/block.h     |  1 +
- include/block/block_int.h |  1 +
- block.c                   |  9 +++++++++
- block/file-posix.c        | 38 +++++++++++++++++++++++++++++++++++---
- block/qapi.c              |  5 +++++
- 6 files changed, 89 insertions(+), 3 deletions(-)
+ target/i386/cpu.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 55194f84ce..368e09ae37 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -956,6 +956,41 @@
-            '*wr_latency_histogram': 'BlockLatencyHistogramInfo',
-            '*flush_latency_histogram': 'BlockLatencyHistogramInfo' } }
- 
-+##
-+# @BlockStatsSpecificFile:
-+#
-+# File driver statistics
-+#
-+# @discard-nb-ok: The number of successful discard operations performed by
-+#                 the driver.
-+#
-+# @discard-nb-failed: The number of failed discard operations performed by
-+#                     the driver.
-+#
-+# @discard-bytes-ok: The number of bytes discarded by the driver.
-+#
-+# Since: 4.1
-+##
-+{ 'struct': 'BlockStatsSpecificFile',
-+  'data': {
-+      'discard-nb-ok': 'uint64',
-+      'discard-nb-failed': 'uint64',
-+      'discard-bytes-ok': 'uint64' } }
-+
-+##
-+# @BlockStatsSpecific:
-+#
-+# Block driver specific statistics
-+#
-+# Since: 4.1
-+##
-+{ 'union': 'BlockStatsSpecific',
-+  'base': { 'driver': 'BlockdevDriver' },
-+  'discriminator': 'driver',
-+  'data': {
-+      'file': 'BlockStatsSpecificFile',
-+      'host_device': 'BlockStatsSpecificFile' } }
-+
- ##
- # @BlockStats:
- #
-@@ -971,6 +1006,8 @@
- #
- # @stats:  A @BlockDeviceStats for the device.
- #
-+# @driver-specific: Optional driver-specific stats. (Since 4.1)
-+#
- # @parent: This describes the file block device if it has one.
- #          Contains recursively the statistics of the underlying
- #          protocol (e.g. the host file for a qcow2 image). If there is
-@@ -984,6 +1021,7 @@
- { 'struct': 'BlockStats',
-   'data': {'*device': 'str', '*qdev': 'str', '*node-name': 'str',
-            'stats': 'BlockDeviceStats',
-+           '*driver-specific': 'BlockStatsSpecific',
-            '*parent': 'BlockStats',
-            '*backing': 'BlockStats'} }
- 
-diff --git a/include/block/block.h b/include/block/block.h
-index 5e2b98b0ee..b182f0c7ae 100644
---- a/include/block/block.h
-+++ b/include/block/block.h
-@@ -490,6 +490,7 @@ int bdrv_get_flags(BlockDriverState *bs);
- int bdrv_get_info(BlockDriverState *bs, BlockDriverInfo *bdi);
- ImageInfoSpecific *bdrv_get_specific_info(BlockDriverState *bs,
-                                           Error **errp);
-+BlockStatsSpecific *bdrv_get_specific_stats(BlockDriverState *bs);
- void bdrv_round_to_clusters(BlockDriverState *bs,
-                             int64_t offset, int64_t bytes,
-                             int64_t *cluster_offset,
-diff --git a/include/block/block_int.h b/include/block/block_int.h
-index 94d45c9708..dc3bc97ea3 100644
---- a/include/block/block_int.h
-+++ b/include/block/block_int.h
-@@ -358,6 +358,7 @@ struct BlockDriver {
-     int (*bdrv_get_info)(BlockDriverState *bs, BlockDriverInfo *bdi);
-     ImageInfoSpecific *(*bdrv_get_specific_info)(BlockDriverState *bs,
-                                                  Error **errp);
-+    BlockStatsSpecific *(*bdrv_get_specific_stats)(BlockDriverState *bs);
- 
-     int coroutine_fn (*bdrv_save_vmstate)(BlockDriverState *bs,
-                                           QEMUIOVector *qiov,
-diff --git a/block.c b/block.c
-index 6999aad446..f68fb5aaec 100644
---- a/block.c
-+++ b/block.c
-@@ -4942,6 +4942,15 @@ ImageInfoSpecific *bdrv_get_specific_info(BlockDriverState *bs,
-     return NULL;
- }
- 
-+BlockStatsSpecific *bdrv_get_specific_stats(BlockDriverState *bs)
-+{
-+    BlockDriver *drv = bs->drv;
-+    if (!drv || !drv->bdrv_get_specific_stats) {
-+        return NULL;
-+    }
-+    return drv->bdrv_get_specific_stats(bs);
-+}
-+
- void bdrv_debug_event(BlockDriverState *bs, BlkdebugEvent event)
- {
-     if (!bs || !bs->drv || !bs->drv->bdrv_debug_event) {
-diff --git a/block/file-posix.c b/block/file-posix.c
-index 76d54b3a85..a2f01cfe10 100644
---- a/block/file-posix.c
-+++ b/block/file-posix.c
-@@ -160,9 +160,9 @@ typedef struct BDRVRawState {
-     bool drop_cache;
-     bool check_cache_dropped;
-     struct {
--        int64_t discard_nb_ok;
--        int64_t discard_nb_failed;
--        int64_t discard_bytes_ok;
-+        uint64_t discard_nb_ok;
-+        uint64_t discard_nb_failed;
-+        uint64_t discard_bytes_ok;
-     } stats;
- 
-     PRManager *pr_mgr;
-@@ -2723,6 +2723,36 @@ static int raw_get_info(BlockDriverState *bs, BlockDriverInfo *bdi)
-     return 0;
- }
- 
-+static BlockStatsSpecificFile get_blockstats_specific_file(BlockDriverState *bs)
-+{
-+    BDRVRawState *s = bs->opaque;
-+    return (BlockStatsSpecificFile) {
-+        .discard_nb_ok = s->stats.discard_nb_ok,
-+        .discard_nb_failed = s->stats.discard_nb_failed,
-+        .discard_bytes_ok = s->stats.discard_bytes_ok,
-+    };
-+}
-+
-+static BlockStatsSpecific *raw_get_specific_stats(BlockDriverState *bs)
-+{
-+    BlockStatsSpecific *stats = g_new(BlockStatsSpecific, 1);
-+
-+    stats->driver = BLOCKDEV_DRIVER_FILE;
-+    stats->u.file = get_blockstats_specific_file(bs);
-+
-+    return stats;
-+}
-+
-+static BlockStatsSpecific *hdev_get_specific_stats(BlockDriverState *bs)
-+{
-+    BlockStatsSpecific *stats = g_new(BlockStatsSpecific, 1);
-+
-+    stats->driver = BLOCKDEV_DRIVER_HOST_DEVICE;
-+    stats->u.host_device = get_blockstats_specific_file(bs);
-+
-+    return stats;
-+}
-+
- static QemuOptsList raw_create_opts = {
-     .name = "raw-create-opts",
-     .head = QTAILQ_HEAD_INITIALIZER(raw_create_opts.head),
-@@ -2922,6 +2952,7 @@ BlockDriver bdrv_file = {
-     .bdrv_get_info = raw_get_info,
-     .bdrv_get_allocated_file_size
-                         = raw_get_allocated_file_size,
-+    .bdrv_get_specific_stats = raw_get_specific_stats,
-     .bdrv_check_perm = raw_check_perm,
-     .bdrv_set_perm   = raw_set_perm,
-     .bdrv_abort_perm_update = raw_abort_perm_update,
-@@ -3400,6 +3431,7 @@ static BlockDriver bdrv_host_device = {
-     .bdrv_get_info = raw_get_info,
-     .bdrv_get_allocated_file_size
-                         = raw_get_allocated_file_size,
-+    .bdrv_get_specific_stats = hdev_get_specific_stats,
-     .bdrv_check_perm = raw_check_perm,
-     .bdrv_set_perm   = raw_set_perm,
-     .bdrv_abort_perm_update = raw_abort_perm_update,
-diff --git a/block/qapi.c b/block/qapi.c
-index f9447a3297..3afcb9dc5c 100644
---- a/block/qapi.c
-+++ b/block/qapi.c
-@@ -537,6 +537,11 @@ static BlockStats *bdrv_query_bds_stats(BlockDriverState *bs,
- 
-     s->stats->wr_highest_offset = stat64_get(&bs->wr_highest_offset);
- 
-+    s->driver_specific = bdrv_get_specific_stats(bs);
-+    if (s->driver_specific) {
-+        s->has_driver_specific = true;
-+    }
-+
-     if (bs->file) {
-         s->has_parent = true;
-         s->parent = bdrv_query_bds_stats(bs->file->bs, blk_level);
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 722c5514d4..df1d81ded8 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -2723,7 +2723,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
+             CPUID_EXT_SSE3,
+         .features[FEAT_8000_0001_EDX] =
+             CPUID_EXT2_LM | CPUID_EXT2_NX | CPUID_EXT2_SYSCALL,
+-        .xlevel = 0x80000008,
++        .xlevel = 0x8000000A,
+         .model_id = "AMD Opteron 240 (Gen 1 Class Opteron)",
+     },
+     {
+@@ -2745,7 +2745,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
+             CPUID_EXT2_LM | CPUID_EXT2_NX | CPUID_EXT2_SYSCALL,
+         .features[FEAT_8000_0001_ECX] =
+             CPUID_EXT3_SVM | CPUID_EXT3_LAHF_LM,
+-        .xlevel = 0x80000008,
++        .xlevel = 0x8000000A,
+         .model_id = "AMD Opteron 22xx (Gen 2 Class Opteron)",
+     },
+     {
+@@ -2770,7 +2770,7 @@ static X86CPUDefinition builtin_x86_defs[] = {
+         .features[FEAT_8000_0001_ECX] =
+             CPUID_EXT3_MISALIGNSSE | CPUID_EXT3_SSE4A |
+             CPUID_EXT3_ABM | CPUID_EXT3_SVM | CPUID_EXT3_LAHF_LM,
+-        .xlevel = 0x80000008,
++        .xlevel = 0x8000000A,
+         .model_id = "AMD Opteron 23xx (Gen 3 Class Opteron)",
+     },
+     {
 -- 
-2.17.1
+2.16.4
 
 
