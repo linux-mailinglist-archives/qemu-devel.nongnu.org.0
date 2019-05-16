@@ -2,77 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AB354207B2
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 15:11:05 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55718 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8E27B20775
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 14:59:11 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54890 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRGA4-00012R-Ni
-	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 09:11:04 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54625)
+	id 1hRFyY-0000Mg-Ph
+	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 08:59:10 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54834)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hRFk7-000567-Fe
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:44:18 -0400
+	(envelope-from <mprivozn@redhat.com>) id 1hRFkm-0005Zs-KV
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:44:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hRFk4-0003Xr-D4
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:44:15 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:40845)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hRFk0-0003Rq-U8
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:44:10 -0400
-Received: by mail-wm1-x344.google.com with SMTP id h11so3312561wmb.5
-	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 05:44:08 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=references:user-agent:from:to:cc:subject:in-reply-to:date
-	:message-id:mime-version:content-transfer-encoding;
-	bh=Wu8Gn5LaoiTzSrKzN353wczqN10UHxG3TkqfNgqLIEA=;
-	b=iu+2qzV237U66tAIp7++qiP7DFkg4HSdq/vzq/zL9B7kidu3goYWAnD42Qv97Xekgx
-	XJlnA3oOXahrrQKPD/YZajYwpxX2IpdBGfpjqQwXNColQo3FjKtVyKsvbp3tEiewxYGK
-	8D+HfRbQyfMuPQNdjiGv7ecCvWK7dihS9Pj8EXwpea3O0Jw2441Kq4UeLG0YEJDss5A8
-	EnEKiF0htu0c/qUpzWkkcxp3uHnmbUFikoggpiFhvIYsJFhLpGdZzbFAUEG3hqxy1VOu
-	YrohaWJKq+q2U6yWj3RFFYCl8C40LYmmRZgHpjMvsOciQ/v6IVTXGO8X6hvu3oCPJQBB
-	VlvA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:references:user-agent:from:to:cc:subject
-	:in-reply-to:date:message-id:mime-version:content-transfer-encoding;
-	bh=Wu8Gn5LaoiTzSrKzN353wczqN10UHxG3TkqfNgqLIEA=;
-	b=WI/AJ13c97q1GPHX1xa0LvdfwVGaofmDJDu2EY4gf+VPNL2CTuIKcLMEZPH7rczRg8
-	sW9nDfhLFX/Dvo9zro9k7yPq6rdCpD3GDJIA1DHX5z/hZLskwGlhCjs57T2w8XbVM4cN
-	3+e39PWaS4kYQpVCztUvqgn+i7Xo+h045KcVNls66R5r9kdjr6sXzCm61EK0IXfNL8Gh
-	QqGKRgoPkiiYRa8VjxKSmat0YR1Ul8ZoQF935HLWKXmTGlXNHHi4XREOKd9xBNwzQRWP
-	MhlQTzd13Dw/93t3eGRtw4VN8CROxPgesHI1rLQUfK26TsQy8sfZgeVEYkbLm5bLFk9W
-	JThw==
-X-Gm-Message-State: APjAAAUiy/cuVTCUQTP+gLc42/nk5HOYZ/QY1YSdziNKSUdGJ//MyN32
-	8okr0EFXvi2zvTUpPJ1egsTt9Q==
-X-Google-Smtp-Source: APXvYqz6rObnc++ZqBz+0pvTspjGLg6D43LwdTk4Eo+c3C6+5kgDj1O0UgO6T6Dq0HxH19Zr/OnKRQ==
-X-Received: by 2002:a1c:2104:: with SMTP id h4mr26907308wmh.146.1558010647763; 
-	Thu, 16 May 2019 05:44:07 -0700 (PDT)
-Received: from zen.linaroharston ([81.128.185.34])
-	by smtp.gmail.com with ESMTPSA id
-	130sm5250207wmd.15.2019.05.16.05.44.07
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Thu, 16 May 2019 05:44:07 -0700 (PDT)
-Received: from zen (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id BC2D11FF87;
-	Thu, 16 May 2019 13:44:06 +0100 (BST)
-References: <20190502081554.5521-1-arilou@gmail.com>
-	<877earmwcc.fsf@zen.linaroharston>
-User-agent: mu4e 1.3.1; emacs 26.1
-From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: Jon Doron <arilou@gmail.com>
-In-reply-to: <877earmwcc.fsf@zen.linaroharston>
-Date: Thu, 16 May 2019 13:44:06 +0100
-Message-ID: <8736lemuw9.fsf@zen.linaroharston>
+	(envelope-from <mprivozn@redhat.com>) id 1hRFki-0004Ab-Ow
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:44:56 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56896)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <mprivozn@redhat.com>) id 1hRFkg-00045X-Pj
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:44:52 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 92513308623C
+	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 12:44:48 +0000 (UTC)
+Received: from [10.43.2.30] (unknown [10.43.2.30])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 14B6410027BB;
+	Thu, 16 May 2019 12:44:47 +0000 (UTC)
+To: Markus Armbruster <armbru@redhat.com>
+References: <20190311220843.4026-1-armbru@redhat.com>
+	<20190311220843.4026-23-armbru@redhat.com>
+	<76d4a7b2-3c13-beea-2dc0-4fda7025030b@redhat.com>
+	<878sv6tyjy.fsf@dusky.pond.sub.org>
+From: Michal Privoznik <mprivozn@redhat.com>
+Message-ID: <ea01ee11-8888-444d-1f51-387dc73464f5@redhat.com>
+Date: Thu, 16 May 2019 14:44:46 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::344
-Subject: Re: [Qemu-devel] [PATCH v9 00/27] gdbstub: Refactor command packets
- handler
+In-Reply-To: <878sv6tyjy.fsf@dusky.pond.sub.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.42]);
+	Thu, 16 May 2019 12:44:48 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PULL 22/27] vl: Create block backends before
+ setting machine properties
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -88,30 +67,47 @@ Cc: qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 5/16/19 1:43 PM, Markus Armbruster wrote:
+<snip/>
 
-Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+>> Actually, there is more problems with this. Trying to run a guest with
+>> persistent reservations fails after this patch is applied (git bisect
+>> points me to this commit). My command line is:
+>>
+>> qemu.git $ ./x86_64-softmmu/qemu-system-x86_64 \
+>> -monitor stdio \
+>> -object pr-manager-helper,id=pr-helper0,path=/tmp/pr-helper0.sock
+>> -drive
+>> file=/dev/mapper/crypt,file.pr-manager=pr-helper0,format=raw,if=none,id=drive-scsi0-0-0-2
+>> \
+>> -device
+>> scsi-block,bus=scsi0.0,channel=0,scsi-id=0,lun=2,drive=drive-scsi0-0-0-2,id=scsi0-0-0-2
+>>
+>> Honestly, I have no idea how to fix it, so I'm just raising this issue
+>> here. Do you want me to open a bug or something?
+> 
+> Let's skip the bug filing bureaucracy and go straight to debugging.
 
-> Jon Doron <arilou@gmail.com> writes:
->
->> This patch series refactors the old gdbstub command packets handler
->> with a new infrastructure which should ease extending and adding new
->> and missing gdb command packets.
->
-> Jon,
->
-<snip>
->
-> Finally it would be nice if we could modernise the membuf and strbuf
-> handling with a more robust glib based approach. I understand if you
-> don't want to do that now and I'll happily accept the patches without it
-> but I did notice you can send the gdbserver a bit loopy if you send it
-> some very long maint packets so it would be nice to have that a bit
-> safer.
+Agreed.
 
-Actually I had a go at this this morning and it turned out to be quite
-fiddly so perhaps this is something best left to a follow-up series once
-the re-factoring is in.
+> 
+> Actual and expected behavior of your reproducer, please :)
+> 
 
---
-Alex Benn=C3=A9e
+Actual is that qemu fails to parse cmd line:
+
+
+qemu-system-x86_64: -drive 
+file=/dev/mapper/crypt,file.pr-manager=pr-helper0,format=raw,if=none,id=drive-scsi0-0-0-2: 
+No persistent reservation manager with id 'pr-helper0'
+
+
+Which obviously is not correct, because pr-helper0 is specified.
+Expected result is that qemu suceeds in parsing the cmd line and starts 
+the guest. To test it you don't need /dev/mapper/* really, I mean, if 
+qemu fails with a different error message (e.g. it can't open the disk 
+or EPERM or whatever), it's a sign it got past the cmd line parsing 
+successfuly.
+
+Michal
 
