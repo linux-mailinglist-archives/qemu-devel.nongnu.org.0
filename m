@@ -2,62 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B823F206E8
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 14:29:07 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53878 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8826D206F9
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 14:32:22 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53940 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRFVS-00009t-Qv
-	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 08:29:06 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48765)
+	id 1hRFYb-0003CW-Mk
+	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 08:32:21 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48805)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hRFLg-0000BQ-KW
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:19:03 -0400
+	(envelope-from <mst@redhat.com>) id 1hRFLr-0000J8-LQ
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:19:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hRFLc-0001d2-Rw
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:18:59 -0400
-Received: from mail-qt1-f178.google.com ([209.85.160.178]:44358)
+	(envelope-from <mst@redhat.com>) id 1hRFLo-0001kd-KP
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:19:11 -0400
+Received: from mail-qk1-f182.google.com ([209.85.222.182]:40024)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hRFLc-0001cV-PL
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:18:56 -0400
-Received: by mail-qt1-f178.google.com with SMTP id f24so3511079qtk.11
-	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 05:18:56 -0700 (PDT)
+	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hRFLo-0001kL-Hk
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:19:08 -0400
+Received: by mail-qk1-f182.google.com with SMTP id q197so2073262qke.7
+	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 05:19:08 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to;
-	bh=CpsnX50FvethOzWJ3djTyRAM8ldWob1tvvlTZoMS0wc=;
-	b=jlHAgvEA9+cumeozCmu/YoJHJ/XlZZPd1pre7uQi1V9kgsNZvpABZKlLG8TPAr9pju
-	+818mXNwfN1IB8wbqN+ne0cV7BKw5mOHNNJ1dTY3cr4Pd4y+D4YonUHPn1idHYcgZNrU
-	DtaN24xPqX8gLhuhRwKYoThrMTHbjYjZe0vmlUKqC72NrY82eo9RatieljeiZJ00oqf2
-	zwqLYtlV9BSkxSYi0njZIHXrL1m+J2EuWfhCxYv5Uhfsr1obMBICAlaRG3YiW5uOWvHj
-	EBB4iQRxdDS1EwxjsADhgVb2MJBmKavltwyVhC/kWxBiTy7pEq9VOSkjjVQ92YORvuAR
-	Y7kw==
-X-Gm-Message-State: APjAAAX/63zheGixonaauxvGwnBvA+IxkfLJPpXBJWn2kUP8KexLGd7i
-	2iOYpB1M7kaKSF4fDFiCwyzYSM5Mzr4=
-X-Google-Smtp-Source: APXvYqzkmamseeeF2ZNRoXyafyrxcl1n3VGjzSKCzf4n1ncG7v5+MoQ/gnwzdKsKNIsLT9h0PHOW9Q==
-X-Received: by 2002:a0c:9e55:: with SMTP id z21mr39731123qve.45.1558009136021; 
-	Thu, 16 May 2019 05:18:56 -0700 (PDT)
-Received: from redhat.com ([185.54.206.10]) by smtp.gmail.com with ESMTPSA id
-	f127sm2871871qkb.53.2019.05.16.05.18.54
+	:mime-version:content-disposition:content-transfer-encoding
+	:in-reply-to;
+	bh=dkP9xLNGqq+85u8p7aSnxQ3DQHTd2qT+9nsCyRgjWxk=;
+	b=R++CrOZL8/Dz+NVDmkDFvb1myKf+I4pEUL59Q28QzKwhsvwMKjinksCFWDG4lBfQrp
+	qVTNU4UkaPAn6THxJLkJb8nLHGM3/1pbkPWH+YUL+qC55T0NDHiZwekPcExYoj/KtjJa
+	WHK8i0hyRHOrBAR09Awvjl8aS7pL7GVmSfd97EwsWH1m7MYq4vkzDKHsUkznbijGl5oK
+	lM8x0zWONOFYwm97PLylQPDI1R1a6MeKBXEy0KfzjuWbazkctFElfvRLIPobgwPY6NtE
+	KvWQdVRZEsAjboAyc9hnpIZf6PY2/jL8wfIllX5j772yyN3XX/ewFenrAmz7zOm3FgVE
+	HISQ==
+X-Gm-Message-State: APjAAAVwURo1lCYDvLM3Uyxb7m+OstZ0E4w6dydkIhalMgMWEsaw+W9V
+	hTgnUp8WXBv5MtudqOjVyBpuqp50BA8=
+X-Google-Smtp-Source: APXvYqyMfsP+VUNUTr0PLaNuqy9aD9kcoAUMTp9o7uta5sabMc7XLmp+EDDX6g5Re2xTu5oTqJ9Z9Q==
+X-Received: by 2002:a05:620a:16c8:: with SMTP id
+	a8mr25363994qkn.4.1558009147700; 
+	Thu, 16 May 2019 05:19:07 -0700 (PDT)
+Received: from redhat.com ([185.54.206.10])
+	by smtp.gmail.com with ESMTPSA id q2sm2431560qkf.44.2019.05.16.05.19.03
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 16 May 2019 05:18:55 -0700 (PDT)
-Date: Thu, 16 May 2019 08:18:52 -0400
+	Thu, 16 May 2019 05:19:06 -0700 (PDT)
+Date: Thu, 16 May 2019 08:19:01 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Message-ID: <20190320112646.3712-8-xieyongji@baidu.com>
+Message-ID: <20190402161900.7374-2-armbru@redhat.com>
 References: <20190515121146.7248-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <20190515121146.7248-1-mst@redhat.com>
 X-Mailer: git-send-email 2.17.1.1206.gb667731e2e.dirty
 X-Mutt-Fcc: =sent
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.160.178
-Subject: [Qemu-devel] [PULL 10/37] contrib/vhost-user-blk: enable inflight
- I/O tracking
+X-Received-From: 209.85.222.182
+Subject: [Qemu-devel] [PULL 11/37] acpi/piix4: Convert debug printf()s to
+ trace events
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -69,39 +72,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Xie Yongji <xieyongji@baidu.com>,
-	Zhang Yu <zhangyu31@baidu.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+	Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+	Markus Armbruster <armbru@redhat.com>, Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Xie Yongji <xieyongji@baidu.com>
+From: Markus Armbruster <armbru@redhat.com>
 
-This patch enables inflight I/O tracking for
-vhost-user-blk backend so that we could restart it safely.
-
-Signed-off-by: Xie Yongji <xieyongji@baidu.com>
-Signed-off-by: Zhang Yu <zhangyu31@baidu.com>
-Message-Id: <20190320112646.3712-8-xieyongji@baidu.com>
+Signed-off-by: Markus Armbruster <armbru@redhat.com>
+Message-Id: <20190402161900.7374-2-armbru@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- contrib/vhost-user-blk/vhost-user-blk.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ hw/acpi/piix4.c      | 14 +++-----------
+ hw/acpi/trace-events |  4 ++++
+ 2 files changed, 7 insertions(+), 11 deletions(-)
 
-diff --git a/contrib/vhost-user-blk/vhost-user-blk.c b/contrib/vhost-user-blk/vhost-user-blk.c
-index 43583f2659..86a3987744 100644
---- a/contrib/vhost-user-blk/vhost-user-blk.c
-+++ b/contrib/vhost-user-blk/vhost-user-blk.c
-@@ -398,7 +398,8 @@ vub_get_features(VuDev *dev)
- static uint64_t
- vub_get_protocol_features(VuDev *dev)
- {
--    return 1ull << VHOST_USER_PROTOCOL_F_CONFIG;
-+    return 1ull << VHOST_USER_PROTOCOL_F_CONFIG |
-+           1ull << VHOST_USER_PROTOCOL_F_INFLIGHT_SHMFD;
+diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
+index 9c079d6834..546ba036ed 100644
+--- a/hw/acpi/piix4.c
++++ b/hw/acpi/piix4.c
+@@ -39,14 +39,7 @@
+ #include "hw/acpi/acpi_dev_interface.h"
+ #include "hw/xen/xen.h"
+ #include "qom/cpu.h"
+-
+-//#define DEBUG
+-
+-#ifdef DEBUG
+-# define PIIX4_DPRINTF(format, ...)     printf(format, ## __VA_ARGS__)
+-#else
+-# define PIIX4_DPRINTF(format, ...)     do { } while (0)
+-#endif
++#include "trace.h"
+ 
+ #define GPE_BASE 0xafe0
+ #define GPE_LEN 4
+@@ -596,7 +589,7 @@ static uint64_t gpe_readb(void *opaque, hwaddr addr, unsigned width)
+     PIIX4PMState *s = opaque;
+     uint32_t val = acpi_gpe_ioport_readb(&s->ar, addr);
+ 
+-    PIIX4_DPRINTF("gpe read %" HWADDR_PRIx " == %" PRIu32 "\n", addr, val);
++    trace_piix4_gpe_readb(addr, width, val);
+     return val;
  }
  
- static int
+@@ -605,10 +598,9 @@ static void gpe_writeb(void *opaque, hwaddr addr, uint64_t val,
+ {
+     PIIX4PMState *s = opaque;
+ 
++    trace_piix4_gpe_writeb(addr, width, val);
+     acpi_gpe_ioport_writeb(&s->ar, addr, val);
+     acpi_update_sci(&s->ar, s->irq);
+-
+-    PIIX4_DPRINTF("gpe write %" HWADDR_PRIx " <== %" PRIu64 "\n", addr, val);
+ }
+ 
+ static const MemoryRegionOps piix4_gpe_ops = {
+diff --git a/hw/acpi/trace-events b/hw/acpi/trace-events
+index 6272d8a9e7..825b25cbb0 100644
+--- a/hw/acpi/trace-events
++++ b/hw/acpi/trace-events
+@@ -31,6 +31,10 @@ cpuhp_acpi_ejecting_cpu(uint32_t idx) "0x%"PRIx32
+ cpuhp_acpi_write_ost_ev(uint32_t slot, uint32_t ev) "idx[0x%"PRIx32"] OST EVENT: 0x%"PRIx32
+ cpuhp_acpi_write_ost_status(uint32_t slot, uint32_t st) "idx[0x%"PRIx32"] OST STATUS: 0x%"PRIx32
+ 
++# piix4.c
++piix4_gpe_readb(uint64_t addr, unsigned width, uint64_t val) "addr: 0x%" PRIx64 " width: %d ==> 0x%" PRIx64
++piix4_gpe_writeb(uint64_t addr, unsigned width, uint64_t val) "addr: 0x%" PRIx64 " width: %d <== 0x%" PRIx64
++
+ # tco.c
+ tco_timer_reload(int ticks, int msec) "ticks=%d (%d ms)"
+ tco_timer_expired(int timeouts_no, bool strap, bool no_reboot) "timeouts_no=%d no_reboot=%d/%d"
 -- 
 MST
 
