@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D602F206FD
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 14:32:49 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53942 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C71AF2070A
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 14:35:04 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53989 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRFZ2-0003a0-Vf
-	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 08:32:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49021)
+	id 1hRFbD-0005Rk-Vk
+	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 08:35:04 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49037)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hRFMh-00013h-9z
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:20:06 -0400
+	(envelope-from <mst@redhat.com>) id 1hRFMn-00016f-3h
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:20:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hRFMe-0002Hm-9J
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:20:03 -0400
-Received: from mail-qt1-f193.google.com ([209.85.160.193]:45335)
+	(envelope-from <mst@redhat.com>) id 1hRFMk-0002Lp-1g
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:20:09 -0400
+Received: from mail-qt1-f182.google.com ([209.85.160.182]:41465)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hRFMe-0002Hd-6L
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:20:00 -0400
-Received: by mail-qt1-f193.google.com with SMTP id t1so3510042qtc.12
-	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 05:20:00 -0700 (PDT)
+	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hRFMj-0002LS-V3
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:20:06 -0400
+Received: by mail-qt1-f182.google.com with SMTP id y22so3542055qtn.8
+	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 05:20:05 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
 	:mime-version:content-disposition:in-reply-to;
-	bh=EBhBqzmf7dvCSZtcFzIQFoj7mET0nH0WKBXoVmSjL3Q=;
-	b=jDLsQKUuiKwPXsQNX5rkMgpbq7VBwlzZ30+Tz4wl53A8n7lOH9SrDfQt0HvpRsgFez
-	2W7O0Mzxc1jJrHx8Tv+VGCSWls8uE4iPLy+qPFXPsn33UkmYYtQ/26VSmqaDFzguuKFV
-	IvkD/9AM3EcwC/HZG7F0UB5ZKsL10ZK1NjShpKr1MrDwrWaaw5fn2fY86bkJrVLEQzm7
-	hW0GwY38ok19aVise4CypheCltDi0gqhOJKHfA45daR/jf91dyndy8Ceqi/pZHU5hxm1
-	gQPFPGeEmPb3v7NXt9DwRrdADMrtVou/18vW2KVdWhDK2phraklbbUPlkDPmvHOaIi8a
-	RG5g==
-X-Gm-Message-State: APjAAAXCxdABR6DBZmLQmk28B0B2HWv97H5flmQpIhjij7CBbG7T/ood
-	Q+DpqGLenN5mjs2GYybY7/BwGNF9EPI=
-X-Google-Smtp-Source: APXvYqxdsANop/CbkY43Paxq84cQJ8WyrMRFG8AtmrhLRcMzJAcEUDnklJgA8KOvd5W4T58Pw1ruTg==
-X-Received: by 2002:a0c:c16c:: with SMTP id i41mr39979638qvh.183.1558009199539;
-	Thu, 16 May 2019 05:19:59 -0700 (PDT)
+	bh=msyvcVYsP3DYZeJrb9pSd9mjMLqWB65TS3wRXlKOwsQ=;
+	b=PF+F688/Hp4YCpHl4gYcSc4ANt66lIu8NAkgM5eeaE9yuYdTS3BQhi8uHkYFWsgU5C
+	d2bpr9K1AFO74jZ9GFRaZlbiz75MlGZ5BVfAZOXmo31es2ZmFHteYNFcEH2jVkt117Fd
+	+fnfizmINoQUaOYFdBzhDOMWA0cMdzc0wz/jM2GY7V64j0HnzBr1WiRvNPnli7fbIW1C
+	erCLbmg0MQS9KIZ90aHFP5yKL0zA/C31NiY99EoQWlsJLdeClZDaSNZ0wiaL6ioFWkd3
+	jD5cR/veBy9cIX4yWKx9yzbTljn7GvbHM08qnS8L7PU0VoSYy4DwQe91+bkUMa5ZaiJd
+	6g1g==
+X-Gm-Message-State: APjAAAWhpZqBGE4Szo1lwKun2vF5zb84eUMumQVAk+3AYyKVlDJo+pd2
+	pqbqDXuIufbQVGeUt1Uk8H23WfDohsc=
+X-Google-Smtp-Source: APXvYqyRfYw1GT37PHX89n9HICZzwmZT/aTUU+JPqz1SAt5AZIh+esl6IGPkePopXZ1U1msJhZ3siA==
+X-Received: by 2002:a0c:ed4b:: with SMTP id v11mr31371810qvq.126.1558009204973;
+	Thu, 16 May 2019 05:20:04 -0700 (PDT)
 Received: from redhat.com ([185.54.206.10]) by smtp.gmail.com with ESMTPSA id
-	l16sm2311804qtj.60.2019.05.16.05.19.57
+	l40sm3706245qtc.32.2019.05.16.05.20.02
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 16 May 2019 05:19:58 -0700 (PDT)
-Date: Thu, 16 May 2019 08:19:56 -0400
+	Thu, 16 May 2019 05:20:04 -0700 (PDT)
+Date: Thu, 16 May 2019 08:20:00 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Message-ID: <20190424041959.4087-2-david@gibson.dropbear.id.au>
+Message-ID: <20190424041959.4087-3-david@gibson.dropbear.id.au>
 References: <20190515121146.7248-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -55,9 +55,8 @@ X-Mailer: git-send-email 2.17.1.1206.gb667731e2e.dirty
 X-Mutt-Fcc: =sent
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.160.193
-Subject: [Qemu-devel] [PULL 21/37] pcie: Remove redundant test in
- pcie_mmcfg_data_{read, write}()
+X-Received-From: 209.85.160.182
+Subject: [Qemu-devel] [PULL 22/37] pci: Simplify pci_bus_is_root()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -69,52 +68,167 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
+Cc: Peter Maydell <peter.maydell@linaro.org>, Greg Kurz <groug@kaod.org>,
+	Peter Xu <peterx@redhat.com>, Marcel Apfelbaum <marcel@redhat.com>,
 	David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Gibson <david@gibson.dropbear.id.au>
 
-These functions have an explicit test for accesses above the device's
-config size.  But pci_host_config_{read,write}_common() which they're
-about to call already have checks against the config space limit and
-do the right thing.  So, remove the redundant tests.
+pci_bus_is_root() currently relies on a method in the PCIBusClass.
+But it's always known if a PCI bus is a root bus when we create it, so
+using a dynamic method is overkill.
+
+This replaces it with an IS_ROOT bit in a new flags field, which is set on
+root buses and otherwise clear.  As a bonus this removes the special
+is_root logic from pci_expander_bridge, since it already creates its bus
+as a root bus.
 
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-Message-Id: <20190424041959.4087-2-david@gibson.dropbear.id.au>
+Reviewed-by: Marcel Apfelbaum <marcel@redhat.com>
+Reviewed-by: Peter Xu <peterx@redhat.com>
+Reviewed-by: Greg Kurz <groug@kaod.org>
+Message-Id: <20190424041959.4087-3-david@gibson.dropbear.id.au>
 ---
- hw/pci/pcie_host.c | 10 ----------
- 1 file changed, 10 deletions(-)
+ include/hw/pci/pci.h                |  1 -
+ include/hw/pci/pci_bus.h            | 12 +++++++++++-
+ hw/pci-bridge/pci_expander_bridge.c |  6 ------
+ hw/pci/pci.c                        | 14 ++------------
+ hw/virtio/virtio-pci.c              |  1 +
+ 5 files changed, 14 insertions(+), 20 deletions(-)
 
-diff --git a/hw/pci/pcie_host.c b/hw/pci/pcie_host.c
-index 553db56778..1ee4945a6d 100644
---- a/hw/pci/pcie_host.c
-+++ b/hw/pci/pcie_host.c
-@@ -47,11 +47,6 @@ static void pcie_mmcfg_data_write(void *opaque, hwaddr mmcfg_addr,
-     }
-     addr = PCIE_MMCFG_CONFOFFSET(mmcfg_addr);
-     limit = pci_config_size(pci_dev);
--    if (limit <= addr) {
--        /* conventional pci device can be behind pcie-to-pci bridge.
--           256 <= addr < 4K has no effects. */
--        return;
--    }
-     pci_host_config_write_common(pci_dev, addr, limit, val, len);
+diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
+index fdd4c43d3a..edf44de21d 100644
+--- a/include/hw/pci/pci.h
++++ b/include/hw/pci/pci.h
+@@ -395,7 +395,6 @@ typedef PCIINTxRoute (*pci_route_irq_fn)(void *opaque, int pin);
+ #define TYPE_PCIE_BUS "PCIE"
+ 
+ bool pci_bus_is_express(PCIBus *bus);
+-bool pci_bus_is_root(PCIBus *bus);
+ bool pci_bus_allows_extended_config_space(PCIBus *bus);
+ 
+ void pci_root_bus_new_inplace(PCIBus *bus, size_t bus_size, DeviceState *parent,
+diff --git a/include/hw/pci/pci_bus.h b/include/hw/pci/pci_bus.h
+index f6df834170..aea98d5040 100644
+--- a/include/hw/pci/pci_bus.h
++++ b/include/hw/pci/pci_bus.h
+@@ -15,14 +15,19 @@ typedef struct PCIBusClass {
+     BusClass parent_class;
+     /*< public >*/
+ 
+-    bool (*is_root)(PCIBus *bus);
+     int (*bus_num)(PCIBus *bus);
+     uint16_t (*numa_node)(PCIBus *bus);
+     bool (*allows_extended_config_space)(PCIBus *bus);
+ } PCIBusClass;
+ 
++enum PCIBusFlags {
++    /* This bus is the root of a PCI domain */
++    PCI_BUS_IS_ROOT                                         = 0x0001,
++};
++
+ struct PCIBus {
+     BusState qbus;
++    enum PCIBusFlags flags;
+     PCIIOMMUFunc iommu_fn;
+     void *iommu_opaque;
+     uint8_t devfn_min;
+@@ -47,4 +52,9 @@ struct PCIBus {
+     Notifier machine_done;
+ };
+ 
++static inline bool pci_bus_is_root(PCIBus *bus)
++{
++    return !!(bus->flags & PCI_BUS_IS_ROOT);
++}
++
+ #endif /* QEMU_PCI_BUS_H */
+diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_expander_bridge.c
+index e62de4218f..ca66bc721a 100644
+--- a/hw/pci-bridge/pci_expander_bridge.c
++++ b/hw/pci-bridge/pci_expander_bridge.c
+@@ -66,11 +66,6 @@ static int pxb_bus_num(PCIBus *bus)
+     return pxb->bus_nr;
  }
  
-@@ -70,11 +65,6 @@ static uint64_t pcie_mmcfg_data_read(void *opaque,
-     }
-     addr = PCIE_MMCFG_CONFOFFSET(mmcfg_addr);
-     limit = pci_config_size(pci_dev);
--    if (limit <= addr) {
--        /* conventional pci device can be behind pcie-to-pci bridge.
--           256 <= addr < 4K has no effects. */
--        return ~0x0;
--    }
-     return pci_host_config_read_common(pci_dev, addr, limit, len);
+-static bool pxb_is_root(PCIBus *bus)
+-{
+-    return true; /* by definition */
+-}
+-
+ static uint16_t pxb_bus_numa_node(PCIBus *bus)
+ {
+     PXBDev *pxb = convert_to_pxb(bus->parent_dev);
+@@ -83,7 +78,6 @@ static void pxb_bus_class_init(ObjectClass *class, void *data)
+     PCIBusClass *pbc = PCI_BUS_CLASS(class);
+ 
+     pbc->bus_num = pxb_bus_num;
+-    pbc->is_root = pxb_is_root;
+     pbc->numa_node = pxb_bus_numa_node;
  }
  
+diff --git a/hw/pci/pci.c b/hw/pci/pci.c
+index a78023f669..b386777045 100644
+--- a/hw/pci/pci.c
++++ b/hw/pci/pci.c
+@@ -129,14 +129,9 @@ static void pci_bus_unrealize(BusState *qbus, Error **errp)
+     vmstate_unregister(NULL, &vmstate_pcibus, bus);
+ }
+ 
+-static bool pcibus_is_root(PCIBus *bus)
+-{
+-    return !bus->parent_dev;
+-}
+-
+ static int pcibus_num(PCIBus *bus)
+ {
+-    if (pcibus_is_root(bus)) {
++    if (pci_bus_is_root(bus)) {
+         return 0; /* pci host bridge */
+     }
+     return bus->parent_dev->config[PCI_SECONDARY_BUS];
+@@ -164,7 +159,6 @@ static void pci_bus_class_init(ObjectClass *klass, void *data)
+     k->unrealize = pci_bus_unrealize;
+     k->reset = pcibus_reset;
+ 
+-    pbc->is_root = pcibus_is_root;
+     pbc->bus_num = pcibus_num;
+     pbc->numa_node = pcibus_numa_node;
+     pbc->allows_extended_config_space = pcibus_allows_extended_config_space;
+@@ -398,6 +392,7 @@ static void pci_root_bus_init(PCIBus *bus, DeviceState *parent,
+     bus->slot_reserved_mask = 0x0;
+     bus->address_space_mem = address_space_mem;
+     bus->address_space_io = address_space_io;
++    bus->flags |= PCI_BUS_IS_ROOT;
+ 
+     /* host bridge */
+     QLIST_INIT(&bus->child);
+@@ -415,11 +410,6 @@ bool pci_bus_is_express(PCIBus *bus)
+     return object_dynamic_cast(OBJECT(bus), TYPE_PCIE_BUS);
+ }
+ 
+-bool pci_bus_is_root(PCIBus *bus)
+-{
+-    return PCI_BUS_GET_CLASS(bus)->is_root(bus);
+-}
+-
+ bool pci_bus_allows_extended_config_space(PCIBus *bus)
+ {
+     return PCI_BUS_GET_CLASS(bus)->allows_extended_config_space(bus);
+diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
+index 509c1ff555..9056cdfa3c 100644
+--- a/hw/virtio/virtio-pci.c
++++ b/hw/virtio/virtio-pci.c
+@@ -20,6 +20,7 @@
+ #include "standard-headers/linux/virtio_pci.h"
+ #include "hw/virtio/virtio.h"
+ #include "hw/pci/pci.h"
++#include "hw/pci/pci_bus.h"
+ #include "qapi/error.h"
+ #include "qemu/error-report.h"
+ #include "hw/pci/msi.h"
 -- 
 MST
 
