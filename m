@@ -2,67 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 321C8203E7
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 12:54:11 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:51937 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2D4CB203ED
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 12:56:56 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52001 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRE1a-0006sq-55
-	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 06:54:10 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54914)
+	id 1hRE4F-0000TR-BQ
+	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 06:56:55 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55792)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hRDzr-0005uW-G6
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 06:52:24 -0400
+	(envelope-from <groug@kaod.org>) id 1hRE2N-0007rX-TK
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 06:55:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hRDwE-0005JQ-22
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 06:48:39 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:46817)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hRDwD-0005I2-S8
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 06:48:38 -0400
-Received: by mail-wr1-f68.google.com with SMTP id r7so2781074wrr.13
-	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 03:48:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=EL5XeZ6ZEjOu0qnM3/aAyABVy9SsjXOZjQ3nQ8HNn7s=;
-	b=LmQtszi3iTPaQKdRgCIuCPaQytsoWR6esngTY9g1v+XdxXxKCr4wPNcb3dcpM6YBDd
-	b3wGF2q8dsFh3I8JE9pB+veFROtfMUDVXhvLKuFi092RIwdvpqeVncbRmH8lS3RDIq1t
-	dd8qnWOGxrIW6SkHByBd0PqxopnfS8JVWRD3ISUbby2D5fZWfnCIQynqcEupTZ4qiALK
-	Ce1ll6ydO3DvL6LrZtQerlyK0Fz1S2SqNklPCl2/QlppGT1TddauK7FmnXMdbzXnh6E9
-	3zz4HyhG408yzboypu9D2wDBq0BjTAHZtJ8XFUuLm6B2hMqC+RjhZouWoUmeQrTSP6FV
-	EpCg==
-X-Gm-Message-State: APjAAAWZgYatQR6c+Bi6Cfn/hsaSpiiWU/lv3SlupD8Tsd1SoPo7nxz/
-	6NQ0WGesM2zeJhFg8Exq5swCJw==
-X-Google-Smtp-Source: APXvYqwc8zDiDFrVPtMlrnhlFR/WRYIsD600YbpfwuVRy6pYn3/3qXiFVJWSIe/+QeG5ZYGlM96F0g==
-X-Received: by 2002:adf:df8f:: with SMTP id z15mr25905376wrl.140.1558003715785;
-	Thu, 16 May 2019 03:48:35 -0700 (PDT)
-Received: from [192.168.1.43] (228.red-83-52-173.dynamicip.rima-tde.net.
-	[83.52.173.228])
-	by smtp.gmail.com with ESMTPSA id a4sm6414078wmf.45.2019.05.16.03.48.34
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Thu, 16 May 2019 03:48:34 -0700 (PDT)
-To: Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-devel@nongnu.org
-References: <20190516055244.95559-1-ysato@users.sourceforge.jp>
-	<20190516055244.95559-10-ysato@users.sourceforge.jp>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
-	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <b7552dcd-0962-d257-d521-d5dfd6a47bb4@redhat.com>
-Date: Thu, 16 May 2019 12:48:34 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <groug@kaod.org>) id 1hRE2M-0004FR-Ny
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 06:54:59 -0400
+Received: from 5.mo5.mail-out.ovh.net ([87.98.173.103]:34440)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <groug@kaod.org>) id 1hRE2M-0004DH-Gz
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 06:54:58 -0400
+Received: from player714.ha.ovh.net (unknown [10.109.159.154])
+	by mo5.mail-out.ovh.net (Postfix) with ESMTP id 30689238251
+	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 12:54:54 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+	[82.253.208.248]) (Authenticated sender: groug@kaod.org)
+	by player714.ha.ovh.net (Postfix) with ESMTPSA id 9B88D5C26D61;
+	Thu, 16 May 2019 10:54:46 +0000 (UTC)
+Date: Thu, 16 May 2019 12:54:45 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
+Message-ID: <20190516125445.79d0ba34@bahia.lan>
+In-Reply-To: <155591662496.20338.3862565585716109724.stgit@aravinda>
+References: <155591636364.20338.844048953355207313.stgit@aravinda>
+	<155591662496.20338.3862565585716109724.stgit@aravinda>
+X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20190516055244.95559-10-ysato@users.sourceforge.jp>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 4718927985998797204
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddruddttddgfedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.221.68
-Subject: Re: [Qemu-devel] [PATCH v13 09/12] Add rx-softmmu
+X-Received-From: 87.98.173.103
+Subject: Re: [Qemu-devel] [Qemu-ppc] [PATCH v8 6/6] migration: Block
+ migration while handling machine check
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -74,105 +57,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, richard.henderson@linaro.org
+Cc: aik@au1.ibm.com, qemu-devel@nongnu.org, paulus@ozlabs.org,
+	qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/16/19 7:52 AM, Yoshinori Sato wrote:
-> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
-> Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+On Mon, 22 Apr 2019 12:33:45 +0530
+Aravinda Prasad <aravinda@linux.vnet.ibm.com> wrote:
+
+> Block VM migration requests until the machine check
+> error handling is complete as (i) these errors are
+> specific to the source hardware and is irrelevant on
+> the target hardware, (ii) these errors cause data
+> corruption and should be handled before migration.
 > 
-> Using only CONFIG_RX=y:
-
-Richard: Can you drop the previous "Using only CONFIG_RX=y" line?
-It was related to an older series. Thanks!
-
-> Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-> 
-> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
-
-One S-o-b is enough ;) I'm not asking you to respin this series however!
-
+> Signed-off-by: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
 > ---
->  configure                      | 8 ++++++++
->  default-configs/rx-softmmu.mak | 3 +++
->  include/sysemu/arch_init.h     | 1 +
->  arch_init.c                    | 2 ++
->  hw/Kconfig                     | 1 +
->  5 files changed, 15 insertions(+)
->  create mode 100644 default-configs/rx-softmmu.mak
+>  hw/ppc/spapr_events.c  |   17 +++++++++++++++++
+>  hw/ppc/spapr_rtas.c    |    4 ++++
+>  include/hw/ppc/spapr.h |    3 +++
+>  3 files changed, 24 insertions(+)
 > 
-> diff --git a/configure b/configure
-> index 8999698bc2..28782762dd 100755
-> --- a/configure
-> +++ b/configure
-> @@ -7547,6 +7547,11 @@ case "$target_name" in
->      gdb_xml_files="riscv-64bit-cpu.xml riscv-64bit-fpu.xml riscv-64bit-csr.xml"
->      target_compiler=$cross_cc_riscv64
->    ;;
-> +  rx)
-> +    TARGET_ARCH=rx
-> +    bflt="yes"
-> +    target_compiler=$cross_cc_rx
-> +  ;;
->    sh4|sh4eb)
->      TARGET_ARCH=sh4
->      bflt="yes"
-> @@ -7767,6 +7772,9 @@ for i in $ARCH $TARGET_BASE_ARCH ; do
->    riscv*)
->      disas_config "RISCV"
->    ;;
-> +  rx)
-> +    disas_config "RX"
-> +  ;;
->    s390*)
->      disas_config "S390"
->    ;;
-> diff --git a/default-configs/rx-softmmu.mak b/default-configs/rx-softmmu.mak
-> new file mode 100644
-> index 0000000000..a3eecefb11
-> --- /dev/null
-> +++ b/default-configs/rx-softmmu.mak
-> @@ -0,0 +1,3 @@
-> +# Default configuration for rx-softmmu
+> diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
+> index 4032db0..45b990c 100644
+> --- a/hw/ppc/spapr_events.c
+> +++ b/hw/ppc/spapr_events.c
+> @@ -41,6 +41,7 @@
+>  #include "qemu/bcd.h"
+>  #include "hw/ppc/spapr_ovec.h"
+>  #include <libfdt.h>
+> +#include "migration/blocker.h"
+>  
+>  #define RTAS_LOG_VERSION_MASK                   0xff000000
+>  #define   RTAS_LOG_VERSION_6                    0x06000000
+> @@ -864,6 +865,22 @@ static void spapr_mce_dispatch_elog(PowerPCCPU *cpu, bool recovered)
+>  void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered)
+>  {
+>      SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
+> +    int ret;
+> +    Error *local_err = NULL;
 > +
-> +CONFIG_RX_VIRT=y
-> diff --git a/include/sysemu/arch_init.h b/include/sysemu/arch_init.h
-> index 10cbafe970..3f4f844f7b 100644
-> --- a/include/sysemu/arch_init.h
-> +++ b/include/sysemu/arch_init.h
-> @@ -25,6 +25,7 @@ enum {
->      QEMU_ARCH_NIOS2 = (1 << 17),
->      QEMU_ARCH_HPPA = (1 << 18),
->      QEMU_ARCH_RISCV = (1 << 19),
-> +    QEMU_ARCH_RX = (1 << 20),
+> +    error_setg(&spapr->migration_blocker,
+> +            "Live migration not supported during machine check handling");
+> +    ret = migrate_add_blocker(spapr->migration_blocker, &local_err);
+
+migrate_add_blocker() propagates the reason of the failure in local_err,
+ie. because a migration is already in progress or --only-migratable was
+passed on the QEMU command line, along with the error message passed in
+the first argument. This means that...
+
+> +    if (ret < 0) {
+> +        /*
+> +         * We don't want to abort and let the migration to continue. In a
+> +         * rare case, the machine check handler will run on the target
+> +         * hardware. Though this is not preferable, it is better than aborting
+> +         * the migration or killing the VM.
+> +         */
+> +        error_free(spapr->migration_blocker);
+> +        fprintf(stderr, "Warning: Machine check during VM migration\n");
+
+... you should just do:
+
+        error_report_err(local_err);
+
+This also takes care of freeing local_err which would be leaked otherwise.
+
+> +    }
+>  
+>      while (spapr->mc_status != -1) {
+>          /*
+> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+> index 997cf19..1229a0e 100644
+> --- a/hw/ppc/spapr_rtas.c
+> +++ b/hw/ppc/spapr_rtas.c
+> @@ -50,6 +50,7 @@
+>  #include "target/ppc/mmu-hash64.h"
+>  #include "target/ppc/mmu-book3s-v3.h"
+>  #include "kvm_ppc.h"
+> +#include "migration/blocker.h"
+>  
+>  static void rtas_display_character(PowerPCCPU *cpu, SpaprMachineState *spapr,
+>                                     uint32_t token, uint32_t nargs,
+> @@ -396,6 +397,9 @@ static void rtas_ibm_nmi_interlock(PowerPCCPU *cpu,
+>          spapr->mc_status = -1;
+>          qemu_cond_signal(&spapr->mc_delivery_cond);
+>          rtas_st(rets, 0, RTAS_OUT_SUCCESS);
+> +        migrate_del_blocker(spapr->migration_blocker);
+> +        error_free(spapr->migration_blocker);
+> +        spapr->migration_blocker = NULL;
+>      }
+>  }
+>  
+> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> index 9d16ad1..dda5fd2 100644
+> --- a/include/hw/ppc/spapr.h
+> +++ b/include/hw/ppc/spapr.h
+> @@ -10,6 +10,7 @@
+>  #include "hw/ppc/spapr_irq.h"
+>  #include "hw/ppc/spapr_xive.h"  /* For SpaprXive */
+>  #include "hw/ppc/xics.h"        /* For ICSState */
+> +#include "qapi/error.h"
+>  
+>  struct SpaprVioBus;
+>  struct SpaprPhbState;
+> @@ -213,6 +214,8 @@ struct SpaprMachineState {
+>      SpaprCapabilities def, eff, mig;
+>  
+>      unsigned gpu_numa_id;
+> +
+> +    Error *migration_blocker;
 >  };
 >  
->  extern const uint32_t arch_type;
-> diff --git a/arch_init.c b/arch_init.c
-> index f4f3f610c8..cc25ddd7ca 100644
-> --- a/arch_init.c
-> +++ b/arch_init.c
-> @@ -74,6 +74,8 @@ int graphic_depth = 32;
->  #define QEMU_ARCH QEMU_ARCH_PPC
->  #elif defined(TARGET_RISCV)
->  #define QEMU_ARCH QEMU_ARCH_RISCV
-> +#elif defined(TARGET_RX)
-> +#define QEMU_ARCH QEMU_ARCH_RX
->  #elif defined(TARGET_S390X)
->  #define QEMU_ARCH QEMU_ARCH_S390X
->  #elif defined(TARGET_SH4)
-> diff --git a/hw/Kconfig b/hw/Kconfig
-> index 88b9f15007..63a071092e 100644
-> --- a/hw/Kconfig
-> +++ b/hw/Kconfig
-> @@ -53,6 +53,7 @@ source nios2/Kconfig
->  source openrisc/Kconfig
->  source ppc/Kconfig
->  source riscv/Kconfig
-> +source rx/Kconfig
->  source s390x/Kconfig
->  source sh4/Kconfig
->  source sparc/Kconfig
+>  #define H_SUCCESS         0
 > 
+> 
+
 
