@@ -2,64 +2,109 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EBD6620764
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 14:56:48 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54817 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 83E1B2073B
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 14:48:37 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54439 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRFwG-0006nW-2k
-	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 08:56:48 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54155)
+	id 1hRFoK-0007gH-GD
+	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 08:48:36 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55072)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hRFiA-0003df-J5
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:42:17 -0400
+	(envelope-from <walling@linux.ibm.com>) id 1hRFlp-0006SD-Lt
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:46:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hRFi7-0002GF-HK
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:42:14 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:43897)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hRFi7-0002Eq-AX
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:42:11 -0400
-Received: by mail-oi1-x243.google.com with SMTP id t187so2354204oie.10
-	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 05:42:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Mu+5BpM2hOtGtd/f/dn1CGFFMve5wBCOhTGy3vRJJRM=;
-	b=YpEuoXq18fl6WyjFA0C8qRb2qdzVqe35xizuilWGkl5H/kN9eBAqejuSUaUdvnCOgq
-	ND4F2C5Aw7eozSL1k/6sjuZNxBqZNPUDbO+AYjGcgpoTCmgYswYaY7nbzM8Ee1hde7QW
-	KZecfVJ6lhGrw4awhIKgEkHw2uFe2GXyXXmbKMVek0RtzAiYmEiF/nmUq43OucipcPc4
-	0MoetXD67AdAZ9g6+f0IpFGn7MRdncI/Fi3OVUbYavIGbVOOlaKcQ4C+Up8zb8mhuJgk
-	yQ1X/yzAYHxQigKfp0UrN2D1D7mAMNZX0jBYlWOQBrWHR5O57vo2kEirHkP0FE8mBH1l
-	c/aQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=Mu+5BpM2hOtGtd/f/dn1CGFFMve5wBCOhTGy3vRJJRM=;
-	b=L54h9w+JxljDiNUfgiZr5JOABzim7nquW+AqvuPZTYqyDuhAQ4Ta2nbTTZCst8+0C4
-	rxTR5dJ27lsS7L51M7JJGNUfOaDI2UB7R3/m9XnKYMz1SPTT4sISgBnjKr426vjVlujS
-	2NnvAg/nNdQ4ebLoOX29jC/1NN75nrD0rr7EIclaA78GCJ8rGDJ3E8pP4OatFzMiJD6C
-	x2YK9o0aZmxZsYOgGSCGJHbIw8+BHPAqH2fHFLKgWL9ws+o2ymDXEQMRSF268zaJXyFi
-	AuwIGVgsy3ze3MqcEa1LO12l8izD0ZEEOYeOIcO0u49hslMSgsDIhMF0KfWUPGM2F2pU
-	nb7w==
-X-Gm-Message-State: APjAAAU9f5tSuSN2tKl1+rHW8K6gBCKYlFd4RqjeP8gtoSBmdXTpOAn3
-	GlCxCWn/j3myptLoixarmDfsU/WB9bbycYZZA0qVfA==
-X-Google-Smtp-Source: APXvYqxxia1y0LA+nmPcez615hPQ+Vuwl6lmuaHQR9Dtb7O/chx0c8uu6vtZF1QegpprISskB/xz4ohmtNABhzfALUM=
-X-Received: by 2002:aca:4e42:: with SMTP id c63mr10313014oib.170.1558010530123;
-	Thu, 16 May 2019 05:42:10 -0700 (PDT)
+	(envelope-from <walling@linux.ibm.com>) id 1hRFlm-000577-KY
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:46:01 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:60412
+	helo=mx0a-001b2d01.pphosted.com)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <walling@linux.ibm.com>)
+	id 1hRFle-0004zE-W3
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:45:53 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+	x4GCiO1F044040
+	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 08:45:43 -0400
+Received: from e17.ny.us.ibm.com (e17.ny.us.ibm.com [129.33.205.207])
+	by mx0a-001b2d01.pphosted.com with ESMTP id 2sh6qvc4xt-1
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 08:44:26 -0400
+Received: from localhost
+	by e17.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+	Violators will be prosecuted
+	for <qemu-devel@nongnu.org> from <walling@linux.ibm.com>;
+	Thu, 16 May 2019 13:42:12 +0100
+Received: from b01cxnp23033.gho.pok.ibm.com (9.57.198.28)
+	by e17.ny.us.ibm.com (146.89.104.204) with IBM ESMTP SMTP Gateway:
+	Authorized Use Only! Violators will be prosecuted; 
+	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+	Thu, 16 May 2019 13:42:09 +0100
+Received: from b01ledav001.gho.pok.ibm.com (b01ledav001.gho.pok.ibm.com
+	[9.57.199.106])
+	by b01cxnp23033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+	x4GCg8ob21889472
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=OK); Thu, 16 May 2019 12:42:08 GMT
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id A126728059;
+	Thu, 16 May 2019 12:42:08 +0000 (GMT)
+Received: from b01ledav001.gho.pok.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 91CC528058;
+	Thu, 16 May 2019 12:42:08 +0000 (GMT)
+Received: from [9.56.58.99] (unknown [9.56.58.99])
+	by b01ledav001.gho.pok.ibm.com (Postfix) with ESMTP;
+	Thu, 16 May 2019 12:42:08 +0000 (GMT)
+To: Christian Borntraeger <borntraeger@de.ibm.com>,
+	David Hildenbrand <david@redhat.com>, Cornelia Huck <cohuck@redhat.com>
+References: <1556749903-19221-1-git-send-email-walling@linux.ibm.com>
+	<a87c71be-5bf8-a115-5843-720c9ad10c7b@redhat.com>
+	<bc2fd9bb-7b94-eac7-590b-f01d2063ef9c@redhat.com>
+	<e948a030-bd30-180e-bbd6-76f4a2390bb9@de.ibm.com>
+	<ea6df6b1-4062-c057-92ea-5be40d778fe9@redhat.com>
+	<09293a1c-d000-83a8-46b8-b97ad4fa9774@de.ibm.com>
+	<56e3ace1-6e48-0e20-47d5-b07ac6dfcf31@redhat.com>
+	<e140a076-28a0-0db6-4c59-80e0f2ab44bb@de.ibm.com>
+	<c690c4a8-c277-e3c6-3697-3f0a1924559b@redhat.com>
+	<20190513134637.3d8bb275.cohuck@redhat.com>
+	<898144e3-615e-5074-fb68-bf9995c64609@de.ibm.com>
+	<155d2ca3-6a48-c99a-fe42-dca8e3fd4344@redhat.com>
+	<066c7470-94a3-a922-9a12-1ca42e474c51@de.ibm.com>
+	<1a3dcb16-8c6f-214c-843d-6dca6a24801e@redhat.com>
+	<9a9e9c58-d991-369f-a577-b70581efc75b@de.ibm.com>
+	<3cacee74-92f8-c63a-1aa4-7a169714d70c@redhat.com>
+	<92561a80-6ae7-8d18-4448-01b9418053a6@de.ibm.com>
+From: Collin Walling <walling@linux.ibm.com>
+Date: Thu, 16 May 2019 08:42:08 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <cover.1553510737.git.damien.hedde@greensocs.com>
-In-Reply-To: <cover.1553510737.git.damien.hedde@greensocs.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 16 May 2019 13:41:59 +0100
-Message-ID: <CAFEAcA-84KBmZhRqugQzmEkWVcFBuSAdLtp_HGjRxLeVj1SLXA@mail.gmail.com>
-To: Damien Hedde <damien.hedde@greensocs.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::243
-Subject: Re: [Qemu-devel] [RFC 00/17] multi-phase reset mechanism
+In-Reply-To: <92561a80-6ae7-8d18-4448-01b9418053a6@de.ibm.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 19051612-0040-0000-0000-000004F080E1
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00011105; HX=3.00000242; KW=3.00000007;
+	PH=3.00000004; SC=3.00000285; SDB=6.01204138; UDB=6.00632107;
+	IPR=6.00985068; 
+	MB=3.00026918; MTD=3.00000008; XFM=3.00000015; UTC=2019-05-16 12:42:11
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19051612-0041-0000-0000-000008FC9086
+Message-Id: <5b984668-9f48-3762-3c64-0668fb3ecf90@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+	definitions=2019-05-16_10:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+	priorityscore=1501
+	malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+	clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+	mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+	scancount=1 engine=8.0.1-1810050000 definitions=main-1905160085
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.158.5
+Subject: Re: [Qemu-devel] [PATCH v4] s390: diagnose 318 info reset and
+ migration support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -71,199 +116,101 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Edgar Iglesias <edgar.iglesias@xilinx.com>,
-	=?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
-	Mark Burton <mark.burton@greensocs.com>,
-	QEMU Developers <qemu-devel@nongnu.org>,
-	Markus Armbruster <armbru@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
-	Alistair Francis <alistair.francis@wdc.com>,
-	=?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@redhat.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	=?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
-	Luc Michel <luc.michel@greensocs.com>
+Cc: mst@redhat.com, qemu-devel@nongnu.org, pasic@linux.ibm.com,
+	qemu-s390x@nongnu.org, pbonzini@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 25 Mar 2019 at 11:02, Damien Hedde <damien.hedde@greensocs.com> wrote:
->
-> Hi all,
->
-> This series is a proposal to implement the multi-phase reset we've discussed
-> here (https://lists.gnu.org/archive/html/qemu-devel/2018-10/msg00310.html) and
-> more recently there
-> (https://lists.gnu.org/archive/html/qemu-devel/2019-03/msg00081.html).
->
-> To summarize, we need a multi-phase reset to allow for a more complex
-> initialization of a platform. In particular we need to "propagate" a clock
-> tree, but we have to ensure that every device is initialized first.
+On 5/14/19 5:04 AM, Christian Borntraeger wrote:
+> 
+> 
+> On 14.05.19 11:00, David Hildenbrand wrote:
+>> On 14.05.19 10:56, Christian Borntraeger wrote:
+>>>
+>>>
+>>> On 14.05.19 10:50, David Hildenbrand wrote:
+>>>> On 14.05.19 10:37, Christian Borntraeger wrote:
+>>>>>
+>>>>>
+>>>>> On 14.05.19 09:28, David Hildenbrand wrote:
+>>>>>>>>> But that can be tested using the runability information if I am not wrong.
+>>>>>>>>
+>>>>>>>> You mean the cpu level information, right?
+>>>>>>
+>>>>>> Yes, query-cpu-definition includes for each model runability information
+>>>>>> via "unavailable-features" (valid under the started QEMU machine).
+>>>>>>
+>>>>>>>>
+>>>>>>>>>
+>>>>>>>>>> and others that we have today.
+>>>>>>>>>>
+>>>>>>>>>> So yes, I think this would be acceptable.
+>>>>>>>>>
+>>>>>>>>> I guess it is acceptable yes. I doubt anybody uses that many CPUs in
+>>>>>>>>> production either way. But you never know.
+>>>>>>>>
+>>>>>>>> I think that using that many cpus is a more uncommon setup, but I still
+>>>>>>>> think that having to wait for actual failure
+>>>>>>>
+>>>>>>> That can happen all the time today. You can easily say z14 in the xml when
+>>>>>>> on a zEC12. Only at startup you get the error. The question is really:
+>>>>>>
+>>>>>> "-smp 248 -cpu host" will no longer work, while e.g. "-smp 248 -cpu z12"
+>>>>>> will work. Actually, even "-smp 248" will no longer work on affected
+>>>>>> machines.
+>>>>>>
+>>>>>> That is why wonder if it is better to disable the feature and print a
+>>>>>> warning. Similar to CMMA, where want want to tolerate when CMMA is not
+>>>>>> possible in the current environment (huge pages).
+>>>>>>
+>>>>>> "Diag318 will not be enabled because it is not compatible with more than
+>>>>>> 240 CPUs".
+>>>>>>
+>>>>>> However, I still think that implementing support for more than one SCLP
+>>>>>> response page is the best solution. Guests will need adaptions for > 240
+>>>>>> CPUs with Diag318, but who cares? Existing setups will continue to work.
+>>>>>>
+>>>>>> Implementing that SCLP thingy will avoid any warnings and any errors. It
+>>>>>> just works from the QEMU perspective.
+>>>>>>
+>>>>>> Is implementing this realistic?
+>>>>>
+>>>>> Yes it is but it will take time. I will try to get this rolling. To make
+>>>>> progress on the diag318 thing, can we error on startup now and simply
+>>>>> remove that check when when have implemented a larger sccb? If we would
+>>>>> now do all kinds of "change the max number games" would be harder to "fix".
+>>>>
+>>>>
+>>>> Another idea for temporary handling: Simply only indicate 240 CPUs to
+>>>> the guest if the response does not fit into a page. Once we have that
+>>>> SCLP thingy, this will be fixed. Guest migration back and forth should
+>>>> work, as the VCPUs are fully functional (and initially always stopped),
+>>>> the guest will simply not be able to detect them via SCLP when booting
+>>>> up, and therefore not use them.
+>>>
+>>> Yes, that looks like a good temporary solution. In fact if the guest relies
+>>> on simply probing it could even make use of the additional CPUs. Its just
+>>> the sclp response that is limited to 240 (or make it 247?)
+>>
+>> I think the limiting factor was more than a single CPU, but I don't
+>> recall. We can do the math again and come up with the right number.
+> 
+> I think We need 8 byte per CPU. With byte 134 we should still be ok with
+> 247. Collin can do the math in the patch description.
+> 
+> 
 
-Hi; I finally managed to get my thoughts about reset coherent
-enough to write down in an email.
+Yes 247 fits just fine. The 240 came up as extra space in case we expand
+the rscpi even more in the future.
 
+I used the
 
-OVERVIEW
+The SCCB_SIZE - sizeof(ReadInfo)) / sizeof(CPUEntry) < S390_MAX_CPUS
 
-I had a read through the patchset and spent a while trying to
-understand what we currently have.
+calculation as an example of what we could do if the SCCB_SIZE ever
+increases (it would allow older machines to retroactively allow diag318
+if they can also support a larger SCCB... but thinking out loud, there
+might be many more moving parts that would make this preemptive approach
+too tricky to implement today).
 
-Our current (device) reset model is:
- * single-phase
-    -- there is only one 'reset' method
- * implicit
-    -- devices don't need to be explicitly registered anywhere
-       in a "reset hierarchy"; instead they are reset by virtue
-       of being in the bus heirarchy they are already in
- * bus-based
-    -- sysbus reset is registered in vl.c; free-floating other buses[*]
-       (ie those with a NULL parent) have a reset registered in qbus_realize;
-       buses with parents (ie anything with a non-NULL parent passed to
-       qbus_create() or qbus_create_inplace()) will get traversed by
-       the recursive traversal of whatever bus their parent is on.
- * not exhaustive
-    -- any devices not put on a bus, or put on a bus whose parent device
-       is not on a bus, will not get reset
- * not modelling GPIO reset signal lines
-
-[*] It turns out we actually don't have any of these any more, so
-we can remove the code that deals with them. The only parentless bus
-is the main system bus, which is the root of the "reset hierarchy".
-
-This patchset is trying to address:
- * changing to multi-phase
- * modelling of GPIO reset signal lines
-
-It leaves reset as bus-based: currently we do this via qbus_walk_children/
-qdev_walk_children, which traverse the bus->children and dev->child_bus
-lists, and in the patchset's implementation of Resettable for qdev/qbus
-the methods iterate through those.
-
-I think this is reasonable -- we don't want to try to tackle every
-reset related problem at once. The two issues the patchset is looking
-at fit well together, because the GPIO-reset-lines are a motivation
-for switching to multiphase (you need to handle both entering and
-leaving reset).
-
-("not exhaustive" is the thing we should really try to
-fix at some point, but I have no good ideas for how to do this.)
-
-API DESIGN
-
-On what the right APIs should be: I think we should separate
-"the API that's nice for devices to implement" from "the API that's
-nice for callers wanting to reset a device". Here's my suggestion
-for doing that:
-
-
-Have the Resettable interface be:
- * init
- * hold
- * exit
- * get_reset_count
- * increment_reset_count (returns previous count)
- * decrement_reset_count (returns new count)
- * some method for "iterate over any Resettable child objects"
-   (probably a "call this callback for each child" type API)
-
-Individual devices implement init/hold/exit
-Device base class implements the reset_count methods
-Device base class implements a default 'init' method that calls dc->reset
-  and default hold/exit that are no-ops
-Device base class has a new vmstate subsection which migrates the
-  reset count, subsection's needed function says "only send
-  if reset count is non-zero". Back-compat here should be fine
-  as current machines don't implement any way that a device in
-  the system can be being held in reset at the point where a
-  migration happens. If future changes add features to a
-  machine model that permit that, the migration is forwards-compatible.
-Device base class implements the iterate-over-children method to
- iterate over the dev->child_bus buses
-Bus base class implements reset_count methods
-Bus base class implements default no-op init/hold/exit
-Bus base class implements the iterate-over-children method to
- iterate over the bus->children devices
-Handling migration of the bus base class reset count is a little
- awkward -- we'll need to put it in a vmstate subsection which
- is part of the vmstate of the device which owns the bus.
- (I talked to David Gilbert on IRC about this and have some
- possibilities for how to do it, but will postpone writing them
- out until we've decided whether we like the APIs.)
-
-The "API for devices to implement" is then the init/hold/exit
-methods of the Resettable interface -- they don't need to worry
-about these methods possibly being called multiple times, and
-they don't need to handle the reference count or passing on
-the calling of the phase methods to their children. They
-just need to implement the correct behaviour for their device
-for this phase.
-
-The "API for callers wanting to reset a device" is a set of
-helper functions that take a pointer to a Resettable object.
-It's these that deal with the reset count and children:
-
-resettable_assert_reset(Resettable *r)
-{
-   if (r->increment_reset_count() == 0) {
-       r->init();
-       r->foreach_child(do_call_init);
-       r->hold();
-       r->foreach_child(do_call_hold);
-   }
-}
-
-resettable_deassert_reset(Resettable *r)
-{
-   if (r->decrement_reset_count() == 0) {
-      r->foreach_child(do_call_exit);
-      r->exit();
-   }
-}
-
-plus a utility function for "call assert then deassert",
-and maybe one that wraps the get_reset_count method.
-So callers that want to reset devices (or buses) don't need
-to care about phases, they just assert and then deassert reset.
-
-Do you think that works ?
-
-
-API TRANSITIONS
-
-The other issue here is API transitions: the patchset essentially
-obsoletes the old DeviceClass::reset function, for instance. I think
-we should be clear about what the old and new APIs here are, and
-what our plans for transitioning to the new ones are. In some cases
-there are really very few users of the old API -- for instance the
-patchset makes qbus_reset_all(bus) a synonym for qbus_reset(bus, false),
-but there are only a dozen or so users of qbus_reset_all(). I think
-we should just go ahead and convert them all. (For purposes of
-structuring the patchset starting with a patch that says "reimplement
-qbus_reset_all() in terms of qbus_reset()" is OK, but then we should
-fix up the callers afterwards.) There are of course a lot more
-implementations of DeviceState::reset so transitioning away from
-that is a lot trickier, but we could look at a coccinelle script
-that could automate it.
-
-If you could describe in the cover letter of the next version of
-the patchseries all the old APIs being deprecated and the new
-ones that replace them, I think that would be very helpful.
-
-
-MISCELLANEOUS MINOR POINTS
-
-I know I suggested the idea of a ResetDomain object, but in the
-series as it stands I'm not sure it's serving very much purpose;
-perhaps we should drop it for the moment (just leaving the legacy
-reset handlers and sysbus reset the way they are) ? We can come back
-to it later as a concept.
-
-The "support reset via GPIO line" patch looks generally OK, but
-you can't just add fields to the DeviceState vmstate struct -- you'll
-break migration from older QEMU versions. The new fields need to
-go in a vmstate subsection with an appropriate 'needed' function.
-
-We should definitely make sure we have good documentation for
-what device authors should do to implement reset.
-
-thanks
--- PMM
 
