@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 114A120791
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 15:05:38 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55229 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F51720741
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 14:49:19 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54449 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRG4m-0005Ko-R9
-	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 09:05:36 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50561)
+	id 1hRFp0-0008D2-9f
+	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 08:49:18 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50557)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hRFTy-0007uh-JC
+	(envelope-from <vsementsov@virtuozzo.com>) id 1hRFTy-0007uY-Ib
 	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:27:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hRFTv-00087H-HK
+	(envelope-from <vsementsov@virtuozzo.com>) id 1hRFTv-000877-H1
 	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:27:34 -0400
-Received: from relay.sw.ru ([185.231.240.75]:33894)
+Received: from relay.sw.ru ([185.231.240.75]:33896)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
-	id 1hRFTv-00085E-A2; Thu, 16 May 2019 08:27:31 -0400
+	id 1hRFTv-00085F-9v; Thu, 16 May 2019 08:27:31 -0400
 Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
 	by relay.sw.ru with esmtp (Exim 4.91)
 	(envelope-from <vsementsov@virtuozzo.com>)
-	id 1hRFTp-0006Eb-Vd; Thu, 16 May 2019 15:27:26 +0300
+	id 1hRFTq-0006Eb-1S; Thu, 16 May 2019 15:27:26 +0300
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 To: qemu-devel@nongnu.org,
 	qemu-block@nongnu.org
-Date: Thu, 16 May 2019 15:27:24 +0300
-Message-Id: <20190516122725.132334-2-vsementsov@virtuozzo.com>
+Date: Thu, 16 May 2019 15:27:25 +0300
+Message-Id: <20190516122725.132334-3-vsementsov@virtuozzo.com>
 X-Mailer: git-send-email 2.18.0
 In-Reply-To: <20190516122725.132334-1-vsementsov@virtuozzo.com>
 References: <20190516122725.132334-1-vsementsov@virtuozzo.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH 1/2] qapi: support external bitmaps in
- block-dirty-bitmap-merge
+Subject: [Qemu-devel] [PATCH 2/2] iotests: test external snapshot with
+ bitmap copying
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -52,164 +52,144 @@ Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add new optional parameter making possible to merge bitmaps from
-different nodes. It is needed to maintain external snapshots during
-incremental backup chain history.
+This test shows that external snapshots and incremental backups are
+friends.
 
 Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- qapi/block-core.json | 13 ++++++++++---
- block/dirty-bitmap.c |  9 ++++++---
- blockdev.c           | 46 ++++++++++++++++++++++++++++++--------------
- 3 files changed, 48 insertions(+), 20 deletions(-)
+ tests/qemu-iotests/254     | 52 +++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/254.out | 53 ++++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/group   |  1 +
+ 3 files changed, 106 insertions(+)
+ create mode 100755 tests/qemu-iotests/254
+ create mode 100644 tests/qemu-iotests/254.out
 
-diff --git a/qapi/block-core.json b/qapi/block-core.json
-index 7ccbfff9d0..933b50771a 100644
---- a/qapi/block-core.json
-+++ b/qapi/block-core.json
-@@ -2006,16 +2006,23 @@
- ##
- # @BlockDirtyBitmapMerge:
- #
--# @node: name of device/node which the bitmap is tracking
-+# @node: name of device/node which the @target and @bitmaps bitmaps are
-+#        tracking
- #
- # @target: name of the destination dirty bitmap
- #
--# @bitmaps: name(s) of the source dirty bitmap(s)
-+# @bitmaps: name(s) of the source dirty bitmap(s). The field is optional
-+#           since 4.1.
+diff --git a/tests/qemu-iotests/254 b/tests/qemu-iotests/254
+new file mode 100755
+index 0000000000..15688f2c29
+--- /dev/null
++++ b/tests/qemu-iotests/254
+@@ -0,0 +1,52 @@
++#!/usr/bin/env python
 +#
-+# @external-bitmaps: additional list of source dirty bitmaps with specified
-+#                    nodes, which allows merging bitmaps between different
-+#                    nodes. (Since: 4.1)
- #
- # Since: 4.0
- ##
- { 'struct': 'BlockDirtyBitmapMerge',
--  'data': { 'node': 'str', 'target': 'str', 'bitmaps': ['str'] } }
-+  'data': { 'node': 'str', 'target': 'str', '*bitmaps': ['str'],
-+            '*external-bitmaps': ['BlockDirtyBitmap'] } }
- 
- ##
- # @block-dirty-bitmap-add:
-diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
-index 59e6ebb861..49646a30e6 100644
---- a/block/dirty-bitmap.c
-+++ b/block/dirty-bitmap.c
-@@ -816,10 +816,10 @@ void bdrv_merge_dirty_bitmap(BdrvDirtyBitmap *dest, const BdrvDirtyBitmap *src,
- {
-     bool ret;
- 
--    /* only bitmaps from one bds are supported */
--    assert(dest->mutex == src->mutex);
--
-     qemu_mutex_lock(dest->mutex);
-+    if (src->mutex != dest->mutex) {
-+        qemu_mutex_lock(src->mutex);
-+    }
- 
-     if (bdrv_dirty_bitmap_check(dest, BDRV_BITMAP_DEFAULT, errp)) {
-         goto out;
-@@ -845,4 +845,7 @@ void bdrv_merge_dirty_bitmap(BdrvDirtyBitmap *dest, const BdrvDirtyBitmap *src,
- 
- out:
-     qemu_mutex_unlock(dest->mutex);
-+    if (src->mutex != dest->mutex) {
-+        qemu_mutex_unlock(src->mutex);
-+    }
- }
-diff --git a/blockdev.c b/blockdev.c
-index 79fbac8450..8d37ce5943 100644
---- a/blockdev.c
-+++ b/blockdev.c
-@@ -2112,11 +2112,9 @@ static void block_dirty_bitmap_disable_abort(BlkActionState *common)
-     }
- }
- 
--static BdrvDirtyBitmap *do_block_dirty_bitmap_merge(const char *node,
--                                                    const char *target,
--                                                    strList *bitmaps,
--                                                    HBitmap **backup,
--                                                    Error **errp);
-+static BdrvDirtyBitmap *do_block_dirty_bitmap_merge(
-+        const char *node, const char *target, strList *bitmaps,
-+        BlockDirtyBitmapList *external_bitmaps, HBitmap **backup, Error **errp);
- 
- static void block_dirty_bitmap_merge_prepare(BlkActionState *common,
-                                              Error **errp)
-@@ -2132,8 +2130,9 @@ static void block_dirty_bitmap_merge_prepare(BlkActionState *common,
-     action = common->action->u.block_dirty_bitmap_merge.data;
- 
-     state->bitmap = do_block_dirty_bitmap_merge(action->node, action->target,
--                                                action->bitmaps, &state->backup,
--                                                errp);
-+                                                action->bitmaps,
-+                                                action->external_bitmaps,
-+                                                &state->backup, errp);
- }
- 
- static void abort_prepare(BlkActionState *common, Error **errp)
-@@ -2965,15 +2964,14 @@ void qmp_block_dirty_bitmap_disable(const char *node, const char *name,
-     bdrv_disable_dirty_bitmap(bitmap);
- }
- 
--static BdrvDirtyBitmap *do_block_dirty_bitmap_merge(const char *node,
--                                                    const char *target,
--                                                    strList *bitmaps,
--                                                    HBitmap **backup,
--                                                    Error **errp)
-+static BdrvDirtyBitmap *do_block_dirty_bitmap_merge(
-+        const char *node, const char *target, strList *bitmaps,
-+        BlockDirtyBitmapList *external_bitmaps, HBitmap **backup, Error **errp)
- {
-     BlockDriverState *bs;
-     BdrvDirtyBitmap *dst, *src, *anon;
-     strList *lst;
-+    BlockDirtyBitmapList *ext_lst;
-     Error *local_err = NULL;
- 
-     dst = block_dirty_bitmap_lookup(node, target, &bs, errp);
-@@ -3003,6 +3001,22 @@ static BdrvDirtyBitmap *do_block_dirty_bitmap_merge(const char *node,
-         }
-     }
- 
-+    for (ext_lst = external_bitmaps; ext_lst; ext_lst = ext_lst->next) {
-+        src = block_dirty_bitmap_lookup(ext_lst->value->node,
-+                                        ext_lst->value->name, NULL, errp);
-+        if (!src) {
-+            dst = NULL;
-+            goto out;
-+        }
++# Test external snapshot with bitmap copying.
++#
++# Copyright (c) 2019 Virtuozzo International GmbH. All rights reserved.
++#
++# This program is free software; you can redistribute it and/or modify
++# it under the terms of the GNU General Public License as published by
++# the Free Software Foundation; either version 2 of the License, or
++# (at your option) any later version.
++#
++# This program is distributed in the hope that it will be useful,
++# but WITHOUT ANY WARRANTY; without even the implied warranty of
++# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++# GNU General Public License for more details.
++#
++# You should have received a copy of the GNU General Public License
++# along with this program.  If not, see <http://www.gnu.org/licenses/>.
++#
 +
-+        bdrv_merge_dirty_bitmap(anon, src, NULL, &local_err);
-+        if (local_err) {
-+            error_propagate(errp, local_err);
-+            dst = NULL;
-+            goto out;
-+        }
-+    }
++import iotests
++from iotests import qemu_img_create, file_path, log
 +
-     /* Merge into dst; dst is unchanged on failure. */
-     bdrv_merge_dirty_bitmap(dst, anon, backup, errp);
- 
-@@ -3012,9 +3026,13 @@ static BdrvDirtyBitmap *do_block_dirty_bitmap_merge(const char *node,
- }
- 
- void qmp_block_dirty_bitmap_merge(const char *node, const char *target,
--                                  strList *bitmaps, Error **errp)
-+                                  bool has_bitmaps, strList *bitmaps,
-+                                  bool has_external_bitmaps,
-+                                  BlockDirtyBitmapList *external_bitmaps,
-+                                  Error **errp)
- {
--    do_block_dirty_bitmap_merge(node, target, bitmaps, NULL, errp);
-+    do_block_dirty_bitmap_merge(node, target, bitmaps, external_bitmaps, NULL,
-+                                errp);
- }
- 
- BlockDirtyBitmapSha256 *qmp_x_debug_block_dirty_bitmap_sha256(const char *node,
++disk, top = file_path('disk', 'top')
++size = 1024 * 1024
++
++qemu_img_create('-f', iotests.imgfmt, disk, str(size))
++
++vm = iotests.VM().add_drive(disk, opts='node-name=base')
++vm.launch()
++
++vm.qmp_log('block-dirty-bitmap-add', node='drive0', name='bitmap0')
++
++vm.hmp_qemu_io('drive0', 'write 0 512K')
++
++vm.qmp_log('transaction', indent=2, actions=[
++    {'type': 'blockdev-snapshot-sync',
++     'data': {'device': 'drive0', 'snapshot-file': top,
++              'snapshot-node-name': 'snap'}},
++    {'type': 'block-dirty-bitmap-add',
++     'data': {'node': 'snap', 'name': 'bitmap0'}},
++    {'type': 'block-dirty-bitmap-merge',
++     'data': {'node': 'snap', 'target': 'bitmap0', 'bitmaps': [],
++              'external-bitmaps': [{'node': 'base', 'name': 'bitmap0'}]}}
++], filters=[iotests.filter_qmp_testfiles])
++
++result = vm.qmp('query-block')['return'][0]
++log("query-block: device = {}, node-name = {}, dirty-bitmaps:".format(
++    result['device'], result['inserted']['node-name']))
++log(result['dirty-bitmaps'], indent=2)
++
++vm.shutdown()
+diff --git a/tests/qemu-iotests/254.out b/tests/qemu-iotests/254.out
+new file mode 100644
+index 0000000000..14a9cd3d71
+--- /dev/null
++++ b/tests/qemu-iotests/254.out
+@@ -0,0 +1,53 @@
++{"execute": "block-dirty-bitmap-add", "arguments": {"name": "bitmap0", "node": "drive0"}}
++{"return": {}}
++{
++  "execute": "transaction",
++  "arguments": {
++    "actions": [
++      {
++        "data": {
++          "device": "drive0",
++          "snapshot-file": "TEST_DIR/PID-top",
++          "snapshot-node-name": "snap"
++        },
++        "type": "blockdev-snapshot-sync"
++      },
++      {
++        "data": {
++          "name": "bitmap0",
++          "node": "snap"
++        },
++        "type": "block-dirty-bitmap-add"
++      },
++      {
++        "data": {
++          "bitmaps": [],
++          "external-bitmaps": [
++            {
++              "name": "bitmap0",
++              "node": "base"
++            }
++          ],
++          "node": "snap",
++          "target": "bitmap0"
++        },
++        "type": "block-dirty-bitmap-merge"
++      }
++    ]
++  }
++}
++{
++  "return": {}
++}
++query-block: device = drive0, node-name = snap, dirty-bitmaps:
++[
++  {
++    "busy": false,
++    "count": 524288,
++    "granularity": 65536,
++    "name": "bitmap0",
++    "persistent": false,
++    "recording": true,
++    "status": "active"
++  }
++]
+diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
+index 00e474ab0a..5552d0153c 100644
+--- a/tests/qemu-iotests/group
++++ b/tests/qemu-iotests/group
+@@ -250,3 +250,4 @@
+ 248 rw auto quick
+ 249 rw auto quick
+ 252 rw auto backing quick
++254 rw auto backing quick
 -- 
 2.18.0
 
