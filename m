@@ -2,40 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F51720741
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 14:49:19 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54449 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 358B120721
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 14:43:25 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54240 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRFp0-0008D2-9f
-	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 08:49:18 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50557)
+	id 1hRFjI-0003q7-95
+	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 08:43:24 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50675)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hRFTy-0007uY-Ib
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:27:37 -0400
+	(envelope-from <groug@kaod.org>) id 1hRFUV-000056-SE
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:28:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hRFTv-000877-H1
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:27:34 -0400
-Received: from relay.sw.ru ([185.231.240.75]:33896)
+	(envelope-from <groug@kaod.org>) id 1hRFUS-0008VE-R9
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:28:07 -0400
+Received: from 4.mo179.mail-out.ovh.net ([46.105.36.149]:59154)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
-	id 1hRFTv-00085F-9v; Thu, 16 May 2019 08:27:31 -0400
-Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
-	by relay.sw.ru with esmtp (Exim 4.91)
-	(envelope-from <vsementsov@virtuozzo.com>)
-	id 1hRFTq-0006Eb-1S; Thu, 16 May 2019 15:27:26 +0300
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-devel@nongnu.org,
-	qemu-block@nongnu.org
-Date: Thu, 16 May 2019 15:27:25 +0300
-Message-Id: <20190516122725.132334-3-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20190516122725.132334-1-vsementsov@virtuozzo.com>
-References: <20190516122725.132334-1-vsementsov@virtuozzo.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH 2/2] iotests: test external snapshot with
- bitmap copying
+	(Exim 4.71) (envelope-from <groug@kaod.org>) id 1hRFUS-0008TS-Lw
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:28:04 -0400
+Received: from player158.ha.ovh.net (unknown [10.109.143.223])
+	by mo179.mail-out.ovh.net (Postfix) with ESMTP id B1B43126A3A
+	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 14:28:01 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+	[82.253.208.248]) (Authenticated sender: groug@kaod.org)
+	by player158.ha.ovh.net (Postfix) with ESMTPSA id 816F95BA6C5B;
+	Thu, 16 May 2019 12:27:55 +0000 (UTC)
+Date: Thu, 16 May 2019 14:27:54 +0200
+From: Greg Kurz <groug@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Message-ID: <20190516142754.54e2a656@bahia.lan>
+In-Reply-To: <20190516114601.GG3207@umbus.fritz.box>
+References: <155793986451.464434.12887933000007255549.stgit@bahia.lan>
+	<20190516063957.GA25414@sathnaga86>
+	<20190516085814.022ef4b1@bahia.lan>
+	<20190516114601.GG3207@umbus.fritz.box>
+X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	boundary="Sig_/xKYH_akNmZXic4qrZYfmByy";
+	protocol="application/pgp-signature"
+X-Ovh-Tracer-Id: 6291810158273337830
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddruddttddgheduucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 46.105.36.149
+Subject: Re: [Qemu-devel] [PATCH] spapr/xive: Sanity checks of OV5 during CAS
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -47,150 +59,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
-	den@virtuozzo.com, armbru@redhat.com, mreitz@redhat.com, jsnow@redhat.com
+Cc: qemu-ppc@nongnu.org, Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>,
+	=?UTF-8?B?Q8OpZHJp?= =?UTF-8?B?Yw==?= Le Goater <clg@kaod.org>,
+	qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This test shows that external snapshots and incremental backups are
-friends.
+--Sig_/xKYH_akNmZXic4qrZYfmByy
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- tests/qemu-iotests/254     | 52 +++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/254.out | 53 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/group   |  1 +
- 3 files changed, 106 insertions(+)
- create mode 100755 tests/qemu-iotests/254
- create mode 100644 tests/qemu-iotests/254.out
+On Thu, 16 May 2019 21:46:01 +1000
+David Gibson <david@gibson.dropbear.id.au> wrote:
+[...]
+>=20
+> I won't be sending a pull request for a little while yet, so if you
+> want to send a followup improving the messages I can fold it into the
+> original patch in my tree.
+>=20
 
-diff --git a/tests/qemu-iotests/254 b/tests/qemu-iotests/254
-new file mode 100755
-index 0000000000..15688f2c29
---- /dev/null
-+++ b/tests/qemu-iotests/254
-@@ -0,0 +1,52 @@
-+#!/usr/bin/env python
-+#
-+# Test external snapshot with bitmap copying.
-+#
-+# Copyright (c) 2019 Virtuozzo International GmbH. All rights reserved.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+import iotests
-+from iotests import qemu_img_create, file_path, log
-+
-+disk, top = file_path('disk', 'top')
-+size = 1024 * 1024
-+
-+qemu_img_create('-f', iotests.imgfmt, disk, str(size))
-+
-+vm = iotests.VM().add_drive(disk, opts='node-name=base')
-+vm.launch()
-+
-+vm.qmp_log('block-dirty-bitmap-add', node='drive0', name='bitmap0')
-+
-+vm.hmp_qemu_io('drive0', 'write 0 512K')
-+
-+vm.qmp_log('transaction', indent=2, actions=[
-+    {'type': 'blockdev-snapshot-sync',
-+     'data': {'device': 'drive0', 'snapshot-file': top,
-+              'snapshot-node-name': 'snap'}},
-+    {'type': 'block-dirty-bitmap-add',
-+     'data': {'node': 'snap', 'name': 'bitmap0'}},
-+    {'type': 'block-dirty-bitmap-merge',
-+     'data': {'node': 'snap', 'target': 'bitmap0', 'bitmaps': [],
-+              'external-bitmaps': [{'node': 'base', 'name': 'bitmap0'}]}}
-+], filters=[iotests.filter_qmp_testfiles])
-+
-+result = vm.qmp('query-block')['return'][0]
-+log("query-block: device = {}, node-name = {}, dirty-bitmaps:".format(
-+    result['device'], result['inserted']['node-name']))
-+log(result['dirty-bitmaps'], indent=2)
-+
-+vm.shutdown()
-diff --git a/tests/qemu-iotests/254.out b/tests/qemu-iotests/254.out
-new file mode 100644
-index 0000000000..14a9cd3d71
---- /dev/null
-+++ b/tests/qemu-iotests/254.out
-@@ -0,0 +1,53 @@
-+{"execute": "block-dirty-bitmap-add", "arguments": {"name": "bitmap0", "node": "drive0"}}
-+{"return": {}}
-+{
-+  "execute": "transaction",
-+  "arguments": {
-+    "actions": [
-+      {
-+        "data": {
-+          "device": "drive0",
-+          "snapshot-file": "TEST_DIR/PID-top",
-+          "snapshot-node-name": "snap"
-+        },
-+        "type": "blockdev-snapshot-sync"
-+      },
-+      {
-+        "data": {
-+          "name": "bitmap0",
-+          "node": "snap"
-+        },
-+        "type": "block-dirty-bitmap-add"
-+      },
-+      {
-+        "data": {
-+          "bitmaps": [],
-+          "external-bitmaps": [
-+            {
-+              "name": "bitmap0",
-+              "node": "base"
-+            }
-+          ],
-+          "node": "snap",
-+          "target": "bitmap0"
-+        },
-+        "type": "block-dirty-bitmap-merge"
-+      }
-+    ]
-+  }
-+}
-+{
-+  "return": {}
-+}
-+query-block: device = drive0, node-name = snap, dirty-bitmaps:
-+[
-+  {
-+    "busy": false,
-+    "count": 524288,
-+    "granularity": 65536,
-+    "name": "bitmap0",
-+    "persistent": false,
-+    "recording": true,
-+    "status": "active"
-+  }
-+]
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 00e474ab0a..5552d0153c 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -250,3 +250,4 @@
- 248 rw auto quick
- 249 rw auto quick
- 252 rw auto backing quick
-+254 rw auto backing quick
--- 
-2.18.0
+Done.
 
+https://patchwork.ozlabs.org/patch/1100396/
+
+
+--Sig_/xKYH_akNmZXic4qrZYfmByy
+Content-Type: application/pgp-signature
+Content-Description: OpenPGP digital signature
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEtIKLr5QxQM7yo0kQcdTV5YIvc9YFAlzdV0oACgkQcdTV5YIv
+c9ZW4w//Qq5d5ePp/1GApVl7G3vXuyOROehiQZaBJcNBNkjNbCyoK/J+7cqM+f/X
+jmZLUeqNjKmx+wLgAoeqm5rT4YWN7s5WKCVQxroNZEoeRGCBIhJTP0zmrte/9Fyl
+QlW3RZPzgZQ06+v/06Ieyi5ci8def5tZnc/nTuYS2XmbkFw+0ecWiRp9wkJ05+rf
+O4xQP4oOr5475/48w3WtnXvwdUtLoG3bB2wsWtivfGvCcZhyAQF1q5gV6TJLVlXd
+O1SspML3y1981UynSoRF0uVvbL9rTeXAJZkBMMN89rc/s19/D0BlmROCbd8KPX15
+F0DTrgZw618vlvgpsOU1lamzFyn2ZOhsv4YcE0lqtqrcWC7AAFXvuXIsmRZH6Nhd
+y206h8l1pFfm8pxyoqQZM7N/RNM9/nbj+szT2H0pT5JUwsDEegnF3lecCG/xtUT+
+10OPfWn4gfo3+mHpzC8oiTa6YyHFpf9sQDxHW1u+ZFb9ddTTslauJjdMQaeCAXDH
+xUFd+11cQ64iw6cxfd77bIPJrASvppEWE7XM4yXUPIbvfwiarLWIztL/le3cm/sG
+Z0UVbvtP2odBsmk5nlFHLsCdXFJFFIQkVQt7fKW1izKD3xxUNo6M0PHGptxfU9ak
+yA7mic+zzogOfg3MyCX0sH62XGk3b/GeAa/6/2XJ72poRPN7i4o=
+=fEse
+-----END PGP SIGNATURE-----
+
+--Sig_/xKYH_akNmZXic4qrZYfmByy--
 
