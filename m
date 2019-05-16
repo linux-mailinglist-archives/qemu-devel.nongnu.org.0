@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1452820720
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 14:43:21 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54238 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CF8E2072E
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 14:46:19 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54308 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRFjE-0003mE-6w
-	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 08:43:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48931)
+	id 1hRFm6-0005uv-6R
+	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 08:46:18 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49000)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hRFMJ-0000fa-PA
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:19:42 -0400
+	(envelope-from <mst@redhat.com>) id 1hRFMZ-0000uZ-J8
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:19:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hRFMF-00023S-Vk
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:19:39 -0400
-Received: from mail-qk1-f193.google.com ([209.85.222.193]:40308)
+	(envelope-from <mst@redhat.com>) id 1hRFMW-0002Dh-Ic
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:19:55 -0400
+Received: from mail-qk1-f194.google.com ([209.85.222.194]:39510)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hRFME-00022C-Bc
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:19:35 -0400
-Received: by mail-qk1-f193.google.com with SMTP id q197so2074073qke.7
-	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 05:19:34 -0700 (PDT)
+	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hRFMW-0002DP-Fi
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:19:52 -0400
+Received: by mail-qk1-f194.google.com with SMTP id z128so2074972qkb.6
+	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 05:19:52 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
 	:mime-version:content-disposition:content-transfer-encoding
 	:in-reply-to;
-	bh=82yaoR5Qd6z6aUjmHl7ZXeDTv2ZIDxYt8pX/8qpvvOk=;
-	b=fG3SekBm+RwUibe1yM9VjTnOJxmzmruUBe5dEuoGnnYn2LseR3dFbGHV31OzdCiEJp
-	rrCG/apghymlexEkpc2RhwMPVcC/fmbYa0uzzlJxejrB30bFpGSXp6bZMhqamfGP1Z8s
-	dfF5//criOrtrwp2RkxcVVIDCz0cSQ9zORRbdy6cWvXi3gEkfhqTfNpt5M4ZgkvK8dl8
-	/KdzAn20+ee0r3pt15GjNaBupL9fdvySf+eItsTWDktuAmynUXYDAWN19qjETUrMOKCB
-	aJWkl4pLmVS+GM2gRNUAcR4QXna6QgGzIleU4OkHoS6RzTZX37KH+D2vqfWkAlBDjDCx
-	MXmQ==
-X-Gm-Message-State: APjAAAX2/NFq8EMVNdlMixDmzVVcmKzczeU0lOhmBsJUEgupGP6jzGKc
-	Rrsj5FHQAgnzYqriQ5fF5hNZfRQpDso=
-X-Google-Smtp-Source: APXvYqx34zoLCFmLiPl28IIfIqHHtICWH40cz66CJ7bYHhb5RpmZ49g79svpllq+8Ib6nN31w6DGmQ==
-X-Received: by 2002:a05:620a:13c6:: with SMTP id
-	g6mr26179321qkl.153.1558009173486; 
-	Thu, 16 May 2019 05:19:33 -0700 (PDT)
-Received: from redhat.com ([185.54.206.10])
-	by smtp.gmail.com with ESMTPSA id 22sm2546484qkl.4.2019.05.16.05.19.31
+	bh=I6cJTLcWEw/XJp6IFKQiIeuBX7M9vB64h4Zd8MlI/4k=;
+	b=mhWUYceeD34qB+yAHeDgTDByzg4bOD2xx12wHAnBV7Loxg+SQ4vuyaM059IuovtErN
+	c/TGDrxFP5zsTgmREfXCS0fph5M4GEwZGA/Q39emNUxyiK5McpyEOlA/Vxs4Peh7tiLj
+	DAtECglTwohhcvlNxfsluZRS2Jvy+z4B29dgpjZ8qbMuCZqhhc4/UHvZnnGcmIPPHQ/i
+	h41+H2Wq3CXnqJY6vU+ySj36YbJ1WuOu0ZI2mIOZNtldOFzNCJkWeUdA4OAU2E08Ai41
+	YtVGJ7cN9f83/gG26xc3/iz/bg1Xp9bFqcr6MjVmfMb4DLfte5725sY0vEUJwck7PrIL
+	S7RA==
+X-Gm-Message-State: APjAAAX/ItNP6M6xjxqLDrTQDW8NroEnuihQewoYWI8rE0D+23VxZm+A
+	/EL/zQL/Gy4bslVRCW6CKZ7+UkByMKs=
+X-Google-Smtp-Source: APXvYqyTZv+AlJ7BU8hdyTmn/ZzW9AE2MHgV3Gf0YBM4NW2rioU1ZKpzjDUGojNqN2TYvkglwecAMw==
+X-Received: by 2002:a37:7002:: with SMTP id l2mr38745692qkc.227.1558009191653; 
+	Thu, 16 May 2019 05:19:51 -0700 (PDT)
+Received: from redhat.com ([185.54.206.10]) by smtp.gmail.com with ESMTPSA id
+	e131sm2283331qkb.80.2019.05.16.05.19.41
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 16 May 2019 05:19:32 -0700 (PDT)
-Date: Thu, 16 May 2019 08:19:29 -0400
+	Thu, 16 May 2019 05:19:50 -0700 (PDT)
+Date: Thu, 16 May 2019 08:19:34 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Message-ID: <20190419003053.8260-5-richardw.yang@linux.intel.com>
+Message-ID: <20190419003053.8260-6-richardw.yang@linux.intel.com>
 References: <20190515121146.7248-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -58,9 +57,8 @@ X-Mailer: git-send-email 2.17.1.1206.gb667731e2e.dirty
 X-Mutt-Fcc: =sent
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.222.193
-Subject: [Qemu-devel] [PULL 18/37] hw/arm/virt-acpi-build: pass AcpiMcfgInfo
- to build_mcfg()
+X-Received-From: 209.85.222.194
+Subject: [Qemu-devel] [PULL 19/37] hw/acpi: Consolidate build_mcfg to pci.c
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -84,34 +82,66 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Wei Yang <richardw.yang@linux.intel.com>
 
-To build MCFG, two information is necessary:
+Now we have two identical build_mcfg functions.
 
-    * bus number
-    * base address
-
-Abstract these two information to AcpiMcfgInfo so that build_mcfg and
-build_mcfg_q35 will have the same declaration.
+Consolidate them in acpi/pci.c.
 
 Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 
-Message-Id: <20190419003053.8260-5-richardw.yang@linux.intel.com>
+Message-Id: <20190419003053.8260-6-richardw.yang@linux.intel.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/acpi/pci.h    | 33 +++++++++++++++++++++++++++++++++
- hw/arm/virt-acpi-build.c | 18 +++++++++++-------
- hw/i386/acpi-build.c     |  6 +-----
- 3 files changed, 45 insertions(+), 12 deletions(-)
- create mode 100644 include/hw/acpi/pci.h
+ default-configs/arm-softmmu.mak  |  1 +
+ default-configs/i386-softmmu.mak |  1 +
+ include/hw/acpi/pci.h            |  1 +
+ hw/acpi/pci.c                    | 46 ++++++++++++++++++++++++++++++++
+ hw/arm/virt-acpi-build.c         | 17 ------------
+ hw/i386/acpi-build.c             | 18 +------------
+ hw/acpi/Kconfig                  |  4 +++
+ hw/acpi/Makefile.objs            |  1 +
+ 8 files changed, 55 insertions(+), 34 deletions(-)
+ create mode 100644 hw/acpi/pci.c
 
+diff --git a/default-configs/arm-softmmu.mak b/default-configs/arm-softmmu.mak
+index 613d19a06d..8f2796e195 100644
+--- a/default-configs/arm-softmmu.mak
++++ b/default-configs/arm-softmmu.mak
+@@ -144,6 +144,7 @@ CONFIG_XIO3130=y
+ CONFIG_IOH3420=y
+ CONFIG_I82801B11=y
+ CONFIG_ACPI=y
++CONFIG_ACPI_PCI=y
+ CONFIG_ARM_VIRT=y
+ CONFIG_SMBIOS=y
+ CONFIG_ASPEED_SOC=y
+diff --git a/default-configs/i386-softmmu.mak b/default-configs/i386-softmmu.mak
+index ba3fb3ff50..cd5ea391e8 100644
+--- a/default-configs/i386-softmmu.mak
++++ b/default-configs/i386-softmmu.mak
+@@ -25,3 +25,4 @@
+ CONFIG_ISAPC=y
+ CONFIG_I440FX=y
+ CONFIG_Q35=y
++CONFIG_ACPI_PCI=y
 diff --git a/include/hw/acpi/pci.h b/include/hw/acpi/pci.h
-new file mode 100644
-index 0000000000..124af7d32a
---- /dev/null
+index 124af7d32a..8bbd32cf45 100644
+--- a/include/hw/acpi/pci.h
 +++ b/include/hw/acpi/pci.h
-@@ -0,0 +1,33 @@
+@@ -30,4 +30,5 @@ typedef struct AcpiMcfgInfo {
+     uint32_t size;
+ } AcpiMcfgInfo;
+ 
++void build_mcfg(GArray *table_data, BIOSLinker *linker, AcpiMcfgInfo *info);
+ #endif
+diff --git a/hw/acpi/pci.c b/hw/acpi/pci.c
+new file mode 100644
+index 0000000000..fa0fa30bb9
+--- /dev/null
++++ b/hw/acpi/pci.c
+@@ -0,0 +1,46 @@
 +/*
 + * Support for generating PCI related ACPI tables and passing them to Guests
 + *
@@ -136,91 +166,119 @@ index 0000000000..124af7d32a
 + * You should have received a copy of the GNU General Public License along
 + * with this program; if not, see <http://www.gnu.org/licenses/>.
 + */
-+#ifndef HW_ACPI_PCI_H
-+#define HW_ACPI_PCI_H
 +
-+typedef struct AcpiMcfgInfo {
-+    uint64_t base;
-+    uint32_t size;
-+} AcpiMcfgInfo;
++#include "qemu/osdep.h"
++#include "hw/acpi/aml-build.h"
++#include "hw/acpi/pci.h"
++#include "hw/pci/pcie_host.h"
 +
-+#endif
++void build_mcfg(GArray *table_data, BIOSLinker *linker, AcpiMcfgInfo *info)
++{
++    AcpiTableMcfg *mcfg;
++    int len = sizeof(*mcfg) + sizeof(mcfg->allocation[0]);
++
++    mcfg = acpi_data_push(table_data, len);
++    mcfg->allocation[0].address = cpu_to_le64(info->base);
++
++    /* Only a single allocation so no need to play with segments */
++    mcfg->allocation[0].pci_segment = cpu_to_le16(0);
++    mcfg->allocation[0].start_bus_number = 0;
++    mcfg->allocation[0].end_bus_number = PCIE_MMCFG_BUS(info->size - 1);
++
++    build_header(linker, table_data, (void *)mcfg, "MCFG", len, 1, NULL, NULL);
++}
++
 diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
-index 12dbaf3846..e7c96d658e 100644
+index e7c96d658e..4a64f9985c 100644
 --- a/hw/arm/virt-acpi-build.c
 +++ b/hw/arm/virt-acpi-build.c
-@@ -40,6 +40,7 @@
- #include "hw/loader.h"
- #include "hw/hw.h"
- #include "hw/acpi/aml-build.h"
-+#include "hw/acpi/pci.h"
- #include "hw/pci/pcie_host.h"
- #include "hw/pci/pci.h"
- #include "hw/arm/virt.h"
-@@ -546,21 +547,18 @@ build_srat(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+@@ -546,23 +546,6 @@ build_srat(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+                  "SRAT", table_data->len - srat_start, 3, NULL, NULL);
  }
  
+-static void
+-build_mcfg(GArray *table_data, BIOSLinker *linker, AcpiMcfgInfo *info)
+-{
+-    AcpiTableMcfg *mcfg;
+-    int len = sizeof(*mcfg) + sizeof(mcfg->allocation[0]);
+-
+-    mcfg = acpi_data_push(table_data, len);
+-    mcfg->allocation[0].address = cpu_to_le64(info->base);
+-
+-    /* Only a single allocation so no need to play with segments */
+-    mcfg->allocation[0].pci_segment = cpu_to_le16(0);
+-    mcfg->allocation[0].start_bus_number = 0;
+-    mcfg->allocation[0].end_bus_number = PCIE_MMCFG_BUS(info->size - 1);
+-
+-    build_header(linker, table_data, (void *)mcfg, "MCFG", len, 1, NULL, NULL);
+-}
+-
+ /* GTDT */
  static void
--build_mcfg(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
-+build_mcfg(GArray *table_data, BIOSLinker *linker, AcpiMcfgInfo *info)
- {
-     AcpiTableMcfg *mcfg;
--    const MemMapEntry *memmap = vms->memmap;
--    int ecam_id = VIRT_ECAM_ID(vms->highmem_ecam);
-     int len = sizeof(*mcfg) + sizeof(mcfg->allocation[0]);
- 
-     mcfg = acpi_data_push(table_data, len);
--    mcfg->allocation[0].address = cpu_to_le64(memmap[ecam_id].base);
-+    mcfg->allocation[0].address = cpu_to_le64(info->base);
- 
-     /* Only a single allocation so no need to play with segments */
-     mcfg->allocation[0].pci_segment = cpu_to_le16(0);
-     mcfg->allocation[0].start_bus_number = 0;
--    mcfg->allocation[0].end_bus_number =
--        PCIE_MMCFG_BUS(memmap[ecam_id].size - 1);
-+    mcfg->allocation[0].end_bus_number = PCIE_MMCFG_BUS(info->size - 1);
- 
-     build_header(linker, table_data, (void *)mcfg, "MCFG", len, 1, NULL, NULL);
- }
-@@ -801,7 +799,13 @@ void virt_acpi_build(VirtMachineState *vms, AcpiBuildTables *tables)
-     build_gtdt(tables_blob, tables->linker, vms);
- 
-     acpi_add_table(table_offsets, tables_blob);
--    build_mcfg(tables_blob, tables->linker, vms);
-+    {
-+        AcpiMcfgInfo mcfg = {
-+           .base = vms->memmap[VIRT_ECAM_ID(vms->highmem_ecam)].base,
-+           .size = vms->memmap[VIRT_ECAM_ID(vms->highmem_ecam)].size,
-+        };
-+        build_mcfg(tables_blob, tables->linker, &mcfg);
-+    }
- 
-     acpi_add_table(table_offsets, tables_blob);
-     build_spcr(tables_blob, tables->linker, vms);
+ build_gtdt(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
 diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
-index 6df7bb3abc..dbd3a6cac2 100644
+index dbd3a6cac2..2fecccb13f 100644
 --- a/hw/i386/acpi-build.c
 +++ b/hw/i386/acpi-build.c
-@@ -58,6 +58,7 @@
- #include "hw/i386/x86-iommu.h"
+@@ -2393,22 +2393,6 @@ build_srat(GArray *table_data, BIOSLinker *linker, MachineState *machine)
+                  table_data->len - srat_start, 1, NULL, NULL);
+ }
  
- #include "hw/acpi/aml-build.h"
-+#include "hw/acpi/pci.h"
- 
- #include "qom/qom-qobject.h"
- #include "hw/i386/amd_iommu.h"
-@@ -86,11 +87,6 @@
- /* Default IOAPIC ID */
- #define ACPI_BUILD_IOAPIC_ID 0x0
- 
--typedef struct AcpiMcfgInfo {
--    uint64_t base;
--    uint32_t size;
--} AcpiMcfgInfo;
+-static void
+-build_mcfg_q35(GArray *table_data, BIOSLinker *linker, AcpiMcfgInfo *info)
+-{
+-    AcpiTableMcfg *mcfg;
+-    int len = sizeof(*mcfg) + 1 * sizeof(mcfg->allocation[0]);
 -
- typedef struct AcpiPmInfo {
-     bool s3_disabled;
-     bool s4_disabled;
+-    mcfg = acpi_data_push(table_data, len);
+-    mcfg->allocation[0].address = cpu_to_le64(info->base);
+-    /* Only a single allocation so no need to play with segments */
+-    mcfg->allocation[0].pci_segment = cpu_to_le16(0);
+-    mcfg->allocation[0].start_bus_number = 0;
+-    mcfg->allocation[0].end_bus_number = PCIE_MMCFG_BUS(info->size - 1);
+-
+-    build_header(linker, table_data, (void *)mcfg, "MCFG", len, 1, NULL, NULL);
+-}
+-
+ /*
+  * VT-d spec 8.1 DMA Remapping Reporting Structure
+  * (version Oct. 2014 or later)
+@@ -2678,7 +2662,7 @@ void acpi_build(AcpiBuildTables *tables, MachineState *machine)
+     }
+     if (acpi_get_mcfg(&mcfg)) {
+         acpi_add_table(table_offsets, tables_blob);
+-        build_mcfg_q35(tables_blob, tables->linker, &mcfg);
++        build_mcfg(tables_blob, tables->linker, &mcfg);
+     }
+     if (x86_iommu_get_default()) {
+         IommuType IOMMUType = x86_iommu_get_type();
+diff --git a/hw/acpi/Kconfig b/hw/acpi/Kconfig
+index eca3beed75..7265843cc3 100644
+--- a/hw/acpi/Kconfig
++++ b/hw/acpi/Kconfig
+@@ -23,6 +23,10 @@ config ACPI_NVDIMM
+     bool
+     depends on ACPI
+ 
++config ACPI_PCI
++    bool
++    depends on ACPI
++
+ config ACPI_VMGENID
+     bool
+     default y
+diff --git a/hw/acpi/Makefile.objs b/hw/acpi/Makefile.objs
+index 2d46e3789a..661a9b8c2f 100644
+--- a/hw/acpi/Makefile.objs
++++ b/hw/acpi/Makefile.objs
+@@ -11,6 +11,7 @@ common-obj-$(call lnot,$(CONFIG_ACPI_X86)) += acpi-stub.o
+ common-obj-y += acpi_interface.o
+ common-obj-y += bios-linker-loader.o
+ common-obj-y += aml-build.o
++common-obj-$(CONFIG_ACPI_PCI) += pci.o
+ common-obj-$(CONFIG_TPM) += tpm.o
+ 
+ common-obj-$(CONFIG_IPMI) += ipmi.o
 -- 
 MST
 
