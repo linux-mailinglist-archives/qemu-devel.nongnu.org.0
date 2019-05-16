@@ -2,62 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F412B206E3
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 14:27:28 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53845 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4641720710
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 14:38:20 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54103 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRFTs-0006vz-3U
-	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 08:27:28 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49129)
+	id 1hRFeN-0007zM-EC
+	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 08:38:19 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49155)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hRFNH-0001YN-2Q
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:20:42 -0400
+	(envelope-from <mst@redhat.com>) id 1hRFNM-0001dW-Dm
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:20:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hRFNE-0002jI-1X
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:20:39 -0400
-Received: from mail-qt1-f179.google.com ([209.85.160.179]:44593)
+	(envelope-from <mst@redhat.com>) id 1hRFNJ-0002mq-Ct
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:20:44 -0400
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:33319)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hRFND-0002iy-V8
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:20:35 -0400
-Received: by mail-qt1-f179.google.com with SMTP id f24so3517244qtk.11
-	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 05:20:35 -0700 (PDT)
+	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hRFNJ-0002mY-9w
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:20:41 -0400
+Received: by mail-qt1-f196.google.com with SMTP id m32so3618442qtf.0
+	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 05:20:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to;
-	bh=lNTYO0MId4gzUO1w6UtHVs4DCqDNXlBKY0mc09csDo8=;
-	b=nniG5hUvSznMei+aALFod497O1VvrJhXcnzsJTfiIWTQv59I5rBiOy9pKKs0tpfCU7
-	YkBiiTlsJKYlQXdvwscqWidTAYWho3ScqYiYmzmeE6/JLhtc6g0yJLedzyrgo6OTcAtI
-	fMN9/LDjszV84pkTsNLkl1btX3PDWZMTj9cFUcjBsMA9xnCw2J25Z9K4Gi+FduBGPW/2
-	hj7IQAbr1G5pg+LRKZZeldlIQI2/W6yUKmliDa/9PEe44uKw+uYwAErtHLLOrrzt2035
-	ke9glEH/tEounUhDiP3k+92ryGfeFHR2wKn5CYl/hOgl9bNySNJrwZGe/qIruxrbX31J
-	NsPg==
-X-Gm-Message-State: APjAAAWyz0mUDt8BWIpRSbzWComPo0/oOivZik2jwJZRBZfWT+tHmJZ/
-	YNBvgCTXbqyKILLU3CKX0pZhu08UYLM=
-X-Google-Smtp-Source: APXvYqz2LXsEZK4YjfZjvVhkDO8rWKfQ5mOr+YQMTpYObNQoik/w3nyvEsAG4v/WCV1By0WLt72PLQ==
-X-Received: by 2002:a0c:872c:: with SMTP id 41mr39897703qvh.213.1558009235122; 
-	Thu, 16 May 2019 05:20:35 -0700 (PDT)
-Received: from redhat.com ([185.54.206.10]) by smtp.gmail.com with ESMTPSA id
-	a64sm2587930qkd.73.2019.05.16.05.20.33
+	:mime-version:content-disposition:content-transfer-encoding
+	:in-reply-to;
+	bh=RTRIxsVKqqdz/HWRVEdKM6QUXrcO4t5UGM0Rdb91dxE=;
+	b=DwcQ9hwemOVQ6EiNDi/UHImVwAZqfmF5IGZAmnXFHOubcIwjavLGCyOrB230PbdoLE
+	5HfS1CNG3sqBkNuPkgfR2xu8AH6PBD2slVNr762fdPuNVpiuFmhBX4fu7eeLbjAb6hZE
+	vLKAQykL6HyF1lSKKpuUuj4LBvFgDR3vWOWRnqMYZlY4AxtKRIyYGuTt7mWUQ/3+4Mn0
+	Bu1WHhihXop6TXKxy68RQQ4oPERz5GnpoYzuDBO7Qn024g2Z+FkrkEDi2r5Bil3CT0+f
+	va7gu5CsKanvY0s2HlbJM0VXuqO2rUJzy9e4D7v7jIVFIU4n4GrDPtp1eaKW3HhAhgXt
+	8vcQ==
+X-Gm-Message-State: APjAAAWb/sHIyq6XxoKlGRxgeYiohdj6aExTPFwsutggpBU6mpuv8+n8
+	jV+YHwIGpZG/3q4rHF7yyFnZmNk0kRs=
+X-Google-Smtp-Source: APXvYqwQeqEj7MLEu9Ulm6/kIEb3bFUMDWBZSbWMTCnBKZ9X9iBAXOuSDLQqhOXSkzeAe/CZWONXwQ==
+X-Received: by 2002:ac8:2fa8:: with SMTP id l37mr41089622qta.52.1558009240527; 
+	Thu, 16 May 2019 05:20:40 -0700 (PDT)
+Received: from redhat.com ([185.54.206.10])
+	by smtp.gmail.com with ESMTPSA id t2sm2402127qkm.11.2019.05.16.05.20.37
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 16 May 2019 05:20:34 -0700 (PDT)
-Date: Thu, 16 May 2019 08:20:32 -0400
+	Thu, 16 May 2019 05:20:39 -0700 (PDT)
+Date: Thu, 16 May 2019 08:20:35 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Message-ID: <1556808723-226478-6-git-send-email-imammedo@redhat.com>
+Message-ID: <1556808723-226478-7-git-send-email-imammedo@redhat.com>
 References: <20190515121146.7248-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <20190515121146.7248-1-mst@redhat.com>
 X-Mailer: git-send-email 2.17.1.1206.gb667731e2e.dirty
 X-Mutt-Fcc: =sent
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.160.179
-Subject: [Qemu-devel] [PULL 27/37] tests: acpi: fetch X_DSDT if pointer to
- DSDT is 0
+X-Received-From: 209.85.160.196
+Subject: [Qemu-devel] [PULL 28/37] tests: acpi: skip FACS table if board
+ uses hw reduced ACPI profile
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -72,58 +74,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Laurent Vivier <lvivier@redhat.com>,
 	Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 	Wei Yang <richardw.yang@linux.intel.com>,
-	Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
+	Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+	Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Igor Mammedov <imammedo@redhat.com>
 
-that way it would be possible to test a DSDT pointed by
-64bit X_DSDT field in FADT.
-
-PS:
-it will allow to enable testing arm/virt board, which sets
-only newer X_DSDT field.
+If FADT has HW_REDUCED_ACPI flag set, do not attempt to fetch
+FACS as it's not provided by the board.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Message-Id: <1556808723-226478-6-git-send-email-imammedo@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Wei Yang <richardw.yang@linux.intel.com>
+Message-Id: <1556808723-226478-7-git-send-email-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/bios-tables-test.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ tests/bios-tables-test.c | 10 +++++++---
+ 1 file changed, 7 insertions(+), 3 deletions(-)
 
 diff --git a/tests/bios-tables-test.c b/tests/bios-tables-test.c
-index a164d274a2..d165a1bd62 100644
+index d165a1bd62..e2fc34143d 100644
 --- a/tests/bios-tables-test.c
 +++ b/tests/bios-tables-test.c
-@@ -140,6 +140,9 @@ static void test_acpi_fadt_table(test_data *data)
-     AcpiSdtTable table = g_array_index(data->tables, typeof(table), 0);
-     uint8_t *fadt_aml = table.aml;
-     uint32_t fadt_len = table.aml_len;
-+    uint32_t val;
-+    int dsdt_offset = 40 /* DSDT */;
-+    int dsdt_entry_size = 4;
- 
+@@ -147,9 +147,13 @@ static void test_acpi_fadt_table(test_data *data)
      g_assert(compare_signature(&table, "FACP"));
  
-@@ -148,8 +151,14 @@ static void test_acpi_fadt_table(test_data *data)
-                      fadt_aml + 36 /* FIRMWARE_CTRL */, 4, "FACS", false);
-     g_array_append_val(data->tables, table);
- 
-+    memcpy(&val, fadt_aml + dsdt_offset, 4);
+     /* Since DSDT/FACS isn't in RSDT, add them to ASL test list manually */
+-    acpi_fetch_table(data->qts, &table.aml, &table.aml_len,
+-                     fadt_aml + 36 /* FIRMWARE_CTRL */, 4, "FACS", false);
+-    g_array_append_val(data->tables, table);
++    memcpy(&val, fadt_aml + 112 /* Flags */, 4);
 +    val = le32_to_cpu(val);
-+    if (!val) {
-+        dsdt_offset = 140 /* X_DSDT */;
-+        dsdt_entry_size = 8;
++    if (!(val & 1UL << 20 /* HW_REDUCED_ACPI */)) {
++        acpi_fetch_table(data->qts, &table.aml, &table.aml_len,
++                         fadt_aml + 36 /* FIRMWARE_CTRL */, 4, "FACS", false);
++        g_array_append_val(data->tables, table);
 +    }
-     acpi_fetch_table(data->qts, &table.aml, &table.aml_len,
--                     fadt_aml + 40 /* DSDT */, 4, "DSDT", true);
-+                     fadt_aml + dsdt_offset, dsdt_entry_size, "DSDT", true);
-     g_array_append_val(data->tables, table);
  
-     memset(fadt_aml + 36, 0, 4); /* sanitize FIRMWARE_CTRL ptr */
+     memcpy(&val, fadt_aml + dsdt_offset, 4);
+     val = le32_to_cpu(val);
 -- 
 MST
 
