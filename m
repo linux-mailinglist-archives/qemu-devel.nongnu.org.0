@@ -2,51 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8974C20757
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 14:54:24 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54686 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6BF1F207C5
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 15:14:04 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:55860 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRFtv-0004Sl-Jc
-	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 08:54:23 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56204)
+	id 1hRGCx-0003fJ-FB
+	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 09:14:03 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56450)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <berto@igalia.com>) id 1hRFpI-0000k3-5F
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:49:39 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hRFqH-0001dw-4O
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:50:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <berto@igalia.com>) id 1hRFpF-0000gc-3b
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:49:36 -0400
-Received: from fanzine.igalia.com ([91.117.99.155]:51019)
+	(envelope-from <peter.maydell@linaro.org>) id 1hRFqD-0001mn-FZ
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:50:37 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:38438)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <berto@igalia.com>)
-	id 1hRFp8-0000E0-96; Thu, 16 May 2019 08:49:26 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
-	s=20170329; 
-	h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
-	bh=33JXPy6AyDdqngPoYdtqQGEwI/C6yjY5/PW0GvoB14A=; 
-	b=YFaVAZfStqhvCJ8e4NlFs1oDMtg5IEiO4/cg2xqUoWCnc0W/uIeiQQLDgIcmeR6BfUGsbQ7t6HqOcrMXT+erq9V4KkfHIg2UEn2mhABlbh2A1hX/MGcb2rk8aHPvnV7njJ0s63HS7SuVKg4w5iYjoStjzM09XH2vnPnic/l8lX81mlfBNLSL3KEQqWF/3DjMo3u7KSYwuHnKzCjJl6XgaKRcMr4fHEVe7gBsj2eZ7oky4OyedqmXhdXzQhNVj6M+pzkKCOUF0pZqMzW3LqJ5KkRo+mmG9tr9qi63BQlI9vIWMGhpKtom2aIjAh0jIUOFhgmm0LpvNMNHykDXyXXvZw==;
-Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
-	by fanzine.igalia.com with esmtps 
-	(Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
-	id 1hRFom-0005wy-II; Thu, 16 May 2019 14:49:04 +0200
-Received: from berto by mail.igalia.com with local (Exim)
-	id 1hRFom-00060s-Fe; Thu, 16 May 2019 14:49:04 +0200
-From: Alberto Garcia <berto@igalia.com>
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-In-Reply-To: <20190515201503.19069-2-mreitz@redhat.com>
-References: <20190515201503.19069-1-mreitz@redhat.com>
-	<20190515201503.19069-2-mreitz@redhat.com>
-User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
-	(i586-pc-linux-gnu)
-Date: Thu, 16 May 2019 14:49:04 +0200
-Message-ID: <w51ef4yva2n.fsf@maestria.local.igalia.com>
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hRFqB-0001hC-10
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:50:31 -0400
+Received: by mail-oi1-x241.google.com with SMTP id u199so2394884oie.5
+	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 05:50:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=RAGm2eojEsJmTRqIVa/btgSfZPQBtSL47sejD+InDmU=;
+	b=uKgJHhpDNOQae6YiA0y5UeVg9d17tYYiucJvczEA4HFudEAGGFFZTbv6MTApe1Lsm5
+	Nq5y5Lvptr493bmKFX5O9Y/qXdfu+rQepN6MhHLvYTEgA68awZG7ZF/MBqIUvEZ1yzju
+	GVENDxXpeBvUzlPCSTX4okCCPCk8VtL0LH9pUm/B6v4QJgDZfp7M759F69/yIJRKONsM
+	HM7hwBMVikNH0cftUVgu/p0E/VJ38tY8Ts0M1gtn0shoeuWQ3OSAR7Osx3DbruV8un75
+	zBe8I1jHya4T/hJ1FqotCzYc9U4fUMFecJoyJ8V/coxVfaWXtVlBEEK82Y4Y0sAfjGi9
+	lUzA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=RAGm2eojEsJmTRqIVa/btgSfZPQBtSL47sejD+InDmU=;
+	b=nQWJXQjPgBMBPc37VGxWiRdtnv2blQsV3q/0dMjZRvOuIdxsZLK7S6s8Ze0ZDihp8r
+	Z05/UicE9YhQr+Btw6H8VLDf+xUULg74OIJ6mxQFUD/vPVsFlhMihu/112XmfAHeAD2z
+	HE1X/Kzf6ZRYiiKj0syD1j1CD/MyxlU8kWC6WM7P6KsLP2f+viFQuWlA/Sv0ZyCp91t4
+	3u4+O5kM51YbcjmeWz9uak2lO2lhjspkZ8qvinTsK+Qp+kc/SI1eRt8RNmEPTwVHXxA1
+	f6QMnXpL9XlFhWMc+TQyHfWsWBAubcslsvEot8zJsyEZLCz9QCQp4LlPyzRVrVP3aRpC
+	/QOw==
+X-Gm-Message-State: APjAAAXskRzG1Zw2cd6hQ+5r/K3YqmOuw+1Lfw9YOuLH50qXCD4fEjXG
+	pf2jwhVw0ftHuGvS5q4FB/XHwSAVVzu1d1Xk/Lz3aw==
+X-Google-Smtp-Source: APXvYqyK67LNNQLzjDxIuUVYzFutOS2qV9YXCdpD7k1w0Exn27AdrIQnl+KWxO5GNU0U6U+YdgYR2Zi31/SlSwYATpc=
+X-Received: by 2002:aca:5785:: with SMTP id l127mr9418993oib.48.1558011027532; 
+	Thu, 16 May 2019 05:50:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
-	timestamps) [generic] [fuzzy]
-X-Received-From: 91.117.99.155
-Subject: Re: [Qemu-devel] [PATCH 1/4] block: Improve "Block node is
- read-only" message
+References: <20190504120528.6389-1-pbonzini@redhat.com>
+	<877eb4c3jm.fsf@zen.linaroharston>
+	<CAFEAcA_+baJCxf1vQMJJP2cwzZ3snyHNJTWWgUqo26vUPKfszQ@mail.gmail.com>
+	<20190515094830.GB29507@stefanha-x1.localdomain>
+In-Reply-To: <20190515094830.GB29507@stefanha-x1.localdomain>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 16 May 2019 13:50:15 +0100
+Message-ID: <CAFEAcA-XC3UjNxRZ5OU5i16Nc515rYoaxEhMVc+8nD1M+VZVVg@mail.gmail.com>
+To: Stefan Hajnoczi <stefanha@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::241
+Subject: Re: [Qemu-devel] [Qemu-block] [PATCH 0/9] Assembly coroutine
+ backend and x86 CET support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,19 +77,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
-	Max Reitz <mreitz@redhat.com>
+Cc: Richard Henderson <richard.henderson@linaro.org>,
+	Cornelia Huck <cohuck@redhat.com>,
+	=?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>,
+	QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed 15 May 2019 10:15:00 PM CEST, Max Reitz wrote:
-> This message does not make any sense when it appears as the response to
-> making an R/W node read-only.  We should detect that case and emit a
-> different message, then.
+On Wed, 15 May 2019 at 10:48, Stefan Hajnoczi <stefanha@gmail.com> wrote:
 >
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> On Thu, May 09, 2019 at 02:44:39PM +0100, Peter Maydell wrote:
+> > On Sun, 5 May 2019 at 16:41, Alex Benn=C3=A9e <alex.bennee@linaro.org> =
+wrote:
+> > >
+> > >
+> > > Paolo Bonzini <pbonzini@redhat.com> writes:
+> > >
+> > > > *** BLURB HERE ***
+> > >
+> > > I assume there was going to be a bit more background here?
+> >
+> > Mmm, could we have the rationale, please ?
+>
+> Paolo can add more if necessary, but my understanding is:
+>
+> 1. It's required for Intel Control-flow Enforcement Technology (CET).
+>    The existing ucontext backend doesn't work with CET.
+> 2. It's faster than the existing ucontext implementation.
 
-Reviewed-by: Alberto Garcia <berto@igalia.com>
+Mmm, I think we've talked about 1 before, but I think it would
+be useful to clearly state why we need to do things here.
+It's also useful for identifying whether we need an asm
+backend for every host, or only some hosts (and if so which).
 
-Berto
+I'm unconvinced by 2 as a rationale for adding more host asm.
+Coroutines were already bad enough when they were at least
+vaguely portable C code.
+
+thanks
+-- PMM
 
