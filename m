@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE14E209E8
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 16:39:29 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:59194 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E560F209DA
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 16:36:50 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:59165 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRHXd-0003iR-0K
-	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 10:39:29 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55341)
+	id 1hRHV4-0001LD-3V
+	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 10:36:50 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55324)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <anton.nefedov@virtuozzo.com>) id 1hRHRs-00080l-S8
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 10:33:34 -0400
+	(envelope-from <anton.nefedov@virtuozzo.com>) id 1hRHRs-000806-HH
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 10:33:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <anton.nefedov@virtuozzo.com>) id 1hRHRr-0004KO-GN
+	(envelope-from <anton.nefedov@virtuozzo.com>) id 1hRHRr-0004KH-H6
 	for qemu-devel@nongnu.org; Thu, 16 May 2019 10:33:32 -0400
-Received: from relay.sw.ru ([185.231.240.75]:39672)
+Received: from relay.sw.ru ([185.231.240.75]:39674)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <anton.nefedov@virtuozzo.com>)
-	id 1hRHRm-0004DP-Ur; Thu, 16 May 2019 10:33:27 -0400
+	id 1hRHRm-0004DZ-VL; Thu, 16 May 2019 10:33:27 -0400
 Received: from [172.16.25.154] (helo=xantnef-ws.sw.ru)
 	by relay.sw.ru with esmtp (Exim 4.91)
 	(envelope-from <anton.nefedov@virtuozzo.com>)
-	id 1hRHRl-0007Lk-Ff; Thu, 16 May 2019 17:33:25 +0300
+	id 1hRHRl-0007Lk-M2; Thu, 16 May 2019 17:33:25 +0300
 From: Anton Nefedov <anton.nefedov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Date: Thu, 16 May 2019 17:33:08 +0300
-Message-Id: <20190516143314.81302-4-anton.nefedov@virtuozzo.com>
+Date: Thu, 16 May 2019 17:33:09 +0300
+Message-Id: <20190516143314.81302-5-anton.nefedov@virtuozzo.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190516143314.81302-1-anton.nefedov@virtuozzo.com>
 References: <20190516143314.81302-1-anton.nefedov@virtuozzo.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH v8 3/9] block: add empty account cookie type
+Subject: [Qemu-devel] [PATCH v8 4/9] ide: account UNMAP (TRIM) operations
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -52,61 +52,46 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This adds some protection from accounting uninitialized cookie.
-That is, block_acct_failed/done without previous block_acct_start;
-in that case, cookie probably holds values from previous operation.
-
-(Note: it might also be uninitialized holding garbage value and there is
- still "< BLOCK_MAX_IOTYPE" assertion for that.
- So block_acct_failed/done without previous block_acct_start should be used
- with caution.)
-
-Currently this is particularly useful in ide code where it's hard to
-keep track whether the request started accounting or not. For example,
-trim requests do the accounting separately.
-
 Signed-off-by: Anton Nefedov <anton.nefedov@virtuozzo.com>
+Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
 ---
- include/block/accounting.h | 1 +
- block/accounting.c         | 6 ++++++
- 2 files changed, 7 insertions(+)
+ hw/ide/core.c | 12 ++++++++++++
+ 1 file changed, 12 insertions(+)
 
-diff --git a/include/block/accounting.h b/include/block/accounting.h
-index ba8b04d572..878b4c3581 100644
---- a/include/block/accounting.h
-+++ b/include/block/accounting.h
-@@ -33,6 +33,7 @@ typedef struct BlockAcctTimedStats BlockAcctTimedStats;
- typedef struct BlockAcctStats BlockAcctStats;
+diff --git a/hw/ide/core.c b/hw/ide/core.c
+index 6afadf894f..3a7ac93777 100644
+--- a/hw/ide/core.c
++++ b/hw/ide/core.c
+@@ -441,6 +441,14 @@ static void ide_issue_trim_cb(void *opaque, int ret)
+     TrimAIOCB *iocb = opaque;
+     IDEState *s = iocb->s;
  
- enum BlockAcctType {
-+    BLOCK_ACCT_NONE = 0,
-     BLOCK_ACCT_READ,
-     BLOCK_ACCT_WRITE,
-     BLOCK_ACCT_FLUSH,
-diff --git a/block/accounting.c b/block/accounting.c
-index 70a3d9a426..8d41c8a83a 100644
---- a/block/accounting.c
-+++ b/block/accounting.c
-@@ -195,6 +195,10 @@ static void block_account_one_io(BlockAcctStats *stats, BlockAcctCookie *cookie,
- 
-     assert(cookie->type < BLOCK_MAX_IOTYPE);
- 
-+    if (cookie->type == BLOCK_ACCT_NONE) {
-+        return;
++    if (iocb->i >= 0) {
++        if (ret >= 0) {
++            block_acct_done(blk_get_stats(s->blk), &s->acct);
++        } else {
++            block_acct_failed(blk_get_stats(s->blk), &s->acct);
++        }
 +    }
 +
-     qemu_mutex_lock(&stats->lock);
+     if (ret >= 0) {
+         while (iocb->j < iocb->qiov->niov) {
+             int j = iocb->j;
+@@ -458,10 +466,14 @@ static void ide_issue_trim_cb(void *opaque, int ret)
+                 }
  
-     if (failed) {
-@@ -217,6 +221,8 @@ static void block_account_one_io(BlockAcctStats *stats, BlockAcctCookie *cookie,
-     }
+                 if (!ide_sect_range_ok(s, sector, count)) {
++                    block_acct_invalid(blk_get_stats(s->blk), BLOCK_ACCT_UNMAP);
+                     iocb->ret = -EINVAL;
+                     goto done;
+                 }
  
-     qemu_mutex_unlock(&stats->lock);
++                block_acct_start(blk_get_stats(s->blk), &s->acct,
++                                 count << BDRV_SECTOR_BITS, BLOCK_ACCT_UNMAP);
 +
-+    cookie->type = BLOCK_ACCT_NONE;
- }
- 
- void block_acct_done(BlockAcctStats *stats, BlockAcctCookie *cookie)
+                 /* Got an entry! Submit and exit.  */
+                 iocb->aiocb = blk_aio_pdiscard(s->blk,
+                                                sector << BDRV_SECTOR_BITS,
 -- 
 2.17.1
 
