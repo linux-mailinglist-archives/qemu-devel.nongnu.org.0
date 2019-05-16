@@ -2,80 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16FD82040C
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 13:04:55 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52138 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C6A04204D4
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 13:40:32 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52581 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hREBy-0004nS-1t
-	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 07:04:54 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57747)
+	id 1hREkR-0005KF-H4
+	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 07:40:31 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36945)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hREAI-0004CV-CR
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 07:03:13 -0400
+	(envelope-from <berrange@redhat.com>) id 1hREjS-00051A-2P
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 07:39:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hREAH-0005sD-Ar
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 07:03:10 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34212)
+	(envelope-from <berrange@redhat.com>) id 1hREjQ-0005AN-47
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 07:39:30 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:14903)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hREAE-0005lq-Pf; Thu, 16 May 2019 07:03:07 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
-	[10.5.11.11])
+	(Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hREjP-000590-UP
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 07:39:28 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id EE88C3082A9A;
-	Thu, 16 May 2019 11:03:05 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-204-34.brq.redhat.com
-	[10.40.204.34])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 8D3016A24B;
-	Thu, 16 May 2019 11:03:04 +0000 (UTC)
-To: qemu-block@nongnu.org
-References: <20190513155254.27773-1-mreitz@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
-	mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
-	/PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
-	U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
-	mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
-	awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
-	AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
-	CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
-	B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
-	2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
-	AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
-	8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
-	4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
-	BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
-	xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
-	W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
-	DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
-	64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
-	ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
-	sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
-	alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
-	/ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
-	bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
-	R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <7886115c-a73e-607d-6487-5cf68a3da756@redhat.com>
-Date: Thu, 16 May 2019 13:03:02 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	by mx1.redhat.com (Postfix) with ESMTPS id DDDBD30917F1;
+	Thu, 16 May 2019 11:39:25 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-112-59.ams2.redhat.com
+	[10.36.112.59])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 504BE60DC8;
+	Thu, 16 May 2019 11:39:23 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Thu, 16 May 2019 12:39:22 +0100
+Message-Id: <20190516113922.8383-1-berrange@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <20190513155254.27773-1-mreitz@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature";
-	boundary="jUu44DSJO1pRd9A8aiVGoGfilCMQA0LhQ"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.45]);
-	Thu, 16 May 2019 11:03:06 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.41]);
+	Thu, 16 May 2019 11:39:25 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PATCH v2] iotests: Filter 175's allocation
- information
+Subject: [Qemu-devel] [PATCH] configure: only link capstone to emulation
+ targets
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -87,96 +56,78 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Nir Soffer <nsoffer@redhat.com>, Kevin Wolf <kwolf@redhat.com>,
-	Thomas Huth <thuth@redhat.com>, qemu-devel@nongnu.org
+Cc: Paolo Bonzini <pbonzini@redhat.com>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	=?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---jUu44DSJO1pRd9A8aiVGoGfilCMQA0LhQ
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Cc: qemu-devel@nongnu.org, Thomas Huth <thuth@redhat.com>,
- Nir Soffer <nsoffer@redhat.com>, Kevin Wolf <kwolf@redhat.com>
-Message-ID: <7886115c-a73e-607d-6487-5cf68a3da756@redhat.com>
-Subject: Re: [PATCH v2] iotests: Filter 175's allocation information
-References: <20190513155254.27773-1-mreitz@redhat.com>
-In-Reply-To: <20190513155254.27773-1-mreitz@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+Only the emulators link to code that uses capstone, so adding it to the
+global LIBs places undesirable dependancies on other binaries, in
+particular the tools.
 
-On 13.05.19 17:52, Max Reitz wrote:
-> It is possible for an empty file to take up blocks on a filesystem.
-> Make iotest 175 take this into account.
->=20
-> Reported-by: Thomas Huth <thuth@redhat.com>
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
-> v2: [Nir]
-> - Use a function for filtering
-> - s/empty_blocks/extra_blocks/
-> ---
->  tests/qemu-iotests/175     | 26 ++++++++++++++++++++++----
->  tests/qemu-iotests/175.out |  8 ++++----
->  2 files changed, 26 insertions(+), 8 deletions(-)
->=20
-> diff --git a/tests/qemu-iotests/175 b/tests/qemu-iotests/175
-> index d0ffc495c2..b5eb0aa856 100755
-> --- a/tests/qemu-iotests/175
-> +++ b/tests/qemu-iotests/175
-> @@ -28,10 +28,25 @@ status=3D1	# failure is the default!
-> =20
->  _cleanup()
->  {
-> -	_cleanup_test_img
-> +    _cleanup_test_img
-> +    rm -f "$TEST_DIR/empty"
->  }
->  trap "_cleanup; exit \$status" 0 1 2 3 15
-> =20
-> +# Some file systems sometimes allocate extra blocks independently of
-> +# the file size.  This function hides the resulting difference in the
-> +# stat -c '%b' output.
-> +# Parameter 1: Number of blocks an empty file occupies
-> +# Parameter 2: Image size in bytes
-> +_filter_blocks()
-> +{
-> +    extra_blocks=3D$1
-> +    img_size=3D$2
-> +
-> +    sed -e "s/blocks=3D$extra_blocks/nothing allocated/" \
-> +        -e "s/blocks=3D$((extra_blocks + img_size / 512))/everything a=
-llocated/"
+There is no variable that covers both user emulation and machine
+emulation, so add a new "$libs_cpu" for this purpose.
 
-Only now got around to creating an FS with similar characteristics to
-Thomas=E2=80=99s.  Turns out this test still fails there because it print=
-s
-=E2=80=9Cblocks=3Dnothing allocated050=E2=80=9D...
+In particular this removes the 8 MB capstone dep from the things
+qemu-img links against, allowing for a more minimal installation
+in scenarios that don't want system emulators installed.
 
-Unless objections arise, I=E2=80=99ll just add a \$ to each pattern to fi=
-x that.
- (I could also just swap the lines, but that isn=E2=80=99t really right.)=
+Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+---
+ Makefile.target | 1 +
+ configure       | 6 ++++--
+ 2 files changed, 5 insertions(+), 2 deletions(-)
 
+diff --git a/Makefile.target b/Makefile.target
+index ae02495951..15e5191f36 100644
+--- a/Makefile.target
++++ b/Makefile.target
+@@ -117,6 +117,7 @@ obj-$(CONFIG_TCG) +=3D fpu/softfloat.o
+ obj-y +=3D target/$(TARGET_BASE_ARCH)/
+ obj-y +=3D disas.o
+ obj-$(call notempty,$(TARGET_XML_FILES)) +=3D gdbstub-xml.o
++LIBS :=3D $(libs_cpu) $(LIBS)
+=20
+ #########################################################
+ # Linux user emulator target
+diff --git a/configure b/configure
+index 8999698bc2..64f09c5905 100755
+--- a/configure
++++ b/configure
+@@ -289,6 +289,7 @@ audio_drv_list=3D""
+ block_drv_rw_whitelist=3D""
+ block_drv_ro_whitelist=3D""
+ host_cc=3D"cc"
++libs_cpu=3D""
+ libs_softmmu=3D""
+ libs_tools=3D""
+ audio_pt_int=3D""
+@@ -5015,12 +5016,12 @@ case "$capstone" in
+     else
+       LIBCAPSTONE=3Dlibcapstone.a
+     fi
+-    LIBS=3D"-L\$(BUILD_DIR)/capstone -lcapstone $LIBS"
++    libs_cpu=3D"-L\$(BUILD_DIR)/capstone -lcapstone $libs_cpu"
+     ;;
+=20
+   system)
+     QEMU_CFLAGS=3D"$QEMU_CFLAGS $($pkg_config --cflags capstone)"
+-    LIBS=3D"$($pkg_config --libs capstone) $LIBS"
++    libs_cpu=3D"$($pkg_config --libs capstone) $libs_cpu"
+     ;;
+=20
+   no)
+@@ -6488,6 +6489,7 @@ echo "qemu_helperdir=3D$libexecdir" >> $config_host=
+_mak
+ echo "qemu_localedir=3D$qemu_localedir" >> $config_host_mak
+ echo "qemu_icondir=3D$qemu_icondir" >> $config_host_mak
+ echo "qemu_desktopdir=3D$qemu_desktopdir" >> $config_host_mak
++echo "libs_cpu=3D$libs_cpu" >> $config_host_mak
+ echo "libs_softmmu=3D$libs_softmmu" >> $config_host_mak
+ echo "GIT=3D$git" >> $config_host_mak
+ echo "GIT_SUBMODULES=3D$git_submodules" >> $config_host_mak
+--=20
+2.21.0
 
-Max
-
-
---jUu44DSJO1pRd9A8aiVGoGfilCMQA0LhQ
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAlzdQ2YACgkQ9AfbAGHV
-z0BzqAgAwYK056qY9M21foi1JFxjsQtaMVjZjfxxzQbjFaDAc3PvpcYbsPvMH2y1
-0AKxCWDyJBxSNpBEgNJvv/6IbvkXfbpLrfNMdvO3eCoFKetYRcWhnM5D48v1d7bq
-jfal8qf6qss3nnKzLdbVVuf8BC4wRJAHp/oU+1klE46yR166CU7GR4lEUCRS2Iwb
-uTsITb1riqjy+GGVCjqDKg2qb0/RaPXyLZDe1lZIhhA2awv6UObiW2JEDU7KwWJv
-Yc+t79FrHQ6o01MfDj8QwTf8vVJdQ+aX1nALjuypN2/4EZ+HULbMCBArc8/hK2rD
-+1twkYBLJAaABbjyVYoT68G/InqtjA==
-=NziM
------END PGP SIGNATURE-----
-
---jUu44DSJO1pRd9A8aiVGoGfilCMQA0LhQ--
 
