@@ -2,46 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2F8120A0C
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 16:45:18 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:59323 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0DFBB20A2D
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 16:53:05 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:59496 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRHdF-0000c0-US
-	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 10:45:17 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57884)
+	id 1hRHkm-00061c-6N
+	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 10:53:04 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58855)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hRHbR-0007yz-VD
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 10:43:27 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hRHfX-0002Ze-8d
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 10:47:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hRHbQ-0002oI-OZ
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 10:43:25 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34198)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hRHbO-0002kk-2Z; Thu, 16 May 2019 10:43:22 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 63C03300180C;
-	Thu, 16 May 2019 14:43:21 +0000 (UTC)
-Received: from localhost (ovpn-204-34.brq.redhat.com [10.40.204.34])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id F0EB010027C4;
-	Thu, 16 May 2019 14:43:20 +0000 (UTC)
-From: Max Reitz <mreitz@redhat.com>
-To: qemu-block@nongnu.org
-Date: Thu, 16 May 2019 16:43:19 +0200
-Message-Id: <20190516144319.12570-1-mreitz@redhat.com>
+	(envelope-from <peter.maydell@linaro.org>) id 1hRHfV-0008Dw-UB
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 10:47:39 -0400
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:41764)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hRHfV-0008Bf-HP
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 10:47:37 -0400
+Received: by mail-wr1-x443.google.com with SMTP id g12so3446110wro.8
+	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 07:47:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=fdK5c58nnMRXpbn7bDsZcFXFZe6V1MTgfq5dHpHbPUU=;
+	b=Y863flINpkjnHg8eEMKgNUbADagVXogPOlbLeGJ9smdp1s43kvQLWXTq4vYxCTht5e
+	CA9AhJFMD8xGPw/mCN6g/NgxAANqX1J3RJR1Xd/UBiekM6I1MEnOCexemWRAjYObotEV
+	eYZKllxuzznoFPpmWjhY3O3PHEQFDOt815OaTkqt+oE8xr+Ad6H4qn7nUCSoWRQ/4P4v
+	Ys9NhaKnLcbZwkAKgO8hba00bjBF7L3Mx9/B1p6ZJnUXnJTXat2qjt2zx67n3HoiyIRX
+	ldoKrIHGSKUJv+PWvs9Utms/SeZ6N31I85JC4KEcrTUMWVfrDNtbhtPaECRxbbbutHES
+	m85A==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=fdK5c58nnMRXpbn7bDsZcFXFZe6V1MTgfq5dHpHbPUU=;
+	b=OwymSpkNBMO7+1HaRNt/dJbiapzUiTW11e7pl3/1AnJ+fhgwkIV6i36ztSSXH7DmLC
+	oFOskUrHHMCBvKcgng+FRn6wSq36SswgBTHi2JLEk0/h+THCHuND6KWE9xD4hyZoQNr/
+	o7g3RWKlopTv+FqjJpF2rZd7k1OWjWrESoo6tlwT1IbiMBvbWwcGbdEF+K2W7fWinvul
+	CKfWmubvwslBeiAMij0nZ6brOyOSD2yyKfZ6HIqqLAyjun8+Qv+Og5Up7ubCQwNUw4Sr
+	6FZr5Y2szCBTEJ0JcMttusXY0vEjlQKJbgX+A6VfwouI4QyxyQkk52T0wpNBiOHUTrH3
+	Ts8A==
+X-Gm-Message-State: APjAAAVz4bPDtdTX7iVfDFpZDJr0yiIfq7hHiCpwfCRyPkEaTh+DX3FT
+	Rh/gT4BtVRBfc9LYQpU3lTDcpg==
+X-Google-Smtp-Source: APXvYqyjGI/8Nr4nOqFbMP7HGLLaszB+rkh0BFlBd1lvdFImsUtwDnCFAizbLvXnl3Zaoq98/X5DJQ==
+X-Received: by 2002:adf:f8ce:: with SMTP id f14mr2333588wrq.110.1558018055916; 
+	Thu, 16 May 2019 07:47:35 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+	by smtp.gmail.com with ESMTPSA id o8sm7629018wra.4.2019.05.16.07.47.34
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Thu, 16 May 2019 07:47:34 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Date: Thu, 16 May 2019 15:47:29 +0100
+Message-Id: <20190516144733.32399-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.40]);
-	Thu, 16 May 2019 14:43:21 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3] iotests: Filter 175's allocation information
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2a00:1450:4864:20::443
+Subject: [Qemu-devel] [PATCH v2 0/4] hw/arm/boot: handle large Images more
+ gracefully
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -53,144 +77,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Thomas Huth <thuth@redhat.com>,
-	qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>,
-	Nir Soffer <nsoffer@redhat.com>
+Cc: Mark Rutland <mark.rutland@arm.com>,
+	Richard Henderson <richard.henderson@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It is possible for an empty file to take up blocks on a filesystem, for
-example:
 
-$ qemu-img create -f raw test.img 1G
-Formatting 'test.img', fmt=3Draw size=3D1073741824
-$ mkfs.ext4 -I 128 -q test.img
-$ mkdir test-mount
-$ sudo mount -o loop test.img test-mount
-$ sudo touch test-mount/test-file
-$ stat -c 'blocks=3D%b' test-mount/test-file
-blocks=3D8
+This patchset attempts to fix https://bugs.launchpad.net/qemu/+bug/1823998
+which reports that we don't handle kernels larger than 128MB
+correctly, because we allow the initrd to be placed over the
+tail end of the kernel. AArch64 kernel Image files (since v3.17)
+report the total size they require (including any BSS area that
+isn't in the Image itself), so we can use that to be sure we
+place the initrd sufficiently far into the RAM.
 
-These extra blocks (one cluster) are apparently used for metadata,
-because they are always there, on top of blocks used for data:
+Patches 1 and 2 are new since v1; patches 3 and 4 are the old
+patches 1 and 2 (and are basically unchanged since v1).
 
-$ sudo dd if=3D/dev/zero of=3Dtest-mount/test-file bs=3D1M count=3D1
-1+0 records in
-1+0 records out
-1048576 bytes (1.0 MB, 1.0 MiB) copied, 0.00135339 s, 775 MB/s
-$ stat -c 'blocks=3D%b' test-mount/test-file
-blocks=3D2056
+Patches 1 and 2 in this series are new. Patch 1 fixes bugs
+in the existing code where we were assuming that we could
+treat info->ram_size as the address of the end of RAM, which
+isn't true if the RAM doesn't start at address 0. (This
+generally went unnoticed thanks to the magic of unsigned integer
+underflow turning end-start calculations into very large max_size
+values for load_ramdisk_as() and friends.)
+Patch 2 adds some explicit checks that we don't try to put things
+entirely off the end of RAM (which avoids those accidental
+underflows).
+Patch 3 in this series adjusts our "where do we put the initrd"
+heuristic so that it always places it at least after whatever
+our best guess at the kernel size is. (This might still not
+be right for images like self-decompressing 32-bit kernels, where
+there's no way to know how big the kernel will be after
+decompression.)
+Patch 4 makes load_aarch64_image() return the
+kernel size as indicated in the Image file header, so that for
+the specific case of AArch64 Image files we will definitely not
+put the initrd on top of them.
 
-Make iotest 175 take this into account.
+thanks
+-- PMM
 
-Reported-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Eric Blake <eblake@redhat.com>
-Reviewed-by: Nir Soffer <nsoffer@redhat.com>
----
-v3:
-- Actually tested this on an FS with the behavior in question and
-  noticed the patterns were lacking a $.  Since I'm now sending a v3
-  anyway, I might as well fix it with the heavy hammer and make it a
-  ($|[^0-9]).
-- Added example configuration to the commit message [Nir]
-- Kept the R-bs because I didn't feel too bad about doing so.
----
- tests/qemu-iotests/175     | 26 ++++++++++++++++++++++----
- tests/qemu-iotests/175.out |  8 ++++----
- 2 files changed, 26 insertions(+), 8 deletions(-)
+Peter Maydell (4):
+  hw/arm/boot: Don't assume RAM starts at address zero
+  hw/arm/boot: Diagnose layouts that put initrd or DTB off the end of
+    RAM
+  hw/arm/boot: Avoid placing the initrd on top of the kernel
+  hw/arm/boot: Honour image size field in AArch64 Image format kernels
 
-diff --git a/tests/qemu-iotests/175 b/tests/qemu-iotests/175
-index d0ffc495c2..51e62c8276 100755
---- a/tests/qemu-iotests/175
-+++ b/tests/qemu-iotests/175
-@@ -28,10 +28,25 @@ status=3D1	# failure is the default!
-=20
- _cleanup()
- {
--	_cleanup_test_img
-+    _cleanup_test_img
-+    rm -f "$TEST_DIR/empty"
- }
- trap "_cleanup; exit \$status" 0 1 2 3 15
-=20
-+# Some file systems sometimes allocate extra blocks independently of
-+# the file size.  This function hides the resulting difference in the
-+# stat -c '%b' output.
-+# Parameter 1: Number of blocks an empty file occupies
-+# Parameter 2: Image size in bytes
-+_filter_blocks()
-+{
-+    extra_blocks=3D$1
-+    img_size=3D$2
-+
-+    sed -e "s/blocks=3D$extra_blocks\\(\$\\|[^0-9]\\)/nothing allocated/=
-" \
-+        -e "s/blocks=3D$((extra_blocks + img_size / 512))\\(\$\\|[^0-9]\=
-\)/everything allocated/"
-+}
-+
- # get standard environment, filters and checks
- . ./common.rc
- . ./common.filter
-@@ -40,18 +55,21 @@ _supported_fmt raw
- _supported_proto file
- _supported_os Linux
-=20
--size=3D1m
-+size=3D$((1 * 1024 * 1024))
-+
-+touch "$TEST_DIR/empty"
-+extra_blocks=3D$(stat -c '%b' "$TEST_DIR/empty")
-=20
- echo
- echo "=3D=3D creating image with default preallocation =3D=3D"
- _make_test_img $size | _filter_imgfmt
--stat -c "size=3D%s, blocks=3D%b" $TEST_IMG
-+stat -c "size=3D%s, blocks=3D%b" $TEST_IMG | _filter_blocks $extra_block=
-s $size
-=20
- for mode in off full falloc; do
-     echo
-     echo "=3D=3D creating image with preallocation $mode =3D=3D"
-     IMGOPTS=3Dpreallocation=3D$mode _make_test_img $size | _filter_imgfm=
-t
--    stat -c "size=3D%s, blocks=3D%b" $TEST_IMG
-+    stat -c "size=3D%s, blocks=3D%b" $TEST_IMG | _filter_blocks $extra_b=
-locks $size
- done
-=20
- # success, all done
-diff --git a/tests/qemu-iotests/175.out b/tests/qemu-iotests/175.out
-index 76c02c6a57..6d9a5ed84e 100644
---- a/tests/qemu-iotests/175.out
-+++ b/tests/qemu-iotests/175.out
-@@ -2,17 +2,17 @@ QA output created by 175
-=20
- =3D=3D creating image with default preallocation =3D=3D
- Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1048576
--size=3D1048576, blocks=3D0
-+size=3D1048576, nothing allocated
-=20
- =3D=3D creating image with preallocation off =3D=3D
- Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1048576 preallocatio=
-n=3Doff
--size=3D1048576, blocks=3D0
-+size=3D1048576, nothing allocated
-=20
- =3D=3D creating image with preallocation full =3D=3D
- Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1048576 preallocatio=
-n=3Dfull
--size=3D1048576, blocks=3D2048
-+size=3D1048576, everything allocated
-=20
- =3D=3D creating image with preallocation falloc =3D=3D
- Formatting 'TEST_DIR/t.IMGFMT', fmt=3DIMGFMT size=3D1048576 preallocatio=
-n=3Dfalloc
--size=3D1048576, blocks=3D2048
-+size=3D1048576, everything allocated
-  *** done
---=20
-2.21.0
+ hw/arm/boot.c | 83 ++++++++++++++++++++++++++++++++++++++-------------
+ 1 file changed, 62 insertions(+), 21 deletions(-)
+
+-- 
+2.20.1
 
 
