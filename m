@@ -2,61 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C71AF2070A
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 14:35:04 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53989 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 77E65206DA
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 14:24:45 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53788 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRFbD-0005Rk-Vk
-	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 08:35:04 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49037)
+	id 1hRFRE-0004Cq-Ha
+	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 08:24:44 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49077)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hRFMn-00016f-3h
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:20:12 -0400
+	(envelope-from <mst@redhat.com>) id 1hRFN6-0001Qg-K5
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:20:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hRFMk-0002Lp-1g
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:20:09 -0400
-Received: from mail-qt1-f182.google.com ([209.85.160.182]:41465)
+	(envelope-from <mst@redhat.com>) id 1hRFN2-0002bh-MK
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:20:28 -0400
+Received: from mail-qt1-f172.google.com ([209.85.160.172]:35563)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hRFMj-0002LS-V3
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:20:06 -0400
-Received: by mail-qt1-f182.google.com with SMTP id y22so3542055qtn.8
-	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 05:20:05 -0700 (PDT)
+	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hRFN2-0002Yi-Ix
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:20:24 -0400
+Received: by mail-qt1-f172.google.com with SMTP id a39so3603048qtk.2
+	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 05:20:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to;
-	bh=msyvcVYsP3DYZeJrb9pSd9mjMLqWB65TS3wRXlKOwsQ=;
-	b=PF+F688/Hp4YCpHl4gYcSc4ANt66lIu8NAkgM5eeaE9yuYdTS3BQhi8uHkYFWsgU5C
-	d2bpr9K1AFO74jZ9GFRaZlbiz75MlGZ5BVfAZOXmo31es2ZmFHteYNFcEH2jVkt117Fd
-	+fnfizmINoQUaOYFdBzhDOMWA0cMdzc0wz/jM2GY7V64j0HnzBr1WiRvNPnli7fbIW1C
-	erCLbmg0MQS9KIZ90aHFP5yKL0zA/C31NiY99EoQWlsJLdeClZDaSNZ0wiaL6ioFWkd3
-	jD5cR/veBy9cIX4yWKx9yzbTljn7GvbHM08qnS8L7PU0VoSYy4DwQe91+bkUMa5ZaiJd
-	6g1g==
-X-Gm-Message-State: APjAAAWhpZqBGE4Szo1lwKun2vF5zb84eUMumQVAk+3AYyKVlDJo+pd2
-	pqbqDXuIufbQVGeUt1Uk8H23WfDohsc=
-X-Google-Smtp-Source: APXvYqyRfYw1GT37PHX89n9HICZzwmZT/aTUU+JPqz1SAt5AZIh+esl6IGPkePopXZ1U1msJhZ3siA==
-X-Received: by 2002:a0c:ed4b:: with SMTP id v11mr31371810qvq.126.1558009204973;
-	Thu, 16 May 2019 05:20:04 -0700 (PDT)
-Received: from redhat.com ([185.54.206.10]) by smtp.gmail.com with ESMTPSA id
-	l40sm3706245qtc.32.2019.05.16.05.20.02
+	:mime-version:content-disposition:content-transfer-encoding
+	:in-reply-to;
+	bh=piaSkE/ERpKJsns5vKzok4OQ23eDDJrDOYnvMlbXyMI=;
+	b=HIXOa7D30CI8f1NGHEkgvz6kHjp1VxtRmxXnceEYA7unxj1ISh823+RPrfFMQbShz4
+	+bSM5Jq1kWtB2l7d6t6pbRh747exzEmlRlEY3Iq5R78rLPUOdIt8VV0S4uEO+JwJPRhE
+	uB0UqYPDSzZ8cHL3RrvwfGxesMsFcJ+7ARaLyOUCPSVc5YjNOKAbjiqIRRQONvahuu5Q
+	tTYzUgsvmJzyoq1IynSh75V853tmT8HgiuNHy3fkwROVGJgL59yrzTX81WnUSRwLba4b
+	hGbbmdA1cBSWXdPZHiy6cjET1GOC75K/uJAz1pPjTYARjtUhx7pMzAPNj8EimakredXv
+	lHUA==
+X-Gm-Message-State: APjAAAWZqCwzVMgb9oQ27FaSpFJZQcHXUj1fGlpAnKv0xkCXNFsIE1R9
+	6Fql6ovUDOISwUmqEJIkZeg/ZKOOo7A=
+X-Google-Smtp-Source: APXvYqzLXahNxpGB4WU/DpbfRZqLNQ/XmsBe8jDH4EYs4XYNm3gFr/lskx/B+r2V9UQ4gfOCkHdUUA==
+X-Received: by 2002:ac8:3973:: with SMTP id t48mr41464733qtb.121.1558009219161;
+	Thu, 16 May 2019 05:20:19 -0700 (PDT)
+Received: from redhat.com ([185.54.206.10])
+	by smtp.gmail.com with ESMTPSA id z8sm3073740qth.62.2019.05.16.05.20.17
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 16 May 2019 05:20:04 -0700 (PDT)
-Date: Thu, 16 May 2019 08:20:00 -0400
+	Thu, 16 May 2019 05:20:18 -0700 (PDT)
+Date: Thu, 16 May 2019 08:20:15 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Message-ID: <20190424041959.4087-3-david@gibson.dropbear.id.au>
+Message-ID: <1556808723-226478-2-git-send-email-imammedo@redhat.com>
 References: <20190515121146.7248-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <20190515121146.7248-1-mst@redhat.com>
 X-Mailer: git-send-email 2.17.1.1206.gb667731e2e.dirty
 X-Mutt-Fcc: =sent
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.160.182
-Subject: [Qemu-devel] [PULL 22/37] pci: Simplify pci_bus_is_root()
+X-Received-From: 209.85.160.172
+Subject: [Qemu-devel] [PULL 23/37] tests: acpi: rename
+ acpi_parse_rsdp_table() into acpi_fetch_rsdp_table()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -68,167 +71,84 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Greg Kurz <groug@kaod.org>,
-	Peter Xu <peterx@redhat.com>, Marcel Apfelbaum <marcel@redhat.com>,
-	David Gibson <david@gibson.dropbear.id.au>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+	Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+	Ben Warren <ben@skyportsystems.com>,
+	Wei Yang <richardw.yang@linux.intel.com>,
+	Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+	Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: David Gibson <david@gibson.dropbear.id.au>
+From: Igor Mammedov <imammedo@redhat.com>
 
-pci_bus_is_root() currently relies on a method in the PCIBusClass.
-But it's always known if a PCI bus is a root bus when we create it, so
-using a dynamic method is overkill.
+so name would reflect what the function does
 
-This replaces it with an IS_ROOT bit in a new flags field, which is set on
-root buses and otherwise clear.  As a bonus this removes the special
-is_root logic from pci_expander_bridge, since it already creates its bus
-as a root bus.
-
-Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-Reviewed-by: Marcel Apfelbaum <marcel@redhat.com>
-Reviewed-by: Peter Xu <peterx@redhat.com>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Message-Id: <20190424041959.4087-3-david@gibson.dropbear.id.au>
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Wei Yang <richardw.yang@linux.intel.com>
+Message-Id: <1556808723-226478-2-git-send-email-imammedo@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- include/hw/pci/pci.h                |  1 -
- include/hw/pci/pci_bus.h            | 12 +++++++++++-
- hw/pci-bridge/pci_expander_bridge.c |  6 ------
- hw/pci/pci.c                        | 14 ++------------
- hw/virtio/virtio-pci.c              |  1 +
- 5 files changed, 14 insertions(+), 20 deletions(-)
+ tests/acpi-utils.h       | 2 +-
+ tests/acpi-utils.c       | 2 +-
+ tests/bios-tables-test.c | 2 +-
+ tests/vmgenid-test.c     | 2 +-
+ 4 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/include/hw/pci/pci.h b/include/hw/pci/pci.h
-index fdd4c43d3a..edf44de21d 100644
---- a/include/hw/pci/pci.h
-+++ b/include/hw/pci/pci.h
-@@ -395,7 +395,6 @@ typedef PCIINTxRoute (*pci_route_irq_fn)(void *opaque, int pin);
- #define TYPE_PCIE_BUS "PCIE"
- 
- bool pci_bus_is_express(PCIBus *bus);
--bool pci_bus_is_root(PCIBus *bus);
- bool pci_bus_allows_extended_config_space(PCIBus *bus);
- 
- void pci_root_bus_new_inplace(PCIBus *bus, size_t bus_size, DeviceState *parent,
-diff --git a/include/hw/pci/pci_bus.h b/include/hw/pci/pci_bus.h
-index f6df834170..aea98d5040 100644
---- a/include/hw/pci/pci_bus.h
-+++ b/include/hw/pci/pci_bus.h
-@@ -15,14 +15,19 @@ typedef struct PCIBusClass {
-     BusClass parent_class;
-     /*< public >*/
- 
--    bool (*is_root)(PCIBus *bus);
-     int (*bus_num)(PCIBus *bus);
-     uint16_t (*numa_node)(PCIBus *bus);
-     bool (*allows_extended_config_space)(PCIBus *bus);
- } PCIBusClass;
- 
-+enum PCIBusFlags {
-+    /* This bus is the root of a PCI domain */
-+    PCI_BUS_IS_ROOT                                         = 0x0001,
-+};
-+
- struct PCIBus {
-     BusState qbus;
-+    enum PCIBusFlags flags;
-     PCIIOMMUFunc iommu_fn;
-     void *iommu_opaque;
-     uint8_t devfn_min;
-@@ -47,4 +52,9 @@ struct PCIBus {
-     Notifier machine_done;
- };
- 
-+static inline bool pci_bus_is_root(PCIBus *bus)
-+{
-+    return !!(bus->flags & PCI_BUS_IS_ROOT);
-+}
-+
- #endif /* QEMU_PCI_BUS_H */
-diff --git a/hw/pci-bridge/pci_expander_bridge.c b/hw/pci-bridge/pci_expander_bridge.c
-index e62de4218f..ca66bc721a 100644
---- a/hw/pci-bridge/pci_expander_bridge.c
-+++ b/hw/pci-bridge/pci_expander_bridge.c
-@@ -66,11 +66,6 @@ static int pxb_bus_num(PCIBus *bus)
-     return pxb->bus_nr;
+diff --git a/tests/acpi-utils.h b/tests/acpi-utils.h
+index ef388bbf12..4cd5553586 100644
+--- a/tests/acpi-utils.h
++++ b/tests/acpi-utils.h
+@@ -47,7 +47,7 @@ typedef struct {
+ uint8_t acpi_calc_checksum(const uint8_t *data, int len);
+ uint32_t acpi_find_rsdp_address(QTestState *qts);
+ uint64_t acpi_get_xsdt_address(uint8_t *rsdp_table);
+-void acpi_parse_rsdp_table(QTestState *qts, uint32_t addr, uint8_t *rsdp_table);
++void acpi_fetch_rsdp_table(QTestState *qts, uint32_t addr, uint8_t *rsdp_table);
+ void acpi_fetch_table(QTestState *qts, uint8_t **aml, uint32_t *aml_len,
+                       const uint8_t *addr_ptr, const char *sig,
+                       bool verify_checksum);
+diff --git a/tests/acpi-utils.c b/tests/acpi-utils.c
+index cc33b460ab..633d8f513d 100644
+--- a/tests/acpi-utils.c
++++ b/tests/acpi-utils.c
+@@ -63,7 +63,7 @@ uint64_t acpi_get_xsdt_address(uint8_t *rsdp_table)
+     return le64_to_cpu(xsdt_physical_address);
  }
  
--static bool pxb_is_root(PCIBus *bus)
--{
--    return true; /* by definition */
--}
--
- static uint16_t pxb_bus_numa_node(PCIBus *bus)
+-void acpi_parse_rsdp_table(QTestState *qts, uint32_t addr, uint8_t *rsdp_table)
++void acpi_fetch_rsdp_table(QTestState *qts, uint32_t addr, uint8_t *rsdp_table)
  {
-     PXBDev *pxb = convert_to_pxb(bus->parent_dev);
-@@ -83,7 +78,6 @@ static void pxb_bus_class_init(ObjectClass *class, void *data)
-     PCIBusClass *pbc = PCI_BUS_CLASS(class);
+     uint8_t revision;
  
-     pbc->bus_num = pxb_bus_num;
--    pbc->is_root = pxb_is_root;
-     pbc->numa_node = pxb_bus_numa_node;
- }
+diff --git a/tests/bios-tables-test.c b/tests/bios-tables-test.c
+index a506dcbb29..6a678bf761 100644
+--- a/tests/bios-tables-test.c
++++ b/tests/bios-tables-test.c
+@@ -89,7 +89,7 @@ static void test_acpi_rsdp_table(test_data *data)
+     uint8_t *rsdp_table = data->rsdp_table, revision;
+     uint32_t addr = data->rsdp_addr;
  
-diff --git a/hw/pci/pci.c b/hw/pci/pci.c
-index a78023f669..b386777045 100644
---- a/hw/pci/pci.c
-+++ b/hw/pci/pci.c
-@@ -129,14 +129,9 @@ static void pci_bus_unrealize(BusState *qbus, Error **errp)
-     vmstate_unregister(NULL, &vmstate_pcibus, bus);
- }
+-    acpi_parse_rsdp_table(data->qts, addr, rsdp_table);
++    acpi_fetch_rsdp_table(data->qts, addr, rsdp_table);
+     revision = rsdp_table[15 /* Revision offset */];
  
--static bool pcibus_is_root(PCIBus *bus)
--{
--    return !bus->parent_dev;
--}
--
- static int pcibus_num(PCIBus *bus)
- {
--    if (pcibus_is_root(bus)) {
-+    if (pci_bus_is_root(bus)) {
-         return 0; /* pci host bridge */
-     }
-     return bus->parent_dev->config[PCI_SECONDARY_BUS];
-@@ -164,7 +159,6 @@ static void pci_bus_class_init(ObjectClass *klass, void *data)
-     k->unrealize = pci_bus_unrealize;
-     k->reset = pcibus_reset;
+     switch (revision) {
+diff --git a/tests/vmgenid-test.c b/tests/vmgenid-test.c
+index ae38ee5ac0..f400184268 100644
+--- a/tests/vmgenid-test.c
++++ b/tests/vmgenid-test.c
+@@ -40,7 +40,7 @@ static uint32_t acpi_find_vgia(QTestState *qts)
+     g_assert_cmphex(rsdp_offset, <, RSDP_ADDR_INVALID);
  
--    pbc->is_root = pcibus_is_root;
-     pbc->bus_num = pcibus_num;
-     pbc->numa_node = pcibus_numa_node;
-     pbc->allows_extended_config_space = pcibus_allows_extended_config_space;
-@@ -398,6 +392,7 @@ static void pci_root_bus_init(PCIBus *bus, DeviceState *parent,
-     bus->slot_reserved_mask = 0x0;
-     bus->address_space_mem = address_space_mem;
-     bus->address_space_io = address_space_io;
-+    bus->flags |= PCI_BUS_IS_ROOT;
  
-     /* host bridge */
-     QLIST_INIT(&bus->child);
-@@ -415,11 +410,6 @@ bool pci_bus_is_express(PCIBus *bus)
-     return object_dynamic_cast(OBJECT(bus), TYPE_PCIE_BUS);
- }
+-    acpi_parse_rsdp_table(qts, rsdp_offset, rsdp_table);
++    acpi_fetch_rsdp_table(qts, rsdp_offset, rsdp_table);
+     acpi_fetch_table(qts, &rsdt, &rsdt_len, &rsdp_table[16 /* RsdtAddress */],
+                      "RSDT", true);
  
--bool pci_bus_is_root(PCIBus *bus)
--{
--    return PCI_BUS_GET_CLASS(bus)->is_root(bus);
--}
--
- bool pci_bus_allows_extended_config_space(PCIBus *bus)
- {
-     return PCI_BUS_GET_CLASS(bus)->allows_extended_config_space(bus);
-diff --git a/hw/virtio/virtio-pci.c b/hw/virtio/virtio-pci.c
-index 509c1ff555..9056cdfa3c 100644
---- a/hw/virtio/virtio-pci.c
-+++ b/hw/virtio/virtio-pci.c
-@@ -20,6 +20,7 @@
- #include "standard-headers/linux/virtio_pci.h"
- #include "hw/virtio/virtio.h"
- #include "hw/pci/pci.h"
-+#include "hw/pci/pci_bus.h"
- #include "qapi/error.h"
- #include "qemu/error-report.h"
- #include "hw/pci/msi.h"
 -- 
 MST
 
