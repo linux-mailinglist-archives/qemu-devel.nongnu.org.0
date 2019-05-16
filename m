@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8F99E207D8
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 15:18:40 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:56682 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6CC92207E2
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 15:20:58 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:56808 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRGHP-0007Ay-82
-	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 09:18:39 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37650)
+	id 1hRGJd-00008M-Ix
+	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 09:20:57 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38017)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hRGFS-0006St-83
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 09:16:41 -0400
+	(envelope-from <philmd@redhat.com>) id 1hRGGA-0006uN-JC
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 09:17:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hRGFP-0005T5-7I
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 09:16:38 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:43978)
+	(envelope-from <philmd@redhat.com>) id 1hRGG7-0006ID-Ij
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 09:17:22 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:36066)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hRGFP-0005SN-3F
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 09:16:35 -0400
-Received: by mail-ot1-x341.google.com with SMTP id i8so3332526oth.10
-	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 06:16:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=O+6vKJ7GAjY7d6kcEgv0b5n/EE6r45U61pCBh98Ot/4=;
-	b=aZT9zhn0qxVaXBWYPTklFvLQ7U/1ggDjfs34AXe/UR0rq5Q8C8hOHA7Q2fK/b2pqo8
-	0pyNVf6C2moCd66i8OpgdEXWKgIGWbe02nO8cInWf9ObFMjrT+vRQ+/eOx9Sl0IioxMc
-	HorE7/F4GYw8gL2nskm3KnRqpcfASKjEWEjWZ31TDjXzFshjmNOIAWVabNZSX2nUXTFn
-	YlvnNud/6trYvpL1xkaozMka1AzxnpuMnhiJ/cFMvv9cR8qmK3pamaGzFq7PnAGCKXDW
-	i3GPKVP1cCd/HVgUXhm118tQjeeOZ/kHhmA/RdkO6azcd2xfvuevGqZ2dyru/+ZldhCX
-	mlxg==
+	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hRGG7-0006HP-Dl
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 09:17:19 -0400
+Received: by mail-wr1-f67.google.com with SMTP id s17so3402642wru.3
+	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 06:17:19 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=O+6vKJ7GAjY7d6kcEgv0b5n/EE6r45U61pCBh98Ot/4=;
-	b=ioFgee1ThzeGKDSxxYy47yfmvqwrmOLZlcCLM/J/Wh4yEqMHUmp22mACI8F0xyC+lh
-	3Br9QwOKwPUJ75p6OZ5akYUGoN02V4sOpstU42K+0NjcFPnNYrZ4HoECW7p6Q6NvYbb/
-	soe5ccYfHW/WMicmtthdLEjMNwV82QNPUf8nnW5eL6hw6K44qFixC7iU0fgKV3IP5TqF
-	Q08lKOqlecms2bqc1mt8WY9l8Sh5EGkP2NvS333tXHZXPG96q9DBPlCi66sXQ6UafnLN
-	YDzN8C5DrrUaLwv7QRGSCearhLw3tlOc5i1qhr/WVcmK+wxu4qoRXr6GoWsd3T6rOCi5
-	5FFw==
-X-Gm-Message-State: APjAAAXxzGWqWlQ6wEwGGesZDnRDl7Q+0wO7HMbXSsrcRN8dcrqddzmG
-	HjQyUrfGLqjPaOVZPOO/5JpR3TWLQ9fH+qsBZTf1Qw==
-X-Google-Smtp-Source: APXvYqxGdYLi7fy6KBEi84JK7BmiFwOciHn4AYnjYR6Yja2YSvoEh9j4ZZMTM9yXtlt3Aw+s8lLd+lFKD+85yMGwlHs=
-X-Received: by 2002:a05:6830:104b:: with SMTP id
-	b11mr79162otp.146.1558012594407; 
-	Thu, 16 May 2019 06:16:34 -0700 (PDT)
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=iHWMjzB0bghySYRBS19KMrKpotaAEq1EEQ+JesJxvgc=;
+	b=Bg48VRhzv0z55ITG7btvvhnuTeJrQ/qKCehKjVjYY80hbOvtWyQZ0bUbvPiRHBAN/8
+	5c9YJw39oeiOpX4o0RL2F/vph1IWrE9Vuq4uXU1jpqSAzTBcTL5MlNXqQI4mBhN+MsBY
+	8/+SepNhO8dq7+jWxpuvw31q+Gt57yyQAguqEXb+XfH02gr4AbGJi1qSVwFGuJ5WuPqV
+	Y2ydB05Xu/wz+dG0qUlPMJMUo1sZEPQpUIVAkcRgbXSyQwF93YXGc0PzJMD967B9IZcb
+	IPBE/Bdei5w2YV1BQJbFeOllnSJI1v/bygV6cR2389dTKboTWZ+TI8Sp6doJo7oeNdNt
+	TQPQ==
+X-Gm-Message-State: APjAAAW2BFkBA4PNtdxhxQOG9b7GyVrunBzIiL4boXT04WLZNszPMvcz
+	vpQgXgKQry1gmIQ93drJWzkJIQ==
+X-Google-Smtp-Source: APXvYqwwZNqXMi8UM4JbwKlwCoNvoTL3veVtsDt8RAckcnvOoqBfUiqJfxA66a12oF6hfocCzfgYeA==
+X-Received: by 2002:a5d:4fd2:: with SMTP id h18mr5683134wrw.117.1558012638399; 
+	Thu, 16 May 2019 06:17:18 -0700 (PDT)
+Received: from [192.168.1.43] (228.red-83-52-173.dynamicip.rima-tde.net.
+	[83.52.173.228]) by smtp.gmail.com with ESMTPSA id
+	j82sm7145340wmj.40.2019.05.16.06.17.17
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Thu, 16 May 2019 06:17:17 -0700 (PDT)
+To: Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-devel@nongnu.org
+References: <20190516055244.95559-1-ysato@users.sourceforge.jp>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <ecbbd813-abef-2f45-f957-610049377a44@redhat.com>
+Date: Thu, 16 May 2019 15:17:17 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <20190514011129.11330-1-richard.henderson@linaro.org>
-In-Reply-To: <20190514011129.11330-1-richard.henderson@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Thu, 16 May 2019 14:16:23 +0100
-Message-ID: <CAFEAcA_Nj+C+FrUsW_e9Eb9Z20xRgLvQjKWqX_dFxXAvrhwLLw@mail.gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::341
-Subject: Re: [Qemu-devel] [PATCH 0/2] target/arm: Minor bit field
- improvements
+In-Reply-To: <20190516055244.95559-1-ysato@users.sourceforge.jp>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+	[fuzzy]
+X-Received-From: 209.85.221.67
+Subject: Re: [Qemu-devel] [PATCH v13 00/12] Add RX archtecture support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -73,26 +73,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, richard.henderson@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 14 May 2019 at 02:11, Richard Henderson
-<richard.henderson@linaro.org> wrote:
->
-> The tcg extract2 patch on which this depended is now in master.
->
->
-> r~
->
->
-> Richard Henderson (2):
->   target/arm: Use extract2 for EXTR
->   target/arm: Simplify BFXIL expansion
+On 5/16/19 7:52 AM, Yoshinori Sato wrote:
+> Hello.
+> This patch series is added Renesas RX target emulation.
+> 
+> Add "Reviewed-by" for all changes.
+> 
+> My git repository is bellow.
+> git://git.pf.osdn.net/gitroot/y/ys/ysato/qemu.git tags/rx-20190514
+> 
+> Testing binaries bellow.
+> u-boot
+> Download - https://osdn.net/users/ysato/pf/qemu/dl/u-boot.bin.gz
+> 
+> starting
+> $ gzip -d u-boot.bin.gz
+> $ qemu-system-rx -bios u-boot.bin
+> 
+> linux and pico-root (only sash)
+> Download - https://osdn.net/users/ysato/pf/qemu/dl/zImage (kernel)
+>            https://osdn.net/users/ysato/pf/qemu/dl/rx-qemu.dtb (DeviceTree)
+> 
+> starting
+> $ qemu-system-rx -kernel zImage -dtb rx-qemu.dtb -append "earlycon"
+> 
+> Changes for v12.
+> - None
+> 
+> Yoshinori Sato (12):
+>   target/rx: TCG translation
+>   target/rx: TCG helper
+>   target/rx: CPU definition
+>   target/rx: RX disassembler
+>   hw/intc: RX62N interrupt controller (ICUa)
+>   hw/timer: RX62N internal timer modules
+>   hw/char: RX62N serial communication interface (SCI)
+>   hw/rx: RX Target hardware definition
+>   Add rx-softmmu
+>   hw/registerfields.h: Add 8bit and 16bit register macros.
+>   qemu/bitops.h: Add extract8 and extract16
+>   MAINTAINERS: Add RX
 
+Series:
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-
-Applied to target-arm.next, thanks.
-
--- PMM
 
