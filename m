@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49F0D206FF
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 14:33:07 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53944 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0D6F20776
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 15:00:49 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54927 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRFZK-0003qs-DI
-	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 08:33:06 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49294)
+	id 1hRG08-0001WT-Fe
+	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 09:00:48 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49309)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hRFNu-00028M-DI
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:21:21 -0400
+	(envelope-from <mst@redhat.com>) id 1hRFNw-0002AN-Ez
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:21:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hRFNq-0003AD-JR
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:21:18 -0400
-Received: from mail-qt1-f170.google.com ([209.85.160.170]:33222)
+	(envelope-from <mst@redhat.com>) id 1hRFNs-0003BJ-JN
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:21:20 -0400
+Received: from mail-qk1-f196.google.com ([209.85.222.196]:44188)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hRFNq-00038D-Fx
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:21:14 -0400
-Received: by mail-qt1-f170.google.com with SMTP id m32so3620319qtf.0
-	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 05:21:12 -0700 (PDT)
+	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hRFNs-0003AZ-Ex
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:21:16 -0400
+Received: by mail-qk1-f196.google.com with SMTP id w25so2040989qkj.11
+	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 05:21:15 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
 	:mime-version:content-disposition:content-transfer-encoding
 	:in-reply-to;
-	bh=u2BNLjFgXMsWZX1Bykmmqkr55CKToXgVlJnUmjfR1Rc=;
-	b=oM4SzKyox0EvtDphLfbZ1dpeBCP5Q/ZD6oPR1iDo/eJOJZBo3DZBXugYPXMqC6FCJ2
-	pPvOIysBC74ktaaUNeoiRW33B3SAYgWhZf06keJFKTPQJ1MmhF2hT/N6c6WflceyqHCK
-	l/vau2ZLRiQ4IZUgklrWy59/zDF1Q5XbCr9tvZ4QCDh59kUuqKRKiTOfrVrRSesu019+
-	h5j3KOgbFHhkx+GThnLVBkdaLqannReBnZZatNeBFTnrQe/UAus5Nq/AMyWh5AikLFA5
-	Rz7QRsKvSt1+jBBeCie0Xpjt/VF+7fO5QQOI5aVTApcJuVAlEwXdP/M1WTVhA2955bPu
-	SX8A==
-X-Gm-Message-State: APjAAAVVFhicNpD6KI+/Ts4qFDLT8lDcL5X0Hn4Cr+u7ShFivf9p9jo5
-	40LcsEAX0isHmptdD3Rgp93QTcTdwzM=
-X-Google-Smtp-Source: APXvYqxO9ZHFa5yRPBesIXjogJa1BCDYSe2uZsTnbmutCkbOxHRWOhTP8CAPXZ8Eyd+9PPnlNjraUA==
-X-Received: by 2002:ac8:2bb9:: with SMTP id m54mr41649016qtm.303.1558009271324;
-	Thu, 16 May 2019 05:21:11 -0700 (PDT)
+	bh=Z/IfauSZcYb/NvfmZ0aQ9zbqfx97hf0Wl+ffe4WB7Ls=;
+	b=b2CZP7r6Prg3KbMAaro9ehzFbMK6qWOdUKgNmBeo/0JCBmBAGFWhrFdHpU0nwEc1Cv
+	OcXV7sj0Qm5jzjqQs9q+lE4+QpzytXFIBF+p1jaddrsyfF9Jh3NIyYcYVn36RforboEQ
+	spX1AlhkzUoMOu6pc7wklmvcO6x5/sVT/o9idFLFqHySKS2jvOSEcfcMmHXTY1GRdjX0
+	pylcFk4lrOQF3w5DeXOzsV5YtlA/AmIRbU/6Htbgby8fa8vXwkiTICyTCezQbEYaeFgl
+	aUkUzm/+0KD6XgdcLnJFjj5Sd/lERkzrU3mLaNwvWpqiHi7WEvQuFNODG09caErKOi0P
+	+I3A==
+X-Gm-Message-State: APjAAAW92jVijQJvboXZrzgfJe0MY5AjrK5aim4aVSawAo/6aqC5rz7F
+	gSpBLTLBA2AoWXtpejvHANg8bM5jVm8=
+X-Google-Smtp-Source: APXvYqwkQOsSmaUu7jktJ4nMofNoLx+2NPtU7kagcmpdFcLtX/ARwRKDIMtVR7ppVvNABUtSliqK4A==
+X-Received: by 2002:a05:620a:124f:: with SMTP id
+	a15mr30908645qkl.210.1558009274533; 
+	Thu, 16 May 2019 05:21:14 -0700 (PDT)
 Received: from redhat.com ([185.54.206.10])
-	by smtp.gmail.com with ESMTPSA id e8sm2921084qtm.34.2019.05.16.05.21.09
+	by smtp.gmail.com with ESMTPSA id 17sm2233532qkg.30.2019.05.16.05.21.12
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 16 May 2019 05:21:10 -0700 (PDT)
-Date: Thu, 16 May 2019 08:21:08 -0400
+	Thu, 16 May 2019 05:21:13 -0700 (PDT)
+Date: Thu, 16 May 2019 08:21:11 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Message-ID: <1556808723-226478-14-git-send-email-imammedo@redhat.com>
+Message-ID: <1556808723-226478-15-git-send-email-imammedo@redhat.com>
 References: <20190515121146.7248-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -57,8 +58,9 @@ X-Mailer: git-send-email 2.17.1.1206.gb667731e2e.dirty
 X-Mutt-Fcc: =sent
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.160.170
-Subject: [Qemu-devel] [PULL 35/37] tests: acpi: add simple arm/virt testcase
+X-Received-From: 209.85.222.196
+Subject: [Qemu-devel] [PULL 36/37] tests: acpi: refactor
+ rebuild-expected-aml.sh to dump ACPI tables for a specified list of targets
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -70,83 +72,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
-	Peter Maydell <peter.maydell@linaro.org>,
-	Thomas Huth <thuth@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
-	Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
-	Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+	Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+	Wei Yang <richardw.yang@linux.intel.com>,
+	Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Igor Mammedov <imammedo@redhat.com>
 
-adds simple arm/virt test case that starts guest with
-bios-tables-test.aarch64.iso.qcow2 boot image which
-initializes UefiTestSupport* structure in RAM once
-guest is booted.
-
- * see commit: tests: acpi: add acpi_find_rsdp_address_uefi() helper
+Make initial list contain aarch64 and x86_64 targets.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Laszlo Ersek <lersek@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <1556808723-226478-14-git-send-email-imammedo@redhat.com>
+Message-Id: <1556808723-226478-15-git-send-email-imammedo@redhat.com>
+Reviewed-by: Wei Yang <richardw.yang@linux.intel.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/bios-tables-test.c | 18 ++++++++++++++++++
- tests/Makefile.include   |  1 +
- 2 files changed, 19 insertions(+)
+ tests/data/acpi/rebuild-expected-aml.sh | 23 +++++++++++------------
+ 1 file changed, 11 insertions(+), 12 deletions(-)
 
-diff --git a/tests/bios-tables-test.c b/tests/bios-tables-test.c
-index 39c1e24efd..eaa1b0cf62 100644
---- a/tests/bios-tables-test.c
-+++ b/tests/bios-tables-test.c
-@@ -810,6 +810,22 @@ static void test_acpi_piix4_tcg_dimm_pxm(void)
-     test_acpi_tcg_dimm_pxm(MACHINE_PC);
- }
+diff --git a/tests/data/acpi/rebuild-expected-aml.sh b/tests/data/acpi/rebuild-expected-aml.sh
+index abdff70a0d..07f7e3f501 100755
+--- a/tests/data/acpi/rebuild-expected-aml.sh
++++ b/tests/data/acpi/rebuild-expected-aml.sh
+@@ -7,21 +7,12 @@
+ #
+ # Authors:
+ #  Marcel Apfelbaum <marcel.a@redhat.com>
++#  Igor Mammedov <imammedo@redhat.com>
+ #
+ # This work is licensed under the terms of the GNU GPLv2.
+ # See the COPYING.LIB file in the top-level directory.
  
-+static void test_acpi_virt_tcg(void)
-+{
-+    test_data data = {
-+        .machine = "virt",
-+        .accel = "tcg",
-+        .uefi_fl1 = "pc-bios/edk2-aarch64-code.fd",
-+        .uefi_fl2 = "pc-bios/edk2-arm-vars.fd",
-+        .cd = "tests/data/uefi-boot-images/bios-tables-test.aarch64.iso.qcow2",
-+        .ram_start = 0x40000000ULL,
-+        .scan_len = 128ULL * 1024 * 1024,
-+    };
+-qemu=
+-
+-if [ -e x86_64-softmmu/qemu-system-x86_64 ]; then
+-    qemu="x86_64-softmmu/qemu-system-x86_64"
+-elif [ -e i386-softmmu/qemu-system-i386 ]; then
+-    qemu="i386-softmmu/qemu-system-i386"
+-else
+-    echo "Run 'make' to build the qemu exectutable!"
+-    echo "Run this script from the build directory."
+-    exit 1;
+-fi
++qemu_bins="aarch64-softmmu/qemu-system-aarch64 x86_64-softmmu/qemu-system-x86_64"
+ 
+ if [ ! -e "tests/bios-tables-test" ]; then
+     echo "Test: bios-tables-test is required! Run make check before this script."
+@@ -29,6 +20,14 @@ if [ ! -e "tests/bios-tables-test" ]; then
+     exit 1;
+ fi
+ 
+-TEST_ACPI_REBUILD_AML=y QTEST_QEMU_BINARY=$qemu tests/bios-tables-test
++for qemu in $qemu_bins; do
++    if [ ! -e $qemu ]; then
++        echo "Run 'make' to build the following QEMU executables: $qemu_bins"
++        echo "Also, run this script from the build directory."
++        exit 1;
++    fi
++    TEST_ACPI_REBUILD_AML=y QTEST_QEMU_BINARY=$qemu tests/bios-tables-test
++done
 +
-+    test_acpi_one("-cpu cortex-a57", &data);
-+    free_test_data(&data);
-+}
-+
- int main(int argc, char *argv[])
- {
-     const char *arch = qtest_get_arch();
-@@ -838,6 +854,8 @@ int main(int argc, char *argv[])
-         qtest_add_func("acpi/q35/numamem", test_acpi_q35_tcg_numamem);
-         qtest_add_func("acpi/piix4/dimmpxm", test_acpi_piix4_tcg_dimm_pxm);
-         qtest_add_func("acpi/q35/dimmpxm", test_acpi_q35_tcg_dimm_pxm);
-+    } else if (strcmp(arch, "aarch64") == 0) {
-+        qtest_add_func("acpi/virt", test_acpi_virt_tcg);
-     }
-     ret = g_test_run();
-     boot_sector_cleanup(disk);
-diff --git a/tests/Makefile.include b/tests/Makefile.include
-index 60de085ee1..43ef524de4 100644
---- a/tests/Makefile.include
-+++ b/tests/Makefile.include
-@@ -267,6 +267,7 @@ check-qtest-arm-y += tests/hexloader-test$(EXESUF)
- check-qtest-aarch64-y = tests/numa-test$(EXESUF)
- check-qtest-aarch64-y += tests/boot-serial-test$(EXESUF)
- check-qtest-aarch64-y += tests/migration-test$(EXESUF)
-+check-qtest-aarch64-y += tests/bios-tables-test$(EXESUF)
  
- check-qtest-microblazeel-y += $(check-qtest-microblaze-y)
- 
+ echo "The files were rebuilt and can be added to git."
 -- 
 MST
 
