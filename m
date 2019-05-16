@@ -2,68 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D93B120747
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 14:51:34 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54595 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8974C20757
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 14:54:24 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54686 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRFrC-0001b2-1F
-	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 08:51:34 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56049)
+	id 1hRFtv-0004Sl-Jc
+	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 08:54:23 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56204)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hRFol-0000Gl-9k
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:49:06 -0400
+	(envelope-from <berto@igalia.com>) id 1hRFpI-0000k3-5F
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:49:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hRFoh-00007i-Tt
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:49:03 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:33601)
+	(envelope-from <berto@igalia.com>) id 1hRFpF-0000gc-3b
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:49:36 -0400
+Received: from fanzine.igalia.com ([91.117.99.155]:51019)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hRFoh-00005B-P5
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:48:59 -0400
-Received: by mail-wr1-f66.google.com with SMTP id d9so3309930wrx.0
-	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 05:48:57 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=tEE4UjBX4z7ardUlhrXQ1kvjs/LJcBk85s+8v4yEK0I=;
-	b=uL5IbijmPJG3MYGd7yulRkfcy+U5kOHc4K3s8bmFoJa3wgUl76iAKu0oF+2Iv1PQPK
-	iQuqVOWSCt2YMCWE8OTsWwMEiJv8xJUj5OLA3Y23EfJaYTdq+kybe0EmiM61l3+hhXBz
-	M3kVLw1J8iUU4lEUv0dHeIgg+5TJ0tjWwtCZdsmMaFWYj1Sj6jyPEbKcbXCTQhmIZu9K
-	CGNjaBdocmJ7apny0cxwLEh+6Q+vkNoJ6fAYYndXxloZu9bVfGWuUdWmfGgXqkKEzBKL
-	ByDfnPx8MKEfDgGkudBK/SyQgCkvisp0k8fJhAUvUiqA2lzzv1RjDQjC0wjxxfeVoWoO
-	vTog==
-X-Gm-Message-State: APjAAAXW0paLa3FlSXWgLyPZGcJQcpO3jm3GIrV3uqrTOLrBPPWs2RdY
-	IvTasnJkueuvHhiieTYp3x8deA==
-X-Google-Smtp-Source: APXvYqynTtNkE4Kqp02qcay/5t2usuykMCUjsGsSn22eSGpT+ARR+5dsSeLAVx5AOLADM4U1F+cuVA==
-X-Received: by 2002:adf:f487:: with SMTP id l7mr31386506wro.127.1558010935377; 
-	Thu, 16 May 2019 05:48:55 -0700 (PDT)
-Received: from [192.168.1.43] (228.red-83-52-173.dynamicip.rima-tde.net.
-	[83.52.173.228]) by smtp.gmail.com with ESMTPSA id
-	q14sm3042969wrw.60.2019.05.16.05.48.54
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Thu, 16 May 2019 05:48:54 -0700 (PDT)
-To: Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-devel@nongnu.org
-References: <20190516055244.95559-1-ysato@users.sourceforge.jp>
-	<20190516055244.95559-12-ysato@users.sourceforge.jp>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
-	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <76b23848-b949-8cfb-1e94-5984fa25eda3@redhat.com>
-Date: Thu, 16 May 2019 14:48:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(Exim 4.71) (envelope-from <berto@igalia.com>)
+	id 1hRFp8-0000E0-96; Thu, 16 May 2019 08:49:26 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=igalia.com;
+	s=20170329; 
+	h=Content-Type:MIME-Version:Message-ID:Date:References:In-Reply-To:Subject:Cc:To:From;
+	bh=33JXPy6AyDdqngPoYdtqQGEwI/C6yjY5/PW0GvoB14A=; 
+	b=YFaVAZfStqhvCJ8e4NlFs1oDMtg5IEiO4/cg2xqUoWCnc0W/uIeiQQLDgIcmeR6BfUGsbQ7t6HqOcrMXT+erq9V4KkfHIg2UEn2mhABlbh2A1hX/MGcb2rk8aHPvnV7njJ0s63HS7SuVKg4w5iYjoStjzM09XH2vnPnic/l8lX81mlfBNLSL3KEQqWF/3DjMo3u7KSYwuHnKzCjJl6XgaKRcMr4fHEVe7gBsj2eZ7oky4OyedqmXhdXzQhNVj6M+pzkKCOUF0pZqMzW3LqJ5KkRo+mmG9tr9qi63BQlI9vIWMGhpKtom2aIjAh0jIUOFhgmm0LpvNMNHykDXyXXvZw==;
+Received: from maestria.local.igalia.com ([192.168.10.14] helo=mail.igalia.com)
+	by fanzine.igalia.com with esmtps 
+	(Cipher TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim)
+	id 1hRFom-0005wy-II; Thu, 16 May 2019 14:49:04 +0200
+Received: from berto by mail.igalia.com with local (Exim)
+	id 1hRFom-00060s-Fe; Thu, 16 May 2019 14:49:04 +0200
+From: Alberto Garcia <berto@igalia.com>
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
+In-Reply-To: <20190515201503.19069-2-mreitz@redhat.com>
+References: <20190515201503.19069-1-mreitz@redhat.com>
+	<20190515201503.19069-2-mreitz@redhat.com>
+User-Agent: Notmuch/0.18.2 (http://notmuchmail.org) Emacs/24.4.1
+	(i586-pc-linux-gnu)
+Date: Thu, 16 May 2019 14:49:04 +0200
+Message-ID: <w51ef4yva2n.fsf@maestria.local.igalia.com>
 MIME-Version: 1.0
-In-Reply-To: <20190516055244.95559-12-ysato@users.sourceforge.jp>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.221.66
-Subject: Re: [Qemu-devel] [PATCH v13 11/12] qemu/bitops.h: Add extract8 and
- extract16
+Content-Type: text/plain
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x (no
+	timestamps) [generic] [fuzzy]
+X-Received-From: 91.117.99.155
+Subject: Re: [Qemu-devel] [PATCH 1/4] block: Improve "Block node is
+ read-only" message
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -75,67 +58,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, richard.henderson@linaro.org
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
+	Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/16/19 7:52 AM, Yoshinori Sato wrote:
-> Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
-> Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
-> ---
->  include/qemu/bitops.h | 38 ++++++++++++++++++++++++++++++++++++++
->  1 file changed, 38 insertions(+)
-> 
-> diff --git a/include/qemu/bitops.h b/include/qemu/bitops.h
-> index 3f0926cf40..764f9d1ea0 100644
-> --- a/include/qemu/bitops.h
-> +++ b/include/qemu/bitops.h
-> @@ -301,6 +301,44 @@ static inline uint32_t extract32(uint32_t value, int start, int length)
->  }
->  
->  /**
-> + * extract8:
-> + * @value: the value to extract the bit field from
-> + * @start: the lowest bit in the bit field (numbered from 0)
-> + * @length: the length of the bit field
-> + *
-> + * Extract from the 8 bit input @value the bit field specified by the
-> + * @start and @length parameters, and return it. The bit field must
-> + * lie entirely within the 8 bit word. It is valid to request that
-> + * all 8 bits are returned (ie @length 8 and @start 0).
-> + *
-> + * Returns: the value of the bit field extracted from the input value.
-> + */
-> +static inline uint8_t extract8(uint8_t value, int start, int length)
-> +{
-> +    assert(start >= 0 && length > 0 && length <= 8 - start);
-> +    return extract32(value, start, length);
-> +}
-> +
-> +/**
-> + * extract16:
-> + * @value: the value to extract the bit field from
-> + * @start: the lowest bit in the bit field (numbered from 0)
-> + * @length: the length of the bit field
-> + *
-> + * Extract from the 16 bit input @value the bit field specified by the
-> + * @start and @length parameters, and return it. The bit field must
-> + * lie entirely within the 16 bit word. It is valid to request that
-> + * all 16 bits are returned (ie @length 16 and @start 0).
-> + *
-> + * Returns: the value of the bit field extracted from the input value.
-> + */
-> +static inline uint16_t extract16(uint16_t value, int start, int length)
-> +{
-> +    assert(start >= 0 && length > 0 && length <= 16 - start);
-> +    return extract32(value, start, length);
-> +}
-> +
-> +/**
->   * extract64:
->   * @value: the value to extract the bit field from
->   * @start: the lowest bit in the bit field (numbered from 0)
-> 
+On Wed 15 May 2019 10:15:00 PM CEST, Max Reitz wrote:
+> This message does not make any sense when it appears as the response to
+> making an R/W node read-only.  We should detect that case and emit a
+> different message, then.
+>
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
 
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Alberto Garcia <berto@igalia.com>
+
+Berto
 
