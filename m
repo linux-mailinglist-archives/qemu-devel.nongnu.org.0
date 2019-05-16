@@ -2,38 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BBB4A209D8
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 16:36:38 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:59159 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EB832209DB
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 16:36:50 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:59163 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRHUp-0001Ab-Kh
-	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 10:36:35 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55330)
+	id 1hRHV4-0001Ke-2b
+	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 10:36:50 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55328)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <anton.nefedov@virtuozzo.com>) id 1hRHRs-00080F-Jy
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 10:33:34 -0400
+	(envelope-from <anton.nefedov@virtuozzo.com>) id 1hRHRs-00080B-JJ
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 10:33:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <anton.nefedov@virtuozzo.com>) id 1hRHRr-0004Jp-E4
+	(envelope-from <anton.nefedov@virtuozzo.com>) id 1hRHRr-0004Jg-DT
 	for qemu-devel@nongnu.org; Thu, 16 May 2019 10:33:32 -0400
-Received: from relay.sw.ru ([185.231.240.75]:39688)
+Received: from relay.sw.ru ([185.231.240.75]:39692)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <anton.nefedov@virtuozzo.com>)
-	id 1hRHRn-0004E2-CO; Thu, 16 May 2019 10:33:27 -0400
+	id 1hRHRn-0004EB-Hr; Thu, 16 May 2019 10:33:27 -0400
 Received: from [172.16.25.154] (helo=xantnef-ws.sw.ru)
 	by relay.sw.ru with esmtp (Exim 4.91)
 	(envelope-from <anton.nefedov@virtuozzo.com>)
-	id 1hRHRm-0007Lk-5T; Thu, 16 May 2019 17:33:26 +0300
+	id 1hRHRm-0007Lk-A2; Thu, 16 May 2019 17:33:26 +0300
 From: Anton Nefedov <anton.nefedov@virtuozzo.com>
 To: qemu-block@nongnu.org
-Date: Thu, 16 May 2019 17:33:12 +0300
-Message-Id: <20190516143314.81302-8-anton.nefedov@virtuozzo.com>
+Date: Thu, 16 May 2019 17:33:13 +0300
+Message-Id: <20190516143314.81302-9-anton.nefedov@virtuozzo.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190516143314.81302-1-anton.nefedov@virtuozzo.com>
 References: <20190516143314.81302-1-anton.nefedov@virtuozzo.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH v8 7/9] scsi: account unmap operations
+Subject: [Qemu-devel] [PATCH v8 8/9] file-posix: account discard operations
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -52,67 +52,82 @@ Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Signed-off-by: Anton Nefedov <anton.nefedov@virtuozzo.com>
-Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- hw/scsi/scsi-disk.c | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+This will help to identify how many of the user-issued discard operations
+(accounted on a device level) have actually suceeded down on the host file
+(even though the numbers will not be exactly the same if non-raw format
+driver is used (e.g. qcow2 sending metadata discards)).
 
-diff --git a/hw/scsi/scsi-disk.c b/hw/scsi/scsi-disk.c
-index 6eff496b54..5c77981d60 100644
---- a/hw/scsi/scsi-disk.c
-+++ b/hw/scsi/scsi-disk.c
-@@ -1609,10 +1609,16 @@ static void scsi_unmap_complete_noio(UnmapCBData *data, int ret)
-         r->sector = ldq_be_p(&data->inbuf[0]);
-         r->sector_count = ldl_be_p(&data->inbuf[8]) & 0xffffffffULL;
-         if (!check_lba_range(s, r->sector, r->sector_count)) {
-+            block_acct_invalid(blk_get_stats(s->qdev.conf.blk),
-+                               BLOCK_ACCT_UNMAP);
-             scsi_check_condition(r, SENSE_CODE(LBA_OUT_OF_RANGE));
-             goto done;
-         }
+Note that these numbers will not include discards triggered by
+write-zeroes + MAY_UNMAP calls.
+
+Signed-off-by: Anton Nefedov <anton.nefedov@virtuozzo.com>
+---
+ block/file-posix.c | 22 +++++++++++++++++++++-
+ 1 file changed, 21 insertions(+), 1 deletion(-)
+
+diff --git a/block/file-posix.c b/block/file-posix.c
+index 1cf4ee49eb..76d54b3a85 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -159,6 +159,11 @@ typedef struct BDRVRawState {
+     bool needs_alignment;
+     bool drop_cache;
+     bool check_cache_dropped;
++    struct {
++        int64_t discard_nb_ok;
++        int64_t discard_nb_failed;
++        int64_t discard_bytes_ok;
++    } stats;
  
-+        block_acct_start(blk_get_stats(s->qdev.conf.blk), &r->acct,
-+                         r->sector_count * s->qdev.blocksize,
-+                         BLOCK_ACCT_UNMAP);
-+
-         r->req.aiocb = blk_aio_pdiscard(s->qdev.conf.blk,
-                                         r->sector * s->qdev.blocksize,
-                                         r->sector_count * s->qdev.blocksize,
-@@ -1639,10 +1645,11 @@ static void scsi_unmap_complete(void *opaque, int ret)
-     r->req.aiocb = NULL;
- 
-     aio_context_acquire(blk_get_aio_context(s->qdev.conf.blk));
--    if (scsi_disk_req_check_error(r, ret, false)) {
-+    if (scsi_disk_req_check_error(r, ret, true)) {
-         scsi_req_unref(&r->req);
-         g_free(data);
-     } else {
-+        block_acct_done(blk_get_stats(s->qdev.conf.blk), &r->acct);
-         scsi_unmap_complete_noio(data, ret);
-     }
-     aio_context_release(blk_get_aio_context(s->qdev.conf.blk));
-@@ -1674,6 +1681,7 @@ static void scsi_disk_emulate_unmap(SCSIDiskReq *r, uint8_t *inbuf)
-     }
- 
-     if (blk_is_read_only(s->qdev.conf.blk)) {
-+        block_acct_invalid(blk_get_stats(s->qdev.conf.blk), BLOCK_ACCT_UNMAP);
-         scsi_check_condition(r, SENSE_CODE(WRITE_PROTECTED));
-         return;
-     }
-@@ -1689,10 +1697,12 @@ static void scsi_disk_emulate_unmap(SCSIDiskReq *r, uint8_t *inbuf)
-     return;
- 
- invalid_param_len:
-+    block_acct_invalid(blk_get_stats(s->qdev.conf.blk), BLOCK_ACCT_UNMAP);
-     scsi_check_condition(r, SENSE_CODE(INVALID_PARAM_LEN));
-     return;
- 
- invalid_field:
-+    block_acct_invalid(blk_get_stats(s->qdev.conf.blk), BLOCK_ACCT_UNMAP);
-     scsi_check_condition(r, SENSE_CODE(INVALID_FIELD));
+     PRManager *pr_mgr;
+ } BDRVRawState;
+@@ -2630,11 +2635,22 @@ static void coroutine_fn raw_co_invalidate_cache(BlockDriverState *bs,
+ #endif /* !__linux__ */
  }
  
++static void raw_account_discard(BDRVRawState *s, uint64_t nbytes, int ret)
++{
++    if (ret) {
++        s->stats.discard_nb_failed++;
++    } else {
++        s->stats.discard_nb_ok++;
++        s->stats.discard_bytes_ok += nbytes;
++    }
++}
++
+ static coroutine_fn int
+ raw_do_pdiscard(BlockDriverState *bs, int64_t offset, int bytes, bool blkdev)
+ {
+     BDRVRawState *s = bs->opaque;
+     RawPosixAIOData acb;
++    int ret;
+ 
+     acb = (RawPosixAIOData) {
+         .bs             = bs,
+@@ -2648,7 +2664,9 @@ raw_do_pdiscard(BlockDriverState *bs, int64_t offset, int bytes, bool blkdev)
+         acb.aio_type |= QEMU_AIO_BLKDEV;
+     }
+ 
+-    return raw_thread_pool_submit(bs, handle_aiocb_discard, &acb);
++    ret = raw_thread_pool_submit(bs, handle_aiocb_discard, &acb);
++    raw_account_discard(s, bytes, ret);
++    return ret;
+ }
+ 
+ static coroutine_fn int
+@@ -3263,10 +3281,12 @@ static int fd_open(BlockDriverState *bs)
+ static coroutine_fn int
+ hdev_co_pdiscard(BlockDriverState *bs, int64_t offset, int bytes)
+ {
++    BDRVRawState *s = bs->opaque;
+     int ret;
+ 
+     ret = fd_open(bs);
+     if (ret < 0) {
++        raw_account_discard(s, bytes, ret);
+         return ret;
+     }
+     return raw_do_pdiscard(bs, offset, bytes, true);
 -- 
 2.17.1
 
