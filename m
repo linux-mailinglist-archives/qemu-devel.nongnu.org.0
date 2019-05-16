@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8826D206F9
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 14:32:22 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53940 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A64152070B
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 14:35:16 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54030 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRFYb-0003CW-Mk
-	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 08:32:21 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48805)
+	id 1hRFbP-0005gT-Lc
+	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 08:35:15 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48820)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hRFLr-0000J8-LQ
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:19:14 -0400
+	(envelope-from <mst@redhat.com>) id 1hRFLu-0000MJ-V1
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:19:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hRFLo-0001kd-KP
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:19:11 -0400
-Received: from mail-qk1-f182.google.com ([209.85.222.182]:40024)
+	(envelope-from <mst@redhat.com>) id 1hRFLr-0001ny-Tu
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:19:14 -0400
+Received: from mail-qt1-f173.google.com ([209.85.160.173]:34804)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hRFLo-0001kL-Hk
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:19:08 -0400
-Received: by mail-qk1-f182.google.com with SMTP id q197so2073262qke.7
-	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 05:19:08 -0700 (PDT)
+	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hRFLr-0001ng-Qm
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:19:11 -0400
+Received: by mail-qt1-f173.google.com with SMTP id h1so3605130qtp.1
+	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 05:19:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
 	:mime-version:content-disposition:content-transfer-encoding
 	:in-reply-to;
-	bh=dkP9xLNGqq+85u8p7aSnxQ3DQHTd2qT+9nsCyRgjWxk=;
-	b=R++CrOZL8/Dz+NVDmkDFvb1myKf+I4pEUL59Q28QzKwhsvwMKjinksCFWDG4lBfQrp
-	qVTNU4UkaPAn6THxJLkJb8nLHGM3/1pbkPWH+YUL+qC55T0NDHiZwekPcExYoj/KtjJa
-	WHK8i0hyRHOrBAR09Awvjl8aS7pL7GVmSfd97EwsWH1m7MYq4vkzDKHsUkznbijGl5oK
-	lM8x0zWONOFYwm97PLylQPDI1R1a6MeKBXEy0KfzjuWbazkctFElfvRLIPobgwPY6NtE
-	KvWQdVRZEsAjboAyc9hnpIZf6PY2/jL8wfIllX5j772yyN3XX/ewFenrAmz7zOm3FgVE
-	HISQ==
-X-Gm-Message-State: APjAAAVwURo1lCYDvLM3Uyxb7m+OstZ0E4w6dydkIhalMgMWEsaw+W9V
-	hTgnUp8WXBv5MtudqOjVyBpuqp50BA8=
-X-Google-Smtp-Source: APXvYqyMfsP+VUNUTr0PLaNuqy9aD9kcoAUMTp9o7uta5sabMc7XLmp+EDDX6g5Re2xTu5oTqJ9Z9Q==
-X-Received: by 2002:a05:620a:16c8:: with SMTP id
-	a8mr25363994qkn.4.1558009147700; 
-	Thu, 16 May 2019 05:19:07 -0700 (PDT)
+	bh=1LcfTJcuB3Ujwz9dZ8Eu+v5gSvOIHMjPL+YsRyxSFVc=;
+	b=LkTtAAy/LelGhgDTTREJ9qYSjZ8JIO+Cjtk6C/2IwiQuqInneCXMcsXPC0yIxNGecQ
+	/cjf0+Uh5Fy3lP+uV81f33bI3kxLQDRQnLfKZVY13F7rlVTsrjh7OWZ5Oo7oNGQeGdtm
+	dbfrh7uG9I0FrNcJxwTdLW+B9xVTrT3nwe4hSFKqXxOA7Y5ClJg9x0AsYS9CtoB7cfVF
+	1A/HXY9colDiqc3zRrnTvfaoZl4BuuqRVPoS5MsHuxGThcfQu5OTrsa+SmPoLZ6ZVWyH
+	DcqVyfC5oY8EJ13RVtiPABYO76I27qwQRLrp5lBK+pKTd91wxrxsE10l0iazw+dwD01x
+	EVlQ==
+X-Gm-Message-State: APjAAAVlSQGkZ85mYuweXvK4h47hG6RSEGDQoaMweVlyqZG8l0m1idtV
+	cYYlxftTTAfmx5nJai6Yt78H7vkwnSw=
+X-Google-Smtp-Source: APXvYqz2IpN0AV21k3unvfZD+hkE6dZ2+omyk8hN0Jk+SPFvkmlUEextKlGZyOXtnqWEwTMhMjhs6w==
+X-Received: by 2002:a0c:ba86:: with SMTP id x6mr39773029qvf.221.1558009150859; 
+	Thu, 16 May 2019 05:19:10 -0700 (PDT)
 Received: from redhat.com ([185.54.206.10])
-	by smtp.gmail.com with ESMTPSA id q2sm2431560qkf.44.2019.05.16.05.19.03
+	by smtp.gmail.com with ESMTPSA id o10sm2394598qtg.5.2019.05.16.05.19.09
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 16 May 2019 05:19:06 -0700 (PDT)
-Date: Thu, 16 May 2019 08:19:01 -0400
+	Thu, 16 May 2019 05:19:10 -0700 (PDT)
+Date: Thu, 16 May 2019 08:19:08 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Message-ID: <20190402161900.7374-2-armbru@redhat.com>
+Message-ID: <20190402161900.7374-3-armbru@redhat.com>
 References: <20190515121146.7248-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -58,8 +57,8 @@ X-Mailer: git-send-email 2.17.1.1206.gb667731e2e.dirty
 X-Mutt-Fcc: =sent
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.222.182
-Subject: [Qemu-devel] [PULL 11/37] acpi/piix4: Convert debug printf()s to
+X-Received-From: 209.85.160.173
+Subject: [Qemu-devel] [PULL 12/37] acpi/pcihp: Convert debug printf()s to
  trace events
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
@@ -81,72 +80,101 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 From: Markus Armbruster <armbru@redhat.com>
 
 Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20190402161900.7374-2-armbru@redhat.com>
+Message-Id: <20190402161900.7374-3-armbru@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 ---
- hw/acpi/piix4.c      | 14 +++-----------
- hw/acpi/trace-events |  4 ++++
- 2 files changed, 7 insertions(+), 11 deletions(-)
+ hw/acpi/pcihp.c      | 25 ++++++++-----------------
+ hw/acpi/trace-events |  9 +++++++++
+ 2 files changed, 17 insertions(+), 17 deletions(-)
 
-diff --git a/hw/acpi/piix4.c b/hw/acpi/piix4.c
-index 9c079d6834..546ba036ed 100644
---- a/hw/acpi/piix4.c
-+++ b/hw/acpi/piix4.c
-@@ -39,14 +39,7 @@
- #include "hw/acpi/acpi_dev_interface.h"
- #include "hw/xen/xen.h"
- #include "qom/cpu.h"
+diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
+index 88e4ae1bcd..7729c5338b 100644
+--- a/hw/acpi/pcihp.c
++++ b/hw/acpi/pcihp.c
+@@ -37,14 +37,7 @@
+ #include "hw/pci/pci_bus.h"
+ #include "qapi/error.h"
+ #include "qom/qom-qobject.h"
 -
 -//#define DEBUG
 -
 -#ifdef DEBUG
--# define PIIX4_DPRINTF(format, ...)     printf(format, ## __VA_ARGS__)
+-# define ACPI_PCIHP_DPRINTF(format, ...)     printf(format, ## __VA_ARGS__)
 -#else
--# define PIIX4_DPRINTF(format, ...)     do { } while (0)
+-# define ACPI_PCIHP_DPRINTF(format, ...)     do { } while (0)
 -#endif
 +#include "trace.h"
  
- #define GPE_BASE 0xafe0
- #define GPE_LEN 4
-@@ -596,7 +589,7 @@ static uint64_t gpe_readb(void *opaque, hwaddr addr, unsigned width)
-     PIIX4PMState *s = opaque;
-     uint32_t val = acpi_gpe_ioport_readb(&s->ar, addr);
- 
--    PIIX4_DPRINTF("gpe read %" HWADDR_PRIx " == %" PRIu32 "\n", addr, val);
-+    trace_piix4_gpe_readb(addr, width, val);
-     return val;
- }
- 
-@@ -605,10 +598,9 @@ static void gpe_writeb(void *opaque, hwaddr addr, uint64_t val,
- {
-     PIIX4PMState *s = opaque;
- 
-+    trace_piix4_gpe_writeb(addr, width, val);
-     acpi_gpe_ioport_writeb(&s->ar, addr, val);
-     acpi_update_sci(&s->ar, s->irq);
--
--    PIIX4_DPRINTF("gpe write %" HWADDR_PRIx " <== %" PRIu64 "\n", addr, val);
- }
- 
- static const MemoryRegionOps piix4_gpe_ops = {
+ #define ACPI_PCIHP_ADDR 0xae00
+ #define ACPI_PCIHP_SIZE 0x0014
+@@ -306,23 +299,23 @@ static uint64_t pci_read(void *opaque, hwaddr addr, unsigned int size)
+         if (!s->legacy_piix) {
+             s->acpi_pcihp_pci_status[bsel].up = 0;
+         }
+-        ACPI_PCIHP_DPRINTF("pci_up_read %" PRIu32 "\n", val);
++        trace_acpi_pci_up_read(val);
+         break;
+     case PCI_DOWN_BASE:
+         val = s->acpi_pcihp_pci_status[bsel].down;
+-        ACPI_PCIHP_DPRINTF("pci_down_read %" PRIu32 "\n", val);
++        trace_acpi_pci_down_read(val);
+         break;
+     case PCI_EJ_BASE:
+         /* No feature defined yet */
+-        ACPI_PCIHP_DPRINTF("pci_features_read %" PRIu32 "\n", val);
++        trace_acpi_pci_features_read(val);
+         break;
+     case PCI_RMV_BASE:
+         val = s->acpi_pcihp_pci_status[bsel].hotplug_enable;
+-        ACPI_PCIHP_DPRINTF("pci_rmv_read %" PRIu32 "\n", val);
++        trace_acpi_pci_rmv_read(val);
+         break;
+     case PCI_SEL_BASE:
+         val = s->hotplug_select;
+-        ACPI_PCIHP_DPRINTF("pci_sel_read %" PRIu32 "\n", val);
++        trace_acpi_pci_sel_read(val);
+     default:
+         break;
+     }
+@@ -340,13 +333,11 @@ static void pci_write(void *opaque, hwaddr addr, uint64_t data,
+             break;
+         }
+         acpi_pcihp_eject_slot(s, s->hotplug_select, data);
+-        ACPI_PCIHP_DPRINTF("pciej write %" HWADDR_PRIx " <== %" PRIu64 "\n",
+-                      addr, data);
++        trace_acpi_pci_ej_write(addr, data);
+         break;
+     case PCI_SEL_BASE:
+         s->hotplug_select = s->legacy_piix ? ACPI_PCIHP_BSEL_DEFAULT : data;
+-        ACPI_PCIHP_DPRINTF("pcisel write %" HWADDR_PRIx " <== %" PRIu64 "\n",
+-                      addr, data);
++        trace_acpi_pci_sel_write(addr, data);
+     default:
+         break;
+     }
 diff --git a/hw/acpi/trace-events b/hw/acpi/trace-events
-index 6272d8a9e7..825b25cbb0 100644
+index 825b25cbb0..98a56baa6f 100644
 --- a/hw/acpi/trace-events
 +++ b/hw/acpi/trace-events
-@@ -31,6 +31,10 @@ cpuhp_acpi_ejecting_cpu(uint32_t idx) "0x%"PRIx32
+@@ -31,6 +31,15 @@ cpuhp_acpi_ejecting_cpu(uint32_t idx) "0x%"PRIx32
  cpuhp_acpi_write_ost_ev(uint32_t slot, uint32_t ev) "idx[0x%"PRIx32"] OST EVENT: 0x%"PRIx32
  cpuhp_acpi_write_ost_status(uint32_t slot, uint32_t st) "idx[0x%"PRIx32"] OST STATUS: 0x%"PRIx32
  
-+# piix4.c
-+piix4_gpe_readb(uint64_t addr, unsigned width, uint64_t val) "addr: 0x%" PRIx64 " width: %d ==> 0x%" PRIx64
-+piix4_gpe_writeb(uint64_t addr, unsigned width, uint64_t val) "addr: 0x%" PRIx64 " width: %d <== 0x%" PRIx64
++# pcihp.c
++acpi_pci_up_read(uint32_t val) "%" PRIu32
++acpi_pci_down_read(uint32_t val) "%" PRIu32
++acpi_pci_features_read(uint32_t val) "%" PRIu32
++acpi_pci_rmv_read(uint32_t val) "%" PRIu32
++acpi_pci_sel_read(uint32_t val) "%" PRIu32
++acpi_pci_ej_write(uint64_t addr, uint64_t data) "0x%" PRIx64 " <== %" PRIu64
++acpi_pci_sel_write(uint64_t addr, uint64_t data) "0x%" PRIx64 " <== %" PRIu64
 +
- # tco.c
- tco_timer_reload(int ticks, int msec) "ticks=%d (%d ms)"
- tco_timer_expired(int timeouts_no, bool strap, bool no_reboot) "timeouts_no=%d no_reboot=%d/%d"
+ # piix4.c
+ piix4_gpe_readb(uint64_t addr, unsigned width, uint64_t val) "addr: 0x%" PRIx64 " width: %d ==> 0x%" PRIx64
+ piix4_gpe_writeb(uint64_t addr, unsigned width, uint64_t val) "addr: 0x%" PRIx64 " width: %d <== 0x%" PRIx64
 -- 
 MST
 
