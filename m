@@ -2,50 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9F0E1206AA
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 14:08:09 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53339 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1DFB72075C
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 14:54:49 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54692 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRFBA-0005MI-4w
-	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 08:08:08 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46382)
+	id 1hRFuK-0004jQ-80
+	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 08:54:48 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56852)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hRF9Z-0004Wb-0U
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:06:32 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hRFrH-0002ie-SM
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:51:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hRF9V-0003iA-VZ
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:06:28 -0400
-Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:52359 helo=ozlabs.org)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
-	id 1hRF9U-0003Jo-Gh; Thu, 16 May 2019 08:06:25 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
-	id 454VWZ1Dhzz9s9T; Thu, 16 May 2019 22:06:18 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=gibson.dropbear.id.au; s=201602; t=1558008378;
-	bh=46Y9rgnsGPRWkqU7O2JjFmjaDEfqdpYkWBvHGESUcfg=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=MWAWjXzLKMV2tEhPMNzIzuscS8hfFVdJQZc4llObXpgqwwz1RBq2nJ4gYZ7fPsVf1
-	twNYAs3wMS76ds1PRzgmHiuS2TVeikIZOBCMEse6aEN+Pq+Q8K6D0WMyyPMuDsHlsB
-	Yk7I8U6Uu33IO1fY0FSr+nrSYmVbrAvRdfnM+xcs=
-Date: Thu, 16 May 2019 21:46:01 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Message-ID: <20190516114601.GG3207@umbus.fritz.box>
-References: <155793986451.464434.12887933000007255549.stgit@bahia.lan>
-	<20190516063957.GA25414@sathnaga86>
-	<20190516085814.022ef4b1@bahia.lan>
+	(envelope-from <peter.maydell@linaro.org>) id 1hRFrD-0004Wu-Rq
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:51:39 -0400
+Received: from mail-oi1-x22c.google.com ([2607:f8b0:4864:20::22c]:42772)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hREyp-0006wy-1p
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 07:55:23 -0400
+Received: by mail-oi1-x22c.google.com with SMTP id w9so459322oic.9
+	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 04:54:46 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=CuAMivnfo6K315tiSkMxQUNeBoA572jc3TfjxQot0Lo=;
+	b=l3s57O/akLc3INSz276uaGYZ+reCKs0gBLA5rhsHLHyUFMj3QykL8U39rbpb+kpKcc
+	cg0TR2UaoRU7dZ5lFnJygnFmDcMbLwTo2wXzq3CUbz7bMymd6CwK9nr5YuNQ+/HbDQcW
+	iIT2ACpsLG6gcevr4X329CKBt5j8gxLGzuOvvVOXm24hvae2unCYN0I8a5Z1VFdljrw2
+	jmaeHwXZ/PrJBoxum+w4QVCkafjp0xayoEQ2Hm4kFuNIOyhF3jSQFOc0TfpW0uNj6ZlQ
+	D7yJx2zL5SrJMy+4NiSsWio8xWX3mANn2zFbL+LnyN/t0+CJKHft+M1d8m5ihdS90hn7
+	A3GA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=CuAMivnfo6K315tiSkMxQUNeBoA572jc3TfjxQot0Lo=;
+	b=NDaj1xudatXIOAR+0WXQ4ia6b5+AQsUDu3MRtReT1JRMt4PHZWoQvWgVl1KBlF6ygW
+	27ew3x6jZSdd67yAJb+hBBHwWdKQ2Erd8dNyEAEbqShaePgAht6Inpooppj7ms5ct9KY
+	INIW8PNJ5cb5sDlmiH98xMIS1CT5kbfJzrFzvqv5IlLSG8ZkoSU+76rSapYrF4ACIChJ
+	G6A8+k3XiTHoIOV3gSxuIEYgo1QDCRt1Ij6LA3QUQMmbMBzqqb2K1xjU/kioNnvnmeSE
+	qqwFeyeL4NU0rjDHxfLB95dNgtlLm9y86sQaLxFGVqgHuRDXlFDrXvBjphm6sU3Z8PI7
+	vh6g==
+X-Gm-Message-State: APjAAAWrgZnsngap+MMfYgmmUOxp4aV84gw+i6ozQL85vlnB5uheaC9l
+	kFmnDR+sMZu5IvOo+98kxHbtyz9lttt/BaVsWivF9w==
+X-Google-Smtp-Source: APXvYqwOBgC+QfG/Wi5AlnM3ilUYpuR9A4J1CtwwamneyO2wPPt1kWwSN5NS/L1BN+Q+V4IOJpT1JlGPSVOIV+eNZ2A=
+X-Received: by 2002:aca:845:: with SMTP id 66mr10220492oii.163.1558007684661; 
+	Thu, 16 May 2019 04:54:44 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="sClP8c1IaQxyux9v"
-Content-Disposition: inline
-In-Reply-To: <20190516085814.022ef4b1@bahia.lan>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+References: <20190514183454.12758-1-dgilbert@redhat.com>
+In-Reply-To: <20190514183454.12758-1-dgilbert@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 16 May 2019 12:54:33 +0100
+Message-ID: <CAFEAcA-Wb7tCVGyJqfVH1WmRHQvGto=Bs_DkeT8StJ7KSi429w@mail.gmail.com>
+To: "Dr. David Alan Gilbert (git)" <dgilbert@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [PATCH] spapr/xive: Sanity checks of OV5 during CAS
+X-Received-From: 2607:f8b0:4864:20::22c
+Subject: Re: [Qemu-devel] [PULL 00/16] migration queue
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -57,154 +71,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>,
-	=?iso-8859-1?Q?C=E9dric?= Le Goater <clg@kaod.org>, qemu-devel@nongnu.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>, Juan Quintela <quintela@redhat.com>,
+	QEMU Developers <qemu-devel@nongnu.org>, Peter Xu <peterx@redhat.com>,
+	Yury Kotov <yury-kotov@yandex-team.ru>, Zhang Chen <chen.zhang@intel.com>,
+	Wei Yang <richardw.yang@linux.intel.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Tue, 14 May 2019 at 19:36, Dr. David Alan Gilbert (git)
+<dgilbert@redhat.com> wrote:
+>
+> From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+>
+> The following changes since commit e329ad2ab72c43b56df88b34954c2c7d839bb373:
+>
+>   Merge remote-tracking branch 'remotes/rth/tags/pull-tcg-20190513' into staging (2019-05-14 10:08:47 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/dagrh/qemu.git tags/pull-migration-20190514b
+>
+> for you to fetch changes up to 9d3250d5ba8c4c5389530b861686e22e77fddcc7:
+>
+>   monitor: Call mon_get_cpu() only once at hmp_gva2gpa() (2019-05-14 19:00:04 +0100)
+>
+> ----------------------------------------------------------------
+> Migration pull 2019-05-14
+>
+> Small fixes/cleanups
+> One HMP/monitor fix
+>
+> ----------------------------------------------------------------
 
---sClP8c1IaQxyux9v
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Thu, May 16, 2019 at 08:58:14AM +0200, Greg Kurz wrote:
-> On Thu, 16 May 2019 12:09:57 +0530
-> Satheesh Rajendran <sathnaga@linux.vnet.ibm.com> wrote:
->=20
-> > On Wed, May 15, 2019 at 07:04:24PM +0200, Greg Kurz wrote:
-> > > If a machine is started with ic-mode=3Dxive but the guest only knows
-> > > about XICS, eg. an RHEL 7.6 guest, the kernel panics. This is
-> > > expected but a bit unfortunate since the crash doesn't provide
-> > > much information for the end user to guess what's happening.
-> > >=20
-> > > Detect that during CAS and exit QEMU with a proper error message
-> > > instead, like it is already done for the MMU.
-> > >=20
-> > > Even if this is less likely to happen, the opposite case of a guest
-> > > that only knows about XIVE would certainly fail all the same if the
-> > > machine is started with ic-mode=3Dxics.
-> > >=20
-> > > Also, the only valid values a guest can pass in byte 23 of OV5 during
-> > > CAS are 0b00 (XIVE legacy mode) and 0b01 (XIVE exploitation mode). Any
-> > > other value is a bug, at least with the current spec. Again, it does
-> > > not seem right to let the guest go on without a precise idea of the
-> > > interrupt mode it asked for.
-> > >=20
-> > > Handle these cases as well.
-> > >=20
-> > > Reported-by: Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>
-> > > Signed-off-by: Greg Kurz <groug@kaod.org>
-> > > ---
-> > >  hw/ppc/spapr_hcall.c |   24 ++++++++++++++++++++++++
-> > >  1 file changed, 24 insertions(+)
-> > >=20
-> > > diff --git a/hw/ppc/spapr_hcall.c b/hw/ppc/spapr_hcall.c
-> > > index 6c16d2b12040..63a55614b83d 100644
-> > > --- a/hw/ppc/spapr_hcall.c
-> > > +++ b/hw/ppc/spapr_hcall.c
-> > > @@ -1513,6 +1513,7 @@ static target_ulong h_client_architecture_suppo=
-rt(PowerPCCPU *cpu,
-> > >      bool guest_radix;
-> > >      Error *local_err =3D NULL;
-> > >      bool raw_mode_supported =3D false;
-> > > +    bool guest_xive;
-> > >=20
-> > >      cas_pvr =3D cas_check_pvr(spapr, cpu, &addr, &raw_mode_supported=
-, &local_err);
-> > >      if (local_err) {
-> > > @@ -1545,10 +1546,17 @@ static target_ulong h_client_architecture_sup=
-port(PowerPCCPU *cpu,
-> > >          error_report("guest requested hash and radix MMU, which is i=
-nvalid.");
-> > >          exit(EXIT_FAILURE);
-> > >      }
-> > > +    if (spapr_ovec_test(ov5_guest, OV5_XIVE_BOTH)) {
-> > > +        error_report("guest requested an invalid interrupt mode");
-> > > +        exit(EXIT_FAILURE);
-> > > +    }
-> > > +
-> > >      /* The radix/hash bit in byte 24 requires special handling: */
-> > >      guest_radix =3D spapr_ovec_test(ov5_guest, OV5_MMU_RADIX_300);
-> > >      spapr_ovec_clear(ov5_guest, OV5_MMU_RADIX_300);
-> > >=20
-> > > +    guest_xive =3D spapr_ovec_test(ov5_guest, OV5_XIVE_EXPLOIT);
-> > > +
-> > >      /*
-> > >       * HPT resizing is a bit of a special case, because when enabled
-> > >       * we assume an HPT guest will support it until it says it
-> > > @@ -1632,6 +1640,22 @@ static target_ulong h_client_architecture_supp=
-ort(PowerPCCPU *cpu,
-> > >                                            ov5_updates) !=3D 0);
-> > >      }
-> > >=20
-> > > +    /*
-> > > +     * Ensure the guest asks for an interrupt mode we support; other=
-wise
-> > > +     * terminate the boot.
-> > > +     */
-> > > +    if (guest_xive) {
-> > > +        if (spapr->irq->ov5 =3D=3D SPAPR_OV5_XIVE_LEGACY) {
-> > > +            error_report("Guest requested unavailable interrupt mode=
- (XIVE)");
-> > > +            exit(EXIT_FAILURE);
-> > > +        }
-> > > +    } else {
-> > > +        if (spapr->irq->ov5 =3D=3D SPAPR_OV5_XIVE_EXPLOIT) {
-> > > +            error_report("Guest requested unavailable interrupt mode=
- (XICS)"); =20
-> >=20
-> > Looks like there is a typo in the error msg reported, instead it should=
- be something like below
-> >=20
-> > "Guest requested unavailable interrupt mode(XIVE), please use supported=
- interrupt mode(ic-type=3Dxics)"
-> >=20
->=20
-> Hmm... Agreed that it may be worth adding some hint for the user to proce=
-ed but...
->=20
-> > Same for the previous check aswell.
-> >=20
-> > Coz, I booted 3.10(kernel) guest with ic-type=3Dxive and got a below er=
-ror, which seems wrong
-> >=20
-> > 2019-05-16T06:24:58.713261Z qemu-system-ppc64: Guest requested unavaila=
-ble interrupt mode (XICS)
-> >=20
->=20
-> ... this message is ok: the 3.10 kernel based guest _does_ ask for XICS,
-> which isn't available because of ic-mode=3Dxive.
 
-I won't be sending a pull request for a little while yet, so if you
-want to send a followup improving the messages I can fold it into the
-original patch in my tree.
+Applied, thanks.
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
+for any user-visible changes.
 
---sClP8c1IaQxyux9v
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlzdTXcACgkQbDjKyiDZ
-s5IdohAAlQX16uz7N8m268apL3USQBREYuJGMnOsfs8535bL7nsRpVcZfncW7jRZ
-rlFbATdSuDA7vVQdk6TKb/zpbUA1kxzGZvRVHaQyReMrahpjnJSdENNAJxrSODMV
-NwIDTlwKuf7sbOLyMNNpVsEZQPoOx80is3enO2gwneHifJhOukx2wN51OXhOpZk4
-Eq2BceHNEPEX8PBiBGxlk5Vdx42CjZiKXDmbQKlvXR+NxtfUSVWeFAViS6rjkP+X
-WKY/NEnJ5CAs3+bqL7t5yTldscZNLyXWLii1lAQnYnHk5nNZLL6HDtRY7mhmrN6s
-ZTN5ifQLvIiKM0YeICBEdjkPh/04NgbuM8WMsQmdn5OfkyPMtNjtvxeL8bpFc0TS
-cuE2GFMTNi6A83YZJeDjDJ3fm6M4Tv+rvaMepAkM292Y6PMkZhUVOuOE0NnTowWO
-J9bBdAwEQq6ldlRIMDQxlW5mOb11+K/WlKfKWt8B9/KYEURDiIKYekEN8sTcpblW
-ET+JWOzPcK2S4ijyoabETc/YvjowDYGrMb76faX96/lof8HtM5p3Q3bQyXLmvNTg
-TIt+5q+A9nPFEeOv0SWZfr//I8ARX8Zrp1UYbbBElauxBDdYMNu+5XifVoMB7Jg4
-E0x5fHs9YjmlvcnozUeB0oYLh8PlY+LhWI4DQd/qdrMs3J7q+gE=
-=QfYp
------END PGP SIGNATURE-----
-
---sClP8c1IaQxyux9v--
+-- PMM
 
