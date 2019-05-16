@@ -2,66 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6CC92207E2
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 15:20:58 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:56808 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D0AF2081A
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 15:27:33 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57495 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRGJd-00008M-Ix
-	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 09:20:57 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38017)
+	id 1hRGQ0-0003ye-Ah
+	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 09:27:32 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41690)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hRGGA-0006uN-JC
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 09:17:25 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hRGOy-0003dE-AP
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 09:26:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hRGG7-0006ID-Ij
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 09:17:22 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:36066)
+	(envelope-from <peter.maydell@linaro.org>) id 1hRGOv-0003Ck-82
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 09:26:28 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:42666)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hRGG7-0006HP-Dl
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 09:17:19 -0400
-Received: by mail-wr1-f67.google.com with SMTP id s17so3402642wru.3
-	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 06:17:19 -0700 (PDT)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hRGOt-00036A-Sl
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 09:26:25 -0400
+Received: by mail-ot1-x344.google.com with SMTP id f23so3376086otl.9
+	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 06:26:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=RWE8Wqxnoy7yDykNG8cAxiV/6xlT61vLoCQAVcZbz5s=;
+	b=f4gYc2n5y6dZW6Pp4BsVE7U4uMtsbqRk6uAiV8MJmkFnhnQSgroi/kq8ZGGfqXge/H
+	9fFkYAzXMjIJpmMg2Nw65A8H6kALrfxas00uRLFLF5ucHhI1DRHhVD1+VlaWJPNrlTEv
+	/ewlLgFUGAQGY65dTYhEAn9+gV0ss3Mf8apSo1tg9AVetOswOdp4Xui8f5zVIJqpjKjD
+	7RTUDKUwbwbrP8K8pQluWjnd5d2Bs1IcPMJAw3cvHq92webO7+KMD1ToXGYJScKzXn6J
+	hy4/00B1pcsosHtAQF3m+H3bZB5macFowbOh0PeylTdznG6+wILdb4C29wqgOcKSHUuX
+	5Ojg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=iHWMjzB0bghySYRBS19KMrKpotaAEq1EEQ+JesJxvgc=;
-	b=Bg48VRhzv0z55ITG7btvvhnuTeJrQ/qKCehKjVjYY80hbOvtWyQZ0bUbvPiRHBAN/8
-	5c9YJw39oeiOpX4o0RL2F/vph1IWrE9Vuq4uXU1jpqSAzTBcTL5MlNXqQI4mBhN+MsBY
-	8/+SepNhO8dq7+jWxpuvw31q+Gt57yyQAguqEXb+XfH02gr4AbGJi1qSVwFGuJ5WuPqV
-	Y2ydB05Xu/wz+dG0qUlPMJMUo1sZEPQpUIVAkcRgbXSyQwF93YXGc0PzJMD967B9IZcb
-	IPBE/Bdei5w2YV1BQJbFeOllnSJI1v/bygV6cR2389dTKboTWZ+TI8Sp6doJo7oeNdNt
-	TQPQ==
-X-Gm-Message-State: APjAAAW2BFkBA4PNtdxhxQOG9b7GyVrunBzIiL4boXT04WLZNszPMvcz
-	vpQgXgKQry1gmIQ93drJWzkJIQ==
-X-Google-Smtp-Source: APXvYqwwZNqXMi8UM4JbwKlwCoNvoTL3veVtsDt8RAckcnvOoqBfUiqJfxA66a12oF6hfocCzfgYeA==
-X-Received: by 2002:a5d:4fd2:: with SMTP id h18mr5683134wrw.117.1558012638399; 
-	Thu, 16 May 2019 06:17:18 -0700 (PDT)
-Received: from [192.168.1.43] (228.red-83-52-173.dynamicip.rima-tde.net.
-	[83.52.173.228]) by smtp.gmail.com with ESMTPSA id
-	j82sm7145340wmj.40.2019.05.16.06.17.17
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Thu, 16 May 2019 06:17:17 -0700 (PDT)
-To: Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-devel@nongnu.org
-References: <20190516055244.95559-1-ysato@users.sourceforge.jp>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
-	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <ecbbd813-abef-2f45-f957-610049377a44@redhat.com>
-Date: Thu, 16 May 2019 15:17:17 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=RWE8Wqxnoy7yDykNG8cAxiV/6xlT61vLoCQAVcZbz5s=;
+	b=mLTptSjS4+HBkzIMu2XUaUVrduY3pIqAOkUC8MkpMBTd7qs4ty7nkDBuozPiO3aU2g
+	PygXZIl2RXUggjvtegRBgjsWiyQ2lr4C4koG6wO6H+fWT4EK5lIzONnD3uVuZllDsB3L
+	0cVwgPjyYCr5MHsVT+kUX4OyokZ43wGdbgLVe8lvkzNqboR7NG75BzeRyNEsA2pNRlxK
+	VLpLYUpGQ3hhtf3gVelWD4pGU4rs8kvz305lyMa0swadtShuyMrERJMIca3UJYbrXxmf
+	Gjp/cFfALUZk0QO09W730oDwsOsgaxeTc6DTPFFaAj8ylwaH+fvuwSkd5Riy6uwciGfN
+	t9dQ==
+X-Gm-Message-State: APjAAAWKj+FlDfStJtZm5A8NDDvXVuWONEKDLuLhFcxcCnVLm4sUJ7bM
+	KT3dHxoLR7Y81zJzID0Z9mwsnGsz5vDXmm9hgXrs4g==
+X-Google-Smtp-Source: APXvYqy80ztwi7dFSNISqRVHLQ2649oz9PoWvu7FDvidmH+r5ZUJgOiQ4bbd9d8d6uPzC/jP/kAE8PpOTVJ1I+/jJ9g=
+X-Received: by 2002:a9d:3f61:: with SMTP id m88mr3212675otc.147.1558013181543; 
+	Thu, 16 May 2019 06:26:21 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190516055244.95559-1-ysato@users.sourceforge.jp>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.221.67
-Subject: Re: [Qemu-devel] [PATCH v13 00/12] Add RX archtecture support
+References: <20181210165636.28366-1-peter.maydell@linaro.org>
+	<98f62d5c-0c2a-9651-0dd6-961a243c4519@vivier.eu>
+In-Reply-To: <98f62d5c-0c2a-9651-0dd6-961a243c4519@vivier.eu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Thu, 16 May 2019 14:26:10 +0100
+Message-ID: <CAFEAcA_AqVBcjSsJkkruO-rGnvJSiOq9w2RW7VXVCXJu5kXW=A@mail.gmail.com>
+To: Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::344
+Subject: Re: [Qemu-devel] [RFC 0/3] target/m68k: convert to
+ transaction_failed hook
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -73,52 +73,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, richard.henderson@linaro.org
+Cc: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+	QEMU Developers <qemu-devel@nongnu.org>,
+	"patches@linaro.org" <patches@linaro.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/16/19 7:52 AM, Yoshinori Sato wrote:
-> Hello.
-> This patch series is added Renesas RX target emulation.
-> 
-> Add "Reviewed-by" for all changes.
-> 
-> My git repository is bellow.
-> git://git.pf.osdn.net/gitroot/y/ys/ysato/qemu.git tags/rx-20190514
-> 
-> Testing binaries bellow.
-> u-boot
-> Download - https://osdn.net/users/ysato/pf/qemu/dl/u-boot.bin.gz
-> 
-> starting
-> $ gzip -d u-boot.bin.gz
-> $ qemu-system-rx -bios u-boot.bin
-> 
-> linux and pico-root (only sash)
-> Download - https://osdn.net/users/ysato/pf/qemu/dl/zImage (kernel)
->            https://osdn.net/users/ysato/pf/qemu/dl/rx-qemu.dtb (DeviceTree)
-> 
-> starting
-> $ qemu-system-rx -kernel zImage -dtb rx-qemu.dtb -append "earlycon"
-> 
-> Changes for v12.
-> - None
-> 
-> Yoshinori Sato (12):
->   target/rx: TCG translation
->   target/rx: TCG helper
->   target/rx: CPU definition
->   target/rx: RX disassembler
->   hw/intc: RX62N interrupt controller (ICUa)
->   hw/timer: RX62N internal timer modules
->   hw/char: RX62N serial communication interface (SCI)
->   hw/rx: RX Target hardware definition
->   Add rx-softmmu
->   hw/registerfields.h: Add 8bit and 16bit register macros.
->   qemu/bitops.h: Add extract8 and extract16
->   MAINTAINERS: Add RX
+On Fri, 3 May 2019 at 18:12, Laurent Vivier <laurent@vivier.eu> wrote:
+>
+> On 10/12/2018 17:56, Peter Maydell wrote:
+> > This patchset converts the m68k target from the deprecated
+> > unassigned_access hook to the new transaction_failed hook.
+> > It's RFC for a couple of reasons:
+> >   * it's untested, since I don't have an m68k test image
+> >   * the second patch just makes "bus error while trying to
+> >     read page tables" be treated as a page fault, when it
+> >     should probably cause a fault reporting it as a bus error
+> >     of some kind
+> >   * I don't understand why the old unassigned_access hook
+> >     set the ATC bit in the MMU SSW, since the docs I have say
+> >     this should be set if the fault happened during a table
+> >     search, but cleared if it's just an ordinary bus-errored
+> >     data or insn access. Probably this is a pre-existing bug?
+>
+> I think you're right. It must be cleared on bus error.
 
-Series:
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Thanks for the review of this patchset. Is there anything
+you want me to do for a v2, or is it ready to be applied ?
 
+-- PMM
 
