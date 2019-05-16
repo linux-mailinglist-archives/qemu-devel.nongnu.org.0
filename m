@@ -2,73 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B35C20893
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 15:51:19 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58378 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6B1BF208EE
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 16:01:29 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58608 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRGn0-0005aF-CJ
-	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 09:51:18 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47003)
+	id 1hRGwq-00032L-8Y
+	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 10:01:28 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48654)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <eroken1@gmail.com>) id 1hRGlL-0004kG-Ri
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 09:49:38 -0400
+	(envelope-from <mst@redhat.com>) id 1hRGun-0001zj-Re
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 09:59:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <eroken1@gmail.com>) id 1hRGlI-0005mi-PS
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 09:49:35 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:39633)
+	(envelope-from <mst@redhat.com>) id 1hRGum-0000BM-Q1
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 09:59:21 -0400
+Received: from mail-qt1-f194.google.com ([209.85.160.194]:43481)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <eroken1@gmail.com>) id 1hRGlI-0005hT-G5
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 09:49:32 -0400
-Received: by mail-wr1-x441.google.com with SMTP id w8so3494420wrl.6
-	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 06:49:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=zpggYz/xQbAav5Y/TYwTd/IgW7nS5/7iEz2eWxjiP+0=;
-	b=lZqLQwK8E7BoJiBt5Dc6DkkZiYX5n7KDjViiQgqD3/ooQbT3ieA3+UQdml3flFsDZ7
-	6vUl3GF05Nhtje5MmNe75zMg7yHJAYUka1AZ5VdTDzw7FMM44K8UxFiYAco6n6FRfNE7
-	5c1vJYbPWipphC3ICAwC3U7hfszrgl4xaA0DQFx4dy+rQsfsvMDi4wG0NUCxJVc81V7N
-	cCzivxs4CkzbE9cagXWnZgoRnGjONWQe42/1a9iqAkAnLNtvrxcjKXwXkL+CyYu2ZCKa
-	02echJHJrTg8ESQC2fgElJ9fePBSbBHsS+xfQ9k412JJvkQoWJ/pkJXhEPh4s3y7k++5
-	MoNw==
+	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hRGum-0000AW-M7
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 09:59:20 -0400
+Received: by mail-qt1-f194.google.com with SMTP id i26so3922714qtr.10
+	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 06:59:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=zpggYz/xQbAav5Y/TYwTd/IgW7nS5/7iEz2eWxjiP+0=;
-	b=VwGnQPkl5Boal71GzGkMuDTkIdab2XiUuQnof4NL6izo5juQLDLcwWep2OS96oaIb6
-	CmejZXHMwvv5Z2xVo/IRw6cFJJsxNs2g4KGKm6dvqnneAtuHQ3YoAvfLnFK6H/5DUUBM
-	1pk8F7SW6cA5uPhhBG/3AAkx4BykpkdhLm4hOGU3vZ8b5i6mtffDXO5XJ/2+d/BdNikq
-	Y6EJsNMzyeQEjaiTilzN24ZlGnF9QKgQ5w0NI7pmuh3uiWslvDpvz/VAUztUOQ+WqEvJ
-	jIS3gJ8Unk92ULTnRzlPaURw2uOi4Wv/QrneZoQn5FCnSmAdPbWccQPN0o2aK8WRkbwT
-	GI4g==
-X-Gm-Message-State: APjAAAU4pkLIqrXBTiLUiwpZlOEtjXcG9rq3j8gbvETKrpuVavGXpTKo
-	Fgp8ar480fEuCQMSglpIWRs=
-X-Google-Smtp-Source: APXvYqxJQ510V3QVusIpOcd9F8dbW8LhMtL62bmPIzQjHe+JeChbN2uHweU4KLREtpXYkFPnhPqsJg==
-X-Received: by 2002:adf:e44b:: with SMTP id t11mr15614516wrm.151.1558014569159;
-	Thu, 16 May 2019 06:49:29 -0700 (PDT)
-Received: from erokenlabserver ([41.203.78.145])
-	by smtp.gmail.com with ESMTPSA id f6sm5982652wro.12.2019.05.16.06.49.26
+	:mime-version:content-disposition:in-reply-to;
+	bh=4W8nxk4k4MVtLI1JLQcZmk+Bl22d4lanY5c6NY2cMcc=;
+	b=OiDnz7mhu7g6cvxrFXCtys+wXdwZD0PZZDP+dhiqxOmsGv7war0KAjXjBwK1tx2K6u
+	eMPhAIFq2BvqoY1V9LOTsFhYsoDkExFa8RAGZimWT5X4jTfldvRRUmXcAxF3yN+JpngL
+	J1C1OgZynezk2iEd0nRGxJxt0sIMGFldTdMwIToOwaNcYAyoKZNL2grUbjPvFM1vokxi
+	MjB3UvLN4qy22W8T4XZGnp3EfPOEmWiS+G5RK2Ug7qARc6L48ItynHF3npVeel2wXKdR
+	+TIxMTijBn9MWJ9rfdx54nb0svn2tkIftxMiHgRmzDCbTQuUpKeanatqjR+fF7MINNpP
+	qFRw==
+X-Gm-Message-State: APjAAAWEYG8gggX4dUirdkZFja1AFZC3enBIlWL+Wir40ugcpJb0PR4B
+	9q2TusWcZnGDGWRVLMC1Re9qmQ==
+X-Google-Smtp-Source: APXvYqwNqjWbg9ip//OmA0nM3GR5PQZt9aCGRYqOitDJVOvfxjGNt2YWHJMFjse5jwjGBTbN3j6Jnw==
+X-Received: by 2002:a0c:fe48:: with SMTP id u8mr39012393qvs.234.1558015159428; 
+	Thu, 16 May 2019 06:59:19 -0700 (PDT)
+Received: from redhat.com ([185.54.206.10]) by smtp.gmail.com with ESMTPSA id
+	o37sm3676500qta.86.2019.05.16.06.59.12
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 16 May 2019 06:49:28 -0700 (PDT)
-Date: Thu, 16 May 2019 14:49:45 +0100
-From: Ernest Esene <eroken1@gmail.com>
-To: Stefan Hajnoczi <stefanha@gmail.com>
-Message-ID: <20190516134945.GA2293@erokenlabserver>
-References: <20190510180410.GA10349@erokenlabserver>
-	<20190515141712.GG29507@stefanha-x1.localdomain>
+	Thu, 16 May 2019 06:59:18 -0700 (PDT)
+Date: Thu, 16 May 2019 09:59:09 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Message-ID: <20190516095618-mutt-send-email-mst@kernel.org>
+References: <20190514145422.16923-1-pagupta@redhat.com>
+	<20190514145422.16923-3-pagupta@redhat.com>
+	<9f6b1d8e-ef90-7d8b-56da-61a426953ba3@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="EeQfGwPcQSOJBaQU"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190515141712.GG29507@stefanha-x1.localdomain>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: Re: [Qemu-devel] [PATCH v3] chardev/char-i2c: Implement Linux I2C
- character device
+In-Reply-To: <9f6b1d8e-ef90-7d8b-56da-61a426953ba3@redhat.com>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+	[fuzzy]
+X-Received-From: 209.85.160.194
+Subject: Re: [Qemu-devel] [PATCH v9 2/7] virtio-pmem: Add virtio pmem driver
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -80,59 +68,162 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?iso-8859-1?Q?Marc-Andr=E9?= Lureau <marcandre.lureau@redhat.com>,
-	Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
-	Stefan Hajnoczi <stefanha@redhat.com>,
-	Markus Armbruster <armbru@redhat.com>
+Cc: Pankaj Gupta <pagupta@redhat.com>, cohuck@redhat.com, jack@suse.cz,
+	kvm@vger.kernel.org, jasowang@redhat.com, david@fromorbit.com,
+	qemu-devel@nongnu.org, virtualization@lists.linux-foundation.org,
+	adilger.kernel@dilger.ca, zwisler@kernel.org,
+	aarcange@redhat.com, dave.jiang@intel.com, jstaron@google.com,
+	linux-nvdimm@lists.01.org, vishal.l.verma@intel.com,
+	willy@infradead.org, hch@infradead.org,
+	linux-acpi@vger.kernel.org, jmoyer@redhat.com,
+	linux-ext4@vger.kernel.org, lenb@kernel.org, kilobyte@angband.pl,
+	riel@surriel.com, yuval.shaia@oracle.com, stefanha@redhat.com,
+	pbonzini@redhat.com, dan.j.williams@intel.com,
+	lcapitulino@redhat.com, kwolf@redhat.com, nilal@redhat.com,
+	tytso@mit.edu, xiaoguangrong.eric@gmail.com,
+	darrick.wong@oracle.com, rjw@rjwysocki.net,
+	linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, imammedo@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, May 15, 2019 at 10:46:00PM +0200, David Hildenbrand wrote:
+> > +	vpmem->vdev = vdev;
+> > +	vdev->priv = vpmem;
+> > +	err = init_vq(vpmem);
+> > +	if (err) {
+> > +		dev_err(&vdev->dev, "failed to initialize virtio pmem vq's\n");
+> > +		goto out_err;
+> > +	}
+> > +
+> > +	virtio_cread(vpmem->vdev, struct virtio_pmem_config,
+> > +			start, &vpmem->start);
+> > +	virtio_cread(vpmem->vdev, struct virtio_pmem_config,
+> > +			size, &vpmem->size);
+> > +
+> > +	res.start = vpmem->start;
+> > +	res.end   = vpmem->start + vpmem->size-1;
+> 
+> nit: " - 1;"
+> 
+> > +	vpmem->nd_desc.provider_name = "virtio-pmem";
+> > +	vpmem->nd_desc.module = THIS_MODULE;
+> > +
+> > +	vpmem->nvdimm_bus = nvdimm_bus_register(&vdev->dev,
+> > +						&vpmem->nd_desc);
+> > +	if (!vpmem->nvdimm_bus) {
+> > +		dev_err(&vdev->dev, "failed to register device with nvdimm_bus\n");
+> > +		err = -ENXIO;
+> > +		goto out_vq;
+> > +	}
+> > +
+> > +	dev_set_drvdata(&vdev->dev, vpmem->nvdimm_bus);
+> > +
+> > +	ndr_desc.res = &res;
+> > +	ndr_desc.numa_node = nid;
+> > +	ndr_desc.flush = async_pmem_flush;
+> > +	set_bit(ND_REGION_PAGEMAP, &ndr_desc.flags);
+> > +	set_bit(ND_REGION_ASYNC, &ndr_desc.flags);
+> > +	nd_region = nvdimm_pmem_region_create(vpmem->nvdimm_bus, &ndr_desc);
+> > +	if (!nd_region) {
+> > +		dev_err(&vdev->dev, "failed to create nvdimm region\n");
+> > +		err = -ENXIO;
+> > +		goto out_nd;
+> > +	}
+> > +	nd_region->provider_data = dev_to_virtio(nd_region->dev.parent->parent);
+> > +	return 0;
+> > +out_nd:
+> > +	nvdimm_bus_unregister(vpmem->nvdimm_bus);
+> > +out_vq:
+> > +	vdev->config->del_vqs(vdev);
+> > +out_err:
+> > +	return err;
+> > +}
+> > +
+> > +static void virtio_pmem_remove(struct virtio_device *vdev)
+> > +{
+> > +	struct nvdimm_bus *nvdimm_bus = dev_get_drvdata(&vdev->dev);
+> > +
+> > +	nvdimm_bus_unregister(nvdimm_bus);
+> > +	vdev->config->del_vqs(vdev);
+> > +	vdev->config->reset(vdev);
+> > +}
+> > +
+> > +static struct virtio_driver virtio_pmem_driver = {
+> > +	.driver.name		= KBUILD_MODNAME,
+> > +	.driver.owner		= THIS_MODULE,
+> > +	.id_table		= id_table,
+> > +	.probe			= virtio_pmem_probe,
+> > +	.remove			= virtio_pmem_remove,
+> > +};
+> > +
+> > +module_virtio_driver(virtio_pmem_driver);
+> > +MODULE_DEVICE_TABLE(virtio, id_table);
+> > +MODULE_DESCRIPTION("Virtio pmem driver");
+> > +MODULE_LICENSE("GPL");
+> > diff --git a/drivers/nvdimm/virtio_pmem.h b/drivers/nvdimm/virtio_pmem.h
+> > new file mode 100644
+> > index 000000000000..ab1da877575d
+> > --- /dev/null
+> > +++ b/drivers/nvdimm/virtio_pmem.h
+> > @@ -0,0 +1,60 @@
+> > +/* SPDX-License-Identifier: GPL-2.0 */
+> > +/*
+> > + * virtio_pmem.h: virtio pmem Driver
+> > + *
+> > + * Discovers persistent memory range information
+> > + * from host and provides a virtio based flushing
+> > + * interface.
+> > + **/
+> > +
+> > +#ifndef _LINUX_VIRTIO_PMEM_H
+> > +#define _LINUX_VIRTIO_PMEM_H
+> > +
+> > +#include <linux/virtio_ids.h>
+> > +#include <linux/module.h>
+> > +#include <linux/virtio_config.h>
+> > +#include <uapi/linux/virtio_pmem.h>
+> > +#include <linux/libnvdimm.h>
+> > +#include <linux/spinlock.h>
+> > +
+> > +struct virtio_pmem_request {
+> > +	/* Host return status corresponding to flush request */
+> > +	int ret;
+> > +
+> > +	/* command name*/
+> > +	char name[16];
+> 
+> So ... why are we sending string commands and expect native-endianess
+> integers and don't define a proper request/response structure + request
+> types in include/uapi/linux/virtio_pmem.h like
 
---EeQfGwPcQSOJBaQU
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, May 15, 2019 at 03:17:12PM +0100, Stefan Hajnoczi wrote:
-> On Fri, May 10, 2019 at 07:04:10PM +0100, Ernest Esene wrote:
-> > Add support for Linux I2C character device for I2C device passthrough
-> > For example:
-> > -chardev i2c,address=3D0x46,path=3D/dev/i2c-N,id=3Di2c-chardev
-> >=20
-> > QEMU supports emulation of I2C devices in software but currently can't
-> > passthrough to real I2C devices. This feature is needed by developers
-> > using QEMU for writing and testing software for I2C devices.
-> >=20
-> > Signed-off-by: Ernest Esene <eroken1@gmail.com>
->=20
-> How is -chardev i2c meant to be used?  Do you have code to connect this
-> new chardev type to an emulated I2C bus?
-It is meant to be connected to emulated I2C bus as you've stated, but I
-don't have the code yet.
->=20
-> Stefan
+passing names could be ok.
+I missed the fact we return a native endian int.
+Pls fix that.
 
 
+> 
+> struct virtio_pmem_resp {
+> 	__virtio32 ret;
+> }
+> 
+> #define VIRTIO_PMEM_REQ_TYPE_FLUSH	1
+> struct virtio_pmem_req {
+> 	__virtio16 type;
+> }
+> 
+> ... and this way we also define a proper endianess format for exchange
+> and keep it extensible
+> 
+> @MST, what's your take on this?
 
---EeQfGwPcQSOJBaQU
-Content-Type: application/pgp-signature; name="signature.asc"
+Extensions can always use feature bits so I don't think
+it's a problem.
 
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCAAdFiEEFkNmxXgplc+HqgQGJZ4JoaCvxKoFAlzdanMACgkQJZ4JoaCv
-xKqehA/+K4lqOvR1C3f5/6B3gYr+qA1MGrBPxaTtTWt//hYHjpD6pJyobCaXPBCB
-6vKD2DWvMhA17LNI7Q6CJzr1LA0x41NS1MB8b2+x+CDcu2mTajqyJH9pfUPriokw
-3sjuqjtNNTONq5XY6tqloGQg6UkMXtgUqi1ppdv1Pwbz75pdE1/CoZpXmr7kRD1r
-jY/2MIarszZIY2aaxAXl/jpdCclIHb4leKDWRtjxXo3JmP/y7+VbFLnbZFYrY1bg
-lfBXS5+sfqvl6IcmWD8gbv/7wGlzBeXgnv+jUWh5+Z+Mmr/RADbrj2pwPSwDpCiu
-FDJJyH61kDawV5T3e28oDHC/TLFdu19PppVELryZ5F9K+nw86mLJH2qi/U9S3jiu
-itJi8Siug3MznWH2eZyvvBQBYEkJ9eLnoWAz0t9HBL4XSIo+SKb241opRjg+8wjx
-8rSRAZp15R9JAap34LtuVidmtYwolbIUOcULydzjgO8Q49SiGGOjasYPKz+RSKhx
-3vKvktr+bUBm3C1Fj2/IJ7W4HIsLtV4o1N2ArXMk8IphbNq9hGTKL72pVxa8n1lF
-7hsPjeyjy04FdLUmYBodP3LtXfD53ydv2GXo9zSB3U2ijkEYkM7Ghish2ovQEsDR
-Jh098yf9QpnySf29r0icPp6DMLbonWg6Wp7IbnBq/JAuTa9dpHM=
-=D+ac
------END PGP SIGNATURE-----
-
---EeQfGwPcQSOJBaQU--
+> 
+> -- 
+> 
+> Thanks,
+> 
+> David / dhildenb
 
