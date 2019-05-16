@@ -2,97 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C386B20340
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 12:17:00 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:51564 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7D885203EC
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 12:56:35 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:51989 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRDRb-0000rM-7P
-	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 06:16:59 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49454)
+	id 1hRE3s-0008W3-Dk
+	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 06:56:32 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54914)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hRDQJ-0000Bc-NH
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 06:15:41 -0400
+	(envelope-from <mreitz@redhat.com>) id 1hRDzz-0005uW-3K
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 06:52:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hRDNM-0002VN-Dw
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 06:12:37 -0400
-Received: from mail-eopbgr40112.outbound.protection.outlook.com
-	([40.107.4.112]:2692
-	helo=EUR03-DB5-obe.outbound.protection.outlook.com)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
-	id 1hRDNK-0002Rv-GI; Thu, 16 May 2019 06:12:35 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
-	s=selector1;
-	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
-	bh=kXc0BaudoYAhwBjA7v0XCQD1Qwy7wu0gjodt5a1DkG8=;
-	b=TUFm5jYrxRDyQwrurOweGR5jFCAy2o3RUNytLHT4uqK1lVnf941G6HyGXaMVSo9lj2Lg44kt6JCWmFHL4E9s4PZ4zgSzMVu9YW1o/YsO7zGQzXd6GNIPFd1urHRKccv2qd4cildwb/vWQz/FAFT0E0tx0yAUCJTzVuoEXNTj2N4=
-Received: from AM6PR08MB4675.eurprd08.prod.outlook.com (10.255.96.78) by
-	AM6PR08MB3528.eurprd08.prod.outlook.com (20.177.114.209) with Microsoft
-	SMTP
-	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
-	15.20.1878.22; Thu, 16 May 2019 10:12:30 +0000
-Received: from AM6PR08MB4675.eurprd08.prod.outlook.com
-	([fe80::9051:3c85:28c6:a0c1]) by
-	AM6PR08MB4675.eurprd08.prod.outlook.com
-	([fe80::9051:3c85:28c6:a0c1%6]) with mapi id 15.20.1878.024;
-	Thu, 16 May 2019 10:12:30 +0000
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: John Snow <jsnow@redhat.com>, "qemu-devel@nongnu.org"
-	<qemu-devel@nongnu.org>, "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-Thread-Topic: [PATCH v2] migration/dirty-bitmaps: change bitmap enumeration
-	method
-Thread-Index: AQHVCpJiO5csnRf0D0OxXxQO3Uu316ZtipWA
-Date: Thu, 16 May 2019 10:12:30 +0000
-Message-ID: <72986b5d-0772-abfb-2c99-97470e8fd3da@virtuozzo.com>
-References: <20190514201926.10407-1-jsnow@redhat.com>
-In-Reply-To: <20190514201926.10407-1-jsnow@redhat.com>
-Accept-Language: ru-RU, en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-clientproxiedby: HE1PR05CA0166.eurprd05.prod.outlook.com
-	(2603:10a6:3:f8::14) To AM6PR08MB4675.eurprd08.prod.outlook.com
-	(2603:10a6:20b:c2::14)
-authentication-results: spf=none (sender IP is )
-	smtp.mailfrom=vsementsov@virtuozzo.com; 
-x-ms-exchange-messagesentrepresentingtype: 1
-x-tagtoolbar-keys: D20190516131227930
-x-originating-ip: [185.231.240.5]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: 29a9dcce-4b4e-40e2-d5a2-08d6d9e7011f
-x-microsoft-antispam: BCL:0; PCL:0;
-	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(2017052603328)(7193020);
-	SRVR:AM6PR08MB3528; 
-x-ms-traffictypediagnostic: AM6PR08MB3528:
-x-ms-exchange-purlcount: 1
-x-microsoft-antispam-prvs: <AM6PR08MB35281468E8BF146A310C0661C10A0@AM6PR08MB3528.eurprd08.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8882;
-x-forefront-prvs: 0039C6E5C5
-x-forefront-antispam-report: SFV:NSPM;
-	SFS:(10019020)(136003)(376002)(366004)(396003)(346002)(39850400004)(52314003)(189003)(199004)(3846002)(6116002)(25786009)(4326008)(66476007)(66556008)(64756008)(66446008)(66946007)(966005)(73956011)(256004)(305945005)(53936002)(68736007)(7736002)(36756003)(6246003)(14454004)(5660300002)(31686004)(110136005)(11346002)(446003)(71200400001)(71190400001)(6306002)(2501003)(6512007)(229853002)(6436002)(2616005)(476003)(6486002)(14444005)(6506007)(52116002)(102836004)(316002)(76176011)(386003)(486006)(99286004)(186003)(26005)(8676002)(81156014)(66066001)(81166006)(86362001)(54906003)(31696002)(2201001)(2906002)(478600001)(5024004)(8936002)(14143004);
-	DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB3528;
-	H:AM6PR08MB4675.eurprd08.prod.outlook.com; FPR:; SPF:None;
-	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
-received-spf: None (protection.outlook.com: virtuozzo.com does not designate
-	permitted sender hosts)
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam-message-info: P/1Rfyq4Bhw7hBjISYmv2DR6UxuB+Ca+NXDKnSiXaacEeMQjs+705th4vfhPV5TllBnPnFZazhE0t26Knq3PgPH4RqQrepKCZ55L4TSn9Hp0TvKKcfUr7SNoejUKz+CGrgVIfGc3sWtqS9Fn6vJA8Vj4lw/s3asw5pfgbjl89NVaECrpAFl69X8vP7djq9WelOkqAuN30VEVU/NcdQz277jpSSCCsjWsG+sOd//3eIb9Z4gbRw98w6undkQb3XeNSURN6EeG7AKglHmP48uTs1jX2BYu3TXU+qxNcVAZmRLNvsoambwumTINkznNd52ylwvm9el90aBv07lxF5rGkWLKiZrrn41XH9a/7PBIyywqfnXCCSCP54c2COuT2s9eEbpTVEEdfTHTn2ydt2avFWzAe2iNLOJROQkYo9Z0jR4=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <CED074B4F098FD47B6733BA66F2431B3@eurprd08.prod.outlook.com>
-Content-Transfer-Encoding: base64
+	(envelope-from <mreitz@redhat.com>) id 1hRDoj-00056l-LA
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 06:40:54 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:62631)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
+	id 1hRDoi-00054J-64; Thu, 16 May 2019 06:40:52 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 183CE308623C;
+	Thu, 16 May 2019 10:40:51 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-204-34.brq.redhat.com
+	[10.40.204.34])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 642EE608AB;
+	Thu, 16 May 2019 10:40:49 +0000 (UTC)
+To: Denis Plotnikov <dplotnikov@virtuozzo.com>,
+	"kwolf@redhat.com" <kwolf@redhat.com>
+References: <20190205090825.14059-1-dplotnikov@virtuozzo.com>
+	<cd22d738-d09c-4e2f-5ec6-8d3d34e2b341@redhat.com>
+	<f441d52b-4124-7951-c715-a35127ca3a54@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+	mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+	/PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+	U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+	mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+	awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+	AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+	CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+	B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+	2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+	AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+	8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+	4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+	BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+	xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+	W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+	DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+	64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+	ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+	sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+	alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+	/ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+	bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+	R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <be26ed1d-ced3-4a26-24f5-ef26278d72a5@redhat.com>
+Date: Thu, 16 May 2019 12:40:47 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-X-OriginatorOrg: virtuozzo.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 29a9dcce-4b4e-40e2-d5a2-08d6d9e7011f
-X-MS-Exchange-CrossTenant-originalarrivaltime: 16 May 2019 10:12:30.6655 (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB3528
-X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
-X-Received-From: 40.107.4.112
-Subject: Re: [Qemu-devel] [PATCH v2] migration/dirty-bitmaps: change bitmap
- enumeration method
+In-Reply-To: <f441d52b-4124-7951-c715-a35127ca3a54@virtuozzo.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature";
+	boundary="FcTq6f65IjcONIBxzej2ah2AhxPBz7MKf"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.42]);
+	Thu, 16 May 2019 10:40:51 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [PATCH] [RFC] qcow2: add compression type feature
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -104,76 +89,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
-	aihua liang <aliang@redhat.com>, Juan Quintela <quintela@redhat.com>,
-	"Dr. David Alan Gilbert" <dgilbert@redhat.com>,
-	Stefan Hajnoczi <stefanha@redhat.com>
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+	"qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+	Denis Lunev <den@virtuozzo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-MTQuMDUuMjAxOSAyMzoxOSwgSm9obiBTbm93IHdyb3RlOg0KPiBTaGlmdCBmcm9tIGxvb2tpbmcg
-YXQgZXZlcnkgcm9vdCBCRFMgdG8gKmV2ZXJ5KiBCRFMuIFRoaXMgd2lsbCBtaWdyYXRlDQo+IGJp
-dG1hcHMgdGhhdCBhcmUgYXR0YWNoZWQgdG8gYmxvY2tkZXYgY3JlYXRlZCBub2RlcyBpbnN0ZWFk
-IG9mIGp1c3Qgb25lcw0KPiBhdHRhY2hlZCB0byBlbXVsYXRlZCBzdG9yYWdlIGRldmljZXMuDQo+
-IA0KPiBOb3RlIHRoYXQgdGhpcyB3aWxsIG5vdCBtaWdyYXRlIGFub255bW91cyBvciBpbnRlcm5h
-bC11c2UgYml0bWFwcywgYXMNCj4gdGhvc2UgYXJlIGRlZmluZWQgYXMgaGF2aW5nIG5vIG5hbWUu
-DQo+IA0KPiBUaGlzIHdpbGwgYWxzbyBmaXggdGhlIENvdmVyaXR5IGlzc3VlcyBQZXRlciBNYXlk
-ZWxsIGhhcyBiZWVuIGFza2luZw0KPiBhYm91dCBmb3IgdGhlIHBhc3Qgc2V2ZXJhbCByZWxlYXNl
-cywgYXMgd2VsbCBhcyBmaXhpbmcgYSByZWFsIGJ1Zy4NCj4gDQo+IFJlcG9ydGVkLWJ5OiBQZXRl
-ciBNYXlkZWxsIDxwZXRlci5tYXlkZWxsQGxpbmFyby5vcmc+DQo+IFJlcG9ydGVkLWJ5OiBDb3Zl
-cml0eSDwn5iFDQo+IFJlcG9ydGVkLWJ5OiBhaWh1YSBsaWFuZyA8YWxpYW5nQHJlZGhhdC5jb20+
-DQo+IEZpeGVzOiBodHRwczovL2J1Z3ppbGxhLnJlZGhhdC5jb20vc2hvd19idWcuY2dpP2lkPTE2
-NTI0OTANCj4gRml4ZXM6IENvdmVyaXR5IENJRCAxMzkwNjI1DQo+IENDOiBTdGVmYW4gSGFqbm9j
-emkgPHN0ZWZhbmhhQHJlZGhhdC5jb20+DQo+IFNpZ25lZC1vZmYtYnk6IEpvaG4gU25vdyA8anNu
-b3dAcmVkaGF0LmNvbT4NCj4gLS0tDQo+ICAgbWlncmF0aW9uL2Jsb2NrLWRpcnR5LWJpdG1hcC5j
-IHwgMTQgKysrKy0tLS0tLS0tLS0NCj4gICAxIGZpbGUgY2hhbmdlZCwgNCBpbnNlcnRpb25zKCsp
-LCAxMCBkZWxldGlvbnMoLSkNCj4gDQo+IGRpZmYgLS1naXQgYS9taWdyYXRpb24vYmxvY2stZGly
-dHktYml0bWFwLmMgYi9taWdyYXRpb24vYmxvY2stZGlydHktYml0bWFwLmMNCj4gaW5kZXggZDFi
-Yjg2M2NiNi4uNGE4OTZhMDllYiAxMDA2NDQNCj4gLS0tIGEvbWlncmF0aW9uL2Jsb2NrLWRpcnR5
-LWJpdG1hcC5jDQo+ICsrKyBiL21pZ3JhdGlvbi9ibG9jay1kaXJ0eS1iaXRtYXAuYw0KPiBAQCAt
-MjczLDcgKzI3Myw2IEBAIHN0YXRpYyBpbnQgaW5pdF9kaXJ0eV9iaXRtYXBfbWlncmF0aW9uKHZv
-aWQpDQo+ICAgICAgIEJsb2NrRHJpdmVyU3RhdGUgKmJzOw0KPiAgICAgICBCZHJ2RGlydHlCaXRt
-YXAgKmJpdG1hcDsNCj4gICAgICAgRGlydHlCaXRtYXBNaWdCaXRtYXBTdGF0ZSAqZGJtczsNCj4g
-LSAgICBCZHJ2TmV4dEl0ZXJhdG9yIGl0Ow0KPiAgICAgICBFcnJvciAqbG9jYWxfZXJyID0gTlVM
-TDsNCj4gICANCj4gICAgICAgZGlydHlfYml0bWFwX21pZ19zdGF0ZS5idWxrX2NvbXBsZXRlZCA9
-IGZhbHNlOw0KPiBAQCAtMjgxLDEzICsyODAsOCBAQCBzdGF0aWMgaW50IGluaXRfZGlydHlfYml0
-bWFwX21pZ3JhdGlvbih2b2lkKQ0KPiAgICAgICBkaXJ0eV9iaXRtYXBfbWlnX3N0YXRlLnByZXZf
-Yml0bWFwID0gTlVMTDsNCj4gICAgICAgZGlydHlfYml0bWFwX21pZ19zdGF0ZS5ub19iaXRtYXBz
-ID0gZmFsc2U7DQo+ICAgDQo+IC0gICAgZm9yIChicyA9IGJkcnZfZmlyc3QoJml0KTsgYnM7IGJz
-ID0gYmRydl9uZXh0KCZpdCkpIHsNCj4gLSAgICAgICAgY29uc3QgY2hhciAqZHJpdmVfbmFtZSA9
-IGJkcnZfZ2V0X2RldmljZV9vcl9ub2RlX25hbWUoYnMpOw0KPiAtDQo+IC0gICAgICAgIC8qIHNr
-aXAgYXV0b21hdGljYWxseSBpbnNlcnRlZCBub2RlcyAqLw0KPiAtICAgICAgICB3aGlsZSAoYnMg
-JiYgYnMtPmRydiAmJiBicy0+aW1wbGljaXQpIHsNCj4gLSAgICAgICAgICAgIGJzID0gYmFja2lu
-Z19icyhicyk7DQo+IC0gICAgICAgIH0NCg0KaG0sIHNvLCBhZnRlciB0aGUgcGF0Y2gsIGZvciBp
-bXBsaWNpdGx5LWZpbHRlcmVkIG5vZGVzIHdlJ2xsIGhhdmUgbm9kZV9uYW1lIGluc3RlYWQgb2Yg
-ZGV2aWNlIG5hbWUuLg0KDQpCdXQsIG9uIHRoZSBvdGhlciwgaGFuZCwgaWYgd2UgaGF2ZSBpbXBs
-aWNpdGx5LWZpbHRlcmVkIG5vZGUgb24gdGFyZ2V0LCB3ZSB3ZXJlIGRvaW5nIHdyb25nIHRoaW5n
-IGFueXdheSwNCmFzIGRpcnR5X2JpdG1hcF9sb2FkX2hlYWRlciBkb24ndCBza2lwIGltcGxpY2l0
-IG5vZGVzLg0KDQo+ICsgICAgZm9yIChicyA9IGJkcnZfbmV4dF9hbGxfc3RhdGVzKE5VTEwpOyBi
-czsgYnMgPSBiZHJ2X25leHRfYWxsX3N0YXRlcyhicykpIHsNCg0KQXMgSSB1bmRlcnN0YW5kLCBk
-aWZmZXJlbmNlIHdpdGggYmRydl9uZXh0X25vZGUgaXMgdGhhdCB3ZSBkb24ndCBza2lwIHVubmFt
-ZWQgbm9kZXMgWy4uLl0NCg0KPiArICAgICAgICBjb25zdCBjaGFyICpuYW1lID0gYmRydl9nZXRf
-ZGV2aWNlX29yX25vZGVfbmFtZShicyk7DQo+ICAgDQo+ICAgICAgICAgICBmb3IgKGJpdG1hcCA9
-IGJkcnZfZGlydHlfYml0bWFwX25leHQoYnMsIE5VTEwpOyBiaXRtYXA7DQo+ICAgICAgICAgICAg
-ICAgIGJpdG1hcCA9IGJkcnZfZGlydHlfYml0bWFwX25leHQoYnMsIGJpdG1hcCkpDQo+IEBAIC0y
-OTYsNyArMjkwLDcgQEAgc3RhdGljIGludCBpbml0X2RpcnR5X2JpdG1hcF9taWdyYXRpb24odm9p
-ZCkNCj4gICAgICAgICAgICAgICAgICAgY29udGludWU7DQo+ICAgICAgICAgICAgICAgfQ0KPiAg
-IA0KPiAtICAgICAgICAgICAgaWYgKGRyaXZlX25hbWUgPT0gTlVMTCkgew0KPiArICAgICAgICAg
-ICAgaWYgKCFuYW1lIHx8IHN0cmNtcChuYW1lLCAiIikgPT0gMCkgew0KDQpbLi4uXSB0byBkbyB0
-aGlzIChtYXkgYmUgcGFyYW5vaWFjLCBidXQgd2h5IG5vdD8pIGNoZWNrDQoNCj4gICAgICAgICAg
-ICAgICAgICAgZXJyb3JfcmVwb3J0KCJGb3VuZCBiaXRtYXAgJyVzJyBpbiB1bm5hbWVkIG5vZGUg
-JXAuIEl0IGNhbid0ICINCj4gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICJiZSBtaWdy
-YXRlZCIsIGJkcnZfZGlydHlfYml0bWFwX25hbWUoYml0bWFwKSwgYnMpOw0KPiAgICAgICAgICAg
-ICAgICAgICBnb3RvIGZhaWw7DQo+IEBAIC0zMTMsNyArMzA3LDcgQEAgc3RhdGljIGludCBpbml0
-X2RpcnR5X2JpdG1hcF9taWdyYXRpb24odm9pZCkNCj4gICANCj4gICAgICAgICAgICAgICBkYm1z
-ID0gZ19uZXcwKERpcnR5Qml0bWFwTWlnQml0bWFwU3RhdGUsIDEpOw0KPiAgICAgICAgICAgICAg
-IGRibXMtPmJzID0gYnM7DQo+IC0gICAgICAgICAgICBkYm1zLT5ub2RlX25hbWUgPSBkcml2ZV9u
-YW1lOw0KPiArICAgICAgICAgICAgZGJtcy0+bm9kZV9uYW1lID0gbmFtZTsNCj4gICAgICAgICAg
-ICAgICBkYm1zLT5iaXRtYXAgPSBiaXRtYXA7DQo+ICAgICAgICAgICAgICAgZGJtcy0+dG90YWxf
-c2VjdG9ycyA9IGJkcnZfbmJfc2VjdG9ycyhicyk7DQo+ICAgICAgICAgICAgICAgZGJtcy0+c2Vj
-dG9yc19wZXJfY2h1bmsgPSBDSFVOS19TSVpFICogOCAqDQo+IA0KDQpUaGVyZSBpcyBzdGlsbCBz
-b21lIG1lc3MgYWJvdXQgZGV2aWNlIG5hbWUgdnMgbm9kZSBuYW1lLCBhbmQgSSBkb24ndCBrbm93
-LCBjb3VsZCB3ZSBzb21laG93DQpzb2x2ZSBpdCwgYnV0IHBhdGNoIGxvb2tzIE9LIGZvciBtZSBh
-bnl3YXk6DQoNClJldmlld2VkLWJ5OiBWbGFkaW1pciBTZW1lbnRzb3YtT2dpZXZza2l5IDx2c2Vt
-ZW50c292QHZpcnR1b3p6by5jb20+DQoNCi0tIA0KQmVzdCByZWdhcmRzLA0KVmxhZGltaXINCg==
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--FcTq6f65IjcONIBxzej2ah2AhxPBz7MKf
+From: Max Reitz <mreitz@redhat.com>
+To: Denis Plotnikov <dplotnikov@virtuozzo.com>,
+ "kwolf@redhat.com" <kwolf@redhat.com>
+Cc: "qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+ "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+ Denis Lunev <den@virtuozzo.com>, "eblake@redhat.com" <eblake@redhat.com>
+Message-ID: <be26ed1d-ced3-4a26-24f5-ef26278d72a5@redhat.com>
+Subject: Re: [PATCH] [RFC] qcow2: add compression type feature
+References: <20190205090825.14059-1-dplotnikov@virtuozzo.com>
+ <cd22d738-d09c-4e2f-5ec6-8d3d34e2b341@redhat.com>
+ <f441d52b-4124-7951-c715-a35127ca3a54@virtuozzo.com>
+In-Reply-To: <f441d52b-4124-7951-c715-a35127ca3a54@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+On 16.05.19 09:50, Denis Plotnikov wrote:
+>=20
+>=20
+> On 29.04.2019 1:32, Max Reitz wrote:
+>> On 05.02.19 10:08, Denis Plotnikov wrote:
+>>> The patch adds some preparation parts for incompatible compression ty=
+pe
+>>> feature into QCOW2 header that indicates that *all* compressed cluste=
+rs
+>>> must be (de)compressed using a certain compression type.
+>>>
+>>> It is implied that the compression type is set on the image creation =
+and
+>>> can be changed only later by image convertion, thus the only compress=
+ion
+>>> algorithm is used for the image.
+>>>
+>>> The plan is to add support for ZSTD and then may be something more ef=
+fective
+>>> in the future.
+>>>
+>>> ZSDT compression algorithm consumes 3-5 times less CPU power with a
+>>> comparable comression ratio with zlib. It would be wise to use it for=
+
+>>> data compression f.e. for backups.
+>>>
+>>> The default compression is ZLIB.
+>>>
+>>> Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
+>>> ---
+>>>   block/qcow2.c | 25 +++++++++++++++++++++++++
+>>>   block/qcow2.h | 26 ++++++++++++++++++++++----
+>>>   2 files changed, 47 insertions(+), 4 deletions(-)
+>>
+>> Are there plans to pursue this further?
+> Yes, I'm going to come up with the first version in a few weeks
+
+OK.
+
+>> [...]
+>>
+>>> diff --git a/block/qcow2.h b/block/qcow2.h
+>>> index 32cce9eee2..fdde5bbefd 100644
+>>> --- a/block/qcow2.h
+>>> +++ b/block/qcow2.h
+>>> @@ -112,6 +112,10 @@
+>>>   #define QCOW2_OPT_REFCOUNT_CACHE_SIZE "refcount-cache-size"
+>>>   #define QCOW2_OPT_CACHE_CLEAN_INTERVAL "cache-clean-interval"
+>>>  =20
+>>> +/* Compression types */
+>>> +#define QCOW2_COMPRESSION_TYPE_ZLIB    0
+>>> +#define QCOW2_COMPRESSION_TYPE_ZSTD    1
+>>
+>> We probably want QAPI types anyway (qemu-img info should report the
+>> compression type), so I think we could use them instead.
+> I'm not sure that I understood the idea. Could you please explain what =
+
+> is meant here? We don't need those constants and should use the=20
+> constants defined somewhere else (where)?
+
+qemu-img info can report format-specific information.  I think the
+compression type should be listed there as well, once there is more than
+one.
+
+Format-specific information is a QAPI type, namely
+ImageInfoSpecificQCow2.  Therefore, everything it contains needs to be a
+QAPI object, and this includes potential compression information.  We
+thus need a QAPI enum like Qcow2CompressionType, and that would
+automatically give us these values.
+
+Max
+
+
+--FcTq6f65IjcONIBxzej2ah2AhxPBz7MKf
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAlzdPi8ACgkQ9AfbAGHV
+z0A2JAf/XvWpYzRao+e7i590Gh+yd4wobif+QnnKyxGvLZHkqIRIeKbLaGaGyoT4
+nuKrSUkXZlCLY72Vicd4QNGsz0VnjmvFaZrHdUhft7PDhIhvU5l8gag5KAp3big9
+j0ujvq8oO2j2UtSiL3SFkahqj1apLFoHtMvDM1dIsgWZjTAyWEd9fkvRRJdSlkbD
+QmHUq364I/8CRfvMaGA+gyeb0y1P2OhnQXkCB+9LNQk9lUaphfIlGZuYU4ySOxe0
+AydTPGrCcUafwX1oXZP1tTTAH4LMLwnfoZs0EWkhtWkvzw2i7emnPZ4LoZMpwBYN
+mLkA6ZinjJZvs+QM3YD3Wtu1S8liCQ==
+=vEJ2
+-----END PGP SIGNATURE-----
+
+--FcTq6f65IjcONIBxzej2ah2AhxPBz7MKf--
 
