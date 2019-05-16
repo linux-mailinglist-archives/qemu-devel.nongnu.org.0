@@ -2,49 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3DE851FD8E
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 03:50:53 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46896 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1C4CC1FD9B
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 04:03:21 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:47007 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hR5Xo-0001Dt-Bg
-	for lists+qemu-devel@lfdr.de; Wed, 15 May 2019 21:50:52 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56889)
+	id 1hR5jr-0004tt-Te
+	for lists+qemu-devel@lfdr.de; Wed, 15 May 2019 22:03:19 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60163)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hR5WE-0000dX-Qg
-	for qemu-devel@nongnu.org; Wed, 15 May 2019 21:49:15 -0400
+	(envelope-from <peterx@redhat.com>) id 1hR5im-0004Wr-BA
+	for qemu-devel@nongnu.org; Wed, 15 May 2019 22:02:14 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hR5WC-0007uH-Pp
-	for qemu-devel@nongnu.org; Wed, 15 May 2019 21:49:14 -0400
-Received: from ozlabs.org ([203.11.71.1]:50833)
+	(envelope-from <peterx@redhat.com>) id 1hR5ik-00084S-QT
+	for qemu-devel@nongnu.org; Wed, 15 May 2019 22:02:12 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56152)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>) id 1hR5WB-0007qa-Qk
-	for qemu-devel@nongnu.org; Wed, 15 May 2019 21:49:12 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
-	id 454DqQ5nzvz9sN6; Thu, 16 May 2019 11:49:06 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=gibson.dropbear.id.au; s=201602; t=1557971346;
-	bh=+Yb/ps7RbInSZhSEu5yH1Y5lF3G1IUCyKY37LtRnC9Q=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=clu8X6XN4st60fBL++fK2Y3sJLayKMjrPWDa+5Za4CZoW4TX4e2IDqmbh7s58+2c3
-	DoqguODlj/gtvLSoKzKTGknFDS1n+7IX8euvlL53uPVg6d4/xXGC9BKjbL5oK7ajqY
-	0I3+KI25ApLfKCdc5xIV1xS7dI3woy7+lDAyK2FM=
-Date: Thu, 16 May 2019 11:48:52 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <20190516014852.GF3207@umbus.fritz.box>
-References: <20190510173049.28171-1-richard.henderson@linaro.org>
-	<20190510173049.28171-25-richard.henderson@linaro.org>
+	(Exim 4.71) (envelope-from <peterx@redhat.com>) id 1hR5ik-00083a-IH
+	for qemu-devel@nongnu.org; Wed, 15 May 2019 22:02:10 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+	[10.5.11.14])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 20174308623C;
+	Thu, 16 May 2019 02:02:09 +0000 (UTC)
+Received: from xz-x1 (dhcp-15-205.nay.redhat.com [10.66.15.205])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id DFCD417DED;
+	Thu, 16 May 2019 02:02:01 +0000 (UTC)
+Date: Thu, 16 May 2019 10:01:59 +0800
+From: Peter Xu <peterx@redhat.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Message-ID: <20190516020159.GI16681@xz-x1>
+References: <155786484688.13873.6037015630912983760.stgit@gimli.home>
+	<20190515061503.GF16681@xz-x1> <20190515072313.1a5af022@x1.home>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="s5/bjXLgkIwAv6Hi"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20190510173049.28171-25-richard.henderson@linaro.org>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+In-Reply-To: <20190515072313.1a5af022@x1.home>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.42]);
+	Thu, 16 May 2019 02:02:09 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
-Subject: Re: [Qemu-devel] [PATCH v6 24/25] target/ppc: Use gen_io_start/end
- around DARN
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH for-4.1 v2] q35: Revert to kernel irqchipQEM
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -56,89 +58,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org
+Cc: berrange@redhat.com, ehabkost@redhat.com, mst@redhat.com,
+	Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
+	pbonzini@redhat.com, rth@twiddle.net
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Wed, May 15, 2019 at 07:23:13AM -0600, Alex Williamson wrote:
+> On Wed, 15 May 2019 14:15:03 +0800
+> Peter Xu <peterx@redhat.com> wrote:
+> 
+> > On Tue, May 14, 2019 at 02:14:41PM -0600, Alex Williamson wrote:
+> > > Commit b2fc91db8447 ("q35: set split kernel irqchip as default") changed
+> > > the default for the pc-q35-4.0 machine type to use split irqchip, which
+> > > turned out to have disasterous effects on vfio-pci INTx support.  KVM
+> > > resampling irqfds are registered for handling these interrupts, but
+> > > these are non-functional in split irqchip mode.  We can't simply test
+> > > for split irqchip in QEMU as userspace handling of this interrupt is a
+> > > significant performance regression versus KVM handling (GeForce GPUs
+> > > assigned to Windows VMs are non-functional without forcing MSI mode or
+> > > re-enabling kernel irqchip).
+> > > 
+> > > The resolution is to revert the change in default irqchip mode in the
+> > > pc-q35-4.1 machine and create a pc-q35-4.0.1 machine for the 4.0-stable
+> > > branch.  The qemu-q35-4.0 machine type should not be used in vfio-pci
+> > > configurations for devices requiring legacy INTx support without
+> > > explicitly modifying the VM configuration to use kernel irqchip.
+> > > 
+> > > Link: https://bugs.launchpad.net/qemu/+bug/1826422
+> > > Fixes: b2fc91db8447 ("q35: set split kernel irqchip as default")
+> > > Signed-off-by: Alex Williamson <alex.williamson@redhat.com>  
+> > 
+> > Hi, Alex,
+> > 
+> > I have two (probably naive) questions about the patch, possibly due to
+> > lack of context of previous discussions so please let me know if
+> > there's any upstream discussion that I can read.
+> > 
+> > Firstly, could I ask why we need this 4.0.1 machine type specific for
+> > fixing this problem?  Asked because this seems to be the first time
+> > QEMU introduces the X.Y.Z machine type in master.  Could it be somehow
+> > delayed to the release of QEMU 4.1?  From the planning page I see that
+> > it's releasing on Aug 06th/13th, a bit far away but not really that
+> > much imho.  I'm perfectly fine with this, but I just want to make sure
+> > I have the correct understanding of the motivations.
+> 
+> As I see it, this is a regression from previous releases, therefore it
+> should be fixed in 4.0-stable.  Users are encountering this issue and
+> leaning on support groups like reddit.com/r/VFIO to find workarounds.
+> It would be a disservice to our user base and downstream consumers to
+> simply ignore this regression until the 4.1 release.  If this is the
+> first z-stream release of upstream QEMU with a new machine type, we've
+> been lucky, but previous discussions indicate that we cannot currently
+> change the irqchip mode without rev'ing the machine type for migration
+> compatibility.
+>  
+> > The second question is about our previous decision to introduce QEMU
+> > 4.1 machine type before it's released (which is not related to the
+> > patch at all).  Is it really correct to do so before releasing of 4.1?
+> > So now even with a development QEMU 4.0 branch the user will be able
+> > to create 4.1 machines using "-M pc-q35-4.1", then what if the user
+> > migrated a real 4.1 machine (with the to-be-released QEMU 4.1 binary)
+> > to some 4.1 machine that was run with such an old 4.0 QEMU binary?
+> > The problem is we can add more compatible properties into
+> > pc_q35_4_1_machine_options and future pc_compat_4_1 array before QEMU
+> > 4.1 is finally released and then "-M pc-q35-4.1" will actually have
+> > different combination of properties IMHO, which seems to break
+> > compatibility.  Am I wrong somewhere?
+> 
+> Users who expect migration stability from VMs based on unreleased
+> development code are in for a world of hurt.  I assume that the 4.1
+> machine types are entirely unstable until 4.1 is released.  We
+> introduce them early in the development cycle because we've been burned
+> in the past introducing them late and inconsistently.  Ideally this
+> change would trigger a migration regression test to generate a warning
+> for the in-development machine type changing in an incompatible way,
+> we'd acknowledge that, perhaps log it to a changelog, and move on, but
+> I suspect we don't have such automated testing in place.  Thanks,
 
---s5/bjXLgkIwAv6Hi
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I see the points, thanks for explaining (to Dan as well).
 
-On Fri, May 10, 2019 at 10:30:48AM -0700, Richard Henderson wrote:
-> Generating a random number counts as I/O, as it cannot be
-> replayed and produce the same results.
->=20
-> Cc: David Gibson <david@gibson.dropbear.id.au>
-> Suggested-by: Peter Maydell <peter.maydell@linaro.org>
-> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+About "introducing them late and inconsistently" for the machine types
+- I completely agree it was mostly always too late, e.g., in most
+cases the new machine type will only be introduced by the one who will
+need the first compatilble property (no matter which arch he/she is
+working on and which module...).  It seems more ideal to me to just
+introduce the major new machine types along with each of the QEMU
+release (I mean the final release no matter which RC, it's just the
+point when we push the release tag), but of course that'll be a burden
+to the project maintainer or machine type maintainers... and anyway
+ignoring compatible with development branches looks reasonable too.
 
-Acked-by: David Gibson <david@gibson.dropbear.id.au>
+In all cases, this patch looks good to me:
 
-> ---
->  target/ppc/translate.c | 21 +++++++++++++++------
->  1 file changed, 15 insertions(+), 6 deletions(-)
->=20
-> diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-> index 8d08625c33..76628df6dd 100644
-> --- a/target/ppc/translate.c
-> +++ b/target/ppc/translate.c
-> @@ -1847,13 +1847,22 @@ static void gen_darn(DisasContext *ctx)
->  {
->      int l =3D L(ctx->opcode);
-> =20
-> -    if (l =3D=3D 0) {
-> -        gen_helper_darn32(cpu_gpr[rD(ctx->opcode)]);
-> -    } else if (l <=3D 2) {
-> -        /* Return 64-bit random for both CRN and RRN */
-> -        gen_helper_darn64(cpu_gpr[rD(ctx->opcode)]);
-> -    } else {
-> +    if (l > 2) {
->          tcg_gen_movi_i64(cpu_gpr[rD(ctx->opcode)], -1);
-> +    } else {
-> +        if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> +            gen_io_start();
-> +        }
-> +        if (l =3D=3D 0) {
-> +            gen_helper_darn32(cpu_gpr[rD(ctx->opcode)]);
-> +        } else {
-> +            /* Return 64-bit random for both CRN and RRN */
-> +            gen_helper_darn64(cpu_gpr[rD(ctx->opcode)]);
-> +        }
-> +        if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-> +            gen_io_end();
-> +            gen_stop_exception(ctx);
-> +        }
->      }
->  }
->  #endif
+Reviewed-by: Peter Xu <peterx@redhat.com>
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Thanks,
 
---s5/bjXLgkIwAv6Hi
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlzcwYMACgkQbDjKyiDZ
-s5LMyg//efdbZBeq4qoSsDGWqruAuQcfoOsNvA4ja13b1yhUg3CsBiPqYUdOLtk/
-uPgu4DnMH9IK6scPT7aIFh7es4T9NA2LFTmnoT40x5Pog6jL7hyWF3i2QxA8cYat
-DtIM5wXbSw7CZRpYKHy7ftj5LVuBvGsappIdlFWdezFs90KhZILVtv7uWTyigiE1
-22twHMfSKIJ/5Na0QTWMaTrIuFuoH+qOjvWynzK9TV5+50/de3zzjmzlTLmMUj/b
-NHzNhnFI+3loNJBMPBt1huUGx2LpudbeN2d2RWnUQCoiLzqCl/ynfEkl0J0p8pAX
-u8ai3qoUdSQ0SDQtl/rdHf6GTvS7Wd90JZzFFtOm3QfWxKJt5P9iaisxQc4vidBj
-5WTkdlUZiI5aIqATpWEVTidJpWl0M7CG93+vroJY3TI3/M3rQJOeuoeQwdxixJ4k
-xRbKFV+A5T7AMFWIEKRkDe36XLEbjeCYzXaM5bi0yZ0+72YLBYwJHdUrdmla8mR7
-KFyiOxNeEGJV/eSORRVM6GDZmFR4RLW37fp27woXX7GUCkuNRECbbD5Hrg1St/Gb
-e0MJ5/5LOGm/W1+MJBXWlUSCh2LMJjHVU2G2JbWEVDOsiecV2dYkXZOmmvL21a9+
-4/XmALq1lSaBibw7vBrNW6eYJr88lOsagmw5LW/9xV6Ov9kxOMM=
-=5xmJ
------END PGP SIGNATURE-----
-
---s5/bjXLgkIwAv6Hi--
+-- 
+Peter Xu
 
