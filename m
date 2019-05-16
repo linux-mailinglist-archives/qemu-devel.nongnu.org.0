@@ -2,54 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 205D51FEDC
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 07:49:30 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49005 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 24B051FF3D
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 07:55:15 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49083 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hR9Gh-00022g-UD
-	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 01:49:27 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36956)
+	id 1hR9MH-0003vQ-Tv
+	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 01:55:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37947)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hR9Fh-0001Up-CI
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 01:48:26 -0400
+	(envelope-from <ysato@users.sourceforge.jp>) id 1hR9K9-0002pK-DO
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 01:53:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hR95D-00051P-Le
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 01:37:37 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53292)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hR95D-00050X-E9
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 01:37:35 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
-	[10.5.11.12])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 861E630001EB;
-	Thu, 16 May 2019 05:37:33 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-28.ams2.redhat.com
-	[10.36.116.28])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 031C660FAF;
-	Thu, 16 May 2019 05:37:32 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
-	id 53B7011385E4; Thu, 16 May 2019 07:37:30 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-References: <20190514171545.24961-1-peter.maydell@linaro.org>
-Date: Thu, 16 May 2019 07:37:30 +0200
-In-Reply-To: <20190514171545.24961-1-peter.maydell@linaro.org> (Peter
-	Maydell's message of "Tue, 14 May 2019 18:15:45 +0100")
-Message-ID: <878sv7yn6t.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+	(envelope-from <ysato@users.sourceforge.jp>) id 1hR9K7-0003cz-9H
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 01:53:01 -0400
+Received: from mail03.asahi-net.or.jp ([202.224.55.15]:52175)
+	by eggs.gnu.org with esmtp (Exim 4.71)
+	(envelope-from <ysato@users.sourceforge.jp>) id 1hR9K4-0003Sl-8o
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 01:52:57 -0400
+Received: from h61-195-96-97.vps.ablenet.jp (h61-195-96-97.ablenetvps.ne.jp
+	[61.195.96.97]) (Authenticated sender: PQ4Y-STU)
+	by mail03.asahi-net.or.jp (Postfix) with ESMTPA id BFE0D432E3;
+	Thu, 16 May 2019 14:52:53 +0900 (JST)
+Received: from ysato.dip.jp (v045049.dynamic.ppp.asahi-net.or.jp
+	[124.155.45.49])
+	by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id 7BAB1240085; 
+	Thu, 16 May 2019 14:52:52 +0900 (JST)
+From: Yoshinori Sato <ysato@users.sourceforge.jp>
+To: qemu-devel@nongnu.org
+Date: Thu, 16 May 2019 14:52:32 +0900
+Message-Id: <20190516055244.95559-1-ysato@users.sourceforge.jp>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.41]);
-	Thu, 16 May 2019 05:37:33 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [RFC] hw/core/bus.c: Only the main system bus can
- have no parent
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 202.224.55.15
+Subject: [Qemu-devel] [PATCH v13 00/12] Add RX archtecture support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,102 +51,122 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Damien Hedde <damien.hedde@greensocs.com>, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org, richard.henderson@linaro.org,
+	Yoshinori Sato <ysato@users.sourceforge.jp>, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Peter Maydell <peter.maydell@linaro.org> writes:
+Hello.
+This patch series is added Renesas RX target emulation.
 
-> In commit 80376c3fc2c38fdd453 in 2010 we added a workaround for
-> some qbus buses not being connected to qdev devices -- if the
-> bus has no parent object then we register a reset function which
-> resets the bus on system reset.
->
-> Nearly a decade later, we have now no buses in the tree which
-> are created with non-NULL parents, so we can remove the
-> workaround and instead just assert that if the bus has a NULL
-> parent then it is the main system bus.
->
-> (The absence of other parentless buses was confirmed by
-> code inspection of all the callsites of qbus_create() and
-> qbus_create_inplace() and cross-checked by 'make check'.)
+Add "Reviewed-by" for all changes.
 
-Could we assert(parent || bus == main_system_bus) in qbus_realize()?
+My git repository is bellow.
+git://git.pf.osdn.net/gitroot/y/ys/ysato/qemu.git tags/rx-20190514
 
-Aside: I hate sysbus_get_default().  It creates main_system_bus on first
-call, wherever that call may be hiding.  I feel we should create it
-explicitly.  I'd then make main_system_bus public, and delete
-sysbus_get_default().
+Testing binaries bellow.
+u-boot
+Download - https://osdn.net/users/ysato/pf/qemu/dl/u-boot.bin.gz
 
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
-> While I was reviewing Damian's reset patchset I noticed this
-> code which meant that we theoretically had multiple 'roots' to
-> the set of things being reset, so I wondered what was actually
-> using it. It turns out nothing was :-)
->
-> Commit 80376c3fc2c38fdd453 also added a TODO in vl.c suggesting
-> that there is the wrong place to register the reset function
-> which effectively resets the whole system starting at the
-> root which is the main system bus:
->    qemu_register_reset(qbus_reset_all_fn, sysbus_get_default());
-> I don't understand why vl.c is a bad place to put that, and I'd
-> rather not move it to qdev.c (where in qdev.c?) because that
-> would reshuffle reset ordering which seems liable to cause
-> regressions. So maybe we should just delete that TODO comment?
+starting
+$ gzip -d u-boot.bin.gz
+$ qemu-system-rx -bios u-boot.bin
 
-Hmm.
+linux and pico-root (only sash)
+Download - https://osdn.net/users/ysato/pf/qemu/dl/zImage (kernel)
+           https://osdn.net/users/ysato/pf/qemu/dl/rx-qemu.dtb (DeviceTre=
+e)
 
-The one in vl.c arranges to run qbus_reset_all(main_system_bus), which
-walks the tree rooted at main_system_bus, resetting its buses and
-devices in post-order.
+starting
+$ qemu-system-rx -kernel zImage -dtb rx-qemu.dtb -append "earlycon"
 
-A registry of callbacks to run on certain events is a fine technique.
-Relying on registration order, however, is in bad taste.  We should
-model dependencies between reset functions explicitly.
+Changes for v12.
+- None
 
-That said, we can't ignore dependencies just because we've coded them
-badly.
+Yoshinori Sato (12):
+  target/rx: TCG translation
+  target/rx: TCG helper
+  target/rx: CPU definition
+  target/rx: RX disassembler
+  hw/intc: RX62N interrupt controller (ICUa)
+  hw/timer: RX62N internal timer modules
+  hw/char: RX62N serial communication interface (SCI)
+  hw/rx: RX Target hardware definition
+  Add rx-softmmu
+  hw/registerfields.h: Add 8bit and 16bit register macros.
+  qemu/bitops.h: Add extract8 and extract16
+  MAINTAINERS: Add RX
 
-I count more than 100 qemu_register_reset(), and most of them look like
-they reset hardware.  Why do devices use qemu_register_reset() instead
-of DeviceClass method reset?
+ configure                      |    8 +
+ default-configs/rx-softmmu.mak |    3 +
+ include/disas/dis-asm.h        |    5 +
+ include/hw/char/renesas_sci.h  |   45 +
+ include/hw/intc/rx_icu.h       |   57 +
+ include/hw/registerfields.h    |   32 +-
+ include/hw/rx/rx.h             |    7 +
+ include/hw/rx/rx62n.h          |   94 ++
+ include/hw/timer/renesas_cmt.h |   38 +
+ include/hw/timer/renesas_tmr.h |   50 +
+ include/qemu/bitops.h          |   38 +
+ include/sysemu/arch_init.h     |    1 +
+ target/rx/cpu.h                |  227 ++++
+ target/rx/helper.h             |   31 +
+ arch_init.c                    |    2 +
+ hw/char/renesas_sci.c          |  340 ++++++
+ hw/intc/rx_icu.c               |  376 +++++++
+ hw/rx/rx-virt.c                |  105 ++
+ hw/rx/rx62n.c                  |  238 ++++
+ hw/timer/renesas_cmt.c         |  275 +++++
+ hw/timer/renesas_tmr.c         |  455 ++++++++
+ target/rx/cpu.c                |  222 ++++
+ target/rx/disas.c              | 1480 ++++++++++++++++++++++++
+ target/rx/gdbstub.c            |  112 ++
+ target/rx/helper.c             |  148 +++
+ target/rx/monitor.c            |   38 +
+ target/rx/op_helper.c          |  481 ++++++++
+ target/rx/translate.c          | 2432 ++++++++++++++++++++++++++++++++++=
+++++++
+ MAINTAINERS                    |   19 +
+ hw/Kconfig                     |    1 +
+ hw/char/Kconfig                |    3 +
+ hw/char/Makefile.objs          |    1 +
+ hw/intc/Kconfig                |    3 +
+ hw/intc/Makefile.objs          |    1 +
+ hw/rx/Kconfig                  |   14 +
+ hw/rx/Makefile.objs            |    2 +
+ hw/timer/Kconfig               |    6 +
+ hw/timer/Makefile.objs         |    3 +
+ target/rx/Makefile.objs        |   12 +
+ target/rx/insns.decode         |  621 ++++++++++
+ 40 files changed, 8025 insertions(+), 1 deletion(-)
+ create mode 100644 default-configs/rx-softmmu.mak
+ create mode 100644 include/hw/char/renesas_sci.h
+ create mode 100644 include/hw/intc/rx_icu.h
+ create mode 100644 include/hw/rx/rx.h
+ create mode 100644 include/hw/rx/rx62n.h
+ create mode 100644 include/hw/timer/renesas_cmt.h
+ create mode 100644 include/hw/timer/renesas_tmr.h
+ create mode 100644 target/rx/cpu.h
+ create mode 100644 target/rx/helper.h
+ create mode 100644 hw/char/renesas_sci.c
+ create mode 100644 hw/intc/rx_icu.c
+ create mode 100644 hw/rx/rx-virt.c
+ create mode 100644 hw/rx/rx62n.c
+ create mode 100644 hw/timer/renesas_cmt.c
+ create mode 100644 hw/timer/renesas_tmr.c
+ create mode 100644 target/rx/cpu.c
+ create mode 100644 target/rx/disas.c
+ create mode 100644 target/rx/gdbstub.c
+ create mode 100644 target/rx/helper.c
+ create mode 100644 target/rx/monitor.c
+ create mode 100644 target/rx/op_helper.c
+ create mode 100644 target/rx/translate.c
+ create mode 100644 hw/rx/Kconfig
+ create mode 100644 hw/rx/Makefile.objs
+ create mode 100644 target/rx/Makefile.objs
+ create mode 100644 target/rx/insns.decode
 
-Registered handlers run in (implicitly defined) registration order,
-reset methods in (explicit) qdev tree post order.  Much better as long
-as that's the order we want.
+--=20
+2.11.0
 
-Say we managed to clean up this mess somehow, so reset handler
-registration order doesn't matter anymore.  Then moving the
-qemu_register_reset() for main_system_bus from main() to wherever we
-create main_system_bus would make sense, wouldn't it?
-
-If it does make sense, we should keep the TODO in main(), because it
-asks for exactly that.  Perhaps delete "by qdev.c".
-
-> ---
->  hw/core/bus.c | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
->
-> diff --git a/hw/core/bus.c b/hw/core/bus.c
-> index e09843f6abe..e50287c2b35 100644
-> --- a/hw/core/bus.c
-> +++ b/hw/core/bus.c
-> @@ -96,10 +96,9 @@ static void qbus_realize(BusState *bus, DeviceState *parent, const char *name)
->          bus->parent->num_child_bus++;
->          object_property_add_child(OBJECT(bus->parent), bus->name, OBJECT(bus), NULL);
->          object_unref(OBJECT(bus));
-> -    } else if (bus != sysbus_get_default()) {
-> -        /* TODO: once all bus devices are qdevified,
-> -           only reset handler for main_system_bus should be registered here. */
-> -        qemu_register_reset(qbus_reset_all_fn, bus);
-> +    } else {
-> +        /* The only bus without a parent is the main system bus */
-> +        assert(bus == sysbus_get_default());
->      }
->  }
-
-You delete a qemu_register_reset() because it's unreachable.  The commit
-that added it also added a qemu_unregister_reset().  It's now in
-bus_unparent().  Why is it still needed?
 
