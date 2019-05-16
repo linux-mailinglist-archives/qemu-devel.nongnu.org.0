@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F0F152070C
-	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 14:35:43 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54043 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F412B206E3
+	for <lists+qemu-devel@lfdr.de>; Thu, 16 May 2019 14:27:28 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53845 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRFbr-0005y3-3m
-	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 08:35:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49115)
+	id 1hRFTs-0006vz-3U
+	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 08:27:28 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49129)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hRFND-0001Wp-Kt
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:20:38 -0400
+	(envelope-from <mst@redhat.com>) id 1hRFNH-0001YN-2Q
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:20:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hRFNA-0002h3-JW
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:20:35 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:40597)
+	(envelope-from <mst@redhat.com>) id 1hRFNE-0002jI-1X
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:20:39 -0400
+Received: from mail-qt1-f179.google.com ([209.85.160.179]:44593)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hRFNA-0002go-Ga
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:20:32 -0400
-Received: by mail-qt1-f195.google.com with SMTP id k24so3553365qtq.7
-	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 05:20:32 -0700 (PDT)
+	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hRFND-0002iy-V8
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 08:20:35 -0400
+Received: by mail-qt1-f179.google.com with SMTP id f24so3517244qtk.11
+	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 05:20:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:content-transfer-encoding
-	:in-reply-to;
-	bh=EaZtsbTWjI4op/djAS3AYZwZClSpbt1M5dRk0R/KbMo=;
-	b=h3TSA6S6npUbkvVaqdOygRS+f7OXxNyTY0XOzcBSgcA0C5L4s2efxSdsuW9BWkcOw4
-	gqcd1cIfMuDfwYrYAjonpRCAmj+0hovH1LXCvFxmf/WqFww7Rv8LrYqOb8ng83aXEDbN
-	0sux7y/4A2tIPlsLUUs8pmn6rOpmLPCkylxhZ84b0FdQ490DJG53kh8KPQdg7wSsmy2f
-	CnML7FaoYg470lX7OZJ1GURHRQ96Z9kQJQz03YDcFg+eYRlWbhTvrtupq2ApfVSPwr2Y
-	e7YQ7649xQ1DI9EtXqHHoUj28WkdYHZ/A5Yx93MMo+gN7GH7MTbDa7Fe4Hg+Mrv1m1kC
-	P5CA==
-X-Gm-Message-State: APjAAAVyszlEckUvJjNvJy76vriIaw9DTepS3Te7muJFeWwtKtfrkqm0
-	+h8MOu8YFKnrblpAQgp++KWmeeii8EQ=
-X-Google-Smtp-Source: APXvYqxAR1GigdMiniEbMK42vrnNSJBLfL/KlNDUA/UY8LtgnxFlGwaY9Mc+FmcFiwwhxWT/MDjH4Q==
-X-Received: by 2002:ac8:17eb:: with SMTP id r40mr26935954qtk.140.1558009231677;
-	Thu, 16 May 2019 05:20:31 -0700 (PDT)
+	:mime-version:content-disposition:in-reply-to;
+	bh=lNTYO0MId4gzUO1w6UtHVs4DCqDNXlBKY0mc09csDo8=;
+	b=nniG5hUvSznMei+aALFod497O1VvrJhXcnzsJTfiIWTQv59I5rBiOy9pKKs0tpfCU7
+	YkBiiTlsJKYlQXdvwscqWidTAYWho3ScqYiYmzmeE6/JLhtc6g0yJLedzyrgo6OTcAtI
+	fMN9/LDjszV84pkTsNLkl1btX3PDWZMTj9cFUcjBsMA9xnCw2J25Z9K4Gi+FduBGPW/2
+	hj7IQAbr1G5pg+LRKZZeldlIQI2/W6yUKmliDa/9PEe44uKw+uYwAErtHLLOrrzt2035
+	ke9glEH/tEounUhDiP3k+92ryGfeFHR2wKn5CYl/hOgl9bNySNJrwZGe/qIruxrbX31J
+	NsPg==
+X-Gm-Message-State: APjAAAWyz0mUDt8BWIpRSbzWComPo0/oOivZik2jwJZRBZfWT+tHmJZ/
+	YNBvgCTXbqyKILLU3CKX0pZhu08UYLM=
+X-Google-Smtp-Source: APXvYqz2LXsEZK4YjfZjvVhkDO8rWKfQ5mOr+YQMTpYObNQoik/w3nyvEsAG4v/WCV1By0WLt72PLQ==
+X-Received: by 2002:a0c:872c:: with SMTP id 41mr39897703qvh.213.1558009235122; 
+	Thu, 16 May 2019 05:20:35 -0700 (PDT)
 Received: from redhat.com ([185.54.206.10]) by smtp.gmail.com with ESMTPSA id
-	q66sm2571815qke.66.2019.05.16.05.20.29
+	a64sm2587930qkd.73.2019.05.16.05.20.33
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Thu, 16 May 2019 05:20:30 -0700 (PDT)
-Date: Thu, 16 May 2019 08:20:28 -0400
+	Thu, 16 May 2019 05:20:34 -0700 (PDT)
+Date: Thu, 16 May 2019 08:20:32 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Message-ID: <1556808723-226478-5-git-send-email-imammedo@redhat.com>
+Message-ID: <1556808723-226478-6-git-send-email-imammedo@redhat.com>
 References: <20190515121146.7248-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 In-Reply-To: <20190515121146.7248-1-mst@redhat.com>
 X-Mailer: git-send-email 2.17.1.1206.gb667731e2e.dirty
 X-Mutt-Fcc: =sent
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.160.195
-Subject: [Qemu-devel] [PULL 26/37] tests: acpi: make pointer to RSDP 64bit
+X-Received-From: 209.85.160.179
+Subject: [Qemu-devel] [PULL 27/37] tests: acpi: fetch X_DSDT if pointer to
+ DSDT is 0
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -73,90 +72,58 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Laurent Vivier <lvivier@redhat.com>,
 	Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
 	Wei Yang <richardw.yang@linux.intel.com>,
-	Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
-	Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+	Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Igor Mammedov <imammedo@redhat.com>
 
-In case of UEFI, RSDP doesn't have to be located in lowmem,
-it could be placed at any address. Make sure that test won't
-break if it is placed above the first 4Gb of address space.
+that way it would be possible to test a DSDT pointed by
+64bit X_DSDT field in FADT.
 
 PS:
-While at it cleanup some local variables as we don't really
-need them.
+it will allow to enable testing arm/virt board, which sets
+only newer X_DSDT field.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <1556808723-226478-5-git-send-email-imammedo@redhat.com>
+Message-Id: <1556808723-226478-6-git-send-email-imammedo@redhat.com>
 Reviewed-by: Wei Yang <richardw.yang@linux.intel.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/acpi-utils.h       |  2 +-
- tests/acpi-utils.c       |  2 +-
- tests/bios-tables-test.c | 10 ++++------
- 3 files changed, 6 insertions(+), 8 deletions(-)
+ tests/bios-tables-test.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/tests/acpi-utils.h b/tests/acpi-utils.h
-index f55ccf9ff7..1da6c100a4 100644
---- a/tests/acpi-utils.h
-+++ b/tests/acpi-utils.h
-@@ -46,7 +46,7 @@ typedef struct {
- 
- uint8_t acpi_calc_checksum(const uint8_t *data, int len);
- uint32_t acpi_find_rsdp_address(QTestState *qts);
--void acpi_fetch_rsdp_table(QTestState *qts, uint32_t addr, uint8_t *rsdp_table);
-+void acpi_fetch_rsdp_table(QTestState *qts, uint64_t addr, uint8_t *rsdp_table);
- void acpi_fetch_table(QTestState *qts, uint8_t **aml, uint32_t *aml_len,
-                       const uint8_t *addr_ptr, int addr_size, const char *sig,
-                       bool verify_checksum);
-diff --git a/tests/acpi-utils.c b/tests/acpi-utils.c
-index a0d49c4371..c216b9e0e9 100644
---- a/tests/acpi-utils.c
-+++ b/tests/acpi-utils.c
-@@ -51,7 +51,7 @@ uint32_t acpi_find_rsdp_address(QTestState *qts)
-     return off;
- }
- 
--void acpi_fetch_rsdp_table(QTestState *qts, uint32_t addr, uint8_t *rsdp_table)
-+void acpi_fetch_rsdp_table(QTestState *qts, uint64_t addr, uint8_t *rsdp_table)
- {
-     uint8_t revision;
- 
 diff --git a/tests/bios-tables-test.c b/tests/bios-tables-test.c
-index d6ab1218da..a164d274a2 100644
+index a164d274a2..d165a1bd62 100644
 --- a/tests/bios-tables-test.c
 +++ b/tests/bios-tables-test.c
-@@ -26,7 +26,7 @@
- typedef struct {
-     const char *machine;
-     const char *variant;
--    uint32_t rsdp_addr;
-+    uint64_t rsdp_addr;
-     uint8_t rsdp_table[36 /* ACPI 2.0+ RSDP size */];
-     GArray *tables;
-     uint32_t smbios_ep_addr;
-@@ -86,13 +86,11 @@ static void test_acpi_rsdp_address(test_data *data)
+@@ -140,6 +140,9 @@ static void test_acpi_fadt_table(test_data *data)
+     AcpiSdtTable table = g_array_index(data->tables, typeof(table), 0);
+     uint8_t *fadt_aml = table.aml;
+     uint32_t fadt_len = table.aml_len;
++    uint32_t val;
++    int dsdt_offset = 40 /* DSDT */;
++    int dsdt_entry_size = 4;
  
- static void test_acpi_rsdp_table(test_data *data)
- {
--    uint8_t *rsdp_table = data->rsdp_table, revision;
--    uint32_t addr = data->rsdp_addr;
-+    uint8_t *rsdp_table = data->rsdp_table;
+     g_assert(compare_signature(&table, "FACP"));
  
--    acpi_fetch_rsdp_table(data->qts, addr, rsdp_table);
--    revision = rsdp_table[15 /* Revision offset */];
-+    acpi_fetch_rsdp_table(data->qts, data->rsdp_addr, rsdp_table);
+@@ -148,8 +151,14 @@ static void test_acpi_fadt_table(test_data *data)
+                      fadt_aml + 36 /* FIRMWARE_CTRL */, 4, "FACS", false);
+     g_array_append_val(data->tables, table);
  
--    switch (revision) {
-+    switch (rsdp_table[15 /* Revision offset */]) {
-     case 0: /* ACPI 1.0 RSDP */
-         /* With rev 1, checksum is only for the first 20 bytes */
-         g_assert(!acpi_calc_checksum(rsdp_table,  20));
++    memcpy(&val, fadt_aml + dsdt_offset, 4);
++    val = le32_to_cpu(val);
++    if (!val) {
++        dsdt_offset = 140 /* X_DSDT */;
++        dsdt_entry_size = 8;
++    }
+     acpi_fetch_table(data->qts, &table.aml, &table.aml_len,
+-                     fadt_aml + 40 /* DSDT */, 4, "DSDT", true);
++                     fadt_aml + dsdt_offset, dsdt_entry_size, "DSDT", true);
+     g_array_append_val(data->tables, table);
+ 
+     memset(fadt_aml + 36, 0, 4); /* sanitize FIRMWARE_CTRL ptr */
 -- 
 MST
 
