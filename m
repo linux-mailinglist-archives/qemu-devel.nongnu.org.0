@@ -2,40 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29CDC21A7A
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 17:23:30 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50093 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A43A421A8E
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 17:29:02 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50170 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRehk-0003B7-Uv
-	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 11:23:28 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51904)
+	id 1hRen7-0006rG-SN
+	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 11:29:01 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53219)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hRefg-0001iD-C4
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 11:21:21 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hRemB-0006YY-Bu
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 11:28:04 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hRefe-0003eQ-Vw
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 11:21:20 -0400
-Received: from relay.sw.ru ([185.231.240.75]:33978)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
-	id 1hRefe-0003PR-NT; Fri, 17 May 2019 11:21:18 -0400
-Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
-	by relay.sw.ru with esmtp (Exim 4.91)
-	(envelope-from <vsementsov@virtuozzo.com>)
-	id 1hRefZ-0005qt-W7; Fri, 17 May 2019 18:21:14 +0300
-From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-devel@nongnu.org,
-	qemu-block@nongnu.org
-Date: Fri, 17 May 2019 18:21:11 +0300
-Message-Id: <20190517152111.206494-3-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20190517152111.206494-1-vsementsov@virtuozzo.com>
-References: <20190517152111.206494-1-vsementsov@virtuozzo.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [PATCH v2 2/2] iotests: test external snapshot with
- bitmap copying
+	(envelope-from <richard.henderson@linaro.org>) id 1hRem9-0008WU-Jo
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 11:28:03 -0400
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:41318)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hRem7-0007t8-E4
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 11:27:59 -0400
+Received: by mail-pl1-x643.google.com with SMTP id f12so3501223plt.8
+	for <qemu-devel@nongnu.org>; Fri, 17 May 2019 08:27:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=weCj/cPcQBb92IBSb1dPlYvmryMtX3SyUGLvbpxqS1Y=;
+	b=kY6yKTCqvgbzPsYj/Jsrc3UFiPndnY41f9Gbz7ugbksUmiOn4L5OO/2l7884Jxh1Nt
+	VP6ny5xZCDUKY0Ng5l4ajBFUgBiAAE1mYdu9QCgUeJJ4SNNjCbnNISDp6JvwXjW8Az53
+	WG/VBYIX3DC6Qoxd/HGJnwMt0Gay3YS2X8Q2tDzqGUL33rc7EZ7pTlOgHeyLf7q5+5Gd
+	D9kSuCQkft6T8gHL76JeRCb/gnYyfU0tDboYGPlqv9vdmlKKPr3vn4O8BMe5/dBjTsIz
+	efupj5O7qQfOFDWS6vAEqorT+9Uu6eYZwbvFjAo6eTeKpwVWuQoPrakKSxH0vT/XCn5N
+	w7gQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=weCj/cPcQBb92IBSb1dPlYvmryMtX3SyUGLvbpxqS1Y=;
+	b=s+XWhNF/A5rpmbIZnDlABjhiwb1LAPD0aMT095VyrIJknmtDk4rLbVU/jF8YDyMj7c
+	457IPeHd3lH0OgkyFcNuECUZZH4zDGKlHC2d2QU6MmoxoluNvykP4RByNWhwerx+oaRb
+	VnO+sUn0zf0soMW2XWhNIEnWQm7fOLScJUaTPXw6FWvD+PArn0u17/gopsKhfpOEEB4v
+	VyBpH8An4/D0xh2caGV7Xe9I//BznnelXC9k/XohfIA1Ms98VREt9arQQcZEiEhtUew7
+	7md3KFzzRYpOmViF4EwylTZ86tYGqymuWKv64Ko72TQhT9yJM/oy1iDnwHi/qGN28vAA
+	HKyA==
+X-Gm-Message-State: APjAAAXDo40A4v5a519UpZNCGHlSWvTJn97B2i4NZFx1TIzor8SQTFaI
+	eeRKEU6bu2Zw7GTogqCNjSqVNQ==
+X-Google-Smtp-Source: APXvYqyOBmvdCp++qFMx+SWSGzra6qsn4quabFDGMjjZhGGq/qo1POOl4qOqFc0cqIfBkQV7vNkmAw==
+X-Received: by 2002:a17:902:148:: with SMTP id
+	66mr1020520plb.143.1558106872265; 
+	Fri, 17 May 2019 08:27:52 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-13-231.tukw.qwest.net. [97.113.13.231])
+	by smtp.gmail.com with ESMTPSA id
+	q4sm10553858pgb.39.2019.05.17.08.27.50
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 17 May 2019 08:27:51 -0700 (PDT)
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+	qemu-devel@nongnu.org
+References: <20190517045136.3509-1-richard.henderson@linaro.org>
+	<1d36d568-8fec-f81e-635f-a34560e04b2a@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <a90e775f-7039-8a67-313d-bac3856c3d13@linaro.org>
+Date: Fri, 17 May 2019 08:27:49 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <1d36d568-8fec-f81e-635f-a34560e04b2a@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::643
+Subject: Re: [Qemu-devel] [PATCH v14 00/13] RX architecture support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -47,149 +86,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
-	den@virtuozzo.com, armbru@redhat.com, mreitz@redhat.com, jsnow@redhat.com
+Cc: ysato@users.sourceforge.jp
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This test shows that external snapshots and incremental backups are
-friends.
+On 5/17/19 1:00 AM, Philippe Mathieu-Daudé wrote:
+>>   qemu/bitops.h: Add extract8 and extract16
+>>   hw/registerfields.h: Add 8bit and 16bit register macros
+>>   Add rx-softmmu
+>>   MAINTAINERS: Add RX
+> 
+> Series:
+> Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- tests/qemu-iotests/254     | 52 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/254.out | 52 ++++++++++++++++++++++++++++++++++++++
- tests/qemu-iotests/group   |  1 +
- 3 files changed, 105 insertions(+)
- create mode 100755 tests/qemu-iotests/254
- create mode 100644 tests/qemu-iotests/254.out
+Thanks, missed this because patchwork doesn't remember cover letters.
 
-diff --git a/tests/qemu-iotests/254 b/tests/qemu-iotests/254
-new file mode 100755
-index 0000000000..33cb80a512
---- /dev/null
-+++ b/tests/qemu-iotests/254
-@@ -0,0 +1,52 @@
-+#!/usr/bin/env python
-+#
-+# Test external snapshot with bitmap copying.
-+#
-+# Copyright (c) 2019 Virtuozzo International GmbH. All rights reserved.
-+#
-+# This program is free software; you can redistribute it and/or modify
-+# it under the terms of the GNU General Public License as published by
-+# the Free Software Foundation; either version 2 of the License, or
-+# (at your option) any later version.
-+#
-+# This program is distributed in the hope that it will be useful,
-+# but WITHOUT ANY WARRANTY; without even the implied warranty of
-+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+# GNU General Public License for more details.
-+#
-+# You should have received a copy of the GNU General Public License
-+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
-+#
-+
-+import iotests
-+from iotests import qemu_img_create, file_path, log
-+
-+disk, top = file_path('disk', 'top')
-+size = 1024 * 1024
-+
-+qemu_img_create('-f', iotests.imgfmt, disk, str(size))
-+
-+vm = iotests.VM().add_drive(disk, opts='node-name=base')
-+vm.launch()
-+
-+vm.qmp_log('block-dirty-bitmap-add', node='drive0', name='bitmap0')
-+
-+vm.hmp_qemu_io('drive0', 'write 0 512K')
-+
-+vm.qmp_log('transaction', indent=2, actions=[
-+    {'type': 'blockdev-snapshot-sync',
-+     'data': {'device': 'drive0', 'snapshot-file': top,
-+              'snapshot-node-name': 'snap'}},
-+    {'type': 'block-dirty-bitmap-add',
-+     'data': {'node': 'snap', 'name': 'bitmap0'}},
-+    {'type': 'block-dirty-bitmap-merge',
-+     'data': {'node': 'snap', 'target': 'bitmap0',
-+              'bitmaps': [{'node': 'base', 'name': 'bitmap0'}]}}
-+], filters=[iotests.filter_qmp_testfiles])
-+
-+result = vm.qmp('query-block')['return'][0]
-+log("query-block: device = {}, node-name = {}, dirty-bitmaps:".format(
-+    result['device'], result['inserted']['node-name']))
-+log(result['dirty-bitmaps'], indent=2)
-+
-+vm.shutdown()
-diff --git a/tests/qemu-iotests/254.out b/tests/qemu-iotests/254.out
-new file mode 100644
-index 0000000000..d7394cf002
---- /dev/null
-+++ b/tests/qemu-iotests/254.out
-@@ -0,0 +1,52 @@
-+{"execute": "block-dirty-bitmap-add", "arguments": {"name": "bitmap0", "node": "drive0"}}
-+{"return": {}}
-+{
-+  "execute": "transaction",
-+  "arguments": {
-+    "actions": [
-+      {
-+        "data": {
-+          "device": "drive0",
-+          "snapshot-file": "TEST_DIR/PID-top",
-+          "snapshot-node-name": "snap"
-+        },
-+        "type": "blockdev-snapshot-sync"
-+      },
-+      {
-+        "data": {
-+          "name": "bitmap0",
-+          "node": "snap"
-+        },
-+        "type": "block-dirty-bitmap-add"
-+      },
-+      {
-+        "data": {
-+          "bitmaps": [
-+            {
-+              "name": "bitmap0",
-+              "node": "base"
-+            }
-+          ],
-+          "node": "snap",
-+          "target": "bitmap0"
-+        },
-+        "type": "block-dirty-bitmap-merge"
-+      }
-+    ]
-+  }
-+}
-+{
-+  "return": {}
-+}
-+query-block: device = drive0, node-name = snap, dirty-bitmaps:
-+[
-+  {
-+    "busy": false,
-+    "count": 524288,
-+    "granularity": 65536,
-+    "name": "bitmap0",
-+    "persistent": false,
-+    "recording": true,
-+    "status": "active"
-+  }
-+]
-diff --git a/tests/qemu-iotests/group b/tests/qemu-iotests/group
-index 00e474ab0a..5552d0153c 100644
---- a/tests/qemu-iotests/group
-+++ b/tests/qemu-iotests/group
-@@ -250,3 +250,4 @@
- 248 rw auto quick
- 249 rw auto quick
- 252 rw auto backing quick
-+254 rw auto backing quick
--- 
-2.18.0
+> But please reorder patches before sending the pull request, see:
+> https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg03671.html
+> 
+> - patch 9 first "Add extract8 and extract16"
+> - patch 10 then "Add 8bit and 16bit register macros"
+> - then other patches 1-8, 11-13
 
+I have reordered extract and register macros properly.
+
+> This will help if we unlikely have to bisect ;)
+
+Bisection is preserved because the rx port is enabled by
+patch 12, "Add rx-softmmu".  Eariler than that, the rx
+port simply is not built.
+
+
+r~
 
