@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 496FA21A04
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 16:50:06 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49715 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6C649219F7
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 16:47:24 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49692 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hReBR-0006mb-38
-	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 10:50:05 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45782)
+	id 1hRe8o-0004ae-C0
+	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 10:47:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45825)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hRe4f-0001n3-2L
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 10:43:06 -0400
+	(envelope-from <kwolf@redhat.com>) id 1hRe4l-0001so-94
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 10:43:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hRe4d-00043S-Kt
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 10:43:05 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:17787)
+	(envelope-from <kwolf@redhat.com>) id 1hRe4k-00047g-29
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 10:43:11 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53328)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <kwolf@redhat.com>)
-	id 1hRe4a-00040E-DH; Fri, 17 May 2019 10:43:00 -0400
+	id 1hRe4h-00045J-5P; Fri, 17 May 2019 10:43:07 -0400
 Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
 	[10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id AF92E369CC;
-	Fri, 17 May 2019 14:42:54 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 634EC80F79;
+	Fri, 17 May 2019 14:42:56 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-116-213.ams2.redhat.com
 	[10.36.116.213])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 493915D719;
-	Fri, 17 May 2019 14:42:52 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 039585D784;
+	Fri, 17 May 2019 14:42:54 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Date: Fri, 17 May 2019 16:42:30 +0200
-Message-Id: <20190517144232.18965-5-kwolf@redhat.com>
+Date: Fri, 17 May 2019 16:42:31 +0200
+Message-Id: <20190517144232.18965-6-kwolf@redhat.com>
 In-Reply-To: <20190517144232.18965-1-kwolf@redhat.com>
 References: <20190517144232.18965-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.30]);
-	Fri, 17 May 2019 14:42:54 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.27]);
+	Fri, 17 May 2019 14:43:01 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 4/6] qapi: Disentangle QAPIDoc code
+Subject: [Qemu-devel] [PATCH v2 5/6] qapi: Allow documentation for features
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,199 +61,155 @@ Cc: kwolf@redhat.com, pkrempa@redhat.com, armbru@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Documentation comment follow a certain structure: First, we have a text
-with a general description (called QAPIDoc.body). After this,
-descriptions of the arguments follow. Finally, we have part that
-contains various named sections.
-
-The code doesn't show this structure but just checks the right side
-conditions so it happens to do the right set of things in the right
-phase. This is hard to follow, and adding support for documentation of
-features would be even harder.
-
-This restructures the code so that the three parts are clearly
-separated. The code becomes a bit longer, but easier to follow.
+Features will be documented in a new part introduced by a "Features:"
+line, after arguments and before named sections.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- scripts/qapi/common.py | 107 ++++++++++++++++++++++++++++++++---------
- 1 file changed, 83 insertions(+), 24 deletions(-)
+ scripts/qapi/common.py | 43 ++++++++++++++++++++++++++++++++++++++----
+ scripts/qapi/doc.py    | 11 +++++++++++
+ 2 files changed, 50 insertions(+), 4 deletions(-)
 
 diff --git a/scripts/qapi/common.py b/scripts/qapi/common.py
-index 71944e2e30..1d0f4847db 100644
+index 1d0f4847db..6a1ec87d41 100644
 --- a/scripts/qapi/common.py
 +++ b/scripts/qapi/common.py
-@@ -120,6 +120,27 @@ class QAPIDoc(object):
-         def connect(self, member):
-             self.member =3D member
-=20
-+    class SymbolPart:
-+        """
-+        Describes which part of the documentation we're parsing right no=
-w.
-+
-+        BODY means that we're ready to process freeform text into self.b=
-ody. A
-+        symbol name is only allowed if no other text was parsed yet. It =
-is
-+        interpreted as the symbol name that describes the currently docu=
-mented
-+        object. On getting the second symbol name, we proceed to ARGS.
-+
-+        ARGS means that we're parsing the arguments section. Any symbol =
+@@ -132,6 +132,9 @@ class QAPIDoc(object):
+         ARGS means that we're parsing the arguments section. Any symbol =
 name is
-+        interpreted as an argument and an ArgSection is created for it.
+         interpreted as an argument and an ArgSection is created for it.
+=20
++        FEATURES means that we're parsing features sections. Any symbol =
+name is
++        interpreted as a feature.
 +
-+        VARIOUS is the final part where freeform sections may appear. Th=
+         VARIOUS is the final part where freeform sections may appear. Th=
 is
-+        includes named sections such as "Return:" as well as unnamed
-+        paragraphs. No symbols are allowed any more in this part.
-+        """
-+        # Can't make it a subclass of Enum because of Python 2
-+        BODY =3D 0
-+        ARGS =3D 1
-+        VARIOUS =3D 2
-+
+         includes named sections such as "Return:" as well as unnamed
+         paragraphs. No symbols are allowed any more in this part.
+@@ -139,7 +142,8 @@ class QAPIDoc(object):
+         # Can't make it a subclass of Enum because of Python 2
+         BODY =3D 0
+         ARGS =3D 1
+-        VARIOUS =3D 2
++        FEATURES =3D 2
++        VARIOUS =3D 3
+=20
      def __init__(self, parser, info):
          # self._parser is used to report errors with QAPIParseError.  Th=
 e
-         # resulting error position depends on the state of the parser.
-@@ -135,6 +156,7 @@ class QAPIDoc(object):
+@@ -152,6 +156,7 @@ class QAPIDoc(object):
+         self.body =3D QAPIDoc.Section()
+         # dict mapping parameter name to ArgSection
+         self.args =3D OrderedDict()
++        self.features =3D OrderedDict()
+         # a list of Section
          self.sections =3D []
          # the current section
-         self._section =3D self.body
-+        self._part =3D QAPIDoc.SymbolPart.BODY
-=20
-     def has_section(self, name):
-         """Return True if we have a section with this name."""
-@@ -154,37 +176,84 @@ class QAPIDoc(object):
-             raise QAPIParseError(self._parser, "Missing space after #")
-         line =3D line[1:]
-=20
-+        if self._part =3D=3D QAPIDoc.SymbolPart.BODY:
-+            self._append_body_line(line)
-+        elif self._part =3D=3D QAPIDoc.SymbolPart.ARGS:
-+            self._append_args_line(line)
-+        elif self._part =3D=3D QAPIDoc.SymbolPart.VARIOUS:
-+            self._append_various_line(line)
-+        else:
-+            assert False
-+
-+
-+    def end_comment(self):
-+        self._end_section()
-+
-+    def _check_named_section(self, line, name):
-+        if name in ('Returns:', 'Since:',
-+                    # those are often singular or plural
-+                    'Note:', 'Notes:',
-+                    'Example:', 'Examples:',
-+                    'TODO:'):
-+            self._part =3D QAPIDoc.SymbolPart.VARIOUS
-+            return True
-+        return False
-+
-+    def _append_body_line(self, line):
-+        name =3D line.split(' ', 1)[0]
-         # FIXME not nice: things like '#  @foo:' and '# @foo: ' aren't
-         # recognized, and get silently treated as ordinary text
--        if self.symbol:
--            self._append_symbol_line(line)
--        elif not self.body.text and line.startswith('@'):
-+        if not self.symbol and not self.body.text and line.startswith('@=
-'):
-             if not line.endswith(':'):
-                 raise QAPIParseError(self._parser, "Line should end with=
- :")
-             self.symbol =3D line[1:-1]
-             # FIXME invalid names other than the empty string aren't fla=
-gged
-             if not self.symbol:
-                 raise QAPIParseError(self._parser, "Invalid name")
-+        elif self.symbol:
-+            # We already know that we document some symbol
-+            if name.startswith('@') and name.endswith(':'):
-+                self._part =3D QAPIDoc.SymbolPart.ARGS
-+                self._append_args_line(line)
-+            elif self.symbol and self._check_named_section(line, name):
-+                self._append_various_line(line)
-+            else:
-+                self._append_freeform(line.strip())
+@@ -180,6 +185,8 @@ class QAPIDoc(object):
+             self._append_body_line(line)
+         elif self._part =3D=3D QAPIDoc.SymbolPart.ARGS:
+             self._append_args_line(line)
++        elif self._part =3D=3D QAPIDoc.SymbolPart.FEATURES:
++            self._append_features_line(line)
+         elif self._part =3D=3D QAPIDoc.SymbolPart.VARIOUS:
+             self._append_various_line(line)
          else:
--            self._append_freeform(line)
--
--    def end_comment(self):
--        self._end_section()
-+            # This is free-form documentation without a symbol
-+            self._append_freeform(line.strip())
-=20
--    def _append_symbol_line(self, line):
-+    def _append_args_line(self, line):
-         name =3D line.split(' ', 1)[0]
-=20
-         if name.startswith('@') and name.endswith(':'):
-             line =3D line[len(name)+1:]
+@@ -215,6 +222,8 @@ class QAPIDoc(object):
+             if name.startswith('@') and name.endswith(':'):
+                 self._part =3D QAPIDoc.SymbolPart.ARGS
+                 self._append_args_line(line)
++            elif line =3D=3D 'Features:':
++                self._part =3D QAPIDoc.SymbolPart.FEATURES
+             elif self.symbol and self._check_named_section(line, name):
+                 self._append_various_line(line)
+             else:
+@@ -231,6 +240,26 @@ class QAPIDoc(object):
              self._start_args_section(name[1:-1])
--        elif name in ('Returns:', 'Since:',
--                      # those are often singular or plural
--                      'Note:', 'Notes:',
--                      'Example:', 'Examples:',
--                      'TODO:'):
-+        elif self._check_named_section(line, name):
-+            return self._append_various_line(line)
+         elif self._check_named_section(line, name):
+             return self._append_various_line(line)
 +        elif (self._section.text.endswith('\n\n')
 +              and line and not line[0].isspace()):
-+            self._start_section()
-+            self._part =3D QAPIDoc.SymbolPart.VARIOUS
-+            return self._append_various_line(line)
++            if line =3D=3D 'Features:':
++                self._part =3D QAPIDoc.SymbolPart.FEATURES
++                return
++            else:
++                self._start_section()
++                self._part =3D QAPIDoc.SymbolPart.VARIOUS
++                return self._append_various_line(line)
 +
 +        self._append_freeform(line.strip())
 +
-+    def _append_various_line(self, line):
++    def _append_features_line(self, line):
 +        name =3D line.split(' ', 1)[0]
 +
 +        if name.startswith('@') and name.endswith(':'):
-+            raise QAPIParseError(self._parser,
-+                                 "'%s' can't follow '%s' section"
-+                                 % (name, self.sections[0].name))
++            line =3D line[len(name)+1:]
++            self._start_features_section(name[1:-1])
 +        elif self._check_named_section(line, name):
-             line =3D line[len(name)+1:]
-             self._start_section(name[:-1])
++            return self._append_various_line(line)
+         elif (self._section.text.endswith('\n\n')
+               and line and not line[0].isspace()):
+             self._start_section()
+@@ -256,17 +285,23 @@ class QAPIDoc(object):
 =20
-+        if (not self._section.name or
-+            not self._section.name.startswith('Example')):
-+            line =3D line.strip()
-+
          self._append_freeform(line)
 =20
-     def _start_args_section(self, name):
-@@ -194,10 +263,7 @@ class QAPIDoc(object):
-         if name in self.args:
+-    def _start_args_section(self, name):
++    def _start_symbol_section(self, symbols_dict, name):
+         # FIXME invalid names other than the empty string aren't flagged
+         if not name:
+             raise QAPIParseError(self._parser, "Invalid parameter name")
+-        if name in self.args:
++        if name in symbols_dict:
              raise QAPIParseError(self._parser,
                                   "'%s' parameter name duplicated" % name=
 )
--        if self.sections:
--            raise QAPIParseError(self._parser,
--                                 "'@%s:' can't follow '%s' section"
--                                 % (name, self.sections[0].name))
-+        assert not self.sections
+         assert not self.sections
          self._end_section()
          self._section =3D QAPIDoc.ArgSection(name)
-         self.args[name] =3D self._section
-@@ -219,13 +285,6 @@ class QAPIDoc(object):
-             self._section =3D None
+-        self.args[name] =3D self._section
++        symbols_dict[name] =3D self._section
++
++    def _start_args_section(self, name):
++        self._start_symbol_section(self.args, name)
++
++    def _start_features_section(self, name):
++        self._start_symbol_section(self.features, name)
 =20
-     def _append_freeform(self, line):
--        in_arg =3D isinstance(self._section, QAPIDoc.ArgSection)
--        if (in_arg and self._section.text.endswith('\n\n')
--                and line and not line[0].isspace()):
--            self._start_section()
--        if (in_arg or not self._section.name
--                or not self._section.name.startswith('Example')):
--            line =3D line.strip()
-         match =3D re.match(r'(@\S+:)', line)
-         if match:
-             raise QAPIParseError(self._parser,
+     def _start_section(self, name=3DNone):
+         if name in ('Returns', 'Since') and self.has_section(name):
+diff --git a/scripts/qapi/doc.py b/scripts/qapi/doc.py
+index 433e9fcbfb..8e799b9e0b 100755
+--- a/scripts/qapi/doc.py
++++ b/scripts/qapi/doc.py
+@@ -181,6 +181,16 @@ def texi_members(doc, what, base, variants, member_f=
+unc):
+         return ''
+     return '\n@b{%s:}\n@table @asis\n%s@end table\n' % (what, items)
+=20
++def texi_features(doc):
++    """Format the table of features"""
++    items =3D ''
++    for section in doc.features.values():
++        desc =3D texi_format(section.text)
++        items +=3D '@item @code{%s}\n%s' % (section.name, desc)
++    if not items:
++        return ''
++    return '\n@b{Features:}\n@table @asis\n%s@end table\n' % (items)
++
+=20
+ def texi_sections(doc, ifcond):
+     """Format additional sections following arguments"""
+@@ -201,6 +211,7 @@ def texi_entity(doc, what, ifcond, base=3DNone, varia=
+nts=3DNone,
+                 member_func=3Dtexi_member):
+     return (texi_body(doc)
+             + texi_members(doc, what, base, variants, member_func)
++            + texi_features(doc)
+             + texi_sections(doc, ifcond))
+=20
+=20
 --=20
 2.20.1
 
