@@ -2,69 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BA56421249
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 04:49:50 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40208 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8276F2125B
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 04:59:47 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40383 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRSwP-0004f4-S7
-	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 22:49:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39211)
+	id 1hRT62-0004Ql-MO
+	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 22:59:46 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41920)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hRSn8-0005yf-H0
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 22:40:15 -0400
+	(envelope-from <pbonzini@redhat.com>) id 1hRT3y-0003HT-AL
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 22:57:39 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hRSn2-0002Ip-VX
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 22:40:10 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:32787)
+	(envelope-from <pbonzini@redhat.com>) id 1hRT3x-0003Az-5O
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 22:57:38 -0400
+Received: from mail-wr1-f43.google.com ([209.85.221.43]:36253)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hRSmw-0002EU-Mf
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 22:40:04 -0400
-Received: by mail-pf1-x442.google.com with SMTP id z28so2889662pfk.0
-	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 19:39:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=HYIlEI5x7dSKPn06Te85N+SIxFZI2TsRzdSqKh133IE=;
-	b=rVXpXX3j2WMb8BKGaYvlHxU9rzhkP9HxQx6W+SKtDtYRq9OZ6PjlXy/Yw3SBks/2PA
-	sO62ZkynKOVYJ1Oi971PtgPBbmxTwpCUCPVhX2EVu8dMiZcfwcwdV3jWb2Yo9+SFoKrU
-	mY1X7cNtQl6Da12nUCr9zzjO+VODeTfCjo7XQqDbU/WZ4NksorgUGbJuTnkIJAqKkn53
-	/41aW9DEGMa9zKB+x5dz52O+dYYmpmSiFKm3k30XOt38sHBd5G3WpYdM7MKfwh0LXsF2
-	L7y+36IdzM6Gp3l5bU0fzjJbCZag3xmXuxeIjUEM3ipWDYPue/E4jmDN/NqBBE6ZSJoT
-	CrfQ==
+	(Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hRT3w-0003Ah-VD
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 22:57:37 -0400
+Received: by mail-wr1-f43.google.com with SMTP id s17so5455820wru.3
+	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 19:57:36 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=HYIlEI5x7dSKPn06Te85N+SIxFZI2TsRzdSqKh133IE=;
-	b=dQYPNUS9W1L/62QcA86ZTuQFdVeQBPD3qErDVfZXmYBh1z2k5hy7eua8zBeF11lN7P
-	GY1sssXAhDCTxQrE8d43U5IkJJc/pJ8oJYKXPfXndZYyU9Tjono5tG9Mkgh2YqtozIU6
-	jvjwYaJMs9JPA9o+adcQqhGtbpZNqL2/HnRSAF61ZuqrrRxLHstXyRP4rZ4YEnhU1oMO
-	ZaXHkYLgYYuZseTpxGmpIdaiKLYPPC/NKtvc3GFix3zz+6hitBn+LYb7jE0UMOEhvejB
-	k9TwlpD5FEi2OucFqljazyklaSNBGTfgEKeYXQ7Hb8Q0NyEApBBocQkZrw5QtlIaxSf/
-	yQJA==
-X-Gm-Message-State: APjAAAU5OFwLn/CyA4Yms0qWFug3hVwP8+/kT3YujwRPq1PsqCAAWy/A
-	aI/LC8W+xZcKFiykAPtd2UEhvrM8wMw=
-X-Google-Smtp-Source: APXvYqzlUqqzNEGZzj2jYnDCRs4uIoYXFfS9bjD+GFAlroPAtiHOVXMVKvpaOQj061mcuthy6hRWjQ==
-X-Received: by 2002:a63:2cc9:: with SMTP id s192mr11701950pgs.24.1558060797110;
-	Thu, 16 May 2019 19:39:57 -0700 (PDT)
-Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
-	[97.113.13.231])
-	by smtp.gmail.com with ESMTPSA id w6sm6984152pge.30.2019.05.16.19.39.56
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=VaY38fhqOGP9PGDK3srRL28PeYkiAkOCubxu5ar7h0w=;
+	b=D1dhoeLcvTojtOIm6TzYdvUfEFbBibfaAX43qCj0qxhDGKe93kR9o400zbjde16vNQ
+	TUVjaLRYzMTlbnULBmzQmZC1D0WUQu2jbjgRceJLOd0EQaxI5fFCVFNAgo/8qxeSxkGb
+	dF9SYzNPB0PR+qWIr4su68ZlECRrICcI80056weWK6dr3h2zG4u+1cLfa8LUXe7CGOKr
+	GkkO+nltDudJHWVfFDkTE4mlRCUvKUnzkx8pID8kYyjtv1eUJxuwct4MpAWmbSWm07/U
+	qd3oWxd5NL7KmpfTEGmX5weE9QPrTDgQk+J3wWxeV1eBwSNYYxmozgOdXXFkP9sdd0RR
+	cv7w==
+X-Gm-Message-State: APjAAAUXxIUKsghY9oZwIQ1jZRbMNxb8FpcAKjr0VyiwGTAzdWVgiYnO
+	zx6ifQUSG2ut3mMZKuPHZR9+cg==
+X-Google-Smtp-Source: APXvYqzKE8LEDwWLJOE4JJLdgs+lPK+nJedePsPCU1t8xftIdWFSEsQSJhxUF2o/JLIH0kS081et3g==
+X-Received: by 2002:adf:eb87:: with SMTP id t7mr31492093wrn.39.1558061855614; 
+	Thu, 16 May 2019 19:57:35 -0700 (PDT)
+Received: from [172.27.174.155] (23-24-245-141-static.hfc.comcastbusiness.net.
+	[23.24.245.141])
+	by smtp.gmail.com with ESMTPSA id w2sm5114184wrm.74.2019.05.16.19.57.32
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 16 May 2019 19:39:56 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Thu, 16 May 2019 19:39:24 -0700
-Message-Id: <20190517023924.1686-26-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190517023924.1686-1-richard.henderson@linaro.org>
-References: <20190517023924.1686-1-richard.henderson@linaro.org>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::442
-Subject: [Qemu-devel] [PATCH v8 25/25] target/i386: Implement
- CPUID_EXT_RDRAND
+	Thu, 16 May 2019 19:57:35 -0700 (PDT)
+To: whiteheadm@acm.org
+References: <CAP8WD_bf=0=tyCumcNpVLtneio+vbd4JuFMmtWqSwXWFC-7PMg@mail.gmail.com>
+	<6da0c28c-ef4f-8199-1cee-bf1f08387ff1@redhat.com>
+	<ea9cf5ec-f259-9a23-eae1-1b2250c367b0@redhat.com>
+	<CAP8WD_ZUVZJKk-tEfG8+yd6t_U9+A3a4s5_ohjU5KLP0tY5YwQ@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <a471eb8d-0cc0-0205-c51d-ce3a75b6d799@redhat.com>
+Date: Fri, 17 May 2019 04:57:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <CAP8WD_ZUVZJKk-tEfG8+yd6t_U9+A3a4s5_ohjU5KLP0tY5YwQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+	[fuzzy]
+X-Received-From: 209.85.221.43
+Subject: Re: [Qemu-devel] Pentium Pro Feature Bugs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -76,172 +74,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, berrange@redhat.com, armbru@redhat.com
+Cc: Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
+	qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We now have an interface for guest visible random numbers.
+On 17/05/19 02:30, tedheadster wrote:
+> Paolo,
+>   I am running the kvm32 machine and I see a problem. Here is the
+> output of /proc/cpuinfo :
+> 
+> flags           : fpu vme de pse tsc msr pae mce cx8 apic mtrr pge mca
+> cmov constant_tsc
+> 
+> I see something rather important missing: cpuid.
+> 
+> A lot of stuff breaks without cpuid, and I am fairly sure that qemu is
+> supposed to 'hard code' in support for it. It is present with both my
+> i486 and i586 virtual machines.
+> 
+> - Matthew
+> 
 
-Reviewed-by: Eduardo Habkost <ehabkost@redhat.com>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- target/i386/helper.h     |  2 ++
- target/i386/cpu.c        |  5 ++--
- target/i386/int_helper.c | 21 ++++++++++++++
- target/i386/translate.c  | 62 ++++++++++++++++++++++++++++++----------
- 4 files changed, 73 insertions(+), 17 deletions(-)
+That's weird... The cpuid flag does not come from QEMU, it is a "soft"
+flag determined by trying to toggle EFLAGS.ID and EFLAGS.ID behaves the
+same for all CPU models.  What else do you see in /proc/cpuinfo?
 
-diff --git a/target/i386/helper.h b/target/i386/helper.h
-index 6fb8fb9b74..8f9e1905c3 100644
---- a/target/i386/helper.h
-+++ b/target/i386/helper.h
-@@ -226,3 +226,5 @@ DEF_HELPER_3(rcrl, tl, env, tl, tl)
- DEF_HELPER_3(rclq, tl, env, tl, tl)
- DEF_HELPER_3(rcrq, tl, env, tl, tl)
- #endif
-+
-+DEF_HELPER_1(rdrand, tl, env)
-diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-index 722c5514d4..1386814957 100644
---- a/target/i386/cpu.c
-+++ b/target/i386/cpu.c
-@@ -730,13 +730,14 @@ static void x86_cpu_vendor_words2str(char *dst, uint32_t vendor1,
-           CPUID_EXT_MONITOR | CPUID_EXT_SSSE3 | CPUID_EXT_CX16 | \
-           CPUID_EXT_SSE41 | CPUID_EXT_SSE42 | CPUID_EXT_POPCNT | \
-           CPUID_EXT_XSAVE | /* CPUID_EXT_OSXSAVE is dynamic */   \
--          CPUID_EXT_MOVBE | CPUID_EXT_AES | CPUID_EXT_HYPERVISOR)
-+          CPUID_EXT_MOVBE | CPUID_EXT_AES | CPUID_EXT_HYPERVISOR | \
-+          CPUID_EXT_RDRAND)
-           /* missing:
-           CPUID_EXT_DTES64, CPUID_EXT_DSCPL, CPUID_EXT_VMX, CPUID_EXT_SMX,
-           CPUID_EXT_EST, CPUID_EXT_TM2, CPUID_EXT_CID, CPUID_EXT_FMA,
-           CPUID_EXT_XTPR, CPUID_EXT_PDCM, CPUID_EXT_PCID, CPUID_EXT_DCA,
-           CPUID_EXT_X2APIC, CPUID_EXT_TSC_DEADLINE_TIMER, CPUID_EXT_AVX,
--          CPUID_EXT_F16C, CPUID_EXT_RDRAND */
-+          CPUID_EXT_F16C */
- 
- #ifdef TARGET_X86_64
- #define TCG_EXT2_X86_64_FEATURES (CPUID_EXT2_SYSCALL | CPUID_EXT2_LM)
-diff --git a/target/i386/int_helper.c b/target/i386/int_helper.c
-index 4dc5c65991..334469ca8c 100644
---- a/target/i386/int_helper.c
-+++ b/target/i386/int_helper.c
-@@ -22,6 +22,8 @@
- #include "exec/exec-all.h"
- #include "qemu/host-utils.h"
- #include "exec/helper-proto.h"
-+#include "qapi/error.h"
-+#include "qemu/guest-random.h"
- 
- //#define DEBUG_MULDIV
- 
-@@ -470,3 +472,22 @@ void helper_cr4_testbit(CPUX86State *env, uint32_t bit)
-         raise_exception_ra(env, EXCP06_ILLOP, GETPC());
-     }
- }
-+
-+target_ulong HELPER(rdrand)(CPUX86State *env)
-+{
-+    Error *err = NULL;
-+    target_ulong ret;
-+
-+    if (qemu_guest_getrandom(&ret, sizeof(ret), &err) < 0) {
-+        qemu_log_mask(LOG_UNIMP, "rdrand: Crypto failure: %s",
-+                      error_get_pretty(err));
-+        error_free(err);
-+        /* Failure clears CF and all other flags, and returns 0.  */
-+        env->cc_src = 0;
-+        return 0;
-+    }
-+
-+    /* Success sets CF and clears all others.  */
-+    env->cc_src = CC_C;
-+    return ret;
-+}
-diff --git a/target/i386/translate.c b/target/i386/translate.c
-index 77d6b73e42..03150a86e2 100644
---- a/target/i386/translate.c
-+++ b/target/i386/translate.c
-@@ -5332,31 +5332,63 @@ static target_ulong disas_insn(DisasContext *s, CPUState *cpu)
-     case 0x1c7: /* cmpxchg8b */
-         modrm = x86_ldub_code(env, s);
-         mod = (modrm >> 6) & 3;
--        if ((mod == 3) || ((modrm & 0x38) != 0x8))
--            goto illegal_op;
--#ifdef TARGET_X86_64
--        if (dflag == MO_64) {
--            if (!(s->cpuid_ext_features & CPUID_EXT_CX16))
-+        switch ((modrm >> 3) & 7) {
-+        case 1: /* CMPXCHG8, CMPXCHG16 */
-+            if (mod == 3) {
-                 goto illegal_op;
--            gen_lea_modrm(env, s, modrm);
--            if ((s->prefix & PREFIX_LOCK) && (tb_cflags(s->base.tb) & CF_PARALLEL)) {
--                gen_helper_cmpxchg16b(cpu_env, s->A0);
--            } else {
--                gen_helper_cmpxchg16b_unlocked(cpu_env, s->A0);
-             }
--        } else
-+#ifdef TARGET_X86_64
-+            if (dflag == MO_64) {
-+                if (!(s->cpuid_ext_features & CPUID_EXT_CX16)) {
-+                    goto illegal_op;
-+                }
-+                gen_lea_modrm(env, s, modrm);
-+                if ((s->prefix & PREFIX_LOCK) &&
-+                    (tb_cflags(s->base.tb) & CF_PARALLEL)) {
-+                    gen_helper_cmpxchg16b(cpu_env, s->A0);
-+                } else {
-+                    gen_helper_cmpxchg16b_unlocked(cpu_env, s->A0);
-+                }
-+                set_cc_op(s, CC_OP_EFLAGS);
-+                break;
-+            }
- #endif        
--        {
--            if (!(s->cpuid_features & CPUID_CX8))
-+            if (!(s->cpuid_features & CPUID_CX8)) {
-                 goto illegal_op;
-+            }
-             gen_lea_modrm(env, s, modrm);
--            if ((s->prefix & PREFIX_LOCK) && (tb_cflags(s->base.tb) & CF_PARALLEL)) {
-+            if ((s->prefix & PREFIX_LOCK) &&
-+                (tb_cflags(s->base.tb) & CF_PARALLEL)) {
-                 gen_helper_cmpxchg8b(cpu_env, s->A0);
-             } else {
-                 gen_helper_cmpxchg8b_unlocked(cpu_env, s->A0);
-             }
-+            set_cc_op(s, CC_OP_EFLAGS);
-+            break;
-+
-+        case 7: /* RDSEED */
-+        case 6: /* RDRAND */
-+            if (mod != 3 ||
-+                (s->prefix & (PREFIX_LOCK | PREFIX_REPZ | PREFIX_REPNZ)) ||
-+                !(s->cpuid_ext_features & CPUID_EXT_RDRAND)) {
-+                goto illegal_op;
-+            }
-+            if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
-+                gen_io_start();
-+            }
-+            gen_helper_rdrand(s->T0, cpu_env);
-+            rm = (modrm & 7) | REX_B(s);
-+            gen_op_mov_reg_v(s, dflag, rm, s->T0);
-+            set_cc_op(s, CC_OP_EFLAGS);
-+            if (tb_cflags(s->base.tb) & CF_USE_ICOUNT) {
-+                gen_io_end();
-+                gen_jmp(s, s->pc - s->cs_base);
-+            }
-+            break;
-+
-+        default:
-+            goto illegal_op;
-         }
--        set_cc_op(s, CC_OP_EFLAGS);
-         break;
- 
-         /**************************/
--- 
-2.17.1
-
+Paolo
 
