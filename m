@@ -2,47 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0856E21D5F
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 20:35:31 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52284 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D3AE821D9B
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 20:42:55 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52425 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRhhZ-0005Dq-SU
-	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 14:35:29 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56218)
+	id 1hRhol-000346-1A
+	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 14:42:55 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57137)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hRhf0-0003wS-7T
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 14:32:51 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hRhjX-0007lJ-79
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 14:37:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hRhez-0005xb-DP
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 14:32:50 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48398)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <armbru@redhat.com>)
-	id 1hRhez-0005v5-7P; Fri, 17 May 2019 14:32:49 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
-	[10.5.11.14])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id DD413308218D;
-	Fri, 17 May 2019 18:32:47 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-28.ams2.redhat.com
-	[10.36.116.28])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id ABFDB5D9CD;
-	Fri, 17 May 2019 18:32:47 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
-	id 310B811385E4; Fri, 17 May 2019 20:32:46 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Fri, 17 May 2019 20:32:46 +0200
-Message-Id: <20190517183246.11933-1-armbru@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.47]);
-	Fri, 17 May 2019 18:32:47 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH] configure: Fix spelling of sdl-image in --help
+	(envelope-from <richard.henderson@linaro.org>) id 1hRhjW-0002zc-AS
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 14:37:31 -0400
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:38868)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hRhjW-0002yc-2P
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 14:37:30 -0400
+Received: by mail-pl1-x644.google.com with SMTP id f97so3717472plb.5
+	for <qemu-devel@nongnu.org>; Fri, 17 May 2019 11:37:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=eTkkoGI5De1W5MzjhGv2Jiwf5fz/0V+kUSLw6kMRTb4=;
+	b=rmbAzbWDWg447gDNCMMys0oYakYt6MEE49ZEA7N80GZ5knZaSEOMkFwJjbpNrOCwTP
+	u/VkKPus2Zo5j0HL7rS6gfa9524rYTW8Y1dSTInK+To4xjfAAC2GTL932x86DvmqW1e6
+	TAAihrz6JM+qbcDyosxZeBz50nYxQUeWi8DCgxkh0/01LqwXX8hZmoftxpQhdW4a20a9
+	Y5oCQ7gnfBcx+Wi2GQOIfWnO+pgyoDsurmO7tT4aRKJ1pqI6nRHXhkhwpxpJn08ZMyYF
+	Mu7Vlrk+dCHmz6qgLKWn9BeAN6Ii8INTQZoNKikv38mv3AVZAiQ3dYhMBur+3iyp52/+
+	D2Qg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=eTkkoGI5De1W5MzjhGv2Jiwf5fz/0V+kUSLw6kMRTb4=;
+	b=QzisczLpOpkEABEKiU8cTo4w2O5xRWKsj38Adyz5dxdNRxRYikRgSBFkz3NqUcuMGl
+	9ICtrubN8AlAmBUkXJmiuBvdwd2celM8vU+oImRJiymchoNYN4767YOqq83hTgtno9Pn
+	RkwhQC7+rSkjkf2dK6KagKPG3b0RX4dTT0YVc7ymOreAQicWaSNizx0JuTMBPcOWiKbV
+	nCcInNS4l2UpuvT0eW6zC9MRhFrmaOZjMY9oOV5ddEfLJbd8CuvG4nnMWKwB4ARsQFKE
+	B2FFEqUZu1c6K25XiCU8v+PUTm2J5yV3WYMSiQJ69bXOKJfPuzbKz635l/4v5ne3piTl
+	yoeQ==
+X-Gm-Message-State: APjAAAXf23iguBYKD7yNESz9yhXy7gAuYSmX1kvOEK3yTWqevDviY3d9
+	yXZCQGbApRzX7Ks/B5dj4os5cA==
+X-Google-Smtp-Source: APXvYqyllv75P+gyJB2KZUzo3LlRh3qKwLGW9RcOjUQLe5N0zy87p7Loohf7kWkAjWSSNUGYoMTBew==
+X-Received: by 2002:a17:902:8a81:: with SMTP id
+	p1mr58660911plo.106.1558118248660; 
+	Fri, 17 May 2019 11:37:28 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-13-231.tukw.qwest.net. [97.113.13.231])
+	by smtp.gmail.com with ESMTPSA id
+	a69sm23051292pfa.81.2019.05.17.11.37.27
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 17 May 2019 11:37:27 -0700 (PDT)
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20190515203112.506-1-david@redhat.com>
+	<20190515203112.506-6-david@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <788d345f-db74-4922-284c-2800b000d834@linaro.org>
+Date: Fri, 17 May 2019 11:37:26 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <20190515203112.506-6-david@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::644
+Subject: Re: [Qemu-devel] [PATCH v1 5/5] s390x/tcg: Implement VECTOR STRING
+ RANGE COMPARE
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -54,31 +86,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org
+Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+	Thomas Huth <thuth@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fixes: a442fe2f2b2f20e7be0934277e9400b844b11999
-Cc: qemu-trivial@nongnu.org
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
----
- configure | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On 5/15/19 1:31 PM, David Hildenbrand wrote:> +    const bool equal =
+extract32(c, BITS - 1, 1);> +    const bool lower = extract32(c, BITS - 2, 1);>
++    const bool higher = extract32(c, BITS - 3, 1);> +> +    if (equal && data
+== l) {> +        return true;> +    } else if (lower && data < l) {> +
+return true;> +    } else if (higher && data > l) {> +        return true;> +
+  }> +    return false;
+Only one of the data comparisons can be true.  Better as
 
-diff --git a/configure b/configure
-index d2fc346302..cef51b2a0b 100755
---- a/configure
-+++ b/configure
-@@ -1745,7 +1745,7 @@ disabled with --disable-FEATURE, default is enabled if available:
-   gcrypt          libgcrypt cryptography support
-   auth-pam        PAM access control
-   sdl             SDL UI
--  sdl_image       SDL Image support for icons
-+  sdl-image       SDL Image support for icons
-   gtk             gtk UI
-   vte             vte support for the gtk UI
-   curses          curses UI
--- 
-2.17.2
+    if (data < l) {
+        return lower;
+    } else if (data > l) {
+        return higher;
+    } else {
+        return equal;
+    }
 
+Otherwise, again, let's see if we can turn these into inlines.
+
+
+r~
 
