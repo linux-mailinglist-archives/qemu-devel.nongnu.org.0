@@ -2,48 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2784C2168E
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 11:49:23 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:45400 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8A71A21680
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 11:45:46 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:45327 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRZUQ-0002Wq-DA
-	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 05:49:22 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39879)
+	id 1hRZQv-0007YX-Ms
+	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 05:45:45 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39843)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hRZM1-0004Ic-Q0
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 05:40:50 -0400
+	(envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hRZM0-0004IO-N5
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 05:40:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hRZLz-00022q-NA
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 05:40:41 -0400
-Received: from mail.ilande.co.uk ([46.43.2.167]:55354
+	(envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hRZLz-00020W-7u
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 05:40:40 -0400
+Received: from mail.ilande.co.uk ([46.43.2.167]:55336
 	helo=mail.default.ilande.uk0.bigv.io)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
-	id 1hRZLz-0001yD-GE
+	id 1hRZLz-0001tA-0a
 	for qemu-devel@nongnu.org; Fri, 17 May 2019 05:40:39 -0400
 Received: from host109-146-247-8.range109-146.btcentralplus.com
 	([109.146.247.8] helo=kentang.home)
 	by mail.default.ilande.uk0.bigv.io with esmtpsa
 	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
 	(envelope-from <mark.cave-ayland@ilande.co.uk>)
-	id 1hRZLF-00018L-3Z; Fri, 17 May 2019 10:39:53 +0100
+	id 1hRZLF-00018L-J4; Fri, 17 May 2019 10:39:54 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Date: Fri, 17 May 2019 10:40:26 +0100
-Message-Id: <20190517094029.7667-6-mark.cave-ayland@ilande.co.uk>
+Date: Fri, 17 May 2019 10:40:27 +0100
+Message-Id: <20190517094029.7667-7-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20190517094029.7667-1-mark.cave-ayland@ilande.co.uk>
 References: <20190517094029.7667-1-mark.cave-ayland@ilande.co.uk>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 109.146.247.8
 X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
 X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 46.43.2.167
-Subject: [Qemu-devel] [PULL 5/8] grlib,
- apbuart: get rid of the old-style create function
+Subject: [Qemu-devel] [PULL 6/8] leon3: add a little bootloader
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -60,101 +62,149 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: KONRAD Frederic <frederic.konrad@adacore.com>
 
-Suggested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+This adds a little bootloader to the leon3_machine when a ram image is
+given through the kernel parameter and no bios are provided:
+  * The UART transmiter is enabled.
+  * The TIMER is initialized.
+
+Reviewed-by: Fabien Chouteau <chouteau@adacore.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: KONRAD Frederic <frederic.konrad@adacore.com>
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/char/grlib_apbuart.c  |  4 ++--
- hw/sparc/leon3.c         |  9 ++++++++-
- include/hw/sparc/grlib.h | 20 +-------------------
- 3 files changed, 11 insertions(+), 22 deletions(-)
+ hw/sparc/leon3.c | 79 ++++++++++++++++++++++++++++++++++++++++++++++++++------
+ 1 file changed, 71 insertions(+), 8 deletions(-)
 
-diff --git a/hw/char/grlib_apbuart.c b/hw/char/grlib_apbuart.c
-index e1d258b611..9623016d56 100644
---- a/hw/char/grlib_apbuart.c
-+++ b/hw/char/grlib_apbuart.c
-@@ -1,7 +1,7 @@
- /*
-  * QEMU GRLIB APB UART Emulator
-  *
-- * Copyright (c) 2010-2011 AdaCore
-+ * Copyright (c) 2010-2019 AdaCore
-  *
-  * Permission is hereby granted, free of charge, to any person obtaining a copy
-  * of this software and associated documentation files (the "Software"), to deal
-@@ -23,6 +23,7 @@
-  */
- 
- #include "qemu/osdep.h"
-+#include "hw/sparc/grlib.h"
- #include "hw/sysbus.h"
- #include "chardev/char-fe.h"
- 
-@@ -68,7 +69,6 @@
- 
- #define FIFO_LENGTH 1024
- 
--#define TYPE_GRLIB_APB_UART "grlib,apbuart"
- #define GRLIB_APB_UART(obj) \
-     OBJECT_CHECK(UART, (obj), TYPE_GRLIB_APB_UART)
- 
 diff --git a/hw/sparc/leon3.c b/hw/sparc/leon3.c
-index fb52527add..4f586910f2 100644
+index 4f586910f2..6ba63e68ca 100644
 --- a/hw/sparc/leon3.c
 +++ b/hw/sparc/leon3.c
-@@ -47,6 +47,9 @@
+@@ -44,6 +44,8 @@
+ #define CPU_CLK (40 * 1000 * 1000)
+ 
+ #define LEON3_PROM_FILENAME "u-boot.bin"
++#define LEON3_PROM_OFFSET    (0x00000000)
++#define LEON3_RAM_OFFSET     (0x40000000)
  
  #define MAX_PILS 16
  
-+#define LEON3_UART_OFFSET  (0x80000100)
-+#define LEON3_UART_IRQ     (3)
+@@ -62,6 +64,59 @@ typedef struct ResetData {
+     target_ulong sp;            /* initial stack pointer */
+ } ResetData;
+ 
++static uint32_t *gen_store_u32(uint32_t *code, hwaddr addr, uint32_t val)
++{
++    stl_p(code++, 0x82100000); /* mov %g0, %g1                */
++    stl_p(code++, 0x84100000); /* mov %g0, %g2                */
++    stl_p(code++, 0x03000000 +
++      extract32(addr, 10, 22));
++                               /* sethi %hi(addr), %g1        */
++    stl_p(code++, 0x82106000 +
++      extract32(addr, 0, 10));
++                               /* or %g1, addr, %g1           */
++    stl_p(code++, 0x05000000 +
++      extract32(val, 10, 22));
++                               /* sethi %hi(val), %g2         */
++    stl_p(code++, 0x8410a000 +
++      extract32(val, 0, 10));
++                               /* or %g2, val, %g2            */
++    stl_p(code++, 0xc4204000); /* st %g2, [ %g1 ]             */
 +
- #define LEON3_IRQMP_OFFSET (0x80000200)
++    return code;
++}
++
++/*
++ * When loading a kernel in RAM the machine is expected to be in a different
++ * state (eg: initialized by the bootloader). This little code reproduces
++ * this behavior.
++ */
++static void write_bootloader(CPUSPARCState *env, uint8_t *base,
++                             hwaddr kernel_addr)
++{
++    uint32_t *p = (uint32_t *) base;
++
++    /* Initialize the UARTs                                        */
++    /* *UART_CONTROL = UART_RECEIVE_ENABLE | UART_TRANSMIT_ENABLE; */
++    p = gen_store_u32(p, 0x80000108, 3);
++
++    /* Initialize the TIMER 0                                      */
++    /* *GPTIMER_SCALER_RELOAD = 40 - 1;                            */
++    p = gen_store_u32(p, 0x80000304, 39);
++    /* *GPTIMER0_COUNTER_RELOAD = 0xFFFE;                          */
++    p = gen_store_u32(p, 0x80000314, 0xFFFFFFFE);
++    /* *GPTIMER0_CONFIG = GPTIMER_ENABLE | GPTIMER_RESTART;        */
++    p = gen_store_u32(p, 0x80000318, 3);
++
++    /* JUMP to the entry point                                     */
++    stl_p(p++, 0x82100000); /* mov %g0, %g1 */
++    stl_p(p++, 0x03000000 + extract32(kernel_addr, 10, 22));
++                            /* sethi %hi(kernel_addr), %g1 */
++    stl_p(p++, 0x82106000 + extract32(kernel_addr, 0, 10));
++                            /* or kernel_addr, %g1 */
++    stl_p(p++, 0x81c04000); /* jmp  %g1 */
++    stl_p(p++, 0x01000000); /* nop */
++}
++
+ static void main_cpu_reset(void *opaque)
+ {
+     ResetData *s   = (ResetData *)opaque;
+@@ -142,7 +197,7 @@ static void leon3_generic_hw_init(MachineState *machine)
+     /* Reset data */
+     reset_info        = g_malloc0(sizeof(ResetData));
+     reset_info->cpu   = cpu;
+-    reset_info->sp    = 0x40000000 + ram_size;
++    reset_info->sp    = LEON3_RAM_OFFSET + ram_size;
+     qemu_register_reset(main_cpu_reset, reset_info);
  
- #define LEON3_TIMER_OFFSET (0x80000300)
-@@ -239,7 +242,11 @@ static void leon3_generic_hw_init(MachineState *machine)
- 
-     /* Allocate uart */
-     if (serial_hd(0)) {
--        grlib_apbuart_create(0x80000100, serial_hd(0), cpu_irqs[3]);
-+        dev = qdev_create(NULL, TYPE_GRLIB_APB_UART);
-+        qdev_prop_set_chr(dev, "chrdev", serial_hd(0));
-+        qdev_init_nofail(dev);
-+        sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, LEON3_UART_OFFSET);
-+        sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, cpu_irqs[LEON3_UART_IRQ]);
+     /* Allocate IRQ manager */
+@@ -164,13 +219,13 @@ static void leon3_generic_hw_init(MachineState *machine)
      }
- }
  
-diff --git a/include/hw/sparc/grlib.h b/include/hw/sparc/grlib.h
-index fe553e93b8..5606ff0a97 100644
---- a/include/hw/sparc/grlib.h
-+++ b/include/hw/sparc/grlib.h
-@@ -45,24 +45,6 @@ void grlib_irqmp_ack(DeviceState *dev, int intno);
- #define TYPE_GRLIB_GPTIMER "grlib,gptimer"
+     memory_region_allocate_system_memory(ram, NULL, "leon3.ram", ram_size);
+-    memory_region_add_subregion(address_space_mem, 0x40000000, ram);
++    memory_region_add_subregion(address_space_mem, LEON3_RAM_OFFSET, ram);
  
- /* APB UART */
--
--static inline
--DeviceState *grlib_apbuart_create(hwaddr  base,
--                                  Chardev    *serial,
--                                  qemu_irq            irq)
--{
--    DeviceState *dev;
--
--    dev = qdev_create(NULL, "grlib,apbuart");
--    qdev_prop_set_chr(dev, "chrdev", serial);
--
--    qdev_init_nofail(dev);
--
--    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, base);
--
--    sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, irq);
--
--    return dev;
--}
-+#define TYPE_GRLIB_APB_UART "grlib,apbuart"
+     /* Allocate BIOS */
+     prom_size = 8 * MiB;
+     memory_region_init_ram(prom, NULL, "Leon3.bios", prom_size, &error_fatal);
+     memory_region_set_readonly(prom, true);
+-    memory_region_add_subregion(address_space_mem, 0x00000000, prom);
++    memory_region_add_subregion(address_space_mem, LEON3_PROM_OFFSET, prom);
  
- #endif /* GRLIB_H */
+     /* Load boot prom */
+     if (bios_name == NULL) {
+@@ -190,7 +245,7 @@ static void leon3_generic_hw_init(MachineState *machine)
+     }
+ 
+     if (bios_size > 0) {
+-        ret = load_image_targphys(filename, 0x00000000, bios_size);
++        ret = load_image_targphys(filename, LEON3_PROM_OFFSET, bios_size);
+         if (ret < 0 || ret > prom_size) {
+             error_report("could not load prom '%s'", filename);
+             exit(1);
+@@ -220,10 +275,18 @@ static void leon3_generic_hw_init(MachineState *machine)
+             exit(1);
+         }
+         if (bios_size <= 0) {
+-            /* If there is no bios/monitor, start the application.  */
+-            env->pc = entry;
+-            env->npc = entry + 4;
+-            reset_info->entry = entry;
++            /*
++             * If there is no bios/monitor just start the application but put
++             * the machine in an initialized state through a little
++             * bootloader.
++             */
++            uint8_t *bootloader_entry;
++
++            bootloader_entry = memory_region_get_ram_ptr(prom);
++            write_bootloader(env, bootloader_entry, entry);
++            env->pc = LEON3_PROM_OFFSET;
++            env->npc = LEON3_PROM_OFFSET + 4;
++            reset_info->entry = LEON3_PROM_OFFSET;
+         }
+     }
+ 
 -- 
 2.11.0
 
