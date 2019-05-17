@@ -2,54 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 59607216DA
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 12:16:59 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:45761 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 30A0221789
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 13:16:22 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46733 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRZv8-0004Rl-IT
-	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 06:16:58 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45938)
+	id 1hRaqb-00068s-BI
+	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 07:16:21 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50366)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <clg@kaod.org>) id 1hRZqY-0001H9-EU
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 06:12:15 -0400
+	(envelope-from <pmathieu@redhat.com>) id 1hRa70-0007Ti-Hk
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 06:29:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <clg@kaod.org>) id 1hRZqU-0005eD-Rz
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 06:12:13 -0400
-Received: from 3.mo179.mail-out.ovh.net ([178.33.251.175]:33693)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <clg@kaod.org>) id 1hRZqT-0005Yy-DY
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 06:12:09 -0400
-Received: from player735.ha.ovh.net (unknown [10.108.35.103])
-	by mo179.mail-out.ovh.net (Postfix) with ESMTP id B69D4131B35
-	for <qemu-devel@nongnu.org>; Fri, 17 May 2019 12:12:00 +0200 (CEST)
-Received: from kaod.org (lfbn-1-10649-41.w90-89.abo.wanadoo.fr [90.89.235.41])
-	(Authenticated sender: clg@kaod.org)
-	by player735.ha.ovh.net (Postfix) with ESMTPSA id C24D55E2D28E;
-	Fri, 17 May 2019 10:11:54 +0000 (UTC)
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
-	Peter Maydell <peter.maydell@linaro.org>
-References: <20190506142042.28096-1-clg@kaod.org>
-	<20190506142042.28096-4-clg@kaod.org>
-	<4f7131a7-9099-f506-035f-abc584bf56b0@redhat.com>
-From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
-Message-ID: <1f038e7c-8980-006c-fffe-c5204052e03c@kaod.org>
-Date: Fri, 17 May 2019 12:11:54 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <pmathieu@redhat.com>) id 1hRZv4-00015P-MR
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 06:16:56 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:56121)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <pmathieu@redhat.com>) id 1hRZv4-00014w-GZ
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 06:16:54 -0400
+Received: by mail-wm1-f67.google.com with SMTP id x64so6376227wmb.5
+	for <qemu-devel@nongnu.org>; Fri, 17 May 2019 03:16:53 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=xQQ6KIq5Toa2u3FSu6P1kpYBA68Mm7wqwuxjswFrcE8=;
+	b=LOCaS/qCCQqt0Otwgp9c/i27xJxF8xj736wVLe5q1SqHyThtgo9hWdWttrrFcakyQy
+	HpaF2pWhKdKjaRKTzkQ2RHQLueukSc6QymqK73uOHUHTcR0bSGraq5gDEt5va/BOM5b7
+	c+UQuXu1SAgCxFzCWyFZtp12NGyUt8dFIFRKX+0DsLPUBmks4lgoDR6UuhDBMHV8VrA4
+	8Q2o/TllAutmYK2tOszjusdNFbYAdY7w4AzyZGwiAVpGT1jCgCGVTVuya8KFbwEk3XDC
+	9anEF6z4IPb8Wo9/qUCGOyXmsYDXeBSv9IH97q6gTOmtrPaKVoWvRRZTZHuVDuLB/3Qi
+	EyEA==
+X-Gm-Message-State: APjAAAU/EMH+cBCACRlDOrZzwfAogzrvB9Cw0T/I/sT3o8LLvaP6pC4U
+	sidxdzo7ZvwU0fzWXIQIIyOuy58QQDppnoV4B49sEQ==
+X-Google-Smtp-Source: APXvYqys5ntT7NR6N6Ve0ucUNmNG23tRCoqGPwu5tKMAGg8jxqBR9qnu7h94lIjDeZmZ1WOGsW9ETtH1rLmsyJbmAxs=
+X-Received: by 2002:a1c:678a:: with SMTP id b132mr17936544wmc.17.1558088212911;
+	Fri, 17 May 2019 03:16:52 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <4f7131a7-9099-f506-035f-abc584bf56b0@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 9867386783842929619
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddruddtvddgvdeiucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+References: <20190423110034.1260142-1-jakub.jermar@kernkonzept.com>
+	<ab4b6d04-74f9-2f12-829d-9df8c1b1c4ca@redhat.com>
+	<6ae8d347-149d-e7eb-bb02-90aba44c5bbd@kernkonzept.com>
+	<1e9a8595-4653-4900-b747-236f9888b893@kernkonzept.com>
+	<04a4fcca-0db9-46f8-ac41-0d770b0dc5d6@kernkonzept.com>
+	<f9f1b930-2381-b343-854f-70e2590c9b73@redhat.com>
+	<CAL1e-=jFH7+cHGUJsmUKpEAkwohagfM5WVb4-rGSozsEkzFrTA@mail.gmail.com>
+	<35442861-78a7-a60b-8cb4-913a7a299a26@kernkonzept.com>
+In-Reply-To: <35442861-78a7-a60b-8cb4-913a7a299a26@kernkonzept.com>
+From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Date: Fri, 17 May 2019 12:16:41 +0200
+Message-ID: <CAP+75-US1XaBuaZx0oHqyShrLuK1gcSMcymuvobAsd=Ye07Rcg@mail.gmail.com>
+To: Jakub Jermar <jakub.jermar@kernkonzept.com>
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 178.33.251.175
-Subject: Re: [Qemu-devel] [PATCH v2 3/3] aspeed: use sysbus_init_child_obj()
- to initialize children
+	[fuzzy]
+X-Received-From: 209.85.128.67
+Subject: Re: [Qemu-devel] [PATCH v2] mips: Decide to map PAGE_EXEC in
+ map_address
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,28 +69,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org, Joel Stanley <joel@jms.id.au>
+Cc: Aleksandar Rikalo <arikalo@wavecomp.com>,
+	QEMU Developers <qemu-devel@nongnu.org>,
+	Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
+	Aleksandar Markovic <amarkovic@wavecomp.com>,
+	Leon Alrae <leon.alrae@imgtec.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hello Philippe, 
+On Fri, May 17, 2019 at 11:30 AM Jakub Jermar
+<jakub.jermar@kernkonzept.com> wrote:
+>
+> Hi Aleksandar and Philippe,
+>
+> On 5/16/19 8:04 PM, Aleksandar Markovic wrote:
+[...]
+> > I tested Jakub's scenario too, it works as expected, but I am not
+> > concerned about it as much as about regression tests. Knowing that you
+> > have many MIPS test kernels and images, may I ask you to test some of
+> > them WITH Jakub's fix (so indepenently of myself anf Jakub), just to
+> > confirm that there are no regressions?
+>
+> May I suggest to include also the following mips32r2 HelenOS images with
+> the following command lines to the set of test kernels used for
+> verifying new versions of QEMU? I always test HelenOS master on malta
+> when there is a new version of QEMU, but it might be better to spot
+> prospective issues earlier for both projects:
+>
+> http://www.helenos.org/releases/HelenOS-0.9.1-mips32-malta-be.boot
+>
+> qemu-system-mips -cpu 4Kc -kernel HelenOS-0.9.1-mips32-malta-be.boot
+> -nographic
+>
+> http://www.helenos.org/releases/HelenOS-0.9.1-mips32-malta-le.boot
+>
+> qemu-system-mipsel -cpu 4Kc -kernel HelenOS-0.9.1-mips32-malta-le.boot
+> -nographic
 
-[ ... ] 
-
-> A similar patch (although better described IMO) was posted here:
-> https://lists.gnu.org/archive/html/qemu-devel/2019-02/msg05931.html
-> 
-> However you improved it by using sysbus_init_child_obj(). If you don't
-> mind I'll respin addressing Markus comment and using your improvement.
-
-Sure, np. 
-
-When is this patchset expected to be merged ? AFAICT, It's blocking 
-this current patchset, which is blocking Joel's RTC one and others 
-are on the way.
-
-Thanks,
-
-C. 
+Yes, I added both ;)
 
