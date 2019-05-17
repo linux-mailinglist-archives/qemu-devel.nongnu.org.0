@@ -2,64 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 493D721327
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 06:36:36 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:42121 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D5E69213A4
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 08:18:09 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43029 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRUbj-0004Gx-5q
-	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 00:36:35 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58122)
+	id 1hRWC0-0005c7-Os
+	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 02:18:08 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59420)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <jasowang@redhat.com>) id 1hRUaW-0003sS-Lx
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 00:35:22 -0400
+	(envelope-from <bounces@canonical.com>) id 1hRUpI-0005s5-1B
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 00:50:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <jasowang@redhat.com>) id 1hRUaT-0001jC-3d
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 00:35:19 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41672)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1hRUaS-0001gc-UO
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 00:35:17 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 2EFCB3082163;
-	Fri, 17 May 2019 04:35:13 +0000 (UTC)
-Received: from [10.72.12.67] (ovpn-12-67.pek2.redhat.com [10.72.12.67])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 1F7075D6A9;
-	Fri, 17 May 2019 04:35:08 +0000 (UTC)
-To: Paolo Bonzini <pbonzini@redhat.com>, Markus Armbruster <armbru@redhat.com>
-References: <20190418145355.21100-1-armbru@redhat.com>
-	<20190418145355.21100-2-armbru@redhat.com>
-	<2679829b-cc1d-83ce-9949-2b80d970ddec@redhat.com>
-	<875zqe7b10.fsf@dusky.pond.sub.org>
-	<CAFEAcA-vqnucYKuV3QKf4wBsfuXMZiC1kqrnaVcA+BEaud__Bw@mail.gmail.com>
-	<877eat6xgm.fsf@dusky.pond.sub.org>
-	<e562c5f5-9d01-59b0-5a4c-d040fa8b8962@redhat.com>
-	<87lfz88bva.fsf@dusky.pond.sub.org>
-	<1089f272-838f-e3e0-3b50-5a33cce95030@redhat.com>
-From: Jason Wang <jasowang@redhat.com>
-Message-ID: <a44c8068-406e-be4d-0e72-5cfe15ba22b3@redhat.com>
-Date: Fri, 17 May 2019 12:35:08 +0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <bounces@canonical.com>) id 1hRUpG-0006ob-Jo
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 00:50:35 -0400
+Received: from indium.canonical.com ([91.189.90.7]:48806)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hRUpG-0006lk-EK
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 00:50:34 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hRUpD-0006bb-Fr
+	for <qemu-devel@nongnu.org>; Fri, 17 May 2019 04:50:31 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id 73BDF2E8076
+	for <qemu-devel@nongnu.org>; Fri, 17 May 2019 04:50:31 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <1089f272-838f-e3e0-3b50-5a33cce95030@redhat.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.47]);
-	Fri, 17 May 2019 04:35:13 +0000 (UTC)
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Fri, 17 May 2019 04:36:24 -0000
+From: crocket <crockabiscuit@gmail.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: crockabiscuit
+X-Launchpad-Bug-Reporter: crocket (crockabiscuit)
+X-Launchpad-Bug-Modifier: crocket (crockabiscuit)
+Message-Id: <155806778498.21734.945063058665872727.malonedeb@chaenomeles.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18962";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: dc7c6068cac3c0da05586a34dd0d52ce12a03f7d
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 1/6] qemu-bridge-helper: Fix misuse of
- isspace()
+X-Received-From: 91.189.90.7
+X-Mailman-Approved-At: Fri, 17 May 2019 02:15:56 -0400
+Subject: [Qemu-devel] [Bug 1829459] [NEW] qemu: qemu_thread_create: Invalid
+ argument
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -68,52 +64,317 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
-	=?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
-	QEMU Developers <qemu-devel@nongnu.org>
+Reply-To: Bug 1829459 <1829459@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Public bug reported:
 
-On 2019/5/15 =E4=B8=8B=E5=8D=889:35, Paolo Bonzini wrote:
-> On 15/05/19 08:34, Markus Armbruster wrote:
->>>> qemu-bridge-helper should have a manual page, and its handling of er=
-rors
->>>> in ACL include files needs work.  There's probably more; I just glan=
-ced
->>>> at it.  I'm not volunteering, though.  It lacks a maintainer.  Shoul=
-d we
->>>> add it to Jason's "Network device backends"?
->>>
->>> Yes.
->>>
->>>> -netdev's helper parameter is seriously underdocumented.  Document o=
-r
->>>> deprecate?
->>>
->>> I believe management should only use fd parameter of TAP. If we have
->>> other, it should be a duplication. So I suggest to deprecate the
->>> bridge helper and -netdev bridge.
->> Objections, anyone?
-> Yes, your honor. :)  The helper is the only way for unprivileged users
-> to set up TAP networking, which is basically the only really way to hav=
-e
-> *working* network.  It's widely used in the wild, it's self-contained
-> and the only alternative for users is the S-word (hint, it's five
-> letters long and ends with LIRP).
+# Version
 
+qemu-4.0.0
+glibc-2.28
 
-The issue is it can't deal with e.g vhost-net and multiqueue. We can=20
-have a simple privileged launcher to do network configuration and pass=20
-the fds to unprivileged qemu.
+# commands used to launch qemu-aarch64 in user mode.
 
-Thanks
+: ${QEMU_BINFMT_FLAGS:=3DOC}
 
+printf '%s\n' ':qemu-
+aarch64:M::\x7fELF\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\=
+xb7\x00:\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xf=
+e\xff\xff\xff:/usr/bin
+/qemu-aarch64:'"${QEMU_BINFMT_FLAGS}" >/proc/sys/fs/binfmt_misc/register
 
->
-> However, I have no problem with deprecating the helper argument of
-> "-netdev tap", which is a useless duplication with "-netdev bridge".
->
-> Paolo
->
+> sudo cp /usr/bin/qemu-aarch64 $RPI/usr/bin
+> sudo chroot $RPI /bin/ksh -l
+
+# host
+
+Gentoo Linux amd64
+
+# Guest
+
+Gentoo Linux aarch64
+
+# The problem that I have
+
+"emerge" program fails due to the error, "qemu: qemu_thread_create: Invalid=
+ argument".
+"emerge" is Gentoo's package manager that compiles and installs packages.
+
+# Workaround
+
+Disable pid-sandbox in emerge.
+
+# How to reproduce the issue
+
+Execute
+
+unshare --pid -- echo hello world
+
+or
+
+python -c "import portage.process; portage.process.spawn(['echo',
+'hello', 'world'], unshare_pid=3DTrue)"
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+** Description changed:
+
+  # Version
+  =
+
+  qemu-4.0.0
+  =
+
+  # commands used to launch qemu-aarch64 in user mode.
++ =
+
++ : ${QEMU_BINFMT_FLAGS:=3DOC}
+  =
+
+  printf '%s\n' ':qemu-
+  aarch64:M::\x7fELF\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x0=
+0\xb7\x00:\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\=
+xfe\xff\xff\xff:/usr/bin
+  /qemu-aarch64:'"${QEMU_BINFMT_FLAGS}" >/proc/sys/fs/binfmt_misc/register
+  =
+
+  > sudo cp /usr/bin/qemu-aarch64 $RPI/usr/bin
+  > sudo chroot $RPI /bin/ksh -l
+  =
+
+  # host
+  =
+
+  Gentoo Linux amd64
+  =
+
+  # Guest
+  =
+
+  Gentoo Linux aarch64
+  =
+
+  # The problem that I have
+  =
+
+  "emerge" program fails due to the error, "qemu: qemu_thread_create: Inval=
+id argument".
+  "emerge" is Gentoo's package manager that compiles and installs packages.
+  =
+
+  # How to reproduce the issue
+  =
+
+  Execute
+  =
+
+  unshare --pid -- echo hello world
+  =
+
+  or
+  =
+
+  python -c "import portage.process; portage.process.spawn(['echo',
+  'hello', 'world'], unshare_pid=3DTrue)"
+
+** Description changed:
+
+  # Version
+  =
+
+  qemu-4.0.0
+  =
+
+  # commands used to launch qemu-aarch64 in user mode.
+  =
+
+  : ${QEMU_BINFMT_FLAGS:=3DOC}
+  =
+
+  printf '%s\n' ':qemu-
+  aarch64:M::\x7fELF\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x0=
+0\xb7\x00:\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\=
+xfe\xff\xff\xff:/usr/bin
+  /qemu-aarch64:'"${QEMU_BINFMT_FLAGS}" >/proc/sys/fs/binfmt_misc/register
+  =
+
+  > sudo cp /usr/bin/qemu-aarch64 $RPI/usr/bin
+  > sudo chroot $RPI /bin/ksh -l
+  =
+
+  # host
+  =
+
+  Gentoo Linux amd64
+  =
+
+  # Guest
+  =
+
+  Gentoo Linux aarch64
+  =
+
+  # The problem that I have
+  =
+
+  "emerge" program fails due to the error, "qemu: qemu_thread_create: Inval=
+id argument".
+  "emerge" is Gentoo's package manager that compiles and installs packages.
+  =
+
++ # Workaround
++ =
+
++ Disable pid-sandbox in emerge.
++ =
+
+  # How to reproduce the issue
+  =
+
+  Execute
+  =
+
+  unshare --pid -- echo hello world
+  =
+
+  or
+  =
+
+  python -c "import portage.process; portage.process.spawn(['echo',
+  'hello', 'world'], unshare_pid=3DTrue)"
+
+** Description changed:
+
+  # Version
+  =
+
+  qemu-4.0.0
++ glibc-2.28
+  =
+
+  # commands used to launch qemu-aarch64 in user mode.
+  =
+
+  : ${QEMU_BINFMT_FLAGS:=3DOC}
+  =
+
+  printf '%s\n' ':qemu-
+  aarch64:M::\x7fELF\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x0=
+0\xb7\x00:\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\=
+xfe\xff\xff\xff:/usr/bin
+  /qemu-aarch64:'"${QEMU_BINFMT_FLAGS}" >/proc/sys/fs/binfmt_misc/register
+  =
+
+  > sudo cp /usr/bin/qemu-aarch64 $RPI/usr/bin
+  > sudo chroot $RPI /bin/ksh -l
+  =
+
+  # host
+  =
+
+  Gentoo Linux amd64
+  =
+
+  # Guest
+  =
+
+  Gentoo Linux aarch64
+  =
+
+  # The problem that I have
+  =
+
+  "emerge" program fails due to the error, "qemu: qemu_thread_create: Inval=
+id argument".
+  "emerge" is Gentoo's package manager that compiles and installs packages.
+  =
+
+  # Workaround
+  =
+
+  Disable pid-sandbox in emerge.
+  =
+
+  # How to reproduce the issue
+  =
+
+  Execute
+  =
+
+  unshare --pid -- echo hello world
+  =
+
+  or
+  =
+
+  python -c "import portage.process; portage.process.spawn(['echo',
+  'hello', 'world'], unshare_pid=3DTrue)"
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1829459
+
+Title:
+  qemu: qemu_thread_create: Invalid argument
+
+Status in QEMU:
+  New
+
+Bug description:
+  # Version
+
+  qemu-4.0.0
+  glibc-2.28
+
+  # commands used to launch qemu-aarch64 in user mode.
+
+  : ${QEMU_BINFMT_FLAGS:=3DOC}
+
+  printf '%s\n' ':qemu-
+  aarch64:M::\x7fELF\x02\x01\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x0=
+0\xb7\x00:\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\=
+xfe\xff\xff\xff:/usr/bin
+  /qemu-aarch64:'"${QEMU_BINFMT_FLAGS}"
+  >/proc/sys/fs/binfmt_misc/register
+
+  > sudo cp /usr/bin/qemu-aarch64 $RPI/usr/bin
+  > sudo chroot $RPI /bin/ksh -l
+
+  # host
+
+  Gentoo Linux amd64
+
+  # Guest
+
+  Gentoo Linux aarch64
+
+  # The problem that I have
+
+  "emerge" program fails due to the error, "qemu: qemu_thread_create: Inval=
+id argument".
+  "emerge" is Gentoo's package manager that compiles and installs packages.
+
+  # Workaround
+
+  Disable pid-sandbox in emerge.
+
+  # How to reproduce the issue
+
+  Execute
+
+  unshare --pid -- echo hello world
+
+  or
+
+  python -c "import portage.process; portage.process.spawn(['echo',
+  'hello', 'world'], unshare_pid=3DTrue)"
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1829459/+subscriptions
 
