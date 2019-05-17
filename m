@@ -2,73 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4255121CC1
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 19:45:27 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:51751 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3B5A621CC7
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 19:47:16 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:51800 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRgv7-0002FE-MP
-	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 13:45:25 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47814)
+	id 1hRgwt-0004Ja-E2
+	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 13:47:15 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48184)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hRgqy-00082S-LY
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 13:41:10 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hRgsN-0000hX-Jr
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 13:42:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hRgqu-0003IK-Im
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 13:41:06 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:53630)
+	(envelope-from <richard.henderson@linaro.org>) id 1hRgsM-0006Be-Ie
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 13:42:35 -0400
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:33157)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hRgqq-00032O-TD
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 13:41:02 -0400
-Received: by mail-wm1-x342.google.com with SMTP id 198so7688527wme.3
-	for <qemu-devel@nongnu.org>; Fri, 17 May 2019 10:40:54 -0700 (PDT)
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hRgsM-00069I-BJ
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 13:42:34 -0400
+Received: by mail-pl1-x644.google.com with SMTP id y3so3684412plp.0
+	for <qemu-devel@nongnu.org>; Fri, 17 May 2019 10:42:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-	:content-transfer-encoding;
-	bh=7QU2E61ExLPRQ5cVFAuMwBaju416G00wlZEn+t3cGhw=;
-	b=g4tE6OQp4CPXBvjCv3gkW1ESF6ZYG/bQbX38fjpp8rGCiARyxkmapH/GZ6TsnFN8v6
-	V3+u7yuf9heD7f2QbIG5qK4WyahSPlwaY+UIu3kof/agaWmcNgyvACS6dHGSsiDFfZI0
-	z4lICVyIK/2ka2qsXpq9Fwzp7GN6Abf4EZ+8UPUfI2DjOW3EN3QZFZ7xfgdVFb3vFkvJ
-	3xnqlZTnwx2qBTRpUh2FDk/pTrYrRuUz+a7nUV38nUSWN0o5U2xc3w5JB7L2JLFpntkD
-	nTBzZTB2ndhcgK3LfeUAKEFIAZRr96EVDg/g7enOpDXA9fD5MqDqiAP/CFs7jD2B429t
-	un3Q==
+	h=subject:from:to:cc:references:openpgp:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=aOfF2EQ13WZXMb509asIpfzU0H3bOfgnmBR7DwGRIIQ=;
+	b=MvkDo/je4JLeXNfwqT08KawhWL0aSbqWpv8rTqrRJbproDQo89/iU0alXT2FYVAOWA
+	y+6WmV91zhy9/ePlZFuwf7gCgbx/O9BPfH8XJV5Wb7knSWPEavOrl2aiXYV8Bzrb/x6C
+	J/Wfn1hqH4z+Ez4eWR66jIwYBI0pdEUlFdId1JfZO47UA5nNXLfNZUfO+BwT5sYjMJ25
+	RCzSAFJd/cPAScWG8MsDEtdiCYMBZ47xBRCtHkET8ZJczmiPEYa/pOOlEvLXBfiPcMhn
+	IR0c6J/Vly4SQzwMS5PLpdvzl8LWHQIv0IREGbi7hGnJ1CYfsYuYdQQ0BjNIoVltylwD
+	pLnA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=7QU2E61ExLPRQ5cVFAuMwBaju416G00wlZEn+t3cGhw=;
-	b=Vo5UCB2rNUNOBilOMJ2S+Ya7AFehIxgrghXe3cbbPNFkl/K4f7dIPxWibbHuKhYRZ+
-	fsBP6++5ZDlaUSCYnI5Tru8TcLojNY+ZwcqQ+N44i3V7/XRMHk1b+dqUlNCmJTY2NHCJ
-	aR8tBiI/sHZYyKPOyzgFsH4nX0wYj7t5sfZzSt8ZLXQ1NS008OUrMuW/u7b2hBG6tLPo
-	NBczs2Ph9Oz8xZQCXTBWx8+zEWbl+0PEt5TE2ONEJEpbLcCJBBG/rsJIe8xed3VwTvn/
-	bA8SA29iQIQu56EqtyN94mmUZdP5BuelnUzCvkKi4ZOMpnMUK3jh2MhvPuX6/rqton0c
-	/p/w==
-X-Gm-Message-State: APjAAAWnp1y6e9XlSwjkJSahEABOBxTu+YbxKfkqqW2+op09xZTIMfgx
-	zrgttOn4bsnIKNqIScgYpiacebEaOWc=
-X-Google-Smtp-Source: APXvYqzv9P7GBozUr6OCS4pzol/BcTKHwMiCNd/tlXS3EN9f86BwKFPiAG++cAwDYGulsdx7xyqS2w==
-X-Received: by 2002:a7b:ce84:: with SMTP id q4mr3044698wmj.41.1558114853382;
-	Fri, 17 May 2019 10:40:53 -0700 (PDT)
-Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+	h=x-gm-message-state:subject:from:to:cc:references:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=aOfF2EQ13WZXMb509asIpfzU0H3bOfgnmBR7DwGRIIQ=;
+	b=ogeA4xeI56rNH0FiLKDlZHsZbsYagaAnkbDLjI9rxG3RDkZxgMrdpI7sxR/gmwiO9K
+	vibrwuwUdXumZVblKDqT2OfSe28+NI8OK5FkDFmzq7a1nBd1J/W7I5mFunkKEvd51tTG
+	jNwEs4NA4MC93aKd0rFORN8afLsrql9SSF2o041RiZREG1yAdyZnWqSKkN+z8qk5lDBf
+	v86oBobIM0SolceVGf6b72IGQAQarkeeK66Me50say13OVtMOy1QpLob876ZUlqadL4k
+	5zG4mg7tKTwgmkAyhF8FHQwKVhO0oyJOII+NZaMJ6VnE9TQEhtLP9dhvshJDHmHQUm1W
+	cObg==
+X-Gm-Message-State: APjAAAUHmKAhlXecWJF0eGdrRYzV1QDEZmswJPtUS/CyIdl5hqvujd9M
+	5xPIhp+hIo7rXiolxM9bk5yjjg==
+X-Google-Smtp-Source: APXvYqwo47EH3AWJcPIXRR2A7ZN3xbZFRvcu+F6+P1+aDUplZycE0sauBD5nnTE4e7PMwU1gA4vjRw==
+X-Received: by 2002:a17:902:18b:: with SMTP id
+	b11mr33236233plb.264.1558114953042; 
+	Fri, 17 May 2019 10:42:33 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-13-231.tukw.qwest.net. [97.113.13.231])
 	by smtp.gmail.com with ESMTPSA id
-	y18sm5418641wmd.29.2019.05.17.10.40.52
+	d15sm12786736pfr.179.2019.05.17.10.42.31
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 17 May 2019 10:40:52 -0700 (PDT)
-From: Peter Maydell <peter.maydell@linaro.org>
-To: qemu-arm@nongnu.org,
-	qemu-devel@nongnu.org
-Date: Fri, 17 May 2019 18:40:46 +0100
-Message-Id: <20190517174046.11146-5-peter.maydell@linaro.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190517174046.11146-1-peter.maydell@linaro.org>
-References: <20190517174046.11146-1-peter.maydell@linaro.org>
+	Fri, 17 May 2019 10:42:32 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20190515203112.506-1-david@redhat.com>
+	<20190515203112.506-3-david@redhat.com>
+	<fcce920c-58e3-60ef-ebc0-bcbc2e651e87@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <de30b861-b2ca-c83e-9058-1286047ab3d7@linaro.org>
+Date: Fri, 17 May 2019 10:42:30 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <fcce920c-58e3-60ef-ebc0-bcbc2e651e87@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::342
-Subject: [Qemu-devel] [PATCH 4/4] hw/arm: Correctly disable FPU/DSP for some
- ARMSSE-based boards
+X-Received-From: 2607:f8b0:4864:20::644
+Subject: Re: [Qemu-devel] [PATCH v1 2/5] s390x/tcg: Implement VECTOR FIND
+ ELEMENT EQUAL
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -80,196 +87,70 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+	Thomas Huth <thuth@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The SSE-200 hardware has configurable integration settings which
-determine whether its two CPUs have the FPU and DSP:
- * CPU0_FPU (default 0)
- * CPU0_DSP (default 0)
- * CPU1_FPU (default 1)
- * CPU1_DSP (default 1)
+On 5/17/19 9:47 AM, Richard Henderson wrote:
+>     first_equal = n;
+>     first_zero = n;
+>     for (i = n - 1; i >= 0; --i) {
+>         if (data1 == data2) {
+>             first_equal = i;
+>         }
+>         if (data1 == 0) {
+>             first_zero = i;
+>         }
+>     }
+> 
+> // As an aside, there are bit tricks for the above,
+> // but let's stay simple(r) for now.
 
-Similarly, the IoTKit has settings for its single CPU:
- * CPU0_FPU (default 1)
- * CPU0_DSP (default 1)
+What the hell, it's not /that/ tricky.
 
-Of our four boards that use either the IoTKit or the SSE-200:
- * mps2-an505, mps2-an521 and musca-a use the default settings
- * musca-b1 enables FPU and DSP on both CPUs
 
-Currently QEMU models all these boards using CPUs with
-both FPU and DSP enabled. This means that we are incorrect
-for mps2-an521 and musca-a, which should not have FPU or DSP
-on CPU0.
+/*
+ * Returns a bit set in the MSB of each element that is zero,
+ * as defined by the mask M.
+ */
+static inline uint64_t zero_search(uint64_t a, uint64_t m)
+{
+    return ~(((a & m) + m) | a | m);
+}
 
-Create QOM properties on the ARMSSE devices corresponding to the
-default h/w integration settings, and make the Musca-B1 board
-enable FPU and DSP on both CPUs. This fixes the mps2-an521
-and musca-a behaviour, and leaves the musca-b1 and mps2-an505
-behaviour unchanged.
+/*
+ * Returns the byte offset for the first match, or 16 for no match.
+ */
+static inline int match_index(uint64_t c0, uint64_t c1)
+{
+    return (c0 ? clz64(c0) : clz64(c1) + 64) >> 3;
+}
 
-Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
----
- include/hw/arm/armsse.h |  7 +++++
- hw/arm/armsse.c         | 58 ++++++++++++++++++++++++++++++++---------
- hw/arm/musca.c          |  8 ++++++
- 3 files changed, 61 insertions(+), 12 deletions(-)
+Use
 
-diff --git a/include/hw/arm/armsse.h b/include/hw/arm/armsse.h
-index 81e082cccf8..84080c22993 100644
---- a/include/hw/arm/armsse.h
-+++ b/include/hw/arm/armsse.h
-@@ -50,6 +50,11 @@
-  *    address of each SRAM bank (and thus the total amount of internal SRAM)
-  *  + QOM property "init-svtor" sets the initial value of the CPU SVTOR register
-  *    (where it expects to load the PC and SP from the vector table on reset)
-+ *  + QOM properties "CPU0_FPU", "CPU0_DSP", "CPU1_FPU" and "CPU1_DSP" which
-+ *    set whether the CPUs have the FPU and DSP features present. The default
-+ *    (matching the hardware) is that for CPU0 in an IoTKit and CPU1 in an
-+ *    SSE-200 both are present; CPU0 in an SSE-200 has neither.
-+ *    Since the IoTKit has only one CPU, it does not have the CPU1_* properties.
-  *  + Named GPIO inputs "EXP_IRQ" 0..n are the expansion interrupts for CPU 0,
-  *    which are wired to its NVIC lines 32 .. n+32
-  *  + Named GPIO inputs "EXP_CPU1_IRQ" 0..n are the expansion interrupts for
-@@ -208,6 +213,8 @@ typedef struct ARMSSE {
-     uint32_t mainclk_frq;
-     uint32_t sram_addr_width;
-     uint32_t init_svtor;
-+    bool cpu_fpu[SSE_MAX_CPUS];
-+    bool cpu_dsp[SSE_MAX_CPUS];
- } ARMSSE;
- 
- typedef struct ARMSSEInfo ARMSSEInfo;
-diff --git a/hw/arm/armsse.c b/hw/arm/armsse.c
-index 76cc6905798..e138aee673f 100644
---- a/hw/arm/armsse.c
-+++ b/hw/arm/armsse.c
-@@ -37,6 +37,33 @@ struct ARMSSEInfo {
-     bool has_cachectrl;
-     bool has_cpusecctrl;
-     bool has_cpuid;
-+    Property *props;
-+};
-+
-+static Property iotkit_properties[] = {
-+    DEFINE_PROP_LINK("memory", ARMSSE, board_memory, TYPE_MEMORY_REGION,
-+                     MemoryRegion *),
-+    DEFINE_PROP_UINT32("EXP_NUMIRQ", ARMSSE, exp_numirq, 64),
-+    DEFINE_PROP_UINT32("MAINCLK", ARMSSE, mainclk_frq, 0),
-+    DEFINE_PROP_UINT32("SRAM_ADDR_WIDTH", ARMSSE, sram_addr_width, 15),
-+    DEFINE_PROP_UINT32("init-svtor", ARMSSE, init_svtor, 0x10000000),
-+    DEFINE_PROP_BOOL("CPU0_FPU", ARMSSE, cpu_fpu[0], true),
-+    DEFINE_PROP_BOOL("CPU0_DSP", ARMSSE, cpu_dsp[0], true),
-+    DEFINE_PROP_END_OF_LIST()
-+};
-+
-+static Property armsse_properties[] = {
-+    DEFINE_PROP_LINK("memory", ARMSSE, board_memory, TYPE_MEMORY_REGION,
-+                     MemoryRegion *),
-+    DEFINE_PROP_UINT32("EXP_NUMIRQ", ARMSSE, exp_numirq, 64),
-+    DEFINE_PROP_UINT32("MAINCLK", ARMSSE, mainclk_frq, 0),
-+    DEFINE_PROP_UINT32("SRAM_ADDR_WIDTH", ARMSSE, sram_addr_width, 15),
-+    DEFINE_PROP_UINT32("init-svtor", ARMSSE, init_svtor, 0x10000000),
-+    DEFINE_PROP_BOOL("CPU0_FPU", ARMSSE, cpu_fpu[0], false),
-+    DEFINE_PROP_BOOL("CPU0_DSP", ARMSSE, cpu_dsp[0], false),
-+    DEFINE_PROP_BOOL("CPU1_FPU", ARMSSE, cpu_fpu[1], true),
-+    DEFINE_PROP_BOOL("CPU1_DSP", ARMSSE, cpu_dsp[1], true),
-+    DEFINE_PROP_END_OF_LIST()
- };
- 
- static const ARMSSEInfo armsse_variants[] = {
-@@ -52,6 +79,7 @@ static const ARMSSEInfo armsse_variants[] = {
-         .has_cachectrl = false,
-         .has_cpusecctrl = false,
-         .has_cpuid = false,
-+        .props = iotkit_properties,
-     },
-     {
-         .name = TYPE_SSE200,
-@@ -65,6 +93,7 @@ static const ARMSSEInfo armsse_variants[] = {
-         .has_cachectrl = true,
-         .has_cpusecctrl = true,
-         .has_cpuid = true,
-+        .props = armsse_properties,
-     },
- };
- 
-@@ -532,6 +561,20 @@ static void armsse_realize(DeviceState *dev, Error **errp)
-                 return;
-             }
-         }
-+        if (!s->cpu_fpu[i]) {
-+            object_property_set_bool(cpuobj, false, "vfp", &err);
-+            if (err) {
-+                error_propagate(errp, err);
-+                return;
-+            }
-+        }
-+        if (!s->cpu_dsp[i]) {
-+            object_property_set_bool(cpuobj, false, "dsp", &err);
-+            if (err) {
-+                error_propagate(errp, err);
-+                return;
-+            }
-+        }
- 
-         if (i > 0) {
-             memory_region_add_subregion_overlap(&s->cpu_container[i], 0,
-@@ -1221,16 +1264,6 @@ static const VMStateDescription armsse_vmstate = {
-     }
- };
- 
--static Property armsse_properties[] = {
--    DEFINE_PROP_LINK("memory", ARMSSE, board_memory, TYPE_MEMORY_REGION,
--                     MemoryRegion *),
--    DEFINE_PROP_UINT32("EXP_NUMIRQ", ARMSSE, exp_numirq, 64),
--    DEFINE_PROP_UINT32("MAINCLK", ARMSSE, mainclk_frq, 0),
--    DEFINE_PROP_UINT32("SRAM_ADDR_WIDTH", ARMSSE, sram_addr_width, 15),
--    DEFINE_PROP_UINT32("init-svtor", ARMSSE, init_svtor, 0x10000000),
--    DEFINE_PROP_END_OF_LIST()
--};
--
- static void armsse_reset(DeviceState *dev)
- {
-     ARMSSE *s = ARMSSE(dev);
-@@ -1243,13 +1276,14 @@ static void armsse_class_init(ObjectClass *klass, void *data)
-     DeviceClass *dc = DEVICE_CLASS(klass);
-     IDAUInterfaceClass *iic = IDAU_INTERFACE_CLASS(klass);
-     ARMSSEClass *asc = ARMSSE_CLASS(klass);
-+    const ARMSSEInfo *info = data;
- 
-     dc->realize = armsse_realize;
-     dc->vmsd = &armsse_vmstate;
--    dc->props = armsse_properties;
-+    dc->props = info->props;
-     dc->reset = armsse_reset;
-     iic->check = armsse_idau_check;
--    asc->info = data;
-+    asc->info = info;
- }
- 
- static const TypeInfo armsse_info = {
-diff --git a/hw/arm/musca.c b/hw/arm/musca.c
-index 23aff43f4bc..736f37b774c 100644
---- a/hw/arm/musca.c
-+++ b/hw/arm/musca.c
-@@ -385,6 +385,14 @@ static void musca_init(MachineState *machine)
-     qdev_prop_set_uint32(ssedev, "init-svtor", mmc->init_svtor);
-     qdev_prop_set_uint32(ssedev, "SRAM_ADDR_WIDTH", mmc->sram_addr_width);
-     qdev_prop_set_uint32(ssedev, "MAINCLK", SYSCLK_FRQ);
-+    /*
-+     * Musca-A takes the default SSE-200 FPU/DSP settings (ie no for
-+     * CPU0 and yes for CPU1); Musca-B1 explicitly enables them for CPU0.
-+     */
-+    if (mmc->type == MUSCA_B1) {
-+        qdev_prop_set_bit(ssedev, "CPU0_FPU", true);
-+        qdev_prop_set_bit(ssedev, "CPU0_DSP", true);
-+    }
-     object_property_set_bool(OBJECT(&mms->sse), true, "realized",
-                              &error_fatal);
- 
--- 
-2.20.1
+  dup_const(MO_8, 0x7f)
+  dup_const(MO_16, 0x7fff)
+  dup_const(MO_32, 0x7fffffff)
 
+for the M parameter for the different element sizes.
+
+    uint64_t a0, a1, b0, b1, e0, e1, z0, z1;
+
+    a0 = s390_vec_read_element64(v2, 0);
+    a1 = s390_vec_read_element64(v2, 1);
+    b0 = s390_vec_read_element64(v3, 0);
+    b1 = s390_vec_read_element64(v3, 1);
+    e0 = zero_search(a0 ^ b0, m);
+    e1 = zero_search(a1 ^ b1, m);
+    first_equal = match_index(e0, e1);
+
+    if (zs) {
+        z0 = zero_search(a0, m);
+        z1 = zero_search(a1, m);
+        first_zero = match_index(z0, z1);
+    ...
+
+
+r~
 
