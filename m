@@ -2,54 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 021A62177F
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 13:10:31 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46599 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E95AB21788
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 13:16:02 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46731 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRaku-0000uw-E0
-	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 07:10:28 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56563)
+	id 1hRaqI-0005qI-4d
+	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 07:16:02 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57282)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hRaff-0004ky-TX
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 07:05:05 -0400
+	(envelope-from <imammedo@redhat.com>) id 1hRagO-0005kK-J3
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 07:05:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hRac2-0001eb-I3
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 07:01:20 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48158)
+	(envelope-from <imammedo@redhat.com>) id 1hRagN-0008Bg-7h
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 07:05:48 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35452)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <kwolf@redhat.com>)
-	id 1hRabx-00014Q-1Q; Fri, 17 May 2019 07:01:13 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
-	[10.5.11.14])
+	(Exim 4.71) (envelope-from <imammedo@redhat.com>)
+	id 1hRafo-0007UU-Nh; Fri, 17 May 2019 07:05:12 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+	[10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id E556B30C1AF9;
-	Fri, 17 May 2019 11:00:52 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-116-213.ams2.redhat.com
-	[10.36.116.213])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 042845D9CD;
-	Fri, 17 May 2019 11:00:39 +0000 (UTC)
-Date: Fri, 17 May 2019 13:00:38 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Message-ID: <20190517110038.GD7009@localhost.localdomain>
-References: <20190517095628.10119-1-mreitz@redhat.com>
-	<20190517095628.10119-4-mreitz@redhat.com>
+	by mx1.redhat.com (Postfix) with ESMTPS id 3D1CB30C0DDA;
+	Fri, 17 May 2019 11:05:11 +0000 (UTC)
+Received: from Igors-MacBook-Pro (unknown [10.40.205.69])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 2FBEC7E5D2;
+	Fri, 17 May 2019 11:05:08 +0000 (UTC)
+Date: Fri, 17 May 2019 13:05:06 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: Wei Yang <richardw.yang@linux.intel.com>
+Message-ID: <20190517130506.314aeac9@Igors-MacBook-Pro>
+In-Reply-To: <20190517004324.17306-1-richardw.yang@linux.intel.com>
+References: <20190517004324.17306-1-richardw.yang@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190517095628.10119-4-mreitz@redhat.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.40]);
-	Fri, 17 May 2019 11:00:57 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+	(mx1.redhat.com [10.5.110.45]);
+	Fri, 17 May 2019 11:05:11 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 3/4] iotests: Test driver whitelisting in
- 093
+Subject: Re: [Qemu-devel] [PATCH v2] acpi: pci: use build_append_foo() API
+ to construct MCFG
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,173 +57,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: yang.zhong@intel.com, peter.maydell@linaro.org, mst@redhat.com,
+	qemu-devel@nongnu.org, shannon.zhaosl@gmail.com,
+	qemu-arm@nongnu.org, philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 17.05.2019 um 11:56 hat Max Reitz geschrieben:
-> null-aio may not be whitelisted.  If it is not, fall back to null-co.
-> This may run tests twice in the same configuration, but this is the
-> simplest way to effectively skip the tests in setUp() (without changing
-> the output, and while having the respective driver in a class
-> attribute).
->=20
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
+On Fri, 17 May 2019 08:43:24 +0800
+Wei Yang <richardw.yang@linux.intel.com> wrote:
+
+> build_append_foo() API doesn't need explicit endianness conversions
+> which eliminates a source of errors and it makes build_mcfg() look like
+> declarative definition of MCFG table in ACPI spec, which makes it easy
+> to review.
+> 
+> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+> Suggested-by: Igor Mammedov <imammedo@redhat.com>
+
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+
+> 
 > ---
->  tests/qemu-iotests/093 | 15 ++++++++++++---
->  1 file changed, 12 insertions(+), 3 deletions(-)
->=20
-> diff --git a/tests/qemu-iotests/093 b/tests/qemu-iotests/093
-> index bd56c94708..d6f285001a 100755
-> --- a/tests/qemu-iotests/093
-> +++ b/tests/qemu-iotests/093
-> @@ -22,9 +22,11 @@
->  import iotests
-> =20
->  nsec_per_sec =3D 1000000000
-> +supported_null_drivers =3D list(filter(lambda f: f.startswith('null-')=
-,
-> +                                     iotests.supported_formats()))
+> v2:
+>    * miss the reserved[8] of MCFG in last version, add it back
+>    * drop SOBs and make sure bios-tables-test all OK
+> ---
+>  hw/acpi/pci.c               | 35 +++++++++++++++++++++++------------
+>  include/hw/acpi/acpi-defs.h | 18 ------------------
+>  2 files changed, 23 insertions(+), 30 deletions(-)
+> 
+> diff --git a/hw/acpi/pci.c b/hw/acpi/pci.c
+> index fa0fa30bb9..49df7b7d54 100644
+> --- a/hw/acpi/pci.c
+> +++ b/hw/acpi/pci.c
+> @@ -30,17 +30,28 @@
+>  
+>  void build_mcfg(GArray *table_data, BIOSLinker *linker, AcpiMcfgInfo *info)
+>  {
+> -    AcpiTableMcfg *mcfg;
+> -    int len = sizeof(*mcfg) + sizeof(mcfg->allocation[0]);
+> -
+> -    mcfg = acpi_data_push(table_data, len);
+> -    mcfg->allocation[0].address = cpu_to_le64(info->base);
+> -
+> -    /* Only a single allocation so no need to play with segments */
+> -    mcfg->allocation[0].pci_segment = cpu_to_le16(0);
+> -    mcfg->allocation[0].start_bus_number = 0;
+> -    mcfg->allocation[0].end_bus_number = PCIE_MMCFG_BUS(info->size - 1);
+> -
+> -    build_header(linker, table_data, (void *)mcfg, "MCFG", len, 1, NULL, NULL);
+> +    int mcfg_start = table_data->len;
+> +
+> +    acpi_data_push(table_data, sizeof(AcpiTableHeader));
+> +
+> +    /*
+> +     * PCI Firmware Specification, Revision 3.0
+> +     * 4.1.2 MCFG Table Description.
+> +     */
+> +    /* Reserved */
+> +    build_append_int_noprefix(table_data, 0, 8);
+> +    /* Base address, processor-relative */
+> +    build_append_int_noprefix(table_data, info->base, 8);
+> +    /* PCI segment group number */
+> +    build_append_int_noprefix(table_data, 0, 2);
+> +    /* Starting PCI Bus number */
+> +    build_append_int_noprefix(table_data, 0, 1);
+> +    /* Final PCI Bus number */
+> +    build_append_int_noprefix(table_data, PCIE_MMCFG_BUS(info->size - 1), 1);
+> +    /* Reserved */
+> +    build_append_int_noprefix(table_data, 0, 4);
+> +
+> +    build_header(linker, table_data, (void *)(table_data->data + mcfg_start),
+> +                 "MCFG", table_data->len - mcfg_start, 1, NULL, NULL);
+>  }
+>  
+> diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
+> index f9aa4bd398..57a3f58b0c 100644
+> --- a/include/hw/acpi/acpi-defs.h
+> +++ b/include/hw/acpi/acpi-defs.h
+> @@ -449,24 +449,6 @@ struct AcpiSratProcessorGiccAffinity {
+>  
+>  typedef struct AcpiSratProcessorGiccAffinity AcpiSratProcessorGiccAffinity;
+>  
+> -/* PCI fw r3.0 MCFG table. */
+> -/* Subtable */
+> -struct AcpiMcfgAllocation {
+> -    uint64_t address;                /* Base address, processor-relative */
+> -    uint16_t pci_segment;            /* PCI segment group number */
+> -    uint8_t start_bus_number;       /* Starting PCI Bus number */
+> -    uint8_t end_bus_number;         /* Final PCI Bus number */
+> -    uint32_t reserved;
+> -} QEMU_PACKED;
+> -typedef struct AcpiMcfgAllocation AcpiMcfgAllocation;
+> -
+> -struct AcpiTableMcfg {
+> -    ACPI_TABLE_HEADER_DEF;
+> -    uint8_t reserved[8];
+> -    AcpiMcfgAllocation allocation[0];
+> -} QEMU_PACKED;
+> -typedef struct AcpiTableMcfg AcpiTableMcfg;
+> -
+>  /*
+>   * TCPA Description Table
+>   *
 
-Is this just a convoluted way of writing the following?
-
-    supported_null_drivers =3D [ f for f in iotests.supported_formats()
-                               if f.startswith('null-') ]
-
->  class ThrottleTestCase(iotests.QMPTestCase):
-> -    test_img =3D "null-aio://"
-> +    test_driver =3D "null-aio"
->      max_drives =3D 3
-> =20
->      def blockstats(self, device):
-> @@ -36,9 +38,14 @@ class ThrottleTestCase(iotests.QMPTestCase):
->          raise Exception("Device not found for blockstats: %s" % device=
-)
-> =20
->      def setUp(self):
-> +        global supported_null_drivers
-> +        if self.test_driver not in supported_null_drivers:
-> +            # Silently fall back to supported driver
-> +            self.test_driver =3D supported_null_drivers[0]
-
-I think this is what you mentioned in the cover letter:
-
-> Final note: The best thing would probably to skip the null-aio tests in
-> 093/136 if there is no null-aio support.  However, I didn=E2=80=99t get=
- anything
-> to work: Annotating with @iotests.skip_if_unsupported() didn=E2=80=99t =
-work
-> because the format name is a class instance attribute; and just
-> iotests.skipTest() didn=E2=80=99t work because that would print 's' cha=
-racters
->  instead of '.' in the output (and emit the number of skipped tests), s=
-o
-> the comparison against the reference output fails...
-
-With a little modification to the @skip_if_unsupported() decorator it
-can be done. I think I'd prefer this (hacked up on top of this series):
-
-diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.p=
-y
-index f811f69135..f83d56b156 100644
---- a/tests/qemu-iotests/iotests.py
-+++ b/tests/qemu-iotests/iotests.py
-@@ -789,8 +789,11 @@ def skip_if_unsupported(required_formats=3D[], read_=
-only=3DFalse):
-        Runs the test if all the required formats are whitelisted'''
-     def skip_test_decorator(func):
-         def func_wrapper(*args, **kwargs):
--            usf_list =3D list(set(required_formats) -
--                            set(supported_formats(read_only)))
-+            if callable(required_formats):
-+                fmts =3D required_formats(args[0])
-+            else:
-+                fmts =3D required_formats
-+            usf_list =3D list(set(fmts) - set(supported_formats(read_onl=
-y)))
-             if usf_list:
-                 case_notrun('{}: formats {} are not whitelisted'.format(
-                     args[0], usf_list))
-diff --git a/tests/qemu-iotests/093 b/tests/qemu-iotests/093
-index d6f285001a..e23a8189bc 100755
---- a/tests/qemu-iotests/093
-+++ b/tests/qemu-iotests/093
-@@ -22,8 +22,6 @@
- import iotests
-
- nsec_per_sec =3D 1000000000
--supported_null_drivers =3D list(filter(lambda f: f.startswith('null-'),
--                                     iotests.supported_formats()))
-
- class ThrottleTestCase(iotests.QMPTestCase):
-     test_driver =3D "null-aio"
-@@ -37,11 +35,12 @@ class ThrottleTestCase(iotests.QMPTestCase):
-                 return stat['rd_bytes'], stat['rd_operations'], stat['wr=
-_bytes'], stat['wr_operations']
-         raise Exception("Device not found for blockstats: %s" % device)
-
-+    def required_driver(self):
-+        return self.test_driver
-+
-     def setUp(self):
--        global supported_null_drivers
--        if self.test_driver not in supported_null_drivers:
--            # Silently fall back to supported driver
--            self.test_driver =3D supported_null_drivers[0]
-+        if not self.required_driver() in iotests.supported_formats():
-+            return
-
-         self.vm =3D iotests.VM()
-         for i in range(0, self.max_drives):
-@@ -49,6 +48,9 @@ class ThrottleTestCase(iotests.QMPTestCase):
-         self.vm.launch()
-
-     def tearDown(self):
-+        if not self.required_driver() in iotests.supported_formats():
-+            return
-+
-         self.vm.shutdown()
-
-     def configure_throttle(self, ndrives, params):
-@@ -145,6 +147,7 @@ class ThrottleTestCase(iotests.QMPTestCase):
-         self.vm.qtest("clock_step %d" % ns)
-
-     # Connect N drives to a VM and test I/O in all of them
-+    @iotests.skip_if_unsupported(required_driver)
-     def test_all(self):
-         params =3D {"bps": 4096,
-                   "bps_rd": 4096,
-@@ -163,6 +166,7 @@ class ThrottleTestCase(iotests.QMPTestCase):
-                 self.do_test_throttle(ndrives, 5, limits)
-
-     # Connect N drives to a VM and test I/O in just one of them a time
-+    @iotests.skip_if_unsupported(required_driver)
-     def test_one(self):
-         params =3D {"bps": 4096,
-                   "bps_rd": 4096,
-@@ -180,6 +184,7 @@ class ThrottleTestCase(iotests.QMPTestCase):
-                 self.configure_throttle(self.max_drives, limits)
-                 self.do_test_throttle(1, 5, limits, drive)
-
-+    @iotests.skip_if_unsupported(required_driver)
-     def test_burst(self):
-         params =3D {"bps": 4096,
-                   "bps_rd": 4096,
-@@ -218,6 +223,7 @@ class ThrottleTestCase(iotests.QMPTestCase):
-     # Test that removing a drive from a throttle group should not
-     # affect the remaining members of the group.
-     # https://bugzilla.redhat.com/show_bug.cgi?id=3D1535914
-+    @iotests.skip_if_unsupported(required_driver)
-     def test_remove_group_member(self):
-         # Create a throttle group with two drives
-         # and set a 4 KB/s read limit.
-@@ -433,6 +439,6 @@ class ThrottleTestRemovableMedia(iotests.QMPTestCase)=
-:
-
-
- if __name__ =3D=3D '__main__':
--    if 'null-co' not in supported_null_drivers:
-+    if 'null-co' not in iotests.supported_formats():
-         iotests.notrun('null-co driver support missing')
-     iotests.main(supported_fmts=3D["raw"])
 
