@@ -2,57 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D14BC21950
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 15:45:03 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48862 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7988721959
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 15:50:28 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48941 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRdAU-00069E-Er
-	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 09:45:02 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34731)
+	id 1hRdFj-0000oj-Jg
+	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 09:50:27 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35166)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <pkrempa@redhat.com>) id 1hRd9A-0005be-Fi
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 09:43:41 -0400
+	(envelope-from <cohuck@redhat.com>) id 1hRdBG-00071s-Qk
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 09:45:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <pkrempa@redhat.com>) id 1hRd99-0006uO-5g
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 09:43:40 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46270)
+	(envelope-from <cohuck@redhat.com>) id 1hRdBF-0001LK-Mk
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 09:45:50 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:49275)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <pkrempa@redhat.com>)
-	id 1hRd93-0006Ui-9M; Fri, 17 May 2019 09:43:33 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
+	(Exim 4.71) (envelope-from <cohuck@redhat.com>)
+	id 1hRdBF-0001Db-68; Fri, 17 May 2019 09:45:49 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id D38BE6699E;
-	Fri, 17 May 2019 13:43:11 +0000 (UTC)
-Received: from andariel.pipo.sk (ovpn-204-198.brq.redhat.com [10.40.204.198])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 344CA78575;
-	Fri, 17 May 2019 13:43:06 +0000 (UTC)
-Date: Fri, 17 May 2019 15:43:02 +0200
-From: Peter Krempa <pkrempa@redhat.com>
-To: Markus Armbruster <armbru@redhat.com>
-Message-ID: <20190517134302.GH2240@andariel.pipo.sk>
-References: <20190408143543.3982-1-kwolf@redhat.com>
-	<20190408143543.3982-2-kwolf@redhat.com>
-	<87d0ljjd3f.fsf@dusky.pond.sub.org>
-	<20190515105846.GB7508@localhost.localdomain>
-	<87k1er6d76.fsf@dusky.pond.sub.org>
+	by mx1.redhat.com (Postfix) with ESMTPS id A5FAF3003E5F;
+	Fri, 17 May 2019 13:45:42 +0000 (UTC)
+Received: from gondolin (dhcp-192-222.str.redhat.com [10.33.192.222])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 9267517A60;
+	Fri, 17 May 2019 13:45:29 +0000 (UTC)
+Date: Fri, 17 May 2019 15:45:27 +0200
+From: Cornelia Huck <cohuck@redhat.com>
+To: David Hildenbrand <david@redhat.com>
+Message-ID: <20190517154527.50ba76c0.cohuck@redhat.com>
+In-Reply-To: <20190517114243.8998-1-david@redhat.com>
+References: <20190517114243.8998-1-david@redhat.com>
+Organization: Red Hat GmbH
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="ik0NlRzMGhMnxrMX"
-Content-Disposition: inline
-In-Reply-To: <87k1er6d76.fsf@dusky.pond.sub.org>
-X-PGP-Key-ID: 0xD018682B
-X-PGP-Key-Fingerprint: D294 FF38 A6A2 BF40 6C75  5DEF 36EC 16AC D018 682B
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.38]);
-	Fri, 17 May 2019 13:43:12 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.42]);
+	Fri, 17 May 2019 13:45:42 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 1/4] qapi: Support features for structs
+Subject: Re: [Qemu-devel] [PULL SUBSYSTEM v2 s390x 00/40] s390x/tcg:
+ s390x/tcg: Vector Instruction Support Part 2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -64,115 +58,92 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org, qemu-block@nongnu.org
+Cc: Thomas Huth <thuth@redhat.com>, qemu-s390x@nongnu.org,
+	qemu-devel@nongnu.org, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On Fri, 17 May 2019 13:42:43 +0200
+David Hildenbrand <david@redhat.com> wrote:
 
---ik0NlRzMGhMnxrMX
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> This pull request is not for master.
+> 
+> Hi Cornelia,
+> 
+> This time a signed pull request :)
+> 
+> The following changes since commit 85fa94e16927af2717093e5b8fe225206ec39e16:
+> 
+>   s390/css: handle CCW_FLAG_SKIP (2019-05-17 08:16:02 +0200)
+> 
+> are available in the Git repository at:
+> 
+>   https://github.com/davidhildenbrand/qemu.git tags/s390x-tcg-2019-05-17-2
+> 
+> for you to fetch changes up to db156ebfae0d7707d81d13234e2fd43dd3347298:
+> 
+>   s390x/tcg: Implement VECTOR TEST UNDER MASK (2019-05-17 10:54:13 +0200)
+> 
+> ----------------------------------------------------------------
+> Implement all Vector Integer Instructions introduced with the
+> "Vector Facility" for s390x TCG.
+> 
+> ----------------------------------------------------------------
+> David Hildenbrand (40):
+>   s390x/tcg: Implement VECTOR ADD
+>   s390x/tcg: Implement VECTOR ADD COMPUTE CARRY
+>   s390x/tcg: Implement VECTOR ADD WITH CARRY
+>   s390x/tcg: Implement VECTOR ADD WITH CARRY COMPUTE CARRY
+>   s390x/tcg: Implement VECTOR AND (WITH COMPLEMENT)
+>   s390x/tcg: Implement VECTOR AVERAGE
+>   s390x/tcg: Implement VECTOR AVERAGE LOGICAL
+>   s390x/tcg: Implement VECTOR CHECKSUM
+>   s390x/tcg: Implement VECTOR ELEMENT COMPARE *
+>   s390x/tcg: Implement VECTOR COMPARE *
+>   s390x/tcg: Implement VECTOR COUNT LEADING ZEROS
+>   s390x/tcg: Implement VECTOR COUNT TRAILING ZEROS
+>   s390x/tcg: Implement VECTOR EXCLUSIVE OR
+>   s390x/tcg: Implement VECTOR GALOIS FIELD MULTIPLY SUM (AND ACCUMULATE)
+>   s390x/tcg: Implement VECTOR LOAD COMPLEMENT
+>   s390x/tcg: Implement VECTOR LOAD POSITIVE
+>   s390x/tcg: Implement VECTOR (MAXIMUM|MINIMUM) (LOGICAL)
+>   s390x/tcg: Implement VECTOR MULTIPLY AND ADD *
+>   s390x/tcg: Implement VECTOR MULTIPLY *
+>   s390x/tcg: Implement VECTOR NAND
+>   s390x/tcg: Implement VECTOR NOR
+>   s390x/tcg: Implement VECTOR NOT EXCLUSIVE OR
+>   s390x/tcg: Implement VECTOR OR
+>   s390x/tcg: Implement VECTOR OR WITH COMPLEMENT
+>   s390x/tcg: Implement VECTOR POPULATION COUNT
+>   s390x/tcg: Implement VECTOR ELEMENT ROTATE LEFT LOGICAL
+>   s390x/tcg: Implement VECTOR ELEMENT ROTATE AND INSERT UNDER MASK
+>   s390x/tcg: Implement VECTOR ELEMENT SHIFT
+>   s390x/tcg: Implement VECTOR SHIFT LEFT (BY BYTE)
+>   s390x/tcg: Implement VECTOR SHIFT LEFT DOUBLE BY BYTE
+>   s390x/tcg: Implement VECTOR SHIFT RIGHT ARITHMETIC
+>   s390x/tcg: Implement VECTOR SHIFT RIGHT LOGICAL *
+>   s390x/tcg: Implement VECTOR SUBTRACT
+>   s390x/tcg: Implement VECTOR SUBTRACT COMPUTE BORROW INDICATION
+>   s390x/tcg: Implement VECTOR SUBTRACT WITH BORROW INDICATION
+>   s390x/tcg: Implement VECTOR SUBTRACT WITH BORROW COMPUTE BORROW
+>     INDICATION
+>   s390x/tcg: Implement VECTOR SUM ACROSS DOUBLEWORD
+>   s390x/tcg: Implement VECTOR SUM ACROSS QUADWORD
+>   s390x/tcg: Implement VECTOR SUM ACROSS WORD
+>   s390x/tcg: Implement VECTOR TEST UNDER MASK
+> 
+>  target/s390x/Makefile.objs      |    2 +-
+>  target/s390x/cc_helper.c        |   17 +
+>  target/s390x/helper.c           |    1 +
+>  target/s390x/helper.h           |   66 ++
+>  target/s390x/insn-data.def      |  137 +++
+>  target/s390x/internal.h         |    1 +
+>  target/s390x/translate.c        |    2 +
+>  target/s390x/translate_vx.inc.c | 1420 +++++++++++++++++++++++++++++++
+>  target/s390x/vec_int_helper.c   |  616 ++++++++++++++
+>  9 files changed, 2261 insertions(+), 1 deletion(-)
+>  create mode 100644 target/s390x/vec_int_helper.c
+> 
 
-On Wed, May 15, 2019 at 15:48:29 +0200, Markus Armbruster wrote:
-> Kevin Wolf <kwolf@redhat.com> writes:
-> > Am 18.04.2019 um 22:03 hat Markus Armbruster geschrieben:
-> >> Kevin Wolf <kwolf@redhat.com> writes:
-
-[...]
-
-> > Do you expect libvirt to check a full list of all QMP commands, types,
-> > etc. it ever uses against the schema after starting a VM or something
-> > like that?
->=20
-> I'm merely responding to demand.
->=20
-> Subject: Minutes of KVM Forum BoF on deprecating stuff
-> Message-ID: <87mur0ls8o.fsf@dusky.pond.sub.org>
->=20
-> * We need to communicate "you're using something that is deprecated".
->   How?  Right now, we print a deprecation message.  Okay when humans use
->   QEMU directly in a shell.  However, when QEMU sits at the bottom of a
->   software stack, the message will likely end up in a log file that is
->   effectively write-only.
-> =20
->   - The one way to get people read log files is crashing their
->     application.  A command line option --future could make QEMU crash
->     right after printing a deprecation message.  This could help with
->     finding use of deprecated features in a testing environment.
->=20
->   - A less destructive way to grab people's attention is to make things
->     run really, really slow: have QEMU go to sleep for a while after
->     printing a deprecation message.
->    =20
->   - We can also pass the buck to the next layer up: emit a QMP event.
->=20
->     Sadly, by the time the next layer connects to QMP, plenty of stuff
->     already happened.  We'd have to buffer deprecation events somehow.
->=20
->     What would libvirt do with such an event?  Log it, taint the domain,
->     emit a (libvirt) event to pass it on to the next layer up.
->=20
->   - A completely different idea is to have a configuratin linter.  To
->     support doing this at the libvirt level, QEMU could expose "is
->     deprecated" in interface introspection.  Feels feasible for QMP,
->     where we already have sufficiently expressive introspection.  For
->     CLI, we'd first have to provide that (but we want that anyway).
-
-=46rom all of the above, the most important bit is still that the libvirt
-developers at first identify sooner rather than later that something is
-deprecated. That way we can either make sure to not use it any longer if
-there's a compatible replacement or perhaps add the aforementioned
-linter to print a warning that the config may not be supported in some
-time.
-
-The linter will still require us seeing what is deprecated, so marking
-that in the schema is useful. There are two dimensions to this though.
-QMP is the first, where introspection is awesome. Then there is command
-line and it's various commands which don't have QMP counterparts and
-that doesn't work that well there.
-
-In normal operation there's not much we can do here as refusing to use
-deprecated attributes or commands would cause regressions. In the test
-suite we are already validating the output of some of our tests against
-the QMP schema so making those fail when they are deprecated is
-certainly possible but not very likely to ever catch something as our
-QMP tests are exremely basic.
-
-It would be much more potent to have something like this to allow
-validating the command line automatically, but this would require using
-some structured format first. Without that it's really up to us
-implementing a check for every unsupported feature as we figure out it's
-deprecated rather than having it done automatically.
-
-Things got way better after we got CC'd on the deprecation document,
-since we can make sure that we don't use the particular removed thing.
-
-There are still a few things that are not addressed which were present
-before this was happening. E.g. we don't specify the full NUMA topology
-on the commandline and get an angry message back on the command line.
-This is going on for almost a year now and nobody complained. Stderr
-messages are ineffective.
-
---ik0NlRzMGhMnxrMX
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEUn7DGLvflazX+2GwHGwCByjY1GoFAlzeumQACgkQHGwCByjY
-1GqNqBAAlT2gQxF1YkWQIPi9Jh50p7lxZCGBchUZeyJZmZavLL3VSto3c6+00r1R
-HX7lGr0HM4K6u5H3xmLlvE1Rytetj204hjKfd8JsAT52CbUcryKnfeWUPfYTslAk
-1h/xQcjYOg4Kco3q0sQwtI0OKFNfsvX1nXBiUKlR9ksqo7r/B4T9fljFAOrLrFTt
-4eGE29auKQ+iXAqlrXgJPyffeXAkgh99SkWGKYfY3mWaK2vwfwWt3vHthJJqlhJb
-JzZXqxQzpxOLGNHpd153HwiuPCVQzVJaf+L4tGp3yvlIMtBEEdCxGnNh2z0w2Q47
-QJkJqTDk1+xhY5Ovi3ja/VUhggxr09GJx7apgIf5XQgXYVyrgJaGpp9/DnrRKNGU
-5To2/2ark3tp8bB/5k0S4gceaRc1k3lnDgtHCg7E5lXogJBBcYZPHMlx4Pc8Z92r
-hcQo/hhKPra6pWSI5P9O256NqFQvL0ILIbHyT4QWa6i2ZLqcHS9893mJF+BI6aNz
-m1BqlKisisVGY7S2uSLMRNS+jnXeE3KBgp4J7tXd6zegbmURuEiwfiQ7Mux78FPr
-bnnLnLtp+sOPRduJDctsq9xWCpE645mGkZ2TwS5q/e6TSvkYX0lH0T+HM7jyMsrW
-sTMJEDcYbWNbKGy2uj6GSnb5ae/tZp5pgcGRAwJ4fEjFXEr6DPw=
-=IGEK
------END PGP SIGNATURE-----
-
---ik0NlRzMGhMnxrMX--
+Thanks, pulled.
 
