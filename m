@@ -2,53 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 66FA3213AE
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 08:25:53 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43131 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AE9F421957
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 15:50:15 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48939 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRWJU-0000KB-3W
-	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 02:25:52 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42148)
+	id 1hRdFW-0000b5-KT
+	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 09:50:14 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47528)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <klaus@birkelund.eu>) id 1hRWIY-0008Ko-RA
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 02:24:55 -0400
+	(envelope-from <bounces@canonical.com>) id 1hRX5q-00048l-4u
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 03:15:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <klaus@birkelund.eu>) id 1hRWIW-0000dR-Pp
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 02:24:54 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:39866)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <klaus@birkelund.eu>)
-	id 1hRWIQ-0000Wm-Lr; Fri, 17 May 2019 02:24:46 -0400
-Received: from apples.localdomain (ip-5-186-120-196.cgn.fibianet.dk
-	[5.186.120.196])
-	by charlie.dont.surf (Postfix) with ESMTPSA id F0831BF488;
-	Fri, 17 May 2019 06:24:43 +0000 (UTC)
-Date: Fri, 17 May 2019 08:24:42 +0200
-From: Klaus Birkelund <klaus@birkelund.eu>
-To: "Heitke, Kenneth" <kenneth.heitke@intel.com>, qemu-block@nongnu.org,
-	keith.busch@intel.com, kwolf@redhat.com, qemu-devel@nongnu.org,
-	mreitz@redhat.com
-Message-ID: <20190517062442.GB17341@apples.localdomain>
-Mail-Followup-To: "Heitke, Kenneth" <kenneth.heitke@intel.com>,
-	qemu-block@nongnu.org, keith.busch@intel.com, kwolf@redhat.com,
-	qemu-devel@nongnu.org, mreitz@redhat.com
-References: <20190405214117.1850-1-kenneth.heitke@intel.com>
-	<20190514060225.GA1350@apples.localdomain>
-	<1f607df5-b523-e517-c439-392725fd441b@intel.com>
-	<20190517053504.GA17341@apples.localdomain>
+	(envelope-from <bounces@canonical.com>) id 1hRX5o-0000d6-W7
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 03:15:50 -0400
+Received: from indium.canonical.com ([91.189.90.7]:39406)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hRX5o-0000cc-QF
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 03:15:48 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hRX5m-0002SR-9F
+	for <qemu-devel@nongnu.org>; Fri, 17 May 2019 07:15:46 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id 2E0CA2E80CB
+	for <qemu-devel@nongnu.org>; Fri, 17 May 2019 07:15:46 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190517053504.GA17341@apples.localdomain>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Fri, 17 May 2019 07:03:26 -0000
+From: nagaraju418 <nagaraju.goruganti@gmail.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
+	assignee=None; 
+X-Launchpad-Bug-Tags: hostfwd qemu trusty ubuntu xenial
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: nagaraju-goruganti pconstantine piotr.orzechowski
+	sergey-e th-huth
+X-Launchpad-Bug-Reporter: Sergey V. Lobanov (sergey-e)
+X-Launchpad-Bug-Modifier: nagaraju418 (nagaraju-goruganti)
+References: <20150125172405.12316.8764.malonedeb@soybean.canonical.com>
+Message-Id: <155807660625.26593.1446457330015757912.malone@soybean.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18962";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 297e6708121f2c5641374e1f3cce9de549c57659
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 128.199.63.193
-Subject: Re: [Qemu-devel] [Qemu-block] [PATCH] nvme: add Get/Set Feature
- Timestamp support
+X-Received-From: 91.189.90.7
+X-Mailman-Approved-At: Fri, 17 May 2019 09:47:13 -0400
+Subject: [Qemu-devel] [Bug 1414466] Re: -net user,
+ hostfwd=... is not working(qemu-system-aarch64)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -57,64 +68,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1414466 <1414466@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 17, 2019 at 07:35:04AM +0200, Klaus Birkelund wrote:
-> Hi Kenneth,
-> 
-> On Thu, May 16, 2019 at 05:24:47PM -0600, Heitke, Kenneth wrote:
-> > Hi Klaus, thank you for you review. I have one comment inline
-> > 
-> > On 5/14/2019 12:02 AM, Klaus Birkelund wrote:
-> > > On Fri, Apr 05, 2019 at 03:41:17PM -0600, Kenneth Heitke wrote:
-> > > > Signed-off-by: Kenneth Heitke <kenneth.heitke@intel.com>
-> > > > ---
-> > > >   hw/block/nvme.c       | 120 +++++++++++++++++++++++++++++++++++++++++-
-> > > >   hw/block/nvme.h       |   3 ++
-> > > >   hw/block/trace-events |   2 +
-> > > >   include/block/nvme.h  |   2 +
-> > > >   4 files changed, 125 insertions(+), 2 deletions(-)
-> > > > 
-> > > > diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> > > > index 7caf92532a..e775e89299 100644
-> > > > --- a/hw/block/nvme.c
-> > > > +++ b/hw/block/nvme.c
-> > > > @@ -219,6 +219,30 @@ static uint16_t nvme_map_prp(QEMUSGList *qsg, QEMUIOVector *iov, uint64_t prp1,
-> > > >       return NVME_INVALID_FIELD | NVME_DNR;
-> > > >   }
-> > > > +static uint16_t nvme_dma_write_prp(NvmeCtrl *n, uint8_t *ptr, uint32_t len,
-> > > > +                                   uint64_t prp1, uint64_t prp2)
-> > > > +{
-> > > > +    QEMUSGList qsg;
-> > > > +    QEMUIOVector iov;
-> > > > +    uint16_t status = NVME_SUCCESS;
-> > > > +
-> > > > +    if (nvme_map_prp(&qsg, &iov, prp1, prp2, len, n)) {
-> > > > +        return NVME_INVALID_FIELD | NVME_DNR;
-> > > > +    }
-> > > > +    if (qsg.nsg > 0) {
-> > > > +        if (dma_buf_write(ptr, len, &qsg)) {
-> > > > +            status = NVME_INVALID_FIELD | NVME_DNR;
-> > > > +        }
-> > > > +        qemu_sglist_destroy(&qsg);
-> > > > +    } else {
-> > > > +        if (qemu_iovec_from_buf(&iov, 0, ptr, len) != len) {
-> > > 
-> > > This should be `qemu_iovec_to_buf`.
-> > > 
-> > 
-> > This function is transferring data from the "host" to the device so I
-> > believe I am using the correct function.
-> > 
-> 
-> Exactly, but this means that you need to populate `ptr` with data
-> described by the prps, hence dma_buf_*write* and qemu_iovec_*to*_buf. In
-> this case `ptr` is set to the address of the uint64_t timestamp, and
-> that is what we need to write to.
-> 
+Do we got any solution for this issue ?
 
-I was going to argue with the fact that nvme_dma_read_prp uses
-qemu_iovec_from_buf. But it uses _to_buf which as far as I can tell is
-also wrong.
+I am seeing similar issue for qemu-system-arm, I have tried  with "-nic
+user,model=3Dvirtio-net-
+pci,hostfwd=3Dtcp:127.0.0.1:31258-:22,hostfwd=3Dtcp:127.0.0.1:47175-:443,ho=
+stname=3Dxxx.com"
+and also with "-net nic -net
+user,hostfwd=3Dtcp:127.0.0.1:45276-:22,hostfwd=3Dtcp:127.0.0.1:52541-:443,h=
+ostname=3Dhostname=3Dxxx.com"
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1414466
+
+Title:
+  -net user,hostfwd=3D... is not working(qemu-system-aarch64)
+
+Status in QEMU:
+  Confirmed
+
+Bug description:
+  QEMU version: git a46b3aaf6bb038d4f6f192a84df204f10929e75c
+
+   /opt/qemu.git/bin/qemu-system-aarch64 --version
+  QEMU emulator version 2.2.50, Copyright (c) 2003-2008 Fabrice Bellard
+
+  Hosts:
+  ovs - host machine (Ubuntu 14.04.1, x86_64)
+  debian8-arm64 - guest =
+
+
+  Guest start:
+  user@ovs:~$ /opt/qemu.git/bin/qemu-system-aarch64 -machine virt -cpu cort=
+ex-a57 -nographic -smp 1 -m 512 -kernel vmlinuz-run -initrd initrd-run.img =
+-append "root=3D/dev/sda2 console=3DttyAMA0" -global virtio-blk-device.scsi=
+=3Doff -device virtio-scsi-device,id=3Dscsi -drive file=3Ddebian8-arm64.img=
+,id=3Drootimg,cache=3Dunsafe,if=3Dnone -device scsi-hd,drive=3Drootimg -net=
+dev user,id=3Dunet -device virtio-net-device,netdev=3Dunet -net user,hostfw=
+d=3Dtcp:127.0.0.1:1122-:22
+
+  root@debian8-arm64:~# netstat -ntplu | grep ssh
+  tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTE=
+N      410/sshd        =
+
+  tcp6       0      0 :::22                   :::*                    LISTE=
+N      410/sshd       =
+
+
+  (no firewall in guest vm)
+
+  user@ovs:~$ netstat -ntplu | grep 1122
+  tcp        0      0 127.0.0.1:1122          0.0.0.0:*               LISTE=
+N      18722/qemu-system-a
+
+  user@ovs:~$ time ssh user@127.0.0.1 -p 1122
+  ssh_exchange_identification: read: Connection reset by peer
+
+  real	1m29.341s
+  user	0m0.005s
+  sys	0m0.000s
+
+  Inside guest vm sshd works fine:
+  root@debian8-arm64:~# ssh user@127.0.0.1 -p 22
+  user@127.0.0.1's password: =
+
+  ....
+  user@debian8-arm64:~$ exit
+  logout
+  Connection to 127.0.0.1 closed.
+
+  root@debian8-arm64:~# ssh user@10.0.2.15 -p 22
+  user@10.0.2.15's password: =
+
+  ...
+  user@debian8-arm64:~$ exit
+  logout
+  Connection to 10.0.2.15 closed.
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1414466/+subscriptions
 
