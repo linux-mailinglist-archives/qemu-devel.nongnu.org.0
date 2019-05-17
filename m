@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2220C21677
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 11:43:12 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:45300 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2784C2168E
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 11:49:23 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:45400 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRZOQ-0005S9-Vt
-	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 05:43:11 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39836)
+	id 1hRZUQ-0002Wq-DA
+	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 05:49:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39879)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hRZM0-0004IN-DY
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 05:40:41 -0400
+	(envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hRZM1-0004Ic-Q0
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 05:40:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hRZLz-00020Q-7W
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 05:40:40 -0400
-Received: from mail.ilande.co.uk ([46.43.2.167]:55340
+	(envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hRZLz-00022q-NA
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 05:40:41 -0400
+Received: from mail.ilande.co.uk ([46.43.2.167]:55354
 	helo=mail.default.ilande.uk0.bigv.io)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
-	id 1hRZLz-0001vP-0i
+	id 1hRZLz-0001yD-GE
 	for qemu-devel@nongnu.org; Fri, 17 May 2019 05:40:39 -0400
 Received: from host109-146-247-8.range109-146.btcentralplus.com
 	([109.146.247.8] helo=kentang.home)
 	by mail.default.ilande.uk0.bigv.io with esmtpsa
 	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
 	(envelope-from <mark.cave-ayland@ilande.co.uk>)
-	id 1hRZLE-00018L-LU; Fri, 17 May 2019 10:39:53 +0100
+	id 1hRZLF-00018L-3Z; Fri, 17 May 2019 10:39:53 +0100
 From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Date: Fri, 17 May 2019 10:40:25 +0100
-Message-Id: <20190517094029.7667-5-mark.cave-ayland@ilande.co.uk>
+Date: Fri, 17 May 2019 10:40:26 +0100
+Message-Id: <20190517094029.7667-6-mark.cave-ayland@ilande.co.uk>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20190517094029.7667-1-mark.cave-ayland@ilande.co.uk>
 References: <20190517094029.7667-1-mark.cave-ayland@ilande.co.uk>
@@ -42,8 +42,8 @@ X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
 X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 46.43.2.167
-Subject: [Qemu-devel] [PULL 4/8] grlib,
- gptimer: get rid of the old-style create function
+Subject: [Qemu-devel] [PULL 5/8] grlib,
+ apbuart: get rid of the old-style create function
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -64,60 +64,18 @@ Suggested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Signed-off-by: KONRAD Frederic <frederic.konrad@adacore.com>
 Signed-off-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 ---
- hw/sparc/leon3.c         | 17 ++++++++++++++++-
- hw/timer/grlib_gptimer.c |  4 ++--
- include/hw/sparc/grlib.h | 27 +--------------------------
- 3 files changed, 19 insertions(+), 29 deletions(-)
+ hw/char/grlib_apbuart.c  |  4 ++--
+ hw/sparc/leon3.c         |  9 ++++++++-
+ include/hw/sparc/grlib.h | 20 +-------------------
+ 3 files changed, 11 insertions(+), 22 deletions(-)
 
-diff --git a/hw/sparc/leon3.c b/hw/sparc/leon3.c
-index 34306937bc..fb52527add 100644
---- a/hw/sparc/leon3.c
-+++ b/hw/sparc/leon3.c
-@@ -49,6 +49,10 @@
- 
- #define LEON3_IRQMP_OFFSET (0x80000200)
- 
-+#define LEON3_TIMER_OFFSET (0x80000300)
-+#define LEON3_TIMER_IRQ    (6)
-+#define LEON3_TIMER_COUNT  (2)
-+
- typedef struct ResetData {
-     SPARCCPU *cpu;
-     uint32_t  entry;            /* save kernel entry in case of reset */
-@@ -124,6 +128,7 @@ static void leon3_generic_hw_init(MachineState *machine)
-     int         prom_size;
-     ResetData  *reset_info;
-     DeviceState *dev;
-+    int i;
- 
-     /* Init CPU */
-     cpu = SPARC_CPU(cpu_create(machine->cpu_type));
-@@ -220,7 +225,17 @@ static void leon3_generic_hw_init(MachineState *machine)
-     }
- 
-     /* Allocate timers */
--    grlib_gptimer_create(0x80000300, 2, CPU_CLK, cpu_irqs, 6);
-+    dev = qdev_create(NULL, TYPE_GRLIB_GPTIMER);
-+    qdev_prop_set_uint32(dev, "nr-timers", LEON3_TIMER_COUNT);
-+    qdev_prop_set_uint32(dev, "frequency", CPU_CLK);
-+    qdev_prop_set_uint32(dev, "irq-line", LEON3_TIMER_IRQ);
-+    qdev_init_nofail(dev);
-+
-+    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, LEON3_TIMER_OFFSET);
-+    for (i = 0; i < LEON3_TIMER_COUNT; i++) {
-+        sysbus_connect_irq(SYS_BUS_DEVICE(dev), i,
-+                           cpu_irqs[LEON3_TIMER_IRQ + i]);
-+    }
- 
-     /* Allocate uart */
-     if (serial_hd(0)) {
-diff --git a/hw/timer/grlib_gptimer.c b/hw/timer/grlib_gptimer.c
-index 183eddc073..4b7088fc84 100644
---- a/hw/timer/grlib_gptimer.c
-+++ b/hw/timer/grlib_gptimer.c
+diff --git a/hw/char/grlib_apbuart.c b/hw/char/grlib_apbuart.c
+index e1d258b611..9623016d56 100644
+--- a/hw/char/grlib_apbuart.c
++++ b/hw/char/grlib_apbuart.c
 @@ -1,7 +1,7 @@
  /*
-  * QEMU GRLIB GPTimer Emulator
+  * QEMU GRLIB APB UART Emulator
   *
 - * Copyright (c) 2010-2011 AdaCore
 + * Copyright (c) 2010-2019 AdaCore
@@ -130,54 +88,73 @@ index 183eddc073..4b7088fc84 100644
  #include "qemu/osdep.h"
 +#include "hw/sparc/grlib.h"
  #include "hw/sysbus.h"
- #include "qemu/timer.h"
- #include "hw/ptimer.h"
-@@ -52,7 +53,6 @@
- #define COUNTER_RELOAD_OFFSET 0x04
- #define TIMER_BASE            0x10
+ #include "chardev/char-fe.h"
  
--#define TYPE_GRLIB_GPTIMER "grlib,gptimer"
- #define GRLIB_GPTIMER(obj) \
-     OBJECT_CHECK(GPTimerUnit, (obj), TYPE_GRLIB_GPTIMER)
+@@ -68,7 +69,6 @@
+ 
+ #define FIFO_LENGTH 1024
+ 
+-#define TYPE_GRLIB_APB_UART "grlib,apbuart"
+ #define GRLIB_APB_UART(obj) \
+     OBJECT_CHECK(UART, (obj), TYPE_GRLIB_APB_UART)
+ 
+diff --git a/hw/sparc/leon3.c b/hw/sparc/leon3.c
+index fb52527add..4f586910f2 100644
+--- a/hw/sparc/leon3.c
++++ b/hw/sparc/leon3.c
+@@ -47,6 +47,9 @@
+ 
+ #define MAX_PILS 16
+ 
++#define LEON3_UART_OFFSET  (0x80000100)
++#define LEON3_UART_IRQ     (3)
++
+ #define LEON3_IRQMP_OFFSET (0x80000200)
+ 
+ #define LEON3_TIMER_OFFSET (0x80000300)
+@@ -239,7 +242,11 @@ static void leon3_generic_hw_init(MachineState *machine)
+ 
+     /* Allocate uart */
+     if (serial_hd(0)) {
+-        grlib_apbuart_create(0x80000100, serial_hd(0), cpu_irqs[3]);
++        dev = qdev_create(NULL, TYPE_GRLIB_APB_UART);
++        qdev_prop_set_chr(dev, "chrdev", serial_hd(0));
++        qdev_init_nofail(dev);
++        sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, LEON3_UART_OFFSET);
++        sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, cpu_irqs[LEON3_UART_IRQ]);
+     }
+ }
  
 diff --git a/include/hw/sparc/grlib.h b/include/hw/sparc/grlib.h
-index bef371a06f..fe553e93b8 100644
+index fe553e93b8..5606ff0a97 100644
 --- a/include/hw/sparc/grlib.h
 +++ b/include/hw/sparc/grlib.h
-@@ -42,32 +42,7 @@ void grlib_irqmp_set_irq(void *opaque, int irq, int level);
- void grlib_irqmp_ack(DeviceState *dev, int intno);
+@@ -45,24 +45,6 @@ void grlib_irqmp_ack(DeviceState *dev, int intno);
+ #define TYPE_GRLIB_GPTIMER "grlib,gptimer"
  
- /* GPTimer */
+ /* APB UART */
 -
 -static inline
--DeviceState *grlib_gptimer_create(hwaddr  base,
--                                  uint32_t            nr_timers,
--                                  uint32_t            freq,
--                                  qemu_irq           *cpu_irqs,
--                                  int                 base_irq)
+-DeviceState *grlib_apbuart_create(hwaddr  base,
+-                                  Chardev    *serial,
+-                                  qemu_irq            irq)
 -{
 -    DeviceState *dev;
--    int i;
 -
--    dev = qdev_create(NULL, "grlib,gptimer");
--    qdev_prop_set_uint32(dev, "nr-timers", nr_timers);
--    qdev_prop_set_uint32(dev, "frequency", freq);
--    qdev_prop_set_uint32(dev, "irq-line", base_irq);
+-    dev = qdev_create(NULL, "grlib,apbuart");
+-    qdev_prop_set_chr(dev, "chrdev", serial);
 -
 -    qdev_init_nofail(dev);
 -
 -    sysbus_mmio_map(SYS_BUS_DEVICE(dev), 0, base);
 -
--    for (i = 0; i < nr_timers; i++) {
--        sysbus_connect_irq(SYS_BUS_DEVICE(dev), i, cpu_irqs[base_irq + i]);
--    }
+-    sysbus_connect_irq(SYS_BUS_DEVICE(dev), 0, irq);
 -
 -    return dev;
 -}
-+#define TYPE_GRLIB_GPTIMER "grlib,gptimer"
++#define TYPE_GRLIB_APB_UART "grlib,apbuart"
  
- /* APB UART */
- 
+ #endif /* GRLIB_H */
 -- 
 2.11.0
 
