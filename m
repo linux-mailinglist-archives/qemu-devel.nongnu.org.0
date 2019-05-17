@@ -2,79 +2,106 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A43A421A8E
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 17:29:02 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50170 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCE5B21B26
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 18:06:02 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50777 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRen7-0006rG-SN
-	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 11:29:01 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53219)
+	id 1hRfMv-0001kq-SR
+	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 12:06:01 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54163)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hRemB-0006YY-Bu
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 11:28:04 -0400
+	(envelope-from <torbjorn.svensson@st.com>) id 1hResy-00005c-5c
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 11:35:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hRem9-0008WU-Jo
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 11:28:03 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:41318)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hRem7-0007t8-E4
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 11:27:59 -0400
-Received: by mail-pl1-x643.google.com with SMTP id f12so3501223plt.8
-	for <qemu-devel@nongnu.org>; Fri, 17 May 2019 08:27:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=weCj/cPcQBb92IBSb1dPlYvmryMtX3SyUGLvbpxqS1Y=;
-	b=kY6yKTCqvgbzPsYj/Jsrc3UFiPndnY41f9Gbz7ugbksUmiOn4L5OO/2l7884Jxh1Nt
-	VP6ny5xZCDUKY0Ng5l4ajBFUgBiAAE1mYdu9QCgUeJJ4SNNjCbnNISDp6JvwXjW8Az53
-	WG/VBYIX3DC6Qoxd/HGJnwMt0Gay3YS2X8Q2tDzqGUL33rc7EZ7pTlOgHeyLf7q5+5Gd
-	D9kSuCQkft6T8gHL76JeRCb/gnYyfU0tDboYGPlqv9vdmlKKPr3vn4O8BMe5/dBjTsIz
-	efupj5O7qQfOFDWS6vAEqorT+9Uu6eYZwbvFjAo6eTeKpwVWuQoPrakKSxH0vT/XCn5N
-	w7gQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=weCj/cPcQBb92IBSb1dPlYvmryMtX3SyUGLvbpxqS1Y=;
-	b=s+XWhNF/A5rpmbIZnDlABjhiwb1LAPD0aMT095VyrIJknmtDk4rLbVU/jF8YDyMj7c
-	457IPeHd3lH0OgkyFcNuECUZZH4zDGKlHC2d2QU6MmoxoluNvykP4RByNWhwerx+oaRb
-	VnO+sUn0zf0soMW2XWhNIEnWQm7fOLScJUaTPXw6FWvD+PArn0u17/gopsKhfpOEEB4v
-	VyBpH8An4/D0xh2caGV7Xe9I//BznnelXC9k/XohfIA1Ms98VREt9arQQcZEiEhtUew7
-	7md3KFzzRYpOmViF4EwylTZ86tYGqymuWKv64Ko72TQhT9yJM/oy1iDnwHi/qGN28vAA
-	HKyA==
-X-Gm-Message-State: APjAAAXDo40A4v5a519UpZNCGHlSWvTJn97B2i4NZFx1TIzor8SQTFaI
-	eeRKEU6bu2Zw7GTogqCNjSqVNQ==
-X-Google-Smtp-Source: APXvYqyOBmvdCp++qFMx+SWSGzra6qsn4quabFDGMjjZhGGq/qo1POOl4qOqFc0cqIfBkQV7vNkmAw==
-X-Received: by 2002:a17:902:148:: with SMTP id
-	66mr1020520plb.143.1558106872265; 
-	Fri, 17 May 2019 08:27:52 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-13-231.tukw.qwest.net. [97.113.13.231])
-	by smtp.gmail.com with ESMTPSA id
-	q4sm10553858pgb.39.2019.05.17.08.27.50
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 17 May 2019 08:27:51 -0700 (PDT)
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
-	qemu-devel@nongnu.org
-References: <20190517045136.3509-1-richard.henderson@linaro.org>
-	<1d36d568-8fec-f81e-635f-a34560e04b2a@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <a90e775f-7039-8a67-313d-bac3856c3d13@linaro.org>
-Date: Fri, 17 May 2019 08:27:49 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <1d36d568-8fec-f81e-635f-a34560e04b2a@redhat.com>
-Content-Type: text/plain; charset=utf-8
+	(envelope-from <torbjorn.svensson@st.com>) id 1hResx-0002tU-9g
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 11:35:04 -0400
+Received: from mx08-00178001.pphosted.com ([91.207.212.93]:18802
+	helo=mx07-00178001.pphosted.com)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <torbjorn.svensson@st.com>)
+	id 1hResw-0002mi-LW; Fri, 17 May 2019 11:35:03 -0400
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+	by mx08-00178001.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+	x4HFRWZ2014982; Fri, 17 May 2019 17:34:57 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com;
+	h=from : to : cc : subject
+	: date : message-id : content-type : content-transfer-encoding :
+	mime-version; s=STMicroelectronics;
+	bh=1XYccIoWwNLvvjGwJIeuX2Nqkml1hD9sAZKLIbJ7PrQ=;
+	b=kOvavzNHikw0X+YPzsogx6ltjtm8u/D4VbV2+3DlTZ2yVDz/s3Z2ZfZZ1H8FqfHSSnoJ
+	skDHwZlVo1t/y3M03j6xvDYyjrelzjI+/kS7t0M2fXs45RNwMQmyeWpjjTig8XSB8LDq
+	CHOTqJ9yA4EQoibnet3s1iOdg0UNZ3jfzkeQAb2unf54PNADzqdd6r0olOXir/tCRxg5
+	JvnZftgsUJy8GN8nXyv4l6bBowl7+4WMqKkFJNtcxqWDQPnp1sYX98tbDRlsp5qLTJPA
+	H5i9KHwACAQmK6FH9Qw19Lw8EcKVm2WT6t+3hf1TxaQchD5/aEGf02tfvAEEg/6WD680
+	Qw== 
+Received: from eur03-am5-obe.outbound.protection.outlook.com
+	(mail-am5eur03lp2056.outbound.protection.outlook.com [104.47.8.56])
+	by mx08-00178001.pphosted.com with ESMTP id 2shvrj8yun-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-SHA384 bits=256 verify=NOT);
+	Fri, 17 May 2019 17:34:57 +0200
+Received: from VI1PR10MB2047.EURPRD10.PROD.OUTLOOK.COM (52.134.28.152) by
+	VI1PR10MB1968.EURPRD10.PROD.OUTLOOK.COM (52.134.28.18) with Microsoft
+	SMTP
+	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.1900.17; Fri, 17 May 2019 15:34:55 +0000
+Received: from VI1PR10MB2047.EURPRD10.PROD.OUTLOOK.COM
+	([fe80::41f:87d1:8ca:39be]) by VI1PR10MB2047.EURPRD10.PROD.OUTLOOK.COM
+	([fe80::41f:87d1:8ca:39be%6]) with mapi id 15.20.1900.010;
+	Fri, 17 May 2019 15:34:55 +0000
+From: Torbjorn SVENSSON <torbjorn.svensson@st.com>
+To: "qemu-arm@nongnu.org" <qemu-arm@nongnu.org>
+Thread-Topic: [PATCH] target/arm: Fix broken VQADD and VQSUB causing abort
+Thread-Index: AdUMxY0RShgfpEqqTEGIfg5CjmaqVA==
+Date: Fri, 17 May 2019 15:34:55 +0000
+Message-ID: <VI1PR10MB204723BF7D62501F0339242A810B0@VI1PR10MB2047.EURPRD10.PROD.OUTLOOK.COM>
+Accept-Language: en-US
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::643
-Subject: Re: [Qemu-devel] [PATCH v14 00/13] RX architecture support
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-originating-ip: [165.225.76.85]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: cd285210-a872-4790-cffc-08d6dadd3673
+x-microsoft-antispam: BCL:0; PCL:0;
+	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(7168020)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(2017052603328)(7193020);
+	SRVR:VI1PR10MB1968; 
+x-ms-traffictypediagnostic: VI1PR10MB1968:
+x-microsoft-antispam-prvs: <VI1PR10MB196884393561B61B442BC7E5810B0@VI1PR10MB1968.EURPRD10.PROD.OUTLOOK.COM>
+x-ms-oob-tlc-oobclassifiers: OLM:269;
+x-forefront-prvs: 0040126723
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10009020)(366004)(39860400002)(396003)(346002)(136003)(376002)(189003)(199004)(6436002)(478600001)(26005)(55236004)(305945005)(256004)(2906002)(9686003)(6916009)(25786009)(3846002)(54906003)(6116002)(52536014)(486006)(316002)(53936002)(74316002)(14454004)(71200400001)(102836004)(71190400001)(476003)(99286004)(186003)(68736007)(450100002)(4326008)(6506007)(86362001)(81156014)(33656002)(55016002)(5660300002)(2501003)(5640700003)(66066001)(66946007)(66556008)(7736002)(8676002)(2351001)(81166006)(8936002)(64756008)(66446008)(66476007)(7696005)(76116006)(73956011);
+	DIR:OUT; SFP:1101; SCL:1; SRVR:VI1PR10MB1968;
+	H:VI1PR10MB2047.EURPRD10.PROD.OUTLOOK.COM; FPR:; SPF:None;
+	LANG:en; PTR:InfoNoRecords; MX:1; A:1; 
+received-spf: None (protection.outlook.com: st.com does not designate
+	permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: ynylTfSa4CdGb0q+FdIwq64MB+CNY9fSZVTbcE/PG1QQKDR3/dEUz9Duidba1iXL33kw8JNyTuw4F8VpnPKgmyXRI50j+zYUbKyRuNIRRxzAjtDDZJhaFUy0LfomfLbN4hi8BHmMI/ySM+YjqLpX984KCceEvrTffMHPhF3VB79eLqtxKfrUw4KbuLuTB23IOALyMPgz0riKb+rClaBwnOd1TyyS+cTIJiGJ1TFy44cQeD5ZexVokJtwN9NbPeJqrWosuprAFQ1JDyElf03mVCGkXWlcWDk6luPftzWJ5/d2l0IoaZ8BZf9BBcf9PJxj3ebyeHZj0R+NsYQy/2JX1035IUSBzE8sHyMvQDCRMxrMdjsucb0AdhCQ6UsPUZWYDAuyIz9RvxrO6fVqM0+x1nQVa4JiYKCRNpRkmY7GU40=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+MIME-Version: 1.0
+X-OriginatorOrg: ST.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: cd285210-a872-4790-cffc-08d6dadd3673
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 May 2019 15:34:55.4831 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 75e027c9-20d5-47d5-b82f-77d7cd041e8f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR10MB1968
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+	definitions=2019-05-17_08:, , signatures=0
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0
+	priorityscore=1501 malwarescore=0
+	suspectscore=0 phishscore=0 bulkscore=0 spamscore=0 clxscore=1011
+	lowpriorityscore=0 mlxscore=0 impostorscore=0 mlxlogscore=754
+	adultscore=0
+	classifier=spam adjust=0 reason=mlx scancount=1 engine=8.0.1-1810050000
+	definitions=main-1905170094
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 91.207.212.93
+X-Mailman-Approved-At: Fri, 17 May 2019 12:04:59 -0400
+Subject: [Qemu-devel] [PATCH] target/arm: Fix broken VQADD and VQSUB causing
+ abort
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -86,36 +113,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ysato@users.sourceforge.jp
+Cc: Samuel HULTGREN <samuel.hultgren@st.com>,
+	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/17/19 1:00 AM, Philippe Mathieu-Daudé wrote:
->>   qemu/bitops.h: Add extract8 and extract16
->>   hw/registerfields.h: Add 8bit and 16bit register macros
->>   Add rx-softmmu
->>   MAINTAINERS: Add RX
-> 
-> Series:
-> Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+In commit 89e68b575e138d0af1435f11a8ffcd8779c237bd, the handling of
+VQADD and VQSUB was changed for Cortex-A and the new handling does
+not return properly after calling tcg_gen_gvec_4(), thus the code
+after is executed and that does not know about the VQADD or VQSUB
+instructions and calls abort.
 
-Thanks, missed this because patchwork doesn't remember cover letters.
+Detected running GCC testsuite for Cortex-A7 and executing the tests
+in QEMU using Cortex-A15 since Cortex-A7 and Cortex-A15 have similar
+instruction set.
 
-> But please reorder patches before sending the pull request, see:
-> https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg03671.html
-> 
-> - patch 9 first "Add extract8 and extract16"
-> - patch 10 then "Add 8bit and 16bit register macros"
-> - then other patches 1-8, 11-13
+Signed-off-by: Torbj=F6rn SVENSSON <torbjorn.svensson@st.com>
+---
+ target/arm/translate.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-I have reordered extract and register macros properly.
+diff --git a/target/arm/translate.c b/target/arm/translate.c
+index dd053c80d6..298c262825 100644
+--- a/target/arm/translate.c
++++ b/target/arm/translate.c
+@@ -6598,13 +6598,13 @@ static int disas_neon_data_insn(DisasContext *s, ui=
+nt32_t insn)
+             tcg_gen_gvec_4(rd_ofs, offsetof(CPUARMState, vfp.qc),
+                            rn_ofs, rm_ofs, vec_size, vec_size,
+                            (u ? uqadd_op : sqadd_op) + size);
+-            break;
++            return 0;
+=20
+         case NEON_3R_VQSUB:
+             tcg_gen_gvec_4(rd_ofs, offsetof(CPUARMState, vfp.qc),
+                            rn_ofs, rm_ofs, vec_size, vec_size,
+                            (u ? uqsub_op : sqsub_op) + size);
+-            break;
++            return 0;
+=20
+         case NEON_3R_VMUL: /* VMUL */
+             if (u) {
+--=20
+2.18.0
 
-> This will help if we unlikely have to bisect ;)
-
-Bisection is preserved because the rx port is enabled by
-patch 12, "Add rx-softmmu".  Eariler than that, the rx
-port simply is not built.
-
-
-r~
 
