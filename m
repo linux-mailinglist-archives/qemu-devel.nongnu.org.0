@@ -2,63 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5CCE12179A
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 13:22:44 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46854 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 021A62177F
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 13:10:31 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46599 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRawl-0001kE-7A
-	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 07:22:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57294)
+	id 1hRaku-0000uw-E0
+	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 07:10:28 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56563)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hRagP-0005lK-DB
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 07:05:50 -0400
+	(envelope-from <kwolf@redhat.com>) id 1hRaff-0004ky-TX
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 07:05:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hRagO-0008EP-56
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 07:05:49 -0400
-Received: from indium.canonical.com ([91.189.90.7]:50000)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hRagN-0008AD-GG
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 07:05:48 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
-	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hRagJ-0004Jp-GP
-	for <qemu-devel@nongnu.org>; Fri, 17 May 2019 11:05:43 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id A29042E80DA
-	for <qemu-devel@nongnu.org>; Fri, 17 May 2019 11:05:41 +0000 (UTC)
+	(envelope-from <kwolf@redhat.com>) id 1hRac2-0001eb-I3
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 07:01:20 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48158)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <kwolf@redhat.com>)
+	id 1hRabx-00014Q-1Q; Fri, 17 May 2019 07:01:13 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+	[10.5.11.14])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id E556B30C1AF9;
+	Fri, 17 May 2019 11:00:52 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-116-213.ams2.redhat.com
+	[10.36.116.213])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 042845D9CD;
+	Fri, 17 May 2019 11:00:39 +0000 (UTC)
+Date: Fri, 17 May 2019 13:00:38 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Max Reitz <mreitz@redhat.com>
+Message-ID: <20190517110038.GD7009@localhost.localdomain>
+References: <20190517095628.10119-1-mreitz@redhat.com>
+	<20190517095628.10119-4-mreitz@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20190517095628.10119-4-mreitz@redhat.com>
+User-Agent: Mutt/1.11.3 (2019-02-01)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.40]);
+	Fri, 17 May 2019 11:00:57 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 17 May 2019 10:56:02 -0000
-From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Fix Committed; importance=Undecided;
-	assignee=rth@twiddle.net; 
-X-Launchpad-Bug-Tags: testcase
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: pmaydell rth zhroma
-X-Launchpad-Bug-Reporter: Roman Zhuykov (zhroma)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
-References: <155534806981.13632.6401186723464432088.malonedeb@gac.canonical.com>
-Message-Id: <155809056319.15065.79256129167623515.launchpad@gac.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18962";
-	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 72c202b5f11279af9082d63e2a630db1ba79760c
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1824853] Re: 4.0.0-rc3 crashes with
- tcg/tcg.c:3952: tcg_gen_code: Assertion `s->gen_insn_end_off[num_insns] ==
- off' failed
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 3/4] iotests: Test driver whitelisting in
+ 093
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -67,93 +61,173 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1824853 <1824853@bugs.launchpad.net>
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Tags added: testcase
+Am 17.05.2019 um 11:56 hat Max Reitz geschrieben:
+> null-aio may not be whitelisted.  If it is not, fall back to null-co.
+> This may run tests twice in the same configuration, but this is the
+> simplest way to effectively skip the tests in setUp() (without changing
+> the output, and while having the respective driver in a class
+> attribute).
+>=20
+> Signed-off-by: Max Reitz <mreitz@redhat.com>
+> ---
+>  tests/qemu-iotests/093 | 15 ++++++++++++---
+>  1 file changed, 12 insertions(+), 3 deletions(-)
+>=20
+> diff --git a/tests/qemu-iotests/093 b/tests/qemu-iotests/093
+> index bd56c94708..d6f285001a 100755
+> --- a/tests/qemu-iotests/093
+> +++ b/tests/qemu-iotests/093
+> @@ -22,9 +22,11 @@
+>  import iotests
+> =20
+>  nsec_per_sec =3D 1000000000
+> +supported_null_drivers =3D list(filter(lambda f: f.startswith('null-')=
+,
+> +                                     iotests.supported_formats()))
 
--- =
+Is this just a convoluted way of writing the following?
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1824853
+    supported_null_drivers =3D [ f for f in iotests.supported_formats()
+                               if f.startswith('null-') ]
 
-Title:
-  4.0.0-rc3 crashes with tcg/tcg.c:3952: tcg_gen_code: Assertion
-  `s->gen_insn_end_off[num_insns] =3D=3D off' failed
+>  class ThrottleTestCase(iotests.QMPTestCase):
+> -    test_img =3D "null-aio://"
+> +    test_driver =3D "null-aio"
+>      max_drives =3D 3
+> =20
+>      def blockstats(self, device):
+> @@ -36,9 +38,14 @@ class ThrottleTestCase(iotests.QMPTestCase):
+>          raise Exception("Device not found for blockstats: %s" % device=
+)
+> =20
+>      def setUp(self):
+> +        global supported_null_drivers
+> +        if self.test_driver not in supported_null_drivers:
+> +            # Silently fall back to supported driver
+> +            self.test_driver =3D supported_null_drivers[0]
 
-Status in QEMU:
-  Fix Committed
+I think this is what you mentioned in the cover letter:
 
-Bug description:
-  I tried to bootstrap and regtested gcc trunk (gcc svn rev 270278,
-  datestamp 20190411) inside my arm64-gentoo installation under qemu-
-  system-aarch64.
+> Final note: The best thing would probably to skip the null-aio tests in
+> 093/136 if there is no null-aio support.  However, I didn=E2=80=99t get=
+ anything
+> to work: Annotating with @iotests.skip_if_unsupported() didn=E2=80=99t =
+work
+> because the format name is a class instance attribute; and just
+> iotests.skipTest() didn=E2=80=99t work because that would print 's' cha=
+racters
+>  instead of '.' in the output (and emit the number of skipped tests), s=
+o
+> the comparison against the reference output fails...
 
-  Qemu version was 4.0.0-rc3 and -cpu cortex-a57. Qemu configured with
-  only --target-list=3Daarch64-softmmu,aarch64-linux-user and compiled
-  using gcc "version 5.5.0 20171010 (Ubuntu 5.5.0-12ubuntu1~16.04)".
+With a little modification to the @skip_if_unsupported() decorator it
+can be done. I think I'd prefer this (hacked up on top of this series):
 
-  Executable created from gcc/testsuite/gcc.target/aarch64/advsimd-
-  intrinsics/vldX.c compiled with -O2 crashed the whole qemu-system.
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.p=
+y
+index f811f69135..f83d56b156 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -789,8 +789,11 @@ def skip_if_unsupported(required_formats=3D[], read_=
+only=3DFalse):
+        Runs the test if all the required formats are whitelisted'''
+     def skip_test_decorator(func):
+         def func_wrapper(*args, **kwargs):
+-            usf_list =3D list(set(required_formats) -
+-                            set(supported_formats(read_only)))
++            if callable(required_formats):
++                fmts =3D required_formats(args[0])
++            else:
++                fmts =3D required_formats
++            usf_list =3D list(set(fmts) - set(supported_formats(read_onl=
+y)))
+             if usf_list:
+                 case_notrun('{}: formats {} are not whitelisted'.format(
+                     args[0], usf_list))
+diff --git a/tests/qemu-iotests/093 b/tests/qemu-iotests/093
+index d6f285001a..e23a8189bc 100755
+--- a/tests/qemu-iotests/093
++++ b/tests/qemu-iotests/093
+@@ -22,8 +22,6 @@
+ import iotests
 
-  To investigate a bit I also manually run
-  ~/gcc/inst/trunk/bin/gcc ~/gcc/src/trunk/gcc/testsuite/gcc.target/aarch64=
-/advsimd-intrinsics/vldX.c
-  with different options like:
-  -O0 -lm -o d0.exe
-  -O1 -lm -o d1.exe
-  -O2 -lm -o d2.exe
-  -O0 -static -lm -o s0.exe
-  -O1 -static -lm -o s1.exe
-  -O2 -static -lm -o s2.exe
+ nsec_per_sec =3D 1000000000
+-supported_null_drivers =3D list(filter(lambda f: f.startswith('null-'),
+-                                     iotests.supported_formats()))
 
-  So, now I have 6 different arm64 executables created with different optim=
-ization levels. O0 and O1 versions run ok.
-  Three sN.exe static executables I've also tried in qemu user mode (with s=
-ame -cpu), no issue in user mode.
+ class ThrottleTestCase(iotests.QMPTestCase):
+     test_driver =3D "null-aio"
+@@ -37,11 +35,12 @@ class ThrottleTestCase(iotests.QMPTestCase):
+                 return stat['rd_bytes'], stat['rd_operations'], stat['wr=
+_bytes'], stat['wr_operations']
+         raise Exception("Device not found for blockstats: %s" % device)
 
-  And inside qemu-system I can see that
-  running "d2.exe" (attached) gives:
-  tcg/tcg.c:3952: tcg_gen_code: Assertion `s->gen_insn_end_off[num_insns] =
-=3D=3D off' failed.
++    def required_driver(self):
++        return self.test_driver
++
+     def setUp(self):
+-        global supported_null_drivers
+-        if self.test_driver not in supported_null_drivers:
+-            # Silently fall back to supported driver
+-            self.test_driver =3D supported_null_drivers[0]
++        if not self.required_driver() in iotests.supported_formats():
++            return
 
-  And running "s2.exe" gives:
-  tcg/tcg.c:320: set_jmp_reset_offset: Assertion `s->tb_jmp_reset_offset[wh=
-ich] =3D=3D off' failed.
+         self.vm =3D iotests.VM()
+         for i in range(0, self.max_drives):
+@@ -49,6 +48,9 @@ class ThrottleTestCase(iotests.QMPTestCase):
+         self.vm.launch()
 
-  It seems like this test is an counter-example for logic that
-  "tcg_ctx->nb_ops < 4000" implies tcg will fit into 16-bit signed size
-  (see tcg_op_buf_full comments).
+     def tearDown(self):
++        if not self.required_driver() in iotests.supported_formats():
++            return
++
+         self.vm.shutdown()
 
-  Richard's changes in abebf92597186 and 9f754620651d were not enough, tran=
-slation block must be smaller, or we have to find some proper way to bail o=
-ut when buffer overflows.
-  I don't know why this situation is not caught by code_gen_highwater logic=
- in tcg.c
+     def configure_throttle(self, ndrives, params):
+@@ -145,6 +147,7 @@ class ThrottleTestCase(iotests.QMPTestCase):
+         self.vm.qtest("clock_step %d" % ns)
 
-  I've also tried this "bail out" patch
+     # Connect N drives to a VM and test I/O in all of them
++    @iotests.skip_if_unsupported(required_driver)
+     def test_all(self):
+         params =3D {"bps": 4096,
+                   "bps_rd": 4096,
+@@ -163,6 +166,7 @@ class ThrottleTestCase(iotests.QMPTestCase):
+                 self.do_test_throttle(ndrives, 5, limits)
 
-  diff --git a/tcg/tcg.c b/tcg/tcg.c
-  --- a/tcg/tcg.c
-  +++ b/tcg/tcg.c
-  @@ -3949,7 +3949,8 @@ int tcg_gen_code(TCGContext *s, TranslationBlock *t=
-b)
-                   size_t off =3D tcg_current_code_size(s);
-                   s->gen_insn_end_off[num_insns] =3D off;
-                   /* Assert that we do not overflow our stored offset.  */
-  -                assert(s->gen_insn_end_off[num_insns] =3D=3D off);
-  +                if (s->gen_insn_end_off[num_insns] !=3D off)
-  +                  return -1;
-               }
-               num_insns++;
-               for (i =3D 0; i < TARGET_INSN_START_WORDS; ++i) {
+     # Connect N drives to a VM and test I/O in just one of them a time
++    @iotests.skip_if_unsupported(required_driver)
+     def test_one(self):
+         params =3D {"bps": 4096,
+                   "bps_rd": 4096,
+@@ -180,6 +184,7 @@ class ThrottleTestCase(iotests.QMPTestCase):
+                 self.configure_throttle(self.max_drives, limits)
+                 self.do_test_throttle(1, 5, limits, drive)
 
-  But then running "d2.exe" just hangs the whole qemu-system. It seems
-  that when tcg_gen_code return -1 (like in highwater logic mentioned
-  before), we just re-call it again and again.
++    @iotests.skip_if_unsupported(required_driver)
+     def test_burst(self):
+         params =3D {"bps": 4096,
+                   "bps_rd": 4096,
+@@ -218,6 +223,7 @@ class ThrottleTestCase(iotests.QMPTestCase):
+     # Test that removing a drive from a throttle group should not
+     # affect the remaining members of the group.
+     # https://bugzilla.redhat.com/show_bug.cgi?id=3D1535914
++    @iotests.skip_if_unsupported(required_driver)
+     def test_remove_group_member(self):
+         # Create a throttle group with two drives
+         # and set a 4 KB/s read limit.
+@@ -433,6 +439,6 @@ class ThrottleTestRemovableMedia(iotests.QMPTestCase)=
+:
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1824853/+subscriptions
+
+ if __name__ =3D=3D '__main__':
+-    if 'null-co' not in supported_null_drivers:
++    if 'null-co' not in iotests.supported_formats():
+         iotests.notrun('null-co driver support missing')
+     iotests.main(supported_fmts=3D["raw"])
 
