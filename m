@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D71E21B3D
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 18:14:47 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50837 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BCB2821B7A
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 18:20:22 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50910 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRfVO-00056i-7N
-	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 12:14:46 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60843)
+	id 1hRfan-0000fj-VD
+	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 12:20:21 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60919)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hRfTh-000420-0W
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 12:13:01 -0400
+	(envelope-from <kraxel@redhat.com>) id 1hRfTs-0004GV-NK
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 12:13:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hRfTf-000827-9h
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 12:13:00 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58990)
+	(envelope-from <kraxel@redhat.com>) id 1hRfTn-000894-1p
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 12:13:08 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:56320)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hRfTf-0007v7-3T
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 12:12:59 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
+	(Exim 4.71) (envelope-from <kraxel@redhat.com>)
+	id 1hRfTl-0007tt-6e; Fri, 17 May 2019 12:13:06 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 1E3AA30BBE84;
-	Fri, 17 May 2019 16:12:45 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 841B3308429D;
+	Fri, 17 May 2019 16:12:46 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-117-74.ams2.redhat.com
 	[10.36.117.74])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 9988A5D719;
+	by smtp.corp.redhat.com (Postfix) with ESMTP id A35061001E93;
 	Fri, 17 May 2019 16:12:42 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-	id BB54F17534; Fri, 17 May 2019 18:12:41 +0200 (CEST)
+	id C34BD17535; Fri, 17 May 2019 18:12:41 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 17 May 2019 18:12:40 +0200
-Message-Id: <20190517161241.11813-4-kraxel@redhat.com>
+Date: Fri, 17 May 2019 18:12:41 +0200
+Message-Id: <20190517161241.11813-5-kraxel@redhat.com>
 In-Reply-To: <20190517161241.11813-1-kraxel@redhat.com>
 References: <20190517161241.11813-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.49]);
-	Fri, 17 May 2019 16:12:50 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.40]);
+	Fri, 17 May 2019 16:12:46 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 3/4] ui/console: Precautionary glBindTexture and
- surface->texture validation in surface_gl_update_texture
+Subject: [Qemu-devel] [PULL 4/4] kbd-state: fix autorepeat handling
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -57,57 +56,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>, HOU Qiming <hqm03ster@gmail.com>
+Cc: Gerd Hoffmann <kraxel@redhat.com>, qemu-stable@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: HOU Qiming <hqm03ster@gmail.com>
+When allowing multiple down-events in a row (key autorepeat) we can't
+use change_bit() any more to update the state, because autorepeat events
+don't change the key state.  We have to explicitly use set_bit() and
+clear_bit() instead.
 
-In a GVT-g setup with dmabuf and GTK GUI, the current 2D texture at
-surface_gl_update_texture is not necessarily
-surface->texture. Adding a glBindTexture fixes related crashes and
-artifacts, and is generally more secure.
-
-Signed-off-by: HOU Qiming <hqm03ster@gmail.com>
-Tested-by: Marcel Apfelbaum<marcel.apfelbaum@gmail.com>
-Signed-off-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
-Message-id: 20190507080501.26712-1-marcel.apfelbaum@gmail.com
-[fixed malformed patch, rebase to master]
-Signed-off-by: Marcel Apfelbaum <marcel.apfelbaum@gmail.com>
+Cc: qemu-stable@nongnu.org
+Fixes: 35921860156e kbd-state: don't block auto-repeat events
+Buglink: https://bugs.launchpad.net/qemu/+bug/1828272
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Message-id: 20190514042443.10735-1-kraxel@redhat.com
 ---
- ui/console-gl.c | 18 +++++++++++-------
- 1 file changed, 11 insertions(+), 7 deletions(-)
+ ui/kbd-state.c | 6 +++++-
+ 1 file changed, 5 insertions(+), 1 deletion(-)
 
-diff --git a/ui/console-gl.c b/ui/console-gl.c
-index a56e1cd8ebce..c1cb3bd67359 100644
---- a/ui/console-gl.c
-+++ b/ui/console-gl.c
-@@ -92,13 +92,17 @@ void surface_gl_update_texture(QemuGLShader *gls,
+diff --git a/ui/kbd-state.c b/ui/kbd-state.c
+index f3ab2d7a665d..1668d17ddabc 100644
+--- a/ui/kbd-state.c
++++ b/ui/kbd-state.c
+@@ -59,7 +59,11 @@ void qkbd_state_key_event(QKbdState *kbd, QKeyCode qcode, bool down)
+     }
  
-     assert(gls);
- 
--    glPixelStorei(GL_UNPACK_ROW_LENGTH_EXT,
--                  surface_stride(surface) / surface_bytes_per_pixel(surface));
--    glTexSubImage2D(GL_TEXTURE_2D, 0,
--                    x, y, w, h,
--                    surface->glformat, surface->gltype,
--                    data + surface_stride(surface) * y
--                    + surface_bytes_per_pixel(surface) * x);
-+    if (surface->texture) {
-+        glBindTexture(GL_TEXTURE_2D, surface->texture);
-+        glPixelStorei(GL_UNPACK_ROW_LENGTH_EXT,
-+                      surface_stride(surface)
-+                      / surface_bytes_per_pixel(surface));
-+        glTexSubImage2D(GL_TEXTURE_2D, 0,
-+                        x, y, w, h,
-+                        surface->glformat, surface->gltype,
-+                        data + surface_stride(surface) * y
-+                        + surface_bytes_per_pixel(surface) * x);
+     /* update key and modifier state */
+-    change_bit(qcode, kbd->keys);
++    if (down) {
++        set_bit(qcode, kbd->keys);
++    } else {
++        clear_bit(qcode, kbd->keys);
 +    }
- }
- 
- void surface_gl_render_texture(QemuGLShader *gls,
+     switch (qcode) {
+     case Q_KEY_CODE_SHIFT:
+     case Q_KEY_CODE_SHIFT_R:
 -- 
 2.18.1
 
