@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E42D12124A
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 04:51:19 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40258 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A2C2F21259
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 04:58:27 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40351 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRSxr-0005w2-3y
-	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 22:51:19 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39123)
+	id 1hRT4j-0003Bz-3V
+	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 22:58:25 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39126)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hRSmj-0005ah-J3
+	(envelope-from <richard.henderson@linaro.org>) id 1hRSmj-0005ap-K7
 	for qemu-devel@nongnu.org; Thu, 16 May 2019 22:39:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hRSmh-00029l-JX
+	(envelope-from <richard.henderson@linaro.org>) id 1hRSmh-00029z-Ve
 	for qemu-devel@nongnu.org; Thu, 16 May 2019 22:39:49 -0400
-Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:33168)
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:46983)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hRSmh-000298-DL
+	id 1hRSmh-00029T-QN
 	for qemu-devel@nongnu.org; Thu, 16 May 2019 22:39:47 -0400
-Received: by mail-pg1-x542.google.com with SMTP id h17so2535328pgv.0
-	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 19:39:46 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id t187so2497690pgb.13
+	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 19:39:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=yE70JIuqrA6MJdI0/JWiVeD/16stq6LybzVtzKfjj1Q=;
-	b=P7uCeBfW4JYTuGB0oJwFoFu31evMKAOTe6sILXvBjGVc+6cSpc+qFcn8rnBrZoPJ6l
-	mD+VK+hYqFHuinL++2OnmPmfXWGMcnO8U2i6jnGDl4Kb6Lo+4KktlrDuVMfLi903+apd
-	3CpoCqeeXZ/lWgxCvqEAa52HTamETTEGdUQqmFuSIFBnfcYKkAixfcma2+ST85IfAE6w
-	+QCMPa47LImR4iahgMnk6urrQBSMUyv1SDHYDUlxHytfxE5CqB3UMX4ij+PBmQsQC+Mq
-	I6RIRggnQAxaw3avp6Y9WPxFMqAShKO7qpyw9GHoKCac+aWOSxJF/8G90u0blWWp+je/
-	/8Fw==
+	bh=cAffAFBxa4y/VVbarNUiRFSP9To260Z9zDP/Ls36OfI=;
+	b=uAgKaDEMR61x2/ACfaSuPOgyTX+4MSjKW6lZwmQxxhJipOn3BON/CcwSuUvFPR93wb
+	UHf/Q3Uj7eQaT0ewn030CGEDiv7if7C3IbRoKVs/6Vnr0VrtUkez6xL7Oj/wlAxo6Nwo
+	v9797gCz8M2pdcDOT3Y2tOX0XoLrKaB/iI3u/oO5rAEYBSq9WXoGHZsswZ6RlCwYluET
+	6QcdQ29J7MtUbL6javxS9Sg9V5V2unJxx8tUrn4MgWkoWLaPo1ssrW8S+aklpJw/K+dd
+	UqqnYTVEHTjEGnluSPmUpmZEoPVMfDcPvt82IAZKk/uXYGcIqSu+h76VuL+clo31xApL
+	fyXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=yE70JIuqrA6MJdI0/JWiVeD/16stq6LybzVtzKfjj1Q=;
-	b=FOdtucYt3NJ+4amANZUHQA881EyBKH+mC9OZ0odqNl9WlH7ml8kkGpboKMmACLqB2E
-	69xdEBkhBVmm+cOpDa/0EJ9C6BWAtfSuIpmZoNioQRbJ1EKSWthEIlkKZp5K3J3TPnP5
-	eQxZ9f1PHLi43UY6w9gQDv+baOBFuQJ3liCBfksIa4eqxio+wm0BO5H2c2ihIH4Kj2cb
-	x7hkl4jTp5AW38qV5Q94AG6Y2hi9eUJ5AYphrWKeGwiPzwrPgRJzZMLkWhFtS0f0jsBu
-	mByBtaaRDZkZaZV1RvLOMmq9joGtPbkMgyqcSv1JzCG6Nfn5ZaH2JDYjEQrVnA7FuqFu
-	cVaQ==
-X-Gm-Message-State: APjAAAVdjm72tmT42vjXxYa8kJuicFuAAM9/bEg/tqCM007QmrLO/g+x
-	Db9KIOGTXJ7ac0yyrPnL0qROSUbqdXU=
-X-Google-Smtp-Source: APXvYqzNe0slqK3gw0CBOZpVfA/NQCoWIJLam6er3rY9Wd97QAgOT/9MvcTF84ce4CCHy5jl6p9B9A==
-X-Received: by 2002:a63:2d87:: with SMTP id
-	t129mr54073702pgt.451.1558060785557; 
-	Thu, 16 May 2019 19:39:45 -0700 (PDT)
+	bh=cAffAFBxa4y/VVbarNUiRFSP9To260Z9zDP/Ls36OfI=;
+	b=YWT/ye5WEvC1IkSWlr7MPpyyWD8HX3jBNuFchEmR4VXthKmhzQrFHzvCQdfU5AGbJD
+	9rzTaC4LF5xsake5ZMaVwhcJNa99WP/sJ1g4ExVUEWvR1WBSqoOuMTlexgUx4gGixoyh
+	o97NblenBhxy2KwBGcOE+BU5sFI5Ucadty+BB/CgKCf2yvuiXWtehK4z3jRGhBKHtFjo
+	EP+9Z3xXe2zec4SUumNw9mdzIeLgdZASFwE14WIa6wwLzdAuEIq/HFaaoDLLWPmm/ACD
+	x3pwVGdFaQulOspQnvqnTrtAlNN3L7UvGjStR0xXCRhNJfFl1nYnTPEoAuJf1mS+z8c4
+	Lseg==
+X-Gm-Message-State: APjAAAUrfmaWEnTjOodK4xgD1b0znVc5YeNwb5TfxR1ESQ3cwxltmJq4
+	ACChlOPMkPlJOF/5YZdbk1axt28MgB8=
+X-Google-Smtp-Source: APXvYqzEPQlwpJvBtN0MlYlXjbaCTgi9x7dzs1Ub7okZ97jZNCWk2RxK42AkobKyEDmseA4LPiqbqA==
+X-Received: by 2002:a65:624f:: with SMTP id q15mr54283982pgv.436.1558060786594;
+	Thu, 16 May 2019 19:39:46 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231])
-	by smtp.gmail.com with ESMTPSA id w6sm6984152pge.30.2019.05.16.19.39.44
+	by smtp.gmail.com with ESMTPSA id w6sm6984152pge.30.2019.05.16.19.39.45
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 16 May 2019 19:39:44 -0700 (PDT)
+	Thu, 16 May 2019 19:39:45 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu, 16 May 2019 19:39:14 -0700
-Message-Id: <20190517023924.1686-16-richard.henderson@linaro.org>
+Date: Thu, 16 May 2019 19:39:15 -0700
+Message-Id: <20190517023924.1686-17-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190517023924.1686-1-richard.henderson@linaro.org>
 References: <20190517023924.1686-1-richard.henderson@linaro.org>
@@ -67,9 +66,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::542
-Subject: [Qemu-devel] [PATCH v8 15/25] linux-user/aarch64: Use
- qemu_guest_getrandom for PAUTH keys
+X-Received-From: 2607:f8b0:4864:20::544
+Subject: [Qemu-devel] [PATCH v8 16/25] linux-user: Remove srand call
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -85,145 +83,44 @@ Cc: lvivier@redhat.com, berrange@redhat.com, armbru@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use a better interface for random numbers than rand() * 3.
+We no longer use rand() within linux-user.
 
 Reviewed-by: Laurent Vivier <lvivier@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/aarch64/target_syscall.h |  2 --
- linux-user/aarch64/cpu_loop.c       | 29 ++++++---------------------
- linux-user/syscall.c                | 31 ++++++++++++++++++++++++-----
- 3 files changed, 32 insertions(+), 30 deletions(-)
+ linux-user/main.c | 11 -----------
+ 1 file changed, 11 deletions(-)
 
-diff --git a/linux-user/aarch64/target_syscall.h b/linux-user/aarch64/target_syscall.h
-index b595e5da82..995e475c73 100644
---- a/linux-user/aarch64/target_syscall.h
-+++ b/linux-user/aarch64/target_syscall.h
-@@ -29,6 +29,4 @@ struct target_pt_regs {
- # define TARGET_PR_PAC_APDBKEY   (1 << 3)
- # define TARGET_PR_PAC_APGAKEY   (1 << 4)
+diff --git a/linux-user/main.c b/linux-user/main.c
+index 66c909a1a6..689bcf436d 100644
+--- a/linux-user/main.c
++++ b/linux-user/main.c
+@@ -623,8 +623,6 @@ int main(int argc, char **argv, char **envp)
  
--void arm_init_pauth_key(ARMPACKey *key);
+     cpu_model = NULL;
+ 
+-    srand(time(NULL));
 -
- #endif /* AARCH64_TARGET_SYSCALL_H */
-diff --git a/linux-user/aarch64/cpu_loop.c b/linux-user/aarch64/cpu_loop.c
-index d75fd9d3e2..cedad39ca0 100644
---- a/linux-user/aarch64/cpu_loop.c
-+++ b/linux-user/aarch64/cpu_loop.c
-@@ -20,6 +20,7 @@
- #include "qemu/osdep.h"
- #include "qemu.h"
- #include "cpu_loop-common.h"
-+#include "qemu/guest-random.h"
+     qemu_add_opts(&qemu_trace_opts);
  
- #define get_user_code_u32(x, gaddr, env)                \
-     ({ abi_long __r = get_user_u32((x), (gaddr));       \
-@@ -147,24 +148,6 @@ void cpu_loop(CPUARMState *env)
-     }
- }
- 
--static uint64_t arm_rand64(void)
--{
--    int shift = 64 - clz64(RAND_MAX);
--    int i, n = 64 / shift + (64 % shift != 0);
--    uint64_t ret = 0;
+     optind = parse_args(argc, argv);
+@@ -692,15 +690,6 @@ int main(int argc, char **argv, char **envp)
+     {
+         Error *err = NULL;
+         if (seed_optarg != NULL) {
+-            unsigned long long seed;
 -
--    for (i = 0; i < n; i++) {
--        ret = (ret << shift) | rand();
--    }
--    return ret;
--}
+-            /* This will go away with the last user of rand(). */
+-            if (parse_uint_full(seed_optarg, &seed, 0) != 0) {
+-                fprintf(stderr, "Invalid seed number: %s\n", seed_optarg);
+-                exit(EXIT_FAILURE);
+-            }
+-            srand(seed);
 -
--void arm_init_pauth_key(ARMPACKey *key)
--{
--    key->lo = arm_rand64();
--    key->hi = arm_rand64();
--}
--
- void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs)
- {
-     ARMCPU *cpu = arm_env_get_cpu(env);
-@@ -192,11 +175,11 @@ void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs)
- #endif
- 
-     if (cpu_isar_feature(aa64_pauth, cpu)) {
--        arm_init_pauth_key(&env->apia_key);
--        arm_init_pauth_key(&env->apib_key);
--        arm_init_pauth_key(&env->apda_key);
--        arm_init_pauth_key(&env->apdb_key);
--        arm_init_pauth_key(&env->apga_key);
-+        qemu_guest_getrandom_nofail(&env->apia_key, sizeof(ARMPACKey));
-+        qemu_guest_getrandom_nofail(&env->apib_key, sizeof(ARMPACKey));
-+        qemu_guest_getrandom_nofail(&env->apda_key, sizeof(ARMPACKey));
-+        qemu_guest_getrandom_nofail(&env->apdb_key, sizeof(ARMPACKey));
-+        qemu_guest_getrandom_nofail(&env->apga_key, sizeof(ARMPACKey));
-     }
- 
-     ts->stack_base = info->start_stack;
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 96f20886ce..8c17b14d51 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -108,6 +108,7 @@
- 
- #include "qemu.h"
- #include "qemu/guest-random.h"
-+#include "qapi/error.h"
- #include "fd-trans.h"
- 
- #ifndef CLONE_IO
-@@ -9765,25 +9766,45 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-                     int all = (TARGET_PR_PAC_APIAKEY | TARGET_PR_PAC_APIBKEY |
-                                TARGET_PR_PAC_APDAKEY | TARGET_PR_PAC_APDBKEY |
-                                TARGET_PR_PAC_APGAKEY);
-+                    int ret = 0;
-+                    Error *err = NULL;
-+
-                     if (arg2 == 0) {
-                         arg2 = all;
-                     } else if (arg2 & ~all) {
-                         return -TARGET_EINVAL;
-                     }
-                     if (arg2 & TARGET_PR_PAC_APIAKEY) {
--                        arm_init_pauth_key(&env->apia_key);
-+                        ret |= qemu_guest_getrandom(&env->apia_key,
-+                                                    sizeof(ARMPACKey), &err);
-                     }
-                     if (arg2 & TARGET_PR_PAC_APIBKEY) {
--                        arm_init_pauth_key(&env->apib_key);
-+                        ret |= qemu_guest_getrandom(&env->apib_key,
-+                                                    sizeof(ARMPACKey), &err);
-                     }
-                     if (arg2 & TARGET_PR_PAC_APDAKEY) {
--                        arm_init_pauth_key(&env->apda_key);
-+                        ret |= qemu_guest_getrandom(&env->apda_key,
-+                                                    sizeof(ARMPACKey), &err);
-                     }
-                     if (arg2 & TARGET_PR_PAC_APDBKEY) {
--                        arm_init_pauth_key(&env->apdb_key);
-+                        ret |= qemu_guest_getrandom(&env->apdb_key,
-+                                                    sizeof(ARMPACKey), &err);
-                     }
-                     if (arg2 & TARGET_PR_PAC_APGAKEY) {
--                        arm_init_pauth_key(&env->apga_key);
-+                        ret |= qemu_guest_getrandom(&env->apga_key,
-+                                                    sizeof(ARMPACKey), &err);
-+                    }
-+                    if (ret != 0) {
-+                        /*
-+                         * Some unknown failure in the crypto.  The best
-+                         * we can do is log it and fail the syscall.
-+                         * The real syscall cannot fail this way.
-+                         */
-+                        qemu_log_mask(LOG_UNIMP,
-+                                      "PR_PAC_RESET_KEYS: Crypto failure: %s",
-+                                      error_get_pretty(err));
-+                        error_free(err);
-+                        return -TARGET_EIO;
-                     }
-                     return 0;
-                 }
+             qemu_guest_random_seed_main(seed_optarg, &err);
+         } else {
+             qcrypto_init(&err);
 -- 
 2.17.1
 
