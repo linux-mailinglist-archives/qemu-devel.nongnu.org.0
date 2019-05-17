@@ -2,62 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30A0221789
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 13:16:22 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46733 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3FDF72177E
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 13:10:20 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46597 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRaqb-00068s-BI
-	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 07:16:21 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50366)
+	id 1hRakk-0000lH-Oc
+	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 07:10:18 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49256)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <pmathieu@redhat.com>) id 1hRa70-0007Ti-Hk
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 06:29:15 -0400
+	(envelope-from <david@redhat.com>) id 1hRa6t-0006HC-J5
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 06:29:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <pmathieu@redhat.com>) id 1hRZv4-00015P-MR
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 06:16:56 -0400
-Received: from mail-wm1-f67.google.com ([209.85.128.67]:56121)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <pmathieu@redhat.com>) id 1hRZv4-00014w-GZ
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 06:16:54 -0400
-Received: by mail-wm1-f67.google.com with SMTP id x64so6376227wmb.5
-	for <qemu-devel@nongnu.org>; Fri, 17 May 2019 03:16:53 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=xQQ6KIq5Toa2u3FSu6P1kpYBA68Mm7wqwuxjswFrcE8=;
-	b=LOCaS/qCCQqt0Otwgp9c/i27xJxF8xj736wVLe5q1SqHyThtgo9hWdWttrrFcakyQy
-	HpaF2pWhKdKjaRKTzkQ2RHQLueukSc6QymqK73uOHUHTcR0bSGraq5gDEt5va/BOM5b7
-	c+UQuXu1SAgCxFzCWyFZtp12NGyUt8dFIFRKX+0DsLPUBmks4lgoDR6UuhDBMHV8VrA4
-	8Q2o/TllAutmYK2tOszjusdNFbYAdY7w4AzyZGwiAVpGT1jCgCGVTVuya8KFbwEk3XDC
-	9anEF6z4IPb8Wo9/qUCGOyXmsYDXeBSv9IH97q6gTOmtrPaKVoWvRRZTZHuVDuLB/3Qi
-	EyEA==
-X-Gm-Message-State: APjAAAU/EMH+cBCACRlDOrZzwfAogzrvB9Cw0T/I/sT3o8LLvaP6pC4U
-	sidxdzo7ZvwU0fzWXIQIIyOuy58QQDppnoV4B49sEQ==
-X-Google-Smtp-Source: APXvYqys5ntT7NR6N6Ve0ucUNmNG23tRCoqGPwu5tKMAGg8jxqBR9qnu7h94lIjDeZmZ1WOGsW9ETtH1rLmsyJbmAxs=
-X-Received: by 2002:a1c:678a:: with SMTP id b132mr17936544wmc.17.1558088212911;
-	Fri, 17 May 2019 03:16:52 -0700 (PDT)
+	(envelope-from <david@redhat.com>) id 1hRZzu-00043r-D6
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 06:21:55 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60548)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <david@redhat.com>)
+	id 1hRZzu-00040F-63; Fri, 17 May 2019 06:21:54 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 1EC556699E;
+	Fri, 17 May 2019 10:21:49 +0000 (UTC)
+Received: from t460s.redhat.com (unknown [10.36.118.100])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id AEA493490F;
+	Fri, 17 May 2019 10:21:46 +0000 (UTC)
+From: David Hildenbrand <david@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Fri, 17 May 2019 12:21:05 +0200
+Message-Id: <20190517102145.21812-1-david@redhat.com>
 MIME-Version: 1.0
-References: <20190423110034.1260142-1-jakub.jermar@kernkonzept.com>
-	<ab4b6d04-74f9-2f12-829d-9df8c1b1c4ca@redhat.com>
-	<6ae8d347-149d-e7eb-bb02-90aba44c5bbd@kernkonzept.com>
-	<1e9a8595-4653-4900-b747-236f9888b893@kernkonzept.com>
-	<04a4fcca-0db9-46f8-ac41-0d770b0dc5d6@kernkonzept.com>
-	<f9f1b930-2381-b343-854f-70e2590c9b73@redhat.com>
-	<CAL1e-=jFH7+cHGUJsmUKpEAkwohagfM5WVb4-rGSozsEkzFrTA@mail.gmail.com>
-	<35442861-78a7-a60b-8cb4-913a7a299a26@kernkonzept.com>
-In-Reply-To: <35442861-78a7-a60b-8cb4-913a7a299a26@kernkonzept.com>
-From: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
-Date: Fri, 17 May 2019 12:16:41 +0200
-Message-ID: <CAP+75-US1XaBuaZx0oHqyShrLuK1gcSMcymuvobAsd=Ye07Rcg@mail.gmail.com>
-To: Jakub Jermar <jakub.jermar@kernkonzept.com>
-Content-Type: text/plain; charset="UTF-8"
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.38]);
+	Fri, 17 May 2019 10:21:50 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.128.67
-Subject: Re: [Qemu-devel] [PATCH v2] mips: Decide to map PAGE_EXEC in
- map_address
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PULL SUBSYSTEM s390x 00/40] s390x/tcg: s390x/tcg:
+ Vector Instruction Support Part 2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -69,42 +54,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Aleksandar Rikalo <arikalo@wavecomp.com>,
-	QEMU Developers <qemu-devel@nongnu.org>,
-	Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
-	Aleksandar Markovic <amarkovic@wavecomp.com>,
-	Leon Alrae <leon.alrae@imgtec.com>, Aurelien Jarno <aurelien@aurel32.net>
+Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+	David Hildenbrand <david@redhat.com>, Thomas Huth <thuth@redhat.com>,
+	Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 17, 2019 at 11:30 AM Jakub Jermar
-<jakub.jermar@kernkonzept.com> wrote:
->
-> Hi Aleksandar and Philippe,
->
-> On 5/16/19 8:04 PM, Aleksandar Markovic wrote:
-[...]
-> > I tested Jakub's scenario too, it works as expected, but I am not
-> > concerned about it as much as about regression tests. Knowing that you
-> > have many MIPS test kernels and images, may I ask you to test some of
-> > them WITH Jakub's fix (so indepenently of myself anf Jakub), just to
-> > confirm that there are no regressions?
->
-> May I suggest to include also the following mips32r2 HelenOS images with
-> the following command lines to the set of test kernels used for
-> verifying new versions of QEMU? I always test HelenOS master on malta
-> when there is a new version of QEMU, but it might be better to spot
-> prospective issues earlier for both projects:
->
-> http://www.helenos.org/releases/HelenOS-0.9.1-mips32-malta-be.boot
->
-> qemu-system-mips -cpu 4Kc -kernel HelenOS-0.9.1-mips32-malta-be.boot
-> -nographic
->
-> http://www.helenos.org/releases/HelenOS-0.9.1-mips32-malta-le.boot
->
-> qemu-system-mipsel -cpu 4Kc -kernel HelenOS-0.9.1-mips32-malta-le.boot
-> -nographic
+This pull request is not for master.
 
-Yes, I added both ;)
+Hi Cornelia,
+
+The following changes since commit 85fa94e16927af2717093e5b8fe225206ec39e=
+16:
+
+  s390/css: handle CCW_FLAG_SKIP (2019-05-17 08:16:02 +0200)
+
+are available in the Git repository at:
+
+  https://github.com/davidhildenbrand/qemu.git tags/s390x-tcg-2019-05-17
+
+for you to fetch changes up to db156ebfae0d7707d81d13234e2fd43dd3347298:
+
+  s390x/tcg: Implement VECTOR TEST UNDER MASK (2019-05-17 10:54:13 +0200)
+
+----------------------------------------------------------------
+Implement all Vector Integer Instructions introduced with the
+"Vector Facility" for s390x TCG.
+
+----------------------------------------------------------------
+David Hildenbrand (40):
+  s390x/tcg: Implement VECTOR ADD
+  s390x/tcg: Implement VECTOR ADD COMPUTE CARRY
+  s390x/tcg: Implement VECTOR ADD WITH CARRY
+  s390x/tcg: Implement VECTOR ADD WITH CARRY COMPUTE CARRY
+  s390x/tcg: Implement VECTOR AND (WITH COMPLEMENT)
+  s390x/tcg: Implement VECTOR AVERAGE
+  s390x/tcg: Implement VECTOR AVERAGE LOGICAL
+  s390x/tcg: Implement VECTOR CHECKSUM
+  s390x/tcg: Implement VECTOR ELEMENT COMPARE *
+  s390x/tcg: Implement VECTOR COMPARE *
+  s390x/tcg: Implement VECTOR COUNT LEADING ZEROS
+  s390x/tcg: Implement VECTOR COUNT TRAILING ZEROS
+  s390x/tcg: Implement VECTOR EXCLUSIVE OR
+  s390x/tcg: Implement VECTOR GALOIS FIELD MULTIPLY SUM (AND ACCUMULATE)
+  s390x/tcg: Implement VECTOR LOAD COMPLEMENT
+  s390x/tcg: Implement VECTOR LOAD POSITIVE
+  s390x/tcg: Implement VECTOR (MAXIMUM|MINIMUM) (LOGICAL)
+  s390x/tcg: Implement VECTOR MULTIPLY AND ADD *
+  s390x/tcg: Implement VECTOR MULTIPLY *
+  s390x/tcg: Implement VECTOR NAND
+  s390x/tcg: Implement VECTOR NOR
+  s390x/tcg: Implement VECTOR NOT EXCLUSIVE OR
+  s390x/tcg: Implement VECTOR OR
+  s390x/tcg: Implement VECTOR OR WITH COMPLEMENT
+  s390x/tcg: Implement VECTOR POPULATION COUNT
+  s390x/tcg: Implement VECTOR ELEMENT ROTATE LEFT LOGICAL
+  s390x/tcg: Implement VECTOR ELEMENT ROTATE AND INSERT UNDER MASK
+  s390x/tcg: Implement VECTOR ELEMENT SHIFT
+  s390x/tcg: Implement VECTOR SHIFT LEFT (BY BYTE)
+  s390x/tcg: Implement VECTOR SHIFT LEFT DOUBLE BY BYTE
+  s390x/tcg: Implement VECTOR SHIFT RIGHT ARITHMETIC
+  s390x/tcg: Implement VECTOR SHIFT RIGHT LOGICAL *
+  s390x/tcg: Implement VECTOR SUBTRACT
+  s390x/tcg: Implement VECTOR SUBTRACT COMPUTE BORROW INDICATION
+  s390x/tcg: Implement VECTOR SUBTRACT WITH BORROW INDICATION
+  s390x/tcg: Implement VECTOR SUBTRACT WITH BORROW COMPUTE BORROW
+    INDICATION
+  s390x/tcg: Implement VECTOR SUM ACROSS DOUBLEWORD
+  s390x/tcg: Implement VECTOR SUM ACROSS QUADWORD
+  s390x/tcg: Implement VECTOR SUM ACROSS WORD
+  s390x/tcg: Implement VECTOR TEST UNDER MASK
+
+ target/s390x/Makefile.objs      |    2 +-
+ target/s390x/cc_helper.c        |   17 +
+ target/s390x/helper.c           |    1 +
+ target/s390x/helper.h           |   66 ++
+ target/s390x/insn-data.def      |  137 +++
+ target/s390x/internal.h         |    1 +
+ target/s390x/translate.c        |    2 +
+ target/s390x/translate_vx.inc.c | 1420 +++++++++++++++++++++++++++++++
+ target/s390x/vec_int_helper.c   |  616 ++++++++++++++
+ 9 files changed, 2261 insertions(+), 1 deletion(-)
+ create mode 100644 target/s390x/vec_int_helper.c
+
+--=20
+2.20.1
+
 
