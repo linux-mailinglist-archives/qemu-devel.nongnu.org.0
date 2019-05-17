@@ -2,69 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A9F982134D
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 06:58:19 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:42318 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 313B121356
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 07:03:27 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:42400 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRUwk-0002qv-FM
-	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 00:58:18 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59652)
+	id 1hRV1i-000736-Eh
+	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 01:03:26 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59663)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hRUqX-0006Dx-QJ
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 00:51:54 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hRUqZ-0006IF-Ot
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 00:51:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hRUqW-0007nr-SC
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 00:51:53 -0400
-Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:46646)
+	(envelope-from <richard.henderson@linaro.org>) id 1hRUqX-0007oy-PR
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 00:51:55 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:40203)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hRUqW-0007n1-DA
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 00:51:52 -0400
-Received: by mail-pg1-x543.google.com with SMTP id t187so2654838pgb.13
-	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 21:51:52 -0700 (PDT)
+	id 1hRUqX-0007o3-GH
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 00:51:53 -0400
+Received: by mail-pf1-x442.google.com with SMTP id u17so3038930pfn.7
+	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 21:51:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=p+U5vIBnOjLXY8VPVNTFWspmy+sk8WL3JV5On5zCYGA=;
-	b=A3LOidZH4y9vx21PQgSSS0/bjErJS/Ie/xxo9a1i478Q+cAvj6sy6uSoICR563JyBy
-	07ex1MN89S9pLB6xc/27w32Gyd+ZFAB+8wm4FidQ300GmQNJVzbHvBdR0NQBfU/zqNNp
-	PrLxN9YKvEP2fZQP2a5ayLtd7yPnT7oq6EHsDh9EOqTp6tqXW8CtnngmhtUTtz2fWEsL
-	Ne4+3qKK8ZJKoTTvxkjtbrayiBTzjgHHj+xw+iwGOzqdj+K+tZlLu2LkX4HCQTCAbsty
-	XCFH3S2bevvh11pHWAIG46V4TAFnPSo4+yRxYQui9nff97bKan+cCxH+/RTTZEOcfYEP
-	I/aQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=5Wb4o8hGJvfUpM2qJ6vfNYYMCW70cYJebXgl3I7+Ni0=;
+	b=weCcnbQYZYedyd3baYFPk2UQrlLnjpYjxp9hMDK7KJ6w/7H9vaHhUEH1yju6yr94lm
+	4j63DEPhd/ih/v85Gu7nce3FshFD7Q2j5/7gitvxIOkKG2sRcV8+UuBYvTtpuiI78wtz
+	m2ljfZTBUMu7S8sNVAz8ZVymjGnyNsydV7xKj4bKqNt+RKOMPioN/0fIAGy75SQLvzuD
+	bDVJ/mXSRH8dJ+S1wdrVqDvThSUi32rPHspIWWT70XcVRpaDVZXbhID+g1yK0DgSkIpU
+	CaMuFTLUQ2INE5FZJmc8r3nwJTAICjaSHsDSW6bkSVt508dz7OYJUQm/ZZUVoWrd6ZjJ
+	RI0A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=p+U5vIBnOjLXY8VPVNTFWspmy+sk8WL3JV5On5zCYGA=;
-	b=oJTbpzkmqLPAkZZGvMFuQorWbvFcxG/bhOZf3g+98qCEcbkUzc3nXMqNmEcVQoO6j4
-	h81k+mBDFb5D6RK9vm7tvHtnq5fNYCLGpR3zhQkM36S78vRJvL2FRqXgw825y24RtVYX
-	mWfGVpg6o2fqM1nasTO/Z68mEpEwixfu8+ABWGLkpLjFjFzkF4HcMFyseOcAaffJOH4A
-	O+sxglP5M5DfVqJvGOREtObG+c0leY2HC9dmec/SG+cXnDr17LKdthP1x3Y4y0StRxqB
-	1iM60QSm7PAIWxebkHfmmNJVuH2AdRz+ZUXVfpySB1uszAqRx0KwbY3KJ5pHBhEmdIMz
-	bujA==
-X-Gm-Message-State: APjAAAU+ae6PRqVI/iJYNw326B6RwpjaKYGkwUPg1rEUZ4B+v6cvHHyo
-	oloYqBA8nof7imI4tYXht6Tvx7lUXFI=
-X-Google-Smtp-Source: APXvYqw+EVZ50tBTArIi8HDUQfpsGizrxQXuOB++jpsWrxY0fBCJ/hKMgQSUDfvBvFbGAG+vYyl+Ng==
-X-Received: by 2002:a62:116:: with SMTP id 22mr20121785pfb.119.1558068711037; 
-	Thu, 16 May 2019 21:51:51 -0700 (PDT)
+	:references:mime-version:content-transfer-encoding;
+	bh=5Wb4o8hGJvfUpM2qJ6vfNYYMCW70cYJebXgl3I7+Ni0=;
+	b=PLlHA35WSJS3wn+AdGyscxwTrp4ojJPGhVI4ndR24TC5hAqxYt+tzZlccIWHJX6aXk
+	k6+9wdQD3weeoYTslWhX2iadlO0aYGAXDbF0SrDUHxvb6cAImOp4Yk9MVgHvlI/8tUzT
+	Rh+odCNi1Z+k8PZ4htkl5MpZPOQoIclnCHdwuEokUBjIr658zFj0AHvU8k4aQX0juVsZ
+	9OWnkNlRK5K6fPBDLDYJi2fbKIYjgtND0c5CWsZPjEQ6aju9pnLUIeQTB9nmgR9heUv2
+	+q2Ye4ND23J72xnZ6wjdRMOroRD4lB5E0yXGxllXlsvjE6H1YswbKrmmDk8AnSQNuWr6
+	NDUg==
+X-Gm-Message-State: APjAAAVU/tsYwRr7dz38ZhBPe/Ofd/CVBz9/iNsQV0vysq2yQ3Ru9TpI
+	0c9DHCdoHG7oXyUSPu3euoZ2Ox/rIoc=
+X-Google-Smtp-Source: APXvYqy7PLA2goRbLUHzDjh9FxGnqbFsqgutWKCKA3s4USbcDFfJzyVPTklN/gBuMS9gBVDti3mPiQ==
+X-Received: by 2002:a62:1a51:: with SMTP id a78mr57275928pfa.133.1558068712285;
+	Thu, 16 May 2019 21:51:52 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	132sm7709625pga.79.2019.05.16.21.51.49
+	132sm7709625pga.79.2019.05.16.21.51.51
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 16 May 2019 21:51:50 -0700 (PDT)
+	Thu, 16 May 2019 21:51:51 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu, 16 May 2019 21:51:34 -0700
-Message-Id: <20190517045136.3509-12-richard.henderson@linaro.org>
+Date: Thu, 16 May 2019 21:51:35 -0700
+Message-Id: <20190517045136.3509-13-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190517045136.3509-1-richard.henderson@linaro.org>
 References: <20190517045136.3509-1-richard.henderson@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::543
-Subject: [Qemu-devel] [PATCH v14 11/13] target/rx: Convert to
- CPUClass::tlb_fill
+X-Received-From: 2607:f8b0:4864:20::442
+Subject: [Qemu-devel] [PATCH v14 12/13] Add rx-softmmu
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -80,67 +83,94 @@ Cc: philmd@redhat.com, ysato@users.sourceforge.jp
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The interface for tlb_fill has changed very recently.
-Move the function into cpu.c so that it may be static
-while assigning to the CPUClass methods.
+From: Yoshinori Sato <ysato@users.sourceforge.jp>
 
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
+Message-Id: <20190516055244.95559-10-ysato@users.sourceforge.jp>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/rx/cpu.c       | 14 ++++++++++++++
- target/rx/op_helper.c | 11 -----------
- 2 files changed, 14 insertions(+), 11 deletions(-)
+ include/sysemu/arch_init.h     | 1 +
+ arch_init.c                    | 2 ++
+ configure                      | 8 ++++++++
+ default-configs/rx-softmmu.mak | 3 +++
+ hw/Kconfig                     | 1 +
+ 5 files changed, 15 insertions(+)
+ create mode 100644 default-configs/rx-softmmu.mak
 
-diff --git a/target/rx/cpu.c b/target/rx/cpu.c
-index 4b96f2e463..3268077d08 100644
---- a/target/rx/cpu.c
-+++ b/target/rx/cpu.c
-@@ -143,6 +143,19 @@ static void rx_cpu_disas_set_info(CPUState *cpu, disassemble_info *info)
-     info->print_insn = print_insn_rx;
- }
+diff --git a/include/sysemu/arch_init.h b/include/sysemu/arch_init.h
+index 10cbafe970..3f4f844f7b 100644
+--- a/include/sysemu/arch_init.h
++++ b/include/sysemu/arch_init.h
+@@ -25,6 +25,7 @@ enum {
+     QEMU_ARCH_NIOS2 = (1 << 17),
+     QEMU_ARCH_HPPA = (1 << 18),
+     QEMU_ARCH_RISCV = (1 << 19),
++    QEMU_ARCH_RX = (1 << 20),
+ };
  
-+static bool rx_cpu_tlb_fill(CPUState *cs, vaddr addr, int size,
-+                            MMUAccessType access_type, int mmu_idx,
-+                            bool probe, uintptr_t retaddr)
-+{
-+    uint32_t address, physical, prot;
+ extern const uint32_t arch_type;
+diff --git a/arch_init.c b/arch_init.c
+index f4f3f610c8..cc25ddd7ca 100644
+--- a/arch_init.c
++++ b/arch_init.c
+@@ -74,6 +74,8 @@ int graphic_depth = 32;
+ #define QEMU_ARCH QEMU_ARCH_PPC
+ #elif defined(TARGET_RISCV)
+ #define QEMU_ARCH QEMU_ARCH_RISCV
++#elif defined(TARGET_RX)
++#define QEMU_ARCH QEMU_ARCH_RX
+ #elif defined(TARGET_S390X)
+ #define QEMU_ARCH QEMU_ARCH_S390X
+ #elif defined(TARGET_SH4)
+diff --git a/configure b/configure
+index 8999698bc2..28782762dd 100755
+--- a/configure
++++ b/configure
+@@ -7547,6 +7547,11 @@ case "$target_name" in
+     gdb_xml_files="riscv-64bit-cpu.xml riscv-64bit-fpu.xml riscv-64bit-csr.xml"
+     target_compiler=$cross_cc_riscv64
+   ;;
++  rx)
++    TARGET_ARCH=rx
++    bflt="yes"
++    target_compiler=$cross_cc_rx
++  ;;
+   sh4|sh4eb)
+     TARGET_ARCH=sh4
+     bflt="yes"
+@@ -7767,6 +7772,9 @@ for i in $ARCH $TARGET_BASE_ARCH ; do
+   riscv*)
+     disas_config "RISCV"
+   ;;
++  rx)
++    disas_config "RX"
++  ;;
+   s390*)
+     disas_config "S390"
+   ;;
+diff --git a/default-configs/rx-softmmu.mak b/default-configs/rx-softmmu.mak
+new file mode 100644
+index 0000000000..a3eecefb11
+--- /dev/null
++++ b/default-configs/rx-softmmu.mak
+@@ -0,0 +1,3 @@
++# Default configuration for rx-softmmu
 +
-+    /* Linear mapping */
-+    address = physical = addr & TARGET_PAGE_MASK;
-+    prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
-+    tlb_set_page(cs, address, physical, prot, mmu_idx, TARGET_PAGE_SIZE);
-+    return true;
-+}
-+
- static void rx_cpu_init(Object *obj)
- {
-     CPUState *cs = CPU(obj);
-@@ -177,6 +190,7 @@ static void rxcpu_class_init(ObjectClass *klass, void *data)
-     cc->get_phys_page_debug = rx_cpu_get_phys_page_debug;
-     cc->disas_set_info = rx_cpu_disas_set_info;
-     cc->tcg_initialize = rx_translate_init;
-+    cc->tlb_fill = rx_cpu_tlb_fill;
- 
-     cc->gdb_num_core_regs = 26;
- }
-diff --git a/target/rx/op_helper.c b/target/rx/op_helper.c
-index 9a460070e9..fb7ae3c3ec 100644
---- a/target/rx/op_helper.c
-+++ b/target/rx/op_helper.c
-@@ -468,14 +468,3 @@ void QEMU_NORETURN helper_rxbrk(CPURXState *env)
- {
-     raise_exception(env, 0x100, 0);
- }
--
--void tlb_fill(CPUState *cs, target_ulong addr, int size,
--              MMUAccessType access_type, int mmu_idx, uintptr_t retaddr)
--{
--    uint32_t address, physical, prot;
--
--    /* Linear mapping */
--    address = physical = addr & TARGET_PAGE_MASK;
--    prot = PAGE_READ | PAGE_WRITE | PAGE_EXEC;
--    tlb_set_page(cs, address, physical, prot, mmu_idx, TARGET_PAGE_SIZE);
--}
++CONFIG_RX_VIRT=y
+diff --git a/hw/Kconfig b/hw/Kconfig
+index 88b9f15007..63a071092e 100644
+--- a/hw/Kconfig
++++ b/hw/Kconfig
+@@ -53,6 +53,7 @@ source nios2/Kconfig
+ source openrisc/Kconfig
+ source ppc/Kconfig
+ source riscv/Kconfig
++source rx/Kconfig
+ source s390x/Kconfig
+ source sh4/Kconfig
+ source sparc/Kconfig
 -- 
 2.17.1
 
