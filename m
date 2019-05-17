@@ -2,41 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C376321D9A
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 20:42:52 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52423 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A30F21DE9
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 20:56:06 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52556 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRhoh-000311-VP
-	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 14:42:52 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57291)
+	id 1hRi1V-0006hC-2J
+	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 14:56:05 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60005)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <jsnow@redhat.com>) id 1hRhkR-0008QT-Cv
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 14:38:29 -0400
+	(envelope-from <jsnow@redhat.com>) id 1hRi0K-0006Bo-29
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 14:54:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <jsnow@redhat.com>) id 1hRhkP-0003jq-IF
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 14:38:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59824)
+	(envelope-from <jsnow@redhat.com>) id 1hRi0I-0000OK-QE
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 14:54:52 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41070)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <jsnow@redhat.com>)
-	id 1hRhkL-0003fo-82; Fri, 17 May 2019 14:38:21 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
+	id 1hRi0G-0000Le-FU; Fri, 17 May 2019 14:54:48 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+	[10.5.11.11])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id E8AF7882FF;
-	Fri, 17 May 2019 18:38:19 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id DC2C69B261;
+	Fri, 17 May 2019 18:54:46 +0000 (UTC)
 Received: from [10.18.17.215] (dhcp-17-215.bos.redhat.com [10.18.17.215])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 8044E611C0;
-	Fri, 17 May 2019 18:38:14 +0000 (UTC)
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
-	Eric Blake <eblake@redhat.com>, "qemu-devel@nongnu.org"
-	<qemu-devel@nongnu.org>, "qemu-block@nongnu.org" <qemu-block@nongnu.org>
-References: <20190516122725.132334-1-vsementsov@virtuozzo.com>
-	<20190516122725.132334-2-vsementsov@virtuozzo.com>
-	<04af0995-a4ef-d9cc-b4ca-1a5e837aafe1@redhat.com>
-	<2f7d9ea8-765b-fad1-36d5-225f3b4b2ccc@redhat.com>
-	<efe6d8d3-ba5f-88f6-c8b0-d4037ba678e2@virtuozzo.com>
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 254CE413C;
+	Fri, 17 May 2019 18:54:44 +0000 (UTC)
+To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org, qemu-devel@nongnu.org
+References: <20190510190307.17647-1-jsnow@redhat.com>
+	<20190510190307.17647-5-jsnow@redhat.com>
+	<56494e44-75fe-70af-08bc-c96ba07c5630@redhat.com>
 From: John Snow <jsnow@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
@@ -113,23 +109,23 @@ Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
 	i0HjnLoJP5jDcoMTabZTIazXmJz3pKM11HYJ5/ZsTIf3ZRJJKIvXJpbmcAPVwTZII6XxiJdh
 	RSSX4Mvd5pL/+5WI6NTdW6DMfigTtdd85fe6PwBNVJL2ZvBfsBJZ5rxg1TOH3KLsYBqBTgW2
 	glQofxhkJhDEcvjLhe3Y2BlbCWKOmvM8XS9TRt0OwUs=
-Message-ID: <aca0021b-908c-7c22-df77-76411e0225f8@redhat.com>
-Date: Fri, 17 May 2019 14:38:14 -0400
+Message-ID: <f90ce2d8-a954-86df-d71d-9a5c32598d6f@redhat.com>
+Date: Fri, 17 May 2019 14:54:43 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <efe6d8d3-ba5f-88f6-c8b0-d4037ba678e2@virtuozzo.com>
+In-Reply-To: <56494e44-75fe-70af-08bc-c96ba07c5630@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.28]);
-	Fri, 17 May 2019 18:38:20 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.39]);
+	Fri, 17 May 2019 18:54:46 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 1/2] qapi: support external bitmaps in
- block-dirty-bitmap-merge
+Subject: Re: [Qemu-devel] [PATCH v2 4/4] iotests: add iotest 250 for testing
+ blockdev-backup across iothread contexts
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -141,77 +137,69 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "kwolf@redhat.com" <kwolf@redhat.com>, "fam@euphon.net" <fam@euphon.net>,
-	"mreitz@redhat.com" <mreitz@redhat.com>, Denis Lunev <den@virtuozzo.com>,
-	"armbru@redhat.com" <armbru@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-stable@nongnu.org,
+	Markus Armbruster <armbru@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 5/17/19 10:09 AM, Vladimir Sementsov-Ogievskiy wrote:
-> 17.05.2019 16:50, Eric Blake wrote:
->> On 5/16/19 7:32 PM, John Snow wrote:
->>>
->>>
->>> On 5/16/19 8:27 AM, Vladimir Sementsov-Ogievskiy wrote:
->>>> Add new optional parameter making possible to merge bitmaps from
->>>> different nodes. It is needed to maintain external snapshots during
->>>> incremental backup chain history.
->>>>
->>>> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
->>>> ---
->>>>   qapi/block-core.json | 13 ++++++++++---
->>>>   block/dirty-bitmap.c |  9 ++++++---
->>>>   blockdev.c           | 46 ++++++++++++++++++++++++++++++--------------
->>>>   3 files changed, 48 insertions(+), 20 deletions(-)
+On 5/17/19 7:18 AM, Max Reitz wrote:
+> On 10.05.19 21:03, John Snow wrote:
+>> Signed-off-by: John Snow <jsnow@redhat.com>
+>> ---
+>>  tests/qemu-iotests/250     | 129 +++++++++++++++++++++++++++++++++++++
+>>  tests/qemu-iotests/250.out | 119 ++++++++++++++++++++++++++++++++++
+>>  tests/qemu-iotests/group   |   1 +
+>>  3 files changed, 249 insertions(+)
+>>  create mode 100755 tests/qemu-iotests/250
+>>  create mode 100644 tests/qemu-iotests/250.out
 >>
->>>> -# @bitmaps: name(s) of the source dirty bitmap(s)
->>>> +# @bitmaps: name(s) of the source dirty bitmap(s). The field is optional
->>>> +#           since 4.1.
->>>> +#
->>>> +# @external-bitmaps: additional list of source dirty bitmaps with specified
->>>> +#                    nodes, which allows merging bitmaps between different
->>>> +#                    nodes. (Since: 4.1)
->>>>   #
->>>>   # Since: 4.0
->>>>   ##
->>>>   { 'struct': 'BlockDirtyBitmapMerge',
->>>> -  'data': { 'node': 'str', 'target': 'str', 'bitmaps': ['str'] } }
->>>> +  'data': { 'node': 'str', 'target': 'str', '*bitmaps': ['str'],
->>>> +            '*external-bitmaps': ['BlockDirtyBitmap'] } }
->>>>   
->>>
->>> I guess you can specify one, or both, or maybe neither! Seems fine.
->>
->>
->>>
->>> I don't think I like the name "external-bitmaps" but I guess I don't
->>> really have a better suggestion.
->>
->> I do - we could use an alternate type instead:
->>
->> { 'alternate': 'BitmapSource',
->>    'data': { 'local': 'str',
->>               'external': 'BlockDirtyBitmap' } }
->>
->> then use 'bitmaps': ['BitmapSource']
->>
->> so that the caller can pass:
->>
->> "bitmaps": [ "bitmap1", { "node": "other", "name", "bitmap2" } ]
->>
->> and we only have to deal with one array at all times, and not have the
->> name 'external-bitmaps' to worry about.
->>
+>> diff --git a/tests/qemu-iotests/250 b/tests/qemu-iotests/250
+>> new file mode 100755
+>> index 0000000000..1406b10958
+>> --- /dev/null
+>> +++ b/tests/qemu-iotests/250
+>> @@ -0,0 +1,129 @@
 > 
-> Oh, I wanted to do something like this, but looked at union type,  which also needs some
-> discriminator field, and decided that it's impossible to make it backward-compatible.
+> [...]
 > 
-> Will resend.
+>> +    def create_target(filepath, name, size):
+>> +        basename = os.path.basename(filepath)
+>> +        nodename = "file_{}".format(basename)
+>> +        log(vm.command('blockdev-create', job_id='job1',
+>> +                       options={
+>> +                           'driver': 'file',
+>> +                           'filename': filepath,
+>> +                           'size': size,
+> 
+> I think this should be 0.  No complaints apart from that, so I can fix
+> that up when applying, if you agree.
+> 
+> Max
 > 
 
-Excellent! Thanks Eric!
+Oh, should it? I guess you're right. At the very least, it's not right
+to use the raw logical size here.
 
---js
+Yes, please feel free to amend this.
+
+Thank you, Max!
+
+>> +                       }))
+>> +        vm.run_job('job1')
+>> +        log(vm.command('blockdev-add', driver='file',
+>> +                       node_name=nodename, filename=filepath))
+>> +        log(vm.command('blockdev-create', job_id='job2',
+>> +                       options={
+>> +                           'driver': iotests.imgfmt,
+>> +                           'file': nodename,
+>> +                           'size': size,
+>> +                       }))
+>> +        vm.run_job('job2')
+>> +        log(vm.command('blockdev-add', driver=iotests.imgfmt,
+>> +                       node_name=name,
+>> +                       file=nodename))
+>> +
+> 
 
