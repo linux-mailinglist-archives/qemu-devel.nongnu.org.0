@@ -2,48 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1837E21931
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 15:29:29 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48662 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9FD4521939
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 15:34:32 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48720 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRcvP-00065s-Gb
-	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 09:29:27 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59759)
+	id 1hRd0J-0007zI-Od
+	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 09:34:31 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60269)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <pbonzini@redhat.com>) id 1hRcuR-0005pD-CN
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 09:28:28 -0400
+	(envelope-from <laurent@vivier.eu>) id 1hRcy2-0007Af-Md
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 09:32:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <pbonzini@redhat.com>) id 1hRcuQ-0004v0-6j
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 09:28:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33416)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hRcuP-0004rH-UK
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 09:28:26 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 65CF130605EF
-	for <qemu-devel@nongnu.org>; Fri, 17 May 2019 13:28:24 +0000 (UTC)
-Received: from 640k.localdomain.com (ovpn-112-17.ams2.redhat.com
-	[10.36.112.17])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id C27E95D6A9
-	for <qemu-devel@nongnu.org>; Fri, 17 May 2019 13:28:21 +0000 (UTC)
-From: Paolo Bonzini <pbonzini@redhat.com>
+	(envelope-from <laurent@vivier.eu>) id 1hRcy1-0000Vv-Tt
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 09:32:10 -0400
+Received: from mout.kundenserver.de ([212.227.126.134]:40445)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hRcy1-0000Uu-LK
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 09:32:09 -0400
+Received: from localhost.localdomain ([78.238.229.36]) by
+	mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA
+	(Nemesis)
+	id 1Mzyi6-1gUgiv2Hhu-00x3Mf; Fri, 17 May 2019 15:31:59 +0200
+From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Fri, 17 May 2019 15:28:19 +0200
-Message-Id: <1558099699-55793-1-git-send-email-pbonzini@redhat.com>
+Date: Fri, 17 May 2019 15:31:47 +0200
+Message-Id: <20190517133149.19593-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.46]);
-	Fri, 17 May 2019 13:28:24 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:2g6kOi5eoSDW6MX37Xb48niNeR5iwyRuyOMM6AL7v7f5qRLkfOg
+	C/6OJNar/DNjAWb/PrC9aTvs2nt+yN85gASCkm11g2cJ9nJpStDdpgMSX57wCOx3dGVzzyT
+	uBV+OYtuOcwqUP59V3EO5DUWTLIvk6ct1yG3wbV3jwdPdXP2uKcIkQtILhmP6G0Bbpc7Rzi
+	jyDyQUv0g6cIAKye0imBA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:fajgtILYEAE=:3blGcnpEOJ/UiqhFuoFMF2
+	Rr5OR4Y5LEhkgSnFz21EZJe0L+FhlKwoNqz3sEQaaosRyPEXf4yImYF6auJfnsvPwDE/GsvPJ
+	dg2sjOjgS/YMf2QY5nNN6zp0gzwaKJ3EMCyoRhIQP0UG1i5nweoRS96Wm9FmYAusNZ69oqZ9a
+	Uz8LoQCBMSB9bErPbxGagm4NYJfIonpAgAb0ugazrgfpYwl4/Q5+h+J5rezXnHYbU6OWFIPhM
+	XfL9CNS4K5OKWiegKqzNVBQvIa8UnslRG47aIoN+pRnmhVjGjsH/gzkBWQSNZ8PlJEK4yqSUK
+	zezwMfCoOBQCtYdZhzn27pSgAMAT3s/zfk7usXImt8keN5KunOPfBeGsqHIpxVlhsKznHlWWF
+	8+T4JSwcLMT7paH3xBK/kujJj552HoF1gT0YjTOjOyo0hIrOGnLRAd2nesyrOWNoR7kNhgTou
+	kKu23VFSHrhtCi84BVU/C5ZbZ0x83vf7rYpqYZ6epq4ZkLSrEiNTQtO24peL4VxWxHY53uaxK
+	USNDHbzbZ1VE/BbvWALfBapCgtG6T3zqcLuM9j5gVQFZyqAvJaU90FWedI1O/kQqzTPZAx7Wx
+	gg4lYXWU5CRnkR29yNK1eyOFomavcVJevUdKNdePIg+0YwBkmBORT32ddgYnPX4P34O1+EADM
+	Fn+r9G5qcLkY7qv9e99H1AbSjqLS+brqTg8dA2Wqy1MWBdklwDDSkjUl31fg7a3xohv80Vl4F
+	ggLhtHTyBShV7FNVdCwX7ohOUszsNzhKGjfL8Q==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL v3 00/21] Misc patches for 2019-05-15
+X-Received-From: 212.227.126.134
+Subject: [Qemu-devel] [PATCH v2 0/2] Add pseudo /proc/hardware and
+ /proc/cpuinfo
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -55,110 +62,22 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit e329ad2ab72c43b56df88b34954c2c7d839bb3=
-73:
+They are used by some package setup scripts to set the default configuration.
 
-  Merge remote-tracking branch 'remotes/rth/tags/pull-tcg-20190513' into =
-staging (2019-05-14 10:08:47 +0100)
+v2: rebase
 
-are available in the git repository at:
+Laurent Vivier (2):
+  linux-user: add pseudo /proc/cpuinfo for sparc
+  linux-user: add pseudo /proc/hardware for m68k
 
+ linux-user/syscall.c | 27 ++++++++++++++++++++++++++-
+ 1 file changed, 26 insertions(+), 1 deletion(-)
 
-  git://github.com/bonzini/qemu.git tags/for-upstream
+-- 
+2.20.1
 
-for you to fetch changes up to 7a188f2b5744c0492de1c8eea315f259e0256a1e:
-
-  hw/net/ne2000: Extract the PCI device from the chipset common code (201=
-9-05-17 15:19:39 +0200)
-
-----------------------------------------------------------------
-Mostly bugfixes and cleanups, the most important being
-"megasas: fix mapped frame size" from Peter Lieven.
-In addition, -realtime is marked as deprecated.
-
-----------------------------------------------------------------
-Chen Zhang (1):
-      hvf: Add missing break statement
-
-Igor Mammedov (1):
-      roms: assert if max rom size is less than the used size
-
-Laurent Vivier (5):
-      trace: only include trace-event-subdirs when they are needed
-      build: replace GENERATED_FILES by generated-files-y
-      configure: qemu-ga is only needed with softmmu targets
-      build: chardev is only needed for softmmu targets
-      build: don't build hardware objects with linux-user
-
-Marc-Andr=C3=A9 Lureau (1):
-      vl: fix -sandbox parsing crash when seccomp support is disabled
-
-Paolo Bonzini (2):
-      mips-fulong2e: obey -vga none
-      sun4m: obey -vga none
-
-Peter Lieven (1):
-      megasas: fix mapped frame size
-
-Philippe Mathieu-Daud=C3=A9 (5):
-      vl: Add missing descriptions to the VGA adapters list
-      hw/acpi/piix4: Move TYPE_PIIX4_PM to a public header
-      hw/i386/acpi: Add object_resolve_type_unambiguous to improve modula=
-rity
-      hw/i386/acpi: Assert a pointer is not null BEFORE using it
-      hw/net/ne2000: Extract the PCI device from the chipset common code
-
-Thomas Huth (3):
-      hw/input: Add a CONFIG_PS2 switch for the ps2.c file
-      Declare -realtime as deprecated
-      hw/char: Move multi-serial devices into separate file
-
-Vitaly Kuznetsov (1):
-      ioapic: allow buggy guests mishandling level-triggered interrupts t=
-o make progress
-
-Wei Yang (1):
-      memory: correct the comment to DIRTY_MEMORY_MIGRATION
-
- Makefile                          |  43 ++++----
- Makefile.objs                     |  22 ++--
- Makefile.target                   |   6 +-
- configure                         |   4 +-
- hw/acpi/piix4.c                   |  13 ---
- hw/char/Kconfig                   |   6 ++
- hw/char/Makefile.objs             |   1 +
- hw/char/serial-pci-multi.c        | 208 ++++++++++++++++++++++++++++++++=
-++++++
- hw/char/serial-pci.c              | 170 -------------------------------
- hw/core/loader.c                  |   1 +
- hw/i386/acpi-build.c              |  22 +++-
- hw/input/Kconfig                  |   5 +
- hw/input/Makefile.objs            |   2 +-
- hw/intc/ioapic.c                  |  57 ++++++++++-
- hw/intc/trace-events              |   1 +
- hw/isa/lpc_ich9.c                 |  11 --
- hw/mips/mips_fulong2e.c           |  10 +-
- hw/net/Kconfig                    |   7 +-
- hw/net/Makefile.objs              |   3 +-
- hw/net/ne2000-pci.c               | 132 ++++++++++++++++++++++++
- hw/net/ne2000.c                   | 105 -------------------
- hw/scsi/megasas.c                 |   2 +-
- hw/sparc/sun4m.c                  |   6 +-
- include/hw/acpi/piix4.h           |   2 +-
- include/hw/i386/ich9.h            |   2 -
- include/hw/i386/ioapic_internal.h |   3 +
- memory.c                          |   4 +-
- qemu-deprecated.texi              |   5 +
- target/i386/hvf/hvf.c             |   1 +
- target/s390x/Makefile.objs        |   2 +-
- tests/Makefile.include            | 116 ++++++++++-----------
- vl.c                              |  22 ++--
- 32 files changed, 568 insertions(+), 426 deletions(-)
- create mode 100644 hw/char/serial-pci-multi.c
- create mode 100644 hw/net/ne2000-pci.c
---=20
-1.8.3.1
 
