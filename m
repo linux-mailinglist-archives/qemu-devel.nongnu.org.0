@@ -2,64 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE9F421957
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 15:50:15 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48939 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43B5921407
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 09:13:32 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43556 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRdFW-0000b5-KT
-	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 09:50:14 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47528)
+	id 1hRX3b-0003RO-5n
+	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 03:13:31 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47096)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hRX5q-00048l-4u
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 03:15:51 -0400
+	(envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hRX2R-00033J-MO
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 03:12:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hRX5o-0000d6-W7
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 03:15:50 -0400
-Received: from indium.canonical.com ([91.189.90.7]:39406)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hRX5o-0000cc-QF
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 03:15:48 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
-	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hRX5m-0002SR-9F
-	for <qemu-devel@nongnu.org>; Fri, 17 May 2019 07:15:46 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id 2E0CA2E80CB
-	for <qemu-devel@nongnu.org>; Fri, 17 May 2019 07:15:46 +0000 (UTC)
+	(envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hRX2Q-0006QG-Mj
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 03:12:19 -0400
+Received: from mail.ilande.co.uk ([46.43.2.167]:55078
+	helo=mail.default.ilande.uk0.bigv.io)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+	id 1hRX2Q-0004qu-GV
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 03:12:18 -0400
+Received: from host109-146-247-8.range109-146.btcentralplus.com
+	([109.146.247.8] helo=[192.168.1.65])
+	by mail.default.ilande.uk0.bigv.io with esmtpsa
+	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
+	(envelope-from <mark.cave-ayland@ilande.co.uk>)
+	id 1hRWyV-0000Mt-Nb; Fri, 17 May 2019 08:08:16 +0100
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20190516225015.9372-1-richard.henderson@linaro.org>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
+	mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
+	3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
+	E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
+	PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
+	PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
+	AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
+	OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
+	NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
+	mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
+	z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
+	T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
+	DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
+	y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
+	2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
+	14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
+	YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
+	Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
+	BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
+	opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
+	NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
+	Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
+	KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
+	imgcU9TTGC5qd9g=
+Message-ID: <e6f95b0f-b6c3-370b-608f-7b6710cbd8ec@ilande.co.uk>
+Date: Fri, 17 May 2019 08:08:54 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Fri, 17 May 2019 07:03:26 -0000
-From: nagaraju418 <nagaraju.goruganti@gmail.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Confirmed; importance=Undecided;
-	assignee=None; 
-X-Launchpad-Bug-Tags: hostfwd qemu trusty ubuntu xenial
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: nagaraju-goruganti pconstantine piotr.orzechowski
-	sergey-e th-huth
-X-Launchpad-Bug-Reporter: Sergey V. Lobanov (sergey-e)
-X-Launchpad-Bug-Modifier: nagaraju418 (nagaraju-goruganti)
-References: <20150125172405.12316.8764.malonedeb@soybean.canonical.com>
-Message-Id: <155807660625.26593.1446457330015757912.malone@soybean.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18962";
-	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 297e6708121f2c5641374e1f3cce9de549c57659
+In-Reply-To: <20190516225015.9372-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
+X-SA-Exim-Connect-IP: 109.146.247.8
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-X-Mailman-Approved-At: Fri, 17 May 2019 09:47:13 -0400
-Subject: [Qemu-devel] [Bug 1414466] Re: -net user,
- hostfwd=... is not working(qemu-system-aarch64)
+X-Received-From: 46.43.2.167
+Subject: Re: [Qemu-devel] [PATCH] tcg/i386: Fix dupi/dupm for avx1 and
+ 32-bit hosts
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -68,90 +84,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1414466 <1414466@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Do we got any solution for this issue ?
+On 16/05/2019 23:50, Richard Henderson wrote:
 
-I am seeing similar issue for qemu-system-arm, I have tried  with "-nic
-user,model=3Dvirtio-net-
-pci,hostfwd=3Dtcp:127.0.0.1:31258-:22,hostfwd=3Dtcp:127.0.0.1:47175-:443,ho=
-stname=3Dxxx.com"
-and also with "-net nic -net
-user,hostfwd=3Dtcp:127.0.0.1:45276-:22,hostfwd=3Dtcp:127.0.0.1:52541-:443,h=
-ostname=3Dhostname=3Dxxx.com"
+> The VBROADCASTSD instruction only allows %ymm registers as destination.
+> Rather than forcing VEX.L and writing to the entire 256-bit register,
+> revert to using MOVDDUP with an %xmm register.  This is sufficient for
+> an avx1 host since we do not support TCG_TYPE_V256 for that case.
+> 
+> Also fix the 32-bit avx2, which should have used VPBROADCASTW.
+> 
+> Fixes: 1e262b49b533
+> Reported-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+> Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+> ---
+>  tcg/i386/tcg-target.inc.c | 7 ++++---
+>  1 file changed, 4 insertions(+), 3 deletions(-)
+> 
+> diff --git a/tcg/i386/tcg-target.inc.c b/tcg/i386/tcg-target.inc.c
+> index aafd01cb49..b3601446cd 100644
+> --- a/tcg/i386/tcg-target.inc.c
+> +++ b/tcg/i386/tcg-target.inc.c
+> @@ -358,6 +358,7 @@ static inline int tcg_target_const_match(tcg_target_long val, TCGType type,
+>  #define OPC_MOVBE_MyGy  (0xf1 | P_EXT38)
+>  #define OPC_MOVD_VyEy   (0x6e | P_EXT | P_DATA16)
+>  #define OPC_MOVD_EyVy   (0x7e | P_EXT | P_DATA16)
+> +#define OPC_MOVDDUP     (0x12 | P_EXT | P_SIMDF2)
+>  #define OPC_MOVDQA_VxWx (0x6f | P_EXT | P_DATA16)
+>  #define OPC_MOVDQA_WxVx (0x7f | P_EXT | P_DATA16)
+>  #define OPC_MOVDQU_VxWx (0x6f | P_EXT | P_SIMDF3)
+> @@ -921,7 +922,7 @@ static bool tcg_out_dupm_vec(TCGContext *s, TCGType type, unsigned vece,
+>      } else {
+>          switch (vece) {
+>          case MO_64:
+> -            tcg_out_vex_modrm_offset(s, OPC_VBROADCASTSD, r, 0, base, offset);
+> +            tcg_out_vex_modrm_offset(s, OPC_MOVDDUP, r, 0, base, offset);
+>              break;
+>          case MO_32:
+>              tcg_out_vex_modrm_offset(s, OPC_VBROADCASTSS, r, 0, base, offset);
+> @@ -963,12 +964,12 @@ static void tcg_out_dupi_vec(TCGContext *s, TCGType type,
+>          } else if (have_avx2) {
+>              tcg_out_vex_modrm_pool(s, OPC_VPBROADCASTQ + vex_l, ret);
+>          } else {
+> -            tcg_out_vex_modrm_pool(s, OPC_VBROADCASTSD, ret);
+> +            tcg_out_vex_modrm_pool(s, OPC_MOVDDUP, ret);
+>          }
+>          new_pool_label(s, arg, R_386_PC32, s->code_ptr - 4, -4);
+>      } else {
+>          if (have_avx2) {
+> -            tcg_out_vex_modrm_pool(s, OPC_VBROADCASTSD + vex_l, ret);
+> +            tcg_out_vex_modrm_pool(s, OPC_VPBROADCASTW + vex_l, ret);
+>          } else {
+>              tcg_out_vex_modrm_pool(s, OPC_VBROADCASTSS, ret);
+>          }
 
--- =
+Indeed, this fixes the issue for me here - thank you!
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1414466
-
-Title:
-  -net user,hostfwd=3D... is not working(qemu-system-aarch64)
-
-Status in QEMU:
-  Confirmed
-
-Bug description:
-  QEMU version: git a46b3aaf6bb038d4f6f192a84df204f10929e75c
-
-   /opt/qemu.git/bin/qemu-system-aarch64 --version
-  QEMU emulator version 2.2.50, Copyright (c) 2003-2008 Fabrice Bellard
-
-  Hosts:
-  ovs - host machine (Ubuntu 14.04.1, x86_64)
-  debian8-arm64 - guest =
+Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 
 
-  Guest start:
-  user@ovs:~$ /opt/qemu.git/bin/qemu-system-aarch64 -machine virt -cpu cort=
-ex-a57 -nographic -smp 1 -m 512 -kernel vmlinuz-run -initrd initrd-run.img =
--append "root=3D/dev/sda2 console=3DttyAMA0" -global virtio-blk-device.scsi=
-=3Doff -device virtio-scsi-device,id=3Dscsi -drive file=3Ddebian8-arm64.img=
-,id=3Drootimg,cache=3Dunsafe,if=3Dnone -device scsi-hd,drive=3Drootimg -net=
-dev user,id=3Dunet -device virtio-net-device,netdev=3Dunet -net user,hostfw=
-d=3Dtcp:127.0.0.1:1122-:22
+ATB,
 
-  root@debian8-arm64:~# netstat -ntplu | grep ssh
-  tcp        0      0 0.0.0.0:22              0.0.0.0:*               LISTE=
-N      410/sshd        =
-
-  tcp6       0      0 :::22                   :::*                    LISTE=
-N      410/sshd       =
-
-
-  (no firewall in guest vm)
-
-  user@ovs:~$ netstat -ntplu | grep 1122
-  tcp        0      0 127.0.0.1:1122          0.0.0.0:*               LISTE=
-N      18722/qemu-system-a
-
-  user@ovs:~$ time ssh user@127.0.0.1 -p 1122
-  ssh_exchange_identification: read: Connection reset by peer
-
-  real	1m29.341s
-  user	0m0.005s
-  sys	0m0.000s
-
-  Inside guest vm sshd works fine:
-  root@debian8-arm64:~# ssh user@127.0.0.1 -p 22
-  user@127.0.0.1's password: =
-
-  ....
-  user@debian8-arm64:~$ exit
-  logout
-  Connection to 127.0.0.1 closed.
-
-  root@debian8-arm64:~# ssh user@10.0.2.15 -p 22
-  user@10.0.2.15's password: =
-
-  ...
-  user@debian8-arm64:~$ exit
-  logout
-  Connection to 10.0.2.15 closed.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1414466/+subscriptions
+Mark.
 
