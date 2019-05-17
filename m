@@ -2,44 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B2839218A6
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 14:57:00 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48224 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E18BC218CA
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 15:03:41 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48322 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRcPz-0008FK-Ls
-	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 08:56:59 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51927)
+	id 1hRcWS-0003Jp-OS
+	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 09:03:40 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52624)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <jermar@gorgo>) id 1hRcP2-0007hG-DJ
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 08:56:01 -0400
+	(envelope-from <jfreimann@redhat.com>) id 1hRcRk-0000Pr-88
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 08:58:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <jermar@gorgo>) id 1hRcP0-00081v-GY
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 08:55:59 -0400
-Received: from 89-24-57-155.nat.epc.tmcz.cz ([89.24.57.155]:28926 helo=gorgo)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <jermar@gorgo>) id 1hRcOy-0007h8-GZ
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 08:55:57 -0400
-Received: from gorgo (localhost.localdomain [127.0.0.1])
-	by gorgo (8.15.2/8.15.2) with ESMTPS id x4HCarGY868599
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Fri, 17 May 2019 14:36:53 +0200
-Received: (from jermar@localhost)
-	by gorgo (8.15.2/8.15.2/Submit) id x4HCapHV868540;
-	Fri, 17 May 2019 14:36:51 +0200
-From: =?UTF-8?q?Jakub=20Jerm=C3=A1=C5=99?= <jakub.jermar@kernkonzept.com>
+	(envelope-from <jfreimann@redhat.com>) id 1hRcRi-00037c-PD
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 08:58:48 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:32816)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <jfreimann@redhat.com>)
+	id 1hRcRi-0002qT-GS
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 08:58:46 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+	[10.5.11.16])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 5CFBEC074EE5
+	for <qemu-devel@nongnu.org>; Fri, 17 May 2019 12:58:27 +0000 (UTC)
+Received: from localhost (dhcp-192-241.str.redhat.com [10.33.192.241])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 35ECE61479;
+	Fri, 17 May 2019 12:58:22 +0000 (UTC)
+From: Jens Freimann <jfreimann@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 17 May 2019 14:35:33 +0200
-Message-Id: <20190517123533.868479-1-jakub.jermar@kernkonzept.com>
-X-Mailer: git-send-email 2.20.1
+Date: Fri, 17 May 2019 14:58:16 +0200
+Message-Id: <20190517125820.2885-1-jfreimann@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.31]);
+	Fri, 17 May 2019 12:58:27 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
-X-MIME-Autoconverted: from 8bit to quoted-printable by gorgo id x4HCarGY868599
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 89.24.57.155
-Subject: [Qemu-devel] [PATCH v3] mips: Decide to map PAGE_EXEC in map_address
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH 0/4] add failover feature for assigned network
+ devices
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -51,102 +55,129 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?q?Jakub=20Jerm=C3=A1=C5=99?= <jakub.jermar@kernkonzept.com>,
-	Aleksandar Rikalo <arikalo@wavecomp.com>,
-	Aleksandar Markovic <amarkovic@wavecomp.com>,
-	Aurelien Jarno <aurelien@aurel32.net>
+Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
+	mst@redhat.com, aadam@redhat.com, laine@redhat.com, ailan@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This commit addresses QEMU Bug #1825311:
+This is another attempt at implementing the host side of the
+net_failover concept
+(https://www.kernel.org/doc/html/latest/networking/net_failover.html)
 
-  mips_cpu_handle_mmu_fault renders all accessed pages executable
+Changes since last RFC:
+- work around circular dependency of commandline options. Just add
+  failover=3Don to the virtio-net standby options and reference it from
+  primary (vfio-pci) device with standby=3D<id> =20
+- add patch 3/4 to allow migration of vfio-pci device when it is part of =
+a
+  failover pair, still disallow for all other devices
+- add patch 4/4 to allow unplug of device during migrationm, make an
+  exception for failover primary devices. I'd like feedback on how to
+  solve this more elegant. I added a boolean to DeviceState, have it
+  default to false for all devices except for primary devices.=20
+- not tested yet with surprise removal
+- I don't expect this to go in as it is, still needs more testing but
+  I'd like to get feedback on above mentioned changes.
 
-It allows finer-grained control over whether the accessed page should be
-executable by moving the decision to the underlying map_address
-function, which has more information for this.
+The general idea is that we have a pair of devices, a vfio-pci and a
+emulated device. Before migration the vfio device is unplugged and data
+flows to the emulated device, on the target side another vfio-pci device
+is plugged in to take over the data-path. In the guest the net_failover
+module will pair net devices with the same MAC address.
 
-As a result, pages that have the XI bit set in the TLB and are accessed
-for read/write, don't suddenly end up being executable.
+* In the first patch the infrastructure for hiding the device is added
+  for the qbus and qdev APIs.=20
 
-Signed-off-by: Jakub Jerm=C3=A1=C5=99 <jakub.jermar@kernkonzept.com>
----
+* In the second patch the virtio-net uses the API to defer adding the vfi=
+o
+  device until the VIRTIO_NET_F_STANDBY feature is acked.
 
- Changes since v2:
-=20
- This is the same patch as v2, but rebased to current master.
+Previous discussion:=20
+  RFC v1 https://patchwork.ozlabs.org/cover/989098/
+  RFC v2 https://www.mail-archive.com/qemu-devel@nongnu.org/msg606906.htm=
+l
 
- target/mips/helper.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+To summarize concerns/feedback from previous discussion:
+1.- guest OS can reject or worse _delay_ unplug by any amount of time.
+  Migration might get stuck for unpredictable time with unclear reason.
+  This approach combines two tricky things, hot/unplug and migration.=20
+  -> We can surprise-remove the PCI device and in QEMU we can do all
+     necessary rollbacks transparent to management software. Will it be
+     easy, probably not.
+2. PCI devices are a precious ressource. The primary device should never
+  be added to QEMU if it won't be used by guest instead of hiding it in
+  QEMU.=20
+  -> We only hotplug the device when the standby feature bit was
+     negotiated. We save the device cmdline options until we need it for
+     qdev_device_add()
+     Hiding a device can be a useful concept to model. For example a
+     pci device in a powered-off slot could be marked as hidden until the=
+ slot is
+     powered on (mst).
+3. Management layer software should handle this. Open Stack already has
+  components/code to handle unplug/replug VFIO devices and metadata to
+  provide to the guest for detecting which devices should be paired.
+  -> An approach that includes all software from firmware to
+     higher-level management software wasn't tried in the last years. Thi=
+s is
+     an attempt to keep it simple and contained in QEMU as much as possib=
+le.
+4. Hotplugging a device and then making it part of a failover setup is
+   not possible
+  -> addressed by extending qdev hotplug functions to check for hidden
+     attribute, so e.g. device_add can be used to plug a device.
 
-diff --git a/target/mips/helper.c b/target/mips/helper.c
-index 9799f2ede1..68e44df4da 100644
---- a/target/mips/helper.c
-+++ b/target/mips/helper.c
-@@ -43,7 +43,7 @@ int no_mmu_map_address (CPUMIPSState *env, hwaddr *phys=
-ical, int *prot,
-                         target_ulong address, int rw, int access_type)
- {
-     *physical =3D address;
--    *prot =3D PAGE_READ | PAGE_WRITE;
-+    *prot =3D PAGE_READ | PAGE_WRITE | PAGE_EXEC;
-     return TLBRET_MATCH;
- }
-=20
-@@ -61,7 +61,7 @@ int fixed_mmu_map_address (CPUMIPSState *env, hwaddr *p=
-hysical, int *prot,
-     else
-         *physical =3D address;
-=20
--    *prot =3D PAGE_READ | PAGE_WRITE;
-+    *prot =3D PAGE_READ | PAGE_WRITE | PAGE_EXEC;
-     return TLBRET_MATCH;
- }
-=20
-@@ -101,6 +101,9 @@ int r4k_map_address (CPUMIPSState *env, hwaddr *physi=
-cal, int *prot,
-                 *prot =3D PAGE_READ;
-                 if (n ? tlb->D1 : tlb->D0)
-                     *prot |=3D PAGE_WRITE;
-+                if (!(n ? tlb->XI1 : tlb->XI0)) {
-+                    *prot |=3D PAGE_EXEC;
-+                }
-                 return TLBRET_MATCH;
-             }
-             return TLBRET_DIRTY;
-@@ -182,7 +185,7 @@ static int get_seg_physical_address(CPUMIPSState *env=
-, hwaddr *physical,
-     } else {
-         /* The segment is unmapped */
-         *physical =3D physical_base | (real_address & segmask);
--        *prot =3D PAGE_READ | PAGE_WRITE;
-+        *prot =3D PAGE_READ | PAGE_WRITE | PAGE_EXEC;
-         return TLBRET_MATCH;
-     }
- }
-@@ -907,7 +910,7 @@ bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, i=
-nt size,
-     }
-     if (ret =3D=3D TLBRET_MATCH) {
-         tlb_set_page(cs, address & TARGET_PAGE_MASK,
--                     physical & TARGET_PAGE_MASK, prot | PAGE_EXEC,
-+                     physical & TARGET_PAGE_MASK, prot,
-                      mmu_idx, TARGET_PAGE_SIZE);
-         return true;
-     }
-@@ -927,7 +930,7 @@ bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, i=
-nt size,
-                                        access_type, mips_access_type, mm=
-u_idx);
-             if (ret =3D=3D TLBRET_MATCH) {
-                 tlb_set_page(cs, address & TARGET_PAGE_MASK,
--                             physical & TARGET_PAGE_MASK, prot | PAGE_EX=
-EC,
-+                             physical & TARGET_PAGE_MASK, prot,
-                              mmu_idx, TARGET_PAGE_SIZE);
-                 return true;
-             }
+
+I have tested this with a mlx5 NIC and was able to migrate the VM with
+above mentioned workarounds for open problems.
+
+Command line example:
+
+qemu-system-x86_64 -enable-kvm -m 3072 -smp 3 \
+        -machine q35,kernel-irqchip=3Dsplit -cpu host   \
+        -k fr   \
+        -serial stdio   \
+        -net none \
+        -qmp unix:/tmp/qmp.socket,server,nowait \
+        -monitor telnet:127.0.0.1:5555,server,nowait \
+        -device pcie-root-port,id=3Droot0,multifunction=3Don,chassis=3D0,=
+addr=3D0xa \
+        -device pcie-root-port,id=3Droot1,bus=3Dpcie.0,chassis=3D1 \
+        -device pcie-root-port,id=3Droot2,bus=3Dpcie.0,chassis=3D2 \
+        -netdev tap,script=3D/root/bin/bridge.sh,downscript=3Dno,id=3Dhos=
+tnet1,vhost=3Don \
+        -device virtio-net-pci,netdev=3Dhostnet1,id=3Dnet1,mac=3D52:54:00=
+:6f:55:cc,bus=3Droot2,failover=3Don \                                    =
+                                               =20
+        /root/rhel-guest-image-8.0-1781.x86_64.qcow2
+
+Then the primary device can be hotplugged via
+ (qemu) device_add vfio-pci,host=3D5e:00.2,id=3Dhostdev0,bus=3Droot1,stan=
+dby=3Dnet1
+
+
+I'm grateful for any remarks or ideas!
+
+Thanks!
+
+
+Jens Freimann (4):
+  migration: allow unplug during migration for failover devices
+  qdev/qbus: Add hidden device support
+  net/virtio: add failover support
+  vfio: unplug failover primary device before migration
+
+ hw/core/qdev.c                 |  20 ++++++
+ hw/net/virtio-net.c            | 117 +++++++++++++++++++++++++++++++++
+ hw/vfio/pci.c                  |  25 ++++++-
+ hw/vfio/pci.h                  |   2 +
+ include/hw/qdev-core.h         |  10 +++
+ include/hw/virtio/virtio-net.h |  12 ++++
+ qdev-monitor.c                 |  43 ++++++++++--
+ vl.c                           |   6 +-
+ 8 files changed, 228 insertions(+), 7 deletions(-)
+
 --=20
-2.20.1
+2.21.0
 
 
