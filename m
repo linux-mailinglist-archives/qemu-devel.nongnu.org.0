@@ -2,57 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 28CD92193D
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 15:36:52 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48764 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9D66621938
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 15:34:27 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48718 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRd2Z-0001B2-0z
-	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 09:36:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60278)
+	id 1hRd0E-0007vf-E8
+	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 09:34:26 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60253)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hRcy3-0007Aw-9o
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 09:32:16 -0400
+	(envelope-from <laurent@vivier.eu>) id 1hRcxw-00077a-NP
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 09:32:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hRcy2-0000XA-Bw
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 09:32:11 -0400
-Received: from mout.kundenserver.de ([212.227.126.131]:39407)
+	(envelope-from <laurent@vivier.eu>) id 1hRcxv-0000PA-MG
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 09:32:04 -0400
+Received: from mout.kundenserver.de ([212.227.126.135]:38211)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hRcy2-0000VP-2x
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 09:32:10 -0400
+	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hRcxv-0000O5-Db
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 09:32:03 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
 	mrelayeu.kundenserver.de (mreue011 [212.227.15.167]) with ESMTPSA
 	(Nemesis)
-	id 1Mr8zO-1guz3B4Bi2-00oDg1; Fri, 17 May 2019 15:32:00 +0200
+	id 1N0Fh1-1gUxhX1kwR-00xKLY; Fri, 17 May 2019 15:32:00 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Fri, 17 May 2019 15:31:48 +0200
-Message-Id: <20190517133149.19593-2-laurent@vivier.eu>
+Date: Fri, 17 May 2019 15:31:49 +0200
+Message-Id: <20190517133149.19593-3-laurent@vivier.eu>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190517133149.19593-1-laurent@vivier.eu>
 References: <20190517133149.19593-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:Nnc41dw8F/dFUZKrbCJ9ZgA3Q2Glc6oel3h6CJGGMhh1WLawAZq
-	PQONU5xstz6jGsaaSReiLi7sTfH/liz8d9Gd2PIq4vbFg0Pjj3T+3woaZuJ4ZciTxdrhefl
-	3DyKIQhnuD+lhFwp5H6+TaUuQYF0K29Yw0P/1qBJYinOVeJpd6i6y/+ULr0kJijEiHPavTQ
-	wCsdUQMBqz2kKigr3DkjA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:QwPFyUSlt2c=:3pn9pxOKH7gZdOIuDKnKlG
-	xT3UAFOdAzd2H5GfkZp/QugTXqvJa75c9R4mUgTJGTwkrM9j363XODsvGvcH52GcNE5aJqbj/
-	eXlHB0MtoT/YY29VDJRuyvcq0S6/1hQG842oPguO281iU2r7xS2mvHJJZ9GVhr8gPQHLI8Jnd
-	ZMAIOtQ38UpCSgrhY7VsSyO/25PUmpl44UimuIUbteOeU2zIyeHyuSiBvZDUxSdYOzrgh4v8u
-	FVVv6cwLTOnFGTCUFs6jOLwwWUqkGAtOMr5IXJJ7PRwn7ja2BhBsBSgU4boksN9ry8dKVI6I5
-	CXwaFP5mleQdW8jTWfSo//gjgMsDPDkq+w0QyGfYbG2qUised8vPvOzpHO+/iis82uktOw6GZ
-	pgTpE4r/p3eg79KaW5FUbYcFt0Nx74Uz7l9bO/lxSdaC/uLiC7c9q5DIB6oo1+cd7dCvdopho
-	0nqGabVsKrDFQcH9QHRuaRTtxHZJYAx04S1n4V8kmtEdXVEB00EgGS796F+Ac1ohCeZ91sH/E
-	MoQKRrdK+S+F9E93I62+hs/YQ+7U35pnA71yUr3uUfCPK/u/r36nXSrsmTk61WDr5p2+EmyFO
-	amXyqqoYyBk6ixzgwyP38MKhvF6XzAY+R8gpRmW81Aw4kG4ol4ao9AFKOSiwQ/3/iWcOMMiVT
-	AB+HQvxb+owt0zTgTk7HrcOhUe6OUeqrg1oV9ilT/g1pbF148ufpDY+Z334lYlZSlWzzB39pB
-	dhAVgkRgr9Ba8J2nF8CMmYzdvSNtRvec5Fl7AQ==
+X-Provags-ID: V03:K1:MUxknIyAlww1SwVDciJLAafvYWAlnxkCPoZ4BNt5hBF/41lAK2r
+	XoPVt9xO//K/COuscd/K0Eu4EZmKIjEMinhEWSm6TDgq/ewMDnhzWcR8Yt54u1x8WWHYSYG
+	JbLqCmR1SXXB5Br1UGLOihFrXbgVH7bXlh1wraeO0Agnqp/MkCA8IIAhVsymdeg3xCdK44i
+	AXiU3qtbBcJXSjEzw8Lqw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Olv0kgpc8FQ=:6O/i3MAHrd/SA0VErQnKW5
+	DdJbSW8ge2AwaDFzF1UM8dBC1b6FMR+QQntnRnFUXpJ6//Fumc7MpCFCdLTdYLtaZhxcix1Hd
+	8W6YFldkHA7WfCwp8ONOYkPNLXLOB+nLT1Wj4c2QcmyR4MxWWi3gVUws7cSo3DaAg87bBeAID
+	UGoO09eF4Jt1ISxgpKKOym8hux9FC4sARINxCfQh1k2v6XH5Stowj/qmFHCNUxWQJ1A8Wyqyg
+	uDAc6LF34Qw3EDXinWn8HMGqqWEKozGUb6geZ917ITG9MbkUNz22HDG3cXrpwfDIQ7ZcPuWXj
+	EHxI2tyW1HEiSk0GZJZq2tQnmMKU4FMbrt+RTXEOpGtHMWb9WZFlNzLVa7JyOzoIK3Zkpi4wf
+	HVvwJCXmvJu3RP/r1/BV/HQMGj2m9U20dtoAT9ccnukghhK6UQpp0u8QAphj/C/xGi2Edk+4t
+	eNhu41K3Bw/29AlXvIJV3tIwN/R44zxvqnV6aY7YQMG6i397E5GexQkUEYuvrppzu+7LdvLDr
+	8Gxhi3YSZZsok1mDUQQEy419gmk0MlhQbayXzBH/4LgikeSLZ1F2yzH+Gh/f3TOkrJ1lRnhOi
+	EXAiEYVzFbMbJ7Xc4eCcT0XAb9SJPuQVr0ZzbGckpkVkBVHc8thrERC/099m7AIVVUqxaOiyk
+	UZ78phwOGDZIf1p/trCMiw8g6EmP/tF0O26r+rObIoKiqEJX5/tmsPXUKxZRugrqbdGOPvI0j
+	0BTyipO5gKnjkqn1gCYPw4Xcrwbq0OqvjHWeCg==
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.126.131
-Subject: [Qemu-devel] [PATCH v2 1/2] linux-user: add pseudo /proc/cpuinfo
- for sparc
+X-Received-From: 212.227.126.135
+Subject: [Qemu-devel] [PATCH v2 2/2] linux-user: add pseudo /proc/hardware
+ for m68k
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -68,52 +68,41 @@ Cc: Riku Voipio <riku.voipio@iki.fi>, Laurent Vivier <laurent@vivier.eu>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-SPARC libc6 debian package wants to check the cpu level to be
-installed or not:
+Debian console-setup uses /proc/hardware to guess the keyboard layout.
+If the file /proc/hardware cannot be opened, the installation fails.
 
-  WARNING: This machine has a SPARC V8 or earlier class processor.
-  Debian lenny and later does not support such old hardware
-  any longer.
+This patch adds a pseudo /proc/hardware file to report the model of
+the machine. Instead of reporting a known and fake model, it
+reports "qemu-m68k", which is true, and avoids to set the configuration
+for an Amiga/Apple/Atari and let the user to chose the good one.
 
-To avoid this, it only needs to know if the machine type is sun4u or sun4v,
-for that it reads the information from /proc/cpuinfo.
-
-Fixes: 9a93c152fcdb4ab2cd85094487b33578fd693915
-       ("linux-user: fix UNAME_MACHINE for sparc/sparc64")
+Bug: https://github.com/vivier/qemu-m68k/issues/34
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- linux-user/syscall.c | 16 +++++++++++++++-
- 1 file changed, 15 insertions(+), 1 deletion(-)
+ linux-user/syscall.c | 13 ++++++++++++-
+ 1 file changed, 12 insertions(+), 1 deletion(-)
 
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index f5ff6f5dc8a8..43b1b106765c 100644
+index 43b1b106765c..544fcd02be9a 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -6786,12 +6786,15 @@ static int is_proc_myself(const char *filename, const char *entry)
-     return 0;
+@@ -6787,7 +6787,7 @@ static int is_proc_myself(const char *filename, const char *entry)
  }
  
--#if defined(HOST_WORDS_BIGENDIAN) != defined(TARGET_WORDS_BIGENDIAN)
-+#if defined(HOST_WORDS_BIGENDIAN) != defined(TARGET_WORDS_BIGENDIAN) || \
-+    defined(TARGET_SPARC)
+ #if defined(HOST_WORDS_BIGENDIAN) != defined(TARGET_WORDS_BIGENDIAN) || \
+-    defined(TARGET_SPARC)
++    defined(TARGET_SPARC) || defined(TARGET_M68K)
  static int is_proc(const char *filename, const char *entry)
  {
      return strcmp(filename, entry) == 0;
- }
-+#endif
- 
-+#if defined(HOST_WORDS_BIGENDIAN) != defined(TARGET_WORDS_BIGENDIAN)
- static int open_net_route(void *cpu_env, int fd)
- {
-     FILE *fp;
-@@ -6836,6 +6839,14 @@ static int open_net_route(void *cpu_env, int fd)
+@@ -6847,6 +6847,14 @@ static int open_cpuinfo(void *cpu_env, int fd)
  }
  #endif
  
-+#if defined(TARGET_SPARC)
-+static int open_cpuinfo(void *cpu_env, int fd)
++#if defined(TARGET_M68K)
++static int open_hardware(void *cpu_env, int fd)
 +{
-+    dprintf(fd, "type\t\t: sun4u\n");
++    dprintf(fd, "Model:\t\tqemu-m68k\n");
 +    return 0;
 +}
 +#endif
@@ -121,13 +110,13 @@ index f5ff6f5dc8a8..43b1b106765c 100644
  static int do_openat(void *cpu_env, int dirfd, const char *pathname, int flags, mode_t mode)
  {
      struct fake_open {
-@@ -6851,6 +6862,9 @@ static int do_openat(void *cpu_env, int dirfd, const char *pathname, int flags,
-         { "cmdline", open_self_cmdline, is_proc_myself },
- #if defined(HOST_WORDS_BIGENDIAN) != defined(TARGET_WORDS_BIGENDIAN)
-         { "/proc/net/route", open_net_route, is_proc },
+@@ -6865,6 +6873,9 @@ static int do_openat(void *cpu_env, int dirfd, const char *pathname, int flags,
+ #endif
+ #if defined(TARGET_SPARC)
+         { "/proc/cpuinfo", open_cpuinfo, is_proc },
 +#endif
-+#if defined(TARGET_SPARC)
-+        { "/proc/cpuinfo", open_cpuinfo, is_proc },
++#if defined(TARGET_M68K)
++        { "/proc/hardware", open_hardware, is_proc },
  #endif
          { NULL, NULL, NULL }
      };
