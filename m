@@ -2,65 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A293E21A70
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 17:18:57 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50031 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8D93B21A7C
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 17:24:56 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50112 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRedL-0000WY-AC
-	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 11:18:55 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51348)
+	id 1hRej9-0004i6-PE
+	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 11:24:55 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51852)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hRec4-0008Sl-9G
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 11:17:38 -0400
+	(envelope-from <groug@kaod.org>) id 1hRef9-0001Jd-Fd
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 11:20:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hRec3-0000DM-DK
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 11:17:36 -0400
-Received: from mail-ot1-x32e.google.com ([2607:f8b0:4864:20::32e]:34590)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hRec3-000092-4F
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 11:17:35 -0400
-Received: by mail-ot1-x32e.google.com with SMTP id l17so7084768otq.1
-	for <qemu-devel@nongnu.org>; Fri, 17 May 2019 08:17:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=Fx7pwgDGopZal2NXN9oHRgIxBnQ1rAMA2tgrM8gsQGs=;
-	b=s+AC+XMuBqIIVJVNrmNHIzcD5ZLgAYjnxoTVxbzLFbsIDAQPS75GoRx5UMLvxbxOBj
-	V2jAw2SCcSRdPtWzy7GqDEG1XK08ee6X93ZkL39vzehhWMS/Ivnf8WMWoHxh/TJ3+I0i
-	Z3qobYYFX8KebC/l/eEKHQSfDTKWHa3zEt9Vu3F6lrzeV6Nb0fwvx2nayU7afvdAIRof
-	uMrCevs1idHsdUdq2EOGmqinaCoOJVkIQ/WPXtNhowB3hfZ6UjCqj1h7xw0ndUXYLPUP
-	X0afvZ2zSfh79knfqMk72uAW05FrisJK4G2fwooXgkMxe0LGtwd4ckidzPt0DiIre8CQ
-	Hdjw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=Fx7pwgDGopZal2NXN9oHRgIxBnQ1rAMA2tgrM8gsQGs=;
-	b=twiaIP+UYQVzR7tqKsMrRytoCFf4XOgkbHoQvqRPurwf0TDfn5zPSjKcQ3jTQwNXCO
-	egN6g7oWJUecBvE8R2m34nwaz8zrbXQBB6RIBmVgABVK1eJhlL2RU2ilOM3A50VZf5cn
-	/ecrBDzv1vhJ6HrqolW6PAWtlp6UKsfBq6EBlk4xcNMMcDYqe3rui61ldQyzwxjuxNPD
-	2SA0c+8XwPxLIYUkdRop/Hff68s7/9DDBJBoNV8HY27zmpUJJysRXMEtWSMKBZjvjOX6
-	zCOzWDNh2Nb+daGAcx7bUgbpwbMdN1dmW2S6fCj/BrgUDlrFXlo4ju0senh+7vZ8C0rv
-	vLtw==
-X-Gm-Message-State: APjAAAVmH3OvX23L3sOwDWmZ7+1QrlGr2gq5cVDUDiayMcDR3pEPYAVI
-	Kp1FCDKL9hsfQfIaK2YlzJ7ViqnUhBWDhdQC7GkCpJHnmnA=
-X-Google-Smtp-Source: APXvYqziH2CUuJnhrou6bwe1dacubVSr85O92hvx4psWaqKzFRcM+eeKJs6ye8dl/VuuR8GCVjZmDNTwd8M5XIhdhFA=
-X-Received: by 2002:a05:6830:149a:: with SMTP id
-	s26mr5608246otq.221.1558106253778; 
-	Fri, 17 May 2019 08:17:33 -0700 (PDT)
+	(envelope-from <groug@kaod.org>) id 1hRef8-0000Yi-8v
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 11:20:47 -0400
+Received: from 1.mo6.mail-out.ovh.net ([46.105.56.136]:38712)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <groug@kaod.org>) id 1hRef8-0000An-30
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 11:20:46 -0400
+Received: from player791.ha.ovh.net (unknown [10.108.42.145])
+	by mo6.mail-out.ovh.net (Postfix) with ESMTP id 000991CBD26
+	for <qemu-devel@nongnu.org>; Fri, 17 May 2019 17:20:40 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+	[82.253.208.248]) (Authenticated sender: groug@kaod.org)
+	by player791.ha.ovh.net (Postfix) with ESMTPSA id 3BDD95C7120B;
+	Fri, 17 May 2019 15:20:38 +0000 (UTC)
+Date: Fri, 17 May 2019 17:20:37 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Thomas Huth <thuth@redhat.com>
+Message-ID: <20190517172037.7f8814f9@bahia.lan>
+In-Reply-To: <7b4b93c9-761b-edbb-4538-b4e549afd48e@redhat.com>
+References: <155774341935.175576.9256391991091401927.stgit@bahia.lan>
+	<155774365069.175576.5671141718062840805.stgit@bahia.lan>
+	<20190517151711.7262e276@bahia.lan>
+	<7b4b93c9-761b-edbb-4538-b4e549afd48e@redhat.com>
+X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20190517094029.7667-1-mark.cave-ayland@ilande.co.uk>
-In-Reply-To: <20190517094029.7667-1-mark.cave-ayland@ilande.co.uk>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 17 May 2019 16:17:22 +0100
-Message-ID: <CAFEAcA8j+zjxb8SNMbKgTAixXHg1z0pbc9tYeom=UwO-5d5QAg@mail.gmail.com>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::32e
-Subject: Re: [Qemu-devel] [PULL 0/8] qemu-sparc queue 20190517
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 15080303355635210546
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddruddtvddgkeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 46.105.56.136
+Subject: Re: [Qemu-devel] [PATCH v2 2/2] virtfs: Fix documentation of -fsdev
+ and -virtfs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -72,33 +59,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 17 May 2019 at 10:42, Mark Cave-Ayland
-<mark.cave-ayland@ilande.co.uk> wrote:
->
-> The following changes since commit d8276573da58e8ce78dab8c46dd660efd664bcb7:
->
->   Merge remote-tracking branch 'remotes/rth/tags/pull-tcg-20190510' into staging (2019-05-16 13:15:08 +0100)
->
-> are available in the git repository at:
->
->   git://github.com/mcayland/qemu.git tags/qemu-sparc-20190517
->
-> for you to fetch changes up to 918b8adeb20d9635b16ffde7a413b15f6761b7f3:
->
->   MAINTAINERS: add myself for leon3 (2019-05-17 09:17:11 +0100)
->
-> ----------------------------------------------------------------
-> qemu-sparc queue
+On Fri, 17 May 2019 15:22:48 +0200
+Thomas Huth <thuth@redhat.com> wrote:
 
+> On 17/05/2019 15.17, Greg Kurz wrote:
+> > On Mon, 13 May 2019 12:34:10 +0200
+> > Greg Kurz <groug@kaod.org> wrote:
+> >   
+> >> This fixes several things:
+> >> - add "id" description to -virtfs documentation
+> >> - split the description into several lines in both usage and documentation
+> >>   for accurateness and clarity
+> >> - add documentation and usage of the synth fsdriver
+> >> - add "throttling.*" description to -fsdev local
+> >> - add some missing periods
+> >> - add proper reference to the virtfs-proxy-helper(1) manual page
+> >> - document that the virtio device may be either virtio-9p-pci, virtio-9p-ccw
+> >>   or virtio-9p-device, depending on the machine type
+> >>
+> >> Buglink: https://bugs.launchpad.net/qemu/+bug/1581976
+> >> Signed-off-by: Greg Kurz <groug@kaod.org>
+> >> ---
+> >> v2: - mention virtfs-proxy-helper(1) change in the changelog
+> >>     - mention virtio-9p-ccw and virtio-9p-device
+> >> ---  
+> > 
+> > Thomas,
+> > 
+> > Unless you (or anyone else) have some objections, I intend to apply this patch
+> > and issue a pull request in a near future.  
+> 
+> Fine for me - I just lack the detailed 9p knowledge to provide a real
+> "Reviewed-by" here, I hope you were not waiting for it?
 
-Applied, thanks.
+Heh, no pb, I wasn't expecting a detailed review.
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
-for any user-visible changes.
+> ... but if it
+> helps, I can at least say:
+> 
+> Acked-by: Thomas Huth <thuth@redhat.com>
 
--- PMM
+Works for me :)
+
+Thanks Thomas !
+
+--
+Greg
 
