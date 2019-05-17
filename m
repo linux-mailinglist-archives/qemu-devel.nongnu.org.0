@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21B0B21746
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 12:51:43 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46242 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B64DB21764
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 12:59:14 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46360 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRaSk-0008PU-7P
-	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 06:51:42 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49256)
+	id 1hRaa1-000793-S4
+	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 06:59:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49892)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <david@redhat.com>) id 1hRa6Z-0006HC-Je
+	(envelope-from <david@redhat.com>) id 1hRa6Z-0006uC-9n
 	for qemu-devel@nongnu.org; Fri, 17 May 2019 06:28:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <david@redhat.com>) id 1hRa1Q-0004wJ-4L
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 06:23:29 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54052)
+	(envelope-from <david@redhat.com>) id 1hRa1R-0004x4-Qf
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 06:23:30 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37562)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <david@redhat.com>)
-	id 1hRa1P-0004vl-VM; Fri, 17 May 2019 06:23:28 -0400
+	id 1hRa1R-0004wq-Ll; Fri, 17 May 2019 06:23:29 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
 	[10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 37FBA3179165;
-	Fri, 17 May 2019 10:23:27 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 045E7104C1;
+	Fri, 17 May 2019 10:23:29 +0000 (UTC)
 Received: from t460s.redhat.com (unknown [10.36.118.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id AC0D659473;
-	Fri, 17 May 2019 10:23:25 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 7D5C734914;
+	Fri, 17 May 2019 10:23:27 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 17 May 2019 12:21:20 +0200
-Message-Id: <20190517102145.21812-16-david@redhat.com>
+Date: Fri, 17 May 2019 12:21:21 +0200
+Message-Id: <20190517102145.21812-17-david@redhat.com>
 In-Reply-To: <20190517102145.21812-1-david@redhat.com>
 References: <20190517102145.21812-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.41]);
-	Fri, 17 May 2019 10:23:27 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.38]);
+	Fri, 17 May 2019 10:23:29 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL SUBSYSTEM s390x 15/40] s390x/tcg: Implement
- VECTOR LOAD COMPLEMENT
+Subject: [Qemu-devel] [PULL SUBSYSTEM s390x 16/40] s390x/tcg: Implement
+ VECTOR LOAD POSITIVE
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -63,54 +63,41 @@ Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We can reuse an existing gvec helper for negating the values.
+Similar to VECTOR LOAD COMPLEMENT.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
  target/s390x/insn-data.def      |  2 ++
- target/s390x/translate_vx.inc.c | 16 ++++++++++++++++
- 2 files changed, 18 insertions(+)
+ target/s390x/translate_vx.inc.c | 13 +++++++++++++
+ 2 files changed, 15 insertions(+)
 
 diff --git a/target/s390x/insn-data.def b/target/s390x/insn-data.def
-index add174b793..07868ff082 100644
+index 07868ff082..fc8886ff42 100644
 --- a/target/s390x/insn-data.def
 +++ b/target/s390x/insn-data.def
-@@ -1094,6 +1094,8 @@
-     F(0xe7b4, VGFM,    VRR_c, V,   0, 0, 0, 0, vgfm, 0, IF_VEC)
- /* VECTOR GALOIS FIELD MULTIPLY SUM AND ACCUMULATE */
+@@ -1096,6 +1096,8 @@
      F(0xe7bc, VGFMA,   VRR_d, V,   0, 0, 0, 0, vgfma, 0, IF_VEC)
-+/* VECTOR LOAD COMPLEMENT */
-+    F(0xe7de, VLC,     VRR_a, V,   0, 0, 0, 0, vlc, 0, IF_VEC)
+ /* VECTOR LOAD COMPLEMENT */
+     F(0xe7de, VLC,     VRR_a, V,   0, 0, 0, 0, vlc, 0, IF_VEC)
++/* VECTOR LOAD POSITIVE */
++    F(0xe7df, VLP,     VRR_a, V,   0, 0, 0, 0, vlp, 0, IF_VEC)
 =20
  #ifndef CONFIG_USER_ONLY
  /* COMPARE AND SWAP AND PURGE */
 diff --git a/target/s390x/translate_vx.inc.c b/target/s390x/translate_vx.=
 inc.c
-index 1db5d6d152..2fc06c7cf3 100644
+index 2fc06c7cf3..566a7df6df 100644
 --- a/target/s390x/translate_vx.inc.c
 +++ b/target/s390x/translate_vx.inc.c
-@@ -209,6 +209,9 @@ static void get_vec_element_ptr_i64(TCGv_ptr ptr, uin=
-t8_t reg, TCGv_i64 enr,
-                      16)
- #define gen_gvec_dup64i(v1, c) \
-     tcg_gen_gvec_dup64i(vec_full_reg_offset(v1), 16, 16, c)
-+#define gen_gvec_fn_2(fn, es, v1, v2) \
-+    tcg_gen_gvec_##fn(es, vec_full_reg_offset(v1), vec_full_reg_offset(v=
-2), \
-+                      16, 16)
- #define gen_gvec_fn_3(fn, es, v1, v2, v3) \
-     tcg_gen_gvec_##fn(es, vec_full_reg_offset(v1), vec_full_reg_offset(v=
-2), \
-                       vec_full_reg_offset(v3), 16, 16)
-@@ -1521,3 +1524,16 @@ static DisasJumpType op_vgfma(DisasContext *s, Dis=
-asOps *o)
-                get_field(s->fields, v3), get_field(s->fields, v4), &g[es=
-]);
+@@ -1537,3 +1537,16 @@ static DisasJumpType op_vlc(DisasContext *s, Disas=
+Ops *o)
+     gen_gvec_fn_2(neg, es, get_field(s->fields, v1), get_field(s->fields=
+, v2));
      return DISAS_NEXT;
  }
 +
-+static DisasJumpType op_vlc(DisasContext *s, DisasOps *o)
++static DisasJumpType op_vlp(DisasContext *s, DisasOps *o)
 +{
 +    const uint8_t es =3D get_field(s->fields, m3);
 +
@@ -119,7 +106,7 @@ asOps *o)
 +        return DISAS_NORETURN;
 +    }
 +
-+    gen_gvec_fn_2(neg, es, get_field(s->fields, v1), get_field(s->fields=
++    gen_gvec_fn_2(abs, es, get_field(s->fields, v1), get_field(s->fields=
 , v2));
 +    return DISAS_NEXT;
 +}
