@@ -2,62 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AA8F321776
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 13:07:16 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46554 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C75721778
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 13:07:50 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46566 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRahn-0006FJ-Ns
-	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 07:07:15 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52910)
+	id 1hRaiL-0006xO-BC
+	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 07:07:49 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52301)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hRaIL-0000LP-Gq
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 06:40:58 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hRaEz-0005wc-3U
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 06:37:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hRaIK-00034j-3S
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 06:40:57 -0400
-Received: from indium.canonical.com ([91.189.90.7]:45286)
+	(envelope-from <peter.maydell@linaro.org>) id 1hRaEw-000054-5m
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 06:37:27 -0400
+Received: from mail-ot1-x333.google.com ([2607:f8b0:4864:20::333]:35005)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hRaIJ-00033o-Td
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 06:40:56 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
-	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hRaIH-0001Su-O1
-	for <qemu-devel@nongnu.org>; Fri, 17 May 2019 10:40:53 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id B4C332E80C7
-	for <qemu-devel@nongnu.org>; Fri, 17 May 2019 10:40:53 +0000 (UTC)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hRaEv-0008Vp-Qr
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 06:37:26 -0400
+Received: by mail-ot1-x333.google.com with SMTP id n14so6308795otk.2
+	for <qemu-devel@nongnu.org>; Fri, 17 May 2019 03:37:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc:content-transfer-encoding;
+	bh=AkgTRip8nQCQCyswcZVXKG+vuWR6epbYalUUvjzFM8I=;
+	b=HEFiFr/12zw0EHkEwL6EvLMoFZm1IRRR/fDl0g/LhuIF4e/99IUF8xIDALZNACPYed
+	Fk71ZRRwG+ndXnHXKyxx4ue+5bMyEpELWwokRK7yKYMsJAkPmqcQcie4s6wD6zrMa+LX
+	HlOFbhLzUZTaacVLkSGSXXPlVUM29wRUKNRfS+mhuKvGanq+uR45WN7LcEiFdsSlGKyU
+	TDR/Gmz4ceNgbUyHEXxN2ru/wK6A+bVQD3szdvEdtIdnPZTiHbwpUr+Qn2FSbIy5dxq7
+	28DAe04+kYy1SA2YJ7mAo6sjVk5Yx8jpg5uI2nY9ODf4uTNWk/wd/asHanDJs07WVqOA
+	ldKw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=AkgTRip8nQCQCyswcZVXKG+vuWR6epbYalUUvjzFM8I=;
+	b=aA4C1NTVeqQyYSrwzgoiKYlLlc/3rrOTchvcRxe7KprYTeeJT4BzvtODhGXEa76W6Y
+	I56U/6i2rnh/3rmaSvqw50uAxua44zImX5hKBr4+q3cVCRMYIJdEvQmuxAQopw4CVnUo
+	s1gYHb6ZmufpWKUbTvnEeCpNqkW5dWdSVbsQQ6lZ3IwXXkZ1cgCM4/06ASxR/ZX4bYKu
+	/lkQnrh9kfu+xbZKIhTLQ2CdyIwbiFHJSa/bLKByrIxEdtMUIIWIJNolB3x7QKrbkRtf
+	xJicVdA9Q1wfBUqLk/pSaoIoit5HCK7EichlhLUe5v6Wj2znwNTABFgzQpoSDsK8PhK5
+	OCTw==
+X-Gm-Message-State: APjAAAW+JRxJiVlb9y5gNLPMukqo6BnWI8rHCgDoVmjbEcYdoDeqFR9E
+	UaC/rdS1Kunbpm6aRkR2OCeve7gpyQh1AY0SpOnclg==
+X-Google-Smtp-Source: APXvYqxIaZtqQ/n2aLNrgSmKvoGNHiXw5kAz1CJNZixGVnKa5ex9YdijLuf1CcB1h+SDgcDW4b9t+qoO5GqoWmhP5ZI=
+X-Received: by 2002:a05:6830:149a:: with SMTP id
+	s26mr4678233otq.221.1558089444770; 
+	Fri, 17 May 2019 03:37:24 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
+References: <1558065678-21543-1-git-send-email-pbonzini@redhat.com>
+In-Reply-To: <1558065678-21543-1-git-send-email-pbonzini@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 17 May 2019 11:37:13 +0100
+Message-ID: <CAFEAcA_7W9sj3syAsU6aBsyn+D1kjFVLfjeVvZXRvf_HYZOrWA@mail.gmail.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Fri, 17 May 2019 10:33:53 -0000
-From: =?utf-8?q?Alex_Benn=C3=A9e?= <alex.bennee@linaro.org>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
-	assignee=None; 
-X-Launchpad-Bug-Tags: mips testcase
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jakub philmd
-X-Launchpad-Bug-Reporter: Jakub Jermar (jakub)
-X-Launchpad-Bug-Modifier: =?utf-8?q?Alex_Benn=C3=A9e_=28ajbennee=29?=
-References: <155557460746.17507.17649109204793492383.malonedeb@soybean.canonical.com>
-Message-Id: <155808923403.14518.16360837123007279773.launchpad@gac.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18962";
-	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 7c76ef2aeaac275a85dc89ba18506f6a2ffdeda7
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1825311] Re: mips_cpu_handle_mmu_fault renders
- all accessed pages executable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::333
+Subject: Re: [Qemu-devel] [PULL v2 00/21] Misc patches for 2019-05-15
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,31 +74,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1825311 <1825311@bugs.launchpad.net>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-** Tags added: testcase
+On Fri, 17 May 2019 at 05:02, Paolo Bonzini <pbonzini@redhat.com> wrote:
+>
+> The following changes since commit e329ad2ab72c43b56df88b34954c2c7d839bb3=
+73:
+>
+>   Merge remote-tracking branch 'remotes/rth/tags/pull-tcg-20190513' into =
+staging (2019-05-14 10:08:47 +0100)
+>
+> are available in the git repository at:
+>
+>
+>   git://github.com/bonzini/qemu.git tags/for-upstream
+>
+> for you to fetch changes up to ff4a1ff34ba90203845d9668d4ef7d7b5973c64b:
+>
+>   hw/net/ne2000: Extract the PCI device from the chipset common code (201=
+9-05-15 11:56:54 +0200)
+>
+> ----------------------------------------------------------------
+> Mostly bugfixes and cleanups, the most important being
+> "megasas: fix mapped frame size" from Peter Lieven.
+> In addition, -realtime is marked as deprecated.
+>
+> ----------------------------------------------------------------
 
--- =
+[staging e36f21cc64] Merge remote-tracking branch
+'remotes/bonzini/tags/for-upstream' into staging
+ Date: Fri May 17 11:35:53 2019 +0100
+    Signed-off-by: Philippe Mathieu-Daud=C3=83=C2=A9 <philmd@redhat.com>
+    Signed-off-by: Philippe Mathieu-Daud=C3=83=C2=A9 <philmd@redhat.com>
+    Signed-off-by: Philippe Mathieu-Daud=C3=83=C2=A9 <philmd@redhat.com>
+ERROR: pull request includes tag with UTF-8 error in person name
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1825311
 
-Title:
-  mips_cpu_handle_mmu_fault renders all accessed pages executable
-
-Status in QEMU:
-  In Progress
-
-Bug description:
-  On MIPS, data accesses to pages mapped in the TLB result in
-  mips_cpu_handle_mmu_fault() marking the page unconditionally
-  executable, even if the TLB entry has the XI bit set. Later on, when
-  there is an attempt to execute this page, no exception is generated,
-  even though TLBXI is expected.
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1825311/+subscriptions
+thanks
+-- PMM
 
