@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 434FF21D66
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 20:37:35 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52343 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16BA821D8C
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 20:40:29 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52365 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRhja-0007B0-88
-	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 14:37:34 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56302)
+	id 1hRhmO-0000sq-7Q
+	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 14:40:28 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56294)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <groug@kaod.org>) id 1hRhfE-00047U-Lh
+	(envelope-from <groug@kaod.org>) id 1hRhfE-00046X-E3
 	for qemu-devel@nongnu.org; Fri, 17 May 2019 14:33:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <groug@kaod.org>) id 1hRhfD-0006Hk-GH
+	(envelope-from <groug@kaod.org>) id 1hRhfD-0006H9-8O
 	for qemu-devel@nongnu.org; Fri, 17 May 2019 14:33:04 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:38062
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:38060
 	helo=mx0a-001b2d01.pphosted.com)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <groug@kaod.org>) id 1hRhfD-0006GH-B0
+	(Exim 4.71) (envelope-from <groug@kaod.org>) id 1hRhfD-0006GG-3V
 	for qemu-devel@nongnu.org; Fri, 17 May 2019 14:33:03 -0400
 Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
 	by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
-	x4HINq76073046
+	x4HINoG9072969
 	for <qemu-devel@nongnu.org>; Fri, 17 May 2019 14:33:01 -0400
 Received: from e06smtp01.uk.ibm.com (e06smtp01.uk.ibm.com [195.75.94.97])
-	by mx0a-001b2d01.pphosted.com with ESMTP id 2shyuswkfs-1
+	by mx0a-001b2d01.pphosted.com with ESMTP id 2shyuswkfk-1
 	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <qemu-devel@nongnu.org>; Fri, 17 May 2019 14:33:01 -0400
+	for <qemu-devel@nongnu.org>; Fri, 17 May 2019 14:33:00 -0400
 Received: from localhost
 	by e06smtp01.uk.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use
 	Only! Violators will be prosecuted
 	for <qemu-devel@nongnu.org> from <groug@kaod.org>;
 	Fri, 17 May 2019 19:32:59 +0100
-Received: from b06cxnps4074.portsmouth.uk.ibm.com (9.149.109.196)
+Received: from b06cxnps3075.portsmouth.uk.ibm.com (9.149.109.195)
 	by e06smtp01.uk.ibm.com (192.168.101.131) with IBM ESMTP SMTP Gateway:
 	Authorized Use Only! Violators will be prosecuted; 
 	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
 	Fri, 17 May 2019 19:32:57 +0100
-Received: from d06av22.portsmouth.uk.ibm.com (d06av22.portsmouth.uk.ibm.com
-	[9.149.105.58])
-	by b06cxnps4074.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with
-	ESMTP id x4HIWuw310223722
+Received: from d06av21.portsmouth.uk.ibm.com (d06av21.portsmouth.uk.ibm.com
+	[9.149.105.232])
+	by b06cxnps3075.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with
+	ESMTP id x4HIWunC49676306
 	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
 	verify=OK); Fri, 17 May 2019 18:32:56 GMT
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 5A3AE4C044;
-	Fri, 17 May 2019 18:32:56 +0000 (GMT)
-Received: from d06av22.portsmouth.uk.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 47E8D4C052;
+Received: from d06av21.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id C96F052065;
 	Fri, 17 May 2019 18:32:56 +0000 (GMT)
 Received: from smtp.lab.toulouse-stg.fr.ibm.com (unknown [9.101.4.1])
-	by d06av22.portsmouth.uk.ibm.com (Postfix) with ESMTP;
+	by d06av21.portsmouth.uk.ibm.com (Postfix) with ESMTP id A5E8452050;
 	Fri, 17 May 2019 18:32:56 +0000 (GMT)
 Received: from bahia.ibmuc.com (sig-9-145-156-103.de.ibm.com [9.145.156.103])
 	by smtp.lab.toulouse-stg.fr.ibm.com (Postfix) with ESMTP id
-	CA06522019A; Fri, 17 May 2019 20:32:55 +0200 (CEST)
+	3F3BD2203F3; Fri, 17 May 2019 20:32:56 +0200 (CEST)
 From: Greg Kurz <groug@kaod.org>
 To: qemu-devel@nongnu.org
-Date: Fri, 17 May 2019 20:32:37 +0200
+Date: Fri, 17 May 2019 20:32:38 +0200
 X-Mailer: git-send-email 2.17.2
 In-Reply-To: <20190517183240.689188-1-groug@kaod.org>
 References: <20190517183240.689188-1-groug@kaod.org>
 X-TM-AS-GCONF: 00
-x-cbid: 19051718-4275-0000-0000-00000335EB46
+x-cbid: 19051718-4275-0000-0000-00000335EB45
 X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19051718-4276-0000-0000-0000384577DB
-Message-Id: <20190517183240.689188-4-groug@kaod.org>
+x-cbparentid: 19051718-4276-0000-0000-0000384577DC
+Message-Id: <20190517183240.689188-5-groug@kaod.org>
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
 	definitions=2019-05-17_11:, , signatures=0
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
@@ -78,8 +75,8 @@ X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
 	scancount=1 engine=8.0.1-1810050000 definitions=main-1905170108
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
 X-Received-From: 148.163.158.5
-Subject: [Qemu-devel] [PULL 3/6] fsdev: Move some types definition to
- qemu-fsdev.c
+Subject: [Qemu-devel] [PULL 4/6] fsdev: Error out when unsupported option is
+ passed
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -95,90 +92,122 @@ Cc: Peter Maydell <peter.maydell@linaro.org>, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It would make sense for these types to be defined in a header file if
-we had an API for fsdrivers to register themselves. In practice, we
-only have three of them and it is very unlikely we add new ones since
-the future of file sharing between host and guest is the upcoming
-virtio-fs.
+Each fsdriver only supports a subset of the options that can be passed
+to -fsdev. Unsupported options are simply ignored. This could cause the
+user to erroneously think QEMU has a bug.
 
-Move the types to qemu-fsdev.c instead since they are only used there.
+Enforce strict checking of supported options for all fsdrivers. This
+shouldn't impact libvirt, since it doesn't know about the synth and
+proxy fsdrivers.
 
 Signed-off-by: Greg Kurz <groug@kaod.org>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 ---
- fsdev/qemu-fsdev.c | 23 +++++++++++++++++++++++
- fsdev/qemu-fsdev.h | 24 ------------------------
- 2 files changed, 23 insertions(+), 24 deletions(-)
+ fsdev/qemu-fsdev.c | 74 ++++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 71 insertions(+), 3 deletions(-)
 
 diff --git a/fsdev/qemu-fsdev.c b/fsdev/qemu-fsdev.c
-index 54cb36a2124b..e972bd698cf5 100644
+index e972bd698cf5..077a8c4e2bca 100644
 --- a/fsdev/qemu-fsdev.c
 +++ b/fsdev/qemu-fsdev.c
-@@ -18,6 +18,29 @@
- #include "qemu/error-report.h"
- #include "qemu/option.h"
+@@ -34,6 +34,7 @@
+ typedef struct FsDriverTable {
+     const char *name;
+     FileOperations *ops;
++    const char **opts;
+ } FsDriverTable;
  
-+/*
-+ * A table to store the various file systems and their callback operations.
-+ * -----------------
-+ * fstype | ops
-+ * -----------------
-+ *  local | local_ops
-+ *  .     |
-+ *  .     |
-+ *  .     |
-+ *  .     |
-+ * -----------------
-+ *  etc
-+ */
-+typedef struct FsDriverTable {
-+    const char *name;
-+    FileOperations *ops;
-+} FsDriverTable;
-+
-+typedef struct FsDriverListEntry {
-+    FsDriverEntry fse;
-+    QTAILQ_ENTRY(FsDriverListEntry) next;
-+} FsDriverListEntry;
-+
+ typedef struct FsDriverListEntry {
+@@ -44,12 +45,75 @@ typedef struct FsDriverListEntry {
  static QTAILQ_HEAD(, FsDriverListEntry) fsdriver_entries =
      QTAILQ_HEAD_INITIALIZER(fsdriver_entries);
  
-diff --git a/fsdev/qemu-fsdev.h b/fsdev/qemu-fsdev.h
-index 844159d1e1ff..52a53977701a 100644
---- a/fsdev/qemu-fsdev.h
-+++ b/fsdev/qemu-fsdev.h
-@@ -14,30 +14,6 @@
- #define QEMU_FSDEV_H
- #include "file-op-9p.h"
++#define COMMON_FS_DRIVER_OPTIONS "id", "fsdriver", "readonly"
++
+ static FsDriverTable FsDrivers[] = {
+-    { .name = "local", .ops = &local_ops},
+-    { .name = "synth", .ops = &synth_ops},
+-    { .name = "proxy", .ops = &proxy_ops},
++    {
++        .name = "local",
++        .ops = &local_ops,
++        .opts = (const char * []) {
++            COMMON_FS_DRIVER_OPTIONS,
++            "security_model",
++            "path",
++            "writeout",
++            "fmode",
++            "dmode",
++            "throttling.bps-total",
++            "throttling.bps-read",
++            "throttling.bps-write",
++            "throttling.iops-total",
++            "throttling.iops-read",
++            "throttling.iops-write",
++            "throttling.bps-total-max",
++            "throttling.bps-read-max",
++            "throttling.bps-write-max",
++            "throttling.iops-total-max",
++            "throttling.iops-read-max",
++            "throttling.iops-write-max",
++            "throttling.bps-total-max-length",
++            "throttling.bps-read-max-length",
++            "throttling.bps-write-max-length",
++            "throttling.iops-total-max-length",
++            "throttling.iops-read-max-length",
++            "throttling.iops-write-max-length",
++            "throttling.iops-size",
++        },
++    },
++    {
++        .name = "synth",
++        .ops = &synth_ops,
++        .opts = (const char * []) {
++            COMMON_FS_DRIVER_OPTIONS,
++        },
++    },
++    {
++        .name = "proxy",
++        .ops = &proxy_ops,
++        .opts = (const char * []) {
++            COMMON_FS_DRIVER_OPTIONS,
++            "socket",
++            "sock_fd",
++            "writeout",
++        },
++    },
+ };
  
--
--/*
-- * A table to store the various file systems and their callback operations.
-- * -----------------
-- * fstype | ops
-- * -----------------
-- *  local | local_ops
-- *  .     |
-- *  .     |
-- *  .     |
-- *  .     |
-- * -----------------
-- *  etc
-- */
--typedef struct FsDriverTable {
--    const char *name;
--    FileOperations *ops;
--} FsDriverTable;
--
--typedef struct FsDriverListEntry {
--    FsDriverEntry fse;
--    QTAILQ_ENTRY(FsDriverListEntry) next;
--} FsDriverListEntry;
--
- int qemu_fsdev_add(QemuOpts *opts, Error **errp);
- FsDriverEntry *get_fsdev_fsentry(char *id);
- extern FileOperations local_ops;
++static int validate_opt(void *opaque, const char *name, const char *value,
++                        Error **errp)
++{
++    FsDriverTable *drv = opaque;
++    const char **opt;
++
++    for (opt = drv->opts; *opt; opt++) {
++        if (!strcmp(*opt, name)) {
++            return 0;
++        }
++    }
++
++    error_setg(errp, "'%s' is invalid for fsdriver '%s'", name, drv->name);
++    return -1;
++}
++
+ int qemu_fsdev_add(QemuOpts *opts, Error **errp)
+ {
+     int i;
+@@ -80,6 +144,10 @@ int qemu_fsdev_add(QemuOpts *opts, Error **errp)
+         return -1;
+     }
+ 
++    if (qemu_opt_foreach(opts, validate_opt, &FsDrivers[i], errp)) {
++        return -1;
++    }
++
+     fsle = g_malloc0(sizeof(*fsle));
+     fsle->fse.fsdev_id = g_strdup(fsdev_id);
+     fsle->fse.ops = FsDrivers[i].ops;
 -- 
 2.17.2
 
