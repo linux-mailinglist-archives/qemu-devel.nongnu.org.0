@@ -2,78 +2,56 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D89CE21D4F
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 20:31:08 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52246 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3246121D4B
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 20:27:46 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52184 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRhdL-0002go-OO
-	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 14:31:07 -0400
+	id 1hRha5-00083V-3g
+	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 14:27:45 -0400
 Received: from eggs.gnu.org ([209.51.188.92]:54537)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hRhYA-0006d9-86
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 14:25:47 -0400
+	(envelope-from <ehabkost@redhat.com>) id 1hRhXw-0006d9-K0
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 14:25:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hRhSg-0003D5-K3
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 14:20:07 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:44205)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hRhSg-0003Ae-CA
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 14:20:06 -0400
-Received: by mail-pg1-x544.google.com with SMTP id z16so3650942pgv.11
-	for <qemu-devel@nongnu.org>; Fri, 17 May 2019 11:20:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=qNnmv261yOj3OhLx4yhO/zlMgNmWD/pODlnvKhjfp7A=;
-	b=eJfpbGcZSqw+xHFGBkpsU7HTAet5xnsr9ztpqrAj6cq+NFtGOvsDgxcmFw3dKQseiK
-	QRgbpz2M7ykHCpga4/AypJA+ZlUTd/HoSbmsE2ze3FiDZW+4VGgY2TUBuYNej+2ciiym
-	YbqjTn4arzWQSBArjoLZ7pnTGjKk0GHnslHK+UXjgeDiQWN2jDDKhVc7Rzdq2QjtYxw3
-	EncOWkIm+kMMmLp1C8SEKwm+cBv9ZhIEMn0GLi8QUZaLP44g+JDTTBIUG9A4vZmszTIC
-	dDWJ8ZbeVYiV3sdpeX6R7aPhEH5v39U2sVjNlbOTwAgGyNQPFvth9rlx2nuZH5bgl0hu
-	9+Fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=qNnmv261yOj3OhLx4yhO/zlMgNmWD/pODlnvKhjfp7A=;
-	b=dFSc/1tVt47JcHUjwhUZxw0K5mn+kaGW/wT4suHJAYrt+3/8e20EDgfS4xRVxYd73A
-	CBE/Yh/t1QxD3A6LayWowdITYSfskLOWDHwUYbxSAp0WCsCTSoui7AJG3gZyL3Bgzy5K
-	wE+Pbe3I8A4GxBydDp1S+Xmn+KmukaF+pzbNdTHdzY0434A/DSrmnvTFJHBhfgMvKZ7E
-	qV6bFMly1b4mX7IyYyFVLvQ8wmmLFA+wbqr1AGLSlzh99S2RypwDR+75b2dSoAIr03U5
-	yCPVebaAWb391FqQGTOkH6p+eGLo5vcSOSausX4Q2zvoYCtqqHmlIe5bvB4MlLFAaL7+
-	vNSw==
-X-Gm-Message-State: APjAAAV/jVbpRDWuzEr3JnXX10U5aWOUwPR27CbqfwGfOIpu9ZW432zL
-	SemzJfkvHeJmb9GoErwDgOy/HA==
-X-Google-Smtp-Source: APXvYqz5TmXpGBqPSMviILY9MC7D5TV/LR2/EH4Z3RpLjT607a1PosKBJnVhw7hkUsgG/VAb+SNRLg==
-X-Received: by 2002:a62:e117:: with SMTP id q23mr62687857pfh.60.1558117204886; 
-	Fri, 17 May 2019 11:20:04 -0700 (PDT)
-Received: from [192.168.1.11] (97-113-13-231.tukw.qwest.net. [97.113.13.231])
-	by smtp.gmail.com with ESMTPSA id
-	h11sm10788508pfn.170.2019.05.17.11.20.03
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 17 May 2019 11:20:04 -0700 (PDT)
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20190515203112.506-1-david@redhat.com>
-	<20190515203112.506-5-david@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <f2659286-a445-cfcb-56d6-3afa61757773@linaro.org>
-Date: Fri, 17 May 2019 11:20:01 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <ehabkost@redhat.com>) id 1hRhXv-0008Ql-EP
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 14:25:32 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55044)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hRhXv-0008Pi-5p
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 14:25:31 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+	[10.5.11.16])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id CD8D7C04BD48;
+	Fri, 17 May 2019 18:25:28 +0000 (UTC)
+Received: from localhost (ovpn-116-14.gru2.redhat.com [10.97.116.14])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 17FD35C21E;
+	Fri, 17 May 2019 18:25:26 +0000 (UTC)
+Date: Fri, 17 May 2019 15:25:25 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: Yury Kotov <yury-kotov@yandex-team.ru>
+Message-ID: <20190517182525.GM4189@habkost.net>
+References: <156671554283778@vla1-1374b6242101.qloud-c.yandex.net>
+	<20190404095212.GC2678@work-vm>
+	<111121554372069@iva7-0f652523820f.qloud-c.yandex.net>
+	<880271555505167@vla1-9d3c37294942.qloud-c.yandex.net>
+	<460551557826929@iva6-8a76e93b6298.qloud-c.yandex.net>
 MIME-Version: 1.0
-In-Reply-To: <20190515203112.506-5-david@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::544
-Subject: Re: [Qemu-devel] [PATCH v1 4/5] s390x/tcg: Implement VECTOR ISOLATE
- STRING
+Content-Disposition: inline
+In-Reply-To: <460551557826929@iva6-8a76e93b6298.qloud-c.yandex.net>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.31]);
+	Fri, 17 May 2019 18:25:29 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [RFC PATCH] QEMU may write to system_memory before
+ guest starts
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -85,59 +63,142 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
-	Thomas Huth <thuth@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+	Juan Quintela <quintela@redhat.com>, Markus Armbruster <armbru@redhat.com>,
+	QEMU Developers <qemu-devel@nongnu.org>,
+	"Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+	Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+	"wrfsh@yandex-team.ru" <wrfsh@yandex-team.ru>,
+	Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/15/19 1:31 PM, David Hildenbrand wrote:
-> +#define DEF_VISTR(BITS)                                                        \
-> +static int vistr##BITS(void *v1, const void *v2)
-> +{
-> +    S390Vector tmp = {};
-> +    int i, cc = 3;
-> +
-> +    for (i = 0; i < (128 / BITS); i++) {
-> +        const uint##BITS##_t data = s390_vec_read_element##BITS(v2, i);
-> +
-> +        if (!data) {
-> +            cc = 0;
-> +            break;
-> +        }
-> +        s390_vec_write_element##BITS(&tmp, i, data);
-> +    }
-> +    *(S390Vector *)v1 = tmp;
-> +    return cc;
-> +}
-> +DEF_VISTR(8)
-> +DEF_VISTR(16)
-> +DEF_VISTR(32)
 
-Based on previous, this becomes
-
-    cc = 3;
-    a0 = s390_vec_read_element64(v2, 0);
-    a1 = s390_vec_read_element64(v2, 1);
-
-    z0 = zero_search(a0, m);
-    if (z0) {
-        i = clz64(z0);
-        a0 &= ~(UINT64_MAX >> i);
-        a1 = 0;
-        cc = 0;
-    } else {
-        z1 = zero_search(a1, m);
-        if (z1) {
-            i = clz64(z1);
-            a1 &= ~(UINT64_MAX >> i);
-            cc = 0;
-        }
-    }
-
-    s390_vec_write_element64(v1, 0, a0);
-    s390_vec_write_element64(v1, 1, a1);
-    return cc;
+My memory is failing here: do we still need to fix a bug where
+there are unexpected writes to system_memory, or this is just a
+request to include a mechanism to help us detect those cases in
+the future?
 
 
-r~
+On Tue, May 14, 2019 at 12:42:14PM +0300, Yury Kotov wrote:
+> Ping ping
+>=20
+> 17.04.2019, 15:46, "Yury Kotov" <yury-kotov@yandex-team.ru>:
+> > Ping
+> >
+> > 04.04.2019, 13:01, "Yury Kotov" <yury-kotov@yandex-team.ru>:
+> >> =C2=A0I saw Catherine Ho's patch series and it seems ok to me, but i=
+n this RFC I asked
+> >> =C2=A0about a way how to detect other writes which may not be covere=
+d by particular
+> >> =C2=A0fixes.
+> >> =C2=A0Perhaps this is excessive caution...
+> >>
+> >> =C2=A0Regards,
+> >> =C2=A0Yury
+> >>
+> >> =C2=A004.04.2019, 12:52, "Dr. David Alan Gilbert" <dgilbert@redhat.c=
+om>:
+> >>> =C2=A0=C2=A0* =D0=AE=D1=80=D0=B8=D0=B9 =D0=9A=D0=BE=D1=82=D0=BE=D0=B2=
+ (yury-kotov@yandex-team.ru) wrote:
+> >>>> =C2=A0=C2=A0=C2=A0Ping
+> >>>
+> >>> =C2=A0=C2=A0Is this fixed by Catherine Ho's patch series?
+> >>>
+> >>> =C2=A0=C2=A0Dave
+> >>>
+> >>>> =C2=A0=C2=A0=C2=A021.03.2019, 19:27, "Yury Kotov" <yury-kotov@yand=
+ex-team.ru>:
+> >>>> =C2=A0=C2=A0=C2=A0> Hi,
+> >>>> =C2=A0=C2=A0=C2=A0>
+> >>>> =C2=A0=C2=A0=C2=A0> 19.03.2019, 14:52, "Dr. David Alan Gilbert" <d=
+gilbert@redhat.com>:
+> >>>> =C2=A0=C2=A0=C2=A0>> =C2=A0* Peter Maydell (peter.maydell@linaro.o=
+rg) wrote:
+> >>>> =C2=A0=C2=A0=C2=A0>>> =C2=A0=C2=A0On Tue, 19 Mar 2019 at 11:03, Dr=
+. David Alan Gilbert
+> >>>> =C2=A0=C2=A0=C2=A0>>> =C2=A0=C2=A0<dgilbert@redhat.com> wrote:
+> >>>> =C2=A0=C2=A0=C2=A0>>> =C2=A0=C2=A0>
+> >>>> =C2=A0=C2=A0=C2=A0>>> =C2=A0=C2=A0> * Peter Maydell (peter.maydell=
+@linaro.org) wrote:
+> >>>> =C2=A0=C2=A0=C2=A0>>> =C2=A0=C2=A0> > I didn't think migration dis=
+tinguished between "main memory"
+> >>>> =C2=A0=C2=A0=C2=A0>>> =C2=A0=C2=A0> > and any other kind of RAMBlo=
+ck-backed memory ?
+> >>>> =C2=A0=C2=A0=C2=A0>>> =C2=A0=C2=A0>
+> >>>> =C2=A0=C2=A0=C2=A0>>> =C2=A0=C2=A0> In Yury's case there's a disti=
+nction between RAMBlock's that are mapped
+> >>>> =C2=A0=C2=A0=C2=A0>>> =C2=A0=C2=A0> with RAM_SHARED (which normall=
+y ends up as MAP_SHARED) and all others.
+> >>>> =C2=A0=C2=A0=C2=A0>>> =C2=A0=C2=A0> You can set that for main memo=
+ry by using -numa to specify a memdev
+> >>>> =C2=A0=C2=A0=C2=A0>>> =C2=A0=C2=A0> that's backed by a file and ha=
+s the share=3Don property.
+> >>>> =C2=A0=C2=A0=C2=A0>>> =C2=A0=C2=A0>
+> >>>> =C2=A0=C2=A0=C2=A0>>> =C2=A0=C2=A0> On x86 the ROMs end up as sepa=
+rate RAMBlock's that aren't affected
+> >>>> =C2=A0=C2=A0=C2=A0>>> =C2=A0=C2=A0> by that -numa/share=3Don - so =
+they don't fight Yury's trick.
+> >>>> =C2=A0=C2=A0=C2=A0>>>
+> >>>> =C2=A0=C2=A0=C2=A0>>> =C2=A0=C2=A0You can use the generic loader o=
+n x86 to load an ELF file
+> >>>> =C2=A0=C2=A0=C2=A0>>> =C2=A0=C2=A0into RAM if you want, which woul=
+d I think also trigger this.
+> >>>> =C2=A0=C2=A0=C2=A0>>
+> >>>> =C2=A0=C2=A0=C2=A0>> =C2=A0OK, although that doesn't worry me too =
+much - since in the majority
+> >>>> =C2=A0=C2=A0=C2=A0>> =C2=A0of cases Yury's trick still works well.
+> >>>> =C2=A0=C2=A0=C2=A0>>
+> >>>> =C2=A0=C2=A0=C2=A0>> =C2=A0I wonder if there's a way to make Yury'=
+s code to detect these cases
+> >>>> =C2=A0=C2=A0=C2=A0>> =C2=A0and not allow the feature; the best thi=
+ng for the moment would seem to
+> >>>> =C2=A0=C2=A0=C2=A0>> =C2=A0be to skip the aarch test that uses elf=
+ loading.
+> >>>> =C2=A0=C2=A0=C2=A0>
+> >>>> =C2=A0=C2=A0=C2=A0> Currently, I've no idea how to detect such cas=
+es, but there is an ability to
+> >>>> =C2=A0=C2=A0=C2=A0> detect memory corruption. I want to update the=
+ RFC patch to let user to map some
+> >>>> =C2=A0=C2=A0=C2=A0> memory regions as readonly until incoming migr=
+ation start.
+> >>>> =C2=A0=C2=A0=C2=A0>
+> >>>> =C2=A0=C2=A0=C2=A0> E.g.
+> >>>> =C2=A0=C2=A0=C2=A0> 1) If x-ignore-shared is enabled in command li=
+ne or memory region is marked
+> >>>> =C2=A0=C2=A0=C2=A0> =C2=A0=C2=A0=C2=A0(something like ',readonly=3D=
+on'),
+> >>>> =C2=A0=C2=A0=C2=A0> 2) Memory region is shared (,share=3Don),
+> >>>> =C2=A0=C2=A0=C2=A0> 3) And qemu is started with '-incoming' option
+> >>>> =C2=A0=C2=A0=C2=A0>
+> >>>> =C2=A0=C2=A0=C2=A0> Then map such regions as readonly until incomi=
+ng migration finished.
+> >>>> =C2=A0=C2=A0=C2=A0> Thus, the patch will be able to detect memory =
+corruption and will not affect
+> >>>> =C2=A0=C2=A0=C2=A0> normal cases.
+> >>>> =C2=A0=C2=A0=C2=A0>
+> >>>> =C2=A0=C2=A0=C2=A0> How do you think, is it needed?
+> >>>> =C2=A0=C2=A0=C2=A0>
+> >>>> =C2=A0=C2=A0=C2=A0> I already have a cleaner version of the RFC pa=
+tch, but I'm not sure about 1).
+> >>>> =C2=A0=C2=A0=C2=A0> Which way is better: enable capability in comm=
+and line, add a new option for
+> >>>> =C2=A0=C2=A0=C2=A0> memory-backend or something else.
+> >>>> =C2=A0=C2=A0=C2=A0>
+> >>>> =C2=A0=C2=A0=C2=A0>> =C2=A0Dave
+> >>>> =C2=A0=C2=A0=C2=A0>>
+> >>>> =C2=A0=C2=A0=C2=A0>>> =C2=A0=C2=A0thanks
+> >>>> =C2=A0=C2=A0=C2=A0>>> =C2=A0=C2=A0-- PMM
+> >>>> =C2=A0=C2=A0=C2=A0>> =C2=A0--
+> >>>> =C2=A0=C2=A0=C2=A0>> =C2=A0Dr. David Alan Gilbert / dgilbert@redha=
+t.com / Manchester, UK
+> >>>> =C2=A0=C2=A0=C2=A0>
+> >>>> =C2=A0=C2=A0=C2=A0> Regards,
+> >>>> =C2=A0=C2=A0=C2=A0> Yury
+> >>> =C2=A0=C2=A0--
+> >>> =C2=A0=C2=A0Dr. David Alan Gilbert / dgilbert@redhat.com / Manchest=
+er, UK
+
+--=20
+Eduardo
 
