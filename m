@@ -2,67 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8276F2125B
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 04:59:47 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40383 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 475832125F
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 05:02:20 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40442 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRT62-0004Ql-MO
-	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 22:59:46 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41920)
+	id 1hRT8V-0006cx-EJ
+	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 23:02:19 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42262)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <pbonzini@redhat.com>) id 1hRT3y-0003HT-AL
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 22:57:39 -0400
+	(envelope-from <richardw.yang@linux.intel.com>) id 1hRT5y-00053Y-BF
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 22:59:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <pbonzini@redhat.com>) id 1hRT3x-0003Az-5O
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 22:57:38 -0400
-Received: from mail-wr1-f43.google.com ([209.85.221.43]:36253)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hRT3w-0003Ah-VD
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 22:57:37 -0400
-Received: by mail-wr1-f43.google.com with SMTP id s17so5455820wru.3
-	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 19:57:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=VaY38fhqOGP9PGDK3srRL28PeYkiAkOCubxu5ar7h0w=;
-	b=D1dhoeLcvTojtOIm6TzYdvUfEFbBibfaAX43qCj0qxhDGKe93kR9o400zbjde16vNQ
-	TUVjaLRYzMTlbnULBmzQmZC1D0WUQu2jbjgRceJLOd0EQaxI5fFCVFNAgo/8qxeSxkGb
-	dF9SYzNPB0PR+qWIr4su68ZlECRrICcI80056weWK6dr3h2zG4u+1cLfa8LUXe7CGOKr
-	GkkO+nltDudJHWVfFDkTE4mlRCUvKUnzkx8pID8kYyjtv1eUJxuwct4MpAWmbSWm07/U
-	qd3oWxd5NL7KmpfTEGmX5weE9QPrTDgQk+J3wWxeV1eBwSNYYxmozgOdXXFkP9sdd0RR
-	cv7w==
-X-Gm-Message-State: APjAAAUXxIUKsghY9oZwIQ1jZRbMNxb8FpcAKjr0VyiwGTAzdWVgiYnO
-	zx6ifQUSG2ut3mMZKuPHZR9+cg==
-X-Google-Smtp-Source: APXvYqzKE8LEDwWLJOE4JJLdgs+lPK+nJedePsPCU1t8xftIdWFSEsQSJhxUF2o/JLIH0kS081et3g==
-X-Received: by 2002:adf:eb87:: with SMTP id t7mr31492093wrn.39.1558061855614; 
-	Thu, 16 May 2019 19:57:35 -0700 (PDT)
-Received: from [172.27.174.155] (23-24-245-141-static.hfc.comcastbusiness.net.
-	[23.24.245.141])
-	by smtp.gmail.com with ESMTPSA id w2sm5114184wrm.74.2019.05.16.19.57.32
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 16 May 2019 19:57:35 -0700 (PDT)
-To: whiteheadm@acm.org
-References: <CAP8WD_bf=0=tyCumcNpVLtneio+vbd4JuFMmtWqSwXWFC-7PMg@mail.gmail.com>
-	<6da0c28c-ef4f-8199-1cee-bf1f08387ff1@redhat.com>
-	<ea9cf5ec-f259-9a23-eae1-1b2250c367b0@redhat.com>
-	<CAP8WD_ZUVZJKk-tEfG8+yd6t_U9+A3a4s5_ohjU5KLP0tY5YwQ@mail.gmail.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <a471eb8d-0cc0-0205-c51d-ce3a75b6d799@redhat.com>
-Date: Fri, 17 May 2019 04:57:29 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <richardw.yang@linux.intel.com>) id 1hRT5w-00045Y-Ch
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 22:59:42 -0400
+Received: from mga04.intel.com ([192.55.52.120]:41190)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
+	id 1hRT5u-00043I-PP
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 22:59:39 -0400
+X-Amp-Result: UNKNOWN
+X-Amp-Original-Verdict: FILE UNKNOWN
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	16 May 2019 19:59:35 -0700
+X-ExtLoop1: 1
+Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
+	by FMSMGA003.fm.intel.com with ESMTP; 16 May 2019 19:59:34 -0700
+Date: Fri, 17 May 2019 10:59:03 +0800
+From: Wei Yang <richardw.yang@linux.intel.com>
+To: Philippe =?iso-8859-1?Q?Mathieu-Daud=E9?= <philmd@redhat.com>
+Message-ID: <20190517025903.GA17182@richard>
+References: <20190515121146.7248-1-mst@redhat.com>
+	<CAFEAcA95Uh=j+vGCT08+ztAc5Yk8RWGzApDZrrt5DS7XudGQhQ@mail.gmail.com>
+	<6d652ee6-ffee-6316-88f4-ba9f2a237817@redhat.com>
+	<CAP+75-XuuUamjbouNYRJzm2Qwtorwhbe+QX8BHBK_WaUc8F+7A@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <CAP8WD_ZUVZJKk-tEfG8+yd6t_U9+A3a4s5_ohjU5KLP0tY5YwQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.221.43
-Subject: Re: [Qemu-devel] Pentium Pro Feature Bugs
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAP+75-XuuUamjbouNYRJzm2Qwtorwhbe+QX8BHBK_WaUc8F+7A@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 192.55.52.120
+Subject: Re: [Qemu-devel] [PULL 00/37] pci, pc, virtio: features, fixes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -74,31 +59,104 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, "Michael S. Tsirkin" <mst@redhat.com>,
-	qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
+Reply-To: Wei Yang <richardw.yang@linux.intel.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, imammedo@redhat.com,
+	Wei Yang <richardw.yang@linux.intel.com>,
+	QEMU Developers <qemu-devel@nongnu.org>,
+	"Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17/05/19 02:30, tedheadster wrote:
-> Paolo,
->   I am running the kvm32 machine and I see a problem. Here is the
-> output of /proc/cpuinfo :
-> 
-> flags           : fpu vme de pse tsc msr pae mce cx8 apic mtrr pge mca
-> cmov constant_tsc
-> 
-> I see something rather important missing: cpuid.
-> 
-> A lot of stuff breaks without cpuid, and I am fairly sure that qemu is
-> supposed to 'hard code' in support for it. It is present with both my
-> i486 and i586 virtual machines.
-> 
-> - Matthew
-> 
+On Thu, May 16, 2019 at 08:53:04PM +0200, Philippe Mathieu-Daudé wrote:
+>On Thu, May 16, 2019 at 8:33 PM Philippe Mathieu-Daudé
+><philmd@redhat.com> wrote:
+>> On 5/16/19 6:04 PM, Peter Maydell wrote:
+>> > On Thu, 16 May 2019 at 13:17, Michael S. Tsirkin <mst@redhat.com> wrote:
+>> >>
+>> >> The following changes since commit efb4f3b62c69383a7308d7b739a3193e7c0ccae8:
+>> >>
+>> >>   Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-request' into staging (2019-05-10 14:49:36 +0100)
+>> >>
+>> >> are available in the Git repository at:
+>> >>
+>> >>   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+>> >>
+>> >> for you to fetch changes up to 0534d255dae78450d90d59db0f3a9a46b32ebd73:
+>> >>
+>> >>   tests: acpi: print error unable to dump ACPI table during rebuild (2019-05-14 21:19:14 -0400)
+>> >>
+>> >> ----------------------------------------------------------------
+>> >> pci, pc, virtio: features, fixes
+>> >>
+>> >> reconnect for vhost blk
+>> >> tests for UEFI
+>> >> misc other stuff
+>> >>
+>> >> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+>> >>
+>> >> ----------------------------------------------------------------
+>> >
+>> > Hi -- this pullreq has a conflict in default-configs/arm-softmmu.mak
+>> > because the conversion of arm to Kconfig has landed in master.
+>> > Could you rebase and fix up to use whatever the Kconfig
+>> > equivalent of these changes is, please?
+>>
+>> Culprit is "hw/acpi: Consolidate build_mcfg to pci.c"
+>>
+>> The conflict doesn't look trivial to resolve (to me) so I'd rather see
+>> it reviewed (by Thomas). I suggest to drop the patch(es) from your PR :(
+>
+>Thomas, FYI I did this to resolve the conflict:
+>
+>- keep default-configs/arm-softmmu.mak from master:
+>
+>  git checkout origin/master default-configs/arm-softmmu.mak
+>
+>- applied the following !fixup snippet:
+>
+>-- >8 --
+>--- a/hw/acpi/Kconfig
+>+++ b/hw/acpi/Kconfig
+>@@ -25,7 +25,7 @@ config ACPI_NVDIMM
+>
+> config ACPI_PCI
+>     bool
+>-    depends on ACPI
+>+    depends on ACPI && PCI
+>
+>---
+>
+>I felt it easier to review on top of "hw/acpi: Improve build modularity"
+>https://lists.gnu.org/archive/html/qemu-devel/2019-04/msg04718.html
+>
 
-That's weird... The cpuid flag does not come from QEMU, it is a "soft"
-flag determined by trying to toggle EFLAGS.ID and EFLAGS.ID behaves the
-same for all CPU models.  What else do you see in /proc/cpuinfo?
+Well, I hope this will not block the merge.
 
-Paolo
+I took a look in the change of default-configs/arm-softmmu.mak. The general
+idea from Thomas is put those hard-coded config to Kconfig.
+
+This is fine and what I need to change in my patch is to select ACPI_PCI in
+the proper place, if my understanding is correct.
+
+Two things I need to fix:
+
+  * add select ACPI_PCI in proper place of hw/arm/Kconfig
+  * add a dummy build_mcfg() for link when ACPI_PCI is not configured.
+
+Then I have two questions:
+
+  * In hw/arm/Kconfig, I don't see one option contains both PCI and ACPI. I am
+    confused where to put the select.
+  * put dummy build_mcfg() in aml-build.c works. Igor, do you like this? Or
+    you haver other preference?
+
+>Sadly both series clash :(
+>
+>Regards,
+>
+>Phil.
+
+-- 
+Wei Yang
+Help you, Help me
 
