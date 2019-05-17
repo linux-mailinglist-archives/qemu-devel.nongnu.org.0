@@ -2,52 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 47F4821C24
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 19:01:06 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:51291 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9F9ED21C38
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 19:09:29 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:51359 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRgEC-0002cv-V8
-	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 13:01:05 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40449)
+	id 1hRgMK-0006Is-8G
+	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 13:09:28 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42855)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgilbert@redhat.com>) id 1hRgCE-0001VA-CH
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 12:59:03 -0400
+	(envelope-from <kenneth.heitke@intel.com>) id 1hRgLC-0005zi-NZ
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 13:08:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgilbert@redhat.com>) id 1hRg8b-0004CG-IR
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 12:55:18 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:13792)
+	(envelope-from <kenneth.heitke@intel.com>) id 1hRgLB-0005bY-Lu
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 13:08:18 -0400
+Received: from mga11.intel.com ([192.55.52.93]:28260)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hRg8a-00045a-Ug
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 12:55:17 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 9675581DE6;
-	Fri, 17 May 2019 16:55:08 +0000 (UTC)
-Received: from work-vm (unknown [10.36.118.28])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 7F9596085B;
-	Fri, 17 May 2019 16:54:59 +0000 (UTC)
-Date: Fri, 17 May 2019 17:54:57 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Gerd Hoffmann <kraxel@redhat.com>
-Message-ID: <20190517165457.GC7070@work-vm>
-References: <20190130073426.11525-1-kraxel@redhat.com>
-	<20190130073426.11525-2-kraxel@redhat.com>
+	(Exim 4.71) (envelope-from <kenneth.heitke@intel.com>)
+	id 1hRgL9-0005UB-Cm; Fri, 17 May 2019 13:08:15 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+	by fmsmga102.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	17 May 2019 10:08:11 -0700
+Received: from unknown (HELO [10.232.112.136]) ([10.232.112.136])
+	by orsmga008-auth.jf.intel.com with ESMTP/TLS/AES256-SHA;
+	17 May 2019 10:08:10 -0700
+To: qemu-block@nongnu.org, keith.busch@intel.com, kwolf@redhat.com,
+	qemu-devel@nongnu.org, mreitz@redhat.com
+References: <20190405214117.1850-1-kenneth.heitke@intel.com>
+	<20190514060225.GA1350@apples.localdomain>
+	<1f607df5-b523-e517-c439-392725fd441b@intel.com>
+	<20190517053504.GA17341@apples.localdomain>
+	<20190517062442.GB17341@apples.localdomain>
+From: "Heitke, Kenneth" <kenneth.heitke@intel.com>
+Message-ID: <b6b37b74-4fae-eb7d-dd6b-ae1ec8b34b1e@intel.com>
+Date: Fri, 17 May 2019 11:08:09 -0600
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190130073426.11525-2-kraxel@redhat.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.25]);
-	Fri, 17 May 2019 16:55:08 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PULL 1/8] usb: assign unique serial numbers to
- hid devices
+In-Reply-To: <20190517062442.GB17341@apples.localdomain>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 192.55.52.93
+Subject: Re: [Qemu-devel] [Qemu-block] [PATCH] nvme: add Get/Set Feature
+ Timestamp support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -59,178 +61,74 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, Eduardo Habkost <ehabkost@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Gerd Hoffmann (kraxel@redhat.com) wrote:
-> Windows guests have trouble dealing with usb devices having identical
-> serial numbers.  So, assign unique serial numbers to usb hid devices.
-> All other usb devices have this already.
-> 
-> In the past the fixed serial number has been used to indicate working
-> remote setup to linux guests.  Here is a bit of history:
-> 
->  * First there was nothing.
->  * Then I added a rule to udev checking for serial == 42.
->    (this is in rhel-6).
->  * Then systemd + udev merged.
->  * Then I changed the rule to check for serial != 1 instead, so we can
->    use any serial but "1" which is the one the old broken devices had
->    (this is in rhel-7).  March 2014 in upstream systemd.
->  * Then all usb power management rules where dropped from systemd (June
->    2015).  Which I figured today (Sept 2018), after wondering that the
->    rules are gone in fedora 28.
-> 
-> So, three years ago the serial number check was dropped upstream, yet I
-> hav't seen a single report about autosuspend issues (or cpu usage for
-> usb emulation going up, which is the typical symtom).
-> 
-> So I figured I can stop worring that changing the serial number will
-> break things and just do it.
-> 
-> And even if it turns out autosuspend is still an issue:  I think
-> meanwhile we can really stop worrying about guests running in old qemu
-> versions with broken usb suspend (fixed in 0.13 !).  If needed we can
-> enable autosuspend unconditionally in guests.
-> 
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> Message-id: 20190110125108.22834-1-kraxel@redhat.com
-> ---
->  hw/core/machine.c |  3 +++
->  hw/usb/dev-hid.c  | 26 +++++++++++++++-----------
->  2 files changed, 18 insertions(+), 11 deletions(-)
-> 
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index 2629515363..077fbd182a 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -30,6 +30,9 @@ GlobalProperty hw_compat_3_1[] = {
->      { "memory-backend-memfd", "x-use-canonical-path-for-ramblock-id", "true" },
->      { "tpm-crb", "ppi", "false" },
->      { "tpm-tis", "ppi", "false" },
-> +    { "usb-kbd", "serial", "42" },
-> +    { "usb-mouse", "serial", "42" },
-> +    { "usb-kbd", "serial", "42" },
 
-Hi Gerd,
-  There's a copy-pasteism there that happened when you squashed
-it down to the new format; you've got the usb-kbd twice
-as opposed to having the usb-tablet in there.
 
-Hmm, now how do we fix that? That means if we fix that
-now then the usb 3-1 machine type in 4.1 would be the same as
-3.1 but different from 4.0; which I suspect is the right fix
-at this time.
-
-Dave
-
->  };
->  const size_t hw_compat_3_1_len = G_N_ELEMENTS(hw_compat_3_1);
->  
-> diff --git a/hw/usb/dev-hid.c b/hw/usb/dev-hid.c
-> index 90cd745f06..f9ea3033a1 100644
-> --- a/hw/usb/dev-hid.c
-> +++ b/hw/usb/dev-hid.c
-> @@ -61,10 +61,13 @@ enum {
->      STR_PRODUCT_MOUSE,
->      STR_PRODUCT_TABLET,
->      STR_PRODUCT_KEYBOARD,
-> -    STR_SERIALNUMBER,
-> +    STR_SERIAL_COMPAT,
->      STR_CONFIG_MOUSE,
->      STR_CONFIG_TABLET,
->      STR_CONFIG_KEYBOARD,
-> +    STR_SERIAL_MOUSE,
-> +    STR_SERIAL_TABLET,
-> +    STR_SERIAL_KEYBOARD,
->  };
->  
->  static const USBDescStrings desc_strings = {
-> @@ -72,10 +75,13 @@ static const USBDescStrings desc_strings = {
->      [STR_PRODUCT_MOUSE]    = "QEMU USB Mouse",
->      [STR_PRODUCT_TABLET]   = "QEMU USB Tablet",
->      [STR_PRODUCT_KEYBOARD] = "QEMU USB Keyboard",
-> -    [STR_SERIALNUMBER]     = "42", /* == remote wakeup works */
-> +    [STR_SERIAL_COMPAT]    = "42",
->      [STR_CONFIG_MOUSE]     = "HID Mouse",
->      [STR_CONFIG_TABLET]    = "HID Tablet",
->      [STR_CONFIG_KEYBOARD]  = "HID Keyboard",
-> +    [STR_SERIAL_MOUSE]     = "89126",
-> +    [STR_SERIAL_TABLET]    = "28754",
-> +    [STR_SERIAL_KEYBOARD]  = "68284",
->  };
->  
->  static const USBDescIface desc_iface_mouse = {
-> @@ -375,7 +381,7 @@ static const USBDesc desc_mouse = {
->          .bcdDevice         = 0,
->          .iManufacturer     = STR_MANUFACTURER,
->          .iProduct          = STR_PRODUCT_MOUSE,
-> -        .iSerialNumber     = STR_SERIALNUMBER,
-> +        .iSerialNumber     = STR_SERIAL_MOUSE,
->      },
->      .full = &desc_device_mouse,
->      .str  = desc_strings,
-> @@ -389,7 +395,7 @@ static const USBDesc desc_mouse2 = {
->          .bcdDevice         = 0,
->          .iManufacturer     = STR_MANUFACTURER,
->          .iProduct          = STR_PRODUCT_MOUSE,
-> -        .iSerialNumber     = STR_SERIALNUMBER,
-> +        .iSerialNumber     = STR_SERIAL_MOUSE,
->      },
->      .full = &desc_device_mouse,
->      .high = &desc_device_mouse2,
-> @@ -404,7 +410,7 @@ static const USBDesc desc_tablet = {
->          .bcdDevice         = 0,
->          .iManufacturer     = STR_MANUFACTURER,
->          .iProduct          = STR_PRODUCT_TABLET,
-> -        .iSerialNumber     = STR_SERIALNUMBER,
-> +        .iSerialNumber     = STR_SERIAL_TABLET,
->      },
->      .full = &desc_device_tablet,
->      .str  = desc_strings,
-> @@ -418,7 +424,7 @@ static const USBDesc desc_tablet2 = {
->          .bcdDevice         = 0,
->          .iManufacturer     = STR_MANUFACTURER,
->          .iProduct          = STR_PRODUCT_TABLET,
-> -        .iSerialNumber     = STR_SERIALNUMBER,
-> +        .iSerialNumber     = STR_SERIAL_TABLET,
->      },
->      .full = &desc_device_tablet,
->      .high = &desc_device_tablet2,
-> @@ -433,7 +439,7 @@ static const USBDesc desc_keyboard = {
->          .bcdDevice         = 0,
->          .iManufacturer     = STR_MANUFACTURER,
->          .iProduct          = STR_PRODUCT_KEYBOARD,
-> -        .iSerialNumber     = STR_SERIALNUMBER,
-> +        .iSerialNumber     = STR_SERIAL_KEYBOARD,
->      },
->      .full = &desc_device_keyboard,
->      .str  = desc_strings,
-> @@ -447,7 +453,7 @@ static const USBDesc desc_keyboard2 = {
->          .bcdDevice         = 0,
->          .iManufacturer     = STR_MANUFACTURER,
->          .iProduct          = STR_PRODUCT_KEYBOARD,
-> -        .iSerialNumber     = STR_SERIALNUMBER,
-> +        .iSerialNumber     = STR_SERIAL_KEYBOARD,
->      },
->      .full = &desc_device_keyboard,
->      .high = &desc_device_keyboard2,
-> @@ -718,9 +724,7 @@ static void usb_hid_initfn(USBDevice *dev, int kind,
->          return;
->      }
->  
-> -    if (dev->serial) {
-> -        usb_desc_set_string(dev, STR_SERIALNUMBER, dev->serial);
-> -    }
-> +    usb_desc_create_serial(dev);
->      usb_desc_init(dev);
->      us->intr = usb_ep_get(dev, USB_TOKEN_IN, 1);
->      hid_init(&us->hid, kind, usb_hid_changed);
-> -- 
-> 2.9.3
+On 5/17/2019 12:24 AM, Klaus Birkelund wrote:
+> On Fri, May 17, 2019 at 07:35:04AM +0200, Klaus Birkelund wrote:
+>> Hi Kenneth,
+>>
+>> On Thu, May 16, 2019 at 05:24:47PM -0600, Heitke, Kenneth wrote:
+>>> Hi Klaus, thank you for you review. I have one comment inline
+>>>
+>>> On 5/14/2019 12:02 AM, Klaus Birkelund wrote:
+>>>> On Fri, Apr 05, 2019 at 03:41:17PM -0600, Kenneth Heitke wrote:
+>>>>> Signed-off-by: Kenneth Heitke <kenneth.heitke@intel.com>
+>>>>> ---
+>>>>>    hw/block/nvme.c       | 120 +++++++++++++++++++++++++++++++++++++++++-
+>>>>>    hw/block/nvme.h       |   3 ++
+>>>>>    hw/block/trace-events |   2 +
+>>>>>    include/block/nvme.h  |   2 +
+>>>>>    4 files changed, 125 insertions(+), 2 deletions(-)
+>>>>>
+>>>>> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+>>>>> index 7caf92532a..e775e89299 100644
+>>>>> --- a/hw/block/nvme.c
+>>>>> +++ b/hw/block/nvme.c
+>>>>> @@ -219,6 +219,30 @@ static uint16_t nvme_map_prp(QEMUSGList *qsg, QEMUIOVector *iov, uint64_t prp1,
+>>>>>        return NVME_INVALID_FIELD | NVME_DNR;
+>>>>>    }
+>>>>> +static uint16_t nvme_dma_write_prp(NvmeCtrl *n, uint8_t *ptr, uint32_t len,
+>>>>> +                                   uint64_t prp1, uint64_t prp2)
+>>>>> +{
+>>>>> +    QEMUSGList qsg;
+>>>>> +    QEMUIOVector iov;
+>>>>> +    uint16_t status = NVME_SUCCESS;
+>>>>> +
+>>>>> +    if (nvme_map_prp(&qsg, &iov, prp1, prp2, len, n)) {
+>>>>> +        return NVME_INVALID_FIELD | NVME_DNR;
+>>>>> +    }
+>>>>> +    if (qsg.nsg > 0) {
+>>>>> +        if (dma_buf_write(ptr, len, &qsg)) {
+>>>>> +            status = NVME_INVALID_FIELD | NVME_DNR;
+>>>>> +        }
+>>>>> +        qemu_sglist_destroy(&qsg);
+>>>>> +    } else {
+>>>>> +        if (qemu_iovec_from_buf(&iov, 0, ptr, len) != len) {
+>>>>
+>>>> This should be `qemu_iovec_to_buf`.
+>>>>
+>>>
+>>> This function is transferring data from the "host" to the device so I
+>>> believe I am using the correct function.
+>>>
+>>
+>> Exactly, but this means that you need to populate `ptr` with data
+>> described by the prps, hence dma_buf_*write* and qemu_iovec_*to*_buf. In
+>> this case `ptr` is set to the address of the uint64_t timestamp, and
+>> that is what we need to write to.
+>>
 > 
+> I was going to argue with the fact that nvme_dma_read_prp uses
+> qemu_iovec_from_buf. But it uses _to_buf which as far as I can tell is
+> also wrong.
 > 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+
+I think the iovec_to/from_buf is only used in the case of the controller 
+memory buffer. I'm trying to exercise that path to verify if the correct 
+functions are being used but I'm running into issues (io is being 
+directed to bar0 instead of bar2).
+
 
