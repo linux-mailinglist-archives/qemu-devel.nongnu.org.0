@@ -2,73 +2,130 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 48A4022078
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 May 2019 00:54:03 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54820 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1AD3F2208E
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 May 2019 00:57:15 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54900 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRljm-0008CH-Bx
-	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 18:54:02 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43280)
+	id 1hRlms-0002qP-9r
+	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 18:57:14 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43333)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <jan.bobek@gmail.com>) id 1hRlbO-0001NM-1i
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 18:45:23 -0400
+	(envelope-from <jsnow@redhat.com>) id 1hRlbU-0001Vg-0N
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 18:45:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <jan.bobek@gmail.com>) id 1hRlbN-0005kv-3R
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 18:45:22 -0400
-Received: from mail-yw1-xc2a.google.com ([2607:f8b0:4864:20::c2a]:39996)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hRlbM-0005jg-Um
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 18:45:21 -0400
-Received: by mail-yw1-xc2a.google.com with SMTP id 18so3349059ywe.7
-	for <qemu-devel@nongnu.org>; Fri, 17 May 2019 15:45:20 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=Gi+xV8hZZ8MM2hR8q1Ptxgv3mk/SLE89TCM1Wb+jzls=;
-	b=qqIKMJQDynycgLbBvSyiAX1GayrfB3gNTiIz7ycbiQ7cpvNBgnhyY75fJ9K5fDWQxG
-	dZ4KXHqa/rzFrZRBhRDeP7eNjAtrDfoXgFM0xNoLcSJasBBIOrdd0H9TT9LcQzTw7Q0v
-	HwFQEk/w4L5JY2S8q0/4X29/doHodeP29TH5WrihMfpDs524mKDa5wsHU5so43zkbKpg
-	Mj2MSByx/0w1xx+rnVowUESrkHNK8ddV8ehaJyrVeqOlwIQPQ/GDyav1yr6NyEhi+OwX
-	CsKCIvP1ihgWKZ1jki2fY2DgYdMbkRPHk0g0kbiioX3M9IoluhEi9/W1eC21WCCS0hOD
-	CLyw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=Gi+xV8hZZ8MM2hR8q1Ptxgv3mk/SLE89TCM1Wb+jzls=;
-	b=nR7IG7Xhc+iLxk0ZG+75Phw0rgUALxwXIpdyq+Dwd8e7pZkFzuGjd9E7aTDKddFwEB
-	ICif8RfP8SEibrIN533f00s1F+sRcKnTwlOZvHlUeVNqKipHzgDQdXI+bKeIwosptiZ/
-	/Z5dovtchRVCvzsFbZq9mS8F8d5mwRXtItauhZK43R5Ll1oTo73qWiy2tWjVngkFInXI
-	q9SJN7OBKZ0+d7pHeZIB/XicFSLNU/vSOS9oZpLWa8DSO7XNLZsKaLitVI0v8jbwnlWX
-	3T6KR79B3lig3t63kx75BjBnnNWO1xdZaHWQxh8EgVLpPW8F0zus0RWDI7cYzBiJhAh1
-	dseg==
-X-Gm-Message-State: APjAAAVwoTSR5QlhVxTs/wT4iTda359Ob6E2qfQxSQzzcc1iE1Qy/kZe
-	kavNl0OUoQdGVCtw6IRgHNbXFbrU9JQTnQ==
-X-Google-Smtp-Source: APXvYqweCUY3sA18NV8cfz9omN08JXU6c7MPBg4xG+my+QYYvbcrBrePJ57joayQiGOk5Tt5ziJ6og==
-X-Received: by 2002:a81:a983:: with SMTP id
-	g125mr15328434ywh.417.1558133120328; 
-	Fri, 17 May 2019 15:45:20 -0700 (PDT)
-Received: from dionysus.attlocal.net
-	(69-222-133-165.lightspeed.tukrga.sbcglobal.net. [69.222.133.165])
-	by smtp.gmail.com with ESMTPSA id
-	u73sm2480260ywf.62.2019.05.17.15.45.19
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 17 May 2019 15:45:19 -0700 (PDT)
-From: Jan Bobek <jan.bobek@gmail.com>
-To: qemu-devel@nongnu.org
-Date: Fri, 17 May 2019 18:44:50 -0400
-Message-Id: <20190517224450.15566-12-jan.bobek@gmail.com>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190517224450.15566-1-jan.bobek@gmail.com>
-References: <20190517224450.15566-1-jan.bobek@gmail.com>
+	(envelope-from <jsnow@redhat.com>) id 1hRlbS-000647-HD
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 18:45:27 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53180)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <jsnow@redhat.com>)
+	id 1hRlbP-0005QA-BK; Fri, 17 May 2019 18:45:23 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+	[10.5.11.12])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 5FC14309264C;
+	Fri, 17 May 2019 22:45:07 +0000 (UTC)
+Received: from [10.18.17.215] (dhcp-17-215.bos.redhat.com [10.18.17.215])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 32F9D60E3E;
+	Fri, 17 May 2019 22:45:05 +0000 (UTC)
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+	qemu-devel@nongnu.org, qemu-block@nongnu.org
+References: <20190517152111.206494-1-vsementsov@virtuozzo.com>
+	<20190517152111.206494-2-vsementsov@virtuozzo.com>
+From: John Snow <jsnow@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
+	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
+Message-ID: <e9c48cc9-3208-c111-9669-f6098ec746cd@redhat.com>
+Date: Fri, 17 May 2019 18:45:05 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::c2a
-Subject: [Qemu-devel] [RISU v2 11/11] risu_reginfo_i386: accept named
- feature sets for --xfeature
+In-Reply-To: <20190517152111.206494-2-vsementsov@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.43]);
+	Fri, 17 May 2019 22:45:11 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2 1/2] qapi: support external bitmaps in
+ block-dirty-bitmap-merge
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -80,44 +137,186 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Jan Bobek <jan.bobek@gmail.com>,
-	=?UTF-8?q?Alex=20Benn=C3=A9e?= <alex.bennee@linaro.org>,
-	Richard Henderson <richard.henderson@linaro.org>
+Cc: kwolf@redhat.com, fam@euphon.net, den@virtuozzo.com, armbru@redhat.com,
+	mreitz@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Have the --xfeature option accept "sse", "avx" and "avx512" in
-addition to a plain numerical value, purely for users' convenience.
 
-Suggested-by: Richard Henderson <richard.henderson@linaro.org>
-Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
----
- risu_reginfo_i386.c | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/risu_reginfo_i386.c b/risu_reginfo_i386.c
-index aba5ae3..c15fe63 100644
---- a/risu_reginfo_i386.c
-+++ b/risu_reginfo_i386.c
-@@ -54,7 +54,16 @@ const char * const arch_extra_help
- void process_arch_opt(int opt, const char *arg)
- {
-     assert(opt == FIRST_ARCH_OPT);
--    xfeatures = strtoull(arg, 0, 0);
-+
-+    if (!strcmp(arg, "sse")) {
-+        xfeatures = XFEAT_X87 | XFEAT_SSE;
-+    } else if (!strcmp(arg, "avx")) {
-+        xfeatures = XFEAT_X87 | XFEAT_SSE | XFEAT_AVX;
-+    } else if (!strcmp(arg, "avx512")) {
-+        xfeatures = XFEAT_X87 | XFEAT_SSE | XFEAT_AVX | XFEAT_AVX512;
-+    } else {
-+        xfeatures = strtoull(arg, 0, 0);
-+    }
- }
- 
- const int reginfo_size(void)
--- 
-2.20.1
+On 5/17/19 11:21 AM, Vladimir Sementsov-Ogievskiy wrote:
+> Add new optional parameter making possible to merge bitmaps from
+> different nodes. It is needed to maintain external snapshots during
+> incremental backup chain history.
+> 
+> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> ---
+>  qapi/block-core.json | 22 ++++++++++++++++---
+>  block/dirty-bitmap.c |  9 +++++---
+>  blockdev.c           | 50 +++++++++++++++++++++++++++++---------------
+>  3 files changed, 58 insertions(+), 23 deletions(-)
+> 
+> diff --git a/qapi/block-core.json b/qapi/block-core.json
+> index 7ccbfff9d0..dcc935d655 100644
+> --- a/qapi/block-core.json
+> +++ b/qapi/block-core.json
+> @@ -2003,19 +2003,35 @@
+>    'data': { 'node': 'str', 'name': 'str', '*granularity': 'uint32',
+>              '*persistent': 'bool', '*autoload': 'bool', '*disabled': 'bool' } }
+>  
+> +##
+> +# @BlockDirtyBitmapMergeSource:
+> +#
+> +# @local: name of the bitmap, attached to the same node as target bitmap.
+> +#
+> +# @external: bitmap with specified node
+> +#
+> +# Since: 4.1
+> +##
+> +{ 'alternate': 'BlockDirtyBitmapMergeSource',
+> +  'data': { 'local': 'str',
+> +            'external': 'BlockDirtyBitmap' } }
+> +
 
+We might be able to use something more generic to name this type of
+thing, but I think such changes are wire compatible, so we can rename it
+to be more generic if we decide to use this for something else in the
+future, so this is good.
+
+>  ##
+>  # @BlockDirtyBitmapMerge:
+>  #
+> -# @node: name of device/node which the bitmap is tracking
+> +# @node: name of device/node which the @target bitmap is tracking
+>  #
+>  # @target: name of the destination dirty bitmap
+>  #
+> -# @bitmaps: name(s) of the source dirty bitmap(s)
+> +# @bitmaps: name(s) of the source dirty bitmap(s) at @node and/or fully
+> +#           specifed BlockDirtyBitmap elements. The latter are supported
+> +#           since 4.1.
+>  #
+>  # Since: 4.0
+>  ##
+>  { 'struct': 'BlockDirtyBitmapMerge',
+> -  'data': { 'node': 'str', 'target': 'str', 'bitmaps': ['str'] } }
+> +  'data': { 'node': 'str', 'target': 'str',
+> +            'bitmaps': ['BlockDirtyBitmapMergeSource'] } }
+>  
+>  ##
+>  # @block-dirty-bitmap-add:
+> diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
+> index 59e6ebb861..49646a30e6 100644
+> --- a/block/dirty-bitmap.c
+> +++ b/block/dirty-bitmap.c
+> @@ -816,10 +816,10 @@ void bdrv_merge_dirty_bitmap(BdrvDirtyBitmap *dest, const BdrvDirtyBitmap *src,
+>  {
+>      bool ret;
+>  
+> -    /* only bitmaps from one bds are supported */
+> -    assert(dest->mutex == src->mutex);
+> -
+>      qemu_mutex_lock(dest->mutex);
+> +    if (src->mutex != dest->mutex) {
+> +        qemu_mutex_lock(src->mutex);
+> +    }
+>  
+>      if (bdrv_dirty_bitmap_check(dest, BDRV_BITMAP_DEFAULT, errp)) {
+>          goto out;
+> @@ -845,4 +845,7 @@ void bdrv_merge_dirty_bitmap(BdrvDirtyBitmap *dest, const BdrvDirtyBitmap *src,
+>  
+>  out:
+>      qemu_mutex_unlock(dest->mutex);
+> +    if (src->mutex != dest->mutex) {
+> +        qemu_mutex_unlock(src->mutex);
+> +    }
+>  }
+> diff --git a/blockdev.c b/blockdev.c
+> index 79fbac8450..64ccef735b 100644
+> --- a/blockdev.c
+> +++ b/blockdev.c
+> @@ -2112,11 +2112,10 @@ static void block_dirty_bitmap_disable_abort(BlkActionState *common)
+>      }
+>  }
+>  
+> -static BdrvDirtyBitmap *do_block_dirty_bitmap_merge(const char *node,
+> -                                                    const char *target,
+> -                                                    strList *bitmaps,
+> -                                                    HBitmap **backup,
+> -                                                    Error **errp);
+> +static BdrvDirtyBitmap *do_block_dirty_bitmap_merge(
+> +        const char *node, const char *target,
+> +        BlockDirtyBitmapMergeSourceList *bitmaps,
+> +        HBitmap **backup, Error **errp);
+>  
+>  static void block_dirty_bitmap_merge_prepare(BlkActionState *common,
+>                                               Error **errp)
+> @@ -2965,15 +2964,14 @@ void qmp_block_dirty_bitmap_disable(const char *node, const char *name,
+>      bdrv_disable_dirty_bitmap(bitmap);
+>  }
+>  
+> -static BdrvDirtyBitmap *do_block_dirty_bitmap_merge(const char *node,
+> -                                                    const char *target,
+> -                                                    strList *bitmaps,
+> -                                                    HBitmap **backup,
+> -                                                    Error **errp)
+> +static BdrvDirtyBitmap *do_block_dirty_bitmap_merge(
+> +        const char *node, const char *target,
+> +        BlockDirtyBitmapMergeSourceList *bitmaps,
+> +        HBitmap **backup, Error **errp)
+>  {
+>      BlockDriverState *bs;
+>      BdrvDirtyBitmap *dst, *src, *anon;
+> -    strList *lst;
+> +    BlockDirtyBitmapMergeSourceList *lst;
+>      Error *local_err = NULL;
+>  
+>      dst = block_dirty_bitmap_lookup(node, target, &bs, errp);
+> @@ -2988,11 +2986,28 @@ static BdrvDirtyBitmap *do_block_dirty_bitmap_merge(const char *node,
+>      }
+>  
+>      for (lst = bitmaps; lst; lst = lst->next) {
+> -        src = bdrv_find_dirty_bitmap(bs, lst->value);
+> -        if (!src) {
+> -            error_setg(errp, "Dirty bitmap '%s' not found", lst->value);
+> -            dst = NULL;
+> -            goto out;
+> +        switch (lst->value->type) {
+> +            const char *name, *node;
+> +        case QTYPE_QSTRING:
+> +            name = lst->value->u.local;
+> +            src = bdrv_find_dirty_bitmap(bs, name);
+> +            if (!src) {
+> +                error_setg(errp, "Dirty bitmap '%s' not found", name);
+> +                dst = NULL;
+> +                goto out;
+> +            }
+> +            break;
+> +        case QTYPE_QDICT:
+> +            node = lst->value->u.external.node;
+> +            name = lst->value->u.external.name;
+> +            src = block_dirty_bitmap_lookup(node, name, NULL, errp);
+> +            if (!src) {
+> +                dst = NULL;
+> +                goto out;
+> +            }
+> +            break;
+> +        default:
+> +            abort();
+>          }
+>  
+>          bdrv_merge_dirty_bitmap(anon, src, NULL, &local_err);
+> @@ -3012,7 +3027,8 @@ static BdrvDirtyBitmap *do_block_dirty_bitmap_merge(const char *node,
+>  }
+>  
+>  void qmp_block_dirty_bitmap_merge(const char *node, const char *target,
+> -                                  strList *bitmaps, Error **errp)
+> +                                  BlockDirtyBitmapMergeSourceList *bitmaps,
+> +                                  Error **errp)
+>  {
+>      do_block_dirty_bitmap_merge(node, target, bitmaps, NULL, errp);
+>  }
+> 
+
+Reviewed-by: John Snow <jsnow@redhat.com>
 
