@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2FEA221251
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 04:56:00 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40325 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7602621258
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 04:58:27 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40349 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRT2N-0001LE-BR
-	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 22:55:59 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39264)
+	id 1hRT4h-0003At-Pr
+	for lists+qemu-devel@lfdr.de; Thu, 16 May 2019 22:58:23 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39294)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hRSnK-0006BV-Vq
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 22:40:27 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hRSnM-0006Cx-By
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 22:40:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hRSnE-0002Sh-KQ
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 22:40:22 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:34142)
+	(envelope-from <richard.henderson@linaro.org>) id 1hRSnL-0002WQ-1j
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 22:40:28 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:44890)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hRSnB-0002BM-Ev
-	for qemu-devel@nongnu.org; Thu, 16 May 2019 22:40:18 -0400
-Received: by mail-pf1-x443.google.com with SMTP id n19so2884909pfa.1
-	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 19:39:51 -0700 (PDT)
+	id 1hRSnG-0002BZ-PL
+	for qemu-devel@nongnu.org; Thu, 16 May 2019 22:40:26 -0400
+Received: by mail-pg1-x541.google.com with SMTP id z16so2503476pgv.11
+	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 19:39:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=wKy5ep5gzBeVJvdgqxMAwC/EHW/NEI1i+sUaPM2vsGg=;
-	b=LWt+ECBZy7DAmGZIWxNFA7O1YEWE1cDEP0DGP8rugWir3Hp5IadPSKoyaocN42DwQ2
-	5Y3Zshm3bC4DAJeI9uNPiKGGXkKkUFTRcYaTRm2ttit1I4YsOiDgEMy3oAHnzPyy8NGC
-	gqNXg8YTlkH3jBVDLyKWRzx9jMm6t3T6swMAT0bBdAQkBLPn94fnSlHQwNlEIrUtctx1
-	eV9etY0qf2lzD0e9dMLDodG3bluhAyciPKINY+zWfYm2vlzNb60VFtPVb5dTzsxFL/j4
-	kBkOBm1zkdntJtnVUThBsMVv4Fax4Cjt8dPMdal/qA+plLyL3KQltAF3diaUVwV6z8eC
-	nD+g==
+	bh=/VWGaUBQJcHRh8ZCol9Bt7n9p31zv9AWS8bL9WKxKYs=;
+	b=I6DT1Oeg6MAL8iMt1FFcz4RercqdWySvvBan8w48H/yI1HpVufU0VqVbNGV6AOB1V5
+	MzNqKZjsU+aSbV9o3s+2/SioXZfAZjf8e+QkM1u+JVgCIZmDoMAmPhFakQox6HTxzv6E
+	8MJ2YT6SxPHFHZ7cggmdwe51qyNCO813TB6EXvqFWvk5Kt1Ds4RUiX96oVfd67xSRbQV
+	MouSeo3ZBeOPSRFKPZwWClb3sigo867WQuaWgG7bP8/mpu8kiWqbu+0lRh1w4CX7Vrez
+	6uenrs5oiEnCaqpv8HVmWHh1Et3DCCu8utcGriVLZiNdOp3I+uHNDFANNxnImCvClkc4
+	xt4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=wKy5ep5gzBeVJvdgqxMAwC/EHW/NEI1i+sUaPM2vsGg=;
-	b=VYDS2JFZLs8BrSYaJ9X0CrU/fow93bUc2jX2UPeP8z5V31FAN+C04pSJFhhoOQcZDb
-	M/w2Ei32McmX9qkzQ656ZLPNc8wuFobHFa+YMIiYl1x6IyiCXgg0UkheKRQrAtdoY0Ew
-	YsaWzBwWikUQqQujxUyxYUHKaGa+2Oj7pV9Fu61fOyHyeOyvHo7FY5ZcYrSQhHb5Tvqw
-	HK2AYU86XATXXQEAFPzlJP85iussmE+S6SVh8LlRmlkwyOMotEPmrO/7/pxus5O8z1Qr
-	sofAU5hnAzmFSn3ovZ2evbtSynOK0uUz0ym+C0w/kwHQ/Ly7pvXnWvdlOA9JbWlQf0mf
-	l9iA==
-X-Gm-Message-State: APjAAAXsiWh/pmAdpCf5Pb6UqqSHTzMZQ7tCuCGDj7p/tC5SOXyv8Rbd
-	AuUi9O3raAnaq7DqLFhWpEREeGIjHxw=
-X-Google-Smtp-Source: APXvYqxysR8/jBWxoMlvD+PdoX4BOmu8GCVZL/CzgauPMIJCv76cuW5TBpR46co97hcjYPJ7c/HLUA==
-X-Received: by 2002:a63:42:: with SMTP id 63mr54224522pga.337.1558060789991;
-	Thu, 16 May 2019 19:39:49 -0700 (PDT)
+	bh=/VWGaUBQJcHRh8ZCol9Bt7n9p31zv9AWS8bL9WKxKYs=;
+	b=Z1RiK3ld/zaZHMXZd3adubr+z8KqQ5po4+CIkp8+lXQuFW2XnuAP+fLZQm4nzoEo6c
+	scr/lVD7mTlQy+A3nzXzsY/RNstzvOL1xS+9GM0OAvKW+R/qnMRN/AWkXUiwAOFldjoI
+	1AHl8zGA3DT2JJtzpNC6A0kcyZYXVs8IK3wtnCLKjUCjuXNWQ72GnQBV+ZMQlCid9Jvt
+	hsxHjETpOD0HQ/RUePLW9cVN+5yizZ0QGwnrPz1Bt21dgDqzvzNGieHj2sGQwwGsmesf
+	A1cx1zswYS3PiPS7mctKUZRhd4OS4XRsMMrsrVAYg5BF1+jQomNnNM4gfAdSrG4hmRPJ
+	Tn3w==
+X-Gm-Message-State: APjAAAX9p8TY0LmMCh55MC7OcK/N0k1ShHCqj1TYs+tPlvjdWLA5DuFT
+	H3Kep0KaYTFgYRnu8PIJd5cJ6sCNeno=
+X-Google-Smtp-Source: APXvYqx0CQOcuooD4zq3bRK75uuOXfr1VlJxsXcXgvE9UpzleqlCbmJZjNlj6fg8QZ9rSXojdpOVaA==
+X-Received: by 2002:a63:1820:: with SMTP id y32mr53537545pgl.287.1558060791054;
+	Thu, 16 May 2019 19:39:51 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231])
-	by smtp.gmail.com with ESMTPSA id w6sm6984152pge.30.2019.05.16.19.39.49
+	by smtp.gmail.com with ESMTPSA id w6sm6984152pge.30.2019.05.16.19.39.50
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 16 May 2019 19:39:49 -0700 (PDT)
+	Thu, 16 May 2019 19:39:50 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu, 16 May 2019 19:39:18 -0700
-Message-Id: <20190517023924.1686-20-richard.henderson@linaro.org>
+Date: Thu, 16 May 2019 19:39:19 -0700
+Message-Id: <20190517023924.1686-21-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190517023924.1686-1-richard.henderson@linaro.org>
 References: <20190517023924.1686-1-richard.henderson@linaro.org>
@@ -66,9 +66,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::443
-Subject: [Qemu-devel] [PATCH v8 19/25] hw/misc/bcm2835_rng: Use
- qemu_guest_getrandom_nofail
+X-Received-From: 2607:f8b0:4864:20::541
+Subject: [Qemu-devel] [PATCH v8 20/25] hw/misc/exynos4210_rng: Use
+ qemu_guest_getrandom
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -85,65 +85,56 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 The random number is intended for use by the guest.  As such, we should
-honor the -seed argument for reproducibility.  Use the *_nofail routine
-instead of rolling our own error handling locally.
+honor the -seed argument for reproducibility.
 
 Reviewed-by: Laurent Vivier <lvivier@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- hw/misc/bcm2835_rng.c | 32 ++++++++++++++------------------
- 1 file changed, 14 insertions(+), 18 deletions(-)
+ hw/misc/exynos4210_rng.c | 11 ++++-------
+ 1 file changed, 4 insertions(+), 7 deletions(-)
 
-diff --git a/hw/misc/bcm2835_rng.c b/hw/misc/bcm2835_rng.c
-index 4d62143b24..fe59c868f5 100644
---- a/hw/misc/bcm2835_rng.c
-+++ b/hw/misc/bcm2835_rng.c
-@@ -9,30 +9,26 @@
+diff --git a/hw/misc/exynos4210_rng.c b/hw/misc/exynos4210_rng.c
+index 4ecbebd2d7..0e70ffb404 100644
+--- a/hw/misc/exynos4210_rng.c
++++ b/hw/misc/exynos4210_rng.c
+@@ -18,10 +18,10 @@
+  */
  
  #include "qemu/osdep.h"
- #include "qemu/log.h"
--#include "qapi/error.h"
 -#include "crypto/random.h"
+ #include "hw/sysbus.h"
+ #include "qapi/error.h"
+ #include "qemu/log.h"
 +#include "qemu/guest-random.h"
- #include "hw/misc/bcm2835_rng.h"
  
- static uint32_t get_random_bytes(void)
+ #define DEBUG_EXYNOS_RNG 0
+ 
+@@ -109,7 +109,6 @@ static void exynos4210_rng_set_seed(Exynos4210RngState *s, unsigned int i,
+ static void exynos4210_rng_run_engine(Exynos4210RngState *s)
  {
-     uint32_t res;
--    Error *err = NULL;
+     Error *err = NULL;
+-    int ret;
  
--    if (qcrypto_random_bytes((uint8_t *)&res, sizeof(res), &err) < 0) {
--        /* On failure we don't want to return the guest a non-random
--         * value in case they're really using it for cryptographic
--         * purposes, so the best we can do is die here.
--         * This shouldn't happen unless something's broken.
--         * In theory we could implement this device's full FIFO
--         * and interrupt semantics and then just stop filling the
--         * FIFO. That's a lot of work, though, so we assume any
--         * errors are systematic problems and trust that if we didn't
--         * fail as the guest inited then we won't fail later on
--         * mid-run.
--         */
+     /* Seed set? */
+     if ((s->reg_status & EXYNOS4210_RNG_STATUS_SEED_SETTING_DONE) == 0) {
+@@ -127,13 +126,11 @@ static void exynos4210_rng_run_engine(Exynos4210RngState *s)
+     }
+ 
+     /* Get randoms */
+-    ret = qcrypto_random_bytes((uint8_t *)s->randr_value,
+-                               sizeof(s->randr_value), &err);
+-    if (!ret) {
++    if (qemu_guest_getrandom(s->randr_value, sizeof(s->randr_value), &err)) {
++        error_report_err(err);
++    } else {
+         /* Notify that PRNG is ready */
+         s->reg_status |= EXYNOS4210_RNG_STATUS_PRNG_DONE;
+-    } else {
 -        error_report_err(err);
--        exit(1);
--    }
-+    /*
-+     * On failure we don't want to return the guest a non-random
-+     * value in case they're really using it for cryptographic
-+     * purposes, so the best we can do is die here.
-+     * This shouldn't happen unless something's broken.
-+     * In theory we could implement this device's full FIFO
-+     * and interrupt semantics and then just stop filling the
-+     * FIFO. That's a lot of work, though, so we assume any
-+     * errors are systematic problems and trust that if we didn't
-+     * fail as the guest inited then we won't fail later on
-+     * mid-run.
-+     */
-+    qemu_guest_getrandom_nofail(&res, sizeof(res));
-     return res;
- }
+     }
  
+ out:
 -- 
 2.17.1
 
