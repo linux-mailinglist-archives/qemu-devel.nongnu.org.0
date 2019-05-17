@@ -2,63 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B9E5121351
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 06:59:28 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:42338 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F9D82134B
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 06:57:16 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:42314 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRUxr-0003wT-TY
-	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 00:59:27 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59609)
+	id 1hRUvj-0001yO-G7
+	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 00:57:15 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59637)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hRUqV-0006Dr-F0
+	(envelope-from <richard.henderson@linaro.org>) id 1hRUqW-0006Dt-U4
 	for qemu-devel@nongnu.org; Fri, 17 May 2019 00:51:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hRUqU-0007lv-6E
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 00:51:51 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:45235)
+	(envelope-from <richard.henderson@linaro.org>) id 1hRUqV-0007mu-GN
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 00:51:52 -0400
+Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:43325)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hRUqT-0007lP-Vn
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 00:51:50 -0400
-Received: by mail-pl1-x641.google.com with SMTP id a5so2720452pls.12
-	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 21:51:49 -0700 (PDT)
+	id 1hRUqV-0007mG-8C
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 00:51:51 -0400
+Received: by mail-pl1-x644.google.com with SMTP id n8so2723464plp.10
+	for <qemu-devel@nongnu.org>; Thu, 16 May 2019 21:51:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=cN7HSsTir9LPfFs0tqL8Rk/5kniGhoqrSHsDQ6DZZvw=;
-	b=pIaRtA4qvbeSiGPTGFA/MJugbq0Bd6ZTWwoii1QRgfQ7hDU00qFqWd7XvvinDwOEQI
-	HdBT2MZ2Q+y/CLI4NrOA9v1Z0UK+EOfIIODayCkd7m+Fjt4pMBumrwZNS0Ziu2WD0C4A
-	K2K7XgN3epof0Owh7WxiFGn2TsZf2AN0W7pVgu/NcHtqDimTWNYa/bvwnqY8Tqrtt4C/
-	tuTFRbM/YnE/1qBo2L4ukctONlGhsjLA/hz2BSg7l/iV0t0lWKFbx5Tj/+83MIvlzeH6
-	A1d6JaEHLQvgxOSg6kSKGDagvoPHhq4vNmhJASoz1hgIs4AOgMObXdTpENPecw1OMTLq
-	u/lw==
+	bh=1XbDcSxPxIwShmL7ibaMkqeCI/KNLPvufrTgWj8SAo0=;
+	b=SScwKoIx/kcXy1Ic6vYoIld9cRBBwYHozJQl/0GrAdod/+DOryjq/+KrWGrQV9ADw7
+	VmJsPMEkjrlTKExw2TC7wmoaeW6IUlLbHPz7lvm3q6WDmJov8HQ+mISAzzoBpyNIV6KL
+	gGHUlOxEgC8zCvDoNNHbFRKKwzVacKcY59RsNBcYqOfcv67PhS3hlZZQEl0bqpx+nUNH
+	D7aBBO/bPNdY0gJzWHz2ljsUg1DYy7WJRajRsTgq/pcCfaQqmCEpktnZNZqQIeF9Ji5M
+	E4W3sl5VVD7EwVXx1ynrmFH9yQPlKivyCTiO8hQazvG2xeDchzy3xPVWdBXnuhfhsPf/
+	ommA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=cN7HSsTir9LPfFs0tqL8Rk/5kniGhoqrSHsDQ6DZZvw=;
-	b=p3IYrK9HGyrUtdVANvCxmbj0gSABcaRrzcj1KOXl6wO82/+sExcOW9okplAvcW7TJ/
-	w4BSartPYp+5Z8C4bUKem7AyoNz9MG8BKJRmkAqYGEkkW6UdhZIY0Hjn+zUPH2HFxGBZ
-	q/XQVSl0dR2V2IMwc70E3QWP0V8TQo8VJwAAItmdTGZx2sE0fgR0jBkODdiuP1RKjtkx
-	uq6scrfEw9aQ7DO4BCyoySoqBr1aLG4f0wq+z22EXsh4n6ioeyORX12z2aCEozyDQ2TU
-	LXwkpChEFdTCn8bm+EF+GxuTH83vtNIvBWe2GGlMeCDYEpCS54Hu8eFMCwxUpfvkqB6D
-	x47g==
-X-Gm-Message-State: APjAAAUzkn/ufQuUfIdXtlVAQ+y/Ub5WixrcL+1dJK/IP/YAa+sAjfyr
-	0YJNXsTBSDyKZ5xy9F6ebfDR89RjtEU=
-X-Google-Smtp-Source: APXvYqw+UhXB+eqZAu5KfeZmixA40JzcD0EFhtLlaOpnVCSfkhxWJ844KgPDNBcoasSBaaLAdYZFAw==
-X-Received: by 2002:a17:902:1126:: with SMTP id
-	d35mr18803100pla.82.1558068708774; 
-	Thu, 16 May 2019 21:51:48 -0700 (PDT)
+	bh=1XbDcSxPxIwShmL7ibaMkqeCI/KNLPvufrTgWj8SAo0=;
+	b=BtOhlx+VVqaF+dtO1p8szyZJ1roj666nIz+/5ilRqsvdaS9dOYAxXrrUWq5sKeBEsG
+	fC0+WDC+ozr0sZj9YD/bV31C8eI79pEBflVHxOkTZcHorWBePUjWfv0rwnJA0GKKE+rw
+	gW32YZslF+OlZmrkkFDeUPrlgtMKMnwFAg/omkD/Kph/T8rbDlEB3hmdY4mvur2e5AEE
+	npJLZa/zGp7+IY7EXREBpU4VnZxpPp0eDAZ7l1QNVgQf+5AoFSOB1rlHgCOWUMAr0nEV
+	5GL9DYlzDvTvih33hfao5DGd3Fu7pwxyuHWbbEnqmDfLSCkKQJegyOk97UAwXGnFfEET
+	+7Xg==
+X-Gm-Message-State: APjAAAXqSJwaJaKMJxD1q8tY3tGoYgM4hV9Zx5UBtjOOo6LDfDvErXXp
+	2iAHrmMMBjXE4g3JgGAQtYeBIRLXePs=
+X-Google-Smtp-Source: APXvYqwG+m135tapaja3Qz2fbLbrBp9gLM2buNsZhc+kJjmNMIeumDh/h8IodrG+oG8xhmVrET2Paw==
+X-Received: by 2002:a17:902:20e2:: with SMTP id
+	v31mr55147240plg.138.1558068709932; 
+	Thu, 16 May 2019 21:51:49 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	132sm7709625pga.79.2019.05.16.21.51.47
+	132sm7709625pga.79.2019.05.16.21.51.48
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Thu, 16 May 2019 21:51:47 -0700 (PDT)
+	Thu, 16 May 2019 21:51:49 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Thu, 16 May 2019 21:51:32 -0700
-Message-Id: <20190517045136.3509-10-richard.henderson@linaro.org>
+Date: Thu, 16 May 2019 21:51:33 -0700
+Message-Id: <20190517045136.3509-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190517045136.3509-1-richard.henderson@linaro.org>
 References: <20190517045136.3509-1-richard.henderson@linaro.org>
@@ -67,9 +67,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::641
-Subject: [Qemu-devel] [PATCH v14 09/13] qemu/bitops.h: Add extract8 and
- extract16
+X-Received-From: 2607:f8b0:4864:20::644
+Subject: [Qemu-devel] [PATCH v14 10/13] hw/registerfields.h: Add 8bit and
+ 16bit register macros
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -87,64 +87,82 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 
+Some RX peripheral using 8bit and 16bit registers.
+Added 8bit and 16bit APIs.
+
 Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20190516055244.95559-12-ysato@users.sourceforge.jp>
+Message-Id: <20190516055244.95559-11-ysato@users.sourceforge.jp>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- include/qemu/bitops.h | 38 ++++++++++++++++++++++++++++++++++++++
- 1 file changed, 38 insertions(+)
+ include/hw/registerfields.h | 32 +++++++++++++++++++++++++++++++-
+ 1 file changed, 31 insertions(+), 1 deletion(-)
 
-diff --git a/include/qemu/bitops.h b/include/qemu/bitops.h
-index 3f0926cf40..764f9d1ea0 100644
---- a/include/qemu/bitops.h
-+++ b/include/qemu/bitops.h
-@@ -300,6 +300,44 @@ static inline uint32_t extract32(uint32_t value, int start, int length)
-     return (value >> start) & (~0U >> (32 - length));
- }
+diff --git a/include/hw/registerfields.h b/include/hw/registerfields.h
+index 2659a58737..a0bb0654d6 100644
+--- a/include/hw/registerfields.h
++++ b/include/hw/registerfields.h
+@@ -22,6 +22,14 @@
+     enum { A_ ## reg = (addr) };                                          \
+     enum { R_ ## reg = (addr) / 4 };
  
-+/**
-+ * extract8:
-+ * @value: the value to extract the bit field from
-+ * @start: the lowest bit in the bit field (numbered from 0)
-+ * @length: the length of the bit field
-+ *
-+ * Extract from the 8 bit input @value the bit field specified by the
-+ * @start and @length parameters, and return it. The bit field must
-+ * lie entirely within the 8 bit word. It is valid to request that
-+ * all 8 bits are returned (ie @length 8 and @start 0).
-+ *
-+ * Returns: the value of the bit field extracted from the input value.
-+ */
-+static inline uint8_t extract8(uint8_t value, int start, int length)
-+{
-+    assert(start >= 0 && length > 0 && length <= 8 - start);
-+    return extract32(value, start, length);
-+}
++#define REG8(reg, addr)                                                  \
++    enum { A_ ## reg = (addr) };                                          \
++    enum { R_ ## reg = (addr) };
 +
-+/**
-+ * extract16:
-+ * @value: the value to extract the bit field from
-+ * @start: the lowest bit in the bit field (numbered from 0)
-+ * @length: the length of the bit field
-+ *
-+ * Extract from the 16 bit input @value the bit field specified by the
-+ * @start and @length parameters, and return it. The bit field must
-+ * lie entirely within the 16 bit word. It is valid to request that
-+ * all 16 bits are returned (ie @length 16 and @start 0).
-+ *
-+ * Returns: the value of the bit field extracted from the input value.
-+ */
-+static inline uint16_t extract16(uint16_t value, int start, int length)
-+{
-+    assert(start >= 0 && length > 0 && length <= 16 - start);
-+    return extract32(value, start, length);
-+}
++#define REG16(reg, addr)                                                  \
++    enum { A_ ## reg = (addr) };                                          \
++    enum { R_ ## reg = (addr) / 2 };
 +
- /**
-  * extract64:
-  * @value: the value to extract the bit field from
+ /* Define SHIFT, LENGTH and MASK constants for a field within a register */
+ 
+ /* This macro will define R_FOO_BAR_MASK, R_FOO_BAR_SHIFT and R_FOO_BAR_LENGTH
+@@ -34,6 +42,12 @@
+                                         MAKE_64BIT_MASK(shift, length)};
+ 
+ /* Extract a field from a register */
++#define FIELD_EX8(storage, reg, field)                                    \
++    extract8((storage), R_ ## reg ## _ ## field ## _SHIFT,                \
++              R_ ## reg ## _ ## field ## _LENGTH)
++#define FIELD_EX16(storage, reg, field)                                   \
++    extract16((storage), R_ ## reg ## _ ## field ## _SHIFT,               \
++              R_ ## reg ## _ ## field ## _LENGTH)
+ #define FIELD_EX32(storage, reg, field)                                   \
+     extract32((storage), R_ ## reg ## _ ## field ## _SHIFT,               \
+               R_ ## reg ## _ ## field ## _LENGTH)
+@@ -49,6 +63,22 @@
+  * Assigning values larger then the target field will result in
+  * compilation warnings.
+  */
++#define FIELD_DP8(storage, reg, field, val) ({                            \
++    struct {                                                              \
++        unsigned int v:R_ ## reg ## _ ## field ## _LENGTH;                \
++    } v = { .v = val };                                                   \
++    uint8_t d;                                                            \
++    d = deposit32((storage), R_ ## reg ## _ ## field ## _SHIFT,           \
++                  R_ ## reg ## _ ## field ## _LENGTH, v.v);               \
++    d; })
++#define FIELD_DP16(storage, reg, field, val) ({                           \
++    struct {                                                              \
++        unsigned int v:R_ ## reg ## _ ## field ## _LENGTH;                \
++    } v = { .v = val };                                                   \
++    uint16_t d;                                                           \
++    d = deposit32((storage), R_ ## reg ## _ ## field ## _SHIFT,           \
++                  R_ ## reg ## _ ## field ## _LENGTH, v.v);               \
++    d; })
+ #define FIELD_DP32(storage, reg, field, val) ({                           \
+     struct {                                                              \
+         unsigned int v:R_ ## reg ## _ ## field ## _LENGTH;                \
+@@ -57,7 +87,7 @@
+     d = deposit32((storage), R_ ## reg ## _ ## field ## _SHIFT,           \
+                   R_ ## reg ## _ ## field ## _LENGTH, v.v);               \
+     d; })
+-#define FIELD_DP64(storage, reg, field, val) ({                           \
++#define FIELD_DP64(storage, reg, field, val) ({                         \
+     struct {                                                              \
+         unsigned int v:R_ ## reg ## _ ## field ## _LENGTH;                \
+     } v = { .v = val };                                                   \
 -- 
 2.17.1
 
