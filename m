@@ -2,47 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F415D2137D
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 07:36:42 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:42670 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 378E821380
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 07:37:24 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:42676 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRVXs-0004xT-QL
-	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 01:36:40 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36507)
+	id 1hRVYZ-0005bd-EH
+	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 01:37:23 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36616)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <klaus@birkelund.eu>) id 1hRVWe-0004Py-Mi
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 01:35:25 -0400
+	(envelope-from <pagupta@redhat.com>) id 1hRVXG-0004wO-0R
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 01:36:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <klaus@birkelund.eu>) id 1hRVWd-00041F-MC
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 01:35:24 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:39762)
+	(envelope-from <pagupta@redhat.com>) id 1hRVXF-0004PL-2v
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 01:36:01 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34716)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <klaus@birkelund.eu>)
-	id 1hRVWV-0003tA-T5; Fri, 17 May 2019 01:35:17 -0400
-Received: from apples.localdomain (ip-5-186-120-196.cgn.fibianet.dk
-	[5.186.120.196])
-	by charlie.dont.surf (Postfix) with ESMTPSA id 8CB4CBF488;
-	Fri, 17 May 2019 05:35:08 +0000 (UTC)
-Date: Fri, 17 May 2019 07:35:04 +0200
-From: Klaus Birkelund <klaus@birkelund.eu>
-To: "Heitke, Kenneth" <kenneth.heitke@intel.com>
-Message-ID: <20190517053504.GA17341@apples.localdomain>
-Mail-Followup-To: "Heitke, Kenneth" <kenneth.heitke@intel.com>,
-	qemu-block@nongnu.org, keith.busch@intel.com, kwolf@redhat.com,
-	qemu-devel@nongnu.org, mreitz@redhat.com
-References: <20190405214117.1850-1-kenneth.heitke@intel.com>
-	<20190514060225.GA1350@apples.localdomain>
-	<1f607df5-b523-e517-c439-392725fd441b@intel.com>
+	(Exim 4.71) (envelope-from <pagupta@redhat.com>) id 1hRVXE-0004OK-Q9
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 01:36:01 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 7DB4D81DE6;
+	Fri, 17 May 2019 05:35:59 +0000 (UTC)
+Received: from colo-mx.corp.redhat.com
+	(colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 58AE01001DD2;
+	Fri, 17 May 2019 05:35:59 +0000 (UTC)
+Received: from zmail21.collab.prod.int.phx2.redhat.com
+	(zmail21.collab.prod.int.phx2.redhat.com [10.5.83.24])
+	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 0AB9A1806B10;
+	Fri, 17 May 2019 05:35:59 +0000 (UTC)
+Date: Fri, 17 May 2019 01:35:58 -0400 (EDT)
+From: Pankaj Gupta <pagupta@redhat.com>
+To: Jakub =?utf-8?Q?Staro=C5=84?= <jstaron@google.com>
+Message-ID: <1954162775.29408078.1558071358974.JavaMail.zimbra@redhat.com>
+In-Reply-To: <c06514fd-8675-ba74-4b7b-ff0eb4a91605@google.com>
+References: <20190514145422.16923-1-pagupta@redhat.com>
+	<20190514145422.16923-3-pagupta@redhat.com>
+	<c06514fd-8675-ba74-4b7b-ff0eb4a91605@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1f607df5-b523-e517-c439-392725fd441b@intel.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.67.116.188, 10.4.195.1]
+Thread-Topic: virtio-pmem: Add virtio pmem driver
+Thread-Index: Jfq72a6Lppgn6G/na6kHvdhmTQkM6g==
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.25]);
+	Fri, 17 May 2019 05:35:59 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 128.199.63.193
-Subject: Re: [Qemu-devel] [Qemu-block] [PATCH] nvme: add Get/Set Feature
- Timestamp support
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v9 2/7] virtio-pmem: Add virtio pmem driver
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -54,60 +66,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: keith.busch@intel.com, kwolf@redhat.com, qemu-devel@nongnu.org,
-	qemu-block@nongnu.org, mreitz@redhat.com
+Cc: cohuck@redhat.com, jack@suse.cz, kvm@vger.kernel.org, mst@redhat.com,
+	jasowang@redhat.com, david@fromorbit.com, qemu-devel@nongnu.org,
+	virtualization@lists.linux-foundation.org,
+	adilger kernel <adilger.kernel@dilger.ca>, smbarber@google.com,
+	zwisler@kernel.org, aarcange@redhat.com,
+	dave jiang <dave.jiang@intel.com>, linux-nvdimm@lists.01.org,
+	vishal l verma <vishal.l.verma@intel.com>, david@redhat.com,
+	willy@infradead.org, hch@infradead.org,
+	linux-acpi@vger.kernel.org, jmoyer@redhat.com,
+	linux-ext4@vger.kernel.org, lenb@kernel.org, kilobyte@angband.pl,
+	riel@surriel.com, yuval shaia <yuval.shaia@oracle.com>,
+	stefanha@redhat.com, imammedo@redhat.com,
+	dan j williams <dan.j.williams@intel.com>,
+	lcapitulino@redhat.com, kwolf@redhat.com, nilal@redhat.com,
+	tytso@mit.edu, xiaoguangrong eric <xiaoguangrong.eric@gmail.com>,
+	darrick wong <darrick.wong@oracle.com>, rjw@rjwysocki.net,
+	linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
+	linux-fsdevel@vger.kernel.org, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Kenneth,
 
-On Thu, May 16, 2019 at 05:24:47PM -0600, Heitke, Kenneth wrote:
-> Hi Klaus, thank you for you review. I have one comment inline
-> 
-> On 5/14/2019 12:02 AM, Klaus Birkelund wrote:
-> > On Fri, Apr 05, 2019 at 03:41:17PM -0600, Kenneth Heitke wrote:
-> > > Signed-off-by: Kenneth Heitke <kenneth.heitke@intel.com>
-> > > ---
-> > >   hw/block/nvme.c       | 120 +++++++++++++++++++++++++++++++++++++++++-
-> > >   hw/block/nvme.h       |   3 ++
-> > >   hw/block/trace-events |   2 +
-> > >   include/block/nvme.h  |   2 +
-> > >   4 files changed, 125 insertions(+), 2 deletions(-)
-> > > 
-> > > diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> > > index 7caf92532a..e775e89299 100644
-> > > --- a/hw/block/nvme.c
-> > > +++ b/hw/block/nvme.c
-> > > @@ -219,6 +219,30 @@ static uint16_t nvme_map_prp(QEMUSGList *qsg, QEMUIOVector *iov, uint64_t prp1,
-> > >       return NVME_INVALID_FIELD | NVME_DNR;
-> > >   }
-> > > +static uint16_t nvme_dma_write_prp(NvmeCtrl *n, uint8_t *ptr, uint32_t len,
-> > > +                                   uint64_t prp1, uint64_t prp2)
-> > > +{
-> > > +    QEMUSGList qsg;
-> > > +    QEMUIOVector iov;
-> > > +    uint16_t status = NVME_SUCCESS;
-> > > +
-> > > +    if (nvme_map_prp(&qsg, &iov, prp1, prp2, len, n)) {
-> > > +        return NVME_INVALID_FIELD | NVME_DNR;
-> > > +    }
-> > > +    if (qsg.nsg > 0) {
-> > > +        if (dma_buf_write(ptr, len, &qsg)) {
-> > > +            status = NVME_INVALID_FIELD | NVME_DNR;
-> > > +        }
-> > > +        qemu_sglist_destroy(&qsg);
-> > > +    } else {
-> > > +        if (qemu_iovec_from_buf(&iov, 0, ptr, len) != len) {
-> > 
-> > This should be `qemu_iovec_to_buf`.
-> > 
-> 
-> This function is transferring data from the "host" to the device so I
-> believe I am using the correct function.
-> 
 
-Exactly, but this means that you need to populate `ptr` with data
-described by the prps, hence dma_buf_*write* and qemu_iovec_*to*_buf. In
-this case `ptr` is set to the address of the uint64_t timestamp, and
-that is what we need to write to.
+Hi Jakub,
+
+> 
+> On 5/14/19 7:54 AM, Pankaj Gupta wrote:
+> > +		if (!list_empty(&vpmem->req_list)) {
+> > +			req_buf = list_first_entry(&vpmem->req_list,
+> > +					struct virtio_pmem_request, list);
+> > +			req_buf->wq_buf_avail = true;
+> > +			wake_up(&req_buf->wq_buf);
+> > +			list_del(&req_buf->list);
+> Yes, this change is the right one, thank you!
+
+Thank you for the confirmation.
+
+> 
+> > +	 /*
+> > +	  * If virtqueue_add_sgs returns -ENOSPC then req_vq virtual
+> > +	  * queue does not have free descriptor. We add the request
+> > +	  * to req_list and wait for host_ack to wake us up when free
+> > +	  * slots are available.
+> > +	  */
+> > +	while ((err = virtqueue_add_sgs(vpmem->req_vq, sgs, 1, 1, req,
+> > +					GFP_ATOMIC)) == -ENOSPC) {
+> > +
+> > +		dev_err(&vdev->dev, "failed to send command to virtio pmem" \
+> > +			"device, no free slots in the virtqueue\n");
+> > +		req->wq_buf_avail = false;
+> > +		list_add_tail(&req->list, &vpmem->req_list);
+> > +		spin_unlock_irqrestore(&vpmem->pmem_lock, flags);
+> > +
+> > +		/* A host response results in "host_ack" getting called */
+> > +		wait_event(req->wq_buf, req->wq_buf_avail);
+> > +		spin_lock_irqsave(&vpmem->pmem_lock, flags);
+> > +	}
+> > +	err1 = virtqueue_kick(vpmem->req_vq);
+> > +	spin_unlock_irqrestore(&vpmem->pmem_lock, flags);
+> > +
+> > +	/*
+> > +	 * virtqueue_add_sgs failed with error different than -ENOSPC, we can't
+> > +	 * do anything about that.
+> > +	 */
+> > +	if (err || !err1) {
+> > +		dev_info(&vdev->dev, "failed to send command to virtio pmem device\n");
+> > +		err = -EIO;
+> > +	} else {
+> > +		/* A host repsonse results in "host_ack" getting called */
+> > +		wait_event(req->host_acked, req->done);
+> > +		err = req->ret;
+> > +I confirm that the failures I was facing with the `-ENOSPC` error path are
+> > not present in v9.
+
+Can I take it your reviewed/acked-by? or tested-by tag? for the virtio patch :)
+
+Thank you,
+Pankaj
+
+> 
+> Best,
+> Jakub Staron
+> 
+> 
 
