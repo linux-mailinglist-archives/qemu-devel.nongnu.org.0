@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC1892176A
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 13:02:11 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46438 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 09B8821766
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 13:00:05 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46364 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRact-0001Jg-1a
-	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 07:02:11 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49892)
+	id 1hRaaq-0007q9-6o
+	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 07:00:04 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49256)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <david@redhat.com>) id 1hRa6h-0006uC-7j
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 06:28:56 -0400
+	(envelope-from <david@redhat.com>) id 1hRa6e-0006HC-EA
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 06:28:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <david@redhat.com>) id 1hRa1A-0004mL-5H
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 06:23:13 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:43628)
+	(envelope-from <david@redhat.com>) id 1hRa1F-0004pV-4H
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 06:23:18 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:48590)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <david@redhat.com>)
-	id 1hRa19-0004lb-TP; Fri, 17 May 2019 06:23:12 -0400
+	id 1hRa1E-0004p4-St; Fri, 17 May 2019 06:23:17 -0400
 Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
 	[10.5.11.23])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 398B6FD1BC;
-	Fri, 17 May 2019 10:23:11 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 3154030BB37A;
+	Fri, 17 May 2019 10:23:16 +0000 (UTC)
 Received: from t460s.redhat.com (unknown [10.36.118.100])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id B2DD938E09;
-	Fri, 17 May 2019 10:23:09 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 841D638E08;
+	Fri, 17 May 2019 10:23:11 +0000 (UTC)
 From: David Hildenbrand <david@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 17 May 2019 12:21:15 +0200
-Message-Id: <20190517102145.21812-11-david@redhat.com>
+Date: Fri, 17 May 2019 12:21:16 +0200
+Message-Id: <20190517102145.21812-12-david@redhat.com>
 In-Reply-To: <20190517102145.21812-1-david@redhat.com>
 References: <20190517102145.21812-1-david@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.26]);
-	Fri, 17 May 2019 10:23:11 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.49]);
+	Fri, 17 May 2019 10:23:16 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL SUBSYSTEM s390x 10/40] s390x/tcg: Implement
- VECTOR COMPARE *
+Subject: [Qemu-devel] [PULL SUBSYSTEM s390x 11/40] s390x/tcg: Implement
+ VECTOR COUNT LEADING ZEROS
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -63,156 +63,134 @@ Cc: Thomas Huth <thuth@redhat.com>, David Hildenbrand <david@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To carry out the comparison, we can reuse the existing gvec comparison
-function. In case the CC is to be computed, save the result vector
-and compute the CC lazily. The result is a vector consisting of all 1's
-for elements that matched and 0's for elements that didn't match.
+For 8/16, use the 32 bit variant and properly subtract the added
+leading zero bits.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- target/s390x/cc_helper.c        | 17 +++++++++++++++++
- target/s390x/helper.c           |  1 +
- target/s390x/insn-data.def      |  6 ++++++
- target/s390x/internal.h         |  1 +
- target/s390x/translate.c        |  1 +
- target/s390x/translate_vx.inc.c | 28 ++++++++++++++++++++++++++++
- 6 files changed, 54 insertions(+)
+ target/s390x/helper.h           |  2 ++
+ target/s390x/insn-data.def      |  2 ++
+ target/s390x/translate_vx.inc.c | 31 +++++++++++++++++++++++++++++++
+ target/s390x/vec_int_helper.c   | 14 ++++++++++++++
+ 4 files changed, 49 insertions(+)
 
-diff --git a/target/s390x/cc_helper.c b/target/s390x/cc_helper.c
-index 0e467bf2b6..a00294f183 100644
---- a/target/s390x/cc_helper.c
-+++ b/target/s390x/cc_helper.c
-@@ -402,6 +402,20 @@ static uint32_t cc_calc_lcbb(uint64_t dst)
-     return dst =3D=3D 16 ? 0 : 3;
- }
+diff --git a/target/s390x/helper.h b/target/s390x/helper.h
+index 21921397fe..670677427c 100644
+--- a/target/s390x/helper.h
++++ b/target/s390x/helper.h
+@@ -150,6 +150,8 @@ DEF_HELPER_FLAGS_4(gvec_vavg8, TCG_CALL_NO_RWG, void,=
+ ptr, cptr, cptr, i32)
+ DEF_HELPER_FLAGS_4(gvec_vavg16, TCG_CALL_NO_RWG, void, ptr, cptr, cptr, =
+i32)
+ DEF_HELPER_FLAGS_4(gvec_vavgl8, TCG_CALL_NO_RWG, void, ptr, cptr, cptr, =
+i32)
+ DEF_HELPER_FLAGS_4(gvec_vavgl16, TCG_CALL_NO_RWG, void, ptr, cptr, cptr,=
+ i32)
++DEF_HELPER_FLAGS_3(gvec_vclz8, TCG_CALL_NO_RWG, void, ptr, cptr, i32)
++DEF_HELPER_FLAGS_3(gvec_vclz16, TCG_CALL_NO_RWG, void, ptr, cptr, i32)
 =20
-+static uint32_t cc_calc_vc(uint64_t low, uint64_t high)
-+{
-+    if (high =3D=3D -1ull && low =3D=3D -1ull) {
-+        /* all elements match */
-+        return 0;
-+    } else if (high =3D=3D 0 && low =3D=3D 0) {
-+        /* no elements match */
-+        return 3;
-+    } else {
-+        /* some elements but not all match */
-+        return 1;
-+    }
-+}
-+
- static uint32_t do_calc_cc(CPUS390XState *env, uint32_t cc_op,
-                                   uint64_t src, uint64_t dst, uint64_t v=
-r)
- {
-@@ -514,6 +528,9 @@ static uint32_t do_calc_cc(CPUS390XState *env, uint32=
-_t cc_op,
-     case CC_OP_LCBB:
-         r =3D cc_calc_lcbb(dst);
-         break;
-+    case CC_OP_VC:
-+        r =3D cc_calc_vc(src, dst);
-+        break;
-=20
-     case CC_OP_NZ_F32:
-         r =3D set_cc_nz_f32(dst);
-diff --git a/target/s390x/helper.c b/target/s390x/helper.c
-index f957a2c830..3c8f0a7615 100644
---- a/target/s390x/helper.c
-+++ b/target/s390x/helper.c
-@@ -418,6 +418,7 @@ const char *cc_name(enum cc_op cc_op)
-         [CC_OP_SLA_64]    =3D "CC_OP_SLA_64",
-         [CC_OP_FLOGR]     =3D "CC_OP_FLOGR",
-         [CC_OP_LCBB]      =3D "CC_OP_LCBB",
-+        [CC_OP_VC]        =3D "CC_OP_VC",
-     };
-=20
-     return cc_names[cc_op];
+ #ifndef CONFIG_USER_ONLY
+ DEF_HELPER_3(servc, i32, env, i64, i64)
 diff --git a/target/s390x/insn-data.def b/target/s390x/insn-data.def
-index 52e398f515..1d159cb201 100644
+index 1d159cb201..be3c07aafb 100644
 --- a/target/s390x/insn-data.def
 +++ b/target/s390x/insn-data.def
-@@ -1078,6 +1078,12 @@
-     F(0xe7db, VEC,     VRR_a, V,   0, 0, 0, 0, vec, cmps64, IF_VEC)
- /* VECTOR ELEMENT COMPARE LOGICAL */
-     F(0xe7d9, VECL,    VRR_a, V,   0, 0, 0, 0, vec, cmpu64, IF_VEC)
-+/* VECTOR COMPARE EQUAL */
-+    E(0xe7f8, VCEQ,    VRR_b, V,   0, 0, 0, 0, vc, 0, TCG_COND_EQ, IF_VE=
+@@ -1084,6 +1084,8 @@
+     E(0xe7fb, VCH,     VRR_b, V,   0, 0, 0, 0, vc, 0, TCG_COND_GT, IF_VE=
 C)
-+/* VECTOR COMPARE HIGH */
-+    E(0xe7fb, VCH,     VRR_b, V,   0, 0, 0, 0, vc, 0, TCG_COND_GT, IF_VE=
-C)
-+/* VECTOR COMPARE HIGH LOGICAL */
-+    E(0xe7f9, VCHL,    VRR_b, V,   0, 0, 0, 0, vc, 0, TCG_COND_GTU, IF_V=
+ /* VECTOR COMPARE HIGH LOGICAL */
+     E(0xe7f9, VCHL,    VRR_b, V,   0, 0, 0, 0, vc, 0, TCG_COND_GTU, IF_V=
 EC)
++/* VECTOR COUNT LEADING ZEROS */
++    F(0xe753, VCLZ,    VRR_a, V,   0, 0, 0, 0, vclz, 0, IF_VEC)
 =20
  #ifndef CONFIG_USER_ONLY
  /* COMPARE AND SWAP AND PURGE */
-diff --git a/target/s390x/internal.h b/target/s390x/internal.h
-index 56534b38e0..9893fc094b 100644
---- a/target/s390x/internal.h
-+++ b/target/s390x/internal.h
-@@ -200,6 +200,7 @@ enum cc_op {
-     CC_OP_SLA_64,               /* Calculate shift left signed (64bit) *=
-/
-     CC_OP_FLOGR,                /* find leftmost one */
-     CC_OP_LCBB,                 /* load count to block boundary */
-+    CC_OP_VC,                   /* vector compare result */
-     CC_OP_MAX
- };
-=20
-diff --git a/target/s390x/translate.c b/target/s390x/translate.c
-index e8e8a79b7d..da8f5b469d 100644
---- a/target/s390x/translate.c
-+++ b/target/s390x/translate.c
-@@ -572,6 +572,7 @@ static void gen_op_calc_cc(DisasContext *s)
-     case CC_OP_SLA_32:
-     case CC_OP_SLA_64:
-     case CC_OP_NZ_F128:
-+    case CC_OP_VC:
-         /* 2 arguments */
-         gen_helper_calc_cc(cc_op, cpu_env, local_cc_op, cc_src, cc_dst, =
-dummy);
-         break;
 diff --git a/target/s390x/translate_vx.inc.c b/target/s390x/translate_vx.=
 inc.c
-index 4d5af6e3b6..199742fad0 100644
+index 199742fad0..948c9fbbb1 100644
 --- a/target/s390x/translate_vx.inc.c
 +++ b/target/s390x/translate_vx.inc.c
-@@ -1389,3 +1389,31 @@ static DisasJumpType op_vec(DisasContext *s, Disas=
-Ops *o)
-     read_vec_element_i64(o->in2, get_field(s->fields, v2), enr, es);
+@@ -182,6 +182,9 @@ static void get_vec_element_ptr_i64(TCGv_ptr ptr, uin=
+t8_t reg, TCGv_i64 enr,
+     tcg_temp_free_i64(tmp);
+ }
+=20
++#define gen_gvec_2(v1, v2, gen) \
++    tcg_gen_gvec_2(vec_full_reg_offset(v1), vec_full_reg_offset(v2), \
++                   16, 16, gen)
+ #define gen_gvec_3(v1, v2, v3, gen) \
+     tcg_gen_gvec_3(vec_full_reg_offset(v1), vec_full_reg_offset(v2), \
+                    vec_full_reg_offset(v3), 16, 16, gen)
+@@ -1417,3 +1420,31 @@ static DisasJumpType op_vc(DisasContext *s, DisasO=
+ps *o)
+     }
      return DISAS_NEXT;
  }
 +
-+static DisasJumpType op_vc(DisasContext *s, DisasOps *o)
++static void gen_clz_i32(TCGv_i32 d, TCGv_i32 a)
 +{
-+    const uint8_t es =3D get_field(s->fields, m4);
-+    TCGCond cond =3D s->insn->data;
++    tcg_gen_clzi_i32(d, a, 32);
++}
++
++static void gen_clz_i64(TCGv_i64 d, TCGv_i64 a)
++{
++    tcg_gen_clzi_i64(d, a, 64);
++}
++
++static DisasJumpType op_vclz(DisasContext *s, DisasOps *o)
++{
++    const uint8_t es =3D get_field(s->fields, m3);
++    static const GVecGen2 g[4] =3D {
++        { .fno =3D gen_helper_gvec_vclz8, },
++        { .fno =3D gen_helper_gvec_vclz16, },
++        { .fni4 =3D gen_clz_i32, },
++        { .fni8 =3D gen_clz_i64, },
++    };
 +
 +    if (es > ES_64) {
 +        gen_program_exception(s, PGM_SPECIFICATION);
 +        return DISAS_NORETURN;
 +    }
-+
-+    tcg_gen_gvec_cmp(cond, es,
-+                     vec_full_reg_offset(get_field(s->fields, v1)),
-+                     vec_full_reg_offset(get_field(s->fields, v2)),
-+                     vec_full_reg_offset(get_field(s->fields, v3)), 16, =
-16);
-+    if (get_field(s->fields, m5) & 0x1) {
-+        TCGv_i64 low =3D tcg_temp_new_i64();
-+        TCGv_i64 high =3D tcg_temp_new_i64();
-+
-+        read_vec_element_i64(high, get_field(s->fields, v1), 0, ES_64);
-+        read_vec_element_i64(low, get_field(s->fields, v1), 1, ES_64);
-+        gen_op_update2_cc_i64(s, CC_OP_VC, low, high);
-+
-+        tcg_temp_free_i64(low);
-+        tcg_temp_free_i64(high);
-+    }
++    gen_gvec_2(get_field(s->fields, v1), get_field(s->fields, v2), &g[es=
+]);
 +    return DISAS_NEXT;
 +}
+diff --git a/target/s390x/vec_int_helper.c b/target/s390x/vec_int_helper.=
+c
+index 8f97d3f466..016512547c 100644
+--- a/target/s390x/vec_int_helper.c
++++ b/target/s390x/vec_int_helper.c
+@@ -46,3 +46,17 @@ void HELPER(gvec_vavgl##BITS)(void *v1, const void *v2=
+, const void *v3,        \
+ }
+ DEF_VAVGL(8)
+ DEF_VAVGL(16)
++
++#define DEF_VCLZ(BITS)                                                  =
+       \
++void HELPER(gvec_vclz##BITS)(void *v1, const void *v2, uint32_t desc)   =
+       \
++{                                                                       =
+       \
++    int i;                                                              =
+       \
++                                                                        =
+       \
++    for (i =3D 0; i < (128 / BITS); i++) {                              =
+         \
++        const uint##BITS##_t a =3D s390_vec_read_element##BITS(v2, i);  =
+         \
++                                                                        =
+       \
++        s390_vec_write_element##BITS(v1, i, clz32(a) - 32 + BITS);      =
+       \
++    }                                                                   =
+       \
++}
++DEF_VCLZ(8)
++DEF_VCLZ(16)
 --=20
 2.20.1
 
