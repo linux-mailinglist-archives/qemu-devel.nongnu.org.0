@@ -2,37 +2,39 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1AD3F2208E
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 May 2019 00:57:15 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54900 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38F7422079
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 May 2019 00:54:37 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54822 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRlms-0002qP-9r
-	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 18:57:14 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43333)
+	id 1hRlkK-0000CA-9H
+	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 18:54:36 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44459)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <jsnow@redhat.com>) id 1hRlbU-0001Vg-0N
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 18:45:30 -0400
+	(envelope-from <jsnow@redhat.com>) id 1hRlht-0007Ra-32
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 18:52:06 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <jsnow@redhat.com>) id 1hRlbS-000647-HD
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 18:45:27 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53180)
+	(envelope-from <jsnow@redhat.com>) id 1hRlhr-0001Ci-BF
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 18:52:04 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55290)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <jsnow@redhat.com>)
-	id 1hRlbP-0005QA-BK; Fri, 17 May 2019 18:45:23 -0400
+	id 1hRlho-0000zr-8N; Fri, 17 May 2019 18:52:00 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
 	[10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 5FC14309264C;
-	Fri, 17 May 2019 22:45:07 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 31EE8308794C;
+	Fri, 17 May 2019 22:51:59 +0000 (UTC)
 Received: from [10.18.17.215] (dhcp-17-215.bos.redhat.com [10.18.17.215])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 32F9D60E3E;
-	Fri, 17 May 2019 22:45:05 +0000 (UTC)
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
-	qemu-devel@nongnu.org, qemu-block@nongnu.org
-References: <20190517152111.206494-1-vsementsov@virtuozzo.com>
-	<20190517152111.206494-2-vsementsov@virtuozzo.com>
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 563B860FAF;
+	Fri, 17 May 2019 22:51:58 +0000 (UTC)
+To: Denis Plotnikov <dplotnikov@virtuozzo.com>,
+	"eblake@redhat.com" <eblake@redhat.com>, "kwolf@redhat.com"
+	<kwolf@redhat.com>, "mreitz@redhat.com" <mreitz@redhat.com>
+References: <20190516134844.3683-1-dplotnikov@virtuozzo.com>
+	<aff325ca-ebea-126e-aca5-84a5ef431845@redhat.com>
+	<3a4c358f-673b-c123-772d-da02ce9a4b71@virtuozzo.com>
 From: John Snow <jsnow@redhat.com>
 Openpgp: preference=signencrypt
 Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
@@ -109,23 +111,23 @@ Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
 	i0HjnLoJP5jDcoMTabZTIazXmJz3pKM11HYJ5/ZsTIf3ZRJJKIvXJpbmcAPVwTZII6XxiJdh
 	RSSX4Mvd5pL/+5WI6NTdW6DMfigTtdd85fe6PwBNVJL2ZvBfsBJZ5rxg1TOH3KLsYBqBTgW2
 	glQofxhkJhDEcvjLhe3Y2BlbCWKOmvM8XS9TRt0OwUs=
-Message-ID: <e9c48cc9-3208-c111-9669-f6098ec746cd@redhat.com>
-Date: Fri, 17 May 2019 18:45:05 -0400
+Message-ID: <51d03610-d4c5-a208-55fc-4e266cf3dac9@redhat.com>
+Date: Fri, 17 May 2019 18:51:57 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190517152111.206494-2-vsementsov@virtuozzo.com>
+In-Reply-To: <3a4c358f-673b-c123-772d-da02ce9a4b71@virtuozzo.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.43]);
-	Fri, 17 May 2019 22:45:11 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.45]);
+	Fri, 17 May 2019 22:51:59 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 1/2] qapi: support external bitmaps in
- block-dirty-bitmap-merge
+Subject: Re: [Qemu-devel] [Qemu-block] [PATCH v1] [RFC] qcow2: add
+ compression type feature
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -137,186 +139,139 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, den@virtuozzo.com, armbru@redhat.com,
-	mreitz@redhat.com
+Cc: "qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+	"qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+	Denis Lunev <den@virtuozzo.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
 
-On 5/17/19 11:21 AM, Vladimir Sementsov-Ogievskiy wrote:
-> Add new optional parameter making possible to merge bitmaps from
-> different nodes. It is needed to maintain external snapshots during
-> incremental backup chain history.
-> 
-> Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> ---
->  qapi/block-core.json | 22 ++++++++++++++++---
->  block/dirty-bitmap.c |  9 +++++---
->  blockdev.c           | 50 +++++++++++++++++++++++++++++---------------
->  3 files changed, 58 insertions(+), 23 deletions(-)
-> 
-> diff --git a/qapi/block-core.json b/qapi/block-core.json
-> index 7ccbfff9d0..dcc935d655 100644
-> --- a/qapi/block-core.json
-> +++ b/qapi/block-core.json
-> @@ -2003,19 +2003,35 @@
->    'data': { 'node': 'str', 'name': 'str', '*granularity': 'uint32',
->              '*persistent': 'bool', '*autoload': 'bool', '*disabled': 'bool' } }
->  
-> +##
-> +# @BlockDirtyBitmapMergeSource:
-> +#
-> +# @local: name of the bitmap, attached to the same node as target bitmap.
-> +#
-> +# @external: bitmap with specified node
-> +#
-> +# Since: 4.1
-> +##
-> +{ 'alternate': 'BlockDirtyBitmapMergeSource',
-> +  'data': { 'local': 'str',
-> +            'external': 'BlockDirtyBitmap' } }
-> +
+On 5/17/19 4:05 AM, Denis Plotnikov wrote:
+>=20
+>=20
+> On 17.05.2019 2:25, John Snow wrote:
+>>
+>>
+>> On 5/16/19 9:48 AM, Denis Plotnikov wrote:
+>>> The patch adds some preparation parts for incompatible compression ty=
+pe
+>>> feature into QCOW2 header that indicates that *all* compressed cluste=
+rs
+>>> must be (de)compressed using a certain compression type.
+>>>
+>>> It is implied that the compression type is set on the image creation =
+and
+>>> can be changed only later by image conversion, thus the only compress=
+ion
+>>> algorithm is used for the image.
+>>>
+>>> The plan is to add support for ZSTD and then may be something more ef=
+fective
+>>> in the future.
+>>>
+>>> ZSTD compression algorithm consumes 3-5 times less CPU power with a
+>>> comparable compression ratio with zlib. It would be wise to use it fo=
+r
+>>> data compression e.g. for backups.
+>>>
+>>> The default compression is ZLIB.
+>>>
+>>
+>> (Merely a curiosity:)
+>>
+>> Since this is coming from Virtuozzo, I trust that you've had good luck
+>> with ZSTD already in R&D. What do the compression ratios look like in
+>> practice? It's touted as "comparable to zlib" which certainly does sou=
+nd
+>> quite nice for streaming compression of backups.
+>>
+>> I suppose in the worst case it ought to be faster than bandwidth speed=
+s,
+>> so no harm in utilizing it.
+> Yes, we did some research on it. Actually, there is a patch in the=20
+> mailing list (please, take a look: ) which applies ZSTD compression in=20
+> the migration.
+> Here are the numbers from there:
+>=20
+> host: i7-4790 8xCPU @ 3.60GHz, 16G RAM
+> migration to the same host
+> VM: 2xVCPU, 8G RAM total
+> 5G RAM used, memory populated with postgreqsl data
+> produced by pgbench performance benchmark
+>=20
+> Threads: 1 compress =E2=80=93 1 decompress
+>=20
+> zstd provides slightly less compression ratio with almost the same
+> CPU usage but copes with RAM compression roughly 2 times faster
+>=20
+> compression type              zlib       |      zstd
+> ---------------------------------------------------------
+> compression level          1       5     |   1       5
+> compression ratio          6.92    7.05  |   6.69    6.89
+> cpu idle, %                82      83    |   86      80
+> time, sec                  49      71    |   26      31
+> time diff to zlib, sec                   |  -25     -41
+> time diff to zlib, %                     |  -47%    -56%
+>=20
+> I general ZSTD provides better compression ratio on big dependent chunk=
+s=20
+> of data. Than bigger the data size then better ZSTD it compresses.
+>=20
+> Since, in our cases (migration: 4K RAM block, qcow2: cluster) we
+> have to compress independent chunks the ability of ZSTD to find better=20
+> compression solution is restricted.
+>=20
+> Although, the compression ratio is pretty much the same in both cases=20
+> the experiments shown that ZSTD does the compression much faster (x2).
+>=20
+> Which is obviously good for us.
+>=20
+> Here is other comparison of ZLIB vs ZSTD without any application in qem=
+u=20
+> which shows that ZSTD works faster
+>=20
+> zlib =3D max compression level
+> zstd =3D compression level 5 (max 22)
+>=20
+> cycles consumed for compression:
+> 					=09
+> 	4k txt	4K ram	4K bin	64K txt	 64K ram  64K bin
+> zlib	  400K	  344K	  1.3M	    13M       5M    92.3M
+> zstd 	  350K	  235K	  312K	   3.3M     1.3M     2.4M
+> Diff,%	   -12	   -32	   -77	    -75      -73      -97
+>=20
 
-We might be able to use something more generic to name this type of
-thing, but I think such changes are wire compatible, so we can rename it
-to be more generic if we decide to use this for something else in the
-future, so this is good.
+Wow, the 4k bin one is drastic. The text is even more prominent. wow!
+					=09
+> size after compression in bytes:
+>=20
+> 	4k txt	4K ram	4K bin	64K txt	 64K ram  64K bin
+> zlib	  1542	  3599	  1403	17386	  64735	    20609
+> zstd 	  1568	  3540	  1250	17656	  65546	    20023
+> Diff,%	    -2	     2	    11	   -2	     -1	        3
+>=20
 
->  ##
->  # @BlockDirtyBitmapMerge:
->  #
-> -# @node: name of device/node which the bitmap is tracking
-> +# @node: name of device/node which the @target bitmap is tracking
->  #
->  # @target: name of the destination dirty bitmap
->  #
-> -# @bitmaps: name(s) of the source dirty bitmap(s)
-> +# @bitmaps: name(s) of the source dirty bitmap(s) at @node and/or fully
-> +#           specifed BlockDirtyBitmap elements. The latter are supported
-> +#           since 4.1.
->  #
->  # Since: 4.0
->  ##
->  { 'struct': 'BlockDirtyBitmapMerge',
-> -  'data': { 'node': 'str', 'target': 'str', 'bitmaps': ['str'] } }
-> +  'data': { 'node': 'str', 'target': 'str',
-> +            'bitmaps': ['BlockDirtyBitmapMergeSource'] } }
->  
->  ##
->  # @block-dirty-bitmap-add:
-> diff --git a/block/dirty-bitmap.c b/block/dirty-bitmap.c
-> index 59e6ebb861..49646a30e6 100644
-> --- a/block/dirty-bitmap.c
-> +++ b/block/dirty-bitmap.c
-> @@ -816,10 +816,10 @@ void bdrv_merge_dirty_bitmap(BdrvDirtyBitmap *dest, const BdrvDirtyBitmap *src,
->  {
->      bool ret;
->  
-> -    /* only bitmaps from one bds are supported */
-> -    assert(dest->mutex == src->mutex);
-> -
->      qemu_mutex_lock(dest->mutex);
-> +    if (src->mutex != dest->mutex) {
-> +        qemu_mutex_lock(src->mutex);
-> +    }
->  
->      if (bdrv_dirty_bitmap_check(dest, BDRV_BITMAP_DEFAULT, errp)) {
->          goto out;
-> @@ -845,4 +845,7 @@ void bdrv_merge_dirty_bitmap(BdrvDirtyBitmap *dest, const BdrvDirtyBitmap *src,
->  
->  out:
->      qemu_mutex_unlock(dest->mutex);
-> +    if (src->mutex != dest->mutex) {
-> +        qemu_mutex_unlock(src->mutex);
-> +    }
->  }
-> diff --git a/blockdev.c b/blockdev.c
-> index 79fbac8450..64ccef735b 100644
-> --- a/blockdev.c
-> +++ b/blockdev.c
-> @@ -2112,11 +2112,10 @@ static void block_dirty_bitmap_disable_abort(BlkActionState *common)
->      }
->  }
->  
-> -static BdrvDirtyBitmap *do_block_dirty_bitmap_merge(const char *node,
-> -                                                    const char *target,
-> -                                                    strList *bitmaps,
-> -                                                    HBitmap **backup,
-> -                                                    Error **errp);
-> +static BdrvDirtyBitmap *do_block_dirty_bitmap_merge(
-> +        const char *node, const char *target,
-> +        BlockDirtyBitmapMergeSourceList *bitmaps,
-> +        HBitmap **backup, Error **errp);
->  
->  static void block_dirty_bitmap_merge_prepare(BlkActionState *common,
->                                               Error **errp)
-> @@ -2965,15 +2964,14 @@ void qmp_block_dirty_bitmap_disable(const char *node, const char *name,
->      bdrv_disable_dirty_bitmap(bitmap);
->  }
->  
-> -static BdrvDirtyBitmap *do_block_dirty_bitmap_merge(const char *node,
-> -                                                    const char *target,
-> -                                                    strList *bitmaps,
-> -                                                    HBitmap **backup,
-> -                                                    Error **errp)
-> +static BdrvDirtyBitmap *do_block_dirty_bitmap_merge(
-> +        const char *node, const char *target,
-> +        BlockDirtyBitmapMergeSourceList *bitmaps,
-> +        HBitmap **backup, Error **errp)
->  {
->      BlockDriverState *bs;
->      BdrvDirtyBitmap *dst, *src, *anon;
-> -    strList *lst;
-> +    BlockDirtyBitmapMergeSourceList *lst;
->      Error *local_err = NULL;
->  
->      dst = block_dirty_bitmap_lookup(node, target, &bs, errp);
-> @@ -2988,11 +2986,28 @@ static BdrvDirtyBitmap *do_block_dirty_bitmap_merge(const char *node,
->      }
->  
->      for (lst = bitmaps; lst; lst = lst->next) {
-> -        src = bdrv_find_dirty_bitmap(bs, lst->value);
-> -        if (!src) {
-> -            error_setg(errp, "Dirty bitmap '%s' not found", lst->value);
-> -            dst = NULL;
-> -            goto out;
-> +        switch (lst->value->type) {
-> +            const char *name, *node;
-> +        case QTYPE_QSTRING:
-> +            name = lst->value->u.local;
-> +            src = bdrv_find_dirty_bitmap(bs, name);
-> +            if (!src) {
-> +                error_setg(errp, "Dirty bitmap '%s' not found", name);
-> +                dst = NULL;
-> +                goto out;
-> +            }
-> +            break;
-> +        case QTYPE_QDICT:
-> +            node = lst->value->u.external.node;
-> +            name = lst->value->u.external.name;
-> +            src = block_dirty_bitmap_lookup(node, name, NULL, errp);
-> +            if (!src) {
-> +                dst = NULL;
-> +                goto out;
-> +            }
-> +            break;
-> +        default:
-> +            abort();
->          }
->  
->          bdrv_merge_dirty_bitmap(anon, src, NULL, &local_err);
-> @@ -3012,7 +3027,8 @@ static BdrvDirtyBitmap *do_block_dirty_bitmap_merge(const char *node,
->  }
->  
->  void qmp_block_dirty_bitmap_merge(const char *node, const char *target,
-> -                                  strList *bitmaps, Error **errp)
-> +                                  BlockDirtyBitmapMergeSourceList *bitmaps,
-> +                                  Error **errp)
->  {
->      do_block_dirty_bitmap_merge(node, target, bitmaps, NULL, errp);
->  }
-> 
+Yeah, that's pretty close. Seems like absolutely a great tradeoff for
+the speed gain. If the little bit of difference matters to you, you can
+always do some more heavy-duty compression of your choice in another
+layer of the storage stack.
 
-Reviewed-by: John Snow <jsnow@redhat.com>
+> Data sources for test files [we took 4K and 64K chunks from there]:
+>=20
+> txt =3D linux/Documentation/memory-barriers.txt
+> ram =3D /boot/initramfs-4.20.0-rc6+.img
+> bin =3D x86_64-softmmu/qemu-system-x86_64
+>=20
+> Increasing of ZSTD compression ratio didn't give any significant=20
+> improvements of the out size but slowed down the pace of ZSTD
+>=20
+> Denis
+>=20
+>>
+>>> Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
+>=20
+
+Very useful data, thanks for sharing! Seems like this would indeed be a
+great thing to have for qcow2.
 
