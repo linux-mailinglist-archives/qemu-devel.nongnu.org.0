@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 848E3215FC
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 11:09:35 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:44905 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6A431215FD
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 11:09:37 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:44907 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRYru-0005oX-Ar
-	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 05:09:34 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34741)
+	id 1hRYrw-0005re-F7
+	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 05:09:36 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34752)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <jasowang@redhat.com>) id 1hRYpS-0004QU-Qh
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 05:07:07 -0400
+	(envelope-from <jasowang@redhat.com>) id 1hRYpY-0004Tl-4D
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 05:07:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <jasowang@redhat.com>) id 1hRYpR-0003h2-TC
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 05:07:02 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45548)
+	(envelope-from <jasowang@redhat.com>) id 1hRYpW-0003iS-4X
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 05:07:07 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41426)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1hRYpR-0003gG-Np
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 05:07:01 -0400
+	(Exim 4.71) (envelope-from <jasowang@redhat.com>) id 1hRYpV-0003i6-Va
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 05:07:06 -0400
 Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
 	[10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id CC46BA404E;
-	Fri, 17 May 2019 09:07:00 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 9C860308FBB1;
+	Fri, 17 May 2019 09:07:04 +0000 (UTC)
 Received: from jason-ThinkPad-T430s.redhat.com (ovpn-12-157.pek2.redhat.com
 	[10.72.12.157])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 7705660BE0;
-	Fri, 17 May 2019 09:06:59 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 51A7260BE0;
+	Fri, 17 May 2019 09:07:01 +0000 (UTC)
 From: Jason Wang <jasowang@redhat.com>
 To: qemu-devel@nongnu.org,
 	peter.maydell@linaro.org
-Date: Fri, 17 May 2019 17:06:53 +0800
-Message-Id: <1558084017-15947-1-git-send-email-jasowang@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Date: Fri, 17 May 2019 17:06:54 +0800
+Message-Id: <1558084017-15947-2-git-send-email-jasowang@redhat.com>
+In-Reply-To: <1558084017-15947-1-git-send-email-jasowang@redhat.com>
+References: <1558084017-15947-1-git-send-email-jasowang@redhat.com>
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.38]);
-	Fri, 17 May 2019 09:07:00 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+	(mx1.redhat.com [10.5.110.43]);
+	Fri, 17 May 2019 09:07:04 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 0/4] Net patches
+Subject: [Qemu-devel] [PULL 1/4] vhost_net: don't set backend for the
+ uninitialized virtqueue
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -60,42 +60,79 @@ Cc: Jason Wang <jasowang@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit d8276573da58e8ce78dab8c46dd660efd664bc=
-b7:
+We used to set backend unconditionally, this won't work for some
+guests (e.g windows driver) who may not initialize all virtqueues. For
+kernel backend, this will fail since it may try to validate the rings
+during setting backend.
 
-  Merge remote-tracking branch 'remotes/rth/tags/pull-tcg-20190510' into =
-staging (2019-05-16 13:15:08 +0100)
+Fixing this by simply skipping the backend set when we find desc is
+not ready.
 
-are available in the git repository at:
-
-  https://github.com/jasowang/qemu.git tags/net-pull-request
-
-for you to fetch changes up to 78e4f446d2569210a8558946b2321f9ff2ef47f6:
-
-  net/colo-compare.c: Fix a crash in COLO Primary. (2019-05-17 17:00:12 +=
-0800)
-
-----------------------------------------------------------------
-
-----------------------------------------------------------------
-Chris Kenna (1):
-      e1000: Never increment the RX undersize count register
-
-Jason Wang (1):
-      vhost_net: don't set backend for the uninitialized virtqueue
-
-Lukas Straub (1):
-      net/colo-compare.c: Fix a crash in COLO Primary.
-
-Stefano Garzarella (1):
-      net/slirp: fix the IPv6 prefix length error message
-
- hw/net/e1000.c             |  1 -
+Reviewed-by: Michael S. Tsirkin<mst@redhat.com>
+Signed-off-by: Jason Wang <jasowang@redhat.com>
+---
  hw/net/vhost_net.c         | 10 ++++++++++
  hw/virtio/virtio.c         |  5 +++++
  include/hw/virtio/virtio.h |  1 +
- net/colo-compare.c         |  3 +--
- net/slirp.c                |  3 ++-
- 6 files changed, 19 insertions(+), 4 deletions(-)
+ 3 files changed, 16 insertions(+)
+
+diff --git a/hw/net/vhost_net.c b/hw/net/vhost_net.c
+index be3cc88..a6b7190 100644
+--- a/hw/net/vhost_net.c
++++ b/hw/net/vhost_net.c
+@@ -244,6 +244,11 @@ static int vhost_net_start_one(struct vhost_net *net,
+         qemu_set_fd_handler(net->backend, NULL, NULL, NULL);
+         file.fd = net->backend;
+         for (file.index = 0; file.index < net->dev.nvqs; ++file.index) {
++            if (!virtio_queue_enabled(dev, net->dev.vq_index +
++                                      file.index)) {
++                /* Queue might not be ready for start */
++                continue;
++            }
+             r = vhost_net_set_backend(&net->dev, &file);
+             if (r < 0) {
+                 r = -errno;
+@@ -256,6 +261,11 @@ fail:
+     file.fd = -1;
+     if (net->nc->info->type == NET_CLIENT_DRIVER_TAP) {
+         while (file.index-- > 0) {
++            if (!virtio_queue_enabled(dev, net->dev.vq_index +
++                                      file.index)) {
++                /* Queue might not be ready for start */
++                continue;
++            }
+             int r = vhost_net_set_backend(&net->dev, &file);
+             assert(r >= 0);
+         }
+diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
+index 2626a89..28056a7 100644
+--- a/hw/virtio/virtio.c
++++ b/hw/virtio/virtio.c
+@@ -2318,6 +2318,11 @@ hwaddr virtio_queue_get_desc_addr(VirtIODevice *vdev, int n)
+     return vdev->vq[n].vring.desc;
+ }
+ 
++bool virtio_queue_enabled(VirtIODevice *vdev, int n)
++{
++    return virtio_queue_get_desc_addr(vdev, n) != 0;
++}
++
+ hwaddr virtio_queue_get_avail_addr(VirtIODevice *vdev, int n)
+ {
+     return vdev->vq[n].vring.avail;
+diff --git a/include/hw/virtio/virtio.h b/include/hw/virtio/virtio.h
+index ce95162..7140381 100644
+--- a/include/hw/virtio/virtio.h
++++ b/include/hw/virtio/virtio.h
+@@ -282,6 +282,7 @@ typedef struct VirtIORNGConf VirtIORNGConf;
+                       VIRTIO_F_IOMMU_PLATFORM, false)
+ 
+ hwaddr virtio_queue_get_desc_addr(VirtIODevice *vdev, int n);
++bool virtio_queue_enabled(VirtIODevice *vdev, int n);
+ hwaddr virtio_queue_get_avail_addr(VirtIODevice *vdev, int n);
+ hwaddr virtio_queue_get_used_addr(VirtIODevice *vdev, int n);
+ hwaddr virtio_queue_get_desc_size(VirtIODevice *vdev, int n);
+-- 
+2.5.0
 
 
