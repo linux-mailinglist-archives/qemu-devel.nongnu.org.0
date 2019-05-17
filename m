@@ -2,98 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 368582171E
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 12:43:55 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46105 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1FF48216EE
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 12:30:24 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:45868 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRaLC-0001qy-8o
-	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 06:43:54 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49435)
+	id 1hRa86-0007Yx-NV
+	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 06:30:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49256)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hRa6P-0006W1-CV
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 06:28:38 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hRa5i-0006HC-D4
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 06:27:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hRa1r-0005Hc-Ub
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 06:23:56 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:21760)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <thuth@redhat.com>)
-	id 1hRa1q-0005Ge-MH; Fri, 17 May 2019 06:23:54 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 01D81368E6;
-	Fri, 17 May 2019 10:23:54 +0000 (UTC)
-Received: from thuth.remote.csb (ovpn-117-142.ams2.redhat.com [10.36.117.142])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id F2B68611DB;
-	Fri, 17 May 2019 10:23:52 +0000 (UTC)
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-References: <20190517095628.10119-1-mreitz@redhat.com>
-	<20190517095628.10119-2-mreitz@redhat.com>
-From: Thomas Huth <thuth@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=thuth@redhat.com; keydata=
-	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
-Organization: Red Hat
-Message-ID: <daf7da4b-ff4a-512e-b5bf-8d4417b482a0@redhat.com>
-Date: Fri, 17 May 2019 12:23:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <peter.maydell@linaro.org>) id 1hRa2E-0005Yf-8s
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 06:24:19 -0400
+Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:42597)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hRa2E-0005YC-2c
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 06:24:18 -0400
+Received: by mail-ot1-x342.google.com with SMTP id i2so892926otr.9
+	for <qemu-devel@nongnu.org>; Fri, 17 May 2019 03:24:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=zq+M/vj/EtUDR8Mf56FK00//ETR1jcsL25mj8EgpdQk=;
+	b=wjj8fIydwOiAP427QUwm1z2EXlTf+YJWeoHFv49ARkcA9E1ytEg3ktjWzgs0rJv5f0
+	qH2KmCRzQQMuP5jJ3S+AZNw51V6VzhyjrevGjYw6Bo/0wudHU/+nremeL74efo4xr91g
+	cwqvHItANhAYE7OAWiUNuQYUvy+HEWmgGuskTupVkDkJ6Et7sw4VWBrDljoBdcZswGzw
+	h8M9e7DY2g1FqbFlDMaSR1emlT9dg01p5fcsD6JfRy5q4l/FF5T2uoZXpNYgAkZOU7ke
+	GTd5vp8w81GnMoVNVjT0+YSvVDY9endiXQxYLMsQOytkY5KNoUtsWythzk36um3c51g0
+	k2kQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=zq+M/vj/EtUDR8Mf56FK00//ETR1jcsL25mj8EgpdQk=;
+	b=CzUnDgyFvOkM4FRTdz3EHxhvgW2zGWU37P13RUwKWDhy0JstMGcoEZDaswDa5UZvoY
+	ZXDE/kBMyvitJir+2vGXRmLTkusxwVTH6eEHbwx/i+NibWZiUpnxvfa+cB6XZw0A0Mtq
+	/P6gjHs6Ivv6CDMYLJaioaRKRlTRf0yzCiXTTaZ+32IaahkX0//PD3jzddGkVA62k7J9
+	KRb+QsWHIeKMUk/PBm5bMe5/q4X99L7b/3q0ulqyiYvTNPmRXXDqWmYaH+r20pgD8x1o
+	ChXtOBVypU2m06jwOKqEtAgBJJcqGv8CX5CK3A5jnMHuYDqcrs4/b9hsUzRBrHq1BOGU
+	zdXQ==
+X-Gm-Message-State: APjAAAXb5ABAGwKjGfMg7mF5nP6ooV4Fpf0KJMoHJrShbptZQFfm8iZI
+	8Ou9HO5Qbh0NTGn/HlJT5DrYm9f/6OXICU7lTFybGg==
+X-Google-Smtp-Source: APXvYqxYYFR7oIomrbPkMfN1IKoIBvjPD4bmAl9eunz6x+f1uVg7R50V7uuE6BMU1hdVlMev3a9yhGhdD8q5CNykZpA=
+X-Received: by 2002:a05:6830:149a:: with SMTP id
+	s26mr4642933otq.221.1558088657287; 
+	Fri, 17 May 2019 03:24:17 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190517095628.10119-2-mreitz@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.30]);
-	Fri, 17 May 2019 10:23:54 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 1/4] iotests: Add -display none to the qemu
- options
+References: <20190516223519.7520-1-laurent@vivier.eu>
+In-Reply-To: <20190516223519.7520-1-laurent@vivier.eu>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 17 May 2019 11:24:06 +0100
+Message-ID: <CAFEAcA9Jj6BtS_18K0QPS0FGpqrAJbm9L094BVCfBD08w5w23g@mail.gmail.com>
+To: Laurent Vivier <laurent@vivier.eu>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::342
+Subject: Re: [Qemu-devel] [PULL 0/6] M68k staging patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -105,35 +72,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
+Cc: Thomas Huth <huth@tuxfamily.org>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 17/05/2019 11.56, Max Reitz wrote:
-> Without this argument, qemu will print an angry message about not being
-> able to connect to a display server if $DISPLAY is not set.  For me,
-> that breaks iotests.supported_formats() because it thus only sees
-> ["Could", "not", "connect"] as the supported formats.
-> 
-> Signed-off-by: Max Reitz <mreitz@redhat.com>
-> ---
->  tests/qemu-iotests/check | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/tests/qemu-iotests/check b/tests/qemu-iotests/check
-> index f9c24b6753..d6fec4bf3c 100755
-> --- a/tests/qemu-iotests/check
-> +++ b/tests/qemu-iotests/check
-> @@ -130,7 +130,7 @@ export CACHEMODE="writeback"
->  export QEMU_IO_OPTIONS=""
->  export QEMU_IO_OPTIONS_NO_FMT=""
->  export CACHEMODE_IS_DEFAULT=true
-> -export QEMU_OPTIONS="-nodefaults -machine accel=qtest"
-> +export QEMU_OPTIONS="-nodefaults -machine accel=qtest -display none"
->  export VALGRIND_QEMU=
->  export IMGKEYSECRET=
->  export IMGOPTSSYNTAX=false
-> 
+On Thu, 16 May 2019 at 23:37, Laurent Vivier <laurent@vivier.eu> wrote:
+>
+> The following changes since commit c1497fba36465d0259d4d04f2bf09ea59ed42680:
+>
+>   Merge remote-tracking branch 'remotes/dgilbert/tags/pull-migration-20190514b' into staging (2019-05-16 10:24:08 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://github.com/vivier/qemu-m68k.git tags/m68k-staging-pull-request
+>
+> for you to fetch changes up to 60d3d0cfeb1658d2827d6a4f0df27252bb36baba:
+>
+>   target/m68k: Optimize rotate_x() using extract_i32() (2019-05-17 00:30:47 +0200)
+>
+> ----------------------------------------------------------------
+> code cleanup, switch to transaction_failed hook
+>
+> ----------------------------------------------------------------
+>
 
-Reviewed-by: Thomas Huth <thuth@redhat.com>
+
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
+for any user-visible changes.
+
+-- PMM
 
