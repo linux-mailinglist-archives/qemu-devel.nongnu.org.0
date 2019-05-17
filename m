@@ -2,51 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 419C1214FD
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 09:57:04 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43983 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2FA2521506
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 10:02:52 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:44053 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRXjj-0000OC-7S
-	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 03:57:03 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52459)
+	id 1hRXpL-00026M-EL
+	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 04:02:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53117)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <imammedo@redhat.com>) id 1hRXij-0008VZ-7b
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 03:56:02 -0400
+	(envelope-from <philmd@redhat.com>) id 1hRXnu-0001WR-PE
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 04:01:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <imammedo@redhat.com>) id 1hRXii-0007yo-4M
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 03:56:01 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52844)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1hRXih-0007yO-TA
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 03:56:00 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 3D5E92E95B1;
-	Fri, 17 May 2019 07:55:42 +0000 (UTC)
-Received: from Igors-MacBook-Pro (unknown [10.40.205.69])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 1A3F2611D0;
-	Fri, 17 May 2019 07:55:35 +0000 (UTC)
-Date: Fri, 17 May 2019 09:55:28 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Message-ID: <20190517095528.45405c7e@Igors-MacBook-Pro>
-In-Reply-To: <1556808723-226478-2-git-send-email-imammedo@redhat.com>
-References: <20190515121146.7248-1-mst@redhat.com>
-	<1556808723-226478-2-git-send-email-imammedo@redhat.com>
+	(envelope-from <philmd@redhat.com>) id 1hRXns-0002Hp-VT
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 04:01:22 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:51460)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hRXno-00027o-CF
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 04:01:17 -0400
+Received: by mail-wm1-f66.google.com with SMTP id c77so4485943wmd.1
+	for <qemu-devel@nongnu.org>; Fri, 17 May 2019 01:00:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=iLn0wTkT81tkBhcHXh0MSBWMhwsAZmmHDpRG2khi6eQ=;
+	b=b+ZRyPY5OhXZ91FOiGM82vdznsw1VdT3SbE3/+5Mv6QIznU44/7ebPgE0wZtHUo2Ga
+	0slKXlaky+MIHkUkIAK3LZdxjE6xyJsZWdbBgRX3mpabo3hlcO7ifWcPCV8MAI6Do2oQ
+	Y19+gnf7TTa0InbsZcrJEdLCL/x4v695N7Zw9xnHocEkzvyHWa3t/HqMG5wLAJi0yKJF
+	ThZ6vIUajBGWsYmuJiHrFbmmKzDIwPH5XSlHiv5nOsi+W7290YmDJVooTGlJuBNsD8cz
+	WfD+3uCe0eHRAM+F27zRpeVmKblETvQRPmCmAWPFC799Jdli30c2OSKNBt/9N2IyzyJd
+	CwWg==
+X-Gm-Message-State: APjAAAX3VoE7SrzBZ3x7M91EaW3OTILs16ZeoG587GrQqp8Xz4YoZlif
+	zzyGWbbWFHTDRzlDnq6xHOBhtw==
+X-Google-Smtp-Source: APXvYqwAfdb5pIyuAXWFY86xZrEzMeLkp2aK5KL/b1B+AlIHn7Fy9FSRqwtzCMro1kWAKvSWqqBXzQ==
+X-Received: by 2002:a1c:e3c3:: with SMTP id a186mr1174816wmh.5.1558080042043; 
+	Fri, 17 May 2019 01:00:42 -0700 (PDT)
+Received: from [192.168.1.43] (228.red-83-52-173.dynamicip.rima-tde.net.
+	[83.52.173.228]) by smtp.gmail.com with ESMTPSA id
+	g13sm2106103wrw.63.2019.05.17.01.00.41
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Fri, 17 May 2019 01:00:41 -0700 (PDT)
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20190517045136.3509-1-richard.henderson@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <1d36d568-8fec-f81e-635f-a34560e04b2a@redhat.com>
+Date: Fri, 17 May 2019 10:00:40 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.29]);
-	Fri, 17 May 2019 07:55:58 +0000 (UTC)
+In-Reply-To: <20190517045136.3509-1-richard.henderson@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PULL 23/37] tests: acpi: rename
- acpi_parse_rsdp_table() into acpi_fetch_rsdp_table()
+	[fuzzy]
+X-Received-From: 209.85.128.66
+Subject: Re: [Qemu-devel] [PATCH v14 00/13] RX architecture support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,104 +73,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
-	Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
-	Ben Warren <ben@skyportsystems.com>, qemu-devel@nongnu.org,
-	Wei Yang <richardw.yang@linux.intel.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Philippe =?UTF-8?Q?Mathieu-Daud?= =?UTF-8?Q?=C3=A9?= <philmd@redhat.com>
+Cc: ysato@users.sourceforge.jp
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Thu, 16 May 2019 08:20:15 -0400
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
+On 5/17/19 6:51 AM, Richard Henderson wrote:
+> This is Sato-san's v13, plus the typos that Phil noticed therein,
+> plus the change to tlb_fill required by
+> 
+>     commit d8276573da58e8ce78dab8c46dd660efd664bcb7
+>     Merge remote-tracking branch 'remotes/rth/tags/pull-tcg-20190510'
+>     Add CPUClass::tlb_fill.
+>     Improve tlb_vaddr_to_host for use by ARM SVE no-fault loads.
+> 
+> 
+> r~
+> 
+> 
+> Richard Henderson (1):
+>   target/rx: Convert to CPUClass::tlb_fill
+> 
+> Yoshinori Sato (12):
+>   target/rx: TCG translation
+>   target/rx: TCG helper
+>   target/rx: CPU definition
+>   target/rx: RX disassembler
+>   hw/intc: RX62N interrupt controller (ICUa)
+>   hw/timer: RX62N internal timer modules
+>   hw/char: RX62N serial communication interface (SCI)
+>   hw/rx: RX Target hardware definition
+>   qemu/bitops.h: Add extract8 and extract16
+>   hw/registerfields.h: Add 8bit and 16bit register macros
+>   Add rx-softmmu
+>   MAINTAINERS: Add RX
 
-> From: Igor Mammedov <imammedo@redhat.com>
->=20
-> so name would reflect what the function does
->=20
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Reviewed-by: Wei Yang <richardw.yang@linux.intel.com>
-> Message-Id: <1556808723-226478-2-git-send-email-imammedo@redhat.com>
-> Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-> Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Series:
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-Michael,
-My mail client doesn't do proper threading since something wrong with Messa=
-ge-Ids in this pull req,
+But please reorder patches before sending the pull request, see:
+https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg03671.html
 
-for example this patch in V4 I've posted has message id
-  Message-Id: <1556808723-226478-2-git-send-email-imammedo@redhat.com>
-and the same patch (modified with your SoB) here also has the same Message-=
-Id
-  Message-ID: <1556808723-226478-2-git-send-email-imammedo@redhat.com>
-which to me look broken=20
+- patch 9 first "Add extract8 and extract16"
+- patch 10 then "Add 8bit and 16bit register macros"
+- then other patches 1-8, 11-13
 
+This will help if we unlikely have to bisect ;)
 
-> ---
->  tests/acpi-utils.h       | 2 +-
->  tests/acpi-utils.c       | 2 +-
->  tests/bios-tables-test.c | 2 +-
->  tests/vmgenid-test.c     | 2 +-
->  4 files changed, 4 insertions(+), 4 deletions(-)
->=20
-> diff --git a/tests/acpi-utils.h b/tests/acpi-utils.h
-> index ef388bbf12..4cd5553586 100644
-> --- a/tests/acpi-utils.h
-> +++ b/tests/acpi-utils.h
-> @@ -47,7 +47,7 @@ typedef struct {
->  uint8_t acpi_calc_checksum(const uint8_t *data, int len);
->  uint32_t acpi_find_rsdp_address(QTestState *qts);
->  uint64_t acpi_get_xsdt_address(uint8_t *rsdp_table);
-> -void acpi_parse_rsdp_table(QTestState *qts, uint32_t addr, uint8_t *rsdp=
-_table);
-> +void acpi_fetch_rsdp_table(QTestState *qts, uint32_t addr, uint8_t *rsdp=
-_table);
->  void acpi_fetch_table(QTestState *qts, uint8_t **aml, uint32_t *aml_len,
->                        const uint8_t *addr_ptr, const char *sig,
->                        bool verify_checksum);
-> diff --git a/tests/acpi-utils.c b/tests/acpi-utils.c
-> index cc33b460ab..633d8f513d 100644
-> --- a/tests/acpi-utils.c
-> +++ b/tests/acpi-utils.c
-> @@ -63,7 +63,7 @@ uint64_t acpi_get_xsdt_address(uint8_t *rsdp_table)
->      return le64_to_cpu(xsdt_physical_address);
->  }
-> =20
-> -void acpi_parse_rsdp_table(QTestState *qts, uint32_t addr, uint8_t *rsdp=
-_table)
-> +void acpi_fetch_rsdp_table(QTestState *qts, uint32_t addr, uint8_t *rsdp=
-_table)
->  {
->      uint8_t revision;
-> =20
-> diff --git a/tests/bios-tables-test.c b/tests/bios-tables-test.c
-> index a506dcbb29..6a678bf761 100644
-> --- a/tests/bios-tables-test.c
-> +++ b/tests/bios-tables-test.c
-> @@ -89,7 +89,7 @@ static void test_acpi_rsdp_table(test_data *data)
->      uint8_t *rsdp_table =3D data->rsdp_table, revision;
->      uint32_t addr =3D data->rsdp_addr;
-> =20
-> -    acpi_parse_rsdp_table(data->qts, addr, rsdp_table);
-> +    acpi_fetch_rsdp_table(data->qts, addr, rsdp_table);
->      revision =3D rsdp_table[15 /* Revision offset */];
-> =20
->      switch (revision) {
-> diff --git a/tests/vmgenid-test.c b/tests/vmgenid-test.c
-> index ae38ee5ac0..f400184268 100644
-> --- a/tests/vmgenid-test.c
-> +++ b/tests/vmgenid-test.c
-> @@ -40,7 +40,7 @@ static uint32_t acpi_find_vgia(QTestState *qts)
->      g_assert_cmphex(rsdp_offset, <, RSDP_ADDR_INVALID);
-> =20
-> =20
-> -    acpi_parse_rsdp_table(qts, rsdp_offset, rsdp_table);
-> +    acpi_fetch_rsdp_table(qts, rsdp_offset, rsdp_table);
->      acpi_fetch_table(qts, &rsdt, &rsdt_len, &rsdp_table[16 /* RsdtAddres=
-s */],
->                       "RSDT", true);
-> =20
+Regards,
 
+Phil.
 
