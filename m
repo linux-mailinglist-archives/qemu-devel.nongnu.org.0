@@ -2,65 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A0A9A21B96
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 18:26:44 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:51026 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B5AF021C2D
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 19:04:32 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:51315 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRfgx-000482-RY
-	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 12:26:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35686)
+	id 1hRgHX-0004Lg-8p
+	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 13:04:31 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40441)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hRffc-0003Wf-4n
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 12:25:21 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hRgCI-0001Ub-EF
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 12:59:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hRffb-0005TJ-5q
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 12:25:20 -0400
-Received: from mail-ot1-x32a.google.com ([2607:f8b0:4864:20::32a]:40406)
+	(envelope-from <richard.henderson@linaro.org>) id 1hRg1f-0004JK-5p
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 12:48:08 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:34013)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hRffb-0005Qu-0n
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 12:25:19 -0400
-Received: by mail-ot1-x32a.google.com with SMTP id u11so7244438otq.7
-	for <qemu-devel@nongnu.org>; Fri, 17 May 2019 09:25:17 -0700 (PDT)
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hRg1d-0004B5-FH
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 12:48:07 -0400
+Received: by mail-pl1-x642.google.com with SMTP id w7so3608281plz.1
+	for <qemu-devel@nongnu.org>; Fri, 17 May 2019 09:48:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=U48aRi7omJubd9bWaOB2fGobeAXR+PakuTESB829Jb0=;
-	b=CKLSDtitqey7de03pSe5kx+TB2Jt7GxHDPF5LeXElVL9XM07vK7fhX+YAZtYzlekBc
-	BfCFUeVHI2bLWBkIqFXP8dxLlZe/PYWrJtwdXeK42a0I1hGIXDuSyQ7nXb0t1DmXe74t
-	iaQpLa4oXw3LYp4Dsls4Bxj5cOWC43XA4TIdBejS79xLpp8qPxXkCFcx0Hl1C9+8TtLc
-	5vS44BtgPC8x1kj4J5nRtpUsSJd7LD6HG2/dY02TymImyKk9t+aDgKpYx7znDnUKVAtz
-	sbdbDPtvvpHyeurJzXrCxuH6YBHQS9xIIYwvoDBmkqPMyKrfZmBOr0dpEPbRwVWDEc87
-	HCnQ==
+	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=oZ5wyOLL+nouFfOy0/Kky2b4dgnVAmw0MOGV8k1wDNs=;
+	b=AfBilimF5ecKBMUPkd9xWqdaEtkxK/pUzvKGwc1wfG4fSq2ZVhXLiBuZZB6b9/skzQ
+	C0t8RpmiPoj7ZqZPjT5Hg1/u7PFkY9l82EasfbDwdy4vQgbfBka10rEsVa4g/k1p/YyO
+	wZDIbqn0E3bsTqsTPXS3gjplWllo8227YolXO1KWugsjeEaukExoNSZZ9nXSWSt9Q8vi
+	XuQUf5uYAmH+IACI870hWqSIepDtbP3KSnSYHinQfKZdeaalbLr+TuuBjfh7TQlmTDdH
+	M+wpdQfokdBdXFE2eiJPjRmMZGhJy/DkrJtKLkb+edJaTe6VFCIDa2iOISxWsmDsnHSN
+	2WJw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=U48aRi7omJubd9bWaOB2fGobeAXR+PakuTESB829Jb0=;
-	b=WcVu80zXZRTZcNveb9cF/nnzsqsyMZyMcJq0guJI/InOBRW8/h5ArhFPdnhM80bUGQ
-	pUVL0tg9rSQcIyGNX4hzz8yrYOR7HxntQAD30cGjANTAKbop93cLlDObq9ZgEwGdK+yM
-	FtPSUjWeaC1MFzR5YwFQfRJd61CZGytY1DomAHOxBOQntEM+DHxN5MQMd9bvmB8qsBv9
-	hhHDKl65CIuELVSzUtgvpHduE2430OQkO8dmwEQymDFUP2QjD01aupbGH6V+Rnd+AcxQ
-	KviiDq+cB9Can9EyDXJIgB7Cfhb99w1zmzkLOeOfjDalxwi3Kz9VWr3nZC5rIwxfqwgi
-	6+Bw==
-X-Gm-Message-State: APjAAAUIFPS1b7g2i00eBha6gSDQ+2PwYWf760X8f2f6YPRANlrPwGZB
-	tg3DKKfVTDnSdjkULv8toonuIQm3MBMwHTZJ/qKQ1A==
-X-Google-Smtp-Source: APXvYqx9G2xWU4KQCPfnZJiDjx+GGTYV49u6xBQYKl97XtGAZRXQFOUhiHXFoo/Dt6e5LOaKxl+VtAAQ2LNoo/rUQ3M=
-X-Received: by 2002:a05:6830:149a:: with SMTP id
-	s26mr5859049otq.221.1558110316760; 
-	Fri, 17 May 2019 09:25:16 -0700 (PDT)
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=oZ5wyOLL+nouFfOy0/Kky2b4dgnVAmw0MOGV8k1wDNs=;
+	b=AiCO3vS4H5ri6olt+2L4uzppERCDz9i2SXa3k+Id0zfAUFne43hrAfIyCmt49UBmZX
+	sHH1cseRfnLut+jDh7koJek5VXYX6ApV/OOyHcvh1NbejbUvcD4M/PJ5TuKehjFqmVpA
+	mpB4kjwBdNKsrHbqTHKNKqwJjVjR/q1ClbpiIltFw5BjRreC/kZz4sXx8/KV+ClT8Sw1
+	o9nAQYIf+5/AYLyTNe3BWx5QRBTUaZoqVkcGud0MsmJej53XstQR61kOwWPmhX/7nZaB
+	MIjW19jWZj/zS68oy85/igwuyqiNSy49EIkGTosxFJyR37nXekxdhcFXfLg7y9G6Nq22
+	yuaw==
+X-Gm-Message-State: APjAAAUiiCX+tAwjDG4z4X1BT/PxL2OP05ZRPAA330KRsTlHXaZqaPEr
+	OeLDwN3KEIJMQ4vv5H4aX6mJyQ==
+X-Google-Smtp-Source: APXvYqw+PAkmfMizIHcOOp4PyQTuWz+Tzzcgz/oC3+eRnMvRA5QsrWcIYBtdASf4RrLlZcQBE/I6vg==
+X-Received: by 2002:a17:902:2947:: with SMTP id
+	g65mr38767627plb.115.1558111682571; 
+	Fri, 17 May 2019 09:48:02 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-13-231.tukw.qwest.net. [97.113.13.231])
+	by smtp.gmail.com with ESMTPSA id
+	k63sm13989287pfb.108.2019.05.17.09.48.01
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Fri, 17 May 2019 09:48:01 -0700 (PDT)
+To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
+References: <20190515203112.506-1-david@redhat.com>
+	<20190515203112.506-3-david@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <fcce920c-58e3-60ef-ebc0-bcbc2e651e87@linaro.org>
+Date: Fri, 17 May 2019 09:47:59 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <1558099699-55793-1-git-send-email-pbonzini@redhat.com>
-In-Reply-To: <1558099699-55793-1-git-send-email-pbonzini@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 17 May 2019 17:25:05 +0100
-Message-ID: <CAFEAcA-mctP9B=Jh6EKFLjpcuL+-vYezUcYT43BSycjxFnvyrQ@mail.gmail.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20190515203112.506-3-david@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::32a
-Subject: Re: [Qemu-devel] [PULL v3 00/21] Misc patches for 2019-05-15
+X-Received-From: 2607:f8b0:4864:20::642
+Subject: Re: [Qemu-devel] [PATCH v1 2/5] s390x/tcg: Implement VECTOR FIND
+ ELEMENT EQUAL
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -72,37 +86,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+	Thomas Huth <thuth@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 17 May 2019 at 14:29, Paolo Bonzini <pbonzini@redhat.com> wrote:
->
-> The following changes since commit e329ad2ab72c43b56df88b34954c2c7d839bb373:
->
->   Merge remote-tracking branch 'remotes/rth/tags/pull-tcg-20190513' into staging (2019-05-14 10:08:47 +0100)
->
-> are available in the git repository at:
->
->
->   git://github.com/bonzini/qemu.git tags/for-upstream
->
-> for you to fetch changes up to 7a188f2b5744c0492de1c8eea315f259e0256a1e:
->
->   hw/net/ne2000: Extract the PCI device from the chipset common code (2019-05-17 15:19:39 +0200)
->
-> ----------------------------------------------------------------
-> Mostly bugfixes and cleanups, the most important being
-> "megasas: fix mapped frame size" from Peter Lieven.
-> In addition, -realtime is marked as deprecated.
->
-> ----------------------------------------------------------------
+On 5/15/19 1:31 PM, David Hildenbrand wrote:
+> +#define DEF_VFEE(BITS)                                                         
+
+Same comment wrt inline functions applies.
+
+Here, because there's one result, writing to byte 7, I wonder if it isn't
+clearer to write the loop
+
+    first_equal = n;
+    first_zero = n;
+    for (i = n - 1; i >= 0; --i) {
+        if (data1 == data2) {
+            first_equal = i;
+        }
+        if (data1 == 0) {
+            first_zero = i;
+        }
+    }
+
+// As an aside, there are bit tricks for the above,
+// but let's stay simple(r) for now.
+
+    if (zs) {
+        if (first_equal < first_zero) {
+            cc = (first_zero < n ? 2 : 1);
+        } else {
+            first_equal = first_zero;
+            cc = (first_zero < n ? 0 : 3);
+        }
+    } else {
+        cc = (first_equal < n ? 1 : 3);
+    }
+    s390_vec_write_element64(v1, 0, first_equal);
+    s390_vec_write_element64(v1, 1, 0);
+
+Note that you don't need S390Vector tmp, since the result is written after all
+of the inputs are consumed.
 
 
-Applied, thanks.
-
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
-for any user-visible changes.
-
--- PMM
+r~
 
