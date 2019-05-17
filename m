@@ -2,52 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8D93B21A7C
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 17:24:56 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50112 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F82C21A7B
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 17:24:10 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50102 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRej9-0004i6-PE
-	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 11:24:55 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51852)
+	id 1hReiP-0003mK-CZ
+	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 11:24:09 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51895)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <groug@kaod.org>) id 1hRef9-0001Jd-Fd
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 11:20:48 -0400
+	(envelope-from <vsementsov@virtuozzo.com>) id 1hReff-0001hq-TE
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 11:21:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <groug@kaod.org>) id 1hRef8-0000Yi-8v
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 11:20:47 -0400
-Received: from 1.mo6.mail-out.ovh.net ([46.105.56.136]:38712)
+	(envelope-from <vsementsov@virtuozzo.com>) id 1hRefe-0003eJ-Vh
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 11:21:19 -0400
+Received: from relay.sw.ru ([185.231.240.75]:33974)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <groug@kaod.org>) id 1hRef8-0000An-30
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 11:20:46 -0400
-Received: from player791.ha.ovh.net (unknown [10.108.42.145])
-	by mo6.mail-out.ovh.net (Postfix) with ESMTP id 000991CBD26
-	for <qemu-devel@nongnu.org>; Fri, 17 May 2019 17:20:40 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
-	[82.253.208.248]) (Authenticated sender: groug@kaod.org)
-	by player791.ha.ovh.net (Postfix) with ESMTPSA id 3BDD95C7120B;
-	Fri, 17 May 2019 15:20:38 +0000 (UTC)
-Date: Fri, 17 May 2019 17:20:37 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Thomas Huth <thuth@redhat.com>
-Message-ID: <20190517172037.7f8814f9@bahia.lan>
-In-Reply-To: <7b4b93c9-761b-edbb-4538-b4e549afd48e@redhat.com>
-References: <155774341935.175576.9256391991091401927.stgit@bahia.lan>
-	<155774365069.175576.5671141718062840805.stgit@bahia.lan>
-	<20190517151711.7262e276@bahia.lan>
-	<7b4b93c9-761b-edbb-4538-b4e549afd48e@redhat.com>
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 15080303355635210546
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddruddtvddgkeelucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.56.136
-Subject: Re: [Qemu-devel] [PATCH v2 2/2] virtfs: Fix documentation of -fsdev
- and -virtfs
+	(Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+	id 1hRefe-0003PP-NI; Fri, 17 May 2019 11:21:18 -0400
+Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
+	by relay.sw.ru with esmtp (Exim 4.91)
+	(envelope-from <vsementsov@virtuozzo.com>)
+	id 1hRefZ-0005qt-LD; Fri, 17 May 2019 18:21:13 +0300
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-devel@nongnu.org,
+	qemu-block@nongnu.org
+Date: Fri, 17 May 2019 18:21:09 +0300
+Message-Id: <20190517152111.206494-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.18.0
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 185.231.240.75
+Subject: [Qemu-devel] [PATCH v2 0/2] bitmaps: merge bitmaps from different
+ nodes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -59,54 +45,37 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
+	den@virtuozzo.com, armbru@redhat.com, mreitz@redhat.com, jsnow@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 17 May 2019 15:22:48 +0200
-Thomas Huth <thuth@redhat.com> wrote:
+Hi all!
 
-> On 17/05/2019 15.17, Greg Kurz wrote:
-> > On Mon, 13 May 2019 12:34:10 +0200
-> > Greg Kurz <groug@kaod.org> wrote:
-> >   
-> >> This fixes several things:
-> >> - add "id" description to -virtfs documentation
-> >> - split the description into several lines in both usage and documentation
-> >>   for accurateness and clarity
-> >> - add documentation and usage of the synth fsdriver
-> >> - add "throttling.*" description to -fsdev local
-> >> - add some missing periods
-> >> - add proper reference to the virtfs-proxy-helper(1) manual page
-> >> - document that the virtio device may be either virtio-9p-pci, virtio-9p-ccw
-> >>   or virtio-9p-device, depending on the machine type
-> >>
-> >> Buglink: https://bugs.launchpad.net/qemu/+bug/1581976
-> >> Signed-off-by: Greg Kurz <groug@kaod.org>
-> >> ---
-> >> v2: - mention virtfs-proxy-helper(1) change in the changelog
-> >>     - mention virtio-9p-ccw and virtio-9p-device
-> >> ---  
-> > 
-> > Thomas,
-> > 
-> > Unless you (or anyone else) have some objections, I intend to apply this patch
-> > and issue a pull request in a near future.  
-> 
-> Fine for me - I just lack the detailed 9p knowledge to provide a real
-> "Reviewed-by" here, I hope you were not waiting for it?
+We need to copy bitmaps to new top node on external snapshot, to
+not break incremental backup chain.
 
-Heh, no pb, I wasn't expecting a detailed review.
+The only thing to do is to allow block-dirty-bitmap-merge to work
+with different nodes, here it is.
 
-> ... but if it
-> helps, I can at least say:
-> 
-> Acked-by: Thomas Huth <thuth@redhat.com>
+v2: use 'alternate' type in qapi for specifying source bitmap
+    instead of adding new field external-bitmaps [Eric]
 
-Works for me :)
+Vladimir Sementsov-Ogievskiy (2):
+  qapi: support external bitmaps in block-dirty-bitmap-merge
+  iotests: test external snapshot with bitmap copying
 
-Thanks Thomas !
+ qapi/block-core.json       | 22 +++++++++++++---
+ block/dirty-bitmap.c       |  9 ++++---
+ blockdev.c                 | 50 +++++++++++++++++++++++-------------
+ tests/qemu-iotests/254     | 52 ++++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/254.out | 52 ++++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/group   |  1 +
+ 6 files changed, 163 insertions(+), 23 deletions(-)
+ create mode 100755 tests/qemu-iotests/254
+ create mode 100644 tests/qemu-iotests/254.out
 
---
-Greg
+-- 
+2.18.0
+
 
