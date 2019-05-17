@@ -2,70 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEEEA21D17
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 20:08:07 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52023 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 80EA721D4C
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 20:28:58 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52194 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRhH5-0003bo-15
-	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 14:08:07 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52070)
+	id 1hRhbA-0000x4-MZ
+	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 14:28:52 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54537)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hRhFr-0003B7-LU
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 14:06:52 -0400
+	(envelope-from <ehabkost@redhat.com>) id 1hRhYH-0006d9-Ni
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 14:25:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hRhFq-0001xo-95
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 14:06:51 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:32952)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hRhFp-0001wD-01
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 14:06:50 -0400
-Received: by mail-ot1-x342.google.com with SMTP id 66so7576409otq.0
-	for <qemu-devel@nongnu.org>; Fri, 17 May 2019 11:06:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=HAW1FwZE/zCObPbbvOiiTI/oRfbgDzfCgFfxjknMTyU=;
-	b=DeL6Y3FfVPu9o3tNjgdR502QlavkA4teLKI5leb2ClF4w8XN3OIQf/ZTTjeXHVbi9K
-	ec83n98UPshD/Bkhj0OnS+d1TkMseWeFicJuB5YLWUwMLeDZ1ejmq5o7QWtVW+fQ8w9U
-	LrZXr1tXiOgzA3LnbYF9LcyX+A9STJ5h8bOILPL0lXEMRxhNdPYI7XQ2QjqSwbphZR7z
-	bN+NgyYfPk8ikOXDXlygxqc2l723CQJOXCIHDBeLJSvCTBSnNtNohLMxozZuGswFnDVE
-	MerJ0uuoArswGY8J+7CBWTH/K/XFjWKBN2WLnFvlZQ0171jOT4beQEdxNmvCqpTVZ0gR
-	RQaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=HAW1FwZE/zCObPbbvOiiTI/oRfbgDzfCgFfxjknMTyU=;
-	b=Z8ArGHIXEOZF7CI47BMICdmKFUDhacbiBZjti1FvwB9toHcWrkPZZBpMx8nDKZcNwH
-	iA6LhAS6yi3wYz+6naEaBN2tXj6fBoWBh5jbjIvB6s05d6UaCRJp0fg2/tGx3d4kwsiN
-	qLKIU8BaQQi8uZya02VvK2h4PuUt43H2TqAI1U77VWA8HiI+2zfEvbFfxAhqbhAa5EkA
-	LP0YkGSoAga6mZ1rk+a7GcsrfL8JEd5poGr+lkClvA/7ot4d8bJEGZc3V5gsi2CWrwg4
-	VE/NtBKduKwCjbpnNKQbg7XryGoNEtMz5id17PpkN0Rb+4AXfh1dFIYwRTy0e9suFhDx
-	NaSg==
-X-Gm-Message-State: APjAAAUYyorJKGM3umYObRJQkBGpr/7wRX5Un05TZp/vV6SjgvWNdzy/
-	c9QnybX2936ydvIpScFPhK051LdRbZfcy/5CFbU0vQ==
-X-Google-Smtp-Source: APXvYqzXgqDdaha7AvSTBUk+2F3c4Y40H9i+u5rVJoxcr2H7lp7CnnXbGzc3SCq0IpAxxf7bOeOrbMK3yiW7x7fJgUc=
-X-Received: by 2002:a05:6830:209a:: with SMTP id
-	y26mr5073672otq.232.1558116408251; 
-	Fri, 17 May 2019 11:06:48 -0700 (PDT)
+	(envelope-from <ehabkost@redhat.com>) id 1hRhOK-00082o-N7
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 14:15:37 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53626)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hRhOK-000823-Ho
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 14:15:36 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+	[10.5.11.12])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 1DF6330C0DCD;
+	Fri, 17 May 2019 18:15:29 +0000 (UTC)
+Received: from localhost (ovpn-116-14.gru2.redhat.com [10.97.116.14])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 41B7260BE0;
+	Fri, 17 May 2019 18:15:25 +0000 (UTC)
+Date: Fri, 17 May 2019 15:15:23 -0300
+From: Eduardo Habkost <ehabkost@redhat.com>
+To: whiteheadm@acm.org
+Message-ID: <20190517181523.GL4189@habkost.net>
+References: <CAP8WD_bf=0=tyCumcNpVLtneio+vbd4JuFMmtWqSwXWFC-7PMg@mail.gmail.com>
+	<6da0c28c-ef4f-8199-1cee-bf1f08387ff1@redhat.com>
+	<ea9cf5ec-f259-9a23-eae1-1b2250c367b0@redhat.com>
+	<CAP8WD_ZUVZJKk-tEfG8+yd6t_U9+A3a4s5_ohjU5KLP0tY5YwQ@mail.gmail.com>
 MIME-Version: 1.0
-References: <20190507163416.24647-1-philmd@redhat.com>
-	<cfd72da5-720a-0684-f3c5-e0ea1360bef3@redhat.com>
-	<20190517175621.GK4189@habkost.net>
-In-Reply-To: <20190517175621.GK4189@habkost.net>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Fri, 17 May 2019 19:06:36 +0100
-Message-ID: <CAFEAcA8iGcgBMbtc_XaXKH-j1fExKrS_fzhgCDYy-_AQZJPesg@mail.gmail.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::342
-Subject: Re: [Qemu-devel] [PATCH v2 00/16] hw: Use object_initialize_child
- for correct reference counting
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAP8WD_ZUVZJKk-tEfG8+yd6t_U9+A3a4s5_ohjU5KLP0tY5YwQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.45]);
+	Fri, 17 May 2019 18:15:34 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] Pentium Pro Feature Bugs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -77,65 +60,28 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paul Burton <pburton@wavecomp.com>, "Michael S. Tsirkin" <mst@redhat.com>,
-	Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
-	QEMU Developers <qemu-devel@nongnu.org>,
-	"Edgar E. Iglesias" <edgar.iglesias@gmail.com>,
-	Aleksandar Rikalo <arikalo@wavecomp.com>,
-	Markus Armbruster <armbru@redhat.com>,
-	Antony Pavlov <antonynpavlov@gmail.com>,
-	=?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>,
-	Joel Stanley <joel@jms.id.au>, Thomas Huth <thuth@redhat.com>,
-	Alistair Francis <alistair@alistair23.me>, qemu-arm <qemu-arm@nongnu.org>,
-	Peter Chubb <peter.chubb@nicta.com.au>,
-	=?UTF-8?Q?C=C3=A9dric_Le_Goater?= <clg@kaod.org>,
-	David Gibson <david@gibson.dropbear.id.au>,
-	Andrew Jeffery <andrew@aj.id.au>,
-	=?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
-	Andrew Baumann <Andrew.Baumann@microsoft.com>,
-	Jean-Christophe Dubois <jcd@tribudubois.net>,
-	qemu-ppc <qemu-ppc@nongnu.org>,
-	Aleksandar Markovic <amarkovic@wavecomp.com>,
-	Aurelien Jarno <aurelien@aurel32.net>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Thomas Huth <thuth@redhat.com>,
+	qemu-devel@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, 17 May 2019 at 18:56, Eduardo Habkost <ehabkost@redhat.com> wrote:
->
-> On Fri, May 17, 2019 at 12:32:18PM +0200, Philippe Mathieu-Daud=C3=A9 wro=
-te:
-> > Hi Eduardo,
-> >
-> > On 5/7/19 6:34 PM, Philippe Mathieu-Daud=C3=A9 wrote:
-> > > Hi,
-> > >
-> > > This series looks at Eduardo suggestions from [1]
-> > > and Thomas commit aff39be0ed97 to replace various
-> > > object_initialize + qdev_set_parent_bus calls by
-> > > sysbus_init_child_obj().
-> >
-> > Do you think you can take this series?
-> > Else, via which tree it should go?
->
-> I was expecting the maintainers of each architecture to apply the
-> patches for their areas.
+On Thu, May 16, 2019 at 08:30:27PM -0400, tedheadster wrote:
+> Paolo,
+>   I am running the kvm32 machine and I see a problem. Here is the
+> output of /proc/cpuinfo :
+> 
+> flags           : fpu vme de pse tsc msr pae mce cx8 apic mtrr pge mca
+> cmov constant_tsc
+> 
+> I see something rather important missing: cpuid.
+> 
+> A lot of stuff breaks without cpuid, and I am fairly sure that qemu is
+> supposed to 'hard code' in support for it. It is present with both my
+> i486 and i586 virtual machines.
 
-This in my experience rarely happens, because splitting up
-a patchset is effort and there's a coordination problem
-working out who's going to take which patches -- it's why it
-works better to have several series each of which covers one
-submaintainer's area, rather than one big series which then
-doesn't have an obvious path into the tree.
+Are you running the same kernel version on all VMs?
+X86_FEATURE_CPUID was added in Linux v4.11.
 
-(Personally I also tend to treat omnibus patch series as
-"somebody else's problem" whereas patch series that are
-mostly or entirely arm changes go on my list as needing
-to be dealt with...)
-
-> Are the arm, microblaze, mips, and ppc maintainers OK with that?
-
-No objections for arm if the patches have been reviewed.
-
-thanks
--- PMM
+-- 
+Eduardo
 
