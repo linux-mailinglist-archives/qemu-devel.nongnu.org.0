@@ -2,62 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 96EDE22076
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 May 2019 00:53:45 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54816 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48A4022078
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 May 2019 00:54:03 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54820 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRljU-0007yS-Ll
-	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 18:53:44 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43276)
+	id 1hRljm-0008CH-Bx
+	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 18:54:02 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43280)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <jan.bobek@gmail.com>) id 1hRlbN-0001MK-IO
+	(envelope-from <jan.bobek@gmail.com>) id 1hRlbO-0001NM-1i
 	for qemu-devel@nongnu.org; Fri, 17 May 2019 18:45:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <jan.bobek@gmail.com>) id 1hRlbM-0005ij-9O
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 18:45:21 -0400
-Received: from mail-yw1-xc2d.google.com ([2607:f8b0:4864:20::c2d]:37999)
+	(envelope-from <jan.bobek@gmail.com>) id 1hRlbN-0005kv-3R
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 18:45:22 -0400
+Received: from mail-yw1-xc2a.google.com ([2607:f8b0:4864:20::c2a]:39996)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hRlbM-0005hI-4s
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 18:45:20 -0400
-Received: by mail-yw1-xc2d.google.com with SMTP id b74so3350117ywe.5
+	(Exim 4.71) (envelope-from <jan.bobek@gmail.com>) id 1hRlbM-0005jg-Um
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 18:45:21 -0400
+Received: by mail-yw1-xc2a.google.com with SMTP id 18so3349059ywe.7
 	for <qemu-devel@nongnu.org>; Fri, 17 May 2019 15:45:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=BNGYBuGPGNDuM5xfMmUkjPf3rGoNf3wcZlgZaC2W07g=;
-	b=o/sFKPvCPiXhtp8moSTYrqmPC/qvA2UDkS42YPHJot7mg9IU8/lff1NHf/88bobMfN
-	UDCXiNl6TZuxOx3QXqdQVKlrYq4Wbbi87JRfG3WJ+edxQv1oDQ1IHEpOPxHoYS2dD9BL
-	nwg1TPqYnQB0x5GHl8zJlu7GI2RHooP5G0+NX4mpQnJnozbjA/QG9gDzL7qb2XFkon9t
-	+xYBEWblOSrnchcp7IqYr4be+lqzdNyF3JOQYlOHBUjP4g4SWgQSbZb4U97Yx9qd4l4G
-	G1nCYMhQPvHHarWC8uTSfBBOCvudTET19ZG0JkNDyZLJfFIkraKs9MzSu0rMYLiTybNh
-	Y0Qw==
+	bh=Gi+xV8hZZ8MM2hR8q1Ptxgv3mk/SLE89TCM1Wb+jzls=;
+	b=qqIKMJQDynycgLbBvSyiAX1GayrfB3gNTiIz7ycbiQ7cpvNBgnhyY75fJ9K5fDWQxG
+	dZ4KXHqa/rzFrZRBhRDeP7eNjAtrDfoXgFM0xNoLcSJasBBIOrdd0H9TT9LcQzTw7Q0v
+	HwFQEk/w4L5JY2S8q0/4X29/doHodeP29TH5WrihMfpDs524mKDa5wsHU5so43zkbKpg
+	Mj2MSByx/0w1xx+rnVowUESrkHNK8ddV8ehaJyrVeqOlwIQPQ/GDyav1yr6NyEhi+OwX
+	CsKCIvP1ihgWKZ1jki2fY2DgYdMbkRPHk0g0kbiioX3M9IoluhEi9/W1eC21WCCS0hOD
+	CLyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=BNGYBuGPGNDuM5xfMmUkjPf3rGoNf3wcZlgZaC2W07g=;
-	b=BppBW/7WIYEJFB0aCZTd1pXfy8OjFaAn+T0tQK1pNNnnmEhUUs/8qHjsnZfsVUBVpd
-	HrQ4Xs09IqhqRJskdgp4vP7n0Yox+KdXM0fTPBQFp9r21RtQybYNtdTQPCyc6sQPE+a2
-	A5bvdGFTyPPtbLM2DrNEQOuGh1LaHf0c4E84KUdDF74Hc+hl5ms3RnQakIPuqESUhsbw
-	+bpJi1f5KMStivpZplzeI0zIWHKKd9Fbyl58EsghbvDQhmHnpKhNlj3W8PUf1ni37CtZ
-	Sx8/3wp26VXUa/Ss2EtWRHDjopud2JTHDGB8NPWYPhEooMLADgyodgnprpqZY9vwdgiq
-	SuXw==
-X-Gm-Message-State: APjAAAWl6m309NuP1X37iiQ+YQ0bXA/TXC7sjKypxq4r/CeJWiY189Hm
-	r+y505vL6yEFr24wZzLgk6j08w+hiceVxg==
-X-Google-Smtp-Source: APXvYqxZCzrkj1AkbJZrOmNHQ7CEQ9gXYQ8+k0F2rn+zaGGvD28PrY09XHkbQ2+1+xkz4otqG2I+6A==
-X-Received: by 2002:a81:6d88:: with SMTP id i130mr1902890ywc.266.1558133119377;
-	Fri, 17 May 2019 15:45:19 -0700 (PDT)
+	bh=Gi+xV8hZZ8MM2hR8q1Ptxgv3mk/SLE89TCM1Wb+jzls=;
+	b=nR7IG7Xhc+iLxk0ZG+75Phw0rgUALxwXIpdyq+Dwd8e7pZkFzuGjd9E7aTDKddFwEB
+	ICif8RfP8SEibrIN533f00s1F+sRcKnTwlOZvHlUeVNqKipHzgDQdXI+bKeIwosptiZ/
+	/Z5dovtchRVCvzsFbZq9mS8F8d5mwRXtItauhZK43R5Ll1oTo73qWiy2tWjVngkFInXI
+	q9SJN7OBKZ0+d7pHeZIB/XicFSLNU/vSOS9oZpLWa8DSO7XNLZsKaLitVI0v8jbwnlWX
+	3T6KR79B3lig3t63kx75BjBnnNWO1xdZaHWQxh8EgVLpPW8F0zus0RWDI7cYzBiJhAh1
+	dseg==
+X-Gm-Message-State: APjAAAVwoTSR5QlhVxTs/wT4iTda359Ob6E2qfQxSQzzcc1iE1Qy/kZe
+	kavNl0OUoQdGVCtw6IRgHNbXFbrU9JQTnQ==
+X-Google-Smtp-Source: APXvYqweCUY3sA18NV8cfz9omN08JXU6c7MPBg4xG+my+QYYvbcrBrePJ57joayQiGOk5Tt5ziJ6og==
+X-Received: by 2002:a81:a983:: with SMTP id
+	g125mr15328434ywh.417.1558133120328; 
+	Fri, 17 May 2019 15:45:20 -0700 (PDT)
 Received: from dionysus.attlocal.net
 	(69-222-133-165.lightspeed.tukrga.sbcglobal.net. [69.222.133.165])
 	by smtp.gmail.com with ESMTPSA id
-	u73sm2480260ywf.62.2019.05.17.15.45.18
+	u73sm2480260ywf.62.2019.05.17.15.45.19
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Fri, 17 May 2019 15:45:18 -0700 (PDT)
+	Fri, 17 May 2019 15:45:19 -0700 (PDT)
 From: Jan Bobek <jan.bobek@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Fri, 17 May 2019 18:44:49 -0400
-Message-Id: <20190517224450.15566-11-jan.bobek@gmail.com>
+Date: Fri, 17 May 2019 18:44:50 -0400
+Message-Id: <20190517224450.15566-12-jan.bobek@gmail.com>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190517224450.15566-1-jan.bobek@gmail.com>
 References: <20190517224450.15566-1-jan.bobek@gmail.com>
@@ -65,9 +66,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::c2d
-Subject: [Qemu-devel] [RISU v2 10/11] risu_reginfo_i386: replace xfeature
- constants with symbolic names
+X-Received-From: 2607:f8b0:4864:20::c2a
+Subject: [Qemu-devel] [RISU v2 11/11] risu_reginfo_i386: accept named
+ feature sets for --xfeature
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -85,131 +86,37 @@ Cc: Jan Bobek <jan.bobek@gmail.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The original code used "magic numbers", which made it unclear in
-some places. Include a reference to the Intel manual where the
-constants' meaning is discussed.
+Have the --xfeature option accept "sse", "avx" and "avx512" in
+addition to a plain numerical value, purely for users' convenience.
 
+Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
 ---
- risu_reginfo_i386.c | 48 +++++++++++++++++++++++++++++++--------------
- 1 file changed, 33 insertions(+), 15 deletions(-)
+ risu_reginfo_i386.c | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
 diff --git a/risu_reginfo_i386.c b/risu_reginfo_i386.c
-index 35ff7c8..aba5ae3 100644
+index aba5ae3..c15fe63 100644
 --- a/risu_reginfo_i386.c
 +++ b/risu_reginfo_i386.c
-@@ -22,7 +22,25 @@
- 
- #include <asm/sigcontext.h>
- 
--static uint64_t xfeatures = 3;  /* SSE */
-+/*
-+ * Refer to "Intel(R) 64 and IA-32 Architectures Software Developer's
-+ * Manual", Volume 1, Section 13.1 "XSAVE-Supported Features and
-+ * State-Component Bitmaps" for detailed discussion of these constants
-+ * and their meaning.
-+ */
-+enum {
-+    XFEAT_X87              = 1 << 0,
-+    XFEAT_SSE              = 1 << 1,
-+    XFEAT_AVX              = 1 << 2,
-+    XFEAT_AVX512_OPMASK    = 1 << 5,
-+    XFEAT_AVX512_ZMM_HI256 = 1 << 6,
-+    XFEAT_AVX512_HI16_ZMM  = 1 << 7,
-+    XFEAT_AVX512           = XFEAT_AVX512_OPMASK
-+                           | XFEAT_AVX512_ZMM_HI256
-+                           | XFEAT_AVX512_HI16_ZMM
-+};
+@@ -54,7 +54,16 @@ const char * const arch_extra_help
+ void process_arch_opt(int opt, const char *arg)
+ {
+     assert(opt == FIRST_ARCH_OPT);
+-    xfeatures = strtoull(arg, 0, 0);
 +
-+static uint64_t xfeatures = XFEAT_X87 | XFEAT_SSE;
++    if (!strcmp(arg, "sse")) {
++        xfeatures = XFEAT_X87 | XFEAT_SSE;
++    } else if (!strcmp(arg, "avx")) {
++        xfeatures = XFEAT_X87 | XFEAT_SSE | XFEAT_AVX;
++    } else if (!strcmp(arg, "avx512")) {
++        xfeatures = XFEAT_X87 | XFEAT_SSE | XFEAT_AVX | XFEAT_AVX512;
++    } else {
++        xfeatures = strtoull(arg, 0, 0);
++    }
+ }
  
- static const struct option extra_ops[] = {
-     {"xfeatures", required_argument, NULL, FIRST_ARCH_OPT },
-@@ -160,34 +178,34 @@ void reginfo_init(struct reginfo *ri, ucontext_t *uc)
-      * Now we know that _fpstate contains XSAVE data.
-      */
- 
--    if (features & (1 << 2)) {
-+    if (features & XFEAT_AVX) {
-         /* YMM_Hi128 state */
--        void *buf = xsave_feature_buf(xs, 2);
-+        void *buf = xsave_feature_buf(xs, XFEAT_AVX);
-         for (i = 0; i < nvecregs; ++i) {
-             memcpy(&ri->vregs[i].q[2], buf + 16 * i, 16);
-         }
-     }
- 
--    if (features & (1 << 5)) {
-+    if (features & XFEAT_AVX512_OPMASK) {
-         /* Opmask state */
--        uint64_t *buf = xsave_feature_buf(xs, 5);
-+        uint64_t *buf = xsave_feature_buf(xs, XFEAT_AVX512_OPMASK);
-         for (i = 0; i < 8; ++i) {
-             ri->kregs[i] = buf[i];
-         }
-     }
- 
--    if (features & (1 << 6)) {
-+    if (features & XFEAT_AVX512_ZMM_HI256) {
-         /* ZMM_Hi256 state */
--        void *buf = xsave_feature_buf(xs, 6);
-+        void *buf = xsave_feature_buf(xs, XFEAT_AVX512_ZMM_HI256);
-         for (i = 0; i < nvecregs; ++i) {
-             memcpy(&ri->vregs[i].q[4], buf + 32 * i, 32);
-         }
-     }
- 
- #ifdef __x86_64__
--    if (features & (1 << 7)) {
-+    if (features & XFEAT_AVX512_HI16_ZMM) {
-         /* Hi16_ZMM state */
--        void *buf = xsave_feature_buf(xs, 7);
-+        void *buf = xsave_feature_buf(xs, XFEAT_AVX512_HI16_ZMM);
-         for (i = 0; i < 16; ++i) {
-             memcpy(&ri->vregs[i + 16], buf + 64 * i, 64);
-         }
-@@ -243,7 +261,7 @@ static const char *const regname[NGREG] = {
- static int get_nvecregs(uint64_t features)
- {
- #ifdef __x86_64__
--    return features & (1 << 7) ? 32 : 16;
-+    return features & XFEAT_AVX512_HI16_ZMM ? 32 : 16;
- #else
-     return 8;
- #endif
-@@ -251,9 +269,9 @@ static int get_nvecregs(uint64_t features)
- 
- static int get_nvecquads(uint64_t features)
- {
--    if (features & (1 << 6)) {
-+    if (features & XFEAT_AVX512_ZMM_HI256) {
-         return 8;
--    } else if (features & (1 << 2)) {
-+    } else if (features & XFEAT_AVX) {
-         return 4;
-     } else {
-         return 2;
-@@ -262,9 +280,9 @@ static int get_nvecquads(uint64_t features)
- 
- static char get_vecletter(uint64_t features)
- {
--    if (features & (1 << 6 | 1 << 7)) {
-+    if (features & (XFEAT_AVX512_ZMM_HI256 | XFEAT_AVX512_HI16_ZMM)) {
-         return 'z';
--    } else if (features & (1 << 2)) {
-+    } else if (features & XFEAT_AVX) {
-         return 'y';
-     } else {
-         return 'x';
-@@ -301,7 +319,7 @@ int reginfo_dump(struct reginfo *ri, FILE *f)
-         }
-     }
- 
--    if (features & (1 << 5)) {
-+    if (features & XFEAT_AVX512_OPMASK) {
-         for (i = 0; i < 8; i++) {
-             fprintf(f, "  k%-5d: %016" PRIx64 "\n", i, ri->kregs[i]);
-         }
+ const int reginfo_size(void)
 -- 
 2.20.1
 
