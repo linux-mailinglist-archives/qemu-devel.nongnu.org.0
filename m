@@ -2,51 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6956921A1A
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 16:54:30 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49781 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A293E21A70
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 17:18:57 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50031 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hReFh-0001do-Ks
-	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 10:54:29 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47786)
+	id 1hRedL-0000WY-AC
+	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 11:18:55 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51348)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgilbert@redhat.com>) id 1hReDk-0000ok-PR
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 10:52:32 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hRec4-0008Sl-9G
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 11:17:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgilbert@redhat.com>) id 1hReDj-0000l8-Ux
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 10:52:28 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:8712)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <dgilbert@redhat.com>)
-	id 1hReDj-0000Ya-Nj; Fri, 17 May 2019 10:52:27 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
-	[10.5.11.11])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id CA88F3097053;
-	Fri, 17 May 2019 14:52:18 +0000 (UTC)
-Received: from work-vm (unknown [10.36.118.28])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id C4ADD600C4;
-	Fri, 17 May 2019 14:52:17 +0000 (UTC)
-Date: Fri, 17 May 2019 15:52:15 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Greg Kurz <groug@kaod.org>
-Message-ID: <20190517145214.GG3596@work-vm>
-References: <155800428514.543845.17558475870097990036.stgit@bahia.lan>
+	(envelope-from <peter.maydell@linaro.org>) id 1hRec3-0000DM-DK
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 11:17:36 -0400
+Received: from mail-ot1-x32e.google.com ([2607:f8b0:4864:20::32e]:34590)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hRec3-000092-4F
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 11:17:35 -0400
+Received: by mail-ot1-x32e.google.com with SMTP id l17so7084768otq.1
+	for <qemu-devel@nongnu.org>; Fri, 17 May 2019 08:17:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=Fx7pwgDGopZal2NXN9oHRgIxBnQ1rAMA2tgrM8gsQGs=;
+	b=s+AC+XMuBqIIVJVNrmNHIzcD5ZLgAYjnxoTVxbzLFbsIDAQPS75GoRx5UMLvxbxOBj
+	V2jAw2SCcSRdPtWzy7GqDEG1XK08ee6X93ZkL39vzehhWMS/Ivnf8WMWoHxh/TJ3+I0i
+	Z3qobYYFX8KebC/l/eEKHQSfDTKWHa3zEt9Vu3F6lrzeV6Nb0fwvx2nayU7afvdAIRof
+	uMrCevs1idHsdUdq2EOGmqinaCoOJVkIQ/WPXtNhowB3hfZ6UjCqj1h7xw0ndUXYLPUP
+	X0afvZ2zSfh79knfqMk72uAW05FrisJK4G2fwooXgkMxe0LGtwd4ckidzPt0DiIre8CQ
+	Hdjw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=Fx7pwgDGopZal2NXN9oHRgIxBnQ1rAMA2tgrM8gsQGs=;
+	b=twiaIP+UYQVzR7tqKsMrRytoCFf4XOgkbHoQvqRPurwf0TDfn5zPSjKcQ3jTQwNXCO
+	egN6g7oWJUecBvE8R2m34nwaz8zrbXQBB6RIBmVgABVK1eJhlL2RU2ilOM3A50VZf5cn
+	/ecrBDzv1vhJ6HrqolW6PAWtlp6UKsfBq6EBlk4xcNMMcDYqe3rui61ldQyzwxjuxNPD
+	2SA0c+8XwPxLIYUkdRop/Hff68s7/9DDBJBoNV8HY27zmpUJJysRXMEtWSMKBZjvjOX6
+	zCOzWDNh2Nb+daGAcx7bUgbpwbMdN1dmW2S6fCj/BrgUDlrFXlo4ju0senh+7vZ8C0rv
+	vLtw==
+X-Gm-Message-State: APjAAAVmH3OvX23L3sOwDWmZ7+1QrlGr2gq5cVDUDiayMcDR3pEPYAVI
+	Kp1FCDKL9hsfQfIaK2YlzJ7ViqnUhBWDhdQC7GkCpJHnmnA=
+X-Google-Smtp-Source: APXvYqziH2CUuJnhrou6bwe1dacubVSr85O92hvx4psWaqKzFRcM+eeKJs6ye8dl/VuuR8GCVjZmDNTwd8M5XIhdhFA=
+X-Received: by 2002:a05:6830:149a:: with SMTP id
+	s26mr5608246otq.221.1558106253778; 
+	Fri, 17 May 2019 08:17:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <155800428514.543845.17558475870097990036.stgit@bahia.lan>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.43]);
-	Fri, 17 May 2019 14:52:18 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] migration: Fix typo in
- migrate_add_blocker() error message
+References: <20190517094029.7667-1-mark.cave-ayland@ilande.co.uk>
+In-Reply-To: <20190517094029.7667-1-mark.cave-ayland@ilande.co.uk>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Fri, 17 May 2019 16:17:22 +0100
+Message-ID: <CAFEAcA8j+zjxb8SNMbKgTAixXHg1z0pbc9tYeom=UwO-5d5QAg@mail.gmail.com>
+To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::32e
+Subject: Re: [Qemu-devel] [PULL 0/8] qemu-sparc queue 20190517
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,38 +72,33 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-trivial@nongnu.org, qemu-devel@nongnu.org,
-	Juan Quintela <quintela@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Greg Kurz (groug@kaod.org) wrote:
-> Signed-off-by: Greg Kurz <groug@kaod.org>
-> ---
->  migration/migration.c |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/migration/migration.c b/migration/migration.c
-> index 609e0df5d0c0..c15e75e0eebe 100644
-> --- a/migration/migration.c
-> +++ b/migration/migration.c
-> @@ -1714,7 +1714,7 @@ int migrate_add_blocker(Error *reason, Error **errp)
->      if (only_migratable) {
->          error_propagate_prepend(errp, error_copy(reason),
->                                  "disallowing migration blocker "
-> -                                "(--only_migratable) for: ");
-> +                                "(--only-migratable) for: ");
-
-Thanks.
-Trivial: Please take this.
+On Fri, 17 May 2019 at 10:42, Mark Cave-Ayland
+<mark.cave-ayland@ilande.co.uk> wrote:
+>
+> The following changes since commit d8276573da58e8ce78dab8c46dd660efd664bcb7:
+>
+>   Merge remote-tracking branch 'remotes/rth/tags/pull-tcg-20190510' into staging (2019-05-16 13:15:08 +0100)
+>
+> are available in the git repository at:
+>
+>   git://github.com/mcayland/qemu.git tags/qemu-sparc-20190517
+>
+> for you to fetch changes up to 918b8adeb20d9635b16ffde7a413b15f6761b7f3:
+>
+>   MAINTAINERS: add myself for leon3 (2019-05-17 09:17:11 +0100)
+>
+> ----------------------------------------------------------------
+> qemu-sparc queue
 
 
-Reviewed-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
+Applied, thanks.
 
->          return -EACCES;
->      }
->  
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
+for any user-visible changes.
+
+-- PMM
 
