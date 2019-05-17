@@ -2,51 +2,76 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 75BB8215C6
-	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 10:55:26 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:44717 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CBF2215C8
+	for <lists+qemu-devel@lfdr.de>; Fri, 17 May 2019 10:55:52 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:44721 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hRYeD-0007Ik-Hs
-	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 04:55:25 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59797)
+	id 1hRYed-0007YJ-Mz
+	for lists+qemu-devel@lfdr.de; Fri, 17 May 2019 04:55:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60683)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <imammedo@redhat.com>) id 1hRYVy-0001Ee-Fo
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 04:46:58 -0400
+	(envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hRYad-0005KR-AH
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 04:51:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <imammedo@redhat.com>) id 1hRYVx-0000eS-HK
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 04:46:54 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52704)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1hRYVx-0000e9-C2
-	for qemu-devel@nongnu.org; Fri, 17 May 2019 04:46:53 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 67B4D8666E;
-	Fri, 17 May 2019 08:46:52 +0000 (UTC)
-Received: from Igors-MacBook-Pro (unknown [10.40.205.69])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id D3C4E4A8;
-	Fri, 17 May 2019 08:46:46 +0000 (UTC)
-Date: Fri, 17 May 2019 10:46:41 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: Like Xu <like.xu@linux.intel.com>
-Message-ID: <20190517104641.37c3e8fa@Igors-MacBook-Pro>
-In-Reply-To: <1557131596-25403-2-git-send-email-like.xu@linux.intel.com>
-References: <1557131596-25403-1-git-send-email-like.xu@linux.intel.com>
-	<1557131596-25403-2-git-send-email-like.xu@linux.intel.com>
+	(envelope-from <mark.cave-ayland@ilande.co.uk>) id 1hRYab-0003lE-Sj
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 04:51:43 -0400
+Received: from mail.ilande.co.uk ([46.43.2.167]:55216
+	helo=mail.default.ilande.uk0.bigv.io)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <mark.cave-ayland@ilande.co.uk>)
+	id 1hRYab-0003ke-Kd
+	for qemu-devel@nongnu.org; Fri, 17 May 2019 04:51:41 -0400
+Received: from host109-146-247-8.range109-146.btcentralplus.com
+	([109.146.247.8] helo=[192.168.1.65])
+	by mail.default.ilande.uk0.bigv.io with esmtpsa
+	(TLS1.2:ECDHE_RSA_AES_128_GCM_SHA256:128) (Exim 4.89)
+	(envelope-from <mark.cave-ayland@ilande.co.uk>)
+	id 1hRYZM-0000pX-M3; Fri, 17 May 2019 09:50:26 +0100
+To: KONRAD Frederic <frederic.konrad@adacore.com>, qemu-devel@nongnu.org
+References: <1557923493-4836-1-git-send-email-frederic.konrad@adacore.com>
+From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+Openpgp: preference=signencrypt
+Autocrypt: addr=mark.cave-ayland@ilande.co.uk; keydata=
+	mQENBFQJuzwBCADAYvxrwUh1p/PvUlNFwKosVtVHHplgWi5p29t58QlOUkceZG0DBYSNqk93
+	3JzBTbtd4JfFcSupo6MNNOrCzdCbCjZ64ik8ycaUOSzK2tKbeQLEXzXoaDL1Y7vuVO7nL9bG
+	E5Ru3wkhCFc7SkoypIoAUqz8EtiB6T89/D9TDEyjdXUacc53R5gu8wEWiMg5MQQuGwzbQy9n
+	PFI+mXC7AaEUqBVc2lBQVpAYXkN0EyqNNT12UfDLdxaxaFpUAE2pCa2LTyo5vn5hEW+i3VdN
+	PkmjyPvL6DdY03fvC01PyY8zaw+UI94QqjlrDisHpUH40IUPpC/NB0LwzL2aQOMkzT2NABEB
+	AAG0ME1hcmsgQ2F2ZS1BeWxhbmQgPG1hcmsuY2F2ZS1heWxhbmRAaWxhbmRlLmNvLnVrPokB
+	OAQTAQIAIgUCVAm7PAIbAwYLCQgHAwIGFQgCCQoLBBYCAwECHgECF4AACgkQW8LFb64PMh9f
+	NAgAuc3ObOEY8NbZko72AGrg2tWKdybcMVITxmcor4hb9155o/OWcA4IDbeATR6cfiDL/oxU
+	mcmtXVgPqOwtW3NYAKr5g/FrZZ3uluQ2mtNYAyTFeALy8YF7N3yhs7LOcpbFP7tEbkSzoXNG
+	z8iYMiYtKwttt40WaheWuRs0ZOLbs6yoczZBDhna3Nj0LA3GpeJKlaV03O4umjKJgACP1c/q
+	T2Pkg+FCBHHFP454+waqojHp4OCBo6HyK+8I4wJRa9Z0EFqXIu8lTDYoggeX0Xd6bWeCFHK3
+	DhD0/Xi/kegSW33unsp8oVcM4kcFxTkpBgj39dB4KwAUznhTJR0zUHf63LkBDQRUCbs8AQgA
+	y7kyevA4bpetM/EjtuqQX4U05MBhEz/2SFkX6IaGtTG2NNw5wbcAfhOIuNNBYbw6ExuaJ3um
+	2uLseHnudmvN4VSJ5Hfbd8rhqoMmmO71szgT/ZD9MEe2KHzBdmhmhxJdp+zQNivy215j6H27
+	14mbC2dia7ktwP1rxPIX1OOfQwPuqlkmYPuVwZP19S4EYnCELOrnJ0m56tZLn5Zj+1jZX9Co
+	YbNLMa28qsktYJ4oU4jtn6V79H+/zpERZAHmH40IRXdR3hA+Ye7iC/ZpWzT2VSDlPbGY9Yja
+	Sp7w2347L5G+LLbAfaVoejHlfy/msPeehUcuKjAdBLoEhSPYzzdvEQARAQABiQEfBBgBAgAJ
+	BQJUCbs8AhsMAAoJEFvCxW+uDzIfabYIAJXmBepHJpvCPiMNEQJNJ2ZSzSjhic84LTMWMbJ+
+	opQgr5cb8SPQyyb508fc8b4uD8ejlF/cdbbBNktp3BXsHlO5BrmcABgxSP8HYYNsX0n9kERv
+	NMToU0oiBuAaX7O/0K9+BW+3+PGMwiu5ml0cwDqljxfVN0dUBZnQ8kZpLsY+WDrIHmQWjtH+
+	Ir6VauZs5Gp25XLrL6bh/SL8aK0BX6y79m5nhfKI1/6qtzHAjtMAjqy8ChPvOqVVVqmGUzFg
+	KPsrrIoklWcYHXPyMLj9afispPVR8e0tMKvxzFBWzrWX1mzljbBlnV2n8BIwVXWNbgwpHSsj
+	imgcU9TTGC5qd9g=
+Message-ID: <c0bba828-7cc8-6ac9-a863-696e93796398@ilande.co.uk>
+Date: Fri, 17 May 2019 09:51:06 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <1557923493-4836-1-git-send-email-frederic.konrad@adacore.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.26]);
-	Fri, 17 May 2019 08:46:52 +0000 (UTC)
+X-SA-Exim-Connect-IP: 109.146.247.8
+X-SA-Exim-Mail-From: mark.cave-ayland@ilande.co.uk
+X-SA-Exim-Version: 4.2.1 (built Tue, 02 Aug 2016 21:08:31 +0000)
+X-SA-Exim-Scanned: Yes (on mail.default.ilande.uk0.bigv.io)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 01/10] hw/boards: add struct CpuTopology
- to MachineState
+X-Received-From: 46.43.2.167
+Subject: Re: [Qemu-devel] [PATCH v3 0/7] Leon3 patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,86 +83,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
-	Eduardo Habkost <ehabkost@redhat.com>,
-	"Michael S. Tsirkin" <mst@redhat.com>,
-	Philippe =?UTF-8?Q?Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
-	qemu-devel@nongnu.org, Alistair Francis <alistair23@gmail.com>,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	Alex =?UTF-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>, "Dr. David Alan
-	Gilbert" <dgilbert@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: peter.maydell@linaro.org, philmd@redhat.com, atar4qemu@gmail.com,
+	chouteau@adacore.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon,  6 May 2019 16:33:07 +0800
-Like Xu <like.xu@linux.intel.com> wrote:
+On 15/05/2019 13:31, KONRAD Frederic wrote:
 
-> To remove usages of global smp variables arch by arch,
-> a bisect friendly way is introduced to initialize struct
-> CpuTopology with duplicate ones; no semantic changes.
-
-well, commit message doesn't make any sense however many
-times I've tried to read it. Pls rephrase.
- 
-> Suggested-by: Igor Mammedov <imammedo@redhat.com>
-> Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
-> Signed-off-by: Like Xu <like.xu@linux.intel.com>
-> ---
->  include/hw/boards.h | 15 +++++++++++++++
->  vl.c                |  5 +++++
->  2 files changed, 20 insertions(+)
+> Hi all,
 > 
-> diff --git a/include/hw/boards.h b/include/hw/boards.h
-> index 6f7916f..dc89c6d 100644
-> --- a/include/hw/boards.h
-> +++ b/include/hw/boards.h
-> @@ -231,6 +231,20 @@ typedef struct DeviceMemoryState {
->  } DeviceMemoryState;
->  
->  /**
-> + * CpuTopology:
-> + * @cpus: the number of logical processors on the machine
+> Those are some little fixes for the leon3 machine:
+>   * The first patch makes an error message more friendly when no kernel / bios
+>     are provided.
+>   * The three next one remove the old-style create function as suggested by
+>     Mark.
+>   * The fifth part initializes the uart and the timer when no bios are
+>     provided.
+>   * The sixth part adds AHB and APB plug and play devices to allow to boot
+>     linux.
+>   * The last part adds myself to the MAINTAINERS for this board.
+> 
+> The test images are available here: https://www.gaisler.com/anonftp/linux/lin
+> ux-2.6/images/leon-linux-4.9/leon-linux-4.9-1.0/up/
+> 
+> Tested with:
+>   qemu-system-sparc -M leon3_generic --nographic --kernel image.ram
+> 
+> V2 -> V3:
+>   * rebased.
+>   * added patches 1, 2, 3, 4 as suggested by Mark.
+>   * fixed DEVICE_NATIVE_ENDIAN to DEVICE_BIG_ENDIAN in patch 6 as suggested by
+>     Mark.
+>   * added include/hw/*/grlib* to the MAINTAINED file as suggested by Mark.
+> V1 -> V2:
+>   * minor fixes in the first patch suggested by Philippe.
+> 
+> Regards,
+> Fred
+> 
+> KONRAD Frederic (7):
+>   leon3: fix the error message when no bios are provided
+>   grlib,irqmp: get rid of the old-style create function
+>   grlib,gptimer: get rid of the old-style create function
+>   grlib,apbuart: get rid of the old-style create function
+>   leon3: add a little bootloader
+>   leon3: introduce the plug and play mechanism
+>   MAINTAINERS: add myself for leon3
+> 
+>  MAINTAINERS                         |   3 +-
+>  hw/char/grlib_apbuart.c             |   4 +-
+>  hw/intc/grlib_irqmp.c               |   3 +-
+>  hw/misc/Makefile.objs               |   2 +
+>  hw/misc/grlib_ahb_apb_pnp.c         | 269 ++++++++++++++++++++++++++++++++++++
+>  hw/sparc/leon3.c                    | 157 ++++++++++++++++++---
+>  hw/timer/grlib_gptimer.c            |   4 +-
+>  include/hw/misc/grlib_ahb_apb_pnp.h |  60 ++++++++
+>  include/hw/sparc/grlib.h            |  78 +----------
+>  9 files changed, 483 insertions(+), 97 deletions(-)
+>  create mode 100644 hw/misc/grlib_ahb_apb_pnp.c
+>  create mode 100644 include/hw/misc/grlib_ahb_apb_pnp.h
 
-s/of/of present/
+Thanks for sorting out the old-style functions, this version looks much better. I've
+applied this to my qemu-sparc branch and will send a PR shortly.
 
-> + * @cores: the number of cores in one package
-> + * @threads: the number of threads in one core
-> + * @max_cpus: the maximum number of logical processors on the machine
-> + */
-> +typedef struct CpuTopology {
-> +    unsigned int cpus;
-> +    unsigned int cores;
-> +    unsigned int threads;
-> +    unsigned int max_cpus;
-> +} CpuTopology;
-> +
-> +/**
->   * MachineState:
->   */
->  struct MachineState {
-> @@ -272,6 +286,7 @@ struct MachineState {
->      const char *cpu_type;
->      AccelState *accelerator;
->      CPUArchIdList *possible_cpus;
-> +    CpuTopology smp;
->      struct NVDIMMState *nvdimms_state;
->  };
->  
-> diff --git a/vl.c b/vl.c
-> index d9fea0a..43fd247 100644
-> --- a/vl.c
-> +++ b/vl.c
-> @@ -4099,6 +4099,11 @@ int main(int argc, char **argv, char **envp)
->  
->      smp_parse(qemu_opts_find(qemu_find_opts("smp-opts"), NULL));
->  
-> +    current_machine->smp.cpus = smp_cpus;
-> +    current_machine->smp.max_cpus = max_cpus;
-> +    current_machine->smp.cores = smp_cores;
-> +    current_machine->smp.threads = smp_threads;
-> +
->      /* sanity-check smp_cpus and max_cpus against machine_class */
->      if (smp_cpus < machine_class->min_cpus) {
->          error_report("Invalid SMP CPUs %d. The min CPUs "
 
+ATB,
+
+Mark.
 
