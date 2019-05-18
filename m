@@ -2,44 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 614C3224A9
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 May 2019 21:23:25 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:37876 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 18F97224A2
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 May 2019 21:17:31 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37765 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hS4vU-00018g-KI
-	for lists+qemu-devel@lfdr.de; Sat, 18 May 2019 15:23:24 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33046)
+	id 1hS4pm-00059Q-6U
+	for lists+qemu-devel@lfdr.de; Sat, 18 May 2019 15:17:30 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:32951)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <hmka2@cl.cam.ac.uk>) id 1hS4nC-0003PW-IF
-	for qemu-devel@nongnu.org; Sat, 18 May 2019 15:14:51 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hS4n2-0003Fi-L0
+	for qemu-devel@nongnu.org; Sat, 18 May 2019 15:14:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <hmka2@cl.cam.ac.uk>) id 1hS4nB-0002wC-Mb
-	for qemu-devel@nongnu.org; Sat, 18 May 2019 15:14:50 -0400
-Received: from mta1.cl.cam.ac.uk ([2a05:b400:110::25:1]:36405)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <hmka2@cl.cam.ac.uk>)
-	id 1hS4n9-0002qc-M0; Sat, 18 May 2019 15:14:47 -0400
-Received: from cassia.cl.cam.ac.uk ([2001:630:212:238:b26e:bfff:fe2f:c7d9])
-	by mta1.cl.cam.ac.uk with esmtps
-	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.90_1)
-	(envelope-from <hmka2@cl.cam.ac.uk>)
-	id 1hS4n8-0002ps-UT; Sat, 18 May 2019 19:14:46 +0000
-Received: from hmka2 by cassia.cl.cam.ac.uk with local (Exim 4.90_1)
-	(envelope-from <hmka2@cl.cam.ac.uk>)
-	id 1hS4n8-0001uz-SJ; Sat, 18 May 2019 20:14:46 +0100
-From: Hesham Almatary <Hesham.Almatary@cl.cam.ac.uk>
-To: qemu-riscv@nongnu.org
-Date: Sat, 18 May 2019 20:13:23 +0100
-Message-Id: <20190518191323.4907-2-Hesham.Almatary@cl.cam.ac.uk>
+	(envelope-from <richard.henderson@linaro.org>) id 1hS4n1-0002kN-Oh
+	for qemu-devel@nongnu.org; Sat, 18 May 2019 15:14:40 -0400
+Received: from mail-pf1-x432.google.com ([2607:f8b0:4864:20::432]:39297)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hS4n1-0002jR-JK
+	for qemu-devel@nongnu.org; Sat, 18 May 2019 15:14:39 -0400
+Received: by mail-pf1-x432.google.com with SMTP id z26so5264810pfg.6
+	for <qemu-devel@nongnu.org>; Sat, 18 May 2019 12:14:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=rO0J4mv2XStY7l8n4TCxBzI2PfGSKqSrLz6qLFhfLN8=;
+	b=uceUUFdaYPG6IzS0PIZl3Gy7ZldHQsXHAgEGVLqz1mwZSs548BSRRPadyvYKUjudm5
+	eU9J85IHni0I7a6e2bb2r6b6FvM7JAb9hfsUcRxEiW1E/oYiIw0Yq8KwmFQK17eYuEgs
+	H40+w8IuhMsQqGMiK3dgMsdc7QybhGuXOAxiea/+8M/2J63A4dk1IDsmvWxBmReSW3aa
+	mlJFdDegrCpTkcQVqc2K3oO5AFSg8eGI8YCe2ehH+/XOJoy7qXMkosxuQgenOaR9uPQf
+	TEOHVk17QO/JqtRoWCtwWfJJNAqKN9AXiUq4qGNz8I1B/a/LtRYBvvgHGzIbMBBa83Ws
+	qCWw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=rO0J4mv2XStY7l8n4TCxBzI2PfGSKqSrLz6qLFhfLN8=;
+	b=W6dcz14hv4y/XKTSbSJ0qwvlW3OSbidVMNWJ0wQdL9+odvmfgbtx05oEaeqdeUW0wJ
+	XVsBwQp0ajrL7A3puG4JSljd9RmVs919Cmdz414Xu7UpyOOP1VX7SSCR/nZINvOTC9s5
+	JeRRkfH+YWTlBIQ9duaFwNuZdlSsybajENaXRvDKz2YDYZUjew4zaGzYz+fynPu6KTRk
+	eCoJIrYN+6ykKPs1YdKjCV4pZOUkbXJrbVPtNt6v3FYQyq8pmbbyzXRfZ9CT0Gyh+bzB
+	98JoLDQ8FqR8V+WFlwETMhh8QGV8KpjAbJzt2aYmYMEoo/c6YkgGFVbq4zWC/Pa745Ig
+	Hs4A==
+X-Gm-Message-State: APjAAAXFEXYCfJTOIdtBQ38VXbCW24ZfUEwLy7EJT2kU8LZ/GAlIfL+z
+	TbfC7cplnjiArBVQPW3iV0wgP9rWU9w=
+X-Google-Smtp-Source: APXvYqz9W9h8LrxEQZ7i4OpQ8TcJSrP0cgMUjc+f4lC+ZF5Sa/ACq41YczGpNBvm/woDeYtlyzbsjw==
+X-Received: by 2002:aa7:8d50:: with SMTP id s16mr8211422pfe.96.1558206877900; 
+	Sat, 18 May 2019 12:14:37 -0700 (PDT)
+Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
+	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
+	d186sm19206675pfd.183.2019.05.18.12.14.36
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 18 May 2019 12:14:37 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Date: Sat, 18 May 2019 12:14:28 -0700
+Message-Id: <20190518191430.21686-1-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190518191323.4907-1-Hesham.Almatary@cl.cam.ac.uk>
-References: <20190518191323.4907-1-Hesham.Almatary@cl.cam.ac.uk>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a05:b400:110::25:1
-Subject: [Qemu-devel] [PATCH 2/2] RISC-V: Only Check PMP if MMU translation
- succeeds
+X-Received-From: 2607:f8b0:4864:20::432
+Subject: [Qemu-devel] [PATCH 0/2] target/ppc: make use of new gvec expanders
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -51,43 +72,32 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>,
-	Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
-	Palmer Dabbelt <palmer@sifive.com>, qemu-devel@nongnu.org,
-	Alistair Francis <Alistair.Francis@wdc.com>,
-	Hesham Almatary <hesham.almatary@cl.cam.ac.uk>
+Cc: mark.cave-ayland@ilande.co.uk, qemu-ppc@nongnu.org,
+	david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The current implementation unnecessarily checks for PMP even if MMU translation
-failed. This may trigger a wrong PMP access exception instead of
-a page exception.
+Based-on: <20190518190157.21255-1-richard.henderson@linaro.org>
+Aka "tcg: misc gvec improvements".
 
-For example, the very first instruction fetched after the first satp write in
-S-Mode will trigger a PMP access fault instead of an instruction fetch page
-fault.
+Since Mark's initial patches, we've added (or are adding)
+generic support for variable vector shifts and bitsel.
 
-This patch prioritises MMU exceptions over PMP exceptions and only checks for
-PMP if MMU translation succeeds.
 
-Signed-off-by: Hesham Almatary <hesham.almatary@cl.cam.ac.uk>
----
- target/riscv/cpu_helper.c | 1 +
- 1 file changed, 1 insertion(+)
+r~
 
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index b48de36114..7c7282c680 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -403,6 +403,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-                   " prot %d\n", __func__, address, ret, pa, prot);
 
-     if (riscv_feature(env, RISCV_FEATURE_PMP) &&
-+        (ret == TRANSLATE_SUCCESS) &&
-         !pmp_hart_has_privs(env, pa, TARGET_PAGE_SIZE, 1 << access_type)) {
-         pmp_violation = true;
-         ret = TRANSLATE_FAIL;
---
+Richard Henderson (2):
+  target/ppc: Use vector variable shifts for VSL, VSR, VSRA
+  target/ppc: Use tcg_gen_gvec_bitsel
+
+ target/ppc/helper.h                 | 12 ----------
+ target/ppc/int_helper.c             | 37 -----------------------------
+ target/ppc/translate/vmx-impl.inc.c | 24 +++++++++----------
+ target/ppc/translate/vsx-impl.inc.c | 24 ++-----------------
+ 4 files changed, 14 insertions(+), 83 deletions(-)
+
+-- 
 2.17.1
 
 
