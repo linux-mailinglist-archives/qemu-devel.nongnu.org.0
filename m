@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B0B0722490
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 May 2019 21:06:58 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:37591 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B380222493
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 May 2019 21:07:20 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37597 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hS4fZ-0003zI-Ig
-	for lists+qemu-devel@lfdr.de; Sat, 18 May 2019 15:06:57 -0400
+	id 1hS4fv-0004bb-RJ
+	for lists+qemu-devel@lfdr.de; Sat, 18 May 2019 15:07:19 -0400
 Received: from eggs.gnu.org ([209.51.188.92]:59166)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hS4dB-0002lS-7f
-	for qemu-devel@nongnu.org; Sat, 18 May 2019 15:04:30 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hS4dM-0002lS-Tm
+	for qemu-devel@nongnu.org; Sat, 18 May 2019 15:04:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hS4b4-0002jK-5B
-	for qemu-devel@nongnu.org; Sat, 18 May 2019 15:02:19 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:36730)
+	(envelope-from <richard.henderson@linaro.org>) id 1hS4b5-0002kL-S5
+	for qemu-devel@nongnu.org; Sat, 18 May 2019 15:02:21 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:34614)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hS4b2-0002hv-3m
-	for qemu-devel@nongnu.org; Sat, 18 May 2019 15:02:17 -0400
-Received: by mail-pf1-x444.google.com with SMTP id v80so5259888pfa.3
-	for <qemu-devel@nongnu.org>; Sat, 18 May 2019 12:02:15 -0700 (PDT)
+	id 1hS4b4-0002iU-4L
+	for qemu-devel@nongnu.org; Sat, 18 May 2019 15:02:19 -0400
+Received: by mail-pf1-x444.google.com with SMTP id n19so5269665pfa.1
+	for <qemu-devel@nongnu.org>; Sat, 18 May 2019 12:02:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=2Z/xMZNbQQoNoZQShCqBViE6D5UwKBhH3tq+yJTAfz4=;
-	b=SHVMKSlAm8YY9ESIqjMGZia8cRwr3363o57U/3uAfbatVFlhJLlx8pqzt7ynOMBp7A
-	m4CiWEwVrQ6bQUPH12TBqjsE6GZbIQvqxBM9ziC2lzahrUREbSXdsYw8o3tU8tJyACoS
-	d1tByaWRjzHeTsr5SKs7xnvxcT06T4K0Qro51hfvWC2ry3OUek6MdzACEJSGfUKpnm9Q
-	JoKuptpsb0lwENFPTWLBPi4e4qtF1oDZaLIeBoitZ6bTBJsLxLOiZ30zjOZvqlAfziA6
-	bYT83o9KwvgIPCiYjGsGFPGHZdkiPYfqQ5fBKTQ3OJB9E0vt3CVSIn4lZkqxDk/oa6a6
-	PTjg==
+	bh=/D6aLozHwnS1sPI8iNsL3pMxewPkp4IUhb3tHD+DOe4=;
+	b=DX98WC+w6H36YBm5EDtBPEhzGilvTj4uIwQ9+YO9lP0LLRhpO7KtG4L/fqqkIpuF5b
+	8uSa4ytNJiNTh/0+dFzuB/v+kbaokbyrShOsd1fLa0KNO2/1d979NH2+MQZaVEPSOgEh
+	qZVAVnlxbmVrF0yrVyZFSCF8uUPBiS8Qgkl8xmUg35qCVpcJWv/E4f4dSPcxhGrzIInH
+	G4WwATWsYJGX95MDYS9c1M30vholRxwjGsM+zVS/MepbMP+nQNaiKSyxEdTi1+myMCEQ
+	uQRMWiyM6wdvjNAaGrFfYlYsEIaLwpiJlyNG+dWKZm+oNr8r0q6rU9fYESYPH/57jvAU
+	IBug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=2Z/xMZNbQQoNoZQShCqBViE6D5UwKBhH3tq+yJTAfz4=;
-	b=hMcg6hXu1rH9oH42vHrGbelGD6GFwoJIa8PTzSOWLMQCLeHKpGySBodq3wDW5T5NCP
-	2YRTQ2WDWE0AtQDoPSNNDoOKeXdTbEeRDTHaWWNIM976HkV+lRhgfKy9mlXe4pU01TDS
-	4vHv42tWQv5mu4AJ07xeWq5cVHuiQNID31nwrZ5c1Q2t26PFecU+GoVceojOt3GTrn7r
-	ni+C+VDXsWbaEqOaEWLuqp0fOgYjqErVyTQ33jYQEfzHdQ+vnwZwBJtwuCS1o8o4KlZ2
-	j+/3EVsBf8wNESCCxa1LGpndugCjNJhTMwSLe5iMiQIL7zqGVSr/a+mFM7mf/vEnDsVn
-	NiVQ==
-X-Gm-Message-State: APjAAAXtEgeVzO97ITT2fjLNwTRtQsU/MpoHSxOYUMBt8mlLNL6wfLJJ
-	ELQWT7QZkjz0C3TAR3eS69tKkEZuToY=
-X-Google-Smtp-Source: APXvYqwB0P5y20DjUa71qneTcQGLHvEtiqkowjlaTrbiQyGPnXEsMTPDhz6ZaQzOmSwSYdKu0rii5Q==
-X-Received: by 2002:a62:ea0a:: with SMTP id t10mr69243715pfh.236.1558206134214;
-	Sat, 18 May 2019 12:02:14 -0700 (PDT)
+	bh=/D6aLozHwnS1sPI8iNsL3pMxewPkp4IUhb3tHD+DOe4=;
+	b=uasVNDWUifvjb+T+awO7euS4AiCpcKoVxPNf3lOpBxrZCg8KJEOBXEvuYFAEIea7S7
+	Co2VoM43YkCWCjFzogHkbWJ7B+K935yu9Dfe25T8Q5y2IP1/Lt03rPXQ7ngw1y0EsbHB
+	KmK+BFhxHVqnCi+cH8bILvdmwCkVogkKVt+ZtOoZ5Uf5bYuaWpolcWZzOq5Cjxd3H6QW
+	52lDLRGqKX62YQgJoiY1xXwkfMJNiPya/MvddL3qXZuPKwNc2dx4RZz19+ZcawTfi1Ma
+	I0AJGfM+NXVjTZukE3hUXzoT6jW9/kS+xTx8K9ARQr58GvOj3DVCOuOcxxhoWAjdAupQ
+	RZ2g==
+X-Gm-Message-State: APjAAAWfSvb4fQzuqctrMXDIlvWwyneXHs0cPfxzU9w9X608ZcNnDT3u
+	iskdHdVeJ0aujuILiJSPeJeQUPkwxio=
+X-Google-Smtp-Source: APXvYqzvZVir7bSlPOQyKcWKGs+bT+BYBawGmn93r/3BoGDeb6Gjnbk3HGpI43jmk+Tq61Si6KzxNQ==
+X-Received: by 2002:a65:60c7:: with SMTP id r7mr63134180pgv.22.1558206135452; 
+	Sat, 18 May 2019 12:02:15 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231])
-	by smtp.gmail.com with ESMTPSA id m9sm2751274pgd.23.2019.05.18.12.02.13
+	by smtp.gmail.com with ESMTPSA id m9sm2751274pgd.23.2019.05.18.12.02.14
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 18 May 2019 12:02:13 -0700 (PDT)
+	Sat, 18 May 2019 12:02:14 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sat, 18 May 2019 12:01:52 -0700
-Message-Id: <20190518190157.21255-12-richard.henderson@linaro.org>
+Date: Sat, 18 May 2019 12:01:53 -0700
+Message-Id: <20190518190157.21255-13-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190518190157.21255-1-richard.henderson@linaro.org>
 References: <20190518190157.21255-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
 X-Received-From: 2607:f8b0:4864:20::444
-Subject: [Qemu-devel] [PATCH 11/16] tcg/aarch64: Support vector bitwise
- select value
+Subject: [Qemu-devel] [PATCH 12/16] tcg/aarch64: Split up is_fimm
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -80,100 +79,258 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The instruction set has 3 insns that perform the same operation,
-only varying in which operand must overlap the destination.  We
-can represent the operation without overlap and choose based on
-the operands seen.
+There are several sub-classes of vector immediate, and only MOVI
+can use them all.  This will enable usage of MVNI and ORRI, which
+use progressively fewer sub-classes.
+
+This patch adds no new functionality, merely splits the function
+and moves part of the logic into tcg_out_dupi_vec.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/aarch64/tcg-target.h     |  2 +-
- tcg/aarch64/tcg-target.inc.c | 24 +++++++++++++++++++++++-
- 2 files changed, 24 insertions(+), 2 deletions(-)
+ tcg/aarch64/tcg-target.inc.c | 205 ++++++++++++++++++++---------------
+ 1 file changed, 120 insertions(+), 85 deletions(-)
 
-diff --git a/tcg/aarch64/tcg-target.h b/tcg/aarch64/tcg-target.h
-index b4a9d36bbc..ca214f6909 100644
---- a/tcg/aarch64/tcg-target.h
-+++ b/tcg/aarch64/tcg-target.h
-@@ -140,7 +140,7 @@ typedef enum {
- #define TCG_TARGET_HAS_mul_vec          1
- #define TCG_TARGET_HAS_sat_vec          1
- #define TCG_TARGET_HAS_minmax_vec       1
--#define TCG_TARGET_HAS_bitsel_vec       0
-+#define TCG_TARGET_HAS_bitsel_vec       1
- #define TCG_TARGET_HAS_cmpsel_vec       0
- 
- #define TCG_TARGET_DEFAULT_MO (0)
 diff --git a/tcg/aarch64/tcg-target.inc.c b/tcg/aarch64/tcg-target.inc.c
-index 40bf35079a..e99149cda7 100644
+index e99149cda7..1422dfebe2 100644
 --- a/tcg/aarch64/tcg-target.inc.c
 +++ b/tcg/aarch64/tcg-target.inc.c
-@@ -523,6 +523,9 @@ typedef enum {
-     I3616_ADD       = 0x0e208400,
-     I3616_AND       = 0x0e201c00,
-     I3616_BIC       = 0x0e601c00,
-+    I3616_BIF       = 0x2ee01c00,
-+    I3616_BIT       = 0x2ea01c00,
-+    I3616_BSL       = 0x2e601c00,
-     I3616_EOR       = 0x2e201c00,
-     I3616_MUL       = 0x0e209c00,
-     I3616_ORR       = 0x0ea01c00,
-@@ -2181,7 +2184,7 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
+@@ -190,103 +190,86 @@ static inline bool is_limm(uint64_t val)
+     return (val & (val - 1)) == 0;
+ }
  
-     TCGType type = vecl + TCG_TYPE_V64;
-     unsigned is_q = vecl;
--    TCGArg a0, a1, a2;
-+    TCGArg a0, a1, a2, a3;
+-/* Match a constant that is valid for vectors.  */
+-static bool is_fimm(uint64_t v64, int *op, int *cmode, int *imm8)
++/* Return true if v16 is a valid 16-bit shifted immediate.  */
++static bool is_shimm16(uint16_t v16, int *cmode, int *imm8)
+ {
+-    int i;
+-
+-    *op = 0;
+-    /* Match replication across 8 bits.  */
+-    if (v64 == dup_const(MO_8, v64)) {
+-        *cmode = 0xe;
+-        *imm8 = v64 & 0xff;
++    if (v16 == (v16 & 0xff)) {
++        *cmode = 0x8;
++        *imm8 = v16 & 0xff;
++        return true;
++    } else if (v16 == (v16 & 0xff00)) {
++        *cmode = 0xa;
++        *imm8 = v16 >> 8;
+         return true;
+     }
+-    /* Match replication across 16 bits.  */
+-    if (v64 == dup_const(MO_16, v64)) {
+-        uint16_t v16 = v64;
++    return false;
++}
  
-     a0 = args[0];
-     a1 = args[1];
-@@ -2304,6 +2307,20 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
-         }
-         break;
+-        if (v16 == (v16 & 0xff)) {
+-            *cmode = 0x8;
+-            *imm8 = v16 & 0xff;
+-            return true;
+-        } else if (v16 == (v16 & 0xff00)) {
+-            *cmode = 0xa;
+-            *imm8 = v16 >> 8;
+-            return true;
+-        }
++/* Return true if v32 is a valid 32-bit shifted immediate.  */
++static bool is_shimm32(uint32_t v32, int *cmode, int *imm8)
++{
++    if (v32 == (v32 & 0xff)) {
++        *cmode = 0x0;
++        *imm8 = v32 & 0xff;
++        return true;
++    } else if (v32 == (v32 & 0xff00)) {
++        *cmode = 0x2;
++        *imm8 = (v32 >> 8) & 0xff;
++        return true;
++    } else if (v32 == (v32 & 0xff0000)) {
++        *cmode = 0x4;
++        *imm8 = (v32 >> 16) & 0xff;
++        return true;
++    } else if (v32 == (v32 & 0xff000000)) {
++        *cmode = 0x6;
++        *imm8 = v32 >> 24;
++        return true;
+     }
+-    /* Match replication across 32 bits.  */
+-    if (v64 == dup_const(MO_32, v64)) {
+-        uint32_t v32 = v64;
++    return false;
++}
  
-+    case INDEX_op_bitsel_vec:
-+        a3 = args[3];
-+        if (a0 == a3) {
-+            tcg_out_insn(s, 3616, BIT, is_q, 0, a0, a2, a1);
-+        } else if (a0 == a2) {
-+            tcg_out_insn(s, 3616, BIF, is_q, 0, a0, a3, a1);
-+        } else {
-+            if (a0 != a1) {
-+                tcg_out_mov(s, type, a0, a1);
-+            }
-+            tcg_out_insn(s, 3616, BSL, is_q, 0, a0, a2, a3);
-+        }
-+        break;
+-        if (v32 == (v32 & 0xff)) {
+-            *cmode = 0x0;
+-            *imm8 = v32 & 0xff;
+-            return true;
+-        } else if (v32 == (v32 & 0xff00)) {
+-            *cmode = 0x2;
+-            *imm8 = (v32 >> 8) & 0xff;
+-            return true;
+-        } else if (v32 == (v32 & 0xff0000)) {
+-            *cmode = 0x4;
+-            *imm8 = (v32 >> 16) & 0xff;
+-            return true;
+-        } else if (v32 == (v32 & 0xff000000)) {
+-            *cmode = 0x6;
+-            *imm8 = v32 >> 24;
+-            return true;
+-        } else if ((v32 & 0xffff00ff) == 0xff) {
+-            *cmode = 0xc;
+-            *imm8 = (v32 >> 8) & 0xff;
+-            return true;
+-        } else if ((v32 & 0xff00ffff) == 0xffff) {
+-            *cmode = 0xd;
+-            *imm8 = (v32 >> 16) & 0xff;
+-            return true;
+-        }
+-        /* Match forms of a float32.  */
+-        if (extract32(v32, 0, 19) == 0
+-            && (extract32(v32, 25, 6) == 0x20
+-                || extract32(v32, 25, 6) == 0x1f)) {
+-            *cmode = 0xf;
+-            *imm8 = (extract32(v32, 31, 1) << 7)
+-                  | (extract32(v32, 25, 1) << 6)
+-                  | extract32(v32, 19, 6);
+-            return true;
+-        }
++/* Return true if v32 is a valid 32-bit shifting ones immediate.  */
++static bool is_soimm32(uint32_t v32, int *cmode, int *imm8)
++{
++    if ((v32 & 0xffff00ff) == 0xff) {
++        *cmode = 0xc;
++        *imm8 = (v32 >> 8) & 0xff;
++        return true;
++    } else if ((v32 & 0xff00ffff) == 0xffff) {
++        *cmode = 0xd;
++        *imm8 = (v32 >> 16) & 0xff;
++        return true;
+     }
+-    /* Match forms of a float64.  */
++    return false;
++}
 +
-     case INDEX_op_mov_vec:  /* Always emitted via tcg_out_mov.  */
-     case INDEX_op_dupi_vec: /* Always emitted via tcg_out_movi.  */
-     case INDEX_op_dup_vec:  /* Always emitted via tcg_out_dup_vec.  */
-@@ -2334,6 +2351,7 @@ int tcg_can_emit_vec_op(TCGOpcode opc, TCGType type, unsigned vece)
-     case INDEX_op_usadd_vec:
-     case INDEX_op_ussub_vec:
-     case INDEX_op_shlv_vec:
-+    case INDEX_op_bitsel_vec:
-         return 1;
-     case INDEX_op_shrv_vec:
-     case INDEX_op_sarv_vec:
-@@ -2408,6 +2426,8 @@ static const TCGTargetOpDef *tcg_target_op_def(TCGOpcode op)
-         = { .args_ct_str = { "r", "r", "rA", "rZ", "rZ" } };
-     static const TCGTargetOpDef add2
-         = { .args_ct_str = { "r", "r", "rZ", "rZ", "rA", "rMZ" } };
-+    static const TCGTargetOpDef w_w_w_w
-+        = { .args_ct_str = { "w", "w", "w", "w" } };
++/* Return true if v32 is a valid float32 immediate.  */
++static bool is_fimm32(uint32_t v32, int *cmode, int *imm8)
++{
++    if (extract32(v32, 0, 19) == 0
++        && (extract32(v32, 25, 6) == 0x20
++            || extract32(v32, 25, 6) == 0x1f)) {
++        *cmode = 0xf;
++        *imm8 = (extract32(v32, 31, 1) << 7)
++              | (extract32(v32, 25, 1) << 6)
++              | extract32(v32, 19, 6);
++        return true;
++    }
++    return false;
++}
++
++/* Return true if v64 is a valid float64 immediate.  */
++static bool is_fimm64(uint64_t v64, int *cmode, int *imm8)
++{
+     if (extract64(v64, 0, 48) == 0
+         && (extract64(v64, 54, 9) == 0x100
+             || extract64(v64, 54, 9) == 0x0ff)) {
+         *cmode = 0xf;
+-        *op = 1;
+         *imm8 = (extract64(v64, 63, 1) << 7)
+               | (extract64(v64, 54, 1) << 6)
+               | extract64(v64, 48, 6);
+         return true;
+     }
+-    /* Match bytes of 0x00 and 0xff.  */
+-    for (i = 0; i < 64; i += 8) {
+-        uint64_t byte = extract64(v64, i, 8);
+-        if (byte != 0 && byte != 0xff) {
+-            break;
+-        }
+-    }
+-    if (i == 64) {
+-        *cmode = 0xe;
+-        *op = 1;
+-        *imm8 = (extract64(v64, 0, 1) << 0)
+-              | (extract64(v64, 8, 1) << 1)
+-              | (extract64(v64, 16, 1) << 2)
+-              | (extract64(v64, 24, 1) << 3)
+-              | (extract64(v64, 32, 1) << 4)
+-              | (extract64(v64, 40, 1) << 5)
+-              | (extract64(v64, 48, 1) << 6)
+-              | (extract64(v64, 56, 1) << 7);
+-        return true;
+-    }
+     return false;
+ }
  
-     switch (op) {
-     case INDEX_op_goto_ptr:
-@@ -2580,6 +2600,8 @@ static const TCGTargetOpDef *tcg_target_op_def(TCGOpcode op)
-         return &w_wr;
-     case INDEX_op_cmp_vec:
-         return &w_w_wZ;
-+    case INDEX_op_bitsel_vec:
-+        return &w_w_w_w;
+@@ -817,11 +800,63 @@ static void tcg_out_logicali(TCGContext *s, AArch64Insn insn, TCGType ext,
+ static void tcg_out_dupi_vec(TCGContext *s, TCGType type,
+                              TCGReg rd, tcg_target_long v64)
+ {
+-    int op, cmode, imm8;
++    bool q = type == TCG_TYPE_V128;
++    int cmode, imm8, i;
  
-     default:
-         return NULL;
+-    if (is_fimm(v64, &op, &cmode, &imm8)) {
+-        tcg_out_insn(s, 3606, MOVI, type == TCG_TYPE_V128, rd, op, cmode, imm8);
+-    } else if (type == TCG_TYPE_V128) {
++    /* Test all bytes equal first.  */
++    if (v64 == dup_const(MO_8, v64)) {
++        imm8 = (uint8_t)v64;
++        tcg_out_insn(s, 3606, MOVI, q, rd, 0, 0xe, imm8);
++        return;
++    }
++
++    /*
++     * Test all bytes 0x00 or 0xff second.  This can match cases that
++     * might otherwise take 2 or 3 insns for MO_16 or MO_32 below.
++     */
++    for (i = imm8 = 0; i < 8; i++) {
++        uint8_t byte = v64 >> (i * 8);
++        if (byte == 0xff) {
++            imm8 |= 1 << i;
++        } else if (byte != 0) {
++            goto fail_bytes;
++        }
++    }
++    tcg_out_insn(s, 3606, MOVI, q, rd, 1, 0xe, imm8);
++    return;
++ fail_bytes:
++
++    /*
++     * Tests for various replications.  For each element width, if we
++     * cannot find an expansion there's no point checking a larger
++     * width because we already know by replication it cannot match.
++     */
++    if (v64 == dup_const(MO_16, v64)) {
++        uint16_t v16 = v64;
++
++        if (is_shimm16(v16, &cmode, &imm8)) {
++            tcg_out_insn(s, 3606, MOVI, q, rd, 0, cmode, imm8);
++            return;
++        }
++    } else if (v64 == dup_const(MO_32, v64)) {
++        uint32_t v32 = v64;
++
++        if (is_shimm32(v32, &cmode, &imm8) ||
++            is_soimm32(v32, &cmode, &imm8) ||
++            is_fimm32(v32, &cmode, &imm8)) {
++            tcg_out_insn(s, 3606, MOVI, q, rd, 0, cmode, imm8);
++            return;
++        }
++    } else if (is_fimm64(v64, &cmode, &imm8)) {
++        tcg_out_insn(s, 3606, MOVI, q, rd, 1, cmode, imm8);
++        return;
++    }
++
++    /*
++     * As a last resort, load from the constant pool.  Sadly there
++     * is no LD1R (literal), so store the full 16-byte vector.
++     */
++    if (type == TCG_TYPE_V128) {
+         new_pool_l2(s, R_AARCH64_CONDBR19, s->code_ptr, 0, v64, v64);
+         tcg_out_insn(s, 3305, LDR_v128, 0, rd);
+     } else {
 -- 
 2.17.1
 
