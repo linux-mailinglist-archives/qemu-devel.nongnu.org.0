@@ -2,68 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0E2F722582
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 00:56:38 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:39536 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1A937225A5
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 03:35:43 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40803 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hS8Fo-0002CW-Tr
-	for lists+qemu-devel@lfdr.de; Sat, 18 May 2019 18:56:36 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54887)
+	id 1hSAjm-0001AX-9d
+	for lists+qemu-devel@lfdr.de; Sat, 18 May 2019 21:35:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57300)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hS8EY-0001S6-La
-	for qemu-devel@nongnu.org; Sat, 18 May 2019 18:55:20 -0400
+	(envelope-from <hmka2@hermes.cam.ac.uk>) id 1hS8ZO-00061U-R0
+	for qemu-devel@nongnu.org; Sat, 18 May 2019 19:16:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hS8EW-0003MW-OF
-	for qemu-devel@nongnu.org; Sat, 18 May 2019 18:55:18 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:42391)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hS8ET-0003JW-Ji
-	for qemu-devel@nongnu.org; Sat, 18 May 2019 18:55:15 -0400
-Received: by mail-wr1-f65.google.com with SMTP id l2so10591085wrb.9
-	for <qemu-devel@nongnu.org>; Sat, 18 May 2019 15:55:11 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=gHwmbgJW5vATWyj8d2aOuKWTS7VEUvoHwoGbC0AhGpU=;
-	b=MLgWeqMSs8gWJO6D2DgC3VcHzNbotBVVBbeaWjqC08jwsf0ksXjVxEJuaE6xcEggy6
-	UxZnlHtSyq2rkbSpqlCK1LoyO1PFlivUHnt9Mk2zrgkp+oSa+Y9076MDvb5fNmc9LnL8
-	guwM1Xp5C88eurtAwlJpBdE64M7VA2jvHPsJZqy5yePgqtkIiA31Jndb3UKsHpAv6GWa
-	h+U9aObvsA7Qt+zINhcVMoL54UfISuEye7fDDguJ14mwINuap1nm3H/ktkHszQ0eguxU
-	7nm65nq/mSBbZLzzm7FyU0Xh1yCaFdARGRLLGEXDTzmTYK8KYpWWrOdXvgXsP2pE9PEw
-	VYDA==
-X-Gm-Message-State: APjAAAUhHCBKUM78fyXGfIFFBvJP6EfwHQfnCJTBItldzx6e2LKltkq3
-	F7pxOEp/QTaxcZWvK6qpuF/uBg==
-X-Google-Smtp-Source: APXvYqyN6GkmapN9txTXasLmMK4sCr80dkWEuEXEObcVpbYGbueCiR77hTX1/wUFkVqSRaoLTL/NHA==
-X-Received: by 2002:adf:8043:: with SMTP id 61mr31123825wrk.47.1558220110839; 
-	Sat, 18 May 2019 15:55:10 -0700 (PDT)
-Received: from [192.168.1.38] (228.red-83-52-173.dynamicip.rima-tde.net.
-	[83.52.173.228]) by smtp.gmail.com with ESMTPSA id
-	s3sm23762638wre.97.2019.05.18.15.55.09
-	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Sat, 18 May 2019 15:55:10 -0700 (PDT)
-To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-References: <20190510104633.9428-1-kraxel@redhat.com>
-	<20190510104633.9428-11-kraxel@redhat.com>
-From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
-Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
-	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <40966599-9a55-8078-bc49-e2597ce5d498@redhat.com>
-Date: Sun, 19 May 2019 00:55:09 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <hmka2@hermes.cam.ac.uk>) id 1hS8ZN-000869-Pi
+	for qemu-devel@nongnu.org; Sat, 18 May 2019 19:16:50 -0400
+Received: from ppsw-32.csi.cam.ac.uk ([131.111.8.132]:47978)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <hmka2@hermes.cam.ac.uk>)
+	id 1hS8ZK-00082v-OQ; Sat, 18 May 2019 19:16:47 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=cam.ac.uk; 
+	s=20180806.ppsw;
+	h=Sender:Content-Transfer-Encoding:Content-Type:Cc:To:
+	Subject:Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
+	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
+	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
+	List-Subscribe:List-Post:List-Owner:List-Archive;
+	bh=cWnrGv1m5ltotqo5oEmGpXMpkSUfMTTDx3NcTHm9HSA=;
+	b=NWta9zdJ/ieKoZ5H+dwK8rf1Pf
+	7XnTcHrOaJq4TouPP6dZs6LX/1ZON3gJh6RwLWRAxpSZqMFgMxvx9BlvOz1E4WAV3bb5klva7DGF2
+	Ziwd/ugl0ku2XIh3Lzm97gQXk/iKTLtMdi4yMBEnUmXywb8Ik+FEMN9l3VALy9c8Jv74=; 
+X-Cam-AntiVirus: no malware found
+X-Cam-ScannerInfo: http://help.uis.cam.ac.uk/email-scanner-virus
+Received: from mail-lf1-f53.google.com ([209.85.167.53]:45480)
+	by ppsw-32.csi.cam.ac.uk (smtp.hermes.cam.ac.uk [131.111.8.158]:587)
+	with esmtpsa (PLAIN:hmka2) (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
+	id 1hS8ZF-0008UW-3A (Exim 4.91)
+	(return-path <hmka2@hermes.cam.ac.uk>); Sun, 19 May 2019 00:16:42 +0100
+Received: by mail-lf1-f53.google.com with SMTP id n22so7694387lfe.12;
+	Sat, 18 May 2019 16:16:41 -0700 (PDT)
+X-Gm-Message-State: APjAAAXaB5y6/HPvLQwHZJkMIdaTo5IB0SQ6fRPiDJ6+p3qeHfnoHmHN
+	Xayp2yi0xvzA5u6fSwVXs82T6iZjomi2JnkvNmQ=
+X-Google-Smtp-Source: APXvYqwewSN2gmPglt0g5UbMM11SDwxoxWppbEEUSpVa64ojNUOGEFl4RtZP59vJrtOB3m5/Y6067Ekt1tyBcY95fJc=
+X-Received: by 2002:a19:cd82:: with SMTP id d124mr20141189lfg.8.1558221401358; 
+	Sat, 18 May 2019 16:16:41 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190510104633.9428-11-kraxel@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20190518191323.4907-1-Hesham.Almatary@cl.cam.ac.uk>
+	<CANnJOVHoc3fAx=_iuOxaKjtWoUg2_npXu+CzQ+CcppevBmddtA@mail.gmail.com>
+In-Reply-To: <CANnJOVHoc3fAx=_iuOxaKjtWoUg2_npXu+CzQ+CcppevBmddtA@mail.gmail.com>
+From: Hesham Almatary <hesham.almatary@cl.cam.ac.uk>
+Date: Sun, 19 May 2019 00:16:05 +0100
+X-Gmail-Original-Message-ID: <CA+wsVCAhH+2gxQwcaJY5_w4FSPjO9Vv7nN2En9t_56p_UuHfmw@mail.gmail.com>
+Message-ID: <CA+wsVCAhH+2gxQwcaJY5_w4FSPjO9Vv7nN2En9t_56p_UuHfmw@mail.gmail.com>
+To: Jonathan Behrens <fintelia@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.221.65
-Subject: Re: [Qemu-devel] [PATCH v2 10/13] tests/vm: freebsd autoinstall,
- using serial console
+X-Received-From: 131.111.8.132
+X-Mailman-Approved-At: Sat, 18 May 2019 21:33:43 -0400
+Subject: Re: [Qemu-devel] [Qemu-riscv] [PATCH 1/2] RISC-V: Raise access
+ fault exceptions on PMP violations
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -75,262 +72,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Ed Maste <emaste@freebsd.org>,
-	Kamil Rytarowski <kamil@netbsd.org>,
-	=?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
-	Li-Wen Hsu <lwhsu@freebsd.org>, Brad Smith <brad@comstyle.com>
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+	Sagar Karandikar <sagark@eecs.berkeley.edu>,
+	Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+	Palmer Dabbelt <palmer@sifive.com>,
+	"qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
+	Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Gerd,
+Hi Jonathan,
 
-On 5/10/19 12:46 PM, Gerd Hoffmann wrote:
-> Instead of fetching the prebuilt image from patchew download the install
-> iso and prepare the image locally.  Install to disk, using the serial
-> console.  Create qemu user, configure ssh login.  Install packages
-> needed for qemu builds.
+Thanks for your feedback.
 
-I'm impressed how charmly this works :)
+On Sat, 18 May 2019 at 22:51, Jonathan Behrens <fintelia@gmail.com> wrote:
+>
+> This patch assumes that translation failure should always raise a paging =
+fault, but it should be possible for it to raise an access fault as well (s=
+ince according to the spec "PMP  checks  are  also  applied  to  page-table=
+  accesses  for  virtual-address translation, for which the effective privi=
+lege mode is S."). I think the code to actually do the PMP checking during =
+page table walks is currently unimplemented though...
+>
 
-3 comments so far.
+The patch actually fixes (rather than assumes) one issue of the
+current implementation which always raises a paging fault "when
+translation succeeds and PMP fails". The second issue that you report
+here which happens "when the PTW fails the PMP check" could be another
+future separate fix.
 
-1/ We could record (in tests/vm/freebsd header?) roughly how many local
-storage will be used (or display in 'make vm-help'?). FYI this image
-takes ~3.1GiB.
+I am happy to submit another patch to fix the second issue.
 
-2/ "Autoboot in 9 seconds, hit [Enter] to boot or any other key to stop"
-
-3/ I am a bit annoyed it overwrote my previous
-~/.cache/qemu-vm/images/freebsd.img VM. Not sure what's the best hash to
-use, maybe "git log -n 1 --pretty=format:%H -- tests/vm/freebsd"?
-(Similarly for other images).
-
-> Note that freebsd package downloads are delivered as non-cachable
-> content, so I had to configure squid with "ignore-no-store
-> ignore-private ignore-reload" for pkgmir.geo.freebsd.org to make the
-> caching actually work.
-> 
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-
-> ---
->  tests/vm/freebsd | 175 ++++++++++++++++++++++++++++++++++++++++++++---
->  1 file changed, 165 insertions(+), 10 deletions(-)
-> 
-> diff --git a/tests/vm/freebsd b/tests/vm/freebsd
-> index b0066017a617..57e5c97f3b26 100755
-> --- a/tests/vm/freebsd
-> +++ b/tests/vm/freebsd
-> @@ -2,43 +2,198 @@
->  #
->  # FreeBSD VM image
->  #
-> -# Copyright 2017 Red Hat Inc.
-> +# Copyright 2017-2019 Red Hat Inc.
->  #
->  # Authors:
->  #  Fam Zheng <famz@redhat.com>
-> +#  Gerd Hoffmann <kraxel@redhat.com>
->  #
->  # This code is licensed under the GPL version 2 or later.  See
->  # the COPYING file in the top-level directory.
->  #
->  
->  import os
-> +import re
->  import sys
-> +import time
-> +import socket
->  import subprocess
->  import basevm
->  
->  class FreeBSDVM(basevm.BaseVM):
->      name = "freebsd"
->      arch = "x86_64"
-> +
-> +    link = "https://download.freebsd.org/ftp/releases/ISO-IMAGES/12.0/FreeBSD-12.0-RELEASE-amd64-disc1.iso.xz"
-> +    csum = "1d40015bea89d05b8bd13e2ed80c40b522a9ec1abd8e7c8b80954fb485fb99db"
-> +    size = "20G"
-> +    pkgs = [
-> +        # build tools
-> +        "git",
-> +        "pkgconf",
-> +        "bzip2",
-> +
-> +        # gnu tools
-> +        "bash",
-> +        "gmake",
-> +        "gsed",
-> +        "flex", "bison",
-> +
-> +        # libs: crypto
-> +        "gnutls",
-> +
-> +        # libs: images
-> +        "jpeg-turbo",
-> +        "png",
-> +
-> +        # libs: ui
-> +        "sdl2",
-> +        "gtk3",
-> +        "libxkbcommon",
-> +
-> +        # libs: opengl
-> +        "libepoxy",
-> +        "mesa-libs",
-> +    ]
-> +
->      BUILD_SCRIPT = """
->          set -e;
-> -        rm -rf /var/tmp/qemu-test.*
-> -        cd $(mktemp -d /var/tmp/qemu-test.XXXXXX);
-> +        rm -rf /home/qemu/qemu-test.*
-> +        cd $(mktemp -d /home/qemu/qemu-test.XXXXXX);
-> +        mkdir src build; cd src;
->          tar -xf /dev/vtbd1;
-> -        ./configure {configure_opts};
-> +        cd ../build
-> +        ../src/configure --python=python3.6 {configure_opts};
->          gmake --output-sync -j{jobs} {target} {verbose};
->      """
->  
-> +    def console_boot_serial(self):
-> +        self.console_wait_send("Autoboot", "3")
-> +        self.console_wait_send("OK", "set console=comconsole\n")
-> +        self.console_wait_send("OK", "boot\n")
-> +
->      def build_image(self, img):
-> -        cimg = self._download_with_cache("http://download.patchew.org/freebsd-11.1-amd64.img.xz",
-> -                sha256sum='adcb771549b37bc63826c501f05121a206ed3d9f55f49145908f7e1432d65891')
-> -        img_tmp_xz = img + ".tmp.xz"
-> +        self.print_step("Downloading install iso")
-> +        cimg = self._download_with_cache(self.link, sha256sum=self.csum)
->          img_tmp = img + ".tmp"
-> -        sys.stderr.write("Extracting the image...\n")
-> -        subprocess.check_call(["cp", "-f", cimg, img_tmp_xz])
-> -        subprocess.check_call(["xz", "-dvf", img_tmp_xz])
-> +        iso = img + ".install.iso"
-> +        iso_xz = iso + ".xz"
-> +
-> +        self.print_step("Preparing iso and disk image")
-> +        subprocess.check_call(["cp", "-f", cimg, iso_xz])
-> +        subprocess.check_call(["xz", "-dvf", iso_xz])
-> +        subprocess.check_call(["qemu-img", "create", "-f", "qcow2",
-> +                               img_tmp, self.size])
-> +
-> +        self.print_step("Booting installer")
-> +        self.boot(img_tmp, extra_args = [
-> +            "-machine", "graphics=off",
-> +            "-cdrom", iso
-> +        ])
-> +        self.console_init()
-> +        self.console_boot_serial()
-> +        self.console_wait_send("Console type",          "xterm\n")
-> +
-> +        # pre-install configuration
-> +        self.console_wait_send("Welcome",               "\n")
-> +        self.console_wait_send("Keymap Selection",      "\n")
-> +        self.console_wait_send("Set Hostname",          "freebsd\n")
-> +        self.console_wait_send("Distribution Select",   "\n")
-> +        self.console_wait_send("Partitioning",          "\n")
-> +        self.console_wait_send("Partition",             "\n")
-> +        self.console_wait_send("Scheme",                "\n")
-> +        self.console_wait_send("Editor",                "f")
-> +        self.console_wait_send("Confirmation",          "c")
-> +
-> +        self.print_step("Installation started now, this will take a while")
-> +
-> +        # post-install configuration
-> +        self.console_wait("New Password:")
-> +        self.console_send("%s\n" % self.ROOT_PASS)
-> +        self.console_wait("Retype New Password:")
-> +        self.console_send("%s\n" % self.ROOT_PASS)
-> +
-> +        self.console_wait_send("Network Configuration", "\n")
-> +        self.console_wait_send("IPv4",                  "y")
-> +        self.console_wait_send("DHCP",                  "y")
-> +        self.console_wait_send("IPv6",                  "n")
-> +        self.console_wait_send("Resolver",              "\n")
-> +
-> +        self.console_wait_send("Time Zone Selector",    "a\n")
-> +        self.console_wait_send("Confirmation",          "y")
-> +        self.console_wait_send("Time & Date",           "\n")
-> +        self.console_wait_send("Time & Date",           "\n")
-> +
-> +        self.console_wait_send("System Configuration",  "\n")
-> +        self.console_wait_send("System Hardening",      "\n")
-> +
-> +        # qemu user
-> +        self.console_wait_send("Add User Accounts", "y")
-> +        self.console_wait("Username")
-> +        self.console_send("%s\n" % self.GUEST_USER)
-> +        self.console_wait("Full name")
-> +        self.console_send("%s\n" % self.GUEST_USER)
-> +        self.console_wait_send("Uid",                   "\n")
-> +        self.console_wait_send("Login group",           "\n")
-> +        self.console_wait_send("Login group",           "\n")
-> +        self.console_wait_send("Login class",           "\n")
-> +        self.console_wait_send("Shell",                 "\n")
-> +        self.console_wait_send("Home directory",        "\n")
-> +        self.console_wait_send("Home directory perm",   "\n")
-> +        self.console_wait_send("Use password",          "\n")
-> +        self.console_wait_send("Use an empty password", "\n")
-> +        self.console_wait_send("Use a random password", "\n")
-> +        self.console_wait("Enter password:")
-> +        self.console_send("%s\n" % self.GUEST_PASS)
-> +        self.console_wait("Enter password again:")
-> +        self.console_send("%s\n" % self.GUEST_PASS)
-> +        self.console_wait_send("Lock out",              "\n")
-> +        self.console_wait_send("OK",                    "yes\n")
-> +        self.console_wait_send("Add another user",      "no\n")
-> +
-> +        self.console_wait_send("Final Configuration",   "\n")
-> +        self.console_wait_send("Manual Configuration",  "\n")
-> +        self.console_wait_send("Complete",              "\n")
-> +
-> +        self.print_step("Installation finished, rebooting")
-> +        self.console_boot_serial()
-> +
-> +        # setup qemu user
-> +        prompt = "$"
-> +        self.console_ssh_init(prompt, self.GUEST_USER, self.GUEST_PASS)
-> +        self.console_wait_send(prompt, "exit\n")
-> +
-> +        # setup root user
-> +        prompt = "root@freebsd:~ #"
-> +        self.console_ssh_init(prompt, "root", self.ROOT_PASS)
-> +        self.console_sshd_config(prompt)
-> +
-> +        # setup serial console
-> +        self.console_wait(prompt)
-> +        self.console_send("echo 'console=comconsole' >> /boot/loader.conf\n")
-> +
-> +        # setup virtio-blk #1 (tarfile)
-> +        self.console_wait(prompt)
-> +        self.console_send("echo 'chmod 666 /dev/vtbd1' >> /etc/rc.local\n")
-> +
-> +        self.print_step("Configuration finished, rebooting")
-> +        self.console_wait_send(prompt, "reboot\n")
-> +        self.console_wait("login:")
-> +        self.wait_ssh()
-> +
-> +        self.print_step("Installing packages")
-> +        self.ssh_root_check("pkg install -y %s\n" % " ".join(self.pkgs))
-> +
-> +        # shutdown
-> +        self.ssh_root(self.poweroff)
-> +        self.console_wait("Uptime:")
-> +        self.wait()
-> +
->          if os.path.exists(img):
->              os.remove(img)
->          os.rename(img_tmp, img)
-> +        os.remove(iso)
-> +        self.print_step("All done")
->  
->  if __name__ == "__main__":
->      sys.exit(basevm.main(FreeBSDVM))
-> 
+> Jonathan
+>
+> On Sat, May 18, 2019 at 3:14 PM Hesham Almatary <Hesham.Almatary@cl.cam.a=
+c.uk> wrote:
+>>
+>> Section 3.6 in RISC-V v1.10 privilege specification states that PMP viol=
+ations
+>> report "access exceptions." The current PMP implementation has
+>> a bug which wrongly reports "page exceptions" on PMP violations.
+>>
+>> This patch fixes this bug by reporting the correct PMP access exceptions
+>> trap values.
+>>
+>> Signed-off-by: Hesham Almatary <hesham.almatary@cl.cam.ac.uk>
+>> ---
+>>  target/riscv/cpu_helper.c | 9 ++++++---
+>>  1 file changed, 6 insertions(+), 3 deletions(-)
+>>
+>> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+>> index 41d6db41c3..b48de36114 100644
+>> --- a/target/riscv/cpu_helper.c
+>> +++ b/target/riscv/cpu_helper.c
+>> @@ -318,12 +318,13 @@ restart:
+>>  }
+>>
+>>  static void raise_mmu_exception(CPURISCVState *env, target_ulong addres=
+s,
+>> -                                MMUAccessType access_type)
+>> +                                MMUAccessType access_type, bool pmp_vio=
+lation)
+>>  {
+>>      CPUState *cs =3D CPU(riscv_env_get_cpu(env));
+>>      int page_fault_exceptions =3D
+>>          (env->priv_ver >=3D PRIV_VERSION_1_10_0) &&
+>> -        get_field(env->satp, SATP_MODE) !=3D VM_1_10_MBARE;
+>> +        get_field(env->satp, SATP_MODE) !=3D VM_1_10_MBARE &&
+>> +        !pmp_violation;
+>>      switch (access_type) {
+>>      case MMU_INST_FETCH:
+>>          cs->exception_index =3D page_fault_exceptions ?
+>> @@ -389,6 +390,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address,=
+ int size,
+>>      CPURISCVState *env =3D &cpu->env;
+>>      hwaddr pa =3D 0;
+>>      int prot;
+>> +    bool pmp_violation =3D false;
+>>      int ret =3D TRANSLATE_FAIL;
+>>
+>>      qemu_log_mask(CPU_LOG_MMU, "%s ad %" VADDR_PRIx " rw %d mmu_idx %d\=
+n",
+>> @@ -402,6 +404,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address,=
+ int size,
+>>
+>>      if (riscv_feature(env, RISCV_FEATURE_PMP) &&
+>>          !pmp_hart_has_privs(env, pa, TARGET_PAGE_SIZE, 1 << access_type=
+)) {
+>> +        pmp_violation =3D true;
+>>          ret =3D TRANSLATE_FAIL;
+>>      }
+>>      if (ret =3D=3D TRANSLATE_SUCCESS) {
+>> @@ -411,7 +414,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address,=
+ int size,
+>>      } else if (probe) {
+>>          return false;
+>>      } else {
+>> -        raise_mmu_exception(env, address, access_type);
+>> +        raise_mmu_exception(env, address, access_type, pmp_violation);
+>>          riscv_raise_exception(env, cs->exception_index, retaddr);
+>>      }
+>>  #else
+>> --
+>> 2.17.1
+>>
+>>
 
