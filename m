@@ -2,61 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 81EF1224DB
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 May 2019 22:31:45 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38396 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 91D6E226D5
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 14:59:42 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48417 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hS5zc-0003n6-72
-	for lists+qemu-devel@lfdr.de; Sat, 18 May 2019 16:31:44 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40122)
+	id 1hSLPh-0001aQ-JN
+	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 08:59:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44520)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hS5yZ-0003Cw-Fu
-	for qemu-devel@nongnu.org; Sat, 18 May 2019 16:30:40 -0400
+	(envelope-from <like.xu@linux.intel.com>) id 1hSLMd-0007s8-Ry
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 08:56:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hS5yY-00029J-DW
-	for qemu-devel@nongnu.org; Sat, 18 May 2019 16:30:39 -0400
-Received: from indium.canonical.com ([91.189.90.7]:36142)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hS5yY-000292-8E
-	for qemu-devel@nongnu.org; Sat, 18 May 2019 16:30:38 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
-	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hS5yX-0002HW-1Z
-	for <qemu-devel@nongnu.org>; Sat, 18 May 2019 20:30:37 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id D39CD2E804C
-	for <qemu-devel@nongnu.org>; Sat, 18 May 2019 20:30:36 +0000 (UTC)
+	(envelope-from <like.xu@linux.intel.com>) id 1hSLMc-0002Hm-4U
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 08:56:31 -0400
+Received: from mga14.intel.com ([192.55.52.115]:2555)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <like.xu@linux.intel.com>)
+	id 1hSLMY-0002DD-Am; Sun, 19 May 2019 08:56:26 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	19 May 2019 05:56:17 -0700
+X-ExtLoop1: 1
+Received: from clx-ap-likexu.sh.intel.com ([10.239.48.98])
+	by fmsmga001.fm.intel.com with ESMTP; 19 May 2019 05:56:16 -0700
+From: Like Xu <like.xu@linux.intel.com>
+To: qemu-trivial@nongnu.org
+Date: Sun, 19 May 2019 04:54:18 +0800
+Message-Id: <20190518205428.90532-1-like.xu@linux.intel.com>
+X-Mailer: git-send-email 2.21.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sat, 18 May 2019 20:20:33 -0000
-From: Jose Santiago <1829576@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: ppc64
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: jlsantiago0 mark-cave-ayland
-X-Launchpad-Bug-Reporter: Jose Santiago (jlsantiago0)
-X-Launchpad-Bug-Modifier: Jose Santiago (jlsantiago0)
-References: <155812687142.26079.4364411221525864419.malonedeb@soybean.canonical.com>
-Message-Id: <155821083311.21087.7966417458795625461.malone@chaenomeles.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18962";
-	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: c11c366269abaee5abd24d86b73723cbba082b92
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1829576] Re: QEMU-SYSTEM-PPC64 Regression
- QEMU-4.0.0
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 192.55.52.115
+Subject: [Qemu-devel] [PATCH v3 00/10] Refactor cpu topo into machine
+ properties
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,97 +51,118 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1829576 <1829576@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+	Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+	"Dr . David Alan Gilbert" <dgilbert@redhat.com>,
+	Alistair Francis <alistair23@gmail.com>,
+	Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I applied the four patches you indicated and the image boots up and
-runs. Everything seems to be working now. Thank You.
+This patch series make existing cores/threads/sockets into machine
+properties and get rid of global smp_* variables they use currently.
 
--- =
+The purpose of getting rid of globals is disentangle layer violations and
+let's do it one step at a time by replacing the smp_foo with qdev_get_machine()
+as few calls as possible and delay other related refactoring efforts.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1829576
+==changelog==
 
-Title:
-  QEMU-SYSTEM-PPC64 Regression QEMU-4.0.0
+v3:
 
-Status in QEMU:
-  New
+- rephrase commit messages
+- s/of/of present/ for CpuTopology comment
+- drop reduanct arguments such as cpu_type
+- use ms instead of macs in migration context
+- rebase to commit 1b46b4daa6
 
-Bug description:
-  I have been using QEMU-SYSTEM-PPC64 v3.1.0 to run CentOS7 PPC emulated
-  system. It stopped working when I upgraded to QEMU-4.0.0 . I
-  downgraded back to QEMU-3.1.0 and it started working again. The
-  problem is that my CentOS7 image will not boot up udner QEMU-4.0.0,
-  but works fine under QEMU-3.1.0.
+v2: https://patchwork.ozlabs.org/cover/1095727/
 
-  I have an QCOW2 image available at
-  https://www.mediafire.com/file/d8dda05ro85whn1/linux-
-  centos7-ppc64.qcow2/file . NOTE: It is 15GB. Kind of large.
+- pass MachineState via call chain with trivial fixups
+- replace smp_cpus directly at places if it's only used once
+- s/topo/smp/ and drop smp_ prefix inside CpuTopology structure
+- add more commit messages to explaining what patch does
+- fix Patchew build failure for xen usage
+- use macs rather than ms in migration context for MigrationState
+- cleanup unrelated and redundant changes
+- spilt OpenRISC and RISC-V related patches
 
-  I run it as follows:
+v1: https://patchwork.kernel.org/cover/10876667/
 
-     qemu-system-ppc64 \
-        -name "CENTOS7-PPC64" \
-        -cpu POWER7 -machine pseries \
-        -m 4096 \
-        -netdev bridge,id=3Dnetbr0,br=3Dbr0 \
-        -device e1000,netdev=3Dnetbr0,mac=3D52:54:3c:13:21:33 \
-        -hda "./linux-centos7-ppc64.qcow2" \
-        -monitor stdio
+Like Xu (10):
+  hw/boards: Add struct CpuTopology to MachineState
+  machine: Refactor smp-related call chains to pass MachineState
+  general: Replace global smp variables with smp machine properties
+  hw/ppc: Replace global smp variables with machine smp properties
+  hw/riscv: Replace global smp variables with machine smp properties
+  hw/s390x: Replace global smp variables with machine smp properties
+  hw/i386: Replace global smp variables with machine smp properties
+  hw/arm: Replace global smp variables with machine smp properties
+  hw: Replace global smp variables with MachineState for all remaining archs
+  vl.c: Replace smp global variables with smp machine properties
 
-  HOST: I am using Manjaro Linux on an Intel i7 machine with the QEMU
-  packages installed via the package manager of the distribution.
+ accel/kvm/kvm-all.c          |  4 +--
+ backends/hostmem.c           |  6 +++--
+ cpus.c                       |  6 +++--
+ exec.c                       |  3 ++-
+ gdbstub.c                    |  4 +++
+ hw/alpha/dp264.c             |  1 +
+ hw/arm/fsl-imx6.c            |  6 ++++-
+ hw/arm/fsl-imx6ul.c          |  6 ++++-
+ hw/arm/fsl-imx7.c            |  7 +++--
+ hw/arm/highbank.c            |  1 +
+ hw/arm/mcimx6ul-evk.c        |  2 +-
+ hw/arm/mcimx7d-sabre.c       |  2 +-
+ hw/arm/raspi.c               |  4 +--
+ hw/arm/realview.c            |  1 +
+ hw/arm/sabrelite.c           |  2 +-
+ hw/arm/vexpress.c            | 16 +++++++-----
+ hw/arm/virt.c                | 10 ++++++--
+ hw/arm/xlnx-zynqmp.c         | 16 +++++++-----
+ hw/cpu/core.c                |  4 ++-
+ hw/hppa/machine.c            |  4 ++-
+ hw/i386/acpi-build.c         | 13 ++++++----
+ hw/i386/kvmvapic.c           |  7 +++--
+ hw/i386/pc.c                 | 33 ++++++++++++++----------
+ hw/i386/xen/xen-hvm.c        |  4 +++
+ hw/mips/boston.c             |  2 +-
+ hw/mips/mips_malta.c         | 24 +++++++++--------
+ hw/openrisc/openrisc_sim.c   |  1 +
+ hw/ppc/e500.c                |  3 +++
+ hw/ppc/mac_newworld.c        |  3 ++-
+ hw/ppc/mac_oldworld.c        |  3 ++-
+ hw/ppc/pnv.c                 |  9 ++++---
+ hw/ppc/prep.c                |  4 +--
+ hw/ppc/spapr.c               | 37 ++++++++++++++++++--------
+ hw/ppc/spapr_rtas.c          |  4 ++-
+ hw/riscv/sifive_e.c          |  6 +++--
+ hw/riscv/sifive_plic.c       |  3 +++
+ hw/riscv/sifive_u.c          |  6 +++--
+ hw/riscv/spike.c             |  2 ++
+ hw/riscv/virt.c              |  1 +
+ hw/s390x/s390-virtio-ccw.c   |  9 ++++---
+ hw/s390x/sclp.c              |  2 +-
+ hw/smbios/smbios.c           | 26 +++++++++++--------
+ hw/sparc/sun4m.c             |  2 ++
+ hw/sparc64/sun4u.c           |  4 +--
+ hw/xtensa/sim.c              |  2 +-
+ hw/xtensa/xtfpga.c           |  1 +
+ include/hw/boards.h          | 19 ++++++++++++--
+ include/hw/firmware/smbios.h |  5 ++--
+ include/hw/i386/pc.h         |  2 +-
+ migration/postcopy-ram.c     |  8 +++++-
+ numa.c                       |  1 +
+ qmp.c                        |  2 +-
+ target/arm/cpu.c             |  8 +++++-
+ target/i386/cpu.c            |  4 ++-
+ target/openrisc/sys_helper.c |  6 ++++-
+ target/s390x/cpu.c           |  3 +++
+ target/s390x/excp_helper.c   |  5 ++++
+ tcg/tcg.c                    | 13 +++++++++-
+ vl.c                         | 50 +++++++++++++++++++-----------------
+ 59 files changed, 301 insertions(+), 141 deletions(-)
 
-  [jsantiago@jlsws0 ~]$ uname -a
-  Linux jlsws0.haivision.com 4.19.42-1-MANJARO #1 SMP PREEMPT Fri May 10 20=
-:52:43 UTC 2019 x86_64 GNU/Linux
+-- 
+2.21.0
 
-  jsantiago@jlsws0 ~]$ cpuinfo =
-
-  Intel(R) processor family information utility, Version 2019 Update 3 Buil=
-d 20190214 (id: b645a4a54)
-  Copyright (C) 2005-2019 Intel Corporation.  All rights reserved.
-
-  =3D=3D=3D=3D=3D  Processor composition  =3D=3D=3D=3D=3D
-  Processor name    : Intel(R) Core(TM) i7-6700K  =
-
-  Packages(sockets) : 1
-  Cores             : 4
-  Processors(CPUs)  : 8
-  Cores per package : 4
-  Threads per core  : 2
-
-  =3D=3D=3D=3D=3D  Processor identification  =3D=3D=3D=3D=3D
-  Processor	Thread Id.	Core Id.	Package Id.
-  0       	0   		0   		0   =
-
-  1       	0   		1   		0   =
-
-  2       	0   		2   		0   =
-
-  3       	0   		3   		0   =
-
-  4       	1   		0   		0   =
-
-  5       	1   		1   		0   =
-
-  6       	1   		2   		0   =
-
-  7       	1   		3   		0   =
-
-  =3D=3D=3D=3D=3D  Placement on packages  =3D=3D=3D=3D=3D
-  Package Id.	Core Id.	Processors
-  0   		0,1,2,3		(0,4)(1,5)(2,6)(3,7)
-
-  =3D=3D=3D=3D=3D  Cache sharing  =3D=3D=3D=3D=3D
-  Cache	Size		Processors
-  L1	32  KB		(0,4)(1,5)(2,6)(3,7)
-  L2	256 KB		(0,4)(1,5)(2,6)(3,7)
-  L3	8   MB		(0,1,2,3,4,5,6,7)
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1829576/+subscriptions
 
