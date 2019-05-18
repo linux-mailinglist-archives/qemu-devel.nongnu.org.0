@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C37E22249A
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 May 2019 21:12:33 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:37679 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B0B0722490
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 May 2019 21:06:58 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37591 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hS4ky-0000qe-Tn
-	for lists+qemu-devel@lfdr.de; Sat, 18 May 2019 15:12:32 -0400
+	id 1hS4fZ-0003zI-Ig
+	for lists+qemu-devel@lfdr.de; Sat, 18 May 2019 15:06:57 -0400
 Received: from eggs.gnu.org ([209.51.188.92]:59166)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hS4dP-0002lS-9E
-	for qemu-devel@nongnu.org; Sat, 18 May 2019 15:04:44 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hS4dB-0002lS-7f
+	for qemu-devel@nongnu.org; Sat, 18 May 2019 15:04:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hS4b1-0002i6-JQ
-	for qemu-devel@nongnu.org; Sat, 18 May 2019 15:02:17 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:34613)
+	(envelope-from <richard.henderson@linaro.org>) id 1hS4b4-0002jK-5B
+	for qemu-devel@nongnu.org; Sat, 18 May 2019 15:02:19 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:36730)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hS4b0-0002hS-Bm
-	for qemu-devel@nongnu.org; Sat, 18 May 2019 15:02:14 -0400
-Received: by mail-pf1-x443.google.com with SMTP id n19so5269639pfa.1
-	for <qemu-devel@nongnu.org>; Sat, 18 May 2019 12:02:14 -0700 (PDT)
+	id 1hS4b2-0002hv-3m
+	for qemu-devel@nongnu.org; Sat, 18 May 2019 15:02:17 -0400
+Received: by mail-pf1-x444.google.com with SMTP id v80so5259888pfa.3
+	for <qemu-devel@nongnu.org>; Sat, 18 May 2019 12:02:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=OLftcOa71o3SDWkHEvzuYmmBM81jvFAhtQKjy7MXc3g=;
-	b=p/RQnUV5OvLoa08tg1eiYyRAFDHUcJ9wsisxXqmYbKQxz3Ro3VtXEpwq92DYEnyjFa
-	0jC1GTaD8xdDI4CHDwDqhPLwjBQsNtoHF7DLz8vQYRmIBbw7j9zTTCZnJODd/rOnc+Ea
-	0DPub1POc9Ie7g4+FC2130BiQU3skP845wCYJjxxlrP+ZuvMYQ01U2iFfTpVw4xuaX+8
-	pHOJXgW87ZF/vzTu5utNFA13disk+Y9Pg5ZCZ9UnTzJgnKkVyG+O/trZW/CmIiQVGBKs
-	yr8FdfbDo5teXICWo4PzsgP+sOzco3YmWzFl8mQQvcKDxdQtFjkT2IpZ6+7kdJyVGNeU
-	t1bQ==
+	bh=2Z/xMZNbQQoNoZQShCqBViE6D5UwKBhH3tq+yJTAfz4=;
+	b=SHVMKSlAm8YY9ESIqjMGZia8cRwr3363o57U/3uAfbatVFlhJLlx8pqzt7ynOMBp7A
+	m4CiWEwVrQ6bQUPH12TBqjsE6GZbIQvqxBM9ziC2lzahrUREbSXdsYw8o3tU8tJyACoS
+	d1tByaWRjzHeTsr5SKs7xnvxcT06T4K0Qro51hfvWC2ry3OUek6MdzACEJSGfUKpnm9Q
+	JoKuptpsb0lwENFPTWLBPi4e4qtF1oDZaLIeBoitZ6bTBJsLxLOiZ30zjOZvqlAfziA6
+	bYT83o9KwvgIPCiYjGsGFPGHZdkiPYfqQ5fBKTQ3OJB9E0vt3CVSIn4lZkqxDk/oa6a6
+	PTjg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=OLftcOa71o3SDWkHEvzuYmmBM81jvFAhtQKjy7MXc3g=;
-	b=RaYm79eS00mTizjqjJ3Ppz8Yl2pKLbluum6jGsSyS2B5dJN/yr59zXw85x3cBnN8/I
-	gqBVdoYr+qglHD5pt7chAVrA6hfo6SfKpe/5RyggBQCiU7ZsNFKe8yHlACTGxVBAjmG9
-	uko3ExSx4B0KZBuylj0TqjO9pSaqfZATB4/Ih8qIdWq9qjscIs3IQuzKkClfFEkJ7Uh8
-	C5Kptd6dnurFsYDtqs2A0s8rfAe3bpYiwHeqA4Z/f3qSmN/7SIaEFYMyiIl7MIYuJEa7
-	yqn5m9mz3t2sjrhu3heDMWUPXmFQJeGWTmGNbB1K44j4umgz8Wkx4kGST5nEPvynF5PT
-	XtAQ==
-X-Gm-Message-State: APjAAAUj1cNrLKfNq1oYg2BC87/2GFqjC/WT8csLIPn0IZFLiHgMD5Tv
-	P8SmFVHUdalvPEcf7tDSOYeJGOIf1HE=
-X-Google-Smtp-Source: APXvYqwN2HnM/CD1gHQM9OWHU6RDZyAGSTuy6UVEcbbghCyN1Nxj8Ifoh2wcL000x8fq6M3344P26g==
-X-Received: by 2002:a63:1c4:: with SMTP id 187mr38120757pgb.317.1558206133167; 
-	Sat, 18 May 2019 12:02:13 -0700 (PDT)
+	bh=2Z/xMZNbQQoNoZQShCqBViE6D5UwKBhH3tq+yJTAfz4=;
+	b=hMcg6hXu1rH9oH42vHrGbelGD6GFwoJIa8PTzSOWLMQCLeHKpGySBodq3wDW5T5NCP
+	2YRTQ2WDWE0AtQDoPSNNDoOKeXdTbEeRDTHaWWNIM976HkV+lRhgfKy9mlXe4pU01TDS
+	4vHv42tWQv5mu4AJ07xeWq5cVHuiQNID31nwrZ5c1Q2t26PFecU+GoVceojOt3GTrn7r
+	ni+C+VDXsWbaEqOaEWLuqp0fOgYjqErVyTQ33jYQEfzHdQ+vnwZwBJtwuCS1o8o4KlZ2
+	j+/3EVsBf8wNESCCxa1LGpndugCjNJhTMwSLe5iMiQIL7zqGVSr/a+mFM7mf/vEnDsVn
+	NiVQ==
+X-Gm-Message-State: APjAAAXtEgeVzO97ITT2fjLNwTRtQsU/MpoHSxOYUMBt8mlLNL6wfLJJ
+	ELQWT7QZkjz0C3TAR3eS69tKkEZuToY=
+X-Google-Smtp-Source: APXvYqwB0P5y20DjUa71qneTcQGLHvEtiqkowjlaTrbiQyGPnXEsMTPDhz6ZaQzOmSwSYdKu0rii5Q==
+X-Received: by 2002:a62:ea0a:: with SMTP id t10mr69243715pfh.236.1558206134214;
+	Sat, 18 May 2019 12:02:14 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231])
-	by smtp.gmail.com with ESMTPSA id m9sm2751274pgd.23.2019.05.18.12.02.11
+	by smtp.gmail.com with ESMTPSA id m9sm2751274pgd.23.2019.05.18.12.02.13
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 18 May 2019 12:02:12 -0700 (PDT)
+	Sat, 18 May 2019 12:02:13 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sat, 18 May 2019 12:01:51 -0700
-Message-Id: <20190518190157.21255-11-richard.henderson@linaro.org>
+Date: Sat, 18 May 2019 12:01:52 -0700
+Message-Id: <20190518190157.21255-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190518190157.21255-1-richard.henderson@linaro.org>
 References: <20190518190157.21255-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::443
-Subject: [Qemu-devel] [PATCH 10/16] tcg/i386: Use umin/umax in expanding
- unsigned compare
+X-Received-From: 2607:f8b0:4864:20::444
+Subject: [Qemu-devel] [PATCH 11/16] tcg/aarch64: Support vector bitwise
+ select value
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -80,116 +80,100 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Using umin(a, b) == a as an expansion for TCG_COND_LEU is a
-better alternative to (a - INT_MIN) <= (b - INT_MIN).
+The instruction set has 3 insns that perform the same operation,
+only varying in which operand must overlap the destination.  We
+can represent the operation without overlap and choose based on
+the operands seen.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/i386/tcg-target.inc.c | 80 +++++++++++++++++++++++++++++----------
- 1 file changed, 61 insertions(+), 19 deletions(-)
+ tcg/aarch64/tcg-target.h     |  2 +-
+ tcg/aarch64/tcg-target.inc.c | 24 +++++++++++++++++++++++-
+ 2 files changed, 24 insertions(+), 2 deletions(-)
 
-diff --git a/tcg/i386/tcg-target.inc.c b/tcg/i386/tcg-target.inc.c
-index 569a2c2120..6ec5e60448 100644
---- a/tcg/i386/tcg-target.inc.c
-+++ b/tcg/i386/tcg-target.inc.c
-@@ -3468,28 +3468,61 @@ static bool expand_vec_cmp_noinv(TCGType type, unsigned vece, TCGv_vec v0,
-                                  TCGv_vec v1, TCGv_vec v2, TCGCond cond)
- {
-     enum {
--        NEED_SWAP = 1,
--        NEED_INV  = 2,
--        NEED_BIAS = 4
--    };
--    static const uint8_t fixups[16] = {
--        [0 ... 15] = -1,
--        [TCG_COND_EQ] = 0,
--        [TCG_COND_NE] = NEED_INV,
--        [TCG_COND_GT] = 0,
--        [TCG_COND_LT] = NEED_SWAP,
--        [TCG_COND_LE] = NEED_INV,
--        [TCG_COND_GE] = NEED_SWAP | NEED_INV,
--        [TCG_COND_GTU] = NEED_BIAS,
--        [TCG_COND_LTU] = NEED_BIAS | NEED_SWAP,
--        [TCG_COND_LEU] = NEED_BIAS | NEED_INV,
--        [TCG_COND_GEU] = NEED_BIAS | NEED_SWAP | NEED_INV,
-+        NEED_INV  = 1,
-+        NEED_SWAP = 2,
-+        NEED_BIAS = 4,
-+        NEED_UMIN = 8,
-+        NEED_UMAX = 16,
-     };
-     TCGv_vec t1, t2;
-     uint8_t fixup;
+diff --git a/tcg/aarch64/tcg-target.h b/tcg/aarch64/tcg-target.h
+index b4a9d36bbc..ca214f6909 100644
+--- a/tcg/aarch64/tcg-target.h
++++ b/tcg/aarch64/tcg-target.h
+@@ -140,7 +140,7 @@ typedef enum {
+ #define TCG_TARGET_HAS_mul_vec          1
+ #define TCG_TARGET_HAS_sat_vec          1
+ #define TCG_TARGET_HAS_minmax_vec       1
+-#define TCG_TARGET_HAS_bitsel_vec       0
++#define TCG_TARGET_HAS_bitsel_vec       1
+ #define TCG_TARGET_HAS_cmpsel_vec       0
  
--    fixup = fixups[cond & 15];
--    tcg_debug_assert(fixup != 0xff);
-+    switch (cond) {
-+    case TCG_COND_EQ:
-+    case TCG_COND_GT:
-+        fixup = 0;
-+        break;
-+    case TCG_COND_NE:
-+    case TCG_COND_LE:
-+        fixup = NEED_INV;
-+        break;
-+    case TCG_COND_LT:
-+        fixup = NEED_SWAP;
-+        break;
-+    case TCG_COND_GE:
-+        fixup = NEED_SWAP | NEED_INV;
-+        break;
-+    case TCG_COND_LEU:
-+        if (vece <= MO_32) {
-+            fixup = NEED_UMIN;
-+        } else {
-+            fixup = NEED_BIAS | NEED_INV;
-+        }
-+        break;
-+    case TCG_COND_GTU:
-+        if (vece <= MO_32) {
-+            fixup = NEED_UMIN | NEED_INV;
-+        } else {
-+            fixup = NEED_BIAS;
-+        }
-+        break;
-+    case TCG_COND_GEU:
-+        if (vece <= MO_32) {
-+            fixup = NEED_UMAX;
-+        } else {
-+            fixup = NEED_BIAS | NEED_SWAP | NEED_INV;
-+        }
-+        break;
-+    case TCG_COND_LTU:
-+        if (vece <= MO_32) {
-+            fixup = NEED_UMAX | NEED_INV;
-+        } else {
-+            fixup = NEED_BIAS | NEED_SWAP;
-+        }
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
+ #define TCG_TARGET_DEFAULT_MO (0)
+diff --git a/tcg/aarch64/tcg-target.inc.c b/tcg/aarch64/tcg-target.inc.c
+index 40bf35079a..e99149cda7 100644
+--- a/tcg/aarch64/tcg-target.inc.c
++++ b/tcg/aarch64/tcg-target.inc.c
+@@ -523,6 +523,9 @@ typedef enum {
+     I3616_ADD       = 0x0e208400,
+     I3616_AND       = 0x0e201c00,
+     I3616_BIC       = 0x0e601c00,
++    I3616_BIF       = 0x2ee01c00,
++    I3616_BIT       = 0x2ea01c00,
++    I3616_BSL       = 0x2e601c00,
+     I3616_EOR       = 0x2e201c00,
+     I3616_MUL       = 0x0e209c00,
+     I3616_ORR       = 0x0ea01c00,
+@@ -2181,7 +2184,7 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
  
-     if (fixup & NEED_INV) {
-         cond = tcg_invert_cond(cond);
-@@ -3500,7 +3533,16 @@ static bool expand_vec_cmp_noinv(TCGType type, unsigned vece, TCGv_vec v0,
-     }
+     TCGType type = vecl + TCG_TYPE_V64;
+     unsigned is_q = vecl;
+-    TCGArg a0, a1, a2;
++    TCGArg a0, a1, a2, a3;
  
-     t1 = t2 = NULL;
--    if (fixup & NEED_BIAS) {
-+    if (fixup & (NEED_UMIN | NEED_UMAX)) {
-+        t1 = tcg_temp_new_vec(type);
-+        if (fixup & NEED_UMIN) {
-+            tcg_gen_umin_vec(vece, t1, v1, v2);
+     a0 = args[0];
+     a1 = args[1];
+@@ -2304,6 +2307,20 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
+         }
+         break;
+ 
++    case INDEX_op_bitsel_vec:
++        a3 = args[3];
++        if (a0 == a3) {
++            tcg_out_insn(s, 3616, BIT, is_q, 0, a0, a2, a1);
++        } else if (a0 == a2) {
++            tcg_out_insn(s, 3616, BIF, is_q, 0, a0, a3, a1);
 +        } else {
-+            tcg_gen_umax_vec(vece, t1, v1, v2);
++            if (a0 != a1) {
++                tcg_out_mov(s, type, a0, a1);
++            }
++            tcg_out_insn(s, 3616, BSL, is_q, 0, a0, a2, a3);
 +        }
-+        v2 = t1;
-+        cond = TCG_COND_EQ;
-+    } else if (fixup & NEED_BIAS) {
-         t1 = tcg_temp_new_vec(type);
-         t2 = tcg_temp_new_vec(type);
-         tcg_gen_dupi_vec(vece, t2, 1ull << ((8 << vece) - 1));
++        break;
++
+     case INDEX_op_mov_vec:  /* Always emitted via tcg_out_mov.  */
+     case INDEX_op_dupi_vec: /* Always emitted via tcg_out_movi.  */
+     case INDEX_op_dup_vec:  /* Always emitted via tcg_out_dup_vec.  */
+@@ -2334,6 +2351,7 @@ int tcg_can_emit_vec_op(TCGOpcode opc, TCGType type, unsigned vece)
+     case INDEX_op_usadd_vec:
+     case INDEX_op_ussub_vec:
+     case INDEX_op_shlv_vec:
++    case INDEX_op_bitsel_vec:
+         return 1;
+     case INDEX_op_shrv_vec:
+     case INDEX_op_sarv_vec:
+@@ -2408,6 +2426,8 @@ static const TCGTargetOpDef *tcg_target_op_def(TCGOpcode op)
+         = { .args_ct_str = { "r", "r", "rA", "rZ", "rZ" } };
+     static const TCGTargetOpDef add2
+         = { .args_ct_str = { "r", "r", "rZ", "rZ", "rA", "rMZ" } };
++    static const TCGTargetOpDef w_w_w_w
++        = { .args_ct_str = { "w", "w", "w", "w" } };
+ 
+     switch (op) {
+     case INDEX_op_goto_ptr:
+@@ -2580,6 +2600,8 @@ static const TCGTargetOpDef *tcg_target_op_def(TCGOpcode op)
+         return &w_wr;
+     case INDEX_op_cmp_vec:
+         return &w_w_wZ;
++    case INDEX_op_bitsel_vec:
++        return &w_w_w_w;
+ 
+     default:
+         return NULL;
 -- 
 2.17.1
 
