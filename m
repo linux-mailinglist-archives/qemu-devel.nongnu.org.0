@@ -2,70 +2,42 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8A37822494
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 May 2019 21:09:52 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:37615 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 14E14224A7
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 May 2019 21:21:21 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37831 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hS4iN-0006aX-IA
-	for lists+qemu-devel@lfdr.de; Sat, 18 May 2019 15:09:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59166)
+	id 1hS4tU-0007ur-9M
+	for lists+qemu-devel@lfdr.de; Sat, 18 May 2019 15:21:20 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:32889)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hS4dK-0002lS-Gf
-	for qemu-devel@nongnu.org; Sat, 18 May 2019 15:04:39 -0400
+	(envelope-from <hmka2@cl.cam.ac.uk>) id 1hS4mw-00039s-7B
+	for qemu-devel@nongnu.org; Sat, 18 May 2019 15:14:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hS4b8-0002m1-FP
-	for qemu-devel@nongnu.org; Sat, 18 May 2019 15:02:23 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:45736)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hS4b7-0002lH-PN
-	for qemu-devel@nongnu.org; Sat, 18 May 2019 15:02:21 -0400
-Received: by mail-pf1-x442.google.com with SMTP id s11so5235312pfm.12
-	for <qemu-devel@nongnu.org>; Sat, 18 May 2019 12:02:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=xoXIkCrK3V7BH4MhmjLPxOrcr1ayi9bYK48w1V2yt0Q=;
-	b=kJOYH0VjIG7gZVYODI9E/MlwlsNMuX8r9npnryj3scJ5lTguCR+yzEFTix1GMlKQDu
-	yGEuFcyjDNGwEGk3V3fMExRNo1B7JEDsbdPJ8om1LuHKXeZ1R+mhZupD/i5WCvsp5xxz
-	1Gw9aPpYOFkFi58rgX54H3612WNhDcAYmZMMGuO4isj7t1pkUE0IVwiDvTr2x7+n7qjw
-	Vfv6y2LxVSiDvAjnOPc+Yb5eWfnksAw4SzZ7ksq8BouURkp95J8V1+TnE6+dWcvCrKCk
-	wu81XHwHJK8bbMpGKnlFYbxOEJ2SIr+uhBbkXIrYqrspmqiaWObtF2OLn3Ec85XnDMtP
-	1mkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-	:references;
-	bh=xoXIkCrK3V7BH4MhmjLPxOrcr1ayi9bYK48w1V2yt0Q=;
-	b=r3kRDiwG3WNEmJ7cIhcKtJ09H6LIQ3EGjmBBmFUabdd41c2mwNfLHAo7vaBLpRpg6y
-	YeiDJab5P0y7w1vXmS21Mef+JQ2unGZ5vuILLr7xa2OuSKI1YvsU5JvkdPjRMqYSCCma
-	oWtVfkLfEK34Z5u29QPC2DrlaNN007JCa7ISZRBvFBoA9ZLhrHpHamkY8y18MyqPyty1
-	WGF9ZnyZRHri8jg51o4WRHNZICRvLorlcSOUCqUWVxkRzbNdoZ9PEZBbujNffWWIrAi/
-	MIPR/ALjdU0PLw8p7BZvWHi4sUVeY6tMPHTaqCHBkHoa0VItWzcMJVPyRz/ryUgjWclZ
-	LDKw==
-X-Gm-Message-State: APjAAAXr7gcbTs1vN3LLeO8agDELpEItdm0P8g85WyPIdqFepmlhTpgc
-	nBAZPnxQKDw95VpN7tTsty/2poLMUbA=
-X-Google-Smtp-Source: APXvYqzy0MyJcIBydTeMkUkBWEY+ryeT8VFx+ErSm7cUYn0OnYnrbcncResptwjLOsQNmBP/PI9Fnw==
-X-Received: by 2002:aa7:8dc3:: with SMTP id j3mr69600746pfr.141.1558206140057; 
-	Sat, 18 May 2019 12:02:20 -0700 (PDT)
-Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
-	[97.113.13.231])
-	by smtp.gmail.com with ESMTPSA id m9sm2751274pgd.23.2019.05.18.12.02.18
-	for <qemu-devel@nongnu.org>
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 18 May 2019 12:02:19 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Sat, 18 May 2019 12:01:57 -0700
-Message-Id: <20190518190157.21255-17-richard.henderson@linaro.org>
+	(envelope-from <hmka2@cl.cam.ac.uk>) id 1hS4mv-0002dk-Au
+	for qemu-devel@nongnu.org; Sat, 18 May 2019 15:14:34 -0400
+Received: from mta1.cl.cam.ac.uk ([2a05:b400:110::25:1]:44357)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <hmka2@cl.cam.ac.uk>)
+	id 1hS4mt-0002Zg-20; Sat, 18 May 2019 15:14:31 -0400
+Received: from cassia.cl.cam.ac.uk ([2001:630:212:238:b26e:bfff:fe2f:c7d9])
+	by mta1.cl.cam.ac.uk with esmtps
+	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.90_1)
+	(envelope-from <hmka2@cl.cam.ac.uk>)
+	id 1hS4mo-0002pg-Al; Sat, 18 May 2019 19:14:26 +0000
+Received: from hmka2 by cassia.cl.cam.ac.uk with local (Exim 4.90_1)
+	(envelope-from <hmka2@cl.cam.ac.uk>)
+	id 1hS4mo-0001jh-86; Sat, 18 May 2019 20:14:26 +0100
+From: Hesham Almatary <Hesham.Almatary@cl.cam.ac.uk>
+To: qemu-riscv@nongnu.org
+Date: Sat, 18 May 2019 20:13:22 +0100
+Message-Id: <20190518191323.4907-1-Hesham.Almatary@cl.cam.ac.uk>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190518190157.21255-1-richard.henderson@linaro.org>
-References: <20190518190157.21255-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::442
-Subject: [Qemu-devel] [PATCH 16/16] tcg/i386: Use MOVDQA for TCG_TYPE_V128
- load/store
+X-Received-From: 2a05:b400:110::25:1
+Subject: [Qemu-devel] [PATCH 1/2] RISC-V: Raise access fault exceptions on
+ PMP violations
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -77,84 +49,72 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>,
+	Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+	Palmer Dabbelt <palmer@sifive.com>, qemu-devel@nongnu.org,
+	Alistair Francis <Alistair.Francis@wdc.com>,
+	Hesham Almatary <hesham.almatary@cl.cam.ac.uk>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This instruction raises #GP, aka SIGSEGV, if the effective address
-is not aligned to 16-bytes.
+Section 3.6 in RISC-V v1.10 privilege specification states that PMP violations
+report "access exceptions." The current PMP implementation has
+a bug which wrongly reports "page exceptions" on PMP violations.
 
-We have assertions in tcg-op-gvec.c that the offset from ENV is
-aligned, for vector types <= V128.  But the offset itself does not
-validate that the final pointer is aligned -- one must also remember
-to use the QEMU_ALIGNED() attribute on the vector member within ENV.
+This patch fixes this bug by reporting the correct PMP access exceptions
+trap values.
 
-PowerPC Altivec has vector load/store instructions that silently
-discard the low 4 bits of the address, making alignment mistakes
-difficult to discover.  Aid that by making the most popular host
-visibly signal the error.
-
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
+Signed-off-by: Hesham Almatary <hesham.almatary@cl.cam.ac.uk>
 ---
- tcg/i386/tcg-target.inc.c | 24 ++++++++++++++++++++++--
- 1 file changed, 22 insertions(+), 2 deletions(-)
+ target/riscv/cpu_helper.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/tcg/i386/tcg-target.inc.c b/tcg/i386/tcg-target.inc.c
-index 6ec5e60448..c0443da4af 100644
---- a/tcg/i386/tcg-target.inc.c
-+++ b/tcg/i386/tcg-target.inc.c
-@@ -1082,14 +1082,24 @@ static void tcg_out_ld(TCGContext *s, TCGType type, TCGReg ret,
-         }
-         /* FALLTHRU */
-     case TCG_TYPE_V64:
-+        /* There is no instruction that can validate 8-byte alignment.  */
-         tcg_debug_assert(ret >= 16);
-         tcg_out_vex_modrm_offset(s, OPC_MOVQ_VqWq, ret, 0, arg1, arg2);
-         break;
-     case TCG_TYPE_V128:
-+        /*
-+         * The gvec infrastructure is asserts that v128 vector loads
-+         * and stores use a 16-byte aligned offset.  Validate that the
-+         * final pointer is aligned by using an insn that will SIGSEGV.
-+         */
-         tcg_debug_assert(ret >= 16);
--        tcg_out_vex_modrm_offset(s, OPC_MOVDQU_VxWx, ret, 0, arg1, arg2);
-+        tcg_out_vex_modrm_offset(s, OPC_MOVDQA_VxWx, ret, 0, arg1, arg2);
-         break;
-     case TCG_TYPE_V256:
-+        /*
-+         * The gvec infrastructure only requires 16-byte alignment,
-+         * so here we must use an unaligned load.
-+         */
-         tcg_debug_assert(ret >= 16);
-         tcg_out_vex_modrm_offset(s, OPC_MOVDQU_VxWx | P_VEXL,
-                                  ret, 0, arg1, arg2);
-@@ -1117,14 +1127,24 @@ static void tcg_out_st(TCGContext *s, TCGType type, TCGReg arg,
-         }
-         /* FALLTHRU */
-     case TCG_TYPE_V64:
-+        /* There is no instruction that can validate 8-byte alignment.  */
-         tcg_debug_assert(arg >= 16);
-         tcg_out_vex_modrm_offset(s, OPC_MOVQ_WqVq, arg, 0, arg1, arg2);
-         break;
-     case TCG_TYPE_V128:
-+        /*
-+         * The gvec infrastructure is asserts that v128 vector loads
-+         * and stores use a 16-byte aligned offset.  Validate that the
-+         * final pointer is aligned by using an insn that will SIGSEGV.
-+         */
-         tcg_debug_assert(arg >= 16);
--        tcg_out_vex_modrm_offset(s, OPC_MOVDQU_WxVx, arg, 0, arg1, arg2);
-+        tcg_out_vex_modrm_offset(s, OPC_MOVDQA_WxVx, arg, 0, arg1, arg2);
-         break;
-     case TCG_TYPE_V256:
-+        /*
-+         * The gvec infrastructure only requires 16-byte alignment,
-+         * so here we must use an unaligned store.
-+         */
-         tcg_debug_assert(arg >= 16);
-         tcg_out_vex_modrm_offset(s, OPC_MOVDQU_WxVx | P_VEXL,
-                                  arg, 0, arg1, arg2);
--- 
+diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+index 41d6db41c3..b48de36114 100644
+--- a/target/riscv/cpu_helper.c
++++ b/target/riscv/cpu_helper.c
+@@ -318,12 +318,13 @@ restart:
+ }
+
+ static void raise_mmu_exception(CPURISCVState *env, target_ulong address,
+-                                MMUAccessType access_type)
++                                MMUAccessType access_type, bool pmp_violation)
+ {
+     CPUState *cs = CPU(riscv_env_get_cpu(env));
+     int page_fault_exceptions =
+         (env->priv_ver >= PRIV_VERSION_1_10_0) &&
+-        get_field(env->satp, SATP_MODE) != VM_1_10_MBARE;
++        get_field(env->satp, SATP_MODE) != VM_1_10_MBARE &&
++        !pmp_violation;
+     switch (access_type) {
+     case MMU_INST_FETCH:
+         cs->exception_index = page_fault_exceptions ?
+@@ -389,6 +390,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     CPURISCVState *env = &cpu->env;
+     hwaddr pa = 0;
+     int prot;
++    bool pmp_violation = false;
+     int ret = TRANSLATE_FAIL;
+
+     qemu_log_mask(CPU_LOG_MMU, "%s ad %" VADDR_PRIx " rw %d mmu_idx %d\n",
+@@ -402,6 +404,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+
+     if (riscv_feature(env, RISCV_FEATURE_PMP) &&
+         !pmp_hart_has_privs(env, pa, TARGET_PAGE_SIZE, 1 << access_type)) {
++        pmp_violation = true;
+         ret = TRANSLATE_FAIL;
+     }
+     if (ret == TRANSLATE_SUCCESS) {
+@@ -411,7 +414,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+     } else if (probe) {
+         return false;
+     } else {
+-        raise_mmu_exception(env, address, access_type);
++        raise_mmu_exception(env, address, access_type, pmp_violation);
+         riscv_raise_exception(env, cs->exception_index, retaddr);
+     }
+ #else
+--
 2.17.1
 
 
