@@ -2,71 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7F9F223F7
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 May 2019 17:49:48 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:35549 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC627223FD
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 May 2019 17:52:16 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:35608 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hS1al-0006sQ-Vy
-	for lists+qemu-devel@lfdr.de; Sat, 18 May 2019 11:49:48 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36534)
+	id 1hS1d9-0000M6-GS
+	for lists+qemu-devel@lfdr.de; Sat, 18 May 2019 11:52:15 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36614)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <aleksandar.m.mail@gmail.com>) id 1hS1YT-0005lM-HT
-	for qemu-devel@nongnu.org; Sat, 18 May 2019 11:47:27 -0400
+	(envelope-from <aleksandar.m.mail@gmail.com>) id 1hS1Yq-00062u-N0
+	for qemu-devel@nongnu.org; Sat, 18 May 2019 11:47:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <aleksandar.m.mail@gmail.com>) id 1hS1YR-0001ko-Pr
-	for qemu-devel@nongnu.org; Sat, 18 May 2019 11:47:25 -0400
-Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:35920)
+	(envelope-from <aleksandar.m.mail@gmail.com>) id 1hS1Yn-0001xQ-9m
+	for qemu-devel@nongnu.org; Sat, 18 May 2019 11:47:47 -0400
+Received: from mail-ot1-x343.google.com ([2607:f8b0:4864:20::343]:44279)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
-	id 1hS1YR-0001jv-Iz
-	for qemu-devel@nongnu.org; Sat, 18 May 2019 11:47:23 -0400
-Received: by mail-oi1-x241.google.com with SMTP id y124so2925339oiy.3
-	for <qemu-devel@nongnu.org>; Sat, 18 May 2019 08:47:22 -0700 (PDT)
+	id 1hS1Yn-0001x0-3L
+	for qemu-devel@nongnu.org; Sat, 18 May 2019 11:47:45 -0400
+Received: by mail-ot1-x343.google.com with SMTP id g18so9358302otj.11
+	for <qemu-devel@nongnu.org>; Sat, 18 May 2019 08:47:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=WkwU95LzPiehZ1TlhjVWM9ZXxwSRMu7DD9Hl3ThSfjM=;
-	b=cjzaFHLuW6rhYko8kgQchzcRlo+GjOIwH/n91P1hSmCFVIZ42gxrtyjlcSwocaRvMI
-	Ow4WRUhYyVpnej6pUP2u1NhOtYSe1S2/AC9gAKRY3mRksSWyxKrUTusB8zf5qEd3Nypo
-	ANE32sxZe47u5RbZdryHKRFrwoXwf5MfuzAdAIT2A6vqu/DJtFPKfN9Gsg20ypH3lVmA
-	BrFmm5hZ83d/2VxXrtGAgafUGh6Lb0f/ROJSAl9UmIsjVoUxppSLBglI/2D2bw1zrUrF
-	dg4XwdaFe5Vud0Vc0awiLKaMiffoab5W4G6xlYo6qVd+rlT/jMqmz2ICr/4M1KvcmGOy
-	/HOw==
+	:cc; bh=JBCYry9G7+mxhtyVvGVmrlhdYP+r+GY7nokLlnEBCBw=;
+	b=fLQJ8E7eNbGWqM4lBYPZI3kp7FsKxV9bJjXHKRivzxhdoPaq6Dm5oxEfE+w/aKuoQt
+	+EfKPHtashT6prYkru6oVS4ZRskQ1f1b6DPKhor2m6fyIPwZnqKzuXkUVQDWBMabaA4F
+	c1WK6JF5S9iLWtdrJmN4USVHmuKZUJPGNmprCGQtt0Eni6cCAQvb18Q6ASnyEEl6ueHx
+	WV7DpMq8lfLGjgSPmzUSBpiEgIl8XVh6aecNYjhHavqkEQ4o0X02Sfeu7SmAU3G8oExz
+	WsCqaUvnmA+DnERSXv3wsb0/JDqA62J4Kb3cNkBQGqFl4EuG0yRAWwMdCdV5VQ0sawyw
+	8ySw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
 	:message-id:subject:to:cc;
-	bh=WkwU95LzPiehZ1TlhjVWM9ZXxwSRMu7DD9Hl3ThSfjM=;
-	b=h6JrQfRQRdkMv19LbKFDSneKw7J087499Z2SE1sFzhAOuoSRClra0gNnYdggXDFK4E
-	b22XLB9KgCPKSwCRhrKllmGsLure4ODhOaN5WuUwsP7230rz9s73SAuuGsRldI8kOXBD
-	JWjP0ixV7kv5qlT+f24X1vNygFAJ46MhXibzt7e2v1M3+aHAs07eW6auwwvEGUCPzkzY
-	KZcf/AoHlIwXrK7FNltILL/kTsyt98hZ5zTG8yTcizQEyTkSQKqMYLV3sXsuo5+Roze6
-	E4T73ycDdbxr7lUv6scD9n9nYWeqwDRP0Irhln/QKlMO5oxSgiT4HkugPPc6bllciIBC
-	6vmw==
-X-Gm-Message-State: APjAAAVsrP2HRGwjHFfOMLg7RkkSEPBg3h8T5MEL4GkT8HafHYjhU4O/
-	EQGqcxjOYlXohVK0Gx75WPQnJwjYueITGzhqtpg=
-X-Google-Smtp-Source: APXvYqzhwTB5w2Xn85W9YHpvXygaNYiVi8A2XwqJs0XcTzEJuGmmg/W4SKcZTn5gqpx57vtEhx9uABqEqtfKpkinBwM=
-X-Received: by 2002:aca:6086:: with SMTP id u128mr1926417oib.79.1558194442011; 
-	Sat, 18 May 2019 08:47:22 -0700 (PDT)
+	bh=JBCYry9G7+mxhtyVvGVmrlhdYP+r+GY7nokLlnEBCBw=;
+	b=NaVlG02MaBLNnzEKxJQNpWmUXzTheaLY7W49LP/X5sxOLTSJuZo+hE4fzdOxYY9MHc
+	xKs2PjZNhso69Fi/lEKUyDZy8mlq+lr5JA+R14wT+l3wY1XrJtUTDzSHfH6zks09KVy6
+	r4tphrFEo1FgG0foePli2jeXEtBgKxsvAy7bz5qWoN42fgHeGl+EL5RmpSMjKP4Bzjge
+	kTe8dQeNxRD1cQUN4FypeL1xlsmE9BSpynfI6Co7wGYQS4ANarHGDb4XgF1q71yXGBTf
+	P9anTA+UTmX2KjrYnGlvPA+9wkZHWTT43RmVFVRjljJ/ebj7PIen/nvktApwSo5hkyjG
+	IMPg==
+X-Gm-Message-State: APjAAAWfSr87qjbLbEIgVswARHD7+Ko+I4B+y9+VSrjPdkcumwaiGCZU
+	BE5xgPz41/Iz8j/C1oVbXXqIugVj/XWuJWgkns+AMA==
+X-Google-Smtp-Source: APXvYqxZ4tdjz2IHd+0ilLx1rlH15t1tbXdoJwm7CkMULi1/IOjJC4hfnLCaDwcQf3d74kBBD43zwqIeXrI3B36gNbc=
+X-Received: by 2002:a9d:7858:: with SMTP id c24mr363378otm.64.1558194464179;
+	Sat, 18 May 2019 08:47:44 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a9d:3be5:0:0:0:0:0 with HTTP; Sat, 18 May 2019 08:47:21
+Received: by 2002:a9d:3be5:0:0:0:0:0 with HTTP; Sat, 18 May 2019 08:47:43
 	-0700 (PDT)
-Received: by 2002:a9d:3be5:0:0:0:0:0 with HTTP; Sat, 18 May 2019 08:47:21
+Received: by 2002:a9d:3be5:0:0:0:0:0 with HTTP; Sat, 18 May 2019 08:47:43
 	-0700 (PDT)
-In-Reply-To: <1554212605-16457-4-git-send-email-mateja.marjanovic@rt-rk.com>
+In-Reply-To: <1554212605-16457-5-git-send-email-mateja.marjanovic@rt-rk.com>
 References: <1554212605-16457-1-git-send-email-mateja.marjanovic@rt-rk.com>
-	<1554212605-16457-4-git-send-email-mateja.marjanovic@rt-rk.com>
+	<1554212605-16457-5-git-send-email-mateja.marjanovic@rt-rk.com>
 From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Sat, 18 May 2019 17:47:21 +0200
-Message-ID: <CAL1e-=hntLN8fp_Su5hJD0ivxe7aAvbeyD1qvqMqq7oDUkwLng@mail.gmail.com>
+Date: Sat, 18 May 2019 17:47:43 +0200
+Message-ID: <CAL1e-=jvhQQQ8XZ5Sv=gpuCh500A5e1JNtFuxkH1cMk910QRkA@mail.gmail.com>
 To: Mateja Marjanovic <mateja.marjanovic@rt-rk.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::241
+X-Received-From: 2607:f8b0:4864:20::343
 Content-Type: text/plain; charset="UTF-8"
 X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PATCH v4 3/5] target/mips: Refactor and fix
- COPY_S.<B|H|W|D> instructions
+Subject: Re: [Qemu-devel] [PATCH v4 4/5] target/mips: Refactor and fix
+ COPY_U.<B|H|W> instructions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -88,7 +88,7 @@ wrote:
 >
 > From: Mateja Marjanovic <Mateja.Marjanovic@rt-rk.com>
 >
-> The old version of the helper for the COPY_S.<B|H|W|D> MSA instructions
+> The old version of the helper for the COPY_U.<B|H|W> MSA instructions
 > has been replaced with four helpers that don't use switch, and change
 > the endianness of the given index, when executed on a big endian host.
 >
@@ -97,50 +97,47 @@ wrote:
 
 Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 
->  target/mips/helper.h     |  7 +++++-
->  target/mips/msa_helper.c | 62
-+++++++++++++++++++++++++++++++++---------------
->  target/mips/translate.c  | 19 ++++++++++++++-
->  3 files changed, 67 insertions(+), 21 deletions(-)
+>  target/mips/helper.h     |  4 +++-
+>  target/mips/msa_helper.c | 55
++++++++++++++++++++++++++++++++-----------------
+>  target/mips/translate.c  | 21 +++++++++++++++++-
+>  3 files changed, 59 insertions(+), 21 deletions(-)
 >
 > diff --git a/target/mips/helper.h b/target/mips/helper.h
-> index 2f23b0d..4e49618 100644
+> index 4e49618..8b6703c 100644
 > --- a/target/mips/helper.h
 > +++ b/target/mips/helper.h
-> @@ -874,7 +874,7 @@ DEF_HELPER_5(msa_hsub_u_df, void, env, i32, i32, i32,
+> @@ -875,7 +875,6 @@ DEF_HELPER_5(msa_hsub_u_df, void, env, i32, i32, i32,
 i32)
->
 >  DEF_HELPER_5(msa_sldi_df, void, env, i32, i32, i32, i32)
 >  DEF_HELPER_5(msa_splati_df, void, env, i32, i32, i32, i32)
-> -DEF_HELPER_5(msa_copy_s_df, void, env, i32, i32, i32, i32)
-> +
->  DEF_HELPER_5(msa_copy_u_df, void, env, i32, i32, i32, i32)
+>
+> -DEF_HELPER_5(msa_copy_u_df, void, env, i32, i32, i32, i32)
 >  DEF_HELPER_5(msa_insert_df, void, env, i32, i32, i32, i32)
 >  DEF_HELPER_5(msa_insve_df, void, env, i32, i32, i32, i32)
-> @@ -936,6 +936,11 @@ DEF_HELPER_4(msa_pcnt_df, void, env, i32, i32, i32)
->  DEF_HELPER_4(msa_nloc_df, void, env, i32, i32, i32)
->  DEF_HELPER_4(msa_nlzc_df, void, env, i32, i32, i32)
+>  DEF_HELPER_3(msa_ctcmsa, void, env, tl, i32)
+> @@ -940,6 +939,9 @@ DEF_HELPER_4(msa_copy_s_b, void, env, i32, i32, i32)
+>  DEF_HELPER_4(msa_copy_s_h, void, env, i32, i32, i32)
+>  DEF_HELPER_4(msa_copy_s_w, void, env, i32, i32, i32)
+>  DEF_HELPER_4(msa_copy_s_d, void, env, i32, i32, i32)
+> +DEF_HELPER_4(msa_copy_u_b, void, env, i32, i32, i32)
+> +DEF_HELPER_4(msa_copy_u_h, void, env, i32, i32, i32)
+> +DEF_HELPER_4(msa_copy_u_w, void, env, i32, i32, i32)
 >
-> +DEF_HELPER_4(msa_copy_s_b, void, env, i32, i32, i32)
-> +DEF_HELPER_4(msa_copy_s_h, void, env, i32, i32, i32)
-> +DEF_HELPER_4(msa_copy_s_w, void, env, i32, i32, i32)
-> +DEF_HELPER_4(msa_copy_s_d, void, env, i32, i32, i32)
-> +
 >  DEF_HELPER_4(msa_fclass_df, void, env, i32, i32, i32)
 >  DEF_HELPER_4(msa_ftrunc_s_df, void, env, i32, i32, i32)
->  DEF_HELPER_4(msa_ftrunc_u_df, void, env, i32, i32, i32)
 > diff --git a/target/mips/msa_helper.c b/target/mips/msa_helper.c
-> index a500c59..5a06579 100644
+> index 5a06579..d5bf4dc 100644
 > --- a/target/mips/msa_helper.c
 > +++ b/target/mips/msa_helper.c
-> @@ -1232,29 +1232,53 @@ void helper_msa_splati_df(CPUMIPSState *env,
-uint32_t df, uint32_t wd,
->      msa_splat_df(df, pwd, pws, n);
+> @@ -1281,29 +1281,46 @@ void helper_msa_copy_s_d(CPUMIPSState *env,
+uint32_t rd,
+>      env->active_tc.gpr[rd] = (int64_t)env->active_fpu.fpr[ws].wr.d[n];
 >  }
 >
-> -void helper_msa_copy_s_df(CPUMIPSState *env, uint32_t df, uint32_t rd,
+> -void helper_msa_copy_u_df(CPUMIPSState *env, uint32_t df, uint32_t rd,
 > -                          uint32_t ws, uint32_t n)
-> +void helper_msa_copy_s_b(CPUMIPSState *env, uint32_t rd,
+> +void helper_msa_copy_u_b(CPUMIPSState *env, uint32_t rd,
 > +                         uint32_t ws, uint32_t n)
 >  {
 > -    n %= DF_ELEMENTS(df);
@@ -152,27 +149,28 @@ uint32_t df, uint32_t wd,
 > +        n = 24 - n - 1;
 > +    }
 > +#endif
-> +    env->active_tc.gpr[rd] = (int8_t)env->active_fpu.fpr[ws].wr.b[n];
+> +    env->active_tc.gpr[rd] = (uint8_t)env->active_fpu.fpr[ws].wr.b[n];
 > +}
 >
 > -    switch (df) {
 > -    case DF_BYTE:
-> -        env->active_tc.gpr[rd] = (int8_t)env->active_fpu.fpr[ws].wr.b[n];
+> -        env->active_tc.gpr[rd] =
+(uint8_t)env->active_fpu.fpr[ws].wr.b[n];
 > -        break;
 > -    case DF_HALF:
 > -        env->active_tc.gpr[rd] =
-(int16_t)env->active_fpu.fpr[ws].wr.h[n];
+(uint16_t)env->active_fpu.fpr[ws].wr.h[n];
 > -        break;
 > -    case DF_WORD:
 > -        env->active_tc.gpr[rd] =
-(int32_t)env->active_fpu.fpr[ws].wr.w[n];
+(uint32_t)env->active_fpu.fpr[ws].wr.w[n];
 > -        break;
 > -#ifdef TARGET_MIPS64
 > -    case DF_DOUBLE:
 > -        env->active_tc.gpr[rd] =
-(int64_t)env->active_fpu.fpr[ws].wr.d[n];
+(uint64_t)env->active_fpu.fpr[ws].wr.d[n];
 > -        break;
-> +void helper_msa_copy_s_h(CPUMIPSState *env, uint32_t rd,
+> +void helper_msa_copy_u_h(CPUMIPSState *env, uint32_t rd,
 > +                         uint32_t ws, uint32_t n)
 > +{
 > +    n %= 8;
@@ -185,10 +183,10 @@ uint32_t df, uint32_t wd,
 >  #endif
 > -    default:
 > -        assert(0);
-> +    env->active_tc.gpr[rd] = (int16_t)env->active_fpu.fpr[ws].wr.h[n];
+> +    env->active_tc.gpr[rd] = (uint16_t)env->active_fpu.fpr[ws].wr.h[n];
 > +}
 > +
-> +void helper_msa_copy_s_w(CPUMIPSState *env, uint32_t rd,
+> +void helper_msa_copy_u_w(CPUMIPSState *env, uint32_t rd,
 > +                         uint32_t ws, uint32_t n)
 > +{
 > +    n %= 4;
@@ -199,40 +197,43 @@ uint32_t df, uint32_t wd,
 > +        n = 6 - n - 1;
 >      }
 > +#endif
-> +    env->active_tc.gpr[rd] = (int32_t)env->active_fpu.fpr[ws].wr.w[n];
-> +}
-> +
-> +void helper_msa_copy_s_d(CPUMIPSState *env, uint32_t rd,
-> +                         uint32_t ws, uint32_t n)
-> +{
-> +    n %= 2;
-> +    env->active_tc.gpr[rd] = (int64_t)env->active_fpu.fpr[ws].wr.d[n];
+> +    env->active_tc.gpr[rd] = (uint32_t)env->active_fpu.fpr[ws].wr.w[n];
 >  }
 >
->  void helper_msa_copy_u_df(CPUMIPSState *env, uint32_t df, uint32_t rd,
+>  void helper_msa_insert_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
 > diff --git a/target/mips/translate.c b/target/mips/translate.c
-> index 189bbc4..f2ea378 100644
+> index f2ea378..72ed0a8 100644
 > --- a/target/mips/translate.c
 > +++ b/target/mips/translate.c
-> @@ -29401,7 +29401,24 @@ static void gen_msa_elm_df(CPUMIPSState *env,
+> @@ -29397,6 +29397,11 @@ static void gen_msa_elm_df(CPUMIPSState *env,
 DisasContext *ctx, uint32_t df,
+>              generate_exception_end(ctx, EXCP_RI);
+>              break;
+>          }
+> +        if ((MASK_MSA_ELM(ctx->opcode) == OPC_COPY_U_df) &&
+> +              (df == DF_WORD)) {
+> +            generate_exception_end(ctx, EXCP_RI);
+> +            break;
+> +        }
+>  #endif
 >          switch (MASK_MSA_ELM(ctx->opcode)) {
 >          case OPC_COPY_S_df:
+> @@ -29423,7 +29428,21 @@ static void gen_msa_elm_df(CPUMIPSState *env,
+DisasContext *ctx, uint32_t df,
+>              break;
+>          case OPC_COPY_U_df:
 >              if (likely(wd != 0)) {
-> -                gen_helper_msa_copy_s_df(cpu_env, tdf, twd, tws, tn);
+> -                gen_helper_msa_copy_u_df(cpu_env, tdf, twd, tws, tn);
 > +                switch (df) {
 > +                case DF_BYTE:
-> +                    gen_helper_msa_copy_s_b(cpu_env, twd, tws, tn);
+> +                    gen_helper_msa_copy_u_b(cpu_env, twd, tws, tn);
 > +                    break;
 > +                case DF_HALF:
-> +                    gen_helper_msa_copy_s_h(cpu_env, twd, tws, tn);
-> +                    break;
-> +                case DF_WORD:
-> +                    gen_helper_msa_copy_s_w(cpu_env, twd, tws, tn);
+> +                    gen_helper_msa_copy_u_h(cpu_env, twd, tws, tn);
 > +                    break;
 > +#if defined(TARGET_MIPS64)
-> +                case DF_DOUBLE:
-> +                    gen_helper_msa_copy_s_d(cpu_env, twd, tws, tn);
+> +                case DF_WORD:
+> +                    gen_helper_msa_copy_u_w(cpu_env, twd, tws, tn);
 > +                    break;
 > +#endif
 > +                default:
@@ -240,7 +241,7 @@ DisasContext *ctx, uint32_t df,
 > +                }
 >              }
 >              break;
->          case OPC_COPY_U_df:
+>          case OPC_INSERT_df:
 > --
 > 2.7.4
 >
