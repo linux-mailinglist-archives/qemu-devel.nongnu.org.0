@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 71F8C22495
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 May 2019 21:10:07 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:37617 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 795AC22497
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 May 2019 21:10:16 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37621 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hS4ic-0006q0-KD
-	for lists+qemu-devel@lfdr.de; Sat, 18 May 2019 15:10:06 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59178)
+	id 1hS4il-0006xN-K1
+	for lists+qemu-devel@lfdr.de; Sat, 18 May 2019 15:10:15 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59195)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hS4dO-0002nw-U4
-	for qemu-devel@nongnu.org; Sat, 18 May 2019 15:04:43 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hS4dN-0002qF-OK
+	for qemu-devel@nongnu.org; Sat, 18 May 2019 15:04:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hS4b5-0002kG-Rm
+	(envelope-from <richard.henderson@linaro.org>) id 1hS4b5-0002kT-V1
 	for qemu-devel@nongnu.org; Sat, 18 May 2019 15:02:20 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:41278)
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:37678)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hS4b4-0002j0-5T
+	id 1hS4b5-0002je-P6
 	for qemu-devel@nongnu.org; Sat, 18 May 2019 15:02:19 -0400
-Received: by mail-pf1-x441.google.com with SMTP id q17so5243771pfq.8
-	for <qemu-devel@nongnu.org>; Sat, 18 May 2019 12:02:17 -0700 (PDT)
+Received: by mail-pg1-x541.google.com with SMTP id n27so2231038pgm.4
+	for <qemu-devel@nongnu.org>; Sat, 18 May 2019 12:02:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=5pgxUU1cRl5UBw70ixoMtifwIrAs5XS+sRdx95+Fg/g=;
-	b=Hk2LWuP2q3y8VWttu/hNazeJeZ7x6dEOuJnRrijJnUA27kNW9XNU7nBa1c2P2YRK1I
-	bXSbZh4zrUF3tXfyZ5UsyF2qdSMgiLnoIBAh4yTshNglRJKuIiPYgf5JUKCCYquwOh/0
-	Z5Yvy6xplKYn+4CkpL3OQcHYN3ZjFnJ3dxGjT4h0thYpTeqnuXuftfmQxwCNoliXahVZ
-	GzXOQRWbmlfx6usZRRj+vtel+fjhqi0MlaMYhkl+F79BQTQnsyIPZnOlSlRJVl/AlzzY
-	Y5b5x6XoNpLTHQLA/wswGo/fcgU22WFZq8RRju5nd355CpdmRtpGa2vPETmc3yIrlV3i
-	o1rQ==
+	bh=zqTcnSP07QNrvm+tUagQdKAYnifB03tbX5A/KwjlV2s=;
+	b=rL0iP2h0jKW9abc7xAj6Hon9dUs0yXFvg30c/6Z7XNV7VMSaKcZc1OgHJKk9bUBtL4
+	/MLkU3fVKKYcWIqeTa5DTseaogjiRQkUqVHcmpJ715R0++r80BxHj+8P9/g/zmxRp0I6
+	noJstJ8578xL6C8Q73urzkGYcrxF8zx9cOAIlSPTliH5Ipx3xNJxlSmmz2mjoyHzmoVY
+	qS4/AYdK1EsNjWl3FfymAn7fC4DrAb4gMFiEpFeCKO0I06QUPxXj+MWOQQ+GK8UwMEu7
+	9CrbII8CLhZIyyT6IF6YckVttRlj2KX2siMWuT/IA/g4p8oezSl16qTDNK6abmgN2Pqg
+	LtCw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=5pgxUU1cRl5UBw70ixoMtifwIrAs5XS+sRdx95+Fg/g=;
-	b=jexrOzbd5xfKIhgLROl1vuk+1jOuVZgKu8aHd9unD70EqeYmKSjinZIKO6St0O9wSC
-	yNPusOilL7xfhR1e1ELCfL/kE3HDllyfsjexQc+KH4ijuUNx8WK5WRfJ8kSPBRjCfOPQ
-	ZkYCIPlL58k/nMpJ1XXxZAhmDV3g1/HMv9kKGlMcxRw4NqggdmtlNmw9IAbFleIXBXaQ
-	8FsIOfwSaC5UR+tL1SbgDdaeasSEHg9szezGUTCvU6JtCCZCNxtBGGpVBIgwawQN/0FP
-	Lom+6w/iyOzbI16ITzIgT8Wd3ykSu+E+J/h2i/YQEhYks4aaP4v++tU/1sm/izv185cS
-	PKdw==
-X-Gm-Message-State: APjAAAWxBxRGy6wX88XEZuki7FvWOvxtDJcWOc84+AVrpnlW9NZj4UP6
-	YXcn2pQg4WVFNhJDuGmM/EtaHyITpug=
-X-Google-Smtp-Source: APXvYqxMml5drvLqg8yZrKFre7NUGiT+MaMIoZDwNnXd0j2kr/rGG1O4a7XMEYEvSB/vNQ3RwoVLqA==
-X-Received: by 2002:a62:3085:: with SMTP id
-	w127mr46884150pfw.170.1558206136676; 
-	Sat, 18 May 2019 12:02:16 -0700 (PDT)
+	bh=zqTcnSP07QNrvm+tUagQdKAYnifB03tbX5A/KwjlV2s=;
+	b=Ewchzj/djHLLY7h1jjJ9n3Pl8fKbzrebMQ86kE2MTDNHagWWZQ3gHY3bgBL49alY8p
+	N6QtYS9Dwh7M5cjeTlI8Ach0TFlFgaE1GWYdXCzSMLxDnnneXGL3nAg26UgXmnq9JN61
+	+boB7m6/57Qn9d7jj+xfxVKJP9FA70bLTKlX2P+9avSqJqY25ZdLSsOqpz3OUn2sX8RP
+	KcuK497Dehi4pjJdCeArNjusa36QxXPAhpLuDEUkVwHQjMc4/mgxJNoxFesIFcZPDQQQ
+	PI3geQB5+kq9Kw4ryddxI+HG8I7FHo6dKDFIE5YVImvdkhz/qlyyuYVhfacRNXoPs2lF
+	iyFA==
+X-Gm-Message-State: APjAAAXX2skti7yzaP3EeRYDocD/UluUkH5ZLPu7JEJI1M11k+Ns5r/H
+	G+7JxXHjAqEYq61fEQjLseuGSe/Wtqc=
+X-Google-Smtp-Source: APXvYqwQA4Y4gRI1mOksQXXbGkJwesULC3YNQ0FmWfyWFGEYkn39Z3o+YnCtpkc9ArGKKFddDNMWSQ==
+X-Received: by 2002:a63:2c14:: with SMTP id s20mr47830203pgs.182.1558206137908;
+	Sat, 18 May 2019 12:02:17 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231])
-	by smtp.gmail.com with ESMTPSA id m9sm2751274pgd.23.2019.05.18.12.02.15
+	by smtp.gmail.com with ESMTPSA id m9sm2751274pgd.23.2019.05.18.12.02.16
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 18 May 2019 12:02:16 -0700 (PDT)
+	Sat, 18 May 2019 12:02:17 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sat, 18 May 2019 12:01:54 -0700
-Message-Id: <20190518190157.21255-14-richard.henderson@linaro.org>
+Date: Sat, 18 May 2019 12:01:55 -0700
+Message-Id: <20190518190157.21255-15-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190518190157.21255-1-richard.henderson@linaro.org>
 References: <20190518190157.21255-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::441
-Subject: [Qemu-devel] [PATCH 13/16] tcg/aarch64: Use MVNI in tcg_out_dupi_vec
+X-Received-From: 2607:f8b0:4864:20::541
+Subject: [Qemu-devel] [PATCH 14/16] tcg/aarch64: Build vector immediates
+ with two insns
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -80,47 +80,89 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The compliment of a subset of immediates can be computed
-with a single instruction.
+Use MOVI+ORR or MVNI+BIC in order to build some vector constants,
+as opposed to dropping them to the constant pool.  This includes
+all 16-bit constants and a similar set of 32-bit constants.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/aarch64/tcg-target.inc.c | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ tcg/aarch64/tcg-target.inc.c | 47 ++++++++++++++++++++++++++++++++++++
+ 1 file changed, 47 insertions(+)
 
 diff --git a/tcg/aarch64/tcg-target.inc.c b/tcg/aarch64/tcg-target.inc.c
-index 1422dfebe2..0b8b733805 100644
+index 0b8b733805..52c18074ae 100644
 --- a/tcg/aarch64/tcg-target.inc.c
 +++ b/tcg/aarch64/tcg-target.inc.c
-@@ -494,6 +494,7 @@ typedef enum {
+@@ -273,6 +273,26 @@ static bool is_fimm64(uint64_t v64, int *cmode, int *imm8)
+     return false;
+ }
  
++/*
++ * Return non-zero if v32 can be formed by MOVI+ORR.
++ * Place the parameters for MOVI in (cmode, imm8).
++ * Return the cmode for ORR; the imm8 can be had via extraction from v32.
++ */
++static int is_shimm32_pair(uint32_t v32, int *cmode, int *imm8)
++{
++    int i;
++
++    for (i = 6; i > 0; i -= 2) {
++        /* Mask out one byte we can add with ORR.  */
++        uint32_t tmp = v32 & ~(0xffu << (i * 4));
++        if (is_shimm32(tmp, cmode, imm8) ||
++            is_soimm32(tmp, cmode, imm8)) {
++            break;
++        }
++    }
++    return i;
++}
++
+ static int tcg_target_const_match(tcg_target_long val, TCGType type,
+                                   const TCGArgConstraint *arg_ct)
+ {
+@@ -495,6 +515,8 @@ typedef enum {
      /* AdvSIMD modified immediate */
      I3606_MOVI      = 0x0f000400,
-+    I3606_MVNI      = 0x2f000400,
+     I3606_MVNI      = 0x2f000400,
++    I3606_BIC       = 0x2f001400,
++    I3606_ORR       = 0x0f001400,
  
      /* AdvSIMD shift by immediate */
      I3614_SSHR      = 0x0f000400,
-@@ -838,8 +839,13 @@ static void tcg_out_dupi_vec(TCGContext *s, TCGType type,
-             tcg_out_insn(s, 3606, MOVI, q, rd, 0, cmode, imm8);
+@@ -843,6 +865,14 @@ static void tcg_out_dupi_vec(TCGContext *s, TCGType type,
+             tcg_out_insn(s, 3606, MVNI, q, rd, 0, cmode, imm8);
              return;
          }
-+        if (is_shimm16(~v16, &cmode, &imm8)) {
-+            tcg_out_insn(s, 3606, MVNI, q, rd, 0, cmode, imm8);
-+            return;
-+        }
++
++        /*
++         * Otherwise, all remaining constants can be loaded in two insns:
++         * rd = v16 & 0xff, rd |= v16 & 0xff00.
++         */
++        tcg_out_insn(s, 3606, MOVI, q, rd, 0, 0x8, v16 & 0xff);
++        tcg_out_insn(s, 3606, ORR, q, rd, 0, 0xa, v16 >> 8);
++        return;
      } else if (v64 == dup_const(MO_32, v64)) {
          uint32_t v32 = v64;
-+        uint32_t n32 = ~v32;
- 
-         if (is_shimm32(v32, &cmode, &imm8) ||
-             is_soimm32(v32, &cmode, &imm8) ||
-@@ -847,6 +853,11 @@ static void tcg_out_dupi_vec(TCGContext *s, TCGType type,
-             tcg_out_insn(s, 3606, MOVI, q, rd, 0, cmode, imm8);
+         uint32_t n32 = ~v32;
+@@ -858,6 +888,23 @@ static void tcg_out_dupi_vec(TCGContext *s, TCGType type,
+             tcg_out_insn(s, 3606, MVNI, q, rd, 0, cmode, imm8);
              return;
          }
-+        if (is_shimm32(n32, &cmode, &imm8) ||
-+            is_soimm32(n32, &cmode, &imm8)) {
++
++        /*
++         * Restrict the set of constants to those we can load with
++         * two instructions.  Others we load from the pool.
++         */
++        i = is_shimm32_pair(v32, &cmode, &imm8);
++        if (i) {
++            tcg_out_insn(s, 3606, MOVI, q, rd, 0, cmode, imm8);
++            tcg_out_insn(s, 3606, ORR, q, rd, 0, i, extract32(v32, i * 4, 8));
++            return;
++        }
++        i = is_shimm32_pair(n32, &cmode, &imm8);
++        if (i) {
 +            tcg_out_insn(s, 3606, MVNI, q, rd, 0, cmode, imm8);
++            tcg_out_insn(s, 3606, BIC, q, rd, 0, i, extract32(n32, i * 4, 8));
 +            return;
 +        }
      } else if (is_fimm64(v64, &cmode, &imm8)) {
