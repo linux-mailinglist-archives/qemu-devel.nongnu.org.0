@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4BAFB224A3
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 May 2019 21:17:36 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:37767 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 76FD2224A5
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 May 2019 21:20:11 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37789 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hS4pr-0005Cs-CU
-	for lists+qemu-devel@lfdr.de; Sat, 18 May 2019 15:17:35 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59166)
+	id 1hS4sM-0006vJ-KE
+	for lists+qemu-devel@lfdr.de; Sat, 18 May 2019 15:20:10 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59195)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hS4dV-0002lS-G7
-	for qemu-devel@nongnu.org; Sat, 18 May 2019 15:04:50 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hS4dV-0002qF-Fk
+	for qemu-devel@nongnu.org; Sat, 18 May 2019 15:04:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hS4ap-0002Vt-U3
-	for qemu-devel@nongnu.org; Sat, 18 May 2019 15:02:04 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:42739)
+	(envelope-from <richard.henderson@linaro.org>) id 1hS4ar-0002Xs-7x
+	for qemu-devel@nongnu.org; Sat, 18 May 2019 15:02:06 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:44102)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hS4ap-0002Uu-NA
-	for qemu-devel@nongnu.org; Sat, 18 May 2019 15:02:03 -0400
-Received: by mail-pg1-x544.google.com with SMTP id 145so4821612pgg.9
-	for <qemu-devel@nongnu.org>; Sat, 18 May 2019 12:02:03 -0700 (PDT)
+	id 1hS4ar-0002Wb-1N
+	for qemu-devel@nongnu.org; Sat, 18 May 2019 15:02:05 -0400
+Received: by mail-pg1-x542.google.com with SMTP id z16so4815668pgv.11
+	for <qemu-devel@nongnu.org>; Sat, 18 May 2019 12:02:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=CNtLSsppNDq+qCEdta/UyzFB0xSoIc+vMFY+eO0LpIo=;
-	b=hLGl9GIvAqE3EuUUjA3yuves4T/8nvL2eDXBxfXOg/++HaH9XUvebkvmjQGSkWwDlH
-	yw3jrtdHKTUR9IgLVANIk5HlVSYdQf2+jOiD+CnKufPnfBX7WfUDBmaVdvcod1vVteZA
-	gc7n3naHXT01k1Eg8nkS8Y84H+dOXdlCcI8akFasbl18AiIDt0HjsQXNudZ4+NMqnBk/
-	ezde8d7tPL+n0nGn2X2ljhanjAr/IUZxvf1fHnyvR41hJOUfCuZp77GvIlp6zsRwz7EH
-	nhk8yHjIB8Q1pFv0cxR3KFsIPqsvnGiMDAsuOXTM0lK9l0ok0aZtkib8e48fIF9O8yB4
-	6AHw==
+	bh=oqAGJXCcrmzUdmSG3sZCijkOSbKbEdDFHwT2UnQhICM=;
+	b=UhEPtYKeH5fq9a+ZB+yE+cTcz+u6NMq4KOnYjrgfpRBs1lPp9X5WnCKtdbQvcXPken
+	T6EIPSM2XXet021UOC942f2EpbBTc7GweprHrSMdHOgKcdjwYWF1T3oq1Af9ALtDPig+
+	TT7w/wN89/lr7L1f92FBgvBZ0t2DQVPE4MEtpuI/oAienRz72K9dzd0bl0jysx/YB0QR
+	o4cWuIgsxrDPtqu5u9xIGiXQiyrx9zFkMxeyWGnxv2Byb6QBgZW8J5oaylZcuCb7Xi1G
+	C036Y7vldaem901bNhIetsvzXYdnogqA5PaMHt1hqusg7kKZ7ZFucL/UrwxGS5KQ4SSx
+	BIHw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=CNtLSsppNDq+qCEdta/UyzFB0xSoIc+vMFY+eO0LpIo=;
-	b=lr8J0JlhagD8uPH498Nrp2/ZINjqZ9JTdQRFiu5DtwHuAIfDRyXN+y1WEiIGs5OPCk
-	iw6tEoM8gdHQo0ZF01FvKH2wGTBb5gZI0ft2dj1PAeMqUL47ttTiDl/uIfwB6XUXNA2B
-	ZJ9HcNqzlk3qSP165gBJblaKqcdOORyZU5bpbr+ssnj06/G/TIK66Bb0n3GmPbbWiJ8M
-	y0ewBBY01K09bVXrDTkUYnb7WAwnYkT2Qe1XbhfqB2BZAs4p9NQykU4hXptQrbY93A+7
-	UDtrkCD2qSbTKPlb6MwctKRdD+gSbnDPFmd0sgT60MixOBCu944kQ1QwgwgkqtZd54Hk
-	bJfw==
-X-Gm-Message-State: APjAAAXG/JJzn38khpHcKe08OmKProX1eYuoIdsCziVMjcTQGpkJ+UcM
-	UCg+dbwLTIIt6cUYQ0tudOpnuXOaK4A=
-X-Google-Smtp-Source: APXvYqyuCZXAf/BlKdq2ke7e/fI/IhaQdPTTfHcyW5ewlD9KRua8EoBX6AAK3IzbOtMG0jpuwLJpGA==
-X-Received: by 2002:a63:e52:: with SMTP id 18mr65624292pgo.3.1558206122332;
-	Sat, 18 May 2019 12:02:02 -0700 (PDT)
+	bh=oqAGJXCcrmzUdmSG3sZCijkOSbKbEdDFHwT2UnQhICM=;
+	b=m8BJQdh/UijBeYgkI7UZQew5VuEK+RXFoxZWZQ7K79lfuFMRN3NZ7Ho/4cOiEqW7oD
+	4ic5tuBj5hK7MgfxEaT+V07lWQcuV+FGNjOclGmSNSIzyaxCBp7jBcKjOlBwBL56bFjj
+	UJYpfdHE+j3Yborta4K1rRTuZ55t6gb31nnj8BFNbRE0uaM3x6nVApAe0KjvF/vPGQze
+	lMkzwnHPQBUZtkqLamYSsmucoySitUzXXFOOPpp1pv9302RjbNMCOFJVfCHsg6uS5vzr
+	Wi2/xOoa1waSxt+Xs0uvIabB+L5wKjJYmb61gHPG4ypJIA53B53AyGVDhyhheWj46ikL
+	+ynw==
+X-Gm-Message-State: APjAAAXH6PFcX9SX/KuVvgyrs4uFGhakU0OSlxFJiW//d7NI0pWNdZwj
+	UJYbiY0EqRTOTyy+UHQzZU+ZkqdO31g=
+X-Google-Smtp-Source: APXvYqw1PlscMq7R+CTkBnCU+haUGclqqikLOmMumTHGPmqFh2lWw5nPloGMG6RAXE3FBEU8nGNb4g==
+X-Received: by 2002:aa7:8c12:: with SMTP id c18mr71305950pfd.194.1558206123711;
+	Sat, 18 May 2019 12:02:03 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231])
-	by smtp.gmail.com with ESMTPSA id m9sm2751274pgd.23.2019.05.18.12.02.01
+	by smtp.gmail.com with ESMTPSA id m9sm2751274pgd.23.2019.05.18.12.02.02
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 18 May 2019 12:02:01 -0700 (PDT)
+	Sat, 18 May 2019 12:02:02 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sat, 18 May 2019 12:01:42 -0700
-Message-Id: <20190518190157.21255-2-richard.henderson@linaro.org>
+Date: Sat, 18 May 2019 12:01:43 -0700
+Message-Id: <20190518190157.21255-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190518190157.21255-1-richard.henderson@linaro.org>
 References: <20190518190157.21255-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::544
-Subject: [Qemu-devel] [PATCH 01/16] tcg/i386: Fix dupi/dupm for avx1 and
- 32-bit hosts
+X-Received-From: 2607:f8b0:4864:20::542
+Subject: [Qemu-devel] [PATCH 02/16] tcg: Fix missing checks and clears in
+ tcg_gen_gvec_dup_mem
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -80,57 +80,93 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The VBROADCASTSD instruction only allows %ymm registers as destination.
-Rather than forcing VEX.L and writing to the entire 256-bit register,
-revert to using MOVDDUP with an %xmm register.  This is sufficient for
-an avx1 host since we do not support TCG_TYPE_V256 for that case.
+The paths through tcg_gen_dup_mem_vec and through MO_128 were
+missing the check_size_align.  The path through MO_128 was also
+missing the expand_clr.  This last was not visible because the
+only user is ARM SVE, which would set oprsz == maxsz, and not
+require the clear.
 
-Also fix the 32-bit avx2, which should have used VPBROADCASTW.
+Fix by adding the check_size_align and using do_dup directly
+instead of duplicating the check in tcg_gen_gvec_dup_{i32,i64}.
 
-Fixes: 1e262b49b533
-Tested-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
-Reported-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/i386/tcg-target.inc.c | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ tcg/tcg-op-gvec.c | 48 ++++++++++++++++++++++++-----------------------
+ 1 file changed, 25 insertions(+), 23 deletions(-)
 
-diff --git a/tcg/i386/tcg-target.inc.c b/tcg/i386/tcg-target.inc.c
-index aafd01cb49..b3601446cd 100644
---- a/tcg/i386/tcg-target.inc.c
-+++ b/tcg/i386/tcg-target.inc.c
-@@ -358,6 +358,7 @@ static inline int tcg_target_const_match(tcg_target_long val, TCGType type,
- #define OPC_MOVBE_MyGy  (0xf1 | P_EXT38)
- #define OPC_MOVD_VyEy   (0x6e | P_EXT | P_DATA16)
- #define OPC_MOVD_EyVy   (0x7e | P_EXT | P_DATA16)
-+#define OPC_MOVDDUP     (0x12 | P_EXT | P_SIMDF2)
- #define OPC_MOVDQA_VxWx (0x6f | P_EXT | P_DATA16)
- #define OPC_MOVDQA_WxVx (0x7f | P_EXT | P_DATA16)
- #define OPC_MOVDQU_VxWx (0x6f | P_EXT | P_SIMDF3)
-@@ -921,7 +922,7 @@ static bool tcg_out_dupm_vec(TCGContext *s, TCGType type, unsigned vece,
-     } else {
-         switch (vece) {
-         case MO_64:
--            tcg_out_vex_modrm_offset(s, OPC_VBROADCASTSD, r, 0, base, offset);
-+            tcg_out_vex_modrm_offset(s, OPC_MOVDDUP, r, 0, base, offset);
-             break;
-         case MO_32:
-             tcg_out_vex_modrm_offset(s, OPC_VBROADCASTSS, r, 0, base, offset);
-@@ -963,12 +964,12 @@ static void tcg_out_dupi_vec(TCGContext *s, TCGType type,
-         } else if (have_avx2) {
-             tcg_out_vex_modrm_pool(s, OPC_VPBROADCASTQ + vex_l, ret);
-         } else {
--            tcg_out_vex_modrm_pool(s, OPC_VBROADCASTSD, ret);
-+            tcg_out_vex_modrm_pool(s, OPC_MOVDDUP, ret);
+diff --git a/tcg/tcg-op-gvec.c b/tcg/tcg-op-gvec.c
+index 338ddd9d9e..bbf70e3cd9 100644
+--- a/tcg/tcg-op-gvec.c
++++ b/tcg/tcg-op-gvec.c
+@@ -1446,36 +1446,35 @@ void tcg_gen_gvec_dup_i64(unsigned vece, uint32_t dofs, uint32_t oprsz,
+ void tcg_gen_gvec_dup_mem(unsigned vece, uint32_t dofs, uint32_t aofs,
+                           uint32_t oprsz, uint32_t maxsz)
+ {
++    check_size_align(oprsz, maxsz, dofs);
+     if (vece <= MO_64) {
+-        TCGType type = choose_vector_type(0, vece, oprsz, 0);
++        TCGType type = choose_vector_type(NULL, vece, oprsz, 0);
+         if (type != 0) {
+             TCGv_vec t_vec = tcg_temp_new_vec(type);
+             tcg_gen_dup_mem_vec(vece, t_vec, cpu_env, aofs);
+             do_dup_store(type, dofs, oprsz, maxsz, t_vec);
+             tcg_temp_free_vec(t_vec);
+-            return;
++        } else if (vece <= MO_32) {
++            TCGv_i32 in = tcg_temp_new_i32();
++            switch (vece) {
++            case MO_8:
++                tcg_gen_ld8u_i32(in, cpu_env, aofs);
++                break;
++            case MO_16:
++                tcg_gen_ld16u_i32(in, cpu_env, aofs);
++                break;
++            default:
++                tcg_gen_ld_i32(in, cpu_env, aofs);
++                break;
++            }
++            do_dup(vece, dofs, oprsz, maxsz, in, NULL, 0);
++            tcg_temp_free_i32(in);
++        } else {
++            TCGv_i64 in = tcg_temp_new_i64();
++            tcg_gen_ld_i64(in, cpu_env, aofs);
++            do_dup(vece, dofs, oprsz, maxsz, NULL, in, 0);
++            tcg_temp_free_i64(in);
          }
-         new_pool_label(s, arg, R_386_PC32, s->code_ptr - 4, -4);
+-    }
+-    if (vece <= MO_32) {
+-        TCGv_i32 in = tcg_temp_new_i32();
+-        switch (vece) {
+-        case MO_8:
+-            tcg_gen_ld8u_i32(in, cpu_env, aofs);
+-            break;
+-        case MO_16:
+-            tcg_gen_ld16u_i32(in, cpu_env, aofs);
+-            break;
+-        case MO_32:
+-            tcg_gen_ld_i32(in, cpu_env, aofs);
+-            break;
+-        }
+-        tcg_gen_gvec_dup_i32(vece, dofs, oprsz, maxsz, in);
+-        tcg_temp_free_i32(in);
+-    } else if (vece == MO_64) {
+-        TCGv_i64 in = tcg_temp_new_i64();
+-        tcg_gen_ld_i64(in, cpu_env, aofs);
+-        tcg_gen_gvec_dup_i64(MO_64, dofs, oprsz, maxsz, in);
+-        tcg_temp_free_i64(in);
      } else {
-         if (have_avx2) {
--            tcg_out_vex_modrm_pool(s, OPC_VBROADCASTSD + vex_l, ret);
-+            tcg_out_vex_modrm_pool(s, OPC_VPBROADCASTW + vex_l, ret);
-         } else {
-             tcg_out_vex_modrm_pool(s, OPC_VBROADCASTSS, ret);
+         /* 128-bit duplicate.  */
+         /* ??? Dup to 256-bit vector.  */
+@@ -1504,6 +1503,9 @@ void tcg_gen_gvec_dup_mem(unsigned vece, uint32_t dofs, uint32_t aofs,
+             tcg_temp_free_i64(in0);
+             tcg_temp_free_i64(in1);
          }
++        if (oprsz < maxsz) {
++            expand_clr(dofs + oprsz, maxsz - oprsz);
++        }
+     }
+ }
+ 
 -- 
 2.17.1
 
