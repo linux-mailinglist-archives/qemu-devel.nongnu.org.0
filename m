@@ -2,78 +2,78 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA9D4223F6
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 May 2019 17:49:32 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:35547 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 96865223F1
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 May 2019 17:46:52 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:35525 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hS1aW-0006jQ-3E
-	for lists+qemu-devel@lfdr.de; Sat, 18 May 2019 11:49:32 -0400
+	id 1hS1Xv-0004eQ-4f
+	for lists+qemu-devel@lfdr.de; Sat, 18 May 2019 11:46:51 -0400
 Received: from eggs.gnu.org ([209.51.188.92]:35775)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hS1Vf-0003U3-Oi
-	for qemu-devel@nongnu.org; Sat, 18 May 2019 11:44:32 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hS1Ve-0003U3-O5
+	for qemu-devel@nongnu.org; Sat, 18 May 2019 11:44:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hS1Mh-0000lG-JC
-	for qemu-devel@nongnu.org; Sat, 18 May 2019 11:35:16 -0400
-Received: from mail-pl1-x62d.google.com ([2607:f8b0:4864:20::62d]:44560)
+	(envelope-from <richard.henderson@linaro.org>) id 1hS1OU-00029z-MT
+	for qemu-devel@nongnu.org; Sat, 18 May 2019 11:37:07 -0400
+Received: from mail-pf1-x42d.google.com ([2607:f8b0:4864:20::42d]:43330)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hS1Mh-0000kw-D7
-	for qemu-devel@nongnu.org; Sat, 18 May 2019 11:35:15 -0400
-Received: by mail-pl1-x62d.google.com with SMTP id c5so4686397pll.11
-	for <qemu-devel@nongnu.org>; Sat, 18 May 2019 08:35:15 -0700 (PDT)
+	id 1hS1OU-00028Z-F6
+	for qemu-devel@nongnu.org; Sat, 18 May 2019 11:37:06 -0400
+Received: by mail-pf1-x42d.google.com with SMTP id c6so5105340pfa.10
+	for <qemu-devel@nongnu.org>; Sat, 18 May 2019 08:37:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
 	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=mVLSR1h4xgK2HaqbCmzauRfBHDMBq4sh7mP0qu9Crig=;
-	b=rjOjkIep8/gC5k0oTxt1v+x+6Z+H/4n2oSs59Ps3tSWGqS+3NnXT5zm/XgSoPmonax
-	A8WVUp0SNUiTqBm0G73ODhYrdVrpAv+BgLyw6hQdUoj3HGVbGF2HrMfPzeIujX0U1nUB
-	YG3fh91LgXJVecvOk7lVbelBxV36sNvrvTzM6zLOyPO9V/WERWmdabSXn+RvlzkqqMUe
-	DDbrjPaSDM2M2AzSpVFRnY25YJZqIn9yT3kfwFgW7ca0hMQs3EPyZMndaNJzZveG80xS
-	FitUxfBzJCO8RQ6D9wsCC8V6w3cbIlPv4u8rb7Njk4NyyLU0Ijmumaj1/+I4gqwVYXG+
-	QFVA==
+	bh=zlyFgfYdeS1FGq186HwsOn9aOzq61BXXf4OG1vtQC78=;
+	b=RbMZZKAi62K1+p58PwHkRRGg28ZPqnczKOIh3LHR08U2mTxp4WIJnjIVa3bDDIDjAR
+	sxjO/c2vApTXMhn/ect+1dj+rAveTtG+v0QtYQ8LBEpS/1dN3/hZxHMk+mXauuPRQvu0
+	3L77TvFKrY34PoGk/58oUj7TZhfjXLY32SCezneWZtX2cGIaYRSPX8vgz7F+eqLPFoAM
+	zaXu7aRFKRBmWlX1aA5cPAy9SKWj30qm9c1S5DKhYkkJYeUZj1h6RmFTRHQ8bJ8ohaY0
+	nWHsMQ87ZnRjQUeKBfzQn3lIaFURDhTC9GNvRHB87YktoD6FICM64P8HpUHtPvTviQkf
+	D3ZQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
 	:date:user-agent:mime-version:in-reply-to:content-language
 	:content-transfer-encoding;
-	bh=mVLSR1h4xgK2HaqbCmzauRfBHDMBq4sh7mP0qu9Crig=;
-	b=SlEOf13IUfTsbaSs435gmdq2FWEQI+Jc/4RwfEkqN8V+MeQW0EF7ekZ4IivRT1QlVC
-	OJqbBC1hyMNIE9tkGA03ZNEdI447oXXoRcGp1bf5hGuhDjDLyMD9Q3PUwSrPtJS/L/lx
-	O4ySilqX9sUfxReoovHyNf4bp/4pkAMm2CPdbSg4HGX9R7cHNwywPWgiSNU+sJRW13u6
-	iKCO56gjmBjnc7Am2725PTYpC9eswq+UzhL/IEF/smKDB5Rb7lWqQ1gplni+wTVNVYHF
-	l51cpdj6pdhGJ7xI9xWCP1T4lYtpuOFTMz/iHZq9Fwj3nI3POthPp+IQMWnm65sTiQU9
-	aqZA==
-X-Gm-Message-State: APjAAAWBZ7wycvbsUJJl8Oix8RLhv1ck1rsmHFdOxCEReGdFWk2IpSS4
-	x3oNameDbYAaQDEd3BYgm5BzeQ==
-X-Google-Smtp-Source: APXvYqxkkxIlAOtxvc2puMTRwd6p7Z0pU6KTP3fhqn4KF9oFIJDhypZM62kl0U6Wd9Xbh6TgNW1o7Q==
-X-Received: by 2002:a17:902:d892:: with SMTP id
-	b18mr19921748plz.216.1558193714360; 
-	Sat, 18 May 2019 08:35:14 -0700 (PDT)
+	bh=zlyFgfYdeS1FGq186HwsOn9aOzq61BXXf4OG1vtQC78=;
+	b=HSYew9Z+yTeN+8kehulO9I10a2L5oOdyNhW/2aX9RCRklQzHCrlBwdOHhTk0k0CT2O
+	/W1cIHU2pbEnV+UWVb4Pi8AiKOsQzxG28QRsFl/xuZ867ep/iQv5eb+CyK7PrzTu0b8U
+	B9RbmqiMwy8DlO9P5Pzh8ehAvREBunnk+sAlw/f/qb+RhSToZW2htD9F9HgRJPzA65bx
+	fCMo405nNuBoxLELwaFNBFEOSgyj+jfunwtWBVCHw2Jo8B2RA9uzbRQIS3X6HdWRqO/v
+	ei1GKoFZcm1gfj5cYto1lHhjBqJX4Ecc+pr304RZVYwVyK3L9jzn1POmIGlasShLQo8I
+	JJZg==
+X-Gm-Message-State: APjAAAUyl59dpsEAB0EWJdbxo1faTqSWDJQggTq0ijxg5No15f0QRVA9
+	fDHb3HfjnuplHrRV4n4JI9pfcQ==
+X-Google-Smtp-Source: APXvYqyUYZcLMzfpCb1c5QLto2OzTWEva9aQh07FzEk7VW/SjQJN9070KsYsc6jOoj3Hi4xjLdcCXQ==
+X-Received: by 2002:a63:6f06:: with SMTP id k6mr63048462pgc.170.1558193825278; 
+	Sat, 18 May 2019 08:37:05 -0700 (PDT)
 Received: from [192.168.1.11] (97-113-13-231.tukw.qwest.net. [97.113.13.231])
 	by smtp.gmail.com with ESMTPSA id
-	o6sm29538589pfa.88.2019.05.18.08.35.13
+	e6sm20450686pfl.115.2019.05.18.08.37.03
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 18 May 2019 08:35:13 -0700 (PDT)
+	Sat, 18 May 2019 08:37:04 -0700 (PDT)
 To: Jan Bobek <jan.bobek@gmail.com>, qemu-devel@nongnu.org
 References: <20190517224450.15566-1-jan.bobek@gmail.com>
-	<20190517224450.15566-7-jan.bobek@gmail.com>
+	<20190517224450.15566-8-jan.bobek@gmail.com>
 From: Richard Henderson <richard.henderson@linaro.org>
 Openpgp: preference=signencrypt
-Message-ID: <60aad027-cbb2-93cd-5e35-56608a21eed0@linaro.org>
-Date: Sat, 18 May 2019 08:35:11 -0700
+Message-ID: <115e3e78-bc20-82f2-34d3-5f9c9d0fdd4b@linaro.org>
+Date: Sat, 18 May 2019 08:37:02 -0700
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190517224450.15566-7-jan.bobek@gmail.com>
+In-Reply-To: <20190517224450.15566-8-jan.bobek@gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::62d
-Subject: Re: [Qemu-devel] [RISU v2 06/11] risu_i386: remove old unused code
+X-Received-From: 2607:f8b0:4864:20::42d
+Subject: Re: [Qemu-devel] [RISU v2 07/11] test_i386: change syntax from nasm
+ to gas
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -90,15 +90,18 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/17/19 3:44 PM, Jan Bobek wrote:
-> The code being removed is a remnant of the past implementation; it has
-> since been replaced by its more powerful, architecture-independent
-> counterpart in reginfo.c.
+> This allows us to drop dependency on NASM and build the test image
+> with GCC only. Adds support for x86_64, too.
 > 
-> Reviewed-by: Alex Bennée <alex.bennee@linaro.org>
+> Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 > Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
 > ---
->  risu_i386.c | 58 -----------------------------------------------------
->  1 file changed, 58 deletions(-)
+>  Makefile    |  3 +++
+>  test_i386.S | 41 +++++++++++++++++++++++++++++++++++++++++
+>  test_i386.s | 27 ---------------------------
+>  3 files changed, 44 insertions(+), 27 deletions(-)
+>  create mode 100644 test_i386.S
+>  delete mode 100644 test_i386.s
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 
