@@ -2,71 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AE1BD2249C
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 May 2019 21:12:52 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:37683 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D0F6722496
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 May 2019 21:10:12 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37619 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hS4lH-00017y-P3
-	for lists+qemu-devel@lfdr.de; Sat, 18 May 2019 15:12:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59195)
+	id 1hS4ih-0006tU-Ru
+	for lists+qemu-devel@lfdr.de; Sat, 18 May 2019 15:10:11 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59166)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hS4dT-0002qF-3f
-	for qemu-devel@nongnu.org; Sat, 18 May 2019 15:04:48 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hS4dQ-0002lS-Ja
+	for qemu-devel@nongnu.org; Sat, 18 May 2019 15:04:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hS4au-0002cY-ON
-	for qemu-devel@nongnu.org; Sat, 18 May 2019 15:02:09 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:36039)
+	(envelope-from <richard.henderson@linaro.org>) id 1hS4aw-0002dW-2E
+	for qemu-devel@nongnu.org; Sat, 18 May 2019 15:02:11 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:39129)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hS4au-0002c3-Ic
-	for qemu-devel@nongnu.org; Sat, 18 May 2019 15:02:08 -0400
-Received: by mail-pl1-x641.google.com with SMTP id d21so4845499plr.3
-	for <qemu-devel@nongnu.org>; Sat, 18 May 2019 12:02:08 -0700 (PDT)
+	id 1hS4av-0002d6-PR
+	for qemu-devel@nongnu.org; Sat, 18 May 2019 15:02:10 -0400
+Received: by mail-pf1-x444.google.com with SMTP id z26so5254362pfg.6
+	for <qemu-devel@nongnu.org>; Sat, 18 May 2019 12:02:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references;
-	bh=IHzD/cFhgds3vlWGOoqI0eCnewZUJpWI1Gh0PD14SRs=;
-	b=HVuQsC8XioIdkqzl++KY5DDIhwSzp0gt2VFiod5/uuzQwlO/KSs8XXQMt5KQ8/LLQG
-	e+29egElL+VfsYpq/jFghEae7CcYDtHHsBt+f2/JvfmJjWtKn+s4Pomxt3YqIxptnQ+N
-	nEBAU9kdlni+5SDdbfD2u6AOOoSH63HivAKleDvSW+JmQqQfUd0jEDY5G/rl+PBKdstw
-	maKzy2rsarxG6RTY1U2eMl7yMzJoJos/waik5OLOszwl9pwOfCGAUaaIJol0qn5kGte2
-	QOJx8qzuwzj231McQB0VvaKDbb1HfPz9Vpu7/ALTNxsz5K1bbutpTPjU1VSpwoihNa2B
-	FoZA==
+	bh=Dp2wE06ppFvr7SDc7+wjEouETDXh/6Jd86FUlkd8ziE=;
+	b=Nv8tgCKEQwfqnpVeDr/mOFgdZIrwTTm0x6+1Xh722DfqBMm8Ret9tLRopYz0AtyqCm
+	OXrhAXUremVVi2bTpXmmlI1ZtFN/ZIWu+IDF5OFe+kZs3MyCQAIJT7W4Fh/DF2pAwyjH
+	0IxEy1bGn+li9hUklTdvXoTheFgugsYC/1P40zsHIFvwmYN4HxzdospZeidVANAJ6eEO
+	GFkPEOQBp/RliGa1amqjp48qR4ParxP2JGdm6IPSa7nH72gSpfvNiW0ZWCnNpXFJWqAZ
+	K66L9iqbF26IvlsA7Av3w1GIXYJ8QCLLlrr6G6tw9jKcRqyVcsR/e5OnPiDrrBErqyyb
+	YoCQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references;
-	bh=IHzD/cFhgds3vlWGOoqI0eCnewZUJpWI1Gh0PD14SRs=;
-	b=gJF+qwr5Z/kmhhyx9vFOLy7Kj5nefykdoE5aVp3EsrXmX7x/L11cidJe1LJHXfiVvO
-	/gD3o1UrCygCJIeYMfzs/ZjbjeqVpWoSiGIXwm9cQvZCxNzQaGh9Gd21KfsmQooWeVC9
-	hCC2tz6Ci7xNUMaDalFOBnmpHw5GSW1kjkP80P4USPzUQqyKstuS1WeBcXitV11+srCe
-	C6z83yDunDWdfEqM1S2U3tGGK3ORki+dFFLgt8rzBY8UXD49VlIXRww5341IK+bpCofF
-	K4NZkYfD2EMus275P9YaOGWP6QAnW+DR13XcMMKetRFRilBSxjoiW5/LkK/P0sQXTDRE
-	jYPQ==
-X-Gm-Message-State: APjAAAWFTDManvDSkl/aLkqEkG7HjSgaMvvohUNvhVJy/4vH9vjdQ1CR
-	3DKLctGkY5zqO1kPLccykTYChxEKkUg=
-X-Google-Smtp-Source: APXvYqy8XIHDrNflYwZwJ0yQBtb1boyGHMd5/1K4V5qvcvhXKRLP+lsi8tpYKRmpA/TzkuhQqRF8yQ==
-X-Received: by 2002:a17:902:d917:: with SMTP id
-	c23mr63258017plz.14.1558206127251; 
-	Sat, 18 May 2019 12:02:07 -0700 (PDT)
+	bh=Dp2wE06ppFvr7SDc7+wjEouETDXh/6Jd86FUlkd8ziE=;
+	b=QgjIrAGQYb262g16/sZZC4wUMmUKC7HnqSYLzrGGlYDzN1XmCTBEilXKneH6N6VBAk
+	cX3FrOg6PMQ7WaLOQl1UfrytQ1DmbHvvYZzXLeaz7EYKExuDJmYhCaIzdW3Bp4LRqliU
+	vpKTq5utAV7Al2jIXC5mJEOVFekpKelUFw1u3+ejhmO9pUKzBTxbRkwjHY5OpYaJg4cP
+	hJr8NLd/LXAllt3IR6rkW/L0a9EQ0zeWXFfew4OtM4oNr9vNWoq0M9sXzephx73jRQbi
+	07bL2T9QqResKoqTZngUlWvG91HIM3XC6/2whyPUMt6EGbgolp46ahODwCXuDE+lQe/h
+	+8rw==
+X-Gm-Message-State: APjAAAUnqFMvnqEaK8KNLkyGe6iww6VnmCmgHvEFhjMQVYc62tVW0u6w
+	YL09IO9Uss+YKI88GiuNzuvzQUdA+T8=
+X-Google-Smtp-Source: APXvYqzr5OCTom3DTNmQpBGsKVoDLRYser03zrPph7KMiOuborGbVHdNtqaU5BA4AZLApkYlaQsfPg==
+X-Received: by 2002:aa7:8008:: with SMTP id j8mr69359424pfi.120.1558206128483; 
+	Sat, 18 May 2019 12:02:08 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231])
-	by smtp.gmail.com with ESMTPSA id m9sm2751274pgd.23.2019.05.18.12.02.06
+	by smtp.gmail.com with ESMTPSA id m9sm2751274pgd.23.2019.05.18.12.02.07
 	for <qemu-devel@nongnu.org>
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sat, 18 May 2019 12:02:06 -0700 (PDT)
+	Sat, 18 May 2019 12:02:07 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sat, 18 May 2019 12:01:46 -0700
-Message-Id: <20190518190157.21255-6-richard.henderson@linaro.org>
+Date: Sat, 18 May 2019 12:01:47 -0700
+Message-Id: <20190518190157.21255-7-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190518190157.21255-1-richard.henderson@linaro.org>
 References: <20190518190157.21255-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::641
-Subject: [Qemu-devel] [PATCH 05/16] tcg: Introduce do_op3_nofail for vector
- expansion
+X-Received-From: 2607:f8b0:4864:20::444
+Subject: [Qemu-devel] [PATCH 06/16] tcg: Expand vector minmax using
+ cmp+cmpsel
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -81,144 +80,65 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This makes do_op3 match do_op2 in allowing for failure,
-and thus fall back expansions.
+Provide a generic fallback for the min/max operations.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/tcg-op-vec.c | 45 +++++++++++++++++++++++++++------------------
- 1 file changed, 27 insertions(+), 18 deletions(-)
+ tcg/tcg-op-vec.c | 20 ++++++++++++++++----
+ 1 file changed, 16 insertions(+), 4 deletions(-)
 
 diff --git a/tcg/tcg-op-vec.c b/tcg/tcg-op-vec.c
-index a888c02df8..004a34935b 100644
+index 004a34935b..501d9630a2 100644
 --- a/tcg/tcg-op-vec.c
 +++ b/tcg/tcg-op-vec.c
-@@ -562,7 +562,7 @@ void tcg_gen_cmp_vec(TCGCond cond, unsigned vece,
-     }
+@@ -120,6 +120,10 @@ bool tcg_can_emit_vecop_list(const TCGOpcode *list,
+             }
+             break;
+         case INDEX_op_cmpsel_vec:
++        case INDEX_op_smin_vec:
++        case INDEX_op_smax_vec:
++        case INDEX_op_umin_vec:
++        case INDEX_op_umax_vec:
+             if (tcg_can_emit_vec_op(INDEX_op_cmp_vec, type, vece)) {
+                 continue;
+             }
+@@ -632,24 +636,32 @@ void tcg_gen_ussub_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b)
+     do_op3_nofail(vece, r, a, b, INDEX_op_ussub_vec);
  }
  
--static void do_op3(unsigned vece, TCGv_vec r, TCGv_vec a,
-+static bool do_op3(unsigned vece, TCGv_vec r, TCGv_vec a,
-                    TCGv_vec b, TCGOpcode opc)
- {
-     TCGTemp *rt = tcgv_vec_temp(r);
-@@ -580,82 +580,91 @@ static void do_op3(unsigned vece, TCGv_vec r, TCGv_vec a,
-     can = tcg_can_emit_vec_op(opc, type, vece);
-     if (can > 0) {
-         vec_gen_3(opc, type, vece, ri, ai, bi);
--    } else {
-+    } else if (can < 0) {
-         const TCGOpcode *hold_list = tcg_swap_vecop_list(NULL);
--        tcg_debug_assert(can < 0);
-         tcg_expand_vec_op(opc, type, vece, ri, ai, bi);
-         tcg_swap_vecop_list(hold_list);
-+    } else {
-+        return false;
-     }
-+    return true;
++static void do_minmax(unsigned vece, TCGv_vec r, TCGv_vec a,
++                      TCGv_vec b, TCGOpcode opc, TCGCond cond)
++{
++    if (!do_op3(vece, r, a, b, opc)) {
++        tcg_gen_cmpsel_vec(cond, vece, r, a, b, a, b);
++    }
 +}
 +
-+static void do_op3_nofail(unsigned vece, TCGv_vec r, TCGv_vec a,
-+                          TCGv_vec b, TCGOpcode opc)
-+{
-+    bool ok = do_op3(vece, r, a, b, opc);
-+    tcg_debug_assert(ok);
- }
- 
- void tcg_gen_add_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b)
- {
--    do_op3(vece, r, a, b, INDEX_op_add_vec);
-+    do_op3_nofail(vece, r, a, b, INDEX_op_add_vec);
- }
- 
- void tcg_gen_sub_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b)
- {
--    do_op3(vece, r, a, b, INDEX_op_sub_vec);
-+    do_op3_nofail(vece, r, a, b, INDEX_op_sub_vec);
- }
- 
- void tcg_gen_mul_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b)
- {
--    do_op3(vece, r, a, b, INDEX_op_mul_vec);
-+    do_op3_nofail(vece, r, a, b, INDEX_op_mul_vec);
- }
- 
- void tcg_gen_ssadd_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b)
- {
--    do_op3(vece, r, a, b, INDEX_op_ssadd_vec);
-+    do_op3_nofail(vece, r, a, b, INDEX_op_ssadd_vec);
- }
- 
- void tcg_gen_usadd_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b)
- {
--    do_op3(vece, r, a, b, INDEX_op_usadd_vec);
-+    do_op3_nofail(vece, r, a, b, INDEX_op_usadd_vec);
- }
- 
- void tcg_gen_sssub_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b)
- {
--    do_op3(vece, r, a, b, INDEX_op_sssub_vec);
-+    do_op3_nofail(vece, r, a, b, INDEX_op_sssub_vec);
- }
- 
- void tcg_gen_ussub_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b)
- {
--    do_op3(vece, r, a, b, INDEX_op_ussub_vec);
-+    do_op3_nofail(vece, r, a, b, INDEX_op_ussub_vec);
- }
- 
  void tcg_gen_smin_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b)
  {
--    do_op3(vece, r, a, b, INDEX_op_smin_vec);
-+    do_op3_nofail(vece, r, a, b, INDEX_op_smin_vec);
+-    do_op3_nofail(vece, r, a, b, INDEX_op_smin_vec);
++    do_minmax(vece, r, a, b, INDEX_op_smin_vec, TCG_COND_LT);
  }
  
  void tcg_gen_umin_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b)
  {
--    do_op3(vece, r, a, b, INDEX_op_umin_vec);
-+    do_op3_nofail(vece, r, a, b, INDEX_op_umin_vec);
+-    do_op3_nofail(vece, r, a, b, INDEX_op_umin_vec);
++    do_minmax(vece, r, a, b, INDEX_op_umin_vec, TCG_COND_LTU);
  }
  
  void tcg_gen_smax_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b)
  {
--    do_op3(vece, r, a, b, INDEX_op_smax_vec);
-+    do_op3_nofail(vece, r, a, b, INDEX_op_smax_vec);
+-    do_op3_nofail(vece, r, a, b, INDEX_op_smax_vec);
++    do_minmax(vece, r, a, b, INDEX_op_smax_vec, TCG_COND_GT);
  }
  
  void tcg_gen_umax_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b)
  {
--    do_op3(vece, r, a, b, INDEX_op_umax_vec);
-+    do_op3_nofail(vece, r, a, b, INDEX_op_umax_vec);
+-    do_op3_nofail(vece, r, a, b, INDEX_op_umax_vec);
++    do_minmax(vece, r, a, b, INDEX_op_umax_vec, TCG_COND_GTU);
  }
  
  void tcg_gen_shlv_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b)
- {
--    do_op3(vece, r, a, b, INDEX_op_shlv_vec);
-+    do_op3_nofail(vece, r, a, b, INDEX_op_shlv_vec);
- }
- 
- void tcg_gen_shrv_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b)
- {
--    do_op3(vece, r, a, b, INDEX_op_shrv_vec);
-+    do_op3_nofail(vece, r, a, b, INDEX_op_shrv_vec);
- }
- 
- void tcg_gen_sarv_vec(unsigned vece, TCGv_vec r, TCGv_vec a, TCGv_vec b)
- {
--    do_op3(vece, r, a, b, INDEX_op_sarv_vec);
-+    do_op3_nofail(vece, r, a, b, INDEX_op_sarv_vec);
- }
- 
- static void do_shifts(unsigned vece, TCGv_vec r, TCGv_vec a,
-@@ -691,7 +700,7 @@ static void do_shifts(unsigned vece, TCGv_vec r, TCGv_vec a,
-         } else {
-             tcg_gen_dup_i32_vec(vece, vec_s, s);
-         }
--        do_op3(vece, r, a, vec_s, opc_v);
-+        do_op3_nofail(vece, r, a, vec_s, opc_v);
-         tcg_temp_free_vec(vec_s);
-     }
-     tcg_swap_vecop_list(hold_list);
 -- 
 2.17.1
 
