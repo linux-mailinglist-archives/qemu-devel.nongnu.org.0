@@ -2,50 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C701C22460
-	for <lists+qemu-devel@lfdr.de>; Sat, 18 May 2019 19:59:06 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36933 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0965D2249F
+	for <lists+qemu-devel@lfdr.de>; Sat, 18 May 2019 21:15:09 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37701 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hS3bt-000149-Dh
-	for lists+qemu-devel@lfdr.de; Sat, 18 May 2019 13:59:05 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51773)
+	id 1hS4nU-0002vy-3r
+	for lists+qemu-devel@lfdr.de; Sat, 18 May 2019 15:15:08 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59178)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kenneth.heitke@intel.com>) id 1hS3a5-0000UK-2Z
-	for qemu-devel@nongnu.org; Sat, 18 May 2019 13:57:15 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hS4dV-0002nw-Gh
+	for qemu-devel@nongnu.org; Sat, 18 May 2019 15:04:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kenneth.heitke@intel.com>) id 1hS3Zd-0004Wq-Mw
-	for qemu-devel@nongnu.org; Sat, 18 May 2019 13:56:46 -0400
-Received: from mga14.intel.com ([192.55.52.115]:43061)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <kenneth.heitke@intel.com>)
-	id 1hS3Zd-0004Ui-Dx; Sat, 18 May 2019 13:56:45 -0400
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-	by fmsmga103.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	18 May 2019 10:56:41 -0700
-Received: from rpgilroy-mobl1.amr.corp.intel.com (HELO [10.252.138.203])
-	([10.252.138.203])
-	by orsmga008-auth.jf.intel.com with ESMTP/TLS/AES256-SHA;
-	18 May 2019 10:56:40 -0700
-To: Klaus Birkelund Jensen <klaus@birkelund.eu>, qemu-block@nongnu.org
-References: <20190518073905.17178-1-klaus@birkelund.eu>
-From: "Heitke, Kenneth" <kenneth.heitke@intel.com>
-Message-ID: <ee4de9a0-2cfb-c2f3-fabb-d91a07daf7bf@intel.com>
-Date: Sat, 18 May 2019 11:56:39 -0600
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
-MIME-Version: 1.0
-In-Reply-To: <20190518073905.17178-1-klaus@birkelund.eu>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+	(envelope-from <richard.henderson@linaro.org>) id 1hS4ao-0002Un-Uk
+	for qemu-devel@nongnu.org; Sat, 18 May 2019 15:02:03 -0400
+Received: from mail-pg1-x533.google.com ([2607:f8b0:4864:20::533]:34302)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hS4ao-0002Ta-OE
+	for qemu-devel@nongnu.org; Sat, 18 May 2019 15:02:02 -0400
+Received: by mail-pg1-x533.google.com with SMTP id c13so4840139pgt.1
+	for <qemu-devel@nongnu.org>; Sat, 18 May 2019 12:02:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:subject:date:message-id;
+	bh=4VC9fdoah9gPOaYawpacu+qq5CIKFODz7Uj8uZWxwZE=;
+	b=d4FR0k76QcCVsdPh3ACXUZcxF70Yq61ZuxhkVhVT0DqWMJ0bVjIvxo6ICfd2Fo5N7t
+	cbzltKXH1FgLCPfP5rvlKyrBz9J9+KMUGaS02z3K7MZ++PMLZ3X+hpCyteGoH6g8ZWvt
+	VD+F3bzJIaYqb737WJL+w8/0DL0Pw7jGjUpBgeSPYI0g5ORK/z8++ffuFstqsrKINEsM
+	bCLqEqGTYrum/ap1G/A03BL+sVLrdw2m4VwDgg4Q5PKFtGvzBBNRPdip0hE+NpkUdCaP
+	bD5e7nZhuJlIFwAX1KY56UpVsXa9pnBFtjWgLOOZNrokHLLcCt9IyFqL7V9Nalf+t1iL
+	cK8Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id;
+	bh=4VC9fdoah9gPOaYawpacu+qq5CIKFODz7Uj8uZWxwZE=;
+	b=I0d0qiM2k0OQ7w+E6BuCbLqLLd8/UJdK11r89PqsaFKegtbIDFDWT7ULjnljqiCzBn
+	qvOKLe3xHVx7x1PifNEfJSY686AWsPsdP4cyEAgKbMNF6gfFjYRQukkL7dDns3zoATiq
+	U2so0qmyC0IlJfWgpETELv3gALxVDnK2dFTIT1ocfguVsds1/LjUW7/rDmt5g/kRV4Z0
+	OMDF/uRfjzDFuG3Bh9dWmz6f6GD9bLjgv8pBwZPcOWPCBcRpwDYZSLLkMI0bD65t2xo8
+	NLbOVz/xVae8fVA/pLuH0gJoZM5bhukDwwKJUqlxO79rhP6BvzTHRweZq2afS0tGAcvh
+	U/gg==
+X-Gm-Message-State: APjAAAU4ldrNnYJSpZrUA3GOxB1Rnh64Hme9Iu05uM5XFSgmiLuy9Dwn
+	oVh1puoeBq+fZ3GU+sq4ugccnlnUeko=
+X-Google-Smtp-Source: APXvYqwSH89UdNExCpg2oPbdT2xSVv2HDRjVcb69gbznpKd4qjleNz3o6pXVbTzbYE2mkSLM4ttIZQ==
+X-Received: by 2002:a62:ac0a:: with SMTP id v10mr70072798pfe.57.1558206121080; 
+	Sat, 18 May 2019 12:02:01 -0700 (PDT)
+Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
+	[97.113.13.231])
+	by smtp.gmail.com with ESMTPSA id m9sm2751274pgd.23.2019.05.18.12.01.59
+	for <qemu-devel@nongnu.org>
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sat, 18 May 2019 12:01:59 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Date: Sat, 18 May 2019 12:01:41 -0700
+Message-Id: <20190518190157.21255-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.17.1
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 192.55.52.115
-Subject: Re: [Qemu-devel] [PATCH] nvme: fix copy direction in DMA reads
- going to CMB
+X-Received-From: 2607:f8b0:4864:20::533
+Subject: [Qemu-devel] [PATCH 00/16] tcg: misc gvec improvments
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -57,37 +73,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Keith Busch <keith.busch@intel.com>, Kevin Wolf <kwolf@redhat.com>,
-	qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Add support for bitsel and cmpsel primitives, which will be
+used by target/* patches that I'll post shortly.
+
+Improvements to the i386 and aarch64 backends.
+
+A handfull of bug fixes.
+
+Assert that we haven't forgotten a QEMU_ALIGNED() marker,
+by using MOVDQA for x86_64.
 
 
-On 5/18/2019 1:39 AM, Klaus Birkelund Jensen wrote:
-> `nvme_dma_read_prp` erronously used `qemu_iovec_*to*_buf` instead of
-> `qemu_iovec_*from*_buf` when the request involved the controller memory
-> buffer.
-> 
-> Signed-off-by: Klaus Birkelund Jensen <klaus.jensen@cnexlabs.com>
-> ---
->   hw/block/nvme.c | 2 +-
->   1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/block/nvme.c b/hw/block/nvme.c
-> index 7caf92532a09..63a5b58849fb 100644
-> --- a/hw/block/nvme.c
-> +++ b/hw/block/nvme.c
-> @@ -238,7 +238,7 @@ static uint16_t nvme_dma_read_prp(NvmeCtrl *n, uint8_t *ptr, uint32_t len,
->           }
->           qemu_sglist_destroy(&qsg);
->       } else {
-> -        if (unlikely(qemu_iovec_to_buf(&iov, 0, ptr, len) != len)) {
-> +        if (unlikely(qemu_iovec_from_buf(&iov, 0, ptr, len) != len)) {
->               trace_nvme_err_invalid_dma();
->               status = NVME_INVALID_FIELD | NVME_DNR;
->           }
-> 
+r~
 
-Reviewed-by: Kenneth Heitke <kenneth.heitke@intel.com>
+
+Richard Henderson (16):
+  tcg/i386: Fix dupi/dupm for avx1 and 32-bit hosts
+  tcg: Fix missing checks and clears in tcg_gen_gvec_dup_mem
+  tcg: Add support for vector bitwise select
+  tcg: Add support for vector compare select
+  tcg: Introduce do_op3_nofail for vector expansion
+  tcg: Expand vector minmax using cmp+cmpsel
+  tcg: Add TCG_OPF_NOT_PRESENT if TCG_TARGET_HAS_foo is negative
+  tcg/i386: Support vector comparison select value
+  tcg/i386: Remove expansion for missing minmax
+  tcg/i386: Use umin/umax in expanding unsigned compare
+  tcg/aarch64: Support vector bitwise select value
+  tcg/aarch64: Split up is_fimm
+  tcg/aarch64: Use MVNI in tcg_out_dupi_vec
+  tcg/aarch64: Build vector immediates with two insns
+  tcg/aarch64: Allow immediates for vector ORR and BIC
+  tcg/i386: Use MOVDQA for TCG_TYPE_V128 load/store
+
+ accel/tcg/tcg-runtime.h      |   2 +
+ tcg/aarch64/tcg-target.h     |   2 +
+ tcg/i386/tcg-target.h        |   2 +
+ tcg/tcg-op-gvec.h            |   7 +
+ tcg/tcg-op.h                 |   5 +
+ tcg/tcg-opc.h                |   5 +-
+ tcg/tcg.h                    |   2 +
+ accel/tcg/tcg-runtime-gvec.c |  14 ++
+ tcg/aarch64/tcg-target.inc.c | 371 ++++++++++++++++++++++++++---------
+ tcg/i386/tcg-target.inc.c    | 169 ++++++++++------
+ tcg/tcg-op-gvec.c            |  71 ++++---
+ tcg/tcg-op-vec.c             | 142 ++++++++++++--
+ tcg/tcg.c                    |   5 +
+ tcg/README                   |  11 ++
+ 14 files changed, 620 insertions(+), 188 deletions(-)
+
+-- 
+2.17.1
+
 
