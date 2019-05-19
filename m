@@ -2,61 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 65D26226F6
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 16:17:11 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49348 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C967422703
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 16:39:19 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49561 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSMcf-0007mz-MO
-	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 10:17:09 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55564)
+	id 1hSMy6-0005JP-Sc
+	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 10:39:18 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58469)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hSMb8-0007B4-6r
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 10:15:35 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hSMw1-0004S7-9L
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 10:37:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hSMb6-00032s-Vr
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 10:15:34 -0400
-Received: from indium.canonical.com ([91.189.90.7]:38508)
+	(envelope-from <richard.henderson@linaro.org>) id 1hSMw0-0007OR-Bs
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 10:37:09 -0400
+Received: from mail-pg1-x52e.google.com ([2607:f8b0:4864:20::52e]:37470)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hSMb6-00032R-QJ
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 10:15:32 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
-	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hSMb4-0004EU-Ed
-	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 14:15:30 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id 656FD2E8050
-	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 14:15:30 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Sun, 19 May 2019 14:06:12 -0000
-From: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hSMw0-0007Ns-3P
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 10:37:08 -0400
+Received: by mail-pg1-x52e.google.com with SMTP id n27so2923205pgm.4
+	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 07:37:07 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=WPUvViTdN8PoJfzSHvNo7aUGAd0OZus5IdnMEt+G1Ek=;
+	b=ihXFl8Q6DseWNHffG3B53955DPtN8Fah/KEHmp4xHiOocbRXT/GndQSIUEszTuq2Si
+	YUfym9qHuJT3wCb0mi20fz/eMYX+HqJuEpOFRuM0jrkmMSz02zPzTZa6dGecZyhcfDEM
+	ShdQjYpC6udC9GU/CHF0Jk+xJu4VKXJXnt5UY1MD8hxKQhLdPWGs9We05GQKawfzEU3K
+	CQspRrPcCwvHSbJUbi93vAZWCF6zz10s7cwiCnI62VbWuPyklNOa2HOD3gycjeXwGqc9
+	Msx/HCCslHlQfI9k//MhAQmFAP3Yax3w1YfFMR5mBt19AlURkhOyXflmysfc6fPFIIFZ
+	mCLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=WPUvViTdN8PoJfzSHvNo7aUGAd0OZus5IdnMEt+G1Ek=;
+	b=gF5R0ORc369xjCLionogu2ap9PTTNuLpgZj81pMEBAc2SdTCU3jcIT8bQK6egewmkq
+	VIJS88fRXrp9nnD9AsYuWRLwevOzMZxFePJBCSYbNa8qvwdap8O5d/okajrIUZNiuMT4
+	1tkPl84pXBe3Kf04+KOAyRKDimDwB5NPiW3dbqAP1BofE1Uc21g/h+F3RNHAG4twesiC
+	6qzRJcqpObgYQ/OCXnR+qnFWwiUfZqwsT0zATtQhhlZYuPUUvYPFymiEWHqwUKQQ2o0j
+	g37fZn7dX+GSxefSHk20lM1HjC70bOlBXFh1WmE2bc9T9BBaxdNRteG9oR3gDl25QvMm
+	gapA==
+X-Gm-Message-State: APjAAAUaVeCe0RzZf0iivu1xrMe7LYoY/n+bi5jEJiE0eV7rl2to3Haf
+	deo9h6JBL5du8AplJe2qHqBm4P6G/wE=
+X-Google-Smtp-Source: APXvYqxp07GvhWzl0m1FvI5DPG9W0TXfFYu2vhAk3XRz34OcY2vqRWfSV983YcUwlRSnohgLRPCj7w==
+X-Received: by 2002:a63:4d56:: with SMTP id n22mr41496786pgl.307.1558276625733;
+	Sun, 19 May 2019 07:37:05 -0700 (PDT)
+Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
+	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
+	184sm18248195pfa.48.2019.05.19.07.37.03
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 19 May 2019 07:37:04 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Tags: ppc64
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ivmn jlsantiago0 mark-cave-ayland
-X-Launchpad-Bug-Reporter: Jose Santiago (jlsantiago0)
-X-Launchpad-Bug-Modifier: Mark Cave-Ayland (mark-cave-ayland)
-References: <155812687142.26079.4364411221525864419.malonedeb@soybean.canonical.com>
-Message-Id: <155827477294.15473.827002672187220632.malone@wampee.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18962";
-	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 03e0d6dd1d5cdb330ccee0a1b845f6647cefc39f
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1829576] Re: QEMU-SYSTEM-PPC64 Regression
- QEMU-4.0.0
+Date: Sun, 19 May 2019 07:37:00 -0700
+Message-Id: <20190519143702.5587-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.17.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::52e
+Subject: [Qemu-devel] [PULL 0/2] target/alpha: Fix user-only floating-point
+ exceptions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,102 +78,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1829576 <1829576@bugs.launchpad.net>
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-David has already queued the patches in his ppc-for-4.1 branch at
-https://github.com/dgibson/qemu/commits/ppc-for-4.1 so they will get
-merged soon. If you're working with git then I'd try testing the queued
-branch first and see if that resolves the issue.
+The following changes since commit 1b46b4daa6fbf45eddcf77877379a0afac341df9:
 
-Once the patches have been applied to master we'll add a CC to the
-stable list so the fixes will be included in the next 4.0 update.
+  Merge remote-tracking branch 'remotes/kraxel/tags/ui-20190517-pull-request' into staging (2019-05-17 17:25:19 +0100)
 
--- =
+are available in the Git repository at:
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1829576
+  https://github.com/rth7680/qemu.git tags/pull-axp-20190519
 
-Title:
-  QEMU-SYSTEM-PPC64 Regression QEMU-4.0.0
+for you to fetch changes up to 21ba856499f9c0ccdc05ed04432df059ae76b337:
 
-Status in QEMU:
-  New
+  target/alpha: Fix user-only floating-point exceptions (2019-05-19 07:30:03 -0700)
 
-Bug description:
-  I have been using QEMU-SYSTEM-PPC64 v3.1.0 to run CentOS7 PPC emulated
-  system. It stopped working when I upgraded to QEMU-4.0.0 . I
-  downgraded back to QEMU-3.1.0 and it started working again. The
-  problem is that my CentOS7 image will not boot up udner QEMU-4.0.0,
-  but works fine under QEMU-3.1.0.
+----------------------------------------------------------------
+Fix https://bugs.launchpad.net/bugs/1701835
 
-  I have an QCOW2 image available at
-  https://www.mediafire.com/file/d8dda05ro85whn1/linux-
-  centos7-ppc64.qcow2/file . NOTE: It is 15GB. Kind of large.
+----------------------------------------------------------------
+Richard Henderson (2):
+      target/alpha: Clean up alpha_cpu_dump_state
+      target/alpha: Fix user-only floating-point exceptions
 
-  I run it as follows:
-
-     qemu-system-ppc64 \
-        -name "CENTOS7-PPC64" \
-        -cpu POWER7 -machine pseries \
-        -m 4096 \
-        -netdev bridge,id=3Dnetbr0,br=3Dbr0 \
-        -device e1000,netdev=3Dnetbr0,mac=3D52:54:3c:13:21:33 \
-        -hda "./linux-centos7-ppc64.qcow2" \
-        -monitor stdio
-
-  HOST: I am using Manjaro Linux on an Intel i7 machine with the QEMU
-  packages installed via the package manager of the distribution.
-
-  [jsantiago@jlsws0 ~]$ uname -a
-  Linux jlsws0.haivision.com 4.19.42-1-MANJARO #1 SMP PREEMPT Fri May 10 20=
-:52:43 UTC 2019 x86_64 GNU/Linux
-
-  jsantiago@jlsws0 ~]$ cpuinfo =
-
-  Intel(R) processor family information utility, Version 2019 Update 3 Buil=
-d 20190214 (id: b645a4a54)
-  Copyright (C) 2005-2019 Intel Corporation.  All rights reserved.
-
-  =3D=3D=3D=3D=3D  Processor composition  =3D=3D=3D=3D=3D
-  Processor name    : Intel(R) Core(TM) i7-6700K  =
-
-  Packages(sockets) : 1
-  Cores             : 4
-  Processors(CPUs)  : 8
-  Cores per package : 4
-  Threads per core  : 2
-
-  =3D=3D=3D=3D=3D  Processor identification  =3D=3D=3D=3D=3D
-  Processor	Thread Id.	Core Id.	Package Id.
-  0       	0   		0   		0   =
-
-  1       	0   		1   		0   =
-
-  2       	0   		2   		0   =
-
-  3       	0   		3   		0   =
-
-  4       	1   		0   		0   =
-
-  5       	1   		1   		0   =
-
-  6       	1   		2   		0   =
-
-  7       	1   		3   		0   =
-
-  =3D=3D=3D=3D=3D  Placement on packages  =3D=3D=3D=3D=3D
-  Package Id.	Core Id.	Processors
-  0   		0,1,2,3		(0,4)(1,5)(2,6)(3,7)
-
-  =3D=3D=3D=3D=3D  Cache sharing  =3D=3D=3D=3D=3D
-  Cache	Size		Processors
-  L1	32  KB		(0,4)(1,5)(2,6)(3,7)
-  L2	256 KB		(0,4)(1,5)(2,6)(3,7)
-  L3	8   MB		(0,1,2,3,4,5,6,7)
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1829576/+subscriptions
+ linux-user/syscall_defs.h |   3 +-
+ target/alpha/cpu.h        |  42 +++++++++++++++++++
+ linux-user/syscall.c      | 104 ++++++++++++++++++++++------------------------
+ target/alpha/fpu_helper.c |  21 ++++++++--
+ target/alpha/helper.c     |  39 ++++++++++++-----
+ 5 files changed, 140 insertions(+), 69 deletions(-)
 
