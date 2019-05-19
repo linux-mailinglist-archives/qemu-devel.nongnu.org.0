@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5D5E4228DD
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 22:50:34 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53264 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0E2EA228E6
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 22:53:43 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53318 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSSlN-0004Ux-Dw
-	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 16:50:33 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50236)
+	id 1hSSoQ-0007EH-5a
+	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 16:53:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50253)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSZ2-0002w0-H5
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:37:50 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSZ4-00032X-Ca
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:37:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSZ1-0003eK-0b
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:37:48 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:34961)
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSZ2-0003gB-JR
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:37:50 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:36050)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hSSZ0-0003d3-PM
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:37:46 -0400
-Received: by mail-pf1-x444.google.com with SMTP id t87so6174984pfa.2
-	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:37:46 -0700 (PDT)
+	id 1hSSZ2-0003fG-4u
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:37:48 -0400
+Received: by mail-pg1-x543.google.com with SMTP id a3so5747808pgb.3
+	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:37:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=7G+hJOBDRTLscZajbGHATg460taQH3Fs6lhNe9/8aV8=;
-	b=ZLv0hkHvVmH6uPLmeGbxpepwZtnAVJ+3cY9c+igY4+aqt97tKh2qUSiPiknzzu8V2T
-	WWJNvbAzkGexTwZpF50G7d8qX97ibfQOkH5wBXWhWfVCr1gApdDEFiWE01ey4NR3qXuD
-	Pfn0ta+knoaKPoEtRuTZMj7gWekCrwGVFXQlKzjErCMEep67iNDve+1PYlzbXi9KIDrd
-	cgnVxvmPKJRu/UOMAKEqaNeiNnpMQIceJrccdddKdcrqpjlfa9bGhs4XUgkzaVRMBgbj
-	d8tMg1FgaeU1PoRXkokoL11EZjXZVEV90pE800FTCCWnqFejL7hWHrowNXI9QbYt9aK2
-	+gpg==
+	bh=oMFlfEqih7Sfj/vQATNw8M06mkjRkntlWcN2dDQKmHc=;
+	b=E0uU6tyHCgCKWSZLU5LvFSsaJUIx03ALgXp7QiGMVHAj1BpnCQzXTldbc4Yiwpni0z
+	q/C3bhJCcxjojQMNzUitgZP04GZ40WsMTQk0h34YvWmnhxdMUUtEroZK/SwP5yBFjGy4
+	jUxItShfEtRrfI85qS7ZW4Ngqn76o+kfCXZh9ovsbaJqrPTskUUZS90j1nyRDMXIpI4L
+	/MfWXEQoYguf160JYIqfRFQt3KGKHuBKtBlM+RAPnFaEsmBBmz6LMM5zb1nQf4Y59iqV
+	FPOSDJvla8r3dtWjftZcDxKneQx0fjgI+vBQd1shL8+R7sr4T9tv3OYG2VdTvmh6Ou4d
+	Txmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=7G+hJOBDRTLscZajbGHATg460taQH3Fs6lhNe9/8aV8=;
-	b=KilZTMJjPCjO+anpKgmeqAD4QOKaV8KCD7gmJ/PHxJubP4wynR8O1sZfTbuMWc09uF
-	AF9c6b3xXzbYcUIYcx9aJkfhVFRp8HM1LCLdWNS6RXy3qh4II+STpGs4rUE89UsXIRu6
-	L2Pe1Ae/ly2MnVogVqU69Ipi53U89PYBOqt7nu4X+VjQLvVxxmXwt/YJMVk+dqxQTiGn
-	EGhn9wVtAuonrLF9Q2bNMRG56XX+cZGqo0uwPUDSZNJfWAalGu+O+IiENYMFjKsppCdc
-	n8w+1MnpyAS09pgnIECI4EtHhsUDlugoBTJR20krMJjD1iU52P3Id9wfiZvaiN/kXkeG
-	DXMw==
-X-Gm-Message-State: APjAAAU02Jgo/xMvVr+E39rBaCDj6o6Ielb+3+FybT1r5dKMu7omS9B7
-	DvWfcNczXeox0iCPxjBkJk/MCJHpEQE=
-X-Google-Smtp-Source: APXvYqzgWGtl/7+ieQdpxG0oNJdCUxcKF+ljLNxJBfvFF5pPa5a0bFu42wn1Xc7rd/V6vedX3+hKig==
-X-Received: by 2002:aa7:99dd:: with SMTP id v29mr77603622pfi.252.1558298264606;
-	Sun, 19 May 2019 13:37:44 -0700 (PDT)
+	bh=oMFlfEqih7Sfj/vQATNw8M06mkjRkntlWcN2dDQKmHc=;
+	b=aMlO17uN7P0W9RtgCEVff1pD6umIYbjOAcJ91TSGSVkUBQvR1lgkHHYzt725QDcVdY
+	qJHSNvmMpLiiftrM6tYIpDxUEyLIvp+B4Nr6V+BRJVrOYkETSHJQv6avJFtwCrdB2Akk
+	hh3G1Scoqr+CV2O5z6ShAv4XoMn/DayusRYoMzwl6rGSAYlXwtnndx1nIOVWGx/VBz1x
+	VI4TGFUjsuR+DBn/WB/DadDM1OSAnaUHpwnLS/KOsFu0/3FcRMfpmUgUJUFT2Ww3z5Br
+	XTKvKqu0ARKePwEDPzVT84JhTrET/wP2ObCPWeCwL3oD18FfqyDWFvT4aO80RR9PT0Zy
+	mJ8A==
+X-Gm-Message-State: APjAAAXwXfLb8ef7s+FEzGMH0WiV6FAKw/ujgzIGO8Tcrhu6GEhYQGOM
+	RoA8fmboFPdV5jNfa1MSQEmojIUJoIM=
+X-Google-Smtp-Source: APXvYqyr+e02ira13sLoyJh80aPmo6OJu1Vv+77fb8YISG2tQ4zcWnMMz0g4QUg5k2FrewCVOaI15Q==
+X-Received: by 2002:a62:1b85:: with SMTP id
+	b127mr47952138pfb.165.1558298265797; 
+	Sun, 19 May 2019 13:37:45 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	i7sm11397448pfo.19.2019.05.19.13.37.43
+	i7sm11397448pfo.19.2019.05.19.13.37.44
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 19 May 2019 13:37:43 -0700 (PDT)
+	Sun, 19 May 2019 13:37:45 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sun, 19 May 2019 13:36:23 -0700
-Message-Id: <20190519203726.20729-12-richard.henderson@linaro.org>
+Date: Sun, 19 May 2019 13:36:24 -0700
+Message-Id: <20190519203726.20729-13-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190519203726.20729-1-richard.henderson@linaro.org>
 References: <20190519203726.20729-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::444
-Subject: [Qemu-devel] [PATCH v7 11/74] linux-user: Split out preadv, pwritev
+X-Received-From: 2607:f8b0:4864:20::543
+Subject: [Qemu-devel] [PATCH v7 12/74] linux-user: Split out
+ name_to_handle_at, open_by_handle_at
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -79,196 +81,344 @@ Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+All targets have these syscalls, so they need not be ifdefed.
+If we provide safe syscalls for the host, we can remove the
+configure test for this too.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/syscall-defs.h     |  6 ++++
- linux-user/syscall-file.inc.c | 64 +++++++++++++++++++++++++++++++++++
- linux-user/syscall.c          | 49 ---------------------------
- linux-user/strace.list        |  6 ----
- 4 files changed, 70 insertions(+), 55 deletions(-)
+ linux-user/syscall-defs.h     |   3 +
+ linux-user/syscall.h          |   1 +
+ linux-user/strace.c           |   5 +-
+ linux-user/syscall-file.inc.c |  81 +++++++++++++++++++++++++++
+ linux-user/syscall.c          | 102 ++--------------------------------
+ configure                     |  20 -------
+ linux-user/strace.list        |   3 -
+ 7 files changed, 93 insertions(+), 122 deletions(-)
 
 diff --git a/linux-user/syscall-defs.h b/linux-user/syscall-defs.h
-index 027793d5d0..ae89be0e87 100644
+index ae89be0e87..1fc89c1b08 100644
 --- a/linux-user/syscall-defs.h
 +++ b/linux-user/syscall-defs.h
-@@ -27,6 +27,12 @@ SYSCALL_DEF_FULL(pread64, .impl = impl_pread64,
- SYSCALL_DEF_FULL(pwrite64, .impl = impl_pwrite64,
+@@ -17,10 +17,13 @@
+  */
+ 
+ SYSCALL_DEF(close, ARG_DEC);
++SYSCALL_DEF(name_to_handle_at,
++            ARG_ATDIRFD, ARG_STR, ARG_PTR, ARG_PTR, ARG_ATFLAG);
+ #ifdef TARGET_NR_open
+ SYSCALL_DEF(open, ARG_STR, ARG_OPENFLAG, ARG_MODEFLAG);
+ #endif
+ SYSCALL_DEF(openat, ARG_ATDIRFD, ARG_STR, ARG_OPENFLAG, ARG_MODEFLAG);
++SYSCALL_DEF(open_by_handle_at, ARG_DEC, ARG_PTR, ARG_OPENFLAG);
+ SYSCALL_DEF_FULL(pread64, .impl = impl_pread64,
                   .args = args_pread64_pwrite64,
                   .arg_type = { ARG_DEC, ARG_PTR, ARG_DEC, ARG_DEC64 });
-+SYSCALL_DEF_FULL(preadv, .impl = impl_preadv,
-+                 .args = args_preadv_pwritev,
-+                 .arg_type = { ARG_DEC, ARG_PTR, ARG_DEC, ARG_DEC64 });
-+SYSCALL_DEF_FULL(pwritev, .impl = impl_pwritev,
-+                 .args = args_preadv_pwritev,
-+                 .arg_type = { ARG_DEC, ARG_PTR, ARG_DEC, ARG_DEC64 });
- SYSCALL_DEF(read, ARG_DEC, ARG_PTR, ARG_DEC);
- #ifdef TARGET_NR_readlink
- SYSCALL_DEF(readlink, ARG_STR, ARG_PTR, ARG_DEC);
+diff --git a/linux-user/syscall.h b/linux-user/syscall.h
+index 43b5dc0684..83f602f8e7 100644
+--- a/linux-user/syscall.h
++++ b/linux-user/syscall.h
+@@ -57,6 +57,7 @@ typedef enum {
+ 
+     /* These print as sets of flags.  */
+     ARG_ATDIRFD,
++    ARG_ATFLAG,
+     ARG_MODEFLAG,
+     ARG_OPENFLAG,
+ 
+diff --git a/linux-user/strace.c b/linux-user/strace.c
+index 2f1c7e537f..e92b2c298e 100644
+--- a/linux-user/strace.c
++++ b/linux-user/strace.c
+@@ -780,7 +780,7 @@ UNUSED static struct flags access_flags[] = {
+     FLAG_END,
+ };
+ 
+-UNUSED static struct flags at_file_flags[] = {
++static struct flags const at_file_flags[] = {
+ #ifdef AT_EACCESS
+     FLAG_GENERIC(AT_EACCESS),
+ #endif
+@@ -2693,6 +2693,9 @@ static void print_syscall_def1(const SyscallDef *def, int64_t args[6])
+         case ARG_ATDIRFD:
+             len = add_atdirfd(b, rest, arg);
+             break;
++        case ARG_ATFLAG:
++            len = add_flags(b, rest, at_file_flags, arg, false);
++            break;
+         case ARG_MODEFLAG:
+             len = add_flags(b, rest, mode_flags, arg, true);
+             break;
 diff --git a/linux-user/syscall-file.inc.c b/linux-user/syscall-file.inc.c
-index 43aa6eeeb8..61cfe2acb7 100644
+index 61cfe2acb7..dd44d5b804 100644
 --- a/linux-user/syscall-file.inc.c
 +++ b/linux-user/syscall-file.inc.c
-@@ -385,6 +385,70 @@ SYSCALL_IMPL(pwrite64)
-     return ret;
+@@ -323,6 +323,87 @@ SYSCALL_IMPL(openat)
+     return do_openat(cpu_env, arg1, arg2, arg3, arg4);
  }
  
-+/*
-+ * Both preadv and pwritev merge args 4/5 into a 64-bit offset.
-+ * Moreover, the parts are *always* in little-endian order.
-+ */
-+#if TARGET_ABI_BITS == 32
-+SYSCALL_ARGS(preadv_pwritev)
++SYSCALL_IMPL(name_to_handle_at)
 +{
-+    /* We have already assigned out[0-2].  */
-+    abi_ulong lo = in[3], hi = in[4];
-+    out[3] = (((uint64_t)hi << (TARGET_ABI_BITS - 1)) << 1) | lo;
-+    return def;
-+}
-+#else
-+#define args_preadv_pwritev NULL
-+#endif
-+
-+/* Perform the inverse operation for the host.  */
-+static inline void host_offset64_low_high(unsigned long *l, unsigned long *h,
-+                                          uint64_t off)
-+{
-+    *l = off;
-+    *h = (off >> (HOST_LONG_BITS - 1)) >> 1;
-+}
-+
-+SYSCALL_IMPL(preadv)
-+{
-+    int fd = arg1;
-+    abi_ulong target_vec = arg2;
-+    int count = arg3;
-+    uint64_t off = arg4;
-+    struct iovec *vec = lock_iovec(VERIFY_WRITE, target_vec, count, 0);
-+    unsigned long lo, hi;
++    struct file_handle *target_fh;
++    struct file_handle *fh;
++    int mid = 0;
 +    abi_long ret;
++    char *name;
++    uint32_t size, total_size;
 +
-+    if (vec == NULL) {
++    if (get_user_s32(size, arg3)) {
++        return -TARGET_EFAULT;
++    }
++    total_size = sizeof(struct file_handle) + size;
++    target_fh = lock_user(VERIFY_WRITE, arg3, total_size, 0);
++    if (!target_fh) {
 +        return -TARGET_EFAULT;
 +    }
 +
-+    host_offset64_low_high(&lo, &hi, off);
-+    ret = get_errno(safe_preadv(fd, vec, count, lo, hi));
-+    unlock_iovec(vec, target_vec, count, 1);
-+    return ret;
-+}
-+
-+SYSCALL_IMPL(pwritev)
-+{
-+    int fd = arg1;
-+    abi_ulong target_vec = arg2;
-+    int count = arg3;
-+    uint64_t off = arg4;
-+    struct iovec *vec = lock_iovec(VERIFY_READ, target_vec, count, 1);
-+    unsigned long lo, hi;
-+    abi_long ret;
-+
-+    if (vec == NULL) {
++    name = lock_user_string(arg2);
++    if (!name) {
++        unlock_user(target_fh, arg3, 0);
 +        return -TARGET_EFAULT;
 +    }
 +
-+    host_offset64_low_high(&lo, &hi, off);
-+    ret = get_errno(safe_pwritev(fd, vec, count, lo, hi));
-+    unlock_iovec(vec, target_vec, count, 0);
++    fh = g_malloc0(total_size);
++    fh->handle_bytes = size;
++
++    ret = get_errno(safe_name_to_handle_at(arg1, path(name), fh, &mid, arg5));
++    unlock_user(name, arg2, 0);
++
++    /*
++     * man name_to_handle_at(2):
++     * Other than the use of the handle_bytes field, the caller should treat
++     * the file_handle structure as an opaque data type
++     */
++    if (!is_error(ret)) {
++        memcpy(target_fh, fh, total_size);
++        target_fh->handle_bytes = tswap32(fh->handle_bytes);
++        target_fh->handle_type = tswap32(fh->handle_type);
++        g_free(fh);
++        unlock_user(target_fh, arg3, total_size);
++
++        if (put_user_s32(mid, arg4)) {
++            return -TARGET_EFAULT;
++        }
++    }
 +    return ret;
 +}
 +
- SYSCALL_IMPL(read)
- {
-     int fd = arg1;
++SYSCALL_IMPL(open_by_handle_at)
++{
++    abi_long mount_fd = arg1;
++    abi_long handle = arg2;
++    int host_flags = target_to_host_bitmask(arg3, fcntl_flags_tbl);
++    struct file_handle *target_fh;
++    struct file_handle *fh;
++    unsigned int size, total_size;
++    abi_long ret;
++
++    if (get_user_s32(size, handle)) {
++        return -TARGET_EFAULT;
++    }
++    total_size = sizeof(struct file_handle) + size;
++    target_fh = lock_user(VERIFY_READ, handle, total_size, 1);
++    if (!target_fh) {
++        return -TARGET_EFAULT;
++    }
++
++    fh = g_memdup(target_fh, total_size);
++    fh->handle_bytes = size;
++    fh->handle_type = tswap32(target_fh->handle_type);
++
++    ret = get_errno(safe_open_by_handle_at(mount_fd, fh, host_flags));
++
++    g_free(fh);
++    unlock_user(target_fh, handle, total_size);
++
++    fd_trans_unregister(ret);
++    return ret;
++}
++
+ /*
+  * Both pread64 and pwrite64 merge args into a 64-bit offset,
+  * but the input registers and ordering are target specific.
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index f636fb8bb3..817c4a7296 100644
+index 817c4a7296..c49f8aebd2 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -2437,23 +2437,6 @@ static abi_long do_getsockopt(int sockfd, int level, int optname,
-     return ret;
+@@ -806,6 +806,10 @@ safe_syscall5(int, mq_timedsend, int, mqdes, const char *, msg_ptr,
+ safe_syscall5(int, mq_timedreceive, int, mqdes, char *, msg_ptr,
+               size_t, len, unsigned *, prio, const struct timespec *, timeout)
+ #endif
++safe_syscall5(int, name_to_handle_at, int, dirfd, const char *, pathname,
++              struct file_handle *, handle, int *, mount_id, int, flags)
++safe_syscall3(int, open_by_handle_at, int, mount_fd,
++              struct file_handle *, handle, int, flags)
+ /* We do ioctl like this rather than via safe_syscall3 to preserve the
+  * "third argument might be integer or pointer or not present" behaviour of
+  * the libc function.
+@@ -6479,93 +6483,6 @@ static int do_futex(target_ulong uaddr, int op, int val, target_ulong timeout,
+         return -TARGET_ENOSYS;
+     }
  }
- 
--/* Convert target low/high pair representing file offset into the host
-- * low/high pair. This function doesn't handle offsets bigger than 64 bits
-- * as the kernel doesn't handle them either.
-- */
--static void target_to_host_low_high(abi_ulong tlow,
--                                    abi_ulong thigh,
--                                    unsigned long *hlow,
--                                    unsigned long *hhigh)
+-#if defined(TARGET_NR_name_to_handle_at) && defined(CONFIG_OPEN_BY_HANDLE)
+-static abi_long do_name_to_handle_at(abi_long dirfd, abi_long pathname,
+-                                     abi_long handle, abi_long mount_id,
+-                                     abi_long flags)
 -{
--    uint64_t off = tlow |
--        ((unsigned long long)thigh << TARGET_LONG_BITS / 2) <<
--        TARGET_LONG_BITS / 2;
+-    struct file_handle *target_fh;
+-    struct file_handle *fh;
+-    int mid = 0;
+-    abi_long ret;
+-    char *name;
+-    unsigned int size, total_size;
 -
--    *hlow = off;
--    *hhigh = (off >> HOST_LONG_BITS / 2) >> HOST_LONG_BITS / 2;
+-    if (get_user_s32(size, handle)) {
+-        return -TARGET_EFAULT;
+-    }
+-
+-    name = lock_user_string(pathname);
+-    if (!name) {
+-        return -TARGET_EFAULT;
+-    }
+-
+-    total_size = sizeof(struct file_handle) + size;
+-    target_fh = lock_user(VERIFY_WRITE, handle, total_size, 0);
+-    if (!target_fh) {
+-        unlock_user(name, pathname, 0);
+-        return -TARGET_EFAULT;
+-    }
+-
+-    fh = g_malloc0(total_size);
+-    fh->handle_bytes = size;
+-
+-    ret = get_errno(name_to_handle_at(dirfd, path(name), fh, &mid, flags));
+-    unlock_user(name, pathname, 0);
+-
+-    /* man name_to_handle_at(2):
+-     * Other than the use of the handle_bytes field, the caller should treat
+-     * the file_handle structure as an opaque data type
+-     */
+-
+-    memcpy(target_fh, fh, total_size);
+-    target_fh->handle_bytes = tswap32(fh->handle_bytes);
+-    target_fh->handle_type = tswap32(fh->handle_type);
+-    g_free(fh);
+-    unlock_user(target_fh, handle, total_size);
+-
+-    if (put_user_s32(mid, mount_id)) {
+-        return -TARGET_EFAULT;
+-    }
+-
+-    return ret;
+-
 -}
+-#endif
 -
- static struct iovec *lock_iovec(int type, abi_ulong target_addr,
-                                 abi_ulong count, int copy)
- {
-@@ -9005,38 +8988,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-         /* NOTE: the flock constant seems to be the same for every
-            Linux platform */
-         return get_errno(safe_flock(arg1, arg2));
--#if defined(TARGET_NR_preadv)
--    case TARGET_NR_preadv:
--        {
--            struct iovec *vec = lock_iovec(VERIFY_WRITE, arg2, arg3, 0);
--            if (vec != NULL) {
--                unsigned long low, high;
+-#if defined(TARGET_NR_open_by_handle_at) && defined(CONFIG_OPEN_BY_HANDLE)
+-static abi_long do_open_by_handle_at(abi_long mount_fd, abi_long handle,
+-                                     abi_long flags)
+-{
+-    struct file_handle *target_fh;
+-    struct file_handle *fh;
+-    unsigned int size, total_size;
+-    abi_long ret;
 -
--                target_to_host_low_high(arg4, arg5, &low, &high);
--                ret = get_errno(safe_preadv(arg1, vec, arg3, low, high));
--                unlock_iovec(vec, arg2, arg3, 1);
--            } else {
--                ret = -host_to_target_errno(errno);
--           }
--        }
+-    if (get_user_s32(size, handle)) {
+-        return -TARGET_EFAULT;
+-    }
+-
+-    total_size = sizeof(struct file_handle) + size;
+-    target_fh = lock_user(VERIFY_READ, handle, total_size, 1);
+-    if (!target_fh) {
+-        return -TARGET_EFAULT;
+-    }
+-
+-    fh = g_memdup(target_fh, total_size);
+-    fh->handle_bytes = size;
+-    fh->handle_type = tswap32(target_fh->handle_type);
+-
+-    ret = get_errno(open_by_handle_at(mount_fd, fh,
+-                    target_to_host_bitmask(flags, fcntl_flags_tbl)));
+-
+-    g_free(fh);
+-
+-    unlock_user(target_fh, handle, total_size);
+-
+-    return ret;
+-}
+-#endif
+ 
+ #if defined(TARGET_NR_signalfd) || defined(TARGET_NR_signalfd4)
+ 
+@@ -6761,17 +6678,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+         preexit_cleanup(cpu_env, arg1);
+         _exit(arg1);
+         return 0; /* avoid warning */
+-#if defined(TARGET_NR_name_to_handle_at) && defined(CONFIG_OPEN_BY_HANDLE)
+-    case TARGET_NR_name_to_handle_at:
+-        ret = do_name_to_handle_at(arg1, arg2, arg3, arg4, arg5);
 -        return ret;
 -#endif
--#if defined(TARGET_NR_pwritev)
--    case TARGET_NR_pwritev:
--        {
--            struct iovec *vec = lock_iovec(VERIFY_READ, arg2, arg3, 1);
--            if (vec != NULL) {
--                unsigned long low, high;
--
--                target_to_host_low_high(arg4, arg5, &low, &high);
--                ret = get_errno(safe_pwritev(arg1, vec, arg3, low, high));
--                unlock_iovec(vec, arg2, arg3, 0);
--            } else {
--                ret = -host_to_target_errno(errno);
--           }
--        }
+-#if defined(TARGET_NR_open_by_handle_at) && defined(CONFIG_OPEN_BY_HANDLE)
+-    case TARGET_NR_open_by_handle_at:
+-        ret = do_open_by_handle_at(arg1, arg2, arg3);
+-        fd_trans_unregister(ret);
 -        return ret;
 -#endif
-     case TARGET_NR_getsid:
-         return get_errno(getsid(arg1));
- #if defined(TARGET_NR_fdatasync) /* Not on alpha (osf_datasync ?) */
+     case TARGET_NR_brk:
+         return do_brk(arg1);
+ #ifdef TARGET_NR_fork
+diff --git a/configure b/configure
+index d2fc346302..6573fcefcb 100755
+--- a/configure
++++ b/configure
+@@ -5243,22 +5243,6 @@ if test "$debug_stack_usage" = "yes"; then
+ fi
+ 
+ 
+-##########################################
+-# check if we have open_by_handle_at
+-
+-open_by_handle_at=no
+-cat > $TMPC << EOF
+-#include <fcntl.h>
+-#if !defined(AT_EMPTY_PATH)
+-# error missing definition
+-#else
+-int main(void) { struct file_handle fh; return open_by_handle_at(0, &fh, 0); }
+-#endif
+-EOF
+-if compile_prog "" "" ; then
+-    open_by_handle_at=yes
+-fi
+-
+ ########################################
+ # check if we have linux/magic.h
+ 
+@@ -7012,10 +6996,6 @@ if test "$crypto_afalg" = "yes" ; then
+   echo "CONFIG_AF_ALG=y" >> $config_host_mak
+ fi
+ 
+-if test "$open_by_handle_at" = "yes" ; then
+-  echo "CONFIG_OPEN_BY_HANDLE=y" >> $config_host_mak
+-fi
+-
+ if test "$linux_magic_h" = "yes" ; then
+   echo "CONFIG_LINUX_MAGIC_H=y" >> $config_host_mak
+ fi
 diff --git a/linux-user/strace.list b/linux-user/strace.list
-index a11ad3c3c7..f326613934 100644
+index f326613934..bf239cb9a3 100644
 --- a/linux-user/strace.list
 +++ b/linux-user/strace.list
-@@ -1025,9 +1025,6 @@
- #ifdef TARGET_NR_prctl
- { TARGET_NR_prctl, "prctl" , NULL, NULL, NULL },
+@@ -635,9 +635,6 @@
+ #ifdef TARGET_NR_munmap
+ { TARGET_NR_munmap, "munmap" , NULL, print_munmap, NULL },
  #endif
--#ifdef TARGET_NR_preadv
--{ TARGET_NR_preadv, "preadv" , NULL, NULL, NULL },
+-#ifdef TARGET_NR_name_to_handle_at
+-{ TARGET_NR_name_to_handle_at, "name_to_handle_at" , NULL, NULL, NULL },
 -#endif
- #ifdef TARGET_NR_prlimit64
- { TARGET_NR_prlimit64, "prlimit64" , NULL, NULL, NULL },
- #endif
-@@ -1052,9 +1049,6 @@
- #ifdef TARGET_NR_putpmsg
- { TARGET_NR_putpmsg, "putpmsg" , NULL, NULL, NULL },
- #endif
--#ifdef TARGET_NR_pwritev
--{ TARGET_NR_pwritev, "pwritev" , NULL, NULL, NULL },
--#endif
- #ifdef TARGET_NR_query_module
- { TARGET_NR_query_module, "query_module" , NULL, NULL, NULL },
+ #ifdef TARGET_NR_nanosleep
+ { TARGET_NR_nanosleep, "nanosleep" , NULL, NULL, NULL },
  #endif
 -- 
 2.17.1
