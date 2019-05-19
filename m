@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12C9622902
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 23:09:32 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53548 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C7403228FC
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 23:05:45 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53485 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hST3j-0004HU-6m
-	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 17:09:31 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50486)
+	id 1hST04-0000d1-V5
+	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 17:05:44 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50501)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSZK-0003Pi-Ip
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:07 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSZL-0003TC-WA
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSZJ-00041B-Dh
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:06 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:34264)
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSZK-00042Z-P9
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:07 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:44491)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hSSZJ-00040H-76
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:05 -0400
-Received: by mail-pf1-x444.google.com with SMTP id n19so6182715pfa.1
-	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:38:05 -0700 (PDT)
+	id 1hSSZK-00041r-J9
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:06 -0400
+Received: by mail-pf1-x444.google.com with SMTP id g9so6148914pfo.11
+	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:38:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=D7GWj/lXqLo0o5VRDqbo6Uitm8MC1Kjd/6DUhBjIuPo=;
-	b=TZDbAixztVBkqw7lKtMXBgrdRBWHWKYzgjNlobC63Oyqzic4+0AFnhNHmPqTg0KqVp
-	tAhqpbYNlYIuYy+dkurt+px0Z9k5E9Dye+MomeyFA3GZLE8W1Rs4gy+a02aldCXc7oRe
-	hwTsgckJAro6rmOLrFYRSm6+pdwbNafgu0hmn8VuqXFFJKXLqffUNfT6tJ/YhGFWrKrR
-	faLcJM4auzgxvMTSUken3DqYxhMLgwlcU21+PRB8VAyImXQGG5G8SxK9cP3jClrLogD+
-	ESJopDhEHrIykxXwmLjjM5j9gK35EeESvDhLcv+BuK6bEuiRJGlE8Q0XSM4NAh+5cg7Y
-	iTDw==
+	bh=fRvp/VN2Xlfqmt4nKVHNXMxYTCjiSrkuQdi+a73ymGo=;
+	b=saXIpHPF2AKzen0wYa8bg8Wg7/NPOHshxt0TUVYcXLf1To1FkBuGZ6HTgamFMDGvci
+	PQfF4jY9aPDPL0kHQQmMpl2PVOM7GzNd6zFE9UZbU39JGbvey/AcgVIJhKP9+gMqZiLJ
+	XeR3QA4lXotuv92ui6yEKoYuXScDTKgClGo/V+TzRLUeRXAAte/l6PLTr8koly2Mf5vf
+	3/3xZmzyZWc4n42ET7VZrW/2tUs25C6ereWlDFq9Bg8c+JMKGfRtt4wm/3EI+0ijuetT
+	ETL632AGiMr0Nadu52EBg87eLH3cfmjH4431/z3/8dQGB9LCQSKVx6AEpIDpWIp05yUI
+	b4+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=D7GWj/lXqLo0o5VRDqbo6Uitm8MC1Kjd/6DUhBjIuPo=;
-	b=MY189kc+NencyN0i6fCyOgHXA34PSKkVO4nv0dWRllwcG80ynSCyWf50RLuEvDk3cG
-	l38IE/5cRGgj7myanzPIFlw41BWmiIe3HaPbiUZzDt5WkqYklFkzFPKkl+0raLSQHUJw
-	ZhvJyR/9GiSMzWRuQoJkML6+lsE2kqN5XXKAFG+O/TtS1iW5SC+TdOxR92ljBXT2G0ym
-	Zoe7cqMqp4L5X/6FLIBx1976Ndr1o1qa8NWDIe9EpOy1/TkrQMc+9nN/xoAJvc917ez2
-	0VyV+2DD2kCsyT5GcJH5SHU50L0A0ChSMFQXyaaoG8WdLaB4qiHgIK45h7eeiLiCaH1I
-	yxOg==
-X-Gm-Message-State: APjAAAUhZDQB84bymJOie0ciC+j+xXXyDCaxDo8VJiECCD36JfkK5qEh
-	sz0MnmwHCUcPQ1a6duUPKJn4jveYPmY=
-X-Google-Smtp-Source: APXvYqwg3BdZH0jgOk0ACbjlldPECE0nfwJjiHU3eBzT5hdMCQNlRSCQZ24fS/q6XOlPkduwHuQmnw==
-X-Received: by 2002:aa7:951c:: with SMTP id b28mr57475214pfp.99.1558298283888; 
-	Sun, 19 May 2019 13:38:03 -0700 (PDT)
+	bh=fRvp/VN2Xlfqmt4nKVHNXMxYTCjiSrkuQdi+a73ymGo=;
+	b=Xif5altTVZ9E5QcvKpeKpXo9JluiBYe63tLvbYVJtvpBmyZZfMX2oTtyFEGmVrFaRm
+	ITL0mjiygw0CXifXsltZHK9K7GnNaSP4/JJq7CJ4UIJcH1clgh4/Ozhh/mKtjY2AUTwX
+	nq/SsovkWC+0TuvgbsJDfcC0htYIfHb66PL4JaVSS5GwtberqAzgXCEqvW8mImljTmYy
+	M46fgEL6tahyR7aHxaR34Ml4iWwCjjv2DqzrIBdRFtp0dCJM/qmFGUcDXBTSz274ClWv
+	bHagwlTKvfAr2tM8/Df+UUn7NZQN0gTSrsg65Zopmepj5NRsaMJSM5bY0nxXAPWnihrN
+	qw6g==
+X-Gm-Message-State: APjAAAUDfgM46Y+gBbY0O21Vuby7Zp6T/icyHVjxyLs6OmDHX+Xhwe8e
+	LLl2Xs15z6H0sVr8QRqX6XnRCzUrptE=
+X-Google-Smtp-Source: APXvYqze9d3JDpIbdy1mVHJfyB6DxyobkyOky0PKiqLL5/pwoL9MzPY9zPyYGDsj2cqZSZ4GGQF5MA==
+X-Received: by 2002:a62:38cc:: with SMTP id f195mr76083842pfa.15.1558298285319;
+	Sun, 19 May 2019 13:38:05 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	i7sm11397448pfo.19.2019.05.19.13.38.02
+	i7sm11397448pfo.19.2019.05.19.13.38.03
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 19 May 2019 13:38:03 -0700 (PDT)
+	Sun, 19 May 2019 13:38:04 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sun, 19 May 2019 13:36:38 -0700
-Message-Id: <20190519203726.20729-27-richard.henderson@linaro.org>
+Date: Sun, 19 May 2019 13:36:39 -0700
+Message-Id: <20190519203726.20729-28-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190519203726.20729-1-richard.henderson@linaro.org>
 References: <20190519203726.20729-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
 X-Received-From: 2607:f8b0:4864:20::444
-Subject: [Qemu-devel] [PATCH v7 26/74] linux-user: Split out time
+Subject: [Qemu-devel] [PATCH v7 27/74] linux-user: Split out mknod, mknodat
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -79,111 +79,162 @@ Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Note that mknodat is universally provided.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/syscall-defs.h     |  3 +++
- linux-user/syscall-time.inc.c | 32 ++++++++++++++++++++++++++++++++
- linux-user/syscall.c          | 13 +------------
- linux-user/strace.list        |  3 ---
- 4 files changed, 36 insertions(+), 15 deletions(-)
- create mode 100644 linux-user/syscall-time.inc.c
+ linux-user/syscall-defs.h     |  4 ++++
+ linux-user/strace.c           | 39 -----------------------------------
+ linux-user/syscall-file.inc.c | 26 +++++++++++++++++++++++
+ linux-user/syscall.c          | 16 --------------
+ linux-user/strace.list        |  6 ------
+ 5 files changed, 30 insertions(+), 61 deletions(-)
 
 diff --git a/linux-user/syscall-defs.h b/linux-user/syscall-defs.h
-index 3fad9d51f0..9950b73e76 100644
+index 9950b73e76..b5951e6911 100644
 --- a/linux-user/syscall-defs.h
 +++ b/linux-user/syscall-defs.h
-@@ -127,6 +127,9 @@ SYSCALL_DEF(shmdt, ARG_PTR);
- #if !defined(SYSCALL_TABLE) || defined(TARGET_NR_shmget)
- SYSCALL_DEF(shmget, ARG_DEC, ARG_DEC, ARG_HEX);
+@@ -38,6 +38,10 @@ SYSCALL_DEF_ARGS(ipc, ARG_HEX, ARG_DEC, ARG_DEC, ARG_HEX, ARG_PTR, ARG_HEX);
+ SYSCALL_DEF(link, ARG_STR, ARG_STR);
  #endif
-+#ifdef TARGET_NR_time
-+SYSCALL_DEF(time, ARG_PTR);
+ SYSCALL_DEF(linkat, ARG_ATDIRFD, ARG_STR, ARG_ATDIRFD, ARG_STR, ARG_ATFLAG);
++#ifdef TARGET_NR_mknod
++SYSCALL_DEF(mknod, ARG_STR, ARG_MODEFLAG, ARG_HEX);
 +#endif
- #ifdef TARGET_NR_unlink
- SYSCALL_DEF(unlink, ARG_STR);
++SYSCALL_DEF(mknodat, ARG_ATDIRFD, ARG_STR, ARG_MODEFLAG, ARG_HEX);
+ SYSCALL_DEF(mlock, ARG_PTR, ARG_DEC);
+ SYSCALL_DEF(mlockall, ARG_HEX);
+ #ifdef TARGET_NR_mmap
+diff --git a/linux-user/strace.c b/linux-user/strace.c
+index b234274034..c70c06d965 100644
+--- a/linux-user/strace.c
++++ b/linux-user/strace.c
+@@ -1923,45 +1923,6 @@ print_syslog(const struct syscallname *name,
+ }
  #endif
-diff --git a/linux-user/syscall-time.inc.c b/linux-user/syscall-time.inc.c
-new file mode 100644
-index 0000000000..14fec88e47
---- /dev/null
-+++ b/linux-user/syscall-time.inc.c
-@@ -0,0 +1,32 @@
-+/*
-+ *  Linux time related syscalls
-+ *  Copyright (c) 2003 Fabrice Bellard
-+ *
-+ *  This program is free software; you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation; either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#ifdef TARGET_NR_time
-+SYSCALL_IMPL(time)
+ 
+-#ifdef TARGET_NR_mknod
+-static void
+-print_mknod(const struct syscallname *name,
+-    abi_long arg0, abi_long arg1, abi_long arg2,
+-    abi_long arg3, abi_long arg4, abi_long arg5)
+-{
+-    int hasdev = (arg1 & (S_IFCHR|S_IFBLK));
+-
+-    print_syscall_prologue(name);
+-    print_string(arg0, 0);
+-    print_file_mode(arg1, (hasdev == 0));
+-    if (hasdev) {
+-        print_raw_param("makedev(%d", major(arg2), 0);
+-        print_raw_param("%d)", minor(arg2), 1);
+-    }
+-    print_syscall_epilogue(name);
+-}
+-#endif
+-
+-#ifdef TARGET_NR_mknodat
+-static void
+-print_mknodat(const struct syscallname *name,
+-    abi_long arg0, abi_long arg1, abi_long arg2,
+-    abi_long arg3, abi_long arg4, abi_long arg5)
+-{
+-    int hasdev = (arg2 & (S_IFCHR|S_IFBLK));
+-
+-    print_syscall_prologue(name);
+-    print_at_dirfd(arg0, 0);
+-    print_string(arg1, 0);
+-    print_file_mode(arg2, (hasdev == 0));
+-    if (hasdev) {
+-        print_raw_param("makedev(%d", major(arg3), 0);
+-        print_raw_param("%d)", minor(arg3), 1);
+-    }
+-    print_syscall_epilogue(name);
+-}
+-#endif
+-
+ #ifdef TARGET_NR_mq_open
+ static void
+ print_mq_open(const struct syscallname *name,
+diff --git a/linux-user/syscall-file.inc.c b/linux-user/syscall-file.inc.c
+index 76637fe71b..3adb629124 100644
+--- a/linux-user/syscall-file.inc.c
++++ b/linux-user/syscall-file.inc.c
+@@ -82,6 +82,32 @@ SYSCALL_IMPL(linkat)
+     return do_linkat(arg1, arg2, arg3, arg4, arg5);
+ }
+ 
++static abi_long do_mknodat(int dirfd, abi_ulong target_path,
++                           mode_t mode, dev_t dev)
 +{
-+    time_t host_time;
-+    abi_long ret = get_errno(time(&host_time));
++    char *p = lock_user_string(target_path);
++    abi_long ret;
 +
-+    if (!is_error(ret)
-+        && arg1
-+        && put_user_sal(host_time, arg1)) {
++    if (!p) {
 +        return -TARGET_EFAULT;
 +    }
++    ret = get_errno(mknodat(dirfd, p, mode, dev));
++    unlock_user(p, target_path, 0);
 +    return ret;
 +}
++
++#ifdef TARGET_NR_mknod
++SYSCALL_IMPL(mknod)
++{
++    return do_mknodat(AT_FDCWD, arg1, arg2, arg3);
++}
 +#endif
++
++SYSCALL_IMPL(mknodat)
++{
++    return do_mknodat(arg1, arg2, arg3, arg4);
++}
++
+ /*
+  * Helpers for do_openat, manipulating /proc/self/foo.
+  */
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 0bf5901014..ea89734706 100644
+index ea89734706..18163f558c 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -5384,18 +5384,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+@@ -5384,22 +5384,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
      void *p;
  
      switch(num) {
--#ifdef TARGET_NR_time
--    case TARGET_NR_time:
--        {
--            time_t host_time;
--            ret = get_errno(time(&host_time));
--            if (!is_error(ret)
--                && arg1
--                && put_user_sal(host_time, arg1))
--                return -TARGET_EFAULT;
--        }
+-#ifdef TARGET_NR_mknod
+-    case TARGET_NR_mknod:
+-        if (!(p = lock_user_string(arg1)))
+-            return -TARGET_EFAULT;
+-        ret = get_errno(mknod(p, arg2, arg3));
+-        unlock_user(p, arg1, 0);
 -        return ret;
 -#endif
- #ifdef TARGET_NR_mknod
-     case TARGET_NR_mknod:
+-#if defined(TARGET_NR_mknodat)
+-    case TARGET_NR_mknodat:
+-        if (!(p = lock_user_string(arg2)))
+-            return -TARGET_EFAULT;
+-        ret = get_errno(mknodat(arg1, p, arg3, arg4));
+-        unlock_user(p, arg2, 0);
+-        return ret;
+-#endif
+ #ifdef TARGET_NR_chmod
+     case TARGET_NR_chmod:
          if (!(p = lock_user_string(arg1)))
-@@ -9392,6 +9380,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
- #include "syscall-ipc.inc.c"
- #include "syscall-mem.inc.c"
- #include "syscall-proc.inc.c"
-+#include "syscall-time.inc.c"
- 
- #undef SYSCALL_IMPL
- #undef SYSCALL_ARGS
 diff --git a/linux-user/strace.list b/linux-user/strace.list
-index 3f79159b63..95706a696b 100644
+index 95706a696b..f56d9acf76 100644
 --- a/linux-user/strace.list
 +++ b/linux-user/strace.list
-@@ -1350,9 +1350,6 @@
- #ifdef TARGET_NR_tgkill
- { TARGET_NR_tgkill, "tgkill" , NULL, print_tgkill, NULL },
+@@ -518,12 +518,6 @@
+ #ifdef TARGET_NR_mkdirat
+ { TARGET_NR_mkdirat, "mkdirat" , NULL, print_mkdirat, NULL },
  #endif
--#ifdef TARGET_NR_time
--{ TARGET_NR_time, "time" , NULL, NULL, NULL },
+-#ifdef TARGET_NR_mknod
+-{ TARGET_NR_mknod, "mknod" , NULL, print_mknod, NULL },
 -#endif
- #ifdef TARGET_NR_timer_create
- { TARGET_NR_timer_create, "timer_create" , NULL, NULL, NULL },
+-#ifdef TARGET_NR_mknodat
+-{ TARGET_NR_mknodat, "mknodat" , NULL, print_mknodat, NULL },
+-#endif
+ #ifdef TARGET_NR_modify_ldt
+ { TARGET_NR_modify_ldt, "modify_ldt" , NULL, NULL, NULL },
  #endif
 -- 
 2.17.1
