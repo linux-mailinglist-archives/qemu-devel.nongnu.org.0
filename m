@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CF19422907
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 23:13:05 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53615 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D798B22904
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 23:11:05 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53581 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hST7B-0007hy-07
-	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 17:13:05 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50797)
+	id 1hST5F-0005ZH-0p
+	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 17:11:05 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50815)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSZh-0003hL-I5
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:30 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSZi-0003ie-Qj
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSZg-0004Ve-7E
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:29 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:37308)
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSZh-0004X3-BL
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:30 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:44713)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hSSZf-0004Tp-U8
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:28 -0400
-Received: by mail-pg1-x541.google.com with SMTP id n27so3140019pgm.4
-	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:38:27 -0700 (PDT)
+	id 1hSSZh-0004W5-1T
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:29 -0400
+Received: by mail-pg1-x542.google.com with SMTP id z16so5724088pgv.11
+	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:38:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=zxww4ylhQcPO6FqWBn/qpIs5WYaAwpNI1B5WcIoosKI=;
-	b=Tln0sEurgF+JnTziJnpUITbTY8QogpEjvYOfZlbhDzbziVqwoDEtegx/uwT8JmZPQx
-	l14/qnDJ8G0SHw4O7VVXnyu1AHjaAiDq1Wprdh7oGUWZOn0noAitgN62lAlBl6wly1gd
-	5vAwwGtWjXJWPQ1U4T05RrzG4cXOcnvQE2KKGx7l7nRDGCI0ffATzqvMYnHuSYgYUl9n
-	P6SpkjVT4toExsxO9boPA0wEP//7eAwaQ9VosA88ciaDiFdBplZhJ9TlsUgFpYaEA/Sm
-	64uARjnQtGPoLlQsqZACfoTwoaUVh6wthoxcLtWzx2PjK02ayN1YZwmD7WEMatwkUcLG
-	TsIA==
+	bh=AI0qmlYjgj5NtbNVWKgQPuyo9CkZotUm28Hs9oy8FWY=;
+	b=WDiAzAWBoYrx+T/f1r514LVxPvjELJd8UIHCR8Cr8GWYn5WVntha55DkeNUQE2z2we
+	MUbkuYQJaFCBtmdTgMwFMXQ2X7B90J1yR5s6SH7Wi1RUTybLjBW8goKWVwx8bYaWYgue
+	/GwLb2E3sSQaxM54uduTRpK2wCApQob7Bzz0+mZ7aLegGqB1TlZrif2klOcWj536pjxb
+	b+D6ziPYs4LyMAdkfXVWP0/82RHPlVtj/fLTMHroupF0IE3Ee4jez40ZB7A0e2EsGN4R
+	iQPYXqjqlvNjUcVV4iMz7yYqHtvjCBO9mmOj/024MkRRBcjR+gYroI/d0urevPElf53n
+	LH9w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=zxww4ylhQcPO6FqWBn/qpIs5WYaAwpNI1B5WcIoosKI=;
-	b=j1wjiWOEphBkKvTaDQeq4XY8Gi9aeftAKx8yQ12Mcq2vRxvli0lQToaAQaeob8IYhJ
-	X0+uTm9KLpUU2utOPcbBvFzN7rmJARzCSlW6gI61bMnRmZeLYjih64wLFAfEggs4uUZ9
-	pqjegLeb3U/1oi0NQuRnhtTdKLrpyYunKgY0DMuo95Lh7jpM4/qstEXKH1Suu6KY6zoB
-	w9vhZveJBHRarfSliCSxbDz1c63bBoHSuktXxSydyVzuJv1Ik/dKsmXnnsl/AJPtxsna
-	MJ1szd/OLsqrQfSaLq/tNoDCtqlSX9g3Ap4QPO8Rc6wh9HT7Lv8bGXBSyuMdlz8WS29A
-	3NHw==
-X-Gm-Message-State: APjAAAUVjDaoC1DdMvnB/vAfZ77SyPXZgAdaGe9acaF+Z2VHVfURR7af
-	hHepJFmgmQYwkqeKDhYQ/tvOYb3tdO0=
-X-Google-Smtp-Source: APXvYqyvQSsqWUi6GM80EAQOj3+4CpvJPIxalyJyMIXJvkway5/UTRzEQLox///Isn94y9X8fHI2+Q==
-X-Received: by 2002:a63:5726:: with SMTP id l38mr10616007pgb.344.1558298306631;
-	Sun, 19 May 2019 13:38:26 -0700 (PDT)
+	bh=AI0qmlYjgj5NtbNVWKgQPuyo9CkZotUm28Hs9oy8FWY=;
+	b=D0YHcSGPTEDdcxVmrbhUlY3vjmj/oLB2ZtoNWE4iJdVtBjuAZU9ONv0Yyi93glDK/R
+	Z/x6HJdhPo4Gf8UKQX4+nQf2wycJZrc+hyDiHVgE4O7MbxwG2TqAbb5d8vNVJxMEu0rr
+	VjB6mF/y9Lsp8Vma2Z8ic3ZxuvYzg1Hrz2aNt9Ig48Hvx+cFhHT4aJHufaIE/WSPLVAB
+	xDTpYkjyCVHUhdBBC54nYf1V9EDck05bg2HQxAjWvYUIH3WM0ge3pgmwol6irkZrsi7x
+	kvKGXsmetBif8uP0hwVH3TxH7UHjD7Z7HbHA0wYjpWa+HXeFUB3aJUUiPksEZTjTAkPp
+	GhSg==
+X-Gm-Message-State: APjAAAUVjXgH6Tkd+/kYVlnglU54KfpwoOfzZwwkghmG75tksGBogSqV
+	RbAfDyXSpwLJfn12DCr4Hi1EUBBoDDI=
+X-Google-Smtp-Source: APXvYqyYvwesz+zi/r1Hku7Djj+p9gxszWayC2IFmPn32fI9Kr3eRrOgkNaGOxDNevmaaU8yBtqgHw==
+X-Received: by 2002:a63:4346:: with SMTP id q67mr71033800pga.241.1558298307785;
+	Sun, 19 May 2019 13:38:27 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	i7sm11397448pfo.19.2019.05.19.13.38.25
+	i7sm11397448pfo.19.2019.05.19.13.38.26
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 19 May 2019 13:38:25 -0700 (PDT)
+	Sun, 19 May 2019 13:38:26 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sun, 19 May 2019 13:36:57 -0700
-Message-Id: <20190519203726.20729-46-richard.henderson@linaro.org>
+Date: Sun, 19 May 2019 13:36:58 -0700
+Message-Id: <20190519203726.20729-47-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190519203726.20729-1-richard.henderson@linaro.org>
 References: <20190519203726.20729-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::541
-Subject: [Qemu-devel] [PATCH v7 45/74] linux-user: Split out acct
+X-Received-From: 2607:f8b0:4864:20::542
+Subject: [Qemu-devel] [PATCH v7 46/74] linux-user: Move syscall_init to the
+ end
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -79,91 +80,142 @@ Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+No functional change.  This will aid moving everything
+related to ioctls to a separate file.
+
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/syscall-defs.h     |  1 +
- linux-user/syscall-file.inc.c | 18 ++++++++++++++++++
- linux-user/syscall.c          | 11 -----------
- linux-user/strace.list        |  3 ---
- 4 files changed, 19 insertions(+), 14 deletions(-)
+ linux-user/syscall.c | 113 +++++++++++++++++++++++--------------------
+ 1 file changed, 61 insertions(+), 52 deletions(-)
 
-diff --git a/linux-user/syscall-defs.h b/linux-user/syscall-defs.h
-index 25d5aaccd1..f8f280f376 100644
---- a/linux-user/syscall-defs.h
-+++ b/linux-user/syscall-defs.h
-@@ -19,6 +19,7 @@
- #ifdef TARGET_NR_access
- SYSCALL_DEF(access, ARG_STR, ARG_ACCESSFLAG);
- #endif
-+SYSCALL_DEF(acct, ARG_STR);
- #ifdef TARGET_NR_alarm
- SYSCALL_DEF(alarm, ARG_DEC);
- #endif
-diff --git a/linux-user/syscall-file.inc.c b/linux-user/syscall-file.inc.c
-index 5bd9eaa002..4080ab250e 100644
---- a/linux-user/syscall-file.inc.c
-+++ b/linux-user/syscall-file.inc.c
-@@ -36,6 +36,24 @@ SYSCALL_IMPL(access)
- }
- #endif
- 
-+SYSCALL_IMPL(acct)
-+{
-+    abi_ulong target_path = arg1;
-+    abi_long ret;
-+
-+    if (target_path == 0) {
-+        ret = get_errno(acct(NULL));
-+    } else {
-+        char *p = lock_user_string(target_path);
-+        if (!p) {
-+            return -TARGET_EFAULT;
-+        }
-+        ret = get_errno(acct(path(p)));
-+        unlock_user(p, target_path, 0);
-+    }
-+    return ret;
-+}
-+
- SYSCALL_IMPL(chdir)
- {
-     abi_ulong target_path = arg1;
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index cdca0dbe4f..5343486a58 100644
+index 5343486a58..d0e76c392e 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -5346,17 +5346,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-     void *p;
+@@ -4831,58 +4831,6 @@ _syscall1(int, sys_setgid, gid_t, gid)
+ _syscall3(int, sys_setresuid, uid_t, ruid, uid_t, euid, uid_t, suid)
+ _syscall3(int, sys_setresgid, gid_t, rgid, gid_t, egid, gid_t, sgid)
  
-     switch(num) {
--    case TARGET_NR_acct:
--        if (arg1 == 0) {
--            ret = get_errno(acct(NULL));
--        } else {
--            if (!(p = lock_user_string(arg1))) {
--                return -TARGET_EFAULT;
+-void syscall_init(void)
+-{
+-    IOCTLEntry *ie;
+-    const argtype *arg_type;
+-    int size;
+-    int i;
+-
+-    thunk_init(STRUCT_MAX);
+-
+-#define STRUCT(name, ...) thunk_register_struct(STRUCT_ ## name, #name, struct_ ## name ## _def);
+-#define STRUCT_SPECIAL(name) thunk_register_struct_direct(STRUCT_ ## name, #name, &struct_ ## name ## _def);
+-#include "syscall_types.h"
+-#undef STRUCT
+-#undef STRUCT_SPECIAL
+-
+-    /* Build target_to_host_errno_table[] table from
+-     * host_to_target_errno_table[]. */
+-    for (i = 0; i < ERRNO_TABLE_SIZE; i++) {
+-        target_to_host_errno_table[host_to_target_errno_table[i]] = i;
+-    }
+-
+-    /* we patch the ioctl size if necessary. We rely on the fact that
+-       no ioctl has all the bits at '1' in the size field */
+-    ie = ioctl_entries;
+-    while (ie->target_cmd != 0) {
+-        if (((ie->target_cmd >> TARGET_IOC_SIZESHIFT) & TARGET_IOC_SIZEMASK) ==
+-            TARGET_IOC_SIZEMASK) {
+-            arg_type = ie->arg_type;
+-            if (arg_type[0] != TYPE_PTR) {
+-                fprintf(stderr, "cannot patch size for ioctl 0x%x\n",
+-                        ie->target_cmd);
+-                exit(1);
 -            }
--            ret = get_errno(acct(path(p)));
--            unlock_user(p, arg1, 0);
+-            arg_type++;
+-            size = thunk_type_size(arg_type, 0);
+-            ie->target_cmd = (ie->target_cmd &
+-                              ~(TARGET_IOC_SIZEMASK << TARGET_IOC_SIZESHIFT)) |
+-                (size << TARGET_IOC_SIZESHIFT);
 -        }
--        return ret;
-     case TARGET_NR_ioctl:
-         return do_ioctl(arg1, arg2, arg3);
- #ifdef TARGET_NR_fcntl
-diff --git a/linux-user/strace.list b/linux-user/strace.list
-index 85e3de87d8..ce5e02975b 100644
---- a/linux-user/strace.list
-+++ b/linux-user/strace.list
-@@ -9,9 +9,6 @@
- #ifdef TARGET_NR_accept4
- { TARGET_NR_accept4, "accept4" , NULL, NULL, NULL },
- #endif
--#ifdef TARGET_NR_acct
--{ TARGET_NR_acct, "acct" , NULL, NULL, NULL },
+-
+-        /* automatic consistency check if same arch */
+-#if (defined(__i386__) && defined(TARGET_I386) && defined(TARGET_ABI32)) || \
+-    (defined(__x86_64__) && defined(TARGET_X86_64))
+-        if (unlikely(ie->target_cmd != ie->host_cmd)) {
+-            fprintf(stderr, "ERROR: ioctl(%s): target=0x%x host=0x%x\n",
+-                    ie->name, ie->target_cmd, ie->host_cmd);
+-        }
 -#endif
- #ifdef TARGET_NR_add_key
- { TARGET_NR_add_key, "add_key" , NULL, NULL, NULL },
- #endif
+-        ie++;
+-    }
+-}
+-
+ static inline uint64_t target_offset64(abi_ulong word0, abi_ulong word1)
+ {
+ #if TARGET_ABI_BITS == 64
+@@ -9072,3 +9020,64 @@ abi_long do_syscall(void *cpu_env, int num, abi_long arg1,
+     trace_guest_user_syscall_ret(cpu, num, ret);
+     return ret;
+ }
++
++void syscall_init(void)
++{
++    IOCTLEntry *ie;
++    const argtype *arg_type;
++    int size;
++    int i;
++
++    thunk_init(STRUCT_MAX);
++
++#define STRUCT(name, ...) \
++    thunk_register_struct(STRUCT_ ## name, #name, struct_ ## name ## _def);
++#define STRUCT_SPECIAL(name) \
++    thunk_register_struct_direct(STRUCT_ ## name, #name, \
++                                 &struct_ ## name ## _def);
++
++#include "syscall_types.h"
++
++#undef STRUCT
++#undef STRUCT_SPECIAL
++
++    /*
++     * Build target_to_host_errno_table[] table from
++     * host_to_target_errno_table[].
++     */
++    for (i = 0; i < ERRNO_TABLE_SIZE; i++) {
++        target_to_host_errno_table[host_to_target_errno_table[i]] = i;
++    }
++
++    /*
++     * We patch the ioctl size if necessary.  We rely on the fact that
++     * no ioctl has all the bits at '1' in the size field.
++     */
++    ie = ioctl_entries;
++    while (ie->target_cmd != 0) {
++        if (((ie->target_cmd >> TARGET_IOC_SIZESHIFT) & TARGET_IOC_SIZEMASK) ==
++            TARGET_IOC_SIZEMASK) {
++            arg_type = ie->arg_type;
++            if (arg_type[0] != TYPE_PTR) {
++                fprintf(stderr, "cannot patch size for ioctl 0x%x\n",
++                        ie->target_cmd);
++                exit(1);
++            }
++            arg_type++;
++            size = thunk_type_size(arg_type, 0);
++            ie->target_cmd = (ie->target_cmd &
++                              ~(TARGET_IOC_SIZEMASK << TARGET_IOC_SIZESHIFT)) |
++                (size << TARGET_IOC_SIZESHIFT);
++        }
++
++        /* automatic consistency check if same arch */
++#if (defined(__i386__) && defined(TARGET_I386) && defined(TARGET_ABI32)) || \
++    (defined(__x86_64__) && defined(TARGET_X86_64))
++        if (unlikely(ie->target_cmd != ie->host_cmd)) {
++            fprintf(stderr, "ERROR: ioctl(%s): target=0x%x host=0x%x\n",
++                    ie->name, ie->target_cmd, ie->host_cmd);
++        }
++#endif
++        ie++;
++    }
++}
 -- 
 2.17.1
 
