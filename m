@@ -2,70 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 30E25228C5
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 22:36:30 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53092 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 47E26228C3
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 22:34:00 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53035 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSSXl-0001Jo-BI
-	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 16:36:29 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46759)
+	id 1hSSVL-0007uA-Ap
+	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 16:33:59 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46796)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSI0-0005gT-PR
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:20:13 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSI2-0005k9-Da
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:20:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSHy-0007Zc-Q8
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:20:12 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:33480)
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSI0-0007eL-8N
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:20:13 -0400
+Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:36536)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hSSHw-0007Vz-RC
+	id 1hSSHy-0007Xh-Mp
 	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:20:10 -0400
-Received: by mail-pl1-x644.google.com with SMTP id y3so5725575plp.0
-	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:20:08 -0700 (PDT)
+Received: by mail-pl1-x643.google.com with SMTP id d21so5714155plr.3
+	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:20:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=EslukgOgrXKOg9aqYU0CsDWXr7O+egog9zUh9mSRURk=;
-	b=spOuULvmqJdWnGZ+oymBAv8/exyZU1Oz1CqCtk0l1Cjv6ARICQX/FmE+lISMPzTh3T
-	GdWzVEKu1aXWInJrjsUqCrYoVAsCDUWn1w8zcjlexDk64VYnAmpUzMWd7PplXPbAYzi8
-	EX+CjtHpjMlj36tsdNrtMQcUwn3T1HIT09g6cG0SqabZdyZ75qRBbC2ZolhkSLcniiyP
-	jpALldhlfXNOc8yFWpFka4vwYRlo5LZcmVSnScAYOCXZz5QL/EAl370pUg4eHFfq4+Re
-	qpVfr8NMFKvY77B4Dieib+Tx0Alk68+Lk53+KV50PBHaP9BjlMpS/fsb3Zihi+Jb/Sq6
-	ZaYw==
+	bh=OghAJHs3fOQNasKs983B96RGcVieroO+wnBU19gV5SI=;
+	b=PgTc8tb0uGJBUQ91uzPmnpK2qR3CSaZGEtdGDqHMDUErDl+tJkM/06tHP9tg8x8Ri3
+	1rTNFUyqAV+ummikZJvkb0txOt7YM7xcSse0YYY3eso7sFXa1eQN7g5WvrMpkG+KCdc+
+	R/PrzFOolMpayQgBQEqL2XnD+3N3GrAcP46P0bRDMXGq2Mtby4pCO3d6oFT851VK5G41
+	pk1daf4L8E/i+kKgJ/4tclpf2af+IVgO+KViNEsgzmqFAjix6vqnXt0zA2JOuqrCd6x4
+	lXg9SCG0MmdNyFk0OdRMHuoJrD9Cvue9Zdow+fR7oHA6U4j3V8i8aAOd3RWpdwIPTWxP
+	9lHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=EslukgOgrXKOg9aqYU0CsDWXr7O+egog9zUh9mSRURk=;
-	b=GTAxNTmnSZwgWRrOEZNy+HmrHLTj202N2ZFVUEe2Dv+8j0fi8KHIupGgGV74NJPwBr
-	fsaM7sQTJmt+7nXCr7dUT2pLwtw3rBqlbNvEfkJgutSC08/U/tv2OZoKKnOGkb5LHEM2
-	7jmUvBG3tImqrZUrwzYeTklDtRl6I1hiQ4OBz8SX1rT4A7PKnrjK20z95MMKLv+c5eN/
-	xJNbn/EBfC99NTSoIRCRzoQkAlGKfgWmoslrx0uABS9uAKUrQ7DKaag7CG34vWlxM93q
-	/MPc6VvvOpVOwa1Cadaal9Iiq1HyqThzEVJvVRYy5dZuTHahaT9OEEH3DgMIk78uc79V
-	CKAw==
-X-Gm-Message-State: APjAAAVu+Sjla2CSQz1+JCOfj0ZSoGtUA/CdA4ftixD6KybCr6zrU4ue
-	/aKUEvwbGwSmmXya8MUENtnAWPhqGp0=
-X-Google-Smtp-Source: APXvYqxTN5bWSUnvvpcTnivRh7ZWJWJ4vbwtJIVtvJ8Vg1ruiplEbRnWE5msBXSSzQZp4fcnNulEBw==
-X-Received: by 2002:a17:902:8609:: with SMTP id
-	f9mr15303251plo.252.1558297207346; 
-	Sun, 19 May 2019 13:20:07 -0700 (PDT)
+	bh=OghAJHs3fOQNasKs983B96RGcVieroO+wnBU19gV5SI=;
+	b=pwjbkA3iBZ17ez1gW5xNp8CpuItUldRK1XVCUS/dixNWuFEd9n+qWswuyCwrNTkM7X
+	G0KEN/7Jz0UTJ2C986qvQLv6uU/bPqVhn0StyrF0muBinKKEmY4UvKgpEOu0XIULzsnH
+	ptlUFat0ZoaqWARYyhxaR2Sgsrv5RwzoLWEoYsIFdA7z0EeIFHbubgq++bpo8korbDn0
+	R9l1SGn7Y2jhYzZf0vylTR3ebgmhUfRXyEvXknt0AVURjT3wACzTNqmYqEGHUiJhzXfK
+	LBzlWEUG73kZhri6xs0aWqjsDDoLa2wlD6HLHbgnKjK5Qj2i4b5PueeGYwOdAvXQrOT0
+	HCJg==
+X-Gm-Message-State: APjAAAUoC6z/oZZsruRplR+vkCo1uqiYwK+zWEMCGLFhXwahzO3yGAsk
+	3A9rukwcIMfA67q7EemGEkdPFG9ZrZM=
+X-Google-Smtp-Source: APXvYqx2hVtHNMo+/6ciJEVghnkVOPLzq5OvLbR4X3DhK2aFNt6360NbTZICNdnC7i3Kg3ioiCAQUw==
+X-Received: by 2002:a17:902:ac90:: with SMTP id
+	h16mr8998490plr.162.1558297208369; 
+	Sun, 19 May 2019 13:20:08 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	e14sm18166264pff.60.2019.05.19.13.20.06
+	e14sm18166264pff.60.2019.05.19.13.20.07
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 19 May 2019 13:20:06 -0700 (PDT)
+	Sun, 19 May 2019 13:20:07 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sun, 19 May 2019 13:19:49 -0700
-Message-Id: <20190519201953.20161-10-richard.henderson@linaro.org>
+Date: Sun, 19 May 2019 13:19:50 -0700
+Message-Id: <20190519201953.20161-11-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190519201953.20161-1-richard.henderson@linaro.org>
 References: <20190519201953.20161-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::644
-Subject: [Qemu-devel] [PATCH 09/13] linux-user/sparc: Flush register windows
- before clone/fork/vfork
+X-Received-From: 2607:f8b0:4864:20::643
+Subject: [Qemu-devel] [PATCH 10/13] scripts/qemu-binfmt-conf: Update for
+ sparc64
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -81,40 +81,40 @@ Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-As seen as the very first instruction of sys_clone in the kernel.
-
-Ideally this would be done in or before cpu_copy, and not with a
-separate explicit test vs the syscall number, but this is a more
-minimal solution.
+Also note that we were missing the qemu_target_list entry
+for plain sparc; fix that at the same time.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/sparc/cpu_loop.c | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+ scripts/qemu-binfmt-conf.sh | 8 ++++++--
+ 1 file changed, 6 insertions(+), 2 deletions(-)
 
-diff --git a/linux-user/sparc/cpu_loop.c b/linux-user/sparc/cpu_loop.c
-index 9e357229c0..0816da6fa1 100644
---- a/linux-user/sparc/cpu_loop.c
-+++ b/linux-user/sparc/cpu_loop.c
-@@ -169,6 +169,18 @@ void cpu_loop (CPUSPARCState *env)
-         case 0x110:
-         case 0x16d:
- #endif
-+            /*
-+             * Before copying/adjusting registers for parent/child,
-+             * flush the register windows to the stack.
-+             */
-+            switch (env->gregs[1]) {
-+            case TARGET_NR_fork:
-+            case TARGET_NR_vfork:
-+            case TARGET_NR_clone:
-+                flush_windows(env);
-+                break;
-+            }
+diff --git a/scripts/qemu-binfmt-conf.sh b/scripts/qemu-binfmt-conf.sh
+index b5a16742a1..9f1580a91c 100755
+--- a/scripts/qemu-binfmt-conf.sh
++++ b/scripts/qemu-binfmt-conf.sh
+@@ -1,8 +1,8 @@
+ #!/bin/sh
+ # Enable automatic program execution by the kernel.
+ 
+-qemu_target_list="i386 i486 alpha arm armeb sparc32plus ppc ppc64 ppc64le m68k \
+-mips mipsel mipsn32 mipsn32el mips64 mips64el \
++qemu_target_list="i386 i486 alpha arm armeb sparc sparc32plus sparc64 \
++ppc ppc64 ppc64le m68k mips mipsel mipsn32 mipsn32el mips64 mips64el \
+ sh4 sh4eb s390x aarch64 aarch64_be hppa riscv32 riscv64 xtensa xtensaeb \
+ microblaze microblazeel or1k x86_64"
+ 
+@@ -38,6 +38,10 @@ sparc32plus_magic='\x7fELF\x01\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x
+ sparc32plus_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff'
+ sparc32plus_family=sparc
+ 
++sparc64_magic='\x7fELF\x02\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x2b'
++sparc64_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff'
++sparc64_family=sparc
 +
-             ret = do_syscall (env, env->gregs[1],
-                               env->regwptr[0], env->regwptr[1],
-                               env->regwptr[2], env->regwptr[3],
+ ppc_magic='\x7fELF\x01\x02\x01\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02\x00\x14'
+ ppc_mask='\xff\xff\xff\xff\xff\xff\xff\x00\xff\xff\xff\xff\xff\xff\xff\xff\xff\xfe\xff\xff'
+ ppc_family=ppc
 -- 
 2.17.1
 
