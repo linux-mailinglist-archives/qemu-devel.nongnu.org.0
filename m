@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 604572290F
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 23:16:20 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53672 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F3FE22917
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 23:21:10 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53749 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSTAJ-00029O-Fg
-	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 17:16:19 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50953)
+	id 1hSTEz-0006XA-Dt
+	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 17:21:09 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50974)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSZs-0003rB-AF
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:42 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSZu-0003rC-1r
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSZr-0004iz-5w
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:40 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:42367)
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSZs-0004kT-Aa
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:42 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:43443)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hSSZq-0004i4-V6
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:39 -0400
-Received: by mail-pg1-x544.google.com with SMTP id 145so5730522pgg.9
-	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:38:38 -0700 (PDT)
+	id 1hSSZs-0004jf-1c
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:40 -0400
+Received: by mail-pl1-x642.google.com with SMTP id gn7so1547889plb.10
+	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:38:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=ttWxbzBbz5ihBAO0dy5RNz6XPVqQZ5W6pS6uncyoUTw=;
-	b=ceaU80lFl0hNLo3mamAAuO33hhZrmGbtyI7ycPbYg50IMB1ddBC4BHTkQ00WvE1pW+
-	qFdLzn5KItuiHl30u+GRqXYe7xaZhA4aI8yMyLyh1MRP+yTG3KXXqLR6LEBhcRNj+Wza
-	cfL4hD3ql9eSVgmhDPwZMpsHGpN+lv2WTFlUYF4uazb+C+lWTAuWg+tXH6hcSCtKsRSc
-	+DUL44+j1eREW2mmqeOizZFkht7KJs8ND+6MQK3Qa+OYMOhWkKE3ZOdM0GTGd0Km+olw
-	tFJbI6eTrYtiqNNUSsYw8kycgw76MjTMNORCpWkQG8/uvatR9lFGTr08bqaMzmBYdFdp
-	XcGw==
+	bh=/YpVT18mqqIFScwHIfb0mWiE7uIJJMrlMlrDVbB4UPM=;
+	b=hblhk9WWpYxInAWKvveMiaezmyFzVaIhAak7rOQ7Bk1MuxPbXAUsifr203RUG1K0RZ
+	3mTJtHa61Pv1PxNbtQz6nEV/uhX/EqSkTtB1PSlbdxbqd5lPQSSFsfHgEs8eLS01tWAJ
+	1HmbEjCdkniopLuUnkMV+5UvTUpUIfFusEW2b9vBlRgXy+TlwwaAqns37uMEobp5MkNp
+	i1b7gVYW/DE+R1+8tHEXsqyn4rPbWceir9IviNeiHXtc4fgn/wKXGELeSnIDrGTcGCcx
+	Wq2e8HeINqGmVUknQzBzZRMzm5goqgvHKAH2itNkmM/JTPY9RWRtAGcA3s1PMXOhTXxD
+	zhug==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=ttWxbzBbz5ihBAO0dy5RNz6XPVqQZ5W6pS6uncyoUTw=;
-	b=DRJKQKBQXh5jDF65mjlI3LLX7D25OUD/BMCLwJ4hRvRjwiSimyx1eke2NLIRXFnabB
-	tC11R9A8mhjJixuDh8+7yYFV30PUD9sBZqvnjvj10zkdWnuNL/V2P5o+9H5LPHeGUoDF
-	rlR+BlpvFhMmxWXoTG2c2WaSKNkGHXA23FSTteu9LqVYcK/1nF1djuXDCQqU7oAtlarM
-	Nvz69BAfPlzOFhhV9/GVkFbbZUySVnHoknp8WFwsh0D9TWaVExx0TllAatunvQwgYJON
-	3TkTAfpc6gKz7j31JjZlbg2ui90DWjfQTxmpM+VrWwncgkOvG36lFNnu4cqoxv2l0nZE
-	smSg==
-X-Gm-Message-State: APjAAAVBSOJ6lk85Qsoeiu0Zc1Nk/VhY1NiPSbQhbWzSq5MHH79LZlhm
-	Lvrfp4x1EaNLuiVQpTQH7hn+uqA8gxA=
-X-Google-Smtp-Source: APXvYqzESC3LlQaQGPZnHpVh7OjjN/hl2NcJX/DzavPCN82jKNjwnfYR935celpeRsO0Ules0sZsLw==
-X-Received: by 2002:a65:6559:: with SMTP id a25mr47363983pgw.33.1558298317681; 
-	Sun, 19 May 2019 13:38:37 -0700 (PDT)
+	bh=/YpVT18mqqIFScwHIfb0mWiE7uIJJMrlMlrDVbB4UPM=;
+	b=DBiLs47SKVJTArHloHJST/v7gGg3MQiZ+NMALHqKiaL9uQhDaaAa06jImLsAlJOZtQ
+	NDgHks5MuvS7xZe7tVgDNpsOTtZewryUyUu4NochWQmpWdZA+V1KvMjRyQD1512SQo2Y
+	cFU3CLOAQuA/tg20LQrF1+ohYovQXXH/e18eQqpVzAxfJ5eWNh5WKIJW65qAduqD1lmK
+	kyDN96jPnSz5OktHMI/lEkNTMuaS/Ej06C8sN5/AV5A0cb8Ur9sxfxfWHLrNPkCkKRyJ
+	p6gZkLsgwzvO8lEn5Fbfr4/L9pXTOVutA45hoBiVBxHzJt7F044hqWhAJD+baqc0w1+V
+	HkxQ==
+X-Gm-Message-State: APjAAAXp6SYGXiLy3CjMDcsn9fsbBgDZiH+NZU6/abJEOpPHig94rCcc
+	UDMCDxhipt/EzrdJhgfH9RLDM5E7zqQ=
+X-Google-Smtp-Source: APXvYqwuKKW7yB/so1+a2uR8VMSJDs56uFAfOGlLkM3fLkp9DLSwiA39u5LXjH7blZrP3kIJW1GyWw==
+X-Received: by 2002:a17:902:b941:: with SMTP id
+	h1mr13227358pls.289.1558298318825; 
+	Sun, 19 May 2019 13:38:38 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	i7sm11397448pfo.19.2019.05.19.13.38.36
+	i7sm11397448pfo.19.2019.05.19.13.38.37
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 19 May 2019 13:38:36 -0700 (PDT)
+	Sun, 19 May 2019 13:38:38 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sun, 19 May 2019 13:37:07 -0700
-Message-Id: <20190519203726.20729-56-richard.henderson@linaro.org>
+Date: Sun, 19 May 2019 13:37:08 -0700
+Message-Id: <20190519203726.20729-57-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190519203726.20729-1-richard.henderson@linaro.org>
 References: <20190519203726.20729-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::544
-Subject: [Qemu-devel] [PATCH v7 55/74] linux-user: Split out getsid, setsid
+X-Received-From: 2607:f8b0:4864:20::642
+Subject: [Qemu-devel] [PATCH v7 56/74] linux-user: Split out sigaction,
+ rt_sigaction
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -81,105 +83,440 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/syscall-defs.h     |  2 ++
- linux-user/syscall-proc.inc.c | 10 ++++++++++
- linux-user/syscall.c          |  4 ----
- linux-user/strace.list        |  6 ------
- 4 files changed, 12 insertions(+), 10 deletions(-)
+ linux-user/syscall-defs.h    |  10 ++
+ linux-user/strace.c          |  14 ---
+ linux-user/syscall-sig.inc.c | 172 +++++++++++++++++++++++++++++++++++
+ linux-user/syscall.c         | 160 --------------------------------
+ linux-user/strace.list       |   6 --
+ 5 files changed, 182 insertions(+), 180 deletions(-)
 
 diff --git a/linux-user/syscall-defs.h b/linux-user/syscall-defs.h
-index 2ade9ec749..cd2c127c41 100644
+index cd2c127c41..b62bffeb68 100644
 --- a/linux-user/syscall-defs.h
 +++ b/linux-user/syscall-defs.h
-@@ -69,6 +69,7 @@ SYSCALL_DEF(getpid);
- #ifdef TARGET_NR_getppid
- SYSCALL_DEF(getppid);
+@@ -187,6 +187,13 @@ SYSCALL_DEF(readv, ARG_DEC, ARG_PTR, ARG_DEC);
+ #ifdef TARGET_NR_rmdir
+ SYSCALL_DEF(rmdir, ARG_STR);
  #endif
-+SYSCALL_DEF(getsid, ARG_DEC);
- #ifdef TARGET_NR_getxpid
- SYSCALL_DEF(getxpid);
++#if defined(TARGET_ALPHA)
++SYSCALL_DEF(rt_sigaction, ARG_SIGNAL, ARG_PTR, ARG_PTR, ARG_DEC, ARG_PTR);
++#elif defined(TARGET_SPARC)
++SYSCALL_DEF(rt_sigaction, ARG_SIGNAL, ARG_PTR, ARG_PTR, ARG_PTR, ARG_DEC);
++#else
++SYSCALL_DEF(rt_sigaction, ARG_SIGNAL, ARG_PTR, ARG_PTR, ARG_DEC);
++#endif
+ #if !defined(SYSCALL_TABLE) || defined(TARGET_NR_semctl)
+ SYSCALL_DEF(semctl, ARG_DEC, ARG_DEC, ARG_DEC, ARG_HEX);
  #endif
-@@ -193,6 +194,7 @@ SYSCALL_DEF(semctl, ARG_DEC, ARG_DEC, ARG_DEC, ARG_HEX);
- SYSCALL_DEF(semget, ARG_DEC, ARG_DEC, ARG_HEX);
+@@ -212,6 +219,9 @@ SYSCALL_DEF(shmdt, ARG_PTR);
+ #if !defined(SYSCALL_TABLE) || defined(TARGET_NR_shmget)
+ SYSCALL_DEF(shmget, ARG_DEC, ARG_DEC, ARG_HEX);
  #endif
- SYSCALL_DEF(setpgid, ARG_DEC, ARG_DEC);
-+SYSCALL_DEF(setsid);
- #if !defined(SYSCALL_TABLE) || defined(TARGET_NR_semop)
- SYSCALL_DEF(semop, ARG_DEC, ARG_PTR, ARG_DEC);
++#ifdef TARGET_NR_sigaction
++SYSCALL_DEF(sigaction, ARG_SIGNAL, ARG_PTR, ARG_PTR);
++#endif
+ #ifdef TARGET_NR_stime
+ SYSCALL_DEF(stime, ARG_PTR);
  #endif
-diff --git a/linux-user/syscall-proc.inc.c b/linux-user/syscall-proc.inc.c
-index 39de5b7863..567df54581 100644
---- a/linux-user/syscall-proc.inc.c
-+++ b/linux-user/syscall-proc.inc.c
-@@ -464,6 +464,11 @@ SYSCALL_IMPL(getppid)
- }
+diff --git a/linux-user/strace.c b/linux-user/strace.c
+index 787bf41307..83dd755c73 100644
+--- a/linux-user/strace.c
++++ b/linux-user/strace.c
+@@ -1564,20 +1564,6 @@ print_fstat(const struct syscallname *name,
+ #define print_fstat64     print_fstat
  #endif
  
-+SYSCALL_IMPL(getsid)
-+{
-+    return get_errno(getsid(arg1));
-+}
-+
- #ifdef TARGET_NR_getxpid
- SYSCALL_IMPL(getxpid)
- {
-@@ -485,6 +490,11 @@ SYSCALL_IMPL(setpgid)
-     return get_errno(setpgid(arg1, arg2));
+-#ifdef TARGET_NR_rt_sigaction
+-static void
+-print_rt_sigaction(const struct syscallname *name,
+-    abi_long arg0, abi_long arg1, abi_long arg2,
+-    abi_long arg3, abi_long arg4, abi_long arg5)
+-{
+-    print_syscall_prologue(name);
+-    print_signal(arg0, 0);
+-    print_pointer(arg1, 0);
+-    print_pointer(arg2, 1);
+-    print_syscall_epilogue(name);
+-}
+-#endif
+-
+ #ifdef TARGET_NR_rt_sigprocmask
+ static void
+ print_rt_sigprocmask(const struct syscallname *name,
+diff --git a/linux-user/syscall-sig.inc.c b/linux-user/syscall-sig.inc.c
+index a4fbcc567d..918d58878f 100644
+--- a/linux-user/syscall-sig.inc.c
++++ b/linux-user/syscall-sig.inc.c
+@@ -39,3 +39,175 @@ SYSCALL_IMPL(pause)
+     return -TARGET_EINTR;
  }
- 
-+SYSCALL_IMPL(setsid)
+ #endif
++
++SYSCALL_IMPL(rt_sigaction)
 +{
-+    return get_errno(setsid());
++    abi_long ret;
++#if defined(TARGET_ALPHA)
++    /*
++     * For Alpha and SPARC this is a 5 argument syscall, with
++     * a 'restorer' parameter which must be copied into the
++     * sa_restorer field of the sigaction struct.
++     * For Alpha that 'restorer' is arg5; for SPARC it is arg4,
++     * and arg5 is the sigsetsize.
++     * Alpha also has a separate rt_sigaction struct that it uses
++     * here; SPARC uses the usual sigaction struct.
++     */
++    struct target_rt_sigaction *rt_act;
++    struct target_sigaction act, oact, *pact = NULL;
++
++    if (arg4 != sizeof(target_sigset_t)) {
++        return -TARGET_EINVAL;
++    }
++    if (arg2) {
++        if (!lock_user_struct(VERIFY_READ, rt_act, arg2, 1)) {
++            return -TARGET_EFAULT;
++        }
++        act._sa_handler = rt_act->_sa_handler;
++        act.sa_mask = rt_act->sa_mask;
++        act.sa_flags = rt_act->sa_flags;
++        act.sa_restorer = arg5;
++        unlock_user_struct(rt_act, arg2, 0);
++        pact = &act;
++    }
++    ret = get_errno(do_sigaction(arg1, pact, &oact));
++    if (!is_error(ret) && arg3) {
++        if (!lock_user_struct(VERIFY_WRITE, rt_act, arg3, 0)) {
++            return -TARGET_EFAULT;
++        }
++        rt_act->_sa_handler = oact._sa_handler;
++        rt_act->sa_mask = oact.sa_mask;
++        rt_act->sa_flags = oact.sa_flags;
++        unlock_user_struct(rt_act, arg3, 1);
++    }
++#else
++# ifdef TARGET_SPARC
++    target_ulong restorer = arg4;
++    target_ulong sigsetsize = arg5;
++# else
++    target_ulong sigsetsize = arg4;
++# endif
++    struct target_sigaction act, oact, *pact = NULL;
++
++    if (sigsetsize != sizeof(target_sigset_t)) {
++        return -TARGET_EINVAL;
++    }
++    if (arg2) {
++        if (!lock_user_struct(VERIFY_READ, pact, arg2, 1)) {
++            return -TARGET_EFAULT;
++        }
++        act = *pact;
++        unlock_user_struct(pact, arg2, 0);
++# ifdef TARGET_ARCH_HAS_KA_RESTORER
++        act.ka_restorer = restorer;
++# endif
++        pact = &act;
++    }
++
++    ret = get_errno(do_sigaction(arg1, pact, &oact));
++
++    if (!is_error(ret) && arg3) {
++        if (!lock_user_struct(VERIFY_WRITE, pact, arg3, 0)) {
++            return -TARGET_EFAULT;
++        }
++        *pact = oact;
++        unlock_user_struct(pact, arg3, 1);
++    }
++#endif
++    return ret;
 +}
 +
- SYSCALL_IMPL(times)
- {
-     abi_ulong target_buf = arg1;
++#ifdef TARGET_NR_sigaction
++SYSCALL_IMPL(sigaction)
++{
++    abi_long ret;
++#if defined(TARGET_ALPHA)
++    struct target_sigaction act, oact, *pact = NULL;
++    struct target_old_sigaction *old_act;
++
++    if (arg2) {
++        if (!lock_user_struct(VERIFY_READ, old_act, arg2, 1)) {
++            return -TARGET_EFAULT;
++        }
++        act._sa_handler = old_act->_sa_handler;
++        target_siginitset(&act.sa_mask, old_act->sa_mask);
++        act.sa_flags = old_act->sa_flags;
++        act.sa_restorer = 0;
++        unlock_user_struct(old_act, arg2, 0);
++        pact = &act;
++    }
++
++    ret = get_errno(do_sigaction(arg1, pact, &oact));
++
++    if (!is_error(ret) && arg3) {
++        if (!lock_user_struct(VERIFY_WRITE, old_act, arg3, 0)) {
++            return -TARGET_EFAULT;
++        }
++        old_act->_sa_handler = oact._sa_handler;
++        old_act->sa_mask = oact.sa_mask.sig[0];
++        old_act->sa_flags = oact.sa_flags;
++        unlock_user_struct(old_act, arg3, 1);
++    }
++#elif defined(TARGET_MIPS)
++    struct target_sigaction act, oact, *pact = NULL, *old_act;
++
++    if (arg2) {
++        if (!lock_user_struct(VERIFY_READ, old_act, arg2, 1)) {
++            return -TARGET_EFAULT;
++        }
++        act._sa_handler = old_act->_sa_handler;
++        target_siginitset(&act.sa_mask, old_act->sa_mask.sig[0]);
++        act.sa_flags = old_act->sa_flags;
++        unlock_user_struct(old_act, arg2, 0);
++        pact = &act;
++    }
++
++    ret = get_errno(do_sigaction(arg1, pact, &oact));
++
++    if (!is_error(ret) && arg3) {
++        if (!lock_user_struct(VERIFY_WRITE, old_act, arg3, 0)) {
++            return -TARGET_EFAULT;
++        }
++        old_act->_sa_handler = oact._sa_handler;
++        old_act->sa_flags = oact.sa_flags;
++        old_act->sa_mask.sig[0] = oact.sa_mask.sig[0];
++        old_act->sa_mask.sig[1] = 0;
++        old_act->sa_mask.sig[2] = 0;
++        old_act->sa_mask.sig[3] = 0;
++        unlock_user_struct(old_act, arg3, 1);
++    }
++#else
++    struct target_old_sigaction *old_act;
++    struct target_sigaction act, oact, *pact = NULL;
++
++    if (arg2) {
++        if (!lock_user_struct(VERIFY_READ, old_act, arg2, 1)) {
++            return -TARGET_EFAULT;
++        }
++        act._sa_handler = old_act->_sa_handler;
++        target_siginitset(&act.sa_mask, old_act->sa_mask);
++        act.sa_flags = old_act->sa_flags;
++        act.sa_restorer = old_act->sa_restorer;
++#ifdef TARGET_ARCH_HAS_KA_RESTORER
++        act.ka_restorer = 0;
++#endif
++        unlock_user_struct(old_act, arg2, 0);
++        pact = &act;
++    }
++
++    ret = get_errno(do_sigaction(arg1, pact, &oact));
++
++    if (!is_error(ret) && arg3) {
++        if (!lock_user_struct(VERIFY_WRITE, old_act, arg3, 0)) {
++            return -TARGET_EFAULT;
++        }
++        old_act->_sa_handler = oact._sa_handler;
++        old_act->sa_mask = oact.sa_mask.sig[0];
++        old_act->sa_flags = oact.sa_flags;
++        old_act->sa_restorer = oact.sa_restorer;
++        unlock_user_struct(old_act, arg3, 1);
++    }
++#endif
++    return ret;
++}
++#endif
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 75989a01bf..0e9f4fd5ae 100644
+index 0e9f4fd5ae..3ef1bfb4ec 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -4241,8 +4241,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+@@ -4241,166 +4241,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
      void *p;
  
      switch(num) {
--    case TARGET_NR_setsid:
--        return get_errno(setsid());
- #ifdef TARGET_NR_sigaction
-     case TARGET_NR_sigaction:
+-#ifdef TARGET_NR_sigaction
+-    case TARGET_NR_sigaction:
+-        {
+-#if defined(TARGET_ALPHA)
+-            struct target_sigaction act, oact, *pact = 0;
+-            struct target_old_sigaction *old_act;
+-            if (arg2) {
+-                if (!lock_user_struct(VERIFY_READ, old_act, arg2, 1))
+-                    return -TARGET_EFAULT;
+-                act._sa_handler = old_act->_sa_handler;
+-                target_siginitset(&act.sa_mask, old_act->sa_mask);
+-                act.sa_flags = old_act->sa_flags;
+-                act.sa_restorer = 0;
+-                unlock_user_struct(old_act, arg2, 0);
+-                pact = &act;
+-            }
+-            ret = get_errno(do_sigaction(arg1, pact, &oact));
+-            if (!is_error(ret) && arg3) {
+-                if (!lock_user_struct(VERIFY_WRITE, old_act, arg3, 0))
+-                    return -TARGET_EFAULT;
+-                old_act->_sa_handler = oact._sa_handler;
+-                old_act->sa_mask = oact.sa_mask.sig[0];
+-                old_act->sa_flags = oact.sa_flags;
+-                unlock_user_struct(old_act, arg3, 1);
+-            }
+-#elif defined(TARGET_MIPS)
+-	    struct target_sigaction act, oact, *pact, *old_act;
+-
+-	    if (arg2) {
+-                if (!lock_user_struct(VERIFY_READ, old_act, arg2, 1))
+-                    return -TARGET_EFAULT;
+-		act._sa_handler = old_act->_sa_handler;
+-		target_siginitset(&act.sa_mask, old_act->sa_mask.sig[0]);
+-		act.sa_flags = old_act->sa_flags;
+-		unlock_user_struct(old_act, arg2, 0);
+-		pact = &act;
+-	    } else {
+-		pact = NULL;
+-	    }
+-
+-	    ret = get_errno(do_sigaction(arg1, pact, &oact));
+-
+-	    if (!is_error(ret) && arg3) {
+-                if (!lock_user_struct(VERIFY_WRITE, old_act, arg3, 0))
+-                    return -TARGET_EFAULT;
+-		old_act->_sa_handler = oact._sa_handler;
+-		old_act->sa_flags = oact.sa_flags;
+-		old_act->sa_mask.sig[0] = oact.sa_mask.sig[0];
+-		old_act->sa_mask.sig[1] = 0;
+-		old_act->sa_mask.sig[2] = 0;
+-		old_act->sa_mask.sig[3] = 0;
+-		unlock_user_struct(old_act, arg3, 1);
+-	    }
+-#else
+-            struct target_old_sigaction *old_act;
+-            struct target_sigaction act, oact, *pact;
+-            if (arg2) {
+-                if (!lock_user_struct(VERIFY_READ, old_act, arg2, 1))
+-                    return -TARGET_EFAULT;
+-                act._sa_handler = old_act->_sa_handler;
+-                target_siginitset(&act.sa_mask, old_act->sa_mask);
+-                act.sa_flags = old_act->sa_flags;
+-                act.sa_restorer = old_act->sa_restorer;
+-#ifdef TARGET_ARCH_HAS_KA_RESTORER
+-                act.ka_restorer = 0;
+-#endif
+-                unlock_user_struct(old_act, arg2, 0);
+-                pact = &act;
+-            } else {
+-                pact = NULL;
+-            }
+-            ret = get_errno(do_sigaction(arg1, pact, &oact));
+-            if (!is_error(ret) && arg3) {
+-                if (!lock_user_struct(VERIFY_WRITE, old_act, arg3, 0))
+-                    return -TARGET_EFAULT;
+-                old_act->_sa_handler = oact._sa_handler;
+-                old_act->sa_mask = oact.sa_mask.sig[0];
+-                old_act->sa_flags = oact.sa_flags;
+-                old_act->sa_restorer = oact.sa_restorer;
+-                unlock_user_struct(old_act, arg3, 1);
+-            }
+-#endif
+-        }
+-        return ret;
+-#endif
+-    case TARGET_NR_rt_sigaction:
+-        {
+-#if defined(TARGET_ALPHA)
+-            /* For Alpha and SPARC this is a 5 argument syscall, with
+-             * a 'restorer' parameter which must be copied into the
+-             * sa_restorer field of the sigaction struct.
+-             * For Alpha that 'restorer' is arg5; for SPARC it is arg4,
+-             * and arg5 is the sigsetsize.
+-             * Alpha also has a separate rt_sigaction struct that it uses
+-             * here; SPARC uses the usual sigaction struct.
+-             */
+-            struct target_rt_sigaction *rt_act;
+-            struct target_sigaction act, oact, *pact = 0;
+-
+-            if (arg4 != sizeof(target_sigset_t)) {
+-                return -TARGET_EINVAL;
+-            }
+-            if (arg2) {
+-                if (!lock_user_struct(VERIFY_READ, rt_act, arg2, 1))
+-                    return -TARGET_EFAULT;
+-                act._sa_handler = rt_act->_sa_handler;
+-                act.sa_mask = rt_act->sa_mask;
+-                act.sa_flags = rt_act->sa_flags;
+-                act.sa_restorer = arg5;
+-                unlock_user_struct(rt_act, arg2, 0);
+-                pact = &act;
+-            }
+-            ret = get_errno(do_sigaction(arg1, pact, &oact));
+-            if (!is_error(ret) && arg3) {
+-                if (!lock_user_struct(VERIFY_WRITE, rt_act, arg3, 0))
+-                    return -TARGET_EFAULT;
+-                rt_act->_sa_handler = oact._sa_handler;
+-                rt_act->sa_mask = oact.sa_mask;
+-                rt_act->sa_flags = oact.sa_flags;
+-                unlock_user_struct(rt_act, arg3, 1);
+-            }
+-#else
+-#ifdef TARGET_SPARC
+-            target_ulong restorer = arg4;
+-            target_ulong sigsetsize = arg5;
+-#else
+-            target_ulong sigsetsize = arg4;
+-#endif
+-            struct target_sigaction *act;
+-            struct target_sigaction *oact;
+-
+-            if (sigsetsize != sizeof(target_sigset_t)) {
+-                return -TARGET_EINVAL;
+-            }
+-            if (arg2) {
+-                if (!lock_user_struct(VERIFY_READ, act, arg2, 1)) {
+-                    return -TARGET_EFAULT;
+-                }
+-#ifdef TARGET_ARCH_HAS_KA_RESTORER
+-                act->ka_restorer = restorer;
+-#endif
+-            } else {
+-                act = NULL;
+-            }
+-            if (arg3) {
+-                if (!lock_user_struct(VERIFY_WRITE, oact, arg3, 0)) {
+-                    ret = -TARGET_EFAULT;
+-                    goto rt_sigaction_fail;
+-                }
+-            } else
+-                oact = NULL;
+-            ret = get_errno(do_sigaction(arg1, act, oact));
+-	rt_sigaction_fail:
+-            if (act)
+-                unlock_user_struct(act, arg2, 0);
+-            if (oact)
+-                unlock_user_struct(oact, arg3, 1);
+-#endif
+-        }
+-        return ret;
+ #ifdef TARGET_NR_sgetmask /* not on alpha */
+     case TARGET_NR_sgetmask:
          {
-@@ -5664,8 +5662,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-         /* NOTE: the flock constant seems to be the same for every
-            Linux platform */
-         return get_errno(safe_flock(arg1, arg2));
--    case TARGET_NR_getsid:
--        return get_errno(getsid(arg1));
- #if defined(TARGET_NR_fdatasync) /* Not on alpha (osf_datasync ?) */
-     case TARGET_NR_fdatasync:
-         return get_errno(fdatasync(arg1));
 diff --git a/linux-user/strace.list b/linux-user/strace.list
-index d283c924a7..bf87a6d4cb 100644
+index bf87a6d4cb..20a71adc21 100644
 --- a/linux-user/strace.list
 +++ b/linux-user/strace.list
-@@ -292,9 +292,6 @@
- #ifdef TARGET_NR_getrusage
- { TARGET_NR_getrusage, "getrusage" , NULL, NULL, NULL },
+@@ -926,9 +926,6 @@
+ #ifdef TARGET_NR_rmdir
+ { TARGET_NR_rmdir, "rmdir" , NULL, NULL, NULL },
  #endif
--#ifdef TARGET_NR_getsid
--{ TARGET_NR_getsid, "getsid" , NULL, NULL, NULL },
+-#ifdef TARGET_NR_rt_sigaction
+-{ TARGET_NR_rt_sigaction, "rt_sigaction" , NULL, print_rt_sigaction, NULL },
 -#endif
- #ifdef TARGET_NR_getsockname
- { TARGET_NR_getsockname, "getsockname" , NULL, NULL, NULL },
+ #ifdef TARGET_NR_rt_sigpending
+ { TARGET_NR_rt_sigpending, "rt_sigpending" , NULL, NULL, NULL },
  #endif
-@@ -1100,9 +1097,6 @@
- #ifdef TARGET_NR_set_robust_list
- { TARGET_NR_set_robust_list, "set_robust_list" , NULL, NULL, NULL },
+@@ -1125,9 +1122,6 @@
+ #ifdef TARGET_NR_shutdown
+ { TARGET_NR_shutdown, "shutdown" , NULL, NULL, NULL },
  #endif
--#ifdef TARGET_NR_setsid
--{ TARGET_NR_setsid, "setsid" , NULL, NULL, NULL },
+-#ifdef TARGET_NR_sigaction
+-{ TARGET_NR_sigaction, "sigaction" , NULL, NULL, NULL },
 -#endif
- #ifdef TARGET_NR_setsockopt
- { TARGET_NR_setsockopt, "setsockopt" , NULL, NULL, NULL },
+ #ifdef TARGET_NR_sigaltstack
+ { TARGET_NR_sigaltstack, "sigaltstack" , "%s(%p,%p)", NULL, NULL },
  #endif
 -- 
 2.17.1
