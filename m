@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EA4E22934
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 23:32:36 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53941 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F103022943
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 23:39:11 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54054 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSTQ3-0008Qj-84
-	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 17:32:35 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51248)
+	id 1hSTWR-0004g2-7S
+	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 17:39:11 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51267)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSaD-0004Ab-Sd
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSaE-0004BD-Q1
 	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:39:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSaC-00059o-L2
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:39:01 -0400
-Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:34659)
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSaD-0005Av-Ld
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:39:02 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:38183)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hSSaC-00058x-EW
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:39:00 -0400
-Received: by mail-pg1-x544.google.com with SMTP id c13so5748377pgt.1
-	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:39:00 -0700 (PDT)
+	id 1hSSaD-0005AS-FZ
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:39:01 -0400
+Received: by mail-pg1-x541.google.com with SMTP id j26so5741300pgl.5
+	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:39:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=81B5oVWex5Gu+YUrZz7czpuJcnBNioLb7beqWXgK+Ug=;
-	b=MW276PEeOF33ylNFozQxdOOz4TXNh6y0F6sLo8pPFZpkVOf33zi0mx3NAOsdQbdU3+
-	7uho8rBFL2KXgpj5fqeWy7CVguXwrPipVelVHIcoKAg+4WL/hjTuDwIBvjKTZ4Q0+ZKX
-	vNYAiXFY+DOKMHCHwESEySq3ZdqaICyfZBhy29W/aa1xUQAV9wpw40srFj2paVYrZf7/
-	y7x9Cs5PBJtN9MBzlbeWV8qJTcu1j0IMXl2wR5qtS4oc7CNPOnRnOD3muDf2RL/3+TvB
-	8WkIrnTB1Lx5zaf9Wlljd9AmFWYrw5Pdn6H4RGZd47sn6T2dJDDApZyveZUlYBIrmduo
-	73Cw==
+	bh=EjoYPrl44jrQeXa6UK02T5QS4VIgYMGR1w3phRnmDY0=;
+	b=z5F6WQF52rpJo3PQhy2+twbWWJQFDoZoEePUHYzj82TmKnjvzvY5uXYPkFCbsuEr07
+	HjfI5nNwOrnbdyELuTn3C59hgaV9BZtN8XtBmp3vzq7XPBwCr6KO1we6KNf2gBww9wmZ
+	yUcFH6KgkzN+qhIt1Rvz13Ese9e4L0Ai/1SJUamSkRzYOqxG1xE300HxH6VNdAkgVbRX
+	sTpU8GlNq/J9/Rk3Ns2+kby1AiO5Z4kTvnCdEK3gp0zMRwAwL2owtrXZ658Nbu1XfIpv
+	zcsdgoDBh4yiXc5PBn9S5KIw+l9ff/y0hXOUHOwPdRTESnx0V8ckvrtLspf1lxNcfoVx
+	K/IQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=81B5oVWex5Gu+YUrZz7czpuJcnBNioLb7beqWXgK+Ug=;
-	b=Eud5Ar/3PYTi++pMudBeCJnx3ZVyE4BCun9M4vo5E8HhOtKiiJ168IyC5bnHSGOK3a
-	c5mLU6R2IdOpWli2L1kNghnCE1YiGqSZhw+K4/9+kfsN6Et+bRPpzfAvLcS6MWoCra1R
-	QBTZgquNws2PmjoOqNicb/kLqNEAmm+ABlkmoC4VqM2PfKNxo8KBKqo5ZJM0vOzAXFJ5
-	T3nrBmbDpV6dvfNIuIiXYmeAf7pmO20+bL5eW3jFCOq+gXIUAtNkThsob3bDgDNmGjfP
-	QARoQ758KciYx1DbhaWDXTocpo1FB9uPpVvfoedgZFDpluEgcYTzlwiNFeyGeEUOwdUC
-	oW8w==
-X-Gm-Message-State: APjAAAVQozMJ5yO9qMG7VrExIoKOgszP4SM3GYH9wdMlZB3/XD7qvTWY
-	Xh3qbrHpagXmZ6c1Cpnd1gVpUH8xr+E=
-X-Google-Smtp-Source: APXvYqxzxnOih+PS0wJcjWM1nHFueQiUhsKcRChRuuaorbMD3oMf4t+3zDc1Msz1qPIJ8+kxuRYyxA==
-X-Received: by 2002:a63:374b:: with SMTP id g11mr15575741pgn.421.1558298339261;
-	Sun, 19 May 2019 13:38:59 -0700 (PDT)
+	bh=EjoYPrl44jrQeXa6UK02T5QS4VIgYMGR1w3phRnmDY0=;
+	b=dI4xfd8Nx1rSEjdAP8pklXWylPlaHXnsfu5GDc01SEd/4wtWaQkLPZpeBHgoJbWqf4
+	HRSC7M7SNtYgNuSL7pynjYhApB5v+d6uufXUST9GEuRELv4GnmiSTN9Nb3tFVq5R65Dv
+	WNQcGYvZYB5eO9yJgVBTQWkCgjIq/O7W484l8mH3FIBoVqfq5V9uW9I0HPOkYUN2VmOz
+	qQimN/b6pUkqoa4ZR/1FJeP7bUn1uXOYA19XoIWA4nwU9ml0B+nfwzDJLEfLw0BE7cW3
+	YTS7qWIG5WnFBYwuorbyKNXMw5Wey5imz0YII8vltfemWI2Fs2wDEhU+FsB/4W0A2bAz
+	WZXw==
+X-Gm-Message-State: APjAAAUPoSg01a3b1HhA1AB5qfM3ZWqZ6/ujOrmEuoc5lNZGSYzCTEsG
+	VKwINVxMRsJx06E+jiHm43YZFrHfrxI=
+X-Google-Smtp-Source: APXvYqxpaTq8MLBN20Ug41nodAifBY6Mtb/Bmf/aU78dCh9S603k9xkI9NaLkjyBWkRv8Y1qe3sC1g==
+X-Received: by 2002:a65:5c89:: with SMTP id a9mr71876407pgt.334.1558298340290; 
+	Sun, 19 May 2019 13:39:00 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	i7sm11397448pfo.19.2019.05.19.13.38.58
+	i7sm11397448pfo.19.2019.05.19.13.38.59
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 19 May 2019 13:38:58 -0700 (PDT)
+	Sun, 19 May 2019 13:38:59 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sun, 19 May 2019 13:37:25 -0700
-Message-Id: <20190519203726.20729-74-richard.henderson@linaro.org>
+Date: Sun, 19 May 2019 13:37:26 -0700
+Message-Id: <20190519203726.20729-75-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190519203726.20729-1-richard.henderson@linaro.org>
 References: <20190519203726.20729-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::544
-Subject: [Qemu-devel] [PATCH v7 73/74] linux-user: Split out truncate,
- truncate64, ftruncate, ftruncate64
+X-Received-From: 2607:f8b0:4864:20::541
+Subject: [Qemu-devel] [PATCH v7 74/74] linux-user: Split out getpriority,
+ setpriority
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,188 +82,130 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/syscall-defs.h     | 16 +++++++++++++++
- linux-user/syscall-file.inc.c | 32 +++++++++++++++++++++++++++++
- linux-user/syscall.c          | 38 -----------------------------------
- linux-user/strace.list        | 12 -----------
- 4 files changed, 48 insertions(+), 50 deletions(-)
+ linux-user/syscall-defs.h     |  2 ++
+ linux-user/syscall-proc.inc.c | 28 ++++++++++++++++++++++++++++
+ linux-user/syscall.c          | 18 ------------------
+ linux-user/strace.list        |  6 ------
+ 4 files changed, 30 insertions(+), 24 deletions(-)
 
 diff --git a/linux-user/syscall-defs.h b/linux-user/syscall-defs.h
-index 67c908448d..8b2d95d19e 100644
+index 8b2d95d19e..3b45250977 100644
 --- a/linux-user/syscall-defs.h
 +++ b/linux-user/syscall-defs.h
-@@ -59,6 +59,14 @@ SYSCALL_DEF(futimesat, ARG_ATDIRFD, ARG_STR, ARG_PTR);
- #ifdef TARGET_NR_fork
- SYSCALL_DEF(fork);
+@@ -80,6 +80,7 @@ SYSCALL_DEF(getpid);
+ #ifdef TARGET_NR_getppid
+ SYSCALL_DEF(getppid);
  #endif
-+#ifdef TARGET_NR_ftruncate
-+SYSCALL_DEF(ftruncate, ARG_DEC, ARG_DEC);
-+#endif
-+#ifdef TARGET_NR_ftruncate64
-+SYSCALL_DEF_FULL(ftruncate64, .impl = impl_ftruncate,
-+                 .args = args_ftruncate64_truncate64,
-+                 .arg_type = { ARG_DEC, ARG_DEC64 });
-+#endif
- #ifdef TARGET_NR_gethostname
- SYSCALL_DEF(gethostname, ARG_PTR, ARG_DEC);
++SYSCALL_DEF(getpriority, ARG_DEC, ARG_DEC);
+ #ifdef TARGET_NR_getrlimit
+ SYSCALL_DEF(getrlimit, ARG_DEC, ARG_PTR);
  #endif
-@@ -292,6 +300,14 @@ SYSCALL_DEF(syncfs, ARG_DEC);
- SYSCALL_DEF(time, ARG_PTR);
+@@ -238,6 +239,7 @@ SYSCALL_DEF(semget, ARG_DEC, ARG_DEC, ARG_HEX);
  #endif
- SYSCALL_DEF(times, ARG_PTR);
-+#ifdef TARGET_NR_truncate
-+SYSCALL_DEF(truncate, ARG_STR, ARG_DEC);
-+#endif
-+#ifdef TARGET_NR_truncate64
-+SYSCALL_DEF_FULL(truncate64, .impl = impl_truncate,
-+                 .args = args_ftruncate64_truncate64,
-+                 .arg_type = { ARG_STR, ARG_DEC64 });
-+#endif
- SYSCALL_DEF(umask, ARG_OCT);
- #ifdef TARGET_NR_umount
- SYSCALL_DEF(umount, ARG_STR);
-diff --git a/linux-user/syscall-file.inc.c b/linux-user/syscall-file.inc.c
-index bdf42ad437..7697cb304a 100644
---- a/linux-user/syscall-file.inc.c
-+++ b/linux-user/syscall-file.inc.c
-@@ -182,6 +182,25 @@ SYSCALL_IMPL(fchmodat)
-     return do_fchmodat(arg1, arg2, arg3);
+ SYSCALL_DEF(sethostname, ARG_STR);
+ SYSCALL_DEF(setpgid, ARG_DEC, ARG_DEC);
++SYSCALL_DEF(setpriority, ARG_DEC, ARG_DEC, ARG_DEC);
+ #ifdef TARGET_NR_setrlimit
+ SYSCALL_DEF(setrlimit, ARG_DEC, ARG_PTR);
+ #endif
+diff --git a/linux-user/syscall-proc.inc.c b/linux-user/syscall-proc.inc.c
+index 408e96a834..e85151cc2e 100644
+--- a/linux-user/syscall-proc.inc.c
++++ b/linux-user/syscall-proc.inc.c
+@@ -479,6 +479,29 @@ SYSCALL_IMPL(getppid)
  }
+ #endif
  
-+#ifdef TARGET_NR_ftruncate64
-+# if TARGET_ABI_BITS == 32
-+SYSCALL_ARGS(ftruncate64_truncate64)
++SYSCALL_IMPL(getpriority)
 +{
-+    /* We have already assigned out[0].  */
-+    int off = regpairs_aligned(cpu_env, TARGET_NR_ftruncate64);
-+    out[1] = target_offset64(in[1 + off], in[2 + off]);
-+    return def;
-+}
-+# else
-+#  define args_ftruncate64_truncate64 NULL
-+# endif
-+#endif
-+
-+SYSCALL_IMPL(ftruncate)
-+{
-+    return get_errno(ftruncate(arg1, arg2));
-+}
-+
- #ifdef TARGET_NR_futimesat
- SYSCALL_IMPL(futimesat)
- {
-@@ -1319,6 +1338,19 @@ SYSCALL_IMPL(syncfs)
-     return get_errno(syncfs(arg1));
- }
- 
-+SYSCALL_IMPL(truncate)
-+{
-+    char *p = lock_user_string(arg1);
 +    abi_long ret;
 +
-+    if (!p) {
-+        return -TARGET_EFAULT;
++    /*
++     * Note that negative values are valid for getpriority, so we must
++     * differentiate based on errno settings.
++     */
++    errno = 0;
++    ret = getpriority(arg1, arg2);
++    if (ret == -1 && errno != 0) {
++        return -host_to_target_errno(errno);
 +    }
-+    ret = get_errno(truncate(p, arg2));
-+    unlock_user(p, arg1, 0);
++#ifdef TARGET_ALPHA
++    /* Return value is the unbiased priority.  Signal no error.  */
++    ((CPUAlphaState *)cpu_env)->ir[IR_V0] = 0;
++#else
++    /* Return value is a biased priority to avoid negative numbers.  */
++    ret = 20 - ret;
++#endif
 +    return ret;
 +}
 +
- static abi_long do_umount2(abi_ulong target_path, int flags)
+ #ifdef TARGET_NR_getrlimit
+ SYSCALL_IMPL(getrlimit)
  {
-     char *p = lock_user_string(target_path);
+@@ -568,6 +591,11 @@ SYSCALL_IMPL(setpgid)
+     return get_errno(setpgid(arg1, arg2));
+ }
+ 
++SYSCALL_IMPL(setpriority)
++{
++    return get_errno(setpriority(arg1, arg2, arg3));
++}
++
+ #ifdef TARGET_NR_setrlimit
+ SYSCALL_IMPL(setrlimit)
+ {
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 80e8b360a9..1b1d44bf32 100644
+index 1b1d44bf32..6e7cccbdd5 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -3721,20 +3721,6 @@ static inline abi_long target_truncate64(void *cpu_env, const char *arg1,
- }
- #endif
- 
--#ifdef TARGET_NR_ftruncate64
--static inline abi_long target_ftruncate64(void *cpu_env, abi_long arg1,
--                                          abi_long arg2,
--                                          abi_long arg3,
--                                          abi_long arg4)
--{
--    if (regpairs_aligned(cpu_env, TARGET_NR_ftruncate64)) {
--        arg2 = arg3;
--        arg3 = arg4;
--    }
--    return get_errno(ftruncate64(arg1, target_offset64(arg2, arg3)));
--}
--#endif
--
- static inline abi_long target_to_host_timespec(struct timespec *host_ts,
-                                                abi_ulong target_addr)
- {
-@@ -4158,18 +4144,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+@@ -4144,24 +4144,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
      void *p;
  
      switch(num) {
--#ifdef TARGET_NR_truncate
--    case TARGET_NR_truncate:
--        if (!(p = lock_user_string(arg1)))
--            return -TARGET_EFAULT;
--        ret = get_errno(truncate(p, arg2));
--        unlock_user(p, arg1, 0);
+-    case TARGET_NR_getpriority:
+-        /* Note that negative values are valid for getpriority, so we must
+-           differentiate based on errno settings.  */
+-        errno = 0;
+-        ret = getpriority(arg1, arg2);
+-        if (ret == -1 && errno != 0) {
+-            return -host_to_target_errno(errno);
+-        }
+-#ifdef TARGET_ALPHA
+-        /* Return value is the unbiased priority.  Signal no error.  */
+-        ((CPUAlphaState *)cpu_env)->ir[IR_V0] = 0;
+-#else
+-        /* Return value is a biased priority to avoid negative numbers.  */
+-        ret = 20 - ret;
+-#endif
 -        return ret;
--#endif
--#ifdef TARGET_NR_ftruncate
--    case TARGET_NR_ftruncate:
--        return get_errno(ftruncate(arg1, arg2));
--#endif
-     case TARGET_NR_getpriority:
-         /* Note that negative values are valid for getpriority, so we must
-            differentiate based on errno settings.  */
-@@ -5371,18 +5345,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-         return ret;
-     }
- #endif
--#ifdef TARGET_NR_truncate64
--    case TARGET_NR_truncate64:
--        if (!(p = lock_user_string(arg1)))
--            return -TARGET_EFAULT;
--	ret = target_truncate64(cpu_env, p, arg2, arg3, arg4);
--        unlock_user(p, arg1, 0);
--        return ret;
--#endif
--#ifdef TARGET_NR_ftruncate64
--    case TARGET_NR_ftruncate64:
--        return target_ftruncate64(cpu_env, arg1, arg2, arg3, arg4);
--#endif
- #ifdef TARGET_NR_stat64
-     case TARGET_NR_stat64:
+-    case TARGET_NR_setpriority:
+-        return get_errno(setpriority(arg1, arg2, arg3));
+ #ifdef TARGET_NR_statfs
+     case TARGET_NR_statfs:
          if (!(p = lock_user_string(arg1))) {
 diff --git a/linux-user/strace.list b/linux-user/strace.list
-index 3326541f17..55b617239c 100644
+index 55b617239c..a0d2b3f9c5 100644
 --- a/linux-user/strace.list
 +++ b/linux-user/strace.list
-@@ -193,12 +193,6 @@
- #ifdef TARGET_NR_ftime
- { TARGET_NR_ftime, "ftime" , NULL, NULL, NULL },
+@@ -256,9 +256,6 @@
+ #ifdef TARGET_NR_getpmsg
+ { TARGET_NR_getpmsg, "getpmsg" , NULL, NULL, NULL },
  #endif
--#ifdef TARGET_NR_ftruncate
--{ TARGET_NR_ftruncate, "ftruncate" , NULL, NULL, NULL },
+-#ifdef TARGET_NR_getpriority
+-{ TARGET_NR_getpriority, "getpriority", "%s(%#x,%#x)", NULL, NULL },
 -#endif
--#ifdef TARGET_NR_ftruncate64
--{ TARGET_NR_ftruncate64, "ftruncate64" , NULL, NULL, NULL },
--#endif
- #ifdef TARGET_NR_futex
- { TARGET_NR_futex, "futex" , NULL, print_futex, NULL },
+ #ifdef TARGET_NR_getrandom
+ { TARGET_NR_getrandom, "getrandom", NULL, NULL, NULL },
  #endif
-@@ -1173,12 +1167,6 @@
- #ifdef TARGET_NR_tkill
- { TARGET_NR_tkill, "tkill" , NULL, print_tkill, NULL },
+@@ -1007,9 +1004,6 @@
+ #ifdef TARGET_NR_setpgrp
+ { TARGET_NR_setpgrp, "setpgrp" , NULL, NULL, NULL },
  #endif
--#ifdef TARGET_NR_truncate
--{ TARGET_NR_truncate, "truncate" , NULL, NULL, NULL },
+-#ifdef TARGET_NR_setpriority
+-{ TARGET_NR_setpriority, "setpriority" , NULL, NULL, NULL },
 -#endif
--#ifdef TARGET_NR_truncate64
--{ TARGET_NR_truncate64, "truncate64" , NULL, NULL, NULL },
--#endif
- #ifdef TARGET_NR_tuxcall
- { TARGET_NR_tuxcall, "tuxcall" , NULL, NULL, NULL },
+ #ifdef TARGET_NR_setregid
+ { TARGET_NR_setregid, "setregid" , NULL, NULL, NULL },
  #endif
 -- 
 2.17.1
