@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B4642292B
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 23:30:13 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53876 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5FBAF22909
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 23:13:45 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53620 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSTNk-0006Ct-PY
-	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 17:30:12 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50866)
+	id 1hST7o-0008HM-D6
+	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 17:13:44 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50883)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSZn-0003nx-TY
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:36 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSZo-0003op-SP
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSZm-0004dC-OX
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:35 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:34963)
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSZn-0004ee-TD
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:36 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:44492)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hSSZm-0004cc-Ix
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:34 -0400
-Received: by mail-pf1-x442.google.com with SMTP id t87so6175430pfa.2
-	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:38:34 -0700 (PDT)
+	id 1hSSZn-0004dm-NT
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:35 -0400
+Received: by mail-pf1-x443.google.com with SMTP id g9so6149183pfo.11
+	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:38:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=15I+Dq5Rg7507HNEwiC18Z0vUWpngHfr2VdrwlZdjRg=;
-	b=e92Pq6GScDIB/U3McwgwB4NOwZ33hkNI/s+n+3qt06GaxocxfmeeVfdlvCxbf68HZz
-	NE+q3UkNzPh59OnF7sG8wVyoyIhLmaU8y5N6mwHktBV+vMEvIOvHjGmZN1l0We1rP0uk
-	BlZQa9N6psUTe+RGiY8SOkFGK60r09PjJj9Ka/DjaptVYsyLLXfVdQY70oR18PwN/zGT
-	cSzzs1YZOhEcXhCViOhMWkGQJWcvVvMan5pLpyAo2jU26N/jlATImui5GWzHVMlzYRst
-	D+3qPiQNocrrq4JY9FNaFd1Stvw2YrUSSQkQOePrxKtXZjSe0I+cPjEfSWc4Ak5Fd6uW
-	nODw==
+	bh=oFRsgmqF2zgcYNLWzzaBWoMP1N3UdMw/D2eCjGA4dbU=;
+	b=HRJ6Ux3gg5LIul/AE9nq+zSXlQfOw3QbDX5D8Hwrps9d0CKvLXGTQPUh0lqD3TPzhA
+	KkzrSWknpFoS0uA9nfTnWoOZP5+2rLxnusQMl44kXg8Y8ffsQVBI/JM1LwtL4qAQltaP
+	UAcn/OA3cM7r10zYsPTUtgM0jP+u8TI/tpSbREMYvsBc3oJw057s4rjnfHaNFgikYsHN
+	/lOSfQghorpWtHNEC+G7G+J8ri/2cQTZweGxZaksBrIwc5UWiRC1S+3DX8mh+jk7p05b
+	0nhF24eYBwnG3qapea/k3jhzs8PSflrUVSM5nlXVbrZ00vt6P+gPmt/1pPU4/dl8+Lt7
+	+j4Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=15I+Dq5Rg7507HNEwiC18Z0vUWpngHfr2VdrwlZdjRg=;
-	b=X+gg0I57HnJxUqocJd75TpSHFUk0nb/RuPJQBl70WsuZr2o2VVtaf0l3WVdbZELuQM
-	QIKWRZ6fFDxunzByZjj2IvR6ciNirJgO7QksdtY/XowXnvldSMO8dohoZPU74XH7dzed
-	D7CiCZtctp5K/UPQGaqSDdKHrqOmbaBdLiajR+Rn+yQLFYWvuzQl1C7HI5GDKV5dtu0r
-	K3EYCZoe8A0H88WrU8dCMXTbUtnf87mZ0FZW1AacfOC0g/uKnuhDFKbpmTCLtKk6A9Qf
-	KRuh1TDt7U5DKdtmm38o3vhuRTUdcUEV2ex3+elp7vsoAKld8KhxzHlBFIXw7mWx6Hk1
-	nkSg==
-X-Gm-Message-State: APjAAAWKHuYmUr6VYZ6WKr13aq26HXBuCN50rreaLd6QY7Hzo0VcrU3h
-	7dqFETWsxO6yb1e8zCYTxDisEG9xdN8=
-X-Google-Smtp-Source: APXvYqyMHYcgYcDE0SWOhwmK6GWfGdPCrZlwTibUXea9P0y5Oh5hPhmFbE3HuLZVXEsgztTcvQ36/Q==
-X-Received: by 2002:aa7:860a:: with SMTP id p10mr58741919pfn.214.1558298313395;
-	Sun, 19 May 2019 13:38:33 -0700 (PDT)
+	bh=oFRsgmqF2zgcYNLWzzaBWoMP1N3UdMw/D2eCjGA4dbU=;
+	b=Tcy6i261W/Z+aJFBtf6GH51lGfVICEeZhjFeevUmZYNCT6oR+8bAjeejyqC1wMC1wB
+	AUDCNooxJFMH4xVevqvlTsay7hC16mM++eztPYkug7Er7/MJszB7UcDtkaSuaBRyZx20
+	OrWIIUdU7+Xips09S3a2qPwBBvc9wKe/4UfvSvVs7LHq1iIjUL3X/EwWRwESxpEruR0W
+	YwBXMvcLEtxcQAIrWNlSg/T8gS4N7bul+WT6hAFo7ghFGa/QRJ2502suo7kE1TIm+G3Z
+	zGFaeMTCEGo4YclKfVJxyoLM726mGo/7DksPC9XijygG+Z/MnfIWui/MEwAowiqI1lki
+	SNog==
+X-Gm-Message-State: APjAAAXWcQrG2qhKk8jDe/eqToxs0HcXz9xRNGh8vKHuim7zhpMcJNri
+	KdYxxFcG7yhKfDUcQIm8IEpgsQ00pqw=
+X-Google-Smtp-Source: APXvYqzPLhhXMbW4tWgkJtT698t22Lo4lgn2vW79AX7AvT762mEr5VHeG2iuRVTdutyZFa5Wjh4heg==
+X-Received: by 2002:a62:4d04:: with SMTP id a4mr4173256pfb.177.1558298314536; 
+	Sun, 19 May 2019 13:38:34 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	i7sm11397448pfo.19.2019.05.19.13.38.32
+	i7sm11397448pfo.19.2019.05.19.13.38.33
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 19 May 2019 13:38:32 -0700 (PDT)
+	Sun, 19 May 2019 13:38:33 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sun, 19 May 2019 13:37:03 -0700
-Message-Id: <20190519203726.20729-52-richard.henderson@linaro.org>
+Date: Sun, 19 May 2019 13:37:04 -0700
+Message-Id: <20190519203726.20729-53-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190519203726.20729-1-richard.henderson@linaro.org>
 References: <20190519203726.20729-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::442
-Subject: [Qemu-devel] [PATCH v7 51/74] linux-user: Split out setpgid
+X-Received-From: 2607:f8b0:4864:20::443
+Subject: [Qemu-devel] [PATCH v7 52/74] linux-user: Split out umask
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,65 +82,65 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
  linux-user/syscall-defs.h     | 1 +
- linux-user/syscall-proc.inc.c | 5 +++++
+ linux-user/syscall-file.inc.c | 5 +++++
  linux-user/syscall.c          | 2 --
  linux-user/strace.list        | 3 ---
  4 files changed, 6 insertions(+), 5 deletions(-)
 
 diff --git a/linux-user/syscall-defs.h b/linux-user/syscall-defs.h
-index 5cf39f2bb9..6de7b84351 100644
+index 6de7b84351..b6538350a3 100644
 --- a/linux-user/syscall-defs.h
 +++ b/linux-user/syscall-defs.h
-@@ -187,6 +187,7 @@ SYSCALL_DEF(semctl, ARG_DEC, ARG_DEC, ARG_DEC, ARG_HEX);
- #if !defined(SYSCALL_TABLE) || defined(TARGET_NR_semget)
- SYSCALL_DEF(semget, ARG_DEC, ARG_DEC, ARG_HEX);
+@@ -214,6 +214,7 @@ SYSCALL_DEF(syncfs, ARG_DEC);
+ SYSCALL_DEF(time, ARG_PTR);
  #endif
-+SYSCALL_DEF(setpgid, ARG_DEC, ARG_DEC);
- #if !defined(SYSCALL_TABLE) || defined(TARGET_NR_semop)
- SYSCALL_DEF(semop, ARG_DEC, ARG_PTR, ARG_DEC);
+ SYSCALL_DEF(times, ARG_PTR);
++SYSCALL_DEF(umask, ARG_OCT);
+ #ifdef TARGET_NR_umount
+ SYSCALL_DEF(umount, ARG_STR);
  #endif
-diff --git a/linux-user/syscall-proc.inc.c b/linux-user/syscall-proc.inc.c
-index 517f84e139..5bd27d1d4b 100644
---- a/linux-user/syscall-proc.inc.c
-+++ b/linux-user/syscall-proc.inc.c
-@@ -468,6 +468,11 @@ SYSCALL_IMPL(nice)
+diff --git a/linux-user/syscall-file.inc.c b/linux-user/syscall-file.inc.c
+index 4080ab250e..cbde6d906f 100644
+--- a/linux-user/syscall-file.inc.c
++++ b/linux-user/syscall-file.inc.c
+@@ -1117,6 +1117,11 @@ SYSCALL_IMPL(rmdir)
  }
  #endif
  
-+SYSCALL_IMPL(setpgid)
++SYSCALL_IMPL(umask)
 +{
-+    return get_errno(setpgid(arg1, arg2));
++    return get_errno(umask(arg1));
 +}
 +
- SYSCALL_IMPL(times)
+ SYSCALL_IMPL(unlinkat)
  {
-     abi_ulong target_buf = arg1;
+     return do_unlinkat(arg1, arg2, arg3);
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 45fe05ac78..dcb35e1228 100644
+index dcb35e1228..419edceab2 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
 @@ -4241,8 +4241,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
      void *p;
  
      switch(num) {
--    case TARGET_NR_setpgid:
--        return get_errno(setpgid(arg1, arg2));
-     case TARGET_NR_umask:
-         return get_errno(umask(arg1));
+-    case TARGET_NR_umask:
+-        return get_errno(umask(arg1));
      case TARGET_NR_chroot:
+         if (!(p = lock_user_string(arg1)))
+             return -TARGET_EFAULT;
 diff --git a/linux-user/strace.list b/linux-user/strace.list
-index 68e202ca15..4a527b0c65 100644
+index 4a527b0c65..61d22ad16b 100644
 --- a/linux-user/strace.list
 +++ b/linux-user/strace.list
-@@ -1073,9 +1073,6 @@
- #ifdef TARGET_NR_setns
- { TARGET_NR_setns, "setns" , NULL, NULL, NULL },
+@@ -1293,9 +1293,6 @@
+ #ifdef TARGET_NR_ulimit
+ { TARGET_NR_ulimit, "ulimit" , NULL, NULL, NULL },
  #endif
--#ifdef TARGET_NR_setpgid
--{ TARGET_NR_setpgid, "setpgid" , NULL, NULL, NULL },
+-#ifdef TARGET_NR_umask
+-{ TARGET_NR_umask, "umask" , "%s(%#o)", NULL, NULL },
 -#endif
- #ifdef TARGET_NR_setpgrp
- { TARGET_NR_setpgrp, "setpgrp" , NULL, NULL, NULL },
+ #ifdef TARGET_NR_uname
+ { TARGET_NR_uname, "uname" , "%s(%p)", NULL, NULL },
  #endif
 -- 
 2.17.1
