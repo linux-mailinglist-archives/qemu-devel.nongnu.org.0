@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CC70622916
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 23:19:53 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53704 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6EAF52291D
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 23:24:25 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53784 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSTDg-0005Ej-SY
-	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 17:19:48 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51008)
+	id 1hSTI8-0000wT-Jc
+	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 17:24:24 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51026)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSZx-0003uD-2f
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:46 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSZy-0003vO-C3
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSZv-0004og-Rs
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:45 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:40703)
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSZx-0004q8-3g
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:46 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:35287)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hSSZv-0004np-Lt
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:43 -0400
-Received: by mail-pf1-x442.google.com with SMTP id u17so6164928pfn.7
-	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:38:43 -0700 (PDT)
+	id 1hSSZw-0004pR-T1
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:45 -0400
+Received: by mail-pg1-x544.google.com with SMTP id t1so4322877pgc.2
+	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:38:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=ECmaTCfEAMemyN6xkmuxaTzKq2RyHXzLJFeHp0RKqwc=;
-	b=q7VaexYd+7If+cN2hjhaFwAKNkcPwnI0/CufIkGx5LDTc1sAzpKs8XJ+C2gfl+pADo
-	JelSOM/p0qBipRdZdeO8FnD7I0Sfl3uduomlcO7xgAptqH+93GIaC/UY2EJNEQc+nc0s
-	ais6vaUpRo6PhKvkeLIFBtto7go/wo9GoFnd6J9DGCxP5iImwhOJyGnDu6ejYdAIFbrN
-	penQZzl50WLzHt8qszsFQlmrQR4zaiVTsSvbZ19cqsNgKTJ4g4URjeYojzVbsL5N5z1s
-	CQ88qFOKGuCeArEIMLxAOInDYdHZi6GvDbbGSSsn5bA0Q+bXkk9RFs4HITNHasWJSwUK
-	oboQ==
+	bh=76+mjrN9dH89H5/Svkq5qWa063W+g+MfoJgRAxm+Ooc=;
+	b=Edxlms5o54PZXlEF5kPdWDXQ4iTGf95k5hqzTjWT+BcEys4GQDYYRXX6bDuMS/HkUZ
+	rW08V+EwLSK6Z+sh1Fe05z1zYUErudvuhAAB4ecpPuMou4bY98ZbO0oIjjvNDtE7lqyP
+	boenIk/yvjt379MUEK6C3N0uBsy1hgAcUMIUbJxjFfTtQMqG/pZsaamaFoi/btMTjY4V
+	NYDQxmIonrxBBgLe79B9vTnhP5j1yssVtfS3JyvBGOSHpYXJbnqrzywyRivvJjb9Azhr
+	7ofNQP9aVjO5ksoXar31E0uj9jpvG4/cpDjaiSb8FF0Xe12daTPvnJkG9+R114+e+Lq9
+	0Zow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=ECmaTCfEAMemyN6xkmuxaTzKq2RyHXzLJFeHp0RKqwc=;
-	b=CxvpAYh6jRdUMUSlpLRl0tZ4GS3AIe18vjkFeRlidFzlKM5lGMzXe6/ShrpH/7KKV1
-	VgBSCU0nX2k+4NujshiXqSJcIYy81ao56IjP/s0i4+mxpsk+87boHS1d0m7wZkmNfERz
-	NGqDZdtRvwN3kfZGtY3Vet0hk7tDLtD1zZ0mqrBUB+iRahqrSdYqO0YS91ycysu72zBY
-	2EuTfE9T5GzciKSrcM4NIsJCVjZ68EdN5cIvdkJYP4ben/+b3zWwtnEFFixFAwF3VGip
-	5SahACBbFaRl47BGdzYT+byGpET30rfHYUWnR+/kbD+VaaqEvB4u5PyK3jpPCCvWmdfk
-	qKRA==
-X-Gm-Message-State: APjAAAUtuwL7c1YkIn2FhUTEbx4cTn0JdIUXlUYa9fFxtFC2psShbrq/
-	W0oYfpDi4HgkWMWzEf4AbE0MZ0tdESk=
-X-Google-Smtp-Source: APXvYqzggcw1zSdAw87EM5N5dtLrHHGvV3GeoHFhPMaI+6JWg8krXfz8lNcTZv3IdbQhDPxZVsNTWg==
-X-Received: by 2002:a62:5487:: with SMTP id i129mr75484904pfb.68.1558298322438;
-	Sun, 19 May 2019 13:38:42 -0700 (PDT)
+	bh=76+mjrN9dH89H5/Svkq5qWa063W+g+MfoJgRAxm+Ooc=;
+	b=Kw7AkimgssylYhsfuIdqpQZbC1Hu2CqeoJCoyhcsjOJckc4qLurFzxonuZ3Ck3CYl3
+	fH9BWN6qhebIMIgP6izLNCsblp/07zw+6Pnf507ocKMpwNkovy6QYxg0alwHPLHhEpAv
+	wsRL8RsUOWW1rPCQVDdIDh4086eSWwBTIOkyApDXd6iO+XSngcyqFDbOmCswQiquJQe1
+	bnEApqpd3ymbDSwhdRey6T9Y3gfb6oYF6vryjWt9z5nfLAJPiaMR9JXzaHNQ0ChvNuhP
+	uHFhdGACwLmWnomyyIFTQA/OS4y9V9MCd+GcBUQhlJ4monkBnh/FgJWXEkgRsvUX50Iz
+	H1Vg==
+X-Gm-Message-State: APjAAAUGDH9Telk523lYL4nv8kI/NODrrDsmYUQzCEKHt6ZXP2OaywOc
+	K1SpEmTESaQMcbgTgFs+tjiiX6FRXdY=
+X-Google-Smtp-Source: APXvYqyTyHDaPORyWwg7KN7CpY1LHEjClFKVWTB8y+EiA6mpUmfSMCapq+nVnZNyq5MbjjP4x3LeHg==
+X-Received: by 2002:a63:d150:: with SMTP id c16mr71008417pgj.439.1558298323712;
+	Sun, 19 May 2019 13:38:43 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	i7sm11397448pfo.19.2019.05.19.13.38.41
+	i7sm11397448pfo.19.2019.05.19.13.38.42
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 19 May 2019 13:38:41 -0700 (PDT)
+	Sun, 19 May 2019 13:38:43 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sun, 19 May 2019 13:37:11 -0700
-Message-Id: <20190519203726.20729-60-richard.henderson@linaro.org>
+Date: Sun, 19 May 2019 13:37:12 -0700
+Message-Id: <20190519203726.20729-61-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190519203726.20729-1-richard.henderson@linaro.org>
 References: <20190519203726.20729-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::442
-Subject: [Qemu-devel] [PATCH v7 59/74] linux-user: Split out sigpending,
- rt_sigpending
+X-Received-From: 2607:f8b0:4864:20::544
+Subject: [Qemu-devel] [PATCH v7 60/74] linux-user: Split out sigsuspend,
+ rt_sigsuspend
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,167 +82,202 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/syscall-defs.h    |  4 ++++
- linux-user/syscall-sig.inc.c | 45 ++++++++++++++++++++++++++++++++++++
- linux-user/syscall.c         | 36 -----------------------------
+ linux-user/syscall-defs.h    |  6 +++++
+ linux-user/syscall-sig.inc.c | 51 ++++++++++++++++++++++++++++++++++++
+ linux-user/syscall.c         | 42 ++---------------------------
  linux-user/strace.list       |  6 -----
- 4 files changed, 49 insertions(+), 42 deletions(-)
+ 4 files changed, 59 insertions(+), 46 deletions(-)
 
 diff --git a/linux-user/syscall-defs.h b/linux-user/syscall-defs.h
-index ef77f60524..83a69246d0 100644
+index 83a69246d0..2b930f5599 100644
 --- a/linux-user/syscall-defs.h
 +++ b/linux-user/syscall-defs.h
-@@ -194,6 +194,7 @@ SYSCALL_DEF(rt_sigaction, ARG_SIGNAL, ARG_PTR, ARG_PTR, ARG_PTR, ARG_DEC);
- #else
- SYSCALL_DEF(rt_sigaction, ARG_SIGNAL, ARG_PTR, ARG_PTR, ARG_DEC);
+@@ -196,6 +196,7 @@ SYSCALL_DEF(rt_sigaction, ARG_SIGNAL, ARG_PTR, ARG_PTR, ARG_DEC);
  #endif
-+SYSCALL_DEF(rt_sigpending, ARG_PTR, ARG_DEC);
+ SYSCALL_DEF(rt_sigpending, ARG_PTR, ARG_DEC);
  SYSCALL_DEF(rt_sigprocmask, ARG_SIGPROCMASKHOW, ARG_PTR, ARG_PTR, ARG_DEC);
++SYSCALL_DEF(rt_sigsuspend, ARG_PTR, ARG_DEC);
  #if !defined(SYSCALL_TABLE) || defined(TARGET_NR_semctl)
  SYSCALL_DEF(semctl, ARG_DEC, ARG_DEC, ARG_DEC, ARG_HEX);
-@@ -223,6 +224,9 @@ SYSCALL_DEF(shmget, ARG_DEC, ARG_DEC, ARG_HEX);
- #ifdef TARGET_NR_sigaction
- SYSCALL_DEF(sigaction, ARG_SIGNAL, ARG_PTR, ARG_PTR);
  #endif
-+#ifdef TARGET_NR_sigpending
-+SYSCALL_DEF(sigpending, ARG_PTR);
-+#endif
- #if defined(TARGET_ALPHA)
- SYSCALL_DEF(sigprocmask, ARG_SIGPROCMASKHOW, ARG_HEX);
+@@ -232,6 +233,11 @@ SYSCALL_DEF(sigprocmask, ARG_SIGPROCMASKHOW, ARG_HEX);
  #elif defined(TARGET_NR_sigprocmask)
+ SYSCALL_DEF(sigprocmask, ARG_SIGPROCMASKHOW, ARG_PTR, ARG_PTR);
+ #endif
++#if defined(TARGET_ALPHA)
++SYSCALL_DEF(sigsuspend, ARG_HEX);
++#elif defined(TARGET_NR_sigsuspend)
++SYSCALL_DEF(sigsuspend, ARG_PTR);
++#endif
+ #ifdef TARGET_NR_sgetmask
+ SYSCALL_DEF(sgetmask);
+ #endif
 diff --git a/linux-user/syscall-sig.inc.c b/linux-user/syscall-sig.inc.c
-index 8a6518bdaa..fe717a5121 100644
+index fe717a5121..23ea14e2a6 100644
 --- a/linux-user/syscall-sig.inc.c
 +++ b/linux-user/syscall-sig.inc.c
-@@ -117,6 +117,33 @@ SYSCALL_IMPL(rt_sigaction)
+@@ -191,6 +191,30 @@ SYSCALL_IMPL(rt_sigprocmask)
      return ret;
  }
  
-+SYSCALL_IMPL(rt_sigpending)
++SYSCALL_IMPL(rt_sigsuspend)
 +{
-+    sigset_t set;
++    CPUState *cpu = ENV_GET_CPU(cpu_env);
++    TaskState *ts = cpu->opaque;
 +    abi_long ret;
++    void *p;
 +
-+    /*
-+     * Yes, this check is >, not != like most. We follow the kernel's
-+     * logic and it does it like this because it implements
-+     * NR_sigpending through the same code path, and in that case
-+     * the old_sigset_t is smaller in size.
-+     */
-+    if (arg2 > sizeof(target_sigset_t)) {
++    if (arg2 != sizeof(target_sigset_t)) {
 +        return -TARGET_EINVAL;
 +    }
++    p = lock_user(VERIFY_READ, arg1, sizeof(target_sigset_t), 1);
++    if (!p) {
++        return -TARGET_EFAULT;
++    }
++    target_to_host_sigset(&ts->sigsuspend_mask, p);
++    unlock_user(p, arg1, 0);
 +
-+    ret = get_errno(sigpending(&set));
-+    if (!is_error(ret)) {
-+        void *p = lock_user(VERIFY_WRITE, arg1, sizeof(target_sigset_t), 0);
-+        if (!p) {
-+            return -TARGET_EFAULT;
-+        }
-+        host_to_target_sigset(p, &set);
-+        unlock_user(p, arg1, sizeof(target_sigset_t));
++    ret = get_errno(safe_rt_sigsuspend(&ts->sigsuspend_mask, SIGSET_T_SIZE));
++    if (ret != -TARGET_ERESTARTSYS) {
++        ts->in_sigsuspend = 1;
 +    }
 +    return ret;
 +}
 +
- SYSCALL_IMPL(rt_sigprocmask)
+ #ifdef TARGET_NR_sigaction
+ SYSCALL_IMPL(sigaction)
  {
-     int how = 0;
-@@ -259,6 +286,24 @@ SYSCALL_IMPL(sigaction)
+@@ -380,6 +404,33 @@ SYSCALL_IMPL(sigprocmask)
  }
  #endif
  
-+#ifdef TARGET_NR_sigpending
-+SYSCALL_IMPL(sigpending)
++#ifdef TARGET_NR_sigsuspend
++SYSCALL_IMPL(sigsuspend)
 +{
-+    sigset_t set;
-+    abi_long ret = get_errno(sigpending(&set));
++    CPUState *cpu = ENV_GET_CPU(cpu_env);
++    TaskState *ts = cpu->opaque;
++    abi_long ret;
 +
-+    if (!is_error(ret)) {
-+        void *p = lock_user(VERIFY_WRITE, arg1, sizeof(target_sigset_t), 0);
-+        if (!p) {
-+            return -TARGET_EFAULT;
-+        }
-+        host_to_target_old_sigset(p, &set);
-+        unlock_user(p, arg1, sizeof(target_sigset_t));
++#if defined(TARGET_ALPHA)
++    abi_ulong mask = arg1;
++    target_to_host_old_sigset(&ts->sigsuspend_mask, &mask);
++#else
++    void *p = lock_user(VERIFY_READ, arg1, sizeof(target_sigset_t), 1);
++    if (!p) {
++        return -TARGET_EFAULT;
++    }
++    target_to_host_old_sigset(&ts->sigsuspend_mask, p);
++    unlock_user(p, arg1, 0);
++#endif
++
++    ret = get_errno(safe_rt_sigsuspend(&ts->sigsuspend_mask, SIGSET_T_SIZE));
++    if (ret != -TARGET_ERESTARTSYS) {
++        ts->in_sigsuspend = 1;
 +    }
 +    return ret;
 +}
 +#endif
 +
- #ifdef TARGET_NR_sigprocmask
- SYSCALL_IMPL(sigprocmask)
+ #ifdef TARGET_NR_sgetmask
+ SYSCALL_IMPL(sgetmask)
  {
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 11bbdfade4..7dda237c95 100644
+index 7dda237c95..00f4ba8753 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -4241,42 +4241,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+@@ -4227,7 +4227,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+                             abi_long arg5, abi_long arg6, abi_long arg7,
+                             abi_long arg8)
+ {
+-    CPUState *cpu = ENV_GET_CPU(cpu_env);
+     abi_long ret;
+ #if defined(TARGET_NR_stat) || defined(TARGET_NR_stat64) \
+     || defined(TARGET_NR_lstat) || defined(TARGET_NR_lstat64) \
+@@ -4241,45 +4240,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
      void *p;
  
      switch(num) {
--#ifdef TARGET_NR_sigpending
--    case TARGET_NR_sigpending:
+-#ifdef TARGET_NR_sigsuspend
+-    case TARGET_NR_sigsuspend:
 -        {
--            sigset_t set;
--            ret = get_errno(sigpending(&set));
--            if (!is_error(ret)) {
--                if (!(p = lock_user(VERIFY_WRITE, arg1, sizeof(target_sigset_t), 0)))
--                    return -TARGET_EFAULT;
--                host_to_target_old_sigset(p, &set);
--                unlock_user(p, arg1, sizeof(target_sigset_t));
+-            TaskState *ts = cpu->opaque;
+-#if defined(TARGET_ALPHA)
+-            abi_ulong mask = arg1;
+-            target_to_host_old_sigset(&ts->sigsuspend_mask, &mask);
+-#else
+-            if (!(p = lock_user(VERIFY_READ, arg1, sizeof(target_sigset_t), 1)))
+-                return -TARGET_EFAULT;
+-            target_to_host_old_sigset(&ts->sigsuspend_mask, p);
+-            unlock_user(p, arg1, 0);
+-#endif
+-            ret = get_errno(safe_rt_sigsuspend(&ts->sigsuspend_mask,
+-                                               SIGSET_T_SIZE));
+-            if (ret != -TARGET_ERESTARTSYS) {
+-                ts->in_sigsuspend = 1;
 -            }
 -        }
 -        return ret;
 -#endif
--    case TARGET_NR_rt_sigpending:
+-    case TARGET_NR_rt_sigsuspend:
 -        {
--            sigset_t set;
+-            TaskState *ts = cpu->opaque;
 -
--            /* Yes, this check is >, not != like most. We follow the kernel's
--             * logic and it does it like this because it implements
--             * NR_sigpending through the same code path, and in that case
--             * the old_sigset_t is smaller in size.
--             */
--            if (arg2 > sizeof(target_sigset_t)) {
+-            if (arg2 != sizeof(target_sigset_t)) {
 -                return -TARGET_EINVAL;
 -            }
--
--            ret = get_errno(sigpending(&set));
--            if (!is_error(ret)) {
--                if (!(p = lock_user(VERIFY_WRITE, arg1, sizeof(target_sigset_t), 0)))
--                    return -TARGET_EFAULT;
--                host_to_target_sigset(p, &set);
--                unlock_user(p, arg1, sizeof(target_sigset_t));
+-            if (!(p = lock_user(VERIFY_READ, arg1, sizeof(target_sigset_t), 1)))
+-                return -TARGET_EFAULT;
+-            target_to_host_sigset(&ts->sigsuspend_mask, p);
+-            unlock_user(p, arg1, 0);
+-            ret = get_errno(safe_rt_sigsuspend(&ts->sigsuspend_mask,
+-                                               SIGSET_T_SIZE));
+-            if (ret != -TARGET_ERESTARTSYS) {
+-                ts->in_sigsuspend = 1;
 -            }
 -        }
 -        return ret;
- #ifdef TARGET_NR_sigsuspend
-     case TARGET_NR_sigsuspend:
+     case TARGET_NR_rt_sigtimedwait:
          {
+             sigset_t set;
+@@ -6659,6 +6619,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+       return do_set_thread_area(cpu_env, arg1);
+ #elif defined(TARGET_M68K)
+       {
++          CPUState *cpu = ENV_GET_CPU(cpu_env);
+           TaskState *ts = cpu->opaque;
+           ts->tp_value = arg1;
+           return 0;
+@@ -6673,6 +6634,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+         return do_get_thread_area(cpu_env, arg1);
+ #elif defined(TARGET_M68K)
+         {
++            CPUState *cpu = ENV_GET_CPU(cpu_env);
+             TaskState *ts = cpu->opaque;
+             return ts->tp_value;
+         }
 diff --git a/linux-user/strace.list b/linux-user/strace.list
-index 7157876302..978e47bf0e 100644
+index 978e47bf0e..26df8b25cd 100644
 --- a/linux-user/strace.list
 +++ b/linux-user/strace.list
-@@ -926,9 +926,6 @@
- #ifdef TARGET_NR_rmdir
- { TARGET_NR_rmdir, "rmdir" , NULL, NULL, NULL },
+@@ -932,9 +932,6 @@
+ #ifdef TARGET_NR_rt_sigreturn
+ { TARGET_NR_rt_sigreturn, "rt_sigreturn" , NULL, NULL, NULL },
  #endif
--#ifdef TARGET_NR_rt_sigpending
--{ TARGET_NR_rt_sigpending, "rt_sigpending" , NULL, NULL, NULL },
+-#ifdef TARGET_NR_rt_sigsuspend
+-{ TARGET_NR_rt_sigsuspend, "rt_sigsuspend" , NULL, NULL, NULL },
 -#endif
- #ifdef TARGET_NR_rt_sigqueueinfo
- { TARGET_NR_rt_sigqueueinfo, "rt_sigqueueinfo" , NULL, print_rt_sigqueueinfo, NULL },
+ #ifdef TARGET_NR_rt_sigtimedwait
+ { TARGET_NR_rt_sigtimedwait, "rt_sigtimedwait" , NULL, NULL, NULL },
  #endif
 @@ -1128,9 +1125,6 @@
- #ifdef TARGET_NR_signalfd4
- { TARGET_NR_signalfd4, "signalfd4" , NULL, NULL, NULL },
- #endif
--#ifdef TARGET_NR_sigpending
--{ TARGET_NR_sigpending, "sigpending" , NULL, NULL, NULL },
--#endif
  #ifdef TARGET_NR_sigreturn
  { TARGET_NR_sigreturn, "sigreturn" , NULL, NULL, NULL },
+ #endif
+-#ifdef TARGET_NR_sigsuspend
+-{ TARGET_NR_sigsuspend, "sigsuspend" , NULL, NULL, NULL },
+-#endif
+ #ifdef TARGET_NR_socket
+ { TARGET_NR_socket, "socket" , NULL, print_socket, NULL },
  #endif
 -- 
 2.17.1
