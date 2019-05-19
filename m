@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3421F2291B
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 23:22:25 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53758 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5997222920
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 23:25:02 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53790 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSTGC-0007f7-Bv
-	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 17:22:24 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51127)
+	id 1hSTIj-0001Sf-G8
+	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 17:25:01 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51135)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSa4-00040f-C0
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:53 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSa5-00041U-5E
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSa3-0004xw-26
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:52 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:38314)
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSa4-0004zA-7B
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:53 -0400
+Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:46929)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hSSa2-0004wx-S0
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:51 -0400
-Received: by mail-pf1-x442.google.com with SMTP id b76so6171951pfb.5
-	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:38:50 -0700 (PDT)
+	id 1hSSa4-0004yQ-1X
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:52 -0400
+Received: by mail-pl1-x641.google.com with SMTP id r18so5699095pls.13
+	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:38:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=C4XNH+VeEXaL+6UuHWZfoss3TaaEPTbmJNRx30bs8d0=;
-	b=HlkoJCccjOovpX7qB2H7RM3LLddUnfOgcGNq2r9L7iv7jBhxc4TCfALr2Y0kJQhGLi
-	pjcI4vJFA9mvNMBTOvit2RyzS3Qob7XGGdTKwnpXLhQsYKZuy2M8pSLa62n1RTdKIkTT
-	WaDGdYAdlGBkk2KOioZ3lOcaJgThBANn7WM6StZ5btJKz13q24nHkg/2GdC/bf/wnDCP
-	QMgong0Msl/4hTc/Kpebl7C42rDwkBQVNyY7PWmT5no5HqK77UY1Fqg8XK5vtg/HOuzL
-	aJCZ7pLozOS3xLbkRONCiDyhwfbtSSauoLIDJA3mDU59PBr+kr0zgCkQSGyKaTQH7UX1
-	RgpA==
+	bh=bykKUGCflVir5L1X693JNtqoexPRstJK20ieV2db78g=;
+	b=DiXkK1HULs1qZQr6XHCdONJlFdr4Z6wp5i2+/yVPGm4ltSd06UxUbj88jhjOY5yS6r
+	6b1sM7jbMixUzHUW+5NthhDJvTSJF03KlzWTOlbK5InvaNLIA1fkm+yjQ7/gQeSL0fML
+	8h+ErZgLWozYoGlaBs6ASRdFSZ6btkE6gs1zJM80kehykFEi+tug1yeRWaU7yv+xflof
+	B6ubZwuKSNswz4iTYBcGz7phNibpZautwa8NQAJuZSPjrXLKHUxSnM9YLMXR3JDP2ogz
+	oezydmOdVFGjkpUf40jWHnaE0Z8wJ7C/0nOTKVVQj/zdEBN2yPWLnnXAhuUJhA95KRga
+	uZ1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=C4XNH+VeEXaL+6UuHWZfoss3TaaEPTbmJNRx30bs8d0=;
-	b=NkVmQrVicfGwbqRlEoBJ01vRuIVLNcHYebUZO7946E7xpqtjLf9RgQZxosLX1LxD5P
-	45y/htrNSTQWbSJZ8vB5tpSXDUCO0oWoi+ZelHgRJxgVfIKqoJ2ONnL7H76cJna08yxj
-	M0qPqbV6SzJX4GcFWOm5tWlXM3U+qWZSQD7EGC1zcHPx2dcgOYL4grsiGErwXrr2Quc8
-	su53dwQ7/bfSEnIhQl1/SjuSqa+eBkvh6J1RWaNqR41gLwx73ik8bnHm9IKUg6oQY5dM
-	hXpV/KxOvScIjCPWX/xbUBnxcW93QS/IlHKBCZzclIa489zaDixDqfeLeGde1z8qMZrQ
-	nMYg==
-X-Gm-Message-State: APjAAAW19lCwXShHSmc01ASaKEk3YyIVYLCmJhWpXZ+ekX6R59EREg44
-	62U84PEnQiXwOEjfxnx91IExM+85k+k=
-X-Google-Smtp-Source: APXvYqwRibmGPBZo54XXGUUlLz7h9gaOzcKGbe+MteJY0zpvS1tc2MDPCqBQTEnjj4Q0U0lPb0Ej+Q==
-X-Received: by 2002:a63:5659:: with SMTP id g25mr72010606pgm.59.1558298329635; 
-	Sun, 19 May 2019 13:38:49 -0700 (PDT)
+	bh=bykKUGCflVir5L1X693JNtqoexPRstJK20ieV2db78g=;
+	b=j1z1MskPmqtoE442rE1OhoQDl4l/o+D4Ew48E355XrAljMbcDSH0RYqTAO3cuJWuQ8
+	cMfvblFtvvBJWWdseZvBPDPZxT+5UFFQQvi7YURV/pyaXjdFZPfg/gFsCtmNUhuw3AdT
+	xbmTz8CT/Rai9NWE0iIQIXM0FnNcGiK/UdzLJCVBOdIj7D7QjilH235HPEynF4on7/4q
+	xXJwrchVTpU5/a1uZvLkU8wbAXW0rAcuMX2HWZyD3QfZxx+AFQazd1XE6UPjGpEKm0du
+	bjiAB27I6+HnNOn/+G/vyMiwZf/TB4ROdmhhgL7iyLBK6dXUiHRWcCff2ACScgs8WMTh
+	gz0Q==
+X-Gm-Message-State: APjAAAUf7+DETbkHq9X8c8ykwM1EWIgJIdcG4P9oq5NCt81IaAGvXsLh
+	79/+9Le4T78QZm4hukD6c+8UXKDAXh0=
+X-Google-Smtp-Source: APXvYqy7Xo55keKIjpgFUODNPw2D3QNNSkcUJwmFzso98SAZGdgswnm8e1cMYGeXjaCxvQNXA3ZY5g==
+X-Received: by 2002:a17:902:7617:: with SMTP id
+	k23mr28208583pll.175.1558298330853; 
+	Sun, 19 May 2019 13:38:50 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	i7sm11397448pfo.19.2019.05.19.13.38.48
+	i7sm11397448pfo.19.2019.05.19.13.38.49
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 19 May 2019 13:38:49 -0700 (PDT)
+	Sun, 19 May 2019 13:38:50 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sun, 19 May 2019 13:37:17 -0700
-Message-Id: <20190519203726.20729-66-richard.henderson@linaro.org>
+Date: Sun, 19 May 2019 13:37:18 -0700
+Message-Id: <20190519203726.20729-67-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190519203726.20729-1-richard.henderson@linaro.org>
 References: <20190519203726.20729-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::442
-Subject: [Qemu-devel] [PATCH v7 65/74] linux-user: Split out getrlimit,
- setrlimit
+X-Received-From: 2607:f8b0:4864:20::641
+Subject: [Qemu-devel] [PATCH v7 66/74] linux-user: Split out getrusage
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,186 +82,80 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/syscall-defs.h     |  6 ++++
- linux-user/syscall-proc.inc.c | 52 +++++++++++++++++++++++++++++++++++
- linux-user/syscall.c          | 46 -------------------------------
- linux-user/strace.list        |  6 ----
- 4 files changed, 58 insertions(+), 52 deletions(-)
+ linux-user/syscall-defs.h     |  1 +
+ linux-user/syscall-proc.inc.c | 12 ++++++++++++
+ linux-user/syscall.c          |  9 ---------
+ linux-user/strace.list        |  3 ---
+ 4 files changed, 13 insertions(+), 12 deletions(-)
 
 diff --git a/linux-user/syscall-defs.h b/linux-user/syscall-defs.h
-index 3ba697fd53..34426a2e23 100644
+index 34426a2e23..446175af84 100644
 --- a/linux-user/syscall-defs.h
 +++ b/linux-user/syscall-defs.h
-@@ -72,6 +72,9 @@ SYSCALL_DEF(getpid);
- #ifdef TARGET_NR_getppid
- SYSCALL_DEF(getppid);
+@@ -75,6 +75,7 @@ SYSCALL_DEF(getppid);
+ #ifdef TARGET_NR_getrlimit
+ SYSCALL_DEF(getrlimit, ARG_DEC, ARG_PTR);
  #endif
-+#ifdef TARGET_NR_getrlimit
-+SYSCALL_DEF(getrlimit, ARG_DEC, ARG_PTR);
-+#endif
++SYSCALL_DEF(getrusage, ARG_DEC, ARG_PTR);
  SYSCALL_DEF(getsid, ARG_DEC);
  #ifdef TARGET_NR_getxpid
  SYSCALL_DEF(getxpid);
-@@ -212,6 +215,9 @@ SYSCALL_DEF(semget, ARG_DEC, ARG_DEC, ARG_HEX);
- #endif
- SYSCALL_DEF(sethostname, ARG_STR);
- SYSCALL_DEF(setpgid, ARG_DEC, ARG_DEC);
-+#ifdef TARGET_NR_setrlimit
-+SYSCALL_DEF(setrlimit, ARG_DEC, ARG_PTR);
-+#endif
- SYSCALL_DEF(setsid);
- #if !defined(SYSCALL_TABLE) || defined(TARGET_NR_semop)
- SYSCALL_DEF(semop, ARG_DEC, ARG_PTR, ARG_DEC);
 diff --git a/linux-user/syscall-proc.inc.c b/linux-user/syscall-proc.inc.c
-index b1a801fb62..1238b08191 100644
+index 1238b08191..bf9e278bf0 100644
 --- a/linux-user/syscall-proc.inc.c
 +++ b/linux-user/syscall-proc.inc.c
-@@ -479,6 +479,26 @@ SYSCALL_IMPL(getppid)
+@@ -499,6 +499,18 @@ SYSCALL_IMPL(getrlimit)
+     return ret;
  }
  #endif
- 
-+#ifdef TARGET_NR_getrlimit
-+SYSCALL_IMPL(getrlimit)
-+{
-+    int resource = target_to_host_resource(arg1);
-+    struct target_rlimit *target_rlim;
-+    struct rlimit rlim;
-+    abi_long ret;
 +
-+    ret = get_errno(getrlimit(resource, &rlim));
++SYSCALL_IMPL(getrusage)
++{
++    struct rusage rusage;
++    abi_long ret = get_errno(getrusage(arg1, &rusage));
++
 +    if (!is_error(ret)) {
-+        if (!lock_user_struct(VERIFY_WRITE, target_rlim, arg2, 0)) {
-+            return -TARGET_EFAULT;
-+        }
-+        target_rlim->rlim_cur = host_to_target_rlim(rlim.rlim_cur);
-+        target_rlim->rlim_max = host_to_target_rlim(rlim.rlim_max);
-+        unlock_user_struct(target_rlim, arg2, 1);
++        ret = host_to_target_rusage(arg2, &rusage);
 +    }
 +    return ret;
 +}
-+#endif
++
  SYSCALL_IMPL(getsid)
  {
      return get_errno(getsid(arg1));
-@@ -518,6 +538,38 @@ SYSCALL_IMPL(setpgid)
-     return get_errno(setpgid(arg1, arg2));
- }
- 
-+#ifdef TARGET_NR_setrlimit
-+SYSCALL_IMPL(setrlimit)
-+{
-+    int resource = target_to_host_resource(arg1);
-+    struct target_rlimit *target_rlim;
-+    struct rlimit rlim;
-+
-+    if (!lock_user_struct(VERIFY_READ, target_rlim, arg2, 1)) {
-+        return -TARGET_EFAULT;
-+    }
-+    rlim.rlim_cur = target_to_host_rlim(target_rlim->rlim_cur);
-+    rlim.rlim_max = target_to_host_rlim(target_rlim->rlim_max);
-+    unlock_user_struct(target_rlim, arg2, 0);
-+
-+    /*
-+     * If we just passed through resource limit settings for memory then
-+     * they would also apply to QEMU's own allocations, and QEMU will
-+     * crash or hang or die if its allocations fail. Ideally we would
-+     * track the guest allocations in QEMU and apply the limits ourselves.
-+     * For now, just tell the guest the call succeeded but don't actually
-+     * limit anything.
-+     */
-+    if (resource != RLIMIT_AS &&
-+        resource != RLIMIT_DATA &&
-+        resource != RLIMIT_STACK) {
-+        return get_errno(setrlimit(resource, &rlim));
-+    } else {
-+        return 0;
-+    }
-+}
-+#endif
-+
- SYSCALL_IMPL(setsid)
- {
-     return get_errno(setsid());
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 6dd4196647..401450b0e3 100644
+index 401450b0e3..5fe52c775d 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -4240,52 +4240,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+@@ -4240,15 +4240,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
      void *p;
  
      switch(num) {
--#ifdef TARGET_NR_setrlimit
--    case TARGET_NR_setrlimit:
+-    case TARGET_NR_getrusage:
 -        {
--            int resource = target_to_host_resource(arg1);
--            struct target_rlimit *target_rlim;
--            struct rlimit rlim;
--            if (!lock_user_struct(VERIFY_READ, target_rlim, arg2, 1))
--                return -TARGET_EFAULT;
--            rlim.rlim_cur = target_to_host_rlim(target_rlim->rlim_cur);
--            rlim.rlim_max = target_to_host_rlim(target_rlim->rlim_max);
--            unlock_user_struct(target_rlim, arg2, 0);
--            /*
--             * If we just passed through resource limit settings for memory then
--             * they would also apply to QEMU's own allocations, and QEMU will
--             * crash or hang or die if its allocations fail. Ideally we would
--             * track the guest allocations in QEMU and apply the limits ourselves.
--             * For now, just tell the guest the call succeeded but don't actually
--             * limit anything.
--             */
--            if (resource != RLIMIT_AS &&
--                resource != RLIMIT_DATA &&
--                resource != RLIMIT_STACK) {
--                return get_errno(setrlimit(resource, &rlim));
--            } else {
--                return 0;
--            }
--        }
--#endif
--#ifdef TARGET_NR_getrlimit
--    case TARGET_NR_getrlimit:
--        {
--            int resource = target_to_host_resource(arg1);
--            struct target_rlimit *target_rlim;
--            struct rlimit rlim;
--
--            ret = get_errno(getrlimit(resource, &rlim));
+-            struct rusage rusage;
+-            ret = get_errno(getrusage(arg1, &rusage));
 -            if (!is_error(ret)) {
--                if (!lock_user_struct(VERIFY_WRITE, target_rlim, arg2, 0))
--                    return -TARGET_EFAULT;
--                target_rlim->rlim_cur = host_to_target_rlim(rlim.rlim_cur);
--                target_rlim->rlim_max = host_to_target_rlim(rlim.rlim_max);
--                unlock_user_struct(target_rlim, arg2, 1);
+-                ret = host_to_target_rusage(arg2, &rusage);
 -            }
 -        }
 -        return ret;
--#endif
-     case TARGET_NR_getrusage:
+     case TARGET_NR_gettimeofday:
          {
-             struct rusage rusage;
+             struct timeval tv;
 diff --git a/linux-user/strace.list b/linux-user/strace.list
-index 361ceec853..711ad9c0aa 100644
+index 711ad9c0aa..00a32bc616 100644
 --- a/linux-user/strace.list
 +++ b/linux-user/strace.list
-@@ -280,9 +280,6 @@
- #ifdef TARGET_NR_getresuid32
- { TARGET_NR_getresuid32, "getresuid32" , NULL, NULL, NULL },
- #endif
--#ifdef TARGET_NR_getrlimit
--{ TARGET_NR_getrlimit, "getrlimit" , NULL, NULL, NULL },
--#endif
+@@ -283,9 +283,6 @@
  #ifdef TARGET_NR_get_robust_list
  { TARGET_NR_get_robust_list, "get_robust_list" , NULL, NULL, NULL },
  #endif
-@@ -1061,9 +1058,6 @@
- #ifdef TARGET_NR_setreuid32
- { TARGET_NR_setreuid32, "setreuid32" , NULL, NULL, NULL },
- #endif
--#ifdef TARGET_NR_setrlimit
--{ TARGET_NR_setrlimit, "setrlimit" , NULL, NULL, NULL },
+-#ifdef TARGET_NR_getrusage
+-{ TARGET_NR_getrusage, "getrusage" , NULL, NULL, NULL },
 -#endif
- #ifdef TARGET_NR_set_robust_list
- { TARGET_NR_set_robust_list, "set_robust_list" , NULL, NULL, NULL },
+ #ifdef TARGET_NR_getsockname
+ { TARGET_NR_getsockname, "getsockname" , NULL, NULL, NULL },
  #endif
 -- 
 2.17.1
