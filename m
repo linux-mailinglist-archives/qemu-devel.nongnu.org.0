@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88B8D22915
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 23:19:06 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53700 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 604572290F
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 23:16:20 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53672 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSTCz-0004X7-JD
-	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 17:19:05 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50936)
+	id 1hSTAJ-00029O-Fg
+	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 17:16:19 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50953)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSZr-0003rA-57
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSZs-0003rB-AF
 	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSZq-0004hg-1f
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:39 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:41410)
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSZr-0004iz-5w
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:40 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:42367)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hSSZp-0004gf-QO
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:37 -0400
-Received: by mail-pl1-x642.google.com with SMTP id f12so5707321plt.8
-	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:38:37 -0700 (PDT)
+	id 1hSSZq-0004i4-V6
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:39 -0400
+Received: by mail-pg1-x544.google.com with SMTP id 145so5730522pgg.9
+	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:38:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=MSnLx4TEMgAogxZCRA6zSvqXurn3uaPFvTU6tGKAUTY=;
-	b=yOdEk4RBWdpJRxv5GrOS2C+3ELsjxW6DTlLQXge1/VAhTA2M30GV6M0ZwzyotMj/T9
-	8DraWkYKjUgJ16N9+SME7qtxLqrIlsWYBhcszL9x10kpqMLDuUOQ6x9xKk55IVwCVPgA
-	YAxA1jQkHnikbkRcAtYJrGhIZ27Jmu4tTfdYurD8qkBlwFejOM8JlC6J5LQC7Z6x1gdn
-	RUJ9go/PemRQ1Q3AstEEXA8DRLLh8AOW+1tYHOjlZ0191WMfX814acBPWv1EZZDkpKLC
-	WF5S4mXRbKA+3dk6q6Pwyga0vQhLiegklfTLanzvpU6LqwBE0K8TDMmW3Vhpd3Nliep9
-	KZVQ==
+	bh=ttWxbzBbz5ihBAO0dy5RNz6XPVqQZ5W6pS6uncyoUTw=;
+	b=ceaU80lFl0hNLo3mamAAuO33hhZrmGbtyI7ycPbYg50IMB1ddBC4BHTkQ00WvE1pW+
+	qFdLzn5KItuiHl30u+GRqXYe7xaZhA4aI8yMyLyh1MRP+yTG3KXXqLR6LEBhcRNj+Wza
+	cfL4hD3ql9eSVgmhDPwZMpsHGpN+lv2WTFlUYF4uazb+C+lWTAuWg+tXH6hcSCtKsRSc
+	+DUL44+j1eREW2mmqeOizZFkht7KJs8ND+6MQK3Qa+OYMOhWkKE3ZOdM0GTGd0Km+olw
+	tFJbI6eTrYtiqNNUSsYw8kycgw76MjTMNORCpWkQG8/uvatR9lFGTr08bqaMzmBYdFdp
+	XcGw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=MSnLx4TEMgAogxZCRA6zSvqXurn3uaPFvTU6tGKAUTY=;
-	b=dWg1bxegxo8MwwGHVxeimbCS850pNAg8bmYYqb/kZsht+6DHptdT77Xi2//5UmiUZe
-	GhwSeArOr9zURXb+GlwZ135Uuiou4cBuVwV8cRsO5oY9WKW1uYDb7inmkYbQu9oXKsCU
-	1xpSdhPQnHsJzfVYmBqIjouEAIM/Yl62a/d7hzp897PtvdKcXJegI3hQ5Lf86MFOy0Jf
-	ympUtjZE4fcjUl/KJzV+rxXDYpi+5oNhI6uVkdwI99G4Az+Mc83KxSxAZubjDgEnSvVB
-	xZLxb5lUS+P0dfhcZuypJgeZlgnftYKj0k05/v/Sg3vkaWzJYA+ef0psrFMLAk20FcmZ
-	7wHQ==
-X-Gm-Message-State: APjAAAVwjhN8FmxdZA1UYO7+qcej1F3yjEAJG7YWs+v0d64wBi70UNSP
-	NIpsWpu6GkKidByqxngOrNQi7lBx1D8=
-X-Google-Smtp-Source: APXvYqzDjf6RKJ/fR5vhWZXIxBWEEDgbv9oW7hDd1e5T9mtfv3Y/ABrzwTZWsmFbfrj8+NP+J+1njQ==
-X-Received: by 2002:a17:902:70c6:: with SMTP id
-	l6mr54073267plt.84.1558298316633; 
-	Sun, 19 May 2019 13:38:36 -0700 (PDT)
+	bh=ttWxbzBbz5ihBAO0dy5RNz6XPVqQZ5W6pS6uncyoUTw=;
+	b=DRJKQKBQXh5jDF65mjlI3LLX7D25OUD/BMCLwJ4hRvRjwiSimyx1eke2NLIRXFnabB
+	tC11R9A8mhjJixuDh8+7yYFV30PUD9sBZqvnjvj10zkdWnuNL/V2P5o+9H5LPHeGUoDF
+	rlR+BlpvFhMmxWXoTG2c2WaSKNkGHXA23FSTteu9LqVYcK/1nF1djuXDCQqU7oAtlarM
+	Nvz69BAfPlzOFhhV9/GVkFbbZUySVnHoknp8WFwsh0D9TWaVExx0TllAatunvQwgYJON
+	3TkTAfpc6gKz7j31JjZlbg2ui90DWjfQTxmpM+VrWwncgkOvG36lFNnu4cqoxv2l0nZE
+	smSg==
+X-Gm-Message-State: APjAAAVBSOJ6lk85Qsoeiu0Zc1Nk/VhY1NiPSbQhbWzSq5MHH79LZlhm
+	Lvrfp4x1EaNLuiVQpTQH7hn+uqA8gxA=
+X-Google-Smtp-Source: APXvYqzESC3LlQaQGPZnHpVh7OjjN/hl2NcJX/DzavPCN82jKNjwnfYR935celpeRsO0Ules0sZsLw==
+X-Received: by 2002:a65:6559:: with SMTP id a25mr47363983pgw.33.1558298317681; 
+	Sun, 19 May 2019 13:38:37 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	i7sm11397448pfo.19.2019.05.19.13.38.35
+	i7sm11397448pfo.19.2019.05.19.13.38.36
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 19 May 2019 13:38:35 -0700 (PDT)
+	Sun, 19 May 2019 13:38:36 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sun, 19 May 2019 13:37:06 -0700
-Message-Id: <20190519203726.20729-55-richard.henderson@linaro.org>
+Date: Sun, 19 May 2019 13:37:07 -0700
+Message-Id: <20190519203726.20729-56-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190519203726.20729-1-richard.henderson@linaro.org>
 References: <20190519203726.20729-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::642
-Subject: [Qemu-devel] [PATCH v7 54/74] linux-user: Split out getpgid, getpgrp
+X-Received-From: 2607:f8b0:4864:20::544
+Subject: [Qemu-devel] [PATCH v7 55/74] linux-user: Split out getsid, setsid
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,90 +81,105 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/syscall-defs.h     |  4 ++++
- linux-user/syscall-proc.inc.c | 12 ++++++++++++
- linux-user/syscall.c          |  6 ------
+ linux-user/syscall-defs.h     |  2 ++
+ linux-user/syscall-proc.inc.c | 10 ++++++++++
+ linux-user/syscall.c          |  4 ----
  linux-user/strace.list        |  6 ------
- 4 files changed, 16 insertions(+), 12 deletions(-)
+ 4 files changed, 12 insertions(+), 10 deletions(-)
 
 diff --git a/linux-user/syscall-defs.h b/linux-user/syscall-defs.h
-index b93ca1f78a..2ade9ec749 100644
+index 2ade9ec749..cd2c127c41 100644
 --- a/linux-user/syscall-defs.h
 +++ b/linux-user/syscall-defs.h
-@@ -59,6 +59,10 @@ SYSCALL_DEF(futimesat, ARG_ATDIRFD, ARG_STR, ARG_PTR);
- #ifdef TARGET_NR_fork
- SYSCALL_DEF(fork);
+@@ -69,6 +69,7 @@ SYSCALL_DEF(getpid);
+ #ifdef TARGET_NR_getppid
+ SYSCALL_DEF(getppid);
  #endif
-+SYSCALL_DEF(getpgid, ARG_DEC);
-+#ifdef TARGET_NR_getpgrp
-+SYSCALL_DEF(getpgrp);
-+#endif
- #ifdef TARGET_NR_getpid
- SYSCALL_DEF(getpid);
++SYSCALL_DEF(getsid, ARG_DEC);
+ #ifdef TARGET_NR_getxpid
+ SYSCALL_DEF(getxpid);
+ #endif
+@@ -193,6 +194,7 @@ SYSCALL_DEF(semctl, ARG_DEC, ARG_DEC, ARG_DEC, ARG_HEX);
+ SYSCALL_DEF(semget, ARG_DEC, ARG_DEC, ARG_HEX);
+ #endif
+ SYSCALL_DEF(setpgid, ARG_DEC, ARG_DEC);
++SYSCALL_DEF(setsid);
+ #if !defined(SYSCALL_TABLE) || defined(TARGET_NR_semop)
+ SYSCALL_DEF(semop, ARG_DEC, ARG_PTR, ARG_DEC);
  #endif
 diff --git a/linux-user/syscall-proc.inc.c b/linux-user/syscall-proc.inc.c
-index 5bd27d1d4b..39de5b7863 100644
+index 39de5b7863..567df54581 100644
 --- a/linux-user/syscall-proc.inc.c
 +++ b/linux-user/syscall-proc.inc.c
-@@ -438,6 +438,18 @@ SYSCALL_IMPL(fork)
+@@ -464,6 +464,11 @@ SYSCALL_IMPL(getppid)
  }
  #endif
  
-+SYSCALL_IMPL(getpgid)
++SYSCALL_IMPL(getsid)
 +{
-+    return get_errno(getpgid(arg1));
++    return get_errno(getsid(arg1));
 +}
 +
-+#ifdef TARGET_NR_getpgrp
-+SYSCALL_IMPL(getpgrp)
-+{
-+    return get_errno(getpgrp());
-+}
-+#endif
-+
- #ifdef TARGET_NR_getpid
- SYSCALL_IMPL(getpid)
+ #ifdef TARGET_NR_getxpid
+ SYSCALL_IMPL(getxpid)
  {
+@@ -485,6 +490,11 @@ SYSCALL_IMPL(setpgid)
+     return get_errno(setpgid(arg1, arg2));
+ }
+ 
++SYSCALL_IMPL(setsid)
++{
++    return get_errno(setsid());
++}
++
+ SYSCALL_IMPL(times)
+ {
+     abi_ulong target_buf = arg1;
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 255765aaa7..75989a01bf 100644
+index 75989a01bf..0e9f4fd5ae 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -4241,10 +4241,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+@@ -4241,8 +4241,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
      void *p;
  
      switch(num) {
--#ifdef TARGET_NR_getpgrp
--    case TARGET_NR_getpgrp:
--        return get_errno(getpgrp());
--#endif
-     case TARGET_NR_setsid:
-         return get_errno(setsid());
+-    case TARGET_NR_setsid:
+-        return get_errno(setsid());
  #ifdef TARGET_NR_sigaction
-@@ -5388,8 +5384,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-         }
-         return ret;
- #endif
--    case TARGET_NR_getpgid:
--        return get_errno(getpgid(arg1));
-     case TARGET_NR_fchdir:
-         return get_errno(fchdir(arg1));
-     case TARGET_NR_personality:
+     case TARGET_NR_sigaction:
+         {
+@@ -5664,8 +5662,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+         /* NOTE: the flock constant seems to be the same for every
+            Linux platform */
+         return get_errno(safe_flock(arg1, arg2));
+-    case TARGET_NR_getsid:
+-        return get_errno(getsid(arg1));
+ #if defined(TARGET_NR_fdatasync) /* Not on alpha (osf_datasync ?) */
+     case TARGET_NR_fdatasync:
+         return get_errno(fdatasync(arg1));
 diff --git a/linux-user/strace.list b/linux-user/strace.list
-index 7679e844b6..d283c924a7 100644
+index d283c924a7..bf87a6d4cb 100644
 --- a/linux-user/strace.list
 +++ b/linux-user/strace.list
-@@ -262,12 +262,6 @@
- #ifdef TARGET_NR_getpeername
- { TARGET_NR_getpeername, "getpeername" , NULL, NULL, NULL },
+@@ -292,9 +292,6 @@
+ #ifdef TARGET_NR_getrusage
+ { TARGET_NR_getrusage, "getrusage" , NULL, NULL, NULL },
  #endif
--#ifdef TARGET_NR_getpgid
--{ TARGET_NR_getpgid, "getpgid" , NULL, NULL, NULL },
+-#ifdef TARGET_NR_getsid
+-{ TARGET_NR_getsid, "getsid" , NULL, NULL, NULL },
 -#endif
--#ifdef TARGET_NR_getpgrp
--{ TARGET_NR_getpgrp, "getpgrp" , NULL, NULL, NULL },
+ #ifdef TARGET_NR_getsockname
+ { TARGET_NR_getsockname, "getsockname" , NULL, NULL, NULL },
+ #endif
+@@ -1100,9 +1097,6 @@
+ #ifdef TARGET_NR_set_robust_list
+ { TARGET_NR_set_robust_list, "set_robust_list" , NULL, NULL, NULL },
+ #endif
+-#ifdef TARGET_NR_setsid
+-{ TARGET_NR_setsid, "setsid" , NULL, NULL, NULL },
 -#endif
- #ifdef TARGET_NR_getpmsg
- { TARGET_NR_getpmsg, "getpmsg" , NULL, NULL, NULL },
+ #ifdef TARGET_NR_setsockopt
+ { TARGET_NR_setsockopt, "setsockopt" , NULL, NULL, NULL },
  #endif
 -- 
 2.17.1
