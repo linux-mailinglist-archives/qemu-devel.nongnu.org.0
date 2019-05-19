@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BFECF2293D
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 23:35:57 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53983 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B184D22926
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 23:27:05 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53839 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSTTI-0002Kk-U3
-	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 17:35:56 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51175)
+	id 1hSTKi-0003R8-PC
+	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 17:27:04 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51190)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSa9-000464-7u
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:58 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSaA-000470-3A
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSa7-00053u-V8
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:57 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:32993)
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSa8-00054w-US
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:58 -0400
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:37552)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hSSa7-00053D-Mr
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:55 -0400
-Received: by mail-pf1-x443.google.com with SMTP id z28so6189204pfk.0
-	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:38:55 -0700 (PDT)
+	id 1hSSa8-00054H-OA
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:56 -0400
+Received: by mail-pf1-x441.google.com with SMTP id g3so6171976pfi.4
+	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:38:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=OxzuqNW/UFIgrfGQ+3fG4I/RITK819AGJzrnscRZcbA=;
-	b=I8gqlqkuGq0N6crXd3nyY2kU5jfyEDab7KvBndm9AouProIG005uLWbKDgldeojNuy
-	xV9jwzOtUvS6HgJP+st5Dvs6lVuQIhwY3j75LcCgqtxO+yQPA0srcltvknFkUBw8qml1
-	nLXVVQN7NilIZRk2oK+JliyKclsb+s7sODvdDFPl9ycq6N6GwTRC/rUU4kXW3sWsb3gM
-	CwHXhkYoJkL3QbAniRCjKs4FBm9GCMuaaA5upIpjeP2rbuetsi9NV3Xr+EhTIhiHZd6a
-	G4/i9dZ7sILCyufM1VmrLpjgFth45cQrBEekOLEnRbd5GkScZ5hI1p0gVYvUPYKfXhOW
-	ccZg==
+	bh=uYnsHq9/MDxU+MhAeWsJGfGuVRcPuHSPILqSnflq808=;
+	b=Zyt1ejbOQKCVf+XkZU0o42hrxBobvNvTQ5mQdNaqW8Z7iXyO8kgx8f55V6lr4b9tp8
+	dFcwC+paPo2Agj1uHZ6Bwdp+X21fNY9b5fSZKIGI3prnirUeVqwZFqx2L9BHux6OhyKs
+	r5/S1/gMGxYO9PMTRgCLahsMbOtFD0Kl3OduRsVU3rARg+dKPboZrvPS3sxQJsJU9NfT
+	R2s4P0um+Z1SE8vKLOQf0ynfTpo4HtvPjPBXfHxg+q2dgGV5iIBBbqwbmr4U1Riiv6tF
+	gQMnwJo5ajOpVUFqoBvkWjp/Smmjd8w5bDWafbCll4HOmuH0n9Lo+kv6zUJKu7/Euw/T
+	orbQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=OxzuqNW/UFIgrfGQ+3fG4I/RITK819AGJzrnscRZcbA=;
-	b=nqU0Rdjq8fGELluz3fv7hLujknN6V9sIKc/EeAfftxcl1TVPDI1+BW1GrikEN+XRgZ
-	VQPgzBKTRudoU4RPpOKEBUxJ3ECFXnEdhyCMhDSNVO/yXq3lXSuG8h+REai0TygY3Ojs
-	MLzz6SFRPl3cgzVs98lXGxyty6nFkZ19KoUcDFXhDQdfQHDkB9hymL6/HaKEcMdBo2hQ
-	w/FUIGm3SXG2CEqWdc5nxd02pHJn81B+1l7xWtrjmXdWixeQGhRKhjHQcvG/4yLmo4eK
-	Jb6MPAq2yD07f8jsEcYS+jywq/rua0LLEhMOPeQMjoqtzhZaXvuwtHJF2zc+KCtG3Jto
-	NP0g==
-X-Gm-Message-State: APjAAAXfNSNIMcVUm/4oB/aTVyGtgqQWO+LJiFtkuS7XmOLScvBrf03X
-	twnGWr2LlgivRI8X+ParVnpAqmRBZGE=
-X-Google-Smtp-Source: APXvYqxHkryZgQ0seLFwW9zU8DsM3NK0C0gwxQm9KC3TN8uM4nVouBzD8F8+pRD0jT/wMHIHb65kAQ==
-X-Received: by 2002:a62:4281:: with SMTP id h1mr76217177pfd.162.1558298334457; 
-	Sun, 19 May 2019 13:38:54 -0700 (PDT)
+	bh=uYnsHq9/MDxU+MhAeWsJGfGuVRcPuHSPILqSnflq808=;
+	b=eIah9cSOUCQaF8m29ZyH7kB8n1dtoKwFe8V4ffS7BDP498vkPZG8OdwvCgnSKCg8WM
+	2rQxaqPvyJzQaGVrPnwm9O6UkIZSelBPStgTVZ1w95DORRBHuyr31QnNwLwzNwefpF0A
+	1FVDg6r4ixnGI4KRAaw4pmJ1UIcPsH/ITnGWTZufNv+rj1zehJC2RB+5m1I1E6p/tk/F
+	DGM21esxUmcZVzHKQatxDIy4oFG6UJaxNXo3epCCXZg4mjN7gdDnJQMD3VlX7EOd+5Xg
+	r9nq9erUpr5T8HzgctvOLvvprzmtTcCUIEcA60sfYqoZ4WWbNXg9N/xfn1h7Bd/O6QjM
+	F6lQ==
+X-Gm-Message-State: APjAAAVraEhEjyT4vXUrz8/SSuSRP04hUbPW3QbCgBNUDHoejDeQTFpn
+	HAdrcruKB5LPfaS2yqhUO/IRvkpGZdY=
+X-Google-Smtp-Source: APXvYqz4IyVjzScE+VVKwCcS5tzEOcdkabwMWNMQf6SP8/LRDhPJS+vHc8Qj7HMM1amz1bfaMIsfZA==
+X-Received: by 2002:a63:6ac1:: with SMTP id f184mr72586068pgc.25.1558298335548;
+	Sun, 19 May 2019 13:38:55 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	i7sm11397448pfo.19.2019.05.19.13.38.53
+	i7sm11397448pfo.19.2019.05.19.13.38.54
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 19 May 2019 13:38:53 -0700 (PDT)
+	Sun, 19 May 2019 13:38:54 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sun, 19 May 2019 13:37:21 -0700
-Message-Id: <20190519203726.20729-70-richard.henderson@linaro.org>
+Date: Sun, 19 May 2019 13:37:22 -0700
+Message-Id: <20190519203726.20729-71-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190519203726.20729-1-richard.henderson@linaro.org>
 References: <20190519203726.20729-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::443
-Subject: [Qemu-devel] [PATCH v7 69/74] linux-user: Split out pselect6
+X-Received-From: 2607:f8b0:4864:20::441
+Subject: [Qemu-devel] [PATCH v7 70/74] linux-user: Split out symlink,
+ symlinkat
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -81,258 +82,162 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/syscall-defs.h     |   1 +
- linux-user/syscall-file.inc.c |  96 +++++++++++++++++++++++++++++++
- linux-user/syscall.c          | 103 ----------------------------------
- linux-user/strace.list        |   3 -
- 4 files changed, 97 insertions(+), 106 deletions(-)
+ linux-user/syscall-defs.h     |  4 ++++
+ linux-user/strace.c           | 27 ---------------------------
+ linux-user/syscall-file.inc.c | 28 ++++++++++++++++++++++++++++
+ linux-user/syscall.c          | 30 ------------------------------
+ linux-user/strace.list        |  6 ------
+ 5 files changed, 32 insertions(+), 63 deletions(-)
 
 diff --git a/linux-user/syscall-defs.h b/linux-user/syscall-defs.h
-index 01143414c7..c179f69d9f 100644
+index c179f69d9f..5625c268c3 100644
 --- a/linux-user/syscall-defs.h
 +++ b/linux-user/syscall-defs.h
-@@ -180,6 +180,7 @@ SYSCALL_DEF_FULL(preadv, .impl = impl_preadv,
- SYSCALL_DEF_FULL(pwritev, .impl = impl_pwritev,
-                  .args = args_preadv_pwritev,
-                  .arg_type = { ARG_DEC, ARG_PTR, ARG_DEC, ARG_DEC64 });
-+SYSCALL_DEF(pselect6, ARG_DEC, ARG_PTR, ARG_PTR, ARG_PTR, ARG_PTR, ARG_PTR);
- SYSCALL_DEF(read, ARG_DEC, ARG_PTR, ARG_DEC);
- #ifdef TARGET_NR_readlink
- SYSCALL_DEF(readlink, ARG_STR, ARG_PTR, ARG_DEC);
+@@ -279,6 +279,10 @@ SYSCALL_DEF(ssetmask, ARG_HEX);
+ #ifdef TARGET_NR_stime
+ SYSCALL_DEF(stime, ARG_PTR);
+ #endif
++#ifdef TARGET_NR_symlink
++SYSCALL_DEF(symlink, ARG_STR, ARG_STR);
++#endif
++SYSCALL_DEF(symlinkat, ARG_STR, ARG_ATDIRFD, ARG_STR);
+ SYSCALL_DEF(sync);
+ SYSCALL_DEF(syncfs, ARG_DEC);
+ #ifdef TARGET_NR_time
+diff --git a/linux-user/strace.c b/linux-user/strace.c
+index 669eca7fa6..97755458d3 100644
+--- a/linux-user/strace.c
++++ b/linux-user/strace.c
+@@ -1563,33 +1563,6 @@ print_statfs64(const struct syscallname *name,
+ }
+ #endif
+ 
+-#ifdef TARGET_NR_symlink
+-static void
+-print_symlink(const struct syscallname *name,
+-    abi_long arg0, abi_long arg1, abi_long arg2,
+-    abi_long arg3, abi_long arg4, abi_long arg5)
+-{
+-    print_syscall_prologue(name);
+-    print_string(arg0, 0);
+-    print_string(arg1, 1);
+-    print_syscall_epilogue(name);
+-}
+-#endif
+-
+-#ifdef TARGET_NR_symlinkat
+-static void
+-print_symlinkat(const struct syscallname *name,
+-    abi_long arg0, abi_long arg1, abi_long arg2,
+-    abi_long arg3, abi_long arg4, abi_long arg5)
+-{
+-    print_syscall_prologue(name);
+-    print_string(arg0, 0);
+-    print_at_dirfd(arg1, 0);
+-    print_string(arg2, 1);
+-    print_syscall_epilogue(name);
+-}
+-#endif
+-
+ #ifdef TARGET_NR_utimensat
+ static void
+ print_utimensat(const struct syscallname *name,
 diff --git a/linux-user/syscall-file.inc.c b/linux-user/syscall-file.inc.c
-index 1d66dc3323..0a25d39d28 100644
+index 0a25d39d28..e3749f0fb4 100644
 --- a/linux-user/syscall-file.inc.c
 +++ b/linux-user/syscall-file.inc.c
-@@ -934,6 +934,102 @@ SYSCALL_IMPL(pwritev)
-     return ret;
+@@ -1254,6 +1254,34 @@ SYSCALL_IMPL(select)
  }
+ #endif
  
-+SYSCALL_IMPL(pselect6)
++static abi_long do_symlinkat(abi_ulong guest_target, int dirfd,
++                             abi_ulong guest_path)
 +{
-+    abi_long n = arg1;
-+    abi_ulong rfd_addr = arg2;
-+    abi_ulong wfd_addr = arg3;
-+    abi_ulong efd_addr = arg4;
-+    abi_ulong ts_addr = arg5;
-+    fd_set rfds, wfds, efds;
-+    fd_set *rfds_ptr, *wfds_ptr, *efds_ptr;
-+    struct timespec ts, *ts_ptr = NULL;
-+    abi_long ret;
++    char *target = lock_user_string(guest_target);
++    char *path = lock_user_string(guest_path);
++    abi_long ret = -TARGET_EFAULT;
 +
-+    /*
-+     * The 6th arg is actually two args smashed together, and since
-+     * we are using safe_syscall, we must handle this ourselves.
-+     */
-+    sigset_t set;
-+    struct {
-+        sigset_t *set;
-+        size_t size;
-+    } sig, *sig_ptr = NULL;
-+
-+    abi_ulong arg_sigset, arg_sigsize, *arg7;
-+    target_sigset_t *target_sigset;
-+
-+    ret = copy_from_user_fdset_ptr(&rfds, &rfds_ptr, rfd_addr, n);
-+    if (ret) {
-+        return ret;
++    if (target && path) {
++        ret = get_errno(symlinkat(target, dirfd, path));
 +    }
-+    ret = copy_from_user_fdset_ptr(&wfds, &wfds_ptr, wfd_addr, n);
-+    if (ret) {
-+        return ret;
-+    }
-+    ret = copy_from_user_fdset_ptr(&efds, &efds_ptr, efd_addr, n);
-+    if (ret) {
-+        return ret;
-+    }
++    unlock_user(path, guest_path, 0);
++    unlock_user(target, guest_target, 0);
 +
-+    if (ts_addr) {
-+        if (target_to_host_timespec(&ts, ts_addr)) {
-+            return -TARGET_EFAULT;
-+        }
-+        ts_ptr = &ts;
-+    }
-+
-+    /* Extract the two packed args for the sigset */
-+    if (arg6) {
-+        sig_ptr = &sig;
-+        sig.size = SIGSET_T_SIZE;
-+
-+        arg7 = lock_user(VERIFY_READ, arg6, sizeof(*arg7) * 2, 1);
-+        if (!arg7) {
-+            return -TARGET_EFAULT;
-+        }
-+        arg_sigset = tswapal(arg7[0]);
-+        arg_sigsize = tswapal(arg7[1]);
-+        unlock_user(arg7, arg6, 0);
-+
-+        if (arg_sigset) {
-+            sig.set = &set;
-+            if (arg_sigsize != sizeof(*target_sigset)) {
-+                /* Like the kernel, we enforce correct size sigsets */
-+                return -TARGET_EINVAL;
-+            }
-+            target_sigset = lock_user(VERIFY_READ, arg_sigset,
-+                                      sizeof(*target_sigset), 1);
-+            if (!target_sigset) {
-+                return -TARGET_EFAULT;
-+            }
-+            target_to_host_sigset(&set, target_sigset);
-+            unlock_user(target_sigset, arg_sigset, 0);
-+        } else {
-+            sig.set = NULL;
-+        }
-+    }
-+
-+    ret = get_errno(safe_pselect6(n, rfds_ptr, wfds_ptr, efds_ptr,
-+                                  ts_ptr, sig_ptr));
-+
-+    if (!is_error(ret)) {
-+        if (rfd_addr && copy_to_user_fdset(rfd_addr, &rfds, n)) {
-+            return -TARGET_EFAULT;
-+        }
-+        if (wfd_addr && copy_to_user_fdset(wfd_addr, &wfds, n)) {
-+            return -TARGET_EFAULT;
-+        }
-+        if (efd_addr && copy_to_user_fdset(efd_addr, &efds, n)) {
-+            return -TARGET_EFAULT;
-+        }
-+        if (ts_addr && host_to_target_timespec(ts_addr, &ts)) {
-+            return -TARGET_EFAULT;
-+        }
-+    }
 +    return ret;
 +}
 +
- SYSCALL_IMPL(read)
++#ifdef TARGET_NR_symlink
++SYSCALL_IMPL(symlink)
++{
++    return do_symlinkat(arg1, AT_FDCWD, arg2);
++}
++#endif
++
++SYSCALL_IMPL(symlinkat)
++{
++    return do_symlinkat(arg1, arg2, arg3);
++}
++
+ SYSCALL_IMPL(sync)
  {
-     int fd = arg1;
+     sync();
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 2c8d74a450..6355fd62d8 100644
+index 6355fd62d8..fccf9ee184 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -4158,109 +4158,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+@@ -4158,36 +4158,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
      void *p;
  
      switch(num) {
--#ifdef TARGET_NR_pselect6
--    case TARGET_NR_pselect6:
+-#ifdef TARGET_NR_symlink
+-    case TARGET_NR_symlink:
 -        {
--            abi_long rfd_addr, wfd_addr, efd_addr, n, ts_addr;
--            fd_set rfds, wfds, efds;
--            fd_set *rfds_ptr, *wfds_ptr, *efds_ptr;
--            struct timespec ts, *ts_ptr;
--
--            /*
--             * The 6th arg is actually two args smashed together,
--             * so we cannot use the C library.
--             */
--            sigset_t set;
--            struct {
--                sigset_t *set;
--                size_t size;
--            } sig, *sig_ptr;
--
--            abi_ulong arg_sigset, arg_sigsize, *arg7;
--            target_sigset_t *target_sigset;
--
--            n = arg1;
--            rfd_addr = arg2;
--            wfd_addr = arg3;
--            efd_addr = arg4;
--            ts_addr = arg5;
--
--            ret = copy_from_user_fdset_ptr(&rfds, &rfds_ptr, rfd_addr, n);
--            if (ret) {
--                return ret;
--            }
--            ret = copy_from_user_fdset_ptr(&wfds, &wfds_ptr, wfd_addr, n);
--            if (ret) {
--                return ret;
--            }
--            ret = copy_from_user_fdset_ptr(&efds, &efds_ptr, efd_addr, n);
--            if (ret) {
--                return ret;
--            }
--
--            /*
--             * This takes a timespec, and not a timeval, so we cannot
--             * use the do_select() helper ...
--             */
--            if (ts_addr) {
--                if (target_to_host_timespec(&ts, ts_addr)) {
--                    return -TARGET_EFAULT;
--                }
--                ts_ptr = &ts;
--            } else {
--                ts_ptr = NULL;
--            }
--
--            /* Extract the two packed args for the sigset */
--            if (arg6) {
--                sig_ptr = &sig;
--                sig.size = SIGSET_T_SIZE;
--
--                arg7 = lock_user(VERIFY_READ, arg6, sizeof(*arg7) * 2, 1);
--                if (!arg7) {
--                    return -TARGET_EFAULT;
--                }
--                arg_sigset = tswapal(arg7[0]);
--                arg_sigsize = tswapal(arg7[1]);
--                unlock_user(arg7, arg6, 0);
--
--                if (arg_sigset) {
--                    sig.set = &set;
--                    if (arg_sigsize != sizeof(*target_sigset)) {
--                        /* Like the kernel, we enforce correct size sigsets */
--                        return -TARGET_EINVAL;
--                    }
--                    target_sigset = lock_user(VERIFY_READ, arg_sigset,
--                                              sizeof(*target_sigset), 1);
--                    if (!target_sigset) {
--                        return -TARGET_EFAULT;
--                    }
--                    target_to_host_sigset(&set, target_sigset);
--                    unlock_user(target_sigset, arg_sigset, 0);
--                } else {
--                    sig.set = NULL;
--                }
--            } else {
--                sig_ptr = NULL;
--            }
--
--            ret = get_errno(safe_pselect6(n, rfds_ptr, wfds_ptr, efds_ptr,
--                                          ts_ptr, sig_ptr));
--
--            if (!is_error(ret)) {
--                if (rfd_addr && copy_to_user_fdset(rfd_addr, &rfds, n))
--                    return -TARGET_EFAULT;
--                if (wfd_addr && copy_to_user_fdset(wfd_addr, &wfds, n))
--                    return -TARGET_EFAULT;
--                if (efd_addr && copy_to_user_fdset(efd_addr, &efds, n))
--                    return -TARGET_EFAULT;
--
--                if (ts_addr && host_to_target_timespec(ts_addr, &ts))
--                    return -TARGET_EFAULT;
--            }
+-            void *p2;
+-            p = lock_user_string(arg1);
+-            p2 = lock_user_string(arg2);
+-            if (!p || !p2)
+-                ret = -TARGET_EFAULT;
+-            else
+-                ret = get_errno(symlink(p, p2));
+-            unlock_user(p2, arg2, 0);
+-            unlock_user(p, arg1, 0);
 -        }
 -        return ret;
 -#endif
- #ifdef TARGET_NR_symlink
-     case TARGET_NR_symlink:
-         {
+-#if defined(TARGET_NR_symlinkat)
+-    case TARGET_NR_symlinkat:
+-        {
+-            void *p2;
+-            p  = lock_user_string(arg1);
+-            p2 = lock_user_string(arg3);
+-            if (!p || !p2)
+-                ret = -TARGET_EFAULT;
+-            else
+-                ret = get_errno(symlinkat(p, arg2, p2));
+-            unlock_user(p2, arg3, 0);
+-            unlock_user(p, arg1, 0);
+-        }
+-        return ret;
+-#endif
+ #ifdef TARGET_NR_swapon
+     case TARGET_NR_swapon:
+         if (!(p = lock_user_string(arg1)))
 diff --git a/linux-user/strace.list b/linux-user/strace.list
-index 297180d94f..1bb9224b5e 100644
+index 1bb9224b5e..d9db80335d 100644
 --- a/linux-user/strace.list
 +++ b/linux-user/strace.list
-@@ -848,9 +848,6 @@
- #ifdef TARGET_NR_profil
- { TARGET_NR_profil, "profil" , NULL, NULL, NULL },
+@@ -1122,12 +1122,6 @@
+ #ifdef TARGET_NR_swapon
+ { TARGET_NR_swapon, "swapon" , NULL, NULL, NULL },
  #endif
--#ifdef TARGET_NR_pselect6
--{ TARGET_NR_pselect6, "pselect6" , NULL, NULL, NULL },
+-#ifdef TARGET_NR_symlink
+-{ TARGET_NR_symlink, "symlink" , NULL, print_symlink, NULL },
 -#endif
- #ifdef TARGET_NR_ptrace
- { TARGET_NR_ptrace, "ptrace" , NULL, NULL, NULL },
+-#ifdef TARGET_NR_symlinkat
+-{ TARGET_NR_symlinkat, "symlinkat", NULL, print_symlinkat, NULL },
+-#endif
+ #ifdef TARGET_NR_syscall
+ { TARGET_NR_syscall, "syscall" , NULL, NULL, NULL },
  #endif
 -- 
 2.17.1
