@@ -2,68 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C7403228FC
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 23:05:45 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53485 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C2A9228EE
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 22:56:43 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53376 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hST04-0000d1-V5
-	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 17:05:44 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50501)
+	id 1hSSrK-0001B8-6x
+	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 16:56:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50514)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSZL-0003TC-WA
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:09 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSZN-0003UN-2v
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSZK-00042Z-P9
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:07 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:44491)
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSZL-00043d-RG
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:09 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:41408)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hSSZK-00041r-J9
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:06 -0400
-Received: by mail-pf1-x444.google.com with SMTP id g9so6148914pfo.11
-	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:38:06 -0700 (PDT)
+	id 1hSSZL-000431-Je
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:07 -0400
+Received: by mail-pl1-x642.google.com with SMTP id f12so5707086plt.8
+	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:38:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=fRvp/VN2Xlfqmt4nKVHNXMxYTCjiSrkuQdi+a73ymGo=;
-	b=saXIpHPF2AKzen0wYa8bg8Wg7/NPOHshxt0TUVYcXLf1To1FkBuGZ6HTgamFMDGvci
-	PQfF4jY9aPDPL0kHQQmMpl2PVOM7GzNd6zFE9UZbU39JGbvey/AcgVIJhKP9+gMqZiLJ
-	XeR3QA4lXotuv92ui6yEKoYuXScDTKgClGo/V+TzRLUeRXAAte/l6PLTr8koly2Mf5vf
-	3/3xZmzyZWc4n42ET7VZrW/2tUs25C6ereWlDFq9Bg8c+JMKGfRtt4wm/3EI+0ijuetT
-	ETL632AGiMr0Nadu52EBg87eLH3cfmjH4431/z3/8dQGB9LCQSKVx6AEpIDpWIp05yUI
-	b4+w==
+	bh=1sQg+P8lShstSTQHyJ7jNTozkqlGpcD4AM3YYr8dTII=;
+	b=vAxbTJLT9BXhkiEJCEGyKGl8j7CT9eSVY5wjTULP9AeeXtBs84F7LZPWXrSokxv9p/
+	D2eFuMuL4jViPFYIvjUyLxxImxybgijNJjWy5ECOlnL/0J0AjEFMbxuKByEWPz9Ndluh
+	Ec04vZjE98kXYnS9KochhkEfOuhTOKjX8381fFT4754W7YiUxxNymHf2/YbRnTZU4AXd
+	b5C+AkbBIsKf2vHsUMDKyksJ/0g1O2JGifvxJLFTfPxJYAYVcBBA3q/87zkR2GIV14Oo
+	xuPDf7JxctcGG9LV9KGEG+fa7cDacPzCj0aYBZfXapz17BQ2ekVB5BkDTy7ZR1KJNxgd
+	0g3Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=fRvp/VN2Xlfqmt4nKVHNXMxYTCjiSrkuQdi+a73ymGo=;
-	b=Xif5altTVZ9E5QcvKpeKpXo9JluiBYe63tLvbYVJtvpBmyZZfMX2oTtyFEGmVrFaRm
-	ITL0mjiygw0CXifXsltZHK9K7GnNaSP4/JJq7CJ4UIJcH1clgh4/Ozhh/mKtjY2AUTwX
-	nq/SsovkWC+0TuvgbsJDfcC0htYIfHb66PL4JaVSS5GwtberqAzgXCEqvW8mImljTmYy
-	M46fgEL6tahyR7aHxaR34Ml4iWwCjjv2DqzrIBdRFtp0dCJM/qmFGUcDXBTSz274ClWv
-	bHagwlTKvfAr2tM8/Df+UUn7NZQN0gTSrsg65Zopmepj5NRsaMJSM5bY0nxXAPWnihrN
-	qw6g==
-X-Gm-Message-State: APjAAAUDfgM46Y+gBbY0O21Vuby7Zp6T/icyHVjxyLs6OmDHX+Xhwe8e
-	LLl2Xs15z6H0sVr8QRqX6XnRCzUrptE=
-X-Google-Smtp-Source: APXvYqze9d3JDpIbdy1mVHJfyB6DxyobkyOky0PKiqLL5/pwoL9MzPY9zPyYGDsj2cqZSZ4GGQF5MA==
-X-Received: by 2002:a62:38cc:: with SMTP id f195mr76083842pfa.15.1558298285319;
-	Sun, 19 May 2019 13:38:05 -0700 (PDT)
+	bh=1sQg+P8lShstSTQHyJ7jNTozkqlGpcD4AM3YYr8dTII=;
+	b=Z+u+HNIIERViHwoD0uPnf9PFKvHpc6GlHwAkhJRcQ5CTBdhqpy6U7Nt3ROxb+bRGuZ
+	0rwVWgGN74tuJcdwAONh4VbzzsMWLYlZqf7KllDMy2b//+10ErApR5Gndv/ko036x+C1
+	Hj8iER5Wiuj11q54vPXT97A+YYz2BS7M5tAfAWxvPEGsY9b04FiO5LY+FoG+UH2eflJV
+	VmWzkzcBYBf+W8fuWNFkUo+9c3DT0hg+vbf/hmBaSuj3zr/HFWk/PMBhYfCOJY0Bbjm0
+	PXz6X2aoUFiogX2ITeObXhZSQqhvaoTDAlqV0owjHWiiPOuE8ECRyccAVT4bDWP29bA1
+	wizA==
+X-Gm-Message-State: APjAAAU9+L9azPtyRFHGuN1eQeNxQDYiWLvg2nleXjBU2kyiDZR6MuEK
+	WKu0HKf7JMzAYTOjCuApLNSCENfyxtE=
+X-Google-Smtp-Source: APXvYqylSbE2oCWfqOZ+ciGaVoUwDDjhiydbUmmFipHJwTdL7QyH6lCIvf90GsApC55vcvrIpclbUA==
+X-Received: by 2002:a17:902:bd95:: with SMTP id
+	q21mr35435241pls.159.1558298286396; 
+	Sun, 19 May 2019 13:38:06 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	i7sm11397448pfo.19.2019.05.19.13.38.03
+	i7sm11397448pfo.19.2019.05.19.13.38.05
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 19 May 2019 13:38:04 -0700 (PDT)
+	Sun, 19 May 2019 13:38:05 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sun, 19 May 2019 13:36:39 -0700
-Message-Id: <20190519203726.20729-28-richard.henderson@linaro.org>
+Date: Sun, 19 May 2019 13:36:40 -0700
+Message-Id: <20190519203726.20729-29-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190519203726.20729-1-richard.henderson@linaro.org>
 References: <20190519203726.20729-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::444
-Subject: [Qemu-devel] [PATCH v7 27/74] linux-user: Split out mknod, mknodat
+X-Received-From: 2607:f8b0:4864:20::642
+Subject: [Qemu-devel] [PATCH v7 28/74] linux-user: Split out chmod, fchmod,
+ fchmodat
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -79,92 +81,95 @@ Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Note that mknodat is universally provided.
+Note that fchmodat is universally provided.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/syscall-defs.h     |  4 ++++
- linux-user/strace.c           | 39 -----------------------------------
- linux-user/syscall-file.inc.c | 26 +++++++++++++++++++++++
- linux-user/syscall.c          | 16 --------------
- linux-user/strace.list        |  6 ------
- 5 files changed, 30 insertions(+), 61 deletions(-)
+ linux-user/syscall-defs.h     |  5 +++++
+ linux-user/strace.c           | 28 ----------------------------
+ linux-user/syscall-file.inc.c | 30 ++++++++++++++++++++++++++++++
+ linux-user/syscall.c          | 18 ------------------
+ linux-user/strace.list        |  9 ---------
+ 5 files changed, 35 insertions(+), 55 deletions(-)
 
 diff --git a/linux-user/syscall-defs.h b/linux-user/syscall-defs.h
-index 9950b73e76..b5951e6911 100644
+index b5951e6911..3ddf8aa0e3 100644
 --- a/linux-user/syscall-defs.h
 +++ b/linux-user/syscall-defs.h
-@@ -38,6 +38,10 @@ SYSCALL_DEF_ARGS(ipc, ARG_HEX, ARG_DEC, ARG_DEC, ARG_HEX, ARG_PTR, ARG_HEX);
- SYSCALL_DEF(link, ARG_STR, ARG_STR);
- #endif
- SYSCALL_DEF(linkat, ARG_ATDIRFD, ARG_STR, ARG_ATDIRFD, ARG_STR, ARG_ATFLAG);
-+#ifdef TARGET_NR_mknod
-+SYSCALL_DEF(mknod, ARG_STR, ARG_MODEFLAG, ARG_HEX);
+@@ -20,6 +20,9 @@ SYSCALL_DEF_FULL(brk, .impl = impl_brk,
+                  .print_ret = print_syscall_ptr_ret,
+                  .arg_type = { ARG_PTR });
+ SYSCALL_DEF(chdir, ARG_STR);
++#ifdef TARGET_NR_chmod
++SYSCALL_DEF(chmod, ARG_STR, ARG_MODEFLAG);
 +#endif
-+SYSCALL_DEF(mknodat, ARG_ATDIRFD, ARG_STR, ARG_MODEFLAG, ARG_HEX);
- SYSCALL_DEF(mlock, ARG_PTR, ARG_DEC);
- SYSCALL_DEF(mlockall, ARG_HEX);
- #ifdef TARGET_NR_mmap
+ SYSCALL_DEF_ARGS(clone, ARG_CLONEFLAG, ARG_PTR, ARG_PTR, ARG_PTR, ARG_PTR);
+ SYSCALL_DEF(close, ARG_DEC);
+ #ifdef TARGET_NR_creat
+@@ -28,6 +31,8 @@ SYSCALL_DEF(creat, ARG_STR, ARG_MODEFLAG);
+ SYSCALL_DEF(exit, ARG_DEC);
+ SYSCALL_DEF(execve, ARG_STR, ARG_PTR, ARG_PTR);
+ SYSCALL_DEF(execveat, ARG_ATDIRFD, ARG_STR, ARG_PTR, ARG_PTR, ARG_ATFLAG);
++SYSCALL_DEF(fchmod, ARG_DEC, ARG_MODEFLAG);
++SYSCALL_DEF(fchmodat, ARG_ATDIRFD, ARG_STR, ARG_MODEFLAG);
+ #ifdef TARGET_NR_fork
+ SYSCALL_DEF(fork);
+ #endif
 diff --git a/linux-user/strace.c b/linux-user/strace.c
-index b234274034..c70c06d965 100644
+index c70c06d965..4771badeb5 100644
 --- a/linux-user/strace.c
 +++ b/linux-user/strace.c
-@@ -1923,45 +1923,6 @@ print_syslog(const struct syscallname *name,
+@@ -1125,19 +1125,6 @@ print_chroot(const struct syscallname *name,
  }
  #endif
  
--#ifdef TARGET_NR_mknod
+-#ifdef TARGET_NR_chmod
 -static void
--print_mknod(const struct syscallname *name,
+-print_chmod(const struct syscallname *name,
 -    abi_long arg0, abi_long arg1, abi_long arg2,
 -    abi_long arg3, abi_long arg4, abi_long arg5)
 -{
--    int hasdev = (arg1 & (S_IFCHR|S_IFBLK));
--
 -    print_syscall_prologue(name);
 -    print_string(arg0, 0);
--    print_file_mode(arg1, (hasdev == 0));
--    if (hasdev) {
--        print_raw_param("makedev(%d", major(arg2), 0);
--        print_raw_param("%d)", minor(arg2), 1);
--    }
+-    print_file_mode(arg1, 1);
 -    print_syscall_epilogue(name);
 -}
 -#endif
 -
--#ifdef TARGET_NR_mknodat
+ #ifdef TARGET_NR_clock_adjtime
+ static void
+ print_clock_adjtime(const struct syscallname *name,
+@@ -1179,21 +1166,6 @@ print_faccessat(const struct syscallname *name,
+ }
+ #endif
+ 
+-#ifdef TARGET_NR_fchmodat
 -static void
--print_mknodat(const struct syscallname *name,
+-print_fchmodat(const struct syscallname *name,
 -    abi_long arg0, abi_long arg1, abi_long arg2,
 -    abi_long arg3, abi_long arg4, abi_long arg5)
 -{
--    int hasdev = (arg2 & (S_IFCHR|S_IFBLK));
--
 -    print_syscall_prologue(name);
 -    print_at_dirfd(arg0, 0);
 -    print_string(arg1, 0);
--    print_file_mode(arg2, (hasdev == 0));
--    if (hasdev) {
--        print_raw_param("makedev(%d", major(arg3), 0);
--        print_raw_param("%d)", minor(arg3), 1);
--    }
+-    print_file_mode(arg2, 0);
+-    print_flags(at_file_flags, arg3, 1);
 -    print_syscall_epilogue(name);
 -}
 -#endif
 -
- #ifdef TARGET_NR_mq_open
+ #ifdef TARGET_NR_fchownat
  static void
- print_mq_open(const struct syscallname *name,
+ print_fchownat(const struct syscallname *name,
 diff --git a/linux-user/syscall-file.inc.c b/linux-user/syscall-file.inc.c
-index 76637fe71b..3adb629124 100644
+index 3adb629124..fb64d5bd1d 100644
 --- a/linux-user/syscall-file.inc.c
 +++ b/linux-user/syscall-file.inc.c
-@@ -82,6 +82,32 @@ SYSCALL_IMPL(linkat)
-     return do_linkat(arg1, arg2, arg3, arg4, arg5);
+@@ -30,6 +30,26 @@ SYSCALL_IMPL(chdir)
+     return ret;
  }
  
-+static abi_long do_mknodat(int dirfd, abi_ulong target_path,
-+                           mode_t mode, dev_t dev)
++static abi_long do_fchmodat(int dirfd, abi_ulong target_path, mode_t mode)
 +{
 +    char *p = lock_user_string(target_path);
 +    abi_long ret;
@@ -172,69 +177,100 @@ index 76637fe71b..3adb629124 100644
 +    if (!p) {
 +        return -TARGET_EFAULT;
 +    }
-+    ret = get_errno(mknodat(dirfd, p, mode, dev));
++    ret = get_errno(fchmodat(dirfd, p, mode, 0));
 +    unlock_user(p, target_path, 0);
 +    return ret;
 +}
 +
-+#ifdef TARGET_NR_mknod
-+SYSCALL_IMPL(mknod)
++#ifdef TARGET_NR_chmod
++SYSCALL_IMPL(chmod)
 +{
-+    return do_mknodat(AT_FDCWD, arg1, arg2, arg3);
++    return do_fchmodat(AT_FDCWD, arg1, arg2);
 +}
 +#endif
 +
-+SYSCALL_IMPL(mknodat)
+ SYSCALL_IMPL(close)
+ {
+     int fd = arg1;
+@@ -54,6 +74,16 @@ SYSCALL_IMPL(creat)
+ }
+ #endif
+ 
++SYSCALL_IMPL(fchmod)
 +{
-+    return do_mknodat(arg1, arg2, arg3, arg4);
++    return get_errno(fchmod(arg1, arg2));
 +}
 +
- /*
-  * Helpers for do_openat, manipulating /proc/self/foo.
-  */
++SYSCALL_IMPL(fchmodat)
++{
++    return do_fchmodat(arg1, arg2, arg3);
++}
++
+ static abi_long do_linkat(int olddirfd, abi_ulong target_oldpath,
+                           int newdirfd, abi_ulong target_newpath,
+                           int flags)
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index ea89734706..18163f558c 100644
+index 18163f558c..3c0de73aa4 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -5384,22 +5384,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+@@ -5384,14 +5384,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
      void *p;
  
      switch(num) {
--#ifdef TARGET_NR_mknod
--    case TARGET_NR_mknod:
+-#ifdef TARGET_NR_chmod
+-    case TARGET_NR_chmod:
 -        if (!(p = lock_user_string(arg1)))
 -            return -TARGET_EFAULT;
--        ret = get_errno(mknod(p, arg2, arg3));
+-        ret = get_errno(chmod(p, arg2));
 -        unlock_user(p, arg1, 0);
 -        return ret;
 -#endif
--#if defined(TARGET_NR_mknodat)
--    case TARGET_NR_mknodat:
+ #ifdef TARGET_NR_lseek
+     case TARGET_NR_lseek:
+         return get_errno(lseek(arg1, arg2, arg3));
+@@ -6463,16 +6455,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+ #ifdef TARGET_NR_ftruncate
+     case TARGET_NR_ftruncate:
+         return get_errno(ftruncate(arg1, arg2));
+-#endif
+-    case TARGET_NR_fchmod:
+-        return get_errno(fchmod(arg1, arg2));
+-#if defined(TARGET_NR_fchmodat)
+-    case TARGET_NR_fchmodat:
 -        if (!(p = lock_user_string(arg2)))
 -            return -TARGET_EFAULT;
--        ret = get_errno(mknodat(arg1, p, arg3, arg4));
+-        ret = get_errno(fchmodat(arg1, p, arg3, 0));
 -        unlock_user(p, arg2, 0);
 -        return ret;
--#endif
- #ifdef TARGET_NR_chmod
-     case TARGET_NR_chmod:
-         if (!(p = lock_user_string(arg1)))
+ #endif
+     case TARGET_NR_getpriority:
+         /* Note that negative values are valid for getpriority, so we must
 diff --git a/linux-user/strace.list b/linux-user/strace.list
-index 95706a696b..f56d9acf76 100644
+index f56d9acf76..0906aba812 100644
 --- a/linux-user/strace.list
 +++ b/linux-user/strace.list
-@@ -518,12 +518,6 @@
- #ifdef TARGET_NR_mkdirat
- { TARGET_NR_mkdirat, "mkdirat" , NULL, print_mkdirat, NULL },
+@@ -61,9 +61,6 @@
+ #ifdef TARGET_NR_capset
+ { TARGET_NR_capset, "capset" , "%s(%p,%p)", NULL, NULL },
  #endif
--#ifdef TARGET_NR_mknod
--{ TARGET_NR_mknod, "mknod" , NULL, print_mknod, NULL },
+-#ifdef TARGET_NR_chmod
+-{ TARGET_NR_chmod, "chmod" , NULL, print_chmod, NULL },
 -#endif
--#ifdef TARGET_NR_mknodat
--{ TARGET_NR_mknodat, "mknodat" , NULL, print_mknodat, NULL },
+ #ifdef TARGET_NR_chown
+ { TARGET_NR_chown, "chown" , NULL, NULL, NULL },
+ #endif
+@@ -169,12 +166,6 @@
+ #ifdef TARGET_NR_fchdir
+ { TARGET_NR_fchdir, "fchdir" , NULL, NULL, NULL },
+ #endif
+-#ifdef TARGET_NR_fchmod
+-{ TARGET_NR_fchmod, "fchmod" , "%s(%d,%#o)", NULL, NULL },
 -#endif
- #ifdef TARGET_NR_modify_ldt
- { TARGET_NR_modify_ldt, "modify_ldt" , NULL, NULL, NULL },
+-#ifdef TARGET_NR_fchmodat
+-{ TARGET_NR_fchmodat, "fchmodat" , NULL, print_fchmodat, NULL },
+-#endif
+ #ifdef TARGET_NR_fchown
+ { TARGET_NR_fchown, "fchown" , "%s(%d,%d,%d)", NULL, NULL },
  #endif
 -- 
 2.17.1
