@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 79C2922919
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 23:21:45 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53755 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB69622933
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 23:32:34 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53939 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSTFY-00074G-Jb
-	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 17:21:44 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50977)
+	id 1hSTQ1-0008Qa-Ul
+	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 17:32:33 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51000)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSZu-0003rD-Fo
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:43 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSZw-0003tT-8s
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSZt-0004lf-CO
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:42 -0400
-Received: from mail-pl1-x643.google.com ([2607:f8b0:4864:20::643]:37919)
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSZu-0004nJ-Oa
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:44 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:42365)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hSSZt-0004kr-5Q
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:41 -0400
-Received: by mail-pl1-x643.google.com with SMTP id f97so5703959plb.5
-	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:38:41 -0700 (PDT)
+	id 1hSSZu-0004mR-GS
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:42 -0400
+Received: by mail-pg1-x541.google.com with SMTP id 145so5730546pgg.9
+	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:38:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=ZHIm//oI2ZITpFYguBWDThC46F/4JpJyOJc3fr98jRM=;
-	b=V1H717qlgfK0j7xr/K+RYpqiyrSw3a5X8rIJyQvsx4ZKaPMHgXjq2nC/xJxbdghty1
-	b7140T3IvFhmX24cDwTJv2PBAs9jxLzXpHM4W/IeuE8FenUsUM8YTEtGyTc2KI82fPNg
-	zEte2582fTIdNkjIKMkYXquxIvy3aFPyLTkEA/2BbZwyW7aQULkezQTzVO/dS16RU9Hk
-	1jxPPc8GeJnECeD8Y8BhYQeJKG0fUbXOQBNvbc3KS5qwDsRlhgpOyLEQuxRm6KTi5bJA
-	/8UOTuM61dkVC1XROCMI1ZhZx5SZ8lmi6fFzwhDFgr7pYt2/41ASQEsC/ANYFawBVgFi
-	xX8A==
+	bh=eD3ERAgN2Y5dS3+RsjRbX33QhXWDkyWUDS3x/SCrsg8=;
+	b=hUrq3AIPxwR1z9E8UTuLi1JhZDec7hoB2OnfvhChro7DkS6v1PNKGntVyMnwXh/hiU
+	5jtbvr7jUG1kb40D6gdB+fknv2jwd5jabqHIrmSDf3JKNntnbjenKXBRKa8r/9NEG5B0
+	Mw5m6e7nHH6dhGKtO0IYyGo3F1mX+k6sH65THR+taomf2zVtofNttX0qqtxkVAlbItti
+	2gCI+x0Dn7oGhGiVF+LXZfBjcS3JRyy7kjBpl6/vM7Oz7koaJ2FDAR099qpJQ0kRv+Xf
+	BguZCtPvgox66804ZNNOweMQ6f/zPi2G04oj5U15h9XRR0HRLGJ/b4B4MLdjLrzB6Eql
+	ZidA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=ZHIm//oI2ZITpFYguBWDThC46F/4JpJyOJc3fr98jRM=;
-	b=lqutc3OBXGPbuP2PR5mvJAS8J3t1Bd7dP+FLn/p9T2KhOiZ96CvohUeDCe+JAD9jGt
-	RHxYCmSYYpa+DeKDU9fQV2T1kWI6sLDbkeRfl4aa1CbtrgbHMezcAgy3OxyN2nsm25sP
-	pbKdE25/o3+JLkJUjgvUzrxdRiH+8sYzHq5qeEBElViEBMGc2CGWeZkd+Sy++TNBNw+b
-	pqKuJszXI9JIStXuqmWSmuHNwu05ePoi2FMV9wdsuz0NxuPUpEhexIJvSeTmnmjiOnWv
-	O2YrZav6iYZaaE35vVOyTT5eBK+TUJ/9pN7n786unfoKtPKTDKQYjAdMAWIFcoAKCUBf
-	Kfng==
-X-Gm-Message-State: APjAAAWNHG6XXlcrimC7AWnfmtMKixslPcsmnIomcm7IE7vu/91N27qZ
-	QkGm3vZXI76yMxNHCNuDcN+ruCogNcc=
-X-Google-Smtp-Source: APXvYqyH8BmX6Iagc0HRXl0DNv6TQqioo3y7I68t+qOj1meuLt8r9crCRb0tshOYZPBAhmQDolmwwQ==
-X-Received: by 2002:a17:902:bd95:: with SMTP id
-	q21mr35436912pls.159.1558298319969; 
-	Sun, 19 May 2019 13:38:39 -0700 (PDT)
+	bh=eD3ERAgN2Y5dS3+RsjRbX33QhXWDkyWUDS3x/SCrsg8=;
+	b=pR3/nabuX23DWV6eZJt1cEkVtz3RkDT9Gj4MCZoscpKpIByht9T07NYgV/i/7MuuXi
+	8vbbFYXbSyux9cJHaWiYBr3J4p1FrTRq6mv4po81zDR6VxMMIi2Gh8ni/GHmYOa8kt/c
+	JuEOjy0+MKx2nm0tKC8n0MZUiNT+iQsHNquiQvQAn7LG125EtTmeI0WofFyMpbqb/qkR
+	qN/A/AxONsQ13D4PHMxSjMlv28DxnlGmkUIXKBZP9BBieJch7RibE0J2+w9EInQlL0lW
+	GhgHXB0M/CNO5rlccFt+E+HuPG3SE0JYQpFoBBKiUo8C/Vq1w6LERWJTogKF/faAcrA4
+	ai2g==
+X-Gm-Message-State: APjAAAUXmhei0GkgxkaDsdHzoXWpMSnK5mx1MNUOSeQUeidsvnalXvaz
+	GNApqOZMA7yithRRS7lvkQw3ZVDGXNY=
+X-Google-Smtp-Source: APXvYqzz1SrZiHumI4YmdRsi5GPRwHbdxmEkXltyrIthjJ4NAiU3p7HTCuLD483kWBVdfEd2ryryUQ==
+X-Received: by 2002:aa7:8c1a:: with SMTP id c26mr75650225pfd.25.1558298321226; 
+	Sun, 19 May 2019 13:38:41 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	i7sm11397448pfo.19.2019.05.19.13.38.38
+	i7sm11397448pfo.19.2019.05.19.13.38.40
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 19 May 2019 13:38:39 -0700 (PDT)
+	Sun, 19 May 2019 13:38:40 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sun, 19 May 2019 13:37:09 -0700
-Message-Id: <20190519203726.20729-58-richard.henderson@linaro.org>
+Date: Sun, 19 May 2019 13:37:10 -0700
+Message-Id: <20190519203726.20729-59-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190519203726.20729-1-richard.henderson@linaro.org>
 References: <20190519203726.20729-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::643
-Subject: [Qemu-devel] [PATCH v7 57/74] linux-user: Split out sgetmask,
- ssetmask
+X-Received-From: 2607:f8b0:4864:20::541
+Subject: [Qemu-devel] [PATCH v7 58/74] linux-user: Split out sigprocmask,
+ rt_sigprocmask
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -83,130 +82,403 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/syscall-defs.h    |  6 ++++++
- linux-user/syscall-sig.inc.c | 32 ++++++++++++++++++++++++++++++++
- linux-user/syscall.c         | 27 ---------------------------
- linux-user/strace.list       |  6 ------
- 4 files changed, 38 insertions(+), 33 deletions(-)
+ linux-user/syscall-defs.h    |   6 ++
+ linux-user/syscall.h         |   1 +
+ linux-user/strace.c          |  44 +++++++------
+ linux-user/syscall-sig.inc.c | 123 +++++++++++++++++++++++++++++++++++
+ linux-user/syscall.c         | 109 -------------------------------
+ linux-user/strace.list       |   6 --
+ 6 files changed, 154 insertions(+), 135 deletions(-)
 
 diff --git a/linux-user/syscall-defs.h b/linux-user/syscall-defs.h
-index b62bffeb68..99532f75b2 100644
+index 99532f75b2..ef77f60524 100644
 --- a/linux-user/syscall-defs.h
 +++ b/linux-user/syscall-defs.h
-@@ -222,6 +222,12 @@ SYSCALL_DEF(shmget, ARG_DEC, ARG_DEC, ARG_HEX);
+@@ -194,6 +194,7 @@ SYSCALL_DEF(rt_sigaction, ARG_SIGNAL, ARG_PTR, ARG_PTR, ARG_PTR, ARG_DEC);
+ #else
+ SYSCALL_DEF(rt_sigaction, ARG_SIGNAL, ARG_PTR, ARG_PTR, ARG_DEC);
+ #endif
++SYSCALL_DEF(rt_sigprocmask, ARG_SIGPROCMASKHOW, ARG_PTR, ARG_PTR, ARG_DEC);
+ #if !defined(SYSCALL_TABLE) || defined(TARGET_NR_semctl)
+ SYSCALL_DEF(semctl, ARG_DEC, ARG_DEC, ARG_DEC, ARG_HEX);
+ #endif
+@@ -222,6 +223,11 @@ SYSCALL_DEF(shmget, ARG_DEC, ARG_DEC, ARG_HEX);
  #ifdef TARGET_NR_sigaction
  SYSCALL_DEF(sigaction, ARG_SIGNAL, ARG_PTR, ARG_PTR);
  #endif
-+#ifdef TARGET_NR_sgetmask
-+SYSCALL_DEF(sgetmask);
++#if defined(TARGET_ALPHA)
++SYSCALL_DEF(sigprocmask, ARG_SIGPROCMASKHOW, ARG_HEX);
++#elif defined(TARGET_NR_sigprocmask)
++SYSCALL_DEF(sigprocmask, ARG_SIGPROCMASKHOW, ARG_PTR, ARG_PTR);
 +#endif
-+#ifdef TARGET_NR_ssetmask
-+SYSCALL_DEF(ssetmask, ARG_HEX);
-+#endif
- #ifdef TARGET_NR_stime
- SYSCALL_DEF(stime, ARG_PTR);
+ #ifdef TARGET_NR_sgetmask
+ SYSCALL_DEF(sgetmask);
  #endif
+diff --git a/linux-user/syscall.h b/linux-user/syscall.h
+index 7b197840f5..cf9f3e5e55 100644
+--- a/linux-user/syscall.h
++++ b/linux-user/syscall.h
+@@ -59,6 +59,7 @@ typedef enum {
+     ARG_ATDIRFD,
+     ARG_SIGNAL,
+     ARG_LSEEKWHENCE,
++    ARG_SIGPROCMASKHOW,
+ 
+     /* These print as sets of flags.  */
+     ARG_ACCESSFLAG,
+diff --git a/linux-user/strace.c b/linux-user/strace.c
+index 83dd755c73..886663af2e 100644
+--- a/linux-user/strace.c
++++ b/linux-user/strace.c
+@@ -102,6 +102,27 @@ add_signal(char *buf, int size, int sig)
+     }
+ }
+ 
++static int
++add_sigprocmaskhow(char *buf, int size, int how)
++{
++    const char *str;
++
++    switch (how) {
++    case TARGET_SIG_BLOCK:
++        str = "SIG_BLOCK";
++        break;
++    case TARGET_SIG_UNBLOCK:
++        str = "SIG_UNBLOCK";
++        break;
++    case TARGET_SIG_SETMASK:
++        str = "SIG_SETMASK";
++        break;
++    default:
++        return snprintf(buf, size, "%d", how);
++    }
++    return snprintf(buf, size, "%s", str);
++}
++
+ static void
+ print_signal(abi_ulong arg, int last)
+ {
+@@ -1564,26 +1585,6 @@ print_fstat(const struct syscallname *name,
+ #define print_fstat64     print_fstat
+ #endif
+ 
+-#ifdef TARGET_NR_rt_sigprocmask
+-static void
+-print_rt_sigprocmask(const struct syscallname *name,
+-    abi_long arg0, abi_long arg1, abi_long arg2,
+-    abi_long arg3, abi_long arg4, abi_long arg5)
+-{
+-    const char *how = "UNKNOWN";
+-    print_syscall_prologue(name);
+-    switch(arg0) {
+-    case TARGET_SIG_BLOCK: how = "SIG_BLOCK"; break;
+-    case TARGET_SIG_UNBLOCK: how = "SIG_UNBLOCK"; break;
+-    case TARGET_SIG_SETMASK: how = "SIG_SETMASK"; break;
+-    }
+-    gemu_log("%s,",how);
+-    print_pointer(arg1, 0);
+-    print_pointer(arg2, 1);
+-    print_syscall_epilogue(name);
+-}
+-#endif
+-
+ #ifdef TARGET_NR_rt_sigqueueinfo
+ static void
+ print_rt_sigqueueinfo(const struct syscallname *name,
+@@ -2015,6 +2016,9 @@ static void print_syscall_def1(const SyscallDef *def, int64_t args[6])
+         case ARG_SIGNAL:
+             len = add_signal(b, rest, arg);
+             break;
++        case ARG_SIGPROCMASKHOW:
++            len = add_sigprocmaskhow(b, rest, arg);
++            break;
+         case ARG_ACCESSFLAG:
+             len = add_flags(b, rest, access_flags, arg, false);
+             break;
 diff --git a/linux-user/syscall-sig.inc.c b/linux-user/syscall-sig.inc.c
-index 918d58878f..f50ed16b74 100644
+index f50ed16b74..8a6518bdaa 100644
 --- a/linux-user/syscall-sig.inc.c
 +++ b/linux-user/syscall-sig.inc.c
-@@ -211,3 +211,35 @@ SYSCALL_IMPL(sigaction)
+@@ -117,6 +117,53 @@ SYSCALL_IMPL(rt_sigaction)
      return ret;
  }
- #endif
-+
-+#ifdef TARGET_NR_sgetmask
-+SYSCALL_IMPL(sgetmask)
+ 
++SYSCALL_IMPL(rt_sigprocmask)
 +{
-+    sigset_t cur_set;
-+    abi_ulong target_set;
-+    abi_long ret = do_sigprocmask(0, NULL, &cur_set);
++    int how = 0;
++    sigset_t set, oldset, *set_ptr = NULL;
++    abi_long ret;
++    void *p;
 +
-+    if (!ret) {
-+        host_to_target_old_sigset(&target_set, &cur_set);
-+        ret = target_set;
++    if (arg4 != sizeof(target_sigset_t)) {
++        return -TARGET_EINVAL;
++    }
++
++    if (arg2) {
++        switch (arg1) {
++        case TARGET_SIG_BLOCK:
++            how = SIG_BLOCK;
++            break;
++        case TARGET_SIG_UNBLOCK:
++            how = SIG_UNBLOCK;
++            break;
++        case TARGET_SIG_SETMASK:
++            how = SIG_SETMASK;
++            break;
++        default:
++            return -TARGET_EINVAL;
++        }
++        p = lock_user(VERIFY_READ, arg2, sizeof(target_sigset_t), 1);
++        if (!p) {
++            return -TARGET_EFAULT;
++        }
++        target_to_host_sigset(&set, p);
++        unlock_user(p, arg2, 0);
++        set_ptr = &set;
++    }
++
++    ret = do_sigprocmask(how, set_ptr, &oldset);
++
++    if (!is_error(ret) && arg3) {
++        p = lock_user(VERIFY_WRITE, arg3, sizeof(target_sigset_t), 0);
++        if (!p) {
++            return -TARGET_EFAULT;
++        }
++        host_to_target_sigset(p, &oldset);
++        unlock_user(p, arg3, sizeof(target_sigset_t));
 +    }
 +    return ret;
 +}
-+#endif
 +
-+#ifdef TARGET_NR_ssetmask
-+SYSCALL_IMPL(ssetmask)
+ #ifdef TARGET_NR_sigaction
+ SYSCALL_IMPL(sigaction)
+ {
+@@ -212,6 +259,82 @@ SYSCALL_IMPL(sigaction)
+ }
+ #endif
+ 
++#ifdef TARGET_NR_sigprocmask
++SYSCALL_IMPL(sigprocmask)
 +{
-+    sigset_t set, oset;
-+    abi_ulong target_set = arg1;
++#if defined(TARGET_ALPHA)
++    sigset_t set, oldset;
++    abi_ulong mask;
++    int how;
 +    abi_long ret;
 +
-+    target_to_host_old_sigset(&set, &target_set);
-+    ret = do_sigprocmask(SIG_SETMASK, &set, &oset);
-+    if (!ret) {
-+        host_to_target_old_sigset(&target_set, &oset);
-+        ret = target_set;
++    switch (arg1) {
++    case TARGET_SIG_BLOCK:
++        how = SIG_BLOCK;
++        break;
++    case TARGET_SIG_UNBLOCK:
++        how = SIG_UNBLOCK;
++        break;
++    case TARGET_SIG_SETMASK:
++        how = SIG_SETMASK;
++        break;
++    default:
++        return -TARGET_EINVAL;
 +    }
++    mask = arg2;
++    target_to_host_old_sigset(&set, &mask);
++
++    ret = do_sigprocmask(how, &set, &oldset);
++
++    if (!is_error(ret)) {
++        host_to_target_old_sigset(&mask, &oldset);
++        ret = mask;
++        ((CPUAlphaState *)cpu_env)->ir[IR_V0] = 0; /* force no error */
++    }
++#else
++    sigset_t set, oldset, *set_ptr = NULL;
++    int how = 0;
++    abi_long ret;
++    void *p;
++
++    if (arg2) {
++        switch (arg1) {
++        case TARGET_SIG_BLOCK:
++            how = SIG_BLOCK;
++            break;
++        case TARGET_SIG_UNBLOCK:
++            how = SIG_UNBLOCK;
++            break;
++        case TARGET_SIG_SETMASK:
++            how = SIG_SETMASK;
++            break;
++        default:
++            return -TARGET_EINVAL;
++        }
++        p = lock_user(VERIFY_READ, arg2, sizeof(target_sigset_t), 1);
++        if (!p) {
++            return -TARGET_EFAULT;
++        }
++        target_to_host_old_sigset(&set, p);
++        unlock_user(p, arg2, 0);
++        set_ptr = &set;
++    }
++
++    ret = do_sigprocmask(how, set_ptr, &oldset);
++
++    if (!is_error(ret) && arg3) {
++        p = lock_user(VERIFY_WRITE, arg3, sizeof(target_sigset_t), 0);
++        if (!p) {
++            return -TARGET_EFAULT;
++        }
++        host_to_target_old_sigset(p, &oldset);
++        unlock_user(p, arg3, sizeof(target_sigset_t));
++    }
++#endif
 +    return ret;
 +}
 +#endif
++
+ #ifdef TARGET_NR_sgetmask
+ SYSCALL_IMPL(sgetmask)
+ {
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 3ef1bfb4ec..7bd410bcf0 100644
+index 7bd410bcf0..11bbdfade4 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -4241,33 +4241,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+@@ -4241,115 +4241,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
      void *p;
  
      switch(num) {
--#ifdef TARGET_NR_sgetmask /* not on alpha */
--    case TARGET_NR_sgetmask:
+-#ifdef TARGET_NR_sigprocmask
+-    case TARGET_NR_sigprocmask:
 -        {
--            sigset_t cur_set;
--            abi_ulong target_set;
--            ret = do_sigprocmask(0, NULL, &cur_set);
--            if (!ret) {
--                host_to_target_old_sigset(&target_set, &cur_set);
--                ret = target_set;
+-#if defined(TARGET_ALPHA)
+-            sigset_t set, oldset;
+-            abi_ulong mask;
+-            int how;
+-
+-            switch (arg1) {
+-            case TARGET_SIG_BLOCK:
+-                how = SIG_BLOCK;
+-                break;
+-            case TARGET_SIG_UNBLOCK:
+-                how = SIG_UNBLOCK;
+-                break;
+-            case TARGET_SIG_SETMASK:
+-                how = SIG_SETMASK;
+-                break;
+-            default:
+-                return -TARGET_EINVAL;
 -            }
+-            mask = arg2;
+-            target_to_host_old_sigset(&set, &mask);
+-
+-            ret = do_sigprocmask(how, &set, &oldset);
+-            if (!is_error(ret)) {
+-                host_to_target_old_sigset(&mask, &oldset);
+-                ret = mask;
+-                ((CPUAlphaState *)cpu_env)->ir[IR_V0] = 0; /* force no error */
+-            }
+-#else
+-            sigset_t set, oldset, *set_ptr;
+-            int how;
+-
+-            if (arg2) {
+-                switch (arg1) {
+-                case TARGET_SIG_BLOCK:
+-                    how = SIG_BLOCK;
+-                    break;
+-                case TARGET_SIG_UNBLOCK:
+-                    how = SIG_UNBLOCK;
+-                    break;
+-                case TARGET_SIG_SETMASK:
+-                    how = SIG_SETMASK;
+-                    break;
+-                default:
+-                    return -TARGET_EINVAL;
+-                }
+-                if (!(p = lock_user(VERIFY_READ, arg2, sizeof(target_sigset_t), 1)))
+-                    return -TARGET_EFAULT;
+-                target_to_host_old_sigset(&set, p);
+-                unlock_user(p, arg2, 0);
+-                set_ptr = &set;
+-            } else {
+-                how = 0;
+-                set_ptr = NULL;
+-            }
+-            ret = do_sigprocmask(how, set_ptr, &oldset);
+-            if (!is_error(ret) && arg3) {
+-                if (!(p = lock_user(VERIFY_WRITE, arg3, sizeof(target_sigset_t), 0)))
+-                    return -TARGET_EFAULT;
+-                host_to_target_old_sigset(p, &oldset);
+-                unlock_user(p, arg3, sizeof(target_sigset_t));
+-            }
+-#endif
 -        }
 -        return ret;
 -#endif
--#ifdef TARGET_NR_ssetmask /* not on alpha */
--    case TARGET_NR_ssetmask:
+-    case TARGET_NR_rt_sigprocmask:
 -        {
--            sigset_t set, oset;
--            abi_ulong target_set = arg1;
--            target_to_host_old_sigset(&set, &target_set);
--            ret = do_sigprocmask(SIG_SETMASK, &set, &oset);
--            if (!ret) {
--                host_to_target_old_sigset(&target_set, &oset);
--                ret = target_set;
+-            int how = arg1;
+-            sigset_t set, oldset, *set_ptr;
+-
+-            if (arg4 != sizeof(target_sigset_t)) {
+-                return -TARGET_EINVAL;
+-            }
+-
+-            if (arg2) {
+-                switch(how) {
+-                case TARGET_SIG_BLOCK:
+-                    how = SIG_BLOCK;
+-                    break;
+-                case TARGET_SIG_UNBLOCK:
+-                    how = SIG_UNBLOCK;
+-                    break;
+-                case TARGET_SIG_SETMASK:
+-                    how = SIG_SETMASK;
+-                    break;
+-                default:
+-                    return -TARGET_EINVAL;
+-                }
+-                if (!(p = lock_user(VERIFY_READ, arg2, sizeof(target_sigset_t), 1)))
+-                    return -TARGET_EFAULT;
+-                target_to_host_sigset(&set, p);
+-                unlock_user(p, arg2, 0);
+-                set_ptr = &set;
+-            } else {
+-                how = 0;
+-                set_ptr = NULL;
+-            }
+-            ret = do_sigprocmask(how, set_ptr, &oldset);
+-            if (!is_error(ret) && arg3) {
+-                if (!(p = lock_user(VERIFY_WRITE, arg3, sizeof(target_sigset_t), 0)))
+-                    return -TARGET_EFAULT;
+-                host_to_target_sigset(p, &oldset);
+-                unlock_user(p, arg3, sizeof(target_sigset_t));
 -            }
 -        }
 -        return ret;
--#endif
- #ifdef TARGET_NR_sigprocmask
-     case TARGET_NR_sigprocmask:
+ #ifdef TARGET_NR_sigpending
+     case TARGET_NR_sigpending:
          {
 diff --git a/linux-user/strace.list b/linux-user/strace.list
-index 20a71adc21..3cad68e081 100644
+index 3cad68e081..7157876302 100644
 --- a/linux-user/strace.list
 +++ b/linux-user/strace.list
-@@ -1116,9 +1116,6 @@
- #ifdef TARGET_NR_setxattr
- { TARGET_NR_setxattr, "setxattr" , NULL, NULL, NULL },
+@@ -929,9 +929,6 @@
+ #ifdef TARGET_NR_rt_sigpending
+ { TARGET_NR_rt_sigpending, "rt_sigpending" , NULL, NULL, NULL },
  #endif
--#ifdef TARGET_NR_sgetmask
--{ TARGET_NR_sgetmask, "sgetmask" , NULL, NULL, NULL },
+-#ifdef TARGET_NR_rt_sigprocmask
+-{ TARGET_NR_rt_sigprocmask, "rt_sigprocmask" , NULL, print_rt_sigprocmask, NULL },
 -#endif
- #ifdef TARGET_NR_shutdown
- { TARGET_NR_shutdown, "shutdown" , NULL, NULL, NULL },
+ #ifdef TARGET_NR_rt_sigqueueinfo
+ { TARGET_NR_rt_sigqueueinfo, "rt_sigqueueinfo" , NULL, print_rt_sigqueueinfo, NULL },
  #endif
-@@ -1158,9 +1155,6 @@
- #ifdef TARGET_NR_splice
- { TARGET_NR_splice, "splice" , NULL, NULL, NULL },
+@@ -1134,9 +1131,6 @@
+ #ifdef TARGET_NR_sigpending
+ { TARGET_NR_sigpending, "sigpending" , NULL, NULL, NULL },
  #endif
--#ifdef TARGET_NR_ssetmask
--{ TARGET_NR_ssetmask, "ssetmask" , NULL, NULL, NULL },
+-#ifdef TARGET_NR_sigprocmask
+-{ TARGET_NR_sigprocmask, "sigprocmask" , NULL, NULL, NULL },
 -#endif
- #ifdef TARGET_NR_stat
- { TARGET_NR_stat, "stat" , NULL, print_stat, NULL },
+ #ifdef TARGET_NR_sigreturn
+ { TARGET_NR_sigreturn, "sigreturn" , NULL, NULL, NULL },
  #endif
 -- 
 2.17.1
