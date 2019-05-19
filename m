@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FA3C2292A
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 23:30:07 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53874 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39E6622932
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 23:32:30 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53937 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSTNe-00067J-EF
-	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 17:30:06 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51083)
+	id 1hSTPx-0008MK-Ar
+	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 17:32:29 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51108)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSa1-0003xz-QC
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:51 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSa3-0003zR-5a
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSa0-0004ub-Lo
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:49 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:34651)
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSa1-0004w6-Rg
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:51 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:32992)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hSSa0-0004to-EG
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:48 -0400
-Received: by mail-pl1-x642.google.com with SMTP id w7so5728149plz.1
-	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:38:48 -0700 (PDT)
+	id 1hSSa1-0004vH-HJ
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:49 -0400
+Received: by mail-pf1-x442.google.com with SMTP id z28so6189151pfk.0
+	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:38:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=nKLZCrlKSTO+R1LDAJ7MTC0/n6ttp1lefRgjBzvM1II=;
-	b=brmejX2yIcPNjbKuVHCqV8AiCa1JJMdtPGr20MMLPBmCbCH8F8nnPJLHfbogkaawYS
-	5MWYoLGmRdwxv176WTA+TIj0WRt7ds8eDGCjowF36zkM3oTIhPG3UX5RHX75QmX9g0Bj
-	6M/v8WVOfulZJHBQ3O4Ni3A/c7faz1hQuBBJxe2CWZqUR2RsUGvTiCdCspP44hAuJPXJ
-	UuiP0ArLKSf57V3ghQKN5nnGFHdcqtHuVz9I/3+VSeeim6MKiAFQ18nIZ2o7OMaOS9mW
-	KH5iNAtVlaiVKV5Pa3XDzdIVwYIYTC1HGLWmt8otn3ZeyoyLyHeAYmcBNRWQXUdkuWkD
-	Rl4A==
+	bh=+4pgGcHqpI/1ayoviAyV/bToyhUBomMihY7gyQ1lsgY=;
+	b=yNOh/qnBcfc5fIBsPkbMKp0aWj5JMGBfKFKQuWBaSZTKRjfxkpgNhxvNaDzlLjCYqs
+	TBrqkqUE3q6+xcHx14kx7BGthawXJrn7hA6SwtgdfUST9H87q10uzV7pgPHZy5xoBmmT
+	njOXPTa/zL8C2VlkoQLT1vPUn1nfwFF67WuZJy8lPiVxL2/aAZlYNpvW5sKBCYrBTFoP
+	3UX52KZDgSlYFnIGePYlIvDdzCAm8d1porwbeQENJQxcYceAIlqQxH1GAGMdlFVaL4DX
+	mu1/gDeY8HF0lX2dupdU/NoxBswx5V5zRU/b70NHoKPMb1f6fYv+k2p/X8i/W189OSV8
+	FtMw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=nKLZCrlKSTO+R1LDAJ7MTC0/n6ttp1lefRgjBzvM1II=;
-	b=VYF5SPZW3eA+olqHHN5qPYjtbo0NHq4eNBh5e7U3Wx+dkXB9x+1kusPmsALi1Gh5zi
-	LFVjGi9bpn1wXCfAi381Mx+O5MPywFtD7jYHSjXbh6K6hH1ItkmQ4OHHF3gohT2X4YwQ
-	QwloM/C50HRC7OiWoonVnMP4+tTgtmVOR1OiVfskmBjhAptsfPAkt3ZQH67uA/j6u9PJ
-	FB55phQ+uQS+jkkjTJkSjOwLq4aLnB59YXF6Sbrg3cQCUxEY3OopYdMLey44X0bNbg7I
-	ixXXf37Dzry4Ph8GIoQLqKGxYryM+SC1LufJMzCHsze03HIlqK2KUMqCiCoJ2vY9z0o2
-	ByjA==
-X-Gm-Message-State: APjAAAW70IJ/xRNSiC+Zp2zcY6Y+afgs/cupL6GVyuoGBKyu+ZYIO1u3
-	Lz8ykUumjDzUShHqOSBRafWToesiFNg=
-X-Google-Smtp-Source: APXvYqwoY8LIbknPgI3tt0tbzZjCgLVQxU2Mu8tnrIdcxpWjztN2tUOZRLeefEWnWx8tw+TmhxixdQ==
-X-Received: by 2002:a17:902:6b8b:: with SMTP id
-	p11mr70527578plk.225.1558298327154; 
-	Sun, 19 May 2019 13:38:47 -0700 (PDT)
+	bh=+4pgGcHqpI/1ayoviAyV/bToyhUBomMihY7gyQ1lsgY=;
+	b=EkKP9tFDzIMKcPTOMkMn3YrKn5NCj9LZBsDIWBaIEXsVbAM7m7dDNeDHBhFwDnE9d6
+	U/7D1qkKygAI7azu3yJ3UdwXAo3kjG5dskyMMhITJKP9dJvd9LX3jZeHFReHK0dnZdI0
+	xvZ2xVPw+f7qyvWs7BgvdrC2bIRpNapJkzZBcmWOIfe+qUdE6AAPtfZKF1s6nDuDVFvC
+	5eb38mh+uChI8gaHyG7ae3Pk4pKoWeqIPcYprpxJf1ZODv8XJnm5EUB3Aup5VY+n0qnm
+	FotfYPh8pR/thmm6NMsgpLRADP4aokVaisT/F0VLOJmZJzSmsgnKqXbStHwXgUMcXCgf
+	tAuw==
+X-Gm-Message-State: APjAAAV0yZh26cL2FLaRrBmJhBneTXzNWUR2zC7dgWWo/MVBF+O7jgtn
+	F+ysKiJuRGrTWCen//gmYZDvp045ZYU=
+X-Google-Smtp-Source: APXvYqxkqJAtq4uIY7sdluBmYGdBzclSAejJp4b/ZEH3udkVuuRfNTMJV3T0YIVrbWFXy/u+dzH5Sw==
+X-Received: by 2002:a63:6a4a:: with SMTP id f71mr70548969pgc.44.1558298328375; 
+	Sun, 19 May 2019 13:38:48 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	i7sm11397448pfo.19.2019.05.19.13.38.46
+	i7sm11397448pfo.19.2019.05.19.13.38.47
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 19 May 2019 13:38:46 -0700 (PDT)
+	Sun, 19 May 2019 13:38:47 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sun, 19 May 2019 13:37:15 -0700
-Message-Id: <20190519203726.20729-64-richard.henderson@linaro.org>
+Date: Sun, 19 May 2019 13:37:16 -0700
+Message-Id: <20190519203726.20729-65-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190519203726.20729-1-richard.henderson@linaro.org>
 References: <20190519203726.20729-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::642
-Subject: [Qemu-devel] [PATCH v7 63/74] linux-user: Split out sigreturn,
- rt_sigreturn
+X-Received-From: 2607:f8b0:4864:20::442
+Subject: [Qemu-devel] [PATCH v7 64/74] linux-user: Split out gethostname,
+ sethostname
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -83,116 +82,140 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/syscall-defs.h    |  4 ++++
- linux-user/syscall-sig.inc.c | 18 ++++++++++++++++++
- linux-user/syscall.c         | 12 ------------
- linux-user/strace.list       |  6 ------
- 4 files changed, 22 insertions(+), 18 deletions(-)
+ linux-user/syscall-defs.h     |  4 ++++
+ linux-user/syscall-proc.inc.c | 28 ++++++++++++++++++++++++++++
+ linux-user/syscall.c          | 19 -------------------
+ linux-user/strace.list        |  6 ------
+ 4 files changed, 32 insertions(+), 25 deletions(-)
 
 diff --git a/linux-user/syscall-defs.h b/linux-user/syscall-defs.h
-index 11851535e1..77d750f66f 100644
+index 77d750f66f..3ba697fd53 100644
 --- a/linux-user/syscall-defs.h
 +++ b/linux-user/syscall-defs.h
-@@ -197,6 +197,7 @@ SYSCALL_DEF(rt_sigaction, ARG_SIGNAL, ARG_PTR, ARG_PTR, ARG_DEC);
- SYSCALL_DEF(rt_sigpending, ARG_PTR, ARG_DEC);
- SYSCALL_DEF(rt_sigprocmask, ARG_SIGPROCMASKHOW, ARG_PTR, ARG_PTR, ARG_DEC);
- SYSCALL_DEF(rt_sigqueueinfo, ARG_DEC, ARG_SIGNAL, ARG_PTR);
-+SYSCALL_DEF(rt_sigreturn);
- SYSCALL_DEF(rt_sigsuspend, ARG_PTR, ARG_DEC);
- SYSCALL_DEF(rt_sigtimedwait, ARG_PTR, ARG_PTR, ARG_PTR, ARG_DEC);
- SYSCALL_DEF(rt_tgsigqueueinfo, ARG_DEC, ARG_DEC, ARG_SIGNAL, ARG_PTR);
-@@ -236,6 +237,9 @@ SYSCALL_DEF(sigprocmask, ARG_SIGPROCMASKHOW, ARG_HEX);
- #elif defined(TARGET_NR_sigprocmask)
- SYSCALL_DEF(sigprocmask, ARG_SIGPROCMASKHOW, ARG_PTR, ARG_PTR);
+@@ -59,6 +59,9 @@ SYSCALL_DEF(futimesat, ARG_ATDIRFD, ARG_STR, ARG_PTR);
+ #ifdef TARGET_NR_fork
+ SYSCALL_DEF(fork);
  #endif
-+#ifdef TARGET_NR_sigreturn
-+SYSCALL_DEF(sigreturn);
++#ifdef TARGET_NR_gethostname
++SYSCALL_DEF(gethostname, ARG_PTR, ARG_DEC);
 +#endif
- #if defined(TARGET_ALPHA)
- SYSCALL_DEF(sigsuspend, ARG_HEX);
- #elif defined(TARGET_NR_sigsuspend)
-diff --git a/linux-user/syscall-sig.inc.c b/linux-user/syscall-sig.inc.c
-index 774346838b..d5c0ccdcc3 100644
---- a/linux-user/syscall-sig.inc.c
-+++ b/linux-user/syscall-sig.inc.c
-@@ -206,6 +206,14 @@ SYSCALL_IMPL(rt_sigqueueinfo)
-     return get_errno(sys_rt_sigqueueinfo(arg1, arg2, &uinfo));
- }
- 
-+SYSCALL_IMPL(rt_sigreturn)
-+{
-+    if (block_signals()) {
-+        return -TARGET_ERESTARTSYS;
-+    }
-+    return do_rt_sigreturn(cpu_env);
-+}
-+
- SYSCALL_IMPL(rt_sigsuspend)
- {
-     CPUState *cpu = ENV_GET_CPU(cpu_env);
-@@ -471,6 +479,16 @@ SYSCALL_IMPL(sigprocmask)
+ SYSCALL_DEF(getpgid, ARG_DEC);
+ #ifdef TARGET_NR_getpgrp
+ SYSCALL_DEF(getpgrp);
+@@ -207,6 +210,7 @@ SYSCALL_DEF(semctl, ARG_DEC, ARG_DEC, ARG_DEC, ARG_HEX);
+ #if !defined(SYSCALL_TABLE) || defined(TARGET_NR_semget)
+ SYSCALL_DEF(semget, ARG_DEC, ARG_DEC, ARG_HEX);
+ #endif
++SYSCALL_DEF(sethostname, ARG_STR);
+ SYSCALL_DEF(setpgid, ARG_DEC, ARG_DEC);
+ SYSCALL_DEF(setsid);
+ #if !defined(SYSCALL_TABLE) || defined(TARGET_NR_semop)
+diff --git a/linux-user/syscall-proc.inc.c b/linux-user/syscall-proc.inc.c
+index 567df54581..b1a801fb62 100644
+--- a/linux-user/syscall-proc.inc.c
++++ b/linux-user/syscall-proc.inc.c
+@@ -438,6 +438,21 @@ SYSCALL_IMPL(fork)
  }
  #endif
  
-+#ifdef TARGET_NR_sigreturn
-+SYSCALL_IMPL(sigreturn)
++#ifdef TARGET_NR_gethostname
++SYSCALL_IMPL(gethostname)
 +{
-+    if (block_signals()) {
-+        return -TARGET_ERESTARTSYS;
++    char *name = lock_user(VERIFY_WRITE, arg1, arg2, 0);
++    abi_long ret;
++    
++    if (!name) {
++        return -TARGET_EFAULT;
 +    }
-+    return do_sigreturn(cpu_env);
++    ret = get_errno(gethostname(name, arg2));
++    unlock_user(name, arg1, arg2);
++    return ret;
 +}
 +#endif
 +
- #ifdef TARGET_NR_sigsuspend
- SYSCALL_IMPL(sigsuspend)
+ SYSCALL_IMPL(getpgid)
  {
+     return get_errno(getpgid(arg1));
+@@ -485,6 +500,19 @@ SYSCALL_IMPL(nice)
+ }
+ #endif
+ 
++SYSCALL_IMPL(sethostname)
++{
++    void *p = lock_user_string(arg1);
++    abi_long ret;
++
++    if (!p) {
++        return -TARGET_EFAULT;
++    }
++    ret = get_errno(sethostname(p, arg2));
++    unlock_user(p, arg1, 0);
++    return ret;
++}
++
+ SYSCALL_IMPL(setpgid)
+ {
+     return get_errno(setpgid(arg1, arg2));
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index e489d12103..b8b18ac1de 100644
+index b8b18ac1de..6dd4196647 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -4240,18 +4240,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+@@ -4240,12 +4240,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
      void *p;
  
      switch(num) {
--#ifdef TARGET_NR_sigreturn
--    case TARGET_NR_sigreturn:
--        if (block_signals()) {
--            return -TARGET_ERESTARTSYS;
+-    case TARGET_NR_sethostname:
+-        if (!(p = lock_user_string(arg1)))
+-            return -TARGET_EFAULT;
+-        ret = get_errno(sethostname(p, arg2));
+-        unlock_user(p, arg1, 0);
+-        return ret;
+ #ifdef TARGET_NR_setrlimit
+     case TARGET_NR_setrlimit:
+         {
+@@ -7078,19 +7072,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+         return ret;
+     }
+ #endif
+-#ifdef TARGET_NR_gethostname
+-    case TARGET_NR_gethostname:
+-    {
+-        char *name = lock_user(VERIFY_WRITE, arg1, arg2, 0);
+-        if (name) {
+-            ret = get_errno(gethostname(name, arg2));
+-            unlock_user(name, arg1, arg2);
+-        } else {
+-            ret = -TARGET_EFAULT;
 -        }
--        return do_sigreturn(cpu_env);
+-        return ret;
+-    }
 -#endif
--    case TARGET_NR_rt_sigreturn:
--        if (block_signals()) {
--            return -TARGET_ERESTARTSYS;
--        }
--        return do_rt_sigreturn(cpu_env);
-     case TARGET_NR_sethostname:
-         if (!(p = lock_user_string(arg1)))
-             return -TARGET_EFAULT;
+ #ifdef TARGET_NR_atomic_cmpxchg_32
+     case TARGET_NR_atomic_cmpxchg_32:
+     {
 diff --git a/linux-user/strace.list b/linux-user/strace.list
-index 57445a8d81..b1c2f7851e 100644
+index b1c2f7851e..361ceec853 100644
 --- a/linux-user/strace.list
 +++ b/linux-user/strace.list
-@@ -926,9 +926,6 @@
- #ifdef TARGET_NR_rmdir
- { TARGET_NR_rmdir, "rmdir" , NULL, NULL, NULL },
+@@ -244,9 +244,6 @@
+ #ifdef TARGET_NR_getgroups32
+ { TARGET_NR_getgroups32, "getgroups32" , NULL, NULL, NULL },
  #endif
--#ifdef TARGET_NR_rt_sigreturn
--{ TARGET_NR_rt_sigreturn, "rt_sigreturn" , NULL, NULL, NULL },
+-#ifdef TARGET_NR_gethostname
+-{ TARGET_NR_gethostname, "gethostname" , NULL, NULL, NULL },
 -#endif
- #ifdef TARGET_NR_sched_getaffinity
- { TARGET_NR_sched_getaffinity, "sched_getaffinity" , NULL, NULL, NULL },
+ #ifdef TARGET_NR_getitimer
+ { TARGET_NR_getitimer, "getitimer" , NULL, NULL, NULL },
  #endif
-@@ -1113,9 +1110,6 @@
- #ifdef TARGET_NR_signalfd4
- { TARGET_NR_signalfd4, "signalfd4" , NULL, NULL, NULL },
+@@ -1025,9 +1022,6 @@
+ #ifdef TARGET_NR_sethae
+ { TARGET_NR_sethae, "sethae" , NULL, NULL, NULL },
  #endif
--#ifdef TARGET_NR_sigreturn
--{ TARGET_NR_sigreturn, "sigreturn" , NULL, NULL, NULL },
+-#ifdef TARGET_NR_sethostname
+-{ TARGET_NR_sethostname, "sethostname" , NULL, NULL, NULL },
 -#endif
- #ifdef TARGET_NR_socket
- { TARGET_NR_socket, "socket" , NULL, print_socket, NULL },
+ #ifdef TARGET_NR_setitimer
+ { TARGET_NR_setitimer, "setitimer" , NULL, NULL, NULL },
  #endif
 -- 
 2.17.1
