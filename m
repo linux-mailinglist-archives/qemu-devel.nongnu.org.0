@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B7519228DA
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 22:49:35 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53260 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 39463228E0
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 22:52:52 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53312 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSSkQ-0003rm-RE
-	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 16:49:34 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50174)
+	id 1hSSnb-0006ZD-99
+	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 16:52:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50198)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSYx-0002on-ER
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:37:44 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSYz-0002tD-Ow
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:37:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSYw-0003YA-Dd
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:37:43 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:39712)
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSYy-0003b4-JV
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:37:45 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:36502)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hSSYw-0003XN-6n
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:37:42 -0400
-Received: by mail-pf1-x441.google.com with SMTP id z26so6167151pfg.6
-	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:37:42 -0700 (PDT)
+	id 1hSSYy-0003aB-Cd
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:37:44 -0400
+Received: by mail-pf1-x443.google.com with SMTP id v80so6171244pfa.3
+	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:37:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=v4TN8eiQB7XlopQZigkJd3iS16AoI2I7VjbeWaf5rzc=;
-	b=ltrAgxdo+sqOTVlbfP4OEyTUTut08QxXb1zpk7dgtyQ93CnBcsxetW6RNelYHnjmcf
-	SdN+rLfpAfSsh9iKcesaPWHVnFyvxO5h1MJEhu9UA2VVWPmbjTaGHQFfeu1NbTM6olhb
-	W5FrxkclUwiCdfil0SsaT70j0efcaUBdqc9oAmGIAjyw5RYLqrbHkdMkwdCqyKv8sslk
-	jChGwj6YqZGtHpq40sQl9Km8jcoio6Y60j+zuYNdH/gArg+tJ3NgW9uR+SSXGqoym0oR
-	t8/sOe/3RL31Q9C15ZvMmqAOHr3/1dbeUAnlkPsrC0JJgKNTDSNFwuzNBlYo98DK7WYV
-	dVIg==
+	bh=JWb0gO0FR8omCjsq9CBOm7HqleJuQXyRTIuggbhXR0I=;
+	b=knfgDER37TXLkkIf/7urgSaz0r/SfBFbkjvXw/XiP6sLx4w7eklJiFggC3UDYdDaqx
+	tUhha63z+Hg5ScSWxjc6KAo1snLcAFEZfsx9RhgITT0zYdt6B6L55bUKfe/oxpk0YCh5
+	4UEyMJYIMSpSlIhzNZy2QF6HrMAfzyDWMCYbFVWkB1AMa2Eh8AkQGHAQ0pnyVVeeABki
+	CB13GMOWkZWUZ+zWPHpe7qpBnC2H4j8QIcBoTfBOvS1QinQ3bE1LNpaDhg2eNNGYgg+D
+	4MxCDiaCljbi0qfnbrwygoTy1droAfjhFvlgEKtYFgOJT14E6lczRaMx/SRMOfiPkU+/
+	r+8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=v4TN8eiQB7XlopQZigkJd3iS16AoI2I7VjbeWaf5rzc=;
-	b=qI8zPMNhYcYvwmDmdYa1Kw8/ziW8T2EBI9uzX2YK7b3QYT/PnHIYnFts05QaxIMfrD
-	bSpYbWmlOEr8AGZlpvxmHz/ZPYCLc+/1BJ/kFLm+Yj2D3QALSenAAOV8YXHZ0JY3uoIf
-	d6YruK96fpkPBblXaqG9RQ3ji7KFdCx+yrGjek9sfmmT5oAeTbfikoJhKS6ulMjcZnfP
-	cCv7bhwl3bv9bwHrnfq9AJT3WTtzdKAGSCxQ8WmLqrzZyGMy80j/hdMqtg72HcV1bvOx
-	BCmP8hS5zz+p3nBpu93HSJZvRLTp3TmPc/0tpTFso3L6eMcxggYxoLGTXrgo4ydkYaWH
-	G4oQ==
-X-Gm-Message-State: APjAAAXWb7zekd+zkBft1mIS1JHi7OTXV5k7HJsaZM5tHjlhF85BqZFF
-	qmRaCLG1xbjCLOtt0YANDxQNueWVJTU=
-X-Google-Smtp-Source: APXvYqz3FltNzJN/T3SQ6gyk0y12pZM7hUfXHdI+SCzOBBuSPwn0qHoW2u7Jc8FLOGWExvl4HCa1dQ==
-X-Received: by 2002:a62:d044:: with SMTP id p65mr55690797pfg.37.1558298260905; 
-	Sun, 19 May 2019 13:37:40 -0700 (PDT)
+	bh=JWb0gO0FR8omCjsq9CBOm7HqleJuQXyRTIuggbhXR0I=;
+	b=o0XgaY4O6Owu052mgraC7SvgORdcXjpuyoo/BYpFMwO4us+JRav8Q0lRxBxfYhSD7J
+	QH1xqmb/CB3q8Pz56zwZ90txPU4cVMHF5gr2COlWqWIx4+aF5RMgm46Fhv5CYZ2dv7Z8
+	nYCWal1YC//pPPBQ4rkVeJSps8S6BcGh8vnKKB29qvsNA/Mqxu/I18iClm+ev7EH5ih3
+	qgCGA+1SCQBzTuLS8itoTlywPpmzxhvMNX5IY4QDzbd4Bzw6H4WedMIr+hu/dPgG0Fl1
+	vSshQ1e/GFolKuBPPtwK+1/xrv0PqIh1qIYNSwIccJjPJy0kLQbExJR1CoP2uxTYeZSE
+	ix/A==
+X-Gm-Message-State: APjAAAWtXEwPnraL+053KOK5w+LxN94ZpLnC7ox9to9/XvlBXSHYS/q2
+	1JA8JXQBeebpR4EPkLWPnyTR6A3PEyA=
+X-Google-Smtp-Source: APXvYqyAZJcngqF2tvZH9/7vdmup1/QLo1BotSTkGU0X9v8tlu3q+nZNvjrMzqe9zIO4234YQO/itQ==
+X-Received: by 2002:a62:4281:: with SMTP id h1mr76213248pfd.162.1558298262235; 
+	Sun, 19 May 2019 13:37:42 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	i7sm11397448pfo.19.2019.05.19.13.37.39
+	i7sm11397448pfo.19.2019.05.19.13.37.41
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 19 May 2019 13:37:39 -0700 (PDT)
+	Sun, 19 May 2019 13:37:41 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sun, 19 May 2019 13:36:20 -0700
-Message-Id: <20190519203726.20729-9-richard.henderson@linaro.org>
+Date: Sun, 19 May 2019 13:36:21 -0700
+Message-Id: <20190519203726.20729-10-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190519203726.20729-1-richard.henderson@linaro.org>
 References: <20190519203726.20729-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::441
-Subject: [Qemu-devel] [PATCH v7 08/74] linux-user: Reduce regpairs_aligned &
- target_offset64 ifdefs
+X-Received-From: 2607:f8b0:4864:20::443
+Subject: [Qemu-devel] [PATCH v7 09/74] linux-user: Split out readv, writev
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,98 +81,129 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/syscall.c | 54 ++++++++++++++++++++------------------------
- 1 file changed, 25 insertions(+), 29 deletions(-)
+ linux-user/syscall-defs.h     |  2 ++
+ linux-user/syscall-file.inc.c | 34 ++++++++++++++++++++++++++++++++++
+ linux-user/syscall.c          | 22 ----------------------
+ linux-user/strace.list        |  6 ------
+ 4 files changed, 36 insertions(+), 28 deletions(-)
 
+diff --git a/linux-user/syscall-defs.h b/linux-user/syscall-defs.h
+index b031de1375..130ba7e344 100644
+--- a/linux-user/syscall-defs.h
++++ b/linux-user/syscall-defs.h
+@@ -28,4 +28,6 @@ SYSCALL_DEF(readlink, ARG_STR, ARG_PTR, ARG_DEC);
+ #ifdef TARGET_NR_readlinkat
+ SYSCALL_DEF(readlinkat, ARG_ATDIRFD, ARG_STR, ARG_PTR, ARG_DEC);
+ #endif
++SYSCALL_DEF(readv, ARG_DEC, ARG_PTR, ARG_DEC);
+ SYSCALL_DEF(write, ARG_DEC, ARG_PTR, ARG_DEC);
++SYSCALL_DEF(writev, ARG_DEC, ARG_PTR, ARG_DEC);
+diff --git a/linux-user/syscall-file.inc.c b/linux-user/syscall-file.inc.c
+index e6adcc351c..2297ca1760 100644
+--- a/linux-user/syscall-file.inc.c
++++ b/linux-user/syscall-file.inc.c
+@@ -349,6 +349,23 @@ SYSCALL_IMPL(read)
+     return ret;
+ }
+ 
++SYSCALL_IMPL(readv)
++{
++    int fd = arg1;
++    abi_ulong target_vec = arg2;
++    int count = arg3;
++    struct iovec *vec = lock_iovec(VERIFY_WRITE, target_vec, count, 0);
++    abi_long ret;
++
++    if (vec != NULL) {
++        ret = get_errno(safe_readv(fd, vec, count));
++        unlock_iovec(vec, target_vec, count, 1);
++    } else {
++        ret = -host_to_target_errno(errno);
++    }
++    return ret;
++}
++
+ static abi_long do_readlinkat(int dirfd, abi_ulong target_path,
+                               abi_ulong target_buf, abi_ulong bufsiz)
+ {
+@@ -425,3 +442,20 @@ SYSCALL_IMPL(write)
+     unlock_user(p, target_p, 0);
+     return ret;
+ }
++
++SYSCALL_IMPL(writev)
++{
++    int fd = arg1;
++    abi_ulong target_vec = arg2;
++    int count = arg3;
++    struct iovec *vec = lock_iovec(VERIFY_READ, target_vec, count, 1);
++    abi_long ret;
++
++    if (vec != NULL) {
++        ret = get_errno(safe_writev(fd, vec, count));
++        unlock_iovec(vec, target_vec, count, 0);
++    } else {
++        ret = -host_to_target_errno(errno);
++    }
++    return ret;
++}
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index de80ddb330..61cd73db26 100644
+index 61cd73db26..8086626707 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -464,37 +464,38 @@ static inline int next_free_host_timer(void)
- }
+@@ -9005,28 +9005,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+         /* NOTE: the flock constant seems to be the same for every
+            Linux platform */
+         return get_errno(safe_flock(arg1, arg2));
+-    case TARGET_NR_readv:
+-        {
+-            struct iovec *vec = lock_iovec(VERIFY_WRITE, arg2, arg3, 0);
+-            if (vec != NULL) {
+-                ret = get_errno(safe_readv(arg1, vec, arg3));
+-                unlock_iovec(vec, arg2, arg3, 1);
+-            } else {
+-                ret = -host_to_target_errno(errno);
+-            }
+-        }
+-        return ret;
+-    case TARGET_NR_writev:
+-        {
+-            struct iovec *vec = lock_iovec(VERIFY_READ, arg2, arg3, 1);
+-            if (vec != NULL) {
+-                ret = get_errno(safe_writev(arg1, vec, arg3));
+-                unlock_iovec(vec, arg2, arg3, 0);
+-            } else {
+-                ret = -host_to_target_errno(errno);
+-            }
+-        }
+-        return ret;
+ #if defined(TARGET_NR_preadv)
+     case TARGET_NR_preadv:
+         {
+diff --git a/linux-user/strace.list b/linux-user/strace.list
+index 2d6bfec692..c4ae70b485 100644
+--- a/linux-user/strace.list
++++ b/linux-user/strace.list
+@@ -1073,9 +1073,6 @@
+ #ifdef TARGET_NR_readdir
+ { TARGET_NR_readdir, "readdir" , NULL, NULL, NULL },
  #endif
- 
--/* ARM EABI and MIPS expect 64bit types aligned even on pairs or registers */
-+/*
-+ * Returns true if syscall NUM expects 64bit types aligned even
-+ * on pairs of registers.
-+ */
-+static inline bool regpairs_aligned(void *cpu_env, int num)
-+{
- #ifdef TARGET_ARM
--static inline int regpairs_aligned(void *cpu_env, int num)
--{
--    return ((((CPUARMState *)cpu_env)->eabi) == 1) ;
--}
--#elif defined(TARGET_MIPS) && (TARGET_ABI_BITS == 32)
--static inline int regpairs_aligned(void *cpu_env, int num) { return 1; }
-+    return ((CPUARMState *)cpu_env)->eabi;
-+#elif defined(TARGET_MIPS) && TARGET_ABI_BITS == 32
-+    return true;
- #elif defined(TARGET_PPC) && !defined(TARGET_PPC64)
--/* SysV AVI for PPC32 expects 64bit parameters to be passed on odd/even pairs
-- * of registers which translates to the same as ARM/MIPS, because we start with
-- * r3 as arg1 */
--static inline int regpairs_aligned(void *cpu_env, int num) { return 1; }
-+    /*
-+     * SysV AVI for PPC32 expects 64bit parameters to be passed on
-+     * odd/even pairs of registers which translates to the same as
-+     * we start with r3 as arg1.
-+     */
-+    return true;
- #elif defined(TARGET_SH4)
--/* SH4 doesn't align register pairs, except for p{read,write}64 */
--static inline int regpairs_aligned(void *cpu_env, int num)
--{
-+    /* SH4 doesn't align register pairs, except for p{read,write}64.  */
-     switch (num) {
-     case TARGET_NR_pread64:
-     case TARGET_NR_pwrite64:
--        return 1;
--
-+        return true;
-     default:
--        return 0;
-+        return false;
-     }
--}
- #elif defined(TARGET_XTENSA)
--static inline int regpairs_aligned(void *cpu_env, int num) { return 1; }
-+    return true;
- #else
--static inline int regpairs_aligned(void *cpu_env, int num) { return 0; }
-+    return false;
+-#ifdef TARGET_NR_readv
+-{ TARGET_NR_readv, "readv" , NULL, NULL, NULL },
+-#endif
+ #ifdef TARGET_NR_reboot
+ { TARGET_NR_reboot, "reboot" , NULL, NULL, NULL },
  #endif
-+}
- 
- #define ERRNO_TABLE_SIZE 1200
- 
-@@ -6161,21 +6162,16 @@ void syscall_init(void)
-     }
- }
- 
--#if TARGET_ABI_BITS == 32
--static inline uint64_t target_offset64(uint32_t word0, uint32_t word1)
-+static inline uint64_t target_offset64(abi_ulong word0, abi_ulong word1)
- {
--#ifdef TARGET_WORDS_BIGENDIAN
-+#if TARGET_ABI_BITS == 64
-+    return word0;
-+#elif defined(TARGET_WORDS_BIGENDIAN)
-     return ((uint64_t)word0 << 32) | word1;
- #else
-     return ((uint64_t)word1 << 32) | word0;
+@@ -1608,9 +1605,6 @@
+ #ifdef TARGET_NR_waitpid
+ { TARGET_NR_waitpid, "waitpid" , "%s(%d,%p,%#x)", NULL, NULL },
  #endif
- }
--#else /* TARGET_ABI_BITS == 32 */
--static inline uint64_t target_offset64(uint64_t word0, uint64_t word1)
--{
--    return word0;
--}
--#endif /* TARGET_ABI_BITS != 32 */
- 
- #ifdef TARGET_NR_truncate64
- static inline abi_long target_truncate64(void *cpu_env, const char *arg1,
+-#ifdef TARGET_NR_writev
+-{ TARGET_NR_writev, "writev" , "%s(%d,%p,%#x)", NULL, NULL },
+-#endif
+ #ifdef TARGET_NR_utimensat
+ { TARGET_NR_utimensat, "utimensat", NULL, print_utimensat, NULL },
+ #endif
 -- 
 2.17.1
 
