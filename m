@@ -2,68 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EC7C52269D
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 12:43:15 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46754 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C616B226AD
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 12:58:52 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46905 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSJHf-0001j2-6U
-	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 06:43:15 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:55094)
+	id 1hSJWl-0006qk-UD
+	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 06:58:52 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56589)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <arilou@gmail.com>) id 1hSJGg-0001Q6-Us
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 06:42:15 -0400
+	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hSJRo-0003ET-6w
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 06:53:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <arilou@gmail.com>) id 1hSJGf-0004oI-UZ
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 06:42:14 -0400
-Received: from mail-ed1-x541.google.com ([2a00:1450:4864:20::541]:46372)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <arilou@gmail.com>) id 1hSJGf-0004mY-OD
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 06:42:13 -0400
-Received: by mail-ed1-x541.google.com with SMTP id f37so18654710edb.13
-	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 03:42:13 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=Sy64OA/XY3mCarBpfadd1tYVlBo1at/mMAIA6izytCM=;
-	b=Gn+kKRLm0QBn6f2N1BbcMpMH2HrO/095kqhMw2/2VxI9qlMacMg7TFn4Mjewu4lxq1
-	WRoqsqkTk569zdButo4Ih6cqn5o1WiaGovapl3BRdo9CTuqAdOaMhN3mLns+BZEZoA4/
-	leM4qt0ReEzW7K3xVhNFgCFInFOPZa/AI00rqgAD3trbs7m6QSw4IwvI8AaUMlyrMJx+
-	pyMQGu9lDSQ/EdN+jmYE4vsYtMvVEJLMrCknDuXy4HryOef7JT9ZGRk9+x7jP7ZBm6HN
-	64vckuR7e3dfok5wX+0dX23M2sCDxjdkzjiO+XXLd3ofV31+BXVYje1ZI4FUArslhRre
-	Cmaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=Sy64OA/XY3mCarBpfadd1tYVlBo1at/mMAIA6izytCM=;
-	b=H9alX2xZ/iJGdH+txeC4hQWF2HiwxNPAA+kzAoS3yvWoZ5qwK9/bvI/KmuQ7flM+mE
-	Fc960RJpdxGh9RF4rAWVXxdttNM2/jLXegM702jYLF1aZhnVOFzV1c3sw3lYt/6eKwpV
-	azyVSdmAFHDpZ0RikLfWtKvbOLAQ8MazBvcVbIju5ulXUXdYkWVUjVFphHqiz3t4fLk9
-	QKkWbz/D1SrScG0lqxTZnXGyqi1ueKvuAmtWArmYh/IzLXKayBRZq54kluNis5dFc8nP
-	zXl/W16egyTALj8j+Nxa+gUBiMqSiYSC2QJG9+OeONYTCScpvmBmauJYWSBj22dJg0gY
-	Q1jg==
-X-Gm-Message-State: APjAAAXHWPKtJhxC3pmjVQJJ1OTF3oMjw7jRSMzsA6H8uDktwWuPga/+
-	tzsWVUAJLE7XlojFJWIm+hO4hRXHVQ7+6uVQCCc=
-X-Google-Smtp-Source: APXvYqzA0ivCreg5GTemh555VNuxw9sAo3r+LJ7C4W7PH9UO43/OSw0ZSsYZsxMoGFgYz3Ok766KfN9P4LMgHGxUUOc=
-X-Received: by 2002:a50:9177:: with SMTP id f52mr69879606eda.18.1558262531930; 
-	Sun, 19 May 2019 03:42:11 -0700 (PDT)
+	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hSJRl-0001oI-Up
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 06:53:44 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:42710 helo=mail.rt-rk.com)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
+	id 1hSJRl-00015k-N6
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 06:53:41 -0400
+Received: from localhost (localhost [127.0.0.1])
+	by mail.rt-rk.com (Postfix) with ESMTP id 788351A2015;
+	Sun, 19 May 2019 12:52:33 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
+	[10.10.13.43])
+	by mail.rt-rk.com (Postfix) with ESMTPSA id 5CF951A0F04;
+	Sun, 19 May 2019 12:52:33 +0200 (CEST)
+From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+To: qemu-devel@nongnu.org
+Date: Sun, 19 May 2019 12:52:14 +0200
+Message-Id: <1558263144-8776-1-git-send-email-aleksandar.markovic@rt-rk.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-References: <20190502081554.5521-1-arilou@gmail.com>
-	<20190502081554.5521-15-arilou@gmail.com>
-	<87lfz7n1f5.fsf@zen.linaroharston>
-In-Reply-To: <87lfz7n1f5.fsf@zen.linaroharston>
-From: Jon Doron <arilou@gmail.com>
-Date: Sun, 19 May 2019 13:42:01 +0300
-Message-ID: <CAP7QCogdQDx1t=u6U_NkYspzQCTLJAR-jmA=6mXKUv2v+PJNXw@mail.gmail.com>
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::541
-Subject: Re: [Qemu-devel] [PATCH v9 14/27] gdbstub: Implement read all
- registers (g pkt) with new infra
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 89.216.37.149
+Subject: [Qemu-devel] [PULL 00/10] MIPS queue for May 19th, 2019
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -75,101 +51,68 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>
+Cc: peter.maydell@linaro.org, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I agree but I guess to really fix it we need to change
-gdb_read_register implementation to support returning the size of the
-register for mem_buffer =3D NULL
-Let's leave it for another patchset?
+From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-On Wed, May 15, 2019 at 7:10 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
->
->
-> Jon Doron <arilou@gmail.com> writes:
->
-> > Signed-off-by: Jon Doron <arilou@gmail.com>
-> > ---
-> >  gdbstub.c | 31 +++++++++++++++++++++++--------
-> >  1 file changed, 23 insertions(+), 8 deletions(-)
-> >
-> > diff --git a/gdbstub.c b/gdbstub.c
-> > index adfe39b3a3..3478ac778d 100644
-> > --- a/gdbstub.c
-> > +++ b/gdbstub.c
-> > @@ -1757,6 +1757,21 @@ static void handle_write_all_regs(GdbCmdContext =
-*gdb_ctx, void *user_ctx)
-> >      put_packet(gdb_ctx->s, "OK");
-> >  }
-> >
-> > +static void handle_read_all_regs(GdbCmdContext *gdb_ctx, void *user_ct=
-x)
-> > +{
-> > +    target_ulong addr, len;
-> > +
-> > +    cpu_synchronize_state(gdb_ctx->s->g_cpu);
-> > +    len =3D 0;
-> > +    for (addr =3D 0; addr < gdb_ctx->s->g_cpu->gdb_num_g_regs; addr++)=
- {
-> > +        len +=3D gdb_read_register(gdb_ctx->s->g_cpu, gdb_ctx->mem_buf=
- + len,
-> > +                                 addr);
-> > +    }
->
-> Again no bounds checking - we get away with it because for hppa:
->
->   (* 8 128 2) =3D 2048
->
-> Anyway:
->
-> Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
->
-> > +
-> > +    memtohex(gdb_ctx->str_buf, gdb_ctx->mem_buf, len);
-> > +    put_packet(gdb_ctx->s, gdb_ctx->str_buf);
-> > +}
-> > +
-> >  static int gdb_handle_packet(GDBState *s, const char *line_buf)
-> >  {
-> >      CPUState *cpu;
-> > @@ -1764,7 +1779,7 @@ static int gdb_handle_packet(GDBState *s, const c=
-har *line_buf)
-> >      CPUClass *cc;
-> >      const char *p;
-> >      uint32_t pid, tid;
-> > -    int ch, reg_size, type, res;
-> > +    int ch, type, res;
-> >      uint8_t mem_buf[MAX_PACKET_LENGTH];
-> >      char buf[sizeof(mem_buf) + 1 /* trailing NUL */];
-> >      char thread_id[16];
-> > @@ -1923,14 +1938,14 @@ static int gdb_handle_packet(GDBState *s, const=
- char *line_buf)
-> >          }
-> >          break;
-> >      case 'g':
-> > -        cpu_synchronize_state(s->g_cpu);
-> > -        len =3D 0;
-> > -        for (addr =3D 0; addr < s->g_cpu->gdb_num_g_regs; addr++) {
-> > -            reg_size =3D gdb_read_register(s->g_cpu, mem_buf + len, ad=
-dr);
-> > -            len +=3D reg_size;
-> > +        {
-> > +            static const GdbCmdParseEntry read_all_regs_cmd_desc =3D {
-> > +                .handler =3D handle_read_all_regs,
-> > +                .cmd =3D "g",
-> > +                .cmd_startswith =3D 1
-> > +            };
-> > +            cmd_parser =3D &read_all_regs_cmd_desc;
-> >          }
-> > -        memtohex(buf, mem_buf, len);
-> > -        put_packet(s, buf);
-> >          break;
-> >      case 'G':
-> >          {
->
->
-> --
-> Alex Benn=C3=A9e
+The following changes since commit 1b46b4daa6fbf45eddcf77877379a0afac341d=
+f9:
+
+  Merge remote-tracking branch 'remotes/kraxel/tags/ui-20190517-pull-requ=
+est' into staging (2019-05-17 17:25:19 +0100)
+
+are available in the git repository at:
+
+  https://github.com/AMarkovic/qemu tags/mips-queue-may-19-2019
+
+for you to fetch changes up to 71074d1d2fae9a0c8dab87c5bb5271a71d6cb7ab:
+
+  mips: Decide to map PAGE_EXEC in map_address (2019-05-19 12:11:46 +0200=
+)
+
+----------------------------------------------------------------
+
+MIPS queue for May 19th, 2019
+
+  * A fix for HelenOS boot hang (related to the flag PAGE_EXEC)
+  * A set of fixes for emulation of MSA ASE on big endian hosts
+  * Improved usage of object_initialize() and object_initialize_child()
+  * Better handling of 'div by zero' cases in MSA ASE
+
+----------------------------------------------------------------
+
+Jakub Jerm=C3=A1=C5=99 (1):
+  mips: Decide to map PAGE_EXEC in map_address
+
+Mateja Marjanovic (7):
+  target/mips: Make the results of DIV_<U|S>.<B|H|W|D> the same as on
+    hardware
+  target/mips: Make the results of MOD_<U|S>.<B|H|W|D> the same as on
+    hardware
+  target/mips: Fix MSA instructions LD.<B|H|W|D> on big endian host
+  target/mips: Fix MSA instructions ST.<B|H|W|D> on big endian host
+  target/mips: Refactor and fix COPY_S.<B|H|W|D> instructions
+  target/mips: Refactor and fix COPY_U.<B|H|W> instructions
+  target/mips: Refactor and fix INSERT.<B|H|W|D> instructions
+
+Philippe Mathieu-Daud=C3=A9 (2):
+  hw/mips: Use object_initialize() on MIPSCPSState
+  hw/mips: Use object_initialize_child for correct reference counting
+
+ hw/mips/boston.c         |  25 ++--
+ hw/mips/cps.c            |  20 +--
+ hw/mips/mips_malta.c     |  17 +--
+ target/mips/helper.c     |  13 +-
+ target/mips/helper.h     |  16 +-
+ target/mips/msa_helper.c | 191 ++++++++++++++++--------
+ target/mips/op_helper.c  | 376 +++++++++++++++++++++++++++++++++++++++++=
++-----
+ target/mips/translate.c  |  59 +++++++-
+ 8 files changed, 574 insertions(+), 143 deletions(-)
+
+--=20
+2.7.4
+
 
