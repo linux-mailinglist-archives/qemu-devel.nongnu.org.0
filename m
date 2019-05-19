@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B184D22926
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 23:27:05 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53839 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 472AC2292C
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 23:30:15 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53878 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSTKi-0003R8-PC
-	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 17:27:04 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51190)
+	id 1hSTNm-0006DI-9z
+	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 17:30:14 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51209)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSaA-000470-3A
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:59 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSaB-000483-5N
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:39:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSa8-00054w-US
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:58 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:37552)
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSaA-00056K-42
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:59 -0400
+Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:44494)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hSSa8-00054H-OA
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:56 -0400
-Received: by mail-pf1-x441.google.com with SMTP id g3so6171976pfi.4
-	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:38:56 -0700 (PDT)
+	id 1hSSa9-00055d-Tl
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:58 -0400
+Received: by mail-pf1-x443.google.com with SMTP id g9so6149356pfo.11
+	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:38:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=uYnsHq9/MDxU+MhAeWsJGfGuVRcPuHSPILqSnflq808=;
-	b=Zyt1ejbOQKCVf+XkZU0o42hrxBobvNvTQ5mQdNaqW8Z7iXyO8kgx8f55V6lr4b9tp8
-	dFcwC+paPo2Agj1uHZ6Bwdp+X21fNY9b5fSZKIGI3prnirUeVqwZFqx2L9BHux6OhyKs
-	r5/S1/gMGxYO9PMTRgCLahsMbOtFD0Kl3OduRsVU3rARg+dKPboZrvPS3sxQJsJU9NfT
-	R2s4P0um+Z1SE8vKLOQf0ynfTpo4HtvPjPBXfHxg+q2dgGV5iIBBbqwbmr4U1Riiv6tF
-	gQMnwJo5ajOpVUFqoBvkWjp/Smmjd8w5bDWafbCll4HOmuH0n9Lo+kv6zUJKu7/Euw/T
-	orbQ==
+	bh=AwkKxT6hgxGUbnCawP7ML0rY671AUDoxnoeEokerBT8=;
+	b=geyLX6mRxlcwdztvehOJoVihDXVuFrvzPKzOHjfE52+WR6W5LXbZRhSZovgXDjj/s5
+	Rpv+56ZNUtlwmLfAdrPaEm5bdgDCVZlGvkJ7JRGMm5oi7Ooo/SEG2AmC6vbTtrSWU2U1
+	KHY83aLr+EU0NC/utnT2IFq204cIyERYQ6zXj6X6G6seqxqccTZ5mEPbmR1n8fvQ+eDj
+	J/41cojmPZvLot3lmXnjgEBe7eVoj74cioFSiaD3RRQlWwE+Riqr3ZFzv6GCt+U5VupW
+	7s0elB2xOG6RvI0p/YlV04Z2Y8hT1yJBL9lKTfElXE8v3237rFFMXSOYO+CcdOPM0uFr
+	wfKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=uYnsHq9/MDxU+MhAeWsJGfGuVRcPuHSPILqSnflq808=;
-	b=eIah9cSOUCQaF8m29ZyH7kB8n1dtoKwFe8V4ffS7BDP498vkPZG8OdwvCgnSKCg8WM
-	2rQxaqPvyJzQaGVrPnwm9O6UkIZSelBPStgTVZ1w95DORRBHuyr31QnNwLwzNwefpF0A
-	1FVDg6r4ixnGI4KRAaw4pmJ1UIcPsH/ITnGWTZufNv+rj1zehJC2RB+5m1I1E6p/tk/F
-	DGM21esxUmcZVzHKQatxDIy4oFG6UJaxNXo3epCCXZg4mjN7gdDnJQMD3VlX7EOd+5Xg
-	r9nq9erUpr5T8HzgctvOLvvprzmtTcCUIEcA60sfYqoZ4WWbNXg9N/xfn1h7Bd/O6QjM
-	F6lQ==
-X-Gm-Message-State: APjAAAVraEhEjyT4vXUrz8/SSuSRP04hUbPW3QbCgBNUDHoejDeQTFpn
-	HAdrcruKB5LPfaS2yqhUO/IRvkpGZdY=
-X-Google-Smtp-Source: APXvYqz4IyVjzScE+VVKwCcS5tzEOcdkabwMWNMQf6SP8/LRDhPJS+vHc8Qj7HMM1amz1bfaMIsfZA==
-X-Received: by 2002:a63:6ac1:: with SMTP id f184mr72586068pgc.25.1558298335548;
-	Sun, 19 May 2019 13:38:55 -0700 (PDT)
+	bh=AwkKxT6hgxGUbnCawP7ML0rY671AUDoxnoeEokerBT8=;
+	b=Z7eFkQUVLutE06d2qjGsb3fQTHebo05mu9Ef6Y4xAdCjp2wRGi03iCZQFrDjv0quup
+	O3zG97xhEdRU3kZYgUO46KFEUmPJFB40vrsJLR8KHbG1YKU/Ta/hXVeO0R4UlxdjVe5O
+	LzRM0tMjryoLDObY8x7v6PS9/gnLx74YFkOtFHwdCa8qxxnjH1XgwNt7VVgmYX+LbAvI
+	hIBrU1/hPYWa3PjxbUsCPTL+M5IqrnL8BQXXQCt6jaDw1URB0FPC7MuHHTNsBoduby9l
+	3z8j/pKvZlgfAzIqLemcK+AKaCw3L3wmbii9IiV6ji+7J5sR+/JlmYYuDn7nJXYsYWFB
+	eCfw==
+X-Gm-Message-State: APjAAAWQ2vqkhNVPTvKrC5MscUvIeGQlvJS0/YISzCMyA6NPMqBfrnUz
+	sw8om7sRw49MN2eI8g4p1eewhVIDkMU=
+X-Google-Smtp-Source: APXvYqx6AVKNXkSdU322RfLmkkcvT1LyZSJkcIyfhBdLeyoLZJeJKW2fH5Ir7OJgcEenWQO4enZr3w==
+X-Received: by 2002:a65:5cca:: with SMTP id b10mr71649844pgt.444.1558298336768;
+	Sun, 19 May 2019 13:38:56 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	i7sm11397448pfo.19.2019.05.19.13.38.54
+	i7sm11397448pfo.19.2019.05.19.13.38.55
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 19 May 2019 13:38:54 -0700 (PDT)
+	Sun, 19 May 2019 13:38:56 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sun, 19 May 2019 13:37:22 -0700
-Message-Id: <20190519203726.20729-71-richard.henderson@linaro.org>
+Date: Sun, 19 May 2019 13:37:23 -0700
+Message-Id: <20190519203726.20729-72-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190519203726.20729-1-richard.henderson@linaro.org>
 References: <20190519203726.20729-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::441
-Subject: [Qemu-devel] [PATCH v7 70/74] linux-user: Split out symlink,
- symlinkat
+X-Received-From: 2607:f8b0:4864:20::443
+Subject: [Qemu-devel] [PATCH v7 71/74] linux-user: Split out swapon, swapoff
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,159 +81,109 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/syscall-defs.h     |  4 ++++
- linux-user/strace.c           | 27 ---------------------------
- linux-user/syscall-file.inc.c | 28 ++++++++++++++++++++++++++++
- linux-user/syscall.c          | 30 ------------------------------
+ linux-user/syscall-defs.h     |  2 ++
+ linux-user/syscall-file.inc.c | 26 ++++++++++++++++++++++++++
+ linux-user/syscall.c          | 16 ----------------
  linux-user/strace.list        |  6 ------
- 5 files changed, 32 insertions(+), 63 deletions(-)
+ 4 files changed, 28 insertions(+), 22 deletions(-)
 
 diff --git a/linux-user/syscall-defs.h b/linux-user/syscall-defs.h
-index c179f69d9f..5625c268c3 100644
+index 5625c268c3..34e799d206 100644
 --- a/linux-user/syscall-defs.h
 +++ b/linux-user/syscall-defs.h
-@@ -279,6 +279,10 @@ SYSCALL_DEF(ssetmask, ARG_HEX);
+@@ -279,6 +279,8 @@ SYSCALL_DEF(ssetmask, ARG_HEX);
  #ifdef TARGET_NR_stime
  SYSCALL_DEF(stime, ARG_PTR);
  #endif
-+#ifdef TARGET_NR_symlink
-+SYSCALL_DEF(symlink, ARG_STR, ARG_STR);
-+#endif
-+SYSCALL_DEF(symlinkat, ARG_STR, ARG_ATDIRFD, ARG_STR);
- SYSCALL_DEF(sync);
- SYSCALL_DEF(syncfs, ARG_DEC);
- #ifdef TARGET_NR_time
-diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 669eca7fa6..97755458d3 100644
---- a/linux-user/strace.c
-+++ b/linux-user/strace.c
-@@ -1563,33 +1563,6 @@ print_statfs64(const struct syscallname *name,
- }
++SYSCALL_DEF(swapoff, ARG_STR);
++SYSCALL_DEF(swapon, ARG_STR, ARG_HEX);
+ #ifdef TARGET_NR_symlink
+ SYSCALL_DEF(symlink, ARG_STR, ARG_STR);
  #endif
- 
--#ifdef TARGET_NR_symlink
--static void
--print_symlink(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
--{
--    print_syscall_prologue(name);
--    print_string(arg0, 0);
--    print_string(arg1, 1);
--    print_syscall_epilogue(name);
--}
--#endif
--
--#ifdef TARGET_NR_symlinkat
--static void
--print_symlinkat(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
--{
--    print_syscall_prologue(name);
--    print_string(arg0, 0);
--    print_at_dirfd(arg1, 0);
--    print_string(arg2, 1);
--    print_syscall_epilogue(name);
--}
--#endif
--
- #ifdef TARGET_NR_utimensat
- static void
- print_utimensat(const struct syscallname *name,
 diff --git a/linux-user/syscall-file.inc.c b/linux-user/syscall-file.inc.c
-index 0a25d39d28..e3749f0fb4 100644
+index e3749f0fb4..bdf42ad437 100644
 --- a/linux-user/syscall-file.inc.c
 +++ b/linux-user/syscall-file.inc.c
-@@ -1254,6 +1254,34 @@ SYSCALL_IMPL(select)
+@@ -1254,6 +1254,32 @@ SYSCALL_IMPL(select)
  }
  #endif
  
-+static abi_long do_symlinkat(abi_ulong guest_target, int dirfd,
-+                             abi_ulong guest_path)
++SYSCALL_IMPL(swapoff)
 +{
-+    char *target = lock_user_string(guest_target);
-+    char *path = lock_user_string(guest_path);
-+    abi_long ret = -TARGET_EFAULT;
++    char *p = lock_user_string(arg1);
++    abi_long ret;
 +
-+    if (target && path) {
-+        ret = get_errno(symlinkat(target, dirfd, path));
++    if (!p) {
++        return -TARGET_EFAULT;
 +    }
-+    unlock_user(path, guest_path, 0);
-+    unlock_user(target, guest_target, 0);
-+
++    ret = get_errno(swapoff(p));
++    unlock_user(p, arg1, 0);
 +    return ret;
 +}
 +
-+#ifdef TARGET_NR_symlink
-+SYSCALL_IMPL(symlink)
++SYSCALL_IMPL(swapon)
 +{
-+    return do_symlinkat(arg1, AT_FDCWD, arg2);
-+}
-+#endif
++    char *p = lock_user_string(arg1);
++    abi_long ret;
 +
-+SYSCALL_IMPL(symlinkat)
-+{
-+    return do_symlinkat(arg1, arg2, arg3);
++    if (!p) {
++        return -TARGET_EFAULT;
++    }
++    ret = get_errno(swapon(p, arg2));
++    unlock_user(p, arg1, 0);
++    return ret;
 +}
 +
- SYSCALL_IMPL(sync)
+ static abi_long do_symlinkat(abi_ulong guest_target, int dirfd,
+                              abi_ulong guest_path)
  {
-     sync();
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 6355fd62d8..fccf9ee184 100644
+index fccf9ee184..ead2e5c2b8 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -4158,36 +4158,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+@@ -4158,14 +4158,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
      void *p;
  
      switch(num) {
--#ifdef TARGET_NR_symlink
--    case TARGET_NR_symlink:
--        {
--            void *p2;
--            p = lock_user_string(arg1);
--            p2 = lock_user_string(arg2);
--            if (!p || !p2)
--                ret = -TARGET_EFAULT;
--            else
--                ret = get_errno(symlink(p, p2));
--            unlock_user(p2, arg2, 0);
--            unlock_user(p, arg1, 0);
--        }
+-#ifdef TARGET_NR_swapon
+-    case TARGET_NR_swapon:
+-        if (!(p = lock_user_string(arg1)))
+-            return -TARGET_EFAULT;
+-        ret = get_errno(swapon(p, arg2));
+-        unlock_user(p, arg1, 0);
 -        return ret;
 -#endif
--#if defined(TARGET_NR_symlinkat)
--    case TARGET_NR_symlinkat:
--        {
--            void *p2;
--            p  = lock_user_string(arg1);
--            p2 = lock_user_string(arg3);
--            if (!p || !p2)
--                ret = -TARGET_EFAULT;
--            else
--                ret = get_errno(symlinkat(p, arg2, p2));
--            unlock_user(p2, arg3, 0);
--            unlock_user(p, arg1, 0);
--        }
--        return ret;
+     case TARGET_NR_reboot:
+         if (arg3 == LINUX_REBOOT_CMD_RESTART2) {
+            /* arg4 must be ignored in all other cases */
+@@ -4503,14 +4495,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+     case TARGET_NR_syscall:
+         return do_syscall(cpu_env, arg1 & 0xffff, arg2, arg3, arg4, arg5,
+                           arg6, arg7, arg8, 0);
 -#endif
- #ifdef TARGET_NR_swapon
-     case TARGET_NR_swapon:
-         if (!(p = lock_user_string(arg1)))
+-#ifdef TARGET_NR_swapoff
+-    case TARGET_NR_swapoff:
+-        if (!(p = lock_user_string(arg1)))
+-            return -TARGET_EFAULT;
+-        ret = get_errno(swapoff(p));
+-        unlock_user(p, arg1, 0);
+-        return ret;
+ #endif
+     case TARGET_NR_sysinfo:
+         {
 diff --git a/linux-user/strace.list b/linux-user/strace.list
-index 1bb9224b5e..d9db80335d 100644
+index d9db80335d..3d2e398439 100644
 --- a/linux-user/strace.list
 +++ b/linux-user/strace.list
-@@ -1122,12 +1122,6 @@
- #ifdef TARGET_NR_swapon
- { TARGET_NR_swapon, "swapon" , NULL, NULL, NULL },
+@@ -1116,12 +1116,6 @@
+ #ifdef TARGET_NR_swapcontext
+ { TARGET_NR_swapcontext, "swapcontext" , NULL, NULL, NULL },
  #endif
--#ifdef TARGET_NR_symlink
--{ TARGET_NR_symlink, "symlink" , NULL, print_symlink, NULL },
+-#ifdef TARGET_NR_swapoff
+-{ TARGET_NR_swapoff, "swapoff" , NULL, NULL, NULL },
 -#endif
--#ifdef TARGET_NR_symlinkat
--{ TARGET_NR_symlinkat, "symlinkat", NULL, print_symlinkat, NULL },
+-#ifdef TARGET_NR_swapon
+-{ TARGET_NR_swapon, "swapon" , NULL, NULL, NULL },
 -#endif
  #ifdef TARGET_NR_syscall
  { TARGET_NR_syscall, "syscall" , NULL, NULL, NULL },
