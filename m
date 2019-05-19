@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id ADAE4228F4
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 23:01:46 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53450 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12C9622902
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 23:09:32 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53548 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSSwD-0005Xl-R1
-	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 17:01:45 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50468)
+	id 1hST3j-0004HU-6m
+	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 17:09:31 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50486)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSZI-0003No-Ro
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:05 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSZK-0003Pi-Ip
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSZH-0003z2-Os
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:04 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:42916)
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSZJ-00041B-Dh
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:06 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:34264)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hSSZH-0003y7-IH
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:03 -0400
-Received: by mail-pf1-x443.google.com with SMTP id 13so6157230pfw.9
-	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:38:03 -0700 (PDT)
+	id 1hSSZJ-00040H-76
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:05 -0400
+Received: by mail-pf1-x444.google.com with SMTP id n19so6182715pfa.1
+	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:38:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=F+fKej9fPmaDrSPzKASFQtBx9UbES7Ex48WVScqi++Y=;
-	b=AyIGZgacVo1RSvmJgHsjrxMNdHL0qO6O7OQoHEIjI6sQOu1zg1i8IuMjvWUDjcCCGO
-	yW/1kZUtgIhqnnlF5WbemkE/r0epfOs0FbhBW8lbtEA6aK42VKZOHGlhBVUnu8CLCUoJ
-	Di/UinbDRth9n8uSqEMu4N+9OxNqet3+w9pns9w5KdAXGJQOGwd0xtvU/6CFhkvhSrWT
-	Bpi7hvMEI2Zb3QdWZko78kSNgewVZENWmqhwNRTe+c3wUj1I3B7tusF4XA6opr1xTpbO
-	shNs8SmS7BN5Oihg0fqJsLQ4PNtI1LSJm4yTHg0qOhji1sDU4gyqvpQhIA6q0MUh6CC6
-	T4yQ==
+	bh=D7GWj/lXqLo0o5VRDqbo6Uitm8MC1Kjd/6DUhBjIuPo=;
+	b=TZDbAixztVBkqw7lKtMXBgrdRBWHWKYzgjNlobC63Oyqzic4+0AFnhNHmPqTg0KqVp
+	tAhqpbYNlYIuYy+dkurt+px0Z9k5E9Dye+MomeyFA3GZLE8W1Rs4gy+a02aldCXc7oRe
+	hwTsgckJAro6rmOLrFYRSm6+pdwbNafgu0hmn8VuqXFFJKXLqffUNfT6tJ/YhGFWrKrR
+	faLcJM4auzgxvMTSUken3DqYxhMLgwlcU21+PRB8VAyImXQGG5G8SxK9cP3jClrLogD+
+	ESJopDhEHrIykxXwmLjjM5j9gK35EeESvDhLcv+BuK6bEuiRJGlE8Q0XSM4NAh+5cg7Y
+	iTDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=F+fKej9fPmaDrSPzKASFQtBx9UbES7Ex48WVScqi++Y=;
-	b=Ry2QXvOqb6LQl2ZWr6omxRW9LiE/5rrVTRNJfRdFtdAcDDdiN//1CBrozlq5IikZpL
-	zlhnLsJalazoBbX1geDvTxBgFaMrrNstohyxFnabe0MA9La23Cg37ehEur+MdwS7WnmP
-	YPjDL/KUSCOOUHwP7qD44iZBe6bq60wqz7KmUR3qbOIfwBVmKeLb2KQ/dfqM+yXayb2d
-	8Ll5OaojnuWXuTmCu6y6aJA6iNGSps0urjh4VHh6TdfQM3lvq59wy9kJpRAIF6LTqFJF
-	qUUZjLmTnpdzMWRDNHSQ6tlANO6DfEAHm0NobkNrcE+uuSMFvf24icAlKRMVzIGeYn5w
-	888w==
-X-Gm-Message-State: APjAAAVQOY94pO0utIt/w07+A8ZWa/7l6CUDWUzbJiPCUW/PB0xMek/p
-	Azo9Z3HxgBUMzdcwx+3GoEAzXTlHLtI=
-X-Google-Smtp-Source: APXvYqyJCY2nR0ZQQtVLHkL0GjYYLfqIhte6lhILpp06gc3oX0Sdh8iN0NVGyyEG2uGk+Fsg0yq9Zw==
-X-Received: by 2002:a63:d354:: with SMTP id u20mr22999650pgi.129.1558298282395;
-	Sun, 19 May 2019 13:38:02 -0700 (PDT)
+	bh=D7GWj/lXqLo0o5VRDqbo6Uitm8MC1Kjd/6DUhBjIuPo=;
+	b=MY189kc+NencyN0i6fCyOgHXA34PSKkVO4nv0dWRllwcG80ynSCyWf50RLuEvDk3cG
+	l38IE/5cRGgj7myanzPIFlw41BWmiIe3HaPbiUZzDt5WkqYklFkzFPKkl+0raLSQHUJw
+	ZhvJyR/9GiSMzWRuQoJkML6+lsE2kqN5XXKAFG+O/TtS1iW5SC+TdOxR92ljBXT2G0ym
+	Zoe7cqMqp4L5X/6FLIBx1976Ndr1o1qa8NWDIe9EpOy1/TkrQMc+9nN/xoAJvc917ez2
+	0VyV+2DD2kCsyT5GcJH5SHU50L0A0ChSMFQXyaaoG8WdLaB4qiHgIK45h7eeiLiCaH1I
+	yxOg==
+X-Gm-Message-State: APjAAAUhZDQB84bymJOie0ciC+j+xXXyDCaxDo8VJiECCD36JfkK5qEh
+	sz0MnmwHCUcPQ1a6duUPKJn4jveYPmY=
+X-Google-Smtp-Source: APXvYqwg3BdZH0jgOk0ACbjlldPECE0nfwJjiHU3eBzT5hdMCQNlRSCQZ24fS/q6XOlPkduwHuQmnw==
+X-Received: by 2002:aa7:951c:: with SMTP id b28mr57475214pfp.99.1558298283888; 
+	Sun, 19 May 2019 13:38:03 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	i7sm11397448pfo.19.2019.05.19.13.38.01
+	i7sm11397448pfo.19.2019.05.19.13.38.02
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 19 May 2019 13:38:01 -0700 (PDT)
+	Sun, 19 May 2019 13:38:03 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sun, 19 May 2019 13:36:37 -0700
-Message-Id: <20190519203726.20729-26-richard.henderson@linaro.org>
+Date: Sun, 19 May 2019 13:36:38 -0700
+Message-Id: <20190519203726.20729-27-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190519203726.20729-1-richard.henderson@linaro.org>
 References: <20190519203726.20729-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::443
-Subject: [Qemu-devel] [PATCH v7 25/74] linux-user: Split out chdir
+X-Received-From: 2607:f8b0:4864:20::444
+Subject: [Qemu-devel] [PATCH v7 26/74] linux-user: Split out time
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -79,107 +79,111 @@ Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Note that chdir is universally provided.
-
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/syscall-defs.h     |  1 +
- linux-user/strace.c           | 12 ------------
- linux-user/syscall-file.inc.c | 14 ++++++++++++++
- linux-user/syscall.c          |  6 ------
+ linux-user/syscall-defs.h     |  3 +++
+ linux-user/syscall-time.inc.c | 32 ++++++++++++++++++++++++++++++++
+ linux-user/syscall.c          | 13 +------------
  linux-user/strace.list        |  3 ---
- 5 files changed, 15 insertions(+), 21 deletions(-)
+ 4 files changed, 36 insertions(+), 15 deletions(-)
+ create mode 100644 linux-user/syscall-time.inc.c
 
 diff --git a/linux-user/syscall-defs.h b/linux-user/syscall-defs.h
-index 392bd1579c..3fad9d51f0 100644
+index 3fad9d51f0..9950b73e76 100644
 --- a/linux-user/syscall-defs.h
 +++ b/linux-user/syscall-defs.h
-@@ -19,6 +19,7 @@
- SYSCALL_DEF_FULL(brk, .impl = impl_brk,
-                  .print_ret = print_syscall_ptr_ret,
-                  .arg_type = { ARG_PTR });
-+SYSCALL_DEF(chdir, ARG_STR);
- SYSCALL_DEF_ARGS(clone, ARG_CLONEFLAG, ARG_PTR, ARG_PTR, ARG_PTR, ARG_PTR);
- SYSCALL_DEF(close, ARG_DEC);
- #ifdef TARGET_NR_creat
-diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 9d6c765715..b234274034 100644
---- a/linux-user/strace.c
-+++ b/linux-user/strace.c
-@@ -1113,18 +1113,6 @@ print_access(const struct syscallname *name,
- }
+@@ -127,6 +127,9 @@ SYSCALL_DEF(shmdt, ARG_PTR);
+ #if !defined(SYSCALL_TABLE) || defined(TARGET_NR_shmget)
+ SYSCALL_DEF(shmget, ARG_DEC, ARG_DEC, ARG_HEX);
  #endif
- 
--#ifdef TARGET_NR_chdir
--static void
--print_chdir(const struct syscallname *name,
--    abi_long arg0, abi_long arg1, abi_long arg2,
--    abi_long arg3, abi_long arg4, abi_long arg5)
--{
--    print_syscall_prologue(name);
--    print_string(arg0, 1);
--    print_syscall_epilogue(name);
--}
--#endif
--
- #ifdef TARGET_NR_chroot
- static void
- print_chroot(const struct syscallname *name,
-diff --git a/linux-user/syscall-file.inc.c b/linux-user/syscall-file.inc.c
-index 5acd8ecc10..76637fe71b 100644
---- a/linux-user/syscall-file.inc.c
-+++ b/linux-user/syscall-file.inc.c
-@@ -16,6 +16,20 @@
-  *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-  */
- 
-+SYSCALL_IMPL(chdir)
-+{
-+    abi_ulong target_path = arg1;
-+    char *p = lock_user_string(target_path);
-+    abi_long ret;
++#ifdef TARGET_NR_time
++SYSCALL_DEF(time, ARG_PTR);
++#endif
+ #ifdef TARGET_NR_unlink
+ SYSCALL_DEF(unlink, ARG_STR);
+ #endif
+diff --git a/linux-user/syscall-time.inc.c b/linux-user/syscall-time.inc.c
+new file mode 100644
+index 0000000000..14fec88e47
+--- /dev/null
++++ b/linux-user/syscall-time.inc.c
+@@ -0,0 +1,32 @@
++/*
++ *  Linux time related syscalls
++ *  Copyright (c) 2003 Fabrice Bellard
++ *
++ *  This program is free software; you can redistribute it and/or modify
++ *  it under the terms of the GNU General Public License as published by
++ *  the Free Software Foundation; either version 2 of the License, or
++ *  (at your option) any later version.
++ *
++ *  This program is distributed in the hope that it will be useful,
++ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
++ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ *  GNU General Public License for more details.
++ *
++ *  You should have received a copy of the GNU General Public License
++ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
++ */
 +
-+    if (!p) {
++#ifdef TARGET_NR_time
++SYSCALL_IMPL(time)
++{
++    time_t host_time;
++    abi_long ret = get_errno(time(&host_time));
++
++    if (!is_error(ret)
++        && arg1
++        && put_user_sal(host_time, arg1)) {
 +        return -TARGET_EFAULT;
 +    }
-+    ret = get_errno(chdir(p));
-+    unlock_user(p, target_path, 0);
 +    return ret;
 +}
-+
- SYSCALL_IMPL(close)
- {
-     int fd = arg1;
++#endif
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index affcd81273..0bf5901014 100644
+index 0bf5901014..ea89734706 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -5384,12 +5384,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+@@ -5384,18 +5384,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
      void *p;
  
      switch(num) {
--    case TARGET_NR_chdir:
--        if (!(p = lock_user_string(arg1)))
--            return -TARGET_EFAULT;
--        ret = get_errno(chdir(p));
--        unlock_user(p, arg1, 0);
+-#ifdef TARGET_NR_time
+-    case TARGET_NR_time:
+-        {
+-            time_t host_time;
+-            ret = get_errno(time(&host_time));
+-            if (!is_error(ret)
+-                && arg1
+-                && put_user_sal(host_time, arg1))
+-                return -TARGET_EFAULT;
+-        }
 -        return ret;
- #ifdef TARGET_NR_time
-     case TARGET_NR_time:
-         {
+-#endif
+ #ifdef TARGET_NR_mknod
+     case TARGET_NR_mknod:
+         if (!(p = lock_user_string(arg1)))
+@@ -9392,6 +9380,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+ #include "syscall-ipc.inc.c"
+ #include "syscall-mem.inc.c"
+ #include "syscall-proc.inc.c"
++#include "syscall-time.inc.c"
+ 
+ #undef SYSCALL_IMPL
+ #undef SYSCALL_ARGS
 diff --git a/linux-user/strace.list b/linux-user/strace.list
-index c6bb475728..3f79159b63 100644
+index 3f79159b63..95706a696b 100644
 --- a/linux-user/strace.list
 +++ b/linux-user/strace.list
-@@ -61,9 +61,6 @@
- #ifdef TARGET_NR_capset
- { TARGET_NR_capset, "capset" , "%s(%p,%p)", NULL, NULL },
+@@ -1350,9 +1350,6 @@
+ #ifdef TARGET_NR_tgkill
+ { TARGET_NR_tgkill, "tgkill" , NULL, print_tgkill, NULL },
  #endif
--#ifdef TARGET_NR_chdir
--{ TARGET_NR_chdir, "chdir" , NULL, print_chdir, NULL },
+-#ifdef TARGET_NR_time
+-{ TARGET_NR_time, "time" , NULL, NULL, NULL },
 -#endif
- #ifdef TARGET_NR_chmod
- { TARGET_NR_chmod, "chmod" , NULL, print_chmod, NULL },
+ #ifdef TARGET_NR_timer_create
+ { TARGET_NR_timer_create, "timer_create" , NULL, NULL, NULL },
  #endif
 -- 
 2.17.1
