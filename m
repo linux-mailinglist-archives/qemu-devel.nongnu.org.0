@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 38A3A228D4
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 22:46:07 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53219 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DEE4D228D6
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 22:46:30 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53236 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSSh4-0000qf-8x
-	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 16:46:06 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50098)
+	id 1hSShR-0001BN-Uz
+	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 16:46:30 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50125)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSYq-0002kh-8y
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:37:37 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSYs-0002m9-74
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:37:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSYp-0003Py-9e
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:37:36 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:38309)
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSYq-0003Rl-Qa
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:37:38 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:36049)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hSSYp-0003P3-3o
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:37:35 -0400
-Received: by mail-pf1-x442.google.com with SMTP id b76so6171269pfb.5
-	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:37:35 -0700 (PDT)
+	id 1hSSYq-0003Qv-Jr
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:37:36 -0400
+Received: by mail-pg1-x544.google.com with SMTP id a3so5747684pgb.3
+	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:37:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=qYhnP8CmUyN8DJK4QlR57fQbe3qhOBTecaegSn//V4c=;
-	b=Pig4dPrhh0IQm2puL4y7L1z5VCzEWx8rAXfTzOzVG954/QZK7RpTsJZy4z1bW2BNJS
-	9v3NoT/3b/QSvihL1POvzSZRt4gq2lg2io6GZq/U2AEs8N8kExJuGYMNvsuBHsrfUOD7
-	3Fzr5mz/qoklKqDJChWhpBRxx8gp0NwT8J7SpMUTo9scUeFs7t7wLf4v5AV1HbvuWGT7
-	1K+GKhj63Z20E7QZ54UdZp5dalZt3qFXAKCA+G4O5E/7aFeU2UrXngO1pcqH/hbsU1Ik
-	5GFfjOim4KUAgj14hfzp6dH799w/9EeGfavRjwLKoq+GMOxj+Dg9JdIlmXwon58A3vML
-	e8gQ==
+	bh=T/gNF/+WQ4Pn+UuyOMg1wvHnA4fUii7t4Tux8xUmkoc=;
+	b=Dt6Oh+GYc5ECBGvXm8k40HNriBNshJGfarJIgu4ZyvWlyiJ7RPVRJRXbceNCNFeHdZ
+	+HXBwmHKQSKyam0OggyMej2UtxVQQEpbzY3AeIhhaoOKO4E6pHgV+Aq8mtJXE8UrCvfi
+	hDiaIpcW7AsenQSdR7tqqEN7Qsx4B2yWK2wMfKNQhk9J5H2/Dovott+pRkDvG0LIE6Tw
+	aTi/a8PkuqOpG4DnnbMTzxJC4ot9S02hjUALTRVErDxBZCG2JV+3zGlIXlJmEbTjHTBK
+	Q1sAILEQ7kqiIRPhk+errWRwwixVqmWL8sRbEIS3mUi0O/nu9kQK7iV8cgZcAmWzHLLY
+	EICg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=qYhnP8CmUyN8DJK4QlR57fQbe3qhOBTecaegSn//V4c=;
-	b=m6M2EXQh0/KffIsSKekup6+dXnG/ftK8S2wS+7t1VmFhV0fFTOvKOJLilpmA8Hb/xZ
-	k7jltatGDXTL28yHap8JE9Rb7nptJ2Ewy0WBgxz6pJblUBcynxhEbgNysoD7nqY4NiF/
-	xMiHJwnXhi1KRJscI87W1EgWlQo4pExHA6pTbr28GftR5wfX8z7O39uW7pfhWginv7tJ
-	bML9RSf4dYZcQ3o0nkMo+xOq3BDErMWHU+Qbm3rpd3pBlFykHFGNzlbiE/bC9B0f2Der
-	hwhcFFhktcgEaOZIRXf0VwWP6VV8SHZBdegxZk16SN5ry67/Ywh8yLzCRrtgNrwuyoib
-	mKKQ==
-X-Gm-Message-State: APjAAAUi3OEbEAf+BzUYIZIZov/AdYdnh04IK7rZUYZvjlRCaKKSWdJu
-	A4eQUbdIOGcsKXls48QEN4diPATPamw=
-X-Google-Smtp-Source: APXvYqw+ALPcUrxjj6nEWahdpZU8jwelqI//CcT5EMGcBGVVlMmjAJZCLJm+LczsBjxbnnAm3Acsfg==
-X-Received: by 2002:a63:374b:: with SMTP id g11mr15571441pgn.421.1558298253819;
-	Sun, 19 May 2019 13:37:33 -0700 (PDT)
+	bh=T/gNF/+WQ4Pn+UuyOMg1wvHnA4fUii7t4Tux8xUmkoc=;
+	b=qBDKjF0fH6RrsoBwNIC9hcKx4EoFP9kIj9UtZdFu+hD6NiEd3NLfzNA1I49Um3wkKt
+	is3CilLtKU6YhsFnmeCFGXBBwAxwTsV2JvElQOTpjwTxbIi5VFGXJn/Jd1NWYgBHJBcZ
+	Kwbp3vIHffUgbmL6vOXgiFrR1fnLmKY9gSx4ThJetqL0F7hwdmKOBLdzZM99Gr5cYvva
+	SYVeBqDcsTaYdD2veiydQveY+/Wrr221CNb8qfjUnCvyhCZ3LeTfn4gzTKVedHPb5VVt
+	woCdQP7NQ4qPz7Krlz9FiFkUyGm+vBm2HC+tVxnsGwotrR1hvML5kMbvErunCt3y4nIX
+	hrPg==
+X-Gm-Message-State: APjAAAU/3FzwhjuxQQzt1tYB9lzhpjZKZ+AtL27G54DUeuwQmE0B0GVw
+	7SMwxOB6DrqFK3e2rh7fGLrY0rBoElc=
+X-Google-Smtp-Source: APXvYqy8+fS70NI1GkAOCZBtCYqeXlqWSSt1gl0TgvzZGXd1GubkQOgY3SCjreK5VnBXdjJr+ndNWA==
+X-Received: by 2002:a65:5c89:: with SMTP id a9mr71871984pgt.334.1558298255333; 
+	Sun, 19 May 2019 13:37:35 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	i7sm11397448pfo.19.2019.05.19.13.37.32
+	i7sm11397448pfo.19.2019.05.19.13.37.34
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 19 May 2019 13:37:32 -0700 (PDT)
+	Sun, 19 May 2019 13:37:34 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sun, 19 May 2019 13:36:16 -0700
-Message-Id: <20190519203726.20729-5-richard.henderson@linaro.org>
+Date: Sun, 19 May 2019 13:36:17 -0700
+Message-Id: <20190519203726.20729-6-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190519203726.20729-1-richard.henderson@linaro.org>
 References: <20190519203726.20729-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::442
-Subject: [Qemu-devel] [PATCH v7 04/74] linux-user: Tidy do_openat loop over
- fakes
+X-Received-From: 2607:f8b0:4864:20::544
+Subject: [Qemu-devel] [PATCH v7 05/74] linux-user: Split out readlink,
+ readlinkat
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -80,64 +80,217 @@ Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Cleaner to use ARRAY_SIZE to loop over elements instead of
-using a sentinel within the data structure.
+Split out a shared implementation for both of these;
+unify the best parts of /proc/self/exe checking.
+
+Remove the temporary forward declaration for is_proc_self.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/syscall-file.inc.c | 16 +++++++---------
- 1 file changed, 7 insertions(+), 9 deletions(-)
+ linux-user/syscall-defs.h     |  6 ++++
+ linux-user/strace.c           | 29 ------------------
+ linux-user/syscall-file.inc.c | 45 ++++++++++++++++++++++++++++
+ linux-user/syscall.c          | 55 -----------------------------------
+ linux-user/strace.list        |  6 ----
+ 5 files changed, 51 insertions(+), 90 deletions(-)
 
+diff --git a/linux-user/syscall-defs.h b/linux-user/syscall-defs.h
+index 1f3a9c47ab..d1a6c6fa3c 100644
+--- a/linux-user/syscall-defs.h
++++ b/linux-user/syscall-defs.h
+@@ -20,3 +20,9 @@
+ SYSCALL_DEF(open, ARG_STR, ARG_OPENFLAG, ARG_MODEFLAG);
+ #endif
+ SYSCALL_DEF(openat, ARG_ATDIRFD, ARG_STR, ARG_OPENFLAG, ARG_MODEFLAG);
++#ifdef TARGET_NR_readlink
++SYSCALL_DEF(readlink, ARG_STR, ARG_PTR, ARG_DEC);
++#endif
++#ifdef TARGET_NR_readlinkat
++SYSCALL_DEF(readlinkat, ARG_ATDIRFD, ARG_STR, ARG_PTR, ARG_DEC);
++#endif
+diff --git a/linux-user/strace.c b/linux-user/strace.c
+index 24ef14b5e6..2f1c7e537f 100644
+--- a/linux-user/strace.c
++++ b/linux-user/strace.c
+@@ -2256,35 +2256,6 @@ print_fstatat64(const struct syscallname *name,
+ #define print_newfstatat    print_fstatat64
+ #endif
+ 
+-#ifdef TARGET_NR_readlink
+-static void
+-print_readlink(const struct syscallname *name,
+-    abi_long arg0, abi_long arg1, abi_long arg2,
+-    abi_long arg3, abi_long arg4, abi_long arg5)
+-{
+-    print_syscall_prologue(name);
+-    print_string(arg0, 0);
+-    print_pointer(arg1, 0);
+-    print_raw_param("%u", arg2, 1);
+-    print_syscall_epilogue(name);
+-}
+-#endif
+-
+-#ifdef TARGET_NR_readlinkat
+-static void
+-print_readlinkat(const struct syscallname *name,
+-    abi_long arg0, abi_long arg1, abi_long arg2,
+-    abi_long arg3, abi_long arg4, abi_long arg5)
+-{
+-    print_syscall_prologue(name);
+-    print_at_dirfd(arg0, 0);
+-    print_string(arg1, 0);
+-    print_pointer(arg2, 0);
+-    print_raw_param("%u", arg3, 1);
+-    print_syscall_epilogue(name);
+-}
+-#endif
+-
+ #ifdef TARGET_NR_rename
+ static void
+ print_rename(const struct syscallname *name,
 diff --git a/linux-user/syscall-file.inc.c b/linux-user/syscall-file.inc.c
-index 961eed13ae..30f8e35cdd 100644
+index 30f8e35cdd..4ef0be2c6f 100644
 --- a/linux-user/syscall-file.inc.c
 +++ b/linux-user/syscall-file.inc.c
-@@ -235,7 +235,6 @@ static abi_long do_openat(void *cpu_env, int dirfd, abi_ulong target_path,
-         int (*fill)(void *cpu_env, int fd);
-         int (*cmp)(const char *s1, const char *s2);
-     };
--    const struct fake_open *fake_open;
-     static const struct fake_open fakes[] = {
-         { "maps", open_self_maps, is_proc_myself },
-         { "stat", open_self_stat, is_proc_myself },
-@@ -244,12 +243,12 @@ static abi_long do_openat(void *cpu_env, int dirfd, abi_ulong target_path,
- #if defined(HOST_WORDS_BIGENDIAN) != defined(TARGET_WORDS_BIGENDIAN)
-         { "/proc/net/route", open_net_route, is_proc },
- #endif
--        { NULL, NULL, NULL }
-     };
- 
-     char *pathname = lock_user_string(target_path);
-     int flags = target_to_host_bitmask(target_flags, fcntl_flags_tbl);
-     abi_long ret;
-+    size_t i;
- 
-     if (!pathname) {
-         return -TARGET_EFAULT;
-@@ -263,17 +262,16 @@ static abi_long do_openat(void *cpu_env, int dirfd, abi_ulong target_path,
-         goto done;
-     }
- 
--    for (fake_open = fakes; fake_open->filename; fake_open++) {
--        if (fake_open->cmp(pathname, fake_open->filename)) {
--            break;
--        }
--    }
--
--    if (fake_open->filename) {
-+    for (i = 0; i < ARRAY_SIZE(fakes); ++i) {
-+        const struct fake_open *fake_open = &fakes[i];
-         const char *tmpdir;
-         char filename[PATH_MAX];
-         int fd;
- 
-+        if (!fake_open->cmp(pathname, fake_open->filename)) {
-+            continue;
-+        }
+@@ -314,3 +314,48 @@ SYSCALL_IMPL(openat)
+ {
+     return do_openat(cpu_env, arg1, arg2, arg3, arg4);
+ }
 +
-         /* create temporary file to map stat to */
-         tmpdir = getenv("TMPDIR");
-         if (!tmpdir) {
++static abi_long do_readlinkat(int dirfd, abi_ulong target_path,
++                              abi_ulong target_buf, abi_ulong bufsiz)
++{
++    char *p = lock_user_string(target_path);
++    void *buf = lock_user(VERIFY_WRITE, target_buf, bufsiz, 0);
++    abi_long ret;
++
++    if (!p || !buf) {
++        ret = -TARGET_EFAULT;
++    } else if (!bufsiz) {
++        /* Short circuit this for the magic exe check. */
++        ret = -TARGET_EINVAL;
++    } else if (is_proc_myself((const char *)p, "exe")) {
++        char real[PATH_MAX];
++        char *temp = realpath(exec_path, real);
++
++        if (temp == NULL) {
++            ret = -host_to_target_errno(errno);
++        } else {
++            ret = MIN(strlen(real), bufsiz);
++            /* We cannot NUL terminate the string. */
++            memcpy(buf, real, ret);
++        }
++    } else {
++        ret = get_errno(readlinkat(dirfd, path(p), buf, bufsiz));
++    }
++    unlock_user(buf, target_buf, ret);
++    unlock_user(p, target_path, 0);
++    return ret;
++}
++
++#ifdef TARGET_NR_readlink
++SYSCALL_IMPL(readlink)
++{
++    return do_readlinkat(AT_FDCWD, arg1, arg2, arg3);
++}
++#endif
++
++#ifdef TARGET_NR_readlinkat
++SYSCALL_IMPL(readlinkat)
++{
++    return do_readlinkat(arg1, arg2, arg3, arg4);
++}
++#endif
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index fe52ac15c2..53fb211f16 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -6633,8 +6633,6 @@ int host_to_target_waitstatus(int status)
+     return status;
+ }
+ 
+-static int is_proc_myself(const char *filename, const char *entry);
+-
+ #define TIMER_MAGIC 0x0caf0000
+ #define TIMER_MAGIC_MASK 0xffff0000
+ 
+@@ -8108,59 +8106,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+         }
+         return ret;
+ #endif
+-#ifdef TARGET_NR_readlink
+-    case TARGET_NR_readlink:
+-        {
+-            void *p2;
+-            p = lock_user_string(arg1);
+-            p2 = lock_user(VERIFY_WRITE, arg2, arg3, 0);
+-            if (!p || !p2) {
+-                ret = -TARGET_EFAULT;
+-            } else if (!arg3) {
+-                /* Short circuit this for the magic exe check. */
+-                ret = -TARGET_EINVAL;
+-            } else if (is_proc_myself((const char *)p, "exe")) {
+-                char real[PATH_MAX], *temp;
+-                temp = realpath(exec_path, real);
+-                /* Return value is # of bytes that we wrote to the buffer. */
+-                if (temp == NULL) {
+-                    ret = get_errno(-1);
+-                } else {
+-                    /* Don't worry about sign mismatch as earlier mapping
+-                     * logic would have thrown a bad address error. */
+-                    ret = MIN(strlen(real), arg3);
+-                    /* We cannot NUL terminate the string. */
+-                    memcpy(p2, real, ret);
+-                }
+-            } else {
+-                ret = get_errno(readlink(path(p), p2, arg3));
+-            }
+-            unlock_user(p2, arg2, ret);
+-            unlock_user(p, arg1, 0);
+-        }
+-        return ret;
+-#endif
+-#if defined(TARGET_NR_readlinkat)
+-    case TARGET_NR_readlinkat:
+-        {
+-            void *p2;
+-            p  = lock_user_string(arg2);
+-            p2 = lock_user(VERIFY_WRITE, arg3, arg4, 0);
+-            if (!p || !p2) {
+-                ret = -TARGET_EFAULT;
+-            } else if (is_proc_myself((const char *)p, "exe")) {
+-                char real[PATH_MAX], *temp;
+-                temp = realpath(exec_path, real);
+-                ret = temp == NULL ? get_errno(-1) : strlen(real) ;
+-                snprintf((char *)p2, arg4, "%s", real);
+-            } else {
+-                ret = get_errno(readlinkat(arg1, path(p), p2, arg4));
+-            }
+-            unlock_user(p2, arg3, ret);
+-            unlock_user(p, arg2, 0);
+-        }
+-        return ret;
+-#endif
+ #ifdef TARGET_NR_swapon
+     case TARGET_NR_swapon:
+         if (!(p = lock_user_string(arg1)))
+diff --git a/linux-user/strace.list b/linux-user/strace.list
+index 2c7a595e19..53cee3db92 100644
+--- a/linux-user/strace.list
++++ b/linux-user/strace.list
+@@ -1079,12 +1079,6 @@
+ #ifdef TARGET_NR_readdir
+ { TARGET_NR_readdir, "readdir" , NULL, NULL, NULL },
+ #endif
+-#ifdef TARGET_NR_readlink
+-{ TARGET_NR_readlink, "readlink" , NULL, print_readlink, NULL },
+-#endif
+-#ifdef TARGET_NR_readlinkat
+-{ TARGET_NR_readlinkat, "readlinkat" , NULL, print_readlinkat, NULL },
+-#endif
+ #ifdef TARGET_NR_readv
+ { TARGET_NR_readv, "readv" , NULL, NULL, NULL },
+ #endif
 -- 
 2.17.1
 
