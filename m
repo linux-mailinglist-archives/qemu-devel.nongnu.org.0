@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4596228B4
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 22:22:36 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52866 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 99487228B6
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 22:25:28 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52897 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSSKJ-0006vK-Ny
-	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 16:22:35 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46435)
+	id 1hSSN4-0000va-Re
+	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 16:25:26 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46470)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSHo-0005PI-Ft
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:20:01 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSHq-0005PW-5h
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:20:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSHn-0007I9-6z
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:20:00 -0400
-Received: from mail-pf1-x443.google.com ([2607:f8b0:4864:20::443]:43788)
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSHo-0007Js-IK
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:20:02 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:43740)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hSSHn-0007HV-0m
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:19:59 -0400
-Received: by mail-pf1-x443.google.com with SMTP id c6so6140816pfa.10
-	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:19:58 -0700 (PDT)
+	id 1hSSHo-0007Ih-Ah
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:20:00 -0400
+Received: by mail-pg1-x544.google.com with SMTP id t22so5715991pgi.10
+	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:20:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=F6v6DXx3p/jSQwESHeV1J+7APHSrqQWGEt14uQc8gHo=;
-	b=LNoyoleiOmWy0+b5gqhq8DClyyS7FdElq0Iyolo/4h3pAWSQOECoXCfuj6RQ8Fd3yo
-	RqZOpo3P9VyQKhkETAtVf/1MhSofklJRjqtm4ZdmyqVu86sf7VStdm+C1ldRqT7bFZZf
-	McXkW0M/tQ8SHgNu487ySJUA1x40uJZRmYoCZHAO5u+B8cUFLUiHaIz+RA6uBNOmZed7
-	8TkwyIeZhaJNE/+/EzYjLru742oJAL43oEl3nv1zVvWaCgxhrLygcsqLi8/v6BJY5t0r
-	z71BEx/7b1Pw08/dtu/WPt4pYR4Itu720vbE1moZINx9+7XAUQ74OpZfYyRhUF3aRTVM
-	MXQA==
+	bh=rXfSo9Gy+xV7gUMCOu/4nLM098jgkgLPcgtIQzZJ9xs=;
+	b=JTjGItOnSMUIYHEEx5LZcLs7Twjd7TMSj3wNUZ+d60cBs4W8wptlXMzptMdWdOtF4n
+	ZuoNaPGwTftRP4fsqpL9HToIITohaOSgoWS/xtKJXmGB6tq/Ank+ff+G+OB4bpZ28ebS
+	ayaDIgVw/SM6EDqCX2Rs5dLA0cF+kVAnS6uSTgaQ6YNzbPya4DLUJFrtNrJqZ3/xw7xg
+	9fMDZDIXTdDeP2eLN3NdzvHgHS/VMWW3WRpJGThf+Ar3mO1LDGl6ZgSh0WzCed9tJd0V
+	uXpBPIKwgc62LVdaC4AWght+LNHYtS69c4A9pbDvhLKuEIA+R0SVONZj2Jo/+eOvI1eb
+	rxmQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=F6v6DXx3p/jSQwESHeV1J+7APHSrqQWGEt14uQc8gHo=;
-	b=TXcytjB5kN1GHt5qUgwLMjo/8R7WKp7YoH2FDD7bnguMA8o76Y25uNrQ5Ek7QcdIQr
-	cH0ok141Vz32ajLq7/ImV+yKQSkaqwC/tKnwxj8QQpJauSxyF5nbhfw71/jm6hKUS77M
-	xyeu/rWmwBJ4XsA3YzyahcHpaUHNXVCDBkUsp0bBOsSzmkS9B+ISpgnshlBQZmECFLf2
-	wYe/AOOzm0/4gGVvhlnQ5Lt8pB87NzgGPxeW0LtYOWLfEteLJMeK0N2WXqze7EBopW8p
-	w6V/XOMVDdFryF624e2JwhstkUFEVHu54jQQSNcx/8qETQjMCtPqVlx3qm58M4rX20gZ
-	0Jhg==
-X-Gm-Message-State: APjAAAVJqzL5DnY3xO/hneECmiLMin24s9lHKQ1H3ewQfGCuaekYPL4w
-	dXyRao1T5WO7Lj/LoyAsm/MTVOuCuiM=
-X-Google-Smtp-Source: APXvYqx+Yhbor1WoBqlmIXCyQyXQzlpLrRCxiHTAQert1WXxy18ZDXEN/WFM/tgzFZhhYFfv8eUurA==
-X-Received: by 2002:a63:144e:: with SMTP id 14mr53861332pgu.304.1558297197610; 
-	Sun, 19 May 2019 13:19:57 -0700 (PDT)
+	bh=rXfSo9Gy+xV7gUMCOu/4nLM098jgkgLPcgtIQzZJ9xs=;
+	b=H/N/7ZQniFA8ZlgR15JMWN02AZxaUoaFevFNyvdk/c6Xv7Zp2Fg5VM6wPp4H0dMLU+
+	eL1DwamIsJjAVlkfHbShG5d2alMjUTGqejAY4ZmLOK1jn2IOt5wJQGavHr+/ZGkDh6N9
+	f1SXJLKXLtpoi8gvho6cvyGB5l4ODjZFFmRS9aNL0pmpxrxnQ73Fr+A6GZ3PbyjyMpnD
+	hjLLyb9Z3srMvm3FRnuKdrgcEpsdbMUI/2Pqi8Tba1iqguhg64f5MygGj6DZApOUKYRP
+	HJJPy2u4BGdcww6l0e7Fobvk3pRYJH/416QISPYpSjS7gKYzrOoGCMlbuwtIVBOZlfiZ
+	69Aw==
+X-Gm-Message-State: APjAAAWk8gASfPMPYbnJstcKJDDrc8xbs0jEWJPBZUoRKaZtd20s/50z
+	40rUdIabpDigGlk9o3Ti9vTJKWnt/Dc=
+X-Google-Smtp-Source: APXvYqwTh9zthvi2YP2sgcRlrl12LpIWwGDP+nVwqZOIdUWsa3pQ30xvbksYCzmUnS6gH4vZiUyOPA==
+X-Received: by 2002:a65:60d2:: with SMTP id r18mr24719608pgv.217.1558297198793;
+	Sun, 19 May 2019 13:19:58 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	e14sm18166264pff.60.2019.05.19.13.19.56
+	e14sm18166264pff.60.2019.05.19.13.19.57
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 19 May 2019 13:19:56 -0700 (PDT)
+	Sun, 19 May 2019 13:19:58 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sun, 19 May 2019 13:19:41 -0700
-Message-Id: <20190519201953.20161-2-richard.henderson@linaro.org>
+Date: Sun, 19 May 2019 13:19:42 -0700
+Message-Id: <20190519201953.20161-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190519201953.20161-1-richard.henderson@linaro.org>
 References: <20190519201953.20161-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::443
-Subject: [Qemu-devel] [PATCH 01/13] util/path: Do not cache all filenames at
- startup
+X-Received-From: 2607:f8b0:4864:20::544
+Subject: [Qemu-devel] [PATCH 02/13] linux-user: Rename cpu_clone_regs to
+ cpu_clone_regs_child
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -80,243 +80,291 @@ Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If one uses -L $PATH to point to a full chroot, the startup time
-is significant.  In addition, the existing probing algorithm fails
-to handle symlink loops.
-
-Instead, probe individual paths on demand.  Cache both positive
-and negative results within $PATH, so that any one filename is
-probed only once.
-
-Use glib filename functions for clarity.
+We will need a target-specific hook for adjusting registers
+in the parent during clone.  To avoid confusion, rename the
+one we have to make it clear it affects the child.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- util/path.c | 201 ++++++++++++----------------------------------------
- 1 file changed, 47 insertions(+), 154 deletions(-)
+ linux-user/aarch64/target_cpu.h    | 2 +-
+ linux-user/alpha/target_cpu.h      | 2 +-
+ linux-user/arm/target_cpu.h        | 2 +-
+ linux-user/cris/target_cpu.h       | 2 +-
+ linux-user/hppa/target_cpu.h       | 2 +-
+ linux-user/i386/target_cpu.h       | 2 +-
+ linux-user/m68k/target_cpu.h       | 2 +-
+ linux-user/microblaze/target_cpu.h | 2 +-
+ linux-user/mips/target_cpu.h       | 2 +-
+ linux-user/nios2/target_cpu.h      | 2 +-
+ linux-user/openrisc/target_cpu.h   | 3 ++-
+ linux-user/ppc/target_cpu.h        | 2 +-
+ linux-user/riscv/target_cpu.h      | 2 +-
+ linux-user/s390x/target_cpu.h      | 2 +-
+ linux-user/sh4/target_cpu.h        | 2 +-
+ linux-user/sparc/target_cpu.h      | 2 +-
+ linux-user/tilegx/target_cpu.h     | 2 +-
+ linux-user/xtensa/target_cpu.h     | 3 ++-
+ linux-user/syscall.c               | 4 ++--
+ 19 files changed, 22 insertions(+), 20 deletions(-)
 
-diff --git a/util/path.c b/util/path.c
-index 7f9fc272fb..8e174eb436 100644
---- a/util/path.c
-+++ b/util/path.c
-@@ -8,170 +8,63 @@
- #include <dirent.h>
- #include "qemu/cutils.h"
- #include "qemu/path.h"
-+#include "qemu/thread.h"
+diff --git a/linux-user/aarch64/target_cpu.h b/linux-user/aarch64/target_cpu.h
+index a021c95fa4..abde35b104 100644
+--- a/linux-user/aarch64/target_cpu.h
++++ b/linux-user/aarch64/target_cpu.h
+@@ -19,7 +19,7 @@
+ #ifndef AARCH64_TARGET_CPU_H
+ #define AARCH64_TARGET_CPU_H
  
--struct pathelem
--{
--    /* Name of this, eg. lib */
--    char *name;
--    /* Full path name, eg. /usr/gnemul/x86-linux/lib. */
--    char *pathname;
--    struct pathelem *parent;
--    /* Children */
--    unsigned int num_entries;
--    struct pathelem *entries[0];
--};
--
--static struct pathelem *base;
--
--/* First N chars of S1 match S2, and S2 is N chars long. */
--static int strneq(const char *s1, unsigned int n, const char *s2)
--{
--    unsigned int i;
--
--    for (i = 0; i < n; i++)
--        if (s1[i] != s2[i])
--            return 0;
--    return s2[i] == 0;
--}
--
--static struct pathelem *add_entry(struct pathelem *root, const char *name,
--                                  unsigned type);
--
--static struct pathelem *new_entry(const char *root,
--                                  struct pathelem *parent,
--                                  const char *name)
--{
--    struct pathelem *new = g_malloc(sizeof(*new));
--    new->name = g_strdup(name);
--    new->pathname = g_strdup_printf("%s/%s", root, name);
--    new->num_entries = 0;
--    return new;
--}
--
--#define streq(a,b) (strcmp((a), (b)) == 0)
--
--/* Not all systems provide this feature */
--#if defined(DT_DIR) && defined(DT_UNKNOWN) && defined(DT_LNK)
--# define dirent_type(dirent) ((dirent)->d_type)
--# define is_dir_maybe(type) \
--    ((type) == DT_DIR || (type) == DT_UNKNOWN || (type) == DT_LNK)
--#else
--# define dirent_type(dirent) (1)
--# define is_dir_maybe(type)  (type)
--#endif
--
--static struct pathelem *add_dir_maybe(struct pathelem *path)
--{
--    DIR *dir;
--
--    if ((dir = opendir(path->pathname)) != NULL) {
--        struct dirent *dirent;
--
--        while ((dirent = readdir(dir)) != NULL) {
--            if (!streq(dirent->d_name,".") && !streq(dirent->d_name,"..")){
--                path = add_entry(path, dirent->d_name, dirent_type(dirent));
--            }
--        }
--        closedir(dir);
--    }
--    return path;
--}
--
--static struct pathelem *add_entry(struct pathelem *root, const char *name,
--                                  unsigned type)
--{
--    struct pathelem **e;
--
--    root->num_entries++;
--
--    root = g_realloc(root, sizeof(*root)
--                   + sizeof(root->entries[0])*root->num_entries);
--    e = &root->entries[root->num_entries-1];
--
--    *e = new_entry(root->pathname, root, name);
--    if (is_dir_maybe(type)) {
--        *e = add_dir_maybe(*e);
--    }
--
--    return root;
--}
--
--/* This needs to be done after tree is stabilized (ie. no more reallocs!). */
--static void set_parents(struct pathelem *child, struct pathelem *parent)
--{
--    unsigned int i;
--
--    child->parent = parent;
--    for (i = 0; i < child->num_entries; i++)
--        set_parents(child->entries[i], child);
--}
--
--/* FIXME: Doesn't handle DIR/.. where DIR is not in emulated dir. */
--static const char *
--follow_path(const struct pathelem *cursor, const char *name)
--{
--    unsigned int i, namelen;
--
--    name += strspn(name, "/");
--    namelen = strcspn(name, "/");
--
--    if (namelen == 0)
--        return cursor->pathname;
--
--    if (strneq(name, namelen, ".."))
--        return follow_path(cursor->parent, name + namelen);
--
--    if (strneq(name, namelen, "."))
--        return follow_path(cursor, name + namelen);
--
--    for (i = 0; i < cursor->num_entries; i++)
--        if (strneq(name, namelen, cursor->entries[i]->name))
--            return follow_path(cursor->entries[i], name + namelen);
--
--    /* Not found */
--    return NULL;
--}
-+static const char *base;
-+static GHashTable *hash;
-+static QemuMutex lock;
- 
- void init_paths(const char *prefix)
+-static inline void cpu_clone_regs(CPUARMState *env, target_ulong newsp)
++static inline void cpu_clone_regs_child(CPUARMState *env, target_ulong newsp)
  {
--    char pref_buf[PATH_MAX];
--
--    if (prefix[0] == '\0' ||
--        !strcmp(prefix, "/"))
-+    if (prefix[0] == '\0' || !strcmp(prefix, "/")) {
-         return;
--
--    if (prefix[0] != '/') {
--        char *cwd = getcwd(NULL, 0);
--        size_t pref_buf_len = sizeof(pref_buf);
--
--        if (!cwd)
--            abort();
--        pstrcpy(pref_buf, sizeof(pref_buf), cwd);
--        pstrcat(pref_buf, pref_buf_len, "/");
--        pstrcat(pref_buf, pref_buf_len, prefix);
--        free(cwd);
--    } else
--        pstrcpy(pref_buf, sizeof(pref_buf), prefix + 1);
--
--    base = new_entry("", NULL, pref_buf);
--    base = add_dir_maybe(base);
--    if (base->num_entries == 0) {
--        g_free(base->pathname);
--        g_free(base->name);
--        g_free(base);
--        base = NULL;
--    } else {
--        set_parents(base, base);
-     }
-+
-+    if (prefix[0] == '/') {
-+        base = g_strdup(prefix);
-+    } else {
-+        char *cwd = g_get_current_dir();
-+        base = g_build_filename(cwd, prefix, NULL);
-+        g_free(cwd);
-+    }
-+
-+    hash = g_hash_table_new(g_str_hash, g_str_equal);
-+    qemu_mutex_init(&lock);
- }
+     if (newsp) {
+         env->xregs[31] = newsp;
+diff --git a/linux-user/alpha/target_cpu.h b/linux-user/alpha/target_cpu.h
+index ac4d255ae7..dc02f2234c 100644
+--- a/linux-user/alpha/target_cpu.h
++++ b/linux-user/alpha/target_cpu.h
+@@ -19,7 +19,7 @@
+ #ifndef ALPHA_TARGET_CPU_H
+ #define ALPHA_TARGET_CPU_H
  
- /* Look for path in emulation dir, otherwise return name. */
- const char *path(const char *name)
+-static inline void cpu_clone_regs(CPUAlphaState *env, target_ulong newsp)
++static inline void cpu_clone_regs_child(CPUAlphaState *env, target_ulong newsp)
  {
--    /* Only do absolute paths: quick and dirty, but should mostly be OK.
--       Could do relative by tracking cwd. */
--    if (!base || !name || name[0] != '/')
--        return name;
-+    gpointer key, value;
-+    const char *ret;
+     if (newsp) {
+         env->ir[IR_SP] = newsp;
+diff --git a/linux-user/arm/target_cpu.h b/linux-user/arm/target_cpu.h
+index 8a3764919a..d35c997287 100644
+--- a/linux-user/arm/target_cpu.h
++++ b/linux-user/arm/target_cpu.h
+@@ -23,7 +23,7 @@
+    See validate_guest_space in linux-user/elfload.c.  */
+ #define MAX_RESERVED_VA  0xffff0000ul
  
--    return follow_path(base, name) ?: name;
-+    /* Only do absolute paths: quick and dirty, but should mostly be OK.  */
-+    if (!base || !name || name[0] != '/') {
-+        return name;
-+    }
-+
-+    qemu_mutex_lock(&lock);
-+
-+    /* Have we looked up this file before?  */
-+    if (g_hash_table_lookup_extended(hash, name, &key, &value)) {
-+        ret = value ? value : name;
-+    } else {
-+        char *save = g_strdup(name);
-+        char *full = g_build_filename(base, name, NULL);
-+
-+        /* Look for the path; record the result, pass or fail.  */
-+        if (access(full, F_OK) == 0) {
-+            /* Exists.  */
-+            g_hash_table_insert(hash, save, full);
-+            ret = full;
-+        } else {
-+            /* Does not exist.  */
-+            g_free(full);
-+            g_hash_table_insert(hash, save, NULL);
-+            ret = name;
-+        }
-+    }
-+
-+    qemu_mutex_unlock(&lock);
-+    return ret;
- }
+-static inline void cpu_clone_regs(CPUARMState *env, target_ulong newsp)
++static inline void cpu_clone_regs_child(CPUARMState *env, target_ulong newsp)
+ {
+     if (newsp) {
+         env->regs[13] = newsp;
+diff --git a/linux-user/cris/target_cpu.h b/linux-user/cris/target_cpu.h
+index 2309343979..9c847caaef 100644
+--- a/linux-user/cris/target_cpu.h
++++ b/linux-user/cris/target_cpu.h
+@@ -20,7 +20,7 @@
+ #ifndef CRIS_TARGET_CPU_H
+ #define CRIS_TARGET_CPU_H
+ 
+-static inline void cpu_clone_regs(CPUCRISState *env, target_ulong newsp)
++static inline void cpu_clone_regs_child(CPUCRISState *env, target_ulong newsp)
+ {
+     if (newsp) {
+         env->regs[14] = newsp;
+diff --git a/linux-user/hppa/target_cpu.h b/linux-user/hppa/target_cpu.h
+index 1c539bdbd6..b98e5a1cfe 100644
+--- a/linux-user/hppa/target_cpu.h
++++ b/linux-user/hppa/target_cpu.h
+@@ -19,7 +19,7 @@
+ #ifndef HPPA_TARGET_CPU_H
+ #define HPPA_TARGET_CPU_H
+ 
+-static inline void cpu_clone_regs(CPUHPPAState *env, target_ulong newsp)
++static inline void cpu_clone_regs_child(CPUHPPAState *env, target_ulong newsp)
+ {
+     if (newsp) {
+         env->gr[30] = newsp;
+diff --git a/linux-user/i386/target_cpu.h b/linux-user/i386/target_cpu.h
+index ece04d0966..e1c9e03490 100644
+--- a/linux-user/i386/target_cpu.h
++++ b/linux-user/i386/target_cpu.h
+@@ -20,7 +20,7 @@
+ #ifndef I386_TARGET_CPU_H
+ #define I386_TARGET_CPU_H
+ 
+-static inline void cpu_clone_regs(CPUX86State *env, target_ulong newsp)
++static inline void cpu_clone_regs_child(CPUX86State *env, target_ulong newsp)
+ {
+     if (newsp) {
+         env->regs[R_ESP] = newsp;
+diff --git a/linux-user/m68k/target_cpu.h b/linux-user/m68k/target_cpu.h
+index 7a26f3c3fc..7637a98cab 100644
+--- a/linux-user/m68k/target_cpu.h
++++ b/linux-user/m68k/target_cpu.h
+@@ -21,7 +21,7 @@
+ #ifndef M68K_TARGET_CPU_H
+ #define M68K_TARGET_CPU_H
+ 
+-static inline void cpu_clone_regs(CPUM68KState *env, target_ulong newsp)
++static inline void cpu_clone_regs_child(CPUM68KState *env, target_ulong newsp)
+ {
+     if (newsp) {
+         env->aregs[7] = newsp;
+diff --git a/linux-user/microblaze/target_cpu.h b/linux-user/microblaze/target_cpu.h
+index 73e139938c..526b80d54d 100644
+--- a/linux-user/microblaze/target_cpu.h
++++ b/linux-user/microblaze/target_cpu.h
+@@ -19,7 +19,7 @@
+ #ifndef MICROBLAZE_TARGET_CPU_H
+ #define MICROBLAZE_TARGET_CPU_H
+ 
+-static inline void cpu_clone_regs(CPUMBState *env, target_ulong newsp)
++static inline void cpu_clone_regs_child(CPUMBState *env, target_ulong newsp)
+ {
+     if (newsp) {
+         env->regs[R_SP] = newsp;
+diff --git a/linux-user/mips/target_cpu.h b/linux-user/mips/target_cpu.h
+index 02cf5eeff7..c42660b047 100644
+--- a/linux-user/mips/target_cpu.h
++++ b/linux-user/mips/target_cpu.h
+@@ -19,7 +19,7 @@
+ #ifndef MIPS_TARGET_CPU_H
+ #define MIPS_TARGET_CPU_H
+ 
+-static inline void cpu_clone_regs(CPUMIPSState *env, target_ulong newsp)
++static inline void cpu_clone_regs_child(CPUMIPSState *env, target_ulong newsp)
+ {
+     if (newsp) {
+         env->active_tc.gpr[29] = newsp;
+diff --git a/linux-user/nios2/target_cpu.h b/linux-user/nios2/target_cpu.h
+index 5596c05c9c..bec2ea79c4 100644
+--- a/linux-user/nios2/target_cpu.h
++++ b/linux-user/nios2/target_cpu.h
+@@ -20,7 +20,7 @@
+ #ifndef NIOS2_TARGET_CPU_H
+ #define NIOS2_TARGET_CPU_H
+ 
+-static inline void cpu_clone_regs(CPUNios2State *env, target_ulong newsp)
++static inline void cpu_clone_regs_child(CPUNios2State *env, target_ulong newsp)
+ {
+     if (newsp) {
+         env->regs[R_SP] = newsp;
+diff --git a/linux-user/openrisc/target_cpu.h b/linux-user/openrisc/target_cpu.h
+index 32ff135089..d163ba2e26 100644
+--- a/linux-user/openrisc/target_cpu.h
++++ b/linux-user/openrisc/target_cpu.h
+@@ -20,7 +20,8 @@
+ #ifndef OPENRISC_TARGET_CPU_H
+ #define OPENRISC_TARGET_CPU_H
+ 
+-static inline void cpu_clone_regs(CPUOpenRISCState *env, target_ulong newsp)
++static inline void cpu_clone_regs_child(CPUOpenRISCState *env,
++                                        target_ulong newsp)
+ {
+     if (newsp) {
+         cpu_set_gpr(env, 1, newsp);
+diff --git a/linux-user/ppc/target_cpu.h b/linux-user/ppc/target_cpu.h
+index c4641834e7..34decf3876 100644
+--- a/linux-user/ppc/target_cpu.h
++++ b/linux-user/ppc/target_cpu.h
+@@ -19,7 +19,7 @@
+ #ifndef PPC_TARGET_CPU_H
+ #define PPC_TARGET_CPU_H
+ 
+-static inline void cpu_clone_regs(CPUPPCState *env, target_ulong newsp)
++static inline void cpu_clone_regs_child(CPUPPCState *env, target_ulong newsp)
+ {
+     if (newsp) {
+         env->gpr[1] = newsp;
+diff --git a/linux-user/riscv/target_cpu.h b/linux-user/riscv/target_cpu.h
+index 90f9a4171e..d92153851c 100644
+--- a/linux-user/riscv/target_cpu.h
++++ b/linux-user/riscv/target_cpu.h
+@@ -1,7 +1,7 @@
+ #ifndef RISCV_TARGET_CPU_H
+ #define RISCV_TARGET_CPU_H
+ 
+-static inline void cpu_clone_regs(CPURISCVState *env, target_ulong newsp)
++static inline void cpu_clone_regs_child(CPURISCVState *env, target_ulong newsp)
+ {
+     if (newsp) {
+         env->gpr[xSP] = newsp;
+diff --git a/linux-user/s390x/target_cpu.h b/linux-user/s390x/target_cpu.h
+index aa181ceaee..e0baa98e75 100644
+--- a/linux-user/s390x/target_cpu.h
++++ b/linux-user/s390x/target_cpu.h
+@@ -19,7 +19,7 @@
+ #ifndef S390X_TARGET_CPU_H
+ #define S390X_TARGET_CPU_H
+ 
+-static inline void cpu_clone_regs(CPUS390XState *env, target_ulong newsp)
++static inline void cpu_clone_regs_child(CPUS390XState *env, target_ulong newsp)
+ {
+     if (newsp) {
+         env->regs[15] = newsp;
+diff --git a/linux-user/sh4/target_cpu.h b/linux-user/sh4/target_cpu.h
+index b0be9a2c1b..854955aa5a 100644
+--- a/linux-user/sh4/target_cpu.h
++++ b/linux-user/sh4/target_cpu.h
+@@ -19,7 +19,7 @@
+ #ifndef SH4_TARGET_CPU_H
+ #define SH4_TARGET_CPU_H
+ 
+-static inline void cpu_clone_regs(CPUSH4State *env, target_ulong newsp)
++static inline void cpu_clone_regs_child(CPUSH4State *env, target_ulong newsp)
+ {
+     if (newsp) {
+         env->gregs[15] = newsp;
+diff --git a/linux-user/sparc/target_cpu.h b/linux-user/sparc/target_cpu.h
+index 1ffc0ae9f2..8511fc3f6f 100644
+--- a/linux-user/sparc/target_cpu.h
++++ b/linux-user/sparc/target_cpu.h
+@@ -20,7 +20,7 @@
+ #ifndef SPARC_TARGET_CPU_H
+ #define SPARC_TARGET_CPU_H
+ 
+-static inline void cpu_clone_regs(CPUSPARCState *env, target_ulong newsp)
++static inline void cpu_clone_regs_child(CPUSPARCState *env, target_ulong newsp)
+ {
+     if (newsp) {
+         env->regwptr[22] = newsp;
+diff --git a/linux-user/tilegx/target_cpu.h b/linux-user/tilegx/target_cpu.h
+index d1aa5824f2..dfca8d9598 100644
+--- a/linux-user/tilegx/target_cpu.h
++++ b/linux-user/tilegx/target_cpu.h
+@@ -19,7 +19,7 @@
+ #ifndef TILEGX_TARGET_CPU_H
+ #define TILEGX_TARGET_CPU_H
+ 
+-static inline void cpu_clone_regs(CPUTLGState *env, target_ulong newsp)
++static inline void cpu_clone_regs_child(CPUTLGState *env, target_ulong newsp)
+ {
+     if (newsp) {
+         env->regs[TILEGX_R_SP] = newsp;
+diff --git a/linux-user/xtensa/target_cpu.h b/linux-user/xtensa/target_cpu.h
+index e31efe3ea0..f436b160c4 100644
+--- a/linux-user/xtensa/target_cpu.h
++++ b/linux-user/xtensa/target_cpu.h
+@@ -4,7 +4,8 @@
+ #ifndef XTENSA_TARGET_CPU_H
+ #define XTENSA_TARGET_CPU_H
+ 
+-static inline void cpu_clone_regs(CPUXtensaState *env, target_ulong newsp)
++static inline void cpu_clone_regs_child(CPUXtensaState *env,
++                                        target_ulong newsp)
+ {
+     if (newsp) {
+         env->regs[1] = newsp;
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index f5ff6f5dc8..b9127a9601 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -5534,7 +5534,7 @@ static int do_fork(CPUArchState *env, unsigned int flags, abi_ulong newsp,
+         /* we create a new CPU instance. */
+         new_env = cpu_copy(env);
+         /* Init regs that differ from the parent.  */
+-        cpu_clone_regs(new_env, newsp);
++        cpu_clone_regs_child(new_env, newsp);
+         new_cpu = ENV_GET_CPU(new_env);
+         new_cpu->opaque = ts;
+         ts->bprm = parent_ts->bprm;
+@@ -5612,7 +5612,7 @@ static int do_fork(CPUArchState *env, unsigned int flags, abi_ulong newsp,
+         ret = fork();
+         if (ret == 0) {
+             /* Child Process.  */
+-            cpu_clone_regs(env, newsp);
++            cpu_clone_regs_child(env, newsp);
+             fork_end(1);
+             /* There is a race condition here.  The parent process could
+                theoretically read the TID in the child process before the child
 -- 
 2.17.1
 
