@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4D2F22901
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 23:08:28 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53542 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 21596228F2
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 22:59:46 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53400 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hST2h-0003Om-OH
-	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 17:08:27 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50635)
+	id 1hSSuH-0003hU-65
+	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 16:59:45 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50643)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSZb-0003b4-33
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:24 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSZc-0003cV-CZ
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:26 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSZX-0004I8-9k
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:21 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:34960)
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSZX-0004IY-Cv
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:23 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:44713)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hSSZT-0004BC-Ho
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:17 -0400
-Received: by mail-pf1-x441.google.com with SMTP id t87so6175238pfa.2
-	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:38:14 -0700 (PDT)
+	id 1hSSZV-0004DQ-EZ
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:19 -0400
+Received: by mail-pg1-x543.google.com with SMTP id z16so5723961pgv.11
+	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:38:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=zGbVnBZ7x7Ulj+gsvlvNaeMFujeF8l5vm6cHIrbAA7c=;
-	b=u4vBdPKixyBIqFlT8YlHC5VIlOngyb5q7cjyC+o8gfIuqzEG8w2crdWj/NDd3DRc+M
-	6ng+lrb0c1+8G+UaVeWUjmF85CB2VEF33yuSUKX17+VOaPEC0c6hThwZF9Qk2b7Bs7bn
-	eVXY9iBg3685j6UGcpSU/KzYQweyjjdW4DP9J8hXhxyuJyTuFueMvUgt6zt1mNHg01Eo
-	08EQgG4nO/6hqBZP/AOvV4cUfCC4Ar3b6w6KAOyFxOQ3Coj7KjrXUa1v7pPPbFAuMcvE
-	7Vsx/dRxl9RMs3bSutzkMN8fFWWPYHjVjNjXhim7DwgfLeAPm/TIPUPlHUeK6mrrMDHV
-	MJFw==
+	bh=sa+0LXisYlSy7hSoDzn8UpDJzstJJhbCNrudoztrV7E=;
+	b=LEkc0h/QBHXlunyBD5L1PGRREg/PpgacaQCnfm6Pb2aEp74rXBRynD4UHPCxhSyEbB
+	Dp87VmOwvYQ5mAT2BiRevBudd7xG8a0TKIQje/zopsn9ujWGqV8tHZ2+/X1GsFcSVmcT
+	gDeAzwCNLxrqsDnD01gMKYTTwSGtvX9vTwvzrZ+fktzTY2SC8EoPLehdwdu6O7RDr7x3
+	4ywgsAHCfjSpZn096jVLVB6aXwG8Mw3744d6ATUjXHSH92t3Liip+DkjhNMeP/ub62NF
+	E0X3NiyUr3MDLTiuzKroE2qTlDFqrO3r9Wt8pezLMidFjGkIgcDNtw/6++Uax30FvRf9
+	QZNA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=zGbVnBZ7x7Ulj+gsvlvNaeMFujeF8l5vm6cHIrbAA7c=;
-	b=GXwdLJ7tmH9UUdim/9sB0PNv8DJe6oeYHeOxo9a30zF2i0YkGIF+8qy/CXa1Ky7OdK
-	zKbk+gwrmw3SeavcnjYS3wGTIshZLeZGFd7pHoPJ5pauTOJLMNCU7cx1498Ih036PJsT
-	yB7E70VyDNsKIWYCb/5iLA1vh2zCftNV/i0KKU7UeOeuwXym4AK1G7IPBDiYIQdxSPZw
-	yNVBhboUu87NjToSioGrAAbS2ShMQG9JMVXUYHrjWET8jSnxOKTfjzgYig42RZNcD+R6
-	BvE9kzElIrxJHBOJjO3AUqt7uPQo4xlAXD70PyfYt/wXrnyMgtBjHQknSuYmTCqWqLp+
-	TDFA==
-X-Gm-Message-State: APjAAAU3tU/RJMSgs7m1bCBFKgW6xvwP+2FGjG6amX09F56c92y4ct7d
-	Hq/UXPaCOag36r+4yyzUkWlf0Hy3F7I=
-X-Google-Smtp-Source: APXvYqyHcH9cKLsE0kIopki8dHiQsrPBjnCJYCTjweHB8FSBH4Gdy0yla21N4fPjtG+OUBbjPglMzw==
-X-Received: by 2002:a63:6ac1:: with SMTP id f184mr72583935pgc.25.1558298293401;
-	Sun, 19 May 2019 13:38:13 -0700 (PDT)
+	bh=sa+0LXisYlSy7hSoDzn8UpDJzstJJhbCNrudoztrV7E=;
+	b=SRAHsCASa5RiuaqYmfeZ02zaT/8tX9uK+5XrzX6o5i5cwSJPx7T4Pe44ppVlU1H1F6
+	eo9TsX+f2FkpObhS78JIAFOu/e2dXq4NyBZO23nsUQjoEETGgj3SdNTOivQQday4PvC6
+	gxpoQ5dMidBeUtJ2zUIyOV+f4SMTm6+nkAlyjrqJTggpXCbbtYKFvj5WGumThPIksod/
+	hU994HHMoce8bmnPvkE74AXGUnv48ya593q7lHBPyqGsFLdeOCnVpTRiAL/YftOfzRnh
+	vkcvlzZ0A4Ko9b2UXI99I1k5Ft9rKNWJqqAp9Q5+Fnxl9XJnT3+XpSDNB8Ks4cKneDRR
+	aP7g==
+X-Gm-Message-State: APjAAAXw5OV+7gQHtnmcu2YgsyZJkEofOiuG2IJl7yVnQR/RPkJFahil
+	pRpcIKmyVenzXEEtVaGwzzp+/aEM8Q4=
+X-Google-Smtp-Source: APXvYqyDnlb7ZcxDcW40gyrfYyjBdyW6LSzwcLY3Fa+ozbuHGew5Sib0Dsg0hb3K1vfLbeecXzsrQw==
+X-Received: by 2002:a65:5cca:: with SMTP id b10mr71647708pgt.444.1558298294442;
+	Sun, 19 May 2019 13:38:14 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	i7sm11397448pfo.19.2019.05.19.13.38.12
+	i7sm11397448pfo.19.2019.05.19.13.38.13
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 19 May 2019 13:38:12 -0700 (PDT)
+	Sun, 19 May 2019 13:38:13 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sun, 19 May 2019 13:36:46 -0700
-Message-Id: <20190519203726.20729-35-richard.henderson@linaro.org>
+Date: Sun, 19 May 2019 13:36:47 -0700
+Message-Id: <20190519203726.20729-36-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190519203726.20729-1-richard.henderson@linaro.org>
 References: <20190519203726.20729-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::441
-Subject: [Qemu-devel] [PATCH v7 34/74] linux-user: Split out alarm, pause
+X-Received-From: 2607:f8b0:4864:20::543
+Subject: [Qemu-devel] [PATCH v7 35/74] linux-user: Split out utime, utimes,
+ futimesat
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -81,132 +82,312 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/syscall-defs.h    |  6 ++++++
- linux-user/syscall-sig.inc.c | 36 ++++++++++++++++++++++++++++++++++++
- linux-user/syscall.c         | 12 +-----------
- linux-user/strace.list       |  6 ------
- 4 files changed, 43 insertions(+), 17 deletions(-)
- create mode 100644 linux-user/syscall-sig.inc.c
+ linux-user/syscall-defs.h     |  9 ++++
+ linux-user/strace.c           | 41 ---------------
+ linux-user/syscall-file.inc.c | 95 +++++++++++++++++++++++++++++++++++
+ linux-user/syscall.c          | 63 -----------------------
+ linux-user/strace.list        |  9 ----
+ 5 files changed, 104 insertions(+), 113 deletions(-)
 
 diff --git a/linux-user/syscall-defs.h b/linux-user/syscall-defs.h
-index 6ca82af397..9d0dd7457b 100644
+index 9d0dd7457b..2767e335d8 100644
 --- a/linux-user/syscall-defs.h
 +++ b/linux-user/syscall-defs.h
-@@ -16,6 +16,9 @@
-  *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-  */
- 
-+#ifdef TARGET_NR_alarm
-+SYSCALL_DEF(alarm, ARG_DEC);
+@@ -36,6 +36,9 @@ SYSCALL_DEF(execve, ARG_STR, ARG_PTR, ARG_PTR);
+ SYSCALL_DEF(execveat, ARG_ATDIRFD, ARG_STR, ARG_PTR, ARG_PTR, ARG_ATFLAG);
+ SYSCALL_DEF(fchmod, ARG_DEC, ARG_MODEFLAG);
+ SYSCALL_DEF(fchmodat, ARG_ATDIRFD, ARG_STR, ARG_MODEFLAG);
++#ifdef TARGET_NR_futimesat
++SYSCALL_DEF(futimesat, ARG_ATDIRFD, ARG_STR, ARG_PTR);
 +#endif
- SYSCALL_DEF_FULL(brk, .impl = impl_brk,
-                  .print_ret = print_syscall_ptr_ret,
-                  .arg_type = { ARG_PTR });
-@@ -106,6 +109,9 @@ SYSCALL_DEF(open, ARG_STR, ARG_OPENFLAG, ARG_MODEFLAG);
+ #ifdef TARGET_NR_fork
+ SYSCALL_DEF(fork);
  #endif
- SYSCALL_DEF(openat, ARG_ATDIRFD, ARG_STR, ARG_OPENFLAG, ARG_MODEFLAG);
- SYSCALL_DEF(open_by_handle_at, ARG_DEC, ARG_PTR, ARG_OPENFLAG);
-+#ifdef TARGET_NR_pause
-+SYSCALL_DEF(pause);
+@@ -172,6 +175,12 @@ SYSCALL_DEF(umount2, ARG_STR, ARG_UMOUNTFLAG);
+ SYSCALL_DEF(unlink, ARG_STR);
+ #endif
+ SYSCALL_DEF(unlinkat, ARG_ATDIRFD, ARG_STR, ARG_UNLINKATFLAG);
++#ifdef TARGET_NR_utime
++SYSCALL_DEF(utime, ARG_STR, ARG_PTR);
 +#endif
- SYSCALL_DEF_FULL(pread64, .impl = impl_pread64,
-                  .args = args_pread64_pwrite64,
-                  .arg_type = { ARG_DEC, ARG_PTR, ARG_DEC, ARG_DEC64 });
-diff --git a/linux-user/syscall-sig.inc.c b/linux-user/syscall-sig.inc.c
-new file mode 100644
-index 0000000000..f4e43eb00e
---- /dev/null
-+++ b/linux-user/syscall-sig.inc.c
-@@ -0,0 +1,36 @@
-+/*
-+ *  Linux signal related syscalls
-+ *  Copyright (c) 2003 Fabrice Bellard
-+ *
-+ *  This program is free software; you can redistribute it and/or modify
-+ *  it under the terms of the GNU General Public License as published by
-+ *  the Free Software Foundation; either version 2 of the License, or
-+ *  (at your option) any later version.
-+ *
-+ *  This program is distributed in the hope that it will be useful,
-+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
-+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-+ *  GNU General Public License for more details.
-+ *
-+ *  You should have received a copy of the GNU General Public License
-+ *  along with this program; if not, see <http://www.gnu.org/licenses/>.
-+ */
-+
-+#ifdef TARGET_NR_alarm
-+SYSCALL_IMPL(alarm)
-+{
-+    return alarm(arg1);
-+}
++#ifdef TARGET_NR_utimes
++SYSCALL_DEF(utimes, ARG_STR, ARG_PTR);
 +#endif
-+
-+#ifdef TARGET_NR_pause
-+SYSCALL_IMPL(pause)
+ #ifdef TARGET_NR_vfork
+ /* Emulate vfork() with fork().  */
+ SYSCALL_DEF_FULL(vfork, .impl = impl_fork);
+diff --git a/linux-user/strace.c b/linux-user/strace.c
+index 278d235ae6..3a7a5c30ec 100644
+--- a/linux-user/strace.c
++++ b/linux-user/strace.c
+@@ -1296,21 +1296,6 @@ print_fcntl(const struct syscallname *name,
+ #endif
+ 
+ 
+-#ifdef TARGET_NR_futimesat
+-static void
+-print_futimesat(const struct syscallname *name,
+-    abi_long arg0, abi_long arg1, abi_long arg2,
+-    abi_long arg3, abi_long arg4, abi_long arg5)
+-{
+-    print_syscall_prologue(name);
+-    print_at_dirfd(arg0, 0);
+-    print_string(arg1, 0);
+-    print_timeval(arg2, 0);
+-    print_timeval(arg2 + sizeof (struct target_timeval), 1);
+-    print_syscall_epilogue(name);
+-}
+-#endif
+-
+ #if defined(TARGET_NR_socket)
+ static void
+ print_socket(const struct syscallname *name,
+@@ -2015,32 +2000,6 @@ print_symlinkat(const struct syscallname *name,
+ }
+ #endif
+ 
+-#ifdef TARGET_NR_utime
+-static void
+-print_utime(const struct syscallname *name,
+-    abi_long arg0, abi_long arg1, abi_long arg2,
+-    abi_long arg3, abi_long arg4, abi_long arg5)
+-{
+-    print_syscall_prologue(name);
+-    print_string(arg0, 0);
+-    print_pointer(arg1, 1);
+-    print_syscall_epilogue(name);
+-}
+-#endif
+-
+-#ifdef TARGET_NR_utimes
+-static void
+-print_utimes(const struct syscallname *name,
+-    abi_long arg0, abi_long arg1, abi_long arg2,
+-    abi_long arg3, abi_long arg4, abi_long arg5)
+-{
+-    print_syscall_prologue(name);
+-    print_string(arg0, 0);
+-    print_pointer(arg1, 1);
+-    print_syscall_epilogue(name);
+-}
+-#endif
+-
+ #ifdef TARGET_NR_utimensat
+ static void
+ print_utimensat(const struct syscallname *name,
+diff --git a/linux-user/syscall-file.inc.c b/linux-user/syscall-file.inc.c
+index 345b4cb421..42e5cd2dc1 100644
+--- a/linux-user/syscall-file.inc.c
++++ b/linux-user/syscall-file.inc.c
+@@ -84,6 +84,38 @@ SYSCALL_IMPL(fchmodat)
+     return do_fchmodat(arg1, arg2, arg3);
+ }
+ 
++#ifdef TARGET_NR_futimesat
++SYSCALL_IMPL(futimesat)
 +{
-+    if (!block_signals()) {
-+        CPUState *cpu = ENV_GET_CPU(cpu_env);
-+        TaskState *ts = cpu->opaque;
-+        sigsuspend(&ts->signal_mask);
++    int dirfd = arg1;
++    abi_ulong target_path = arg2;
++    abi_ulong target_tv = arg3;
++    struct timeval *tvp, tv[2];
++    char *p;
++    abi_long ret;
++
++    if (target_tv) {
++        if (copy_from_user_timeval(&tv[0], target_tv)
++            || copy_from_user_timeval(&tv[1],
++                                      target_tv +
++                                      sizeof(struct target_timeval))) {
++            return -TARGET_EFAULT;
++        }
++        tvp = tv;
++    } else {
++        tvp = NULL;
 +    }
-+    return -TARGET_EINTR;
++
++    p = lock_user_string(target_path);
++    if (!p) {
++        return -TARGET_EFAULT;
++    }
++    ret = get_errno(futimesat(dirfd, path(p), tvp));
++    unlock_user(p, target_path, 0);
++    return ret;
 +}
 +#endif
++
+ static abi_long do_linkat(int olddirfd, abi_ulong target_oldpath,
+                           int newdirfd, abi_ulong target_newpath,
+                           int flags)
+@@ -873,6 +905,69 @@ SYSCALL_IMPL(unlinkat)
+     return do_unlinkat(arg1, arg2, arg3);
+ }
+ 
++#ifdef TARGET_NR_utime
++SYSCALL_IMPL(utime)
++{
++    abi_ulong target_path = arg1;
++    abi_ulong target_times = arg2;
++    struct utimbuf tbuf, *host_tbuf;
++    struct target_utimbuf *target_tbuf;
++    char *p;
++    abi_long ret;
++
++    if (target_times) {
++        if (!lock_user_struct(VERIFY_READ, target_tbuf, target_times, 1)) {
++            return -TARGET_EFAULT;
++        }
++        tbuf.actime = tswapal(target_tbuf->actime);
++        tbuf.modtime = tswapal(target_tbuf->modtime);
++        unlock_user_struct(target_tbuf, arg2, 0);
++        host_tbuf = &tbuf;
++    } else {
++        host_tbuf = NULL;
++    }
++
++    p = lock_user_string(target_path);
++    if (!p) {
++        return -TARGET_EFAULT;
++    }
++    ret = get_errno(utime(p, host_tbuf));
++    unlock_user(p, target_path, 0);
++    return ret;
++}
++#endif
++
++#ifdef TARGET_NR_utimes
++SYSCALL_IMPL(utimes)
++{
++    abi_ulong target_path = arg1;
++    abi_ulong target_tv = arg2;
++    struct timeval *tvp, tv[2];
++    char *p;
++    abi_long ret;
++
++    if (target_tv) {
++        if (copy_from_user_timeval(&tv[0], target_tv)
++            || copy_from_user_timeval(&tv[1],
++                                      target_tv +
++                                      sizeof(struct target_timeval))) {
++            return -TARGET_EFAULT;
++        }
++        tvp = tv;
++    } else {
++        tvp = NULL;
++    }
++
++    p = lock_user_string(target_path);
++    if (!p) {
++        return -TARGET_EFAULT;
++    }
++    ret = get_errno(utimes(p, tvp));
++    unlock_user(p, target_path, 0);
++    return ret;
++}
++#endif
++
+ SYSCALL_IMPL(write)
+ {
+     int fd = arg1;
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index ae56ecbbc7..96e77ea38f 100644
+index 96e77ea38f..f66acbf27c 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -5380,17 +5380,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+@@ -5380,69 +5380,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
      void *p;
  
      switch(num) {
--#ifdef TARGET_NR_alarm /* not on alpha */
--    case TARGET_NR_alarm:
--        return alarm(arg1);
--#endif
--#ifdef TARGET_NR_pause /* not on alpha */
--    case TARGET_NR_pause:
--        if (!block_signals()) {
--            sigsuspend(&((TaskState *)cpu->opaque)->signal_mask);
+-#ifdef TARGET_NR_utime
+-    case TARGET_NR_utime:
+-        {
+-            struct utimbuf tbuf, *host_tbuf;
+-            struct target_utimbuf *target_tbuf;
+-            if (arg2) {
+-                if (!lock_user_struct(VERIFY_READ, target_tbuf, arg2, 1))
+-                    return -TARGET_EFAULT;
+-                tbuf.actime = tswapal(target_tbuf->actime);
+-                tbuf.modtime = tswapal(target_tbuf->modtime);
+-                unlock_user_struct(target_tbuf, arg2, 0);
+-                host_tbuf = &tbuf;
+-            } else {
+-                host_tbuf = NULL;
+-            }
+-            if (!(p = lock_user_string(arg1)))
+-                return -TARGET_EFAULT;
+-            ret = get_errno(utime(p, host_tbuf));
+-            unlock_user(p, arg1, 0);
 -        }
--        return -TARGET_EINTR;
+-        return ret;
 -#endif
- #ifdef TARGET_NR_utime
-     case TARGET_NR_utime:
-         {
-@@ -9224,6 +9213,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
- #include "syscall-ipc.inc.c"
- #include "syscall-mem.inc.c"
- #include "syscall-proc.inc.c"
-+#include "syscall-sig.inc.c"
- #include "syscall-time.inc.c"
- 
- #undef SYSCALL_IMPL
+-#ifdef TARGET_NR_utimes
+-    case TARGET_NR_utimes:
+-        {
+-            struct timeval *tvp, tv[2];
+-            if (arg2) {
+-                if (copy_from_user_timeval(&tv[0], arg2)
+-                    || copy_from_user_timeval(&tv[1],
+-                                              arg2 + sizeof(struct target_timeval)))
+-                    return -TARGET_EFAULT;
+-                tvp = tv;
+-            } else {
+-                tvp = NULL;
+-            }
+-            if (!(p = lock_user_string(arg1)))
+-                return -TARGET_EFAULT;
+-            ret = get_errno(utimes(p, tvp));
+-            unlock_user(p, arg1, 0);
+-        }
+-        return ret;
+-#endif
+-#if defined(TARGET_NR_futimesat)
+-    case TARGET_NR_futimesat:
+-        {
+-            struct timeval *tvp, tv[2];
+-            if (arg3) {
+-                if (copy_from_user_timeval(&tv[0], arg3)
+-                    || copy_from_user_timeval(&tv[1],
+-                                              arg3 + sizeof(struct target_timeval)))
+-                    return -TARGET_EFAULT;
+-                tvp = tv;
+-            } else {
+-                tvp = NULL;
+-            }
+-            if (!(p = lock_user_string(arg2))) {
+-                return -TARGET_EFAULT;
+-            }
+-            ret = get_errno(futimesat(arg1, path(p), tvp));
+-            unlock_user(p, arg2, 0);
+-        }
+-        return ret;
+-#endif
+ #ifdef TARGET_NR_access
+     case TARGET_NR_access:
+         if (!(p = lock_user_string(arg1))) {
 diff --git a/linux-user/strace.list b/linux-user/strace.list
-index d0646b9424..2a65457c76 100644
+index 2a65457c76..3f92224b55 100644
 --- a/linux-user/strace.list
 +++ b/linux-user/strace.list
-@@ -25,9 +25,6 @@
- #ifdef TARGET_NR_afs_syscall
- { TARGET_NR_afs_syscall, "afs_syscall" , NULL, NULL, NULL },
+@@ -226,9 +226,6 @@
+ #ifdef TARGET_NR_futex
+ { TARGET_NR_futex, "futex" , NULL, print_futex, NULL },
  #endif
--#ifdef TARGET_NR_alarm
--{ TARGET_NR_alarm, "alarm" , NULL, NULL, NULL },
+-#ifdef TARGET_NR_futimesat
+-{ TARGET_NR_futimesat, "futimesat" , NULL, print_futimesat, NULL },
 -#endif
- #ifdef TARGET_NR_aplib
- { TARGET_NR_aplib, "aplib" , NULL, NULL, NULL },
+ #ifdef TARGET_NR_getcpu
+ { TARGET_NR_getcpu, "getcpu" , "%s(%p,%d)", NULL, NULL },
  #endif
-@@ -872,9 +869,6 @@
- #ifdef TARGET_NR_osf_waitid
- { TARGET_NR_osf_waitid, "osf_waitid" , NULL, NULL, NULL },
+@@ -1392,12 +1389,6 @@
+ #ifdef TARGET_NR_ustat
+ { TARGET_NR_ustat, "ustat" , "%s(%#x,%p)", NULL, NULL },
  #endif
--#ifdef TARGET_NR_pause
--{ TARGET_NR_pause, "pause" , NULL, NULL, NULL },
+-#ifdef TARGET_NR_utime
+-{ TARGET_NR_utime, "utime" , NULL, print_utime, NULL },
 -#endif
- #ifdef TARGET_NR_pciconfig_iobase
- { TARGET_NR_pciconfig_iobase, "pciconfig_iobase" , NULL, NULL, NULL },
+-#ifdef TARGET_NR_utimes
+-{ TARGET_NR_utimes, "utimes" , NULL, print_utimes, NULL },
+-#endif
+ #ifdef TARGET_NR_utrap_install
+ { TARGET_NR_utrap_install, "utrap_install" , NULL, NULL, NULL },
  #endif
 -- 
 2.17.1
