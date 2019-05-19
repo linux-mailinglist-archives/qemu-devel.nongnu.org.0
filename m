@@ -2,69 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E439228C4
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 22:34:28 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53039 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3B09228C8
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 22:40:16 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53116 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSSVn-0008GW-O9
-	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 16:34:27 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46832)
+	id 1hSSbQ-0004It-4G
+	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 16:40:16 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50043)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSI8-0005qE-U0
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:20:21 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSYl-0002hN-Pj
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:37:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSI4-0007mU-AQ
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:20:19 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:42850)
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSYk-0003KO-Dh
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:37:31 -0400
+Received: from mail-pf1-x42b.google.com ([2607:f8b0:4864:20::42b]:39845)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hSSI2-0007hi-Fm
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:20:14 -0400
-Received: by mail-pf1-x441.google.com with SMTP id 13so6147608pfw.9
-	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:20:14 -0700 (PDT)
+	id 1hSSYk-0003J7-78
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:37:30 -0400
+Received: by mail-pf1-x42b.google.com with SMTP id z26so6167041pfg.6
+	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:37:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=vXq6cXFo3n3RVYR19bI6vVgQuVdOYZC397oTA+hZL94=;
-	b=h/5t8SuJPF66yPg5KIK/1+q6l/zoXStcVF83BnUmASs+IJyugUpLxXyx5pkEHO2hpM
-	H60lx4VC1JmsMfBFxLoFBP/dDHmB4KUBE1wAm2POAJVNHffSISkK3n1K1/PW6X9dgoSt
-	oi42aOs3OfIIss0p1G0wVS2nKOrqanShKyLZ88xgPkyo8JQji5K5/SWyW0OWBDF4MfSP
-	52VOditXiH+azKus5npX8TUrWWLx9+/RZGT489fFhCzdhXVjTBb0gyQpfbXS83HotV3w
-	TEL56sGRpuijYhDzz3evCXg1VSkd8WbNutAO/vNp8ED01h9N2n9mUyJa3PRMkvpnk6QD
-	x3ZA==
+	h=from:to:cc:subject:date:message-id;
+	bh=c7I7VLMb0JYuYLPfzLy2sCHy9ey83VZaUhcy01kbtg0=;
+	b=BHkRF6banCqwNVQ/m5QYeWxpFqPcQzFl03d9xkOJpSisiBtv6X0p20X5tUKCRsYR+a
+	1N00DUGZdCLk/tQyo+3xU/G40vtmI/l50vTt6WqgXsQnwiH3vz02fFAr6Ju9QF7EstJf
+	7a+bmk45eRYpaF+bfIOaXJuoq1mFF9QOeBip7W3lH0WUVmDILjqywTZRhmoCNKwdrrc2
+	2gwC/fAJ9m7JSGae8cZXCSIHdIFPzOAnzG3ysoU3/+jLnUZ11AuGGaiSH8O3vxJDN2dU
+	YQ1NSH64Rh8y9rfJ354jZil+EpNa5XTd+u3olFJgWl+7MyFs+lmJme1b9n/CzGmKkHe/
+	cFdw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=vXq6cXFo3n3RVYR19bI6vVgQuVdOYZC397oTA+hZL94=;
-	b=YHtAbUFEITZskA8tWuXYnQY8Blc+18qzGHDIxDMILaZ/HBl/Y9K8yYGIcm+3QpK2J+
-	gSNs2rigz/0ktmGlJoX8HJsE5YwaK2Qc9lkHSLJ0utwuVF5w8R75Xvu3DxzvwQbdlIlZ
-	/bk1pE+0qzl/s8X9a1Z+xz77G1UyvLLJj3MZC8hupFesMpSaXVS0Boj1vx4qR8Mojst+
-	TOsjQ/u4tMmNCxHCPB+U+8bzmrMtJS9oXERsrz2yQ+x09fgaJhHBqAoKYzye/n2ZS6KA
-	myQUta9EBE2io8XcZhfOuM7ZvjqIwLGa0sL5/xSuSC56ozbLholmrTd5uoGTxSUKtiWi
-	QMlA==
-X-Gm-Message-State: APjAAAUKjStjMbwXxyHTjVT13q2QkwPVKOegQ9ev1p/D7+K3x3p4Nddo
-	f2jKKz7koYghwIMWp2zKNZy8zghcDRI=
-X-Google-Smtp-Source: APXvYqyW5CgWr5ssPcFw3NOv4uJ2N2G1k/twgBwCXJ6CUimg/ZXCE5WFTkmnx/+XUQZsJYQ9VLB7GA==
-X-Received: by 2002:a63:1e4d:: with SMTP id p13mr71552853pgm.125.1558297212217;
-	Sun, 19 May 2019 13:20:12 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=c7I7VLMb0JYuYLPfzLy2sCHy9ey83VZaUhcy01kbtg0=;
+	b=uBmkTiNSv0xLhNF+OfkYsZEWf+u1W6br1DP0YFivcbyT2FsT0PymbWBFPmLzTQDU8Q
+	UR3OVADDwGFLEy5I874OwoJ9gKngowCLvgc2+Xi1xB8NXbZbq+MBoqbXCL4Azz6XlnHL
+	ZsfK/60zifW9exUG1qQp1d2C47/07Bnrpa0WrsTRzEb/UWbJQj5zKNE/3F+6CX1Wu0z+
+	Bpq0T5wT5/pQsIWTQyAkahs60OrMOTJ3MxRU5O1SVD+pDOFwix31cxIXAVdo3jir7AWN
+	IH8QX6wA2aKvi7IG6bOTlkRtK4vIdK+5a7kakph0KzbeicBAd+6teoimQ/55dD8HcOSi
+	HUqg==
+X-Gm-Message-State: APjAAAU1cJwbAPXm4qHcsR0Snmak/TqHHL3W1awdGNgqb9+DNk0sKr+N
+	eh6loeml/a+AocX/eVJstIy7iKu7Un0=
+X-Google-Smtp-Source: APXvYqwVMQD9/XYX0KDY39yODkvKQOSV7cFWWWQvif0+WlGgz//oSbKs16PGi5ltCbSWu6JQ6ayp8A==
+X-Received: by 2002:a62:7796:: with SMTP id
+	s144mr19051137pfc.260.1558298248193; 
+	Sun, 19 May 2019 13:37:28 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	e14sm18166264pff.60.2019.05.19.13.20.11
+	i7sm11397448pfo.19.2019.05.19.13.37.26
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 19 May 2019 13:20:11 -0700 (PDT)
+	Sun, 19 May 2019 13:37:27 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sun, 19 May 2019 13:19:53 -0700
-Message-Id: <20190519201953.20161-14-richard.henderson@linaro.org>
+Date: Sun, 19 May 2019 13:36:12 -0700
+Message-Id: <20190519203726.20729-1-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190519201953.20161-1-richard.henderson@linaro.org>
-References: <20190519201953.20161-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::441
-Subject: [Qemu-devel] [PATCH 13/13] linux-user: Align mmap_find_vma to host
- page size
+X-Received-From: 2607:f8b0:4864:20::42b
+Subject: [Qemu-devel] [PATCH v7 00/74] linux-user: Split do_syscall
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -80,28 +77,136 @@ Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This can avoid stack allocation failures for i386 guest
-on ppc64 (64k page) host.
+Based-on: <20190519201953.20161-1-richard.henderson@linaro.org>
+Aka "linux-user: path, clone, sparc, shmat fixes"
 
-Suggested-by: Laurent Vivier <laurent@vivier.eu>
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- linux-user/mmap.c | 2 ++
- 1 file changed, 2 insertions(+)
+Version 6 was
+https://lists.gnu.org/archive/html/qemu-devel/2019-01/msg04794.html
 
-diff --git a/linux-user/mmap.c b/linux-user/mmap.c
-index 10796b37ac..af41339d57 100644
---- a/linux-user/mmap.c
-+++ b/linux-user/mmap.c
-@@ -262,6 +262,8 @@ abi_ulong mmap_find_vma(abi_ulong start, abi_ulong size, abi_ulong align)
-     abi_ulong addr;
-     int wrapped, repeat;
- 
-+    align = MAX(align, qemu_host_page_size);
-+
-     /* If 'start' == 0, then a default start address is used. */
-     if (start == 0) {
-         start = mmap_next_start;
+Since v5, I've fixed the ioctl failure that Laurent found, and
+have done a few more syscalls.
+
+I've tried to do more testing with LTP, but it's a really annoying
+testsuite.  There are at least 3 tests that hang forever (before 
+and after this patch set), and the host kernel's OOM handler kills
+my login session, ending the test run.  This seems to be different
+behaviour than I was seeing in January, when I did have test runs
+that completed successfully.
+
+OTOH, looking back at the v6 cover letter, I now see that I was
+testing armhf and i386 as guests, whereas this time I was trying
+aarch64 and ppc64 as guests.  32-bit guests unable to trigger the
+host OOM killer?
+
+Laurent, is there anything special that you're doing to see these
+tests run to completion?
+
+
+r~
+
+
+Richard Henderson (74):
+  linux-user: Setup split syscall infrastructure
+  linux-user: Split out open, open_at
+  linux-user: Share more code for open and openat
+  linux-user: Tidy do_openat loop over fakes
+  linux-user: Split out readlink, readlinkat
+  linux-user: Split out close
+  linux-user: Split out read, write
+  linux-user: Reduce regpairs_aligned & target_offset64 ifdefs
+  linux-user: Split out readv, writev
+  linux-user: Split out pread64, pwrite64
+  linux-user: Split out preadv, pwritev
+  linux-user: Split out name_to_handle_at, open_by_handle_at
+  linux-user: Split out ipc syscalls
+  linux-user: Split out memory syscalls
+  linux-user: Split out exit
+  linux-user: Split out brk
+  linux-user: Split out clone, fork, vfork
+  linux-user: Split out wait4, waitid, waitpid
+  linux-user: Implement rusage argument to waitid
+  linux-user: Split out creat
+  linux-user: Split out link, linkat
+  linux-user: Split out unlink, unlinkat, rmdir
+  linux-user: Split out execve
+  linux-user: Implement execveat
+  linux-user: Split out chdir
+  linux-user: Split out time
+  linux-user: Split out mknod, mknodat
+  linux-user: Split out chmod, fchmod, fchmodat
+  linux-user: Split out lseek, llseek
+  linux-user: Split out getpid, getppid, getxpid
+  linux-user: Split out mount
+  linux-user: Split out umount, umount2
+  linux-user: Split out stime
+  linux-user: Split out alarm, pause
+  linux-user: Split out utime, utimes, futimesat
+  linux-user: Split out access, faccessat
+  linux-user: Split out nice
+  linux-user: Split out sync, syncfs
+  linux-user: Split out kill
+  linux-user: Split out rename, renameat, renameat2
+  linux-user: Split out mkdir, mkdirat
+  linux-user: Split out dup, dup2, dup3
+  linux-user: Split out pipe, pipe2
+  linux-user: Split out times
+  linux-user: Split out acct
+  linux-user: Move syscall_init to the end
+  linux-user: Split out ioctl
+  linux-user: Fix types in ioctl logging
+  linux-user: Remove sentinel from ioctl_entries
+  linux-user: Split out fcntl, fcntl64
+  linux-user: Split out setpgid
+  linux-user: Split out umask
+  linux-user: Split out chroot
+  linux-user: Split out getpgid, getpgrp
+  linux-user: Split out getsid, setsid
+  linux-user: Split out sigaction, rt_sigaction
+  linux-user: Split out sgetmask, ssetmask
+  linux-user: Split out sigprocmask, rt_sigprocmask
+  linux-user: Split out sigpending, rt_sigpending
+  linux-user: Split out sigsuspend, rt_sigsuspend
+  linux-user: Split out rt_sigtimedwait
+  linux-user: Split out rt_sigqueueinfo, rt_tgsigqueueinfo
+  linux-user: Split out sigreturn, rt_sigreturn
+  linux-user: Split out gethostname, sethostname
+  linux-user: Split out getrlimit, setrlimit
+  linux-user: Split out getrusage
+  linux-user: Split out gettimeofday, settimeofday
+  linux-user: Split out select, _newselect
+  linux-user: Split out pselect6
+  linux-user: Split out symlink, symlinkat
+  linux-user: Split out swapon, swapoff
+  linux-user: Split out reboot
+  linux-user: Split out truncate, truncate64, ftruncate, ftruncate64
+  linux-user: Split out getpriority, setpriority
+
+ linux-user/syscall-defs.h      |  338 +++
+ linux-user/syscall.h           |  103 +
+ linux-user/strace.c            | 1569 +++-------
+ linux-user/syscall-fcntl.inc.c |  322 ++
+ linux-user/syscall-file.inc.c  | 1526 ++++++++++
+ linux-user/syscall-ioctl.inc.c |  873 ++++++
+ linux-user/syscall-ipc.inc.c   | 1088 +++++++
+ linux-user/syscall-mem.inc.c   |  244 ++
+ linux-user/syscall-proc.inc.c  |  758 +++++
+ linux-user/syscall-sig.inc.c   |  549 ++++
+ linux-user/syscall-time.inc.c  |   77 +
+ linux-user/syscall.c           | 5045 ++------------------------------
+ configure                      |   20 -
+ linux-user/strace.list         |  414 ---
+ 14 files changed, 6512 insertions(+), 6414 deletions(-)
+ create mode 100644 linux-user/syscall-defs.h
+ create mode 100644 linux-user/syscall.h
+ create mode 100644 linux-user/syscall-fcntl.inc.c
+ create mode 100644 linux-user/syscall-file.inc.c
+ create mode 100644 linux-user/syscall-ioctl.inc.c
+ create mode 100644 linux-user/syscall-ipc.inc.c
+ create mode 100644 linux-user/syscall-mem.inc.c
+ create mode 100644 linux-user/syscall-proc.inc.c
+ create mode 100644 linux-user/syscall-sig.inc.c
+ create mode 100644 linux-user/syscall-time.inc.c
+
 -- 
 2.17.1
 
