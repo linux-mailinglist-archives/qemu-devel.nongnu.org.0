@@ -2,72 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B1F1A22702
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 16:39:18 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49559 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 500A122704
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 16:39:25 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49565 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSMy5-0005Iy-Gt
-	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 10:39:17 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58474)
+	id 1hSMyC-0005Na-Ce
+	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 10:39:24 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58489)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSMw1-0004S8-LN
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 10:37:10 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hSMw3-0004SK-KR
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 10:37:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSMw0-0007Oc-MM
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 10:37:09 -0400
-Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:41320)
+	(envelope-from <richard.henderson@linaro.org>) id 1hSMw1-0007PC-U9
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 10:37:11 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:41322)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hSMw0-0007OG-Gu
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 10:37:08 -0400
-Received: by mail-pg1-x541.google.com with SMTP id z3so5518119pgp.8
-	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 07:37:08 -0700 (PDT)
+	id 1hSMw1-0007Oq-Lv
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 10:37:09 -0400
+Received: by mail-pg1-x543.google.com with SMTP id z3so5518136pgp.8
+	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 07:37:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=zc/iSoe4ODkWO8R1MW7Fj6+3lk6oMXZxFHKtVAZiynY=;
-	b=TXJ09l0PhWcmXIfrcwEgstKzcTd2UbAnBrqU76+LdL8vyVy2RDtMRtxySgMgOg6XI9
-	FOW+hjahChJuIdLwEPRNuz9S1YnjPZ4G0FVVXfFVrnnHypqROsxhrZJeWLnNyH23CVrG
-	lL8hgo6YGezLkWlNzDRy5jAqWezqq3kCDZvHgKp6oxVa201EVnT+jnqmaDbKJUPgQ/oi
-	FV40Dr0XcqwUbhhfuFx4F9CRCv0f1KEt3eT6C366x22/nw3XmMYXhd0BVKIEtLu096D/
-	jjc2Nt6LGqEC5E0f175mmiAkhvNCW3eDTlqAEZm8PWuNBrS/zdq2lxUOMDZD6mEbBlqK
-	oNWQ==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=ybyDFLz2MRq7r1ricvTKZvOGTPrswp1Lb5V9Mn0BeSM=;
+	b=y+gCHUtXn5eurHuJ03hdXSYw4cxvWM9unA1qwbx0OXHw1n+I5a6USZObvJ1Cc/NV5V
+	7pBeF+pONr0z0/K8u7WzLmIBLGYqkY9vwp8RC+VzHmdoMhywLT0nugG3yX+6vwiFw4wq
+	haQyqKxElZYabEU55gwvLMdHb8KmNbPWTsuRhbPDxtM0rv9hr4R64LyqH9lI0/qxatmh
+	+V4H/IxcOOeOEDNmsXZyq+vKvHwSLsAaulOKtbeIRhOMi2clbNb0HnMt608L3xfTB1iZ
+	cBsHq5fA+5Yuev1Ic+FXw74WvSeJj+TsmV+Jy0KllMqqlXAsxgjLvdjKBTYo/jGDsaw7
+	eSfA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=zc/iSoe4ODkWO8R1MW7Fj6+3lk6oMXZxFHKtVAZiynY=;
-	b=jyiVKSu8JvJYt0VokuiXHpoGOGhBcX9xL9XbG+pTdCKnaRKRpKT7AYdImCw6ReO6jN
-	nBVXkI/SWeNZAYkuQTJr00Tpx9bekwRR/b0WOP6PgXeIJh6hM8SOb301oBK8mAzyocUe
-	bezOx6QyuzHVjyeIdokAAaiVPWXp+jcXSBuWj/fsndak60Nu9O6EuZTjRjSLzeuBscdV
-	xl0kH0BLvbAUVerxo4lJoeQttG+rmPDmSZl8eCYHDtBuMSqgvsTMimO/23LpH03WHzAc
-	vP7gsoOWilyS58dKMFmJZhutnUdmuST17LIYpSzkxH5KWQq/6TDxXDaMEQM1EIvcut6n
-	ecoQ==
-X-Gm-Message-State: APjAAAWvbc/mdFc3TNdX1+bJToFgQ6/gsFMvjzkkY/IGD/C2etcP+Yd4
-	4uCuhDfo8gVsoRzkxe9q3f85z3wmWzU=
-X-Google-Smtp-Source: APXvYqz/96GAs/2VPCnS0QsPTeorQ64Ik3pabssW8SovEH9zfPNa9XLgOIWcfjAdeAYD4RUeZWWE9g==
-X-Received: by 2002:a63:754b:: with SMTP id f11mr70093830pgn.32.1558276627170; 
-	Sun, 19 May 2019 07:37:07 -0700 (PDT)
+	:references;
+	bh=ybyDFLz2MRq7r1ricvTKZvOGTPrswp1Lb5V9Mn0BeSM=;
+	b=QSmK5R8rC/TaV/8/BIa0HIOrx/Be+ttktbUF46ykO2OTy6BQdadvrifvGSxeYJ2opv
+	1A+vfvvcX1woH5vtmCFFP1klcmFad1l8a+cMGNJ4BDcDSNlP08cUXZqEe4uttPjdRsiz
+	scBXQ8BqsIZXhEcrYwfAssBAFiKkZMIm7v0hujQMAgz+hpDK7YQ9t9MwSEP5XDpcOwcv
+	piouUBo7Oj6IbhFpXj8cZKlmdKIe/sp5fBap3mN5jE4O95T5dOQEVwn44lw54mdiI7xq
+	zYL3NLJs+/JM6VY2gdPgBWRiujQJ0xtPu8yxbH73mQa9S+/KYsMbpr5C3xoUJzeiuTIq
+	HJ7A==
+X-Gm-Message-State: APjAAAVTug6xJ7e2G16kwhoXB3fJSwigDBcG6p4SmVceKlskv8zfNUiq
+	N5pn+Js4wbqXwele7EGm7dc93F2PEQA=
+X-Google-Smtp-Source: APXvYqy10LaEv2JYLM7hFOWx4BKc9BNgvq2CNrWc2dSBmorcE/7rrHod9iJ1rBi8OaGZQxQ8m/av0w==
+X-Received: by 2002:a63:9a52:: with SMTP id e18mr69873228pgo.335.1558276628273;
+	Sun, 19 May 2019 07:37:08 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	184sm18248195pfa.48.2019.05.19.07.37.05
+	184sm18248195pfa.48.2019.05.19.07.37.07
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 19 May 2019 07:37:06 -0700 (PDT)
+	Sun, 19 May 2019 07:37:07 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sun, 19 May 2019 07:37:01 -0700
-Message-Id: <20190519143702.5587-2-richard.henderson@linaro.org>
+Date: Sun, 19 May 2019 07:37:02 -0700
+Message-Id: <20190519143702.5587-3-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190519143702.5587-1-richard.henderson@linaro.org>
 References: <20190519143702.5587-1-richard.henderson@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::541
-Subject: [Qemu-devel] [PULL 1/2] target/alpha: Clean up alpha_cpu_dump_state
+X-Received-From: 2607:f8b0:4864:20::543
+Subject: [Qemu-devel] [PULL 2/2] target/alpha: Fix user-only floating-point
+ exceptions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -83,63 +80,326 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Drop the "RI" and "FIR" prefixes; use only the normal linux names.
-Add the FPCR to the dump.
+Record the software fp control register, as set by the
+osf_setsysinfo syscall.  Add those masked exceptions
+to fpcr_exc_enable.  Do not raise a signal for masked
+fp exceptions.
 
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Fixes: https://bugs.launchpad.net/bugs/1701835
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/alpha/helper.c | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
+ linux-user/syscall_defs.h |   3 +-
+ target/alpha/cpu.h        |  42 +++++++++++++++
+ linux-user/syscall.c      | 104 ++++++++++++++++++--------------------
+ target/alpha/fpu_helper.c |  21 ++++++--
+ target/alpha/helper.c     |  20 +++++++-
+ 5 files changed, 130 insertions(+), 60 deletions(-)
 
+diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
+index 12c8407144..1f5b2d18db 100644
+--- a/linux-user/syscall_defs.h
++++ b/linux-user/syscall_defs.h
+@@ -635,7 +635,8 @@ typedef struct target_siginfo {
+ #define TARGET_FPE_FLTRES      (6)  /* floating point inexact result */
+ #define TARGET_FPE_FLTINV      (7)  /* floating point invalid operation */
+ #define TARGET_FPE_FLTSUB      (8)  /* subscript out of range */
+-#define TARGET_NSIGFPE         8
++#define TARGET_FPE_FLTUNK      (14) /* undiagnosed fp exception */
++#define TARGET_NSIGFPE         15
+ 
+ /*
+  * SIGSEGV si_codes
+diff --git a/target/alpha/cpu.h b/target/alpha/cpu.h
+index cf09112b6a..ba6bc31b15 100644
+--- a/target/alpha/cpu.h
++++ b/target/alpha/cpu.h
+@@ -198,6 +198,8 @@ enum {
+ #define SWCR_STATUS_DNO         (1U << 22)
+ #define SWCR_STATUS_MASK        ((1U << 23) - (1U << 17))
+ 
++#define SWCR_STATUS_TO_EXCSUM_SHIFT  16
++
+ #define SWCR_MASK  (SWCR_TRAP_ENABLE_MASK | SWCR_MAP_MASK | SWCR_STATUS_MASK)
+ 
+ /* MMU modes definitions */
+@@ -235,6 +237,9 @@ struct CPUAlphaState {
+ 
+     /* The FPCR, and disassembled portions thereof.  */
+     uint32_t fpcr;
++#ifdef CONFIG_USER_ONLY
++    uint32_t swcr;
++#endif
+     uint32_t fpcr_exc_enable;
+     float_status fp_status;
+     uint8_t fpcr_dyn_round;
+@@ -501,4 +506,41 @@ static inline void cpu_get_tb_cpu_state(CPUAlphaState *env, target_ulong *pc,
+     *pflags = env->flags & ENV_FLAG_TB_MASK;
+ }
+ 
++#ifdef CONFIG_USER_ONLY
++/* Copied from linux ieee_swcr_to_fpcr.  */
++static inline uint64_t alpha_ieee_swcr_to_fpcr(uint64_t swcr)
++{
++    uint64_t fpcr = 0;
++
++    fpcr |= (swcr & SWCR_STATUS_MASK) << 35;
++    fpcr |= (swcr & SWCR_MAP_DMZ) << 36;
++    fpcr |= (~swcr & (SWCR_TRAP_ENABLE_INV
++                      | SWCR_TRAP_ENABLE_DZE
++                      | SWCR_TRAP_ENABLE_OVF)) << 48;
++    fpcr |= (~swcr & (SWCR_TRAP_ENABLE_UNF
++                      | SWCR_TRAP_ENABLE_INE)) << 57;
++    fpcr |= (swcr & SWCR_MAP_UMZ ? FPCR_UNDZ | FPCR_UNFD : 0);
++    fpcr |= (~swcr & SWCR_TRAP_ENABLE_DNO) << 41;
++
++    return fpcr;
++}
++
++/* Copied from linux ieee_fpcr_to_swcr.  */
++static inline uint64_t alpha_ieee_fpcr_to_swcr(uint64_t fpcr)
++{
++    uint64_t swcr = 0;
++
++    swcr |= (fpcr >> 35) & SWCR_STATUS_MASK;
++    swcr |= (fpcr >> 36) & SWCR_MAP_DMZ;
++    swcr |= (~fpcr >> 48) & (SWCR_TRAP_ENABLE_INV
++                             | SWCR_TRAP_ENABLE_DZE
++                             | SWCR_TRAP_ENABLE_OVF);
++    swcr |= (~fpcr >> 57) & (SWCR_TRAP_ENABLE_UNF | SWCR_TRAP_ENABLE_INE);
++    swcr |= (fpcr >> 47) & SWCR_MAP_UMZ;
++    swcr |= (~fpcr >> 41) & SWCR_TRAP_ENABLE_DNO;
++
++    return swcr;
++}
++#endif /* CONFIG_USER_ONLY */
++
+ #endif /* ALPHA_CPU_H */
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index f5ff6f5dc8..efa3ec2837 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -10223,18 +10223,11 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+         switch (arg1) {
+           case TARGET_GSI_IEEE_FP_CONTROL:
+             {
+-                uint64_t swcr, fpcr = cpu_alpha_load_fpcr (cpu_env);
++                uint64_t fpcr = cpu_alpha_load_fpcr(cpu_env);
++                uint64_t swcr = ((CPUAlphaState *)cpu_env)->swcr;
+ 
+-                /* Copied from linux ieee_fpcr_to_swcr.  */
+-                swcr = (fpcr >> 35) & SWCR_STATUS_MASK;
+-                swcr |= (fpcr >> 36) & SWCR_MAP_DMZ;
+-                swcr |= (~fpcr >> 48) & (SWCR_TRAP_ENABLE_INV
+-                                        | SWCR_TRAP_ENABLE_DZE
+-                                        | SWCR_TRAP_ENABLE_OVF);
+-                swcr |= (~fpcr >> 57) & (SWCR_TRAP_ENABLE_UNF
+-                                        | SWCR_TRAP_ENABLE_INE);
+-                swcr |= (fpcr >> 47) & SWCR_MAP_UMZ;
+-                swcr |= (~fpcr >> 41) & SWCR_TRAP_ENABLE_DNO;
++                swcr &= ~SWCR_STATUS_MASK;
++                swcr |= (fpcr >> 35) & SWCR_STATUS_MASK;
+ 
+                 if (put_user_u64 (swcr, arg2))
+                         return -TARGET_EFAULT;
+@@ -10261,25 +10254,24 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+         switch (arg1) {
+           case TARGET_SSI_IEEE_FP_CONTROL:
+             {
+-                uint64_t swcr, fpcr, orig_fpcr;
++                uint64_t swcr, fpcr;
+ 
+                 if (get_user_u64 (swcr, arg2)) {
+                     return -TARGET_EFAULT;
+                 }
+-                orig_fpcr = cpu_alpha_load_fpcr(cpu_env);
+-                fpcr = orig_fpcr & FPCR_DYN_MASK;
+ 
+-                /* Copied from linux ieee_swcr_to_fpcr.  */
+-                fpcr |= (swcr & SWCR_STATUS_MASK) << 35;
+-                fpcr |= (swcr & SWCR_MAP_DMZ) << 36;
+-                fpcr |= (~swcr & (SWCR_TRAP_ENABLE_INV
+-                                  | SWCR_TRAP_ENABLE_DZE
+-                                  | SWCR_TRAP_ENABLE_OVF)) << 48;
+-                fpcr |= (~swcr & (SWCR_TRAP_ENABLE_UNF
+-                                  | SWCR_TRAP_ENABLE_INE)) << 57;
+-                fpcr |= (swcr & SWCR_MAP_UMZ ? FPCR_UNDZ | FPCR_UNFD : 0);
+-                fpcr |= (~swcr & SWCR_TRAP_ENABLE_DNO) << 41;
++                /*
++                 * The kernel calls swcr_update_status to update the
++                 * status bits from the fpcr at every point that it
++                 * could be queried.  Therefore, we store the status
++                 * bits only in FPCR.
++                 */
++                ((CPUAlphaState *)cpu_env)->swcr
++                    = swcr & (SWCR_TRAP_ENABLE_MASK | SWCR_MAP_MASK);
+ 
++                fpcr = cpu_alpha_load_fpcr(cpu_env);
++                fpcr &= ((uint64_t)FPCR_DYN_MASK << 32);
++                fpcr |= alpha_ieee_swcr_to_fpcr(swcr);
+                 cpu_alpha_store_fpcr(cpu_env, fpcr);
+                 ret = 0;
+             }
+@@ -10287,44 +10279,47 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+ 
+           case TARGET_SSI_IEEE_RAISE_EXCEPTION:
+             {
+-                uint64_t exc, fpcr, orig_fpcr;
+-                int si_code;
++                uint64_t exc, fpcr, fex;
+ 
+                 if (get_user_u64(exc, arg2)) {
+                     return -TARGET_EFAULT;
+                 }
+-
+-                orig_fpcr = cpu_alpha_load_fpcr(cpu_env);
+-
+-                /* We only add to the exception status here.  */
+-                fpcr = orig_fpcr | ((exc & SWCR_STATUS_MASK) << 35);
+-
+-                cpu_alpha_store_fpcr(cpu_env, fpcr);
+-                ret = 0;
++                exc &= SWCR_STATUS_MASK;
++                fpcr = cpu_alpha_load_fpcr(cpu_env);
+ 
+                 /* Old exceptions are not signaled.  */
+-                fpcr &= ~(orig_fpcr & FPCR_STATUS_MASK);
++                fex = alpha_ieee_fpcr_to_swcr(fpcr);
++                fex = exc & ~fex;
++                fex >>= SWCR_STATUS_TO_EXCSUM_SHIFT;
++                fex &= ((CPUArchState *)cpu_env)->swcr;
+ 
+-                /* If any exceptions set by this call,
+-                   and are unmasked, send a signal.  */
+-                si_code = 0;
+-                if ((fpcr & (FPCR_INE | FPCR_INED)) == FPCR_INE) {
+-                    si_code = TARGET_FPE_FLTRES;
+-                }
+-                if ((fpcr & (FPCR_UNF | FPCR_UNFD)) == FPCR_UNF) {
+-                    si_code = TARGET_FPE_FLTUND;
+-                }
+-                if ((fpcr & (FPCR_OVF | FPCR_OVFD)) == FPCR_OVF) {
+-                    si_code = TARGET_FPE_FLTOVF;
+-                }
+-                if ((fpcr & (FPCR_DZE | FPCR_DZED)) == FPCR_DZE) {
+-                    si_code = TARGET_FPE_FLTDIV;
+-                }
+-                if ((fpcr & (FPCR_INV | FPCR_INVD)) == FPCR_INV) {
+-                    si_code = TARGET_FPE_FLTINV;
+-                }
+-                if (si_code != 0) {
++                /* Update the hardware fpcr.  */
++                fpcr |= alpha_ieee_swcr_to_fpcr(exc);
++                cpu_alpha_store_fpcr(cpu_env, fpcr);
++
++                if (fex) {
++                    int si_code = TARGET_FPE_FLTUNK;
+                     target_siginfo_t info;
++
++                    if (fex & SWCR_TRAP_ENABLE_DNO) {
++                        si_code = TARGET_FPE_FLTUND;
++                    }
++                    if (fex & SWCR_TRAP_ENABLE_INE) {
++                        si_code = TARGET_FPE_FLTRES;
++                    }
++                    if (fex & SWCR_TRAP_ENABLE_UNF) {
++                        si_code = TARGET_FPE_FLTUND;
++                    }
++                    if (fex & SWCR_TRAP_ENABLE_OVF) {
++                        si_code = TARGET_FPE_FLTOVF;
++                    }
++                    if (fex & SWCR_TRAP_ENABLE_DZE) {
++                        si_code = TARGET_FPE_FLTDIV;
++                    }
++                    if (fex & SWCR_TRAP_ENABLE_INV) {
++                        si_code = TARGET_FPE_FLTINV;
++                    }
++
+                     info.si_signo = SIGFPE;
+                     info.si_errno = 0;
+                     info.si_code = si_code;
+@@ -10333,6 +10328,7 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+                     queue_signal((CPUArchState *)cpu_env, info.si_signo,
+                                  QEMU_SI_FAULT, &info);
+                 }
++                ret = 0;
+             }
+             break;
+ 
+diff --git a/target/alpha/fpu_helper.c b/target/alpha/fpu_helper.c
+index 9645978aaa..62a066d902 100644
+--- a/target/alpha/fpu_helper.c
++++ b/target/alpha/fpu_helper.c
+@@ -91,10 +91,25 @@ void helper_fp_exc_raise_s(CPUAlphaState *env, uint32_t ignore, uint32_t regno)
+     if (exc) {
+         env->fpcr |= exc;
+         exc &= ~ignore;
+-        if (exc) {
+-            exc &= env->fpcr_exc_enable;
+-            fp_exc_raise1(env, GETPC(), exc, regno, EXC_M_SWC);
++#ifdef CONFIG_USER_ONLY
++        /*
++         * In user mode, the kernel's software handler only
++         * delivers a signal if the exception is enabled.
++         */
++        if (!(exc & env->fpcr_exc_enable)) {
++            return;
+         }
++#else
++        /*
++         * In system mode, the software handler gets invoked
++         * for any non-ignored exception.
++         */
++        if (!exc) {
++            return;
++        }
++#endif
++        exc &= env->fpcr_exc_enable;
++        fp_exc_raise1(env, GETPC(), exc, regno, EXC_M_SWC);
+     }
+ }
+ 
 diff --git a/target/alpha/helper.c b/target/alpha/helper.c
-index 5fe9c87912..74a62c3d7b 100644
+index 74a62c3d7b..2134ee1e9d 100644
 --- a/target/alpha/helper.c
 +++ b/target/alpha/helper.c
-@@ -435,32 +435,33 @@ bool alpha_cpu_exec_interrupt(CPUState *cs, int interrupt_request)
+@@ -29,12 +29,12 @@
+ #define CONVERT_BIT(X, SRC, DST) \
+     (SRC > DST ? (X) / (SRC / DST) & (DST) : ((X) & SRC) * (DST / SRC))
  
- void alpha_cpu_dump_state(CPUState *cs, FILE *f, int flags)
+-uint64_t cpu_alpha_load_fpcr (CPUAlphaState *env)
++uint64_t cpu_alpha_load_fpcr(CPUAlphaState *env)
  {
--    static const char *linux_reg_names[] = {
--        "v0 ", "t0 ", "t1 ", "t2 ", "t3 ", "t4 ", "t5 ", "t6 ",
--        "t7 ", "s0 ", "s1 ", "s2 ", "s3 ", "s4 ", "s5 ", "fp ",
--        "a0 ", "a1 ", "a2 ", "a3 ", "a4 ", "a5 ", "t8 ", "t9 ",
--        "t10", "t11", "ra ", "t12", "at ", "gp ", "sp ", "zero",
-+    static const char linux_reg_names[31][4] = {
-+        "v0",  "t0",  "t1", "t2",  "t3", "t4", "t5", "t6",
-+        "t7",  "s0",  "s1", "s2",  "s3", "s4", "s5", "fp",
-+        "a0",  "a1",  "a2", "a3",  "a4", "a5", "t8", "t9",
-+        "t10", "t11", "ra", "t12", "at", "gp", "sp"
-     };
-     AlphaCPU *cpu = ALPHA_CPU(cs);
-     CPUAlphaState *env = &cpu->env;
-     int i;
- 
--    qemu_fprintf(f, "     PC  " TARGET_FMT_lx "      PS  %02x\n",
-+    qemu_fprintf(f, "PC      " TARGET_FMT_lx " PS      %02x\n",
-                  env->pc, extract32(env->flags, ENV_FLAG_PS_SHIFT, 8));
-     for (i = 0; i < 31; i++) {
--        qemu_fprintf(f, "IR%02d %s " TARGET_FMT_lx "%c", i,
-+        qemu_fprintf(f, "%-8s" TARGET_FMT_lx "%c",
-                      linux_reg_names[i], cpu_alpha_load_gr(env, i),
-                      (i % 3) == 2 ? '\n' : ' ');
-     }
- 
--    qemu_fprintf(f, "lock_a   " TARGET_FMT_lx " lock_v   " TARGET_FMT_lx "\n",
-+    qemu_fprintf(f, "lock_a  " TARGET_FMT_lx " lock_v  " TARGET_FMT_lx "\n",
-                  env->lock_addr, env->lock_value);
- 
-     if (flags & CPU_DUMP_FPU) {
-         for (i = 0; i < 31; i++) {
--            qemu_fprintf(f, "FIR%02d    %016" PRIx64 "%c", i, env->fir[i],
-+            qemu_fprintf(f, "f%-7d%016" PRIx64 "%c", i, env->fir[i],
-                          (i % 3) == 2 ? '\n' : ' ');
-         }
-+        qemu_fprintf(f, "fpcr    %016" PRIx64 "\n", cpu_alpha_load_fpcr(env));
-     }
-     qemu_fprintf(f, "\n");
+     return (uint64_t)env->fpcr << 32;
  }
+ 
+-void cpu_alpha_store_fpcr (CPUAlphaState *env, uint64_t val)
++void cpu_alpha_store_fpcr(CPUAlphaState *env, uint64_t val)
+ {
+     uint32_t fpcr = val >> 32;
+     uint32_t t = 0;
+@@ -67,6 +67,22 @@ void cpu_alpha_store_fpcr (CPUAlphaState *env, uint64_t val)
+ 
+     env->fpcr_flush_to_zero = (fpcr & FPCR_UNFD) && (fpcr & FPCR_UNDZ);
+     env->fp_status.flush_inputs_to_zero = (fpcr & FPCR_DNZ) != 0;
++
++#ifdef CONFIG_USER_ONLY
++    /*
++     * Override some of these bits with the contents of ENV->SWCR.
++     * In system mode, some of these would trap to the kernel, at
++     * which point the kernel's handler would emulate and apply
++     * the software exception mask.
++     */
++    if (env->swcr & SWCR_MAP_DMZ) {
++        env->fp_status.flush_inputs_to_zero = 1;
++    }
++    if (env->swcr & SWCR_MAP_UMZ) {
++        env->fp_status.flush_to_zero = 1;
++    }
++    env->fpcr_exc_enable &= ~(alpha_ieee_swcr_to_fpcr(env->swcr) >> 32);
++#endif
+ }
+ 
+ uint64_t helper_load_fpcr(CPUAlphaState *env)
 -- 
 2.17.1
 
