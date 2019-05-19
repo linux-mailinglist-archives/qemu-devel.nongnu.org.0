@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C29B322900
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 23:08:20 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53540 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF19422907
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 23:13:05 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53615 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hST2Z-0003HP-Tw
-	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 17:08:19 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50783)
+	id 1hST7B-0007hy-07
+	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 17:13:05 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50797)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSZg-0003gT-QI
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSZh-0003hL-I5
 	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSZe-0004Sg-P8
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:28 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:41408)
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSZg-0004Ve-7E
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:29 -0400
+Received: from mail-pg1-x541.google.com ([2607:f8b0:4864:20::541]:37308)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hSSZe-0004R4-HU
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:26 -0400
-Received: by mail-pl1-x641.google.com with SMTP id f12so5707249plt.8
-	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:38:26 -0700 (PDT)
+	id 1hSSZf-0004Tp-U8
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:28 -0400
+Received: by mail-pg1-x541.google.com with SMTP id n27so3140019pgm.4
+	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:38:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=hCKl3WsFFB8I9SyuErlgjzDySDbodc+1SphzTaA0mp0=;
-	b=IBCN5yrde7jbvLtsr8VkhNSO50Hr38sFL8xFDuu0FVnf2s6cIEXyIBnmK9UlbEud3L
-	iUjQ/MuneVRfAdmbcV+9WDNHoDuZTH9QWqJYqPygkULjpzD2R9oSpnzFlJVgyYgD1/rh
-	veE9EY5y/IopR81L8oPkbPRjK62wHs4fe1K0O0N8CgVZZHkYohMHm6nAPtdlPJE0EtA8
-	ZgTI4NzJ5jo5nAF2Xa6c5X4dXc9SXdIqPJM+9UOrKSyEADTXLS6hsdxT/LVr9wj+uifZ
-	H4mqwUU3zme7MaRpHWEC+R/tu8FMfmxrKT+1xtkqO7L0vzlqEAejHPlrC97u7b1ErZow
-	EiIQ==
+	bh=zxww4ylhQcPO6FqWBn/qpIs5WYaAwpNI1B5WcIoosKI=;
+	b=Tln0sEurgF+JnTziJnpUITbTY8QogpEjvYOfZlbhDzbziVqwoDEtegx/uwT8JmZPQx
+	l14/qnDJ8G0SHw4O7VVXnyu1AHjaAiDq1Wprdh7oGUWZOn0noAitgN62lAlBl6wly1gd
+	5vAwwGtWjXJWPQ1U4T05RrzG4cXOcnvQE2KKGx7l7nRDGCI0ffATzqvMYnHuSYgYUl9n
+	P6SpkjVT4toExsxO9boPA0wEP//7eAwaQ9VosA88ciaDiFdBplZhJ9TlsUgFpYaEA/Sm
+	64uARjnQtGPoLlQsqZACfoTwoaUVh6wthoxcLtWzx2PjK02ayN1YZwmD7WEMatwkUcLG
+	TsIA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=hCKl3WsFFB8I9SyuErlgjzDySDbodc+1SphzTaA0mp0=;
-	b=BG0W6Ru4eLaU8o89lw4KryrvcejqfmrNjPhugdovEzz8v1SVCq40vldiE+ulWRCE1V
-	lDtK6Z6bki6/YQWq9FX4uQtMrgw/3jhxso4uhUyxH7Fog1gxWfYq7OnP5BMVvZUF9saY
-	quGgHzNJk0k3ySKybtsmLIoSJN0Yp9H6TDnWKMjdLO4VA0LAXiMfFVm0zj/Aa2bU8GCS
-	jhgqPJ6YwerD66qrVHZUbqbVsUKBZwa9Nkyg1ZDUJfxiSbkJjSZ1v3junx+jnsW9HIec
-	dUdPykjDWhiwJW9YZfwdhjF0ABxV03eoca4uqWXWqtb3SuhIGwQ36D6gcsagI77ktXPS
-	QeNQ==
-X-Gm-Message-State: APjAAAV9PwbNWiSFKzFdB5/bt6HUH196KUKDDe8BoQfWkha1kES2Avj1
-	gHWa+jb6qPo278Oq6EReWjfD8aAlXoE=
-X-Google-Smtp-Source: APXvYqxWa7yZt46HyYmaxImDDO8wG2CYq5FLocecukC1T6SC0jg2SGJmJVTGFywFYU41qfOgcN5o4g==
-X-Received: by 2002:a17:902:6bc8:: with SMTP id
-	m8mr70316262plt.227.1558298305264; 
-	Sun, 19 May 2019 13:38:25 -0700 (PDT)
+	bh=zxww4ylhQcPO6FqWBn/qpIs5WYaAwpNI1B5WcIoosKI=;
+	b=j1wjiWOEphBkKvTaDQeq4XY8Gi9aeftAKx8yQ12Mcq2vRxvli0lQToaAQaeob8IYhJ
+	X0+uTm9KLpUU2utOPcbBvFzN7rmJARzCSlW6gI61bMnRmZeLYjih64wLFAfEggs4uUZ9
+	pqjegLeb3U/1oi0NQuRnhtTdKLrpyYunKgY0DMuo95Lh7jpM4/qstEXKH1Suu6KY6zoB
+	w9vhZveJBHRarfSliCSxbDz1c63bBoHSuktXxSydyVzuJv1Ik/dKsmXnnsl/AJPtxsna
+	MJ1szd/OLsqrQfSaLq/tNoDCtqlSX9g3Ap4QPO8Rc6wh9HT7Lv8bGXBSyuMdlz8WS29A
+	3NHw==
+X-Gm-Message-State: APjAAAUVjDaoC1DdMvnB/vAfZ77SyPXZgAdaGe9acaF+Z2VHVfURR7af
+	hHepJFmgmQYwkqeKDhYQ/tvOYb3tdO0=
+X-Google-Smtp-Source: APXvYqyvQSsqWUi6GM80EAQOj3+4CpvJPIxalyJyMIXJvkway5/UTRzEQLox///Isn94y9X8fHI2+Q==
+X-Received: by 2002:a63:5726:: with SMTP id l38mr10616007pgb.344.1558298306631;
+	Sun, 19 May 2019 13:38:26 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	i7sm11397448pfo.19.2019.05.19.13.38.24
+	i7sm11397448pfo.19.2019.05.19.13.38.25
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 19 May 2019 13:38:24 -0700 (PDT)
+	Sun, 19 May 2019 13:38:25 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sun, 19 May 2019 13:36:56 -0700
-Message-Id: <20190519203726.20729-45-richard.henderson@linaro.org>
+Date: Sun, 19 May 2019 13:36:57 -0700
+Message-Id: <20190519203726.20729-46-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190519203726.20729-1-richard.henderson@linaro.org>
 References: <20190519203726.20729-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::641
-Subject: [Qemu-devel] [PATCH v7 44/74] linux-user: Split out times
+X-Received-From: 2607:f8b0:4864:20::541
+Subject: [Qemu-devel] [PATCH v7 45/74] linux-user: Split out acct
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -83,101 +82,87 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
  linux-user/syscall-defs.h     |  1 +
- linux-user/syscall-proc.inc.c | 25 +++++++++++++++++++++++++
- linux-user/syscall.c          | 18 ------------------
+ linux-user/syscall-file.inc.c | 18 ++++++++++++++++++
+ linux-user/syscall.c          | 11 -----------
  linux-user/strace.list        |  3 ---
- 4 files changed, 26 insertions(+), 21 deletions(-)
+ 4 files changed, 19 insertions(+), 14 deletions(-)
 
 diff --git a/linux-user/syscall-defs.h b/linux-user/syscall-defs.h
-index bd3301a72f..25d5aaccd1 100644
+index 25d5aaccd1..f8f280f376 100644
 --- a/linux-user/syscall-defs.h
 +++ b/linux-user/syscall-defs.h
-@@ -204,6 +204,7 @@ SYSCALL_DEF(syncfs, ARG_DEC);
- #ifdef TARGET_NR_time
- SYSCALL_DEF(time, ARG_PTR);
+@@ -19,6 +19,7 @@
+ #ifdef TARGET_NR_access
+ SYSCALL_DEF(access, ARG_STR, ARG_ACCESSFLAG);
  #endif
-+SYSCALL_DEF(times, ARG_PTR);
- #ifdef TARGET_NR_umount
- SYSCALL_DEF(umount, ARG_STR);
++SYSCALL_DEF(acct, ARG_STR);
+ #ifdef TARGET_NR_alarm
+ SYSCALL_DEF(alarm, ARG_DEC);
  #endif
-diff --git a/linux-user/syscall-proc.inc.c b/linux-user/syscall-proc.inc.c
-index e29c2ede25..517f84e139 100644
---- a/linux-user/syscall-proc.inc.c
-+++ b/linux-user/syscall-proc.inc.c
-@@ -468,6 +468,31 @@ SYSCALL_IMPL(nice)
+diff --git a/linux-user/syscall-file.inc.c b/linux-user/syscall-file.inc.c
+index 5bd9eaa002..4080ab250e 100644
+--- a/linux-user/syscall-file.inc.c
++++ b/linux-user/syscall-file.inc.c
+@@ -36,6 +36,24 @@ SYSCALL_IMPL(access)
  }
  #endif
  
-+SYSCALL_IMPL(times)
++SYSCALL_IMPL(acct)
 +{
-+    abi_ulong target_buf = arg1;
-+    struct tms tms;
++    abi_ulong target_path = arg1;
 +    abi_long ret;
 +
-+    ret = get_errno(times(&tms));
-+    if (target_buf) {
-+        struct target_tms *tmsp = lock_user(VERIFY_WRITE, target_buf,
-+                                            sizeof(struct target_tms), 0);
-+        if (!tmsp) {
++    if (target_path == 0) {
++        ret = get_errno(acct(NULL));
++    } else {
++        char *p = lock_user_string(target_path);
++        if (!p) {
 +            return -TARGET_EFAULT;
 +        }
-+        tmsp->tms_utime = tswapal(host_to_target_clock_t(tms.tms_utime));
-+        tmsp->tms_stime = tswapal(host_to_target_clock_t(tms.tms_stime));
-+        tmsp->tms_cutime = tswapal(host_to_target_clock_t(tms.tms_cutime));
-+        tmsp->tms_cstime = tswapal(host_to_target_clock_t(tms.tms_cstime));
-+        unlock_user(tmsp, target_buf, sizeof(struct target_tms));
-+    }
-+    if (!is_error(ret)) {
-+        ret = host_to_target_clock_t(ret);
++        ret = get_errno(acct(path(p)));
++        unlock_user(p, target_path, 0);
 +    }
 +    return ret;
 +}
 +
- /*
-  * Map host to target signal numbers for the wait family of syscalls.
-  * Assume all other status bits are the same.
+ SYSCALL_IMPL(chdir)
+ {
+     abi_ulong target_path = arg1;
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index cda1f8a205..cdca0dbe4f 100644
+index cdca0dbe4f..5343486a58 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -5346,24 +5346,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+@@ -5346,17 +5346,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
      void *p;
  
      switch(num) {
--    case TARGET_NR_times:
--        {
--            struct target_tms *tmsp;
--            struct tms tms;
--            ret = get_errno(times(&tms));
--            if (arg1) {
--                tmsp = lock_user(VERIFY_WRITE, arg1, sizeof(struct target_tms), 0);
--                if (!tmsp)
--                    return -TARGET_EFAULT;
--                tmsp->tms_utime = tswapal(host_to_target_clock_t(tms.tms_utime));
--                tmsp->tms_stime = tswapal(host_to_target_clock_t(tms.tms_stime));
--                tmsp->tms_cutime = tswapal(host_to_target_clock_t(tms.tms_cutime));
--                tmsp->tms_cstime = tswapal(host_to_target_clock_t(tms.tms_cstime));
+-    case TARGET_NR_acct:
+-        if (arg1 == 0) {
+-            ret = get_errno(acct(NULL));
+-        } else {
+-            if (!(p = lock_user_string(arg1))) {
+-                return -TARGET_EFAULT;
 -            }
--            if (!is_error(ret))
--                ret = host_to_target_clock_t(ret);
+-            ret = get_errno(acct(path(p)));
+-            unlock_user(p, arg1, 0);
 -        }
 -        return ret;
-     case TARGET_NR_acct:
-         if (arg1 == 0) {
-             ret = get_errno(acct(NULL));
+     case TARGET_NR_ioctl:
+         return do_ioctl(arg1, arg2, arg3);
+ #ifdef TARGET_NR_fcntl
 diff --git a/linux-user/strace.list b/linux-user/strace.list
-index a1c3dd98e0..85e3de87d8 100644
+index 85e3de87d8..ce5e02975b 100644
 --- a/linux-user/strace.list
 +++ b/linux-user/strace.list
-@@ -1290,9 +1290,6 @@
- #ifdef TARGET_NR_timerfd_settime
- { TARGET_NR_timerfd_settime, "timerfd_settime" , NULL, NULL, NULL },
+@@ -9,9 +9,6 @@
+ #ifdef TARGET_NR_accept4
+ { TARGET_NR_accept4, "accept4" , NULL, NULL, NULL },
  #endif
--#ifdef TARGET_NR_times
--{ TARGET_NR_times, "times" , NULL, NULL, NULL },
+-#ifdef TARGET_NR_acct
+-{ TARGET_NR_acct, "acct" , NULL, NULL, NULL },
 -#endif
- #ifdef TARGET_NR_tkill
- { TARGET_NR_tkill, "tkill" , NULL, print_tkill, NULL },
+ #ifdef TARGET_NR_add_key
+ { TARGET_NR_add_key, "add_key" , NULL, NULL, NULL },
  #endif
 -- 
 2.17.1
