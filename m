@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D7B1228D2
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 22:43:33 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53179 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5D5E4228DD
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 22:50:34 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53264 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSSea-0007C2-B5
-	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 16:43:32 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50209)
+	id 1hSSlN-0004Ux-Dw
+	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 16:50:33 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50236)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSZ0-0002tn-BR
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:37:47 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSZ2-0002w0-H5
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:37:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSYz-0003bb-2x
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:37:46 -0400
-Received: from mail-pl1-x644.google.com ([2607:f8b0:4864:20::644]:36599)
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSZ1-0003eK-0b
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:37:48 -0400
+Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:34961)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hSSYy-0003aR-SF
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:37:45 -0400
-Received: by mail-pl1-x644.google.com with SMTP id d21so5723612plr.3
-	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:37:44 -0700 (PDT)
+	id 1hSSZ0-0003d3-PM
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:37:46 -0400
+Received: by mail-pf1-x444.google.com with SMTP id t87so6174984pfa.2
+	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:37:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=nuZhVVs0grkA8++mqqAYSgCu6GK8Ulmk49OHI5Gid5E=;
-	b=N0JHQqNfxKmMMByWgPuV+E2KnwQJh2aUwKenfhLEps1BNQQOm69z+Lf51CpcuKx+GP
-	E6/amsaEG1/0Q0Ne71CAm4hiSCRcJw0mdF4VCwD+5CRBcG4BYlmqDvVhzqPO7slBj3DC
-	6nVr8j7UsdW9ubVZ4m4PuFxwPRBPBPLnLT3MbHfaWS8hS3QIDBAE67/bzsxvlxQsXGtv
-	rHsr4LvRhgn36ortXh79KOJILn0/dhsJ8vU4FKx+G8w1oiYSrRQPUcmSLMXN6YSKngjN
-	2qkKXeWL67f2yxqxQJjMgioVCNWiuoF3q07rDyb8mfgHD91xJh3IIbRtW3DKGAX6A4kU
-	1yaQ==
+	bh=7G+hJOBDRTLscZajbGHATg460taQH3Fs6lhNe9/8aV8=;
+	b=ZLv0hkHvVmH6uPLmeGbxpepwZtnAVJ+3cY9c+igY4+aqt97tKh2qUSiPiknzzu8V2T
+	WWJNvbAzkGexTwZpF50G7d8qX97ibfQOkH5wBXWhWfVCr1gApdDEFiWE01ey4NR3qXuD
+	Pfn0ta+knoaKPoEtRuTZMj7gWekCrwGVFXQlKzjErCMEep67iNDve+1PYlzbXi9KIDrd
+	cgnVxvmPKJRu/UOMAKEqaNeiNnpMQIceJrccdddKdcrqpjlfa9bGhs4XUgkzaVRMBgbj
+	d8tMg1FgaeU1PoRXkokoL11EZjXZVEV90pE800FTCCWnqFejL7hWHrowNXI9QbYt9aK2
+	+gpg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=nuZhVVs0grkA8++mqqAYSgCu6GK8Ulmk49OHI5Gid5E=;
-	b=XV7T3Ya/AzpGbMLVjZl1b4ICDyqG/tAdlaPzHAbeq9Q0sLwQxCmmgi8UsZIJhq5FOh
-	KgxPuNYNNRGHvipg3aHKXasX5QMhP/iYc48Qam2wyAB/ke2RFkxGSjTGIYjk00r285db
-	dJ+zClnQqdBt6CxEySFTde3ZzmsXJQPUot4aYHG7tPn2BX8FeuWojW+6yLmeMVJZ1S98
-	6F4EPEXKtLebUnfwPfciTQFEh4XC0vHZ1wBkTuKK771lOCKfv84IpeUKzGGn+I78Il40
-	PQdv5hJ4673x/d85/Xgtvwo/eraYJIyVhfgBNC0Y2xV2sxz3udPUKbP1EWjbQDqW2GBy
-	Pd1w==
-X-Gm-Message-State: APjAAAU4Nx4pO4dO3FUb/0qj95URHpF1TgqIcJMijSg/1nBuCfFlnDcE
-	F19BJS7HSNaybhYmA9/YFaHliSLQXRs=
-X-Google-Smtp-Source: APXvYqwVSP0OO/yhtqjqnAcj4ng6ET73c+hfLNTliiTTRJGZk016O7ezEijepx31v9XNoKRMvYwbyQ==
-X-Received: by 2002:a17:902:201:: with SMTP id
-	1mr26870277plc.263.1558298263493; 
-	Sun, 19 May 2019 13:37:43 -0700 (PDT)
+	bh=7G+hJOBDRTLscZajbGHATg460taQH3Fs6lhNe9/8aV8=;
+	b=KilZTMJjPCjO+anpKgmeqAD4QOKaV8KCD7gmJ/PHxJubP4wynR8O1sZfTbuMWc09uF
+	AF9c6b3xXzbYcUIYcx9aJkfhVFRp8HM1LCLdWNS6RXy3qh4II+STpGs4rUE89UsXIRu6
+	L2Pe1Ae/ly2MnVogVqU69Ipi53U89PYBOqt7nu4X+VjQLvVxxmXwt/YJMVk+dqxQTiGn
+	EGhn9wVtAuonrLF9Q2bNMRG56XX+cZGqo0uwPUDSZNJfWAalGu+O+IiENYMFjKsppCdc
+	n8w+1MnpyAS09pgnIECI4EtHhsUDlugoBTJR20krMJjD1iU52P3Id9wfiZvaiN/kXkeG
+	DXMw==
+X-Gm-Message-State: APjAAAU02Jgo/xMvVr+E39rBaCDj6o6Ielb+3+FybT1r5dKMu7omS9B7
+	DvWfcNczXeox0iCPxjBkJk/MCJHpEQE=
+X-Google-Smtp-Source: APXvYqzgWGtl/7+ieQdpxG0oNJdCUxcKF+ljLNxJBfvFF5pPa5a0bFu42wn1Xc7rd/V6vedX3+hKig==
+X-Received: by 2002:aa7:99dd:: with SMTP id v29mr77603622pfi.252.1558298264606;
+	Sun, 19 May 2019 13:37:44 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	i7sm11397448pfo.19.2019.05.19.13.37.42
+	i7sm11397448pfo.19.2019.05.19.13.37.43
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 19 May 2019 13:37:42 -0700 (PDT)
+	Sun, 19 May 2019 13:37:43 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sun, 19 May 2019 13:36:22 -0700
-Message-Id: <20190519203726.20729-11-richard.henderson@linaro.org>
+Date: Sun, 19 May 2019 13:36:23 -0700
+Message-Id: <20190519203726.20729-12-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190519203726.20729-1-richard.henderson@linaro.org>
 References: <20190519203726.20729-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::644
-Subject: [Qemu-devel] [PATCH v7 10/74] linux-user: Split out pread64,
- pwrite64
+X-Received-From: 2607:f8b0:4864:20::444
+Subject: [Qemu-devel] [PATCH v7 11/74] linux-user: Split out preadv, pwritev
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -84,95 +82,97 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
  linux-user/syscall-defs.h     |  6 ++++
- linux-user/syscall-file.inc.c | 62 +++++++++++++++++++++++++++++++++++
- linux-user/syscall.c          | 36 --------------------
+ linux-user/syscall-file.inc.c | 64 +++++++++++++++++++++++++++++++++++
+ linux-user/syscall.c          | 49 ---------------------------
  linux-user/strace.list        |  6 ----
- 4 files changed, 68 insertions(+), 42 deletions(-)
+ 4 files changed, 70 insertions(+), 55 deletions(-)
 
 diff --git a/linux-user/syscall-defs.h b/linux-user/syscall-defs.h
-index 130ba7e344..027793d5d0 100644
+index 027793d5d0..ae89be0e87 100644
 --- a/linux-user/syscall-defs.h
 +++ b/linux-user/syscall-defs.h
-@@ -21,6 +21,12 @@ SYSCALL_DEF(close, ARG_DEC);
- SYSCALL_DEF(open, ARG_STR, ARG_OPENFLAG, ARG_MODEFLAG);
- #endif
- SYSCALL_DEF(openat, ARG_ATDIRFD, ARG_STR, ARG_OPENFLAG, ARG_MODEFLAG);
-+SYSCALL_DEF_FULL(pread64, .impl = impl_pread64,
-+                 .args = args_pread64_pwrite64,
+@@ -27,6 +27,12 @@ SYSCALL_DEF_FULL(pread64, .impl = impl_pread64,
+ SYSCALL_DEF_FULL(pwrite64, .impl = impl_pwrite64,
+                  .args = args_pread64_pwrite64,
+                  .arg_type = { ARG_DEC, ARG_PTR, ARG_DEC, ARG_DEC64 });
++SYSCALL_DEF_FULL(preadv, .impl = impl_preadv,
++                 .args = args_preadv_pwritev,
 +                 .arg_type = { ARG_DEC, ARG_PTR, ARG_DEC, ARG_DEC64 });
-+SYSCALL_DEF_FULL(pwrite64, .impl = impl_pwrite64,
-+                 .args = args_pread64_pwrite64,
++SYSCALL_DEF_FULL(pwritev, .impl = impl_pwritev,
++                 .args = args_preadv_pwritev,
 +                 .arg_type = { ARG_DEC, ARG_PTR, ARG_DEC, ARG_DEC64 });
  SYSCALL_DEF(read, ARG_DEC, ARG_PTR, ARG_DEC);
  #ifdef TARGET_NR_readlink
  SYSCALL_DEF(readlink, ARG_STR, ARG_PTR, ARG_DEC);
 diff --git a/linux-user/syscall-file.inc.c b/linux-user/syscall-file.inc.c
-index 2297ca1760..43aa6eeeb8 100644
+index 43aa6eeeb8..61cfe2acb7 100644
 --- a/linux-user/syscall-file.inc.c
 +++ b/linux-user/syscall-file.inc.c
-@@ -323,6 +323,68 @@ SYSCALL_IMPL(openat)
-     return do_openat(cpu_env, arg1, arg2, arg3, arg4);
+@@ -385,6 +385,70 @@ SYSCALL_IMPL(pwrite64)
+     return ret;
  }
  
 +/*
-+ * Both pread64 and pwrite64 merge args into a 64-bit offset,
-+ * but the input registers and ordering are target specific.
++ * Both preadv and pwritev merge args 4/5 into a 64-bit offset.
++ * Moreover, the parts are *always* in little-endian order.
 + */
 +#if TARGET_ABI_BITS == 32
-+SYSCALL_ARGS(pread64_pwrite64)
++SYSCALL_ARGS(preadv_pwritev)
 +{
 +    /* We have already assigned out[0-2].  */
-+    int off = regpairs_aligned(cpu_env, TARGET_NR_pread64);
-+    out[3] = target_offset64(in[3 + off], in[4 + off]);
++    abi_ulong lo = in[3], hi = in[4];
++    out[3] = (((uint64_t)hi << (TARGET_ABI_BITS - 1)) << 1) | lo;
 +    return def;
 +}
 +#else
-+#define args_pread64_pwrite64 NULL
++#define args_preadv_pwritev NULL
 +#endif
 +
-+SYSCALL_IMPL(pread64)
++/* Perform the inverse operation for the host.  */
++static inline void host_offset64_low_high(unsigned long *l, unsigned long *h,
++                                          uint64_t off)
++{
++    *l = off;
++    *h = (off >> (HOST_LONG_BITS - 1)) >> 1;
++}
++
++SYSCALL_IMPL(preadv)
 +{
 +    int fd = arg1;
-+    abi_ulong target_buf = arg2;
-+    abi_ulong len = arg3;
++    abi_ulong target_vec = arg2;
++    int count = arg3;
 +    uint64_t off = arg4;
-+    void *p;
++    struct iovec *vec = lock_iovec(VERIFY_WRITE, target_vec, count, 0);
++    unsigned long lo, hi;
 +    abi_long ret;
 +
-+    if (target_buf == 0 && len == 0) {
-+        /* Special-case NULL buffer and zero length, which should succeed */
-+        p = NULL;
-+    } else {
-+        p = lock_user(VERIFY_WRITE, target_buf, len, 0);
-+        if (!p) {
-+            return -TARGET_EFAULT;
-+        }
++    if (vec == NULL) {
++        return -TARGET_EFAULT;
 +    }
-+    ret = get_errno(pread64(fd, p, len, off));
-+    unlock_user(p, target_buf, ret);
++
++    host_offset64_low_high(&lo, &hi, off);
++    ret = get_errno(safe_preadv(fd, vec, count, lo, hi));
++    unlock_iovec(vec, target_vec, count, 1);
 +    return ret;
 +}
 +
-+SYSCALL_IMPL(pwrite64)
++SYSCALL_IMPL(pwritev)
 +{
 +    int fd = arg1;
-+    abi_ulong target_buf = arg2;
-+    abi_ulong len = arg3;
++    abi_ulong target_vec = arg2;
++    int count = arg3;
 +    uint64_t off = arg4;
-+    void *p;
++    struct iovec *vec = lock_iovec(VERIFY_READ, target_vec, count, 1);
++    unsigned long lo, hi;
 +    abi_long ret;
 +
-+    if (target_buf == 0 && len == 0) {
-+        /* Special-case NULL buffer and zero length, which should succeed */
-+        p = 0;
-+    } else {
-+        p = lock_user(VERIFY_READ, target_buf, len, 1);
-+        if (!p) {
-+            return -TARGET_EFAULT;
-+        }
++    if (vec == NULL) {
++        return -TARGET_EFAULT;
 +    }
-+    ret = get_errno(pwrite64(fd, p, len, off));
-+    unlock_user(p, target_buf, 0);
++
++    host_offset64_low_high(&lo, &hi, off);
++    ret = get_errno(safe_pwritev(fd, vec, count, lo, hi));
++    unlock_iovec(vec, target_vec, count, 0);
 +    return ret;
 +}
 +
@@ -180,75 +180,95 @@ index 2297ca1760..43aa6eeeb8 100644
  {
      int fd = arg1;
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 8086626707..f636fb8bb3 100644
+index f636fb8bb3..817c4a7296 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -9404,42 +9404,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
- #else
- #error unreachable
- #endif
+@@ -2437,23 +2437,6 @@ static abi_long do_getsockopt(int sockfd, int level, int optname,
+     return ret;
+ }
+ 
+-/* Convert target low/high pair representing file offset into the host
+- * low/high pair. This function doesn't handle offsets bigger than 64 bits
+- * as the kernel doesn't handle them either.
+- */
+-static void target_to_host_low_high(abi_ulong tlow,
+-                                    abi_ulong thigh,
+-                                    unsigned long *hlow,
+-                                    unsigned long *hhigh)
+-{
+-    uint64_t off = tlow |
+-        ((unsigned long long)thigh << TARGET_LONG_BITS / 2) <<
+-        TARGET_LONG_BITS / 2;
+-
+-    *hlow = off;
+-    *hhigh = (off >> HOST_LONG_BITS / 2) >> HOST_LONG_BITS / 2;
+-}
+-
+ static struct iovec *lock_iovec(int type, abi_ulong target_addr,
+                                 abi_ulong count, int copy)
+ {
+@@ -9005,38 +8988,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+         /* NOTE: the flock constant seems to be the same for every
+            Linux platform */
+         return get_errno(safe_flock(arg1, arg2));
+-#if defined(TARGET_NR_preadv)
+-    case TARGET_NR_preadv:
+-        {
+-            struct iovec *vec = lock_iovec(VERIFY_WRITE, arg2, arg3, 0);
+-            if (vec != NULL) {
+-                unsigned long low, high;
+-
+-                target_to_host_low_high(arg4, arg5, &low, &high);
+-                ret = get_errno(safe_preadv(arg1, vec, arg3, low, high));
+-                unlock_iovec(vec, arg2, arg3, 1);
+-            } else {
+-                ret = -host_to_target_errno(errno);
+-           }
+-        }
+-        return ret;
 -#endif
--#ifdef TARGET_NR_pread64
--    case TARGET_NR_pread64:
--        if (regpairs_aligned(cpu_env, num)) {
--            arg4 = arg5;
--            arg5 = arg6;
+-#if defined(TARGET_NR_pwritev)
+-    case TARGET_NR_pwritev:
+-        {
+-            struct iovec *vec = lock_iovec(VERIFY_READ, arg2, arg3, 1);
+-            if (vec != NULL) {
+-                unsigned long low, high;
+-
+-                target_to_host_low_high(arg4, arg5, &low, &high);
+-                ret = get_errno(safe_pwritev(arg1, vec, arg3, low, high));
+-                unlock_iovec(vec, arg2, arg3, 0);
+-            } else {
+-                ret = -host_to_target_errno(errno);
+-           }
 -        }
--        if (arg2 == 0 && arg3 == 0) {
--            /* Special-case NULL buffer and zero length, which should succeed */
--            p = 0;
--        } else {
--            p = lock_user(VERIFY_WRITE, arg2, arg3, 0);
--            if (!p) {
--                return -TARGET_EFAULT;
--            }
--        }
--        ret = get_errno(pread64(arg1, p, arg3, target_offset64(arg4, arg5)));
--        unlock_user(p, arg2, ret);
 -        return ret;
--    case TARGET_NR_pwrite64:
--        if (regpairs_aligned(cpu_env, num)) {
--            arg4 = arg5;
--            arg5 = arg6;
--        }
--        if (arg2 == 0 && arg3 == 0) {
--            /* Special-case NULL buffer and zero length, which should succeed */
--            p = 0;
--        } else {
--            p = lock_user(VERIFY_READ, arg2, arg3, 1);
--            if (!p) {
--                return -TARGET_EFAULT;
--            }
--        }
--        ret = get_errno(pwrite64(arg1, p, arg3, target_offset64(arg4, arg5)));
--        unlock_user(p, arg2, 0);
--        return ret;
- #endif
-     case TARGET_NR_getcwd:
-         if (!(p = lock_user(VERIFY_WRITE, arg1, arg2, 0)))
+-#endif
+     case TARGET_NR_getsid:
+         return get_errno(getsid(arg1));
+ #if defined(TARGET_NR_fdatasync) /* Not on alpha (osf_datasync ?) */
 diff --git a/linux-user/strace.list b/linux-user/strace.list
-index c4ae70b485..a11ad3c3c7 100644
+index a11ad3c3c7..f326613934 100644
 --- a/linux-user/strace.list
 +++ b/linux-user/strace.list
 @@ -1025,9 +1025,6 @@
  #ifdef TARGET_NR_prctl
  { TARGET_NR_prctl, "prctl" , NULL, NULL, NULL },
  #endif
--#ifdef TARGET_NR_pread64
--{ TARGET_NR_pread64, "pread64" , NULL, NULL, NULL },
+-#ifdef TARGET_NR_preadv
+-{ TARGET_NR_preadv, "preadv" , NULL, NULL, NULL },
 -#endif
- #ifdef TARGET_NR_preadv
- { TARGET_NR_preadv, "preadv" , NULL, NULL, NULL },
+ #ifdef TARGET_NR_prlimit64
+ { TARGET_NR_prlimit64, "prlimit64" , NULL, NULL, NULL },
  #endif
-@@ -1055,9 +1052,6 @@
+@@ -1052,9 +1049,6 @@
  #ifdef TARGET_NR_putpmsg
  { TARGET_NR_putpmsg, "putpmsg" , NULL, NULL, NULL },
  #endif
--#ifdef TARGET_NR_pwrite64
--{ TARGET_NR_pwrite64, "pwrite64" , NULL, NULL, NULL },
+-#ifdef TARGET_NR_pwritev
+-{ TARGET_NR_pwritev, "pwritev" , NULL, NULL, NULL },
 -#endif
- #ifdef TARGET_NR_pwritev
- { TARGET_NR_pwritev, "pwritev" , NULL, NULL, NULL },
+ #ifdef TARGET_NR_query_module
+ { TARGET_NR_query_module, "query_module" , NULL, NULL, NULL },
  #endif
 -- 
 2.17.1
