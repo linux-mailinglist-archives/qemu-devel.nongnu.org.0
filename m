@@ -2,70 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E4424228D1
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 22:43:18 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53175 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 38A3A228D4
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 22:46:07 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53219 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSSeL-0006yM-Vn
-	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 16:43:18 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50070)
+	id 1hSSh4-0000qf-8x
+	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 16:46:06 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50098)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSYo-0002jK-I1
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:37:35 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSYq-0002kh-8y
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:37:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSYn-0003Nn-Cg
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:37:34 -0400
-Received: from mail-pl1-x641.google.com ([2607:f8b0:4864:20::641]:39842)
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSYp-0003Py-9e
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:37:36 -0400
+Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:38309)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hSSYn-0003Mi-5l
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:37:33 -0400
-Received: by mail-pl1-x641.google.com with SMTP id g9so5708797plm.6
-	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:37:33 -0700 (PDT)
+	id 1hSSYp-0003P3-3o
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:37:35 -0400
+Received: by mail-pf1-x442.google.com with SMTP id b76so6171269pfb.5
+	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:37:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=eSYdriPx4kdDTBySMjSQ3hbHBLevuc9v6XaVM577ESk=;
-	b=Sg/4sKNreLI47I2kSXyvKrfz/F9UXr8TRh0XKbe/P//pAE2vgTHjX0USqkAoNdpenR
-	1AHiGGzNl8e+QgGrMqaEYMUrYdGlXuBYXWGsJ4XY4dz2IBBhEqpD/iOdJYDs/i1AS3NI
-	s0ZRWShf11oA39tEj2NZUPCj96dwvKsz2sD//woQ5rVHMgzvXDJX6dAEtnWLhD+wo9KU
-	oxiT4rBTbQJ1ckGTbgCqH1VSAJ/vaBV44QHHLMJZMA6+UnT5J+EwV4ax2Gv90NLjFnfI
-	9W9GwBGMCElBsP9R89Ujbsu1MgNks/D4GHqdQZhHmOeo4IrIr+bPeI55Kd/BgI/Mr7dy
-	HfwQ==
+	bh=qYhnP8CmUyN8DJK4QlR57fQbe3qhOBTecaegSn//V4c=;
+	b=Pig4dPrhh0IQm2puL4y7L1z5VCzEWx8rAXfTzOzVG954/QZK7RpTsJZy4z1bW2BNJS
+	9v3NoT/3b/QSvihL1POvzSZRt4gq2lg2io6GZq/U2AEs8N8kExJuGYMNvsuBHsrfUOD7
+	3Fzr5mz/qoklKqDJChWhpBRxx8gp0NwT8J7SpMUTo9scUeFs7t7wLf4v5AV1HbvuWGT7
+	1K+GKhj63Z20E7QZ54UdZp5dalZt3qFXAKCA+G4O5E/7aFeU2UrXngO1pcqH/hbsU1Ik
+	5GFfjOim4KUAgj14hfzp6dH799w/9EeGfavRjwLKoq+GMOxj+Dg9JdIlmXwon58A3vML
+	e8gQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=eSYdriPx4kdDTBySMjSQ3hbHBLevuc9v6XaVM577ESk=;
-	b=bS5B/KC70G0uN+dWCEmqizNw0DXlLQqfJwkri9/B+mTRu8hLQSEv5XYccOjDNfmx2c
-	TtHKAh597oU/lLuwydPlRlHB5YIqoBGvswOIkyXZYPC1QgsO+AKWnjc1Pbs+NNJqIM/9
-	kdrsN2lbmZWUd5CJWkaMOZ8dEF7qDyR75PliWUoXxUqnCduXxkUcN7NGxd5swwVect99
-	97NmWFFFg9HkbVBGiVfiIP/TuKJk/pFxDMgWmJG2s0f7ERIif3kFoYYgtg8E7CyowNz4
-	4hfxJVWQcvjZ4ph9C6A6Qd6PyP/qF/kKmVeI9hJeGAP5t5cfi4BCNvQIE3hKRbfl764h
-	yFIg==
-X-Gm-Message-State: APjAAAUiNWv6d/MG80Jwwe25tf7Ha1ZpRy/XldSguT77PuatZZUEBhK4
-	Z8hIZ4P6MlzrLtAwRHneG1MYJKHqCGI=
-X-Google-Smtp-Source: APXvYqzTc7xPJiOo2QTPVlHn5xM7bl2SbzTtj/ogb/Zg2ZCCUZedQSu/5j/to5T4ex4NoMGifEIhFQ==
-X-Received: by 2002:a17:902:bd46:: with SMTP id
-	b6mr10556307plx.173.1558298251963; 
-	Sun, 19 May 2019 13:37:31 -0700 (PDT)
+	bh=qYhnP8CmUyN8DJK4QlR57fQbe3qhOBTecaegSn//V4c=;
+	b=m6M2EXQh0/KffIsSKekup6+dXnG/ftK8S2wS+7t1VmFhV0fFTOvKOJLilpmA8Hb/xZ
+	k7jltatGDXTL28yHap8JE9Rb7nptJ2Ewy0WBgxz6pJblUBcynxhEbgNysoD7nqY4NiF/
+	xMiHJwnXhi1KRJscI87W1EgWlQo4pExHA6pTbr28GftR5wfX8z7O39uW7pfhWginv7tJ
+	bML9RSf4dYZcQ3o0nkMo+xOq3BDErMWHU+Qbm3rpd3pBlFykHFGNzlbiE/bC9B0f2Der
+	hwhcFFhktcgEaOZIRXf0VwWP6VV8SHZBdegxZk16SN5ry67/Ywh8yLzCRrtgNrwuyoib
+	mKKQ==
+X-Gm-Message-State: APjAAAUi3OEbEAf+BzUYIZIZov/AdYdnh04IK7rZUYZvjlRCaKKSWdJu
+	A4eQUbdIOGcsKXls48QEN4diPATPamw=
+X-Google-Smtp-Source: APXvYqw+ALPcUrxjj6nEWahdpZU8jwelqI//CcT5EMGcBGVVlMmjAJZCLJm+LczsBjxbnnAm3Acsfg==
+X-Received: by 2002:a63:374b:: with SMTP id g11mr15571441pgn.421.1558298253819;
+	Sun, 19 May 2019 13:37:33 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	i7sm11397448pfo.19.2019.05.19.13.37.30
+	i7sm11397448pfo.19.2019.05.19.13.37.32
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 19 May 2019 13:37:31 -0700 (PDT)
+	Sun, 19 May 2019 13:37:32 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sun, 19 May 2019 13:36:15 -0700
-Message-Id: <20190519203726.20729-4-richard.henderson@linaro.org>
+Date: Sun, 19 May 2019 13:36:16 -0700
+Message-Id: <20190519203726.20729-5-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190519203726.20729-1-richard.henderson@linaro.org>
 References: <20190519203726.20729-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::641
-Subject: [Qemu-devel] [PATCH v7 03/74] linux-user: Share more code for open
- and openat
+X-Received-From: 2607:f8b0:4864:20::442
+Subject: [Qemu-devel] [PATCH v7 04/74] linux-user: Tidy do_openat loop over
+ fakes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -81,132 +80,64 @@ Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The do_openat helper can have all of the code that is not directly
-related to the argument ordering of these two syscalls.
+Cleaner to use ARRAY_SIZE to loop over elements instead of
+using a sentinel within the data structure.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/syscall-file.inc.c | 69 ++++++++++++++++-------------------
- 1 file changed, 31 insertions(+), 38 deletions(-)
+ linux-user/syscall-file.inc.c | 16 +++++++---------
+ 1 file changed, 7 insertions(+), 9 deletions(-)
 
 diff --git a/linux-user/syscall-file.inc.c b/linux-user/syscall-file.inc.c
-index 7974148ccb..961eed13ae 100644
+index 961eed13ae..30f8e35cdd 100644
 --- a/linux-user/syscall-file.inc.c
 +++ b/linux-user/syscall-file.inc.c
-@@ -227,8 +227,8 @@ static int open_net_route(void *cpu_env, int fd)
- }
+@@ -235,7 +235,6 @@ static abi_long do_openat(void *cpu_env, int dirfd, abi_ulong target_path,
+         int (*fill)(void *cpu_env, int fd);
+         int (*cmp)(const char *s1, const char *s2);
+     };
+-    const struct fake_open *fake_open;
+     static const struct fake_open fakes[] = {
+         { "maps", open_self_maps, is_proc_myself },
+         { "stat", open_self_stat, is_proc_myself },
+@@ -244,12 +243,12 @@ static abi_long do_openat(void *cpu_env, int dirfd, abi_ulong target_path,
+ #if defined(HOST_WORDS_BIGENDIAN) != defined(TARGET_WORDS_BIGENDIAN)
+         { "/proc/net/route", open_net_route, is_proc },
  #endif
- 
--static int do_openat(void *cpu_env, int dirfd, const char *pathname,
--                     int flags, mode_t mode)
-+static abi_long do_openat(void *cpu_env, int dirfd, abi_ulong target_path,
-+                          int target_flags, mode_t mode)
- {
-     struct fake_open {
-         const char *filename;
-@@ -247,9 +247,20 @@ static int do_openat(void *cpu_env, int dirfd, const char *pathname,
-         { NULL, NULL, NULL }
+-        { NULL, NULL, NULL }
      };
  
-+    char *pathname = lock_user_string(target_path);
-+    int flags = target_to_host_bitmask(target_flags, fcntl_flags_tbl);
-+    abi_long ret;
-+
-+    if (!pathname) {
-+        return -TARGET_EFAULT;
-+    }
-+
-     if (is_proc_myself(pathname, "exe")) {
--        int execfd = qemu_getauxval(AT_EXECFD);
--        return execfd ? execfd : safe_openat(dirfd, exec_path, flags, mode);
-+        ret = qemu_getauxval(AT_EXECFD);
-+        if (ret == 0) {
-+            ret = get_errno(safe_openat(dirfd, exec_path, flags, mode));
-+        }
-+        goto done;
+     char *pathname = lock_user_string(target_path);
+     int flags = target_to_host_bitmask(target_flags, fcntl_flags_tbl);
+     abi_long ret;
++    size_t i;
+ 
+     if (!pathname) {
+         return -TARGET_EFAULT;
+@@ -263,17 +262,16 @@ static abi_long do_openat(void *cpu_env, int dirfd, abi_ulong target_path,
+         goto done;
      }
  
-     for (fake_open = fakes; fake_open->filename; fake_open++) {
-@@ -261,7 +272,7 @@ static int do_openat(void *cpu_env, int dirfd, const char *pathname,
-     if (fake_open->filename) {
+-    for (fake_open = fakes; fake_open->filename; fake_open++) {
+-        if (fake_open->cmp(pathname, fake_open->filename)) {
+-            break;
+-        }
+-    }
+-
+-    if (fake_open->filename) {
++    for (i = 0; i < ARRAY_SIZE(fakes); ++i) {
++        const struct fake_open *fake_open = &fakes[i];
          const char *tmpdir;
          char filename[PATH_MAX];
--        int fd, r;
-+        int fd;
+         int fd;
  
++        if (!fake_open->cmp(pathname, fake_open->filename)) {
++            continue;
++        }
++
          /* create temporary file to map stat to */
          tmpdir = getenv("TMPDIR");
-@@ -271,55 +282,37 @@ static int do_openat(void *cpu_env, int dirfd, const char *pathname,
-         snprintf(filename, sizeof(filename), "%s/qemu-open.XXXXXX", tmpdir);
-         fd = mkstemp(filename);
-         if (fd < 0) {
--            return fd;
-+            ret = -TARGET_ENOENT;
-+            goto done;
-         }
-         unlink(filename);
- 
--        r = fake_open->fill(cpu_env, fd);
--        if (r) {
--            int e = errno;
-+        ret = fake_open->fill(cpu_env, fd);
-+        if (ret) {
-+            ret = get_errno(ret);
-             close(fd);
--            errno = e;
--            return r;
-+            goto done;
-         }
-         lseek(fd, 0, SEEK_SET);
--
--        return fd;
-+        ret = fd;
-+        goto done;
-     }
- 
--    return safe_openat(dirfd, path(pathname), flags, mode);
-+    ret = get_errno(safe_openat(dirfd, path(pathname), flags, mode));
-+ done:
-+    fd_trans_unregister(ret);
-+    unlock_user(pathname, target_path, 0);
-+    return ret;
- }
- 
- #ifdef TARGET_NR_open
- SYSCALL_IMPL(open)
- {
--    char *p = lock_user_string(arg1);
--    abi_long ret;
--
--    if (!p) {
--        return -TARGET_EFAULT;
--    }
--    ret = get_errno(do_openat(cpu_env, AT_FDCWD, p,
--                              target_to_host_bitmask(arg2, fcntl_flags_tbl),
--                              arg3));
--    fd_trans_unregister(ret);
--    unlock_user(p, arg1, 0);
--    return ret;
-+    return do_openat(cpu_env, AT_FDCWD, arg1, arg2, arg3);
- }
- #endif
- 
- SYSCALL_IMPL(openat)
- {
--    char *p = lock_user_string(arg2);
--    abi_long ret;
--
--    if (!p) {
--        return -TARGET_EFAULT;
--    }
--    ret = get_errno(do_openat(cpu_env, arg1, p,
--                              target_to_host_bitmask(arg3, fcntl_flags_tbl),
--                              arg4));
--    fd_trans_unregister(ret);
--    unlock_user(p, arg2, 0);
--    return ret;
-+    return do_openat(cpu_env, arg1, arg2, arg3, arg4);
- }
+         if (!tmpdir) {
 -- 
 2.17.1
 
