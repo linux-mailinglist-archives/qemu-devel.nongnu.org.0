@@ -2,44 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A4B892273B
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 18:21:33 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50743 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F049F228B3
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 22:22:32 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52862 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSOZ2-0000ki-RL
-	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 12:21:32 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44849)
+	id 1hSSKF-0006ru-IG
+	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 16:22:31 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46432)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hSOVP-0007Dr-Uq
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 12:17:49 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSHo-0005PH-99
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:20:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hSOVO-0007iA-BM
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 12:17:47 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:55500 helo=mail.rt-rk.com)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
-	id 1hSOVO-0007hP-10
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 12:17:46 -0400
-Received: from localhost (localhost [127.0.0.1])
-	by mail.rt-rk.com (Postfix) with ESMTP id 045201A1182;
-	Sun, 19 May 2019 18:17:45 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
-	[10.10.13.43])
-	by mail.rt-rk.com (Postfix) with ESMTPSA id D4B461A0EEE;
-	Sun, 19 May 2019 18:17:44 +0200 (CEST)
-From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSHn-0007I1-4l
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:20:00 -0400
+Received: from mail-pg1-x543.google.com ([2607:f8b0:4864:20::543]:43739)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hSSHm-0007Fp-Ti
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:19:59 -0400
+Received: by mail-pg1-x543.google.com with SMTP id t22so5715966pgi.10
+	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:19:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id;
+	bh=80lnl/T+XgF23R26O4LGwLUsUEXM9hE5duFY1wfldMU=;
+	b=b4dvoEdbKlPh/BXaEmL2Y3BOkL7jrjJCQnwNCPlMyvqpflDh68I3TXJ2NE/b5kAIRC
+	pqnFrGkSekIGxShzX4mDU/Y0xHR27wJrJTqsBFQHF8AhzIGHe4igfgIX94xQRWXZXeYv
+	vYpOvYOkxGe0+nQTkDf7kevNOPU5oOy0MEt5yGGXHPKAwaP2yuPhuyZG+UK4bHUJSAuz
+	/RT3hmU8V8oNkwn+LIuPtYxqvYCPb7SCWlpyEqDKObRChDtNIkm0T9ev3XoBfLy2ix9V
+	IzciwAO1j8OurbNVZ1U7zukBJn6OpUHCKPf8xddYPTyqsVxiJpl1Zx3MwwXZnM2gDjzY
+	408Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id;
+	bh=80lnl/T+XgF23R26O4LGwLUsUEXM9hE5duFY1wfldMU=;
+	b=hae36SHbliYdiNyXd+8LjXYubpEjwAyuPWeBjF5HhfBGZjlGnHqpHyoNvGqnNHiQua
+	a4x7TQdCgng4tgsvZGUpP/B0d92X+SErFZHVZDbZgyLjaYyiphQweDeAzSaAnWbW2oML
+	QTQw/tIjApjQzTuJDwh1ew6mTGbR/t/kAPSL2KncevYYMzmsvuopbfX/uvOHA9kSAqAf
+	MCtJ9mv0IWxTUb65Cg8NRSclS5OHTWobl393FFDhubFg8pNRKweuaHMGInsKjryAOLRP
+	Rt2e2AwMIgobr5Pd03CgJfyHccGzbnfbsCI75kZgWP8ORAMYRaJVVMDziuwZ/RCztQX4
+	ffwg==
+X-Gm-Message-State: APjAAAVWZvajiVB+GC+Dm5Fb8s9C1jFlfbOEbxnoqvbycNhe1AZHKd4C
+	WqsxSLyyeXxBCXBiBMxAv6Cvb600gXs=
+X-Google-Smtp-Source: APXvYqwFJw5QfcFv9IcAPoYze6lzaoAyc4LvDjm0+ScsCshnEeBg4ytRf4H3Xa2TxPufnQvtb6sf6A==
+X-Received: by 2002:a62:fb18:: with SMTP id x24mr11222582pfm.76.1558297195822; 
+	Sun, 19 May 2019 13:19:55 -0700 (PDT)
+Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
+	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
+	e14sm18166264pff.60.2019.05.19.13.19.54
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 19 May 2019 13:19:55 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sun, 19 May 2019 18:15:27 +0200
-Message-Id: <1558282527-22183-7-git-send-email-aleksandar.markovic@rt-rk.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1558282527-22183-1-git-send-email-aleksandar.markovic@rt-rk.com>
-References: <1558282527-22183-1-git-send-email-aleksandar.markovic@rt-rk.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH v6 6/6] linux-user: Add support for statx()
- syscall
+Date: Sun, 19 May 2019 13:19:40 -0700
+Message-Id: <20190519201953.20161-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.17.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::543
+Subject: [Qemu-devel] [PATCH 00/13] linux-user: path, clone, sparc,
+ shmat fixes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -51,264 +73,73 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, thuth@redhat.com, jcmvbkbc@gmail.com,
-	arikalo@wavecomp.com, daniel.santos@pobox.com,
-	amarkovic@wavecomp.com, nchen@wavecomp.com, philmd@redhat.com,
-	aurelien@aurel32.net
+Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Aleksandar Rikalo <arikalo@wavecomp.com>
+This is an omnibus patchset of:
 
-Implement support for translation of system call statx(). The
-implementation includes invoking other (more mature) system calls
-(from the same 'stat' family) on the host side. This way, the
-problems of potential lack of statx() availability of on the host
-side are avoided.
+  v2: util/path: Do not cache all filenames at startup
+  https://lists.gnu.org/archive/html/qemu-devel/2019-04/msg04149.html
 
-Support for statx() in kernel and glibc was unfortunately introduced
-in different points of time (the difference is more than a year):
+  v1: linux-user: Fix shmat emulation by honoring host SHMLBA
+  https://lists.gnu.org/archive/html/qemu-devel/2018-10/msg03430.html
 
-  - kernel: Linux 4.11 (30 April 2017)
-  - glibc: glibc 2.28 (1 Aug 2018)
+And a v3 update of
 
-In this patch, the availability of statx() support is established
-via __NR_statx (if it is defined, statx() is considered available).
-This coincedes with statx() introduction in kernel.
+  v2: linux-user sparc fixes
+  https://lists.gnu.org/archive/html/qemu-devel/2019-05/msg02273.html
 
-However, the structure statx definition may not be available for hosts
-with glibc older than 2.28 (it is, by design, to be defined in one of
-glibc headers), even though the full statx() functionality may be
-supported in kernel, if the kernel is not older than 4.11. Hence,
-a structure "target_statx" is defined in this patch, to remove that
-dependency on glibc headers, and to use statx() functionality as soon
-as the host kernel is capable of supporting it. Such structure statx
-definition is used for both target and host structures statx (of
-course, this doesn't mean the endian arrangement is the same on
-target and host, and endian conversion is done in all necessary
-cases).
 
-Signed-off-by: Aleksandar Rikalo <arikalo@wavecomp.com>
-Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
----
- linux-user/syscall.c      | 135 +++++++++++++++++++++++++++++++++++++++++++++-
- linux-user/syscall_defs.h |  37 +++++++++++++
- 2 files changed, 171 insertions(+), 1 deletion(-)
+r~
 
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index acff14d..e892a29 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -43,6 +43,7 @@
- #include <sys/times.h>
- #include <sys/shm.h>
- #include <sys/sem.h>
-+#include <sys/stat.h>
- #include <sys/statfs.h>
- #include <utime.h>
- #include <sys/sysinfo.h>
-@@ -6427,6 +6428,48 @@ static inline abi_long host_to_target_stat64(void *cpu_env,
- }
- #endif
- 
-+#if defined(TARGET_NR_statx) && defined(__NR_statx)
-+static inline abi_long host_to_target_statx(struct target_statx *host_stx,
-+                                            abi_ulong target_addr)
-+{
-+    struct target_statx *target_stx;
-+
-+    if (!lock_user_struct(VERIFY_WRITE, target_stx, target_addr,  0)) {
-+        return -TARGET_EFAULT;
-+    }
-+    memset(target_stx, 0, sizeof(*target_stx));
-+
-+    __put_user(host_stx->stx_mask, &target_stx->stx_mask);
-+    __put_user(host_stx->stx_blksize, &target_stx->stx_blksize);
-+    __put_user(host_stx->stx_attributes, &target_stx->stx_attributes);
-+    __put_user(host_stx->stx_nlink, &target_stx->stx_nlink);
-+    __put_user(host_stx->stx_uid, &target_stx->stx_uid);
-+    __put_user(host_stx->stx_gid, &target_stx->stx_gid);
-+    __put_user(host_stx->stx_mode, &target_stx->stx_mode);
-+    __put_user(host_stx->stx_ino, &target_stx->stx_ino);
-+    __put_user(host_stx->stx_size, &target_stx->stx_size);
-+    __put_user(host_stx->stx_blocks, &target_stx->stx_blocks);
-+    __put_user(host_stx->stx_attributes_mask, &target_stx->stx_attributes_mask);
-+    __put_user(host_stx->stx_atime.tv_sec, &target_stx->stx_atime.tv_sec);
-+    __put_user(host_stx->stx_atime.tv_nsec, &target_stx->stx_atime.tv_nsec);
-+    __put_user(host_stx->stx_btime.tv_sec, &target_stx->stx_atime.tv_sec);
-+    __put_user(host_stx->stx_btime.tv_nsec, &target_stx->stx_atime.tv_nsec);
-+    __put_user(host_stx->stx_ctime.tv_sec, &target_stx->stx_atime.tv_sec);
-+    __put_user(host_stx->stx_ctime.tv_nsec, &target_stx->stx_atime.tv_nsec);
-+    __put_user(host_stx->stx_mtime.tv_sec, &target_stx->stx_atime.tv_sec);
-+    __put_user(host_stx->stx_mtime.tv_nsec, &target_stx->stx_atime.tv_nsec);
-+    __put_user(host_stx->stx_rdev_major, &target_stx->stx_rdev_major);
-+    __put_user(host_stx->stx_rdev_minor, &target_stx->stx_rdev_minor);
-+    __put_user(host_stx->stx_dev_major, &target_stx->stx_dev_major);
-+    __put_user(host_stx->stx_dev_minor, &target_stx->stx_dev_minor);
-+
-+    unlock_user_struct(target_stx, target_addr, 1);
-+
-+    return 0;
-+}
-+#endif
-+
-+
- /* ??? Using host futex calls even when target atomic operations
-    are not really atomic probably breaks things.  However implementing
-    futexes locally would make futexes shared between multiple processes
-@@ -6980,7 +7023,8 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-     abi_long ret;
- #if defined(TARGET_NR_stat) || defined(TARGET_NR_stat64) \
-     || defined(TARGET_NR_lstat) || defined(TARGET_NR_lstat64) \
--    || defined(TARGET_NR_fstat) || defined(TARGET_NR_fstat64)
-+    || defined(TARGET_NR_fstat) || defined(TARGET_NR_fstat64) \
-+    || defined(TARGET_NR_statx)
-     struct stat st;
- #endif
- #if defined(TARGET_NR_statfs) || defined(TARGET_NR_statfs64) \
-@@ -10029,6 +10073,95 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-             ret = host_to_target_stat64(cpu_env, arg3, &st);
-         return ret;
- #endif
-+#if defined(TARGET_NR_statx)
-+    case TARGET_NR_statx:
-+        {
-+            struct target_statx *target_stx;
-+            int dirfd = arg1;
-+            int flags = arg3;
-+
-+            p = lock_user_string(arg2);
-+            if (p == NULL) {
-+                return -TARGET_EFAULT;
-+            }
-+#if defined(__NR_statx)
-+            {
-+                /*
-+                 * It is assumed that struct statx is arhitecture independent
-+                 */
-+                struct target_statx host_stx;
-+                int mask = arg4;
-+
-+                ret = get_errno(syscall(__NR_statx, dirfd, p, flags, mask,
-+                                        &host_stx));
-+                if (!is_error(ret)) {
-+                    if (host_to_target_statx(&host_stx, arg5) != 0) {
-+                        unlock_user(p, arg2, 0);
-+                        return -TARGET_EFAULT;
-+                    }
-+                }
-+
-+                if (ret != TARGET_ENOSYS) {
-+                    unlock_user(p, arg2, 0);
-+                    return ret;
-+                }
-+            }
-+#endif
-+            if ((p == NULL) || (*((char *)p) == 0)) {
-+                /*
-+                 * By file descriptor
-+                 */
-+                if (flags & AT_EMPTY_PATH) {
-+                    unlock_user(p, arg2, 0);
-+                    return -TARGET_ENOENT;
-+                }
-+                ret = get_errno(fstat(dirfd, &st));
-+            } else if (*((char *)p) == '/') {
-+                /*
-+                 * By absolute pathname
-+                 */
-+                ret = get_errno(stat(path(p), &st));
-+            } else {
-+                if (dirfd == AT_FDCWD) {
-+                    /*
-+                     * By pathname relative to the current working directory
-+                     */
-+                    ret = get_errno(stat(path(p), &st));
-+                } else {
-+                    /*
-+                     * By pathname relative to the directory referred to by
-+                     * the file descriptor 'dirfd'
-+                     */
-+                    ret = get_errno(fstatat(dirfd, path(p), &st, flags));
-+                }
-+            }
-+            unlock_user(p, arg2, 0);
-+
-+            if (!is_error(ret)) {
-+                if (!lock_user_struct(VERIFY_WRITE, target_stx, arg5, 0)) {
-+                    return -TARGET_EFAULT;
-+                }
-+                memset(target_stx, 0, sizeof(*target_stx));
-+                __put_user(major(st.st_dev), &target_stx->stx_dev_major);
-+                __put_user(minor(st.st_dev), &target_stx->stx_dev_minor);
-+                __put_user(st.st_ino, &target_stx->stx_ino);
-+                __put_user(st.st_mode, &target_stx->stx_mode);
-+                __put_user(st.st_uid, &target_stx->stx_uid);
-+                __put_user(st.st_gid, &target_stx->stx_gid);
-+                __put_user(st.st_nlink, &target_stx->stx_nlink);
-+                __put_user(major(st.st_rdev), &target_stx->stx_rdev_major);
-+                __put_user(minor(st.st_rdev), &target_stx->stx_rdev_minor);
-+                __put_user(st.st_size, &target_stx->stx_size);
-+                __put_user(st.st_blksize, &target_stx->stx_blksize);
-+                __put_user(st.st_blocks, &target_stx->stx_blocks);
-+                __put_user(st.st_atime, &target_stx->stx_atime.tv_sec);
-+                __put_user(st.st_mtime, &target_stx->stx_mtime.tv_sec);
-+                __put_user(st.st_ctime, &target_stx->stx_ctime.tv_sec);
-+                unlock_user_struct(target_stx, arg5, 1);
-+            }
-+        }
-+        return ret;
-+#endif
- #ifdef TARGET_NR_lchown
-     case TARGET_NR_lchown:
-         if (!(p = lock_user_string(arg1)))
-diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-index 8904d35..82f2ac3 100644
---- a/linux-user/syscall_defs.h
-+++ b/linux-user/syscall_defs.h
-@@ -2522,4 +2522,41 @@ struct target_user_cap_data {
- /* Return size of the log buffer */
- #define TARGET_SYSLOG_ACTION_SIZE_BUFFER   10
- 
-+struct target_statx_timestamp {
-+   int64_t tv_sec;
-+   uint32_t tv_nsec;
-+   int32_t __reserved;
-+};
-+
-+struct target_statx {
-+   /* 0x00 */
-+   uint32_t stx_mask;       /* What results were written [uncond] */
-+   uint32_t stx_blksize;    /* Preferred general I/O size [uncond] */
-+   uint64_t stx_attributes; /* Flags conveying information about the file */
-+   /* 0x10 */
-+   uint32_t stx_nlink;      /* Number of hard links */
-+   uint32_t stx_uid;        /* User ID of owner */
-+   uint32_t stx_gid;        /* Group ID of owner */
-+   uint16_t stx_mode;       /* File mode */
-+   uint16_t __spare0[1];
-+   /* 0x20 */
-+   uint64_t stx_ino;        /* Inode number */
-+   uint64_t stx_size;       /* File size */
-+   uint64_t stx_blocks;     /* Number of 512-byte blocks allocated */
-+   uint64_t stx_attributes_mask; /* Mask to show what is supported */
-+   /* 0x40 */
-+   struct target_statx_timestamp  stx_atime;  /* Last access time */
-+   struct target_statx_timestamp  stx_btime;  /* File creation time */
-+   struct target_statx_timestamp  stx_ctime;  /* Last attribute change time */
-+   struct target_statx_timestamp  stx_mtime;  /* Last data modification time */
-+   /* 0x80 */
-+   uint32_t stx_rdev_major;   /* Device ID of special file [if bdev/cdev] */
-+   uint32_t stx_rdev_minor;
-+   uint32_t stx_dev_major; /* ID of device containing file [uncond] */
-+   uint32_t stx_dev_minor;
-+   /* 0x90 */
-+   uint64_t __spare2[14];  /* Spare space for future expansion */
-+   /* 0x100 */
-+};
-+
- #endif
+
+Richard Henderson (13):
+  util/path: Do not cache all filenames at startup
+  linux-user: Rename cpu_clone_regs to cpu_clone_regs_child
+  linux-user: Introduce cpu_clone_regs_parent
+  linux-user/alpha: Set r20 secondary return value
+  target/sparc: Define an enumeration for accessing env->regwptr
+  linux-user/sparc: Use WREG constants in sparc/target_cpu.h
+  linux-user/sparc: Use WREG constants in sparc/signal.c
+  linux-user/sparc: Fix cpu_clone_regs
+  linux-user/sparc: Flush register windows before clone/fork/vfork
+  scripts/qemu-binfmt-conf: Update for sparc64
+  tests/tcg/multiarch/linux-test: Fix error check for shmat
+  linux-user: Fix shmat emulation by honoring host SHMLBA
+  linux-user: Align mmap_find_vma to host page size
+
+ linux-user/aarch64/target_cpu.h    |   6 +-
+ linux-user/alpha/target_cpu.h      |   8 +-
+ linux-user/arm/target_cpu.h        |   6 +-
+ linux-user/cris/target_cpu.h       |   6 +-
+ linux-user/hppa/target_cpu.h       |   6 +-
+ linux-user/i386/target_cpu.h       |   6 +-
+ linux-user/m68k/target_cpu.h       |   6 +-
+ linux-user/microblaze/target_cpu.h |   6 +-
+ linux-user/mips/target_cpu.h       |   6 +-
+ linux-user/nios2/target_cpu.h      |   6 +-
+ linux-user/openrisc/target_cpu.h   |   7 +-
+ linux-user/ppc/target_cpu.h        |   6 +-
+ linux-user/qemu.h                  |   2 +-
+ linux-user/riscv/target_cpu.h      |   6 +-
+ linux-user/s390x/target_cpu.h      |   6 +-
+ linux-user/sh4/target_cpu.h        |   6 +-
+ linux-user/sparc/target_cpu.h      |  45 ++++---
+ linux-user/tilegx/target_cpu.h     |   6 +-
+ linux-user/xtensa/target_cpu.h     |   7 +-
+ target/sparc/cpu.h                 |  33 +++++
+ linux-user/elfload.c               |  17 ++-
+ linux-user/mmap.c                  |  76 ++++++-----
+ linux-user/sparc/cpu_loop.c        |  12 ++
+ linux-user/sparc/signal.c          |  96 +++++---------
+ linux-user/syscall.c               |   9 +-
+ tests/tcg/multiarch/linux-test.c   |   3 +-
+ util/path.c                        | 201 +++++++----------------------
+ scripts/qemu-binfmt-conf.sh        |   8 +-
+ 28 files changed, 309 insertions(+), 299 deletions(-)
+
 -- 
-2.7.4
+2.17.1
 
 
