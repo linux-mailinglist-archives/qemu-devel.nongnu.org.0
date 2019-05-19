@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9E0DF228FB
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 23:05:29 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53483 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B3C722903
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 23:10:23 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53558 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSSzo-0000R2-P7
-	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 17:05:28 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50750)
+	id 1hST4Y-00051N-Mv
+	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 17:10:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50729)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSZf-0003fD-Is
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSZe-0003ei-Tf
 	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSZd-0004Pw-IC
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:27 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:39847)
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSZd-0004Pq-Hs
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:26 -0400
+Received: from mail-pg1-x542.google.com ([2607:f8b0:4864:20::542]:46948)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hSSZd-0004Kj-7H
+	id 1hSSZd-0004ML-8j
 	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:25 -0400
-Received: by mail-pl1-x642.google.com with SMTP id g9so5709210plm.6
-	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:38:21 -0700 (PDT)
+Received: by mail-pg1-x542.google.com with SMTP id t187so5715973pgb.13
+	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:38:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=MZ4xTXHoRnqxjbKzyUEkFjQQbSbYuTgwnyU38LEY1MU=;
-	b=jzueuHJih53MA65QrNMqcmuShPK8bfIscnDjn98SrMNKFRBaG66E6Wv8nseh/UiCH0
-	Rc4r985n1zXgVQN7RER0C+GI6nU74Ol7UFOXvqkGkEHXx8aylIljtPGYt1ecc2HgAV6I
-	XnBHTnln+h9kPUsQbPtwxI3KknAAIF141R0mizaBlCwRSqQOqTjn/TZlhspqEQ+G7qCP
-	p1LfBJfNIf67dk0kNz84mwpWUSxW4+CEK/6BugaRzBxozECjHDN6jRs3o7NBm1LoHfCK
-	EsZp6KkusZBriWnFYo5vV8HR+H5+AMkGDT1BRSsPzVAdcaUytGM+jKKpY1lCrw11Btbq
-	bfdw==
+	bh=sj59YrDaOii9L6seogQrj9UiCSK4yTlGx0hQSWmkpdA=;
+	b=Rd5loNaceU2JTZWTz70p9BYyr9D2BAwEvrsapMfTqsgfsZKpr5wxUiiXPuVDNBb6/e
+	pB7CEE8j/eg6Bhun1IbPfPP3mh2Hmbp3VVy144bY4T9ewk0czfDhbi65i5soJ0JAslvM
+	trLfSE7+adcc2u9WGpJHJEJ7uLVMbi0RJDgAWTd3XSUGsNnM5gAoJrFRHusnx2laWzQq
+	sbV1S1Ry5ntpOm7MMxSOKHacVR9FO44AC9XGabpeWw3kMwReunuvqk1+kWWGGARrTIQr
+	zITZ/W/b/iK8dtWWI/FYxPLukLOX8DzejL+1fsE8v01sYRQ68dolq+uCrQ6unzcnlfdE
+	Q+FQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=MZ4xTXHoRnqxjbKzyUEkFjQQbSbYuTgwnyU38LEY1MU=;
-	b=i6PYpOI5AFVYm5BT7yTmr6V92O3uLhVyw8ufyDK4RwJipEjEFtc20eOOkP62PIRXYL
-	3rjy7QHKfSNhxqkBkYbrZ093qixasP3vyID2cuEWvoPIOOyLpFOTf7vL3lELeCXYxo/f
-	hbHQ+xW9xj9TQqeu57cCwtur7Ne+jh0+vATjL7/ihGlsZbXMsMW4M1UW1LIEtUgsGY/9
-	6zMV1bFtnnje02xKk5RqRXVeqnEDA/Hm/VMak7JlGTuAqVpizyPlmoZO1k0Xw9zyjvAB
-	Hmgy+PchgkS5nS+5fTDK2wKH7naVgRQM6rr1BVxTIvqwhq8l6ShA3OwDqNA9IMbfVyY0
-	iWuA==
-X-Gm-Message-State: APjAAAUZ1w3vNB5y4vTWvzUbm7uM+gZLI2Vq/wJ+mT8cR37l3W9eTIBF
-	S+jTqTHXNK4nrHn08VmWDQ8mTkE+deM=
-X-Google-Smtp-Source: APXvYqw8zkeTTVsa6JRfBrdWR6x5trbPLxBaxOV/a3jRn652ikneWC6CBBNPz8HjdNxICRPdGEw5hw==
-X-Received: by 2002:a17:902:201:: with SMTP id
-	1mr26872192plc.263.1558298300365; 
-	Sun, 19 May 2019 13:38:20 -0700 (PDT)
+	bh=sj59YrDaOii9L6seogQrj9UiCSK4yTlGx0hQSWmkpdA=;
+	b=ImbxxclGwugF19YrC3g1qXNcojN8cDKoigZ0ufBBnH+HXpheSzQ8OemNq1AolqgVdO
+	/MWc1CZJIkwxIq53oMLk18GBni6cSJOR/3FbVon3G4IgpgVHN28VSJ2VJ2Kw1WftQIRn
+	vZvQjXyKC+AX8pG5TZxr/RRZhtRoRmjeO6Ld0iOx99VS+fXLYOMznb+GZi9DygrwAVtx
+	G2Pbjyc3SiDt++3owBE2vsDrC3RcG7QwWqypkWXSoq5RIrIzhJD42IJ35YsSaMQ6RZ56
+	k7HCIV3mbhaqPBtWHVBrHor1oLojYgvJmSLieSqw6RVQC/D9MHXccIfZOPSMecaBB45/
+	trNg==
+X-Gm-Message-State: APjAAAUvnwUMfCxvYlndl9FvzL7N3nIDCLXA5hXNxztTUM6FoErTEte6
+	+Lg5kCnyQKEr7BnNNs7wyHe+s4WvGMI=
+X-Google-Smtp-Source: APXvYqyJxiLNZOTlkzk7WJxJWWd/izu17CGtGMlejQxISH+kAys7abAcxOi44tj1JuzMoCp3+cUKqw==
+X-Received: by 2002:a63:fb02:: with SMTP id o2mr70159867pgh.357.1558298301857; 
+	Sun, 19 May 2019 13:38:21 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	i7sm11397448pfo.19.2019.05.19.13.38.19
+	i7sm11397448pfo.19.2019.05.19.13.38.20
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 19 May 2019 13:38:19 -0700 (PDT)
+	Sun, 19 May 2019 13:38:21 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sun, 19 May 2019 13:36:52 -0700
-Message-Id: <20190519203726.20729-41-richard.henderson@linaro.org>
+Date: Sun, 19 May 2019 13:36:53 -0700
+Message-Id: <20190519203726.20729-42-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190519203726.20729-1-richard.henderson@linaro.org>
 References: <20190519203726.20729-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::642
-Subject: [Qemu-devel] [PATCH v7 40/74] linux-user: Split out rename, renameat,
- renameat2
+X-Received-From: 2607:f8b0:4864:20::542
+Subject: [Qemu-devel] [PATCH v7 41/74] linux-user: Split out mkdir, mkdirat
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -81,278 +79,149 @@ Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Note that renameat2 is universally available for guests.
-Merge sys_renameat2 into the new do_renameat2 helper.
+Note that mkdirat is universally available.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/syscall-defs.h     |  8 +++++
- linux-user/syscall.h          |  1 +
- linux-user/strace.c           | 39 ++++++---------------
- linux-user/syscall-file.inc.c | 45 ++++++++++++++++++++++++
- linux-user/syscall.c          | 64 -----------------------------------
- linux-user/strace.list        |  9 -----
- 6 files changed, 65 insertions(+), 101 deletions(-)
+ linux-user/syscall-defs.h     |  4 ++++
+ linux-user/strace.c           | 27 ---------------------------
+ linux-user/syscall-file.inc.c | 25 +++++++++++++++++++++++++
+ linux-user/syscall.c          | 16 ----------------
+ linux-user/strace.list        |  6 ------
+ 5 files changed, 29 insertions(+), 49 deletions(-)
 
 diff --git a/linux-user/syscall-defs.h b/linux-user/syscall-defs.h
-index c672b5ad99..0ed01aa100 100644
+index 0ed01aa100..8b6d8f75ff 100644
 --- a/linux-user/syscall-defs.h
 +++ b/linux-user/syscall-defs.h
-@@ -142,6 +142,14 @@ SYSCALL_DEF(readlink, ARG_STR, ARG_PTR, ARG_DEC);
- #ifdef TARGET_NR_readlinkat
- SYSCALL_DEF(readlinkat, ARG_ATDIRFD, ARG_STR, ARG_PTR, ARG_DEC);
+@@ -69,6 +69,10 @@ SYSCALL_DEF(lseek, ARG_DEC, ARG_DEC, ARG_LSEEKWHENCE);
+ #ifdef TARGET_NR_llseek
+ SYSCALL_DEF_ARGS(llseek, ARG_DEC, ARG_DEC, ARG_PTR, ARG_LSEEKWHENCE);
  #endif
-+#ifdef TARGET_NR_rename
-+SYSCALL_DEF(rename, ARG_STR, ARG_STR);
++#ifdef TARGET_NR_mkdir
++SYSCALL_DEF(mkdir, ARG_STR, ARG_MODEFLAG);
 +#endif
-+#ifdef TARGET_NR_renameat
-+SYSCALL_DEF(renameat, ARG_ATDIRFD, ARG_STR, ARG_ATDIRFD, ARG_STR);
-+#endif
-+SYSCALL_DEF(renameat2, ARG_ATDIRFD, ARG_STR,
-+            ARG_ATDIRFD, ARG_STR, ARG_RENAMEFLAG);
- SYSCALL_DEF(readv, ARG_DEC, ARG_PTR, ARG_DEC);
- #ifdef TARGET_NR_rmdir
- SYSCALL_DEF(rmdir, ARG_STR);
-diff --git a/linux-user/syscall.h b/linux-user/syscall.h
-index 642fb6dccb..7b197840f5 100644
---- a/linux-user/syscall.h
-+++ b/linux-user/syscall.h
-@@ -69,6 +69,7 @@ typedef enum {
-     ARG_MODEFLAG,
-     ARG_MOUNTFLAG,
-     ARG_OPENFLAG,
-+    ARG_RENAMEFLAG,
-     ARG_UMOUNTFLAG,
-     ARG_UNLINKATFLAG,
- 
++SYSCALL_DEF(mkdirat, ARG_ATDIRFD, ARG_STR, ARG_MODEFLAG);
+ #ifdef TARGET_NR_mknod
+ SYSCALL_DEF(mknod, ARG_STR, ARG_MODEFLAG, ARG_HEX);
+ #endif
 diff --git a/linux-user/strace.c b/linux-user/strace.c
-index 01a5c210fa..8f871b30ae 100644
+index 8f871b30ae..2b31998dbd 100644
 --- a/linux-user/strace.c
 +++ b/linux-user/strace.c
-@@ -4,6 +4,7 @@
- #include <arpa/inet.h>
- #include <netinet/tcp.h>
- #include <linux/if_packet.h>
-+#include <linux/fs.h>
- #include <sched.h>
- #include "qemu.h"
- #include "syscall.h"
-@@ -741,6 +742,13 @@ static struct flags const mount_flags[] = {
-     FLAG_END,
- };
- 
-+static struct flags const renameat2_flags[] = {
-+    FLAG_GENERIC(RENAME_EXCHANGE),
-+    FLAG_GENERIC(RENAME_NOREPLACE),
-+    FLAG_GENERIC(RENAME_WHITEOUT),
-+    FLAG_END,
-+};
-+
- static struct flags const umount2_flags[] = {
- #ifdef MNT_FORCE
-     FLAG_GENERIC(MNT_FORCE),
-@@ -1899,34 +1907,6 @@ print_fstatat64(const struct syscallname *name,
- #define print_newfstatat    print_fstatat64
+@@ -1676,33 +1676,6 @@ print_fstat(const struct syscallname *name,
+ #define print_fstat64     print_fstat
  #endif
  
--#ifdef TARGET_NR_rename
+-#ifdef TARGET_NR_mkdir
 -static void
--print_rename(const struct syscallname *name,
+-print_mkdir(const struct syscallname *name,
 -    abi_long arg0, abi_long arg1, abi_long arg2,
 -    abi_long arg3, abi_long arg4, abi_long arg5)
 -{
 -    print_syscall_prologue(name);
 -    print_string(arg0, 0);
--    print_string(arg1, 1);
+-    print_file_mode(arg1, 1);
 -    print_syscall_epilogue(name);
 -}
 -#endif
 -
--#ifdef TARGET_NR_renameat
+-#ifdef TARGET_NR_mkdirat
 -static void
--print_renameat(const struct syscallname *name,
+-print_mkdirat(const struct syscallname *name,
 -    abi_long arg0, abi_long arg1, abi_long arg2,
 -    abi_long arg3, abi_long arg4, abi_long arg5)
 -{
 -    print_syscall_prologue(name);
 -    print_at_dirfd(arg0, 0);
 -    print_string(arg1, 0);
--    print_at_dirfd(arg2, 0);
--    print_string(arg3, 1);
+-    print_file_mode(arg2, 1);
 -    print_syscall_epilogue(name);
 -}
 -#endif
 -
- #ifdef TARGET_NR_statfs
+ #ifdef TARGET_NR_rt_sigaction
  static void
- print_statfs(const struct syscallname *name,
-@@ -2212,6 +2192,9 @@ static void print_syscall_def1(const SyscallDef *def, int64_t args[6])
-         case ARG_OPENFLAG:
-             len = add_open_flags(b, rest, arg);
-             break;
-+        case ARG_RENAMEFLAG:
-+            len = add_flags(b, rest, renameat2_flags, arg, false);
-+            break;
-         case ARG_UMOUNTFLAG:
-             len = add_flags(b, rest, umount2_flags, arg, false);
-             break;
+ print_rt_sigaction(const struct syscallname *name,
 diff --git a/linux-user/syscall-file.inc.c b/linux-user/syscall-file.inc.c
-index 9f3cf7221a..18553f055e 100644
+index 18553f055e..5ed8b78c79 100644
 --- a/linux-user/syscall-file.inc.c
 +++ b/linux-user/syscall-file.inc.c
-@@ -873,6 +873,51 @@ SYSCALL_IMPL(readlinkat)
+@@ -205,6 +205,31 @@ SYSCALL_IMPL(llseek)
  }
  #endif
  
-+static abi_long do_renameat2(int oldfd, abi_ulong target_oldpath,
-+                             int newfd, abi_ulong target_newpath,
-+                             unsigned int flags)
++static abi_long do_mkdirat(int dirfd, abi_ulong target_path, mode_t mode)
 +{
-+    char *p_old = lock_user_string(target_oldpath);
-+    char *p_new = lock_user_string(target_newpath);
-+    abi_long ret = -TARGET_EFAULT;
++    char *p = lock_user_string(target_path);
++    abi_long ret;
 +
-+    if (p_old && p_new) {
-+        if (flags == 0) {
-+            ret = renameat(oldfd, p_old, newfd, p_new);
-+        } else {
-+#ifdef __NR_renameat2
-+            ret = syscall(__NR_renameat2, oldfd, p_old, newfd, p_new, flags);
-+#else
-+            errno = ENOSYS;
-+            ret = -1;
-+#endif
-+        }
-+        ret = get_errno(ret);
++    if (!p) {
++        return -TARGET_EFAULT;
 +    }
-+    unlock_user(p_old, target_oldpath, 0);
-+    unlock_user(p_new, target_newpath, 0);
++    ret = get_errno(mkdirat(dirfd, p, mode));
++    unlock_user(p, target_path, 0);
 +    return ret;
 +}
 +
-+#ifdef TARGET_NR_rename
-+SYSCALL_IMPL(rename)
++#ifdef TARGET_NR_mkdir
++SYSCALL_IMPL(mkdir)
 +{
-+    return do_renameat2(AT_FDCWD, arg1, AT_FDCWD, arg2, 0);
++    return do_mkdirat(AT_FDCWD, arg1, arg2);
 +}
 +#endif
 +
-+#ifdef TARGET_NR_renameat
-+SYSCALL_IMPL(renameat)
++SYSCALL_IMPL(mkdirat)
 +{
-+    return do_renameat2(arg1, arg2, arg3, arg4, 0);
-+}
-+#endif
-+
-+SYSCALL_IMPL(renameat2)
-+{
-+    return do_renameat2(arg1, arg2, arg3, arg4, arg5);
++    return do_mkdirat(arg1, arg2, arg3);
 +}
 +
- SYSCALL_IMPL(sync)
+ static abi_long do_mknodat(int dirfd, abi_ulong target_path,
+                            mode_t mode, dev_t dev)
  {
-     sync();
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 3fe770890c..d8f6da63cc 100644
+index d8f6da63cc..0d6a9b7a6c 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -331,24 +331,6 @@ static int sys_utimensat(int dirfd, const char *pathname,
- #endif
- #endif /* TARGET_NR_utimensat */
- 
--#ifdef TARGET_NR_renameat2
--#if defined(__NR_renameat2)
--#define __NR_sys_renameat2 __NR_renameat2
--_syscall5(int, sys_renameat2, int, oldfd, const char *, old, int, newfd,
--          const char *, new, unsigned int, flags)
--#else
--static int sys_renameat2(int oldfd, const char *old,
--                         int newfd, const char *new, int flags)
--{
--    if (flags == 0) {
--        return renameat(oldfd, old, newfd, new);
--    }
--    errno = ENOSYS;
--    return -1;
--}
--#endif
--#endif /* TARGET_NR_renameat2 */
--
- #ifdef CONFIG_INOTIFY
- #include <sys/inotify.h>
- 
-@@ -5391,52 +5373,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+@@ -5373,22 +5373,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
      void *p;
  
      switch(num) {
--#ifdef TARGET_NR_rename
--    case TARGET_NR_rename:
--        {
--            void *p2;
--            p = lock_user_string(arg1);
--            p2 = lock_user_string(arg2);
--            if (!p || !p2)
--                ret = -TARGET_EFAULT;
--            else
--                ret = get_errno(rename(p, p2));
--            unlock_user(p2, arg2, 0);
--            unlock_user(p, arg1, 0);
--        }
+-#ifdef TARGET_NR_mkdir
+-    case TARGET_NR_mkdir:
+-        if (!(p = lock_user_string(arg1)))
+-            return -TARGET_EFAULT;
+-        ret = get_errno(mkdir(p, arg2));
+-        unlock_user(p, arg1, 0);
 -        return ret;
 -#endif
--#if defined(TARGET_NR_renameat)
--    case TARGET_NR_renameat:
--        {
--            void *p2;
--            p  = lock_user_string(arg2);
--            p2 = lock_user_string(arg4);
--            if (!p || !p2)
--                ret = -TARGET_EFAULT;
--            else
--                ret = get_errno(renameat(arg1, p, arg3, p2));
--            unlock_user(p2, arg4, 0);
--            unlock_user(p, arg2, 0);
--        }
+-#if defined(TARGET_NR_mkdirat)
+-    case TARGET_NR_mkdirat:
+-        if (!(p = lock_user_string(arg2)))
+-            return -TARGET_EFAULT;
+-        ret = get_errno(mkdirat(arg1, p, arg3));
+-        unlock_user(p, arg2, 0);
 -        return ret;
 -#endif
--#if defined(TARGET_NR_renameat2)
--    case TARGET_NR_renameat2:
--        {
--            void *p2;
--            p  = lock_user_string(arg2);
--            p2 = lock_user_string(arg4);
--            if (!p || !p2) {
--                ret = -TARGET_EFAULT;
--            } else {
--                ret = get_errno(sys_renameat2(arg1, p, arg3, p2, arg5));
--            }
--            unlock_user(p2, arg4, 0);
--            unlock_user(p, arg2, 0);
--        }
--        return ret;
--#endif
- #ifdef TARGET_NR_mkdir
-     case TARGET_NR_mkdir:
-         if (!(p = lock_user_string(arg1)))
+     case TARGET_NR_dup:
+         ret = get_errno(dup(arg1));
+         if (ret >= 0) {
 diff --git a/linux-user/strace.list b/linux-user/strace.list
-index 07e5f7c518..3b002a0500 100644
+index 3b002a0500..cdbc59bffd 100644
 --- a/linux-user/strace.list
 +++ b/linux-user/strace.list
-@@ -944,15 +944,6 @@
- #ifdef TARGET_NR_removexattr
- { TARGET_NR_removexattr, "removexattr" , NULL, NULL, NULL },
+@@ -473,12 +473,6 @@
+ #ifdef TARGET_NR_mincore
+ { TARGET_NR_mincore, "mincore" , NULL, NULL, NULL },
  #endif
--#ifdef TARGET_NR_rename
--{ TARGET_NR_rename, "rename" , NULL, print_rename, NULL },
+-#ifdef TARGET_NR_mkdir
+-{ TARGET_NR_mkdir, "mkdir" , NULL, print_mkdir, NULL },
 -#endif
--#ifdef TARGET_NR_renameat
--{ TARGET_NR_renameat, "renameat" , NULL, print_renameat, NULL },
+-#ifdef TARGET_NR_mkdirat
+-{ TARGET_NR_mkdirat, "mkdirat" , NULL, print_mkdirat, NULL },
 -#endif
--#ifdef TARGET_NR_renameat2
--{ TARGET_NR_renameat2, "renameat2" , NULL, NULL, NULL },
--#endif
- #ifdef TARGET_NR_request_key
- { TARGET_NR_request_key, "request_key" , NULL, NULL, NULL },
+ #ifdef TARGET_NR_modify_ldt
+ { TARGET_NR_modify_ldt, "modify_ldt" , NULL, NULL, NULL },
  #endif
 -- 
 2.17.1
