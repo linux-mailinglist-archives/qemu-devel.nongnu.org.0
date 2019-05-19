@@ -2,68 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 845FC22914
-	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 23:18:42 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53698 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CF94B2291F
+	for <lists+qemu-devel@lfdr.de>; Sun, 19 May 2019 23:25:00 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53788 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSTCb-0004AT-Ju
-	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 17:18:41 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50744)
+	id 1hSTIh-0001Ql-Up
+	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 17:25:00 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50763)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSZf-0003et-AW
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:29 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSZg-0003fo-7C
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hSSZd-0004QM-OO
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:27 -0400
-Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:34263)
+	(envelope-from <richard.henderson@linaro.org>) id 1hSSZd-0004Qa-Ou
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:28 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:44237)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hSSZd-0004NW-Fj
+	id 1hSSZd-0004Ot-Ha
 	for qemu-devel@nongnu.org; Sun, 19 May 2019 16:38:25 -0400
-Received: by mail-pf1-x441.google.com with SMTP id n19so6182901pfa.1
-	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:38:24 -0700 (PDT)
+Received: by mail-pl1-x642.google.com with SMTP id c5so5690839pll.11
+	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 13:38:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=tO0MYq1BfTpb+Rq4mEcLzQaoCNhvveoe+wDeU1tkEl4=;
-	b=JchIpMmGQzlbAZh0Xr/Y31cWysRgPDnxvatEZVGc5KkGSEl2yUXMqvnEs+txrnxyC+
-	KdzXK7cQVKuDZlXiLAOET5jWNVefAscgas8GkF3SP98bTlJlHJkbW8jUo3VaZdlE+SML
-	E9FIS1LLNZiA3vQIF8fgyLbkV+7TA5ahQj7mshVzGARXKUbu3RR7YwHlMkJdhSXXvJ9L
-	MccM4nuagbwuR3YzpzvYXhZiqTliEIQ6E+sqwEZT2JnKrPGrRn9Xgz0yfHyDNvbFJu4A
-	4/Nl72R2oeUROVd81jfY+/73eYzYdN4tXSs23Lw+BxFayExackAZTKl+OoGyWOVDox//
-	7tOA==
+	bh=i/scOGMWF8bWzvx8tsNwoDLjnfeTL/fRVFk/GWGzfuQ=;
+	b=pU3oRYKPv6Id6hInOj/s4iOl45/+lVmFh+PQartwsUjaWX2vuzFP34vb8/uBdLzgku
+	73Xbz8VsHqpXchVfaFQ87uX4l1p2DwgkHWKiE/IhVKNlMnj79l3/epXn0WqxBSPczVHx
+	2y3hynA6b0U5cv0B4J451Gf2/u4ynkQI4w5+yCm0uAIRK6JgWum8QnMbyhtJGh0w8/+h
+	G0ZMAemoCJCZw2egRWO8jUWTnNIO5su9YcK+tFJUndAYRhUqqzne0il1Afh6UZOj9F0f
+	DWXArxVIYKTaHDO6eeXCEkQlQ+12J2WgyGQwogWmOJBOVYHxbR91i/Mwh9afzGkfZODH
+	G2cA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=tO0MYq1BfTpb+Rq4mEcLzQaoCNhvveoe+wDeU1tkEl4=;
-	b=QYvrQfURLoO/nM9+W9L0yGVBl9VtTxGFplBQwstuJMbG/vi7RXWNjpTWl9C4NGQk9z
-	NWPPDAX2RPa1sN7+MxplUXJSGdT/vT1klibujI3y5cDjASIGeVJnNJmE9qNjKYqVuGqx
-	jt+RYt6DteFfV4LS+UApfsKIkmRFDtwoPkk9LNGy5W0pkVdAT9mfGdiT9hyjBXplbuxR
-	hoY3dPsFMmZUhkGMZhGZc4lJ6BnkGEw4Dr0/KLn3yYoEAgSQh33XJi3eYxZN2m4TNb2h
-	MvjBWJp8/6RlMrO+D+D5OZvS6YbVzfwmxVHeM2q3x7zfDJxKD86+f99Khkrl+sLdNehB
-	JEbw==
-X-Gm-Message-State: APjAAAWKzRuKxRpz8Z/yCXy3p62U3PqC9usSXHZV4sokW8m0R59/tvK5
-	e8/BlbihOL3RqbmuzV9yWR+Uun7XivQ=
-X-Google-Smtp-Source: APXvYqyoELX56gHUfCD3HGgaen/oc0rBemdA25wNQp66cpePhFnuStg+y/GZS9tbG/A8WZU0l6YznQ==
-X-Received: by 2002:a65:5c89:: with SMTP id a9mr71874534pgt.334.1558298303006; 
-	Sun, 19 May 2019 13:38:23 -0700 (PDT)
+	bh=i/scOGMWF8bWzvx8tsNwoDLjnfeTL/fRVFk/GWGzfuQ=;
+	b=W8YB98bG2U6dE6uP1I5IBFGp1a8HguFboP0owmj4dcT2W371vqg8jXqx85PrRGWRAy
+	5B4AoS7FhtMwws4GnyvtqphF/Cy1NZZUDfxs8IaBUaPKI3qtCLV3Fb7qB+gNo5BDm1FL
+	/cZzl6DZuXo2LHxMeUJ1B539RbKjJKCmb5NUKF2iL3DEziOhp6nmwMngjn4WzGz21FdE
+	DYRhhOOpafzjcAkX4xrxBWQN0wnXZg8brf4iriI8U9/RfLRApxNPeKvHhGez7eUXWEBD
+	I73U7Y9cl/74DfvSSyB1/MxGEU4+3EGlixD8vIsywuDkWG9uJE53NTKfq9VwxO5SR2Ue
+	E8UQ==
+X-Gm-Message-State: APjAAAX640OGdpVf1L063KZp1bi1hUyb2KsHG9uxfhACPXUt7w9tpgNs
+	l8i6gZrnnghog/3c0hcYafPVQaWkeGU=
+X-Google-Smtp-Source: APXvYqwlMLrSn2/ZVMkVhweUsbldcJJygP2XoefSAR+K/j1+LOLuCPNX9P24r5l13H+5cI9Yj6bPrA==
+X-Received: by 2002:a17:902:4203:: with SMTP id
+	g3mr53196000pld.288.1558298304197; 
+	Sun, 19 May 2019 13:38:24 -0700 (PDT)
 Received: from localhost.localdomain (97-113-13-231.tukw.qwest.net.
 	[97.113.13.231]) by smtp.gmail.com with ESMTPSA id
-	i7sm11397448pfo.19.2019.05.19.13.38.21
+	i7sm11397448pfo.19.2019.05.19.13.38.23
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Sun, 19 May 2019 13:38:22 -0700 (PDT)
+	Sun, 19 May 2019 13:38:23 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Sun, 19 May 2019 13:36:54 -0700
-Message-Id: <20190519203726.20729-43-richard.henderson@linaro.org>
+Date: Sun, 19 May 2019 13:36:55 -0700
+Message-Id: <20190519203726.20729-44-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190519203726.20729-1-richard.henderson@linaro.org>
 References: <20190519203726.20729-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::441
-Subject: [Qemu-devel] [PATCH v7 42/74] linux-user: Split out dup, dup2, dup3
+X-Received-From: 2607:f8b0:4864:20::642
+Subject: [Qemu-devel] [PATCH v7 43/74] linux-user: Split out pipe, pipe2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -79,160 +80,220 @@ Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Note that dup3 is universally available for guests.
-Implement host support with syscall when !CONFIG_DUP3.
+Note that pipe2 is universally available for guests.
+Implement host support with syscall when !CONFIG_PIPE2.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- linux-user/syscall-defs.h     |  5 +++++
- linux-user/syscall-file.inc.c | 42 +++++++++++++++++++++++++++++++++++
- linux-user/syscall.c          | 33 +++------------------------
- linux-user/strace.list        |  6 -----
- 4 files changed, 50 insertions(+), 36 deletions(-)
+ linux-user/syscall-defs.h     | 10 ++++++
+ linux-user/syscall-file.inc.c | 51 +++++++++++++++++++++++++++
+ linux-user/syscall.c          | 65 +++++++----------------------------
+ linux-user/strace.list        |  6 ----
+ 4 files changed, 74 insertions(+), 58 deletions(-)
 
 diff --git a/linux-user/syscall-defs.h b/linux-user/syscall-defs.h
-index 8b6d8f75ff..062adddd75 100644
+index 062adddd75..bd3301a72f 100644
 --- a/linux-user/syscall-defs.h
 +++ b/linux-user/syscall-defs.h
-@@ -34,6 +34,11 @@ SYSCALL_DEF(close, ARG_DEC);
- #ifdef TARGET_NR_creat
- SYSCALL_DEF(creat, ARG_STR, ARG_MODEFLAG);
+@@ -132,6 +132,16 @@ SYSCALL_DEF(open_by_handle_at, ARG_DEC, ARG_PTR, ARG_OPENFLAG);
+ #ifdef TARGET_NR_pause
+ SYSCALL_DEF(pause);
  #endif
-+SYSCALL_DEF(dup, ARG_DEC);
-+#ifdef TARGET_NR_dup2
-+SYSCALL_DEF(dup2, ARG_DEC, ARG_DEC);
++#ifdef TARGET_NR_pipe
++# if defined(TARGET_ALPHA) || defined(TARGET_MIPS) || \
++     defined(TARGET_SH4) || defined(TARGET_SPARC)
++/* ??? We have no way for strace to display the second returned fd.  */
++SYSCALL_DEF(pipe);
++# else
++SYSCALL_DEF(pipe, ARG_PTR);
++# endif
 +#endif
-+SYSCALL_DEF(dup3, ARG_DEC, ARG_DEC, ARG_OPENFLAG);
- SYSCALL_DEF(exit, ARG_DEC);
- SYSCALL_DEF(execve, ARG_STR, ARG_PTR, ARG_PTR);
- SYSCALL_DEF(execveat, ARG_ATDIRFD, ARG_STR, ARG_PTR, ARG_PTR, ARG_ATFLAG);
++SYSCALL_DEF(pipe2, ARG_PTR, ARG_OPENFLAG);
+ SYSCALL_DEF_FULL(pread64, .impl = impl_pread64,
+                  .args = args_pread64_pwrite64,
+                  .arg_type = { ARG_DEC, ARG_PTR, ARG_DEC, ARG_DEC64 });
 diff --git a/linux-user/syscall-file.inc.c b/linux-user/syscall-file.inc.c
-index 5ed8b78c79..7d97dd1ec1 100644
+index 7d97dd1ec1..5bd9eaa002 100644
 --- a/linux-user/syscall-file.inc.c
 +++ b/linux-user/syscall-file.inc.c
-@@ -94,6 +94,48 @@ SYSCALL_IMPL(creat)
+@@ -726,6 +726,57 @@ SYSCALL_IMPL(open_by_handle_at)
+     return ret;
  }
- #endif
  
-+SYSCALL_IMPL(dup)
++static abi_long do_pipe(CPUArchState *cpu_env, abi_ulong target_fds,
++                        int target_flags, bool is_pipe2)
 +{
-+    abi_long ret = get_errno(dup(arg1));
-+    if (ret >= 0) {
-+        fd_trans_dup(arg1, ret);
-+    }
-+    return ret;
-+}
-+
-+#ifdef TARGET_NR_dup2
-+SYSCALL_IMPL(dup2)
-+{
-+    abi_long ret = get_errno(dup2(arg1, arg2));
-+    if (ret >= 0) {
-+        fd_trans_dup(arg1, arg2);
-+    }
-+    return ret;
-+}
-+#endif
-+
-+SYSCALL_IMPL(dup3)
-+{
-+    int ofd = arg1;
-+    int nfd = arg2;
-+    int host_flags = target_to_host_bitmask(arg3, fcntl_flags_tbl);
++    int host_flags = target_to_host_bitmask(target_flags, fcntl_flags_tbl);
++    int host_fds[2];
 +    abi_long ret;
 +
-+#ifdef CONFIG_DUP3
-+    ret = dup3(ofd, nfd, host_flags);
-+#else
-+    if (host_flags == 0) {
-+        if (ofd == nfd) {
-+            return -TARGET_EINVAL;
-+        }
-+        ret = dup2(ofd, nfd);
-+    } else {
-+        ret = syscall(__NR_dup3, ofd, nfd, host_flags);
++    ret = pipe2(host_fds, host_flags);
++    if (is_error(ret)) {
++        return get_errno(ret);
 +    }
++
++    /*
++     * Several targets have special calling conventions for the original
++     * pipe syscall, but didn't replicate this into the pipe2 syscall.
++     */
++    if (!is_pipe2) {
++#if defined(TARGET_ALPHA)
++        cpu_env->ir[IR_A4] = host_fds[1];
++        return host_fds[0];
++#elif defined(TARGET_MIPS)
++        cpu_env->active_tc.gpr[3] = host_fds[1];
++        return host_fds[0];
++#elif defined(TARGET_SH4)
++        cpu_env->gregs[1] = host_fds[1];
++        return host_fds[0];
++#elif defined(TARGET_SPARC)
++        cpu_env->regwptr[1] = host_fds[1];
++        return host_fds[0];
 +#endif
-+    return get_errno(ret);
++    }
++
++    if (put_user_s32(host_fds[0], target_fds)
++        || put_user_s32(host_fds[1], target_fds + 4)) {
++        return -TARGET_EFAULT;
++    }
++    return 0;
 +}
 +
- SYSCALL_IMPL(faccessat)
- {
-     return do_faccessat(arg1, arg2, arg3);
++#ifdef TARGET_NR_pipe
++SYSCALL_IMPL(pipe)
++{
++    return do_pipe(cpu_env, arg1, 0, false);
++}
++#endif
++
++SYSCALL_IMPL(pipe2)
++{
++    return do_pipe(cpu_env, arg1, arg2, true);
++}
++
+ /*
+  * Both pread64 and pwrite64 merge args into a 64-bit offset,
+  * but the input registers and ordering are target specific.
 diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 0d6a9b7a6c..bab9a57ee0 100644
+index bab9a57ee0..cda1f8a205 100644
 --- a/linux-user/syscall.c
 +++ b/linux-user/syscall.c
-@@ -204,6 +204,9 @@ _syscall0(int, sys_gettid)
-  * Performing a bogus syscall is easier than boilerplating
-  * the replacement functions here in C.
-  */
-+#ifndef __NR_dup3
-+#define __NR_dup3  -1
+@@ -207,6 +207,9 @@ _syscall0(int, sys_gettid)
+ #ifndef __NR_dup3
+ #define __NR_dup3  -1
+ #endif
++#ifndef __NR_pipe2
++#define __NR_pipe2  -1
 +#endif
  #ifndef __NR_syncfs
  #define __NR_syncfs  -1
  #endif
-@@ -5373,12 +5376,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
+@@ -273,6 +276,16 @@ _syscall5(int, kcmp, pid_t, pid1, pid_t, pid2, int, type,
+ #ifndef CONFIG_SYNCFS
+ _syscall1(int, syncfs, int, fd)
+ #endif
++#ifndef CONFIG_PIPE2
++static int pipe2(int *fds, int flags)
++{
++    if (flags) {
++        return syscall(__NR_pipe2, fds, flags);
++    } else {
++        return pipe(fds);
++    }
++}
++#endif
+ 
+ static bitmask_transtbl fcntl_flags_tbl[] = {
+   { TARGET_O_ACCMODE,   TARGET_O_WRONLY,    O_ACCMODE,   O_WRONLY,    },
+@@ -1124,49 +1137,6 @@ static abi_long do_old_select(abi_ulong arg1)
+ #endif
+ #endif
+ 
+-static abi_long do_pipe2(int host_pipe[], int flags)
+-{
+-#ifdef CONFIG_PIPE2
+-    return pipe2(host_pipe, flags);
+-#else
+-    return -ENOSYS;
+-#endif
+-}
+-
+-static abi_long do_pipe(void *cpu_env, abi_ulong pipedes,
+-                        int flags, int is_pipe2)
+-{
+-    int host_pipe[2];
+-    abi_long ret;
+-    ret = flags ? do_pipe2(host_pipe, flags) : pipe(host_pipe);
+-
+-    if (is_error(ret))
+-        return get_errno(ret);
+-
+-    /* Several targets have special calling conventions for the original
+-       pipe syscall, but didn't replicate this into the pipe2 syscall.  */
+-    if (!is_pipe2) {
+-#if defined(TARGET_ALPHA)
+-        ((CPUAlphaState *)cpu_env)->ir[IR_A4] = host_pipe[1];
+-        return host_pipe[0];
+-#elif defined(TARGET_MIPS)
+-        ((CPUMIPSState*)cpu_env)->active_tc.gpr[3] = host_pipe[1];
+-        return host_pipe[0];
+-#elif defined(TARGET_SH4)
+-        ((CPUSH4State*)cpu_env)->gregs[1] = host_pipe[1];
+-        return host_pipe[0];
+-#elif defined(TARGET_SPARC)
+-        ((CPUSPARCState*)cpu_env)->regwptr[1] = host_pipe[1];
+-        return host_pipe[0];
+-#endif
+-    }
+-
+-    if (put_user_s32(host_pipe[0], pipedes)
+-        || put_user_s32(host_pipe[1], pipedes + sizeof(host_pipe[0])))
+-        return -TARGET_EFAULT;
+-    return get_errno(ret);
+-}
+-
+ static inline abi_long target_to_host_ip_mreq(struct ip_mreqn *mreqn,
+                                               abi_ulong target_addr,
+                                               socklen_t len)
+@@ -5376,15 +5346,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
      void *p;
  
      switch(num) {
--    case TARGET_NR_dup:
--        ret = get_errno(dup(arg1));
--        if (ret >= 0) {
--            fd_trans_dup(arg1, ret);
--        }
--        return ret;
- #ifdef TARGET_NR_pipe
-     case TARGET_NR_pipe:
-         return do_pipe(cpu_env, arg1, 0, 0);
-@@ -5433,30 +5430,6 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-         ret = get_errno(chroot(p));
-         unlock_user(p, arg1, 0);
-         return ret;
--#ifdef TARGET_NR_dup2
--    case TARGET_NR_dup2:
--        ret = get_errno(dup2(arg1, arg2));
--        if (ret >= 0) {
--            fd_trans_dup(arg1, arg2);
--        }
--        return ret;
+-#ifdef TARGET_NR_pipe
+-    case TARGET_NR_pipe:
+-        return do_pipe(cpu_env, arg1, 0, 0);
 -#endif
--#if defined(CONFIG_DUP3) && defined(TARGET_NR_dup3)
--    case TARGET_NR_dup3:
--    {
--        int host_flags;
--
--        if ((arg3 & ~TARGET_O_CLOEXEC) != 0) {
--            return -EINVAL;
--        }
--        host_flags = target_to_host_bitmask(arg3, fcntl_flags_tbl);
--        ret = get_errno(dup3(arg1, arg2, host_flags));
--        if (ret >= 0) {
--            fd_trans_dup(arg1, arg2);
--        }
--        return ret;
--    }
+-#ifdef TARGET_NR_pipe2
+-    case TARGET_NR_pipe2:
+-        return do_pipe(cpu_env, arg1,
+-                       target_to_host_bitmask(arg2, fcntl_flags_tbl), 1);
 -#endif
- #ifdef TARGET_NR_getpgrp
-     case TARGET_NR_getpgrp:
-         return get_errno(getpgrp());
+     case TARGET_NR_times:
+         {
+             struct target_tms *tmsp;
 diff --git a/linux-user/strace.list b/linux-user/strace.list
-index cdbc59bffd..2f78f4685b 100644
+index 2f78f4685b..a1c3dd98e0 100644
 --- a/linux-user/strace.list
 +++ b/linux-user/strace.list
-@@ -91,12 +91,6 @@
- #ifdef TARGET_NR_dipc
- { TARGET_NR_dipc, "dipc" , NULL, NULL, NULL },
+@@ -860,9 +860,6 @@
+ #ifdef TARGET_NR_personality
+ { TARGET_NR_personality, "personality" , NULL, NULL, NULL },
  #endif
--#ifdef TARGET_NR_dup
--{ TARGET_NR_dup, "dup" , NULL, NULL, NULL },
+-#ifdef TARGET_NR_pipe
+-{ TARGET_NR_pipe, "pipe" , NULL, NULL, NULL },
 -#endif
--#ifdef TARGET_NR_dup2
--{ TARGET_NR_dup2, "dup2" , NULL, NULL, NULL },
+ #ifdef TARGET_NR_pivot_root
+ { TARGET_NR_pivot_root, "pivot_root" , NULL, NULL, NULL },
+ #endif
+@@ -1377,9 +1374,6 @@
+ #ifdef TARGET_NR_sync_file_range2
+ { TARGET_NR_sync_file_range2, "sync_file_range2", NULL, NULL, NULL },
+ #endif
+-#ifdef TARGET_NR_pipe2
+-{ TARGET_NR_pipe2, "pipe2", NULL, NULL, NULL },
 -#endif
- #ifdef TARGET_NR_epoll_create
- { TARGET_NR_epoll_create, "epoll_create" , NULL, NULL, NULL },
+ #ifdef TARGET_NR_atomic_cmpxchg_32
+ { TARGET_NR_atomic_cmpxchg_32, "atomic_cmpxchg_32", NULL, NULL, NULL },
  #endif
 -- 
 2.17.1
