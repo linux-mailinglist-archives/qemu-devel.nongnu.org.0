@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A74A24439
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 01:22:11 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43474 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 84D6724448
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 01:25:11 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43506 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSrbe-0007c2-6E
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 19:22:10 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44803)
+	id 1hSreY-0001fZ-HO
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 19:25:10 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44832)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hSrQZ-0006zM-6f
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:10:44 -0400
+	(envelope-from <mst@redhat.com>) id 1hSrQc-00071n-S9
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:10:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hSrQY-0007vW-7U
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:10:43 -0400
-Received: from mail-qt1-f169.google.com ([209.85.160.169]:41519)
+	(envelope-from <mst@redhat.com>) id 1hSrQa-0007x0-VH
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:10:46 -0400
+Received: from mail-qk1-f194.google.com ([209.85.222.194]:38269)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hSrQY-0007uv-3C
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:10:42 -0400
-Received: by mail-qt1-f169.google.com with SMTP id y22so18332481qtn.8
-	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 16:10:41 -0700 (PDT)
+	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hSrQa-0007wE-RE
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:10:44 -0400
+Received: by mail-qk1-f194.google.com with SMTP id a64so9928736qkg.5
+	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 16:10:43 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
 	:mime-version:content-disposition:in-reply-to;
-	bh=BdQmdQ0lBDJ6Q7Q+g+I1UB4uSsg7bUq8SfpRaDBHlX4=;
-	b=iJ2jkdjrkq+XgjPueKWV5iAMH9jN1KQ0DSSyD43zjwaP0HiYGkCGwCvyKmpTI2NnS+
-	Rbm5GAV0/oXbk43gWjzaOCzWYRr+zW6U96L21qn+83FW3X1kku5EHxCgrZrSXXXxTzfH
-	W1ufvd9amwtPL13n2BKxLT64ilUXI0mmp4n7W3b7VmMaPci40grJoaeV2q9Z9kUBWbQ3
-	kmySreLhwVA4UWKmezAZ1/Oo7GApSaoH0fNMdoXLMKJbB1Dqo3xKQIubPa/GfNhH1VYj
-	rVuebQpNHhIVAFwOS7/5Of0lbmp25mgqiMfXfsolS+U0VhP3RVvYzaTdb8hgLYn36cMy
-	U/fQ==
-X-Gm-Message-State: APjAAAVWozie2o36NiLbitodhjpAva3BSSnw2S5OjrL2+2sRZbOUfw/d
-	bWmtkLZAnsd/PWlpE6PH7VABCNxJ+FI=
-X-Google-Smtp-Source: APXvYqyjqZ3cQikpLf6Vojth7ujoYXNgMdV2IBAvvIOAkFTwETHtN1xTOuy0wZQdfcMOtSmltYU08Q==
-X-Received: by 2002:a0c:adf7:: with SMTP id x52mr40719082qvc.21.1558393840799; 
-	Mon, 20 May 2019 16:10:40 -0700 (PDT)
+	bh=lqcRP5TOl9HEzw5AKgljD79bRAyUWWqCwFejvOysXuY=;
+	b=IvYiI2vrBxKS287eTxojop33QCbfDdWv030qApxAX777XHXeBri77QLjIsyyCtTaIN
+	Ua38C5xPstjuukBAwlz8BmWzhdLQynS4kV9YSjxWLWI3V7v5pts8m41cESJ5vLxOrDSE
+	ii14zLMAaasvPmU13hs77aNEzQeI6/jxaJUOC/V2c6CDIH3iX9JLzj/oR7D/yBKUQ7yB
+	2JeYbKT7yrslCA6GNSp5dn7RD2km7RlW2vwtjBonWnuKnSY5mqEZvboFH3ecXRd7XRWV
+	gplrHkrvJUGb25yBvQFW3EbbTS7K6tScihvHgYfHyRvud6W7zMpla+82To/9z15SlXiG
+	Zekg==
+X-Gm-Message-State: APjAAAWfqauPHLxuJCKvaIWlzoTKGGGsFOcB3sRqRsqEL+79bIIw1Oci
+	BwQMSABSUkOMTx1kOa1Xo8kzVgfa/p8=
+X-Google-Smtp-Source: APXvYqyxc7pF7zxphLR/xz6dXJKprUw9GGfLdFdEBJq+a2gqBz0T2Oaxg6uLDE3Q1H/v0GP0ayRgwg==
+X-Received: by 2002:a37:6ca:: with SMTP id 193mr59713585qkg.64.1558393842882; 
+	Mon, 20 May 2019 16:10:42 -0700 (PDT)
 Received: from redhat.com (pool-173-76-105-71.bstnma.fios.verizon.net.
 	[173.76.105.71]) by smtp.gmail.com with ESMTPSA id
-	p8sm11130425qta.24.2019.05.20.16.10.39
+	m8sm12396121qta.10.2019.05.20.16.10.41
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Mon, 20 May 2019 16:10:40 -0700 (PDT)
-Date: Mon, 20 May 2019 19:10:38 -0400
+	Mon, 20 May 2019 16:10:42 -0700 (PDT)
+Date: Mon, 20 May 2019 19:10:41 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Message-ID: <20190320112646.3712-4-xieyongji@baidu.com>
+Message-ID: <20190320112646.3712-5-xieyongji@baidu.com>
 References: <20190520231008.20140-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -56,9 +56,9 @@ X-Mailer: git-send-email 2.17.1.1206.gb667731e2e.dirty
 X-Mutt-Fcc: =sent
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.160.169
-Subject: [Qemu-devel] [PULL v2 06/36] vhost-user-blk: Use started flag in
- vhost_user_blk_set_status()
+X-Received-From: 209.85.222.194
+Subject: [Qemu-devel] [PULL v2 07/36] vhost-user-blk: Only start vhost-user
+ backend with the first kick
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -78,40 +78,32 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Xie Yongji <xieyongji@baidu.com>
 
-Use started flag in vhost_user_blk_set_status() to decide if
-starting vhost-user backend or not.
+We should only start vhost-user backend at the first kick for
+virtio 1.0 transitional devices.
 
 Signed-off-by: Xie Yongji <xieyongji@baidu.com>
 Signed-off-by: Zhang Yu <zhangyu31@baidu.com>
-Message-Id: <20190320112646.3712-4-xieyongji@baidu.com>
+Message-Id: <20190320112646.3712-5-xieyongji@baidu.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/block/vhost-user-blk.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/block/vhost-user-blk.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
 diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-index 28b81368f7..700c1dd111 100644
+index 700c1dd111..39e1adc60a 100644
 --- a/hw/block/vhost-user-blk.c
 +++ b/hw/block/vhost-user-blk.c
-@@ -190,7 +190,7 @@ static void vhost_user_blk_stop(VirtIODevice *vdev)
- static void vhost_user_blk_set_status(VirtIODevice *vdev, uint8_t status)
- {
+@@ -239,8 +239,7 @@ static void vhost_user_blk_handle_output(VirtIODevice *vdev, VirtQueue *vq)
      VHostUserBlk *s = VHOST_USER_BLK(vdev);
--    bool should_start = status & VIRTIO_CONFIG_S_DRIVER_OK;
-+    bool should_start = vdev->started;
+     int i;
  
-     if (!vdev->vm_running) {
-         should_start = false;
-@@ -350,7 +350,7 @@ static void vhost_user_blk_device_unrealize(DeviceState *dev, Error **errp)
-     VHostUserBlk *s = VHOST_USER_BLK(dev);
-     struct vhost_virtqueue *vqs = s->dev.vqs;
+-    if (!(virtio_host_has_feature(vdev, VIRTIO_F_VERSION_1) &&
+-        !virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1))) {
++    if (!vdev->start_on_kick) {
+         return;
+     }
  
--    vhost_user_blk_set_status(vdev, 0);
-+    virtio_set_status(vdev, 0);
-     vhost_dev_cleanup(&s->dev);
-     vhost_dev_free_inflight(s->inflight);
-     g_free(vqs);
 -- 
 MST
 
