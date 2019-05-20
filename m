@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2595823F35
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 19:38:48 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:39337 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EF61E23F45
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 19:41:51 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:39402 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSmFL-00044N-2B
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 13:38:47 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58452)
+	id 1hSmIJ-0006ms-1H
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 13:41:51 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59382)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hSlxr-0006Y1-B2
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:20:46 -0400
+	(envelope-from <philmd@redhat.com>) id 1hSm1d-0001qp-7S
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:24:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hSlxp-0003bc-W0
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:20:43 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:39062)
+	(envelope-from <philmd@redhat.com>) id 1hSm1b-0005Pr-Nx
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:24:36 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:55886)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hSlxp-0003aO-QY
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:20:41 -0400
-Received: by mail-wr1-f67.google.com with SMTP id w8so15516545wrl.6
-	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 10:20:41 -0700 (PDT)
+	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hSm1b-0005On-IE
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:24:35 -0400
+Received: by mail-wm1-f65.google.com with SMTP id x64so157263wmb.5
+	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 10:24:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:references:from:openpgp:message-id
 	:date:user-agent:mime-version:in-reply-to:content-language
 	:content-transfer-encoding;
-	bh=rGovGWCGVTw0/7S/ozvyRwUzMR8pvgv1I3ri6GNXBsM=;
-	b=Bt+XJKUAZXBgFYdQ95sc+g+N8unV5HUJnCZaFDmGuiJERYgIIfFxGDktVbpzQqHiQR
-	nVVyaBz9he5Nr/MTrpTX3GNCcpQIjD7dDZNMPLVlPrpGaOnJtfkkiQxnBCgVBWbLtqdF
-	dhriEbRsjkRDXYGRmqX2Z3o2EF8XGXKQ4u5Br0gWByOYyIdOSN5/RvrX+/tvGBHGUxvE
-	Zhw3mFkQAcfP3rlu7HsoskUSLJx6fjLpeMumMwxR4s3Y+CvBKMBDkC03QFxjTHyLc9b4
-	XPbpq0ASMi9/oS+1JZvZj2mC10NcJpMSdh96cJx9JSqLnw6IJwjhbwqvejFepgU/KJEt
-	kYnQ==
-X-Gm-Message-State: APjAAAX+HteS9LacmAYLzFmGuUMzXWtSTxbMUdO28RJjitI1ns0LVwW3
-	UxUU0VFs05F6fTsN/R7XuxogIGa4e9E=
-X-Google-Smtp-Source: APXvYqxj8drm7J/dgxmJLey5IICAeHzk9/62+x/iWe2XbG+Aod+yz5Ogx9uulEnde6KMYCU/H//m1Q==
-X-Received: by 2002:adf:e850:: with SMTP id d16mr32604035wrn.269.1558372839839;
-	Mon, 20 May 2019 10:20:39 -0700 (PDT)
+	bh=Z3bIzp7bNN8LqmaeDZr/a8qvIyz/8zh6J2BdewSw5zQ=;
+	b=Ym95GArO4EQzL8EP/waOGoXpmeNAjgHRQ+NqVoCi/CuOhfq+RPB/D/JA3lLEuoHZY3
+	D96iSwykhATEMFBiIsDySVzuVH1FDmJgH/E9GzJ3yhjmdWbmkupJWoxOkFC1HETqEUl3
+	gpg6TjOhhsHo2rFFO5sMykp31N5UhlikK2ChXFkAaRuHtBdXzdSGhJgHSKlXNYaUcHcR
+	vkuFDX9X4Er/qGMAPE232G213Fw5qcQmjh44WuNVTWFozrJ3zi3iYQJ/fL3FzWb+qFGx
+	OZu1/ytR9nfsWUdKixJDEfyjkGn7/lL8W4UbHncRo2Sr/Ol2PyNNhyF1NUsqeNBF3psC
+	1/DA==
+X-Gm-Message-State: APjAAAXH4yayO77vcY0lfTasNeSPJMW+5yWriLBDYTuTDzO434r56VDU
+	IrfaPDphZTrvECJXL6FJLpjqK9XN/Kc=
+X-Google-Smtp-Source: APXvYqwaigkkNIh93sawUx14+YZLvP20ukuUM0EUu6id90aSZWvjJ/V5sEMHw5p5jxu8chv12N81wA==
+X-Received: by 2002:a1c:2245:: with SMTP id i66mr166605wmi.19.1558373073452;
+	Mon, 20 May 2019 10:24:33 -0700 (PDT)
 Received: from [192.168.1.43] (228.red-83-52-173.dynamicip.rima-tde.net.
 	[83.52.173.228]) by smtp.gmail.com with ESMTPSA id
-	k17sm15291292wrm.73.2019.05.20.10.20.39
+	e8sm42662114wrc.34.2019.05.20.10.24.32
 	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Mon, 20 May 2019 10:20:39 -0700 (PDT)
+	Mon, 20 May 2019 10:24:33 -0700 (PDT)
 To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
 References: <20190520162809.2677-1-peter.maydell@linaro.org>
-	<20190520162809.2677-5-peter.maydell@linaro.org>
+	<20190520162809.2677-2-peter.maydell@linaro.org>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
 	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <0d39932f-8959-cb68-1ac7-ac79cfdb98a9@redhat.com>
-Date: Mon, 20 May 2019 19:20:38 +0200
+Message-ID: <dc232ab2-5a8d-1df7-074e-0e7eed1b2960@redhat.com>
+Date: Mon, 20 May 2019 19:24:32 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190520162809.2677-5-peter.maydell@linaro.org>
+In-Reply-To: <20190520162809.2677-2-peter.maydell@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.221.67
-Subject: Re: [Qemu-devel] [PATCH 4/4] hw/intc/arm_gicv3: Fix writes to
- ICC_CTLR_EL3
+X-Received-From: 209.85.128.65
+Subject: Re: [Qemu-devel] [PATCH 1/4] hw/intc/arm_gicv3: Fix decoding of ID
+ register range
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -79,48 +79,47 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter,
-
 On 5/20/19 6:28 PM, Peter Maydell wrote:
-> The ICC_CTLR_EL3 register includes some bits which are aliases
-> of bits in the ICC_CTLR_EL1(S) and (NS) registers. QEMU chooses
-> to keep those bits in the cs->icc_ctlr_el1[] struct fields.
-> Unfortunately a missing '~' in the code to update the bits
-> in those fields meant that writing to ICC_CTLR_EL3 would corrupt
-> the ICC_CLTR_EL1 register values.
-
-How did you notice? Simply reviewing?
-
+> The GIC ID registers cover an area 0x30 bytes in size
+> (12 registers, 4 bytes each). We were incorrectly decoding
+> only the first 0x20 bytes.
 > 
 > Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+
+"8.1.13 Identification registers" OK.
 
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 > ---
->  hw/intc/arm_gicv3_cpuif.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  hw/intc/arm_gicv3_dist.c   | 2 +-
+>  hw/intc/arm_gicv3_redist.c | 2 +-
+>  2 files changed, 2 insertions(+), 2 deletions(-)
 > 
-> diff --git a/hw/intc/arm_gicv3_cpuif.c b/hw/intc/arm_gicv3_cpuif.c
-> index 000bdbd6247..3b212d91c8f 100644
-> --- a/hw/intc/arm_gicv3_cpuif.c
-> +++ b/hw/intc/arm_gicv3_cpuif.c
-> @@ -1856,7 +1856,7 @@ static void icc_ctlr_el3_write(CPUARMState *env, const ARMCPRegInfo *ri,
->      trace_gicv3_icc_ctlr_el3_write(gicv3_redist_affid(cs), value);
->  
->      /* *_EL1NS and *_EL1S bits are aliases into the ICC_CTLR_EL1 bits. */
-> -    cs->icc_ctlr_el1[GICV3_NS] &= (ICC_CTLR_EL1_CBPR | ICC_CTLR_EL1_EOIMODE);
-> +    cs->icc_ctlr_el1[GICV3_NS] &= ~(ICC_CTLR_EL1_CBPR | ICC_CTLR_EL1_EOIMODE);
->      if (value & ICC_CTLR_EL3_EOIMODE_EL1NS) {
->          cs->icc_ctlr_el1[GICV3_NS] |= ICC_CTLR_EL1_EOIMODE;
+> diff --git a/hw/intc/arm_gicv3_dist.c b/hw/intc/arm_gicv3_dist.c
+> index 53c55c57291..335386ff3ac 100644
+> --- a/hw/intc/arm_gicv3_dist.c
+> +++ b/hw/intc/arm_gicv3_dist.c
+> @@ -533,7 +533,7 @@ static MemTxResult gicd_readl(GICv3State *s, hwaddr offset,
+>          }
+>          return MEMTX_OK;
 >      }
-> @@ -1864,7 +1864,7 @@ static void icc_ctlr_el3_write(CPUARMState *env, const ARMCPRegInfo *ri,
->          cs->icc_ctlr_el1[GICV3_NS] |= ICC_CTLR_EL1_CBPR;
->      }
->  
-> -    cs->icc_ctlr_el1[GICV3_S] &= (ICC_CTLR_EL1_CBPR | ICC_CTLR_EL1_EOIMODE);
-> +    cs->icc_ctlr_el1[GICV3_S] &= ~(ICC_CTLR_EL1_CBPR | ICC_CTLR_EL1_EOIMODE);
->      if (value & ICC_CTLR_EL3_EOIMODE_EL1S) {
->          cs->icc_ctlr_el1[GICV3_S] |= ICC_CTLR_EL1_EOIMODE;
->      }
+> -    case GICD_IDREGS ... GICD_IDREGS + 0x1f:
+> +    case GICD_IDREGS ... GICD_IDREGS + 0x2f:
+>          /* ID registers */
+>          *data = gicv3_idreg(offset - GICD_IDREGS);
+>          return MEMTX_OK;
+> diff --git a/hw/intc/arm_gicv3_redist.c b/hw/intc/arm_gicv3_redist.c
+> index 3b0ba6de1ab..9bb11423382 100644
+> --- a/hw/intc/arm_gicv3_redist.c
+> +++ b/hw/intc/arm_gicv3_redist.c
+> @@ -233,7 +233,7 @@ static MemTxResult gicr_readl(GICv3CPUState *cs, hwaddr offset,
+>          }
+>          *data = cs->gicr_nsacr;
+>          return MEMTX_OK;
+> -    case GICR_IDREGS ... GICR_IDREGS + 0x1f:
+> +    case GICR_IDREGS ... GICR_IDREGS + 0x2f:
+>          *data = gicv3_idreg(offset - GICR_IDREGS);
+>          return MEMTX_OK;
+>      default:
 > 
 
