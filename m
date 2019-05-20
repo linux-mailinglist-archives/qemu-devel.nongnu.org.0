@@ -2,69 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B11B22B28
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 07:33:49 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58171 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 731BB22BDC
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 08:07:50 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58496 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSavk-00055X-3k
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 01:33:48 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41870)
+	id 1hSbSf-0003Av-Kr
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 02:07:49 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46716)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <arilou@gmail.com>) id 1hSauc-0004m2-Tg
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 01:32:39 -0400
+	(envelope-from <dgibson@ozlabs.org>) id 1hSbR0-0002UI-Ce
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 02:06:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <arilou@gmail.com>) id 1hSaub-0000FG-S8
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 01:32:38 -0400
-Received: from mail-ed1-x543.google.com ([2a00:1450:4864:20::543]:38067)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <arilou@gmail.com>) id 1hSaua-0000CI-OY
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 01:32:37 -0400
-Received: by mail-ed1-x543.google.com with SMTP id w11so21886067edl.5
-	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 22:32:35 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=1rCbEbxNrWTYExrlZzXoKaFCuPkcn93yqVGXLgOpGTI=;
-	b=pYGbGkp67QwXu0Z9RqIEDSt7NywoxkuNpsQu8viM7qhtprGqrBOALXPew7fMUlvskX
-	CJTnfp8qbhkDZaxiQfxPlO8708ariQo3N3iZUK/UrDa2Rbhaj376tdsE5jTx7gg9R8zP
-	fuHNSNBVDNglHZKcyOL9BwXijFS1b9h5SGWPURmD4OYIkg6K+lBC+GBxkEWg9fhi8Or5
-	MrM/zJgJqYiqAElych7FfKlarFb660XCRNqlnCqp057vSM/lANT80I4bxmNxp1JEdkUX
-	rVyGFG92opSZ1C45Z1Qddy+9jKEbFwtM2iVWvniBp5vOoBFYFS9EOheVAxLNODs+/4R+
-	vzjg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=1rCbEbxNrWTYExrlZzXoKaFCuPkcn93yqVGXLgOpGTI=;
-	b=T5kxG+45CM7jY8bBDsu11topF1/I2l+5EidcQZWwrBwGKWjpJHwXONw9qs4LMKhWVX
-	H5VILpZZEw7u1tvR2B6Hq0GJf4EFzyu9opZib4+R08v3WR2XB/fY8IzaFIFrqXUSFmse
-	kbfs6tOXyihRhRxVglAseVBjQC5J11E04XUhaPk72g83Rjv4zwGqCMMrdH0K7ibSOQtZ
-	Tjgmpm5pl0L5IHsw8v/1kUUY/u0mpcRvglZEgsOWud2nGzWPFVBj2QeR5D9Pps+tD+1b
-	Z0KEUgLtkaf7iGY0LffUFnWYcQkB6P79h2Vetop6AXE6DVhLb4eB69QxbJQlJNVPpTMR
-	zjyw==
-X-Gm-Message-State: APjAAAXumxGX/lb4VobyNTmEVqU8B2ogTYL6vsytXxOTZ6c/7nCxAWKG
-	oPxf7TLLz2VS7jz4SyDn9FW4CnVxhSTfWYFq4OI=
-X-Google-Smtp-Source: APXvYqxEdUmed+ud6YhE2tyQYZ7lNjW+6Et+HcUS8TSsXTgwVn7pcosiX/Vjs7eeBTmeh7EvSlf3VAocKVinYrQy4kY=
-X-Received: by 2002:a17:907:20cd:: with SMTP id
-	qq13mr31690070ejb.170.1558330354254; 
-	Sun, 19 May 2019 22:32:34 -0700 (PDT)
+	(envelope-from <dgibson@ozlabs.org>) id 1hSbQz-0006ue-AD
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 02:06:06 -0400
+Received: from ozlabs.org ([203.11.71.1]:47891)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+	id 1hSbQy-0006sU-Mg; Mon, 20 May 2019 02:06:05 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+	id 456pKt0rXMz9s55; Mon, 20 May 2019 16:05:53 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=gibson.dropbear.id.au; s=201602; t=1558332354;
+	bh=9r1zGHJiVLpWj+TD4N6+mrGb75sB6qRylVLGTJPV4mQ=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=RqxMp0u0Wk9Zw48qZIBZm0YXSCCVjU7gdHa6X0t1/fUqgKhOwnUtcWfJnhP58ZUbl
+	FgG8LTcvKpnghbTGGKONqcAjgkTgxD/XaGcmqEJ7VAbo749Q6pmI48Fu3FzF/AOlYJ
+	t/gdFzPTDZ1a/szgTl3IHQwccrZBF+p/Z1c5Wudo=
+Date: Mon, 20 May 2019 15:56:31 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <20190520055630.GA20828@umbus.fritz.box>
+References: <20190518191430.21686-1-richard.henderson@linaro.org>
+	<20190520040142.GA27407@umbus.fritz.box>
 MIME-Version: 1.0
-References: <20190502081554.5521-1-arilou@gmail.com>
-	<20190502081554.5521-21-arilou@gmail.com>
-	<87ef4zmy7b.fsf@zen.linaroharston>
-In-Reply-To: <87ef4zmy7b.fsf@zen.linaroharston>
-From: Jon Doron <arilou@gmail.com>
-Date: Mon, 20 May 2019 08:32:23 +0300
-Message-ID: <CAP7QCohHS+VvbvZENPeuvfVc=TNtvwoiA+6dgZO4XoZs4skXuw@mail.gmail.com>
-To: =?UTF-8?B?QWxleCBCZW5uw6ll?= <alex.bennee@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::543
-Subject: Re: [Qemu-devel] [PATCH v9 20/27] gdbstub: Implement target halted
- (? pkt) with new infra
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="SUOF0GtieIMvvwua"
+Content-Disposition: inline
+In-Reply-To: <20190520040142.GA27407@umbus.fritz.box>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 203.11.71.1
+Subject: Re: [Qemu-devel] [PATCH 0/2] target/ppc: make use of new gvec
+ expanders
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -76,97 +56,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU <qemu-devel@nongnu.org>
+Cc: mark.cave-ayland@ilande.co.uk, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 15, 2019 at 8:20 PM Alex Benn=C3=A9e <alex.bennee@linaro.org> w=
-rote:
->
->
-> Jon Doron <arilou@gmail.com> writes:
->
-> > Signed-off-by: Jon Doron <arilou@gmail.com>
-> > ---
-> >  gdbstub.c | 36 ++++++++++++++++++++++++++----------
-> >  1 file changed, 26 insertions(+), 10 deletions(-)
-> >
-> > diff --git a/gdbstub.c b/gdbstub.c
-> > index 2fd0d66f4d..d678191705 100644
-> > --- a/gdbstub.c
-> > +++ b/gdbstub.c
-> > @@ -2239,13 +2239,30 @@ static void handle_gen_set(GdbCmdContext *gdb_c=
-tx, void *user_ctx)
-> >      put_packet(gdb_ctx->s, "");
-> >  }
-> >
-> > +static void handle_target_halt(GdbCmdContext *gdb_ctx, void *user_ctx)
-> > +{
-> > +    char thread_id[16];
-> > +
-> > +    /* TODO: Make this return the correct value for user-mode.  */
->
-> Can this be cleaned up as we convert?
->
 
-To be honest i have no idea what the "correct value" is or how to get
-it, can you tell me what it should be and ill add it to the patch?
+--SUOF0GtieIMvvwua
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> > +    gdb_fmt_thread_id(gdb_ctx->s, gdb_ctx->s->c_cpu, thread_id,
-> > +                      sizeof(thread_id));
-> > +    snprintf(gdb_ctx->str_buf, sizeof(gdb_ctx->str_buf), "T%02xthread:=
-%s;",
-> > +             GDB_SIGNAL_TRAP, thread_id);
-> > +    put_packet(gdb_ctx->s, gdb_ctx->str_buf);
-> > +    /*
-> > +     * Remove all the breakpoints when this query is issued,
-> > +     * because gdb is doing and initial connect and the state
->
-> s/and/an/
->
-> > +     * should be cleaned up.
-> > +     */
-> > +    gdb_breakpoint_remove_all();
-> > +}
-> > +
-> >  static int gdb_handle_packet(GDBState *s, const char *line_buf)
-> >  {
-> >      const char *p;
-> >      int ch;
-> >      uint8_t mem_buf[MAX_PACKET_LENGTH];
-> >      char buf[sizeof(mem_buf) + 1 /* trailing NUL */];
-> > -    char thread_id[16];
-> >      const GdbCmdParseEntry *cmd_parser =3D NULL;
-> >
-> >      trace_gdbstub_io_command(line_buf);
-> > @@ -2257,15 +2274,14 @@ static int gdb_handle_packet(GDBState *s, const=
- char *line_buf)
-> >          put_packet(s, "OK");
-> >          break;
-> >      case '?':
-> > -        /* TODO: Make this return the correct value for user-mode.  */
-> > -        snprintf(buf, sizeof(buf), "T%02xthread:%s;", GDB_SIGNAL_TRAP,
-> > -                 gdb_fmt_thread_id(s, s->c_cpu, thread_id, sizeof(thre=
-ad_id)));
-> > -        put_packet(s, buf);
-> > -        /* Remove all the breakpoints when this query is issued,
-> > -         * because gdb is doing and initial connect and the state
-> > -         * should be cleaned up.
-> > -         */
-> > -        gdb_breakpoint_remove_all();
-> > +        {
-> > +            static const GdbCmdParseEntry target_halted_cmd_desc =3D {
-> > +                .handler =3D handle_target_halt,
-> > +                .cmd =3D "?",
-> > +                .cmd_startswith =3D 1
-> > +            };
-> > +            cmd_parser =3D &target_halted_cmd_desc;
-> > +        }
-> >          break;
-> >      case 'c':
-> >          {
->
->
-> --
-> Alex Benn=C3=A9e
+On Mon, May 20, 2019 at 02:01:42PM +1000, David Gibson wrote:
+> On Sat, May 18, 2019 at 12:14:28PM -0700, Richard Henderson wrote:
+> > Based-on: <20190518190157.21255-1-richard.henderson@linaro.org>
+> > Aka "tcg: misc gvec improvements".
+> >=20
+> > Since Mark's initial patches, we've added (or are adding)
+> > generic support for variable vector shifts and bitsel.
+>=20
+> Applied, thanks.
+
+Urgh.. actually, I've removed 2/2 again.  I get this error:
+
+In file included from /home/dwg/src/qemu/target/ppc/translate.c:6819:
+/home/dwg/src/qemu/target/ppc/translate/vsx-impl.inc.c: In function =E2=80=
+=98gen_xxsel=E2=80=99:
+/home/dwg/src/qemu/target/ppc/translate/vsx-impl.inc.c:1352:5: error: impli=
+cit declaration of function =E2=80=98tcg_gen_gvec_bitsel=E2=80=99; did you =
+mean =E2=80=98tcg_gen_gvec_2i_ool=E2=80=99? [-Werror=3Dimplicit-function-de=
+claration]
+ 1352 |     tcg_gen_gvec_bitsel(MO_64, vsr_full_offset(rt), vsr_full_offset=
+(rc),
+      |     ^~~~~~~~~~~~~~~~~~~
+      |     tcg_gen_gvec_2i_ool
+/home/dwg/src/qemu/target/ppc/translate/vsx-impl.inc.c:1352:5: error: neste=
+d extern declaration of =E2=80=98tcg_gen_gvec_bitsel=E2=80=99 [-Werror=3Dne=
+sted-externs]
+cc1: all warnings being treated as errors
+
+
+>=20
+> >=20
+> >=20
+> > r~
+> >=20
+> >=20
+> > Richard Henderson (2):
+> >   target/ppc: Use vector variable shifts for VSL, VSR, VSRA
+> >   target/ppc: Use tcg_gen_gvec_bitsel
+> >=20
+> >  target/ppc/helper.h                 | 12 ----------
+> >  target/ppc/int_helper.c             | 37 -----------------------------
+> >  target/ppc/translate/vmx-impl.inc.c | 24 +++++++++----------
+> >  target/ppc/translate/vsx-impl.inc.c | 24 ++-----------------
+> >  4 files changed, 14 insertions(+), 83 deletions(-)
+> >=20
+>=20
+
+
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--SUOF0GtieIMvvwua
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlziQYwACgkQbDjKyiDZ
+s5LZERAAp+6UCZSVRQ4sOqhwh36WoUMizk4/rAganyl8naAjhF+m4rYOq8R2sEtu
+L84xwQYDzBJ1pgmpAPOt7ruQKO5w7lHYSbs5Uq0cu6MSWrK+gNnxByzQVvx6BY9Y
+1PSvVNUyjN1H3JOjlHrL3qty29NYk3T3dh10wcewDE1j42ORFvb21HdfW2ETsYcr
+tB+U9miq+q95BweIpVUPfbnMAZlpFfLXlzaYicKYaYWbj6zqEsmtppNy+8qgpPzp
+bs94/tmW+APCyp6Usmu+qWvyn3+iVuWRGxcOD/xyW76r+4EzGtf5jvaGiPxFk8Ew
+dDBmK5GPm4f1kEmvDQsQD6sYB0oa+2rJK8Ge8+2b1MLS8y++ZoFm6B1LNcHVDb9J
+JLWaLBCbTJHI/JETMJyFUPTWiVEpWwJeoHYkjYN5r2OoPzqKFjg0rLBz2Ay5H4YF
+IQoQnLPF/KoGpgr0BMirlkWudRWSXgK1FwPICBzzftOfvmAEIRfTAQmaMwlmyqyF
+3e3H+eawU4/8ZQznwu0LyFRcMwf2vgRiuP3Q4V8sWcT7bSrQJnltlqDo1G7kfQsx
+q392BPL7bgL9uNam3DtESf9lmKGY4Nhu7Zo7Cpjjz3JgtqyUakDxXrueDIHYLQ/8
+5R7l1XaLa91jovyxropA9fhq1/OYgkw3nn4vn63lyJIr8GnzzjU=
+=FQ3K
+-----END PGP SIGNATURE-----
+
+--SUOF0GtieIMvvwua--
 
