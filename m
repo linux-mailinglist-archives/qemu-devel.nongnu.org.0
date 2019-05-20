@@ -2,72 +2,74 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9A06A24356
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 00:08:30 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:42689 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8298D24357
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 00:08:33 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:42691 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSqSL-00037p-Na
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 18:08:29 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34424)
+	id 1hSqSO-0003AV-L7
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 18:08:32 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34427)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <philippe.mathieu.daude@gmail.com>)
-	id 1hSqQa-00024i-49
+	id 1hSqQa-00024l-CX
 	for qemu-devel@nongnu.org; Mon, 20 May 2019 18:06:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
 	(envelope-from <philippe.mathieu.daude@gmail.com>)
-	id 1hSqQZ-0007wH-6h
+	id 1hSqQZ-0007wZ-Hg
 	for qemu-devel@nongnu.org; Mon, 20 May 2019 18:06:40 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:53754)
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:40762)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
-	id 1hSqQY-0007vA-Uv; Mon, 20 May 2019 18:06:39 -0400
-Received: by mail-wm1-x344.google.com with SMTP id 198so850380wme.3;
-	Mon, 20 May 2019 15:06:38 -0700 (PDT)
+	id 1hSqQZ-0007vu-Ba; Mon, 20 May 2019 18:06:39 -0400
+Received: by mail-wr1-x444.google.com with SMTP id f10so850220wre.7;
+	Mon, 20 May 2019 15:06:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=sender:from:to:cc:subject:date:message-id:mime-version
-	:content-transfer-encoding;
-	bh=KlpNHL/v/anaIc9onQH5hEjQJXL2cVxWwbCFEtiFDL4=;
-	b=EvL+4maH6NdCRhulb/0UYtPdOYZZDaZfxAX2LslCQXT+V4ofkomGfZLd5AEEQnjpYD
-	DEqp9hjJDSIFRtxGQbatIHi2BNpy86Fm/8W0FXxG/+gfMsTVPufWiu57w+mqJxZldSI+
-	fbcEu+Ika0w8wDEmLey4bGh1C7vCMtP16Dy5hgviqJ/Y6P1iFf5MvyQGIgYPczwi3AYC
-	wFHemrv4g9VZCrlYZU2BWwfvVnL6WwYDZNnzMzM+TBmB6pc3Qpee/5QAhFN7obXpCYFi
-	T50kdg/lPFvxO/Piw6cUSj5LLwPrpQxutTo/aJZ+5jLS408ueJjrjLxvlr5g6ux5ZqPw
-	YVLw==
+	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
+	:mime-version:content-transfer-encoding;
+	bh=BJpTOa9I9iAAGoqiRWwnp8ZjNrCFVt/LqLntdOkI0yA=;
+	b=l07XlAj+KcfoCuTH/JfIrjm7/oO7HzyEN7lWZ9O5aUJw6dR8y+FG+FwGlP3DEeKkVx
+	Bxzv0N/6tCxGzcc6Bw2X//IXe3axkfR2iXufrYgEjQolvkgby9P9BHfAjrJyOgFK4Es1
+	3HrIxxLrxaJCiIPZVqL1J+qCXvZ3O2uHiuDqfU/czgN+wTcFz9wz9VobXBRH413zFdow
+	+AH2vQ2b56y601i5XbpAdpMIyTzKdXB7by9HjvyoocryXqXE2yjMC5OOjA+kou3YNUeW
+	drE5R08Ri6WrnIz8M43gbvko/IBCPDelrst1mZcZnopLsbO3sf2dQtshDQBRxVpV6xyW
+	y/bg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-	:mime-version:content-transfer-encoding;
-	bh=KlpNHL/v/anaIc9onQH5hEjQJXL2cVxWwbCFEtiFDL4=;
-	b=oev1PHXhnhjqRDSLOrh+pYIeeEcL6ASrRfeZTBtzwnCnTTqWgz/JD0bjlCPR2MyvjZ
-	mgDE2PGaGpSNZckR+EldIyr71Zq/fesCeSZ8gSGmpJXC1LeEgwplp/mh8LFNBKW0TJ8a
-	5nyDRbenwSNoZDagxIjYmubOfDWRw9xz0/AY1N1esijmgn9Dx+iLrnqf2qlrysRQKRQ/
-	olZZMaIzfNipd0QN5+Hc0OqXeDcaZ+qS5tzQy7cj6gS6RvQJjB9DUtLJx+HEHNXo+oKQ
-	ifUSNjrOaY2MFZuu7vTwWTau7AGqTpyBVCCCl/3d8ZLenPK9mMVDMjpmdRMEB9xmEl2U
-	VGWg==
-X-Gm-Message-State: APjAAAXB+S/9W0Z3Ru+ahxLRwcCirYbgUqpcMNConZdFChDvkROsZzu5
-	3vETU/i3d8QGjGadT780xohmz0nwRds=
-X-Google-Smtp-Source: APXvYqykrTAg3nxqmTY5YPctg2QIDAA/FezuZEcO4hVFDAB4sgi9RdDpCOvPkoL+bKi7NHhjmxeNzw==
-X-Received: by 2002:a1c:9a83:: with SMTP id c125mr807121wme.39.1558389996959; 
-	Mon, 20 May 2019 15:06:36 -0700 (PDT)
+	:in-reply-to:references:mime-version:content-transfer-encoding;
+	bh=BJpTOa9I9iAAGoqiRWwnp8ZjNrCFVt/LqLntdOkI0yA=;
+	b=LW15WR23ZTXwxGeb3VYxHUJsz3objvwkxUpnCH71T2lYArK6BaW+uckn12PH90yHmI
+	qb4aqKQlwM6xoF3L4gf4dKUsFJEsvGXcMINc8YFnjyvqgIJD4BNy9iMyrz5VqVyLhw0D
+	JQoSOLhBCRVwnpxixWIBILDxJQ01pVuzUmPIYXoGrCc4UV46RInZWPQkusvYoc7Q5lhz
+	2EyXDZ9QaL9sbyQodqxeffy2rnxc9tVxsDNdTjNSJxEzFalTkN61jODszPL0kF084kpE
+	mIf/nnCQsQ0xbPb2awVhQ/IzDNALBT4yphNGyN5MhszJLYBwD4CudybarIcSUtCYhIia
+	DYAg==
+X-Gm-Message-State: APjAAAUmk9H7jzUVy2Ymu8hAW9RA2G7JOB3pX1MyXog5RkM7nyzKAiVV
+	kTQ4TnFMgo/Su0Vhw1s/NUlTQyvz5rE=
+X-Google-Smtp-Source: APXvYqwdA0UAeKHmK26oy+f+VLqpFXGaEfYleaBA4lu9rjJRjXjlwoaVekOsrsZCdJWik4AeBgQjNQ==
+X-Received: by 2002:a5d:628d:: with SMTP id k13mr25898694wru.319.1558389998133;
+	Mon, 20 May 2019 15:06:38 -0700 (PDT)
 Received: from x1.local (228.red-83-52-173.dynamicip.rima-tde.net.
 	[83.52.173.228]) by smtp.gmail.com with ESMTPSA id
-	y40sm35462259wrd.96.2019.05.20.15.06.35
+	y40sm35462259wrd.96.2019.05.20.15.06.37
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 20 May 2019 15:06:36 -0700 (PDT)
+	Mon, 20 May 2019 15:06:37 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Date: Tue, 21 May 2019 00:06:33 +0200
-Message-Id: <20190520220635.10961-1-f4bug@amsat.org>
+Date: Tue, 21 May 2019 00:06:34 +0200
+Message-Id: <20190520220635.10961-2-f4bug@amsat.org>
 X-Mailer: git-send-email 2.19.1
+In-Reply-To: <20190520220635.10961-1-f4bug@amsat.org>
+References: <20190520220635.10961-1-f4bug@amsat.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::344
-Subject: [Qemu-devel] [PATCH 0/2] tests: Avocado-test for the SmartFusion2
- board
+X-Received-From: 2a00:1450:4864:20::444
+Subject: [Qemu-devel] [PATCH 1/2] BootLinuxConsoleTest: Do not log empty
+ lines
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -89,24 +91,30 @@ Cc: Peter Maydell <peter.maydell@linaro.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+Avoid to log empty lines in console debug logs.
 
-I added test guide lines from Subbaraya Sundeep [*] to avoid this
-board to bitrot.
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
+---
+ tests/acceptance/boot_linux_console.py | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-Regards,
-
-Phil.
-
-[*] https://lists.gnu.org/archive/html/qemu-devel/2017-05/msg03810.html
-
-Philippe Mathieu-Daudé (2):
-  BootLinuxConsoleTest: Do not log empty lines
-  BootLinuxConsoleTest: Test the SmartFusion2 board
-
- tests/acceptance/boot_linux_console.py | 33 ++++++++++++++++++++++++--
- 1 file changed, 31 insertions(+), 2 deletions(-)
-
+diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
+index d5c500ea30..f593f3858e 100644
+--- a/tests/acceptance/boot_linux_console.py
++++ b/tests/acceptance/boot_linux_console.py
+@@ -37,8 +37,10 @@ class BootLinuxConsole(Test):
+         console = self.vm.console_socket.makefile()
+         console_logger = logging.getLogger('console')
+         while True:
+-            msg = console.readline()
+-            console_logger.debug(msg.strip())
++            msg = console.readline().strip()
++            if not msg:
++                continue
++            console_logger.debug(msg)
+             if success_message in msg:
+                 break
+             if failure_message in msg:
 -- 
 2.19.1
 
