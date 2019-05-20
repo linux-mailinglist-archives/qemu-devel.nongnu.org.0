@@ -2,49 +2,96 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 731BB22BDC
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 08:07:50 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58496 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A96D922B95
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 07:59:14 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58395 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSbSf-0003Av-Kr
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 02:07:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46716)
+	id 1hSbKL-0000UR-Lc
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 01:59:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45700)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hSbR0-0002UI-Ce
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 02:06:07 -0400
+	(envelope-from <aravinda@linux.vnet.ibm.com>) id 1hSbJK-0000Cq-FB
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 01:58:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hSbQz-0006ue-AD
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 02:06:06 -0400
-Received: from ozlabs.org ([203.11.71.1]:47891)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
-	id 1hSbQy-0006sU-Mg; Mon, 20 May 2019 02:06:05 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
-	id 456pKt0rXMz9s55; Mon, 20 May 2019 16:05:53 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=gibson.dropbear.id.au; s=201602; t=1558332354;
-	bh=9r1zGHJiVLpWj+TD4N6+mrGb75sB6qRylVLGTJPV4mQ=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=RqxMp0u0Wk9Zw48qZIBZm0YXSCCVjU7gdHa6X0t1/fUqgKhOwnUtcWfJnhP58ZUbl
-	FgG8LTcvKpnghbTGGKONqcAjgkTgxD/XaGcmqEJ7VAbo749Q6pmI48Fu3FzF/AOlYJ
-	t/gdFzPTDZ1a/szgTl3IHQwccrZBF+p/Z1c5Wudo=
-Date: Mon, 20 May 2019 15:56:31 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Richard Henderson <richard.henderson@linaro.org>
-Message-ID: <20190520055630.GA20828@umbus.fritz.box>
-References: <20190518191430.21686-1-richard.henderson@linaro.org>
-	<20190520040142.GA27407@umbus.fritz.box>
+	(envelope-from <aravinda@linux.vnet.ibm.com>) id 1hSbJF-0000LR-CU
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 01:58:08 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:46028
+	helo=mx0a-001b2d01.pphosted.com)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <aravinda@linux.vnet.ibm.com>)
+	id 1hSbJF-0000Ek-4O
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 01:58:05 -0400
+Received: from pps.filterd (m0098417.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+	x4K5qxrs133091
+	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 01:57:59 -0400
+Received: from e31.co.us.ibm.com (e31.co.us.ibm.com [32.97.110.149])
+	by mx0a-001b2d01.pphosted.com with ESMTP id 2skp2x8xvf-1
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 01:57:58 -0400
+Received: from localhost
+	by e31.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+	Violators will be prosecuted
+	for <qemu-devel@nongnu.org> from <aravinda@linux.vnet.ibm.com>;
+	Mon, 20 May 2019 06:57:58 +0100
+Received: from b03cxnp07028.gho.boulder.ibm.com (9.17.130.15)
+	by e31.co.us.ibm.com (192.168.1.131) with IBM ESMTP SMTP Gateway:
+	Authorized Use Only! Violators will be prosecuted; 
+	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+	Mon, 20 May 2019 06:57:54 +0100
+Received: from b03ledav003.gho.boulder.ibm.com
+	(b03ledav003.gho.boulder.ibm.com [9.17.130.234])
+	by b03cxnp07028.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with
+	ESMTP id x4K5vr1F31916122
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=OK); Mon, 20 May 2019 05:57:53 GMT
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id BC2AC6A057;
+	Mon, 20 May 2019 05:57:53 +0000 (GMT)
+Received: from b03ledav003.gho.boulder.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 907306A054;
+	Mon, 20 May 2019 05:57:51 +0000 (GMT)
+Received: from [9.199.52.184] (unknown [9.199.52.184])
+	by b03ledav003.gho.boulder.ibm.com (Postfix) with ESMTP;
+	Mon, 20 May 2019 05:57:51 +0000 (GMT)
+To: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
+References: <155591636364.20338.844048953355207313.stgit@aravinda>
+	<155591662496.20338.3862565585716109724.stgit@aravinda>
+	<20190516125445.79d0ba34@bahia.lan>
+	<d087094a-6459-0eda-0fee-935cd3b5bdbc@linux.vnet.ibm.com>
+	<20190516141746.GB3005@work-vm>
+From: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
+Date: Mon, 20 May 2019 11:27:49 +0530
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.6.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="SUOF0GtieIMvvwua"
-Content-Disposition: inline
-In-Reply-To: <20190520040142.GA27407@umbus.fritz.box>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
-Subject: Re: [Qemu-devel] [PATCH 0/2] target/ppc: make use of new gvec
- expanders
+In-Reply-To: <20190516141746.GB3005@work-vm>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 19052005-8235-0000-0000-00000E9977DF
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00011128; HX=3.00000242; KW=3.00000007;
+	PH=3.00000004; SC=3.00000286; SDB=6.01205893; UDB=6.00633175;
+	IPR=6.00986851; 
+	MB=3.00026966; MTD=3.00000008; XFM=3.00000015; UTC=2019-05-20 05:57:57
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19052005-8236-0000-0000-000045A2B21A
+Message-Id: <3a8531a3-c6c6-3b99-7493-ff697434a31e@linux.vnet.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+	definitions=2019-05-20_03:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+	priorityscore=1501
+	malwarescore=0 suspectscore=2 phishscore=0 bulkscore=0 spamscore=0
+	clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+	mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+	scancount=1 engine=8.0.1-1810050000 definitions=main-1905200043
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.158.5
+Subject: Re: [Qemu-devel] [Qemu-ppc] [PATCH v8 6/6] migration: Block
+ migration while handling machine check
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -56,90 +103,169 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: mark.cave-ayland@ilande.co.uk, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: aik@au1.ibm.com, Greg Kurz <groug@kaod.org>, qemu-devel@nongnu.org,
+	paulus@ozlabs.org, qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---SUOF0GtieIMvvwua
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
 
-On Mon, May 20, 2019 at 02:01:42PM +1000, David Gibson wrote:
-> On Sat, May 18, 2019 at 12:14:28PM -0700, Richard Henderson wrote:
-> > Based-on: <20190518190157.21255-1-richard.henderson@linaro.org>
-> > Aka "tcg: misc gvec improvements".
-> >=20
-> > Since Mark's initial patches, we've added (or are adding)
-> > generic support for variable vector shifts and bitsel.
->=20
-> Applied, thanks.
+On Thursday 16 May 2019 07:47 PM, Dr. David Alan Gilbert wrote:
+> * Aravinda Prasad (aravinda@linux.vnet.ibm.com) wrote:
+>>
+>>
+>> On Thursday 16 May 2019 04:24 PM, Greg Kurz wrote:
+>>> On Mon, 22 Apr 2019 12:33:45 +0530
+>>> Aravinda Prasad <aravinda@linux.vnet.ibm.com> wrote:
+>>>
+>>>> Block VM migration requests until the machine check
+>>>> error handling is complete as (i) these errors are
+>>>> specific to the source hardware and is irrelevant on
+>>>> the target hardware, (ii) these errors cause data
+>>>> corruption and should be handled before migration.
+>>>>
+>>>> Signed-off-by: Aravinda Prasad <aravinda@linux.vnet.ibm.com>
+>>>> ---
+>>>>  hw/ppc/spapr_events.c  |   17 +++++++++++++++++
+>>>>  hw/ppc/spapr_rtas.c    |    4 ++++
+>>>>  include/hw/ppc/spapr.h |    3 +++
+>>>>  3 files changed, 24 insertions(+)
+>>>>
+>>>> diff --git a/hw/ppc/spapr_events.c b/hw/ppc/spapr_events.c
+>>>> index 4032db0..45b990c 100644
+>>>> --- a/hw/ppc/spapr_events.c
+>>>> +++ b/hw/ppc/spapr_events.c
+>>>> @@ -41,6 +41,7 @@
+>>>>  #include "qemu/bcd.h"
+>>>>  #include "hw/ppc/spapr_ovec.h"
+>>>>  #include <libfdt.h>
+>>>> +#include "migration/blocker.h"
+>>>>  
+>>>>  #define RTAS_LOG_VERSION_MASK                   0xff000000
+>>>>  #define   RTAS_LOG_VERSION_6                    0x06000000
+>>>> @@ -864,6 +865,22 @@ static void spapr_mce_dispatch_elog(PowerPCCPU *cpu, bool recovered)
+>>>>  void spapr_mce_req_event(PowerPCCPU *cpu, bool recovered)
+>>>>  {
+>>>>      SpaprMachineState *spapr = SPAPR_MACHINE(qdev_get_machine());
+>>>> +    int ret;
+>>>> +    Error *local_err = NULL;
+>>>> +
+>>>> +    error_setg(&spapr->migration_blocker,
+>>>> +            "Live migration not supported during machine check handling");
+>>>> +    ret = migrate_add_blocker(spapr->migration_blocker, &local_err);
+>>>
+>>> migrate_add_blocker() propagates the reason of the failure in local_err,
+>>> ie. because a migration is already in progress or --only-migratable was
+>>> passed on the QEMU command line, along with the error message passed in
+>>> the first argument. This means that...
+>>>
+>>>> +    if (ret < 0) {
+>>>> +        /*
+>>>> +         * We don't want to abort and let the migration to continue. In a
+>>>> +         * rare case, the machine check handler will run on the target
+>>>> +         * hardware. Though this is not preferable, it is better than aborting
+>>>> +         * the migration or killing the VM.
+>>>> +         */
+>>>> +        error_free(spapr->migration_blocker);
+>>>> +        fprintf(stderr, "Warning: Machine check during VM migration\n");
+>>>
+>>> ... you should just do:
+>>>
+>>>         error_report_err(local_err);
+>>>
+>>> This also takes care of freeing local_err which would be leaked otherwise.
+>>
+>> Sure. I am planning to use warn_report_err() as I don't want to abort.
+> 
+> I worry what the high level effect of this blocker will be.
+> Since failing hardware is a common reason for wanting to do a migrate
+> I worry that if the hardware is reporting lots of errors you might not
+> be able to migrate the VM to more solid hardware because of this
+> blocker.
 
-Urgh.. actually, I've removed 2/2 again.  I get this error:
+We handle two cases, (i) migration initiated during error handling which
+we block as we don't want to migrate when we are handling the error. For
+example, for memory errors, we need to take some actions like poisoning
+the page. If we allow migration during error handling, the handler may
+execute on the target host and may poison a clean page on the target.
+But, a migration retry will succeed, (ii) errors reported after
+migration is initiated: in such cases we let the migration continue
+without blocking/aborting.
 
-In file included from /home/dwg/src/qemu/target/ppc/translate.c:6819:
-/home/dwg/src/qemu/target/ppc/translate/vsx-impl.inc.c: In function =E2=80=
-=98gen_xxsel=E2=80=99:
-/home/dwg/src/qemu/target/ppc/translate/vsx-impl.inc.c:1352:5: error: impli=
-cit declaration of function =E2=80=98tcg_gen_gvec_bitsel=E2=80=99; did you =
-mean =E2=80=98tcg_gen_gvec_2i_ool=E2=80=99? [-Werror=3Dimplicit-function-de=
-claration]
- 1352 |     tcg_gen_gvec_bitsel(MO_64, vsr_full_offset(rt), vsr_full_offset=
-(rc),
-      |     ^~~~~~~~~~~~~~~~~~~
-      |     tcg_gen_gvec_2i_ool
-/home/dwg/src/qemu/target/ppc/translate/vsx-impl.inc.c:1352:5: error: neste=
-d extern declaration of =E2=80=98tcg_gen_gvec_bitsel=E2=80=99 [-Werror=3Dne=
-sted-externs]
-cc1: all warnings being treated as errors
+This is because memory errors are not very frequent, but are still
+important to handle as it can cause data corruption. However, if the
+hardware is reporting lots of errors, then the chances of host itself
+crashing is very high.
 
+> 
+> Dave
+> 
+>> Regards,
+>> Aravinda
+>>
+>>>
+>>>> +    }
+>>>>  
+>>>>      while (spapr->mc_status != -1) {
+>>>>          /*
+>>>> diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
+>>>> index 997cf19..1229a0e 100644
+>>>> --- a/hw/ppc/spapr_rtas.c
+>>>> +++ b/hw/ppc/spapr_rtas.c
+>>>> @@ -50,6 +50,7 @@
+>>>>  #include "target/ppc/mmu-hash64.h"
+>>>>  #include "target/ppc/mmu-book3s-v3.h"
+>>>>  #include "kvm_ppc.h"
+>>>> +#include "migration/blocker.h"
+>>>>  
+>>>>  static void rtas_display_character(PowerPCCPU *cpu, SpaprMachineState *spapr,
+>>>>                                     uint32_t token, uint32_t nargs,
+>>>> @@ -396,6 +397,9 @@ static void rtas_ibm_nmi_interlock(PowerPCCPU *cpu,
+>>>>          spapr->mc_status = -1;
+>>>>          qemu_cond_signal(&spapr->mc_delivery_cond);
+>>>>          rtas_st(rets, 0, RTAS_OUT_SUCCESS);
+>>>> +        migrate_del_blocker(spapr->migration_blocker);
+>>>> +        error_free(spapr->migration_blocker);
+>>>> +        spapr->migration_blocker = NULL;
+>>>>      }
+>>>>  }
+>>>>  
+>>>> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+>>>> index 9d16ad1..dda5fd2 100644
+>>>> --- a/include/hw/ppc/spapr.h
+>>>> +++ b/include/hw/ppc/spapr.h
+>>>> @@ -10,6 +10,7 @@
+>>>>  #include "hw/ppc/spapr_irq.h"
+>>>>  #include "hw/ppc/spapr_xive.h"  /* For SpaprXive */
+>>>>  #include "hw/ppc/xics.h"        /* For ICSState */
+>>>> +#include "qapi/error.h"
+>>>>  
+>>>>  struct SpaprVioBus;
+>>>>  struct SpaprPhbState;
+>>>> @@ -213,6 +214,8 @@ struct SpaprMachineState {
+>>>>      SpaprCapabilities def, eff, mig;
+>>>>  
+>>>>      unsigned gpu_numa_id;
+>>>> +
+>>>> +    Error *migration_blocker;
+>>>>  };
+>>>>  
+>>>>  #define H_SUCCESS         0
+>>>>
+>>>>
+>>>
+>>
+>> -- 
+>> Regards,
+>> Aravinda
+>>
+>>
+> --
+> Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+> 
 
->=20
-> >=20
-> >=20
-> > r~
-> >=20
-> >=20
-> > Richard Henderson (2):
-> >   target/ppc: Use vector variable shifts for VSL, VSR, VSRA
-> >   target/ppc: Use tcg_gen_gvec_bitsel
-> >=20
-> >  target/ppc/helper.h                 | 12 ----------
-> >  target/ppc/int_helper.c             | 37 -----------------------------
-> >  target/ppc/translate/vmx-impl.inc.c | 24 +++++++++----------
-> >  target/ppc/translate/vsx-impl.inc.c | 24 ++-----------------
-> >  4 files changed, 14 insertions(+), 83 deletions(-)
-> >=20
->=20
+-- 
+Regards,
+Aravinda
 
-
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---SUOF0GtieIMvvwua
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlziQYwACgkQbDjKyiDZ
-s5LZERAAp+6UCZSVRQ4sOqhwh36WoUMizk4/rAganyl8naAjhF+m4rYOq8R2sEtu
-L84xwQYDzBJ1pgmpAPOt7ruQKO5w7lHYSbs5Uq0cu6MSWrK+gNnxByzQVvx6BY9Y
-1PSvVNUyjN1H3JOjlHrL3qty29NYk3T3dh10wcewDE1j42ORFvb21HdfW2ETsYcr
-tB+U9miq+q95BweIpVUPfbnMAZlpFfLXlzaYicKYaYWbj6zqEsmtppNy+8qgpPzp
-bs94/tmW+APCyp6Usmu+qWvyn3+iVuWRGxcOD/xyW76r+4EzGtf5jvaGiPxFk8Ew
-dDBmK5GPm4f1kEmvDQsQD6sYB0oa+2rJK8Ge8+2b1MLS8y++ZoFm6B1LNcHVDb9J
-JLWaLBCbTJHI/JETMJyFUPTWiVEpWwJeoHYkjYN5r2OoPzqKFjg0rLBz2Ay5H4YF
-IQoQnLPF/KoGpgr0BMirlkWudRWSXgK1FwPICBzzftOfvmAEIRfTAQmaMwlmyqyF
-3e3H+eawU4/8ZQznwu0LyFRcMwf2vgRiuP3Q4V8sWcT7bSrQJnltlqDo1G7kfQsx
-q392BPL7bgL9uNam3DtESf9lmKGY4Nhu7Zo7Cpjjz3JgtqyUakDxXrueDIHYLQ/8
-5R7l1XaLa91jovyxropA9fhq1/OYgkw3nn4vn63lyJIr8GnzzjU=
-=FQ3K
------END PGP SIGNATURE-----
-
---SUOF0GtieIMvvwua--
 
