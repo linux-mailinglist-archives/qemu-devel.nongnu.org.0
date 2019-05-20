@@ -2,80 +2,94 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7400C23DB7
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 18:42:25 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38423 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A7AB23DC2
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 18:45:18 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38461 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSlMm-0004nQ-Fa
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 12:42:24 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43368)
+	id 1hSlPZ-00080n-Cw
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 12:45:17 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43970)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <eblake@redhat.com>) id 1hSlB1-0004nY-Od
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 12:30:16 -0400
+	(envelope-from <farman@linux.ibm.com>) id 1hSlCJ-0005oA-KT
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 12:31:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <eblake@redhat.com>) id 1hSlB0-00026j-Qv
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 12:30:15 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48964)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <eblake@redhat.com>) id 1hSlB0-00025F-Hi
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 12:30:14 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id C6FAF59442
-	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 16:30:08 +0000 (UTC)
-Received: from [10.3.116.56] (ovpn-116-56.phx2.redhat.com [10.3.116.56])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 70DA61017E33;
-	Mon, 20 May 2019 16:30:02 +0000 (UTC)
-To: Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org
-References: <20190520030839.6795-1-peterx@redhat.com>
-	<20190520030839.6795-14-peterx@redhat.com>
-From: Eric Blake <eblake@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
-	xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
-	xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
-	TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
-	GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
-	sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
-	AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
-	CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
-	RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
-	wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
-	Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
-	gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
-	pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
-	zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
-	pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
-	3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
-	NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
-	cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
-	SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
-	I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
-	mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
-	Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
-	2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <a9ca7154-d63d-c454-0474-d61c68d9e3ed@redhat.com>
-Date: Mon, 20 May 2019 11:30:01 -0500
+	(envelope-from <farman@linux.ibm.com>) id 1hSlCI-0002jU-Jy
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 12:31:35 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:45864)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <farman@linux.ibm.com>)
+	id 1hSlCI-0002ip-8Q
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 12:31:34 -0400
+Received: from pps.filterd (m0098410.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+	x4KGR1nl042366
+	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 12:31:33 -0400
+Received: from e12.ny.us.ibm.com (e12.ny.us.ibm.com [129.33.205.202])
+	by mx0a-001b2d01.pphosted.com with ESMTP id 2skx7fckbe-1
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 12:31:32 -0400
+Received: from localhost
+	by e12.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+	Violators will be prosecuted
+	for <qemu-devel@nongnu.org> from <farman@linux.ibm.com>;
+	Mon, 20 May 2019 17:31:31 +0100
+Received: from b01cxnp22033.gho.pok.ibm.com (9.57.198.23)
+	by e12.ny.us.ibm.com (146.89.104.199) with IBM ESMTP SMTP Gateway:
+	Authorized Use Only! Violators will be prosecuted; 
+	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+	Mon, 20 May 2019 17:31:29 +0100
+Received: from b01ledav004.gho.pok.ibm.com (b01ledav004.gho.pok.ibm.com
+	[9.57.199.109])
+	by b01cxnp22033.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+	x4KGUDYu35913820
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=OK); Mon, 20 May 2019 16:30:13 GMT
+Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 64DD711206B;
+	Mon, 20 May 2019 16:30:13 +0000 (GMT)
+Received: from b01ledav004.gho.pok.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id EC8AD112062;
+	Mon, 20 May 2019 16:30:12 +0000 (GMT)
+Received: from [9.80.203.191] (unknown [9.80.203.191])
+	by b01ledav004.gho.pok.ibm.com (Postfix) with ESMTP;
+	Mon, 20 May 2019 16:30:12 +0000 (GMT)
+To: Cornelia Huck <cohuck@redhat.com>, Halil Pasic <pasic@linux.ibm.com>,
+	Farhan Ali <alifm@linux.ibm.com>, Pierre Morel <pmorel@linux.ibm.com>
+References: <20190507154733.28604-1-cohuck@redhat.com>
+	<20190507154733.28604-3-cohuck@redhat.com>
+	<20190520104200.391da02a.cohuck@redhat.com>
+From: Eric Farman <farman@linux.ibm.com>
+Date: Mon, 20 May 2019 12:30:12 -0400
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190520030839.6795-14-peterx@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature";
-	boundary="2ic0y8M0XwjDf5CiwPOpv5XqcLCksopA9"
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.39]);
-	Mon, 20 May 2019 16:30:08 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PATCH v2 13/15] qmp: Expose
- manual_dirty_log_protect via "query-kvm"
+In-Reply-To: <20190520104200.391da02a.cohuck@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-TM-AS-GCONF: 00
+x-cbid: 19052016-0060-0000-0000-000003429696
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00011131; HX=3.00000242; KW=3.00000007;
+	PH=3.00000004; SC=3.00000286; SDB=6.01206104; UDB=6.00633302;
+	IPR=6.00987063; 
+	MB=3.00026973; MTD=3.00000008; XFM=3.00000015; UTC=2019-05-20 16:31:30
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19052016-0061-0000-0000-0000496B1648
+Message-Id: <706e4eca-8230-8e2e-600c-ed631b0d338c@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+	definitions=2019-05-20_07:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+	priorityscore=1501
+	malwarescore=0 suspectscore=0 phishscore=0 bulkscore=0 spamscore=0
+	clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+	mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
+	scancount=1 engine=8.0.1-1810050000 definitions=main-1905200106
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.156.1
+Subject: Re: [Qemu-devel] [PATCH v4 2/2] vfio-ccw: support async command
+ subregion
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -87,100 +101,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
-	"Dr . David Alan Gilbert" <dgilbert@redhat.com>,
-	Juan Quintela <quintela@redhat.com>
+Cc: qemu-s390x@nongnu.org, Alex Williamson <alex.williamson@redhat.com>,
+	qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---2ic0y8M0XwjDf5CiwPOpv5XqcLCksopA9
-From: Eric Blake <eblake@redhat.com>
-To: Peter Xu <peterx@redhat.com>, qemu-devel@nongnu.org
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
- "Dr . David Alan Gilbert" <dgilbert@redhat.com>,
- Juan Quintela <quintela@redhat.com>
-Message-ID: <a9ca7154-d63d-c454-0474-d61c68d9e3ed@redhat.com>
-Subject: Re: [Qemu-devel] [PATCH v2 13/15] qmp: Expose
- manual_dirty_log_protect via "query-kvm"
-References: <20190520030839.6795-1-peterx@redhat.com>
- <20190520030839.6795-14-peterx@redhat.com>
-In-Reply-To: <20190520030839.6795-14-peterx@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
-
-On 5/19/19 10:08 PM, Peter Xu wrote:
-> Expose the new capability via "query-kvm" QMP command too so we know
-> whether that's turned on on the source VM when we want.
->=20
-> Signed-off-by: Peter Xu <peterx@redhat.com>
-> ---
->  accel/kvm/kvm-all.c  | 5 +++++
->  include/sysemu/kvm.h | 2 ++
->  qapi/misc.json       | 6 +++++-
->  qmp.c                | 1 +
->  4 files changed, 13 insertions(+), 1 deletion(-)
->=20
-
-> +++ b/qapi/misc.json
-> @@ -253,9 +253,13 @@
->  #
->  # @present: true if KVM acceleration is built into this executable
->  #
-> +# @manual-dirty-log-protect: true if manual dirty log protect is enabl=
-ed
-> +#
-
-If we want this exposed (and Paolo is right that we might not), it needs
-'(since 4.1)' designation.
-
->  # Since: 0.14.0
->  ##
-> -{ 'struct': 'KvmInfo', 'data': {'enabled': 'bool', 'present': 'bool'} =
-}
-> +{ 'struct': 'KvmInfo', 'data':
-> +  {'enabled': 'bool', 'present': 'bool',
-> +   'manual-dirty-log-protect': 'bool' } }
-> =20
->  ##
->  # @query-kvm:
-> diff --git a/qmp.c b/qmp.c
-> index b92d62cd5f..047bef032e 100644
-> --- a/qmp.c
-> +++ b/qmp.c
-> @@ -73,6 +73,7 @@ KvmInfo *qmp_query_kvm(Error **errp)
-> =20
->      info->enabled =3D kvm_enabled();
->      info->present =3D kvm_available();
-> +    info->manual_dirty_log_protect =3D kvm_manual_dirty_log_protect_en=
-abled();
-> =20
->      return info;
->  }
->=20
-
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
 
 
---2ic0y8M0XwjDf5CiwPOpv5XqcLCksopA9
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+On 5/20/19 4:42 AM, Cornelia Huck wrote:
+> On Tue,  7 May 2019 17:47:33 +0200
+> Cornelia Huck <cohuck@redhat.com> wrote:
+> 
+>> A vfio-ccw device may provide an async command subregion for
+>> issuing halt/clear subchannel requests. If it is present, use
+>> it for sending halt/clear request to the device; if not, fall
+>> back to emulation (as done today).
+>>
+>> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+>> ---
+>>  hw/s390x/css.c              |  27 +++++++--
+>>  hw/vfio/ccw.c               | 110 +++++++++++++++++++++++++++++++++++-
+>>  include/hw/s390x/s390-ccw.h |   3 +
+>>  3 files changed, 134 insertions(+), 6 deletions(-)
+> 
+> Ping. I'd like to include this in my next QEMU pull request; any
+> comments?
 
------BEGIN PGP SIGNATURE-----
+Apologies, I was looking at this late last week and thought it'd all
+become clear over the weekend.  That didn't happen, so I've asked the
+only question I came up with.  :)
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlzi1gkACgkQp6FrSiUn
-Q2oQsAf9G0YS7R4kPsGquKG22jitDKwR57IPq6wllSSBLM4R1CGOEK/3x7PVq7wO
-SKGOZHk57YMJx9F51NI9GVlkZZRGsfI1fz0sigUTSQI1Ay0wndV45LbUtTWXVFkc
-LjS4gvTt1QB+x5kIwa2OmWx4aFwl8TEc84ubPI4sVUmQr2oLww7F2kGbUW74L3d8
-Xrs1kk8vgp3Z8zrDnLsES5voRRZLO1aNLfnDUilffpwFKmDgH4Nhc1s6MoSmifgx
-Gq0qSOcddiAnXqI9qon2rQjCgs74Vy9/ZH9pbtHTIT9IsVtaT2/E5cI5SOwwFu9W
-kHDqixVYBjuKZLX654ceXQ2bRnxbeg==
-=KLWR
------END PGP SIGNATURE-----
+ - Eric
 
---2ic0y8M0XwjDf5CiwPOpv5XqcLCksopA9--
+> 
+> (I already have a headers update queued.)
+> 
+
 
