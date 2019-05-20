@@ -2,74 +2,128 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 438D62435F
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 00:10:14 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:42709 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 48F602437B
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 00:34:05 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:42930 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSqU1-0004As-D6
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 18:10:13 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34451)
+	id 1hSqr5-0001pt-TK
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 18:34:03 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38405)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philippe.mathieu.daude@gmail.com>)
-	id 1hSqQc-00024v-04
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 18:06:43 -0400
+	(envelope-from <jsnow@redhat.com>) id 1hSqps-0001U3-AH
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 18:32:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philippe.mathieu.daude@gmail.com>)
-	id 1hSqQa-0007xT-RI
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 18:06:41 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:41300)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
-	id 1hSqQa-0007wy-Kk; Mon, 20 May 2019 18:06:40 -0400
-Received: by mail-wr1-x444.google.com with SMTP id g12so15977819wro.8;
-	Mon, 20 May 2019 15:06:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=RpBHMO/Gvr5r85Ip4+FKU+7BM1/SoeQOc8XHwm4/D0g=;
-	b=TSNh9kfK2W24a9/vQGROiYNRLUY5Bym/pTjTsuWSJTWNks9wAt6zTNxoGz1rlGJj25
-	dHy/ZUTUzuHq4UOZjaGXLM+o8X7CyKAZ2XyirfmbR9wSMPY0/becDhS8PJQDwGCeQrEd
-	j8P38uWwjwXxMRc2fWvuZIWsSCDeyyE87uz+06jxN5Du18SZky3dikem+bdsNrZBYmh0
-	5wV+nbhCN+knApE9WEKjQOPg8lHUseUO5FoZG0YmvtU+Xn2Q6aTsNzumhhUUKHmqFHjR
-	rq47KLccsXEwTb5cUIOPeQKQZD2JR4Nb4SxlPQffFlqsb5S6RnNd5td5ulAH/fxEzSeL
-	wpQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
-	:in-reply-to:references:mime-version:content-transfer-encoding;
-	bh=RpBHMO/Gvr5r85Ip4+FKU+7BM1/SoeQOc8XHwm4/D0g=;
-	b=AUvx+TwFPvSWt7fxIcbKzQ0mwDg4LNmG5Q8trElaWXnNBDx/MgsT0e3Cw9VQO9suda
-	RKoUa10G2phqu2mwHIN8Gw6sTG0i6ZcoQzYk6ZiyTGLnZ94lBTEwXxiy2doxb9YV37Xk
-	Q4r0ascD2nPIS7GfdcvlFGSyNkSS+eRkXdivD8oYOjCBb89R+WaQnVh4UiFAPl+JcfjP
-	v0yPlsSqIWQL5EjTL5laUTA0KeXFJXWPdsDp2OKgP3i9RtIWXctlEwk+JkrtJsFeaMkS
-	VGV7qg6+E09rKF30Q+05Kyo1UDJvixoCC2chmaN0YU7DM6zy13fSJog6uCskTO6OqAx+
-	NJXQ==
-X-Gm-Message-State: APjAAAW9+J+kfJR4xSYYkNO4fUNWeKxj94KbpTnyVq7++qlFQUiaGUAT
-	pLMiNOLeHs+n3Uj/rKb1vWWTy7c0fZg=
-X-Google-Smtp-Source: APXvYqzjcQRuNzXxvdxg6ptiMtc/NAmGolAko3ei6E4Z7Wf9NAvIKTj0RhKyt+Gf4fujcPmVSGZfEA==
-X-Received: by 2002:a5d:4211:: with SMTP id n17mr500695wrq.131.1558389999544; 
-	Mon, 20 May 2019 15:06:39 -0700 (PDT)
-Received: from x1.local (228.red-83-52-173.dynamicip.rima-tde.net.
-	[83.52.173.228]) by smtp.gmail.com with ESMTPSA id
-	y40sm35462259wrd.96.2019.05.20.15.06.38
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 20 May 2019 15:06:38 -0700 (PDT)
-From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
-To: qemu-devel@nongnu.org
-Date: Tue, 21 May 2019 00:06:35 +0200
-Message-Id: <20190520220635.10961-3-f4bug@amsat.org>
-X-Mailer: git-send-email 2.19.1
-In-Reply-To: <20190520220635.10961-1-f4bug@amsat.org>
-References: <20190520220635.10961-1-f4bug@amsat.org>
+	(envelope-from <jsnow@redhat.com>) id 1hSqpr-0004n0-8Q
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 18:32:48 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50756)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <jsnow@redhat.com>)
+	id 1hSqpp-0004jA-2s; Mon, 20 May 2019 18:32:45 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+	[10.5.11.12])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id C77E4C057E9F;
+	Mon, 20 May 2019 22:32:41 +0000 (UTC)
+Received: from [10.18.17.162] (dhcp-17-162.bos.redhat.com [10.18.17.162])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 0050C60BEC;
+	Mon, 20 May 2019 22:32:40 +0000 (UTC)
+To: qemu-block@nongnu.org, qemu-devel@nongnu.org
+References: <20190513150638.14622-1-jsnow@redhat.com>
+From: John Snow <jsnow@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
+	mQINBFTKefwBEAChvwqYC6saTzawbih87LqBYq0d5A8jXYXaiFMV/EvMSDqqY4EY6whXliNO
+	IYzhgrPEe7ZmPxbCSe4iMykjhwMh5byIHDoPGDU+FsQty2KXuoxto+ZdrP9gymAgmyqdk3aV
+	vzzmCa3cOppcqKvA0Kqr10UeX/z4OMVV390V+DVWUvzXpda45/Sxup57pk+hyY52wxxjIqef
+	rj8u5BN93s5uCVTus0oiVA6W+iXYzTvVDStMFVqnTxSxlpZoH5RGKvmoWV3uutByQyBPHW2U
+	1Y6n6iEZ9MlP3hcDqlo0S8jeP03HaD4gOqCuqLceWF5+2WyHzNfylpNMFVi+Hp0H/nSDtCvQ
+	ua7j+6Pt7q5rvqgHvRipkDDVsjqwasuNc3wyoHexrBeLU/iJBuDld5iLy+dHXoYMB3HmjMxj
+	3K5/8XhGrDx6BDFeO3HIpi3u2z1jniB7RtyVEtdupED6lqsDj0oSz9NxaOFZrS3Jf6z/kHIf
+	h42mM9Sx7+s4c07N2LieUxcfqhFTaa/voRibF4cmkBVUhOD1AKXNfhEsTvmcz9NbUchCkcvA
+	T9119CrsxfVsE7bXiGvdXnzyGLXdsoosjzwacKdOrVaDmN3Uy+SHiQXo6TlkSdV0XH2PUxTM
+	LsBFIO9qXO43Ai6J6iPAP/01l8fuZfpJE0/L/c25yyaND7xA3wARAQABtCpKb2huIFNub3cg
+	KEpvaG4gSHVzdG9uKSA8anNub3dAcmVkaGF0LmNvbT6JAlQEEwECAD4CGwMCHgECF4AFCwkI
+	BwMFFQoJCAsFFgIDAQAWIQT665cRoSz0dYEvGPKIqQZNGDVh6wUCXF392gUJC1Xq3gAKCRCI
+	qQZNGDVh6558D/9pM4pu4njX5aT6uUW3vAmbWLF1jfPxiTQgSHAnm9EBMZED/fsvkzj97clo
+	LN7JKmbYZNgJmR01A7flG45V4iOR/249qAfaVuD+ZzZi1R4jFzr13WS+IEdn0hYp9ITndb7R
+	ezW+HGu6/rP2PnfmDnNowgJu6Dp6IUEabq8SXXwGHXZPuMIrsXJxUdKJdGnh1o2u7271yNO7
+	J9PEMuMDsgjsdnaGtv7aQ9CECtXvBleAc06pLW2HU10r5wQyBMZGITemJdBhhdzGmbHAL0M6
+	vKi/bafHRWqfMqOAdDkv3Jg4arl2NCG/uNateR1z5e529+UlB4XVAQT+f5T/YyI65DFTY940
+	il3aZhA8u788jZEPMXmt94u7uPZbEYp7V0jt68SrTaOgO7NaXsboXFjwEa42Ug5lB5d5/Qdp
+	1AITUv0NJ51kKwhHL1dEagGeloIsGVQILmpS0MLdtitBHqZLsnJkRvtMaxo47giyBlv2ewmq
+	tIGTlVLxHx9xkc9aVepOuiGlZaZB72c9AvZs9rKaAjgU2UfJHlB/Hr4uSk/1EY0IgMv4vnsG
+	1sA5gvS7A4T4euu0PqHtn2sZEWDrk5RDbw0yIb53JYdXboLFmFXKzVASfKh2ZVeXRBlQQSJi
+	3PBR1GzzqORlfryby7mkY857xzCI2NkIkD2eq+HhzFTfFOTdGrkCDQRUynn8ARAAwbhP45BE
+	d/zAMBPV2dk2WwIwKRSKULElP3kXpcuiDWYQob3UODUUqClO+3aXVRndaNmZX9WbzGYexVo3
+	5j+CVBCGr3DlU8AL9pp3KQ3SJihWcDed1LSmUf8tS+10d6mdGxDqgnd/OWU214isvhgWZtZG
+	MM/Xj7cx5pERIiP+jqu7PT1cibcfcEKhPjYdyV1QnLtKNGrTg/UMKaL+qkWBUI/8uBoa0HLs
+	NH63bXsRtNAG8w6qG7iiueYZUIXKc4IHINUguqYQJVdSe+u8b2N5XNhDSEUhdlqFYraJvX6d
+	TjxMTW5lzVG2KjztfErRNSUmu2gezbw1/CV0ztniOKDA7mkQi6UIUDRh4LxRm5mflfKiCyDQ
+	L6P/jxHBxFv+sIgjuLrfNhIC1p3z9rvCh+idAVJgtHtYl8p6GAVrF+4xQV2zZH45tgmHo2+S
+	JsLPjXZtWVsWANpepXnesyabWtNAV4qQB7/SfC77zZwsVX0OOY2Qc+iohmXo8U7DgXVDgl/R
+	/5Qgfnlv0/3rOdMt6ZPy5LJr8D9LJmcP0RvX98jyoBOf06Q9QtEwJsNLCOCo2LKNL71DNjZr
+	nXEwjUH66CXiRXDbDKprt71BiSTitkFhGGU88XCtrp8R9yArXPf4MN+wNYBjfT7K29gWTzxt
+	9DYQIvEf69oZD5Z5qHYGp031E90AEQEAAYkCPAQYAQIAJgIbDBYhBPrrlxGhLPR1gS8Y8oip
+	Bk0YNWHrBQJcXf3JBQkLVerNAAoJEIipBk0YNWHrU1AP/1FOK2SBGbyhHa5vDHuf47fgLipC
+	e0/h1E0vdSonzlhPxuZoQ47FjzG9uOhqqQG6/PqtWs/FJIyz8aGG4aV+pSA/9Ko3/2ND8MSY
+	ZflWs7Y8Peg08Ro01GTHFITjEUgHpTpHiT6TNcZB5aZNJ8jqCtW5UlqvXXbVeSTmO70ZiVtc
+	vUJbpvSxYmzhFfZWaXIPcNcKWL1rnmnzs67lDhMLdkYVf91aml/XtyMUlfB8Iaejzud9Ht3r
+	C0pA9MG57pLblX7okEshxAC0+tUdY2vANWFeX0mgqRt1GSuG9XM9H/cKP1czfUV/FgaWo/Ya
+	fM4eMhUAlL/y+/AJxxumPhBXftM4yuiktp2JMezoIMJI9fmhjfWDw7+2jVrx9ze1joLakFD1
+	rVAoHxVJ7ORfQ4Ni/qWbQm3T6qQkSMt4N/scNsMczibdTPxU7qtwQwIeFOOc3wEwmJ9Qe3ox
+	TODQ0agXiWVj0OXYCHJ6MxTDswtyTGQW+nUHpKBgHGwUaR6d1kr/LK9+5LpOfRlK9VRfEu7D
+	PGNiRkr8Abp8jHsrBqQWfUS1bAf62bq6XUel0kUCtb7qCq024aOczXYWPFpJFX+nhp4d7NeH
+	Edq+wlC13sBSiSHC7T5yssJ+7JPa2ATLlSKhEvBsLe2TsSTTtFlA0nBclqhfJXzimiuge9qU
+	E40lvMWBuQINBFTKimUBEADDbJ+pQ5M4QBMWkaWImRj7c598xIZ37oKM6rGaSnuB1SVb7YCr
+	Ci2MTwQcrQscA2jm80O8VFqWk+/XsEp62dty47GVwSfdGje/3zv3VTH2KhOCKOq3oPP5ZXWY
+	rz2d2WnTvx++o6lU7HLHDEC3NGLYNLkL1lyVxLhnhvcMxkf1EGA1DboEcMgnJrNB1pGP27ww
+	cSfvdyPGseV+qZZa8kuViDga1oxmnYDxFKMGLxrClqHrRt8geQL1Wj5KFM5hFtGTK4da5lPn
+	wGNd6/CINMeCT2AWZY5ySz7/tSZe5F22vPvVZGoPgQicYWdNc3ap7+7IKP86JNjmec/9RJcz
+	jvrYjJdiqBVldXou72CtDydKVLVSKv8c2wBDJghYZitfYIaL8cTvQfUHRYTfo0n5KKSec8Vo
+	vjDuxmdbOUBA+SkRxqmneP5OxGoZ92VusrwWCjry8HRsNdR+2T+ClDCO6Wpihu4V3CPkQwTy
+	eCuMHPAT0ka5paTwLrnZIxsdfnjUa96T10vzmQgAxpbbiaLvgKJ8+76OPdDnhddyxd2ldYfw
+	RkF5PEGg3mqZnYKNNBtwjvX49SAvgETQvLzQ8IKVgZS0m4z9qHHvtc1BsQnFfe+LJOFjzZr7
+	CrDNJMqk1JTHYsSi2JcN3vY32WMezXSQ0TzeMK4kdnclSQyp/h23GWod5QARAQABiQRbBBgB
+	AgAmAhsCFiEE+uuXEaEs9HWBLxjyiKkGTRg1YesFAlxd/coFCQtV2mQCKcFdIAQZAQIABgUC
+	VMqKZQAKCRB974EGqvw5DiJoEACLmuiRq9ifvOh5DyBFwRS7gvA14DsGQngmC57EzV0EFcfM
+	XVi1jX5OtwUyUe0Az5r6lHyyHDsDsIpLKBlWrYCeLpUhRR3oy181T7UNxvujGFeTkzvLAOo6
+	Hs3b8Wv9ARg+7acRYkQRNY7k0GIJ6YZz149tRyRKAy/vSjsaB9Lt0NOd1wf2EQMKwRVELwJD
+	y0AazGn+0PRP7Bua2YbtxaBmhBBDb2tPpwn8U9xdckB4Vlft9lcWNsC/18Gi9bpjd9FSbdH/
+	sOUI+3ToWYENeoT4IP09wn6EkgWaJS3nAUN/MOycNej2i4Yhy2wDDSKyTAnVkSSSoXk+tK91
+	HfqtokbDanB8daP+K5LgoiWHzjfWzsxA2jKisI4YCGjrYQzTyGOT6P6u6SEeoEx10865B/zc
+	8/vN50kncdjYz2naacIDEKQNZlnGLsGkpCbfmfdi3Zg4vuWKNdWr0wGUzDUcpqW0y/lUXna+
+	6uyQShX5e4JD2UPuf9WAQ9HtgSAkaDd4O1I2J41sleePzZOVB3DmYgy+ECRJJ5nw3ihdxpgc
+	y/v3lfcJaqiyCv0PF+K/gSOvwhH7CbVqARmptT7yhhxqFdaYWo2Z2ksuKyoKSRMFCXQY5oac
+	uTmyPIT4STFyUQFeqSCWDum/NFNoSKhmItw2Td+4VSJHShRVbg39KNFPZ7mXYAkQiKkGTRg1
+	YesWJA/+PV3qDUtPNEGwjVvjQqHSbrBy94tu6gJvPHgGPtRDYvxnCaJsmgiC0pGB2KFRsnfl
+	2zBNBEWF/XwsI081jQE5UO60GKmHTputChLXpVobyuc+lroG2YhknXRBAV969SLnZR4BS/1s
+	Gi046gOXfaKYatve8BiZr5it5Foq3FMPDNgZMit1H9Dk8rkKFfDMRf8EGS/Z+TmyEsIf99H7
+	TH3n7lco8qO81fSFwkh4pvo2kWRFYTC5vsIVQ+GqVUp+W1DZJHxX8LwWuF1AzUt4MUTtNAvy
+	TXl5EgsmoY9mpNNL7ZnW65oG63nEP5KNiybvuQJzXVxR8eqzOh2Mod4nHg3PE7UCd3DvLNsn
+	GXFRo44WyT/G2lArBtjpkut7bDm0i1nENABy2UgS+1QvdmgNu6aEZxdNthwRjUhuuvCCDMA4
+	rCDQYyakH2tJNQgkXkeLodBKF4bHiBbuwj0E39S9wmGgg+q4OTnAO/yhQGknle7a7G5xHBwE
+	i0HjnLoJP5jDcoMTabZTIazXmJz3pKM11HYJ5/ZsTIf3ZRJJKIvXJpbmcAPVwTZII6XxiJdh
+	RSSX4Mvd5pL/+5WI6NTdW6DMfigTtdd85fe6PwBNVJL2ZvBfsBJZ5rxg1TOH3KLsYBqBTgW2
+	glQofxhkJhDEcvjLhe3Y2BlbCWKOmvM8XS9TRt0OwUs=
+Message-ID: <9395796e-c5f2-9df8-b6d6-2a6c1d5455d0@redhat.com>
+Date: Mon, 20 May 2019 18:32:40 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: [Qemu-devel] [PATCH 2/2] BootLinuxConsoleTest: Test the
- SmartFusion2 board
+In-Reply-To: <20190513150638.14622-1-jsnow@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.32]);
+	Mon, 20 May 2019 22:32:41 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v2] blockdev: fix missed target unref for
+ drive-backup
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -81,74 +135,25 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
-	Eduardo Habkost <ehabkost@redhat.com>,
-	Alistair Francis <alistair@alistair23.me>,
-	Caio Carrara <ccarrara@redhat.com>,
-	Subbaraya Sundeep <sundeep.lkml@gmail.com>, qemu-arm@nongnu.org,
-	Cleber Rosa <crosa@redhat.com>,
-	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, aihua liang <aliang@redhat.com>,
+	Markus Armbruster <armbru@redhat.com>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Similar to the x86_64/pc test, it boots a Linux kernel on an
-Emcraft board and verify the serial is working.
 
-If ARM is a target being built, "make check-acceptance" will
-automatically include this test by the use of the "arch:arm" tags.
 
-Alternatively, this test can be run using:
+On 5/13/19 11:06 AM, John Snow wrote:
+> If the bitmap can't be used for whatever reason, we skip putting down
+> the reference. Fix that.
+> 
+> In practice, this means that if you attempt to gracefully exit QEMU
+> after a backup command being rejected, bdrv_close_all will fail and
+> tell you some unpleasant things via assert().
+> 
+> Reported-by: aihua liang <aliang@redhat.com>
+> Fixes: https://bugzilla.redhat.com/show_bug.cgi?id=1703916
+> Signed-off-by: John Snow <jsnow@redhat.com>
+> Reviewed-by: Kevin Wolf <kwolf@redhat.com>
 
-  $ avocado run -t arch:arm tests/acceptance
-  $ avocado run -t machine:emcraft-sf2 tests/acceptance
-
-Based on the recommended test setup from Subbaraya Sundeep:
-https://lists.gnu.org/archive/html/qemu-devel/2017-05/msg03810.html
-
-Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
----
- tests/acceptance/boot_linux_console.py | 27 ++++++++++++++++++++++++++
- 1 file changed, 27 insertions(+)
-
-diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-index f593f3858e..844cb80bb5 100644
---- a/tests/acceptance/boot_linux_console.py
-+++ b/tests/acceptance/boot_linux_console.py
-@@ -178,6 +178,33 @@ class BootLinuxConsole(Test):
-         console_pattern = 'Kernel command line: %s' % kernel_command_line
-         self.wait_for_console_pattern(console_pattern)
- 
-+    def test_arm_emcraft_sf2(self):
-+        """
-+        :avocado: tags=arch:arm
-+        :avocado: tags=machine:emcraft-sf2
-+        :avocado: tags=endian:little
-+        """
-+        uboot_url = ('https://raw.githubusercontent.com/'
-+                     'Subbaraya-Sundeep/qemu-test-binaries/'
-+                     'fa030bd77a014a0b8e360d3b7011df89283a2f0b/u-boot')
-+        uboot_hash = 'abba5d9c24cdd2d49cdc2a8aa92976cf20737eff'
-+        uboot_path = self.fetch_asset(uboot_url, asset_hash=uboot_hash)
-+        spi_url = ('https://raw.githubusercontent.com/'
-+                   'Subbaraya-Sundeep/qemu-test-binaries/'
-+                   'fa030bd77a014a0b8e360d3b7011df89283a2f0b/spi.bin')
-+        spi_hash = '85f698329d38de63aea6e884a86fbde70890a78a'
-+        spi_path = self.fetch_asset(spi_url, asset_hash=spi_hash)
-+
-+        self.vm.set_machine('emcraft-sf2')
-+        self.vm.set_console()
-+        kernel_command_line = self.KERNEL_COMMON_COMMAND_LINE
-+        self.vm.add_args('-kernel', uboot_path,
-+                         '-append', kernel_command_line,
-+                         '-drive', 'file=' + spi_path + ',if=mtd,format=raw',
-+                         '-no-reboot')
-+        self.vm.launch()
-+        self.wait_for_console_pattern('init started: BusyBox')
-+
-     def test_s390x_s390_ccw_virtio(self):
-         """
-         :avocado: tags=arch:s390x
--- 
-2.19.1
-
+(I assume this can go through either Kevin or Max's tree?)
 
