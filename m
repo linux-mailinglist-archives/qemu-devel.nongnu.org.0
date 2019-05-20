@@ -2,53 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EB7D6237FB
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 15:27:19 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:35775 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3192123824
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 15:35:00 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:35848 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSiJy-0000Wk-IM
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 09:27:18 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53437)
+	id 1hSiRP-0002fF-B2
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 09:34:59 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:55120)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hSiIN-00080I-Us
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 09:25:40 -0400
+	(envelope-from <klaus@birkelund.eu>) id 1hSiPI-0001jT-5q
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 09:32:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hSiIM-0000Oj-VA
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 09:25:39 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45296)
+	(envelope-from <klaus@birkelund.eu>) id 1hSiPG-0004k0-8G
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 09:32:48 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:49652)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <kwolf@redhat.com>)
-	id 1hSiIJ-0000MW-QB; Mon, 20 May 2019 09:25:36 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id ED880C065135;
-	Mon, 20 May 2019 13:25:33 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-117-208.ams2.redhat.com
-	[10.36.117.208])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 903F25D719;
-	Mon, 20 May 2019 13:25:32 +0000 (UTC)
-Date: Mon, 20 May 2019 15:25:31 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Message-ID: <20190520132530.GF5699@localhost.localdomain>
-References: <20190515041541.12367-1-mreitz@redhat.com>
+	(Exim 4.71) (envelope-from <klaus@birkelund.eu>)
+	id 1hSiP6-0004ev-NU; Mon, 20 May 2019 09:32:37 -0400
+Received: from apples.localdomain (ip-5-186-120-196.cgn.fibianet.dk
+	[5.186.120.196])
+	by charlie.dont.surf (Postfix) with ESMTPSA id BE5FABF42F;
+	Mon, 20 May 2019 13:32:32 +0000 (UTC)
+Date: Mon, 20 May 2019 15:32:28 +0200
+From: Klaus Birkelund <klaus@birkelund.eu>
+To: Kevin Wolf <kwolf@redhat.com>
+Message-ID: <20190520133228.GA18526@apples.localdomain>
+Mail-Followup-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+	Keith Busch <keith.busch@intel.com>, Max Reitz <mreitz@redhat.com>,
+	qemu-devel@nongnu.org, armbru@redhat.com
+References: <20190517084234.26923-1-klaus@birkelund.eu>
+	<20190520130124.GE5699@localhost.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20190515041541.12367-1-mreitz@redhat.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.31]);
-	Mon, 20 May 2019 13:25:35 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20190520130124.GE5699@localhost.localdomain>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 0/2] block/file-posix: Fix unaligned
- O_DIRECT block status
+X-Received-From: 128.199.63.193
+Subject: Re: [Qemu-devel] [PATCH 0/8] nvme: v1.3, sgls,
+ metadata and new 'ocssd' device
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -60,45 +53,88 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, qemu-stable@nongnu.org
+Cc: Keith Busch <keith.busch@intel.com>, armbru@redhat.com,
+	qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 15.05.2019 um 06:15 hat Max Reitz geschrieben:
-> The user-visible problem:
-> $ echo > foo
-> $ qemu-img map --image-opts driver=3Dfile,filename=3Dfoo,cache.direct=3D=
-on
-> Offset          Length          Mapped to       File
-> qemu-img: block/io.c:2093: bdrv_co_block_status: Assertion `*pnum &&
-> QEMU_IS_ALIGNED(*pnum, align) && align > offset - aligned_offset'
-> failed.
->=20
-> The internal problem: file-posix truncates status requests to the EOF.
-> If the EOF is not aligned at the request_alignment,
-> bdrv_co_block_status() won't like that.
->=20
-> See patch 1 for a deeper discussion (including two possible alternative=
-s
-> how we could address the problem).
-> (As I note there, I=E2=80=99ve looked through all block drivers, and I =
-didn=E2=80=99t
-> find any other which could have the same problem.  gluster uses the sam=
-e
-> block-status code, but it doesn=E2=80=99t set a request_alignment.  NBD
-> force-aligns the server response in nbd_parse_blockstatus_payload().
-> qcow2... Should be fine as long as no crypto driver has a block limit
-> exceeding the qcow2 cluster size.  And so on.)
->=20
-> Patch 2 adds a test.  After writing that test, I noticed that we alread=
-y
-> had one: 109 fails with -c none before patch 1.  Er, well, at least the
-> new test is more succinct and has the correct default cache mode, so it
-> will actually do the test if you run ./check without enforcing any cach=
-e
-> on a filesystem that supports O_DIRECT.
+On Mon, May 20, 2019 at 03:01:24PM +0200, Kevin Wolf wrote:
+> Am 17.05.2019 um 10:42 hat Klaus Birkelund Jensen geschrieben:
+> > Hi,
+> > 
+> > This series of patches contains a number of refactorings to the emulated
+> > nvme device, adds additional features, such as support for metadata and
+> > scatter gather lists, and bumps the supported NVMe version to 1.3.
+> > Lastly, it contains a new 'ocssd' device.
+> > 
+> > The motivation for the first seven patches is to set everything up for
+> > the final patch that adds a new 'ocssd' device and associated block
+> > driver that implements the OpenChannel 2.0 specification[1]. Many of us
+> > in the OpenChannel comunity have used a qemu fork[2] for emulation of
+> > OpenChannel devices. The fork is itself based on Keith's qemu-nvme
+> > tree[3] and we recently merged mainline qemu into it, but the result is
+> > still a "hybrid" nvme device that supports both conventional nvme and
+> > the OCSSD 2.0 spec through a 'dialect' mechanism. Merging instead of
+> > rebasing also created a pretty messy commit history and my efforts to
+> > try and rebase our work onto mainline was getting hairy to say the
+> > least. And I was never really happy with the dialect approach anyway.
+> > 
+> > I have instead prepared this series of fresh patches that incrementally
+> > adds additional features to the nvme device to bring it into shape for
+> > finally introducing a new (and separate) 'ocssd' device that emulates an
+> > OpenChannel 2.0 device by reusing core functionality from the nvme
+> > device. Providing a separate ocssd device ensures that no ocssd specific
+> > stuff creeps into the nvme device.
+> > 
+> > The ocssd device is backed by a new 'ocssd' block driver that holds
+> > internal meta data and keeps state permanent across power cycles. In the
+> > future I think we could use the same approach for the nvme device to
+> > keep internal metadata such as utilization and deallocated blocks.
+> 
+> A backend driver that is specific for a guest device model (i.e. the
+> device model requires this driver, and the backend is useless without
+> the device) sounds like a very questionable design.
+> 
+> Metadata like OcssdFormatHeader that is considered part of the image
+> data, which means that the _actual_ image content without metadata isn't
+> directly accessible any more feels like a bad idea, too. Simple things
+> like what a resize operation means (change only the actual disk size as
+> usual, or is the new size disk + metadata?) become confusing. Attaching
+> an image to a different device becomes impossible.
+> 
+> The block format driver doesn't seem to actually add much functionality
+> to a specially crafted raw image: It provides a convenient way to create
+> such special images and it dumps some values in 'qemu-img info', but the
+> actual interpretation of the data is left to the device model.
+> 
+> Looking at the options it does provide, my impression is that these
+> should really be qdev properties, and the place to store them
+> persistently is something like the libvirt XML. The device doesn't
+> change any of the values, so there is nothing that QEMU actually needs
+> to store. What you invented is a one-off way to pass a config file to a
+> device, but only for one specific device type.
+> 
+> I think this needs to use a much more standard approach to be mergable.
+> 
+> Markus (CCed) as the maintainer for the configuration mechanisms may
+> have an opinion on this, too.
 
-Thanks, applied to the block branch.
+Hi Kevin,
 
-Kevin
+Thank you for going through my motivations. I see what you mean. And
+yes, the main reason I did it like that was for the convenience of being
+able to `qemu-img create`'ing the image. I'll reconsider how to do this.
+
+> 
+> > For now, the nvme device does not support the Deallocated and
+> > Unwritten Logical Block Error (DULBE) feature or the Data Set
+> > Management command as this would require such support.
+> 
+> Doesn't bdrv_co_block_status() provide all the information you need for
+> that?
+> 
+
+That does look useful. I'll look into it.
+
+Thanks!
 
