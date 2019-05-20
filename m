@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 84D6724448
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 01:25:11 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43506 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D2E33243F1
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 01:13:21 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43334 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSreY-0001fZ-HO
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 19:25:10 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44832)
+	id 1hSrT6-0000CG-QH
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 19:13:20 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44862)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hSrQc-00071n-S9
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:10:48 -0400
+	(envelope-from <mst@redhat.com>) id 1hSrQe-00071q-8P
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:10:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hSrQa-0007x0-VH
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:10:46 -0400
-Received: from mail-qk1-f194.google.com ([209.85.222.194]:38269)
+	(envelope-from <mst@redhat.com>) id 1hSrQd-0007yQ-1u
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:10:48 -0400
+Received: from mail-qk1-f173.google.com ([209.85.222.173]:42202)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hSrQa-0007wE-RE
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:10:44 -0400
-Received: by mail-qk1-f194.google.com with SMTP id a64so9928736qkg.5
-	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 16:10:43 -0700 (PDT)
+	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hSrQc-0007xJ-Te
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:10:46 -0400
+Received: by mail-qk1-f173.google.com with SMTP id d4so9897087qkc.9
+	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 16:10:45 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
 	:mime-version:content-disposition:in-reply-to;
-	bh=lqcRP5TOl9HEzw5AKgljD79bRAyUWWqCwFejvOysXuY=;
-	b=IvYiI2vrBxKS287eTxojop33QCbfDdWv030qApxAX777XHXeBri77QLjIsyyCtTaIN
-	Ua38C5xPstjuukBAwlz8BmWzhdLQynS4kV9YSjxWLWI3V7v5pts8m41cESJ5vLxOrDSE
-	ii14zLMAaasvPmU13hs77aNEzQeI6/jxaJUOC/V2c6CDIH3iX9JLzj/oR7D/yBKUQ7yB
-	2JeYbKT7yrslCA6GNSp5dn7RD2km7RlW2vwtjBonWnuKnSY5mqEZvboFH3ecXRd7XRWV
-	gplrHkrvJUGb25yBvQFW3EbbTS7K6tScihvHgYfHyRvud6W7zMpla+82To/9z15SlXiG
-	Zekg==
-X-Gm-Message-State: APjAAAWfqauPHLxuJCKvaIWlzoTKGGGsFOcB3sRqRsqEL+79bIIw1Oci
-	BwQMSABSUkOMTx1kOa1Xo8kzVgfa/p8=
-X-Google-Smtp-Source: APXvYqyxc7pF7zxphLR/xz6dXJKprUw9GGfLdFdEBJq+a2gqBz0T2Oaxg6uLDE3Q1H/v0GP0ayRgwg==
-X-Received: by 2002:a37:6ca:: with SMTP id 193mr59713585qkg.64.1558393842882; 
-	Mon, 20 May 2019 16:10:42 -0700 (PDT)
+	bh=UziJRori9S+z3EUDEkru1+Hy2CIhR7bIJWpVumMrw3A=;
+	b=A96IyChsJpa207i0TX2eC8Z3PBTpqwPq86iFP0+Ob9ISHzjkzcyjryFXlV6/LJwle4
+	OqhFQJ7Nw3tzYlK1uhDt5CWqC4+Z6+HEDBHAXAE5Mfdspk/69HXDl6oShsLUIjP1f1cD
+	emGpVMHsjAyMJIkRtBCQsDhN1paxaOO2rCTZebLKa0GZU36blncrF7xybQRV2qYcVqyN
+	p1fVsfUKt1kGXpUwyPguU0/twwFH4wm/ycQjgjkypLH9vjnu/7zUbgPmZSDEGS7UaE/U
+	KVJqT93kZhsHunuF0YUsaHvoICyaO86C2qmYdKFVS85aK4YvRPTZuZd9U7GZskwVcIkI
+	BfLw==
+X-Gm-Message-State: APjAAAW40qnyByvHc6rBBwABcG8Q6fM9JKhf19+XUMCWXATFqJnzLmdY
+	Fhjr41QmCA1hV0U3goaEJSIuNGCGstg=
+X-Google-Smtp-Source: APXvYqz2rTBU9KNH3081hKqTG7bjmgyGNQiye0rfDSRKBkyfbUlQwmCWvmVPGFTb4urcI/qABbDFhA==
+X-Received: by 2002:a37:a5c6:: with SMTP id
+	o189mr60288869qke.318.1558393844859; 
+	Mon, 20 May 2019 16:10:44 -0700 (PDT)
 Received: from redhat.com (pool-173-76-105-71.bstnma.fios.verizon.net.
 	[173.76.105.71]) by smtp.gmail.com with ESMTPSA id
-	m8sm12396121qta.10.2019.05.20.16.10.41
+	m8sm12396200qta.10.2019.05.20.16.10.43
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Mon, 20 May 2019 16:10:42 -0700 (PDT)
-Date: Mon, 20 May 2019 19:10:41 -0400
+	Mon, 20 May 2019 16:10:44 -0700 (PDT)
+Date: Mon, 20 May 2019 19:10:43 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Message-ID: <20190320112646.3712-5-xieyongji@baidu.com>
+Message-ID: <20190320112646.3712-6-xieyongji@baidu.com>
 References: <20190520231008.20140-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -56,9 +57,9 @@ X-Mailer: git-send-email 2.17.1.1206.gb667731e2e.dirty
 X-Mutt-Fcc: =sent
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.222.194
-Subject: [Qemu-devel] [PULL v2 07/36] vhost-user-blk: Only start vhost-user
- backend with the first kick
+X-Received-From: 209.85.222.173
+Subject: [Qemu-devel] [PULL v2 08/36] vhost-user-blk: Add return value for
+ vhost_user_blk_start()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -78,32 +79,62 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Xie Yongji <xieyongji@baidu.com>
 
-We should only start vhost-user backend at the first kick for
-virtio 1.0 transitional devices.
+Add a return value for vhost_user_blk_start() to check whether
+we start vhost-user backend successfully or not.
 
 Signed-off-by: Xie Yongji <xieyongji@baidu.com>
 Signed-off-by: Zhang Yu <zhangyu31@baidu.com>
-Message-Id: <20190320112646.3712-5-xieyongji@baidu.com>
+Message-Id: <20190320112646.3712-6-xieyongji@baidu.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/block/vhost-user-blk.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ hw/block/vhost-user-blk.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
 diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
-index 700c1dd111..39e1adc60a 100644
+index 39e1adc60a..6802c19d65 100644
 --- a/hw/block/vhost-user-blk.c
 +++ b/hw/block/vhost-user-blk.c
-@@ -239,8 +239,7 @@ static void vhost_user_blk_handle_output(VirtIODevice *vdev, VirtQueue *vq)
-     VHostUserBlk *s = VHOST_USER_BLK(vdev);
-     int i;
+@@ -103,7 +103,7 @@ const VhostDevConfigOps blk_ops = {
+     .vhost_dev_config_notifier = vhost_user_blk_handle_config_change,
+ };
  
--    if (!(virtio_host_has_feature(vdev, VIRTIO_F_VERSION_1) &&
--        !virtio_vdev_has_feature(vdev, VIRTIO_F_VERSION_1))) {
-+    if (!vdev->start_on_kick) {
-         return;
+-static void vhost_user_blk_start(VirtIODevice *vdev)
++static int vhost_user_blk_start(VirtIODevice *vdev)
+ {
+     VHostUserBlk *s = VHOST_USER_BLK(vdev);
+     BusState *qbus = BUS(qdev_get_parent_bus(DEVICE(vdev)));
+@@ -112,13 +112,13 @@ static void vhost_user_blk_start(VirtIODevice *vdev)
+ 
+     if (!k->set_guest_notifiers) {
+         error_report("binding does not support guest notifiers");
+-        return;
++        return -ENOSYS;
      }
  
+     ret = vhost_dev_enable_notifiers(&s->dev, vdev);
+     if (ret < 0) {
+         error_report("Error enabling host notifiers: %d", -ret);
+-        return;
++        return ret;
+     }
+ 
+     ret = k->set_guest_notifiers(qbus->parent, s->dev.nvqs, true);
+@@ -157,12 +157,13 @@ static void vhost_user_blk_start(VirtIODevice *vdev)
+         vhost_virtqueue_mask(&s->dev, vdev, i, false);
+     }
+ 
+-    return;
++    return ret;
+ 
+ err_guest_notifiers:
+     k->set_guest_notifiers(qbus->parent, s->dev.nvqs, false);
+ err_host_notifiers:
+     vhost_dev_disable_notifiers(&s->dev, vdev);
++    return ret;
+ }
+ 
+ static void vhost_user_blk_stop(VirtIODevice *vdev)
 -- 
 MST
 
