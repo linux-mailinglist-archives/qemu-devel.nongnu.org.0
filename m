@@ -2,134 +2,80 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4C5D123DD8
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 18:51:42 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38609 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 46F9623DC9
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 18:47:38 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38530 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSlVl-0004wV-HP
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 12:51:41 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47806)
+	id 1hSlRo-0001hb-7w
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 12:47:36 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48350)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <jsnow@redhat.com>) id 1hSlNk-0007E1-7U
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 12:43:25 -0400
+	(envelope-from <eblake@redhat.com>) id 1hSlPQ-0000F5-7a
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 12:45:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <jsnow@redhat.com>) id 1hSlNj-0000DN-3y
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 12:43:24 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:41306)
+	(envelope-from <eblake@redhat.com>) id 1hSlPO-0001FT-NW
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 12:45:08 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:50370)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <jsnow@redhat.com>)
-	id 1hSlNg-0000Bg-E6; Mon, 20 May 2019 12:43:20 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
-	[10.5.11.12])
+	(Exim 4.71) (envelope-from <eblake@redhat.com>)
+	id 1hSlPK-0001DY-Vl; Mon, 20 May 2019 12:45:03 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 824C2C0669D5;
-	Mon, 20 May 2019 16:43:13 +0000 (UTC)
-Received: from [10.18.17.162] (dhcp-17-162.bos.redhat.com [10.18.17.162])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 458F660E37;
-	Mon, 20 May 2019 16:43:05 +0000 (UTC)
-To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
-	Kevin Wolf <kwolf@redhat.com>
-References: <20190514201926.10407-1-jsnow@redhat.com>
-	<72986b5d-0772-abfb-2c99-97470e8fd3da@virtuozzo.com>
-	<ab26708f-9199-32da-29ac-3202ba2df0d5@redhat.com>
-	<f68e1472-26be-aa15-b2e2-f96029c9ce97@virtuozzo.com>
-	<20190520092737.GA5699@localhost.localdomain>
-	<d3ff832a-d185-13f6-129a-b531f04b3b0b@virtuozzo.com>
-From: John Snow <jsnow@redhat.com>
+	by mx1.redhat.com (Postfix) with ESMTPS id E13867EBDC;
+	Mon, 20 May 2019 16:45:01 +0000 (UTC)
+Received: from [10.3.116.56] (ovpn-116-56.phx2.redhat.com [10.3.116.56])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 3373C17CD3;
+	Mon, 20 May 2019 16:45:01 +0000 (UTC)
+To: Klaus Birkelund Jensen <klaus@birkelund.eu>, qemu-block@nongnu.org
+References: <20190517084234.26923-1-klaus@birkelund.eu>
+	<20190517084234.26923-9-klaus@birkelund.eu>
+From: Eric Blake <eblake@redhat.com>
 Openpgp: preference=signencrypt
-Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
-	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
-Message-ID: <6a9cbbf5-935d-987f-1897-31bc7df2c068@redhat.com>
-Date: Mon, 20 May 2019 12:43:05 -0400
+Autocrypt: addr=eblake@redhat.com; keydata=
+	xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+	xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+	TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+	GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+	sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+	AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+	CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+	RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+	wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+	Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+	gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+	pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+	zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+	pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+	3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+	NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+	cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+	SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+	I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+	mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+	Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+	2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <f94686a4-b402-36c6-8070-185c0416b303@redhat.com>
+Date: Mon, 20 May 2019 11:45:00 -0500
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <d3ff832a-d185-13f6-129a-b531f04b3b0b@virtuozzo.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+In-Reply-To: <20190517084234.26923-9-klaus@birkelund.eu>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature";
+	boundary="6iX2ARR7hZ2FehcUGWzivgn28DXPqxRKK"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.32]);
-	Mon, 20 May 2019 16:43:18 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.27]);
+	Mon, 20 May 2019 16:45:01 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [Qemu-block] [PATCH v2] migration/dirty-bitmaps:
- change bitmap enumeration method
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [PATCH 8/8] nvme: add an OpenChannel 2.0 NVMe
+ device (ocssd)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -141,108 +87,239 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
-	aihua liang <aliang@redhat.com>,
-	"qemu-block@nongnu.org" <qemu-block@nongnu.org>,
-	Juan Quintela <quintela@redhat.com>,
-	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
-	"Dr. David Alan Gilbert" <dgilbert@redhat.com>,
-	Stefan Hajnoczi <stefanha@redhat.com>
+Cc: Keith Busch <keith.busch@intel.com>, Kevin Wolf <kwolf@redhat.com>,
+	qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--6iX2ARR7hZ2FehcUGWzivgn28DXPqxRKK
+From: Eric Blake <eblake@redhat.com>
+To: Klaus Birkelund Jensen <klaus@birkelund.eu>, qemu-block@nongnu.org
+Cc: Keith Busch <keith.busch@intel.com>, Kevin Wolf <kwolf@redhat.com>,
+ qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
+Message-ID: <f94686a4-b402-36c6-8070-185c0416b303@redhat.com>
+Subject: Re: [Qemu-devel] [PATCH 8/8] nvme: add an OpenChannel 2.0 NVMe device
+ (ocssd)
+References: <20190517084234.26923-1-klaus@birkelund.eu>
+ <20190517084234.26923-9-klaus@birkelund.eu>
+In-Reply-To: <20190517084234.26923-9-klaus@birkelund.eu>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+On 5/17/19 3:42 AM, Klaus Birkelund Jensen wrote:
+> This adds a new 'ocssd' block device that emulates an OpenChannel 2.0
+> device. The device is backed by a new 'ocssd' block backend that is
+> based on the raw format driver but includes a header that holds the
+> device geometry and write data requirements. This new block backend is
+> special in that the size is not specified explicitly but in terms of
+> sector size, number of chunks, number of parallel units, etc. This
+> called for the addition of the `no_size_required` field in `struct
+> BlockDriver` to not fail image creation when the size parameter is
+> missing.
+>=20
+> The ocssd device is an individual device but shares a lot of code with
+> the nvme device. Thus, some core functionality of nvme/nvme.c has been
+> exported for use by nvme/ocssd.c.
+>=20
+> Thank you to the following people for their contributions to the
+> original qemu-nvme (github.com/OpenChannelSSD/qemu-nvme) implementation=
+=2E
+>=20
+>   Matias Bj=C3=B8rling <mb@lightnvm.io>
+>   Javier Gonz=C3=A1lez <javier@javigon.com>
+>   Simon Andreas Frimann Lund <ocssd@safl.dk>
+>   Hans Holmberg <hans@owltronix.com>
+>   Jesper Devantier <contact@pseudonymous.me>
+>   Young Tack Jin <youngtack.jin@circuitblvd.com>
+>=20
+> Signed-off-by: Klaus Birkelund Jensen <klaus.jensen@cnexlabs.com>
+> ---
+>  MAINTAINERS                     |   14 +-
+>  Makefile.objs                   |    1 +
+>  block.c                         |    2 +-
+>  block/Makefile.objs             |    2 +-
+>  block/nvme.c                    |    2 +-
+>  block/ocssd.c                   |  690 ++++++++
+>  hw/block/Makefile.objs          |    2 +-
+>  hw/block/{ =3D> nvme}/nvme.c      |  192 ++-
+>  hw/block/nvme/ocssd.c           | 2647 +++++++++++++++++++++++++++++++=
+
+>  hw/block/nvme/ocssd.h           |  140 ++
+>  hw/block/nvme/trace-events      |  136 ++
+>  hw/block/trace-events           |  109 --
+>  include/block/block_int.h       |    3 +
+>  include/block/nvme.h            |   12 +-
+>  include/block/ocssd.h           |  231 +++
+>  {hw =3D> include/hw}/block/nvme.h |   61 +
+>  include/hw/pci/pci_ids.h        |    2 +
+>  qapi/block-core.json            |   47 +-
+>  18 files changed, 4121 insertions(+), 172 deletions(-)
+>  create mode 100644 block/ocssd.c
+>  rename hw/block/{ =3D> nvme}/nvme.c (94%)
+>  create mode 100644 hw/block/nvme/ocssd.c
+>  create mode 100644 hw/block/nvme/ocssd.h
+>  create mode 100644 hw/block/nvme/trace-events
+>  create mode 100644 include/block/ocssd.h
+>  rename {hw =3D> include/hw}/block/nvme.h (63%)
+
+Feels big; are you sure this can't be split into smaller pieces to ease
+review?
+
+I'm focusing just on the qapi portions:
 
 
-On 5/20/19 6:37 AM, Vladimir Sementsov-Ogievskiy wrote:
-> 20.05.2019 12:27, Kevin Wolf wrote:
->> Am 17.05.2019 um 12:22 hat Vladimir Sementsov-Ogievskiy geschrieben:
->>> 16.05.2019 22:03, John Snow wrote:
->>>> On 5/16/19 6:12 AM, Vladimir Sementsov-Ogievskiy wrote:
->>>>> But, on the other, hand, if we have implicitly-filtered node on target, we were doing wrong thing anyway,
->>>>> as dirty_bitmap_load_header don't skip implicit nodes.
->>>>>
->>>>>> +    for (bs = bdrv_next_all_states(NULL); bs; bs = bdrv_next_all_states(bs)) {
->>>>>
->>>>> As I understand, difference with bdrv_next_node is that we don't skip unnamed nodes [...]
->>>>>
->>>>
->>>> The difference is that we iterate over states that aren't roots of
->>>> trees; so not just unnamed nodes but rather intermediate nodes as well
->>>> as nodes not attached to a storage device.
->>>>
->>>> bdrv_next says: `Iterates over all top-level BlockDriverStates, i.e.
->>>> BDSs that are owned by the monitor or attached to a BlockBackend`
->>>>
->>>> So this loop is going to iterate over *everything*, not just top-level
->>>> nodes. This lets me skip the tree-crawling loop that didn't work quite
->>>> right.
->>>
->>> I meant not bdrv_next but bdrv_next_node, which iterates through graph nodes..
->>> What is real difference between graph_bdrv_states and all_bdrv_states ?
->>
->> I don't think there is any relevant difference any more since commit
->> 15489c769b9 ('block: auto-generated node-names'). We can only see a
->> difference if a BDS was created, but never opened. This means either
->> that we are still in the process of opening an image or that we have a
->> bug somewhere.
->>
->> Maybe we should remove graph_bdrv_states and replace all of its uses
->> with the more obviously correct all_bdrv_states (if we are sure that
->> all users aren't called between creating and opening a BDS).
->>
->>> Node is inserted to graph_bdrv_states in bdrv_assign_node_name(), and to
->>> all_bdrv_states in bdrv_new().
->>>
->>> Three calls to bdrv_new:
->>>
->>> bdrv_new_open_driver, calls bdrv_new and then bdrv_open_driver, which calls bdrv_assign_node_name,
->>> and if it fails new created node is released.
->>>
->>> bdrv_open_inherit
->>>      bdrv_new
->>>      ..
->>>      bdrv_open_common
->>>         bdrv_open_driver
->>>             bdrv_assign_node_name
->>>
->>>
->>> iscsi_co_create_opts
->>>      bdrv_new
->>>
->>>      ... hmm.. looks like it a kind of temporary unnamed bs
->>>
->>> So, now, I'm not sure. Possibly we'd better use bdrv_next_node().
->>
->> I wonder if the iscsi one can't be replaced with bdrv_new_open_driver().
->> Manually building a half-opened BDS like it does currently looks
->> suspicious.
->>
->>> Kevin introduced all_bdrv_states in 0f12264e7a4145 , to use in drain instead of
->>> bdrv_next... But I don't understand, why he didn't use graph_bdrv_states and
->>> corresponding bdrv_next_node(), which is only skips some temporary or under-constuction
->>> nodes..
->>
->> I probably just didn't realise that graph_bdrv_states exists and is
->> effectively the same. I knew that all_bdrv_states contains what I want,
->> so I just wanted to access that.
->>
->> But if anonymous BDSes did actually still exist, drain would want to
->> wait for those as well, so it's the more natural choice anyway.
->>
->> Kevin
->>
-> 
-> Thank you for clarification. Then, my r-b still stand here, and fixing/refacting
-> graph_nodes vs all_states should be a separate thing.
-> 
-> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-> 
+> +++ b/qapi/block-core.json
+> @@ -113,6 +113,44 @@
+>        'extents': ['ImageInfo']
+>    } }
+> =20
+> +##
+> +# @ImageInfoSpecificOcssd:
+> +#
+> +# @num-ns: number of namespaces
+> +#
+> +# @namespaces: List of namespsaces
 
-Great, thanks all :)
+Inconsistent on whether you start with lower or upper case.
 
-I think I will stage this through my tree -- on the premise that David
-Gilbert won't want to stage a block patch, and that since it's not
-Kevin's tree, he won't mind either.
+> +#
+> +# Since: 4.1
+> +##
+> +{ 'struct': 'ImageInfoSpecificOcssd',
+> +  'data': {
+> +      'num-ns': 'int',
+> +      'sector-size': 'int',
+> +      'metadata-size': 'int',
+> +      'namespaces': ['ImageInfoSpecificOcssdNS']
 
---js
+Is num-ns redundant information (that is, if I count the length of the
+array in namespaces, I don't need num-ns)?
+
+You failed to document sector-size and metadata-size.
+
+> +  } }
+> +
+> +##
+> +# @ImageInfoSpecificOcssdNS:
+> +#
+> +# @num-grp: number of groups
+> +#
+> +# @num-pu: number of parallel units per group
+> +#
+> +# @num-chk: number of chunks per parallel unit
+> +#
+> +# @num-sec: number of sectors per chunk
+
+Why the abbreviation? Machines don't care if they have to pass something
+slightly longer, and if it makes the job easier for the human reading
+the machine traces, then spelling things out (such as 'num-groups'),
+then abbreviation didn't buy us anything useful.
+
+> +#
+> +# Since: 3.1
+
+You missed 3.1 by a long shot. The next release is 4.1.
+
+> +##
+> +{ 'struct': 'ImageInfoSpecificOcssdNS',
+> +  'data': {
+> +      'num-grp': 'int',
+> +      'num-pu': 'int',
+> +      'num-chk': 'int',
+> +      'num-sec': 'int'
+> +  } }
+> +
+>  ##
+>  # @ImageInfoSpecific:
+>  #
+> @@ -124,6 +162,7 @@
+>    'data': {
+>        'qcow2': 'ImageInfoSpecificQCow2',
+>        'vmdk': 'ImageInfoSpecificVmdk',
+> +      'ocssd': 'ImageInfoSpecificOcssd',
+
+Perhaps missing a doc comment that ocssd is new to 4.1; although it may
+be implied by the documentation adding 'occsd' to the list of overall
+block types elsewhere....
+
+>        # If we need to add block driver specific parameters for
+>        # LUKS in future, then we'll subclass QCryptoBlockInfoLUKS
+>        # to define a ImageInfoSpecificLUKS
+> @@ -282,7 +321,7 @@
+>  # @drv: the name of the block format used to open the backing device. =
+As of
+>  #       0.14.0 this can be: 'blkdebug', 'bochs', 'cloop', 'cow', 'dmg'=
+,
+>  #       'file', 'file', 'ftp', 'ftps', 'host_cdrom', 'host_device',
+> -#       'http', 'https', 'luks', 'nbd', 'parallels', 'qcow',
+> +#       'http', 'https', 'luks', 'nbd', 'ocssd', 'parallels', 'qcow',
+>  #       'qcow2', 'raw', 'vdi', 'vmdk', 'vpc', 'vvfat'
+>  #       2.2: 'archipelago' added, 'cow' dropped
+>  #       2.3: 'host_floppy' deprecated
+> @@ -290,6 +329,7 @@
+>  #       2.6: 'luks' added
+>  #       2.8: 'replication' added, 'tftp' dropped
+>  #       2.9: 'archipelago' dropped
+> +#       4.1: 'ocssd' added
+
+=2E..here
+
+>  #
+>  # @backing_file: the name of the backing file (for copy-on-write)
+>  #
+> @@ -2815,8 +2855,8 @@
+>    'data': [ 'blkdebug', 'blklogwrites', 'blkverify', 'bochs', 'cloop',=
+
+>              'copy-on-read', 'dmg', 'file', 'ftp', 'ftps', 'gluster',
+>              'host_cdrom', 'host_device', 'http', 'https', 'iscsi', 'lu=
+ks',
+> -            'nbd', 'nfs', 'null-aio', 'null-co', 'nvme', 'parallels', =
+'qcow',
+> -            'qcow2', 'qed', 'quorum', 'raw', 'rbd',
+> +            'nbd', 'nfs', 'null-aio', 'null-co', 'nvme', 'ocssd', 'par=
+allels',
+> +            'qcow', 'qcow2', 'qed', 'quorum', 'raw', 'rbd',
+>              { 'name': 'replication', 'if': 'defined(CONFIG_REPLICATION=
+)' },
+>              'sheepdog',
+>              'ssh', 'throttle', 'vdi', 'vhdx', 'vmdk', 'vpc', 'vvfat', =
+'vxhs' ] }
+> @@ -3917,6 +3957,7 @@
+>        'null-aio':   'BlockdevOptionsNull',
+>        'null-co':    'BlockdevOptionsNull',
+>        'nvme':       'BlockdevOptionsNVMe',
+> +      'ocssd':      'BlockdevOptionsGenericFormat',
+
+I guess you don't support qemu creating one of these devices yet?
+
+>        'parallels':  'BlockdevOptionsGenericFormat',
+>        'qcow2':      'BlockdevOptionsQcow2',
+>        'qcow':       'BlockdevOptionsQcow',
+>=20
+
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
+
+
+--6iX2ARR7hZ2FehcUGWzivgn28DXPqxRKK
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlzi2YwACgkQp6FrSiUn
+Q2rsfAf/UV784Ckd0piM4V81UA7CTQYL87t+QN2PY8yjiehze0X4eRKjIL4qJtUL
+1VAZiVta7cSCHJAyzCTl6jjWbsyImxbbCgH5EzzRrOoE77xopjuKM8SwRbNDDt1X
+wSU3AXhuSrfApAXXwCTZqkwyw8/hhQz6xYqkQF+jwwOlDFNU1MQdpzUeNiOJvdSc
+X80jFIs6d12OXWdkSmNfeEHl/WzRXPgjBuu2GBu3IEdtcXFNdhweE7NFPnVEvwFl
+EMo/lceIMVxvaPEs5iqqDghskHCHGL6uxOepMJp0US7DXrJa4HA62PTgfs9dAlNy
+o84sK95fsin21TXGiH3oMUALcq7QGA==
+=ul4O
+-----END PGP SIGNATURE-----
+
+--6iX2ARR7hZ2FehcUGWzivgn28DXPqxRKK--
 
