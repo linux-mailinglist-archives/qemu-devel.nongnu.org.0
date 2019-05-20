@@ -2,52 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DC51B24480
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 01:45:15 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43810 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9367624458
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 01:28:14 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43565 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSrxz-00019X-2L
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 19:45:15 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45191)
+	id 1hSrhV-0004IK-Ik
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 19:28:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45203)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hSrRE-0007nK-JM
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:11:26 -0400
+	(envelope-from <mst@redhat.com>) id 1hSrRH-0007od-Bi
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:11:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hSrRD-0008JU-Og
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:11:24 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:44765)
+	(envelope-from <mst@redhat.com>) id 1hSrRG-0008KX-6M
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:11:27 -0400
+Received: from mail-qt1-f175.google.com ([209.85.160.175]:44966)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hSrRD-0008JO-Ku
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:11:23 -0400
-Received: by mail-qt1-f195.google.com with SMTP id f24so18319260qtk.11
-	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 16:11:23 -0700 (PDT)
+	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hSrRG-0008KG-2D
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:11:26 -0400
+Received: by mail-qt1-f175.google.com with SMTP id f24so18319319qtk.11
+	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 16:11:25 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
 	:mime-version:content-disposition:content-transfer-encoding
 	:in-reply-to;
-	bh=RTRIxsVKqqdz/HWRVEdKM6QUXrcO4t5UGM0Rdb91dxE=;
-	b=jyu+FkF7i05I8Vu46anedF9on3MUFNm7oWG4BVzKORcEq3IiSl43MnkayT9Ru4KGxK
-	2ameI2w2qZyFQcaDE4Sgr6KPV8vvlnW5y6PiqW+BiNsstKHFazvYgiNHMZg24MYkpzue
-	a/E0YY9mrBOJ40Koz7bj0BEktkEv/7yAeExb+FE6Luw1vLb1RQv4Ci4VltaDBX0iX3WE
-	UjYgcO9nTF9q23H1hB9URYhp8AGSqLwt+Yn54zS0pRkrAz3GoVAJ4h2aEKLtzucpMGa8
-	2IBWXUEUEpNg02TQogwJbOajvrPs5ekGNmu3vcCwvMUU0O9PBX2N5VHcYfGuyyB2HC3S
-	/6mA==
-X-Gm-Message-State: APjAAAXWmNfC5hQ60LHaVixib9CfqtRLzQ/lKcQswJrAqttZ7XGBzSK8
-	t9X4kUCEHc53t0HExWPCGquh9vDj1Rs=
-X-Google-Smtp-Source: APXvYqyPW3rvgR0EDfQOLmJ26yF4BMuEdOZmnKHL4DStmURZIzO1J3b5kJh20iF9OICPghykgGaeqQ==
-X-Received: by 2002:a0c:9ac8:: with SMTP id k8mr62251227qvf.132.1558393882954; 
-	Mon, 20 May 2019 16:11:22 -0700 (PDT)
+	bh=TqEyVktznYJ7P+ZeySCJaFo5Dw05r/YzBTh1BaibXtY=;
+	b=FYnMXmdXanbKT5Qo+p70CJrsu297RwjoIBMWlYamL7EnlTkHrODU/02hCgtn/+fBju
+	NB4TYbGu3bUstY6vjvfbNiz/IQxwjunejXI4EpuHlaDTkKZjIqb1Cx+EXPs7QaVbSdhe
+	+DYJjoEv4ZBCz2DORAEq85SjUYbNvfG4MnmvEQd5N8mmP9It0lFuARV+jS5VQfgDGeYU
+	UPTTe3eRNNt2s8IAPT+EbANZhGPM3BAfjbfbdIgBK3C37pVLCuS+7k2GYeZKUQTA4eNA
+	gW6ww377DKQEDTNuIvHKlCNqIout/C4Rvu8F3GyaEgGy+V8p1Fx0QhUAviy40pwV3WEs
+	1TYw==
+X-Gm-Message-State: APjAAAU5scVPR3iAwvSAVZRMuYFa4wMCWFzhTwO+wo2SMroRjcyVcj19
+	6m7FU7JLATTRQBTVwPJ5Ldq6Q5WDyaM=
+X-Google-Smtp-Source: APXvYqzfPzNL8U6y7zshMj1BhNWaTf1upJgpyihgbqrqJruD9kDiYDcXwjr2wZnxesE6sENvn4wfGQ==
+X-Received: by 2002:ac8:6c4d:: with SMTP id z13mr36537502qtu.366.1558393884870;
+	Mon, 20 May 2019 16:11:24 -0700 (PDT)
 Received: from redhat.com (pool-173-76-105-71.bstnma.fios.verizon.net.
 	[173.76.105.71]) by smtp.gmail.com with ESMTPSA id
-	t187sm1528417qkh.10.2019.05.20.16.11.21
+	f67sm2222366qtb.68.2019.05.20.16.11.23
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Mon, 20 May 2019 16:11:22 -0700 (PDT)
-Date: Mon, 20 May 2019 19:11:21 -0400
+	Mon, 20 May 2019 16:11:24 -0700 (PDT)
+Date: Mon, 20 May 2019 19:11:23 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Message-ID: <1556808723-226478-7-git-send-email-imammedo@redhat.com>
+Message-ID: <1556808723-226478-8-git-send-email-imammedo@redhat.com>
 References: <20190520231008.20140-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
@@ -58,9 +58,9 @@ X-Mailer: git-send-email 2.17.1.1206.gb667731e2e.dirty
 X-Mutt-Fcc: =sent
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.160.195
-Subject: [Qemu-devel] [PULL v2 27/36] tests: acpi: skip FACS table if board
- uses hw reduced ACPI profile
+X-Received-From: 209.85.160.175
+Subject: [Qemu-devel] [PULL v2 28/36] tests: acpi: move boot_sector_init()
+ into x86 tests branch
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -74,48 +74,49 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Laurent Vivier <lvivier@redhat.com>,
 	Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
-	Wei Yang <richardw.yang@linux.intel.com>,
-	Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
+	Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
 	Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Igor Mammedov <imammedo@redhat.com>
 
-If FADT has HW_REDUCED_ACPI flag set, do not attempt to fetch
-FACS as it's not provided by the board.
+boot_sector_init() won't be used by arm/virt board, so move it from
+global scope to x86 branch that uses it.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Reviewed-by: Wei Yang <richardw.yang@linux.intel.com>
-Message-Id: <1556808723-226478-7-git-send-email-imammedo@redhat.com>
+Message-Id: <1556808723-226478-8-git-send-email-imammedo@redhat.com>
+Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/bios-tables-test.c | 10 +++++++---
- 1 file changed, 7 insertions(+), 3 deletions(-)
+ tests/bios-tables-test.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
 diff --git a/tests/bios-tables-test.c b/tests/bios-tables-test.c
-index d165a1bd62..e2fc34143d 100644
+index e2fc34143d..4d13a3cce6 100644
 --- a/tests/bios-tables-test.c
 +++ b/tests/bios-tables-test.c
-@@ -147,9 +147,13 @@ static void test_acpi_fadt_table(test_data *data)
-     g_assert(compare_signature(&table, "FACP"));
+@@ -788,13 +788,14 @@ int main(int argc, char *argv[])
+     const char *arch = qtest_get_arch();
+     int ret;
  
-     /* Since DSDT/FACS isn't in RSDT, add them to ASL test list manually */
--    acpi_fetch_table(data->qts, &table.aml, &table.aml_len,
--                     fadt_aml + 36 /* FIRMWARE_CTRL */, 4, "FACS", false);
--    g_array_append_val(data->tables, table);
-+    memcpy(&val, fadt_aml + 112 /* Flags */, 4);
-+    val = le32_to_cpu(val);
-+    if (!(val & 1UL << 20 /* HW_REDUCED_ACPI */)) {
-+        acpi_fetch_table(data->qts, &table.aml, &table.aml_len,
-+                         fadt_aml + 36 /* FIRMWARE_CTRL */, 4, "FACS", false);
-+        g_array_append_val(data->tables, table);
-+    }
+-    ret = boot_sector_init(disk);
+-    if(ret)
+-        return ret;
+-
+     g_test_init(&argc, &argv, NULL);
  
-     memcpy(&val, fadt_aml + dsdt_offset, 4);
-     val = le32_to_cpu(val);
+     if (strcmp(arch, "i386") == 0 || strcmp(arch, "x86_64") == 0) {
++        ret = boot_sector_init(disk);
++        if (ret) {
++            return ret;
++        }
++
+         qtest_add_func("acpi/piix4", test_acpi_piix4_tcg);
+         qtest_add_func("acpi/piix4/bridge", test_acpi_piix4_tcg_bridge);
+         qtest_add_func("acpi/q35", test_acpi_q35_tcg);
 -- 
 MST
 
