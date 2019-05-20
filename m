@@ -2,53 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1970A239B6
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 16:20:32 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36379 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8DAA923A18
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 16:34:08 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36541 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSj9S-00062B-Vx
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 10:20:31 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35593)
+	id 1hSjMd-0001Ed-Fp
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 10:34:07 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38854)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hSj7S-0005AW-NK
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 10:18:27 -0400
+	(envelope-from <damien.hedde@greensocs.com>) id 1hSjLG-0000qw-4K
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 10:32:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hSj7R-00036h-Pn
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 10:18:26 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:59858)
+	(envelope-from <damien.hedde@greensocs.com>) id 1hSjLE-0002HP-DA
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 10:32:42 -0400
+Received: from beetle.greensocs.com ([5.135.226.135]:38268)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <kwolf@redhat.com>)
-	id 1hSj7P-00035P-KO; Mon, 20 May 2019 10:18:23 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id DCB2981E00;
-	Mon, 20 May 2019 14:18:22 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-117-208.ams2.redhat.com
-	[10.36.117.208])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id A10E54124;
-	Mon, 20 May 2019 14:18:21 +0000 (UTC)
-Date: Mon, 20 May 2019 16:18:20 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Max Reitz <mreitz@redhat.com>
-Message-ID: <20190520141820.GH5699@localhost.localdomain>
-References: <20190515201503.19069-1-mreitz@redhat.com>
+	(Exim 4.71) (envelope-from <damien.hedde@greensocs.com>)
+	id 1hSjLA-0002Df-8H; Mon, 20 May 2019 10:32:36 -0400
+Received: from [172.16.11.119] (unknown [172.16.11.119])
+	by beetle.greensocs.com (Postfix) with ESMTPSA id 8AE3B96F50;
+	Mon, 20 May 2019 14:32:32 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com;
+	s=mail; t=1558362753;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	content-transfer-encoding:content-transfer-encoding:
+	in-reply-to:in-reply-to:references:references;
+	bh=UQYgxxekaeDJwFVWw6OnzMrR0hdYDfDRg/54Y/1pLiM=;
+	b=LvX0XbGQqKK0TxrW8ye5WpOSzPWk0UuQVZaPXnfhP04VswKgn+8nZ8muXBvIH428BMx1Z9
+	3Abhwce364k78rKv3dRgWzVR2U05K9MlySXsCQ/Y1DV3JM7N9C5f8VEX9UwOXHMNKnYAbd
+	UR61UMjrMclapcUgmS3oA6GAoWh1Gc8=
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <cover.1553510737.git.damien.hedde@greensocs.com>
+	<CAFEAcA-84KBmZhRqugQzmEkWVcFBuSAdLtp_HGjRxLeVj1SLXA@mail.gmail.com>
+From: Damien Hedde <damien.hedde@greensocs.com>
+Message-ID: <dac12db2-9583-4a30-2188-e5b101e13ecf@greensocs.com>
+Date: Mon, 20 May 2019 16:32:31 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.5.3
 MIME-Version: 1.0
+In-Reply-To: <CAFEAcA-84KBmZhRqugQzmEkWVcFBuSAdLtp_HGjRxLeVj1SLXA@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20190515201503.19069-1-mreitz@redhat.com>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.25]);
-	Mon, 20 May 2019 14:18:23 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US-large
+Content-Transfer-Encoding: 7bit
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=greensocs.com; 
+	s=mail; t=1558362753;
+	h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+	to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+	content-transfer-encoding:content-transfer-encoding:
+	in-reply-to:in-reply-to:references:references;
+	bh=UQYgxxekaeDJwFVWw6OnzMrR0hdYDfDRg/54Y/1pLiM=;
+	b=i9CjjQkVkezIatChgGRfngeQ/PPN9d8+cZTPgTuYOhORSYqiqgGYspcAmXCadqvCSarkyY
+	9dAGqOcBvWMglMAVsRfiGwWzAn0Xug8YUEsSVTKhBVXdUXnKDA/CquAdCVmuv6z+hF7YLB
+	Iki4ANqSTi8RvOmDy3V8pzwLAUCxTyQ=
+ARC-Seal: i=1; s=mail; d=greensocs.com; t=1558362753; a=rsa-sha256; cv=none;
+	b=3JeVbGN1+bfumh6FaCGSfHmSVuA29z2zjLLHMaF0cxJWDRN8LU83VxDv5XEBPmBh/O+z8e
+	kf179eAFLpRyS2Cm6h+huO46Q8nHIYE8TbLVbjOCkBpPkRAg6mk+QACA0dlscnDNm6fgVq
+	DjdkfALCxgwBsa64fy83xrohGENaYFU=
+ARC-Authentication-Results: i=1; ORIGINATING;
+	auth=pass smtp.auth=damien smtp.mailfrom=damien.hedde@greensocs.com
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 0/4] iotests: Make 245 faster and more
- reliable
+X-Received-From: 5.135.226.135
+Subject: Re: [Qemu-devel] [RFC 00/17] multi-phase reset mechanism
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -60,53 +76,236 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alberto Garcia <berto@igalia.com>, qemu-devel@nongnu.org,
-	qemu-block@nongnu.org
+Cc: Edgar Iglesias <edgar.iglesias@xilinx.com>,
+	=?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+	Mark Burton <mark.burton@greensocs.com>,
+	QEMU Developers <qemu-devel@nongnu.org>,
+	Markus Armbruster <armbru@redhat.com>, qemu-arm <qemu-arm@nongnu.org>,
+	Alistair Francis <alistair.francis@wdc.com>,
+	=?UTF-8?Q?Marc-Andr=c3=a9_Lureau?= <marcandre.lureau@redhat.com>,
+	Paolo Bonzini <pbonzini@redhat.com>,
+	=?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+	Luc Michel <luc.michel@greensocs.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 15.05.2019 um 22:14 hat Max Reitz geschrieben:
-> 245 is a bit flakey for me, because it uses block jobs that copy 1 MB o=
-f
-> data but have a buffer size of 512 kB, so they may be done before the
-> test gets to do the things it wants to do while the check is running.
-> (Rate limiting doesn=E2=80=99t change this.)
->=20
-> The boring way to fix this would be to increase the amount of data.
->=20
-> The interesting way to fix this is to make use of auto_finalize=3Dfalse
-> and thus keep the jobs around until the test is done with them.
-> However, this has one problem: In one case, 245 tries to make the targe=
-t
-> node of a stream job read-only.  If the job is still copying data, doin=
-g
-> so will fail because the target node is in COR mode.  Otherwise, we get
-> a cryptic =E2=80=9CBlock node is read-only=E2=80=9D message.
->=20
-> What the message means is =E2=80=9CAfter reopening, the node will be re=
-ad-only,
-> and that won=E2=80=99t work, because there is a writer on it.=E2=80=9D =
- It doesn=E2=80=99t say
-> that, though, but it should.  So patch 1 makes it say something to that
-> effect (=E2=80=9CCannot make block node read-only, there is a writer on=
- it=E2=80=9D).
->=20
-> 245 doesn=E2=80=99t care about the actual error message, both reflect t=
-hat qemu
-> correctly detects that this node cannot be made read-only at this time.
-> So the other thing we have to do is let assert_qmp() accept an array of
-> valid error messages and choose the one that matches (if any).  Then we
-> can just pass both error messages to it and everything works.
->=20
->=20
-> Nice side effect: For me, the test duration goes down from about 12 s t=
-o
-> about 6 s.
-> (That=E2=80=99s because the test forgot to disable rate limiting on the=
- jobs
-> before waiting for their completion.)
+Hi,
 
-Thanks, applied to the block branch.
+On 5/16/19 2:41 PM, Peter Maydell wrote:
+> On Mon, 25 Mar 2019 at 11:02, Damien Hedde <damien.hedde@greensocs.com> wrote:
+>>
+>> Hi all,
+>>
+>> This series is a proposal to implement the multi-phase reset we've discussed
+>> here (https://lists.gnu.org/archive/html/qemu-devel/2018-10/msg00310.html) and
+>> more recently there
+>> (https://lists.gnu.org/archive/html/qemu-devel/2019-03/msg00081.html).
+>>
+>> To summarize, we need a multi-phase reset to allow for a more complex
+>> initialization of a platform. In particular we need to "propagate" a clock
+>> tree, but we have to ensure that every device is initialized first.
+> 
+> Hi; I finally managed to get my thoughts about reset coherent
+> enough to write down in an email.
+> 
+> 
+> OVERVIEW
+> 
+> I had a read through the patchset and spent a while trying to
+> understand what we currently have.
+> 
+> Our current (device) reset model is:
+>  * single-phase
+>     -- there is only one 'reset' method
+>  * implicit
+>     -- devices don't need to be explicitly registered anywhere
+>        in a "reset hierarchy"; instead they are reset by virtue
+>        of being in the bus heirarchy they are already in
+>  * bus-based
+>     -- sysbus reset is registered in vl.c; free-floating other buses[*]
+>        (ie those with a NULL parent) have a reset registered in qbus_realize;
+>        buses with parents (ie anything with a non-NULL parent passed to
+>        qbus_create() or qbus_create_inplace()) will get traversed by
+>        the recursive traversal of whatever bus their parent is on.
+>  * not exhaustive
+>     -- any devices not put on a bus, or put on a bus whose parent device
+>        is not on a bus, will not get reset
+>  * not modelling GPIO reset signal lines
+> 
+> [*] It turns out we actually don't have any of these any more, so
+> we can remove the code that deals with them. The only parentless bus
+> is the main system bus, which is the root of the "reset hierarchy".
+> 
+> This patchset is trying to address:
+>  * changing to multi-phase
+>  * modelling of GPIO reset signal lines
+> 
+> It leaves reset as bus-based: currently we do this via qbus_walk_children/
+> qdev_walk_children, which traverse the bus->children and dev->child_bus
+> lists, and in the patchset's implementation of Resettable for qdev/qbus
+> the methods iterate through those.
+> 
+> I think this is reasonable -- we don't want to try to tackle every
+> reset related problem at once. The two issues the patchset is looking
+> at fit well together, because the GPIO-reset-lines are a motivation
+> for switching to multiphase (you need to handle both entering and
+> leaving reset).
+> 
+> ("not exhaustive" is the thing we should really try to
+> fix at some point, but I have no good ideas for how to do this.)
+> 
+> API DESIGN
+> 
+> On what the right APIs should be: I think we should separate
+> "the API that's nice for devices to implement" from "the API that's
+> nice for callers wanting to reset a device". Here's my suggestion
+> for doing that:
+> 
+> 
+> Have the Resettable interface be:
+>  * init
+>  * hold
+>  * exit
+>  * get_reset_count
+>  * increment_reset_count (returns previous count)
+>  * decrement_reset_count (returns new count)
+>  * some method for "iterate over any Resettable child objects"
+>    (probably a "call this callback for each child" type API)
+> 
+> Individual devices implement init/hold/exit
+> Device base class implements the reset_count methods
+> Device base class implements a default 'init' method that calls dc->reset
+>   and default hold/exit that are no-ops
+> Device base class has a new vmstate subsection which migrates the
+>   reset count, subsection's needed function says "only send
+>   if reset count is non-zero". Back-compat here should be fine
+>   as current machines don't implement any way that a device in
+>   the system can be being held in reset at the point where a
+>   migration happens. If future changes add features to a
+>   machine model that permit that, the migration is forwards-compatible.
+> Device base class implements the iterate-over-children method to
+>  iterate over the dev->child_bus buses
+> Bus base class implements reset_count methods
+> Bus base class implements default no-op init/hold/exit
+> Bus base class implements the iterate-over-children method to
+>  iterate over the bus->children devices
+> Handling migration of the bus base class reset count is a little
+>  awkward -- we'll need to put it in a vmstate subsection which
+>  is part of the vmstate of the device which owns the bus.
+>  (I talked to David Gilbert on IRC about this and have some
+>  possibilities for how to do it, but will postpone writing them
+>  out until we've decided whether we like the APIs.)
 
-Kevin
+If:
+  1. we say we cannot use a Bus as holdable reset entry point (we can
+reset it but not (de)assert_reset it without passing by its parent Device)
+  2. if there is no additional reset dedicated state (right now a reset
+on a bus mostly propagates it to sub-devices)
+Then we have no state migration needed for buses and we can probably
+find a way to use the parent Device's reset_count.
+
+This is somewhat related to the API TRANSITION part below but I was
+wondering if I should add some kind of flag in the interface class to
+indicate the support of "migration-during-reset" functionality. It could
+be used to at least warn when trying to hold the reset state in such an
+class.
+This flag will default to false and one would have to set it when
+implementing the functionality for a given object class (like I did with
+the cadence_uart device).
+Maybe a similar flag can be used to allow/forbid using a class as an
+holdable reset entry point.
+
+> 
+> The "API for devices to implement" is then the init/hold/exit
+> methods of the Resettable interface -- they don't need to worry
+> about these methods possibly being called multiple times, and
+> they don't need to handle the reference count or passing on
+> the calling of the phase methods to their children. They
+> just need to implement the correct behaviour for their device
+> for this phase.
+> 
+> The "API for callers wanting to reset a device" is a set of
+> helper functions that take a pointer to a Resettable object.
+> It's these that deal with the reset count and children:
+> 
+> resettable_assert_reset(Resettable *r)
+> {
+>    if (r->increment_reset_count() == 0) {
+>        r->init();
+>        r->foreach_child(do_call_init);
+>        r->hold();
+>        r->foreach_child(do_call_hold);
+>    }
+> }
+> 
+> resettable_deassert_reset(Resettable *r)
+> {
+>    if (r->decrement_reset_count() == 0) {
+>       r->foreach_child(do_call_exit);
+>       r->exit();
+>    }
+> }
+> 
+> plus a utility function for "call assert then deassert",
+> and maybe one that wraps the get_reset_count method.
+> So callers that want to reset devices (or buses) don't need
+> to care about phases, they just assert and then deassert reset.
+> 
+> Do you think that works ?
+
+I'll have to handle cold/warm cases but I think it will work.
+
+> 
+> 
+> API TRANSITIONS
+> 
+> The other issue here is API transitions: the patchset essentially
+> obsoletes the old DeviceClass::reset function, for instance. I think
+> we should be clear about what the old and new APIs here are, and
+> what our plans for transitioning to the new ones are. In some cases
+> there are really very few users of the old API -- for instance the
+> patchset makes qbus_reset_all(bus) a synonym for qbus_reset(bus, false),
+> but there are only a dozen or so users of qbus_reset_all(). I think
+> we should just go ahead and convert them all. (For purposes of
+> structuring the patchset starting with a patch that says "reimplement
+> qbus_reset_all() in terms of qbus_reset()" is OK, but then we should
+> fix up the callers afterwards.) There are of course a lot more
+> implementations of DeviceState::reset so transitioning away from
+> that is a lot trickier, but we could look at a coccinelle script
+> that could automate it.
+> 
+> If you could describe in the cover letter of the next version of
+> the patchseries all the old APIs being deprecated and the new
+> ones that replace them, I think that would be very helpful.>
+> 
+> MISCELLANEOUS MINOR POINTS
+> 
+> I know I suggested the idea of a ResetDomain object, but in the
+> series as it stands I'm not sure it's serving very much purpose;
+> perhaps we should drop it for the moment (just leaving the legacy
+> reset handlers and sysbus reset the way they are) ? We can come back
+> to it later as a concept.
+
+I'm ok with that. It seems unnecessary at that point given that it was
+not used by Device/Bus classes. It will make the series simplier.
+
+> 
+> The "support reset via GPIO line" patch looks generally OK, but
+> you can't just add fields to the DeviceState vmstate struct -- you'll
+> break migration from older QEMU versions. The new fields need to
+> go in a vmstate subsection with an appropriate 'needed' function.
+> 
+> We should definitely make sure we have good documentation for
+> what device authors should do to implement reset.
+
+I agree, I did not want to commit too much into it before having a more
+satisfying API. I'll work on it for the next version.
+
+> 
+> thanks
+> -- PMM
+> 
+
+Thanks a lot for the review,
+Damien
 
