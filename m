@@ -2,69 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D3DAE23FE5
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 20:05:24 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:39863 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CFBB23FE9
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 20:05:55 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:39868 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSmf5-0007db-Bt
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 14:05:23 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41847)
+	id 1hSmfa-00082D-75
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 14:05:54 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42066)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hSmcy-0006pX-K7
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 14:03:15 -0400
+	(envelope-from <philmd@redhat.com>) id 1hSmdT-00075P-Gu
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 14:03:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hSmcx-0007k1-4k
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 14:03:12 -0400
-Received: from mail-wm1-f68.google.com ([209.85.128.68]:35275)
+	(envelope-from <philmd@redhat.com>) id 1hSmdS-00084O-Fa
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 14:03:43 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:52253)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hSmcw-0007jf-Ul
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 14:03:11 -0400
-Received: by mail-wm1-f68.google.com with SMTP id q15so272664wmj.0
-	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 11:03:10 -0700 (PDT)
+	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hSmdS-00082y-9g
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 14:03:42 -0400
+Received: by mail-wm1-f65.google.com with SMTP id y3so276344wmm.2
+	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 11:03:42 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
 	:date:user-agent:mime-version:in-reply-to:content-language
 	:content-transfer-encoding;
-	bh=eNJJcMQo6ndzqZiH5DPLKIJCz1165S6P25dcqq9dkyo=;
-	b=UXD+qL9ZGvIuKHg/jNvdLqkWg//nI/Jx5Hqe/BN1FUKc7eGdejSkFLe3a3cDUH6zSG
-	zecMkJy1ydg/ywP08ffM2BQhzt9jEUlG6KW2TzZQ8VB38Oo0vuFLKhFWfHDc3z4/1enS
-	HME/PRfe+Y23NsZ3wySljkRXf8rEe8jSWsA6AfUOabvICo3VVkYv66BPaMFFB2GM7wVd
-	mBd+6clac3X1/fi0rbTIJLht3HefxWuUg5mA1AF2eZQHjHudDST03DSMXvpaIKD2Se9M
-	+cd9aZvAn1YmqtG6McZElfU+53l0dKm1zTmRJ9jbYGftQrOhdUYlretgLIV+o6AdfBJz
-	wz1A==
-X-Gm-Message-State: APjAAAU6MjxeCKJHsfFg5WeS7sMNkTdlBwJt03i3aCEaCyAG7WI1VTQa
-	I6LbYD5Zpjo45JVL6xE5H+kmEQ==
-X-Google-Smtp-Source: APXvYqyDU2ov9GTE/5R0DgPChvoZXR3aOJ7PxD5OimnLBfpFNKeVWuD8wQ3HMXFqP14VYWF2MhWJQA==
-X-Received: by 2002:a05:600c:23ce:: with SMTP id
-	p14mr292098wmb.36.1558375389047; 
-	Mon, 20 May 2019 11:03:09 -0700 (PDT)
+	bh=CNzm76Se2dku2m1kzsRqw5zpyR14fhXwGHkHsHJnasA=;
+	b=kjwrm/KPtOqXeNV9hngsZAG9lllE5x9xlL2aWxWhaCfgIhj5gP3gGl58wl2qWTpezA
+	OnN/S1yjuMNkZRf+Lex0Ux/2Nj9jjDqsLEZJ4440IK52JM6nLHkhZf6dNZNxgVXoMxq7
+	d0pJYdJiOLtBh6wH24jZX4u/QGdd0sjlxw7FWsvdeUXTEV98oaFqBps839WZ22JOUckg
+	DdRTk4nwxpK6jHKliCzUeI1X2Wu1hUCzZkcGNZ2om3fk/bivYUqZyvpWtsx+tKv2huQJ
+	60NwsnzGcalzgdrDlu+cTZDtlyuGXl9IrlWsmetNEmJkzAzWGU2OgViCSrC8ElWL44Zy
+	NfxQ==
+X-Gm-Message-State: APjAAAUrWbuMV7HHWU0dwgxnELc6L0rDVEex5btzVL/IQ4vltXLnhAV+
+	aUxfTR/lnN6iy/m4//lUzrPyFA==
+X-Google-Smtp-Source: APXvYqwojHiQEyeWI4vfF2KrMDcOe8QC4wiu2AqHLDD3SrlA0fVwckkwfLNoy1m0LPO2cBujHLTxHA==
+X-Received: by 2002:a1c:a904:: with SMTP id s4mr289634wme.92.1558375421306;
+	Mon, 20 May 2019 11:03:41 -0700 (PDT)
 Received: from [192.168.1.43] (228.red-83-52-173.dynamicip.rima-tde.net.
-	[83.52.173.228])
-	by smtp.gmail.com with ESMTPSA id y2sm525230wmg.9.2019.05.20.11.03.08
+	[83.52.173.228]) by smtp.gmail.com with ESMTPSA id
+	l8sm21059003wrw.56.2019.05.20.11.03.40
 	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
-	Mon, 20 May 2019 11:03:08 -0700 (PDT)
+	Mon, 20 May 2019 11:03:40 -0700 (PDT)
 To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
 References: <20190520124716.30472-1-kraxel@redhat.com>
-	<20190520124716.30472-5-kraxel@redhat.com>
+	<20190520124716.30472-6-kraxel@redhat.com>
 From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
 	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
-Message-ID: <6eebf1ed-11f6-93ca-995c-1dd24dd687ce@redhat.com>
-Date: Mon, 20 May 2019 20:03:07 +0200
+Message-ID: <14ca7dbb-4a43-d8f5-662d-85b17498e9d7@redhat.com>
+Date: Mon, 20 May 2019 20:03:39 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <20190520124716.30472-5-kraxel@redhat.com>
+In-Reply-To: <20190520124716.30472-6-kraxel@redhat.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.128.68
-Subject: Re: [Qemu-devel] [PATCH v3 04/14] tests/vm: use ssh with pty
- unconditionally
+X-Received-From: 209.85.128.65
+Subject: Re: [Qemu-devel] [PATCH v3 05/14] tests/vm: run test builds on
+ snapshot
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -84,9 +83,15 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 On 5/20/19 2:47 PM, Gerd Hoffmann wrote:
-> Allways ask ssh to run with a pseudo terminal.
-> Not having a terminal causes problems now and then.
+> The build script doesn't shutdown the guest VMs properly,
+> which results in filesystem corruption and guest boot
+> failures sooner or later.
 > 
+> Use the --snapshot to run builds on a snapshot,
+> That way killing the VM doesn't corrupt the base image.
+
+Yes!
+
 > Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
 > Tested-by: Thomas Huth <thuth@redhat.com>
 
@@ -94,53 +99,20 @@ Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 
 > ---
->  tests/vm/basevm.py | 13 ++++---------
->  1 file changed, 4 insertions(+), 9 deletions(-)
+>  tests/vm/Makefile.include | 1 +
+>  1 file changed, 1 insertion(+)
 > 
-> diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-> index 640f3226929d..878f1a7a32b8 100755
-> --- a/tests/vm/basevm.py
-> +++ b/tests/vm/basevm.py
-> @@ -106,16 +106,14 @@ class BaseVM(object):
->          os.rename(fname + ".download", fname)
->          return fname
->  
-> -    def _ssh_do(self, user, cmd, check, interactive=False):
-> -        ssh_cmd = ["ssh", "-q",
-> +    def _ssh_do(self, user, cmd, check):
-> +        ssh_cmd = ["ssh", "-q", "-t",
->                     "-o", "StrictHostKeyChecking=no",
->                     "-o", "UserKnownHostsFile=" + os.devnull,
->                     "-o", "ConnectTimeout=1",
->                     "-p", self.ssh_port, "-i", self._ssh_key_file]
->          for var in self.envvars:
->              ssh_cmd += ['-o', "SendEnv=%s" % var ]
-> -        if interactive:
-> -            ssh_cmd += ['-t']
->          assert not isinstance(cmd, str)
->          ssh_cmd += ["%s@127.0.0.1" % user] + list(cmd)
->          logging.debug("ssh_cmd: %s", " ".join(ssh_cmd))
-> @@ -127,9 +125,6 @@ class BaseVM(object):
->      def ssh(self, *cmd):
->          return self._ssh_do(self.GUEST_USER, cmd, False)
->  
-> -    def ssh_interactive(self, *cmd):
-> -        return self._ssh_do(self.GUEST_USER, cmd, False, True)
-> -
->      def ssh_root(self, *cmd):
->          return self._ssh_do("root", cmd, False)
->  
-> @@ -283,9 +278,9 @@ def main(vmcls):
->          return 2
->  
->      if args.interactive:
-> -        if vm.ssh_interactive(*cmd) == 0:
-> +        if vm.ssh(*cmd) == 0:
->              return 0
-> -        vm.ssh_interactive()
-> +        vm.ssh()
->          return 3
->      else:
->          if vm.ssh(*cmd) != 0:
+> diff --git a/tests/vm/Makefile.include b/tests/vm/Makefile.include
+> index 992d823f6bd2..d628e0a986f6 100644
+> --- a/tests/vm/Makefile.include
+> +++ b/tests/vm/Makefile.include
+> @@ -53,6 +53,7 @@ vm-build-%: $(IMAGES_DIR)/%.img
+>  		$(if $(V),--verbose) \
+>  		--image "$<" \
+>  		$(if $(BUILD_TARGET),--build-target $(BUILD_TARGET)) \
+> +		--snapshot \
+>  		--build-qemu $(SRC_PATH) -- \
+>  		$(if $(TARGET_LIST),--target-list=$(TARGET_LIST)) \
+>  		$(if $(EXTRA_CONFIGURE_OPTS),$(EXTRA_CONFIGURE_OPTS)), \
 > 
 
