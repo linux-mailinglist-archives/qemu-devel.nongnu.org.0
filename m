@@ -2,64 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C340523F74
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 19:51:48 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:39609 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4EC4C23F89
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 19:54:44 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:39653 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSmRv-0006hv-Lc
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 13:51:47 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:32797)
+	id 1hSmUl-0000gs-EY
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 13:54:43 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33551)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hSm7q-0007Kn-2n
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:31:03 -0400
+	(envelope-from <klaus@birkelund.eu>) id 1hSmAS-0000sX-TO
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:33:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hSm7o-0000Nc-N2
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:31:01 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:41975)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hSm7o-0000M5-GH
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:31:00 -0400
-Received: by mail-ot1-x342.google.com with SMTP id l25so5377326otp.8
-	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 10:30:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=upzeKs69iuDfmu9GfUKqLaEkv6m2wZsZqpcg5PjDTMg=;
-	b=Ol6aQQbZysEyYvH38GHWuDQ6aLsvn6itJn8eGIlmoC1b7oG0RXP0gS+tCNh5dhHSpH
-	mGYmdRz5D6jm1szMgH3x9VIiP+uYF8lPjf5uJlX9aoaOfOiEYb2zG6IElOCOr+XP2Apq
-	yQBf3yS/OwZ/9XF2tSgeP5ee0wKHQhu0k5Bj0v+MGVidVxrc6yFNVRDk2OD04ETGq8qt
-	JKC8tOPWFyc9Gr37luYo0jqae5fZwVWl1m4xJkoXBmvzY4mtzM+dvCGNvOOUXbbr6p1j
-	FQTVsKTUvmWVGd8igEYpZww0jYqaKSk7otNaJc+ioIZip2s4Du7qguKJ7IofIws9E1tH
-	qyUA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=upzeKs69iuDfmu9GfUKqLaEkv6m2wZsZqpcg5PjDTMg=;
-	b=uB3ryyilJRmjsdN+/oXhJ0WyypLcZT1+beibvlwHPh1KQKuY0GW383NH6+Xzw6bf8I
-	tnxiFgbVvihFMcYPmO3kyJomh5NE8PBaS1upCoMi+aNNB6nnuuqCwDPRthj9nLxn/BxR
-	TGZezllQVxcJ6nArg9Eb894C1B+BY6dKql6u20eYUeyLxWjnVXB/Hler3nMpcRPyW6CH
-	guHxbjdKI5cjY8efqlEtrERoVL6yXEviyqjowIP2YhjG/L14TQg/SyfxkTkS7JuUcRpo
-	b2yAd5UMcYhUIY/fIBgy2M+Xt47HqSqdsttHkcKEfCZ8kxi9aRP1lSD7/A3dr/qrP2+W
-	W8rA==
-X-Gm-Message-State: APjAAAU+zgum5CucDhYKvQ/nH+PsL8BruIb4Xzawjtw88UWJ4CSJ0edV
-	mx4PG5NODRjkTh7HLl4NA4YxyJ2ptyzoS5i3NJ1YDw==
-X-Google-Smtp-Source: APXvYqxgEsPdvQPvbNrDgtS0daANgMM6g941hiCS+KD4WbpZWdZy9ESM/PZCogBlfug27XSIN43PH9gO5z/fiEgBi/k=
-X-Received: by 2002:a9d:6b0d:: with SMTP id g13mr9137781otp.91.1558373457035; 
-	Mon, 20 May 2019 10:30:57 -0700 (PDT)
+	(envelope-from <klaus@birkelund.eu>) id 1hSmAR-0001nD-2Y
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:33:44 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:50142)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <klaus@birkelund.eu>)
+	id 1hSmAN-0001jH-9m; Mon, 20 May 2019 13:33:39 -0400
+Received: from apples.localdomain (ip-5-186-120-196.cgn.fibianet.dk
+	[5.186.120.196])
+	by charlie.dont.surf (Postfix) with ESMTPSA id EB9F2BF42F;
+	Mon, 20 May 2019 17:33:35 +0000 (UTC)
+Date: Mon, 20 May 2019 19:33:31 +0200
+From: Klaus Birkelund <klaus@birkelund.eu>
+To: Eric Blake <eblake@redhat.com>
+Message-ID: <20190520173331.GA18987@apples.localdomain>
+Mail-Followup-To: Eric Blake <eblake@redhat.com>, qemu-block@nongnu.org,
+	Keith Busch <keith.busch@intel.com>, Kevin Wolf <kwolf@redhat.com>,
+	qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
+References: <20190517084234.26923-1-klaus@birkelund.eu>
+	<20190517084234.26923-9-klaus@birkelund.eu>
+	<f94686a4-b402-36c6-8070-185c0416b303@redhat.com>
 MIME-Version: 1.0
-References: <20190520170302.13643-1-cohuck@redhat.com>
-In-Reply-To: <20190520170302.13643-1-cohuck@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 20 May 2019 18:30:46 +0100
-Message-ID: <CAFEAcA9Da213mDF9kBOhfV_m_K7X=MEGcNkfZ-2whDmDQYrABw@mail.gmail.com>
-To: Cornelia Huck <cohuck@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::342
-Subject: Re: [Qemu-devel] [PULL 00/54] s390x update
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+In-Reply-To: <f94686a4-b402-36c6-8070-185c0416b303@redhat.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 128.199.63.193
+Subject: Re: [Qemu-devel] [PATCH 8/8] nvme: add an OpenChannel 2.0 NVMe
+ device (ocssd)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -71,48 +55,90 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x <qemu-s390x@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Keith Busch <keith.busch@intel.com>, Kevin Wolf <kwolf@redhat.com>,
+	qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 20 May 2019 at 18:03, Cornelia Huck <cohuck@redhat.com> wrote:
->
-> The following changes since commit d8276573da58e8ce78dab8c46dd660efd664bcb7:
->
->   Merge remote-tracking branch 'remotes/rth/tags/pull-tcg-20190510' into staging (2019-05-16 13:15:08 +0100)
->
-> are available in the Git repository at:
->
->   https://github.com/cohuck/qemu tags/s390x-20190520
->
-> for you to fetch changes up to f9de88d07258b7288b59ebca77ff1da75b0e8e9f:
->
->   s390x/cpumodel: wire up 8561 and 8562 as gen15 machines (2019-05-20 08:35:42 +0200)
->
-> ----------------------------------------------------------------
-> s390x update:
-> - have the bios tolerate bootmap signature entries
-> - next chunk of vector instruction support in tcg
-> - a headers update against Linux 5.2-rc1
-> - add more facilities and gen15 machines to the cpu model
->
-> ----------------------------------------------------------------
+On Mon, May 20, 2019 at 11:45:00AM -0500, Eric Blake wrote:
+> On 5/17/19 3:42 AM, Klaus Birkelund Jensen wrote:
+> > This adds a new 'ocssd' block device that emulates an OpenChannel 2.0
+> > device. The device is backed by a new 'ocssd' block backend that is
+> > based on the raw format driver but includes a header that holds the
+> > device geometry and write data requirements. This new block backend i=
+s
+> > special in that the size is not specified explicitly but in terms of
+> > sector size, number of chunks, number of parallel units, etc. This
+> > called for the addition of the `no_size_required` field in `struct
+> > BlockDriver` to not fail image creation when the size parameter is
+> > missing.
+> >=20
+> > The ocssd device is an individual device but shares a lot of code wit=
+h
+> > the nvme device. Thus, some core functionality of nvme/nvme.c has bee=
+n
+> > exported for use by nvme/ocssd.c.
+> >=20
+> > Thank you to the following people for their contributions to the
+> > original qemu-nvme (github.com/OpenChannelSSD/qemu-nvme) implementati=
+on.
+> >=20
+> >   Matias Bj=F8rling <mb@lightnvm.io>
+> >   Javier Gonz=E1lez <javier@javigon.com>
+> >   Simon Andreas Frimann Lund <ocssd@safl.dk>
+> >   Hans Holmberg <hans@owltronix.com>
+> >   Jesper Devantier <contact@pseudonymous.me>
+> >   Young Tack Jin <youngtack.jin@circuitblvd.com>
+> >=20
+> > Signed-off-by: Klaus Birkelund Jensen <klaus.jensen@cnexlabs.com>
+> > ---
+> >  MAINTAINERS                     |   14 +-
+> >  Makefile.objs                   |    1 +
+> >  block.c                         |    2 +-
+> >  block/Makefile.objs             |    2 +-
+> >  block/nvme.c                    |    2 +-
+> >  block/ocssd.c                   |  690 ++++++++
+> >  hw/block/Makefile.objs          |    2 +-
+> >  hw/block/{ =3D> nvme}/nvme.c      |  192 ++-
+> >  hw/block/nvme/ocssd.c           | 2647 +++++++++++++++++++++++++++++=
+++
+> >  hw/block/nvme/ocssd.h           |  140 ++
+> >  hw/block/nvme/trace-events      |  136 ++
+> >  hw/block/trace-events           |  109 --
+> >  include/block/block_int.h       |    3 +
+> >  include/block/nvme.h            |   12 +-
+> >  include/block/ocssd.h           |  231 +++
+> >  {hw =3D> include/hw}/block/nvme.h |   61 +
+> >  include/hw/pci/pci_ids.h        |    2 +
+> >  qapi/block-core.json            |   47 +-
+> >  18 files changed, 4121 insertions(+), 172 deletions(-)
+> >  create mode 100644 block/ocssd.c
+> >  rename hw/block/{ =3D> nvme}/nvme.c (94%)
+> >  create mode 100644 hw/block/nvme/ocssd.c
+> >  create mode 100644 hw/block/nvme/ocssd.h
+> >  create mode 100644 hw/block/nvme/trace-events
+> >  create mode 100644 include/block/ocssd.h
+> >  rename {hw =3D> include/hw}/block/nvme.h (63%)
+>=20
+> Feels big; are you sure this can't be split into smaller pieces to ease
+> review?
+>=20
 
-Hi -- this fails to build on aarch64:
+I know, but I'm not sure how to meaningfully split it up. Would you
+prefer that I move files in one commit? Changed stuff to nvme.{c,h} is
+mostly removing static from functions and creating a prototype in the
+header files to allow the ocssd device to use the functions. The commit
+should be restricted to just adding the ocssd device. Any features and
+additions required in the nvme device are added in previous commits.
 
-In file included from /home/pm215/qemu/linux-headers/linux/kvm.h:14:0,
-                 from /home/pm215/qemu/target/arm/kvm-consts.h:18,
-                 from /home/pm215/qemu/target/arm/cpu.h:23,
-                 from /home/pm215/qemu/disas.c:8:
-/home/pm215/qemu/build/all/linux-headers/asm/kvm.h:38:29: fatal error:
-asm/sve_context.h: No such file or directory
- #include <asm/sve_context.h>
-                             ^
-compilation terminated.
+> I'm focusing just on the qapi portions:
+>=20
 
-Looks like we need to fix update-linux-headers.sh to account for
-that new header file before we can do the header sync.
+Thank you for the review of that, but it looks like this will all be
+dropped from a v2 (see mail from Kevin), because it's simply bad
+design to have the driver and device depend so closely on each other.
 
-thanks
--- PMM
+
+Thanks,
+Klaus
 
