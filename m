@@ -2,49 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5FC7423F47
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 19:43:21 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:39432 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C797623F52
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 19:46:04 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:39503 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSmJk-0008BI-Ai
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 13:43:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56445)
+	id 1hSmMN-0002Ep-Qo
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 13:46:03 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54562)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <cohuck@redhat.com>) id 1hSlr1-0000aG-Lw
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:13:41 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hSlmU-0004Qe-TA
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:09:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <cohuck@redhat.com>) id 1hSlqz-0006zx-UF
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:13:39 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36680)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <cohuck@redhat.com>)
-	id 1hSlqz-0006z6-Nn; Mon, 20 May 2019 13:13:37 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 370D1C049E37;
-	Mon, 20 May 2019 17:13:36 +0000 (UTC)
-Received: from localhost (ovpn-204-110.brq.redhat.com [10.40.204.110])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id D3F2317DC2;
-	Mon, 20 May 2019 17:13:26 +0000 (UTC)
-From: Cornelia Huck <cohuck@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 20 May 2019 19:03:02 +0200
-Message-Id: <20190520170302.13643-55-cohuck@redhat.com>
-In-Reply-To: <20190520170302.13643-1-cohuck@redhat.com>
-References: <20190520170302.13643-1-cohuck@redhat.com>
+	(envelope-from <peter.maydell@linaro.org>) id 1hSlmT-0004S8-7t
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:08:58 -0400
+Received: from mail-ot1-x334.google.com ([2607:f8b0:4864:20::334]:43261)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hSlmS-0004QH-Jj
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:08:57 -0400
+Received: by mail-ot1-x334.google.com with SMTP id i8so13643910oth.10
+	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 10:08:53 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=SgE2AMvWBHVKOffOws4dRNRkNqPzU98MET8fUXMY+VI=;
+	b=zHYpBfPy7Q5hvOHn2jGck1mriKXaoRJEATHyirTs4c5oROAjjDMkdNMEQWryxrBaVo
+	SeMd8tjN+GieiMy0DnuCXJsDq+d8CL3ezn5p2FAIeQZjiq76sbwPa63+oUNxYnsXDSuP
+	VRZs61hh9SiIwzhmpfwgEboS470LXwhzqTQljt+xfhOjQwDmoFm9k4+FGxBWruA+8GFI
+	9tlAecug0nG7R4Bi56xd/+PlT3SfVDn0g6iRpX6hYsZ+qEE7qQaUbtANiPU+u6QFF52K
+	wyG47CJqt4jKjMjYzxxJFZGeCAtU3UJ1LUAIfgKh8qMM/9KJB3v1kK9cIR8EhNhBWniN
+	5B6w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=SgE2AMvWBHVKOffOws4dRNRkNqPzU98MET8fUXMY+VI=;
+	b=tHEX/9/JOF8fU9/H3H6D634Dn+6LK+ISKkWWHvaw1F2+F5FMJ2ZG0Ly/Ixnfjgk9U2
+	PQPUxZKZ4jD2XBTYpWgUcAI5ln8Nfmjp7qkjSa7M1Ao7uAg/Tu5IURDmWH1w1AFP8VWE
+	ozB3RIj9JhWtmCb/vsCL40czZ6od+tkSREKt2OlsoY3EoLV3pRfNop+G3lFKjx4eHyrk
+	brqEUXj1skq9yafpyOHF80JDzrkUzYQWPV1R/bg4XdhFDWTU4ulCFzujU3SDhkAm2K2Q
+	HNZWQ1fjJwO5mkYaQ4v4s7al2ZreMPfvZbrSnPxyMs05TQv0vpE2YfN/VtffOAnuPijh
+	xuBw==
+X-Gm-Message-State: APjAAAW/ZAel78S9KnDzCXF0AC97Vs4mjFuvBdRpNcBVpNW596GMI2Pa
+	W4Fk6/BsX9DWK78jLyIRtYIIAR3L16bQFSJJeagdgw==
+X-Google-Smtp-Source: APXvYqzq8rMJ6mrn1EpYAdgzPfkQWWhUFjPrT5OylkuVwR8gguyLBxKeN3hPlzgECuvj5l/5oms3xAVTEnyDnY80Edc=
+X-Received: by 2002:a9d:77d5:: with SMTP id w21mr281507otl.97.1558372131590;
+	Mon, 20 May 2019 10:08:51 -0700 (PDT)
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.31]);
-	Mon, 20 May 2019 17:13:36 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 54/54] s390x/cpumodel: wire up 8561 and 8562 as
- gen15 machines
+References: <20190520161453.30723-1-kwolf@redhat.com>
+In-Reply-To: <20190520161453.30723-1-kwolf@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 20 May 2019 18:08:40 +0100
+Message-ID: <CAFEAcA8YxNj_0-fupAbDxP2hv3=esqLG0B0-FY6yUkARz8K-JA@mail.gmail.com>
+To: Kevin Wolf <kwolf@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::334
+Subject: Re: [Qemu-devel] [PULL 00/24] Block layer patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -56,62 +71,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Christian Borntraeger <borntraeger@de.ibm.com>, qemu-s390x@nongnu.org,
-	Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org,
-	David Hildenbrand <david@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Christian Borntraeger <borntraeger@de.ibm.com>
+On Mon, 20 May 2019 at 17:17, Kevin Wolf <kwolf@redhat.com> wrote:
+>
+> The following changes since commit 6d8e75d41c58892ccc5d4ad61c4da476684c1c83:
+>
+>   Merge remote-tracking branch 'remotes/rth/tags/pull-axp-20190519' into staging (2019-05-20 11:38:36 +0100)
+>
+> are available in the Git repository at:
+>
+>   git://repo.or.cz/qemu/kevin.git tags/for-upstream
+>
+> for you to fetch changes up to c423a6af592cf36b4f149c54e2966dd0016b7e96:
+>
+>   iotests: Make 245 faster and more reliable (2019-05-20 17:08:57 +0200)
+>
+> ----------------------------------------------------------------
+> Block layer patches:
+>
+> - block: AioContext management, part 1
+> - qmp: forbid qmp_cont in RUN_STATE_FINISH_MIGRATE
+> - nvme: fix copy direction in DMA reads going to CMB
+> - file-posix: Fix block status for unaligned raw images with O_DIRECT
+> - file-posix: Fix xfs_write_zeroes() after EOF
+> - Documentation and iotests improvements
+>
 
-8561 and 8562 will be gen15 machines. There is no name yet, let us use
-gen15a and gen15b as base name. Later on we can provide aliases with
-the proper name.
 
-Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
-Message-Id: <20190429090250.7648-10-borntraeger@de.ibm.com>
-Reviewed-by: David Hildenbrand <david@redhat.com>
-Signed-off-by: Cornelia Huck <cohuck@redhat.com>
----
- target/s390x/cpu_models.c | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+Applied, thanks.
 
-diff --git a/target/s390x/cpu_models.c b/target/s390x/cpu_models.c
-index d683635eb538..21ea81948306 100644
---- a/target/s390x/cpu_models.c
-+++ b/target/s390x/cpu_models.c
-@@ -43,10 +43,9 @@
-     }
-=20
- /*
-- * CPU definiton list in order of release. For now, base features of a
-- * following release are always a subset of base features of the previou=
-s
-- * release. Same is correct for the other feature sets.
-- * A BC release always follows the corresponding EC release.
-+ * CPU definition list in order of release. Up to generation 14 base fea=
-tures
-+ * of a following release have been a superset of the previous release. =
-With
-+ * generation 15 one base feature and one optional feature have been dep=
-recated.
-  */
- static S390CPUDef s390_cpu_defs[] =3D {
-     CPUDEF_INIT(0x2064, 7, 1, 38, 0x00000000U, "z900", "IBM zSeries 900 =
-GA1"),
-@@ -83,6 +82,8 @@ static S390CPUDef s390_cpu_defs[] =3D {
-     CPUDEF_INIT(0x3906, 14, 1, 47, 0x08000000U, "z14", "IBM z14 GA1"),
-     CPUDEF_INIT(0x3906, 14, 2, 47, 0x08000000U, "z14.2", "IBM z14 GA2"),
-     CPUDEF_INIT(0x3907, 14, 1, 47, 0x08000000U, "z14ZR1", "IBM z14 Model=
- ZR1 GA1"),
-+    CPUDEF_INIT(0x8561, 15, 1, 47, 0x08000000U, "gen15a", "IBM 8561 GA1"=
-),
-+    CPUDEF_INIT(0x8562, 15, 1, 47, 0x08000000U, "gen15b", "IBM 8562 GA1"=
-),
- };
-=20
- #define QEMU_MAX_CPU_TYPE 0x2827
---=20
-2.20.1
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
+for any user-visible changes.
 
+-- PMM
 
