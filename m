@@ -2,62 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4692D22A83
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 05:48:47 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57363 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CC7CF22BDB
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 08:07:49 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58494 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSZI6-0001gR-He
-	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 23:48:46 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56811)
+	id 1hSbSf-0003A9-0S
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 02:07:49 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46714)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <pagupta@redhat.com>) id 1hSZH6-0001Mf-U4
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 23:47:45 -0400
+	(envelope-from <dgibson@ozlabs.org>) id 1hSbR0-0002UH-By
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 02:06:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <pagupta@redhat.com>) id 1hSZH6-0001nQ-1Z
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 23:47:44 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58094)
+	(envelope-from <dgibson@ozlabs.org>) id 1hSbQz-0006uk-DH
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 02:06:06 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:44221 helo=ozlabs.org)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <pagupta@redhat.com>) id 1hSZH5-0001n9-SO
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 23:47:43 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id CC0F9308A963;
-	Mon, 20 May 2019 03:47:42 +0000 (UTC)
-Received: from colo-mx.corp.redhat.com
-	(colo-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.20])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id B0F8E611A1;
-	Mon, 20 May 2019 03:47:42 +0000 (UTC)
-Received: from zmail21.collab.prod.int.phx2.redhat.com
-	(zmail21.collab.prod.int.phx2.redhat.com [10.5.83.24])
-	by colo-mx.corp.redhat.com (Postfix) with ESMTP id 786E518089C8;
-	Mon, 20 May 2019 03:47:42 +0000 (UTC)
-Date: Sun, 19 May 2019 23:47:42 -0400 (EDT)
-From: Pankaj Gupta <pagupta@redhat.com>
-To: Jakub =?utf-8?Q?Staro=C5=84?= <jstaron@google.com>
-Message-ID: <68418388.29774907.1558324062441.JavaMail.zimbra@redhat.com>
-In-Reply-To: <1902045958.29774859.1558323977950.JavaMail.zimbra@redhat.com>
-References: <20190514145422.16923-1-pagupta@redhat.com>
-	<20190514145422.16923-3-pagupta@redhat.com>
-	<c06514fd-8675-ba74-4b7b-ff0eb4a91605@google.com>
-	<1954162775.29408078.1558071358974.JavaMail.zimbra@redhat.com>
-	<5e27fa73-53f5-007a-e0c1-f32f83e5764f@google.com>
-	<1902045958.29774859.1558323977950.JavaMail.zimbra@redhat.com>
+	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+	id 1hSbQy-0006sT-J7; Mon, 20 May 2019 02:06:05 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+	id 456pKs6cGKz9s6w; Mon, 20 May 2019 16:05:53 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=gibson.dropbear.id.au; s=201602; t=1558332353;
+	bh=Vqsk7ajOTefTOTd0aX+DF04fPOYqiCJ3cdpVKK5RWHU=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=TfDUHdIRlEmwRyHpKeBykjjw4R/F16x84ksvnEc1fqg8Ahoyxv8yC02cKKGlVXyZ/
+	0qapk/I4uDMgDvwdi9ZRI0W4omWLiwizrj3XsEtsauO/4Dt5YWxD+2DTY2IcjdyMPS
+	oqeLGwcMnBMLSGmv1VDvAfnYuvJ+925vbG8bA46E=
+Date: Mon, 20 May 2019 14:01:42 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Richard Henderson <richard.henderson@linaro.org>
+Message-ID: <20190520040142.GA27407@umbus.fritz.box>
+References: <20190518191430.21686-1-richard.henderson@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.67.116.42, 10.4.195.12]
-Thread-Topic: virtio-pmem: Add virtio pmem driver
-Thread-Index: 4LLaKD2mAqtUZ1AopBm+Wwx4LVVjgdYM8BfX
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.41]);
-	Mon, 20 May 2019 03:47:43 +0000 (UTC)
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="ibTvN161/egqYuK8"
+Content-Disposition: inline
+In-Reply-To: <20190518191430.21686-1-richard.henderson@linaro.org>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v9 2/7] virtio-pmem: Add virtio pmem driver
+X-Received-From: 203.11.71.1
+Subject: Re: [Qemu-devel] [PATCH 0/2] target/ppc: make use of new gvec
+ expanders
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -69,57 +55,66 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: jack@suse.cz, kvm@vger.kernel.org, mst@redhat.com, jasowang@redhat.com,
-	david@fromorbit.com, qemu-devel@nongnu.org,
-	virtualization@lists.linux-foundation.org,
-	adilger kernel <adilger.kernel@dilger.ca>, smbarber@google.com,
-	zwisler@kernel.org, aarcange@redhat.com,
-	dave jiang <dave.jiang@intel.com>, linux-nvdimm@lists.01.org,
-	vishal l verma <vishal.l.verma@intel.com>, david@redhat.com,
-	willy@infradead.org, hch@infradead.org,
-	linux-acpi@vger.kernel.org, jmoyer@redhat.com,
-	linux-ext4@vger.kernel.org, lenb@kernel.org, kilobyte@angband.pl,
-	riel@surriel.com, yuval shaia <yuval.shaia@oracle.com>,
-	stefanha@redhat.com, pbonzini@redhat.com,
-	dan j williams <dan.j.williams@intel.com>,
-	lcapitulino@redhat.com, kwolf@redhat.com, nilal@redhat.com,
-	tytso@mit.edu, xiaoguangrong eric <xiaoguangrong.eric@gmail.com>,
-	cohuck@redhat.com, rjw@rjwysocki.net,
-	linux-kernel@vger.kernel.org, linux-xfs@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, imammedo@redhat.com,
-	darrick wong <darrick.wong@oracle.com>
+Cc: mark.cave-ayland@ilande.co.uk, qemu-ppc@nongnu.org, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
-> 
-> 
-> > On 5/16/19 10:35 PM, Pankaj Gupta wrote:
-> > > Can I take it your reviewed/acked-by? or tested-by tag? for the virtio
-> > > patch :)I don't feel that I have enough expertise to give the reviewed-by
-> > > tag, but you can
-> > take my acked-by + tested-by.
-> > 
-> > Acked-by: Jakub Staron <jstaron@google.com>
-> > Tested-by: Jakub Staron <jstaron@google.com>
-> > 
-> > No kernel panics/stalls encountered during testing this patches (v9) with
-> > QEMU + xfstests.
-> 
-> Thank you for testing and confirming the results. I will add your tested &
-> acked-by in v10.
-> 
-> > Some CPU stalls encountered while testing with crosvm instead of QEMU with
-> > xfstests
-> > (test generic/464) but no repro for QEMU, so the fault may be on the side
-> > of
-> > crosvm.
-> 
-> yes, looks like crosvm related as we did not see any of this in my and your
-> testing with Qemu.
+--ibTvN161/egqYuK8
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Also, they don't seem to be related with virtio-pmem.
+On Sat, May 18, 2019 at 12:14:28PM -0700, Richard Henderson wrote:
+> Based-on: <20190518190157.21255-1-richard.henderson@linaro.org>
+> Aka "tcg: misc gvec improvements".
+>=20
+> Since Mark's initial patches, we've added (or are adding)
+> generic support for variable vector shifts and bitsel.
 
-Thanks,
-Pankaj
+Applied, thanks.
+
+>=20
+>=20
+> r~
+>=20
+>=20
+> Richard Henderson (2):
+>   target/ppc: Use vector variable shifts for VSL, VSR, VSRA
+>   target/ppc: Use tcg_gen_gvec_bitsel
+>=20
+>  target/ppc/helper.h                 | 12 ----------
+>  target/ppc/int_helper.c             | 37 -----------------------------
+>  target/ppc/translate/vmx-impl.inc.c | 24 +++++++++----------
+>  target/ppc/translate/vsx-impl.inc.c | 24 ++-----------------
+>  4 files changed, 14 insertions(+), 83 deletions(-)
+>=20
+
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--ibTvN161/egqYuK8
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlziJqQACgkQbDjKyiDZ
+s5JYxw/+OiRFdPzZIjLkt+lovJpB5Vzahvzfh6fwkpBzn00XWILUGpBmWodBjQTh
+/bvno8wx/+D3cYZvRX5nlC/32HpBc5mXyyW41KIvkj73fo4ouMqH94mdOZ7EnMmH
+OWcdsb+z0Yjz14iRaV6V4HYEuyZP9KjEDjvEGNe+dIy6r5Ba8gCeeEmA5GIzRxFt
+9rFLFO8/dVhcrzobZw21modfMLgWNlmjOtqg7fVJi1JDnrk1tS1LwnpBAQ04SJZv
+u4w3h5ta8yM/Tz7Ufm0MHlg8my8xYPJeCkA1B7m1uaCAj21ala45EmfSixTF6MyM
+lpiiqkUSQ48m7DfevtizjmdPIyTRsTtghcldb1c0dGME01i0JuakhiJeCIa1jhgP
+/qkKn539pq/69RinGjzlpvf0uBx8bNDifopU9Oz2xQcDJgcnG+59tosdUVklbqCv
+8cJhHYSqVtdq2YzguVvEK6FIu1DgbB8SK7hjMZ96YKHPTcO9oLlZHhctW38IaeHo
+I5FAA3K5EtEToOnCt71ib7zN1coLf5ZXWBb+JvnKjgAs05KnD6cv9DulhBXm1YJe
+yUnZ4DVLV7cB/NhcSRGfEwyMwhjZApcu3WUbBVsdjGPDOMgM5PbO5W+7fkf9Q4Ad
+tWlPrwh/U7pVA/CT1Djbo9vS9Z1OOeRSG7+BcstO3mdQMVzaIfM=
+=/EK/
+-----END PGP SIGNATURE-----
+
+--ibTvN161/egqYuK8--
 
