@@ -2,48 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 019CF23F63
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 19:48:48 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:39553 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A5E4323E4A
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 19:19:48 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38998 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSmP1-0004IA-4Q
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 13:48:47 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54632)
+	id 1hSlwx-0004tJ-N1
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 13:19:47 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54754)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <cohuck@redhat.com>) id 1hSlmc-0004d8-U6
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:09:08 -0400
+	(envelope-from <cohuck@redhat.com>) id 1hSlmq-0004sZ-RJ
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:09:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <cohuck@redhat.com>) id 1hSlmb-0004Ux-7Q
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:09:06 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:10905)
+	(envelope-from <cohuck@redhat.com>) id 1hSlmo-0004cV-WD
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:09:20 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52426)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <cohuck@redhat.com>)
-	id 1hSlma-0004UL-W8; Mon, 20 May 2019 13:09:05 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
-	[10.5.11.12])
+	id 1hSlmo-0004bd-NB; Mon, 20 May 2019 13:09:18 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 6412F30842AC;
-	Mon, 20 May 2019 17:08:58 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 83631307D869;
+	Mon, 20 May 2019 17:09:11 +0000 (UTC)
 Received: from localhost (ovpn-204-110.brq.redhat.com [10.40.204.110])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id CE25560BFC;
-	Mon, 20 May 2019 17:08:53 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 1952C46E62;
+	Mon, 20 May 2019 17:09:08 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 20 May 2019 19:02:41 +0200
-Message-Id: <20190520170302.13643-34-cohuck@redhat.com>
+Date: Mon, 20 May 2019 19:02:42 +0200
+Message-Id: <20190520170302.13643-35-cohuck@redhat.com>
 In-Reply-To: <20190520170302.13643-1-cohuck@redhat.com>
 References: <20190520170302.13643-1-cohuck@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.40]);
-	Mon, 20 May 2019 17:09:03 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.48]);
+	Mon, 20 May 2019 17:09:16 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 33/54] s390x/tcg: Implement VECTOR ELEMENT SHIFT
+Subject: [Qemu-devel] [PULL 34/54] s390x/tcg: Implement VECTOR SHIFT LEFT
+ (BY BYTE)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,143 +63,102 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: David Hildenbrand <david@redhat.com>
 
-We can use all the fancy new vector helpers implemented by Richard.
-
-One important thing to take care of is always to properly mask of
-unused bits from the shift count.
+We can reuse the existing 128-bit shift utility function.
 
 Reviewed-by: Richard Henderson <richard.henderson@linaro.org>
 Signed-off-by: David Hildenbrand <david@redhat.com>
 ---
- target/s390x/insn-data.def      |  9 ++++
- target/s390x/translate_vx.inc.c | 84 +++++++++++++++++++++++++++++++++
- 2 files changed, 93 insertions(+)
+ target/s390x/helper.h           |  1 +
+ target/s390x/insn-data.def      |  4 ++++
+ target/s390x/translate_vx.inc.c | 20 ++++++++++++++++++++
+ target/s390x/vec_int_helper.c   |  6 ++++++
+ 4 files changed, 31 insertions(+)
 
+diff --git a/target/s390x/helper.h b/target/s390x/helper.h
+index d570f763d94a..b4ddc8a7225e 100644
+--- a/target/s390x/helper.h
++++ b/target/s390x/helper.h
+@@ -204,6 +204,7 @@ DEF_HELPER_FLAGS_4(gvec_verll8, TCG_CALL_NO_RWG, void=
+, ptr, cptr, i64, i32)
+ DEF_HELPER_FLAGS_4(gvec_verll16, TCG_CALL_NO_RWG, void, ptr, cptr, i64, =
+i32)
+ DEF_HELPER_FLAGS_4(gvec_verim8, TCG_CALL_NO_RWG, void, ptr, cptr, cptr, =
+i32)
+ DEF_HELPER_FLAGS_4(gvec_verim16, TCG_CALL_NO_RWG, void, ptr, cptr, cptr,=
+ i32)
++DEF_HELPER_FLAGS_4(gvec_vsl, TCG_CALL_NO_RWG, void, ptr, cptr, i64, i32)
+=20
+ #ifndef CONFIG_USER_ONLY
+ DEF_HELPER_3(servc, i32, env, i64, i64)
 diff --git a/target/s390x/insn-data.def b/target/s390x/insn-data.def
-index 59c323a7962d..f4b67bda7eb2 100644
+index f4b67bda7eb2..2621e433cd03 100644
 --- a/target/s390x/insn-data.def
 +++ b/target/s390x/insn-data.def
-@@ -1151,6 +1151,15 @@
-     F(0xe733, VERLL,   VRS_a, V,   la2, 0, 0, 0, verll, 0, IF_VEC)
- /* VECTOR ELEMENT ROTATE AND INSERT UNDER MASK */
-     F(0xe772, VERIM,   VRI_d, V,   0, 0, 0, 0, verim, 0, IF_VEC)
-+/* VECTOR ELEMENT SHIFT LEFT */
-+    F(0xe770, VESLV,   VRR_c, V,   0, 0, 0, 0, vesv, 0, IF_VEC)
-+    F(0xe730, VESL,    VRS_a, V,   la2, 0, 0, 0, ves, 0, IF_VEC)
-+/* VECTOR ELEMENT SHIFT RIGHT ARITHMETIC */
-+    F(0xe77a, VESRAV,  VRR_c, V,   0, 0, 0, 0, vesv, 0, IF_VEC)
-+    F(0xe73a, VESRA,   VRS_a, V,   la2, 0, 0, 0, ves, 0, IF_VEC)
-+/* VECTOR ELEMENT SHIFT RIGHT LOGICAL */
-+    F(0xe778, VESRLV,  VRR_c, V,   0, 0, 0, 0, vesv, 0, IF_VEC)
-+    F(0xe738, VESRL,   VRS_a, V,   la2, 0, 0, 0, ves, 0, IF_VEC)
+@@ -1160,6 +1160,10 @@
+ /* VECTOR ELEMENT SHIFT RIGHT LOGICAL */
+     F(0xe778, VESRLV,  VRR_c, V,   0, 0, 0, 0, vesv, 0, IF_VEC)
+     F(0xe738, VESRL,   VRS_a, V,   la2, 0, 0, 0, ves, 0, IF_VEC)
++/* VECTOR SHIFT LEFT */
++    F(0xe774, VSL,     VRR_c, V,   0, 0, 0, 0, vsl, 0, IF_VEC)
++/* VECTOR SHIFT LEFT BY BYTE */
++    F(0xe775, VSLB,    VRR_c, V,   0, 0, 0, 0, vsl, 0, IF_VEC)
 =20
  #ifndef CONFIG_USER_ONLY
  /* COMPARE AND SWAP AND PURGE */
 diff --git a/target/s390x/translate_vx.inc.c b/target/s390x/translate_vx.=
 inc.c
-index a2de139cfcf3..15353096c0b8 100644
+index 15353096c0b8..734c022b3610 100644
 --- a/target/s390x/translate_vx.inc.c
 +++ b/target/s390x/translate_vx.inc.c
-@@ -218,6 +218,12 @@ static void get_vec_element_ptr_i64(TCGv_ptr ptr, ui=
-nt8_t reg, TCGv_i64 enr,
- #define gen_gvec_fn_2(fn, es, v1, v2) \
-     tcg_gen_gvec_##fn(es, vec_full_reg_offset(v1), vec_full_reg_offset(v=
-2), \
-                       16, 16)
-+#define gen_gvec_fn_2i(fn, es, v1, v2, c) \
-+    tcg_gen_gvec_##fn(es, vec_full_reg_offset(v1), vec_full_reg_offset(v=
-2), \
-+                      c, 16, 16)
-+#define gen_gvec_fn_2s(fn, es, v1, v2, s) \
-+    tcg_gen_gvec_##fn(es, vec_full_reg_offset(v1), vec_full_reg_offset(v=
-2), \
-+                      s, 16, 16)
- #define gen_gvec_fn_3(fn, es, v1, v2, v3) \
-     tcg_gen_gvec_##fn(es, vec_full_reg_offset(v1), vec_full_reg_offset(v=
-2), \
-                       vec_full_reg_offset(v3), 16, 16)
-@@ -1956,3 +1962,81 @@ static DisasJumpType op_verim(DisasContext *s, Dis=
-asOps *o)
-                 get_field(s->fields, v3), i4, &g[es]);
+@@ -188,6 +188,9 @@ static void get_vec_element_ptr_i64(TCGv_ptr ptr, uin=
+t8_t reg, TCGv_i64 enr,
+ #define gen_gvec_2s(v1, v2, c, gen) \
+     tcg_gen_gvec_2s(vec_full_reg_offset(v1), vec_full_reg_offset(v2), \
+                     16, 16, c, gen)
++#define gen_gvec_2i_ool(v1, v2, c, data, fn) \
++    tcg_gen_gvec_2i_ool(vec_full_reg_offset(v1), vec_full_reg_offset(v2)=
+, \
++                        c, 16, 16, data, fn)
+ #define gen_gvec_3(v1, v2, v3, gen) \
+     tcg_gen_gvec_3(vec_full_reg_offset(v1), vec_full_reg_offset(v2), \
+                    vec_full_reg_offset(v3), 16, 16, gen)
+@@ -2040,3 +2043,20 @@ static DisasJumpType op_ves(DisasContext *s, Disas=
+Ops *o)
+     }
      return DISAS_NEXT;
  }
 +
-+static DisasJumpType op_vesv(DisasContext *s, DisasOps *o)
++static DisasJumpType op_vsl(DisasContext *s, DisasOps *o)
 +{
-+    const uint8_t es =3D get_field(s->fields, m4);
-+    const uint8_t v1 =3D get_field(s->fields, v1);
-+    const uint8_t v2 =3D get_field(s->fields, v2);
-+    const uint8_t v3 =3D get_field(s->fields, v3);
++    TCGv_i64 shift =3D tcg_temp_new_i64();
 +
-+    if (es > ES_64) {
-+        gen_program_exception(s, PGM_SPECIFICATION);
-+        return DISAS_NORETURN;
++    read_vec_element_i64(shift, get_field(s->fields, v3), 7, ES_8);
++    if (s->fields->op2 =3D=3D 0x74) {
++        tcg_gen_andi_i64(shift, shift, 0x7);
++    } else {
++        tcg_gen_andi_i64(shift, shift, 0x78);
 +    }
 +
-+    switch (s->fields->op2) {
-+    case 0x70:
-+        gen_gvec_fn_3(shlv, es, v1, v2, v3);
-+        break;
-+    case 0x7a:
-+        gen_gvec_fn_3(sarv, es, v1, v2, v3);
-+        break;
-+    case 0x78:
-+        gen_gvec_fn_3(shrv, es, v1, v2, v3);
-+        break;
-+    default:
-+        g_assert_not_reached();
-+    }
++    gen_gvec_2i_ool(get_field(s->fields, v1), get_field(s->fields, v2),
++                    shift, 0, gen_helper_gvec_vsl);
++    tcg_temp_free_i64(shift);
 +    return DISAS_NEXT;
 +}
+diff --git a/target/s390x/vec_int_helper.c b/target/s390x/vec_int_helper.=
+c
+index b881fb722de2..3df069f03319 100644
+--- a/target/s390x/vec_int_helper.c
++++ b/target/s390x/vec_int_helper.c
+@@ -529,3 +529,9 @@ void HELPER(gvec_verim##BITS)(void *v1, const void *v=
+2, const void *v3,        \
+ }
+ DEF_VERIM(8)
+ DEF_VERIM(16)
 +
-+static DisasJumpType op_ves(DisasContext *s, DisasOps *o)
++void HELPER(gvec_vsl)(void *v1, const void *v2, uint64_t count,
++                      uint32_t desc)
 +{
-+    const uint8_t es =3D get_field(s->fields, m4);
-+    const uint8_t d2 =3D get_field(s->fields, d2) &
-+                       (NUM_VEC_ELEMENT_BITS(es) - 1);
-+    const uint8_t v1 =3D get_field(s->fields, v1);
-+    const uint8_t v3 =3D get_field(s->fields, v3);
-+    TCGv_i32 shift;
-+
-+    if (es > ES_64) {
-+        gen_program_exception(s, PGM_SPECIFICATION);
-+        return DISAS_NORETURN;
-+    }
-+
-+    if (likely(!get_field(s->fields, b2))) {
-+        switch (s->fields->op2) {
-+        case 0x30:
-+            gen_gvec_fn_2i(shli, es, v1, v3, d2);
-+            break;
-+        case 0x3a:
-+            gen_gvec_fn_2i(sari, es, v1, v3, d2);
-+            break;
-+        case 0x38:
-+            gen_gvec_fn_2i(shri, es, v1, v3, d2);
-+            break;
-+        default:
-+            g_assert_not_reached();
-+        }
-+    } else {
-+        shift =3D tcg_temp_new_i32();
-+        tcg_gen_extrl_i64_i32(shift, o->addr1);
-+        tcg_gen_andi_i32(shift, shift, NUM_VEC_ELEMENT_BITS(es) - 1);
-+        switch (s->fields->op2) {
-+        case 0x30:
-+            gen_gvec_fn_2s(shls, es, v1, v3, shift);
-+            break;
-+        case 0x3a:
-+            gen_gvec_fn_2s(sars, es, v1, v3, shift);
-+            break;
-+        case 0x38:
-+            gen_gvec_fn_2s(shrs, es, v1, v3, shift);
-+            break;
-+        default:
-+            g_assert_not_reached();
-+        }
-+        tcg_temp_free_i32(shift);
-+    }
-+    return DISAS_NEXT;
++    s390_vec_shl(v1, v2, count);
 +}
 --=20
 2.20.1
