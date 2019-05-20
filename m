@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EB4423D1D
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 18:21:40 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38090 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8B11C23D2C
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 18:24:31 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38130 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSl2h-0004FY-DV
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 12:21:39 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38496)
+	id 1hSl5S-0006vG-Kr
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 12:24:30 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38558)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hSkws-0008Go-BH
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 12:15:39 -0400
+	(envelope-from <kwolf@redhat.com>) id 1hSkwv-0008KP-0e
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 12:15:42 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hSkwq-0003ZY-Vt
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 12:15:38 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51642)
+	(envelope-from <kwolf@redhat.com>) id 1hSkwu-0003c0-21
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 12:15:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34798)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <kwolf@redhat.com>)
-	id 1hSkwm-0003Q3-LI; Mon, 20 May 2019 12:15:32 -0400
+	id 1hSkwm-0003M6-MF; Mon, 20 May 2019 12:15:32 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
 	[10.5.11.11])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 637798CB40;
-	Mon, 20 May 2019 16:15:16 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 971F13001C73;
+	Mon, 20 May 2019 16:15:17 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-117-208.ams2.redhat.com
 	[10.36.117.208])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 77C39189B6;
-	Mon, 20 May 2019 16:15:14 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id AF4F05C2F3;
+	Mon, 20 May 2019 16:15:16 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Date: Mon, 20 May 2019 18:14:36 +0200
-Message-Id: <20190520161453.30723-8-kwolf@redhat.com>
+Date: Mon, 20 May 2019 18:14:37 +0200
+Message-Id: <20190520161453.30723-9-kwolf@redhat.com>
 In-Reply-To: <20190520161453.30723-1-kwolf@redhat.com>
 References: <20190520161453.30723-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.26]);
+	(mx1.redhat.com [10.5.110.43]);
 	Mon, 20 May 2019 16:15:19 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 07/24] block: Add bdrv_try_set_aio_context()
+Subject: [Qemu-devel] [PULL 08/24] block: Make
+ bdrv_attach/detach_aio_context() static
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -60,203 +61,81 @@ Cc: kwolf@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Eventually, we want to make sure that all parents and all children of a
-node are in the same AioContext as the node itself. This means that
-changing the AioContext may fail because one of the other involved
-parties (e.g. a guest device that was configured with an iothread)
-cannot allow switching to a different AioContext.
-
-Introduce a set of functions that allow to first check whether all
-involved nodes can switch to a new context and only then do the actual
-switch. The check recursively covers children and parents.
+Since commit b97511c7bc8, there is no reason for block drivers any more
+to call these functions (see the function comment in block_int.h). They
+are now just internal helper functions for bdrv_set_aio_context()
+and can be made static.
 
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- include/block/block.h     |  8 ++++
- include/block/block_int.h |  3 ++
- block.c                   | 92 +++++++++++++++++++++++++++++++++++++++
- 3 files changed, 103 insertions(+)
+ include/block/block_int.h | 21 ---------------------
+ block.c                   |  6 +++---
+ 2 files changed, 3 insertions(+), 24 deletions(-)
 
-diff --git a/include/block/block.h b/include/block/block.h
-index 5e2b98b0ee..fc0239a887 100644
---- a/include/block/block.h
-+++ b/include/block/block.h
-@@ -586,6 +586,14 @@ void bdrv_coroutine_enter(BlockDriverState *bs, Coro=
-utine *co);
-  * This function must be called with iothread lock held.
-  */
- void bdrv_set_aio_context(BlockDriverState *bs, AioContext *new_context)=
-;
-+int bdrv_try_set_aio_context(BlockDriverState *bs, AioContext *ctx,
-+                             Error **errp);
-+int bdrv_child_try_set_aio_context(BlockDriverState *bs, AioContext *ctx=
-,
-+                                   BdrvChild *ignore_child, Error **errp=
-);
-+bool bdrv_child_can_set_aio_context(BdrvChild *c, AioContext *ctx,
-+                                    GSList **ignore, Error **errp);
-+bool bdrv_can_set_aio_context(BlockDriverState *bs, AioContext *ctx,
-+                              GSList **ignore, Error **errp);
- int bdrv_probe_blocksizes(BlockDriverState *bs, BlockSizes *bsz);
- int bdrv_probe_geometry(BlockDriverState *bs, HDGeometry *geo);
-=20
 diff --git a/include/block/block_int.h b/include/block/block_int.h
-index 94d45c9708..b150c5f047 100644
+index b150c5f047..aa2c638b02 100644
 --- a/include/block/block_int.h
 +++ b/include/block/block_int.h
-@@ -691,6 +691,9 @@ struct BdrvChildRole {
-      * can update its reference. */
-     int (*update_filename)(BdrvChild *child, BlockDriverState *new_base,
-                            const char *filename, Error **errp);
-+
-+    bool (*can_set_aio_ctx)(BdrvChild *child, AioContext *ctx,
-+                            GSList **ignore, Error **errp);
- };
+@@ -965,27 +965,6 @@ void bdrv_parse_filename_strip_prefix(const char *fi=
+lename, const char *prefix,
+ void bdrv_add_before_write_notifier(BlockDriverState *bs,
+                                     NotifierWithReturn *notifier);
 =20
- extern const BdrvChildRole child_file;
+-/**
+- * bdrv_detach_aio_context:
+- *
+- * May be called from .bdrv_detach_aio_context() to detach children from=
+ the
+- * current #AioContext.  This is only needed by block drivers that manag=
+e their
+- * own children.  Both ->file and ->backing are automatically handled an=
+d
+- * block drivers should not call this function on them explicitly.
+- */
+-void bdrv_detach_aio_context(BlockDriverState *bs);
+-
+-/**
+- * bdrv_attach_aio_context:
+- *
+- * May be called from .bdrv_attach_aio_context() to attach children to t=
+he new
+- * #AioContext.  This is only needed by block drivers that manage their =
+own
+- * children.  Both ->file and ->backing are automatically handled and bl=
+ock
+- * drivers should not call this function on them explicitly.
+- */
+-void bdrv_attach_aio_context(BlockDriverState *bs,
+-                             AioContext *new_context);
+-
+ /**
+  * bdrv_add_aio_context_notifier:
+  *
 diff --git a/block.c b/block.c
-index 6999aad446..8ff6ab1152 100644
+index 8ff6ab1152..b2f71142a5 100644
 --- a/block.c
 +++ b/block.c
-@@ -936,6 +936,13 @@ static int bdrv_child_cb_inactivate(BdrvChild *child=
-)
-     return 0;
+@@ -5676,7 +5676,7 @@ static void bdrv_do_remove_aio_context_notifier(Bdr=
+vAioNotifier *ban)
+     g_free(ban);
  }
 =20
-+static bool bdrv_child_cb_can_set_aio_ctx(BdrvChild *child, AioContext *=
-ctx,
-+                                          GSList **ignore, Error **errp)
-+{
-+    BlockDriverState *bs =3D child->opaque;
-+    return bdrv_can_set_aio_context(bs, ctx, ignore, errp);
-+}
-+
- /*
-  * Returns the options and flags that a temporary snapshot should get, b=
-ased on
-  * the originally requested flags (the originally requested image will h=
-ave
-@@ -1003,6 +1010,7 @@ const BdrvChildRole child_file =3D {
-     .attach          =3D bdrv_child_cb_attach,
-     .detach          =3D bdrv_child_cb_detach,
-     .inactivate      =3D bdrv_child_cb_inactivate,
-+    .can_set_aio_ctx =3D bdrv_child_cb_can_set_aio_ctx,
- };
-=20
- /*
-@@ -1029,6 +1037,7 @@ const BdrvChildRole child_format =3D {
-     .attach          =3D bdrv_child_cb_attach,
-     .detach          =3D bdrv_child_cb_detach,
-     .inactivate      =3D bdrv_child_cb_inactivate,
-+    .can_set_aio_ctx =3D bdrv_child_cb_can_set_aio_ctx,
- };
-=20
- static void bdrv_backing_attach(BdrvChild *c)
-@@ -1152,6 +1161,7 @@ const BdrvChildRole child_backing =3D {
-     .drained_end     =3D bdrv_child_cb_drained_end,
-     .inactivate      =3D bdrv_child_cb_inactivate,
-     .update_filename =3D bdrv_backing_update_filename,
-+    .can_set_aio_ctx =3D bdrv_child_cb_can_set_aio_ctx,
- };
-=20
- static int bdrv_open_flags(BlockDriverState *bs, int flags)
-@@ -5750,6 +5760,88 @@ void bdrv_set_aio_context(BlockDriverState *bs, Ai=
-oContext *new_context)
-     aio_context_release(new_context);
+-void bdrv_detach_aio_context(BlockDriverState *bs)
++static void bdrv_detach_aio_context(BlockDriverState *bs)
+ {
+     BdrvAioNotifier *baf, *baf_tmp;
+     BdrvChild *child;
+@@ -5708,8 +5708,8 @@ void bdrv_detach_aio_context(BlockDriverState *bs)
+     bs->aio_context =3D NULL;
  }
 =20
-+static bool bdrv_parent_can_set_aio_context(BdrvChild *c, AioContext *ct=
-x,
-+                                            GSList **ignore, Error **err=
-p)
-+{
-+    if (g_slist_find(*ignore, c)) {
-+        return true;
-+    }
-+    *ignore =3D g_slist_prepend(*ignore, c);
-+
-+    /* A BdrvChildRole that doesn't handle AioContext changes cannot
-+     * tolerate any AioContext changes */
-+    if (!c->role->can_set_aio_ctx) {
-+        char *user =3D bdrv_child_user_desc(c);
-+        error_setg(errp, "Changing iothreads is not supported by %s", us=
-er);
-+        g_free(user);
-+        return false;
-+    }
-+    if (!c->role->can_set_aio_ctx(c, ctx, ignore, errp)) {
-+        assert(!errp || *errp);
-+        return false;
-+    }
-+    return true;
-+}
-+
-+bool bdrv_child_can_set_aio_context(BdrvChild *c, AioContext *ctx,
-+                                    GSList **ignore, Error **errp)
-+{
-+    if (g_slist_find(*ignore, c)) {
-+        return true;
-+    }
-+    *ignore =3D g_slist_prepend(*ignore, c);
-+    return bdrv_can_set_aio_context(c->bs, ctx, ignore, errp);
-+}
-+
-+/* @ignore will accumulate all visited BdrvChild object. The caller is
-+ * responsible for freeing the list afterwards. */
-+bool bdrv_can_set_aio_context(BlockDriverState *bs, AioContext *ctx,
-+                              GSList **ignore, Error **errp)
-+{
-+    BdrvChild *c;
-+
-+    if (bdrv_get_aio_context(bs) =3D=3D ctx) {
-+        return true;
-+    }
-+
-+    QLIST_FOREACH(c, &bs->parents, next_parent) {
-+        if (!bdrv_parent_can_set_aio_context(c, ctx, ignore, errp)) {
-+            return false;
-+        }
-+    }
-+    QLIST_FOREACH(c, &bs->children, next) {
-+        if (!bdrv_child_can_set_aio_context(c, ctx, ignore, errp)) {
-+            return false;
-+        }
-+    }
-+
-+    return true;
-+}
-+
-+int bdrv_child_try_set_aio_context(BlockDriverState *bs, AioContext *ctx=
-,
-+                                   BdrvChild *ignore_child, Error **errp=
-)
-+{
-+    GSList *ignore;
-+    bool ret;
-+
-+    ignore =3D ignore_child ? g_slist_prepend(NULL, ignore_child) : NULL=
-;
-+    ret =3D bdrv_can_set_aio_context(bs, ctx, &ignore, errp);
-+    g_slist_free(ignore);
-+
-+    if (!ret) {
-+        return -EPERM;
-+    }
-+
-+    bdrv_set_aio_context(bs, ctx);
-+    return 0;
-+}
-+
-+int bdrv_try_set_aio_context(BlockDriverState *bs, AioContext *ctx,
-+                             Error **errp)
-+{
-+    return bdrv_child_try_set_aio_context(bs, ctx, NULL, errp);
-+}
-+
- void bdrv_add_aio_context_notifier(BlockDriverState *bs,
-         void (*attached_aio_context)(AioContext *new_context, void *opaq=
-ue),
-         void (*detach_aio_context)(void *opaque), void *opaque)
+-void bdrv_attach_aio_context(BlockDriverState *bs,
+-                             AioContext *new_context)
++static void bdrv_attach_aio_context(BlockDriverState *bs,
++                                    AioContext *new_context)
+ {
+     BdrvAioNotifier *ban, *ban_tmp;
+     BdrvChild *child;
 --=20
 2.20.1
 
