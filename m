@@ -2,49 +2,38 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5954F22C21
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 08:34:22 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58824 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DE74022BFE
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 08:22:16 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58659 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSbsL-0004Rc-Ht
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 02:34:21 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50853)
+	id 1hSbgc-0008IU-Vz
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 02:22:15 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48782)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hSbqd-0003qo-F0
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 02:32:36 -0400
+	(envelope-from <dplotnikov@virtuozzo.com>) id 1hSbfT-0007u7-Rt
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 02:21:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hSbqb-000064-Gx
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 02:32:35 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:44481 helo=ozlabs.org)
+	(envelope-from <dplotnikov@virtuozzo.com>) id 1hSbfS-0003Xr-Fd
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 02:21:03 -0400
+Received: from relay.sw.ru ([185.231.240.75]:36658)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
-	id 1hSbqZ-0008VO-0U; Mon, 20 May 2019 02:32:31 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
-	id 456pwR0X9Zz9s6w; Mon, 20 May 2019 16:32:22 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=gibson.dropbear.id.au; s=201602; t=1558333943;
-	bh=HgNto38wpI5YzMXewdgS06gCrnfcvkroM6usRCCnbRI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=j95ZtClv2mQNHpEE2PEmTJ8DziQOgwa31ySaV65NH/sKF61h9aYk/atY1R8yN/+Jd
-	OY/VCooAJKS9V1zDzKV6H1E3NDofCiglEW21PKqsKF7NpqIxV+Rte7ifMb527CF/rF
-	KY7a+P5tOY82tJDzzL6Fsyq/fqHSVWspYCefuXfM=
-Date: Mon, 20 May 2019 16:14:32 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Message-ID: <20190520061432.GC27407@umbus.fritz.box>
-References: <20190517041823.23871-1-david@gibson.dropbear.id.au>
-	<20190517191430.7daa11be@bahia.lan>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="w7PDEPdKQumQfZlR"
-Content-Disposition: inline
-In-Reply-To: <20190517191430.7daa11be@bahia.lan>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
-Subject: Re: [Qemu-devel] [PATCH] spapr: Add forgotten capability to
- migration stream
+	(Exim 4.71) (envelope-from <dplotnikov@virtuozzo.com>)
+	id 1hSbfO-0003VB-VH; Mon, 20 May 2019 02:20:59 -0400
+Received: from [10.94.4.71] (helo=dptest2.qa.sw.ru)
+	by relay.sw.ru with esmtp (Exim 4.91)
+	(envelope-from <dplotnikov@virtuozzo.com>)
+	id 1hSbfJ-0006BF-Pg; Mon, 20 May 2019 09:20:53 +0300
+From: Denis Plotnikov <dplotnikov@virtuozzo.com>
+To: eblake@redhat.com,
+	kwolf@redhat.com,
+	mreitz@redhat.com
+Date: Mon, 20 May 2019 09:20:23 +0300
+Message-Id: <20190520062023.11599-1-dplotnikov@virtuozzo.com>
+X-Mailer: git-send-email 2.17.0
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 185.231.240.75
+Subject: [Qemu-devel] [PATCH v2] [RFC] qcow2: add compression type feature
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -56,215 +45,227 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, clg@kaod.org
+Cc: qemu-devel@nongnu.org, qemu-block@nongnu.org, den@virtuozzo.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+The patch adds some preparation parts for incompatible compression type
+feature into QCOW2 header that indicates that *all* compressed clusters
+must be (de)compressed using a certain compression type.
 
---w7PDEPdKQumQfZlR
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+It is implied that the compression type is set on the image creation and
+can be changed only later by image conversion, thus the only compression
+algorithm is used for the image.
 
-On Fri, May 17, 2019 at 07:14:30PM +0200, Greg Kurz wrote:
-> On Fri, 17 May 2019 14:18:23 +1000
-> David Gibson <david@gibson.dropbear.id.au> wrote:
->=20
-> > spapr machine capabilities are supposed to be sent in the migration str=
-eam
-> > so that we can sanity check the source and destination have compatible
-> > configuration.  Unfortunately, when we added the hpt-max-page-size
-> > capability, we forgot to add it to the migration state.  This means tha=
-t we
-> > can generate spurious warnings when both ends are configured for large
-> > pages, or potentially fail to warn if the source is configured for huge
-> > pages, but the destination is not.
-> >=20
-> > Fixes: 2309832afda "spapr: Maximum (HPT) pagesize property"
-> >=20
->=20
-> Sorry I didn't spot that during review :-\
->=20
-> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> > ---
->=20
-> This breaks backward migration if the cap is set to a non-default
-> value, since older QEMUs don't expect the "spapr/cap/hpt_maxpagesize"
-> subsection.
+The plan is to add support for ZSTD and then may be something more effective
+in the future.
 
-Ah, crud, that's a serious pain.
+ZSTD compression algorithm consumes 3-5 times less CPU power with a
+comparable compression ratio with zlib. It would be wise to use it for
+data compression e.g. for backups.
 
-> This being said, I'm not sure any other value but the current default (16)
-> actually works, so maybe we don't care. If so,
+The default compression is ZLIB.
 
-Alas, it really does work with value 24 (giving you POWER8 16MiB
-pages).  And migration even works as long as it's 24 at both ends,
-although it emits a bogus warning.
+Signed-off-by: Denis Plotnikov <dplotnikov@virtuozzo.com>
+---
+ block/qcow2.c          | 25 +++++++++++++++++++++++++
+ block/qcow2.h          | 29 ++++++++++++++++++++++-------
+ docs/interop/qcow2.txt | 34 +++++++++++++++++++++++++++++++++-
+ qapi/block-core.json   | 13 +++++++++++++
+ 4 files changed, 93 insertions(+), 8 deletions(-)
 
-> Reviewed-by: Greg Kurz <groug@kaod.org>
->=20
-> Otherwise, I was thinking about something like this:
+diff --git a/block/qcow2.c b/block/qcow2.c
+index 3ace3b2209..bca506b80f 100644
+--- a/block/qcow2.c
++++ b/block/qcow2.c
+@@ -74,6 +74,7 @@ typedef struct {
+ #define  QCOW2_EXT_MAGIC_CRYPTO_HEADER 0x0537be77
+ #define  QCOW2_EXT_MAGIC_BITMAPS 0x23852875
+ #define  QCOW2_EXT_MAGIC_DATA_FILE 0x44415441
++#define  QCOW2_EXT_MAGIC_COMPRESSION_TYPE 0x434D5052
+ 
+ static int coroutine_fn
+ qcow2_co_preadv_compressed(BlockDriverState *bs,
+@@ -398,6 +399,9 @@ static int qcow2_read_extensions(BlockDriverState *bs, uint64_t start_offset,
+ #endif
+             break;
+ 
++        case QCOW2_EXT_MAGIC_COMPRESSION_TYPE:
++            /* Setting compression type to BDRVQcow2State->compression_type */
++            /* from the image header is going to be here */
+         case QCOW2_EXT_MAGIC_DATA_FILE:
+         {
+             s->image_data_file = g_malloc0(ext.len + 1);
+@@ -2553,6 +2557,11 @@ int qcow2_update_header(BlockDriverState *bs)
+                 .bit  = QCOW2_COMPAT_LAZY_REFCOUNTS_BITNR,
+                 .name = "lazy refcounts",
+             },
++            {
++                .type = QCOW2_FEAT_TYPE_INCOMPATIBLE,
++                .bit  = QCOW2_INCOMPAT_COMPRESSION_TYPE_BITNR,
++                .name = "compression type",
++            },
+         };
+ 
+         ret = header_ext_add(buf, QCOW2_EXT_MAGIC_FEATURE_TABLE,
+@@ -2583,6 +2592,22 @@ int qcow2_update_header(BlockDriverState *bs)
+         buflen -= ret;
+     }
+ 
++    /* Compression type extension */
++    if (s->compression_type != 0) {
++        Qcow2CompressionTypeExt comp_header = {
++            .compression_type = cpu_to_be32(s->compression_type),
++        };
++        ret = header_ext_add(buf, QCOW2_EXT_MAGIC_COMPRESSION_TYPE,
++                             &comp_header,
++                             cpu_to_be64(sizeof(comp_header)),
++                             buflen);
++        if (ret < 0) {
++            goto fail;
++        }
++        buf += ret;
++        buflen -= ret;
++    }
++
+     /* Keep unknown header extensions */
+     QLIST_FOREACH(uext, &s->unknown_header_ext, next) {
+         ret = header_ext_add(buf, uext->magic, uext->data, uext->len, buflen);
+diff --git a/block/qcow2.h b/block/qcow2.h
+index fdee297f33..08468ab97d 100644
+--- a/block/qcow2.h
++++ b/block/qcow2.h
+@@ -198,16 +198,20 @@ enum {
+ 
+ /* Incompatible feature bits */
+ enum {
+-    QCOW2_INCOMPAT_DIRTY_BITNR      = 0,
+-    QCOW2_INCOMPAT_CORRUPT_BITNR    = 1,
+-    QCOW2_INCOMPAT_DATA_FILE_BITNR  = 2,
+-    QCOW2_INCOMPAT_DIRTY            = 1 << QCOW2_INCOMPAT_DIRTY_BITNR,
+-    QCOW2_INCOMPAT_CORRUPT          = 1 << QCOW2_INCOMPAT_CORRUPT_BITNR,
+-    QCOW2_INCOMPAT_DATA_FILE        = 1 << QCOW2_INCOMPAT_DATA_FILE_BITNR,
++    QCOW2_INCOMPAT_DIRTY_BITNR            = 0,
++    QCOW2_INCOMPAT_CORRUPT_BITNR          = 1,
++    QCOW2_INCOMPAT_DATA_FILE_BITNR        = 2,
++    QCOW2_INCOMPAT_COMPRESSION_TYPE_BITNR = 3,
++    QCOW2_INCOMPAT_DIRTY                  = 1 << QCOW2_INCOMPAT_DIRTY_BITNR,
++    QCOW2_INCOMPAT_CORRUPT                = 1 << QCOW2_INCOMPAT_CORRUPT_BITNR,
++    QCOW2_INCOMPAT_DATA_FILE              = 1 << QCOW2_INCOMPAT_DATA_FILE_BITNR,
++    QCOW2_INCOMPAT_COMPRESSION_TYPE       =
++        1 << QCOW2_INCOMPAT_COMPRESSION_TYPE_BITNR,
+ 
+     QCOW2_INCOMPAT_MASK             = QCOW2_INCOMPAT_DIRTY
+                                     | QCOW2_INCOMPAT_CORRUPT
+-                                    | QCOW2_INCOMPAT_DATA_FILE,
++                                    | QCOW2_INCOMPAT_DATA_FILE
++                                    | QCOW2_INCOMPAT_COMPRESSION_TYPE,
+ };
+ 
+ /* Compatible feature bits */
+@@ -263,6 +267,10 @@ typedef struct Qcow2BitmapHeaderExt {
+     uint64_t bitmap_directory_offset;
+ } QEMU_PACKED Qcow2BitmapHeaderExt;
+ 
++typedef struct Qcow2CompressionTypeExt {
++    uint32_t compression_type;
++} QEMU_PACKED Qcow2CompressionTypeExt;
++
+ typedef struct BDRVQcow2State {
+     int cluster_bits;
+     int cluster_size;
+@@ -350,6 +358,13 @@ typedef struct BDRVQcow2State {
+     int nb_compress_threads;
+ 
+     BdrvChild *data_file;
++    /**
++     * Compression type used for the image. Default: 0 - ZLIB
++     * The image compression type is set on image creation.
++     * The only way to change the compression type is to convert the image
++     * with the desired compression type set
++     */
++    uint32_t compression_type;
+ } BDRVQcow2State;
+ 
+ typedef struct Qcow2COWRegion {
+diff --git a/docs/interop/qcow2.txt b/docs/interop/qcow2.txt
+index af5711e533..a070e82e1a 100644
+--- a/docs/interop/qcow2.txt
++++ b/docs/interop/qcow2.txt
+@@ -109,7 +109,14 @@ in the description of a field.
+                                 An External Data File Name header extension may
+                                 be present if this bit is set.
+ 
+-                    Bits 3-63:  Reserved (set to 0)
++                    Bit 3:      Compression type. If the bit is set, then the
++                                type of compression the image uses is set in the
++                                header extension. When the bit is set the
++                                compression type extension header must be present.
++                                When the bit is not set the compression type
++                                header must absent.
++
++                    Bits 4-63:  Reserved (set to 0)
+ 
+          80 -  87:  compatible_features
+                     Bitmask of compatible features. An implementation can
+@@ -175,6 +182,7 @@ be stored. Each extension has a structure like the following:
+                         0x23852875 - Bitmaps extension
+                         0x0537be77 - Full disk encryption header pointer
+                         0x44415441 - External data file name string
++                        0x434D5052 - Compression type extension
+                         other      - Unknown header extension, can be safely
+                                      ignored
+ 
+@@ -771,3 +779,27 @@ In the image file the 'enabled' state is reflected by the 'auto' flag. If this
+ flag is set, the software must consider the bitmap as 'enabled' and start
+ tracking virtual disk changes to this bitmap from the first write to the
+ virtual disk. If this flag is not set then the bitmap is disabled.
++
++
++== Compression type extension ==
++
++The compression type extension is an optional header extension. It stores the
++ID of the compressor which has to be used to compress/decompress disk clusters.
++A single compression type is applied to all compressed disk clusters,
++with no way to change compression types per cluster. Two clusters of the image
++couldn't be compressed with different compressors.
++
++The compression type is set on the image creation. The only way to change
++the compression type is to convert the image explicitly.
++
++The compression type extension is present if and only if the incompatible
++compression type bit is set. When the bit is not set the compression type
++header must absent.
++
++When the compression type bit is not set and the compression type header
++extension is absent ZLIB compression is used for compressed clusters.
++This defines default image compression type: ZLIB.
++
++Available compression types:
++    ID    0: Invalid value
++          1: ZSTD
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 7ccbfff9d0..9bde1372ba 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -5257,3 +5257,16 @@
+   'data' : { 'node-name': 'str',
+              'iothread': 'StrOrNull',
+              '*force': 'bool' } }
++
++##
++# @Qcow2CompressionType:
++#
++# Compression type used in qcow2 image file
++#
++# @zlib - gzip compressor
++# @zstd - zstd compression
++#
++# Since: 4.1
++##
++{ 'enum': 'Qcow2CompressionType',
++  'data': [ 'zlib', 'zstd' ] }
+-- 
+2.17.0
 
-Yeah, I think something like the below is the best we can do.
-
-> 8<=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index 9fc91c8f5eac..4f5becf1f3cc 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -119,6 +119,7 @@ struct SpaprMachineClass {
->      bool pre_2_10_has_unused_icps;
->      bool legacy_irq_allocation;
->      bool broken_host_serial_model; /* present real host info to the gues=
-t */
-> +    bool pre_4_1_migration; /* don't migrate hpt-max-page-size */
-> =20
->      void (*phb_placement)(SpaprMachineState *spapr, uint32_t index,
->                            uint64_t *buid, hwaddr *pio,=20
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index bcae30ad26c3..c8b3cccd5375 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -4413,8 +4413,12 @@ DEFINE_SPAPR_MACHINE(4_1, "4.1", true);
->   */
->  static void spapr_machine_4_0_class_options(MachineClass *mc)
->  {
-> +    SpaprMachineClass *smc =3D SPAPR_MACHINE_CLASS(mc);
-> +
->      spapr_machine_4_1_class_options(mc);
->      compat_props_add(mc->compat_props, hw_compat_4_0, hw_compat_4_0_len);
-> +
-> +    smc->pre_4_1_migration =3D true;
->  }
-> =20
->  DEFINE_SPAPR_MACHINE(4_0, "4.0", false);
-> diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-> index 658eb15a147b..8a77bbdcf322 100644
-> --- a/hw/ppc/spapr_caps.c
-> +++ b/hw/ppc/spapr_caps.c
-> @@ -64,6 +64,7 @@ typedef struct SpaprCapabilityInfo {
->      void (*apply)(SpaprMachineState *spapr, uint8_t val, Error **errp);
->      void (*cpu_apply)(SpaprMachineState *spapr, PowerPCCPU *cpu,
->                        uint8_t val, Error **errp);
-> +    bool (*migrate_needed)(void *opaque);
->  } SpaprCapabilityInfo;
-> =20
->  static void spapr_cap_get_bool(Object *obj, Visitor *v, const char *name,
-> @@ -350,6 +351,11 @@ static void cap_hpt_maxpagesize_apply(SpaprMachineSt=
-ate *spapr,
->      spapr_check_pagesize(spapr, qemu_minrampagesize(), errp);
->  }
-> =20
-> +static bool cap_hpt_maxpagesize_migrate_needed(void *opaque)
-> +{
-> +    return SPAPR_MACHINE_CLASS(opaque)->pre_4_1_migration;
-> +}
-> +
->  static bool spapr_pagesize_cb(void *opaque, uint32_t seg_pshift,
->                                uint32_t pshift)
->  {
-> @@ -542,6 +548,7 @@ SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] =
-=3D {
->          .type =3D "int",
->          .apply =3D cap_hpt_maxpagesize_apply,
->          .cpu_apply =3D cap_hpt_maxpagesize_cpu_apply,
-> +        .migrate_needed =3D cap_hpt_maxpagesize_migrate_needed,
->      },
->      [SPAPR_CAP_NESTED_KVM_HV] =3D {
->          .name =3D "nested-hv",
-> @@ -679,8 +686,11 @@ int spapr_caps_post_migration(SpaprMachineState *spa=
-pr)
->  static bool spapr_cap_##sname##_needed(void *opaque)    \
->  {                                                       \
->      SpaprMachineState *spapr =3D opaque;                  \
-> +    bool (*needed)(void *opaque) =3D                      \
-> +        capability_table[cap].migrate_needed;           \
->                                                          \
-> -    return spapr->cmd_line_caps[cap] &&                 \
-> +    return needed ? needed(opaque) : true &&            \
-> +           spapr->cmd_line_caps[cap] &&                 \
->             (spapr->eff.caps[cap] !=3D                     \
->              spapr->def.caps[cap]);                      \
->  }                                                       \
-> 8<=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D
->=20
->=20
-> >  hw/ppc/spapr.c         | 1 +
-> >  hw/ppc/spapr_caps.c    | 1 +
-> >  include/hw/ppc/spapr.h | 1 +
-> >  3 files changed, 3 insertions(+)
-> >=20
-> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> > index 8580a8dc67..bcae30ad26 100644
-> > --- a/hw/ppc/spapr.c
-> > +++ b/hw/ppc/spapr.c
-> > @@ -2125,6 +2125,7 @@ static const VMStateDescription vmstate_spapr =3D=
- {
-> >          &vmstate_spapr_cap_cfpc,
-> >          &vmstate_spapr_cap_sbbc,
-> >          &vmstate_spapr_cap_ibs,
-> > +        &vmstate_spapr_cap_hpt_maxpagesize,
-> >          &vmstate_spapr_irq_map,
-> >          &vmstate_spapr_cap_nested_kvm_hv,
-> >          &vmstate_spapr_dtb,
-> > diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-> > index 9b1c10baa6..658eb15a14 100644
-> > --- a/hw/ppc/spapr_caps.c
-> > +++ b/hw/ppc/spapr_caps.c
-> > @@ -703,6 +703,7 @@ SPAPR_CAP_MIG_STATE(dfp, SPAPR_CAP_DFP);
-> >  SPAPR_CAP_MIG_STATE(cfpc, SPAPR_CAP_CFPC);
-> >  SPAPR_CAP_MIG_STATE(sbbc, SPAPR_CAP_SBBC);
-> >  SPAPR_CAP_MIG_STATE(ibs, SPAPR_CAP_IBS);
-> > +SPAPR_CAP_MIG_STATE(hpt_maxpagesize, SPAPR_CAP_HPT_MAXPAGESIZE);
-> >  SPAPR_CAP_MIG_STATE(nested_kvm_hv, SPAPR_CAP_NESTED_KVM_HV);
-> >  SPAPR_CAP_MIG_STATE(large_decr, SPAPR_CAP_LARGE_DECREMENTER);
-> >  SPAPR_CAP_MIG_STATE(ccf_assist, SPAPR_CAP_CCF_ASSIST);
-> > diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> > index 7e32f309c2..9fc91c8f5e 100644
-> > --- a/include/hw/ppc/spapr.h
-> > +++ b/include/hw/ppc/spapr.h
-> > @@ -849,6 +849,7 @@ extern const VMStateDescription vmstate_spapr_cap_d=
-fp;
-> >  extern const VMStateDescription vmstate_spapr_cap_cfpc;
-> >  extern const VMStateDescription vmstate_spapr_cap_sbbc;
-> >  extern const VMStateDescription vmstate_spapr_cap_ibs;
-> > +extern const VMStateDescription vmstate_spapr_cap_hpt_maxpagesize;
-> >  extern const VMStateDescription vmstate_spapr_cap_nested_kvm_hv;
-> >  extern const VMStateDescription vmstate_spapr_cap_large_decr;
-> >  extern const VMStateDescription vmstate_spapr_cap_ccf_assist;
->=20
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---w7PDEPdKQumQfZlR
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlziRcgACgkQbDjKyiDZ
-s5INbg/+NXnHCv2XALuHFc0v6bhJF61zxrDW8qUcb5PWTxzk3eVJlrOdB60ZRw+Z
-ilSsvlyUkvzyyiwQ7Yd863NSX7o/MIgwzHUHLkV0mHp+s4v3FooH4rLY7kqIkW0G
-FvlhX8JCpHB3JkWJQ6J9Ww2kLcH+fYblspWVsZWznroiSqtS1H/yXWmTsgWmgdgv
-bx0lfc+diu2XBCRhIULr1LUVYrSTa2Q5KRz+yt3L4Ct4cgawgheLSQqd/kFbkuVD
-a0ymsxnGc+NJzPJRw+N7XK0vpsfngZGDsYpYoblcl3RYDerttFIyeotYkH+82cRx
-bSbeo7o8Rm0OjHdo/D6nd+0mpSP81D3NnSAntNXUxEgSGXnAQUxqrz3QyiP68MHy
-Pw7j2K/QuVZIJY9w8Uo2k8IRqi2QWqSDbbDJUlZ8OMWP98cT1OxcvvUMTdXImfAQ
-elXNkOBwlgnhb61AFiyE66StzOxYQLJcBXssDkTZCGrQC3oWfqDEMMPWvxAs8RZ0
-05MgcK30e+PNigwFh++vfPswQ0cYSpHnR2WMNo6PBc+PGzauNN+6AiO3hrVsDBvr
-4jJNTu0lYxX2qpvCHLTmJiAFGs9Vo8tEeufoQA+38zdrM8FVzHx1vhWE7wFcJofX
-is0S+AUlKtBwmA1ylslUPf1gJ2pgbfHFPlRo0VcFHrwkUMfMEy8=
-=j8Md
------END PGP SIGNATURE-----
-
---w7PDEPdKQumQfZlR--
 
