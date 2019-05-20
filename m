@@ -2,67 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0280F24336
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 23:53:54 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:42482 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D6B0A2433F
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 23:59:14 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:42580 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSqED-0005ZD-5K
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 17:53:53 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59495)
+	id 1hSqJN-0008KV-Pk
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 17:59:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:32862)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alistair23@gmail.com>) id 1hSqAr-0003kk-CS
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 17:50:26 -0400
+	(envelope-from <alistair23@gmail.com>) id 1hSqII-0007pp-5P
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 17:58:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alistair23@gmail.com>) id 1hSqAq-00063e-Gv
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 17:50:25 -0400
-Received: from mail-lj1-x243.google.com ([2a00:1450:4864:20::243]:36800)
+	(envelope-from <alistair23@gmail.com>) id 1hSqIH-0002qD-0d
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 17:58:06 -0400
+Received: from mail-lf1-x144.google.com ([2a00:1450:4864:20::144]:33295)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <alistair23@gmail.com>)
-	id 1hSqAq-000632-5U; Mon, 20 May 2019 17:50:24 -0400
-Received: by mail-lj1-x243.google.com with SMTP id z1so13931345ljb.3;
-	Mon, 20 May 2019 14:50:24 -0700 (PDT)
+	id 1hSqIE-0002oP-Ol; Mon, 20 May 2019 17:58:02 -0400
+Received: by mail-lf1-x144.google.com with SMTP id x132so11482038lfd.0;
+	Mon, 20 May 2019 14:58:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=x7r9XNYB2o5vMYWmRzZIat+sN5wAmUA6kVuz3xo43fs=;
-	b=q84M+lnHopdfZVKExtjtdcrV1vDZiW0c0DeMXwrUcaSGUnH2O2HfQP9fPKZG1FQ4fn
-	25sVYshWZd0vlShdwN0RRKqzhkfRv2/ekKrw8lDBSKfb4ntK8wFUrse5l1FuFdmom4In
-	NVrFaVWwAooqXtf2CpSLF8etTDNboOUL3CV60KBcc09+ddoQBfpuv7n4NtoOmXVZ/3ig
-	/fLxSmOkDDrYisABEPqk7fiDv+ZniCIqQaAiG7XXnLrFBSv4O5o3lz9OO8xEoL8Oyust
-	KI8YHvQEyPb4StTpuLEnP5rXbjm54mGbcSKAzNyh5koS4HQXKL2sq+XPtdFZV5mXwpOw
-	5Y0A==
+	:cc; bh=M6qMObBAkscLuAOv22PkbXDv/eymZ80GxzTPN5ZaAGU=;
+	b=H4jZHMWstN9+nBGIsm6NQE9JsWlZzbu1YF/Xq56BsgwFCx25koI68ZZRh67pE9X4bN
+	OFHpomQrg7ROSCLRPMevZtjyAQ2KDP6zUJVEdqqgC8ZBnT9F8p/OD/FcDkbPn6c5TzgE
+	zHiXp4GOf6fnEBGmkzntKEGmDJiBODi9ELB5+curJfYjy+A/Vy7q+im0KxHcEypQOBEX
+	2e4tsi5zHobGf38oe57RB/nOG7MfBv2OIVIIPbZAVPUmtkonvqyAjgB5yE9NVjAtSMtC
+	r32OLJzeTCwBypaENGo9DXhkrfKovZ3B6KAWvZwFOdvq+qRMdNItnn5pOlYW/MkpPHRg
+	w/9Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=x7r9XNYB2o5vMYWmRzZIat+sN5wAmUA6kVuz3xo43fs=;
-	b=cMAR1SVAlGkk6EZID4j93rzlKmUHrroHBXVdIFPTN/PJpW6UkIxv3QscZ7h4ygY9tc
-	PLUjT9jceCdmhzVIhFCjmMOTwWy6S4bLjqyZ9CT9NMKfU2PrqUXs/vr5mgHBVl1WtSaa
-	IMxg59NLBkVbA1wvXspAnGwArAUPGzPzvCoKb6DbItT3/bADcOfhd/E9KhuAdp8Q+G64
-	11hiaEcGCWSlFMDaDp+NaMf6T9tpeAP8UDx7NX+bkRPMHxBeQVgsenK95RP+qL5TTw/N
-	m8LD+1BR+5qKN6Ptnkd47t4wlock2F7Ixh8s/hFdAT5wbiNbArXezsfZaDbUQQ3/881a
-	AOCw==
-X-Gm-Message-State: APjAAAXdQdBimzlWjkkEdJ9oTorWbPzDRJV22J0Rjatw65ej4AX5+q9X
-	16QxjbmBjREU1EChucFi2wvsLhvcXl+qqoHzQ9Q=
-X-Google-Smtp-Source: APXvYqzw2JzYet85r0nVs6V2pklo0FF45kKZQOZRg4cX2n+nnoWvIaLzM7TnV2Ta7VqUdsKNd5vbAZErhlOgCEn/QiM=
-X-Received: by 2002:a2e:597:: with SMTP id 145mr11316838ljf.127.1558389023036; 
-	Mon, 20 May 2019 14:50:23 -0700 (PDT)
+	:message-id:subject:to:cc;
+	bh=M6qMObBAkscLuAOv22PkbXDv/eymZ80GxzTPN5ZaAGU=;
+	b=EFtbe69mj3chaW3qS7I3QM4trCTfCRM8anOWV0sfldI0AnhKeFBvFY1DR1isbxRIbV
+	JSXYg1HBEHgCf7wJcWA5jsiB+YdH943/yO7jyUOLfohmihyvN7+h+n3U9XEL3Pf5x6F6
+	/PQNXhIyx7WfQF5gPQdEvKUmscTZFeo+hijiOpniMiQNZYkS1q0PlfssSbMdlv75J/V7
+	Z2gD0Uy5iHHTvw1nftc/pM8qZSZRiXXm86AP8jPFQTUmlvNFt0ec3951xT37ypr4NdLN
+	RQB3C0D9DuiNFoi3pWlCW9ZgpE7Jn9aeDWtqELwiZ+f8aT8BR3N98BPtILicN1M8pQf6
+	eGWQ==
+X-Gm-Message-State: APjAAAWzhGJTReMCWo1+xUmc6p5oM1pkAKxo9gNb09BSF25nhaqbx/y4
+	flLm8jxO/e+rAD4odpA9W9Wcs6XMD7h9xrcgh0Y=
+X-Google-Smtp-Source: APXvYqzrxEFSVPHFC6sDQZcgFH4qxix6PpsnR9oSCUJA1bYJVS3KzfzmbB6Yei1/OdYQ6EonqJ0VmlD+XWVFVZW9BRQ=
+X-Received: by 2002:a19:4cd5:: with SMTP id
+	z204mr23321738lfa.113.1558389481043; 
+	Mon, 20 May 2019 14:58:01 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190520214342.13709-1-philmd@redhat.com>
-	<20190520214342.13709-3-philmd@redhat.com>
-In-Reply-To: <20190520214342.13709-3-philmd@redhat.com>
+References: <20190518232502.5201-1-Hesham.Almatary@cl.cam.ac.uk>
+In-Reply-To: <20190518232502.5201-1-Hesham.Almatary@cl.cam.ac.uk>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 20 May 2019 14:48:08 -0700
-Message-ID: <CAKmqyKMwbwvAyQ=u0SgaphHiP_HFFnL2npSTYum+G5V60F7kBw@mail.gmail.com>
-To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
+Date: Mon, 20 May 2019 14:55:46 -0700
+Message-ID: <CAKmqyKPuRKXQt7jRaEqMDZZc0HjFRPj9C6Mo5Ht=ZQ5ssBawCA@mail.gmail.com>
+To: Hesham Almatary <Hesham.Almatary@cl.cam.ac.uk>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::243
-Subject: Re: [Qemu-devel] [PATCH 2/4] hw/arm/exynos4: Use the IEC binary
- prefix definitions
+X-Received-From: 2a00:1450:4864:20::144
+Subject: Re: [Qemu-devel] [PATCHv2 1/3] RISC-V: Raise access fault
+ exceptions on PMP violations
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -74,55 +72,82 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
-	Igor Mitsyanko <i.mitsyanko@gmail.com>,
-	Alistair Francis <alistair@alistair23.me>,
+Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
+	Sagar Karandikar <sagark@eecs.berkeley.edu>,
+	Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
+	Palmer Dabbelt <palmer@sifive.com>,
 	"qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
-	qemu-arm <qemu-arm@nongnu.org>, Guenter Roeck <linux@roeck-us.net>
+	Alistair Francis <Alistair.Francis@wdc.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 20, 2019 at 2:48 PM Philippe Mathieu-Daud=C3=A9
-<philmd@redhat.com> wrote:
+On Sat, May 18, 2019 at 6:35 PM Hesham Almatary
+<Hesham.Almatary@cl.cam.ac.uk> wrote:
 >
-> It eases code review, unit is explicit.
+> Section 3.6 in RISC-V v1.10 privilege specification states that PMP violations
+> report "access exceptions." The current PMP implementation has
+> a bug which wrongly reports "page exceptions" on PMP violations.
 >
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+> This patch fixes this bug by reporting the correct PMP access exceptions
+> trap values.
+>
+> Signed-off-by: Hesham Almatary <hesham.almatary@cl.cam.ac.uk>
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
 > ---
->  hw/arm/exynos4_boards.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+>  target/riscv/cpu_helper.c | 9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
 >
-> diff --git a/hw/arm/exynos4_boards.c b/hw/arm/exynos4_boards.c
-> index f0c24b7992e..f824eef0d36 100644
-> --- a/hw/arm/exynos4_boards.c
-> +++ b/hw/arm/exynos4_boards.c
-> @@ -22,6 +22,7 @@
->   */
+> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
+> index 41d6db41c3..b48de36114 100644
+> --- a/target/riscv/cpu_helper.c
+> +++ b/target/riscv/cpu_helper.c
+> @@ -318,12 +318,13 @@ restart:
+>  }
 >
->  #include "qemu/osdep.h"
-> +#include "qemu/units.h"
->  #include "qapi/error.h"
->  #include "qemu/error-report.h"
->  #include "qemu-common.h"
-> @@ -60,8 +61,8 @@ static int exynos4_board_smp_bootreg_addr[EXYNOS4_NUM_O=
-F_BOARDS] =3D {
->  };
+>  static void raise_mmu_exception(CPURISCVState *env, target_ulong address,
+> -                                MMUAccessType access_type)
+> +                                MMUAccessType access_type, bool pmp_violation)
+>  {
+>      CPUState *cs = CPU(riscv_env_get_cpu(env));
+>      int page_fault_exceptions =
+>          (env->priv_ver >= PRIV_VERSION_1_10_0) &&
+> -        get_field(env->satp, SATP_MODE) != VM_1_10_MBARE;
+> +        get_field(env->satp, SATP_MODE) != VM_1_10_MBARE &&
+> +        !pmp_violation;
+>      switch (access_type) {
+>      case MMU_INST_FETCH:
+>          cs->exception_index = page_fault_exceptions ?
+> @@ -389,6 +390,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+>      CPURISCVState *env = &cpu->env;
+>      hwaddr pa = 0;
+>      int prot;
+> +    bool pmp_violation = false;
+>      int ret = TRANSLATE_FAIL;
 >
->  static unsigned long exynos4_board_ram_size[EXYNOS4_NUM_OF_BOARDS] =3D {
-> -    [EXYNOS4_BOARD_NURI]     =3D 0x40000000,
-> -    [EXYNOS4_BOARD_SMDKC210] =3D 0x40000000,
-> +    [EXYNOS4_BOARD_NURI]     =3D 1 * GiB,
-> +    [EXYNOS4_BOARD_SMDKC210] =3D 1 * GiB,
->  };
+>      qemu_log_mask(CPU_LOG_MMU, "%s ad %" VADDR_PRIx " rw %d mmu_idx %d\n",
+> @@ -402,6 +404,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
 >
->  static struct arm_boot_info exynos4_board_binfo =3D {
+>      if (riscv_feature(env, RISCV_FEATURE_PMP) &&
+>          !pmp_hart_has_privs(env, pa, TARGET_PAGE_SIZE, 1 << access_type)) {
+> +        pmp_violation = true;
+>          ret = TRANSLATE_FAIL;
+>      }
+>      if (ret == TRANSLATE_SUCCESS) {
+> @@ -411,7 +414,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
+>      } else if (probe) {
+>          return false;
+>      } else {
+> -        raise_mmu_exception(env, address, access_type);
+> +        raise_mmu_exception(env, address, access_type, pmp_violation);
+>          riscv_raise_exception(env, cs->exception_index, retaddr);
+>      }
+>  #else
 > --
-> 2.20.1
+> 2.17.1
 >
 >
 
