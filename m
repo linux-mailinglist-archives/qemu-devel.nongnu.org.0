@@ -2,48 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EADFA23F4C
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 19:44:13 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:39447 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 63B2B23FBE
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 19:58:27 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:39747 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSmKa-0000ZZ-RD
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 13:44:12 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56154)
+	id 1hSmYL-0003dd-Ur
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 13:58:25 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56239)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <cohuck@redhat.com>) id 1hSlqE-0008Jl-IJ
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:12:51 -0400
+	(envelope-from <cohuck@redhat.com>) id 1hSlqT-0008UX-Kb
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:13:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <cohuck@redhat.com>) id 1hSlqC-0006a9-W4
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:12:50 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:53784)
+	(envelope-from <cohuck@redhat.com>) id 1hSlqR-0006j0-Vs
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:13:05 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33218)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <cohuck@redhat.com>)
-	id 1hSlqC-0006Z7-Qw; Mon, 20 May 2019 13:12:48 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
+	id 1hSlqR-0006hp-Nw; Mon, 20 May 2019 13:13:03 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+	[10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id C3D83307D86F;
-	Mon, 20 May 2019 17:12:33 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 693DC7EBC1;
+	Mon, 20 May 2019 17:12:57 +0000 (UTC)
 Received: from localhost (ovpn-204-110.brq.redhat.com [10.40.204.110])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 913867A401;
-	Mon, 20 May 2019 17:12:18 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id DB2195C644;
+	Mon, 20 May 2019 17:12:36 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 20 May 2019 19:02:58 +0200
-Message-Id: <20190520170302.13643-51-cohuck@redhat.com>
+Date: Mon, 20 May 2019 19:02:59 +0200
+Message-Id: <20190520170302.13643-52-cohuck@redhat.com>
 In-Reply-To: <20190520170302.13643-1-cohuck@redhat.com>
 References: <20190520170302.13643-1-cohuck@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.48]);
-	Mon, 20 May 2019 17:12:42 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.27]);
+	Mon, 20 May 2019 17:13:02 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 50/54] s390x/cpumodel: vector enhancements
+Subject: [Qemu-devel] [PULL 51/54] s390x/cpumodel: enhanced sort facility
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -63,49 +63,193 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Christian Borntraeger <borntraeger@de.ibm.com>
 
-Add vector enhancements to the cpu model.
+add the enhanced sort facility.
 
 Signed-off-by: Christian Borntraeger <borntraeger@de.ibm.com>
 Reviewed-by: David Hildenbrand <david@redhat.com>
-Message-Id: <20190429090250.7648-6-borntraeger@de.ibm.com>
+Message-Id: <20190429090250.7648-7-borntraeger@de.ibm.com>
 Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 ---
- target/s390x/cpu_features.c     | 2 ++
- target/s390x/cpu_features_def.h | 2 ++
- 2 files changed, 4 insertions(+)
+ target/s390x/cpu_features.c     | 10 ++++++++++
+ target/s390x/cpu_features.h     |  1 +
+ target/s390x/cpu_features_def.h |  8 ++++++++
+ target/s390x/gen-features.c     | 14 ++++++++++++++
+ target/s390x/kvm.c              |  6 ++++++
+ 5 files changed, 39 insertions(+)
 
 diff --git a/target/s390x/cpu_features.c b/target/s390x/cpu_features.c
-index 154e2bb354e7..35873253be8d 100644
+index 35873253be8d..1d19b3072e1a 100644
 --- a/target/s390x/cpu_features.c
 +++ b/target/s390x/cpu_features.c
-@@ -108,6 +108,8 @@ static const S390FeatDef s390_features[] =3D {
-     FEAT_INIT("irbm", S390_FEAT_TYPE_STFL, 145, "Insert-reference-bits-m=
-ultiple facility"),
+@@ -109,6 +109,7 @@ static const S390FeatDef s390_features[] =3D {
      FEAT_INIT("msa8-base", S390_FEAT_TYPE_STFL, 146, "Message-security-a=
 ssist-extension-8 facility (excluding subfunctions)"),
      FEAT_INIT("cmmnt", S390_FEAT_TYPE_STFL, 147, "CMM: ESSA-enhancement =
 (no translate) facility"),
-+    FEAT_INIT("vxeh2", S390_FEAT_TYPE_STFL, 148, "Vector Enhancements fa=
+     FEAT_INIT("vxeh2", S390_FEAT_TYPE_STFL, 148, "Vector Enhancements fa=
 cility 2"),
-+    FEAT_INIT("vxbeh", S390_FEAT_TYPE_STFL, 152, "Vector BCD enhancement=
++    FEAT_INIT("esort-base", S390_FEAT_TYPE_STFL, 150, "Enhanced-sort fac=
+ility (excluding subfunctions)"),
+     FEAT_INIT("vxbeh", S390_FEAT_TYPE_STFL, 152, "Vector BCD enhancement=
 s facility 1"),
      FEAT_INIT("msa9-base", S390_FEAT_TYPE_STFL, 155, "Message-security-a=
 ssist-extension-9 facility (excluding subfunctions)"),
      FEAT_INIT("etoken", S390_FEAT_TYPE_STFL, 156, "Etoken facility"),
+@@ -340,6 +341,12 @@ static const S390FeatDef s390_features[] =3D {
+     FEAT_INIT("kdsa-eddsa-sign-ed448", S390_FEAT_TYPE_KDSA, 44, "KDSA Ed=
+DSA-Sign-Ed448"),
+     FEAT_INIT("kdsa-eeddsa-sign-ed25519", S390_FEAT_TYPE_KDSA, 48, "KDSA=
+ Encrypted-EdDSA-Sign-Ed25519"),
+     FEAT_INIT("kdsa-eeddsa-sign-ed448", S390_FEAT_TYPE_KDSA, 52, "KDSA E=
+ncrypted-EdDSA-Sign-Ed448"),
++
++    FEAT_INIT("sortl-sflr", S390_FEAT_TYPE_SORTL, 1, "SORTL SFLR"),
++    FEAT_INIT("sortl-svlr", S390_FEAT_TYPE_SORTL, 2, "SORTL SVLR"),
++    FEAT_INIT("sortl-32", S390_FEAT_TYPE_SORTL, 130, "SORTL 32 input lis=
+ts"),
++    FEAT_INIT("sortl-128", S390_FEAT_TYPE_SORTL, 132, "SORTL 128 input l=
+ists"),
++    FEAT_INIT("sortl-f0", S390_FEAT_TYPE_SORTL, 192, "SORTL format 0 par=
+ameter-block"),
+ };
 =20
+ const S390FeatDef *s390_feat_def(S390Feat feat)
+@@ -403,6 +410,7 @@ void s390_fill_feat_block(const S390FeatBitmap featur=
+es, S390FeatType type,
+     case S390_FEAT_TYPE_PPNO:
+     case S390_FEAT_TYPE_KMA:
+     case S390_FEAT_TYPE_KDSA:
++    case S390_FEAT_TYPE_SORTL:
+         set_be_bit(0, data); /* query is always available */
+         break;
+     default:
+@@ -430,6 +438,7 @@ void s390_add_from_feat_block(S390FeatBitmap features=
+, S390FeatType type,
+        nr_bits =3D 16384;
+        break;
+     case S390_FEAT_TYPE_PLO:
++    case S390_FEAT_TYPE_SORTL:
+        nr_bits =3D 256;
+        break;
+     default:
+@@ -501,6 +510,7 @@ static S390FeatGroupDef s390_feature_groups[] =3D {
+     FEAT_GROUP_INIT("msa9", MSA_EXT_9, "Message-security-assist-extensio=
+n 9 facility"),
+     FEAT_GROUP_INIT("msa9_pckmo", MSA_EXT_9_PCKMO, "Message-security-ass=
+ist-extension 9 PCKMO subfunctions"),
+     FEAT_GROUP_INIT("mepochptff", MULTIPLE_EPOCH_PTFF, "PTFF enhancement=
+s introduced with Multiple-epoch facility"),
++    FEAT_GROUP_INIT("esort", ENH_SORT, "Enhanced-sort facility"),
+ };
+=20
+ const S390FeatGroupDef *s390_feat_group_def(S390FeatGroup group)
+diff --git a/target/s390x/cpu_features.h b/target/s390x/cpu_features.h
+index 5ffd3db083d4..3b8c5b25dd4e 100644
+--- a/target/s390x/cpu_features.h
++++ b/target/s390x/cpu_features.h
+@@ -40,6 +40,7 @@ typedef enum {
+     S390_FEAT_TYPE_PPNO,
+     S390_FEAT_TYPE_KMA,
+     S390_FEAT_TYPE_KDSA,
++    S390_FEAT_TYPE_SORTL,
+ } S390FeatType;
+=20
+ /* Definition of a CPU feature */
 diff --git a/target/s390x/cpu_features_def.h b/target/s390x/cpu_features_=
 def.h
-index 030784811bd6..ce2223c9d774 100644
+index ce2223c9d774..bb8585847f25 100644
 --- a/target/s390x/cpu_features_def.h
 +++ b/target/s390x/cpu_features_def.h
-@@ -96,6 +96,8 @@ typedef enum {
-     S390_FEAT_INSERT_REFERENCE_BITS_MULT,
+@@ -97,6 +97,7 @@ typedef enum {
      S390_FEAT_MSA_EXT_8,
      S390_FEAT_CMM_NT,
-+    S390_FEAT_VECTOR_ENH2,
-+    S390_FEAT_VECTOR_BCD_ENH,
+     S390_FEAT_VECTOR_ENH2,
++    S390_FEAT_ESORT_BASE,
+     S390_FEAT_VECTOR_BCD_ENH,
      S390_FEAT_MSA_EXT_9,
      S390_FEAT_ETOKEN,
+@@ -346,6 +347,13 @@ typedef enum {
+     S390_FEAT_EEDDSA_SIGN_ED25519,
+     S390_FEAT_EEDDSA_SIGN_ED448,
+=20
++    /* SORTL */
++    S390_FEAT_SORTL_SFLR,
++    S390_FEAT_SORTL_SVLR,
++    S390_FEAT_SORTL_32,
++    S390_FEAT_SORTL_128,
++    S390_FEAT_SORTL_F0,
++
+     S390_FEAT_MAX,
+ } S390Feat;
+=20
+diff --git a/target/s390x/gen-features.c b/target/s390x/gen-features.c
+index a2f9e2b43f74..0a62cc563140 100644
+--- a/target/s390x/gen-features.c
++++ b/target/s390x/gen-features.c
+@@ -245,6 +245,15 @@
+     S390_FEAT_PCKMO_ECC_ED25519, \
+     S390_FEAT_PCKMO_ECC_ED448
+=20
++#define S390_FEAT_GROUP_ENH_SORT \
++    S390_FEAT_ESORT_BASE, \
++    S390_FEAT_SORTL_SFLR, \
++    S390_FEAT_SORTL_SVLR, \
++    S390_FEAT_SORTL_32, \
++    S390_FEAT_SORTL_128, \
++    S390_FEAT_SORTL_F0
++
++
+ /* cpu feature groups */
+ static uint16_t group_PLO[] =3D {
+     S390_FEAT_GROUP_PLO,
+@@ -294,6 +303,10 @@ static uint16_t group_MSA_EXT_9_PCKMO[] =3D {
+     S390_FEAT_GROUP_MSA_EXT_9_PCKMO,
+ };
+=20
++static uint16_t group_ENH_SORT[] =3D {
++    S390_FEAT_GROUP_ENH_SORT,
++};
++
+ /* Base features (in order of release)
+  * Only non-hypervisor managed features belong here.
+  * Base feature sets are static meaning they do not change in future QEM=
+U
+@@ -752,6 +765,7 @@ static FeatGroupDefSpec FeatGroupDef[] =3D {
+     FEAT_GROUP_INITIALIZER(MSA_EXT_9),
+     FEAT_GROUP_INITIALIZER(MSA_EXT_9_PCKMO),
+     FEAT_GROUP_INITIALIZER(MULTIPLE_EPOCH_PTFF),
++    FEAT_GROUP_INITIALIZER(ENH_SORT),
+ };
+=20
+ #define QEMU_FEAT_INITIALIZER(_name)                   \
+diff --git a/target/s390x/kvm.c b/target/s390x/kvm.c
+index de0b984b680e..f91f436a313b 100644
+--- a/target/s390x/kvm.c
++++ b/target/s390x/kvm.c
+@@ -2076,6 +2076,9 @@ static int query_cpu_subfunc(S390FeatBitmap feature=
+s)
+     if (test_bit(S390_FEAT_MSA_EXT_9, features)) {
+         s390_add_from_feat_block(features, S390_FEAT_TYPE_KDSA, prop.kds=
+a);
+     }
++    if (test_bit(S390_FEAT_ESORT_BASE, features)) {
++        s390_add_from_feat_block(features, S390_FEAT_TYPE_SORTL, prop.so=
+rtl);
++    }
+     return 0;
+ }
+=20
+@@ -2123,6 +2126,9 @@ static int configure_cpu_subfunc(const S390FeatBitm=
+ap features)
+     if (test_bit(S390_FEAT_MSA_EXT_9, features)) {
+         s390_fill_feat_block(features, S390_FEAT_TYPE_KDSA, prop.kdsa);
+     }
++    if (test_bit(S390_FEAT_ESORT_BASE, features)) {
++        s390_fill_feat_block(features, S390_FEAT_TYPE_SORTL, prop.sortl)=
+;
++    }
+     return kvm_vm_ioctl(kvm_state, KVM_SET_DEVICE_ATTR, &attr);
+ }
 =20
 --=20
 2.20.1
