@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F377823D9C
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 18:39:07 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38362 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1154523DBD
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 18:44:26 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38454 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSlJb-00020h-2Z
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 12:39:07 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42706)
+	id 1hSlOj-0007Fy-7S
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 12:44:25 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42709)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hSl9B-00031V-KH
+	(envelope-from <peter.maydell@linaro.org>) id 1hSl9B-00031Y-KO
 	for qemu-devel@nongnu.org; Mon, 20 May 2019 12:28:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hSl98-0001Fi-1d
+	(envelope-from <peter.maydell@linaro.org>) id 1hSl98-0001Fr-2K
 	for qemu-devel@nongnu.org; Mon, 20 May 2019 12:28:19 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:36382)
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:51087)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hSl95-0001DE-Rg
+	id 1hSl95-0001Em-TV
 	for qemu-devel@nongnu.org; Mon, 20 May 2019 12:28:17 -0400
-Received: by mail-wm1-x343.google.com with SMTP id j187so5782wmj.1
-	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 09:28:14 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id f204so15202wme.0
+	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 09:28:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:subject:date:message-id:in-reply-to:references:mime-version
 	:content-transfer-encoding;
-	bh=cEu3plm2JnEz4zF57Dl9xMi74nNuVpPFcKATYhpH4io=;
-	b=qkz0JidpSNoylM3MLl+G/1xILgwruSaa0LidMNP2QzD4hAIsK38BUX3FD1j9YZL6+7
-	i0+EJHW60XWI2mCLmDP5qESUX1MFZ8sDWPQHZjCss1cU/px3Sbb93egRJSWUGV5SbjP0
-	EK/pu/KqdQohweqbdJdiXssoXVCntTbTNQ5AxcDnIOhTw+toXQaMVVXeEyeVe5+yhbmg
-	jrFTJpqwswULv6YT3pjiichaQuUouJVszIShqgQ+zPzaLcfymrmoZ6pzF0KIju2lrChr
-	jsP9l4/laWS6nyLniItVXsrrM3ikxMvhwlggS2qyub07USqGlPX9WuOO5E8on/eOMnjA
-	b6EQ==
+	bh=TQvN/mWAlK741QKpEKQhjF7DDPH0rKnlVOvBsAJinxg=;
+	b=eE858BT9oM4qVPLyFxNriaIXSVdrnnIC54UhLvK6faBWTZWEzMUoFiT/poR81eWyS1
+	2qpzy4F0kw0P5T8vl+FniHqUywhjV10HmSXj9XdOJUKPWzOjCVbrcDUQmcBAjPvDNA1D
+	5SkSTki1k3qBeIxZORGAF5d9j6zOnjdjXyPx4KEzvkBDu+Q5UfnjqYz+Dyk2MjMDP7vw
+	tBCEZKgyvS9yEML1uWVG7ANz9kbAYl2dLKepWkwqVrBtAPL5aqI3pwDfIkZEf9Wktr0a
+	bvgna8UcEnrj4vzicr7S5pIEuwsqdLcbDCQCwMt7o0XbHRQBR13+KAE92GowwTFK2EpD
+	N8QA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=cEu3plm2JnEz4zF57Dl9xMi74nNuVpPFcKATYhpH4io=;
-	b=VlWtl9vfZpUB52rneLEvj2DT3f9cTxL31nvd7hOTTtwZ21hpAkj+tm1JbKLJuaKKWx
-	SHsLGduexJFs0ZJlve3A2R+l+mpCc2WyTjisfArR6V6ZnaEOdujKJD9ZUD0dbX3nXGjE
-	VTFuvQrE6QqC1bcXAYGUSrR4GQln2AZQnbvNBhPm68abzcgQCrI0S+6kzodXB0YVFDW5
-	e6Epjv9hKYFKyd6/HzUZjdLnlpb/Mg6bBXmrprHu+jx6S0MG/yJZR+JQ6z3YWsoAlIsq
-	SfPS2XMn2iyd0wLuD35GTUMpFDu5Vpc/WzZX5VuY9NmM3HMdTY9Ihj3+E+7RZufcvapT
-	IF0Q==
-X-Gm-Message-State: APjAAAUXJeqnpdFBNTzf3jD175wl52ESMQkE1UlM7Y1hKJA5CUJ/0fR7
-	88d0Uusyuen5XjI0/dL2VSyu7Q==
-X-Google-Smtp-Source: APXvYqzFaWlrUc9e2BOWC7brgFQAbju6M8BhJRvMNQA4FGEf0eeba7mBfCEZNbaXJ9WPEgg9GSxAIg==
-X-Received: by 2002:a1c:e906:: with SMTP id q6mr2872014wmc.47.1558369693589;
-	Mon, 20 May 2019 09:28:13 -0700 (PDT)
+	bh=TQvN/mWAlK741QKpEKQhjF7DDPH0rKnlVOvBsAJinxg=;
+	b=tL2IDb72irExIhKWHVuvdJ1L0eznKIw/j/dzv2HRWeW+NWuKZlcusEQo10TGtbXSJD
+	Y2qKuPvwFb5CGSC5ZfmqKBWgVwrCdSZWIZH+eMZyyz45Ya/PEB4omhpj8ibmojyKPxcA
+	yYj1CgqDoYZe91BGYYnDwOcLiNNe8e/hWBYRX735k2XwR/49TNeKt5DJ49C1fvmGELjb
+	A/J7bdAMhqy8zsCoC0fIsXIPjj6gks7sdtmeVtHXRB1CFbTAOtfyZaxjusDOdosfOLXq
+	f2mQAxDSE2Y6NUB8mNxcKtDOYptV4t5PzuazrAGXksZH6pOUfP3H6BKpQDlXHbT0a6EE
+	cIVA==
+X-Gm-Message-State: APjAAAWA6AO4gJ7KVNsjpCFofrEYbyEqWrOovQ6IHHKTLKb4L+LaYkK5
+	JfyPIbyp4dTi9yGU29HmAzTis1ix61c=
+X-Google-Smtp-Source: APXvYqxNz0WTaNx/jS6t6EQ7UmhDm2Qf3qYpG3gcnQ2zLevMm4+MWeA6yWlH3PQldKFRuXk2WpjmsA==
+X-Received: by 2002:a7b:c549:: with SMTP id j9mr4712wmk.114.1558369694777;
+	Mon, 20 May 2019 09:28:14 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
-	by smtp.gmail.com with ESMTPSA id x2sm5830394wrs.39.2019.05.20.09.28.12
+	by smtp.gmail.com with ESMTPSA id x2sm5830394wrs.39.2019.05.20.09.28.13
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 20 May 2019 09:28:12 -0700 (PDT)
+	Mon, 20 May 2019 09:28:14 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-arm@nongnu.org,
 	qemu-devel@nongnu.org
-Date: Mon, 20 May 2019 17:28:06 +0100
-Message-Id: <20190520162809.2677-2-peter.maydell@linaro.org>
+Date: Mon, 20 May 2019 17:28:07 +0100
+Message-Id: <20190520162809.2677-3-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190520162809.2677-1-peter.maydell@linaro.org>
 References: <20190520162809.2677-1-peter.maydell@linaro.org>
@@ -65,9 +65,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::343
-Subject: [Qemu-devel] [PATCH 1/4] hw/intc/arm_gicv3: Fix decoding of ID
- register range
+X-Received-From: 2a00:1450:4864:20::341
+Subject: [Qemu-devel] [PATCH 2/4] hw/intc/arm_gicv3: GICD_TYPER.SecurityExtn
+ is RAZ if GICD_CTLR.DS == 1
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -82,42 +82,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The GIC ID registers cover an area 0x30 bytes in size
-(12 registers, 4 bytes each). We were incorrectly decoding
-only the first 0x20 bytes.
+The GICv3 specification says that the GICD_TYPER.SecurityExtn bit
+is RAZ if GICD_CTLR.DS is 1. We were incorrectly making it RAZ
+if the security extension is unsupported. "Security extension
+unsupported" always implies GICD_CTLR.DS == 1, but the guest can
+also set DS on a GIC which does support the security extension.
+Fix the condition to correctly check the GICD_CTLR.DS bit.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- hw/intc/arm_gicv3_dist.c   | 2 +-
- hw/intc/arm_gicv3_redist.c | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
+ hw/intc/arm_gicv3_dist.c | 8 +++++++-
+ 1 file changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/hw/intc/arm_gicv3_dist.c b/hw/intc/arm_gicv3_dist.c
-index 53c55c57291..335386ff3ac 100644
+index 335386ff3ac..d6ae576110d 100644
 --- a/hw/intc/arm_gicv3_dist.c
 +++ b/hw/intc/arm_gicv3_dist.c
-@@ -533,7 +533,7 @@ static MemTxResult gicd_readl(GICv3State *s, hwaddr offset,
-         }
+@@ -378,8 +378,14 @@ static MemTxResult gicd_readl(GICv3State *s, hwaddr offset,
+          * ITLinesNumber == (num external irqs / 32) - 1
+          */
+         int itlinesnumber = ((s->num_irq - GIC_INTERNAL) / 32) - 1;
++        /*
++         * SecurityExtn must be RAZ if GICD_CTLR.DS == 1, and
++         * "security extensions not supported" always implies DS == 1,
++         * so we only need to check the DS bit.
++         */
++        bool sec_extn = !(s->gicd_ctlr & GICD_CTLR_DS);
+ 
+-        *data = (1 << 25) | (1 << 24) | (s->security_extn << 10) |
++        *data = (1 << 25) | (1 << 24) | (sec_extn << 10) |
+             (0xf << 19) | itlinesnumber;
          return MEMTX_OK;
      }
--    case GICD_IDREGS ... GICD_IDREGS + 0x1f:
-+    case GICD_IDREGS ... GICD_IDREGS + 0x2f:
-         /* ID registers */
-         *data = gicv3_idreg(offset - GICD_IDREGS);
-         return MEMTX_OK;
-diff --git a/hw/intc/arm_gicv3_redist.c b/hw/intc/arm_gicv3_redist.c
-index 3b0ba6de1ab..9bb11423382 100644
---- a/hw/intc/arm_gicv3_redist.c
-+++ b/hw/intc/arm_gicv3_redist.c
-@@ -233,7 +233,7 @@ static MemTxResult gicr_readl(GICv3CPUState *cs, hwaddr offset,
-         }
-         *data = cs->gicr_nsacr;
-         return MEMTX_OK;
--    case GICR_IDREGS ... GICR_IDREGS + 0x1f:
-+    case GICR_IDREGS ... GICR_IDREGS + 0x2f:
-         *data = gicv3_idreg(offset - GICR_IDREGS);
-         return MEMTX_OK;
-     default:
 -- 
 2.20.1
 
