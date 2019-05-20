@@ -2,51 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 692DA236BA
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 15:09:43 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:35453 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 972AA236BE
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 15:13:14 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:35563 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSi2w-0001Re-JW
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 09:09:42 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49320)
+	id 1hSi6L-00042T-P5
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 09:13:13 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50667)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <Mateja.Marjanovic@rt-rk.com>) id 1hSi0y-0000jJ-Pb
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 09:07:47 -0400
+	(envelope-from <clg@kaod.org>) id 1hSi4g-0003Fz-Pq
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 09:11:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <Mateja.Marjanovic@rt-rk.com>) id 1hSi0t-0007qW-8b
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 09:07:38 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:48257 helo=mail.rt-rk.com)
+	(envelope-from <clg@kaod.org>) id 1hSi4f-0001mn-OB
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 09:11:30 -0400
+Received: from 3.mo179.mail-out.ovh.net ([178.33.251.175]:38452)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <Mateja.Marjanovic@rt-rk.com>)
-	id 1hSi0r-0007od-KG
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 09:07:34 -0400
-Received: from localhost (localhost [127.0.0.1])
-	by mail.rt-rk.com (Postfix) with ESMTP id C9A351A2268;
-	Mon, 20 May 2019 15:07:30 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from [10.10.13.110] (rtrkw310-lin.domain.local [10.10.13.110])
-	by mail.rt-rk.com (Postfix) with ESMTPSA id 9E70D1A2266;
-	Mon, 20 May 2019 15:07:30 +0200 (CEST)
-To: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-References: <1554212605-16457-1-git-send-email-mateja.marjanovic@rt-rk.com>
-	<1554212605-16457-3-git-send-email-mateja.marjanovic@rt-rk.com>
-	<CAL1e-=j6+P=WVAyUfbEqh1iXLiN6cAjgv0YPZj+RSFaWgEVFog@mail.gmail.com>
-From: Mateja Marjanovic <Mateja.Marjanovic@rt-rk.com>
-Message-ID: <cae74a66-b6ed-a2ef-ae10-d0c49c9ba11d@rt-rk.com>
-Date: Mon, 20 May 2019 15:07:30 +0200
+	(Exim 4.71) (envelope-from <clg@kaod.org>) id 1hSi4f-0001lx-IU
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 09:11:29 -0400
+Received: from player694.ha.ovh.net (unknown [10.109.160.153])
+	by mo179.mail-out.ovh.net (Postfix) with ESMTP id D0498131FD9
+	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 15:11:26 +0200 (CEST)
+Received: from kaod.org (deibp9eh1--blueice1n0.emea.ibm.com [195.212.29.162])
+	(Authenticated sender: clg@kaod.org)
+	by player694.ha.ovh.net (Postfix) with ESMTPSA id 2D9B65E1CF44;
+	Mon, 20 May 2019 13:11:19 +0000 (UTC)
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+	Peter Maydell <peter.maydell@linaro.org>
+References: <20190506142042.28096-1-clg@kaod.org>
+	<b12201c8-7d5f-2108-6666-75543c38f243@kaod.org>
+	<f1ca56fd-c83d-8ad6-29c9-a8fc6af4531c@redhat.com>
+From: =?UTF-8?Q?C=c3=a9dric_Le_Goater?= <clg@kaod.org>
+Message-ID: <270e510b-687a-6b43-8cd6-c1eb1aea41e6@kaod.org>
+Date: Mon, 20 May 2019 15:11:19 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <CAL1e-=j6+P=WVAyUfbEqh1iXLiN6cAjgv0YPZj+RSFaWgEVFog@mail.gmail.com>
+In-Reply-To: <f1ca56fd-c83d-8ad6-29c9-a8fc6af4531c@redhat.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 89.216.37.149
-Content-Type: text/plain; charset=utf-8; format=flowed
+X-Ovh-Tracer-Id: 12069084054961687467
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddruddtkedgiedvucetufdoteggodetrfdotffvucfrrhhofhhilhgvmecuqfggjfdpvefjgfevmfevgfenuceurghilhhouhhtmecuhedttdenucesvcftvggtihhpihgvnhhtshculddquddttddm
 Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PATCH v4 2/5] target/mips: Fix MSA instructions
- ST.<B|H|W|D> on big endian host
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 178.33.251.175
+Subject: Re: [Qemu-devel] [PATCH v2 0/3] aspeed: cleanups and extensions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,410 +60,85 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: arikalo@wavecomp.com, amarkovic@wavecomp.com, aurelien@aurel32.net,
-	qemu-devel@nongnu.org
+Cc: Andrew Jeffery <andrew@aj.id.au>, qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org, Joel Stanley <joel@jms.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Hello,
 
-On 20.5.19. 14:59, Aleksandar Markovic wrote:
->
->
-> On Apr 2, 2019 3:47 PM, "Mateja Marjanovic"=20
-> <mateja.marjanovic@rt-rk.com <mailto:mateja.marjanovic@rt-rk.com>> wrot=
-e:
-> >
-> > From: Mateja Marjanovic <Mateja.Marjanovic@rt-rk.com=20
-> <mailto:Mateja.Marjanovic@rt-rk.com>>
-> >
-> > Fix the case when the host is a big endian machine, and change
-> > the approach toward ST.<B|H|W|D> instruction helpers.
-> >
-> > Signed-off-by: Mateja Marjanovic <mateja.marjanovic@rt-rk.com=20
-> <mailto:mateja.marjanovic@rt-rk.com>>
-> > ---
->
-> Hello, Mateja.
->
-> There is unfortunatelly still a slight problem with the new=20
-> implementation: it looks like the invocations to=20
-> ensure_writable_pages() in new helpers are missing. Or, perhaps, there=20
-> is a reason you removed them. Please reanalyse and reexplain. But=20
-> thanks for previous efforts.
->
-I see, I deleted it by accident.
+On 5/20/19 1:09 PM, Philippe Mathieu-Daud=C3=A9 wrote:
+> On 5/20/19 9:47 AM, C=C3=A9dric Le Goater wrote:
+>> Hello,
+>>
+>> On 5/6/19 4:20 PM, C=C3=A9dric Le Goater wrote:
+>>> Hello,
+>>>
+>>> Here is a series adding a couple of cleanups to the Aspeed SoCs to
+>>> prepare ground for extensions and new SoCs.
+>>>
+>>> Thanks,
+>>>
+>>> C.
+>>>
+>>> Changes since v1:
+>>>
+>>>  - moved enum defining the Aspeed controller names under aspeed_soc.h
+>>>  - removed AspeedSoCInfo 'sdram_base' field
+>>>  - fixed clang compilation
+>>>
+>>> C=C3=A9dric Le Goater (3):
+>>>   aspeed: add a per SoC mapping for the interrupt space
+>>>   aspeed: add a per SoC mapping for the memory space
+>>
+>> I think these two patches are fine to go even if Philippe's comments=20
+>> are not addressed. There are valid but not a blocker to me. =20
+>=20
+> OK, so:
+>=20
+> patches 1 & 2:
+> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+>=20
+> Peter, can you apply them?
+>=20
+>>
+>>>   aspeed: use sysbus_init_child_obj() to initialize children
+>>
+>> Philippe has taken over this patch in a larger series which will go=20
+>> through Eduardo's tree, if I understood well the emails. When merged,=20
+>> we can try to re-merge the RTC patchset from Joel. I think we made=20
+>> things a little more complex than they should have been.=20
+>=20
+> Sorry if I made things more complex. I went on PTO after sending
+
+PTO ?
+
+> "hw/arm: Use object_initialize_child for correct reference counting" [*=
+]
+> then was slow to address Thomas/Markus comments.
+> Then maybe I should start pinging maintainer more aggressively when my
+> series are reviewed but not merged, to not delay further developments.
+
+Well, I don't know if there is a good method for transversal patchsets=20
+like this one. I guess it depends on the area.=20
+
+The overall merging process became more complex that expected after our=20
+three simple patchsets (Yours, Joel's and mine) collided.=20
+=20
+> I took note of your comment and will try to keep things simple the next
+> time.
+
+It's not a big issue. We have time to provide fixes before 4.1 is out.=20
+Let's put some energy to move on and get code merged.
+
+Peter,=20
+
+do you want me to resend with only the two first patches and include=20
+Joel's in the same series ? I would leave out the part Philippe is=20
+covering in his object_initialize_child() patchset.
 
 Thanks,
-Mateja
 
-> Yours,
-> Aleksandar
->
-> > =C2=A0target/mips/op_helper.c | 188=20
-> ++++++++++++++++++++++++++++++++++++++++++------
-> > =C2=A01 file changed, 168 insertions(+), 20 deletions(-)
-> >
-> > diff --git a/target/mips/op_helper.c b/target/mips/op_helper.c
-> > index 45be406..d94909a 100644
-> > --- a/target/mips/op_helper.c
-> > +++ b/target/mips/op_helper.c
-> > @@ -4565,31 +4565,179 @@ static inline void=20
-> ensure_writable_pages(CPUMIPSState *env,
-> > =C2=A0#endif
-> > =C2=A0}
-> >
-> > -#define MSA_ST_DF(DF, TYPE, ST_INSN, ...) =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0\
-> > -void helper_msa_st_ ## TYPE(CPUMIPSState *env, uint32_t wd,=C2=A0 =C2=
-=A0 =C2=A0 =C2=A0=20
-> =C2=A0 =C2=A0 =C2=A0\
-> > -=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 target_ulong addr) =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 \
-> > -{ =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\
-> > -=C2=A0 =C2=A0 wr_t *pwd =3D &(env->active_fpu.fpr[wd].wr); =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 \
-> > -=C2=A0 =C2=A0 int mmu_idx =3D cpu_mmu_index(env, false); =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\
-> > -=C2=A0 =C2=A0 int i; =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- \
-> > -=C2=A0 =C2=A0 MEMOP_IDX(DF) =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0\
-> > -=C2=A0 =C2=A0 ensure_writable_pages(env, addr, mmu_idx, GETPC()); =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\
-> > -=C2=A0 =C2=A0 for (i =3D 0; i < DF_ELEMENTS(DF); i++) { =C2=A0 =C2=A0=
- =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\
-> > -=C2=A0 =C2=A0 =C2=A0 =C2=A0 ST_INSN(env, addr + (i << DF), pwd->TYPE=
-[i],=20
-> ##__VA_ARGS__);=C2=A0 =C2=A0 \
-> > -=C2=A0 =C2=A0 } =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0\
-> > +void helper_msa_st_b(CPUMIPSState *env, uint32_t wd,
-> > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0target_ulong addr)
-> > +{
-> > +=C2=A0 =C2=A0 wr_t *pwd =3D &(env->active_fpu.fpr[wd].wr);
-> > +=C2=A0 =C2=A0 MEMOP_IDX(DF_BYTE)
-> > +#if !defined(CONFIG_USER_ONLY)
-> > +#if !defined(HOST_WORDS_BIGENDIAN)
-> > +=C2=A0 =C2=A0 helper_ret_stb_mmu(env, addr + (0=C2=A0 << DF_BYTE), p=
-wd->b[0],=C2=A0 oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stb_mmu(env, addr + (1=C2=A0 << DF_BYTE), p=
-wd->b[1],=C2=A0 oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stb_mmu(env, addr + (2=C2=A0 << DF_BYTE), p=
-wd->b[2],=C2=A0 oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stb_mmu(env, addr + (3=C2=A0 << DF_BYTE), p=
-wd->b[3],=C2=A0 oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stb_mmu(env, addr + (4=C2=A0 << DF_BYTE), p=
-wd->b[4],=C2=A0 oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stb_mmu(env, addr + (5=C2=A0 << DF_BYTE), p=
-wd->b[5],=C2=A0 oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stb_mmu(env, addr + (6=C2=A0 << DF_BYTE), p=
-wd->b[6],=C2=A0 oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stb_mmu(env, addr + (7=C2=A0 << DF_BYTE), p=
-wd->b[7],=C2=A0 oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stb_mmu(env, addr + (8=C2=A0 << DF_BYTE), p=
-wd->b[8],=C2=A0 oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stb_mmu(env, addr + (9=C2=A0 << DF_BYTE), p=
-wd->b[9],=C2=A0 oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stb_mmu(env, addr + (10 << DF_BYTE), pwd->b=
-[10], oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stb_mmu(env, addr + (11 << DF_BYTE), pwd->b=
-[11], oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stb_mmu(env, addr + (12 << DF_BYTE), pwd->b=
-[12], oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stb_mmu(env, addr + (13 << DF_BYTE), pwd->b=
-[13], oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stb_mmu(env, addr + (14 << DF_BYTE), pwd->b=
-[14], oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stb_mmu(env, addr + (15 << DF_BYTE), pwd->b=
-[15], oi,=20
-> GETPC());
-> > +#else
-> > +=C2=A0 =C2=A0 helper_ret_stb_mmu(env, addr + (7=C2=A0 << DF_BYTE), p=
-wd->b[0],=C2=A0 oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stb_mmu(env, addr + (6=C2=A0 << DF_BYTE), p=
-wd->b[1],=C2=A0 oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stb_mmu(env, addr + (5=C2=A0 << DF_BYTE), p=
-wd->b[2],=C2=A0 oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stb_mmu(env, addr + (4=C2=A0 << DF_BYTE), p=
-wd->b[3],=C2=A0 oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stb_mmu(env, addr + (3=C2=A0 << DF_BYTE), p=
-wd->b[4],=C2=A0 oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stb_mmu(env, addr + (2=C2=A0 << DF_BYTE), p=
-wd->b[5],=C2=A0 oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stb_mmu(env, addr + (1=C2=A0 << DF_BYTE), p=
-wd->b[6],=C2=A0 oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stb_mmu(env, addr + (0=C2=A0 << DF_BYTE), p=
-wd->b[7],=C2=A0 oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stb_mmu(env, addr + (15 << DF_BYTE), pwd->b=
-[8],=C2=A0 oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stb_mmu(env, addr + (14 << DF_BYTE), pwd->b=
-[9],=C2=A0 oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stb_mmu(env, addr + (13 << DF_BYTE), pwd->b=
-[10], oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stb_mmu(env, addr + (12 << DF_BYTE), pwd->b=
-[11], oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stb_mmu(env, addr + (11 << DF_BYTE), pwd->b=
-[12], oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stb_mmu(env, addr + (10 << DF_BYTE), pwd->b=
-[13], oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stb_mmu(env, addr + (9=C2=A0 << DF_BYTE), p=
-wd->b[14], oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stb_mmu(env, addr + (8=C2=A0 << DF_BYTE), p=
-wd->b[15], oi,=20
-> GETPC());
-> > +#endif
-> > +#else
-> > +#if !defined(HOST_WORDS_BIGENDIAN)
-> > +=C2=A0 =C2=A0 cpu_stb_data(env, addr + (0=C2=A0 << DF_BYTE), pwd->b[=
-0]);
-> > +=C2=A0 =C2=A0 cpu_stb_data(env, addr + (1=C2=A0 << DF_BYTE), pwd->b[=
-1]);
-> > +=C2=A0 =C2=A0 cpu_stb_data(env, addr + (2=C2=A0 << DF_BYTE), pwd->b[=
-2]);
-> > +=C2=A0 =C2=A0 cpu_stb_data(env, addr + (3=C2=A0 << DF_BYTE), pwd->b[=
-3]);
-> > +=C2=A0 =C2=A0 cpu_stb_data(env, addr + (4=C2=A0 << DF_BYTE), pwd->b[=
-4]);
-> > +=C2=A0 =C2=A0 cpu_stb_data(env, addr + (5=C2=A0 << DF_BYTE), pwd->b[=
-5]);
-> > +=C2=A0 =C2=A0 cpu_stb_data(env, addr + (6=C2=A0 << DF_BYTE), pwd->b[=
-6]);
-> > +=C2=A0 =C2=A0 cpu_stb_data(env, addr + (7=C2=A0 << DF_BYTE), pwd->b[=
-7]);
-> > +=C2=A0 =C2=A0 cpu_stb_data(env, addr + (8=C2=A0 << DF_BYTE), pwd->b[=
-8]);
-> > +=C2=A0 =C2=A0 cpu_stb_data(env, addr + (9=C2=A0 << DF_BYTE), pwd->b[=
-9]);
-> > +=C2=A0 =C2=A0 cpu_stb_data(env, addr + (10 << DF_BYTE), pwd->b[10]);
-> > +=C2=A0 =C2=A0 cpu_stb_data(env, addr + (11 << DF_BYTE), pwd->b[11]);
-> > +=C2=A0 =C2=A0 cpu_stb_data(env, addr + (12 << DF_BYTE), pwd->b[12]);
-> > +=C2=A0 =C2=A0 cpu_stb_data(env, addr + (13 << DF_BYTE), pwd->b[13]);
-> > +=C2=A0 =C2=A0 cpu_stb_data(env, addr + (14 << DF_BYTE), pwd->b[14]);
-> > +=C2=A0 =C2=A0 cpu_stb_data(env, addr + (15 << DF_BYTE), pwd->b[15]);
-> > +#else
-> > +=C2=A0 =C2=A0 cpu_stb_data(env, addr + (7=C2=A0 << DF_BYTE), pwd->b[=
-0]);
-> > +=C2=A0 =C2=A0 cpu_stb_data(env, addr + (6=C2=A0 << DF_BYTE), pwd->b[=
-1]);
-> > +=C2=A0 =C2=A0 cpu_stb_data(env, addr + (5=C2=A0 << DF_BYTE), pwd->b[=
-2]);
-> > +=C2=A0 =C2=A0 cpu_stb_data(env, addr + (4=C2=A0 << DF_BYTE), pwd->b[=
-3]);
-> > +=C2=A0 =C2=A0 cpu_stb_data(env, addr + (3=C2=A0 << DF_BYTE), pwd->b[=
-4]);
-> > +=C2=A0 =C2=A0 cpu_stb_data(env, addr + (2=C2=A0 << DF_BYTE), pwd->b[=
-5]);
-> > +=C2=A0 =C2=A0 cpu_stb_data(env, addr + (1=C2=A0 << DF_BYTE), pwd->b[=
-6]);
-> > +=C2=A0 =C2=A0 cpu_stb_data(env, addr + (0=C2=A0 << DF_BYTE), pwd->b[=
-7]);
-> > +=C2=A0 =C2=A0 cpu_stb_data(env, addr + (15 << DF_BYTE), pwd->b[8]);
-> > +=C2=A0 =C2=A0 cpu_stb_data(env, addr + (14 << DF_BYTE), pwd->b[9]);
-> > +=C2=A0 =C2=A0 cpu_stb_data(env, addr + (13 << DF_BYTE), pwd->b[10]);
-> > +=C2=A0 =C2=A0 cpu_stb_data(env, addr + (12 << DF_BYTE), pwd->b[11]);
-> > +=C2=A0 =C2=A0 cpu_stb_data(env, addr + (11 << DF_BYTE), pwd->b[12]);
-> > +=C2=A0 =C2=A0 cpu_stb_data(env, addr + (10 << DF_BYTE), pwd->b[13]);
-> > +=C2=A0 =C2=A0 cpu_stb_data(env, addr + (9=C2=A0 << DF_BYTE), pwd->b[=
-14]);
-> > +=C2=A0 =C2=A0 cpu_stb_data(env, addr + (8=C2=A0 << DF_BYTE), pwd->b[=
-15]);
-> > +#endif
-> > +#endif
-> > +}
-> > +
-> > +void helper_msa_st_h(CPUMIPSState *env, uint32_t wd,
-> > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0target_ulong addr)
-> > +{
-> > +=C2=A0 =C2=A0 wr_t *pwd =3D &(env->active_fpu.fpr[wd].wr);
-> > +=C2=A0 =C2=A0 MEMOP_IDX(DF_HALF)
-> > +#if !defined(CONFIG_USER_ONLY)
-> > +#if !defined(HOST_WORDS_BIGENDIAN)
-> > +=C2=A0 =C2=A0 helper_ret_stw_mmu(env, addr + (0 << DF_HALF), pwd->h[=
-0], oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stw_mmu(env, addr + (1 << DF_HALF), pwd->h[=
-1], oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stw_mmu(env, addr + (2 << DF_HALF), pwd->h[=
-2], oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stw_mmu(env, addr + (3 << DF_HALF), pwd->h[=
-3], oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stw_mmu(env, addr + (4 << DF_HALF), pwd->h[=
-4], oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stw_mmu(env, addr + (5 << DF_HALF), pwd->h[=
-5], oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stw_mmu(env, addr + (6 << DF_HALF), pwd->h[=
-6], oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stw_mmu(env, addr + (7 << DF_HALF), pwd->h[=
-7], oi,=20
-> GETPC());
-> > +#else
-> > +=C2=A0 =C2=A0 helper_ret_stw_mmu(env, addr + (3 << DF_HALF), pwd->h[=
-0], oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stw_mmu(env, addr + (2 << DF_HALF), pwd->h[=
-1], oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stw_mmu(env, addr + (1 << DF_HALF), pwd->h[=
-2], oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stw_mmu(env, addr + (0 << DF_HALF), pwd->h[=
-3], oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stw_mmu(env, addr + (7 << DF_HALF), pwd->h[=
-4], oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stw_mmu(env, addr + (6 << DF_HALF), pwd->h[=
-5], oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stw_mmu(env, addr + (5 << DF_HALF), pwd->h[=
-6], oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stw_mmu(env, addr + (4 << DF_HALF), pwd->h[=
-7], oi,=20
-> GETPC());
-> > +#endif
-> > +#else
-> > +#if !defined(HOST_WORDS_BIGENDIAN)
-> > +=C2=A0 =C2=A0 cpu_stw_data(env, addr + (0 << DF_HALF), pwd->h[0]);
-> > +=C2=A0 =C2=A0 cpu_stw_data(env, addr + (1 << DF_HALF), pwd->h[1]);
-> > +=C2=A0 =C2=A0 cpu_stw_data(env, addr + (2 << DF_HALF), pwd->h[2]);
-> > +=C2=A0 =C2=A0 cpu_stw_data(env, addr + (3 << DF_HALF), pwd->h[3]);
-> > +=C2=A0 =C2=A0 cpu_stw_data(env, addr + (4 << DF_HALF), pwd->h[4]);
-> > +=C2=A0 =C2=A0 cpu_stw_data(env, addr + (5 << DF_HALF), pwd->h[5]);
-> > +=C2=A0 =C2=A0 cpu_stw_data(env, addr + (6 << DF_HALF), pwd->h[6]);
-> > +=C2=A0 =C2=A0 cpu_stw_data(env, addr + (7 << DF_HALF), pwd->h[7]);
-> > +#else
-> > +=C2=A0 =C2=A0 cpu_stw_data(env, addr + (3 << DF_HALF), pwd->h[0]);
-> > +=C2=A0 =C2=A0 cpu_stw_data(env, addr + (2 << DF_HALF), pwd->h[1]);
-> > +=C2=A0 =C2=A0 cpu_stw_data(env, addr + (1 << DF_HALF), pwd->h[2]);
-> > +=C2=A0 =C2=A0 cpu_stw_data(env, addr + (0 << DF_HALF), pwd->h[3]);
-> > +=C2=A0 =C2=A0 cpu_stw_data(env, addr + (7 << DF_HALF), pwd->h[4]);
-> > +=C2=A0 =C2=A0 cpu_stw_data(env, addr + (6 << DF_HALF), pwd->h[5]);
-> > +=C2=A0 =C2=A0 cpu_stw_data(env, addr + (5 << DF_HALF), pwd->h[6]);
-> > +=C2=A0 =C2=A0 cpu_stw_data(env, addr + (4 << DF_HALF), pwd->h[7]);
-> > +#endif
-> > +#endif
-> > =C2=A0}
-> >
-> > +void helper_msa_st_w(CPUMIPSState *env, uint32_t wd,
-> > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0target_ulong addr)
-> > +{
-> > +=C2=A0 =C2=A0 wr_t *pwd =3D &(env->active_fpu.fpr[wd].wr);
-> > +=C2=A0 =C2=A0 MEMOP_IDX(DF_WORD)
-> > =C2=A0#if !defined(CONFIG_USER_ONLY)
-> > -MSA_ST_DF(DF_BYTE,=C2=A0 =C2=A0b, helper_ret_stb_mmu, oi, GETPC())
-> > -MSA_ST_DF(DF_HALF,=C2=A0 =C2=A0h, helper_ret_stw_mmu, oi, GETPC())
-> > -MSA_ST_DF(DF_WORD,=C2=A0 =C2=A0w, helper_ret_stl_mmu, oi, GETPC())
-> > -MSA_ST_DF(DF_DOUBLE, d, helper_ret_stq_mmu, oi, GETPC())
-> > +#if !defined(HOST_WORDS_BIGENDIAN)
-> > +=C2=A0 =C2=A0 helper_ret_stl_mmu(env, addr + (0 << DF_WORD), oi, GET=
-PC(),=20
-> pwd->w[0]);
-> > +=C2=A0 =C2=A0 helper_ret_stl_mmu(env, addr + (1 << DF_WORD), oi, GET=
-PC(),=20
-> pwd->w[1]);
-> > +=C2=A0 =C2=A0 helper_ret_stl_mmu(env, addr + (2 << DF_WORD), oi, GET=
-PC(),=20
-> pwd->w[2]);
-> > +=C2=A0 =C2=A0 helper_ret_stl_mmu(env, addr + (3 << DF_WORD), oi, GET=
-PC(),=20
-> pwd->w[3]);
-> > =C2=A0#else
-> > -MSA_ST_DF(DF_BYTE,=C2=A0 =C2=A0b, cpu_stb_data)
-> > -MSA_ST_DF(DF_HALF,=C2=A0 =C2=A0h, cpu_stw_data)
-> > -MSA_ST_DF(DF_WORD,=C2=A0 =C2=A0w, cpu_stl_data)
-> > -MSA_ST_DF(DF_DOUBLE, d, cpu_stq_data)
-> > +=C2=A0 =C2=A0 helper_ret_stl_mmu(env, addr + (1 << DF_WORD), oi, GET=
-PC(),=20
-> pwd->w[0]);
-> > +=C2=A0 =C2=A0 helper_ret_stl_mmu(env, addr + (0 << DF_WORD), oi, GET=
-PC(),=20
-> pwd->w[1]);
-> > +=C2=A0 =C2=A0 helper_ret_stl_mmu(env, addr + (3 << DF_WORD), oi, GET=
-PC(),=20
-> pwd->w[2]);
-> > +=C2=A0 =C2=A0 helper_ret_stl_mmu(env, addr + (2 << DF_WORD), oi, GET=
-PC(),=20
-> pwd->w[3]);
-> > =C2=A0#endif
-> > +#else
-> > +#if !defined(HOST_WORDS_BIGENDIAN)
-> > +=C2=A0 =C2=A0 cpu_stl_data(env, addr + (0 << DF_WORD), pwd->w[0]);
-> > +=C2=A0 =C2=A0 cpu_stl_data(env, addr + (1 << DF_WORD), pwd->w[1]);
-> > +=C2=A0 =C2=A0 cpu_stl_data(env, addr + (2 << DF_WORD), pwd->w[2]);
-> > +=C2=A0 =C2=A0 cpu_stl_data(env, addr + (3 << DF_WORD), pwd->w[3]);
-> > +#else
-> > +=C2=A0 =C2=A0 cpu_stl_data(env, addr + (1 << DF_WORD), pwd->w[0]);
-> > +=C2=A0 =C2=A0 cpu_stl_data(env, addr + (0 << DF_WORD), pwd->w[1]);
-> > +=C2=A0 =C2=A0 cpu_stl_data(env, addr + (3 << DF_WORD), pwd->w[2]);
-> > +=C2=A0 =C2=A0 cpu_stl_data(env, addr + (2 << DF_WORD), pwd->w[3]);
-> > +#endif
-> > +#endif
-> > +}
-> > +
-> > +void helper_msa_st_d(CPUMIPSState *env, uint32_t wd,
-> > +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0target_ulong addr)
-> > +{
-> > +=C2=A0 =C2=A0 wr_t *pwd =3D &(env->active_fpu.fpr[wd].wr);
-> > +=C2=A0 =C2=A0 MEMOP_IDX(DF_DOUBLE)
-> > +#if !defined(CONFIG_USER_ONLY)
-> > +=C2=A0 =C2=A0 helper_ret_stq_mmu(env, addr + (0 << DF_DOUBLE), pwd->=
-d[0], oi,=20
-> GETPC());
-> > +=C2=A0 =C2=A0 helper_ret_stq_mmu(env, addr + (1 << DF_DOUBLE), pwd->=
-d[1], oi,=20
-> GETPC());
-> > +#else
-> > +=C2=A0 =C2=A0 cpu_stq_data(env, addr + (0 << DF_DOUBLE), pwd->d[0]);
-> > +=C2=A0 =C2=A0 cpu_stq_data(env, addr + (1 << DF_DOUBLE), pwd->d[1]);
-> > +#endif
-> > +}
-> >
-> > =C2=A0void helper_cache(CPUMIPSState *env, target_ulong addr, uint32_=
-t op)
-> > =C2=A0{
-> > --
-> > 2.7.4
-> >
-> >
->
+C.
+
+
