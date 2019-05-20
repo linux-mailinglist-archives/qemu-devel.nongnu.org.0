@@ -2,53 +2,134 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EE9823DD2
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 18:49:27 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38544 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4C5D123DD8
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 18:51:42 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38609 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSlTZ-0002tM-Nz
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 12:49:25 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45830)
+	id 1hSlVl-0004wV-HP
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 12:51:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47806)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgilbert@redhat.com>) id 1hSlIY-00020m-Lf
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 12:38:04 -0400
+	(envelope-from <jsnow@redhat.com>) id 1hSlNk-0007E1-7U
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 12:43:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgilbert@redhat.com>) id 1hSlIX-0005sk-Gg
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 12:38:02 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54950)
+	(envelope-from <jsnow@redhat.com>) id 1hSlNj-0000DN-3y
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 12:43:24 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41306)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <dgilbert@redhat.com>) id 1hSlIX-0005sF-7w
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 12:38:01 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
+	(Exim 4.71) (envelope-from <jsnow@redhat.com>)
+	id 1hSlNg-0000Bg-E6; Mon, 20 May 2019 12:43:20 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+	[10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 97BE1F74A0
-	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 16:38:00 +0000 (UTC)
-Received: from work-vm (ovpn-116-127.ams2.redhat.com [10.36.116.127])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 6A8A858821;
-	Mon, 20 May 2019 16:37:59 +0000 (UTC)
-Date: Mon, 20 May 2019 17:37:57 +0100
-From: "Dr. David Alan Gilbert" <dgilbert@redhat.com>
-To: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <20190520163756.GI2726@work-vm>
-References: <20190520030839.6795-1-peterx@redhat.com>
-	<20190520030839.6795-14-peterx@redhat.com>
-	<5d9174bc-0f3b-100f-e400-eeb94680020a@redhat.com>
+	by mx1.redhat.com (Postfix) with ESMTPS id 824C2C0669D5;
+	Mon, 20 May 2019 16:43:13 +0000 (UTC)
+Received: from [10.18.17.162] (dhcp-17-162.bos.redhat.com [10.18.17.162])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 458F660E37;
+	Mon, 20 May 2019 16:43:05 +0000 (UTC)
+To: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>,
+	Kevin Wolf <kwolf@redhat.com>
+References: <20190514201926.10407-1-jsnow@redhat.com>
+	<72986b5d-0772-abfb-2c99-97470e8fd3da@virtuozzo.com>
+	<ab26708f-9199-32da-29ac-3202ba2df0d5@redhat.com>
+	<f68e1472-26be-aa15-b2e2-f96029c9ce97@virtuozzo.com>
+	<20190520092737.GA5699@localhost.localdomain>
+	<d3ff832a-d185-13f6-129a-b531f04b3b0b@virtuozzo.com>
+From: John Snow <jsnow@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
+	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
+Message-ID: <6a9cbbf5-935d-987f-1897-31bc7df2c068@redhat.com>
+Date: Mon, 20 May 2019 12:43:05 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <5d9174bc-0f3b-100f-e400-eeb94680020a@redhat.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+In-Reply-To: <d3ff832a-d185-13f6-129a-b531f04b3b0b@virtuozzo.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.38]);
-	Mon, 20 May 2019 16:38:00 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.32]);
+	Mon, 20 May 2019 16:43:18 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2 13/15] qmp: Expose
- manual_dirty_log_protect via "query-kvm"
+Subject: Re: [Qemu-devel] [Qemu-block] [PATCH v2] migration/dirty-bitmaps:
+ change bitmap enumeration method
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -60,98 +141,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, qemu-devel@nongnu.org,
-	Peter Xu <peterx@redhat.com>, Juan Quintela <quintela@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Peter Maydell <peter.maydell@linaro.org>,
+	aihua liang <aliang@redhat.com>,
+	"qemu-block@nongnu.org" <qemu-block@nongnu.org>,
+	Juan Quintela <quintela@redhat.com>,
+	"qemu-devel@nongnu.org" <qemu-devel@nongnu.org>,
+	"Dr. David Alan Gilbert" <dgilbert@redhat.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-* Paolo Bonzini (pbonzini@redhat.com) wrote:
-> On 20/05/19 05:08, Peter Xu wrote:
-> > Expose the new capability via "query-kvm" QMP command too so we know
-> > whether that's turned on on the source VM when we want.
-> > 
-> > Signed-off-by: Peter Xu <peterx@redhat.com>
-> 
-> Is this useful?  We could I guess make a migration capability in order
-> to benchmark with the old code, but otherwise I would just make this a
-> "hidden" optimization just like many others (same for patch 14).
-> 
-> In other words, there are many other capabilities that we could inform
-> the user about, I don't see what makes manual_dirty_log_protect special.
 
-Yes agreed, if your kernel has it then just use it.
 
-Dave
+On 5/20/19 6:37 AM, Vladimir Sementsov-Ogievskiy wrote:
+> 20.05.2019 12:27, Kevin Wolf wrote:
+>> Am 17.05.2019 um 12:22 hat Vladimir Sementsov-Ogievskiy geschrieben:
+>>> 16.05.2019 22:03, John Snow wrote:
+>>>> On 5/16/19 6:12 AM, Vladimir Sementsov-Ogievskiy wrote:
+>>>>> But, on the other, hand, if we have implicitly-filtered node on target, we were doing wrong thing anyway,
+>>>>> as dirty_bitmap_load_header don't skip implicit nodes.
+>>>>>
+>>>>>> +    for (bs = bdrv_next_all_states(NULL); bs; bs = bdrv_next_all_states(bs)) {
+>>>>>
+>>>>> As I understand, difference with bdrv_next_node is that we don't skip unnamed nodes [...]
+>>>>>
+>>>>
+>>>> The difference is that we iterate over states that aren't roots of
+>>>> trees; so not just unnamed nodes but rather intermediate nodes as well
+>>>> as nodes not attached to a storage device.
+>>>>
+>>>> bdrv_next says: `Iterates over all top-level BlockDriverStates, i.e.
+>>>> BDSs that are owned by the monitor or attached to a BlockBackend`
+>>>>
+>>>> So this loop is going to iterate over *everything*, not just top-level
+>>>> nodes. This lets me skip the tree-crawling loop that didn't work quite
+>>>> right.
+>>>
+>>> I meant not bdrv_next but bdrv_next_node, which iterates through graph nodes..
+>>> What is real difference between graph_bdrv_states and all_bdrv_states ?
+>>
+>> I don't think there is any relevant difference any more since commit
+>> 15489c769b9 ('block: auto-generated node-names'). We can only see a
+>> difference if a BDS was created, but never opened. This means either
+>> that we are still in the process of opening an image or that we have a
+>> bug somewhere.
+>>
+>> Maybe we should remove graph_bdrv_states and replace all of its uses
+>> with the more obviously correct all_bdrv_states (if we are sure that
+>> all users aren't called between creating and opening a BDS).
+>>
+>>> Node is inserted to graph_bdrv_states in bdrv_assign_node_name(), and to
+>>> all_bdrv_states in bdrv_new().
+>>>
+>>> Three calls to bdrv_new:
+>>>
+>>> bdrv_new_open_driver, calls bdrv_new and then bdrv_open_driver, which calls bdrv_assign_node_name,
+>>> and if it fails new created node is released.
+>>>
+>>> bdrv_open_inherit
+>>>      bdrv_new
+>>>      ..
+>>>      bdrv_open_common
+>>>         bdrv_open_driver
+>>>             bdrv_assign_node_name
+>>>
+>>>
+>>> iscsi_co_create_opts
+>>>      bdrv_new
+>>>
+>>>      ... hmm.. looks like it a kind of temporary unnamed bs
+>>>
+>>> So, now, I'm not sure. Possibly we'd better use bdrv_next_node().
+>>
+>> I wonder if the iscsi one can't be replaced with bdrv_new_open_driver().
+>> Manually building a half-opened BDS like it does currently looks
+>> suspicious.
+>>
+>>> Kevin introduced all_bdrv_states in 0f12264e7a4145 , to use in drain instead of
+>>> bdrv_next... But I don't understand, why he didn't use graph_bdrv_states and
+>>> corresponding bdrv_next_node(), which is only skips some temporary or under-constuction
+>>> nodes..
+>>
+>> I probably just didn't realise that graph_bdrv_states exists and is
+>> effectively the same. I knew that all_bdrv_states contains what I want,
+>> so I just wanted to access that.
+>>
+>> But if anonymous BDSes did actually still exist, drain would want to
+>> wait for those as well, so it's the more natural choice anyway.
+>>
+>> Kevin
+>>
+> 
+> Thank you for clarification. Then, my r-b still stand here, and fixing/refacting
+> graph_nodes vs all_states should be a separate thing.
+> 
+> Reviewed-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+> 
 
-> Paolo
-> 
-> > ---
-> >  accel/kvm/kvm-all.c  | 5 +++++
-> >  include/sysemu/kvm.h | 2 ++
-> >  qapi/misc.json       | 6 +++++-
-> >  qmp.c                | 1 +
-> >  4 files changed, 13 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/accel/kvm/kvm-all.c b/accel/kvm/kvm-all.c
-> > index 062bf8b5b0..c79d6b51e2 100644
-> > --- a/accel/kvm/kvm-all.c
-> > +++ b/accel/kvm/kvm-all.c
-> > @@ -169,6 +169,11 @@ int kvm_memcrypt_encrypt_data(uint8_t *ptr, uint64_t len)
-> >      return 1;
-> >  }
-> >  
-> > +bool kvm_manual_dirty_log_protect_enabled(void)
-> > +{
-> > +    return kvm_state && kvm_state->manual_dirty_log_protect;
-> > +}
-> > +
-> >  /* Must be with slots_lock held */
-> >  static KVMSlot *kvm_get_free_slot(KVMMemoryListener *kml)
-> >  {
-> > diff --git a/include/sysemu/kvm.h b/include/sysemu/kvm.h
-> > index a6d1cd190f..30757f1425 100644
-> > --- a/include/sysemu/kvm.h
-> > +++ b/include/sysemu/kvm.h
-> > @@ -547,4 +547,6 @@ int kvm_set_one_reg(CPUState *cs, uint64_t id, void *source);
-> >  int kvm_get_one_reg(CPUState *cs, uint64_t id, void *target);
-> >  struct ppc_radix_page_info *kvm_get_radix_page_info(void);
-> >  int kvm_get_max_memslots(void);
-> > +bool kvm_manual_dirty_log_protect_enabled(void);
-> > +
-> >  #endif
-> > diff --git a/qapi/misc.json b/qapi/misc.json
-> > index 8b3ca4fdd3..ce7a76755a 100644
-> > --- a/qapi/misc.json
-> > +++ b/qapi/misc.json
-> > @@ -253,9 +253,13 @@
-> >  #
-> >  # @present: true if KVM acceleration is built into this executable
-> >  #
-> > +# @manual-dirty-log-protect: true if manual dirty log protect is enabled
-> > +#
-> >  # Since: 0.14.0
-> >  ##
-> > -{ 'struct': 'KvmInfo', 'data': {'enabled': 'bool', 'present': 'bool'} }
-> > +{ 'struct': 'KvmInfo', 'data':
-> > +  {'enabled': 'bool', 'present': 'bool',
-> > +   'manual-dirty-log-protect': 'bool' } }
-> >  
-> >  ##
-> >  # @query-kvm:
-> > diff --git a/qmp.c b/qmp.c
-> > index b92d62cd5f..047bef032e 100644
-> > --- a/qmp.c
-> > +++ b/qmp.c
-> > @@ -73,6 +73,7 @@ KvmInfo *qmp_query_kvm(Error **errp)
-> >  
-> >      info->enabled = kvm_enabled();
-> >      info->present = kvm_available();
-> > +    info->manual_dirty_log_protect = kvm_manual_dirty_log_protect_enabled();
-> >  
-> >      return info;
-> >  }
-> > 
-> 
---
-Dr. David Alan Gilbert / dgilbert@redhat.com / Manchester, UK
+Great, thanks all :)
+
+I think I will stage this through my tree -- on the premise that David
+Gilbert won't want to stage a block patch, and that since it's not
+Kevin's tree, he won't mind either.
+
+--js
 
