@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8774024412
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 01:19:10 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43415 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A74A24439
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 01:22:11 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43474 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSrYj-0004s7-M8
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 19:19:09 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44785)
+	id 1hSrbe-0007c2-6E
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 19:22:10 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44803)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hSrQY-0006y9-1M
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:10:42 -0400
+	(envelope-from <mst@redhat.com>) id 1hSrQZ-0006zM-6f
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:10:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hSrQW-0007uW-Ij
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:10:42 -0400
-Received: from mail-qt1-f180.google.com ([209.85.160.180]:40791)
+	(envelope-from <mst@redhat.com>) id 1hSrQY-0007vW-7U
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:10:43 -0400
+Received: from mail-qt1-f169.google.com ([209.85.160.169]:41519)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hSrQW-0007tv-Ev
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:10:40 -0400
-Received: by mail-qt1-f180.google.com with SMTP id k24so18365919qtq.7
-	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 16:10:39 -0700 (PDT)
+	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hSrQY-0007uv-3C
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:10:42 -0400
+Received: by mail-qt1-f169.google.com with SMTP id y22so18332481qtn.8
+	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 16:10:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
 	:mime-version:content-disposition:in-reply-to;
-	bh=voePSIxqf20B3MWBtRpLvFwWOODzNWBdVt83CkIEzBU=;
-	b=AeC3TjmkaeieCh8rV3m7tdaH6rMdAg8petDzKHLWOliYmtF3EN3gyBCDglp59wqeTR
-	F+a6QIfi1NRfTof2a7VWPnNG/GVfshUAT5nhq5Poh4phTyrD7l2+9rj3qAF1ODTvf7uw
-	e800DaORFnvjPOn1rYB+RWDtwP+gjgGtsFwZzRnsT/AT+C2KzfEYjwC1Zvii+xGMDYeG
-	tdwqT6Z70/DKLCVjj/FFbesKxncJCccdYPXhEdF7Za99Si41at+AJYxkICZ+cxi9zPVs
-	Dfe1V8R4KS9M5d05KtCxwpS8aNLLqyIh+UrMEwB755IRKOojkEcdnWnurcrg6jZ9b6WY
-	iV5A==
-X-Gm-Message-State: APjAAAVCC1o32YZKWd24pCWqqpwVAWg20Hd+G7jN0VWl9wcUEQ8Yw6m9
-	dGHi4I6m6e8DekwyIFcIbtFfh+dhVRw=
-X-Google-Smtp-Source: APXvYqwKxfQfie6xRNkvxHhPVivYonvvtevjxvoa69fTkKwMCdMGj5ccW3wcLGItNHXwndNVLH54NA==
-X-Received: by 2002:ac8:5399:: with SMTP id x25mr63856797qtp.147.1558393838669;
-	Mon, 20 May 2019 16:10:38 -0700 (PDT)
+	bh=BdQmdQ0lBDJ6Q7Q+g+I1UB4uSsg7bUq8SfpRaDBHlX4=;
+	b=iJ2jkdjrkq+XgjPueKWV5iAMH9jN1KQ0DSSyD43zjwaP0HiYGkCGwCvyKmpTI2NnS+
+	Rbm5GAV0/oXbk43gWjzaOCzWYRr+zW6U96L21qn+83FW3X1kku5EHxCgrZrSXXXxTzfH
+	W1ufvd9amwtPL13n2BKxLT64ilUXI0mmp4n7W3b7VmMaPci40grJoaeV2q9Z9kUBWbQ3
+	kmySreLhwVA4UWKmezAZ1/Oo7GApSaoH0fNMdoXLMKJbB1Dqo3xKQIubPa/GfNhH1VYj
+	rVuebQpNHhIVAFwOS7/5Of0lbmp25mgqiMfXfsolS+U0VhP3RVvYzaTdb8hgLYn36cMy
+	U/fQ==
+X-Gm-Message-State: APjAAAVWozie2o36NiLbitodhjpAva3BSSnw2S5OjrL2+2sRZbOUfw/d
+	bWmtkLZAnsd/PWlpE6PH7VABCNxJ+FI=
+X-Google-Smtp-Source: APXvYqyjqZ3cQikpLf6Vojth7ujoYXNgMdV2IBAvvIOAkFTwETHtN1xTOuy0wZQdfcMOtSmltYU08Q==
+X-Received: by 2002:a0c:adf7:: with SMTP id x52mr40719082qvc.21.1558393840799; 
+	Mon, 20 May 2019 16:10:40 -0700 (PDT)
 Received: from redhat.com (pool-173-76-105-71.bstnma.fios.verizon.net.
 	[173.76.105.71]) by smtp.gmail.com with ESMTPSA id
-	s28sm12290266qtc.81.2019.05.20.16.10.37
+	p8sm11130425qta.24.2019.05.20.16.10.39
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Mon, 20 May 2019 16:10:37 -0700 (PDT)
-Date: Mon, 20 May 2019 19:10:36 -0400
+	Mon, 20 May 2019 16:10:40 -0700 (PDT)
+Date: Mon, 20 May 2019 19:10:38 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Message-ID: <20190320112646.3712-3-xieyongji@baidu.com>
+Message-ID: <20190320112646.3712-4-xieyongji@baidu.com>
 References: <20190520231008.20140-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -56,9 +56,9 @@ X-Mailer: git-send-email 2.17.1.1206.gb667731e2e.dirty
 X-Mutt-Fcc: =sent
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.160.180
-Subject: [Qemu-devel] [PULL v2 05/36] virtio: Use started flag in
- virtio_vmstate_change()
+X-Received-From: 209.85.160.169
+Subject: [Qemu-devel] [PULL v2 06/36] vhost-user-blk: Use started flag in
+ vhost_user_blk_set_status()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -70,41 +70,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Xie Yongji <xieyongji@baidu.com>,
-	Zhang Yu <zhangyu31@baidu.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, Peter Maydell <peter.maydell@linaro.org>,
+	Zhang Yu <zhangyu31@baidu.com>, qemu-block@nongnu.org,
+	Max Reitz <mreitz@redhat.com>, Xie Yongji <xieyongji@baidu.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Xie Yongji <xieyongji@baidu.com>
 
-Currently, we use DRIVER_OK status bit to check whether guest
-driver has started the device in virtio_vmstate_change(). But it's
-not the case for virtio 1.0 transitional devices. If migration completes
-between kicking virtqueue and setting VIRTIO_CONFIG_S_DRIVER_OK, guest
-may be hung. So here we use started flag to check guest state instead.
+Use started flag in vhost_user_blk_set_status() to decide if
+starting vhost-user backend or not.
 
 Signed-off-by: Xie Yongji <xieyongji@baidu.com>
 Signed-off-by: Zhang Yu <zhangyu31@baidu.com>
-Message-Id: <20190320112646.3712-3-xieyongji@baidu.com>
+Message-Id: <20190320112646.3712-4-xieyongji@baidu.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/virtio/virtio.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/block/vhost-user-blk.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/hw/virtio/virtio.c b/hw/virtio/virtio.c
-index 5d533ac74e..4805727b53 100644
---- a/hw/virtio/virtio.c
-+++ b/hw/virtio/virtio.c
-@@ -2291,7 +2291,7 @@ static void virtio_vmstate_change(void *opaque, int running, RunState state)
-     VirtIODevice *vdev = opaque;
-     BusState *qbus = qdev_get_parent_bus(DEVICE(vdev));
-     VirtioBusClass *k = VIRTIO_BUS_GET_CLASS(qbus);
--    bool backend_run = running && (vdev->status & VIRTIO_CONFIG_S_DRIVER_OK);
-+    bool backend_run = running && vdev->started;
-     vdev->vm_running = running;
+diff --git a/hw/block/vhost-user-blk.c b/hw/block/vhost-user-blk.c
+index 28b81368f7..700c1dd111 100644
+--- a/hw/block/vhost-user-blk.c
++++ b/hw/block/vhost-user-blk.c
+@@ -190,7 +190,7 @@ static void vhost_user_blk_stop(VirtIODevice *vdev)
+ static void vhost_user_blk_set_status(VirtIODevice *vdev, uint8_t status)
+ {
+     VHostUserBlk *s = VHOST_USER_BLK(vdev);
+-    bool should_start = status & VIRTIO_CONFIG_S_DRIVER_OK;
++    bool should_start = vdev->started;
  
-     if (backend_run) {
+     if (!vdev->vm_running) {
+         should_start = false;
+@@ -350,7 +350,7 @@ static void vhost_user_blk_device_unrealize(DeviceState *dev, Error **errp)
+     VHostUserBlk *s = VHOST_USER_BLK(dev);
+     struct vhost_virtqueue *vqs = s->dev.vqs;
+ 
+-    vhost_user_blk_set_status(vdev, 0);
++    virtio_set_status(vdev, 0);
+     vhost_dev_cleanup(&s->dev);
+     vhost_dev_free_inflight(s->inflight);
+     g_free(vqs);
 -- 
 MST
 
