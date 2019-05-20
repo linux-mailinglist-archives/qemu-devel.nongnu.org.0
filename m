@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D40F23D34
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 18:27:24 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38184 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7E5C223D3E
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 18:30:11 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38213 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSl8F-00014a-LC
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 12:27:23 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38592)
+	id 1hSlAw-0003xg-IA
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 12:30:10 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38732)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hSkwx-0008Nq-Tl
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 12:15:45 -0400
+	(envelope-from <kwolf@redhat.com>) id 1hSkx8-000068-7A
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 12:15:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hSkww-0003dP-UY
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 12:15:43 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40172)
+	(envelope-from <kwolf@redhat.com>) id 1hSkx4-0003i6-Hu
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 12:15:52 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45330)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <kwolf@redhat.com>)
-	id 1hSkwu-0003bu-Ff; Mon, 20 May 2019 12:15:40 -0400
+	id 1hSkwz-0003eZ-Di; Mon, 20 May 2019 12:15:45 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
 	[10.5.11.11])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id EDF8B9D51C;
-	Mon, 20 May 2019 16:15:37 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 2AA66309B15E;
+	Mon, 20 May 2019 16:15:39 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-117-208.ams2.redhat.com
 	[10.36.117.208])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 11F76601A0;
-	Mon, 20 May 2019 16:15:36 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 45B27601A0;
+	Mon, 20 May 2019 16:15:38 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Date: Mon, 20 May 2019 18:14:45 +0200
-Message-Id: <20190520161453.30723-17-kwolf@redhat.com>
+Date: Mon, 20 May 2019 18:14:46 +0200
+Message-Id: <20190520161453.30723-18-kwolf@redhat.com>
 In-Reply-To: <20190520161453.30723-1-kwolf@redhat.com>
 References: <20190520161453.30723-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.39]);
-	Mon, 20 May 2019 16:15:38 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.49]);
+	Mon, 20 May 2019 16:15:39 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 16/24] test-block-iothread: Test AioContext
- propagation for block jobs
+Subject: [Qemu-devel] [PULL 17/24] block/file-posix: Unaligned O_DIRECT
+ block-status
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,101 +61,90 @@ Cc: kwolf@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+From: Max Reitz <mreitz@redhat.com>
+
+Currently, qemu crashes whenever someone queries the block status of an
+unaligned image tail of an O_DIRECT image:
+$ echo > foo
+$ qemu-img map --image-opts driver=3Dfile,filename=3Dfoo,cache.direct=3Do=
+n
+Offset          Length          Mapped to       File
+qemu-img: block/io.c:2093: bdrv_co_block_status: Assertion `*pnum &&
+QEMU_IS_ALIGNED(*pnum, align) && align > offset - aligned_offset'
+failed.
+
+This is because bdrv_co_block_status() checks that the result returned
+by the driver's implementation is aligned to the request_alignment, but
+file-posix can fail to do so, which is actually mentioned in a comment
+there: "[...] possibly including a partial sector at EOF".
+
+Fix this by rounding up those partial sectors.
+
+There are two possible alternative fixes:
+(1) We could refuse to open unaligned image files with O_DIRECT
+    altogether.  That sounds reasonable until you realize that qcow2
+    does necessarily not fill up its metadata clusters, and that nobody
+    runs qemu-img create with O_DIRECT.  Therefore, unpreallocated qcow2
+    files usually have an unaligned image tail.
+
+(2) bdrv_co_block_status() could ignore unaligned tails.  It actually
+    throws away everything past the EOF already, so that sounds
+    reasonable.
+    Unfortunately, the block layer knows file lengths only with a
+    granularity of BDRV_SECTOR_SIZE, so bdrv_co_block_status() usually
+    would have to guess whether its file length information is inexact
+    or whether the driver is broken.
+
+Fixing what raw_co_block_status() returns is the safest thing to do.
+
+There seems to be no other block driver that sets request_alignment and
+does not make sure that it always returns aligned values.
+
+Cc: qemu-stable@nongnu.org
+Signed-off-by: Max Reitz <mreitz@redhat.com>
+Reviewed-by: Eric Blake <eblake@redhat.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- tests/test-block-iothread.c | 71 +++++++++++++++++++++++++++++++++++++
- 1 file changed, 71 insertions(+)
+ block/file-posix.c | 16 ++++++++++++++++
+ 1 file changed, 16 insertions(+)
 
-diff --git a/tests/test-block-iothread.c b/tests/test-block-iothread.c
-index 938831c9bd..59f692892e 100644
---- a/tests/test-block-iothread.c
-+++ b/tests/test-block-iothread.c
-@@ -588,6 +588,76 @@ static void test_propagate_diamond(void)
-     bdrv_unref(bs_a);
- }
+diff --git a/block/file-posix.c b/block/file-posix.c
+index e09e15bbf8..d018429672 100644
+--- a/block/file-posix.c
++++ b/block/file-posix.c
+@@ -2488,6 +2488,8 @@ static int coroutine_fn raw_co_block_status(BlockDr=
+iverState *bs,
+     off_t data =3D 0, hole =3D 0;
+     int ret;
 =20
-+static void test_propagate_mirror(void)
-+{
-+    IOThread *iothread =3D iothread_new();
-+    AioContext *ctx =3D iothread_get_aio_context(iothread);
-+    AioContext *main_ctx =3D qemu_get_aio_context();
-+    BlockDriverState *src, *target;
-+    BlockBackend *blk;
-+    Job *job;
-+    Error *local_err =3D NULL;
++    assert(QEMU_IS_ALIGNED(offset | bytes, bs->bl.request_alignment));
 +
-+    /* Create src and target*/
-+    src =3D bdrv_new_open_driver(&bdrv_test, "src", BDRV_O_RDWR, &error_=
-abort);
-+    target =3D bdrv_new_open_driver(&bdrv_test, "target", BDRV_O_RDWR,
-+                                  &error_abort);
+     ret =3D fd_open(bs);
+     if (ret < 0) {
+         return ret;
+@@ -2513,6 +2515,20 @@ static int coroutine_fn raw_co_block_status(BlockD=
+riverState *bs,
+         /* On a data extent, compute bytes to the end of the extent,
+          * possibly including a partial sector at EOF. */
+         *pnum =3D MIN(bytes, hole - offset);
 +
-+    /* Start a mirror job */
-+    mirror_start("job0", src, target, NULL, JOB_DEFAULT, 0, 0, 0,
-+                 MIRROR_SYNC_MODE_NONE, MIRROR_OPEN_BACKING_CHAIN,
-+                 BLOCKDEV_ON_ERROR_REPORT, BLOCKDEV_ON_ERROR_REPORT,
-+                 false, "filter_node", MIRROR_COPY_MODE_BACKGROUND,
-+                 &error_abort);
-+    job =3D job_get("job0");
++        /*
++         * We are not allowed to return partial sectors, though, so
++         * round up if necessary.
++         */
++        if (!QEMU_IS_ALIGNED(*pnum, bs->bl.request_alignment)) {
++            int64_t file_length =3D raw_getlength(bs);
++            if (file_length > 0) {
++                /* Ignore errors, this is just a safeguard */
++                assert(hole =3D=3D file_length);
++            }
++            *pnum =3D ROUND_UP(*pnum, bs->bl.request_alignment);
++        }
 +
-+    /* Change the AioContext of src */
-+    bdrv_try_set_aio_context(src, ctx, &error_abort);
-+    g_assert(bdrv_get_aio_context(src) =3D=3D ctx);
-+    g_assert(bdrv_get_aio_context(target) =3D=3D ctx);
-+    g_assert(job->aio_context =3D=3D ctx);
-+
-+    /* Change the AioContext of target */
-+    aio_context_acquire(ctx);
-+    bdrv_try_set_aio_context(target, main_ctx, &error_abort);
-+    aio_context_release(ctx);
-+    g_assert(bdrv_get_aio_context(src) =3D=3D main_ctx);
-+    g_assert(bdrv_get_aio_context(target) =3D=3D main_ctx);
-+
-+    /* With a BlockBackend on src, changing target must fail */
-+    blk =3D blk_new(0, BLK_PERM_ALL);
-+    blk_insert_bs(blk, src, &error_abort);
-+
-+    bdrv_try_set_aio_context(target, ctx, &local_err);
-+    g_assert(local_err);
-+    error_free(local_err);
-+
-+    g_assert(blk_get_aio_context(blk) =3D=3D main_ctx);
-+    g_assert(bdrv_get_aio_context(src) =3D=3D main_ctx);
-+    g_assert(bdrv_get_aio_context(target) =3D=3D main_ctx);
-+
-+    /* ...unless we explicitly allow it */
-+    aio_context_acquire(ctx);
-+    blk_set_allow_aio_context_change(blk, true);
-+    bdrv_try_set_aio_context(target, ctx, &error_abort);
-+    aio_context_release(ctx);
-+
-+    g_assert(blk_get_aio_context(blk) =3D=3D ctx);
-+    g_assert(bdrv_get_aio_context(src) =3D=3D ctx);
-+    g_assert(bdrv_get_aio_context(target) =3D=3D ctx);
-+
-+    job_cancel_sync_all();
-+
-+    aio_context_acquire(ctx);
-+    blk_set_aio_context(blk, main_ctx);
-+    bdrv_try_set_aio_context(target, main_ctx, &error_abort);
-+    aio_context_release(ctx);
-+
-+    blk_unref(blk);
-+    bdrv_unref(src);
-+    bdrv_unref(target);
-+}
-+
- int main(int argc, char **argv)
- {
-     int i;
-@@ -605,6 +675,7 @@ int main(int argc, char **argv)
-     g_test_add_func("/attach/blockjob", test_attach_blockjob);
-     g_test_add_func("/propagate/basic", test_propagate_basic);
-     g_test_add_func("/propagate/diamond", test_propagate_diamond);
-+    g_test_add_func("/propagate/mirror", test_propagate_mirror);
-=20
-     return g_test_run();
- }
+         ret =3D BDRV_BLOCK_DATA;
+     } else {
+         /* On a hole, compute bytes to the beginning of the next extent.=
+  */
 --=20
 2.20.1
 
