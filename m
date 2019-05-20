@@ -2,52 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1326A24456
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 01:27:30 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43557 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0158024482
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 01:46:25 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43846 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSrgn-0003cg-5g
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 19:27:29 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45215)
+	id 1hSrz6-0001p5-5x
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 19:46:24 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45227)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hSrRJ-0007qg-Gg
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:11:30 -0400
+	(envelope-from <mst@redhat.com>) id 1hSrRN-0007ud-Ly
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:11:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hSrRH-0008LF-OQ
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:11:29 -0400
-Received: from mail-qk1-f194.google.com ([209.85.222.194]:46187)
+	(envelope-from <mst@redhat.com>) id 1hSrRK-0008M9-2B
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:11:33 -0400
+Received: from mail-qt1-f179.google.com ([209.85.160.179]:44976)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hSrRH-0008Kx-HH
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:11:27 -0400
-Received: by mail-qk1-f194.google.com with SMTP id a132so9868001qkb.13
-	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 16:11:27 -0700 (PDT)
+	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hSrRJ-0008Lr-Nj
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:11:29 -0400
+Received: by mail-qt1-f179.google.com with SMTP id f24so18319509qtk.11
+	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 16:11:29 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
 	:mime-version:content-disposition:in-reply-to;
-	bh=oqgPjJcQ1nCdql2NZY/7MbpSZ2gcOK+EeLFrLtle5nY=;
-	b=SL9dUDJ1ONRxSap4HohaqnDErBUKbMvj+Bm9WGiVDP8aflai4wyvUtDrnKvnSMPQn1
-	Pzti5BeskiiOGmQBkPv1tIBZuOSZC55TQHtxe0hp9YkxDEdsF/QrJojyBc9HclC6wgWt
-	oap4g0MgW6kzxqEpCikyHRbIZJBtY7kVJ+ZaW/UlNNLL1yxgb4jBORcsQUYEdEoPQ7e0
-	xPiv9bLWY9HImPY2yxxP6l1f0Zuzkd59jM60WIn3yrW7rq71lp5ILmzUK8AAhrrKMBVx
-	I3kUVPSdfSKseYD/nCaAXDKeCTZQU32QWGuaSjaUKQaKRPZFlzUBYtB1nHquuXA0GdaN
-	iMiQ==
-X-Gm-Message-State: APjAAAU1azmkXyqtDzQaTLolt7O0miPOtWlCpmgwqpV4gBInORZjcTAd
-	oC8t1I+g+O8XJKaxRaLhxShsQhPkzKw=
-X-Google-Smtp-Source: APXvYqyul6NlkLOrAb4Lk0/1QJsAL5ic7GAsWP3p1i5C74jIv7wrQRFm6kXXKuHllzinarrLP67xbg==
-X-Received: by 2002:a05:620a:133c:: with SMTP id
-	p28mr59471251qkj.165.1558393886811; 
-	Mon, 20 May 2019 16:11:26 -0700 (PDT)
+	bh=im+qbcew1Qe+0x5KgoK3OVmxTwCql9ERQ/Z1WYRFGjA=;
+	b=BtPYIj5rooHzWMNXadVcUIJhafpdpOzvNzqmbEMpP0nG7SOiHyevcXBwbdJuOe/Ij5
+	mb6IbKT3wsXpnbKlZI7iI49YFfntpbM2qEfpb+54dEJzeMjWnOI+jCDbLZ5GzlL0Ftz3
+	uIbX9mv9jxdGw9V/q5hxaoP8oI5tayhF2/z4BtD9kY2C6tQpbXKBd/BmvZ3gS+5+EKyW
+	nQ5/ASOoRnaXdxyNEdJQfXKfuvaaMOXybTKOHQhCmx3jbUWNviUyV1+p5izUEh/AYtin
+	sEHfa/cwzaR9x6f/2XGX9GyKvS+J4PBWFKVDgPGHynJsNcYtaGvO/GT/jHbIqxMQyu0Q
+	Zj4A==
+X-Gm-Message-State: APjAAAWIjFZ/6LKTVcDbnX4T5O+oerBpnrIXmXnskcL9FT+Kspo2b0qS
+	BLOahRCDSk4f9vL7dadNMbguwAx1Plo=
+X-Google-Smtp-Source: APXvYqzfQQQK5DbrH/STmweHo7Y96QyO2S7nZhxkfJ4l3gCJVWGcdClbgB/T0X9XNG8JZJC/r6DOkA==
+X-Received: by 2002:aed:2209:: with SMTP id n9mr62800885qtc.377.1558393888894; 
+	Mon, 20 May 2019 16:11:28 -0700 (PDT)
 Received: from redhat.com (pool-173-76-105-71.bstnma.fios.verizon.net.
 	[173.76.105.71]) by smtp.gmail.com with ESMTPSA id
-	t58sm10680313qtj.4.2019.05.20.16.11.25
+	q66sm9146961qke.66.2019.05.20.16.11.27
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Mon, 20 May 2019 16:11:26 -0700 (PDT)
-Date: Mon, 20 May 2019 19:11:25 -0400
+	Mon, 20 May 2019 16:11:28 -0700 (PDT)
+Date: Mon, 20 May 2019 19:11:27 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Message-ID: <1556808723-226478-9-git-send-email-imammedo@redhat.com>
+Message-ID: <1556808723-226478-10-git-send-email-imammedo@redhat.com>
 References: <20190520231008.20140-1-mst@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -57,9 +56,9 @@ X-Mailer: git-send-email 2.17.1.1206.gb667731e2e.dirty
 X-Mutt-Fcc: =sent
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.222.194
-Subject: [Qemu-devel] [PULL v2 29/36] tests: acpi: add
- acpi_find_rsdp_address_uefi() helper
+X-Received-From: 209.85.160.179
+Subject: [Qemu-devel] [PULL v2 30/36] tests: acpi: add a way to start tests
+ with UEFI firmware
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -71,99 +70,111 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, Laszlo Ersek <lersek@redhat.com>,
-	Wei Yang <richardw.yang@linux.intel.com>,
-	Igor Mammedov <imammedo@redhat.com>
+Cc: Laurent Vivier <lvivier@redhat.com>,
+	Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+	Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+	Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Igor Mammedov <imammedo@redhat.com>
 
-introduce UEFI specific counterpart to acpi_find_rsdp_address()
-that will help to find RSDP address when [OA]VMF is used as
-firmware. It requires guest firmware or other guest app to place
-1Mb aligned UefiTestSupport structure (defined in this patch)
-in RAM with UefiTestSupport::signature_guid set to
-AB87A6B1-2034-BDA0-71BD-375007757785
-For test app details see commit
-  (09a274d82f tests: introduce "uefi-test-tools" with the BiosTablesTest UEFI app)
+For testcase to use UEFI firmware, one needs to provide and specify
+firmware and varstore blob names in test_data { uefi_fl1, uefi_fl2 }
+fields respectively and RAM start address plus size where to look for
+test structure signature. Additionally testcase should specify
+bootable cdrom image from uefi-boot-images with EFI test utility.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
 Reviewed-by: Laszlo Ersek <lersek@redhat.com>
-Reviewed-by: Wei Yang <richardw.yang@linux.intel.com>
-Message-Id: <1556808723-226478-9-git-send-email-imammedo@redhat.com>
+Message-Id: <1556808723-226478-10-git-send-email-imammedo@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/acpi-utils.h |  2 ++
- tests/acpi-utils.c | 44 ++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 46 insertions(+)
+ tests/bios-tables-test.c | 50 +++++++++++++++++++++++++++-------------
+ 1 file changed, 34 insertions(+), 16 deletions(-)
 
-diff --git a/tests/acpi-utils.h b/tests/acpi-utils.h
-index 0ceb499469..0c86780689 100644
---- a/tests/acpi-utils.h
-+++ b/tests/acpi-utils.h
-@@ -46,6 +46,8 @@ typedef struct {
- 
- uint8_t acpi_calc_checksum(const uint8_t *data, int len);
- uint32_t acpi_find_rsdp_address(QTestState *qts);
-+uint64_t acpi_find_rsdp_address_uefi(QTestState *qts, uint64_t start,
-+                                     uint64_t size);
- void acpi_fetch_rsdp_table(QTestState *qts, uint64_t addr, uint8_t *rsdp_table);
- void acpi_fetch_table(QTestState *qts, uint8_t **aml, uint32_t *aml_len,
-                       const uint8_t *addr_ptr, int addr_size, const char *sig,
-diff --git a/tests/acpi-utils.c b/tests/acpi-utils.c
-index c216b9e0e9..d2a202efca 100644
---- a/tests/acpi-utils.c
-+++ b/tests/acpi-utils.c
-@@ -101,3 +101,47 @@ void acpi_fetch_table(QTestState *qts, uint8_t **aml, uint32_t *aml_len,
-         g_assert(!acpi_calc_checksum(*aml, *aml_len));
-     }
+diff --git a/tests/bios-tables-test.c b/tests/bios-tables-test.c
+index 4d13a3cce6..84e1ce2972 100644
+--- a/tests/bios-tables-test.c
++++ b/tests/bios-tables-test.c
+@@ -26,6 +26,11 @@
+ typedef struct {
+     const char *machine;
+     const char *variant;
++    const char *uefi_fl1;
++    const char *uefi_fl2;
++    const char *cd;
++    const uint64_t ram_start;
++    const uint64_t scan_len;
+     uint64_t rsdp_addr;
+     uint8_t rsdp_table[36 /* ACPI 2.0+ RSDP size */];
+     GArray *tables;
+@@ -77,13 +82,6 @@ static void free_test_data(test_data *data)
+     g_array_free(data->tables, true);
  }
+ 
+-static void test_acpi_rsdp_address(test_data *data)
+-{
+-    uint32_t off = acpi_find_rsdp_address(data->qts);
+-    g_assert_cmphex(off, <, 0x100000);
+-    data->rsdp_addr = off;
+-}
+-
+ static void test_acpi_rsdp_table(test_data *data)
+ {
+     uint8_t *rsdp_table = data->rsdp_table;
+@@ -524,21 +522,41 @@ static void test_smbios_structs(test_data *data)
+ static void test_acpi_one(const char *params, test_data *data)
+ {
+     char *args;
++    bool use_uefi = data->uefi_fl1 && data->uefi_fl2;
+ 
+-    /* Disable kernel irqchip to be able to override apic irq0. */
+-    args = g_strdup_printf("-machine %s,accel=%s,kernel-irqchip=off "
+-                           "-net none -display none %s "
+-                           "-drive id=hd0,if=none,file=%s,format=raw "
+-                           "-device ide-hd,drive=hd0 ",
+-                           data->machine, "kvm:tcg",
+-                           params ? params : "", disk);
++    if (use_uefi) {
++        /*
++         * TODO: convert '-drive if=pflash' to new syntax (see e33763be7cd3)
++         * when arm/virt boad starts to support it.
++         */
++        args = g_strdup_printf("-machine %s,accel=%s -nodefaults -nographic "
++            "-drive if=pflash,format=raw,file=%s,readonly "
++            "-drive if=pflash,format=raw,file=%s,snapshot=on -cdrom %s %s",
++            data->machine, "kvm:tcg", data->uefi_fl1, data->uefi_fl2,
++            data->cd, params ? params : "");
 +
-+#define GUID_SIZE 16
-+static const uint8_t AcpiTestSupportGuid[GUID_SIZE] = {
-+       0xb1, 0xa6, 0x87, 0xab,
-+       0x34, 0x20,
-+       0xa0, 0xbd,
-+       0x71, 0xbd, 0x37, 0x50, 0x07, 0x75, 0x77, 0x85 };
-+
-+typedef struct {
-+    uint8_t signature_guid[GUID_SIZE];
-+    uint64_t rsdp10;
-+    uint64_t rsdp20;
-+} __attribute__((packed)) UefiTestSupport;
-+
-+/* Wait at most 600 seconds (test is slow with TCG and --enable-debug) */
-+#define TEST_DELAY (1 * G_USEC_PER_SEC / 10)
-+#define TEST_CYCLES MAX((600 * G_USEC_PER_SEC / TEST_DELAY), 1)
-+#define MB 0x100000ULL
-+uint64_t acpi_find_rsdp_address_uefi(QTestState *qts, uint64_t start,
-+                                     uint64_t size)
-+{
-+    int i, j;
-+    uint8_t data[GUID_SIZE];
-+
-+    for (i = 0; i < TEST_CYCLES; ++i) {
-+        for (j = 0; j < size / MB; j++) {
-+            /* look for GUID at every 1Mb block */
-+            uint64_t addr = start + j * MB;
-+
-+            qtest_memread(qts, addr, data, sizeof(data));
-+            if (!memcmp(AcpiTestSupportGuid, data, sizeof(data))) {
-+                UefiTestSupport ret;
-+
-+                qtest_memread(qts, addr, &ret, sizeof(ret));
-+                ret.rsdp10 = le64_to_cpu(ret.rsdp10);
-+                ret.rsdp20 = le64_to_cpu(ret.rsdp20);
-+                return ret.rsdp20 ? ret.rsdp20 : ret.rsdp10;
-+            }
-+        }
-+        g_usleep(TEST_DELAY);
++    } else {
++        /* Disable kernel irqchip to be able to override apic irq0. */
++        args = g_strdup_printf("-machine %s,accel=%s,kernel-irqchip=off "
++            "-net none -display none %s "
++            "-drive id=hd0,if=none,file=%s,format=raw "
++            "-device ide-hd,drive=hd0 ",
++             data->machine, "kvm:tcg", params ? params : "", disk);
 +    }
-+    g_assert_not_reached();
-+    return 0;
-+}
+ 
+     data->qts = qtest_init(args);
+ 
+-    boot_sector_test(data->qts);
++    if (use_uefi) {
++        g_assert(data->scan_len);
++        data->rsdp_addr = acpi_find_rsdp_address_uefi(data->qts,
++            data->ram_start, data->scan_len);
++    } else {
++        boot_sector_test(data->qts);
++        data->rsdp_addr = acpi_find_rsdp_address(data->qts);
++        g_assert_cmphex(data->rsdp_addr, <, 0x100000);
++    }
+ 
+     data->tables = g_array_new(false, true, sizeof(AcpiSdtTable));
+-    test_acpi_rsdp_address(data);
+     test_acpi_rsdp_table(data);
+     test_acpi_rxsdt_table(data);
+     test_acpi_fadt_table(data);
 -- 
 MST
 
