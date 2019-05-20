@@ -2,47 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F1AFB23FE7
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 20:05:36 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:39865 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E2B6423FC3
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 20:00:29 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:39790 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSmfI-0007lC-49
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 14:05:36 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40120)
+	id 1hSmaJ-0004vC-4l
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 14:00:27 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40702)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <klaus@birkelund.eu>) id 1hSmWq-0002sg-52
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:56:53 -0400
+	(envelope-from <jcmvbkbc@gmail.com>) id 1hSmYp-0004Az-H7
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:58:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <klaus@birkelund.eu>) id 1hSmWn-0004pb-Ti
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:56:51 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:50196)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <klaus@birkelund.eu>)
-	id 1hSmWh-0004lV-Bv; Mon, 20 May 2019 13:56:44 -0400
-Received: from apples.localdomain (ip-5-186-120-196.cgn.fibianet.dk
-	[5.186.120.196])
-	by charlie.dont.surf (Postfix) with ESMTPSA id 02FB6BF42F;
-	Mon, 20 May 2019 17:56:39 +0000 (UTC)
-Date: Mon, 20 May 2019 19:56:36 +0200
-From: Klaus Birkelund <klaus@birkelund.eu>
-To: Keith Busch <kbusch@kernel.org>
-Message-ID: <20190520175636.GA20507@apples.localdomain>
-Mail-Followup-To: Keith Busch <kbusch@kernel.org>, qemu-block@nongnu.org,
-	Keith Busch <keith.busch@intel.com>, Kevin Wolf <kwolf@redhat.com>,
-	Max Reitz <mreitz@redhat.com>,
-	"Heitke, Kenneth" <kenneth.heitke@intel.com>, qemu-devel@nongnu.org
-References: <20190518073905.17178-1-klaus@birkelund.eu>
-	<20190520150557.GE25092@localhost.localdomain>
+	(envelope-from <jcmvbkbc@gmail.com>) id 1hSmYo-0005Zn-2V
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:58:55 -0400
+Received: from mail-lf1-x12a.google.com ([2a00:1450:4864:20::12a]:45011)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <jcmvbkbc@gmail.com>) id 1hSmYn-0005YO-LA
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:58:54 -0400
+Received: by mail-lf1-x12a.google.com with SMTP id n134so10966513lfn.11
+	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 10:58:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=qRwUurolprRKP/X/J1iGJKrcp2YtMyO7x8Il5r2/m3U=;
+	b=MkdGSm6eeqEZZcNv2jJJQU66X/klxauM2ycXhhHqMJ6GDVoN6eVU6FGdUGSNUjiKZ3
+	Z9IQJsS+Ul6u2eGdZkiZibNdWevAItsZ7ns7hPyDDC59hoqUUWKpK9zwtNyjblG+99bX
+	9XOE0fS0UT7i3j0tHdsqlI7eE4LSB0csTigrOM6gUY74XkdJYsxWwdAH2SFDfAaN24QN
+	HixomhpatuNre3PqSQ6CbUQypUXD5+ajsqGqoPfJ0eBhFLjFB1F10585rQBhn1AhI3q0
+	ACykfFj8snSwFGelgZBf+knisKHPvUsJTbquYBRyARk8p4WsokDC32wnLlkEQRwJtWDs
+	2QOQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=qRwUurolprRKP/X/J1iGJKrcp2YtMyO7x8Il5r2/m3U=;
+	b=GKDeGDtB/9SNVdx4Q7XVi2WpyLgSvmBTfieaP9P0DArymRs+RZU/jkHxnEdNLEVk/S
+	BxBHELKzR2H7fYWKNASy0DqTvEttELCDUAYXFCzCjevnsffYKGVG+bIAg8tRH2FCz45L
+	mRrD571Y0Za4hL/oek0/K3jvQ/Qu2Xcnkd7sjMmTj/x7yG28Qmsn17M2uj4YSMUpfZOG
+	y917VkDwZZs08HSvgwp+Fv51FaWUzna1hCS2WsteQpkThLLq5UNKLkPxfdAzLdOlWanB
+	OH1Vj6Q9gimfiBV+hBdzS/dhl0dbLgcVykEermZZBwsjHydF8mfG3Jr0F5yjGcT4auL8
+	bE1g==
+X-Gm-Message-State: APjAAAUohh8rXV8J3LVi8gC0qFLXR9skDqX3/ho2DO+Ftat1WErOoDYr
+	HJS2f25NKM6kGEygVnKrci+v9CMW
+X-Google-Smtp-Source: APXvYqxqP5SkGtPxCw3PGg75DpWkuXk/kFJRV1bsEca9EMTBttotYxS5TlCynFy/Tsx1nG0Nlvvk2g==
+X-Received: by 2002:ac2:4471:: with SMTP id y17mr10901552lfl.23.1558375129429; 
+	Mon, 20 May 2019 10:58:49 -0700 (PDT)
+Received: from octofox.cadence.com
+	(jcmvbkbc-1-pt.tunnel.tserv24.sto1.ipv6.he.net. [2001:470:27:1fa::2])
+	by smtp.gmail.com with ESMTPSA id l15sm3942002ljh.0.2019.05.20.10.58.47
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 20 May 2019 10:58:48 -0700 (PDT)
+From: Max Filippov <jcmvbkbc@gmail.com>
+To: qemu-devel@nongnu.org
+Date: Mon, 20 May 2019 10:58:37 -0700
+Message-Id: <20190520175837.4561-1-jcmvbkbc@gmail.com>
+X-Mailer: git-send-email 2.11.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190520150557.GE25092@localhost.localdomain>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 128.199.63.193
-Subject: Re: [Qemu-devel] [PATCH] nvme: fix copy direction in DMA reads
- going to CMB
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2a00:1450:4864:20::12a
+Subject: [Qemu-devel] [PULL 0/9] target/xtensa queue
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -54,28 +76,65 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org, "Heitke,
-	Kenneth" <kenneth.heitke@intel.com>, qemu-devel@nongnu.org,
-	Max Reitz <mreitz@redhat.com>, Keith Busch <keith.busch@intel.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>, Max Filippov <jcmvbkbc@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 20, 2019 at 09:05:57AM -0600, Keith Busch wrote:
-> On Sat, May 18, 2019 at 09:39:05AM +0200, Klaus Birkelund Jensen wrote:
-> > `nvme_dma_read_prp` erronously used `qemu_iovec_*to*_buf` instead of
-> > `qemu_iovec_*from*_buf` when the request involved the controller memory
-> > buffer.
-> > 
-> > Signed-off-by: Klaus Birkelund Jensen <klaus.jensen@cnexlabs.com>
-> 
-> I was wondering how this mistake got by for so long, and it looks like
-> the only paths here require an admin command with dev->host transfer
-> to CMB. That's just not done in any host implementation I'm aware of
-> since it'd make it more difficult to use for no particular gain AFAICS,
-> so I'd be curious to hear if you have a legit implementation doing this.
-> 
+Hi Peter,
 
-I'm just trying to get the device to be as compliant as possible, but I
-don't know why you'd have any reason to do a, say Get Feature, to the
-CMB.
+please pull the following batch of updates to target/xtensa:
+
+The following changes since commit efb4f3b62c69383a7308d7b739a3193e7c0ccae8:
+
+  Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-request' into staging (2019-05-10 14:49:36 +0100)
+
+are available in the git repository at:
+
+  git://github.com/OSLL/qemu-xtensa.git tags/20190520-xtensa
+
+for you to fetch changes up to b345e140534ea17814b02bdf8798f18db6295304:
+
+  target/xtensa: implement exclusive access option (2019-05-15 10:31:52 -0700)
+
+----------------------------------------------------------------
+target/xtensa: SR reorganization and options for modern cores
+
+Reorganize special register handling to support configurations with
+conflicting SR definitions.
+
+Implement options used by the modern xtensa cores:
+- memory protection unit;
+- block prefetch;
+- exclusive access
+
+Add special register definitions and IRQ types for ECC/parity,
+gather/scatter and IDMA.
+
+----------------------------------------------------------------
+Max Filippov (9):
+      target/xtensa: get rid of centralized SR properties
+      target/xtensa: make internal MMU functions static
+      target/xtensa: define IDMA and gather/scatter IRQ types
+      target/xtensa: add parity/ECC option SRs
+      target/xtensa: implement MPU option
+      target/xtensa: implement DIWBUI.P opcode
+      target/xtensa: implement block prefetch option opcodes
+      target/xtensa: update list of exception causes
+      target/xtensa: implement exclusive access option
+
+ target/xtensa/cpu.c               |    2 +-
+ target/xtensa/cpu.h               |   58 +-
+ target/xtensa/helper.c            |    1 +
+ target/xtensa/helper.h            |    6 +
+ target/xtensa/mmu_helper.c        |  532 ++++++-
+ target/xtensa/op_helper.c         |   42 +
+ target/xtensa/overlay_tool.h      |   43 +-
+ target/xtensa/translate.c         | 2951 ++++++++++++++++++++++++-------------
+ tests/tcg/xtensa/test_exclusive.S |   48 +
+ 9 files changed, 2574 insertions(+), 1109 deletions(-)
+ create mode 100644 tests/tcg/xtensa/test_exclusive.S
+
+-- 
+Thanks.
+-- Max
 
