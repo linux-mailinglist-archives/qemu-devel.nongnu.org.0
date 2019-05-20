@@ -2,73 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6B945236B6
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 15:07:12 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:35437 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A0EC4236AC
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 15:01:24 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:35254 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSi0V-0008Ap-Jl
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 09:07:11 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44997)
+	id 1hShut-00049F-Qe
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 09:01:23 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45478)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.weiyang@gmail.com>) id 1hShn6-0006Z5-21
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 08:53:21 -0400
+	(envelope-from <alex.bennee@linaro.org>) id 1hShol-000843-Lv
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 08:55:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.weiyang@gmail.com>) id 1hShn5-0000pe-4k
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 08:53:20 -0400
-Received: from mail-ed1-x544.google.com ([2a00:1450:4864:20::544]:45832)
+	(envelope-from <alex.bennee@linaro.org>) id 1hShok-0001e3-Fa
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 08:55:03 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:46706)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <richard.weiyang@gmail.com>)
-	id 1hShn4-0000nV-Tj
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 08:53:19 -0400
-Received: by mail-ed1-x544.google.com with SMTP id g57so23664304edc.12
-	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 05:53:16 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=lcyudD+YHiLETyo03LrCcptJpEIAkkzDHtaRg2ZKb3w=;
-	b=OVB/EfvfwJ1/ILkFnpEC5OB2F/wOeG1hojAYphm/Ivd7WGXP1ihEpnspUujdTDyg3X
-	/8b20E5XBrCtdAfq9x6hxFqRBALr8sCnjwcgDoqMsSBd376IIh4sq0m66KNHX+RBTxnc
-	e6Jo3X2+2Fyb4N8XD9scWoI1VD/LVoXShRcscrSTzPKbiG7rPqw4K1z2FAjKDTGgLj/x
-	3a2KoittXdhexRxe5a1qG2Fl9Bm7htl6sv57uQm98nmhPHhdFu2y3WJy3jWDRfxnmc5I
-	qC8xTtAoKweTZ57ihZXELZKxbkp3ir/RBlw7d9VW0+q27477zNdylsYdsVnjLAW1rzX6
-	RUzg==
+	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+	id 1hShok-0001dX-6H
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 08:55:02 -0400
+Received: by mail-wr1-x444.google.com with SMTP id r7so14435255wrr.13
+	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 05:55:01 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=references:user-agent:from:to:cc:subject:in-reply-to:date
+	:message-id:mime-version:content-transfer-encoding;
+	bh=ZKNvXUx7OOpZq5l6QJtELsUqLgs3iyQWbgHSaLImIXs=;
+	b=qNxZMRjFZLoPmEgMWi8KaL3wGqIWPC8fsxvfGGQzBbFLb//i45U8xbFYWf+nAyK3is
+	2Gzij/lZGBfFTzupIATOUepUU/iXZ4fQkJF5SksXfuTXytVlJo8r4Qf2FmRrz9PfTfQS
+	u64KESGGb+kcfwPwOxazQhxkWuZKxjHt5nEZudbTO4NJYHJ4PG2zlbykcsOG1guXktYd
+	cHzGuf96V4a6yju/wVhxwy30Vt7DY6GYu+nsIF5p5Mon3Zmn1t2zPRxXfbsT+lOgEuJu
+	qjpmMrpjWuCr4DiOtcvlj79qwck340K69LcL4icniFE2UvZGpd/ej1QhEjKPiWoa3pMR
+	4Crw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
-	:references:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=lcyudD+YHiLETyo03LrCcptJpEIAkkzDHtaRg2ZKb3w=;
-	b=JgdCX+5+uZJbZglgBfFroQbbZrxxtH9rQY3rt+e/aoYRYdVI4/Ve9E6it+dtBtHiti
-	pZtO5JH06qqZWKKiALWzWZbLpBL4l00e2wXM2HBELhiAKwLu9VdDVLvrp1ieB24y8p3w
-	juehHOxTbCxESN41+hoAfVj420xLiG9ysqaz/73OPLygMg4eRzumGtTOqk1VQ2+sDu/9
-	7ayWOmDoD0C4RlErwTE5prGRegBs3bvW4TW4TY/SugyT8JWNn9FAoNyyFj38HM4q5etg
-	Yvto/PShdP1s0XJjn4qteC0M0zuyBOmyB3VlJytvCLP4d+flP9nsR9scZk8bKQqxiEMX
-	uN7w==
-X-Gm-Message-State: APjAAAXwU6BQPQKwfy0wf2DbDlBb2ZdLQ6btlaoEqHw8yS/wXRrZllYG
-	AHHOcTM/ifn6a2pt9G3OZUY=
-X-Google-Smtp-Source: APXvYqxCujIXVXO/vtoL5p0ldOouXtOGTYmGzbX6YZ5Yuxns9vLdXnn6qTwc41bjyVST27kFyEjaGg==
-X-Received: by 2002:a50:87ab:: with SMTP id a40mr73129497eda.188.1558356795070;
-	Mon, 20 May 2019 05:53:15 -0700 (PDT)
-Received: from localhost ([185.92.221.13]) by smtp.gmail.com with ESMTPSA id
-	c49sm5638205eda.58.2019.05.20.05.53.13
+	h=x-gm-message-state:references:user-agent:from:to:cc:subject
+	:in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+	bh=ZKNvXUx7OOpZq5l6QJtELsUqLgs3iyQWbgHSaLImIXs=;
+	b=PTrfCgWq+lU6e32Kf1GemBlyyzumA19riJgNWPdtT95Nt85KxKIQmMxZnSiETN8znz
+	SdJXI0NFgycShNzPRSfJ+M83VHeB60YyP60RvexJglEs0CAOIYHPHCOXg6NfWOqB3i32
+	NzlWWxQFIPKVMrxoaBDJMSABxbBigtHxkuZfvzQ+uJiYj28wbjnsxsXmftPI9JfW14nn
+	+qGZxU/F5adAuh5KU0rJGvkLez+NXfVBhQuVUTczlKXD3MpbcaDZeJDUDOM0TbyHaRTP
+	wMlkI5BiXPlxTA67UGBdJVmeSt0AdrrtZI1iCFn98ghnthDE48PocFPhsz7VS1xIs8le
+	PnEA==
+X-Gm-Message-State: APjAAAV2c7pn7/xDgC+vhLu1LlJ2bL/NpH5vPlsQkURfFJpW2ptrDcgc
+	OMCoYqCMiT5GVGM+7s20Pmu3jA==
+X-Google-Smtp-Source: APXvYqwf+zi8rEV596aGmEohoX9TJnIWC2G1Ei2YqzT94bV5fPcye5maQOSGStJm2aMDJVx+sxljWA==
+X-Received: by 2002:adf:ec0b:: with SMTP id x11mr9033199wrn.88.1558356900670; 
+	Mon, 20 May 2019 05:55:00 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+	by smtp.gmail.com with ESMTPSA id
+	s10sm14914711wrt.66.2019.05.20.05.54.59
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 20 May 2019 05:53:14 -0700 (PDT)
-Date: Mon, 20 May 2019 12:53:13 +0000
-From: Wei Yang <richard.weiyang@gmail.com>
-To: Juan Quintela <quintela@redhat.com>
-Message-ID: <20190520125313.wiiut3u7mkdedib4@master>
-References: <20190515121544.4597-1-quintela@redhat.com>
-	<20190515121544.4597-6-quintela@redhat.com>
+	Mon, 20 May 2019 05:54:59 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+	by zen.linaroharston (Postfix) with ESMTP id 700B41FF87;
+	Mon, 20 May 2019 13:54:59 +0100 (BST)
+References: <20190502081554.5521-1-arilou@gmail.com>
+	<20190502081554.5521-21-arilou@gmail.com>
+	<87ef4zmy7b.fsf@zen.linaroharston>
+	<CAP7QCohHS+VvbvZENPeuvfVc=TNtvwoiA+6dgZO4XoZs4skXuw@mail.gmail.com>
+User-agent: mu4e 1.3.2; emacs 26.1
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Jon Doron <arilou@gmail.com>
+In-reply-to: <CAP7QCohHS+VvbvZENPeuvfVc=TNtvwoiA+6dgZO4XoZs4skXuw@mail.gmail.com>
+Date: Mon, 20 May 2019 13:54:59 +0100
+Message-ID: <87r28tguak.fsf@zen.linaroharston>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190515121544.4597-6-quintela@redhat.com>
-User-Agent: NeoMutt/20170113 (1.7.2)
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::544
-Subject: Re: [Qemu-devel] [PATCH v3 5/8] migration: Add multifd-compress
- parameter
+X-Received-From: 2a00:1450:4864:20::444
+Subject: Re: [Qemu-devel] [PATCH v9 20/27] gdbstub: Implement target halted
+ (? pkt) with new infra
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -80,77 +86,108 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Wei Yang <richard.weiyang@gmail.com>
-Cc: Laurent Vivier <lvivier@redhat.com>, Thomas Huth <thuth@redhat.com>,
-	Markus Armbruster <armbru@redhat.com>, qemu-devel@nongnu.org,
-	Paolo Bonzini <pbonzini@redhat.com>,
-	"Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 15, 2019 at 02:15:41PM +0200, Juan Quintela wrote:
->Signed-off-by: Juan Quintela <quintela@redhat.com>
+
+Jon Doron <arilou@gmail.com> writes:
+
+> On Wed, May 15, 2019 at 8:20 PM Alex Benn=C3=A9e <alex.bennee@linaro.org>=
+ wrote:
+>>
+>>
+>> Jon Doron <arilou@gmail.com> writes:
+>>
+>> > Signed-off-by: Jon Doron <arilou@gmail.com>
+>> > ---
+>> >  gdbstub.c | 36 ++++++++++++++++++++++++++----------
+>> >  1 file changed, 26 insertions(+), 10 deletions(-)
+>> >
+>> > diff --git a/gdbstub.c b/gdbstub.c
+>> > index 2fd0d66f4d..d678191705 100644
+>> > --- a/gdbstub.c
+>> > +++ b/gdbstub.c
+>> > @@ -2239,13 +2239,30 @@ static void handle_gen_set(GdbCmdContext *gdb_=
+ctx, void *user_ctx)
+>> >      put_packet(gdb_ctx->s, "");
+>> >  }
+>> >
+>> > +static void handle_target_halt(GdbCmdContext *gdb_ctx, void *user_ctx)
+>> > +{
+>> > +    char thread_id[16];
+>> > +
+>> > +    /* TODO: Make this return the correct value for user-mode.  */
+>>
+>> Can this be cleaned up as we convert?
+>>
 >
->---
->Rename it to NONE
->Fix typos (dave)
->---
-> hmp.c                        | 17 +++++++++++++++++
-> hw/core/qdev-properties.c    | 13 +++++++++++++
-> include/hw/qdev-properties.h |  1 +
-> migration/migration.c        | 16 ++++++++++++++++
-> qapi/migration.json          | 30 +++++++++++++++++++++++++++---
-> tests/migration-test.c       | 13 ++++++++++---
-> 6 files changed, 84 insertions(+), 6 deletions(-)
+> To be honest i have no idea what the "correct value" is or how to get
+> it, can you tell me what it should be and ill add it to the patch?
+
+Actually I think you can delete the comment and mention the thread-id
+has been correctly reported in usermode since bd88c780e6
+
 >
->diff --git a/hmp.c b/hmp.c
->index 56a3ed7375..5732c34249 100644
->--- a/hmp.c
->+++ b/hmp.c
->@@ -38,6 +38,7 @@
-> #include "qapi/qapi-commands-run-state.h"
-> #include "qapi/qapi-commands-tpm.h"
-> #include "qapi/qapi-commands-ui.h"
->+#include "qapi/qapi-visit-migration.h"
-> #include "qapi/qmp/qdict.h"
-> #include "qapi/qmp/qerror.h"
-> #include "qapi/string-input-visitor.h"
->@@ -435,6 +436,9 @@ void hmp_info_migrate_parameters(Monitor *mon, const QDict *qdict)
->         monitor_printf(mon, "%s: %u\n",
->             MigrationParameter_str(MIGRATION_PARAMETER_MULTIFD_CHANNELS),
->             params->multifd_channels);
->+        monitor_printf(mon, "%s: %s\n",
->+            MigrationParameter_str(MIGRATION_PARAMETER_MULTIFD_COMPRESS),
->+            MultifdCompress_str(params->multifd_compress));
->         monitor_printf(mon, "%s: %" PRIu64 "\n",
->             MigrationParameter_str(MIGRATION_PARAMETER_XBZRLE_CACHE_SIZE),
->             params->xbzrle_cache_size);
->@@ -1736,6 +1740,7 @@ void hmp_migrate_set_parameter(Monitor *mon, const QDict *qdict)
->     MigrateSetParameters *p = g_new0(MigrateSetParameters, 1);
->     uint64_t valuebw = 0;
->     uint64_t cache_size;
->+    MultifdCompress compress_type;
->     Error *err = NULL;
->     int val, ret;
-> 
->@@ -1821,6 +1826,18 @@ void hmp_migrate_set_parameter(Monitor *mon, const QDict *qdict)
->         p->has_multifd_channels = true;
->         visit_type_int(v, param, &p->multifd_channels, &err);
->         break;
->+    case MIGRATION_PARAMETER_MULTIFD_COMPRESS:
->+        p->has_multifd_compress = true;
->+        visit_type_MultifdCompress(v, param, &compress_type, &err);
->+        if (err) {
->+            break;
->+        }
->+        if (compress_type < 0 || compress_type >= MULTIFD_COMPRESS__MAX) {
+>> > +    gdb_fmt_thread_id(gdb_ctx->s, gdb_ctx->s->c_cpu, thread_id,
+>> > +                      sizeof(thread_id));
+>> > +    snprintf(gdb_ctx->str_buf, sizeof(gdb_ctx->str_buf), "T%02xthread=
+:%s;",
+>> > +             GDB_SIGNAL_TRAP, thread_id);
+>> > +    put_packet(gdb_ctx->s, gdb_ctx->str_buf);
+>> > +    /*
+>> > +     * Remove all the breakpoints when this query is issued,
+>> > +     * because gdb is doing and initial connect and the state
+>>
+>> s/and/an/
+>>
+>> > +     * should be cleaned up.
+>> > +     */
+>> > +    gdb_breakpoint_remove_all();
+>> > +}
+>> > +
+>> >  static int gdb_handle_packet(GDBState *s, const char *line_buf)
+>> >  {
+>> >      const char *p;
+>> >      int ch;
+>> >      uint8_t mem_buf[MAX_PACKET_LENGTH];
+>> >      char buf[sizeof(mem_buf) + 1 /* trailing NUL */];
+>> > -    char thread_id[16];
+>> >      const GdbCmdParseEntry *cmd_parser =3D NULL;
+>> >
+>> >      trace_gdbstub_io_command(line_buf);
+>> > @@ -2257,15 +2274,14 @@ static int gdb_handle_packet(GDBState *s, cons=
+t char *line_buf)
+>> >          put_packet(s, "OK");
+>> >          break;
+>> >      case '?':
+>> > -        /* TODO: Make this return the correct value for user-mode.  */
+>> > -        snprintf(buf, sizeof(buf), "T%02xthread:%s;", GDB_SIGNAL_TRAP,
+>> > -                 gdb_fmt_thread_id(s, s->c_cpu, thread_id, sizeof(thr=
+ead_id)));
+>> > -        put_packet(s, buf);
+>> > -        /* Remove all the breakpoints when this query is issued,
+>> > -         * because gdb is doing and initial connect and the state
+>> > -         * should be cleaned up.
+>> > -         */
+>> > -        gdb_breakpoint_remove_all();
+>> > +        {
+>> > +            static const GdbCmdParseEntry target_halted_cmd_desc =3D {
+>> > +                .handler =3D handle_target_halt,
+>> > +                .cmd =3D "?",
+>> > +                .cmd_startswith =3D 1
+>> > +            };
+>> > +            cmd_parser =3D &target_halted_cmd_desc;
+>> > +        }
+>> >          break;
+>> >      case 'c':
+>> >          {
+>>
+>>
+>> --
+>> Alex Benn=C3=A9e
 
-A warning during build:
 
-hmp.c:1835:27: warning: comparison of unsigned enum expression < 0 is always false [-Wtautological-compare]
-        if (compress_type < 0 || compress_type >= MULTIFD_COMPRESS__MAX) {
-
--- 
-Wei Yang
-Help you, Help me
+--
+Alex Benn=C3=A9e
 
