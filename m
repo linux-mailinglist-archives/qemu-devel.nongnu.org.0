@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 83ECF24AF8
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 10:58:11 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49395 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA4DA24B0A
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 11:00:23 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49519 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hT0b4-0004xj-La
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 04:58:10 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51959)
+	id 1hT0dC-0006nv-Su
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 05:00:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51999)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <like.xu@linux.intel.com>) id 1hT0WA-0001L5-4G
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 04:53:09 -0400
+	(envelope-from <like.xu@linux.intel.com>) id 1hT0WD-0001NY-7W
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 04:53:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <like.xu@linux.intel.com>) id 1hT0W8-0000aQ-Ce
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 04:53:06 -0400
-Received: from mga04.intel.com ([192.55.52.120]:1679)
+	(envelope-from <like.xu@linux.intel.com>) id 1hT0WB-0000eM-0C
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 04:53:09 -0400
+Received: from mga04.intel.com ([192.55.52.120]:1689)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <like.xu@linux.intel.com>)
-	id 1hT0W8-0000UM-3A
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 04:53:04 -0400
+	id 1hT0WA-0000dP-Hx
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 04:53:06 -0400
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
 Received: from fmsmga007.fm.intel.com ([10.253.24.52])
 	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	21 May 2019 01:53:03 -0700
+	21 May 2019 01:53:05 -0700
 X-ExtLoop1: 1
 Received: from clx-ap-likexu.sh.intel.com ([10.239.48.98])
-	by fmsmga007.fm.intel.com with ESMTP; 21 May 2019 01:53:01 -0700
+	by fmsmga007.fm.intel.com with ESMTP; 21 May 2019 01:53:03 -0700
 From: Like Xu <like.xu@linux.intel.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 21 May 2019 00:50:54 +0800
-Message-Id: <20190520165056.175475-4-like.xu@linux.intel.com>
+Date: Tue, 21 May 2019 00:50:55 +0800
+Message-Id: <20190520165056.175475-5-like.xu@linux.intel.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190520165056.175475-1-like.xu@linux.intel.com>
 References: <20190520165056.175475-1-like.xu@linux.intel.com>
@@ -41,8 +41,8 @@ Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
 X-Received-From: 192.55.52.120
-Subject: [Qemu-devel]  [PATCH v2 3/5] vl.c: Add -smp,
- dies=* command line support and update -smp doc
+Subject: [Qemu-devel] [PATCH v2 4/5] i386/cpu: Update apicid parsing rules
+ and topo-bit tests for dies
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -66,181 +66,449 @@ Cc: Andrew Jones <drjones@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-For PC target, users could configure the number of dies per one package
-via command line with this patch, such as "-smp dies=2,cores=4".
+On Intel MCP (Multi-chip packaging) platforms, the apicid of logical cpu
+would imply die level info of cpu topology thus x86_apicid_from_cpu_idx()
+should be refactored with virtual nr_dies, so does apicid_*_offset().
 
-A new pc-specified pc_smp_parse() is introduced and to keep the interface
-consistent, refactoring legacy smp_parse() to __smp_parse() is necessary.
+To maintain semantic consistency, the pkg_offset which helps to generate
+CPUIDs such as 0x3 for L3 cache is mapping to die_offset from this commit.
 
-The parsing rules of new cpu-topology model obey the same restrictions/logic
-as the legacy socket/core/thread model especially on missing values computing.
+The corresponding topo_bits tests are updated to test die configurations.
 
 Signed-off-by: Like Xu <like.xu@linux.intel.com>
 ---
- qemu-options.hx | 17 +++++-----
- vl.c            | 89 ++++++++++++++++++++++++++++++++++++++++++++++++-
- 2 files changed, 97 insertions(+), 9 deletions(-)
+ hw/i386/pc.c               | 38 +++++++++++------
+ include/hw/i386/topology.h | 76 ++++++++++++++++++++++++----------
+ target/i386/cpu.c          | 13 +++---
+ tests/test-x86-cpuid.c     | 84 ++++++++++++++++++++------------------
+ 4 files changed, 133 insertions(+), 78 deletions(-)
 
-diff --git a/qemu-options.hx b/qemu-options.hx
-index 5daa5a8fb0..7fad5b50ff 100644
---- a/qemu-options.hx
-+++ b/qemu-options.hx
-@@ -138,25 +138,26 @@ no incompatible TCG features have been enabled (e.g. icount/replay).
- ETEXI
- 
- DEF("smp", HAS_ARG, QEMU_OPTION_smp,
--    "-smp [cpus=]n[,maxcpus=cpus][,cores=cores][,threads=threads][,sockets=sockets]\n"
-+    "-smp [cpus=]n[,maxcpus=cpus][,cores=cores][,threads=threads][,dies=dies][,sockets=sockets]\n"
-     "                set the number of CPUs to 'n' [default=1]\n"
-     "                maxcpus= maximum number of total cpus, including\n"
-     "                offline CPUs for hotplug, etc\n"
--    "                cores= number of CPU cores on one socket\n"
-+    "                cores= number of CPU cores on one socket (for PC, it's on one die)\n"
-     "                threads= number of threads on one CPU core\n"
-+    "                dies= number of CPU dies on one socket (for PC only)\n"
-     "                sockets= number of discrete sockets in the system\n",
-         QEMU_ARCH_ALL)
- STEXI
--@item -smp [cpus=]@var{n}[,cores=@var{cores}][,threads=@var{threads}][,sockets=@var{sockets}][,maxcpus=@var{maxcpus}]
-+@item -smp [cpus=]@var{n}[,cores=@var{cores}][,threads=@var{threads}][,dies=dies][,sockets=@var{sockets}][,maxcpus=@var{maxcpus}]
- @findex -smp
- Simulate an SMP system with @var{n} CPUs. On the PC target, up to 255
- CPUs are supported. On Sparc32 target, Linux limits the number of usable CPUs
- to 4.
--For the PC target, the number of @var{cores} per socket, the number
--of @var{threads} per cores and the total number of @var{sockets} can be
--specified. Missing values will be computed. If any on the three values is
--given, the total number of CPUs @var{n} can be omitted. @var{maxcpus}
--specifies the maximum number of hotpluggable CPUs.
-+For the PC target, the number of @var{cores} per die, the number of @var{threads}
-+per cores, the number of @var{dies} per packages and the total number of
-+@var{sockets} can be specified. Missing values will be computed.
-+If any on the three values is given, the total number of CPUs @var{n} can be omitted.
-+@var{maxcpus} specifies the maximum number of hotpluggable CPUs.
- ETEXI
- 
- DEF("numa", HAS_ARG, QEMU_OPTION_numa,
-diff --git a/vl.c b/vl.c
-index 8d92e2d209..66b577f447 100644
---- a/vl.c
-+++ b/vl.c
-@@ -63,6 +63,7 @@ int main(int argc, char **argv)
- #include "sysemu/watchdog.h"
- #include "hw/firmware/smbios.h"
- #include "hw/acpi/acpi.h"
-+#include "hw/i386/pc.h"
- #include "hw/xen/xen.h"
- #include "hw/qdev.h"
- #include "hw/loader.h"
-@@ -1248,6 +1249,9 @@ static QemuOptsList qemu_smp_opts = {
-         }, {
-             .name = "sockets",
-             .type = QEMU_OPT_NUMBER,
-+        }, {
-+            .name = "dies",
-+            .type = QEMU_OPT_NUMBER,
-         }, {
-             .name = "cores",
-             .type = QEMU_OPT_NUMBER,
-@@ -1262,7 +1266,7 @@ static QemuOptsList qemu_smp_opts = {
-     },
- };
- 
--static void smp_parse(QemuOpts *opts)
-+static void __smp_parse(QemuOpts *opts)
+diff --git a/hw/i386/pc.c b/hw/i386/pc.c
+index 00be2463af..e498334cbc 100644
+--- a/hw/i386/pc.c
++++ b/hw/i386/pc.c
+@@ -935,10 +935,11 @@ void enable_compat_apic_id_mode(void)
+ static uint32_t x86_cpu_apic_id_from_index(MachineState *ms,
+                                            unsigned int cpu_index)
  {
-     if (opts) {
-         unsigned cpus    = qemu_opt_get_number(opts, "cpus", 0);
-@@ -1334,6 +1338,89 @@ static void smp_parse(QemuOpts *opts)
++    PCMachineState *pcms = PC_MACHINE(ms);
+     uint32_t correct_id;
+     static bool warned;
+ 
+-    correct_id = x86_apicid_from_cpu_idx(ms->smp.cores,
++    correct_id = x86_apicid_from_cpu_idx(pcms->smp_dies, ms->smp.cores,
+                                          ms->smp.threads, cpu_index);
+     if (compat_apic_id_mode) {
+         if (cpu_index != correct_id && !warned && !qtest_enabled()) {
+@@ -2303,6 +2304,7 @@ static void pc_cpu_pre_plug(HotplugHandler *hotplug_dev,
+     PCMachineState *pcms = PC_MACHINE(hotplug_dev);
+     unsigned int smp_cores = ms->smp.cores;
+     unsigned int smp_threads = ms->smp.threads;
++    unsigned int smp_dies = pcms->smp_dies;
+ 
+     if(!object_dynamic_cast(OBJECT(cpu), ms->cpu_type)) {
+         error_setg(errp, "Invalid CPU type, expected cpu type: '%s'",
+@@ -2310,9 +2312,13 @@ static void pc_cpu_pre_plug(HotplugHandler *hotplug_dev,
+         return;
      }
+ 
+-    /* if APIC ID is not set, set it based on socket/core/thread properties */
++    /*
++     * If APIC ID is not set,
++     * set it based on socket/die/core/thread properties.
++     */
+     if (cpu->apic_id == UNASSIGNED_APIC_ID) {
+-        int max_socket = (ms->smp.max_cpus - 1) / smp_threads / smp_cores;
++        int max_socket = (ms->smp.max_cpus - 1) /
++                                smp_threads / smp_cores / pcms->smp_dies;
+ 
+         if (cpu->socket_id < 0) {
+             error_setg(errp, "CPU socket-id is not set");
+@@ -2347,18 +2353,21 @@ static void pc_cpu_pre_plug(HotplugHandler *hotplug_dev,
+         topo.core_id = cpu->core_id;
+         topo.die_id = cpu->die_id;
+         topo.smt_id = cpu->thread_id;
+-        cpu->apic_id = apicid_from_topo_ids(smp_cores, smp_threads, &topo);
++        cpu->apic_id = apicid_from_topo_ids(smp_dies, smp_cores,
++                                            smp_threads, &topo);
+     }
+ 
+     cpu_slot = pc_find_cpu_slot(MACHINE(pcms), cpu->apic_id, &idx);
+     if (!cpu_slot) {
+         MachineState *ms = MACHINE(pcms);
+ 
+-        x86_topo_ids_from_apicid(cpu->apic_id, smp_cores, smp_threads, &topo);
+-        error_setg(errp, "Invalid CPU [socket: %u, core: %u, thread: %u] with"
+-                  " APIC ID %" PRIu32 ", valid index range 0:%d",
+-                   topo.pkg_id, topo.core_id, topo.smt_id, cpu->apic_id,
+-                   ms->possible_cpus->len - 1);
++        x86_topo_ids_from_apicid(cpu->apic_id, smp_dies,
++                                 smp_cores, smp_threads, &topo);
++        error_setg(errp,
++            "Invalid CPU [socket: %u, die: %u, core: %u, thread: %u] with"
++            " APIC ID %" PRIu32 ", valid index range 0:%d",
++            topo.pkg_id, topo.die_id, topo.core_id, topo.smt_id,
++            cpu->apic_id, ms->possible_cpus->len - 1);
+         return;
+     }
+ 
+@@ -2374,7 +2383,8 @@ static void pc_cpu_pre_plug(HotplugHandler *hotplug_dev,
+     /* TODO: move socket_id/core_id/thread_id checks into x86_cpu_realizefn()
+      * once -smp refactoring is complete and there will be CPU private
+      * CPUState::nr_cores and CPUState::nr_threads fields instead of globals */
+-    x86_topo_ids_from_apicid(cpu->apic_id, smp_cores, smp_threads, &topo);
++    x86_topo_ids_from_apicid(cpu->apic_id, smp_dies,
++                             smp_cores, smp_threads, &topo);
+     if (cpu->socket_id != -1 && cpu->socket_id != topo.pkg_id) {
+         error_setg(errp, "property socket-id: %u doesn't match set apic-id:"
+             " 0x%x (socket-id: %u)", cpu->socket_id, cpu->apic_id, topo.pkg_id);
+@@ -2670,10 +2680,12 @@ pc_cpu_index_to_props(MachineState *ms, unsigned cpu_index)
+ static int64_t pc_get_default_cpu_node_id(const MachineState *ms, int idx)
+ {
+    X86CPUTopoInfo topo;
++   PCMachineState *pcms = PC_MACHINE(ms);
+ 
+    assert(idx < ms->possible_cpus->len);
+    x86_topo_ids_from_apicid(ms->possible_cpus->cpus[idx].arch_id,
+-                            ms->smp.cores, ms->smp.threads, &topo);
++                            pcms->smp_dies, ms->smp.cores,
++                            ms->smp.threads, &topo);
+    return topo.pkg_id % nb_numa_nodes;
  }
  
-+static void pc_smp_parse(QemuOpts *opts)
-+{
-+    PCMachineState *pcms = (PCMachineState *)
-+        object_dynamic_cast(OBJECT(current_machine), TYPE_PC_MACHINE);
-+
-+    unsigned cpus    = qemu_opt_get_number(opts, "cpus", 0);
-+    unsigned sockets = qemu_opt_get_number(opts, "sockets", 0);
-+    unsigned dies = qemu_opt_get_number(opts, "dies", 1);
-+    unsigned cores   = qemu_opt_get_number(opts, "cores", 0);
-+    unsigned threads = qemu_opt_get_number(opts, "threads", 0);
-+
-+    /* compute missing values, prefer sockets over cores over threads */
-+    if (cpus == 0 || sockets == 0) {
-+        cores = cores > 0 ? cores : 1;
-+        threads = threads > 0 ? threads : 1;
-+        if (cpus == 0) {
-+            sockets = sockets > 0 ? sockets : 1;
-+            cpus = cores * threads * dies * sockets;
-+        } else {
-+            current_machine->smp.max_cpus =
-+                    qemu_opt_get_number(opts, "maxcpus", cpus);
-+            sockets = current_machine->smp.max_cpus / (cores * threads * dies);
-+        }
-+    } else if (cores == 0) {
-+        threads = threads > 0 ? threads : 1;
-+        cores = cpus / (sockets * dies * threads);
-+        cores = cores > 0 ? cores : 1;
-+    } else if (threads == 0) {
-+        threads = cpus / (cores * dies * sockets);
-+        threads = threads > 0 ? threads : 1;
-+    } else if (sockets * dies * cores * threads < cpus) {
-+        error_report("cpu topology: "
-+                        "sockets (%u) * dies (%u) * cores (%u) * threads (%u) < "
-+                        "smp_cpus (%u)",
-+                        sockets, dies, cores, threads, cpus);
-+        exit(1);
-+    }
-+
-+    current_machine->smp.max_cpus =
-+            qemu_opt_get_number(opts, "maxcpus", cpus);
-+
-+    if (current_machine->smp.max_cpus < cpus) {
-+        error_report("maxcpus must be equal to or greater than smp");
-+        exit(1);
-+    }
-+
-+    if (sockets * dies * cores * threads > current_machine->smp.max_cpus) {
-+        error_report("cpu topology: "
-+                        "sockets (%u) * dies (%u) * cores (%u) * threads (%u) > "
-+                        "maxcpus (%u)",
-+                        sockets, dies, cores, threads,
-+                        current_machine->smp.max_cpus);
-+        exit(1);
-+    }
-+
-+    if (sockets * dies * cores * threads != current_machine->smp.max_cpus) {
-+        warn_report("Invalid CPU topology deprecated: "
-+                    "sockets (%u) * dies (%u) * cores (%u) * threads (%u) "
-+                    "!= maxcpus (%u)",
-+                    sockets, dies, cores, threads,
-+                    current_machine->smp.max_cpus);
-+    }
-+
-+    current_machine->smp.cpus = cpus;
-+    current_machine->smp.cores = cores;
-+    current_machine->smp.threads = threads;
-+    pcms->smp_dies = dies;
-+
-+    if (current_machine->smp.cpus > 1) {
-+        Error *blocker = NULL;
-+        error_setg(&blocker, QERR_REPLAY_NOT_SUPPORTED, "smp");
-+        replay_add_blocker(blocker);
-+    }
-+}
-+
-+static void smp_parse(QemuOpts *opts)
-+{
-+    if (object_dynamic_cast(OBJECT(current_machine), TYPE_PC_MACHINE))
-+        pc_smp_parse(opts);
-+    else
-+        __smp_parse(opts);
-+}
-+
- static void realtime_init(void)
+@@ -2681,6 +2693,7 @@ static const CPUArchIdList *pc_possible_cpu_arch_ids(MachineState *ms)
  {
-     if (enable_mlock) {
+     int i;
+     unsigned int max_cpus = ms->smp.max_cpus;
++    PCMachineState *pcms = PC_MACHINE(ms);
+ 
+     if (ms->possible_cpus) {
+         /*
+@@ -2701,7 +2714,8 @@ static const CPUArchIdList *pc_possible_cpu_arch_ids(MachineState *ms)
+         ms->possible_cpus->cpus[i].vcpus_count = 1;
+         ms->possible_cpus->cpus[i].arch_id = x86_cpu_apic_id_from_index(ms, i);
+         x86_topo_ids_from_apicid(ms->possible_cpus->cpus[i].arch_id,
+-                                 ms->smp.cores, ms->smp.threads, &topo);
++                                 pcms->smp_dies, ms->smp.cores,
++                                 ms->smp.threads, &topo);
+         ms->possible_cpus->cpus[i].props.has_socket_id = true;
+         ms->possible_cpus->cpus[i].props.socket_id = topo.pkg_id;
+         ms->possible_cpus->cpus[i].props.has_die_id = true;
+diff --git a/include/hw/i386/topology.h b/include/hw/i386/topology.h
+index 7f80498eb3..4ff5b2da6c 100644
+--- a/include/hw/i386/topology.h
++++ b/include/hw/i386/topology.h
+@@ -63,88 +63,120 @@ static unsigned apicid_bitwidth_for_count(unsigned count)
+ 
+ /* Bit width of the SMT_ID (thread ID) field on the APIC ID
+  */
+-static inline unsigned apicid_smt_width(unsigned nr_cores, unsigned nr_threads)
++static inline unsigned apicid_smt_width(unsigned nr_dies,
++                                        unsigned nr_cores,
++                                        unsigned nr_threads)
+ {
+     return apicid_bitwidth_for_count(nr_threads);
+ }
+ 
+ /* Bit width of the Core_ID field
+  */
+-static inline unsigned apicid_core_width(unsigned nr_cores, unsigned nr_threads)
++static inline unsigned apicid_core_width(unsigned nr_dies,
++                                         unsigned nr_cores,
++                                         unsigned nr_threads)
+ {
+     return apicid_bitwidth_for_count(nr_cores);
+ }
+ 
++/* Bit width of the Die_ID field */
++static inline unsigned apicid_die_width(unsigned nr_dies,
++                                        unsigned nr_cores,
++                                        unsigned nr_threads)
++{
++    return apicid_bitwidth_for_count(nr_dies);
++}
++
+ /* Bit offset of the Core_ID field
+  */
+-static inline unsigned apicid_core_offset(unsigned nr_cores,
++static inline unsigned apicid_core_offset(unsigned nr_dies,
++                                          unsigned nr_cores,
+                                           unsigned nr_threads)
+ {
+-    return apicid_smt_width(nr_cores, nr_threads);
++    return apicid_smt_width(nr_dies, nr_cores, nr_threads);
++}
++
++/* Bit offset of the Die_ID field */
++static inline unsigned apicid_die_offset(unsigned nr_dies,
++                                          unsigned nr_cores,
++                                           unsigned nr_threads)
++{
++    return apicid_core_offset(nr_dies, nr_cores, nr_threads) +
++           apicid_core_width(nr_dies, nr_cores, nr_threads);
+ }
+ 
+ /* Bit offset of the Pkg_ID (socket ID) field
+  */
+-static inline unsigned apicid_pkg_offset(unsigned nr_cores, unsigned nr_threads)
++static inline unsigned apicid_pkg_offset(unsigned nr_dies,
++                                         unsigned nr_cores,
++                                         unsigned nr_threads)
+ {
+-    return apicid_core_offset(nr_cores, nr_threads) +
+-           apicid_core_width(nr_cores, nr_threads);
++    return apicid_die_offset(nr_dies, nr_cores, nr_threads) +
++           apicid_die_width(nr_dies, nr_cores, nr_threads);
+ }
+ 
+ /* Make APIC ID for the CPU based on Pkg_ID, Core_ID, SMT_ID
+  *
+  * The caller must make sure core_id < nr_cores and smt_id < nr_threads.
+  */
+-static inline apic_id_t apicid_from_topo_ids(unsigned nr_cores,
++static inline apic_id_t apicid_from_topo_ids(unsigned nr_dies,
++                                             unsigned nr_cores,
+                                              unsigned nr_threads,
+                                              const X86CPUTopoInfo *topo)
+ {
+-    return (topo->pkg_id  << apicid_pkg_offset(nr_cores, nr_threads)) |
+-           (topo->core_id << apicid_core_offset(nr_cores, nr_threads)) |
++    return (topo->pkg_id  << apicid_pkg_offset(nr_dies, nr_cores, nr_threads)) |
++           (topo->die_id  << apicid_die_offset(nr_dies, nr_cores, nr_threads)) |
++          (topo->core_id << apicid_core_offset(nr_dies, nr_cores, nr_threads)) |
+            topo->smt_id;
+ }
+ 
+ /* Calculate thread/core/package IDs for a specific topology,
+  * based on (contiguous) CPU index
+  */
+-static inline void x86_topo_ids_from_idx(unsigned nr_cores,
++static inline void x86_topo_ids_from_idx(unsigned nr_dies,
++                                         unsigned nr_cores,
+                                          unsigned nr_threads,
+                                          unsigned cpu_index,
+                                          X86CPUTopoInfo *topo)
+ {
+-    unsigned core_index = cpu_index / nr_threads;
++    topo->pkg_id = cpu_index / (nr_dies * nr_cores * nr_threads);
++    topo->die_id = cpu_index / (nr_cores * nr_threads) % nr_dies;
++    topo->core_id = cpu_index / nr_threads % nr_cores;
+     topo->smt_id = cpu_index % nr_threads;
+-    topo->core_id = core_index % nr_cores;
+-    topo->pkg_id = core_index / nr_cores;
+ }
+ 
+ /* Calculate thread/core/package IDs for a specific topology,
+  * based on APIC ID
+  */
+ static inline void x86_topo_ids_from_apicid(apic_id_t apicid,
++                                            unsigned nr_dies,
+                                             unsigned nr_cores,
+                                             unsigned nr_threads,
+                                             X86CPUTopoInfo *topo)
+ {
+     topo->smt_id = apicid &
+-                   ~(0xFFFFFFFFUL << apicid_smt_width(nr_cores, nr_threads));
+-    topo->core_id = (apicid >> apicid_core_offset(nr_cores, nr_threads)) &
+-                   ~(0xFFFFFFFFUL << apicid_core_width(nr_cores, nr_threads));
+-    topo->pkg_id = apicid >> apicid_pkg_offset(nr_cores, nr_threads);
+-    topo->die_id = -1;
++            ~(0xFFFFFFFFUL << apicid_smt_width(nr_dies, nr_cores, nr_threads));
++    topo->core_id =
++            (apicid >> apicid_core_offset(nr_dies, nr_cores, nr_threads)) &
++            ~(0xFFFFFFFFUL << apicid_core_width(nr_dies, nr_cores, nr_threads));
++    topo->die_id =
++            (apicid >> apicid_die_offset(nr_dies, nr_cores, nr_threads)) &
++            ~(0xFFFFFFFFUL << apicid_die_width(nr_dies, nr_cores, nr_threads));
++    topo->pkg_id = apicid >> apicid_pkg_offset(nr_dies, nr_cores, nr_threads);
+ }
+ 
+ /* Make APIC ID for the CPU 'cpu_index'
+  *
+  * 'cpu_index' is a sequential, contiguous ID for the CPU.
+  */
+-static inline apic_id_t x86_apicid_from_cpu_idx(unsigned nr_cores,
++static inline apic_id_t x86_apicid_from_cpu_idx(unsigned nr_dies,
++                                                unsigned nr_cores,
+                                                 unsigned nr_threads,
+                                                 unsigned cpu_index)
+ {
+     X86CPUTopoInfo topo;
+-    x86_topo_ids_from_idx(nr_cores, nr_threads, cpu_index, &topo);
+-    return apicid_from_topo_ids(nr_cores, nr_threads, &topo);
++    x86_topo_ids_from_idx(nr_dies, nr_cores, nr_threads, cpu_index, &topo);
++    return apicid_from_topo_ids(nr_dies, nr_cores, nr_threads, &topo);
+ }
+ 
+ #endif /* HW_I386_TOPOLOGY_H */
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 9bd35b4965..3222bd3254 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -4225,7 +4225,7 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+ {
+     X86CPU *cpu = x86_env_get_cpu(env);
+     CPUState *cs = CPU(cpu);
+-    uint32_t pkg_offset;
++    uint32_t die_offset;
+     uint32_t limit;
+     uint32_t signature[3];
+ 
+@@ -4314,10 +4314,11 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+                                     eax, ebx, ecx, edx);
+                 break;
+             case 3: /* L3 cache info */
+-                pkg_offset = apicid_pkg_offset(cs->nr_cores, cs->nr_threads);
++                die_offset = apicid_die_offset(env->nr_dies,
++                                        cs->nr_cores, cs->nr_threads);
+                 if (cpu->enable_l3_cache) {
+                     encode_cache_cpuid4(env->cache_info_cpuid4.l3_cache,
+-                                        (1 << pkg_offset), cs->nr_cores,
++                                        (1 << die_offset), cs->nr_cores,
+                                         eax, ebx, ecx, edx);
+                     break;
+                 }
+@@ -4399,12 +4400,14 @@ void cpu_x86_cpuid(CPUX86State *env, uint32_t index, uint32_t count,
+ 
+         switch (count) {
+         case 0:
+-            *eax = apicid_core_offset(cs->nr_cores, cs->nr_threads);
++            *eax = apicid_core_offset(env->nr_dies,
++                                      cs->nr_cores, cs->nr_threads);
+             *ebx = cs->nr_threads;
+             *ecx |= CPUID_TOPOLOGY_LEVEL_SMT;
+             break;
+         case 1:
+-            *eax = apicid_pkg_offset(cs->nr_cores, cs->nr_threads);
++            *eax = apicid_pkg_offset(env->nr_dies,
++                                     cs->nr_cores, cs->nr_threads);
+             *ebx = cs->nr_cores * cs->nr_threads;
+             *ecx |= CPUID_TOPOLOGY_LEVEL_CORE;
+             break;
+diff --git a/tests/test-x86-cpuid.c b/tests/test-x86-cpuid.c
+index ff225006e4..1942287f33 100644
+--- a/tests/test-x86-cpuid.c
++++ b/tests/test-x86-cpuid.c
+@@ -28,74 +28,80 @@
+ 
+ static void test_topo_bits(void)
+ {
+-    /* simple tests for 1 thread per core, 1 core per socket */
+-    g_assert_cmpuint(apicid_smt_width(1, 1), ==, 0);
+-    g_assert_cmpuint(apicid_core_width(1, 1), ==, 0);
++    /* simple tests for 1 thread per core, 1 core per die, 1 die per package */
++    g_assert_cmpuint(apicid_smt_width(1, 1, 1), ==, 0);
++    g_assert_cmpuint(apicid_core_width(1, 1, 1), ==, 0);
++    g_assert_cmpuint(apicid_die_width(1, 1, 1), ==, 0);
+ 
+-    g_assert_cmpuint(x86_apicid_from_cpu_idx(1, 1, 0), ==, 0);
+-    g_assert_cmpuint(x86_apicid_from_cpu_idx(1, 1, 1), ==, 1);
+-    g_assert_cmpuint(x86_apicid_from_cpu_idx(1, 1, 2), ==, 2);
+-    g_assert_cmpuint(x86_apicid_from_cpu_idx(1, 1, 3), ==, 3);
++    g_assert_cmpuint(x86_apicid_from_cpu_idx(1, 1, 1, 0), ==, 0);
++    g_assert_cmpuint(x86_apicid_from_cpu_idx(1, 1, 1, 1), ==, 1);
++    g_assert_cmpuint(x86_apicid_from_cpu_idx(1, 1, 1, 2), ==, 2);
++    g_assert_cmpuint(x86_apicid_from_cpu_idx(1, 1, 1, 3), ==, 3);
+ 
+ 
+     /* Test field width calculation for multiple values
+      */
+-    g_assert_cmpuint(apicid_smt_width(1, 2), ==, 1);
+-    g_assert_cmpuint(apicid_smt_width(1, 3), ==, 2);
+-    g_assert_cmpuint(apicid_smt_width(1, 4), ==, 2);
++    g_assert_cmpuint(apicid_smt_width(1, 1, 2), ==, 1);
++    g_assert_cmpuint(apicid_smt_width(1, 1, 3), ==, 2);
++    g_assert_cmpuint(apicid_smt_width(1, 1, 4), ==, 2);
+ 
+-    g_assert_cmpuint(apicid_smt_width(1, 14), ==, 4);
+-    g_assert_cmpuint(apicid_smt_width(1, 15), ==, 4);
+-    g_assert_cmpuint(apicid_smt_width(1, 16), ==, 4);
+-    g_assert_cmpuint(apicid_smt_width(1, 17), ==, 5);
++    g_assert_cmpuint(apicid_smt_width(1, 1, 14), ==, 4);
++    g_assert_cmpuint(apicid_smt_width(1, 1, 15), ==, 4);
++    g_assert_cmpuint(apicid_smt_width(1, 1, 16), ==, 4);
++    g_assert_cmpuint(apicid_smt_width(1, 1, 17), ==, 5);
+ 
+ 
+-    g_assert_cmpuint(apicid_core_width(30, 2), ==, 5);
+-    g_assert_cmpuint(apicid_core_width(31, 2), ==, 5);
+-    g_assert_cmpuint(apicid_core_width(32, 2), ==, 5);
+-    g_assert_cmpuint(apicid_core_width(33, 2), ==, 6);
++    g_assert_cmpuint(apicid_core_width(1, 30, 2), ==, 5);
++    g_assert_cmpuint(apicid_core_width(1, 31, 2), ==, 5);
++    g_assert_cmpuint(apicid_core_width(1, 32, 2), ==, 5);
++    g_assert_cmpuint(apicid_core_width(1, 33, 2), ==, 6);
+ 
++    g_assert_cmpuint(apicid_die_width(1, 30, 2), ==, 0);
++    g_assert_cmpuint(apicid_die_width(2, 30, 2), ==, 1);
++    g_assert_cmpuint(apicid_die_width(3, 30, 2), ==, 2);
++    g_assert_cmpuint(apicid_die_width(4, 30, 2), ==, 2);
+ 
+     /* build a weird topology and see if IDs are calculated correctly
+      */
+ 
+     /* This will use 2 bits for thread ID and 3 bits for core ID
+      */
+-    g_assert_cmpuint(apicid_smt_width(6, 3), ==, 2);
+-    g_assert_cmpuint(apicid_core_width(6, 3), ==, 3);
+-    g_assert_cmpuint(apicid_pkg_offset(6, 3), ==, 5);
++    g_assert_cmpuint(apicid_smt_width(1, 6, 3), ==, 2);
++    g_assert_cmpuint(apicid_core_offset(1, 6, 3), ==, 2);
++    g_assert_cmpuint(apicid_die_offset(1, 6, 3), ==, 5);
++    g_assert_cmpuint(apicid_pkg_offset(1, 6, 3), ==, 5);
+ 
+-    g_assert_cmpuint(x86_apicid_from_cpu_idx(6, 3, 0), ==, 0);
+-    g_assert_cmpuint(x86_apicid_from_cpu_idx(6, 3, 1), ==, 1);
+-    g_assert_cmpuint(x86_apicid_from_cpu_idx(6, 3, 2), ==, 2);
++    g_assert_cmpuint(x86_apicid_from_cpu_idx(1, 6, 3, 0), ==, 0);
++    g_assert_cmpuint(x86_apicid_from_cpu_idx(1, 6, 3, 1), ==, 1);
++    g_assert_cmpuint(x86_apicid_from_cpu_idx(1, 6, 3, 2), ==, 2);
+ 
+-    g_assert_cmpuint(x86_apicid_from_cpu_idx(6, 3, 1 * 3 + 0), ==,
++    g_assert_cmpuint(x86_apicid_from_cpu_idx(1, 6, 3, 1 * 3 + 0), ==,
+                      (1 << 2) | 0);
+-    g_assert_cmpuint(x86_apicid_from_cpu_idx(6, 3, 1 * 3 + 1), ==,
++    g_assert_cmpuint(x86_apicid_from_cpu_idx(1, 6, 3, 1 * 3 + 1), ==,
+                      (1 << 2) | 1);
+-    g_assert_cmpuint(x86_apicid_from_cpu_idx(6, 3, 1 * 3 + 2), ==,
++    g_assert_cmpuint(x86_apicid_from_cpu_idx(1, 6, 3, 1 * 3 + 2), ==,
+                      (1 << 2) | 2);
+ 
+-    g_assert_cmpuint(x86_apicid_from_cpu_idx(6, 3, 2 * 3 + 0), ==,
++    g_assert_cmpuint(x86_apicid_from_cpu_idx(1, 6, 3, 2 * 3 + 0), ==,
+                      (2 << 2) | 0);
+-    g_assert_cmpuint(x86_apicid_from_cpu_idx(6, 3, 2 * 3 + 1), ==,
++    g_assert_cmpuint(x86_apicid_from_cpu_idx(1, 6, 3, 2 * 3 + 1), ==,
+                      (2 << 2) | 1);
+-    g_assert_cmpuint(x86_apicid_from_cpu_idx(6, 3, 2 * 3 + 2), ==,
++    g_assert_cmpuint(x86_apicid_from_cpu_idx(1, 6, 3, 2 * 3 + 2), ==,
+                      (2 << 2) | 2);
+ 
+-    g_assert_cmpuint(x86_apicid_from_cpu_idx(6, 3, 5 * 3 + 0), ==,
++    g_assert_cmpuint(x86_apicid_from_cpu_idx(1, 6, 3, 5 * 3 + 0), ==,
+                      (5 << 2) | 0);
+-    g_assert_cmpuint(x86_apicid_from_cpu_idx(6, 3, 5 * 3 + 1), ==,
++    g_assert_cmpuint(x86_apicid_from_cpu_idx(1, 6, 3, 5 * 3 + 1), ==,
+                      (5 << 2) | 1);
+-    g_assert_cmpuint(x86_apicid_from_cpu_idx(6, 3, 5 * 3 + 2), ==,
++    g_assert_cmpuint(x86_apicid_from_cpu_idx(1, 6, 3, 5 * 3 + 2), ==,
+                      (5 << 2) | 2);
+ 
+-    g_assert_cmpuint(x86_apicid_from_cpu_idx(6, 3, 1 * 6 * 3 + 0 * 3 + 0), ==,
+-                     (1 << 5));
+-    g_assert_cmpuint(x86_apicid_from_cpu_idx(6, 3, 1 * 6 * 3 + 1 * 3 + 1), ==,
+-                     (1 << 5) | (1 << 2) | 1);
+-    g_assert_cmpuint(x86_apicid_from_cpu_idx(6, 3, 3 * 6 * 3 + 5 * 3 + 2), ==,
+-                     (3 << 5) | (5 << 2) | 2);
++    g_assert_cmpuint(x86_apicid_from_cpu_idx(1, 6, 3,
++                     1 * 6 * 3 + 0 * 3 + 0), ==, (1 << 5));
++    g_assert_cmpuint(x86_apicid_from_cpu_idx(1, 6, 3,
++                     1 * 6 * 3 + 1 * 3 + 1), ==, (1 << 5) | (1 << 2) | 1);
++    g_assert_cmpuint(x86_apicid_from_cpu_idx(1, 6, 3,
++                     3 * 6 * 3 + 5 * 3 + 2), ==, (3 << 5) | (5 << 2) | 2);
+ }
+ 
+ int main(int argc, char **argv)
 -- 
 2.21.0
 
