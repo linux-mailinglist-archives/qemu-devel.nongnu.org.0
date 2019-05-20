@@ -2,47 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7CA8122A60
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 05:24:05 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57156 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4F4B122A4A
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 05:14:29 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57027 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSYuC-0004Ml-Ny
-	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 23:24:04 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49318)
+	id 1hSYkt-000651-IF
+	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 23:14:27 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49375)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peterx@redhat.com>) id 1hSYgA-0002NY-3t
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 23:09:35 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hSYgS-0002ZS-Hz
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 23:09:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peterx@redhat.com>) id 1hSYg8-0001sU-Bu
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 23:09:34 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50292)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <peterx@redhat.com>) id 1hSYg8-0001s2-1A
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 23:09:32 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 41389307D910
-	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 03:09:31 +0000 (UTC)
-Received: from xz-x1.nay.redhat.com (dhcp-15-205.nay.redhat.com [10.66.15.205])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 25CDC1001E66;
-	Mon, 20 May 2019 03:09:28 +0000 (UTC)
-From: Peter Xu <peterx@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Mon, 20 May 2019 11:08:39 +0800
-Message-Id: <20190520030839.6795-16-peterx@redhat.com>
-In-Reply-To: <20190520030839.6795-1-peterx@redhat.com>
-References: <20190520030839.6795-1-peterx@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.48]);
-	Mon, 20 May 2019 03:09:31 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 15/15] migration: Split log_clear() into
- smaller chunks
+	(envelope-from <richard.henderson@linaro.org>) id 1hSYgR-0001yf-NZ
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 23:09:52 -0400
+Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:38370)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hSYgR-0001xz-0U
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 23:09:51 -0400
+Received: by mail-pl1-x642.google.com with SMTP id f97so5994106plb.5
+	for <qemu-devel@nongnu.org>; Sun, 19 May 2019 20:09:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=YmvqVAIDHWkRj/6ft4/eUzWjHu7tcK7uvoe5yvIYvzE=;
+	b=iQ2f/2GQ/tnObCNrIqo6/6gQSxSAnvymV/7tJO8xLsZsKavE10ZzAjuvLxQXfytsrL
+	b3I5ARqgiHDk2DSNV6VwOexiKha8jbdo/+0G2izmN9Bg2x9mc5xfBKmtBYIWkrgxM49k
+	hw1bMyRyqrhwOghzisWYAwo3f4pkkbx+6N1F/CnBeG7ZWY/3xLebxFZGrIPD/PKDKX2q
+	fswCxEjC9q4GJRBFny/3drKXm17vDe5bLmiI8zXSwmpTGdnsUwabqqnvFD1xVvexQH7N
+	ctI3IzMobIrIFjwORTDtSpzeWSlOqFbqKmR/KHxazl5v93/Va3Y57qCEH9VXHNYm8wwr
+	XoaA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=YmvqVAIDHWkRj/6ft4/eUzWjHu7tcK7uvoe5yvIYvzE=;
+	b=Z4B7Ze0XsphC2HdxtPOD7G/IIlapLDQ35JM2Y8vdis24O8l9dE9cDtLihgxRvteTX3
+	PQVYc4pKzCkmlx5eAkUXVelLI5iRjxph50vlyFGeu8Mc4i1Pp4/QM3i1/DRf0xwouols
+	qWarC/LZZPqAPlp2UjM2OKycONYc+VyoibgEWJePr3DjVslnFX6nOdfqGmYgZZ1DGdYM
+	AJSUk0Rg+X+Nx0AM7AcMQCkNePysle0w2o2WOZFMjq32o5zZ8JyH/nqiUaZa/HVx/noP
+	yBJMrK52IdNRPradcvGcuwl+oNGyHL3trx8SHI4FQAm0qX0mOarYYRlZI7sUAeMFricF
+	QGFg==
+X-Gm-Message-State: APjAAAV2VSoo3C49QXml7OXgexDF8MBIedz22AxmyKXQYoECArlR5eEC
+	JCQsqnQwz1YYcbHJ6+/WTiSY19d/JYo=
+X-Google-Smtp-Source: APXvYqzXw2+SlzFudHemk4/kwqBpv8ZwuimupaK5r6Q2E6974XLCzszE8iuBs+S0ymcQwRhdvPpYMA==
+X-Received: by 2002:a17:902:2869:: with SMTP id
+	e96mr49737468plb.150.1558321788791; 
+	Sun, 19 May 2019 20:09:48 -0700 (PDT)
+Received: from [192.168.1.11] (97-113-13-231.tukw.qwest.net. [97.113.13.231])
+	by smtp.gmail.com with ESMTPSA id
+	w6sm17148143pge.30.2019.05.19.20.09.47
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Sun, 19 May 2019 20:09:47 -0700 (PDT)
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+	qemu-devel@nongnu.org
+References: <20190510032710.23910-1-richard.henderson@linaro.org>
+	<20190510032710.23910-4-richard.henderson@linaro.org>
+	<492ec7a8-b5bf-b873-8ed2-2a1faf0968b4@redhat.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <31f54a09-23bc-9d66-a720-9027c48d27fa@linaro.org>
+Date: Sun, 19 May 2019 20:09:45 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <492ec7a8-b5bf-b873-8ed2-2a1faf0968b4@redhat.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::642
+Subject: Re: [Qemu-devel] [PATCH v2 3/8] target/sparc: Define an enumeration
+ for accessing env->regwptr
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -54,298 +88,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
-	"Dr . David Alan Gilbert" <dgilbert@redhat.com>,
-	peterx@redhat.com, Juan Quintela <quintela@redhat.com>
+Cc: laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Currently we are doing log_clear() right after log_sync() which mostly
-keeps the old behavior when log_clear() was still part of log_sync().
+On 5/14/19 10:44 PM, Philippe Mathieu-Daudé wrote:
+>> +/* Windowed register indexes.  */
+>> +enum {
+>> +    WREG_O0,
+>> +    WREG_O1,
+>> +    WREG_O2,
+>> +    WREG_O3,
+>> +    WREG_O4,
+>> +    WREG_O5,
+>> +    WREG_O6,
+>> +    WREG_O7,
+>> +
+>> +    WREG_L0,
+>> +    WREG_L1,
+>> +    WREG_L2,
+>> +    WREG_L3,
+>> +    WREG_L4,
+>> +    WREG_L5,
+>> +    WREG_L6,
+>> +    WREG_L7,
+>> +
+>> +    WREG_I0,
+>> +    WREG_I1,
+>> +    WREG_I2,
+>> +    WREG_I3,
+>> +    WREG_I4,
+>> +    WREG_I5,
+>> +    WREG_I6,
+>> +    WREG_I7,
+> 
+> I'd feel safer if you initialize those enums (better safe than sorry!).
 
-This patch tries to further optimize the migration log_clear() code
-path to split huge log_clear()s into smaller chunks.
+What are you suggesting?  This is how C works, and always has...
 
-We do this by spliting the whole guest memory region into memory
-chunks, whose size is decided by MigrationState.clear_bitmap_shift (an
-example will be given below).  With that, we don't do the dirty bitmap
-clear operation on the remote node (e.g., KVM) when we fetch the dirty
-bitmap, instead we explicitly clear the dirty bitmap for the memory
-chunk for each of the first time we send a page in that chunk.
 
-Here comes an example.
-
-Assuming the guest has 64G memory, then before this patch the KVM
-ioctl KVM_CLEAR_DIRTY_LOG will be a single one covering 64G memory.
-If after the patch, let's assume when the clear bitmap shift is 18,
-then the memory chunk size on x86_64 will be 1UL<<18 * 4K = 1GB.  Then
-instead of sending a big 64G ioctl, we'll send 64 small ioctls, each
-of the ioctl will cover 1G of the guest memory.  For each of the 64
-small ioctls, we'll only send if any of the page in that small chunk
-was going to be sent right away.
-
-Signed-off-by: Peter Xu <peterx@redhat.com>
----
- include/exec/ram_addr.h | 75 +++++++++++++++++++++++++++++++++++++++--
- migration/migration.c   |  4 +++
- migration/migration.h   | 27 +++++++++++++++
- migration/ram.c         | 44 ++++++++++++++++++++++++
- migration/trace-events  |  1 +
- 5 files changed, 149 insertions(+), 2 deletions(-)
-
-diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
-index 896324281a..c2db157d98 100644
---- a/include/exec/ram_addr.h
-+++ b/include/exec/ram_addr.h
-@@ -50,8 +50,69 @@ struct RAMBlock {
-     unsigned long *unsentmap;
-     /* bitmap of already received pages in postcopy */
-     unsigned long *receivedmap;
-+
-+    /*
-+     * bitmap of already cleared dirty bitmap.  Set this up to
-+     * non-NULL to enable the capability to postpone and split
-+     * clearing of dirty bitmap on the remote node (e.g., KVM).  The
-+     * bitmap will be set only when doing global sync.
-+     *
-+     * NOTE: this bitmap is different comparing to the other bitmaps
-+     * in that one bit can represent multiple guest pages (which is
-+     * decided by the `clear_bmap_shift' variable below).  On
-+     * destination side, this should always be NULL, and the variable
-+     * `clear_bmap_shift' is meaningless.
-+     */
-+    unsigned long *clear_bmap;
-+    uint8_t clear_bmap_shift;
- };
- 
-+/**
-+ * clear_bmap_size: calculate clear bitmap size
-+ *
-+ * @pages: number of guest pages
-+ * @shift: guest page number shift
-+ *
-+ * Returns: number of bits for the clear bitmap
-+ */
-+static inline long clear_bmap_size(uint64_t pages, uint8_t shift)
-+{
-+    return DIV_ROUND_UP(pages, 1UL << shift);
-+}
-+
-+/**
-+ * clear_bmap_set: set clear bitmap for the page range
-+ *
-+ * @rb: the ramblock to operate on
-+ * @start: the start page number
-+ * @size: number of pages to set in the bitmap
-+ *
-+ * Returns: None
-+ */
-+static inline void clear_bmap_set(RAMBlock *rb, uint64_t start,
-+                                  uint64_t npages)
-+{
-+    uint8_t shift = rb->clear_bmap_shift;
-+
-+    bitmap_set_atomic(rb->clear_bmap, start >> shift,
-+                      clear_bmap_size(npages, shift));
-+}
-+
-+/**
-+ * clear_bmap_test_and_clear: test clear bitmap for the page, clear if set
-+ *
-+ * @rb: the ramblock to operate on
-+ * @page: the page number to check
-+ *
-+ * Returns: true if the bit was set, false otherwise
-+ */
-+static inline bool clear_bmap_test_and_clear(RAMBlock *rb, uint64_t page)
-+{
-+    uint8_t shift = rb->clear_bmap_shift;
-+
-+    return bitmap_test_and_clear_atomic(rb->clear_bmap, page >> shift, 1);
-+}
-+
- static inline bool offset_in_ramblock(RAMBlock *b, ram_addr_t offset)
- {
-     return (b && b->host && offset < b->used_length) ? true : false;
-@@ -462,8 +523,18 @@ uint64_t cpu_physical_memory_sync_dirty_bitmap(RAMBlock *rb,
-             }
-         }
- 
--        /* TODO: split the huge bitmap into smaller chunks */
--        memory_region_clear_dirty_bitmap(rb->mr, start, length);
-+        if (rb->clear_bmap) {
-+            /*
-+             * Postpone the dirty bitmap clear to the point before we
-+             * really send the pages, also we will split the clear
-+             * dirty procedure into smaller chunks.
-+             */
-+            clear_bmap_set(rb, start >> TARGET_PAGE_BITS,
-+                           length >> TARGET_PAGE_BITS);
-+        } else {
-+            /* Slow path - still do that in a huge chunk */
-+            memory_region_clear_dirty_bitmap(rb->mr, start, length);
-+        }
-     } else {
-         ram_addr_t offset = rb->offset;
- 
-diff --git a/migration/migration.c b/migration/migration.c
-index d0a0f68f11..780d8af404 100644
---- a/migration/migration.c
-+++ b/migration/migration.c
-@@ -3362,6 +3362,8 @@ void migration_global_dump(Monitor *mon)
-                    ms->send_section_footer ? "on" : "off");
-     monitor_printf(mon, "decompress-error-check: %s\n",
-                    ms->decompress_error_check ? "on" : "off");
-+    monitor_printf(mon, "clear-bitmap-shift: %u\n",
-+                   ms->clear_bitmap_shift);
- }
- 
- #define DEFINE_PROP_MIG_CAP(name, x)             \
-@@ -3376,6 +3378,8 @@ static Property migration_properties[] = {
-                      send_section_footer, true),
-     DEFINE_PROP_BOOL("decompress-error-check", MigrationState,
-                       decompress_error_check, true),
-+    DEFINE_PROP_UINT8("x-clear-bitmap-shift", MigrationState,
-+                      clear_bitmap_shift, CLEAR_BITMAP_SHIFT_DEFAULT),
- 
-     /* Migration parameters */
-     DEFINE_PROP_UINT8("x-compress-level", MigrationState,
-diff --git a/migration/migration.h b/migration/migration.h
-index 780a096857..6e3178d8b2 100644
---- a/migration/migration.h
-+++ b/migration/migration.h
-@@ -27,6 +27,23 @@ struct PostcopyBlocktimeContext;
- 
- #define  MIGRATION_RESUME_ACK_VALUE  (1)
- 
-+/*
-+ * 1<<6=64 pages -> 256K chunk when page size is 4K.  This gives us
-+ * the benefit that all the chunks are 64 pages aligned then the
-+ * bitmaps are always aligned to LONG.
-+ */
-+#define CLEAR_BITMAP_SHIFT_MIN             6
-+/*
-+ * 1<<18=256K pages -> 1G chunk when page size is 4K.  This is the
-+ * default value to use if no one specified.
-+ */
-+#define CLEAR_BITMAP_SHIFT_DEFAULT        18
-+/*
-+ * 1<<31=2G pages -> 8T chunk when page size is 4K.  This should be
-+ * big enough and make sure we won't overflow easily.
-+ */
-+#define CLEAR_BITMAP_SHIFT_MAX            31
-+
- /* State for the incoming migration */
- struct MigrationIncomingState {
-     QEMUFile *from_src_file;
-@@ -233,6 +250,16 @@ struct MigrationState
-      * do not trigger spurious decompression errors.
-      */
-     bool decompress_error_check;
-+
-+    /*
-+     * This decides the size of guest memory chunk that will be used
-+     * to track dirty bitmap clearing.  The size of memory chunk will
-+     * be GUEST_PAGE_SIZE << N.  Say, N=0 means we will clear dirty
-+     * bitmap for each page to send (1<<0=1); N=10 means we will clear
-+     * dirty bitmap only once for 1<<10=1K continuous guest pages
-+     * (which is in 4M chunk).
-+     */
-+    uint8_t clear_bitmap_shift;
- };
- 
- void migrate_set_state(int *state, int old_state, int new_state);
-diff --git a/migration/ram.c b/migration/ram.c
-index 05f9f36c7c..b22314c165 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -1668,6 +1668,33 @@ static inline bool migration_bitmap_clear_dirty(RAMState *rs,
-     bool ret;
- 
-     qemu_mutex_lock(&rs->bitmap_mutex);
-+
-+    /*
-+     * Clear dirty bitmap if needed.  This _must_ be called before we
-+     * send any of the page in the chunk because we need to make sure
-+     * we can capture further page content changes when we sync dirty
-+     * log the next time.  So as long as we are going to send any of
-+     * the page in the chunk we clear the remote dirty bitmap for all.
-+     * Clearing it earlier won't be a problem, but too late will.
-+     */
-+    if (rb->clear_bmap && clear_bmap_test_and_clear(rb, page)) {
-+        uint8_t shift = rb->clear_bmap_shift;
-+        hwaddr size = 1ULL << (TARGET_PAGE_BITS + shift);
-+        hwaddr start = (page << TARGET_PAGE_BITS) & (-size);
-+
-+        /*
-+         * CLEAR_BITMAP_SHIFT_MIN should always guarantee this... this
-+         * can make things easier sometimes since then start address
-+         * of the small chunk will always be 64 pages aligned so the
-+         * bitmap will always be aligned to unsigned long.  We should
-+         * even be able to remove this restriction but I'm simply
-+         * keeping it.
-+         */
-+        assert(shift >= 6);
-+        trace_migration_bitmap_clear_dirty(rb->idstr, start, size, page);
-+        memory_region_clear_dirty_bitmap(rb->mr, start, size);
-+    }
-+
-     ret = test_and_clear_bit(page, rb->bmap);
- 
-     if (ret) {
-@@ -2685,6 +2712,8 @@ static void ram_save_cleanup(void *opaque)
-     memory_global_dirty_log_stop();
- 
-     RAMBLOCK_FOREACH_NOT_IGNORED(block) {
-+        g_free(block->clear_bmap);
-+        block->clear_bmap = NULL;
-         g_free(block->bmap);
-         block->bmap = NULL;
-         g_free(block->unsentmap);
-@@ -3195,15 +3224,30 @@ static int ram_state_init(RAMState **rsp)
- 
- static void ram_list_init_bitmaps(void)
- {
-+    MigrationState *ms = migrate_get_current();
-     RAMBlock *block;
-     unsigned long pages;
-+    uint8_t shift;
- 
-     /* Skip setting bitmap if there is no RAM */
-     if (ram_bytes_total()) {
-+        shift = ms->clear_bitmap_shift;
-+        if (shift > CLEAR_BITMAP_SHIFT_MAX) {
-+            error_report("clear_bitmap_shift (%u) too big, using "
-+                         "max value (%u)", shift, CLEAR_BITMAP_SHIFT_MAX);
-+            shift = CLEAR_BITMAP_SHIFT_MAX;
-+        } else if (shift < CLEAR_BITMAP_SHIFT_MIN) {
-+            error_report("clear_bitmap_shift (%u) too small, using "
-+                         "min value (%u)", shift, CLEAR_BITMAP_SHIFT_MIN);
-+            shift = CLEAR_BITMAP_SHIFT_MIN;
-+        }
-+
-         RAMBLOCK_FOREACH_NOT_IGNORED(block) {
-             pages = block->max_length >> TARGET_PAGE_BITS;
-             block->bmap = bitmap_new(pages);
-             bitmap_set(block->bmap, 0, pages);
-+            block->clear_bmap_shift = shift;
-+            block->clear_bmap = bitmap_new(clear_bmap_size(pages, shift));
-             if (migrate_postcopy_ram()) {
-                 block->unsentmap = bitmap_new(pages);
-                 bitmap_set(block->unsentmap, 0, pages);
-diff --git a/migration/trace-events b/migration/trace-events
-index de2e136e57..2c45974330 100644
---- a/migration/trace-events
-+++ b/migration/trace-events
-@@ -79,6 +79,7 @@ get_queued_page(const char *block_name, uint64_t tmp_offset, unsigned long page_
- get_queued_page_not_dirty(const char *block_name, uint64_t tmp_offset, unsigned long page_abs, int sent) "%s/0x%" PRIx64 " page_abs=0x%lx (sent=%d)"
- migration_bitmap_sync_start(void) ""
- migration_bitmap_sync_end(uint64_t dirty_pages) "dirty_pages %" PRIu64
-+migration_bitmap_clear_dirty(char *str, uint64_t start, uint64_t size, unsigned long page) "rb %s start 0x%"PRIx64" size 0x%"PRIx64" page 0x%lx"
- migration_throttle(void) ""
- multifd_recv(uint8_t id, uint64_t packet_num, uint32_t used, uint32_t flags, uint32_t next_packet_size) "channel %d packet number %" PRIu64 " pages %d flags 0x%x next packet size %d"
- multifd_recv_sync_main(long packet_num) "packet num %ld"
--- 
-2.17.1
-
+r~
 
