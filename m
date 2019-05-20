@@ -2,65 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1CA252433C
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 23:55:20 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:42514 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B691A24332
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 23:53:18 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:42478 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSqFb-0006mh-AV
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 17:55:19 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58881)
+	id 1hSqDd-00056U-S6
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 17:53:17 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59306)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alistair23@gmail.com>) id 1hSq8E-0001qq-2l
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 17:47:43 -0400
+	(envelope-from <alistair23@gmail.com>) id 1hSqA6-0003BB-5D
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 17:49:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alistair23@gmail.com>) id 1hSq8C-0003Qp-QI
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 17:47:42 -0400
-Received: from mail-lj1-x241.google.com ([2a00:1450:4864:20::241]:37791)
+	(envelope-from <alistair23@gmail.com>) id 1hSqA5-0005U2-9E
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 17:49:38 -0400
+Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:36019)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <alistair23@gmail.com>)
-	id 1hSq87-0003Mm-Es; Mon, 20 May 2019 17:47:35 -0400
-Received: by mail-lj1-x241.google.com with SMTP id h19so13943350ljj.4;
-	Mon, 20 May 2019 14:47:34 -0700 (PDT)
+	id 1hSqA4-0005T1-GE; Mon, 20 May 2019 17:49:37 -0400
+Received: by mail-lf1-x142.google.com with SMTP id y10so11468506lfl.3;
+	Mon, 20 May 2019 14:49:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=RWYOWsOrlOdSwuuzSXCEp/onxa8x9C68sMRTN0zTses=;
-	b=P/iISkJNUP1MuOB0WqG7Xsieo3W2D7CJ695NRq4UiEFDm9T8ffNoVsKox+1sKh/Lfd
-	CAiIwfbf1WuBXmEEWJFHN0k8/w4vnN21lf+f4JWp1oEBo59+uffHsaa4nJQNouWEA6IY
-	+OauPZtLE4LgXbcve5CrWbDmt8EEnwG0t75mP+Yqo/8mHbjx8HHkNvnQmuhl2BjIJ/Tg
-	buCQKmnB/SlerCHYgYnd9OWn8BafWu9E/R3qbzWwtGNzRZmEJYW7CRVwZysIw8h8ZsYE
-	lD75NwnMUH502d4Sqi92wDuRqzUOKjZxN4SO5sZX/zhBa4fzakjur3B22hBDzRtcnLwo
-	Ylgg==
+	:cc:content-transfer-encoding;
+	bh=koufGJffk4TKMQ9ktHHDRxKPvbMzt7Wf2ZYKsbOYO7o=;
+	b=u0bXUr+r9/bPiVzwJLzgv0nQ1og1wdajhlcSIogC1byW1W/HNr6Krb81kkg8fBYAgc
+	jQKG7LVe8x1qddPmrc6v1p2Dyj2nJIgZNvQ8tO0kmLi4D1vWfd4X2cjftT7zo/HdSN0U
+	LXraznxPrZdBD61Dl+pe//GE0jS3t/IZi5A57/GujItj44fDgYTDTdAqkamrhJlr5CnH
+	M/5UrZCK1SYS71ITymA+zu5RBl2buIVfmDm3qoMtB/eCiSkhn61MI+8yrz9zRKBj/G3g
+	AYqolzZLkMDLJ5rR84jejnC77ZD816pnJ8YyZtuCpQnAtlW2J+gjybOAjM4LQBeHaXf7
+	pJgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=RWYOWsOrlOdSwuuzSXCEp/onxa8x9C68sMRTN0zTses=;
-	b=nCpUgwYbnh4NGunUYlyXb6BQfFdL+4dgETX3v0J819vRSaacGgLSiQ2KO79Pg/fiEp
-	PHYx5A/QUtJOv+FLvt6g0rD2QuW73E0K5zZZZ+9X3N6xCcJtgcSfXaafuykpERTOzKQi
-	guVa6KzZqc8aUdx0qKATWRp9nF49aXVDFQeHyOofmD1GVyNM6ctBYQSa6RgzQcrBlWgx
-	RkffOf8pgHYbX1jH6Y4XCVxbZje22U2g2orhcuMiUIdUGgJA3LU27es5g4Vo9RHCc/vm
-	5XUJJOTFjTLWg2J/L8i+n5zfWqTcHXruVAXd1ndwDNrT2G0A/JPaKqGMlmVzI6OM/3m+
-	3Nkg==
-X-Gm-Message-State: APjAAAWeQdON/49c4OAj4hb+C85rdJRGdHQ8jGIcvMJFewJwgnC+wRrz
-	fsrbItB9jozejWvaPxlJ2fwMHtBbe0h8j3z59Is=
-X-Google-Smtp-Source: APXvYqxUSTE0qojR8wkDHnN6cmFd32m7jYvOJ8UDW36QUjUQe9pMMqHYg5UnMjVbPBIrxh/RgyVjKWf8eoK6s8G4wjY=
-X-Received: by 2002:a2e:9a4f:: with SMTP id k15mr32951788ljj.159.1558388853245;
-	Mon, 20 May 2019 14:47:33 -0700 (PDT)
+	:message-id:subject:to:cc:content-transfer-encoding;
+	bh=koufGJffk4TKMQ9ktHHDRxKPvbMzt7Wf2ZYKsbOYO7o=;
+	b=mCn6pBnQi7ss9lo1R1fcgsEUHZibWrjiCYEe+ign6T4CVLYJNYtGhR9TeT9Buk8qh+
+	q7oN8bX0e1NXS6TItsSc6LO1TVnZue8lSpvzZCX88jt0x+XHwSHJot8VxhVAmCXDfKLS
+	XZvGASJnkCodBkslGb4fqUnMY6Xbjkv0RDoxfOdIkpCg4jCTYli1/XnLXHzEdVtn4LM2
+	lcvkruiEwVSa7UhE88TU+kavK4Zx0nDlkjMt4VO5QPp5LBV6C1ZCCRnp7pTgNXkQJew4
+	iD9ugbR+XTT+mTWbE1d0ve9TiRJcuMbSFGJP9Hdsa2rv3KmCvPdcECsQ8fKw1s6HBRCX
+	8a2g==
+X-Gm-Message-State: APjAAAWynTPqFA7d48wfNzLNkDLj7Zw9YT9RhhrlbgErMPXTqX0nN1YK
+	Z8SHhhPId9tHYJaekuhPheygas310GiguUg2lAQO9CTs
+X-Google-Smtp-Source: APXvYqzi5KafbkHOuuyw1hxH6pj10HKQ6HSfktUMKSZH6XDdiQFvhdcLzZPqXIAnCk4hpYa911CtDb9V0Sr6EvOv/2E=
+X-Received: by 2002:a19:7516:: with SMTP id y22mr16900911lfe.26.1558388975142; 
+	Mon, 20 May 2019 14:49:35 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190518205428.90532-1-like.xu@linux.intel.com>
-	<20190518205428.90532-6-like.xu@linux.intel.com>
-In-Reply-To: <20190518205428.90532-6-like.xu@linux.intel.com>
+References: <20190520214342.13709-1-philmd@redhat.com>
+	<20190520214342.13709-2-philmd@redhat.com>
+In-Reply-To: <20190520214342.13709-2-philmd@redhat.com>
 From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 20 May 2019 14:45:18 -0700
-Message-ID: <CAKmqyKO93cWjh88sHMDmBHmOTrxB5Dwgz=goLOb2xoMLQ_GP8A@mail.gmail.com>
-To: Like Xu <like.xu@linux.intel.com>
+Date: Mon, 20 May 2019 14:47:20 -0700
+Message-ID: <CAKmqyKM2FYAsC6mDJWdOOOmHq3XL6+9MEnAWfCrNzK2s7AAUPQ@mail.gmail.com>
+To: =?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::241
-Subject: Re: [Qemu-devel] [PATCH v3 05/10] hw/riscv: Replace global smp
- variables with machine smp properties
+X-Received-From: 2a00:1450:4864:20::142
+Subject: Re: [Qemu-devel] [PATCH 1/4] hw/arm/exynos4: Remove unuseful debug
+ code
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -73,163 +75,71 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
-	Eduardo Habkost <ehabkost@redhat.com>,
-	QEMU Trivial <qemu-trivial@nongnu.org>,
+	Igor Mitsyanko <i.mitsyanko@gmail.com>,
+	Alistair Francis <alistair@alistair23.me>,
 	"qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
-	"Dr . David Alan Gilbert" <dgilbert@redhat.com>,
-	Igor Mammedov <imammedo@redhat.com>
+	qemu-arm <qemu-arm@nongnu.org>, Guenter Roeck <linux@roeck-us.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sun, May 19, 2019 at 5:56 AM Like Xu <like.xu@linux.intel.com> wrote:
+On Mon, May 20, 2019 at 2:45 PM Philippe Mathieu-Daud=C3=A9
+<philmd@redhat.com> wrote:
 >
-> The global smp variables in riscv are replaced with smp machine properties.
->
-> A local variable of the same name would be introduced in the declaration
-> phase if it's used widely in the context OR replace it on the spot if it's
-> only used once. No semantic changes.
->
-> Signed-off-by: Like Xu <like.xu@linux.intel.com>
+> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 
 Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
 
 Alistair
 
 > ---
->  hw/riscv/sifive_e.c    | 6 ++++--
->  hw/riscv/sifive_plic.c | 3 +++
->  hw/riscv/sifive_u.c    | 6 ++++--
->  hw/riscv/spike.c       | 2 ++
->  hw/riscv/virt.c        | 1 +
->  5 files changed, 14 insertions(+), 4 deletions(-)
+>  hw/arm/exynos4_boards.c | 24 ------------------------
+>  1 file changed, 24 deletions(-)
 >
-> diff --git a/hw/riscv/sifive_e.c b/hw/riscv/sifive_e.c
-> index b1cd11363c..ae86a63c04 100644
-> --- a/hw/riscv/sifive_e.c
-> +++ b/hw/riscv/sifive_e.c
-> @@ -137,6 +137,7 @@ static void riscv_sifive_e_init(MachineState *machine)
+> diff --git a/hw/arm/exynos4_boards.c b/hw/arm/exynos4_boards.c
+> index ea8100f65a8..f0c24b7992e 100644
+> --- a/hw/arm/exynos4_boards.c
+> +++ b/hw/arm/exynos4_boards.c
+> @@ -35,20 +35,6 @@
+>  #include "hw/net/lan9118.h"
+>  #include "hw/boards.h"
 >
->  static void riscv_sifive_e_soc_init(Object *obj)
->  {
-> +    MachineState *ms = MACHINE(qdev_get_machine());
->      SiFiveESoCState *s = RISCV_E_SOC(obj);
+> -#undef DEBUG
+> -
+> -//#define DEBUG
+> -
+> -#ifdef DEBUG
+> -    #undef PRINT_DEBUG
+> -    #define  PRINT_DEBUG(fmt, args...) \
+> -        do { \
+> -            fprintf(stderr, "  [%s:%d]   "fmt, __func__, __LINE__, ##arg=
+s); \
+> -        } while (0)
+> -#else
+> -    #define  PRINT_DEBUG(fmt, args...)  do {} while (0)
+> -#endif
+> -
+>  #define SMDK_LAN9118_BASE_ADDR      0x05000000
 >
->      object_initialize_child(obj, "cpus", &s->cpus,
-> @@ -144,12 +145,13 @@ static void riscv_sifive_e_soc_init(Object *obj)
->                              &error_abort, NULL);
->      object_property_set_str(OBJECT(&s->cpus), SIFIVE_E_CPU, "cpu-type",
->                              &error_abort);
-> -    object_property_set_int(OBJECT(&s->cpus), smp_cpus, "num-harts",
-> +    object_property_set_int(OBJECT(&s->cpus), ms->smp.cpus, "num-harts",
->                              &error_abort);
->  }
+>  typedef enum Exynos4BoardType {
+> @@ -140,16 +126,6 @@ exynos4_boards_init_common(MachineState *machine,
+>      exynos4_board_binfo.gic_cpu_if_addr =3D
+>              EXYNOS4210_SMP_PRIVATE_BASE_ADDR + 0x100;
 >
->  static void riscv_sifive_e_soc_realize(DeviceState *dev, Error **errp)
->  {
-> +    MachineState *ms = MACHINE(qdev_get_machine());
->      const struct MemmapEntry *memmap = sifive_e_memmap;
+> -    PRINT_DEBUG("\n ram_size: %luMiB [0x%08lx]\n"
+> -            " kernel_filename: %s\n"
+> -            " kernel_cmdline: %s\n"
+> -            " initrd_filename: %s\n",
+> -            exynos4_board_ram_size[board_type] / 1048576,
+> -            exynos4_board_ram_size[board_type],
+> -            machine->kernel_filename,
+> -            machine->kernel_cmdline,
+> -            machine->initrd_filename);
+> -
+>      exynos4_boards_init_ram(s, get_system_memory(),
+>                              exynos4_board_ram_size[board_type]);
 >
->      SiFiveESoCState *s = RISCV_E_SOC(dev);
-> @@ -179,7 +181,7 @@ static void riscv_sifive_e_soc_realize(DeviceState *dev, Error **errp)
->          SIFIVE_E_PLIC_CONTEXT_STRIDE,
->          memmap[SIFIVE_E_PLIC].size);
->      sifive_clint_create(memmap[SIFIVE_E_CLINT].base,
-> -        memmap[SIFIVE_E_CLINT].size, smp_cpus,
-> +        memmap[SIFIVE_E_CLINT].size, ms->smp.cpus,
->          SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE);
->      sifive_mmio_emulate(sys_mem, "riscv.sifive.e.aon",
->          memmap[SIFIVE_E_AON].base, memmap[SIFIVE_E_AON].size);
-> diff --git a/hw/riscv/sifive_plic.c b/hw/riscv/sifive_plic.c
-> index 07a032d93d..d4010a1f39 100644
-> --- a/hw/riscv/sifive_plic.c
-> +++ b/hw/riscv/sifive_plic.c
-> @@ -23,6 +23,7 @@
->  #include "qemu/error-report.h"
->  #include "hw/sysbus.h"
->  #include "hw/pci/msi.h"
-> +#include "hw/boards.h"
->  #include "target/riscv/cpu.h"
->  #include "sysemu/sysemu.h"
->  #include "hw/riscv/sifive_plic.h"
-> @@ -438,6 +439,8 @@ static void sifive_plic_irq_request(void *opaque, int irq, int level)
->
->  static void sifive_plic_realize(DeviceState *dev, Error **errp)
->  {
-> +    MachineState *ms = MACHINE(qdev_get_machine());
-> +    unsigned int smp_cpus = ms->smp.cpus;
->      SiFivePLICState *plic = SIFIVE_PLIC(dev);
->      int i;
->
-> diff --git a/hw/riscv/sifive_u.c b/hw/riscv/sifive_u.c
-> index 5ecc47cea3..43bf256946 100644
-> --- a/hw/riscv/sifive_u.c
-> +++ b/hw/riscv/sifive_u.c
-> @@ -321,13 +321,14 @@ static void riscv_sifive_u_init(MachineState *machine)
->
->  static void riscv_sifive_u_soc_init(Object *obj)
->  {
-> +    MachineState *ms = MACHINE(qdev_get_machine());
->      SiFiveUSoCState *s = RISCV_U_SOC(obj);
->
->      object_initialize_child(obj, "cpus", &s->cpus, sizeof(s->cpus),
->                              TYPE_RISCV_HART_ARRAY, &error_abort, NULL);
->      object_property_set_str(OBJECT(&s->cpus), SIFIVE_U_CPU, "cpu-type",
->                              &error_abort);
-> -    object_property_set_int(OBJECT(&s->cpus), smp_cpus, "num-harts",
-> +    object_property_set_int(OBJECT(&s->cpus), ms->smp.cpus, "num-harts",
->                              &error_abort);
->
->      sysbus_init_child_obj(obj, "gem", &s->gem, sizeof(s->gem),
-> @@ -336,6 +337,7 @@ static void riscv_sifive_u_soc_init(Object *obj)
->
->  static void riscv_sifive_u_soc_realize(DeviceState *dev, Error **errp)
->  {
-> +    MachineState *ms = MACHINE(qdev_get_machine());
->      SiFiveUSoCState *s = RISCV_U_SOC(dev);
->      const struct MemmapEntry *memmap = sifive_u_memmap;
->      MemoryRegion *system_memory = get_system_memory();
-> @@ -371,7 +373,7 @@ static void riscv_sifive_u_soc_realize(DeviceState *dev, Error **errp)
->      sifive_uart_create(system_memory, memmap[SIFIVE_U_UART1].base,
->          serial_hd(1), qdev_get_gpio_in(DEVICE(s->plic), SIFIVE_U_UART1_IRQ));
->      sifive_clint_create(memmap[SIFIVE_U_CLINT].base,
-> -        memmap[SIFIVE_U_CLINT].size, smp_cpus,
-> +        memmap[SIFIVE_U_CLINT].size, ms->smp.cpus,
->          SIFIVE_SIP_BASE, SIFIVE_TIMECMP_BASE, SIFIVE_TIME_BASE);
->
->      for (i = 0; i < SIFIVE_U_PLIC_NUM_SOURCES; i++) {
-> diff --git a/hw/riscv/spike.c b/hw/riscv/spike.c
-> index 2a000a5800..6a747ff22e 100644
-> --- a/hw/riscv/spike.c
-> +++ b/hw/riscv/spike.c
-> @@ -171,6 +171,7 @@ static void spike_v1_10_0_board_init(MachineState *machine)
->      MemoryRegion *main_mem = g_new(MemoryRegion, 1);
->      MemoryRegion *mask_rom = g_new(MemoryRegion, 1);
->      int i;
-> +    unsigned int smp_cpus = machine->smp.cpus;
->
->      /* Initialize SOC */
->      object_initialize_child(OBJECT(machine), "soc", &s->soc, sizeof(s->soc),
-> @@ -253,6 +254,7 @@ static void spike_v1_09_1_board_init(MachineState *machine)
->      MemoryRegion *main_mem = g_new(MemoryRegion, 1);
->      MemoryRegion *mask_rom = g_new(MemoryRegion, 1);
->      int i;
-> +    unsigned int smp_cpus = machine->smp.cpus;
->
->      /* Initialize SOC */
->      object_initialize_child(OBJECT(machine), "soc", &s->soc, sizeof(s->soc),
-> diff --git a/hw/riscv/virt.c b/hw/riscv/virt.c
-> index fc4c6b306e..b3f1962384 100644
-> --- a/hw/riscv/virt.c
-> +++ b/hw/riscv/virt.c
-> @@ -395,6 +395,7 @@ static void riscv_virt_board_init(MachineState *machine)
->      char *plic_hart_config;
->      size_t plic_hart_config_len;
->      int i;
-> +    unsigned int smp_cpus = machine->smp.cpus;
->      void *fdt;
->
->      /* Initialize SOC */
 > --
-> 2.21.0
+> 2.20.1
+>
 >
 
