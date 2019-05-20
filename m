@@ -2,60 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 422842420D
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 22:22:03 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:41406 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2F48323F51
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 19:45:11 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:39474 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSonJ-0004sK-Vi
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 16:22:02 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35797)
+	id 1hSmLW-0001OU-A6
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 13:45:10 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35392)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hSmIS-0007mw-Iw
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:42:01 -0400
+	(envelope-from <kenneth.heitke@intel.com>) id 1hSmGp-0006Dc-05
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:40:20 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hSmIK-0006D8-6N
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:41:55 -0400
-Received: from indium.canonical.com ([91.189.90.7]:44692)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hSmI9-0005TT-Ln
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:41:44 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
-	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hSmHD-0006b5-AK
-	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 17:40:43 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id 4AA8A2E8050
-	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 17:40:43 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 20 May 2019 17:33:58 -0000
-From: Cleber Rosa <cleber.gnu@gmail.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: cleber-gnu
-X-Launchpad-Bug-Reporter: Cleber Rosa (cleber-gnu)
-X-Launchpad-Bug-Modifier: Cleber Rosa (cleber-gnu)
-Message-Id: <155837363818.14706.8629235118425908874.malonedeb@gac.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18962";
-	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: bfa0ea0df6adc980f1bde945350f8536956687e7
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-X-Mailman-Approved-At: Mon, 20 May 2019 16:20:23 -0400
-Subject: [Qemu-devel] [Bug 1829779] [NEW] qemu-system-arm and
- qemu-system-aarch64 QMP hangs after kernel boots
+	(envelope-from <kenneth.heitke@intel.com>) id 1hSmGn-0005Dt-G7
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:40:18 -0400
+Received: from mga09.intel.com ([134.134.136.24]:64573)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <kenneth.heitke@intel.com>)
+	id 1hSmGj-00056V-Qg; Mon, 20 May 2019 13:40:14 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+	by orsmga102.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	20 May 2019 10:39:58 -0700
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.60,492,1549958400"; d="scan'208";a="173696777"
+Received: from kheitke-ubuntu.lm.intel.com ([10.232.116.89])
+	by fmsmga002.fm.intel.com with ESMTP; 20 May 2019 10:39:57 -0700
+From: Kenneth Heitke <kenneth.heitke@intel.com>
+To: kwolf@redhat.com, mreitz@redhat.com, keith.busch@intel.com,
+	qemu-block@nongnu.org, philmd@redhat.com, klaus@birkelund.eu
+Date: Mon, 20 May 2019 11:40:30 -0600
+Message-Id: <20190520174030.1647-1-kenneth.heitke@intel.com>
+X-Mailer: git-send-email 2.17.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 134.134.136.24
+Subject: [Qemu-devel] [PATCH v2] nvme: add Get/Set Feature Timestamp support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,121 +50,239 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1829779 <1829779@bugs.launchpad.net>
+Cc: Kenneth Heitke <kenneth.heitke@intel.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Public bug reported:
+Signed-off-by: Kenneth Heitke <kenneth.heitke@intel.com>
+---
+ hw/block/nvme.c       | 106 +++++++++++++++++++++++++++++++++++++++++-
+ hw/block/nvme.h       |   3 ++
+ hw/block/trace-events |   2 +
+ include/block/nvme.h  |   2 +
+ 4 files changed, 111 insertions(+), 2 deletions(-)
 
-After booting a Linux kernel on both arm and aarch64, the QMP sockets gets =
-unresponsive. Initially, this was thought to be limited to "quit" commands,=
- but it reproduced with others (such as in this
-reproducer).  This is a partial log output:
-    =
+diff --git a/hw/block/nvme.c b/hw/block/nvme.c
+index 7caf92532a..67372e0cd1 100644
+--- a/hw/block/nvme.c
++++ b/hw/block/nvme.c
+@@ -219,6 +219,30 @@ static uint16_t nvme_map_prp(QEMUSGList *qsg, QEMUIOVector *iov, uint64_t prp1,
+     return NVME_INVALID_FIELD | NVME_DNR;
+ }
+ 
++static uint16_t nvme_dma_write_prp(NvmeCtrl *n, uint8_t *ptr, uint32_t len,
++                                   uint64_t prp1, uint64_t prp2)
++{
++    QEMUSGList qsg;
++    QEMUIOVector iov;
++    uint16_t status = NVME_SUCCESS;
++
++    if (nvme_map_prp(&qsg, &iov, prp1, prp2, len, n)) {
++        return NVME_INVALID_FIELD | NVME_DNR;
++    }
++    if (qsg.nsg > 0) {
++        if (dma_buf_write(ptr, len, &qsg)) {
++            status = NVME_INVALID_FIELD | NVME_DNR;
++        }
++        qemu_sglist_destroy(&qsg);
++    } else {
++        if (qemu_iovec_to_buf(&iov, 0, ptr, len) != len) {
++            status = NVME_INVALID_FIELD | NVME_DNR;
++        }
++        qemu_iovec_destroy(&iov);
++    }
++    return status;
++}
++
+ static uint16_t nvme_dma_read_prp(NvmeCtrl *n, uint8_t *ptr, uint32_t len,
+     uint64_t prp1, uint64_t prp2)
+ {
+@@ -678,7 +702,6 @@ static uint16_t nvme_identify_nslist(NvmeCtrl *n, NvmeIdentify *c)
+     return ret;
+ }
+ 
+-
+ static uint16_t nvme_identify(NvmeCtrl *n, NvmeCmd *cmd)
+ {
+     NvmeIdentify *c = (NvmeIdentify *)cmd;
+@@ -696,6 +719,57 @@ static uint16_t nvme_identify(NvmeCtrl *n, NvmeCmd *cmd)
+     }
+ }
+ 
++static inline void nvme_set_timestamp(NvmeCtrl *n, uint64_t ts)
++{
++    trace_nvme_setfeat_timestamp(ts);
++
++    n->host_timestamp = le64_to_cpu(ts);
++    n->timestamp_set_qemu_clock_ms = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
++}
++
++static inline uint64_t nvme_get_timestamp(const NvmeCtrl *n)
++{
++    uint64_t current_time = qemu_clock_get_ms(QEMU_CLOCK_REALTIME);
++    uint64_t elapsed_time = current_time - n->timestamp_set_qemu_clock_ms;
++
++    union nvme_timestamp {
++        struct {
++            uint64_t timestamp:48;
++            uint64_t sync:1;
++            uint64_t origin:3;
++            uint64_t rsvd1:12;
++        };
++        uint64_t all;
++    };
++
++    union nvme_timestamp ts;
++    ts.all = 0;
++
++    /*
++     * If the sum of the Timestamp value set by the host and the elapsed
++     * time exceeds 2^48, the value returned should be reduced modulo 2^48.
++     */
++    ts.timestamp = (n->host_timestamp + elapsed_time) & 0xffffffffffff;
++
++    /* If the host timestamp is non-zero, set the timestamp origin */
++    ts.origin = n->host_timestamp ? 0x01 : 0x00;
++
++    trace_nvme_getfeat_timestamp(ts.all);
++
++    return cpu_to_le64(ts.all);
++}
++
++static uint16_t nvme_get_feature_timestamp(NvmeCtrl *n, NvmeCmd *cmd)
++{
++    uint64_t prp1 = le64_to_cpu(cmd->prp1);
++    uint64_t prp2 = le64_to_cpu(cmd->prp2);
++
++    uint64_t timestamp = nvme_get_timestamp(n);
++
++    return nvme_dma_read_prp(n, (uint8_t *)&timestamp,
++                                 sizeof(timestamp), prp1, prp2);
++}
++
+ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+ {
+     uint32_t dw10 = le32_to_cpu(cmd->cdw10);
+@@ -710,6 +784,9 @@ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+         result = cpu_to_le32((n->num_queues - 2) | ((n->num_queues - 2) << 16));
+         trace_nvme_getfeat_numq(result);
+         break;
++    case NVME_TIMESTAMP:
++        return nvme_get_feature_timestamp(n, cmd);
++        break;
+     default:
+         trace_nvme_err_invalid_getfeat(dw10);
+         return NVME_INVALID_FIELD | NVME_DNR;
+@@ -719,6 +796,24 @@ static uint16_t nvme_get_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+     return NVME_SUCCESS;
+ }
+ 
++static uint16_t nvme_set_feature_timestamp(NvmeCtrl *n, NvmeCmd *cmd)
++{
++    uint16_t ret;
++    uint64_t timestamp;
++    uint64_t prp1 = le64_to_cpu(cmd->prp1);
++    uint64_t prp2 = le64_to_cpu(cmd->prp2);
++
++    ret = nvme_dma_write_prp(n, (uint8_t *)&timestamp,
++                                sizeof(timestamp), prp1, prp2);
++    if (ret != NVME_SUCCESS) {
++        return ret;
++    }
++
++    nvme_set_timestamp(n, timestamp);
++
++    return NVME_SUCCESS;
++}
++
+ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+ {
+     uint32_t dw10 = le32_to_cpu(cmd->cdw10);
+@@ -735,6 +830,11 @@ static uint16_t nvme_set_feature(NvmeCtrl *n, NvmeCmd *cmd, NvmeRequest *req)
+         req->cqe.result =
+             cpu_to_le32((n->num_queues - 2) | ((n->num_queues - 2) << 16));
+         break;
++
++    case NVME_TIMESTAMP:
++        return nvme_set_feature_timestamp(n, cmd);
++        break;
++
+     default:
+         trace_nvme_err_invalid_setfeat(dw10);
+         return NVME_INVALID_FIELD | NVME_DNR;
+@@ -907,6 +1007,8 @@ static int nvme_start_ctrl(NvmeCtrl *n)
+     nvme_init_sq(&n->admin_sq, n, n->bar.asq, 0, 0,
+         NVME_AQA_ASQS(n->bar.aqa) + 1);
+ 
++    nvme_set_timestamp(n, 0ULL);
++
+     return 0;
+ }
+ 
+@@ -1270,7 +1372,7 @@ static void nvme_realize(PCIDevice *pci_dev, Error **errp)
+     id->sqes = (0x6 << 4) | 0x6;
+     id->cqes = (0x4 << 4) | 0x4;
+     id->nn = cpu_to_le32(n->num_namespaces);
+-    id->oncs = cpu_to_le16(NVME_ONCS_WRITE_ZEROS);
++    id->oncs = cpu_to_le16(NVME_ONCS_WRITE_ZEROS | NVME_ONCS_TIMESTAMP);
+     id->psd[0].mp = cpu_to_le16(0x9c4);
+     id->psd[0].enlat = cpu_to_le32(0x10);
+     id->psd[0].exlat = cpu_to_le32(0x4);
+diff --git a/hw/block/nvme.h b/hw/block/nvme.h
+index 56c9d4b4b1..d7277e72b7 100644
+--- a/hw/block/nvme.h
++++ b/hw/block/nvme.h
+@@ -69,6 +69,7 @@ typedef struct NvmeCtrl {
+     uint16_t    max_prp_ents;
+     uint16_t    cqe_size;
+     uint16_t    sqe_size;
++    uint16_t    oncs;
+     uint32_t    reg_size;
+     uint32_t    num_namespaces;
+     uint32_t    num_queues;
+@@ -79,6 +80,8 @@ typedef struct NvmeCtrl {
+     uint32_t    cmbloc;
+     uint8_t     *cmbuf;
+     uint64_t    irq_status;
++    uint64_t    host_timestamp;                 /* Timestamp sent by the host */
++    uint64_t    timestamp_set_qemu_clock_ms;    /* QEMU clock time */
+ 
+     char            *serial;
+     NvmeNamespace   *namespaces;
+diff --git a/hw/block/trace-events b/hw/block/trace-events
+index b92039a573..97a17838ed 100644
+--- a/hw/block/trace-events
++++ b/hw/block/trace-events
+@@ -46,6 +46,8 @@ nvme_identify_nslist(uint16_t ns) "identify namespace list, nsid=%"PRIu16""
+ nvme_getfeat_vwcache(const char* result) "get feature volatile write cache, result=%s"
+ nvme_getfeat_numq(int result) "get feature number of queues, result=%d"
+ nvme_setfeat_numq(int reqcq, int reqsq, int gotcq, int gotsq) "requested cq_count=%d sq_count=%d, responding with cq_count=%d sq_count=%d"
++nvme_setfeat_timestamp(uint64_t ts) "set feature timestamp = 0x%"PRIx64""
++nvme_getfeat_timestamp(uint64_t ts) "get feature timestamp = 0x%"PRIx64""
+ nvme_mmio_intm_set(uint64_t data, uint64_t new_mask) "wrote MMIO, interrupt mask set, data=0x%"PRIx64", new_mask=0x%"PRIx64""
+ nvme_mmio_intm_clr(uint64_t data, uint64_t new_mask) "wrote MMIO, interrupt mask clr, data=0x%"PRIx64", new_mask=0x%"PRIx64""
+ nvme_mmio_cfg(uint64_t data) "wrote MMIO, config controller config=0x%"PRIx64""
+diff --git a/include/block/nvme.h b/include/block/nvme.h
+index 849a6f3fa3..3ec8efcc43 100644
+--- a/include/block/nvme.h
++++ b/include/block/nvme.h
+@@ -581,6 +581,7 @@ enum NvmeIdCtrlOncs {
+     NVME_ONCS_WRITE_ZEROS   = 1 << 3,
+     NVME_ONCS_FEATURES      = 1 << 4,
+     NVME_ONCS_RESRVATIONS   = 1 << 5,
++    NVME_ONCS_TIMESTAMP     = 1 << 6,
+ };
+ 
+ #define NVME_CTRL_SQES_MIN(sqes) ((sqes) & 0xf)
+@@ -622,6 +623,7 @@ enum NvmeFeatureIds {
+     NVME_INTERRUPT_VECTOR_CONF      = 0x9,
+     NVME_WRITE_ATOMICITY            = 0xa,
+     NVME_ASYNCHRONOUS_EVENT_CONF    = 0xb,
++    NVME_TIMESTAMP                  = 0xe,
+     NVME_SOFTWARE_PROGRESS_MARKER   = 0x80
+ };
+ 
+-- 
+2.17.1
 
-   >>> {'execute': 'qmp_capabilities'}
-   <<< {'return': {}}
-   Booting Linux on physical CPU 0x0000000000 [0x410fd034]
-   Linux version 4.18.16-300.fc29.aarch64 (mockbuild@buildvm-aarch64-02.arm=
-.fedoraproject.org) (gcc version 8.2.1 20180801 (Red Hat 8.2.1-2) (GCC)) #1=
- SMP Sat Oct 20 23:12:22 UTC 2018
-   ...
-   Policy zone: DMA32
-   Kernel command line: printk.time=3D0 console=3DttyAMA0
-   >>> {'execute': 'stop'}
-   <<< {'timestamp': {'seconds': 1558370331, 'microseconds': 470173}, 'even=
-t': 'STOP'}
-   <<< {'return': {}}
-   >>> {'execute': 'cont'}
-   <<< {'timestamp': {'seconds': 1558370331, 'microseconds': 470849}, 'even=
-t': 'RESUME'}
-   <<< {'return': {}}
-   >>> {'execute': 'stop'}
-    =
-
-Sometimes it takes just the first "stop" command.  Overall, I was able to r=
-eproduce 100% of times when applied on top of 6d8e75d41c58892ccc5d4ad61c4da=
-476684c1c83.
-
-The reproducer test can be seen/fetched at:
- - https://github.com/clebergnu/qemu/commit/c778e28c24030c4a36548b714293b31=
-9f4bf18df
-
-And test results from Travis CI can be seen at:
- - https://travis-ci.org/clebergnu/qemu/jobs/534915669
-
-For convenience purposes, here's qemu-system-aarch64 launching and hanging =
-on the first "stop":
- - https://travis-ci.org/clebergnu/qemu/jobs/534915669#L3615
- - https://travis-ci.org/clebergnu/qemu/jobs/534915669#L3645
-
-And here's qemu-system-arm hanging the very same way:
- - https://travis-ci.org/clebergnu/qemu/jobs/534915669#L3780
- - https://travis-ci.org/clebergnu/qemu/jobs/534915669#L3800
-
-** Affects: qemu
-     Importance: Undecided
-         Status: New
-
--- =
-
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1829779
-
-Title:
-  qemu-system-arm and qemu-system-aarch64 QMP hangs after kernel boots
-
-Status in QEMU:
-  New
-
-Bug description:
-  After booting a Linux kernel on both arm and aarch64, the QMP sockets get=
-s unresponsive. Initially, this was thought to be limited to "quit" command=
-s, but it reproduced with others (such as in this
-  reproducer).  This is a partial log output:
-      =
-
-     >>> {'execute': 'qmp_capabilities'}
-     <<< {'return': {}}
-     Booting Linux on physical CPU 0x0000000000 [0x410fd034]
-     Linux version 4.18.16-300.fc29.aarch64 (mockbuild@buildvm-aarch64-02.a=
-rm.fedoraproject.org) (gcc version 8.2.1 20180801 (Red Hat 8.2.1-2) (GCC)) =
-#1 SMP Sat Oct 20 23:12:22 UTC 2018
-     ...
-     Policy zone: DMA32
-     Kernel command line: printk.time=3D0 console=3DttyAMA0
-     >>> {'execute': 'stop'}
-     <<< {'timestamp': {'seconds': 1558370331, 'microseconds': 470173}, 'ev=
-ent': 'STOP'}
-     <<< {'return': {}}
-     >>> {'execute': 'cont'}
-     <<< {'timestamp': {'seconds': 1558370331, 'microseconds': 470849}, 'ev=
-ent': 'RESUME'}
-     <<< {'return': {}}
-     >>> {'execute': 'stop'}
-      =
-
-  Sometimes it takes just the first "stop" command.  Overall, I was able to=
- reproduce 100% of times when applied on top of 6d8e75d41c58892ccc5d4ad61c4=
-da476684c1c83.
-
-  The reproducer test can be seen/fetched at:
-   - https://github.com/clebergnu/qemu/commit/c778e28c24030c4a36548b714293b=
-319f4bf18df
-
-  And test results from Travis CI can be seen at:
-   - https://travis-ci.org/clebergnu/qemu/jobs/534915669
-
-  For convenience purposes, here's qemu-system-aarch64 launching and hangin=
-g on the first "stop":
-   - https://travis-ci.org/clebergnu/qemu/jobs/534915669#L3615
-   - https://travis-ci.org/clebergnu/qemu/jobs/534915669#L3645
-
-  And here's qemu-system-arm hanging the very same way:
-   - https://travis-ci.org/clebergnu/qemu/jobs/534915669#L3780
-   - https://travis-ci.org/clebergnu/qemu/jobs/534915669#L3800
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1829779/+subscriptions
 
