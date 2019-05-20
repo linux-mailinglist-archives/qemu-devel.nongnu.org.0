@@ -2,54 +2,86 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 278C3241E1
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 22:14:21 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:41289 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A96224234
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 22:46:25 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:41679 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSofr-00004r-Vq
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 16:14:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41206)
+	id 1hSpAt-0004F5-VJ
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 16:46:23 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:46499)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.williamson@redhat.com>) id 1hSoek-0008BM-Ob
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 16:13:11 -0400
+	(envelope-from <maxiwell@linux.ibm.com>) id 1hSp9B-0003Rl-57
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 16:44:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.williamson@redhat.com>) id 1hSoei-0001ic-Mx
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 16:13:10 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52092)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
-	id 1hSoeg-0001ex-Pl; Mon, 20 May 2019 16:13:08 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 4CFBB8830F;
-	Mon, 20 May 2019 20:13:01 +0000 (UTC)
-Received: from x1.home (ovpn-117-92.phx2.redhat.com [10.3.117.92])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id A837518793;
-	Mon, 20 May 2019 20:12:54 +0000 (UTC)
-Date: Mon, 20 May 2019 14:12:54 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Li Qiang <liq3ea@gmail.com>
-Message-ID: <20190520141254.1c97a9aa@x1.home>
-In-Reply-To: <CAKXe6SLsoyCh=O1yyOFOukYdFoeySpSS1H8QG7fhp1ZQ35vD+g@mail.gmail.com>
-References: <20190518032811.60341-1-liq3ea@163.com>
-	<20190518032811.60341-2-liq3ea@163.com>
-	<20190518082020.6b223ab0@x1.home>
-	<CAKXe6SLsoyCh=O1yyOFOukYdFoeySpSS1H8QG7fhp1ZQ35vD+g@mail.gmail.com>
-Organization: Red Hat
+	(envelope-from <maxiwell@linux.ibm.com>) id 1hSp99-0006Lu-WA
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 16:44:37 -0400
+Received: from mx0a-001b2d01.pphosted.com ([148.163.156.1]:45356)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <maxiwell@linux.ibm.com>)
+	id 1hSp99-0006G8-Kk
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 16:44:35 -0400
+Received: from pps.filterd (m0098396.ppops.net [127.0.0.1])
+	by mx0a-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
+	x4KKb4ZJ093506
+	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 16:44:31 -0400
+Received: from e14.ny.us.ibm.com (e14.ny.us.ibm.com [129.33.205.204])
+	by mx0a-001b2d01.pphosted.com with ESMTP id 2sm0p7x87c-1
+	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 16:44:31 -0400
+Received: from localhost
+	by e14.ny.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
+	Violators will be prosecuted
+	for <qemu-devel@nongnu.org> from <maxiwell@linux.ibm.com>;
+	Mon, 20 May 2019 21:44:30 +0100
+Received: from b01cxnp22035.gho.pok.ibm.com (9.57.198.25)
+	by e14.ny.us.ibm.com (146.89.104.201) with IBM ESMTP SMTP Gateway:
+	Authorized Use Only! Violators will be prosecuted; 
+	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
+	Mon, 20 May 2019 21:44:28 +0100
+Received: from b01ledav005.gho.pok.ibm.com (b01ledav005.gho.pok.ibm.com
+	[9.57.199.110])
+	by b01cxnp22035.gho.pok.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id
+	x4KKiRwj37814502
+	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
+	verify=OK); Mon, 20 May 2019 20:44:27 GMT
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id 6BB06AE064;
+	Mon, 20 May 2019 20:44:27 +0000 (GMT)
+Received: from b01ledav005.gho.pok.ibm.com (unknown [127.0.0.1])
+	by IMSVA (Postfix) with ESMTP id E1657AE05F;
+	Mon, 20 May 2019 20:44:25 +0000 (GMT)
+Received: from maxibm.ibmuc.com (unknown [9.85.147.231])
+	by b01ledav005.gho.pok.ibm.com (Postfix) with ESMTP;
+	Mon, 20 May 2019 20:44:25 +0000 (GMT)
+From: "Maxiwell S. Garcia" <maxiwell@linux.ibm.com>
+To: qemu-devel@nongnu.org
+Date: Mon, 20 May 2019 17:43:39 -0300
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.28]);
-	Mon, 20 May 2019 20:13:04 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 2/4] hw: vfio: drop TYPE_FOO MACRO in
- VMStateDescription
+Content-Transfer-Encoding: 8bit
+X-TM-AS-GCONF: 00
+x-cbid: 19052020-0052-0000-0000-000003C3BBB5
+X-IBM-SpamModules-Scores: 
+X-IBM-SpamModules-Versions: BY=3.00011132; HX=3.00000242; KW=3.00000007;
+	PH=3.00000004; SC=3.00000286; SDB=6.01206188; UDB=6.00633353;
+	IPR=6.00987147; 
+	MB=3.00026975; MTD=3.00000008; XFM=3.00000015; UTC=2019-05-20 20:44:29
+X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
+x-cbparentid: 19052020-0053-0000-0000-000060FA118A
+Message-Id: <20190520204340.832-1-maxiwell@linux.ibm.com>
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
+	definitions=2019-05-20_08:, , signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+	priorityscore=1501
+	malwarescore=0 suspectscore=1 phishscore=0 bulkscore=0 spamscore=0
+	clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
+	mlxlogscore=574 adultscore=0 classifier=spam adjust=0 reason=mlx
+	scancount=1 engine=8.0.1-1810050000 definitions=main-1905200129
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
+X-Received-From: 148.163.156.1
+Subject: [Qemu-devel] [PATCH 0/1] spapr: Do not re-read the clock on
+ pre_save handler on migration
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,125 +93,34 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, qemu-trivial@nongnu.org, Li Qiang <liq3ea@163.com>,
-	Qemu Developers <qemu-devel@nongnu.org>,
-	Philippe =?UTF-8?B?TWF0?= =?UTF-8?B?aGlldS1EYXVkw6k=?= <philmd@redhat.com>
+Cc: qemu-ppc@nongnu.org, "Maxiwell S. Garcia" <maxiwell@linux.ibm.com>,
+	david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 20 May 2019 09:29:21 +0800
-Li Qiang <liq3ea@gmail.com> wrote:
+I suggest to remove the pre_save handler that saves the timebase before
+migrate. The commit that added this was ported from x86:
+  6053a86fe7bd: kvmclock: reduce kvmclock difference on migration
 
-> Alex Williamson <alex.williamson@redhat.com> =E4=BA=8E2019=E5=B9=B45=E6=
-=9C=8818=E6=97=A5=E5=91=A8=E5=85=AD =E4=B8=8B=E5=8D=8810:20=E5=86=99=E9=81=
-=93=EF=BC=9A
->=20
-> > On Fri, 17 May 2019 20:28:09 -0700
-> > Li Qiang <liq3ea@163.com> wrote:
-> > =20
-> > > As the vmstate structure names aren't related with
-> > > the QOM type names. =20
-> >
-> > Seems contrary to the first patch in the series.
-> >
-> > =20
-> No, once there is a discussion of this:
-> -->https://lists.gnu.org/archive/html/qemu-devel/2018-10/msg02175.html =20
+The review [1] had a discussion about it. The author says that a VM
+already paused 10 minutes ago should re-read the clock just before
+migrate. But a reviewer question was not answered:
 
-Ok, then rather than the commit log above, it would be more useful (at
-least to me) to state:
+"Is it really valid to make the clock move on an already-paused
+VM, only because it was migrated?"
 
-  It's recommended that VMStateDescription names are decoupled from QOM
-  type names as the latter may freely change without consideration of
-  migration compatibility.
+This clock move makes the guest know about the pause between the stop
+and migrate commands. Many side effects could happen after migration.
 
-  Link: https://lists.gnu.org/archive/html/qemu-devel/2018-10/msg02175.html
+[1] http://lists.nongnu.org/archive/html/qemu-devel/2016-12/msg00610.html
 
-Otherwise this appears as a rather arbitrary change.  Thanks,
+Maxiwell S. Garcia (1):
+  spapr: Do not re-read the clock on pre_save handler on migration
 
-Alex
+ hw/ppc/ppc.c | 24 ------------------------
+ 1 file changed, 24 deletions(-)
 
-> > > CC: qemu-trivial@nongnu.org
-> > > Signed-off-by: Li Qiang <liq3ea@163.com>
-> > > ---
-> > >  hw/vfio/amd-xgbe.c      | 2 +-
-> > >  hw/vfio/ap.c            | 2 +-
-> > >  hw/vfio/calxeda-xgmac.c | 2 +-
-> > >  hw/vfio/ccw.c           | 2 +-
-> > >  hw/vfio/platform.c      | 2 +-
-> > >  5 files changed, 5 insertions(+), 5 deletions(-)
-> > >
-> > > diff --git a/hw/vfio/amd-xgbe.c b/hw/vfio/amd-xgbe.c
-> > > index ee64a3b4a2..1b06c0f3ea 100644
-> > > --- a/hw/vfio/amd-xgbe.c
-> > > +++ b/hw/vfio/amd-xgbe.c
-> > > @@ -26,7 +26,7 @@ static void amd_xgbe_realize(DeviceState *dev, Erro=
-r =20
-> > **errp) =20
-> > >  }
-> > >
-> > >  static const VMStateDescription vfio_platform_amd_xgbe_vmstate =3D {
-> > > -    .name =3D TYPE_VFIO_AMD_XGBE,
-> > > +    .name =3D "vfio-amd-xgbe",
-> > >      .unmigratable =3D 1,
-> > >  };
-> > >
-> > > diff --git a/hw/vfio/ap.c b/hw/vfio/ap.c
-> > > index d8b79ebe53..564751650f 100644
-> > > --- a/hw/vfio/ap.c
-> > > +++ b/hw/vfio/ap.c
-> > > @@ -155,7 +155,7 @@ static void vfio_ap_reset(DeviceState *dev)
-> > >  }
-> > >
-> > >  static const VMStateDescription vfio_ap_vmstate =3D {
-> > > -    .name =3D VFIO_AP_DEVICE_TYPE,
-> > > +    .name =3D "vfio-ap",
-> > >      .unmigratable =3D 1,
-> > >  };
-> > >
-> > > diff --git a/hw/vfio/calxeda-xgmac.c b/hw/vfio/calxeda-xgmac.c
-> > > index e7767c4b02..6cc608b6ca 100644
-> > > --- a/hw/vfio/calxeda-xgmac.c
-> > > +++ b/hw/vfio/calxeda-xgmac.c
-> > > @@ -26,7 +26,7 @@ static void calxeda_xgmac_realize(DeviceState *dev,=
- =20
-> > Error **errp) =20
-> > >  }
-> > >
-> > >  static const VMStateDescription vfio_platform_calxeda_xgmac_vmstate =
-=3D {
-> > > -    .name =3D TYPE_VFIO_CALXEDA_XGMAC,
-> > > +    .name =3D "vfio-calxeda-xgmac",
-> > >      .unmigratable =3D 1,
-> > >  };
-> > >
-> > > diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
-> > > index 31dd3a2a87..d9e39552e2 100644
-> > > --- a/hw/vfio/ccw.c
-> > > +++ b/hw/vfio/ccw.c
-> > > @@ -468,7 +468,7 @@ static Property vfio_ccw_properties[] =3D {
-> > >  };
-> > >
-> > >  static const VMStateDescription vfio_ccw_vmstate =3D {
-> > > -    .name =3D TYPE_VFIO_CCW,
-> > > +    .name =3D "vfio-ccw",
-> > >      .unmigratable =3D 1,
-> > >  };
-> > >
-> > > diff --git a/hw/vfio/platform.c b/hw/vfio/platform.c
-> > > index 398db38f14..e59a0234dd 100644
-> > > --- a/hw/vfio/platform.c
-> > > +++ b/hw/vfio/platform.c
-> > > @@ -697,7 +697,7 @@ out:
-> > >  }
-> > >
-> > >  static const VMStateDescription vfio_platform_vmstate =3D {
-> > > -    .name =3D TYPE_VFIO_PLATFORM,
-> > > +    .name =3D "vfio-platform",
-> > >      .unmigratable =3D 1,
-> > >  };
-> > > =20
-> >
-> > =20
+-- 
+2.20.1
 
 
