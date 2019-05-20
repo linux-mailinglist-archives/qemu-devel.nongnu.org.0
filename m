@@ -2,51 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4EC4C23F89
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 19:54:44 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:39653 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 422842420D
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 22:22:03 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:41406 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSmUl-0000gs-EY
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 13:54:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33551)
+	id 1hSonJ-0004sK-Vi
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 16:22:02 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35797)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <klaus@birkelund.eu>) id 1hSmAS-0000sX-TO
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:33:46 -0400
+	(envelope-from <bounces@canonical.com>) id 1hSmIS-0007mw-Iw
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:42:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <klaus@birkelund.eu>) id 1hSmAR-0001nD-2Y
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:33:44 -0400
-Received: from charlie.dont.surf ([128.199.63.193]:50142)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <klaus@birkelund.eu>)
-	id 1hSmAN-0001jH-9m; Mon, 20 May 2019 13:33:39 -0400
-Received: from apples.localdomain (ip-5-186-120-196.cgn.fibianet.dk
-	[5.186.120.196])
-	by charlie.dont.surf (Postfix) with ESMTPSA id EB9F2BF42F;
-	Mon, 20 May 2019 17:33:35 +0000 (UTC)
-Date: Mon, 20 May 2019 19:33:31 +0200
-From: Klaus Birkelund <klaus@birkelund.eu>
-To: Eric Blake <eblake@redhat.com>
-Message-ID: <20190520173331.GA18987@apples.localdomain>
-Mail-Followup-To: Eric Blake <eblake@redhat.com>, qemu-block@nongnu.org,
-	Keith Busch <keith.busch@intel.com>, Kevin Wolf <kwolf@redhat.com>,
-	qemu-devel@nongnu.org, Max Reitz <mreitz@redhat.com>
-References: <20190517084234.26923-1-klaus@birkelund.eu>
-	<20190517084234.26923-9-klaus@birkelund.eu>
-	<f94686a4-b402-36c6-8070-185c0416b303@redhat.com>
+	(envelope-from <bounces@canonical.com>) id 1hSmIK-0006D8-6N
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:41:55 -0400
+Received: from indium.canonical.com ([91.189.90.7]:44692)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hSmI9-0005TT-Ln
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:41:44 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hSmHD-0006b5-AK
+	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 17:40:43 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id 4AA8A2E8050
+	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 17:40:43 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-In-Reply-To: <f94686a4-b402-36c6-8070-185c0416b303@redhat.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
+Date: Mon, 20 May 2019 17:33:58 -0000
+From: Cleber Rosa <cleber.gnu@gmail.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: cleber-gnu
+X-Launchpad-Bug-Reporter: Cleber Rosa (cleber-gnu)
+X-Launchpad-Bug-Modifier: Cleber Rosa (cleber-gnu)
+Message-Id: <155837363818.14706.8629235118425908874.malonedeb@gac.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18962";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: bfa0ea0df6adc980f1bde945350f8536956687e7
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 128.199.63.193
-Subject: Re: [Qemu-devel] [PATCH 8/8] nvme: add an OpenChannel 2.0 NVMe
- device (ocssd)
+X-Received-From: 91.189.90.7
+X-Mailman-Approved-At: Mon, 20 May 2019 16:20:23 -0400
+Subject: [Qemu-devel] [Bug 1829779] [NEW] qemu-system-arm and
+ qemu-system-aarch64 QMP hangs after kernel boots
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -55,90 +64,121 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Keith Busch <keith.busch@intel.com>, Kevin Wolf <kwolf@redhat.com>,
-	qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Reply-To: Bug 1829779 <1829779@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 20, 2019 at 11:45:00AM -0500, Eric Blake wrote:
-> On 5/17/19 3:42 AM, Klaus Birkelund Jensen wrote:
-> > This adds a new 'ocssd' block device that emulates an OpenChannel 2.0
-> > device. The device is backed by a new 'ocssd' block backend that is
-> > based on the raw format driver but includes a header that holds the
-> > device geometry and write data requirements. This new block backend i=
-s
-> > special in that the size is not specified explicitly but in terms of
-> > sector size, number of chunks, number of parallel units, etc. This
-> > called for the addition of the `no_size_required` field in `struct
-> > BlockDriver` to not fail image creation when the size parameter is
-> > missing.
-> >=20
-> > The ocssd device is an individual device but shares a lot of code wit=
-h
-> > the nvme device. Thus, some core functionality of nvme/nvme.c has bee=
-n
-> > exported for use by nvme/ocssd.c.
-> >=20
-> > Thank you to the following people for their contributions to the
-> > original qemu-nvme (github.com/OpenChannelSSD/qemu-nvme) implementati=
-on.
-> >=20
-> >   Matias Bj=F8rling <mb@lightnvm.io>
-> >   Javier Gonz=E1lez <javier@javigon.com>
-> >   Simon Andreas Frimann Lund <ocssd@safl.dk>
-> >   Hans Holmberg <hans@owltronix.com>
-> >   Jesper Devantier <contact@pseudonymous.me>
-> >   Young Tack Jin <youngtack.jin@circuitblvd.com>
-> >=20
-> > Signed-off-by: Klaus Birkelund Jensen <klaus.jensen@cnexlabs.com>
-> > ---
-> >  MAINTAINERS                     |   14 +-
-> >  Makefile.objs                   |    1 +
-> >  block.c                         |    2 +-
-> >  block/Makefile.objs             |    2 +-
-> >  block/nvme.c                    |    2 +-
-> >  block/ocssd.c                   |  690 ++++++++
-> >  hw/block/Makefile.objs          |    2 +-
-> >  hw/block/{ =3D> nvme}/nvme.c      |  192 ++-
-> >  hw/block/nvme/ocssd.c           | 2647 +++++++++++++++++++++++++++++=
-++
-> >  hw/block/nvme/ocssd.h           |  140 ++
-> >  hw/block/nvme/trace-events      |  136 ++
-> >  hw/block/trace-events           |  109 --
-> >  include/block/block_int.h       |    3 +
-> >  include/block/nvme.h            |   12 +-
-> >  include/block/ocssd.h           |  231 +++
-> >  {hw =3D> include/hw}/block/nvme.h |   61 +
-> >  include/hw/pci/pci_ids.h        |    2 +
-> >  qapi/block-core.json            |   47 +-
-> >  18 files changed, 4121 insertions(+), 172 deletions(-)
-> >  create mode 100644 block/ocssd.c
-> >  rename hw/block/{ =3D> nvme}/nvme.c (94%)
-> >  create mode 100644 hw/block/nvme/ocssd.c
-> >  create mode 100644 hw/block/nvme/ocssd.h
-> >  create mode 100644 hw/block/nvme/trace-events
-> >  create mode 100644 include/block/ocssd.h
-> >  rename {hw =3D> include/hw}/block/nvme.h (63%)
->=20
-> Feels big; are you sure this can't be split into smaller pieces to ease
-> review?
->=20
+Public bug reported:
 
-I know, but I'm not sure how to meaningfully split it up. Would you
-prefer that I move files in one commit? Changed stuff to nvme.{c,h} is
-mostly removing static from functions and creating a prototype in the
-header files to allow the ocssd device to use the functions. The commit
-should be restricted to just adding the ocssd device. Any features and
-additions required in the nvme device are added in previous commits.
+After booting a Linux kernel on both arm and aarch64, the QMP sockets gets =
+unresponsive. Initially, this was thought to be limited to "quit" commands,=
+ but it reproduced with others (such as in this
+reproducer).  This is a partial log output:
+    =
 
-> I'm focusing just on the qapi portions:
->=20
+   >>> {'execute': 'qmp_capabilities'}
+   <<< {'return': {}}
+   Booting Linux on physical CPU 0x0000000000 [0x410fd034]
+   Linux version 4.18.16-300.fc29.aarch64 (mockbuild@buildvm-aarch64-02.arm=
+.fedoraproject.org) (gcc version 8.2.1 20180801 (Red Hat 8.2.1-2) (GCC)) #1=
+ SMP Sat Oct 20 23:12:22 UTC 2018
+   ...
+   Policy zone: DMA32
+   Kernel command line: printk.time=3D0 console=3DttyAMA0
+   >>> {'execute': 'stop'}
+   <<< {'timestamp': {'seconds': 1558370331, 'microseconds': 470173}, 'even=
+t': 'STOP'}
+   <<< {'return': {}}
+   >>> {'execute': 'cont'}
+   <<< {'timestamp': {'seconds': 1558370331, 'microseconds': 470849}, 'even=
+t': 'RESUME'}
+   <<< {'return': {}}
+   >>> {'execute': 'stop'}
+    =
 
-Thank you for the review of that, but it looks like this will all be
-dropped from a v2 (see mail from Kevin), because it's simply bad
-design to have the driver and device depend so closely on each other.
+Sometimes it takes just the first "stop" command.  Overall, I was able to r=
+eproduce 100% of times when applied on top of 6d8e75d41c58892ccc5d4ad61c4da=
+476684c1c83.
 
+The reproducer test can be seen/fetched at:
+ - https://github.com/clebergnu/qemu/commit/c778e28c24030c4a36548b714293b31=
+9f4bf18df
 
-Thanks,
-Klaus
+And test results from Travis CI can be seen at:
+ - https://travis-ci.org/clebergnu/qemu/jobs/534915669
+
+For convenience purposes, here's qemu-system-aarch64 launching and hanging =
+on the first "stop":
+ - https://travis-ci.org/clebergnu/qemu/jobs/534915669#L3615
+ - https://travis-ci.org/clebergnu/qemu/jobs/534915669#L3645
+
+And here's qemu-system-arm hanging the very same way:
+ - https://travis-ci.org/clebergnu/qemu/jobs/534915669#L3780
+ - https://travis-ci.org/clebergnu/qemu/jobs/534915669#L3800
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1829779
+
+Title:
+  qemu-system-arm and qemu-system-aarch64 QMP hangs after kernel boots
+
+Status in QEMU:
+  New
+
+Bug description:
+  After booting a Linux kernel on both arm and aarch64, the QMP sockets get=
+s unresponsive. Initially, this was thought to be limited to "quit" command=
+s, but it reproduced with others (such as in this
+  reproducer).  This is a partial log output:
+      =
+
+     >>> {'execute': 'qmp_capabilities'}
+     <<< {'return': {}}
+     Booting Linux on physical CPU 0x0000000000 [0x410fd034]
+     Linux version 4.18.16-300.fc29.aarch64 (mockbuild@buildvm-aarch64-02.a=
+rm.fedoraproject.org) (gcc version 8.2.1 20180801 (Red Hat 8.2.1-2) (GCC)) =
+#1 SMP Sat Oct 20 23:12:22 UTC 2018
+     ...
+     Policy zone: DMA32
+     Kernel command line: printk.time=3D0 console=3DttyAMA0
+     >>> {'execute': 'stop'}
+     <<< {'timestamp': {'seconds': 1558370331, 'microseconds': 470173}, 'ev=
+ent': 'STOP'}
+     <<< {'return': {}}
+     >>> {'execute': 'cont'}
+     <<< {'timestamp': {'seconds': 1558370331, 'microseconds': 470849}, 'ev=
+ent': 'RESUME'}
+     <<< {'return': {}}
+     >>> {'execute': 'stop'}
+      =
+
+  Sometimes it takes just the first "stop" command.  Overall, I was able to=
+ reproduce 100% of times when applied on top of 6d8e75d41c58892ccc5d4ad61c4=
+da476684c1c83.
+
+  The reproducer test can be seen/fetched at:
+   - https://github.com/clebergnu/qemu/commit/c778e28c24030c4a36548b714293b=
+319f4bf18df
+
+  And test results from Travis CI can be seen at:
+   - https://travis-ci.org/clebergnu/qemu/jobs/534915669
+
+  For convenience purposes, here's qemu-system-aarch64 launching and hangin=
+g on the first "stop":
+   - https://travis-ci.org/clebergnu/qemu/jobs/534915669#L3615
+   - https://travis-ci.org/clebergnu/qemu/jobs/534915669#L3645
+
+  And here's qemu-system-arm hanging the very same way:
+   - https://travis-ci.org/clebergnu/qemu/jobs/534915669#L3780
+   - https://travis-ci.org/clebergnu/qemu/jobs/534915669#L3800
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1829779/+subscriptions
 
