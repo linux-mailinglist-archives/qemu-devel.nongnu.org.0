@@ -2,65 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 852CF2445F
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 01:31:00 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43593 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9268724434
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 01:21:25 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43471 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSrkB-0006mQ-JB
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 19:30:59 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44976)
+	id 1hSrau-0006if-Mm
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 19:21:24 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44991)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hSrQm-0007FF-LV
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:10:57 -0400
+	(envelope-from <mst@redhat.com>) id 1hSrQo-0007K4-NK
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:10:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hSrQl-00084g-O0
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:10:56 -0400
-Received: from mail-qt1-f196.google.com ([209.85.160.196]:43580)
+	(envelope-from <mst@redhat.com>) id 1hSrQn-00085c-OA
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:10:58 -0400
+Received: from mail-qk1-f178.google.com ([209.85.222.178]:33197)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hSrQl-00084K-Jv
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:10:55 -0400
-Received: by mail-qt1-f196.google.com with SMTP id i26so18313607qtr.10
-	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 16:10:55 -0700 (PDT)
+	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hSrQn-00085R-JJ
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:10:57 -0400
+Received: by mail-qk1-f178.google.com with SMTP id p18so9359458qkk.0
+	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 16:10:57 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:content-transfer-encoding
-	:in-reply-to;
-	bh=K1SuAxXuNDDL/u5ZoPcF8ZaVNsHULTvHgBcd3QhfKbY=;
-	b=daS2+DHXLfPAslyrhINXL1s78O+dMAnN95Y15gZPlbsClfmfZc6wjrbtl1MC3c1GBE
-	IEigMnuN6qQYAd0VgXdoRLSWLiQd/95ssxy1U0LhCvRc9I/IxYHZ5HysjL9dlrPjxN2c
-	D69Pjft2xLvk97oDssMWEf3qcmQGHlPHjxZ4mpy/cZuNCiIQRaO962ZBS3Cm00CSj0yk
-	o36QBeVrSX2OJiOeQR4+r1cm8frVjrI5R/5T1Sbt9T1TQvVrzmmXpyQccWH127BX0FVW
-	+W7DMFOlMLH9txnTk1DZvd1vhKP8sNFouXV0zCNKYiStcV6KfDGs4CkGTOiMKVcrkkJF
-	HzfQ==
-X-Gm-Message-State: APjAAAW5Eb4j7Vw8+oUFicUeLAJvgA3C1I8pZdFszyCRdhOBWEKnS1Ak
-	jO3q9YBsC6QzJ3suIusuatakQt0EVhk=
-X-Google-Smtp-Source: APXvYqztn4DxiLeJXBBy+IA1jUsnK2CWqK98GXY4vqH6F30HOZyqdseqrrTRexDbU605lpYIqDeskQ==
-X-Received: by 2002:ac8:325c:: with SMTP id y28mr66065041qta.48.1558393854754; 
-	Mon, 20 May 2019 16:10:54 -0700 (PDT)
+	:mime-version:content-disposition:in-reply-to;
+	bh=2QXNj4ZMCJMqbS2LmAum6BddnPhA/twbQo4ma++/UJM=;
+	b=cQqUQtTwPK43ofwLIcfT7jFrRCR98obNZPkUZfx2PwTMYyMZhOU8VjpMtQ6v/TIIHy
+	fJgm1ZvzVaMjbSu8nySi53Ye5eGtayKqoz5ulS8EpV5Y7kGN+q1DmEDqnkXLoiPFErO6
+	EhPofi+o2PjWiHBDs150WCYP7bGSP7pg8THZojg3edA75fRxsvGhOBV9aGoxqOcVTMD6
+	hl66jNsnqsjGZwxdcNQapM1jG6zojIf7m7ZTVwu55/2QTljknnAltkJnkPFsitYBaIXQ
+	hlO5ZrkaJVpr7IhKNq4BM7KsPFgLUSmqKDvwoMZV1b5qiQHOReJNGHG0bCBQGW32LABX
+	PZug==
+X-Gm-Message-State: APjAAAXqyGV9iwObZ6N4mgrImjh+i9B0TKyTk2dB1Z31tdBl/rl5FMnx
+	BEoK/U2DjH6INNiDAGO3Z8jWC5YUwVI=
+X-Google-Smtp-Source: APXvYqzDiL3nA/jyXzzgv0m8emfEkiCTck6jRRacfw7TnwEL9PUbG1nRi+jfdCYj5KMJm0OV4YvGFA==
+X-Received: by 2002:a37:4b48:: with SMTP id y69mr55789543qka.77.1558393856889; 
+	Mon, 20 May 2019 16:10:56 -0700 (PDT)
 Received: from redhat.com (pool-173-76-105-71.bstnma.fios.verizon.net.
-	[173.76.105.71])
-	by smtp.gmail.com with ESMTPSA id o6sm8847509qtc.47.2019.05.20.16.10.53
+	[173.76.105.71]) by smtp.gmail.com with ESMTPSA id
+	e20sm8723144qkm.42.2019.05.20.16.10.55
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Mon, 20 May 2019 16:10:54 -0700 (PDT)
-Date: Mon, 20 May 2019 19:10:52 -0400
+	Mon, 20 May 2019 16:10:56 -0700 (PDT)
+Date: Mon, 20 May 2019 19:10:54 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Message-ID: <20190402161900.7374-4-armbru@redhat.com>
+Message-ID: <1554822037-329838-1-git-send-email-imammedo@redhat.com>
 References: <20190520231008.20140-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 In-Reply-To: <20190520231008.20140-1-mst@redhat.com>
 X-Mailer: git-send-email 2.17.1.1206.gb667731e2e.dirty
 X-Mutt-Fcc: =sent
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.160.196
-Subject: [Qemu-devel] [PULL v2 13/36] acpi/pcihp: Add a few more trace
- points related to unplug
+X-Received-From: 209.85.222.178
+Subject: [Qemu-devel] [PULL v2 14/36] q35: acpi: do not create dummy MCFG
+ table
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -73,71 +71,80 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Peter Maydell <peter.maydell@linaro.org>,
-	Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
-	Markus Armbruster <armbru@redhat.com>, Igor Mammedov <imammedo@redhat.com>
+	Eduardo Habkost <ehabkost@redhat.com>,
+	Wei Yang <richardw.yang@linux.intel.com>,
+	Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+	Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Markus Armbruster <armbru@redhat.com>
+From: Igor Mammedov <imammedo@redhat.com>
 
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Message-Id: <20190402161900.7374-4-armbru@redhat.com>
+Dummy table (with signature "QEMU") creation came from original SeaBIOS
+codebase. And QEMU would have to keep it around if there were Q35 machine
+that depended on keeping ACPI tables blob constant size. Luckily there
+were no versioned Q35 machine types before commit:
+  (since 2.3) a1666142db acpi-build: make ROMs RAM blocks resizeable
+which obsoleted need to keep ACPI tables blob the same size on source/destination.
+
+Considering the 1st versioned machine is pc-q35-2.4, the dummy table
+is not really necessary and it's safe to drop it without breaking
+cross version migration in both directions unconditionally.
+
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Message-Id: <1554822037-329838-1-git-send-email-imammedo@redhat.com>
+Reviewed-by: Wei Yang <richardw.yang@linux.intel.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-Reviewed-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- hw/acpi/pcihp.c      | 7 +++++++
- hw/acpi/trace-events | 3 +++
- 2 files changed, 10 insertions(+)
+ hw/i386/acpi-build.c | 18 ++++--------------
+ 1 file changed, 4 insertions(+), 14 deletions(-)
 
-diff --git a/hw/acpi/pcihp.c b/hw/acpi/pcihp.c
-index 7729c5338b..613406d09b 100644
---- a/hw/acpi/pcihp.c
-+++ b/hw/acpi/pcihp.c
-@@ -152,6 +152,8 @@ static void acpi_pcihp_eject_slot(AcpiPciHpState *s, unsigned bsel, unsigned slo
-     int slot = ctz32(slots);
-     PCIBus *bus = acpi_pcihp_find_hotplug_bus(s, bsel);
- 
-+    trace_acpi_pci_eject_slot(bsel, slot);
-+
-     if (!bus) {
-         return;
-     }
-@@ -263,6 +265,8 @@ void acpi_pcihp_device_plug_cb(HotplugHandler *hotplug_dev, AcpiPciHpState *s,
- void acpi_pcihp_device_unplug_cb(HotplugHandler *hotplug_dev, AcpiPciHpState *s,
-                                  DeviceState *dev, Error **errp)
+diff --git a/hw/i386/acpi-build.c b/hw/i386/acpi-build.c
+index b4ec14e349..4fb6184cbc 100644
+--- a/hw/i386/acpi-build.c
++++ b/hw/i386/acpi-build.c
+@@ -2413,7 +2413,6 @@ static void
+ build_mcfg_q35(GArray *table_data, BIOSLinker *linker, AcpiMcfgInfo *info)
  {
-+    trace_acpi_pci_unplug(PCI_SLOT(PCI_DEVICE(dev)->devfn),
-+                          acpi_pcihp_get_bsel(pci_get_bus(PCI_DEVICE(dev))));
-     object_property_set_bool(OBJECT(dev), false, "realized", NULL);
+     AcpiTableMcfg *mcfg;
+-    const char *sig;
+     int len = sizeof(*mcfg) + 1 * sizeof(mcfg->allocation[0]);
+ 
+     mcfg = acpi_data_push(table_data, len);
+@@ -2423,19 +2422,7 @@ build_mcfg_q35(GArray *table_data, BIOSLinker *linker, AcpiMcfgInfo *info)
+     mcfg->allocation[0].start_bus_number = 0;
+     mcfg->allocation[0].end_bus_number = PCIE_MMCFG_BUS(info->mcfg_size - 1);
+ 
+-    /* MCFG is used for ECAM which can be enabled or disabled by guest.
+-     * To avoid table size changes (which create migration issues),
+-     * always create the table even if there are no allocations,
+-     * but set the signature to a reserved value in this case.
+-     * ACPI spec requires OSPMs to ignore such tables.
+-     */
+-    if (info->mcfg_base == PCIE_BASE_ADDR_UNMAPPED) {
+-        /* Reserved signature: ignored by OSPM */
+-        sig = "QEMU";
+-    } else {
+-        sig = "MCFG";
+-    }
+-    build_header(linker, table_data, (void *)mcfg, sig, len, 1, NULL, NULL);
++    build_header(linker, table_data, (void *)mcfg, "MCFG", len, 1, NULL, NULL);
  }
  
-@@ -273,6 +277,9 @@ void acpi_pcihp_device_unplug_request_cb(HotplugHandler *hotplug_dev,
-     PCIDevice *pdev = PCI_DEVICE(dev);
-     int slot = PCI_SLOT(pdev->devfn);
-     int bsel = acpi_pcihp_get_bsel(pci_get_bus(pdev));
-+
-+    trace_acpi_pci_unplug_request(bsel, slot);
-+
-     if (bsel < 0) {
-         error_setg(errp, "Unsupported bus. Bus doesn't have property '"
-                    ACPI_PCIHP_PROP_BSEL "' set");
-diff --git a/hw/acpi/trace-events b/hw/acpi/trace-events
-index 98a56baa6f..96b8273297 100644
---- a/hw/acpi/trace-events
-+++ b/hw/acpi/trace-events
-@@ -32,6 +32,9 @@ cpuhp_acpi_write_ost_ev(uint32_t slot, uint32_t ev) "idx[0x%"PRIx32"] OST EVENT:
- cpuhp_acpi_write_ost_status(uint32_t slot, uint32_t st) "idx[0x%"PRIx32"] OST STATUS: 0x%"PRIx32
+ /*
+@@ -2604,6 +2591,9 @@ static bool acpi_get_mcfg(AcpiMcfgInfo *mcfg)
+     }
+     mcfg->mcfg_base = qnum_get_uint(qobject_to(QNum, o));
+     qobject_unref(o);
++    if (mcfg->mcfg_base == PCIE_BASE_ADDR_UNMAPPED) {
++        return false;
++    }
  
- # pcihp.c
-+acpi_pci_eject_slot(unsigned bsel, unsigned slot) "bsel: %u slot: %u"
-+acpi_pci_unplug(int bsel, int slot) "bsel: %d slot: %d"
-+acpi_pci_unplug_request(int bsel, int slot) "bsel: %d slot: %d"
- acpi_pci_up_read(uint32_t val) "%" PRIu32
- acpi_pci_down_read(uint32_t val) "%" PRIu32
- acpi_pci_features_read(uint32_t val) "%" PRIu32
+     o = object_property_get_qobject(pci_host, PCIE_HOST_MCFG_SIZE, NULL);
+     assert(o);
 -- 
 MST
 
