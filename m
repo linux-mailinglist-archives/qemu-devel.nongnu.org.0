@@ -2,66 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 88791236B9
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 15:09:19 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:35451 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 08DB8236BC
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 15:11:23 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:35532 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSi2Y-0001DZ-LQ
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 09:09:18 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46743)
+	id 1hSi4Y-0002gT-5g
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 09:11:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47273)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <pbonzini@redhat.com>) id 1hShtV-0003p7-Sv
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 08:59:58 -0400
+	(envelope-from <kwolf@redhat.com>) id 1hShvA-0005Fc-Bn
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 09:01:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <pbonzini@redhat.com>) id 1hShtU-0003oR-7y
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 08:59:57 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:46330)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hShtU-0003o1-0Y
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 08:59:56 -0400
-Received: by mail-wr1-f66.google.com with SMTP id r7so14453403wrr.13
-	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 05:59:55 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=pkO4PC33MqiVXyJNRdC0g8/J88V1RdotEhUb7HdmXrk=;
-	b=ZFcZ+L1PXX7GXxSjZO5BEM0S3DNdv9bJCx2KviNyEUBIvunB0AcOMvvfh6E3UwJm8J
-	KxOSjERj1aikwdM3fWwObzuSMSn9SSXnIwhdeoSLIJGVo1BqjAYDvX0aXyKuisFdG0JR
-	xsYq5/AokurjByA4W63ddrS5nFV87X/1qqsNvjdeSOqW0l9txXwGTHHeNYPTWOEa1bMG
-	7Dc4Qg7PmpwK/H9zOvGu6WshnpAH9Kp+459i0RzTcJib/VhvovI7YeKEV0tmGwlmJ9qp
-	CkhV6WcoXcdSuTuhxazD16QhzlyjRKF5lF3ZSx+WMY00SBLzHuWFz4TL9Vuv7EoxoRB1
-	KTPg==
-X-Gm-Message-State: APjAAAWzO8n4LaKAb0lyfyt2zaSGiVJ245FI+cag+R0RUOs+iK0rMCFl
-	6KkODA4SNQmqs6CWrMxAHLogGg==
-X-Google-Smtp-Source: APXvYqx5nismn0kDLWt2YpHHxnaA9nYk5Ow40f7u7NI9GV0L3vExEj8zGSyA+39NXUav1iOvK0tOrQ==
-X-Received: by 2002:a5d:4089:: with SMTP id o9mr2703376wrp.6.1558357194916;
-	Mon, 20 May 2019 05:59:54 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:ac04:eef9:b257:b844?
-	([2001:b07:6468:f312:ac04:eef9:b257:b844])
-	by smtp.gmail.com with ESMTPSA id y8sm13850354wmi.8.2019.05.20.05.59.54
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 20 May 2019 05:59:54 -0700 (PDT)
-To: Wanpeng Li <kernellwp@gmail.com>, qemu-devel@nongnu.org,
-	kvm@vger.kernel.org
-References: <1557813999-9175-1-git-send-email-wanpengli@tencent.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <dcbf44c3-2fb9-02c0-79cc-c8a30373d35a@redhat.com>
-Date: Mon, 20 May 2019 14:59:53 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <kwolf@redhat.com>) id 1hShv5-0004eK-8q
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 09:01:40 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54042)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <kwolf@redhat.com>)
+	id 1hShuy-0004aU-MA; Mon, 20 May 2019 09:01:28 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id E1FF4308220B;
+	Mon, 20 May 2019 13:01:27 +0000 (UTC)
+Received: from localhost.localdomain (ovpn-117-208.ams2.redhat.com
+	[10.36.117.208])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 739415D6A6;
+	Mon, 20 May 2019 13:01:26 +0000 (UTC)
+Date: Mon, 20 May 2019 15:01:24 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Klaus Birkelund Jensen <klaus@birkelund.eu>
+Message-ID: <20190520130124.GE5699@localhost.localdomain>
+References: <20190517084234.26923-1-klaus@birkelund.eu>
 MIME-Version: 1.0
-In-Reply-To: <1557813999-9175-1-git-send-email-wanpengli@tencent.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190517084234.26923-1-klaus@birkelund.eu>
+User-Agent: Mutt/1.11.3 (2019-02-01)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.47]);
+	Mon, 20 May 2019 13:01:27 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.221.66
-Subject: Re: [Qemu-devel] [PATCH] i386: Enable IA32_MISC_ENABLE MWAIT bit
- when exposing mwait/monitor
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 0/8] nvme: v1.3, sgls,
+ metadata and new 'ocssd' device
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -73,58 +59,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
-	=?UTF-8?B?UmFkaW0gS3LEjW3DocWZ?= <rkrcmar@redhat.com>
+Cc: Keith Busch <keith.busch@intel.com>, armbru@redhat.com,
+	qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 14/05/19 08:06, Wanpeng Li wrote:
-> From: Wanpeng Li <wanpengli@tencent.com>
+Am 17.05.2019 um 10:42 hat Klaus Birkelund Jensen geschrieben:
+> Hi,
 > 
-> The CPUID.01H:ECX[bit 3] ought to mirror the value of the MSR 
-> IA32_MISC_ENABLE MWAIT bit and as userspace has control of them 
-> both, it is userspace's job to configure both bits to match on 
-> the initial setup.
-
-Queued, thanks.
-
-Paolo
-
-> Cc: Eduardo Habkost <ehabkost@redhat.com>
-> Cc: Paolo Bonzini <pbonzini@redhat.com>
-> Cc: Radim Krčmář <rkrcmar@redhat.com>
-> Signed-off-by: Wanpeng Li <wanpengli@tencent.com>
-> ---
->  target/i386/cpu.c | 3 +++
->  target/i386/cpu.h | 1 +
->  2 files changed, 4 insertions(+)
+> This series of patches contains a number of refactorings to the emulated
+> nvme device, adds additional features, such as support for metadata and
+> scatter gather lists, and bumps the supported NVMe version to 1.3.
+> Lastly, it contains a new 'ocssd' device.
 > 
-> diff --git a/target/i386/cpu.c b/target/i386/cpu.c
-> index 722c551..40b6108 100644
-> --- a/target/i386/cpu.c
-> +++ b/target/i386/cpu.c
-> @@ -4729,6 +4729,9 @@ static void x86_cpu_reset(CPUState *s)
->  
->      env->pat = 0x0007040600070406ULL;
->      env->msr_ia32_misc_enable = MSR_IA32_MISC_ENABLE_DEFAULT;
-> +    if (enable_cpu_pm) {
-> +        env->msr_ia32_misc_enable |= MSR_IA32_MISC_ENABLE_MWAIT;
-> +    }
->  
->      memset(env->dr, 0, sizeof(env->dr));
->      env->dr[6] = DR6_FIXED_1;
-> diff --git a/target/i386/cpu.h b/target/i386/cpu.h
-> index 0128910..b94c329 100644
-> --- a/target/i386/cpu.h
-> +++ b/target/i386/cpu.h
-> @@ -387,6 +387,7 @@ typedef enum X86Seg {
->  #define MSR_IA32_MISC_ENABLE            0x1a0
->  /* Indicates good rep/movs microcode on some processors: */
->  #define MSR_IA32_MISC_ENABLE_DEFAULT    1
-> +#define MSR_IA32_MISC_ENABLE_MWAIT      (1ULL << 18)
->  
->  #define MSR_MTRRphysBase(reg)           (0x200 + 2 * (reg))
->  #define MSR_MTRRphysMask(reg)           (0x200 + 2 * (reg) + 1)
+> The motivation for the first seven patches is to set everything up for
+> the final patch that adds a new 'ocssd' device and associated block
+> driver that implements the OpenChannel 2.0 specification[1]. Many of us
+> in the OpenChannel comunity have used a qemu fork[2] for emulation of
+> OpenChannel devices. The fork is itself based on Keith's qemu-nvme
+> tree[3] and we recently merged mainline qemu into it, but the result is
+> still a "hybrid" nvme device that supports both conventional nvme and
+> the OCSSD 2.0 spec through a 'dialect' mechanism. Merging instead of
+> rebasing also created a pretty messy commit history and my efforts to
+> try and rebase our work onto mainline was getting hairy to say the
+> least. And I was never really happy with the dialect approach anyway.
 > 
+> I have instead prepared this series of fresh patches that incrementally
+> adds additional features to the nvme device to bring it into shape for
+> finally introducing a new (and separate) 'ocssd' device that emulates an
+> OpenChannel 2.0 device by reusing core functionality from the nvme
+> device. Providing a separate ocssd device ensures that no ocssd specific
+> stuff creeps into the nvme device.
+> 
+> The ocssd device is backed by a new 'ocssd' block driver that holds
+> internal meta data and keeps state permanent across power cycles. In the
+> future I think we could use the same approach for the nvme device to
+> keep internal metadata such as utilization and deallocated blocks.
 
+A backend driver that is specific for a guest device model (i.e. the
+device model requires this driver, and the backend is useless without
+the device) sounds like a very questionable design.
+
+Metadata like OcssdFormatHeader that is considered part of the image
+data, which means that the _actual_ image content without metadata isn't
+directly accessible any more feels like a bad idea, too. Simple things
+like what a resize operation means (change only the actual disk size as
+usual, or is the new size disk + metadata?) become confusing. Attaching
+an image to a different device becomes impossible.
+
+The block format driver doesn't seem to actually add much functionality
+to a specially crafted raw image: It provides a convenient way to create
+such special images and it dumps some values in 'qemu-img info', but the
+actual interpretation of the data is left to the device model.
+
+Looking at the options it does provide, my impression is that these
+should really be qdev properties, and the place to store them
+persistently is something like the libvirt XML. The device doesn't
+change any of the values, so there is nothing that QEMU actually needs
+to store. What you invented is a one-off way to pass a config file to a
+device, but only for one specific device type.
+
+I think this needs to use a much more standard approach to be mergable.
+
+Markus (CCed) as the maintainer for the configuration mechanisms may
+have an opinion on this, too.
+
+> For now, the nvme device does not support the Deallocated and
+> Unwritten Logical Block Error (DULBE) feature or the Data Set
+> Management command as this would require such support.
+
+Doesn't bdrv_co_block_status() provide all the information you need for
+that?
+
+Kevin
 
