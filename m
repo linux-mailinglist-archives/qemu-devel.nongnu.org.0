@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7194322A47
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 05:13:42 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57020 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 25F2D22A49
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 05:14:00 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57025 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSYk9-0005Pt-H7
-	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 23:13:41 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49129)
+	id 1hSYkR-0005be-8s
+	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 23:13:59 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49140)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peterx@redhat.com>) id 1hSYfb-0001sb-RZ
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 23:09:00 -0400
+	(envelope-from <peterx@redhat.com>) id 1hSYfe-0001us-Bb
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 23:09:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peterx@redhat.com>) id 1hSYfa-0001Xu-Sx
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 23:08:59 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60248)
+	(envelope-from <peterx@redhat.com>) id 1hSYfd-0001YS-FF
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 23:09:02 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40396)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <peterx@redhat.com>) id 1hSYfa-0001XJ-Nu
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 23:08:58 -0400
+	(Exim 4.71) (envelope-from <peterx@redhat.com>) id 1hSYfd-0001YI-AQ
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 23:09:01 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
 	[10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 18556308620E
-	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 03:08:58 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id AA801C04D318
+	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 03:09:00 +0000 (UTC)
 Received: from xz-x1.nay.redhat.com (dhcp-15-205.nay.redhat.com [10.66.15.205])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id F3CB710027B7;
-	Mon, 20 May 2019 03:08:55 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 90A38100200A;
+	Mon, 20 May 2019 03:08:58 +0000 (UTC)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 20 May 2019 11:08:28 +0800
-Message-Id: <20190520030839.6795-5-peterx@redhat.com>
+Date: Mon, 20 May 2019 11:08:29 +0800
+Message-Id: <20190520030839.6795-6-peterx@redhat.com>
 In-Reply-To: <20190520030839.6795-1-peterx@redhat.com>
 References: <20190520030839.6795-1-peterx@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.42]);
-	Mon, 20 May 2019 03:08:58 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.31]);
+	Mon, 20 May 2019 03:09:00 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 04/15] memory: Remove
- memory_region_get_dirty()
+Subject: [Qemu-devel] [PATCH v2 05/15] memory: Don't set migration bitmap
+ when without migration
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -60,62 +60,75 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-It's never used anywhere.
+Similar to 9460dee4b2 ("memory: do not touch code dirty bitmap unless
+TCG is enabled", 2015-06-05) but for the migration bitmap - we can
+skip the MIGRATION bitmap update if migration not enabled.
 
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- include/exec/memory.h | 17 -----------------
- memory.c              |  8 --------
- 2 files changed, 25 deletions(-)
+ include/exec/memory.h   |  2 ++
+ include/exec/ram_addr.h | 12 +++++++++++-
+ memory.c                |  2 +-
+ 3 files changed, 14 insertions(+), 2 deletions(-)
 
 diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 9144a47f57..e6140e8a04 100644
+index e6140e8a04..f29300c54d 100644
 --- a/include/exec/memory.h
 +++ b/include/exec/memory.h
-@@ -1254,23 +1254,6 @@ void memory_region_ram_resize(MemoryRegion *mr, ram_addr_t newsize,
-  */
- void memory_region_set_log(MemoryRegion *mr, bool log, unsigned client);
+@@ -46,6 +46,8 @@
+         OBJECT_GET_CLASS(IOMMUMemoryRegionClass, (obj), \
+                          TYPE_IOMMU_MEMORY_REGION)
  
--/**
-- * memory_region_get_dirty: Check whether a range of bytes is dirty
-- *                          for a specified client.
-- *
-- * Checks whether a range of bytes has been written to since the last
-- * call to memory_region_reset_dirty() with the same @client.  Dirty logging
-- * must be enabled.
-- *
-- * @mr: the memory region being queried.
-- * @addr: the address (relative to the start of the region) being queried.
-- * @size: the size of the range being queried.
-- * @client: the user of the logging information; %DIRTY_MEMORY_MIGRATION or
-- *          %DIRTY_MEMORY_VGA.
-- */
--bool memory_region_get_dirty(MemoryRegion *mr, hwaddr addr,
--                             hwaddr size, unsigned client);
--
- /**
-  * memory_region_set_dirty: Mark a range of bytes as dirty in a memory region.
-  *
++extern bool global_dirty_log;
++
+ typedef struct MemoryRegionOps MemoryRegionOps;
+ typedef struct MemoryRegionMmio MemoryRegionMmio;
+ 
+diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
+index 993fb760f3..86bc8e1a4a 100644
+--- a/include/exec/ram_addr.h
++++ b/include/exec/ram_addr.h
+@@ -348,8 +348,13 @@ static inline void cpu_physical_memory_set_dirty_lebitmap(unsigned long *bitmap,
+             if (bitmap[k]) {
+                 unsigned long temp = leul_to_cpu(bitmap[k]);
+ 
+-                atomic_or(&blocks[DIRTY_MEMORY_MIGRATION][idx][offset], temp);
+                 atomic_or(&blocks[DIRTY_MEMORY_VGA][idx][offset], temp);
++
++                if (global_dirty_log) {
++                    atomic_or(&blocks[DIRTY_MEMORY_MIGRATION][idx][offset],
++                              temp);
++                }
++
+                 if (tcg_enabled()) {
+                     atomic_or(&blocks[DIRTY_MEMORY_CODE][idx][offset], temp);
+                 }
+@@ -366,6 +371,11 @@ static inline void cpu_physical_memory_set_dirty_lebitmap(unsigned long *bitmap,
+         xen_hvm_modified_memory(start, pages << TARGET_PAGE_BITS);
+     } else {
+         uint8_t clients = tcg_enabled() ? DIRTY_CLIENTS_ALL : DIRTY_CLIENTS_NOCODE;
++
++        if (!global_dirty_log) {
++            clients &= ~(1 << DIRTY_MEMORY_MIGRATION);
++        }
++
+         /*
+          * bitmap-traveling is faster than memory-traveling (for addr...)
+          * especially when most of the memory is not dirty.
 diff --git a/memory.c b/memory.c
-index 3071c4bdad..0920c105aa 100644
+index 0920c105aa..cff0ea8f40 100644
 --- a/memory.c
 +++ b/memory.c
-@@ -2027,14 +2027,6 @@ void memory_region_set_log(MemoryRegion *mr, bool log, unsigned client)
-     memory_region_transaction_commit();
- }
+@@ -38,7 +38,7 @@
+ static unsigned memory_region_transaction_depth;
+ static bool memory_region_update_pending;
+ static bool ioeventfd_update_pending;
+-static bool global_dirty_log = false;
++bool global_dirty_log;
  
--bool memory_region_get_dirty(MemoryRegion *mr, hwaddr addr,
--                             hwaddr size, unsigned client)
--{
--    assert(mr->ram_block);
--    return cpu_physical_memory_get_dirty(memory_region_get_ram_addr(mr) + addr,
--                                         size, client);
--}
--
- void memory_region_set_dirty(MemoryRegion *mr, hwaddr addr,
-                              hwaddr size)
- {
+ static QTAILQ_HEAD(, MemoryListener) memory_listeners
+     = QTAILQ_HEAD_INITIALIZER(memory_listeners);
 -- 
 2.17.1
 
