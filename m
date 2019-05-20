@@ -2,59 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7C77424360
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 00:11:54 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:42750 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A06A24356
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 00:08:30 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:42689 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSqVd-0005IG-MS
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 18:11:53 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35367)
+	id 1hSqSL-00037p-Na
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 18:08:29 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34424)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hSqUd-0004vG-9C
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 18:10:52 -0400
+	(envelope-from <philippe.mathieu.daude@gmail.com>)
+	id 1hSqQa-00024i-49
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 18:06:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hSqUZ-0001pW-KN
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 18:10:50 -0400
-Received: from indium.canonical.com ([91.189.90.7]:54062)
+	(envelope-from <philippe.mathieu.daude@gmail.com>)
+	id 1hSqQZ-0007wH-6h
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 18:06:40 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:53754)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hSqUX-0001mV-Ee
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 18:10:47 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
-	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hSqUR-0004WS-Qr
-	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 22:10:39 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id C7DD42E80C8
-	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 22:10:39 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Mon, 20 May 2019 22:01:30 -0000
-From: John Snow <1829498@bugs.launchpad.net>
+	(Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
+	id 1hSqQY-0007vA-Uv; Mon, 20 May 2019 18:06:39 -0400
+Received: by mail-wm1-x344.google.com with SMTP id 198so850380wme.3;
+	Mon, 20 May 2019 15:06:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=sender:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=KlpNHL/v/anaIc9onQH5hEjQJXL2cVxWwbCFEtiFDL4=;
+	b=EvL+4maH6NdCRhulb/0UYtPdOYZZDaZfxAX2LslCQXT+V4ofkomGfZLd5AEEQnjpYD
+	DEqp9hjJDSIFRtxGQbatIHi2BNpy86Fm/8W0FXxG/+gfMsTVPufWiu57w+mqJxZldSI+
+	fbcEu+Ika0w8wDEmLey4bGh1C7vCMtP16Dy5hgviqJ/Y6P1iFf5MvyQGIgYPczwi3AYC
+	wFHemrv4g9VZCrlYZU2BWwfvVnL6WwYDZNnzMzM+TBmB6pc3Qpee/5QAhFN7obXpCYFi
+	T50kdg/lPFvxO/Piw6cUSj5LLwPrpQxutTo/aJZ+5jLS408ueJjrjLxvlr5g6ux5ZqPw
+	YVLw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding;
+	bh=KlpNHL/v/anaIc9onQH5hEjQJXL2cVxWwbCFEtiFDL4=;
+	b=oev1PHXhnhjqRDSLOrh+pYIeeEcL6ASrRfeZTBtzwnCnTTqWgz/JD0bjlCPR2MyvjZ
+	mgDE2PGaGpSNZckR+EldIyr71Zq/fesCeSZ8gSGmpJXC1LeEgwplp/mh8LFNBKW0TJ8a
+	5nyDRbenwSNoZDagxIjYmubOfDWRw9xz0/AY1N1esijmgn9Dx+iLrnqf2qlrysRQKRQ/
+	olZZMaIzfNipd0QN5+Hc0OqXeDcaZ+qS5tzQy7cj6gS6RvQJjB9DUtLJx+HEHNXo+oKQ
+	ifUSNjrOaY2MFZuu7vTwWTau7AGqTpyBVCCCl/3d8ZLenPK9mMVDMjpmdRMEB9xmEl2U
+	VGWg==
+X-Gm-Message-State: APjAAAXB+S/9W0Z3Ru+ahxLRwcCirYbgUqpcMNConZdFChDvkROsZzu5
+	3vETU/i3d8QGjGadT780xohmz0nwRds=
+X-Google-Smtp-Source: APXvYqykrTAg3nxqmTY5YPctg2QIDAA/FezuZEcO4hVFDAB4sgi9RdDpCOvPkoL+bKi7NHhjmxeNzw==
+X-Received: by 2002:a1c:9a83:: with SMTP id c125mr807121wme.39.1558389996959; 
+	Mon, 20 May 2019 15:06:36 -0700 (PDT)
+Received: from x1.local (228.red-83-52-173.dynamicip.rima-tde.net.
+	[83.52.173.228]) by smtp.gmail.com with ESMTPSA id
+	y40sm35462259wrd.96.2019.05.20.15.06.35
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 20 May 2019 15:06:36 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: ffhguy jnsnow
-X-Launchpad-Bug-Reporter: arseniy (ffhguy)
-X-Launchpad-Bug-Modifier: John Snow (jnsnow)
-References: <155808951981.15307.7632909900341712173.malonedeb@gac.canonical.com>
-Message-Id: <155838969102.21598.4137357331096999605.malone@chaenomeles.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18962";
-	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 5a000e27a3dcd762578b007bf7ec56a13f077b29
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1829498] Re: window 8 stuck during boot on Qemu
+Date: Tue, 21 May 2019 00:06:33 +0200
+Message-Id: <20190520220635.10961-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.19.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2a00:1450:4864:20::344
+Subject: [Qemu-devel] [PATCH 0/2] tests: Avocado-test for the SmartFusion2
+ board
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -63,58 +79,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1829498 <1829498@bugs.launchpad.net>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+	Eduardo Habkost <ehabkost@redhat.com>,
+	Alistair Francis <alistair@alistair23.me>,
+	Caio Carrara <ccarrara@redhat.com>,
+	Subbaraya Sundeep <sundeep.lkml@gmail.com>, qemu-arm@nongnu.org,
+	Cleber Rosa <crosa@redhat.com>,
+	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-What host kernel are you using? This sounds like a bug we used to have
-in KVM a while ago. Maybe it's back.
+Hi,
 
-The same problem was also alleviated by a guest driver update, are you
-using the initial release of Windows 8?
+I added test guide lines from Subbaraya Sundeep [*] to avoid this
+board to bitrot.
 
--- =
+Regards,
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1829498
+Phil.
 
-Title:
-  window 8 stuck during boot on Qemu
+[*] https://lists.gnu.org/archive/html/qemu-devel/2017-05/msg03810.html
 
-Status in QEMU:
-  New
+Philippe Mathieu-Daudé (2):
+  BootLinuxConsoleTest: Do not log empty lines
+  BootLinuxConsoleTest: Test the SmartFusion2 board
 
-Bug description:
-  Description of problem:
-  I've got windows 8 image(64 bit), installed on Qemu(x86-64_softmmu) and t=
-hen i'm trying to boot/shutdown it in the same Qemu configuration. Windows =
-8 has feature - when you click "Shutdown" in UI, windows 8 doesn't actually=
- power off, it goes to "Suspend to disc" ACPI state. After shutdown, i'm tr=
-ying to boot it again, but it stucks during boot.
+ tests/acceptance/boot_linux_console.py | 33 ++++++++++++++++++++++++--
+ 1 file changed, 31 insertions(+), 2 deletions(-)
 
-  I've discovered, that it hangs when windows 8 writes to AHCI's command re=
-gister, AHCI triggers irq, but windows 8 sends EOI, don't accessing AHCI re=
-gister,so irq line stills in high state, and irq will be injected again and=
- again, while windows will send EOI on each AHCI interrupt. Strange thing i=
-s that it happens only on TCG mode or =
+-- 
+2.19.1
 
-  with option "kernel-irqchip=3Doff/split", with "kernel-irqchip=3Don" ever=
-ything works ok(windows 8 accesses AHCI register and line goes to low state=
-).
-
-  Version-Release number of selected component (if applicable):
-  Qemu revision: d8276573da58e8ce78dab8c46dd660efd664bcb7
-
-  =
-
-  Steps to Reproduce:
-  1. Install Windows 8 on QEMU(qemu command line: "-enable-kvm -m 1G -hda <=
-image>  -serial stdio  -cpu core2duo -machine q35,kernel-irqchip=3Doff"
-  2. Click shutdown in UI.
-  3. Try to boot again(it will stuck)
-  4. Kill Qemu and boot again, it will boot, now go to 2) :)
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1829498/+subscriptions
 
