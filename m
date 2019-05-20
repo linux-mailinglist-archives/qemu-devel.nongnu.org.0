@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7746724318
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 23:46:45 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:42375 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 023162432A
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 23:50:35 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:42413 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSq7I-0000Wj-I0
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 17:46:44 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57868)
+	id 1hSqB0-0002xo-3x
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 17:50:34 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57920)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hSq4q-0007eB-SF
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 17:44:13 -0400
+	(envelope-from <philmd@redhat.com>) id 1hSq4v-0007j2-Rz
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 17:44:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <philmd@redhat.com>) id 1hSq4p-0000K5-LW
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 17:44:12 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34878)
+	(envelope-from <philmd@redhat.com>) id 1hSq4u-0000QN-H7
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 17:44:17 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58226)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <philmd@redhat.com>)
-	id 1hSq4m-0000GS-VX; Mon, 20 May 2019 17:44:09 -0400
+	id 1hSq4r-0000M7-Vc; Mon, 20 May 2019 17:44:14 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
 	[10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 294D3F74A0;
-	Mon, 20 May 2019 21:44:03 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id D29B980F6D;
+	Mon, 20 May 2019 21:44:10 +0000 (UTC)
 Received: from x1w.redhat.com (ovpn-204-28.brq.redhat.com [10.40.204.28])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 813CE1001E6C;
-	Mon, 20 May 2019 21:43:59 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id CD6481001E6C;
+	Mon, 20 May 2019 21:44:03 +0000 (UTC)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 20 May 2019 23:43:41 +0200
-Message-Id: <20190520214342.13709-4-philmd@redhat.com>
+Date: Mon, 20 May 2019 23:43:42 +0200
+Message-Id: <20190520214342.13709-5-philmd@redhat.com>
 In-Reply-To: <20190520214342.13709-1-philmd@redhat.com>
 References: <20190520214342.13709-1-philmd@redhat.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.38]);
-	Mon, 20 May 2019 21:44:03 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.27]);
+	Mon, 20 May 2019 21:44:10 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 3/4] hw/arm/exynos4210: Add DMA support for the
- Exynos4210
+Subject: [Qemu-devel] [PATCH 4/4] hw/arm/exynos4210: QOM'ify the Exynos4210
+ SoC
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -60,126 +60,133 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Peter Maydell <peter.maydell@linaro.org>,
 	Igor Mitsyanko <i.mitsyanko@gmail.com>,
 	Alistair Francis <alistair@alistair23.me>, qemu-arm@nongnu.org,
-	Alistair Francis <alistair.francis@wdc.com>,
 	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
 	Guenter Roeck <linux@roeck-us.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Guenter Roeck <linux@roeck-us.net>
-
-QEMU already supports pl330. Instantiate it for Exynos4210.
-
-Relevant part of Linux arch/arm/boot/dts/exynos4.dtsi:
-
-/ {
-    soc: soc {
-        amba {
-            pdma0: pdma@12680000 {
-                compatible =3D "arm,pl330", "arm,primecell";
-                reg =3D <0x12680000 0x1000>;
-                interrupts =3D <GIC_SPI 35 IRQ_TYPE_LEVEL_HIGH>;
-                clocks =3D <&clock CLK_PDMA0>;
-                clock-names =3D "apb_pclk";
-                #dma-cells =3D <1>;
-                #dma-channels =3D <8>;
-                #dma-requests =3D <32>;
-            };
-            pdma1: pdma@12690000 {
-                compatible =3D "arm,pl330", "arm,primecell";
-                reg =3D <0x12690000 0x1000>;
-                interrupts =3D <GIC_SPI 36 IRQ_TYPE_LEVEL_HIGH>;
-                clocks =3D <&clock CLK_PDMA1>;
-                clock-names =3D "apb_pclk";
-                #dma-cells =3D <1>;
-                #dma-channels =3D <8>;
-                #dma-requests =3D <32>;
-            };
-            mdma1: mdma@12850000 {
-                compatible =3D "arm,pl330", "arm,primecell";
-                reg =3D <0x12850000 0x1000>;
-                interrupts =3D <GIC_SPI 34 IRQ_TYPE_LEVEL_HIGH>;
-                clocks =3D <&clock CLK_MDMA>;
-                clock-names =3D "apb_pclk";
-                #dma-cells =3D <1>;
-                #dma-channels =3D <8>;
-                #dma-requests =3D <1>;
-            };
-        };
-    };
-};
-
-Signed-off-by: Guenter Roeck <linux@roeck-us.net>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
-[PMD: Do not set default qdev properties, create the controllers in the S=
-oC
-      rather than the board (Peter Maydell), add dtsi in commit message]
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 ---
-No SoC datasheet available, Guenter got it working using the
-"look into the Linux kernel code and then play with parameters
-until it magically starts working" method.
----
- hw/arm/exynos4210.c | 26 ++++++++++++++++++++++++++
- 1 file changed, 26 insertions(+)
+ hw/arm/exynos4210.c         | 26 +++++++++++++++++++++++---
+ hw/arm/exynos4_boards.c     |  9 ++++++---
+ include/hw/arm/exynos4210.h |  9 +++++++--
+ 3 files changed, 36 insertions(+), 8 deletions(-)
 
 diff --git a/hw/arm/exynos4210.c b/hw/arm/exynos4210.c
-index af82e955421..19009b76e7c 100644
+index 19009b76e7c..0b09129eff8 100644
 --- a/hw/arm/exynos4210.c
 +++ b/hw/arm/exynos4210.c
-@@ -96,6 +96,11 @@
- /* EHCI */
- #define EXYNOS4210_EHCI_BASE_ADDR           0x12580000
-=20
-+/* DMA */
-+#define EXYNOS4210_PL330_BASE0_ADDR         0x12680000
-+#define EXYNOS4210_PL330_BASE1_ADDR         0x12690000
-+#define EXYNOS4210_PL330_BASE2_ADDR         0x12850000
-+
- static uint8_t chipid_and_omr[] =3D { 0x11, 0x02, 0x21, 0x43,
-                                     0x09, 0x00, 0x00, 0x00 };
-=20
-@@ -160,6 +165,19 @@ static uint64_t exynos4210_calc_affinity(int cpu)
-     return (0x9 << ARM_AFF1_SHIFT) | cpu;
+@@ -178,9 +178,10 @@ static void pl330_create(uint32_t base, qemu_irq irq=
+, int nreq)
+     sysbus_connect_irq(busdev, 0, irq);
  }
 =20
-+static void pl330_create(uint32_t base, qemu_irq irq, int nreq)
-+{
-+    SysBusDevice *busdev;
-+    DeviceState *dev;
-+
-+    dev =3D qdev_create(NULL, "pl330");
-+    qdev_prop_set_uint8(dev, "num_periph_req",  nreq);
-+    qdev_init_nofail(dev);
-+    busdev =3D SYS_BUS_DEVICE(dev);
-+    sysbus_mmio_map(busdev, 0, base);
-+    sysbus_connect_irq(busdev, 0, irq);
+-Exynos4210State *exynos4210_init(MemoryRegion *system_mem)
++static void exynos4210_realize(DeviceState *socdev, Error **errp)
+ {
+-    Exynos4210State *s =3D g_new0(Exynos4210State, 1);
++    Exynos4210State *s =3D EXYNOS4210_SOC(socdev);
++    MemoryRegion *system_mem =3D get_system_memory();
+     qemu_irq gate_irq[EXYNOS4210_NCPUS][EXYNOS4210_IRQ_GATE_NINPUTS];
+     SysBusDevice *busdev;
+     DeviceState *dev;
+@@ -435,6 +436,25 @@ Exynos4210State *exynos4210_init(MemoryRegion *syste=
+m_mem)
+                  qemu_irq_invert(s->irq_table[exynos4210_get_irq(36, 1)]=
+), 32);
+     pl330_create(EXYNOS4210_PL330_BASE2_ADDR,
+                  qemu_irq_invert(s->irq_table[exynos4210_get_irq(34, 1)]=
+), 1);
 +}
 +
- Exynos4210State *exynos4210_init(MemoryRegion *system_mem)
- {
-     Exynos4210State *s =3D g_new0(Exynos4210State, 1);
-@@ -410,5 +428,13 @@ Exynos4210State *exynos4210_init(MemoryRegion *syste=
-m_mem)
-     sysbus_create_simple(TYPE_EXYNOS4210_EHCI, EXYNOS4210_EHCI_BASE_ADDR=
-,
-             s->irq_table[exynos4210_get_irq(28, 3)]);
++static void exynos4210_class_init(ObjectClass *klass, void *data)
++{
++    DeviceClass *dc =3D DEVICE_CLASS(klass);
 =20
-+    /*** DMA controllers ***/
-+    pl330_create(EXYNOS4210_PL330_BASE0_ADDR,
-+                 qemu_irq_invert(s->irq_table[exynos4210_get_irq(35, 1)]=
-), 32);
-+    pl330_create(EXYNOS4210_PL330_BASE1_ADDR,
-+                 qemu_irq_invert(s->irq_table[exynos4210_get_irq(36, 1)]=
-), 32);
-+    pl330_create(EXYNOS4210_PL330_BASE2_ADDR,
-+                 qemu_irq_invert(s->irq_table[exynos4210_get_irq(34, 1)]=
-), 1);
+-    return s;
++    dc->realize =3D exynos4210_realize;
+ }
 +
++static const TypeInfo exynos4210_info =3D {
++    .name =3D TYPE_EXYNOS4210_SOC,
++    .parent =3D TYPE_SYS_BUS_DEVICE,
++    .instance_size =3D sizeof(Exynos4210State),
++    .class_init =3D exynos4210_class_init,
++};
++
++static void exynos4210_register_types(void)
++{
++    type_register_static(&exynos4210_info);
++}
++
++type_init(exynos4210_register_types)
+diff --git a/hw/arm/exynos4_boards.c b/hw/arm/exynos4_boards.c
+index f824eef0d36..700e90d6671 100644
+--- a/hw/arm/exynos4_boards.c
++++ b/hw/arm/exynos4_boards.c
+@@ -45,7 +45,7 @@ typedef enum Exynos4BoardType {
+ } Exynos4BoardType;
+=20
+ typedef struct Exynos4BoardState {
+-    Exynos4210State *soc;
++    Exynos4210State soc;
+     MemoryRegion dram0_mem;
+     MemoryRegion dram1_mem;
+ } Exynos4BoardState;
+@@ -130,7 +130,10 @@ exynos4_boards_init_common(MachineState *machine,
+     exynos4_boards_init_ram(s, get_system_memory(),
+                             exynos4_board_ram_size[board_type]);
+=20
+-    s->soc =3D exynos4210_init(get_system_memory());
++    object_initialize(&s->soc, sizeof(s->soc), TYPE_EXYNOS4210_SOC);
++    qdev_set_parent_bus(DEVICE(&s->soc), sysbus_get_default());
++    object_property_set_bool(OBJECT(&s->soc), true, "realized",
++                             &error_fatal);
+=20
      return s;
  }
+@@ -148,7 +151,7 @@ static void smdkc210_init(MachineState *machine)
+                                                       EXYNOS4_BOARD_SMDK=
+C210);
+=20
+     lan9215_init(SMDK_LAN9118_BASE_ADDR,
+-            qemu_irq_invert(s->soc->irq_table[exynos4210_get_irq(37, 1)]=
+));
++            qemu_irq_invert(s->soc.irq_table[exynos4210_get_irq(37, 1)])=
+);
+     arm_load_kernel(ARM_CPU(first_cpu), &exynos4_board_binfo);
+ }
+=20
+diff --git a/include/hw/arm/exynos4210.h b/include/hw/arm/exynos4210.h
+index 098a69ec73d..27c684e851d 100644
+--- a/include/hw/arm/exynos4210.h
++++ b/include/hw/arm/exynos4210.h
+@@ -85,6 +85,9 @@ typedef struct Exynos4210Irq {
+ } Exynos4210Irq;
+=20
+ typedef struct Exynos4210State {
++    /*< private >*/
++    SysBusDevice parent_obj;
++    /*< public >*/
+     ARMCPU *cpu[EXYNOS4210_NCPUS];
+     Exynos4210Irq irqs;
+     qemu_irq *irq_table;
+@@ -98,11 +101,13 @@ typedef struct Exynos4210State {
+     I2CBus *i2c_if[EXYNOS4210_I2C_NUMBER];
+ } Exynos4210State;
+=20
++#define TYPE_EXYNOS4210_SOC "exynos4210"
++#define EXYNOS4210_SOC(obj) \
++    OBJECT_CHECK(Exynos4210State, obj, TYPE_EXYNOS4210_SOC)
++
+ void exynos4210_write_secondary(ARMCPU *cpu,
+         const struct arm_boot_info *info);
+=20
+-Exynos4210State *exynos4210_init(MemoryRegion *system_mem);
+-
+ /* Initialize exynos4210 IRQ subsystem stub */
+ qemu_irq *exynos4210_init_irq(Exynos4210Irq *env);
+=20
 --=20
 2.20.1
 
