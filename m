@@ -2,49 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CEA0D23698
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 14:55:52 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:35131 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 41D062368C
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 14:50:26 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:35055 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hShpY-0007pD-1H
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 08:55:52 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43471)
+	id 1hShkG-0003Qq-Vd
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 08:50:25 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43355)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hShhi-0002Tv-1v
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 08:47:47 -0400
+	(envelope-from <kraxel@redhat.com>) id 1hShhS-0002IP-3j
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 08:47:30 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hShhg-0006CI-09
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 08:47:45 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55960)
+	(envelope-from <kraxel@redhat.com>) id 1hShhP-0005sP-KC
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 08:47:29 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:46240)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hShhd-0005w2-V2
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 08:47:42 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
+	(Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hShhN-0005nl-NV
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 08:47:25 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+	[10.5.11.11])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 9748C307D860;
-	Mon, 20 May 2019 12:47:25 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 21AA14628B;
+	Mon, 20 May 2019 12:47:23 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-117-74.ams2.redhat.com
 	[10.36.117.74])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 4A25E5129E;
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 51E5E5B0BE;
 	Mon, 20 May 2019 12:47:18 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-	id 02EDA11AB8; Mon, 20 May 2019 14:47:17 +0200 (CEST)
+	id 0B1B116E30; Mon, 20 May 2019 14:47:17 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 20 May 2019 14:47:04 +0200
-Message-Id: <20190520124716.30472-3-kraxel@redhat.com>
+Date: Mon, 20 May 2019 14:47:05 +0200
+Message-Id: <20190520124716.30472-4-kraxel@redhat.com>
 In-Reply-To: <20190520124716.30472-1-kraxel@redhat.com>
 References: <20190520124716.30472-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.48]);
-	Mon, 20 May 2019 12:47:25 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.29]);
+	Mon, 20 May 2019 12:47:23 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 02/14] tests/vm: python3 fixes
+Subject: [Qemu-devel] [PATCH v3 03/14] tests/vm: send proxy environment
+ variables over ssh
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -64,61 +68,47 @@ Cc: Fam Zheng <fam@euphon.net>, Ed Maste <emaste@freebsd.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add proper unicode handling when processing strings.
-Also need to explicitly say we want int not float.
+Packages are fetched via proxy that way, if configured on the host.
+That might be required to pass firewalls, and it allows to route
+package downloads through a caching proxy server.
+
+Needs AcceptEnv setup in sshd_config on the guest side to work.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Tested-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/vm/basevm.py | 10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ tests/vm/basevm.py | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
 diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
-index 0556bdcf9e9f..3126fb10a819 100755
+index 3126fb10a819..640f3226929d 100755
 --- a/tests/vm/basevm.py
 +++ b/tests/vm/basevm.py
-@@ -73,7 +73,7 @@ class BaseVM(object):
-             "-vnc", "127.0.0.1:0,to=20",
-             "-serial", "file:%s" % os.path.join(self._tmpdir, "serial.out")]
-         if vcpus and vcpus > 1:
--            self._args += ["-smp", str(vcpus)]
-+            self._args += ["-smp", "%d" % vcpus]
-         if kvm_available(self.arch):
-             self._args += ["-enable-kvm"]
-         else:
-@@ -85,12 +85,12 @@ class BaseVM(object):
-             if not sha256sum:
-                 return True
-             checksum = subprocess.check_output(["sha256sum", fname]).split()[0]
--            return sha256sum == checksum
-+            return sha256sum == checksum.decode("utf-8")
- 
-         cache_dir = os.path.expanduser("~/.cache/qemu-vm/download")
-         if not os.path.exists(cache_dir):
-             os.makedirs(cache_dir)
--        fname = os.path.join(cache_dir, hashlib.sha1(url).hexdigest())
-+        fname = os.path.join(cache_dir, hashlib.sha1(url.encode("utf-8")).hexdigest())
-         if os.path.exists(fname) and check_sha256sum(fname):
-             return fname
-         logging.debug("Downloading %s to %s...", url, fname)
-@@ -134,7 +134,7 @@ class BaseVM(object):
-         raise NotImplementedError
- 
-     def add_source_dir(self, src_dir):
--        name = "data-" + hashlib.sha1(src_dir).hexdigest()[:5]
-+        name = "data-" + hashlib.sha1(src_dir.encode("utf-8")).hexdigest()[:5]
-         tarfile = os.path.join(self._tmpdir, name + ".tar")
-         logging.debug("Creating archive %s for src_dir dir: %s", tarfile, src_dir)
-         subprocess.check_call(["./scripts/archive-source.sh", tarfile],
-@@ -256,7 +256,7 @@ def main(vmcls):
-             vm.add_source_dir(args.build_qemu)
-             cmd = [vm.BUILD_SCRIPT.format(
-                    configure_opts = " ".join(argv),
--                   jobs=args.jobs,
-+                   jobs=int(args.jobs),
-                    target=args.build_target,
-                    verbose = "V=1" if args.verbose else "")]
-         else:
--- 
+@@ -38,6 +38,13 @@ class BaseVM(object):
+     GUEST_PASS =3D "qemupass"
+     ROOT_PASS =3D "qemupass"
+=20
++    envvars =3D [
++        "https_proxy",
++        "http_proxy",
++        "ftp_proxy",
++        "no_proxy",
++    ]
++
+     # The script to run in the guest that builds QEMU
+     BUILD_SCRIPT =3D ""
+     # The guest name, to be overridden by subclasses
+@@ -105,6 +112,8 @@ class BaseVM(object):
+                    "-o", "UserKnownHostsFile=3D" + os.devnull,
+                    "-o", "ConnectTimeout=3D1",
+                    "-p", self.ssh_port, "-i", self._ssh_key_file]
++        for var in self.envvars:
++            ssh_cmd +=3D ['-o', "SendEnv=3D%s" % var ]
+         if interactive:
+             ssh_cmd +=3D ['-t']
+         assert not isinstance(cmd, str)
+--=20
 2.18.1
 
 
