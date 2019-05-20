@@ -2,77 +2,77 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 68EDD2335E
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 14:19:00 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:34653 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7A651233BB
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 14:20:53 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:34693 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hShFr-0007nI-Hm
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 08:18:59 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35006)
+	id 1hShHg-0000b0-M2
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 08:20:52 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35081)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hShEJ-0007Qr-7w
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 08:17:24 -0400
+	(envelope-from <alex.bennee@linaro.org>) id 1hShEi-0007XY-J8
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 08:17:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.bennee@linaro.org>) id 1hShEH-0006md-Vl
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 08:17:23 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:46408)
+	(envelope-from <alex.bennee@linaro.org>) id 1hShEg-0006v3-0r
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 08:17:48 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:33032)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
-	id 1hShEH-0006lm-OK
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 08:17:21 -0400
-Received: by mail-wr1-x441.google.com with SMTP id r7so14300395wrr.13
-	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 05:17:21 -0700 (PDT)
+	id 1hShEf-0006uS-Qx
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 08:17:45 -0400
+Received: by mail-wr1-x444.google.com with SMTP id d9so1385107wrx.0
+	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 05:17:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=references:user-agent:from:to:cc:subject:in-reply-to:date
 	:message-id:mime-version:content-transfer-encoding;
-	bh=AWCG6+6D4CsP2vXTHl5m8yFJSXHrZ5Pet4AOzhWi8gs=;
-	b=ckRMBdU2N32OyWuhQ53NMsv4WcQNdL31xFqdC8GWk5cw990rY8r67ro673c4Wo8YLx
-	5w/8CH7xJi4enM/lC07NQaCuQ9VUxkuA7Kzeftgv6sJWzG8cF/j4BxBSimAonXdfkoKs
-	EBx+2KSe+Q5QjtXVi1cbiCUvJTmbBm2pSiHdgkVxKfIeW1t9Uo6BUCxkurOJ7xe7LbsR
-	LiOLrEYCGlKObYvE7RFFrhr1c58Mk/4K7yw+Z7fNSFuuVZPrxj794ffqkUJpimcM6El4
-	r18xagmtSgHjl90b8+G9XkpsSM9MNFtRZpueAT+lgdUl6CY9fjmtRXuXCMdUVZGkvjsn
-	kybw==
+	bh=crwrfIIAZoYXbIGFBOxXoQXOSGE/adVR/qetCaQlpLU=;
+	b=A7T0iQ4R0kG8sGmFlxTXnSzxwtheHuFXtufmvMEm2OH0VCXqtzL2K5EWR9uXlyWZCA
+	Kd43T8uhX/rCBhnKi6raHf0y790avJlhmYwWWBqG9LwrZ4y2DnayQLQiX8sNH5fau1jd
+	9i4LrgZNXgFLT5CWaivGGZ5kkwEJT4QP42tJg2nwbSW/BvUwDOi2748qUtJK3BRoYBCC
+	xRe0oyclTVJS4vNElpDtVXJxTsC+T+FFDFFysmBOB/TrSiDEceIikaEegsxEbWn9RIvV
+	gBqledvdvi7ZxfbTMs0T27uejr2kFF5nC3K5TqxGpJy8Mowjr4BKDvNKHO+xLTtk3V0U
+	fAmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:references:user-agent:from:to:cc:subject
 	:in-reply-to:date:message-id:mime-version:content-transfer-encoding;
-	bh=AWCG6+6D4CsP2vXTHl5m8yFJSXHrZ5Pet4AOzhWi8gs=;
-	b=cNISL1Ezc8HbtasMl8eATwPFmabZz/o3H6j990XL+/WKiaQ+fhCTiUUAY1SNbLWLgB
-	xcc/Indo9BcYDcRUS3zs5T5Ct9pq1Dw86c64KuZkEQfHF8ujBJJy9JvxLkaJO+hR6dJD
-	Of68QjjS5eLJGiwXVZCv7l3LENMCLokDf7Qk3UdxgBh9ELdnYJG+mpVCMh0heSf/cMbc
-	mDeqQ8T4YNeRa9n7pfse0KrAfMoe1enlj+H6w58vkA7swZsbMnTCv5rBFcrdxNMpqOt4
-	2NxYHjFgi2Cewg1YUIYhQogzAtpzeSbVSYz1jQKhMtRE3lBWu0VuHFhbNf9OtFqqI0Pc
-	uMIw==
-X-Gm-Message-State: APjAAAWq/3C5cmZpJ6/BCWCsjU7EWdaM7ubB/G1p4Xm5pahdiUxZY3WI
-	u5rkmqF+c9F1pda+qX/EE+qpcQ==
-X-Google-Smtp-Source: APXvYqyLJ0iRwrlRo6Yon1hEvRIbMQJ+eXft/I8h6MgUVf47XKK8lvKn5uA578e8piyPMGcf6D3mFw==
-X-Received: by 2002:adf:f788:: with SMTP id q8mr46362422wrp.181.1558354640188; 
-	Mon, 20 May 2019 05:17:20 -0700 (PDT)
+	bh=crwrfIIAZoYXbIGFBOxXoQXOSGE/adVR/qetCaQlpLU=;
+	b=TxD5SXWXbbVrlEbDGdia/xM2pUBuegyQ5+vZjZAl51r2akn8TXA4FGv4E2y95cH83q
+	Qn1VgW/7tWr72Chr7rZCEJ7hd5Mfq2RaCqfBlSbRdIiO5ptrrz97aDqJbhOVwffTwKie
+	AnLw8Kr8r1mzilXyXQoBT5n14fKX3+dnjDbCcOt89u3qGV29V0QlQI7RWhEYDhwO2vRr
+	D894sYBte8zWaR7ubEDTvkrUOBqAqralCM/OSd2JQ3TatJLxFcLtbe7+Q4mklzq/5VT+
+	MdHwjq1kl2/yu5gOc1QKDtqLoV2eZyhlEtZN3TDYlnGseBLlwS2bWdjEa9DNxUvsJTMi
+	q+JA==
+X-Gm-Message-State: APjAAAW7QU074gaU+jfTRxb2Bkez5tf20r+DGT0/8Gsz6wx+NXJx9saG
+	OSfnWemCMS40y8sObR0DBrgY7A==
+X-Google-Smtp-Source: APXvYqxVjm67XIC6A3Y11AeasTlGLc/sNkidvIGDVqW/2w8ZHvbQ8eq+WZ7PNaa9tacMg0Et44U7BA==
+X-Received: by 2002:adf:dcc8:: with SMTP id x8mr26614972wrm.3.1558354664542;
+	Mon, 20 May 2019 05:17:44 -0700 (PDT)
 Received: from zen.linaroharston ([81.128.185.34])
 	by smtp.gmail.com with ESMTPSA id
-	i18sm8830159wml.33.2019.05.20.05.17.19
+	i125sm15815459wmi.2.2019.05.20.05.17.43
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Mon, 20 May 2019 05:17:19 -0700 (PDT)
+	Mon, 20 May 2019 05:17:43 -0700 (PDT)
 Received: from zen (localhost [127.0.0.1])
-	by zen.linaroharston (Postfix) with ESMTP id 278021FF87;
-	Mon, 20 May 2019 13:17:19 +0100 (BST)
+	by zen.linaroharston (Postfix) with ESMTP id 975721FF87;
+	Mon, 20 May 2019 13:17:43 +0100 (BST)
 References: <20190517224450.15566-1-jan.bobek@gmail.com>
-	<20190517224450.15566-8-jan.bobek@gmail.com>
+	<20190517224450.15566-9-jan.bobek@gmail.com>
 User-agent: mu4e 1.3.2; emacs 26.1
 From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
 To: Jan Bobek <jan.bobek@gmail.com>
-In-reply-to: <20190517224450.15566-8-jan.bobek@gmail.com>
-Date: Mon, 20 May 2019 13:17:19 +0100
-Message-ID: <87zhnhgw1c.fsf@zen.linaroharston>
+In-reply-to: <20190517224450.15566-9-jan.bobek@gmail.com>
+Date: Mon, 20 May 2019 13:17:43 +0100
+Message-ID: <87y331gw0o.fsf@zen.linaroharston>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: Re: [Qemu-devel] [RISU v2 07/11] test_i386: change syntax from nasm
- to gas
+X-Received-From: 2a00:1450:4864:20::444
+Subject: Re: [Qemu-devel] [RISU v2 08/11] configure: add i386/x86_64
+ architectures
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -91,144 +91,41 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Jan Bobek <jan.bobek@gmail.com> writes:
 
-> This allows us to drop dependency on NASM and build the test image
-> with GCC only. Adds support for x86_64, too.
-
-  ./risu --master -t run.out test_i386.bin
-
-and then:
-
-  ./risu -t run.out test_i386.bin
-
-Gives:
-
-  loading test image test_i386.bin...
-  starting apprentice image at 0xf7f07000
-  starting image
-  finished early after 1 checkpoints
-  match status...
-  mismatch on regs!
-  this reginfo:
-    faulting insn fc0b90f
-
-Because:
-
-  Mismatch (master v apprentice):
-  xmm4  : fe76ea16f7d9c58c 000006fc00000000
-       v: fe76ea16f7d1a58c 000006fc00000000
-
-We probably need to zero or reset the xmm regs both in the test and when
-risugen dumps it's preamble.
-
+> Now that i386 and x86_64 architectures are supported by RISU, we want
+> to detect them and build RISU for them automatically.
 >
 > Suggested-by: Richard Henderson <richard.henderson@linaro.org>
 > Signed-off-by: Jan Bobek <jan.bobek@gmail.com>
+
+Reviewed-by: Alex Benn=C3=A9e <alex.bennee@linaro.org>
+
 > ---
->  Makefile    |  3 +++
->  test_i386.S | 41 +++++++++++++++++++++++++++++++++++++++++
->  test_i386.s | 27 ---------------------------
->  3 files changed, 44 insertions(+), 27 deletions(-)
->  create mode 100644 test_i386.S
->  delete mode 100644 test_i386.s
+>  configure | 10 ++++++----
+>  1 file changed, 6 insertions(+), 4 deletions(-)
 >
-> diff --git a/Makefile b/Makefile
-> index b362dbe..6ab014a 100644
-> --- a/Makefile
-> +++ b/Makefile
-> @@ -49,6 +49,9 @@ $(PROG): $(OBJS)
->  %_$(ARCH).elf: %_$(ARCH).s
->  	$(AS) -o $@ $<
+> diff --git a/configure b/configure
+> index 65e1819..ca2d7db 100755
+> --- a/configure
+> +++ b/configure
+> @@ -48,12 +48,14 @@ EOF
+>  }
 >
-> +%_$(ARCH).elf: %_$(ARCH).S
-> +	$(CC) $(CPPFLAGS) -o $@ -c $<
-> +
->  clean:
->  	rm -f $(PROG) $(OBJS) $(BINS)
->
-> diff --git a/test_i386.S b/test_i386.S
-> new file mode 100644
-> index 0000000..456b99c
-> --- /dev/null
-> +++ b/test_i386.S
-> @@ -0,0 +1,41 @@
-> +/*######################################################################=
-#######
-> + * Copyright (c) 2010 Linaro Limited
-> + * All rights reserved. This program and the accompanying materials
-> + * are made available under the terms of the Eclipse Public License v1.0
-> + * which accompanies this distribution, and is available at
-> + * http://www.eclipse.org/legal/epl-v10.html
-> + *
-> + * Contributors:
-> + *     Peter Maydell (Linaro) - initial implementation
-> + *######################################################################=
-#####*/
-> +
-> +/* A trivial test image for x86 */
-> +
-> +/* Initialise the registers to avoid spurious mismatches */
-> +	xor	%eax, %eax
-> +	sahf				/* init eflags */
-> +
-> +	mov	$0x12345678, %eax
-> +	mov	$0x9abcdef0, %ebx
-> +	mov	$0x97361234, %ecx
-> +	mov	$0x84310284, %edx
-> +	mov	$0x83624173, %edi
-> +	mov	$0xfaebfaeb, %esi
-> +	mov	$0x84610123, %ebp
-> +
-> +#ifdef __x86_64__
-> +	movq	$0x123456789abcdef0, %r8
-> +	movq	$0xaaaabbbbccccdddd, %r9
-> +	movq	$0x1010101010101010, %r10
-> +	movq	$0x1111111111111111, %r11
-> +	movq	$0x1212121212121212, %r12
-> +	movq	$0x1313131313131313, %r13
-> +	movq	$0x1414141414141414, %r14
-> +	movq	$0x1515151515151515, %r15
-> +#endif
-> +
-> +/* do compare */
-> +	ud1	%eax, %eax
-> +
-> +/* exit test */
-> +	ud1	%ecx, %eax
-> diff --git a/test_i386.s b/test_i386.s
-> deleted file mode 100644
-> index a2140a0..0000000
-> --- a/test_i386.s
-> +++ /dev/null
-> @@ -1,27 +0,0 @@
-> -;#######################################################################=
-########
-> -;# Copyright (c) 2010 Linaro Limited
-> -;# All rights reserved. This program and the accompanying materials
-> -;# are made available under the terms of the Eclipse Public License v1.0
-> -;# which accompanies this distribution, and is available at
-> -;# http://www.eclipse.org/legal/epl-v10.html
-> -;#
-> -;# Contributors:
-> -;#     Peter Maydell (Linaro) - initial implementation
-> -;#######################################################################=
-########
-> -
-> -; A trivial test image for x86
-> -
-> -BITS 32
-> -; Initialise the registers to avoid spurious mismatches
-> -mov eax, 0x12345678
-> -mov ebx, 0x9abcdef0
-> -mov ecx, 0x97361234
-> -mov edx, 0x84310284
-> -mov edi, 0x83624173
-> -mov esi, 0xfaebfaeb
-> -mov ebp, 0x84610123
-> -; UD1 : do compare
-> -UD1
-> -
-> -; UD2 : exit test
-> -UD2
+>  guess_arch() {
+> -    if check_define __m68k__ ; then
+> -        ARCH=3D"m68k"
+> +    if check_define __aarch64__ ; then
+> +        ARCH=3D"aarch64"
+>      elif check_define __arm__ ; then
+>          ARCH=3D"arm"
+> -    elif check_define __aarch64__ ; then
+> -        ARCH=3D"aarch64"
+> +    elif check_define __i386__ || check_define __x86_64__ ; then
+> +        ARCH=3D"i386"
+> +    elif check_define __m68k__ ; then
+> +        ARCH=3D"m68k"
+>      elif check_define __powerpc64__ ; then
+>          ARCH=3D"ppc64"
+>      else
 
 
 --
