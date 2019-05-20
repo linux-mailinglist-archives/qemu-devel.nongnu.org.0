@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C29DD23E14
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 19:10:21 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38816 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C806223E07
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 19:06:36 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38779 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSlno-0004s1-MG
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 13:10:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52660)
+	id 1hSlkB-0001VX-QZ
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 13:06:35 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52674)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <cohuck@redhat.com>) id 1hSlhZ-0000GO-5Z
+	(envelope-from <cohuck@redhat.com>) id 1hSlhZ-0000GP-Ht
 	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:03:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <cohuck@redhat.com>) id 1hSlhY-0002SV-65
+	(envelope-from <cohuck@redhat.com>) id 1hSlhY-0002Sn-Fc
 	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:03:53 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:45230)
+Received: from mx1.redhat.com ([209.132.183.28]:59466)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <cohuck@redhat.com>)
-	id 1hSlhX-0002S7-VD; Mon, 20 May 2019 13:03:52 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
+	id 1hSlhY-0002SD-6w; Mon, 20 May 2019 13:03:52 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+	[10.5.11.14])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 4228A8666D;
-	Mon, 20 May 2019 17:03:46 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 7E8048830E;
+	Mon, 20 May 2019 17:03:51 +0000 (UTC)
 Received: from localhost (ovpn-204-110.brq.redhat.com [10.40.204.110])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 595AE27BAC;
-	Mon, 20 May 2019 17:03:39 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 146DF5DE8F;
+	Mon, 20 May 2019 17:03:50 +0000 (UTC)
 From: Cornelia Huck <cohuck@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 20 May 2019 19:02:12 +0200
-Message-Id: <20190520170302.13643-5-cohuck@redhat.com>
+Date: Mon, 20 May 2019 19:02:13 +0200
+Message-Id: <20190520170302.13643-6-cohuck@redhat.com>
 In-Reply-To: <20190520170302.13643-1-cohuck@redhat.com>
 References: <20190520170302.13643-1-cohuck@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.26]);
-	Mon, 20 May 2019 17:03:46 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.28]);
+	Mon, 20 May 2019 17:03:51 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 04/54] s390/ipl: cast to SCSIDevice directly
+Subject: [Qemu-devel] [PULL 05/54] s390/css: handle CCW_FLAG_SKIP
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -56,46 +55,89 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Thomas Huth <thuth@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
-	qemu-devel@nongnu.org, Christian Borntraeger <borntraeger@de.ibm.com>,
-	qemu-s390x@nongnu.org,
-	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Eric Farman <farman@linux.ibm.com>, qemu-s390x@nongnu.org,
+	Cornelia Huck <cohuck@redhat.com>, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Coverity notes that the result of object_dynamic_cast() to
-SCSIDevice is not checked in s390_gen_initial_iplp(); as
-we know that we always have a SCSIDevice in that branch,
-we can instead cast via SCSI_DEVICE directly.
+If a ccw has CCW_FLAG_SKIP set, and the command is of type
+read, read backwards, or sense, no data should be written
+to the guest for that command.
 
-Coverity: CID 1401098
-Fixes: 44445d8668f4 ("s390 vfio-ccw: Add bootindex property and IPLB data=
-")
-Message-Id: <20190502155516.12415-1-cohuck@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: Christian Borntraeger <borntraeger@de.ibm.com>
+Reviewed-by: Eric Farman <farman@linux.ibm.com>
+Message-Id: <20190516133327.11430-1-cohuck@redhat.com>
 Signed-off-by: Cornelia Huck <cohuck@redhat.com>
 ---
- hw/s390x/ipl.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
+ hw/s390x/css.c         | 22 ++++++++++++++++++----
+ include/hw/s390x/css.h |  1 +
+ 2 files changed, 19 insertions(+), 4 deletions(-)
 
-diff --git a/hw/s390x/ipl.c b/hw/s390x/ipl.c
-index d0cc06a05fd0..b93750c14eac 100644
---- a/hw/s390x/ipl.c
-+++ b/hw/s390x/ipl.c
-@@ -374,8 +374,7 @@ static bool s390_gen_initial_iplb(S390IPLState *ipl)
-     if (ccw_dev) {
-         switch (devtype) {
-         case CCW_DEVTYPE_SCSI:
--            sd =3D (SCSIDevice *) object_dynamic_cast(OBJECT(dev_st),
--                                                           TYPE_SCSI_DEV=
-ICE);
-+            sd =3D SCSI_DEVICE(dev_st);
-             ipl->iplb.len =3D cpu_to_be32(S390_IPLB_MIN_QEMU_SCSI_LEN);
-             ipl->iplb.blk0_len =3D
-                 cpu_to_be32(S390_IPLB_MIN_QEMU_SCSI_LEN - S390_IPLB_HEAD=
-ER_LEN);
+diff --git a/hw/s390x/css.c b/hw/s390x/css.c
+index 8fc9e35ba5d3..ad310b9f94bc 100644
+--- a/hw/s390x/css.c
++++ b/hw/s390x/css.c
+@@ -830,8 +830,12 @@ static int ccw_dstream_rw_noflags(CcwDataStream *cds=
+, void *buff, int len,
+     if (op =3D=3D CDS_OP_A) {
+         goto incr;
+     }
+-    ret =3D address_space_rw(&address_space_memory, cds->cda,
+-                           MEMTXATTRS_UNSPECIFIED, buff, len, op);
++    if (!cds->do_skip) {
++        ret =3D address_space_rw(&address_space_memory, cds->cda,
++                               MEMTXATTRS_UNSPECIFIED, buff, len, op);
++    } else {
++        ret =3D MEMTX_OK;
++    }
+     if (ret !=3D MEMTX_OK) {
+         cds->flags |=3D CDS_F_STREAM_BROKEN;
+         return -EINVAL;
+@@ -928,8 +932,13 @@ static int ccw_dstream_rw_ida(CcwDataStream *cds, vo=
+id *buff, int len,
+     do {
+         iter_len =3D MIN(len, cont_left);
+         if (op !=3D CDS_OP_A) {
+-            ret =3D address_space_rw(&address_space_memory, cds->cda,
+-                                   MEMTXATTRS_UNSPECIFIED, buff, iter_le=
+n, op);
++            if (!cds->do_skip) {
++                ret =3D address_space_rw(&address_space_memory, cds->cda=
+,
++                                       MEMTXATTRS_UNSPECIFIED, buff, ite=
+r_len,
++                                       op);
++            } else {
++                ret =3D MEMTX_OK;
++            }
+             if (ret !=3D MEMTX_OK) {
+                 /* assume inaccessible address */
+                 ret =3D -EINVAL; /* channel program check */
+@@ -968,6 +977,11 @@ void ccw_dstream_init(CcwDataStream *cds, CCW1 const=
+ *ccw, ORB const *orb)
+=20
+     cds->count =3D ccw->count;
+     cds->cda_orig =3D ccw->cda;
++    /* skip is only effective for read, read backwards, or sense command=
+s */
++    cds->do_skip =3D (ccw->flags & CCW_FLAG_SKIP) &&
++        ((ccw->cmd_code & 0x0f) =3D=3D CCW_CMD_BASIC_SENSE ||
++         (ccw->cmd_code & 0x03) =3D=3D 0x02 /* read */ ||
++         (ccw->cmd_code & 0x0f) =3D=3D 0x0c /* read backwards */);
+     ccw_dstream_rewind(cds);
+     if (!(cds->flags & CDS_F_IDA)) {
+         cds->op_handler =3D ccw_dstream_rw_noflags;
+diff --git a/include/hw/s390x/css.h b/include/hw/s390x/css.h
+index aae19c427229..7cc183ef4366 100644
+--- a/include/hw/s390x/css.h
++++ b/include/hw/s390x/css.h
+@@ -97,6 +97,7 @@ typedef struct CcwDataStream {
+     int (*op_handler)(struct CcwDataStream *cds, void *buff, int len,
+                       CcwDataStreamOp op);
+     hwaddr cda;
++    bool do_skip;
+ } CcwDataStream;
+=20
+ /*
 --=20
 2.20.1
 
