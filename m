@@ -2,64 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 07E5D24464
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 01:34:16 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43646 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BA4FA2446A
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 01:36:57 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43702 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSrnL-00017Y-48
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 19:34:15 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45006)
+	id 1hSrpw-0003SO-Ph
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 19:36:56 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45027)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hSrQq-0007Qe-Jx
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:11:01 -0400
+	(envelope-from <mst@redhat.com>) id 1hSrQs-0007Sg-Nn
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:11:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hSrQp-00086Z-Nd
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:11:00 -0400
-Received: from mail-qk1-f194.google.com ([209.85.222.194]:39334)
+	(envelope-from <mst@redhat.com>) id 1hSrQr-00087a-SV
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:11:02 -0400
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:42874)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hSrQp-00086Q-JI
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:10:59 -0400
-Received: by mail-qk1-f194.google.com with SMTP id z128so9928305qkb.6
-	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 16:10:59 -0700 (PDT)
+	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hSrQr-00087N-OG
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:11:01 -0400
+Received: by mail-qt1-f193.google.com with SMTP id j53so18342669qta.9
+	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 16:11:01 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to;
-	bh=GEBbw5yBYMAQw8+9J5YyvTBzIi99r+JtCnmq4U1dRRs=;
-	b=GQSdHE9HMc6+4WTtjPXOvNhW9szZcmJ3RWmZBV9homU1jyBJqe5RdZNXNmIZTTP/0o
-	L8yw4il4o4tgsDuc8PqvBaf5hInaXsF6jnEOoM6s8W/jiXe+PgfoNLNXOj0bY5OaxzZI
-	jPMmwP6p8C1xfqeGbmmvtK7y6WBJlr5nTjzMv7AHWg8nGegydZJ2/Kn/I8ay3NecBZu5
-	GXMB3o0MG5R/E4fBKMDuTc+EtbMSpQs0My7gIAX9u20N/mYdhpku9TpHX0GiS57uRpTS
-	Gc5RNWF9G8RdBfsDdgfADulgZ6OFXjiUprQEWj32uIGg5ekBJg0I3+D6hJ0X+UNaGBqq
-	o4DA==
-X-Gm-Message-State: APjAAAXUQWo0ZP9Wpi86MMAfnpA75t6baKa6/KuurKd6osAJGpiiT5xF
-	zuiQ/WSaF+CTcgl2Iw509pruyDVleHE=
-X-Google-Smtp-Source: APXvYqx9ik2NQriD2/kE1gcA/oZtiuyglnp/sCOak5EKpk9B2H1/pVwkn60aND3bSvblfuz5dJkJ+A==
-X-Received: by 2002:a05:620a:1268:: with SMTP id
-	b8mr33726444qkl.283.1558393858905; 
-	Mon, 20 May 2019 16:10:58 -0700 (PDT)
+	:mime-version:content-disposition:content-transfer-encoding
+	:in-reply-to;
+	bh=/K1CzhcIoF7fjAc30rHRUsge+GK+glXAnsnZpkxETzA=;
+	b=XXkQ3zx+wyYXU45f2+jQaZF2dlcXIU3xznFn+fN9JP8ctDfkfJLgnr0KNLMc+B4hwT
+	+NTwTUixKeO9bLr0RoVBeyJVkrsbZhmtKKwT7oJv73sJlMQP1oFWQdqgc2PshzGh79FP
+	Z2AprlMlopNZmXwaBMrgdr/XVCGjECShcKh1ZLcOXSUIWUE4TFUtWyoC7vOWWO97Qf3Y
+	3cmoAHt15EIpO8TlmYIbI49tLhqvXslW21Yk3yajiH3Ymnjr3Cjk5dPUybEJs4lZPZ8+
+	Ww/6L09Zj233+Ulm3I3iEVwhd52LkebHggWuc4TGXrbevAKxeX7Q5HlyRQPLIzlQA6F6
+	uGRQ==
+X-Gm-Message-State: APjAAAUc2xbd+XZrri5re5ZJQqujavwhlD4hFoLvmyXhjicp7fVxJKPB
+	sUYY05Uq+TgtRMzTaZhdhGeTPKfXM3Y=
+X-Google-Smtp-Source: APXvYqxoONLWRzCQrgT6CBbhquNH0TPoP8OWzvFrI+zQvC2n593uu+BgpCbFzH1EZYfcaR6XDZHfaA==
+X-Received: by 2002:a0c:d909:: with SMTP id p9mr49615208qvj.42.1558393860861; 
+	Mon, 20 May 2019 16:11:00 -0700 (PDT)
 Received: from redhat.com (pool-173-76-105-71.bstnma.fios.verizon.net.
 	[173.76.105.71]) by smtp.gmail.com with ESMTPSA id
-	p8sm11130783qta.24.2019.05.20.16.10.57
+	e54sm11315139qtc.26.2019.05.20.16.10.59
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Mon, 20 May 2019 16:10:58 -0700 (PDT)
-Date: Mon, 20 May 2019 19:10:57 -0400
+	Mon, 20 May 2019 16:11:00 -0700 (PDT)
+Date: Mon, 20 May 2019 19:10:59 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Message-ID: <20190416184624.15397-3-dan.streetman@canonical.com>
+Message-ID: <20190419003053.8260-3-richardw.yang@linux.intel.com>
 References: <20190520231008.20140-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
 In-Reply-To: <20190520231008.20140-1-mst@redhat.com>
 X-Mailer: git-send-email 2.17.1.1206.gb667731e2e.dirty
 X-Mutt-Fcc: =sent
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.222.194
-Subject: [Qemu-devel] [PULL v2 15/36] do not call vhost_net_cleanup() on
- running net from char user event
+X-Received-From: 209.85.160.193
+Subject: [Qemu-devel] [PULL v2 16/36] hw/arm/virt-acpi-build: remove
+ unnecessary variable mcfg_start
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -71,46 +72,53 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Dan Streetman <ddstreet@canonical.com>,
-	Peter Maydell <peter.maydell@linaro.org>, Jason Wang <jasowang@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+	Shannon Zhao <shannon.zhaosl@gmail.com>, qemu-arm@nongnu.org,
+	Wei Yang <richardw.yang@linux.intel.com>,
+	Igor Mammedov <imammedo@redhat.com>,
+	Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Dan Streetman <ddstreet@canonical.com>
+From: Wei Yang <richardw.yang@linux.intel.com>
 
-Buglink: https://launchpad.net/bugs/1823458
+mcfg_start points to the start of MCFG table and is used in
+build_header. While this information could be derived from mcfg.
 
-Currently, a user CHR_EVENT_CLOSED event will cause net_vhost_user_event()
-to call vhost_user_cleanup(), which calls vhost_net_cleanup() for all
-its queues.  However, vhost_net_cleanup() must never be called like
-this for fully-initialized nets; when other code later calls
-vhost_net_stop() - such as from virtio_net_vhost_status() - it will try
-to access the already-cleaned-up fields and fail with assertion errors
-or segfaults.
+This patch removes the unnecessary variable mcfg_start.
 
-The vhost_net_cleanup() will eventually be called from
-qemu_cleanup_net_client().
-
-Signed-off-by: Dan Streetman <ddstreet@canonical.com>
-Message-Id: <20190416184624.15397-3-dan.streetman@canonical.com>
+Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Message-Id: <20190419003053.8260-3-richardw.yang@linux.intel.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- net/vhost-user.c | 1 -
- 1 file changed, 1 deletion(-)
+ hw/arm/virt-acpi-build.c | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/net/vhost-user.c b/net/vhost-user.c
-index 5a26a24708..51921de443 100644
---- a/net/vhost-user.c
-+++ b/net/vhost-user.c
-@@ -236,7 +236,6 @@ static void chr_closed_bh(void *opaque)
-     s = DO_UPCAST(NetVhostUserState, nc, ncs[0]);
+diff --git a/hw/arm/virt-acpi-build.c b/hw/arm/virt-acpi-build.c
+index bf9c0bc2f4..12dbaf3846 100644
+--- a/hw/arm/virt-acpi-build.c
++++ b/hw/arm/virt-acpi-build.c
+@@ -552,7 +552,6 @@ build_mcfg(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+     const MemMapEntry *memmap = vms->memmap;
+     int ecam_id = VIRT_ECAM_ID(vms->highmem_ecam);
+     int len = sizeof(*mcfg) + sizeof(mcfg->allocation[0]);
+-    int mcfg_start = table_data->len;
  
-     qmp_set_link(name, false, &err);
--    vhost_user_stop(queues, ncs);
+     mcfg = acpi_data_push(table_data, len);
+     mcfg->allocation[0].address = cpu_to_le64(memmap[ecam_id].base);
+@@ -563,8 +562,7 @@ build_mcfg(GArray *table_data, BIOSLinker *linker, VirtMachineState *vms)
+     mcfg->allocation[0].end_bus_number =
+         PCIE_MMCFG_BUS(memmap[ecam_id].size - 1);
  
-     qemu_chr_fe_set_handlers(&s->chr, NULL, NULL, net_vhost_user_event,
-                              NULL, opaque, NULL, true);
+-    build_header(linker, table_data, (void *)(table_data->data + mcfg_start),
+-                 "MCFG", table_data->len - mcfg_start, 1, NULL, NULL);
++    build_header(linker, table_data, (void *)mcfg, "MCFG", len, 1, NULL, NULL);
+ }
+ 
+ /* GTDT */
 -- 
 MST
 
