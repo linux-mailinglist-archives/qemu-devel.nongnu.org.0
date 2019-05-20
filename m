@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4A2EC23D82
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 18:31:52 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38251 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 16DF123D45
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 18:30:25 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38215 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSlCZ-00057J-CL
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 12:31:51 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38885)
+	id 1hSlBA-00045i-44
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 12:30:24 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38818)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hSkxG-0000FK-7M
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 12:16:03 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hSkxE-0003nZ-L3
+	(envelope-from <kwolf@redhat.com>) id 1hSkxE-0000Bt-8Y
 	for qemu-devel@nongnu.org; Mon, 20 May 2019 12:16:01 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35028)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+	(envelope-from <kwolf@redhat.com>) id 1hSkxC-0003mE-BC
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 12:16:00 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:45990)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <kwolf@redhat.com>)
-	id 1hSkx6-0003hu-G4; Mon, 20 May 2019 12:15:52 -0400
+	id 1hSkx4-0003ho-Jn; Mon, 20 May 2019 12:15:50 -0400
 Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
 	[10.5.11.11])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 588163092664;
-	Mon, 20 May 2019 16:15:47 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 9065381DFE;
+	Mon, 20 May 2019 16:15:49 +0000 (UTC)
 Received: from localhost.localdomain.com (ovpn-117-208.ams2.redhat.com
 	[10.36.117.208])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 70ECF75261;
-	Mon, 20 May 2019 16:15:45 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id A65C2601A0;
+	Mon, 20 May 2019 16:15:47 +0000 (UTC)
 From: Kevin Wolf <kwolf@redhat.com>
 To: qemu-block@nongnu.org
-Date: Mon, 20 May 2019 18:14:50 +0200
-Message-Id: <20190520161453.30723-22-kwolf@redhat.com>
+Date: Mon, 20 May 2019 18:14:51 +0200
+Message-Id: <20190520161453.30723-23-kwolf@redhat.com>
 In-Reply-To: <20190520161453.30723-1-kwolf@redhat.com>
 References: <20190520161453.30723-1-kwolf@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.43]);
+	(mx1.redhat.com [10.5.110.25]);
 	Mon, 20 May 2019 16:15:49 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 21/24] block: Improve "Block node is read-only"
- message
+Subject: [Qemu-devel] [PULL 22/24] iotests.py: Let assert_qmp() accept an
+ array
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -63,61 +63,51 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Max Reitz <mreitz@redhat.com>
 
-This message does not make any sense when it appears as the response to
-making an R/W node read-only.  We should detect that case and emit a
-different message, then.
+Sometimes we cannot tell which error message qemu will emit, and we do
+not care.  With this change, we can then just pass an array of all
+possible messages to assert_qmp() and it will choose the right one.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 Reviewed-by: Alberto Garcia <berto@igalia.com>
 Signed-off-by: Kevin Wolf <kwolf@redhat.com>
 ---
- block.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
+ tests/qemu-iotests/iotests.py | 18 ++++++++++++++++--
+ 1 file changed, 16 insertions(+), 2 deletions(-)
 
-diff --git a/block.c b/block.c
-index 1e5230f98e..cb11537029 100644
---- a/block.c
-+++ b/block.c
-@@ -1709,6 +1709,8 @@ static int bdrv_child_check_perm(BdrvChild *c, Bloc=
-kReopenQueue *q,
-                                  GSList *ignore_children, Error **errp);
- static void bdrv_child_abort_perm_update(BdrvChild *c);
- static void bdrv_child_set_perm(BdrvChild *c, uint64_t perm, uint64_t sh=
-ared);
-+static void bdrv_get_cumulative_perm(BlockDriverState *bs, uint64_t *per=
-m,
-+                                     uint64_t *shared_perm);
+diff --git a/tests/qemu-iotests/iotests.py b/tests/qemu-iotests/iotests.p=
+y
+index f811f69135..d96ba1f63c 100644
+--- a/tests/qemu-iotests/iotests.py
++++ b/tests/qemu-iotests/iotests.py
+@@ -596,9 +596,23 @@ class QMPTestCase(unittest.TestCase):
+         self.fail('path "%s" has value "%s"' % (path, str(result)))
 =20
- typedef struct BlockReopenQueueEntry {
-      bool prepared;
-@@ -1795,7 +1797,20 @@ static int bdrv_check_perm(BlockDriverState *bs, B=
-lockReopenQueue *q,
-     if ((cumulative_perms & (BLK_PERM_WRITE | BLK_PERM_WRITE_UNCHANGED))=
- &&
-         !bdrv_is_writable_after_reopen(bs, q))
-     {
--        error_setg(errp, "Block node is read-only");
-+        if (!bdrv_is_writable_after_reopen(bs, NULL)) {
-+            error_setg(errp, "Block node is read-only");
-+        } else {
-+            uint64_t current_perms, current_shared;
-+            bdrv_get_cumulative_perm(bs, &current_perms, &current_shared=
-);
-+            if (current_perms & (BLK_PERM_WRITE | BLK_PERM_WRITE_UNCHANG=
-ED)) {
-+                error_setg(errp, "Cannot make block node read-only, ther=
-e is "
-+                           "a writer on it");
-+            } else {
-+                error_setg(errp, "Cannot make block node read-only and c=
-reate "
-+                           "a writer on it");
-+            }
-+        }
+     def assert_qmp(self, d, path, value):
+-        '''Assert that the value for a specific path in a QMP dict match=
+es'''
++        '''Assert that the value for a specific path in a QMP dict
++           matches.  When given a list of values, assert that any of
++           them matches.'''
 +
-         return -EPERM;
-     }
+         result =3D self.dictpath(d, path)
+-        self.assertEqual(result, value, 'values not equal "%s" and "%s"'=
+ % (str(result), str(value)))
++
++        # [] makes no sense as a list of valid values, so treat it as
++        # an actual single value.
++        if isinstance(value, list) and value !=3D []:
++            for v in value:
++                if result =3D=3D v:
++                    return
++            self.fail('no match for "%s" in %s' % (str(result), str(valu=
+e)))
++        else:
++            self.assertEqual(result, value,
++                             'values not equal "%s" and "%s"'
++                                 % (str(result), str(value)))
 =20
+     def assert_no_active_block_jobs(self):
+         result =3D self.vm.qmp('query-block-jobs')
 --=20
 2.20.1
 
