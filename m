@@ -2,64 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C797623F52
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 19:46:04 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:39503 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2595823F35
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 19:38:48 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:39337 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSmMN-0002Ep-Qo
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 13:46:03 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54562)
+	id 1hSmFL-00044N-2B
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 13:38:47 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58452)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hSlmU-0004Qe-TA
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:09:00 -0400
+	(envelope-from <philmd@redhat.com>) id 1hSlxr-0006Y1-B2
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:20:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hSlmT-0004S8-7t
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:08:58 -0400
-Received: from mail-ot1-x334.google.com ([2607:f8b0:4864:20::334]:43261)
+	(envelope-from <philmd@redhat.com>) id 1hSlxp-0003bc-W0
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:20:43 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:39062)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hSlmS-0004QH-Jj
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:08:57 -0400
-Received: by mail-ot1-x334.google.com with SMTP id i8so13643910oth.10
-	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 10:08:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=SgE2AMvWBHVKOffOws4dRNRkNqPzU98MET8fUXMY+VI=;
-	b=zHYpBfPy7Q5hvOHn2jGck1mriKXaoRJEATHyirTs4c5oROAjjDMkdNMEQWryxrBaVo
-	SeMd8tjN+GieiMy0DnuCXJsDq+d8CL3ezn5p2FAIeQZjiq76sbwPa63+oUNxYnsXDSuP
-	VRZs61hh9SiIwzhmpfwgEboS470LXwhzqTQljt+xfhOjQwDmoFm9k4+FGxBWruA+8GFI
-	9tlAecug0nG7R4Bi56xd/+PlT3SfVDn0g6iRpX6hYsZ+qEE7qQaUbtANiPU+u6QFF52K
-	wyG47CJqt4jKjMjYzxxJFZGeCAtU3UJ1LUAIfgKh8qMM/9KJB3v1kK9cIR8EhNhBWniN
-	5B6w==
+	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hSlxp-0003aO-QY
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 13:20:41 -0400
+Received: by mail-wr1-f67.google.com with SMTP id w8so15516545wrl.6
+	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 10:20:41 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=SgE2AMvWBHVKOffOws4dRNRkNqPzU98MET8fUXMY+VI=;
-	b=tHEX/9/JOF8fU9/H3H6D634Dn+6LK+ISKkWWHvaw1F2+F5FMJ2ZG0Ly/Ixnfjgk9U2
-	PQPUxZKZ4jD2XBTYpWgUcAI5ln8Nfmjp7qkjSa7M1Ao7uAg/Tu5IURDmWH1w1AFP8VWE
-	ozB3RIj9JhWtmCb/vsCL40czZ6od+tkSREKt2OlsoY3EoLV3pRfNop+G3lFKjx4eHyrk
-	brqEUXj1skq9yafpyOHF80JDzrkUzYQWPV1R/bg4XdhFDWTU4ulCFzujU3SDhkAm2K2Q
-	HNZWQ1fjJwO5mkYaQ4v4s7al2ZreMPfvZbrSnPxyMs05TQv0vpE2YfN/VtffOAnuPijh
-	xuBw==
-X-Gm-Message-State: APjAAAW/ZAel78S9KnDzCXF0AC97Vs4mjFuvBdRpNcBVpNW596GMI2Pa
-	W4Fk6/BsX9DWK78jLyIRtYIIAR3L16bQFSJJeagdgw==
-X-Google-Smtp-Source: APXvYqzq8rMJ6mrn1EpYAdgzPfkQWWhUFjPrT5OylkuVwR8gguyLBxKeN3hPlzgECuvj5l/5oms3xAVTEnyDnY80Edc=
-X-Received: by 2002:a9d:77d5:: with SMTP id w21mr281507otl.97.1558372131590;
-	Mon, 20 May 2019 10:08:51 -0700 (PDT)
+	h=x-gm-message-state:subject:to:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=rGovGWCGVTw0/7S/ozvyRwUzMR8pvgv1I3ri6GNXBsM=;
+	b=Bt+XJKUAZXBgFYdQ95sc+g+N8unV5HUJnCZaFDmGuiJERYgIIfFxGDktVbpzQqHiQR
+	nVVyaBz9he5Nr/MTrpTX3GNCcpQIjD7dDZNMPLVlPrpGaOnJtfkkiQxnBCgVBWbLtqdF
+	dhriEbRsjkRDXYGRmqX2Z3o2EF8XGXKQ4u5Br0gWByOYyIdOSN5/RvrX+/tvGBHGUxvE
+	Zhw3mFkQAcfP3rlu7HsoskUSLJx6fjLpeMumMwxR4s3Y+CvBKMBDkC03QFxjTHyLc9b4
+	XPbpq0ASMi9/oS+1JZvZj2mC10NcJpMSdh96cJx9JSqLnw6IJwjhbwqvejFepgU/KJEt
+	kYnQ==
+X-Gm-Message-State: APjAAAX+HteS9LacmAYLzFmGuUMzXWtSTxbMUdO28RJjitI1ns0LVwW3
+	UxUU0VFs05F6fTsN/R7XuxogIGa4e9E=
+X-Google-Smtp-Source: APXvYqxj8drm7J/dgxmJLey5IICAeHzk9/62+x/iWe2XbG+Aod+yz5Ogx9uulEnde6KMYCU/H//m1Q==
+X-Received: by 2002:adf:e850:: with SMTP id d16mr32604035wrn.269.1558372839839;
+	Mon, 20 May 2019 10:20:39 -0700 (PDT)
+Received: from [192.168.1.43] (228.red-83-52-173.dynamicip.rima-tde.net.
+	[83.52.173.228]) by smtp.gmail.com with ESMTPSA id
+	k17sm15291292wrm.73.2019.05.20.10.20.39
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Mon, 20 May 2019 10:20:39 -0700 (PDT)
+To: Peter Maydell <peter.maydell@linaro.org>, qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+References: <20190520162809.2677-1-peter.maydell@linaro.org>
+	<20190520162809.2677-5-peter.maydell@linaro.org>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <0d39932f-8959-cb68-1ac7-ac79cfdb98a9@redhat.com>
+Date: Mon, 20 May 2019 19:20:38 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-References: <20190520161453.30723-1-kwolf@redhat.com>
-In-Reply-To: <20190520161453.30723-1-kwolf@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Mon, 20 May 2019 18:08:40 +0100
-Message-ID: <CAFEAcA8YxNj_0-fupAbDxP2hv3=esqLG0B0-FY6yUkARz8K-JA@mail.gmail.com>
-To: Kevin Wolf <kwolf@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::334
-Subject: Re: [Qemu-devel] [PULL 00/24] Block layer patches
+In-Reply-To: <20190520162809.2677-5-peter.maydell@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+	[fuzzy]
+X-Received-From: 209.85.221.67
+Subject: Re: [Qemu-devel] [PATCH 4/4] hw/intc/arm_gicv3: Fix writes to
+ ICC_CTLR_EL3
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -71,40 +76,51 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 20 May 2019 at 17:17, Kevin Wolf <kwolf@redhat.com> wrote:
->
-> The following changes since commit 6d8e75d41c58892ccc5d4ad61c4da476684c1c83:
->
->   Merge remote-tracking branch 'remotes/rth/tags/pull-axp-20190519' into staging (2019-05-20 11:38:36 +0100)
->
-> are available in the Git repository at:
->
->   git://repo.or.cz/qemu/kevin.git tags/for-upstream
->
-> for you to fetch changes up to c423a6af592cf36b4f149c54e2966dd0016b7e96:
->
->   iotests: Make 245 faster and more reliable (2019-05-20 17:08:57 +0200)
->
-> ----------------------------------------------------------------
-> Block layer patches:
->
-> - block: AioContext management, part 1
-> - qmp: forbid qmp_cont in RUN_STATE_FINISH_MIGRATE
-> - nvme: fix copy direction in DMA reads going to CMB
-> - file-posix: Fix block status for unaligned raw images with O_DIRECT
-> - file-posix: Fix xfs_write_zeroes() after EOF
-> - Documentation and iotests improvements
->
+Hi Peter,
 
+On 5/20/19 6:28 PM, Peter Maydell wrote:
+> The ICC_CTLR_EL3 register includes some bits which are aliases
+> of bits in the ICC_CTLR_EL1(S) and (NS) registers. QEMU chooses
+> to keep those bits in the cs->icc_ctlr_el1[] struct fields.
+> Unfortunately a missing '~' in the code to update the bits
+> in those fields meant that writing to ICC_CTLR_EL3 would corrupt
+> the ICC_CLTR_EL1 register values.
 
-Applied, thanks.
+How did you notice? Simply reviewing?
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
-for any user-visible changes.
+> 
+> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 
--- PMM
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+
+> ---
+>  hw/intc/arm_gicv3_cpuif.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/hw/intc/arm_gicv3_cpuif.c b/hw/intc/arm_gicv3_cpuif.c
+> index 000bdbd6247..3b212d91c8f 100644
+> --- a/hw/intc/arm_gicv3_cpuif.c
+> +++ b/hw/intc/arm_gicv3_cpuif.c
+> @@ -1856,7 +1856,7 @@ static void icc_ctlr_el3_write(CPUARMState *env, const ARMCPRegInfo *ri,
+>      trace_gicv3_icc_ctlr_el3_write(gicv3_redist_affid(cs), value);
+>  
+>      /* *_EL1NS and *_EL1S bits are aliases into the ICC_CTLR_EL1 bits. */
+> -    cs->icc_ctlr_el1[GICV3_NS] &= (ICC_CTLR_EL1_CBPR | ICC_CTLR_EL1_EOIMODE);
+> +    cs->icc_ctlr_el1[GICV3_NS] &= ~(ICC_CTLR_EL1_CBPR | ICC_CTLR_EL1_EOIMODE);
+>      if (value & ICC_CTLR_EL3_EOIMODE_EL1NS) {
+>          cs->icc_ctlr_el1[GICV3_NS] |= ICC_CTLR_EL1_EOIMODE;
+>      }
+> @@ -1864,7 +1864,7 @@ static void icc_ctlr_el3_write(CPUARMState *env, const ARMCPRegInfo *ri,
+>          cs->icc_ctlr_el1[GICV3_NS] |= ICC_CTLR_EL1_CBPR;
+>      }
+>  
+> -    cs->icc_ctlr_el1[GICV3_S] &= (ICC_CTLR_EL1_CBPR | ICC_CTLR_EL1_EOIMODE);
+> +    cs->icc_ctlr_el1[GICV3_S] &= ~(ICC_CTLR_EL1_CBPR | ICC_CTLR_EL1_EOIMODE);
+>      if (value & ICC_CTLR_EL3_EOIMODE_EL1S) {
+>          cs->icc_ctlr_el1[GICV3_S] |= ICC_CTLR_EL1_EOIMODE;
+>      }
+> 
 
