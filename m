@@ -2,64 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E48CD24468
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 01:36:22 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43691 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AA05C24489
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 01:48:44 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43858 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSrpO-0002vn-2x
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 19:36:22 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47207)
+	id 1hSs1L-00037o-TC
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 19:48:43 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47208)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <philippe.mathieu.daude@gmail.com>)
-	id 1hSrYu-0005nv-D5
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:19:21 -0400
+	id 1hSrYu-0005nw-D3
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:19:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
 	(envelope-from <philippe.mathieu.daude@gmail.com>)
-	id 1hSrYs-0004uW-Fs
+	id 1hSrYs-0004uc-GL
 	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:19:20 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:44519)
+Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:43789)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
-	id 1hSrYq-0004qi-I1
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:19:18 -0400
-Received: by mail-wr1-x444.google.com with SMTP id w13so5630663wru.11
-	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 16:19:15 -0700 (PDT)
+	id 1hSrYq-0004rr-IG
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:19:17 -0400
+Received: by mail-wr1-x442.google.com with SMTP id r4so16354087wro.10
+	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 16:19:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=sender:from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=t+fpOzpoYMTvZREMygefSwOqjQyndhbSY04K2Iq39pg=;
-	b=jVAWmZKmI6y+r6VDFVkTBi6LAZNWENUiNHOYXG6qPOkHgcZGB5Ci0TKw4Bxrfo5s+A
-	9dXyuPzOn0Dgjv6kdVigPzGpiwi81AI7Je9l6f49uG1YeD4pNBBwBb5Xm0n5XWcjWgir
-	tLWAx3uWve9ygWbyP7/M9RmGnGuK9TvgCjty2a3eEj88z8lBMgbpasEc5u8buNf1iSJM
-	aUMFmEP05m+a9QnJt/+GUEvLvoRNCpd8gPd7u+XOUFqO5lABhijWVtTL3NJ66kNcZAi2
-	2ab9bQhiDLjRDl5Fd1WxQzTSSnY0BImL77Az9EbEKvxaLg8Li01JgLAmhMFlMtLheAUZ
-	uClQ==
+	bh=DPXzLTNqBU4l3fARPnx0lJTvBFyc2Ro9xYgrHLPJuXU=;
+	b=KsqsJYh36ENBAbVnlh8Up/0HiOZVg2EU9AaRSR8cQIn37Mn4QFUvF7Q830vnb9br4P
+	4sKUf43EJHROR/Z/X5UgBMlDbhE1jtCVgd5Df4wEepn1ChfUX8L+8R1BZZSaXH1auADZ
+	neLZLPp+f7NQ8NhlgLwludJXqMyTCI8zOnlJRJV3fycxEMD0x8y00jV3T7RGeQ5urnJo
+	lvNxC1K/kCPpYmLcNWjIuqhFFGbnuLe/0DveT/zpbpCHY+vdk7AszDLfiVHaRELoLvw1
+	fD9CIo3de9wpS2rLpvLRic/G7NjxODzbnCsrk/3oPAbKqZOqJRSWouQnNesrfHTsFpIr
+	ZENw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
 	:in-reply-to:references:mime-version:content-transfer-encoding;
-	bh=t+fpOzpoYMTvZREMygefSwOqjQyndhbSY04K2Iq39pg=;
-	b=OuLOvYyqrAbXYTCQmviQ6LJxGrkGYNwMZlIOQTdAFjTZgXJjoDQJfnAYtZoOs/VMCD
-	gZdQDMyapJJFwYzFwaXqPKlijLsfiDSdtQZQRdgPBIPf3Ksozw5GK6cFfFjxYAhEoDOS
-	bJ5ewLWu8TVjnrZgfmoc282ICcm2zSN8FrPGhOORxVafvOfwsrACL4jrBD+3L1ij/RBy
-	XbvxGxXYB1un+k8h1gEcjL1rfzfiSt6vMW/+urxujGQAq/N4ueHn8q6qoUbfbQyBPaH2
-	hDR09Ux+GWBwb8IpNPa2oBXaVEYs1JDiVfpBfSzQ8stOC76XU1z/6y8AxqXRdK99CaEe
-	rCgA==
-X-Gm-Message-State: APjAAAXkoHYkrPBlJawXKQeGbDi6bEJx54/ZcGoFdqfek1+Dc/yRd4+T
-	3uqpDQj8Sfeknw4b4yyIHG0c9sO17hM=
-X-Google-Smtp-Source: APXvYqw6eP1t6lpsFsk5GLbbrjCMA39Gky8ZVPcE6rBeSlAEJgU+YIESrnJ6cQ5Iqg3RNEVKw6TsOQ==
-X-Received: by 2002:a5d:638a:: with SMTP id p10mr21118903wru.273.1558394353844;
-	Mon, 20 May 2019 16:19:13 -0700 (PDT)
+	bh=DPXzLTNqBU4l3fARPnx0lJTvBFyc2Ro9xYgrHLPJuXU=;
+	b=fuwbdQv2/m6cFmggcRa0F98BcI9f6MvYuq4R0bDzDWSex2t1R+Yk93icsWaJWZDUSW
+	wrhPz6lxuNigOCBYLWGNEUf7DpRlPe/Go0szd5fH7qtAr4k7PIN86z0IkUpT6gjWu2KG
+	NOIpmrt/QQvLzwkAIJMCZ8B7BKXbd2P/Uk2YIxU8Jr5LIRCCcRMQiawj924IC5VaZ4Vn
+	iLzc8ELEyRdd2v5K0IANljOV8CSVA1heWz4IZyt9AcNdfoMSdPBS922LHy8OzyQW+cm1
+	HXt6N6d7+Yqz5Nw3+wGYnFHmzBDo6Iqp6pbfDjHpXDd7g5UuFB0HThGIBo2Kb5GGfGXa
+	IU9w==
+X-Gm-Message-State: APjAAAVyfDC2VBfLjEXbpikrQNQQ94iakU+sxtGBrMwjzEb9J6GOURsw
+	qme4Cz6H6Rbv+fA5/SPIvLEFwx+gwYY=
+X-Google-Smtp-Source: APXvYqyvqzK6t+uU680yLHIIKv2BiCIntyUt8vupVLMoCosstvY3X97AEFGq5s4z+bZqqBNKMArmbw==
+X-Received: by 2002:adf:9794:: with SMTP id s20mr35026827wrb.104.1558394354927;
+	Mon, 20 May 2019 16:19:14 -0700 (PDT)
 Received: from x1.local (228.red-83-52-173.dynamicip.rima-tde.net.
 	[83.52.173.228]) by smtp.gmail.com with ESMTPSA id
-	b10sm44261849wrh.59.2019.05.20.16.19.12
+	b10sm44261849wrh.59.2019.05.20.16.19.13
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 20 May 2019 16:19:13 -0700 (PDT)
+	Mon, 20 May 2019 16:19:14 -0700 (PDT)
 From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Date: Tue, 21 May 2019 01:19:07 +0200
-Message-Id: <20190520231910.12184-2-f4bug@amsat.org>
+Date: Tue, 21 May 2019 01:19:08 +0200
+Message-Id: <20190520231910.12184-3-f4bug@amsat.org>
 X-Mailer: git-send-email 2.19.1
 In-Reply-To: <20190520231910.12184-1-f4bug@amsat.org>
 References: <20190520231910.12184-1-f4bug@amsat.org>
@@ -68,9 +68,9 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: [Qemu-devel] [PATCH 1/4] BootLinuxConsoleTest: Let extract_from_deb
- handle various compressions
+X-Received-From: 2a00:1450:4864:20::442
+Subject: [Qemu-devel] [PATCH 2/4] BootLinuxConsoleTest: Test nanoMIPS
+ kernels on the I7200 CPU
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -88,57 +88,128 @@ Cc: Eduardo Habkost <ehabkost@redhat.com>,
 	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
 	Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
 	Aleksandar Markovic <amarkovic@wavecomp.com>,
-	Cleber Rosa <crosa@redhat.com>,
-	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
-	Aurelien Jarno <aurelien@aurel32.net>
+	Cleber Rosa <crosa@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Debian binary package format supports various compressions.
+Similar to the x86_64/pc test, it boots a Linux kernel on a Malta
+machine and verify the serial is working.
 
-Per man deb(5):
+Use the documentation added in commit f7d257cb4a17 to test
+nanoMIPS kernels and the I7200 CPU.
 
-  NAME
-    deb - Debian binary package format
+This test can be run using:
 
-  FORMAT
-    ...
-    The third, last required member is named data.tar.  It contains the
-    filesystem as a tar archive, either not compressed (supported since
-    dpkg 1.10.24), or compressed with gzip (with .gz extension),
-    xz (with .xz extension, supported since dpkg 1.15.6),
-    bzip2 (with .bz2 extension, supported since dpkg 1.10.24) or
-    lzma (with .lzma extension, supported since dpkg 1.13.25).
+  $ avocado --show=console run -t arch:mipsel tests/acceptance/boot_linux_console.py
+  console: [    0.000000] Linux version 4.15.18-00432-gb2eb9a8b (emubuild@mipscs563) (gcc version 6.3.0 (Codescape GNU Tools 2018.04-02 for nanoMIPS Linux)) #1 SMP Wed Jun 27 11:10:08 PDT 2018
+  console: [    0.000000] GCRs appear to have been moved (expected them at 0x1fbf8000)!
+  console: [    0.000000] GCRs appear to have been moved (expected them at 0x1fbf8000)!
+  console: [    0.000000] CPU0 revision is: 00010000 (MIPS GENERIC QEMU)
+  console: [    0.000000] MIPS: machine is mti,malta
+  console: [    0.000000] Determined physical RAM map:
+  console: [    0.000000]  memory: 08000000 @ 00000000 (usable)
+  console: [    0.000000] earlycon: ns16550a0 at I/O port 0x3f8 (options '38400n8')
+  console: [    0.000000] bootconsole [ns16550a0] enabled
+  console: [    0.000000] User-defined physical RAM map:
+  console: [    0.000000]  memory: 10000000 @ 00000000 (usable)
+  console: [    0.000000] Initrd not found or empty - disabling initrd
+  console: [    0.000000] MIPS CPS SMP unable to proceed without a CM
+  console: [    0.000000] Primary instruction cache 32kB, VIPT, 4-way, linesize 32 bytes.
+  console: [    0.000000] Primary data cache 32kB, 4-way, VIPT, cache aliases, linesize 32 bytes
+  console: [    0.000000] This processor doesn't support highmem. -262144k highmem ignored
+  console: [    0.000000] Zone ranges:
+  console: [    0.000000]   Normal   [mem 0x0000000000000000-0x000000000fffffff]
+  console: [    0.000000]   HighMem  empty
+  console: [    0.000000] Movable zone start for each node
+  console: [    0.000000] Early memory node ranges
+  console: [    0.000000]   node   0: [mem 0x0000000000000000-0x000000000fffffff]
+  console: [    0.000000] Initmem setup node 0 [mem 0x0000000000000000-0x000000000fffffff]
+  console: [    0.000000] random: get_random_bytes called from start_kernel+0x60/0x2f0 with crng_init=0
+  console: [    0.000000] percpu: Embedded 16 pages/cpu @(ptrval) s36620 r8192 d20724 u65536
+  console: [    0.000000] Built 1 zonelists, mobility grouping on.  Total pages: 64960
+  console: [    0.000000] Kernel command line: printk.time=0 mem=256m@@0x0 console=ttyS0 earlycon
 
-List the archive files to have the 3rd name with the correct extension.
-
-The function avocado.utils.archive.extract() will handle the different
-compression format for us.
-
-Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Signed-off-by: Philippe Mathieu-Daudé <f4bug@amsat.org>
 ---
-This patch is already in Eduardo's queue, but is required in
-this series.
----
- tests/acceptance/boot_linux_console.py | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ tests/acceptance/boot_linux_console.py | 58 ++++++++++++++++++++++++++
+ 1 file changed, 58 insertions(+)
 
 diff --git a/tests/acceptance/boot_linux_console.py b/tests/acceptance/boot_linux_console.py
-index d5c500ea30..6aa084e049 100644
+index 6aa084e049..1c330871c0 100644
 --- a/tests/acceptance/boot_linux_console.py
 +++ b/tests/acceptance/boot_linux_console.py
-@@ -55,8 +55,9 @@ class BootLinuxConsole(Test):
-         """
-         cwd = os.getcwd()
-         os.chdir(self.workdir)
--        process.run("ar x %s data.tar.gz" % deb)
--        archive.extract("data.tar.gz", self.workdir)
-+        file_path = process.run("ar t %s" % deb).stdout_text.split()[2]
-+        process.run("ar x %s %s" % (deb, file_path))
-+        archive.extract(file_path, self.workdir)
-         os.chdir(cwd)
-         return self.workdir + path
+@@ -10,6 +10,8 @@
  
+ import os
+ import logging
++import lzma
++import shutil
+ 
+ from avocado_qemu import Test
+ from avocado.utils import process
+@@ -136,6 +138,62 @@ class BootLinuxConsole(Test):
+         console_pattern = 'Kernel command line: %s' % kernel_command_line
+         self.wait_for_console_pattern(console_pattern)
+ 
++    def do_test_mips_malta32el_nanomips(self, kernel_url, kernel_hash):
++        kernel_path_xz = self.fetch_asset(kernel_url, asset_hash=kernel_hash)
++        kernel_path = self.workdir + "kernel"
++        with lzma.open(kernel_path_xz, 'rb') as f_in:
++            with open(kernel_path, 'wb') as f_out:
++                shutil.copyfileobj(f_in, f_out)
++
++        self.vm.set_machine('malta')
++        self.vm.set_console()
++        kernel_command_line = (self.KERNEL_COMMON_COMMAND_LINE
++                               + 'mem=256m@@0x0 '
++                               + 'console=ttyS0')
++        self.vm.add_args('-no-reboot',
++                         '-cpu', 'I7200',
++                         '-kernel', kernel_path,
++                         '-append', kernel_command_line)
++        self.vm.launch()
++        console_pattern = 'Kernel command line: %s' % kernel_command_line
++        self.wait_for_console_pattern(console_pattern)
++
++    def test_mips_malta32el_nanomips_4k(self):
++        """
++        :avocado: tags=arch:mipsel
++        :avocado: tags=machine:malta
++        :avocado: tags=endian:little
++        """
++        kernel_url = ('https://mipsdistros.mips.com/LinuxDistro/nanomips/'
++                      'kernels/v4.15.18-432-gb2eb9a8b07a1-20180627102142/'
++                      'generic_nano32r6el_page4k.xz')
++        kernel_hash = '477456aafd2a0f1ddc9482727f20fe9575565dd6'
++        self.do_test_mips_malta32el_nanomips(kernel_url, kernel_hash)
++
++    def test_mips_malta32el_nanomips_16k_up(self):
++        """
++        :avocado: tags=arch:mipsel
++        :avocado: tags=machine:malta
++        :avocado: tags=endian:little
++        """
++        kernel_url = ('https://mipsdistros.mips.com/LinuxDistro/nanomips/'
++                      'kernels/v4.15.18-432-gb2eb9a8b07a1-20180627102142/'
++                      'generic_nano32r6el_page16k_up.xz')
++        kernel_hash = 'e882868f944c71c816e832e2303b7874d044a7bc'
++        self.do_test_mips_malta32el_nanomips(kernel_url, kernel_hash)
++
++    def test_mips_malta32el_nanomips_64k_dbg(self):
++        """
++        :avocado: tags=arch:mipsel
++        :avocado: tags=machine:malta
++        :avocado: tags=endian:little
++        """
++        kernel_url = ('https://mipsdistros.mips.com/LinuxDistro/nanomips/'
++                      'kernels/v4.15.18-432-gb2eb9a8b07a1-20180627102142/'
++                      'generic_nano32r6el_page64k_dbg.xz')
++        kernel_hash = '18d1c68f2e23429e266ca39ba5349ccd0aeb7180'
++        self.do_test_mips_malta32el_nanomips(kernel_url, kernel_hash)
++
+     def test_aarch64_virt(self):
+         """
+         :avocado: tags=arch:aarch64
 -- 
 2.19.1
 
