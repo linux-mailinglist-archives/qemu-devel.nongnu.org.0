@@ -2,68 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 95F9124344
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 00:00:34 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:42607 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7C77424360
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 00:11:54 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:42750 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSqKf-0000YJ-R3
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 18:00:33 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33041)
+	id 1hSqVd-0005IG-MS
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 18:11:53 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35367)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alistair23@gmail.com>) id 1hSqIx-0008Kl-UA
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 17:58:48 -0400
+	(envelope-from <bounces@canonical.com>) id 1hSqUd-0004vG-9C
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 18:10:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alistair23@gmail.com>) id 1hSqIw-0003CE-U3
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 17:58:47 -0400
-Received: from mail-lf1-x142.google.com ([2a00:1450:4864:20::142]:38342)
+	(envelope-from <bounces@canonical.com>) id 1hSqUZ-0001pW-KN
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 18:10:50 -0400
+Received: from indium.canonical.com ([91.189.90.7]:54062)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <alistair23@gmail.com>)
-	id 1hSqIt-00039z-Ai; Mon, 20 May 2019 17:58:43 -0400
-Received: by mail-lf1-x142.google.com with SMTP id y19so11465315lfy.5;
-	Mon, 20 May 2019 14:58:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=xQ8wxtVVJrqxmhNhATxeh1iXb26yhkLabtGZ1tf0t8A=;
-	b=NbgxvN+1+eKqibj8uQ88rZyvfTh4r2IbScwWDA8iNLomYAVFMSjvlnvLOvQeTk9me4
-	Xph3BMmAECd61PdTLUmTr/jurZh5DIJ75kjYmnKfV+hTo2wC7nBi+cn1L5y4e3yYmz/l
-	FYSLm/XugM4xGHVeidoYC6c1Jwt/3IBlRlz1B+zO4OLckSmnmyK2ShDKwoBQ+tqMaJ7L
-	gJiUzpYfJqMW3fFbbPEASMTeeAyWbVi/2xSdWGFzzyPuzUSKZF0TGG2I4VpIzTo+TkVZ
-	ZGYdwb47tYFzO9lrF+FVr2zu3dwnt1zpX1Mvi0L6X1rIsuPYa1GosPMR81zf8B64N91U
-	nUkg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=xQ8wxtVVJrqxmhNhATxeh1iXb26yhkLabtGZ1tf0t8A=;
-	b=JPHcLgRyqc+bZVd6NNUifuUIerD+1Ovv/fYFDWWlMag8zfWdYHUNmnJzKJabgdVe0p
-	lh5/Gu2KrLq156SwyM6XMrrlLC/u5YlI8yh/iXIXIG6cITZ9/bF9vBRksdnnRwtF3lJp
-	vOJyvPLSzhWaB43+As0hDVd7Hra3GXcqhSzNHgF40DCKOV77R13N4+39aV7i6udBoM6Z
-	6LTPSZ5gN5pp+R4mB4arIwNPCkJlMgSR+SDWNStTwROH7ymX0sB5A/3YgxCt8fXZ2Rs/
-	1CzQmELzVnHA5tbwSy5vGWucY1vFQjKgP/Alfm8vy2sHn1LcawiKPMJUXNEtWZrUQD5/
-	2bJQ==
-X-Gm-Message-State: APjAAAWK3TZ9sVzWze27NOTj+Ywu+BUxWpCiuvmSzWiEHOZnXti3d4yj
-	w2M3tvLxFt0LO7CnExSOSFNWN+G1F2BOSHwcTRs=
-X-Google-Smtp-Source: APXvYqyt6qWLhfRpN3+5Bab1f6Cn4XExEZKxlKxKlgYW0Y0bxNQ5N7ET/uyfu6p2kKqodQam+SOu5pnFAsZMNPnT83w=
-X-Received: by 2002:a19:4bd1:: with SMTP id y200mr38971010lfa.25.1558389521513;
-	Mon, 20 May 2019 14:58:41 -0700 (PDT)
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hSqUX-0001mV-Ee
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 18:10:47 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hSqUR-0004WS-Qr
+	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 22:10:39 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id C7DD42E80C8
+	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 22:10:39 +0000 (UTC)
 MIME-Version: 1.0
-References: <20190518232502.5201-1-Hesham.Almatary@cl.cam.ac.uk>
-	<20190518232502.5201-2-Hesham.Almatary@cl.cam.ac.uk>
-In-Reply-To: <20190518232502.5201-2-Hesham.Almatary@cl.cam.ac.uk>
-From: Alistair Francis <alistair23@gmail.com>
-Date: Mon, 20 May 2019 14:56:25 -0700
-Message-ID: <CAKmqyKNa0QSudOZUmo+=0=7sz9PZ+kd_uF3noFZn6owQYvtgwg@mail.gmail.com>
-To: Hesham Almatary <Hesham.Almatary@cl.cam.ac.uk>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::142
-Subject: Re: [Qemu-devel] [PATCHv2 2/3] RISC-V: Only Check PMP if MMU
- translation succeeds
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Mon, 20 May 2019 22:01:30 -0000
+From: John Snow <1829498@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: ffhguy jnsnow
+X-Launchpad-Bug-Reporter: arseniy (ffhguy)
+X-Launchpad-Bug-Modifier: John Snow (jnsnow)
+References: <155808951981.15307.7632909900341712173.malonedeb@gac.canonical.com>
+Message-Id: <155838969102.21598.4137357331096999605.malone@chaenomeles.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18962";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 5a000e27a3dcd762578b007bf7ec56a13f077b29
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1829498] Re: window 8 stuck during boot on Qemu
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -72,53 +63,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
-	Sagar Karandikar <sagark@eecs.berkeley.edu>,
-	Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
-	Palmer Dabbelt <palmer@sifive.com>,
-	"qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
-	Alistair Francis <Alistair.Francis@wdc.com>
+Reply-To: Bug 1829498 <1829498@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Sat, May 18, 2019 at 6:36 PM Hesham Almatary
-<Hesham.Almatary@cl.cam.ac.uk> wrote:
->
-> The current implementation unnecessarily checks for PMP even if MMU translation
-> failed. This may trigger a wrong PMP access exception instead of
-> a page exception.
->
-> For example, the very first instruction fetched after the first satp write in
-> S-Mode will trigger a PMP access fault instead of an instruction fetch page
-> fault.
->
-> This patch prioritises MMU exceptions over PMP exceptions and only checks for
-> PMP if MMU translation succeeds.
->
-> Signed-off-by: Hesham Almatary <hesham.almatary@cl.cam.ac.uk>
+What host kernel are you using? This sounds like a bug we used to have
+in KVM a while ago. Maybe it's back.
 
-This should come before patch 1 otherwise we will introduce a regression.
+The same problem was also alleviated by a guest driver update, are you
+using the initial release of Windows 8?
 
-Alistair
+-- =
 
-> ---
->  target/riscv/cpu_helper.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-> index b48de36114..7c7282c680 100644
-> --- a/target/riscv/cpu_helper.c
-> +++ b/target/riscv/cpu_helper.c
-> @@ -403,6 +403,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
->                    " prot %d\n", __func__, address, ret, pa, prot);
->
->      if (riscv_feature(env, RISCV_FEATURE_PMP) &&
-> +        (ret == TRANSLATE_SUCCESS) &&
->          !pmp_hart_has_privs(env, pa, TARGET_PAGE_SIZE, 1 << access_type)) {
->          pmp_violation = true;
->          ret = TRANSLATE_FAIL;
-> --
-> 2.17.1
->
->
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1829498
+
+Title:
+  window 8 stuck during boot on Qemu
+
+Status in QEMU:
+  New
+
+Bug description:
+  Description of problem:
+  I've got windows 8 image(64 bit), installed on Qemu(x86-64_softmmu) and t=
+hen i'm trying to boot/shutdown it in the same Qemu configuration. Windows =
+8 has feature - when you click "Shutdown" in UI, windows 8 doesn't actually=
+ power off, it goes to "Suspend to disc" ACPI state. After shutdown, i'm tr=
+ying to boot it again, but it stucks during boot.
+
+  I've discovered, that it hangs when windows 8 writes to AHCI's command re=
+gister, AHCI triggers irq, but windows 8 sends EOI, don't accessing AHCI re=
+gister,so irq line stills in high state, and irq will be injected again and=
+ again, while windows will send EOI on each AHCI interrupt. Strange thing i=
+s that it happens only on TCG mode or =
+
+  with option "kernel-irqchip=3Doff/split", with "kernel-irqchip=3Don" ever=
+ything works ok(windows 8 accesses AHCI register and line goes to low state=
+).
+
+  Version-Release number of selected component (if applicable):
+  Qemu revision: d8276573da58e8ce78dab8c46dd660efd664bcb7
+
+  =
+
+  Steps to Reproduce:
+  1. Install Windows 8 on QEMU(qemu command line: "-enable-kvm -m 1G -hda <=
+image>  -serial stdio  -cpu core2duo -machine q35,kernel-irqchip=3Doff"
+  2. Click shutdown in UI.
+  3. Try to boot again(it will stuck)
+  4. Kill Qemu and boot again, it will boot, now go to 2) :)
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1829498/+subscriptions
 
