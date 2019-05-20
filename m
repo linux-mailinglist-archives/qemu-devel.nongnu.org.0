@@ -2,65 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 958B724463
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 01:33:34 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43642 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 488942446B
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 01:37:53 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43709 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSrmf-0000f3-MD
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 19:33:33 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45320)
+	id 1hSrqq-0004S1-CP
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 19:37:52 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47209)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hSrRc-0008Er-Ox
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:11:49 -0400
+	(envelope-from <philippe.mathieu.daude@gmail.com>)
+	id 1hSrYu-0005nx-D5
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:19:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hSrRa-0008Sz-TJ
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:11:48 -0400
-Received: from mail-qt1-f181.google.com ([209.85.160.181]:46812)
+	(envelope-from <philippe.mathieu.daude@gmail.com>)
+	id 1hSrYs-0004uz-H4
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:19:20 -0400
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:52817)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hSrRa-0008Sm-Oh
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:11:46 -0400
-Received: by mail-qt1-f181.google.com with SMTP id z19so18284094qtz.13
-	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 16:11:46 -0700 (PDT)
+	(Exim 4.71) (envelope-from <philippe.mathieu.daude@gmail.com>)
+	id 1hSrYr-0004od-Pj
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:19:18 -0400
+Received: by mail-wm1-x334.google.com with SMTP id y3so966355wmm.2
+	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 16:19:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=sender:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=U86jkrXSzoeHhxFyjGyJ6CPcLdHGVNeQyPL1R7O7p60=;
+	b=uP7wQTNZOThtZFuW6arMWl1vlGRctITjrhrUB22USQa10AlGNFQRzezGfPRmbYF8r+
+	ztSsdx9xgwnhHcf+l+W9+ioIyzNL42ziGvipWtH4hopjtTfc2KISBGwfGm2WRzoeB14Z
+	e4qjxkz/u764TrNN3UQnP0L1gXURNASXcQDqxfOhMkjwCCvIS5DTuju+R1+eYPDq7B/h
+	66g70nRM1rAhSsmi86dgMxXm/p1+MUwmP8jKnnCRvPPprxh6aGSFgsVsml8nTWbMreUx
+	kzX1M5tW07JbG4uJvrigeBMxZxXxHeAKMvUo5pwxigVGGVNt3YXyWQ7QutcM9Rvcv3Zk
+	lH9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:content-transfer-encoding
-	:in-reply-to;
-	bh=/L0JLOdIaBhKUSCjEGKCuHpfFulwdCMtoNoYZbrd6mk=;
-	b=bEUycg0sxOKul6sk7MQPML9CeuNxfVtCgv0Tp/pxsivC+SXAV8eRAtIiUSP8VLcL+E
-	aEzkqhtBXJ3EYWDIJgPRYF1WEoDO9RAWASyjyzmfwzGync1trSBL2fiQqB+aAaemv9p+
-	mlKuDv2gFehDtpJ7xOuc70rzufic6pee5KZCqkcw7gmU5saGk4atRy0gUObLyULurlS5
-	rR3U6SuFqGNVtqAirsNQ4BQd0Dmlc+GFOZF//kChGXvEh3leoHXZfPfSmLk7OBiY8veF
-	AOuMRuP+D88vpY3v19z/CiM6VVam+DH1KFAn3SM0HoOEtJFHhwX+dsTtZgCNiDgPW4XS
-	2b5A==
-X-Gm-Message-State: APjAAAVNH6mQ0OPPNeH34cZblMzcLO+QwM/H8RbJaDlfy119ip7Avtav
-	HybHIZEHhFboWVTQr67iP5YgjwOk6ws=
-X-Google-Smtp-Source: APXvYqzyy4R+oUQKX2I9Z6MtqjDgVt55rOjChGzPRHZBroO9+VJnNt9/8PAbueyiS3KLQGiiCLUWUg==
-X-Received: by 2002:a0c:b626:: with SMTP id f38mr7747163qve.223.1558393905975; 
-	Mon, 20 May 2019 16:11:45 -0700 (PDT)
-Received: from redhat.com (pool-173-76-105-71.bstnma.fios.verizon.net.
-	[173.76.105.71])
-	by smtp.gmail.com with ESMTPSA id t3sm6648981qto.36.2019.05.20.16.11.44
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Mon, 20 May 2019 16:11:45 -0700 (PDT)
-Date: Mon, 20 May 2019 19:11:44 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
+	h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+	:mime-version:content-transfer-encoding;
+	bh=U86jkrXSzoeHhxFyjGyJ6CPcLdHGVNeQyPL1R7O7p60=;
+	b=Ja7WsiMvpjC4wuH8Y9UylA0dspVj1ZQa+gzY0qnzqdrFiqYMjFGUEx10YbcVIbZU4z
+	FE0LfAQSAagwP9GiU7ygFtKx7EjFomj30lAWs/uwnIxUCwazIET3dGdc+SOjUv2B+ocO
+	CWzT/QmzP6zvNyk7hqi35OEcuLdV3ifRrZ2x7YOSQLUK2HJHYyfyrIk9hthztKy/tbZ3
+	kMXh2rY5nu5LHK5AyOkp67suK2kwelCt5KfMVC4xyMlClNzypOFKwPozmQYq6iPgTZhb
+	AGVeL+2ErYcTQajWx4U7aFZ6Rtw5PdcldtMy/CPUPrz8b8cWAHJWILUN+X49XGSjhjBB
+	ZYmQ==
+X-Gm-Message-State: APjAAAWiLd+uZ4hbzlM0vi2Pt5sdoPlXEK62xHl2cNwRBglj/Tp0ZE90
+	OvxbKRKeC5sbCh7B8gp/sIKl+L8Dc4U=
+X-Google-Smtp-Source: APXvYqyA7L/xIO3ISf/id51cjG8RjxF/iWbqd8eRe2AIvw1zhacWqNnCxwPFoinzk8vVCjK1k2S95g==
+X-Received: by 2002:a1c:4145:: with SMTP id o66mr971646wma.68.1558394352426;
+	Mon, 20 May 2019 16:19:12 -0700 (PDT)
+Received: from x1.local (228.red-83-52-173.dynamicip.rima-tde.net.
+	[83.52.173.228]) by smtp.gmail.com with ESMTPSA id
+	b10sm44261849wrh.59.2019.05.20.16.19.11
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 20 May 2019 16:19:11 -0700 (PDT)
+From: =?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>
 To: qemu-devel@nongnu.org
-Message-ID: <1556808723-226478-16-git-send-email-imammedo@redhat.com>
-References: <20190520231008.20140-1-mst@redhat.com>
+Date: Tue, 21 May 2019 01:19:06 +0200
+Message-Id: <20190520231910.12184-1-f4bug@amsat.org>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20190520231008.20140-1-mst@redhat.com>
-X-Mailer: git-send-email 2.17.1.1206.gb667731e2e.dirty
-X-Mutt-Fcc: =sent
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.160.181
-Subject: [Qemu-devel] [PULL v2 36/36] tests: acpi: print error unable to
- dump ACPI table during rebuild
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2a00:1450:4864:20::334
+Subject: [Qemu-devel] [PATCH 0/4] mips: Add more Avocado tests
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -72,52 +79,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>,
-	Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
-	Wei Yang <richardw.yang@linux.intel.com>,
-	Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
-	Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+	Aleksandar Rikalo <arikalo@wavecomp.com>,
+	Caio Carrara <ccarrara@redhat.com>,
+	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <f4bug@amsat.org>,
+	Aleksandar Markovic <aleksandar.m.mail@gmail.com>,
+	Aleksandar Markovic <amarkovic@wavecomp.com>,
+	Cleber Rosa <crosa@redhat.com>, Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Igor Mammedov <imammedo@redhat.com>
+Hi,
 
-Instead of just asserting print the error that lead to assert first.
-While at it move assert into rebuild branch, which removes redundant
-check done in case of !rebuild branch is taken (the later is taken
-care of by g_assert_no_error).
+It was a rainy week-end here, so I invested it to automatize some
+of my MIPS tests.
 
-Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Wei Yang <richardw.yang@linux.intel.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <1556808723-226478-16-git-send-email-imammedo@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
----
- tests/bios-tables-test.c | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+The BootLinuxSshTest is not Global warming friendly, it is not
+meant to run on a CI system but rather on a workstation previous
+to post a pull request.
+It can surely be improved, but it is a good starting point.
 
-diff --git a/tests/bios-tables-test.c b/tests/bios-tables-test.c
-index eaa1b0cf62..6cb8b16488 100644
---- a/tests/bios-tables-test.c
-+++ b/tests/bios-tables-test.c
-@@ -195,11 +195,14 @@ static void dump_aml_files(test_data *data, bool rebuild)
-                                        sdt->aml, ext);
-             fd = g_open(aml_file, O_WRONLY|O_TRUNC|O_CREAT,
-                         S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH);
-+            if (fd < 0) {
-+                perror(aml_file);
-+            }
-+            g_assert(fd >= 0);
-         } else {
-             fd = g_file_open_tmp("aml-XXXXXX", &sdt->aml_file, &error);
-             g_assert_no_error(error);
-         }
--        g_assert(fd >= 0);
- 
-         ret = qemu_write_full(fd, sdt->aml, sdt->aml_len);
-         g_assert(ret == sdt->aml_len);
+Regards,
+
+Phil.
+
+Philippe Mathieu-Daudé (4):
+  BootLinuxConsoleTest: Let extract_from_deb handle various compressions
+  BootLinuxConsoleTest: Test nanoMIPS kernels on the I7200 CPU
+  BootLinuxConsoleTest: Run kerneltests BusyBox on Malta
+  BootLinuxSshTest: Test some userspace commands on Malta
+
+ MAINTAINERS                              |   1 +
+ tests/acceptance/boot_linux_console.py   | 112 ++++++++++-
+ tests/acceptance/linux_ssh_mips_malta.py | 229 +++++++++++++++++++++++
+ tests/requirements.txt                   |   1 +
+ 4 files changed, 341 insertions(+), 2 deletions(-)
+ create mode 100644 tests/acceptance/linux_ssh_mips_malta.py
+
 -- 
-MST
+2.19.1
 
 
