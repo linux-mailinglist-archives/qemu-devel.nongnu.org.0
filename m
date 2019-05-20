@@ -2,49 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C14C323D93
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 18:35:20 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38290 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0A69A23DB5
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 18:41:34 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38420 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSlFv-0007Vh-Ra
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 12:35:19 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38896)
+	id 1hSlLx-00044u-3U
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 12:41:33 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42710)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hSkxG-0000Fe-Fm
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 12:16:03 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hSl9B-00031Z-KQ
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 12:28:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hSkxF-0003o0-3e
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 12:16:02 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51040)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <kwolf@redhat.com>)
-	id 1hSkx8-0003ij-BP; Mon, 20 May 2019 12:15:55 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
-	[10.5.11.11])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 04B08DF26;
-	Mon, 20 May 2019 16:15:52 +0000 (UTC)
-Received: from localhost.localdomain.com (ovpn-117-208.ams2.redhat.com
-	[10.36.117.208])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 1D9BA601A0;
-	Mon, 20 May 2019 16:15:50 +0000 (UTC)
-From: Kevin Wolf <kwolf@redhat.com>
-To: qemu-block@nongnu.org
-Date: Mon, 20 May 2019 18:14:53 +0200
-Message-Id: <20190520161453.30723-25-kwolf@redhat.com>
-In-Reply-To: <20190520161453.30723-1-kwolf@redhat.com>
-References: <20190520161453.30723-1-kwolf@redhat.com>
+	(envelope-from <peter.maydell@linaro.org>) id 1hSl98-0001FU-0y
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 12:28:19 -0400
+Received: from mail-wr1-x433.google.com ([2a00:1450:4864:20::433]:42161)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hSl94-0001Cp-0h
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 12:28:15 -0400
+Received: by mail-wr1-x433.google.com with SMTP id l2so15319535wrb.9
+	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 09:28:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=YCN4s6HR1/KrVRGNw0XQMaeLQvxAhrw3P2htQwH2UHU=;
+	b=k6P9zfQwkL1iVZPWGReO2YjJyl870GuwmSwY29w+vQaqh7mRdMQCaWEDzXXMruCiBP
+	5hPNL8fZm4mKEf/HGLmEcBB6rcEa6WLTfQZ4NyLFmyzeepTfc3LaDnfos/4KXKCvJJ9t
+	JI1JQlagCbLvYatWqvcYnAQGkWhoCiQzNpk3Gy/htwnQ2oKssV+qrjLmkQR2zcPNYdyN
+	THqkkn0Fy/0HRIkRN47GzbaGoOib+zChZn3bT2f3nm51tQISdo5wKkRHd46hpHUCXLOR
+	lUYPVXHyut5i/l9pwVCmklGRbZhE3IWufmmm2wquSF0G9nO8ix7T1P5WmQuQZQNluewl
+	zxJw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=YCN4s6HR1/KrVRGNw0XQMaeLQvxAhrw3P2htQwH2UHU=;
+	b=jgbVeDj8QlhQzBPwfRF3T5keRlT+XSo8s6k8Yv1cfK2gg9YgomXWdr6TfDfGYRpWs8
+	tAodd7PQHrFgKEcTVw2cKeWr1drklCagJ5SvR9XhtKTHXlMfTA+vdxxa7fQuseeNBb4B
+	RNc3QSIxxuhK5uMMd04vOE5wMOHOUgCKqeGw01PRKFOYCbWO0CVppDRROzRf4dl4xwII
+	RTijzb7+vEi0iXy2/c4cvm0cK+ZDdvm7NS1cSQhJkqI6Oi6VJXwuWEks7xAsreRAqM/D
+	OkCSNVyDTE2xMrgtQ+5N7cCLAGJ4H+Y/Fi1Wo+3ZzffMKcRLlNV2PtW5MHylhIQnrVJg
+	VgFw==
+X-Gm-Message-State: APjAAAXgMalFi6MHsdE0CEXcwSMDq5q6dWEh8HE69eCaSPlyQMvsQYlb
+	iS+HqdlnDj8iNh51iDPa3wTSXAXORpo=
+X-Google-Smtp-Source: APXvYqypUC0jyMS8JkjeLONenDVwkIwwyb0yw5zAEw+WRFkJ+4YHd+AVyyr8WN14vCNZ5NkBnD6qkg==
+X-Received: by 2002:a5d:400b:: with SMTP id n11mr45584711wrp.123.1558369692446;
+	Mon, 20 May 2019 09:28:12 -0700 (PDT)
+Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
+	by smtp.gmail.com with ESMTPSA id x2sm5830394wrs.39.2019.05.20.09.28.11
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Mon, 20 May 2019 09:28:11 -0700 (PDT)
+From: Peter Maydell <peter.maydell@linaro.org>
+To: qemu-arm@nongnu.org,
+	qemu-devel@nongnu.org
+Date: Mon, 20 May 2019 17:28:05 +0100
+Message-Id: <20190520162809.2677-1-peter.maydell@linaro.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.30]);
-	Mon, 20 May 2019 16:15:52 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 24/24] iotests: Make 245 faster and more reliable
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2a00:1450:4864:20::433
+Subject: [Qemu-devel] [PATCH 0/4] hw/intc/arm_gicv3: Four simple bugfixes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -56,161 +76,27 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Max Reitz <mreitz@redhat.com>
+This patchset fixes four bugs in our implementation of the GICv3.
+They're all fairly small fixes, largely typo/cut-n-paste errors...
 
-Sometimes, 245 fails for me because some stream job has already finished
-while the test expects it to still be active.  (With -c none, it fails
-basically every time.) The most reliable way to fix this is to simply
-set auto_finalize=3Dfalse so the job will remain in the block graph as
-long as we need it.  This allows us to drop the rate limiting, too,
-which makes the test faster.
+thanks
+-- PMM
 
-The only problem with this is that there is a single place that yields a
-different error message depending on whether the stream job is still
-copying data (so COR is enabled) or not (COR has been disabled, but the
-job still has the WRITE_UNCHANGED permission on the target node).  We
-can easily address that by expecting either error message.
+Peter Maydell (4):
+  hw/intc/arm_gicv3: Fix decoding of ID register range
+  hw/intc/arm_gicv3: GICD_TYPER.SecurityExtn is RAZ if GICD_CTLR.DS == 1
+  hw/intc/arm_gicv3: Fix write of ICH_VMCR_EL2.{VBPR0,VBPR1}
+  hw/intc/arm_gicv3: Fix writes to ICC_CTLR_EL3
 
-Note that we do not need auto_finalize=3Dfalse (or rate limiting) for the
-active commit job, because It never completes without an explicit
-block-job-complete anyway.
+ hw/intc/arm_gicv3_cpuif.c  |  6 +++---
+ hw/intc/arm_gicv3_dist.c   | 10 ++++++++--
+ hw/intc/arm_gicv3_redist.c |  2 +-
+ 3 files changed, 12 insertions(+), 6 deletions(-)
 
-Signed-off-by: Max Reitz <mreitz@redhat.com>
-Reviewed-by: Alberto Garcia <berto@igalia.com>
-Signed-off-by: Kevin Wolf <kwolf@redhat.com>
----
- tests/qemu-iotests/245     | 22 ++++++++++++++--------
- tests/qemu-iotests/245.out | 12 ++++++++++++
- 2 files changed, 26 insertions(+), 8 deletions(-)
-
-diff --git a/tests/qemu-iotests/245 b/tests/qemu-iotests/245
-index a04c6235c1..349b94aace 100644
---- a/tests/qemu-iotests/245
-+++ b/tests/qemu-iotests/245
-@@ -862,7 +862,8 @@ class TestBlockdevReopen(iotests.QMPTestCase):
-=20
-         # hd2 <- hd0
-         result =3D self.vm.qmp('block-stream', conv_keys =3D True, job_i=
-d =3D 'stream0',
--                             device =3D 'hd0', base_node =3D 'hd2', spee=
-d =3D 512 * 1024)
-+                             device =3D 'hd0', base_node =3D 'hd2',
-+                             auto_finalize =3D False)
-         self.assert_qmp(result, 'return', {})
-=20
-         # We can't remove hd2 while the stream job is ongoing
-@@ -873,7 +874,7 @@ class TestBlockdevReopen(iotests.QMPTestCase):
-         opts['backing'] =3D None
-         self.reopen(opts, {}, "Cannot change 'backing' link from 'hd0' t=
-o 'hd1'")
-=20
--        self.wait_until_completed(drive =3D 'stream0')
-+        self.vm.run_job('stream0', auto_finalize =3D False, auto_dismiss=
- =3D True)
-=20
-     # Reopen the chain during a block-stream job (from hd2 to hd1)
-     def test_block_stream_4(self):
-@@ -886,12 +887,16 @@ class TestBlockdevReopen(iotests.QMPTestCase):
-=20
-         # hd1 <- hd0
-         result =3D self.vm.qmp('block-stream', conv_keys =3D True, job_i=
-d =3D 'stream0',
--                             device =3D 'hd1', speed =3D 512 * 1024)
-+                             device =3D 'hd1', auto_finalize =3D False)
-         self.assert_qmp(result, 'return', {})
-=20
-         # We can't reopen with the original options because that would
-         # make hd1 read-only and block-stream requires it to be read-wri=
-te
--        self.reopen(opts, {}, "Can't set node 'hd1' to r/o with copy-on-=
-read enabled")
-+        # (Which error message appears depends on whether the stream job=
- is
-+        # already done with copying at this point.)
-+        self.reopen(opts, {},
-+            ["Can't set node 'hd1' to r/o with copy-on-read enabled",
-+             "Cannot make block node read-only, there is a writer on it"=
-])
-=20
-         # We can't remove hd2 while the stream job is ongoing
-         opts['backing']['backing'] =3D None
-@@ -901,7 +906,7 @@ class TestBlockdevReopen(iotests.QMPTestCase):
-         opts['backing'] =3D None
-         self.reopen(opts)
-=20
--        self.wait_until_completed(drive =3D 'stream0')
-+        self.vm.run_job('stream0', auto_finalize =3D False, auto_dismiss=
- =3D True)
-=20
-     # Reopen the chain during a block-commit job (from hd0 to hd2)
-     def test_block_commit_1(self):
-@@ -913,7 +918,7 @@ class TestBlockdevReopen(iotests.QMPTestCase):
-         self.assert_qmp(result, 'return', {})
-=20
-         result =3D self.vm.qmp('block-commit', conv_keys =3D True, job_i=
-d =3D 'commit0',
--                             device =3D 'hd0', speed =3D 1024 * 1024)
-+                             device =3D 'hd0')
-         self.assert_qmp(result, 'return', {})
-=20
-         # We can't remove hd2 while the commit job is ongoing
-@@ -944,7 +949,8 @@ class TestBlockdevReopen(iotests.QMPTestCase):
-         self.assert_qmp(result, 'return', {})
-=20
-         result =3D self.vm.qmp('block-commit', conv_keys =3D True, job_i=
-d =3D 'commit0',
--                             device =3D 'hd0', top_node =3D 'hd1', speed=
- =3D 1024 * 1024)
-+                             device =3D 'hd0', top_node =3D 'hd1',
-+                             auto_finalize =3D False)
-         self.assert_qmp(result, 'return', {})
-=20
-         # We can't remove hd2 while the commit job is ongoing
-@@ -956,7 +962,7 @@ class TestBlockdevReopen(iotests.QMPTestCase):
-         self.reopen(opts, {}, "Cannot change backing link if 'hd0' has a=
-n implicit backing file")
-=20
-         # hd2 <- hd0
--        self.wait_until_completed(drive =3D 'commit0')
-+        self.vm.run_job('commit0', auto_finalize =3D False, auto_dismiss=
- =3D True)
-=20
-         self.assert_qmp(self.get_node('hd0'), 'ro', False)
-         self.assertEqual(self.get_node('hd1'), None)
-diff --git a/tests/qemu-iotests/245.out b/tests/qemu-iotests/245.out
-index 71009c239f..a19de5214d 100644
---- a/tests/qemu-iotests/245.out
-+++ b/tests/qemu-iotests/245.out
-@@ -3,3 +3,15 @@
- Ran 18 tests
-=20
- OK
-+{"execute": "job-finalize", "arguments": {"id": "commit0"}}
-+{"return": {}}
-+{"data": {"id": "commit0", "type": "commit"}, "event": "BLOCK_JOB_PENDIN=
-G", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
-+{"data": {"device": "commit0", "len": 3145728, "offset": 3145728, "speed=
-": 0, "type": "commit"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"m=
-icroseconds": "USECS", "seconds": "SECS"}}
-+{"execute": "job-finalize", "arguments": {"id": "stream0"}}
-+{"return": {}}
-+{"data": {"id": "stream0", "type": "stream"}, "event": "BLOCK_JOB_PENDIN=
-G", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
-+{"data": {"device": "stream0", "len": 3145728, "offset": 3145728, "speed=
-": 0, "type": "stream"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"m=
-icroseconds": "USECS", "seconds": "SECS"}}
-+{"execute": "job-finalize", "arguments": {"id": "stream0"}}
-+{"return": {}}
-+{"data": {"id": "stream0", "type": "stream"}, "event": "BLOCK_JOB_PENDIN=
-G", "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
-+{"data": {"device": "stream0", "len": 3145728, "offset": 3145728, "speed=
-": 0, "type": "stream"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"m=
-icroseconds": "USECS", "seconds": "SECS"}}
---=20
+-- 
 2.20.1
 
 
