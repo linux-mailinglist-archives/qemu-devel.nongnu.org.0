@@ -2,52 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id F32C32315F
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 12:33:09 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33080 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A315723175
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 12:39:16 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33128 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSfbQ-0007Us-Pc
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 06:33:08 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:39810)
+	id 1hSfhL-0000Mv-8U
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 06:39:15 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41095)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <lvivier@redhat.com>) id 1hSfa4-0006ut-Sg
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 06:31:45 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hSffn-0008Js-F7
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 06:37:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <lvivier@redhat.com>) id 1hSfa4-0001B1-1i
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 06:31:44 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:48788)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <lvivier@redhat.com>)
-	id 1hSfa3-0001Aj-SQ; Mon, 20 May 2019 06:31:43 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
-	[10.5.11.12])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id E26A0C13070F;
-	Mon, 20 May 2019 10:31:33 +0000 (UTC)
-Received: from [10.40.205.57] (unknown [10.40.205.57])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 239FE60BEC;
-	Mon, 20 May 2019 10:31:25 +0000 (UTC)
-To: Gerd Hoffmann <kraxel@redhat.com>, qemu-devel@nongnu.org
-References: <20190520081805.15019-1-kraxel@redhat.com>
-From: Laurent Vivier <lvivier@redhat.com>
-Message-ID: <39fb4974-bd00-b2ff-65e4-89bb31e2973a@redhat.com>
-Date: Mon, 20 May 2019 12:31:25 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
+	(envelope-from <peter.maydell@linaro.org>) id 1hSffm-0003e0-BD
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 06:37:39 -0400
+Received: from mail-oi1-x236.google.com ([2607:f8b0:4864:20::236]:40545)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hSffm-0003dU-1V
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 06:37:38 -0400
+Received: by mail-oi1-x236.google.com with SMTP id r136so9587727oie.7
+	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 03:37:37 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=y6ww3BpOqAFjA5HT8Sb2H4u/K8a7afEpCYZW/QtnIyw=;
+	b=XJ4yyR7+QjTfVR2mnZIQaANopBrDZ791DVNWnnxXiXIA6fkrkLYWJJPj/G0sJQZvVL
+	JYZ57zrGAGfgGwy7LsnonwYLNTqZ9tgszPa8OM1mh4B43sP4zdirGTGd7tmljVZV1tmR
+	BWlaKYyybm3vFQc0NsXePAe1JcPw2aww0criI1kAAtLMDppg8SwIPoOSqo1GNFmgm9PY
+	0p5gef62NR13CuxHT9Ubo0CMZn59bS/IAcoAZj8XoB/2mg1z6c+mkET1Z/eriQe99Mz5
+	AOz5Yf/jSsaZrRcHeRgOOu8GJAeq1VV45dNSJ+3nbFma0rH7POPK4UjGATdQUq6p9X+u
+	JjHw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=y6ww3BpOqAFjA5HT8Sb2H4u/K8a7afEpCYZW/QtnIyw=;
+	b=Mq0Z4kaFZ5DtH7ncxaPYXC2jVFidcapywoseRgiIuqz525UVHeWd/urq51q9qqDOUy
+	fbRQJlndJPjrKMbLPIghFo1xG0HULQBMmfFY+gAYaJNC4dLlqPHyYH0UBGAd2cJVZBzb
+	QnqSCrftcjmfcCCGlMfUUJSSkMSUa7Zic/2gxXWVBJ0xoyySJMJP0k0yo51rTzqOKK5Q
+	OeQVSwmbj6pM6dLeWzi8DYXVbiAHyxBxXmc0Pa05XPXq6rv+JRfV/cxOZtwGeKWoO2z2
+	Y79s6LZ3CqkQQaoDLH+A65lZsmFV37DAD9UGL5rDfxDg/M29CrOZ4IsJwq5yLfyMBe7H
+	dWCQ==
+X-Gm-Message-State: APjAAAWx2sKZZXnrduKhuN/oq35mAa4HvqA9WPmCjy176YENzIjSCpLX
+	KpyJyQjqznTXnxvEWASMF9i2Y2ztcnxO71RSNf8Aqw==
+X-Google-Smtp-Source: APXvYqynb8ZZwlZ4mY+fJStrlooKNCNM3RAA2yQyEJs7wZbRiya804mMIJ0HN15ijIEAs2wSOSmMluGSqcYfx6XjXhc=
+X-Received: by 2002:aca:4e42:: with SMTP id c63mr22703967oib.170.1558348655903;
+	Mon, 20 May 2019 03:37:35 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190520081805.15019-1-kraxel@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.31]);
-	Mon, 20 May 2019 10:31:37 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH] usb-tablet: fix serial compat property
+References: <20190517183240.689188-1-groug@kaod.org>
+In-Reply-To: <20190517183240.689188-1-groug@kaod.org>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Mon, 20 May 2019 11:37:24 +0100
+Message-ID: <CAFEAcA8Xy5mTtBXdj71TMeTeipNVyzG5pX+VuU3NRYncVc7fwA@mail.gmail.com>
+To: Greg Kurz <groug@kaod.org>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::236
+Subject: Re: [Qemu-devel] [PULL 0/6] 9p patches 2019-05-17
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -59,36 +71,42 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-stable@nongnu.org, dgilbert@redhat.com,
-	Eduardo Habkost <ehabkost@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 20/05/2019 10:18, Gerd Hoffmann wrote:
-> s/kbd/tablet/, fixes cut+paste bug.
-> 
-> Cc: qemu-stable@nongnu.org
-> Reported-by: Dr. David Alan Gilbert <dgilbert@redhat.com>
-> Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-> ---
->  hw/core/machine.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/hw/core/machine.c b/hw/core/machine.c
-> index 5d046a43e3d2..eb34f53a85b0 100644
-> --- a/hw/core/machine.c
-> +++ b/hw/core/machine.c
-> @@ -36,7 +36,7 @@ GlobalProperty hw_compat_3_1[] = {
->      { "tpm-tis", "ppi", "false" },
->      { "usb-kbd", "serial", "42" },
->      { "usb-mouse", "serial", "42" },
-> -    { "usb-kbd", "serial", "42" },
-> +    { "usb-tablet", "serial", "42" },
->      { "virtio-blk-device", "discard", "false" },
->      { "virtio-blk-device", "write-zeroes", "false" },
->  };
-> 
+On Fri, 17 May 2019 at 19:32, Greg Kurz <groug@kaod.org> wrote:
+>
+> The following changes since commit f2a930ad8c433c5583e28ec803c8ca7cb2f31ab5:
+>
+>   Merge remote-tracking branch 'remotes/mcayland/tags/qemu-sparc-20190517' into staging (2019-05-17 15:46:37 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://github.com/gkurz/qemu.git tags/for-upstream
+>
+> for you to fetch changes up to b44a6b09705e9e8a3005229b58de36d176020548:
+>
+>   virtfs: Fix documentation of -fsdev and -virtfs (2019-05-17 17:34:49 +0200)
+>
+> ----------------------------------------------------------------
+> This fixes the virtfs documentation (LP 1581976), deprecates the
+> -virtfs_synth command line option, along with some assorted cleanups.
+>
+> ----------------------------------------------------------------
+> Greg Kurz (6):
+>       fsdev: Drop unused extern declaration
+>       fsdev: Drop unused opaque field
+>       fsdev: Move some types definition to qemu-fsdev.c
+>       fsdev: Error out when unsupported option is passed
+>       vl: Deprecate -virtfs_synth
+>       virtfs: Fix documentation of -fsdev and -virtfs
 
-Reviewed-by: Laurent Vivier <lvivier@redhat.com>
 
+Applied, thanks.
+
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
+for any user-visible changes.
+
+-- PMM
 
