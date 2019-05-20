@@ -2,47 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 792E022A45
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 05:11:19 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57000 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7194322A47
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 05:13:42 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57020 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSYhq-00032I-IR
-	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 23:11:18 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49104)
+	id 1hSYk9-0005Pt-H7
+	for lists+qemu-devel@lfdr.de; Sun, 19 May 2019 23:13:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49129)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peterx@redhat.com>) id 1hSYfZ-0001qO-5B
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 23:08:58 -0400
+	(envelope-from <peterx@redhat.com>) id 1hSYfb-0001sb-RZ
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 23:09:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peterx@redhat.com>) id 1hSYfY-0001Tj-9L
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 23:08:57 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36686)
+	(envelope-from <peterx@redhat.com>) id 1hSYfa-0001Xu-Sx
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 23:08:59 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:60248)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <peterx@redhat.com>) id 1hSYfY-0001TO-4R
-	for qemu-devel@nongnu.org; Sun, 19 May 2019 23:08:56 -0400
+	(Exim 4.71) (envelope-from <peterx@redhat.com>) id 1hSYfa-0001XJ-Nu
+	for qemu-devel@nongnu.org; Sun, 19 May 2019 23:08:58 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
 	[10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 7CD57883A2
-	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 03:08:55 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 18556308620E
+	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 03:08:58 +0000 (UTC)
 Received: from xz-x1.nay.redhat.com (dhcp-15-205.nay.redhat.com [10.66.15.205])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 080E2100200A;
-	Mon, 20 May 2019 03:08:51 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id F3CB710027B7;
+	Mon, 20 May 2019 03:08:55 +0000 (UTC)
 From: Peter Xu <peterx@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 20 May 2019 11:08:27 +0800
-Message-Id: <20190520030839.6795-4-peterx@redhat.com>
+Date: Mon, 20 May 2019 11:08:28 +0800
+Message-Id: <20190520030839.6795-5-peterx@redhat.com>
 In-Reply-To: <20190520030839.6795-1-peterx@redhat.com>
 References: <20190520030839.6795-1-peterx@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.26]);
-	Mon, 20 May 2019 03:08:55 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.42]);
+	Mon, 20 May 2019 03:08:58 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 03/15] migration: No need to take rcu during
- sync_dirty_bitmap
+Subject: [Qemu-devel] [PATCH v2 04/15] memory: Remove
+ memory_region_get_dirty()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -60,59 +60,61 @@ Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-cpu_physical_memory_sync_dirty_bitmap() has one RAMBlock* as
-parameter, which means that it must be with RCU read lock held
-already.  Taking it again inside seems redundant.  Removing it.
-Instead comment on the functions about the RCU read lock.
+It's never used anywhere.
 
 Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
 Signed-off-by: Peter Xu <peterx@redhat.com>
 ---
- include/exec/ram_addr.h | 5 +----
- migration/ram.c         | 1 +
- 2 files changed, 2 insertions(+), 4 deletions(-)
+ include/exec/memory.h | 17 -----------------
+ memory.c              |  8 --------
+ 2 files changed, 25 deletions(-)
 
-diff --git a/include/exec/ram_addr.h b/include/exec/ram_addr.h
-index 139ad79390..993fb760f3 100644
---- a/include/exec/ram_addr.h
-+++ b/include/exec/ram_addr.h
-@@ -408,6 +408,7 @@ static inline void cpu_physical_memory_clear_dirty_range(ram_addr_t start,
+diff --git a/include/exec/memory.h b/include/exec/memory.h
+index 9144a47f57..e6140e8a04 100644
+--- a/include/exec/memory.h
++++ b/include/exec/memory.h
+@@ -1254,23 +1254,6 @@ void memory_region_ram_resize(MemoryRegion *mr, ram_addr_t newsize,
+  */
+ void memory_region_set_log(MemoryRegion *mr, bool log, unsigned client);
+ 
+-/**
+- * memory_region_get_dirty: Check whether a range of bytes is dirty
+- *                          for a specified client.
+- *
+- * Checks whether a range of bytes has been written to since the last
+- * call to memory_region_reset_dirty() with the same @client.  Dirty logging
+- * must be enabled.
+- *
+- * @mr: the memory region being queried.
+- * @addr: the address (relative to the start of the region) being queried.
+- * @size: the size of the range being queried.
+- * @client: the user of the logging information; %DIRTY_MEMORY_MIGRATION or
+- *          %DIRTY_MEMORY_VGA.
+- */
+-bool memory_region_get_dirty(MemoryRegion *mr, hwaddr addr,
+-                             hwaddr size, unsigned client);
+-
+ /**
+  * memory_region_set_dirty: Mark a range of bytes as dirty in a memory region.
+  *
+diff --git a/memory.c b/memory.c
+index 3071c4bdad..0920c105aa 100644
+--- a/memory.c
++++ b/memory.c
+@@ -2027,14 +2027,6 @@ void memory_region_set_log(MemoryRegion *mr, bool log, unsigned client)
+     memory_region_transaction_commit();
  }
  
- 
-+/* Must be with rcu read lock held */
- static inline
- uint64_t cpu_physical_memory_sync_dirty_bitmap(RAMBlock *rb,
-                                                ram_addr_t start,
-@@ -431,8 +432,6 @@ uint64_t cpu_physical_memory_sync_dirty_bitmap(RAMBlock *rb,
-                                         DIRTY_MEMORY_BLOCK_SIZE);
-         unsigned long page = BIT_WORD(start >> TARGET_PAGE_BITS);
- 
--        rcu_read_lock();
+-bool memory_region_get_dirty(MemoryRegion *mr, hwaddr addr,
+-                             hwaddr size, unsigned client)
+-{
+-    assert(mr->ram_block);
+-    return cpu_physical_memory_get_dirty(memory_region_get_ram_addr(mr) + addr,
+-                                         size, client);
+-}
 -
-         src = atomic_rcu_read(
-                 &ram_list.dirty_memory[DIRTY_MEMORY_MIGRATION])->blocks;
- 
-@@ -452,8 +451,6 @@ uint64_t cpu_physical_memory_sync_dirty_bitmap(RAMBlock *rb,
-                 idx++;
-             }
-         }
--
--        rcu_read_unlock();
-     } else {
-         ram_addr_t offset = rb->offset;
- 
-diff --git a/migration/ram.c b/migration/ram.c
-index 4c60869226..05f9f36c7c 100644
---- a/migration/ram.c
-+++ b/migration/ram.c
-@@ -1678,6 +1678,7 @@ static inline bool migration_bitmap_clear_dirty(RAMState *rs,
-     return ret;
- }
- 
-+/* Must be with rcu read lock held */
- static void migration_bitmap_sync_range(RAMState *rs, RAMBlock *rb,
-                                         ram_addr_t length)
+ void memory_region_set_dirty(MemoryRegion *mr, hwaddr addr,
+                              hwaddr size)
  {
 -- 
 2.17.1
