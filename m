@@ -2,64 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 090B724417
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 01:19:41 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43419 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 56E5524443
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 01:24:42 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43500 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSrZE-0005GB-4K
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 19:19:40 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45092)
+	id 1hSre5-0001DL-Ce
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 19:24:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45089)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hSrR1-0007c3-PM
+	(envelope-from <mst@redhat.com>) id 1hSrR1-0007bs-Jj
 	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:11:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hSrR0-0008BR-KT
+	(envelope-from <mst@redhat.com>) id 1hSrR0-0008Bd-Nl
 	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:11:11 -0400
-Received: from mail-qk1-f173.google.com ([209.85.222.173]:41336)
+Received: from mail-qt1-f193.google.com ([209.85.160.193]:33111)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hSrQz-0008AR-7S
+	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hSrR0-0008B1-K0
 	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:11:10 -0400
-Received: by mail-qk1-f173.google.com with SMTP id m18so92067qki.8
-	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 16:11:07 -0700 (PDT)
+Received: by mail-qt1-f193.google.com with SMTP id m32so18403694qtf.0
+	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 16:11:09 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:content-transfer-encoding
-	:in-reply-to;
-	bh=oan5kE2o33xzffypseyYQl7lDvbN5Ab+0RzaGZ/vQ6w=;
-	b=FjElzXAj/Hr45xfRkQah6irTk4t90ew0Lz2TDlt5HU8yXcH0mGuZVsnge8H419Xfz9
-	97vT7v4aHIElGce4Sn8aueDVYAxdDS9VcjBqTfdmui5mi6cA0SxggbL6kFZ15BMxvbVm
-	S3+1ie9ExaL4e5Nb9JgfEJ08l3i09z+mPH7UW2runPE6NMLeCfoHNhscocZbNLbXKR7d
-	UIe0UMRBzKYy6dlnNWfcJFm7nAMc0cLUC7Y2DlWR3rxNe+L1z/zeRDSu7eqKAWFvdNt9
-	s7ufvulG8JWwzuFQxMDQYOxML4tQvcjubLW/3cHDKezs0MgCygk3prkmUMSedhZt0Efi
-	A3Eg==
-X-Gm-Message-State: APjAAAW5h0evly5KXlixebh//+VvODJ+JOaORvh5mAdKDJ7yGbVnRSbT
-	jeA8280tNmOAUXXURv/Di37DDh7Crl4=
-X-Google-Smtp-Source: APXvYqyvRGDhIuU9jSDizXPQxZVTkaNBXoaYdT2bHpVdMPMlUt7YNofS+U/O4+ax0KnS7k03kFpBxQ==
-X-Received: by 2002:a37:7f02:: with SMTP id a2mr29908409qkd.124.1558393867101; 
-	Mon, 20 May 2019 16:11:07 -0700 (PDT)
+	:mime-version:content-disposition:in-reply-to;
+	bh=EBhBqzmf7dvCSZtcFzIQFoj7mET0nH0WKBXoVmSjL3Q=;
+	b=CNjXvVUhtv791/tn1EHNqqA167ikBlZq7fb8XpX3Pgfb2123aoiy1aZBYsMpAR2Pgn
+	NOJ48KUtbDLlpuAxrZkMWE9sNBB13Bw4a6I7sEYx73/7wYy7UbHPkacNwmIbcYdCTotb
+	clsMaVkSGTGx8GC0jnD+bM2KnpWlCccQfNRqYyesF6t5VyJAWFrXYDOhSIIAPq8WPuQp
+	TBbNW79d+HnyiaPm9RwFbokmdbQDqWEnNL9/KrpGk+oyaLmNMmnfJRl0+ZRZfe7hwQ89
+	F+oUuqBKrUwQbor1XkmgxB2Yj+MKX9+CjbtpjHXoKV4C8PhV2ONcur2rB89qUzPZ+0gP
+	2OHw==
+X-Gm-Message-State: APjAAAWrTRQ4f6Vb8gOieu0dW4MO06JRC+eHTaqSlsXAvEoL1fHkJjgQ
+	GdLMJcfcdfQW8ro8QFxRz5I/s55y4+U=
+X-Google-Smtp-Source: APXvYqwQlpCyP1ZKsgJSYHHrnI57gtzNfc5RSXWKq62UPJfM5LiS7diQnAG0DzpvcMnAYEe96GoUDA==
+X-Received: by 2002:ac8:26a4:: with SMTP id 33mr47116734qto.188.1558393868882; 
+	Mon, 20 May 2019 16:11:08 -0700 (PDT)
 Received: from redhat.com (pool-173-76-105-71.bstnma.fios.verizon.net.
-	[173.76.105.71]) by smtp.gmail.com with ESMTPSA id
-	124sm8457029qkj.59.2019.05.20.16.11.05
+	[173.76.105.71])
+	by smtp.gmail.com with ESMTPSA id w5sm6465476qtc.50.2019.05.20.16.11.07
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Mon, 20 May 2019 16:11:06 -0700 (PDT)
-Date: Mon, 20 May 2019 19:11:05 -0400
+	Mon, 20 May 2019 16:11:08 -0700 (PDT)
+Date: Mon, 20 May 2019 19:11:07 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Message-ID: <20190420091016.213160-1-fengli@smartx.com>
+Message-ID: <20190424041959.4087-2-david@gibson.dropbear.id.au>
 References: <20190520231008.20140-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 In-Reply-To: <20190520231008.20140-1-mst@redhat.com>
 X-Mailer: git-send-email 2.17.1.1206.gb667731e2e.dirty
 X-Mutt-Fcc: =sent
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.222.173
-Subject: [Qemu-devel] [PULL v2 19/36] libvhost-user: fix bad vu_log_write
+X-Received-From: 209.85.160.193
+Subject: [Qemu-devel] [PULL v2 20/36] pcie: Remove redundant test in
+ pcie_mmcfg_data_{read, write}()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -71,40 +70,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Li Feng <lifeng1519@gmail.com>, Peter Maydell <peter.maydell@linaro.org>,
-	Zhang Yu <zhangyu31@baidu.com>, Li Feng <fengli@smartx.com>,
-	Gerd Hoffmann <kraxel@redhat.com>,
-	=?utf-8?Q?Marc-Andr=C3=A9?= Lureau <marcandre.lureau@redhat.com>,
-	Xie Yongji <xieyongji@baidu.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+	David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Li Feng <lifeng1519@gmail.com>
+From: David Gibson <david@gibson.dropbear.id.au>
 
-Mark dirty as page, the step of each call is 1.
+These functions have an explicit test for accesses above the device's
+config size.  But pci_host_config_{read,write}_common() which they're
+about to call already have checks against the config space limit and
+do the right thing.  So, remove the redundant tests.
 
-Signed-off-by: Li Feng <fengli@smartx.com>
-Message-Id: <20190420091016.213160-1-fengli@smartx.com>
-Reviewed-by: Marc-André Lureau <marcandre.lureau@redhat.com>
-Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
-Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+Message-Id: <20190424041959.4087-2-david@gibson.dropbear.id.au>
 ---
- contrib/libvhost-user/libvhost-user.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/pci/pcie_host.c | 10 ----------
+ 1 file changed, 10 deletions(-)
 
-diff --git a/contrib/libvhost-user/libvhost-user.c b/contrib/libvhost-user/libvhost-user.c
-index 74d42177c5..3825b1cacf 100644
---- a/contrib/libvhost-user/libvhost-user.c
-+++ b/contrib/libvhost-user/libvhost-user.c
-@@ -433,7 +433,7 @@ vu_log_write(VuDev *dev, uint64_t address, uint64_t length)
-     page = address / VHOST_LOG_PAGE;
-     while (page * VHOST_LOG_PAGE < address + length) {
-         vu_log_page(dev->log_table, page);
--        page += VHOST_LOG_PAGE;
-+        page += 1;
+diff --git a/hw/pci/pcie_host.c b/hw/pci/pcie_host.c
+index 553db56778..1ee4945a6d 100644
+--- a/hw/pci/pcie_host.c
++++ b/hw/pci/pcie_host.c
+@@ -47,11 +47,6 @@ static void pcie_mmcfg_data_write(void *opaque, hwaddr mmcfg_addr,
      }
+     addr = PCIE_MMCFG_CONFOFFSET(mmcfg_addr);
+     limit = pci_config_size(pci_dev);
+-    if (limit <= addr) {
+-        /* conventional pci device can be behind pcie-to-pci bridge.
+-           256 <= addr < 4K has no effects. */
+-        return;
+-    }
+     pci_host_config_write_common(pci_dev, addr, limit, val, len);
+ }
  
-     vu_log_kick(dev);
+@@ -70,11 +65,6 @@ static uint64_t pcie_mmcfg_data_read(void *opaque,
+     }
+     addr = PCIE_MMCFG_CONFOFFSET(mmcfg_addr);
+     limit = pci_config_size(pci_dev);
+-    if (limit <= addr) {
+-        /* conventional pci device can be behind pcie-to-pci bridge.
+-           256 <= addr < 4K has no effects. */
+-        return ~0x0;
+-    }
+     return pci_host_config_read_common(pci_dev, addr, limit, len);
+ }
+ 
 -- 
 MST
 
