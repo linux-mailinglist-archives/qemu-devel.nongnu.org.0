@@ -2,52 +2,75 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08DB8236BC
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 15:11:23 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:35532 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D65DA236B4
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 15:05:44 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:35393 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSi4Y-0002gT-5g
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 09:11:22 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47273)
+	id 1hShz6-0007DI-28
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 09:05:44 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48025)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hShvA-0005Fc-Bn
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 09:01:41 -0400
+	(envelope-from <alex.bennee@linaro.org>) id 1hShxD-0006ZM-EL
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 09:03:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kwolf@redhat.com>) id 1hShv5-0004eK-8q
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 09:01:40 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:54042)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <kwolf@redhat.com>)
-	id 1hShuy-0004aU-MA; Mon, 20 May 2019 09:01:28 -0400
-Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
-	[10.5.11.15])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id E1FF4308220B;
-	Mon, 20 May 2019 13:01:27 +0000 (UTC)
-Received: from localhost.localdomain (ovpn-117-208.ams2.redhat.com
-	[10.36.117.208])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 739415D6A6;
-	Mon, 20 May 2019 13:01:26 +0000 (UTC)
-Date: Mon, 20 May 2019 15:01:24 +0200
-From: Kevin Wolf <kwolf@redhat.com>
-To: Klaus Birkelund Jensen <klaus@birkelund.eu>
-Message-ID: <20190520130124.GE5699@localhost.localdomain>
-References: <20190517084234.26923-1-klaus@birkelund.eu>
+	(envelope-from <alex.bennee@linaro.org>) id 1hShxC-0005l3-0A
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 09:03:47 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:53376)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+	id 1hShxB-0005cA-Hl
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 09:03:45 -0400
+Received: by mail-wm1-x344.google.com with SMTP id 198so13212513wme.3
+	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 06:03:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=references:user-agent:from:to:cc:subject:in-reply-to:date
+	:message-id:mime-version:content-transfer-encoding;
+	bh=o8BzmYWwsSmpDO0IODzAjibHc/1QIz0ZyvNfpvYYa9s=;
+	b=Tkm7ub0Y3rKmCvRqgHR5I78zX3thUVhgSTbJTe+U5y2fqdO8QB1JKtRBxfQ/C9pRuS
+	fK5wjq125wL6zJM1GUHVagRloyDZ8RUX92DGPZY1YS+GI1Zku2FqQK6ThP+I/DmfBjkS
+	hnXpnqYUuInhGodh1rSl/frS8IpruRrmi1429rt1dBz4i3nGPPEyVBCYbWRhLwAQ+3j6
+	9PbZ0BHiphQKMMoZJjSSQmIw5dGgNY9FbjUhwNvVEFStVsAS/8or+OkzyTmJ4HFSmo3h
+	ad1tcKcY2yVUWnJh5TNElRwrCQuntleqCuJmnvvh6CLptNtjNfDOWHiZvgWRcU41qFoi
+	bdqw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:references:user-agent:from:to:cc:subject
+	:in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+	bh=o8BzmYWwsSmpDO0IODzAjibHc/1QIz0ZyvNfpvYYa9s=;
+	b=kuVUGam56xmb2fko42RglLdpVs+1XoW8mGx+cNgp859EFQ7UfR5I/mLUbH5AtgU4wM
+	asnIhQrfjmxZKiUcImDJTnFa6fjwolfGJXYEYvi6AR98rGx4rX1ZI/FCL/825j30i5Z6
+	N7sM2F6VyBmkj+S728eXuRheLv3mCNBce+BGBL07q2B13MCCRbeNQtRdakOUnt9f3Icr
+	VeczhPit4Wn0VuV8/tE0aplb20bXVp20K5xPJ87GuQxhdXfKrpy09u34kSkhnZgJrboq
+	RKapTdJ2W3cYPAp7aK7PypYBIWfCkRHmRis+JHWTF+ji+3DldaW1CD60DRLjfyAIvfoz
+	WHWw==
+X-Gm-Message-State: APjAAAVVe4EnZlkacUZ8fTqyYbdFbkAAZ9nDu6Gbgvf8fchMNVPhY9ix
+	muULaC+8CWGYqWdIsz1m91n5rg==
+X-Google-Smtp-Source: APXvYqxdI9dxuVt1uz4Cws99q3mlNUceL4FSrq7eZYXvQS2rEGZPuV0n7NNXQKxxmRpzVexb8lVptw==
+X-Received: by 2002:a1c:ce:: with SMTP id 197mr2352325wma.48.1558357404269;
+	Mon, 20 May 2019 06:03:24 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+	by smtp.gmail.com with ESMTPSA id
+	t7sm21999110wrq.76.2019.05.20.06.03.23
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 20 May 2019 06:03:23 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+	by zen.linaroharston (Postfix) with ESMTP id 1C6261FF87;
+	Mon, 20 May 2019 14:03:23 +0100 (BST)
+References: <20190514155301.16123-1-alex.bennee@linaro.org>
+User-agent: mu4e 1.3.2; emacs 26.1
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: qemu-devel@nongnu.org
+In-reply-to: <20190514155301.16123-1-alex.bennee@linaro.org>
+Date: Mon, 20 May 2019 14:03:23 +0100
+Message-ID: <87pnodgtwk.fsf@zen.linaroharston>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190517084234.26923-1-klaus@birkelund.eu>
-User-Agent: Mutt/1.11.3 (2019-02-01)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.47]);
-	Mon, 20 May 2019 13:01:27 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 0/8] nvme: v1.3, sgls,
- metadata and new 'ocssd' device
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2a00:1450:4864:20::344
+Subject: Re: [Qemu-devel] [RFC PATCH 00/11] semihosting cleanup and re-factor
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -59,77 +82,105 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Keith Busch <keith.busch@intel.com>, armbru@redhat.com,
-	qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+	Aleksandar Rikalo <arikalo@wavecomp.com>, riku.voipio@iki.fi,
+	Laurent Vivier <laurent@vivier.eu>, qemu-arm@nongnu.org,
+	Aleksandar Markovic <amarkovic@wavecomp.com>,
+	Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Am 17.05.2019 um 10:42 hat Klaus Birkelund Jensen geschrieben:
+
+Alex Benn=C3=A9e <alex.bennee@linaro.org> writes:
+
 > Hi,
-> 
-> This series of patches contains a number of refactorings to the emulated
-> nvme device, adds additional features, such as support for metadata and
-> scatter gather lists, and bumps the supported NVMe version to 1.3.
-> Lastly, it contains a new 'ocssd' device.
-> 
-> The motivation for the first seven patches is to set everything up for
-> the final patch that adds a new 'ocssd' device and associated block
-> driver that implements the OpenChannel 2.0 specification[1]. Many of us
-> in the OpenChannel comunity have used a qemu fork[2] for emulation of
-> OpenChannel devices. The fork is itself based on Keith's qemu-nvme
-> tree[3] and we recently merged mainline qemu into it, but the result is
-> still a "hybrid" nvme device that supports both conventional nvme and
-> the OCSSD 2.0 spec through a 'dialect' mechanism. Merging instead of
-> rebasing also created a pretty messy commit history and my efforts to
-> try and rebase our work onto mainline was getting hairy to say the
-> least. And I was never really happy with the dialect approach anyway.
-> 
-> I have instead prepared this series of fresh patches that incrementally
-> adds additional features to the nvme device to bring it into shape for
-> finally introducing a new (and separate) 'ocssd' device that emulates an
-> OpenChannel 2.0 device by reusing core functionality from the nvme
-> device. Providing a separate ocssd device ensures that no ocssd specific
-> stuff creeps into the nvme device.
-> 
-> The ocssd device is backed by a new 'ocssd' block driver that holds
-> internal meta data and keeps state permanent across power cycles. In the
-> future I think we could use the same approach for the nvme device to
-> keep internal metadata such as utilization and deallocated blocks.
+>
+> This collects together some fixes from last weeks RFC clean-up patch
+> as well as a generalised version of the chardev console tweak I made
+> last week for testing/next. As it happens it only really made sense
+> for ARM and MIPs logging semihost calls but there is certainly scope
+> for handling all the semihost syscalls in a more common way. I didn't
+> make the changes to xtensa as that already has a bi-directional
+> console-via-chardev setup and that would be quite a bit of extra work
+> to support.
 
-A backend driver that is specific for a guest device model (i.e. the
-device model requires this driver, and the backend is useless without
-the device) sounds like a very questionable design.
+Ping?
 
-Metadata like OcssdFormatHeader that is considered part of the image
-data, which means that the _actual_ image content without metadata isn't
-directly accessible any more feels like a bad idea, too. Simple things
-like what a resize operation means (change only the actual disk size as
-usual, or is the new size disk + metadata?) become confusing. Attaching
-an image to a different device becomes impossible.
+Philippe has already done a bunch of review (no changes suggested so
+far) but could ARM/MIPS people look over the changes I made to their
+architectures?
 
-The block format driver doesn't seem to actually add much functionality
-to a specially crafted raw image: It provides a convenient way to create
-such special images and it dumps some values in 'qemu-img info', but the
-actual interpretation of the data is left to the device model.
+> I've added myself to the MAINTAINERS section for the common code but
+> my focus at the moment is really just to improve the use of
+> semihosting in our expanding system tests. Hopefully this is enough to
+> ensure future enhancements (common open/read/write/close?) can be done
+> and easily enabled for all semihost targets.
+>
+> Please review.
+>
+>
+> Alex Benn=C3=A9e (11):
+>   semihosting: move semihosting configuration into its own directory
+>   semihosting: introduce CONFIG_SEMIHOSTING
+>   semihosting: implement a semihosting console
+>   semihosting: enable chardev backed output for console
+>   target/arm: fixup some of the commentary for arm-semi
+>   target/arm: use the common interface for WRITE0/WRITEC in arm-semi
+>   target/arm: add LOG_UNIMP messages to arm-semi
+>   target/arm: correct return values for WRITE/READ in arm-semi
+>   target/mips: only build mips-semi for softmmu
+>   target/mips: convert UHI_plog to use common semihosting code
+>   MAINTAINERS: update for semihostings new home
+>
+>  MAINTAINERS                                 |   7 +
+>  default-configs/arm-softmmu.mak             |   1 +
+>  default-configs/lm32-softmmu.mak            |   2 +
+>  default-configs/m68k-softmmu.mak            |   2 +
+>  default-configs/mips-softmmu-common.mak     |   1 +
+>  default-configs/nios2-softmmu.mak           |   2 +
+>  default-configs/xtensa-softmmu.mak          |   2 +
+>  gdbstub.c                                   |   7 +-
+>  hw/Kconfig                                  |   1 +
+>  hw/Makefile.objs                            |   1 +
+>  hw/mips/mips_malta.c                        |   2 +-
+>  hw/semihosting/Kconfig                      |   3 +
+>  hw/semihosting/Makefile.objs                |   2 +
+>  hw/semihosting/config.c                     | 186 ++++++++++++++++++++
+>  hw/semihosting/console.c                    |  77 ++++++++
+>  include/exec/gdbstub.h                      |  11 ++
+>  include/hw/semihosting/console.h            |  38 ++++
+>  include/{exec =3D> hw/semihosting}/semihost.h |  17 +-
+>  include/sysemu/sysemu.h                     |   1 +
+>  linux-user/Makefile.objs                    |   2 +
+>  linux-user/arm/semihost.c                   |  24 +++
+>  qemu-options.hx                             |   6 +-
+>  stubs/Makefile.objs                         |   1 +
+>  stubs/semihost.c                            |  70 ++++++++
+>  target/arm/arm-semi.c                       |  98 ++++++-----
+>  target/arm/helper.c                         |   2 +-
+>  target/arm/translate-a64.c                  |   2 +-
+>  target/arm/translate.c                      |   2 +-
+>  target/lm32/helper.c                        |   2 +-
+>  target/m68k/op_helper.c                     |   2 +-
+>  target/mips/Makefile.objs                   |   3 +-
+>  target/mips/helper.h                        |   2 +
+>  target/mips/mips-semi.c                     |  14 +-
+>  target/mips/translate.c                     |  10 +-
+>  target/nios2/helper.c                       |   2 +-
+>  target/xtensa/translate.c                   |   2 +-
+>  target/xtensa/xtensa-semi.c                 |   2 +-
+>  vl.c                                        | 128 +-------------
+>  38 files changed, 545 insertions(+), 192 deletions(-)
+>  create mode 100644 hw/semihosting/Kconfig
+>  create mode 100644 hw/semihosting/Makefile.objs
+>  create mode 100644 hw/semihosting/config.c
+>  create mode 100644 hw/semihosting/console.c
+>  create mode 100644 include/hw/semihosting/console.h
+>  rename include/{exec =3D> hw/semihosting}/semihost.h (78%)
+>  create mode 100644 linux-user/arm/semihost.c
+>  create mode 100644 stubs/semihost.c
 
-Looking at the options it does provide, my impression is that these
-should really be qdev properties, and the place to store them
-persistently is something like the libvirt XML. The device doesn't
-change any of the values, so there is nothing that QEMU actually needs
-to store. What you invented is a one-off way to pass a config file to a
-device, but only for one specific device type.
 
-I think this needs to use a much more standard approach to be mergable.
-
-Markus (CCed) as the maintainer for the configuration mechanisms may
-have an opinion on this, too.
-
-> For now, the nvme device does not support the Deallocated and
-> Unwritten Logical Block Error (DULBE) feature or the Data Set
-> Management command as this would require such support.
-
-Doesn't bdrv_co_block_status() provide all the information you need for
-that?
-
-Kevin
+--
+Alex Benn=C3=A9e
 
