@@ -2,66 +2,63 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78D2724485
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 01:47:35 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43852 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E6D9C2445E
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 01:30:17 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43581 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSs0E-0002XH-EH
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 19:47:34 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45238)
+	id 1hSrjU-0006KO-Vg
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 19:30:17 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45281)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hSrRY-0008AQ-UY
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:11:45 -0400
+	(envelope-from <mst@redhat.com>) id 1hSrRa-0008DN-Vp
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:11:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hSrRR-0008Og-IE
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:11:39 -0400
-Received: from mail-qk1-f195.google.com ([209.85.222.195]:42746)
+	(envelope-from <mst@redhat.com>) id 1hSrRZ-0008Rt-Pi
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:11:46 -0400
+Received: from mail-qt1-f170.google.com ([209.85.160.170]:32845)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hSrRN-0008Mc-MV
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:11:33 -0400
-Received: by mail-qk1-f195.google.com with SMTP id d4so9898068qkc.9
-	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 16:11:31 -0700 (PDT)
+	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hSrRZ-0008NL-1E
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 19:11:45 -0400
+Received: by mail-qt1-f170.google.com with SMTP id m32so18404610qtf.0
+	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 16:11:33 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:content-transfer-encoding
-	:in-reply-to;
-	bh=O6n0khQFEgae8Zf5gTf32VcUPNdO94dtxMG+VrGCx/0=;
-	b=V3Thkzrtod4U08vcnHOjxc4I5ajtQCiDCQtKKsrnhANnTypiumLCkvRO716PxaVOH1
-	k6aFbqRBI7Jm+kGobuV4WbjbtD7tXfVdQK+KEVLvVCxuiJEv3yi28R6l9MhpQ4PG/Gmt
-	gZ0+l/wwsCygbF69a1e7eLlUziamJAOJnPnvsPlIn2jPMXCEfudshu0Uh0P0sNJvs3fz
-	6JmdBT/TMwBLj7AmU5x2EVpD9+MusNajPlAOyOveuPn2GDsP7NjBvrAHSwIz4B1d32gv
-	irkrcnjoCqFxYlethlkmY2N123voo/PgHJjWKmWLLnOefpUhR5116kmfoF8G0tB5fx3B
-	xqlw==
-X-Gm-Message-State: APjAAAXPnEMTPbS2jizXPZAU9tVlu31XdmtJbVZjSymGfnywXKLTv0e/
-	T2Rq15f25/jgb3q0VhrC2+Pbny1Pv9c=
-X-Google-Smtp-Source: APXvYqwVa6ENFueyW98YWb0rRgThjxJXZvwZu/FPi0w4UGHoIpKTG3lbSQrlG9Ic761VVCgFO+AExA==
-X-Received: by 2002:a37:dcc4:: with SMTP id
-	v187mr27360335qki.290.1558393891002; 
-	Mon, 20 May 2019 16:11:31 -0700 (PDT)
+	:mime-version:content-disposition:in-reply-to;
+	bh=+WXo3EqETBhGlQu1W7AYn425p9hkEPi839GhvLKqIZo=;
+	b=PxgUNVzkJTs9GMk24SR8/jtqidz9y8uQeag5J5dPyeNHNY88tk1Y2sEuHaLDbaOHIO
+	vSmkPhja8t7uF31SV2cv69+m7yzTbWk44pIZj8275RGFV8j7sb03UPXZpnf+Kpj8bOig
+	eGFF4o0h9iGjcbQpwJMIXL+HHLhGYFnHQRr4K+6ikNB8v33urAmqmc4AtWAwv+TO9coW
+	GTW/GCmrbzvIEEHwAOtPVNs2a1YTJ49/z3fgFh6DH8JHJtnh5hgbHPKomCWm81mVdcVg
+	7knOGkXNu9iucBMU8YeG9I+SnorfpCbM9PwBTKuCj2RCs1u+t5qRjao/7lK9EhNi+uaR
+	bIGg==
+X-Gm-Message-State: APjAAAVhxm+nb5jSDD5+uj6EOi4yiRE4ArKvHtATTT8q7bf9hrR7HRvO
+	G1j0T9lbjY3lZ+dC+bAUUiLvOH1wEs4=
+X-Google-Smtp-Source: APXvYqzV2hhv7A9nWaRAkXcem5H9NUjG5mdon8ImHl+GEmlUbkfCVRHWt1hKsLDSRU7QIflEWt6pDg==
+X-Received: by 2002:ad4:5146:: with SMTP id g6mr60245693qvq.136.1558393893067; 
+	Mon, 20 May 2019 16:11:33 -0700 (PDT)
 Received: from redhat.com (pool-173-76-105-71.bstnma.fios.verizon.net.
-	[173.76.105.71]) by smtp.gmail.com with ESMTPSA id
-	f21sm8286074qkl.72.2019.05.20.16.11.29
+	[173.76.105.71])
+	by smtp.gmail.com with ESMTPSA id c7sm1290574qkk.74.2019.05.20.16.11.31
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Mon, 20 May 2019 16:11:30 -0700 (PDT)
-Date: Mon, 20 May 2019 19:11:29 -0400
+	Mon, 20 May 2019 16:11:32 -0700 (PDT)
+Date: Mon, 20 May 2019 19:11:31 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
 To: qemu-devel@nongnu.org
-Message-ID: <1556808723-226478-11-git-send-email-imammedo@redhat.com>
+Message-ID: <1556808723-226478-12-git-send-email-imammedo@redhat.com>
 References: <20190520231008.20140-1-mst@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
 In-Reply-To: <20190520231008.20140-1-mst@redhat.com>
 X-Mailer: git-send-email 2.17.1.1206.gb667731e2e.dirty
 X-Mutt-Fcc: =sent
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.222.195
-Subject: [Qemu-devel] [PULL v2 31/36] tests: acpi: ignore SMBIOS tests when
- UEFI firmware is used
+X-Received-From: 209.85.160.170
+Subject: [Qemu-devel] [PULL v2 32/36] tests: acpi: allow to override default
+ accelerator
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -74,50 +71,76 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: Laurent Vivier <lvivier@redhat.com>,
-	Peter Maydell <peter.maydell@linaro.org>,
-	Thomas Huth <thuth@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
-	Paolo Bonzini <pbonzini@redhat.com>, Igor Mammedov <imammedo@redhat.com>,
-	Philippe =?utf-8?Q?Mathieu-Daud=C3=A9?= <philmd@redhat.com>
+	Peter Maydell <peter.maydell@linaro.org>, Thomas Huth <thuth@redhat.com>,
+	Igor Mammedov <imammedo@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+	Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Igor Mammedov <imammedo@redhat.com>
 
-once FW provides a pointer to SMBIOS entry point like it does for
-RSDP it should be possible to enable this one the same way.
+By default test cases were run with 'kvm:tcg' accelerators to speed up
+tests execution. While it works for x86, were change of accelerator
+doesn't affect ACPI tables, the approach doesn't works for ARM usecase
+though.
+
+In arm/virt case, KVM mode requires using 'host' cpu model, which
+isn't available in TCG mode. That could be worked around with 'max'
+cpu model, which works both for KVM and TCG. However in KVM mode it
+is necessary to specify matching GIC version, which also could use
+'max' value to automatically pick GIC version suitable for host's CPU.
+Depending on host cpu type, different GIC versions would be used,
+which in turn leads to different ACPI tables (APIC) generated.
+As result while comparing with reference blobs, test would fail if
+host's GIC version won't match the version on the host where
+reference blobs where generated.
+
+Let's keep testing simple for now and allow ARM tests run in TCG only
+mode. To do so introduce 'accel' parameter in test configuration, so
+test case could override default "kvm:tcg" with accelerator of choice.
 
 Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+Message-Id: <1556808723-226478-12-git-send-email-imammedo@redhat.com>
 Reviewed-by: Laszlo Ersek <lersek@redhat.com>
-Message-Id: <1556808723-226478-11-git-send-email-imammedo@redhat.com>
-Tested-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 Reviewed-by: Michael S. Tsirkin <mst@redhat.com>
 Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
 ---
- tests/bios-tables-test.c | 11 +++++++++--
- 1 file changed, 9 insertions(+), 2 deletions(-)
+ tests/bios-tables-test.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/tests/bios-tables-test.c b/tests/bios-tables-test.c
-index 84e1ce2972..8302ffc2cd 100644
+index 8302ffc2cd..39c1e24efd 100644
 --- a/tests/bios-tables-test.c
 +++ b/tests/bios-tables-test.c
-@@ -569,8 +569,15 @@ static void test_acpi_one(const char *params, test_data *data)
-         }
+@@ -24,6 +24,7 @@
+ #define ACPI_REBUILD_EXPECTED_AML "TEST_ACPI_REBUILD_AML"
+ 
+ typedef struct {
++    const char *accel;
+     const char *machine;
+     const char *variant;
+     const char *uefi_fl1;
+@@ -532,8 +533,8 @@ static void test_acpi_one(const char *params, test_data *data)
+         args = g_strdup_printf("-machine %s,accel=%s -nodefaults -nographic "
+             "-drive if=pflash,format=raw,file=%s,readonly "
+             "-drive if=pflash,format=raw,file=%s,snapshot=on -cdrom %s %s",
+-            data->machine, "kvm:tcg", data->uefi_fl1, data->uefi_fl2,
+-            data->cd, params ? params : "");
++            data->machine, data->accel ? data->accel : "kvm:tcg",
++            data->uefi_fl1, data->uefi_fl2, data->cd, params ? params : "");
+ 
+     } else {
+         /* Disable kernel irqchip to be able to override apic irq0. */
+@@ -541,7 +542,8 @@ static void test_acpi_one(const char *params, test_data *data)
+             "-net none -display none %s "
+             "-drive id=hd0,if=none,file=%s,format=raw "
+             "-device ide-hd,drive=hd0 ",
+-             data->machine, "kvm:tcg", params ? params : "", disk);
++             data->machine, data->accel ? data->accel : "kvm:tcg",
++             params ? params : "", disk);
      }
  
--    test_smbios_entry_point(data);
--    test_smbios_structs(data);
-+    /*
-+     * TODO: make SMBIOS tests work with UEFI firmware,
-+     * Bug on uefi-test-tools to provide entry point:
-+     * https://bugs.launchpad.net/qemu/+bug/1821884
-+     */
-+    if (!use_uefi) {
-+        test_smbios_entry_point(data);
-+        test_smbios_structs(data);
-+    }
- 
-     assert(!global_qtest);
-     qtest_quit(data->qts);
+     data->qts = qtest_init(args);
 -- 
 MST
 
