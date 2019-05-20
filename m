@@ -2,50 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 60B172369E
-	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 14:58:17 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:35180 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CEA0D23698
+	for <lists+qemu-devel@lfdr.de>; Mon, 20 May 2019 14:55:52 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:35131 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hShrs-0001tg-I1
-	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 08:58:16 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43399)
+	id 1hShpY-0007pD-1H
+	for lists+qemu-devel@lfdr.de; Mon, 20 May 2019 08:55:52 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43471)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hShha-0002Pb-Rv
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 08:47:39 -0400
+	(envelope-from <kraxel@redhat.com>) id 1hShhi-0002Tv-1v
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 08:47:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hShhW-0005yo-Bx
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 08:47:36 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55762)
+	(envelope-from <kraxel@redhat.com>) id 1hShhg-0006CI-09
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 08:47:45 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:55960)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hShhR-0005t9-Fm
-	for qemu-devel@nongnu.org; Mon, 20 May 2019 08:47:31 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
-	[10.5.11.11])
+	(Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hShhd-0005w2-V2
+	for qemu-devel@nongnu.org; Mon, 20 May 2019 08:47:42 -0400
+Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
+	[10.5.11.16])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 506143079B86;
-	Mon, 20 May 2019 12:47:23 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 9748C307D860;
+	Mon, 20 May 2019 12:47:25 +0000 (UTC)
 Received: from sirius.home.kraxel.org (ovpn-117-74.ams2.redhat.com
 	[10.36.117.74])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 433F418994;
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 4A25E5129E;
 	Mon, 20 May 2019 12:47:18 +0000 (UTC)
 Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-	id EED9211AB7; Mon, 20 May 2019 14:47:16 +0200 (CEST)
+	id 02EDA11AB8; Mon, 20 May 2019 14:47:17 +0200 (CEST)
 From: Gerd Hoffmann <kraxel@redhat.com>
 To: qemu-devel@nongnu.org
-Date: Mon, 20 May 2019 14:47:03 +0200
-Message-Id: <20190520124716.30472-2-kraxel@redhat.com>
+Date: Mon, 20 May 2019 14:47:04 +0200
+Message-Id: <20190520124716.30472-3-kraxel@redhat.com>
 In-Reply-To: <20190520124716.30472-1-kraxel@redhat.com>
 References: <20190520124716.30472-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.41]);
-	Mon, 20 May 2019 12:47:23 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.48]);
+	Mon, 20 May 2019 12:47:25 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v3 01/14] scripts: use git archive in
- archive-source
+Subject: [Qemu-devel] [PATCH v3 02/14] tests/vm: python3 fixes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -65,115 +64,60 @@ Cc: Fam Zheng <fam@euphon.net>, Ed Maste <emaste@freebsd.org>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use git archive to create tarballs of qemu and submodules instead of
-cloning the repository and the submodules.  This is a order of magnitude
-faster because it doesn't fetch the submodules from the internet each
-time the script runs.
+Add proper unicode handling when processing strings.
+Also need to explicitly say we want int not float.
 
 Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
-Tested-by: Thomas Huth <thuth@redhat.com>
 ---
- scripts/archive-source.sh | 72 +++++++++++++++++----------------------
- 1 file changed, 31 insertions(+), 41 deletions(-)
+ tests/vm/basevm.py | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-diff --git a/scripts/archive-source.sh b/scripts/archive-source.sh
-index 8b8994826000..93a48d2063f9 100755
---- a/scripts/archive-source.sh
-+++ b/scripts/archive-source.sh
-@@ -19,16 +19,25 @@ if test $# -lt 1; then
- fi
+diff --git a/tests/vm/basevm.py b/tests/vm/basevm.py
+index 0556bdcf9e9f..3126fb10a819 100755
+--- a/tests/vm/basevm.py
++++ b/tests/vm/basevm.py
+@@ -73,7 +73,7 @@ class BaseVM(object):
+             "-vnc", "127.0.0.1:0,to=20",
+             "-serial", "file:%s" % os.path.join(self._tmpdir, "serial.out")]
+         if vcpus and vcpus > 1:
+-            self._args += ["-smp", str(vcpus)]
++            self._args += ["-smp", "%d" % vcpus]
+         if kvm_available(self.arch):
+             self._args += ["-enable-kvm"]
+         else:
+@@ -85,12 +85,12 @@ class BaseVM(object):
+             if not sha256sum:
+                 return True
+             checksum = subprocess.check_output(["sha256sum", fname]).split()[0]
+-            return sha256sum == checksum
++            return sha256sum == checksum.decode("utf-8")
  
- tar_file=$(realpath "$1")
--list_file="${tar_file}.list"
--vroot_dir="${tar_file}.vroot"
-+sub_tdir=$(mktemp -d "${tar_file%.tar}.sub.XXXXXXXX")
-+sub_file="${sub_tdir}/submodule.tar"
+         cache_dir = os.path.expanduser("~/.cache/qemu-vm/download")
+         if not os.path.exists(cache_dir):
+             os.makedirs(cache_dir)
+-        fname = os.path.join(cache_dir, hashlib.sha1(url).hexdigest())
++        fname = os.path.join(cache_dir, hashlib.sha1(url.encode("utf-8")).hexdigest())
+         if os.path.exists(fname) and check_sha256sum(fname):
+             return fname
+         logging.debug("Downloading %s to %s...", url, fname)
+@@ -134,7 +134,7 @@ class BaseVM(object):
+         raise NotImplementedError
  
- # We want a predictable list of submodules for builds, that is
- # independent of what the developer currently has initialized
- # in their checkout, because the build environment is completely
- # different to the host OS.
- submodules="dtc slirp ui/keycodemapdb tests/fp/berkeley-softfloat-3 tests/fp/berkeley-testfloat-3"
-+sub_deinit=""
- 
--trap "status=$?; rm -rf \"$list_file\" \"$vroot_dir\"; exit \$status" 0 1 2 3 15
-+function cleanup() {
-+    local status=$?
-+    rm -rf "$sub_tdir"
-+    if test "$sub_deinit" != ""; then
-+	git submodule deinit $sub_deinit
-+    fi
-+    exit $status
-+}
-+trap "cleanup" 0 1 2 3 15
- 
- if git diff-index --quiet HEAD -- &>/dev/null
- then
-@@ -36,45 +45,26 @@ then
- else
-     HEAD=$(git stash create)
- fi
--git clone --shared . "$vroot_dir"
--test $? -ne 0 && error "failed to clone into '$vroot_dir'"
--for sm in $submodules; do
--    if test -d "$sm/.git"
--    then
--       git clone --shared "$sm" "$vroot_dir/$sm"
--       test $? -ne 0 && error "failed to clone submodule $sm"
--    fi
--done
--
--cd "$vroot_dir"
--test $? -ne 0 && error "failed to change into '$vroot_dir'"
--
--git checkout $HEAD
--test $? -ne 0 && error "failed to checkout $HEAD revision"
- 
-+git archive --format tar $HEAD > "$tar_file"
-+test $? -ne 0 && error "failed to archive qemu"
- for sm in $submodules; do
--    git submodule update --init $sm
--    test $? -ne 0 && error "failed to init submodule $sm"
-+    status="$(git submodule status "$sm")"
-+    smhash="${status#[ +-]}"
-+    smhash="${smhash%% *}"
-+    case "$status" in
-+	-*)
-+	    sub_deinit="$sub_deinit $sm"
-+	    git submodule update --init "$sm"
-+	    test $? -ne 0 && error "failed to update submodule $sm"
-+	    ;;
-+	+*)
-+	    echo "WARNING: submodule $sm is out of sync"
-+	    ;;
-+    esac
-+    (cd $sm; git archive --format tar --prefix "$sm/" $smhash) > "$sub_file"
-+    test $? -ne 0 && error "failed to archive submodule $sm ($smhash)"
-+    tar --concatenate --file "$tar_file" "$sub_file"
-+    test $? -ne 0 && error "failed append submodule $sm to $tar_file"
- done
--
--if test -n "$submodules"; then
--    {
--        git ls-files || error "git ls-files failed"
--        for sm in $submodules; do
--            (cd $sm; git ls-files) | sed "s:^:$sm/:"
--            if test "${PIPESTATUS[*]}" != "0 0"; then
--                error "git ls-files in submodule $sm failed"
--            fi
--        done
--    } | grep -x -v $(for sm in $submodules; do echo "-e $sm"; done) > "$list_file"
--else
--    git ls-files > "$list_file"
--fi
--
--if test $? -ne 0; then
--    error "failed to generate list file"
--fi
--
--tar -cf "$tar_file" -T "$list_file" || error "failed to create tar file"
--
- exit 0
+     def add_source_dir(self, src_dir):
+-        name = "data-" + hashlib.sha1(src_dir).hexdigest()[:5]
++        name = "data-" + hashlib.sha1(src_dir.encode("utf-8")).hexdigest()[:5]
+         tarfile = os.path.join(self._tmpdir, name + ".tar")
+         logging.debug("Creating archive %s for src_dir dir: %s", tarfile, src_dir)
+         subprocess.check_call(["./scripts/archive-source.sh", tarfile],
+@@ -256,7 +256,7 @@ def main(vmcls):
+             vm.add_source_dir(args.build_qemu)
+             cmd = [vm.BUILD_SCRIPT.format(
+                    configure_opts = " ".join(argv),
+-                   jobs=args.jobs,
++                   jobs=int(args.jobs),
+                    target=args.build_target,
+                    verbose = "V=1" if args.verbose else "")]
+         else:
 -- 
 2.18.1
 
