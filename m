@@ -2,51 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 100FD253BD
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 17:20:56 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55414 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5C5BA253D6
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 17:25:23 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:55508 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hT6ZT-00012U-6s
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 11:20:55 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54074)
+	id 1hT6dm-0004sZ-91
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 11:25:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54169)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <liq3ea@163.com>) id 1hT6VQ-0007VV-C6
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 11:16:45 -0400
+	(envelope-from <liq3ea@163.com>) id 1hT6VV-0007Yx-0H
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 11:16:49 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <liq3ea@163.com>) id 1hT6VP-0001YO-FN
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 11:16:44 -0400
-Received: from m12-16.163.com ([220.181.12.16]:57274)
+	(envelope-from <liq3ea@163.com>) id 1hT6VU-0001ce-1i
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 11:16:48 -0400
+Received: from m12-16.163.com ([220.181.12.16]:57339)
 	by eggs.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <liq3ea@163.com>)
-	id 1hT6VO-0001Up-8w; Tue, 21 May 2019 11:16:43 -0400
+	id 1hT6VR-0001VI-UR; Tue, 21 May 2019 11:16:47 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
-	s=s110527; h=From:Subject:Date:Message-Id; bh=GphRRHXPmZj/YCwTEB
-	a/ZbIMgwXVEM5rbWw176Y/gW0=; b=gm/NhhWAj+Q+4XUulj057PTfL5SWSJA3j4
-	Jy4LbqMfOke7przrYr6MEoJA7WWFIo3B1d1kfIC4k3yoppV35fVDfhvOAVTRIXQH
-	hf6Fy8Od7+Io6qAAKctKs+kASJXG2iz908tG6zwPtqRxpyCobNtFirfFVFUbEhXU
-	RqjqI3trw=
+	s=s110527; h=From:Subject:Date:Message-Id; bh=JmlbMI8+rNjltu5NEn
+	UC7kK/0d8byMc075r+nhfmo6c=; b=XMe/Ant6o7Wm413n39LYWjdl5r1IuZO/hU
+	OEWiG2efN9NSKuOL7OHRnnbCXapi6pdmD0do1spJt3611sSXiJ66eK7TdWY7/c6z
+	qMPjr2I9EUvWUXu8dZW1pUdAagaQ8mJ/z6OgpWzIzgYuAkvgoZeXMs62EobCmgXH
+	UGqXiiiJw=
 Received: from localhost.localdomain (unknown [115.192.71.0])
-	by smtp12 (Coremail) with SMTP id EMCowAC31lxJFuRcie7uGw--.4521S5;
-	Tue, 21 May 2019 23:16:36 +0800 (CST)
+	by smtp12 (Coremail) with SMTP id EMCowAC31lxJFuRcie7uGw--.4521S6;
+	Tue, 21 May 2019 23:16:37 +0800 (CST)
 From: Li Qiang <liq3ea@163.com>
 To: alex.williamson@redhat.com,
 	lvivier@redhat.com
-Date: Tue, 21 May 2019 08:15:42 -0700
-Message-Id: <20190521151543.92274-4-liq3ea@163.com>
+Date: Tue, 21 May 2019 08:15:43 -0700
+Message-Id: <20190521151543.92274-5-liq3ea@163.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190521151543.92274-1-liq3ea@163.com>
 References: <20190521151543.92274-1-liq3ea@163.com>
-X-CM-TRANSID: EMCowAC31lxJFuRcie7uGw--.4521S5
-X-Coremail-Antispam: 1Uf129KBjvdXoWrZryfGFW3uF13JrWrCr1xXwb_yoWftFbEv3
-	W8K397C3WvgrZa9rWqyrW3Zry7Zw4UKFsakFyxt3Wq93y5Aa15CwnruFZ7Xr47Cr12y34D
-	Cw4kC3ZxAF13ujkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
-	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IU8tDG7UUUUU==
+X-CM-TRANSID: EMCowAC31lxJFuRcie7uGw--.4521S6
+X-Coremail-Antispam: 1Uf129KBjvJXoW7AF4fAF15Wr15Gw1rXw1UZFb_yoW8XFykpF
+	Z8CF9a9r4Fqw17Crsayw4avF17JF4DWr12vF4vg3y7ta1xGF1ktr4DtFy7u34xXFW0vFyr
+	Gr9rZ345tF1UZrJanT9S1TB71UUUUUUqnTZGkaVYY2UrUUUUjbIjqfuFe4nvWSU5nxnvy2
+	9KBjDUYxBIdaVFxhVjvjDU0xZFpf9x07UBWl9UUUUU=
 X-Originating-IP: [115.192.71.0]
-X-CM-SenderInfo: 5oltjvrd6rljoofrz/xtbBLxS7bVUMJbPrPAAAs1
+X-CM-SenderInfo: 5oltjvrd6rljoofrz/xtbBZhW7bVaD1l5SdQAAsf
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 220.181.12.16
-Subject: [Qemu-devel] [PATCH v2 3/4] vfio: platform: fix a typo
+Subject: [Qemu-devel] [PATCH v2 4/4] pci: msix: move 'MSIX_CAP_LENGTH' to
+ header file
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -63,36 +64,56 @@ Cc: qemu-trivial@nongnu.org, philmd@redhat.com, liq3ea@gmail.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-'eventd' should be 'eventfd'.
+'MSIX_CAP_LENGTH' is defined in two .c file. Move it
+to hw/pci/msix.h file to reduce duplicated code.
 
 CC: qemu-trivial@nongnu.org
 Signed-off-by: Li Qiang <liq3ea@163.com>
 ---
- hw/vfio/platform.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ hw/pci/msix.c         | 2 --
+ hw/vfio/pci.c         | 2 --
+ include/hw/pci/msix.h | 2 ++
+ 3 files changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/hw/vfio/platform.c b/hw/vfio/platform.c
-index e59a0234dd..d52d6552e0 100644
---- a/hw/vfio/platform.c
-+++ b/hw/vfio/platform.c
-@@ -72,7 +72,7 @@ static VFIOINTp *vfio_init_intp(VFIODevice *vbasedev,
-         g_free(intp->interrupt);
-         g_free(intp);
-         error_setg_errno(errp, -ret,
--                         "failed to initialize trigger eventd notifier");
-+                         "failed to initialize trigger eventfd notifier");
-         return NULL;
-     }
-     if (vfio_irq_is_automasked(intp)) {
-@@ -84,7 +84,7 @@ static VFIOINTp *vfio_init_intp(VFIODevice *vbasedev,
-             g_free(intp->unmask);
-             g_free(intp);
-             error_setg_errno(errp, -ret,
--                             "failed to initialize resample eventd notifier");
-+                             "failed to initialize resample eventfd notifier");
-             return NULL;
-         }
-     }
+diff --git a/hw/pci/msix.c b/hw/pci/msix.c
+index 4e336416a7..d39dcf32e8 100644
+--- a/hw/pci/msix.c
++++ b/hw/pci/msix.c
+@@ -24,8 +24,6 @@
+ #include "qapi/error.h"
+ #include "trace.h"
+ 
+-#define MSIX_CAP_LENGTH 12
+-
+ /* MSI enable bit and maskall bit are in byte 1 in FLAGS register */
+ #define MSIX_CONTROL_OFFSET (PCI_MSIX_FLAGS + 1)
+ #define MSIX_ENABLE_MASK (PCI_MSIX_FLAGS_ENABLE >> 8)
+diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+index 08729e5875..8e555db12e 100644
+--- a/hw/vfio/pci.c
++++ b/hw/vfio/pci.c
+@@ -35,8 +35,6 @@
+ #include "trace.h"
+ #include "qapi/error.h"
+ 
+-#define MSIX_CAP_LENGTH 12
+-
+ #define TYPE_VFIO_PCI "vfio-pci"
+ #define PCI_VFIO(obj)    OBJECT_CHECK(VFIOPCIDevice, obj, TYPE_VFIO_PCI)
+ 
+diff --git a/include/hw/pci/msix.h b/include/hw/pci/msix.h
+index 1f27658d35..08acfa836e 100644
+--- a/include/hw/pci/msix.h
++++ b/include/hw/pci/msix.h
+@@ -4,6 +4,8 @@
+ #include "qemu-common.h"
+ #include "hw/pci/pci.h"
+ 
++#define MSIX_CAP_LENGTH 12
++
+ void msix_set_message(PCIDevice *dev, int vector, MSIMessage msg);
+ MSIMessage msix_get_message(PCIDevice *dev, unsigned int vector);
+ int msix_init(PCIDevice *dev, unsigned short nentries,
 -- 
 2.17.1
 
