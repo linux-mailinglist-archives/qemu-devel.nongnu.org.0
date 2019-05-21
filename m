@@ -2,61 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D515825087
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 15:35:25 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53954 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 550DF2508A
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 15:37:06 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54020 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hT4vN-0002zG-21
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 09:35:25 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58245)
+	id 1hT4wz-0004rz-Gk
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 09:37:05 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58821)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hT4tG-0001tr-RP
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 09:33:15 -0400
+	(envelope-from <mst@redhat.com>) id 1hT4vN-0003hB-07
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 09:35:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hT4tF-0007TE-Rb
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 09:33:14 -0400
-Received: from mail-qt1-f196.google.com ([209.85.160.196]:39567)
+	(envelope-from <mst@redhat.com>) id 1hT4vM-000251-05
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 09:35:24 -0400
+Received: from mail-qk1-f196.google.com ([209.85.222.196]:39180)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hT4tF-0007Sj-Nl
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 09:33:13 -0400
-Received: by mail-qt1-f196.google.com with SMTP id y42so20459634qtk.6
-	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 06:33:13 -0700 (PDT)
+	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hT4vL-00023o-Rz
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 09:35:23 -0400
+Received: by mail-qk1-f196.google.com with SMTP id z128so11045035qkb.6
+	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 06:35:23 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
 	:mime-version:content-disposition:in-reply-to;
-	bh=P/ufS22KCVQSHg3wFWEiYxGGg66pWSx8uFJ1K0/zHqw=;
-	b=ckBT2uaJSMq7l0Sxgtix7FNZLxrk2Vanl8kyPC7XbpaRaBxDOcItaLrGUu7GXjUaAD
-	hhnsI8vYW0jvoPDvKyCrshzsXSyr36IYmBYq1z8tJidedXWaWQ1gkyMjTmSEBYSSkuBW
-	8mZLKG1dM5yMltgsv+3xYsKRwntNkFAeppXkx38jo/5KPIaOmfGH6i7ir6HhXtdByACL
-	I+5Qv8NbM0OLGAVXYl+FMWFh87W7R2ELYIZxeuT/PGro3o4f6YrT8NXcfaDwYxoojASP
-	RlN8eSUKHs1LyGF/2NOMevtKI+6C9CSPj6aV4YfW1FdZoNvAmpOZ4Zi4J5Ynz8u985RL
-	+FCA==
-X-Gm-Message-State: APjAAAW7rLT9OszEJGvngvDT8TQcBO/fZBpzldZuHzowvkX8aQuUTaG3
-	tJYLZ6QVcGHflyutWvBXq4x7jQ==
-X-Google-Smtp-Source: APXvYqyLrh1eVXavZ65StKsxm3rLxV1cqaBGca3ct+oQC1MblZSm0HNWOaEKkGdW2gaCPx1JcLYRFw==
-X-Received: by 2002:aed:2183:: with SMTP id l3mr68571670qtc.102.1558445593221; 
-	Tue, 21 May 2019 06:33:13 -0700 (PDT)
+	bh=bd2cBrB4rqXh585BShwkAE0hyQoIQwti3yRwoVbuI8E=;
+	b=HczEYpw0E0mDSxStAVArt4hx1jTuAUGuAnmM4lMFJ98JgtHe842Surz4zruSRC89oS
+	Iq9OB4XMVbfjqAvuXLYFmTab4RJnQbgrbiDolxz5ESNJuLqOLA83kVO+admk2jttG2aU
+	xbq+ZvWu9BynvQFPGSx/1iAwdsObTEqIKPIL9ZZZr7WyQIR9PgRT8OAwrec0cB1l6JOU
+	24k6eIwL4Wq2d2oWUbSM+jOK+z/PSa27Lk2dMv/kMOglHLCQooVwx7dxFmNX2GVwkjuS
+	OlsPwBYS7zGDvYeg1If4NT7qNd8qrt4uwEO4x0qhWEMdystwFp3XIFG+qfaKaGU8Y8vh
+	F9Pw==
+X-Gm-Message-State: APjAAAVreCscxJCRlAEvg9XZypu3xgWFAkhFkPofULnDGmJj8+YzhkgD
+	+NNOKh0sB0TUbuS9dRctoctdnA==
+X-Google-Smtp-Source: APXvYqwfzxV6Fhyl+DMYzmuc1WQH0zf0rMWs713sx+KDfGPSpRSKXoqsl9YvSv5muuSWr7g7vK0ZxQ==
+X-Received: by 2002:a37:4996:: with SMTP id
+	w144mr43226879qka.346.1558445723186; 
+	Tue, 21 May 2019 06:35:23 -0700 (PDT)
 Received: from redhat.com (pool-173-76-105-71.bstnma.fios.verizon.net.
 	[173.76.105.71]) by smtp.gmail.com with ESMTPSA id
-	x206sm9713435qkb.71.2019.05.21.06.33.11
+	l127sm9046434qkc.81.2019.05.21.06.35.22
 	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Tue, 21 May 2019 06:33:12 -0700 (PDT)
-Date: Tue, 21 May 2019 09:33:09 -0400
+	Tue, 21 May 2019 06:35:22 -0700 (PDT)
+Date: Tue, 21 May 2019 09:35:20 -0400
 From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Message-ID: <20190521093223-mutt-send-email-mst@kernel.org>
-References: <1558444486-314511-1-git-send-email-imammedo@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Message-ID: <20190521093328-mutt-send-email-mst@kernel.org>
+References: <20190520231008.20140-1-mst@redhat.com>
+	<CAFEAcA80Q8zWxM4TBVMZHLuOzo0HSpT=4C76uAwdMjLn2Xye=w@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1558444486-314511-1-git-send-email-imammedo@redhat.com>
+In-Reply-To: <CAFEAcA80Q8zWxM4TBVMZHLuOzo0HSpT=4C76uAwdMjLn2Xye=w@mail.gmail.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.160.196
-Subject: Re: [Qemu-devel] [PATCH] docs: smbios: remove family=x from type2
- entry description
+X-Received-From: 209.85.222.196
+Subject: Re: [Qemu-devel] [PULL v2 00/36] pci, pc, virtio: features, fixes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -68,38 +69,57 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, thuth@redhat.com, berrange@redhat.com,
-	qemu-devel@nongnu.org, armbru@redhat.com, pbonzini@redhat.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 21, 2019 at 03:14:46PM +0200, Igor Mammedov wrote:
-> 'family' option is not part of type 2 table and if user tries to use it
-> as such QEMU will error out with an unknow option error.
-> Drop it from docs lest it confuse users.
+On Tue, May 21, 2019 at 12:49:48PM +0100, Peter Maydell wrote:
+> On Tue, 21 May 2019 at 00:10, Michael S. Tsirkin <mst@redhat.com> wrote:
+> >
+> > The following changes since commit 2259637b95bef3116cc262459271de08e038cc66:
+> >
+> >   Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into staging (2019-05-20 17:22:05 +0100)
+> >
+> > are available in the Git repository at:
+> >
+> >   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+> >
+> > for you to fetch changes up to 0c05ec64c388aea59facbef740651afa78e04f50:
+> >
+> >   tests: acpi: print error unable to dump ACPI table during rebuild (2019-05-20 18:40:02 -0400)
+> >
+> > ----------------------------------------------------------------
+> > pci, pc, virtio: features, fixes
+> >
+> > reconnect for vhost blk
+> > tests for UEFI
+> > misc other stuff
+> >
+> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> >
+> > ----------------------------------------------------------------
 > 
-> Fixes: b155eb1d04
-
-Add summary after the hash within ("...") please.
-
-> Signed-off-by: Igor Mammedov <imammedo@redhat.com>
-> ---
->  qemu-options.hx | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> Hi -- this failed 'make check' for 32-bit Arm hosts:
 > 
-> diff --git a/qemu-options.hx b/qemu-options.hx
-> index 5daa5a8..dcdb808 100644
-> --- a/qemu-options.hx
-> +++ b/qemu-options.hx
-> @@ -2080,7 +2080,7 @@ Specify SMBIOS type 0 fields
->  @item -smbios type=1[,manufacturer=@var{str}][,product=@var{str}][,version=@var{str}][,serial=@var{str}][,uuid=@var{uuid}][,sku=@var{str}][,family=@var{str}]
->  Specify SMBIOS type 1 fields
->  
-> -@item -smbios type=2[,manufacturer=@var{str}][,product=@var{str}][,version=@var{str}][,serial=@var{str}][,asset=@var{str}][,location=@var{str}][,family=@var{str}]
-> +@item -smbios type=2[,manufacturer=@var{str}][,product=@var{str}][,version=@var{str}][,serial=@var{str}][,asset=@var{str}][,location=@var{str}]
->  Specify SMBIOS type 2 fields
->  
->  @item -smbios type=3[,manufacturer=@var{str}][,version=@var{str}][,serial=@var{str}][,asset=@var{str}][,sku=@var{str}]
-> -- 
-> 2.7.4
+> ERROR:/home/peter.maydell/qemu/tests/acpi-utils.c:145:acpi_find_rsdp_address_uefi:
+> code should not be reached
+> Aborted
+> ERROR - too few tests run (expected 1, got 0)
+> /home/peter.maydell/qemu/tests/Makefile.include:885: recipe for target
+> 'check-qtest-aarch64' failed
+> 
+> thanks
+> -- PMM
+
+
+OK for now I will just drop UEFI tests from ARM.
+Igor will debug and re-add later on.
+
+Igor, as you do this maybe start by adding the infrastructure
+with the blacklist so we can formalize the current
+"these tables need to be updated".
+
+
+-- 
+MST
 
