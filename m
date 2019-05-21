@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BEBDD24EEE
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 14:28:21 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52681 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 29AB824EF4
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 14:30:57 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52731 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hT3sS-0002ej-Ro
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 08:28:20 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45331)
+	id 1hT3uy-0005XZ-9R
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 08:30:56 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45326)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hT3q2-0001SG-RJ
+	(envelope-from <peter.maydell@linaro.org>) id 1hT3q2-0001SD-QT
 	for qemu-devel@nongnu.org; Tue, 21 May 2019 08:25:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hT3px-0005GA-0V
+	(envelope-from <peter.maydell@linaro.org>) id 1hT3px-0005GO-2B
 	for qemu-devel@nongnu.org; Tue, 21 May 2019 08:25:48 -0400
-Received: from mail-wm1-x329.google.com ([2a00:1450:4864:20::329]:50611)
+Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:38529)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hT3pw-00056N-Ii
+	id 1hT3pw-00057F-Om
 	for qemu-devel@nongnu.org; Tue, 21 May 2019 08:25:44 -0400
-Received: by mail-wm1-x329.google.com with SMTP id f204so2799900wme.0
-	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 05:25:29 -0700 (PDT)
+Received: by mail-wm1-x334.google.com with SMTP id t5so2694773wmh.3
+	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 05:25:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=6OFDFvuvQviFWUA+ErkQZRrbDM3t1pANZfkvzqmBlg8=;
-	b=npj4YbrO4P/rhMjEvX/1V6DzWudQYkMfQHNy5tszxjNs7loGgjR/IyshL2nc3YjMUk
-	4vi94cWZEmGyS5GlHzV5BMvAUFsI78B+ur4qTvirFuwOK4GSWsnpquL+SoFnzCn/zQTZ
-	KWQlBxUgOT2uZwFHoj0kvUkHVds1h1nSoRL7oWWdIaZgL+1ww+FE7d9F8llWL5JNUiVK
-	5kTpz5LzyAG2FFh3sSjdfd3P/ggiAhKnPZ8hVsYg/2+MTO7tZ6HbwlBgUWduC+4ATNM/
-	omRvkt20z2Xk2Aieqv/dT7DftF9oT6/Sh1nevREJBzekv/7CBAnhlGkL8Qxyzn60Zigz
-	sFWg==
+	bh=8SOMLkZr4NB3XMui3lU6laKTlnUoguc42H2phVbp83Q=;
+	b=DOZi1FuK9945umJVeVpsmdNtdtHLNtnhz579D1BPh57g92AwEyGTGJPgvSPHqxe6BK
+	TrpzqSqylljDXqZ8o5WX12HHLmQ9+nECzL8rQFjvfkvSRNCyWJDZTJbX/l7Mb6VkTH3A
+	7cHgfjd22OxY/qECsiGCp+5QUxxtvjEFs+i38IZVmb9b3fyfVz92I9QUtlcDuESFkBLG
+	PQd7HqWTKQnouXlroIRKv8YbOyhT/tiStAvlh5DgWeaTPubSrHFXLSwUV1dkKnNwPsuH
+	sf5AERvKxqchnD9w192Y1scG1KNNBMRou4AjMt0U0UlGHMBBfa100YmxAMe3NCVoBQl8
+	EuTQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=6OFDFvuvQviFWUA+ErkQZRrbDM3t1pANZfkvzqmBlg8=;
-	b=UBWGbD44tCd3DabT/42zg7p4cuVZdbOQW7Na/T6KB1T4uEYd525K26N+MBdVaXtoDa
-	+WP6t058Rn6RPNisiWKxzfdI8wp87Q3LB6B0VTC9AUXGHbYGGUABWtYVUw+ZmMlpAiqE
-	1mhLbqGY+QI8NHQ36zbLf4tfqAs485BJJjYJr2J+JQ5nX3IMyHFa6KHWhJ//bH7SXsrA
-	QSuT6Kb2M9TQGgcB5JOILyYzma8HqA75ccBZ4XMkx5n17L++5mt1Md1gVFIw8oRrzNxv
-	RI8xUETIfvBKRsFU0Wv0JmvJKckcZgztSp8U3tthV6TW7O6jKFBCpl2bO6bLF4dZ6ZMt
-	DZ5w==
-X-Gm-Message-State: APjAAAUjDCBcKtcw72t9pDshurTB0IbZmpeCUFidNeAbPIJ4wdGIg/je
-	bSgOqj6bh6yHpYkJHLtQrMHPeBJ0D9I=
-X-Google-Smtp-Source: APXvYqzjq+WcreGHSWFCJripDUnJoHtJtqy/sJs6FhTF6YHhHKwak7m8z+8KUdSvcIvrMLtDHCd01w==
-X-Received: by 2002:a1c:740d:: with SMTP id p13mr3389604wmc.2.1558441528747;
-	Tue, 21 May 2019 05:25:28 -0700 (PDT)
+	bh=8SOMLkZr4NB3XMui3lU6laKTlnUoguc42H2phVbp83Q=;
+	b=j9JQqOwGlpfLWHKy1PW40oqitvMrcOHlsDWJHqbkrsCGvVuqsJcYhwFu5/8t8UXt5f
+	oIwwnbEuwnri+sk1ipVswr46C8qM0fjdLTmYr8vw72FuFV+tOl13+oXrRky4074xnYNE
+	TmhkXujlvZ9O2GsUf139z2ajgKucKfr2uIphlDOiyS3X4yfgqUZmSyeeg0eHOK0VEJFf
+	zvR9q09Mm2KHUYL5i27uxaamk9eTB5PTU3s+bLb8DOgmuadf4bVY416GCSnfNOLP5QkP
+	6tqM4lZdX7usPp2H0cbHo6+bn2864Xu4uz0+v2W+K72aEJD5MnLIX7NMnNYwWurpkQ9Q
+	fwww==
+X-Gm-Message-State: APjAAAWZ2AmhTVZJOSxiJKsMGQnj9SetbLI7Mor5PtARRJXWmEXqsNox
+	Df6t1OCsw281fdSSzbAj/ZxOYwGrUKE=
+X-Google-Smtp-Source: APXvYqys3euLW2REhX8jlQHZPrL4vSe6EGBlig49irm2gvwKROv4Yk0S+tatAZWoVgRBf2W9DgTWQQ==
+X-Received: by 2002:a1c:3c2:: with SMTP id 185mr3301459wmd.91.1558441530029;
+	Tue, 21 May 2019 05:25:30 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
 	by smtp.gmail.com with ESMTPSA id
-	u11sm12233393wrn.1.2019.05.21.05.25.27
+	u11sm12233393wrn.1.2019.05.21.05.25.28
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 21 May 2019 05:25:28 -0700 (PDT)
+	Tue, 21 May 2019 05:25:29 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue, 21 May 2019 13:25:13 +0100
-Message-Id: <20190521122519.12573-5-peter.maydell@linaro.org>
+Date: Tue, 21 May 2019 13:25:14 +0100
+Message-Id: <20190521122519.12573-6-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190521122519.12573-1-peter.maydell@linaro.org>
 References: <20190521122519.12573-1-peter.maydell@linaro.org>
@@ -65,9 +65,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::329
-Subject: [Qemu-devel] [RFC 04/10] docs/conf.py: Ignore some missing
- references in nitpick mode
+X-Received-From: 2a00:1450:4864:20::334
+Subject: [Qemu-devel] [RFC 05/10] bitops.h: Silence kernel-doc complaints
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -88,41 +87,109 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-We enable Sphinx's 'nitpick' mode via the command line -n switch, which
-means it warns about references to things it doesn't know about. Add
-a whitelist of expected-not-to-be-present types, to avoid false
-positives when C function prototypes use standard integer types.
-
-If this whitelist gets too long and unmanageable we might be better
-off switching to non-nitpick mode instead.
+Fix the problems with kernel-doc/sphinx syntax in the
+doc comments for the shuffle and unshuffle functions:
+ * mismatch between comment and prototype for argument name
+ * the inline bit patterns need to be marked up so they
+   are processed properly and rendered as monospace
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- docs/conf.py | 11 +++++++++++
- 1 file changed, 11 insertions(+)
+ include/qemu/bitops.h | 52 ++++++++++++++++++++++++++-----------------
+ 1 file changed, 32 insertions(+), 20 deletions(-)
 
-diff --git a/docs/conf.py b/docs/conf.py
-index 9109edbcb97..388299fb25b 100644
---- a/docs/conf.py
-+++ b/docs/conf.py
-@@ -114,6 +114,17 @@ todo_include_todos = False
- # with "option::" in the document being processed. Turn that off.
- suppress_warnings = ["ref.option"]
+diff --git a/include/qemu/bitops.h b/include/qemu/bitops.h
+index 3f0926cf40c..f6e76b5952d 100644
+--- a/include/qemu/bitops.h
++++ b/include/qemu/bitops.h
+@@ -423,13 +423,16 @@ static inline uint64_t deposit64(uint64_t value, int start, int length,
  
-+nitpick_ignore = [
-+    ("c:type", "int8_t"),
-+    ("c:type", "int16_t"),
-+    ("c:type", "int32_t"),
-+    ("c:type", "int64_t"),
-+    ("c:type", "uint8_t"),
-+    ("c:type", "uint16_t"),
-+    ("c:type", "uint32_t"),
-+    ("c:type", "uint64_t"),
-+]
-+
- # -- Options for HTML output ----------------------------------------------
+ /**
+  * half_shuffle32:
+- * @value: 32-bit value (of which only the bottom 16 bits are of interest)
++ * @x: 32-bit value (of which only the bottom 16 bits are of interest)
++ *
++ * Given an input value::
++ *
++ *   xxxx xxxx xxxx xxxx ABCD EFGH IJKL MNOP
+  *
+- * Given an input value:
+- *  xxxx xxxx xxxx xxxx ABCD EFGH IJKL MNOP
+  * return the value where the bottom 16 bits are spread out into
+- * the odd bits in the word, and the even bits are zeroed:
+- *  0A0B 0C0D 0E0F 0G0H 0I0J 0K0L 0M0N 0O0P
++ * the odd bits in the word, and the even bits are zeroed::
++ *
++ *   0A0B 0C0D 0E0F 0G0H 0I0J 0K0L 0M0N 0O0P
+  *
+  * Any bits set in the top half of the input are ignored.
+  *
+@@ -449,13 +452,16 @@ static inline uint32_t half_shuffle32(uint32_t x)
  
- # The theme to use for HTML and HTML Help pages.  See the documentation for
+ /**
+  * half_shuffle64:
+- * @value: 64-bit value (of which only the bottom 32 bits are of interest)
++ * @x: 64-bit value (of which only the bottom 32 bits are of interest)
++ *
++ * Given an input value::
++ *
++ *   xxxx xxxx xxxx .... xxxx xxxx ABCD EFGH IJKL MNOP QRST UVWX YZab cdef
+  *
+- * Given an input value:
+- *  xxxx xxxx xxxx .... xxxx xxxx ABCD EFGH IJKL MNOP QRST UVWX YZab cdef
+  * return the value where the bottom 32 bits are spread out into
+- * the odd bits in the word, and the even bits are zeroed:
+- *  0A0B 0C0D 0E0F 0G0H 0I0J 0K0L 0M0N .... 0U0V 0W0X 0Y0Z 0a0b 0c0d 0e0f
++ * the odd bits in the word, and the even bits are zeroed::
++ *
++ *   0A0B 0C0D 0E0F 0G0H 0I0J 0K0L 0M0N .... 0U0V 0W0X 0Y0Z 0a0b 0c0d 0e0f
+  *
+  * Any bits set in the top half of the input are ignored.
+  *
+@@ -476,13 +482,16 @@ static inline uint64_t half_shuffle64(uint64_t x)
+ 
+ /**
+  * half_unshuffle32:
+- * @value: 32-bit value (of which only the odd bits are of interest)
++ * @x: 32-bit value (of which only the odd bits are of interest)
++ *
++ * Given an input value::
++ *
++ *   xAxB xCxD xExF xGxH xIxJ xKxL xMxN xOxP
+  *
+- * Given an input value:
+- *  xAxB xCxD xExF xGxH xIxJ xKxL xMxN xOxP
+  * return the value where all the odd bits are compressed down
+- * into the low half of the word, and the high half is zeroed:
+- *  0000 0000 0000 0000 ABCD EFGH IJKL MNOP
++ * into the low half of the word, and the high half is zeroed::
++ *
++ *   0000 0000 0000 0000 ABCD EFGH IJKL MNOP
+  *
+  * Any even bits set in the input are ignored.
+  *
+@@ -503,13 +512,16 @@ static inline uint32_t half_unshuffle32(uint32_t x)
+ 
+ /**
+  * half_unshuffle64:
+- * @value: 64-bit value (of which only the odd bits are of interest)
++ * @x: 64-bit value (of which only the odd bits are of interest)
++ *
++ * Given an input value::
++ *
++ *   xAxB xCxD xExF xGxH xIxJ xKxL xMxN .... xUxV xWxX xYxZ xaxb xcxd xexf
+  *
+- * Given an input value:
+- *  xAxB xCxD xExF xGxH xIxJ xKxL xMxN .... xUxV xWxX xYxZ xaxb xcxd xexf
+  * return the value where all the odd bits are compressed down
+- * into the low half of the word, and the high half is zeroed:
+- *  0000 0000 0000 .... 0000 0000 ABCD EFGH IJKL MNOP QRST UVWX YZab cdef
++ * into the low half of the word, and the high half is zeroed::
++ *
++ *   0000 0000 0000 .... 0000 0000 ABCD EFGH IJKL MNOP QRST UVWX YZab cdef
+  *
+  * Any even bits set in the input are ignored.
+  *
 -- 
 2.20.1
 
