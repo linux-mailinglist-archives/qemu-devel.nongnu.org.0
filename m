@@ -2,70 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7344F24C86
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 12:17:29 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50703 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 12EA224C79
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 12:14:04 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50627 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hT1po-0002bV-Iz
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 06:17:28 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45006)
+	id 1hT1mV-00075B-4E
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 06:14:03 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47584)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <arilou@gmail.com>) id 1hT1ZT-000607-45
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 06:00:36 -0400
+	(envelope-from <mst@redhat.com>) id 1hT1j3-0004k0-Lt
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 06:10:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <arilou@gmail.com>) id 1hT1ZR-0007wm-PF
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 06:00:35 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:40040)
+	(envelope-from <mst@redhat.com>) id 1hT1j2-0002yp-4G
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 06:10:29 -0400
+Received: from mail-qk1-f196.google.com ([209.85.222.196]:43482)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <arilou@gmail.com>) id 1hT1ZR-0007vV-Hx
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 06:00:33 -0400
-Received: by mail-wm1-x342.google.com with SMTP id 15so2208026wmg.5
-	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 03:00:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=3B88NpQFOs8DC+2595MWdyNpg+oQZ5roeXs0f+YNp/4=;
-	b=uj377cmovNC3MowTVujPc6sQKKALoIIxOMeue2auAJvlqoV8yonCzPxqLQlRpPTN0C
-	ITNCsb3L5QqafH0Ie3OSIgKphCZx084dzi2Mzb+VlyIwVrryz0b9gsb5PwaHaTPGodzz
-	KX5AiksawrPKSp1n933M9WdXM4Y5dVsLKnIRPy7zQCwQ3zKQ7vn17yk8jgCG5rfw/BrA
-	fQOgbVtv1rdsX+iG6XZoChoEfUZ2/Lo4bijcPrACAEUjL8j6iv/ZMBXHTcb2m4xp1GBM
-	QEOONFdcKZC6HpNaMnLvd31pq/Vt6T0wHULL0yy7OrecSeBXub5Z8vY7KvR2WM/Joyl9
-	vZ+w==
+	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hT1j1-0002xq-WF
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 06:10:28 -0400
+Received: by mail-qk1-f196.google.com with SMTP id z6so10640741qkl.10
+	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 03:10:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=3B88NpQFOs8DC+2595MWdyNpg+oQZ5roeXs0f+YNp/4=;
-	b=JdRBYqlRouy+KNpZ3hr49j1lnPp2CXb1XzSbxT+epBu3Plw72H6Nl/D0GpIvaOUalT
-	pjxPxCWsvalfvc7M2CWQ54nbokESPMNuyBQdnPhqOgkMZqYesR67nwEPTdjIT7YUpa7B
-	iW90I6NnwHTUtNEOtB0lI4L+MZg87+gPZUl8HBtD4ZreGQex+B21v+0A+L6cEp0QsmWw
-	Tv7MLdqALo1Oy6zHmNEmMMgygnATV7XklRXMWmQMGeh6FH/TA5TFARSo4c4Yw5gauqja
-	c9tjtGyBrkTiwUb4FPwmuDKbI5cTjTnoxwSqgwIiVCUFvIjHJnFZVwlC1VP2pVdxmnxG
-	9b3A==
-X-Gm-Message-State: APjAAAWGHPNCms3/41PvIWx+bUi1TuGd3TnIB2ONHLmqKEauogBwWrjL
-	CcSp7ULg5yAKU6ZfN3QKl41KGXcX
-X-Google-Smtp-Source: APXvYqwBMYC2cUwd/ype5NAqAB60UJEFVmeDNqJ1rfi6dcHCugODJZ9tyy3V2ahfBeOYwfbejMFOaw==
-X-Received: by 2002:a1c:4486:: with SMTP id r128mr2862041wma.90.1558432832464; 
-	Tue, 21 May 2019 03:00:32 -0700 (PDT)
-Received: from jondnuc.lan ([176.230.64.64])
-	by smtp.gmail.com with ESMTPSA id 65sm3080257wro.85.2019.05.21.03.00.31
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 21 May 2019 03:00:32 -0700 (PDT)
-From: Jon Doron <arilou@gmail.com>
-To: qemu-devel@nongnu.org
-Date: Tue, 21 May 2019 12:59:48 +0300
-Message-Id: <20190521095948.8204-21-arilou@gmail.com>
-X-Mailer: git-send-email 2.21.0
-In-Reply-To: <20190521095948.8204-1-arilou@gmail.com>
-References: <20190521095948.8204-1-arilou@gmail.com>
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to;
+	bh=JlTLQqm5Q1So/Z4/KmDfyVgO0zaxsHBwEZLn9UUKVXU=;
+	b=Qnwm8q1E/8r3Z1JzS3hVfqePfSS4VibDYVS5YNSWZ+eiIdsyF54aPWKgYkyy+wbp7d
+	MEV7sxV+PdOBLIvzV/hFz8eVY+W8XCiEZEmgwG22sfWkrYDdKFIG3DV+FLJAZ4L8GADG
+	feMkCZdQDaRu60QHEquSdG3xPijlIZnAW8tbEhRYqSpRn5NojyxN8hsboJGXIY7Zuwoe
+	GxyhNHuuNO/qcaF/A2vk1ve9LRsKXhiPue+Nz6mOfqIjhnOM+q4pAFgSyA6v/KUi7a2y
+	h32bdf8fdguupBtklXxuIEpE0foNwztFjFBUiHkSSqfWTL8rGtQ0XWqyO3pZxxEx63Az
+	7n9g==
+X-Gm-Message-State: APjAAAXWUQ7zIL/7wAwlplVhvZNJtteQQPJuFlgP9OeQVs6RakoMSBAw
+	0v/jmJURxCZczTntcEhaqTKyhw==
+X-Google-Smtp-Source: APXvYqwXLvZniFQDBAMgWF40cbZ04B3ve+IDqana/BRhCOYpHMOfcTeND1lxKyP8y4cFMPGcAQw4NQ==
+X-Received: by 2002:a05:620a:13fc:: with SMTP id
+	h28mr39765274qkl.164.1558433427383; 
+	Tue, 21 May 2019 03:10:27 -0700 (PDT)
+Received: from redhat.com (pool-173-76-105-71.bstnma.fios.verizon.net.
+	[173.76.105.71]) by smtp.gmail.com with ESMTPSA id
+	h20sm11558585qtc.16.2019.05.21.03.10.25
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Tue, 21 May 2019 03:10:26 -0700 (PDT)
+Date: Tue, 21 May 2019 06:10:19 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Jens Freimann <jfreimann@redhat.com>
+Message-ID: <20190521060725-mutt-send-email-mst@kernel.org>
+References: <20190517125820.2885-1-jfreimann@redhat.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::342
-Subject: [Qemu-devel] [PATCH v10 20/20] gdbstub: Implement qemu physical
- memory mode
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190517125820.2885-1-jfreimann@redhat.com>
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+	[fuzzy]
+X-Received-From: 209.85.222.196
+Subject: Re: [Qemu-devel] [PATCH 0/4] add failover feature for assigned
+ network devices
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -77,123 +69,126 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: alex.bennee@linaro.org, Jon Doron <arilou@gmail.com>
+Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
+	aadam@redhat.com, qemu-devel@nongnu.org, laine@redhat.com, ailan@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add a new query/set which changes the memory GDB sees to physical memory
-only.
+On Fri, May 17, 2019 at 02:58:16PM +0200, Jens Freimann wrote:
+> This is another attempt at implementing the host side of the
+> net_failover concept
+> (https://www.kernel.org/doc/html/latest/networking/net_failover.html)
+> 
+> Changes since last RFC:
+> - work around circular dependency of commandline options. Just add
+>   failover=on to the virtio-net standby options and reference it from
+>   primary (vfio-pci) device with standby=<id>  
+> - add patch 3/4 to allow migration of vfio-pci device when it is part of a
+>   failover pair, still disallow for all other devices
+> - add patch 4/4 to allow unplug of device during migrationm, make an
+>   exception for failover primary devices. I'd like feedback on how to
+>   solve this more elegant. I added a boolean to DeviceState, have it
+>   default to false for all devices except for primary devices. 
+> - not tested yet with surprise removal
+> - I don't expect this to go in as it is, still needs more testing but
+>   I'd like to get feedback on above mentioned changes.
+> 
+> The general idea is that we have a pair of devices, a vfio-pci and a
+> emulated device. Before migration the vfio device is unplugged and data
+> flows to the emulated device, on the target side another vfio-pci device
+> is plugged in to take over the data-path. In the guest the net_failover
+> module will pair net devices with the same MAC address.
+> 
+> * In the first patch the infrastructure for hiding the device is added
+>   for the qbus and qdev APIs. 
+> 
+> * In the second patch the virtio-net uses the API to defer adding the vfio
+>   device until the VIRTIO_NET_F_STANDBY feature is acked.
+> 
+> Previous discussion: 
+>   RFC v1 https://patchwork.ozlabs.org/cover/989098/
+>   RFC v2 https://www.mail-archive.com/qemu-devel@nongnu.org/msg606906.html
+> 
+> To summarize concerns/feedback from previous discussion:
+> 1.- guest OS can reject or worse _delay_ unplug by any amount of time.
+>   Migration might get stuck for unpredictable time with unclear reason.
+>   This approach combines two tricky things, hot/unplug and migration. 
+>   -> We can surprise-remove the PCI device and in QEMU we can do all
+>      necessary rollbacks transparent to management software. Will it be
+>      easy, probably not.
+> 2. PCI devices are a precious ressource. The primary device should never
+>   be added to QEMU if it won't be used by guest instead of hiding it in
+>   QEMU. 
+>   -> We only hotplug the device when the standby feature bit was
+>      negotiated. We save the device cmdline options until we need it for
+>      qdev_device_add()
+>      Hiding a device can be a useful concept to model. For example a
+>      pci device in a powered-off slot could be marked as hidden until the slot is
+>      powered on (mst).
+> 3. Management layer software should handle this. Open Stack already has
+>   components/code to handle unplug/replug VFIO devices and metadata to
+>   provide to the guest for detecting which devices should be paired.
+>   -> An approach that includes all software from firmware to
+>      higher-level management software wasn't tried in the last years. This is
+>      an attempt to keep it simple and contained in QEMU as much as possible.
+> 4. Hotplugging a device and then making it part of a failover setup is
+>    not possible
+>   -> addressed by extending qdev hotplug functions to check for hidden
+>      attribute, so e.g. device_add can be used to plug a device.
+> 
+> 
+> I have tested this with a mlx5 NIC and was able to migrate the VM with
+> above mentioned workarounds for open problems.
+> 
+> Command line example:
+> 
+> qemu-system-x86_64 -enable-kvm -m 3072 -smp 3 \
+>         -machine q35,kernel-irqchip=split -cpu host   \
+>         -k fr   \
+>         -serial stdio   \
+>         -net none \
+>         -qmp unix:/tmp/qmp.socket,server,nowait \
+>         -monitor telnet:127.0.0.1:5555,server,nowait \
+>         -device pcie-root-port,id=root0,multifunction=on,chassis=0,addr=0xa \
+>         -device pcie-root-port,id=root1,bus=pcie.0,chassis=1 \
+>         -device pcie-root-port,id=root2,bus=pcie.0,chassis=2 \
+>         -netdev tap,script=/root/bin/bridge.sh,downscript=no,id=hostnet1,vhost=on \
+>         -device virtio-net-pci,netdev=hostnet1,id=net1,mac=52:54:00:6f:55:cc,bus=root2,failover=on \                                                                                    
+>         /root/rhel-guest-image-8.0-1781.x86_64.qcow2
+> 
+> Then the primary device can be hotplugged via
+>  (qemu) device_add vfio-pci,host=5e:00.2,id=hostdev0,bus=root1,standby=net1
+> 
+> 
+> I'm grateful for any remarks or ideas!
+> 
+> Thanks!
 
-gdb> maint packet qqemu.PhyMemMode
-will reply the current phy_mem_mode state (1 for enabled, 0 for disabled)
-gdb> maint packet Qqemu.PhyMemMode:1
-Will make GDB read/write only to physical memory, set to 0 to disable
+Hi Jens!
+Overall I like the patches. Thanks!
 
-Signed-off-by: Jon Doron <arilou@gmail.com>
----
- gdbstub.c | 62 +++++++++++++++++++++++++++++++++++++++++++++++++++++--
- 1 file changed, 60 insertions(+), 2 deletions(-)
+Could you please tell us a bit more about other hardware: does this work
+more or less universally across vendors? were any other cards tested?
 
-diff --git a/gdbstub.c b/gdbstub.c
-index 9dd934a079..c9269319d8 100644
---- a/gdbstub.c
-+++ b/gdbstub.c
-@@ -46,11 +46,27 @@
- #define GDB_ATTACHED "1"
- #endif
- 
-+#ifndef CONFIG_USER_ONLY
-+static int phy_memory_mode;
-+#endif
-+
- static inline int target_memory_rw_debug(CPUState *cpu, target_ulong addr,
-                                          uint8_t *buf, int len, bool is_write)
- {
--    CPUClass *cc = CPU_GET_CLASS(cpu);
-+    CPUClass *cc;
- 
-+#ifndef CONFIG_USER_ONLY
-+    if (phy_memory_mode) {
-+        if (is_write) {
-+            cpu_physical_memory_write(addr, buf, len);
-+        } else {
-+            cpu_physical_memory_read(addr, buf, len);
-+        }
-+        return 0;
-+    }
-+#endif
-+
-+    cc = CPU_GET_CLASS(cpu);
-     if (cc->memory_rw_debug) {
-         return cc->memory_rw_debug(cpu, addr, buf, len, is_write);
-     }
-@@ -2118,8 +2134,36 @@ static void handle_query_attached(GdbCmdContext *gdb_ctx, void *user_ctx)
- 
- static void handle_query_qemu_supported(GdbCmdContext *gdb_ctx, void *user_ctx)
- {
--    put_packet(gdb_ctx->s, "sstepbits;sstep");
-+    snprintf(gdb_ctx->str_buf, sizeof(gdb_ctx->str_buf), "sstepbits;sstep");
-+#ifndef CONFIG_USER_ONLY
-+    pstrcat(gdb_ctx->str_buf, sizeof(gdb_ctx->str_buf), ";PhyMemMode");
-+#endif
-+    put_packet(gdb_ctx->s, gdb_ctx->str_buf);
-+}
-+
-+#ifndef CONFIG_USER_ONLY
-+static void handle_query_qemu_phy_mem_mode(GdbCmdContext *gdb_ctx,
-+                                           void *user_ctx)
-+{
-+    snprintf(gdb_ctx->str_buf, sizeof(gdb_ctx->str_buf), "%d", phy_memory_mode);
-+    put_packet(gdb_ctx->s, gdb_ctx->str_buf);
-+}
-+
-+static void handle_set_qemu_phy_mem_mode(GdbCmdContext *gdb_ctx, void *user_ctx)
-+{
-+    if (!gdb_ctx->num_params) {
-+        put_packet(gdb_ctx->s, "E22");
-+        return;
-+    }
-+
-+    if (!gdb_ctx->params[0].val_ul) {
-+        phy_memory_mode = 0;
-+    } else {
-+        phy_memory_mode = 1;
-+    }
-+    put_packet(gdb_ctx->s, "OK");
- }
-+#endif
- 
- static GdbCmdParseEntry gdb_gen_query_set_common_table[] = {
-     /* Order is important if has same prefix */
-@@ -2201,6 +2245,12 @@ static GdbCmdParseEntry gdb_gen_query_table[] = {
-         .handler = handle_query_qemu_supported,
-         .cmd = "qemu.Supported",
-     },
-+#ifndef CONFIG_USER_ONLY
-+    {
-+        .handler = handle_query_qemu_phy_mem_mode,
-+        .cmd = "qemu.PhyMemMode",
-+    },
-+#endif
- };
- 
- static GdbCmdParseEntry gdb_gen_set_table[] = {
-@@ -2211,6 +2261,14 @@ static GdbCmdParseEntry gdb_gen_set_table[] = {
-         .cmd_startswith = 1,
-         .schema = "l0"
-     },
-+#ifndef CONFIG_USER_ONLY
-+    {
-+        .handler = handle_set_qemu_phy_mem_mode,
-+        .cmd = "qemu.PhyMemMode:",
-+        .cmd_startswith = 1,
-+        .schema = "l0"
-+    },
-+#endif
- };
- 
- static void handle_gen_query(GdbCmdContext *gdb_ctx, void *user_ctx)
--- 
-2.21.0
+Thanks in advance.
 
+> 
+> Jens Freimann (4):
+>   migration: allow unplug during migration for failover devices
+>   qdev/qbus: Add hidden device support
+>   net/virtio: add failover support
+>   vfio: unplug failover primary device before migration
+> 
+>  hw/core/qdev.c                 |  20 ++++++
+>  hw/net/virtio-net.c            | 117 +++++++++++++++++++++++++++++++++
+>  hw/vfio/pci.c                  |  25 ++++++-
+>  hw/vfio/pci.h                  |   2 +
+>  include/hw/qdev-core.h         |  10 +++
+>  include/hw/virtio/virtio-net.h |  12 ++++
+>  qdev-monitor.c                 |  43 ++++++++++--
+>  vl.c                           |   6 +-
+>  8 files changed, 228 insertions(+), 7 deletions(-)
+> 
+> -- 
+> 2.21.0
 
