@@ -2,64 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 93DBA25179
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 16:07:58 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54425 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B09F325199
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 16:11:43 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54514 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hT5Qr-0002xk-Nt
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 10:07:57 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35731)
+	id 1hT5UU-0004ov-GL
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 10:11:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:39193)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hT5GA-0003A4-71
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 09:56:55 -0400
+	(envelope-from <berrange@redhat.com>) id 1hT5TT-0004N2-6A
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 10:10:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hT5G8-0008EV-Vw
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 09:56:54 -0400
-Received: from mail-oi1-x233.google.com ([2607:f8b0:4864:20::233]:34749)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hT5G8-0008CW-DV
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 09:56:52 -0400
-Received: by mail-oi1-x233.google.com with SMTP id u64so3612964oib.1
-	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 06:56:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=QOeA1VEcBG11WiPNZv+y111pQYyByw1kDnHYJuFpXdU=;
-	b=FWEr/jS9j5Hzgu6Sz6Ia1rKl2YPA4ozPwcWJjlc++urDHshA4JaEEK9NisXuSe4pPl
-	ikbfNm9sMLOIxYX/VFQzZZJ3/8gbs+3cUj94YGpOwWe1bAswO6k9Kuoi6ORgqfKsDyBJ
-	Q20y/KbHHKOkjMETKix1EIvaUd1tpPSnq5ep2kdlZopy3U2w907biSIb8AuzQ0/mGoZ/
-	5qU0ibVZS5VY2jydo3tV8r6x2SksspYP7Ao5z/HXVuxRppjXNJex4bz+t69LMhXzeXry
-	4C2VQp8N222FYGf7BOLxUS/5+Xbxh+EQ7SevS5l1yF5CiN3MejuWHBmIXcrAbnmUWjjC
-	McIg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=QOeA1VEcBG11WiPNZv+y111pQYyByw1kDnHYJuFpXdU=;
-	b=EHm7jkGnhDtKBuZ7eFJsW/CkeGXxtFvAva1vWRt2WbZgj+1Z1p7g3YDDjJxdQsW1tP
-	lQlhsopYeYcxunUQTSQqSb3KCkpqshnJ9ZKE/F1h4mdlyoB20s/7cjoisbWc1tD4W997
-	D/Hs2EI8qibfjiyykAsPFUwimpi2E6jEkPsFqd9OmveAp1ilvMRJgJ5YRycaBl8Dh0rw
-	l11QCJJj94M9K1bvyd7uMNO/KH56km+wOX3N+8SyGdEXoKIjX045ATMH6mYZTYRsduDn
-	1GoMPWKnR7I6uUmWlJHQcHKHrbogcKzujC5pHBfp4sl7u9cEEcJlq+4icnWsgyhaDrsq
-	J+sQ==
-X-Gm-Message-State: APjAAAX2+ZlmEx0WSgxdKcEAEp6IkZsx0B/r8B8sqaKVOQmcbUWx1Li3
-	B4ogoTM5l7JKMrn9FoIRrxOHnt2BRnC4CqpWovKpTA==
-X-Google-Smtp-Source: APXvYqxn1EQKTRczpIm0W8biEX4X6bhphBkm7WZiBIewnRDEpauzX7iPDk9c5kAggmeZjYtviPupmzKl2cFzhKYBTlg=
-X-Received: by 2002:aca:cd12:: with SMTP id d18mr3418369oig.146.1558447009689; 
-	Tue, 21 May 2019 06:56:49 -0700 (PDT)
+	(envelope-from <berrange@redhat.com>) id 1hT5TR-0000IB-U5
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 10:10:39 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59876)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hT5TR-0000Hk-Mq
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 10:10:37 -0400
+Received: from smtp.corp.redhat.com (int-mx05.intmail.prod.int.phx2.redhat.com
+	[10.5.11.15])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 2330930BB557
+	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 14:10:36 +0000 (UTC)
+Received: from localhost.localdomain.com (ovpn-112-26.ams2.redhat.com
+	[10.36.112.26])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id DF946176B9;
+	Tue, 21 May 2019 14:10:34 +0000 (UTC)
+From: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Tue, 21 May 2019 15:10:32 +0100
+Message-Id: <20190521141032.13334-1-berrange@redhat.com>
 MIME-Version: 1.0
-References: <20190521105344.11637-1-thuth@redhat.com>
-In-Reply-To: <20190521105344.11637-1-thuth@redhat.com>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 21 May 2019 14:56:38 +0100
-Message-ID: <CAFEAcA_As+FEizNVnQ_Y0-xNixXj7d4myXwBxk2Y+SEVRz4N6Q@mail.gmail.com>
-To: Thomas Huth <thuth@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::233
-Subject: Re: [Qemu-devel] [PULL 00/13] qtests and some iotest patches
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.15
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.49]);
+	Tue, 21 May 2019 14:10:36 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH v3] authz: optimize linking of objects for
+ authorization services
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -71,41 +56,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
-	QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>
+Cc: =?UTF-8?q?Daniel=20P=2E=20Berrang=C3=A9?= <berrange@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 21 May 2019 at 11:53, Thomas Huth <thuth@redhat.com> wrote:
->
->  Hi Peter,
->
-> the following changes since commit 2259637b95bef3116cc262459271de08e038cc66:
->
->   Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into staging (2019-05-20 17:22:05 +0100)
->
-> are available in the Git repository at:
->
->   https://gitlab.com/huth/qemu.git tags/pull-request-2019-05-21
->
-> for you to fetch changes up to b3763a195cc167152df1f762b3c3a73f7db7677b:
->
->   tests/qemu-iotests: Remove the "_supported_os Linux" line from many tests (2019-05-21 10:13:58 +0200)
->
-> ----------------------------------------------------------------
-> I'll be away from keyboard starting next week, so I'd like to
-> get these patches merged before they bitrot again:
-> - some qtest patches to get rid of the global_qtest variable in
->   more tests
-> - some iotests patches that have multiple reviews and thus should
->   be ready to go
-> ----------------------------------------------------------------
+The core authorization API is a dependancy of the crypto code for the
+TLS servers. The TLS server code is pulled into anything which links
+to the crypto objects, which is every QEMU tool. This in turns means
+that every tool ended up linking to the authz code, which in turn
+pulls in the PAM library dep.
 
+This splits the authz code so that everything links to the base object
+which defines the API. Only the system emulators and qemu-nbd link to
+the object classes providing the implementations of the authz object
+API. This has the effect of removing the PAM library dep from qemu-img,
+qemu-io and other helper tools.
 
-Applied, thanks.
+Signed-off-by: Daniel P. Berrang=C3=A9 <berrange@redhat.com>
+---
 
-Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
-for any user-visible changes.
+In v3:
 
--- PMM
+  - Now with 100% fewer merge conflicts against master (hopefully...)
+
+In v2:
+
+  - Now with 100% less unit test failures due to missing objs :-)
+
+ Makefile               | 5 +++--
+ Makefile.objs          | 1 +
+ Makefile.target        | 3 ++-
+ authz/Makefile.objs    | 9 +++++----
+ tests/Makefile.include | 6 +++---
+ 5 files changed, 14 insertions(+), 10 deletions(-)
+
+diff --git a/Makefile b/Makefile
+index 155f066a20..cc3e76f7e5 100644
+--- a/Makefile
++++ b/Makefile
+@@ -398,6 +398,7 @@ endif
+ dummy :=3D $(call unnest-vars,, \
+                 stub-obj-y \
+                 authz-obj-y \
++                authz-impl-obj-y \
+                 chardev-obj-y \
+                 util-obj-y \
+                 qga-obj-y \
+@@ -446,7 +447,7 @@ qemu-options.def: $(SRC_PATH)/qemu-options.hx $(SRC_P=
+ATH)/scripts/hxtool
+ SUBDIR_RULES=3D$(patsubst %,subdir-%, $(TARGET_DIRS))
+ SOFTMMU_SUBDIR_RULES=3D$(filter %-softmmu,$(SUBDIR_RULES))
+=20
+-$(SOFTMMU_SUBDIR_RULES): $(authz-obj-y)
++$(SOFTMMU_SUBDIR_RULES): $(authz-obj-y) $(authz-impl-obj-y)
+ $(SOFTMMU_SUBDIR_RULES): $(block-obj-y)
+ $(SOFTMMU_SUBDIR_RULES): $(chardev-obj-y)
+ $(SOFTMMU_SUBDIR_RULES): $(crypto-obj-y)
+@@ -515,7 +516,7 @@ COMMON_LDADDS =3D libqemuutil.a
+ qemu-img.o: qemu-img-cmds.h
+=20
+ qemu-img$(EXESUF): qemu-img.o $(authz-obj-y) $(block-obj-y) $(crypto-obj=
+-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
+-qemu-nbd$(EXESUF): qemu-nbd.o $(authz-obj-y) $(block-obj-y) $(crypto-obj=
+-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
++qemu-nbd$(EXESUF): qemu-nbd.o $(authz-obj-y) $(authz-impl-obj-y) $(block=
+-obj-y) $(crypto-obj-y) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
+ qemu-io$(EXESUF): qemu-io.o $(authz-obj-y) $(block-obj-y) $(crypto-obj-y=
+) $(io-obj-y) $(qom-obj-y) $(COMMON_LDADDS)
+=20
+ qemu-bridge-helper$(EXESUF): qemu-bridge-helper.o $(COMMON_LDADDS)
+diff --git a/Makefile.objs b/Makefile.objs
+index 2b0793ecc9..efe77f13ab 100644
+--- a/Makefile.objs
++++ b/Makefile.objs
+@@ -9,6 +9,7 @@ chardev-obj-y =3D chardev/
+ # authz-obj-y is code used by both qemu system emulation and qemu-img
+=20
+ authz-obj-y =3D authz/
++authz-impl-obj-y =3D authz/
+=20
+ #######################################################################
+ # block-obj-y is code used by both qemu system emulation and qemu-img
+diff --git a/Makefile.target b/Makefile.target
+index fdbe7c89f4..8ae5a2720f 100644
+--- a/Makefile.target
++++ b/Makefile.target
+@@ -176,6 +176,7 @@ all-obj-y :=3D $(obj-y)
+ include $(SRC_PATH)/Makefile.objs
+ dummy :=3D $(call unnest-vars,.., \
+                authz-obj-y \
++               authz-impl-obj-y \
+                block-obj-y \
+                block-obj-m \
+                chardev-obj-y \
+@@ -187,7 +188,7 @@ dummy :=3D $(call unnest-vars,.., \
+                common-obj-m)
+ all-obj-y +=3D $(common-obj-y)
+ all-obj-y +=3D $(qom-obj-y)
+-all-obj-$(CONFIG_SOFTMMU) +=3D $(authz-obj-y)
++all-obj-$(CONFIG_SOFTMMU) +=3D $(authz-obj-y) $(authz-impl-obj-y)
+ all-obj-$(CONFIG_SOFTMMU) +=3D $(block-obj-y) $(chardev-obj-y)
+ all-obj-$(CONFIG_USER_ONLY) +=3D $(crypto-aes-obj-y)
+ all-obj-$(CONFIG_SOFTMMU) +=3D $(crypto-obj-y)
+diff --git a/authz/Makefile.objs b/authz/Makefile.objs
+index ed7b273596..e4c22447db 100644
+--- a/authz/Makefile.objs
++++ b/authz/Makefile.objs
+@@ -1,7 +1,8 @@
+ authz-obj-y +=3D base.o
+-authz-obj-y +=3D simple.o
+-authz-obj-y +=3D list.o
+-authz-obj-y +=3D listfile.o
+-authz-obj-$(CONFIG_AUTH_PAM) +=3D pamacct.o
++
++authz-impl-obj-y +=3D simple.o
++authz-impl-obj-y +=3D list.o
++authz-impl-obj-y +=3D listfile.o
++authz-impl-obj-$(CONFIG_AUTH_PAM) +=3D pamacct.o
+=20
+ pamacct.o-libs =3D -lpam
+diff --git a/tests/Makefile.include b/tests/Makefile.include
+index 1865f6b322..746901fc9c 100644
+--- a/tests/Makefile.include
++++ b/tests/Makefile.include
+@@ -496,10 +496,10 @@ test-qapi-obj-y =3D tests/test-qapi-types.o \
+ 	tests/test-qapi-visit-sub-sub-module.o \
+ 	tests/test-qapi-introspect.o \
+ 	$(test-qom-obj-y)
+-benchmark-crypto-obj-$(CONFIG_BLOCK) =3D $(authz-obj-y) $(crypto-obj-y) =
+$(test-qom-obj-y)
+-test-crypto-obj-$(CONFIG_BLOCK) =3D $(authz-obj-y) $(crypto-obj-y) $(tes=
+t-qom-obj-y)
++benchmark-crypto-obj-$(CONFIG_BLOCK) =3D $(authz-obj-y) $(authz-impl-obj=
+-y) $(crypto-obj-y) $(test-qom-obj-y)
++test-crypto-obj-$(CONFIG_BLOCK) =3D $(authz-obj-y) $(authz-impl-obj-y) $=
+(crypto-obj-y) $(test-qom-obj-y)
+ test-io-obj-$(CONFIG_BLOCK) =3D $(io-obj-y) $(test-crypto-obj-y)
+-test-authz-obj-$(CONFIG_BLOCK) =3D $(test-qom-obj-y) $(authz-obj-y)
++test-authz-obj-$(CONFIG_BLOCK) =3D $(test-qom-obj-y) $(authz-obj-y) $(au=
+thz-impl-obj-y)
+ test-block-obj-$(CONFIG_BLOCK) =3D $(block-obj-y) $(test-io-obj-y) tests=
+/iothread.o
+=20
+ tests/check-qnum$(EXESUF): tests/check-qnum.o $(test-util-obj-y)
+--=20
+2.21.0
+
 
