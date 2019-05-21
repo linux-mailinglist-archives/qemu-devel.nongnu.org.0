@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1A28024879
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 08:55:17 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:47705 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0957B2483D
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 08:42:32 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:47488 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSyg8-0002uw-7B
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 02:55:16 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49233)
+	id 1hSyTn-0007hY-3j
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 02:42:31 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48910)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hSyHt-0006QF-SN
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 02:30:14 -0400
+	(envelope-from <dgibson@ozlabs.org>) id 1hSyHY-0005wp-SL
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 02:29:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hSyHs-0008Jg-1d
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 02:30:13 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:53523)
+	(envelope-from <dgibson@ozlabs.org>) id 1hSyHW-0007tb-Vb
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 02:29:52 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:33527)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
-	id 1hSyHq-0007nd-P3; Tue, 21 May 2019 02:30:11 -0400
+	id 1hSyHW-0007mP-87; Tue, 21 May 2019 02:29:50 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
-	id 457Qph10y2z9sPJ; Tue, 21 May 2019 16:29:31 +1000 (AEST)
+	id 457Qpg42P7z9sNm; Tue, 21 May 2019 16:29:31 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=gibson.dropbear.id.au; s=201602; t=1558420172;
-	bh=E0P7ZBTOsd78OXOu944+9bwwwlf8kjjxDpxXnr0T90s=;
+	d=gibson.dropbear.id.au; s=201602; t=1558420171;
+	bh=h2GmXgrQc1s9kQJu5WILh6Hn0igXNXT6J623+KGV/t0=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=eNEOqZhAYR4u+MHW1AAWRIxYXM48NZ69ulqEpdUjeFpkuIwPM+UiXDePYzSTZ5bys
-	Z9n3OiJeAubdiqehfh0e/A2YSAD6pR+Z4li9UVJx6Z+wA5VbJ7Kt5+ft+OFQQQe9+5
-	NI74eny8NG0S7xqsRMTGwNDQMgTe/a8IMnqADQi0=
+	b=qRxJFzVwMdLGNqX6XZVm3JqQu62r8KXS2zmy+IGjNef577jfcf7muXmDdqfaG0byu
+	K72tvVS+G+tnJ9msvo6wSoF+mXF9MeGf5wgBBYywQGncDQDdxLNN0fc0ijPiVoxVdX
+	WuAOoqrdCNNbHT1kFWrDWE9cGC5eJz40lWDin38c=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Date: Tue, 21 May 2019 16:29:02 +1000
-Message-Id: <20190521062924.6930-17-david@gibson.dropbear.id.au>
+Date: Tue, 21 May 2019 16:29:03 +1000
+Message-Id: <20190521062924.6930-18-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190521062924.6930-1-david@gibson.dropbear.id.au>
 References: <20190521062924.6930-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
 X-Received-From: 2401:3900:2:1::2
-Subject: [Qemu-devel] [PULL 16/38] Fix typo on "info pic" monitor cmd output
- for xive
+Subject: [Qemu-devel] [PULL 17/38] target/ppc: Optimise VSX_LOAD_SCALAR_DS
+ and VSX_VECTOR_LOAD_STORE
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -55,43 +54,147 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, gkurz@kaod.org, qemu-devel@nongnu.org,
-	Greg Kurz <groug@kaod.org>,
-	Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>, clg@kaod.org,
-	qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>,
-	Stefano Garzarella <sgarzare@redhat.com>
+Cc: lvivier@redhat.com, gkurz@kaod.org,
+	Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+	qemu-devel@nongnu.org, qemu-ppc@nongnu.org, clg@kaod.org,
+	Anton Blanchard <anton@ozlabs.org>,
+	David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>
+From: Anton Blanchard <anton@ozlabs.org>
 
-Instead of LISN i.e "Logical Interrupt Source Number" as per
-Xive PAPR document "info pic" prints as LSIN, let's fix it.
+A few small optimisations:
 
-Signed-off-by: Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>
-Message-Id: <20190509080750.21999-1-sathnaga@linux.vnet.ibm.com>
-Reviewed-by: Greg Kurz <groug@kaod.org>
-Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
+In VSX_LOAD_SCALAR_DS() we can don't need to read the VSR via
+get_cpu_vsrh().
+
+Split VSX_VECTOR_LOAD_STORE() into two functions. Loads only need to
+write the VSRs (set_cpu_vsr*()) and stores only need to read the VSRs
+(get_cpu_vsr*())
+
+Thanks to Mark Cave-Ayland for the suggestions.
+
+Signed-off-by: Anton Blanchard <anton@ozlabs.org>
+Message-Id: <20190509103545.4a7fa71a@kryten>
+Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/spapr_xive.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ target/ppc/translate/vsx-impl.inc.c | 68 ++++++++++++++++++++++++-----
+ 1 file changed, 58 insertions(+), 10 deletions(-)
 
-diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-index 58cc6e2b50..62e13ac353 100644
---- a/hw/intc/spapr_xive.c
-+++ b/hw/intc/spapr_xive.c
-@@ -141,7 +141,7 @@ void spapr_xive_pic_print_info(SpaprXive *xive, Monit=
-or *mon)
-     XiveSource *xsrc =3D &xive->source;
-     int i;
+diff --git a/target/ppc/translate/vsx-impl.inc.c b/target/ppc/translate/v=
+sx-impl.inc.c
+index 4b8f6cefe3..c39829cf33 100644
+--- a/target/ppc/translate/vsx-impl.inc.c
++++ b/target/ppc/translate/vsx-impl.inc.c
+@@ -227,7 +227,7 @@ static void gen_lxvb16x(DisasContext *ctx)
+     tcg_temp_free_i64(xtl);
+ }
 =20
--    monitor_printf(mon, "  LSIN         PQ    EISN     CPU/PRIO EQ\n");
-+    monitor_printf(mon, "  LISN         PQ    EISN     CPU/PRIO EQ\n");
+-#define VSX_VECTOR_LOAD_STORE(name, op, indexed)            \
++#define VSX_VECTOR_LOAD(name, op, indexed)                  \
+ static void gen_##name(DisasContext *ctx)                   \
+ {                                                           \
+     int xt;                                                 \
+@@ -254,8 +254,6 @@ static void gen_##name(DisasContext *ctx)            =
+       \
+     }                                                       \
+     xth =3D tcg_temp_new_i64();                               \
+     xtl =3D tcg_temp_new_i64();                               \
+-    get_cpu_vsrh(xth, xt);                                  \
+-    get_cpu_vsrl(xtl, xt);                                  \
+     gen_set_access_type(ctx, ACCESS_INT);                   \
+     EA =3D tcg_temp_new();                                    \
+     if (indexed) {                                          \
+@@ -281,10 +279,61 @@ static void gen_##name(DisasContext *ctx)          =
+         \
+     tcg_temp_free_i64(xtl);                                 \
+ }
 =20
-     for (i =3D 0; i < xive->nr_irqs; i++) {
-         uint8_t pq =3D xive_source_esb_get(xsrc, i);
+-VSX_VECTOR_LOAD_STORE(lxv, ld_i64, 0)
+-VSX_VECTOR_LOAD_STORE(stxv, st_i64, 0)
+-VSX_VECTOR_LOAD_STORE(lxvx, ld_i64, 1)
+-VSX_VECTOR_LOAD_STORE(stxvx, st_i64, 1)
++VSX_VECTOR_LOAD(lxv, ld_i64, 0)
++VSX_VECTOR_LOAD(lxvx, ld_i64, 1)
++
++#define VSX_VECTOR_STORE(name, op, indexed)                 \
++static void gen_##name(DisasContext *ctx)                   \
++{                                                           \
++    int xt;                                                 \
++    TCGv EA;                                                \
++    TCGv_i64 xth;                                           \
++    TCGv_i64 xtl;                                           \
++                                                            \
++    if (indexed) {                                          \
++        xt =3D xT(ctx->opcode);                               \
++    } else {                                                \
++        xt =3D DQxT(ctx->opcode);                             \
++    }                                                       \
++                                                            \
++    if (xt < 32) {                                          \
++        if (unlikely(!ctx->vsx_enabled)) {                  \
++            gen_exception(ctx, POWERPC_EXCP_VSXU);          \
++            return;                                         \
++        }                                                   \
++    } else {                                                \
++        if (unlikely(!ctx->altivec_enabled)) {              \
++            gen_exception(ctx, POWERPC_EXCP_VPU);           \
++            return;                                         \
++        }                                                   \
++    }                                                       \
++    xth =3D tcg_temp_new_i64();                               \
++    xtl =3D tcg_temp_new_i64();                               \
++    get_cpu_vsrh(xth, xt);                                  \
++    get_cpu_vsrl(xtl, xt);                                  \
++    gen_set_access_type(ctx, ACCESS_INT);                   \
++    EA =3D tcg_temp_new();                                    \
++    if (indexed) {                                          \
++        gen_addr_reg_index(ctx, EA);                        \
++    } else {                                                \
++        gen_addr_imm_index(ctx, EA, 0x0F);                  \
++    }                                                       \
++    if (ctx->le_mode) {                                     \
++        tcg_gen_qemu_##op(xtl, EA, ctx->mem_idx, MO_LEQ);   \
++        tcg_gen_addi_tl(EA, EA, 8);                         \
++        tcg_gen_qemu_##op(xth, EA, ctx->mem_idx, MO_LEQ);   \
++    } else {                                                \
++        tcg_gen_qemu_##op(xth, EA, ctx->mem_idx, MO_BEQ);   \
++        tcg_gen_addi_tl(EA, EA, 8);                         \
++        tcg_gen_qemu_##op(xtl, EA, ctx->mem_idx, MO_BEQ);   \
++    }                                                       \
++    tcg_temp_free(EA);                                      \
++    tcg_temp_free_i64(xth);                                 \
++    tcg_temp_free_i64(xtl);                                 \
++}
++
++VSX_VECTOR_STORE(stxv, st_i64, 0)
++VSX_VECTOR_STORE(stxvx, st_i64, 1)
+=20
+ #ifdef TARGET_PPC64
+ #define VSX_VECTOR_LOAD_STORE_LENGTH(name)                      \
+@@ -329,7 +378,6 @@ static void gen_##name(DisasContext *ctx)            =
+             \
+         return;                                                   \
+     }                                                             \
+     xth =3D tcg_temp_new_i64();                                     \
+-    get_cpu_vsrh(xth, rD(ctx->opcode) + 32);                      \
+     gen_set_access_type(ctx, ACCESS_INT);                         \
+     EA =3D tcg_temp_new();                                          \
+     gen_addr_imm_index(ctx, EA, 0x03);                            \
+@@ -513,8 +561,8 @@ static void gen_##name(DisasContext *ctx)            =
+             \
+     tcg_temp_free_i64(xth);                                       \
+ }
+=20
+-VSX_LOAD_SCALAR_DS(stxsd, st64_i64)
+-VSX_LOAD_SCALAR_DS(stxssp, st32fs)
++VSX_STORE_SCALAR_DS(stxsd, st64_i64)
++VSX_STORE_SCALAR_DS(stxssp, st32fs)
+=20
+ static void gen_mfvsrwz(DisasContext *ctx)
+ {
 --=20
 2.21.0
 
