@@ -2,69 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6788924D91
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 13:07:53 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:51484 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 232AF24DA8
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 13:11:21 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:51546 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hT2ca-0002Ei-Gs
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 07:07:52 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57346)
+	id 1hT2fv-0005KS-KF
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 07:11:19 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58711)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <pbonzini@redhat.com>) id 1hT2Qz-0001aq-JA
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 06:55:54 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hT2WT-0006eb-CN
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 07:01:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <pbonzini@redhat.com>) id 1hT2Qy-000666-N2
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 06:55:53 -0400
-Received: from mail-wr1-f44.google.com ([209.85.221.44]:36265)
+	(envelope-from <peter.maydell@linaro.org>) id 1hT2WS-0003NY-4n
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 07:01:33 -0400
+Received: from mail-ot1-x329.google.com ([2607:f8b0:4864:20::329]:40418)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hT2Qy-0005wm-HN
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 06:55:52 -0400
-Received: by mail-wr1-f44.google.com with SMTP id s17so18077878wru.3
-	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 03:55:41 -0700 (PDT)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hT2WR-0003Mz-Ud
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 07:01:32 -0400
+Received: by mail-ot1-x329.google.com with SMTP id u11so15898100otq.7
+	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 04:01:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=i3pmNUokdSPzrXl5GpdoEGmFzwFoMlpkJKZfb60Rdt8=;
+	b=lqmgJzc3XST3HFyp3UQAKywhj8qqcdtvSqNFOX+uxTf/brpTNOCqNFA2uUXyb1KrNt
+	g62+yOrEjCQ9dNkG0PQ4I3vik0hSgtyNwPiBX1fLYSYrd1mud7lB4Ojx0pzJcUw5+Z0y
+	/wPFW/VOWD9X6CdEag2Kiut6MEMHeK2IIF588RkmvwhaBrxNGKMeIHD5WzAZ454mr6t+
+	1IPVXKbI8mh+5Aaf5ORFjdpUJ46fXaVvU+3LCNZdajLSMDVL4LJDZWzmE017rVlorH94
+	5w3mnNTEbHvZkC3gzAix6HSr64rfmBjTubhujFIalMzLEyQc8+NHEK9ZRiNf0nrqH1xy
+	qPRA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=BFI4fVR7q1UVGYZox0NGxV0eb+6lCiDzgo9F8ljSESM=;
-	b=snVV7Z9RG4IeKKcFDMO93646wNs9w+AY5nt22fTyrNuKnQtRhyi9Zw4ohcjLKTZedV
-	bW1Vq1vb8DhcXM4JJ0RgJAHwPNy5gVd+YvP7o5GBcKK0XRm+9Ozit6AdP90wHtZkO2na
-	M+LJ6sOTneouRtN41ze04AssXF66jWYYJ9evPpSiGBPGCe5DYBfExvFXq25EXOtCfqJ+
-	pERVKf3LSw2nleSWiCA6YqYzVJ24zKvILnXY2yH2FYkBz/VER4IedWk5UCX5NT3cv7sp
-	NK06zkq724oILK8FMR0kKvTNMryfpWnuPFP4fw3AVJEFJdb++Gs+y7cGm9V+zYtvUbHn
-	Smsg==
-X-Gm-Message-State: APjAAAXAZSPGLWwCfCNkvXebocoDyVM5h/ZFXT4zHgd40ExdwxbOWeSt
-	wDJj2dIhUMt23DYYicAvdvqP4w==
-X-Google-Smtp-Source: APXvYqya6fCoHBiRYiVcU0sYAHuOQ13ygmgnhXDB1hJLck+abOmXVHSUiz4scb9i+CLa5d6qfnaysA==
-X-Received: by 2002:a05:6000:1201:: with SMTP id
-	e1mr48184075wrx.136.1558436140078; 
-	Tue, 21 May 2019 03:55:40 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:ac04:eef9:b257:b844?
-	([2001:b07:6468:f312:ac04:eef9:b257:b844])
-	by smtp.gmail.com with ESMTPSA id
-	w185sm2620930wma.39.2019.05.21.03.55.36
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 21 May 2019 03:55:39 -0700 (PDT)
-To: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
-	Eduardo Habkost <ehabkost@redhat.com>
-References: <20190520184108.GA10764@habkost.net>
-	<20190521085350.GF25835@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <e2395213-efaf-6d6c-6cfd-d949d071b4f6@redhat.com>
-Date: Tue, 21 May 2019 12:55:36 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=i3pmNUokdSPzrXl5GpdoEGmFzwFoMlpkJKZfb60Rdt8=;
+	b=h12ehbiZ4dALv+2tVnKLXzY1Oz6z94ddBPohAWuulXkeOchRBTL9HCEkzEDgCAhNCm
+	DmkQFkNQnSbTP8S3S/aMsgwPivdDI8qOjDShDr+qKtOpC9eQ1BFR7Zb3I2A6S/qnfQcb
+	Jf7L5fh658Rf++EoFpDAUm9QUbxUj7A6ppDklhPZMsgs4MFORf3WMJLMYqyYs3RpKgS7
+	YCz4so4W91ZxWufNK2e8xprGaoVjyPTaY9hpamAaiD21KakE5dvnvSSL79i/zWytZ7xN
+	F/sKXTaDBaHK+CwjA90FPb73NViKlalbSQYumRuuXbHeGLif35LEVyEQCePy1+p4+NC2
+	Eteg==
+X-Gm-Message-State: APjAAAXlDX/HVnIVJeQoXBE4ZOwWV1j17/dJHsKk8IfdIGhOv6oBR6QG
+	X2S2JxKGzuoYTzJ+NCoS1QG0k6R3Ljztxs9A1XewxQ==
+X-Google-Smtp-Source: APXvYqyhuKTdxxjlf0ZyG4RLQGFji0MJCzCrqptwbh+IGbDI5b7pcSjtSCeNDodUGGIwGFG/07B4YqS06Fx96c5DzKk=
+X-Received: by 2002:a05:6830:149a:: with SMTP id
+	s26mr19251062otq.221.1558436491278; 
+	Tue, 21 May 2019 04:01:31 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20190521085350.GF25835@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.221.44
-Subject: Re: [Qemu-devel] Introducing GSoC project: API Documentation
- Generation
+References: <20190520175837.4561-1-jcmvbkbc@gmail.com>
+In-Reply-To: <20190520175837.4561-1-jcmvbkbc@gmail.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 21 May 2019 12:01:20 +0100
+Message-ID: <CAFEAcA-RRZ+GC6FL2V7U09SY4zUA1rE8f9JvM-3XQ2sLRLj1Ew@mail.gmail.com>
+To: Max Filippov <jcmvbkbc@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::329
+Subject: Re: [Qemu-devel] [PULL 0/9] target/xtensa queue
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -76,34 +72,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
-	Gabriel Barreto <sbarreto.gabriel@gmail.com>,
-	qemu-devel@nongnu.org, "Emilio G. Cota" <cota@braap.org>,
-	Stefan Hajnoczi <stefanha@redhat.com>,
-	Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/05/19 10:53, Daniel P. Berrangé wrote:
-> Hawkmoth seems pretty attractive in its output format, but doesn't appear
-> to be part of either Debian or Fedora distros, so we would have to bundle
-> it in QEMU I expect.  My big concern there is that there have only been
-> 2 contributors to Hawkmoth in its entire 3 year existance, which makes
-> me fear for its long term viability if the main author gives up.
+On Mon, 20 May 2019 at 18:58, Max Filippov <jcmvbkbc@gmail.com> wrote:
+>
+> Hi Peter,
+>
+> please pull the following batch of updates to target/xtensa:
+>
+> The following changes since commit efb4f3b62c69383a7308d7b739a3193e7c0ccae8:
+>
+>   Merge remote-tracking branch 'remotes/stefanha/tags/block-pull-request' into staging (2019-05-10 14:49:36 +0100)
+>
+> are available in the git repository at:
+>
+>   git://github.com/OSLL/qemu-xtensa.git tags/20190520-xtensa
+>
+> for you to fetch changes up to b345e140534ea17814b02bdf8798f18db6295304:
+>
+>   target/xtensa: implement exclusive access option (2019-05-15 10:31:52 -0700)
+>
+> ----------------------------------------------------------------
+> target/xtensa: SR reorganization and options for modern cores
+>
+> Reorganize special register handling to support configurations with
+> conflicting SR definitions.
+>
+> Implement options used by the modern xtensa cores:
+> - memory protection unit;
+> - block prefetch;
+> - exclusive access
+>
+> Add special register definitions and IRQ types for ECC/parity,
+> gather/scatter and IDMA.
+>
 
-On the plus side, I think the main author is among the people that
-pushed rST and Sphinx in the kernel, so it's plausible that in the
-future the kernel will pick Hawkmoth.  I agree that we should check with
-him about his plans.
 
-> QEMU should pick a tool which is well established / widely used & thus
-> stands a good chance of being maintained for the long term, as we don't
-> want to end up relying on abandonware in 5 years time.  The kernel-doc
-> project is not widely used, but its main user is significant enough that
-> it isn't likely to die through lack of maintainers.
+Applied, thanks.
 
-A couple years ago I didn't have problems modifying kerneldoc for QEMU's
-syntax, it was a 10 lines patch.  Unfortunately I cannot find it anymore.
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
+for any user-visible changes.
 
-Paolo
+-- PMM
 
