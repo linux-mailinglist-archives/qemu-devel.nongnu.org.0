@@ -2,40 +2,95 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A08CE24AB6
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 10:47:59 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49023 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id CB12724AC1
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 10:50:51 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49051 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hT0RC-0004fI-QW
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 04:47:58 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48850)
+	id 1hT0Ty-0006q3-UQ
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 04:50:50 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49509)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hT0Op-0003bG-DZ
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 04:45:32 -0400
+	(envelope-from <vsementsov@virtuozzo.com>) id 1hT0RY-0005md-Vq
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 04:48:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <vsementsov@virtuozzo.com>) id 1hT0Oo-0004HE-6Q
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 04:45:31 -0400
-Received: from relay.sw.ru ([185.231.240.75]:60612)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(envelope-from <vsementsov@virtuozzo.com>) id 1hT0RX-0005mc-8Q
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 04:48:20 -0400
+Received: from mail-eopbgr10114.outbound.protection.outlook.com
+	([40.107.1.114]:18029
+	helo=EUR02-HE1-obe.outbound.protection.outlook.com)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
-	id 1hT0Ol-0004AI-Kb; Tue, 21 May 2019 04:45:27 -0400
-Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
-	by relay.sw.ru with esmtp (Exim 4.91)
-	(envelope-from <vsementsov@virtuozzo.com>)
-	id 1hT0Oh-0003ut-Nk; Tue, 21 May 2019 11:45:23 +0300
+	id 1hT0RW-0005l4-F5; Tue, 21 May 2019 04:48:19 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=virtuozzo.com;
+	s=selector1;
+	h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+	bh=c76zG7pn+A/O+/z4Td/LmxdFRDmhOBYWMB7KlRPnGoU=;
+	b=J1ysiFv2FDbfNpevIuMsk6s51DMqQxSrbAxLT7vHCnl0RnMMuWGV3/ALRRCbKHImeWYyNQsh1lLRDZ8u2OJF5u6T2AiYMQJDAt+OF0OhezynR5VucjXwtpdZidZ4fV6t9uHJDU3ftRTudWcDvCLw8UK2UczpPZpTv1npztRHa4Y=
+Received: from AM6PR08MB4675.eurprd08.prod.outlook.com (10.255.96.78) by
+	AM6PR08MB5126.eurprd08.prod.outlook.com (10.255.120.94) with Microsoft
+	SMTP
+	Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+	15.20.1900.17; Tue, 21 May 2019 08:48:15 +0000
+Received: from AM6PR08MB4675.eurprd08.prod.outlook.com
+	([fe80::9051:3c85:28c6:a0c1]) by
+	AM6PR08MB4675.eurprd08.prod.outlook.com
+	([fe80::9051:3c85:28c6:a0c1%6]) with mapi id 15.20.1878.024;
+	Tue, 21 May 2019 08:48:15 +0000
 From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
-To: qemu-block@nongnu.org,
-	qemu-devel@nongnu.org
-Date: Tue, 21 May 2019 11:45:22 +0300
-Message-Id: <20190521084522.15050-4-vsementsov@virtuozzo.com>
-X-Mailer: git-send-email 2.18.0
-In-Reply-To: <20190521084522.15050-1-vsementsov@virtuozzo.com>
+To: "qemu-block@nongnu.org" <qemu-block@nongnu.org>, "qemu-devel@nongnu.org"
+	<qemu-devel@nongnu.org>
+Thread-Topic: [RFC PATCH 0/3] block: qiov_offset parameter for io
+Thread-Index: AQHVD7GMSMNoEUo/GEaCxI4Fn6OKPKZ1RHQA
+Date: Tue, 21 May 2019 08:48:14 +0000
+Message-ID: <5af4eb2c-e893-fc37-aa83-c253b6d090da@virtuozzo.com>
 References: <20190521084522.15050-1-vsementsov@virtuozzo.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 185.231.240.75
-Subject: [Qemu-devel] [RFC PATCH 3/3] block/qcow2: implement
- .bdrv_co_preadv_part
+In-Reply-To: <20190521084522.15050-1-vsementsov@virtuozzo.com>
+Accept-Language: ru-RU, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-clientproxiedby: HE1PR0102CA0023.eurprd01.prod.exchangelabs.com
+	(2603:10a6:7:14::36) To AM6PR08MB4675.eurprd08.prod.outlook.com
+	(2603:10a6:20b:c2::14)
+authentication-results: spf=none (sender IP is )
+	smtp.mailfrom=vsementsov@virtuozzo.com; 
+x-ms-exchange-messagesentrepresentingtype: 1
+x-tagtoolbar-keys: D20190521114812756
+x-originating-ip: [185.231.240.5]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 105a4559-94c5-4861-a964-08d6ddc91014
+x-microsoft-antispam: BCL:0; PCL:0;
+	RULEID:(2390118)(7020095)(4652040)(8989299)(4534185)(4627221)(201703031133081)(201702281549075)(8990200)(5600141)(711020)(4605104)(2017052603328)(7193020);
+	SRVR:AM6PR08MB5126; 
+x-ms-traffictypediagnostic: AM6PR08MB5126:
+x-ms-exchange-purlcount: 1
+x-microsoft-antispam-prvs: <AM6PR08MB5126D2ACDC915B6F1E15E619C1070@AM6PR08MB5126.eurprd08.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:4941;
+x-forefront-prvs: 0044C17179
+x-forefront-antispam-report: SFV:NSPM;
+	SFS:(10019020)(376002)(346002)(396003)(366004)(39850400004)(136003)(53754006)(199004)(189003)(25786009)(8676002)(6246003)(478600001)(14454004)(2906002)(8936002)(107886003)(36756003)(2501003)(81166006)(81156014)(53936002)(186003)(229853002)(316002)(6486002)(73956011)(6436002)(26005)(446003)(966005)(4326008)(68736007)(305945005)(66946007)(7736002)(66476007)(64756008)(66446008)(66556008)(66066001)(31696002)(11346002)(86362001)(71190400001)(71200400001)(2616005)(110136005)(476003)(54906003)(31686004)(486006)(256004)(99286004)(386003)(6506007)(6306002)(6116002)(3846002)(52116002)(102836004)(76176011)(4744005)(5660300002)(6512007);
+	DIR:OUT; SFP:1102; SCL:1; SRVR:AM6PR08MB5126;
+	H:AM6PR08MB4675.eurprd08.prod.outlook.com; FPR:; SPF:None;
+	LANG:en; PTR:InfoNoRecords; A:1; MX:1; 
+received-spf: None (protection.outlook.com: virtuozzo.com does not designate
+	permitted sender hosts)
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam-message-info: MCGPUiauLj5h2DvGt9FUM/MzrvuLhohlVKzXaY8W1MGmCQNqC+YMuWeeYTNFNFzjv3b1PCxzv6bNNKz0SBbL5xzUOy4ZkqYbi97jXypogahdaAhIw52xZkSTYCWSHEIPy5bHk9dX3qnmMwOAzgIm7/tgJF1PtzfjLmwKVsYB5ss4fcqqkxjibYouXn7CMgOe6dtJWF0DUgdsOJs/kTBQiVasQ+BXsX+gV7x3qYNGIxpmNRKiiTfAsxlIWIKegvMGFgUphFdF34L4JwbTZ2qT1FiiHyuFcPGHM4viNNSTNQIPUe5cgs6R5cgVQlrG5Np2HtUdIdOvLmng7u4UvRsP9GAFhBCIQ/gWONN2T/1VeZPQoEkBkIwfR7rVhcE1O++sieINxFaCIC88gDdrkTcy3KioXdSjeaaKBh3/qqqqjaM=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <B9F2633D9BC9C6488195525058D90B59@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-OriginatorOrg: virtuozzo.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 105a4559-94c5-4861-a964-08d6ddc91014
+X-MS-Exchange-CrossTenant-originalarrivaltime: 21 May 2019 08:48:14.9787 (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0bc7f26d-0264-416e-a6fc-8352af79c58f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR08MB5126
+X-detected-operating-system: by eggs.gnu.org: Windows 7 or 8 [fuzzy]
+X-Received-From: 40.107.1.114
+Subject: Re: [Qemu-devel] [RFC PATCH 0/3] block: qiov_offset parameter for io
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -47,158 +102,19 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
-	mreitz@redhat.com, stefanha@redhat.com, den@openvz.org
+Cc: "kwolf@redhat.com" <kwolf@redhat.com>, "fam@euphon.net" <fam@euphon.net>,
+	Denis Lunev <den@virtuozzo.com>,
+	"stefanha@redhat.com" <stefanha@redhat.com>,
+	"mreitz@redhat.com" <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Implement and use new interface to get rid of hd_qiov.
-
-Signed-off-by: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
----
- block/qcow2.c | 45 ++++++++++++++++++++-------------------------
- 1 file changed, 20 insertions(+), 25 deletions(-)
-
-diff --git a/block/qcow2.c b/block/qcow2.c
-index 5b4e5e7537..dcfa688c13 100644
---- a/block/qcow2.c
-+++ b/block/qcow2.c
-@@ -75,7 +75,8 @@ qcow2_co_preadv_compressed(BlockDriverState *bs,
-                            uint64_t file_cluster_offset,
-                            uint64_t offset,
-                            uint64_t bytes,
--                           QEMUIOVector *qiov);
-+                           QEMUIOVector *qiov,
-+                           size_t qiov_offset);
- 
- static int qcow2_probe(const uint8_t *buf, int buf_size, const char *filename)
- {
-@@ -1955,21 +1956,18 @@ out:
-     return ret;
- }
- 
--static coroutine_fn int qcow2_co_preadv(BlockDriverState *bs, uint64_t offset,
--                                        uint64_t bytes, QEMUIOVector *qiov,
--                                        int flags)
-+static coroutine_fn int qcow2_co_preadv_part(BlockDriverState *bs,
-+                                             uint64_t offset, uint64_t bytes,
-+                                             QEMUIOVector *qiov,
-+                                             size_t qiov_offset, int flags)
- {
-     BDRVQcow2State *s = bs->opaque;
-     int offset_in_cluster;
-     int ret;
-     unsigned int cur_bytes; /* number of bytes in current iteration */
-     uint64_t cluster_offset = 0;
--    uint64_t bytes_done = 0;
--    QEMUIOVector hd_qiov;
-     uint8_t *cluster_data = NULL;
- 
--    qemu_iovec_init(&hd_qiov, qiov->niov);
--
-     while (bytes != 0) {
- 
-         /* prepare next request */
-@@ -1988,34 +1986,31 @@ static coroutine_fn int qcow2_co_preadv(BlockDriverState *bs, uint64_t offset,
- 
-         offset_in_cluster = offset_into_cluster(s, offset);
- 
--        qemu_iovec_reset(&hd_qiov);
--        qemu_iovec_concat(&hd_qiov, qiov, bytes_done, cur_bytes);
--
-         switch (ret) {
-         case QCOW2_CLUSTER_UNALLOCATED:
- 
-             if (bs->backing) {
-                 BLKDBG_EVENT(bs->file, BLKDBG_READ_BACKING_AIO);
--                ret = bdrv_co_preadv(bs->backing, offset, cur_bytes,
--                                     &hd_qiov, 0);
-+                ret = bdrv_co_preadv_part(bs->backing, offset, cur_bytes,
-+                                          qiov, qiov_offset, 0);
-                 if (ret < 0) {
-                     goto fail;
-                 }
-             } else {
-                 /* Note: in this case, no need to wait */
--                qemu_iovec_memset(&hd_qiov, 0, 0, cur_bytes);
-+                qemu_iovec_memset(qiov, qiov_offset, 0, cur_bytes);
-             }
-             break;
- 
-         case QCOW2_CLUSTER_ZERO_PLAIN:
-         case QCOW2_CLUSTER_ZERO_ALLOC:
--            qemu_iovec_memset(&hd_qiov, 0, 0, cur_bytes);
-+            qemu_iovec_memset(qiov, qiov_offset, 0, cur_bytes);
-             break;
- 
-         case QCOW2_CLUSTER_COMPRESSED:
-             ret = qcow2_co_preadv_compressed(bs, cluster_offset,
-                                              offset, cur_bytes,
--                                             &hd_qiov);
-+                                             qiov, qiov_offset);
-             if (ret < 0) {
-                 goto fail;
-             }
-@@ -2063,12 +2058,12 @@ static coroutine_fn int qcow2_co_preadv(BlockDriverState *bs, uint64_t offset,
-                     ret = -EIO;
-                     goto fail;
-                 }
--                qemu_iovec_from_buf(qiov, bytes_done, cluster_data, cur_bytes);
-+                qemu_iovec_from_buf(qiov, qiov_offset, cluster_data, cur_bytes);
-             } else {
-                 BLKDBG_EVENT(bs->file, BLKDBG_READ_AIO);
--                ret = bdrv_co_preadv(s->data_file,
--                                     cluster_offset + offset_in_cluster,
--                                     cur_bytes, &hd_qiov, 0);
-+                ret = bdrv_co_preadv_part(s->data_file,
-+                                          cluster_offset + offset_in_cluster,
-+                                          cur_bytes, qiov, qiov_offset, 0);
-                 if (ret < 0) {
-                     goto fail;
-                 }
-@@ -2083,12 +2078,11 @@ static coroutine_fn int qcow2_co_preadv(BlockDriverState *bs, uint64_t offset,
- 
-         bytes -= cur_bytes;
-         offset += cur_bytes;
--        bytes_done += cur_bytes;
-+        qiov_offset += cur_bytes;
-     }
-     ret = 0;
- 
- fail:
--    qemu_iovec_destroy(&hd_qiov);
-     qemu_vfree(cluster_data);
- 
-     return ret;
-@@ -4002,7 +3996,8 @@ qcow2_co_preadv_compressed(BlockDriverState *bs,
-                            uint64_t file_cluster_offset,
-                            uint64_t offset,
-                            uint64_t bytes,
--                           QEMUIOVector *qiov)
-+                           QEMUIOVector *qiov,
-+                           size_t qiov_offset)
- {
-     BDRVQcow2State *s = bs->opaque;
-     int ret = 0, csize, nb_csectors;
-@@ -4032,7 +4027,7 @@ qcow2_co_preadv_compressed(BlockDriverState *bs,
-         goto fail;
-     }
- 
--    qemu_iovec_from_buf(qiov, 0, out_buf + offset_in_cluster, bytes);
-+    qemu_iovec_from_buf(qiov, qiov_offset, out_buf + offset_in_cluster, bytes);
- 
- fail:
-     qemu_vfree(out_buf);
-@@ -5093,7 +5088,7 @@ BlockDriver bdrv_qcow2 = {
-     .bdrv_has_zero_init = bdrv_has_zero_init_1,
-     .bdrv_co_block_status = qcow2_co_block_status,
- 
--    .bdrv_co_preadv         = qcow2_co_preadv,
-+    .bdrv_co_preadv_part    = qcow2_co_preadv_part,
-     .bdrv_co_pwritev        = qcow2_co_pwritev,
-     .bdrv_co_flush_to_os    = qcow2_co_flush_to_os,
- 
--- 
-2.18.0
-
+MjEuMDUuMjAxOSAxMTo0NSwgVmxhZGltaXIgU2VtZW50c292LU9naWV2c2tpeSB3cm90ZToNCj4g
+SGkgYWxsIQ0KPiANCj4gSGVyZSBpcyBpZGVhIG9mIGFkZGluZyBxaW92X29mZnNldCBwYXJhbWV0
+ZXIgdG8gaW8gcGF0aCwgdG8gYXZvaWQNCj4gYSBsb3Qgb2YgcGxhY2VzIHdpdGggc2FtZSBwYXR0
+ZXJuIG9mIGNyZWF0aW5nIGxvY2FsX3Fpb3Ygb3IgaGRfcWlvdg0KPiB2YXJpYWJsZXMuIEhlcmUg
+aXMgb25seSByZWFkIHBhdGggZm9yIHFjb3cyLCBpZiB3ZSBsaWtlIGl0LCBJJ2xsDQo+IG1ha2Ug
+djIgd2l0aCBib3RoIHJlYWQgYW5kIHdyaXRlIHBhdGhzIGZvciBxY293Mi4NCj4gDQoNCkJhc2Vk
+IG9uIE1heCdzIGJsb2NrIHRyZWUNCkJhc2VkLW9uOiBodHRwczovL2dpdGh1Yi5jb20vWGFuQ2xp
+Yy9xZW11IGJsb2NrDQoNCi0tIA0KQmVzdCByZWdhcmRzLA0KVmxhZGltaXINCg==
 
