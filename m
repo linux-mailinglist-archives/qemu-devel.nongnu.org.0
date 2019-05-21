@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CACB424D79
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 13:02:08 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:51413 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5788C24D57
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 12:56:37 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:51336 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hT2X1-0006S1-WB
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 07:02:08 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56853)
+	id 1hT2Rg-0001LP-DC
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 06:56:36 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56865)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hT2PG-00005B-Af
+	(envelope-from <thuth@redhat.com>) id 1hT2PH-00006E-H2
 	for qemu-devel@nongnu.org; Tue, 21 May 2019 06:54:09 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hT2PF-0004gr-4g
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 06:54:06 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:33932)
+	(envelope-from <thuth@redhat.com>) id 1hT2PG-0004hm-I1
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 06:54:07 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40416)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <thuth@redhat.com>) id 1hT2PE-0004gJ-O1
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 06:54:05 -0400
+	(Exim 4.71) (envelope-from <thuth@redhat.com>) id 1hT2PG-0004hD-9e
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 06:54:06 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
 	[10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 17D093092665;
-	Tue, 21 May 2019 10:54:04 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 92DA830832E9;
+	Tue, 21 May 2019 10:54:05 +0000 (UTC)
 Received: from thuth.com (ovpn-116-22.ams2.redhat.com [10.36.116.22])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id D1C216085B;
-	Tue, 21 May 2019 10:54:00 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 6239C6085B;
+	Tue, 21 May 2019 10:54:04 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Date: Tue, 21 May 2019 12:53:36 +0200
-Message-Id: <20190521105344.11637-6-thuth@redhat.com>
+Date: Tue, 21 May 2019 12:53:37 +0200
+Message-Id: <20190521105344.11637-7-thuth@redhat.com>
 In-Reply-To: <20190521105344.11637-1-thuth@redhat.com>
 References: <20190521105344.11637-1-thuth@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.43]);
-	Tue, 21 May 2019 10:54:04 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.44]);
+	Tue, 21 May 2019 10:54:05 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 05/13] tests/numa-test: Use qtest_init() instead
+Subject: [Qemu-devel] [PULL 06/13] tests/qom-test: Use qtest_init() instead
  of qtest_start()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
@@ -65,197 +65,88 @@ qtest_start() + qtest_end() should be avoided, since they use the
 global_qtest variable that we want to get rid of in the long run.
 Use qtest_init() and qtest_quit() instead.
 
-Message-Id: <20190515174328.16361-4-thuth@redhat.com>
+Message-Id: <20190515174328.16361-5-thuth@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/numa-test.c | 53 +++++++++++++++++++++++++++--------------------
- 1 file changed, 30 insertions(+), 23 deletions(-)
+ tests/qom-test.c | 28 +++++++++++++---------------
+ 1 file changed, 13 insertions(+), 15 deletions(-)
 
-diff --git a/tests/numa-test.c b/tests/numa-test.c
-index 9824fdd587..8de8581231 100644
---- a/tests/numa-test.c
-+++ b/tests/numa-test.c
-@@ -23,18 +23,19 @@ static void test_mon_explicit(const void *data)
+diff --git a/tests/qom-test.c b/tests/qom-test.c
+index 73c52af3bb..4f94cc678c 100644
+--- a/tests/qom-test.c
++++ b/tests/qom-test.c
+@@ -44,7 +44,7 @@ static bool is_blacklisted(const char *arch, const char=
+ *mach)
+     return false;
+ }
+=20
+-static void test_properties(const char *path, bool recurse)
++static void test_properties(QTestState *qts, const char *path, bool recu=
+rse)
  {
-     char *s;
-     char *cli;
-+    QTestState *qts;
+     char *child_path;
+     QDict *response, *tuple, *tmp;
+@@ -52,8 +52,8 @@ static void test_properties(const char *path, bool recu=
+rse)
+     QListEntry *entry;
 =20
-     cli =3D make_cli(data, "-smp 8 "
-                    "-numa node,nodeid=3D0,cpus=3D0-3 "
-                    "-numa node,nodeid=3D1,cpus=3D4-7 ");
--    qtest_start(cli);
-+    qts =3D qtest_init(cli);
+     g_test_message("Obtaining properties of %s", path);
+-    response =3D qmp("{ 'execute': 'qom-list',"
+-                   "  'arguments': { 'path': %s } }", path);
++    response =3D qtest_qmp(qts, "{ 'execute': 'qom-list',"
++                              "  'arguments': { 'path': %s } }", path);
+     g_assert(response);
 =20
--    s =3D hmp("info numa");
-+    s =3D qtest_hmp(qts, "info numa");
-     g_assert(strstr(s, "node 0 cpus: 0 1 2 3"));
-     g_assert(strstr(s, "node 1 cpus: 4 5 6 7"));
-     g_free(s);
-=20
--    qtest_end();
-+    qtest_quit(qts);
-     g_free(cli);
- }
-=20
-@@ -42,16 +43,17 @@ static void test_mon_default(const void *data)
+     if (!recurse) {
+@@ -71,15 +71,15 @@ static void test_properties(const char *path, bool re=
+curse)
+         if (is_child || is_link) {
+             child_path =3D g_strdup_printf("%s/%s",
+                                          path, qdict_get_str(tuple, "nam=
+e"));
+-            test_properties(child_path, is_child);
++            test_properties(qts, child_path, is_child);
+             g_free(child_path);
+         } else {
+             const char *prop =3D qdict_get_str(tuple, "name");
+             g_test_message("Testing property %s.%s", path, prop);
+-            tmp =3D qmp("{ 'execute': 'qom-get',"
+-                      "  'arguments': { 'path': %s,"
+-                      "                 'property': %s } }",
+-                      path, prop);
++            tmp =3D qtest_qmp(qts,
++                            "{ 'execute': 'qom-get',"
++                            "  'arguments': { 'path': %s, 'property': %s=
+ } }",
++                            path, prop);
+             /* qom-get may fail but should not, e.g., segfault. */
+             g_assert(tmp);
+             qobject_unref(tmp);
+@@ -91,20 +91,18 @@ static void test_properties(const char *path, bool re=
+curse)
+ static void test_machine(gconstpointer data)
  {
-     char *s;
-     char *cli;
+     const char *machine =3D data;
+-    char *args;
+     QDict *response;
 +    QTestState *qts;
 =20
-     cli =3D make_cli(data, "-smp 8 -numa node -numa node");
--    qtest_start(cli);
-+    qts =3D qtest_init(cli);
+-    args =3D g_strdup_printf("-machine %s", machine);
+-    qtest_start(args);
++    qts =3D qtest_initf("-machine %s", machine);
 =20
--    s =3D hmp("info numa");
-+    s =3D qtest_hmp(qts, "info numa");
-     g_assert(strstr(s, "node 0 cpus: 0 2 4 6"));
-     g_assert(strstr(s, "node 1 cpus: 1 3 5 7"));
-     g_free(s);
+-    test_properties("/machine", true);
++    test_properties(qts, "/machine", true);
 =20
--    qtest_end();
-+    qtest_quit(qts);
-     g_free(cli);
- }
-=20
-@@ -59,24 +61,25 @@ static void test_mon_partial(const void *data)
- {
-     char *s;
-     char *cli;
-+    QTestState *qts;
-=20
-     cli =3D make_cli(data, "-smp 8 "
-                    "-numa node,nodeid=3D0,cpus=3D0-1 "
-                    "-numa node,nodeid=3D1,cpus=3D4-5 ");
--    qtest_start(cli);
-+    qts =3D qtest_init(cli);
-=20
--    s =3D hmp("info numa");
-+    s =3D qtest_hmp(qts, "info numa");
-     g_assert(strstr(s, "node 0 cpus: 0 1 2 3 6 7"));
-     g_assert(strstr(s, "node 1 cpus: 4 5"));
-     g_free(s);
+-    response =3D qmp("{ 'execute': 'quit' }");
++    response =3D qtest_qmp(qts, "{ 'execute': 'quit' }");
+     g_assert(qdict_haskey(response, "return"));
+     qobject_unref(response);
 =20
 -    qtest_end();
+-    g_free(args);
 +    qtest_quit(qts);
-     g_free(cli);
- }
-=20
--static QList *get_cpus(QDict **resp)
-+static QList *get_cpus(QTestState *qts, QDict **resp)
- {
--    *resp =3D qmp("{ 'execute': 'query-cpus' }");
-+    *resp =3D qtest_qmp(qts, "{ 'execute': 'query-cpus' }");
-     g_assert(*resp);
-     g_assert(qdict_haskey(*resp, "return"));
-     return qdict_get_qlist(*resp, "return");
-@@ -88,10 +91,11 @@ static void test_query_cpus(const void *data)
-     QDict *resp;
-     QList *cpus;
-     QObject *e;
-+    QTestState *qts;
-=20
-     cli =3D make_cli(data, "-smp 8 -numa node,cpus=3D0-3 -numa node,cpus=
-=3D4-7");
--    qtest_start(cli);
--    cpus =3D get_cpus(&resp);
-+    qts =3D qtest_init(cli);
-+    cpus =3D get_cpus(qts, &resp);
-     g_assert(cpus);
-=20
-     while ((e =3D qlist_pop(cpus))) {
-@@ -115,7 +119,7 @@ static void test_query_cpus(const void *data)
-     }
-=20
-     qobject_unref(resp);
--    qtest_end();
-+    qtest_quit(qts);
-     g_free(cli);
- }
-=20
-@@ -125,6 +129,7 @@ static void pc_numa_cpu(const void *data)
-     QDict *resp;
-     QList *cpus;
-     QObject *e;
-+    QTestState *qts;
-=20
-     cli =3D make_cli(data, "-cpu pentium -smp 8,sockets=3D2,cores=3D2,th=
-reads=3D2 "
-         "-numa node,nodeid=3D0 -numa node,nodeid=3D1 "
-@@ -132,8 +137,8 @@ static void pc_numa_cpu(const void *data)
-         "-numa cpu,node-id=3D0,socket-id=3D1,core-id=3D0 "
-         "-numa cpu,node-id=3D0,socket-id=3D1,core-id=3D1,thread-id=3D0 "
-         "-numa cpu,node-id=3D1,socket-id=3D1,core-id=3D1,thread-id=3D1")=
-;
--    qtest_start(cli);
--    cpus =3D get_cpus(&resp);
-+    qts =3D qtest_init(cli);
-+    cpus =3D get_cpus(qts, &resp);
-     g_assert(cpus);
-=20
-     while ((e =3D qlist_pop(cpus))) {
-@@ -168,7 +173,7 @@ static void pc_numa_cpu(const void *data)
-     }
-=20
-     qobject_unref(resp);
--    qtest_end();
-+    qtest_quit(qts);
-     g_free(cli);
- }
-=20
-@@ -178,6 +183,7 @@ static void spapr_numa_cpu(const void *data)
-     QDict *resp;
-     QList *cpus;
-     QObject *e;
-+    QTestState *qts;
-=20
-     cli =3D make_cli(data, "-smp 4,cores=3D4 "
-         "-numa node,nodeid=3D0 -numa node,nodeid=3D1 "
-@@ -185,8 +191,8 @@ static void spapr_numa_cpu(const void *data)
-         "-numa cpu,node-id=3D0,core-id=3D1 "
-         "-numa cpu,node-id=3D0,core-id=3D2 "
-         "-numa cpu,node-id=3D1,core-id=3D3");
--    qtest_start(cli);
--    cpus =3D get_cpus(&resp);
-+    qts =3D qtest_init(cli);
-+    cpus =3D get_cpus(qts, &resp);
-     g_assert(cpus);
-=20
-     while ((e =3D qlist_pop(cpus))) {
-@@ -213,7 +219,7 @@ static void spapr_numa_cpu(const void *data)
-     }
-=20
-     qobject_unref(resp);
--    qtest_end();
-+    qtest_quit(qts);
-     g_free(cli);
- }
-=20
-@@ -223,13 +229,14 @@ static void aarch64_numa_cpu(const void *data)
-     QDict *resp;
-     QList *cpus;
-     QObject *e;
-+    QTestState *qts;
-=20
-     cli =3D make_cli(data, "-smp 2 "
-         "-numa node,nodeid=3D0 -numa node,nodeid=3D1 "
-         "-numa cpu,node-id=3D1,thread-id=3D0 "
-         "-numa cpu,node-id=3D0,thread-id=3D1");
--    qtest_start(cli);
--    cpus =3D get_cpus(&resp);
-+    qts =3D qtest_init(cli);
-+    cpus =3D get_cpus(qts, &resp);
-     g_assert(cpus);
-=20
-     while ((e =3D qlist_pop(cpus))) {
-@@ -256,7 +263,7 @@ static void aarch64_numa_cpu(const void *data)
-     }
-=20
-     qobject_unref(resp);
--    qtest_end();
-+    qtest_quit(qts);
-     g_free(cli);
+     g_free((void *)machine);
  }
 =20
 --=20
