@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E5B625B08
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 02:05:28 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:32979 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B705225AFE
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 02:03:58 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:32947 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTEl5-0004Xk-G6
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 20:05:27 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36878)
+	id 1hTEjd-0003a7-Vj
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 20:03:58 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36767)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mehta.aaru20@gmail.com>) id 1hTEcY-0005oR-PU
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 19:56:39 -0400
+	(envelope-from <mehta.aaru20@gmail.com>) id 1hTEcX-0005iQ-SR
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 19:56:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mehta.aaru20@gmail.com>) id 1hTEYh-0001dK-SJ
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 19:52:40 -0400
-Received: from mail-pl1-x642.google.com ([2607:f8b0:4864:20::642]:34646)
+	(envelope-from <mehta.aaru20@gmail.com>) id 1hTEYl-0001f4-AO
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 19:52:44 -0400
+Received: from mail-pf1-x441.google.com ([2607:f8b0:4864:20::441]:42288)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <mehta.aaru20@gmail.com>)
-	id 1hTEYh-0001d3-NJ; Tue, 21 May 2019 19:52:39 -0400
-Received: by mail-pl1-x642.google.com with SMTP id w7so126757plz.1;
-	Tue, 21 May 2019 16:52:39 -0700 (PDT)
+	id 1hTEYl-0001en-5G; Tue, 21 May 2019 19:52:43 -0400
+Received: by mail-pf1-x441.google.com with SMTP id 13so267742pfw.9;
+	Tue, 21 May 2019 16:52:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=LRaFFcCz9V1QD7Nw7bkLXRkuVZNJbVer9JVm4TimWgA=;
-	b=VwWIgeZZ5/MBtJzQLdxtn3PXnbPFJErvmovMXIa3p+4NLl+UoNdFQA09LLD2b15toS
-	fzqAVo4YydOomMNzWjJ+6gY/usO4+Lq2T/Fcwy7jksdsb2h29+66DCpvHBRRKwpBrxSM
-	1moMbCaRWfUOzoepTqeYhWe/nGIwHGc8pKg1XKSOXUk3ZQKWmM2E+6Kv9yQ4JO0xSVpf
-	FrU3f+ezPeWCJKK8F9AdUZGs0sElNcFrS7rShuq77xFCDnqRWI03/wyvUYEwy0HZ6yBq
-	LowRfKszjcnq2QjbPpXCVfiiGVUdENDIRR0bnnNTOMJquD0Yf5s/8HJLH/CW7lf8bsHU
-	yaeg==
+	bh=u+flvTgxCSEnbGBAPAYORRxauVugPBlncOQJBlabvsk=;
+	b=EGTJ4KygxPfOKSU16lqWxY8l83cPOLjgZ1SbYKLcfA1U7ZrOLAuqaljRWQrKCXfJOh
+	x/hTk+H8nUPd1j9HgMRolFr/cX/2jRLEzrMpPG/1H02CQzYPeQgs4tAU/UXhL33iLxbX
+	paq2P4RoqomyHLa7Xa0WU2PgYttubz6HXIcNo3/ArweaiMAZ+bEkAzuMbRm/ydMGc9ku
+	Hkeqe438yyhu7ehjNCw6J9dk5vdr2n6gXwEOdlnuRENcnmbPHVZ2+tF8i2yRqLxC5odU
+	IPTiXJhHPk7CkIBl1rNad96pPEsB1+2NJLORSuC5THHFduSQvxMgyd/NCSDptH4VW5I8
+	19Sg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=LRaFFcCz9V1QD7Nw7bkLXRkuVZNJbVer9JVm4TimWgA=;
-	b=TGOl+nfj1S0LbqqSS+nbM4bJoYjY05GUa+//5s7VdaTvj+gOjyWTFPOqEYN2mw6d6S
-	HtiCGdR9fhIeO/5Pbe+xuDu3/r/LUxzPBc2F+OgViYIJHJ5ZSD91ZS3sNX8yMzFL+2+8
-	LDcfp/Ss2p94AOb0991KZnhg3yXMhk017rguVYVemqy/QHaj5QwbwZcI9xTtmZEDD6tY
-	nNkELdZ9aub8ZILKM8Ooq1Fs7g3QfFBGpsqkyDISL2n7Kh7gyUJtADQmnvtUVC6iBM9y
-	Axa6a91s79tZ3PR5qYSdZGeFxnYa4EgxmpVRZbOaYpDxgwcSRUXcBQTyKQeTN1ytlPhm
-	el9Q==
-X-Gm-Message-State: APjAAAX0b60dRAbTLayIu0ekZyW3ksTTFIgYFNm76N9wZh/WJFARTn50
-	x8KElrXxZrOLJm23oY3Gyz9hmFKXeoAJKQ==
-X-Google-Smtp-Source: APXvYqyOyqWnuEqrtisT0T3c3nnK2ripmJWOfs4A2qm+YS8dQQPJAlD+fFXGn/sp7Z3/oX+Pr/x4OQ==
-X-Received: by 2002:a17:902:b094:: with SMTP id
-	p20mr63128698plr.164.1558482758299; 
-	Tue, 21 May 2019 16:52:38 -0700 (PDT)
+	bh=u+flvTgxCSEnbGBAPAYORRxauVugPBlncOQJBlabvsk=;
+	b=s+rhbiGca15HsH3y8GaoVmxc+653AOrzqizncw0SCKLoTZeXw9uuocQL2/sM9ImDiO
+	cxKKmclKvVdfnV7Hj9hIUfES1KQWGXkRJCVQ55tfr/Ee9o8PnBS87+g/7Mwt0PlDYf/8
+	IX5w4tHCvDUYnXjuYfC8iP9TxsElGv611JSEKsEng3DIyvxe7lKLs5iVoBIVowPf1zlJ
+	n8eJZVlFvAUUhHSTCasUoBXUpsKFLgvA2SeRSnV3D/0jeHMWd+ipfOh3fDSTyggV/8tj
+	N0QqORKfOYgdIdz8eGHB7tcqpDZLoE/hfPxCX/aqIW0DI9OZCaO8cTm4+HeOpYf4pzbn
+	u51g==
+X-Gm-Message-State: APjAAAWCo+UyzP2xeEXCwvcc1xyZuqiGhEYMK1qz8maAZOmbzORnasxt
+	T9D+VRo/Hq1C1ptUh7FAccNanf1ATDMiFw==
+X-Google-Smtp-Source: APXvYqwqWyjoLHnK34cWpnbSnqkY5qobLwOip2Ucb3kTehPjM8JwAP5414Vv1BxmATUTMpZE5vSlfQ==
+X-Received: by 2002:a63:d343:: with SMTP id u3mr85966342pgi.285.1558482761861; 
+	Tue, 21 May 2019 16:52:41 -0700 (PDT)
 Received: from localhost.localdomain ([120.57.118.207])
 	by smtp.gmail.com with ESMTPSA id
-	e5sm51571752pgh.35.2019.05.21.16.52.35
+	e5sm51571752pgh.35.2019.05.21.16.52.38
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 21 May 2019 16:52:37 -0700 (PDT)
+	Tue, 21 May 2019 16:52:41 -0700 (PDT)
 From: Aarushi Mehta <mehta.aaru20@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 22 May 2019 05:22:08 +0530
-Message-Id: <20190521235215.31341-3-mehta.aaru20@gmail.com>
+Date: Wed, 22 May 2019 05:22:09 +0530
+Message-Id: <20190521235215.31341-4-mehta.aaru20@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190521235215.31341-1-mehta.aaru20@gmail.com>
 References: <20190521235215.31341-1-mehta.aaru20@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::642
-Subject: [Qemu-devel] [RFC PATCH 2/9] block/block: add BDRV flag for io_uring
+X-Received-From: 2607:f8b0:4864:20::441
+Subject: [Qemu-devel] [RFC PATCH 3/9] include/block: declare interfaces for
+ io_uring
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -83,21 +83,81 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
 ---
- include/block/block.h | 1 +
- 1 file changed, 1 insertion(+)
+ include/block/aio.h     | 16 +++++++++++++++-
+ include/block/raw-aio.h | 15 +++++++++++++++
+ 2 files changed, 30 insertions(+), 1 deletion(-)
 
-diff --git a/include/block/block.h b/include/block/block.h
-index 5e2b98b0ee..005f42b133 100644
---- a/include/block/block.h
-+++ b/include/block/block.h
-@@ -121,6 +121,7 @@ typedef struct HDGeometry {
-                                       ignoring the format layer */
- #define BDRV_O_NO_IO       0x10000 /* don't initialize for I/O */
- #define BDRV_O_AUTO_RDONLY 0x20000 /* degrade to read-only if opening read-write fails */
-+#define BDRV_O_IO_URING    0x40000 /* use io_uring instead of the thread pool */
+diff --git a/include/block/aio.h b/include/block/aio.h
+index 0ca25dfec6..2f9acbcd7d 100644
+--- a/include/block/aio.h
++++ b/include/block/aio.h
+@@ -50,6 +50,7 @@ typedef void IOHandler(void *opaque);
+ struct Coroutine;
+ struct ThreadPool;
+ struct LinuxAioState;
++struct LuringState;
 
- #define BDRV_O_CACHE_MASK  (BDRV_O_NOCACHE | BDRV_O_NO_FLUSH)
+ struct AioContext {
+     GSource source;
+@@ -118,11 +119,19 @@ struct AioContext {
+     struct ThreadPool *thread_pool;
 
+ #ifdef CONFIG_LINUX_AIO
+-    /* State for native Linux AIO.  Uses aio_context_acquire/release for
++    /*
++     * State for native Linux AIO.  Uses aio_context_acquire/release for
+      * locking.
+      */
+     struct LinuxAioState *linux_aio;
+ #endif
++#ifdef CONFIG_LINUX_IO_URING
++    /*
++     * State for native Linux AIO.  Uses aio_context_acquire/release for
++     * locking.
++     */
++    struct LuringState *linux_io_uring;
++#endif
+
+     /* TimerLists for calling timers - one per clock type.  Has its own
+      * locking.
+@@ -387,6 +396,11 @@ struct LinuxAioState *aio_setup_linux_aio(AioContext *ctx, Error **errp);
+ /* Return the LinuxAioState bound to this AioContext */
+ struct LinuxAioState *aio_get_linux_aio(AioContext *ctx);
+
++/* Setup the LuringState bound to this AioContext */
++struct LuringState *aio_setup_linux_io_uring(AioContext *ctx, Error **errp);
++
++/* Return the LuringState bound to this AioContext */
++struct LuringState *aio_get_linux_io_uring(AioContext *ctx);
+ /**
+  * aio_timer_new_with_attrs:
+  * @ctx: the aio context
+diff --git a/include/block/raw-aio.h b/include/block/raw-aio.h
+index ba223dd1f1..2e413bbee0 100644
+--- a/include/block/raw-aio.h
++++ b/include/block/raw-aio.h
+@@ -58,6 +58,21 @@ void laio_attach_aio_context(LinuxAioState *s, AioContext *new_context);
+ void laio_io_plug(BlockDriverState *bs, LinuxAioState *s);
+ void laio_io_unplug(BlockDriverState *bs, LinuxAioState *s);
+ #endif
++/* io_uring.c - Linux io_uring implementation */
++#ifdef CONFIG_LINUX_IO_URING
++typedef struct LuringState LuringState;
++LuringState *luring_init(Error **errp);
++void luring_cleanup(LuringState *s);
++int coroutine_fn luring_co_submit(BlockDriverState *bs, LuringState *s, int fd,
++                                uint64_t offset, QEMUIOVector *qiov, int type);
++BlockAIOCB *luring_submit(BlockDriverState *bs, LuringState *s, int fd,
++        int64_t sector_num, QEMUIOVector *qiov, int nb_sectors,
++        BlockCompletionFunc *cb, void *opaque, int type);
++void luring_detach_aio_context(LuringState *s, AioContext *old_context);
++void luring_attach_aio_context(LuringState *s, AioContext *new_context);
++void luring_io_plug(BlockDriverState *bs, LuringState *s);
++void luring_io_unplug(BlockDriverState *bs, LuringState *s);
++#endif
+
+ #ifdef _WIN32
+ typedef struct QEMUWin32AIOState QEMUWin32AIOState;
 --
 2.17.1
 
