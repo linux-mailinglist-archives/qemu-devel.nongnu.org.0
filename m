@@ -2,64 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6488325249
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 16:35:46 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54856 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 0C1762524C
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 16:36:40 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54890 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hT5rl-0007hd-JJ
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 10:35:45 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44999)
+	id 1hT5sd-0000EZ-9J
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 10:36:39 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45211)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hT5qD-0007Km-4h
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 10:34:10 -0400
+	(envelope-from <armbru@redhat.com>) id 1hT5qv-0007eU-4i
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 10:34:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hT5qB-00033u-Si
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 10:34:09 -0400
-Received: from mail-qt1-f195.google.com ([209.85.160.195]:43736)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hT5qB-00033c-N5
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 10:34:07 -0400
-Received: by mail-qt1-f195.google.com with SMTP id i26so20673618qtr.10
-	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 07:34:07 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to;
-	bh=SigsA1sP123ej8F2Zg21FNMenhvWldU7U/vGNqkotXI=;
-	b=FAAqsdUoxgZe1T8Nny2+DOii1qbwA4oRm83degFVExZCjZnhSdt10foVPG83REgmVU
-	Z9KeRn3vTJNRRpDpI68CGa1Spjb2ALuibgo7lrKOsYiOYyKNJRyCBx4F21cCx+sRp/Ej
-	xCF5cgt6YT2Tz88vvWMNeddnt4Dd7I6E3COrCt+HgfVpBfhITLYEi0gPbuC+CvVzdjVo
-	hj+GqOUUJHcM910E4vWUhn9kvOelatQ51nCT8HXVA+Ec5opifdO/7aaKT+wUy6hRxtU3
-	P1mCXs1ppWNsc8mTL40ABkwOr7a++UnwqZ1P0DQcGaVuqdxdBb59hYsAcfTiQlpvMrim
-	Cqwg==
-X-Gm-Message-State: APjAAAW6sB0QefNoaP8+Lr+V6cAHWZylLj8M7B3338bIUkxzF+7/wAvb
-	xTFVbnTxQuWfZaP1upHNEVeGuw==
-X-Google-Smtp-Source: APXvYqx19BKRuoOBO12XE8ICBpfYQiORkSUQt16ZG/MzDG9j1gU5yZtgjY0nr6khWDQA4U07NWWg4w==
-X-Received: by 2002:a0c:96b9:: with SMTP id a54mr21171889qvd.135.1558449247015;
-	Tue, 21 May 2019 07:34:07 -0700 (PDT)
-Received: from redhat.com (pool-173-76-105-71.bstnma.fios.verizon.net.
-	[173.76.105.71]) by smtp.gmail.com with ESMTPSA id
-	s17sm12145560qke.60.2019.05.21.07.34.05
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Tue, 21 May 2019 07:34:06 -0700 (PDT)
-Date: Tue, 21 May 2019 10:34:03 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Igor Mammedov <imammedo@redhat.com>
-Message-ID: <20190521103215-mutt-send-email-mst@kernel.org>
-References: <20190521033249.1960-1-richardw.yang@linux.intel.com>
-	<20190521033249.1960-3-richardw.yang@linux.intel.com>
-	<20190520233614-mutt-send-email-mst@kernel.org>
-	<20190521162958.4415d4ac@redhat.com>
+	(envelope-from <armbru@redhat.com>) id 1hT5qs-0003Um-9Y
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 10:34:52 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:44520)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hT5qq-0003TW-D0
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 10:34:50 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 5EA00356E8;
+	Tue, 21 May 2019 14:34:37 +0000 (UTC)
+Received: from blackfin.pond.sub.org (ovpn-116-28.ams2.redhat.com
+	[10.36.116.28])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 01DFF646A9;
+	Tue, 21 May 2019 14:34:35 +0000 (UTC)
+Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
+	id 52E7E1138648; Tue, 21 May 2019 16:34:33 +0200 (CEST)
+From: Markus Armbruster <armbru@redhat.com>
+To: Damien Hedde <damien.hedde@greensocs.com>
+References: <20190514171545.24961-1-peter.maydell@linaro.org>
+	<878sv7yn6t.fsf@dusky.pond.sub.org>
+	<CAFEAcA9O4YUFa1X+TqJLGD2M3mPXwhv3WwL2thOk-aeezEaoaQ@mail.gmail.com>
+	<f972c27e-de17-2d96-04d9-bec421c78384@greensocs.com>
+Date: Tue, 21 May 2019 16:34:33 +0200
+In-Reply-To: <f972c27e-de17-2d96-04d9-bec421c78384@greensocs.com> (Damien
+	Hedde's message of "Mon, 20 May 2019 11:39:32 +0200")
+Message-ID: <87imu3swp2.fsf@dusky.pond.sub.org>
+User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190521162958.4415d4ac@redhat.com>
+Content-Type: text/plain
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.30]);
+	Tue, 21 May 2019 14:34:42 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.160.195
-Subject: Re: [Qemu-devel] [PATCH v5 2/2] acpi: pci: use build_append_foo()
- API to construct MCFG
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [RFC] hw/core/bus.c: Only the main system bus can
+ have no parent
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -71,153 +64,150 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: yang.zhong@intel.com, peter.maydell@linaro.org, thuth@redhat.com,
-	qemu-devel@nongnu.org, shannon.zhaosl@gmail.com,
-	qemu-arm@nongnu.org, Wei Yang <richardw.yang@linux.intel.com>,
-	philmd@redhat.com
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+	Markus Armbruster <armbru@redhat.com>,
+	QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 21, 2019 at 04:29:58PM +0200, Igor Mammedov wrote:
-> On Mon, 20 May 2019 23:37:22 -0400
-> "Michael S. Tsirkin" <mst@redhat.com> wrote:
-> 
-> > On Tue, May 21, 2019 at 11:32:49AM +0800, Wei Yang wrote:
-> > > build_append_foo() API doesn't need explicit endianness conversions
-> > > which eliminates a source of errors and it makes build_mcfg() look like
-> > > declarative definition of MCFG table in ACPI spec, which makes it easy
-> > > to review.
-> > > 
-> > > Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
-> > > Suggested-by: Igor Mammedov <imammedo@redhat.com>
-> > > Reviewed-by: Igor Mammedov <imammedo@redhat.com>
-> > > 
-> > > ---
-> > > v5:
-> > >    * miss the reserved[8] of MCFG in last version, add it back
-> > >    * drop SOBs and make sure bios-tables-test all OK
-> > > ---  
-> > 
-> > 
-> > Please do not add two --- separators. It breaks git am.
-> that worked just fine for the last xx years and still works for me.
+Damien Hedde <damien.hedde@greensocs.com> writes:
 
-Because you don't use git am?
-It's true I often am forced to edit your patches to apply them.
-Pls do not do this it makes no sense.
+> On 5/16/19 11:19 AM, Peter Maydell wrote:
+>> On Thu, 16 May 2019 at 06:37, Markus Armbruster <armbru@redhat.com> wrote:
+>>>
+>>> Peter Maydell <peter.maydell@linaro.org> writes:
+>>>
+>>>> In commit 80376c3fc2c38fdd453 in 2010 we added a workaround for
+>>>> some qbus buses not being connected to qdev devices -- if the
+>>>> bus has no parent object then we register a reset function which
+>>>> resets the bus on system reset.
+>>>>
+>>>> Nearly a decade later, we have now no buses in the tree which
+>>>> are created with non-NULL parents, so we can remove the
+>>>> workaround and instead just assert that if the bus has a NULL
+>>>> parent then it is the main system bus.
+>>>>
+>>>> (The absence of other parentless buses was confirmed by
+>>>> code inspection of all the callsites of qbus_create() and
+>>>> qbus_create_inplace() and cross-checked by 'make check'.)
+>>>
+>>> Could we assert(parent || bus == main_system_bus) in qbus_realize()?
+>> 
+>> Er, that's what this patch is doing.
 
-> > 
-> > One --- should come after the commit log. Anything after that and
-> > until diff is ignored anyway.
-> That's fine if we wish to commit change log into history, but
-> Typically we don't want change log to be committed (as it's useless from history pov),
-> hence we put it after separator to get it dropped on applying.
+You're right; I got confused.
 
-Then you should do
+>>> Aside: I hate sysbus_get_default().  It creates main_system_bus on first
+>>> call, wherever that call may be hiding.  I feel we should create it
+>>> explicitly.  I'd then make main_system_bus public, and delete
+>>> sysbus_get_default().
+>> 
+>> Yes, I think that would be a reasonable thing to do.
+>> The implicit creation is weird since we effectively
+>> rely on a main system bus existing anyway (it is the root
+>> of the reset tree).
+>> 
+>>>> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
+>>>> ---
+>>>> While I was reviewing Damian's reset patchset I noticed this
+>>>> code which meant that we theoretically had multiple 'roots' to
+>>>> the set of things being reset, so I wondered what was actually
+>>>> using it. It turns out nothing was :-)
+>>>>
+>>>> Commit 80376c3fc2c38fdd453 also added a TODO in vl.c suggesting
+>>>> that there is the wrong place to register the reset function
+>>>> which effectively resets the whole system starting at the
+>>>> root which is the main system bus:
+>>>>    qemu_register_reset(qbus_reset_all_fn, sysbus_get_default());
+>>>> I don't understand why vl.c is a bad place to put that, and I'd
+>>>> rather not move it to qdev.c (where in qdev.c?) because that
+>>>> would reshuffle reset ordering which seems liable to cause
+>>>> regressions. So maybe we should just delete that TODO comment?
+>>>
+>>> Hmm.
+>>>
+>>> The one in vl.c arranges to run qbus_reset_all(main_system_bus), which
+>>> walks the tree rooted at main_system_bus, resetting its buses and
+>>> devices in post-order.
+>>>
+>>> A registry of callbacks to run on certain events is a fine technique.
+>>> Relying on registration order, however, is in bad taste.  We should
+>>> model dependencies between reset functions explicitly.
+>> 
+>> That might be nice, but in practice we have no such model at
+>> all, and I don't think I've seen anybody propose one.
 
-build_append_foo() API doesn't need explicit endianness conversions
-which eliminates a source of errors and it makes build_mcfg() look like
-declarative definition of MCFG table in ACPI spec, which makes it easy
-to review.
+Well, we do have qbus_reset_all() & friends reset buses and devices in
+post order.  That's a model, isn't it?  I guess it can't model *all*
+dependencies.  Still, shouldn't we use it wherever it actually suffices?
 
-Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
-Suggested-by: Igor Mammedov <imammedo@redhat.com>
-Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+>>                                                       I hope we
+>> don't have too many accidental ordering dependencies, but I'm
+>> not confident that we have none at all, and would prefer not to
+>> prod that sleeping dragon...
+>> 
+>> The multi-phase-reset patches Damien has on list at the moment
+>> would allow some of the reset ordering issues to be sidestepped
+>> because "phase 1" for all devices happens before "phase 2" so
+>> you have "before" and "after" places to put the logic in different
+>> devices.
+>> 
+>>> That said, we can't ignore dependencies just because we've coded them
+>>> badly.
+>>>
+>>> I count more than 100 qemu_register_reset(), and most of them look like
+>>> they reset hardware.  Why do devices use qemu_register_reset() instead
+>>> of DeviceClass method reset?
+>> 
+>> Most of the ones for hardware are "this device hasn't been
+>> converted to be a QOM Device" (eg hw/arm/omap1.c, hw/input/pckbd.c,
+>> lots of the stuff in hw/ppc).
 
----
-v5:
-   * miss the reserved[8] of MCFG in last version, add it back
-   * drop SOBs and make sure bios-tables-test all OK
+hw/input/pckbd.c is instructive.  The qemu_register_reset() in
+i8042_mm_init() is inded for a non-qdevified device.  The one in
+i8042_realizefn() has no such excuse.
 
- hw/acpi/pci.c               | 35 +++++++++++++++++++++++------------
- include/hw/acpi/acpi-defs.h | 18 ------------------
- 2 files changed, 23 insertions(+), 30 deletions(-)
+Does not contradict what you wrote, of course.  Still, shouldn't we at
+least get rid of the latter kind?
 
-diff --git a/hw/acpi/pci.c b/hw/acpi/pci.c
+>> The other reason for having to have a qemu_register_reset() handler
+>> to reset something that's a Device is if that Device is not on
+>> a qbus. The most common example of this is CPUs -- since those
+>> don't have a bus to live on they don't get reset by the "reset
+>> everything that's on a QOM bus reachable from the main system
+>> bus" logic. I'm not sure what the nicest way to address this is:
+>> transitioning away from "reset of devices is based on the qdev tree"
+>> to something else seems between difficult and impossible, even
+>> though logically speaking the QOM tree is in many cases closer
+>> to the actual hardware hierarchy of reset.
+>
+> One "solution" to reduce the qemu_register_reset usage would be to do
+> handle in the Device base class (at creation or realize) if it has no
+> parent bus like it is done for buses. But this would probably have an
+> impact on reset ordering.
 
+I'm afraid *any* improvement will have an impact on reset ordering.
+Most reorderings will be just fine.  How terrible could the
+less-than-fine ones be?
 
-Anything between --- and diff is ignored. Second --- is poointless and
-harmful.
+>>> Registered handlers run in (implicitly defined) registration order,
+>>> reset methods in (explicit) qdev tree post order.  Much better as long
+>>> as that's the order we want.
+>>>
+>>> Say we managed to clean up this mess somehow, so reset handler
+>>> registration order doesn't matter anymore.  Then moving the
+>>> qemu_register_reset() for main_system_bus from main() to wherever we
+>>> create main_system_bus would make sense, wouldn't it?
+>> 
+>> I guess so... (There's an argument that the main system bus
+>> should be a child bus of the Machine object, logically speaking,
+>> but Machines aren't subtypes of Device so that doesn't work.)
 
-> > 
-> > >  hw/acpi/pci.c               | 35 +++++++++++++++++++++++------------
-> > >  include/hw/acpi/acpi-defs.h | 18 ------------------
-> > >  2 files changed, 23 insertions(+), 30 deletions(-)
-> > > 
-> > > diff --git a/hw/acpi/pci.c b/hw/acpi/pci.c
-> > > index fa0fa30bb9..49df7b7d54 100644
-> > > --- a/hw/acpi/pci.c
-> > > +++ b/hw/acpi/pci.c
-> > > @@ -30,17 +30,28 @@
-> > >  
-> > >  void build_mcfg(GArray *table_data, BIOSLinker *linker, AcpiMcfgInfo *info)
-> > >  {
-> > > -    AcpiTableMcfg *mcfg;
-> > > -    int len = sizeof(*mcfg) + sizeof(mcfg->allocation[0]);
-> > > -
-> > > -    mcfg = acpi_data_push(table_data, len);
-> > > -    mcfg->allocation[0].address = cpu_to_le64(info->base);
-> > > -
-> > > -    /* Only a single allocation so no need to play with segments */
-> > > -    mcfg->allocation[0].pci_segment = cpu_to_le16(0);
-> > > -    mcfg->allocation[0].start_bus_number = 0;
-> > > -    mcfg->allocation[0].end_bus_number = PCIE_MMCFG_BUS(info->size - 1);
-> > > -
-> > > -    build_header(linker, table_data, (void *)mcfg, "MCFG", len, 1, NULL, NULL);
-> > > +    int mcfg_start = table_data->len;
-> > > +
-> > > +    acpi_data_push(table_data, sizeof(AcpiTableHeader));
-> > > +
-> > > +    /*
-> > > +     * PCI Firmware Specification, Revision 3.0
-> > > +     * 4.1.2 MCFG Table Description.
-> > > +     */
-> > > +    /* Reserved */
-> > > +    build_append_int_noprefix(table_data, 0, 8);
-> > > +    /* Base address, processor-relative */
-> > > +    build_append_int_noprefix(table_data, info->base, 8);
-> > > +    /* PCI segment group number */
-> > > +    build_append_int_noprefix(table_data, 0, 2);
-> > > +    /* Starting PCI Bus number */
-> > > +    build_append_int_noprefix(table_data, 0, 1);
-> > > +    /* Final PCI Bus number */
-> > > +    build_append_int_noprefix(table_data, PCIE_MMCFG_BUS(info->size - 1), 1);
-> > > +    /* Reserved */
-> > > +    build_append_int_noprefix(table_data, 0, 4);
-> > > +
-> > > +    build_header(linker, table_data, (void *)(table_data->data + mcfg_start),
-> > > +                 "MCFG", table_data->len - mcfg_start, 1, NULL, NULL);
-> > >  }
-> > >  
-> > > diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
-> > > index f9aa4bd398..57a3f58b0c 100644
-> > > --- a/include/hw/acpi/acpi-defs.h
-> > > +++ b/include/hw/acpi/acpi-defs.h
-> > > @@ -449,24 +449,6 @@ struct AcpiSratProcessorGiccAffinity {
-> > >  
-> > >  typedef struct AcpiSratProcessorGiccAffinity AcpiSratProcessorGiccAffinity;
-> > >  
-> > > -/* PCI fw r3.0 MCFG table. */
-> > > -/* Subtable */
-> > > -struct AcpiMcfgAllocation {
-> > > -    uint64_t address;                /* Base address, processor-relative */
-> > > -    uint16_t pci_segment;            /* PCI segment group number */
-> > > -    uint8_t start_bus_number;       /* Starting PCI Bus number */
-> > > -    uint8_t end_bus_number;         /* Final PCI Bus number */
-> > > -    uint32_t reserved;
-> > > -} QEMU_PACKED;
-> > > -typedef struct AcpiMcfgAllocation AcpiMcfgAllocation;
-> > > -
-> > > -struct AcpiTableMcfg {
-> > > -    ACPI_TABLE_HEADER_DEF;
-> > > -    uint8_t reserved[8];
-> > > -    AcpiMcfgAllocation allocation[0];
-> > > -} QEMU_PACKED;
-> > > -typedef struct AcpiTableMcfg AcpiTableMcfg;
-> > > -
-> > >  /*
-> > >   * TCPA Description Table
-> > >   *
-> > > -- 
-> > > 2.19.1  
+We could replace the special case "bus's parent is null" by the special
+case "bus's parent is a machine instead of a device", but I'm not sure
+what exactly it would buy us.
+
+>>> If it does make sense, we should keep the TODO in main(), because it
+>>> asks for exactly that.  Perhaps delete "by qdev.c".
+[...]
 
