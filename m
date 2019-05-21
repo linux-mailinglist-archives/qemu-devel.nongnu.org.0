@@ -2,62 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 12EA224C79
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 12:14:04 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50627 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ED4BF24CED
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 12:38:25 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:51098 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hT1mV-00075B-4E
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 06:14:03 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47584)
+	id 1hT2A4-0001iF-UH
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 06:38:24 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53217)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hT1j3-0004k0-Lt
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 06:10:31 -0400
+	(envelope-from <stefanha@redhat.com>) id 1hT296-0001QO-6v
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 06:37:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hT1j2-0002yp-4G
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 06:10:29 -0400
-Received: from mail-qk1-f196.google.com ([209.85.222.196]:43482)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hT1j1-0002xq-WF
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 06:10:28 -0400
-Received: by mail-qk1-f196.google.com with SMTP id z6so10640741qkl.10
-	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 03:10:27 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to;
-	bh=JlTLQqm5Q1So/Z4/KmDfyVgO0zaxsHBwEZLn9UUKVXU=;
-	b=Qnwm8q1E/8r3Z1JzS3hVfqePfSS4VibDYVS5YNSWZ+eiIdsyF54aPWKgYkyy+wbp7d
-	MEV7sxV+PdOBLIvzV/hFz8eVY+W8XCiEZEmgwG22sfWkrYDdKFIG3DV+FLJAZ4L8GADG
-	feMkCZdQDaRu60QHEquSdG3xPijlIZnAW8tbEhRYqSpRn5NojyxN8hsboJGXIY7Zuwoe
-	GxyhNHuuNO/qcaF/A2vk1ve9LRsKXhiPue+Nz6mOfqIjhnOM+q4pAFgSyA6v/KUi7a2y
-	h32bdf8fdguupBtklXxuIEpE0foNwztFjFBUiHkSSqfWTL8rGtQ0XWqyO3pZxxEx63Az
-	7n9g==
-X-Gm-Message-State: APjAAAXWUQ7zIL/7wAwlplVhvZNJtteQQPJuFlgP9OeQVs6RakoMSBAw
-	0v/jmJURxCZczTntcEhaqTKyhw==
-X-Google-Smtp-Source: APXvYqwXLvZniFQDBAMgWF40cbZ04B3ve+IDqana/BRhCOYpHMOfcTeND1lxKyP8y4cFMPGcAQw4NQ==
-X-Received: by 2002:a05:620a:13fc:: with SMTP id
-	h28mr39765274qkl.164.1558433427383; 
-	Tue, 21 May 2019 03:10:27 -0700 (PDT)
-Received: from redhat.com (pool-173-76-105-71.bstnma.fios.verizon.net.
-	[173.76.105.71]) by smtp.gmail.com with ESMTPSA id
-	h20sm11558585qtc.16.2019.05.21.03.10.25
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Tue, 21 May 2019 03:10:26 -0700 (PDT)
-Date: Tue, 21 May 2019 06:10:19 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Jens Freimann <jfreimann@redhat.com>
-Message-ID: <20190521060725-mutt-send-email-mst@kernel.org>
-References: <20190517125820.2885-1-jfreimann@redhat.com>
+	(envelope-from <stefanha@redhat.com>) id 1hT28y-0006Mb-BC
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 06:37:18 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:54976)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <stefanha@redhat.com>) id 1hT28v-0006Hs-1j
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 06:37:14 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+	[10.5.11.11])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 6D623C05B1CA;
+	Tue, 21 May 2019 10:36:56 +0000 (UTC)
+Received: from localhost (ovpn-117-188.ams2.redhat.com [10.36.117.188])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id C8AA4600C6;
+	Tue, 21 May 2019 10:36:51 +0000 (UTC)
+From: Stefan Hajnoczi <stefanha@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Tue, 21 May 2019 11:36:50 +0100
+Message-Id: <20190521103650.18479-1-stefanha@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190517125820.2885-1-jfreimann@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.32]);
+	Tue, 21 May 2019 10:37:06 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.222.196
-Subject: Re: [Qemu-devel] [PATCH 0/4] add failover feature for assigned
- network devices
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [RFC] scsi: restart dma after vm change state handlers
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -69,126 +53,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
-	aadam@redhat.com, qemu-devel@nongnu.org, laine@redhat.com, ailan@redhat.com
+Cc: Fam Zheng <fam@euphon.net>, Paolo Bonzini <pbonzini@redhat.com>,
+	Stefan Hajnoczi <stefanha@redhat.com>, Kevin Wolf <kwolf@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 17, 2019 at 02:58:16PM +0200, Jens Freimann wrote:
-> This is another attempt at implementing the host side of the
-> net_failover concept
-> (https://www.kernel.org/doc/html/latest/networking/net_failover.html)
-> 
-> Changes since last RFC:
-> - work around circular dependency of commandline options. Just add
->   failover=on to the virtio-net standby options and reference it from
->   primary (vfio-pci) device with standby=<id>  
-> - add patch 3/4 to allow migration of vfio-pci device when it is part of a
->   failover pair, still disallow for all other devices
-> - add patch 4/4 to allow unplug of device during migrationm, make an
->   exception for failover primary devices. I'd like feedback on how to
->   solve this more elegant. I added a boolean to DeviceState, have it
->   default to false for all devices except for primary devices. 
-> - not tested yet with surprise removal
-> - I don't expect this to go in as it is, still needs more testing but
->   I'd like to get feedback on above mentioned changes.
-> 
-> The general idea is that we have a pair of devices, a vfio-pci and a
-> emulated device. Before migration the vfio device is unplugged and data
-> flows to the emulated device, on the target side another vfio-pci device
-> is plugged in to take over the data-path. In the guest the net_failover
-> module will pair net devices with the same MAC address.
-> 
-> * In the first patch the infrastructure for hiding the device is added
->   for the qbus and qdev APIs. 
-> 
-> * In the second patch the virtio-net uses the API to defer adding the vfio
->   device until the VIRTIO_NET_F_STANDBY feature is acked.
-> 
-> Previous discussion: 
->   RFC v1 https://patchwork.ozlabs.org/cover/989098/
->   RFC v2 https://www.mail-archive.com/qemu-devel@nongnu.org/msg606906.html
-> 
-> To summarize concerns/feedback from previous discussion:
-> 1.- guest OS can reject or worse _delay_ unplug by any amount of time.
->   Migration might get stuck for unpredictable time with unclear reason.
->   This approach combines two tricky things, hot/unplug and migration. 
->   -> We can surprise-remove the PCI device and in QEMU we can do all
->      necessary rollbacks transparent to management software. Will it be
->      easy, probably not.
-> 2. PCI devices are a precious ressource. The primary device should never
->   be added to QEMU if it won't be used by guest instead of hiding it in
->   QEMU. 
->   -> We only hotplug the device when the standby feature bit was
->      negotiated. We save the device cmdline options until we need it for
->      qdev_device_add()
->      Hiding a device can be a useful concept to model. For example a
->      pci device in a powered-off slot could be marked as hidden until the slot is
->      powered on (mst).
-> 3. Management layer software should handle this. Open Stack already has
->   components/code to handle unplug/replug VFIO devices and metadata to
->   provide to the guest for detecting which devices should be paired.
->   -> An approach that includes all software from firmware to
->      higher-level management software wasn't tried in the last years. This is
->      an attempt to keep it simple and contained in QEMU as much as possible.
-> 4. Hotplugging a device and then making it part of a failover setup is
->    not possible
->   -> addressed by extending qdev hotplug functions to check for hidden
->      attribute, so e.g. device_add can be used to plug a device.
-> 
-> 
-> I have tested this with a mlx5 NIC and was able to migrate the VM with
-> above mentioned workarounds for open problems.
-> 
-> Command line example:
-> 
-> qemu-system-x86_64 -enable-kvm -m 3072 -smp 3 \
->         -machine q35,kernel-irqchip=split -cpu host   \
->         -k fr   \
->         -serial stdio   \
->         -net none \
->         -qmp unix:/tmp/qmp.socket,server,nowait \
->         -monitor telnet:127.0.0.1:5555,server,nowait \
->         -device pcie-root-port,id=root0,multifunction=on,chassis=0,addr=0xa \
->         -device pcie-root-port,id=root1,bus=pcie.0,chassis=1 \
->         -device pcie-root-port,id=root2,bus=pcie.0,chassis=2 \
->         -netdev tap,script=/root/bin/bridge.sh,downscript=no,id=hostnet1,vhost=on \
->         -device virtio-net-pci,netdev=hostnet1,id=net1,mac=52:54:00:6f:55:cc,bus=root2,failover=on \                                                                                    
->         /root/rhel-guest-image-8.0-1781.x86_64.qcow2
-> 
-> Then the primary device can be hotplugged via
->  (qemu) device_add vfio-pci,host=5e:00.2,id=hostdev0,bus=root1,standby=net1
-> 
-> 
-> I'm grateful for any remarks or ideas!
-> 
-> Thanks!
+Various components register vm change state handlers to restart device
+emulation when the guest is unpaused.  These handlers run in an
+arbitrary order since there is no way to specific explicit dependencies
+or priorities.
 
-Hi Jens!
-Overall I like the patches. Thanks!
+Each SCSIDevice has a vm change state handler to restart failed I/O
+requests when the guest is unpaused.  It schedules a BH in the
+AioContext of the BlockBackend.
 
-Could you please tell us a bit more about other hardware: does this work
-more or less universally across vendors? were any other cards tested?
+When virtio-scsi is used with an iothread, the BH may execute in the
+iothread while the main loop thread is invoking the remaining vm change
+state handlers.  In this case virtio-scsi iothread may not be fully
+started yet, leading to problems.
 
-Thanks in advance.
+One symptom is that I/O request completion is processed in the iothread
+before virtio-scsi iothread is fully started and the MSI notify code
+path takes the BQL.  This violates QEMU's lock order and causes a
+deadlock.
 
-> 
-> Jens Freimann (4):
->   migration: allow unplug during migration for failover devices
->   qdev/qbus: Add hidden device support
->   net/virtio: add failover support
->   vfio: unplug failover primary device before migration
-> 
->  hw/core/qdev.c                 |  20 ++++++
->  hw/net/virtio-net.c            | 117 +++++++++++++++++++++++++++++++++
->  hw/vfio/pci.c                  |  25 ++++++-
->  hw/vfio/pci.h                  |   2 +
->  include/hw/qdev-core.h         |  10 +++
->  include/hw/virtio/virtio-net.h |  12 ++++
->  qdev-monitor.c                 |  43 ++++++++++--
->  vl.c                           |   6 +-
->  8 files changed, 228 insertions(+), 7 deletions(-)
-> 
-> -- 
-> 2.21.0
+This patch defers restarting SCSIDevice requests until after all vm
+change state handlers have completed.  It's an ugly fix because we're
+taking advantage of side-effects instead of explicitly introducing
+dependencies that are visible in the source code, but I haven't found a
+cleaner solution that isn't also complex and hard to understand.
+
+Signed-off-by: Stefan Hajnoczi <stefanha@redhat.com>
+---
+This is RFC because I am waiting for a test result on the system where
+the bug was originally discovered.  I'm also open to nicer solutions!
+
+ hw/scsi/scsi-bus.c | 21 +++++++++++++++++----
+ 1 file changed, 17 insertions(+), 4 deletions(-)
+
+diff --git a/hw/scsi/scsi-bus.c b/hw/scsi/scsi-bus.c
+index c480553083..13b3823752 100644
+--- a/hw/scsi/scsi-bus.c
++++ b/hw/scsi/scsi-bus.c
+@@ -134,13 +134,10 @@ void scsi_req_retry(SCSIRequest *req)
+     req->retry =3D true;
+ }
+=20
+-static void scsi_dma_restart_cb(void *opaque, int running, RunState stat=
+e)
++static void scsi_device_retry_reqs_bh(void *opaque)
+ {
+     SCSIDevice *s =3D opaque;
+=20
+-    if (!running) {
+-        return;
+-    }
+     if (!s->bh) {
+         AioContext *ctx =3D blk_get_aio_context(s->conf.blk);
+         s->bh =3D aio_bh_new(ctx, scsi_dma_restart_bh, s);
+@@ -148,6 +145,22 @@ static void scsi_dma_restart_cb(void *opaque, int ru=
+nning, RunState state)
+     }
+ }
+=20
++static void scsi_dma_restart_cb(void *opaque, int running, RunState stat=
+e)
++{
++    SCSIDevice *s =3D opaque;
++
++    if (!running) {
++        return;
++    }
++
++    /* Defer to a main loop BH since other vm change state handlers may =
+need to
++     * run before the bus is ready for I/O activity (e.g. virtio-scsi's
++     * iothread setup).
++     */
++    aio_bh_schedule_oneshot(qemu_get_aio_context(),
++                            scsi_device_retry_reqs_bh, s);
++}
++
+ static void scsi_qdev_realize(DeviceState *qdev, Error **errp)
+ {
+     SCSIDevice *dev =3D SCSI_DEVICE(qdev);
+--=20
+2.21.0
+
 
