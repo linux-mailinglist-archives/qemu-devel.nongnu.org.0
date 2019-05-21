@@ -2,53 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6068A24A95
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 10:41:45 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48960 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85EAB24AB5
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 10:47:58 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49021 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hT0LA-0002cy-IX
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 04:41:44 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47828)
+	id 1hT0RB-0004eo-NX
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 04:47:57 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48828)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <cohuck@redhat.com>) id 1hT0JX-0001o0-LG
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 04:40:04 -0400
+	(envelope-from <vsementsov@virtuozzo.com>) id 1hT0Oo-0003ZM-G6
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 04:45:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <cohuck@redhat.com>) id 1hT0JW-00085R-Dm
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 04:40:03 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:44278)
+	(envelope-from <vsementsov@virtuozzo.com>) id 1hT0On-0004GP-MF
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 04:45:30 -0400
+Received: from relay.sw.ru ([185.231.240.75]:60610)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <cohuck@redhat.com>)
-	id 1hT0JV-000835-LK; Tue, 21 May 2019 04:40:01 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id F376D3092676;
-	Tue, 21 May 2019 08:39:57 +0000 (UTC)
-Received: from gondolin (ovpn-204-120.brq.redhat.com [10.40.204.120])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 9CA94100200D;
-	Tue, 21 May 2019 08:39:55 +0000 (UTC)
-Date: Tue, 21 May 2019 10:39:51 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Christian Borntraeger <borntraeger@de.ibm.com>
-Message-ID: <20190521103951.1464e2c2.cohuck@redhat.com>
-In-Reply-To: <204b779b-7c9a-4fe1-3923-5ffa100c623b@de.ibm.com>
-References: <20190520170302.13643-1-cohuck@redhat.com>
-	<CAFEAcA9Da213mDF9kBOhfV_m_K7X=MEGcNkfZ-2whDmDQYrABw@mail.gmail.com>
-	<20190520210018.6c4491b3.cohuck@redhat.com>
-	<204b779b-7c9a-4fe1-3923-5ffa100c623b@de.ibm.com>
-Organization: Red Hat GmbH
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.43]);
-	Tue, 21 May 2019 08:39:58 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [qemu-s390x] [PULL 00/54] s390x update
+	(Exim 4.71) (envelope-from <vsementsov@virtuozzo.com>)
+	id 1hT0Ol-0004AL-J4; Tue, 21 May 2019 04:45:27 -0400
+Received: from [10.94.3.0] (helo=kvm.qa.sw.ru)
+	by relay.sw.ru with esmtp (Exim 4.91)
+	(envelope-from <vsementsov@virtuozzo.com>)
+	id 1hT0Oh-0003ut-9k; Tue, 21 May 2019 11:45:23 +0300
+From: Vladimir Sementsov-Ogievskiy <vsementsov@virtuozzo.com>
+To: qemu-block@nongnu.org,
+	qemu-devel@nongnu.org
+Date: Tue, 21 May 2019 11:45:19 +0300
+Message-Id: <20190521084522.15050-1-vsementsov@virtuozzo.com>
+X-Mailer: git-send-email 2.18.0
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 185.231.240.75
+Subject: [Qemu-devel] [RFC PATCH 0/3] block: qiov_offset parameter for io
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -60,78 +44,29 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
-	qemu-s390x <qemu-s390x@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: kwolf@redhat.com, fam@euphon.net, vsementsov@virtuozzo.com,
+	mreitz@redhat.com, stefanha@redhat.com, den@openvz.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 21 May 2019 09:20:15 +0200
-Christian Borntraeger <borntraeger@de.ibm.com> wrote:
+Hi all!
 
-> On 20.05.19 21:00, Cornelia Huck wrote:
-> > On Mon, 20 May 2019 18:30:46 +0100
-> > Peter Maydell <peter.maydell@linaro.org> wrote:
-> >   
-> >> On Mon, 20 May 2019 at 18:03, Cornelia Huck <cohuck@redhat.com> wrote:  
-> >>>
-> >>> The following changes since commit d8276573da58e8ce78dab8c46dd660efd664bcb7:
-> >>>
-> >>>   Merge remote-tracking branch 'remotes/rth/tags/pull-tcg-20190510' into staging (2019-05-16 13:15:08 +0100)
-> >>>
-> >>> are available in the Git repository at:
-> >>>
-> >>>   https://github.com/cohuck/qemu tags/s390x-20190520
-> >>>
-> >>> for you to fetch changes up to f9de88d07258b7288b59ebca77ff1da75b0e8e9f:
-> >>>
-> >>>   s390x/cpumodel: wire up 8561 and 8562 as gen15 machines (2019-05-20 08:35:42 +0200)
-> >>>
-> >>> ----------------------------------------------------------------
-> >>> s390x update:
-> >>> - have the bios tolerate bootmap signature entries
-> >>> - next chunk of vector instruction support in tcg
-> >>> - a headers update against Linux 5.2-rc1
-> >>> - add more facilities and gen15 machines to the cpu model
-> >>>
-> >>> ----------------------------------------------------------------    
-> >>
-> >> Hi -- this fails to build on aarch64:
-> >>
-> >> In file included from /home/pm215/qemu/linux-headers/linux/kvm.h:14:0,
-> >>                  from /home/pm215/qemu/target/arm/kvm-consts.h:18,
-> >>                  from /home/pm215/qemu/target/arm/cpu.h:23,
-> >>                  from /home/pm215/qemu/disas.c:8:
-> >> /home/pm215/qemu/build/all/linux-headers/asm/kvm.h:38:29: fatal error:
-> >> asm/sve_context.h: No such file or directory
-> >>  #include <asm/sve_context.h>
-> >>                              ^
-> >> compilation terminated.
-> >>
-> >> Looks like we need to fix update-linux-headers.sh to account for
-> >> that new header file before we can do the header sync.  
-> > 
-> > Ugh. I'll try to figure it out tomorrow.
-> >  
-> 
-> Maybe something like the following?
->  
-> diff --git a/scripts/update-linux-headers.sh b/scripts/update-linux-headers.sh
-> index c3819d2..67d4d2a 100755
-> --- a/scripts/update-linux-headers.sh
-> +++ b/scripts/update-linux-headers.sh
-> @@ -121,6 +121,7 @@ for arch in $ARCHLIST; do
->          cp "$tmpdir/include/asm/unistd-eabi.h" "$output/linux-headers/asm-arm/"
->          cp "$tmpdir/include/asm/unistd-oabi.h" "$output/linux-headers/asm-arm/"
->          cp "$tmpdir/include/asm/unistd-common.h" "$output/linux-headers/asm-arm/"
-> +        cp "$tmpdir/include/asm/sve_context.h" "$output/linux-headers/asm-arm/"
->      fi
->      if [ $arch = x86 ]; then
->          cp "$tmpdir/include/asm/unistd_32.h" "$output/linux-headers/asm-x86/"
-> 
+Here is idea of adding qiov_offset parameter to io path, to avoid
+a lot of places with same pattern of creating local_qiov or hd_qiov
+variables. Here is only read path for qcow2, if we like it, I'll
+make v2 with both read and write paths for qcow2.
 
-Yes, but needs to go under arm64 (not arm).
+Vladimir Sementsov-Ogievskiy (3):
+  block/io: introduce bdrv_co_preadv_part
+  block/qcow2: refactor qcow2_co_preadv to use buffer-based io
+  block/qcow2: implement .bdrv_co_preadv_part
 
-Could find no other instances of new includes, hopefully we're all fine
-with that (currently building, but don't have an arm machine for build
-testing handy.)
+ include/block/block_int.h |  6 +++
+ block/io.c                | 87 ++++++++++++++++++++++++++-------------
+ block/qcow2.c             | 67 +++++++++++++++---------------
+ 3 files changed, 97 insertions(+), 63 deletions(-)
+
+-- 
+2.18.0
+
 
