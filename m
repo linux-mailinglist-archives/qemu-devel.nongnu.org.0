@@ -2,47 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0957B2483D
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 08:42:32 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:47488 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9AE0A2482B
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 08:36:42 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:47394 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSyTn-0007hY-3j
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 02:42:31 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48910)
+	id 1hSyO9-0002QM-Ai
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 02:36:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48883)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hSyHY-0005wp-SL
+	(envelope-from <dgibson@ozlabs.org>) id 1hSyHY-0005w6-Gd
 	for qemu-devel@nongnu.org; Tue, 21 May 2019 02:29:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hSyHW-0007tb-Vb
+	(envelope-from <dgibson@ozlabs.org>) id 1hSyHX-0007ts-0o
 	for qemu-devel@nongnu.org; Tue, 21 May 2019 02:29:52 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:33527)
+Received: from bilbo.ozlabs.org ([203.11.71.1]:59803 helo=ozlabs.org)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
-	id 1hSyHW-0007mP-87; Tue, 21 May 2019 02:29:50 -0400
+	id 1hSyHW-0007nt-LX; Tue, 21 May 2019 02:29:50 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
-	id 457Qpg42P7z9sNm; Tue, 21 May 2019 16:29:31 +1000 (AEST)
+	id 457Qph3D3bz9sNw; Tue, 21 May 2019 16:29:31 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=gibson.dropbear.id.au; s=201602; t=1558420171;
-	bh=h2GmXgrQc1s9kQJu5WILh6Hn0igXNXT6J623+KGV/t0=;
+	d=gibson.dropbear.id.au; s=201602; t=1558420172;
+	bh=dxtI+obZW42V9bCVu26yu2XJpSf9yoTW1u7C1lthdqY=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=qRxJFzVwMdLGNqX6XZVm3JqQu62r8KXS2zmy+IGjNef577jfcf7muXmDdqfaG0byu
-	K72tvVS+G+tnJ9msvo6wSoF+mXF9MeGf5wgBBYywQGncDQDdxLNN0fc0ijPiVoxVdX
-	WuAOoqrdCNNbHT1kFWrDWE9cGC5eJz40lWDin38c=
+	b=UVbTyWflu2wv++PV0pKAoPnvQ9fedZrORYocoN7Vndog5SnyyGj6nSkBWfErumGY3
+	/rTA0zQb4NLdMQVa+3/eOA3+2QEt2hlwhXqquonFgQUcvuyayKw5zpIeHmHf7Je4nh
+	LDFoq3DhmRIvFUcK0JG4fc3bfs4bi92o08UFpVVI=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Date: Tue, 21 May 2019 16:29:03 +1000
-Message-Id: <20190521062924.6930-18-david@gibson.dropbear.id.au>
+Date: Tue, 21 May 2019 16:29:04 +1000
+Message-Id: <20190521062924.6930-19-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190521062924.6930-1-david@gibson.dropbear.id.au>
 References: <20190521062924.6930-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: [Qemu-devel] [PULL 17/38] target/ppc: Optimise VSX_LOAD_SCALAR_DS
- and VSX_VECTOR_LOAD_STORE
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 203.11.71.1
+Subject: [Qemu-devel] [PULL 18/38] target/ppc: Fix xvabs[sd]p, xvnabs[sd]p,
+ xvneg[sd]p, xvcpsgn[sd]p
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -64,137 +63,35 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Anton Blanchard <anton@ozlabs.org>
 
-A few small optimisations:
+We were using set_cpu_vsr*() when we should have used get_cpu_vsr*().
 
-In VSX_LOAD_SCALAR_DS() we can don't need to read the VSR via
-get_cpu_vsrh().
-
-Split VSX_VECTOR_LOAD_STORE() into two functions. Loads only need to
-write the VSRs (set_cpu_vsr*()) and stores only need to read the VSRs
-(get_cpu_vsr*())
-
-Thanks to Mark Cave-Ayland for the suggestions.
-
+Fixes: 8b3b2d75c7c0 ("introduce get_cpu_vsr{l,h}() and set_cpu_vsr{l,h}()=
+ helpers for VSR register access")
 Signed-off-by: Anton Blanchard <anton@ozlabs.org>
-Message-Id: <20190509103545.4a7fa71a@kryten>
+Message-Id: <20190509104912.6b754dff@kryten>
 Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- target/ppc/translate/vsx-impl.inc.c | 68 ++++++++++++++++++++++++-----
- 1 file changed, 58 insertions(+), 10 deletions(-)
+ target/ppc/translate/vsx-impl.inc.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/target/ppc/translate/vsx-impl.inc.c b/target/ppc/translate/v=
 sx-impl.inc.c
-index 4b8f6cefe3..c39829cf33 100644
+index c39829cf33..199d22da97 100644
 --- a/target/ppc/translate/vsx-impl.inc.c
 +++ b/target/ppc/translate/vsx-impl.inc.c
-@@ -227,7 +227,7 @@ static void gen_lxvb16x(DisasContext *ctx)
-     tcg_temp_free_i64(xtl);
- }
-=20
--#define VSX_VECTOR_LOAD_STORE(name, op, indexed)            \
-+#define VSX_VECTOR_LOAD(name, op, indexed)                  \
- static void gen_##name(DisasContext *ctx)                   \
- {                                                           \
-     int xt;                                                 \
-@@ -254,8 +254,6 @@ static void gen_##name(DisasContext *ctx)            =
-       \
-     }                                                       \
-     xth =3D tcg_temp_new_i64();                               \
-     xtl =3D tcg_temp_new_i64();                               \
--    get_cpu_vsrh(xth, xt);                                  \
--    get_cpu_vsrl(xtl, xt);                                  \
-     gen_set_access_type(ctx, ACCESS_INT);                   \
-     EA =3D tcg_temp_new();                                    \
-     if (indexed) {                                          \
-@@ -281,10 +279,61 @@ static void gen_##name(DisasContext *ctx)          =
-         \
-     tcg_temp_free_i64(xtl);                                 \
- }
-=20
--VSX_VECTOR_LOAD_STORE(lxv, ld_i64, 0)
--VSX_VECTOR_LOAD_STORE(stxv, st_i64, 0)
--VSX_VECTOR_LOAD_STORE(lxvx, ld_i64, 1)
--VSX_VECTOR_LOAD_STORE(stxvx, st_i64, 1)
-+VSX_VECTOR_LOAD(lxv, ld_i64, 0)
-+VSX_VECTOR_LOAD(lxvx, ld_i64, 1)
-+
-+#define VSX_VECTOR_STORE(name, op, indexed)                 \
-+static void gen_##name(DisasContext *ctx)                   \
-+{                                                           \
-+    int xt;                                                 \
-+    TCGv EA;                                                \
-+    TCGv_i64 xth;                                           \
-+    TCGv_i64 xtl;                                           \
-+                                                            \
-+    if (indexed) {                                          \
-+        xt =3D xT(ctx->opcode);                               \
-+    } else {                                                \
-+        xt =3D DQxT(ctx->opcode);                             \
-+    }                                                       \
-+                                                            \
-+    if (xt < 32) {                                          \
-+        if (unlikely(!ctx->vsx_enabled)) {                  \
-+            gen_exception(ctx, POWERPC_EXCP_VSXU);          \
-+            return;                                         \
-+        }                                                   \
-+    } else {                                                \
-+        if (unlikely(!ctx->altivec_enabled)) {              \
-+            gen_exception(ctx, POWERPC_EXCP_VPU);           \
-+            return;                                         \
-+        }                                                   \
-+    }                                                       \
-+    xth =3D tcg_temp_new_i64();                               \
-+    xtl =3D tcg_temp_new_i64();                               \
-+    get_cpu_vsrh(xth, xt);                                  \
-+    get_cpu_vsrl(xtl, xt);                                  \
-+    gen_set_access_type(ctx, ACCESS_INT);                   \
-+    EA =3D tcg_temp_new();                                    \
-+    if (indexed) {                                          \
-+        gen_addr_reg_index(ctx, EA);                        \
-+    } else {                                                \
-+        gen_addr_imm_index(ctx, EA, 0x0F);                  \
-+    }                                                       \
-+    if (ctx->le_mode) {                                     \
-+        tcg_gen_qemu_##op(xtl, EA, ctx->mem_idx, MO_LEQ);   \
-+        tcg_gen_addi_tl(EA, EA, 8);                         \
-+        tcg_gen_qemu_##op(xth, EA, ctx->mem_idx, MO_LEQ);   \
-+    } else {                                                \
-+        tcg_gen_qemu_##op(xth, EA, ctx->mem_idx, MO_BEQ);   \
-+        tcg_gen_addi_tl(EA, EA, 8);                         \
-+        tcg_gen_qemu_##op(xtl, EA, ctx->mem_idx, MO_BEQ);   \
-+    }                                                       \
-+    tcg_temp_free(EA);                                      \
-+    tcg_temp_free_i64(xth);                                 \
-+    tcg_temp_free_i64(xtl);                                 \
-+}
-+
-+VSX_VECTOR_STORE(stxv, st_i64, 0)
-+VSX_VECTOR_STORE(stxvx, st_i64, 1)
-=20
- #ifdef TARGET_PPC64
- #define VSX_VECTOR_LOAD_STORE_LENGTH(name)                      \
-@@ -329,7 +378,6 @@ static void gen_##name(DisasContext *ctx)            =
-             \
-         return;                                                   \
-     }                                                             \
-     xth =3D tcg_temp_new_i64();                                     \
--    get_cpu_vsrh(xth, rD(ctx->opcode) + 32);                      \
-     gen_set_access_type(ctx, ACCESS_INT);                         \
-     EA =3D tcg_temp_new();                                          \
-     gen_addr_imm_index(ctx, EA, 0x03);                            \
-@@ -513,8 +561,8 @@ static void gen_##name(DisasContext *ctx)            =
-             \
-     tcg_temp_free_i64(xth);                                       \
- }
-=20
--VSX_LOAD_SCALAR_DS(stxsd, st64_i64)
--VSX_LOAD_SCALAR_DS(stxssp, st32fs)
-+VSX_STORE_SCALAR_DS(stxsd, st64_i64)
-+VSX_STORE_SCALAR_DS(stxssp, st32fs)
-=20
- static void gen_mfvsrwz(DisasContext *ctx)
- {
+@@ -906,8 +906,8 @@ static void glue(gen_, name)(DisasContext *ctx)      =
+            \
+         xbh =3D tcg_temp_new_i64();                                \
+         xbl =3D tcg_temp_new_i64();                                \
+         sgm =3D tcg_temp_new_i64();                                \
+-        set_cpu_vsrh(xB(ctx->opcode), xbh);                      \
+-        set_cpu_vsrl(xB(ctx->opcode), xbl);                      \
++        get_cpu_vsrh(xbh, xB(ctx->opcode));                      \
++        get_cpu_vsrl(xbl, xB(ctx->opcode));                      \
+         tcg_gen_movi_i64(sgm, sgn_mask);                         \
+         switch (op) {                                            \
+             case OP_ABS: {                                       \
 --=20
 2.21.0
 
