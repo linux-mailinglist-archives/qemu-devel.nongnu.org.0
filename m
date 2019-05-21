@@ -2,70 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 49D6325669
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 19:15:15 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:57107 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 42A9525672
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 19:17:31 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57148 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hT8M6-00065o-Fq
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 13:15:14 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52333)
+	id 1hT8OI-0007Qv-EK
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 13:17:30 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52500)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <pbonzini@redhat.com>) id 1hT8Ky-0005dq-IX
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 13:14:05 -0400
+	(envelope-from <pbonzini@redhat.com>) id 1hT8LV-0005zM-7D
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 13:14:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <pbonzini@redhat.com>) id 1hT8Kx-0006Vu-JI
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 13:14:04 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:38655)
+	(envelope-from <pbonzini@redhat.com>) id 1hT8LT-0006sY-9t
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 13:14:37 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:38698)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hT8Kx-0006VW-Ct
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 13:14:03 -0400
-Received: by mail-wr1-f68.google.com with SMTP id d18so19519375wrs.5
-	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 10:14:03 -0700 (PDT)
+	(Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hT8LR-0006pN-Ae
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 13:14:35 -0400
+Received: by mail-wr1-f65.google.com with SMTP id d18so19520917wrs.5
+	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 10:14:32 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
 	:user-agent:mime-version:in-reply-to:content-language
 	:content-transfer-encoding;
-	bh=bZF10rcFoZVRCe/71WAskK4qoUmYlu4m4JVxdYnfvaI=;
-	b=EnDkyLyzNe40ne/dyCYZ8PY1JRABqRriNQqiKAfwRumHnAOxrjE7PUKve1lN2Ku5nU
-	h8TJ7QSC9O+o8cYJsrm5xfMZnkcMOCzk4nlf5eaiG8pz+R3hkvLtErJak4p/QGpOeepR
-	OeF80mnJX5+4DmMw8hI4xtJpcjn2DLCnHIgZ4D8BikLrb68K6n40X9Bs2NE558Am8O/W
-	lkV2llRSLwz0VPn8y/+N1w3p2aJQFVUgqOADlSHNH83S/C3o+i7NRp9J1gIdeIUJZpF5
-	rUcByooHP/GWDR+Yz1csICzQHO5QP3mrQE7JAApRbcUcXxt6ZsWtVCLxH14qUCIys5zD
-	2nQg==
-X-Gm-Message-State: APjAAAW8sKJjvSPkg1NdoMR9DyZI/kCPJWFQz9MNfuvpjwzdN7sXM5RU
-	8lKi78Al2Bmbn2XxxUz7Luq8/Q==
-X-Google-Smtp-Source: APXvYqwW79GcBj4iWOVtR5YahpQdAkoO8Feyq66uN2K/iauQ6bOVjk+RB1jkBEk91hDoPdPW/MfxeQ==
-X-Received: by 2002:a05:6000:1250:: with SMTP id
-	j16mr2150621wrx.200.1558458842337; 
-	Tue, 21 May 2019 10:14:02 -0700 (PDT)
+	bh=MlJIziyZYc+D+9Ag4uJPd28IRhqDk3bXMjby/zgEfts=;
+	b=LZdsYUs7Vs9YzZLioOlJH5+W0/FJQsZ0L5FAKV7cIqTJO72KwXU3T8BC7FcJBo189i
+	EYQK+FKfVcYCX91nRqUO7OnQRizEgmhgzTJhjkrmWkMBZZ6GrzS88dM/w/Kers22bg+M
+	p7b4KhZT9vP4+GV814j9y3b4hZxDAbgkdqx1VV4tL5K1jCcmjM7ovF++AIKySSEkZn0I
+	XBDDHlQyly5qm42c1IGlZVPMCtQNuxdgr3+xjUKLd9qVab/FfMTBzzXL4eA15NfrxSmI
+	r9sny+9d6X/9dCMVMppiHOcnJ8yTk0qs06/IThJ1e3Nv65qIgbf3ovcSfOTAzysHYWhd
+	m9MA==
+X-Gm-Message-State: APjAAAWEUYFcnGzXQIa/pgK4kslCJgZsDSiuxHKvGQdUdTHxyDHaq5vj
+	Q1rbsNKfjxlyB5jLw/PYUf3mEg==
+X-Google-Smtp-Source: APXvYqwXCWSXuRMA8rMgLLJNx70pFWFh3cVBKzQ+IiUqrJv38ziST/UevG3oLjaA//anOTWh0h3z7A==
+X-Received: by 2002:adf:dd0d:: with SMTP id a13mr32909780wrm.153.1558458871146;
+	Tue, 21 May 2019 10:14:31 -0700 (PDT)
 Received: from ?IPv6:2001:b07:6468:f312:ac04:eef9:b257:b844?
 	([2001:b07:6468:f312:ac04:eef9:b257:b844])
 	by smtp.gmail.com with ESMTPSA id
-	u129sm4380034wmb.22.2019.05.21.10.14.01
+	f11sm18711731wrv.93.2019.05.21.10.14.30
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 21 May 2019 10:14:01 -0700 (PDT)
-To: Peter Maydell <peter.maydell@linaro.org>,
-	Markus Armbruster <armbru@redhat.com>
+	Tue, 21 May 2019 10:14:30 -0700 (PDT)
+To: Eduardo Habkost <ehabkost@redhat.com>
 References: <20190520184108.GA10764@habkost.net>
 	<20190521085350.GF25835@redhat.com>
 	<e2395213-efaf-6d6c-6cfd-d949d071b4f6@redhat.com>
-	<87pnobrg37.fsf@dusky.pond.sub.org>
-	<CAFEAcA8db=UsyU_kRBoatFT2ULQBqL318xRhg+CV4D_7hV76Og@mail.gmail.com>
+	<20190521161724.GI10764@habkost.net>
 From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <0ea5e6b3-5617-3fdf-f98d-38def76b49f7@redhat.com>
-Date: Tue, 21 May 2019 19:14:00 +0200
+Message-ID: <a8c413c1-ffa3-c00a-86d2-6383ca5e82c8@redhat.com>
+Date: Tue, 21 May 2019 19:14:29 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8db=UsyU_kRBoatFT2ULQBqL318xRhg+CV4D_7hV76Og@mail.gmail.com>
+In-Reply-To: <20190521161724.GI10764@habkost.net>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 	[fuzzy]
-X-Received-From: 209.85.221.68
+X-Received-From: 209.85.221.65
 Subject: Re: [Qemu-devel] Introducing GSoC project: API Documentation
  Generation
 X-BeenThere: qemu-devel@nongnu.org
@@ -79,43 +76,164 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: =?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
-	Eduardo Habkost <ehabkost@redhat.com>,
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+	=?UTF-8?Q?Daniel_P=2e_Berrang=c3=a9?= <berrange@redhat.com>,
 	Gabriel Barreto <sbarreto.gabriel@gmail.com>,
-	QEMU Developers <qemu-devel@nongnu.org>, "Emilio G. Cota" <cota@braap.org>,
+	qemu-devel@nongnu.org, "Emilio G. Cota" <cota@braap.org>,
 	Stefan Hajnoczi <stefanha@redhat.com>,
 	Cleber Rosa <crosa@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/05/19 17:27, Peter Maydell wrote:
->> Anyway.  What's so special about QEMU that justifies coming up with our
->> own doc syntax?  Other than "we made a hash of it, and cleaning it up
->> would be work".
-> The major problem as far as kernel-doc is concerned is that
-> it somewhat bakes in the kernel's style choice that the
-> 'struct' keyword is not hidden behind typedefs, and so it
-> gets a bit confused by QEMU's "use typedefs for struct types"
-> style. The rest, as you say, is just a matter of fixing up
-> our syntax errors.
+On 21/05/19 18:17, Eduardo Habkost wrote:
+> On Tue, May 21, 2019 at 12:55:36PM +0200, Paolo Bonzini wrote:
+>> On 21/05/19 10:53, Daniel P. Berrangé wrote:
+>>> Hawkmoth seems pretty attractive in its output format, but doesn't appear
+>>> to be part of either Debian or Fedora distros, so we would have to bundle
+>>> it in QEMU I expect.  My big concern there is that there have only been
+>>> 2 contributors to Hawkmoth in its entire 3 year existance, which makes
+>>> me fear for its long term viability if the main author gives up.
+>>
+>> On the plus side, I think the main author is among the people that
+>> pushed rST and Sphinx in the kernel, so it's plausible that in the
+>> future the kernel will pick Hawkmoth.  I agree that we should check with
+>> him about his plans.
+>>
+>>> QEMU should pick a tool which is well established / widely used & thus
+>>> stands a good chance of being maintained for the long term, as we don't
+>>> want to end up relying on abandonware in 5 years time.  The kernel-doc
+>>> project is not widely used, but its main user is significant enough that
+>>> it isn't likely to die through lack of maintainers.
+>>
+>> A couple years ago I didn't have problems modifying kerneldoc for QEMU's
+>> syntax, it was a 10 lines patch.  Unfortunately I cannot find it anymore.
+> 
+> Do you mean the following patch?
 
-Exactly, "QEMU's syntax" is supposed to be actually gtkdoc, or inspired
-by it, because of the similar typedef conventions.  The basic components
-are:
-
-- the head of the doc comment is either a CamelCase type or a function
-name followed by parentheses
-
-- @ introduces parameters, e.g. @path
-
-- % introduces types, e.g. %DeviceState
-
-- () terminate functions, e.g. memory_region_init()
-
-- # introduces other C symbols, e.g. #NULL
-
-and they map very well to what kerneldoc tries to parse, IIRC it only
-requires some changes to the regular expression at the top of the file.
+You're awesome! :)
 
 Paolo
+
+> ----- Forwarded message from Paolo Bonzini <pbonzini@redhat.com> -----
+> 
+> Date: Thu, 5 Jan 2017 17:47:30 +0100
+> From: Paolo Bonzini <pbonzini@redhat.com>
+> To: Peter Maydell <peter.maydell@linaro.org>, QEMU Developers <qemu-devel@nongnu.org>
+> Cc: Stefan Hajnoczi <stefanha@redhat.com>
+> Subject: Re: [Qemu-devel] Sphinx for QEMU docs? (and a doc-comment format question)
+> 
+> 
+> 
+> On 07/11/2016 16:03, Peter Maydell wrote:
+>> 2) some of the doc-comment format differences are irritating:
+>>    . "function - short description" not "function: short description"
+>>    . "&struct.fieldname" not ".@fieldname"
+>>    . "&typename" not "#typename"
+>> 3) the most awkward part of kernel-doc syntax is that it bakes
+>>    in the kernel's style choice of always using "struct foo"
+>>    for types -- I don't think there's any way to document
+>>    'MemoryRegion' and 'AddressSpace' without the 'struct'
+>>    coming out in the documentation output.
+>>
+>> We could fix (2) by loosening the kernel-doc script's
+>> parsing if we were happy to carry around a forked version
+>> of it. Fixing (3) requires more serious surgery on kernel-doc
+>> I suspect.
+> 
+> I've sent some changes to kernel-doc to simplify the implementation of
+> these changes (http://www.spinics.net/lists/linux-doc/msg42354.html) and
+> they were accepted.  So with 4.10 + those patches, the local changes to
+> kernel-doc for QEMU would be limited to the following:
+> 
+> diff --git a/scripts/kernel-doc b/scripts/kernel-doc
+> index 4c9ada36fe6b..c43ac038398d 100755
+> --- a/scripts/kernel-doc
+> +++ b/scripts/kernel-doc
+> @@ -215,18 +215,18 @@ my $type_func = '(\w+)\(\)';
+>  my $type_param = '\@(\w+(\.\.\.)?)';
+>  my $type_fp_param = '\@(\w+)\(\)';  # Special RST handling for func ptr params
+>  my $type_env = '(\$\w+)';
+> -my $type_enum = '\&(enum\s*([_\w]+))';
+> -my $type_struct = '\&(struct\s*([_\w]+))';
+> -my $type_typedef = '\&(typedef\s*([_\w]+))';
+> -my $type_union = '\&(union\s*([_\w]+))';
+> -my $type_member = '\&([_\w]+)(\.|->)([_\w]+)';
+> -my $type_fallback = '\&([_\w]+)';
+> -my $type_enum_xml = '\&amp;(enum\s*([_\w]+))';
+> -my $type_struct_xml = '\&amp;(struct\s*([_\w]+))';
+> -my $type_typedef_xml = '\&amp;(typedef\s*([_\w]+))';
+> -my $type_union_xml = '\&amp;(union\s*([_\w]+))';
+> -my $type_member_xml = '\&amp;([_\w]+)(\.|-\&gt;)([_\w]+)';
+> -my $type_fallback_xml = '\&amp([_\w]+)';
+> +my $type_enum = '#(enum\s*([_\w]+))';
+> +my $type_struct = '#(struct\s*([_\w]+))';
+> +my $type_typedef = '#(([A-Z][_\w]*))';
+> +my $type_union = '#(union\s*([_\w]+))';
+> +my $type_member = '#([_\w]+)(\.|->)([_\w]+)';
+> +my $type_fallback = '(?!)';    # this never matches
+> +my $type_enum_xml = $type_enum;
+> +my $type_struct_xml = $type_struct;
+> +my $type_typedef_xml = $type_typedef;
+> +my $type_union_xml = $type_union;
+> +my $type_member_xml = $type_member;
+> +my $type_fallback_xml = $type_fallback;
+>  my $type_member_func = $type_member . '\(\)';
+>  
+>  # Output conversion substitutions.
+> @@ -2143,6 +2143,14 @@ sub output_blockhead {
+>  sub dump_declaration($$) {
+>      no strict 'refs';
+>      my ($prototype, $file) = @_;
+> +    if ($decl_type eq 'type name') {
+> +	if ($prototype =~ /^(enum|struct|union)\s+/) {
+> +	    $decl_type = $1;
+> +        } else {
+> +	    return;
+> +	}
+> +    }
+> +
+>      my $func = "dump_" . $decl_type;
+>      &$func(@_);
+>  }
+> @@ -2893,7 +2901,7 @@ sub process_file($) {
+>  	    }
+>  	    elsif (/$doc_decl/o) {
+>  		$identifier = $1;
+> -		if (/\s*([\w\s]+?)\s*-/) {
+> +		if (/\s*([\w\s]+?)(\s*-|:)/) {
+>  		    $identifier = $1;
+>  		}
+>  
+> @@ -2903,7 +2911,7 @@ sub process_file($) {
+>  		$contents = "";
+>  		$section = $section_default;
+>  		$new_start_line = $. + 1;
+> -		if (/-(.*)/) {
+> +		if (/[-:](.*)/) {
+>  		    # strip leading/trailing/multiple spaces
+>  		    $descr= $1;
+>  		    $descr =~ s/^\s*//;
+> @@ -2921,7 +2929,9 @@ sub process_file($) {
+>  			++$warnings;
+>  		}
+>  
+> -		if ($identifier =~ m/^struct/) {
+> +		if ($identifier =~ m/^[A-Z]/) {
+> +		    $decl_type = 'type name';
+> +	        } elsif ($identifier =~ m/^struct/) {
+>  		    $decl_type = 'struct';
+>  		} elsif ($identifier =~ m/^union/) {
+>  		    $decl_type = 'union';
+> 
+> which should be maintainable as a fork of Linux's kernel-doc.
+> 
+> I also worked a bit on support for Texinfo manuals in Sphinx.  My
+> current attempt is at http://people.redhat.com/pbonzini/qemu-test-doc/_build/.
+> Because this uses a Texinfo->Docbook->Sphinx pipeline, I also tried some
+> tools with native Docbook support (Publican), but despite Sphinx's quirks
+> the output was less usable, and the tools were slower and harder to use.
+> 
+> http://wiki.qemu-project.org/Features/Documentation is another place to
+> brainstorm ideas on this.
+
 
