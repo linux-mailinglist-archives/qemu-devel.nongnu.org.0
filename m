@@ -2,50 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CD2AC247F7
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 08:22:12 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:47201 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A151D24859
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 08:46:58 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:47574 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSyA8-0004cC-1v
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 02:22:12 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47257)
+	id 1hSyY5-0003FW-N4
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 02:46:57 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49141)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richardw.yang@linux.intel.com>) id 1hSy8y-0004FP-RP
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 02:21:01 -0400
+	(envelope-from <richardw.yang@linux.intel.com>) id 1hSyHi-00068N-9k
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 02:30:03 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richardw.yang@linux.intel.com>) id 1hSy8x-0002Vh-OH
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 02:21:00 -0400
-Received: from mga17.intel.com ([192.55.52.151]:6641)
+	(envelope-from <richardw.yang@linux.intel.com>) id 1hSyHg-0008BW-Fb
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 02:30:01 -0400
+Received: from mga04.intel.com ([192.55.52.120]:33253)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
-	id 1hSy8v-0002Tz-2U; Tue, 21 May 2019 02:20:57 -0400
-X-Amp-Result: UNKNOWN
-X-Amp-Original-Verdict: FILE UNKNOWN
+	id 1hSyHc-00083f-Cq; Tue, 21 May 2019 02:29:56 -0400
+X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-	by fmsmga107.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	20 May 2019 23:20:55 -0700
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+	by fmsmga104.fm.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
+	20 May 2019 23:29:54 -0700
 X-ExtLoop1: 1
 Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
-	by orsmga002.jf.intel.com with ESMTP; 20 May 2019 23:20:53 -0700
-Date: Tue, 21 May 2019 14:20:23 +0800
+	by orsmga004.jf.intel.com with ESMTP; 20 May 2019 23:29:50 -0700
 From: Wei Yang <richardw.yang@linux.intel.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Message-ID: <20190521062023.GB3589@richard>
-References: <20190521033249.1960-1-richardw.yang@linux.intel.com>
-	<20190521033249.1960-3-richardw.yang@linux.intel.com>
-	<20190520234407-mutt-send-email-mst@kernel.org>
+To: qemu-devel@nongnu.org,
+	qemu-arm@nongnu.org
+Date: Tue, 21 May 2019 14:28:34 +0800
+Message-Id: <20190521062836.6541-1-richardw.yang@linux.intel.com>
+X-Mailer: git-send-email 2.19.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190520234407-mutt-send-email-mst@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 192.55.52.151
-Subject: Re: [Qemu-devel] [PATCH v5 2/2] acpi: pci: use build_append_foo()
- API to construct MCFG
+X-Received-From: 192.55.52.120
+Subject: [Qemu-devel] [PATCH v6 0/2] Extract build_mcfg Part 2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -57,121 +51,43 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Wei Yang <richardw.yang@linux.intel.com>
 Cc: yang.zhong@intel.com, peter.maydell@linaro.org, thuth@redhat.com,
-	qemu-devel@nongnu.org, shannon.zhaosl@gmail.com,
-	qemu-arm@nongnu.org, Wei Yang <richardw.yang@linux.intel.com>,
-	imammedo@redhat.com, philmd@redhat.com
+	mst@redhat.com, shannon.zhaosl@gmail.com,
+	Wei Yang <richardw.yang@linux.intel.com>, imammedo@redhat.com,
+	philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, May 20, 2019 at 11:44:28PM -0400, Michael S. Tsirkin wrote:
->On Tue, May 21, 2019 at 11:32:49AM +0800, Wei Yang wrote:
->> build_append_foo() API doesn't need explicit endianness conversions
->> which eliminates a source of errors and it makes build_mcfg() look like
->> declarative definition of MCFG table in ACPI spec, which makes it easy
->> to review.
->> 
->> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
->> Suggested-by: Igor Mammedov <imammedo@redhat.com>
->> Reviewed-by: Igor Mammedov <imammedo@redhat.com>
->> 
->> ---
->> v5:
->>    * miss the reserved[8] of MCFG in last version, add it back
->>    * drop SOBs and make sure bios-tables-test all OK
->> ---
->>  hw/acpi/pci.c               | 35 +++++++++++++++++++++++------------
->>  include/hw/acpi/acpi-defs.h | 18 ------------------
->>  2 files changed, 23 insertions(+), 30 deletions(-)
->> 
->> diff --git a/hw/acpi/pci.c b/hw/acpi/pci.c
->> index fa0fa30bb9..49df7b7d54 100644
->> --- a/hw/acpi/pci.c
->> +++ b/hw/acpi/pci.c
->> @@ -30,17 +30,28 @@
->>  
->>  void build_mcfg(GArray *table_data, BIOSLinker *linker, AcpiMcfgInfo *info)
->>  {
->> -    AcpiTableMcfg *mcfg;
->> -    int len = sizeof(*mcfg) + sizeof(mcfg->allocation[0]);
->> -
->> -    mcfg = acpi_data_push(table_data, len);
->> -    mcfg->allocation[0].address = cpu_to_le64(info->base);
->> -
->> -    /* Only a single allocation so no need to play with segments */
->> -    mcfg->allocation[0].pci_segment = cpu_to_le16(0);
->> -    mcfg->allocation[0].start_bus_number = 0;
->> -    mcfg->allocation[0].end_bus_number = PCIE_MMCFG_BUS(info->size - 1);
->> -
->> -    build_header(linker, table_data, (void *)mcfg, "MCFG", len, 1, NULL, NULL);
->> +    int mcfg_start = table_data->len;
->> +
->> +    acpi_data_push(table_data, sizeof(AcpiTableHeader));
->> +
->> +    /*
->> +     * PCI Firmware Specification, Revision 3.0
->> +     * 4.1.2 MCFG Table Description.
->> +     */
->> +    /* Reserved */
->> +    build_append_int_noprefix(table_data, 0, 8);
->
->below is in fact
->	Memory Mapped Enhanced Configuration Space Base Address Allocation Structure
->
->maybe document this?
->
+This patch set tries to generalize MCFG table build process. Several patches
+are already merged and these two are left for the following reasons:
 
-Sure. Let me add this.
+  * conflict with latest upstream
+  * ACPI_PCI dependency fix
+  * missed reserved[8] in MCFG
 
->> +    /* Base address, processor-relative */
->> +    build_append_int_noprefix(table_data, info->base, 8);
->> +    /* PCI segment group number */
->> +    build_append_int_noprefix(table_data, 0, 2);
->> +    /* Starting PCI Bus number */
->> +    build_append_int_noprefix(table_data, 0, 1);
->> +    /* Final PCI Bus number */
->> +    build_append_int_noprefix(table_data, PCIE_MMCFG_BUS(info->size - 1), 1);
->> +    /* Reserved */
->> +    build_append_int_noprefix(table_data, 0, 4);
->> +
->> +    build_header(linker, table_data, (void *)(table_data->data + mcfg_start),
->> +                 "MCFG", table_data->len - mcfg_start, 1, NULL, NULL);
->>  }
->>  
->> diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
->> index f9aa4bd398..57a3f58b0c 100644
->> --- a/include/hw/acpi/acpi-defs.h
->> +++ b/include/hw/acpi/acpi-defs.h
->> @@ -449,24 +449,6 @@ struct AcpiSratProcessorGiccAffinity {
->>  
->>  typedef struct AcpiSratProcessorGiccAffinity AcpiSratProcessorGiccAffinity;
->>  
->> -/* PCI fw r3.0 MCFG table. */
->> -/* Subtable */
->> -struct AcpiMcfgAllocation {
->> -    uint64_t address;                /* Base address, processor-relative */
->> -    uint16_t pci_segment;            /* PCI segment group number */
->> -    uint8_t start_bus_number;       /* Starting PCI Bus number */
->> -    uint8_t end_bus_number;         /* Final PCI Bus number */
->> -    uint32_t reserved;
->> -} QEMU_PACKED;
->> -typedef struct AcpiMcfgAllocation AcpiMcfgAllocation;
->> -
->> -struct AcpiTableMcfg {
->> -    ACPI_TABLE_HEADER_DEF;
->> -    uint8_t reserved[8];
->> -    AcpiMcfgAllocation allocation[0];
->> -} QEMU_PACKED;
->> -typedef struct AcpiTableMcfg AcpiTableMcfg;
->> -
->>  /*
->>   * TCPA Description Table
->>   *
->> -- 
->> 2.19.1
+v4->v5:
+    * ACPI_PCI depends on both ACPI and PCI
+    * rebase on latest master, adjust arm Kconfig
+    * miss the reserved[8] of MCFG, add it back
+    * make sure bios-tables-test all OK
+
+Wei Yang (2):
+  hw/acpi: Consolidate build_mcfg to pci.c
+  acpi: pci: use build_append_foo() API to construct MCFG
+
+ default-configs/i386-softmmu.mak |  1 +
+ hw/acpi/Kconfig                  |  4 +++
+ hw/acpi/Makefile.objs            |  1 +
+ hw/acpi/pci.c                    | 61 ++++++++++++++++++++++++++++++++
+ hw/arm/Kconfig                   |  1 +
+ hw/arm/virt-acpi-build.c         | 17 ---------
+ hw/i386/acpi-build.c             | 18 +---------
+ include/hw/acpi/acpi-defs.h      | 18 ----------
+ include/hw/acpi/pci.h            |  1 +
+ 9 files changed, 70 insertions(+), 52 deletions(-)
+ create mode 100644 hw/acpi/pci.c
 
 -- 
-Wei Yang
-Help you, Help me
+2.19.1
+
 
