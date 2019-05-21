@@ -2,51 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6723125065
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 15:33:45 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53922 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 394F825089
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 15:36:05 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53989 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hT4th-0001VX-Mk
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 09:33:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57785)
+	id 1hT4w0-0003gG-CI
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 09:36:04 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58144)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <cohuck@redhat.com>) id 1hT4rQ-0000NV-3c
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 09:31:21 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hT4t1-0001f9-KP
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 09:33:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <cohuck@redhat.com>) id 1hT4rP-0005DK-10
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 09:31:20 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55606)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <cohuck@redhat.com>)
-	id 1hT4rO-0005CC-RP; Tue, 21 May 2019 09:31:18 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id B70E9820E9;
-	Tue, 21 May 2019 13:31:11 +0000 (UTC)
-Received: from gondolin (ovpn-204-120.brq.redhat.com [10.40.204.120])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 83F141001F5B;
-	Tue, 21 May 2019 13:31:08 +0000 (UTC)
-Date: Tue, 21 May 2019 15:31:04 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Message-ID: <20190521153104.403980b3.cohuck@redhat.com>
-In-Reply-To: <CAFEAcA_9QZRyx8_8qT208vsopquW5j-bkyZpmRCAhP-sqJ+0kg@mail.gmail.com>
-References: <20190521092048.28492-1-cohuck@redhat.com>
-	<CAFEAcA_9QZRyx8_8qT208vsopquW5j-bkyZpmRCAhP-sqJ+0kg@mail.gmail.com>
-Organization: Red Hat GmbH
+	(envelope-from <richard.henderson@linaro.org>) id 1hT4t0-0007BU-RZ
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 09:32:59 -0400
+Received: from mail-yb1-xb2d.google.com ([2607:f8b0:4864:20::b2d]:38883)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hT4t0-0007Ah-L4
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 09:32:58 -0400
+Received: by mail-yb1-xb2d.google.com with SMTP id x7so2934563ybg.5
+	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 06:32:58 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=lfPw/jqfqI1MOHgOT3/ZT38Vvjh74mn4kpYF0uEBCrY=;
+	b=IhPUjMbLKQi1lUuBUP8p4uSfiAfKjdRGBjY6RAS950cgMBJxn3yobL+wKnNkTxTdK3
+	YcunpbWrLfKkaaZJGECdiYmL2iSmqfP4b22FAPmgiEbrKM8mgTxq1qRqoOz67kHWQ73C
+	eZdqfZzRW3FYJh5dhEKR52zrL2j7N5g5+iMVw5f3errF8DT4mCJTj6I7pr2JS+FFIjif
+	FqXfaBqIOGcGpPQvpG1kF5TwQY1LMil2M0E6sYH2l6Uz7XGWM1v1Jz3PD+aGdmRO0+Sk
+	2xncfu0gGQeixN6sOP4wqCOfe/1X43QbfF1nrEkNQ0brkWsDjWVPGgTX8idua1nHyZK3
+	PleQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=lfPw/jqfqI1MOHgOT3/ZT38Vvjh74mn4kpYF0uEBCrY=;
+	b=P01vpUi+q28SVlXGvT2Iv/G4ha7MEf4JUBAzwwMABoId0rqKLUZcsrwtcX31ea5L10
+	VdTSoH6nF3KhMIaN/Kcu1K1M4JPqGUQSEV6VldT/QFpDYcAZL49rCOHJ4ORuQ3bcydd7
+	SxeOMvzWUcAiAFEAnPKbS62sv39xrLAisdCtvTsKTe3qedXPnLk9zTrj7WyXl/uadRu9
+	dWDtcwhujSlO94xmXdhSd3XWoSsaoaVvx6extHbSvXK14NH+uILJAHrCr64qadOtPFZ1
+	9YTT2A/mpKaX8MEWEiqaEU1MjJuqnSK5cFsB3SLs/4Einc4oy6pzr6HABb0MpYq7iywi
+	Y44A==
+X-Gm-Message-State: APjAAAV6trQvyT82zcDdpyPeoRDVqESWOEqr+yWrwGeHNVvvnB+2puQ6
+	9LbFOS8RkxRee5J3miJCLKcnTFMlRgI=
+X-Google-Smtp-Source: APXvYqx9otgzL1u3X1Zq9mYHiyfchtxqVsFghBJGS9aCeg/LE05iflkSgugpxhduDgblRC7MjectUA==
+X-Received: by 2002:a25:9b87:: with SMTP id v7mr6283533ybo.336.1558445577630; 
+	Tue, 21 May 2019 06:32:57 -0700 (PDT)
+Received: from [10.240.180.184] ([71.46.56.58])
+	by smtp.gmail.com with ESMTPSA id
+	q22sm5822709ywa.46.2019.05.21.06.32.55
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Tue, 21 May 2019 06:32:56 -0700 (PDT)
+To: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>
+References: <20190517224450.15566-1-jan.bobek@gmail.com>
+	<20190517224450.15566-8-jan.bobek@gmail.com>
+	<87zhnhgw1c.fsf@zen.linaroharston>
+	<CAFXwXrkiShudOkAKks7VwB5-tUskeY1pfSeftvS8n=ez8Zgeog@mail.gmail.com>
+	<87h89ogoo0.fsf@zen.linaroharston>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <eb8797f0-c615-e60d-0bb4-990e08901883@linaro.org>
+Date: Tue, 21 May 2019 09:32:53 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.26]);
-	Tue, 21 May 2019 13:31:16 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PULL v2 00/54] s390x update
+In-Reply-To: <87h89ogoo0.fsf@zen.linaroharston>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::b2d
+Subject: Re: [Qemu-devel] [RISU v2 07/11] test_i386: change syntax from nasm
+ to gas
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,68 +88,24 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x <qemu-s390x@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Jan Bobek <jan.bobek@gmail.com>,
+	"qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 21 May 2019 14:24:07 +0100
-Peter Maydell <peter.maydell@linaro.org> wrote:
-
-> On Tue, 21 May 2019 at 10:20, Cornelia Huck <cohuck@redhat.com> wrote:
-> >
-> > [Note: I'm only sending the changed headers update to spare everybody another
-> > patch avalanche. The remainder of the patches is unchanged, save for the
-> > changed commit ids of the cpumodel patches on top of the headers update.]
-> >
-> > The following changes since commit d8276573da58e8ce78dab8c46dd660efd664bcb7:
-> >
-> >   Merge remote-tracking branch 'remotes/rth/tags/pull-tcg-20190510' into staging (2019-05-16 13:15:08 +0100)
-> >
-> > are available in the Git repository at:
-> >
-> >   https://github.com/cohuck/qemu tags/s390x-20190521-2
-> >
-> > for you to fetch changes up to 4d727d1aa0e5cbf9f5f00968698dfa34c7b47b08:
-> >
-> >   s390x/cpumodel: wire up 8561 and 8562 as gen15 machines (2019-05-21 10:40:03 +0200)
-> >
-> > ----------------------------------------------------------------
-> > s390x update:
-> > - have the bios tolerate bootmap signature entries
-> > - next chunk of vector instruction support in tcg
-> > - a headers update against Linux 5.2-rc1
-> > - add more facilities and gen15 machines to the cpu model  
+On 5/21/19 5:08 AM, Alex Bennée wrote:
+>>> We probably need to zero or reset the xmm regs both in the test and when
+>>> risugen dumps it's preamble.
+>>>
+>>
+>> That gets fixed later in the series.
 > 
-> Hi -- looks like the update-linux-headers change isn't quite right:
-> 
-> --- a/scripts/update-linux-headers.sh
-> +++ b/scripts/update-linux-headers.sh
-> @@ -122,6 +122,9 @@ for arch in $ARCHLIST; do
->          cp "$tmpdir/include/asm/unistd-oabi.h" "$output/linux-headers/asm-arm/"
->          cp "$tmpdir/include/asm/unistd-common.h"
-> "$output/linux-headers/asm-arm/"
->      fi
-> +    if [ $arch = arm64 ]; then
-> +        cp "$tmpdir/include/asm/sve_context.h" "$output/linux-headers/asm-arm/"
-> +    fi
->      if [ $arch = x86 ]; then
->          cp "$tmpdir/include/asm/unistd_32.h" "$output/linux-headers/asm-x86/"
->          cp "$tmpdir/include/asm/unistd_x32.h" "$output/linux-headers/asm-x86/"
-> 
-> ...it's copying the file into asm-arm/ rather than asm-arm64/.
-> (I did a by-hand move of the file into the right directory and
-> that was sufficient for the compile to succeed.)
+> So it does, but I'm still seeing the test fail when played back :-/
 
-I'm obviously not at my best at the moment :(
+Um, no, I mean this test is extended in patch 9, exactly how you suggest.  Are
+you trying to run the test as seen in patch 7 against the final series?
 
-> 
-> Also, can we keep the changes to scripts/ in a separate
-> commit, please? The idea of header-update commits is that they
-> should contain only the changes automatically generated
-> by the script, with no hand-written additions.
 
-This looks a bit like a chicken-and-egg problem, though... without the
-change, we cannot point the script at a current kernel tree. I'd prefer
-the two to stay together, but I can certainly point out the change to
-the script more prominently.
+r~
+
 
