@@ -2,48 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6BE34257E3
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 20:58:36 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58004 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7CD91257DB
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 20:56:17 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:57987 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hT9y7-00033f-K8
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 14:58:35 -0400
+	id 1hT9vs-0000zH-6y
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 14:56:16 -0400
 Received: from eggs.gnu.org ([209.51.188.92]:41778)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hT9u9-0008HJ-6H
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 14:54:30 -0400
+	(envelope-from <ehabkost@redhat.com>) id 1hT9u7-0008HJ-44
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 14:54:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hT9r7-0005O4-24
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 14:51:22 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:51836)
+	(envelope-from <ehabkost@redhat.com>) id 1hT9rA-0005PF-PN
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 14:51:29 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37370)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hT9r3-0005HB-E9
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 14:51:19 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
+	(Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hT9r8-0005Hy-AZ
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 14:51:22 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 0F485308219F;
-	Tue, 21 May 2019 18:51:03 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 687AFF74A6;
+	Tue, 21 May 2019 18:51:05 +0000 (UTC)
 Received: from localhost (ovpn-116-14.gru2.redhat.com [10.97.116.14])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 6A3045C269;
-	Tue, 21 May 2019 18:51:02 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id CF699646A0;
+	Tue, 21 May 2019 18:51:04 +0000 (UTC)
 From: Eduardo Habkost <ehabkost@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Date: Tue, 21 May 2019 15:50:56 -0300
-Message-Id: <20190521185059.28236-1-ehabkost@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+Date: Tue, 21 May 2019 15:50:57 -0300
+Message-Id: <20190521185059.28236-2-ehabkost@redhat.com>
+In-Reply-To: <20190521185059.28236-1-ehabkost@redhat.com>
+References: <20190521185059.28236-1-ehabkost@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.47]);
-	Tue, 21 May 2019 18:51:03 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+	(mx1.redhat.com [10.5.110.38]);
+	Tue, 21 May 2019 18:51:05 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 0/3] x86 MDS feature flags
+Subject: [Qemu-devel] [PULL 1/3] target/i386: define md-clear bit
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -60,41 +59,33 @@ Cc: Paolo Bonzini <pbonzini@redhat.com>, Eduardo Habkost <ehabkost@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The following changes since commit a4f667b6714916683408b983cfe0a615a72577=
-5f:
+From: Paolo Bonzini <pbonzini@redhat.com>
 
-  Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20190521-3' int=
-o staging (2019-05-21 16:30:13 +0100)
+md-clear is a new CPUID bit which is set when microcode provides the
+mechanism to invoke a flush of various exploitable CPU buffers by invoking
+the VERW instruction.
 
-are available in the Git repository at:
+Signed-off-by: Paolo Bonzini <pbonzini@redhat.com>
+Message-Id: <20190515141011.5315-2-berrange@redhat.com>
+Signed-off-by: Eduardo Habkost <ehabkost@redhat.com>
+---
+ target/i386/cpu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-  git://github.com/ehabkost/qemu.git tags/x86-next-pull-request
-
-for you to fetch changes up to 20140a82c67467f53814ca197403d5e1b561a5e5:
-
-  target/i386: add MDS-NO feature (2019-05-21 15:39:05 -0300)
-
-----------------------------------------------------------------
-x86 MDS feature flags
-
-md-clear and mds-no feature flags, for detection and mitigation
-of MDS vulnerabilities (CVE-2018-12126, CVE-2018-12127,
-CVE-2018-12130, CVE-2019-11091).
-
-----------------------------------------------------------------
-
-Daniel P. Berrang=C3=A9 (1):
-  docs: recommend use of md-clear feature on all Intel CPUs
-
-Paolo Bonzini (2):
-  target/i386: define md-clear bit
-  target/i386: add MDS-NO feature
-
- docs/qemu-cpu-models.texi | 12 ++++++++++++
- target/i386/cpu.c         |  4 ++--
- 2 files changed, 14 insertions(+), 2 deletions(-)
-
---=20
+diff --git a/target/i386/cpu.c b/target/i386/cpu.c
+index 2df56fa977..953d78b062 100644
+--- a/target/i386/cpu.c
++++ b/target/i386/cpu.c
+@@ -1077,7 +1077,7 @@ static FeatureWordInfo feature_word_info[FEATURE_WORDS] = {
+         .feat_names = {
+             NULL, NULL, "avx512-4vnniw", "avx512-4fmaps",
+             NULL, NULL, NULL, NULL,
+-            NULL, NULL, NULL, NULL,
++            NULL, NULL, "md-clear", NULL,
+             NULL, NULL, NULL, NULL,
+             NULL, NULL, NULL, NULL,
+             NULL, NULL, NULL, NULL,
+-- 
 2.18.0.rc1.1.g3f1ff2140
 
 
