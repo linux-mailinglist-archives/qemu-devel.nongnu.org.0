@@ -2,46 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E2EC24837
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 08:40:24 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:47441 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 06F20248A5
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 09:03:05 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:47860 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSyRj-0005kz-Df
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 02:40:23 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48937)
+	id 1hSyng-00027m-4n
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 03:03:04 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49284)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hSyHZ-0005xQ-C2
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 02:29:55 -0400
+	(envelope-from <dgibson@ozlabs.org>) id 1hSyHv-0006TF-70
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 02:30:16 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hSyHX-0007vA-D8
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 02:29:53 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:51791 helo=ozlabs.org)
+	(envelope-from <dgibson@ozlabs.org>) id 1hSyHt-0008Kt-UM
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 02:30:15 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:51791)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
-	id 1hSyHW-0007oM-OM; Tue, 21 May 2019 02:29:51 -0400
+	id 1hSyHt-0007vL-Ds; Tue, 21 May 2019 02:30:13 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
-	id 457Qph3td8z9sPB; Tue, 21 May 2019 16:29:31 +1000 (AEST)
+	id 457Qpj4NKkz9sP6; Tue, 21 May 2019 16:29:31 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=gibson.dropbear.id.au; s=201602; t=1558420172;
-	bh=/fFO7nS87jy6WRRFS3qGkfTO+v+bQ72fNfrwS6enePQ=;
+	d=gibson.dropbear.id.au; s=201602; t=1558420173;
+	bh=KAhfRGXxmk0mvhBDeynaZTAXX7FnxsaPZJh4L/X8UYs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=Piu4O9Aif31gGGUl+BJFRKH/HoqfzsiZv80tI2GQo5ttUZGxd3wBZBrjFvLeuuYz9
-	4AdVRxPs1++Hx7rwCzB7S1YVbRqcfSFF98TV2vL4ykBGwkqeR5IMnGGM+omQAS+Q4+
-	jt4wnTMZFjKuGs4CO/w/CFwBRS4O6F1/IVXP3K+A=
+	b=AZltNME+zk40ip5o8v8ZDmnT7BINBvU6NI7G5YZ7W1xfLe+7IHwN8ix/IqWyhiD1h
+	VrcSOvawd8HWrdlQAff422Jl+4nPYsJopRTuua5FGR0lJaiADPv8zkN5PNaFd/62qW
+	aTXN5OYf1Cf71rUm1gSz55QcQV5o0DRAVhF2wzFg=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Date: Tue, 21 May 2019 16:29:06 +1000
-Message-Id: <20190521062924.6930-21-david@gibson.dropbear.id.au>
+Date: Tue, 21 May 2019 16:29:07 +1000
+Message-Id: <20190521062924.6930-22-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190521062924.6930-1-david@gibson.dropbear.id.au>
 References: <20190521062924.6930-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
-Subject: [Qemu-devel] [PULL 20/38] target/ppc: Set PSSCR_EC on cpu halt to
- prevent spurious wakeup
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2401:3900:2:1::2
+Subject: [Qemu-devel] [PULL 21/38] spapr: Add forgotten capability to
+ migration stream
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -55,134 +57,67 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: lvivier@redhat.com, gkurz@kaod.org, qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org, clg@kaod.org,
-	Suraj Jitindar Singh <sjitindarsingh@gmail.com>,
 	David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
+spapr machine capabilities are supposed to be sent in the migration strea=
+m
+so that we can sanity check the source and destination have compatible
+configuration.  Unfortunately, when we added the hpt-max-page-size
+capability, we forgot to add it to the migration state.  This means that =
+we
+can generate spurious warnings when both ends are configured for large
+pages, or potentially fail to warn if the source is configured for huge
+pages, but the destination is not.
 
-The processor stop status and control register (PSSCR) is used to
-control the power saving facilities of the thread. The exit criterion
-bit (EC) is used to specify whether the thread should be woken by any
-interrupt (EC =3D=3D 0) or only an interrupt enabled in the LPCR to wake =
-the
-thread (EC =3D=3D 1).
+Fixes: 2309832afda "spapr: Maximum (HPT) pagesize property"
 
-The rtas facilities start-cpu and self-stop are used to transition a
-vcpu between the stopped and running states. When a vcpu is stopped it
-may only be started again by the start-cpu rtas call.
-
-Currently a vcpu in the stopped state will start again whenever an
-interrupt comes along due to PSSCR_EC being cleared, and while this is
-architecturally correct for a hardware thread, a vcpu is expected to
-only be woken by calling start-cpu. This means when performing a reboot
-on a tcg machine that the secondary threads will restart while the
-primary is still in slof, this is unsupported and causes call traces
-like:
-
-SLOF ********************************************************************=
-**
-QEMU Starting
- Build Date =3D Jan 14 2019 18:00:39
- FW Version =3D git-a5b428e1c1eae703
- Press "s" to enter Open Firmware.
-
-qemu: fatal: Trying to deliver HV exception (MSR) 70 with no HV support
-
-NIP 6d61676963313230   LR 000000003dbe0308 CTR 6d61676963313233 XER 00000=
-00000000000 CPU#1
-MSR 0000000000000000 HID0 0000000000000000  HF 0000000000000000 iidx 3 di=
-dx 3
-TB 00000026 115746031956 DECR 18446744073326238463
-GPR00 000000003dbe0308 000000003e669fe0 000000003dc10700 0000000000000003
-GPR04 000000003dc62198 000000003dc62178 000000003dc0ea48 0000000000000030
-GPR08 000000003dc621a8 0000000000000018 000000003e466008 000000003dc50700
-GPR12 c00000000093a4e0 c00000003ffff300 c00000003e533f90 0000000000000000
-GPR16 0000000000000000 0000000000000000 000000003e466010 000000003dc0b040
-GPR20 0000000000008000 000000000000f003 0000000000000006 000000003e66a050
-GPR24 000000003dc06400 000000003dc0ae70 0000000000000003 000000000000f001
-GPR28 000000003e66a060 ffffffffffffffff 6d61676963313233 0000000000000028
-CR 28000222  [ E  L  -  -  -  E  E  E  ]             RES ffffffffffffffff
-FPR00 0000000000000000 0000000000000000 0000000000000000 0000000000000000
-FPR04 0000000000000000 0000000000000000 0000000000000000 0000000000000000
-FPR08 0000000000000000 0000000000000000 0000000000000000 00000000311825e0
-FPR12 00000000311825e0 0000000000000000 0000000000000000 0000000000000000
-FPR16 0000000000000000 0000000000000000 0000000000000000 0000000000000000
-FPR20 0000000000000000 0000000000000000 0000000000000000 0000000000000000
-FPR24 0000000000000000 0000000000000000 0000000000000000 0000000000000000
-FPR28 0000000000000000 0000000000000000 0000000000000000 0000000000000000
-FPSCR 0000000000000000
- SRR0 000000003dbe06b0  SRR1 0000000000080000    PVR 00000000004e1200 VRS=
-AVE 0000000000000000
-SPRG0 000000003dbe0308 SPRG1 000000003e669fe0  SPRG2 00000000000000d8  SP=
-RG3 000000003dbe0308
-SPRG4 0000000000000000 SPRG5 0000000000000000  SPRG6 0000000000000000  SP=
-RG7 0000000000000000
-HSRR0 6d61676963313230 HSRR1 0000000000000000
- CFAR 000000003dbe3e64
- LPCR 0000000004020008
- PTCR 0000000000000000   DAR 0000000000000000  DSISR 0000000000000000
-Aborted (core dumped)
-
-To fix this, set the PSSCR_EC bit when a vcpu is stopped to disable it
-from coming back online until the start-cpu rtas call is made.
-
-Fixes: 21c0d66a9c99 ("target/ppc: Fix support for "STOP light" states on =
-POWER9")
-
-Signed-off-by: Suraj Jitindar Singh <sjitindarsingh@gmail.com>
-Message-Id: <20190516005744.24366-1-sjitindarsingh@gmail.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
 ---
- hw/ppc/spapr_cpu_core.c | 2 ++
- hw/ppc/spapr_rtas.c     | 6 +++++-
- 2 files changed, 7 insertions(+), 1 deletion(-)
+ hw/ppc/spapr.c         | 1 +
+ hw/ppc/spapr_caps.c    | 1 +
+ include/hw/ppc/spapr.h | 1 +
+ 3 files changed, 3 insertions(+)
 
-diff --git a/hw/ppc/spapr_cpu_core.c b/hw/ppc/spapr_cpu_core.c
-index f04e06cdf6..5621fb9a3d 100644
---- a/hw/ppc/spapr_cpu_core.c
-+++ b/hw/ppc/spapr_cpu_core.c
-@@ -58,9 +58,11 @@ static void spapr_cpu_reset(void *opaque)
-      *
-      * Disable Power-saving mode Exit Cause exceptions for the CPU, so
-      * we don't get spurious wakups before an RTAS start-cpu call.
-+     * For the same reason, set PSSCR_EC.
-      */
-     lpcr &=3D ~(LPCR_VPM0 | LPCR_VPM1 | LPCR_ISL | LPCR_KBV | pcc->lpcr_=
-pm);
-     lpcr |=3D LPCR_LPES0 | LPCR_LPES1;
-+    env->spr[SPR_PSSCR] |=3D PSSCR_EC;
-=20
-     /* Set RMLS to the max (ie, 16G) */
-     lpcr &=3D ~LPCR_RMLS;
-diff --git a/hw/ppc/spapr_rtas.c b/hw/ppc/spapr_rtas.c
-index ee24212765..5bc1a93271 100644
---- a/hw/ppc/spapr_rtas.c
-+++ b/hw/ppc/spapr_rtas.c
-@@ -177,6 +177,7 @@ static void rtas_start_cpu(PowerPCCPU *callcpu, Spapr=
-MachineState *spapr,
-         } else {
-             lpcr &=3D ~(LPCR_UPRT | LPCR_GTSE | LPCR_HR);
-         }
-+        env->spr[SPR_PSSCR] &=3D ~PSSCR_EC;
-     }
-     ppc_store_lpcr(newcpu, lpcr);
-=20
-@@ -205,8 +206,11 @@ static void rtas_stop_self(PowerPCCPU *cpu, SpaprMac=
-hineState *spapr,
-=20
-     /* Disable Power-saving mode Exit Cause exceptions for the CPU.
-      * This could deliver an interrupt on a dying CPU and crash the
--     * guest */
-+     * guest.
-+     * For the same reason, set PSSCR_EC.
-+     */
-     ppc_store_lpcr(cpu, env->spr[SPR_LPCR] & ~pcc->lpcr_pm);
-+    env->spr[SPR_PSSCR] |=3D PSSCR_EC;
-     cs->halted =3D 1;
-     kvmppc_set_reg_ppc_online(cpu, 0);
-     qemu_cpu_kick(cs);
+diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+index 8580a8dc67..bcae30ad26 100644
+--- a/hw/ppc/spapr.c
++++ b/hw/ppc/spapr.c
+@@ -2125,6 +2125,7 @@ static const VMStateDescription vmstate_spapr =3D {
+         &vmstate_spapr_cap_cfpc,
+         &vmstate_spapr_cap_sbbc,
+         &vmstate_spapr_cap_ibs,
++        &vmstate_spapr_cap_hpt_maxpagesize,
+         &vmstate_spapr_irq_map,
+         &vmstate_spapr_cap_nested_kvm_hv,
+         &vmstate_spapr_dtb,
+diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
+index 9b1c10baa6..658eb15a14 100644
+--- a/hw/ppc/spapr_caps.c
++++ b/hw/ppc/spapr_caps.c
+@@ -703,6 +703,7 @@ SPAPR_CAP_MIG_STATE(dfp, SPAPR_CAP_DFP);
+ SPAPR_CAP_MIG_STATE(cfpc, SPAPR_CAP_CFPC);
+ SPAPR_CAP_MIG_STATE(sbbc, SPAPR_CAP_SBBC);
+ SPAPR_CAP_MIG_STATE(ibs, SPAPR_CAP_IBS);
++SPAPR_CAP_MIG_STATE(hpt_maxpagesize, SPAPR_CAP_HPT_MAXPAGESIZE);
+ SPAPR_CAP_MIG_STATE(nested_kvm_hv, SPAPR_CAP_NESTED_KVM_HV);
+ SPAPR_CAP_MIG_STATE(large_decr, SPAPR_CAP_LARGE_DECREMENTER);
+ SPAPR_CAP_MIG_STATE(ccf_assist, SPAPR_CAP_CCF_ASSIST);
+diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+index 7e32f309c2..9fc91c8f5e 100644
+--- a/include/hw/ppc/spapr.h
++++ b/include/hw/ppc/spapr.h
+@@ -849,6 +849,7 @@ extern const VMStateDescription vmstate_spapr_cap_dfp=
+;
+ extern const VMStateDescription vmstate_spapr_cap_cfpc;
+ extern const VMStateDescription vmstate_spapr_cap_sbbc;
+ extern const VMStateDescription vmstate_spapr_cap_ibs;
++extern const VMStateDescription vmstate_spapr_cap_hpt_maxpagesize;
+ extern const VMStateDescription vmstate_spapr_cap_nested_kvm_hv;
+ extern const VMStateDescription vmstate_spapr_cap_large_decr;
+ extern const VMStateDescription vmstate_spapr_cap_ccf_assist;
 --=20
 2.21.0
 
