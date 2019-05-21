@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 78BF824C7A
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 12:14:25 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50629 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7344F24C86
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 12:17:29 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50703 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hT1mq-0007Qu-Jl
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 06:14:24 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44960)
+	id 1hT1po-0002bV-Iz
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 06:17:28 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45006)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <arilou@gmail.com>) id 1hT1ZR-0005yk-E7
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 06:00:34 -0400
+	(envelope-from <arilou@gmail.com>) id 1hT1ZT-000607-45
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 06:00:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <arilou@gmail.com>) id 1hT1ZQ-0007uU-Bx
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 06:00:33 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:38612)
+	(envelope-from <arilou@gmail.com>) id 1hT1ZR-0007wm-PF
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 06:00:35 -0400
+Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:40040)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <arilou@gmail.com>) id 1hT1ZQ-0007tG-5C
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 06:00:32 -0400
-Received: by mail-wr1-x444.google.com with SMTP id d18so17870006wrs.5
-	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 03:00:32 -0700 (PDT)
+	(Exim 4.71) (envelope-from <arilou@gmail.com>) id 1hT1ZR-0007vV-Hx
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 06:00:33 -0400
+Received: by mail-wm1-x342.google.com with SMTP id 15so2208026wmg.5
+	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 03:00:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=LsYaQ4COmc6e9Lf4V+iWhN6mU2NGrUC/Gr04d6oOij8=;
-	b=sxsyzgRx3abVJf9f3wedRCyqCgXjtMhSWBglozP+vnpB0/XGJbKBv3vDtCBt6sBZOo
-	M0Azg50BHpHJH88FcFuLu9BhraikQ+PA32pH3mTqz4BGju2bwrdERQlApdNacG71fm1E
-	Jc+f31S+vreTUYpa4bMxETmK75KUWbd/gN7/YtbIto+mm7Cx4R00+e7qMdY566zC1iTq
-	DnWQFBREWyAYMfKolhqp0PA04+kkIUZ9dQvowFbwyiS2MJjGgmiHQpQMjBGYZt+wFYxJ
-	84p6tcCZdG7iqigCYiV9IPVOoKr4eNjtNpNS4MBeaXJalzvFwiJ+jMan0VKv9OuO2QHz
-	glkg==
+	bh=3B88NpQFOs8DC+2595MWdyNpg+oQZ5roeXs0f+YNp/4=;
+	b=uj377cmovNC3MowTVujPc6sQKKALoIIxOMeue2auAJvlqoV8yonCzPxqLQlRpPTN0C
+	ITNCsb3L5QqafH0Ie3OSIgKphCZx084dzi2Mzb+VlyIwVrryz0b9gsb5PwaHaTPGodzz
+	KX5AiksawrPKSp1n933M9WdXM4Y5dVsLKnIRPy7zQCwQ3zKQ7vn17yk8jgCG5rfw/BrA
+	fQOgbVtv1rdsX+iG6XZoChoEfUZ2/Lo4bijcPrACAEUjL8j6iv/ZMBXHTcb2m4xp1GBM
+	QEOONFdcKZC6HpNaMnLvd31pq/Vt6T0wHULL0yy7OrecSeBXub5Z8vY7KvR2WM/Joyl9
+	vZ+w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=LsYaQ4COmc6e9Lf4V+iWhN6mU2NGrUC/Gr04d6oOij8=;
-	b=C8LdGChyf9cBYOvit3hy+2mTywBze2cCiQl/lHG+sTkTqxDYdZGWwINgiszqs/UgpH
-	+/z/mgy+L1onfI09OhC+i1A+0O7dk0kHaGcCTjs3/UtFw1D5LdO9pu0t8fWNfGLzmhnO
-	bgQ+Tot8QPdHZnR9z8GtzGgFnUoL0tVE6JM2pBSJvX4gjpbFXnbkDghXuSZIcrSiJEBg
-	yF71nx57y7PCI95E9gI2Re1RA523sy9ZH/g0toFfm4qdsj1pyzhMUGCeOwaMmIrM+dwf
-	MnvB6IlKX6vZlhMfmAbGyN9+xLjU5Ov17tMvLyQnqK5xfLkCtBSpqmgZIf9cm1sbvsJj
-	UcTw==
-X-Gm-Message-State: APjAAAXWhiTgWkzbdgovyhQOmeLC7m0xaO4wElW7F/yX2kfL1CnumwP2
-	sR/phUBVZFxloaMmEtl0cm+7fnuJ
-X-Google-Smtp-Source: APXvYqwxkPLDmMhEqfOW3fx5qkihjmgfvCfQPor/HN8aBz1tgQYWKCpZzHfwo4dWTtw23OwZfvKvwQ==
-X-Received: by 2002:a5d:640d:: with SMTP id z13mr25201789wru.299.1558432831097;
-	Tue, 21 May 2019 03:00:31 -0700 (PDT)
+	bh=3B88NpQFOs8DC+2595MWdyNpg+oQZ5roeXs0f+YNp/4=;
+	b=JdRBYqlRouy+KNpZ3hr49j1lnPp2CXb1XzSbxT+epBu3Plw72H6Nl/D0GpIvaOUalT
+	pjxPxCWsvalfvc7M2CWQ54nbokESPMNuyBQdnPhqOgkMZqYesR67nwEPTdjIT7YUpa7B
+	iW90I6NnwHTUtNEOtB0lI4L+MZg87+gPZUl8HBtD4ZreGQex+B21v+0A+L6cEp0QsmWw
+	Tv7MLdqALo1Oy6zHmNEmMMgygnATV7XklRXMWmQMGeh6FH/TA5TFARSo4c4Yw5gauqja
+	c9tjtGyBrkTiwUb4FPwmuDKbI5cTjTnoxwSqgwIiVCUFvIjHJnFZVwlC1VP2pVdxmnxG
+	9b3A==
+X-Gm-Message-State: APjAAAWGHPNCms3/41PvIWx+bUi1TuGd3TnIB2ONHLmqKEauogBwWrjL
+	CcSp7ULg5yAKU6ZfN3QKl41KGXcX
+X-Google-Smtp-Source: APXvYqwBMYC2cUwd/ype5NAqAB60UJEFVmeDNqJ1rfi6dcHCugODJZ9tyy3V2ahfBeOYwfbejMFOaw==
+X-Received: by 2002:a1c:4486:: with SMTP id r128mr2862041wma.90.1558432832464; 
+	Tue, 21 May 2019 03:00:32 -0700 (PDT)
 Received: from jondnuc.lan ([176.230.64.64])
-	by smtp.gmail.com with ESMTPSA id 65sm3080257wro.85.2019.05.21.03.00.30
+	by smtp.gmail.com with ESMTPSA id 65sm3080257wro.85.2019.05.21.03.00.31
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 21 May 2019 03:00:30 -0700 (PDT)
+	Tue, 21 May 2019 03:00:32 -0700 (PDT)
 From: Jon Doron <arilou@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 21 May 2019 12:59:47 +0300
-Message-Id: <20190521095948.8204-20-arilou@gmail.com>
+Date: Tue, 21 May 2019 12:59:48 +0300
+Message-Id: <20190521095948.8204-21-arilou@gmail.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190521095948.8204-1-arilou@gmail.com>
 References: <20190521095948.8204-1-arilou@gmail.com>
@@ -63,9 +63,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: [Qemu-devel] [PATCH v10 19/20] gdbstub: Clear unused variables in
- gdb_handle_packet
+X-Received-From: 2a00:1450:4864:20::342
+Subject: [Qemu-devel] [PATCH v10 20/20] gdbstub: Implement qemu physical
+ memory mode
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -81,44 +81,118 @@ Cc: alex.bennee@linaro.org, Jon Doron <arilou@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+Add a new query/set which changes the memory GDB sees to physical memory
+only.
+
+gdb> maint packet qqemu.PhyMemMode
+will reply the current phy_mem_mode state (1 for enabled, 0 for disabled)
+gdb> maint packet Qqemu.PhyMemMode:1
+Will make GDB read/write only to physical memory, set to 0 to disable
+
 Signed-off-by: Jon Doron <arilou@gmail.com>
 ---
- gdbstub.c | 11 ++---------
- 1 file changed, 2 insertions(+), 9 deletions(-)
+ gdbstub.c | 62 +++++++++++++++++++++++++++++++++++++++++++++++++++++--
+ 1 file changed, 60 insertions(+), 2 deletions(-)
 
 diff --git a/gdbstub.c b/gdbstub.c
-index 097b7d1231..9dd934a079 100644
+index 9dd934a079..c9269319d8 100644
 --- a/gdbstub.c
 +++ b/gdbstub.c
-@@ -2270,17 +2270,11 @@ static void handle_target_halt(GdbCmdContext *gdb_ctx, void *user_ctx)
+@@ -46,11 +46,27 @@
+ #define GDB_ATTACHED "1"
+ #endif
  
- static int gdb_handle_packet(GDBState *s, const char *line_buf)
++#ifndef CONFIG_USER_ONLY
++static int phy_memory_mode;
++#endif
++
+ static inline int target_memory_rw_debug(CPUState *cpu, target_ulong addr,
+                                          uint8_t *buf, int len, bool is_write)
  {
--    const char *p;
--    int ch;
--    uint8_t mem_buf[MAX_PACKET_LENGTH];
--    char buf[sizeof(mem_buf) + 1 /* trailing NUL */];
-     const GdbCmdParseEntry *cmd_parser = NULL;
+-    CPUClass *cc = CPU_GET_CLASS(cpu);
++    CPUClass *cc;
  
-     trace_gdbstub_io_command(line_buf);
- 
--    p = line_buf;
--    ch = *p++;
--    switch(ch) {
-+    switch (line_buf[0]) {
-     case '!':
-         put_packet(s, "OK");
-         break;
-@@ -2497,8 +2491,7 @@ static int gdb_handle_packet(GDBState *s, const char *line_buf)
-         break;
-     default:
-         /* put empty packet */
--        buf[0] = '\0';
--        put_packet(s, buf);
-+        put_packet(s, "");
-         break;
++#ifndef CONFIG_USER_ONLY
++    if (phy_memory_mode) {
++        if (is_write) {
++            cpu_physical_memory_write(addr, buf, len);
++        } else {
++            cpu_physical_memory_read(addr, buf, len);
++        }
++        return 0;
++    }
++#endif
++
++    cc = CPU_GET_CLASS(cpu);
+     if (cc->memory_rw_debug) {
+         return cc->memory_rw_debug(cpu, addr, buf, len, is_write);
      }
+@@ -2118,8 +2134,36 @@ static void handle_query_attached(GdbCmdContext *gdb_ctx, void *user_ctx)
  
+ static void handle_query_qemu_supported(GdbCmdContext *gdb_ctx, void *user_ctx)
+ {
+-    put_packet(gdb_ctx->s, "sstepbits;sstep");
++    snprintf(gdb_ctx->str_buf, sizeof(gdb_ctx->str_buf), "sstepbits;sstep");
++#ifndef CONFIG_USER_ONLY
++    pstrcat(gdb_ctx->str_buf, sizeof(gdb_ctx->str_buf), ";PhyMemMode");
++#endif
++    put_packet(gdb_ctx->s, gdb_ctx->str_buf);
++}
++
++#ifndef CONFIG_USER_ONLY
++static void handle_query_qemu_phy_mem_mode(GdbCmdContext *gdb_ctx,
++                                           void *user_ctx)
++{
++    snprintf(gdb_ctx->str_buf, sizeof(gdb_ctx->str_buf), "%d", phy_memory_mode);
++    put_packet(gdb_ctx->s, gdb_ctx->str_buf);
++}
++
++static void handle_set_qemu_phy_mem_mode(GdbCmdContext *gdb_ctx, void *user_ctx)
++{
++    if (!gdb_ctx->num_params) {
++        put_packet(gdb_ctx->s, "E22");
++        return;
++    }
++
++    if (!gdb_ctx->params[0].val_ul) {
++        phy_memory_mode = 0;
++    } else {
++        phy_memory_mode = 1;
++    }
++    put_packet(gdb_ctx->s, "OK");
+ }
++#endif
+ 
+ static GdbCmdParseEntry gdb_gen_query_set_common_table[] = {
+     /* Order is important if has same prefix */
+@@ -2201,6 +2245,12 @@ static GdbCmdParseEntry gdb_gen_query_table[] = {
+         .handler = handle_query_qemu_supported,
+         .cmd = "qemu.Supported",
+     },
++#ifndef CONFIG_USER_ONLY
++    {
++        .handler = handle_query_qemu_phy_mem_mode,
++        .cmd = "qemu.PhyMemMode",
++    },
++#endif
+ };
+ 
+ static GdbCmdParseEntry gdb_gen_set_table[] = {
+@@ -2211,6 +2261,14 @@ static GdbCmdParseEntry gdb_gen_set_table[] = {
+         .cmd_startswith = 1,
+         .schema = "l0"
+     },
++#ifndef CONFIG_USER_ONLY
++    {
++        .handler = handle_set_qemu_phy_mem_mode,
++        .cmd = "qemu.PhyMemMode:",
++        .cmd_startswith = 1,
++        .schema = "l0"
++    },
++#endif
+ };
+ 
+ static void handle_gen_query(GdbCmdContext *gdb_ctx, void *user_ctx)
 -- 
 2.21.0
 
