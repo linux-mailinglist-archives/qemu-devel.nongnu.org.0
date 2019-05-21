@@ -2,55 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 21311298FC
-	for <lists+qemu-devel@lfdr.de>; Fri, 24 May 2019 15:35:10 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54700 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E740924BE4
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 11:43:35 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50222 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hUALl-0002yo-Ad
-	for lists+qemu-devel@lfdr.de; Fri, 24 May 2019 09:35:09 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:33887)
+	id 1hT1J1-0007mp-4r
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 05:43:35 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41348)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <no-reply@patchew.org>) id 1hUAJp-0001gR-Kf
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 09:33:11 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hT1Hy-0007F1-Te
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 05:42:31 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <no-reply@patchew.org>) id 1hUAIW-0007SL-3k
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 09:31:49 -0400
-Resent-Date: Fri, 24 May 2019 09:31:49 -0400
-Resent-Message-Id: <E1hUAIW-0007SL-3k@eggs.gnu.org>
-Received: from sender-of-o52.zoho.com ([135.84.80.217]:21405)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <no-reply@patchew.org>)
-	id 1hUAIV-0007Rp-SH
-	for qemu-devel@nongnu.org; Fri, 24 May 2019 09:31:48 -0400
-ARC-Seal: i=1; a=rsa-sha256; t=1558431657; cv=none; d=zoho.com; s=zohoarc; 
-	b=ODUK77WTv7M4yFfKZG+3VmoFnFuc6FxLAi7WZlg3ISJ2w0FkJsLy+7IkGebbq1q8kUFOJl3EsIgpcbwCupoCqXGc7Gf9NX+rNz8d+BmUMHs6p3dw34aO2aXVBqwiXhpQzonMXnYguu1JwRRuJJYC5b1z51k79P1l8X3qp5IeTdM=
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
-	s=zohoarc; t=1558431657;
-	h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
-	bh=Eh//6AVS15wP/ZiQ3Rbxo1++/WJvEerIZumdJy01cr8=; 
-	b=Yiz6QZ0tybsWQI/lpPMpN75t00SaScajhyocH97sbeuVvgQGpfWfv1zMTG+6SP2cvMXKwcxcWDrdYbR1cZfO7yDu7KqWeAN6mEFFkFMDOt/McZod7zEz2324Y4dyAZkOeTY7qAaIGgMKWB6AydUs3YuRfdpTwf8jLNqxMYNPPBQ=
-ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
-	spf=pass  smtp.mailfrom=no-reply@patchew.org;
-	dmarc=pass header.from=<no-reply@patchew.org>
-	header.from=<no-reply@patchew.org>
-Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
-	mx.zohomail.com with SMTPS id 1558431655307902.8495363849737;
-	Tue, 21 May 2019 02:40:55 -0700 (PDT)
-Message-ID: <155843165431.22.896954540218481637@5d2e01a8a801>
-In-Reply-To: <20190521093227.4661-1-berrange@redhat.com>
+	(envelope-from <peter.maydell@linaro.org>) id 1hT1Hx-0008CH-Rr
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 05:42:30 -0400
+Received: from mail-oi1-x232.google.com ([2607:f8b0:4864:20::232]:35729)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hT1Hx-0008BM-K6
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 05:42:29 -0400
+Received: by mail-oi1-x232.google.com with SMTP id a132so12315757oib.2
+	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 02:42:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=YGPhBrMbFHeaOXlSYWGQD39Pk3ODT4SKRb0H4QrfiRw=;
+	b=G/CJe8uUjr2oVDSlU+0fkgSBTfRPjTXpaCHhKVgX/AcrkugeLaNNsKd3Qku6MsxXZM
+	/S4G5FinxDEUGZuKRxQ78brpJjKSjrk3ryUuv9n+aD6soSxYNTRMbzRxuigcR2Lsdkhv
+	BhZmp6zasL7HyOYNqUePQngZ/viHZ+2+ZRiry5KAr5KS240FDcd+uskjsbI+HD3OIvCy
+	f4wuqu/TjfJmWCOitZh9yWgDnlopg5LmYtYf0MlKx+KlNNdofkZAPFxE9BFNtJVZHeXl
+	G90HI50iGl4IJIZLPNR84ZyjBaPVExe6RbiP5sOIgtbSiXVxB0iZPzNy4vlrxfinjbYz
+	nSDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=YGPhBrMbFHeaOXlSYWGQD39Pk3ODT4SKRb0H4QrfiRw=;
+	b=q1akSx6IFCeDvzx/kQzq/AP3kZJ69Rqdxh0H0TB3f4IKk6hh1vc0Rey8wBrWJuN+Mj
+	ythw28R1zE8E0aCR8hsG9DF8BV9XVPulcxJWmO98NZWKasXU43iiTaYKa8j/6u0k4Azr
+	ODWePa7vmUteS4lSN5fbEVXahqkPr/NpyE5yFrMTBTkf9wg4Y/XxiqOUdIrw9sxR5qlM
+	arFMoc1oP4wpx25OFrPmHlZAONMBjTQiVKtEEWhUJFsXhy0beTSctv2rTA3YWaXG6yry
+	mv3S6CXrUyf2dhxAx7s+ii4sAyLO7mUPO0wpmGnPBvb2k54JMlgB9IhvcNG6EgQh/zXE
+	9FTw==
+X-Gm-Message-State: APjAAAWO011qcL9uJsuHw+f5rrdDpBG/n6+lzx/6k2MGzI5FgfYO5cOk
+	1lIBomQupUJdZ/4O1unZNzQgZa8wajsWl5DQf6GYbg==
+X-Google-Smtp-Source: APXvYqw7Jp7m9v6JAqyWR29apgaa7lFxRtL5MzJqMP7GPELiZCHd+DqZKJknyZvzkfMBj0YXtG/3R9EID1cQFiciiGo=
+X-Received: by 2002:aca:b1c1:: with SMTP id a184mr2785638oif.98.1558431747442; 
+	Tue, 21 May 2019 02:42:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
-Resent-From: 
-From: no-reply@patchew.org
-To: berrange@redhat.com
-Date: Tue, 21 May 2019 02:40:55 -0700 (PDT)
-X-ZohoMailClient: External
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 135.84.80.217
-Subject: Re: [Qemu-devel] [PATCH] authz: optimize linking of objects for
- authorization services
+References: <20190520184108.GA10764@habkost.net>
+In-Reply-To: <20190520184108.GA10764@habkost.net>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Tue, 21 May 2019 10:42:16 +0100
+Message-ID: <CAFEAcA_jn6VBHMoKoGRojGTEQXOyzLtPG-rCE+uAt3BDBxYOBw@mail.gmail.com>
+To: Eduardo Habkost <ehabkost@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::232
+Subject: Re: [Qemu-devel] Introducing GSoC project: API Documentation
+ Generation
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,97 +72,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: qemu-devel@nongnu.org
-Cc: fam@euphon.net, berrange@redhat.com, qemu-devel@nongnu.org
+Cc: "Daniel P. Berrange" <berrange@redhat.com>,
+	Gabriel Barreto <sbarreto.gabriel@gmail.com>,
+	QEMU Developers <qemu-devel@nongnu.org>, "Emilio G. Cota" <cota@braap.org>,
+	Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+	Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDUyMTA5MzIyNy40NjYx
-LTEtYmVycmFuZ2VAcmVkaGF0LmNvbS8KCgoKSGksCgpUaGlzIHNlcmllcyBmYWlsZWQgdGhlIGFz
-YW4gYnVpbGQgdGVzdC4gUGxlYXNlIGZpbmQgdGhlIHRlc3RpbmcgY29tbWFuZHMgYW5kCnRoZWly
-IG91dHB1dCBiZWxvdy4gSWYgeW91IGhhdmUgRG9ja2VyIGluc3RhbGxlZCwgeW91IGNhbiBwcm9i
-YWJseSByZXByb2R1Y2UgaXQKbG9jYWxseS4KCj09PSBURVNUIFNDUklQVCBCRUdJTiA9PT0KIyEv
-YmluL2Jhc2gKdGltZSBtYWtlIGRvY2tlci10ZXN0LWRlYnVnQGZlZG9yYSBUQVJHRVRfTElTVD14
-ODZfNjQtc29mdG1tdSBKPTE0IE5FVFdPUks9MQo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKL3Rt
-cC9xZW11LXRlc3Qvc3JjL3Rlc3RzL3Rlc3QtY3J5cHRvLXRsc3Nlc3Npb24uYzoyODg6IHVuZGVm
-aW5lZCByZWZlcmVuY2UgdG8gYHFhdXRoel9saXN0X25ldycKL3Vzci9iaW4vbGQ6IC90bXAvcWVt
-dS10ZXN0L3NyYy90ZXN0cy90ZXN0LWNyeXB0by10bHNzZXNzaW9uLmM6MjkzOiB1bmRlZmluZWQg
-cmVmZXJlbmNlIHRvIGBxYXV0aHpfbGlzdF9hcHBlbmRfcnVsZScKY2xhbmcrKyAtTC90bXAvcWVt
-dS10ZXN0L2J1aWxkL2R0Yy9saWJmZHQgIC1JL3Vzci9pbmNsdWRlL3BpeG1hbi0xICAtSS90bXAv
-cWVtdS10ZXN0L3NyYy9kdGMvbGliZmR0IC1XZXJyb3IgLURIQVNfTElCU1NIMl9TRlRQX0ZTWU5D
-ICAtcHRocmVhZCAtSS91c3IvaW5jbHVkZS9nbGliLTIuMCAtSS91c3IvbGliNjQvZ2xpYi0yLjAv
-aW5jbHVkZSAgLWZQSUUgLURQSUUgLW02NCAtbWN4MTYgLURfR05VX1NPVVJDRSAtRF9GSUxFX09G
-RlNFVF9CSVRTPTY0IC1EX0xBUkdFRklMRV9TT1VSQ0UgLVdzdHJpY3QtcHJvdG90eXBlcyAtV3Jl
-ZHVuZGFudC1kZWNscyAtV2FsbCAtV3VuZGVmIC1Xd3JpdGUtc3RyaW5ncyAtV21pc3NpbmctcHJv
-dG90eXBlcyAtZm5vLXN0cmljdC1hbGlhc2luZyAtZm5vLWNvbW1vbiAtZndyYXB2IC1zdGQ9Z251
-OTkgIC1Xbm8tc3RyaW5nLXBsdXMtaW50IC1Xbm8tdHlwZWRlZi1yZWRlZmluaXRpb24gLVduby1p
-bml0aWFsaXplci1vdmVycmlkZXMgLVdleHBhbnNpb24tdG8tZGVmaW5lZCAtV2VuZGlmLWxhYmVs
-cyAtV25vLXNoaWZ0LW5lZ2F0aXZlLXZhbHVlIC1Xbm8tbWlzc2luZy1pbmNsdWRlLWRpcnMgLVdl
-bXB0eS1ib2R5IC1XbmVzdGVkLWV4dGVybnMgLVdmb3JtYXQtc2VjdXJpdHkgLVdmb3JtYXQteTJr
-IC1XaW5pdC1zZWxmIC1XaWdub3JlZC1xdWFsaWZpZXJzIC1Xb2xkLXN0eWxlLWRlZmluaXRpb24g
-LVd0eXBlLWxpbWl0cyAtZnN0YWNrLXByb3RlY3Rvci1zdHJvbmcgIC1JL3Vzci9pbmNsdWRlL3Ax
-MS1raXQtMSAgICAtSS91c3IvaW5jbHVkZS9saWJwbmcxNiAgLUkvdXNyL2luY2x1ZGUvc3BpY2Ut
-MSAtSS91c3IvaW5jbHVkZS9zcGljZS1zZXJ2ZXIgLUkvdXNyL2luY2x1ZGUvY2FjYXJkIC1JL3Vz
-ci9pbmNsdWRlL2dsaWItMi4wIC1JL3Vzci9saWI2NC9nbGliLTIuMC9pbmNsdWRlIC1JL3Vzci9p
-bmNsdWRlL25zczMgLUkvdXNyL2luY2x1ZGUvbnNwcjQgLXB0aHJlYWQgLUkvdXNyL2luY2x1ZGUv
-bGlibW91bnQgLUkvdXNyL2luY2x1ZGUvYmxraWQgLUkvdXNyL2luY2x1ZGUvdXVpZCAtSS91c3Iv
-aW5jbHVkZS9waXhtYW4tMSAgLUkvdG1wL3FlbXUtdGVzdC9zcmMvdGVzdHMgLWZzYW5pdGl6ZT11
-bmRlZmluZWQgLWZzYW5pdGl6ZT1hZGRyZXNzIC1nICAtV2wsLS13YXJuLWNvbW1vbiAtV2wsLXos
-cmVscm8gLVdsLC16LG5vdyAtcGllIC1tNjQgLWcgIC1vIHRlc3RzL3Rlc3QtaW8tY2hhbm5lbC1z
-b2NrZXQgdGVzdHMvdGVzdC1pby1jaGFubmVsLXNvY2tldC5vIHRlc3RzL2lvLWNoYW5uZWwtaGVs
-cGVycy5vIHRlc3RzL3NvY2tldC1oZWxwZXJzLm8gaW8vY2hhbm5lbC5vIGlvL2NoYW5uZWwtYnVm
-ZmVyLm8gaW8vY2hhbm5lbC1jb21tYW5kLm8gaW8vY2hhbm5lbC1maWxlLm8gaW8vY2hhbm5lbC1z
-b2NrZXQubyBpby9jaGFubmVsLXRscy5vIGlvL2NoYW5uZWwtd2F0Y2gubyBpby9jaGFubmVsLXdl
-YnNvY2subyBpby9jaGFubmVsLXV0aWwubyBpby9kbnMtcmVzb2x2ZXIubyBpby9uZXQtbGlzdGVu
-ZXIubyBpby90YXNrLm8gYXV0aHovYmFzZS5vIGNyeXB0by9pbml0Lm8gY3J5cHRvL2hhc2gubyBj
-cnlwdG8vaGFzaC1uZXR0bGUubyBjcnlwdG8vaG1hYy5vIGNyeXB0by9obWFjLW5ldHRsZS5vIGNy
-eXB0by9hZXMubyBjcnlwdG8vZGVzcmZiLm8gY3J5cHRvL2NpcGhlci5vIGNyeXB0by90bHNjcmVk
-cy5vIGNyeXB0by90bHNjcmVkc2Fub24ubyBjcnlwdG8vdGxzY3JlZHNwc2subyBjcnlwdG8vdGxz
-Y3JlZHN4NTA5Lm8gY3J5cHRvL3Rsc3Nlc3Npb24ubyBjcnlwdG8vc2VjcmV0Lm8gY3J5cHRvL3Jh
-bmRvbS1nbnV0bHMubyBjcnlwdG8vcGJrZGYubyBjcnlwdG8vcGJrZGYtbmV0dGxlLm8gY3J5cHRv
-L2l2Z2VuLm8gY3J5cHRvL2l2Z2VuLWVzc2l2Lm8gY3J5cHRvL2l2Z2VuLXBsYWluLm8gY3J5cHRv
-L2l2Z2VuLXBsYWluNjQubyBjcnlwdG8vYWZzcGxpdC5vIGNyeXB0by94dHMubyBjcnlwdG8vYmxv
-Y2subyBjcnlwdG8vYmxvY2stcWNvdy5vIGNyeXB0by9ibG9jay1sdWtzLm8gcW9tL29iamVjdC5v
-IHFvbS9jb250YWluZXIubyBxb20vcW9tLXFvYmplY3QubyBxb20vb2JqZWN0X2ludGVyZmFjZXMu
-byAgbGlicWVtdXV0aWwuYSAgIC1sbSAtbHogIC1sZ3RocmVhZC0yLjAgLXB0aHJlYWQgLWxnbGli
-LTIuMCAgIC1scnQgLWx6IC1sdXRpbCAtbGNhcC1uZyAtbG5ldHRsZSAgLWxnbnV0bHMgIApjbGFu
-Zy03OiBlcnJvcjogbGlua2VyIGNvbW1hbmQgZmFpbGVkIHdpdGggZXhpdCBjb2RlIDEgKHVzZSAt
-diB0byBzZWUgaW52b2NhdGlvbikKbWFrZTogKioqIFsvdG1wL3FlbXUtdGVzdC9zcmMvcnVsZXMu
-bWFrOjEyNDogdGVzdHMvdGVzdC1jcnlwdG8tdGxzc2Vzc2lvbl0gRXJyb3IgMQptYWtlOiAqKiog
-V2FpdGluZyBmb3IgdW5maW5pc2hlZCBqb2JzLi4uLgovdXNyL2Jpbi9sZDogdGVzdHMvdGVzdC1h
-dXRoei1zaW1wbGUubzogaW4gZnVuY3Rpb24gYHRlc3RfYXV0aHpfc2ltcGxlJzoKL3RtcC9xZW11
-LXRlc3Qvc3JjL3Rlc3RzL3Rlc3QtYXV0aHotc2ltcGxlLmM6Mjk6IHVuZGVmaW5lZCByZWZlcmVu
-Y2UgdG8gYHFhdXRoel9zaW1wbGVfbmV3JwpjbGFuZy03OiBlcnJvcjogbGlua2VyIGNvbW1hbmQg
-ZmFpbGVkIHdpdGggZXhpdCBjb2RlIDEgKHVzZSAtdiB0byBzZWUgaW52b2NhdGlvbikKbWFrZTog
-KioqIFsvdG1wL3FlbXUtdGVzdC9zcmMvcnVsZXMubWFrOjEyNDogdGVzdHMvdGVzdC1hdXRoei1z
-aW1wbGVdIEVycm9yIDEKL3Vzci9iaW4vbGQ6IHRlc3RzL3Rlc3QtYXV0aHotbGlzdC5vOiBpbiBm
-dW5jdGlvbiBgdGVzdF9hdXRoel9kZWZhdWx0X2RlbnknOgovdG1wL3FlbXUtdGVzdC9zcmMvdGVz
-dHMvdGVzdC1hdXRoei1saXN0LmM6Mjc6IHVuZGVmaW5lZCByZWZlcmVuY2UgdG8gYHFhdXRoel9s
-aXN0X25ldycKLS0tCi91c3IvYmluL2xkOiAvdG1wL3FlbXUtdGVzdC9zcmMvdGVzdHMvdGVzdC1h
-dXRoei1saXN0LmM6MTIwOiB1bmRlZmluZWQgcmVmZXJlbmNlIHRvIGBxYXV0aHpfbGlzdF9hcHBl
-bmRfcnVsZScKL3Vzci9iaW4vbGQ6IC90bXAvcWVtdS10ZXN0L3NyYy90ZXN0cy90ZXN0LWF1dGh6
-LWxpc3QuYzoxMjg6IHVuZGVmaW5lZCByZWZlcmVuY2UgdG8gYHFhdXRoel9saXN0X2RlbGV0ZV9y
-dWxlJwovdXNyL2Jpbi9sZDogL3RtcC9xZW11LXRlc3Qvc3JjL3Rlc3RzL3Rlc3QtYXV0aHotbGlz
-dC5jOjEzMzogdW5kZWZpbmVkIHJlZmVyZW5jZSB0byBgcWF1dGh6X2xpc3RfaW5zZXJ0X3J1bGUn
-CmNsYW5nLTc6IGVycm9yOiBsaW5rZXIgY29tbWFuZCBmYWlsZWQgd2l0aCBleGl0IGNvZGUgMSAo
-dXNlIC12IHRvIHNlZSBpbnZvY2F0aW9uKQptYWtlOiAqKiogWy90bXAvcWVtdS10ZXN0L3NyYy9y
-dWxlcy5tYWs6MTI0OiB0ZXN0cy90ZXN0LWF1dGh6LWxpc3RdIEVycm9yIDEKL3Vzci9iaW4vbGQ6
-IHRlc3RzL3Rlc3QtYXV0aHotbGlzdGZpbGUubzogaW4gZnVuY3Rpb24gYHRlc3RfYXV0aHpfZGVm
-YXVsdF9kZW55JzoKL3RtcC9xZW11LXRlc3Qvc3JjL3Rlc3RzL3Rlc3QtYXV0aHotbGlzdGZpbGUu
-Yzo1MjogdW5kZWZpbmVkIHJlZmVyZW5jZSB0byBgcWF1dGh6X2xpc3RfZmlsZV9uZXcnCi0tLQov
-dG1wL3FlbXUtdGVzdC9zcmMvdGVzdHMvdGVzdC1hdXRoei1saXN0ZmlsZS5jOjExNTogdW5kZWZp
-bmVkIHJlZmVyZW5jZSB0byBgcWF1dGh6X2xpc3RfZmlsZV9uZXcnCi91c3IvYmluL2xkOiB0ZXN0
-cy90ZXN0LWF1dGh6LWxpc3RmaWxlLm86IGluIGZ1bmN0aW9uIGB0ZXN0X2F1dGh6X2NvbXBsZXgn
-OgovdG1wL3FlbXUtdGVzdC9zcmMvdGVzdHMvdGVzdC1hdXRoei1saXN0ZmlsZS5jOjE0OTogdW5k
-ZWZpbmVkIHJlZmVyZW5jZSB0byBgcWF1dGh6X2xpc3RfZmlsZV9uZXcnCmNsYW5nLTc6IGVycm9y
-OiBsaW5rZXIgY29tbWFuZCBmYWlsZWQgd2l0aCBleGl0IGNvZGUgMSAodXNlIC12IHRvIHNlZSBp
-bnZvY2F0aW9uKQptYWtlOiAqKiogWy90bXAvcWVtdS10ZXN0L3NyYy9ydWxlcy5tYWs6MTI0OiB0
-ZXN0cy90ZXN0LWF1dGh6LWxpc3RmaWxlXSBFcnJvciAxClRyYWNlYmFjayAobW9zdCByZWNlbnQg
-Y2FsbCBsYXN0KToKICBGaWxlICIuL3Rlc3RzL2RvY2tlci9kb2NrZXIucHkiLCBsaW5lIDYxNSwg
-aW4gPG1vZHVsZT4KCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0Cmh0dHA6Ly9wYXRjaGV3
-Lm9yZy9sb2dzLzIwMTkwNTIxMDkzMjI3LjQ2NjEtMS1iZXJyYW5nZUByZWRoYXQuY29tL3Rlc3Rp
-bmcuYXNhbi8/dHlwZT1tZXNzYWdlLgotLS0KRW1haWwgZ2VuZXJhdGVkIGF1dG9tYXRpY2FsbHkg
-YnkgUGF0Y2hldyBbaHR0cHM6Ly9wYXRjaGV3Lm9yZy9dLgpQbGVhc2Ugc2VuZCB5b3VyIGZlZWRi
-YWNrIHRvIHBhdGNoZXctZGV2ZWxAcmVkaGF0LmNvbQ==
+On Mon, 20 May 2019 at 19:41, Eduardo Habkost <ehabkost@redhat.com> wrote:
+>
+> Please welcome GSoC student Gabriel Barreto.  Gabriel is going to
+> work on QEMU API Documentation Generation[1].
+>
+> Gabriel's first task is to evaluate our options for extract doc
+> comments from C source code and integrate them into Sphinx
+> documentation.  I saw that Peter has experimented with kernel-doc
+> in the past[2][3].  Has anybody evaluated other alternatives?
+> (e.g. Hawkmoth[4])
+>
+> [1] https://wiki.qemu.org/Google_Summer_of_Code_2019#API_documentation_generation
+> [2] https://www.mail-archive.com/qemu-devel@nongnu.org/msg411643.html
+> [3] https://www.mail-archive.com/qemu-devel@nongnu.org/msg411841.html
+> [4] https://readthedocs.org/projects/hawkmoth/
 
+I think that kernel-doc is broadly where we'd decided we were
+going with this. I have some in-progress patches that do
+some integration of it: mostly just rebasing of the patches
+in the git branch mentioned in your link [3] to be on top of
+the sphinx support we now have in master. I'll just give
+them a quick dusting off and push them out as an RFC, to
+avoid duplication of work.
+
+(The other interesting thing I'd wondered about with generation
+of docs from code comments is whether we would get better
+(ie more accurate, regularly updated) documentation of our
+supported machine models if we generated those parts of the
+docs from comments. But that's definitely much harder than just
+getting API documentation, because it involves trying to
+integrate them into a 'user documentation' manual which we
+have not yet converted from texinfo.)
+
+thanks
+-- PMM
 
