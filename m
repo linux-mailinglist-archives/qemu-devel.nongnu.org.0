@@ -2,60 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5739F258D2
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 22:27:13 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:59090 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C8E05258C1
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 22:17:48 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:58958 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTBLs-0007SK-4s
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 16:27:12 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60492)
+	id 1hTBCl-000326-M0
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 16:17:47 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58165)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hTBKZ-0006am-3g
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 16:25:52 -0400
+	(envelope-from <klaus@birkelund.eu>) id 1hTB9l-0001ET-R1
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 16:14:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hTBKW-0004R9-N7
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 16:25:50 -0400
-Received: from indium.canonical.com ([91.189.90.7]:57422)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hTBKV-0004PY-N4
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 16:25:48 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
-	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hTBKS-0005sR-C1
-	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 20:25:44 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id 58B842E80CC
-	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 20:25:44 +0000 (UTC)
+	(envelope-from <klaus@birkelund.eu>) id 1hTB9j-0000Hg-Us
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 16:14:41 -0400
+Received: from charlie.dont.surf ([128.199.63.193]:53418)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <klaus@birkelund.eu>)
+	id 1hTB9e-0008Rk-C8; Tue, 21 May 2019 16:14:35 -0400
+Received: from apples.localdomain (ip-5-186-120-196.cgn.fibianet.dk
+	[5.186.120.196])
+	by charlie.dont.surf (Postfix) with ESMTPSA id A1CB2BF513;
+	Tue, 21 May 2019 20:14:30 +0000 (UTC)
+Date: Tue, 21 May 2019 22:14:26 +0200
+From: Klaus Birkelund <klaus@birkelund.eu>
+To: Kevin Wolf <kwolf@redhat.com>
+Message-ID: <20190521201424.GA28415@apples.localdomain>
+Mail-Followup-To: Kevin Wolf <kwolf@redhat.com>, qemu-block@nongnu.org,
+	Keith Busch <keith.busch@intel.com>, Max Reitz <mreitz@redhat.com>,
+	qemu-devel@nongnu.org, armbru@redhat.com
+References: <20190517084234.26923-1-klaus@birkelund.eu>
+	<20190520130124.GE5699@localhost.localdomain>
+	<20190520193445.GA22742@apples.localdomain>
+	<20190521080115.GA4971@linux.fritz.box>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Tue, 21 May 2019 20:13:10 -0000
-From: Cleber Rosa <cleber.gnu@gmail.com>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: cleber-gnu
-X-Launchpad-Bug-Reporter: Cleber Rosa (cleber-gnu)
-X-Launchpad-Bug-Modifier: Cleber Rosa (cleber-gnu)
-References: <155837363818.14706.8629235118425908874.malonedeb@gac.canonical.com>
-Message-Id: <155846959097.14626.2372761268748658434.malone@gac.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18962";
-	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 8c04226898678de5daf1299eb792fe1ec991e5ab
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190521080115.GA4971@linux.fritz.box>
+User-Agent: Mutt/1.11.4 (2019-03-13)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1829779] Re: qemu-system-arm and
- qemu-system-aarch64 QMP hangs after kernel boots
+X-Received-From: 128.199.63.193
+Subject: Re: [Qemu-devel] [PATCH 0/8] nvme: v1.3, sgls,
+ metadata and new 'ocssd' device
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -64,109 +55,182 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1829779 <1829779@bugs.launchpad.net>
+Cc: Keith Busch <keith.busch@intel.com>, armbru@redhat.com,
+	qemu-devel@nongnu.org, qemu-block@nongnu.org, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-I have an update on this.  Eric and myself attempted to zero in the
-exact cause.  A few things we discovered:
+On Tue, May 21, 2019 at 10:01:15AM +0200, Kevin Wolf wrote:
+> Am 20.05.2019 um 21:34 hat Klaus Birkelund geschrieben:
+> > On Mon, May 20, 2019 at 03:01:24PM +0200, Kevin Wolf wrote:
+> > > Am 17.05.2019 um 10:42 hat Klaus Birkelund Jensen geschrieben:
+> > > > Hi,
+> > > > 
+> > > > This series of patches contains a number of refactorings to the emulated
+> > > > nvme device, adds additional features, such as support for metadata and
+> > > > scatter gather lists, and bumps the supported NVMe version to 1.3.
+> > > > Lastly, it contains a new 'ocssd' device.
+> > > > 
+> > > > The motivation for the first seven patches is to set everything up for
+> > > > the final patch that adds a new 'ocssd' device and associated block
+> > > > driver that implements the OpenChannel 2.0 specification[1]. Many of us
+> > > > in the OpenChannel comunity have used a qemu fork[2] for emulation of
+> > > > OpenChannel devices. The fork is itself based on Keith's qemu-nvme
+> > > > tree[3] and we recently merged mainline qemu into it, but the result is
+> > > > still a "hybrid" nvme device that supports both conventional nvme and
+> > > > the OCSSD 2.0 spec through a 'dialect' mechanism. Merging instead of
+> > > > rebasing also created a pretty messy commit history and my efforts to
+> > > > try and rebase our work onto mainline was getting hairy to say the
+> > > > least. And I was never really happy with the dialect approach anyway.
+> > > > 
+> > > > I have instead prepared this series of fresh patches that incrementally
+> > > > adds additional features to the nvme device to bring it into shape for
+> > > > finally introducing a new (and separate) 'ocssd' device that emulates an
+> > > > OpenChannel 2.0 device by reusing core functionality from the nvme
+> > > > device. Providing a separate ocssd device ensures that no ocssd specific
+> > > > stuff creeps into the nvme device.
+> > > > 
+> > > > The ocssd device is backed by a new 'ocssd' block driver that holds
+> > > > internal meta data and keeps state permanent across power cycles. In the
+> > > > future I think we could use the same approach for the nvme device to
+> > > > keep internal metadata such as utilization and deallocated blocks.
+> > > 
+> > > A backend driver that is specific for a guest device model (i.e. the
+> > > device model requires this driver, and the backend is useless without
+> > > the device) sounds like a very questionable design.
+> > > 
+> > > Metadata like OcssdFormatHeader that is considered part of the image
+> > > data, which means that the _actual_ image content without metadata isn't
+> > > directly accessible any more feels like a bad idea, too. Simple things
+> > > like what a resize operation means (change only the actual disk size as
+> > > usual, or is the new size disk + metadata?) become confusing. Attaching
+> > > an image to a different device becomes impossible.
+> > > 
+> > > The block format driver doesn't seem to actually add much functionality
+> > > to a specially crafted raw image: It provides a convenient way to create
+> > > such special images and it dumps some values in 'qemu-img info', but the
+> > > actual interpretation of the data is left to the device model.
+> > > 
+> > > Looking at the options it does provide, my impression is that these
+> > > should really be qdev properties, and the place to store them
+> > > persistently is something like the libvirt XML. The device doesn't
+> > > change any of the values, so there is nothing that QEMU actually needs
+> > > to store. What you invented is a one-off way to pass a config file to a
+> > > device, but only for one specific device type.
+> > > 
+> > > I think this needs to use a much more standard approach to be mergable.
+> > > 
+> > > Markus (CCed) as the maintainer for the configuration mechanisms may
+> > > have an opinion on this, too.
+> > > 
+> > > > For now, the nvme device does not support the Deallocated and
+> > > > Unwritten Logical Block Error (DULBE) feature or the Data Set
+> > > > Management command as this would require such support.
+> > > 
+> > > Doesn't bdrv_co_block_status() provide all the information you need for
+> > > that?
+> > 
+> > Is it wrong for a device to store such "internal" metadata on the image?
+> > Before implementing the ocssd block driver, the device just used a raw
+> > image that it initialized with internal metadata and would error out if
+> > the size of the raw image was too small to accomodate the chosen
+> > geometry. Is that an acceptable way forward?
+> 
+> No, I think if you read from the image normally, it should produce
+> whatever the guest sees. So I can take the same image and attach it to
+> IDE, virtio-blk or ocssd without modifying the image file.
+> 
 
- 1) It has nothing to do with having a kernel running
- 2) It has to do with having a chardev that is a server socket.  This
-    test produces command line arguments such as:
+Hmm, I am not sure how that should work for an OpenChannel device due to
+the difference in adressing. An LBA that is valid on an OpenChannel
+device may not be valid on a regular NVMe device and vice versa.
 
-   -chardev socket,id=3Dconsole,path=3D<path>.sock,server,nowait \
-   -serial chardev:console
+The physical layout of the NAND is exposed to the host (ehm, guest in
+this case...) in such a way that there is no linear address space. The
+address space is hierarchical such that an OCSSD LBA encodes group,
+parallel unit, chunk and sector into a 64 bit value. The spec has an
+example. Consider this physical geometry:
 
- 3) It doesn't seem to have a connection to the test infrastructure code
-    (python/qemu/qmp/*), as a I made a number of experiments which
-    yielded no differences in behavior.
+  * 16 groups:                           4 bits required
+  * 4 PUs within each group:             2 bits required
+  * 1004 chunks within each PU:         10 bits required
+  * 4096 logical blocks within a chunk: 12 bits required
 
-So, the reproducer given at:
+In other words, there are 263192576 (16 * 4 * 1004 * 4096) logical
+blocks available. In a linear world, we'd have an LBA range of
+0-263192575, but with the hierarchical adressing, the 64 bits are used
+like this:
 
-https://github.com/clebergnu/qemu/commit/c778e28c24030c4a36548b714293b319f4=
-bf18df
+  * Bits 11-0  specify a logical block within a chunk
+  * Bits 21-12 specify a chunk within a PU
+  * Bits 23-22 specify a PU within a group
+  * Bits 27-24 specify a group
+  * Bits 63-28 are unused
 
-Continues to be be valid (and continues to be limited to arm and aarch64).
-Now, after a number of experiments, the following was found to be a 100%
-reproducible *workaround*:
+So, the last logical block in the last chunk on the last pu in the last
+group has LBA:
 
-https://github.com/clebergnu/qemu/commit/e1713f3b91972ad57c089f276c54db3f3f=
-a63423
+  (0b1111 << 24) | (0b11 << 22) | (0b1111101011 << 12) | 0b111111111111
+  [    group   ] | [   punit  ] | [      chunk       ] | [   sector   ]
 
-That basically shutdowns the *console* socket before proceeding with furthe=
-r QMP
-interaction.  The effectiveness of the workaround can be seen here:
+which has the value 268353535 != 263192575. Bottomline: the addresses of
+data change depending on whether we are working with an nvme or an ocssd
+device.
 
- aarch64 command line:
-  - https://travis-ci.org/clebergnu/qemu/jobs/535459499#L3633
- aarch64 QMP interaction:
-  - https://travis-ci.org/clebergnu/qemu/jobs/535459499#L3663
+I assume you mean that if an ide device reads all sectors on the image
+starting from 0, it should give the same result as if we did it when
+connected to the ocssd device. Even if we assume that I do not write any
+additional internal metadata to the image such that sector 0 on the
+image is LBA 0, then this is still not possible because the address
+space when used with the ocssd device has "holes". All the addresses
+describing the non-existing chunks with chunk number 1004-1023 has an
+address in the address space, but there is conceptually no NAND backing
+it, so when we try to write it we get a write fault. On the other hand,
+when we read it, we read predefined data (say, zeroes).
 
- arm command line:
-  - https://travis-ci.org/clebergnu/qemu/jobs/535459499#L3747
- arm QMP interaction:
-  - https://travis-ci.org/clebergnu/qemu/jobs/535459499#L3767
+So, say we just include these "holes" by making the disk larger (i.e.
+more LBAs). This does not affect the ocssd device because it wont allow
+writes to these fillers and when reading them we just read the data that
+they are initialized with. We are then able to read the same raw data
+from the image when connected to an nvme device. But this would also
+mean that the nvme device could write these "filler" LBAs that are
+invalid under the geometry that the ocssd device knows about. So it only
+works one-way. My v2 actually works like that, e.g. truncating the image
+file to the size of the address space.
 
-I hope this provides a few more hints into the real issue.
+> If we want to store such data in the image file (I'm not convinced of
+> this idea yet, but maybe that's because I don't know the use case),
+> adding an block layer API for storing metadata and extending qcow2 to
+> support that would be a cleaner design. Or if you don't mind having a
+> second file, you could have a qdev option for the device to pass a
+> separate config file.
+> 
 
--- =
+Yes - it would be awesome if we could just hide the internal metadata by
+having raw/qcow2 support and a block api. We could also just move the
+internal metadata to an additional file, but we would still be left with
+the issue on linear vs hierarchical adressing that I described above.
+Maybe the conclusion here is to recognize that an ocssd device is not a
+block device? It just looks like it in most circumstances.
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1829779
+> Anyway, if I understand correctly, this is a convenience function. So
+> I'd suggest to split this off, so we can move forward with the actual
+> device (assuming it gets sufficient review) while discussing the
+> configuration mechanisms.
+> 
 
-Title:
-  qemu-system-arm and qemu-system-aarch64 QMP hangs after kernel boots
+I really don't think the block driver is a good idea anymore - it does
+spooky stuff, so I have a v2 ready that no longer contains it. Instead,
+the image is initialized on the basis of ocssd device parameters. It
+still holds a bunch of internal metadata, which I think is justifiable.
+As explained above, we can't make the image work on other devices
+anyway.
 
-Status in QEMU:
-  New
+> I'm also sure that others such as Markus can provide valuable input, so
+> let's try to keep the discussion on the list. (Is this intentionally
+> off-list? If not, feel free to add the list again in your reply.)
+> 
 
-Bug description:
-  After booting a Linux kernel on both arm and aarch64, the QMP sockets get=
-s unresponsive. Initially, this was thought to be limited to "quit" command=
-s, but it reproduced with others (such as in this
-  reproducer).  This is a partial log output:
-
-  =C2=A0=C2=A0=C2=A0>>> {'execute': 'qmp_capabilities'}
-  =C2=A0=C2=A0=C2=A0<<< {'return': {}}
-  =C2=A0=C2=A0=C2=A0Booting Linux on physical CPU 0x0000000000 [0x410fd034]
-  =C2=A0=C2=A0=C2=A0Linux version 4.18.16-300.fc29.aarch64 (mockbuild@build=
-vm-aarch64-02.arm.fedoraproject.org) (gcc version 8.2.1 20180801 (Red Hat 8=
-.2.1-2) (GCC)) #1 SMP Sat Oct 20 23:12:22 UTC 2018
-  =C2=A0=C2=A0=C2=A0...
-  =C2=A0=C2=A0=C2=A0Policy zone: DMA32
-  =C2=A0=C2=A0=C2=A0Kernel command line: printk.time=3D0 console=3DttyAMA0
-  =C2=A0=C2=A0=C2=A0>>> {'execute': 'stop'}
-  =C2=A0=C2=A0=C2=A0<<< {'timestamp': {'seconds': 1558370331, 'microseconds=
-': 470173}, 'event': 'STOP'}
-  =C2=A0=C2=A0=C2=A0<<< {'return': {}}
-  =C2=A0=C2=A0=C2=A0>>> {'execute': 'cont'}
-  =C2=A0=C2=A0=C2=A0<<< {'timestamp': {'seconds': 1558370331, 'microseconds=
-': 470849}, 'event': 'RESUME'}
-  =C2=A0=C2=A0=C2=A0<<< {'return': {}}
-  =C2=A0=C2=A0=C2=A0>>> {'execute': 'stop'}
-
-  Sometimes it takes just the first "stop" command.  Overall, I was able
-  to reproduce 100% of times when applied on top of
-  6d8e75d41c58892ccc5d4ad61c4da476684c1c83.
-
-  The reproducer test can be seen/fetched at:
-  =C2=A0- https://github.com/clebergnu/qemu/commit/c778e28c24030c4a36548b71=
-4293b319f4bf18df
-
-  And test results from Travis CI can be seen at:
-  =C2=A0- https://travis-ci.org/clebergnu/qemu/jobs/534915669
-
-  For convenience purposes, here's qemu-system-aarch64 launching and hangin=
-g on the first "stop":
-  =C2=A0- https://travis-ci.org/clebergnu/qemu/jobs/534915669#L3634
-  =C2=A0- https://travis-ci.org/clebergnu/qemu/jobs/534915669#L3664
-
-  And here's qemu-system-arm hanging the very same way:
-  =C2=A0- https://travis-ci.org/clebergnu/qemu/jobs/534915669#L3799
-  =C2=A0- https://travis-ci.org/clebergnu/qemu/jobs/534915669#L3819
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1829779/+subscriptions
+Adding in the list again. I was unsure how much back and forth
+discussion goes to the list vs off-list, but I'll keep it on-list.
 
