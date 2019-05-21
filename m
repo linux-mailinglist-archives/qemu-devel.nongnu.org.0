@@ -2,56 +2,53 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4B5EE248E3
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 09:23:05 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:48114 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7319E248E7
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 09:24:02 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:48127 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSz72-0002a7-G3
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 03:23:04 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:32922)
+	id 1hSz7x-0003K4-M5
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 03:24:01 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33085)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <lersek@redhat.com>) id 1hSz5m-00028x-D0
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 03:21:47 -0400
+	(envelope-from <jfreimann@redhat.com>) id 1hSz6V-0002cW-Rn
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 03:22:32 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <lersek@redhat.com>) id 1hSz5l-0003QL-BQ
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 03:21:46 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:14022)
+	(envelope-from <jfreimann@redhat.com>) id 1hSz6T-0003xH-Dh
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 03:22:31 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37244)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <lersek@redhat.com>) id 1hSz5l-0003Pm-4W
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 03:21:45 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
-	[10.5.11.12])
+	(Exim 4.71) (envelope-from <jfreimann@redhat.com>)
+	id 1hSz6S-0003gD-1L
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 03:22:28 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+	[10.5.11.14])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 2E324307D932;
-	Tue, 21 May 2019 07:21:40 +0000 (UTC)
-Received: from lacos-laptop-7.usersys.redhat.com (ovpn-120-194.rdu2.redhat.com
-	[10.10.120.194])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id BCEB860FBE;
-	Tue, 21 May 2019 07:21:28 +0000 (UTC)
-To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
-	qemu-devel@nongnu.org
-References: <20190520213700.12620-1-philmd@redhat.com>
-	<20190520213700.12620-3-philmd@redhat.com>
-From: Laszlo Ersek <lersek@redhat.com>
-Message-ID: <f7dc4d44-e867-9009-0f5e-1155280b667e@redhat.com>
-Date: Tue, 21 May 2019 09:21:27 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.9.1
+	by mx1.redhat.com (Postfix) with ESMTPS id A7E553001757
+	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 07:22:12 +0000 (UTC)
+Received: from localhost (ovpn-117-77.ams2.redhat.com [10.36.117.77])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id BAB885D961;
+	Tue, 21 May 2019 07:22:00 +0000 (UTC)
+Date: Tue, 21 May 2019 09:21:57 +0200
+From: Jens Freimann <jfreimann@redhat.com>
+To: Alex Williamson <alex.williamson@redhat.com>
+Message-ID: <20190521072157.wpb77wlc5mhfcdes@jenstp.localdomain>
+References: <20190517125820.2885-1-jfreimann@redhat.com>
+	<20190520165657.2293c5d7@x1.home>
 MIME-Version: 1.0
-In-Reply-To: <20190520213700.12620-3-philmd@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20190520165657.2293c5d7@x1.home>
+User-Agent: NeoMutt/20180716-1376-5d6ed1
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.48]);
-	Tue, 21 May 2019 07:21:40 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+	(mx1.redhat.com [10.5.110.46]);
+	Tue, 21 May 2019 07:22:12 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v3 2/7] tests/libqos: Add
- pc_fw_cfg_uninit() and use it
+Subject: Re: [Qemu-devel] [PATCH 0/4] add failover feature for assigned
+ network devices
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -63,86 +60,60 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
-	Thomas Huth <thuth@redhat.com>, Li Qiang <liq3ea@163.com>,
-	Gerd Hoffmann <kraxel@redhat.com>
+Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
+	mst@redhat.com, aadam@redhat.com, qemu-devel@nongnu.org,
+	laine@redhat.com, ailan@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 05/20/19 23:36, Philippe Mathieu-Daud=C3=A9 wrote:
-> The pc_fw_cfg_init() function allocates an IO QFWCFG object.
-> Add the pc_fw_cfg_uninit() function to deallocate it (and use it).
->=20
-> Signed-off-by: Li Qiang <liq3ea@163.com>
-> Tested-by: Thomas Huth <thuth@redhat.com>
-> Message-Id: <20190424140643.62457-2-liq3ea@163.com>
-> Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> [PMD: Split patch, fill commit description, call uninit in malloc-pc.c]
-> Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-> ---
->  tests/fw_cfg-test.c      | 1 +
->  tests/libqos/fw_cfg.h    | 5 +++++
->  tests/libqos/malloc-pc.c | 2 +-
->  3 files changed, 7 insertions(+), 1 deletion(-)
->=20
-> diff --git a/tests/fw_cfg-test.c b/tests/fw_cfg-test.c
-> index 1c5103fe1c5..a370ad56678 100644
-> --- a/tests/fw_cfg-test.c
-> +++ b/tests/fw_cfg-test.c
-> @@ -128,6 +128,7 @@ int main(int argc, char **argv)
-> =20
->      ret =3D g_test_run();
-> =20
-> +    pc_fw_cfg_uninit(fw_cfg);
->      qtest_quit(s);
-> =20
->      return ret;
-> diff --git a/tests/libqos/fw_cfg.h b/tests/libqos/fw_cfg.h
-> index 391669031a3..60de81e8633 100644
-> --- a/tests/libqos/fw_cfg.h
-> +++ b/tests/libqos/fw_cfg.h
-> @@ -42,4 +42,9 @@ static inline QFWCFG *pc_fw_cfg_init(QTestState *qts)
->      return io_fw_cfg_init(qts, 0x510);
->  }
-> =20
-> +static inline void pc_fw_cfg_uninit(QFWCFG *fw_cfg)
-> +{
-> +    io_fw_cfg_uninit(fw_cfg);
-> +}
-> +
->  #endif
-> diff --git a/tests/libqos/malloc-pc.c b/tests/libqos/malloc-pc.c
-> index 949a99361d1..6f92ce41350 100644
-> --- a/tests/libqos/malloc-pc.c
-> +++ b/tests/libqos/malloc-pc.c
-> @@ -29,5 +29,5 @@ void pc_alloc_init(QGuestAllocator *s, QTestState *qt=
-s, QAllocOpts flags)
->      alloc_init(s, flags, 1 << 20, MIN(ram_size, 0xE0000000), PAGE_SIZE=
-);
-> =20
->      /* clean-up */
-> -    g_free(fw_cfg);
-> +    pc_fw_cfg_uninit(fw_cfg);
->  }
->=20
+On Mon, May 20, 2019 at 04:56:57PM -0600, Alex Williamson wrote:
+>On Fri, 17 May 2019 14:58:16 +0200
+>Jens Freimann <jfreimann@redhat.com> wrote:
+>> Command line example:
+>>
+>> qemu-system-x86_64 -enable-kvm -m 3072 -smp 3 \
+>>         -machine q35,kernel-irqchip=split -cpu host   \
+>>         -k fr   \
+>>         -serial stdio   \
+>>         -net none \
+>>         -qmp unix:/tmp/qmp.socket,server,nowait \
+>>         -monitor telnet:127.0.0.1:5555,server,nowait \
+>>         -device pcie-root-port,id=root0,multifunction=on,chassis=0,addr=0xa \
+>>         -device pcie-root-port,id=root1,bus=pcie.0,chassis=1 \
+>>         -device pcie-root-port,id=root2,bus=pcie.0,chassis=2 \
+>>         -netdev tap,script=/root/bin/bridge.sh,downscript=no,id=hostnet1,vhost=on \
+>>         -device virtio-net-pci,netdev=hostnet1,id=net1,mac=52:54:00:6f:55:cc,bus=root2,failover=on \
+>>         /root/rhel-guest-image-8.0-1781.x86_64.qcow2
+>>
+>> Then the primary device can be hotplugged via
+>>  (qemu) device_add vfio-pci,host=5e:00.2,id=hostdev0,bus=root1,standby=net1
+>
+>Is this standby= option only valid for Network/Ethernet class code
+>devices?  If so, perhaps vfio-pci code should reject the option on any
+>non-ethernet devices.  The option is also non-intuitive for users, only
+>through examples like above can we see it relates to the id of the
+>secondary device.  Could we instead name it something like
+>"standby_net_failover_pair_id="?
 
-The 2nd part of the patch is a refactoring, but the first patch adds a
-brand new g_free(), in effect. I think it would be better to separate
-them -- in theory anyway. But I realize this patch is already the result
-of splitting another patch. I guess we wouldn't want an army of 1-liner
-patches...
+It is only for ethernet (VFs), I will add code to reject non-ethernet VF devices.
+I agree the name is not descriptive and the one you suggest seems good to
+me. 
+>
+>Also, this feature requires matching MAC addresses per the description,
+>where is that done?  Is it the user's responsibility to set the MAC on
+>the host device prior to the device_add?  If so, is this actually not
+>only specific to ethernet devices, but ethernet VFs?
 
-If you split this patch even further, that's great, you can add my R-b
-to both resultant patches. If you decide to keep it as-is, you can also
-add my
+Yes, it's the users responsibility and the MACs are then matched by
+the net_failover driver in the guest. It makes sense for ethernet VFs only,
+I'll add a check for that.
+>
+>Finally, please copy me on code touching vfio.  Thanks,
 
-Reviewed-by: Laszlo Ersek <lersek@redhat.com>
+I'm sorry about that, will do.
 
-(I'm going to skip the rest of the patches, as they are from Li Qiang,
-and you reviewed them already, without implementing changes on top, IIUC.=
-)
+Thanks for the review Alex!
 
-Thanks
-Laszlo
+regards,
+Jens 
 
