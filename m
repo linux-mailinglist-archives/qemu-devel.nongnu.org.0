@@ -2,64 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5089725AFD
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 02:01:59 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:32914 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C9FD525B00
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 02:04:02 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:32949 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTEhi-0001n5-Gh
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 20:01:58 -0400
+	id 1hTEji-0003d9-1u
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 20:04:02 -0400
 Received: from eggs.gnu.org ([209.51.188.92]:36878)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mehta.aaru20@gmail.com>) id 1hTEca-0005oR-Nl
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 19:56:41 -0400
+	(envelope-from <mehta.aaru20@gmail.com>) id 1hTEcZ-0005oR-Qk
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 19:56:40 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mehta.aaru20@gmail.com>) id 1hTEYb-0001ZF-36
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 19:52:33 -0400
-Received: from mail-pf1-x442.google.com ([2607:f8b0:4864:20::442]:39962)
+	(envelope-from <mehta.aaru20@gmail.com>) id 1hTEYe-0001ba-AJ
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 19:52:37 -0400
+Received: from mail-pg1-x544.google.com ([2607:f8b0:4864:20::544]:37052)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <mehta.aaru20@gmail.com>)
-	id 1hTEYa-0001Yk-Rr; Tue, 21 May 2019 19:52:33 -0400
-Received: by mail-pf1-x442.google.com with SMTP id u17so272212pfn.7;
-	Tue, 21 May 2019 16:52:32 -0700 (PDT)
+	id 1hTEYe-0001az-52; Tue, 21 May 2019 19:52:36 -0400
+Received: by mail-pg1-x544.google.com with SMTP id n27so311543pgm.4;
+	Tue, 21 May 2019 16:52:36 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=from:to:cc:subject:date:message-id;
-	bh=JFeWPDQ2SxgUizCJNAqAjhUiNJ/N/RmdbAtexNyjQgM=;
-	b=tmt//6dKph/aY5Hq180pEQAfucnx1mJvG8aGT0CW/5/Msi93Kaq67VSca1ytwUWCHW
-	G35zChu/6/pTQFPZf/xZFtvDiFywv/+kSrd85e+xDxnoE68j3IlrIG67kuFX32/EKPVW
-	hd/YxjTvjU6qBw6f9XJMps3/f0UXm36j+2YeynFix6FWVEJIqcb+5VaJnonnctY8ClDi
-	v3qjNvya7MxlYV9T/pPyxV1PAXPQ/hZiSavPRk9YiNCdEsLtg/+t5wU49i1Xw0zY9q5n
-	RVuB9xwpbrz1EEXNGuKGQka4Q/pvkDQCrLCkqRrE9MQ/dN0L48T4PqA2uBRJs1WHfm88
-	/E+A==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=Q+Kzz8YvgmccQoubOgUbAFtVK8kRATQnmKwd+TXQuz4=;
+	b=MhGUjGjl8RHNjBLycf3ZmHZzYcMobB711qKUAwC1k60LCuS2IuvcIxejJ1SlxJCnGT
+	tdrfZsGBmUlR93hdsqHytG3eJIL+mL9YnInLIJdfKddEiHeXVgFPA/B+GUqllTG5Gb7v
+	/q1b9lQnuEwYlMjP8vfC17zN6zhegfNUve3rK0z2H6BfGVNp5e0a8WL5rcHSdEYqZnqi
+	GgiPLd0+//Im49o9J+Vc8mSwctr5w8fe2Y3PBaAFnesXQ3R21RHP/iVylv0+OQEIkEq4
+	x2nqbMtiZRnH49s0XJAIDuhfVBuy2BTuX0VKYmk4PqDtL12ZbRsM2r/hrvCLSkwHWZW6
+	MEUg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id;
-	bh=JFeWPDQ2SxgUizCJNAqAjhUiNJ/N/RmdbAtexNyjQgM=;
-	b=Jbvle3eT0BdiLy82mhuDswHw7+56rC4KQ/FuQ+e0HfVJyiEax7ugAxb1iaIvdlDugQ
-	B+e9X3w61wcob+CBvY3voO04K/ogRY+ykLG/O6YQ7Hrve8A6l61b1zGHPpfaTO30gL73
-	IUpM8N+Y0Tancsqig+pg28n7MglozTThY8GdM5jmbkSdpsln4zpPnCIrjyDsdMpN6O/U
-	YMde2YGYid9+lxzO5WRKlCu9K6Y+6Vt8NaQL7NDtLFBdm1UQJ9FKeH08iQ9QNIuBDX5L
-	3uN2kMyvslPj6qTD5Rk8N0C0Z5K8x0429lt7eH5OM/56UxWqxUJmtypMplTUKKuqtyVt
-	tLIg==
-X-Gm-Message-State: APjAAAWGxh/28z/uh/+wj+gawO/3ndlhNAfcBoSzm8QaxQilIUHyajaM
-	FqAG338TvuxykeGsT+8H0DrrHnQXIZSwEg==
-X-Google-Smtp-Source: APXvYqzwJI42TG9byIj8CnBs2iBbU09bRXL3HXx+jk0wd3g5ZtlDhLETIwTsHVmvUgmLniPI5zjHcg==
-X-Received: by 2002:aa7:930e:: with SMTP id 14mr34447509pfj.262.1558482751504; 
-	Tue, 21 May 2019 16:52:31 -0700 (PDT)
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+	:references;
+	bh=Q+Kzz8YvgmccQoubOgUbAFtVK8kRATQnmKwd+TXQuz4=;
+	b=S5IZScAuzUPBSKsXotoXEtkOjn9ivw8GmI1se/KexIAxiKB16I84gm2llWz/yofeE1
+	nRL8LO6FZTH6jXTCabgwYqLWPPs5pHsNau33o1vAIjsH17504OvvwsPHEWDitt3YvNyH
+	qJk9M8l6QtoOyVxylqfjUbED36ulkQrNy6c+jBfnlxPiOt6DdB383ZijPPWiMvOTW9K4
+	BNDCJ3OUjlYIFP+5Xc8sEr17xnu2+OLpp32RDn/t9hj4NGSNakv7jZCS71TqVR5d3GVd
+	7L38vBZL+ofNj6EdQ8USFuBvzpbxUOpNh42rhOrFSzzwZP61hDShGG0y+xiwWzDMOVWR
+	Z3aQ==
+X-Gm-Message-State: APjAAAVHrso52KGMg/DPim6Ewb4k4OlpH632YSsiQBO5Dn3elke0w9gC
+	l63ixamD51RZOAI78DTv3qgInwGHHELtJw==
+X-Google-Smtp-Source: APXvYqxY2Zeiq0+y9ddZskZfS3muhFWgR8gZjsLgifKPMczF8maiAQmDh3CamNxioaxHP7DESdh80Q==
+X-Received: by 2002:a62:4ed8:: with SMTP id
+	c207mr92654835pfb.241.1558482754777; 
+	Tue, 21 May 2019 16:52:34 -0700 (PDT)
 Received: from localhost.localdomain ([120.57.118.207])
 	by smtp.gmail.com with ESMTPSA id
-	e5sm51571752pgh.35.2019.05.21.16.52.27
+	e5sm51571752pgh.35.2019.05.21.16.52.31
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 21 May 2019 16:52:30 -0700 (PDT)
+	Tue, 21 May 2019 16:52:34 -0700 (PDT)
 From: Aarushi Mehta <mehta.aaru20@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 22 May 2019 05:22:06 +0530
-Message-Id: <20190521235215.31341-1-mehta.aaru20@gmail.com>
+Date: Wed, 22 May 2019 05:22:07 +0530
+Message-Id: <20190521235215.31341-2-mehta.aaru20@gmail.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20190521235215.31341-1-mehta.aaru20@gmail.com>
+References: <20190521235215.31341-1-mehta.aaru20@gmail.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::442
-Subject: [Qemu-devel] [RFC PATCH 0/9] Add support for io_uring
+X-Received-From: 2607:f8b0:4864:20::544
+Subject: [Qemu-devel] [RFC PATCH 1/9] qapi/block-core: add option for
+ io_uring
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -77,35 +82,29 @@ Cc: saket.sinha89@gmail.com, Julia Suvorova <jusual@mail.ru>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This patch series adds supports for the newly developed io_uring Linux AIO interface. Testing it requires a host kernel with it and the liburing library. Use the option -drive aio=io_uring to enable it.
+Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
+---
+ qapi/block-core.json | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-Aarushi Mehta (9):
-  qapi/block-core: add option for io_uring
-  block/block: add BDRV flag for io_uring
-  include/block: declare interfaces for io_uring
-  stubs: add aio interface stubs for io_uring
-  util/asyn: add aio interfaces for io_uring
-  block/io_uring: implements interfaces for io_uring
-  blockdev: accept io_uring as option
-  block/file-posix: extends to use with io_uring
-  configure: permits use of io_uring with probe
+diff --git a/qapi/block-core.json b/qapi/block-core.json
+index 7ccbfff9d0..116995810a 100644
+--- a/qapi/block-core.json
++++ b/qapi/block-core.json
+@@ -2776,11 +2776,12 @@
+ #
+ # @threads:     Use qemu's thread pool
+ # @native:      Use native AIO backend (only Linux and Windows)
++# @io_uring:    Use linux io_uring
+ #
+ # Since: 2.9
+ ##
+ { 'enum': 'BlockdevAioOptions',
+-  'data': [ 'threads', 'native' ] }
++  'data': [ 'threads', 'native','io_uring' ] }
 
- block/Makefile.objs     |   2 +
- block/file-posix.c      |  63 ++++++-
- block/io_uring.c        | 385 ++++++++++++++++++++++++++++++++++++++++
- blockdev.c              |   4 +-
- configure               |  27 +++
- include/block/aio.h     |  16 +-
- include/block/block.h   |   1 +
- include/block/raw-aio.h |  15 ++
- qapi/block-core.json    |   3 +-
- stubs/Makefile.objs     |   1 +
- stubs/io_uring.c        |  32 ++++
- util/async.c            |  32 ++++
- 12 files changed, 573 insertions(+), 8 deletions(-)
- create mode 100644 block/io_uring.c
- create mode 100644 stubs/io_uring.c
-
+ ##
+ # @BlockdevCacheOptions:
 --
 2.17.1
 
