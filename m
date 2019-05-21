@@ -2,67 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id AC6612514B
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 15:58:44 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54238 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 93DBA25179
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 16:07:58 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54425 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hT5Hv-0003rq-Q1
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 09:58:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34781)
+	id 1hT5Qr-0002xk-Nt
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 10:07:57 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35731)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hT5DW-0000oZ-F6
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 09:54:11 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hT5GA-0003A4-71
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 09:56:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hT5DV-00067q-Af
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 09:54:10 -0400
-Received: from mail-ot1-x342.google.com ([2607:f8b0:4864:20::342]:34463)
+	(envelope-from <peter.maydell@linaro.org>) id 1hT5G8-0008EV-Vw
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 09:56:54 -0400
+Received: from mail-oi1-x233.google.com ([2607:f8b0:4864:20::233]:34749)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hT5DV-00066b-43
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 09:54:09 -0400
-Received: by mail-ot1-x342.google.com with SMTP id l17so16413784otq.1
-	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 06:54:09 -0700 (PDT)
+	id 1hT5G8-0008CW-DV
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 09:56:52 -0400
+Received: by mail-oi1-x233.google.com with SMTP id u64so3612964oib.1
+	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 06:56:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=yawR0T7c+6hBTgTGqXSPrYi32xrOTuLdWUT26nn60b8=;
-	b=fxN4wUw+rNYCW9RZT7SMquO/cZmj9sMotmZBRW0ZrFdDzAV26iP2VBzVhNsHpJmd5J
-	+bjnzKsSQgZJKHASOOdHSG9Kd2vzmyUgbZrmrQJ4lVyQJmck0nLJUZBlJ7FMv2ulAtj9
-	FMP+5VjRjiur7xr1z2XXMp2drhyJZGBTNZBqNNpgMSscRR8ulEsMeqkkIXS+psP4gpWH
-	FAWDbLdedzGCvGtKOag3MrnwF43QGuzF6veG7/ss9iOs/v5IaPZh3FuQGe/R4eeZrX+P
-	ntTB7zbwW4ALDVv10hpRFfZeX3f1AAROpZ9y7siXFPhrsjGlLYk1xNnK/S6blzIAuyha
-	sQGA==
+	:cc; bh=QOeA1VEcBG11WiPNZv+y111pQYyByw1kDnHYJuFpXdU=;
+	b=FWEr/jS9j5Hzgu6Sz6Ia1rKl2YPA4ozPwcWJjlc++urDHshA4JaEEK9NisXuSe4pPl
+	ikbfNm9sMLOIxYX/VFQzZZJ3/8gbs+3cUj94YGpOwWe1bAswO6k9Kuoi6ORgqfKsDyBJ
+	Q20y/KbHHKOkjMETKix1EIvaUd1tpPSnq5ep2kdlZopy3U2w907biSIb8AuzQ0/mGoZ/
+	5qU0ibVZS5VY2jydo3tV8r6x2SksspYP7Ao5z/HXVuxRppjXNJex4bz+t69LMhXzeXry
+	4C2VQp8N222FYGf7BOLxUS/5+Xbxh+EQ7SevS5l1yF5CiN3MejuWHBmIXcrAbnmUWjjC
+	McIg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
 	:message-id:subject:to:cc;
-	bh=yawR0T7c+6hBTgTGqXSPrYi32xrOTuLdWUT26nn60b8=;
-	b=PvkPQKs0rhAGojY3pgHjkdX+kn8g7TK/1Fj+UqGjU7aQfFyGZuUGHBYN1use4QdmH9
-	+44wBNGiQBBC9iIi7/WjazBmMRwebF/HlWReWQ47ZxxLBzdPdJYPw7uHHzeoaaZRM1aJ
-	CcMehUX/wnsflF0VSzPolvBwfHtwmu00xSbI7B+JAiJkh2P5YvFZhSv9IYlxt7w2s4y9
-	G//H3K01dcLiCOy5A9Yedgr9Ow7+ZERZNAFZS7ae54FF3ZwS42Npz5jmIoOjpvuFhLRr
-	2b79wFBOpXWIk0yryv1BAtIgc/muHkLYjKMXATuJpD22FPWVbNBWULsxO8uff9pgw1ht
-	pTKQ==
-X-Gm-Message-State: APjAAAVV8EBHGxvLGdTPvc/R2qrHZWVbdm3LGh9xt7FhFGS9emomVexu
-	xU7Jp5ZWmwcol9lByWynoij1HjLKD13eijOj/Cdn6w==
-X-Google-Smtp-Source: APXvYqw/dtX8uVnBbSLJ5cCab9RAt1gCqvP1/GzvVZNhHqnr7EOyN1YINV/LJdEHDhCue4nNN7EnUFiyUCUJg5sJIbw=
-X-Received: by 2002:a05:6830:149a:: with SMTP id
-	s26mr19838243otq.221.1558446848181; 
-	Tue, 21 May 2019 06:54:08 -0700 (PDT)
+	bh=QOeA1VEcBG11WiPNZv+y111pQYyByw1kDnHYJuFpXdU=;
+	b=EHm7jkGnhDtKBuZ7eFJsW/CkeGXxtFvAva1vWRt2WbZgj+1Z1p7g3YDDjJxdQsW1tP
+	lQlhsopYeYcxunUQTSQqSb3KCkpqshnJ9ZKE/F1h4mdlyoB20s/7cjoisbWc1tD4W997
+	D/Hs2EI8qibfjiyykAsPFUwimpi2E6jEkPsFqd9OmveAp1ilvMRJgJ5YRycaBl8Dh0rw
+	l11QCJJj94M9K1bvyd7uMNO/KH56km+wOX3N+8SyGdEXoKIjX045ATMH6mYZTYRsduDn
+	1GoMPWKnR7I6uUmWlJHQcHKHrbogcKzujC5pHBfp4sl7u9cEEcJlq+4icnWsgyhaDrsq
+	J+sQ==
+X-Gm-Message-State: APjAAAX2+ZlmEx0WSgxdKcEAEp6IkZsx0B/r8B8sqaKVOQmcbUWx1Li3
+	B4ogoTM5l7JKMrn9FoIRrxOHnt2BRnC4CqpWovKpTA==
+X-Google-Smtp-Source: APXvYqxn1EQKTRczpIm0W8biEX4X6bhphBkm7WZiBIewnRDEpauzX7iPDk9c5kAggmeZjYtviPupmzKl2cFzhKYBTlg=
+X-Received: by 2002:aca:cd12:: with SMTP id d18mr3418369oig.146.1558447009689; 
+	Tue, 21 May 2019 06:56:49 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190521092048.28492-1-cohuck@redhat.com>
-	<CAFEAcA_9QZRyx8_8qT208vsopquW5j-bkyZpmRCAhP-sqJ+0kg@mail.gmail.com>
-	<20190521153104.403980b3.cohuck@redhat.com>
-In-Reply-To: <20190521153104.403980b3.cohuck@redhat.com>
+References: <20190521105344.11637-1-thuth@redhat.com>
+In-Reply-To: <20190521105344.11637-1-thuth@redhat.com>
 From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 21 May 2019 14:53:57 +0100
-Message-ID: <CAFEAcA8QmPYzPeLt5LAg+7x5ySM0x3HUp_o54jo-iObG8ksy+A@mail.gmail.com>
-To: Cornelia Huck <cohuck@redhat.com>
+Date: Tue, 21 May 2019 14:56:38 +0100
+Message-ID: <CAFEAcA_As+FEizNVnQ_Y0-xNixXj7d4myXwBxk2Y+SEVRz4N6Q@mail.gmail.com>
+To: Thomas Huth <thuth@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::342
-Subject: Re: [Qemu-devel] [PULL v2 00/54] s390x update
+X-Received-From: 2607:f8b0:4864:20::233
+Subject: Re: [Qemu-devel] [PULL 00/13] qtests and some iotest patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -74,39 +71,41 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x <qemu-s390x@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Kevin Wolf <kwolf@redhat.com>, Laurent Vivier <lvivier@redhat.com>,
+	QEMU Developers <qemu-devel@nongnu.org>, Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 21 May 2019 at 14:31, Cornelia Huck <cohuck@redhat.com> wrote:
+On Tue, 21 May 2019 at 11:53, Thomas Huth <thuth@redhat.com> wrote:
 >
-> On Tue, 21 May 2019 14:24:07 +0100
-> Peter Maydell <peter.maydell@linaro.org> wrote:
-> > ...it's copying the file into asm-arm/ rather than asm-arm64/.
-> > (I did a by-hand move of the file into the right directory and
-> > that was sufficient for the compile to succeed.)
+>  Hi Peter,
 >
-> I'm obviously not at my best at the moment :(
-
-No big deal, it's always awkward when you don't have access
-to the test hardware.
-
-> >
-> > Also, can we keep the changes to scripts/ in a separate
-> > commit, please? The idea of header-update commits is that they
-> > should contain only the changes automatically generated
-> > by the script, with no hand-written additions.
+> the following changes since commit 2259637b95bef3116cc262459271de08e038cc66:
 >
-> This looks a bit like a chicken-and-egg problem, though... without the
-> change, we cannot point the script at a current kernel tree. I'd prefer
-> the two to stay together, but I can certainly point out the change to
-> the script more prominently.
+>   Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into staging (2019-05-20 17:22:05 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://gitlab.com/huth/qemu.git tags/pull-request-2019-05-21
+>
+> for you to fetch changes up to b3763a195cc167152df1f762b3c3a73f7db7677b:
+>
+>   tests/qemu-iotests: Remove the "_supported_os Linux" line from many tests (2019-05-21 10:13:58 +0200)
+>
+> ----------------------------------------------------------------
+> I'll be away from keyboard starting next week, so I'd like to
+> get these patches merged before they bitrot again:
+> - some qtest patches to get rid of the global_qtest variable in
+>   more tests
+> - some iotests patches that have multiple reviews and thus should
+>   be ready to go
+> ----------------------------------------------------------------
 
-I would structure it as:
 
-Commit 1: update the script
-Commit 2: result of running the script
+Applied, thanks.
 
-thanks
+Please update the changelog at https://wiki.qemu.org/ChangeLog/4.1
+for any user-visible changes.
+
 -- PMM
 
