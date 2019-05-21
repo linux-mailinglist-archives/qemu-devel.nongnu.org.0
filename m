@@ -2,54 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2B28E251C9
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 16:20:26 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54634 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B6838251DC
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 16:24:03 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54686 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hT5cv-0001yq-Ck
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 10:20:25 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41562)
+	id 1hT5gQ-0003by-VE
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 10:24:02 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:42315)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <alex.williamson@redhat.com>) id 1hT5bQ-0001C4-25
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 10:18:53 -0400
+	(envelope-from <imammedo@redhat.com>) id 1hT5fU-0003J5-R7
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 10:23:05 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <alex.williamson@redhat.com>) id 1hT5bP-0006MV-2y
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 10:18:52 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57554)
+	(envelope-from <imammedo@redhat.com>) id 1hT5fT-0007fv-Uh
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 10:23:04 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:42204)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <alex.williamson@redhat.com>)
-	id 1hT5bO-0006Ip-Ns
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 10:18:50 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
+	(Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1hT5fT-0007e9-PU
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 10:23:03 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+	[10.5.11.14])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 63A4C99D2E
-	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 14:18:46 +0000 (UTC)
-Received: from x1.home (ovpn-117-92.phx2.redhat.com [10.3.117.92])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 57C9A79441;
-	Tue, 21 May 2019 14:18:20 +0000 (UTC)
-Date: Tue, 21 May 2019 08:18:20 -0600
-From: Alex Williamson <alex.williamson@redhat.com>
-To: Jens Freimann <jfreimann@redhat.com>
-Message-ID: <20190521081820.0d81a309@x1.home>
-In-Reply-To: <20190521072157.wpb77wlc5mhfcdes@jenstp.localdomain>
-References: <20190517125820.2885-1-jfreimann@redhat.com>
-	<20190520165657.2293c5d7@x1.home>
-	<20190521072157.wpb77wlc5mhfcdes@jenstp.localdomain>
-Organization: Red Hat
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+	by mx1.redhat.com (Postfix) with ESMTPS id BA16E2E95B0
+	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 14:23:02 +0000 (UTC)
+Received: from dell-r430-03.lab.eng.brq.redhat.com
+	(dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 894BB5E7CD;
+	Tue, 21 May 2019 14:22:54 +0000 (UTC)
+From: Igor Mammedov <imammedo@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Tue, 21 May 2019 16:23:31 +0200
+Message-Id: <1558448611-315074-1-git-send-email-imammedo@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.38]);
-	Tue, 21 May 2019 14:18:46 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.29]);
+	Tue, 21 May 2019 14:23:02 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 0/4] add failover feature for assigned
- network devices
+Subject: [Qemu-devel] [PATCH v2] docs: smbios: remove family=x from type2
+ entry description
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,64 +53,38 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pkrempa@redhat.com, berrange@redhat.com, ehabkost@redhat.com,
-	mst@redhat.com, aadam@redhat.com, qemu-devel@nongnu.org,
-	laine@redhat.com, ailan@redhat.com
+Cc: kwolf@redhat.com, thuth@redhat.com, berrange@redhat.com, mst@redhat.com,
+	armbru@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, 21 May 2019 09:21:57 +0200
-Jens Freimann <jfreimann@redhat.com> wrote:
+'family' option is not part of type 2 table and if user tries to use it
+as such QEMU will error out with an unknow option error.
+Drop it from docs lest it confuse users.
 
-> On Mon, May 20, 2019 at 04:56:57PM -0600, Alex Williamson wrote:
-> >On Fri, 17 May 2019 14:58:16 +0200
-> >Jens Freimann <jfreimann@redhat.com> wrote:  
-> >> Command line example:
-> >>
-> >> qemu-system-x86_64 -enable-kvm -m 3072 -smp 3 \
-> >>         -machine q35,kernel-irqchip=split -cpu host   \
-> >>         -k fr   \
-> >>         -serial stdio   \
-> >>         -net none \
-> >>         -qmp unix:/tmp/qmp.socket,server,nowait \
-> >>         -monitor telnet:127.0.0.1:5555,server,nowait \
-> >>         -device pcie-root-port,id=root0,multifunction=on,chassis=0,addr=0xa \
-> >>         -device pcie-root-port,id=root1,bus=pcie.0,chassis=1 \
-> >>         -device pcie-root-port,id=root2,bus=pcie.0,chassis=2 \
-> >>         -netdev tap,script=/root/bin/bridge.sh,downscript=no,id=hostnet1,vhost=on \
-> >>         -device virtio-net-pci,netdev=hostnet1,id=net1,mac=52:54:00:6f:55:cc,bus=root2,failover=on \
-> >>         /root/rhel-guest-image-8.0-1781.x86_64.qcow2
-> >>
-> >> Then the primary device can be hotplugged via
-> >>  (qemu) device_add vfio-pci,host=5e:00.2,id=hostdev0,bus=root1,standby=net1  
-> >
-> >Is this standby= option only valid for Network/Ethernet class code
-> >devices?  If so, perhaps vfio-pci code should reject the option on any
-> >non-ethernet devices.  The option is also non-intuitive for users, only
-> >through examples like above can we see it relates to the id of the
-> >secondary device.  Could we instead name it something like
-> >"standby_net_failover_pair_id="?  
-> 
-> It is only for ethernet (VFs), I will add code to reject non-ethernet VF devices.
-> I agree the name is not descriptive and the one you suggest seems good to
-> me. 
-> >
-> >Also, this feature requires matching MAC addresses per the description,
-> >where is that done?  Is it the user's responsibility to set the MAC on
-> >the host device prior to the device_add?  If so, is this actually not
-> >only specific to ethernet devices, but ethernet VFs?  
-> 
-> Yes, it's the users responsibility and the MACs are then matched by
-> the net_failover driver in the guest. It makes sense for ethernet VFs only,
-> I'll add a check for that.
+Fixes: b155eb1d04 ("smbios: document cmdline options for smbios type 2-4, 17 structures")
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+---
+ v2:
+  - add summary to "Fixes:" in addition to commit message
 
-FWIW, I'd probably stop at Ethernet class devices, vfio doesn't really
-expose whether a device is a VF, so we'd likely need to resort to
-getting that info through sysfs.  It also seems like there might be
-some limited-use cases of copying the MAC from a PF to the virtio nic
-or use of utilities on the host for modifiying a PF MAC, perhaps via
-eeprom.  So while we expect the typical use case to be a VF, it's
-probably ugly and unnecessarily restrictive to enforce it.  Thanks,
+ qemu-options.hx | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Alex
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 5daa5a8..dcdb808 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -2080,7 +2080,7 @@ Specify SMBIOS type 0 fields
+ @item -smbios type=1[,manufacturer=@var{str}][,product=@var{str}][,version=@var{str}][,serial=@var{str}][,uuid=@var{uuid}][,sku=@var{str}][,family=@var{str}]
+ Specify SMBIOS type 1 fields
+ 
+-@item -smbios type=2[,manufacturer=@var{str}][,product=@var{str}][,version=@var{str}][,serial=@var{str}][,asset=@var{str}][,location=@var{str}][,family=@var{str}]
++@item -smbios type=2[,manufacturer=@var{str}][,product=@var{str}][,version=@var{str}][,serial=@var{str}][,asset=@var{str}][,location=@var{str}]
+ Specify SMBIOS type 2 fields
+ 
+ @item -smbios type=3[,manufacturer=@var{str}][,version=@var{str}][,serial=@var{str}][,asset=@var{str}][,sku=@var{str}]
+-- 
+2.7.4
+
 
