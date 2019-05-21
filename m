@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 145DD24EF8
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 14:34:03 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52767 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9DC3324EF1
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 14:29:19 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52685 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hT3xy-0007qD-79
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 08:34:02 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45332)
+	id 1hT3tO-0003aN-Nu
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 08:29:18 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45336)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hT3q2-0001SH-RM
+	(envelope-from <peter.maydell@linaro.org>) id 1hT3q2-0001SJ-SH
 	for qemu-devel@nongnu.org; Tue, 21 May 2019 08:25:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hT3px-0005HP-JL
+	(envelope-from <peter.maydell@linaro.org>) id 1hT3px-0005GF-2m
 	for qemu-devel@nongnu.org; Tue, 21 May 2019 08:25:48 -0400
-Received: from mail-wr1-x435.google.com ([2a00:1450:4864:20::435]:38683)
+Received: from mail-wr1-x443.google.com ([2a00:1450:4864:20::443]:39691)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hT3px-00058d-8b
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 08:25:45 -0400
-Received: by mail-wr1-x435.google.com with SMTP id d18so18397815wrs.5
-	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 05:25:33 -0700 (PDT)
+	id 1hT3pw-00059K-Ik
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 08:25:44 -0400
+Received: by mail-wr1-x443.google.com with SMTP id w8so18400434wrl.6
+	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 05:25:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=R2n/a/9G76Yi92R/Ho6SyZIUaGzncWttQDNv3ZwW0cE=;
-	b=daR/x1bhZwTFeUyso7yuHYeAUMb94czQdx2FJ7KWqJyV/COHfFzYYjHPcYgo8/xAh8
-	q6Vswi6pltIJLEga1/MYgPl0Tj8VdYBK12GzKyoxa4yDIH6Gf/EDPbql/QrEdQb0rdS1
-	yOSBheA22pIAhykYovCVWujL7Q1jodNedDxt2tHKaTVV+YL7DSSSCxADTGNF3gIqN1gI
-	X82qC/6tTjOQJHiPOMx/dR0nrvZjh2VVim7BqFL+Ug0G+jM2f+joxRNXtfY68fmDAI9q
-	Uev0clPsHD0edfp+bbPflz4jxj/TkZuzax1jJbjgkzV0uXxFWwGO4l9K15sX7aLbmI4m
-	CROA==
+	bh=hp1runAbdQd7C9+DO77cwqbwEDr2QCIxmTa56UZ3hFs=;
+	b=AhpuxbrHeNU/Dwg2zygsznoUNE1P7EkyIokpH4Mhd+mn7HR0ZpEXfqmaN8pFrVAtMG
+	z5oWJzU24AM6MfUuNqkTyJja6ggTgDQlu0Rc919EBhi6yNI7u2P9LP000mg2bd7cjH7f
+	m6rKf97vDJDv9XY15nDYr8BliQGE3ekUbmDby3yku3H0V0FFmGmLbWkL7rEiDNmbQ73i
+	zdRrufTYQzM6F0HJ5vQlh8wsaPf2G2f4/ZSXKm25wMN1b0seZy6An7XJDYCZVO0PY1Af
+	3oV9gp/sQJ8T+enW786Okp5EfA6k0Edp2DG3LYUSDeO4upOKDpwtoUHO0Jy4VH5vwsf5
+	qmyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=R2n/a/9G76Yi92R/Ho6SyZIUaGzncWttQDNv3ZwW0cE=;
-	b=LaJni3of+sO9s4Ra9tmIJU04J9LVRDkOGekKilS3JJbWfwhl0GGM8ph+sCKttripfx
-	K74JSDtzE9W3LcxRIGA2fm2wS2xrHZyMi6a1JuRMZrpFrl6KdsgD81GUfA8r+aCPiVp2
-	vbzLItg8WT5e6psTQAC7mQYnuWd3DiVI/to4ROu35vQBtmsw/4wP0PHaWprI0BE/LhwL
-	HDmLXVtZJ8YRpsd/FKXJQkQTIFy4rJgLWIm4T5G5/2sK+V3UzbhcIB/LYENpuWJBezzC
-	IayP/dKm3tkfvxW6W8KhWWcAj553y/4OGbXzeBgQlYF21tKgC7bujO9Hy9FOa4MG6MRd
-	dwmQ==
-X-Gm-Message-State: APjAAAXnqAIHnx10gVDdBH7WVra77DjoCC9kFLtVK6Ha7RSQEwa2OOw2
-	zNhEa3P4wzCJ+npavue3v60lLb9+s6g=
-X-Google-Smtp-Source: APXvYqxSDXRoT40s5TujUbbb6L96UFY5Z5mh1MA7NUk5sdFbqt5ecPVa0EA+AYGXmclBi0BOJ/Y0bw==
-X-Received: by 2002:adf:9bd2:: with SMTP id e18mr577759wrc.210.1558441532719; 
-	Tue, 21 May 2019 05:25:32 -0700 (PDT)
+	bh=hp1runAbdQd7C9+DO77cwqbwEDr2QCIxmTa56UZ3hFs=;
+	b=Dz8LmJhhT5qUCUl7tEz82OFb+NNy86xWJt+k1s8A3wMXiFrZrFCMrR7p3XDmCxGEU9
+	KpF2QmXRdIq19tZCoHCWvM25l1YUUgzkFX7lZnuYdj9wZpa1QrT1nkYi8fOfk81l7r2G
+	toxintVEYL+8iakqvde+hMoPJTScUDfOUO7E0HNA5V5u2tcvlf8gfM9TRetY7weKmg3F
+	6D2PYvVJy7mA/emSK88PnzcyvMG5XIYsrKHB6NIbVcmVAqjVPKdrc+vqzc/0/ecNOYNg
+	0JDATLD6UFXujsn7FW0eVvd1uupmAp2ljQLf5BcWUIC0OjFRcI3KiAJoU7f+WG95XXHm
+	2JUw==
+X-Gm-Message-State: APjAAAXOo/TbyPTcpTK0St7mSxO7NoQtfLfGgj6r8N56jgmpAPhHhV+c
+	2NyFBJK51xNQlz37ZGBjRuobv17AOuE=
+X-Google-Smtp-Source: APXvYqwGAwfmk8To+B9zAVsA0MT9fUVHY59k+yfWwHAL5VD/r6pRXAPovDehsMpPzUJsph3NpX5ErQ==
+X-Received: by 2002:adf:ba43:: with SMTP id t3mr43582893wrg.188.1558441533992; 
+	Tue, 21 May 2019 05:25:33 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
 	by smtp.gmail.com with ESMTPSA id
-	u11sm12233393wrn.1.2019.05.21.05.25.31
+	u11sm12233393wrn.1.2019.05.21.05.25.32
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 21 May 2019 05:25:32 -0700 (PDT)
+	Tue, 21 May 2019 05:25:33 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue, 21 May 2019 13:25:16 +0100
-Message-Id: <20190521122519.12573-8-peter.maydell@linaro.org>
+Date: Tue, 21 May 2019 13:25:17 +0100
+Message-Id: <20190521122519.12573-9-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190521122519.12573-1-peter.maydell@linaro.org>
 References: <20190521122519.12573-1-peter.maydell@linaro.org>
@@ -65,8 +65,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::435
-Subject: [Qemu-devel] [RFC 07/10] memory.h: Fix kerneldoc syntax issues
+X-Received-From: 2a00:1450:4864:20::443
+Subject: [Qemu-devel] [RFC 08/10] docs: Add kernel-doc API documentation to
+ memory.rst
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -87,81 +88,29 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-If you try to use kerneldoc to extract the doc comments from
-memory.h and run sphinx on it, it generates some warnings:
- * various functions are missing a parameter in the docs
- * some 'unexpected indentation' warnings where a list
-   isn't marked up with the leading/trailing blank lines and
-   bullet markers that rST expects
-
-These aren't the only issues, but they are the only ones
-that are actually warned about (as opposed to generating
-misformatted output).
+Add the API documentation as generated by kernel-doc to memory.rst.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/exec/memory.h | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+Note that this generates errors that break the build, at
+least with the 1.7.5 version of Sphinx I'm currently using.
+---
+ docs/devel/memory.rst | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 9144a47f571..8447a16ded1 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -907,6 +907,7 @@ void memory_region_init_rom(MemoryRegion *mr,
-  * @mr: the #MemoryRegion to be initialized.
-  * @owner: the object that tracks the region's reference count
-  * @ops: callbacks for write access handling (must not be NULL).
-+ * @opaque: passed to the read and write callbacks of the @ops structure.
-  * @name: Region name, becomes part of RAMBlock name used in migration stream
-  *        must be unique within any device
-  * @size: size of the region.
-@@ -995,7 +996,7 @@ static inline IOMMUMemoryRegion *memory_region_get_iommu(MemoryRegion *mr)
-  * Returns pointer to IOMMUMemoryRegionClass if a memory region is an iommu,
-  * otherwise NULL. This is fast path avoiding QOM checking, use with caution.
-  *
-- * @mr: the memory region being queried
-+ * @iommu_mr: the memory region being queried
-  */
- static inline IOMMUMemoryRegionClass *memory_region_get_iommu_class_nocheck(
-         IOMMUMemoryRegion *iommu_mr)
-@@ -1558,6 +1559,7 @@ void memory_region_add_subregion_overlap(MemoryRegion *mr,
- /**
-  * memory_region_get_ram_addr: Get the ram address associated with a memory
-  *                             region
-+ * @mr: the memory region to get the ram address for
-  */
- ram_addr_t memory_region_get_ram_addr(MemoryRegion *mr);
- 
-@@ -1650,6 +1652,7 @@ bool memory_region_is_mapped(MemoryRegion *mr);
-  *
-  * Returns a #MemoryRegionSection that describes a contiguous overlap.
-  * It will have the following characteristics:
-+ *
-  *    .@size = 0 iff no overlap was found
-  *    .@mr is non-%NULL iff an overlap was found
-  *
-@@ -1657,11 +1660,12 @@ bool memory_region_is_mapped(MemoryRegion *mr);
-  * relative to the returned region (in the .@mr field), not to the
-  * @mr argument.
-  *
-- * Similarly, the .@offset_within_address_space is relative to the
-+ * Similarly, the @.offset_within_address_space is relative to the
-  * address space that contains both regions, the passed and the
-  * returned one.  However, in the special case where the @mr argument
-  * has no container (and thus is the root of the address space), the
-  * following will hold:
-+ *
-  *    .@offset_within_address_space >= @addr
-  *    .@offset_within_address_space + .@size <= @addr + @size
-  *
-@@ -2107,6 +2111,7 @@ static inline bool memory_access_is_direct(MemoryRegion *mr, bool is_write)
-  * @addr: address within that address space
-  * @attrs: memory transaction attributes
-  * @buf: buffer with the data transferred
-+ * @len: length of the buffer
-  */
- static inline __attribute__((__always_inline__))
- MemTxResult address_space_read(AddressSpace *as, hwaddr addr,
+diff --git a/docs/devel/memory.rst b/docs/devel/memory.rst
+index b6a4c37ea5e..68bc6202797 100644
+--- a/docs/devel/memory.rst
++++ b/docs/devel/memory.rst
+@@ -361,3 +361,8 @@ callbacks are called:
+ - .impl.unaligned specifies that the *implementation* supports unaligned
+   accesses; if false, unaligned accesses will be emulated by two aligned
+   accesses.
++
++Detailed API documentation
++--------------------------
++
++.. kernel-doc:: include/exec/memory.h
 -- 
 2.20.1
 
