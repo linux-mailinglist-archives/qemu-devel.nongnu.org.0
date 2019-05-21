@@ -2,50 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2A52425227
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 16:32:20 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54826 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6488325249
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 16:35:46 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54856 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hT5oR-0006X5-2s
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 10:32:19 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44007)
+	id 1hT5rl-0007hd-JJ
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 10:35:45 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44999)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <imammedo@redhat.com>) id 1hT5mi-0005mz-3H
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 10:30:33 -0400
+	(envelope-from <mst@redhat.com>) id 1hT5qD-0007Km-4h
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 10:34:10 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <imammedo@redhat.com>) id 1hT5mg-0000PF-PI
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 10:30:32 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37124)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <imammedo@redhat.com>)
-	id 1hT5mW-0000EP-5k; Tue, 21 May 2019 10:30:20 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 955217FDCD;
-	Tue, 21 May 2019 14:30:14 +0000 (UTC)
-Received: from localhost (unknown [10.43.2.182])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 0FAB617DFC;
-	Tue, 21 May 2019 14:30:02 +0000 (UTC)
-Date: Tue, 21 May 2019 16:29:58 +0200
-From: Igor Mammedov <imammedo@redhat.com>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Message-ID: <20190521162958.4415d4ac@redhat.com>
-In-Reply-To: <20190520233614-mutt-send-email-mst@kernel.org>
+	(envelope-from <mst@redhat.com>) id 1hT5qB-00033u-Si
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 10:34:09 -0400
+Received: from mail-qt1-f195.google.com ([209.85.160.195]:43736)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hT5qB-00033c-N5
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 10:34:07 -0400
+Received: by mail-qt1-f195.google.com with SMTP id i26so20673618qtr.10
+	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 07:34:07 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to;
+	bh=SigsA1sP123ej8F2Zg21FNMenhvWldU7U/vGNqkotXI=;
+	b=FAAqsdUoxgZe1T8Nny2+DOii1qbwA4oRm83degFVExZCjZnhSdt10foVPG83REgmVU
+	Z9KeRn3vTJNRRpDpI68CGa1Spjb2ALuibgo7lrKOsYiOYyKNJRyCBx4F21cCx+sRp/Ej
+	xCF5cgt6YT2Tz88vvWMNeddnt4Dd7I6E3COrCt+HgfVpBfhITLYEi0gPbuC+CvVzdjVo
+	hj+GqOUUJHcM910E4vWUhn9kvOelatQ51nCT8HXVA+Ec5opifdO/7aaKT+wUy6hRxtU3
+	P1mCXs1ppWNsc8mTL40ABkwOr7a++UnwqZ1P0DQcGaVuqdxdBb59hYsAcfTiQlpvMrim
+	Cqwg==
+X-Gm-Message-State: APjAAAW6sB0QefNoaP8+Lr+V6cAHWZylLj8M7B3338bIUkxzF+7/wAvb
+	xTFVbnTxQuWfZaP1upHNEVeGuw==
+X-Google-Smtp-Source: APXvYqx19BKRuoOBO12XE8ICBpfYQiORkSUQt16ZG/MzDG9j1gU5yZtgjY0nr6khWDQA4U07NWWg4w==
+X-Received: by 2002:a0c:96b9:: with SMTP id a54mr21171889qvd.135.1558449247015;
+	Tue, 21 May 2019 07:34:07 -0700 (PDT)
+Received: from redhat.com (pool-173-76-105-71.bstnma.fios.verizon.net.
+	[173.76.105.71]) by smtp.gmail.com with ESMTPSA id
+	s17sm12145560qke.60.2019.05.21.07.34.05
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Tue, 21 May 2019 07:34:06 -0700 (PDT)
+Date: Tue, 21 May 2019 10:34:03 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Igor Mammedov <imammedo@redhat.com>
+Message-ID: <20190521103215-mutt-send-email-mst@kernel.org>
 References: <20190521033249.1960-1-richardw.yang@linux.intel.com>
 	<20190521033249.1960-3-richardw.yang@linux.intel.com>
 	<20190520233614-mutt-send-email-mst@kernel.org>
+	<20190521162958.4415d4ac@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.27]);
-	Tue, 21 May 2019 14:30:16 +0000 (UTC)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20190521162958.4415d4ac@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+	[fuzzy]
+X-Received-From: 209.85.160.195
 Subject: Re: [Qemu-devel] [PATCH v5 2/2] acpi: pci: use build_append_foo()
  API to construct MCFG
 X-BeenThere: qemu-devel@nongnu.org
@@ -66,116 +78,146 @@ Cc: yang.zhong@intel.com, peter.maydell@linaro.org, thuth@redhat.com,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 20 May 2019 23:37:22 -0400
-"Michael S. Tsirkin" <mst@redhat.com> wrote:
-
-> On Tue, May 21, 2019 at 11:32:49AM +0800, Wei Yang wrote:
-> > build_append_foo() API doesn't need explicit endianness conversions
-> > which eliminates a source of errors and it makes build_mcfg() look like
-> > declarative definition of MCFG table in ACPI spec, which makes it easy
-> > to review.
+On Tue, May 21, 2019 at 04:29:58PM +0200, Igor Mammedov wrote:
+> On Mon, 20 May 2019 23:37:22 -0400
+> "Michael S. Tsirkin" <mst@redhat.com> wrote:
+> 
+> > On Tue, May 21, 2019 at 11:32:49AM +0800, Wei Yang wrote:
+> > > build_append_foo() API doesn't need explicit endianness conversions
+> > > which eliminates a source of errors and it makes build_mcfg() look like
+> > > declarative definition of MCFG table in ACPI spec, which makes it easy
+> > > to review.
+> > > 
+> > > Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+> > > Suggested-by: Igor Mammedov <imammedo@redhat.com>
+> > > Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+> > > 
+> > > ---
+> > > v5:
+> > >    * miss the reserved[8] of MCFG in last version, add it back
+> > >    * drop SOBs and make sure bios-tables-test all OK
+> > > ---  
 > > 
-> > Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
-> > Suggested-by: Igor Mammedov <imammedo@redhat.com>
-> > Reviewed-by: Igor Mammedov <imammedo@redhat.com>
 > > 
-> > ---
-> > v5:
-> >    * miss the reserved[8] of MCFG in last version, add it back
-> >    * drop SOBs and make sure bios-tables-test all OK
-> > ---  
-> 
-> 
-> Please do not add two --- separators. It breaks git am.
-that worked just fine for the last xx years and still works for me.
+> > Please do not add two --- separators. It breaks git am.
+> that worked just fine for the last xx years and still works for me.
 
-> 
-> One --- should come after the commit log. Anything after that and
-> until diff is ignored anyway.
-That's fine if we wish to commit change log into history, but
-Typically we don't want change log to be committed (as it's useless from history pov),
-hence we put it after separator to get it dropped on applying.
+Because you don't use git am?
+It's true I often am forced to edit your patches to apply them.
+Pls do not do this it makes no sense.
 
-> 
-> >  hw/acpi/pci.c               | 35 +++++++++++++++++++++++------------
-> >  include/hw/acpi/acpi-defs.h | 18 ------------------
-> >  2 files changed, 23 insertions(+), 30 deletions(-)
 > > 
-> > diff --git a/hw/acpi/pci.c b/hw/acpi/pci.c
-> > index fa0fa30bb9..49df7b7d54 100644
-> > --- a/hw/acpi/pci.c
-> > +++ b/hw/acpi/pci.c
-> > @@ -30,17 +30,28 @@
-> >  
-> >  void build_mcfg(GArray *table_data, BIOSLinker *linker, AcpiMcfgInfo *info)
-> >  {
-> > -    AcpiTableMcfg *mcfg;
-> > -    int len = sizeof(*mcfg) + sizeof(mcfg->allocation[0]);
-> > -
-> > -    mcfg = acpi_data_push(table_data, len);
-> > -    mcfg->allocation[0].address = cpu_to_le64(info->base);
-> > -
-> > -    /* Only a single allocation so no need to play with segments */
-> > -    mcfg->allocation[0].pci_segment = cpu_to_le16(0);
-> > -    mcfg->allocation[0].start_bus_number = 0;
-> > -    mcfg->allocation[0].end_bus_number = PCIE_MMCFG_BUS(info->size - 1);
-> > -
-> > -    build_header(linker, table_data, (void *)mcfg, "MCFG", len, 1, NULL, NULL);
-> > +    int mcfg_start = table_data->len;
-> > +
-> > +    acpi_data_push(table_data, sizeof(AcpiTableHeader));
-> > +
-> > +    /*
-> > +     * PCI Firmware Specification, Revision 3.0
-> > +     * 4.1.2 MCFG Table Description.
-> > +     */
-> > +    /* Reserved */
-> > +    build_append_int_noprefix(table_data, 0, 8);
-> > +    /* Base address, processor-relative */
-> > +    build_append_int_noprefix(table_data, info->base, 8);
-> > +    /* PCI segment group number */
-> > +    build_append_int_noprefix(table_data, 0, 2);
-> > +    /* Starting PCI Bus number */
-> > +    build_append_int_noprefix(table_data, 0, 1);
-> > +    /* Final PCI Bus number */
-> > +    build_append_int_noprefix(table_data, PCIE_MMCFG_BUS(info->size - 1), 1);
-> > +    /* Reserved */
-> > +    build_append_int_noprefix(table_data, 0, 4);
-> > +
-> > +    build_header(linker, table_data, (void *)(table_data->data + mcfg_start),
-> > +                 "MCFG", table_data->len - mcfg_start, 1, NULL, NULL);
-> >  }
-> >  
-> > diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
-> > index f9aa4bd398..57a3f58b0c 100644
-> > --- a/include/hw/acpi/acpi-defs.h
-> > +++ b/include/hw/acpi/acpi-defs.h
-> > @@ -449,24 +449,6 @@ struct AcpiSratProcessorGiccAffinity {
-> >  
-> >  typedef struct AcpiSratProcessorGiccAffinity AcpiSratProcessorGiccAffinity;
-> >  
-> > -/* PCI fw r3.0 MCFG table. */
-> > -/* Subtable */
-> > -struct AcpiMcfgAllocation {
-> > -    uint64_t address;                /* Base address, processor-relative */
-> > -    uint16_t pci_segment;            /* PCI segment group number */
-> > -    uint8_t start_bus_number;       /* Starting PCI Bus number */
-> > -    uint8_t end_bus_number;         /* Final PCI Bus number */
-> > -    uint32_t reserved;
-> > -} QEMU_PACKED;
-> > -typedef struct AcpiMcfgAllocation AcpiMcfgAllocation;
-> > -
-> > -struct AcpiTableMcfg {
-> > -    ACPI_TABLE_HEADER_DEF;
-> > -    uint8_t reserved[8];
-> > -    AcpiMcfgAllocation allocation[0];
-> > -} QEMU_PACKED;
-> > -typedef struct AcpiTableMcfg AcpiTableMcfg;
-> > -
-> >  /*
-> >   * TCPA Description Table
-> >   *
-> > -- 
-> > 2.19.1  
+> > One --- should come after the commit log. Anything after that and
+> > until diff is ignored anyway.
+> That's fine if we wish to commit change log into history, but
+> Typically we don't want change log to be committed (as it's useless from history pov),
+> hence we put it after separator to get it dropped on applying.
 
+Then you should do
+
+build_append_foo() API doesn't need explicit endianness conversions
+which eliminates a source of errors and it makes build_mcfg() look like
+declarative definition of MCFG table in ACPI spec, which makes it easy
+to review.
+
+Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+Suggested-by: Igor Mammedov <imammedo@redhat.com>
+Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+
+---
+v5:
+   * miss the reserved[8] of MCFG in last version, add it back
+   * drop SOBs and make sure bios-tables-test all OK
+
+ hw/acpi/pci.c               | 35 +++++++++++++++++++++++------------
+ include/hw/acpi/acpi-defs.h | 18 ------------------
+ 2 files changed, 23 insertions(+), 30 deletions(-)
+
+diff --git a/hw/acpi/pci.c b/hw/acpi/pci.c
+
+
+Anything between --- and diff is ignored. Second --- is poointless and
+harmful.
+
+> > 
+> > >  hw/acpi/pci.c               | 35 +++++++++++++++++++++++------------
+> > >  include/hw/acpi/acpi-defs.h | 18 ------------------
+> > >  2 files changed, 23 insertions(+), 30 deletions(-)
+> > > 
+> > > diff --git a/hw/acpi/pci.c b/hw/acpi/pci.c
+> > > index fa0fa30bb9..49df7b7d54 100644
+> > > --- a/hw/acpi/pci.c
+> > > +++ b/hw/acpi/pci.c
+> > > @@ -30,17 +30,28 @@
+> > >  
+> > >  void build_mcfg(GArray *table_data, BIOSLinker *linker, AcpiMcfgInfo *info)
+> > >  {
+> > > -    AcpiTableMcfg *mcfg;
+> > > -    int len = sizeof(*mcfg) + sizeof(mcfg->allocation[0]);
+> > > -
+> > > -    mcfg = acpi_data_push(table_data, len);
+> > > -    mcfg->allocation[0].address = cpu_to_le64(info->base);
+> > > -
+> > > -    /* Only a single allocation so no need to play with segments */
+> > > -    mcfg->allocation[0].pci_segment = cpu_to_le16(0);
+> > > -    mcfg->allocation[0].start_bus_number = 0;
+> > > -    mcfg->allocation[0].end_bus_number = PCIE_MMCFG_BUS(info->size - 1);
+> > > -
+> > > -    build_header(linker, table_data, (void *)mcfg, "MCFG", len, 1, NULL, NULL);
+> > > +    int mcfg_start = table_data->len;
+> > > +
+> > > +    acpi_data_push(table_data, sizeof(AcpiTableHeader));
+> > > +
+> > > +    /*
+> > > +     * PCI Firmware Specification, Revision 3.0
+> > > +     * 4.1.2 MCFG Table Description.
+> > > +     */
+> > > +    /* Reserved */
+> > > +    build_append_int_noprefix(table_data, 0, 8);
+> > > +    /* Base address, processor-relative */
+> > > +    build_append_int_noprefix(table_data, info->base, 8);
+> > > +    /* PCI segment group number */
+> > > +    build_append_int_noprefix(table_data, 0, 2);
+> > > +    /* Starting PCI Bus number */
+> > > +    build_append_int_noprefix(table_data, 0, 1);
+> > > +    /* Final PCI Bus number */
+> > > +    build_append_int_noprefix(table_data, PCIE_MMCFG_BUS(info->size - 1), 1);
+> > > +    /* Reserved */
+> > > +    build_append_int_noprefix(table_data, 0, 4);
+> > > +
+> > > +    build_header(linker, table_data, (void *)(table_data->data + mcfg_start),
+> > > +                 "MCFG", table_data->len - mcfg_start, 1, NULL, NULL);
+> > >  }
+> > >  
+> > > diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
+> > > index f9aa4bd398..57a3f58b0c 100644
+> > > --- a/include/hw/acpi/acpi-defs.h
+> > > +++ b/include/hw/acpi/acpi-defs.h
+> > > @@ -449,24 +449,6 @@ struct AcpiSratProcessorGiccAffinity {
+> > >  
+> > >  typedef struct AcpiSratProcessorGiccAffinity AcpiSratProcessorGiccAffinity;
+> > >  
+> > > -/* PCI fw r3.0 MCFG table. */
+> > > -/* Subtable */
+> > > -struct AcpiMcfgAllocation {
+> > > -    uint64_t address;                /* Base address, processor-relative */
+> > > -    uint16_t pci_segment;            /* PCI segment group number */
+> > > -    uint8_t start_bus_number;       /* Starting PCI Bus number */
+> > > -    uint8_t end_bus_number;         /* Final PCI Bus number */
+> > > -    uint32_t reserved;
+> > > -} QEMU_PACKED;
+> > > -typedef struct AcpiMcfgAllocation AcpiMcfgAllocation;
+> > > -
+> > > -struct AcpiTableMcfg {
+> > > -    ACPI_TABLE_HEADER_DEF;
+> > > -    uint8_t reserved[8];
+> > > -    AcpiMcfgAllocation allocation[0];
+> > > -} QEMU_PACKED;
+> > > -typedef struct AcpiTableMcfg AcpiTableMcfg;
+> > > -
+> > >  /*
+> > >   * TCPA Description Table
+> > >   *
+> > > -- 
+> > > 2.19.1  
 
