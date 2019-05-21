@@ -2,51 +2,51 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C124D25158
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 16:01:18 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54312 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E74FA2514C
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 15:59:16 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54242 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hT5KP-00062K-VT
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 10:01:18 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34613)
+	id 1hT5IS-0004NJ-3S
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 09:59:16 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34296)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <pagupta@redhat.com>) id 1hT5DX-0000ho-1X
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 09:54:12 -0400
+	(envelope-from <pagupta@redhat.com>) id 1hT5DW-0000Uy-6C
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 09:54:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <pagupta@redhat.com>) id 1hT534-0005CQ-0B
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 09:43:22 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:57096)
+	(envelope-from <pagupta@redhat.com>) id 1hT53k-0005n7-Ke
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 09:44:05 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:34282)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <pagupta@redhat.com>) id 1hT533-0005Bk-Rb
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 09:43:21 -0400
+	(Exim 4.71) (envelope-from <pagupta@redhat.com>) id 1hT53k-0005m6-Eu
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 09:44:04 -0400
 Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
 	[10.5.11.22])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id E3A48C05B022;
-	Tue, 21 May 2019 13:43:20 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id AF6A26EB84;
+	Tue, 21 May 2019 13:43:53 +0000 (UTC)
 Received: from dhcp201-121.englab.pnq.redhat.com (ovpn-116-97.sin2.redhat.com
 	[10.67.116.97])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 12F301001E73;
-	Tue, 21 May 2019 13:42:51 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 0B7C91001F5D;
+	Tue, 21 May 2019 13:43:21 +0000 (UTC)
 From: Pankaj Gupta <pagupta@redhat.com>
 To: linux-nvdimm@lists.01.org, linux-kernel@vger.kernel.org,
 	virtualization@lists.linux-foundation.org, kvm@vger.kernel.org,
 	linux-fsdevel@vger.kernel.org, linux-acpi@vger.kernel.org,
 	qemu-devel@nongnu.org, linux-ext4@vger.kernel.org,
 	linux-xfs@vger.kernel.org, dm-devel@redhat.com
-Date: Tue, 21 May 2019 19:07:12 +0530
-Message-Id: <20190521133713.31653-7-pagupta@redhat.com>
+Date: Tue, 21 May 2019 19:07:13 +0530
+Message-Id: <20190521133713.31653-8-pagupta@redhat.com>
 In-Reply-To: <20190521133713.31653-1-pagupta@redhat.com>
 References: <20190521133713.31653-1-pagupta@redhat.com>
 X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.31]);
-	Tue, 21 May 2019 13:43:21 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.25]);
+	Tue, 21 May 2019 13:44:03 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v10 6/7] ext4: disable map_sync for async flush
+Subject: [Qemu-devel] [PATCH v10 7/7] xfs: disable map_sync for async flush
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -76,40 +76,36 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 Dont support 'MAP_SYNC' with non-DAX files and DAX files
 with asynchronous dax_device. Virtio pmem provides
 asynchronous host page cache flush mechanism. We don't
-support 'MAP_SYNC' with virtio pmem and ext4.
+support 'MAP_SYNC' with virtio pmem and xfs.
 
 Signed-off-by: Pankaj Gupta <pagupta@redhat.com>
-Reviewed-by: Jan Kara <jack@suse.cz>
+Reviewed-by: Darrick J. Wong <darrick.wong@oracle.com>
 ---
- fs/ext4/file.c | 10 ++++++----
- 1 file changed, 6 insertions(+), 4 deletions(-)
+ fs/xfs/xfs_file.c | 9 ++++++---
+ 1 file changed, 6 insertions(+), 3 deletions(-)
 
-diff --git a/fs/ext4/file.c b/fs/ext4/file.c
-index 98ec11f69cd4..dee549339e13 100644
---- a/fs/ext4/file.c
-+++ b/fs/ext4/file.c
-@@ -360,15 +360,17 @@ static const struct vm_operations_struct ext4_file_vm_ops = {
- static int ext4_file_mmap(struct file *file, struct vm_area_struct *vma)
+diff --git a/fs/xfs/xfs_file.c b/fs/xfs/xfs_file.c
+index a7ceae90110e..f17652cca5ff 100644
+--- a/fs/xfs/xfs_file.c
++++ b/fs/xfs/xfs_file.c
+@@ -1203,11 +1203,14 @@ xfs_file_mmap(
+ 	struct file	*filp,
+ 	struct vm_area_struct *vma)
  {
- 	struct inode *inode = file->f_mapping->host;
-+	struct ext4_sb_info *sbi = EXT4_SB(inode->i_sb);
-+	struct dax_device *dax_dev = sbi->s_daxdev;
- 
--	if (unlikely(ext4_forced_shutdown(EXT4_SB(inode->i_sb))))
-+	if (unlikely(ext4_forced_shutdown(sbi)))
- 		return -EIO;
- 
++	struct dax_device 	*dax_dev;
++
++	dax_dev = xfs_find_daxdev_for_inode(file_inode(filp));
  	/*
 -	 * We don't support synchronous mappings for non-DAX files. At least
 -	 * until someone comes with a sensible use case.
 +	 * We don't support synchronous mappings for non-DAX files and
 +	 * for DAX files if underneath dax_device is not synchronous.
  	 */
--	if (!IS_DAX(file_inode(file)) && (vma->vm_flags & VM_SYNC))
+-	if (!IS_DAX(file_inode(filp)) && (vma->vm_flags & VM_SYNC))
 +	if (!daxdev_mapping_supported(vma, dax_dev))
  		return -EOPNOTSUPP;
  
- 	file_accessed(file);
+ 	file_accessed(filp);
 -- 
 2.20.1
 
