@@ -2,54 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA0F024D99
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 13:08:36 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:51490 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 7934524DEC
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 13:32:28 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:51721 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hT2dH-0002rB-VN
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 07:08:36 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59842)
+	id 1hT30N-0002zE-An
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 07:32:27 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35615)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <berrange@redhat.com>) id 1hT2bK-0001xj-8e
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 07:06:35 -0400
+	(envelope-from <kwolf@redhat.com>) id 1hT2zJ-0002iJ-HC
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 07:31:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <berrange@redhat.com>) id 1hT2bJ-0008Qo-2u
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 07:06:34 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:58334)
+	(envelope-from <kwolf@redhat.com>) id 1hT2zI-0001jR-Lm
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 07:31:21 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:59600)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hT2bI-0007Zr-U7
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 07:06:33 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
+	(Exim 4.71) (envelope-from <kwolf@redhat.com>) id 1hT2zI-0001dv-Ga
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 07:31:20 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+	[10.5.11.11])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 2FE5888309;
-	Tue, 21 May 2019 11:06:14 +0000 (UTC)
-Received: from redhat.com (ovpn-112-26.ams2.redhat.com [10.36.112.26])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id E84127841F;
-	Tue, 21 May 2019 11:06:03 +0000 (UTC)
-Date: Tue, 21 May 2019 12:06:00 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Message-ID: <20190521110600.GJ25835@redhat.com>
-References: <20190520184108.GA10764@habkost.net>
-	<20190521085350.GF25835@redhat.com>
-	<CAFEAcA8bs0M4Ofdq1tt8uZvWHK49PNRFz3SQhxEHT_uPGmBHOQ@mail.gmail.com>
+	by mx1.redhat.com (Postfix) with ESMTPS id A50AF30842A8;
+	Tue, 21 May 2019 11:31:09 +0000 (UTC)
+Received: from linux.fritz.box (ovpn-117-63.ams2.redhat.com [10.36.117.63])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 69A79600CC;
+	Tue, 21 May 2019 11:31:06 +0000 (UTC)
+Date: Tue, 21 May 2019 13:30:59 +0200
+From: Kevin Wolf <kwolf@redhat.com>
+To: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <20190521113059.GB4971@linux.fritz.box>
+References: <20190521103650.18479-1-stefanha@redhat.com>
+	<0630a607-9216-6b75-54fa-0a1308f2eff0@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAFEAcA8bs0M4Ofdq1tt8uZvWHK49PNRFz3SQhxEHT_uPGmBHOQ@mail.gmail.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+In-Reply-To: <0630a607-9216-6b75-54fa-0a1308f2eff0@redhat.com>
+User-Agent: Mutt/1.11.3 (2019-02-01)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.28]);
-	Tue, 21 May 2019 11:06:14 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+	(mx1.redhat.com [10.5.110.40]);
+	Tue, 21 May 2019 11:31:09 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] Introducing GSoC project: API Documentation
- Generation
+Subject: Re: [Qemu-devel] [RFC] scsi: restart dma after vm change state
+ handlers
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,40 +59,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Eduardo Habkost <ehabkost@redhat.com>,
-	Gabriel Barreto <sbarreto.gabriel@gmail.com>,
-	QEMU Developers <qemu-devel@nongnu.org>, "Emilio G. Cota" <cota@braap.org>,
-	Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
-	Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, qemu-devel@nongnu.org,
+	Stefan Hajnoczi <stefanha@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 21, 2019 at 10:43:04AM +0100, Peter Maydell wrote:
-> On Tue, 21 May 2019 at 09:54, Daniel P. Berrang=C3=A9 <berrange@redhat.=
-com> wrote:
-> > Hawkmoth seems pretty attractive in its output format, but doesn't ap=
-pear
-> > to be part of either Debian or Fedora distros, so we would have to bu=
-ndle
-> > it in QEMU I expect.  My big concern there is that there have only be=
-en
-> > 2 contributors to Hawkmoth in its entire 3 year existance, which make=
-s
-> > me fear for its long term viability if the main author gives up.
->=20
-> The dependency on clang 6 and the python bindings to it might also
-> be awkward for bundling it with QEMU...
+Am 21.05.2019 um 13:04 hat Paolo Bonzini geschrieben:
+> On 21/05/19 12:36, Stefan Hajnoczi wrote:
+> > This is RFC because I am waiting for a test result on the system where
+> > the bug was originally discovered.  I'm also open to nicer solutions!
+> 
+> I don't think it's too ugly; IDE is also using a bottom half for this.
 
-Requiring a second C compiler to build docs is rather unappealing :-(
+I think the IDE case is different, see commit 213189ab65d. The case
+we're protecting against there is stopping the VM from inside a VM state
+handler, which can confuse other VM state callbacks that come later. The
+actual order of the IDE callback vs. the other callback doesn't matter,
+it's just important that all start callbacks are completed before stop
+callbacks are called.
 
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
+In our current case, the problem is not that we're confusing other
+handlers, but that we rely on another handler to have completed resuming
+something. If that other handler changes e.g. to use a BH itself, we get
+an undefined order again.
+
+The clean solution would probably be not to use a VM state handler in
+scsi-bus, but a callback from the HBA that tells the bus that the HBA is
+ready to receive requests again.
+
+If we go with the not so clean solution, maybe at least a comment in
+virtio-scsi would be in order.
+
+Kevin
 
