@@ -2,43 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 820A824D19
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 12:46:56 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:51226 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E31E424D26
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 12:49:01 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:51250 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hT2IJ-00056a-Ls
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 06:46:55 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54584)
+	id 1hT2KL-00076R-5Y
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 06:49:01 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54651)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <hmka2@cl.cam.ac.uk>) id 1hT2G7-0003ij-Qh
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 06:44:40 -0400
+	(envelope-from <hmka2@cl.cam.ac.uk>) id 1hT2GC-0003lv-1f
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 06:44:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <hmka2@cl.cam.ac.uk>) id 1hT2G6-0003pV-Q7
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 06:44:39 -0400
-Received: from mta1.cl.cam.ac.uk ([2a05:b400:110::25:1]:44291)
+	(envelope-from <hmka2@cl.cam.ac.uk>) id 1hT2GB-0003x3-3j
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 06:44:43 -0400
+Received: from mta1.cl.cam.ac.uk ([2a05:b400:110::25:1]:56957)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <hmka2@cl.cam.ac.uk>)
-	id 1hT2G4-0003mx-MJ; Tue, 21 May 2019 06:44:36 -0400
+	id 1hT2G8-0003rx-Tl; Tue, 21 May 2019 06:44:41 -0400
 Received: from cassia.cl.cam.ac.uk ([2001:630:212:238:b26e:bfff:fe2f:c7d9])
 	by mta1.cl.cam.ac.uk with esmtps
 	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.90_1)
 	(envelope-from <hmka2@cl.cam.ac.uk>)
-	id 1hT2G3-00017F-VR; Tue, 21 May 2019 10:44:35 +0000
+	id 1hT2G8-00017N-60; Tue, 21 May 2019 10:44:40 +0000
 Received: from hmka2 by cassia.cl.cam.ac.uk with local (Exim 4.90_1)
 	(envelope-from <hmka2@cl.cam.ac.uk>)
-	id 1hT2G3-0003pA-TR; Tue, 21 May 2019 11:44:35 +0100
+	id 1hT2G8-0003r7-46; Tue, 21 May 2019 11:44:40 +0100
 From: Hesham Almatary <Hesham.Almatary@cl.cam.ac.uk>
 To: qemu-riscv@nongnu.org
-Date: Tue, 21 May 2019 11:43:22 +0100
-Message-Id: <20190521104324.12835-3-Hesham.Almatary@cl.cam.ac.uk>
+Date: Tue, 21 May 2019 11:43:23 +0100
+Message-Id: <20190521104324.12835-4-Hesham.Almatary@cl.cam.ac.uk>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190521104324.12835-1-Hesham.Almatary@cl.cam.ac.uk>
 References: <20190521104324.12835-1-Hesham.Almatary@cl.cam.ac.uk>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
 X-Received-From: 2a05:b400:110::25:1
-Subject: [Qemu-devel] [PATCHv3 3/5] RISC-V: Check PMP during Page Table Walks
+Subject: [Qemu-devel] [PATCHv3 4/5] RISC-V: Fix a PMP bug where it succeeds
+ even if PMP entry is off
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,57 +59,43 @@ Cc: Sagar Karandikar <sagark@eecs.berkeley.edu>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The PMP should be checked when doing a page table walk, and report access
-fault exception if the to-be-read PTE failed the PMP check.
+The current implementation returns 1 (PMP check success) if the address is in
+range even if the PMP entry is off. This is a bug.
 
-Suggested-by: Jonathan Behrens <fintelia@gmail.com>
+For example, if there is a PMP check in S-Mode which is in range, but its PMP
+entry is off, this will succeed, which it should not.
+
+The patch fixes this bug by only checking the PMP permissions if the address is
+in range and its corresponding PMP entry it not off. Otherwise, it will keep
+the ret = -1 which will be checked and handled correctly at the end of the
+function.
+
 Signed-off-by: Hesham Almatary <Hesham.Almatary@cl.cam.ac.uk>
 ---
- target/riscv/cpu.h        |  1 +
- target/riscv/cpu_helper.c | 10 +++++++++-
- 2 files changed, 10 insertions(+), 1 deletion(-)
+ target/riscv/pmp.c | 9 +++++----
+ 1 file changed, 5 insertions(+), 4 deletions(-)
 
-diff --git a/target/riscv/cpu.h b/target/riscv/cpu.h
-index c17184f4e4..ab3ba3f15a 100644
---- a/target/riscv/cpu.h
-+++ b/target/riscv/cpu.h
-@@ -94,6 +94,7 @@ enum {
- #define PRIV_VERSION_1_09_1 0x00010901
- #define PRIV_VERSION_1_10_0 0x00011000
+diff --git a/target/riscv/pmp.c b/target/riscv/pmp.c
+index b11c4ae22f..8668f0dd7c 100644
+--- a/target/riscv/pmp.c
++++ b/target/riscv/pmp.c
+@@ -259,11 +259,12 @@ bool pmp_hart_has_privs(CPURISCVState *env, target_ulong addr,
+         /* fully inside */
+         const uint8_t a_field =
+             pmp_get_a_field(env->pmp_state.pmp[i].cfg_reg);
+-        if ((s + e) == 2) {
+-            if (PMP_AMATCH_OFF == a_field) {
+-                return 1;
+-            }
 
-+#define TRANSLATE_PMP_FAIL 2
- #define TRANSLATE_FAIL 1
- #define TRANSLATE_SUCCESS 0
- #define NB_MMU_MODES 4
-diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
-index 7c7282c680..d0b0f9cf88 100644
---- a/target/riscv/cpu_helper.c
-+++ b/target/riscv/cpu_helper.c
-@@ -211,6 +211,12 @@ restart:
-
-         /* check that physical address of PTE is legal */
-         target_ulong pte_addr = base + idx * ptesize;
-+
-+        if (riscv_feature(env, RISCV_FEATURE_PMP) &&
-+            !pmp_hart_has_privs(env, pte_addr, sizeof(target_ulong),
-+            1 << MMU_DATA_LOAD)) {
-+            return TRANSLATE_PMP_FAIL;
-+        }
- #if defined(TARGET_RISCV32)
-         target_ulong pte = ldl_phys(cs->as, pte_addr);
- #elif defined(TARGET_RISCV64)
-@@ -405,8 +411,10 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr address, int size,
-     if (riscv_feature(env, RISCV_FEATURE_PMP) &&
-         (ret == TRANSLATE_SUCCESS) &&
-         !pmp_hart_has_privs(env, pa, TARGET_PAGE_SIZE, 1 << access_type)) {
-+        ret = TRANSLATE_PMP_FAIL;
-+    }
-+    if (ret == TRANSLATE_PMP_FAIL) {
-         pmp_violation = true;
--        ret = TRANSLATE_FAIL;
-     }
-     if (ret == TRANSLATE_SUCCESS) {
-         tlb_set_page(cs, address & TARGET_PAGE_MASK, pa & TARGET_PAGE_MASK,
++        /*
++         * If the PMP entry is not off and the address is in range, do the priv
++         * check
++         */
++        if (((s + e) == 2) && (PMP_AMATCH_OFF != a_field)) {
+             allowed_privs = PMP_READ | PMP_WRITE | PMP_EXEC;
+             if ((env->priv != PRV_M) || pmp_is_locked(env, i)) {
+                 allowed_privs &= env->pmp_state.pmp[i].cfg_reg;
 --
 2.17.1
 
