@@ -2,66 +2,52 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CE55F251EF
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 16:26:43 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54734 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A52425227
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 16:32:20 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54826 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hT5j1-0004hG-34
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 10:26:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:43110)
+	id 1hT5oR-0006X5-2s
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 10:32:19 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44007)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hT5hs-00047h-Qi
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 10:25:33 -0400
+	(envelope-from <imammedo@redhat.com>) id 1hT5mi-0005mz-3H
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 10:30:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hT5hr-0003dZ-Kt
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 10:25:32 -0400
-Received: from mail-oi1-x243.google.com ([2607:f8b0:4864:20::243]:45066)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hT5hr-0003ci-BU
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 10:25:31 -0400
-Received: by mail-oi1-x243.google.com with SMTP id w144so12893232oie.12
-	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 07:25:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to; 
-	bh=b8hMg6Mf31pTr8e2qazKiIGVX2fefsXToDRaN2vaHcA=;
-	b=Qp+Q+scMuNBTWnOXtlLGWMX3ZhQYML8IQyIvRVFzS+Z75e2feI49VGmMhBNjcT6M1S
-	h2lt37r660Sj8cHivKhgkhLhgHD3slldn85jmbHqomgOGY28+BExXsGY1zqHzwpWJ5TR
-	sOSXPOjJwc27Ol+8oVuqOD/IiRBNI9dgI2yh7iKMRAO5FgYA+vBN0ZwaCW3CEnAtw9du
-	tuOork1S1wdA3cBkcRgkEL2Grh2PbsTmP+TDsStq9gLFDUgnq4n52QQDRJc+PZO9Ppm6
-	5QIO9YOXt4UF4VxB7FNF3wNzf22z/aZtDHPuwqHGuqhNXDwCywnf/FRDqr1X2L8LxgA/
-	rgZQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to;
-	bh=b8hMg6Mf31pTr8e2qazKiIGVX2fefsXToDRaN2vaHcA=;
-	b=uLcvntiNMTNBrJF0Uzausv00+94KVkdW7KATkL6bOoQmKXYnPjS02cq8Rhmem7KXur
-	hsPRWcprPgAU9yo/7u2i0NEboHScW2TJ3kfJ1gDWbp/sgO9mbkXDgwOKcV2nhM4cZxmK
-	MNwOEa8Sd5nHvHeGmwUmtMidHmf2H+dfc1iDKExIEmv/iAlpyjc2CRUebBYVto31PSwY
-	if5VOu+JG8C9mH59phyH6yAr6XMmigPN9oal42sg0SRzwNaSd24LCIu60xG7hLvp0tWc
-	9tZ+ZMeXjbV4fCES0im5DiydWYyEsA+vO8BlZuBuB1sSCNAmrJcdKhfQQEEn1IQ2GGI7
-	lMFw==
-X-Gm-Message-State: APjAAAV8beI5EQC/vQupFnokKPfBCMWQ8xtWqQ0oP/ojPMmbJ62uiTIR
-	i/Fi3JaYEg2kvnigUJPebU1ZSEDvEKoCI79qJpzDKA==
-X-Google-Smtp-Source: APXvYqwoczvRGHUlmS1rrzkBznC1wpOVMXzAG7/s6Izf1iIbFi6YJnKiOl4SVzdiY0ly/fW8KroVHD0ZDDUR35xSrM8=
-X-Received: by 2002:aca:b1c1:: with SMTP id a184mr3682643oif.98.1558448730586; 
-	Tue, 21 May 2019 07:25:30 -0700 (PDT)
+	(envelope-from <imammedo@redhat.com>) id 1hT5mg-0000PF-PI
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 10:30:32 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:37124)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <imammedo@redhat.com>)
+	id 1hT5mW-0000EP-5k; Tue, 21 May 2019 10:30:20 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 955217FDCD;
+	Tue, 21 May 2019 14:30:14 +0000 (UTC)
+Received: from localhost (unknown [10.43.2.182])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 0FAB617DFC;
+	Tue, 21 May 2019 14:30:02 +0000 (UTC)
+Date: Tue, 21 May 2019 16:29:58 +0200
+From: Igor Mammedov <imammedo@redhat.com>
+To: "Michael S. Tsirkin" <mst@redhat.com>
+Message-ID: <20190521162958.4415d4ac@redhat.com>
+In-Reply-To: <20190520233614-mutt-send-email-mst@kernel.org>
+References: <20190521033249.1960-1-richardw.yang@linux.intel.com>
+	<20190521033249.1960-3-richardw.yang@linux.intel.com>
+	<20190520233614-mutt-send-email-mst@kernel.org>
 MIME-Version: 1.0
-References: <20190520162809.2677-1-peter.maydell@linaro.org>
-	<20190520162809.2677-2-peter.maydell@linaro.org>
-In-Reply-To: <20190520162809.2677-2-peter.maydell@linaro.org>
-From: Peter Maydell <peter.maydell@linaro.org>
-Date: Tue, 21 May 2019 15:25:19 +0100
-Message-ID: <CAFEAcA-pZEgQ8z61gxxJW=-Oc8O_Eg9Q5vwa=1iU4e11LSePAg@mail.gmail.com>
-To: qemu-arm <qemu-arm@nongnu.org>, QEMU Developers <qemu-devel@nongnu.org>
-Content-Type: text/plain; charset="UTF-8"
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::243
-Subject: Re: [Qemu-devel] [PATCH 1/4] hw/intc/arm_gicv3: Fix decoding of ID
- register range
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.27]);
+	Tue, 21 May 2019 14:30:16 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v5 2/2] acpi: pci: use build_append_foo()
+ API to construct MCFG
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -73,51 +59,123 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: yang.zhong@intel.com, peter.maydell@linaro.org, thuth@redhat.com,
+	qemu-devel@nongnu.org, shannon.zhaosl@gmail.com,
+	qemu-arm@nongnu.org, Wei Yang <richardw.yang@linux.intel.com>,
+	philmd@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Mon, 20 May 2019 at 17:28, Peter Maydell <peter.maydell@linaro.org> wrote:
->
-> The GIC ID registers cover an area 0x30 bytes in size
-> (12 registers, 4 bytes each). We were incorrectly decoding
-> only the first 0x20 bytes.
->
-> Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
-> ---
->  hw/intc/arm_gicv3_dist.c   | 2 +-
->  hw/intc/arm_gicv3_redist.c | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/hw/intc/arm_gicv3_dist.c b/hw/intc/arm_gicv3_dist.c
-> index 53c55c57291..335386ff3ac 100644
-> --- a/hw/intc/arm_gicv3_dist.c
-> +++ b/hw/intc/arm_gicv3_dist.c
-> @@ -533,7 +533,7 @@ static MemTxResult gicd_readl(GICv3State *s, hwaddr offset,
->          }
->          return MEMTX_OK;
->      }
-> -    case GICD_IDREGS ... GICD_IDREGS + 0x1f:
-> +    case GICD_IDREGS ... GICD_IDREGS + 0x2f:
->          /* ID registers */
->          *data = gicv3_idreg(offset - GICD_IDREGS);
->          return MEMTX_OK;
-> diff --git a/hw/intc/arm_gicv3_redist.c b/hw/intc/arm_gicv3_redist.c
-> index 3b0ba6de1ab..9bb11423382 100644
-> --- a/hw/intc/arm_gicv3_redist.c
-> +++ b/hw/intc/arm_gicv3_redist.c
-> @@ -233,7 +233,7 @@ static MemTxResult gicr_readl(GICv3CPUState *cs, hwaddr offset,
->          }
->          *data = cs->gicr_nsacr;
->          return MEMTX_OK;
-> -    case GICR_IDREGS ... GICR_IDREGS + 0x1f:
-> +    case GICR_IDREGS ... GICR_IDREGS + 0x2f:
->          *data = gicv3_idreg(offset - GICR_IDREGS);
->          return MEMTX_OK;
->      default:
+On Mon, 20 May 2019 23:37:22 -0400
+"Michael S. Tsirkin" <mst@redhat.com> wrote:
 
-Just noticed that I forgot to also update the case statements
-in the *writel functions :-(
+> On Tue, May 21, 2019 at 11:32:49AM +0800, Wei Yang wrote:
+> > build_append_foo() API doesn't need explicit endianness conversions
+> > which eliminates a source of errors and it makes build_mcfg() look like
+> > declarative definition of MCFG table in ACPI spec, which makes it easy
+> > to review.
+> > 
+> > Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
+> > Suggested-by: Igor Mammedov <imammedo@redhat.com>
+> > Reviewed-by: Igor Mammedov <imammedo@redhat.com>
+> > 
+> > ---
+> > v5:
+> >    * miss the reserved[8] of MCFG in last version, add it back
+> >    * drop SOBs and make sure bios-tables-test all OK
+> > ---  
+> 
+> 
+> Please do not add two --- separators. It breaks git am.
+that worked just fine for the last xx years and still works for me.
 
-thanks
--- PMM
+> 
+> One --- should come after the commit log. Anything after that and
+> until diff is ignored anyway.
+That's fine if we wish to commit change log into history, but
+Typically we don't want change log to be committed (as it's useless from history pov),
+hence we put it after separator to get it dropped on applying.
+
+> 
+> >  hw/acpi/pci.c               | 35 +++++++++++++++++++++++------------
+> >  include/hw/acpi/acpi-defs.h | 18 ------------------
+> >  2 files changed, 23 insertions(+), 30 deletions(-)
+> > 
+> > diff --git a/hw/acpi/pci.c b/hw/acpi/pci.c
+> > index fa0fa30bb9..49df7b7d54 100644
+> > --- a/hw/acpi/pci.c
+> > +++ b/hw/acpi/pci.c
+> > @@ -30,17 +30,28 @@
+> >  
+> >  void build_mcfg(GArray *table_data, BIOSLinker *linker, AcpiMcfgInfo *info)
+> >  {
+> > -    AcpiTableMcfg *mcfg;
+> > -    int len = sizeof(*mcfg) + sizeof(mcfg->allocation[0]);
+> > -
+> > -    mcfg = acpi_data_push(table_data, len);
+> > -    mcfg->allocation[0].address = cpu_to_le64(info->base);
+> > -
+> > -    /* Only a single allocation so no need to play with segments */
+> > -    mcfg->allocation[0].pci_segment = cpu_to_le16(0);
+> > -    mcfg->allocation[0].start_bus_number = 0;
+> > -    mcfg->allocation[0].end_bus_number = PCIE_MMCFG_BUS(info->size - 1);
+> > -
+> > -    build_header(linker, table_data, (void *)mcfg, "MCFG", len, 1, NULL, NULL);
+> > +    int mcfg_start = table_data->len;
+> > +
+> > +    acpi_data_push(table_data, sizeof(AcpiTableHeader));
+> > +
+> > +    /*
+> > +     * PCI Firmware Specification, Revision 3.0
+> > +     * 4.1.2 MCFG Table Description.
+> > +     */
+> > +    /* Reserved */
+> > +    build_append_int_noprefix(table_data, 0, 8);
+> > +    /* Base address, processor-relative */
+> > +    build_append_int_noprefix(table_data, info->base, 8);
+> > +    /* PCI segment group number */
+> > +    build_append_int_noprefix(table_data, 0, 2);
+> > +    /* Starting PCI Bus number */
+> > +    build_append_int_noprefix(table_data, 0, 1);
+> > +    /* Final PCI Bus number */
+> > +    build_append_int_noprefix(table_data, PCIE_MMCFG_BUS(info->size - 1), 1);
+> > +    /* Reserved */
+> > +    build_append_int_noprefix(table_data, 0, 4);
+> > +
+> > +    build_header(linker, table_data, (void *)(table_data->data + mcfg_start),
+> > +                 "MCFG", table_data->len - mcfg_start, 1, NULL, NULL);
+> >  }
+> >  
+> > diff --git a/include/hw/acpi/acpi-defs.h b/include/hw/acpi/acpi-defs.h
+> > index f9aa4bd398..57a3f58b0c 100644
+> > --- a/include/hw/acpi/acpi-defs.h
+> > +++ b/include/hw/acpi/acpi-defs.h
+> > @@ -449,24 +449,6 @@ struct AcpiSratProcessorGiccAffinity {
+> >  
+> >  typedef struct AcpiSratProcessorGiccAffinity AcpiSratProcessorGiccAffinity;
+> >  
+> > -/* PCI fw r3.0 MCFG table. */
+> > -/* Subtable */
+> > -struct AcpiMcfgAllocation {
+> > -    uint64_t address;                /* Base address, processor-relative */
+> > -    uint16_t pci_segment;            /* PCI segment group number */
+> > -    uint8_t start_bus_number;       /* Starting PCI Bus number */
+> > -    uint8_t end_bus_number;         /* Final PCI Bus number */
+> > -    uint32_t reserved;
+> > -} QEMU_PACKED;
+> > -typedef struct AcpiMcfgAllocation AcpiMcfgAllocation;
+> > -
+> > -struct AcpiTableMcfg {
+> > -    ACPI_TABLE_HEADER_DEF;
+> > -    uint8_t reserved[8];
+> > -    AcpiMcfgAllocation allocation[0];
+> > -} QEMU_PACKED;
+> > -typedef struct AcpiTableMcfg AcpiTableMcfg;
+> > -
+> >  /*
+> >   * TCPA Description Table
+> >   *
+> > -- 
+> > 2.19.1  
+
 
