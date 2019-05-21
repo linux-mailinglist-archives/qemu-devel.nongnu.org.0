@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C0F2E24C44
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 12:07:08 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50526 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8C32324C4F
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 12:10:24 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50550 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hT1fn-0001EI-T5
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 06:07:07 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44744)
+	id 1hT1ix-0003kS-MZ
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 06:10:23 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:44756)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <arilou@gmail.com>) id 1hT1Z8-0005iJ-66
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 06:00:15 -0400
+	(envelope-from <arilou@gmail.com>) id 1hT1ZA-0005kc-4d
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 06:00:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <arilou@gmail.com>) id 1hT1Z7-0007Ty-4O
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 06:00:14 -0400
-Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:51272)
+	(envelope-from <arilou@gmail.com>) id 1hT1Z8-0007VM-6J
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 06:00:15 -0400
+Received: from mail-wm1-x341.google.com ([2a00:1450:4864:20::341]:39809)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <arilou@gmail.com>) id 1hT1Z6-0007Sr-T7
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 06:00:13 -0400
-Received: by mail-wm1-x341.google.com with SMTP id c77so2299959wmd.1
-	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 03:00:12 -0700 (PDT)
+	(Exim 4.71) (envelope-from <arilou@gmail.com>) id 1hT1Z7-0007UH-V1
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 06:00:14 -0400
+Received: by mail-wm1-x341.google.com with SMTP id n25so386645wmk.4
+	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 03:00:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=5vUrzsPbD2HsTVi8AVPvqq8W6f/IcWzSOuiw6zGUfXY=;
-	b=DrsbVFhPhSJ2vvr3bvX2IxgGvos9E21VmEtyENu4Smf0Ve0ru5EX8VV0g2nSYaRgcm
-	4LmwJOCyID+tbhmjBKfw5dJa6b3EO7gT15h/X8FE71g3I6/aLrlpp2O0fpgvRawsAJZ6
-	ndlLEI8rrXcKCD0LkZzWIj+YmxnOgJUhDt/JOLZ7FQ3KxaUeBd7fOwkyQQcFkCx+NOip
-	QXP4iRuenW8Pcx1h+CaR1Rauf9dMwb42iM1tXAyDwn/7TF3Luil8/Bq1FoWX6fOAB3ky
-	NKHV2AUV1DYJuMfDYA4KxFS4tO1S+ZvEkVkqIWFmqPqDYjB4J50nVotPO76arUajXrD3
-	27WA==
+	bh=JBP05yP+oKTHN0+qEMyIVDJm99TfFag3Xoa9AN/GQ0I=;
+	b=br0E+9Cv/qFJClTAmxvpVAEG0K4lrlDsStfRHa3C47BBc740UUFsGSmVmK0fTYb8CH
+	z5ScgCLvRXLTG5oV5iXXFt/T+9iuyssS/G71t2Ep6oet7s/wmknIs0UOyas78Y3lUMm1
+	dahPCvVFt8rSq7KvfJryTSIX+g+1Ea9Qr1iP11Cyu/kpnJsPfxb8CECdfIbvszxYjMwZ
+	phuun1oefwSqVQaJz/Dj8ANSW17Z+5OQrJW6EfZul0oEL+Rbe7D46oTtJKi0uuQ/Nq/a
+	QqHQnp/TQVL8QuEl3GqJyDP5ohCflCO/A0rDK6FvarZ16C/7WJHqtiIHwKYwcbb1pI6N
+	CPOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=5vUrzsPbD2HsTVi8AVPvqq8W6f/IcWzSOuiw6zGUfXY=;
-	b=XqMtJ2ulqCoOnsZ4b4ri/f5VZVdanho0KgeTudjgtsIZDbJl1yffHwemzKE9Ul3WuV
-	UQEJtMm0z+2eUe1ymPn0CVbM3de6mN4bIYzOW5hUwq5MimyECQulEzrpUrJujR6jk/wL
-	ygy81uMxHrwwAPBCOH5UgCGI/fl/HnNYeFzB/v1qsMODYYXsRH3tuvDrVUi/yboW2Itx
-	MJJedCczdylqgv/eJBsCmRsH+5UbS45rW4pr2y6UHon178ylXFUPsp6ghnrG+KPYWPE0
-	O3mZ9pROWkBk/Znwpcfbt5NtOO4Dv4eyOq0/LA7wgn5lBYKe+KisWA0lWB5R2NvsB+mM
-	0kbQ==
-X-Gm-Message-State: APjAAAWO8uKlcAxhZS4VkbfuP56+6BdrLc+r10XitVVzYsf/eRFkRen3
-	T6tXUFAzuYs3mSLSDQjhbCybV4Ok
-X-Google-Smtp-Source: APXvYqx/hb3CAJSyb7pHCyTHBmnvjhErnDlDgB+k6R0awCPOA46FeQTrlG9FBj8cQVlT4kRN7PMy8A==
-X-Received: by 2002:a7b:c549:: with SMTP id j9mr2654520wmk.114.1558432811827; 
-	Tue, 21 May 2019 03:00:11 -0700 (PDT)
+	bh=JBP05yP+oKTHN0+qEMyIVDJm99TfFag3Xoa9AN/GQ0I=;
+	b=bKZflh/qe9KpJ0nyBAUTOPzwd2HhTcOK0WNjTc9rqvL41+EzE6IzX3zaTvt5YYjbIX
+	XDWVeKULZ4zDxT7TZtICj+D6ke5cUuha5d7ML4YEirwuVv+8y/uBXBSB0SWRb+koefIA
+	LD6M0dd/aBOVGyzJb2jZh7cur2a0lkrB/jBH6x5x9kzpIGuTLZayqyr0gK5GFz2XtuJK
+	t48hqYyv1+2ze/wBu8kPPOxnn4vfVXrNz0Y/uNQle5c2GaQg1niiJd0a1DuKEg+21zV3
+	PwCt4kulgXqssV4a33d8xIpBfzsMKQ2TyDn9HdcLdsx6lGwpU1WxIBjPdskX4WBncEZq
+	Rctg==
+X-Gm-Message-State: APjAAAUvcwVOaxluHk/geHfv3kzEOuid+V4Ym1GKxR6dYYerboSYDecD
+	MBTtJuynG3o+QeRm9ZdRs/Ei2owj
+X-Google-Smtp-Source: APXvYqy+qD+hD1ljcry6sX3jwcynDMz3iXZq+BifOi3dtWBR5W05UJqaRu1CXEXOkMAPLiO7253SSA==
+X-Received: by 2002:a1c:a7cc:: with SMTP id q195mr2785399wme.53.1558432812906; 
+	Tue, 21 May 2019 03:00:12 -0700 (PDT)
 Received: from jondnuc.lan ([176.230.64.64])
-	by smtp.gmail.com with ESMTPSA id 65sm3080257wro.85.2019.05.21.03.00.10
+	by smtp.gmail.com with ESMTPSA id 65sm3080257wro.85.2019.05.21.03.00.11
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Tue, 21 May 2019 03:00:11 -0700 (PDT)
+	Tue, 21 May 2019 03:00:12 -0700 (PDT)
 From: Jon Doron <arilou@gmail.com>
 To: qemu-devel@nongnu.org
-Date: Tue, 21 May 2019 12:59:34 +0300
-Message-Id: <20190521095948.8204-7-arilou@gmail.com>
+Date: Tue, 21 May 2019 12:59:35 +0300
+Message-Id: <20190521095948.8204-8-arilou@gmail.com>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190521095948.8204-1-arilou@gmail.com>
 References: <20190521095948.8204-1-arilou@gmail.com>
@@ -64,8 +64,8 @@ Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
 X-Received-From: 2a00:1450:4864:20::341
-Subject: [Qemu-devel] [PATCH v10 06/20] gdbstub: Implement set_thread (H
- pkt) with new infra
+Subject: [Qemu-devel] [PATCH v10 07/20] gdbstub: Implement breakpoint
+ commands (Z/z pkt) with new infra
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -83,117 +83,119 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Jon Doron <arilou@gmail.com>
 ---
- gdbstub.c | 83 +++++++++++++++++++++++++++++++++++--------------------
- 1 file changed, 53 insertions(+), 30 deletions(-)
+ gdbstub.c | 84 +++++++++++++++++++++++++++++++++++++++++++------------
+ 1 file changed, 66 insertions(+), 18 deletions(-)
 
 diff --git a/gdbstub.c b/gdbstub.c
-index f74a30da03..129a47230f 100644
+index 129a47230f..c59a6765cd 100644
 --- a/gdbstub.c
 +++ b/gdbstub.c
-@@ -1546,6 +1546,51 @@ static void handle_cont_with_sig(GdbCmdContext *gdb_ctx, void *user_ctx)
-     gdb_continue(gdb_ctx->s);
+@@ -950,7 +950,7 @@ static inline int xlat_gdb_type(CPUState *cpu, int gdbtype)
+ }
+ #endif
+ 
+-static int gdb_breakpoint_insert(target_ulong addr, target_ulong len, int type)
++static int gdb_breakpoint_insert(int type, target_ulong addr, target_ulong len)
+ {
+     CPUState *cpu;
+     int err = 0;
+@@ -1591,6 +1591,52 @@ static void handle_set_thread(GdbCmdContext *gdb_ctx, void *user_ctx)
+     }
  }
  
-+static void handle_set_thread(GdbCmdContext *gdb_ctx, void *user_ctx)
++static void handle_insert_bp(GdbCmdContext *gdb_ctx, void *user_ctx)
 +{
-+    CPUState *cpu;
++    int res;
 +
-+    if (gdb_ctx->num_params != 2) {
++    if (gdb_ctx->num_params != 3) {
 +        put_packet(gdb_ctx->s, "E22");
 +        return;
 +    }
 +
-+    if (gdb_ctx->params[1].thread_id.kind == GDB_READ_THREAD_ERR) {
-+        put_packet(gdb_ctx->s, "E22");
-+        return;
-+    }
-+
-+    if (gdb_ctx->params[1].thread_id.kind != GDB_ONE_THREAD) {
++    res = gdb_breakpoint_insert(gdb_ctx->params[0].val_ul,
++                                gdb_ctx->params[1].val_ull,
++                                gdb_ctx->params[2].val_ull);
++    if (res >= 0) {
 +        put_packet(gdb_ctx->s, "OK");
 +        return;
++    } else if (res == -ENOSYS) {
++        put_packet(gdb_ctx->s, "");
++        return;
 +    }
 +
-+    cpu = gdb_get_cpu(gdb_ctx->s, gdb_ctx->params[1].thread_id.pid,
-+                      gdb_ctx->params[1].thread_id.tid);
-+    if (!cpu) {
++    put_packet(gdb_ctx->s, "E22");
++}
++
++static void handle_remove_bp(GdbCmdContext *gdb_ctx, void *user_ctx)
++{
++    int res;
++
++    if (gdb_ctx->num_params != 3) {
 +        put_packet(gdb_ctx->s, "E22");
 +        return;
 +    }
 +
-+    /*
-+     * Note: This command is deprecated and modern gdb's will be using the
-+     *       vCont command instead.
-+     */
-+    switch (gdb_ctx->params[0].opcode) {
-+    case 'c':
-+        gdb_ctx->s->c_cpu = cpu;
++    res = gdb_breakpoint_remove(gdb_ctx->params[0].val_ul,
++                                gdb_ctx->params[1].val_ull,
++                                gdb_ctx->params[2].val_ull);
++    if (res >= 0) {
 +        put_packet(gdb_ctx->s, "OK");
-+        break;
-+    case 'g':
-+        gdb_ctx->s->g_cpu = cpu;
-+        put_packet(gdb_ctx->s, "OK");
-+        break;
-+    default:
-+        put_packet(gdb_ctx->s, "E22");
-+        break;
++        return;
++    } else if (res == -ENOSYS) {
++        put_packet(gdb_ctx->s, "");
++        return;
 +    }
++
++    put_packet(gdb_ctx->s, "E22");
 +}
 +
  static int gdb_handle_packet(GDBState *s, const char *line_buf)
  {
      CPUState *cpu;
-@@ -1559,7 +1604,6 @@ static int gdb_handle_packet(GDBState *s, const char *line_buf)
-     char thread_id[16];
-     uint8_t *registers;
-     target_ulong addr, len;
--    GDBThreadIdKind thread_kind;
-     const GdbCmdParseEntry *cmd_parser = NULL;
- 
-     trace_gdbstub_io_command(line_buf);
-@@ -1822,35 +1866,14 @@ static int gdb_handle_packet(GDBState *s, const char *line_buf)
-             put_packet(s, "E22");
+@@ -1846,24 +1892,26 @@ static int gdb_handle_packet(GDBState *s, const char *line_buf)
+         put_packet(s, "OK");
+         break;
+     case 'Z':
++        {
++            static const GdbCmdParseEntry insert_bp_cmd_desc = {
++                .handler = handle_insert_bp,
++                .cmd = "Z",
++                .cmd_startswith = 1,
++                .schema = "l?L?L0"
++            };
++            cmd_parser = &insert_bp_cmd_desc;
++        }
++        break;
+     case 'z':
+-        type = strtoul(p, (char **)&p, 16);
+-        if (*p == ',')
+-            p++;
+-        addr = strtoull(p, (char **)&p, 16);
+-        if (*p == ',')
+-            p++;
+-        len = strtoull(p, (char **)&p, 16);
+-        if (ch == 'Z')
+-            res = gdb_breakpoint_insert(addr, len, type);
+-        else
+-            res = gdb_breakpoint_remove(addr, len, type);
+-        if (res >= 0)
+-             put_packet(s, "OK");
+-        else if (res == -ENOSYS)
+-            put_packet(s, "");
+-        else
+-            put_packet(s, "E22");
++        {
++            static const GdbCmdParseEntry remove_bp_cmd_desc = {
++                .handler = handle_remove_bp,
++                .cmd = "z",
++                .cmd_startswith = 1,
++                .schema = "l?L?L0"
++            };
++            cmd_parser = &remove_bp_cmd_desc;
++        }
          break;
      case 'H':
--        type = *p++;
--
--        thread_kind = read_thread_id(p, &p, &pid, &tid);
--        if (thread_kind == GDB_READ_THREAD_ERR) {
--            put_packet(s, "E22");
--            break;
--        }
--
--        if (thread_kind != GDB_ONE_THREAD) {
--            put_packet(s, "OK");
--            break;
--        }
--        cpu = gdb_get_cpu(s, pid, tid);
--        if (cpu == NULL) {
--            put_packet(s, "E22");
--            break;
--        }
--        switch (type) {
--        case 'c':
--            s->c_cpu = cpu;
--            put_packet(s, "OK");
--            break;
--        case 'g':
--            s->g_cpu = cpu;
--            put_packet(s, "OK");
--            break;
--        default:
--             put_packet(s, "E22");
--             break;
-+        {
-+            static const GdbCmdParseEntry set_thread_cmd_desc = {
-+                .handler = handle_set_thread,
-+                .cmd = "H",
-+                .cmd_startswith = 1,
-+                .schema = "o.t0"
-+            };
-+            cmd_parser = &set_thread_cmd_desc;
-         }
-         break;
-     case 'T':
+         {
 -- 
 2.21.0
 
