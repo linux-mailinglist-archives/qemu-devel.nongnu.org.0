@@ -2,161 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 19B4C248A4
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 09:02:10 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:47847 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6FF77248BD
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 09:08:46 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:47965 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSymn-00019S-7N
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 03:02:09 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51324)
+	id 1hSytB-00062t-L3
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 03:08:45 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52592)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <aik@ozlabs.ru>) id 1hSyP8-0004Gh-5f
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 02:37:43 -0400
+	(envelope-from <alex.bennee@linaro.org>) id 1hSyUR-0000uR-JI
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 02:43:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <aik@ozlabs.ru>) id 1hSyP6-0004g4-N1
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 02:37:42 -0400
-Received: from mail-pf1-x444.google.com ([2607:f8b0:4864:20::444]:41155)
+	(envelope-from <alex.bennee@linaro.org>) id 1hSyUQ-0000jZ-8s
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 02:43:11 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:41926)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <aik@ozlabs.ru>) id 1hSyP6-0004eM-6E
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 02:37:40 -0400
-Received: by mail-pf1-x444.google.com with SMTP id q17so8514105pfq.8
-	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 23:37:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=ozlabs-ru.20150623.gappssmtp.com; s=20150623;
-	h=subject:from:to:cc:references:openpgp:autocrypt:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=JkMUmoTvPk7OexfKRoNT+99X4QGF1336of0gljZjb0w=;
-	b=VZ++t/0HF8ldIGnYMyDPel2+Jdf/cq2akaI9dpnk86Xs5VUsfMEGh/KjLjmp+wrJFZ
-	CgaIIhym8j6KTEHkQTtU3kb+brz0WgdhWgc+3f/RElf3WGpwDbLeyfxci6buYPgOL1cW
-	+5/NT7WumJ5MR2baYrTEihEGNrKeYTcdsS9HNUXfASykPvIuhFjazLFsP1Exm/dajFSA
-	/ZWyT3rieQLVF6j2nEu4+6GYpAxBW+kgcsTvQLPwcVE4aPL7p5qXZI48mYCO6XzKW1AJ
-	F5vh+pzq80oaxgOh2uq2nYd/dcm1GxgJCxa+6Py1iQjBZTXVx74+YH6qON2REz498joH
-	tQTQ==
+	(Exim 4.71) (envelope-from <alex.bennee@linaro.org>)
+	id 1hSyUP-0000iX-Uc
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 02:43:10 -0400
+Received: by mail-wr1-x441.google.com with SMTP id g12so16853539wro.8
+	for <qemu-devel@nongnu.org>; Mon, 20 May 2019 23:43:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=references:user-agent:from:to:cc:subject:in-reply-to:date
+	:message-id:mime-version:content-transfer-encoding;
+	bh=DGnw+X0qgmTX2ZZDdRi8N0Jy0VN2NNOy3Y0n7J1VRcc=;
+	b=AM1J7sRMhheXV5EKKeTLgLM/DC9L7jzGHROboD4rSGa4zYkdEhWkEguvwpXW003JZ5
+	UwhL1608SRpsK6uF2lc9+4RkVbIY6o8UwW0Af7fTJ3rLpxKhFrvcJ1QXph4zQgnNtucp
+	lnZRUKXvyvLT+5JX8RdvdHeI1M8Fu48WvTOHlogg9CWkqq5mVHuHAP3NZKDGjop0a+MA
+	kGFpJ+U1L7guA8vanheViCg/5KpvWZKqODaOFgEr2u6scfa9zdfwZ63WkdJLhGBApxtW
+	bp2tqPW2vAg0mgY3AD9GuN+CuQ1Z1dX6e4DB2fUm/CJrwEuCM4lCD737bfP2v0oCts4f
+	0RKQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:from:to:cc:references:openpgp:autocrypt
-	:message-id:date:user-agent:mime-version:in-reply-to
-	:content-language:content-transfer-encoding;
-	bh=JkMUmoTvPk7OexfKRoNT+99X4QGF1336of0gljZjb0w=;
-	b=Derm/0DQXHf4cF62n3z5SJ7WUad4mKL4Iz4vY5uKNCyOnQZyVLkfaNTnz2bIVW9+BD
-	Ec0Bc6Z/axu2FMaNIhedu0pxSqmA7guwgXpeskQe5GlSeXJnQF+sjQPYNqqqezdxgW/H
-	JDgBhjXl7Ur60/TwjtEy1dh/2goNFtReJZJ5s8xAU8V2G4IEHpeE36eIaKoYEQ/nBkFx
-	225l+0sWq9qDjeFefbcf8TekGqf5dF71cBrmgDok0A9d7K+uZi8LO7VFyu6nia10ewsM
-	+F+OiiwWxXoai2FI57UhKhdvRz/yhbIEknMbvGeGLa+QUlnWfoIV9hoZPfZuLXgm83gm
-	8JtQ==
-X-Gm-Message-State: APjAAAWo8wf2Yk7SWa7d2Duh7wdEgpmPMzs2x5l3ehloAK6RG0gngQF0
-	cBkQS1pdSszTk/GcjJ0eAo6Hag==
-X-Google-Smtp-Source: APXvYqz7vQmr3sybkPsLbhGh4DEqiWDPSFtFNHNEFTauvHwdPYJjpVVmOf4H6GZ6X4FJtrL/TWKLgw==
-X-Received: by 2002:a63:5964:: with SMTP id j36mr79690076pgm.384.1558420657023;
-	Mon, 20 May 2019 23:37:37 -0700 (PDT)
-Received: from [10.61.2.175] ([122.99.82.10]) by smtp.gmail.com with ESMTPSA id
-	x7sm12679915pfm.82.2019.05.20.23.37.33
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Mon, 20 May 2019 23:37:35 -0700 (PDT)
-From: Alexey Kardashevskiy <aik@ozlabs.ru>
-To: Paolo Bonzini <pbonzini@redhat.com>
-References: <20181214025849.84274-1-aik@ozlabs.ru>
-	<8727c6e5-006c-20e5-cb6b-be525154e184@redhat.com>
-	<bda42f7c-9068-3c4d-d839-7f6c52561cc9@ozlabs.ru>
-	<69a29694-b777-721a-eafd-4ff38c457f6d@redhat.com>
-	<db36d006-3bdc-47fe-9987-519440446c4e@ozlabs.ru>
-	<20190103173753.GJ2316@work-vm>
-	<d4b8695c-3d37-ba92-d62b-e067b77274c8@ozlabs.ru>
-	<20190207114953.GB2773@work-vm>
-	<16486ff4-eb62-b4f2-78f8-a1ec7e3fbb0b@redhat.com>
-	<30a5a208-249f-106e-f885-94caf9b82970@ozlabs.ru>
-	<f346fdcb-1849-3397-7f4c-2d6ee07fcd7c@ozlabs.ru>
-	<aca6d2ae-806f-55b3-d9d5-f5a2cfd760b9@ozlabs.ru>
-Openpgp: preference=signencrypt
-Autocrypt: addr=aik@ozlabs.ru; keydata=
-	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
-Message-ID: <a66cc0e6-3629-8f07-65d3-aefff9dcd2d5@ozlabs.ru>
-Date: Tue, 21 May 2019 16:37:32 +1000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	h=x-gm-message-state:references:user-agent:from:to:cc:subject
+	:in-reply-to:date:message-id:mime-version:content-transfer-encoding;
+	bh=DGnw+X0qgmTX2ZZDdRi8N0Jy0VN2NNOy3Y0n7J1VRcc=;
+	b=VP4BzG5yJfm+83V2OFc6JCsZdmQYERk8EbcoVG3t/oH9rP8DwEwf2DvN09W1qtMurH
+	9a8z1C2zghnz/gZAq9Mm59VNO4pCMxHXpxvr8jo4BJc1y1ils7Q9xc+eszmzoKkhwRbH
+	gopP6CPeI/Y5x6iA52nYGsFEHyf55CPkyXm9/QvpGyahevbdQBQFHrqrLAGmGhoT3K/I
+	Kt8gVv8jiM5HlkbT6Ezg+9QQaz34VpfbTVvJq+x54+eamqccLJs1L0I3gmT8JPhRQMdd
+	3RCIxkbH4pZ/0SNFzEKqNaK+2NCp5vXjBK1KwtAMm8RBh1Ekal/N5sFyaFXZXXtDjCjG
+	buow==
+X-Gm-Message-State: APjAAAXfMQOlbWvcE81TNCyOciH5xLTXj+eMdzLEoDDA2lSBfrBSBXhr
+	Q72N3R43CpaZVFQ2scoGlpOuPw==
+X-Google-Smtp-Source: APXvYqwZO+vD3doNtV2hwlplIxiI7WomZsN6cxxdnbsuxDJoCYG9dlsdkd7z6z+T5n1KxANMYz9c4A==
+X-Received: by 2002:adf:b447:: with SMTP id v7mr47806822wrd.267.1558420987479; 
+	Mon, 20 May 2019 23:43:07 -0700 (PDT)
+Received: from zen.linaroharston ([81.128.185.34])
+	by smtp.gmail.com with ESMTPSA id
+	w18sm16035305wru.15.2019.05.20.23.43.06
+	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
+	Mon, 20 May 2019 23:43:06 -0700 (PDT)
+Received: from zen (localhost [127.0.0.1])
+	by zen.linaroharston (Postfix) with ESMTP id 76BEE1FF87;
+	Tue, 21 May 2019 07:43:06 +0100 (BST)
+References: <20190502081554.5521-1-arilou@gmail.com>
+	<20190502081554.5521-3-arilou@gmail.com>
+	<877easooi3.fsf@zen.linaroharston>
+	<CAP7QCoha=nGJQGGDVkdVtrKNxmP9gyCEekHFH37O5yj6QYHz6Q@mail.gmail.com>
+User-agent: mu4e 1.3.2; emacs 26.1
+From: Alex =?utf-8?Q?Benn=C3=A9e?= <alex.bennee@linaro.org>
+To: Jon Doron <arilou@gmail.com>
+In-reply-to: <CAP7QCoha=nGJQGGDVkdVtrKNxmP9gyCEekHFH37O5yj6QYHz6Q@mail.gmail.com>
+Date: Tue, 21 May 2019 07:43:06 +0100
+Message-ID: <87imu4gvet.fsf@zen.linaroharston>
 MIME-Version: 1.0
-In-Reply-To: <aca6d2ae-806f-55b3-d9d5-f5a2cfd760b9@ozlabs.ru>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::444
-Subject: Re: [Qemu-devel] [PATCH qemu v2] hmp: Print if memory section is
- registered with an accelerator
+X-Received-From: 2a00:1450:4864:20::441
+Subject: Re: [Qemu-devel] [PATCH v9 02/27] gdbstub: Implement deatch (D pkt)
+ with new infra
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -168,174 +86,196 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Daniel Henrique Barboza <danielhb413@gmail.com>,
-	=?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
-	"Dr. David Alan Gilbert" <dgilbert@redhat.com>, qemu-devel@nongnu.org
+Cc: QEMU <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ping, anyone? I still enjoy seeing "kvm" next to MRs in "info mtree -f"
-in my local QEMU :)
+
+Jon Doron <arilou@gmail.com> writes:
+
+> Hi Alex, I implemented this change but i'm having second guesses on
+> this, basically a NULL packet means the command is not supported (as
+> far as i understand from the protocol documentation and implementation
+> of GDB)
+> That being said I think it's correct to send back a NULL packet if
+> process_string_cmd fails for any reason, or you would prefer ill just
+> omit it?
+>
+> Snippet of the change I did according to your review:
+> -    if (cmd_parser &&
+> -        process_string_cmd(s, NULL, line_buf, cmd_parser, 1)) {
+> -        put_packet(s, "");
+> +    if (!cmd_parser) {
+> +        return RS_IDLE;
+>      }
+>
+> +    process_string_cmd(s, NULL, line_buf, cmd_parser, 1);
+
+OK I see your reasoning. So perhaps:
+
+   if (cmd_parser) {
+      /* helper will respond */
+      process_string_cmd(s, NULL, line_buf, cmd_parser, 1)
+   } else {
+      /* unknown command, empty response */
+      put_packet(s, "");
+   }
+
+   return RS_IDLE;
+>
+> -- Jon.
+>
+> On Tue, May 14, 2019 at 9:54 PM Alex Benn=C3=A9e <alex.bennee@linaro.org>=
+ wrote:
+>>
+>>
+>> Jon Doron <arilou@gmail.com> writes:
+>>
+>> > Signed-off-by: Jon Doron <arilou@gmail.com>
+>> > ---
+>> >  gdbstub.c | 90 ++++++++++++++++++++++++++++++-------------------------
+>> >  1 file changed, 50 insertions(+), 40 deletions(-)
+>> >
+>> > diff --git a/gdbstub.c b/gdbstub.c
+>> > index d5e0f3878a..621d689868 100644
+>> > --- a/gdbstub.c
+>> > +++ b/gdbstub.c
+>> > @@ -1418,11 +1418,6 @@ static inline int startswith(const char *string=
+, const char *pattern)
+>> >    return !strncmp(string, pattern, strlen(pattern));
+>> >  }
+>> >
+>> > -static int process_string_cmd(
+>> > -        GDBState *s, void *user_ctx, const char *data,
+>> > -        const GdbCmdParseEntry *cmds, int num_cmds)
+>> > -        __attribute__((unused));
+>> > -
+>> >  static int process_string_cmd(GDBState *s, void *user_ctx, const char=
+ *data,
+>> >                                const GdbCmdParseEntry *cmds, int num_c=
+mds)
+>> >  {
+>> > @@ -1468,6 +1463,41 @@ static int process_string_cmd(GDBState *s, void=
+ *user_ctx, const char *data,
+>> >      return -1;
+>> >  }
+>> >
+>> > +static void handle_detach(GdbCmdContext *gdb_ctx, void *user_ctx)
+>> > +{
+>> > +    GDBProcess *process;
+>> > +    GDBState *s =3D gdb_ctx->s;
+>> > +    uint32_t pid =3D 1;
+>> > +
+>> > +    if (s->multiprocess) {
+>> > +        if (!gdb_ctx->num_params) {
+>> > +            put_packet(s, "E22");
+>> > +            return;
+>> > +        }
+>> > +
+>> > +        pid =3D gdb_ctx->params[0].val_ul;
+>> > +    }
+>> > +
+>> > +    process =3D gdb_get_process(s, pid);
+>> > +    gdb_process_breakpoint_remove_all(s, process);
+>> > +    process->attached =3D false;
+>> > +
+>> > +    if (pid =3D=3D gdb_get_cpu_pid(s, s->c_cpu)) {
+>> > +        s->c_cpu =3D gdb_first_attached_cpu(s);
+>> > +    }
+>> > +
+>> > +    if (pid =3D=3D gdb_get_cpu_pid(s, s->g_cpu)) {
+>> > +        s->g_cpu =3D gdb_first_attached_cpu(s);
+>> > +    }
+>> > +
+>> > +    if (!s->c_cpu) {
+>> > +        /* No more process attached */
+>> > +        gdb_syscall_mode =3D GDB_SYS_DISABLED;
+>> > +        gdb_continue(s);
+>> > +    }
+>> > +    put_packet(s, "OK");
+>> > +}
+>> > +
+>> >  static int gdb_handle_packet(GDBState *s, const char *line_buf)
+>> >  {
+>> >      CPUState *cpu;
+>> > @@ -1482,6 +1512,7 @@ static int gdb_handle_packet(GDBState *s, const =
+char *line_buf)
+>> >      uint8_t *registers;
+>> >      target_ulong addr, len;
+>> >      GDBThreadIdKind thread_kind;
+>> > +    const GdbCmdParseEntry *cmd_parser =3D NULL;
+>> >
+>> >      trace_gdbstub_io_command(line_buf);
+>> >
+>> > @@ -1582,42 +1613,15 @@ static int gdb_handle_packet(GDBState *s, cons=
+t char *line_buf)
+>> >          error_report("QEMU: Terminated via GDBstub");
+>> >          exit(0);
+>> >      case 'D':
+>> > -        /* Detach packet */
+>> > -        pid =3D 1;
+>> > -
+>> > -        if (s->multiprocess) {
+>> > -            unsigned long lpid;
+>> > -            if (*p !=3D ';') {
+>> > -                put_packet(s, "E22");
+>> > -                break;
+>> > -            }
+>> > -
+>> > -            if (qemu_strtoul(p + 1, &p, 16, &lpid)) {
+>> > -                put_packet(s, "E22");
+>> > -                break;
+>> > -            }
+>> > -
+>> > -            pid =3D lpid;
+>> > -        }
+>> > -
+>> > -        process =3D gdb_get_process(s, pid);
+>> > -        gdb_process_breakpoint_remove_all(s, process);
+>> > -        process->attached =3D false;
+>> > -
+>> > -        if (pid =3D=3D gdb_get_cpu_pid(s, s->c_cpu)) {
+>> > -            s->c_cpu =3D gdb_first_attached_cpu(s);
+>> > -        }
+>> > -
+>> > -        if (pid =3D=3D gdb_get_cpu_pid(s, s->g_cpu)) {
+>> > -            s->g_cpu =3D gdb_first_attached_cpu(s);
+>> > -        }
+>> > -
+>> > -        if (s->c_cpu =3D=3D NULL) {
+>> > -            /* No more process attached */
+>> > -            gdb_syscall_mode =3D GDB_SYS_DISABLED;
+>> > -            gdb_continue(s);
+>> > +        {
+>> > +            static const GdbCmdParseEntry detach_cmd_desc =3D {
+>> > +                .handler =3D handle_detach,
+>> > +                .cmd =3D "D",
+>> > +                .cmd_startswith =3D 1,
+>> > +                .schema =3D "?.l0"
+>> > +            };
+>> > +            cmd_parser =3D &detach_cmd_desc;
+>> >          }
+>> > -        put_packet(s, "OK");
+>> >          break;
+>> >      case 's':
+>> >          if (*p !=3D '\0') {
+>> > @@ -1990,6 +1994,12 @@ static int gdb_handle_packet(GDBState *s, const=
+ char *line_buf)
+>> >          put_packet(s, buf);
+>> >          break;
+>> >      }
+>> > +
+>> > +    if (cmd_parser &&
+>> > +        process_string_cmd(s, NULL, line_buf, cmd_parser, 1)) {
+>> > +        put_packet(s, "");
+>>
+>> Why this null put_packet at the end? You've passed the handling of the
+>> OK reply back to your handler so this seems superfluous.
+>>
+>> --
+>> Alex Benn=C3=A9e
 
 
-
-On 24/04/2019 15:32, Alexey Kardashevskiy wrote:
-> Paolo, ping?
-> 
-> 
-> On 19/03/2019 18:05, Alexey Kardashevskiy wrote:
->>
->>
->> On 11/02/2019 15:56, Alexey Kardashevskiy wrote:
->>>
->>>
->>> On 09/02/2019 04:26, Paolo Bonzini wrote:
->>>> On 07/02/19 12:49, Dr. David Alan Gilbert wrote:
->>>>>  //#define DEBUG_UNASSIGNED
->>>>> @@ -2924,6 +2926,8 @@ struct FlatViewInfo {
->>>>>      int counter;
->>>>>      bool dispatch_tree;
->>>>>      bool owner;
->>>>> +    AccelClass *ac;
->>>>> +    const char *ac_name;
->>>>>  };
->>>>>  
->>>>>  static void mtree_print_flatview(gpointer key, gpointer value,
->>>>> @@ -2939,6 +2943,7 @@ static void mtree_print_flatview(gpointer key, gpointer value,
->>>>>      int n = view->nr;
->>>>>      int i;
->>>>>      AddressSpace *as;
->>>>> +    bool system_as = false;
->>>>>  
->>>>>      p(f, "FlatView #%d\n", fvi->counter);
->>>>>      ++fvi->counter;
->>>>> @@ -2950,6 +2955,9 @@ static void mtree_print_flatview(gpointer key, gpointer value,
->>>>>              p(f, ", alias %s", memory_region_name(as->root->alias));
->>>>>          }
->>>>>          p(f, "\n");
->>>>> +        if (as == &address_space_memory) {
->>>>> +            system_as = true;
->>>>> +        }
->>>>>      }
->>>>>  
->>>>>      p(f, " Root memory region: %s\n",
->>>>> @@ -2985,6 +2993,13 @@ static void mtree_print_flatview(gpointer key, gpointer value,
->>>>>          if (fvi->owner) {
->>>>>              mtree_print_mr_owner(p, f, mr);
->>>>>          }
->>>>> +
->>>>> +        if (system_as && fvi->ac &&
->>>>> +            fvi->ac->has_memory(current_machine,
->>>>> +                                int128_get64(range->addr.start),
->>>>> +                                MR_SIZE(range->addr.size) + 1)) {
->>>>> +            p(f, " %s", fvi->ac_name);
->>>>
->>>> I don't understand this.  This doesn't check that the memory range
->>>> actually matches the memory registered with the accelerator, only that
->>>> there is something in that range. 
->>>
->>>
->>> It is checking that a flat range (i.e. what actually works) has a
->>> corresponding KVM slot:
->>> https://git.qemu.org/?p=qemu.git;a=blob;f=accel/kvm/kvm-all.c;h=4e1de942ce554c734ac2673030031c228a752ac9;hb=HEAD#l201
->>>
->>>
->>>> Why isn't it enough to use "info
->>>> mtree" and look at the KVM address space?
->>>
->>>
->>> There is no such thing in my QEMU, did you mean "KVM-SMRAM" (which is
->>> missing on spapr)? I am not sure I understand its purpose for the task -
->>> it prints all same ranges on my x86 laptop, not just ones which we told
->>> KVM about.
->>>
->>> My task is that if let's say "0000:00:1a.0 BAR 0 mmaps[0]" is split into
->>> several sections because MSIX happens to be in a middle of that BAR and
->>> it is not system page size aligned, then it is going to be several
->>> ranges with no clear indication whether or not these were registered as
->>> KVM slots. A memory chunk can be "ram" and not a KVM slot if it is 4K on
->>> PPC with 64K system pages, for example.
->>>
->>>
->>> FlatView #0
->>>  AS "memory", root: system
->>>  AS "cpu-memory-0", root: system
->>>  AS "cpu-memory-1", root: system
->>>  AS "cpu-memory-2", root: system
->>>  AS "cpu-memory-3", root: system
->>>  AS "piix3-ide", root: bus master container
->>>  AS "virtio-net-pci", root: bus master container
->>>  AS "vfio-pci", root: bus master container
->>>  Root memory region: system
->>>   0000000000000000-00000000000bffff (prio 0, ram): pc.ram kvm
->>>   00000000000c0000-00000000000c0fff (prio 0, rom): pc.ram
->>> @00000000000c0000 kvm
->>>   00000000000c1000-00000000000c3fff (prio 0, ram): pc.ram
->>> @00000000000c1000 kvm
->>>   00000000000c4000-00000000000e7fff (prio 0, rom): pc.ram
->>> @00000000000c4000 kvm
->>>   00000000000e8000-00000000000effff (prio 0, ram): pc.ram
->>> @00000000000e8000 kvm
->>>   00000000000f0000-00000000000fffff (prio 0, rom): pc.ram
->>> @00000000000f0000 kvm
->>>   0000000000100000-00000000bfffffff (prio 0, ram): pc.ram
->>> @0000000000100000 kvm
->>>   00000000febc0000-00000000febc0fff (prio 0, ramd): 0000:00:1a.0 BAR 0
->>> mmaps[0] kvm
->>>   00000000febc1000-00000000febc102f (prio 0, i/o): msix-table
->>>   00000000febc1800-00000000febc1807 (prio 0, i/o): msix-pba
->>>   00000000febfc000-00000000febfcfff (prio 0, i/o): virtio-pci-common
->>>   00000000febfd000-00000000febfdfff (prio 0, i/o): virtio-pci-isr
->>>   00000000febfe000-00000000febfefff (prio 0, i/o): virtio-pci-device
->>>   00000000febff000-00000000febfffff (prio 0, i/o): virtio-pci-notify
->>>   00000000fec00000-00000000fec00fff (prio 0, i/o): kvm-ioapic
->>>   00000000fed00000-00000000fed003ff (prio 0, i/o): hpet
->>>   00000000fee00000-00000000feefffff (prio 4096, i/o): kvm-apic-msi
->>>   00000000fffc0000-00000000ffffffff (prio 0, rom): pc.bios kvm
->>>   0000000100000000-000000013fffffff (prio 0, ram): pc.ram
->>> @00000000c0000000 kvm
->>>
->>>
->>>
->>> FlatView #3
->>>  AS "KVM-SMRAM", root: mem-container-smram
->>>  Root memory region: mem-container-smram
->>>   0000000000000000-00000000000bffff (prio 0, ram): pc.ram
->>>   00000000000c0000-00000000000c0fff (prio 0, rom): pc.ram @00000000000c0000
->>>   00000000000c1000-00000000000c3fff (prio 0, ram): pc.ram @00000000000c1000
->>>   00000000000c4000-00000000000e7fff (prio 0, rom): pc.ram @00000000000c4000
->>>   00000000000e8000-00000000000effff (prio 0, ram): pc.ram @00000000000e8000
->>>   00000000000f0000-00000000000fffff (prio 0, rom): pc.ram @00000000000f0000
->>>   0000000000100000-00000000bfffffff (prio 0, ram): pc.ram @0000000000100000
->>>   00000000febc0000-00000000febc0fff (prio 0, ramd): 0000:00:1a.0 BAR 0
->>> mmaps[0]
->>>   00000000febc1000-00000000febc102f (prio 0, i/o): msix-table
->>>   00000000febc1800-00000000febc1807 (prio 0, i/o): msix-pba
->>>   00000000febfc000-00000000febfcfff (prio 0, i/o): virtio-pci-common
->>>   00000000febfd000-00000000febfdfff (prio 0, i/o): virtio-pci-isr
->>>   00000000febfe000-00000000febfefff (prio 0, i/o): virtio-pci-device
->>>   00000000febff000-00000000febfffff (prio 0, i/o): virtio-pci-notify
->>>   00000000fec00000-00000000fec00fff (prio 0, i/o): kvm-ioapic
->>>   00000000fed00000-00000000fed003ff (prio 0, i/o): hpet
->>>   00000000fee00000-00000000feefffff (prio 4096, i/o): kvm-apic-msi
->>>   00000000fffc0000-00000000ffffffff (prio 0, rom): pc.bios
->>>   0000000100000000-000000013fffffff (prio 0, ram): pc.ram @00000000c0000000
->>>
->>>
->>>
->>>
->>>> Perhaps you could add instead an argument to "info mtree" that prints
->>>> only the AddressSpace with a given name?
->>>
->>> Nah, this is not what it is about.
->>
->>
->>
->> Still a nack? :)
-> 
-> 
-> 
-
--- 
-Alexey
+--
+Alex Benn=C3=A9e
 
