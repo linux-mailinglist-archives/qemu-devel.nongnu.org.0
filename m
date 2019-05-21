@@ -2,51 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E74FA2514C
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 15:59:16 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54242 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B83D225171
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 16:04:02 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54347 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hT5IS-0004NJ-3S
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 09:59:16 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34296)
+	id 1hT5N3-0008FJ-Uf
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 10:04:01 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34202)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <pagupta@redhat.com>) id 1hT5DW-0000Uy-6C
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 09:54:11 -0400
+	(envelope-from <mst@redhat.com>) id 1hT5DX-0000P3-HG
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 09:54:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <pagupta@redhat.com>) id 1hT53k-0005n7-Ke
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 09:44:05 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:34282)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <pagupta@redhat.com>) id 1hT53k-0005m6-Eu
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 09:44:04 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id AF6A26EB84;
-	Tue, 21 May 2019 13:43:53 +0000 (UTC)
-Received: from dhcp201-121.englab.pnq.redhat.com (ovpn-116-97.sin2.redhat.com
-	[10.67.116.97])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 0B7C91001F5D;
-	Tue, 21 May 2019 13:43:21 +0000 (UTC)
-From: Pankaj Gupta <pagupta@redhat.com>
-To: linux-nvdimm@lists.01.org, linux-kernel@vger.kernel.org,
-	virtualization@lists.linux-foundation.org, kvm@vger.kernel.org,
-	linux-fsdevel@vger.kernel.org, linux-acpi@vger.kernel.org,
-	qemu-devel@nongnu.org, linux-ext4@vger.kernel.org,
-	linux-xfs@vger.kernel.org, dm-devel@redhat.com
-Date: Tue, 21 May 2019 19:07:13 +0530
-Message-Id: <20190521133713.31653-8-pagupta@redhat.com>
-In-Reply-To: <20190521133713.31653-1-pagupta@redhat.com>
-References: <20190521133713.31653-1-pagupta@redhat.com>
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.25]);
-	Tue, 21 May 2019 13:44:03 +0000 (UTC)
+	(envelope-from <mst@redhat.com>) id 1hT52R-0004ZV-0g
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 09:42:43 -0400
+Received: from mail-qt1-f196.google.com ([209.85.160.196]:40589)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hT52Q-0004Yq-TH
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 09:42:42 -0400
+Received: by mail-qt1-f196.google.com with SMTP id k24so20498744qtq.7
+	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 06:42:42 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+	:mime-version:content-disposition:in-reply-to;
+	bh=dTNyFHuH2EKIMK78fAWwlvAi/ly3eXI7flF+iJg1tKw=;
+	b=YGe/BGCMCz3rTleF+eMbD62+TwTtY8E1jK7GBkiKvbLZTmxsidUE1fjENdr3VeBH+c
+	1/Bx+y/EExzs8WlVbdmSvkptuyAYAsr0DI872znRLQOdaYqX6bmvzJWHZok+dW2mLfJr
+	uCnMcIpWgicnb45aZYWeLFQWyCzHVtuO/fpkG3ucLNaHZb2nhJcVWMZoTs1OZ6Q1l7GC
+	WTu9G2Vv+AKkCnh/5R/cHXsYI/QXKk19wZ5z9OJ6W1OyhTzYPxBKHpbIV2MtnOdhoTye
+	HCSi4j9kTVdeT6wcCIAtcnlYg2uv9HuJNfP5zoR/+/W2XVInxRN7jniviMygAE5+xBVt
+	OwVw==
+X-Gm-Message-State: APjAAAVlJTQrrkpPg4Cc2YKOQEmF28WPayHFKdnUYXerhkC41hfFMVJa
+	rb177I43FSCU0cfSUhICXuLxhw==
+X-Google-Smtp-Source: APXvYqzEu9BHjuJbZeF9ZzElOutd5KyWnd8KSNAHrKegtYGQU+TVhtjtEC3FAexH2udRMnSSMrQrCg==
+X-Received: by 2002:a0c:d909:: with SMTP id p9mr52742360qvj.42.1558446162297; 
+	Tue, 21 May 2019 06:42:42 -0700 (PDT)
+Received: from redhat.com (pool-173-76-105-71.bstnma.fios.verizon.net.
+	[173.76.105.71]) by smtp.gmail.com with ESMTPSA id
+	e133sm8039422qkb.76.2019.05.21.06.42.40
+	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
+	Tue, 21 May 2019 06:42:41 -0700 (PDT)
+Date: Tue, 21 May 2019 09:42:39 -0400
+From: "Michael S. Tsirkin" <mst@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Message-ID: <20190521094218-mutt-send-email-mst@kernel.org>
+References: <20190520231008.20140-1-mst@redhat.com>
+	<CAFEAcA80Q8zWxM4TBVMZHLuOzo0HSpT=4C76uAwdMjLn2Xye=w@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA80Q8zWxM4TBVMZHLuOzo0HSpT=4C76uAwdMjLn2Xye=w@mail.gmail.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v10 7/7] xfs: disable map_sync for async flush
+	[fuzzy]
+X-Received-From: 209.85.160.196
+Subject: Re: [Qemu-devel] [PULL v2 00/36] pci, pc, virtio: features, fixes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,55 +68,50 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: pagupta@redhat.com, rdunlap@infradead.org, jack@suse.cz, snitzer@redhat.com,
-	mst@redhat.com, jasowang@redhat.com, david@fromorbit.com,
-	lcapitulino@redhat.com, adilger.kernel@dilger.ca,
-	zwisler@kernel.org, aarcange@redhat.com, dave.jiang@intel.com,
-	jstaron@google.com, darrick.wong@oracle.com,
-	vishal.l.verma@intel.com, david@redhat.com, willy@infradead.org,
-	hch@infradead.org, jmoyer@redhat.com, nilal@redhat.com,
-	lenb@kernel.org, kilobyte@angband.pl, riel@surriel.com,
-	yuval.shaia@oracle.com, stefanha@redhat.com, pbonzini@redhat.com,
-	dan.j.williams@intel.com, kwolf@redhat.com, tytso@mit.edu,
-	xiaoguangrong.eric@gmail.com, cohuck@redhat.com,
-	rjw@rjwysocki.net, imammedo@redhat.com
+Cc: QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Dont support 'MAP_SYNC' with non-DAX files and DAX files
-with asynchronous dax_device. Virtio pmem provides
-asynchronous host page cache flush mechanism. We don't
-support 'MAP_SYNC' with virtio pmem and xfs.
+On Tue, May 21, 2019 at 12:49:48PM +0100, Peter Maydell wrote:
+> On Tue, 21 May 2019 at 00:10, Michael S. Tsirkin <mst@redhat.com> wrote:
+> >
+> > The following changes since commit 2259637b95bef3116cc262459271de08e038cc66:
+> >
+> >   Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into staging (2019-05-20 17:22:05 +0100)
+> >
+> > are available in the Git repository at:
+> >
+> >   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
+> >
+> > for you to fetch changes up to 0c05ec64c388aea59facbef740651afa78e04f50:
+> >
+> >   tests: acpi: print error unable to dump ACPI table during rebuild (2019-05-20 18:40:02 -0400)
+> >
+> > ----------------------------------------------------------------
+> > pci, pc, virtio: features, fixes
+> >
+> > reconnect for vhost blk
+> > tests for UEFI
+> > misc other stuff
+> >
+> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
+> >
+> > ----------------------------------------------------------------
+> 
+> Hi -- this failed 'make check' for 32-bit Arm hosts:
+> 
+> ERROR:/home/peter.maydell/qemu/tests/acpi-utils.c:145:acpi_find_rsdp_address_uefi:
+> code should not be reached
+> Aborted
+> ERROR - too few tests run (expected 1, got 0)
+> /home/peter.maydell/qemu/tests/Makefile.include:885: recipe for target
+> 'check-qtest-aarch64' failed
+> 
+> thanks
+> -- PMM
 
-Signed-off-by: Pankaj Gupta <pagupta@redhat.com>
-Reviewed-by: Darrick J. Wong <darrick.wong@oracle.com>
----
- fs/xfs/xfs_file.c | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+Dropped ARM and re-pushed.
 
-diff --git a/fs/xfs/xfs_file.c b/fs/xfs/xfs_file.c
-index a7ceae90110e..f17652cca5ff 100644
---- a/fs/xfs/xfs_file.c
-+++ b/fs/xfs/xfs_file.c
-@@ -1203,11 +1203,14 @@ xfs_file_mmap(
- 	struct file	*filp,
- 	struct vm_area_struct *vma)
- {
-+	struct dax_device 	*dax_dev;
-+
-+	dax_dev = xfs_find_daxdev_for_inode(file_inode(filp));
- 	/*
--	 * We don't support synchronous mappings for non-DAX files. At least
--	 * until someone comes with a sensible use case.
-+	 * We don't support synchronous mappings for non-DAX files and
-+	 * for DAX files if underneath dax_device is not synchronous.
- 	 */
--	if (!IS_DAX(file_inode(filp)) && (vma->vm_flags & VM_SYNC))
-+	if (!daxdev_mapping_supported(vma, dax_dev))
- 		return -EOPNOTSUPP;
- 
- 	file_accessed(filp);
 -- 
-2.20.1
-
+MST
 
