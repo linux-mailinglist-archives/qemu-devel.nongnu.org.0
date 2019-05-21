@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 0CF3D24858
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 08:46:50 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:47570 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E18422483E
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 08:43:09 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:47498 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSyXx-00037m-5o
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 02:46:49 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48893)
+	id 1hSyUP-0008Jx-19
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 02:43:09 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48987)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hSyHY-0005wN-Jn
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 02:29:54 -0400
+	(envelope-from <dgibson@ozlabs.org>) id 1hSyHa-0005yH-Db
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 02:29:55 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hSyHX-0007uB-3i
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 02:29:52 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:44911 helo=ozlabs.org)
+	(envelope-from <dgibson@ozlabs.org>) id 1hSyHY-0007zU-VV
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 02:29:54 -0400
+Received: from bilbo.ozlabs.org ([203.11.71.1]:36917 helo=ozlabs.org)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
-	id 1hSyHW-0007nK-FD; Tue, 21 May 2019 02:29:51 -0400
+	id 1hSyHY-0007tV-Jj; Tue, 21 May 2019 02:29:52 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
-	id 457Qph1lL5z9sP8; Tue, 21 May 2019 16:29:30 +1000 (AEST)
+	id 457Qpj1b7yz9sPG; Tue, 21 May 2019 16:29:31 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=gibson.dropbear.id.au; s=201602; t=1558420172;
-	bh=BDmxZb8/fuq570SYItgaSbQcITu2aaOYY38yS/5ivek=;
+	d=gibson.dropbear.id.au; s=201602; t=1558420173;
+	bh=s7n9GOFMHz6jZbmXHbQuUX0/Qi9S9CpdqCJBOttcq4s=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=iZbjrjlmJAWkdXaEx2rrpXGbNhWgoKozJDpnygzBp4cfjYzboyMvOqs/0vjUYCviD
-	DyfyMf54Vz+PCTNntvB4+tT1izIQ6y7/4LVJfuQ8n1dVcoyHS5RpMLPqluJ0lCgadJ
-	CtJ2pP6VNLX4/u6C0znkvnlF7lvcP3Sw6SZibRS0=
+	b=VWyJk10/5z47S7hHgSM31jiHhmBmzGx1a/l1PJqm7b08AJ+OrrxqZtl5Zv+9/b0b/
+	IltAa6tZjc7I0k2xFZ8NXWoOiofvH2QvvrOsRNW5N9aAjQN1MceTctFW+WC21VB0GB
+	RRlq0bJllaBl/zK9pkWRe+xRDm/mR4YH1ASMsJmA=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Date: Tue, 21 May 2019 16:29:00 +1000
-Message-Id: <20190521062924.6930-15-david@gibson.dropbear.id.au>
+Date: Tue, 21 May 2019 16:29:01 +1000
+Message-Id: <20190521062924.6930-16-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190521062924.6930-1-david@gibson.dropbear.id.au>
 References: <20190521062924.6930-1-david@gibson.dropbear.id.au>
@@ -41,8 +41,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 203.11.71.1
-Subject: [Qemu-devel] [PULL 14/38] spapr/xive: fix EQ page addresses above
- 64GB
+Subject: [Qemu-devel] [PULL 15/38] spapr/xive: print out the EQ page address
+ in the monitor
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,108 +62,43 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: C=C3=A9dric Le Goater <clg@kaod.org>
 
-The high order bits of the address of the OS event queue is stored in
-bits [4-31] of word2 of the XIVE END internal structures and the low
-order bits in word3. This structure is using Big Endian ordering and
-computing the value requires some simple arithmetic which happens to
-be wrong. The mask removing bits [0-3] of word2 is applied to the
-wrong value and the resulting address is bogus when above 64GB.
-
-Guests with more than 64GB of RAM will allocate pages for the OS event
-queues which will reside above the 64GB limit. In this case, the XIVE
-device model will wake up the CPUs in case of a notification, such as
-IPIs, but the update of the event queue will be written at the wrong
-place in memory. The result is uncertain as the guest memory is
-trashed and IPI are not delivered.
-
-Introduce a helper xive_end_qaddr() to compute this value correctly in
-all places where it is used.
+This proved to be a useful information when debugging issues with OS
+event queues allocated above 64GB.
 
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20190508171946.657-3-clg@kaod.org>
+Message-Id: <20190508171946.657-4-clg@kaod.org>
 Reviewed-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/spapr_xive.c       | 3 +--
- hw/intc/xive.c             | 9 +++------
- include/hw/ppc/xive_regs.h | 6 ++++++
- 3 files changed, 10 insertions(+), 8 deletions(-)
+ hw/intc/spapr_xive.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-index 33da1a52c6..a19e998093 100644
+index a19e998093..58cc6e2b50 100644
 --- a/hw/intc/spapr_xive.c
 +++ b/hw/intc/spapr_xive.c
-@@ -1150,8 +1150,7 @@ static target_ulong h_int_get_queue_config(PowerPCC=
-PU *cpu,
-     }
-=20
-     if (xive_end_is_enqueue(end)) {
--        args[1] =3D (uint64_t) be32_to_cpu(end->w2 & 0x0fffffff) << 32
--            | be32_to_cpu(end->w3);
-+        args[1] =3D xive_end_qaddr(end);
-         args[2] =3D xive_get_field32(END_W0_QSIZE, end->w0) + 12;
-     } else {
-         args[1] =3D 0;
-diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index a0b87001da..dcf2fcd108 100644
---- a/hw/intc/xive.c
-+++ b/hw/intc/xive.c
-@@ -1042,8 +1042,7 @@ static const TypeInfo xive_source_info =3D {
-=20
- void xive_end_queue_pic_print_info(XiveEND *end, uint32_t width, Monitor=
- *mon)
+@@ -120,6 +120,7 @@ static int spapr_xive_target_to_end(uint32_t target, =
+uint8_t prio,
+ static void spapr_xive_end_pic_print_info(SpaprXive *xive, XiveEND *end,
+                                           Monitor *mon)
  {
--    uint64_t qaddr_base =3D (uint64_t) be32_to_cpu(end->w2 & 0x0fffffff)=
- << 32
--        | be32_to_cpu(end->w3);
-+    uint64_t qaddr_base =3D xive_end_qaddr(end);
-     uint32_t qsize =3D xive_get_field32(END_W0_QSIZE, end->w0);
-     uint32_t qindex =3D xive_get_field32(END_W1_PAGE_OFF, end->w1);
-     uint32_t qentries =3D 1 << (qsize + 10);
-@@ -1072,8 +1071,7 @@ void xive_end_queue_pic_print_info(XiveEND *end, ui=
-nt32_t width, Monitor *mon)
-=20
- void xive_end_pic_print_info(XiveEND *end, uint32_t end_idx, Monitor *mo=
-n)
- {
--    uint64_t qaddr_base =3D (uint64_t) be32_to_cpu(end->w2 & 0x0fffffff)=
- << 32
--        | be32_to_cpu(end->w3);
 +    uint64_t qaddr_base =3D xive_end_qaddr(end);
      uint32_t qindex =3D xive_get_field32(END_W1_PAGE_OFF, end->w1);
      uint32_t qgen =3D xive_get_field32(END_W1_GENERATION, end->w1);
      uint32_t qsize =3D xive_get_field32(END_W0_QSIZE, end->w0);
-@@ -1101,8 +1099,7 @@ void xive_end_pic_print_info(XiveEND *end, uint32_t=
- end_idx, Monitor *mon)
+@@ -127,9 +128,9 @@ static void spapr_xive_end_pic_print_info(SpaprXive *=
+xive, XiveEND *end,
+     uint32_t nvt =3D xive_get_field32(END_W6_NVT_INDEX, end->w6);
+     uint8_t priority =3D xive_get_field32(END_W7_F0_PRIORITY, end->w7);
 =20
- static void xive_end_enqueue(XiveEND *end, uint32_t data)
- {
--    uint64_t qaddr_base =3D (uint64_t) be32_to_cpu(end->w2 & 0x0fffffff)=
- << 32
--        | be32_to_cpu(end->w3);
-+    uint64_t qaddr_base =3D xive_end_qaddr(end);
-     uint32_t qsize =3D xive_get_field32(END_W0_QSIZE, end->w0);
-     uint32_t qindex =3D xive_get_field32(END_W1_PAGE_OFF, end->w1);
-     uint32_t qgen =3D xive_get_field32(END_W1_GENERATION, end->w1);
-diff --git a/include/hw/ppc/xive_regs.h b/include/hw/ppc/xive_regs.h
-index bf36678a24..1a8c5b5e64 100644
---- a/include/hw/ppc/xive_regs.h
-+++ b/include/hw/ppc/xive_regs.h
-@@ -208,6 +208,12 @@ typedef struct XiveEND {
- #define xive_end_is_backlog(end)  (be32_to_cpu((end)->w0) & END_W0_BACKL=
-OG)
- #define xive_end_is_escalate(end) (be32_to_cpu((end)->w0) & END_W0_ESCAL=
-ATE_CTL)
+-    monitor_printf(mon, "%3d/%d % 6d/%5d ^%d",
++    monitor_printf(mon, "%3d/%d % 6d/%5d @%"PRIx64" ^%d",
+                    spapr_xive_nvt_to_target(0, nvt),
+-                   priority, qindex, qentries, qgen);
++                   priority, qindex, qentries, qaddr_base, qgen);
 =20
-+static inline uint64_t xive_end_qaddr(XiveEND *end)
-+{
-+    return ((uint64_t) be32_to_cpu(end->w2) & 0x0fffffff) << 32 |
-+        be32_to_cpu(end->w3);
-+}
-+
- /* Notification Virtual Target (NVT) */
- typedef struct XiveNVT {
-         uint32_t        w0;
+     xive_end_queue_pic_print_info(end, 6, mon);
+     monitor_printf(mon, "]");
 --=20
 2.21.0
 
