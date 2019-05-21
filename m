@@ -2,67 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A90492539D
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 17:17:22 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:55384 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A950E253A9
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 17:19:43 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:55410 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hT6W1-00076l-CK
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 11:17:21 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53755)
+	id 1hT6YI-0000Hj-Oz
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 11:19:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54090)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <marcandre.lureau@gmail.com>) id 1hT6UI-0006Q8-6r
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 11:15:35 -0400
+	(envelope-from <liq3ea@163.com>) id 1hT6VQ-0007Vh-Q1
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 11:16:45 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <marcandre.lureau@gmail.com>) id 1hT6UH-0000PP-B5
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 11:15:34 -0400
-Received: from mail-wr1-x42a.google.com ([2a00:1450:4864:20::42a]:45756)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
-	id 1hT6UH-0000O7-1s
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 11:15:33 -0400
-Received: by mail-wr1-x42a.google.com with SMTP id b18so19011767wrq.12
-	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 08:15:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=32NCbMyAorIOPfPUUwwMRPAH1PvCGu8FCy5oWX8Xds4=;
-	b=NNPoearnaCpXaeM4EphBqxlD6dWs4MuToNYWBzXAA8vO8qlMXNGbKX8VMhNmH85k3J
-	HPKnW6JpeZu4IgOzHOjWLn59rC+hZecPU8XfbJewrYf91hFALrvOgBidLf+aeMgYrAxj
-	+3zCZK60rAmeZNL6S87XBuCJa7LNga/+mmooliJZ99oia5tBET2QJukgefZc1lIFAytw
-	psHxph7LKkV3Lh4xnNeE0bFRdpEeqPpK/ZnXA/MXGv5q3OWrs+uFXo7csDtvDgpK16zC
-	CP2VcNov9souZuAp56zUIBzc1kZ+kauUKIfuB6O/4X5IboYKY+Dq0dZyWaF2plCb5ZkU
-	xf6Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=32NCbMyAorIOPfPUUwwMRPAH1PvCGu8FCy5oWX8Xds4=;
-	b=W/3nGeK+lpmYdJgVViLBgak9VI7GOvXqC26Xxeq143ek8zd+mQJgXKYm53iQ6MLvll
-	ItwjR9grrKtDpotQEcft/dhOUe5TzovYFsCAFQ9Mo59z+zyEOAsKJBqBA6WSZwo/UTWM
-	OpZPk/SvOs0sQTJvU6yGr6jykwG18gRwGCCUzPKMmf4Dz4SRQ38w0N4EMhrw2i5yEXug
-	wK0zCPcJYwCi4mWCOXeZ/c9NfowYDQnExTKtJaq+vHH09qEotZc+InxLxczZdwEbTlmo
-	7ZFyjbL4OSDe/rg56logJwQ6Tkqbjh5+w/tfBBE+3QJqL1o0I7r84C1zE+6OK/coD5j/
-	7l2g==
-X-Gm-Message-State: APjAAAWZMhBNRMA4F6xVwQ8zIhdgo6Foi/9BnQUJ0vgnaB8xYPVBy/r3
-	xTC3Rhn9POikIt4eTQ4PdHN82yW/B3Tkqq39rDY=
-X-Google-Smtp-Source: APXvYqwn23Aa2kCIIscduxwLbjfIgsuvlZBDt2MxjAabmAowwzOz4+iapn+Dga9ytsU96hQMJ212XRI1jwSuyRDOwg4=
-X-Received: by 2002:adf:9d8a:: with SMTP id p10mr23223105wre.31.1558451731797; 
-	Tue, 21 May 2019 08:15:31 -0700 (PDT)
-MIME-Version: 1.0
-References: <CAFEAcA-vSebWjhbFTdfOSGHJtr8-a+DKG22JU3tS-1OoGR=VXQ@mail.gmail.com>
-In-Reply-To: <CAFEAcA-vSebWjhbFTdfOSGHJtr8-a+DKG22JU3tS-1OoGR=VXQ@mail.gmail.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Tue, 21 May 2019 17:15:20 +0200
-Message-ID: <CAJ+F1C+zsiicj2Bwx51viSzr+f-m8+5tCBX97oCwU0YPtfoMiw@mail.gmail.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::42a
-Subject: Re: [Qemu-devel] is anybody experimenting with the idea of rust
- code in QEMU?
+	(envelope-from <liq3ea@163.com>) id 1hT6VP-0001Yz-W9
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 11:16:44 -0400
+Received: from m12-16.163.com ([220.181.12.16]:57266)
+	by eggs.gnu.org with esmtp (Exim 4.71)
+	(envelope-from <liq3ea@163.com>)
+	id 1hT6VP-0001VV-Di; Tue, 21 May 2019 11:16:43 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=163.com;
+	s=s110527; h=From:Subject:Date:Message-Id; bh=3MoRSJyCsIFKNNUCfB
+	vEtOAISeqVYFTvmBIb424LSkw=; b=cMHjRLnT2kh/sil4TjDYpZl/kFJhguuj/b
+	rvDUaMpzX6OJhrXgzlyCdnu2XOeljWEp39nxQfEjmZS2IkwA8VtopcQk7WrnUHt+
+	+8NDAoMHWZE+4B5CGy98d11nV839ITTh3mhS7o/TqaDB6cvyxAefjAfL/ACS47wG
+	KJhzggEZA=
+Received: from localhost.localdomain (unknown [115.192.71.0])
+	by smtp12 (Coremail) with SMTP id EMCowAC31lxJFuRcie7uGw--.4521S2;
+	Tue, 21 May 2019 23:16:26 +0800 (CST)
+From: Li Qiang <liq3ea@163.com>
+To: alex.williamson@redhat.com,
+	lvivier@redhat.com
+Date: Tue, 21 May 2019 08:15:39 -0700
+Message-Id: <20190521151543.92274-1-liq3ea@163.com>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: EMCowAC31lxJFuRcie7uGw--.4521S2
+X-Coremail-Antispam: 1Uf129KBjvdXoW7XFyUJF1rury8JFykAr1kXwb_yoW3GrcEk3
+	4Fvws8GrZIgasIkFW2kr17Ww18Cw4rurn0y34rAryqvws8Jas8GF97CrWSgF17ur4SyF9x
+	GrW7uryayr9xWjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+	9fnUUvcSsGvfC2KfnxnUUI43ZEXa7IUjdHUPUUUUU==
+X-Originating-IP: [115.192.71.0]
+X-CM-SenderInfo: 5oltjvrd6rljoofrz/1tbiFAi7bVaD011gfAAAsN
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 220.181.12.16
+Subject: [Qemu-devel] [PATCH v2 0/4] hw: vfio: some trivial fix
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -74,31 +56,39 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>,
-	QEMU Developers <qemu-devel@nongnu.org>
+Cc: qemu-trivial@nongnu.org, philmd@redhat.com, liq3ea@gmail.com,
+	qemu-devel@nongnu.org, Li Qiang <liq3ea@163.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi Peter
+These patchset fix some trivial issues,
+The first patch makes the code more QOMConventions.
+The second decouples VMStateDescription's name with
+QOM TypeInfo's name.
+The third fixes a typo.
+The fourth reduce duplicated code.
 
-On Tue, May 21, 2019 at 4:40 PM Peter Maydell <peter.maydell@linaro.org> wr=
-ote:
->
-> Hi; I have on my todo list the idea of some experimentation/prototyping
-> of whether being able to write some components of QEMU in Rust would
-> be (a) feasible (b) beneficial (c) fun to play around with even if
-> it is likely that it doesn't go anywhere :-)
+Change since v1:
+Add more commit message.
 
-I wrote slirp bindings, and a helper process that can be used by qemu
-(https://github.com/elmarco/libslirp-rs &
-https://www.redhat.com/archives/libvir-list/2019-April/msg01233.html).
+Li Qiang (4):
+  vfio: pci: make "vfio-pci-nohotplug" as MACRO
+  hw: vfio: drop TYPE_FOO MACRO in VMStateDescription
+  vfio: platform: fix a typo
+  pci: msix: move 'MSIX_CAP_LENGTH' to header file
 
-I have done some experimentation slowly replacing slirp C code with
-rust (https://gitlab.freedesktop.org/slirp/libslirp/issues/3). I
-decided to try from scratch as well, using smoltcp. I have
-dhcp/udp/tcp working to some extent so far (I keep in mind a future
-libslirp compatible ABI, if needed).
+ hw/pci/msix.c           | 2 --
+ hw/vfio/amd-xgbe.c      | 2 +-
+ hw/vfio/ap.c            | 2 +-
+ hw/vfio/calxeda-xgmac.c | 2 +-
+ hw/vfio/ccw.c           | 2 +-
+ hw/vfio/pci.c           | 8 ++++----
+ hw/vfio/platform.c      | 6 +++---
+ include/hw/pci/msix.h   | 2 ++
+ 8 files changed, 13 insertions(+), 13 deletions(-)
 
---=20
-Marc-Andr=C3=A9 Lureau
+-- 
+2.17.1
+
+
 
