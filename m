@@ -2,66 +2,54 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6689724DBC
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 13:14:18 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:51564 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id EA0F024D99
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 13:08:36 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:51490 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hT2in-0007by-Ie
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 07:14:17 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59337)
+	id 1hT2dH-0002rB-VN
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 07:08:36 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:59842)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <pbonzini@redhat.com>) id 1hT2ZD-00005M-2h
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 07:04:23 -0400
+	(envelope-from <berrange@redhat.com>) id 1hT2bK-0001xj-8e
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 07:06:35 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <pbonzini@redhat.com>) id 1hT2ZB-0005in-4a
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 07:04:22 -0400
-Received: from mail-wr1-f42.google.com ([209.85.221.42]:40555)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hT2Z9-0005gU-2M
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 07:04:20 -0400
-Received: by mail-wr1-f42.google.com with SMTP id f10so2680087wre.7
-	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 04:04:18 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-	:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=9cO28ZY3heOpoI/aQ0aboxDuda1nejILeJijZOwKMng=;
-	b=LNiIMNCChoHqw7tAvw+n6LXFlbvUdghxFkwloEIe4HQE3P8c9CprJK78C2PUcQBMlB
-	BZ0bLjJEaLULkdZQ04LZ5nVy26yisCx8ls+J9Bex2P37ly7Z5uJzSwo8j6V5brT29YdC
-	qsbkqvxnCrWvjA9a39bPKhQHQnbdaJ6cZ2GAwYzvGg8qjsKDUv4xcCOgE9tEOeKJlGA+
-	vhykI9dcYOG9nmptScU1Qt7duFnGsPwIEO3IHmMVwvHladAwQWMQim8+UreSilOGPEpl
-	3UuDO56imSq2eM1EvGHWYr9ML8trd+5r0eiMJGtXKD0y1lYa7C3GySgAdtsFEypJ9A/9
-	Ridg==
-X-Gm-Message-State: APjAAAWG2DsKlAsuGMwJIysngGbJ5nwlxAoP5Wr+dKmQddFKPXb1v/ne
-	YllvrtMK2sbNp/149mzrS4qmPA==
-X-Google-Smtp-Source: APXvYqwOeefPGdlZL5BJQl0fAz0dSqwlZbbnxye5BPAh/wwjNZR3pSvYCu1se1SxXmuaXNbWg8vRag==
-X-Received: by 2002:adf:dfd0:: with SMTP id q16mr17629669wrn.235.1558436657919;
-	Tue, 21 May 2019 04:04:17 -0700 (PDT)
-Received: from ?IPv6:2001:b07:6468:f312:ac04:eef9:b257:b844?
-	([2001:b07:6468:f312:ac04:eef9:b257:b844])
-	by smtp.gmail.com with ESMTPSA id
-	h11sm26701026wrr.44.2019.05.21.04.04.16
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 21 May 2019 04:04:17 -0700 (PDT)
-To: Stefan Hajnoczi <stefanha@redhat.com>, qemu-devel@nongnu.org
-References: <20190521103650.18479-1-stefanha@redhat.com>
-From: Paolo Bonzini <pbonzini@redhat.com>
-Message-ID: <0630a607-9216-6b75-54fa-0a1308f2eff0@redhat.com>
-Date: Tue, 21 May 2019 13:04:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <berrange@redhat.com>) id 1hT2bJ-0008Qo-2u
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 07:06:34 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58334)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hT2bI-0007Zr-U7
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 07:06:33 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 2FE5888309;
+	Tue, 21 May 2019 11:06:14 +0000 (UTC)
+Received: from redhat.com (ovpn-112-26.ams2.redhat.com [10.36.112.26])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id E84127841F;
+	Tue, 21 May 2019 11:06:03 +0000 (UTC)
+Date: Tue, 21 May 2019 12:06:00 +0100
+From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+To: Peter Maydell <peter.maydell@linaro.org>
+Message-ID: <20190521110600.GJ25835@redhat.com>
+References: <20190520184108.GA10764@habkost.net>
+	<20190521085350.GF25835@redhat.com>
+	<CAFEAcA8bs0M4Ofdq1tt8uZvWHK49PNRFz3SQhxEHT_uPGmBHOQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20190521103650.18479-1-stefanha@redhat.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <CAFEAcA8bs0M4Ofdq1tt8uZvWHK49PNRFz3SQhxEHT_uPGmBHOQ@mail.gmail.com>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.28]);
+	Tue, 21 May 2019 11:06:14 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.221.42
-Subject: Re: [Qemu-devel] [RFC] scsi: restart dma after vm change state
- handlers
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] Introducing GSoC project: API Documentation
+ Generation
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -73,15 +61,40 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Fam Zheng <fam@euphon.net>, Kevin Wolf <kwolf@redhat.com>
+Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+	Gabriel Barreto <sbarreto.gabriel@gmail.com>,
+	QEMU Developers <qemu-devel@nongnu.org>, "Emilio G. Cota" <cota@braap.org>,
+	Stefan Hajnoczi <stefanha@redhat.com>, Cleber Rosa <crosa@redhat.com>,
+	Paolo Bonzini <pbonzini@redhat.com>, John Snow <jsnow@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 21/05/19 12:36, Stefan Hajnoczi wrote:
-> This is RFC because I am waiting for a test result on the system where
-> the bug was originally discovered.  I'm also open to nicer solutions!
+On Tue, May 21, 2019 at 10:43:04AM +0100, Peter Maydell wrote:
+> On Tue, 21 May 2019 at 09:54, Daniel P. Berrang=C3=A9 <berrange@redhat.=
+com> wrote:
+> > Hawkmoth seems pretty attractive in its output format, but doesn't ap=
+pear
+> > to be part of either Debian or Fedora distros, so we would have to bu=
+ndle
+> > it in QEMU I expect.  My big concern there is that there have only be=
+en
+> > 2 contributors to Hawkmoth in its entire 3 year existance, which make=
+s
+> > me fear for its long term viability if the main author gives up.
+>=20
+> The dependency on clang 6 and the python bindings to it might also
+> be awkward for bundling it with QEMU...
 
-I don't think it's too ugly; IDE is also using a bottom half for this.
+Requiring a second C compiler to build docs is rather unappealing :-(
 
-Paolo
+Regards,
+Daniel
+--=20
+|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
+ge :|
+|: https://libvirt.org         -o-            https://fstop138.berrange.c=
+om :|
+|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
+ge :|
 
