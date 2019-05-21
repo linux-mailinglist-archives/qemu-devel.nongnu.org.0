@@ -2,62 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 29AB824EF4
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 14:30:57 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52731 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5B38124F04
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 14:36:55 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52843 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hT3uy-0005XZ-9R
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 08:30:56 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45326)
+	id 1hT40k-0001Pw-Io
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 08:36:54 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45401)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hT3q2-0001SD-QT
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 08:25:52 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hT3q4-0001U6-Mm
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 08:25:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hT3px-0005GO-2B
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 08:25:48 -0400
-Received: from mail-wm1-x334.google.com ([2a00:1450:4864:20::334]:38529)
+	(envelope-from <peter.maydell@linaro.org>) id 1hT3pw-0005G3-Vd
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 08:25:51 -0400
+Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:37548)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hT3pw-00057F-Om
+	id 1hT3pw-00057w-N0
 	for qemu-devel@nongnu.org; Tue, 21 May 2019 08:25:44 -0400
-Received: by mail-wm1-x334.google.com with SMTP id t5so2694773wmh.3
-	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 05:25:31 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id e15so18403506wrs.4
+	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 05:25:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=8SOMLkZr4NB3XMui3lU6laKTlnUoguc42H2phVbp83Q=;
-	b=DOZi1FuK9945umJVeVpsmdNtdtHLNtnhz579D1BPh57g92AwEyGTGJPgvSPHqxe6BK
-	TrpzqSqylljDXqZ8o5WX12HHLmQ9+nECzL8rQFjvfkvSRNCyWJDZTJbX/l7Mb6VkTH3A
-	7cHgfjd22OxY/qECsiGCp+5QUxxtvjEFs+i38IZVmb9b3fyfVz92I9QUtlcDuESFkBLG
-	PQd7HqWTKQnouXlroIRKv8YbOyhT/tiStAvlh5DgWeaTPubSrHFXLSwUV1dkKnNwPsuH
-	sf5AERvKxqchnD9w192Y1scG1KNNBMRou4AjMt0U0UlGHMBBfa100YmxAMe3NCVoBQl8
-	EuTQ==
+	bh=uepm/tgVGvk2ZbI1+hCKv4c6WBeYrsTqZ1hQF2HFmEo=;
+	b=vnEU13DRzO/+QhfrSenmnXb8vqzq/j7ubcYC+eMNcXj/H/niDAgNMIUlGxiPPxTbeN
+	bnEgqupVUJwa+6kGz1SbC+5Ee73bhFI0p9XGn+wxTkbkFuqwqa1OxKjwBU+WoFemRoSY
+	UQi89+fVxc3XaiS027YOk02WQhJWLYp/RCfcXYKDjoEs5R86guZgD2hvyn8aaUaiH/GW
+	4mT4goHvHEYij6D+eM2kj9hO/2ocPw1t9lxVHuPaCHXUa93ZQu/ogJeUQ0dtwqkLtlJM
+	jSXltd5Py0V4PSpqc7es/KeZ39PIvUkWPULR7DT/BzAjBAlHC9dwEyP6k6t8LsOZn0ct
+	7pmw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=8SOMLkZr4NB3XMui3lU6laKTlnUoguc42H2phVbp83Q=;
-	b=j9JQqOwGlpfLWHKy1PW40oqitvMrcOHlsDWJHqbkrsCGvVuqsJcYhwFu5/8t8UXt5f
-	oIwwnbEuwnri+sk1ipVswr46C8qM0fjdLTmYr8vw72FuFV+tOl13+oXrRky4074xnYNE
-	TmhkXujlvZ9O2GsUf139z2ajgKucKfr2uIphlDOiyS3X4yfgqUZmSyeeg0eHOK0VEJFf
-	zvR9q09Mm2KHUYL5i27uxaamk9eTB5PTU3s+bLb8DOgmuadf4bVY416GCSnfNOLP5QkP
-	6tqM4lZdX7usPp2H0cbHo6+bn2864Xu4uz0+v2W+K72aEJD5MnLIX7NMnNYwWurpkQ9Q
-	fwww==
-X-Gm-Message-State: APjAAAWZ2AmhTVZJOSxiJKsMGQnj9SetbLI7Mor5PtARRJXWmEXqsNox
-	Df6t1OCsw281fdSSzbAj/ZxOYwGrUKE=
-X-Google-Smtp-Source: APXvYqys3euLW2REhX8jlQHZPrL4vSe6EGBlig49irm2gvwKROv4Yk0S+tatAZWoVgRBf2W9DgTWQQ==
-X-Received: by 2002:a1c:3c2:: with SMTP id 185mr3301459wmd.91.1558441530029;
-	Tue, 21 May 2019 05:25:30 -0700 (PDT)
+	bh=uepm/tgVGvk2ZbI1+hCKv4c6WBeYrsTqZ1hQF2HFmEo=;
+	b=RYAmVjdcvopr4H5dC0nVY/JB9FhZV9UyrOVPiT1qBRdCvAX36KWBfWPVTs1ZIu+dN3
+	3M4kyPDns4vxyMSUwp+lqqz0HDvj4jWuOOLp3IMVSpYW3OYXxJ/fjAGcGeU8Ky2xnXRb
+	l5fdiE1ZuAP2BhNsgv8kxoVT504xzW6ZVRh1GZNMVXJkbdKoDhret4V7S18gPyFDvBts
+	YTLXtglWs/X2S0wAgybboL3A7B0Y2ObAa9cAYobu7z/6alYpjzfDBWMgzZeXiWg1Dcr4
+	84qbJpPi19UkkMOLLuVBzXs9krfzDUUrHfuFVfSpAb6pslHMSwJAS8r3u+QNEdokKtTe
+	MWzg==
+X-Gm-Message-State: APjAAAWNNSH108M/zAr8tTvswlR/Bn0B60Zdh8X5D88FaIKztEfYpVVk
+	XXFUxekkAaT2w2o9NM1BrGXLmNqJpwA=
+X-Google-Smtp-Source: APXvYqweJlDeUrjOYsija94FGi9SwtnDdp6HnxGL1nhZ60Utin63umGk8YbBKOZwdZWAIp/uyETn1w==
+X-Received: by 2002:a5d:55c9:: with SMTP id i9mr985311wrw.261.1558441531476;
+	Tue, 21 May 2019 05:25:31 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
 	by smtp.gmail.com with ESMTPSA id
-	u11sm12233393wrn.1.2019.05.21.05.25.28
+	u11sm12233393wrn.1.2019.05.21.05.25.30
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 21 May 2019 05:25:29 -0700 (PDT)
+	Tue, 21 May 2019 05:25:30 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue, 21 May 2019 13:25:14 +0100
-Message-Id: <20190521122519.12573-6-peter.maydell@linaro.org>
+Date: Tue, 21 May 2019 13:25:15 +0100
+Message-Id: <20190521122519.12573-7-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190521122519.12573-1-peter.maydell@linaro.org>
 References: <20190521122519.12573-1-peter.maydell@linaro.org>
@@ -65,8 +65,9 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::334
-Subject: [Qemu-devel] [RFC 05/10] bitops.h: Silence kernel-doc complaints
+X-Received-From: 2a00:1450:4864:20::441
+Subject: [Qemu-devel] [RFC 06/10] docs: Create bitops.rst as example of
+ kernel-docs
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -87,109 +88,41 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Fix the problems with kernel-doc/sphinx syntax in the
-doc comments for the shuffle and unshuffle functions:
- * mismatch between comment and prototype for argument name
- * the inline bit patterns need to be marked up so they
-   are processed properly and rendered as monospace
+Create a bitops.rst which is just a container for the
+kernel-doc comments in qemu/bitops.h.
+
+This is mostly a test of the kernel-doc extension machinery.
 
 Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/qemu/bitops.h | 52 ++++++++++++++++++++++++++-----------------
- 1 file changed, 32 insertions(+), 20 deletions(-)
+ docs/devel/bitops.rst | 8 ++++++++
+ docs/devel/index.rst  | 1 +
+ 2 files changed, 9 insertions(+)
+ create mode 100644 docs/devel/bitops.rst
 
-diff --git a/include/qemu/bitops.h b/include/qemu/bitops.h
-index 3f0926cf40c..f6e76b5952d 100644
---- a/include/qemu/bitops.h
-+++ b/include/qemu/bitops.h
-@@ -423,13 +423,16 @@ static inline uint64_t deposit64(uint64_t value, int start, int length,
- 
- /**
-  * half_shuffle32:
-- * @value: 32-bit value (of which only the bottom 16 bits are of interest)
-+ * @x: 32-bit value (of which only the bottom 16 bits are of interest)
-+ *
-+ * Given an input value::
-+ *
-+ *   xxxx xxxx xxxx xxxx ABCD EFGH IJKL MNOP
-  *
-- * Given an input value:
-- *  xxxx xxxx xxxx xxxx ABCD EFGH IJKL MNOP
-  * return the value where the bottom 16 bits are spread out into
-- * the odd bits in the word, and the even bits are zeroed:
-- *  0A0B 0C0D 0E0F 0G0H 0I0J 0K0L 0M0N 0O0P
-+ * the odd bits in the word, and the even bits are zeroed::
-+ *
-+ *   0A0B 0C0D 0E0F 0G0H 0I0J 0K0L 0M0N 0O0P
-  *
-  * Any bits set in the top half of the input are ignored.
-  *
-@@ -449,13 +452,16 @@ static inline uint32_t half_shuffle32(uint32_t x)
- 
- /**
-  * half_shuffle64:
-- * @value: 64-bit value (of which only the bottom 32 bits are of interest)
-+ * @x: 64-bit value (of which only the bottom 32 bits are of interest)
-+ *
-+ * Given an input value::
-+ *
-+ *   xxxx xxxx xxxx .... xxxx xxxx ABCD EFGH IJKL MNOP QRST UVWX YZab cdef
-  *
-- * Given an input value:
-- *  xxxx xxxx xxxx .... xxxx xxxx ABCD EFGH IJKL MNOP QRST UVWX YZab cdef
-  * return the value where the bottom 32 bits are spread out into
-- * the odd bits in the word, and the even bits are zeroed:
-- *  0A0B 0C0D 0E0F 0G0H 0I0J 0K0L 0M0N .... 0U0V 0W0X 0Y0Z 0a0b 0c0d 0e0f
-+ * the odd bits in the word, and the even bits are zeroed::
-+ *
-+ *   0A0B 0C0D 0E0F 0G0H 0I0J 0K0L 0M0N .... 0U0V 0W0X 0Y0Z 0a0b 0c0d 0e0f
-  *
-  * Any bits set in the top half of the input are ignored.
-  *
-@@ -476,13 +482,16 @@ static inline uint64_t half_shuffle64(uint64_t x)
- 
- /**
-  * half_unshuffle32:
-- * @value: 32-bit value (of which only the odd bits are of interest)
-+ * @x: 32-bit value (of which only the odd bits are of interest)
-+ *
-+ * Given an input value::
-+ *
-+ *   xAxB xCxD xExF xGxH xIxJ xKxL xMxN xOxP
-  *
-- * Given an input value:
-- *  xAxB xCxD xExF xGxH xIxJ xKxL xMxN xOxP
-  * return the value where all the odd bits are compressed down
-- * into the low half of the word, and the high half is zeroed:
-- *  0000 0000 0000 0000 ABCD EFGH IJKL MNOP
-+ * into the low half of the word, and the high half is zeroed::
-+ *
-+ *   0000 0000 0000 0000 ABCD EFGH IJKL MNOP
-  *
-  * Any even bits set in the input are ignored.
-  *
-@@ -503,13 +512,16 @@ static inline uint32_t half_unshuffle32(uint32_t x)
- 
- /**
-  * half_unshuffle64:
-- * @value: 64-bit value (of which only the odd bits are of interest)
-+ * @x: 64-bit value (of which only the odd bits are of interest)
-+ *
-+ * Given an input value::
-+ *
-+ *   xAxB xCxD xExF xGxH xIxJ xKxL xMxN .... xUxV xWxX xYxZ xaxb xcxd xexf
-  *
-- * Given an input value:
-- *  xAxB xCxD xExF xGxH xIxJ xKxL xMxN .... xUxV xWxX xYxZ xaxb xcxd xexf
-  * return the value where all the odd bits are compressed down
-- * into the low half of the word, and the high half is zeroed:
-- *  0000 0000 0000 .... 0000 0000 ABCD EFGH IJKL MNOP QRST UVWX YZab cdef
-+ * into the low half of the word, and the high half is zeroed::
-+ *
-+ *   0000 0000 0000 .... 0000 0000 ABCD EFGH IJKL MNOP QRST UVWX YZab cdef
-  *
-  * Any even bits set in the input are ignored.
-  *
+diff --git a/docs/devel/bitops.rst b/docs/devel/bitops.rst
+new file mode 100644
+index 00000000000..6addaecf8d7
+--- /dev/null
++++ b/docs/devel/bitops.rst
+@@ -0,0 +1,8 @@
++==================
++Bitwise operations
++==================
++
++The header ``qemu/bitops.h`` provides utility functions for
++performing bitwise operations.
++
++.. kernel-doc:: include/qemu/bitops.h
+diff --git a/docs/devel/index.rst b/docs/devel/index.rst
+index 2a4ddf40ad3..49cb212a8b4 100644
+--- a/docs/devel/index.rst
++++ b/docs/devel/index.rst
+@@ -21,3 +21,4 @@ Contents:
+    testing
+    decodetree
+    secure-coding-practices
++   bitops
 -- 
 2.20.1
 
