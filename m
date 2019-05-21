@@ -2,59 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EA06C258B6
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 22:13:17 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:58893 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5739F258D2
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 22:27:13 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:59090 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTB8P-0008OL-3Y
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 16:13:17 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57426)
+	id 1hTBLs-0007SK-4s
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 16:27:12 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60492)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <anton@ozlabs.org>) id 1hTB6e-0007TO-E5
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 16:11:29 -0400
+	(envelope-from <bounces@canonical.com>) id 1hTBKZ-0006am-3g
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 16:25:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <anton@ozlabs.org>) id 1hTB6d-000318-3Z
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 16:11:28 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:57831 helo=ozlabs.org)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <anton@ozlabs.org>)
-	id 1hTB6c-0002hm-HO; Tue, 21 May 2019 16:11:27 -0400
-Received: from authenticated.ozlabs.org (localhost [127.0.0.1])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits)
-	server-digest SHA256) (No client certificate requested)
-	by mail.ozlabs.org (Postfix) with ESMTPSA id 457n2p2bjwz9s3l;
-	Wed, 22 May 2019 06:11:13 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ozlabs.org; s=201707;
-	t=1558469475; bh=vbldDZJnrimtoFoAJ6UKMk/YrTCOYZ+2IEmNAcwLwdw=;
-	h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-	b=bxUPF4uHzzD+Cxsle7Hd38jR1tQK/fV5McsEZ1Dh/Uxq6jiThrVHScQD4qtumQuy8
-	/iqC252nFxpRJg1YEq3J8SzV49WNDIf5Ep++WrZuFWsXzDI9aOTkd+AphKONoxxTLc
-	ivdph2LW4+aPF9eqXQTKNQIuit8xuDiv+sFgEEmTxqir2TllRkb0MD7w5k2NioLmfQ
-	o99E3i85t0X0s3qPlSJrDbM+sg3giU+G4gWGOHzMYeUm9lnPpAW2f+KyBngVCtLG9Y
-	IAZ1HtB2jD3wHzjetuObSR8F0JZmLN0Vvh/bVyp1O6aZXPlrHdTtf1vFXoOUO5UNeI
-	i59FPTq089hXA==
-Date: Wed, 22 May 2019 06:11:12 +1000
-From: Anton Blanchard <anton@ozlabs.org>
-To: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
-	david@gibson.dropbear.id.au
-Message-ID: <20190522061112.3accdb76@kryten>
-In-Reply-To: <c1d2a4cf-a9a7-4dfa-ed80-987118043f08@ilande.co.uk>
-References: <20190507004811.29968-1-anton@ozlabs.org>
-	<20190507004811.29968-4-anton@ozlabs.org>
-	<c1d2a4cf-a9a7-4dfa-ed80-987118043f08@ilande.co.uk>
-X-Mailer: Mutt/1.8.0 (2017-02-23)
+	(envelope-from <bounces@canonical.com>) id 1hTBKW-0004R9-N7
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 16:25:50 -0400
+Received: from indium.canonical.com ([91.189.90.7]:57422)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hTBKV-0004PY-N4
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 16:25:48 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hTBKS-0005sR-C1
+	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 20:25:44 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id 58B842E80CC
+	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 20:25:44 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Tue, 21 May 2019 20:13:10 -0000
+From: Cleber Rosa <cleber.gnu@gmail.com>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: cleber-gnu
+X-Launchpad-Bug-Reporter: Cleber Rosa (cleber-gnu)
+X-Launchpad-Bug-Modifier: Cleber Rosa (cleber-gnu)
+References: <155837363818.14706.8629235118425908874.malonedeb@gac.canonical.com>
+Message-Id: <155846959097.14626.2372761268748658434.malone@gac.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18962";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 8c04226898678de5daf1299eb792fe1ec991e5ab
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
-Subject: Re: [Qemu-devel] [PATCH 4/9] target/ppc: Fix lxvw4x,
- lxvh8x and lxvb16x
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1829779] Re: qemu-system-arm and
+ qemu-system-aarch64 QMP hangs after kernel boots
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -63,23 +64,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ego@linux.vnet.ibm.com, sandipandas1990@gmail.com,
-	richard.henderson@linaro.org, f4bug@amsat.org,
-	qemu-devel@nongnu.org, qemu-ppc@nongnu.org
+Reply-To: Bug 1829779 <1829779@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi,
+I have an update on this.  Eric and myself attempted to zero in the
+exact cause.  A few things we discovered:
 
-> I've now had a bit of time to look through this and I believe it is
-> correct, so:
-> 
-> Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>
+ 1) It has nothing to do with having a kernel running
+ 2) It has to do with having a chardev that is a server socket.  This
+    test produces command line arguments such as:
 
-Thanks Mark. David: any chance we could get this merged? I can't run a
-recent Ubuntu image successfully without it. sshd hangs when I try to
-ssh into it.
+   -chardev socket,id=3Dconsole,path=3D<path>.sock,server,nowait \
+   -serial chardev:console
 
-Thanks,
-Anton
+ 3) It doesn't seem to have a connection to the test infrastructure code
+    (python/qemu/qmp/*), as a I made a number of experiments which
+    yielded no differences in behavior.
+
+So, the reproducer given at:
+
+https://github.com/clebergnu/qemu/commit/c778e28c24030c4a36548b714293b319f4=
+bf18df
+
+Continues to be be valid (and continues to be limited to arm and aarch64).
+Now, after a number of experiments, the following was found to be a 100%
+reproducible *workaround*:
+
+https://github.com/clebergnu/qemu/commit/e1713f3b91972ad57c089f276c54db3f3f=
+a63423
+
+That basically shutdowns the *console* socket before proceeding with furthe=
+r QMP
+interaction.  The effectiveness of the workaround can be seen here:
+
+ aarch64 command line:
+  - https://travis-ci.org/clebergnu/qemu/jobs/535459499#L3633
+ aarch64 QMP interaction:
+  - https://travis-ci.org/clebergnu/qemu/jobs/535459499#L3663
+
+ arm command line:
+  - https://travis-ci.org/clebergnu/qemu/jobs/535459499#L3747
+ arm QMP interaction:
+  - https://travis-ci.org/clebergnu/qemu/jobs/535459499#L3767
+
+I hope this provides a few more hints into the real issue.
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1829779
+
+Title:
+  qemu-system-arm and qemu-system-aarch64 QMP hangs after kernel boots
+
+Status in QEMU:
+  New
+
+Bug description:
+  After booting a Linux kernel on both arm and aarch64, the QMP sockets get=
+s unresponsive. Initially, this was thought to be limited to "quit" command=
+s, but it reproduced with others (such as in this
+  reproducer).  This is a partial log output:
+
+  =C2=A0=C2=A0=C2=A0>>> {'execute': 'qmp_capabilities'}
+  =C2=A0=C2=A0=C2=A0<<< {'return': {}}
+  =C2=A0=C2=A0=C2=A0Booting Linux on physical CPU 0x0000000000 [0x410fd034]
+  =C2=A0=C2=A0=C2=A0Linux version 4.18.16-300.fc29.aarch64 (mockbuild@build=
+vm-aarch64-02.arm.fedoraproject.org) (gcc version 8.2.1 20180801 (Red Hat 8=
+.2.1-2) (GCC)) #1 SMP Sat Oct 20 23:12:22 UTC 2018
+  =C2=A0=C2=A0=C2=A0...
+  =C2=A0=C2=A0=C2=A0Policy zone: DMA32
+  =C2=A0=C2=A0=C2=A0Kernel command line: printk.time=3D0 console=3DttyAMA0
+  =C2=A0=C2=A0=C2=A0>>> {'execute': 'stop'}
+  =C2=A0=C2=A0=C2=A0<<< {'timestamp': {'seconds': 1558370331, 'microseconds=
+': 470173}, 'event': 'STOP'}
+  =C2=A0=C2=A0=C2=A0<<< {'return': {}}
+  =C2=A0=C2=A0=C2=A0>>> {'execute': 'cont'}
+  =C2=A0=C2=A0=C2=A0<<< {'timestamp': {'seconds': 1558370331, 'microseconds=
+': 470849}, 'event': 'RESUME'}
+  =C2=A0=C2=A0=C2=A0<<< {'return': {}}
+  =C2=A0=C2=A0=C2=A0>>> {'execute': 'stop'}
+
+  Sometimes it takes just the first "stop" command.  Overall, I was able
+  to reproduce 100% of times when applied on top of
+  6d8e75d41c58892ccc5d4ad61c4da476684c1c83.
+
+  The reproducer test can be seen/fetched at:
+  =C2=A0- https://github.com/clebergnu/qemu/commit/c778e28c24030c4a36548b71=
+4293b319f4bf18df
+
+  And test results from Travis CI can be seen at:
+  =C2=A0- https://travis-ci.org/clebergnu/qemu/jobs/534915669
+
+  For convenience purposes, here's qemu-system-aarch64 launching and hangin=
+g on the first "stop":
+  =C2=A0- https://travis-ci.org/clebergnu/qemu/jobs/534915669#L3634
+  =C2=A0- https://travis-ci.org/clebergnu/qemu/jobs/534915669#L3664
+
+  And here's qemu-system-arm hanging the very same way:
+  =C2=A0- https://travis-ci.org/clebergnu/qemu/jobs/534915669#L3799
+  =C2=A0- https://travis-ci.org/clebergnu/qemu/jobs/534915669#L3819
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1829779/+subscriptions
 
