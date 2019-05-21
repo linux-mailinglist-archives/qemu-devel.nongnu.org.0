@@ -2,55 +2,46 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8239624F54
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 14:55:17 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53104 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 70AD024FE4
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 15:15:57 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53723 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hT4IW-0007SX-Pl
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 08:55:16 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51219)
+	id 1hT4cV-0008Hf-Rr
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 09:15:55 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54958)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <berrange@redhat.com>) id 1hT4Hb-00079I-Mi
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 08:54:20 -0400
+	(envelope-from <imammedo@redhat.com>) id 1hT4bS-0007R3-2C
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 09:14:50 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <berrange@redhat.com>) id 1hT4Ha-0007kB-Io
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 08:54:19 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:52856)
+	(envelope-from <imammedo@redhat.com>) id 1hT4bQ-0004yc-Ax
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 09:14:50 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:33792)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <berrange@redhat.com>) id 1hT4Ha-0007j0-CM
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 08:54:18 -0400
-Received: from smtp.corp.redhat.com (int-mx06.intmail.prod.int.phx2.redhat.com
-	[10.5.11.16])
+	(Exim 4.71) (envelope-from <imammedo@redhat.com>) id 1hT4bQ-0004cF-5f
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 09:14:48 -0400
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
+	[10.5.11.11])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 3F8753082E6E;
-	Tue, 21 May 2019 12:54:14 +0000 (UTC)
-Received: from redhat.com (ovpn-112-26.ams2.redhat.com [10.36.112.26])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 62DEA66610;
-	Tue, 21 May 2019 12:54:11 +0000 (UTC)
-Date: Tue, 21 May 2019 13:54:08 +0100
-From: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-To: Laurent Vivier <lvivier@redhat.com>
-Message-ID: <20190521125408.GL25835@redhat.com>
-References: <1557953433-19663-1-git-send-email-pbonzini@redhat.com>
-	<1557953433-19663-19-git-send-email-pbonzini@redhat.com>
-	<20190521115259.GK25835@redhat.com>
-	<f0d7e267-5f21-927a-ee38-2330fde5a419@redhat.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <f0d7e267-5f21-927a-ee38-2330fde5a419@redhat.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.16
+	by mx1.redhat.com (Postfix) with ESMTPS id 64D063082E91
+	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 13:14:14 +0000 (UTC)
+Received: from dell-r430-03.lab.eng.brq.redhat.com
+	(dell-r430-03.lab.eng.brq.redhat.com [10.37.153.18])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 4ABD5600CC;
+	Tue, 21 May 2019 13:14:09 +0000 (UTC)
+From: Igor Mammedov <imammedo@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Tue, 21 May 2019 15:14:46 +0200
+Message-Id: <1558444486-314511-1-git-send-email-imammedo@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
 	(mx1.redhat.com [10.5.110.46]);
-	Tue, 21 May 2019 12:54:17 +0000 (UTC)
-Content-Transfer-Encoding: quoted-printable
+	Tue, 21 May 2019 13:14:19 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PULL 18/21] build: don't build hardware objects
- with linux-user
+Subject: [Qemu-devel] [PATCH] docs: smbios: remove family=x from type2 entry
+ description
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,68 +53,35 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Daniel =?utf-8?B?UC4gQmVycmFuZ8Op?= <berrange@redhat.com>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
-	Laurent Vivier <laurent@vivier.eu>
+Cc: kwolf@redhat.com, thuth@redhat.com, berrange@redhat.com, mst@redhat.com,
+	armbru@redhat.com, pbonzini@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 21, 2019 at 02:52:42PM +0200, Laurent Vivier wrote:
-> On 21/05/2019 13:52, Daniel P. Berrang=C3=A9 wrote:
-> > On Wed, May 15, 2019 at 10:50:30PM +0200, Paolo Bonzini wrote:
-> > > From: Laurent Vivier <lvivier@redhat.com>
-> > >=20
-> > > Some objects are only needed for system emulation and tools.
-> > > We can ignore them for the user mode case
-> > >=20
-> > > Update tests to run accordingly: conditionally build some tests
-> > > on CONFIG_BLOCK.
-> > >=20
-> > > Some tests use components that are only built when softmmu or
-> > > block tools are enabled, not for linux-user. So, if these component=
-s
-> > > are not available, disable the tests.
-> > >=20
-> > > Signed-off-by: Laurent Vivier <laurent@vivier.eu>
-> > > Message-Id: <20190401141222.30034-6-lvivier@redhat.com>
-> > > ---
-> > >   Makefile               |  4 +++
-> > >   Makefile.objs          | 14 +++++---
-> > >   tests/Makefile.include | 90 +++++++++++++++++++++++++------------=
--------------
-> > >   3 files changed, 58 insertions(+), 50 deletions(-)
-> > >=20
-> > > diff --git a/Makefile b/Makefile
-> > > index 1851f8c..155f066 100644
-> > > --- a/Makefile
-> > > +++ b/Makefile
-> > > @@ -87,6 +87,10 @@ endif
-> > >   include $(SRC_PATH)/rules.mak
-> > > +# notempy and lor are defined in rules.mak
-> > > +CONFIG_TOOLS :=3D $(call notempty,$(TOOLS))
-> > > +CONFIG_BLOCK :=3D $(call lor,$(CONFIG_SOFTMMU),$(CONFIG_TOOLS))
-> >=20
-> > IMHO calling this CONFIG_BLOCK is a really poor choice, as
-> > the decision is completely unrelated to block modules. It
-> > made really confused when trying to understand why all the
-> > crypto or auth code had been made conditional on the block
-> > drivers.  The block code is just one part of QEMU that
-> > is used in tools & softmmu.
-> >=20
-> > It would be better as CONFIG_SOFTMMU_TOOLS, or
-> > CONFIG_NOT_USER, or something else.
->=20
-> Do you think it's worth a patch to change the name?
+'family' option is not part of type 2 table and if user tries to use it
+as such QEMU will error out with an unknow option error.
+Drop it from docs lest it confuse users.
 
-Personally I'd like to see a patch to give it a better name.
+Fixes: b155eb1d04
+Signed-off-by: Igor Mammedov <imammedo@redhat.com>
+---
+ qemu-options.hx | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Regards,
-Daniel
---=20
-|: https://berrange.com      -o-    https://www.flickr.com/photos/dberran=
-ge :|
-|: https://libvirt.org         -o-            https://fstop138.berrange.c=
-om :|
-|: https://entangle-photo.org    -o-    https://www.instagram.com/dberran=
-ge :|
+diff --git a/qemu-options.hx b/qemu-options.hx
+index 5daa5a8..dcdb808 100644
+--- a/qemu-options.hx
++++ b/qemu-options.hx
+@@ -2080,7 +2080,7 @@ Specify SMBIOS type 0 fields
+ @item -smbios type=1[,manufacturer=@var{str}][,product=@var{str}][,version=@var{str}][,serial=@var{str}][,uuid=@var{uuid}][,sku=@var{str}][,family=@var{str}]
+ Specify SMBIOS type 1 fields
+ 
+-@item -smbios type=2[,manufacturer=@var{str}][,product=@var{str}][,version=@var{str}][,serial=@var{str}][,asset=@var{str}][,location=@var{str}][,family=@var{str}]
++@item -smbios type=2[,manufacturer=@var{str}][,product=@var{str}][,version=@var{str}][,serial=@var{str}][,asset=@var{str}][,location=@var{str}]
+ Specify SMBIOS type 2 fields
+ 
+ @item -smbios type=3[,manufacturer=@var{str}][,version=@var{str}][,serial=@var{str}][,asset=@var{str}][,sku=@var{str}]
+-- 
+2.7.4
+
 
