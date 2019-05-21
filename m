@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DD06824816
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 08:32:33 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:47327 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 034A724822
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 08:35:41 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:47356 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSyK8-0007e4-Rw
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 02:32:32 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48616)
+	id 1hSyNA-0001WD-4v
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 02:35:40 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48736)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hSyHS-0005s5-K9
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 02:29:47 -0400
+	(envelope-from <dgibson@ozlabs.org>) id 1hSyHV-0005si-R9
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 02:29:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hSyHR-0007gm-Db
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 02:29:46 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:53285)
+	(envelope-from <dgibson@ozlabs.org>) id 1hSyHU-0007lo-3W
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 02:29:49 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:49375)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
-	id 1hSyHQ-0007V4-EU; Tue, 21 May 2019 02:29:45 -0400
+	id 1hSyHT-0007hA-Je; Tue, 21 May 2019 02:29:47 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
-	id 457Qpf1sPPz9sB8; Tue, 21 May 2019 16:29:30 +1000 (AEST)
+	id 457Qpf2XTFz9sCJ; Tue, 21 May 2019 16:29:30 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
 	d=gibson.dropbear.id.au; s=201602; t=1558420170;
-	bh=wYkYWuH7ycMxiKGkoDj9ZRZOWZRg8x2Va/UMRnZg9lM=;
+	bh=LkelRvpQ4cjjKnRLrrvL3XGoOyqytqvuPHTCn8YevEA=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=WbxQVwV53zZg7kRoijhiL1xrh2xkNhmo4jVQ5kR9uCovCaDCx8iDDZyARe3ijc4GC
-	nOrKRz9ivXX5wapRIpEegbzqqlB8Sz6BLt5gjYO65PLIQCYl71OZJAvE0Jek/G0aoS
-	qqTEl41nxRuFY4SeT1nlvpwZt8GdtR4t7ITy4Bqo=
+	b=Cp0bN/Amoxt5Bzjh6tJvsktm/Hi7+smgYn1ff+KIpP7Xt42gMuJuNB/wbCXx7zCgE
+	+Nfo+DbZBffsVeCMpAjje2npj2rqjYL85FnpiRK5CCYdUCqbEBFun6Fk+s1+dGgqMm
+	ONHwIUQAO2lyBNh2JlQxNzarUuLOu80ULEpTvILM=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Date: Tue, 21 May 2019 16:28:51 +1000
-Message-Id: <20190521062924.6930-6-david@gibson.dropbear.id.au>
+Date: Tue, 21 May 2019 16:28:52 +1000
+Message-Id: <20190521062924.6930-7-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190521062924.6930-1-david@gibson.dropbear.id.au>
 References: <20190521062924.6930-1-david@gibson.dropbear.id.au>
@@ -42,8 +42,7 @@ Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
 X-Received-From: 2401:3900:2:1::2
-Subject: [Qemu-devel] [PULL 05/38] hw/ppc/40p: Move the MC146818 RTC to the
- board where it belongs
+Subject: [Qemu-devel] [PULL 06/38] hw/ppc/40p: use 1900 as a base year
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,65 +57,38 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: lvivier@redhat.com, gkurz@kaod.org, qemu-devel@nongnu.org,
 	qemu-ppc@nongnu.org, clg@kaod.org,
 	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+	Artyom Tarasenko <atar4qemu@gmail.com>,
 	David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+From: Artyom Tarasenko <atar4qemu@gmail.com>
 
-The MC146818 RTC was incorrectly added to the i82378 chipset in
-commit a04ff940974a. In the next commit (506b7ddf8893) the PReP
-machine use the i82378.
-Since the MC146818 is specific to the PReP machine, move its use
-there.
+AIX 5.1 expects the base year to be 1900. Adjust accordingly.
 
-Fixes: a04ff940974a
+Signed-off-by: Artyom Tarasenko <atar4qemu@gmail.com>
 Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Message-Id: <20190505152839.18650-3-philmd@redhat.com>
+Message-Id: <20190505152839.18650-4-philmd@redhat.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/isa/i82378.c | 4 ----
- hw/ppc/prep.c   | 3 +++
- 2 files changed, 3 insertions(+), 4 deletions(-)
+ hw/ppc/prep.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-diff --git a/hw/isa/i82378.c b/hw/isa/i82378.c
-index a5d67bc6d7..c08970b24a 100644
---- a/hw/isa/i82378.c
-+++ b/hw/isa/i82378.c
-@@ -21,7 +21,6 @@
- #include "hw/pci/pci.h"
- #include "hw/i386/pc.h"
- #include "hw/timer/i8254.h"
--#include "hw/timer/mc146818rtc.h"
- #include "hw/audio/pcspk.h"
-=20
- #define TYPE_I82378 "i82378"
-@@ -105,9 +104,6 @@ static void i82378_realize(PCIDevice *pci, Error **er=
-rp)
-=20
-     /* 2 82C37 (dma) */
-     isa =3D isa_create_simple(isabus, "i82374");
--
--    /* timer */
--    isa_create_simple(isabus, TYPE_MC146818_RTC);
- }
-=20
- static void i82378_init(Object *obj)
 diff --git a/hw/ppc/prep.c b/hw/ppc/prep.c
-index ebee321148..7a0d311d43 100644
+index 7a0d311d43..2a8009e20b 100644
 --- a/hw/ppc/prep.c
 +++ b/hw/ppc/prep.c
-@@ -675,6 +675,9 @@ static void ibm_40p_init(MachineState *machine)
-     qdev_prop_set_uint32(dev, "ram-size", machine->ram_size);
+@@ -676,7 +676,9 @@ static void ibm_40p_init(MachineState *machine)
      qdev_init_nofail(dev);
 =20
-+    /* RTC */
-+    isa_create_simple(isa_bus, TYPE_MC146818_RTC);
-+
+     /* RTC */
+-    isa_create_simple(isa_bus, TYPE_MC146818_RTC);
++    dev =3D DEVICE(isa_create(isa_bus, TYPE_MC146818_RTC));
++    qdev_prop_set_int32(dev, "base_year", 1900);
++    qdev_init_nofail(dev);
+=20
      /* initialize CMOS checksums */
      cmos_checksum =3D 0x6aa9;
-     qbus_walk_children(BUS(isa_bus), prep_set_cmos_checksum, NULL, NULL,=
- NULL,
 --=20
 2.21.0
 
