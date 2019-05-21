@@ -2,61 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E38EF25024
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 15:27:29 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:53844 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A8B1C25066
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 15:33:53 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:53930 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hT4nh-0007F1-4n
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 09:27:29 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56856)
+	id 1hT4ts-0001fV-Qk
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 09:33:52 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57832)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hT4mh-0006or-5y
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 09:26:28 -0400
+	(envelope-from <liq3ea@gmail.com>) id 1hT4rf-0000Y7-KX
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 09:31:36 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mst@redhat.com>) id 1hT4mg-0006fM-6h
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 09:26:27 -0400
-Received: from mail-qk1-f196.google.com ([209.85.222.196]:46196)
+	(envelope-from <liq3ea@gmail.com>) id 1hT4re-0005Vl-OP
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 09:31:35 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:37349)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <mst@redhat.com>) id 1hT4mg-0006e4-2j
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 09:26:26 -0400
-Received: by mail-qk1-f196.google.com with SMTP id a132so10961724qkb.13
-	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 06:26:25 -0700 (PDT)
+	(Exim 4.71) (envelope-from <liq3ea@gmail.com>) id 1hT4re-0005V9-Js
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 09:31:34 -0400
+Received: by mail-oi1-x242.google.com with SMTP id f4so12787834oib.4
+	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 06:31:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=vItEtQ+QxlS5/USu0/0rorN53TvHPQcHiBUKEpZ7mVc=;
+	b=VE3fP8hYsw5KJaOwjcY6xCxvDRdjM/OEpmqRTWYtOmrrEbmAzuaQhh+1vJorxLX6Na
+	waPEs/mMMpeZxUdwILPsz5iIV6o9g5GaGLuP9ZREqvRBLfTvU24yP6AbKQ9KVbSNICyu
+	L6YPKkGuoVL2VhbOnlGjmRA3N7EVuK6FzFd7hUWpBq2z6IeRhb8Wp+A3xe++S3JLTMb+
+	lf3+GgPZfYrdl4pROZiXYbKPa6ztdNxr4uZPlZ027TRLQjWjt/wOf3t3iIUEQ43epmUO
+	HWAqEEl7e/VAIEmwxjPttiJAjNRzHUOBQ2Y4pEIDfo7SXoLcXvHiTJXu1Yp24RW6FB/o
+	IBpw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to;
-	bh=uxWoQ9ZMCcHDwl1neJ1V6NeuwnaIjPih4pSztJWxDho=;
-	b=suZOokOH+uY4J7wy4191T76mFIqPUkpcMVk57KSTHi20Eee2TMjNgspAl7AUJ3mym2
-	z7A2ILuQgKv8rL5R6/kQiPJSRqVsmhuxV6yyaQioD4vGJmIATXRea4URxhb0ZXtvLsPQ
-	7DeKP8S0+EWEBwdUpFODKUq1AvmpXzvA87Y01epUIZ5xIX4+pDUoeI+3BphsOVQPwYxi
-	LaiQjAEcnh1+Ebo/zTTcXnHtK2dcGOg6lIPtbfxFk03LMZ54K9rXDozS3UpDUoh02i8z
-	GcFDmE9C79NEciT+a1/OLk9VeGINFr2KxtFIG5cM04SnQdIlbzRWL7wAEZZdKcB3Zyu4
-	zwsA==
-X-Gm-Message-State: APjAAAVAuEwpplQaou8yqzoED1e3NEBDQNaE/PrIdJrnFCkej2PMFG9n
-	6/1lMI1k8kYJLikDQqDiSE40lA==
-X-Google-Smtp-Source: APXvYqwtJpsr5iHaUNNYvGK3gfj5ZPzlUsU5MRR8wvM71rrwcmHOiSR6mByycXM4vY4FJ63YMbw42Q==
-X-Received: by 2002:a37:993:: with SMTP id 141mr33167162qkj.320.1558445184834; 
-	Tue, 21 May 2019 06:26:24 -0700 (PDT)
-Received: from redhat.com (pool-173-76-105-71.bstnma.fios.verizon.net.
-	[173.76.105.71]) by smtp.gmail.com with ESMTPSA id
-	j19sm6119630qkl.82.2019.05.21.06.26.23
-	(version=TLS1_3 cipher=AEAD-AES256-GCM-SHA384 bits=256/256);
-	Tue, 21 May 2019 06:26:23 -0700 (PDT)
-Date: Tue, 21 May 2019 09:26:16 -0400
-From: "Michael S. Tsirkin" <mst@redhat.com>
-To: Peter Maydell <peter.maydell@linaro.org>
-Message-ID: <20190521092553-mutt-send-email-mst@kernel.org>
-References: <20190520231008.20140-1-mst@redhat.com>
-	<CAFEAcA80Q8zWxM4TBVMZHLuOzo0HSpT=4C76uAwdMjLn2Xye=w@mail.gmail.com>
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=vItEtQ+QxlS5/USu0/0rorN53TvHPQcHiBUKEpZ7mVc=;
+	b=mpATCPmEcHK7CAQ6c++zp66hlyI0STCssYzOjGUOBHz36ApyxIaWpCRmasn3BMKDbo
+	Zlec/xtQ5iPb9IGPrhtTeCsNdMZX8T/R9W461/5fY74/1y1lIvdO/dxCGsfYcwC1Z+ID
+	ealx9ZOLvK6zgiJbYijx4Rg1OiSx83RV52lOqN78MTZViOhyWiQqGoOUA3zsRBeyX3LD
+	C9csThL0k3EDnb/tppUTxqCCPblE8Tjb4swjxpa2efsRkm4lF0LW4EoBQmtqe9J1pwE3
+	uKw1FQegGdKy48CjUIRQgHMi8bA/mArbnpnwKCII7cLMBIFyottc6Nxf7v0zx0XsfbSx
+	Z7iA==
+X-Gm-Message-State: APjAAAU4kHrcpnHDbwzhEqTjbz1skhMadlz1p4R6yJDDchI0imy+7IgS
+	rwqeGTcZKl2v5LLZ+tnxSv6rvkVJ46uRcwG9Qq0=
+X-Google-Smtp-Source: APXvYqyhg1HuBz1zbMTTQH5KrVwbLIpLCz1qZ6iiTxDhtgyyQgIho/YXl0dSGB5VS8m+sBXMse6R4JYqVPnPy2oBIug=
+X-Received: by 2002:aca:f582:: with SMTP id t124mr3602420oih.56.1558445493841; 
+	Tue, 21 May 2019 06:31:33 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAFEAcA80Q8zWxM4TBVMZHLuOzo0HSpT=4C76uAwdMjLn2Xye=w@mail.gmail.com>
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-	[fuzzy]
-X-Received-From: 209.85.222.196
-Subject: Re: [Qemu-devel] [PULL v2 00/36] pci, pc, virtio: features, fixes
+References: <20190510164349.81507-1-liq3ea@163.com>
+In-Reply-To: <20190510164349.81507-1-liq3ea@163.com>
+From: Li Qiang <liq3ea@gmail.com>
+Date: Tue, 21 May 2019 21:30:56 +0800
+Message-ID: <CAKXe6SLe1_ppEACqKVesvfrieN=c28rj9ro_xSGZ6F=Rf7iWew@mail.gmail.com>
+To: Li Qiang <liq3ea@163.com>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::242
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [PATCH v4 0/3] hw: edu: some fixes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -68,50 +72,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: imammedo@redhat.com, QEMU Developers <qemu-devel@nongnu.org>
+Cc: Paolo Bonzini <pbonzini@redhat.com>, Jiri Slaby <jslaby@suse.cz>,
+	Qemu Developers <qemu-devel@nongnu.org>,
+	=?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <philmd@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 21, 2019 at 12:49:48PM +0100, Peter Maydell wrote:
-> On Tue, 21 May 2019 at 00:10, Michael S. Tsirkin <mst@redhat.com> wrote:
-> >
-> > The following changes since commit 2259637b95bef3116cc262459271de08e038cc66:
-> >
-> >   Merge remote-tracking branch 'remotes/kevin/tags/for-upstream' into staging (2019-05-20 17:22:05 +0100)
-> >
-> > are available in the Git repository at:
-> >
-> >   git://git.kernel.org/pub/scm/virt/kvm/mst/qemu.git tags/for_upstream
-> >
-> > for you to fetch changes up to 0c05ec64c388aea59facbef740651afa78e04f50:
-> >
-> >   tests: acpi: print error unable to dump ACPI table during rebuild (2019-05-20 18:40:02 -0400)
-> >
-> > ----------------------------------------------------------------
-> > pci, pc, virtio: features, fixes
-> >
-> > reconnect for vhost blk
-> > tests for UEFI
-> > misc other stuff
-> >
-> > Signed-off-by: Michael S. Tsirkin <mst@redhat.com>
-> >
-> > ----------------------------------------------------------------
-> 
-> Hi -- this failed 'make check' for 32-bit Arm hosts:
-> 
-> ERROR:/home/peter.maydell/qemu/tests/acpi-utils.c:145:acpi_find_rsdp_address_uefi:
-> code should not be reached
-> Aborted
-> ERROR - too few tests run (expected 1, got 0)
-> /home/peter.maydell/qemu/tests/Makefile.include:885: recipe for target
-> 'check-qtest-aarch64' failed
-> 
-> thanks
-> -- PMM
+Ping....
 
-Nothing jumps out ... Igor?
+Paolo, could you merge these to your misc tree?
 
--- 
-MST
+Thanks,
+Li Qiang
 
+Li Qiang <liq3ea@163.com> =E4=BA=8E2019=E5=B9=B45=E6=9C=8811=E6=97=A5=E5=91=
+=A8=E5=85=AD =E4=B8=8A=E5=8D=8812:44=E5=86=99=E9=81=93=EF=BC=9A
+
+> Recently I am considering write a driver for edu device.
+> After reading the spec, I found these three small issue.
+> Two first two related the MMIO access and the third is
+> related the DMA operation.
+>
+> Change since v2:
+> Fix an error in patch 2
+> Fix some commit message and title.
+>
+> Change since v1:
+> Fix format compile error
+>
+> Li Qiang (3):
+>   edu: mmio: allow 64-bit access
+>   edu: mmio: allow 64-bit access in read dispatch
+>   edu: uses uint64_t in dma operation
+>
+>  hw/misc/edu.c | 32 +++++++++++++++++++++++---------
+>  1 file changed, 23 insertions(+), 9 deletions(-)
+>
+> --
+> 2.17.1
+>
+>
+>
