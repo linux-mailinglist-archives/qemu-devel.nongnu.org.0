@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 09FFB2487F
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 08:56:35 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:47747 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C65532486D
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 08:53:09 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:47680 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hSyhO-00047T-4E
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 02:56:34 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49287)
+	id 1hSye4-0000xJ-Ud
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 02:53:08 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49502)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hSyHv-0006TM-Bn
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 02:30:17 -0400
+	(envelope-from <dgibson@ozlabs.org>) id 1hSyI7-0006gE-Qa
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 02:30:29 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hSyHu-0008LE-1K
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 02:30:15 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:59171)
+	(envelope-from <dgibson@ozlabs.org>) id 1hSyI6-0000Bk-Fr
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 02:30:27 -0400
+Received: from ozlabs.org ([2401:3900:2:1::2]:40331)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
-	id 1hSyHt-0007vo-Hu; Tue, 21 May 2019 02:30:13 -0400
+	id 1hSyI5-0008FH-R7; Tue, 21 May 2019 02:30:26 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
-	id 457Qpk1VsXz9sPW; Tue, 21 May 2019 16:29:33 +1000 (AEST)
+	id 457Qpl1dYDz9sPP; Tue, 21 May 2019 16:29:33 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=gibson.dropbear.id.au; s=201602; t=1558420174;
-	bh=FARLmNP6QREokqn1Yllk7nBfUQ26iSO7Y5de8oWwo84=;
+	d=gibson.dropbear.id.au; s=201602; t=1558420175;
+	bh=fqUWx+o0fahs3svnKmwnawbbhOdSX72WeDfqhKOGZrs=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=WAoIGGBkb2/KOoCS/yoPxLGpUpdoFmWUTFnxONrh0yGPP1uMvFuk2EpKs/r1XRwBA
-	A50rbgZoShyR8wfLGVNAC6H0gNG0GxZOjI5J9lXeJxuAWNqaBlhy1qikOdCmnuSm/+
-	0e3hyqqIoPqHlKP98ElBJOXaCVT84967J8H/BDag=
+	b=KpBFgTBrsVUZ4DcTy/P3q600Cn8DmI1bD3wRc2uy715lmX4hU31rHZ0/JuD/nsV6V
+	XEXIHRdJ6qvaJdIJNvXIG8td2lW437BrwxTNoGno1JpSVywffQQatlqmybktWKXyX4
+	1n4UqmvQYHlTWC1QpPYij4mGjk8AXkb66agLPIjE=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Date: Tue, 21 May 2019 16:29:18 +1000
-Message-Id: <20190521062924.6930-33-david@gibson.dropbear.id.au>
+Date: Tue, 21 May 2019 16:29:19 +1000
+Message-Id: <20190521062924.6930-34-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190521062924.6930-1-david@gibson.dropbear.id.au>
 References: <20190521062924.6930-1-david@gibson.dropbear.id.au>
@@ -42,7 +42,8 @@ Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
 X-Received-From: 2401:3900:2:1::2
-Subject: [Qemu-devel] [PULL 32/38] sysbus: add a sysbus_mmio_unmap() helper
+Subject: [Qemu-devel] [PULL 33/38] spapr: introduce routines to delete the
+ KVM IRQ device
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,54 +63,193 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: C=C3=A9dric Le Goater <clg@kaod.org>
 
-This will be used to remove the MMIO regions of the POWER9 XIVE
-interrupt controller when the sPAPR machine is reseted.
+If a new interrupt mode is chosen by CAS, the machine generates a
+reset to reconfigure. At this point, the connection with the previous
+KVM device needs to be closed and a new connection needs to opened
+with the KVM device operating the chosen interrupt mode.
+
+New routines are introduced to destroy the XICS and the XIVE KVM
+devices. They make use of a new KVM device ioctl which destroys the
+device and also disconnects the IRQ presenters from the vCPUs.
 
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
 Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-Message-Id: <20190513084245.25755-9-clg@kaod.org>
+Message-Id: <20190513084245.25755-10-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/core/sysbus.c    | 10 ++++++++++
- include/hw/sysbus.h |  1 +
- 2 files changed, 11 insertions(+)
+ hw/intc/spapr_xive_kvm.c    | 56 +++++++++++++++++++++++++++++++++++++
+ hw/intc/xics_kvm.c          | 51 +++++++++++++++++++++++++++++++++
+ include/hw/ppc/spapr_xive.h |  1 +
+ include/hw/ppc/xics_spapr.h |  1 +
+ 4 files changed, 109 insertions(+)
 
-diff --git a/hw/core/sysbus.c b/hw/core/sysbus.c
-index 307cf90a51..689a867a22 100644
---- a/hw/core/sysbus.c
-+++ b/hw/core/sysbus.c
-@@ -153,6 +153,16 @@ static void sysbus_mmio_map_common(SysBusDevice *dev=
-, int n, hwaddr addr,
-     }
+diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
+index 3999e4b7ed..259cd1db95 100644
+--- a/hw/intc/spapr_xive_kvm.c
++++ b/hw/intc/spapr_xive_kvm.c
+@@ -58,6 +58,16 @@ static void kvm_cpu_enable(CPUState *cs)
+     QLIST_INSERT_HEAD(&kvm_enabled_cpus, enabled_cpu, node);
  }
 =20
-+void sysbus_mmio_unmap(SysBusDevice *dev, int n)
++static void kvm_cpu_disable_all(void)
 +{
-+    assert(n >=3D 0 && n < dev->num_mmio);
++    KVMEnabledCPU *enabled_cpu, *next;
 +
-+    if (dev->mmio[n].addr !=3D (hwaddr)-1) {
-+        memory_region_del_subregion(get_system_memory(), dev->mmio[n].me=
-mory);
-+        dev->mmio[n].addr =3D (hwaddr)-1;
++    QLIST_FOREACH_SAFE(enabled_cpu, &kvm_enabled_cpus, node, next) {
++        QLIST_REMOVE(enabled_cpu, node);
++        g_free(enabled_cpu);
 +    }
 +}
 +
- void sysbus_mmio_map(SysBusDevice *dev, int n, hwaddr addr)
- {
-     sysbus_mmio_map_common(dev, n, addr, false, 0);
-diff --git a/include/hw/sysbus.h b/include/hw/sysbus.h
-index 1aedcf05c9..4c668fbbdc 100644
---- a/include/hw/sysbus.h
-+++ b/include/hw/sysbus.h
-@@ -89,6 +89,7 @@ qemu_irq sysbus_get_connected_irq(SysBusDevice *dev, in=
-t n);
- void sysbus_mmio_map(SysBusDevice *dev, int n, hwaddr addr);
- void sysbus_mmio_map_overlap(SysBusDevice *dev, int n, hwaddr addr,
-                              int priority);
-+void sysbus_mmio_unmap(SysBusDevice *dev, int n);
- void sysbus_add_io(SysBusDevice *dev, hwaddr addr,
-                    MemoryRegion *mem);
- MemoryRegion *sysbus_address_space(SysBusDevice *dev);
+ /*
+  * XIVE Thread Interrupt Management context (KVM)
+  */
+@@ -709,3 +719,49 @@ void kvmppc_xive_connect(SpaprXive *xive, Error **er=
+rp)
+     /* Map all regions */
+     spapr_xive_map_mmio(xive);
+ }
++
++void kvmppc_xive_disconnect(SpaprXive *xive, Error **errp)
++{
++    XiveSource *xsrc;
++    size_t esb_len;
++
++    /* The KVM XIVE device is not in use */
++    if (!xive || xive->fd =3D=3D -1) {
++        return;
++    }
++
++    if (!kvmppc_has_cap_xive()) {
++        error_setg(errp, "IRQ_XIVE capability must be present for KVM");
++        return;
++    }
++
++    /* Clear the KVM mapping */
++    xsrc =3D &xive->source;
++    esb_len =3D (1ull << xsrc->esb_shift) * xsrc->nr_irqs;
++
++    sysbus_mmio_unmap(SYS_BUS_DEVICE(xive), 0);
++    munmap(xsrc->esb_mmap, esb_len);
++
++    sysbus_mmio_unmap(SYS_BUS_DEVICE(xive), 1);
++
++    sysbus_mmio_unmap(SYS_BUS_DEVICE(xive), 2);
++    munmap(xive->tm_mmap, 4ull << TM_SHIFT);
++
++    /*
++     * When the KVM device fd is closed, the KVM device is destroyed
++     * and removed from the list of devices of the VM. The VCPU
++     * presenters are also detached from the device.
++     */
++    close(xive->fd);
++    xive->fd =3D -1;
++
++    kvm_kernel_irqchip =3D false;
++    kvm_msi_via_irqfd_allowed =3D false;
++    kvm_gsi_direct_mapping =3D false;
++
++    /* Clear the local list of presenter (hotplug) */
++    kvm_cpu_disable_all();
++
++    /* VM Change state handler is not needed anymore */
++    qemu_del_vm_change_state_handler(xive->change);
++}
+diff --git a/hw/intc/xics_kvm.c b/hw/intc/xics_kvm.c
+index 78a252e6df..1185846ff1 100644
+--- a/hw/intc/xics_kvm.c
++++ b/hw/intc/xics_kvm.c
+@@ -51,6 +51,16 @@ typedef struct KVMEnabledICP {
+ static QLIST_HEAD(, KVMEnabledICP)
+     kvm_enabled_icps =3D QLIST_HEAD_INITIALIZER(&kvm_enabled_icps);
+=20
++static void kvm_disable_icps(void)
++{
++    KVMEnabledICP *enabled_icp, *next;
++
++    QLIST_FOREACH_SAFE(enabled_icp, &kvm_enabled_icps, node, next) {
++        QLIST_REMOVE(enabled_icp, node);
++        g_free(enabled_icp);
++    }
++}
++
+ /*
+  * ICP-KVM
+  */
+@@ -360,3 +370,44 @@ fail:
+     kvmppc_define_rtas_kernel_token(0, "ibm,int-off");
+     return -1;
+ }
++
++void xics_kvm_disconnect(SpaprMachineState *spapr, Error **errp)
++{
++    /* The KVM XICS device is not in use */
++    if (kernel_xics_fd =3D=3D -1) {
++        return;
++    }
++
++    if (!kvm_enabled() || !kvm_check_extension(kvm_state, KVM_CAP_IRQ_XI=
+CS)) {
++        error_setg(errp,
++                   "KVM and IRQ_XICS capability must be present for KVM =
+XICS device");
++        return;
++    }
++
++    /*
++     * Only on P9 using the XICS-on XIVE KVM device:
++     *
++     * When the KVM device fd is closed, the device is destroyed and
++     * removed from the list of devices of the VM. The VCPU presenters
++     * are also detached from the device.
++     */
++    close(kernel_xics_fd);
++    kernel_xics_fd =3D -1;
++
++    spapr_rtas_unregister(RTAS_IBM_SET_XIVE);
++    spapr_rtas_unregister(RTAS_IBM_GET_XIVE);
++    spapr_rtas_unregister(RTAS_IBM_INT_OFF);
++    spapr_rtas_unregister(RTAS_IBM_INT_ON);
++
++    kvmppc_define_rtas_kernel_token(0, "ibm,set-xive");
++    kvmppc_define_rtas_kernel_token(0, "ibm,get-xive");
++    kvmppc_define_rtas_kernel_token(0, "ibm,int-on");
++    kvmppc_define_rtas_kernel_token(0, "ibm,int-off");
++
++    kvm_kernel_irqchip =3D false;
++    kvm_msi_via_irqfd_allowed =3D false;
++    kvm_gsi_direct_mapping =3D false;
++
++    /* Clear the presenter from the VCPUs */
++    kvm_disable_icps();
++}
+diff --git a/include/hw/ppc/spapr_xive.h b/include/hw/ppc/spapr_xive.h
+index 04294b0ca2..0b5e972d52 100644
+--- a/include/hw/ppc/spapr_xive.h
++++ b/include/hw/ppc/spapr_xive.h
+@@ -71,6 +71,7 @@ int spapr_xive_end_to_target(uint8_t end_blk, uint32_t =
+end_idx,
+  * KVM XIVE device helpers
+  */
+ void kvmppc_xive_connect(SpaprXive *xive, Error **errp);
++void kvmppc_xive_disconnect(SpaprXive *xive, Error **errp);
+ void kvmppc_xive_reset(SpaprXive *xive, Error **errp);
+ void kvmppc_xive_set_source_config(SpaprXive *xive, uint32_t lisn, XiveE=
+AS *eas,
+                                    Error **errp);
+diff --git a/include/hw/ppc/xics_spapr.h b/include/hw/ppc/xics_spapr.h
+index 15a8dcff66..2476b540ed 100644
+--- a/include/hw/ppc/xics_spapr.h
++++ b/include/hw/ppc/xics_spapr.h
+@@ -34,6 +34,7 @@
+ void spapr_dt_xics(SpaprMachineState *spapr, uint32_t nr_servers, void *=
+fdt,
+                    uint32_t phandle);
+ int xics_kvm_init(SpaprMachineState *spapr, Error **errp);
++void xics_kvm_disconnect(SpaprMachineState *spapr, Error **errp);
+ void xics_spapr_init(SpaprMachineState *spapr);
+=20
+ #endif /* XICS_SPAPR_H */
 --=20
 2.21.0
 
