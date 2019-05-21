@@ -2,63 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 244B724F03
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 14:36:37 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52841 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 32FAD24EFA
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 14:34:23 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52770 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hT40S-0001BD-B4
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 08:36:36 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:45343)
+	id 1hT3yI-00083y-Cx
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 08:34:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:45337)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hT3q2-0001SM-Sk
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 08:25:53 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hT3q2-0001SK-S6
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 08:25:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <peter.maydell@linaro.org>) id 1hT3pw-0005G1-W8
+	(envelope-from <peter.maydell@linaro.org>) id 1hT3px-0005Gy-FE
 	for qemu-devel@nongnu.org; Tue, 21 May 2019 08:25:48 -0400
-Received: from mail-wr1-x442.google.com ([2a00:1450:4864:20::442]:45951)
+Received: from mail-wr1-x429.google.com ([2a00:1450:4864:20::429]:46306)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
-	id 1hT3pw-0005A4-NC
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 08:25:44 -0400
-Received: by mail-wr1-x442.google.com with SMTP id b18so18328012wrq.12
-	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 05:25:36 -0700 (PDT)
+	id 1hT3px-0005B2-6a
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 08:25:45 -0400
+Received: by mail-wr1-x429.google.com with SMTP id r7so18343869wrr.13
+	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 05:25:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references
 	:mime-version:content-transfer-encoding;
-	bh=/6fZvTwbiNEGi+N3ZL26FN4PNtHy8EurrYMXN2rAFp0=;
-	b=UDj+XYvN3CAPWQnMdjGuz4CBG2eXrGv5r1RTbJ5659Pur1V7x/o2dqcIhR9uJmbk/s
-	AcNGLJg0M6HRtF8iD9VgWFR4VBc2t8smBsx2Cen+BHEy4Bef3cy9FaJy3WlO7ARQXNjz
-	QqTuMTW4f115rdGfd9Ln3ddpA1L4mqDoQ0wTJQoUsX18PISmGT643c/9yS5bOK/glGx8
-	JzB/3kdwz0a1VSPLrdR9THRrwjoQA72s/WhlhVvYCC00giQLn2kqWOa2W4OMpjaNAdg5
-	w1CyXIqjn1JVNCKWXVCA1cAHwnlp0Nt7SFjCjZZP5N8raTSx17ERl/bur5EH+pDL4V5V
-	uYJA==
+	bh=tvS0J2CCwmAI9jtVGUfQ7GO5klgsA9PYzQhj1JC24zc=;
+	b=X+NOGgcjaXldgBS/tExqO4E64kbpEgbQAvgU9otTba+JyKhxqxB4dLmshB1r0Auxw4
+	PryiKx9CzgQKF6CzfjDu+oVq2xNltjxH5geoKY2/Kem/EtnvpWD6qY4AVgdRcZRcLvHu
+	J2uL1ofVtN+cJZRed+HBolGal9Fe/+Qsao3T1+PHewwoaOpIAiLY76XS5frjOvQWYG+i
+	Gb0SfcNcTLyzfpysxQjd+XTCR+dTiA7Yz1jYq7VUAUpWVn92rpG34naxisEvsSQqWTZi
+	uKzreecXSnfme+hleSj5P2roFD83GJ21FiW8gwREmsFUK8pBcBxp8tYYvJMom3SGdSXZ
+	xLrQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references:mime-version:content-transfer-encoding;
-	bh=/6fZvTwbiNEGi+N3ZL26FN4PNtHy8EurrYMXN2rAFp0=;
-	b=sJOcm66bDn29Z4/dtKL6MLGrdpKLpjt60kJ2xiUhZrc3wBCAqZl8kOGQb1H95S2PRR
-	G06qhOpsDj2U0B2gWpCjiH3jpH34YPzc8fJCDDsLoYe/dcjG+WJArLqgFgZWWU0fI8pr
-	GVSwuPOc8hj2gUpjSeR9wtcE8rVA1/VNjUASNJEK+3YxPEbHS2lREdgsUI412clmVkW3
-	wBLAMJNbpOPWbBDHk4eHvilT/jfmcVJba6lGsyi70ahsfvdgM7AmTPcPz/O+En8xqUfq
-	BM7ZyJ5whOKLaUOeSUIv05Za26S5lHioult/rr+9NGY+wDNpjXTY7EeD7yd6rRp0XXGI
-	DTpA==
-X-Gm-Message-State: APjAAAW8dlLOV/AlthysvC2lrspekKKI1Iz2hAJDq6wqUML7YuoRrpyr
-	NMXNW5nVPzcynI5f7uq9GyBBtRsIg+8=
-X-Google-Smtp-Source: APXvYqxSErixkeNMSitVLX6eEjsluk4iknCHa8akyiEY8p1EsaSEmfLFRI2zEPo9MrWYXOMvz8DaZw==
-X-Received: by 2002:a05:6000:1284:: with SMTP id
-	f4mr38158764wrx.325.1558441535220; 
-	Tue, 21 May 2019 05:25:35 -0700 (PDT)
+	bh=tvS0J2CCwmAI9jtVGUfQ7GO5klgsA9PYzQhj1JC24zc=;
+	b=czXhYVpNeIPat5MbvXQm/psoynpFZjpofV+1c2WHkRkI5Njwii9vp317XEweSQ9aB2
+	u2PDaKa9PdgIJIqO0W0s8z4a150wnfwHQFGSDFHanYXR+f2v8aQnoRJgHe4PT1JMpaBu
+	Yh5Aw7daTCaFq1uRUV/j3En0MI1Lm/B+YmEINaVQfh7OyB2ZoxrD2YbFBFEqdrwL6bmC
+	uranViGVtTsaUxFaMGmH4QVIFNyIri4OIfxN29t924xC12o10wZT29cICbPIdizwafzY
+	iYfXtKq7vAkb8RQbOejncLXyyvLloGHt0ZZKi81RGM0HPA3eIqVtCb+kvnXhbkxK/3FE
+	DKoA==
+X-Gm-Message-State: APjAAAV0J48WpD6lWv+2f7eGpguCTQZgSD1KVhHUPESkT+q1ffot2hoF
+	wqPE3r85ymR89XUGm1YscYH1dSkBw5Q=
+X-Google-Smtp-Source: APXvYqxxe+PwXfDEANRKCMnkI5mgr+PlLszaJrWn37UWC69YKCLeRqQt3QrngqmM7xqYb+i0rhf0AA==
+X-Received: by 2002:adf:8bc5:: with SMTP id w5mr7235335wra.132.1558441536416; 
+	Tue, 21 May 2019 05:25:36 -0700 (PDT)
 Received: from orth.archaic.org.uk (orth.archaic.org.uk. [81.2.115.148])
 	by smtp.gmail.com with ESMTPSA id
-	u11sm12233393wrn.1.2019.05.21.05.25.34
+	u11sm12233393wrn.1.2019.05.21.05.25.35
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 21 May 2019 05:25:34 -0700 (PDT)
+	Tue, 21 May 2019 05:25:35 -0700 (PDT)
 From: Peter Maydell <peter.maydell@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Tue, 21 May 2019 13:25:18 +0100
-Message-Id: <20190521122519.12573-10-peter.maydell@linaro.org>
+Date: Tue, 21 May 2019 13:25:19 +0100
+Message-Id: <20190521122519.12573-11-peter.maydell@linaro.org>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190521122519.12573-1-peter.maydell@linaro.org>
 References: <20190521122519.12573-1-peter.maydell@linaro.org>
@@ -66,8 +65,8 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::442
-Subject: [Qemu-devel] [RFC 09/10] memory.h: attempted kernel-doc fixes
+X-Received-From: 2a00:1450:4864:20::429
+Subject: [Qemu-devel] [RFC 10/10] Makefile: disable Sphinx nitpicking
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -88,91 +87,28 @@ Cc: "Daniel P. Berrange" <berrange@redhat.com>,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-kernel-doc needs the "struct" or it complains that it
-can't parse a function prototype which is actually a struct
-definition.
+Turn off Sphinx nitpicking as a temporary measure so
+sphinx builds complete even with warnings about missing
+references.
 
-Note that this then creates a lot of warnings about
-undocumented struct fields...
+Signed-off-by: Peter Maydell <peter.maydell@linaro.org>
 ---
- include/exec/memory.h | 22 ++++++++++++----------
- 1 file changed, 12 insertions(+), 10 deletions(-)
+ Makefile | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/include/exec/memory.h b/include/exec/memory.h
-index 8447a16ded1..d0f35be1c3b 100644
---- a/include/exec/memory.h
-+++ b/include/exec/memory.h
-@@ -208,7 +208,7 @@ enum IOMMUMemoryRegionAttr {
- };
+diff --git a/Makefile b/Makefile
+index 155f066a206..b4be96ce9a6 100644
+--- a/Makefile
++++ b/Makefile
+@@ -932,7 +932,7 @@ docs/version.texi: $(SRC_PATH)/VERSION config-host.mak
+ sphinxdocs: $(MANUAL_BUILDDIR)/devel/index.html $(MANUAL_BUILDDIR)/interop/index.html
  
- /**
-- * IOMMUMemoryRegionClass:
-+ * struct IOMMUMemoryRegionClass:
-  *
-  * All IOMMU implementations need to subclass TYPE_IOMMU_MEMORY_REGION
-  * and provide an implementation of at least the @translate method here
-@@ -224,8 +224,10 @@ enum IOMMUMemoryRegionAttr {
-  * attributes and the output TLB entry depends on the transaction
-  * attributes, we represent this using IOMMU indexes. Each index
-  * selects a particular translation table that the IOMMU has:
-- *   @attrs_to_index returns the IOMMU index for a set of transaction attributes
-- *   @translate takes an input address and an IOMMU index
-+ *
-+ * -  @attrs_to_index returns the IOMMU index for a set of transaction attributes
-+ * -  @translate takes an input address and an IOMMU index
-+ *
-  * and the mapping returned can only depend on the input address and the
-  * IOMMU index.
-  *
-@@ -398,7 +400,7 @@ struct IOMMUMemoryRegion {
-     QLIST_FOREACH((n), &(mr)->iommu_notify, node)
+ # Canned command to build a single manual
+-build-manual = $(call quiet-command,sphinx-build $(if $(V),,-q) -W -n -b html -D version=$(VERSION) -D release="$(FULL_VERSION)" -d .doctrees/$1 $(SRC_PATH)/docs/$1 $(MANUAL_BUILDDIR)/$1 ,"SPHINX","$(MANUAL_BUILDDIR)/$1")
++build-manual = $(call quiet-command,sphinx-build $(if $(V),,-q) -W -b html -D version=$(VERSION) -D release="$(FULL_VERSION)" -d .doctrees/$1 $(SRC_PATH)/docs/$1 $(MANUAL_BUILDDIR)/$1 ,"SPHINX","$(MANUAL_BUILDDIR)/$1")
+ # We assume all RST files in the manual's directory are used in it
+ manual-deps = $(wildcard $(SRC_PATH)/docs/$1/*.rst) $(SRC_PATH)/docs/$1/conf.py $(SRC_PATH)/docs/conf.py
  
- /**
-- * MemoryListener: callbacks structure for updates to the physical memory map
-+ * struct MemoryListener: callbacks structure for updates to the physical memory map
-  *
-  * Allows a component to adjust to changes in the guest-visible memory map.
-  * Use with memory_listener_register() and memory_listener_unregister().
-@@ -432,7 +434,7 @@ struct MemoryListener {
- };
- 
- /**
-- * AddressSpace: describes a mapping of addresses to #MemoryRegion objects
-+ * struct AddressSpace: describes a mapping of addresses to #MemoryRegion objects
-  */
- struct AddressSpace {
-     /* All fields are private. */
-@@ -472,7 +474,7 @@ static inline FlatView *address_space_to_flatview(AddressSpace *as)
- 
- 
- /**
-- * MemoryRegionSection: describes a fragment of a #MemoryRegion
-+ * struct MemoryRegionSection: describes a fragment of a #MemoryRegion
-  *
-  * @mr: the region, or %NULL if empty
-  * @fv: the flat view of the address space the region is mapped in
-@@ -1653,8 +1655,8 @@ bool memory_region_is_mapped(MemoryRegion *mr);
-  * Returns a #MemoryRegionSection that describes a contiguous overlap.
-  * It will have the following characteristics:
-  *
-- *    .@size = 0 iff no overlap was found
-- *    .@mr is non-%NULL iff an overlap was found
-+ * -   .@size = 0 iff no overlap was found
-+ * -   .@mr is non-%NULL iff an overlap was found
-  *
-  * Remember that in the return value the @offset_within_region is
-  * relative to the returned region (in the .@mr field), not to the
-@@ -1666,8 +1668,8 @@ bool memory_region_is_mapped(MemoryRegion *mr);
-  * has no container (and thus is the root of the address space), the
-  * following will hold:
-  *
-- *    .@offset_within_address_space >= @addr
-- *    .@offset_within_address_space + .@size <= @addr + @size
-+ * -   .@offset_within_address_space >= @addr
-+ * -   .@offset_within_address_space + .@size <= @addr + @size
-  *
-  * @mr: a MemoryRegion within which @addr is a relative address
-  * @addr: start of the area within @as to be searched
 -- 
 2.20.1
 
