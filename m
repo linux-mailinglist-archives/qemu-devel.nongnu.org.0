@@ -2,50 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5788C24D57
-	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 12:56:37 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:51336 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A60C124D7A
+	for <lists+qemu-devel@lfdr.de>; Tue, 21 May 2019 13:02:11 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:51415 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hT2Rg-0001LP-DC
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 06:56:36 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56865)
+	id 1hT2X4-0006UE-SL
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 07:02:10 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:56879)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hT2PH-00006E-H2
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 06:54:09 -0400
+	(envelope-from <thuth@redhat.com>) id 1hT2PL-00009E-91
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 06:54:12 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <thuth@redhat.com>) id 1hT2PG-0004hm-I1
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 06:54:07 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:40416)
+	(envelope-from <thuth@redhat.com>) id 1hT2PJ-0004k0-Te
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 06:54:11 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:58072)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <thuth@redhat.com>) id 1hT2PG-0004hD-9e
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 06:54:06 -0400
+	(Exim 4.71) (envelope-from <thuth@redhat.com>) id 1hT2PJ-0004jU-Li
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 06:54:09 -0400
 Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
 	[10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 92DA830832E9;
-	Tue, 21 May 2019 10:54:05 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id F31A7307D855;
+	Tue, 21 May 2019 10:54:08 +0000 (UTC)
 Received: from thuth.com (ovpn-116-22.ams2.redhat.com [10.36.116.22])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 6239C6085B;
-	Tue, 21 May 2019 10:54:04 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTP id DE03B6085B;
+	Tue, 21 May 2019 10:54:05 +0000 (UTC)
 From: Thomas Huth <thuth@redhat.com>
 To: Peter Maydell <peter.maydell@linaro.org>,
 	qemu-devel@nongnu.org
-Date: Tue, 21 May 2019 12:53:37 +0200
-Message-Id: <20190521105344.11637-7-thuth@redhat.com>
+Date: Tue, 21 May 2019 12:53:38 +0200
+Message-Id: <20190521105344.11637-8-thuth@redhat.com>
 In-Reply-To: <20190521105344.11637-1-thuth@redhat.com>
 References: <20190521105344.11637-1-thuth@redhat.com>
 MIME-Version: 1.0
 X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.44]);
-	Tue, 21 May 2019 10:54:05 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.48]);
+	Tue, 21 May 2019 10:54:09 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PULL 06/13] tests/qom-test: Use qtest_init() instead
- of qtest_start()
+Subject: [Qemu-devel] [PULL 07/13] tests/device-introspect: Use qtest_init()
+ instead of qtest_start()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -65,90 +65,237 @@ qtest_start() + qtest_end() should be avoided, since they use the
 global_qtest variable that we want to get rid of in the long run.
 Use qtest_init() and qtest_quit() instead.
 
-Message-Id: <20190515174328.16361-5-thuth@redhat.com>
+Message-Id: <20190515174328.16361-6-thuth@redhat.com>
 Signed-off-by: Thomas Huth <thuth@redhat.com>
 ---
- tests/qom-test.c | 28 +++++++++++++---------------
- 1 file changed, 13 insertions(+), 15 deletions(-)
+ tests/device-introspect-test.c | 85 ++++++++++++++++++----------------
+ 1 file changed, 46 insertions(+), 39 deletions(-)
 
-diff --git a/tests/qom-test.c b/tests/qom-test.c
-index 73c52af3bb..4f94cc678c 100644
---- a/tests/qom-test.c
-+++ b/tests/qom-test.c
-@@ -44,7 +44,7 @@ static bool is_blacklisted(const char *arch, const char=
- *mach)
-     return false;
+diff --git a/tests/device-introspect-test.c b/tests/device-introspect-tes=
+t.c
+index a25092dfaa..04f22903b0 100644
+--- a/tests/device-introspect-test.c
++++ b/tests/device-introspect-test.c
+@@ -26,7 +26,8 @@
+=20
+ const char common_args[] =3D "-nodefaults -machine none";
+=20
+-static QList *qom_list_types(const char *implements, bool abstract)
++static QList *qom_list_types(QTestState * qts, const char *implements,
++                             bool abstract)
+ {
+     QDict *resp;
+     QList *ret;
+@@ -36,8 +37,8 @@ static QList *qom_list_types(const char *implements, bo=
+ol abstract)
+     if (implements) {
+         qdict_put_str(args, "implements", implements);
+     }
+-    resp =3D qmp("{'execute': 'qom-list-types',"
+-               " 'arguments': %p }", args);
++    resp =3D qtest_qmp(qts, "{'execute': 'qom-list-types', 'arguments': =
+%p }",
++                     args);
+     g_assert(qdict_haskey(resp, "return"));
+     ret =3D qdict_get_qlist(resp, "return");
+     qobject_ref(ret);
+@@ -95,12 +96,12 @@ static QDict *type_list_find(QList *types, const char=
+ *name)
+     return NULL;
  }
 =20
--static void test_properties(const char *path, bool recurse)
-+static void test_properties(QTestState *qts, const char *path, bool recu=
-rse)
+-static QList *device_type_list(bool abstract)
++static QList *device_type_list(QTestState *qts, bool abstract)
  {
-     char *child_path;
-     QDict *response, *tuple, *tmp;
-@@ -52,8 +52,8 @@ static void test_properties(const char *path, bool recu=
-rse)
-     QListEntry *entry;
+-    return qom_list_types("device", abstract);
++    return qom_list_types(qts, "device", abstract);
+ }
 =20
-     g_test_message("Obtaining properties of %s", path);
--    response =3D qmp("{ 'execute': 'qom-list',"
--                   "  'arguments': { 'path': %s } }", path);
-+    response =3D qtest_qmp(qts, "{ 'execute': 'qom-list',"
-+                              "  'arguments': { 'path': %s } }", path);
-     g_assert(response);
-=20
-     if (!recurse) {
-@@ -71,15 +71,15 @@ static void test_properties(const char *path, bool re=
-curse)
-         if (is_child || is_link) {
-             child_path =3D g_strdup_printf("%s/%s",
-                                          path, qdict_get_str(tuple, "nam=
-e"));
--            test_properties(child_path, is_child);
-+            test_properties(qts, child_path, is_child);
-             g_free(child_path);
-         } else {
-             const char *prop =3D qdict_get_str(tuple, "name");
-             g_test_message("Testing property %s.%s", path, prop);
--            tmp =3D qmp("{ 'execute': 'qom-get',"
--                      "  'arguments': { 'path': %s,"
--                      "                 'property': %s } }",
--                      path, prop);
-+            tmp =3D qtest_qmp(qts,
-+                            "{ 'execute': 'qom-get',"
-+                            "  'arguments': { 'path': %s, 'property': %s=
- } }",
-+                            path, prop);
-             /* qom-get may fail but should not, e.g., segfault. */
-             g_assert(tmp);
-             qobject_unref(tmp);
-@@ -91,20 +91,18 @@ static void test_properties(const char *path, bool re=
-curse)
- static void test_machine(gconstpointer data)
+-static void test_one_device(const char *type)
++static void test_one_device(QTestState *qts, const char *type)
  {
-     const char *machine =3D data;
--    char *args;
-     QDict *response;
+     QDict *resp;
+     char *help;
+@@ -109,15 +110,15 @@ static void test_one_device(const char *type)
+=20
+     g_test_message("Testing device '%s'", type);
+=20
+-    qom_tree_start =3D hmp("info qom-tree");
+-    qtree_start =3D hmp("info qtree");
++    qom_tree_start =3D qtest_hmp(qts, "info qom-tree");
++    qtree_start =3D qtest_hmp(qts, "info qtree");
+=20
+-    resp =3D qmp("{'execute': 'device-list-properties',"
+-               " 'arguments': {'typename': %s}}",
++    resp =3D qtest_qmp(qts, "{'execute': 'device-list-properties',"
++                          " 'arguments': {'typename': %s}}",
+                type);
+     qobject_unref(resp);
+=20
+-    help =3D hmp("device_add \"%s,help\"", type);
++    help =3D qtest_hmp(qts, "device_add \"%s,help\"", type);
+     g_free(help);
+=20
+     /*
+@@ -125,12 +126,12 @@ static void test_one_device(const char *type)
+      * "info qom-tree" or "info qtree" have a good chance at crashing th=
+en.
+      * Also make sure that the tree did not change.
+      */
+-    qom_tree_end =3D hmp("info qom-tree");
++    qom_tree_end =3D qtest_hmp(qts, "info qom-tree");
+     g_assert_cmpstr(qom_tree_start, =3D=3D, qom_tree_end);
+     g_free(qom_tree_start);
+     g_free(qom_tree_end);
+=20
+-    qtree_end =3D hmp("info qtree");
++    qtree_end =3D qtest_hmp(qts, "info qtree");
+     g_assert_cmpstr(qtree_start, =3D=3D, qtree_end);
+     g_free(qtree_start);
+     g_free(qtree_end);
+@@ -140,29 +141,30 @@ static void test_device_intro_list(void)
+ {
+     QList *types;
+     char *help;
 +    QTestState *qts;
 =20
--    args =3D g_strdup_printf("-machine %s", machine);
--    qtest_start(args);
-+    qts =3D qtest_initf("-machine %s", machine);
+-    qtest_start(common_args);
++    qts =3D qtest_init(common_args);
 =20
--    test_properties("/machine", true);
-+    test_properties(qts, "/machine", true);
+-    types =3D device_type_list(true);
++    types =3D device_type_list(qts, true);
+     qobject_unref(types);
 =20
--    response =3D qmp("{ 'execute': 'quit' }");
-+    response =3D qtest_qmp(qts, "{ 'execute': 'quit' }");
-     g_assert(qdict_haskey(response, "return"));
-     qobject_unref(response);
+-    help =3D hmp("device_add help");
++    help =3D qtest_hmp(qts, "device_add help");
+     g_free(help);
 =20
 -    qtest_end();
--    g_free(args);
 +    qtest_quit(qts);
-     g_free((void *)machine);
  }
 =20
+ /*
+  * Ensure all entries returned by qom-list-types implements=3D<parent>
+  * have <parent> as a parent.
+  */
+-static void test_qom_list_parents(const char *parent)
++static void test_qom_list_parents(QTestState *qts, const char *parent)
+ {
+     QList *types;
+     QListEntry *e;
+     QDict *index;
+=20
+-    types =3D qom_list_types(parent, true);
++    types =3D qom_list_types(qts, parent, true);
+     index =3D qom_type_index(types);
+=20
+     QLIST_FOREACH_ENTRY(types, e) {
+@@ -181,11 +183,12 @@ static void test_qom_list_fields(void)
+     QList *all_types;
+     QList *non_abstract;
+     QListEntry *e;
++    QTestState *qts;
+=20
+-    qtest_start(common_args);
++    qts =3D qtest_init(common_args);
+=20
+-    all_types =3D qom_list_types(NULL, true);
+-    non_abstract =3D qom_list_types(NULL, false);
++    all_types =3D qom_list_types(qts, NULL, true);
++    non_abstract =3D qom_list_types(qts, NULL, false);
+=20
+     QLIST_FOREACH_ENTRY(all_types, e) {
+         QDict *d =3D qobject_to(QDict, qlist_entry_obj(e));
+@@ -198,27 +201,29 @@ static void test_qom_list_fields(void)
+         g_assert(abstract =3D=3D expected_abstract);
+     }
+=20
+-    test_qom_list_parents("object");
+-    test_qom_list_parents("device");
+-    test_qom_list_parents("sys-bus-device");
++    test_qom_list_parents(qts, "object");
++    test_qom_list_parents(qts, "device");
++    test_qom_list_parents(qts, "sys-bus-device");
+=20
+     qobject_unref(all_types);
+     qobject_unref(non_abstract);
+-    qtest_end();
++    qtest_quit(qts);
+ }
+=20
+ static void test_device_intro_none(void)
+ {
+-    qtest_start(common_args);
+-    test_one_device("nonexistent");
+-    qtest_end();
++    QTestState *qts =3D qtest_init(common_args);
++
++    test_one_device(qts, "nonexistent");
++    qtest_quit(qts);
+ }
+=20
+ static void test_device_intro_abstract(void)
+ {
+-    qtest_start(common_args);
+-    test_one_device("device");
+-    qtest_end();
++    QTestState *qts =3D qtest_init(common_args);
++
++    test_one_device(qts, "device");
++    qtest_quit(qts);
+ }
+=20
+ static void test_device_intro_concrete(const void *args)
+@@ -226,19 +231,20 @@ static void test_device_intro_concrete(const void *=
+args)
+     QList *types;
+     QListEntry *entry;
+     const char *type;
++    QTestState *qts;
+=20
+-    qtest_start(args);
+-    types =3D device_type_list(false);
++    qts =3D qtest_init(args);
++    types =3D device_type_list(qts, false);
+=20
+     QLIST_FOREACH_ENTRY(types, entry) {
+         type =3D qdict_get_try_str(qobject_to(QDict, qlist_entry_obj(ent=
+ry)),
+                                  "name");
+         g_assert(type);
+-        test_one_device(type);
++        test_one_device(qts, type);
+     }
+=20
+     qobject_unref(types);
+-    qtest_end();
++    qtest_quit(qts);
+     g_free((void *)args);
+ }
+=20
+@@ -247,10 +253,11 @@ static void test_abstract_interfaces(void)
+     QList *all_types;
+     QListEntry *e;
+     QDict *index;
++    QTestState *qts;
+=20
+-    qtest_start(common_args);
++    qts =3D qtest_init(common_args);
+=20
+-    all_types =3D qom_list_types("interface", true);
++    all_types =3D qom_list_types(qts, "interface", true);
+     index =3D qom_type_index(all_types);
+=20
+     QLIST_FOREACH_ENTRY(all_types, e) {
+@@ -273,7 +280,7 @@ static void test_abstract_interfaces(void)
+=20
+     qobject_unref(all_types);
+     qobject_unref(index);
+-    qtest_end();
++    qtest_quit(qts);
+ }
+=20
+ static void add_machine_test_case(const char *mname)
 --=20
 2.21.0
 
