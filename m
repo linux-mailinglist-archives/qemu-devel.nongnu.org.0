@@ -2,33 +2,33 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 16ED225D84
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 07:21:47 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36303 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F083E25D7D
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 07:19:28 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36231 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTJhC-0000dP-8M
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 01:21:46 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48698)
+	id 1hTJey-0006a2-2Q
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 01:19:28 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47645)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hTJAe-0004s6-M3
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 00:48:09 -0400
+	(envelope-from <dgibson@ozlabs.org>) id 1hTJ9H-0003hr-Mx
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 00:46:46 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hTJAd-0007iy-Cv
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 00:48:08 -0400
-Received: from ozlabs.org ([203.11.71.1]:45045)
+	(envelope-from <dgibson@ozlabs.org>) id 1hTJ9G-0006uW-Ci
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 00:46:43 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:53265 helo=ozlabs.org)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
-	id 1hTJAc-0007PX-RF; Wed, 22 May 2019 00:48:07 -0400
+	id 1hTJ9F-0006fY-MM; Wed, 22 May 2019 00:46:42 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
-	id 4580T44VQGz9sQt; Wed, 22 May 2019 14:46:13 +1000 (AEST)
+	id 4580Sx5nN6z9sPJ; Wed, 22 May 2019 14:46:07 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=gibson.dropbear.id.au; s=201602; t=1558500376;
+	d=gibson.dropbear.id.au; s=201602; t=1558500369;
 	bh=JovPQt+w+OsaE4OA9JcscahCs/Ep/b23xTHJ4b5HExg=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=X3Lrj7NDMBpedIUQfO/9421IqvhDVSoyQ7xK0i/nMVw6w3Ssjy7OqRWTp7r1ry8La
-	UXCgxcut5uGPy+BLUITUMoIemUbbiGXpxtKFmKDNGbMG84ID1FDB/7ET6/O7wr/oYF
-	d+UwXODAv4Y1bxBH6iVK+7jclx44qAuEQouELx/U=
+	b=UEqNJoUSrLObRKvdfa8v+dP9LYeHJd9zkmItcnJn9RYbb/nrvqLn1s1gAnHQDrOtQ
+	MxaHHXvGbR4JYUPKur6WB5EY3sOJW10pkp8kRDZ/e3EbVXeD2LkUHe25p0fgA9/8V9
+	UAnrOs+7PKNJNAtpOsLk97qldHANsPe831GREqFU=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
 Date: Wed, 22 May 2019 14:45:44 +1000
@@ -38,8 +38,9 @@ In-Reply-To: <20190522044600.16534-1-david@gibson.dropbear.id.au>
 References: <20190522044600.16534-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2401:3900:2:1::2
 Subject: [Qemu-devel] [PULL 22/38] target/ppc: Use vector variable shifts
  for VSL, VSR, VSRA
 X-BeenThere: qemu-devel@nongnu.org
