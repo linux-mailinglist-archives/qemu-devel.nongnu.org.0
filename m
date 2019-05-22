@@ -2,59 +2,65 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2105A26002
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 11:01:40 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38762 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E17D525FE3
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 10:57:49 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38687 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTN7y-00051B-2O
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 05:01:38 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36974)
+	id 1hTN4H-0002Mk-4j
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 04:57:49 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36843)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <jdenemar@redhat.com>) id 1hTN2l-0001ho-Ns
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 04:56:17 -0400
+	(envelope-from <peter.maydell@linaro.org>) id 1hTN2I-0001Td-Qb
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 04:55:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <jdenemar@redhat.com>) id 1hTMq2-0004le-M3
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 04:43:08 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60510)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <jdenemar@redhat.com>) id 1hTMq2-0004jv-Av
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 04:43:06 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
-	[10.5.11.11])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id AA099330259;
-	Wed, 22 May 2019 08:42:59 +0000 (UTC)
-Received: from virval.usersys.redhat.com (unknown [10.43.2.188])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id D5D3D60494;
-	Wed, 22 May 2019 08:42:57 +0000 (UTC)
-Received: by virval.usersys.redhat.com (Postfix, from userid 500)
-	id 7D883101F39; Wed, 22 May 2019 10:42:56 +0200 (CEST)
-Date: Wed, 22 May 2019 10:42:56 +0200
-From: Jiri Denemark <jdenemar@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Message-ID: <20190522084256.GJ2545064@orkuz.int.mamuti.net>
-References: <20190422234742.15780-1-ehabkost@redhat.com>
-	<20190509133537.GK7181@orkuz.int.mamuti.net>
-	<20190509135617.GH4189@habkost.net>
-	<20190509152616.GL7181@orkuz.int.mamuti.net>
-	<20190509160825.GL4189@habkost.net>
-	<20190510113303.GQ7181@orkuz.int.mamuti.net>
-	<20190510202313.GV4189@habkost.net>
+	(envelope-from <peter.maydell@linaro.org>) id 1hTMwO-0002FI-Ck
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 04:49:41 -0400
+Received: from mail-oi1-x241.google.com ([2607:f8b0:4864:20::241]:33350)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <peter.maydell@linaro.org>)
+	id 1hTMwO-0002EN-66
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 04:49:40 -0400
+Received: by mail-oi1-x241.google.com with SMTP id q186so1020448oia.0
+	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 01:49:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+	:cc; bh=kHWMr6d+PgAJocEfaeugsXcX47z/sSq4p3eNUo9/VpQ=;
+	b=qAihYVWiYTks6NEPsMveOIm+n1yqjtD+PtOKFveymiCxffpWPALiXKj5rRvjQDCuos
+	dBAuoB2hw7/lSnx4EpOTlpRFyWACAvg9v4nkNDfM4VdaOEK+OBOcfFTEvzseh1ZtDo+B
+	E4ytik04ilHPbQ9QfgPqDgyHVQkqyYPeqK/tctPtm9EY4j/wuzXsi3p87kddmlLQpTa0
+	5SAWvtUARUU5tU4vPmnLDxc79QJZOZ0+cmR7GT8hm8akl0CkTHQsWPsa1lAEKBJBI4DL
+	aDam1dgLPCyJunMF/isw3Gj5ZNhxHNuQYPmQrhNx6LEXoNSFohqfqtu3MfGqx+xZGtfI
+	NmHg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=kHWMr6d+PgAJocEfaeugsXcX47z/sSq4p3eNUo9/VpQ=;
+	b=R+jJvIhdrJi/Kz3m1SSeSxllXX6oGnWMcS1LF4YNe88oOhvj4N5ZQtEMX8TacNenBz
+	t7oqitQQKDlV0P4LGPiDKAYiJc3ZJeCJtd10v7aqForfggaHTLyzntfyQwJ2g81ht6tR
+	EfXQqEUal22RqsY2jyDooAJQXjUnDaVwAvdtQfVEain48TANpo2lk+4yzQIrc2r0ZZ+I
+	T4iS5wvEjzKuwMoMVlRKEWX9i+GpPSb95v8GW+t7qpU9hwPh79lNfvbtSHS+aQHxtEJe
+	hetGLVawfOAwvMcEbVfE5VJyRqjG7Z5cnbAPJxMfsW2M24FHzOX/kJNcwZa+P4Tukidv
+	l7jA==
+X-Gm-Message-State: APjAAAWL//isORBumSPd7U+UzOY69DlweQTq5DR3DuoVDgRy9CVZbsTl
+	f8mR+uRLBARwD5hcSjJeMVa23fq3f7r4dxFR21fnkw==
+X-Google-Smtp-Source: APXvYqyQ3RWwwpJ9pitQQqVhdxX3bpWfafx7Z1mnNkLsBtSIjRfTQ8PhgvswIHZGdegtxtFcP9bvV5VmXUaPVrH1L58=
+X-Received: by 2002:aca:4e42:: with SMTP id c63mr6649055oib.170.1558514979106; 
+	Wed, 22 May 2019 01:49:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190510202313.GV4189@habkost.net>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.29]);
-	Wed, 22 May 2019 08:43:04 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 0/2] i386: "unavailable-features" QOM
- property
+References: <20190521200657.5377-1-jsnow@redhat.com>
+	<20190521200657.5377-2-jsnow@redhat.com>
+In-Reply-To: <20190521200657.5377-2-jsnow@redhat.com>
+From: Peter Maydell <peter.maydell@linaro.org>
+Date: Wed, 22 May 2019 09:49:27 +0100
+Message-ID: <CAFEAcA9mEHvQ9TBGpvfVoDx-pKB9Cyc-JWeUUh2Hc0Uxb1GjuQ@mail.gmail.com>
+To: John Snow <jsnow@redhat.com>
+Content-Type: text/plain; charset="UTF-8"
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::241
+Subject: Re: [Qemu-devel] [PATCH 1/2] sphinx: add qmp_lexer
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -66,77 +72,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, Richard Henderson <rth@twiddle.net>,
-	qemu-devel@nongnu.org, Igor Mammedov <imammedo@redhat.com>
+Cc: Fam Zheng <fam@euphon.net>, Qemu-block <qemu-block@nongnu.org>,
+	QEMU Developers <qemu-devel@nongnu.org>,
+	Eduardo Habkost <ehabkost@redhat.com>,
+	Aarushi Mehta <mehta.aaru20@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 10, 2019 at 17:23:13 -0300, Eduardo Habkost wrote:
-> On Fri, May 10, 2019 at 01:33:03PM +0200, Jiri Denemark wrote:
-> > On Thu, May 09, 2019 at 13:08:25 -0300, Eduardo Habkost wrote:
-> > > On Thu, May 09, 2019 at 05:26:16PM +0200, Jiri Denemark wrote:
-> > > > On Thu, May 09, 2019 at 10:56:17 -0300, Eduardo Habkost wrote:
-> > > > > On Thu, May 09, 2019 at 03:35:37PM +0200, Jiri Denemark wrote:
-> > > > > > Would this unavailable-features property contain only canonical names of
-> > > > > > the features or all possible aliases of all features? For example,
-> > > > > > "tsc-adjust" can also be spelled as "tsc_adjust". When calling
-> > > > > > query-cpu-model-expansion, we have a way to request all variants by
-> > > > > > running full expansion on the result of a previous static expansion. Can
-> > > > > > we get something like this for unavailable-features too?
-> > > > > 
-> > > > > I'd like to avoid that, and refer only to the canonical names.
-> > > > > 
-> > > > > Could you explain the use case you have in mind, so we can look
-> > > > > for alternatives?
-> > > > 
-> > > > Libvirt only knows about a single spelling for each CPU feature and
-> > > > quite often it is not the canonical variant. Thus libvirt would only
-> > > > recognize features for which the name known by libvirt is the canonical
-> > > > name.
-> > > > 
-> > > > We could theoretically make the translation in libvirt, but it's not
-> > > > going to be future proof. If a new spelling is introduced, it's because
-> > > > the old one is not considered correct and the new one becomes the
-> > > > canonical version. When libvirt doesn't have the translation (libvirt is
-> > > > older or just didn't catch up yet) we have a big problem.
-> > > > 
-> > > > I guess a good alternative would be some way of querying all CPU feature
-> > > > names and their aliases. If I'm not mistaken, we can either get a list
-> > > > of canonical names or all names, but without any clue which names
-> > > > actually refer to a single feature.
-> > > 
-> > > Right.  But (as described below) if you want to know the status a
-> > > specific feature you already know about (even if you are using
-> > > the old spelling), qom-get should work for you.
-> > 
-> > Yeah, since we'll be checking all features anyway, we can detect enabled
-> > and disabled features at the same time. However, we don't know whether a
-> > specific feature was disabled because we did not ask for it to be
-> > enabled (remember, CPU model definition may differ between libvirt and
-> > QEMU) or because it was filtered out.
-> > 
-> > Depending on the domain XML used to start a domain, libvirt may not (and
-> > usually will not) refuse to start a domain for which QEMU filtered out
-> > some CPU features. Of course, once the domain is running, the checking
-> > becomes very strict and libvirt would refuse to start the domain on
-> > another host during migration if any feature is filtered out.
-> > 
-> > Thus libvirt stores all features QEMU filtered out when a domain was
-> > started in the non-strict way. So we need to match the features in the
-> > unavailable-features list with our features. Just checking for the list
-> > being empty is not sufficient.
-> 
-> OK, I understand you want to translate the canonical names on
-> unavailable-features back to the old names on some cases.
-> 
-> But I really prefer Igor's suggestion of deprecating aliases and
-> getting rid of them in the future, instead of increasing the
-> complexity of our QMP interfaces just to accommodate the existing
-> aliases.
+On Tue, 21 May 2019 at 21:07, John Snow <jsnow@redhat.com> wrote:
+>
+> Sphinx, through Pygments, does not like annotated json examples very
+> much. In some versions of Sphinx (1.7), it will render the non-json
+> portions of code blocks in red, but in newer versions (2.0) it will
+> throw an exception and not highlight the block at all. Though we can
+> suppress this warning, it doesn't bring back highlighting on non-strict
+> json blocks.
+>
+> We can alleviate this by creating a custom lexer for QMP examples that
+> allows us to properly highlight these examples in a robust way, keeping
+> our directionality notations.
 
-OK, I think you can go on and implement the unavailable-features
-property the way you suggested and we'll deal with the translation
-internally in libvirt.
+> diff --git a/docs/sphinx/qmp_lexer.py b/docs/sphinx/qmp_lexer.py
+> new file mode 100644
+> index 0000000000..f619f11139
+> --- /dev/null
+> +++ b/docs/sphinx/qmp_lexer.py
+> @@ -0,0 +1,34 @@
+> +# QEMU Monitor Protocol Lexer Extension
+> +#
+> +# Copyright (C) 2019, Red Hat Inc.
+> +#
+> +# Authors:
+> +#  Eduardo Habkost <ehabkost@redhat.com>
+> +#  John Snow <jsnow@redhat.com>
+> +#
+> +# This work is licensed under the terms of the GNU GPL, version 2.  See
+> +# the COPYING file in the top-level directory.
 
-Jirka
+Did you definitely mean 2-only and not 2-or-later ?
+
+thanks
+-- PMM
 
