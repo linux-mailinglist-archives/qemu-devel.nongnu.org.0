@@ -2,68 +2,79 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9D07F26711
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 17:42:19 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46170 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id DCC7B26773
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 17:55:58 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46583 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTTNi-0008UG-P9
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 11:42:18 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47497)
+	id 1hTTaw-0002Oo-2X
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 11:55:58 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48951)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hTTL1-0006Ra-Gd
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 11:39:32 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hTTNN-0000VY-AA
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 11:41:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hTTJL-0001ir-Nr
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 11:37:48 -0400
-Received: from mout.kundenserver.de ([217.72.192.73]:34747)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <laurent@vivier.eu>)
-	id 1hTTJJ-0001YH-G9; Wed, 22 May 2019 11:37:45 -0400
-Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
-	(mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
-	1MYvPq-1h7O4g3eam-00Unup; Wed, 22 May 2019 17:37:15 +0200
-To: Antonio Ospite <antonio.ospite@collabora.com>,
-	Peter Maydell <peter.maydell@linaro.org>, Eric Blake <eblake@redhat.com>
-References: <20190503082728.16485-1-ao2@ao2.it>
-	<20190503082728.16485-3-ao2@ao2.it>
-	<541bfc5c-0e45-58e6-f0b1-81e9b0c8881d@redhat.com>
-	<CAFEAcA8An-KWOc3gOz2=45eCHCmUJEJw_bTrrCW6bYO23H8TPw@mail.gmail.com>
-	<a5f95284-2883-e6c0-54ad-d0ff018f68d7@vivier.eu>
-	<9349da74-b4a1-932d-227a-a63df1bb63a5@collabora.com>
-	<87d49db7-68c7-7c2e-7464-47e335013e58@vivier.eu>
-	<ef62c3b1-c01d-8480-20c0-36dd38bb6c8c@collabora.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <ab8fc3ae-cb39-e032-eccf-e6ffface13dc@vivier.eu>
-Date: Wed, 22 May 2019 17:37:11 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
+	(envelope-from <richard.henderson@linaro.org>) id 1hTTNL-000842-Fv
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 11:41:57 -0400
+Received: from mail-vs1-xe34.google.com ([2607:f8b0:4864:20::e34]:39105)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hTTNJ-0007mB-EQ
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 11:41:55 -0400
+Received: by mail-vs1-xe34.google.com with SMTP id m1so1679397vsr.6
+	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 08:41:50 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
+	:mime-version:in-reply-to:content-language:content-transfer-encoding;
+	bh=sRQTFPgHxy3uIYJo5ma2IAY1Aj3KCNIC0hUAp3ZFE8k=;
+	b=RE/ZkAjqCR8ZpTAuVAaNlNyvprdclVepeLNu29f0/VcUkEIoFwbSfKhbVP2IfFB+Cg
+	a6ciAddMMOkn0JcgNU16QK3w5SR6VjSqoQaCB+Bfj8OUgbAaRNrduEV719XphK6T+ZfL
+	MI5FWFrKL0p9V0W5rnA/YsP+Kv31i68YmzFMXbp/wzP1W/IWaYLRTH+TXWMJXOTBq3GZ
+	RvIiumd5PhBtj4eqweGO6E2T7WgtpR1w1iA4IBHRsQ6Q0hyVMX0VstjqzY+ZvYCnPYHP
+	RCcNgjhrEN7R5hThaPs/tnZADo/GPbyzvKLaJ/C/MhRh3w6+ae00XqYXvm/r7YsNBvyY
+	POXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=sRQTFPgHxy3uIYJo5ma2IAY1Aj3KCNIC0hUAp3ZFE8k=;
+	b=KgqdQdgar1RZdKFZx9jEYdaxm+i3cMIX2TrcDbxDp7YjfL4yX2u2ML29+LEss1TQLa
+	7fKBCt08VCe7r01mAFszqu7SrlacrlLGR01dX0VC0PLNto1PkTvLyFJGYx4Gm2qxFBIN
+	udjBZ2Iv15sket02DYlILKfnRAMivRhYR9vfjbe4s1ivCVsdJoxa9K2itqa1T5gc/V9g
+	LoANwUL1SQTgAGlhowT2gB23q95W0Gc/quHkLClxwQM4cv6WHaTGXyp8V8pqWaxroIdh
+	lUf6ZWf/L4uVsw0BI4LLUHL+qX08in1QLPCQWW+bW/8OT/SgkuU+ftkv/dJm8UXqg2GI
+	jKXA==
+X-Gm-Message-State: APjAAAWxfSG87TbYqz7m5lt6alERiQPUl3xSa2gukfAV0FLilyqXJPk9
+	vMQnh/QXy9rPWc5AwBXewi67Ug==
+X-Google-Smtp-Source: APXvYqyBNOUfFROslZr5r/E6fulNNzVkZFTefZzKi2xILGKFmbNKWrX8eA2sIBt04Alr+NCl7zoODA==
+X-Received: by 2002:a67:1485:: with SMTP id 127mr15097942vsu.77.1558539709811; 
+	Wed, 22 May 2019 08:41:49 -0700 (PDT)
+Received: from [192.168.43.94] (ip-173-130-247-24.orldfl.spcsdns.net.
+	[173.130.247.24]) by smtp.gmail.com with ESMTPSA id
+	p75sm4797453vkf.29.2019.05.22.08.41.48
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 22 May 2019 08:41:49 -0700 (PDT)
+To: G 3 <programmingkidx@gmail.com>
+References: <20190522000617.21945-1-programmingkidx@gmail.com>
+	<b90278ec-ee66-76c6-32b5-d5aca1fb8d24@linaro.org>
+	<CAKyx-3M_zMPBuS3BntUGMd21d7xX_d1KOq_Yc21MVjEp+fZbRQ@mail.gmail.com>
+From: Richard Henderson <richard.henderson@linaro.org>
+Openpgp: preference=signencrypt
+Message-ID: <e48deeeb-310b-39b1-2396-48b0b81734ce@linaro.org>
+Date: Wed, 22 May 2019 11:41:46 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <ef62c3b1-c01d-8480-20c0-36dd38bb6c8c@collabora.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <CAKyx-3M_zMPBuS3BntUGMd21d7xX_d1KOq_Yc21MVjEp+fZbRQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:gkAdrMjluT1UmBRE/jO+3J9yiMH5oMpkzfRE88nUY/a9conYZec
-	pH/ns7NeHQjy87V56mxwn1tBaaVg75htq0vDiHA8ZA/B8efhOpvDdVxvNAs2AZFdAUpdfRU
-	QdaV5Hb4OfN7RhBBYHycr3cdeJzqCePeopyI4iT/yRFKSWhpmB3V6LYb65axB/yWVGo7uRf
-	ugXGTXjvZfX8iywmlIaAg==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:z4Zy7+03s4Q=:hFWP9u9wIwvVs0yK30Ise1
-	i14XWBqVKp87LVamZZULjMh5egXu26zIFa4bIQ12w5aaPLPG+9EuyVEDXPSxvZ9ZZlEbNH+xP
-	USYwPGqEzVXtZObhVSEbEKKpHat6uT1TCRv1tyZ6IOHDkZEaWaoFCNe+HlWSup8YjtNT3Xeey
-	HpDcs/lhLBeus0Jma3FTgdWwtCenA5zQ4W/3lheaB0XtouqfbO38o5jYJYQLkzVL9QlcQvNJ6
-	tSOaFxUquaqZrvIGxygrqGarP46CsOUwDQGSi0SBp6ZzuX7OFQl84gGA2HSFkFxLbRtnOG3A6
-	5nckb98UTVAPD3SDyamvYHUIPDLtdjSUHwA0HdrMoPYTAV55+xSKgi3FkFCWW7Zs2upQj4Lpj
-	3ruQcV04H5XLe+b3FLJ2K8uguN6nYyyTw7SuDtqYp3Y5E0skIF1i9Vp1MnOT5oX3IV1d2r0b0
-	Crhj/QBHxsIsvP5Bb5lrA+2tm5qjiDic15EhiJAEMK42/+3nyLxBonqT9UD2ZeaaYhtXRkK38
-	fJm0dpOizkAVoreKvf6QPLELpLjIyYuUZwaokfziFDpCzBPegVZGgzip1UXN6ovBebJMYDfWd
-	Q3ffrZveglSFrb6pizQ912uSLfQrdtniGn6xG1OS805vOWBPkD2CbJALhrrYpof9UEx/FNO7W
-	7uONUpqBik2YcbaWadgvU6LnSjOkaSKUhs4dLHfrk5gXafVOK8n45KlxCxToqj5vMXlwGY/8+
-	k3o0YdEerAWARudbdC+LWQVdc7FOZKXF6d2JeAnxNBj7VTMCBhPic+wocxqK6BJvvwZ4m/ryR
-	clHUlbqJKsHz4K42g/PDRz4+00Mfzz+6JESaJuMnmK92RvZnJXqedbjSui9N0jbfi773QXC
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.73
-Subject: Re: [Qemu-devel] [Qemu-trivial] [PATCH v2 2/2] configure: disallow
- spaces and colons in source path and build path
+Content-Transfer-Encoding: 7bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::e34
+Subject: Re: [Qemu-devel] [PATCH] Implement Fraction Rounded bit in FPSCR
+ for PowerPC
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -75,99 +86,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Antonio Ospite <ao2@ao2.it>,
-	QEMU Developers <qemu-devel@nongnu.org>
+Cc: David Gibson <david@gibson.dropbear.id.au>,
+	"qemu-ppc@nongnu.org list:PowerPC" <qemu-ppc@nongnu.org>,
+	qemu-devel qemu-devel <qemu-devel@nongnu.org>,
+	Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 22/05/2019 17:26, Antonio Ospite wrote:
-> On 22/05/19 17:21, Laurent Vivier wrote:
->> On 22/05/2019 17:01, Antonio Ospite wrote:
->>> On 22/05/19 15:57, Laurent Vivier wrote:
->>>> On 09/05/2019 16:42, Peter Maydell wrote:
->>>>> On Mon, 6 May 2019 at 18:27, Eric Blake <eblake@redhat.com> wrote:
->>>>>>
->>>>>> On 5/3/19 3:27 AM, Antonio Ospite wrote:
->>>>>>> From: Antonio Ospite <antonio.ospite@collabora.com>
->>>>>>>
->>>>>>> The configure script breaks when the qemu source directory is in 
->>>>>>> a path
->>>>>>> containing white spaces, in particular the list of targets is not
->>>>>>> correctly generated when calling "./configure --help" because of 
->>>>>>> how the
->>>>>>> default_target_list variable is built.
->>>>>>>
->>>>>>> In addition to that, *building* qemu from a directory with spaces 
->>>>>>> breaks
->>>>>>> some assumptions in the Makefiles, even if the original source 
->>>>>>> path does
->>>>>>> not contain spaces like in the case of an out-of-tree build, or when
->>>>>>> symlinks are involved.
->>>>>>>
->>>>>>> To avoid these issues, refuse to run the configure script and the
->>>>>>> Makefile if there are spaces or colons in the source path or the 
->>>>>>> build
->>>>>>> path, taking as inspiration what the kbuild system in linux does.
->>>>>>>
->>>>>>> Buglink: https://bugs.launchpad.net/qemu/+bug/1817345
->>>>>>>
->>>>>>> Signed-off-by: Antonio Ospite <antonio.ospite@collabora.com>
->>>>>>> ---
->>>>>>>   Makefile  | 4 ++++
->>>>>>>   configure | 6 ++++++
->>>>>>>   2 files changed, 10 insertions(+)
->>>>>>>
->>>>>>
->>>>>>> +++ b/Makefile
->>>>>>> @@ -1,5 +1,9 @@
->>>>>>>   # Makefile for QEMU.
->>>>>>>
->>>>>>> +ifneq ($(words $(subst :, ,$(CURDIR))), 1)
->>>>>>> +  $(error main directory cannot contain spaces nor colons)
->>>>>>> +endif
->>>>>>> +
->>>>>>>   # Always point to the root of the build tree (needs GNU make).
->>>>>>>   BUILD_DIR=$(CURDIR)
->>>>>>>
->>>>>>> diff --git a/configure b/configure
->>>>>>> index 9832cbca5c..f7ad4381bd 100755
->>>>>>> --- a/configure
->>>>>>> +++ b/configure
->>>>>>> @@ -279,6 +279,12 @@ ld_has() {
->>>>>>>   # make source path absolute
->>>>>>>   source_path=$(cd "$(dirname -- "$0")"; pwd)
->>>>>>>
->>>>>>> +if printf "%s\n" "$source_path" | grep -q "[[:space:]:]" ||
->>>>>>> +  printf "%s\n" "$PWD" | grep -q "[[:space:]:]";
->>>>>>
->>>>>> For less typing and fewer processes, you could shorten this to:
->>>>>>
->>>>>> if printf %s\\n "$source_path" "$PWD" | grep -q "[[:space:]:]";
->>>>>>
->>>>>> but that's trivial enough for a maintainer to fold in if desired.
->>>>>>
->>>>>> Reviewed-by: Eric Blake <eblake@redhat.com>
->>>>>
->>>>> What tree is this going to go in via? I suggest the
->>>>> -trivial tree.
->>>>
->>>>
->>>> Applied (unchanged) to my trivial-patches branch.
->>>>
->>>
->>> Thank you Laurent.
->>>
->>> I'll think about sending a followup patch with the changes proposed 
->>> by Eric and I'll CC you if I do.
->>
->> If you want to send a v3 of this patch to update it, I can wait.
+On 5/22/19 11:25 AM, G 3 wrote:
+> Thank you for the suggestion.
 > 
-> That works too, I was waiting for the maintainers to decide what to do.
+> For the added note, did you want specific places listed? If so please let me
+> know these places.
 > 
-> I'll try to send a v3 before Monday then.
 
-OK, I will queue your v3 in the pull-request of the next week.
+They are round_to_int, and all of the legacy roundAndPack* routines.
+Basically anywhere that currently sets float_flag_inexact.
 
-Thanks,
-Laurent
+
+r~
 
