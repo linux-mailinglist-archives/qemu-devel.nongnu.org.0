@@ -2,81 +2,71 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 568D1269F8
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 20:39:31 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49498 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B7BE126AA6
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 21:14:35 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49889 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTW9C-0005aI-7i
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 14:39:30 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:60501)
+	id 1hTWh8-0007gZ-Mh
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 15:14:34 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35163)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hTW87-0005Hp-V2
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:38:25 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hTWOt-0008Ln-6n
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:55:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hTW81-0005x6-Re
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:38:20 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:35308)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hTW7o-0005nc-FQ; Wed, 22 May 2019 14:38:05 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
-	[10.5.11.11])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 2C2EC308FBB4;
-	Wed, 22 May 2019 18:37:55 +0000 (UTC)
-Received: from dresden.str.redhat.com (ovpn-204-123.brq.redhat.com
-	[10.40.204.123])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id DA30F600C0;
-	Wed, 22 May 2019 18:37:52 +0000 (UTC)
-To: Eric Blake <eblake@redhat.com>, qemu-block@nongnu.org
-References: <20190522170352.12020-1-mreitz@redhat.com>
-	<6c13016d-9951-775c-9c54-62e0dd676ca2@redhat.com>
-From: Max Reitz <mreitz@redhat.com>
-Openpgp: preference=signencrypt
-Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
-	mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
-	/PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
-	U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
-	mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
-	awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
-	AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
-	CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
-	B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
-	2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
-	AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
-	8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
-	4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
-	BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
-	xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
-	W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
-	DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
-	64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
-	ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
-	sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
-	alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
-	/ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
-	bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
-	R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
-Message-ID: <9f198134-8739-057a-47b3-52483a428080@redhat.com>
-Date: Wed, 22 May 2019 20:37:50 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <richard.henderson@linaro.org>) id 1hTWC6-00080c-9p
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:42:31 -0400
+Received: from mail-yb1-xb44.google.com ([2607:f8b0:4864:20::b44]:37544)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
+	id 1hTWC6-000805-3D
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:42:30 -0400
+Received: by mail-yb1-xb44.google.com with SMTP id z12so1260630ybr.4
+	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 11:42:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
+	h=from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=3HXhWiXhtEMLGfFYkgwloyr++oYbdfXbGtlmckF18hg=;
+	b=S/fIfVMU1NMGhqWi/MAvHe57MZq5QObzlMWiPTXxSKcTvc4QOD2QKQWn1zcFLXaodT
+	Y7cLo8wH/pUUL0Q5Bh4F0Wl1kSoDfVui0qhQuj4E60+3u00Qb9v/lNK3kQvaLeCNdMIW
+	lFs8MAocRqLCtQztlJxwz6lDLKidUcfCfKcx4j1+gu+BscPy6dcCEE+rbN6ohQK8yxPK
+	Jk6wsk8jhHCwltCXU9xsHW9oKe2kJoZcY9TJS8IyYiEQ16wGVxFW/zn9upe8jk/Imivp
+	VgMn9qVkBxccd18SI277zkHTCkpZyN+Xo7jENyS270Y3AUbDyqzAnE9A0txysuK4SB1T
+	qkPw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+	:content-transfer-encoding;
+	bh=3HXhWiXhtEMLGfFYkgwloyr++oYbdfXbGtlmckF18hg=;
+	b=fwya1f0QVTGhJ0iTapcwvCYtmrSNrVT+ghSlVOB9UPssZrWjPi7gPrxAKDAgog+R+N
+	TUnx3tKfv0PytNpmBK18p/0W02ONB5xF+GJzdT8pxC3j0NxpCBcqxqcr4xfubz9hgSi5
+	9EAX60trZwuxRLRrk3ICWo4R/p6p7bW/zZl6Zz+HcEMCESIL8owrpm+krZX8FnpnmQfy
+	xYJDQN1aQTtr+mXqwWUjPWCFyA69Eru456aauoJl7ywCQEvibsJOTXjfsnSyet44MoKC
+	pcv+xEZblDOQCluGXzghx0nOmXFf+P21Ob/zJ8WYWzbL4OP+PnymoXdCNIBDsUscFPpf
+	349Q==
+X-Gm-Message-State: APjAAAV0jKGetnMD6YXUIKm7XErvVdkQe2drFMY5fN/uTIbLQ5ElAjdm
+	0+Ad6D7We8rPxcrfN1lfloNRJ5p5Lqk=
+X-Google-Smtp-Source: APXvYqwMFDTBS+TWRh1mvMRwI7FdKOumyWVoDv86y5oGm/3H5b5xnT/GeBEelpJdigJRwFiNIgKbhQ==
+X-Received: by 2002:a05:6902:4c4:: with SMTP id
+	v4mr11903229ybs.522.1558550548319; 
+	Wed, 22 May 2019 11:42:28 -0700 (PDT)
+Received: from localhost.localdomain ([71.46.56.17])
+	by smtp.gmail.com with ESMTPSA id
+	206sm1299445ywq.74.2019.05.22.11.42.27
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 22 May 2019 11:42:27 -0700 (PDT)
+From: Richard Henderson <richard.henderson@linaro.org>
+To: qemu-devel@nongnu.org
+Date: Wed, 22 May 2019 14:42:01 -0400
+Message-Id: <20190522184226.17871-1-richard.henderson@linaro.org>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-In-Reply-To: <6c13016d-9951-775c-9c54-62e0dd676ca2@redhat.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature";
-	boundary="lw5wBgEnH4nKNuuhGXKfhfdtAMvbxhBev"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.43]);
-	Wed, 22 May 2019 18:37:55 +0000 (UTC)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PATCH v3 0/8] block: Ignore loosening perm
- restrictions failures
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::b44
+Subject: [Qemu-devel] [PULL 00/25] Add qemu_getrandom and ARMv8.5-RNG etc
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -88,115 +78,109 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
+Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---lw5wBgEnH4nKNuuhGXKfhfdtAMvbxhBev
-From: Max Reitz <mreitz@redhat.com>
-To: Eric Blake <eblake@redhat.com>, qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
-Message-ID: <9f198134-8739-057a-47b3-52483a428080@redhat.com>
-Subject: Re: [Qemu-devel] [PATCH v3 0/8] block: Ignore loosening perm
- restrictions failures
-References: <20190522170352.12020-1-mreitz@redhat.com>
- <6c13016d-9951-775c-9c54-62e0dd676ca2@redhat.com>
-In-Reply-To: <6c13016d-9951-775c-9c54-62e0dd676ca2@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: quoted-printable
+This is v8, rebased to avoid a conflict with 8d5d515a0fb
+("build: chardev is only needed for softmmu targets"),
+which affected patch 2.
 
-On 22.05.19 20:24, Eric Blake wrote:
-> On 5/22/19 12:03 PM, Max Reitz wrote:
->> Hi,
->>
->> This series is mainly a fix for
->> https://bugzilla.redhat.com/show_bug.cgi?id=3D1703793.  The problem
->> described there is that mirroring to a gluster volume, then switching
->> off the volume makes qemu crash.  There are two problems here:
->>
->> (1) file-posix reopens the FD all the time because it thinks the FD it=
-
->>     has is RDONLY.  It actually isn=E2=80=99t after the first reopen, =
-we just
->>     forgot to change the internal flags.  That=E2=80=99s what patch 1 =
-is for.
->>
->> (2) Even then, when mirror completes, it drops its write permission on=
-
->>     the FD.  This requires a reopen, which will fail if the volume is
->>     down.  Mirror doesn=E2=80=99t expect that.  Nobody ever expects th=
-at
->>     dropping permissions can fail, and rightfully so because that=E2=80=
-=99s what
->>     I think we have generally agreed on.
->>     Therefore, the block layer should hide this error.  This is what t=
-he
->>     last two patches are for.
->>
->> The penultimate patch adds two assertions: bdrv_replace_child() (for t=
-he
->> old BDS) and bdrv_inactivate_recurse() assume they only ever drop
->> assertions.  This is now substantiated by these new assertions.
->> It turns out that this assumption was just plain wrong.  Patches 3 to =
-5
->> make it right.
->>
->>
->> v3:
->> - Received no reply to my =E2=80=9CHm, warnings break 'make check', so=
- maybe we
->>   should just keep quiet if loosening restrictions fails?=E2=80=9D que=
-stion, so
->>   I assume silence means agreement.  Changed patch 7 accordingly.
->>
->=20
-> I don't know if there is an easy way to warn for normal users, but
-> silence the warnings if run under test setups to keep 'make check'
-> output unchanged (I know we've silenced warnings in the past when we
-> detect we are running qtest, but this isn't necessarily the same setup)=
-=2E
->  So not a show-stopper for me.
-
-Hm.  That doesn=E2=80=99t sound too bad.  I don=E2=80=99t think there is =
-an easy way to
-silence the warning in qemu, but we might be able to just modify the test=
-=2E
-
-But I don=E2=80=99t even know whether the warnings are even useful or whe=
-ther
-they would just confuse users more than anything.  So far, every case I
-know where loosening restrictions failed was because the file is just
-gone completely.  The only purpose of a warning is to show the user that
-qemu might have locks on the file that it doesn=E2=80=99t need, so they w=
-ill
-know what=E2=80=99s up if they try to open the file in another qemu insta=
-nce in
-a way that should normally work but suddenly doesn=E2=80=99t.  But if the=
- file=E2=80=99s
-just gone, you can=E2=80=99t open it in another qemu, so I don=E2=80=99t =
-even know
-whether there=E2=80=99s actually any point in warning.
-
-Max
+Daniel and Laurent gave me acks for issuing a pull request
+touching their subsystems.  The reasonable thing seemed to
+be to put those into the log for the signed tag itself.
 
 
---lw5wBgEnH4nKNuuhGXKfhfdtAMvbxhBev
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
+r~
 
------BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAlzllv4ACgkQ9AfbAGHV
-z0AWkwf+JyD38W5WYL7A6m0Wlqmp4QwePdB25R0yYr/ZzswKb9HnZi2qO2bUaW3w
-mW2TXez9vHwgHO/pfOT2E8oEDc1lPYAPn9ziCE6IhJtGRUkrK0U0+MmG2nZyCpxf
-wgLKvXLsfOqO0IpZq1YwBvFF1OgxDSwQ6XiHxUVv4Wl/+bQ0qZPpVDxl2a45j+q0
-LnMetYnY5hkehgUMvb9eEf2FiNSkiz31K15yP//tjJhx3OqU+M+lZpMoKuOn01Sz
-q/w6VgDZElCXMLzINer/6ZufJQCW3CfNPj5F1PRHE5G44k0hqL8hqWYv5lsKkK/J
-MH2H/OLpR9b5vtzVt8g0e4C3X4HjJg==
-=OjT8
------END PGP SIGNATURE-----
+The following changes since commit a4f667b6714916683408b983cfe0a615a725775f:
 
---lw5wBgEnH4nKNuuhGXKfhfdtAMvbxhBev--
+  Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20190521-3' into staging (2019-05-21 16:30:13 +0100)
+
+are available in the Git repository at:
+
+  https://github.com/rth7680/qemu.git tags/pull-rng-20190522
+
+for you to fetch changes up to 369fd5ca66810b2ddb16e23a497eabe59385eceb:
+
+  target/i386: Implement CPUID_EXT_RDRAND (2019-05-22 12:38:54 -0400)
+
+----------------------------------------------------------------
+Introduce qemu_guest_getrandom.
+Use qemu_guest_getrandom in aspeed, nrf51, bcm2835, exynos4210 rng devices.
+Use qemu_guest_getrandom in target/ppc darn instruction.
+Support ARMv8.5-RNG extension.
+Support x86 RDRAND extension.
+
+Acked-by: Daniel P. Berrangé <berrange@redhat.com>
+Acked-by: Laurent Vivier <laurent@vivier.eu>
+
+----------------------------------------------------------------
+Richard Henderson (25):
+      configure: Link test before auto-enabling crypto libraries
+      build: Link user-only with crypto random number objects
+      crypto: Reverse code blocks in random-platform.c
+      crypto: Do not fail for EINTR during qcrypto_random_bytes
+      crypto: Use O_CLOEXEC in qcrypto_random_init
+      crypto: Use getrandom for qcrypto_random_bytes
+      crypto: Change the qcrypto_random_bytes buffer type to void*
+      ui/vnc: Split out authentication_failed
+      ui/vnc: Use gcrypto_random_bytes for start_auth_vnc
+      util: Add qemu_guest_getrandom and associated routines
+      cpus: Initialize pseudo-random seeds for all guest cpus
+      linux-user: Initialize pseudo-random seeds for all guest cpus
+      linux-user: Call qcrypto_init if not using -seed
+      linux-user: Use qemu_guest_getrandom_nofail for AT_RANDOM
+      linux-user/aarch64: Use qemu_guest_getrandom for PAUTH keys
+      linux-user: Remove srand call
+      aspeed/scu: Use qemu_guest_getrandom_nofail
+      hw/misc/nrf51_rng: Use qemu_guest_getrandom_nofail
+      hw/misc/bcm2835_rng: Use qemu_guest_getrandom_nofail
+      hw/misc/exynos4210_rng: Use qemu_guest_getrandom
+      target/arm: Put all PAC keys into a structure
+      target/arm: Implement ARMv8.5-RNG
+      target/ppc: Use gen_io_start/end around DARN
+      target/ppc: Use qemu_guest_getrandom for DARN
+      target/i386: Implement CPUID_EXT_RDRAND
+
+ Makefile                            |   4 +-
+ Makefile.objs                       |   2 +-
+ Makefile.target                     |   4 +-
+ include/crypto/random.h             |   2 +-
+ include/qemu/guest-random.h         |  68 +++++++++++++++++++++++
+ include/qom/cpu.h                   |   1 +
+ linux-user/aarch64/target_syscall.h |   2 -
+ target/arm/cpu.h                    |  17 ++++--
+ target/i386/helper.h                |   2 +
+ cpus.c                              |   9 ++++
+ crypto/random-gcrypt.c              |   2 +-
+ crypto/random-gnutls.c              |   2 +-
+ crypto/random-platform.c            | 104 +++++++++++++++++++++---------------
+ hw/misc/aspeed_scu.c                |  10 +---
+ hw/misc/bcm2835_rng.c               |  32 +++++------
+ hw/misc/exynos4210_rng.c            |  11 ++--
+ hw/misc/nrf51_rng.c                 |   4 +-
+ linux-user/aarch64/cpu_loop.c       |  25 +--------
+ linux-user/elfload.c                |   8 ++-
+ linux-user/main.c                   |  33 +++++++-----
+ linux-user/syscall.c                |  34 ++++++++++--
+ target/arm/cpu64.c                  |   1 +
+ target/arm/helper.c                 |  64 ++++++++++++++++++----
+ target/arm/pauth_helper.c           |  18 +++----
+ target/i386/cpu.c                   |   5 +-
+ target/i386/int_helper.c            |  21 ++++++++
+ target/i386/translate.c             |  62 +++++++++++++++------
+ target/ppc/int_helper.c             |  39 +++++++++-----
+ target/ppc/translate.c              |  21 +++++---
+ ui/vnc.c                            |  53 ++++++++----------
+ util/guest-random.c                 |  93 ++++++++++++++++++++++++++++++++
+ vl.c                                |   4 ++
+ configure                           |  87 ++++++++++++++++++++----------
+ crypto/Makefile.objs                |  11 ++--
+ qemu-options.hx                     |  10 ++++
+ util/Makefile.objs                  |   1 +
+ 36 files changed, 610 insertions(+), 256 deletions(-)
+ create mode 100644 include/qemu/guest-random.h
+ create mode 100644 util/guest-random.c
 
