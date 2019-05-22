@@ -2,80 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9B455262C8
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 13:11:10 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:40343 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6055026373
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 14:09:06 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:42008 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTP9J-0002dk-Qr
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 07:11:09 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36119)
+	id 1hTQ3N-0004je-5F
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 08:09:05 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49764)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hTP8B-0002FL-84
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 07:10:00 -0400
+	(envelope-from <dgibson@ozlabs.org>) id 1hTQ1R-000409-P7
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 08:07:07 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hTP8A-0000yi-C1
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 07:09:59 -0400
-Received: from mail-yw1-xc43.google.com ([2607:f8b0:4864:20::c43]:34626)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hTP8A-0000xX-0b
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 07:09:58 -0400
-Received: by mail-yw1-xc43.google.com with SMTP id n76so689786ywd.1
-	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 04:09:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=pW0i08vcVu7ySnMBJYTKbCGFNIHZmz47emF+kigRN6Y=;
-	b=xMgaVkhWweYlTO1AzmRvIDpNWSpVquxF0BR9cJFH9cQEkI/NV+piNl+mf/UCze6tor
-	89gPITF97Cn3PJk6frogBAcwD2mMpdFQ0+XY/5K7vcHNEFoUQDj2OWZliu/y6l/aIqDL
-	m5e7N8DpgVRmSA+PBDmnWBVdeqN+d/OSSnT1Qq1c26hr01tDh7hKx+SAnHHvwM9v5Sf3
-	ymEZGSb/65EQF/Z/wdtzzNU0R234agWiQxRHcYzn6QLcQqCD1eP+ky6dlGoABIA079xW
-	/YKfO2+iuRfYQ44Xghh0zgz5GlGAcgxj6Qtnj5lxc9b8pwABQ97jxQzPngEKGp7yrJg3
-	Ymow==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=pW0i08vcVu7ySnMBJYTKbCGFNIHZmz47emF+kigRN6Y=;
-	b=b8PJdqInR3dvNfQFSfmEPcJCRWkInm9/96LtllQOcJrZT1T3CepPhDZxqRjD/mfsjj
-	QZE1X9K3L0nCBe1+3mEz/HElUQ0p62dTuJbDUK9njdsbjbGPX9wpH+tMLfsdPoW33sw0
-	eVzHoUhj4AV1ibHJ8BaEWjcxH5VSxPh3ze0yZqiPysxNLUn9dvvChfuayRgwfr9C0aWx
-	ypY6dYO3RYa1ue8cKzuifFGJkexw47FzhZN/30LfBHzLqb0bm7V+6JpnDYm/axhaeN8A
-	CDrmu0iDtEIXBrjPY8GETPNPc9+4bEravkTEDLVtwoL0URDsQxAJRk2nb8TcsnJrDMSY
-	RFwA==
-X-Gm-Message-State: APjAAAV9dl75f6VgPgW1ic1sqaM7gSePrjKuhEXixY7p7ReILugNC3Ap
-	Gazi9eXDVh0LA5TVK5v8LRzu5g==
-X-Google-Smtp-Source: APXvYqw2g+jaZe/ar+wdZCWP15aWcEu1OtT1DGzsgdJuiyIxvtrBUKuMBL84R/fOg7eErjyuJ8a92Q==
-X-Received: by 2002:a81:a34a:: with SMTP id a71mr29538973ywh.318.1558523396747;
-	Wed, 22 May 2019 04:09:56 -0700 (PDT)
-Received: from [10.243.202.139] ([71.46.56.72])
-	by smtp.gmail.com with ESMTPSA id
-	c205sm6183301ywc.10.2019.05.22.04.09.55
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 22 May 2019 04:09:56 -0700 (PDT)
-To: David Hildenbrand <david@redhat.com>, qemu-devel@nongnu.org
-References: <20190515203112.506-1-david@redhat.com>
-	<20190515203112.506-2-david@redhat.com>
-	<b3611279-15c4-f9b7-2a91-051ac6431b2c@linaro.org>
-	<44d7ddb4-040f-6778-7439-043b94e354ec@redhat.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <0935643f-941f-5883-c481-8ac18d57c98d@linaro.org>
-Date: Wed, 22 May 2019 07:09:53 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <dgibson@ozlabs.org>) id 1hTQ1Q-0002Qf-Ds
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 08:07:05 -0400
+Received: from ozlabs.org ([203.11.71.1]:52165)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
+	id 1hTQ1O-00029S-6x; Wed, 22 May 2019 08:07:04 -0400
+Received: by ozlabs.org (Postfix, from userid 1007)
+	id 458BFJ4y9Xz9s9y; Wed, 22 May 2019 22:06:44 +1000 (AEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+	d=gibson.dropbear.id.au; s=201602; t=1558526804;
+	bh=DHZ8bAnjLgFt+T/KMKgONnPGVbJnsaEGujaUWT6WBaI=;
+	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+	b=mrxnDTEmMqmcUg8OmRfosQ9ASbkKKC5Z3PSTIgwU8mzRjnbyT8uSn9E7qqme8xtnM
+	oGjjEWk9mJ7pfRkRC6+tNwrQQuSYXDkDeXk/WAJJjhCNDhK3hOT6RG49rAYqrDclT7
+	mmQYsL5eieOgo9m7Pl2MkECO/Rn02uh7d0b/lD+g=
+Date: Wed, 22 May 2019 21:10:35 +1000
+From: David Gibson <david@gibson.dropbear.id.au>
+To: Greg Kurz <groug@kaod.org>
+Message-ID: <20190522111035.GI30423@umbus.fritz.box>
+References: <20190522044600.16534-1-david@gibson.dropbear.id.au>
+	<20190522044600.16534-22-david@gibson.dropbear.id.au>
+	<20190522095829.7b688f35@bahia.lan>
 MIME-Version: 1.0
-In-Reply-To: <44d7ddb4-040f-6778-7439-043b94e354ec@redhat.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::c43
-Subject: Re: [Qemu-devel] [PATCH v1 1/5] s390x/tcg: Implement VECTOR FIND
- ANY ELEMENT EQUAL
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature"; boundary="kH8JNVvasRCCW1Oz"
+Content-Disposition: inline
+In-Reply-To: <20190522095829.7b688f35@bahia.lan>
+User-Agent: Mutt/1.11.4 (2019-03-13)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 203.11.71.1
+Subject: Re: [Qemu-devel] [PULL 21/38] spapr: Add forgotten capability to
+ migration stream
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -87,40 +57,119 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
-	Thomas Huth <thuth@redhat.com>, Richard Henderson <rth@twiddle.net>
+Cc: lvivier@redhat.com, peter.maydell@linaro.org, qemu-ppc@nongnu.org,
+	qemu-devel@nongnu.org, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/22/19 7:01 AM, David Hildenbrand wrote:
-> 
->> I also think that, if we create a bunch more of these wrappers:
->>
->>> +DEF_VFAE_HELPER(8)
->>> +DEF_VFAE_HELPER(16)
->>> +DEF_VFAE_HELPER(32)
->>
->> then RT and ZS can be passed in as constant parameters to the above, and then
->> the compiler will fold away all of the stuff that's not needed for each
->> different case.  Which, I think, is significant.  These are practically
->> different instructions with the different modifiers.
->>
-> 
-> So, we have 4 flags, resulting in 16 variants. Times 3 element sizes ...
-> 48 helpers in total. Do we really want to go down that path?
 
-Maybe?
+--kH8JNVvasRCCW1Oz
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> I can also go ahead any try to identify the most frequent users (in
-> Linux) and only specialize that one.
+On Wed, May 22, 2019 at 09:58:29AM +0200, Greg Kurz wrote:
+> On Wed, 22 May 2019 14:45:43 +1000
+> David Gibson <david@gibson.dropbear.id.au> wrote:
+>=20
+> > spapr machine capabilities are supposed to be sent in the migration str=
+eam
+> > so that we can sanity check the source and destination have compatible
+> > configuration.  Unfortunately, when we added the hpt-max-page-size
+> > capability, we forgot to add it to the migration state.  This means tha=
+t we
+> > can generate spurious warnings when both ends are configured for large
+> > pages, or potentially fail to warn if the source is configured for huge
+> > pages, but the destination is not.
+> >=20
+> > Fixes: 2309832afda "spapr: Maximum (HPT) pagesize property"
+> >=20
+> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> > Reviewed-by: C=E9dric Le Goater <clg@kaod.org>
+> > ---
+>=20
+> Huh... we discussed that it was breaking backward migration:
+>=20
+> https://lists.gnu.org/archive/html/qemu-ppc/2019-05/msg00330.html
+>=20
+> So I'm a bit surprised to see this in the PR... is it intentional ?
 
-Also plausible.  I guess it would be good to know, anyway.
+Sod, no, I forgot to remove it from my tree.
 
-I think RT probably makes the largest difference to the layout of the function,
-so maybe that's the one we pick.  We could also leave our options open and make
-the 3 non-CC flags be parameters to the inline function, just extract them from
-the M4 parameter at the one higher level.
+Having been through the test cycle, I'd prefer not to hold up the PR
+for this - as long as we fix it before the release we should be ok.
 
+>=20
+> >  hw/ppc/spapr.c         | 1 +
+> >  hw/ppc/spapr_caps.c    | 1 +
+> >  include/hw/ppc/spapr.h | 1 +
+> >  3 files changed, 3 insertions(+)
+> >=20
+> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> > index 8580a8dc67..bcae30ad26 100644
+> > --- a/hw/ppc/spapr.c
+> > +++ b/hw/ppc/spapr.c
+> > @@ -2125,6 +2125,7 @@ static const VMStateDescription vmstate_spapr =3D=
+ {
+> >          &vmstate_spapr_cap_cfpc,
+> >          &vmstate_spapr_cap_sbbc,
+> >          &vmstate_spapr_cap_ibs,
+> > +        &vmstate_spapr_cap_hpt_maxpagesize,
+> >          &vmstate_spapr_irq_map,
+> >          &vmstate_spapr_cap_nested_kvm_hv,
+> >          &vmstate_spapr_dtb,
+> > diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
+> > index 9b1c10baa6..658eb15a14 100644
+> > --- a/hw/ppc/spapr_caps.c
+> > +++ b/hw/ppc/spapr_caps.c
+> > @@ -703,6 +703,7 @@ SPAPR_CAP_MIG_STATE(dfp, SPAPR_CAP_DFP);
+> >  SPAPR_CAP_MIG_STATE(cfpc, SPAPR_CAP_CFPC);
+> >  SPAPR_CAP_MIG_STATE(sbbc, SPAPR_CAP_SBBC);
+> >  SPAPR_CAP_MIG_STATE(ibs, SPAPR_CAP_IBS);
+> > +SPAPR_CAP_MIG_STATE(hpt_maxpagesize, SPAPR_CAP_HPT_MAXPAGESIZE);
+> >  SPAPR_CAP_MIG_STATE(nested_kvm_hv, SPAPR_CAP_NESTED_KVM_HV);
+> >  SPAPR_CAP_MIG_STATE(large_decr, SPAPR_CAP_LARGE_DECREMENTER);
+> >  SPAPR_CAP_MIG_STATE(ccf_assist, SPAPR_CAP_CCF_ASSIST);
+> > diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> > index 7e32f309c2..9fc91c8f5e 100644
+> > --- a/include/hw/ppc/spapr.h
+> > +++ b/include/hw/ppc/spapr.h
+> > @@ -849,6 +849,7 @@ extern const VMStateDescription vmstate_spapr_cap_d=
+fp;
+> >  extern const VMStateDescription vmstate_spapr_cap_cfpc;
+> >  extern const VMStateDescription vmstate_spapr_cap_sbbc;
+> >  extern const VMStateDescription vmstate_spapr_cap_ibs;
+> > +extern const VMStateDescription vmstate_spapr_cap_hpt_maxpagesize;
+> >  extern const VMStateDescription vmstate_spapr_cap_nested_kvm_hv;
+> >  extern const VMStateDescription vmstate_spapr_cap_large_decr;
+> >  extern const VMStateDescription vmstate_spapr_cap_ccf_assist;
+>=20
 
-r~
+--=20
+David Gibson			| I'll have my music baroque, and my code
+david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
+				| _way_ _around_!
+http://www.ozlabs.org/~dgibson
+
+--kH8JNVvasRCCW1Oz
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlzlLikACgkQbDjKyiDZ
+s5ID9hAA3+xwkQ97Ez/X74mwbzFwBhYZYE4wigJTNdDHb3/TvH1Q76L3tgRBDP21
+OZd70qYqh1XIxQ5XUAPgeKKX6R2oaiUGY6fvugQFkcspTU+42/ZO1pwjUYCeGsVT
+1Ba8tK0Qjg5LA5VtzcfJR5QrKJupwLDJrMS0i4XtgETgo5mksKs9sS5XkKUhpmud
+cf9p0+EilmvvqCuNup8XQSe/DMeN6Pg+LKG8tutdvCQ9+r7YUQWXH8jv2phoI3xP
+ZYjvq/VokMMrKMG53SnUZcNYSTuIIf7AQnY08fATd1yXa7CxUhdZ3RO3wOYnHrLp
+8gxOlDxo7hio+NuazkMY/VgWRw1J4veB7U0GM6ANPEQNL/hd2/NJSMxIoMITzHVb
+yv11M/l781w/hZ9RVkaE7Dy1FDU8CEUFcz1kZDk6mPwbcJGimeXnQyRYfKw+a1fB
+0WYBmcGtRW/bIy/yrgdnFhWUPXRtAcU5lPgfi8cjodYq5kP1LDQMvHSAypb6yhjX
+uI7Lw8OR4+eVtyV5fr4npuoxsDAtlYKuEgs4CV8Fg847oX+xI10j+/3ORfen5kIu
+agAEVysbwC1a1HO2bM2JAFKrlvMq5u95+V/o04so5zcLPusYLeTA1+2WSoWNUoqF
+DcjZ1ZIg3mNzAuwl5otqwbV5KkwaG0IrAFL5h5bYbuT6A24DCXA=
+=rBJY
+-----END PGP SIGNATURE-----
+
+--kH8JNVvasRCCW1Oz--
 
