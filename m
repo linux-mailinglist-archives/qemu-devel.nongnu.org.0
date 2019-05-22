@@ -2,49 +2,49 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 477902662E
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 16:46:51 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:44572 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C37A126640
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 16:48:05 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:44586 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTSW2-0004hu-Ev
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 10:46:50 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:56984)
+	id 1hTSXE-0005dR-UJ
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 10:48:04 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57010)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hTSQL-0000jW-Nt
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 10:40:58 -0400
+	(envelope-from <mreitz@redhat.com>) id 1hTSQP-0000nk-IZ
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 10:41:02 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <mreitz@redhat.com>) id 1hTSQJ-000691-OT
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 10:40:57 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50408)
+	(envelope-from <mreitz@redhat.com>) id 1hTSQN-0006Gz-Jk
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 10:41:01 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:40090)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
-	id 1hTSQB-0005k8-5i; Wed, 22 May 2019 10:40:47 -0400
-Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
-	[10.5.11.12])
+	id 1hTSQG-0005zo-6L; Wed, 22 May 2019 10:40:53 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 7776D3001814;
-	Wed, 22 May 2019 14:40:46 +0000 (UTC)
+	by mx1.redhat.com (Postfix) with ESMTPS id 806DC3004158;
+	Wed, 22 May 2019 14:40:51 +0000 (UTC)
 Received: from localhost (unknown [10.40.205.176])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 90307619B7;
-	Wed, 22 May 2019 14:40:43 +0000 (UTC)
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 8ABC8648B7;
+	Wed, 22 May 2019 14:40:48 +0000 (UTC)
 From: Max Reitz <mreitz@redhat.com>
 To: qemu-block@nongnu.org
-Date: Wed, 22 May 2019 16:40:36 +0200
-Message-Id: <20190522144037.29454-2-mreitz@redhat.com>
+Date: Wed, 22 May 2019 16:40:37 +0200
+Message-Id: <20190522144037.29454-3-mreitz@redhat.com>
 In-Reply-To: <20190522144037.29454-1-mreitz@redhat.com>
 References: <20190522144037.29454-1-mreitz@redhat.com>
 MIME-Version: 1.0
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.40]);
-	Wed, 22 May 2019 14:40:46 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.46]);
+	Wed, 22 May 2019 14:40:51 +0000 (UTC)
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH v2 1/2] block/io: Delay decrementing the
- quiesce_counter
+Subject: [Qemu-devel] [PATCH v2 2/2] iotests: Test cancelling a job and
+ closing the VM
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,60 +61,151 @@ Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-When ending a drained section, bdrv_do_drained_end() currently first
-decrements the quiesce_counter, and only then actually ends the drain.
-
-The bdrv_drain_invoke(bs, false) call may cause graph changes.  Say the
-graph change involves replacing an existing BB's ("blk") BDS
-(blk_bs(blk)) by @bs.  Let us introducing the following values:
-- bs_oqc =3D old_quiesce_counter
-  (so bs->quiesce_counter =3D=3D bs_oqc - 1)
-- obs_qc =3D blk_bs(blk)->quiesce_counter (before bdrv_drain_invoke())
-
-Let us assume there is no blk_pthread_unthrottled() involved, so
-blk->quiesce_counter =3D=3D obs_qc (before bdrv_drain_invoke()).
-
-Now replacing blk_bs(blk) by @bs will reduce blk->quiesce_counter by
-obs_qc (making it 0) and increase it by bs_oqc-1 (making it bs_oqc-1).
-
-bdrv_drain_invoke() returns and we invoke bdrv_parent_drained_end().
-This will decrement blk->quiesce_counter by one, so it would be -1 --
-were there not an assertion against that in blk_root_drained_end().
-
-We therefore have to keep the quiesce_counter up at least until
-bdrv_drain_invoke() returns, so that bdrv_parent_drained_end() does the
-right thing for the parents @bs got during bdrv_drain_invoke().
-
-But let us delay it even further, namely until bdrv_parent_drained_end()
-returns, because then it mirrors bdrv_do_drained_begin(): There, we
-first increment the quiesce_counter, then begin draining the parents,
-and then call bdrv_drain_invoke().  It makes sense to let
-bdrv_do_drained_end() unravel this exactly in reverse.
+This patch adds a test where we cancel a throttled mirror job and
+immediately close the VM before it can be cancelled.  Doing so will
+invoke bdrv_drain_all() while the mirror job tries to drain the
+throttled node.  When bdrv_drain_all_end() tries to lift its drain on
+the throttle node, the job will exit and replace the current root node
+of the BB drive0 (which is the job's filter node) by the throttle node.
+Before the previous patch, this replacement did not increase drive0's
+quiesce_counter by a sufficient amount, so when
+bdrv_parent_drained_end() (invoked by bdrv_do_drained_end(), invoked by
+bdrv_drain_all_end()) tried to end the drain on all of the throttle
+node's parents, it decreased drive0's quiesce_counter below 0 -- which
+fails an assertion.
 
 Signed-off-by: Max Reitz <mreitz@redhat.com>
 ---
- block/io.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ tests/qemu-iotests/255     | 52 ++++++++++++++++++++++++++++++++++++++
+ tests/qemu-iotests/255.out | 24 ++++++++++++++++++
+ 2 files changed, 76 insertions(+)
 
-diff --git a/block/io.c b/block/io.c
-index 150358c3b1..0f6ebd001c 100644
---- a/block/io.c
-+++ b/block/io.c
-@@ -422,11 +422,12 @@ static void bdrv_do_drained_end(BlockDriverState *b=
-s, bool recursive,
-         return;
-     }
-     assert(bs->quiesce_counter > 0);
--    old_quiesce_counter =3D atomic_fetch_dec(&bs->quiesce_counter);
+diff --git a/tests/qemu-iotests/255 b/tests/qemu-iotests/255
+index c0bb37a9b0..49433ec122 100755
+--- a/tests/qemu-iotests/255
++++ b/tests/qemu-iotests/255
+@@ -35,6 +35,10 @@ def blockdev_create(vm, options):
+         vm.run_job('job0')
+     iotests.log("")
 =20
-     /* Re-enable things in child-to-parent order */
-     bdrv_drain_invoke(bs, false);
-     bdrv_parent_drained_end(bs, parent, ignore_bds_parents);
++iotests.log('Finishing a commit job with background reads')
++iotests.log('=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D'=
+)
++iotests.log('')
 +
-+    old_quiesce_counter =3D atomic_fetch_dec(&bs->quiesce_counter);
-     if (old_quiesce_counter =3D=3D 1) {
-         aio_enable_external(bdrv_get_aio_context(bs));
-     }
+ with iotests.FilePath('t.qcow2') as disk_path, \
+      iotests.FilePath('t.qcow2.mid') as mid_path, \
+      iotests.FilePath('t.qcow2.base') as base_path, \
+@@ -81,3 +85,51 @@ with iotests.FilePath('t.qcow2') as disk_path, \
+                 auto_dismiss=3DTrue)
+=20
+     vm.shutdown()
++
++iotests.log('')
++iotests.log('Closing the VM while a job is being cancelled')
++iotests.log('=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+')
++iotests.log('')
++
++with iotests.FilePath('src.qcow2') as src_path, \
++     iotests.FilePath('dst.qcow2') as dst_path, \
++     iotests.VM() as vm:
++
++    iotests.log('=3D=3D=3D Create images and start VM =3D=3D=3D')
++    iotests.log('')
++
++    size =3D 128 * 1024 * 1024
++    size_str =3D str(size)
++
++    iotests.qemu_img_log('create', '-f', iotests.imgfmt, src_path, size_=
+str)
++    iotests.qemu_img_log('create', '-f', iotests.imgfmt, dst_path, size_=
+str)
++
++    iotests.log(iotests.qemu_io('-f', iotests.imgfmt, '-c', 'write 0 1M'=
+,
++                                src_path),
++                filters=3D[iotests.filter_test_dir, iotests.filter_qemu_=
+io])
++
++    vm.add_object('throttle-group,x-bps-read=3D4096,id=3Dthrottle0')
++
++    vm.add_blockdev('file,node-name=3Dsrc-file,filename=3D%s' % (src_pat=
+h))
++    vm.add_blockdev('%s,node-name=3Dsrc,file=3Dsrc-file' % (iotests.imgf=
+mt))
++
++    vm.add_blockdev('file,node-name=3Ddst-file,filename=3D%s' % (dst_pat=
+h))
++    vm.add_blockdev('%s,node-name=3Ddst,file=3Ddst-file' % (iotests.imgf=
+mt))
++
++    vm.add_blockdev('throttle,node-name=3Dsrc-throttled,' +
++                    'throttle-group=3Dthrottle0,file=3Dsrc')
++
++    vm.add_device('virtio-blk,drive=3Dsrc-throttled')
++
++    vm.launch()
++
++    iotests.log('=3D=3D=3D Start a mirror job =3D=3D=3D')
++    iotests.log('')
++
++    vm.qmp_log('blockdev-mirror', job_id=3D'job0', device=3D'src-throttl=
+ed',
++                                  target=3D'dst', sync=3D'full')
++
++    vm.qmp_log('block-job-cancel', device=3D'job0')
++    vm.qmp_log('quit')
++
++    vm.shutdown()
+diff --git a/tests/qemu-iotests/255.out b/tests/qemu-iotests/255.out
+index 9a2d7cbb77..348909fdef 100644
+--- a/tests/qemu-iotests/255.out
++++ b/tests/qemu-iotests/255.out
+@@ -1,3 +1,6 @@
++Finishing a commit job with background reads
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++
+ =3D=3D=3D Create backing chain and start VM =3D=3D=3D
+=20
+ Formatting 'TEST_DIR/PID-t.qcow2.mid', fmt=3Dqcow2 size=3D134217728 clus=
+ter_size=3D65536 lazy_refcounts=3Doff refcount_bits=3D16
+@@ -14,3 +17,24 @@ Formatting 'TEST_DIR/PID-t.qcow2', fmt=3Dqcow2 size=3D=
+134217728 cluster_size=3D65536 l
+ {"return": {}}
+ {"data": {"id": "job0", "type": "commit"}, "event": "BLOCK_JOB_PENDING",=
+ "timestamp": {"microseconds": "USECS", "seconds": "SECS"}}
+ {"data": {"device": "job0", "len": 134217728, "offset": 134217728, "spee=
+d": 0, "type": "commit"}, "event": "BLOCK_JOB_COMPLETED", "timestamp": {"=
+microseconds": "USECS", "seconds": "SECS"}}
++
++Closing the VM while a job is being cancelled
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++
++=3D=3D=3D Create images and start VM =3D=3D=3D
++
++Formatting 'TEST_DIR/PID-src.qcow2', fmt=3Dqcow2 size=3D134217728 cluste=
+r_size=3D65536 lazy_refcounts=3Doff refcount_bits=3D16
++
++Formatting 'TEST_DIR/PID-dst.qcow2', fmt=3Dqcow2 size=3D134217728 cluste=
+r_size=3D65536 lazy_refcounts=3Doff refcount_bits=3D16
++
++wrote 1048576/1048576 bytes at offset 0
++1 MiB, X ops; XX:XX:XX.X (XXX YYY/sec and XXX ops/sec)
++
++=3D=3D=3D Start a mirror job =3D=3D=3D
++
++{"execute": "blockdev-mirror", "arguments": {"device": "src-throttled", =
+"job-id": "job0", "sync": "full", "target": "dst"}}
++{"return": {}}
++{"execute": "block-job-cancel", "arguments": {"device": "job0"}}
++{"return": {}}
++{"execute": "quit", "arguments": {}}
++{"return": {}}
 --=20
 2.21.0
 
