@@ -2,52 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A286725EBF
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 09:40:40 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:37793 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E290E25EC2
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 09:43:04 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37826 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTLra-0003j1-BE
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 03:40:38 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50863)
+	id 1hTLtw-0005Um-2k
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 03:43:04 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51060)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <groug@kaod.org>) id 1hTLqV-0003IS-Jn
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 03:39:33 -0400
+	(envelope-from <clg@kaod.org>) id 1hTLrc-0003x9-Hq
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 03:40:41 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <groug@kaod.org>) id 1hTLqU-000158-N7
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 03:39:31 -0400
-Received: from 3.mo2.mail-out.ovh.net ([46.105.58.226]:47641)
+	(envelope-from <clg@kaod.org>) id 1hTLra-0002Ls-PI
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 03:40:40 -0400
+Received: from 1.mo2.mail-out.ovh.net ([46.105.63.121]:45405)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <groug@kaod.org>) id 1hTLqU-00013s-H3
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 03:39:30 -0400
-Received: from player762.ha.ovh.net (unknown [10.109.159.35])
-	by mo2.mail-out.ovh.net (Postfix) with ESMTP id 318A419A1BD
-	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 09:39:27 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
-	[82.253.208.248]) (Authenticated sender: groug@kaod.org)
-	by player762.ha.ovh.net (Postfix) with ESMTPSA id 9AEED608B9E7;
-	Wed, 22 May 2019 07:39:17 +0000 (UTC)
-Date: Wed, 22 May 2019 09:39:16 +0200
-From: Greg Kurz <groug@kaod.org>
-To: Anton Blanchard <anton@ozlabs.org>
-Message-ID: <20190522093916.43eb8677@bahia.lan>
-In-Reply-To: <20190522061112.3accdb76@kryten>
-References: <20190507004811.29968-1-anton@ozlabs.org>
-	<20190507004811.29968-4-anton@ozlabs.org>
-	<c1d2a4cf-a9a7-4dfa-ed80-987118043f08@ilande.co.uk>
-	<20190522061112.3accdb76@kryten>
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+	(Exim 4.71) (envelope-from <clg@kaod.org>) id 1hTLrZ-00025W-0W
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 03:40:38 -0400
+Received: from player761.ha.ovh.net (unknown [10.108.54.172])
+	by mo2.mail-out.ovh.net (Postfix) with ESMTP id E64C519BD0E
+	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 09:40:26 +0200 (CEST)
+Received: from kaod.org (lfbn-1-10649-41.w90-89.abo.wanadoo.fr [90.89.235.41])
+	(Authenticated sender: clg@kaod.org)
+	by player761.ha.ovh.net (Postfix) with ESMTPSA id 4AFFF609C81E;
+	Wed, 22 May 2019 07:40:21 +0000 (UTC)
+From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+To: David Gibson <david@gibson.dropbear.id.au>
+Date: Wed, 22 May 2019 09:40:14 +0200
+Message-Id: <20190522074016.10521-1-clg@kaod.org>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
-X-Ovh-Tracer-Id: 18207490344495782177
+Content-Type: text/plain; charset=UTF-8
+X-Ovh-Tracer-Id: 18224378842708544486
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddrudduuddguddvvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddrudduuddguddvfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 46.105.58.226
-Subject: Re: [Qemu-devel] [Qemu-ppc]  [PATCH 4/9] target/ppc: Fix lxvw4x,
- lxvh8x and lxvb16x
+X-Received-From: 46.105.63.121
+Subject: [Qemu-devel] [PATCH 0/2] spapr/xive: change default interrupt mode
+ to 'dual'
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -59,47 +54,31 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: ego@linux.vnet.ibm.com, sandipandas1990@gmail.com,
-	Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
-	richard.henderson@linaro.org, f4bug@amsat.org,
-	qemu-devel@nongnu.org, qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+	=?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
+	qemu-ppc@nongnu.org, qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 22 May 2019 06:11:12 +1000
-Anton Blanchard <anton@ozlabs.org> wrote:
+Hello,
 
-> Hi,
-> 
-> > I've now had a bit of time to look through this and I believe it is
-> > correct, so:
-> > 
-> > Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>  
-> 
-> Thanks Mark. David: any chance we could get this merged? I can't run a
-> recent Ubuntu image successfully without it. sshd hangs when I try to
-> ssh into it.
-> 
+Here is a little series fixing multiple resets when in 'dual'
+interrupt mode and changing the default mode to 'dual'.
 
-Ha ! I also had troubles ssh'ing into a fedora guest, but couldn't find
-time to investigate:
+Thanks,
 
-$ ssh 192.168.122.76
-ssh_dispatch_run_fatal: Connection to 192.168.122.76 port 22: incorrect signature
+C.
 
-It doesn't happen anymore with this patch. Maybe worth mentioning it in the
-changelog, and Cc stable of course since this is a regression in QEMU 4.0.
+C=C3=A9dric Le Goater (2):
+  spapr/xive: fix multiple resets when using the 'dual' interrupt mode
+  spapr: change default interrupt mode to 'dual'
 
-Tested-by: Greg Kurz <groug@kaod.org>
+ hw/intc/spapr_xive.c     | 11 +++++------
+ hw/intc/spapr_xive_kvm.c |  4 ----
+ hw/ppc/spapr.c           |  3 ++-
+ 3 files changed, 7 insertions(+), 11 deletions(-)
 
-Also, as Mark mentioned in another mail, this looks very much like the other
-bug I had fixed with 3e5365b7aa6c "target/ppc: Fix QEMU crash with stxsdx".
-The patch looks correct:
-
-Reviewed-by: Greg Kurz <groug@kaod.org>
-
-> Thanks,
-> Anton
-> 
+--=20
+2.20.1
 
 
