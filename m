@@ -2,62 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 06C502654B
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 15:58:51 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43875 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id B18C02663E
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 16:47:44 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:44574 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTRla-0006pB-8G
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 09:58:50 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46334)
+	id 1hTSWt-0005Pg-ST
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 10:47:43 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47106)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hTRkN-0006Kf-TU
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 09:57:36 -0400
+	(envelope-from <anton.ivanov@cambridgegreys.com>) id 1hTRnS-0007Te-OR
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 10:00:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hTRkM-0008Lc-O2
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 09:57:35 -0400
-Received: from mout.kundenserver.de ([217.72.192.75]:42059)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <laurent@vivier.eu>)
-	id 1hTRkM-0008L2-ET; Wed, 22 May 2019 09:57:34 -0400
-Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
-	(mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
-	1MrPVJ-1gpAxe1rKJ-00oXuT; Wed, 22 May 2019 15:57:09 +0200
-To: Peter Maydell <peter.maydell@linaro.org>, Eric Blake <eblake@redhat.com>
-References: <20190503082728.16485-1-ao2@ao2.it>
-	<20190503082728.16485-3-ao2@ao2.it>
-	<541bfc5c-0e45-58e6-f0b1-81e9b0c8881d@redhat.com>
-	<CAFEAcA8An-KWOc3gOz2=45eCHCmUJEJw_bTrrCW6bYO23H8TPw@mail.gmail.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <a5f95284-2883-e6c0-54ad-d0ff018f68d7@vivier.eu>
-Date: Wed, 22 May 2019 15:57:06 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
+	(envelope-from <anton.ivanov@cambridgegreys.com>) id 1hTRnM-0001v0-Kf
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 10:00:43 -0400
+Received: from ivanoab6.miniserver.com ([5.153.251.140]:57266
+	helo=www.kot-begemot.co.uk)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <anton.ivanov@cambridgegreys.com>)
+	id 1hTRnK-0001tF-1h
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 10:00:39 -0400
+Received: from [192.168.17.6] (helo=jain.kot-begemot.co.uk)
+	by www.kot-begemot.co.uk with esmtps
+	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.89)
+	(envelope-from <anton.ivanov@cambridgegreys.com>)
+	id 1hTRnG-0004Bo-ET; Wed, 22 May 2019 14:00:34 +0000
+Received: from jain.kot-begemot.co.uk ([192.168.3.3])
+	by jain.kot-begemot.co.uk with esmtp (Exim 4.89)
+	(envelope-from <anton.ivanov@cambridgegreys.com>)
+	id 1hTRnE-0004HD-47; Wed, 22 May 2019 15:00:34 +0100
+To: Johannes Berg <johannes@sipsolutions.net>, linux-um@lists.infradead.org,
+	virtualization@lists.linux-foundation.org, qemu-devel@nongnu.org
+References: <0952696452f5ff4e38d2417029243fc60efa33d6.camel@sipsolutions.net>
+	<ddeee710-d546-ff05-5c53-991a7d807067@kot-begemot.co.uk>
+	<8b30e5cea2692d62fd7f486fc98effdb589a1412.camel@sipsolutions.net>
+From: Anton Ivanov <anton.ivanov@cambridgegreys.com>
+Message-ID: <f21ae7ac-ae56-71e6-cebd-f97c8912f5e1@cambridgegreys.com>
+Date: Wed, 22 May 2019 15:00:32 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <CAFEAcA8An-KWOc3gOz2=45eCHCmUJEJw_bTrrCW6bYO23H8TPw@mail.gmail.com>
+In-Reply-To: <8b30e5cea2692d62fd7f486fc98effdb589a1412.camel@sipsolutions.net>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:7mnKqv+mccePQYCbVgI0nG/6TExsTjtBiFk/mNSC+UJjIA8xttw
-	tf4kdcxX+QIHk4tyDt4AkbwwBywjoJbC/uBcccj/yR0iRN3vlEy9FMuyAD0P1WZZa6IdzK+
-	u6VrvBuz66ArioGGoUj5HqTtAECHhhKLsowecB4LhChW+fReoihV/lsZvT7ujUWKMDoVLrl
-	pJzaHE1rvlIHxZiwayGEw==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:4IV3NIeEpoU=:qBD0hJzLMjnlrG0weM8J5P
-	pEkZoDcF6iqLlNh24j16i1zGdOxYhQb4dUuFIad2L8K3lg27ufjkylo05hFHyYErI/lWVZ+RV
-	6hCTFPDkdVwRLuQ9tN9oC5ljLzjnxemVjkA5hBaAXYjKV6v9DHr3lzFaAixtGrXObjvISENF3
-	nXdfEiHDsev3SwWJttRsrk88N3Ix/9UlBLaetjg99icCwONiVfCWbLKB94cjbsBYC0ObbqB+8
-	u96W93Sm42I7JzPNh3S324ujjZ6Q+sSRJNos/11Plou4YMZPl55MJGbIprgGXe3Mg/b5K23FV
-	y9wb13ot6le9cPjNJksIpr2MRoce+d+9cPMYUeVpsLhOtsCLBBkSXFul3pzhEsuZyEqNjxv1g
-	2IqMwu2B5PEgIfjjqqTLDDqOW3jpLgMist9L/Pu06QrcPWvOtNUGnhjg00MeZP104SgPJZdFM
-	1FpqR/XDkZLrowWrxknpYnhyrNJOOLmx1J4igugAfKrQVFwYXRpaUf4q7cYp4os4mtCwTKrxf
-	Rn+N6nnDLJpeeY+iGsqES2oyyGobTQB395HZORzEQpHbsToOa6RhB6vRHq3j1JVM5JuCbgF8V
-	traokJ1OUDIOLMRvZXMLeXVXO662bDBo9Xtz+SrSD7mC3ZG2zdos0KwYMVEaQ62Ja2Xfwn/ya
-	i+Y20z52G+uSCyMcGTHoXn85nlnTNhbE9CB7o816N94Lepb9Pd61is89hVhIabJx7Pm6hU1/5
-	WohX4UOih+dcmBa1fhQ1DCplFzfpB1EcsDNx61dU8VUVi7b5JmevXTfGxNY=
+X-Clacks-Overhead: GNU Terry Pratchett
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 217.72.192.75
-Subject: Re: [Qemu-devel] [Qemu-trivial] [PATCH v2 2/2] configure: disallow
- spaces and colons in source path and build path
+X-Received-From: 5.153.251.140
+X-Mailman-Approved-At: Wed, 22 May 2019 10:44:51 -0400
+Subject: Re: [Qemu-devel] custom virt-io support (in user-mode-linux)
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -69,78 +62,91 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: QEMU Trivial <qemu-trivial@nongnu.org>, Antonio Ospite <ao2@ao2.it>,
-	Antonio Ospite <antonio.ospite@collabora.com>,
-	QEMU Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 09/05/2019 16:42, Peter Maydell wrote:
-> On Mon, 6 May 2019 at 18:27, Eric Blake <eblake@redhat.com> wrote:
->>
->> On 5/3/19 3:27 AM, Antonio Ospite wrote:
->>> From: Antonio Ospite <antonio.ospite@collabora.com>
->>>
->>> The configure script breaks when the qemu source directory is in a path
->>> containing white spaces, in particular the list of targets is not
->>> correctly generated when calling "./configure --help" because of how the
->>> default_target_list variable is built.
->>>
->>> In addition to that, *building* qemu from a directory with spaces breaks
->>> some assumptions in the Makefiles, even if the original source path does
->>> not contain spaces like in the case of an out-of-tree build, or when
->>> symlinks are involved.
->>>
->>> To avoid these issues, refuse to run the configure script and the
->>> Makefile if there are spaces or colons in the source path or the build
->>> path, taking as inspiration what the kbuild system in linux does.
->>>
->>> Buglink: https://bugs.launchpad.net/qemu/+bug/1817345
->>>
->>> Signed-off-by: Antonio Ospite <antonio.ospite@collabora.com>
->>> ---
->>>   Makefile  | 4 ++++
->>>   configure | 6 ++++++
->>>   2 files changed, 10 insertions(+)
->>>
->>
->>> +++ b/Makefile
->>> @@ -1,5 +1,9 @@
->>>   # Makefile for QEMU.
->>>
->>> +ifneq ($(words $(subst :, ,$(CURDIR))), 1)
->>> +  $(error main directory cannot contain spaces nor colons)
->>> +endif
->>> +
->>>   # Always point to the root of the build tree (needs GNU make).
->>>   BUILD_DIR=$(CURDIR)
->>>
->>> diff --git a/configure b/configure
->>> index 9832cbca5c..f7ad4381bd 100755
->>> --- a/configure
->>> +++ b/configure
->>> @@ -279,6 +279,12 @@ ld_has() {
->>>   # make source path absolute
->>>   source_path=$(cd "$(dirname -- "$0")"; pwd)
->>>
->>> +if printf "%s\n" "$source_path" | grep -q "[[:space:]:]" ||
->>> +  printf "%s\n" "$PWD" | grep -q "[[:space:]:]";
->>
->> For less typing and fewer processes, you could shorten this to:
->>
->> if printf %s\\n "$source_path" "$PWD" | grep -q "[[:space:]:]";
->>
->> but that's trivial enough for a maintainer to fold in if desired.
->>
->> Reviewed-by: Eric Blake <eblake@redhat.com>
+
+
+On 22/05/2019 14:46, Johannes Berg wrote:
+> Hi Anton,
 > 
-> What tree is this going to go in via? I suggest the
-> -trivial tree.
+>>> I'm thinking about adding virt-io support to UML, but the tricky part is
+>>> that while I want to use the virt-io basics (because it's a nice
+>>> interface from the 'inside'), I don't actually want the stock drivers
+>>> that are part of the kernel now (like virtio-net etc.) but rather
+>>> something that integrates with wifi (probably building on hwsim).
+> 
+>> I have looked at using virtio semantics in UML in the past around the
+>> point when I wanted to make the recvmmsg/sendmmsg vector drivers common
+>> in UML and QEMU. It is certainly possible,
+>>
+>> I went for the native approach at the end though.
+> 
+> Hmm. I'm not sure what you mean by either :-)
+> 
+> Is there any commonality between the vector drivers? 
 
+I was looking purely from a network driver perspective.
 
-Applied (unchanged) to my trivial-patches branch.
+I had two options - either do a direct read/write as it does today or 
+implement the ring/king semantics and read/write from that.
 
-Thanks,
-Laurent
+I decided to not bother with the latter and read/write directly from/to 
+skbs.
 
+> I can't see how
+> that'd work without a bus abstraction (like virtio) in qemu? I mean, the
+> kernel driver just calls uml_vector_sendmmsg(), which I'd say belongs
+> more to the 'outside world', but that can't really be done in qemu?
+> 
+> Ok, I guess then I see what you mean by 'native' though.
+> 
+> Similarly, of course, I can implement arbitrary virt-io devices - just
+> the kernel side doesn't call a function like uml_vector_sendmmsg()
+> directly, but instead the virt-io model, and the model calls the
+> function, which essentially is the same just with a (convenient)
+> abstraction layer.
+> 
+> But this leaves the fundamental fact the model code ("vector_user.c" or
+> a similar "virtio_user.c") is still part of the build.
+> 
+> I guess what I'm thinking is have something like "virtio_user_rpc.c"
+> that uses some appropriate RPC to interact with the real model. IOW,
+> rather than having all the model-specific logic actually be here (like
+> vector_user.c actually knows how to send network packets over a real
+> socket fd), try to call out to some RPC that contains the real model.
+> 
+> Now that I thought about it further, I guess my question boils down to
+> "did anyone ever think about doing RPC for Virt-IO instead of putting
+> the entire device model into the hypervisor/emulator/...".
+
+Virtio in general no. UML specifically - yes. I have thought of mapping 
+out all key device calls to RPCs for a few applications. The issue is 
+that it is fairly difficult to make all of this function cleanly without 
+blocking in strange places.
+
+You may probably want to look at the UML UBD driver. That is an example 
+of moving out all processing to an external thread and talking to it via 
+a request/response API. While it still expects shared memory and needs 
+access to UML address space the model should be more amenable to 
+replacing various calls with RPCs as you have now left the rest of the 
+kernel to run while you are processing the RPC. It also provides you 
+with RPC completion interrupts, etc as a side effect.
+
+So you basically have UML -> Thread -> RPCs -> Model?
+
+> 
+> johannes
+> 
+> 
+> _______________________________________________
+> linux-um mailing list
+> linux-um@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-um
+> 
+
+-- 
+Anton R. Ivanov
+Cambridgegreys Limited. Registered in England. Company Number 10273661
+https://www.cambridgegreys.com/
 
