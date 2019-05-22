@@ -2,44 +2,44 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E214126AB9
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 21:18:56 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49959 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ACA8426AC5
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 21:21:36 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50011 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTWlM-0002zq-1O
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 15:18:56 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36571)
+	id 1hTWnv-0005ot-R7
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 15:21:35 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36601)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hTWRy-0003EL-Qk
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:58:56 -0400
+	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hTWRz-0003FI-Kt
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:58:57 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hTWRw-0000N6-UK
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:58:54 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:60468 helo=mail.rt-rk.com)
+	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hTWRy-0000Om-9C
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:58:55 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:60491 helo=mail.rt-rk.com)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
-	id 1hTWRw-0000M0-JJ
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:58:52 -0400
+	id 1hTWRx-0000NL-Sq
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:58:54 -0400
 Received: from localhost (localhost [127.0.0.1])
-	by mail.rt-rk.com (Postfix) with ESMTP id 8F40A1A4531;
+	by mail.rt-rk.com (Postfix) with ESMTP id 955D11A4167;
 	Wed, 22 May 2019 20:58:49 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
 	[10.10.13.43])
-	by mail.rt-rk.com (Postfix) with ESMTPSA id 68EC01A2160;
+	by mail.rt-rk.com (Postfix) with ESMTPSA id 739FF1A4516;
 	Wed, 22 May 2019 20:58:49 +0200 (CEST)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 22 May 2019 20:58:35 +0200
-Message-Id: <1558551522-24147-5-git-send-email-aleksandar.markovic@rt-rk.com>
+Date: Wed, 22 May 2019 20:58:36 +0200
+Message-Id: <1558551522-24147-6-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1558551522-24147-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1558551522-24147-1-git-send-email-aleksandar.markovic@rt-rk.com>
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PULL v2 04/11] target/mips: Fix MSA instructions
- ST.<B|H|W|D> on big endian host
+Subject: [Qemu-devel] [PULL v2 05/11] target/mips: Refactor and fix
+ COPY_S.<B|H|W|D> instructions
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -57,233 +57,152 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Mateja Marjanovic <Mateja.Marjanovic@rt-rk.com>
 
-Fix the case when the host is a big endian machine, and change
-the approach toward ST.<B|H|W|D> instruction helpers.
+The old version of the helper for the COPY_S.<B|H|W|D> MSA instructions
+has been replaced with four helpers that don't use switch, and change
+the endianness of the given index, when executed on a big endian host.
 
 Signed-off-by: Mateja Marjanovic <mateja.marjanovic@rt-rk.com>
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Message-Id: <1554212605-16457-3-git-send-email-mateja.marjanovic@rt-rk.com>
+Message-Id: <1554212605-16457-4-git-send-email-mateja.marjanovic@rt-rk.com>
 ---
- target/mips/op_helper.c | 200 +++++++++++++++++++++++++++++++++++++++++++-----
- 1 file changed, 180 insertions(+), 20 deletions(-)
+ target/mips/helper.h     |  7 +++++-
+ target/mips/msa_helper.c | 62 +++++++++++++++++++++++++++++++++---------------
+ target/mips/translate.c  | 19 ++++++++++++++-
+ 3 files changed, 67 insertions(+), 21 deletions(-)
 
-diff --git a/target/mips/op_helper.c b/target/mips/op_helper.c
-index a8ae438..3918027 100644
---- a/target/mips/op_helper.c
-+++ b/target/mips/op_helper.c
-@@ -4550,31 +4550,191 @@ static inline void ensure_writable_pages(CPUMIPSState *env,
- #endif
+diff --git a/target/mips/helper.h b/target/mips/helper.h
+index a6d687e..de3a9e0 100644
+--- a/target/mips/helper.h
++++ b/target/mips/helper.h
+@@ -876,7 +876,7 @@ DEF_HELPER_5(msa_hsub_u_df, void, env, i32, i32, i32, i32)
+ 
+ DEF_HELPER_5(msa_sldi_df, void, env, i32, i32, i32, i32)
+ DEF_HELPER_5(msa_splati_df, void, env, i32, i32, i32, i32)
+-DEF_HELPER_5(msa_copy_s_df, void, env, i32, i32, i32, i32)
++
+ DEF_HELPER_5(msa_copy_u_df, void, env, i32, i32, i32, i32)
+ DEF_HELPER_5(msa_insert_df, void, env, i32, i32, i32, i32)
+ DEF_HELPER_5(msa_insve_df, void, env, i32, i32, i32, i32)
+@@ -938,6 +938,11 @@ DEF_HELPER_4(msa_pcnt_df, void, env, i32, i32, i32)
+ DEF_HELPER_4(msa_nloc_df, void, env, i32, i32, i32)
+ DEF_HELPER_4(msa_nlzc_df, void, env, i32, i32, i32)
+ 
++DEF_HELPER_4(msa_copy_s_b, void, env, i32, i32, i32)
++DEF_HELPER_4(msa_copy_s_h, void, env, i32, i32, i32)
++DEF_HELPER_4(msa_copy_s_w, void, env, i32, i32, i32)
++DEF_HELPER_4(msa_copy_s_d, void, env, i32, i32, i32)
++
+ DEF_HELPER_4(msa_fclass_df, void, env, i32, i32, i32)
+ DEF_HELPER_4(msa_ftrunc_s_df, void, env, i32, i32, i32)
+ DEF_HELPER_4(msa_ftrunc_u_df, void, env, i32, i32, i32)
+diff --git a/target/mips/msa_helper.c b/target/mips/msa_helper.c
+index 274c6ca..89b3be9 100644
+--- a/target/mips/msa_helper.c
++++ b/target/mips/msa_helper.c
+@@ -1249,29 +1249,53 @@ void helper_msa_splati_df(CPUMIPSState *env, uint32_t df, uint32_t wd,
+     msa_splat_df(df, pwd, pws, n);
  }
  
--#define MSA_ST_DF(DF, TYPE, ST_INSN, ...)                               \
--void helper_msa_st_ ## TYPE(CPUMIPSState *env, uint32_t wd,             \
--                            target_ulong addr)                          \
--{                                                                       \
--    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);                          \
--    int mmu_idx = cpu_mmu_index(env, false);				\
--    int i;                                                              \
--    MEMOP_IDX(DF)                                                       \
--    ensure_writable_pages(env, addr, mmu_idx, GETPC());                 \
--    for (i = 0; i < DF_ELEMENTS(DF); i++) {                             \
--        ST_INSN(env, addr + (i << DF), pwd->TYPE[i], ##__VA_ARGS__);    \
--    }                                                                   \
-+void helper_msa_st_b(CPUMIPSState *env, uint32_t wd,
-+                     target_ulong addr)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    int mmu_idx = cpu_mmu_index(env, false);
-+
-+    MEMOP_IDX(DF_BYTE)
-+    ensure_writable_pages(env, addr, mmu_idx, GETPC());
-+#if !defined(CONFIG_USER_ONLY)
-+#if !defined(HOST_WORDS_BIGENDIAN)
-+    helper_ret_stb_mmu(env, addr + (0  << DF_BYTE), pwd->b[0],  oi, GETPC());
-+    helper_ret_stb_mmu(env, addr + (1  << DF_BYTE), pwd->b[1],  oi, GETPC());
-+    helper_ret_stb_mmu(env, addr + (2  << DF_BYTE), pwd->b[2],  oi, GETPC());
-+    helper_ret_stb_mmu(env, addr + (3  << DF_BYTE), pwd->b[3],  oi, GETPC());
-+    helper_ret_stb_mmu(env, addr + (4  << DF_BYTE), pwd->b[4],  oi, GETPC());
-+    helper_ret_stb_mmu(env, addr + (5  << DF_BYTE), pwd->b[5],  oi, GETPC());
-+    helper_ret_stb_mmu(env, addr + (6  << DF_BYTE), pwd->b[6],  oi, GETPC());
-+    helper_ret_stb_mmu(env, addr + (7  << DF_BYTE), pwd->b[7],  oi, GETPC());
-+    helper_ret_stb_mmu(env, addr + (8  << DF_BYTE), pwd->b[8],  oi, GETPC());
-+    helper_ret_stb_mmu(env, addr + (9  << DF_BYTE), pwd->b[9],  oi, GETPC());
-+    helper_ret_stb_mmu(env, addr + (10 << DF_BYTE), pwd->b[10], oi, GETPC());
-+    helper_ret_stb_mmu(env, addr + (11 << DF_BYTE), pwd->b[11], oi, GETPC());
-+    helper_ret_stb_mmu(env, addr + (12 << DF_BYTE), pwd->b[12], oi, GETPC());
-+    helper_ret_stb_mmu(env, addr + (13 << DF_BYTE), pwd->b[13], oi, GETPC());
-+    helper_ret_stb_mmu(env, addr + (14 << DF_BYTE), pwd->b[14], oi, GETPC());
-+    helper_ret_stb_mmu(env, addr + (15 << DF_BYTE), pwd->b[15], oi, GETPC());
-+#else
-+    helper_ret_stb_mmu(env, addr + (7  << DF_BYTE), pwd->b[0],  oi, GETPC());
-+    helper_ret_stb_mmu(env, addr + (6  << DF_BYTE), pwd->b[1],  oi, GETPC());
-+    helper_ret_stb_mmu(env, addr + (5  << DF_BYTE), pwd->b[2],  oi, GETPC());
-+    helper_ret_stb_mmu(env, addr + (4  << DF_BYTE), pwd->b[3],  oi, GETPC());
-+    helper_ret_stb_mmu(env, addr + (3  << DF_BYTE), pwd->b[4],  oi, GETPC());
-+    helper_ret_stb_mmu(env, addr + (2  << DF_BYTE), pwd->b[5],  oi, GETPC());
-+    helper_ret_stb_mmu(env, addr + (1  << DF_BYTE), pwd->b[6],  oi, GETPC());
-+    helper_ret_stb_mmu(env, addr + (0  << DF_BYTE), pwd->b[7],  oi, GETPC());
-+    helper_ret_stb_mmu(env, addr + (15 << DF_BYTE), pwd->b[8],  oi, GETPC());
-+    helper_ret_stb_mmu(env, addr + (14 << DF_BYTE), pwd->b[9],  oi, GETPC());
-+    helper_ret_stb_mmu(env, addr + (13 << DF_BYTE), pwd->b[10], oi, GETPC());
-+    helper_ret_stb_mmu(env, addr + (12 << DF_BYTE), pwd->b[11], oi, GETPC());
-+    helper_ret_stb_mmu(env, addr + (11 << DF_BYTE), pwd->b[12], oi, GETPC());
-+    helper_ret_stb_mmu(env, addr + (10 << DF_BYTE), pwd->b[13], oi, GETPC());
-+    helper_ret_stb_mmu(env, addr + (9  << DF_BYTE), pwd->b[14], oi, GETPC());
-+    helper_ret_stb_mmu(env, addr + (8  << DF_BYTE), pwd->b[15], oi, GETPC());
-+#endif
-+#else
-+#if !defined(HOST_WORDS_BIGENDIAN)
-+    cpu_stb_data(env, addr + (0  << DF_BYTE), pwd->b[0]);
-+    cpu_stb_data(env, addr + (1  << DF_BYTE), pwd->b[1]);
-+    cpu_stb_data(env, addr + (2  << DF_BYTE), pwd->b[2]);
-+    cpu_stb_data(env, addr + (3  << DF_BYTE), pwd->b[3]);
-+    cpu_stb_data(env, addr + (4  << DF_BYTE), pwd->b[4]);
-+    cpu_stb_data(env, addr + (5  << DF_BYTE), pwd->b[5]);
-+    cpu_stb_data(env, addr + (6  << DF_BYTE), pwd->b[6]);
-+    cpu_stb_data(env, addr + (7  << DF_BYTE), pwd->b[7]);
-+    cpu_stb_data(env, addr + (8  << DF_BYTE), pwd->b[8]);
-+    cpu_stb_data(env, addr + (9  << DF_BYTE), pwd->b[9]);
-+    cpu_stb_data(env, addr + (10 << DF_BYTE), pwd->b[10]);
-+    cpu_stb_data(env, addr + (11 << DF_BYTE), pwd->b[11]);
-+    cpu_stb_data(env, addr + (12 << DF_BYTE), pwd->b[12]);
-+    cpu_stb_data(env, addr + (13 << DF_BYTE), pwd->b[13]);
-+    cpu_stb_data(env, addr + (14 << DF_BYTE), pwd->b[14]);
-+    cpu_stb_data(env, addr + (15 << DF_BYTE), pwd->b[15]);
-+#else
-+    cpu_stb_data(env, addr + (7  << DF_BYTE), pwd->b[0]);
-+    cpu_stb_data(env, addr + (6  << DF_BYTE), pwd->b[1]);
-+    cpu_stb_data(env, addr + (5  << DF_BYTE), pwd->b[2]);
-+    cpu_stb_data(env, addr + (4  << DF_BYTE), pwd->b[3]);
-+    cpu_stb_data(env, addr + (3  << DF_BYTE), pwd->b[4]);
-+    cpu_stb_data(env, addr + (2  << DF_BYTE), pwd->b[5]);
-+    cpu_stb_data(env, addr + (1  << DF_BYTE), pwd->b[6]);
-+    cpu_stb_data(env, addr + (0  << DF_BYTE), pwd->b[7]);
-+    cpu_stb_data(env, addr + (15 << DF_BYTE), pwd->b[8]);
-+    cpu_stb_data(env, addr + (14 << DF_BYTE), pwd->b[9]);
-+    cpu_stb_data(env, addr + (13 << DF_BYTE), pwd->b[10]);
-+    cpu_stb_data(env, addr + (12 << DF_BYTE), pwd->b[11]);
-+    cpu_stb_data(env, addr + (11 << DF_BYTE), pwd->b[12]);
-+    cpu_stb_data(env, addr + (10 << DF_BYTE), pwd->b[13]);
-+    cpu_stb_data(env, addr + (9  << DF_BYTE), pwd->b[14]);
-+    cpu_stb_data(env, addr + (8  << DF_BYTE), pwd->b[15]);
-+#endif
-+#endif
-+}
-+
-+void helper_msa_st_h(CPUMIPSState *env, uint32_t wd,
-+                     target_ulong addr)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    int mmu_idx = cpu_mmu_index(env, false);
-+
-+    MEMOP_IDX(DF_HALF)
-+    ensure_writable_pages(env, addr, mmu_idx, GETPC());
-+#if !defined(CONFIG_USER_ONLY)
-+#if !defined(HOST_WORDS_BIGENDIAN)
-+    helper_ret_stw_mmu(env, addr + (0 << DF_HALF), pwd->h[0], oi, GETPC());
-+    helper_ret_stw_mmu(env, addr + (1 << DF_HALF), pwd->h[1], oi, GETPC());
-+    helper_ret_stw_mmu(env, addr + (2 << DF_HALF), pwd->h[2], oi, GETPC());
-+    helper_ret_stw_mmu(env, addr + (3 << DF_HALF), pwd->h[3], oi, GETPC());
-+    helper_ret_stw_mmu(env, addr + (4 << DF_HALF), pwd->h[4], oi, GETPC());
-+    helper_ret_stw_mmu(env, addr + (5 << DF_HALF), pwd->h[5], oi, GETPC());
-+    helper_ret_stw_mmu(env, addr + (6 << DF_HALF), pwd->h[6], oi, GETPC());
-+    helper_ret_stw_mmu(env, addr + (7 << DF_HALF), pwd->h[7], oi, GETPC());
-+#else
-+    helper_ret_stw_mmu(env, addr + (3 << DF_HALF), pwd->h[0], oi, GETPC());
-+    helper_ret_stw_mmu(env, addr + (2 << DF_HALF), pwd->h[1], oi, GETPC());
-+    helper_ret_stw_mmu(env, addr + (1 << DF_HALF), pwd->h[2], oi, GETPC());
-+    helper_ret_stw_mmu(env, addr + (0 << DF_HALF), pwd->h[3], oi, GETPC());
-+    helper_ret_stw_mmu(env, addr + (7 << DF_HALF), pwd->h[4], oi, GETPC());
-+    helper_ret_stw_mmu(env, addr + (6 << DF_HALF), pwd->h[5], oi, GETPC());
-+    helper_ret_stw_mmu(env, addr + (5 << DF_HALF), pwd->h[6], oi, GETPC());
-+    helper_ret_stw_mmu(env, addr + (4 << DF_HALF), pwd->h[7], oi, GETPC());
-+#endif
-+#else
-+#if !defined(HOST_WORDS_BIGENDIAN)
-+    cpu_stw_data(env, addr + (0 << DF_HALF), pwd->h[0]);
-+    cpu_stw_data(env, addr + (1 << DF_HALF), pwd->h[1]);
-+    cpu_stw_data(env, addr + (2 << DF_HALF), pwd->h[2]);
-+    cpu_stw_data(env, addr + (3 << DF_HALF), pwd->h[3]);
-+    cpu_stw_data(env, addr + (4 << DF_HALF), pwd->h[4]);
-+    cpu_stw_data(env, addr + (5 << DF_HALF), pwd->h[5]);
-+    cpu_stw_data(env, addr + (6 << DF_HALF), pwd->h[6]);
-+    cpu_stw_data(env, addr + (7 << DF_HALF), pwd->h[7]);
-+#else
-+    cpu_stw_data(env, addr + (3 << DF_HALF), pwd->h[0]);
-+    cpu_stw_data(env, addr + (2 << DF_HALF), pwd->h[1]);
-+    cpu_stw_data(env, addr + (1 << DF_HALF), pwd->h[2]);
-+    cpu_stw_data(env, addr + (0 << DF_HALF), pwd->h[3]);
-+    cpu_stw_data(env, addr + (7 << DF_HALF), pwd->h[4]);
-+    cpu_stw_data(env, addr + (6 << DF_HALF), pwd->h[5]);
-+    cpu_stw_data(env, addr + (5 << DF_HALF), pwd->h[6]);
-+    cpu_stw_data(env, addr + (4 << DF_HALF), pwd->h[7]);
-+#endif
-+#endif
- }
- 
-+void helper_msa_st_w(CPUMIPSState *env, uint32_t wd,
-+                     target_ulong addr)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    int mmu_idx = cpu_mmu_index(env, false);
-+
-+    MEMOP_IDX(DF_WORD)
-+    ensure_writable_pages(env, addr, mmu_idx, GETPC());
- #if !defined(CONFIG_USER_ONLY)
--MSA_ST_DF(DF_BYTE,   b, helper_ret_stb_mmu, oi, GETPC())
--MSA_ST_DF(DF_HALF,   h, helper_ret_stw_mmu, oi, GETPC())
--MSA_ST_DF(DF_WORD,   w, helper_ret_stl_mmu, oi, GETPC())
--MSA_ST_DF(DF_DOUBLE, d, helper_ret_stq_mmu, oi, GETPC())
-+#if !defined(HOST_WORDS_BIGENDIAN)
-+    helper_ret_stl_mmu(env, addr + (0 << DF_WORD), oi, GETPC(), pwd->w[0]);
-+    helper_ret_stl_mmu(env, addr + (1 << DF_WORD), oi, GETPC(), pwd->w[1]);
-+    helper_ret_stl_mmu(env, addr + (2 << DF_WORD), oi, GETPC(), pwd->w[2]);
-+    helper_ret_stl_mmu(env, addr + (3 << DF_WORD), oi, GETPC(), pwd->w[3]);
- #else
--MSA_ST_DF(DF_BYTE,   b, cpu_stb_data)
--MSA_ST_DF(DF_HALF,   h, cpu_stw_data)
--MSA_ST_DF(DF_WORD,   w, cpu_stl_data)
--MSA_ST_DF(DF_DOUBLE, d, cpu_stq_data)
-+    helper_ret_stl_mmu(env, addr + (1 << DF_WORD), oi, GETPC(), pwd->w[0]);
-+    helper_ret_stl_mmu(env, addr + (0 << DF_WORD), oi, GETPC(), pwd->w[1]);
-+    helper_ret_stl_mmu(env, addr + (3 << DF_WORD), oi, GETPC(), pwd->w[2]);
-+    helper_ret_stl_mmu(env, addr + (2 << DF_WORD), oi, GETPC(), pwd->w[3]);
- #endif
-+#else
-+#if !defined(HOST_WORDS_BIGENDIAN)
-+    cpu_stl_data(env, addr + (0 << DF_WORD), pwd->w[0]);
-+    cpu_stl_data(env, addr + (1 << DF_WORD), pwd->w[1]);
-+    cpu_stl_data(env, addr + (2 << DF_WORD), pwd->w[2]);
-+    cpu_stl_data(env, addr + (3 << DF_WORD), pwd->w[3]);
-+#else
-+    cpu_stl_data(env, addr + (1 << DF_WORD), pwd->w[0]);
-+    cpu_stl_data(env, addr + (0 << DF_WORD), pwd->w[1]);
-+    cpu_stl_data(env, addr + (3 << DF_WORD), pwd->w[2]);
-+    cpu_stl_data(env, addr + (2 << DF_WORD), pwd->w[3]);
-+#endif
-+#endif
-+}
-+
-+void helper_msa_st_d(CPUMIPSState *env, uint32_t wd,
-+                     target_ulong addr)
-+{
-+    wr_t *pwd = &(env->active_fpu.fpr[wd].wr);
-+    int mmu_idx = cpu_mmu_index(env, false);
-+
-+    MEMOP_IDX(DF_DOUBLE)
-+    ensure_writable_pages(env, addr, mmu_idx, GETPC());
-+#if !defined(CONFIG_USER_ONLY)
-+    helper_ret_stq_mmu(env, addr + (0 << DF_DOUBLE), pwd->d[0], oi, GETPC());
-+    helper_ret_stq_mmu(env, addr + (1 << DF_DOUBLE), pwd->d[1], oi, GETPC());
-+#else
-+    cpu_stq_data(env, addr + (0 << DF_DOUBLE), pwd->d[0]);
-+    cpu_stq_data(env, addr + (1 << DF_DOUBLE), pwd->d[1]);
-+#endif
-+}
- 
- void helper_cache(CPUMIPSState *env, target_ulong addr, uint32_t op)
+-void helper_msa_copy_s_df(CPUMIPSState *env, uint32_t df, uint32_t rd,
+-                          uint32_t ws, uint32_t n)
++void helper_msa_copy_s_b(CPUMIPSState *env, uint32_t rd,
++                         uint32_t ws, uint32_t n)
  {
+-    n %= DF_ELEMENTS(df);
++    n %= 16;
++#if defined(HOST_WORDS_BIGENDIAN)
++    if (n < 8) {
++        n = 8 - n - 1;
++    } else {
++        n = 24 - n - 1;
++    }
++#endif
++    env->active_tc.gpr[rd] = (int8_t)env->active_fpu.fpr[ws].wr.b[n];
++}
+ 
+-    switch (df) {
+-    case DF_BYTE:
+-        env->active_tc.gpr[rd] = (int8_t)env->active_fpu.fpr[ws].wr.b[n];
+-        break;
+-    case DF_HALF:
+-        env->active_tc.gpr[rd] = (int16_t)env->active_fpu.fpr[ws].wr.h[n];
+-        break;
+-    case DF_WORD:
+-        env->active_tc.gpr[rd] = (int32_t)env->active_fpu.fpr[ws].wr.w[n];
+-        break;
+-#ifdef TARGET_MIPS64
+-    case DF_DOUBLE:
+-        env->active_tc.gpr[rd] = (int64_t)env->active_fpu.fpr[ws].wr.d[n];
+-        break;
++void helper_msa_copy_s_h(CPUMIPSState *env, uint32_t rd,
++                         uint32_t ws, uint32_t n)
++{
++    n %= 8;
++#if defined(HOST_WORDS_BIGENDIAN)
++    if (n < 4) {
++        n = 4 - n - 1;
++    } else {
++        n = 12 - n - 1;
++    }
+ #endif
+-    default:
+-        assert(0);
++    env->active_tc.gpr[rd] = (int16_t)env->active_fpu.fpr[ws].wr.h[n];
++}
++
++void helper_msa_copy_s_w(CPUMIPSState *env, uint32_t rd,
++                         uint32_t ws, uint32_t n)
++{
++    n %= 4;
++#if defined(HOST_WORDS_BIGENDIAN)
++    if (n < 2) {
++        n = 2 - n - 1;
++    } else {
++        n = 6 - n - 1;
+     }
++#endif
++    env->active_tc.gpr[rd] = (int32_t)env->active_fpu.fpr[ws].wr.w[n];
++}
++
++void helper_msa_copy_s_d(CPUMIPSState *env, uint32_t rd,
++                         uint32_t ws, uint32_t n)
++{
++    n %= 2;
++    env->active_tc.gpr[rd] = (int64_t)env->active_fpu.fpr[ws].wr.d[n];
+ }
+ 
+ void helper_msa_copy_u_df(CPUMIPSState *env, uint32_t df, uint32_t rd,
+diff --git a/target/mips/translate.c b/target/mips/translate.c
+index f96c0d0..c65d19e 100644
+--- a/target/mips/translate.c
++++ b/target/mips/translate.c
+@@ -28301,7 +28301,24 @@ static void gen_msa_elm_df(CPUMIPSState *env, DisasContext *ctx, uint32_t df,
+         switch (MASK_MSA_ELM(ctx->opcode)) {
+         case OPC_COPY_S_df:
+             if (likely(wd != 0)) {
+-                gen_helper_msa_copy_s_df(cpu_env, tdf, twd, tws, tn);
++                switch (df) {
++                case DF_BYTE:
++                    gen_helper_msa_copy_s_b(cpu_env, twd, tws, tn);
++                    break;
++                case DF_HALF:
++                    gen_helper_msa_copy_s_h(cpu_env, twd, tws, tn);
++                    break;
++                case DF_WORD:
++                    gen_helper_msa_copy_s_w(cpu_env, twd, tws, tn);
++                    break;
++#if defined(TARGET_MIPS64)
++                case DF_DOUBLE:
++                    gen_helper_msa_copy_s_d(cpu_env, twd, tws, tn);
++                    break;
++#endif
++                default:
++                    assert(0);
++                }
+             }
+             break;
+         case OPC_COPY_U_df:
 -- 
 2.7.4
 
