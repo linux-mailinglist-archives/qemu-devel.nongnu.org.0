@@ -2,54 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5171D2687E
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 18:41:51 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:47731 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6736D268D4
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 19:06:05 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:47968 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTUJK-0006vh-6I
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 12:41:50 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37162)
+	id 1hTUgm-0004F1-5n
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 13:06:04 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40602)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hTUIL-0006a1-6Y
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 12:40:50 -0400
+	(envelope-from <mreitz@redhat.com>) id 1hTUf6-0003Uw-FO
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 13:04:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <armbru@redhat.com>) id 1hTUIJ-00011x-Rr
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 12:40:49 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:60054)
+	(envelope-from <mreitz@redhat.com>) id 1hTUf2-0007ZN-Bd
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 13:04:18 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:35492)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <armbru@redhat.com>) id 1hTUIJ-0000zO-IP
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 12:40:47 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
+	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
+	id 1hTUep-0007K9-DV; Wed, 22 May 2019 13:04:04 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+	[10.5.11.14])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 9A760307DA31;
-	Wed, 22 May 2019 16:40:40 +0000 (UTC)
-Received: from blackfin.pond.sub.org (ovpn-116-28.ams2.redhat.com
-	[10.36.116.28])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id E45565B2CF;
-	Wed, 22 May 2019 16:40:38 +0000 (UTC)
-Received: by blackfin.pond.sub.org (Postfix, from userid 1000)
-	id 6110E1138648; Wed, 22 May 2019 18:40:37 +0200 (CEST)
-From: Markus Armbruster <armbru@redhat.com>
-To: Yury Kotov <yury-kotov@yandex-team.ru>
-References: <20190514151848.5677-1-yury-kotov@yandex-team.ru>
-Date: Wed, 22 May 2019 18:40:37 +0200
-In-Reply-To: <20190514151848.5677-1-yury-kotov@yandex-team.ru> (Yury Kotov's
-	message of "Tue, 14 May 2019 18:18:48 +0300")
-Message-ID: <87r28qjvcq.fsf@dusky.pond.sub.org>
-User-Agent: Gnus/5.13 (Gnus v5.13) Emacs/26.1 (gnu/linux)
+	by mx1.redhat.com (Postfix) with ESMTPS id 9D44280F91;
+	Wed, 22 May 2019 17:03:56 +0000 (UTC)
+Received: from localhost (ovpn-204-123.brq.redhat.com [10.40.204.123])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 3600E5D9C3;
+	Wed, 22 May 2019 17:03:53 +0000 (UTC)
+From: Max Reitz <mreitz@redhat.com>
+To: qemu-block@nongnu.org
+Date: Wed, 22 May 2019 19:03:44 +0200
+Message-Id: <20190522170352.12020-1-mreitz@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+Content-Type: text/plain; charset=UTF-8
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.48]);
-	Wed, 22 May 2019 16:40:45 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.27]);
+	Wed, 22 May 2019 17:04:01 +0000 (UTC)
+Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH v2] monitor: Fix fdset_id & fd types for
- corresponding QMP commands
+Subject: [Qemu-devel] [PATCH v3 0/8] block: Ignore loosening perm
+ restrictions failures
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,198 +55,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Paolo Bonzini <pbonzini@redhat.com>, qemu-devel@nongnu.org,
-	"Dr. David Alan Gilbert" <dgilbert@redhat.com>
+Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org,
+	Max Reitz <mreitz@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Yury Kotov <yury-kotov@yandex-team.ru> writes:
+Hi,
 
-> Now, fdset_id is int64, but in some places we work with it as int.
-> It seems that there is no sense to use int64 for fdset_id, so it's
-> better to fix inconsistency by changing fdset_id type to int and by
-> fixing the reference of corresponding QMP commands: add-fd, remove-fd,
-> query-fdsets.
->
-> Signed-off-by: Yury Kotov <yury-kotov@yandex-team.ru>
-> ---
->  include/monitor/monitor.h |  6 +++---
->  monitor.c                 | 18 +++++++++---------
->  qapi/misc.json            | 10 +++++-----
->  stubs/fdset.c             |  4 ++--
->  util/osdep.c              |  4 ++--
->  vl.c                      |  2 +-
->  6 files changed, 22 insertions(+), 22 deletions(-)
->
-> diff --git a/include/monitor/monitor.h b/include/monitor/monitor.h
-> index 86656297f1..06f9b6c217 100644
-> --- a/include/monitor/monitor.h
-> +++ b/include/monitor/monitor.h
-> @@ -39,11 +39,11 @@ void monitor_read_command(Monitor *mon, int show_prompt);
->  int monitor_read_password(Monitor *mon, ReadLineFunc *readline_func,
->                            void *opaque);
->  
-> -AddfdInfo *monitor_fdset_add_fd(int fd, bool has_fdset_id, int64_t fdset_id,
-> +AddfdInfo *monitor_fdset_add_fd(int fd, bool has_fdset_id, int fdset_id,
->                                  bool has_opaque, const char *opaque,
->                                  Error **errp);
-> -int monitor_fdset_get_fd(int64_t fdset_id, int flags);
-> -int monitor_fdset_dup_fd_add(int64_t fdset_id, int dup_fd);
-> +int monitor_fdset_get_fd(int fdset_id, int flags);
-> +int monitor_fdset_dup_fd_add(int fdset_id, int dup_fd);
->  void monitor_fdset_dup_fd_remove(int dup_fd);
->  int monitor_fdset_dup_fd_find(int dup_fd);
->  
-> diff --git a/monitor.c b/monitor.c
-> index bb48997913..b71ce816bc 100644
-> --- a/monitor.c
-> +++ b/monitor.c
-> @@ -160,7 +160,7 @@ struct MonFdsetFd {
->  /* file descriptor set containing fds passed via SCM_RIGHTS */
->  typedef struct MonFdset MonFdset;
->  struct MonFdset {
-> -    int64_t id;
-> +    int id;
+This series is mainly a fix for
+https://bugzilla.redhat.com/show_bug.cgi?id=3D1703793.  The problem
+described there is that mirroring to a gluster volume, then switching
+off the volume makes qemu crash.  There are two problems here:
 
-In C, you use int instead of int64_t for fdset IDs.
+(1) file-posix reopens the FD all the time because it thinks the FD it
+    has is RDONLY.  It actually isn=E2=80=99t after the first reopen, we =
+just
+    forgot to change the internal flags.  That=E2=80=99s what patch 1 is =
+for.
+
+(2) Even then, when mirror completes, it drops its write permission on
+    the FD.  This requires a reopen, which will fail if the volume is
+    down.  Mirror doesn=E2=80=99t expect that.  Nobody ever expects that
+    dropping permissions can fail, and rightfully so because that=E2=80=99=
+s what
+    I think we have generally agreed on.
+    Therefore, the block layer should hide this error.  This is what the
+    last two patches are for.
+
+The penultimate patch adds two assertions: bdrv_replace_child() (for the
+old BDS) and bdrv_inactivate_recurse() assume they only ever drop
+assertions.  This is now substantiated by these new assertions.
+It turns out that this assumption was just plain wrong.  Patches 3 to 5
+make it right.
 
 
->      QLIST_HEAD(, MonFdsetFd) fds;
->      QLIST_HEAD(, MonFdsetFd) dup_fds;
->      QLIST_ENTRY(MonFdset) next;
-> @@ -2346,7 +2346,7 @@ static void monitor_fdsets_cleanup(void)
->      qemu_mutex_unlock(&mon_fdsets_lock);
->  }
->  
-> -AddfdInfo *qmp_add_fd(bool has_fdset_id, int64_t fdset_id, bool has_opaque,
-> +AddfdInfo *qmp_add_fd(bool has_fdset_id, int32_t fdset_id, bool has_opaque,
->                        const char *opaque, Error **errp)
->  {
->      int fd;
-> @@ -2372,7 +2372,7 @@ error:
->      return NULL;
->  }
->  
-> -void qmp_remove_fd(int64_t fdset_id, bool has_fd, int64_t fd, Error **errp)
-> +void qmp_remove_fd(int32_t fdset_id, bool has_fd, int fd, Error **errp)
->  {
->      MonFdset *mon_fdset;
->      MonFdsetFd *mon_fdset_fd;
-> @@ -2405,10 +2405,10 @@ void qmp_remove_fd(int64_t fdset_id, bool has_fd, int64_t fd, Error **errp)
->  error:
->      qemu_mutex_unlock(&mon_fdsets_lock);
->      if (has_fd) {
-> -        snprintf(fd_str, sizeof(fd_str), "fdset-id:%" PRId64 ", fd:%" PRId64,
-> +        snprintf(fd_str, sizeof(fd_str), "fdset-id:%" PRId32 ", fd:%" PRId32,
->                   fdset_id, fd);
->      } else {
-> -        snprintf(fd_str, sizeof(fd_str), "fdset-id:%" PRId64, fdset_id);
-> +        snprintf(fd_str, sizeof(fd_str), "fdset-id:%" PRId32, fdset_id);
->      }
->      error_setg(errp, QERR_FD_NOT_FOUND, fd_str);
->  }
-> @@ -2454,7 +2454,7 @@ FdsetInfoList *qmp_query_fdsets(Error **errp)
->      return fdset_list;
->  }
->  
-> -AddfdInfo *monitor_fdset_add_fd(int fd, bool has_fdset_id, int64_t fdset_id,
-> +AddfdInfo *monitor_fdset_add_fd(int32_t fd, bool has_fdset_id, int32_t fdset_id,
->                                  bool has_opaque, const char *opaque,
->                                  Error **errp)
->  {
-> @@ -2476,7 +2476,7 @@ AddfdInfo *monitor_fdset_add_fd(int fd, bool has_fdset_id, int64_t fdset_id,
->      }
->  
->      if (mon_fdset == NULL) {
-> -        int64_t fdset_id_prev = -1;
-> +        int fdset_id_prev = -1;
->          MonFdset *mon_fdset_cur = QLIST_FIRST(&mon_fdsets);
->  
->          if (has_fdset_id) {
-> @@ -2538,7 +2538,7 @@ AddfdInfo *monitor_fdset_add_fd(int fd, bool has_fdset_id, int64_t fdset_id,
->      return fdinfo;
->  }
->  
-> -int monitor_fdset_get_fd(int64_t fdset_id, int flags)
-> +int monitor_fdset_get_fd(int fdset_id, int flags)
->  {
->  #ifdef _WIN32
->      return -ENOENT;
-> @@ -2576,7 +2576,7 @@ out:
->  #endif
->  }
->  
-> -int monitor_fdset_dup_fd_add(int64_t fdset_id, int dup_fd)
-> +int monitor_fdset_dup_fd_add(int fdset_id, int dup_fd)
->  {
->      MonFdset *mon_fdset;
->      MonFdsetFd *mon_fdset_fd_dup;
-> diff --git a/qapi/misc.json b/qapi/misc.json
-> index 8b3ca4fdd3..b345e1458b 100644
-> --- a/qapi/misc.json
-> +++ b/qapi/misc.json
-> @@ -2179,7 +2179,7 @@
->  #
->  # Since: 1.2.0
->  ##
-> -{ 'struct': 'AddfdInfo', 'data': {'fdset-id': 'int', 'fd': 'int'} }
-> +{ 'struct': 'AddfdInfo', 'data': {'fdset-id': 'int32', 'fd': 'int32'} }
->  
->  ##
->  # @add-fd:
-> @@ -2209,7 +2209,7 @@
->  #
->  ##
->  { 'command': 'add-fd',
-> -  'data': { '*fdset-id': 'int',
-> +  'data': { '*fdset-id': 'int32',
->              '*opaque': 'str' },
->    'returns': 'AddfdInfo' }
->  
-> @@ -2238,7 +2238,7 @@
->  # <- { "return": {} }
->  #
->  ##
-> -{ 'command': 'remove-fd', 'data': {'fdset-id': 'int', '*fd': 'int'} }
-> +{ 'command': 'remove-fd', 'data': {'fdset-id': 'int32', '*fd': 'int32'} }
->  
->  ##
->  # @FdsetFdInfo:
-> @@ -2252,7 +2252,7 @@
->  # Since: 1.2.0
->  ##
->  { 'struct': 'FdsetFdInfo',
-> -  'data': {'fd': 'int', '*opaque': 'str'} }
-> +  'data': {'fd': 'int32', '*opaque': 'str'} }
->  
->  ##
->  # @FdsetInfo:
-> @@ -2266,7 +2266,7 @@
->  # Since: 1.2.0
->  ##
->  { 'struct': 'FdsetInfo',
-> -  'data': {'fdset-id': 'int', 'fds': ['FdsetFdInfo']} }
-> +  'data': {'fdset-id': 'int32', 'fds': ['FdsetFdInfo']} }
->  
->  ##
->  # @query-fdsets:
+v3:
+- Received no reply to my =E2=80=9CHm, warnings break 'make check', so ma=
+ybe we
+  should just keep quiet if loosening restrictions fails?=E2=80=9D questi=
+on, so
+  I assume silence means agreement.  Changed patch 7 accordingly.
 
-In the schema, you use QAPI type 'int32' instead of 'int'.
+- Added a test: The fact how make check kind-of-but-not-really broke
+  showed a nice reproducer: Launching qemu with some file, then deleting
+  that file, then quitting qemu.
 
-Before the patch, the two are consistent (except for the bugs you fixed
-in v1 of this patch): QAPI 'int' is C int64_t.
+- Rebase =E2=80=9Cconflict=E2=80=9D in patch 6: The forward declaration o=
+f
+  bdrv_get_cumulative_perm() is already in qemu thanks to commit
+  481e0eeef4f.
 
-After the patch, the two are inconsistent: QAPI 'int32' is C int32_t,
-not int.  They're usually the same, but it unclean.
 
-Two ways forward:
+git-backport-diff against v2:
 
-1. Revise this patch to use int32_t instead of int.
+Key:
+[----] : patches are identical
+[####] : number of functional differences between upstream/downstream pat=
+ch
+[down] : patch is downstream-only
+The flags [FC] indicate (F)unctional and (C)ontextual differences, respec=
+tively
 
-2. Revise v1 to address the few minor review comments I had.  Smaller
-   patch, easier to review.
+001/8:[----] [--] 'file-posix: Update open_flags in raw_set_perm()'
+002/8:[----] [--] 'block: Add bdrv_child_refresh_perms()'
+003/8:[----] [--] 'block/mirror: Fix child permissions'
+004/8:[----] [--] 'block/commit: Drop bdrv_child_try_set_perm()'
+005/8:[0018] [FC] 'block: Fix order in bdrv_replace_child()'
+       ^^^^ Again confuses my v2 patch with 8aecf1d1bd250a, should be:
+      [----] : patches are identical
+006/8:[0002] [FC] 'block: Add *tighten_restrictions to *check*_perm()'
+007/8:[0018] [FC] 'block: Ignore loosening perm restrictions failures'
+008/8:[down] 'iotests: Test failure to loosen restrictions'
 
-Your choice.  I'd choose 2.
 
-[...]
+Max Reitz (8):
+  file-posix: Update open_flags in raw_set_perm()
+  block: Add bdrv_child_refresh_perms()
+  block/mirror: Fix child permissions
+  block/commit: Drop bdrv_child_try_set_perm()
+  block: Fix order in bdrv_replace_child()
+  block: Add *tighten_restrictions to *check*_perm()
+  block: Ignore loosening perm restrictions failures
+  iotests: Test failure to loosen restrictions
+
+ include/block/block_int.h  |  15 ++++
+ block.c                    | 153 +++++++++++++++++++++++++++++++------
+ block/commit.c             |   2 -
+ block/file-posix.c         |   4 +
+ block/mirror.c             |  32 +++++---
+ tests/qemu-iotests/182     |  21 +++++
+ tests/qemu-iotests/182.out |   6 ++
+ 7 files changed, 198 insertions(+), 35 deletions(-)
+
+--=20
+2.21.0
+
 
