@@ -2,81 +2,81 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 74D6426C19
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 21:33:39 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50218 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E7CAC270EF
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 22:42:02 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:51145 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTWza-0007Df-Kj
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 15:33:38 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44227)
+	id 1hTY3l-0007X4-P1
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 16:42:01 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57220)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <eblake@redhat.com>) id 1hTWxe-0006KZ-Nl
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 15:31:39 -0400
+	(envelope-from <mreitz@redhat.com>) id 1hTY2J-00078c-1w
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 16:40:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <eblake@redhat.com>) id 1hTWxW-00058M-Fd
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 15:31:34 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:50446)
+	(envelope-from <mreitz@redhat.com>) id 1hTY2G-0004Cg-VG
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 16:40:30 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:41418)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <eblake@redhat.com>)
-	id 1hTWxP-000523-DO; Wed, 22 May 2019 15:31:24 -0400
-Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
-	[10.5.11.14])
+	(Exim 4.71) (envelope-from <mreitz@redhat.com>)
+	id 1hTY2C-00048r-Sj; Wed, 22 May 2019 16:40:25 -0400
+Received: from smtp.corp.redhat.com (int-mx02.intmail.prod.int.phx2.redhat.com
+	[10.5.11.12])
 	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
 	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 5099F3083045;
-	Wed, 22 May 2019 19:31:14 +0000 (UTC)
-Received: from [10.3.116.19] (ovpn-116-19.phx2.redhat.com [10.3.116.19])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 82431607B7;
-	Wed, 22 May 2019 19:31:13 +0000 (UTC)
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-References: <20190522170352.12020-1-mreitz@redhat.com>
-	<6c13016d-9951-775c-9c54-62e0dd676ca2@redhat.com>
-	<9f198134-8739-057a-47b3-52483a428080@redhat.com>
-From: Eric Blake <eblake@redhat.com>
+	by mx1.redhat.com (Postfix) with ESMTPS id 7BE9F81E0B;
+	Wed, 22 May 2019 20:40:09 +0000 (UTC)
+Received: from dresden.str.redhat.com (ovpn-204-123.brq.redhat.com
+	[10.40.204.123])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 4BCF560BF1;
+	Wed, 22 May 2019 20:40:04 +0000 (UTC)
+To: Anton Nefedov <anton.nefedov@virtuozzo.com>, qemu-block@nongnu.org
+References: <20190516142749.81019-1-anton.nefedov@virtuozzo.com>
+	<20190516142749.81019-2-anton.nefedov@virtuozzo.com>
+From: Max Reitz <mreitz@redhat.com>
 Openpgp: preference=signencrypt
-Autocrypt: addr=eblake@redhat.com; keydata=
-	xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
-	xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
-	TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
-	GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
-	sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
-	AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
-	CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
-	RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
-	wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
-	Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
-	gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
-	pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
-	zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
-	pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
-	3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
-	NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
-	cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
-	SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
-	I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
-	mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
-	Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
-	2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
-Organization: Red Hat, Inc.
-Message-ID: <3e169e5a-a88b-e6a6-63df-d589a37a3b7f@redhat.com>
-Date: Wed, 22 May 2019 14:31:12 -0500
+Autocrypt: addr=mreitz@redhat.com; prefer-encrypt=mutual; keydata=
+	mQENBFXOJlcBCADEyyhOTsoa/2ujoTRAJj4MKA21dkxxELVj3cuILpLTmtachWj7QW+TVG8U
+	/PsMCFbpwsQR7oEy8eHHZwuGQsNpEtNC2G/L8Yka0BIBzv7dEgrPzIu+W3anZXQW4702+uES
+	U29G8TP/NGfXRRHGlbBIH9KNUnOSUD2vRtpOLXkWsV5CN6vQFYgQfFvmp5ZpPeUe6xNplu8V
+	mcTw8OSEDW/ZnxJc8TekCKZSpdzYoxfzjm7xGmZqB18VFwgJZlIibt1HE0EB4w5GsD7x5ekh
+	awIe3RwoZgZDLQMdOitJ1tUc8aqaxvgA4tz6J6st8D8pS//m1gAoYJWGwwIVj1DjTYLtABEB
+	AAG0HU1heCBSZWl0eiA8bXJlaXR6QHJlZGhhdC5jb20+iQFTBBMBCAA9AhsDBQkSzAMABQsJ
+	CAcCBhUICQoLAgQWAgMBAh4BAheABQJVzie5FRhoa3A6Ly9rZXlzLmdudXBnLm5ldAAKCRD0
+	B9sAYdXPQDcIB/9uNkbYEex1rHKz3mr12uxYMwLOOFY9fstP5aoVJQ1nWQVB6m2cfKGdcRe1
+	2/nFaHSNAzT0NnKz2MjhZVmcrpyd2Gp2QyISCfb1FbT82GMtXFj1wiHmPb3CixYmWGQUUh+I
+	AvUqsevLA+WihgBUyaJq/vuDVM1/K9Un+w+Tz5vpeMidlIsTYhcsMhn0L9wlCjoucljvbDy/
+	8C9L2DUdgi3XTa0ORKeflUhdL4gucWoAMrKX2nmPjBMKLgU7WLBc8AtV+84b9OWFML6NEyo4
+	4cP7cM/07VlJK53pqNg5cHtnWwjHcbpGkQvx6RUx6F1My3y52vM24rNUA3+ligVEgPYBuQEN
+	BFXOJlcBCADAmcVUNTWT6yLWQHvxZ0o47KCP8OcLqD+67T0RCe6d0LP8GsWtrJdeDIQk+T+F
+	xO7DolQPS6iQ6Ak2/lJaPX8L0BkEAiMuLCKFU6Bn3lFOkrQeKp3u05wCSV1iKnhg0UPji9V2
+	W5eNfy8F4ZQHpeGUGy+liGXlxqkeRVhLyevUqfU0WgNqAJpfhHSGpBgihUupmyUg7lfUPeRM
+	DzAN1pIqoFuxnN+BRHdAecpsLcbR8sQddXmDg9BpSKozO/JyBmaS1RlquI8HERQoe6EynJhd
+	64aICHDfj61rp+/0jTIcevxIIAzW70IadoS/y3DVIkuhncgDBvGbF3aBtjrJVP+5ABEBAAGJ
+	ASUEGAEIAA8FAlXOJlcCGwwFCRLMAwAACgkQ9AfbAGHVz0CbFwf9F/PXxQR9i4N0iipISYjU
+	sxVdjJOM2TMut+ZZcQ6NSMvhZ0ogQxJ+iEQ5OjnIputKvPVd5U7WRh+4lF1lB/NQGrGZQ1ic
+	alkj6ocscQyFwfib+xIe9w8TG1CVGkII7+TbS5pXHRxZH1niaRpoi/hYtgzkuOPp35jJyqT/
+	/ELbqQTDAWcqtJhzxKLE/ugcOMK520dJDeb6x2xVES+S5LXby0D4juZlvUj+1fwZu+7Io5+B
+	bkhSVPb/QdOVTpnz7zWNyNw+OONo1aBUKkhq2UIByYXgORPFnbfMY7QWHcjpBVw9MgC4tGeF
+	R4bv+1nAMMxKmb5VvQCExr0eFhJUAHAhVg==
+Message-ID: <6fe54054-899a-48d6-c2db-d43e242f20b3@redhat.com>
+Date: Wed, 22 May 2019 22:40:02 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <9f198134-8739-057a-47b3-52483a428080@redhat.com>
+In-Reply-To: <20190516142749.81019-2-anton.nefedov@virtuozzo.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
 	protocol="application/pgp-signature";
-	boundary="T2J2j7hJVKazxwJHMKYrYxEP2fjNr9aIx"
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+	boundary="VKRtPNGhGHQVvtQjaAURHhDPGjNufICSr"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.12
 X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.46]);
-	Wed, 22 May 2019 19:31:14 +0000 (UTC)
+	(mx1.redhat.com [10.5.110.25]);
+	Wed, 22 May 2019 20:40:14 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 209.132.183.28
 X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PATCH v3 0/8] block: Ignore loosening perm
- restrictions failures
+Subject: Re: [Qemu-devel] [PATCH v14 1/1] qcow2: skip writing zero buffers
+ to empty COW areas
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -88,85 +88,226 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
+Cc: kwolf@redhat.com, vsementsov@virtuozzo.com, berto@igalia.com,
+	den@virtuozzo.com, qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---T2J2j7hJVKazxwJHMKYrYxEP2fjNr9aIx
-From: Eric Blake <eblake@redhat.com>
-To: Max Reitz <mreitz@redhat.com>, qemu-block@nongnu.org
-Cc: Kevin Wolf <kwolf@redhat.com>, qemu-devel@nongnu.org
-Message-ID: <3e169e5a-a88b-e6a6-63df-d589a37a3b7f@redhat.com>
-Subject: Re: [Qemu-devel] [PATCH v3 0/8] block: Ignore loosening perm
- restrictions failures
-References: <20190522170352.12020-1-mreitz@redhat.com>
- <6c13016d-9951-775c-9c54-62e0dd676ca2@redhat.com>
- <9f198134-8739-057a-47b3-52483a428080@redhat.com>
-In-Reply-To: <9f198134-8739-057a-47b3-52483a428080@redhat.com>
+--VKRtPNGhGHQVvtQjaAURHhDPGjNufICSr
+From: Max Reitz <mreitz@redhat.com>
+To: Anton Nefedov <anton.nefedov@virtuozzo.com>, qemu-block@nongnu.org
+Cc: qemu-devel@nongnu.org, kwolf@redhat.com, eblake@redhat.com,
+ den@virtuozzo.com, berto@igalia.com, vsementsov@virtuozzo.com
+Message-ID: <6fe54054-899a-48d6-c2db-d43e242f20b3@redhat.com>
+Subject: Re: [PATCH v14 1/1] qcow2: skip writing zero buffers to empty COW
+ areas
+References: <20190516142749.81019-1-anton.nefedov@virtuozzo.com>
+ <20190516142749.81019-2-anton.nefedov@virtuozzo.com>
+In-Reply-To: <20190516142749.81019-2-anton.nefedov@virtuozzo.com>
 Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: quoted-printable
 
-On 5/22/19 1:37 PM, Max Reitz wrote:
+On 16.05.19 16:27, Anton Nefedov wrote:
+> If COW areas of the newly allocated clusters are zeroes on the backing
+> image, efficient bdrv_write_zeroes(flags=3DBDRV_REQ_NO_FALLBACK) can be=
 
->> I don't know if there is an easy way to warn for normal users, but
->> silence the warnings if run under test setups to keep 'make check'
->> output unchanged (I know we've silenced warnings in the past when we
->> detect we are running qtest, but this isn't necessarily the same setup=
-).
->>  So not a show-stopper for me.
+> used on the whole cluster instead of writing explicit zero buffers late=
+r
+> in perform_cow().
 >=20
-> Hm.  That doesn=E2=80=99t sound too bad.  I don=E2=80=99t think there i=
-s an easy way to
-> silence the warning in qemu, but we might be able to just modify the te=
-st.
+> iotest 060:
+> write to the discarded cluster does not trigger COW anymore.
+> Use a backing image instead.
 >=20
-> But I don=E2=80=99t even know whether the warnings are even useful or w=
-hether
-> they would just confuse users more than anything.  So far, every case I=
+> Signed-off-by: Anton Nefedov <anton.nefedov@virtuozzo.com>
+> ---
+>  qapi/block-core.json       |  4 +-
+>  block/qcow2.h              |  6 +++
+>  block/qcow2-cluster.c      |  2 +-
+>  block/qcow2.c              | 93 +++++++++++++++++++++++++++++++++++++-=
 
-> know where loosening restrictions failed was because the file is just
-> gone completely.  The only purpose of a warning is to show the user tha=
-t
-> qemu might have locks on the file that it doesn=E2=80=99t need, so they=
- will
-> know what=E2=80=99s up if they try to open the file in another qemu ins=
-tance in
-> a way that should normally work but suddenly doesn=E2=80=99t.  But if t=
-he file=E2=80=99s
-> just gone, you can=E2=80=99t open it in another qemu, so I don=E2=80=99=
-t even know
-> whether there=E2=80=99s actually any point in warning.
+>  block/trace-events         |  1 +
+>  tests/qemu-iotests/060     |  7 ++-
+>  tests/qemu-iotests/060.out |  5 +-
+>  7 files changed, 112 insertions(+), 6 deletions(-)
 
-Good point - if we unlink()ed the file, we can't loosen permissions, but
-neither can anyone else open() it to collide with us :)
+[...]
 
-A network connection going down is a bit harder to justify (it might
-come back up), but I think it still fits the bill (if we can't loosen
-permissions, who else can interfere with us?)
+> diff --git a/block/qcow2.c b/block/qcow2.c
+> index 8e024007db..e6b1293ddf 100644
+> --- a/block/qcow2.c
+> +++ b/block/qcow2.c
 
---=20
-Eric Blake, Principal Software Engineer
-Red Hat, Inc.           +1-919-301-3226
-Virtualization:  qemu.org | libvirt.org
+[...]
+
+> @@ -2145,6 +2150,80 @@ static bool merge_cow(uint64_t offset, unsigned =
+bytes,
+>      return false;
+>  }
+> =20
+> +static bool is_unallocated(BlockDriverState *bs, int64_t offset, int64=
+_t bytes)
+> +{
+> +    int64_t nr;
+> +    return !bytes ||
+> +        (!bdrv_is_allocated_above(bs, NULL, offset, bytes, &nr) && nr =
+=3D=3D bytes);
+
+It's a pity that this bdrv_is_allocated() throws away BDRV_BLOCK_ZERO
+information.  If something in the backing chain has explicit zero
+clusters there, we could get the information for free, but this will
+consider it allocated.
+
+Wouldn't it make sense to make bdrv_co_block_status_above() public and
+then use that (with want_zero =3D=3D false)?
+
+(But that can be done later, too, of course.)
+
+> +}
+> +
+> +static bool is_zero_cow(BlockDriverState *bs, QCowL2Meta *m)
+> +{
+> +    /*
+> +     * This check is designed for optimization shortcut so it must be
+> +     * efficient.
+> +     * Instead of is_zero(), use is_unallocated() as it is faster (but=
+ not
+> +     * as accurate and can result in false negatives).
+> +     */
+> +    return is_unallocated(bs, m->offset + m->cow_start.offset,
+> +                          m->cow_start.nb_bytes) &&
+> +           is_unallocated(bs, m->offset + m->cow_end.offset,
+> +                          m->cow_end.nb_bytes);
+> +}
+> +
+> +static int handle_alloc_space(BlockDriverState *bs, QCowL2Meta *l2meta=
+)
+> +{
+> +    BDRVQcow2State *s =3D bs->opaque;
+> +    QCowL2Meta *m;
+> +
+> +    if (!(s->data_file->bs->supported_zero_flags & BDRV_REQ_NO_FALLBAC=
+K)) {
+> +        return 0;
+> +    }
+> +
+> +    if (bs->encrypted) {
+> +        return 0;
+> +    }
+> +
+> +    for (m =3D l2meta; m !=3D NULL; m =3D m->next) {
+> +        int ret;
+> +
+> +        if (!m->cow_start.nb_bytes && !m->cow_end.nb_bytes) {
+> +            continue;
+> +        }
+> +
+> +        if (!is_zero_cow(bs, m)) {
+> +            continue;
+> +        }
+> +
+> +        /*
+> +         * instead of writing zero COW buffers,
+> +         * efficiently zero out the whole clusters
+> +         */
+> +
+> +        ret =3D qcow2_pre_write_overlap_check(bs, 0, m->alloc_offset,
+> +                                            m->nb_clusters * s->cluste=
+r_size,
+> +                                            true);
+> +        if (ret < 0) {
+> +            return ret;
+> +        }
+> +
+> +        BLKDBG_EVENT(bs->file, BLKDBG_CLUSTER_ALLOC_SPACE);
+> +        ret =3D bdrv_co_pwrite_zeroes(s->data_file, m->alloc_offset,
+> +                                    m->nb_clusters * s->cluster_size,
+> +                                    BDRV_REQ_NO_FALLBACK);
+
+Mostly I'm writing this mail because of this.  Zeroing the whole range
+seems inefficient to me for very large requests, and the commit message
+doesn't say anything about the reasoning behind unconditionally zeroing
+everything.
+
+Benchmarking looks like in most cases it is about equal to zeroing head
+and tail separately.  But if I pre-filll an image with random data, it
+is much slower:
+
+$ qemu-img create -f qcow2 foo.qcow2 10G
+$ dd if=3D/dev/urandom of=3Dfoo.qcow2 bs=3D1M seek=3D1 count=3D4096
+$ sync
+
+Then doing large unaligned requests on it:
+
+$ ./qemu-img bench -w -t none -s $((400 * 1048576)) \
+  -S $((401 * 1048576)) -o 32768 -c 10 -d 2 -f qcow2 foo.qcow2
+
+When zeroing the whole range, this usually takes around 25 s for me;
+just zeroing head and tail takes around 14 s. Without this patch, it
+takes around 14 s, too.
+
+On the other hand, when doing smaller requests on a single cluster
+(which is what this patch is for):
+
+$ ./qemu-img bench -w -t none -s 4096 -S 65536 -o 32768 \
+  -f qcow2 foo.qcow2
+
+This takes around 26 s before this patch, 12 s with it, and like 30 to
+40 when zeroing head and tail separately.
 
 
---T2J2j7hJVKazxwJHMKYrYxEP2fjNr9aIx
+Now, such large requests surely are the exception, as is allocating
+blocks in an area of the image that already contains data.  However, I
+just want to ask back that zeroing the whole range unconditionally is
+done on purpose.  Maybe it makes sense to split head and tail if they
+are like more than, I don't know, 16 MB apart?  But the "I don't know"
+is the problem of course.  Is there a way to make a good default?
+
+
+(Note that I wrote a lot, but it's not like I'm making a good point to
+stop this patch.  I just want to have asked about this before I take it.)=
+
+
+Max
+
+> +        if (ret < 0) {
+> +            if (ret !=3D -ENOTSUP && ret !=3D -EAGAIN) {
+> +                return ret;
+> +            }
+> +            continue;
+> +        }
+> +
+> +        trace_qcow2_skip_cow(qemu_coroutine_self(), m->offset, m->nb_c=
+lusters);
+> +        m->skip_cow =3D true;
+> +    }
+> +    return 0;
+> +}
+> +
+>  static coroutine_fn int qcow2_co_pwritev(BlockDriverState *bs, uint64_=
+t offset,
+>                                           uint64_t bytes, QEMUIOVector =
+*qiov,
+>                                           int flags)
+
+
+--VKRtPNGhGHQVvtQjaAURHhDPGjNufICSr
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlzlo4AACgkQp6FrSiUn
-Q2qcIwf+N5fbnkAYDJno40DZCXtqgavlwgsgEKVEu+f/vJfE8oD+pzZg8prbBHhL
-CuFjvLPzHSaawWJ05soWiHRf/T/XKGyu9lZYC0pVSNrfHgkTnC4p/4WaEA2qd6Xs
-gPXJr6jfnVBhenRcu1W4ojppmDsenYGjZSDNxj1kosMAZAEKaChaYpIxW4UpBZF+
-1yc4pDaM9jVhSLgJBkyRw96cqZbvM2h7937H7k4r5srlwjV625zwfNYeJgt8GJzP
-AVzzMyA2vswpDcd27Y/Ufd9mVGr+wH7IyRNMOR88rYiRPFSqPAg9s3rerRZ8TkrX
-Df4J8Rus9bUNl6GAJpdX8RHzlQ8O9A==
-=PmCI
+iQEzBAEBCAAdFiEEkb62CjDbPohX0Rgp9AfbAGHVz0AFAlzls6IACgkQ9AfbAGHV
+z0DRQwf/ZUaNLHoCXNV+7dqJw62arY1BMTsCkfZq1WRTGP4swShSvY6BdLLzLodB
+DGoLRglfv4Hh6LyVMdPx/pB6gs2To5wMU7XMorutqAPnT7MxaF2rn4hyhc/FlcPi
+ZHTWFEZDvwHXqHsFrAphxU3NesT1THfXPK++/JRRCTiz9fvbZGiMdUosKjVSNZ2T
+uZbpcKfnD2syXH/3i1kHctQc+YzCzka/4Q+bHARkGQXn0QJH2V/aYgGxCTWvFrdI
+ODBSyxHhdxf/QvtyON0AlqzDFCgaNUPyH+3vEZaQRynQO3RRYQPftT8oukCMvoSx
+OWXlj9oXOADUifXHwi71ohKPQTHoLA==
+=swl9
 -----END PGP SIGNATURE-----
 
---T2J2j7hJVKazxwJHMKYrYxEP2fjNr9aIx--
+--VKRtPNGhGHQVvtQjaAURHhDPGjNufICSr--
 
