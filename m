@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id E84BE26A61
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 21:01:26 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49689 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 43D3526A50
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 20:58:02 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49647 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTWUP-00047H-Uh
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 15:01:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:34795)
+	id 1hTWR6-0001Ve-VR
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 14:58:01 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:34793)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hTWOY-00086e-If
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:55:23 -0400
+	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hTWOX-00086d-Lt
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:55:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hTWHS-0002MI-Fc
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:48:03 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:47800 helo=mail.rt-rk.com)
+	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hTWHc-0002Re-A3
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:48:13 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:47878 helo=mail.rt-rk.com)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
-	id 1hTWHS-0001mm-96
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:48:02 -0400
+	id 1hTWHc-0001t5-3U
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:48:12 -0400
 Received: from localhost (localhost [127.0.0.1])
-	by mail.rt-rk.com (Postfix) with ESMTP id 0C1E61A4516;
-	Wed, 22 May 2019 20:46:58 +0200 (CEST)
+	by mail.rt-rk.com (Postfix) with ESMTP id 044B51A452D;
+	Wed, 22 May 2019 20:47:09 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
 	[10.10.13.43])
-	by mail.rt-rk.com (Postfix) with ESMTPSA id E759D1A2238;
-	Wed, 22 May 2019 20:46:57 +0200 (CEST)
+	by mail.rt-rk.com (Postfix) with ESMTPSA id DF8DC1A2238;
+	Wed, 22 May 2019 20:47:08 +0200 (CEST)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 22 May 2019 20:46:21 +0200
-Message-Id: <1558550785-20098-2-git-send-email-aleksandar.markovic@rt-rk.com>
+Date: Wed, 22 May 2019 20:46:22 +0200
+Message-Id: <1558550785-20098-3-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1558550785-20098-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1558550785-20098-1-git-send-email-aleksandar.markovic@rt-rk.com>
@@ -41,7 +41,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PATCH 1/5] linux-user: Fix sigismember() check
+Subject: [Qemu-devel] [PATCH 2/5] linux-user: Add support for tracking the
+ target signal mask
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -61,36 +62,76 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Milo=C5=A1 Stojanovi=C4=87 <Milos.Stojanovic@rt-rk.com>
 
-Fix copying between the host and target signal sets for the case when
-the target set is larger than the host set.
+If TRACK_TARGET_SIGMASK is defined, add fields in the TaskState structure
+which will hold the target signal and suspend mask and add support for
+initialization and forking. No functional changes are being introduced in
+this commit. The TRACK_TARGET_SIGMASK will be defined in a later commit
+where the target signal masks will be needed in order to implement
+multiplexing of real-time target signals which are out of the host range.
 
-sigismember() returns 1 if the specified signal number is a member of
-the specified signal set, but it can also return -1 if an error occurs
-(e.g. an out of range signal number is specified). All non-zero values
-would cause the signal to be added, so a comparison with 1 is added to
-assure that only the signals which are really in the set get added to
-the other set.
+Currently, QEMU has a copy of the host signal and suspend masks and that
+is usually enough, since most of the time the signal mask of the target
+architecture is either the same length or narrower. If however the signal
+mask is wider, then part of it won't be tracked.
+
+This commit enables adding support for separately tracking the target
+signal masks in the following commits.
 
 Signed-off-by: Milo=C5=A1 Stojanovi=C4=87 <Milos.Stojanovic@rt-rk.com>
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
 ---
- linux-user/signal.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ linux-user/qemu.h    | 5 +++++
+ linux-user/signal.c  | 3 +++
+ linux-user/syscall.c | 3 +++
+ 3 files changed, 11 insertions(+)
 
+diff --git a/linux-user/qemu.h b/linux-user/qemu.h
+index ef400cb..9f70996 100644
+--- a/linux-user/qemu.h
++++ b/linux-user/qemu.h
+@@ -141,6 +141,11 @@ typedef struct TaskState {
+      * currently in the middle of such a syscall
+      */
+     sigset_t sigsuspend_mask;
++#ifdef TRACK_TARGET_SIGMASK
++    /* Track the target signal and suspend masks. */
++    target_sigset_t target_signal_mask;
++    target_sigset_t target_sigsuspend_mask;
++#endif
+     /* Nonzero if we're leaving a sigsuspend and sigsuspend_mask is vali=
+d. */
+     int in_sigsuspend;
+=20
 diff --git a/linux-user/signal.c b/linux-user/signal.c
-index 44b2d3b..c08a7fe 100644
+index c08a7fe..954aef8 100644
 --- a/linux-user/signal.c
 +++ b/linux-user/signal.c
-@@ -116,7 +116,7 @@ void host_to_target_sigset_internal(target_sigset_t *=
-d,
-     int i;
-     target_sigemptyset(d);
-     for (i =3D 1; i <=3D TARGET_NSIG; i++) {
--        if (sigismember(s, i)) {
-+        if (sigismember(s, i) =3D=3D 1) {
-             target_sigaddset(d, host_to_target_signal(i));
-         }
-     }
+@@ -499,6 +499,9 @@ void signal_init(void)
+=20
+     /* Set the signal mask from the host mask. */
+     sigprocmask(0, 0, &ts->signal_mask);
++#ifdef TRACK_TARGET_SIGMASK
++    host_to_target_sigset_internal(&ts->target_signal_mask, &ts->signal_=
+mask);
++#endif
+=20
+     /* set all host signal handlers. ALL signals are blocked during
+        the handlers to serialize them. */
+diff --git a/linux-user/syscall.c b/linux-user/syscall.c
+index efa3ec2..115ab13 100644
+--- a/linux-user/syscall.c
++++ b/linux-user/syscall.c
+@@ -5540,6 +5540,9 @@ static int do_fork(CPUArchState *env, unsigned int =
+flags, abi_ulong newsp,
+         ts->bprm =3D parent_ts->bprm;
+         ts->info =3D parent_ts->info;
+         ts->signal_mask =3D parent_ts->signal_mask;
++#ifdef TRACK_TARGET_SIGMASK
++        ts->target_signal_mask =3D parent_ts->target_signal_mask;
++#endif
+=20
+         if (flags & CLONE_CHILD_CLEARTID) {
+             ts->child_tidptr =3D child_tidptr;
 --=20
 2.7.4
 
