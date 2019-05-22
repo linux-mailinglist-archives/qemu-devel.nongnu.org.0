@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D89652727A
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 00:43:42 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52691 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A94502726A
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 00:39:46 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52633 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTZxW-0005Bw-4G
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 18:43:42 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49957)
+	id 1hTZth-0002Ux-Qa
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 18:39:45 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49952)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hTZj5-0003Ai-Cx
+	(envelope-from <richard.henderson@linaro.org>) id 1hTZj5-0003Ab-8u
 	for qemu-devel@nongnu.org; Wed, 22 May 2019 18:28:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hTZj3-0007Rv-T4
+	(envelope-from <richard.henderson@linaro.org>) id 1hTZj3-0007S7-Vo
 	for qemu-devel@nongnu.org; Wed, 22 May 2019 18:28:47 -0400
-Received: from mail-yb1-xb30.google.com ([2607:f8b0:4864:20::b30]:46061)
+Received: from mail-yb1-xb42.google.com ([2607:f8b0:4864:20::b42]:42799)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hTZj3-0007PU-LX
+	id 1hTZj3-0007Pp-P9
 	for qemu-devel@nongnu.org; Wed, 22 May 2019 18:28:45 -0400
-Received: by mail-yb1-xb30.google.com with SMTP id e128so1480256ybc.12
-	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 15:28:40 -0700 (PDT)
+Received: by mail-yb1-xb42.google.com with SMTP id a21so1487406ybg.9
+	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 15:28:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=AirXKI1PS8HjM151RJTWK1/DcdzF7g0f+0zrycENkFI=;
-	b=znq81cNxYJ9g9UuAhySNCaQGt5NzrUBrLXec0wgVcvco3cbRyvXp4gn5o8PFqAKx4V
-	bjrU9tGZAHQFK9yhYYM0HVrRoXqNgMD/bw1NQZx+Var/9j8x5jx18Cvu8l9PZcRqRHKr
-	yG3bbV+Esbu4eujiqBkquTs/rol4gBu4CIRrX4NyC4wBXqol+gBXkZdLUMV0OJPl0xvz
-	XRwFKLq1/Ss6uq7Gx4yOiiP9QpusQEFrxxocaDqnYvTK0MyCs6fssDYmbgtOHmwbkePz
-	YndSUmtk0nKdc1jqH9oXIQAIRZ9eRcflCiQoXEk/a7rlh12udjwHDkCugQLM2d0WnwEK
-	7gRg==
+	bh=xoXIkCrK3V7BH4MhmjLPxOrcr1ayi9bYK48w1V2yt0Q=;
+	b=fTiFpJr6MaizSsFIhcrL8ePFaPoA/fdloKYzsG/NjD6FCXV9MSF96sPiscm/12Hc8P
+	jmolJMzgFClnXxz01bH9J05E0m7TMStGYP2cusMN20WSoWhFUv9j0fgPIrMdd3T3+vaH
+	MwkZCaf7MeB3ZuYovoVTKqs0KMO2dy9kEzQLyhRA62BabiV1jzybnFQ+/WbWodwTT01f
+	HixsX7yoEm+yOeARKsZhcfjtAXPBZQzb0cZlqoujYHixc39jznt+/m+k2rH5/x7fzMKR
+	qRrJXGVVqvW8h2RMt0GAp1vZEyfWsTbgENYXPfmP3/I3TFT6jiwoXOrrEg0g8kz8jwfa
+	8Zww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=AirXKI1PS8HjM151RJTWK1/DcdzF7g0f+0zrycENkFI=;
-	b=oFz0Nuej9wNzk3H3+EHhtF5CvDks4f86USAPtgCEd4OczAAu/Kg4BLVt6Ml/nxX9mJ
-	ZijGLoEmq0aQ9LySI+VLk610Co8ArmOebY65HJEvr4vrtnezfObKm9Zlq6XhzYRTaSyd
-	7Dq+Z7fMoQcpel5YsdJhSmEPNpNVPRMlpS1lQoMAepGFPF04HE5rZY2EFU1vxEtZ1CNk
-	YrLU7L/mmjMTSSyeYuQAsoyactZIobxUcbUCFkiSkFi6uVY0C3MoiAxgNFHmOENoYdZf
-	hZOGmXRVEyQ/j9zrA9mE3DQ3MPx1xfYxz8qBS7e1wI+lE9t4b1WnoK9/+9PlA9Q1pc5X
-	D0aw==
-X-Gm-Message-State: APjAAAUrwibEf91Cd3u6yF+86yDHBDNJ9kxWycy8B4jgJTLttOlMZ7QL
-	vEWNYL9NvWcwghun5JQSgPeu+slmSY8=
-X-Google-Smtp-Source: APXvYqxs+L0/WtRjtAG7ArO9YVkIBWt5CcffmqSEoS1ZrmMgzeGSxkrB2kW1mLmHfzPNWUFy+HuYgg==
-X-Received: by 2002:a25:7502:: with SMTP id q2mr22709271ybc.31.1558564120013; 
-	Wed, 22 May 2019 15:28:40 -0700 (PDT)
+	bh=xoXIkCrK3V7BH4MhmjLPxOrcr1ayi9bYK48w1V2yt0Q=;
+	b=g4wZtGPeyxfmjHLS6WKQdtCvp+kwICqR8l3ZwBPeVrxzgUHn6DIxlBHzS6BeOmDcCA
+	D3z05qdef7Z5ri4zYBujLwhm0gXdQG2wv7sV8PZrs0TFUDbGOBgGkareauwntbAfYp4c
+	JKZptozY3zgd86QbYW8CLBkKkfiREvzIid4tDlYDacMcvpb2/YQ44KQNk91hoKDwxOVU
+	gVei4nn59WjLFHPAYYf5LpU3rPQNjtFA9z8c/CG+3OULqQEMBu2HOb0uDdoTGC7LZt/Y
+	ucRt/TOZFdABUJIhPI8Gh9JplX6zNNGi4GXNqtOwVzJ2Er8+bIYRe1jI/OM1HbK5VXib
+	V6Iw==
+X-Gm-Message-State: APjAAAVXT58C1/JPi8VaLGvp/UVWRasLaxnLdl/8JQ4o7SdCQeEbCq8b
+	njcZBe0XArt7VoLNwlkBpEtcJsce2tw=
+X-Google-Smtp-Source: APXvYqxN/wUVAAZoaLfQi0YFG74OhQoRtFizsIxcy09LwaRFiRcgzy/YQiT65vAeAzn+LcbLwBMYSg==
+X-Received: by 2002:a25:dc3:: with SMTP id 186mr22561627ybn.276.1558564121109; 
+	Wed, 22 May 2019 15:28:41 -0700 (PDT)
 Received: from localhost.localdomain ([71.46.56.17])
-	by smtp.gmail.com with ESMTPSA id q11sm2276453ywg.7.2019.05.22.15.28.39
+	by smtp.gmail.com with ESMTPSA id q11sm2276453ywg.7.2019.05.22.15.28.40
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 22 May 2019 15:28:39 -0700 (PDT)
+	Wed, 22 May 2019 15:28:40 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed, 22 May 2019 18:28:20 -0400
-Message-Id: <20190522222821.23850-16-richard.henderson@linaro.org>
+Date: Wed, 22 May 2019 18:28:21 -0400
+Message-Id: <20190522222821.23850-17-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190522222821.23850-1-richard.henderson@linaro.org>
 References: <20190522222821.23850-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::b30
-Subject: [Qemu-devel] [PULL 15/16] tcg/aarch64: Allow immediates for vector
- ORR and BIC
+X-Received-From: 2607:f8b0:4864:20::b42
+Subject: [Qemu-devel] [PULL 16/16] tcg/i386: Use MOVDQA for TCG_TYPE_V128
+ load/store
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -79,183 +79,80 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-The allows immediates to be used for ORR and BIC,
-as well as the trivial inversions, ORC and AND.
+This instruction raises #GP, aka SIGSEGV, if the effective address
+is not aligned to 16-bytes.
+
+We have assertions in tcg-op-gvec.c that the offset from ENV is
+aligned, for vector types <= V128.  But the offset itself does not
+validate that the final pointer is aligned -- one must also remember
+to use the QEMU_ALIGNED() attribute on the vector member within ENV.
+
+PowerPC Altivec has vector load/store instructions that silently
+discard the low 4 bits of the address, making alignment mistakes
+difficult to discover.  Aid that by making the most popular host
+visibly signal the error.
 
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- tcg/aarch64/tcg-target.inc.c | 90 +++++++++++++++++++++++++++++++++---
- 1 file changed, 83 insertions(+), 7 deletions(-)
+ tcg/i386/tcg-target.inc.c | 24 ++++++++++++++++++++++--
+ 1 file changed, 22 insertions(+), 2 deletions(-)
 
-diff --git a/tcg/aarch64/tcg-target.inc.c b/tcg/aarch64/tcg-target.inc.c
-index 52c18074ae..9e1dad9696 100644
---- a/tcg/aarch64/tcg-target.inc.c
-+++ b/tcg/aarch64/tcg-target.inc.c
-@@ -119,6 +119,8 @@ static inline bool patch_reloc(tcg_insn_unit *code_ptr, int type,
- #define TCG_CT_CONST_LIMM 0x200
- #define TCG_CT_CONST_ZERO 0x400
- #define TCG_CT_CONST_MONE 0x800
-+#define TCG_CT_CONST_ORRI 0x1000
-+#define TCG_CT_CONST_ANDI 0x2000
- 
- /* parse target specific constraints */
- static const char *target_parse_constraint(TCGArgConstraint *ct,
-@@ -154,6 +156,12 @@ static const char *target_parse_constraint(TCGArgConstraint *ct,
-     case 'M': /* minus one */
-         ct->ct |= TCG_CT_CONST_MONE;
+diff --git a/tcg/i386/tcg-target.inc.c b/tcg/i386/tcg-target.inc.c
+index 6ec5e60448..c0443da4af 100644
+--- a/tcg/i386/tcg-target.inc.c
++++ b/tcg/i386/tcg-target.inc.c
+@@ -1082,14 +1082,24 @@ static void tcg_out_ld(TCGContext *s, TCGType type, TCGReg ret,
+         }
+         /* FALLTHRU */
+     case TCG_TYPE_V64:
++        /* There is no instruction that can validate 8-byte alignment.  */
+         tcg_debug_assert(ret >= 16);
+         tcg_out_vex_modrm_offset(s, OPC_MOVQ_VqWq, ret, 0, arg1, arg2);
          break;
-+    case 'O': /* vector orr/bic immediate */
-+        ct->ct |= TCG_CT_CONST_ORRI;
-+        break;
-+    case 'N': /* vector orr/bic immediate, inverted */
-+        ct->ct |= TCG_CT_CONST_ANDI;
-+        break;
-     case 'Z': /* zero */
-         ct->ct |= TCG_CT_CONST_ZERO;
+     case TCG_TYPE_V128:
++        /*
++         * The gvec infrastructure is asserts that v128 vector loads
++         * and stores use a 16-byte aligned offset.  Validate that the
++         * final pointer is aligned by using an insn that will SIGSEGV.
++         */
+         tcg_debug_assert(ret >= 16);
+-        tcg_out_vex_modrm_offset(s, OPC_MOVDQU_VxWx, ret, 0, arg1, arg2);
++        tcg_out_vex_modrm_offset(s, OPC_MOVDQA_VxWx, ret, 0, arg1, arg2);
          break;
-@@ -293,6 +301,16 @@ static int is_shimm32_pair(uint32_t v32, int *cmode, int *imm8)
-     return i;
- }
- 
-+/* Return true if V is a valid 16-bit or 32-bit shifted immediate.  */
-+static bool is_shimm1632(uint32_t v32, int *cmode, int *imm8)
-+{
-+    if (v32 == deposit32(v32, 16, 16, v32)) {
-+        return is_shimm16(v32, cmode, imm8);
-+    } else {
-+        return is_shimm32(v32, cmode, imm8);
-+    }
-+}
-+
- static int tcg_target_const_match(tcg_target_long val, TCGType type,
-                                   const TCGArgConstraint *arg_ct)
- {
-@@ -317,6 +335,23 @@ static int tcg_target_const_match(tcg_target_long val, TCGType type,
-         return 1;
-     }
- 
-+    switch (ct & (TCG_CT_CONST_ORRI | TCG_CT_CONST_ANDI)) {
-+    case 0:
-+        break;
-+    case TCG_CT_CONST_ANDI:
-+        val = ~val;
-+        /* fallthru */
-+    case TCG_CT_CONST_ORRI:
-+        if (val == deposit64(val, 32, 32, val)) {
-+            int cmode, imm8;
-+            return is_shimm1632(val, &cmode, &imm8);
-+        }
-+        break;
-+    default:
-+        /* Both bits should not be set for the same insn.  */
-+        g_assert_not_reached();
-+    }
-+
-     return 0;
- }
- 
-@@ -2278,6 +2313,7 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
-     TCGType type = vecl + TCG_TYPE_V64;
-     unsigned is_q = vecl;
-     TCGArg a0, a1, a2, a3;
-+    int cmode, imm8;
- 
-     a0 = args[0];
-     a1 = args[1];
-@@ -2309,20 +2345,56 @@ static void tcg_out_vec_op(TCGContext *s, TCGOpcode opc,
-         tcg_out_insn(s, 3617, ABS, is_q, vece, a0, a1);
+     case TCG_TYPE_V256:
++        /*
++         * The gvec infrastructure only requires 16-byte alignment,
++         * so here we must use an unaligned load.
++         */
+         tcg_debug_assert(ret >= 16);
+         tcg_out_vex_modrm_offset(s, OPC_MOVDQU_VxWx | P_VEXL,
+                                  ret, 0, arg1, arg2);
+@@ -1117,14 +1127,24 @@ static void tcg_out_st(TCGContext *s, TCGType type, TCGReg arg,
+         }
+         /* FALLTHRU */
+     case TCG_TYPE_V64:
++        /* There is no instruction that can validate 8-byte alignment.  */
+         tcg_debug_assert(arg >= 16);
+         tcg_out_vex_modrm_offset(s, OPC_MOVQ_WqVq, arg, 0, arg1, arg2);
          break;
-     case INDEX_op_and_vec:
-+        if (const_args[2]) {
-+            is_shimm1632(~a2, &cmode, &imm8);
-+            if (a0 == a1) {
-+                tcg_out_insn(s, 3606, BIC, is_q, a0, 0, cmode, imm8);
-+                return;
-+            }
-+            tcg_out_insn(s, 3606, MVNI, is_q, a0, 0, cmode, imm8);
-+            a2 = a0;
-+        }
-         tcg_out_insn(s, 3616, AND, is_q, 0, a0, a1, a2);
+     case TCG_TYPE_V128:
++        /*
++         * The gvec infrastructure is asserts that v128 vector loads
++         * and stores use a 16-byte aligned offset.  Validate that the
++         * final pointer is aligned by using an insn that will SIGSEGV.
++         */
+         tcg_debug_assert(arg >= 16);
+-        tcg_out_vex_modrm_offset(s, OPC_MOVDQU_WxVx, arg, 0, arg1, arg2);
++        tcg_out_vex_modrm_offset(s, OPC_MOVDQA_WxVx, arg, 0, arg1, arg2);
          break;
-     case INDEX_op_or_vec:
-+        if (const_args[2]) {
-+            is_shimm1632(a2, &cmode, &imm8);
-+            if (a0 == a1) {
-+                tcg_out_insn(s, 3606, ORR, is_q, a0, 0, cmode, imm8);
-+                return;
-+            }
-+            tcg_out_insn(s, 3606, MOVI, is_q, a0, 0, cmode, imm8);
-+            a2 = a0;
-+        }
-         tcg_out_insn(s, 3616, ORR, is_q, 0, a0, a1, a2);
-         break;
--    case INDEX_op_xor_vec:
--        tcg_out_insn(s, 3616, EOR, is_q, 0, a0, a1, a2);
--        break;
-     case INDEX_op_andc_vec:
-+        if (const_args[2]) {
-+            is_shimm1632(a2, &cmode, &imm8);
-+            if (a0 == a1) {
-+                tcg_out_insn(s, 3606, BIC, is_q, a0, 0, cmode, imm8);
-+                return;
-+            }
-+            tcg_out_insn(s, 3606, MOVI, is_q, a0, 0, cmode, imm8);
-+            a2 = a0;
-+        }
-         tcg_out_insn(s, 3616, BIC, is_q, 0, a0, a1, a2);
-         break;
-     case INDEX_op_orc_vec:
-+        if (const_args[2]) {
-+            is_shimm1632(~a2, &cmode, &imm8);
-+            if (a0 == a1) {
-+                tcg_out_insn(s, 3606, ORR, is_q, a0, 0, cmode, imm8);
-+                return;
-+            }
-+            tcg_out_insn(s, 3606, MVNI, is_q, a0, 0, cmode, imm8);
-+            a2 = a0;
-+        }
-         tcg_out_insn(s, 3616, ORN, is_q, 0, a0, a1, a2);
-         break;
-+    case INDEX_op_xor_vec:
-+        tcg_out_insn(s, 3616, EOR, is_q, 0, a0, a1, a2);
-+        break;
-     case INDEX_op_ssadd_vec:
-         tcg_out_insn(s, 3616, SQADD, is_q, vece, a0, a1, a2);
-         break;
-@@ -2505,6 +2577,8 @@ static const TCGTargetOpDef *tcg_target_op_def(TCGOpcode op)
-     static const TCGTargetOpDef lZ_l = { .args_ct_str = { "lZ", "l" } };
-     static const TCGTargetOpDef r_r_r = { .args_ct_str = { "r", "r", "r" } };
-     static const TCGTargetOpDef w_w_w = { .args_ct_str = { "w", "w", "w" } };
-+    static const TCGTargetOpDef w_w_wO = { .args_ct_str = { "w", "w", "wO" } };
-+    static const TCGTargetOpDef w_w_wN = { .args_ct_str = { "w", "w", "wN" } };
-     static const TCGTargetOpDef w_w_wZ = { .args_ct_str = { "w", "w", "wZ" } };
-     static const TCGTargetOpDef r_r_ri = { .args_ct_str = { "r", "r", "ri" } };
-     static const TCGTargetOpDef r_r_rA = { .args_ct_str = { "r", "r", "rA" } };
-@@ -2660,11 +2734,7 @@ static const TCGTargetOpDef *tcg_target_op_def(TCGOpcode op)
-     case INDEX_op_add_vec:
-     case INDEX_op_sub_vec:
-     case INDEX_op_mul_vec:
--    case INDEX_op_and_vec:
--    case INDEX_op_or_vec:
-     case INDEX_op_xor_vec:
--    case INDEX_op_andc_vec:
--    case INDEX_op_orc_vec:
-     case INDEX_op_ssadd_vec:
-     case INDEX_op_sssub_vec:
-     case INDEX_op_usadd_vec:
-@@ -2691,6 +2761,12 @@ static const TCGTargetOpDef *tcg_target_op_def(TCGOpcode op)
-         return &w_r;
-     case INDEX_op_dup_vec:
-         return &w_wr;
-+    case INDEX_op_or_vec:
-+    case INDEX_op_andc_vec:
-+        return &w_w_wO;
-+    case INDEX_op_and_vec:
-+    case INDEX_op_orc_vec:
-+        return &w_w_wN;
-     case INDEX_op_cmp_vec:
-         return &w_w_wZ;
-     case INDEX_op_bitsel_vec:
+     case TCG_TYPE_V256:
++        /*
++         * The gvec infrastructure only requires 16-byte alignment,
++         * so here we must use an unaligned store.
++         */
+         tcg_debug_assert(arg >= 16);
+         tcg_out_vex_modrm_offset(s, OPC_MOVDQU_WxVx | P_VEXL,
+                                  arg, 0, arg1, arg2);
 -- 
 2.17.1
 
