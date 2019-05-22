@@ -2,50 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 037D4260BA
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 11:50:34 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:39373 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6749A2616C
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 12:10:06 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:39574 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTNtJ-0004XW-6m
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 05:50:33 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48335)
+	id 1hTOCD-0003eK-J4
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 06:10:05 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50843)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hTNq8-0002YG-P4
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 05:47:17 -0400
+	(envelope-from <no-reply@patchew.org>) id 1hTO79-0008Qa-1U
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 06:04:52 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hTNq6-00052W-Rw
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 05:47:16 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:36188)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hTNq4-0004zz-VR
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 05:47:13 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
-	[10.5.11.11])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id C753D59442
-	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 09:47:05 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-117-74.ams2.redhat.com
-	[10.36.117.74])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 5DDE160474;
-	Wed, 22 May 2019 09:47:03 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-	id A8F32A206; Wed, 22 May 2019 11:47:02 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Wed, 22 May 2019 11:47:02 +0200
-Message-Id: <20190522094702.17619-4-kraxel@redhat.com>
-In-Reply-To: <20190522094702.17619-1-kraxel@redhat.com>
-References: <20190522094702.17619-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.39]);
-	Wed, 22 May 2019 09:47:05 +0000 (UTC)
+	(envelope-from <no-reply@patchew.org>) id 1hTNwQ-0001US-Dh
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 05:53:47 -0400
+Resent-Date: Wed, 22 May 2019 05:53:47 -0400
+Resent-Message-Id: <E1hTNwQ-0001US-Dh@eggs.gnu.org>
+Received: from sender-of-o52.zoho.com ([135.84.80.217]:21424)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <no-reply@patchew.org>)
+	id 1hTNwQ-0001NJ-6A
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 05:53:46 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1558518782; cv=none; d=zoho.com; s=zohoarc; 
+	b=IZw6Ybx9Oku7Lm0g2QReDOWpfYrRiMobXA7HznpP+wXKW8VEs/V9iNyCVzyd1zESI2ecJcOQ67AJ38OQk58odGYgw0XfiuhaNE2YNhUPQo7n7Uf9ci8RkeQQrLZ0/GQ7nCTGTOCBKBx8rAzRIHENw0nt1W3+gTpjO6+lBmUIY8w=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+	s=zohoarc; t=1558518782;
+	h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+	bh=T7ffnxSjpWflKva8QLP5HRofuMEl3yxF70yTFGOmexk=; 
+	b=mss9MKHyB+hRHKrccRS2jKrMoGxVHLEpTA5MXZSM8W++cxcopi+eKEeq6sXTPNa+PGhtgWT+/ZYClr28r6fr8BuLR/aFQZZObvxtXZRBBnYiQRUDoX3B78lbBpzEmSNikA4uN+ZzhMZsFilYlO6ZTO1kNpIgtBkbl5skjz7qzTU=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+	spf=pass  smtp.mailfrom=no-reply@patchew.org;
+	dmarc=pass header.from=<no-reply@patchew.org>
+	header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+	mx.zohomail.com with SMTPS id 1558518780320204.63769780716245;
+	Wed, 22 May 2019 02:53:00 -0700 (PDT)
+Message-ID: <155851877946.22.9830985070854082000@5d2e01a8a801>
+In-Reply-To: <20190522092351.17920-1-kraxel@redhat.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: kraxel@redhat.com
+Date: Wed, 22 May 2019 02:53:00 -0700 (PDT)
+X-ZohoMailClient: External
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 3/3] usb-host: avoid libusb_set_configuration
- calls
+X-Received-From: 135.84.80.217
+Subject: Re: [Qemu-devel] [PATCH 0/5] usb-hub: cleanups,
+ configurable port count, per-port power switching emulation.
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -57,56 +62,55 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
+Reply-To: qemu-devel@nongnu.org
+Cc: qemu-devel@nongnu.org, kraxel@redhat.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Seems some devices become confused when we call
-libusb_set_configuration().  So before calling the function check
-whenever the device has multiple configurations in the first place, and
-in case it hasn't (which is the case for the majority of devices) simply
-skip the call as it will have no effect anyway.
-
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- hw/usb/host-libusb.c | 18 ++++++++++--------
- 1 file changed, 10 insertions(+), 8 deletions(-)
-
-diff --git a/hw/usb/host-libusb.c b/hw/usb/host-libusb.c
-index 4e9a45a5d26f..4f765d7f9a2f 100644
---- a/hw/usb/host-libusb.c
-+++ b/hw/usb/host-libusb.c
-@@ -1225,19 +1225,21 @@ static void usb_host_set_address(USBHostDevice *s, int addr)
- 
- static void usb_host_set_config(USBHostDevice *s, int config, USBPacket *p)
- {
--    int rc;
-+    int rc = 0;
- 
-     trace_usb_host_set_config(s->bus_num, s->addr, config);
- 
-     usb_host_release_interfaces(s);
--    rc = libusb_set_configuration(s->dh, config);
--    if (rc != 0) {
--        usb_host_libusb_error("libusb_set_configuration", rc);
--        p->status = USB_RET_STALL;
--        if (rc == LIBUSB_ERROR_NO_DEVICE) {
--            usb_host_nodev(s);
-+    if (s->ddesc.bNumConfigurations != 1) {
-+        rc = libusb_set_configuration(s->dh, config);
-+        if (rc != 0) {
-+            usb_host_libusb_error("libusb_set_configuration", rc);
-+            p->status = USB_RET_STALL;
-+            if (rc == LIBUSB_ERROR_NO_DEVICE) {
-+                usb_host_nodev(s);
-+            }
-+            return;
-         }
--        return;
-     }
-     p->status = usb_host_claim_interfaces(s, config);
-     if (p->status != USB_RET_SUCCESS) {
--- 
-2.18.1
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDUyMjA5MjM1MS4xNzky
+MC0xLWtyYXhlbEByZWRoYXQuY29tLwoKCgpIaSwKClRoaXMgc2VyaWVzIHNlZW1zIHRvIGhhdmUg
+c29tZSBjb2Rpbmcgc3R5bGUgcHJvYmxlbXMuIFNlZSBvdXRwdXQgYmVsb3cgZm9yCm1vcmUgaW5m
+b3JtYXRpb246CgpTdWJqZWN0OiBbUWVtdS1kZXZlbF0gW1BBVENIIDAvNV0gdXNiLWh1YjogY2xl
+YW51cHMsIGNvbmZpZ3VyYWJsZSBwb3J0IGNvdW50LCBwZXItcG9ydCBwb3dlciBzd2l0Y2hpbmcg
+ZW11bGF0aW9uLgpUeXBlOiBzZXJpZXMKTWVzc2FnZS1pZDogMjAxOTA1MjIwOTIzNTEuMTc5MjAt
+MS1rcmF4ZWxAcmVkaGF0LmNvbQoKPT09IFRFU1QgU0NSSVBUIEJFR0lOID09PQojIS9iaW4vYmFz
+aApnaXQgcmV2LXBhcnNlIGJhc2UgPiAvZGV2L251bGwgfHwgZXhpdCAwCmdpdCBjb25maWcgLS1s
+b2NhbCBkaWZmLnJlbmFtZWxpbWl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYucmVuYW1lcyBU
+cnVlCmdpdCBjb25maWcgLS1sb2NhbCBkaWZmLmFsZ29yaXRobSBoaXN0b2dyYW0KLi9zY3JpcHRz
+L2NoZWNrcGF0Y2gucGwgLS1tYWlsYmFjayBiYXNlLi4KPT09IFRFU1QgU0NSSVBUIEVORCA9PT0K
+ClN3aXRjaGVkIHRvIGEgbmV3IGJyYW5jaCAndGVzdCcKY2ExZjYwMCB1c2ItaHViOiBlbXVsYXRl
+IHBlciBwb3J0IHBvd2VyIHN3aXRjaGluZwo3Y2E3ZDBjIHVzYi1odWI6IGFkZCB1c2JfaHViX3Bv
+cnRfdXBkYXRlKCkKZjhkNWVkYyB1c2ItaHViOiBhZGQgaGVscGVycyB0byB1cGRhdGUgcG9ydCBz
+dGF0ZQo1NjcxZmQyIHVzYi1odWI6IG1ha2UgbnVtYmVyIG9mIHBvcnRzIHJ1bnRpbWUtY29uZmln
+dXJhYmxlCjY1NGJlNjggdXNiLWh1YjogdHdlYWsgZmVhdHVyZSBuYW1lcwoKPT09IE9VVFBVVCBC
+RUdJTiA9PT0KMS81IENoZWNraW5nIGNvbW1pdCA2NTRiZTY4ODdhMTIgKHVzYi1odWI6IHR3ZWFr
+IGZlYXR1cmUgbmFtZXMpCjIvNSBDaGVja2luZyBjb21taXQgNTY3MWZkMmNlZjFiICh1c2ItaHVi
+OiBtYWtlIG51bWJlciBvZiBwb3J0cyBydW50aW1lLWNvbmZpZ3VyYWJsZSkKRVJST1I6IHNwYWNl
+IHJlcXVpcmVkIGJlZm9yZSB0aGUgb3BlbiBwYXJlbnRoZXNpcyAnKCcKIzEyNTogRklMRTogaHcv
+dXNiL2Rldi1odWIuYzo0OTM6CisgICAgICAgICAgICBmb3IoaSA9IDA7IGkgPCBzLT5udW1fcG9y
+dHM7IGkrKykgewoKdG90YWw6IDEgZXJyb3JzLCAwIHdhcm5pbmdzLCAxNTQgbGluZXMgY2hlY2tl
+ZAoKUGF0Y2ggMi81IGhhcyBzdHlsZSBwcm9ibGVtcywgcGxlYXNlIHJldmlldy4gIElmIGFueSBv
+ZiB0aGVzZSBlcnJvcnMKYXJlIGZhbHNlIHBvc2l0aXZlcyByZXBvcnQgdGhlbSB0byB0aGUgbWFp
+bnRhaW5lciwgc2VlCkNIRUNLUEFUQ0ggaW4gTUFJTlRBSU5FUlMuCgozLzUgQ2hlY2tpbmcgY29t
+bWl0IGY4ZDVlZGNmYmY0OSAodXNiLWh1YjogYWRkIGhlbHBlcnMgdG8gdXBkYXRlIHBvcnQgc3Rh
+dGUpCjQvNSBDaGVja2luZyBjb21taXQgN2NhN2QwY2MxZmFiICh1c2ItaHViOiBhZGQgdXNiX2h1
+Yl9wb3J0X3VwZGF0ZSgpKQpFUlJPUjogTWlzc2luZyBTaWduZWQtb2ZmLWJ5OiBsaW5lKHMpCgp0
+b3RhbDogMSBlcnJvcnMsIDAgd2FybmluZ3MsIDQ3IGxpbmVzIGNoZWNrZWQKClBhdGNoIDQvNSBo
+YXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcuICBJZiBhbnkgb2YgdGhlc2UgZXJyb3Jz
+CmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0gdG8gdGhlIG1haW50YWluZXIsIHNlZQpD
+SEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgoKNS81IENoZWNraW5nIGNvbW1pdCBjYTFmNjAwYTM5
+MWUgKHVzYi1odWI6IGVtdWxhdGUgcGVyIHBvcnQgcG93ZXIgc3dpdGNoaW5nKQpFUlJPUjogc3Bh
+Y2VzIHJlcXVpcmVkIGFyb3VuZCB0aGF0ICcqJyAoY3R4OlZ4VikKIzE0NTogRklMRTogaHcvdXNi
+L2Rldi1odWIuYzo2NTg6CisgICAgLnN1YnNlY3Rpb25zID0gKGNvbnN0IFZNU3RhdGVEZXNjcmlw
+dGlvbipbXSkgewogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBe
+Cgp0b3RhbDogMSBlcnJvcnMsIDAgd2FybmluZ3MsIDEyOCBsaW5lcyBjaGVja2VkCgpQYXRjaCA1
+LzUgaGFzIHN0eWxlIHByb2JsZW1zLCBwbGVhc2UgcmV2aWV3LiAgSWYgYW55IG9mIHRoZXNlIGVy
+cm9ycwphcmUgZmFsc2UgcG9zaXRpdmVzIHJlcG9ydCB0aGVtIHRvIHRoZSBtYWludGFpbmVyLCBz
+ZWUKQ0hFQ0tQQVRDSCBpbiBNQUlOVEFJTkVSUy4KCj09PSBPVVRQVVQgRU5EID09PQoKVGVzdCBj
+b21tYW5kIGV4aXRlZCB3aXRoIGNvZGU6IDEKCgpUaGUgZnVsbCBsb2cgaXMgYXZhaWxhYmxlIGF0
+Cmh0dHA6Ly9wYXRjaGV3Lm9yZy9sb2dzLzIwMTkwNTIyMDkyMzUxLjE3OTIwLTEta3JheGVsQHJl
+ZGhhdC5jb20vdGVzdGluZy5jaGVja3BhdGNoLz90eXBlPW1lc3NhZ2UuCi0tLQpFbWFpbCBnZW5l
+cmF0ZWQgYXV0b21hdGljYWxseSBieSBQYXRjaGV3IFtodHRwczovL3BhdGNoZXcub3JnL10uClBs
+ZWFzZSBzZW5kIHlvdXIgZmVlZGJhY2sgdG8gcGF0Y2hldy1kZXZlbEByZWRoYXQuY29t
 
 
