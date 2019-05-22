@@ -2,69 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id C97B626A9F
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 21:11:43 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49844 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8560026A8C
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 21:08:28 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49806 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTWeM-0005VS-Uc
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 15:11:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35086)
+	id 1hTWbD-00032x-Jk
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 15:08:27 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35240)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hTWOn-0008Ga-BX
+	(envelope-from <richard.henderson@linaro.org>) id 1hTWOn-0008P8-Gi
 	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:55:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hTWCU-0008Ch-8E
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:42:55 -0400
-Received: from mail-yw1-xc41.google.com ([2607:f8b0:4864:20::c41]:40638)
+	(envelope-from <richard.henderson@linaro.org>) id 1hTWCU-0008CY-5n
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:42:54 -0400
+Received: from mail-yw1-xc43.google.com ([2607:f8b0:4864:20::c43]:33509)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hTWCU-0008Bk-3l
+	id 1hTWCU-0008C5-19
 	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:42:54 -0400
-Received: by mail-yw1-xc41.google.com with SMTP id 18so1241479ywe.7
-	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 11:42:52 -0700 (PDT)
+Received: by mail-yw1-xc43.google.com with SMTP id v81so1252036ywe.0
+	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 11:42:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=eQF1EgwSKdQ+jEilzLu3oc5jnuWVHN3zq38+Bl8lFmE=;
-	b=HSh2u8/DWaOXOeGfFCromNcDpKZGo42mmhKZKJaXRRO2/rWdn+CJvChECQ2ZfKCKTH
-	PDGdHY9cmkTnRh51F2vzo81xvDADZ9FjjGUmjZUFtFPklj46UBr0X43fQdcXYcGmv9XW
-	QtAH4L+rb4MIDhni+4BqQfOeA3d+FRWPWfeY38rU4WWtuRlwvZ9f/4obucFjb3zkKtgK
-	exC/i22lcCBGQ0FymOqMLL1R/XpQZeGL8USh4adZ4Q158ZGsVLS3ynsr+3qL8QeWtgze
-	cg4qjoOH6VVj4bCJJlIZaC+81BZlyDAnd0YE50kTZ94+q/qasfyyF3Dtni/pf9xpODAR
-	qBtw==
+	bh=jubgcMuTGNSY5TtGEwh0c6OxeP3qp5DidyhAq6jVSSw=;
+	b=f1PZ2iIn9dsO3VMKtMvskBrGiJK4m9OrtvCaexOuwm0hu3vKwY6EmmdZbFdpr8Bj5q
+	etomMpuqZXjetwUr01u5T1/ScbyUjCW7CDEwkLYroNgnJTVSwuBpsYYh+ru9vP+FqZp+
+	wVCWXZtZaSpJJY1kjH1sjfDMyvsMaqdJPjbhNl/jBG4+Sy1OcYnZlriRf1+ey2v7zJk9
+	EpgQYgYiY5ivG//HsHY7r0PTVJ6Mm7738DOhgvp439k9URnpX3XvL/to4YSfjO0BahFx
+	cF7Qf/NpeSVILfSlFIIXfgQQAJmHuGYX/VP0h60jFBF5KXH+zUAlr7zgILWFbdPqkw+4
+	CrBg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=eQF1EgwSKdQ+jEilzLu3oc5jnuWVHN3zq38+Bl8lFmE=;
-	b=UOFas/ZbtpitvZTI/OJNFtwGL+8L3n0Lnx6GPIvCZIrcWpNhennUujM02tOxGilHh+
-	lNddCNEWg2BJVxlU4AzYXa4fRfw/pzfI14ZX40wdX9H45MWJNGoyQlPqI9PzSwO/Kf60
-	fJFgpUfA9WZQeGiLLwYEkxIDp8Y4v0DXdWigjf5sCUcNHL1NgbdfYFosTLaxjuuchMSJ
-	GUKFivNlE4LKuoLpTLu4NRc7GmYG5CAg/PjNPB7zjp3rgyalSXcVM6G7+rFNzmmZE+xj
-	KBcn2mRwf6sW3TZdRP6R7rZXVZLgP3LXgnqlUy8JbegTKqXlQ6LPSOIHZRcdIvYJB9fS
-	+sCA==
-X-Gm-Message-State: APjAAAUr5RC6T98kabJFd6Yj7sRlRSN8FZco4fgo/Atc2Lgbi2+DCMF1
-	eYbFL8rnT4TEqtfZlhK+6hCGAMsQzkE=
-X-Google-Smtp-Source: APXvYqyRWCOt7YHiFYBoRECfARfPBlPSJ26LvmXQ6mvctwRg7XLms79+Ce0gqocBF92Wy/R+xzFqhA==
-X-Received: by 2002:a81:1ecd:: with SMTP id
-	e196mr40520973ywe.356.1558550571662; 
-	Wed, 22 May 2019 11:42:51 -0700 (PDT)
+	bh=jubgcMuTGNSY5TtGEwh0c6OxeP3qp5DidyhAq6jVSSw=;
+	b=M6yV0Jt9z0x57FaQvAn5NXEHx8zw9Vn+j+LfI1RQEXKtTyMQi/IEd7D0v2JrQq8bmx
+	Li8E6uYgIWe9g35i/3gGOO0NO/nY+9ZpfRt0ajfGrrLrpz5lAhkoA9EyIJTw35YhtI84
+	4sB5VVSvIgnwGcqNAqLq8ETuKRGmXQIm4P7LlOYLoZYE94EUS0LY1dimox79vsRgQkuT
+	v19H/JRm44EA6Hx8enfg5phZajUa5K4IRsI+uET6q2LIgMkmVy/baH1V/ERN81QccJlF
+	mnSP33Ds8o8MBBneruwVmC6nLCo3g4731UqplMs2Vihklr+RBi10uri2epwoM6Xa1pOm
+	MUrQ==
+X-Gm-Message-State: APjAAAVLFuFGB+31NuJPCOcxrdiHI/MjxAxDRken2wvgrFx7ddnYjkLV
+	oSvmmvBnru6GDXTiP4toHG8si40x2tY=
+X-Google-Smtp-Source: APXvYqzKD96eHrhxDzKNOQrj62NmxlATmt5ICBslN+ccxkv7rjbpcBDEd+bY115xJgfX42n+MusjKg==
+X-Received: by 2002:a81:3088:: with SMTP id w130mr42322592yww.63.1558550572691;
+	Wed, 22 May 2019 11:42:52 -0700 (PDT)
 Received: from localhost.localdomain ([71.46.56.17])
 	by smtp.gmail.com with ESMTPSA id
-	206sm1299445ywq.74.2019.05.22.11.42.50
+	206sm1299445ywq.74.2019.05.22.11.42.51
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 22 May 2019 11:42:51 -0700 (PDT)
+	Wed, 22 May 2019 11:42:52 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed, 22 May 2019 14:42:23 -0400
-Message-Id: <20190522184226.17871-23-richard.henderson@linaro.org>
+Date: Wed, 22 May 2019 14:42:24 -0400
+Message-Id: <20190522184226.17871-24-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190522184226.17871-1-richard.henderson@linaro.org>
 References: <20190522184226.17871-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::c41
-Subject: [Qemu-devel] [PULL 22/25] target/arm: Implement ARMv8.5-RNG
+X-Received-From: 2607:f8b0:4864:20::c43
+Subject: [Qemu-devel] [PULL 23/25] target/ppc: Use gen_io_start/end around
+ DARN
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -80,113 +80,50 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Use the newly introduced infrastructure for guest random numbers.
+Generating a random number counts as I/O, as it cannot be
+replayed and produce the same results.
 
-Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
+Acked-by: David Gibson <david@gibson.dropbear.id.au>
+Reviewed-by: Laurent Vivier <lvivier@redhat.com>
+Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.h    |  5 +++++
- target/arm/cpu64.c  |  1 +
- target/arm/helper.c | 44 ++++++++++++++++++++++++++++++++++++++++++++
- 3 files changed, 50 insertions(+)
+ target/ppc/translate.c | 21 +++++++++++++++------
+ 1 file changed, 15 insertions(+), 6 deletions(-)
 
-diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 892f9a4ad2..c34207611b 100644
---- a/target/arm/cpu.h
-+++ b/target/arm/cpu.h
-@@ -3521,6 +3521,11 @@ static inline bool isar_feature_aa64_condm_5(const ARMISARegisters *id)
-     return FIELD_EX64(id->id_aa64isar0, ID_AA64ISAR0, TS) >= 2;
- }
- 
-+static inline bool isar_feature_aa64_rndr(const ARMISARegisters *id)
-+{
-+    return FIELD_EX64(id->id_aa64isar0, ID_AA64ISAR0, RNDR) != 0;
-+}
-+
- static inline bool isar_feature_aa64_jscvt(const ARMISARegisters *id)
+diff --git a/target/ppc/translate.c b/target/ppc/translate.c
+index b5217f632f..4a5de28036 100644
+--- a/target/ppc/translate.c
++++ b/target/ppc/translate.c
+@@ -1847,13 +1847,22 @@ static void gen_darn(DisasContext *ctx)
  {
-     return FIELD_EX64(id->id_aa64isar1, ID_AA64ISAR1, JSCVT) != 0;
-diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
-index 228906f267..835f73cceb 100644
---- a/target/arm/cpu64.c
-+++ b/target/arm/cpu64.c
-@@ -310,6 +310,7 @@ static void aarch64_max_initfn(Object *obj)
-         t = FIELD_DP64(t, ID_AA64ISAR0, DP, 1);
-         t = FIELD_DP64(t, ID_AA64ISAR0, FHM, 1);
-         t = FIELD_DP64(t, ID_AA64ISAR0, TS, 2); /* v8.5-CondM */
-+        t = FIELD_DP64(t, ID_AA64ISAR0, RNDR, 1);
-         cpu->isar.id_aa64isar0 = t;
+     int l = L(ctx->opcode);
  
-         t = cpu->isar.id_aa64isar1;
-diff --git a/target/arm/helper.c b/target/arm/helper.c
-index 6b91082b8b..acd23c53ca 100644
---- a/target/arm/helper.c
-+++ b/target/arm/helper.c
-@@ -22,6 +22,8 @@
- #include "fpu/softfloat.h"
- #include "qemu/range.h"
- #include "qapi/qapi-commands-target.h"
-+#include "qapi/error.h"
-+#include "qemu/guest-random.h"
- 
- #define ARM_CPU_FREQ 1000000000 /* FIXME: 1 GHz, should be configurable */
- 
-@@ -5746,6 +5748,45 @@ static const ARMCPRegInfo pauth_reginfo[] = {
-       .fieldoffset = offsetof(CPUARMState, keys.apib.hi) },
-     REGINFO_SENTINEL
- };
-+
-+static uint64_t rndr_readfn(CPUARMState *env, const ARMCPRegInfo *ri)
-+{
-+    Error *err = NULL;
-+    uint64_t ret;
-+
-+    /* Success sets NZCV = 0000.  */
-+    env->NF = env->CF = env->VF = 0, env->ZF = 1;
-+
-+    if (qemu_guest_getrandom(&ret, sizeof(ret), &err) < 0) {
-+        /*
-+         * ??? Failed, for unknown reasons in the crypto subsystem.
-+         * The best we can do is log the reason and return the
-+         * timed-out indication to the guest.  There is no reason
-+         * we know to expect this failure to be transitory, so the
-+         * guest may well hang retrying the operation.
-+         */
-+        qemu_log_mask(LOG_UNIMP, "%s: Crypto failure: %s",
-+                      ri->name, error_get_pretty(err));
-+        error_free(err);
-+
-+        env->ZF = 0; /* NZCF = 0100 */
-+        return 0;
-+    }
-+    return ret;
-+}
-+
-+/* We do not support re-seeding, so the two registers operate the same.  */
-+static const ARMCPRegInfo rndr_reginfo[] = {
-+    { .name = "RNDR", .state = ARM_CP_STATE_AA64,
-+      .type = ARM_CP_NO_RAW | ARM_CP_SUPPRESS_TB_END | ARM_CP_IO,
-+      .opc0 = 3, .opc1 = 3, .crn = 2, .crm = 4, .opc2 = 0,
-+      .access = PL0_R, .readfn = rndr_readfn },
-+    { .name = "RNDRRS", .state = ARM_CP_STATE_AA64,
-+      .type = ARM_CP_NO_RAW | ARM_CP_SUPPRESS_TB_END | ARM_CP_IO,
-+      .opc0 = 3, .opc1 = 3, .crn = 2, .crm = 4, .opc2 = 1,
-+      .access = PL0_R, .readfn = rndr_readfn },
-+    REGINFO_SENTINEL
-+};
- #endif
- 
- static CPAccessResult access_predinv(CPUARMState *env, const ARMCPRegInfo *ri,
-@@ -6690,6 +6731,9 @@ void register_cp_regs_for_features(ARMCPU *cpu)
-     if (cpu_isar_feature(aa64_pauth, cpu)) {
-         define_arm_cp_regs(cpu, pauth_reginfo);
+-    if (l == 0) {
+-        gen_helper_darn32(cpu_gpr[rD(ctx->opcode)]);
+-    } else if (l <= 2) {
+-        /* Return 64-bit random for both CRN and RRN */
+-        gen_helper_darn64(cpu_gpr[rD(ctx->opcode)]);
+-    } else {
++    if (l > 2) {
+         tcg_gen_movi_i64(cpu_gpr[rD(ctx->opcode)], -1);
++    } else {
++        if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
++            gen_io_start();
++        }
++        if (l == 0) {
++            gen_helper_darn32(cpu_gpr[rD(ctx->opcode)]);
++        } else {
++            /* Return 64-bit random for both CRN and RRN */
++            gen_helper_darn64(cpu_gpr[rD(ctx->opcode)]);
++        }
++        if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
++            gen_io_end();
++            gen_stop_exception(ctx);
++        }
      }
-+    if (cpu_isar_feature(aa64_rndr, cpu)) {
-+        define_arm_cp_regs(cpu, rndr_reginfo);
-+    }
+ }
  #endif
- 
-     /*
 -- 
 2.17.1
 
