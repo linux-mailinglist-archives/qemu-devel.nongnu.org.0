@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 52BFA25D96
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 07:28:42 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36416 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9A85C25DBA
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 07:40:10 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36572 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTJnt-00074G-Hc
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 01:28:41 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48306)
+	id 1hTJyz-0000P0-R6
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 01:40:09 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48746)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hTJA8-0004S6-AI
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 00:47:38 -0400
+	(envelope-from <dgibson@ozlabs.org>) id 1hTJAq-00054w-CE
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 00:48:22 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hTJA6-0007JW-Dx
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 00:47:36 -0400
-Received: from ozlabs.org ([203.11.71.1]:39429)
+	(envelope-from <dgibson@ozlabs.org>) id 1hTJAo-0007rk-24
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 00:48:20 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:51159 helo=ozlabs.org)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
-	id 1hTJA5-00079Z-RF; Wed, 22 May 2019 00:47:34 -0400
+	id 1hTJAn-0007ZC-CP; Wed, 22 May 2019 00:48:18 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
-	id 4580T32488z9sR7; Wed, 22 May 2019 14:46:11 +1000 (AEST)
+	id 4580T46lzCz9sR8; Wed, 22 May 2019 14:46:11 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=gibson.dropbear.id.au; s=201602; t=1558500375;
-	bh=FcN2l0wlMJx6UoLeNzM7RfA5UZkdBt6MKYnqEaJdFWg=;
+	d=gibson.dropbear.id.au; s=201602; t=1558500376;
+	bh=n3d8kVyvspw6SiclRjfa4T+Iz1c0gN53eYWu2lS2ppo=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=H6BqVJVN7ohTvrd/C2gLvD3hhlqhR6YjURy4CRal3IHR2K/4XCh/SfEy43CrwsBz7
-	PFZHXyvxJ6y5Y1tcA1lHwydMqfIusGrh9wymC3tP6DD1r98szicsH7PyUZWz7puDHq
-	h85YCd0YoVQUDF/5QTB70qxre8SHytI6dfI8MVjU=
+	b=ZDkXlX7WmWYoFcAbFYwZRhN+v6WtGYTbw+Au0DOWC7K9oJJbH/6iJaILaY50+a4KJ
+	RiMOsnPKf4e1pHWEIeD7c8pNmVb5zteltHtB0GojYo64mSqQIMYXiNrrAkq5izFvne
+	sfxDGy+oNgxwyuiuMPn+zWR53Vw/lPPdaABVzTaA=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Date: Wed, 22 May 2019 14:45:59 +1000
-Message-Id: <20190522044600.16534-38-david@gibson.dropbear.id.au>
+Date: Wed, 22 May 2019 14:46:00 +1000
+Message-Id: <20190522044600.16534-39-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190522044600.16534-1-david@gibson.dropbear.id.au>
 References: <20190522044600.16534-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
-Subject: [Qemu-devel] [PULL 37/38] spapr/irq: add KVM support to the 'dual'
- machine
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2401:3900:2:1::2
+Subject: [Qemu-devel] [PULL 38/38] docs: provide documentation on the POWER9
+ XIVE interrupt controller
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -55,343 +56,485 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: lvivier@redhat.com, qemu-devel@nongnu.org, groug@kaod.org,
-	qemu-ppc@nongnu.org, clg@kaod.org,
-	David Gibson <david@gibson.dropbear.id.au>
+	Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>, clg@kaod.org,
+	qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: C=C3=A9dric Le Goater <clg@kaod.org>
 
-The interrupt mode is chosen by the CAS negotiation process and
-activated after a reset to take into account the required changes in
-the machine. This brings new constraints on how the associated KVM IRQ
-device is initialized.
+This documents the overall XIVE architecture and the XIVE support for
+sPAPR guest machines (pseries).
 
-Currently, each model takes care of the initialization of the KVM
-device in their realize method but this is not possible anymore as the
-initialization needs to be done globaly when the interrupt mode is
-known, i.e. when machine is reseted. It also means that we need a way
-to delete a KVM device when another mode is chosen.
-
-Also, to support migration, the QEMU objects holding the state to
-transfer should always be available but not necessarily activated.
-
-The overall approach of this proposal is to initialize both interrupt
-mode at the QEMU level to keep the IRQ number space in sync and to
-allow switching from one mode to another. For the KVM side of things,
-the whole initialization of the KVM device, sources and presenters, is
-grouped in a single routine. The XICS and XIVE sPAPR IRQ reset
-handlers are modified accordingly to handle the init and the delete
-sequences of the KVM device.
+It also provides documentation on the 'info pic' command.
 
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
-Message-Id: <20190513084245.25755-15-clg@kaod.org>
+Message-Id: <20190521082411.24719-1-clg@kaod.org>
+Reviewed-by: Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>
+Reviewed-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/spapr_xive_kvm.c | 29 +++++++++++++++++++-
- hw/intc/xics_kvm.c       | 31 +++++++++++++++++++++
- hw/intc/xive.c           |  4 ---
- hw/ppc/spapr_irq.c       | 58 ++++++++++++++++++++++++++--------------
- include/hw/ppc/xive.h    |  1 -
- 5 files changed, 97 insertions(+), 26 deletions(-)
+ MAINTAINERS                   |   1 +
+ docs/index.rst                |   1 +
+ docs/specs/index.rst          |  13 +++
+ docs/specs/ppc-spapr-xive.rst | 174 +++++++++++++++++++++++++++++
+ docs/specs/ppc-xive.rst       | 199 ++++++++++++++++++++++++++++++++++
+ 5 files changed, 388 insertions(+)
+ create mode 100644 docs/specs/index.rst
+ create mode 100644 docs/specs/ppc-spapr-xive.rst
+ create mode 100644 docs/specs/ppc-xive.rst
 
-diff --git a/hw/intc/spapr_xive_kvm.c b/hw/intc/spapr_xive_kvm.c
-index 078d18d775..ec170b3045 100644
---- a/hw/intc/spapr_xive_kvm.c
-+++ b/hw/intc/spapr_xive_kvm.c
-@@ -246,7 +246,7 @@ void kvmppc_xive_source_reset_one(XiveSource *xsrc, i=
-nt srcno, Error **errp)
-                       true, errp);
- }
+diff --git a/MAINTAINERS b/MAINTAINERS
+index a6948ebc63..7afd657030 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -1708,6 +1708,7 @@ L: qemu-ppc@nongnu.org
+ S: Supported
+ F: hw/*/*xive*
+ F: include/hw/*/*xive*
++F: docs/*/*xive*
 =20
--void kvmppc_xive_source_reset(XiveSource *xsrc, Error **errp)
-+static void kvmppc_xive_source_reset(XiveSource *xsrc, Error **errp)
- {
-     int i;
+ Subsystems
+ ----------
+diff --git a/docs/index.rst b/docs/index.rst
+index 3690955dd1..baa5791c17 100644
+--- a/docs/index.rst
++++ b/docs/index.rst
+@@ -12,4 +12,5 @@ Welcome to QEMU's documentation!
 =20
-@@ -697,6 +697,15 @@ void kvmppc_xive_connect(SpaprXive *xive, Error **er=
-rp)
-     Error *local_err =3D NULL;
-     size_t esb_len =3D (1ull << xsrc->esb_shift) * xsrc->nr_irqs;
-     size_t tima_len =3D 4ull << TM_SHIFT;
-+    CPUState *cs;
+    interop/index
+    devel/index
++   specs/index
+=20
+diff --git a/docs/specs/index.rst b/docs/specs/index.rst
+new file mode 100644
+index 0000000000..2e927519c2
+--- /dev/null
++++ b/docs/specs/index.rst
+@@ -0,0 +1,13 @@
++. This is the top level page for the 'specs' manual
 +
-+    /*
-+     * The KVM XIVE device already in use. This is the case when
-+     * rebooting under the XIVE-only interrupt mode.
-+     */
-+    if (xive->fd !=3D -1) {
-+        return;
-+    }
-=20
-     if (!kvmppc_has_cap_xive()) {
-         error_setg(errp, "IRQ_XIVE capability must be present for KVM");
-@@ -745,6 +754,24 @@ void kvmppc_xive_connect(SpaprXive *xive, Error **er=
-rp)
-     xive->change =3D qemu_add_vm_change_state_handler(
-         kvmppc_xive_change_state_handler, xive);
-=20
-+    /* Connect the presenters to the initial VCPUs of the machine */
-+    CPU_FOREACH(cs) {
-+        PowerPCCPU *cpu =3D POWERPC_CPU(cs);
 +
-+        kvmppc_xive_cpu_connect(spapr_cpu_state(cpu)->tctx, &local_err);
-+        if (local_err) {
-+            error_propagate(errp, local_err);
-+            return;
-+        }
-+    }
++QEMU full-system emulation guest hardware specifications
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D
 +
-+    /* Update the KVM sources */
-+    kvmppc_xive_source_reset(xsrc, &local_err);
-+    if (local_err) {
-+            error_propagate(errp, local_err);
-+            return;
-+    }
 +
-     kvm_kernel_irqchip =3D true;
-     kvm_msi_via_irqfd_allowed =3D true;
-     kvm_gsi_direct_mapping =3D true;
-diff --git a/hw/intc/xics_kvm.c b/hw/intc/xics_kvm.c
-index 12bd5190cf..5ba5b77561 100644
---- a/hw/intc/xics_kvm.c
-+++ b/hw/intc/xics_kvm.c
-@@ -33,6 +33,7 @@
- #include "trace.h"
- #include "sysemu/kvm.h"
- #include "hw/ppc/spapr.h"
-+#include "hw/ppc/spapr_cpu_core.h"
- #include "hw/ppc/xics.h"
- #include "hw/ppc/xics_spapr.h"
- #include "kvm_ppc.h"
-@@ -342,6 +343,16 @@ static void rtas_dummy(PowerPCCPU *cpu, SpaprMachine=
-State *spapr,
- int xics_kvm_init(SpaprMachineState *spapr, Error **errp)
- {
-     int rc;
-+    CPUState *cs;
-+    Error *local_err =3D NULL;
++Contents:
 +
-+    /*
-+     * The KVM XICS device already in use. This is the case when
-+     * rebooting under the XICS-only interrupt mode.
-+     */
-+    if (kernel_xics_fd !=3D -1) {
-+        return 0;
-+    }
-=20
-     if (!kvm_enabled() || !kvm_check_extension(kvm_state, KVM_CAP_IRQ_XI=
-CS)) {
-         error_setg(errp,
-@@ -390,6 +401,26 @@ int xics_kvm_init(SpaprMachineState *spapr, Error **=
-errp)
-     kvm_msi_via_irqfd_allowed =3D true;
-     kvm_gsi_direct_mapping =3D true;
-=20
-+    /* Create the presenters */
-+    CPU_FOREACH(cs) {
-+        PowerPCCPU *cpu =3D POWERPC_CPU(cs);
++.. toctree::
++   :maxdepth: 2
 +
-+        icp_kvm_realize(DEVICE(spapr_cpu_state(cpu)->icp), &local_err);
-+        if (local_err) {
-+            error_propagate(errp, local_err);
-+            goto fail;
-+        }
-+    }
++   xive
+diff --git a/docs/specs/ppc-spapr-xive.rst b/docs/specs/ppc-spapr-xive.rs=
+t
+new file mode 100644
+index 0000000000..539ce7ca4e
+--- /dev/null
++++ b/docs/specs/ppc-spapr-xive.rst
+@@ -0,0 +1,174 @@
++XIVE for sPAPR (pseries machines)
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D
 +
-+    /* Update the KVM sources */
-+    ics_set_kvm_state(spapr->ics);
++The POWER9 processor comes with a new interrupt controller
++architecture, called XIVE as "eXternal Interrupt Virtualization
++Engine". It supports a larger number of interrupt sources and offers
++virtualization features which enables the HW to deliver interrupts
++directly to virtual processors without hypervisor assistance.
 +
-+    /* Connect the presenters to the initial VCPUs of the machine */
-+    CPU_FOREACH(cs) {
-+        PowerPCCPU *cpu =3D POWERPC_CPU(cs);
-+        icp_set_kvm_state(spapr_cpu_state(cpu)->icp);
-+    }
++A QEMU ``pseries`` machine (which is PAPR compliant) using POWER9
++processors can run under two interrupt modes:
 +
-     return 0;
-=20
- fail:
-diff --git a/hw/intc/xive.c b/hw/intc/xive.c
-index b5ebb33527..0c74e47aa4 100644
---- a/hw/intc/xive.c
-+++ b/hw/intc/xive.c
-@@ -993,10 +993,6 @@ static void xive_source_reset(void *dev)
-=20
-     /* PQs are initialized to 0b01 (Q=3D1) which corresponds to "ints of=
-f" */
-     memset(xsrc->status, XIVE_ESB_OFF, xsrc->nr_irqs);
--
--    if (kvm_irqchip_in_kernel()) {
--        kvmppc_xive_source_reset(xsrc, &error_fatal);
--    }
- }
-=20
- static void xive_source_realize(DeviceState *dev, Error **errp)
-diff --git a/hw/ppc/spapr_irq.c b/hw/ppc/spapr_irq.c
-index d1e87577fb..3156daf093 100644
---- a/hw/ppc/spapr_irq.c
-+++ b/hw/ppc/spapr_irq.c
-@@ -102,12 +102,6 @@ static void spapr_irq_init_xics(SpaprMachineState *s=
-papr, int nr_irqs,
-     Object *obj;
-     Error *local_err =3D NULL;
-=20
--    spapr_irq_init_device(spapr, &spapr_irq_xics, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
--        return;
--    }
--
-     obj =3D object_new(TYPE_ICS_SIMPLE);
-     object_property_add_child(OBJECT(spapr), "ics", obj, &error_abort);
-     object_property_add_const_link(obj, ICS_PROP_XICS, OBJECT(spapr),
-@@ -226,7 +220,13 @@ static void spapr_irq_set_irq_xics(void *opaque, int=
- srcno, int val)
-=20
- static void spapr_irq_reset_xics(SpaprMachineState *spapr, Error **errp)
- {
--    /* TODO: create the KVM XICS device */
-+    Error *local_err =3D NULL;
++- *Legacy Compatibility Mode*
 +
-+    spapr_irq_init_device(spapr, &spapr_irq_xics, &local_err);
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+        return;
-+    }
- }
-=20
- static const char *spapr_irq_get_nodename_xics(SpaprMachineState *spapr)
-@@ -279,7 +279,6 @@ static void spapr_irq_init_xive(SpaprMachineState *sp=
-apr, int nr_irqs,
-     uint32_t nr_servers =3D spapr_max_server_number(spapr);
-     DeviceState *dev;
-     int i;
--    Error *local_err =3D NULL;
-=20
-     dev =3D qdev_create(NULL, TYPE_SPAPR_XIVE);
-     qdev_prop_set_uint32(dev, "nr-irqs", nr_irqs);
-@@ -297,12 +296,6 @@ static void spapr_irq_init_xive(SpaprMachineState *s=
-papr, int nr_irqs,
-     }
-=20
-     spapr_xive_hcall_init(spapr);
--
--    spapr_irq_init_device(spapr, &spapr_irq_xive, &local_err);
--    if (local_err) {
--        error_propagate(errp, local_err);
--        return;
--    }
- }
-=20
- static int spapr_irq_claim_xive(SpaprMachineState *spapr, int irq, bool =
-lsi,
-@@ -382,6 +375,7 @@ static int spapr_irq_post_load_xive(SpaprMachineState=
- *spapr, int version_id)
- static void spapr_irq_reset_xive(SpaprMachineState *spapr, Error **errp)
- {
-     CPUState *cs;
-+    Error *local_err =3D NULL;
-=20
-     CPU_FOREACH(cs) {
-         PowerPCCPU *cpu =3D POWERPC_CPU(cs);
-@@ -390,6 +384,12 @@ static void spapr_irq_reset_xive(SpaprMachineState *=
-spapr, Error **errp)
-         spapr_xive_set_tctx_os_cam(spapr_cpu_state(cpu)->tctx);
-     }
-=20
-+    spapr_irq_init_device(spapr, &spapr_irq_xive, &local_err);
-+    if (local_err) {
-+        error_propagate(errp, local_err);
-+        return;
-+    }
++  the hypervisor provides identical interfaces and similar
++  functionality to PAPR+ Version 2.7.  This is the default mode
 +
-     /* Activate the XIVE MMIOs */
-     spapr_xive_mmio_set_enabled(spapr->xive, true);
- }
-@@ -472,14 +472,8 @@ static SpaprIrq *spapr_irq_current(SpaprMachineState=
- *spapr)
- static void spapr_irq_init_dual(SpaprMachineState *spapr, int nr_irqs,
-                                 Error **errp)
- {
--    MachineState *machine =3D MACHINE(spapr);
-     Error *local_err =3D NULL;
-=20
--    if (kvm_enabled() && machine_kernel_irqchip_allowed(machine)) {
--        error_setg(errp, "No KVM support for the 'dual' machine");
--        return;
--    }
--
-     spapr_irq_xics.init(spapr, spapr_irq_xics.nr_irqs, &local_err);
-     if (local_err) {
-         error_propagate(errp, local_err);
-@@ -558,6 +552,9 @@ static int spapr_irq_post_load_dual(SpaprMachineState=
- *spapr, int version_id)
-      * defaults to XICS at startup.
-      */
-     if (spapr_ovec_test(spapr->ov5_cas, OV5_XIVE_EXPLOIT)) {
-+        if (kvm_irqchip_in_kernel()) {
-+            xics_kvm_disconnect(spapr, &error_fatal);
-+        }
-         spapr_irq_xive.reset(spapr, &error_fatal);
-     }
-=20
-@@ -566,12 +563,30 @@ static int spapr_irq_post_load_dual(SpaprMachineSta=
-te *spapr, int version_id)
-=20
- static void spapr_irq_reset_dual(SpaprMachineState *spapr, Error **errp)
- {
-+    Error *local_err =3D NULL;
++  It is also referred as *XICS* in QEMU.
 +
-     /*
-      * Deactivate the XIVE MMIOs. The XIVE backend will reenable them
-      * if selected.
-      */
-     spapr_xive_mmio_set_enabled(spapr->xive, false);
-=20
-+    /* Destroy all KVM devices */
-+    if (kvm_irqchip_in_kernel()) {
-+        xics_kvm_disconnect(spapr, &local_err);
-+        if (local_err) {
-+            error_propagate(errp, local_err);
-+            error_prepend(errp, "KVM XICS disconnect failed: ");
-+            return;
-+        }
-+        kvmppc_xive_disconnect(spapr->xive, &local_err);
-+        if (local_err) {
-+            error_propagate(errp, local_err);
-+            error_prepend(errp, "KVM XIVE disconnect failed: ");
-+            return;
-+        }
-+    }
++- *XIVE native exploitation mode*
 +
-     spapr_irq_current(spapr)->reset(spapr, errp);
- }
-=20
-@@ -809,6 +824,9 @@ SpaprIrq spapr_irq_xics_legacy =3D {
-     .dt_populate =3D spapr_dt_xics,
-     .cpu_intc_create =3D spapr_irq_cpu_intc_create_xics,
-     .post_load   =3D spapr_irq_post_load_xics,
-+    .reset       =3D spapr_irq_reset_xics,
-     .set_irq     =3D spapr_irq_set_irq_xics,
-     .get_nodename =3D spapr_irq_get_nodename_xics,
-+    .init_emu    =3D spapr_irq_init_emu_xics,
-+    .init_kvm    =3D spapr_irq_init_kvm_xics,
- };
-diff --git a/include/hw/ppc/xive.h b/include/hw/ppc/xive.h
-index edb8937f17..d872f96d1a 100644
---- a/include/hw/ppc/xive.h
-+++ b/include/hw/ppc/xive.h
-@@ -432,7 +432,6 @@ static inline uint32_t xive_nvt_cam_line(uint8_t nvt_=
-blk, uint32_t nvt_idx)
-  */
-=20
- void kvmppc_xive_source_reset_one(XiveSource *xsrc, int srcno, Error **e=
-rrp);
--void kvmppc_xive_source_reset(XiveSource *xsrc, Error **errp);
- void kvmppc_xive_source_set_irq(void *opaque, int srcno, int val);
- void kvmppc_xive_cpu_connect(XiveTCTX *tctx, Error **errp);
- void kvmppc_xive_cpu_synchronize_state(XiveTCTX *tctx, Error **errp);
++  the hypervisor provides new interfaces to manage the XIVE control
++  structures, and provides direct control for interrupt management
++  through MMIO pages.
++
++Which interrupt modes can be used by the machine is negotiated with
++the guest O/S during the Client Architecture Support negotiation
++sequence. The two modes are mutually exclusive.
++
++Both interrupt mode share the same IRQ number space. See below for the
++layout.
++
++CAS Negotiation
++---------------
++
++QEMU advertises the supported interrupt modes in the device tree
++property "ibm,arch-vec-5-platform-support" in byte 23 and the OS
++Selection for XIVE is indicated in the "ibm,architecture-vec-5"
++property byte 23.
++
++The interrupt modes supported by the machine depend on the CPU type
++(POWER9 is required for XIVE) but also on the machine property
++``ic-mode`` which can be set on the command line. It can take the
++following values: ``xics``, ``xive``, ``dual`` and currently ``xics``
++is the default but it may change in the future.
++
++The choosen interrupt mode is activated after a reconfiguration done
++in a machine reset.
++
++XIVE Device tree properties
++---------------------------
++
++The properties for the PAPR interrupt controller node when the *XIVE
++native exploitation mode* is selected shoud contain:
++
++- ``device_type``
++
++  value should be "power-ivpe".
++
++- ``compatible``
++
++  value should be "ibm,power-ivpe".
++
++- ``reg``
++
++  contains the base address and size of the thread interrupt
++  managnement areas (TIMA), for the User level and for the Guest OS
++  level. Only the Guest OS level is taken into account today.
++
++- ``ibm,xive-eq-sizes``
++
++  the size of the event queues. One cell per size supported, contains
++  log2 of size, in ascending order.
++
++- ``ibm,xive-lisn-ranges``
++
++  the IRQ interrupt number ranges assigned to the guest for the IPIs.
++
++The root node also exports :
++
++- ``ibm,plat-res-int-priorities``
++
++  contains a list of priorities that the hypervisor has reserved for
++  its own use.
++
++IRQ number space
++----------------
++
++IRQ Number space of the ``pseries`` machine is 8K wide and is the same
++for both interrupt mode. The different ranges are defined as follow :
++
++- ``0x0000 .. 0x0FFF`` 4K CPU IPIs (only used under XIVE)
++- ``0x1000 .. 0x1000`` 1 EPOW
++- ``0x1001 .. 0x1001`` 1 HOTPLUG
++- ``0x1100 .. 0x11FF`` 256 VIO devices
++- ``0x1200 .. 0x127F`` 32 PHBs devices
++- ``0x1280 .. 0x12FF`` unused
++- ``0x1300 .. 0x1FFF`` PHB MSIs
++
++Monitoring XIVE
++---------------
++
++The state of the XIVE interrupt controller can be queried through the
++monitor commands ``info pic``. The output comes in two parts.
++
++First, the state of the thread interrupt context registers is dumped
++for each CPU :
++
++::
++
++   (qemu) info pic
++   CPU[0000]:   QW   NSR CPPR IPB LSMFB ACK# INC AGE PIPR  W2
++   CPU[0000]: USER    00   00  00    00   00  00  00   00  00000000
++   CPU[0000]:   OS    00   ff  00    00   ff  00  ff   ff  80000400
++   CPU[0000]: POOL    00   00  00    00   00  00  00   00  00000000
++   CPU[0000]: PHYS    00   00  00    00   00  00  00   ff  00000000
++   ...
++
++In the case of a ``pseries`` machine, QEMU acts as the hypervisor and on=
+ly
++the O/S and USER register rings make sense. ``W2`` contains the vCPU CAM
++line which is set to the VP identifier.
++
++Then comes the routing information which aggregates the EAS and the
++END configuration:
++
++::
++
++   ...
++   LISN         PQ    EISN     CPU/PRIO EQ
++   00000000 MSI --    00000010   0/6    380/16384 @1fe3e0000 ^1 [ 800000=
+10 ... ]
++   00000001 MSI --    00000010   1/6    305/16384 @1fc230000 ^1 [ 800000=
+10 ... ]
++   00000002 MSI --    00000010   2/6    220/16384 @1fc2f0000 ^1 [ 800000=
+10 ... ]
++   00000003 MSI --    00000010   3/6    201/16384 @1fc390000 ^1 [ 800000=
+10 ... ]
++   00000004 MSI -Q  M 00000000
++   00000005 MSI -Q  M 00000000
++   00000006 MSI -Q  M 00000000
++   00000007 MSI -Q  M 00000000
++   00001000 MSI --    00000012   0/6    380/16384 @1fe3e0000 ^1 [ 800000=
+10 ... ]
++   00001001 MSI --    00000013   0/6    380/16384 @1fe3e0000 ^1 [ 800000=
+10 ... ]
++   00001100 MSI --    00000100   1/6    305/16384 @1fc230000 ^1 [ 800000=
+10 ... ]
++   00001101 MSI -Q  M 00000000
++   00001200 LSI -Q  M 00000000
++   00001201 LSI -Q  M 00000000
++   00001202 LSI -Q  M 00000000
++   00001203 LSI -Q  M 00000000
++   00001300 MSI --    00000102   1/6    305/16384 @1fc230000 ^1 [ 800000=
+10 ... ]
++   00001301 MSI --    00000103   2/6    220/16384 @1fc2f0000 ^1 [ 800000=
+10 ... ]
++   00001302 MSI --    00000104   3/6    201/16384 @1fc390000 ^1 [ 800000=
+10 ... ]
++
++The source information and configuration:
++
++- The ``LISN`` column outputs the interrupt number of the source in
++  range ``[ 0x0 ... 0x1FFF ]`` and its type : ``MSI`` or ``LSI``
++- The ``PQ`` column reflects the state of the PQ bits of the source :
++
++  - ``--`` source is ready to take events
++  - ``P-`` an event was sent and an EOI is PENDING
++  - ``PQ`` an event was QUEUED
++  - ``-Q`` source is OFF
++
++  a ``M`` indicates that source is *MASKED* at the EAS level,
++
++The targeting configuration :
++
++- The ``EISN`` column is the event data that will be queued in the event
++  queue of the O/S.
++- The ``CPU/PRIO`` column is the tuple defining the CPU number and
++  priority queue serving the source.
++- The ``EQ`` column outputs :
++
++  - the current index of the event queue/ the max number of entries
++  - the O/S event queue address
++  - the toggle bit
++  - the last entries that were pushed in the event queue.
+diff --git a/docs/specs/ppc-xive.rst b/docs/specs/ppc-xive.rst
+new file mode 100644
+index 0000000000..b997dc0629
+--- /dev/null
++++ b/docs/specs/ppc-xive.rst
+@@ -0,0 +1,199 @@
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D
++POWER9 XIVE interrupt controller
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D
++
++The POWER9 processor comes with a new interrupt controller
++architecture, called XIVE as "eXternal Interrupt Virtualization
++Engine".
++
++Compared to the previous architecture, the main characteristics of
++XIVE are to support a larger number of interrupt sources and to
++deliver interrupts directly to virtual processors without hypervisor
++assistance. This removes the context switches required for the
++delivery process.
++
++
++XIVE architecture
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++
++The XIVE IC is composed of three sub-engines, each taking care of a
++processing layer of external interrupts:
++
++- Interrupt Virtualization Source Engine (IVSE), or Source Controller
++  (SC). These are found in PCI PHBs, in the PSI host bridge
++  controller, but also inside the main controller for the core IPIs
++  and other sub-chips (NX, CAP, NPU) of the chip/processor. They are
++  configured to feed the IVRE with events.
++- Interrupt Virtualization Routing Engine (IVRE) or Virtualization
++  Controller (VC). It handles event coalescing and perform interrupt
++  routing by matching an event source number with an Event
++  Notification Descriptor (END).
++- Interrupt Virtualization Presentation Engine (IVPE) or Presentation
++  Controller (PC). It maintains the interrupt context state of each
++  thread and handles the delivery of the external interrupt to the
++  thread.
++
++::
++
++                XIVE Interrupt Controller
++                +------------------------------------+      IPIs
++                | +---------+ +---------+ +--------+ |    +-------+
++                | |IVRE     | |Common Q | |IVPE    |----> | CORES |
++                | |     esb | |         | |        |----> |       |
++                | |     eas | |  Bridge | |   tctx |----> |       |
++                | |SC   end | |         | |    nvt | |    |       |
++    +------+    | +---------+ +----+----+ +--------+ |    +-+-+-+-+
++    | RAM  |    +------------------|-----------------+      | | |
++    |      |                       |                        | | |
++    |      |                       |                        | | |
++    |      |  +--------------------v------------------------v-v-v--+    =
+other
++    |      <--+                     Power Bus                      +--> =
+chips
++    |  esb |  +---------+-----------------------+------------------+
++    |  eas |            |                       |
++    |  end |         +--|------+                |
++    |  nvt |       +----+----+ |           +----+----+
++    +------+       |IVSE     | |           |IVSE     |
++                   |         | |           |         |
++                   | PQ-bits | |           | PQ-bits |
++                   | local   |-+           |  in VC  |
++                   +---------+             +---------+
++                      PCIe                 NX,NPU,CAPI
++
++
++    PQ-bits: 2 bits source state machine (P:pending Q:queued)
++    esb: Event State Buffer (Array of PQ bits in an IVSE)
++    eas: Event Assignment Structure
++    end: Event Notification Descriptor
++    nvt: Notification Virtual Target
++    tctx: Thread interrupt Context registers
++
++
++
++XIVE internal tables
++--------------------
++
++Each of the sub-engines uses a set of tables to redirect interrupts
++from event sources to CPU threads.
++
++::
++
++                                            +-------+
++    User or O/S                             |  EQ   |
++        or                          +------>|entries|
++    Hypervisor                      |       |  ..   |
++      Memory                        |       +-------+
++                                    |           ^
++                                    |           |
++               +-------------------------------------------------+
++                                    |           |
++    Hypervisor      +------+    +---+--+    +---+--+   +------+
++      Memory        | ESB  |    | EAT  |    | ENDT |   | NVTT |
++     (skiboot)      +----+-+    +----+-+    +----+-+   +------+
++                      ^  |        ^  |        ^  |       ^
++                      |  |        |  |        |  |       |
++               +-------------------------------------------------+
++                      |  |        |  |        |  |       |
++                      |  |        |  |        |  |       |
++                 +----|--|--------|--|--------|--|-+   +-|-----+    +---=
+---+
++                 |    |  |        |  |        |  | |   | | tctx|    |Thr=
+ead|
++     IPI or   ---+    +  v        +  v        +  v |---| +  .. |----->  =
+   |
++    HW events    |                                 |   |       |    |   =
+   |
++                 |             IVRE                |   | IVPE  |    +---=
+---+
++                 +---------------------------------+   +-------+
++
++
++The IVSE have a 2-bits state machine, P for pending and Q for queued,
++for each source that allows events to be triggered. They are stored in
++an Event State Buffer (ESB) array and can be controlled by MMIOs.
++
++If the event is let through, the IVRE looks up in the Event Assignment
++Structure (EAS) table for an Event Notification Descriptor (END)
++configured for the source. Each Event Notification Descriptor defines
++a notification path to a CPU and an in-memory Event Queue, in which
++will be enqueued an EQ data for the O/S to pull.
++
++The IVPE determines if a Notification Virtual Target (NVT) can handle
++the event by scanning the thread contexts of the VCPUs dispatched on
++the processor HW threads. It maintains the interrupt context state of
++each thread in a NVT table.
++
++XIVE thread interrupt context
++-----------------------------
++
++The XIVE presenter can generate four different exceptions to its
++HW threads:
++
++- hypervisor exception
++- O/S exception
++- Event-Based Branch (user level)
++- msgsnd (doorbell)
++
++Each exception has a state independent from the others called a Thread
++Interrupt Management context. This context is a set of registers which
++lets the thread handle priority management and interrupt
++acknowledgment among other things. The most important ones being :
++
++- Interrupt Priority Register  (PIPR)
++- Interrupt Pending Buffer     (IPB)
++- Current Processor Priority   (CPPR)
++- Notification Source Register (NSR)
++
++TIMA
++~~~~
++
++The Thread Interrupt Management registers are accessible through a
++specific MMIO region, called the Thread Interrupt Management Area
++(TIMA), four aligned pages, each exposing a different view of the
++registers. First page (page address ending in ``0b00``) gives access
++to the entire context and is reserved for the ring 0 view for the
++physical thread context. The second (page address ending in ``0b01``)
++is for the hypervisor, ring 1 view. The third (page address ending in
++``0b10``) is for the operating system, ring 2 view. The fourth (page
++address ending in ``0b11``) is for user level, ring 3 view.
++
++Interrupt flow from an O/S perspective
++~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
++
++After an event data has been enqueued in the O/S Event Queue, the IVPE
++raises the bit corresponding to the priority of the pending interrupt
++in the register IBP (Interrupt Pending Buffer) to indicate that an
++event is pending in one of the 8 priority queues. The Pending
++Interrupt Priority Register (PIPR) is also updated using the IPB. This
++register represent the priority of the most favored pending
++notification.
++
++The PIPR is then compared to the the Current Processor Priority
++Register (CPPR). If it is more favored (numerically less than), the
++CPU interrupt line is raised and the EO bit of the Notification Source
++Register (NSR) is updated to notify the presence of an exception for
++the O/S. The O/S acknowledges the interrupt with a special load in the
++Thread Interrupt Management Area.
++
++The O/S handles the interrupt and when done, performs an EOI using a
++MMIO operation on the ESB management page of the associate source.
++
++Overview of the QEMU models for XIVE
++=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
++
++The XiveSource models the IVSE in general, internal and external. It
++handles the source ESBs and the MMIO interface to control them.
++
++The XiveNotifier is a small helper interface interconnecting the
++XiveSource to the XiveRouter.
++
++The XiveRouter is an abstract model acting as a combined IVRE and
++IVPE. It routes event notifications using the EAS and END tables to
++the IVPE sub-engine which does a CAM scan to find a CPU to deliver the
++exception. Storage should be provided by the inheriting classes.
++
++XiveEnDSource is a special source object. It exposes the END ESB MMIOs
++of the Event Queues which are used for coalescing event notifications
++and for escalation. Not used on the field, only to sync the EQ cache
++in OPAL.
++
++Finally, the XiveTCTX contains the interrupt state context of a thread,
++four sets of registers, one for each exception that can be delivered
++to a CPU. These contexts are scanned by the IVPE to find a matching VP
++when a notification is triggered. It also models the Thread Interrupt
++Management Area (TIMA), which exposes the thread context registers to
++the CPU for interrupt management.
 --=20
 2.21.0
 
