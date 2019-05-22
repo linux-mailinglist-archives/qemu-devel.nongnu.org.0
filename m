@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1C8B825D9A
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 07:32:09 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36475 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1955225D28
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 06:57:54 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:35860 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTJrE-0002SP-7n
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 01:32:08 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48256)
+	id 1hTJK5-00047H-6p
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 00:57:53 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:47338)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hTJA6-0004QR-Oi
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 00:47:35 -0400
+	(envelope-from <dgibson@ozlabs.org>) id 1hTJ8v-0003NW-9U
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 00:46:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hTJA5-0007Iz-QB
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 00:47:34 -0400
-Received: from ozlabs.org ([203.11.71.1]:42441)
+	(envelope-from <dgibson@ozlabs.org>) id 1hTJ8u-0006hb-7Q
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 00:46:21 -0400
+Received: from ozlabs.org ([203.11.71.1]:41151)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
-	id 1hTJA5-00079O-Fx; Wed, 22 May 2019 00:47:33 -0400
+	id 1hTJ8t-0006fU-Rz; Wed, 22 May 2019 00:46:20 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
-	id 4580T26mXDz9sR3; Wed, 22 May 2019 14:46:12 +1000 (AEST)
+	id 4580Sx42wbz9sP9; Wed, 22 May 2019 14:46:06 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=gibson.dropbear.id.au; s=201602; t=1558500374;
-	bh=s7n9GOFMHz6jZbmXHbQuUX0/Qi9S9CpdqCJBOttcq4s=;
+	d=gibson.dropbear.id.au; s=201602; t=1558500369;
+	bh=E0P7ZBTOsd78OXOu944+9bwwwlf8kjjxDpxXnr0T90s=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=lH9xFUfCeDMp4S0hYo897zF3R/NC5ZaB+BZNF29CaCpa9CGHWYr3vdYgdLKpI0/GZ
-	Yhop9psOoULnE3DweN4NfVYZArfP6I2r8YfXmNl4N4KibMu1M3V1kKZDpjFNeQJ8t9
-	e2/4n1gIlQVlQ96Ki/Ckt+IyPELkptmwxkYiCIjo=
+	b=GXTCkpqUKdU7v8nJWCxxzjtn1/MDnP5gL/R/2TTKOHEJe0bJ5TFN3ieYmT/z9gIqu
+	PfAxl6gignrl2zEc9RJQAMPu4AZEI9bBbvAoeN+kXS7tjydKd9W8E/b51o+V48mWPI
+	QSsr9DfxEBVhSV+yVTD4SUPtuzSUDmXMKmnNtS2g=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Date: Wed, 22 May 2019 14:45:37 +1000
-Message-Id: <20190522044600.16534-16-david@gibson.dropbear.id.au>
+Date: Wed, 22 May 2019 14:45:38 +1000
+Message-Id: <20190522044600.16534-17-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190522044600.16534-1-david@gibson.dropbear.id.au>
 References: <20190522044600.16534-1-david@gibson.dropbear.id.au>
@@ -41,8 +41,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 203.11.71.1
-Subject: [Qemu-devel] [PULL 15/38] spapr/xive: print out the EQ page address
- in the monitor
+Subject: [Qemu-devel] [PULL 16/38] Fix typo on "info pic" monitor cmd output
+ for xive
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -55,50 +55,41 @@ List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
 Cc: lvivier@redhat.com, qemu-devel@nongnu.org, groug@kaod.org,
-	qemu-ppc@nongnu.org, clg@kaod.org,
-	David Gibson <david@gibson.dropbear.id.au>
+	Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>, clg@kaod.org,
+	qemu-ppc@nongnu.org, David Gibson <david@gibson.dropbear.id.au>,
+	Stefano Garzarella <sgarzare@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: C=C3=A9dric Le Goater <clg@kaod.org>
+From: Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>
 
-This proved to be a useful information when debugging issues with OS
-event queues allocated above 64GB.
+Instead of LISN i.e "Logical Interrupt Source Number" as per
+Xive PAPR document "info pic" prints as LSIN, let's fix it.
 
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20190508171946.657-4-clg@kaod.org>
+Signed-off-by: Satheesh Rajendran <sathnaga@linux.vnet.ibm.com>
+Message-Id: <20190509080750.21999-1-sathnaga@linux.vnet.ibm.com>
 Reviewed-by: Greg Kurz <groug@kaod.org>
+Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+Reviewed-by: Stefano Garzarella <sgarzare@redhat.com>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/spapr_xive.c | 5 +++--
- 1 file changed, 3 insertions(+), 2 deletions(-)
+ hw/intc/spapr_xive.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-index a19e998093..58cc6e2b50 100644
+index 58cc6e2b50..62e13ac353 100644
 --- a/hw/intc/spapr_xive.c
 +++ b/hw/intc/spapr_xive.c
-@@ -120,6 +120,7 @@ static int spapr_xive_target_to_end(uint32_t target, =
-uint8_t prio,
- static void spapr_xive_end_pic_print_info(SpaprXive *xive, XiveEND *end,
-                                           Monitor *mon)
- {
-+    uint64_t qaddr_base =3D xive_end_qaddr(end);
-     uint32_t qindex =3D xive_get_field32(END_W1_PAGE_OFF, end->w1);
-     uint32_t qgen =3D xive_get_field32(END_W1_GENERATION, end->w1);
-     uint32_t qsize =3D xive_get_field32(END_W0_QSIZE, end->w0);
-@@ -127,9 +128,9 @@ static void spapr_xive_end_pic_print_info(SpaprXive *=
-xive, XiveEND *end,
-     uint32_t nvt =3D xive_get_field32(END_W6_NVT_INDEX, end->w6);
-     uint8_t priority =3D xive_get_field32(END_W7_F0_PRIORITY, end->w7);
+@@ -141,7 +141,7 @@ void spapr_xive_pic_print_info(SpaprXive *xive, Monit=
+or *mon)
+     XiveSource *xsrc =3D &xive->source;
+     int i;
 =20
--    monitor_printf(mon, "%3d/%d % 6d/%5d ^%d",
-+    monitor_printf(mon, "%3d/%d % 6d/%5d @%"PRIx64" ^%d",
-                    spapr_xive_nvt_to_target(0, nvt),
--                   priority, qindex, qentries, qgen);
-+                   priority, qindex, qentries, qaddr_base, qgen);
+-    monitor_printf(mon, "  LSIN         PQ    EISN     CPU/PRIO EQ\n");
++    monitor_printf(mon, "  LISN         PQ    EISN     CPU/PRIO EQ\n");
 =20
-     xive_end_queue_pic_print_info(end, 6, mon);
-     monitor_printf(mon, "]");
+     for (i =3D 0; i < xive->nr_irqs; i++) {
+         uint8_t pq =3D xive_source_esb_get(xsrc, i);
 --=20
 2.21.0
 
