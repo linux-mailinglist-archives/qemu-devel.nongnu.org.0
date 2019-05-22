@@ -2,68 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8560026A8C
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 21:08:28 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49806 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4003526A64
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 21:01:34 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49696 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTWbD-00032x-Jk
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 15:08:27 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35240)
+	id 1hTWUX-0004CX-Cm
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 15:01:33 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35158)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hTWOn-0008P8-Gi
+	(envelope-from <richard.henderson@linaro.org>) id 1hTWOm-0008Lh-RQ
 	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:55:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hTWCU-0008CY-5n
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:42:54 -0400
-Received: from mail-yw1-xc43.google.com ([2607:f8b0:4864:20::c43]:33509)
+	(envelope-from <richard.henderson@linaro.org>) id 1hTWCU-0008Cz-NV
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:42:55 -0400
+Received: from mail-yw1-xc2a.google.com ([2607:f8b0:4864:20::c2a]:44152)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hTWCU-0008C5-19
+	id 1hTWCU-0008Cn-JK
 	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:42:54 -0400
-Received: by mail-yw1-xc43.google.com with SMTP id v81so1252036ywe.0
-	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 11:42:53 -0700 (PDT)
+Received: by mail-yw1-xc2a.google.com with SMTP id e74so1232055ywe.11
+	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 11:42:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
 	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=jubgcMuTGNSY5TtGEwh0c6OxeP3qp5DidyhAq6jVSSw=;
-	b=f1PZ2iIn9dsO3VMKtMvskBrGiJK4m9OrtvCaexOuwm0hu3vKwY6EmmdZbFdpr8Bj5q
-	etomMpuqZXjetwUr01u5T1/ScbyUjCW7CDEwkLYroNgnJTVSwuBpsYYh+ru9vP+FqZp+
-	wVCWXZtZaSpJJY1kjH1sjfDMyvsMaqdJPjbhNl/jBG4+Sy1OcYnZlriRf1+ey2v7zJk9
-	EpgQYgYiY5ivG//HsHY7r0PTVJ6Mm7738DOhgvp439k9URnpX3XvL/to4YSfjO0BahFx
-	cF7Qf/NpeSVILfSlFIIXfgQQAJmHuGYX/VP0h60jFBF5KXH+zUAlr7zgILWFbdPqkw+4
-	CrBg==
+	bh=bpjcbv60JSWpD1TbbxFv9kSVFeLonJbRE1N/VVDdCYY=;
+	b=obXPQmveNKyNSXpvyCvQgGuL84HmN38d+ocQ4xu6Hy01Ako0r2YNybJi3sRWYgL+L+
+	vwdcq9wugcF7ZN1vN1Sro1ztACdStOwROqJYX5n9Kx7PHT3tne4Pm6I5qJnq4fuAW7eX
+	8syO7oe2HUAdAHIFe+fNyMGHHtU1vUpDVZmeYHB6O/oU8H/oUlro/vl+A8GGP7KZk4DI
+	Z+vu0eg9D42r5+pS6S1fPUTUDu1RfDNTZAGf+ttHjebL1EpUNAO0RT9OS7RQDDNRwo6H
+	ycmRoNuq3sRHPNsovVxSMUSJbQ9Gr50NTbAIc4zSH1otjeUSzHPPJoHRmVMoOayrI0/T
+	Remg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
 	:references;
-	bh=jubgcMuTGNSY5TtGEwh0c6OxeP3qp5DidyhAq6jVSSw=;
-	b=M6yV0Jt9z0x57FaQvAn5NXEHx8zw9Vn+j+LfI1RQEXKtTyMQi/IEd7D0v2JrQq8bmx
-	Li8E6uYgIWe9g35i/3gGOO0NO/nY+9ZpfRt0ajfGrrLrpz5lAhkoA9EyIJTw35YhtI84
-	4sB5VVSvIgnwGcqNAqLq8ETuKRGmXQIm4P7LlOYLoZYE94EUS0LY1dimox79vsRgQkuT
-	v19H/JRm44EA6Hx8enfg5phZajUa5K4IRsI+uET6q2LIgMkmVy/baH1V/ERN81QccJlF
-	mnSP33Ds8o8MBBneruwVmC6nLCo3g4731UqplMs2Vihklr+RBi10uri2epwoM6Xa1pOm
-	MUrQ==
-X-Gm-Message-State: APjAAAVLFuFGB+31NuJPCOcxrdiHI/MjxAxDRken2wvgrFx7ddnYjkLV
-	oSvmmvBnru6GDXTiP4toHG8si40x2tY=
-X-Google-Smtp-Source: APXvYqzKD96eHrhxDzKNOQrj62NmxlATmt5ICBslN+ccxkv7rjbpcBDEd+bY115xJgfX42n+MusjKg==
-X-Received: by 2002:a81:3088:: with SMTP id w130mr42322592yww.63.1558550572691;
-	Wed, 22 May 2019 11:42:52 -0700 (PDT)
+	bh=bpjcbv60JSWpD1TbbxFv9kSVFeLonJbRE1N/VVDdCYY=;
+	b=a0eCcq1tzvUHZKRmTvBR9v28no1C1mx8aa3bDZUuozTsjq8rSe+DYDZ64JDk0RB4rJ
+	31areLsoRuOF1pzdGvCdFRMcjM8SrRDx1HhrbN0jKoAfGcfPdoj3qUaxU/4bn3oedsFh
+	Beg0XV5Z1NXkuTxUCQ9VNhDfQf4+uvnEm+JoxwOY8pD9WGtPabBpJQW6aYegZFMzBKqa
+	e/Ls1sUTbuJav7ezN42anCbNHii6k9d6OlNT1jjEgh3GU81/a+ehf8LFd1S2ohMihou8
+	PKfIhxUyBUapMfQ2JLWYc00sg9FL+pVnYt2K2hxOTs8aZKK4ER90hf2xNDY9fw+/gTvf
+	Xd7g==
+X-Gm-Message-State: APjAAAWDjyBTDqA2+/nAPevy8vDPYPyB5qOPCbovTEyXFSL379oothyI
+	63JFYN31IXVa00IqWD/zgZwXxu+TkIo=
+X-Google-Smtp-Source: APXvYqyCrGxOAQ446qneF6y9PxvIQ1IC2fm2mt+hSc5eLKZN/tvXP+J+lB4XtoY271IU2qKjddELeA==
+X-Received: by 2002:a81:924f:: with SMTP id j76mr40316861ywg.199.1558550573715;
+	Wed, 22 May 2019 11:42:53 -0700 (PDT)
 Received: from localhost.localdomain ([71.46.56.17])
 	by smtp.gmail.com with ESMTPSA id
-	206sm1299445ywq.74.2019.05.22.11.42.51
+	206sm1299445ywq.74.2019.05.22.11.42.52
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 22 May 2019 11:42:52 -0700 (PDT)
+	Wed, 22 May 2019 11:42:53 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed, 22 May 2019 14:42:24 -0400
-Message-Id: <20190522184226.17871-24-richard.henderson@linaro.org>
+Date: Wed, 22 May 2019 14:42:25 -0400
+Message-Id: <20190522184226.17871-25-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190522184226.17871-1-richard.henderson@linaro.org>
 References: <20190522184226.17871-1-richard.henderson@linaro.org>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::c43
-Subject: [Qemu-devel] [PULL 23/25] target/ppc: Use gen_io_start/end around
+X-Received-From: 2607:f8b0:4864:20::c2a
+Subject: [Qemu-devel] [PULL 24/25] target/ppc: Use qemu_guest_getrandom for
  DARN
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
@@ -80,50 +80,79 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Generating a random number counts as I/O, as it cannot be
-replayed and produce the same results.
+We now have an interface for guest visible random numbers.
 
 Acked-by: David Gibson <david@gibson.dropbear.id.au>
 Reviewed-by: Laurent Vivier <lvivier@redhat.com>
-Suggested-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/ppc/translate.c | 21 +++++++++++++++------
- 1 file changed, 15 insertions(+), 6 deletions(-)
+ target/ppc/int_helper.c | 39 +++++++++++++++++++++++++++------------
+ 1 file changed, 27 insertions(+), 12 deletions(-)
 
-diff --git a/target/ppc/translate.c b/target/ppc/translate.c
-index b5217f632f..4a5de28036 100644
---- a/target/ppc/translate.c
-+++ b/target/ppc/translate.c
-@@ -1847,13 +1847,22 @@ static void gen_darn(DisasContext *ctx)
- {
-     int l = L(ctx->opcode);
+diff --git a/target/ppc/int_helper.c b/target/ppc/int_helper.c
+index f6a088ac08..9af779ad38 100644
+--- a/target/ppc/int_helper.c
++++ b/target/ppc/int_helper.c
+@@ -23,6 +23,8 @@
+ #include "exec/helper-proto.h"
+ #include "crypto/aes.h"
+ #include "fpu/softfloat.h"
++#include "qapi/error.h"
++#include "qemu/guest-random.h"
  
--    if (l == 0) {
--        gen_helper_darn32(cpu_gpr[rD(ctx->opcode)]);
--    } else if (l <= 2) {
--        /* Return 64-bit random for both CRN and RRN */
--        gen_helper_darn64(cpu_gpr[rD(ctx->opcode)]);
--    } else {
-+    if (l > 2) {
-         tcg_gen_movi_i64(cpu_gpr[rD(ctx->opcode)], -1);
-+    } else {
-+        if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+            gen_io_start();
-+        }
-+        if (l == 0) {
-+            gen_helper_darn32(cpu_gpr[rD(ctx->opcode)]);
-+        } else {
-+            /* Return 64-bit random for both CRN and RRN */
-+            gen_helper_darn64(cpu_gpr[rD(ctx->opcode)]);
-+        }
-+        if (tb_cflags(ctx->base.tb) & CF_USE_ICOUNT) {
-+            gen_io_end();
-+            gen_stop_exception(ctx);
-+        }
-     }
+ #include "helper_regs.h"
+ /*****************************************************************************/
+@@ -158,25 +160,38 @@ uint32_t helper_cmpeqb(target_ulong ra, target_ulong rb)
+ #undef hasvalue
+ 
+ /*
+- * Return invalid random number.
+- *
+- * FIXME: Add rng backend or other mechanism to get cryptographically suitable
+- * random number
++ * Return a random number.
+  */
+-target_ulong helper_darn32(void)
++uint64_t helper_darn32(void)
+ {
+-    return -1;
++    Error *err = NULL;
++    uint32_t ret;
++
++    if (qemu_guest_getrandom(&ret, sizeof(ret), &err) < 0) {
++        qemu_log_mask(LOG_UNIMP, "darn: Crypto failure: %s",
++                      error_get_pretty(err));
++        error_free(err);
++        return -1;
++    }
++
++    return ret;
  }
- #endif
+ 
+-target_ulong helper_darn64(void)
++uint64_t helper_darn64(void)
+ {
+-    return -1;
++    Error *err = NULL;
++    uint64_t ret;
++
++    if (qemu_guest_getrandom(&ret, sizeof(ret), &err) < 0) {
++        qemu_log_mask(LOG_UNIMP, "darn: Crypto failure: %s",
++                      error_get_pretty(err));
++        error_free(err);
++        return -1;
++    }
++
++    return ret;
+ }
+ 
+-#endif
+-
+-#if defined(TARGET_PPC64)
+-
+ uint64_t helper_bpermd(uint64_t rs, uint64_t rb)
+ {
+     int i;
 -- 
 2.17.1
 
