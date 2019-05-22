@@ -2,50 +2,82 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 3E32D25B66
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 02:55:36 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:33522 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5579825B9B
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 03:18:50 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:33818 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTFXb-0007Ci-Fd
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 20:55:35 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:46540)
+	id 1hTFu5-0007OB-52
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 21:18:49 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49545)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richardw.yang@linux.intel.com>) id 1hTFWR-0006et-Tr
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 20:54:24 -0400
+	(envelope-from <eblake@redhat.com>) id 1hTFsJ-0006PR-Rq
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 21:17:00 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richardw.yang@linux.intel.com>) id 1hTFWQ-0000VW-UA
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 20:54:23 -0400
-Received: from mga18.intel.com ([134.134.136.126]:64669)
+	(envelope-from <eblake@redhat.com>) id 1hTFdt-0007B8-U3
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 21:02:06 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:53214)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <richardw.yang@linux.intel.com>)
-	id 1hTFWQ-0000Td-L8
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 20:54:22 -0400
-X-Amp-Result: UNSCANNABLE
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-	by orsmga106.jf.intel.com with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384;
-	21 May 2019 17:54:21 -0700
-X-ExtLoop1: 1
-Received: from richard.sh.intel.com (HELO localhost) ([10.239.159.54])
-	by fmsmga004.fm.intel.com with ESMTP; 21 May 2019 17:54:20 -0700
-Date: Wed, 22 May 2019 08:53:49 +0800
-From: Wei Yang <richardw.yang@linux.intel.com>
-To: Markus Armbruster <armbru@redhat.com>
-Message-ID: <20190522005349.GC14030@richard>
-References: <20190521081227.30799-1-richardw.yang@linux.intel.com>
-	<c184d4f7-686b-d54a-f969-a05ab965028a@redhat.com>
-	<87lfyzrfms.fsf@dusky.pond.sub.org>
+	(Exim 4.71) (envelope-from <eblake@redhat.com>)
+	id 1hTFds-00079l-MY; Tue, 21 May 2019 21:02:04 -0400
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
+	[10.5.11.13])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 8DC143082E23;
+	Wed, 22 May 2019 01:02:03 +0000 (UTC)
+Received: from [10.3.116.56] (ovpn-116-56.phx2.redhat.com [10.3.116.56])
+	by smtp.corp.redhat.com (Postfix) with ESMTPS id 46655226F4;
+	Wed, 22 May 2019 01:02:00 +0000 (UTC)
+To: Aarushi Mehta <mehta.aaru20@gmail.com>, qemu-devel@nongnu.org
+References: <20190521235215.31341-1-mehta.aaru20@gmail.com>
+	<20190521235215.31341-2-mehta.aaru20@gmail.com>
+	<d932237b-03bc-5dbb-17dd-bcca5ce121c8@redhat.com>
+	<1c277edc76e47fbbaae0ecdd6774e24ac9a94ee5.camel@gmail.com>
+From: Eric Blake <eblake@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=eblake@redhat.com; keydata=
+	xsBNBEvHyWwBCACw7DwsQIh0kAbUXyqhfiKAKOTVu6OiMGffw2w90Ggrp4bdVKmCaEXlrVLU
+	xphBM8mb+wsFkU+pq9YR621WXo9REYVIl0FxKeQo9dyQBZ/XvmUMka4NOmHtFg74nvkpJFCD
+	TUNzmqfcjdKhfFV0d7P/ixKQeZr2WP1xMcjmAQY5YvQ2lUoHP43m8TtpB1LkjyYBCodd+LkV
+	GmCx2Bop1LSblbvbrOm2bKpZdBPjncRNob73eTpIXEutvEaHH72LzpzksfcKM+M18cyRH+nP
+	sAd98xIbVjm3Jm4k4d5oQyE2HwOur+trk2EcxTgdp17QapuWPwMfhaNq3runaX7x34zhABEB
+	AAHNHkVyaWMgQmxha2UgPGVibGFrZUByZWRoYXQuY29tPsLAegQTAQgAJAIbAwULCQgHAwUV
+	CgkICwUWAgMBAAIeAQIXgAUCS8fL9QIZAQAKCRCnoWtKJSdDahBHCACbl/5FGkUqJ89GAjeX
+	RjpAeJtdKhujir0iS4CMSIng7fCiGZ0fNJCpL5RpViSo03Q7l37ss+No+dJI8KtAp6ID+PMz
+	wTJe5Egtv/KGUKSDvOLYJ9WIIbftEObekP+GBpWP2+KbpADsc7EsNd70sYxExD3liwVJYqLc
+	Rw7so1PEIFp+Ni9A1DrBR5NaJBnno2PHzHPTS9nmZVYm/4I32qkLXOcdX0XElO8VPDoVobG6
+	gELf4v/vIImdmxLh/w5WctUpBhWWIfQDvSOW2VZDOihm7pzhQodr3QP/GDLfpK6wI7exeu3P
+	pfPtqwa06s1pae3ad13mZGzkBdNKs1HEm8x6zsBNBEvHyWwBCADGkMFzFjmmyqAEn5D+Mt4P
+	zPdO8NatsDw8Qit3Rmzu+kUygxyYbz52ZO40WUu7EgQ5kDTOeRPnTOd7awWDQcl1gGBXgrkR
+	pAlQ0l0ReO57Q0eglFydLMi5bkwYhfY+TwDPMh3aOP5qBXkm4qIYSsxb8A+i00P72AqFb9Q7
+	3weG/flxSPApLYQE5qWGSXjOkXJv42NGS6o6gd4RmD6Ap5e8ACo1lSMPfTpGzXlt4aRkBfvb
+	NCfNsQikLZzFYDLbQgKBA33BDeV6vNJ9Cj0SgEGOkYyed4I6AbU0kIy1hHAm1r6+sAnEdIKj
+	cHi3xWH/UPrZW5flM8Kqo14OTDkI9EtlABEBAAHCwF8EGAEIAAkFAkvHyWwCGwwACgkQp6Fr
+	SiUnQ2q03wgAmRFGDeXzc58NX0NrDijUu0zx3Lns/qZ9VrkSWbNZBFjpWKaeL1fdVeE4TDGm
+	I5mRRIsStjQzc2R9b+2VBUhlAqY1nAiBDv0Qnt+9cLiuEICeUwlyl42YdwpmY0ELcy5+u6wz
+	mK/jxrYOpzXKDwLq5k4X+hmGuSNWWAN3gHiJqmJZPkhFPUIozZUCeEc76pS/IUN72NfprZmF
+	Dp6/QDjDFtfS39bHSWXKVZUbqaMPqlj/z6Ugk027/3GUjHHr8WkeL1ezWepYDY7WSoXwfoAL
+	2UXYsMAr/uUncSKlfjvArhsej0S4zbqim2ZY6S8aRWw94J3bSvJR+Nwbs34GPTD4Pg==
+Organization: Red Hat, Inc.
+Message-ID: <b3cffe45-ffac-b010-189d-b852e632c8d9@redhat.com>
+Date: Tue, 21 May 2019 20:01:59 -0500
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <87lfyzrfms.fsf@dusky.pond.sub.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 134.134.136.126
-Subject: Re: [Qemu-devel] [PATCH] Makefile: simplify qapi-py definition with
- wildcard
+In-Reply-To: <1c277edc76e47fbbaae0ecdd6774e24ac9a94ee5.camel@gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+	protocol="application/pgp-signature";
+	boundary="v8FVpQZ3H3f9vjh6lYdplqZllAq7MbfHg"
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.46]);
+	Wed, 22 May 2019 01:02:03 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [RFC PATCH 1/9] qapi/block-core: add option for
+ io_uring
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -57,41 +89,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Wei Yang <richardw.yang@linux.intel.com>
-Cc: berrange@redhat.com, philmd@redhat.com, qemu-devel@nongnu.org,
-	Wei Yang <richardw.yang@linux.intel.com>, alex.bennee@linaro.org,
-	kraxel@redhat.com
+Cc: saket.sinha89@gmail.com, Julia Suvorova <jusual@mail.ru>,
+	Stefan Hajnoczi <stefanha@redhat.com>, qemu-block@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Tue, May 21, 2019 at 05:28:27PM +0200, Markus Armbruster wrote:
->Eric Blake <eblake@redhat.com> writes:
->
->> On 5/21/19 3:12 AM, Wei Yang wrote:
->>> All the python script in scripts/qapi is used to generate qapi code. Use
->>> wildcard to simplify it.
->>> 
->>> Signed-off-by: Wei Yang <richardw.yang@linux.intel.com>
->>> ---
->>>  Makefile | 8 +-------
->>>  1 file changed, 1 insertion(+), 7 deletions(-)
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--v8FVpQZ3H3f9vjh6lYdplqZllAq7MbfHg
+From: Eric Blake <eblake@redhat.com>
+To: Aarushi Mehta <mehta.aaru20@gmail.com>, qemu-devel@nongnu.org
+Cc: saket.sinha89@gmail.com, Julia Suvorova <jusual@mail.ru>,
+ qemu-block@nongnu.org, Stefan Hajnoczi <stefanha@redhat.com>
+Message-ID: <b3cffe45-ffac-b010-189d-b852e632c8d9@redhat.com>
+Subject: Re: [Qemu-devel] [RFC PATCH 1/9] qapi/block-core: add option for
+ io_uring
+References: <20190521235215.31341-1-mehta.aaru20@gmail.com>
+ <20190521235215.31341-2-mehta.aaru20@gmail.com>
+ <d932237b-03bc-5dbb-17dd-bcca5ce121c8@redhat.com>
+ <1c277edc76e47fbbaae0ecdd6774e24ac9a94ee5.camel@gmail.com>
+In-Reply-To: <1c277edc76e47fbbaae0ecdd6774e24ac9a94ee5.camel@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: quoted-printable
+
+On 5/21/19 7:51 PM, Aarushi Mehta wrote:
+
+>>> +# @io_uring:    Use linux io_uring
 >>
->> I'm not a fan of $(wildcard). It makes your tarball creation
->> non-deterministic - if there is a leftover file from development that is
->> no longer part of the build, wildcard will still pick it up.  Explicit
->
->Actually, in this case can "only" adds spurious prerequisites.
+>> Missing a '(since 4.1)' tag.
+>>
+>>>  #
+>>>  # Since: 2.9
+>>>  ##
+>>>  { 'enum': 'BlockdevAioOptions',
+>>> -  'data': [ 'threads', 'native' ] }
+>>> +  'data': [ 'threads', 'native','io_uring' ] }
+>>
+>> Missing space after ',' (not essential, but matching style is nice).
+>> Should the new element be defined conditionally, so that
+>> introspection
+>> only sees the new enum member when compiled for Linux?
+>>
+> I'm not sure what would be the benefits of that? We already check for
+> Linux at configure, and this would reduce readability. We aren't doing
+> this for native.
 
-Hmm... which spurious prerequisites will be added? I may miss something here.
+Look at BlockdevOptionsFile in qapi/block-core.qapi. Telling the QAPI
+generator that something is only available on Linux means that it will
+be obvious to introspection (the QMP command query-qmp-schema) whether
+the feature is present in a particular binary.
 
->
->> lists are better.  I'm inclined to NACK this, but Markus has final say
->> since he maintains the qapi generator.
->
->I consider use of $(wildcard) for the purpose of collecting sources a
->lazy mistake.
+--=20
+Eric Blake, Principal Software Engineer
+Red Hat, Inc.           +1-919-301-3226
+Virtualization:  qemu.org | libvirt.org
 
--- 
-Wei Yang
-Help you, Help me
+
+--v8FVpQZ3H3f9vjh6lYdplqZllAq7MbfHg
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEccLMIrHEYCkn0vOqp6FrSiUnQ2oFAlzkn4cACgkQp6FrSiUn
+Q2oYgAgAnFHzsi/NrlVhSdAVbl5Bzk2faJSupPqAHDM/KtHE8MD6KSDSBbVeDQQE
+wdbzb+pXVoroMxEmJlnLrdB+1IV0jeY7QYLPjvvfPvYqAtuME/H98V7eWlzDinaa
+JA9Yct8P0/49S0zqEVWCjd57S0N+OCIvj3YAt/WIjuPegtLVoOusO98Xcl3c1uCW
+lUtrYm98BYTJ1Y2vlXRI+IfzXuEjp3JCO2ubfD4W7KoBsxiJtmG8MEfBTFTyoxhL
+21OIBuMjuW7CCXw6eIE+zXazKVOjZs4nzNRx/nJDZDbaI5DM/lbuvG0NC2LltOPe
+mEnN0kOf7Escrqh8bj58Qmq9tvS53Q==
+=7BNf
+-----END PGP SIGNATURE-----
+
+--v8FVpQZ3H3f9vjh6lYdplqZllAq7MbfHg--
 
