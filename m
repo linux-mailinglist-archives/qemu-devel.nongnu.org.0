@@ -2,49 +2,70 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DF9C82615F
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 12:06:44 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:39533 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A4CA22616B
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 12:09:11 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:39570 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTO8x-0000pe-4q
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 06:06:43 -0400
+	id 1hTOBK-00033P-PD
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 06:09:10 -0400
 Received: from eggs.gnu.org ([209.51.188.92]:50669)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hTO6V-0008E8-9Z
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 06:04:12 -0400
+	(envelope-from <pbonzini@redhat.com>) id 1hTO6b-0008E8-4B
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 06:04:18 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <kraxel@redhat.com>) id 1hTO0x-0005DW-VL
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 05:58:29 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:37416)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hTO0x-0005Cy-O3
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 05:58:27 -0400
-Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com
-	[10.5.11.11])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id D3F71C04AC69
-	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 09:58:26 +0000 (UTC)
-Received: from sirius.home.kraxel.org (ovpn-117-74.ams2.redhat.com
-	[10.36.117.74])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id EECD660478;
-	Wed, 22 May 2019 09:58:20 +0000 (UTC)
-Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
-	id 26377A206; Wed, 22 May 2019 11:58:21 +0200 (CEST)
-From: Gerd Hoffmann <kraxel@redhat.com>
-To: qemu-devel@nongnu.org
-Date: Wed, 22 May 2019 11:58:21 +0200
-Message-Id: <20190522095821.15240-4-kraxel@redhat.com>
-In-Reply-To: <20190522095821.15240-1-kraxel@redhat.com>
-References: <20190522095821.15240-1-kraxel@redhat.com>
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.31]);
-	Wed, 22 May 2019 09:58:26 +0000 (UTC)
+	(envelope-from <pbonzini@redhat.com>) id 1hTO4p-000880-Oo
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 06:02:28 -0400
+Received: from mail-wm1-f67.google.com ([209.85.128.67]:38720)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hTO4n-00086E-RY
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 06:02:26 -0400
+Received: by mail-wm1-f67.google.com with SMTP id t5so1537574wmh.3
+	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 03:02:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=ow8UtW0xJabuzZys/UhrouAR2kIXy20cmyMzBCUpPCs=;
+	b=U6N+OqLg4//zdRUMC9uoWswZGiBqEC1fprVEPPJd4SayQe45IZJ20iY6/sz3CkcBt1
+	3Nx8yXv3fb+NImkt+MYojvHC9HK1jK3K086j019zaJJXLeQLdLsAkoB95JRJPhdS3w23
+	P9TdTYsX/ad6QK5JRIAQkK5BAiBzfDcdnNzBNE7NJObFs7E611HM3IfNd8hftZNqj0Wq
+	HezhcIyRD4GGbFerL0/xhY68ULrc0+/YGC3b8ix2yULFFFcTwAk7eVx34gKChKcyGpkI
+	3otvJNJ2hrA4oSYH2ZLW8f9WyEUu6tvwqTnTBi3G9ThoR686N08GGSeVK52TmytX86tv
+	Mf9g==
+X-Gm-Message-State: APjAAAWf0sWVGxk9IMc0gadTFaS5IZJIzmwYVt3aZK8RtriNVssidDfN
+	Xkghpd/WpTVMLAvITi7xRs0Aig==
+X-Google-Smtp-Source: APXvYqzFrlGYylgN+iViXvkV/inzPVMH8r5JZoQ64g+Sq+fIt5JPlW0NDRHylTNhfs4JFh3nMppViQ==
+X-Received: by 2002:a1c:a002:: with SMTP id j2mr6694976wme.131.1558519343623; 
+	Wed, 22 May 2019 03:02:23 -0700 (PDT)
+Received: from [10.32.181.147] (nat-pool-mxp-t.redhat.com. [149.6.153.186])
+	by smtp.gmail.com with ESMTPSA id
+	s17sm4508801wmj.15.2019.05.22.03.02.22
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 22 May 2019 03:02:22 -0700 (PDT)
+To: Peter Maydell <peter.maydell@linaro.org>,
+	Stefan Hajnoczi <stefanha@gmail.com>
+References: <20190504120528.6389-1-pbonzini@redhat.com>
+	<877eb4c3jm.fsf@zen.linaroharston>
+	<CAFEAcA_+baJCxf1vQMJJP2cwzZ3snyHNJTWWgUqo26vUPKfszQ@mail.gmail.com>
+	<20190515094830.GB29507@stefanha-x1.localdomain>
+	<CAFEAcA-XC3UjNxRZ5OU5i16Nc515rYoaxEhMVc+8nD1M+VZVVg@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <feef288f-e6c5-277b-7129-6facdb35c987@redhat.com>
+Date: Wed, 22 May 2019 12:02:22 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
+MIME-Version: 1.0
+In-Reply-To: <CAFEAcA-XC3UjNxRZ5OU5i16Nc515rYoaxEhMVc+8nD1M+VZVVg@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: [Qemu-devel] [PATCH 3/3] egl-helpers: add dmabuf modifier support.
+	[fuzzy]
+X-Received-From: 209.85.128.67
+Subject: Re: [Qemu-devel] [Qemu-block] [PATCH 0/9] Assembly coroutine
+ backend and x86 CET support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -56,138 +77,36 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Alex Williamson <alex.williamson@redhat.com>,
-	Gerd Hoffmann <kraxel@redhat.com>
+Cc: =?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+	Cornelia Huck <cohuck@redhat.com>,
+	Richard Henderson <richard.henderson@linaro.org>,
+	QEMU Developers <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Add modifier parameter to egl_get_fd_for_texture(), to return the used
-modifier on dmabuf exports.
+On 16/05/19 14:50, Peter Maydell wrote:
+> On Wed, 15 May 2019 at 10:48, Stefan Hajnoczi <stefanha@gmail.com> wrote:
+>> 1. It's required for Intel Control-flow Enforcement Technology (CET).
+>>    The existing ucontext backend doesn't work with CET.
+>> 2. It's faster than the existing ucontext implementation.
+> 
+> Mmm, I think we've talked about 1 before, but I think it would
+> be useful to clearly state why we need to do things here.
 
-Check and use QemuDmaBuf->modifier in egl_dmabuf_import_texture() for
-dmabuf imports.
+The reason is that, with CET enabled, setjmp and longjmp assume that
+they are used only to unwind the stack and not to switch to a completely
+different one.  You are supposed to use swapcontext for that, but it
+doesn't work for QEMU coroutines because it saves/restores the signal
+mask; that is not only slower, it's incorrect we want the signal mask to
+be a property of the thread, not the coroutine.
 
-Signed-off-by: Gerd Hoffmann <kraxel@redhat.com>
----
- include/ui/egl-helpers.h |  3 ++-
- ui/egl-helpers.c         | 37 ++++++++++++++++++++++++++-----------
- ui/spice-display.c       |  7 ++++---
- 3 files changed, 32 insertions(+), 15 deletions(-)
+> It's also useful for identifying whether we need an asm
+> backend for every host, or only some hosts (and if so which).
 
-diff --git a/include/ui/egl-helpers.h b/include/ui/egl-helpers.h
-index b976cb872821..d71412779913 100644
---- a/include/ui/egl-helpers.h
-+++ b/include/ui/egl-helpers.h
-@@ -36,7 +36,8 @@ extern struct gbm_device *qemu_egl_rn_gbm_dev;
- extern EGLContext qemu_egl_rn_ctx;
- 
- int egl_rendernode_init(const char *rendernode, DisplayGLMode mode);
--int egl_get_fd_for_texture(uint32_t tex_id, EGLint *stride, EGLint *fourcc);
-+int egl_get_fd_for_texture(uint32_t tex_id, EGLint *stride, EGLint *fourcc,
-+                           EGLuint64KHR *modifier);
- 
- void egl_dmabuf_import_texture(QemuDmaBuf *dmabuf);
- void egl_dmabuf_release_texture(QemuDmaBuf *dmabuf);
-diff --git a/ui/egl-helpers.c b/ui/egl-helpers.c
-index e90eef8c9c3a..87bfd32e8ddb 100644
---- a/ui/egl-helpers.c
-+++ b/ui/egl-helpers.c
-@@ -200,7 +200,8 @@ err:
-     return -1;
- }
- 
--int egl_get_fd_for_texture(uint32_t tex_id, EGLint *stride, EGLint *fourcc)
-+int egl_get_fd_for_texture(uint32_t tex_id, EGLint *stride, EGLint *fourcc,
-+                           EGLuint64KHR *modifier)
- {
-     EGLImageKHR image;
-     EGLint num_planes, fd;
-@@ -214,7 +215,7 @@ int egl_get_fd_for_texture(uint32_t tex_id, EGLint *stride, EGLint *fourcc)
-     }
- 
-     eglExportDMABUFImageQueryMESA(qemu_egl_display, image, fourcc,
--                                  &num_planes, NULL);
-+                                  &num_planes, modifier);
-     if (num_planes != 1) {
-         eglDestroyImageKHR(qemu_egl_display, image);
-         return -1;
-@@ -228,20 +229,34 @@ int egl_get_fd_for_texture(uint32_t tex_id, EGLint *stride, EGLint *fourcc)
- void egl_dmabuf_import_texture(QemuDmaBuf *dmabuf)
- {
-     EGLImageKHR image = EGL_NO_IMAGE_KHR;
--    EGLint attrs[] = {
--        EGL_DMA_BUF_PLANE0_FD_EXT,      dmabuf->fd,
--        EGL_DMA_BUF_PLANE0_PITCH_EXT,   dmabuf->stride,
--        EGL_DMA_BUF_PLANE0_OFFSET_EXT,  0,
--        EGL_WIDTH,                      dmabuf->width,
--        EGL_HEIGHT,                     dmabuf->height,
--        EGL_LINUX_DRM_FOURCC_EXT,       dmabuf->fourcc,
--        EGL_NONE, /* end of list */
--    };
-+    EGLint attrs[64];
-+    int i = 0;
- 
-     if (dmabuf->texture != 0) {
-         return;
-     }
- 
-+    attrs[i++] = EGL_WIDTH;
-+    attrs[i++] = dmabuf->width;
-+    attrs[i++] = EGL_HEIGHT;
-+    attrs[i++] = dmabuf->height;
-+    attrs[i++] = EGL_LINUX_DRM_FOURCC_EXT;
-+    attrs[i++] = dmabuf->fourcc;
-+
-+    attrs[i++] = EGL_DMA_BUF_PLANE0_FD_EXT;
-+    attrs[i++] = dmabuf->fd;
-+    attrs[i++] = EGL_DMA_BUF_PLANE0_PITCH_EXT;
-+    attrs[i++] = dmabuf->stride;
-+    attrs[i++] = EGL_DMA_BUF_PLANE0_OFFSET_EXT;
-+    attrs[i++] = 0;
-+    if (dmabuf->modifier) {
-+        attrs[i++] = EGL_DMA_BUF_PLANE0_MODIFIER_LO_EXT;
-+        attrs[i++] = (dmabuf->modifier >>  0) & 0xffffffff;
-+        attrs[i++] = EGL_DMA_BUF_PLANE0_MODIFIER_HI_EXT;
-+        attrs[i++] = (dmabuf->modifier >> 32) & 0xffffffff;
-+    }
-+    attrs[i++] = EGL_NONE;
-+
-     image = eglCreateImageKHR(qemu_egl_display,
-                               EGL_NO_CONTEXT,
-                               EGL_LINUX_DMA_BUF_EXT,
-diff --git a/ui/spice-display.c b/ui/spice-display.c
-index a5e26479a866..104df2302575 100644
---- a/ui/spice-display.c
-+++ b/ui/spice-display.c
-@@ -888,7 +888,8 @@ static void spice_gl_switch(DisplayChangeListener *dcl,
-     if (ssd->ds) {
-         surface_gl_create_texture(ssd->gls, ssd->ds);
-         fd = egl_get_fd_for_texture(ssd->ds->texture,
--                                    &stride, &fourcc);
-+                                    &stride, &fourcc,
-+                                    NULL);
-         if (fd < 0) {
-             surface_gl_destroy_texture(ssd->gls, ssd->ds);
-             return;
-@@ -945,7 +946,7 @@ static void qemu_spice_gl_scanout_texture(DisplayChangeListener *dcl,
-     int fd = -1;
- 
-     assert(tex_id);
--    fd = egl_get_fd_for_texture(tex_id, &stride, &fourcc);
-+    fd = egl_get_fd_for_texture(tex_id, &stride, &fourcc, NULL);
-     if (fd < 0) {
-         fprintf(stderr, "%s: failed to get fd for texture\n", __func__);
-         return;
-@@ -1063,7 +1064,7 @@ static void qemu_spice_gl_update(DisplayChangeListener *dcl,
-                 egl_fb_setup_new_tex(&ssd->blit_fb,
-                                      dmabuf->width, dmabuf->height);
-                 fd = egl_get_fd_for_texture(ssd->blit_fb.texture,
--                                            &stride, &fourcc);
-+                                            &stride, &fourcc, NULL);
-                 spice_qxl_gl_scanout(&ssd->qxl, fd,
-                                      dmabuf->width, dmabuf->height,
-                                      stride, fourcc, false);
--- 
-2.18.1
+It's not needed for _any_ host (except x86 if you want CET support).  I
+wrote these three backends to ensure that it could be ported without
+much effort on any host.  If you prefer not having an aarch64 backend,
+for example, I can leave it out.
 
+Paolo
 
