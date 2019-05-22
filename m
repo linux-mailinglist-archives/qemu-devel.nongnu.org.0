@@ -2,52 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DA128264CD
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 15:34:31 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43335 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 3F555264BF
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 15:31:23 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43305 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTRO3-000695-2A
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 09:34:31 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38400)
+	id 1hTRL0-0004D6-93
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 09:31:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38568)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <anton.ivanov@kot-begemot.co.uk>) id 1hTRIR-0002z7-T6
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 09:28:45 -0400
+	(envelope-from <pbonzini@redhat.com>) id 1hTRIp-0003FC-AZ
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 09:29:08 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <anton.ivanov@kot-begemot.co.uk>) id 1hTRIP-0007Vq-FN
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 09:28:43 -0400
-Received: from ivanoab6.miniserver.com ([5.153.251.140]:57232
-	helo=www.kot-begemot.co.uk)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <anton.ivanov@kot-begemot.co.uk>)
-	id 1hTRIO-0007RA-OM
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 09:28:41 -0400
-Received: from [192.168.17.6] (helo=jain.kot-begemot.co.uk)
-	by www.kot-begemot.co.uk with esmtps
-	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.89)
-	(envelope-from <anton.ivanov@kot-begemot.co.uk>)
-	id 1hTRIH-00045N-3j; Wed, 22 May 2019 13:28:33 +0000
-Received: from jain.kot-begemot.co.uk ([192.168.3.3])
-	by jain.kot-begemot.co.uk with esmtp (Exim 4.89)
-	(envelope-from <anton.ivanov@kot-begemot.co.uk>)
-	id 1hTRIE-0003iF-IX; Wed, 22 May 2019 14:28:32 +0100
-To: Johannes Berg <johannes@sipsolutions.net>, linux-um@lists.infradead.org,
-	virtualization@lists.linux-foundation.org, qemu-devel@nongnu.org
-References: <0952696452f5ff4e38d2417029243fc60efa33d6.camel@sipsolutions.net>
-From: Anton Ivanov <anton.ivanov@kot-begemot.co.uk>
-Message-ID: <ddeee710-d546-ff05-5c53-991a7d807067@kot-begemot.co.uk>
-Date: Wed, 22 May 2019 14:28:30 +0100
+	(envelope-from <pbonzini@redhat.com>) id 1hTRIo-0007mR-Cz
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 09:29:07 -0400
+Received: from mail-wm1-f65.google.com ([209.85.128.65]:33352)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hTRIo-0007Wt-6h
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 09:29:06 -0400
+Received: by mail-wm1-f65.google.com with SMTP id c66so4746338wme.0
+	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 06:28:43 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=+dLJ0LePWde9C91jtMK5co33oto1XGS+1XRVuhoNJEo=;
+	b=p06BKD/qt3fp1eP7F/wOQEc4GCIarvq1/QeSWwj2uXTlBAy9wti18mkqPYLZvuUiGP
+	pr2u8cCl7gBC/xkWYl5cy3Wj9ayC6ZrZtglJRVrjQL7nyIEPv0/Jstm9vYr+hklfYhWT
+	5UfuCzwRUFD6rAksiJZRZtPVxmCh76ETTLl30jbYP0Nn7tZQkQ+YmYp809FXDOrX1K9h
+	eoDLh9UZCBkMs2M/+J0P+OaUlWrjh3bQ1QzQZlNpjxtNF7b2WTf0nm299lfXIB/kkqR1
+	x09JuXkn+X/z39mJ485KDu6kWoo6vWIU+oG/XaVVWFoJU05P0+VCGBPcizFHg86QpVIc
+	XItg==
+X-Gm-Message-State: APjAAAVm8brYn92A4BErr2NpAtHJgjzFZJbuvi/g4IHIMFlihMs4QZ0M
+	98lJdUU6qmImQeUd17QUBT40mQ==
+X-Google-Smtp-Source: APXvYqztadVxjGeSB0sA/0dlmBHTxLPiL79xWWn01lRd9+Rw83Y1OQbiUxsb1NyM/goKURFVHdQrXQ==
+X-Received: by 2002:a1c:2dd2:: with SMTP id t201mr7493736wmt.136.1558531722145;
+	Wed, 22 May 2019 06:28:42 -0700 (PDT)
+Received: from [10.32.181.147] (nat-pool-mxp-t.redhat.com. [149.6.153.186])
+	by smtp.gmail.com with ESMTPSA id n5sm2867933wrj.27.2019.05.22.06.28.41
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 22 May 2019 06:28:41 -0700 (PDT)
+To: Stefan Hajnoczi <stefanha@gmail.com>,
+	Peter Maydell <peter.maydell@linaro.org>
+References: <CAFEAcA-vSebWjhbFTdfOSGHJtr8-a+DKG22JU3tS-1OoGR=VXQ@mail.gmail.com>
+	<20190522125348.GH27900@stefanha-x1.localdomain>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <95f2e1c8-5307-9aa0-601a-e4ee53c199fb@redhat.com>
+Date: Wed, 22 May 2019 15:28:41 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <0952696452f5ff4e38d2417029243fc60efa33d6.camel@sipsolutions.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20190522125348.GH27900@stefanha-x1.localdomain>
+Content-Type: text/plain; charset=windows-1252
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Clacks-Overhead: GNU Terry Pratchett
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 5.153.251.140
-Subject: Re: [Qemu-devel] custom virt-io support (in user-mode-linux)
+	[fuzzy]
+X-Received-From: 209.85.128.65
+Subject: Re: [Qemu-devel] is anybody experimenting with the idea of rust
+ code in QEMU?
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -59,74 +73,52 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: QEMU Developers <qemu-devel@nongnu.org>, Sergio Lopez <slp@redhat.com>,
+	"Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 22/05/19 14:53, Stefan Hajnoczi wrote:
+> On Tue, May 21, 2019 at 03:39:40PM +0100, Peter Maydell wrote:
+>> Hi; I have on my todo list the idea of some experimentation/prototyping
+>> of whether being able to write some components of QEMU in Rust would
+>> be (a) feasible (b) beneficial (c) fun to play around with even if
+>> it is likely that it doesn't go anywhere :-)
+>>
+>> I know Paolo has had a look at how you might write some makefiles
+>> to integrate rust into a C program (https://github.com/bonzini/rust-and-c/).
+>> Has anybody else been doing anything in this general area ?
+>>
+>> (I went to two good talks locally recently about rust-vmm and Amazon's
+>> 'firecracker' VMM by Andreea Florescu and Diana Popa -- I
+>> definitely plan to look at rust-vmm as part of this.)
+> 
+> There are some in-development vhost-user device backends in Rust.
+> Sergio Lopez is working on a vhost-user-blk implementation.  David
+> Gilbert is working on a vhost-user-fs implementation.
+> 
+> I think mixing Rust and C code in the main QEMU binary itself is
+> probably more trouble than it's worth.  Think boilerplate, duplication,
+> coming up with safe Rust APIs for QEMU's unsafe APIs.
 
+This is true.  The case I was playing with is where the QEMU APIs have a
+more or less direct mapping to rust-vmm APIs and only have a limited
+number of dependencies on other C APIs.  This way, you can either write
+a Rust binding to the C code, or rewrite the C code in Rust with tiny C
+wrapper APIs on top.
 
-On 22/05/2019 14:02, Johannes Berg wrote:
-> Hi,
+For example, the memory API (more or less) depends only on RCU and maps
+to rust-vmm/vm-memory, and virtqueue processing in rust-vmm/vm-virtio
+depends only on the memory API.
+
+Thanks,
+
+Paolo
+
+> I'm more interested in using Rust for separate processes that can be
+> written from scratch.
 > 
-> While my main interest is mostly in UML right now [1] I've CC'ed the
-> qemu and virtualization lists because something similar might actually
-> apply to other types of virtualization.
-> 
-> I'm thinking about adding virt-io support to UML, but the tricky part is
-> that while I want to use the virt-io basics (because it's a nice
-> interface from the 'inside'), I don't actually want the stock drivers
-> that are part of the kernel now (like virtio-net etc.) but rather
-> something that integrates with wifi (probably building on hwsim).
-> 
-> The 'inside' interfaces aren't really a problem - just have a specific
-> device ID for this, and then write a normal virtio kernel driver for it.
-> 
-> The 'outside' interfaces are where my thinking breaks down right now.
-> 
-> Looking at lkl, the outside is just all implemented in lkl as code that
-> gets linked to the library, so in UML terms it'd just be extra 'outside'
-> code like the timer handling or other netdev stuff we have today.
-> Looking at qemu, it's of course also implemented there, and then
-> interfaces with the real network, console abstraction, etc.
-> 
-> However, like I said above, I really need something very custom and not
-> likely to make it upstream to any project (because what point is that if
-> you cannot connect to the rest of the environment I'm building), so I'm
-> thinking that perhaps it should be possible to write an abstract
-> 'outside' that lets you interact with it really from out-of-process?
-> Perhaps through some kind of shared memory segment? I think that gets
-> tricky with virt-io doing DMA (I think it does?) though, so that part
-> would have to be implemented directly and not out-of-process?
-> 
-> But really that's why I'm asking - is there a better way than to just
-> link the device-side virt-io code into the same binary (be it lkl lib,
-> uml binary, qemu binary)?
-> 
-> Thanks,
-> johannes
-> 
-> [1] Actually, I've considered using qemu, but it doesn't have
-> virtualized time and doesn't seem to support TSC virtualization. I guess
-> I could remove TSC from the guest CPU and add a virtualized HPET, but
-> I've yet to convince myself this works - on UML I made virtual time as a
-> prototype already:
-> https://patchwork.ozlabs.org/patch/1095814/
-> (though my real goal isn't to just skip time forward when the host goes
-> idle, it's to sync with other simulated components)
-> 
-> 
-> _______________________________________________
-> linux-um mailing list
-> linux-um@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-um
+> Stefan
 > 
 
-I have looked at using virtio semantics in UML in the past around the 
-point when I wanted to make the recvmmsg/sendmmsg vector drivers common 
-in UML and QEMU. It is certainly possible,
-
-I went for the native approach at the end though.
-
--- 
-Anton R. Ivanov
-https://www.kot-begemot.co.uk/
 
