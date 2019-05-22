@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 94A8425EB2
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 09:31:58 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:37715 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5F29525ECD
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 09:48:07 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37892 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTLjB-0001Ne-HM
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 03:31:57 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49265)
+	id 1hTLyn-0007w7-Te
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 03:48:05 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:52612)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hTLiB-00013t-Cd
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 03:30:56 -0400
+	(envelope-from <bounces@canonical.com>) id 1hTLxc-0007ZJ-NO
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 03:46:53 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hTLi9-0001Ch-Qy
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 03:30:55 -0400
-Received: from indium.canonical.com ([91.189.90.7]:53286)
+	(envelope-from <bounces@canonical.com>) id 1hTLxb-0000Y2-IG
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 03:46:52 -0400
+Received: from indium.canonical.com ([91.189.90.7]:57046)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hTLi9-000176-Kk
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 03:30:53 -0400
+	id 1hTLxb-0000WZ-CI
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 03:46:51 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
 	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hTLi4-00088g-Hy
-	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 07:30:48 +0000
+	id 1hTLxZ-0001x7-Un
+	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 07:46:49 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id 843CA2E80D2
-	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 07:30:48 +0000 (UTC)
+	by loganberry.canonical.com (Postfix) with ESMTP id E00BB2E80C0
+	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 07:46:49 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 22 May 2019 07:21:42 -0000
-From: Thomas Huth <1829964@bugs.launchpad.net>
+Date: Wed, 22 May 2019 07:27:50 -0000
+From: Thomas Huth <599958@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Wishlist;
 	assignee=None; 
-X-Launchpad-Bug-Tags: android-x86 leak virt-gpu vram
 X-Launchpad-Bug-Information-Type: Public
 X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: riosnai th-huth
-X-Launchpad-Bug-Reporter: Eunseok Choi (riosnai)
+X-Launchpad-Bug-Commenters: 8-roothorick-gmail-com andcycle-launchpad-net
+	anthony-codemonkey lmr th-huth
+X-Launchpad-Bug-Reporter: Lucas Meneghel Rodrigues (lmr)
 X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <155849647074.15430.13880026935625975661.malonedeb@wampee.canonical.com>
-Message-Id: <155850970304.14554.4738580653254905181.malone@gac.canonical.com>
+References: <20100629211802.16137.10587.malonedeb@soybean.canonical.com>
+Message-Id: <155851007014.15345.5491380337471675746.malone@gac.canonical.com>
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="18962";
 	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 4a439da5fc29bf5a23fdde67d2706120c16ea446
+X-Launchpad-Hash: a8e2b9d761fe31544304cea6cc81a794ece17cdf
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1829964] Re: HOST VRAM Leak when performs
- android-x86 window rotation with Virt-GPU
+Subject: [Qemu-devel] [Bug 599958] Re: Timedrift problems with Win7: hpet
+ missing time drift fixups
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 List-Id: <qemu-devel.nongnu.org>
@@ -66,90 +66,76 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1829964 <1829964@bugs.launchpad.net>
+Reply-To: Bug 599958 <599958@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Ok, sorry, got that wrong - we sometimes get bug reports about the
-android emulator (which is a fork of QEMU) here, and at a first glance,
-your bug report looked like one of these misguided bug tickets, too.
+Looking through old bug tickets... can this issue still be reproduced
+with the latest version of QEMU? Or could we close this ticket nowadays?
 
-Anyway, please provide some more information: Which version of QEMU are
-you using? Which operating system are you running in QEMU?
 
 ** Changed in: qemu
-       Status: Invalid =3D> Incomplete
+       Status: Confirmed =3D> Incomplete
 
 -- =
 
 You received this bug notification because you are a member of qemu-
 devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1829964
+https://bugs.launchpad.net/bugs/599958
 
 Title:
-  HOST VRAM Leak when performs android-x86 window rotation with Virt-GPU
+  Timedrift problems with Win7: hpet missing time drift fixups
 
 Status in QEMU:
   Incomplete
 
 Bug description:
-  I will report something strange thing about host VRAM leakage after
-  anroid-x86 window rotation when it runs with virt-gpu(+ virgl-
-  renderer)
+  We've been finding timedrift issues witth Win7 under qemu-kvm on our
+  daily testing
 
-  Please watching below video link.
+  kvm.qemu-kvm-git.smp2.Win7.64.timedrift.with_load	FAIL	1	Time drift too l=
+arge after rest period: 38.63%
+  kvm.qemu-kvm-git.smp2.Win7.64.timedrift.with_reboot	FAIL	1	Time drift too=
+ large at iteration 1: 17.77 seconds
+  kvm.qemu-kvm-git.smp2.Win7.64.timedrift.with_migration	FAIL	1	Time drift =
+too large at iteration 2: 3.08 seconds
 
-  https://www.youtube.com/watch?v=3DmJIbGZLWF1s&feature=3Dyoutu.be
+  Steps to reproduce:
 
-  (orginal video file : https://drive.google.com/file/d
-  /1lkdTx_8yTbSVjKXlnxnnk96fWe-w6Mxb/view?usp=3Dsharing)
+  timedrift.with_load
 
-  I don't sure what is the problem...
+  1) Log into a guest.
+  2) Take a time reading from the guest and host.
+  3) Run load on the guest and host.
+  4) Take a second time reading.
+  5) Stop the load and rest for a while.
+  6) Take a third time reading.
+  7) If the drift immediately after load is higher than a user-
+      specified value (in %), fail.
+      If the drift after the rest period is higher than a user-specified va=
+lue,
+      fail.
 
-  Here are my tested history
-  -------------------------------------------------------------------------=
--------------------------
-  Install android-x86 on I7 desktop PCs with intel UHD GPU  - No leak.
-  Install android-x86 on I7 desktop PCs with NVIDIA GTX GPU series - No lea=
-k.
-  Install android-x86 on guest machine emulated skylake cpu with QEMU(+virt=
--gpu, virgl-renderer) - Leak
-  (HOST CPU - I5, INTEL UHD GPU)
-  Install android-x86 on guest machine emulated skylake cpu with QEMU(+virt=
--gpu, virgl-renderer) - Leak
-  (HOST CPU - I7, NVIDIA GTX GPU)
+  timedrift.with_migration
 
-  COMMON:
-  In case of NVIDIA GPU : check vram using nvidia-smi
-  In case of intel UHD GPU : check shared-vram using free cmd
+  1) Log into a guest.
+  2) Take a time reading from the guest and host.
+  3) Migrate the guest.
+  4) Take a second time reading.
+  5) If the drift (in seconds) is higher than a user specified value, fail.
 
-  We checked guest android-x86 system down when vram is full after performi=
-ng many rotation
-  -------------------------------------------------------------------------=
-------------------
+  timedrift.with_reboot
 
-  Is it virt-gpu driver's problem?
+  1) Log into a guest.
+  2) Take a time reading from the guest and host.
+  3) Reboot the guest.
+  4) Take a second time reading.
+  5) If the drift (in seconds) is higher than a user specified value, fail.
 
-  I hope someone can help me...
+  This bug is to register those issues and keep an eye on them.
 
-  Thanks in advance!!
-
-
-  PS
-
-
-  Here are qemu options I used...
-
-  -machine type=3Dq35,accel=3Dkvm -cpu host --enable-kvm \
-  -smp cpus=3D4,cores=3D4,threads=3D1 -m 4096 \
-  -drive file=3Dctb0319.qcow2,format=3Dqcow2,if=3Dvirtio,aio=3Dthreads \
-  -device virtio-vga,virgl=3Don \
-  -device qemu-xhci,id=3Dxhci -device usb-mouse,bus=3Dxhci.0 -device usb-kb=
-d,bus=3Dxhci.0 \
-  -soundhw hda -display sdl,gl=3Don -netdev user,id=3Dqemunet0,hostfwd=3Dtc=
-p::4000-:7000,hostfwd=3Dtcp::5555-:5555,hostfwd=3Dtcp::4012-:7012,hostfwd=
-=3Dtcp::4013-:7013 -device virtio-net,netdev=3Dqemunet0 -boot menu=3Don
+  Attached, some logs from the autotest tests executed on the guest
 
 To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1829964/+subscriptions
+https://bugs.launchpad.net/qemu/+bug/599958/+subscriptions
 
