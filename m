@@ -2,89 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 4D073267C9
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 18:12:45 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:47290 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A67EE267CE
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 18:14:04 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:47298 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTTrA-0004y8-C7
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 12:12:44 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57282)
+	id 1hTTsR-0006JU-Kt
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 12:14:03 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57590)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <farosas@linux.ibm.com>) id 1hTTm3-0001b1-98
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 12:07:28 -0400
+	(envelope-from <laurent@vivier.eu>) id 1hTTn0-0002Fj-Kz
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 12:08:27 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <farosas@linux.ibm.com>) id 1hTTm1-0001SV-6a
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 12:07:27 -0400
-Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:40874
-	helo=mx0a-001b2d01.pphosted.com)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <farosas@linux.ibm.com>)
-	id 1hTTm1-0001MF-1E
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 12:07:25 -0400
-Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
-	by mx0b-001b2d01.pphosted.com (8.16.0.27/8.16.0.27) with SMTP id
-	x4MG1oS0081382
-	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 12:07:21 -0400
-Received: from e33.co.us.ibm.com (e33.co.us.ibm.com [32.97.110.151])
-	by mx0b-001b2d01.pphosted.com with ESMTP id 2sn8774vpj-1
-	(version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 12:07:21 -0400
-Received: from localhost
-	by e33.co.us.ibm.com with IBM ESMTP SMTP Gateway: Authorized Use Only!
-	Violators will be prosecuted
-	for <qemu-devel@nongnu.org> from <farosas@linux.ibm.com>;
-	Wed, 22 May 2019 17:07:20 +0100
-Received: from b03cxnp08025.gho.boulder.ibm.com (9.17.130.17)
-	by e33.co.us.ibm.com (192.168.1.133) with IBM ESMTP SMTP Gateway:
-	Authorized Use Only! Violators will be prosecuted; 
-	(version=TLSv1/SSLv3 cipher=AES256-GCM-SHA384 bits=256/256)
-	Wed, 22 May 2019 17:07:17 +0100
-Received: from b03ledav005.gho.boulder.ibm.com
-	(b03ledav005.gho.boulder.ibm.com [9.17.130.236])
-	by b03cxnp08025.gho.boulder.ibm.com (8.14.9/8.14.9/NCO v10.0) with
-	ESMTP id x4MG7GKQ24117726
-	(version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256
-	verify=OK); Wed, 22 May 2019 16:07:16 GMT
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 6C10BBE056;
-	Wed, 22 May 2019 16:07:16 +0000 (GMT)
-Received: from b03ledav005.gho.boulder.ibm.com (unknown [127.0.0.1])
-	by IMSVA (Postfix) with ESMTP id 32815BE04F;
-	Wed, 22 May 2019 16:07:16 +0000 (GMT)
-Received: from localhost (unknown [9.86.26.96])
-	by b03ledav005.gho.boulder.ibm.com (Postfix) with ESMTPS;
-	Wed, 22 May 2019 16:07:16 +0000 (GMT)
-From: Fabiano Rosas <farosas@linux.ibm.com>
-To: Shivaprasad G Bhat <sbhat@linux.ibm.com>, imammedo@redhat.com,
-	david@gibson.dropbear.id.au, xiaoguangrong.eric@gmail.com, mst@redhat.com
-In-Reply-To: <155773963257.49142.17067912880307967487.stgit@lep8c.aus.stglabs.ibm.com>
-References: <155773946961.49142.5208084426066783536.stgit@lep8c.aus.stglabs.ibm.com>
-	<155773963257.49142.17067912880307967487.stgit@lep8c.aus.stglabs.ibm.com>
-Date: Wed, 22 May 2019 13:07:13 -0300
+	(envelope-from <laurent@vivier.eu>) id 1hTTmy-00046h-Kf
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 12:08:26 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:51061)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <laurent@vivier.eu>)
+	id 1hTTmr-0003jo-TB; Wed, 22 May 2019 12:08:18 -0400
+Received: from localhost.localdomain ([78.238.229.36]) by
+	mrelayeu.kundenserver.de (mreue108 [212.227.15.183]) with ESMTPSA
+	(Nemesis)
+	id 1MPGNn-1hH1yB1VvR-00PcMA; Wed, 22 May 2019 18:07:30 +0200
+From: Laurent Vivier <laurent@vivier.eu>
+To: qemu-devel@nongnu.org
+Date: Wed, 22 May 2019 18:07:14 +0200
+Message-Id: <20190522160723.31484-1-laurent@vivier.eu>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-Content-Type: text/plain
-X-TM-AS-GCONF: 00
-x-cbid: 19052216-0036-0000-0000-00000AC1603F
-X-IBM-SpamModules-Scores: 
-X-IBM-SpamModules-Versions: BY=3.00011143; HX=3.00000242; KW=3.00000007;
-	PH=3.00000004; SC=3.00000286; SDB=6.01207037; UDB=6.00633871;
-	IPR=6.00988012; 
-	MB=3.00027006; MTD=3.00000008; XFM=3.00000015; UTC=2019-05-22 16:07:19
-X-IBM-AV-DETECTION: SAVI=unused REMOTE=unused XFE=unused
-x-cbparentid: 19052216-0037-0000-0000-00004BE69428
-Message-Id: <878suy5v7y.fsf@linux.ibm.com>
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:, ,
-	definitions=2019-05-22_08:, , signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
-	priorityscore=1501
-	malwarescore=0 suspectscore=5 phishscore=0 bulkscore=0 spamscore=0
-	clxscore=1015 lowpriorityscore=0 mlxscore=0 impostorscore=0
-	mlxlogscore=999 adultscore=0 classifier=spam adjust=0 reason=mlx
-	scancount=1 engine=8.0.1-1810050000 definitions=main-1905220113
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x [generic]
-X-Received-From: 148.163.158.5
-Subject: Re: [Qemu-devel] [RFC v2 PATCH 2/3] spapr: Add NVDIMM device support
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:Bc2EQXWxgmeghpRKB3zkJhvJEjMpMfWWLtnCIuVfcpGVVQ23w3/
+	6Ygxh3oFk4y5KXx83nvOwSsqyoFGtv6L35Uc9K8xP8Ji8Dam/IhOIODRNDRLd6CLCqV7kyd
+	CXZVTINNcXkO+HVydsLrmdjh33kbbH3NF6ydYPwS3+MXxPYvzBO9xJB8KjE98LCFjYLYbUJ
+	ffEbxE+wU7DBLlHlrFDqA==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:UwZULjNLaGI=:IHDUcH55imgHeAkqXc7ZyR
+	2KHfWpAsF+CrGUExkRPByKMZLF9M3kHYCrUanGjoQidXGGLe6poZfFrVRi133xDC2dE3w6b7G
+	mkztjfeZHUH52+yNMxB+NM+CkwUr8juloK7VulgQFvGDjPeVA37Xrv+ZsAu16Fg4n2vDnwSsn
+	hqPGnzMIXDstswnwoZZT52kMu6Lq87GZOT9rzKt9Zj3KQhbnFznOzvQQZa3hkhTcTCXkMiaOL
+	R75hPhZctqclNFt8/7R2EnphSMdFuf56xKQMgo8P1ON9JCDa9k82BsfPFvUFvGta62ROj7S01
+	UG5SQJpXT4xNUW+fIp5+PqKLxjPcQeKuFj/pq+wm7mSqqhV/16xX0QHWVLg+fCs19mMWZtZTe
+	huZXBzRZBTy6VzDsobQ/7Gmp3GP3AdmaW4InyDi4Xwd88PYFB8sm3fR/6BntZTEqBF+rwWsSX
+	zGiACA4//Agxmw6BuWwoMQFmbseo+q4yN7TfGCcx9ADN9SY+wm+i1JbyInvGpRTyCX8OjOWyu
+	1EirDMpZ6bnW6f1gXzWKIVBjVuk+pcN5qrsFP/N53FI2eoqB9bcyxLgrZGpAXo9OmZ/qQVsTy
+	fYFRGhIhrMk2pi/iTWCksrc5N3gm5mxrtzXPXP5PE6fo71mvmhNJDPBLGP+PbdD3nYbwzzNG6
+	ZQqz8+FQBxA/L9E8ipoIAUkmNZHws1G3mNcaANwh/sEDBqsl/oSF0XoUMecnl1yVVAzdTVAxW
+	hA2CeV6tHt2KIYn6qhXYZAZrf+ie3Yz3vtT86MukcBpo2cmef+1p6zI6FtQ=
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 212.227.17.24
+Subject: [Qemu-devel] [PULL 0/9] Trivial branch patches
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -96,24 +62,71 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org, sbhat@linux.ibm.com
+Cc: Tony Krowiak <akrowiak@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
+	Farhan Ali <alifm@linux.ibm.com>, Pierre Morel <pmorel@linux.ibm.com>,
+	Juan Quintela <quintela@redhat.com>, qemu-trivial@nongnu.org,
+	Cornelia Huck <cohuck@redhat.com>, Michael Tokarev <mjt@tls.msk.ru>,
+	Alex Williamson <alex.williamson@redhat.com>,
+	Laurent Vivier <laurent@vivier.eu>, Halil Pasic <pasic@linux.ibm.com>,
+	Christian Borntraeger <borntraeger@de.ibm.com>,
+	qemu-s390x@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
+	"Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Shivaprasad G Bhat <sbhat@linux.ibm.com> writes:
+The following changes since commit a4f667b6714916683408b983cfe0a615a725775f:
 
-> +    /* Create DT entries for cold plugged NVDIMM devices */
-> +    dimms = nvdimm_get_device_list();
-> +    for (; dimms; dimms = dimms->next) {
-> +        NVDIMMDevice *nvdimm = dimms->data;
-> +
-> +        spapr_populate_nvdimm_node(fdt, offset, nvdimm);
-> +    }
-> +    g_slist_free(dimms);
+  Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20190521-3' into staging (2019-05-21 16:30:13 +0100)
 
-To free the whole list you'll need another variable in the loop above,
-right?
+are available in the Git repository at:
 
-Cheers
+  git://github.com/vivier/qemu.git tags/trivial-branch-pull-request
+
+for you to fetch changes up to 2d9574bdbed69b374116c59259f6bd14f7dfad7f:
+
+  pci: msix: move 'MSIX_CAP_LENGTH' to header file (2019-05-22 17:35:27 +0200)
+
+----------------------------------------------------------------
+typo fixes, TYPE_XXX usage cleanup, comments update,
+virtio-mmio trace functions cleanup
+
+----------------------------------------------------------------
+
+Boxuan Li (1):
+  hw/virtio/virtio-mmio: Convert DPRINTF to trace and log
+
+Greg Kurz (1):
+  migration: Fix typo in migrate_add_blocker() error message
+
+Li Qiang (4):
+  vfio: pci: make "vfio-pci-nohotplug" as MACRO
+  hw: vfio: drop TYPE_FOO MACRO in VMStateDescription
+  vfio: platform: fix a typo
+  pci: msix: move 'MSIX_CAP_LENGTH' to header file
+
+Markus Armbruster (1):
+  configure: Fix spelling of sdl-image in --help
+
+Philippe Mathieu-Daudé (2):
+  roms: Correct the EDK2_BASETOOLS_OPTFLAGS variable description
+  roms: List and describe the Makefile 'clean' rule
+
+ configure               |  2 +-
+ hw/pci/msix.c           |  2 --
+ hw/vfio/amd-xgbe.c      |  2 +-
+ hw/vfio/ap.c            |  2 +-
+ hw/vfio/calxeda-xgmac.c |  2 +-
+ hw/vfio/ccw.c           |  2 +-
+ hw/vfio/pci.c           |  8 ++++----
+ hw/vfio/platform.c      |  6 +++---
+ hw/virtio/trace-events  |  7 +++++++
+ hw/virtio/virtio-mmio.c | 44 ++++++++++++++++++++---------------------
+ include/hw/pci/msix.h   |  2 ++
+ migration/migration.c   |  2 +-
+ roms/Makefile           |  6 ++++--
+ 13 files changed, 47 insertions(+), 40 deletions(-)
+
+-- 
+2.20.1
 
 
