@@ -2,66 +2,57 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DE09526016
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 11:04:46 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38815 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2AED625FF8
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 11:00:35 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38718 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTNB0-0007UP-5f
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 05:04:46 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38590)
+	id 1hTN6s-00042P-5p
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 05:00:30 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37730)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <hmka2@hermes.cam.ac.uk>) id 1hTN7i-0005b1-9f
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 05:01:23 -0400
+	(envelope-from <sgarzare@redhat.com>) id 1hTN4j-0003A1-Jl
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 04:58:19 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <hmka2@hermes.cam.ac.uk>) id 1hTN7d-0004rC-6t
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 05:01:22 -0400
-Received: from ppsw-30.csi.cam.ac.uk ([131.111.8.130]:36190)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <hmka2@hermes.cam.ac.uk>)
-	id 1hTN2D-00082T-DX; Wed, 22 May 2019 04:55:41 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=cam.ac.uk; 
-	s=20180806.ppsw;
-	h=Sender:Content-Transfer-Encoding:Content-Type:Cc:To:
-	Subject:Message-ID:Date:From:In-Reply-To:References:MIME-Version:Reply-To:
-	Content-ID:Content-Description:Resent-Date:Resent-From:Resent-Sender:
-	Resent-To:Resent-Cc:Resent-Message-ID:List-Id:List-Help:List-Unsubscribe:
-	List-Subscribe:List-Post:List-Owner:List-Archive;
-	bh=hWICYit9ZoZqUVLQIM24sehgVFb9onayhJpo81di9Ig=;
-	b=blOOxGUBq9moB/M0Ta7X4tt7Ow
-	s7vmMf8syFgyozieQsFWIFgWgVk947PHCQCsJV98CHpa36YLpgxJeXcY73mMBoOS8NC5qX47NU41g
-	wmlgyqQ0mEWmKa+lM8zEKYRg36eyDf+Gb64+Y/mGTwkOja6S9BOEjNs/Bb1gn7h6uN5U=; 
-X-Cam-AntiVirus: no malware found
-X-Cam-ScannerInfo: http://help.uis.cam.ac.uk/email-scanner-virus
-Received: from mail-lj1-f178.google.com ([209.85.208.178]:40845)
-	by ppsw-30.csi.cam.ac.uk (smtp.hermes.cam.ac.uk [131.111.8.156]:587)
-	with esmtpsa (PLAIN:hmka2) (TLSv1.2:ECDHE-RSA-AES128-GCM-SHA256:128)
-	id 1hTN2A-000oM0-eS (Exim 4.91)
-	(return-path <hmka2@hermes.cam.ac.uk>); Wed, 22 May 2019 09:55:38 +0100
-Received: by mail-lj1-f178.google.com with SMTP id q62so1323350ljq.7;
-	Wed, 22 May 2019 01:55:38 -0700 (PDT)
-X-Gm-Message-State: APjAAAUur6NA7LCDqL/Vw7KLgCaQmwsLoGhNhzNa7Sv3BYvSNFF/aZhr
-	WzekODY+QZuegYj9OUoGInNjdVTE/lMl0iFb/q8=
-X-Google-Smtp-Source: APXvYqxZPGBeAuL9n6AAygEQn7VRf0yIZaxzq2ga5s1VBUMBcHK6qRlEaY0mpyPrsekkPYOSKwkSEXr9gxSZuC65wCQ=
-X-Received: by 2002:a2e:91c6:: with SMTP id u6mr26800701ljg.143.1558515338011; 
-	Wed, 22 May 2019 01:55:38 -0700 (PDT)
+	(envelope-from <sgarzare@redhat.com>) id 1hTN4i-0001cn-17
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 04:58:17 -0400
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:41932)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <sgarzare@redhat.com>) id 1hTN4h-0001GW-Px
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 04:58:15 -0400
+Received: by mail-oi1-f193.google.com with SMTP id y10so1007221oia.8
+	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 01:57:51 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+	:message-id:subject:to:cc;
+	bh=gb0AXCb3iwz6UL959Wp9UIaH28HKckoG8RGRpixAEdw=;
+	b=RBaMq3Gp5NPlLdP7zMfyBwukgePFynTJG2UQMzDvEBPucLY9f4AFgDtd3VlnH3qvsh
+	X0dB3AwfhMVK9x+380vlxUstvYLs3GpkgV05n0YRV/AWe4hne0BHh6FLlqAw0OzqU81t
+	HsFGbArMHceH1lJV9UxwzIQwe/FMUdldSTtDKvOin0zOKmXJEEGSew9aj7GLNJPtfi0z
+	Lj4yOhxKpyzffn704duhxxIVprkwbreOkwRmp09wO+Z4gGxuxm1xVa9ONIx9+k78mD/z
+	sgD3H/l8efPAi+BXMijz2bp9VzS3ycHlsfvcKD9tNO8HFk6sFUrM0nijsB6DaDeo68nI
+	apTQ==
+X-Gm-Message-State: APjAAAVcyl3rSmAuRfZdJE7uq1HeyFBKkQuhOvk/AUx+uA59uY1D+n/a
+	ZHi/l9lAMKmVIFChBa4u/Yb8mO9883LFF57FuqfMhg==
+X-Google-Smtp-Source: APXvYqy/cAq6BBeBVzR6SzB8G2tarpIUr/ZnEShITz8KM0JDwYGTtvktEQ/IZHLWzbL6F/ICVyU05COggNaFozSnlmA=
+X-Received: by 2002:aca:54d8:: with SMTP id i207mr6578867oib.9.1558515470844; 
+	Wed, 22 May 2019 01:57:50 -0700 (PDT)
 MIME-Version: 1.0
-References: <20190521104324.12835-1-Hesham.Almatary@cl.cam.ac.uk>
-	<20190521104324.12835-5-Hesham.Almatary@cl.cam.ac.uk>
-	<CAKmqyKOaPEC=YdbwJkqZJBwTw++_9Cum5HSChtfnx7_uOmZ_HQ@mail.gmail.com>
-	<CANnJOVG-fqEsRqOu3e8Jd=OanGwi2eEKPK0_AqGcMV28QzVz+g@mail.gmail.com>
-In-Reply-To: <CANnJOVG-fqEsRqOu3e8Jd=OanGwi2eEKPK0_AqGcMV28QzVz+g@mail.gmail.com>
-From: Hesham Almatary <hesham.almatary@cl.cam.ac.uk>
-Date: Wed, 22 May 2019 09:55:01 +0100
-X-Gmail-Original-Message-ID: <CA+wsVCAiJ9i4yDooV3ZsAFM87m75Jx-hLbAMupfJdJvP-S-PGg@mail.gmail.com>
-Message-ID: <CA+wsVCAiJ9i4yDooV3ZsAFM87m75Jx-hLbAMupfJdJvP-S-PGg@mail.gmail.com>
-To: Jonathan Behrens <fintelia@gmail.com>
+References: <20190427113625.46594-1-sgarzare@redhat.com>
+	<877eb2hiwk.fsf@dusky.pond.sub.org>
+	<20190507083615.as7shlq7fwjgwz54@steredhat>
+	<8736lp5fxg.fsf@dusky.pond.sub.org>
+In-Reply-To: <8736lp5fxg.fsf@dusky.pond.sub.org>
+From: Stefano Garzarella <sgarzare@redhat.com>
+Date: Wed, 22 May 2019 10:57:39 +0200
+Message-ID: <CAGxU2F6r0hKy_Egwf=xfMkFH-3bxL8Yjz3z6GTT0QTrkYoHCDQ@mail.gmail.com>
+To: Markus Armbruster <armbru@redhat.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 131.111.8.130
-Subject: Re: [Qemu-devel] [Qemu-riscv] [PATCHv3 5/5] RISC-V: Fix a PMP check
- with the correct access size
+	[fuzzy]
+X-Received-From: 209.85.167.193
+Subject: Re: [Qemu-devel] Use of PreallocMode in block drivers
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -73,80 +64,246 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: "open list:RISC-V" <qemu-riscv@nongnu.org>,
-	Sagar Karandikar <sagark@eecs.berkeley.edu>,
-	Bastian Koppelmann <kbastian@mail.uni-paderborn.de>,
-	Palmer Dabbelt <palmer@sifive.com>,
-	"qemu-devel@nongnu.org Developers" <qemu-devel@nongnu.org>,
-	Alistair Francis <Alistair.Francis@wdc.com>,
-	Alistair Francis <alistair23@gmail.com>
+Cc: qemu devel list <qemu-devel@nongnu.org>, Qemu-block <qemu-block@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 22 May 2019 at 03:25, Jonathan Behrens <fintelia@gmail.com> wrote:
+On Wed, May 8, 2019 at 1:44 PM Markus Armbruster <armbru@redhat.com> wrote:
 >
-> Hesham,
+> Stefano Garzarella <sgarzare@redhat.com> writes:
 >
-> I don't think this is quite right. If I understand correctly, PMP permiss=
-ions are only validated on TLB fills, not on all accesses. (Is anyone able =
-to confirm this?) If so, this function can't just validate the range of a s=
-ingle access and then place the entire page into the TLB. However, the curr=
-ent code is also wrong because an access should succeed/fail based on the p=
-ermissions only for the range it actually touches even regardless of the pe=
-rmissions on the rest of the page. Now that I think about it, I'd also expe=
-ct that somewhere in the PMP logic would flush the TLB every time any of th=
-e related control registers change though I can't find anywhere that this i=
-s happening...
+> > On Tue, May 07, 2019 at 08:34:51AM +0200, Markus Armbruster wrote:
+> >> Cc: Peter for a libvirt perspective.
+> >>
+> >> Stefano Garzarella <sgarzare@redhat.com> writes:
+> >>
+> >> > This patch adds the support of preallocation (off/full) for the RBD
+> >> > block driver.
+> >> > If available, we use rbd_writesame() to quickly fill the image when
+> >> > full preallocation is required.
+> >> >
+> >> > Signed-off-by: Stefano Garzarella <sgarzare@redhat.com>
+> >> > ---
+> >> >  block/rbd.c          | 149 ++++++++++++++++++++++++++++++++++++++-----
+> >> >  qapi/block-core.json |   4 +-
+> >> >  2 files changed, 136 insertions(+), 17 deletions(-)
+> >> >
+> >> > diff --git a/block/rbd.c b/block/rbd.c
+> >> > index 0c549c9935..29dd1bb040 100644
+> >> > --- a/block/rbd.c
+> >> > +++ b/block/rbd.c
+> >> > @@ -13,6 +13,7 @@
+> >> >
+> >> >  #include "qemu/osdep.h"
+> >> >
+> >> > +#include "qemu/units.h"
+> >> >  #include <rbd/librbd.h>
+> >> >  #include "qapi/error.h"
+> >> >  #include "qemu/error-report.h"
+> >> > @@ -331,6 +332,110 @@ static void qemu_rbd_memset(RADOSCB *rcb, int64_t offs)
+> >> >      }
+> >> >  }
+> >> >
+> >> > +static int qemu_rbd_do_truncate(rbd_image_t image, int64_t offset,
+> >> > +                                PreallocMode prealloc, Error **errp)
+> >> > +{
+> >> > +    uint64_t current_length;
+> >> > +    char *buf = NULL;
+> >> > +    int ret;
+> >> > +
+> >> > +    ret = rbd_get_size(image, &current_length);
+> >> > +    if (ret < 0) {
+> >> > +        error_setg_errno(errp, -ret, "Failed to get file length");
+> >> > +        goto out;
+> >> > +    }
+> >> > +
+> >> > +    if (current_length > offset && prealloc != PREALLOC_MODE_OFF) {
+> >> > +        error_setg(errp, "Cannot use preallocation for shrinking files");
+> >> > +        ret = -ENOTSUP;
+> >> > +        goto out;
+> >> > +    }
+> >> > +
+> >> > +    switch (prealloc) {
+> >> > +    case PREALLOC_MODE_FULL: {
+> >> [...]
+> >> > +    case PREALLOC_MODE_OFF:
+> >> [...]
+> >> > +    default:
+> >> > +        error_setg(errp, "Unsupported preallocation mode: %s",
+> >> > +                   PreallocMode_str(prealloc));
+> >> > +        ret = -ENOTSUP;
+> >> > +        goto out;
+> >> > +    }
+> >>
+> >> Other block drivers also accept only some values of PreallocMode.  Okay.
+> >>
+> >> I wonder whether management applications need to know which values are
+> >> supported.
+> >
+> > Good point!
 >
-I believe the TLB fill function is called on all accesses, but I might
-be wrong. I will wait for someone to confirm otherwise.
+> We can continue to assume they don't until somebody tells us otherwise.
+>
+> >> Let me review support in drivers:
+> >>
+> >> * file (file-win32.c)
+> >> * iscsi
+> >> * nfs
+> >> * qed
+> >> * ssh
+> >>
+> >>   - Reject all but PREALLOC_MODE_OFF
+> >>
+> >> * copy-on-read
+> >> * luks (crypto.c)
+> >> * raw
+> >>
+> >>   - Pass through only
+> >>
+> >> * file host_cdrom host_device (file-posix.c)
+> >>
+> >>   - Reject all but PREALLOC_MODE_OFF when shrinking and for non-regular
+> >>     files
+> >>   - Reject PREALLOC_MODE_FALLOC unless CONFIG_POSIX_FALLOCATE
+> >>   - Reject PREALLOC_MODE_METADATA
+> >>
+> >> * gluster
+> >>
+> >>   - Reject all but PREALLOC_MODE_OFF when shrinking
+> >>   - Reject PREALLOC_MODE_FALLOC unless CONFIG_GLUSTERFS_FALLOCATE
+> >>   - Reject PREALLOC_MODE_FULL unless CONFIG_GLUSTERFS_ZEROFILL
+> >>   - Reject PREALLOC_MODE_METADATA
+> >>
+> >> * qcow2
+> >>
+> >>   - Reject all but PREALLOC_MODE_OFF when shrinking and with a backing
+> >>     file
+> >>
+> >> * rbd with this patch
+> >>
+> >>   - Reject all but PREALLOC_MODE_OFF when shrinking
+> >>   - Reject PREALLOC_MODE_METADATA and PREALLOC_MODE_FALLOC
+> >>
+> >> * sheepdog
+> >>
+> >>   - Reject PREALLOC_MODE_METADATA and PREALLOC_MODE_FALLOC
+> >>   - Doesn't support shrinking
+> >>
+> >> * vdi
+> >>
+> >>   - Reject PREALLOC_MODE_FALLOC and PREALLOC_MODE_FULL
+> >>   - Doesn't support shrinking
+> >>
+> >> * blkdebug
+> >> * blklogwrites
+> >> * blkverify
+> >> * bochs
+> >> * cloop
+> >> * dmg
+> >> * ftp
+> >> * ftps
+> >> * http
+> >> * https
+> >> * luks
+> >> * nbd
+> >> * null-aio
+> >> * null-co
+> >> * nvme
+> >> * parallels
+> >> * qcow
+> >> * quorum
+> >> * replication
+> >> * throttle
+> >> * vhdx
+> >> * vmdk
+> >> * vpc
+> >> * vvfat
+> >> * vxhs
+> >>
+> >>   - These appear not to use PreallocMode: they don't implement
+> >>     .bdrv_co_truncate(), and either don't implement .bdrv_co_create() or
+> >>     implement it without a prealloc parameter.
+> >>
+> >> Looks good to me.
+> >>
+> >
+> > Thanks for the analysis!
+> >
+> >> > +
+> >> > +    ret = 0;
+> >> > +
+> >> > +out:
+> >> > +    g_free(buf);
+> >> > +    return ret;
+> >> > +}
+> >> > +
+> >> >  static QemuOptsList runtime_opts = {
+> >> >      .name = "rbd",
+> >> >      .head = QTAILQ_HEAD_INITIALIZER(runtime_opts.head),
+> >> [...]
+> >> > diff --git a/qapi/block-core.json b/qapi/block-core.json
+> >> > index 7ccbfff9d0..db25a4065b 100644
+> >> > --- a/qapi/block-core.json
+> >> > +++ b/qapi/block-core.json
+> >> > @@ -4277,13 +4277,15 @@
+> >> >  #                   point to a snapshot.
+> >> >  # @size             Size of the virtual disk in bytes
+> >> >  # @cluster-size     RBD object size
+> >> > +# @preallocation    Preallocation mode (allowed values: off, full)
+> >> >  #
+> >> >  # Since: 2.12
+> >> >  ##
+> >> >  { 'struct': 'BlockdevCreateOptionsRbd',
+> >> >    'data': { 'location':         'BlockdevOptionsRbd',
+> >> >              'size':             'size',
+> >> > -            '*cluster-size' :   'size' } }
+> >> > +            '*cluster-size' :   'size',
+> >> > +            '*preallocation':   'PreallocMode' } }
+> >> >
+> >> >  ##
+> >> >  # @BlockdevVmdkSubformat:
+> >>
+> >> The non-support of values 'metadata' and 'falloc' is not visible in
+> >> introspection, only in documentation.  No reason to block this patch, as
+> >> the other block drivers have the same introspection weakness (only
+> >> sheepdog and vdi bother to document).
+> >>
+> >> Should we address the introspection weakness?  Only if there's a use for
+> >> the information, I think.
+> >
+> > If the management applications will use that information (or maybe also
+> > our help pages), could be useful to have an array of 'PreallocMode'
+> > supported per-driver.
+>
+> Ideally, query-qmp-schema would show only the supported values.
+>
+> Not hard to do, just tedious: we'd get a number of sub-enums in addition
+> to the full one, and we'd have to map from sub-enum to the full one.
+>
+> QAPI language support for sub-enums would remove most of the tedium.
+> Not worthwhile unless the need for sub-enums is actually common.
+>
+> >> Should we improve documentation for the other block drivers?
+> >>
+> >
+> > Yes, e.g. for Gluster it is not updated.
+> > If you agree, I can check and update the documentation of all drivers following
+> > your analysis.
+>
+> Yes, please!
 
-It's mentioned in the spec that sfence.vma has to be executed after
-changing PMP configs, so it's a SW concern (i.e., not QEMU's).
 
-> Sorry to keep raising complaints about this patch set, the interaction be=
-tween physical memory protection and paging is very subtle. Even some real =
-hardware has had errata related to it!
->
-> Jonathan
->
-> On Tue, May 21, 2019 at 6:33 PM Alistair Francis <alistair23@gmail.com> w=
-rote:
->>
->> On Tue, May 21, 2019 at 3:45 AM Hesham Almatary
->> <Hesham.Almatary@cl.cam.ac.uk> wrote:
->> >
->> > The PMP check should be of the memory access size rather
->> > than TARGET_PAGE_SIZE.
->> >
->> > Signed-off-by: Hesham Almatary <Hesham.Almatary@cl.cam.ac.uk>
->>
->> Reviewed-by: Alistair Francis <alistair.francis@wdc.com>
->>
->> Alistair
->>
->> > ---
->> >  target/riscv/cpu_helper.c | 2 +-
->> >  1 file changed, 1 insertion(+), 1 deletion(-)
->> >
->> > diff --git a/target/riscv/cpu_helper.c b/target/riscv/cpu_helper.c
->> > index d0b0f9cf88..ce1f47e4e3 100644
->> > --- a/target/riscv/cpu_helper.c
->> > +++ b/target/riscv/cpu_helper.c
->> > @@ -410,7 +410,7 @@ bool riscv_cpu_tlb_fill(CPUState *cs, vaddr addres=
-s, int size,
->> >
->> >      if (riscv_feature(env, RISCV_FEATURE_PMP) &&
->> >          (ret =3D=3D TRANSLATE_SUCCESS) &&
->> > -        !pmp_hart_has_privs(env, pa, TARGET_PAGE_SIZE, 1 << access_ty=
-pe)) {
->> > +        !pmp_hart_has_privs(env, pa, size, 1 << access_type)) {
->> >          ret =3D TRANSLATE_PMP_FAIL;
->> >      }
->> >      if (ret =3D=3D TRANSLATE_PMP_FAIL) {
->> > --
->> > 2.17.1
->> >
->> >
->>
+Hi Markus,
+I'm finally updating the documentation of preallocation modes
+supported by block drivers and protocols in qapi/block-core.json.
+As sheepdog and vdi I'm adding the supported values for each driver or
+protocol that supports 'preallocation' parameter during the creation,
+I'm also updating the '.help' in the QemuOptsList.
+
+My doubt is: where is better to put the documentation about
+preallocation modes supported during the resize? (e.g. some drivers
+support only PREALLOC_MODE_OFF when shrinking)
+
+Thanks,
+Stefano
 
