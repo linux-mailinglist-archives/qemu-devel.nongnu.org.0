@@ -2,50 +2,102 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6055026373
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 14:09:06 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:42008 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E1C2F262DD
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 13:18:31 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:40429 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTQ3N-0004je-5F
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 08:09:05 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49764)
+	id 1hTPGP-0004FH-Dh
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 07:18:29 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37531)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hTQ1R-000409-P7
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 08:07:07 -0400
+	(envelope-from <david@redhat.com>) id 1hTPEs-0003pH-27
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 07:16:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hTQ1Q-0002Qf-Ds
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 08:07:05 -0400
-Received: from ozlabs.org ([203.11.71.1]:52165)
+	(envelope-from <david@redhat.com>) id 1hTPEr-0006On-4U
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 07:16:54 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:52622)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
-	id 1hTQ1O-00029S-6x; Wed, 22 May 2019 08:07:04 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
-	id 458BFJ4y9Xz9s9y; Wed, 22 May 2019 22:06:44 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=gibson.dropbear.id.au; s=201602; t=1558526804;
-	bh=DHZ8bAnjLgFt+T/KMKgONnPGVbJnsaEGujaUWT6WBaI=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=mrxnDTEmMqmcUg8OmRfosQ9ASbkKKC5Z3PSTIgwU8mzRjnbyT8uSn9E7qqme8xtnM
-	oGjjEWk9mJ7pfRkRC6+tNwrQQuSYXDkDeXk/WAJJjhCNDhK3hOT6RG49rAYqrDclT7
-	mmQYsL5eieOgo9m7Pl2MkECO/Rn02uh7d0b/lD+g=
-Date: Wed, 22 May 2019 21:10:35 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Message-ID: <20190522111035.GI30423@umbus.fritz.box>
-References: <20190522044600.16534-1-david@gibson.dropbear.id.au>
-	<20190522044600.16534-22-david@gibson.dropbear.id.au>
-	<20190522095829.7b688f35@bahia.lan>
+	(Exim 4.71) (envelope-from <david@redhat.com>)
+	id 1hTPEq-0006Ni-SC; Wed, 22 May 2019 07:16:53 -0400
+Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
+	[10.5.11.22])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 5CFE33082B46;
+	Wed, 22 May 2019 11:16:51 +0000 (UTC)
+Received: from [10.36.117.97] (ovpn-117-97.ams2.redhat.com [10.36.117.97])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id E82B61001E6C;
+	Wed, 22 May 2019 11:16:49 +0000 (UTC)
+To: Richard Henderson <richard.henderson@linaro.org>, qemu-devel@nongnu.org
+References: <20190515203112.506-1-david@redhat.com>
+	<20190515203112.506-2-david@redhat.com>
+	<b3611279-15c4-f9b7-2a91-051ac6431b2c@linaro.org>
+	<44d7ddb4-040f-6778-7439-043b94e354ec@redhat.com>
+	<0935643f-941f-5883-c481-8ac18d57c98d@linaro.org>
+From: David Hildenbrand <david@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=david@redhat.com; prefer-encrypt=mutual; keydata=
+	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
+	SE+xAvmumFBY
+Organization: Red Hat GmbH
+Message-ID: <1f6001a2-e1d3-2b6f-e84a-8b9963302a3c@redhat.com>
+Date: Wed, 22 May 2019 13:16:49 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="kH8JNVvasRCCW1Oz"
-Content-Disposition: inline
-In-Reply-To: <20190522095829.7b688f35@bahia.lan>
-User-Agent: Mutt/1.11.4 (2019-03-13)
+In-Reply-To: <0935643f-941f-5883-c481-8ac18d57c98d@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.45]);
+	Wed, 22 May 2019 11:16:51 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
-Subject: Re: [Qemu-devel] [PULL 21/38] spapr: Add forgotten capability to
- migration stream
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH v1 1/5] s390x/tcg: Implement VECTOR FIND
+ ANY ELEMENT EQUAL
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -57,119 +109,59 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, peter.maydell@linaro.org, qemu-ppc@nongnu.org,
-	qemu-devel@nongnu.org, clg@kaod.org
+Cc: qemu-s390x@nongnu.org, Cornelia Huck <cohuck@redhat.com>,
+	Thomas Huth <thuth@redhat.com>, Richard Henderson <rth@twiddle.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On 22.05.19 13:09, Richard Henderson wrote:
+> On 5/22/19 7:01 AM, David Hildenbrand wrote:
+>>
+>>> I also think that, if we create a bunch more of these wrappers:
+>>>
+>>>> +DEF_VFAE_HELPER(8)
+>>>> +DEF_VFAE_HELPER(16)
+>>>> +DEF_VFAE_HELPER(32)
+>>>
+>>> then RT and ZS can be passed in as constant parameters to the above, and then
+>>> the compiler will fold away all of the stuff that's not needed for each
+>>> different case.  Which, I think, is significant.  These are practically
+>>> different instructions with the different modifiers.
+>>>
+>>
+>> So, we have 4 flags, resulting in 16 variants. Times 3 element sizes ...
+>> 48 helpers in total. Do we really want to go down that path?
+> 
+> Maybe?
 
---kH8JNVvasRCCW1Oz
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Hope my fingers won't bleed from all the copy-pasting ;)
 
-On Wed, May 22, 2019 at 09:58:29AM +0200, Greg Kurz wrote:
-> On Wed, 22 May 2019 14:45:43 +1000
-> David Gibson <david@gibson.dropbear.id.au> wrote:
->=20
-> > spapr machine capabilities are supposed to be sent in the migration str=
-eam
-> > so that we can sanity check the source and destination have compatible
-> > configuration.  Unfortunately, when we added the hpt-max-page-size
-> > capability, we forgot to add it to the migration state.  This means tha=
-t we
-> > can generate spurious warnings when both ends are configured for large
-> > pages, or potentially fail to warn if the source is configured for huge
-> > pages, but the destination is not.
-> >=20
-> > Fixes: 2309832afda "spapr: Maximum (HPT) pagesize property"
-> >=20
-> > Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> > Reviewed-by: C=E9dric Le Goater <clg@kaod.org>
-> > ---
->=20
-> Huh... we discussed that it was breaking backward migration:
->=20
-> https://lists.gnu.org/archive/html/qemu-ppc/2019-05/msg00330.html
->=20
-> So I'm a bit surprised to see this in the PR... is it intentional ?
+> 
+>> I can also go ahead any try to identify the most frequent users (in
+>> Linux) and only specialize that one.
+> 
+> Also plausible.  I guess it would be good to know, anyway.
 
-Sod, no, I forgot to remove it from my tree.
+I'll dump the parameters when booting Linux. My gut feeling is that the
+cc option is basically never used ...
 
-Having been through the test cycle, I'd prefer not to hold up the PR
-for this - as long as we fix it before the release we should be ok.
+> 
+> I think RT probably makes the largest difference to the layout of the function,
 
->=20
-> >  hw/ppc/spapr.c         | 1 +
-> >  hw/ppc/spapr_caps.c    | 1 +
-> >  include/hw/ppc/spapr.h | 1 +
-> >  3 files changed, 3 insertions(+)
-> >=20
-> > diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> > index 8580a8dc67..bcae30ad26 100644
-> > --- a/hw/ppc/spapr.c
-> > +++ b/hw/ppc/spapr.c
-> > @@ -2125,6 +2125,7 @@ static const VMStateDescription vmstate_spapr =3D=
- {
-> >          &vmstate_spapr_cap_cfpc,
-> >          &vmstate_spapr_cap_sbbc,
-> >          &vmstate_spapr_cap_ibs,
-> > +        &vmstate_spapr_cap_hpt_maxpagesize,
-> >          &vmstate_spapr_irq_map,
-> >          &vmstate_spapr_cap_nested_kvm_hv,
-> >          &vmstate_spapr_dtb,
-> > diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-> > index 9b1c10baa6..658eb15a14 100644
-> > --- a/hw/ppc/spapr_caps.c
-> > +++ b/hw/ppc/spapr_caps.c
-> > @@ -703,6 +703,7 @@ SPAPR_CAP_MIG_STATE(dfp, SPAPR_CAP_DFP);
-> >  SPAPR_CAP_MIG_STATE(cfpc, SPAPR_CAP_CFPC);
-> >  SPAPR_CAP_MIG_STATE(sbbc, SPAPR_CAP_SBBC);
-> >  SPAPR_CAP_MIG_STATE(ibs, SPAPR_CAP_IBS);
-> > +SPAPR_CAP_MIG_STATE(hpt_maxpagesize, SPAPR_CAP_HPT_MAXPAGESIZE);
-> >  SPAPR_CAP_MIG_STATE(nested_kvm_hv, SPAPR_CAP_NESTED_KVM_HV);
-> >  SPAPR_CAP_MIG_STATE(large_decr, SPAPR_CAP_LARGE_DECREMENTER);
-> >  SPAPR_CAP_MIG_STATE(ccf_assist, SPAPR_CAP_CCF_ASSIST);
-> > diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> > index 7e32f309c2..9fc91c8f5e 100644
-> > --- a/include/hw/ppc/spapr.h
-> > +++ b/include/hw/ppc/spapr.h
-> > @@ -849,6 +849,7 @@ extern const VMStateDescription vmstate_spapr_cap_d=
-fp;
-> >  extern const VMStateDescription vmstate_spapr_cap_cfpc;
-> >  extern const VMStateDescription vmstate_spapr_cap_sbbc;
-> >  extern const VMStateDescription vmstate_spapr_cap_ibs;
-> > +extern const VMStateDescription vmstate_spapr_cap_hpt_maxpagesize;
-> >  extern const VMStateDescription vmstate_spapr_cap_nested_kvm_hv;
-> >  extern const VMStateDescription vmstate_spapr_cap_large_decr;
-> >  extern const VMStateDescription vmstate_spapr_cap_ccf_assist;
->=20
+Yes. I think the RT and ZS make the biggest difference. IN - not really
+that heavy.
 
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
+Maybe use different variants for RT and ZS for the !CC casen only.
 
---kH8JNVvasRCCW1Oz
-Content-Type: application/pgp-signature; name="signature.asc"
+> so maybe that's the one we pick.  We could also leave our options open and make
+> the 3 non-CC flags be parameters to the inline function, just extract them from
+> the M4 parameter at the one higher level.
 
------BEGIN PGP SIGNATURE-----
+That one, I have already done :)
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlzlLikACgkQbDjKyiDZ
-s5ID9hAA3+xwkQ97Ez/X74mwbzFwBhYZYE4wigJTNdDHb3/TvH1Q76L3tgRBDP21
-OZd70qYqh1XIxQ5XUAPgeKKX6R2oaiUGY6fvugQFkcspTU+42/ZO1pwjUYCeGsVT
-1Ba8tK0Qjg5LA5VtzcfJR5QrKJupwLDJrMS0i4XtgETgo5mksKs9sS5XkKUhpmud
-cf9p0+EilmvvqCuNup8XQSe/DMeN6Pg+LKG8tutdvCQ9+r7YUQWXH8jv2phoI3xP
-ZYjvq/VokMMrKMG53SnUZcNYSTuIIf7AQnY08fATd1yXa7CxUhdZ3RO3wOYnHrLp
-8gxOlDxo7hio+NuazkMY/VgWRw1J4veB7U0GM6ANPEQNL/hd2/NJSMxIoMITzHVb
-yv11M/l781w/hZ9RVkaE7Dy1FDU8CEUFcz1kZDk6mPwbcJGimeXnQyRYfKw+a1fB
-0WYBmcGtRW/bIy/yrgdnFhWUPXRtAcU5lPgfi8cjodYq5kP1LDQMvHSAypb6yhjX
-uI7Lw8OR4+eVtyV5fr4npuoxsDAtlYKuEgs4CV8Fg847oX+xI10j+/3ORfen5kIu
-agAEVysbwC1a1HO2bM2JAFKrlvMq5u95+V/o04so5zcLPusYLeTA1+2WSoWNUoqF
-DcjZ1ZIg3mNzAuwl5otqwbV5KkwaG0IrAFL5h5bYbuT6A24DCXA=
-=rBJY
------END PGP SIGNATURE-----
+-- 
 
---kH8JNVvasRCCW1Oz--
+Thanks,
+
+David / dhildenb
 
