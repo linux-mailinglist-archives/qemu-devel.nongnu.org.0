@@ -2,60 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 80CE026066
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 11:23:17 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:39067 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C2462607A
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 11:28:36 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:39140 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTNSu-0008Vn-Nw
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 05:23:16 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:42660)
+	id 1hTNY3-0003IC-7a
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 05:28:35 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:43823)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hTNOp-0006DR-RD
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 05:19:04 -0400
+	(envelope-from <kraxel@redhat.com>) id 1hTNTd-0000bl-38
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 05:24:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hTNOo-0003ab-Pe
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 05:19:03 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:36627)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hTNOo-0003ZC-El
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 05:19:02 -0400
-Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
-	(mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
-	1MCsDe-1hKbxR42wi-008vTB; Wed, 22 May 2019 11:18:02 +0200
-To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>, qemu-devel@nongnu.org
-References: <1558282527-22183-1-git-send-email-aleksandar.markovic@rt-rk.com>
-	<1558282527-22183-5-git-send-email-aleksandar.markovic@rt-rk.com>
-From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <6358a49b-515d-92e6-d3dc-97f0adcaa23b@vivier.eu>
-Date: Wed, 22 May 2019 11:18:00 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
-	Thunderbird/52.8.0
-MIME-Version: 1.0
-In-Reply-To: <1558282527-22183-5-git-send-email-aleksandar.markovic@rt-rk.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:FNDZBDna56lF+w11k2G+dB0iIHREX14A79uSG2Af8O4AlUnt290
-	ISy3r4HOU8GHd9BTKbEm4dmqXZg3EoiePz66uCzoN43QTf0cnjygXMNyPEwdnWbxMZKBNhb
-	Iw2nAvjGXLoftS7IndTGY3iMcQ2SF/IU3uR+J60Igyq0mk4PcpIp75TFRw/1mRob0PnBQsw
-	qeAeJxCL8BvZo1kxYpS+w==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:BEH/wzH51jk=:SKTskUd3ozE4SU9SSoWeh7
-	VdVcii7Qo2tZqKfHF9HgpTi7mBVDZ8nsv7Edyn9KFQlgPSAJx/YSkogmvnEdHK7zhZ+65wg/1
-	mglze1bIP6UEQedRYdo7eHCam5bHxtRlbCUSatvS73LDZfDWvXW1NcjLCUy5YPVhKDHo2R6gD
-	aen3Fbi/7/f74tgr0++UjLg6IM5xPCqQchJUVAmvN4ZB44/3Zc2fOFdBwW37dKYeL1msPWtVc
-	OzVXhigEfMaHMVd95KuFexOImPI3L0WWTk/wiZDtw9xVjYrUajQNubxuqepWYCMnuNF0v3IGK
-	FTPNtzKYo/XLl0s9NIb+8zbFDbXt3PvRCxa5CHbptrxuZeH76AZA9HUIOG31X4G3NNIGYmu6r
-	4PKV56nksAcCRDNvLcU74VJUhd7tFPTF2ZbFkPNZfdcwr7DKZJcEYqQ1IDMMNqYBSAEU8K/o8
-	z+hOFuA3DR5nFOl1S31bELtYhMr1c7elU0vAOJ9SRlgRx5aaY5HzVb71aToprnXmoYYxz8qyk
-	r+qqLijYk2G8XUwLl8J/C4kOhDe2+SkwXw03I3KsCoNrI3pIJcGrqV9jkiAeAZmyqFA4rTTZW
-	ZKWF1wYpgBpYmL3zmtGVSuft+voIMkIcYtIOaRv6vapXjkgHr8YSDQyNtkza63VKBCfGBAeiq
-	f5UhY5Lae7+6KoobMvkq2E7SZ57pnsOUp6TxVunlgTVRMbVrU+qQgcHbmXNA7tABjNfAHUCU/
-	na3r9j4K8udO9zpvghOX96ggDKch3D70oawftF6MLcZOcJUCrD6k5G8uaEc=
+	(envelope-from <kraxel@redhat.com>) id 1hTNTc-0001Dn-BI
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 05:24:01 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:47852)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <kraxel@redhat.com>) id 1hTNTc-0001Cu-5O
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 05:24:00 -0400
+Received: from smtp.corp.redhat.com (int-mx04.intmail.prod.int.phx2.redhat.com
+	[10.5.11.14])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id 63D87308219F
+	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 09:23:54 +0000 (UTC)
+Received: from sirius.home.kraxel.org (ovpn-117-74.ams2.redhat.com
+	[10.36.117.74])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id EAD185DD6F;
+	Wed, 22 May 2019 09:23:51 +0000 (UTC)
+Received: by sirius.home.kraxel.org (Postfix, from userid 1000)
+	id 09B9EA1E7; Wed, 22 May 2019 11:23:51 +0200 (CEST)
+From: Gerd Hoffmann <kraxel@redhat.com>
+To: qemu-devel@nongnu.org
+Date: Wed, 22 May 2019 11:23:46 +0200
+Message-Id: <20190522092351.17920-1-kraxel@redhat.com>
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.14
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.47]);
+	Wed, 22 May 2019 09:23:54 +0000 (UTC)
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 212.227.17.10
-Subject: Re: [Qemu-devel] [PATCH v6 4/6] linux-user: Add support for
- setsockopt() options IPV6_<ADD|DROP>_MEMBERSHIP
+X-Received-From: 209.132.183.28
+Subject: [Qemu-devel] [PATCH 0/5] usb-hub: cleanups, configurable port count,
+ per-port power switching emulation.
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -67,94 +55,23 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, thuth@redhat.com, daniel.santos@pobox.com,
-	arikalo@wavecomp.com, jcmvbkbc@gmail.com, amarkovic@wavecomp.com,
-	nchen@wavecomp.com, philmd@redhat.com, aurelien@aurel32.net
+Cc: Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 19/05/2019 18:15, Aleksandar Markovic wrote:
-> From: Neng Chen <nchen@wavecomp.com>
-> 
-> Add support for options IPV6_ADD_MEMBERSHIP and IPV6_DROP_MEMPEMBERSHIP
-> of the syscall setsockopt(). These options control membership in
-> multicast groups. Their argument is a pointer to a struct ipv6_mreq,
-> which is in turn defined in IP v6 header netinet/in.h as:
-> 
->   struct ipv6_mreq {
->       /* IPv6 multicast address of group */
->       struct  in6_addr  ipv6mr_multiaddr;
->       /* local IPv6 address of interface */
->       int     ipv6mr_interface;
->   };
-> 
-> ...whereas its definition in kernel's include/uapi/linux/in6.h is:
-> 
->   #if __UAPI_DEF_IPV6_MREQ
->   struct ipv6_mreq {
->       /* IPv6 multicast address of group */
->           struct  in6_addr ipv6mr_multiaddr;
->       /* local IPv6 address of interface */
->       int     ipv6mr_ifindex;
->   };
->   #endif
-> 
-> The first field of ipv6_mreq has the same name ("ipv6mr_multiaddr")
-> and type ("in6_addr") in both cases. Moreover, the in6_addr structure
-> consists of fields that are always big-endian (on host of any endian),
-> therefore the ipv6_mreq's field ipv6mr_multiaddr doesn't need any
-> endian conversion.
-> 
-> The second field of ipv6_mreq may, however, depending on the build
-> environment, have different names. This is the reason why the line
-> "#if __UAPI_DEF_IPV6_MREQ" is used in this patch - to establish the
-> right choice for the field name. Also, endian conversion is needed
-> for this field, since it is of type "int".
-> 
-> Signed-off-by: Neng Chen <nchen@wavecomp.com>
-> Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-> ---
->   linux-user/syscall.c | 23 +++++++++++++++++++++++
->   1 file changed, 23 insertions(+)
-> 
-> diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-> index 96cd4bf..acff14d 100644
-> --- a/linux-user/syscall.c
-> +++ b/linux-user/syscall.c
-> @@ -1892,6 +1892,29 @@ static abi_long do_setsockopt(int sockfd, int level, int optname,
->                                          &pki, sizeof(pki)));
->               break;
->           }
-> +        case IPV6_ADD_MEMBERSHIP:
-> +        case IPV6_DROP_MEMBERSHIP:
-> +        {
-> +            struct ipv6_mreq ipv6mreq;
-> +
-> +            if (optlen < sizeof(ipv6mreq)) {
-> +                return -TARGET_EINVAL;
-> +            }
-> +
-> +            if (copy_from_user(&ipv6mreq, optval_addr, sizeof(ipv6mreq))) {
-> +                return -TARGET_EFAULT;
-> +            }
-> +
-> +#if __UAPI_DEF_IPV6_MREQ
-> +            ipv6mreq.ipv6mr_ifindex = tswap32(ipv6mreq.ipv6mr_ifindex);
-> +#else
-> +            ipv6mreq.ipv6mr_interface = tswap32(ipv6mreq.ipv6mr_interface);
-> +#endif /* __UAPI_DEF_IVP6_MREQ */
-> +
-> +            ret = get_errno(setsockopt(sockfd, level, optname,
-> +                                       &ipv6mreq, sizeof(ipv6mreq)));
-> +            break;
-> +        }
->           default:
->               goto unimplemented;
->           }
-> 
 
-Applied to my linux-user branch.
 
-Thanks,
-Laurent
+Gerd Hoffmann (5):
+  usb-hub: tweak feature names
+  usb-hub: make number of ports runtime-configurable
+  usb-hub: add helpers to update port state
+  usb-hub: add usb_hub_port_update()
+  usb-hub: emulate per port power switching
+
+ hw/usb/dev-hub.c | 221 +++++++++++++++++++++++++++++++++--------------
+ 1 file changed, 154 insertions(+), 67 deletions(-)
+
+-- 
+2.18.1
+
 
