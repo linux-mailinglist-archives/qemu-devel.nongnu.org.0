@@ -2,70 +2,68 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B01ED27202
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 00:03:22 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52207 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2A350273EE
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 03:21:45 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:55616 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTZKT-0003pl-Va
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 18:03:21 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:44798)
-	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <aleksandar.m.mail@gmail.com>) id 1hTZJH-0003WG-KZ
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 18:02:09 -0400
+	id 1hTcQS-0006Ok-1I
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 21:21:44 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48542)
+	by lists.gnu.org with esmtp (Exim 4.71) (envelope-from
+	<3rsvlXAQKCsk6zx6v33v0t.r315t19-stAt0232v29.36v@flex--rkir.bounces.google.com>)
+	id 1hTZdD-0000uf-0G
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 18:22:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <aleksandar.m.mail@gmail.com>) id 1hTZJG-0005aZ-77
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 18:02:07 -0400
-Received: from mail-ot1-x341.google.com ([2607:f8b0:4864:20::341]:46249)
+	(envelope-from
+	<3rsvlXAQKCsk6zx6v33v0t.r315t19-stAt0232v29.36v@flex--rkir.bounces.google.com>)
+	id 1hTZdC-0004zP-2G
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 18:22:42 -0400
+Received: from mail-yb1-xb4a.google.com ([2607:f8b0:4864:20::b4a]:43370)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
-	id 1hTZJG-0005a1-0N
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 18:02:06 -0400
-Received: by mail-ot1-x341.google.com with SMTP id j49so3519467otc.13
-	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 15:02:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
-	:cc; bh=7r/5uPcVmJemqjzKDiLhtYwSYbSN9zV9HPKQAQ+x3tQ=;
-	b=E9qFyXWHIg0s2PBYSdCLlBCOEyUggmPez+wJHNFMKL7BlAhcxidTl4B2sFx4Y/+kB2
-	5Lm9iz61tsUqrJuDnc1mgjE39iu6wXdXC4f9nA1B+hVr+zZgM8TieMEWqy/8OsEiz4iV
-	acYJJ9ku5NqkpftRCi2x7UyFPiHBgihlbycAbb68ziCq9FuL4atxQ9XdCpVtp2Vh/T+i
-	Gwy3zHzBZgGEmTUcaa8E5IRS7mu20A41oz0ogWILPcgm8tFEnMV5eVX8ou7kPhygWdn/
-	KwdTTIzx/jxet1LaWkQ98H/WZH5gO07V91aiVEgLhjWgcbZveV9wW2+uxUxEh4zpnvJf
-	Ympg==
+	(Exim 4.71) (envelope-from
+	<3rsvlXAQKCsk6zx6v33v0t.r315t19-stAt0232v29.36v@flex--rkir.bounces.google.com>)
+	id 1hTZdB-0004yc-Ro
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 18:22:42 -0400
+Received: by mail-yb1-xb4a.google.com with SMTP id r16so2114236ybl.10
+	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 15:22:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=20161025;
+	h=date:message-id:mime-version:subject:from:to:cc;
+	bh=66UZ7u1EgKXC5CA47Jgl+SU5nc7Y/seRCoNZatAMsL0=;
+	b=idcv9mQlLfd54yTcAdqqCA6ZOrYuG5r16K5Y+sOLqTokEkW0cEG8dAHDIUFe2oSdQi
+	0Ml0jbswD7T8A/6lPZERvTkpWEZq+czLNJ+XzXg91shyOPWZLAv129V2xwi9Lzk+OjSh
+	r8T4TU/LMVipmXWycPcSZEvvYLoNjg4iRmg/A3GRruX4a9qAiClFbIsZgMqUulZ0k7eK
+	gYIsJbKAOL3mFMPAr3h8z4N60OkPOgKCIAosFgjdj5mpp0KCCRufWGVL9bh/L8jOjKwo
+	EX23GEEztgpwPvnhjOz782nD3zkI97PgodvXfKBK5vxLC+gK4fCr46HCWxrQqrlVTmNO
+	PnHg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
-	:message-id:subject:to:cc;
-	bh=7r/5uPcVmJemqjzKDiLhtYwSYbSN9zV9HPKQAQ+x3tQ=;
-	b=r13OxE45KVbS5OQgtXNevU+VbcNA81rLsXVQ1Tne2XVDhd1wm6EU1BAHqNSP1lFxWU
-	n/ye23r+S6trF5bayR2bKp5JtZ2qFxexMWblkd05ILxLo3IBN1mUGhDX2aA45Fwsxqsy
-	vXYjU+QFkkhdKJ887BFidVs8R9Mo+GVlFpJ7GNeNPNoVM7zw1eQlj0t81uz9bB9G8GZ/
-	8uEKeNEA0pquvjFyqT/Ze2t0QaxzzyDmqeKVh8pdTb0lLELdF/8MneK9kUjtXnf7GcVw
-	kA7AigdALx8oFWqhcPMn/5L44hwYQWPiJNIyNwebcsT1oq/0GhOI5B773yDdKntmgBxe
-	NJIQ==
-X-Gm-Message-State: APjAAAXlqWjGOr3sM6T2QlxKgjC4CA+0LyX0rrkLBejNDgm0S8VxuBCN
-	xIpg56pzdsIn/2VkASMSAcev10h/NaAuAkfUn7Hj7uyB
-X-Google-Smtp-Source: APXvYqwl4m1C2HHCLHOpfLw5NqsBK42TWSzqO2alyC0JAcnVsTaNJuIyblfNuWLF3DTafrQ1g9EXbtUej46dk0XB4eE=
-X-Received: by 2002:a9d:61d5:: with SMTP id h21mr22868660otk.306.1558562525347;
-	Wed, 22 May 2019 15:02:05 -0700 (PDT)
-MIME-Version: 1.0
-Received: by 2002:a9d:410f:0:0:0:0:0 with HTTP; Wed, 22 May 2019 15:02:04
-	-0700 (PDT)
-Received: by 2002:a9d:410f:0:0:0:0:0 with HTTP; Wed, 22 May 2019 15:02:04
-	-0700 (PDT)
-In-Reply-To: <1558551522-24147-1-git-send-email-aleksandar.markovic@rt-rk.com>
-References: <1558551522-24147-1-git-send-email-aleksandar.markovic@rt-rk.com>
-From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
-Date: Thu, 23 May 2019 00:02:04 +0200
-Message-ID: <CAL1e-=iST3GRbiYXKgQZFQ+ZXJcN6kLYgZ32DWhRnpyBYrV+VQ@mail.gmail.com>
-To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
+	h=x-gm-message-state:date:message-id:mime-version:subject:from:to:cc;
+	bh=66UZ7u1EgKXC5CA47Jgl+SU5nc7Y/seRCoNZatAMsL0=;
+	b=NPNLcY4IY3/xsfwoiKWKJ3hlcxj0k/uAS4Z2sXb+KFJHc64CZyhHee4+ZbU6hTLz1f
+	OOOX0UZrHM1BZuSXffGwSWfkUw8bcWWxz9tpczJJPjaYSj5lZDxs6/7HJJspYNby1y3b
+	eeh24ylWn1o//XT9hbrkAu80P3rBBGGVZZQC4xyxc5ma0xUgJaFDMua5DC/8M/4AtjYe
+	kJXYUvha7sDbhTeHvg3TlRqNal/8djq+4b0aII8ir4VYLNWsYF05lztSiIEZKQ3vwHxU
+	as/759cDYWbL0fd+qY+xtb+K4MeYpl+A3LsdPVO0//iLEvomF+Kpy0UrIK0IH9NRrfNt
+	KJlQ==
+X-Gm-Message-State: APjAAAVRs9bHYpc277WAMQ+W4fc0Hr15BjB8jicb+skenD63ymWm3cuW
+	5h9oE23MBJNUZ+6htIvjY6NHMm+fodxyQgeRXX1roROYkxh5kBf+LLggUSvJlVZDThb5VGs3CQW
+	V91Zi8QdL10kD75dRSZFniqZZ/S/eHikzYxSTTJhFMizSOVzY1CG+grs=
+X-Google-Smtp-Source: APXvYqy3Eu3jP7DKSGU1ySREO9g6/hVGk3wXz/AMtZsvjgvHscnD/FhOTaSTiOPptq6qwStw/TkXKEwg
+X-Received: by 2002:a81:2bc6:: with SMTP id r189mr8844141ywr.337.1558563758603;
+	Wed, 22 May 2019 15:22:38 -0700 (PDT)
+Date: Wed, 22 May 2019 15:22:24 -0700
+Message-Id: <20190522222224.244714-1-rkir@google.com>
+Mime-Version: 1.0
+X-Mailer: git-send-email 2.21.0.1020.gf2820cf01a-goog
+To: qemu-devel@nongnu.org
+Content-Type: text/plain; charset="UTF-8"
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::341
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PULL v2 00/11] MIPS queue for May 19th, 2019 - v2
+X-Received-From: 2607:f8b0:4864:20::b4a
+X-Mailman-Approved-At: Wed, 22 May 2019 21:19:54 -0400
+Subject: [Qemu-devel] [PATCH] vmstate: Add VMSTATE_OPAQUE to save/load
+ complex data structures
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -77,94 +75,48 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, qemu-devel@nongnu.org, amarkovic@wavecomp.com
+From: rkir--- via Qemu-devel <qemu-devel@nongnu.org>
+Reply-To: rkir@google.com
+Cc: Roman Kiryanov <rkir@google.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On May 22, 2019 9:15 PM, "Aleksandar Markovic" <
-aleksandar.markovic@rt-rk.com> wrote:
->
-> From: Aleksandar Markovic <amarkovic@wavecomp.com>
->
-> The following changes since commit
-a4f667b6714916683408b983cfe0a615a725775f:
->
->   Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20190521-3'
-into staging (2019-05-21 16:30:13 +0100)
->
-> are available in the git repository at:
->
->   https://github.com/AMarkovic/qemu tags/mips-queue-may-19-2019-v2
->
-> for you to fetch changes up to 9a89468145b8a3e53e508992f54061427c52780f:
->
->   BootLinuxSshTest: Test some userspace commands on Malta (2019-05-22
-20:10:46 +0200)
->
-> ----------------------------------------------------------------
->
+From: Roman Kiryanov <rkir@google.com>
 
-Peter,
+VMSTATE_OPAQUE allows passing user defined functions to save
+and load vmstate for cases when data structures do not fit
+into int/struct/array terms.
 
-Please put this pull request on hold, there are some reservations from test
-group about patch 11/11, that came just hours after I sent this pull
-request.
+Signed-off-by: Roman Kiryanov <rkir@google.com>
+---
+ include/migration/vmstate.h | 13 +++++++++++++
+ 1 file changed, 13 insertions(+)
 
-Yours,
-Aleksandar
+diff --git a/include/migration/vmstate.h b/include/migration/vmstate.h
+index 9224370ed5..2736daef17 100644
+--- a/include/migration/vmstate.h
++++ b/include/migration/vmstate.h
+@@ -737,6 +737,19 @@ extern const VMStateInfo vmstate_info_qtailq;
+     .start        = offsetof(_type, _next),                              \
+ }
+ 
++/* Provides a way to save/load complex data structures that do not
++ * fit into int/struct/array terms.
++ * _info: a user defined instance of VMStateInfo to handle saving and loading.
++ */
++#define VMSTATE_OPAQUE(_name, _version, _info) {                      \
++    .name         = _name,                                            \
++    .version_id   = (_version),                                       \
++    .size         = 0,                                                \
++    .info         = &(_info),                                         \
++    .flags        = VMS_SINGLE,                                       \
++    .offset       = 0,                                                \
++}
++
+ /* _f : field name
+    _f_n : num of elements field_name
+    _n : num of elements
+-- 
+2.21.0.1020.gf2820cf01a-goog
 
-> MIPS queue for May 19th, 2019 - v2
->
-> v1-v2:
->    - fixed missing invocations in patch on ST.<B|H|W|D> that caused
->      clang build error
->    - added a patch on acceptance test for Malta
->
-> overall content:
->
->    * Improved usage of object_initialize() and object_initialize_child()
->    * Added an acceptance test for Malta board
->    * Better handling of memory pages (flag PAGE_EXEC)
->    * A set of fixes for emulation of MSA ASE on big endian hosts
->    * Better handling of 'div by zero' cases of MSA ASE instructions
->
-> ----------------------------------------------------------------
->
-> Jakub Jerm=C3=A1=C5=99 (1):
->   mips: Decide to map PAGE_EXEC in map_address
->
-> Mateja Marjanovic (7):
->   target/mips: Make the results of DIV_<U|S>.<B|H|W|D> the same as on
->     hardware
->   target/mips: Make the results of MOD_<U|S>.<B|H|W|D> the same as on
->     hardware
->   target/mips: Fix MSA instructions LD.<B|H|W|D> on big endian host
->   target/mips: Fix MSA instructions ST.<B|H|W|D> on big endian host
->   target/mips: Refactor and fix COPY_S.<B|H|W|D> instructions
->   target/mips: Refactor and fix COPY_U.<B|H|W> instructions
->   target/mips: Refactor and fix INSERT.<B|H|W|D> instructions
->
-> Philippe Mathieu-Daud=C3=A9 (3):
->   hw/mips: Use object_initialize() on MIPSCPSState
->   hw/mips: Use object_initialize_child for correct reference counting
->   BootLinuxSshTest: Test some userspace commands on Malta
->
->  MAINTAINERS                              |   1 +
->  hw/mips/boston.c                         |  25 +-
->  hw/mips/cps.c                            |  20 +-
->  hw/mips/mips_malta.c                     |  17 +-
->  target/mips/helper.c                     |  13 +-
->  target/mips/helper.h                     |  16 +-
->  target/mips/msa_helper.c                 | 191 ++++++++++-----
->  target/mips/op_helper.c                  | 388
-+++++++++++++++++++++++++++----
->  target/mips/translate.c                  |  59 ++++-
->  tests/acceptance/linux_ssh_mips_malta.py | 229 ++++++++++++++++++
->  tests/requirements.txt                   |   1 +
->  11 files changed, 817 insertions(+), 143 deletions(-)
->  create mode 100644 tests/acceptance/linux_ssh_mips_malta.py
->
-> --
-> 2.7.4
->
->
+
