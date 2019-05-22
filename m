@@ -2,58 +2,64 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 56DD425F96
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 10:32:49 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38418 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 52E5C25F8B
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 10:32:11 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38414 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTMg4-0003j0-Eq
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 04:32:48 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:59866)
+	id 1hTMfS-0003Ns-Ds
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 04:32:10 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:60419)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <jdenemar@redhat.com>) id 1hTMbd-0000np-SC
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 04:28:15 -0400
+	(envelope-from <pbonzini@redhat.com>) id 1hTMdC-00027x-Ul
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 04:29:51 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <jdenemar@redhat.com>) id 1hTMbb-0005o5-FF
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 04:28:13 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:38420)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <jdenemar@redhat.com>) id 1hTMbb-0005N3-7i
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 04:28:11 -0400
-Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
-	[10.5.11.23])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id 21B3D3082131;
-	Wed, 22 May 2019 08:27:44 +0000 (UTC)
-Received: from virval.usersys.redhat.com (unknown [10.43.2.188])
-	by smtp.corp.redhat.com (Postfix) with ESMTPS id 1A3BE2854A;
-	Wed, 22 May 2019 08:27:43 +0000 (UTC)
-Received: by virval.usersys.redhat.com (Postfix, from userid 500)
-	id CFD9E101F39; Wed, 22 May 2019 10:27:41 +0200 (CEST)
-Date: Wed, 22 May 2019 10:27:41 +0200
-From: Jiri Denemark <jdenemar@redhat.com>
-To: Eduardo Habkost <ehabkost@redhat.com>
-Message-ID: <20190522082741.GI2545064@orkuz.int.mamuti.net>
-References: <20190422234742.15780-1-ehabkost@redhat.com>
-	<20190509133537.GK7181@orkuz.int.mamuti.net>
-	<20190509135617.GH4189@habkost.net>
-	<20190509180603.424c8277@Igors-MacBook-Pro>
-	<20190509163618.GN7181@orkuz.int.mamuti.net>
-	<20190510203203.GW4189@habkost.net>
+	(envelope-from <pbonzini@redhat.com>) id 1hTMd9-0007X5-Fu
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 04:29:49 -0400
+Received: from mail-wr1-f67.google.com ([209.85.221.67]:39956)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <pbonzini@redhat.com>) id 1hTMd2-0007Nu-F4
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 04:29:44 -0400
+Received: by mail-wr1-f67.google.com with SMTP id f10so1221279wre.7
+	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 01:29:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+	:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=xX4jzD7rvGD1ipojV5aCpZ9JBCg71X2h8h8GHoavWvk=;
+	b=gyZecndetBMbVMVioMY3F1PsIr20BlqO6RGZztywwMVZgDkW8Mz4YaKu2tTyfhW1kv
+	HX05bfA/64/SZ6Lj/E5sOqFUkjw1t8Dzam4ZODN14d6KtF1vOYASy2Ogc83C7eC+jZxd
+	/zL740MMAWlsBL6h2XRDflvqtBDAA7Nfyi2ZWVX9f6+fplI5xYEEK82UIRaRPjt4x/mz
+	fbh9SZp7I8+x9em+4n8OEmAw+KFO/qm2kzERouhwe+9wG0Ujczhby/mopEw05L1FtC+b
+	XM1gzZcVV0xSDIHq0Ny745qmRmAR1LOfBzPhRMs+vcXCnlUELCeeF8PqA0pEF8qPvH40
+	wTxQ==
+X-Gm-Message-State: APjAAAXfnfL7yOl0HBWeck41+xZlxtVbadE+PNki5uhlf9PmJz3vL7kr
+	aJ6tqE1Jw7hIzWJC2e/swx/lZw==
+X-Google-Smtp-Source: APXvYqwa5WyEsCzm6U/I4ojUGRR+pvTh8b1Zaa3Il0pCttUKDiMJarRGYf0nHjjLzQG/zkb3SoYq2w==
+X-Received: by 2002:adf:9c8a:: with SMTP id d10mr37588041wre.9.1558513775776; 
+	Wed, 22 May 2019 01:29:35 -0700 (PDT)
+Received: from [10.32.181.147] (nat-pool-mxp-t.redhat.com. [149.6.153.186])
+	by smtp.gmail.com with ESMTPSA id 16sm3918173wmx.45.2019.05.22.01.29.35
+	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+	Wed, 22 May 2019 01:29:35 -0700 (PDT)
+To: Li Qiang <liq3ea@gmail.com>, Li Qiang <liq3ea@163.com>
+References: <20190510164349.81507-1-liq3ea@163.com>
+	<CAKXe6SLe1_ppEACqKVesvfrieN=c28rj9ro_xSGZ6F=Rf7iWew@mail.gmail.com>
+From: Paolo Bonzini <pbonzini@redhat.com>
+Message-ID: <e278d0cc-df8d-01c6-df02-79757134d35a@redhat.com>
+Date: Wed, 22 May 2019 10:29:35 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190510203203.GW4189@habkost.net>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.42]);
-	Wed, 22 May 2019 08:27:44 +0000 (UTC)
+In-Reply-To: <CAKXe6SLe1_ppEACqKVesvfrieN=c28rj9ro_xSGZ6F=Rf7iWew@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 0/2] i386: "unavailable-features" QOM
- property
+	[fuzzy]
+X-Received-From: 209.85.221.67
+Subject: Re: [Qemu-devel] [PATCH v4 0/3] hw: edu: some fixes
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -65,47 +71,49 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, Richard Henderson <rth@twiddle.net>,
-	qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+	Jiri Slaby <jslaby@suse.cz>, Qemu Developers <qemu-devel@nongnu.org>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Fri, May 10, 2019 at 17:32:03 -0300, Eduardo Habkost wrote:
-> On Thu, May 09, 2019 at 06:36:18PM +0200, Jiri Denemark wrote:
-> > On Thu, May 09, 2019 at 18:06:03 +0200, Igor Mammedov wrote:
-> > > On Thu, 9 May 2019 10:56:17 -0300
-> > > Eduardo Habkost <ehabkost@redhat.com> wrote:
-> > > 
-> > > > On Thu, May 09, 2019 at 03:35:37PM +0200, Jiri Denemark wrote:
-> > > > > Would this unavailable-features property contain only canonical names of
-> > > > > the features or all possible aliases of all features? For example,
-> > > > > "tsc-adjust" can also be spelled as "tsc_adjust". When calling
-> > > > > query-cpu-model-expansion, we have a way to request all variants by
-> > > > > running full expansion on the result of a previous static expansion. Can
-> > > > > we get something like this for unavailable-features too?
-> > > > 
-> > > > I'd like to avoid that, and refer only to the canonical names.
-> > > 
-> > > Can we deprecate aliases to avoid confusion in future?
-> > > (there aren't that many of them that used pre-QOM name format)
-> > 
-> > If you come up with a way libvirt could use to detect which name it
-> > should use when talking to QEMU...
+On 21/05/19 15:30, Li Qiang wrote:
+> Ping....
 > 
-> The property names are part of the API, and deprecation would
-> just be documented in the QEMU documentation.  Why would you need
-> to enumerate them dynamically at runtime?
+> Paolo, could you merge these to your misc tree?
 
-The tricky part is to know which variant of a particular feature name we
-should use when talking to a specific version of QEMU. But I guess we
-can use the new "unavailable-features" property for this purpose. When
-the property is present, we can translate all feature names to their
-canonical names (via a static translation table in libvirt). We'd be
-using the old untranslated names when talking to any QEMU which does not
-support the "unavailable-features" property.
+Queued now, thanks.
 
-But I hope we won't get into a situation when some CPU feature needs to
-be renamed again, that would make a big mess.
+Paolo
 
-Jirka
+> Thanks,
+> Li Qiang
+> 
+> Li Qiang <liq3ea@163.com <mailto:liq3ea@163.com>> 于2019年5月11日周六 上
+> 午12:44写道：
+> 
+>     Recently I am considering write a driver for edu device.
+>     After reading the spec, I found these three small issue.
+>     Two first two related the MMIO access and the third is
+>     related the DMA operation.
+> 
+>     Change since v2:
+>     Fix an error in patch 2
+>     Fix some commit message and title.
+> 
+>     Change since v1:
+>     Fix format compile error
+> 
+>     Li Qiang (3):
+>       edu: mmio: allow 64-bit access
+>       edu: mmio: allow 64-bit access in read dispatch
+>       edu: uses uint64_t in dma operation
+> 
+>      hw/misc/edu.c | 32 +++++++++++++++++++++++---------
+>      1 file changed, 23 insertions(+), 9 deletions(-)
+> 
+>     -- 
+>     2.17.1
+> 
+> 
+
 
