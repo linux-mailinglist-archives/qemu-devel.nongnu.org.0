@@ -2,67 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 77EAC264D6
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 15:36:23 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43423 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 89864264E7
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 15:41:42 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43523 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTRPq-0007eS-JY
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 09:36:22 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:40162)
+	id 1hTRUy-0002Yk-UN
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 09:41:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41416)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <marcandre.lureau@gmail.com>) id 1hTROH-0006yt-QY
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 09:34:47 -0400
+	(envelope-from <laurent@vivier.eu>) id 1hTRTM-0001qh-VA
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 09:40:01 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <marcandre.lureau@gmail.com>) id 1hTROG-0003vL-Ch
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 09:34:45 -0400
-Received: from mail-wr1-x441.google.com ([2a00:1450:4864:20::441]:45513)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <marcandre.lureau@gmail.com>)
-	id 1hTROF-0003uF-To
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 09:34:44 -0400
-Received: by mail-wr1-x441.google.com with SMTP id b18so2312074wrq.12
-	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 06:34:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc:content-transfer-encoding;
-	bh=PDpyfNYmslaP+4wSm4N3T4VAsDGVzTGz0XsZRcboFcM=;
-	b=oQPIUCmbW0aaXllvmifF8iPcOV/bV92t+6Dz3i2xeKuLNJV8FHkMWexFNQDxybot5V
-	ZfaKKPJoyxzGIUe4AwbrmeaFkl+vuGU/civkPylWz/x1QQZ9/2npMdhjnFyc6y+stdw0
-	GFmY/dLinSJRo1LaudEDgAdCI+nhxwnQ7uqid9R31IBLOE0cZdJQQPjTLXm0JYvEUZge
-	DJuIc4GGaAEv/x2L01tR2wC81thsXFbgqMDaAj7nPmmznaLuRB4x56Sakzp7YDNLdHpD
-	mCGganqmY1HVegs6R67hTaoID308PfLqmMK5FMcSijnZi96V77TXggtZGM7O/c8vjT70
-	afaA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc:content-transfer-encoding;
-	bh=PDpyfNYmslaP+4wSm4N3T4VAsDGVzTGz0XsZRcboFcM=;
-	b=KG3oT3kTVoL+NJxNBDov5CU/nOvLM23iSdCj10w35pz7JUk9KxQ5leqsEWoCejq0Ft
-	Z+Lvd3G2Y1C1UX8a0SdFQ3gOHwZSAIPdbTxnIl41PoL/Q50+laV8rE1Hc9ffQsMDjn6W
-	04IE+ktHz+ibBoP5i1dY5WLfH/hKuSrXKtpovJOC4TjA/rcxoPyoJaB7Umj5XdOGFZ/2
-	WAzklxvHS9B23yop+Mw+rLHJcZ/w92p/5JTtpgsUuozVAqluVjoAyKrztZBE5aspyciW
-	jsS90VKPg3tgRDgnYR+kbiCdrvxKI2AZIeQNGfruR7g9Hw9hUVO+H74kNke5Www2VRbm
-	GlHw==
-X-Gm-Message-State: APjAAAVMdVHjDQwE6Jsyi1YYhcdaEaCtVenubmjMHjXftckhvfCOEKum
-	OMkHig1zu0z9C/nsCIcYJCKRHYzePQ/5hUOl/oQ=
-X-Google-Smtp-Source: APXvYqwYYACP9NdcCaZe0U01X+0Epf3y0XoO+tFalAcRMfi4OM/625WG6Qe/BDiEY/C4YUDlfNoPxg/Jek2auwEbWY0=
-X-Received: by 2002:a5d:4d4d:: with SMTP id a13mr12034736wru.18.1558532081994; 
-	Wed, 22 May 2019 06:34:41 -0700 (PDT)
+	(envelope-from <laurent@vivier.eu>) id 1hTRTM-0006XK-1X
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 09:40:00 -0400
+Received: from mout.kundenserver.de ([212.227.17.13]:46373)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hTRTL-0006WY-Oj
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 09:39:59 -0400
+Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
+	(mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+	1N0WLC-1gg0Ah2Jls-00wUvn; Wed, 22 May 2019 15:39:31 +0200
+To: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>,
+	qemu-devel@nongnu.org
+References: <20190506141923.12183-1-philmd@redhat.com>
+	<20190506141923.12183-2-philmd@redhat.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <ebaeaac0-f15c-bb8d-7d9c-d41b76f0e515@vivier.eu>
+Date: Wed, 22 May 2019 15:39:30 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
 MIME-Version: 1.0
-References: <20190519084815.7410-1-ppandit@redhat.com>
-In-Reply-To: <20190519084815.7410-1-ppandit@redhat.com>
-From: =?UTF-8?B?TWFyYy1BbmRyw6kgTHVyZWF1?= <marcandre.lureau@gmail.com>
-Date: Wed, 22 May 2019 15:34:30 +0200
-Message-ID: <CAJ+F1CLXdw4gE45vVEpStKrKsu-OYy1+5caC9wUduEtQRhjrpA@mail.gmail.com>
-To: P J P <ppandit@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::441
-Subject: Re: [Qemu-devel] [PATCH v2] qga: check length of command-line &
- environment variables
+In-Reply-To: <20190506141923.12183-2-philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:APCr8uQTQ4mzqg6Ly2Q8mrVQcjE0tbuq0KoZXos/AOUR3WRUSQQ
+	QEu36PBR/cSMaBqe3OCeyMzUaiKi9boeUo32nnL6NeeLmuFZhsJODFtBcr5BalZLyG3k2IA
+	X8p81A18HdsCCSS//mEZUBttn1t1FfY3CovrM/i2iY212MmaCc/Uim1WRmLY1yfEWuYj0ar
+	56/4RuotdFao+JbR3Enyw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:CWWxLLpiIuk=:QZASSQXYHIKAhFZnIwJ9x9
+	jOoU0r9ndszaJFxbHBtDbF4g3jaTXJy12VuIp370oAM6I7fENqz7iWfQmUiP3o89rXu+nJ8P0
+	Yv6j1+mZ8eUeXy2f9t7TyC+jK/C1icQYLMz7ld/RTH3cHgSFbgxPJDYjhp9No9UPUpYJyrOTk
+	PZpCYtYPuxkLFK0c2jhuapBXh5Ks5a4JO6T3zQuU20WbVbLdkm5L6pImwxgXbb5BNwh7iY8O/
+	kNrP05czle0EcAXmHjFN+scPsDAwiWdjcZsMahOXOghjb+smIigXMUubWLwnnODD5BTBSAxd/
+	NKr1ZxPQUeSmcrKDrgPywGtp0pfmLrjIv4MdZtaP2B99voLHtI5k811egjGSTCsl1wQUcYDsY
+	tGFv2VBBDUUFqrwL/nfCNBvXrxV2l5CzLyfj0dqYLalcbsVP6axUiXilmx4ImREegGHxhywcp
+	T4rlrD6KVJv2LtwVdQNDdM6gVcUIhQuIe3C5B7sibbU1gDYo8b3uz59gI2Fg0EwYYLHNB5NBQ
+	la0tU46bf/IRnJHiQlYcKmLoV6MeQsjp/CkLqzWvszZfVwIAE5Bc+At72xrxBwVonfzQ3wUu9
+	Qo+JDBr7Wfcw/yn5JKdgm3MTEN6vxji5RN6L3AZTRNShEQTdPKlcRurhl8a7P7ttMfOqsj3z6
+	UZYJn4rXDwbCDNGOV8wi/z49k1y5k198daby8a6rhR5ja7QwXGk4mMpMPQOPqa5aWG0j/MjJ8
+	XmDHgAzUnQStbqAXeZbxuPNkTg71v6YIii4XgUHdBasEhhHV66ZrI3IWhTg=
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 212.227.17.13
+Subject: Re: [Qemu-devel] [PATCH v3 1/2] roms: Correct the
+ EDK2_BASETOOLS_OPTFLAGS variable description
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -74,154 +68,45 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Prasad J Pandit <pjp@fedoraproject.org>,
-	"Daniel P . Berrange" <berrange@redhat.com>,
-	QEMU Developers <qemu-devel@nongnu.org>,
-	Niu Guoxiang <niuguoxiang@huawei.com>,
-	Michael Roth <mdroth@linux.vnet.ibm.com>
+Cc: Laszlo Ersek <lersek@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Hi
-
-On Sun, May 19, 2019 at 10:55 AM P J P <ppandit@redhat.com> wrote:
->
-> From: Prasad J Pandit <pjp@fedoraproject.org>
->
-> Qemu guest agent while executing user commands does not seem to
-> check length of argument list and/or environment variables passed.
-> It may lead to integer overflow or infinite loop issues. Add check
-> to avoid it.
-
-Are you intentionally not telling where these overflow or loop happen?
-
-Isn't the kernel already giving an error if given too much
-environment/arguments on exec?
-
->
-> Reported-by: Niu Guoxiang <niuguoxiang@huawei.com>
-> Signed-off-by: Prasad J Pandit <pjp@fedoraproject.org>
+On 06/05/2019 16:19, Philippe Mathieu-Daudé wrote:
+> In commit 1cab464136b4 we incorrectly described the
+> EDK2_BASETOOLS_OPTFLAGS can pass CPPFLAGS and CFLAGS
+> options to the EDK2 build tools, but it only expands
+> the CFLAGS (not to the CPPFLAGS).
+> Update the description to be more accurate.
+> 
+> Reported-by: Laszlo Ersek <lersek@redhat.com>
+> Reviewed-by: Laszlo Ersek <lersek@redhat.com>
+> Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
 > ---
->  qga/commands-posix.c   | 18 ++++++++++++++++++
->  qga/commands-win32.c   | 13 +++++++++++++
->  qga/commands.c         |  8 ++++++--
->  qga/guest-agent-core.h |  2 ++
->  4 files changed, 39 insertions(+), 2 deletions(-)
->
-> Update v2: add helper function ga_get_arg_max()
->   -> https://lists.gnu.org/archive/html/qemu-devel/2019-01/msg06360.html
->
-> diff --git a/qga/commands-posix.c b/qga/commands-posix.c
-> index 7ee6a33cce..e0455722e0 100644
-> --- a/qga/commands-posix.c
-> +++ b/qga/commands-posix.c
-> @@ -60,6 +60,24 @@ extern char **environ;
->  #endif
->  #endif
->
-> +size_t ga_get_arg_max(void)
-> +{
-> +    /* Since kernel 2.6.23, most architectures support argument size lim=
-it
-> +     * derived from the soft RLIMIT_STACK resource limit (see getrlimit(=
-2)).
-> +     * For these architectures, the total size is limited to 1/4 of the
-> +     * allowed stack size. (see execve(2))
-> +     *
-> +     * struct rlimit r;
-> +     *
-> +     * getrlimit(RLIMIT_STACK, &r);
-> +     * ARG_MAX =3D r.rlim_cur / 4;
-> +     *
-> +     * ARG_MAX is _NOT_ the maximum number of arguments. It is size of t=
-he
-> +     * memory used to hold command line arguments and environment variab=
-les.
-> +     */
-> +    return sysconf(_SC_ARG_MAX);
-> +}
-> +
->  static void ga_wait_child(pid_t pid, int *status, Error **errp)
->  {
->      pid_t rpid;
-> diff --git a/qga/commands-win32.c b/qga/commands-win32.c
-> index 6b67f16faf..47bbddd74a 100644
-> --- a/qga/commands-win32.c
-> +++ b/qga/commands-win32.c
-> @@ -92,6 +92,19 @@ static OpenFlags guest_file_open_modes[] =3D {
->      g_free(suffix); \
->  } while (0)
->
-> +size_t ga_get_arg_max(void)
-> +{
-> +    /* Win32 environment has different values for the ARG_MAX constant.
-> +     * We'll go with the maximum here.
-> +     *
-> +     * https://devblogs.microsoft.com/oldnewthing/?p=3D41553
-> +     *
-> +     * ARG_MAX is _NOT_ the maximum number of arguments. It is size of t=
-he
-> +     * memory used to hold command line arguments and environment variab=
-les.
-> +     */
-> +    return 32767;
-> +}
-> +
->  static OpenFlags *find_open_flag(const char *mode_str)
->  {
->      int mode;
-> diff --git a/qga/commands.c b/qga/commands.c
-> index 0c7d1385c2..425a4c405f 100644
-> --- a/qga/commands.c
-> +++ b/qga/commands.c
-> @@ -231,17 +231,21 @@ static char **guest_exec_get_args(const strList *en=
-try, bool log)
->      int count =3D 1, i =3D 0;  /* reserve for NULL terminator */
->      char **args;
->      char *str; /* for logging array of arguments */
-> -    size_t str_size =3D 1;
-> +    size_t str_size =3D 1, arg_max;
->
-> +    arg_max =3D ga_get_arg_max();
->      for (it =3D entry; it !=3D NULL; it =3D it->next) {
->          count++;
->          str_size +=3D 1 + strlen(it->value);
-> +        if (str_size >=3D arg_max || count >=3D arg_max / 2) {
-> +            break;
+> v3: Squeezed 2 spaces (Laszlo)
+> ---
+>   roms/Makefile | 4 ++--
+>   1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> diff --git a/roms/Makefile b/roms/Makefile
+> index 0ce84a45ad5..ea6aec56abd 100644
+> --- a/roms/Makefile
+> +++ b/roms/Makefile
+> @@ -121,8 +121,8 @@ build-efi-roms: build-pxe-roms
+>   		$(patsubst %,bin-i386-efi/%.efidrv,$(pxerom_targets)) \
+>   		$(patsubst %,bin-x86_64-efi/%.efidrv,$(pxerom_targets))
+>   
+> -# Build scripts can pass compiler/linker flags to the EDK2 build tools
+> -# via the EDK2_BASETOOLS_OPTFLAGS (CPPFLAGS and CFLAGS) and
+> +# Build scripts can pass compiler/linker flags to the EDK2
+> +# build tools via the EDK2_BASETOOLS_OPTFLAGS (CFLAGS) and
+>   # EDK2_BASETOOLS_LDFLAGS (LDFLAGS) environment variables.
+>   #
+>   # Example:
+> 
 
-This seems to silently drop remaining arguments, which is probably not
-what you want.
+Applied to my trivial-patches branch.
 
-> +        }
->      }
->
->      str =3D g_malloc(str_size);
->      *str =3D 0;
->      args =3D g_malloc(count * sizeof(char *));
-> -    for (it =3D entry; it !=3D NULL; it =3D it->next) {
-> +    for (it =3D entry; it !=3D NULL && i < count; it =3D it->next) {
->          args[i++] =3D it->value;
->          pstrcat(str, str_size, it->value);
->          if (it->next) {
-> diff --git a/qga/guest-agent-core.h b/qga/guest-agent-core.h
-> index 60eae16f27..300ff7e482 100644
-> --- a/qga/guest-agent-core.h
-> +++ b/qga/guest-agent-core.h
-> @@ -46,6 +46,8 @@ const char *ga_fsfreeze_hook(GAState *s);
->  int64_t ga_get_fd_handle(GAState *s, Error **errp);
->  int ga_parse_whence(GuestFileWhence *whence, Error **errp);
->
-> +size_t ga_get_arg_max(void);
-> +
->  #ifndef _WIN32
->  void reopen_fd_to_null(int fd);
->  #endif
-> --
-> 2.20.1
->
->
-
-
---=20
-Marc-Andr=C3=A9 Lureau
+Thanks,
+Laurent
 
