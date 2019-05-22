@@ -2,57 +2,66 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1FCF826644
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 16:50:13 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:44642 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AB04626652
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 16:52:35 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:44746 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTSZI-0007RI-8u
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 10:50:12 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:58565)
+	id 1hTSba-0000ik-U9
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 10:52:34 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:33515)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hTSTm-0003kA-1N
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 10:44:31 -0400
+	(envelope-from <philmd@redhat.com>) id 1hTSaU-0000PR-V6
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 10:51:28 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <ehabkost@redhat.com>) id 1hTSTk-0005As-Is
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 10:44:29 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:55820)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <ehabkost@redhat.com>) id 1hTSTk-0004jQ-Aj
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 10:44:28 -0400
-Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com
-	[10.5.11.13])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id E281A5946F;
-	Wed, 22 May 2019 14:44:14 +0000 (UTC)
-Received: from localhost (ovpn-116-14.gru2.redhat.com [10.97.116.14])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id 66010611A0;
-	Wed, 22 May 2019 14:44:14 +0000 (UTC)
-Date: Wed, 22 May 2019 11:44:12 -0300
-From: Eduardo Habkost <ehabkost@redhat.com>
-To: Jiri Denemark <jdenemar@redhat.com>
-Message-ID: <20190522144412.GR10764@habkost.net>
-References: <20190422234742.15780-1-ehabkost@redhat.com>
-	<20190509133537.GK7181@orkuz.int.mamuti.net>
-	<20190509135617.GH4189@habkost.net>
-	<20190509180603.424c8277@Igors-MacBook-Pro>
-	<20190509163618.GN7181@orkuz.int.mamuti.net>
-	<20190510203203.GW4189@habkost.net>
-	<20190522082741.GI2545064@orkuz.int.mamuti.net>
+	(envelope-from <philmd@redhat.com>) id 1hTSaT-0006AH-JK
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 10:51:26 -0400
+Received: from mail-wr1-f66.google.com ([209.85.221.66]:41938)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hTSaT-0004Il-AR
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 10:51:25 -0400
+Received: by mail-wr1-f66.google.com with SMTP id g12so2629954wro.8
+	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 07:50:44 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=by6dhmjpY2luTaGLOylIF5/4Kh1TMIZnGR9My4Wp+mc=;
+	b=KIfFhsX5R/OuRZ3DqXWcr/3fwH0SMTpsLSnXHZdMJWaBmzmYdXIPzBpmlC8gtXzr8w
+	Cp9ajJg+FsN3kAHh2U1KaZGrmTxOkMJUb6LIrXmQaXGq32SyVeghrPotMubI/bYNBP6s
+	jzacrigR5Wo+JMdzsGs/VYfwW1LqIJmx5ln42moWgDc9cOvrsHySPrMDG6rsMg9N4+ME
+	wM45qSznYiZc175X3vN0f16peAP3FPcw12OzdEUvzB6q0/zFoQmOY6Y/cIDJDITf5EZK
+	IZDPRZHN6ICVuTdCDBSW+amUzA3Ce+YzO81sZX6QC5Tw1XOPurFkcPBniiHc6kpYRgEB
+	G57Q==
+X-Gm-Message-State: APjAAAVDGzfrqQbARAhuVEWlV4SOggTvE8ZgPVqHEaCTl1x6Gk5aNmr2
+	c67mxWbvj4blSkoQkJS0GNP4Yg==
+X-Google-Smtp-Source: APXvYqzcQe5v5YxHI9HX6J2EULCcJhCr6Ge2kZSDGhmkBuj9UjqXVRcI0gP1X1ZEGe/RXM6GJLlTEQ==
+X-Received: by 2002:adf:e44b:: with SMTP id t11mr6193133wrm.151.1558536643489; 
+	Wed, 22 May 2019 07:50:43 -0700 (PDT)
+Received: from [10.201.33.53] ([195.166.127.210])
+	by smtp.gmail.com with ESMTPSA id
+	s10sm21905027wrt.66.2019.05.22.07.50.42
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Wed, 22 May 2019 07:50:43 -0700 (PDT)
+To: Yoshinori Sato <ysato@users.sourceforge.jp>, qemu-devel@nongnu.org
+References: <20190522142956.41916-1-ysato@users.sourceforge.jp>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <dd7f9ae2-e7ae-790c-170b-81d127a6222c@redhat.com>
+Date: Wed, 22 May 2019 16:50:41 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20190522082741.GI2545064@orkuz.int.mamuti.net>
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.39]);
-	Wed, 22 May 2019 14:44:14 +0000 (UTC)
+In-Reply-To: <20190522142956.41916-1-ysato@users.sourceforge.jp>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
-Subject: Re: [Qemu-devel] [PATCH 0/2] i386: "unavailable-features" QOM
- property
+	[fuzzy]
+X-Received-From: 209.85.221.66
+Subject: Re: [Qemu-devel] [PATCH v15 00/12] Add RX archtecture support
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -64,60 +73,99 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Igor Mammedov <imammedo@redhat.com>, Richard Henderson <rth@twiddle.net>,
-	qemu-devel@nongnu.org, Paolo Bonzini <pbonzini@redhat.com>
+Cc: peter.maydell@linaro.org, richard.henderson@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, May 22, 2019 at 10:27:41AM +0200, Jiri Denemark wrote:
-> On Fri, May 10, 2019 at 17:32:03 -0300, Eduardo Habkost wrote:
-> > On Thu, May 09, 2019 at 06:36:18PM +0200, Jiri Denemark wrote:
-> > > On Thu, May 09, 2019 at 18:06:03 +0200, Igor Mammedov wrote:
-> > > > On Thu, 9 May 2019 10:56:17 -0300
-> > > > Eduardo Habkost <ehabkost@redhat.com> wrote:
-> > > > 
-> > > > > On Thu, May 09, 2019 at 03:35:37PM +0200, Jiri Denemark wrote:
-> > > > > > Would this unavailable-features property contain only canonical names of
-> > > > > > the features or all possible aliases of all features? For example,
-> > > > > > "tsc-adjust" can also be spelled as "tsc_adjust". When calling
-> > > > > > query-cpu-model-expansion, we have a way to request all variants by
-> > > > > > running full expansion on the result of a previous static expansion. Can
-> > > > > > we get something like this for unavailable-features too?
-> > > > > 
-> > > > > I'd like to avoid that, and refer only to the canonical names.
-> > > > 
-> > > > Can we deprecate aliases to avoid confusion in future?
-> > > > (there aren't that many of them that used pre-QOM name format)
-> > > 
-> > > If you come up with a way libvirt could use to detect which name it
-> > > should use when talking to QEMU...
-> > 
-> > The property names are part of the API, and deprecation would
-> > just be documented in the QEMU documentation.  Why would you need
-> > to enumerate them dynamically at runtime?
+Hi Yoshinori,
+
+On 5/22/19 4:29 PM, Yoshinori Sato wrote:
+> Hello.
+> This patch series is added Renesas RX target emulation.
 > 
-> The tricky part is to know which variant of a particular feature name we
-> should use when talking to a specific version of QEMU. But I guess we
-> can use the new "unavailable-features" property for this purpose. [...]
+> Fix is bellow.
+> - Reorder patches.
+> - Rewrite renesas_cmt.
+>   Convert to RCMTChannelStatus
+> - Use CPUClass::tlb_fill
+> - Use tcg_gen_abs_i32
+> - Fix racw instructions.
+> - Cleanup for review comment.
+>   target/rx/helper.c - fix spelling.
+>   hw/intc/rx_icu.h - cleanup constant definition.
+>   hw/registerfields.h - fix macro definion order.
 
-You can run device-list-properties on the typenames returned by
-query-cpu-definitions, to check which CPU properties exist in a
-QEMU binary.
+$ git backport-diff -u rx14 -r origin/master..rx15
+Key:
+[----] : patches are identical
+[####] : number of functional differences between upstream/downstream patch
+[down] : patch is downstream-only
+The flags [FC] indicate (F)unctional and (C)ontextual differences,
+respectively
 
->                                                           [...]   When
-> the property is present, we can translate all feature names to their
-> canonical names (via a static translation table in libvirt). We'd be
-> using the old untranslated names when talking to any QEMU which does not
-> support the "unavailable-features" property.
+001/12:[----] [--] 'qemu/bitops.h: Add extract8 and extract16'
+002/12:[0008] [FC] 'hw/registerfields.h: Add 8bit and 16bit register macros'
+003/12:[0018] [FC] 'target/rx: TCG translation'
+004/12:[0004] [FC] 'target/rx: TCG helper'
+005/12:[0030] [FC] 'target/rx: CPU definition'
+006/12:[----] [--] 'target/rx: RX disassembler'
+007/12:[0003] [FC] 'hw/intc: RX62N interrupt controller (ICUa)'
+008/12:[0178] [FC] 'hw/timer: RX62N internal timer modules'
+009/12:[----] [--] 'hw/char: RX62N serial communication interface (SCI)'
+010/12:[0004] [FC] 'hw/rx: RX Target hardware definition'
+011/12:[----] [--] 'Add rx-softmmu'
+012/12:[0004] [FC] 'MAINTAINERS: Add RX'
 
-That would help us simplify the interface between QEMU and libvirt.
+- you removed rx_abs(),
+- one change in trans_RACW()
+- fixed typos (Richard fixe them)
+- LOT of changes in the timer device, you added RCMTChannelState()
 
+Hmm you did reset some of the R-b T-b tags.
+
+
+I guess Richard already prepared a pull request for your v14.
+
+At this point I'd prefer the v14 get merged, and the v15 changes amended
+as new commits. This would ease review/testing.
+
+Maybe Richard can still amend the 'trans_RACW' one-line fix on his pullreq.
+
+Richard what's your take on this?
+
+Regards,
+
+Phil.
+
+> My git repository is bellow.
+> git://git.pf.osdn.net/gitroot/y/ys/ysato/qemu.git tags/rx-20190522
 > 
-> But I hope we won't get into a situation when some CPU feature needs to
-> be renamed again, that would make a big mess.
-
-I promise we'll try to avoid doing that.  :)
-
--- 
-Eduardo
+> Testing binaries bellow.
+> u-boot
+> Download - https://osdn.net/users/ysato/pf/qemu/dl/u-boot.bin.gz
+> 
+> starting
+> $ gzip -d u-boot.bin.gz
+> $ qemu-system-rx -bios u-boot.bin
+> 
+> linux and pico-root (only sash)
+> Download - https://osdn.net/users/ysato/pf/qemu/dl/zImage (kernel)
+>            https://osdn.net/users/ysato/pf/qemu/dl/rx-qemu.dtb (DeviceTree)
+> 
+> starting
+> $ qemu-system-rx -kernel zImage -dtb rx-qemu.dtb -append "earlycon"
+> 
+> Yoshinori Sato (12):
+>   qemu/bitops.h: Add extract8 and extract16
+>   hw/registerfields.h: Add 8bit and 16bit register macros.
+>   target/rx: TCG translation
+>   target/rx: TCG helper
+>   target/rx: CPU definition
+>   target/rx: RX disassembler
+>   hw/intc: RX62N interrupt controller (ICUa)
+>   hw/timer: RX62N internal timer modules
+>   hw/char: RX62N serial communication interface (SCI)
+>   hw/rx: RX Target hardware definition
+>   Add rx-softmmu
+>   MAINTAINERS: Add RX
 
