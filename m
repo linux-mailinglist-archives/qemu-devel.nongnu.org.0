@@ -2,49 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B6AEE272F6
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 01:24:47 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:54238 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 10E0327331
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 02:19:00 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:54801 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTabG-0000on-SB
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 19:24:46 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38845)
+	id 1hTbRj-0001yh-90
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 20:18:59 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49084)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hTaZf-0008Vv-7I
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 19:23:08 -0400
+	(envelope-from <dgibson@ozlabs.org>) id 1hTbQY-0001fC-Sw
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 20:17:48 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hTaZd-0008C2-Ks
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 19:23:07 -0400
-Received: from ozlabs.org ([2401:3900:2:1::2]:52509)
+	(envelope-from <dgibson@ozlabs.org>) id 1hTbQX-00006J-19
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 20:17:46 -0400
+Received: from ozlabs.org ([203.11.71.1]:53125)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
-	id 1hTaZc-00087o-1F; Wed, 22 May 2019 19:23:05 -0400
+	id 1hTbLc-0005Wu-P6; Wed, 22 May 2019 20:12:42 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
-	id 458TFS1C3Xz9s55; Thu, 23 May 2019 09:22:52 +1000 (AEST)
+	id 458VLm4GLDz9s5c; Thu, 23 May 2019 10:12:32 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=gibson.dropbear.id.au; s=201602; t=1558567372;
-	bh=PjPC6RIQzDJI8kUZMROtJu3SmJU4jI4sarUe22Aae6M=;
+	d=gibson.dropbear.id.au; s=201602; t=1558570352;
+	bh=Txq55GIENihYbZ5kE9Rl1OBq3l49PdIZk/ji01L+sKA=;
 	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=aBTYO0gfmUx61juZ2aPdwwSNpg7uuRYabv2IaXa0ytXVDDCgegIhxq8JIHh+4zqRU
-	gDaPerdKpbyZ05tGpYlWAK/T1PaY0vNfWcjYDDLbfVFz9Rs83XXnC+/F6IsTIENrlV
-	e5tssjzJ+nqSG6P3tFFfos9phIqfSZc4+3Rv3Aw8=
-Date: Thu, 23 May 2019 09:22:46 +1000
+	b=X5BwGEts9f97yeiW7kj0gO/B2/UCBADVtPr3/S55ieRgsKKh/zrsnCuY8Qv+lOnqD
+	rDZ2+be2W4CTxKzHkkJPb9epkTbh2uRyyuBWuhBbzRP0c0tSkNbn6XhL6Klme6Aznt
+	TLw6vxICQ7RtYc+zRU6R/vucpDmI0ZLKJUUwj9zA=
+Date: Thu, 23 May 2019 09:24:30 +1000
 From: David Gibson <david@gibson.dropbear.id.au>
-To: Greg Kurz <groug@kaod.org>
-Message-ID: <20190522232246.GL30423@umbus.fritz.box>
-References: <155853262675.1158324.17301777846476373459.stgit@bahia.lan>
+To: Laurent Vivier <lvivier@redhat.com>
+Message-ID: <20190522232429.GM30423@umbus.fritz.box>
+References: <20190521073348.29657-1-lvivier@redhat.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="64LDleNqNegJ4g97"
+	protocol="application/pgp-signature"; boundary="JlJsEFsx9RQyiX4C"
 Content-Disposition: inline
-In-Reply-To: <155853262675.1158324.17301777846476373459.stgit@bahia.lan>
+In-Reply-To: <20190521073348.29657-1-lvivier@redhat.com>
 User-Agent: Mutt/1.11.4 (2019-03-13)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2401:3900:2:1::2
-Subject: Re: [Qemu-devel] [PATCH] spapr: Don't migrate the hpt_maxpagesize
- cap to older machine types
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 203.11.71.1
+Subject: Re: [Qemu-devel] [PATCH v2] numa: improve cpu hotplug error message
+ with a wrong node-id
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -56,124 +55,103 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: qemu-ppc@nongnu.org, qemu-devel@nongnu.org
+Cc: Peter Maydell <peter.maydell@linaro.org>,
+	Eduardo Habkost <ehabkost@redhat.com>, qemu-devel@nongnu.org,
+	qemu-arm@nongnu.org, qemu-ppc@nongnu.org,
+	Igor Mammedov <imammedo@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---64LDleNqNegJ4g97
+--JlJsEFsx9RQyiX4C
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 22, 2019 at 03:43:46PM +0200, Greg Kurz wrote:
-> Commit 0b8c89be7f7b added the hpt_maxpagesize capability to the migration
-> stream. This is okay for new machine types but it breaks backward migrati=
-on
-> to older QEMUs, which don't expect the extra subsection.
+On Tue, May 21, 2019 at 09:33:48AM +0200, Laurent Vivier wrote:
+> On pseries, core-ids are strongly binded to a node-id by the command
+> line option. If an user tries to add a CPU to the wrong node, he has
+> an error but it is not really helpful:
 >=20
-> Add a compatibility boolean flag to the sPAPR machine class and use it to
-> skip migration of the capability for machine types 4.0 and older. This
-> fixes migration to an older QEMU. Note that the destination will emit a
-> warning:
+>   qemu-system-ppc64 ... -smp 1,maxcpus=3D64,cores=3D1,threads=3D1,sockets=
+=3D1 \
+>                         -numa node,nodeid=3D0 -numa node,nodeid=3D1 ...
 >=20
-> qemu-system-ppc64: warning: cap-hpt-max-page-size lower level (16) in inc=
-oming stream than on destination (24)
+>   (qemu) device_add power9_v2.0-spapr-cpu-core,core-id=3D30,node-id=3D1
+>   Error: node-id=3D1 must match numa node specified with -numa option
 >=20
-> This is expected and harmless though. It is okay to migrate from a lower
-> HPT maximum page size (64k) to a greater one (16M).
+> This patch improves this error message by giving to the user the good
+> topology information (node-id, socket-id and thread-id if they are
+> available) to use with the core-id he's providing:
 >=20
-> Fixes: 0b8c89be7f7b "spapr: Add forgotten capability to migration stream"
-> Based-on: <20190522074016.10521-3-clg@kaod.org>
-> Signed-off-by: Greg Kurz <groug@kaod.org>
+>   Error: core-id 30 can only be plugged into node-id 0
+>=20
+> Signed-off-by: Laurent Vivier <lvivier@redhat.com>
 
-Applied, thanks.
+LGTM,
+
+Reviewed-by: David Gibson <david@gibson.dropbear.id.au>
 
 > ---
 >=20
-> Please notice that this is based on Cedric's patch that make "dual" the
-> default for the ic-mode property.
-> ---
->  hw/ppc/spapr.c         |    1 +
->  hw/ppc/spapr_caps.c    |   12 +++++++++++-
->  include/hw/ppc/spapr.h |    1 +
->  3 files changed, 13 insertions(+), 1 deletion(-)
+> Notes:
+>     v2: display full topology in the error message
 >=20
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 4fd16b43f014..e2b33e5890ae 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -4431,6 +4431,7 @@ static void spapr_machine_4_0_class_options(Machine=
-Class *mc)
->      compat_props_add(mc->compat_props, hw_compat_4_0, hw_compat_4_0_len);
->      smc->phb_placement =3D phb_placement_4_0;
->      smc->irq =3D &spapr_irq_xics;
-> +    smc->pre_4_1_migration =3D true;
+>  numa.c | 28 ++++++++++++++++++++++++++--
+>  1 file changed, 26 insertions(+), 2 deletions(-)
+>=20
+> diff --git a/numa.c b/numa.c
+> index 3875e1efda3a..7413f821e2bb 100644
+> --- a/numa.c
+> +++ b/numa.c
+> @@ -458,6 +458,27 @@ void qmp_set_numa_node(NumaOptions *cmd, Error **err=
+p)
+>      set_numa_options(MACHINE(qdev_get_machine()), cmd, errp);
 >  }
 > =20
->  DEFINE_SPAPR_MACHINE(4_0, "4.0", false);
-> diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-> index 658eb15a147b..31b466139975 100644
-> --- a/hw/ppc/spapr_caps.c
-> +++ b/hw/ppc/spapr_caps.c
-> @@ -64,6 +64,7 @@ typedef struct SpaprCapabilityInfo {
->      void (*apply)(SpaprMachineState *spapr, uint8_t val, Error **errp);
->      void (*cpu_apply)(SpaprMachineState *spapr, PowerPCCPU *cpu,
->                        uint8_t val, Error **errp);
-> +    bool (*migrate_needed)(void *opaque);
->  } SpaprCapabilityInfo;
-> =20
->  static void spapr_cap_get_bool(Object *obj, Visitor *v, const char *name,
-> @@ -350,6 +351,11 @@ static void cap_hpt_maxpagesize_apply(SpaprMachineSt=
-ate *spapr,
->      spapr_check_pagesize(spapr, qemu_minrampagesize(), errp);
->  }
-> =20
-> +static bool cap_hpt_maxpagesize_migrate_needed(void *opaque)
+> +static char *cpu_topology_to_string(const CPUArchId *cpu)
 > +{
-> +    return !SPAPR_MACHINE_GET_CLASS(opaque)->pre_4_1_migration;
+> +    GString *s =3D g_string_new(NULL);
+> +    if (cpu->props.has_socket_id) {
+> +        g_string_append_printf(s, "socket-id %"PRId64, cpu->props.socket=
+_id);
+> +    }
+> +    if (cpu->props.has_node_id) {
+> +        if (s->len) {
+> +            g_string_append_printf(s, ", ");
+> +        }
+> +        g_string_append_printf(s, "node-id %"PRId64, cpu->props.node_id);
+> +    }
+> +    if (cpu->props.has_thread_id) {
+> +        if (s->len) {
+> +            g_string_append_printf(s, ", ");
+> +        }
+> +        g_string_append_printf(s, "thread-id %"PRId64, cpu->props.thread=
+_id);
+> +    }
+> +    return g_string_free(s, false);
 > +}
 > +
->  static bool spapr_pagesize_cb(void *opaque, uint32_t seg_pshift,
->                                uint32_t pshift)
+>  void numa_cpu_pre_plug(const CPUArchId *slot, DeviceState *dev, Error **=
+errp)
 >  {
-> @@ -542,6 +548,7 @@ SpaprCapabilityInfo capability_table[SPAPR_CAP_NUM] =
-=3D {
->          .type =3D "int",
->          .apply =3D cap_hpt_maxpagesize_apply,
->          .cpu_apply =3D cap_hpt_maxpagesize_cpu_apply,
-> +        .migrate_needed =3D cap_hpt_maxpagesize_migrate_needed,
->      },
->      [SPAPR_CAP_NESTED_KVM_HV] =3D {
->          .name =3D "nested-hv",
-> @@ -679,8 +686,11 @@ int spapr_caps_post_migration(SpaprMachineState *spa=
-pr)
->  static bool spapr_cap_##sname##_needed(void *opaque)    \
->  {                                                       \
->      SpaprMachineState *spapr =3D opaque;                  \
-> +    bool (*needed)(void *opaque) =3D                      \
-> +        capability_table[cap].migrate_needed;           \
->                                                          \
-> -    return spapr->cmd_line_caps[cap] &&                 \
-> +    return needed ? needed(opaque) : true &&            \
-> +           spapr->cmd_line_caps[cap] &&                 \
->             (spapr->eff.caps[cap] !=3D                     \
->              spapr->def.caps[cap]);                      \
->  }                                                       \
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index 9fc91c8f5eac..4f5becf1f3cc 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -119,6 +119,7 @@ struct SpaprMachineClass {
->      bool pre_2_10_has_unused_icps;
->      bool legacy_irq_allocation;
->      bool broken_host_serial_model; /* present real host info to the gues=
-t */
-> +    bool pre_4_1_migration; /* don't migrate hpt-max-page-size */
+>      int node_id =3D object_property_get_int(OBJECT(dev), "node-id", &err=
+or_abort);
+> @@ -470,8 +491,11 @@ void numa_cpu_pre_plug(const CPUArchId *slot, Device=
+State *dev, Error **errp)
+>                                      "node-id", errp);
+>          }
+>      } else if (node_id !=3D slot->props.node_id) {
+> -        error_setg(errp, "node-id=3D%d must match numa node specified "
+> -                   "with -numa option", node_id);
+> +        char *topology =3D cpu_topology_to_string(slot);
+> +        error_setg(errp,
+> +                   "core-id %"PRId64" can only be plugged into %s",
+> +                   slot->props.core_id, topology);
+> +        g_free(topology);
+>      }
+>  }
 > =20
->      void (*phb_placement)(SpaprMachineState *spapr, uint32_t index,
->                            uint64_t *buid, hwaddr *pio,=20
->=20
 
 --=20
 David Gibson			| I'll have my music baroque, and my code
@@ -181,25 +159,25 @@ david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
 				| _way_ _around_!
 http://www.ozlabs.org/~dgibson
 
---64LDleNqNegJ4g97
+--JlJsEFsx9RQyiX4C
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlzl2cYACgkQbDjKyiDZ
-s5KJAxAAjM204OghP6IdgleKCAtZKd6pkkbfeq0kcr3pbSrFp98zFYoA/281l6/h
-EbhA5zd4d3hQ23pkLzK28peO8SdJOlxxi7WRwFerOWkRpl2Eb4N2t+IP3Oso04Lr
-uM9djdA/RSIg5CS7jFmumRzdphi4SLyU4bGliKlpKaMIwBtzEAmhCVNarJLOt5JO
-ALXP+68HomcGhp8BCYiSn9D/zaOlk7/ak2xg820vCagY/x1WNBPYITZqO/8xVRGx
-XXjcuwpOMqYIJJcP09ywzjFs9K6I+I+Bvja0H3OvONHmFEkw+v7lxB8gdC+NqEyW
-8/Am6WmOiFTL9SdK4jeltBlwghMV0YCy4KoR39CjXR3NJpN+Ea4DYHdvb9CZNqL0
-TitOu6A1D0K3LRgB+AAJTQ7uzU16sSQM2hBDIXqXP9/Zjfmi4edI+DfGIQQxI/6m
-nfXDrQvRT3nW+zeFW725IjCSFW04A+gqdYC9JTEY19EjGlbmpC7g0NGyuC1wBYf9
-EeFrXMZIY++Rg+jm0FiZmEINsYoJvXdPxT1xIxLBPoOskzaoGWisPcI4SNv/mVv1
-F+Y1JzQyqHRz5AZWaxIXEUWPbX/i/CpCYtYi5rvtXCMl6oUw6syS15zJnouRJyT3
-xpgqb2gJuxsvpQBMC26Yuyp+HsCNkbb0GnbZvrOXhnmGW+ttADw=
-=cG7w
+iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlzl2i0ACgkQbDjKyiDZ
+s5K/Eg/+Ktn/r8CdwQVKwOJ8/xNwc34839VPxqDE1pdamxDGhQkrxNRngP8LTtQ7
+9E8K6iivHTrI/7nEYTHCm7ErVZZlod0Z5o7Lsq0WyZZI3vxxGwbPOpIv+uQb2OXO
+vk7fvzwLtDRusJDrJdlEXNbw2/30fWnhkmbshG2yIyD18xcEKZh2CeilntWpfQD5
+DZsZ+DiB44OWfoYag2m68HniMOF0K65r6ar2Edj4VsnE8lCq9Xq8NSR0zfndrADw
+XE0ZKz82tFzjcK5rPztG+B5tasDWMpeGQaDkZNiaBRNjXT0ZjKsC62W/8cpM2PGO
+21EWV2iFDbcwsHBDnxmM1uWut1hTtl/29fzakdNXMvIu0wSVRp9xZFoo5yFlML/d
+UOR8nNCI3uV2yhIvxsFLR5nGWlqkicWVMLeYMiDqixw3IHBgYQuFhu4CRgR8HN7C
+eY2+pp6f7aNVIFAhtjdwca97L31ig+KvhBfKLw4mqgCPIp5Qytwvqbco6sLulLhw
+GpnMD6AWMIZmo/IsJEmMrxq88hrPIAHloHQ/61HFPWAFgS2QLHLPb+wlrCzN267e
+a/acMZ0cMud8Z6fAQIBh48tkY/Fk8phobcHJaGxkpsZz5pGCEJyAfFr2WHi8QCVJ
+VBSb6vlTGvCVI/9kT+hVpFUdwnxjLDDtCzFWPJeZ56I6s/WACVc=
+=Ti2u
 -----END PGP SIGNATURE-----
 
---64LDleNqNegJ4g97--
+--JlJsEFsx9RQyiX4C--
 
