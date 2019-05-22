@@ -2,61 +2,47 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 24B0226A8D
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 21:08:32 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49808 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9147826AB0
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 21:17:45 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49954 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTWbH-00035H-6O
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 15:08:31 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35240)
+	id 1hTWk9-0001mk-8i
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 15:17:41 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36541)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hTWOl-0008P8-VL
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:55:37 -0400
+	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hTWRx-0003DN-R8
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:58:54 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hTWOk-0006jn-I2
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:55:35 -0400
-Received: from indium.canonical.com ([91.189.90.7]:40230)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hTWOk-0006ic-B4
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:55:34 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
-	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hTWOi-0004zs-Sn
-	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 18:55:32 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id D23A32E80C0
-	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 18:55:32 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 22 May 2019 18:49:49 -0000
-From: Alex Williamson <alex.l.williamson@gmail.com>
+	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hTWRw-0000Mw-Ov
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:58:53 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:60453 helo=mail.rt-rk.com)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
+	id 1hTWRw-0000Lj-Gz
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:58:52 -0400
+Received: from localhost (localhost [127.0.0.1])
+	by mail.rt-rk.com (Postfix) with ESMTP id 5BCBE1A4165;
+	Wed, 22 May 2019 20:58:49 +0200 (CEST)
+X-Virus-Scanned: amavisd-new at rt-rk.com
+Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
+	[10.10.13.43])
+	by mail.rt-rk.com (Postfix) with ESMTPSA id 4357F1A2160;
+	Wed, 22 May 2019 20:58:49 +0200 (CEST)
+From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=In Progress; importance=Undecided;
-	assignee=alex.l.williamson@gmail.com; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: alex-l-williamson saveriomiroddi
-X-Launchpad-Bug-Reporter: Saverio Miroddi (saveriomiroddi)
-X-Launchpad-Bug-Modifier: Alex Williamson (alex-l-williamson)
-References: <155620554968.6380.13610580395862407350.malonedeb@chaenomeles.canonical.com>
-Message-Id: <155855098990.21894.5982983625055574571.malone@chaenomeles.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18962";
-	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 5ef78ed9afd8a84c5ee02f323d360f1017b9a17d
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 1826422] Re: Regression: QEMU 4.0 hangs the host
- (*bisect included*)
+Date: Wed, 22 May 2019 20:58:31 +0200
+Message-Id: <1558551522-24147-1-git-send-email-aleksandar.markovic@rt-rk.com>
+X-Mailer: git-send-email 2.7.4
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
+X-Received-From: 89.216.37.149
+Subject: [Qemu-devel] [PULL v2 00/11] MIPS queue for May 19th, 2019 - v2
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -65,91 +51,81 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 1826422 <1826422@bugs.launchpad.net>
+Cc: peter.maydell@linaro.org, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Just to provide an update, patches are posted to revert this change in
-both the q35 4.1 machine type for the next release as well as introduce
-a q35 4.0.1 machine type making the same change for 4.0-stable.
-References:
+From: Aleksandar Markovic <amarkovic@wavecomp.com>
 
-https://patchwork.ozlabs.org/patch/1099695/
-https://patchwork.ozlabs.org/patch/1099659/
+The following changes since commit a4f667b6714916683408b983cfe0a615a72577=
+5f:
 
-** Changed in: qemu
-       Status: New =3D> In Progress
+  Merge remote-tracking branch 'remotes/cohuck/tags/s390x-20190521-3' int=
+o staging (2019-05-21 16:30:13 +0100)
 
-** Changed in: qemu
-     Assignee: (unassigned) =3D> Alex Williamson (alex-l-williamson)
+are available in the git repository at:
 
--- =
+  https://github.com/AMarkovic/qemu tags/mips-queue-may-19-2019-v2
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/1826422
+for you to fetch changes up to 9a89468145b8a3e53e508992f54061427c52780f:
 
-Title:
-  Regression: QEMU 4.0 hangs the host (*bisect included*)
+  BootLinuxSshTest: Test some userspace commands on Malta (2019-05-22 20:=
+10:46 +0200)
 
-Status in QEMU:
-  In Progress
+----------------------------------------------------------------
 
-Bug description:
-  The commit b2fc91db84470a78f8e93f5b5f913c17188792c8 seemingly
-  introduced a regression on my system.
+MIPS queue for May 19th, 2019 - v2
 
-  When I start QEMU, the guest and the host hang (I need a hard reset to
-  get back to a working system), before anything shows on the guest.
+v1-v2:
+   - fixed missing invocations in patch on ST.<B|H|W|D> that caused
+     clang build error
+   - added a patch on acceptance test for Malta
 
-  I use QEMU with GPU passthrough (which worked perfectly until the
-  commit above). This is the command I use:
+overall content:
 
-  ```
-  /path/to/qemu-system-x86_64
-    -drive if=3Dpflash,format=3Draw,readonly,file=3D/path/to/OVMF_CODE.fd
-    -drive if=3Dpflash,format=3Draw,file=3D/tmp/OVMF_VARS.fd.tmp
-    -enable-kvm
-    -machine q35,accel=3Dkvm,mem-merge=3Doff
-    -cpu host,kvm=3Doff,hv_vendor_id=3Dvgaptrocks,hv_relaxed,hv_spinlocks=
-=3D0x1fff,hv_vapic,hv_time
-    -smp 4,cores=3D4,sockets=3D1,threads=3D1
-    -m 10240
-    -vga none
-    -rtc base=3Dlocaltime
-    -serial none
-    -parallel none
-    -usb
-    -device usb-tablet
-    -device vfio-pci,host=3D01:00.0,multifunction=3Don
-    -device vfio-pci,host=3D01:00.1
-    -device usb-host,vendorid=3D<vid>,productid=3D<pid>
-    -device usb-host,vendorid=3D<vid>,productid=3D<pid>
-    -device usb-host,vendorid=3D<vid>,productid=3D<pid>
-    -device usb-host,vendorid=3D<vid>,productid=3D<pid>
-    -device usb-host,vendorid=3D<vid>,productid=3D<pid>
-    -device usb-host,vendorid=3D<vid>,productid=3D<pid>
-    -device virtio-scsi-pci,id=3Dscsi
-    -drive file=3D/path/to/guest.img,id=3Dhdd1,format=3Dqcow2,if=3Dnone,cac=
-he=3Dwriteback
-    -device scsi-hd,drive=3Dhdd1
-    -net nic,model=3Dvirtio
-    -net user,smb=3D/path/to/shared
-  ```
+   * Improved usage of object_initialize() and object_initialize_child()
+   * Added an acceptance test for Malta board
+   * Better handling of memory pages (flag PAGE_EXEC)
+   * A set of fixes for emulation of MSA ASE on big endian hosts
+   * Better handling of 'div by zero' cases of MSA ASE instructions
 
-  If I run QEMU without GPU passthrough, it runs fine.
+----------------------------------------------------------------
 
-  Some details about my system:
+Jakub Jerm=C3=A1=C5=99 (1):
+  mips: Decide to map PAGE_EXEC in map_address
 
-  - O/S: Mint 19.1 x86-64 (it's based on Ubuntu 18.04)
-  - Kernel: 4.15
-  - `configure` options: `--target-list=3Dx86_64-softmmu --enable-gtk --ena=
-ble-spice --audio-drv-list=3Dpa`
-  - EDK2 version: 1a734ed85fda71630c795832e6d24ea560caf739 (20/Apr/2019)
-  - CPU: i7-6700k
-  - Motherboard: ASRock Z170 Gaming-ITX/ac
-  - VGA: Gigabyte GTX 960 Mini-ITX
+Mateja Marjanovic (7):
+  target/mips: Make the results of DIV_<U|S>.<B|H|W|D> the same as on
+    hardware
+  target/mips: Make the results of MOD_<U|S>.<B|H|W|D> the same as on
+    hardware
+  target/mips: Fix MSA instructions LD.<B|H|W|D> on big endian host
+  target/mips: Fix MSA instructions ST.<B|H|W|D> on big endian host
+  target/mips: Refactor and fix COPY_S.<B|H|W|D> instructions
+  target/mips: Refactor and fix COPY_U.<B|H|W> instructions
+  target/mips: Refactor and fix INSERT.<B|H|W|D> instructions
 
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/1826422/+subscriptions
+Philippe Mathieu-Daud=C3=A9 (3):
+  hw/mips: Use object_initialize() on MIPSCPSState
+  hw/mips: Use object_initialize_child for correct reference counting
+  BootLinuxSshTest: Test some userspace commands on Malta
+
+ MAINTAINERS                              |   1 +
+ hw/mips/boston.c                         |  25 +-
+ hw/mips/cps.c                            |  20 +-
+ hw/mips/mips_malta.c                     |  17 +-
+ target/mips/helper.c                     |  13 +-
+ target/mips/helper.h                     |  16 +-
+ target/mips/msa_helper.c                 | 191 ++++++++++-----
+ target/mips/op_helper.c                  | 388 +++++++++++++++++++++++++=
+++----
+ target/mips/translate.c                  |  59 ++++-
+ tests/acceptance/linux_ssh_mips_malta.py | 229 ++++++++++++++++++
+ tests/requirements.txt                   |   1 +
+ 11 files changed, 817 insertions(+), 143 deletions(-)
+ create mode 100644 tests/acceptance/linux_ssh_mips_malta.py
+
+--=20
+2.7.4
+
 
