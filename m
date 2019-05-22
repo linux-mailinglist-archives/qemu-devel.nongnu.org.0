@@ -2,53 +2,62 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 9159E25EE5
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 09:59:43 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38003 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 85A2325F64
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 10:23:23 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38304 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTMA2-00039E-G6
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 03:59:42 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:54611)
+	id 1hTMWw-0007Xy-Nu
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 04:23:22 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:58299)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <groug@kaod.org>) id 1hTM94-0002pA-To
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 03:58:44 -0400
+	(envelope-from <bounces@canonical.com>) id 1hTMUb-0006S7-Be
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 04:20:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <groug@kaod.org>) id 1hTM93-0004yF-OO
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 03:58:42 -0400
-Received: from 16.mo5.mail-out.ovh.net ([87.98.174.144]:35436)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <groug@kaod.org>) id 1hTM93-0004uG-HW
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 03:58:41 -0400
-Received: from player759.ha.ovh.net (unknown [10.108.57.38])
-	by mo5.mail-out.ovh.net (Postfix) with ESMTP id 7834A2363A7
-	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 09:58:38 +0200 (CEST)
-Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
-	[82.253.208.248]) (Authenticated sender: groug@kaod.org)
-	by player759.ha.ovh.net (Postfix) with ESMTPSA id D000B60F4B9D;
-	Wed, 22 May 2019 07:58:30 +0000 (UTC)
-Date: Wed, 22 May 2019 09:58:29 +0200
-From: Greg Kurz <groug@kaod.org>
-To: David Gibson <david@gibson.dropbear.id.au>
-Message-ID: <20190522095829.7b688f35@bahia.lan>
-In-Reply-To: <20190522044600.16534-22-david@gibson.dropbear.id.au>
-References: <20190522044600.16534-1-david@gibson.dropbear.id.au>
-	<20190522044600.16534-22-david@gibson.dropbear.id.au>
-X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+	(envelope-from <bounces@canonical.com>) id 1hTMUa-0007wa-5M
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 04:20:57 -0400
+Received: from indium.canonical.com ([91.189.90.7]:36170)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hTMUZ-0007uP-Ve
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 04:20:56 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hTMUW-00069g-GY
+	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 08:20:52 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id 7C38A2E80C9
+	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 08:20:52 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-X-Ovh-Tracer-Id: 84723971913783782
-X-VR-SPAMSTATE: OK
-X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddrudduuddguddviecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+Date: Wed, 22 May 2019 08:14:13 -0000
+From: Eunseok Choi <1829964@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
+	assignee=None; 
+X-Launchpad-Bug-Tags: android-x86 leak virt-gpu vram
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: riosnai th-huth
+X-Launchpad-Bug-Reporter: Eunseok Choi (riosnai)
+X-Launchpad-Bug-Modifier: Eunseok Choi (riosnai)
+References: <155849647074.15430.13880026935625975661.malonedeb@wampee.canonical.com>
+Message-Id: <155851285378.21734.3576635759181429633.malone@chaenomeles.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18962";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: 82ea2d36b1e26a74ed2566f3447362ff3f52e499
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 87.98.174.144
-Subject: Re: [Qemu-devel] [PULL 21/38] spapr: Add forgotten capability to
- migration stream
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1829964] Re: HOST VRAM Leak when performs
+ android-x86 window rotation with Virt-GPU
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -57,75 +66,106 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: lvivier@redhat.com, peter.maydell@linaro.org, qemu-ppc@nongnu.org,
-	qemu-devel@nongnu.org, clg@kaod.org
+Reply-To: Bug 1829964 <1829964@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 22 May 2019 14:45:43 +1000
-David Gibson <david@gibson.dropbear.id.au> wrote:
+I tested many qemu & linux versions....
 
-> spapr machine capabilities are supposed to be sent in the migration stream
-> so that we can sanity check the source and destination have compatible
-> configuration.  Unfortunately, when we added the hpt-max-page-size
-> capability, we forgot to add it to the migration state.  This means that =
-we
-> can generate spurious warnings when both ends are configured for large
-> pages, or potentially fail to warn if the source is configured for huge
-> pages, but the destination is not.
->=20
-> Fixes: 2309832afda "spapr: Maximum (HPT) pagesize property"
->=20
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
-> ---
+in case of qemu,
+2.12
+3.10
+3.12
+4.0.0
+All versions I tested have same problem....
 
-Huh... we discussed that it was breaking backward migration:
+also I tested many versions of linux =
 
-https://lists.gnu.org/archive/html/qemu-ppc/2019-05/msg00330.html
+ubuntu 18.04 18.10
+centos 7
+fedora 18 19
+rhel
 
-So I'm a bit surprised to see this in the PR... is it intentional ?
+Actually it is not only problem of windows rotation, if home launcher
+refreshed, vram usage is also up...
 
->  hw/ppc/spapr.c         | 1 +
->  hw/ppc/spapr_caps.c    | 1 +
->  include/hw/ppc/spapr.h | 1 +
->  3 files changed, 3 insertions(+)
->=20
-> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-> index 8580a8dc67..bcae30ad26 100644
-> --- a/hw/ppc/spapr.c
-> +++ b/hw/ppc/spapr.c
-> @@ -2125,6 +2125,7 @@ static const VMStateDescription vmstate_spapr =3D {
->          &vmstate_spapr_cap_cfpc,
->          &vmstate_spapr_cap_sbbc,
->          &vmstate_spapr_cap_ibs,
-> +        &vmstate_spapr_cap_hpt_maxpagesize,
->          &vmstate_spapr_irq_map,
->          &vmstate_spapr_cap_nested_kvm_hv,
->          &vmstate_spapr_dtb,
-> diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
-> index 9b1c10baa6..658eb15a14 100644
-> --- a/hw/ppc/spapr_caps.c
-> +++ b/hw/ppc/spapr_caps.c
-> @@ -703,6 +703,7 @@ SPAPR_CAP_MIG_STATE(dfp, SPAPR_CAP_DFP);
->  SPAPR_CAP_MIG_STATE(cfpc, SPAPR_CAP_CFPC);
->  SPAPR_CAP_MIG_STATE(sbbc, SPAPR_CAP_SBBC);
->  SPAPR_CAP_MIG_STATE(ibs, SPAPR_CAP_IBS);
-> +SPAPR_CAP_MIG_STATE(hpt_maxpagesize, SPAPR_CAP_HPT_MAXPAGESIZE);
->  SPAPR_CAP_MIG_STATE(nested_kvm_hv, SPAPR_CAP_NESTED_KVM_HV);
->  SPAPR_CAP_MIG_STATE(large_decr, SPAPR_CAP_LARGE_DECREMENTER);
->  SPAPR_CAP_MIG_STATE(ccf_assist, SPAPR_CAP_CCF_ASSIST);
-> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
-> index 7e32f309c2..9fc91c8f5e 100644
-> --- a/include/hw/ppc/spapr.h
-> +++ b/include/hw/ppc/spapr.h
-> @@ -849,6 +849,7 @@ extern const VMStateDescription vmstate_spapr_cap_dfp;
->  extern const VMStateDescription vmstate_spapr_cap_cfpc;
->  extern const VMStateDescription vmstate_spapr_cap_sbbc;
->  extern const VMStateDescription vmstate_spapr_cap_ibs;
-> +extern const VMStateDescription vmstate_spapr_cap_hpt_maxpagesize;
->  extern const VMStateDescription vmstate_spapr_cap_nested_kvm_hv;
->  extern const VMStateDescription vmstate_spapr_cap_large_decr;
->  extern const VMStateDescription vmstate_spapr_cap_ccf_assist;
+I think it related gl related functions...
 
+so I don't sure it is qemu-virt-gpu problem or virt-gpu driver...
+
+That is why I already report this problem to android-x86 devel forum and
+author of virt-gpu drvier...
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1829964
+
+Title:
+  HOST VRAM Leak when performs android-x86 window rotation with Virt-GPU
+
+Status in QEMU:
+  Incomplete
+
+Bug description:
+  I will report something strange thing about host VRAM leakage after
+  anroid-x86 window rotation when it runs with virt-gpu(+ virgl-
+  renderer)
+
+  Please watching below video link.
+
+  https://www.youtube.com/watch?v=3DmJIbGZLWF1s&feature=3Dyoutu.be
+
+  (orginal video file : https://drive.google.com/file/d
+  /1lkdTx_8yTbSVjKXlnxnnk96fWe-w6Mxb/view?usp=3Dsharing)
+
+  I don't sure what is the problem...
+
+  Here are my tested history
+  -------------------------------------------------------------------------=
+-------------------------
+  Install android-x86 on I7 desktop PCs with intel UHD GPU  - No leak.
+  Install android-x86 on I7 desktop PCs with NVIDIA GTX GPU series - No lea=
+k.
+  Install android-x86 on guest machine emulated skylake cpu with QEMU(+virt=
+-gpu, virgl-renderer) - Leak
+  (HOST CPU - I5, INTEL UHD GPU)
+  Install android-x86 on guest machine emulated skylake cpu with QEMU(+virt=
+-gpu, virgl-renderer) - Leak
+  (HOST CPU - I7, NVIDIA GTX GPU)
+
+  COMMON:
+  In case of NVIDIA GPU : check vram using nvidia-smi
+  In case of intel UHD GPU : check shared-vram using free cmd
+
+  We checked guest android-x86 system down when vram is full after performi=
+ng many rotation
+  -------------------------------------------------------------------------=
+------------------
+
+  Is it virt-gpu driver's problem?
+
+  I hope someone can help me...
+
+  Thanks in advance!!
+
+
+  PS
+
+
+  Here are qemu options I used...
+
+  -machine type=3Dq35,accel=3Dkvm -cpu host --enable-kvm \
+  -smp cpus=3D4,cores=3D4,threads=3D1 -m 4096 \
+  -drive file=3Dctb0319.qcow2,format=3Dqcow2,if=3Dvirtio,aio=3Dthreads \
+  -device virtio-vga,virgl=3Don \
+  -device qemu-xhci,id=3Dxhci -device usb-mouse,bus=3Dxhci.0 -device usb-kb=
+d,bus=3Dxhci.0 \
+  -soundhw hda -display sdl,gl=3Don -netdev user,id=3Dqemunet0,hostfwd=3Dtc=
+p::4000-:7000,hostfwd=3Dtcp::5555-:5555,hostfwd=3Dtcp::4012-:7012,hostfwd=
+=3Dtcp::4013-:7013 -device virtio-net,netdev=3Dqemunet0 -boot menu=3Don
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1829964/+subscriptions
 
