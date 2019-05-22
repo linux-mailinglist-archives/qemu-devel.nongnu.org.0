@@ -2,72 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 6537626775
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 17:56:27 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46585 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 57E5026891
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 18:44:36 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:47744 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTTbO-0002cf-Gw
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 11:56:26 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50440)
+	id 1hTULz-0007oU-JA
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 12:44:35 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37577)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <stefanha@gmail.com>) id 1hTTRg-00040Z-Ek
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 11:46:25 -0400
+	(envelope-from <no-reply@patchew.org>) id 1hTUL2-0007VJ-NW
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 12:43:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <stefanha@gmail.com>) id 1hTTRf-0005NA-H5
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 11:46:24 -0400
-Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:41028)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <stefanha@gmail.com>)
-	id 1hTTRf-0005I7-9j; Wed, 22 May 2019 11:46:23 -0400
-Received: by mail-wr1-x444.google.com with SMTP id g12so2849513wro.8;
-	Wed, 22 May 2019 08:46:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=date:from:to:cc:subject:message-id:references:mime-version
-	:content-disposition:in-reply-to:user-agent;
-	bh=V4OTrUDnUFdhkPJIZbmDI/lgnifrNG7tjecGshAcfU0=;
-	b=Uiff/gnaoZ+C6JABOPwEAoKQfME3jB6JEweWwmJb8gW+fpYX6M+D0C4WTdaU1YIrir
-	xDy8pkcR25MWWBozEgvNjtKKXiWHWoXbhs9SR/InPWA3boh2p9UIcnD30gJ3S25ZMGJ5
-	DnPEY/R7MXX4yGCCR6vB/zcpUnSWAqbe1ZPEJprwrhCHyI4Kj+eFH50/1x4GsNhHWpkO
-	0w8251XOV4N8MP1e5VeUMnT68kyINaWgBtwnDGJu3YZTBICwVTBIgb0cz9SZ1nIuPS4N
-	/MjITH79oBqrLltHmkUju04xfd51jeoxnUAaN/CZgg6M7pDH7h5mSmMpJfCZENTPfnrh
-	Zzsg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=V4OTrUDnUFdhkPJIZbmDI/lgnifrNG7tjecGshAcfU0=;
-	b=p94wyXrsSyhZtDvdNcnEtQzw1xG7x28y9E97DQ3Ipri1+i1VKMgAeH5Dsp5U4A2WgR
-	K6aUQkAVPBWNq+6rGY7M9za2W+vFjvrejYPnXQ1GU1jK/BxtB2cz9+ApPRDE8nTiqrij
-	DXyzWOoU+Lg/FtKmdAI5CfREjIdO+egUuz3VIkHSaBVaAbYdTUVRMDh/RwGLHsT38oOT
-	6PyXeTyxMZuAIHAGGnSE9QZjsGEEWkld5l/ULohjnmrCqYslI6OTsF7e5PTl81bAOeuj
-	T51og0mUBeRl7plEGkO67phFAWyLoJR/XXCiPsWAvmQ7b6PtX002+GIF0D4fl1xJvhhm
-	jA1g==
-X-Gm-Message-State: APjAAAXQeY8KFJ5Jo32aC8518KNTclE6HlseCpoxUMVrKJ2B6qBq2fHp
-	o/dOjcPzmKKUvyHsJaiUa2o=
-X-Google-Smtp-Source: APXvYqwWCkYwKvJyqK3dkXpnZKlJDLJbnwweUok7Ivs78rLg/2F3e8F7AEJu6GLhH7KuXRJ2kVRGMQ==
-X-Received: by 2002:a05:6000:10c4:: with SMTP id
-	b4mr30109691wrx.145.1558539982310; 
-	Wed, 22 May 2019 08:46:22 -0700 (PDT)
-Received: from localhost ([51.15.41.238]) by smtp.gmail.com with ESMTPSA id
-	p17sm8433242wrq.95.2019.05.22.08.46.21
-	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 22 May 2019 08:46:21 -0700 (PDT)
-Date: Wed, 22 May 2019 16:46:20 +0100
-From: Stefan Hajnoczi <stefanha@gmail.com>
-To: Aarushi Mehta <mehta.aaru20@gmail.com>
-Message-ID: <20190522154620.GO27900@stefanha-x1.localdomain>
-References: <20190521235215.31341-1-mehta.aaru20@gmail.com>
+	(envelope-from <no-reply@patchew.org>) id 1hTUL1-0005Lt-Ej
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 12:43:36 -0400
+Resent-Date: Wed, 22 May 2019 12:43:36 -0400
+Resent-Message-Id: <E1hTUL1-0005Lt-Ej@eggs.gnu.org>
+Received: from sender4-of-o55.zoho.com ([136.143.188.55]:21589)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <no-reply@patchew.org>)
+	id 1hTUL1-0005G0-6q
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 12:43:35 -0400
+ARC-Seal: i=1; a=rsa-sha256; t=1558540636; cv=none; d=zoho.com; s=zohoarc; 
+	b=fy3YqKhlM7Vu2NzkNNkY8usjhLyyIksLJoJvUmPdAqxTTpJA546WDR/ma9y8RG4HjwZGNTaoI0bRV7b9HZDXrJuiHdpYRidBAFpbw6RrCBD0Px3vwHEMn0y/TzSi61VQqM0QdPfxisP5XFo93GodKP5x9KFg5IT+n+uhNUVruwg=
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=zoho.com;
+	s=zohoarc; t=1558540636;
+	h=Content-Type:Content-Transfer-Encoding:Cc:Date:From:In-Reply-To:MIME-Version:Message-ID:Reply-To:Subject:To:ARC-Authentication-Results;
+	bh=kB79zWPs7sQMij3ORY90muyHQtzvaIVi15w25jXetK0=; 
+	b=CxBC4uNxia7xPYhF8VY9rq7mJI/OmRUtT+vzQAdOS6osys2XtG697WJV2dbbLvw+38mDZaItdXd4ppRzzR4wBmBsKDca/k5Ykze2+VZxJDh1VwxUPHWDY/UiLUWf5MoOi4Kc162fgdTCJbFq9YfSbbPrFwmMj7QjL67/7NdUFUY=
+ARC-Authentication-Results: i=1; mx.zoho.com; dkim=pass  header.i=patchew.org;
+	spf=pass  smtp.mailfrom=no-reply@patchew.org;
+	dmarc=pass header.from=<no-reply@patchew.org>
+	header.from=<no-reply@patchew.org>
+Received: from [172.17.0.3] (23.253.156.214 [23.253.156.214]) by
+	mx.zohomail.com with SMTPS id 1558540630970161.018057671782;
+	Wed, 22 May 2019 08:57:10 -0700 (PDT)
+In-Reply-To: <20190522153631.17152-1-wens@kernel.org>
+Message-ID: <155854062960.24.17656832404160415256@549697c9ad12>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="oSMU0HVueUMCAvn0"
-Content-Disposition: inline
-In-Reply-To: <20190521235215.31341-1-mehta.aaru20@gmail.com>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::444
-Subject: Re: [Qemu-devel] [RFC PATCH 0/9] Add support for io_uring
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
+Resent-From: 
+From: no-reply@patchew.org
+To: wens@kernel.org
+Date: Wed, 22 May 2019 08:57:10 -0700 (PDT)
+X-ZohoMailClient: External
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 136.143.188.55
+Subject: Re: [Qemu-devel] [PATCH v2] linux-user: Pass through nanosecond
+ timestamp components for stat syscalls
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -79,67 +62,77 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: saket.sinha89@gmail.com, Stefan Hajnoczi <stefanha@redhat.com>,
-	Julia Suvorova <jusual@mail.ru>, qemu-devel@nongnu.org,
-	qemu-block@nongnu.org
+Reply-To: qemu-devel@nongnu.org
+Cc: riku.voipio@iki.fi, qemu-devel@nongnu.org, wens@kernel.org,
+	laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+UGF0Y2hldyBVUkw6IGh0dHBzOi8vcGF0Y2hldy5vcmcvUUVNVS8yMDE5MDUyMjE1MzYzMS4xNzE1
+Mi0xLXdlbnNAa2VybmVsLm9yZy8KCgoKSGksCgpUaGlzIHNlcmllcyBzZWVtcyB0byBoYXZlIHNv
+bWUgY29kaW5nIHN0eWxlIHByb2JsZW1zLiBTZWUgb3V0cHV0IGJlbG93IGZvcgptb3JlIGluZm9y
+bWF0aW9uOgoKTWVzc2FnZS1pZDogMjAxOTA1MjIxNTM2MzEuMTcxNTItMS13ZW5zQGtlcm5lbC5v
+cmcKVHlwZTogc2VyaWVzClN1YmplY3Q6IFtRZW11LWRldmVsXSBbUEFUQ0ggdjJdIGxpbnV4LXVz
+ZXI6IFBhc3MgdGhyb3VnaCBuYW5vc2Vjb25kIHRpbWVzdGFtcCBjb21wb25lbnRzIGZvciBzdGF0
+IHN5c2NhbGxzCgo9PT0gVEVTVCBTQ1JJUFQgQkVHSU4gPT09CiMhL2Jpbi9iYXNoCmdpdCByZXYt
+cGFyc2UgYmFzZSA+IC9kZXYvbnVsbCB8fCBleGl0IDAKZ2l0IGNvbmZpZyAtLWxvY2FsIGRpZmYu
+cmVuYW1lbGltaXQgMApnaXQgY29uZmlnIC0tbG9jYWwgZGlmZi5yZW5hbWVzIFRydWUKZ2l0IGNv
+bmZpZyAtLWxvY2FsIGRpZmYuYWxnb3JpdGhtIGhpc3RvZ3JhbQouL3NjcmlwdHMvY2hlY2twYXRj
+aC5wbCAtLW1haWxiYWNrIGJhc2UuLgo9PT0gVEVTVCBTQ1JJUFQgRU5EID09PQoKRnJvbSBodHRw
+czovL2dpdGh1Yi5jb20vcGF0Y2hldy1wcm9qZWN0L3FlbXUKICogW25ldyB0YWddICAgICAgICAg
+ICAgICAgcGF0Y2hldy8yMDE5MDUyMjE1MzYzMS4xNzE1Mi0xLXdlbnNAa2VybmVsLm9yZyAtPiBw
+YXRjaGV3LzIwMTkwNTIyMTUzNjMxLjE3MTUyLTEtd2Vuc0BrZXJuZWwub3JnClN3aXRjaGVkIHRv
+IGEgbmV3IGJyYW5jaCAndGVzdCcKMGFlMDNhZjNmOSBsaW51eC11c2VyOiBQYXNzIHRocm91Z2gg
+bmFub3NlY29uZCB0aW1lc3RhbXAgY29tcG9uZW50cyBmb3Igc3RhdCBzeXNjYWxscwoKPT09IE9V
+VFBVVCBCRUdJTiA9PT0KRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwoj
+MTA0OiBGSUxFOiBsaW51eC11c2VyL3N5c2NhbGxfZGVmcy5oOjExOTc6CiteSWFiaV91bG9uZyAg
+dGFyZ2V0X3N0X2F0aW1lX25zZWM7JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1
+c2UgdGFicwojMTA3OiBGSUxFOiBsaW51eC11c2VyL3N5c2NhbGxfZGVmcy5oOjExOTk6CiteSWFi
+aV91bG9uZyAgdGFyZ2V0X3N0X210aW1lX25zZWM7JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3Vs
+ZCBuZXZlciB1c2UgdGFicwojMTEwOiBGSUxFOiBsaW51eC11c2VyL3N5c2NhbGxfZGVmcy5oOjEy
+MDE6CiteSWFiaV91bG9uZyAgdGFyZ2V0X3N0X2N0aW1lX25zZWM7JAoKRVJST1I6IGNvZGUgaW5k
+ZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojMTE5OiBGSUxFOiBsaW51eC11c2VyL3N5c2NhbGxf
+ZGVmcy5oOjEyMzM6CiteSWFiaV91bG9uZ15JdGFyZ2V0X3N0X2F0aW1lX25zZWM7JAoKRVJST1I6
+IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojMTIzOiBGSUxFOiBsaW51eC11c2Vy
+L3N5c2NhbGxfZGVmcy5oOjEyMzY6CiteSWFiaV91bG9uZ15JdGFyZ2V0X3N0X210aW1lX25zZWM7
+JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojMTI3OiBGSUxFOiBs
+aW51eC11c2VyL3N5c2NhbGxfZGVmcy5oOjEyMzk6CiteSWFiaV91bG9uZ15JdGFyZ2V0X3N0X2N0
+aW1lX25zZWM7JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojMTM2
+OiBGSUxFOiBsaW51eC11c2VyL3N5c2NhbGxfZGVmcy5oOjEzMTg6CiteSWFiaV91bG9uZ15JdGFy
+Z2V0X3N0X2F0aW1lX25zZWM7JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2Ug
+dGFicwojMTQwOiBGSUxFOiBsaW51eC11c2VyL3N5c2NhbGxfZGVmcy5oOjEzMjE6CiteSWFiaV91
+bG9uZ15JdGFyZ2V0X3N0X210aW1lX25zZWM7JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBu
+ZXZlciB1c2UgdGFicwojMTQ0OiBGSUxFOiBsaW51eC11c2VyL3N5c2NhbGxfZGVmcy5oOjEzMjQ6
+CiteSWFiaV91bG9uZ15JdGFyZ2V0X3N0X2N0aW1lX25zZWM7JAoKRVJST1I6IGNvZGUgaW5kZW50
+IHNob3VsZCBuZXZlciB1c2UgdGFicwojMTYwOiBGSUxFOiBsaW51eC11c2VyL3N5c2NhbGxfZGVm
+cy5oOjEzNDI6CiteSWFiaV91bG9uZ15JdGFyZ2V0X3N0X2F0aW1lX25zZWM7JAoKRVJST1I6IGNv
+ZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojMTYzOiBGSUxFOiBsaW51eC11c2VyL3N5
+c2NhbGxfZGVmcy5oOjEzNDQ6CiteSWFiaV91bG9uZ15JdGFyZ2V0X3N0X210aW1lX25zZWM7JAoK
+RVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojMTY2OiBGSUxFOiBsaW51
+eC11c2VyL3N5c2NhbGxfZGVmcy5oOjEzNDY6CiteSWFiaV91bG9uZ15JdGFyZ2V0X3N0X2N0aW1l
+X25zZWM7JAoKRVJST1I6IGNvZGUgaW5kZW50IHNob3VsZCBuZXZlciB1c2UgdGFicwojMTcwOiBG
+SUxFOiBsaW51eC11c2VyL3N5c2NhbGxfZGVmcy5oOjEzNDk6CiteSWFiaV91bG9uZ15JX191bnVz
+ZWQxWzJdOyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzE3OTog
+RklMRTogbGludXgtdXNlci9zeXNjYWxsX2RlZnMuaDoxMzc3OgorXkl1bnNpZ25lZCBpbnReSXRh
+cmdldF9zdF9hdGltZV9uc2VjOyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91bGQgbmV2ZXIgdXNl
+IHRhYnMKIzE4MzogRklMRTogbGludXgtdXNlci9zeXNjYWxsX2RlZnMuaDoxMzgwOgorXkl1bnNp
+Z25lZCBpbnReSXRhcmdldF9zdF9tdGltZV9uc2VjOyQKCkVSUk9SOiBjb2RlIGluZGVudCBzaG91
+bGQgbmV2ZXIgdXNlIHRhYnMKIzE4NzogRklMRTogbGludXgtdXNlci9zeXNjYWxsX2RlZnMuaDox
+MzgzOgorXkl1bnNpZ25lZCBpbnReSXRhcmdldF9zdF9jdGltZV9uc2VjOyQKCkVSUk9SOiBjb2Rl
+IGluZGVudCBzaG91bGQgbmV2ZXIgdXNlIHRhYnMKIzE5MTogRklMRTogbGludXgtdXNlci9zeXNj
+YWxsX2RlZnMuaDoxMzg1OgorXkl1bnNpZ25lZCBpbnReSV9fdW51c2VkMTskCgpFUlJPUjogY29k
+ZSBpbmRlbnQgc2hvdWxkIG5ldmVyIHVzZSB0YWJzCiMxOTI6IEZJTEU6IGxpbnV4LXVzZXIvc3lz
+Y2FsbF9kZWZzLmg6MTM4NjoKK15JdW5zaWduZWQgaW50XklfX3VudXNlZDI7JAoKdG90YWw6IDE4
+IGVycm9ycywgMCB3YXJuaW5ncywgMjExIGxpbmVzIGNoZWNrZWQKCkNvbW1pdCAwYWUwM2FmM2Y5
+N2YgKGxpbnV4LXVzZXI6IFBhc3MgdGhyb3VnaCBuYW5vc2Vjb25kIHRpbWVzdGFtcCBjb21wb25l
+bnRzIGZvciBzdGF0IHN5c2NhbGxzKSBoYXMgc3R5bGUgcHJvYmxlbXMsIHBsZWFzZSByZXZpZXcu
+ICBJZiBhbnkgb2YgdGhlc2UgZXJyb3JzCmFyZSBmYWxzZSBwb3NpdGl2ZXMgcmVwb3J0IHRoZW0g
+dG8gdGhlIG1haW50YWluZXIsIHNlZQpDSEVDS1BBVENIIGluIE1BSU5UQUlORVJTLgo9PT0gT1VU
+UFVUIEVORCA9PT0KClRlc3QgY29tbWFuZCBleGl0ZWQgd2l0aCBjb2RlOiAxCgoKVGhlIGZ1bGwg
+bG9nIGlzIGF2YWlsYWJsZSBhdApodHRwOi8vcGF0Y2hldy5vcmcvbG9ncy8yMDE5MDUyMjE1MzYz
+MS4xNzE1Mi0xLXdlbnNAa2VybmVsLm9yZy90ZXN0aW5nLmNoZWNrcGF0Y2gvP3R5cGU9bWVzc2Fn
+ZS4KLS0tCkVtYWlsIGdlbmVyYXRlZCBhdXRvbWF0aWNhbGx5IGJ5IFBhdGNoZXcgW2h0dHBzOi8v
+cGF0Y2hldy5vcmcvXS4KUGxlYXNlIHNlbmQgeW91ciBmZWVkYmFjayB0byBwYXRjaGV3LWRldmVs
+QHJlZGhhdC5jb20=
 
---oSMU0HVueUMCAvn0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-
-On Wed, May 22, 2019 at 05:22:06AM +0530, Aarushi Mehta wrote:
-> This patch series adds supports for the newly developed io_uring Linux AI=
-O interface. Testing it requires a host kernel with it and the liburing lib=
-rary. Use the option -drive aio=3Dio_uring to enable it.
->=20
-> Aarushi Mehta (9):
->   qapi/block-core: add option for io_uring
->   block/block: add BDRV flag for io_uring
->   include/block: declare interfaces for io_uring
->   stubs: add aio interface stubs for io_uring
->   util/asyn: add aio interfaces for io_uring
->   block/io_uring: implements interfaces for io_uring
->   blockdev: accept io_uring as option
->   block/file-posix: extends to use with io_uring
->   configure: permits use of io_uring with probe
->=20
->  block/Makefile.objs     |   2 +
->  block/file-posix.c      |  63 ++++++-
->  block/io_uring.c        | 385 ++++++++++++++++++++++++++++++++++++++++
->  blockdev.c              |   4 +-
->  configure               |  27 +++
->  include/block/aio.h     |  16 +-
->  include/block/block.h   |   1 +
->  include/block/raw-aio.h |  15 ++
->  qapi/block-core.json    |   3 +-
->  stubs/Makefile.objs     |   1 +
->  stubs/io_uring.c        |  32 ++++
->  util/async.c            |  32 ++++
->  12 files changed, 573 insertions(+), 8 deletions(-)
->  create mode 100644 block/io_uring.c
->  create mode 100644 stubs/io_uring.c
-
-Thanks, I've posted my review feedback!  Looking forward to the next
-revision.
-
---oSMU0HVueUMCAvn0
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAlzlbswACgkQnKSrs4Gr
-c8g2cQf7BSSJ3RgZ299IaRLhqa4fvgEFnjC80uUQoqgMu5y/Jb7WOc7Os/GAg0mJ
-KQkl5mtKm+ah9vDXnYFfZYGehHsFiHZ0kuxzCETYBEXJPrXIzU6R7rZKazuDjZrV
-HxuT6JQc8iaXNh/AkMyyNhrZSVYwugJQPYh/gHHX1AVk7dI6QLGonSQINRrbd1dl
-QDE+8df4Un+pmlsEBjM1skPLfWzV/6YLD6MAdL2IXXUkNDKqjgzxNVPnqhNtJIOK
-PAu+chcgwcvm7RChxFcW9Z3WrcL8t2F+4X6AsVB9s7T7l3KL2UuwSnFMWQvvk59F
-JrmT1EzsEriI0XdUgsnDqVgwMpVgXg==
-=8EoX
------END PGP SIGNATURE-----
-
---oSMU0HVueUMCAvn0--
 
