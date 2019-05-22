@@ -2,47 +2,48 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 389F325D99
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 07:30:49 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36461 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 5A0EE25D7E
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 07:19:44 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36234 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTJpv-00010i-7o
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 01:30:47 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48503)
+	id 1hTJfD-0006pe-D4
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 01:19:43 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48563)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hTJAR-0004kA-9T
+	(envelope-from <dgibson@ozlabs.org>) id 1hTJAU-0004l5-1B
 	for qemu-devel@nongnu.org; Wed, 22 May 2019 00:47:59 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hTJAQ-0007Xi-6l
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 00:47:55 -0400
-Received: from ozlabs.org ([203.11.71.1]:41411)
+	(envelope-from <dgibson@ozlabs.org>) id 1hTJAS-0007aV-SN
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 00:47:57 -0400
+Received: from bilbo.ozlabs.org ([2401:3900:2:1::2]:49737 helo=ozlabs.org)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>)
-	id 1hTJAP-0007IN-Qg; Wed, 22 May 2019 00:47:54 -0400
+	id 1hTJAS-0007Jn-G3; Wed, 22 May 2019 00:47:56 -0400
 Received: by ozlabs.org (Postfix, from userid 1007)
-	id 4580T340Xhz9sR1; Wed, 22 May 2019 14:46:11 +1000 (AEST)
+	id 4580T41Gz7z9sRG; Wed, 22 May 2019 14:46:11 +1000 (AEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=gibson.dropbear.id.au; s=201602; t=1558500375;
-	bh=GUZhhj9ktzjORPqE5ENQeBsjM9/HbMGBpQ2Ql0E1fAc=;
+	d=gibson.dropbear.id.au; s=201602; t=1558500376;
+	bh=N4Msu5vC5ToRCfQzQVywNNY77GKEdiRxWk6vPULpnQw=;
 	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-	b=e8UXYb2oxOZX/YIEnFo/D32OgwzdJ3NAQOIfCiTRqmJYS9mB+qDosPfAnf8pyUieP
-	DUL19ybzYQ8x4RyW41HsB742F1BL7VuBQJRa1wv6jGQc1RjfQVFgu6Y16V4SoZ08QZ
-	Nj8u9K/rlfdlIf8vAoZqsKL6K7K3fPBcaw/nZF6M=
+	b=KwvLJO3X7MndBDT0Sdq7ysQEtWylMk4dTCiBwIxviPMlY0UWg7d/q9UvtdavWbH0F
+	nExqzSYKdrPDRAVNDkKdRhhzTMPPspIwSaHssd6sDg84F9AexhQgh8Ol0rzceca7qn
+	JJUuk107msTKFfEpSDmblhjOplVWG5k1H/7/KCWs=
 From: David Gibson <david@gibson.dropbear.id.au>
 To: peter.maydell@linaro.org
-Date: Wed, 22 May 2019 14:45:57 +1000
-Message-Id: <20190522044600.16534-36-david@gibson.dropbear.id.au>
+Date: Wed, 22 May 2019 14:45:58 +1000
+Message-Id: <20190522044600.16534-37-david@gibson.dropbear.id.au>
 X-Mailer: git-send-email 2.21.0
 In-Reply-To: <20190522044600.16534-1-david@gibson.dropbear.id.au>
 References: <20190522044600.16534-1-david@gibson.dropbear.id.au>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
-Subject: [Qemu-devel] [PULL 35/38] spapr/irq: initialize the IRQ device only
- once
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2401:3900:2:1::2
+Subject: [Qemu-devel] [PULL 36/38] ppc/xics: fix irq priority in
+ ics_set_irq_type()
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,73 +63,69 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: C=C3=A9dric Le Goater <clg@kaod.org>
 
-Add a check to make sure that the routine initializing the emulated
-IRQ device is called once. We don't have much to test on the XICS
-side, so we introduce a 'init' boolean under ICSState.
+Recent commits changed the behavior of ics_set_irq_type() to
+initialize correctly LSIs at the KVM level. ics_set_irq_type() is also
+called by the realize routine of the different devices of the machine
+when initial interrupts are claimed, before the ICSState device is
+reseted.
 
+In the case, the ICSIRQState priority is 0x0 and the call to
+ics_set_irq_type() results in configuring the target of the
+interrupt. On P9, when using the KVM XICS-on-XIVE device, the target
+is configured to be server 0, priority 0 and the event queue 0 is
+created automatically by KVM.
+
+With the dual interrupt mode creating the KVM device at reset, it
+leads to unexpected effects on the guest, mostly blocking IPIs. This
+is wrong, fix it by reseting the ICSIRQState structure when
+ics_set_irq_type() is called.
+
+Fixes: commit 6cead90c5c9c ("xics: Write source state to KVM at claim tim=
+e")
+Signed-off-by: Greg Kurz <groug@kaod.org>
 Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
-Message-Id: <20190513084245.25755-13-clg@kaod.org>
+Message-Id: <20190513084245.25755-14-clg@kaod.org>
 Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
 ---
- hw/intc/spapr_xive.c  | 9 +++++++++
- hw/intc/xics_spapr.c  | 7 +++++++
- include/hw/ppc/xics.h | 1 +
- 3 files changed, 17 insertions(+)
+ hw/intc/xics.c | 10 ++++++++--
+ 1 file changed, 8 insertions(+), 2 deletions(-)
 
-diff --git a/hw/intc/spapr_xive.c b/hw/intc/spapr_xive.c
-index a79574b23c..f6f6c29d6a 100644
---- a/hw/intc/spapr_xive.c
-+++ b/hw/intc/spapr_xive.c
-@@ -338,6 +338,15 @@ void spapr_xive_init(SpaprXive *xive, Error **errp)
-     XiveSource *xsrc =3D &xive->source;
-     XiveENDSource *end_xsrc =3D &xive->end_source;
-=20
-+    /*
-+     * The emulated XIVE device can only be initialized once. If the
-+     * ESB memory region has been already mapped, it means we have been
-+     * through there.
-+     */
-+    if (memory_region_is_mapped(&xsrc->esb_mmio)) {
-+        return;
-+    }
-+
-     /* TIMA initialization */
-     memory_region_init_io(&xive->tm_mmio, OBJECT(xive), &xive_tm_ops, xi=
-ve,
-                           "xive.tima", 4ull << TM_SHIFT);
-diff --git a/hw/intc/xics_spapr.c b/hw/intc/xics_spapr.c
-index 9d2b8adef7..5a1835e8b1 100644
---- a/hw/intc/xics_spapr.c
-+++ b/hw/intc/xics_spapr.c
-@@ -239,6 +239,13 @@ static void rtas_int_on(PowerPCCPU *cpu, SpaprMachin=
-eState *spapr,
-=20
- void xics_spapr_init(SpaprMachineState *spapr)
- {
-+    /* Emulated mode can only be initialized once. */
-+    if (spapr->ics->init) {
-+        return;
-+    }
-+
-+    spapr->ics->init =3D true;
-+
-     /* Registration of global state belongs into realize */
-     spapr_rtas_register(RTAS_IBM_SET_XIVE, "ibm,set-xive", rtas_set_xive=
-);
-     spapr_rtas_register(RTAS_IBM_GET_XIVE, "ibm,get-xive", rtas_get_xive=
-);
-diff --git a/include/hw/ppc/xics.h b/include/hw/ppc/xics.h
-index eb65ad7e43..d6f8e4c4c2 100644
---- a/include/hw/ppc/xics.h
-+++ b/include/hw/ppc/xics.h
-@@ -119,6 +119,7 @@ struct ICSState {
-     uint32_t offset;
-     ICSIRQState *irqs;
-     XICSFabric *xics;
-+    bool init; /* sPAPR ICS device initialized */
+diff --git a/hw/intc/xics.c b/hw/intc/xics.c
+index af7dc709ab..79f5a8a916 100644
+--- a/hw/intc/xics.c
++++ b/hw/intc/xics.c
+@@ -610,6 +610,12 @@ static const TypeInfo ics_simple_info =3D {
+     .class_size =3D sizeof(ICSStateClass),
  };
 =20
- #define ICS_PROP_XICS "xics"
++static void ics_reset_irq(ICSIRQState *irq)
++{
++    irq->priority =3D 0xff;
++    irq->saved_priority =3D 0xff;
++}
++
+ static void ics_base_reset(DeviceState *dev)
+ {
+     ICSState *ics =3D ICS_BASE(dev);
+@@ -623,8 +629,7 @@ static void ics_base_reset(DeviceState *dev)
+     memset(ics->irqs, 0, sizeof(ICSIRQState) * ics->nr_irqs);
+=20
+     for (i =3D 0; i < ics->nr_irqs; i++) {
+-        ics->irqs[i].priority =3D 0xff;
+-        ics->irqs[i].saved_priority =3D 0xff;
++        ics_reset_irq(ics->irqs + i);
+         ics->irqs[i].flags =3D flags[i];
+     }
+ }
+@@ -760,6 +765,7 @@ void ics_set_irq_type(ICSState *ics, int srcno, bool =
+lsi)
+         lsi ? XICS_FLAGS_IRQ_LSI : XICS_FLAGS_IRQ_MSI;
+=20
+     if (kvm_irqchip_in_kernel()) {
++        ics_reset_irq(ics->irqs + srcno);
+         ics_set_kvm_state_one(ics, srcno);
+     }
+ }
 --=20
 2.21.0
 
