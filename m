@@ -2,72 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 665C42645D
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 15:12:25 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:43090 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1CC44264BA
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 15:29:18 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:43236 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTR2e-0007lF-Jt
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 09:12:24 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35103)
+	id 1hTRIz-0002oz-8R
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 09:29:17 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37615)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <stefanha@gmail.com>) id 1hTR1H-000707-AL
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 09:11:00 -0400
+	(envelope-from <stefanha@gmail.com>) id 1hTRH0-0001N1-Nx
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 09:27:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <stefanha@gmail.com>) id 1hTR1G-00081l-EY
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 09:10:59 -0400
-Received: from mail-wm1-x343.google.com ([2a00:1450:4864:20::343]:55573)
+	(envelope-from <stefanha@gmail.com>) id 1hTR71-0006ib-Bp
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 09:16:56 -0400
+Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:52679)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <stefanha@gmail.com>)
-	id 1hTR1G-00080Q-7g; Wed, 22 May 2019 09:10:58 -0400
-Received: by mail-wm1-x343.google.com with SMTP id x64so2175911wmb.5;
-	Wed, 22 May 2019 06:10:58 -0700 (PDT)
+	id 1hTR71-0006g1-5C; Wed, 22 May 2019 09:16:55 -0400
+Received: by mail-wm1-x344.google.com with SMTP id y3so2217598wmm.2;
+	Wed, 22 May 2019 06:16:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=date:from:to:cc:subject:message-id:references:mime-version
 	:content-disposition:in-reply-to:user-agent;
-	bh=l8PjHMWG28m7XxVbVF9tspuIer9Lsq213BitqiACdXc=;
-	b=X52ao6y9djROcxRB6x3rlWn+RkFURU2D2IirQ7JLqICN2lliPp0mWbIe62EdT69le/
-	P53p8XPypI/6kd7j2FxCQKJ4e+RiEdxSD0uMLRUVJbKx7wyuAVFn4JMP196X+hultryU
-	h27YpGeu99obZSSS2lRY0l+U9uagQXaGufsEDWRMdhX9+emKjUgCEqyhxRXcCmOZtAw0
-	a0caO7YnawHRuLRUXNd+HX5plwhoE30GL0ZswjgMQ9dir2EMDz15G8bxQbacZn4y/Y01
-	9jhnDb0oXuipdXzQ2VAHGY9QD1dD4BDGpGRAex6QntPGIIcCI5W34jqdEFmZNPNzABw2
-	NzNQ==
+	bh=h95/ojYiJJWsLYlCDAz4/5udM42ib4fEZVf0a+qphrw=;
+	b=JE3eVgc94DZj1+ZHlAus/bkp4hpMaVpBb5YLl6vsEhe8iHtlwwqWCeswrZUAY1vjGf
+	U3MDb/LN0JJa20frKL3zvB9tW8eDTU6NKIkSSEkMmXPx5vz3WNf22532s4FsYp3bXFmw
+	+KiHanOiuzPmq1Lbccz6dJ2FJGofVDL7CZu44cFw9tNYo/ABmiTqISWOMN1vOpXRhxz/
+	HNSDJRqnatznAVwytcMGnW41OPGkH7Kicdny/PdZljamBQYrPbWnwkntFzuZF7QqfPvz
+	GaTEVa5TujNO68lORfLfePMbidd/af+DDfz2XkW4ZHqutB4TIdIG4yMudmosgWzxY10+
+	JzXA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
 	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=l8PjHMWG28m7XxVbVF9tspuIer9Lsq213BitqiACdXc=;
-	b=UpPad+/AX+CLOXEOB0tTTGasMJXbyXSzlhC3TmiXdbsDQRLyNJJqd0BdFodj9OpgwB
-	YzmSWNDojgH/jlwuZpzujDTGU9CV+w49uMtxJY23GLOuMvfHj796AllEFKfZ2UUq9hRl
-	VF1rbtq2sR3zK/1W9mDiuTCI0lVlz852ufLp6dKd79zhZ1ekZ1kc2NQkXtBkmNJxdb2h
-	wBYZIArWv1stYKPu9y6GzGGSCS3UpemUddopEKN7HQyBlI7wQEX+Po0ChKsmghAtQ/FK
-	gduD4oH5IyeAa+XWGf85fMQsguLpJK2KgHZ10xCbH1HcA1jrQm4qct6bSYxYUOBeNW9u
-	iFbQ==
-X-Gm-Message-State: APjAAAUbxGZipPfWODwBax9hBZZexqKb+VXTaFPd79638L9L7E2D/ISs
-	Hm9THaUtMWUbd4BmVl7eDaI=
-X-Google-Smtp-Source: APXvYqxrh+f21huGlm8ZUGDBEgLviw4mFZl1IVm9nm0vewj956Ev5BYx1MMFyXU8oausFgPOLv4RmQ==
-X-Received: by 2002:a1c:8004:: with SMTP id b4mr7596283wmd.79.1558530657150;
-	Wed, 22 May 2019 06:10:57 -0700 (PDT)
+	bh=h95/ojYiJJWsLYlCDAz4/5udM42ib4fEZVf0a+qphrw=;
+	b=sEt7mRvNC3cH7fth3xR4mpKUTXaoUWgLEL3VtR+ZAaCKe8kDwy7N18cCZwnUcG8umf
+	ousxTpFQVRcCVhEIn+l7AiWlR9cF/OC/ln2c2A2Z+8dEc9cVW2PHNOT9LBwm7A8htyo2
+	8ju2KbzZtZyvDGSpbxCFucOHNp43bcH7p1wJt1PJEZhzvfjeDZaP58mQUAacHkAHpvim
+	pDJG/8exlqsIDe0jv8DyfIUAhx1kiewpBRJDg5s6E/1xj31gx5AADwm8Fw5Z2ZqV1vWP
+	X+tjZJznRr6rDqbDkCd6a5hyoy1oSU40WQu1EvBuu3f33GRPWBX+ID0/vFfBOtLfmEmt
+	snig==
+X-Gm-Message-State: APjAAAWlH8ldfs4HHZM/AAYZWlYBiNs5wXQPcV4+00RrLQ3ruRX5uP0f
+	fPq26b1bhXnEtfFFWyTzidg=
+X-Google-Smtp-Source: APXvYqy5wOjtpyacg3MtWIld5P1vVLuyfFYGdfq0w/poDsfZbT2Aa5gYRwMuxbLfDjJU3SgCPmzXww==
+X-Received: by 2002:a1c:ca01:: with SMTP id a1mr7140643wmg.30.1558531012891;
+	Wed, 22 May 2019 06:16:52 -0700 (PDT)
 Received: from localhost ([51.15.41.238])
-	by smtp.gmail.com with ESMTPSA id h6sm3136721wrm.47.2019.05.22.06.10.55
+	by smtp.gmail.com with ESMTPSA id y1sm6399325wma.14.2019.05.22.06.16.51
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 22 May 2019 06:10:55 -0700 (PDT)
-Date: Wed, 22 May 2019 14:10:55 +0100
+	Wed, 22 May 2019 06:16:51 -0700 (PDT)
+Date: Wed, 22 May 2019 14:16:51 +0100
 From: Stefan Hajnoczi <stefanha@gmail.com>
 To: Aarushi Mehta <mehta.aaru20@gmail.com>
-Message-ID: <20190522131055.GK27900@stefanha-x1.localdomain>
+Message-ID: <20190522131651.GL27900@stefanha-x1.localdomain>
 References: <20190521235215.31341-1-mehta.aaru20@gmail.com>
-	<20190521235215.31341-5-mehta.aaru20@gmail.com>
+	<20190521235215.31341-6-mehta.aaru20@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="sU4rRG038CsJurvk"
+	protocol="application/pgp-signature"; boundary="Z1OTrj3C7qypP14j"
 Content-Disposition: inline
-In-Reply-To: <20190521235215.31341-5-mehta.aaru20@gmail.com>
+In-Reply-To: <20190521235215.31341-6-mehta.aaru20@gmail.com>
 User-Agent: Mutt/1.11.4 (2019-03-13)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::343
-Subject: Re: [Qemu-devel] [RFC PATCH 4/9] stubs: add aio interface stubs for
+X-Received-From: 2a00:1450:4864:20::344
+Subject: Re: [Qemu-devel] [RFC PATCH 5/9] util/asyn: add aio interfaces for
  io_uring
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
@@ -87,34 +87,65 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---sU4rRG038CsJurvk
+--Z1OTrj3C7qypP14j
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 22, 2019 at 05:22:10AM +0530, Aarushi Mehta wrote:
-> Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
-> ---
->  stubs/Makefile.objs |  1 +
->  stubs/io_uring.c    | 32 ++++++++++++++++++++++++++++++++
->  2 files changed, 33 insertions(+)
->  create mode 100644 stubs/io_uring.c
+On Wed, May 22, 2019 at 05:22:11AM +0530, Aarushi Mehta wrote:
 
-Reviewed-by: Stefan Hajnoczi <stefanha@redhat.com>
+s/asyn/async/ in the Subject line.
 
---sU4rRG038CsJurvk
+> @@ -341,6 +349,25 @@ LinuxAioState *aio_get_linux_aio(AioContext *ctx)
+>  }
+>  #endif
+>=20
+> +#ifdef CONFIG_LINUX_IO_URING
+> +LuringState *aio_setup_linux_io_uring(AioContext *ctx, Error **errp)
+> +{
+> +    if (!ctx->linux_io_uring) {
+> +        ctx->linux_io_uring =3D luring_init(errp);
+> +        if (ctx->linux_io_uring) {
+> +            luring_attach_aio_context(ctx->linux_io_uring, ctx);
+> +        }
+> +    }
+> +    return ctx->linux_io_uring;
+> +}
+
+Personally I find functions that are written to have a single return
+statement hard to understand due to the nesting and multiple code paths.
+I prefer a straight-line approach that returns as soon as there is an
+error.
+
+This is a style thing.  You can do it either way.  Here is the same
+without nesting:
+
+  if (ctx->linux_io_uring) {
+      return ctx->linux_io_uring;
+  }
+
+  ctx->linux_io_uring =3D luring_init(errp);
+  if (!ctx->linux_io_uring) {
+      return NULL;
+  }
+
+  luring_attach_aio_context(ctx->linux_io_uring, ctx);
+  return ctx->linux_io_uring;
+
+--Z1OTrj3C7qypP14j
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAlzlSl4ACgkQnKSrs4Gr
-c8iviwgArpQhabuOd/u7mqXfMi/Sj8fYEemAHvibH2Y5uaaYQdPyMQBqZLRgsJKn
-xHvszioMrxJezvvoAhY6cnE5DCvblkEAJwFajJs7LGxFMhtI4aZfXdP5vlc0UQ3s
-mF+TghADC+GsZKkU2ga5qd/2zXoFRJbLprcZGw1fwXt8FPx1X+9ATKu91tQk0/Al
-8c5FlIz1XM+QVCHyvZW9wul++ctB3X9iDzNqmm5JviG0K+HvlOwpw1RxazEeG5Mu
-B4HgirBYw/BzBE7aXEz8J/gq7LbDzKCLcAIyxTsRPOa6egdKanb1CEprW8OjgPFP
-pkAPNQUik3LSAa6hqOOe7UOEbPg6rA==
-=NoLO
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAlzlS8IACgkQnKSrs4Gr
+c8gWMgf/WN/jjYPA2jD1jZuoyZRcmd+fKm1i6AICHOguAvXXOVvcbSdJhiceE71h
+Gfbdl2XgxMdr+UPlTxJsdjazxgRx97YLhh+i/DYhqncGozeMmNRdqJYcxsRhKe4K
+63QFyXiUt5dREZ/MC/TacCYOegr1/1kpepWzG97ZYfFVuTTJ2xxPnhG0RSJHoAVA
+hCxufg1tHkj6eGBwvEwGDrDHfqr/5P9/2KwcLRlSBuPRlMifb15X12BeCWIOzKMt
+09+QlmeoSJYYomC3UBfxOYBOPH9mk2XQB582+cl/YLggl+hqG2pzo8MvREgFV98f
+pyBOI6oHdJlo25oy3aHLja+4IirJjw==
+=87ck
 -----END PGP SIGNATURE-----
 
---sU4rRG038CsJurvk--
+--Z1OTrj3C7qypP14j--
 
