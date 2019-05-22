@@ -2,48 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D43E325DE6
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 08:12:55 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:36981 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id AEE2C25DE8
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 08:14:30 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:36996 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTKUh-00012k-1o
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 02:12:55 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:38659)
+	id 1hTKWD-0002ap-T1
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 02:14:29 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:38695)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hTKTJ-0000Tk-Fy
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 02:11:30 -0400
+	(envelope-from <aleksandar.m.mail@gmail.com>) id 1hTKTZ-0000f7-Ve
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 02:11:47 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <dgibson@ozlabs.org>) id 1hTKTI-0008Py-Cu
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 02:11:29 -0400
-Received: from bilbo.ozlabs.org ([203.11.71.1]:55785 helo=ozlabs.org)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <dgibson@ozlabs.org>) id 1hTKTI-0008Og-1s
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 02:11:28 -0400
-Received: by ozlabs.org (Postfix, from userid 1007)
-	id 4582MK3yxwz9s5c; Wed, 22 May 2019 16:11:25 +1000 (AEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-	d=gibson.dropbear.id.au; s=201602; t=1558505485;
-	bh=7/UcQTl4dBYNRdYcv/t5z0QWzVhKrekjHBIbCoEyQqA=;
-	h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-	b=YwM0uM2gUjVx7BiwgLDmvCvESfXDCGII4tljigCTEPfj5r61Vx+8JWNet0rQ8HB2n
-	ygNWHcMDVJy8984ObvXMg+GmQ90ZAysYqglELZ1qj1/otg5dlEgxuMXBkolOK2XQWF
-	Mj/EVo11cgupRPLkSK8XqKemTkcMooVsBm0KLhfw=
-Date: Wed, 22 May 2019 16:11:21 +1000
-From: David Gibson <david@gibson.dropbear.id.au>
-To: "Michael S. Tsirkin" <mst@redhat.com>
-Message-ID: <20190522061121.GH30423@umbus.fritz.box>
-References: <20190520231008.20140-1-mst@redhat.com>
-	<20190424041959.4087-3-david@gibson.dropbear.id.au>
+	(envelope-from <aleksandar.m.mail@gmail.com>) id 1hTKTY-00006S-0o
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 02:11:45 -0400
+Received: from mail-oi1-x242.google.com ([2607:f8b0:4864:20::242]:38420)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+	id 1hTKTX-00005y-Ql
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 02:11:43 -0400
+Received: by mail-oi1-x242.google.com with SMTP id u199so718788oie.5
+	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 23:11:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=ReE5oeqA1/M05q4THKe6Ey+GCoNHwlVVghSDMkfAoeo=;
+	b=QMPtZYwk8DkZ2Qk/uZtP2pUQm0Y7JKIteguSr4TIBGoBgOvvLW7vbSBNS8GPNKDEAp
+	mmDDc9vxGoom6w7a+KINTvcoW0Ba/Ps4hWwG/jKYAkJZfUo1kHEllbd/8ddovR5HXVEV
+	sELBhH/6XdmWHZ+23yZQ/GC52Nq4MbeXf22zWd6hlW8elKnZ2UFiR+vTM/RtdvePG/Bx
+	fQqI1SjeELNRTkVNFO9cOR79dmcXMp7+zibuRcIwcZ7gCtNIk+ZGsTLEWR/1nJWSZB+R
+	m8dcFqO2rjlhclYpZcajGILAtQw7+IFqLlncpwPglymqUrFl9MPIKZunk53qMes6cUhr
+	eBPg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=ReE5oeqA1/M05q4THKe6Ey+GCoNHwlVVghSDMkfAoeo=;
+	b=Terl2S1nsY1H0dox4B0UrgGPnucne2K4DEn2UlvVm4Kay/lleWARcrNupwkLcaBVY4
+	lDCsH5L6+ZFYoxLHOtsjKoRv9mIaBddA2tvLw9bFqRkxEFq4ClyqFiYDwhiYd5yMv3PL
+	4Y/yNzPv0ITRVllOWzu/O0eNxTWJgxrVahMuX+MEuviJr1om6IfRELOsz+X9cUci/w6s
+	a+B27OUK9xKkS3munN27rLlrnFiLnTorw0yNQlnZtD2nf2uEKQlilL+0FEyOQA3Gc2cD
+	ezySMG25TZygLaDWHj93pyquw7TQuiS1twrmXqpAz0HmT8TdfBUctI3Ce9M4KYnDJLhy
+	1bOw==
+X-Gm-Message-State: APjAAAUicMs1mT6qc0Ci/WBwLeqG+D8l7jFTgtZ/mdYsnM8SQXSKQfr8
+	Q3ja4pyGjqrCbDhoQADxHdSloUCFag5iegdWMT4=
+X-Google-Smtp-Source: APXvYqw9uAWvhf/BZ09JwTi8sIQAfNh7HdU3Z4nO+KlAOz7/Bm6IErQnIioCG4X4OZ3x7/GioIWg4McxjY79a0UVGGk=
+X-Received: by 2002:aca:c2c3:: with SMTP id s186mr3229314oif.79.1558505502816; 
+	Tue, 21 May 2019 23:11:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="5vjQsMS/9MbKYGLq"
-Content-Disposition: inline
-In-Reply-To: <20190424041959.4087-3-david@gibson.dropbear.id.au>
-User-Agent: Mutt/1.11.4 (2019-03-13)
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 203.11.71.1
-Subject: Re: [Qemu-devel] [PULL v2 21/36] pci: Simplify pci_bus_is_root()
+Received: by 2002:a9d:410f:0:0:0:0:0 with HTTP; Tue, 21 May 2019 23:11:42
+	-0700 (PDT)
+Received: by 2002:a9d:410f:0:0:0:0:0 with HTTP; Tue, 21 May 2019 23:11:42
+	-0700 (PDT)
+In-Reply-To: <20190519203726.20729-1-richard.henderson@linaro.org>
+References: <20190519203726.20729-1-richard.henderson@linaro.org>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Wed, 22 May 2019 08:11:42 +0200
+Message-ID: <CAL1e-=hd+nuZmKms9AmCn8B4UqJ1M3D8A=WvbaM-UwpumkD4vQ@mail.gmail.com>
+To: Richard Henderson <richard.henderson@linaro.org>
+X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
+	recognized.
+X-Received-From: 2607:f8b0:4864:20::242
+Content-Type: text/plain; charset="UTF-8"
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [PATCH v7 00/74] linux-user: Split do_syscall
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -55,64 +76,153 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
-	Peter Xu <peterx@redhat.com>, Greg Kurz <groug@kaod.org>,
-	Marcel Apfelbaum <marcel@redhat.com>
+Cc: qemu-devel@nongnu.org, laurent@vivier.eu
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
+On May 19, 2019 10:38 PM, "Richard Henderson" <richard.henderson@linaro.org>
+wrote:
+>
+> Based-on: <20190519201953.20161-1-richard.henderson@linaro.org>
+> Aka "linux-user: path, clone, sparc, shmat fixes"
+>
+> Version 6 was
+> https://lists.gnu.org/archive/html/qemu-devel/2019-01/msg04794.html
+>
+> Since v5, I've fixed the ioctl failure that Laurent found, and
+> have done a few more syscalls.
+>
+> I've tried to do more testing with LTP, but it's a really annoying
+> testsuite.  There are at least 3 tests that hang forever (before
+> and after this patch set), and the host kernel's OOM handler kills
+> my login session, ending the test run.  This seems to be different
+> behaviour than I was seeing in January, when I did have test runs
+> that completed successfully.
+>
+> OTOH, looking back at the v6 cover letter, I now see that I was
+> testing armhf and i386 as guests, whereas this time I was trying
+> aarch64 and ppc64 as guests.  32-bit guests unable to trigger the
+> host OOM killer?
+>
+> Laurent, is there anything special that you're doing to see these
+> tests run to completion?
+>
 
---5vjQsMS/9MbKYGLq
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On surface, this series looks to be a refactoring series. However, this is
+not the case: burried in various patches, are removals of some features
+visible to the end user. Can you please list all such cases in the cover
+letter, so that they can be easier identified and evaluated by reviewers?
 
-On Mon, May 20, 2019 at 07:11:09PM -0400, Michael S. Tsirkin wrote:
-> From: David Gibson <david@gibson.dropbear.id.au>
->=20
-> pci_bus_is_root() currently relies on a method in the PCIBusClass.
-> But it's always known if a PCI bus is a root bus when we create it, so
-> using a dynamic method is overkill.
->=20
-> This replaces it with an IS_ROOT bit in a new flags field, which is set on
-> root buses and otherwise clear.  As a bonus this removes the special
-> is_root logic from pci_expander_bridge, since it already creates its bus
-> as a root bus.
->=20
-> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
-> Reviewed-by: Marcel Apfelbaum <marcel@redhat.com>
-> Reviewed-by: Peter Xu <peterx@redhat.com>
-> Reviewed-by: Greg Kurz <groug@kaod.org>
-> Message-Id: <20190424041959.4087-3-david@gibson.dropbear.id.au>
+Thanks,
+Aleksandar
 
-Michael, is there a particular reason this and the mmcfg patch went
-in, but not the later patches in my PCI-E cleanup series?
-
---=20
-David Gibson			| I'll have my music baroque, and my code
-david AT gibson.dropbear.id.au	| minimalist, thank you.  NOT _the_ _other_
-				| _way_ _around_!
-http://www.ozlabs.org/~dgibson
-
---5vjQsMS/9MbKYGLq
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAEBCAAdFiEEdfRlhq5hpmzETofcbDjKyiDZs5IFAlzk6AgACgkQbDjKyiDZ
-s5LPxhAAjobzs8aIDG0nCUo6Crkvf5+Crymk4qUrqES75LmO8aqTM7rNdOItIpcd
-tHKqFRjldwbERZ1RvTI2Tb7RI9sFYkDGG0O929NACYuyCvvuBPWr4PjyseUUOlvM
-Ez9hTjNsvYTPi53n8/cLzV/2dKy/8jYMswyqrTsLFKLWyq9n13fPNKWXPKAaWgXS
-faJ/X5FvFg8sZMJnN06QZMc6GnV4vGWz7qKgwOcncneyqc0cduykx275Z0iuqQty
-Tlwk11lhqnsgLCOJM5fLBrWQAhHDGNVRgUtc0s+wEJtwCH9EScDx3z+3SgbwHGRD
-FDiRVh0i0bkuRwSOBtMDFWeYzJJ8E7UQVlqqpoHHRNqoMOC6FPv2n1HPVfoW2+UW
-sydJ64J/3thgvYLCT9h0lW+b4g7h4wyn9koVaN6AXZk/a4SjSjzjAwSCTrSofknk
-lElbu31GLgawnIQC/Z31mugT/cpjb+N3I7JgavtS8joXefPhQGF7LUovm4thu14O
-TJAnCLGAMeU63amLcSriwI1Ft3Y/J7yl5tghGR7K72V5CtkNfq5Z+zSMGE/7/fR6
-jmvSBVSPkWXyRDm/aPhzixYWhMy7PxRzjcb7NkrCXsfcECkp46AxhG33cZCNXa2p
-j9XvfpNnoalHqTMLlFuI2TWixAmnCiu3gc4IilWd2TVFes+rCwU=
-=puw3
------END PGP SIGNATURE-----
-
---5vjQsMS/9MbKYGLq--
-
+>
+> r~
+>
+>
+> Richard Henderson (74):
+>   linux-user: Setup split syscall infrastructure
+>   linux-user: Split out open, open_at
+>   linux-user: Share more code for open and openat
+>   linux-user: Tidy do_openat loop over fakes
+>   linux-user: Split out readlink, readlinkat
+>   linux-user: Split out close
+>   linux-user: Split out read, write
+>   linux-user: Reduce regpairs_aligned & target_offset64 ifdefs
+>   linux-user: Split out readv, writev
+>   linux-user: Split out pread64, pwrite64
+>   linux-user: Split out preadv, pwritev
+>   linux-user: Split out name_to_handle_at, open_by_handle_at
+>   linux-user: Split out ipc syscalls
+>   linux-user: Split out memory syscalls
+>   linux-user: Split out exit
+>   linux-user: Split out brk
+>   linux-user: Split out clone, fork, vfork
+>   linux-user: Split out wait4, waitid, waitpid
+>   linux-user: Implement rusage argument to waitid
+>   linux-user: Split out creat
+>   linux-user: Split out link, linkat
+>   linux-user: Split out unlink, unlinkat, rmdir
+>   linux-user: Split out execve
+>   linux-user: Implement execveat
+>   linux-user: Split out chdir
+>   linux-user: Split out time
+>   linux-user: Split out mknod, mknodat
+>   linux-user: Split out chmod, fchmod, fchmodat
+>   linux-user: Split out lseek, llseek
+>   linux-user: Split out getpid, getppid, getxpid
+>   linux-user: Split out mount
+>   linux-user: Split out umount, umount2
+>   linux-user: Split out stime
+>   linux-user: Split out alarm, pause
+>   linux-user: Split out utime, utimes, futimesat
+>   linux-user: Split out access, faccessat
+>   linux-user: Split out nice
+>   linux-user: Split out sync, syncfs
+>   linux-user: Split out kill
+>   linux-user: Split out rename, renameat, renameat2
+>   linux-user: Split out mkdir, mkdirat
+>   linux-user: Split out dup, dup2, dup3
+>   linux-user: Split out pipe, pipe2
+>   linux-user: Split out times
+>   linux-user: Split out acct
+>   linux-user: Move syscall_init to the end
+>   linux-user: Split out ioctl
+>   linux-user: Fix types in ioctl logging
+>   linux-user: Remove sentinel from ioctl_entries
+>   linux-user: Split out fcntl, fcntl64
+>   linux-user: Split out setpgid
+>   linux-user: Split out umask
+>   linux-user: Split out chroot
+>   linux-user: Split out getpgid, getpgrp
+>   linux-user: Split out getsid, setsid
+>   linux-user: Split out sigaction, rt_sigaction
+>   linux-user: Split out sgetmask, ssetmask
+>   linux-user: Split out sigprocmask, rt_sigprocmask
+>   linux-user: Split out sigpending, rt_sigpending
+>   linux-user: Split out sigsuspend, rt_sigsuspend
+>   linux-user: Split out rt_sigtimedwait
+>   linux-user: Split out rt_sigqueueinfo, rt_tgsigqueueinfo
+>   linux-user: Split out sigreturn, rt_sigreturn
+>   linux-user: Split out gethostname, sethostname
+>   linux-user: Split out getrlimit, setrlimit
+>   linux-user: Split out getrusage
+>   linux-user: Split out gettimeofday, settimeofday
+>   linux-user: Split out select, _newselect
+>   linux-user: Split out pselect6
+>   linux-user: Split out symlink, symlinkat
+>   linux-user: Split out swapon, swapoff
+>   linux-user: Split out reboot
+>   linux-user: Split out truncate, truncate64, ftruncate, ftruncate64
+>   linux-user: Split out getpriority, setpriority
+>
+>  linux-user/syscall-defs.h      |  338 +++
+>  linux-user/syscall.h           |  103 +
+>  linux-user/strace.c            | 1569 +++-------
+>  linux-user/syscall-fcntl.inc.c |  322 ++
+>  linux-user/syscall-file.inc.c  | 1526 ++++++++++
+>  linux-user/syscall-ioctl.inc.c |  873 ++++++
+>  linux-user/syscall-ipc.inc.c   | 1088 +++++++
+>  linux-user/syscall-mem.inc.c   |  244 ++
+>  linux-user/syscall-proc.inc.c  |  758 +++++
+>  linux-user/syscall-sig.inc.c   |  549 ++++
+>  linux-user/syscall-time.inc.c  |   77 +
+>  linux-user/syscall.c           | 5045 ++------------------------------
+>  configure                      |   20 -
+>  linux-user/strace.list         |  414 ---
+>  14 files changed, 6512 insertions(+), 6414 deletions(-)
+>  create mode 100644 linux-user/syscall-defs.h
+>  create mode 100644 linux-user/syscall.h
+>  create mode 100644 linux-user/syscall-fcntl.inc.c
+>  create mode 100644 linux-user/syscall-file.inc.c
+>  create mode 100644 linux-user/syscall-ioctl.inc.c
+>  create mode 100644 linux-user/syscall-ipc.inc.c
+>  create mode 100644 linux-user/syscall-mem.inc.c
+>  create mode 100644 linux-user/syscall-proc.inc.c
+>  create mode 100644 linux-user/syscall-sig.inc.c
+>  create mode 100644 linux-user/syscall-time.inc.c
+>
+> --
+> 2.17.1
+>
+>
