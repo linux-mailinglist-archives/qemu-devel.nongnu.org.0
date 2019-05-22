@@ -2,46 +2,43 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8248A265FE
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 16:38:42 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:44408 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 8CC14265CE
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 16:34:49 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:44342 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTSO9-0006cD-Mf
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 10:38:41 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:53426)
+	id 1hTSKO-0003CB-Kr
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 10:34:48 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:53372)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <ysato@users.sourceforge.jp>) id 1hTSG3-00007C-Mu
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 10:30:27 -0400
+	(envelope-from <ysato@users.sourceforge.jp>) id 1hTSG1-00005M-9e
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 10:30:21 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <ysato@users.sourceforge.jp>) id 1hTSG0-0007Xa-O3
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 10:30:19 -0400
-Received: from mail02.asahi-net.or.jp ([202.224.55.14]:44417)
+	(envelope-from <ysato@users.sourceforge.jp>) id 1hTSFz-0007SM-Hy
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 10:30:17 -0400
+Received: from mail01.asahi-net.or.jp ([202.224.55.13]:43552)
 	by eggs.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <ysato@users.sourceforge.jp>) id 1hTSG0-0007Tg-99
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 10:30:16 -0400
+	(envelope-from <ysato@users.sourceforge.jp>) id 1hTSFz-0007I5-5s
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 10:30:15 -0400
 Received: from h61-195-96-97.vps.ablenet.jp (h61-195-96-97.ablenetvps.ne.jp
 	[61.195.96.97]) (Authenticated sender: PQ4Y-STU)
-	by mail02.asahi-net.or.jp (Postfix) with ESMTPA id E0A403EA39;
-	Wed, 22 May 2019 23:30:10 +0900 (JST)
+	by mail01.asahi-net.or.jp (Postfix) with ESMTPA id 3A9F811DD8A;
+	Wed, 22 May 2019 23:30:11 +0900 (JST)
 Received: from yo-satoh-debian.localdomain
 	(v045049.dynamic.ppp.asahi-net.or.jp [124.155.45.49])
-	by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id 4A602240086; 
+	by h61-195-96-97.vps.ablenet.jp (Postfix) with ESMTPSA id 9D921240085; 
 	Wed, 22 May 2019 23:30:10 +0900 (JST)
 From: Yoshinori Sato <ysato@users.sourceforge.jp>
 To: qemu-devel@nongnu.org
-Date: Wed, 22 May 2019 23:29:55 +0900
-Message-Id: <20190522142956.41916-12-ysato@users.sourceforge.jp>
+Date: Wed, 22 May 2019 23:29:56 +0900
+Message-Id: <20190522142956.41916-13-ysato@users.sourceforge.jp>
 X-Mailer: git-send-email 2.11.0
 In-Reply-To: <20190522142956.41916-1-ysato@users.sourceforge.jp>
 References: <20190522142956.41916-1-ysato@users.sourceforge.jp>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 202.224.55.14
-Subject: [Qemu-devel] [PATCH v15 11/12] Add rx-softmmu
+X-Received-From: 202.224.55.13
+Subject: [Qemu-devel] [PATCH v15 12/12] MAINTAINERS: Add RX
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -59,92 +56,50 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 Signed-off-by: Yoshinori Sato <ysato@users.sourceforge.jp>
-Tested-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
-Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
 ---
- configure                      | 8 ++++++++
- default-configs/rx-softmmu.mak | 3 +++
- include/sysemu/arch_init.h     | 1 +
- arch_init.c                    | 2 ++
- hw/Kconfig                     | 1 +
- 5 files changed, 15 insertions(+)
- create mode 100644 default-configs/rx-softmmu.mak
+ MAINTAINERS | 21 +++++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-diff --git a/configure b/configure
-index d2fc346302..426917b819 100755
---- a/configure
-+++ b/configure
-@@ -7549,6 +7549,11 @@ case "$target_name" in
-     gdb_xml_files=3D"riscv-64bit-cpu.xml riscv-64bit-fpu.xml riscv-64bit=
--csr.xml"
-     target_compiler=3D$cross_cc_riscv64
-   ;;
-+  rx)
-+    TARGET_ARCH=3Drx
-+    bflt=3D"yes"
-+    target_compiler=3D$cross_cc_rx
-+  ;;
-   sh4|sh4eb)
-     TARGET_ARCH=3Dsh4
-     bflt=3D"yes"
-@@ -7769,6 +7774,9 @@ for i in $ARCH $TARGET_BASE_ARCH ; do
-   riscv*)
-     disas_config "RISCV"
-   ;;
-+  rx)
-+    disas_config "RX"
-+  ;;
-   s390*)
-     disas_config "S390"
-   ;;
-diff --git a/default-configs/rx-softmmu.mak b/default-configs/rx-softmmu.=
-mak
-new file mode 100644
-index 0000000000..a3eecefb11
---- /dev/null
-+++ b/default-configs/rx-softmmu.mak
-@@ -0,0 +1,3 @@
-+# Default configuration for rx-softmmu
+diff --git a/MAINTAINERS b/MAINTAINERS
+index a6948ebc63..36c4577d6c 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -272,6 +272,13 @@ F: include/hw/riscv/
+ F: linux-user/host/riscv32/
+ F: linux-user/host/riscv64/
+ 
++RENESAS RX
++M: Yoshinori Sato <ysato@users.sourceforge.jp>
++S: Maintained
++F: target/rx/
++F: hw/rx/
++F: include/hw/rx/
 +
-+CONFIG_RX_VIRT=3Dy
-diff --git a/include/sysemu/arch_init.h b/include/sysemu/arch_init.h
-index 10cbafe970..3f4f844f7b 100644
---- a/include/sysemu/arch_init.h
-+++ b/include/sysemu/arch_init.h
-@@ -25,6 +25,7 @@ enum {
-     QEMU_ARCH_NIOS2 =3D (1 << 17),
-     QEMU_ARCH_HPPA =3D (1 << 18),
-     QEMU_ARCH_RISCV =3D (1 << 19),
-+    QEMU_ARCH_RX =3D (1 << 20),
- };
-=20
- extern const uint32_t arch_type;
-diff --git a/arch_init.c b/arch_init.c
-index f4f3f610c8..cc25ddd7ca 100644
---- a/arch_init.c
-+++ b/arch_init.c
-@@ -74,6 +74,8 @@ int graphic_depth =3D 32;
- #define QEMU_ARCH QEMU_ARCH_PPC
- #elif defined(TARGET_RISCV)
- #define QEMU_ARCH QEMU_ARCH_RISCV
-+#elif defined(TARGET_RX)
-+#define QEMU_ARCH QEMU_ARCH_RX
- #elif defined(TARGET_S390X)
- #define QEMU_ARCH QEMU_ARCH_S390X
- #elif defined(TARGET_SH4)
-diff --git a/hw/Kconfig b/hw/Kconfig
-index 88b9f15007..63a071092e 100644
---- a/hw/Kconfig
-+++ b/hw/Kconfig
-@@ -53,6 +53,7 @@ source nios2/Kconfig
- source openrisc/Kconfig
- source ppc/Kconfig
- source riscv/Kconfig
-+source rx/Kconfig
- source s390x/Kconfig
- source sh4/Kconfig
- source sparc/Kconfig
---=20
+ S390
+ M: Richard Henderson <rth@twiddle.net>
+ M: David Hildenbrand <david@redhat.com>
+@@ -1106,6 +1113,20 @@ F: pc-bios/canyonlands.dt[sb]
+ F: pc-bios/u-boot-sam460ex-20100605.bin
+ F: roms/u-boot-sam460ex
+ 
++RX Machines
++-----------
++RX-QEMU
++M: Yoshinori Sato <ysato@users.sourceforge.jp>
++S: Maintained
++F: hw/rx/rx-virt.c
++F: hw/intc/rx_icu.c
++F: hw/timer/renesas_*.c
++F: hw/char/renesas_sci.c
++F: include/hw/timer/renesas_*.h
++F: include/hw/char/renesas_sci.h
++F: include/hw/intc/rx_icu.h
++F: default-configs/rx-softmmu.mak
++
+ SH4 Machines
+ ------------
+ R2D
+-- 
 2.11.0
 
 
