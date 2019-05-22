@@ -2,73 +2,69 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id EAA0926AA8
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 21:14:45 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:49893 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id C97B626A9F
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 21:11:43 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:49844 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTWhJ-0007kv-2h
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 15:14:45 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:35163)
+	id 1hTWeM-0005VS-Uc
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 15:11:43 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:35086)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hTWOn-0008Ln-4x
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:55:39 -0400
+	(envelope-from <richard.henderson@linaro.org>) id 1hTWOn-0008Ga-BX
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:55:38 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hTWCU-0008CO-3H
+	(envelope-from <richard.henderson@linaro.org>) id 1hTWCU-0008Ch-8E
 	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:42:55 -0400
-Received: from mail-yw1-xc41.google.com ([2607:f8b0:4864:20::c41]:33874)
+Received: from mail-yw1-xc41.google.com ([2607:f8b0:4864:20::c41]:40638)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hTWCS-0008BS-3V
+	id 1hTWCU-0008Bk-3l
 	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:42:54 -0400
-Received: by mail-yw1-xc41.google.com with SMTP id n76so1254439ywd.1
-	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 11:42:51 -0700 (PDT)
+Received: by mail-yw1-xc41.google.com with SMTP id 18so1241479ywe.7
+	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 11:42:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references
-	:mime-version:content-transfer-encoding;
-	bh=91uu1aUA9Q1duAfeofMBsz4QGLzYWym0CyS3yfCCEtA=;
-	b=WUzmFOKaaPmzf3hF3x0DaG9GKdGLaS1So5frVXQSerJUkUZeDx38/vI4FL0MtJ5707
-	hOknTDKjRKrJwTLz0IZ5dqWnz+EskpRYtRHa5llCfQcXw1UGMBgATB3BLQeD9onpHhxM
-	mQfKs5FdQSdwTB0+X3P5RmPTsMqxw3ZR0Pc7Rhe0z1j+4o9b2Lo5cLy2jNwPOhnWkp4j
-	3ch4ux4GWmHZIf2LhGvzMuU8XhpXeJvJC8RPoaMx/EKH1CfryWztHf+aAl4tgjebneSk
-	LdC4pIc9FU5RDxm0VatQg6dxoD9I1/6d6plp/bT8lOROsLOA0aAZaaDbK/wB6jwuCyET
-	HBkw==
+	h=from:to:cc:subject:date:message-id:in-reply-to:references;
+	bh=eQF1EgwSKdQ+jEilzLu3oc5jnuWVHN3zq38+Bl8lFmE=;
+	b=HSh2u8/DWaOXOeGfFCromNcDpKZGo42mmhKZKJaXRRO2/rWdn+CJvChECQ2ZfKCKTH
+	PDGdHY9cmkTnRh51F2vzo81xvDADZ9FjjGUmjZUFtFPklj46UBr0X43fQdcXYcGmv9XW
+	QtAH4L+rb4MIDhni+4BqQfOeA3d+FRWPWfeY38rU4WWtuRlwvZ9f/4obucFjb3zkKtgK
+	exC/i22lcCBGQ0FymOqMLL1R/XpQZeGL8USh4adZ4Q158ZGsVLS3ynsr+3qL8QeWtgze
+	cg4qjoOH6VVj4bCJJlIZaC+81BZlyDAnd0YE50kTZ94+q/qasfyyF3Dtni/pf9xpODAR
+	qBtw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references:mime-version:content-transfer-encoding;
-	bh=91uu1aUA9Q1duAfeofMBsz4QGLzYWym0CyS3yfCCEtA=;
-	b=KoXBLX28wzq/sSCgTlBj2biLh6zB6MUHa83dop1fOL5UjCvk9KHbAgBGGhJfs9IHKW
-	R8hEKS1bDm8bO9+X3KjDG9QN0ry3YisdWX0bFxUbhnsnO+9GhtqD1axtzhcXwg+pqrLl
-	ZdOxxqjdqHogSxb7FyueuH1Jy3JlKbkPfDfPE8/Y6swq7kIwae0MHf+3urELM9j8dNSh
-	aZjlHul2ExJeZ3d6cJRtbmF64XFgpOSMonkTLS+mAjZcZY+a4kN1gWpAV9gHoLCRCwrs
-	t9EB2zcfvcYank/EPDvOYVbERei/8I/F9CpjXgCSYwXw8/3o/ySjAu2iWdf/LfcO+Mbs
-	Iyng==
-X-Gm-Message-State: APjAAAU9C9vGXP/4FZVFcjBq0W35ImqkZhmqTEBx2+Iv46n765kDKTny
-	ZlmYh/5uGjA2w9N/d6vWUtFbZyDZUBw=
-X-Google-Smtp-Source: APXvYqw8cXgGxW6iU3K/oTvgYCE8zG2/humI/SoVlIw1AgdHTlJhIsZs92YsUL8T3Z2l0H+JOuBSpg==
-X-Received: by 2002:a81:2513:: with SMTP id l19mr35956533ywl.299.1558550570781;
-	Wed, 22 May 2019 11:42:50 -0700 (PDT)
+	:references;
+	bh=eQF1EgwSKdQ+jEilzLu3oc5jnuWVHN3zq38+Bl8lFmE=;
+	b=UOFas/ZbtpitvZTI/OJNFtwGL+8L3n0Lnx6GPIvCZIrcWpNhennUujM02tOxGilHh+
+	lNddCNEWg2BJVxlU4AzYXa4fRfw/pzfI14ZX40wdX9H45MWJNGoyQlPqI9PzSwO/Kf60
+	fJFgpUfA9WZQeGiLLwYEkxIDp8Y4v0DXdWigjf5sCUcNHL1NgbdfYFosTLaxjuuchMSJ
+	GUKFivNlE4LKuoLpTLu4NRc7GmYG5CAg/PjNPB7zjp3rgyalSXcVM6G7+rFNzmmZE+xj
+	KBcn2mRwf6sW3TZdRP6R7rZXVZLgP3LXgnqlUy8JbegTKqXlQ6LPSOIHZRcdIvYJB9fS
+	+sCA==
+X-Gm-Message-State: APjAAAUr5RC6T98kabJFd6Yj7sRlRSN8FZco4fgo/Atc2Lgbi2+DCMF1
+	eYbFL8rnT4TEqtfZlhK+6hCGAMsQzkE=
+X-Google-Smtp-Source: APXvYqyRWCOt7YHiFYBoRECfARfPBlPSJ26LvmXQ6mvctwRg7XLms79+Ce0gqocBF92Wy/R+xzFqhA==
+X-Received: by 2002:a81:1ecd:: with SMTP id
+	e196mr40520973ywe.356.1558550571662; 
+	Wed, 22 May 2019 11:42:51 -0700 (PDT)
 Received: from localhost.localdomain ([71.46.56.17])
 	by smtp.gmail.com with ESMTPSA id
-	206sm1299445ywq.74.2019.05.22.11.42.49
+	206sm1299445ywq.74.2019.05.22.11.42.50
 	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 22 May 2019 11:42:50 -0700 (PDT)
+	Wed, 22 May 2019 11:42:51 -0700 (PDT)
 From: Richard Henderson <richard.henderson@linaro.org>
 To: qemu-devel@nongnu.org
-Date: Wed, 22 May 2019 14:42:22 -0400
-Message-Id: <20190522184226.17871-22-richard.henderson@linaro.org>
+Date: Wed, 22 May 2019 14:42:23 -0400
+Message-Id: <20190522184226.17871-23-richard.henderson@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20190522184226.17871-1-richard.henderson@linaro.org>
 References: <20190522184226.17871-1-richard.henderson@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
 X-Received-From: 2607:f8b0:4864:20::c41
-Subject: [Qemu-devel] [PULL 21/25] target/arm: Put all PAC keys into a
- structure
+Subject: [Qemu-devel] [PULL 22/25] target/arm: Implement ARMv8.5-RNG
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -84,235 +80,113 @@ Cc: peter.maydell@linaro.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This allows us to use a single syscall to initialize them all.
+Use the newly introduced infrastructure for guest random numbers.
 
-Reviewed-by: Laurent Vivier <lvivier@redhat.com>
-Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Peter Maydell <peter.maydell@linaro.org>
 Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
 ---
- target/arm/cpu.h              | 12 +++++++-----
- linux-user/aarch64/cpu_loop.c |  6 +-----
- linux-user/syscall.c          | 10 +++++-----
- target/arm/helper.c           | 20 ++++++++++----------
- target/arm/pauth_helper.c     | 18 +++++++++---------
- 5 files changed, 32 insertions(+), 34 deletions(-)
+ target/arm/cpu.h    |  5 +++++
+ target/arm/cpu64.c  |  1 +
+ target/arm/helper.c | 44 ++++++++++++++++++++++++++++++++++++++++++++
+ 3 files changed, 50 insertions(+)
 
 diff --git a/target/arm/cpu.h b/target/arm/cpu.h
-index 733b840a71..892f9a4ad2 100644
+index 892f9a4ad2..c34207611b 100644
 --- a/target/arm/cpu.h
 +++ b/target/arm/cpu.h
-@@ -636,11 +636,13 @@ typedef struct CPUARMState {
-     } iwmmxt;
+@@ -3521,6 +3521,11 @@ static inline bool isar_feature_aa64_condm_5(const ARMISARegisters *id)
+     return FIELD_EX64(id->id_aa64isar0, ID_AA64ISAR0, TS) >= 2;
+ }
  
- #ifdef TARGET_AARCH64
--    ARMPACKey apia_key;
--    ARMPACKey apib_key;
--    ARMPACKey apda_key;
--    ARMPACKey apdb_key;
--    ARMPACKey apga_key;
-+    struct {
-+        ARMPACKey apia;
-+        ARMPACKey apib;
-+        ARMPACKey apda;
-+        ARMPACKey apdb;
-+        ARMPACKey apga;
-+    } keys;
- #endif
++static inline bool isar_feature_aa64_rndr(const ARMISARegisters *id)
++{
++    return FIELD_EX64(id->id_aa64isar0, ID_AA64ISAR0, RNDR) != 0;
++}
++
+ static inline bool isar_feature_aa64_jscvt(const ARMISARegisters *id)
+ {
+     return FIELD_EX64(id->id_aa64isar1, ID_AA64ISAR1, JSCVT) != 0;
+diff --git a/target/arm/cpu64.c b/target/arm/cpu64.c
+index 228906f267..835f73cceb 100644
+--- a/target/arm/cpu64.c
++++ b/target/arm/cpu64.c
+@@ -310,6 +310,7 @@ static void aarch64_max_initfn(Object *obj)
+         t = FIELD_DP64(t, ID_AA64ISAR0, DP, 1);
+         t = FIELD_DP64(t, ID_AA64ISAR0, FHM, 1);
+         t = FIELD_DP64(t, ID_AA64ISAR0, TS, 2); /* v8.5-CondM */
++        t = FIELD_DP64(t, ID_AA64ISAR0, RNDR, 1);
+         cpu->isar.id_aa64isar0 = t;
  
- #if defined(CONFIG_USER_ONLY)
-diff --git a/linux-user/aarch64/cpu_loop.c b/linux-user/aarch64/cpu_loop.c
-index cedad39ca0..2f2f63e3e8 100644
---- a/linux-user/aarch64/cpu_loop.c
-+++ b/linux-user/aarch64/cpu_loop.c
-@@ -175,11 +175,7 @@ void target_cpu_copy_regs(CPUArchState *env, struct target_pt_regs *regs)
- #endif
- 
-     if (cpu_isar_feature(aa64_pauth, cpu)) {
--        qemu_guest_getrandom_nofail(&env->apia_key, sizeof(ARMPACKey));
--        qemu_guest_getrandom_nofail(&env->apib_key, sizeof(ARMPACKey));
--        qemu_guest_getrandom_nofail(&env->apda_key, sizeof(ARMPACKey));
--        qemu_guest_getrandom_nofail(&env->apdb_key, sizeof(ARMPACKey));
--        qemu_guest_getrandom_nofail(&env->apga_key, sizeof(ARMPACKey));
-+        qemu_guest_getrandom_nofail(&env->keys, sizeof(env->keys));
-     }
- 
-     ts->stack_base = info->start_stack;
-diff --git a/linux-user/syscall.c b/linux-user/syscall.c
-index 72e43b517a..3de792a04c 100644
---- a/linux-user/syscall.c
-+++ b/linux-user/syscall.c
-@@ -9775,23 +9775,23 @@ static abi_long do_syscall1(void *cpu_env, int num, abi_long arg1,
-                         return -TARGET_EINVAL;
-                     }
-                     if (arg2 & TARGET_PR_PAC_APIAKEY) {
--                        ret |= qemu_guest_getrandom(&env->apia_key,
-+                        ret |= qemu_guest_getrandom(&env->keys.apia,
-                                                     sizeof(ARMPACKey), &err);
-                     }
-                     if (arg2 & TARGET_PR_PAC_APIBKEY) {
--                        ret |= qemu_guest_getrandom(&env->apib_key,
-+                        ret |= qemu_guest_getrandom(&env->keys.apib,
-                                                     sizeof(ARMPACKey), &err);
-                     }
-                     if (arg2 & TARGET_PR_PAC_APDAKEY) {
--                        ret |= qemu_guest_getrandom(&env->apda_key,
-+                        ret |= qemu_guest_getrandom(&env->keys.apda,
-                                                     sizeof(ARMPACKey), &err);
-                     }
-                     if (arg2 & TARGET_PR_PAC_APDBKEY) {
--                        ret |= qemu_guest_getrandom(&env->apdb_key,
-+                        ret |= qemu_guest_getrandom(&env->keys.apdb,
-                                                     sizeof(ARMPACKey), &err);
-                     }
-                     if (arg2 & TARGET_PR_PAC_APGAKEY) {
--                        ret |= qemu_guest_getrandom(&env->apga_key,
-+                        ret |= qemu_guest_getrandom(&env->keys.apga,
-                                                     sizeof(ARMPACKey), &err);
-                     }
-                     if (ret != 0) {
+         t = cpu->isar.id_aa64isar1;
 diff --git a/target/arm/helper.c b/target/arm/helper.c
-index e2d5c8e34f..6b91082b8b 100644
+index 6b91082b8b..acd23c53ca 100644
 --- a/target/arm/helper.c
 +++ b/target/arm/helper.c
-@@ -5707,43 +5707,43 @@ static const ARMCPRegInfo pauth_reginfo[] = {
-     { .name = "APDAKEYLO_EL1", .state = ARM_CP_STATE_AA64,
-       .opc0 = 3, .opc1 = 0, .crn = 2, .crm = 2, .opc2 = 0,
-       .access = PL1_RW, .accessfn = access_pauth,
--      .fieldoffset = offsetof(CPUARMState, apda_key.lo) },
-+      .fieldoffset = offsetof(CPUARMState, keys.apda.lo) },
-     { .name = "APDAKEYHI_EL1", .state = ARM_CP_STATE_AA64,
-       .opc0 = 3, .opc1 = 0, .crn = 2, .crm = 2, .opc2 = 1,
-       .access = PL1_RW, .accessfn = access_pauth,
--      .fieldoffset = offsetof(CPUARMState, apda_key.hi) },
-+      .fieldoffset = offsetof(CPUARMState, keys.apda.hi) },
-     { .name = "APDBKEYLO_EL1", .state = ARM_CP_STATE_AA64,
-       .opc0 = 3, .opc1 = 0, .crn = 2, .crm = 2, .opc2 = 2,
-       .access = PL1_RW, .accessfn = access_pauth,
--      .fieldoffset = offsetof(CPUARMState, apdb_key.lo) },
-+      .fieldoffset = offsetof(CPUARMState, keys.apdb.lo) },
-     { .name = "APDBKEYHI_EL1", .state = ARM_CP_STATE_AA64,
-       .opc0 = 3, .opc1 = 0, .crn = 2, .crm = 2, .opc2 = 3,
-       .access = PL1_RW, .accessfn = access_pauth,
--      .fieldoffset = offsetof(CPUARMState, apdb_key.hi) },
-+      .fieldoffset = offsetof(CPUARMState, keys.apdb.hi) },
-     { .name = "APGAKEYLO_EL1", .state = ARM_CP_STATE_AA64,
-       .opc0 = 3, .opc1 = 0, .crn = 2, .crm = 3, .opc2 = 0,
-       .access = PL1_RW, .accessfn = access_pauth,
--      .fieldoffset = offsetof(CPUARMState, apga_key.lo) },
-+      .fieldoffset = offsetof(CPUARMState, keys.apga.lo) },
-     { .name = "APGAKEYHI_EL1", .state = ARM_CP_STATE_AA64,
-       .opc0 = 3, .opc1 = 0, .crn = 2, .crm = 3, .opc2 = 1,
-       .access = PL1_RW, .accessfn = access_pauth,
--      .fieldoffset = offsetof(CPUARMState, apga_key.hi) },
-+      .fieldoffset = offsetof(CPUARMState, keys.apga.hi) },
-     { .name = "APIAKEYLO_EL1", .state = ARM_CP_STATE_AA64,
-       .opc0 = 3, .opc1 = 0, .crn = 2, .crm = 1, .opc2 = 0,
-       .access = PL1_RW, .accessfn = access_pauth,
--      .fieldoffset = offsetof(CPUARMState, apia_key.lo) },
-+      .fieldoffset = offsetof(CPUARMState, keys.apia.lo) },
-     { .name = "APIAKEYHI_EL1", .state = ARM_CP_STATE_AA64,
-       .opc0 = 3, .opc1 = 0, .crn = 2, .crm = 1, .opc2 = 1,
-       .access = PL1_RW, .accessfn = access_pauth,
--      .fieldoffset = offsetof(CPUARMState, apia_key.hi) },
-+      .fieldoffset = offsetof(CPUARMState, keys.apia.hi) },
-     { .name = "APIBKEYLO_EL1", .state = ARM_CP_STATE_AA64,
-       .opc0 = 3, .opc1 = 0, .crn = 2, .crm = 1, .opc2 = 2,
-       .access = PL1_RW, .accessfn = access_pauth,
--      .fieldoffset = offsetof(CPUARMState, apib_key.lo) },
-+      .fieldoffset = offsetof(CPUARMState, keys.apib.lo) },
-     { .name = "APIBKEYHI_EL1", .state = ARM_CP_STATE_AA64,
-       .opc0 = 3, .opc1 = 0, .crn = 2, .crm = 1, .opc2 = 3,
-       .access = PL1_RW, .accessfn = access_pauth,
--      .fieldoffset = offsetof(CPUARMState, apib_key.hi) },
-+      .fieldoffset = offsetof(CPUARMState, keys.apib.hi) },
+@@ -22,6 +22,8 @@
+ #include "fpu/softfloat.h"
+ #include "qemu/range.h"
+ #include "qapi/qapi-commands-target.h"
++#include "qapi/error.h"
++#include "qemu/guest-random.h"
+ 
+ #define ARM_CPU_FREQ 1000000000 /* FIXME: 1 GHz, should be configurable */
+ 
+@@ -5746,6 +5748,45 @@ static const ARMCPRegInfo pauth_reginfo[] = {
+       .fieldoffset = offsetof(CPUARMState, keys.apib.hi) },
      REGINFO_SENTINEL
  };
++
++static uint64_t rndr_readfn(CPUARMState *env, const ARMCPRegInfo *ri)
++{
++    Error *err = NULL;
++    uint64_t ret;
++
++    /* Success sets NZCV = 0000.  */
++    env->NF = env->CF = env->VF = 0, env->ZF = 1;
++
++    if (qemu_guest_getrandom(&ret, sizeof(ret), &err) < 0) {
++        /*
++         * ??? Failed, for unknown reasons in the crypto subsystem.
++         * The best we can do is log the reason and return the
++         * timed-out indication to the guest.  There is no reason
++         * we know to expect this failure to be transitory, so the
++         * guest may well hang retrying the operation.
++         */
++        qemu_log_mask(LOG_UNIMP, "%s: Crypto failure: %s",
++                      ri->name, error_get_pretty(err));
++        error_free(err);
++
++        env->ZF = 0; /* NZCF = 0100 */
++        return 0;
++    }
++    return ret;
++}
++
++/* We do not support re-seeding, so the two registers operate the same.  */
++static const ARMCPRegInfo rndr_reginfo[] = {
++    { .name = "RNDR", .state = ARM_CP_STATE_AA64,
++      .type = ARM_CP_NO_RAW | ARM_CP_SUPPRESS_TB_END | ARM_CP_IO,
++      .opc0 = 3, .opc1 = 3, .crn = 2, .crm = 4, .opc2 = 0,
++      .access = PL0_R, .readfn = rndr_readfn },
++    { .name = "RNDRRS", .state = ARM_CP_STATE_AA64,
++      .type = ARM_CP_NO_RAW | ARM_CP_SUPPRESS_TB_END | ARM_CP_IO,
++      .opc0 = 3, .opc1 = 3, .crn = 2, .crm = 4, .opc2 = 1,
++      .access = PL0_R, .readfn = rndr_readfn },
++    REGINFO_SENTINEL
++};
  #endif
-diff --git a/target/arm/pauth_helper.c b/target/arm/pauth_helper.c
-index d750f96edf..7f30ae7395 100644
---- a/target/arm/pauth_helper.c
-+++ b/target/arm/pauth_helper.c
-@@ -403,7 +403,7 @@ uint64_t HELPER(pacia)(CPUARMState *env, uint64_t x, uint64_t y)
-         return x;
+ 
+ static CPAccessResult access_predinv(CPUARMState *env, const ARMCPRegInfo *ri,
+@@ -6690,6 +6731,9 @@ void register_cp_regs_for_features(ARMCPU *cpu)
+     if (cpu_isar_feature(aa64_pauth, cpu)) {
+         define_arm_cp_regs(cpu, pauth_reginfo);
      }
-     pauth_check_trap(env, el, GETPC());
--    return pauth_addpac(env, x, y, &env->apia_key, false);
-+    return pauth_addpac(env, x, y, &env->keys.apia, false);
- }
++    if (cpu_isar_feature(aa64_rndr, cpu)) {
++        define_arm_cp_regs(cpu, rndr_reginfo);
++    }
+ #endif
  
- uint64_t HELPER(pacib)(CPUARMState *env, uint64_t x, uint64_t y)
-@@ -413,7 +413,7 @@ uint64_t HELPER(pacib)(CPUARMState *env, uint64_t x, uint64_t y)
-         return x;
-     }
-     pauth_check_trap(env, el, GETPC());
--    return pauth_addpac(env, x, y, &env->apib_key, false);
-+    return pauth_addpac(env, x, y, &env->keys.apib, false);
- }
- 
- uint64_t HELPER(pacda)(CPUARMState *env, uint64_t x, uint64_t y)
-@@ -423,7 +423,7 @@ uint64_t HELPER(pacda)(CPUARMState *env, uint64_t x, uint64_t y)
-         return x;
-     }
-     pauth_check_trap(env, el, GETPC());
--    return pauth_addpac(env, x, y, &env->apda_key, true);
-+    return pauth_addpac(env, x, y, &env->keys.apda, true);
- }
- 
- uint64_t HELPER(pacdb)(CPUARMState *env, uint64_t x, uint64_t y)
-@@ -433,7 +433,7 @@ uint64_t HELPER(pacdb)(CPUARMState *env, uint64_t x, uint64_t y)
-         return x;
-     }
-     pauth_check_trap(env, el, GETPC());
--    return pauth_addpac(env, x, y, &env->apdb_key, true);
-+    return pauth_addpac(env, x, y, &env->keys.apdb, true);
- }
- 
- uint64_t HELPER(pacga)(CPUARMState *env, uint64_t x, uint64_t y)
-@@ -441,7 +441,7 @@ uint64_t HELPER(pacga)(CPUARMState *env, uint64_t x, uint64_t y)
-     uint64_t pac;
- 
-     pauth_check_trap(env, arm_current_el(env), GETPC());
--    pac = pauth_computepac(x, y, env->apga_key);
-+    pac = pauth_computepac(x, y, env->keys.apga);
- 
-     return pac & 0xffffffff00000000ull;
- }
-@@ -453,7 +453,7 @@ uint64_t HELPER(autia)(CPUARMState *env, uint64_t x, uint64_t y)
-         return x;
-     }
-     pauth_check_trap(env, el, GETPC());
--    return pauth_auth(env, x, y, &env->apia_key, false, 0);
-+    return pauth_auth(env, x, y, &env->keys.apia, false, 0);
- }
- 
- uint64_t HELPER(autib)(CPUARMState *env, uint64_t x, uint64_t y)
-@@ -463,7 +463,7 @@ uint64_t HELPER(autib)(CPUARMState *env, uint64_t x, uint64_t y)
-         return x;
-     }
-     pauth_check_trap(env, el, GETPC());
--    return pauth_auth(env, x, y, &env->apib_key, false, 1);
-+    return pauth_auth(env, x, y, &env->keys.apib, false, 1);
- }
- 
- uint64_t HELPER(autda)(CPUARMState *env, uint64_t x, uint64_t y)
-@@ -473,7 +473,7 @@ uint64_t HELPER(autda)(CPUARMState *env, uint64_t x, uint64_t y)
-         return x;
-     }
-     pauth_check_trap(env, el, GETPC());
--    return pauth_auth(env, x, y, &env->apda_key, true, 0);
-+    return pauth_auth(env, x, y, &env->keys.apda, true, 0);
- }
- 
- uint64_t HELPER(autdb)(CPUARMState *env, uint64_t x, uint64_t y)
-@@ -483,7 +483,7 @@ uint64_t HELPER(autdb)(CPUARMState *env, uint64_t x, uint64_t y)
-         return x;
-     }
-     pauth_check_trap(env, el, GETPC());
--    return pauth_auth(env, x, y, &env->apdb_key, true, 1);
-+    return pauth_auth(env, x, y, &env->keys.apdb, true, 1);
- }
- 
- uint64_t HELPER(xpaci)(CPUARMState *env, uint64_t a)
+     /*
 -- 
 2.17.1
 
