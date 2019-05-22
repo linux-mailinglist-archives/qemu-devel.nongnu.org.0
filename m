@@ -2,58 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id CBB45267BD
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 18:11:05 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:47240 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id F3A61267CC
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 18:14:00 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:47296 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTTpY-0003aD-SP
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 12:11:04 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57470)
+	id 1hTTsO-0006C2-3v
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 12:14:00 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57676)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hTTmu-00029M-Ac
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 12:08:21 -0400
+	(envelope-from <laurent@vivier.eu>) id 1hTTn6-0002Lt-IW
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 12:08:34 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hTTmr-0003mM-Ve
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 12:08:19 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:45063)
+	(envelope-from <laurent@vivier.eu>) id 1hTTn5-0004P4-LA
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 12:08:32 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:59251)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <laurent@vivier.eu>)
-	id 1hTTmr-0003b0-8C; Wed, 22 May 2019 12:08:17 -0400
+	id 1hTTn0-00049w-Mr; Wed, 22 May 2019 12:08:27 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
 	mrelayeu.kundenserver.de (mreue108 [212.227.15.183]) with ESMTPSA
 	(Nemesis)
-	id 1MZTua-1h6oR11uZa-00WRq1; Wed, 22 May 2019 18:07:33 +0200
+	id 1MbizQ-1gw4y03Q58-00dJan; Wed, 22 May 2019 18:07:35 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Wed, 22 May 2019 18:07:16 +0200
-Message-Id: <20190522160723.31484-3-laurent@vivier.eu>
+Date: Wed, 22 May 2019 18:07:17 +0200
+Message-Id: <20190522160723.31484-4-laurent@vivier.eu>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190522160723.31484-1-laurent@vivier.eu>
 References: <20190522160723.31484-1-laurent@vivier.eu>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:jljocFWONHU390H0jNzDJadl4tUZ4KnZQsilBGFp50u0xC8Xc4w
-	H2zUlzVa6E5/9/OQFsK3po0aAitkWEvRGFZV8FPmsXJl4qtZrY68k+LE+HkZ4se90ETqmq4
-	AOUiI4wbp4InOBH912tWnuWGQJxOTqmkCcSuK3U1HfbXMj2G+nooNjcnL2UDZMxkY6YFTm2
-	P0Cf88U7/k/HQ1TVSqgNA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:U6HlSEZRSVU=:kkXsYqQMRrO15L7XkI9nyK
-	KhwP0ogsHg0nmpLlI+1WJW5+2cbPFD7NT4oN/ukk4duMC1bxOogfmnSvu8k/nnImoFCtMGpwm
-	bWfa1em/WuQeeSuVh/rVWvKBf//+S8rutgdBnT3ucsWbA5uRKRfPRVzGS8nW2E3VJJJ7NHMY7
-	XbcdrJN5b4H/q3d47ofJcB9qQvgP1nIV7KKBrq1DRt751JklRrc2ebLbskJB+WPrgWAk3ezqV
-	QYJyUwclLZvlBYiBVwCFjuy+TMwPy+xr235r5Z1lEKLFRKNPENZY1wCOPWyPaZutCJlpdN9t8
-	SA+zROC/VXNVzMkJ61njtWfu2NoXAEX/xaebI2IoKP2OiRZL0PvGb2SZa34ibBw5khSEzVymS
-	PX++Zum+Fv7yQ34xaGCacvF2CAIMnpXeuaWhoM66cByoqYvI47aqSJ3e8Yfd/VPfwL287q5Lw
-	JnM6h4qqonBe9UnUqct5J1A5Hod9hCoQdxdTrYK0b38acqFdEctYW/kQoHhjkgo5klvQsQU1Q
-	VenIOFbk0oUP9M/eLRVDmLtV3xEywNin+yurJzo/YjGNJyd+Jh+6UIPGmThqbypGJTIXwqcB1
-	ttdNYX6tDFCHs3YYDp2+Jf3OWTmaYLZdic5Gq7AjZcWub4Pd8rQpbYEgJcVAIa2pbjMDaUSx/
-	qHMSKz0l1TBRFC12HLtLKM4W4ObQ5o8blNSihcW/StD2IF9nogw5bZ7hUyshoHkVUQnQ0/Vfs
-	LtVe3m2SxQiTrkAJ/R0OXVzqaxJgUB3cj8uCxD1HPj3H2w0CcKrhgyqEHD0=
+X-Provags-ID: V03:K1:8/OIAyrTkqTcAuQg62h07r/34My5u/HfOdVK+CMrqTqlSdimxTP
+	ZN9Imj4FsLcoo6w8E/ebCTO63T8oC+fMWRQFtcUR82YJDFZ7UdjM1F62hTVMdvzZAM6JJS3
+	2jBe0h1O3cdmu4SKox2QqqB347ea+ISL4mSoHkdHw2pSnmPjwL9EDppgZtEixxcvTc653ef
+	+F4LRdCfRqcsnNfuI58Mg==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:+bZ/mQYuGLo=:WTfh+LileZT1teCRAgNj+l
+	3CUWrZhNnyvhTqRaamczEFyclLbNnqEPSwA45I1k57+3nJZyKZ3fnGL26sKaECFisP2lj5CNm
+	29gWpXuLfRHL+qRmf80kRO5Rbl0rs03hqxmeFxgdGWQmGn7HK1gzib45/kA4Gx6a9hlemdq44
+	qlcctoMSPs00LS6CbpDSeuFT0JgyyTuOUJkH7aGtK8jKHfDf0bz1iM7CX5pGxvs5BArZGVbYn
+	8IsK5m/8DpdehiUG9bFMWxsadP7hCL6dAXMiy2JRo6SrnoQRHnpdQ9jpZvc2rFAbiMLzJEWF1
+	ZoBCLK5jAQrB5/QZgHdSQ0KYROvb0+aVHGNb7bA9bSpurTk+ZPLF9Ud0KkoeHqHto07/HUJ7B
+	uCEgYsGdlT9Z6LPZS+yuMM9Tt67ZpQBmPQ2WDu6v41UyhGX4bj1H9H83IsTBwURYFCc0Q9Mq8
+	hb85tF8UNKHbd2RMusVT8N7Nx9GKd5nsRO61qvEtwGSpiKbJwWOUGJ1m3ordjSrqEKTS3HGiC
+	emB4/SkwS5wTmrRCmJOnpBW1DuQSLMW3iJ+ghPJjZhQFm58RO+9/sAgAMv11JXNdzHj0D2J2w
+	TokD2EN8VrEFmjTU+A4Wyu+rA0NhYVNQx5MGcpCo7p/XDA4dGCKxW/NyfSPvXEiIEg/XC/isV
+	QYAiXicPcvVIAbUUWYm9/JldIBw2sGG2bpUrZJ+fIiYxOevk5C1FCWQyUipBLYRgvjBitVqzL
+	H7VrxprWILQXdkq1HUmCX6pjGP1aiLhPNF2BVOUZslzsfUIPiYxyEkK+2HA=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 212.227.17.24
-Subject: [Qemu-devel] [PULL 2/9] roms: Correct the EDK2_BASETOOLS_OPTFLAGS
- variable description
+Subject: [Qemu-devel] [PULL 3/9] roms: List and describe the Makefile
+ 'clean' rule
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -81,36 +81,27 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 From: Philippe Mathieu-Daudé <philmd@redhat.com>
 
-In commit 1cab464136b4 we incorrectly described the
-EDK2_BASETOOLS_OPTFLAGS can pass CPPFLAGS and CFLAGS
-options to the EDK2 build tools, but it only expands
-the CFLAGS (not to the CPPFLAGS).
-Update the description to be more accurate.
-
-Reported-by: Laszlo Ersek <lersek@redhat.com>
 Reviewed-by: Laszlo Ersek <lersek@redhat.com>
 Signed-off-by: Philippe Mathieu-Daudé <philmd@redhat.com>
-Message-Id: <20190506141923.12183-2-philmd@redhat.com>
+Message-Id: <20190506141923.12183-3-philmd@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- roms/Makefile | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ roms/Makefile | 2 ++
+ 1 file changed, 2 insertions(+)
 
 diff --git a/roms/Makefile b/roms/Makefile
-index 0ce84a45ad57..ea6aec56abdd 100644
+index ea6aec56abdd..078d3fb70563 100644
 --- a/roms/Makefile
 +++ b/roms/Makefile
-@@ -121,8 +121,8 @@ build-efi-roms: build-pxe-roms
- 		$(patsubst %,bin-i386-efi/%.efidrv,$(pxerom_targets)) \
- 		$(patsubst %,bin-x86_64-efi/%.efidrv,$(pxerom_targets))
+@@ -62,6 +62,8 @@ default:
+ 	@echo "  u-boot.e500    -- update u-boot.e500"
+ 	@echo "  u-boot.sam460  -- update u-boot.sam460"
+ 	@echo "  efi            -- update UEFI (edk2) platform firmware"
++	@echo "  clean          -- delete the files generated by the previous" \
++	                          "build targets"
  
--# Build scripts can pass compiler/linker flags to the EDK2 build tools
--# via the EDK2_BASETOOLS_OPTFLAGS (CPPFLAGS and CFLAGS) and
-+# Build scripts can pass compiler/linker flags to the EDK2
-+# build tools via the EDK2_BASETOOLS_OPTFLAGS (CFLAGS) and
- # EDK2_BASETOOLS_LDFLAGS (LDFLAGS) environment variables.
- #
- # Example:
+ bios: build-seabios-config-seabios-128k build-seabios-config-seabios-256k
+ 	cp seabios/builds/seabios-128k/bios.bin ../pc-bios/bios.bin
 -- 
 2.20.1
 
