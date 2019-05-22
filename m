@@ -2,47 +2,129 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 08A0326C8D
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 21:36:03 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50276 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id BBD6D26B47
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 21:26:18 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50080 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTX1u-0000p9-7h
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 15:36:02 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36678)
+	id 1hTWsT-0001fB-TO
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 15:26:17 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:37678)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hTWSA-0003O4-3P
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:59:07 -0400
+	(envelope-from <jsnow@redhat.com>) id 1hTWV8-0007Sr-SU
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 15:02:11 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hTWS8-0000Ua-AZ
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:59:06 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:60499 helo=mail.rt-rk.com)
+	(envelope-from <jsnow@redhat.com>) id 1hTWV7-0003wF-SR
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 15:02:10 -0400
+Received: from mx1.redhat.com ([209.132.183.28]:38482)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
-	id 1hTWS7-0000Nd-Vq
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:59:04 -0400
-Received: from localhost (localhost [127.0.0.1])
-	by mail.rt-rk.com (Postfix) with ESMTP id DF4461A2238;
-	Wed, 22 May 2019 20:58:49 +0200 (CEST)
-X-Virus-Scanned: amavisd-new at rt-rk.com
-Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
-	[10.10.13.43])
-	by mail.rt-rk.com (Postfix) with ESMTPSA id B94641A4554;
-	Wed, 22 May 2019 20:58:49 +0200 (CEST)
-From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
-To: qemu-devel@nongnu.org
-Date: Wed, 22 May 2019 20:58:42 +0200
-Message-Id: <1558551522-24147-12-git-send-email-aleksandar.markovic@rt-rk.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1558551522-24147-1-git-send-email-aleksandar.markovic@rt-rk.com>
-References: <1558551522-24147-1-git-send-email-aleksandar.markovic@rt-rk.com>
+	(Exim 4.71) (envelope-from <jsnow@redhat.com>)
+	id 1hTWV2-0003rL-3J; Wed, 22 May 2019 15:02:04 -0400
+Received: from smtp.corp.redhat.com (int-mx08.intmail.prod.int.phx2.redhat.com
+	[10.5.11.23])
+	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+	(No client certificate requested)
+	by mx1.redhat.com (Postfix) with ESMTPS id A65D9306031E;
+	Wed, 22 May 2019 19:01:53 +0000 (UTC)
+Received: from [10.10.121.110] (ovpn-121-110.rdu2.redhat.com [10.10.121.110])
+	by smtp.corp.redhat.com (Postfix) with ESMTP id 975A152D8;
+	Wed, 22 May 2019 19:01:51 +0000 (UTC)
+To: Peter Maydell <peter.maydell@linaro.org>
+References: <20190521200657.5377-1-jsnow@redhat.com>
+	<20190521200657.5377-2-jsnow@redhat.com>
+	<CAFEAcA9mEHvQ9TBGpvfVoDx-pKB9Cyc-JWeUUh2Hc0Uxb1GjuQ@mail.gmail.com>
+From: John Snow <jsnow@redhat.com>
+Openpgp: preference=signencrypt
+Autocrypt: addr=jsnow@redhat.com; prefer-encrypt=mutual; keydata=
+	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
+Message-ID: <4005ff30-2df3-c615-7fed-fd9d5de56e95@redhat.com>
+Date: Wed, 22 May 2019 15:01:50 -0400
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+	Thunderbird/60.6.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
-X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PULL v2 11/11] BootLinuxSshTest: Test some userspace
- commands on Malta
+In-Reply-To: <CAFEAcA9mEHvQ9TBGpvfVoDx-pKB9Cyc-JWeUUh2Hc0Uxb1GjuQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.84 on 10.5.11.23
+X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
+	(mx1.redhat.com [10.5.110.47]);
+	Wed, 22 May 2019 19:02:01 +0000 (UTC)
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 209.132.183.28
+Subject: Re: [Qemu-devel] [PATCH 1/2] sphinx: add qmp_lexer
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -54,343 +136,54 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org, amarkovic@wavecomp.com
+Cc: Fam Zheng <fam@euphon.net>, Qemu-block <qemu-block@nongnu.org>,
+	QEMU Developers <qemu-devel@nongnu.org>,
+	Eduardo Habkost <ehabkost@redhat.com>,
+	Aarushi Mehta <mehta.aaru20@gmail.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
 
-This tests boot a full VM and check the serial console until
-the SSH daemon is running, then start a SSH session and run
-some commands.
 
-This test can be run using:
+On 5/22/19 4:49 AM, Peter Maydell wrote:
+> On Tue, 21 May 2019 at 21:07, John Snow <jsnow@redhat.com> wrote:
+>>
+>> Sphinx, through Pygments, does not like annotated json examples very
+>> much. In some versions of Sphinx (1.7), it will render the non-json
+>> portions of code blocks in red, but in newer versions (2.0) it will
+>> throw an exception and not highlight the block at all. Though we can
+>> suppress this warning, it doesn't bring back highlighting on non-strict
+>> json blocks.
+>>
+>> We can alleviate this by creating a custom lexer for QMP examples that
+>> allows us to properly highlight these examples in a robust way, keeping
+>> our directionality notations.
+> 
+>> diff --git a/docs/sphinx/qmp_lexer.py b/docs/sphinx/qmp_lexer.py
+>> new file mode 100644
+>> index 0000000000..f619f11139
+>> --- /dev/null
+>> +++ b/docs/sphinx/qmp_lexer.py
+>> @@ -0,0 +1,34 @@
+>> +# QEMU Monitor Protocol Lexer Extension
+>> +#
+>> +# Copyright (C) 2019, Red Hat Inc.
+>> +#
+>> +# Authors:
+>> +#  Eduardo Habkost <ehabkost@redhat.com>
+>> +#  John Snow <jsnow@redhat.com>
+>> +#
+>> +# This work is licensed under the terms of the GNU GPL, version 2.  See
+>> +# the COPYING file in the top-level directory.
+> 
+> Did you definitely mean 2-only and not 2-or-later ?
+> 
+> thanks
+> -- PMM
+> 
 
-  $ avocado --show=3Dssh run -t arch:mips tests/acceptance/linux_ssh_mips=
-_malta.py
-  ssh: Entering interactive session.
-  ssh: # uname -a
-  ssh: Linux debian-mips 3.2.0-4-4kc-malta #1 Debian 3.2.51-1 mips GNU/Li=
-nux
-  ssh: # lspci -d 11ab:4620
-  ssh: 00:00.0 Host bridge: Marvell Technology Group Ltd. GT-64120/64120A=
-/64121A System Controller (rev 10)
-  ssh: # cat /sys/bus/i2c/devices/i2c-0/name
-  ssh: SMBus PIIX4 adapter at 1100
-  ssh: # cat /proc/mtd
-  ssh: dev:    size   erasesize  name
-  ssh: mtd0: 00100000 00010000 "YAMON"
-  ssh: mtd1: 002e0000 00010000 "User FS"
-  ssh: mtd2: 00020000 00010000 "Board Config"
-  ssh: # md5sum /dev/mtd2ro
-  ssh: 0dfbe8aa4c20b52e1b8bf3cb6cbdf193  /dev/mtd2ro
-  ssh: # poweroff
-
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-Reviewed-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Acked-by: Eduardo Habkost <ehabkost@redhat.com>
-Message-Id: <20190520231910.12184-5-f4bug@amsat.org>
----
- MAINTAINERS                              |   1 +
- tests/acceptance/linux_ssh_mips_malta.py | 229 +++++++++++++++++++++++++=
-++++++
- tests/requirements.txt                   |   1 +
- 3 files changed, 231 insertions(+)
- create mode 100644 tests/acceptance/linux_ssh_mips_malta.py
-
-diff --git a/MAINTAINERS b/MAINTAINERS
-index a6948eb..75f6544 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -934,6 +934,7 @@ M: Aurelien Jarno <aurelien@aurel32.net>
- R: Aleksandar Rikalo <arikalo@wavecomp.com>
- S: Maintained
- F: hw/mips/mips_malta.c
-+F: tests/acceptance/linux_ssh_mips_malta.py
-=20
- Mipssim
- M: Aleksandar Markovic <amarkovic@wavecomp.com>
-diff --git a/tests/acceptance/linux_ssh_mips_malta.py b/tests/acceptance/=
-linux_ssh_mips_malta.py
-new file mode 100644
-index 0000000..ceb530f
---- /dev/null
-+++ b/tests/acceptance/linux_ssh_mips_malta.py
-@@ -0,0 +1,229 @@
-+# Functional test that boots a VM and run commands via a SSH session
-+#
-+# Copyright (c) Philippe Mathieu-Daud=C3=A9 <f4bug@amsat.org>
-+#
-+# This work is licensed under the terms of the GNU GPL, version 2 or
-+# later.  See the COPYING file in the top-level directory.
-+
-+import os
-+import re
-+import base64
-+import logging
-+import paramiko
-+import time
-+
-+from avocado_qemu import Test
-+from avocado.utils import process
-+from avocado.utils import archive
-+
-+
-+class LinuxSSH(Test):
-+
-+    timeout =3D 150 # Not for 'configure --enable-debug --enable-debug-t=
-cg'
-+
-+    KERNEL_COMMON_COMMAND_LINE =3D 'printk.time=3D0 '
-+    VM_IP =3D '127.0.0.1'
-+
-+    IMAGE_INFO =3D {
-+        'be': {
-+            'image_url': 'https://people.debian.org/~aurel32/qemu/mips/'
-+                         'debian_wheezy_mips_standard.qcow2',
-+            'image_hash': '8987a63270df67345b2135a6b7a4885a35e392d5',
-+            'rsa_hostkey': b'AAAAB3NzaC1yc2EAAAADAQABAAABAQCca1VitiyLAdQ=
-Old'
-+                           b'zT43IOEVJZ0wHD78GJi8wDAjMiYWUzNSSn0rXGQsINH=
-uH5'
-+                           b'IlF+kBZsHinb/FtKCAyS9a8uCHhQI4SuB4QhAb0+39M=
-lUw'
-+                           b'Mm0CLkctgM2eUUZ6MQMQvDlqnue6CCkxN62EZYbaxmb=
-y7j'
-+                           b'CQa1125o1HRKBvdGm2zrJWxXAfA+f1v6jHLyE8Jnu83=
-eQ+'
-+                           b'BFY25G+Vzx1PVc3zQBwJ8r0NGTRqy2//oWQP0h+bMsg=
-eFe'
-+                           b'KH/J3RJM22vg6+I4JAdBFcxnK+l781h1FuRxOn4O/Xs=
-lbg'
-+                           b'go6WtB4V4TOsw2E/KfxI5IZ/icxF+swVcnvF46Hf3uQ=
-c/0'
-+                           b'BBqb',
-+        },
-+        'le': {
-+            'image_url': 'https://people.debian.org/~aurel32/qemu/mipsel=
-/'
-+                         'debian_wheezy_mipsel_standard.qcow2',
-+            'image_hash': '7866764d9de3ef536ffca24c9fb9f04ffdb45802',
-+            'rsa_hostkey': b'AAAAB3NzaC1yc2EAAAADAQABAAABAQClXJlBT71HL5y=
-Kvv'
-+                           b'gfC7jmxSWx5zSBCzET6CLZczwAafSIs7YKfNOy/dQTx=
-huk'
-+                           b'yIGFUugZFoF3E9PzdhunuyvyTd56MPoNIqFbb5rGokw=
-U5I'
-+                           b'TOx3dBHZR0mClypL6MVrwe0bsiIb8GhF1zioNwcsaAZ=
-nAi'
-+                           b'KfXStVDtXvn/kLLq+xLABYt48CC5KYWoFaCoICskLAY=
-+qo'
-+                           b'L+LWyAnQisj4jAH8VSaSKIImFpfkHWEXPhHcC4ZBlDK=
-tnH'
-+                           b'po9vhfCHgnfW3Pzrqmk8BI4HysqPFVmJWkJGlGUL+sG=
-eg3'
-+                           b'ZZolAYuDXGuBrw8ooPJq2v2dOH+z6dyD2q/ypmAbyPq=
-j5C'
-+                           b'rc8H',
-+        },
-+    }
-+
-+    def wait_for_console_pattern(self, success_message,
-+                                 failure_message=3D'Oops'):
-+        console =3D self.vm.console_socket.makefile()
-+        console_logger =3D logging.getLogger('console')
-+        while True:
-+            msg =3D console.readline()
-+            console_logger.debug(msg.strip())
-+            if success_message in msg:
-+                break
-+            if failure_message in msg:
-+                fail =3D 'Failure message found in console: %s' % failur=
-e_message
-+                self.fail(fail)
-+
-+    def get_portfwd(self):
-+        res =3D self.vm.command('human-monitor-command',
-+                              command_line=3D'info usernet')
-+        line =3D res.split('\r\n')[2]
-+        port =3D re.split(r'.*TCP.HOST_FORWARD.*127\.0\.0\.1 (\d+)\s+10\=
-..*',
-+                        line)[1]
-+        self.log.debug("sshd listening on port:" + port)
-+        return port
-+
-+    def ssh_connect(self, username, password, rsa_hostkey_b64=3DNone):
-+        self.ssh_logger =3D logging.getLogger('ssh')
-+        self.ssh_username =3D username
-+        self.ssh_ps1 =3D '# ' if username is 'root' else '$ '
-+        self.ssh_client =3D paramiko.SSHClient()
-+        port =3D self.get_portfwd()
-+        if rsa_hostkey_b64:
-+            rsa_hostkey_bin =3D base64.b64decode(rsa_hostkey_b64)
-+            rsa_hostkey =3D paramiko.RSAKey(data =3D rsa_hostkey_bin)
-+            ipport =3D '[%s]:%s' % (self.VM_IP, port)
-+            self.ssh_logger.debug('ipport ' + ipport)
-+            self.ssh_client.get_host_keys().add(ipport, 'ssh-rsa', rsa_h=
-ostkey)
-+        for i in range(10):
-+            try:
-+                self.ssh_client.connect(self.VM_IP, int(port),
-+                                        username, password, banner_timeo=
-ut=3D90)
-+                self.ssh_logger.info("Entering interactive session.")
-+                return
-+            except:
-+                time.sleep(4)
-+                pass
-+        self.fail("sshd timeout")
-+
-+    def ssh_disconnect_vm(self):
-+        self.ssh_client.close()
-+
-+    def ssh_command(self, command, is_root=3DTrue):
-+        self.ssh_logger.info(self.ssh_ps1 + command)
-+        stdin, stdout, stderr =3D self.ssh_client.exec_command(command)
-+        stdout_lines =3D [line.strip('\n') for line in stdout]
-+        for line in stdout_lines:
-+            self.ssh_logger.info(line)
-+        stderr_lines =3D [line.strip('\n') for line in stderr]
-+        for line in stderr_lines:
-+            self.ssh_logger.warning(line)
-+        return stdout_lines, stderr_lines
-+
-+    def boot_debian_wheezy_image_and_ssh_login(self, endianess, kernel_p=
-ath):
-+        image_url =3D self.IMAGE_INFO[endianess]['image_url']
-+        image_hash =3D self.IMAGE_INFO[endianess]['image_hash']
-+        image_path =3D self.fetch_asset(image_url, asset_hash=3Dimage_ha=
-sh)
-+        rsa_hostkey_b64 =3D self.IMAGE_INFO[endianess]['rsa_hostkey']
-+
-+        self.vm.set_machine('malta')
-+        self.vm.set_console()
-+        kernel_command_line =3D (self.KERNEL_COMMON_COMMAND_LINE
-+                               + 'console=3DttyS0 root=3D/dev/sda1')
-+        self.vm.add_args('-no-reboot',
-+                         '-kernel', kernel_path,
-+                         '-append', kernel_command_line,
-+                         '-hda', image_path,
-+                         '-netdev', 'user,id=3Dvnet,hostfwd=3D:127.0.0.1=
-:0-:22',
-+                         '-device', 'pcnet,netdev=3Dvnet')
-+        self.vm.launch()
-+
-+        self.log.info('VM launched, waiting for sshd')
-+        console_pattern =3D 'Starting OpenBSD Secure Shell server: sshd'
-+        self.wait_for_console_pattern(console_pattern)
-+        self.log.info('sshd ready')
-+
-+        self.ssh_connect('root', 'root', rsa_hostkey_b64=3Drsa_hostkey_b=
-64)
-+
-+    def shutdown_via_ssh(self):
-+        self.ssh_command('poweroff')
-+        self.ssh_disconnect_vm()
-+        self.wait_for_console_pattern('Power down')
-+
-+    def run_common_commands(self):
-+        stdout, stderr =3D self.ssh_command('lspci -d 11ab:4620')
-+        self.assertIn(True, ["GT-64120" in line for line in stdout])
-+
-+        stdout, stderr =3D self.ssh_command('cat /sys/bus/i2c/devices/i2=
-c-0/name')
-+        self.assertIn(True, ["SMBus PIIX4 adapter" in line
-+                             for line in stdout])
-+
-+        stdout, stderr =3D self.ssh_command('cat /proc/mtd')
-+        self.assertIn(True, ["YAMON" in line
-+                             for line in stdout])
-+
-+        # Empty 'Board Config'
-+        stdout, stderr =3D self.ssh_command('md5sum /dev/mtd2ro')
-+        self.assertIn(True, ["0dfbe8aa4c20b52e1b8bf3cb6cbdf193" in line
-+                             for line in stdout])
-+
-+    def do_test_mips_malta(self, endianess, kernel_path, uname_m):
-+        self.boot_debian_wheezy_image_and_ssh_login(endianess, kernel_pa=
-th)
-+
-+        stdout, stderr =3D self.ssh_command('uname -a')
-+        self.assertIn(True, [uname_m + " GNU/Linux" in line for line in =
-stdout])
-+
-+        self.run_common_commands()
-+        self.shutdown_via_ssh()
-+
-+    def test_mips_malta32eb_kernel3_2_0(self):
-+        """
-+        :avocado: tags=3Dslow
-+        :avocado: tags=3Darch:mips
-+        :avocado: tags=3Dmachine:malta
-+        :avocado: tags=3Dendian:big
-+        :avocado: tags=3Ddevice:pcnet32
-+        """
-+        kernel_url =3D ('https://people.debian.org/~aurel32/qemu/mips/'
-+                      'vmlinux-3.2.0-4-4kc-malta')
-+        kernel_hash =3D '592e384a4edc16dade52a6cd5c785c637bcbc9ad'
-+        kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dkernel=
-_hash)
-+
-+        self.do_test_mips_malta('be', kernel_path, 'mips')
-+
-+    def test_mips_malta32el_kernel3_2_0(self):
-+        """
-+        :avocado: tags=3Dslow
-+        :avocado: tags=3Darch:mipsel
-+        :avocado: tags=3Dmachine:malta
-+        :avocado: tags=3Dendian:little
-+        :avocado: tags=3Ddevice:pcnet32
-+        """
-+        kernel_url =3D ('https://people.debian.org/~aurel32/qemu/mipsel/=
-'
-+                      'vmlinux-3.2.0-4-4kc-malta')
-+        kernel_hash =3D 'a66bea5a8adaa2cb3d36a1d4e0ccdb01be8f6c2a'
-+        kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dkernel=
-_hash)
-+
-+        self.do_test_mips_malta('le', kernel_path, 'mips')
-+
-+    def test_mips_malta64eb_kernel3_2_0(self):
-+        """
-+        :avocado: tags=3Dslow
-+        :avocado: tags=3Darch:mips64
-+        :avocado: tags=3Dmachine:malta
-+        :avocado: tags=3Dendian:big
-+        :avocado: tags=3Ddevice:pcnet32
-+        """
-+        kernel_url =3D ('https://people.debian.org/~aurel32/qemu/mips/'
-+                      'vmlinux-3.2.0-4-5kc-malta')
-+        kernel_hash =3D 'db6eea7de35d36c77d8c165b6bcb222e16eb91db'
-+        kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dkernel=
-_hash)
-+        self.do_test_mips_malta('be', kernel_path, 'mips64')
-+
-+    def test_mips_malta64el_kernel3_2_0(self):
-+        """
-+        :avocado: tags=3Dslow
-+        :avocado: tags=3Darch:mips64el
-+        :avocado: tags=3Dmachine:malta
-+        :avocado: tags=3Dendian:little
-+        :avocado: tags=3Ddevice:pcnet32
-+        """
-+        kernel_url =3D ('https://people.debian.org/~aurel32/qemu/mipsel/=
-'
-+                      'vmlinux-3.2.0-4-5kc-malta')
-+        kernel_hash =3D '6a7f77245acf231415a0e8b725d91ed2f3487794'
-+        kernel_path =3D self.fetch_asset(kernel_url, asset_hash=3Dkernel=
-_hash)
-+        self.do_test_mips_malta('le', kernel_path, 'mips64')
-diff --git a/tests/requirements.txt b/tests/requirements.txt
-index 002ded6..3ae0e29 100644
---- a/tests/requirements.txt
-+++ b/tests/requirements.txt
-@@ -2,3 +2,4 @@
- # in the tests/venv Python virtual environment. For more info,
- # refer to: https://pip.pypa.io/en/stable/user_guide/#id1
- avocado-framework=3D=3D68.0
-+paramiko
---=20
-2.7.4
+Copy-paste pulled from another Python script. 2 or later is fine by me;
+I can resend if desired (or, I'd be fine with anyone touching it up in
+post.)
 
 
