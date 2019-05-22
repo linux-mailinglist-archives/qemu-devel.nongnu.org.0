@@ -2,68 +2,73 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id A94502726A
-	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 00:39:46 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:52633 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id E773327286
+	for <lists+qemu-devel@lfdr.de>; Thu, 23 May 2019 00:46:21 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:52811 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTZth-0002Ux-Qa
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 18:39:45 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49952)
+	id 1hTa05-0006bK-3E
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 18:46:21 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54202)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hTZj5-0003Ab-8u
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 18:28:48 -0400
+	(envelope-from <aleksandar.m.mail@gmail.com>) id 1hTZyA-0005Wh-Qf
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 18:44:24 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hTZj3-0007S7-Vo
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 18:28:47 -0400
-Received: from mail-yb1-xb42.google.com ([2607:f8b0:4864:20::b42]:42799)
+	(envelope-from <aleksandar.m.mail@gmail.com>) id 1hTZxl-0007aD-CY
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 18:43:59 -0400
+Received: from mail-ot1-x344.google.com ([2607:f8b0:4864:20::344]:41208)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hTZj3-0007Pp-P9
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 18:28:45 -0400
-Received: by mail-yb1-xb42.google.com with SMTP id a21so1487406ybg.9
-	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 15:28:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=from:to:cc:subject:date:message-id:in-reply-to:references;
-	bh=xoXIkCrK3V7BH4MhmjLPxOrcr1ayi9bYK48w1V2yt0Q=;
-	b=fTiFpJr6MaizSsFIhcrL8ePFaPoA/fdloKYzsG/NjD6FCXV9MSF96sPiscm/12Hc8P
-	jmolJMzgFClnXxz01bH9J05E0m7TMStGYP2cusMN20WSoWhFUv9j0fgPIrMdd3T3+vaH
-	MwkZCaf7MeB3ZuYovoVTKqs0KMO2dy9kEzQLyhRA62BabiV1jzybnFQ+/WbWodwTT01f
-	HixsX7yoEm+yOeARKsZhcfjtAXPBZQzb0cZlqoujYHixc39jznt+/m+k2rH5/x7fzMKR
-	qRrJXGVVqvW8h2RMt0GAp1vZEyfWsTbgENYXPfmP3/I3TFT6jiwoXOrrEg0g8kz8jwfa
-	8Zww==
+	(Exim 4.71) (envelope-from <aleksandar.m.mail@gmail.com>)
+	id 1hTZxk-0007Z0-7C
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 18:43:57 -0400
+Received: by mail-ot1-x344.google.com with SMTP id l25so3626779otp.8
+	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 15:43:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
+	h=mime-version:in-reply-to:references:from:date:message-id:subject:to
+	:cc; bh=OlOUouevvTvvJX8q6R7EhDyGPuQTGfA90JYlpsBmV/Q=;
+	b=o+153EI5LzpUX6i+2b1z9/iFn//jIF4wfZCm8ggCJqeLmn7R/m9MABm2Rzn9cD3vyk
+	DtyH47ziYCcQSESW0gfPoe+DvYYyPmZpTVNc9doL3yOM3wTmB80tgaZkmbku8/ijoj0W
+	3Vy6ddjXItQf1H1jiA62ZhYG9Tz4wWNOB1zO+3llnFYrjPlV/06fmagpA3p6+fMnn+ye
+	bqfR5nimlcKLBi+rZ67Y+bzxmEGYnvje6vAHRTuO+zoGGqHVn5cuB6KL3Rpb3pYNaReD
+	bm2tWAQ+3lT7q/KCIDgQL5UJFJezil9HxbCqzXY9akEWuB1xObYiH4PuELL1KQt3R1Pc
+	Gpmg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
-	h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-	:references;
-	bh=xoXIkCrK3V7BH4MhmjLPxOrcr1ayi9bYK48w1V2yt0Q=;
-	b=g4wZtGPeyxfmjHLS6WKQdtCvp+kwICqR8l3ZwBPeVrxzgUHn6DIxlBHzS6BeOmDcCA
-	D3z05qdef7Z5ri4zYBujLwhm0gXdQG2wv7sV8PZrs0TFUDbGOBgGkareauwntbAfYp4c
-	JKZptozY3zgd86QbYW8CLBkKkfiREvzIid4tDlYDacMcvpb2/YQ44KQNk91hoKDwxOVU
-	gVei4nn59WjLFHPAYYf5LpU3rPQNjtFA9z8c/CG+3OULqQEMBu2HOb0uDdoTGC7LZt/Y
-	ucRt/TOZFdABUJIhPI8Gh9JplX6zNNGi4GXNqtOwVzJ2Er8+bIYRe1jI/OM1HbK5VXib
-	V6Iw==
-X-Gm-Message-State: APjAAAVXT58C1/JPi8VaLGvp/UVWRasLaxnLdl/8JQ4o7SdCQeEbCq8b
-	njcZBe0XArt7VoLNwlkBpEtcJsce2tw=
-X-Google-Smtp-Source: APXvYqxN/wUVAAZoaLfQi0YFG74OhQoRtFizsIxcy09LwaRFiRcgzy/YQiT65vAeAzn+LcbLwBMYSg==
-X-Received: by 2002:a25:dc3:: with SMTP id 186mr22561627ybn.276.1558564121109; 
-	Wed, 22 May 2019 15:28:41 -0700 (PDT)
-Received: from localhost.localdomain ([71.46.56.17])
-	by smtp.gmail.com with ESMTPSA id q11sm2276453ywg.7.2019.05.22.15.28.40
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 22 May 2019 15:28:40 -0700 (PDT)
-From: Richard Henderson <richard.henderson@linaro.org>
-To: qemu-devel@nongnu.org
-Date: Wed, 22 May 2019 18:28:21 -0400
-Message-Id: <20190522222821.23850-17-richard.henderson@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20190522222821.23850-1-richard.henderson@linaro.org>
-References: <20190522222821.23850-1-richard.henderson@linaro.org>
+	h=x-gm-message-state:mime-version:in-reply-to:references:from:date
+	:message-id:subject:to:cc;
+	bh=OlOUouevvTvvJX8q6R7EhDyGPuQTGfA90JYlpsBmV/Q=;
+	b=QKOEfJygNkpqmv9ky+O4AMelRHm928UVBxyoNelj/WsKyfprBBmACTAMhp/fs8+O01
+	XJS9gNnm68J3ZHz502UsyMFK0MuMOYkKnii0tapYfixsUffGrSvmN9A0CwOOx4K5Ay/J
+	n+ewI6mpwo8BTYDFq6U/b5HvLXj3eo+WASYz63p0Cvk/XSpe+fjd5iqL6r2wLxug96SO
+	Qrhg/mnR7ZVX6VkOO2qaSM/MQGCAlq3ThyH7psVZNCmQvJtY8OcixXZW9fXU5WRWa2XB
+	OnN1FWZRzWrSWKKVlGVoGWRAuvxwCwI7uhSZeI7Fis6clREt39Gwg/p2A1BQzByVZN86
+	Bd9Q==
+X-Gm-Message-State: APjAAAWETPZkt5brkaVz0JZPxy7SoukAP2n7ghlfYqqsftAb68okRIqt
+	8m80XQTXtm1D7zO4arZOjhuEsG91OsKb35ejOBI=
+X-Google-Smtp-Source: APXvYqw0SeljVDyaENJehbvdh2zk/OsyymZ/U/KtFY430eqwQRQyLZHdlCsJLic7xMLBqRbCPYhgMR9SYTcRKWra8dM=
+X-Received: by 2002:a05:6830:160a:: with SMTP id
+	g10mr89975otr.121.1558565034587; 
+	Wed, 22 May 2019 15:43:54 -0700 (PDT)
+MIME-Version: 1.0
+Received: by 2002:a9d:410f:0:0:0:0:0 with HTTP; Wed, 22 May 2019 15:43:54
+	-0700 (PDT)
+Received: by 2002:a9d:410f:0:0:0:0:0 with HTTP; Wed, 22 May 2019 15:43:54
+	-0700 (PDT)
+In-Reply-To: <1711852617.24204010.1558561566547.JavaMail.zimbra@redhat.com>
+References: <20190520231910.12184-1-f4bug@amsat.org>
+	<20190522211230.GA10764@habkost.net>
+	<1711852617.24204010.1558561566547.JavaMail.zimbra@redhat.com>
+From: Aleksandar Markovic <aleksandar.m.mail@gmail.com>
+Date: Thu, 23 May 2019 00:43:54 +0200
+Message-ID: <CAL1e-=iW2honEgNfrsFoA0tU1wMq0mw5LuoRbWVmRDBMA22ELA@mail.gmail.com>
+To: Cleber Rosa <crosa@redhat.com>
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2607:f8b0:4864:20::b42
-Subject: [Qemu-devel] [PULL 16/16] tcg/i386: Use MOVDQA for TCG_TYPE_V128
- load/store
+X-Received-From: 2607:f8b0:4864:20::344
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+X-Content-Filtered-By: Mailman/MimeDel 2.1.21
+Subject: Re: [Qemu-devel] [PATCH 0/4] mips: Add more Avocado tests
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -75,85 +80,95 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: peter.maydell@linaro.org
+Cc: Eduardo Habkost <ehabkost@redhat.com>,
+	Aleksandar Rikalo <arikalo@wavecomp.com>, qemu-devel@nongnu.org,
+	Wainer dos Santos Moschetta <wainersm@redhat.com>,
+	=?UTF-8?Q?Philippe_Mathieu=2DDaud=C3=A9?= <f4bug@amsat.org>,
+	Aleksandar Markovic <amarkovic@wavecomp.com>,
+	Aurelien Jarno <aurelien@aurel32.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-This instruction raises #GP, aka SIGSEGV, if the effective address
-is not aligned to 16-bytes.
+On May 22, 2019 11:46 PM, "Cleber Rosa" <crosa@redhat.com> wrote:
+>
+>
+>
+> ----- Original Message -----
+> > From: "Eduardo Habkost" <ehabkost@redhat.com>
+> > To: "Philippe Mathieu-Daud=C3=A9" <f4bug@amsat.org>
+> > Cc: qemu-devel@nongnu.org, "Aleksandar Rikalo" <arikalo@wavecomp.com>,
+"Aleksandar Markovic"
+> > <aleksandar.m.mail@gmail.com>, "Aleksandar Markovic" <
+amarkovic@wavecomp.com>, "Cleber Rosa" <crosa@redhat.com>,
+> > "Aurelien Jarno" <aurelien@aurel32.net>, "Wainer dos Santos Moschetta" =
+<
+wainersm@redhat.com>
+> > Sent: Wednesday, May 22, 2019 5:12:30 PM
+> > Subject: Re: [Qemu-devel] [PATCH 0/4] mips: Add more Avocado tests
+> >
+> > On Tue, May 21, 2019 at 01:19:06AM +0200, Philippe Mathieu-Daud=C3=A9 w=
+rote:
+> > > Hi,
+> > >
+> > > It was a rainy week-end here, so I invested it to automatize some
+> > > of my MIPS tests.
+> > >
+> > > The BootLinuxSshTest is not Global warming friendly, it is not
+> > > meant to run on a CI system but rather on a workstation previous
+> > > to post a pull request.
+> > > It can surely be improved, but it is a good starting point.
+> >
+> > Until we actually have a mechanism to exclude the test case on
+> > travis-ci, I will remove patch 4/4 from the queue.  Aleksandar,
+> > please don't merge patch 4/4 yet or it will break travis-ci.
+> >
+> > Cleber, Wainer, is it already possible to make "avocado run" skip
+> > tests tagged with "slow"?
+> >
+>
+> The mechanism exists, but we haven't tagged any test so far as slow.
+>
 
-We have assertions in tcg-op-gvec.c that the offset from ENV is
-aligned, for vector types <= V128.  But the offset itself does not
-validate that the final pointer is aligned -- one must also remember
-to use the QEMU_ALIGNED() attribute on the vector member within ENV.
+Cleber,
 
-PowerPC Altivec has vector load/store instructions that silently
-discard the low 4 bits of the address, making alignment mistakes
-difficult to discover.  Aid that by making the most popular host
-visibly signal the error.
+For the test from patch 4/4, there is no dilemma - it should be in the
+=E2=80=9Cslow=E2=80=9D group, as Philippe envisioned and said, so that it i=
+s not humpered
+with stricter requirements for =E2=80=9Cfast=E2=80=9D (default) group. Coul=
+d you explain us
+how to do it, so that we can hopefully finally proceed?
 
-Signed-off-by: Richard Henderson <richard.henderson@linaro.org>
----
- tcg/i386/tcg-target.inc.c | 24 ++++++++++++++++++++++--
- 1 file changed, 22 insertions(+), 2 deletions(-)
+Gratefully,
+Aleksandar
 
-diff --git a/tcg/i386/tcg-target.inc.c b/tcg/i386/tcg-target.inc.c
-index 6ec5e60448..c0443da4af 100644
---- a/tcg/i386/tcg-target.inc.c
-+++ b/tcg/i386/tcg-target.inc.c
-@@ -1082,14 +1082,24 @@ static void tcg_out_ld(TCGContext *s, TCGType type, TCGReg ret,
-         }
-         /* FALLTHRU */
-     case TCG_TYPE_V64:
-+        /* There is no instruction that can validate 8-byte alignment.  */
-         tcg_debug_assert(ret >= 16);
-         tcg_out_vex_modrm_offset(s, OPC_MOVQ_VqWq, ret, 0, arg1, arg2);
-         break;
-     case TCG_TYPE_V128:
-+        /*
-+         * The gvec infrastructure is asserts that v128 vector loads
-+         * and stores use a 16-byte aligned offset.  Validate that the
-+         * final pointer is aligned by using an insn that will SIGSEGV.
-+         */
-         tcg_debug_assert(ret >= 16);
--        tcg_out_vex_modrm_offset(s, OPC_MOVDQU_VxWx, ret, 0, arg1, arg2);
-+        tcg_out_vex_modrm_offset(s, OPC_MOVDQA_VxWx, ret, 0, arg1, arg2);
-         break;
-     case TCG_TYPE_V256:
-+        /*
-+         * The gvec infrastructure only requires 16-byte alignment,
-+         * so here we must use an unaligned load.
-+         */
-         tcg_debug_assert(ret >= 16);
-         tcg_out_vex_modrm_offset(s, OPC_MOVDQU_VxWx | P_VEXL,
-                                  ret, 0, arg1, arg2);
-@@ -1117,14 +1127,24 @@ static void tcg_out_st(TCGContext *s, TCGType type, TCGReg arg,
-         }
-         /* FALLTHRU */
-     case TCG_TYPE_V64:
-+        /* There is no instruction that can validate 8-byte alignment.  */
-         tcg_debug_assert(arg >= 16);
-         tcg_out_vex_modrm_offset(s, OPC_MOVQ_WqVq, arg, 0, arg1, arg2);
-         break;
-     case TCG_TYPE_V128:
-+        /*
-+         * The gvec infrastructure is asserts that v128 vector loads
-+         * and stores use a 16-byte aligned offset.  Validate that the
-+         * final pointer is aligned by using an insn that will SIGSEGV.
-+         */
-         tcg_debug_assert(arg >= 16);
--        tcg_out_vex_modrm_offset(s, OPC_MOVDQU_WxVx, arg, 0, arg1, arg2);
-+        tcg_out_vex_modrm_offset(s, OPC_MOVDQA_WxVx, arg, 0, arg1, arg2);
-         break;
-     case TCG_TYPE_V256:
-+        /*
-+         * The gvec infrastructure only requires 16-byte alignment,
-+         * so here we must use an unaligned store.
-+         */
-         tcg_debug_assert(arg >= 16);
-         tcg_out_vex_modrm_offset(s, OPC_MOVDQU_WxVx | P_VEXL,
-                                  arg, 0, arg1, arg2);
--- 
-2.17.1
-
-
+> Should we define/document a criteria for a test to be slow?  Given
+> that this is highly subjective, we have to think of:
+>
+>  * Will we consider the average or maximum run time (the timeout
+>    definition)?
+>
+>  * For a single test, what is "slow"? Some rough numbers from Travis
+>    CI[1] to help us with guidelines:
+>    - boot_linux_console.py:BootLinuxConsole.test_x86_64_pc:  PASS (6.04 s=
+)
+>    - boot_linux_console.py:BootLinuxConsole.test_arm_virt:  PASS (2.91 s)
+>    -
+linux_initrd.py:LinuxInitrd.test_with_2gib_file_should_work_with_linux_v4_1=
+6:
+PASS (18.14 s)
+>    - boot_linux.py:BootLinuxAarch64.test_virt:  PASS (396.88 s)
+>
+>  * Do we want to set a maximum job timeout?  This way we can skip
+>    tests after a given amount of time has passed.  Currently we interrupt
+>    the test running when the job timeout is reached, but it's possible
+>    to add a option so that no new tests will be started, but currently
+>    running ones will be waited on.
+>
+> Regards,
+> - Cleber.
+>
+> [1] - https://travis-ci.org/clebergnu/qemu/jobs/535967210#L3518
+>
+> > --
+> > Eduardo
+> >
