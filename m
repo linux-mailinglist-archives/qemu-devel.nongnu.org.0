@@ -2,55 +2,67 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id B18C02663E
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 16:47:44 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:44574 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id ADC7726562
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 16:09:08 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:44000 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTSWt-0005Pg-ST
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 10:47:43 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:47106)
+	id 1hTRvX-0001Ku-DV
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 10:09:07 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:48268)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <anton.ivanov@cambridgegreys.com>) id 1hTRnS-0007Te-OR
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 10:00:51 -0400
+	(envelope-from <philmd@redhat.com>) id 1hTRtq-0000p8-IX
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 10:07:23 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <anton.ivanov@cambridgegreys.com>) id 1hTRnM-0001v0-Kf
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 10:00:43 -0400
-Received: from ivanoab6.miniserver.com ([5.153.251.140]:57266
-	helo=www.kot-begemot.co.uk)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <anton.ivanov@cambridgegreys.com>)
-	id 1hTRnK-0001tF-1h
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 10:00:39 -0400
-Received: from [192.168.17.6] (helo=jain.kot-begemot.co.uk)
-	by www.kot-begemot.co.uk with esmtps
-	(TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256) (Exim 4.89)
-	(envelope-from <anton.ivanov@cambridgegreys.com>)
-	id 1hTRnG-0004Bo-ET; Wed, 22 May 2019 14:00:34 +0000
-Received: from jain.kot-begemot.co.uk ([192.168.3.3])
-	by jain.kot-begemot.co.uk with esmtp (Exim 4.89)
-	(envelope-from <anton.ivanov@cambridgegreys.com>)
-	id 1hTRnE-0004HD-47; Wed, 22 May 2019 15:00:34 +0100
-To: Johannes Berg <johannes@sipsolutions.net>, linux-um@lists.infradead.org,
-	virtualization@lists.linux-foundation.org, qemu-devel@nongnu.org
-References: <0952696452f5ff4e38d2417029243fc60efa33d6.camel@sipsolutions.net>
-	<ddeee710-d546-ff05-5c53-991a7d807067@kot-begemot.co.uk>
-	<8b30e5cea2692d62fd7f486fc98effdb589a1412.camel@sipsolutions.net>
-From: Anton Ivanov <anton.ivanov@cambridgegreys.com>
-Message-ID: <f21ae7ac-ae56-71e6-cebd-f97c8912f5e1@cambridgegreys.com>
-Date: Wed, 22 May 2019 15:00:32 +0100
+	(envelope-from <philmd@redhat.com>) id 1hTRtp-00057E-IE
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 10:07:22 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:46257)
+	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <philmd@redhat.com>) id 1hTRtp-00056t-CX
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 10:07:21 -0400
+Received: by mail-wr1-f68.google.com with SMTP id r7so2437467wrr.13
+	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 07:07:21 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+	d=1e100.net; s=20161025;
+	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
+	:date:user-agent:mime-version:in-reply-to:content-language
+	:content-transfer-encoding;
+	bh=/BsPjmll5LpGKZ+MLTvrs+/UPkdB1x+tAkLJaAi8jlM=;
+	b=fj+XW0kDtseJci5jpU3dQx0mG4QBQ32MDjdZ10UIo1BMT8TdoF3FuTCAZi9VhN07PY
+	CZVoLddhOVrKU3Ge9GY++GOkFiPovt/Mcw8tRK8+joIztnJeS0y/fRi23Q+aQDAu4sHP
+	4DfRWEnf1T2zxG/HzhJhP5mYegBnsRqXlmDqt5ECCNIyOn4qAf4WSpoDbQZK/51AqJlN
+	TeUk6ClPlxMBEmm7C8l3jYwlidUNNWuptsh2aQ9Vzy7hustYN06l3zk0k3ycvbGXg1zq
+	JYOavGKk4qpqA13r4yFR5Sl2nLyfpvh5aJfsuCho6c9sUXvCvjden6klFI5YqFFuBAVc
+	SqLg==
+X-Gm-Message-State: APjAAAVcREyGM7y1NINNmAfc+rHWsfO9ARm6ToXfSbLRN+LCHjvZvm8/
+	aER8NqAUGdU0lPi44CoGRH2AjQ==
+X-Google-Smtp-Source: APXvYqyEzT6L+RnuXMl1/+5SWuLFtHw18PPiIjJ8jg00PuUVVnEUwXem/NmsXL1nVBvlHOnoF5DAHg==
+X-Received: by 2002:adf:ab45:: with SMTP id r5mr28874710wrc.100.1558534040274; 
+	Wed, 22 May 2019 07:07:20 -0700 (PDT)
+Received: from [10.201.33.53] ([195.166.127.210])
+	by smtp.gmail.com with ESMTPSA id
+	a15sm9261271wrw.49.2019.05.22.07.07.19
+	(version=TLS1_3 cipher=AEAD-AES128-GCM-SHA256 bits=128/128);
+	Wed, 22 May 2019 07:07:19 -0700 (PDT)
+To: qemu-devel@nongnu.org
+References: <20190520213700.12620-1-philmd@redhat.com>
+From: =?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
+Openpgp: id=89C1E78F601EE86C867495CBA2A3FD6EDEADC0DE;
+	url=http://pgp.mit.edu/pks/lookup?op=get&search=0xA2A3FD6EDEADC0DE
+Message-ID: <ac9d9453-6c2f-97c8-4a04-8fb55f6df036@redhat.com>
+Date: Wed, 22 May 2019 16:07:18 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
 	Thunderbird/60.6.1
 MIME-Version: 1.0
-In-Reply-To: <8b30e5cea2692d62fd7f486fc98effdb589a1412.camel@sipsolutions.net>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <20190520213700.12620-1-philmd@redhat.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Clacks-Overhead: GNU Terry Pratchett
+Content-Transfer-Encoding: 8bit
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 5.153.251.140
-X-Mailman-Approved-At: Wed, 22 May 2019 10:44:51 -0400
-Subject: Re: [Qemu-devel] custom virt-io support (in user-mode-linux)
+	[fuzzy]
+X-Received-From: 209.85.221.68
+Subject: Re: [Qemu-devel] [PATCH v3 0/7] fw_cfg_test refactor and add two
+ test cases
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -62,91 +74,44 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Cc: Laurent Vivier <lvivier@redhat.com>, Paolo Bonzini <pbonzini@redhat.com>,
+	Thomas Huth <thuth@redhat.com>, Laszlo Ersek <lersek@redhat.com>,
+	Gerd Hoffmann <kraxel@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-
-
-On 22/05/2019 14:46, Johannes Berg wrote:
-> Hi Anton,
+On 5/20/19 11:36 PM, Philippe Mathieu-Daudé wrote:
+> This is the work from Li Qiang, I added few changes while preparing
+> the pull request. If Li is OK with it, I'll send as it.
 > 
->>> I'm thinking about adding virt-io support to UML, but the tricky part is
->>> that while I want to use the virt-io basics (because it's a nice
->>> interface from the 'inside'), I don't actually want the stock drivers
->>> that are part of the kernel now (like virtio-net etc.) but rather
->>> something that integrates with wifi (probably building on hwsim).
+> Since v2:
+> - split 1st patch
+> - clarified commit description based on review comments on list
 > 
->> I have looked at using virtio semantics in UML in the past around the
->> point when I wanted to make the recvmmsg/sendmmsg vector drivers common
->> in UML and QEMU. It is certainly possible,
->>
->> I went for the native approach at the end though.
+> Since v1:
+> - Add a patch to store the reboot_timeout as little endian
 > 
-> Hmm. I'm not sure what you mean by either :-)
+> v2: https://lists.gnu.org/archive/html/qemu-devel/2019-04/msg04064.html
+> v1: https://lists.gnu.org/archive/html/qemu-devel/2019-03/msg05679.html
 > 
-> Is there any commonality between the vector drivers? 
-
-I was looking purely from a network driver perspective.
-
-I had two options - either do a direct read/write as it does today or 
-implement the ring/king semantics and read/write from that.
-
-I decided to not bother with the latter and read/write directly from/to 
-skbs.
-
-> I can't see how
-> that'd work without a bus abstraction (like virtio) in qemu? I mean, the
-> kernel driver just calls uml_vector_sendmmsg(), which I'd say belongs
-> more to the 'outside world', but that can't really be done in qemu?
+> Li Qiang (5):
+>   tests: refactor fw_cfg_test
+>   tests: fw_cfg: add a function to get the fw_cfg file
+>   hw/nvram/fw_cfg: Store 'reboot-timeout' as little endian
+>   tests: fw_cfg: add 'reboot-timeout' test case
+>   tests: fw_cfg: add 'splash-time' test case
 > 
-> Ok, I guess then I see what you mean by 'native' though.
+> Philippe Mathieu-Daudé (2):
+>   tests/libqos: Add io_fw_cfg_uninit() and mm_fw_cfg_uninit()
+>   tests/libqos: Add pc_fw_cfg_uninit() and use it
 > 
-> Similarly, of course, I can implement arbitrary virt-io devices - just
-> the kernel side doesn't call a function like uml_vector_sendmmsg()
-> directly, but instead the virt-io model, and the model calls the
-> function, which essentially is the same just with a (convenient)
-> abstraction layer.
-> 
-> But this leaves the fundamental fact the model code ("vector_user.c" or
-> a similar "virtio_user.c") is still part of the build.
-> 
-> I guess what I'm thinking is have something like "virtio_user_rpc.c"
-> that uses some appropriate RPC to interact with the real model. IOW,
-> rather than having all the model-specific logic actually be here (like
-> vector_user.c actually knows how to send network packets over a real
-> socket fd), try to call out to some RPC that contains the real model.
-> 
-> Now that I thought about it further, I guess my question boils down to
-> "did anyone ever think about doing RPC for Virt-IO instead of putting
-> the entire device model into the hypervisor/emulator/...".
-
-Virtio in general no. UML specifically - yes. I have thought of mapping 
-out all key device calls to RPCs for a few applications. The issue is 
-that it is fairly difficult to make all of this function cleanly without 
-blocking in strange places.
-
-You may probably want to look at the UML UBD driver. That is an example 
-of moving out all processing to an external thread and talking to it via 
-a request/response API. While it still expects shared memory and needs 
-access to UML address space the model should be more amenable to 
-replacing various calls with RPCs as you have now left the rest of the 
-kernel to run while you are processing the RPC. It also provides you 
-with RPC completion interrupts, etc as a side effect.
-
-So you basically have UML -> Thread -> RPCs -> Model?
-
-> 
-> johannes
-> 
-> 
-> _______________________________________________
-> linux-um mailing list
-> linux-um@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-um
+>  hw/nvram/fw_cfg.c        |   4 +-
+>  tests/fw_cfg-test.c      | 127 +++++++++++++++++++++++++++++++++++----
+>  tests/libqos/fw_cfg.c    |  55 +++++++++++++++++
+>  tests/libqos/fw_cfg.h    |   9 +++
+>  tests/libqos/malloc-pc.c |   2 +-
+>  5 files changed, 184 insertions(+), 13 deletions(-)
 > 
 
--- 
-Anton R. Ivanov
-Cambridgegreys Limited. Registered in England. Company Number 10273661
-https://www.cambridgegreys.com/
+Series queued (with Laszlo's comment on patch #2 addressed).
 
