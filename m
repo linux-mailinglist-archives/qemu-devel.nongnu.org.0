@@ -2,57 +2,58 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 15389267E2
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 18:16:58 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:47372 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 98477267F8
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 18:19:53 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:47398 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTTvF-0000WC-5y
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 12:16:57 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:57591)
+	id 1hTTy4-0003BC-Pi
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 12:19:52 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:57702)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hTTn0-0002Fm-L7
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 12:08:27 -0400
+	(envelope-from <laurent@vivier.eu>) id 1hTTn8-0002O3-IK
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 12:08:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hTTmy-00046T-Jj
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 12:08:26 -0400
-Received: from mout.kundenserver.de ([212.227.17.24]:39203)
+	(envelope-from <laurent@vivier.eu>) id 1hTTn7-0004Uh-JL
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 12:08:34 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:40769)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <laurent@vivier.eu>)
-	id 1hTTmr-0003ez-7X; Wed, 22 May 2019 12:08:17 -0400
+	id 1hTTmz-00045p-4Z; Wed, 22 May 2019 12:08:25 -0400
 Received: from localhost.localdomain ([78.238.229.36]) by
 	mrelayeu.kundenserver.de (mreue108 [212.227.15.183]) with ESMTPSA
 	(Nemesis)
-	id 1MDhth-1hJp0g2KKF-00AoFw; Wed, 22 May 2019 18:07:37 +0200
+	id 1MuDTn-1gdaTf45r3-00uZSg; Wed, 22 May 2019 18:07:39 +0200
 From: Laurent Vivier <laurent@vivier.eu>
 To: qemu-devel@nongnu.org
-Date: Wed, 22 May 2019 18:07:19 +0200
-Message-Id: <20190522160723.31484-6-laurent@vivier.eu>
+Date: Wed, 22 May 2019 18:07:20 +0200
+Message-Id: <20190522160723.31484-7-laurent@vivier.eu>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20190522160723.31484-1-laurent@vivier.eu>
 References: <20190522160723.31484-1-laurent@vivier.eu>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Provags-ID: V03:K1:EboM5bLhVbaTJbzNJC58lF0QE6eE+F8rNig+cpgie+zRoBFje6T
-	kRY43Wv/DcETbmZhnIcNtTqvXVNX3rYGytD4sq4q2ALiu00v9SShyLrUayu0bZ9uUisKyrO
-	XY4w2NaJUFjWCynoK0bnLZ6QXZQsdDltrGta7AXAr7Q1EL2S/4RFs6G2EWemQ4juL2wrvSl
-	9A2VyXocbBWIovfZoAq5A==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:1ZOO6PsmXp0=:teG4d6o+OCyQIf9HtR+ZbS
-	jHkLr+bABLrv9Aqw8cVkqZjmX8a2HG5sBTVSbGZi/VKTHkbx2lkS3oOjPb/FuGDMqV3HQiQNI
-	GiTy/QkAkzIVLvGTumj09+gubu/RFaAIEgNn2GN4uwX/wUMgmZtYu+Vjy61WSh9DFAXIVcWY4
-	nIrEBTXJm1g5YW3PQLJOmz49yatkeQLyn6JjFPgQUjKgOjn3/Eu863H45PqdeCLYL5ugDHYR4
-	x/EQzpBRDM6+cAwku82cK6N0xZ+a23ETJ3LBOiTRMHb17owX+Vv2RtMHhzYv/9NfWrZn/rA0V
-	y8rQxS8AS5RPEI25Vt3DSojVOqam258NzUEcvCOVSx5wG6m5HvqORSOgAfEkKZs3zn5ZXhmKu
-	iV1SGVEhevyCCZVmaE65hcFND3J36QRN1sSqb9WFc6g+zWpGjHY6R1g6EfEXtLG2JjR3ZGgbr
-	zfGBbcYtEeqKyy4SWD4QDtmCO8QOJ41/wA9ZAJZoncEu7mwzozZIzYXJGhYqSFu44CrLjdGqK
-	CBPUFOLphtZ1B9vumV7J1fgBnuGL4pwoFmyIq0+Cgd+Uu/MSkQZhaXqwvS8yASNzxEAXqA36I
-	OEu4+t3yaNd4u1WjTiw6jPRzaq7mrDToXaSArOF0VcyBTRCSDY0oWTO1DUyigdj/c26f+7xX5
-	JLDS0ov9yGp2NkUQa+i0Og6B7SiFHCyc7t3EMRjksa2sJShMBJXY/LM7bXcHOXCs1nDgRVEEb
-	P8BVHe0zsJScxVphFonDDUAaCSKZL7qyuf1KUQ==
+X-Provags-ID: V03:K1:6/5e76T1+hru2DLQJ56rOSKbhJRipSr30E2IAEPyFGEo9bmDiHC
+	TLqHMaIZkD8fI/l3CVWOr0g4N+Xt7N34g24fXLSd476aA23FKd+JOpBgdeBwLlEeRj3U+mx
+	Dcrn28jQThU/am7tSB59sfhbo4VeK0E8p7VQtzTk1RXqVncKxYVEk/PSKDGM+S7TlBzKEi/
+	pRAFkIv2fP/Gr98tp8G1Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:l6hggI84yA4=:OUi4ZpRUC00/2bO2CZSbzB
+	3y16jgQhxJVWfuqaoylrUI0iAxZChkvrdoMeVUGGIHIFOZGtL0MkTzBZhVEJqfJL2hn7OK4Mb
+	X/A8I0jrGuoqn1UXc/+yMA4XNfA/FEax/2+WogbpYQ23Y2y1yWvkd7iXwLP9e8n0/d6tHZqlu
+	YV6qXCTESdf0UMCgkBG5P8hrcswHfhUD2MaYWoqROTnRj2uLc+ICr4pj8n/msmjzohskwifFR
+	4XaLCy6+qkpjQ3EcA65rtRFUu02VaE0nQa6rED2N07DpRtMrOxJ32usdz3QmTD6fLP2m3C1Z7
+	RvWSb/OkfeqAue+1kHDksiul6yb7e1Rff34VLLYHdyxYB7yRQck/ubHtNfabxcArTRJ/GlDEg
+	r7y0nOU/JFgpNcJ+0JavSD1BkzgQs8wCZtzUAjK/JP6qkvaoSR4TSqtaaGTQ25lWRhJ1GXiJX
+	LvOuvd/2iN7GtQM65Dx3BoNd49FpHN/qlWPcDb2vlkuz0dZ97EWFUW7859TfbbkmxefuqFV8x
+	9HmNTswgCuiPb1XiqRWR1woN4/Rm0XulLFHrCzfx6BnJmGN0mu1a9bNaRgjte2yYzBCqJ00GG
+	2/zMQluvF+Wo2P99FY6B9tXqhV1XMZJlqR6OiN+ZoA7FJAe5Zzw0EqtJIazQnrx+8nbirKVJb
+	0+LkXxThb/G1CRPeBQ6mXqt48VmhJWtbNp7yS5WOxHV9TXDOzMBFSCJKwY/R3ypXg6z9pD0Et
+	MF3ly+Z3ysH0/T5QunnTvMn28J0gUGD2bpLZYz1g0iAXiu2EuEgzrXldeAk=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 212.227.17.24
-Subject: [Qemu-devel] [PULL 5/9] configure: Fix spelling of sdl-image in
- --help
+Subject: [Qemu-devel] [PULL 6/9] vfio: pci: make "vfio-pci-nohotplug" as
+ MACRO
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -67,42 +68,59 @@ List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 Cc: Tony Krowiak <akrowiak@linux.ibm.com>, Eric Farman <farman@linux.ibm.com>,
 	Farhan Ali <alifm@linux.ibm.com>, Pierre Morel <pmorel@linux.ibm.com>,
 	Juan Quintela <quintela@redhat.com>, qemu-trivial@nongnu.org,
-	Markus Armbruster <armbru@redhat.com>, Cornelia Huck <cohuck@redhat.com>,
+	Li Qiang <liq3ea@163.com>, Cornelia Huck <cohuck@redhat.com>,
 	Michael Tokarev <mjt@tls.msk.ru>,
 	Alex Williamson <alex.williamson@redhat.com>,
 	Laurent Vivier <laurent@vivier.eu>, Halil Pasic <pasic@linux.ibm.com>,
 	Christian Borntraeger <borntraeger@de.ibm.com>,
 	qemu-s390x@nongnu.org, "Michael S. Tsirkin" <mst@redhat.com>,
-	Thomas Huth <thuth@redhat.com>,
+	=?UTF-8?q?Philippe=20Mathieu-Daud=C3=A9?= <philmd@redhat.com>,
+	Eric Auger <eric.auger@redhat.com>,
 	"Dr. David Alan Gilbert" <dgilbert@redhat.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Markus Armbruster <armbru@redhat.com>
+From: Li Qiang <liq3ea@163.com>
 
-Fixes: a442fe2f2b2f20e7be0934277e9400b844b11999
-Cc: qemu-trivial@nongnu.org
-Signed-off-by: Markus Armbruster <armbru@redhat.com>
-Reviewed-by: Thomas Huth <thuth@redhat.com>
-Message-Id: <20190517183246.11933-1-armbru@redhat.com>
+The QOMConventions recommends we should use TYPE_FOO
+for a TypeInfo's name. Though "vfio-pci-nohotplug" is not
+used in other parts, for consistency we should make this change.
+
+CC: qemu-trivial@nongnu.org
+Signed-off-by: Li Qiang <liq3ea@163.com>
+Message-Id: <20190521151543.92274-2-liq3ea@163.com>
+Acked-by: Alex Williamson <alex.williamson@redhat.com>
+Reviewed-by: Philippe Mathieu-Daudé <philmd@redhat.com>
+Reviewed-by: Eric Auger <eric.auger@redhat.com>
 Signed-off-by: Laurent Vivier <laurent@vivier.eu>
 ---
- configure | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ hw/vfio/pci.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/configure b/configure
-index d2fc3463022e..cef51b2a0b7d 100755
---- a/configure
-+++ b/configure
-@@ -1745,7 +1745,7 @@ disabled with --disable-FEATURE, default is enabled if available:
-   gcrypt          libgcrypt cryptography support
-   auth-pam        PAM access control
-   sdl             SDL UI
--  sdl_image       SDL Image support for icons
-+  sdl-image       SDL Image support for icons
-   gtk             gtk UI
-   vte             vte support for the gtk UI
-   curses          curses UI
+diff --git a/hw/vfio/pci.c b/hw/vfio/pci.c
+index 8cecb53d5cf6..08729e5875a9 100644
+--- a/hw/vfio/pci.c
++++ b/hw/vfio/pci.c
+@@ -40,6 +40,8 @@
+ #define TYPE_VFIO_PCI "vfio-pci"
+ #define PCI_VFIO(obj)    OBJECT_CHECK(VFIOPCIDevice, obj, TYPE_VFIO_PCI)
+ 
++#define TYPE_VIFO_PCI_NOHOTPLUG "vfio-pci-nohotplug"
++
+ static void vfio_disable_interrupts(VFIOPCIDevice *vdev);
+ static void vfio_mmap_set_enabled(VFIOPCIDevice *vdev, bool enabled);
+ 
+@@ -3304,8 +3306,8 @@ static void vfio_pci_nohotplug_dev_class_init(ObjectClass *klass, void *data)
+ }
+ 
+ static const TypeInfo vfio_pci_nohotplug_dev_info = {
+-    .name = "vfio-pci-nohotplug",
+-    .parent = "vfio-pci",
++    .name = TYPE_VIFO_PCI_NOHOTPLUG,
++    .parent = TYPE_VFIO_PCI,
+     .instance_size = sizeof(VFIOPCIDevice),
+     .class_init = vfio_pci_nohotplug_dev_class_init,
+ };
 -- 
 2.20.1
 
