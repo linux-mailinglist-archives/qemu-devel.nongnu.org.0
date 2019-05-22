@@ -2,73 +2,72 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id BD70626759
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 17:54:16 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46483 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 6537626775
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 17:56:27 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46585 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTTZH-00014O-VW
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 11:54:16 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:50229)
+	id 1hTTbO-0002cf-Gw
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 11:56:26 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50440)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <stefanha@gmail.com>) id 1hTTQu-0003HL-LT
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 11:45:37 -0400
+	(envelope-from <stefanha@gmail.com>) id 1hTTRg-00040Z-Ek
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 11:46:25 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <stefanha@gmail.com>) id 1hTTQt-0002ui-NF
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 11:45:36 -0400
-Received: from mail-wm1-x344.google.com ([2a00:1450:4864:20::344]:51360)
+	(envelope-from <stefanha@gmail.com>) id 1hTTRf-0005NA-H5
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 11:46:24 -0400
+Received: from mail-wr1-x444.google.com ([2a00:1450:4864:20::444]:41028)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <stefanha@gmail.com>)
-	id 1hTTQt-0002rO-Fi; Wed, 22 May 2019 11:45:35 -0400
-Received: by mail-wm1-x344.google.com with SMTP id c77so2741539wmd.1;
-	Wed, 22 May 2019 08:45:35 -0700 (PDT)
+	id 1hTTRf-0005I7-9j; Wed, 22 May 2019 11:46:23 -0400
+Received: by mail-wr1-x444.google.com with SMTP id g12so2849513wro.8;
+	Wed, 22 May 2019 08:46:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
 	h=date:from:to:cc:subject:message-id:references:mime-version
 	:content-disposition:in-reply-to:user-agent;
-	bh=LSVXXXxPTmwCGJg7fJ7Euv+jTFlOOiuQVD1BvtLsrQk=;
-	b=Sm8WIGO4ohPNUUzE5O78I3p8DVgucxpyeE2PQeJmtRLEtdcYt/0hguN5m2UzkKwafG
-	ApPUOR1pwsFCjF1eiexpUuBwzs6C+AiyR7PKdcII+wfm8u3emkYK0KeDLDM1fBufw1yD
-	2qSRG035mYRHC332G2LQcwxj9GV//C/lXtyVEy1MBfP7x8JJEVE3qP1Erl+m0jfcH4hB
-	+f3H9gDCStL+65PsK+fBnd95wDhkwmga1JQDjxgvZuK3fq4ei203w5jb6bjcuza58NAg
-	YJJWvMfNCLZZoCTbOPMprgOEdTRuKZHPI0Jtqcm+2vX3ZmFeUMIA9tqL2X/t8s+lonFX
-	FAcA==
+	bh=V4OTrUDnUFdhkPJIZbmDI/lgnifrNG7tjecGshAcfU0=;
+	b=Uiff/gnaoZ+C6JABOPwEAoKQfME3jB6JEweWwmJb8gW+fpYX6M+D0C4WTdaU1YIrir
+	xDy8pkcR25MWWBozEgvNjtKKXiWHWoXbhs9SR/InPWA3boh2p9UIcnD30gJ3S25ZMGJ5
+	DnPEY/R7MXX4yGCCR6vB/zcpUnSWAqbe1ZPEJprwrhCHyI4Kj+eFH50/1x4GsNhHWpkO
+	0w8251XOV4N8MP1e5VeUMnT68kyINaWgBtwnDGJu3YZTBICwVTBIgb0cz9SZ1nIuPS4N
+	/MjITH79oBqrLltHmkUju04xfd51jeoxnUAaN/CZgg6M7pDH7h5mSmMpJfCZENTPfnrh
+	Zzsg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
 	d=1e100.net; s=20161025;
 	h=x-gm-message-state:date:from:to:cc:subject:message-id:references
 	:mime-version:content-disposition:in-reply-to:user-agent;
-	bh=LSVXXXxPTmwCGJg7fJ7Euv+jTFlOOiuQVD1BvtLsrQk=;
-	b=Dr1K8oJYqyNV01flntuYHvprIi9qegGau2VQ5mGfnz95DYiERNvyeSL18j74lvbWGm
-	nIdUXDdXI7azYt+Uhbjyh1Eqc6+lbGW4SveG8fxFU7w0Ox4waOYBYAuh8tGCKhdhLLEA
-	rS0SoWGAB7waZEhSZPUmgsj/vFwCk5pg2xSeA2AxCl/gE607qB9Zy/fQY+i+bbNmDNmQ
-	JKf60ROKWCs/bdSJj0nfI38e3zVUgXoB5vxX03fP6rEGAdN2WVral3Zx+2S9FB+2Kmrn
-	RlEoA+WqNL5ZMXOhboNuME+zn8MiK+71skNj7U8z0XPE+F3ub1xW/gOs/1APjuzCltMv
-	bhzQ==
-X-Gm-Message-State: APjAAAWBsc0YduJLBh6VkN/Q7cn28sAQkNZj6Q04ZwcoJkt1vLQNGrFi
-	k2KUTOS4o1pFO/UxEnrmoRA=
-X-Google-Smtp-Source: APXvYqzeMvSJK07X1iZEkMc7LY89M1T7BJNXfyPkEh1bNSgBWSnVgSBoLe/YSAkxloG3z0QXTaZmMg==
-X-Received: by 2002:a1c:1d16:: with SMTP id d22mr8463719wmd.110.1558539934557; 
-	Wed, 22 May 2019 08:45:34 -0700 (PDT)
+	bh=V4OTrUDnUFdhkPJIZbmDI/lgnifrNG7tjecGshAcfU0=;
+	b=p94wyXrsSyhZtDvdNcnEtQzw1xG7x28y9E97DQ3Ipri1+i1VKMgAeH5Dsp5U4A2WgR
+	K6aUQkAVPBWNq+6rGY7M9za2W+vFjvrejYPnXQ1GU1jK/BxtB2cz9+ApPRDE8nTiqrij
+	DXyzWOoU+Lg/FtKmdAI5CfREjIdO+egUuz3VIkHSaBVaAbYdTUVRMDh/RwGLHsT38oOT
+	6PyXeTyxMZuAIHAGGnSE9QZjsGEEWkld5l/ULohjnmrCqYslI6OTsF7e5PTl81bAOeuj
+	T51og0mUBeRl7plEGkO67phFAWyLoJR/XXCiPsWAvmQ7b6PtX002+GIF0D4fl1xJvhhm
+	jA1g==
+X-Gm-Message-State: APjAAAXQeY8KFJ5Jo32aC8518KNTclE6HlseCpoxUMVrKJ2B6qBq2fHp
+	o/dOjcPzmKKUvyHsJaiUa2o=
+X-Google-Smtp-Source: APXvYqwWCkYwKvJyqK3dkXpnZKlJDLJbnwweUok7Ivs78rLg/2F3e8F7AEJu6GLhH7KuXRJ2kVRGMQ==
+X-Received: by 2002:a05:6000:10c4:: with SMTP id
+	b4mr30109691wrx.145.1558539982310; 
+	Wed, 22 May 2019 08:46:22 -0700 (PDT)
 Received: from localhost ([51.15.41.238]) by smtp.gmail.com with ESMTPSA id
-	c131sm7848489wma.31.2019.05.22.08.45.33
+	p17sm8433242wrq.95.2019.05.22.08.46.21
 	(version=TLS1_2 cipher=ECDHE-RSA-CHACHA20-POLY1305 bits=256/256);
-	Wed, 22 May 2019 08:45:33 -0700 (PDT)
-Date: Wed, 22 May 2019 16:45:32 +0100
+	Wed, 22 May 2019 08:46:21 -0700 (PDT)
+Date: Wed, 22 May 2019 16:46:20 +0100
 From: Stefan Hajnoczi <stefanha@gmail.com>
 To: Aarushi Mehta <mehta.aaru20@gmail.com>
-Message-ID: <20190522154532.GN27900@stefanha-x1.localdomain>
+Message-ID: <20190522154620.GO27900@stefanha-x1.localdomain>
 References: <20190521235215.31341-1-mehta.aaru20@gmail.com>
-	<20190521235215.31341-9-mehta.aaru20@gmail.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-	protocol="application/pgp-signature"; boundary="AA9g+nFNFPYNJKiL"
+	protocol="application/pgp-signature"; boundary="oSMU0HVueUMCAvn0"
 Content-Disposition: inline
-In-Reply-To: <20190521235215.31341-9-mehta.aaru20@gmail.com>
+In-Reply-To: <20190521235215.31341-1-mehta.aaru20@gmail.com>
 User-Agent: Mutt/1.11.4 (2019-03-13)
 X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
 	recognized.
-X-Received-From: 2a00:1450:4864:20::344
-Subject: Re: [Qemu-devel] [RFC PATCH 8/9] block/file-posix: extends to use
- with io_uring
+X-Received-From: 2a00:1450:4864:20::444
+Subject: Re: [Qemu-devel] [RFC PATCH 0/9] Add support for io_uring
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -87,43 +86,60 @@ Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
 
---AA9g+nFNFPYNJKiL
+--oSMU0HVueUMCAvn0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Wed, May 22, 2019 at 05:22:14AM +0530, Aarushi Mehta wrote:
-> Signed-off-by: Aarushi Mehta <mehta.aaru20@gmail.com>
-> ---
->  block/file-posix.c | 63 ++++++++++++++++++++++++++++++++++++++++++----
->  1 file changed, 58 insertions(+), 5 deletions(-)
+On Wed, May 22, 2019 at 05:22:06AM +0530, Aarushi Mehta wrote:
+> This patch series adds supports for the newly developed io_uring Linux AI=
+O interface. Testing it requires a host kernel with it and the liburing lib=
+rary. Use the option -drive aio=3Dio_uring to enable it.
 >=20
-> diff --git a/block/file-posix.c b/block/file-posix.c
-> index 1cf4ee49eb..41952217a4 100644
-> --- a/block/file-posix.c
-> +++ b/block/file-posix.c
-> @@ -154,6 +154,7 @@ typedef struct BDRVRawState {
->      bool has_write_zeroes:1;
->      bool discard_zeroes:1;
->      bool use_linux_aio:1;
-> +    bool use_linux_io_uring;
+> Aarushi Mehta (9):
+>   qapi/block-core: add option for io_uring
+>   block/block: add BDRV flag for io_uring
+>   include/block: declare interfaces for io_uring
+>   stubs: add aio interface stubs for io_uring
+>   util/asyn: add aio interfaces for io_uring
+>   block/io_uring: implements interfaces for io_uring
+>   blockdev: accept io_uring as option
+>   block/file-posix: extends to use with io_uring
+>   configure: permits use of io_uring with probe
+>=20
+>  block/Makefile.objs     |   2 +
+>  block/file-posix.c      |  63 ++++++-
+>  block/io_uring.c        | 385 ++++++++++++++++++++++++++++++++++++++++
+>  blockdev.c              |   4 +-
+>  configure               |  27 +++
+>  include/block/aio.h     |  16 +-
+>  include/block/block.h   |   1 +
+>  include/block/raw-aio.h |  15 ++
+>  qapi/block-core.json    |   3 +-
+>  stubs/Makefile.objs     |   1 +
+>  stubs/io_uring.c        |  32 ++++
+>  util/async.c            |  32 ++++
+>  12 files changed, 573 insertions(+), 8 deletions(-)
+>  create mode 100644 block/io_uring.c
+>  create mode 100644 stubs/io_uring.c
 
-:1 for consistency with the surrounding bool fields.
+Thanks, I've posted my review feedback!  Looking forward to the next
+revision.
 
---AA9g+nFNFPYNJKiL
+--oSMU0HVueUMCAvn0
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAlzlbpwACgkQnKSrs4Gr
-c8hlAQf/UO6fMZG+0VPNi7PsAFZ/cO81l736sdJ7oYvf1q8NRbd2yfVtl630Vwl1
-g+TI9lghPFUIm1THTlv2zgHDyGxoIh8dGluW6marbR8SQdCdjW3+2pmMfjMtJ5Tk
-jGFa2OLBHjRByd438qlINB8M64eZAjaPfEutLuX2jIMCZWVgvyAp29lgXsB/flRe
-JQ5lrl4Od62KRceleZy4x2SxjEY7yFB2Da2o2+avIWKcb+g8cUsTrWB2IKZTjDvd
-cKeIhEOyxkSZaYGUs0stfXxD86ggePc5oywZf52WIsO/q7vkuf0CGSU0CkaO+wuT
-1rAYRN2OTrNscppa1JUEzsZ4OHq8GA==
-=5uK1
+iQEzBAEBCAAdFiEEhpWov9P5fNqsNXdanKSrs4Grc8gFAlzlbswACgkQnKSrs4Gr
+c8g2cQf7BSSJ3RgZ299IaRLhqa4fvgEFnjC80uUQoqgMu5y/Jb7WOc7Os/GAg0mJ
+KQkl5mtKm+ah9vDXnYFfZYGehHsFiHZ0kuxzCETYBEXJPrXIzU6R7rZKazuDjZrV
+HxuT6JQc8iaXNh/AkMyyNhrZSVYwugJQPYh/gHHX1AVk7dI6QLGonSQINRrbd1dl
+QDE+8df4Un+pmlsEBjM1skPLfWzV/6YLD6MAdL2IXXUkNDKqjgzxNVPnqhNtJIOK
+PAu+chcgwcvm7RChxFcW9Z3WrcL8t2F+4X6AsVB9s7T7l3KL2UuwSnFMWQvvk59F
+JrmT1EzsEriI0XdUgsnDqVgwMpVgXg==
+=8EoX
 -----END PGP SIGNATURE-----
 
---AA9g+nFNFPYNJKiL--
+--oSMU0HVueUMCAvn0--
 
