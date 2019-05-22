@@ -2,62 +2,55 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 5F29525ECD
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 09:48:07 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:37892 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A286725EBF
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 09:40:40 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37793 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTLyn-0007w7-Te
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 03:48:05 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:52612)
+	id 1hTLra-0003j1-BE
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 03:40:38 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:50863)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hTLxc-0007ZJ-NO
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 03:46:53 -0400
+	(envelope-from <groug@kaod.org>) id 1hTLqV-0003IS-Jn
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 03:39:33 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hTLxb-0000Y2-IG
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 03:46:52 -0400
-Received: from indium.canonical.com ([91.189.90.7]:57046)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hTLxb-0000WZ-CI
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 03:46:51 -0400
-Received: from loganberry.canonical.com ([91.189.90.37])
-	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hTLxZ-0001x7-Un
-	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 07:46:49 +0000
-Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id E00BB2E80C0
-	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 07:46:49 +0000 (UTC)
+	(envelope-from <groug@kaod.org>) id 1hTLqU-000158-N7
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 03:39:31 -0400
+Received: from 3.mo2.mail-out.ovh.net ([46.105.58.226]:47641)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
+	(Exim 4.71) (envelope-from <groug@kaod.org>) id 1hTLqU-00013s-H3
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 03:39:30 -0400
+Received: from player762.ha.ovh.net (unknown [10.109.159.35])
+	by mo2.mail-out.ovh.net (Postfix) with ESMTP id 318A419A1BD
+	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 09:39:27 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+	[82.253.208.248]) (Authenticated sender: groug@kaod.org)
+	by player762.ha.ovh.net (Postfix) with ESMTPSA id 9AEED608B9E7;
+	Wed, 22 May 2019 07:39:17 +0000 (UTC)
+Date: Wed, 22 May 2019 09:39:16 +0200
+From: Greg Kurz <groug@kaod.org>
+To: Anton Blanchard <anton@ozlabs.org>
+Message-ID: <20190522093916.43eb8677@bahia.lan>
+In-Reply-To: <20190522061112.3accdb76@kryten>
+References: <20190507004811.29968-1-anton@ozlabs.org>
+	<20190507004811.29968-4-anton@ozlabs.org>
+	<c1d2a4cf-a9a7-4dfa-ed80-987118043f08@ilande.co.uk>
+	<20190522061112.3accdb76@kryten>
+X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-Date: Wed, 22 May 2019 07:27:50 -0000
-From: Thomas Huth <599958@bugs.launchpad.net>
-To: qemu-devel@nongnu.org
-X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Wishlist;
-	assignee=None; 
-X-Launchpad-Bug-Information-Type: Public
-X-Launchpad-Bug-Private: no
-X-Launchpad-Bug-Security-Vulnerability: no
-X-Launchpad-Bug-Commenters: 8-roothorick-gmail-com andcycle-launchpad-net
-	anthony-codemonkey lmr th-huth
-X-Launchpad-Bug-Reporter: Lucas Meneghel Rodrigues (lmr)
-X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
-References: <20100629211802.16137.10587.malonedeb@soybean.canonical.com>
-Message-Id: <155851007014.15345.5491380337471675746.malone@gac.canonical.com>
-X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
-X-Launchpad-Message-For: qemu-devel-ml
-Precedence: bulk
-X-Generated-By: Launchpad (canonical.com); Revision="18962";
-	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: a8e2b9d761fe31544304cea6cc81a794ece17cdf
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
+X-Ovh-Tracer-Id: 18207490344495782177
+X-VR-SPAMSTATE: OK
+X-VR-SPAMSCORE: -100
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddrudduuddguddvvdcutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 91.189.90.7
-Subject: [Qemu-devel] [Bug 599958] Re: Timedrift problems with Win7: hpet
- missing time drift fixups
+X-Received-From: 46.105.58.226
+Subject: Re: [Qemu-devel] [Qemu-ppc]  [PATCH 4/9] target/ppc: Fix lxvw4x,
+ lxvh8x and lxvb16x
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
+Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -66,76 +59,47 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Reply-To: Bug 599958 <599958@bugs.launchpad.net>
+Cc: ego@linux.vnet.ibm.com, sandipandas1990@gmail.com,
+	Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>,
+	richard.henderson@linaro.org, f4bug@amsat.org,
+	qemu-devel@nongnu.org, qemu-ppc@nongnu.org, david@gibson.dropbear.id.au
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Looking through old bug tickets... can this issue still be reproduced
-with the latest version of QEMU? Or could we close this ticket nowadays?
+On Wed, 22 May 2019 06:11:12 +1000
+Anton Blanchard <anton@ozlabs.org> wrote:
 
+> Hi,
+> 
+> > I've now had a bit of time to look through this and I believe it is
+> > correct, so:
+> > 
+> > Reviewed-by: Mark Cave-Ayland <mark.cave-ayland@ilande.co.uk>  
+> 
+> Thanks Mark. David: any chance we could get this merged? I can't run a
+> recent Ubuntu image successfully without it. sshd hangs when I try to
+> ssh into it.
+> 
 
-** Changed in: qemu
-       Status: Confirmed =3D> Incomplete
+Ha ! I also had troubles ssh'ing into a fedora guest, but couldn't find
+time to investigate:
 
--- =
+$ ssh 192.168.122.76
+ssh_dispatch_run_fatal: Connection to 192.168.122.76 port 22: incorrect signature
 
-You received this bug notification because you are a member of qemu-
-devel-ml, which is subscribed to QEMU.
-https://bugs.launchpad.net/bugs/599958
+It doesn't happen anymore with this patch. Maybe worth mentioning it in the
+changelog, and Cc stable of course since this is a regression in QEMU 4.0.
 
-Title:
-  Timedrift problems with Win7: hpet missing time drift fixups
+Tested-by: Greg Kurz <groug@kaod.org>
 
-Status in QEMU:
-  Incomplete
+Also, as Mark mentioned in another mail, this looks very much like the other
+bug I had fixed with 3e5365b7aa6c "target/ppc: Fix QEMU crash with stxsdx".
+The patch looks correct:
 
-Bug description:
-  We've been finding timedrift issues witth Win7 under qemu-kvm on our
-  daily testing
+Reviewed-by: Greg Kurz <groug@kaod.org>
 
-  kvm.qemu-kvm-git.smp2.Win7.64.timedrift.with_load	FAIL	1	Time drift too l=
-arge after rest period: 38.63%
-  kvm.qemu-kvm-git.smp2.Win7.64.timedrift.with_reboot	FAIL	1	Time drift too=
- large at iteration 1: 17.77 seconds
-  kvm.qemu-kvm-git.smp2.Win7.64.timedrift.with_migration	FAIL	1	Time drift =
-too large at iteration 2: 3.08 seconds
+> Thanks,
+> Anton
+> 
 
-  Steps to reproduce:
-
-  timedrift.with_load
-
-  1) Log into a guest.
-  2) Take a time reading from the guest and host.
-  3) Run load on the guest and host.
-  4) Take a second time reading.
-  5) Stop the load and rest for a while.
-  6) Take a third time reading.
-  7) If the drift immediately after load is higher than a user-
-      specified value (in %), fail.
-      If the drift after the rest period is higher than a user-specified va=
-lue,
-      fail.
-
-  timedrift.with_migration
-
-  1) Log into a guest.
-  2) Take a time reading from the guest and host.
-  3) Migrate the guest.
-  4) Take a second time reading.
-  5) If the drift (in seconds) is higher than a user specified value, fail.
-
-  timedrift.with_reboot
-
-  1) Log into a guest.
-  2) Take a time reading from the guest and host.
-  3) Reboot the guest.
-  4) Take a second time reading.
-  5) If the drift (in seconds) is higher than a user specified value, fail.
-
-  This bug is to register those issues and keep an eye on them.
-
-  Attached, some logs from the autotest tests executed on the guest
-
-To manage notifications about this bug go to:
-https://bugs.launchpad.net/qemu/+bug/599958/+subscriptions
 
