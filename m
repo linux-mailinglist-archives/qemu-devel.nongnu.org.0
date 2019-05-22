@@ -2,40 +2,40 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 1EB8625E17
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 08:36:38 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:37221 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 94A8425EB2
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 09:31:58 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:37715 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTKrc-0007FJ-W7
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 02:36:37 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41703)
+	id 1hTLjB-0001Ne-HM
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 03:31:57 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49265)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hTKqa-0006uS-Od
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 02:35:33 -0400
+	(envelope-from <bounces@canonical.com>) id 1hTLiB-00013t-Cd
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 03:30:56 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <bounces@canonical.com>) id 1hTKqZ-0002UN-KW
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 02:35:32 -0400
-Received: from indium.canonical.com ([91.189.90.7]:44480)
+	(envelope-from <bounces@canonical.com>) id 1hTLi9-0001Ch-Qy
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 03:30:55 -0400
+Received: from indium.canonical.com ([91.189.90.7]:53286)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
 	(Exim 4.71) (envelope-from <bounces@canonical.com>)
-	id 1hTKqZ-0002Pd-Dy
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 02:35:31 -0400
+	id 1hTLi9-000176-Kk
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 03:30:53 -0400
 Received: from loganberry.canonical.com ([91.189.90.37])
 	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
-	id 1hTKqW-0002kj-R2
-	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 06:35:28 +0000
+	id 1hTLi4-00088g-Hy
+	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 07:30:48 +0000
 Received: from loganberry.canonical.com (localhost [127.0.0.1])
-	by loganberry.canonical.com (Postfix) with ESMTP id BC4AA2E8075
-	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 06:35:28 +0000 (UTC)
+	by loganberry.canonical.com (Postfix) with ESMTP id 843CA2E80D2
+	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 07:30:48 +0000 (UTC)
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
-Date: Wed, 22 May 2019 06:26:41 -0000
-From: Eunseok Choi <1829964@bugs.launchpad.net>
+Date: Wed, 22 May 2019 07:21:42 -0000
+From: Thomas Huth <1829964@bugs.launchpad.net>
 To: qemu-devel@nongnu.org
 X-Launchpad-Notification-Type: bug
-X-Launchpad-Bug: product=qemu; status=Invalid; importance=Undecided;
+X-Launchpad-Bug: product=qemu; status=Incomplete; importance=Undecided;
 	assignee=None; 
 X-Launchpad-Bug-Tags: android-x86 leak virt-gpu vram
 X-Launchpad-Bug-Information-Type: Public
@@ -43,15 +43,15 @@ X-Launchpad-Bug-Private: no
 X-Launchpad-Bug-Security-Vulnerability: no
 X-Launchpad-Bug-Commenters: riosnai th-huth
 X-Launchpad-Bug-Reporter: Eunseok Choi (riosnai)
-X-Launchpad-Bug-Modifier: Eunseok Choi (riosnai)
+X-Launchpad-Bug-Modifier: Thomas Huth (th-huth)
 References: <155849647074.15430.13880026935625975661.malonedeb@wampee.canonical.com>
-Message-Id: <155850640109.15974.11279339579142693905.malone@wampee.canonical.com>
+Message-Id: <155850970304.14554.4738580653254905181.malone@gac.canonical.com>
 X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
 X-Launchpad-Message-For: qemu-devel-ml
 Precedence: bulk
 X-Generated-By: Launchpad (canonical.com); Revision="18962";
 	Instance="launchpad-lazr.conf"
-X-Launchpad-Hash: 57aed22174d098252ecac1ca88b2a5ea8c2cfc89
+X-Launchpad-Hash: 4a439da5fc29bf5a23fdde67d2706120c16ea446
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 91.189.90.7
 Subject: [Qemu-devel] [Bug 1829964] Re: HOST VRAM Leak when performs
@@ -70,17 +70,15 @@ Reply-To: Bug 1829964 <1829964@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-To Thomas Huth,
+Ok, sorry, got that wrong - we sometimes get bug reports about the
+android emulator (which is a fork of QEMU) here, and at a first glance,
+your bug report looked like one of these misguided bug tickets, too.
 
-This is not android problem, qemu or virt-gpu  problem,.
--------------------- our test log --------------------------------------
-Running android-x86 on I7 bare metal desktop PCs with intel UHD GPU - No le=
-ak.
-Running android-x86 on QEMU(+virt-gpu, virgl-renderer) - Leak
-------------------------------------------------------------------------
+Anyway, please provide some more information: Which version of QEMU are
+you using? Which operating system are you running in QEMU?
 
-Also in case of a guest linux, it also have leak after windows manager
-rotation.
+** Changed in: qemu
+       Status: Invalid =3D> Incomplete
 
 -- =
 
@@ -92,7 +90,7 @@ Title:
   HOST VRAM Leak when performs android-x86 window rotation with Virt-GPU
 
 Status in QEMU:
-  Invalid
+  Incomplete
 
 Bug description:
   I will report something strange thing about host VRAM leakage after
