@@ -2,66 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 8E0B726754
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 17:53:37 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46479 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 1271B26742
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 17:50:40 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46407 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTTYe-0000YZ-MV
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 11:53:36 -0400
+	id 1hTTVn-0006LE-7Y
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 11:50:39 -0400
 Received: from eggs.gnu.org ([209.51.188.92]:48094)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <programmingkidx@gmail.com>) id 1hTTMB-0007Zk-RV
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 11:40:44 -0400
+	(envelope-from <laurent@vivier.eu>) id 1hTTM9-0007Zk-Ul
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 11:40:43 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <programmingkidx@gmail.com>) id 1hTT7m-0002i2-AM
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 11:25:51 -0400
-Received: from mail-wm1-x342.google.com ([2a00:1450:4864:20::342]:55399)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <programmingkidx@gmail.com>)
-	id 1hTT7l-0000kG-UJ; Wed, 22 May 2019 11:25:50 -0400
-Received: by mail-wm1-x342.google.com with SMTP id x64so2656545wmb.5;
-	Wed, 22 May 2019 08:25:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=gmail.com; s=20161025;
-	h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-	:cc; bh=l7MNNmBynGEXpG/v5Du+4c7MG15VBOlXL7Lg2uQB1oo=;
-	b=mK18w8SltxJ5KM+nmoit0PoThifyuZkrX69wv1wrP/tf9Qe6MFnGoN0hYL61xPWAyH
-	4fgLM+hMR5nAddteMeq6Ohz+UUw/m/Voo5x4e7LPNIZQ6K6le79wKAeFrxaPyvH7A5At
-	hdY0pnc1xkWCJZRo6ft+V5Xl7eYfB0nXnOboJsDq7JBHk35dC2UD3zMElWU2Z5Gm9jhF
-	ueQq9PMBIQrXx6Ux45UCYqTpshWoTi6Lwh3JZS4/TfQhgbhw733dTaLWaixdCvw6Stlu
-	uiJpk1TyLnLiWaejjCC/o62Pav4V0HixL8/Z7TeZ+ysoHm8jQh1GYYik7+Rc92G/mhh4
-	ahxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-	:message-id:subject:to:cc;
-	bh=l7MNNmBynGEXpG/v5Du+4c7MG15VBOlXL7Lg2uQB1oo=;
-	b=WISsc4CKAuNeYiMe2Kaxqw7FFuLdDsv+fiyrrHHOej2eRtnyJ80CKPavCij4FGtPFw
-	PYd6HTDOBPIvOlwBTLWjlnpjEx379SOHs7DVJ3wjqk6GYY6OVzicRW75efWQRmCgbJKp
-	6GOJqEaE6UY2CDwJybVgk3L0uz3A1QQ6pR9aMG4EV6ZchBUReENmlpIe0vR+kWva18uC
-	e1Pdb8Py5eArjGJPg6TWMfZIO5pnPF4Xqry2pExT5ZKPBCptuN8fQXt+LuFQwAxLEeMv
-	19Z7x0L/M/WzjlA5cI7/GIPx0TLxMx4zl7Ey8RSLLXLv08DMPXBtwyrmpSrdKoNsbt3/
-	M9mw==
-X-Gm-Message-State: APjAAAXCRfuaU/hXoMxpgfrufRRIKwFK9DvVj6vdYVXZNcbBh8ACDu09
-	apXK/N2f9dRxmy5EZ12no4rXq5D8KMz4466dexg=
-X-Google-Smtp-Source: APXvYqwErQCSeDISd79446qPKaEwW5S7mGhscrEJhr7QeQCybU1HMSHQokz4VY7YdqBmKeaDastRaN1B07jSquw1LhA=
-X-Received: by 2002:a7b:c7d5:: with SMTP id z21mr8020829wmk.56.1558538713519; 
-	Wed, 22 May 2019 08:25:13 -0700 (PDT)
+	(envelope-from <laurent@vivier.eu>) id 1hTT8O-0004qP-2s
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 11:26:29 -0400
+Received: from mout.kundenserver.de ([212.227.17.24]:42411)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <laurent@vivier.eu>)
+	id 1hTT8N-0004lq-Nj; Wed, 22 May 2019 11:26:27 -0400
+Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
+	(mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+	1M6EKU-1ha4pz2bVI-006jSm; Wed, 22 May 2019 17:26:07 +0200
+To: Li Qiang <liq3ea@163.com>, alex.williamson@redhat.com, lvivier@redhat.com
+References: <20190521151543.92274-1-liq3ea@163.com>
+	<20190521151543.92274-3-liq3ea@163.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <cb0d777b-a3eb-fb43-2a9a-55655a0b35ee@vivier.eu>
+Date: Wed, 22 May 2019 17:26:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
 MIME-Version: 1.0
-References: <20190522000617.21945-1-programmingkidx@gmail.com>
-	<b90278ec-ee66-76c6-32b5-d5aca1fb8d24@linaro.org>
-In-Reply-To: <b90278ec-ee66-76c6-32b5-d5aca1fb8d24@linaro.org>
-From: G 3 <programmingkidx@gmail.com>
-Date: Wed, 22 May 2019 11:25:02 -0400
-Message-ID: <CAKyx-3M_zMPBuS3BntUGMd21d7xX_d1KOq_Yc21MVjEp+fZbRQ@mail.gmail.com>
-To: Richard Henderson <richard.henderson@linaro.org>
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2a00:1450:4864:20::342
-Content-Type: text/plain; charset="UTF-8"
-X-Content-Filtered-By: Mailman/MimeDel 2.1.21
-Subject: Re: [Qemu-devel] [PATCH] Implement Fraction Rounded bit in FPSCR
- for PowerPC
+In-Reply-To: <20190521151543.92274-3-liq3ea@163.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Provags-ID: V03:K1:7WrvvgV94uA25ZHf2HEgKkiArIwL0biyNwI+uy5Z/+Rd8LadMR+
+	pbCQXsI/qGSRZmJ6DHc/xnPnP/ytvpKxlI2hejBEbmBZZWyg2zIHVVEPveJRN63aseAgXNY
+	NeIeBbrhYS1isFkQA7xoulSVRHN0JCC76jWD+ShBW+nPWHjhpl0hphgh14QAmliQINxdQ8l
+	jCkIsVgviWU+F4vagF/2Q==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:7gtSL0HsaNk=:g/eFMPUbj4BLoA+NR34IE+
+	50hRY6EvZYPTACIEB3UZ20vHKC052sXhid5Uul06spJGBu+vT/Q53nj9cv7+JXhZTo2qwbluK
+	eXyCEsIyL01PNc2uHdFSmjos9EO3qhQtKOprBbSsnxFwEfKk9dlQccVzuxLbgC8/POGyhPwH8
+	I19UOXMuzxz2LmLRiRCxz+lCTxDPVXqcPj1Jv5uafEgPrWt9JlRgbFh/MTyUuVwT8ghyQIudB
+	Wiie/4fDug+MmiJMsVhbP6Fu5DS9CyXSCGw28XTph2I7LruiFCaakgv5hu7Fa8ryD+5ONVpfz
+	LarsQGTcQG1eXs3hwuf9CSqdIzAh9eDC2rncaY+rASgI14fATx5Pn1tAroQnHCjbw3vrkMdKx
+	j44owWOWLDUDuV0O2zcTT+85qe+Bv5hD1ytELUluIE3/1GSN1EpOYiba7SlLGVmG8x/phdgqU
+	lzhJpE1hA8aYn1FfYkpBO8lfOKgh12l348R/09Vsq6pjrQLkqTWzcmlLZb80sCaoR3UFEJXxy
+	KAUrStUTh2sXDVvWg7sHSZjgjgoSdlp/hSEWfOPGhglGj99ibduDKaWf1vu2ZIRNZ6EpkIf1k
+	uvTjKAIazUBKgPJGVB2YKt7/W5q+jDwpkWN3Aa+4GMSWGZEeMXOQbuKTDY5SzS6DF3mrpo+0C
+	hf2fnXs3piPcd7aeWAOc6A2DXVVFEzVQGaJ6xFvByrD53AFz8IIhKeTbjD26PVfvvWQ8T6Sli
+	Gnk3rR4y8U0KaYm10eFQH4354AkPDX2Q2pLQAjISFjKb/SC14NN/0cOOYNM=
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 212.227.17.24
+Subject: Re: [Qemu-devel] [Qemu-trivial] [PATCH v2 2/4] hw: vfio: drop
+ TYPE_FOO MACRO in VMStateDescription
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -73,40 +67,97 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Gibson <david@gibson.dropbear.id.au>,
-	"qemu-ppc@nongnu.org list:PowerPC" <qemu-ppc@nongnu.org>,
-	qemu-devel qemu-devel <qemu-devel@nongnu.org>,
-	Richard Henderson <rth@twiddle.net>
+Cc: qemu-trivial@nongnu.org, liq3ea@gmail.com, philmd@redhat.com,
+	qemu-devel@nongnu.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Thank you for the suggestion.
+On 21/05/2019 17:15, Li Qiang wrote:
+> It's recommended that VMStateDescription names are decoupled from QOM
+> type names as the latter may freely change without consideration of
+> migration compatibility.
+> 
+> Link: https://lists.gnu.org/archive/html/qemu-devel/2018-10/msg02175.html
+> 
+> CC: qemu-trivial@nongnu.org
+> Signed-off-by: Li Qiang <liq3ea@163.com>
+> ---
+>   hw/vfio/amd-xgbe.c      | 2 +-
+>   hw/vfio/ap.c            | 2 +-
+>   hw/vfio/calxeda-xgmac.c | 2 +-
+>   hw/vfio/ccw.c           | 2 +-
+>   hw/vfio/platform.c      | 2 +-
+>   5 files changed, 5 insertions(+), 5 deletions(-)
+> 
+> diff --git a/hw/vfio/amd-xgbe.c b/hw/vfio/amd-xgbe.c
+> index ee64a3b4a2..1b06c0f3ea 100644
+> --- a/hw/vfio/amd-xgbe.c
+> +++ b/hw/vfio/amd-xgbe.c
+> @@ -26,7 +26,7 @@ static void amd_xgbe_realize(DeviceState *dev, Error **errp)
+>   }
+>   
+>   static const VMStateDescription vfio_platform_amd_xgbe_vmstate = {
+> -    .name = TYPE_VFIO_AMD_XGBE,
+> +    .name = "vfio-amd-xgbe",
+>       .unmigratable = 1,
+>   };
+>   
+> diff --git a/hw/vfio/ap.c b/hw/vfio/ap.c
+> index d8b79ebe53..564751650f 100644
+> --- a/hw/vfio/ap.c
+> +++ b/hw/vfio/ap.c
+> @@ -155,7 +155,7 @@ static void vfio_ap_reset(DeviceState *dev)
+>   }
+>   
+>   static const VMStateDescription vfio_ap_vmstate = {
+> -    .name = VFIO_AP_DEVICE_TYPE,
+> +    .name = "vfio-ap",
+>       .unmigratable = 1,
+>   };
+>   
+> diff --git a/hw/vfio/calxeda-xgmac.c b/hw/vfio/calxeda-xgmac.c
+> index e7767c4b02..6cc608b6ca 100644
+> --- a/hw/vfio/calxeda-xgmac.c
+> +++ b/hw/vfio/calxeda-xgmac.c
+> @@ -26,7 +26,7 @@ static void calxeda_xgmac_realize(DeviceState *dev, Error **errp)
+>   }
+>   
+>   static const VMStateDescription vfio_platform_calxeda_xgmac_vmstate = {
+> -    .name = TYPE_VFIO_CALXEDA_XGMAC,
+> +    .name = "vfio-calxeda-xgmac",
+>       .unmigratable = 1,
+>   };
+>   
+> diff --git a/hw/vfio/ccw.c b/hw/vfio/ccw.c
+> index 31dd3a2a87..d9e39552e2 100644
+> --- a/hw/vfio/ccw.c
+> +++ b/hw/vfio/ccw.c
+> @@ -468,7 +468,7 @@ static Property vfio_ccw_properties[] = {
+>   };
+>   
+>   static const VMStateDescription vfio_ccw_vmstate = {
+> -    .name = TYPE_VFIO_CCW,
+> +    .name = "vfio-ccw",
+>       .unmigratable = 1,
+>   };
+>   
+> diff --git a/hw/vfio/platform.c b/hw/vfio/platform.c
+> index 398db38f14..e59a0234dd 100644
+> --- a/hw/vfio/platform.c
+> +++ b/hw/vfio/platform.c
+> @@ -697,7 +697,7 @@ out:
+>   }
+>   
+>   static const VMStateDescription vfio_platform_vmstate = {
+> -    .name = TYPE_VFIO_PLATFORM,
+> +    .name = "vfio-platform",
+>       .unmigratable = 1,
+>   };
+>   
+> 
 
-For the added note, did you want specific places listed? If so please let
-me know these places.
+Applied to my trivial-patches branch.
 
-Thank you.
+Thanks,
+Laurent
 
-On Tue, May 21, 2019 at 11:30 PM Richard Henderson <
-richard.henderson@linaro.org> wrote:
-
-> On 5/21/19 8:06 PM, John Arbuckle wrote:
-> > Implement the PowerPC floating point status and control register flag
-> Fraction Rounded.
-> >
-> > Signed-off-by: John Arbuckle <programmingkidx@gmail.com>
-> > ---
-> >  fpu/softfloat.c               | 15 ++++++++++++---
-> >  include/fpu/softfloat-types.h |  1 +
-> >  target/ppc/fpu_helper.c       |  4 ++++
-> >  3 files changed, 17 insertions(+), 3 deletions(-)
->
-> Please split the target/ppc part away from the softfloat part.
->
-> Also, we should note that there are more places within softfloat that need
-> to
-> be adjusted so that float_float_rounded is fully supported.
->
->
-> r~
->
