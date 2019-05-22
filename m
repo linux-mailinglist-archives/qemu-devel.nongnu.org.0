@@ -2,49 +2,50 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 7DCA125EC1
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 09:42:59 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:37824 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 9159E25EE5
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 09:59:43 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:38003 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTLtq-0005QX-Li
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 03:42:58 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:51178)
+	id 1hTMA2-00039E-G6
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 03:59:42 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:54611)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <clg@kaod.org>) id 1hTLrn-00042r-8q
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 03:40:52 -0400
+	(envelope-from <groug@kaod.org>) id 1hTM94-0002pA-To
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 03:58:44 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <clg@kaod.org>) id 1hTLrm-0002hL-AN
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 03:40:51 -0400
-Received: from 15.mo3.mail-out.ovh.net ([87.98.150.177]:52359)
+	(envelope-from <groug@kaod.org>) id 1hTM93-0004yF-OO
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 03:58:42 -0400
+Received: from 16.mo5.mail-out.ovh.net ([87.98.174.144]:35436)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <clg@kaod.org>) id 1hTLri-0002Tb-BI
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 03:40:48 -0400
-Received: from player761.ha.ovh.net (unknown [10.108.57.178])
-	by mo3.mail-out.ovh.net (Postfix) with ESMTP id 3AD832156B0
-	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 09:40:40 +0200 (CEST)
-Received: from kaod.org (lfbn-1-10649-41.w90-89.abo.wanadoo.fr [90.89.235.41])
-	(Authenticated sender: clg@kaod.org)
-	by player761.ha.ovh.net (Postfix) with ESMTPSA id 8EA5E609C8C5;
-	Wed, 22 May 2019 07:40:34 +0000 (UTC)
-From: =?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>
+	(Exim 4.71) (envelope-from <groug@kaod.org>) id 1hTM93-0004uG-HW
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 03:58:41 -0400
+Received: from player759.ha.ovh.net (unknown [10.108.57.38])
+	by mo5.mail-out.ovh.net (Postfix) with ESMTP id 7834A2363A7
+	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 09:58:38 +0200 (CEST)
+Received: from kaod.org (lns-bzn-46-82-253-208-248.adsl.proxad.net
+	[82.253.208.248]) (Authenticated sender: groug@kaod.org)
+	by player759.ha.ovh.net (Postfix) with ESMTPSA id D000B60F4B9D;
+	Wed, 22 May 2019 07:58:30 +0000 (UTC)
+Date: Wed, 22 May 2019 09:58:29 +0200
+From: Greg Kurz <groug@kaod.org>
 To: David Gibson <david@gibson.dropbear.id.au>
-Date: Wed, 22 May 2019 09:40:16 +0200
-Message-Id: <20190522074016.10521-3-clg@kaod.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20190522074016.10521-1-clg@kaod.org>
-References: <20190522074016.10521-1-clg@kaod.org>
+Message-ID: <20190522095829.7b688f35@bahia.lan>
+In-Reply-To: <20190522044600.16534-22-david@gibson.dropbear.id.au>
+References: <20190522044600.16534-1-david@gibson.dropbear.id.au>
+	<20190522044600.16534-22-david@gibson.dropbear.id.au>
+X-Mailer: Claws Mail 3.16.0 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-X-Ovh-Tracer-Id: 18228319494834064358
+Content-Transfer-Encoding: quoted-printable
+X-Ovh-Tracer-Id: 84723971913783782
 X-VR-SPAMSTATE: OK
 X-VR-SPAMSCORE: -100
-X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddrudduuddguddvfecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-Content-Transfer-Encoding: quoted-printable
+X-VR-SPAMCAUSE: gggruggvucftvghtrhhoucdtuddrgeduuddrudduuddguddviecutefuodetggdotefrodftvfcurfhrohhfihhlvgemucfqggfjpdevjffgvefmvefgnecuuegrihhlohhuthemucehtddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 87.98.150.177
-Subject: [Qemu-devel] [PATCH 2/2] spapr: change default interrupt mode to
- 'dual'
+X-Received-From: 87.98.174.144
+Subject: Re: [Qemu-devel] [PULL 21/38] spapr: Add forgotten capability to
+ migration stream
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -56,57 +57,75 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>,
-	=?UTF-8?q?C=C3=A9dric=20Le=20Goater?= <clg@kaod.org>,
-	qemu-ppc@nongnu.org, qemu-devel@nongnu.org, Greg Kurz <groug@kaod.org>
+Cc: lvivier@redhat.com, peter.maydell@linaro.org, qemu-ppc@nongnu.org,
+	qemu-devel@nongnu.org, clg@kaod.org
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-Now that XIVE support is complete (QEMU emulated and KVM devices),
-change the pseries machine to advertise both interrupt modes: XICS
-(P7/P8) and XIVE (P9).
+On Wed, 22 May 2019 14:45:43 +1000
+David Gibson <david@gibson.dropbear.id.au> wrote:
 
-The machine default interrupt modes depends on the version. Current
-settings are:
+> spapr machine capabilities are supposed to be sent in the migration stream
+> so that we can sanity check the source and destination have compatible
+> configuration.  Unfortunately, when we added the hpt-max-page-size
+> capability, we forgot to add it to the migration state.  This means that =
+we
+> can generate spurious warnings when both ends are configured for large
+> pages, or potentially fail to warn if the source is configured for huge
+> pages, but the destination is not.
+>=20
+> Fixes: 2309832afda "spapr: Maximum (HPT) pagesize property"
+>=20
+> Signed-off-by: David Gibson <david@gibson.dropbear.id.au>
+> Reviewed-by: C=C3=A9dric Le Goater <clg@kaod.org>
+> ---
 
-    pseries   default interrupt mode
+Huh... we discussed that it was breaking backward migration:
 
-    4.1       dual
-    4.0       xics
-    3.1       xics
-    3.0       legacy xics (different IRQ number space layout)
+https://lists.gnu.org/archive/html/qemu-ppc/2019-05/msg00330.html
 
-Signed-off-by: C=C3=A9dric Le Goater <clg@kaod.org>
----
- hw/ppc/spapr.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+So I'm a bit surprised to see this in the PR... is it intentional ?
 
-diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
-index 39e698e9b013..4fd16b43f014 100644
---- a/hw/ppc/spapr.c
-+++ b/hw/ppc/spapr.c
-@@ -4352,7 +4352,7 @@ static void spapr_machine_class_init(ObjectClass *o=
-c, void *data)
-     smc->default_caps.caps[SPAPR_CAP_LARGE_DECREMENTER] =3D SPAPR_CAP_ON=
-;
-     smc->default_caps.caps[SPAPR_CAP_CCF_ASSIST] =3D SPAPR_CAP_OFF;
-     spapr_caps_add_properties(smc, &error_abort);
--    smc->irq =3D &spapr_irq_xics;
-+    smc->irq =3D &spapr_irq_dual;
-     smc->dr_phb_enabled =3D true;
- }
-=20
-@@ -4430,6 +4430,7 @@ static void spapr_machine_4_0_class_options(Machine=
-Class *mc)
-     spapr_machine_4_1_class_options(mc);
-     compat_props_add(mc->compat_props, hw_compat_4_0, hw_compat_4_0_len)=
-;
-     smc->phb_placement =3D phb_placement_4_0;
-+    smc->irq =3D &spapr_irq_xics;
- }
-=20
- DEFINE_SPAPR_MACHINE(4_0, "4.0", false);
---=20
-2.20.1
+>  hw/ppc/spapr.c         | 1 +
+>  hw/ppc/spapr_caps.c    | 1 +
+>  include/hw/ppc/spapr.h | 1 +
+>  3 files changed, 3 insertions(+)
+>=20
+> diff --git a/hw/ppc/spapr.c b/hw/ppc/spapr.c
+> index 8580a8dc67..bcae30ad26 100644
+> --- a/hw/ppc/spapr.c
+> +++ b/hw/ppc/spapr.c
+> @@ -2125,6 +2125,7 @@ static const VMStateDescription vmstate_spapr =3D {
+>          &vmstate_spapr_cap_cfpc,
+>          &vmstate_spapr_cap_sbbc,
+>          &vmstate_spapr_cap_ibs,
+> +        &vmstate_spapr_cap_hpt_maxpagesize,
+>          &vmstate_spapr_irq_map,
+>          &vmstate_spapr_cap_nested_kvm_hv,
+>          &vmstate_spapr_dtb,
+> diff --git a/hw/ppc/spapr_caps.c b/hw/ppc/spapr_caps.c
+> index 9b1c10baa6..658eb15a14 100644
+> --- a/hw/ppc/spapr_caps.c
+> +++ b/hw/ppc/spapr_caps.c
+> @@ -703,6 +703,7 @@ SPAPR_CAP_MIG_STATE(dfp, SPAPR_CAP_DFP);
+>  SPAPR_CAP_MIG_STATE(cfpc, SPAPR_CAP_CFPC);
+>  SPAPR_CAP_MIG_STATE(sbbc, SPAPR_CAP_SBBC);
+>  SPAPR_CAP_MIG_STATE(ibs, SPAPR_CAP_IBS);
+> +SPAPR_CAP_MIG_STATE(hpt_maxpagesize, SPAPR_CAP_HPT_MAXPAGESIZE);
+>  SPAPR_CAP_MIG_STATE(nested_kvm_hv, SPAPR_CAP_NESTED_KVM_HV);
+>  SPAPR_CAP_MIG_STATE(large_decr, SPAPR_CAP_LARGE_DECREMENTER);
+>  SPAPR_CAP_MIG_STATE(ccf_assist, SPAPR_CAP_CCF_ASSIST);
+> diff --git a/include/hw/ppc/spapr.h b/include/hw/ppc/spapr.h
+> index 7e32f309c2..9fc91c8f5e 100644
+> --- a/include/hw/ppc/spapr.h
+> +++ b/include/hw/ppc/spapr.h
+> @@ -849,6 +849,7 @@ extern const VMStateDescription vmstate_spapr_cap_dfp;
+>  extern const VMStateDescription vmstate_spapr_cap_cfpc;
+>  extern const VMStateDescription vmstate_spapr_cap_sbbc;
+>  extern const VMStateDescription vmstate_spapr_cap_ibs;
+> +extern const VMStateDescription vmstate_spapr_cap_hpt_maxpagesize;
+>  extern const VMStateDescription vmstate_spapr_cap_nested_kvm_hv;
+>  extern const VMStateDescription vmstate_spapr_cap_large_decr;
+>  extern const VMStateDescription vmstate_spapr_cap_ccf_assist;
 
 
