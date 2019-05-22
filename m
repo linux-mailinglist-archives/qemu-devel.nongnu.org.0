@@ -2,80 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 2F8CE25C31
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 05:32:16 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:34908 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4372C25C5E
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 05:52:06 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:35107 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTHzC-0006uT-PR
-	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 23:32:14 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:37674)
+	id 1hTIIP-0002u8-9K
+	for lists+qemu-devel@lfdr.de; Tue, 21 May 2019 23:52:05 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:40400)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hTHxe-0005hQ-GE
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 23:30:39 -0400
+	(envelope-from <bounces@canonical.com>) id 1hTIGy-0001kA-Kp
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 23:50:37 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hTHxc-0004UJ-Q0
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 23:30:38 -0400
-Received: from mail-yw1-xc41.google.com ([2607:f8b0:4864:20::c41]:45258)
+	(envelope-from <bounces@canonical.com>) id 1hTIGx-0000uV-6d
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 23:50:36 -0400
+Received: from indium.canonical.com ([91.189.90.7]:58462)
 	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hTHxc-0004Sl-FM
-	for qemu-devel@nongnu.org; Tue, 21 May 2019 23:30:36 -0400
-Received: by mail-yw1-xc41.google.com with SMTP id w18so276918ywa.12
-	for <qemu-devel@nongnu.org>; Tue, 21 May 2019 20:30:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=subject:to:references:from:openpgp:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=ySDkliWlE1kyDr5KZZZU6xJaPfJ9Q+YlDGkST3IXHCM=;
-	b=tyctUt7kS4XDuuwgNRrfzymGUTNHlYP1roTCB4lgI175xVRnMVN9nlw0SaIG6UPzt+
-	MOU9QEk7gJ6macYyzOhWLKkf1KB4/5+2pbPm+q6iSIXEquphJtx0xRPwT7VVqJqX2Aqu
-	6K0XxWVFHjmvv2YUISmCzVtLMGo2xVeGtUP1hy4yuo/8cd372o3661X/xLN8KPNNYUVg
-	7DKBeWtGacnvue9pEgnvT3+VpZ1BDsxg///HdZGMlbIYPc/mnkzn5+El7+YCU5QJNfdZ
-	L3Nq4/59qNFTNf12w6HJC4oSKSaeS7R4mui3rzthZ+bI2cpQIp+XUtq1HZAF7+gPpgoL
-	UA7Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=ySDkliWlE1kyDr5KZZZU6xJaPfJ9Q+YlDGkST3IXHCM=;
-	b=nnnS26XfrRH1L3uLfRMYMHgoVF6QLkdLoR4OpP54nsb9OqUthLMSBZKdVyTT0Oyr0R
-	79PqKGhDysc5hdk5urESFB66d8TCwvxTLc0Wt61MXQPfOHWjYheJ6rK0HKpVNJX57Cai
-	3j/UBAQ3uqIvr3UQnX7Fg/cKqJMOceOfYZ4dhmh6dP1GWB1UAMcSXfBqi5DOQcsHE1Ex
-	3mwP11O62qg5QGWRgro7oeIlYdXffHsnmAxiP+NloJ0GrAQ6pkginUqCdeiS3ZLGyZDG
-	JKnKjI//baZqF7fCMbkH/mwgqN5BTz9Vdtj8G5to0QlefD22t6ic7VD8ZgLrLffMf7uf
-	693g==
-X-Gm-Message-State: APjAAAXeTRdlENrn2EkJuTOCOs+ZcNW919rX1xLKDvgRYsvS3rytfjPp
-	7gCubPPg7VOk2q7F2xW8cgv5ZQ==
-X-Google-Smtp-Source: APXvYqyxHlK5VILkFrTWfttXeXKbxXOQguibzFmrVxKxrwHmMG3OJ8lBZpg/8UxGKCkLQdIQBpURMQ==
-X-Received: by 2002:a81:2894:: with SMTP id o142mr41663243ywo.55.1558495833923;
-	Tue, 21 May 2019 20:30:33 -0700 (PDT)
-Received: from [10.243.114.74] ([71.46.56.7]) by smtp.gmail.com with ESMTPSA id
-	196sm4652990ywg.103.2019.05.21.20.30.32
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Tue, 21 May 2019 20:30:33 -0700 (PDT)
-To: John Arbuckle <programmingkidx@gmail.com>, qemu-devel@nongnu.org,
-	qemu-ppc@nongnu.org, rth@twiddle.net, david@gibson.dropbear.id.au
-References: <20190522000617.21945-1-programmingkidx@gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <b90278ec-ee66-76c6-32b5-d5aca1fb8d24@linaro.org>
-Date: Tue, 21 May 2019 23:30:31 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(Exim 4.71) (envelope-from <bounces@canonical.com>)
+	id 1hTIGx-0000tb-0j
+	for qemu-devel@nongnu.org; Tue, 21 May 2019 23:50:35 -0400
+Received: from loganberry.canonical.com ([91.189.90.37])
+	by indium.canonical.com with esmtp (Exim 4.86_2 #2 (Debian))
+	id 1hTIGv-0000fg-9x
+	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 03:50:33 +0000
+Received: from loganberry.canonical.com (localhost [127.0.0.1])
+	by loganberry.canonical.com (Postfix) with ESMTP id 487CF2E8024
+	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 03:50:33 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20190522000617.21945-1-programmingkidx@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::c41
-Subject: Re: [Qemu-devel] [PATCH] Implement Fraction Rounded bit in FPSCR
- for PowerPC
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+Date: Wed, 22 May 2019 03:41:10 -0000
+From: Eunseok Choi <1829964@bugs.launchpad.net>
+To: qemu-devel@nongnu.org
+X-Launchpad-Notification-Type: bug
+X-Launchpad-Bug: product=qemu; status=New; importance=Undecided; assignee=None;
+X-Launchpad-Bug-Tags: android-x86 leak virt-gpu vram
+X-Launchpad-Bug-Information-Type: Public
+X-Launchpad-Bug-Private: no
+X-Launchpad-Bug-Security-Vulnerability: no
+X-Launchpad-Bug-Commenters: riosnai
+X-Launchpad-Bug-Reporter: Eunseok Choi (riosnai)
+X-Launchpad-Bug-Modifier: Eunseok Choi (riosnai)
+Message-Id: <155849647074.15430.13880026935625975661.malonedeb@wampee.canonical.com>
+X-Launchpad-Message-Rationale: Subscriber (QEMU) @qemu-devel-ml
+X-Launchpad-Message-For: qemu-devel-ml
+Precedence: bulk
+X-Generated-By: Launchpad (canonical.com); Revision="18962";
+	Instance="launchpad-lazr.conf"
+X-Launchpad-Hash: a8a4a748a565dff393235b63310fe10249e6b519
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 91.189.90.7
+Subject: [Qemu-devel] [Bug 1829964] [NEW] HOST VRAM Leak when performs
+ android-x86 window rotation with Virt-GPU
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
-Precedence: list
 List-Id: <qemu-devel.nongnu.org>
 List-Unsubscribe: <https://lists.nongnu.org/mailman/options/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=unsubscribe>
@@ -84,24 +64,144 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
+Reply-To: Bug 1829964 <1829964@bugs.launchpad.net>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/21/19 8:06 PM, John Arbuckle wrote:
-> Implement the PowerPC floating point status and control register flag Fraction Rounded.
-> 
-> Signed-off-by: John Arbuckle <programmingkidx@gmail.com>
-> ---
->  fpu/softfloat.c               | 15 ++++++++++++---
->  include/fpu/softfloat-types.h |  1 +
->  target/ppc/fpu_helper.c       |  4 ++++
->  3 files changed, 17 insertions(+), 3 deletions(-)
+Public bug reported:
 
-Please split the target/ppc part away from the softfloat part.
+I will report something strange thing about host VRAM leakage after
+anroid-x86 window rotation when it runs with virt-gpu(+ virgl-renderer)
 
-Also, we should note that there are more places within softfloat that need to
-be adjusted so that float_float_rounded is fully supported.
+Please watching below video link.
+
+https://www.youtube.com/watch?v=3DmJIbGZLWF1s&feature=3Dyoutu.be
+
+(orginal video file : https://drive.google.com/file/d
+/1lkdTx_8yTbSVjKXlnxnnk96fWe-w6Mxb/view?usp=3Dsharing)
+
+I don't sure what is the problem...
+
+Here are my tested history
+---------------------------------------------------------------------------=
+-----------------------
+Install android-x86 on I7 desktop PCs with intel UHD GPU  - No leak.
+Install android-x86 on I7 desktop PCs with NVIDIA GTX GPU series - No leak.
+Install android-x86 on guest machine emulated skylake cpu with QEMU(+virt-g=
+pu, virgl-renderer) - Leak
+(HOST CPU - I5, INTEL UHD GPU)
+Install android-x86 on guest machine emulated skylake cpu with QEMU(+virt-g=
+pu, virgl-renderer) - Leak
+(HOST CPU - I7, NVIDIA GTX GPU)
+
+COMMON:
+In case of NVIDIA GPU : check vram using nvidia-smi
+In case of intel UHD GPU : check shared-vram using free cmd
+
+We checked guest android-x86 system down when vram is full after performing=
+ many rotation
+---------------------------------------------------------------------------=
+----------------
+
+Is it virt-gpu driver's problem?
+
+I hope someone can help me...
+
+Thanks in advance!!
 
 
-r~
+PS
+
+
+Here are qemu options I used...
+
+-machine type=3Dq35,accel=3Dkvm -cpu host --enable-kvm \
+-smp cpus=3D4,cores=3D4,threads=3D1 -m 4096 \
+-drive file=3Dctb0319.qcow2,format=3Dqcow2,if=3Dvirtio,aio=3Dthreads \
+-device virtio-vga,virgl=3Don \
+-device qemu-xhci,id=3Dxhci -device usb-mouse,bus=3Dxhci.0 -device usb-kbd,=
+bus=3Dxhci.0 \
+-soundhw hda -display sdl,gl=3Don -netdev user,id=3Dqemunet0,hostfwd=3Dtcp:=
+:4000-:7000,hostfwd=3Dtcp::5555-:5555,hostfwd=3Dtcp::4012-:7012,hostfwd=3Dt=
+cp::4013-:7013 -device virtio-net,netdev=3Dqemunet0 -boot menu=3Don
+
+** Affects: qemu
+     Importance: Undecided
+         Status: New
+
+
+** Tags: android-x86 leak virt-gpu vram
+
+-- =
+
+You received this bug notification because you are a member of qemu-
+devel-ml, which is subscribed to QEMU.
+https://bugs.launchpad.net/bugs/1829964
+
+Title:
+  HOST VRAM Leak when performs android-x86 window rotation with Virt-GPU
+
+Status in QEMU:
+  New
+
+Bug description:
+  I will report something strange thing about host VRAM leakage after
+  anroid-x86 window rotation when it runs with virt-gpu(+ virgl-
+  renderer)
+
+  Please watching below video link.
+
+  https://www.youtube.com/watch?v=3DmJIbGZLWF1s&feature=3Dyoutu.be
+
+  (orginal video file : https://drive.google.com/file/d
+  /1lkdTx_8yTbSVjKXlnxnnk96fWe-w6Mxb/view?usp=3Dsharing)
+
+  I don't sure what is the problem...
+
+  Here are my tested history
+  -------------------------------------------------------------------------=
+-------------------------
+  Install android-x86 on I7 desktop PCs with intel UHD GPU  - No leak.
+  Install android-x86 on I7 desktop PCs with NVIDIA GTX GPU series - No lea=
+k.
+  Install android-x86 on guest machine emulated skylake cpu with QEMU(+virt=
+-gpu, virgl-renderer) - Leak
+  (HOST CPU - I5, INTEL UHD GPU)
+  Install android-x86 on guest machine emulated skylake cpu with QEMU(+virt=
+-gpu, virgl-renderer) - Leak
+  (HOST CPU - I7, NVIDIA GTX GPU)
+
+  COMMON:
+  In case of NVIDIA GPU : check vram using nvidia-smi
+  In case of intel UHD GPU : check shared-vram using free cmd
+
+  We checked guest android-x86 system down when vram is full after performi=
+ng many rotation
+  -------------------------------------------------------------------------=
+------------------
+
+  Is it virt-gpu driver's problem?
+
+  I hope someone can help me...
+
+  Thanks in advance!!
+
+
+  PS
+
+
+  Here are qemu options I used...
+
+  -machine type=3Dq35,accel=3Dkvm -cpu host --enable-kvm \
+  -smp cpus=3D4,cores=3D4,threads=3D1 -m 4096 \
+  -drive file=3Dctb0319.qcow2,format=3Dqcow2,if=3Dvirtio,aio=3Dthreads \
+  -device virtio-vga,virgl=3Don \
+  -device qemu-xhci,id=3Dxhci -device usb-mouse,bus=3Dxhci.0 -device usb-kb=
+d,bus=3Dxhci.0 \
+  -soundhw hda -display sdl,gl=3Don -netdev user,id=3Dqemunet0,hostfwd=3Dtc=
+p::4000-:7000,hostfwd=3Dtcp::5555-:5555,hostfwd=3Dtcp::4012-:7012,hostfwd=
+=3Dtcp::4013-:7013 -device virtio-net,netdev=3Dqemunet0 -boot menu=3Don
+
+To manage notifications about this bug go to:
+https://bugs.launchpad.net/qemu/+bug/1829964/+subscriptions
 
