@@ -2,37 +2,37 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 715F726C1A
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 21:34:16 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:50220 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id D55CE26BF0
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 21:32:04 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:50200 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTX0B-0007lx-KK
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 15:34:15 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:36616)
+	id 1hTWy4-00066V-0p
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 15:32:04 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:36603)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hTWS0-0003G8-CA
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:58:57 -0400
-Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hTWRy-0000P0-AG
+	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hTWRz-0003FL-M1
 	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:58:56 -0400
-Received: from mx2.rt-rk.com ([89.216.37.149]:60496 helo=mail.rt-rk.com)
+Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
+	(envelope-from <aleksandar.markovic@rt-rk.com>) id 1hTWRy-0000Ov-9p
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:58:55 -0400
+Received: from mx2.rt-rk.com ([89.216.37.149]:60497 helo=mail.rt-rk.com)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
 	(Exim 4.71) (envelope-from <aleksandar.markovic@rt-rk.com>)
-	id 1hTWRx-0000NX-To
+	id 1hTWRx-0000Nb-UQ
 	for qemu-devel@nongnu.org; Wed, 22 May 2019 14:58:54 -0400
 Received: from localhost (localhost [127.0.0.1])
-	by mail.rt-rk.com (Postfix) with ESMTP id D03E21A4561;
+	by mail.rt-rk.com (Postfix) with ESMTP id D41181A2160;
 	Wed, 22 May 2019 20:58:49 +0200 (CEST)
 X-Virus-Scanned: amavisd-new at rt-rk.com
 Received: from rtrkw774-lin.domain.local (rtrkw774-lin.domain.local
 	[10.10.13.43])
-	by mail.rt-rk.com (Postfix) with ESMTPSA id A48711A2238;
+	by mail.rt-rk.com (Postfix) with ESMTPSA id AEB7C1A4545;
 	Wed, 22 May 2019 20:58:49 +0200 (CEST)
 From: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>
 To: qemu-devel@nongnu.org
-Date: Wed, 22 May 2019 20:58:40 +0200
-Message-Id: <1558551522-24147-10-git-send-email-aleksandar.markovic@rt-rk.com>
+Date: Wed, 22 May 2019 20:58:41 +0200
+Message-Id: <1558551522-24147-11-git-send-email-aleksandar.markovic@rt-rk.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1558551522-24147-1-git-send-email-aleksandar.markovic@rt-rk.com>
 References: <1558551522-24147-1-git-send-email-aleksandar.markovic@rt-rk.com>
@@ -41,8 +41,8 @@ Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 3.x
 X-Received-From: 89.216.37.149
-Subject: [Qemu-devel] [PULL v2 09/11] hw/mips: Use object_initialize_child
- for correct reference counting
+Subject: [Qemu-devel] [PULL v2 10/11] mips: Decide to map PAGE_EXEC in
+ map_address
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -58,162 +58,97 @@ Cc: peter.maydell@linaro.org, amarkovic@wavecomp.com
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-From: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+From: Jakub Jerm=C3=A1=C5=99 <jakub.jermar@kernkonzept.com>
 
-As explained in commit aff39be0ed97:
+This commit addresses QEMU Bug #1825311:
 
-  Both functions, object_initialize() and object_property_add_child()
-  increase the reference counter of the new object, so one of the
-  references has to be dropped afterwards to get the reference
-  counting right. Otherwise the child object will not be properly
-  cleaned up when the parent gets destroyed.
-  Thus let's use now object_initialize_child() instead to get the
-  reference counting here right.
+  mips_cpu_handle_mmu_fault renders all accessed pages executable
 
-This patch was generated using the following Coccinelle script:
+It allows finer-grained control over whether the accessed page should
+be executable by moving the decision to the underlying map_address
+function, which has more information for this.
 
- @use_sysbus_init_child_obj_missing_parent@
- expression child_ptr;
- expression child_type;
- expression child_size;
- @@
- -   object_initialize(child_ptr, child_size, child_type);
-     ...
- -   qdev_set_parent_bus(DEVICE(child_ptr), sysbus_get_default());
-     ...
- ?-  object_unref(OBJECT(child_ptr));
- +   sysbus_init_child_obj(OBJECT(PARENT_OBJ), "CHILD_NAME", child_ptr,
- +                         child_size, child_type);
+As a result, pages that have the XI bit set in the TLB and are accessed
+for read/write, don't suddenly end up being executable.
 
-We let the Malta/Boston machines adopt the CPS child, and similarly
-the CPS adopts the ITU/CPC/GIC/GCR children.
+Fixes: https://bugs.launchpad.net/qemu/+bug/1825311
+Fixes: 2fb58b73746e ('target-mips: add RI and XI fields to TLB entry')
 
-While the object_initialize() function doesn't take an
-'Error *errp' argument, the object_initialize_child() does.
-Since this code is used when a machine is created (and is not
-yet running), we deliberately choose to use the &error_abort
-argument instead of ignoring errors if an object creation failed.
-This choice also matches when using sysbus_init_child_obj(),
-since its code is:
-
-  void sysbus_init_child_obj(Object *parent,
-                             const char *childname, void *child,
-                             size_t childsize, const char *childtype)
-  {
-      object_initialize_child(parent, childname, child, childsize,
-                              childtype, &error_abort, NULL);
-
-      qdev_set_parent_bus(DEVICE(child), sysbus_get_default());
-  }
-
-Suggested-by: Eduardo Habkost <ehabkost@redhat.com>
-Inspired-by: Thomas Huth <thuth@redhat.com>
-Signed-off-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Signed-off-by: Jakub Jerm=C3=A1=C5=99 <jakub.jermar@kernkonzept.com>
 Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
-Reviewed-by: Paolo Bonzini <pbonzini@redhat.com>
-Message-Id: <20190507163416.24647-11-philmd@redhat.com>
+Reviewed-by: Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com>
+Message-Id: <20190517123533.868479-1-jakub.jermar@kernkonzept.com>
 ---
- hw/mips/boston.c     |  4 ++--
- hw/mips/cps.c        | 20 ++++++++------------
- hw/mips/mips_malta.c |  4 ++--
- 3 files changed, 12 insertions(+), 16 deletions(-)
+ target/mips/helper.c | 13 ++++++++-----
+ 1 file changed, 8 insertions(+), 5 deletions(-)
 
-diff --git a/hw/mips/boston.c b/hw/mips/boston.c
-index cb3ea85..1ffccc8 100644
---- a/hw/mips/boston.c
-+++ b/hw/mips/boston.c
-@@ -455,8 +455,8 @@ static void boston_mach_init(MachineState *machine)
-=20
-     is_64b =3D cpu_supports_isa(machine->cpu_type, ISA_MIPS64);
-=20
--    object_initialize(&s->cps, sizeof(s->cps), TYPE_MIPS_CPS);
--    qdev_set_parent_bus(DEVICE(&s->cps), sysbus_get_default());
-+    sysbus_init_child_obj(OBJECT(machine), "cps", OBJECT(&s->cps),
-+                          sizeof(s->cps), TYPE_MIPS_CPS);
-     object_property_set_str(OBJECT(&s->cps), machine->cpu_type, "cpu-typ=
-e",
-                             &err);
-     object_property_set_int(OBJECT(&s->cps), smp_cpus, "num-vp", &err);
-diff --git a/hw/mips/cps.c b/hw/mips/cps.c
-index fc97f59..649b35a 100644
---- a/hw/mips/cps.c
-+++ b/hw/mips/cps.c
-@@ -94,9 +94,8 @@ static void mips_cps_realize(DeviceState *dev, Error **=
-errp)
-=20
-     /* Inter-Thread Communication Unit */
-     if (itu_present) {
--        object_initialize(&s->itu, sizeof(s->itu), TYPE_MIPS_ITU);
--        qdev_set_parent_bus(DEVICE(&s->itu), sysbus_get_default());
--
-+        sysbus_init_child_obj(OBJECT(dev), "itu", &s->itu, sizeof(s->itu=
-),
-+                              TYPE_MIPS_ITU);
-         object_property_set_int(OBJECT(&s->itu), 16, "num-fifo", &err);
-         object_property_set_int(OBJECT(&s->itu), 16, "num-semaphores", &=
-err);
-         object_property_set_bool(OBJECT(&s->itu), saar_present, "saar-pr=
-esent",
-@@ -115,9 +114,8 @@ static void mips_cps_realize(DeviceState *dev, Error =
-**errp)
-     }
-=20
-     /* Cluster Power Controller */
--    object_initialize(&s->cpc, sizeof(s->cpc), TYPE_MIPS_CPC);
--    qdev_set_parent_bus(DEVICE(&s->cpc), sysbus_get_default());
--
-+    sysbus_init_child_obj(OBJECT(dev), "cpc", &s->cpc, sizeof(s->cpc),
-+                          TYPE_MIPS_CPC);
-     object_property_set_int(OBJECT(&s->cpc), s->num_vp, "num-vp", &err);
-     object_property_set_int(OBJECT(&s->cpc), 1, "vp-start-running", &err=
-);
-     object_property_set_bool(OBJECT(&s->cpc), true, "realized", &err);
-@@ -130,9 +128,8 @@ static void mips_cps_realize(DeviceState *dev, Error =
-**errp)
-                             sysbus_mmio_get_region(SYS_BUS_DEVICE(&s->cp=
-c), 0));
-=20
-     /* Global Interrupt Controller */
--    object_initialize(&s->gic, sizeof(s->gic), TYPE_MIPS_GIC);
--    qdev_set_parent_bus(DEVICE(&s->gic), sysbus_get_default());
--
-+    sysbus_init_child_obj(OBJECT(dev), "gic", &s->gic, sizeof(s->gic),
-+                          TYPE_MIPS_GIC);
-     object_property_set_int(OBJECT(&s->gic), s->num_vp, "num-vp", &err);
-     object_property_set_int(OBJECT(&s->gic), 128, "num-irq", &err);
-     object_property_set_bool(OBJECT(&s->gic), true, "realized", &err);
-@@ -147,9 +144,8 @@ static void mips_cps_realize(DeviceState *dev, Error =
-**errp)
-     /* Global Configuration Registers */
-     gcr_base =3D env->CP0_CMGCRBase << 4;
-=20
--    object_initialize(&s->gcr, sizeof(s->gcr), TYPE_MIPS_GCR);
--    qdev_set_parent_bus(DEVICE(&s->gcr), sysbus_get_default());
--
-+    sysbus_init_child_obj(OBJECT(dev), "gcr", &s->gcr, sizeof(s->gcr),
-+                          TYPE_MIPS_GCR);
-     object_property_set_int(OBJECT(&s->gcr), s->num_vp, "num-vp", &err);
-     object_property_set_int(OBJECT(&s->gcr), 0x800, "gcr-rev", &err);
-     object_property_set_int(OBJECT(&s->gcr), gcr_base, "gcr-base", &err)=
-;
-diff --git a/hw/mips/mips_malta.c b/hw/mips/mips_malta.c
-index 04f2117..aff8464 100644
---- a/hw/mips/mips_malta.c
-+++ b/hw/mips/mips_malta.c
-@@ -1151,8 +1151,8 @@ static void create_cps(MaltaState *s, const char *c=
-pu_type,
+diff --git a/target/mips/helper.c b/target/mips/helper.c
+index 9799f2e..68e44df 100644
+--- a/target/mips/helper.c
++++ b/target/mips/helper.c
+@@ -43,7 +43,7 @@ int no_mmu_map_address (CPUMIPSState *env, hwaddr *phys=
+ical, int *prot,
+                         target_ulong address, int rw, int access_type)
  {
-     Error *err =3D NULL;
+     *physical =3D address;
+-    *prot =3D PAGE_READ | PAGE_WRITE;
++    *prot =3D PAGE_READ | PAGE_WRITE | PAGE_EXEC;
+     return TLBRET_MATCH;
+ }
 =20
--    object_initialize(&s->cps, sizeof(s->cps), TYPE_MIPS_CPS);
--    qdev_set_parent_bus(DEVICE(&s->cps), sysbus_get_default());
-+    sysbus_init_child_obj(OBJECT(s), "cps", OBJECT(&s->cps), sizeof(s->c=
-ps),
-+                          TYPE_MIPS_CPS);
-     object_property_set_str(OBJECT(&s->cps), cpu_type, "cpu-type", &err)=
-;
-     object_property_set_int(OBJECT(&s->cps), smp_cpus, "num-vp", &err);
-     object_property_set_bool(OBJECT(&s->cps), true, "realized", &err);
+@@ -61,7 +61,7 @@ int fixed_mmu_map_address (CPUMIPSState *env, hwaddr *p=
+hysical, int *prot,
+     else
+         *physical =3D address;
+=20
+-    *prot =3D PAGE_READ | PAGE_WRITE;
++    *prot =3D PAGE_READ | PAGE_WRITE | PAGE_EXEC;
+     return TLBRET_MATCH;
+ }
+=20
+@@ -101,6 +101,9 @@ int r4k_map_address (CPUMIPSState *env, hwaddr *physi=
+cal, int *prot,
+                 *prot =3D PAGE_READ;
+                 if (n ? tlb->D1 : tlb->D0)
+                     *prot |=3D PAGE_WRITE;
++                if (!(n ? tlb->XI1 : tlb->XI0)) {
++                    *prot |=3D PAGE_EXEC;
++                }
+                 return TLBRET_MATCH;
+             }
+             return TLBRET_DIRTY;
+@@ -182,7 +185,7 @@ static int get_seg_physical_address(CPUMIPSState *env=
+, hwaddr *physical,
+     } else {
+         /* The segment is unmapped */
+         *physical =3D physical_base | (real_address & segmask);
+-        *prot =3D PAGE_READ | PAGE_WRITE;
++        *prot =3D PAGE_READ | PAGE_WRITE | PAGE_EXEC;
+         return TLBRET_MATCH;
+     }
+ }
+@@ -907,7 +910,7 @@ bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, i=
+nt size,
+     }
+     if (ret =3D=3D TLBRET_MATCH) {
+         tlb_set_page(cs, address & TARGET_PAGE_MASK,
+-                     physical & TARGET_PAGE_MASK, prot | PAGE_EXEC,
++                     physical & TARGET_PAGE_MASK, prot,
+                      mmu_idx, TARGET_PAGE_SIZE);
+         return true;
+     }
+@@ -927,7 +930,7 @@ bool mips_cpu_tlb_fill(CPUState *cs, vaddr address, i=
+nt size,
+                                        access_type, mips_access_type, mm=
+u_idx);
+             if (ret =3D=3D TLBRET_MATCH) {
+                 tlb_set_page(cs, address & TARGET_PAGE_MASK,
+-                             physical & TARGET_PAGE_MASK, prot | PAGE_EX=
+EC,
++                             physical & TARGET_PAGE_MASK, prot,
+                              mmu_idx, TARGET_PAGE_SIZE);
+                 return true;
+             }
 --=20
 2.7.4
 
