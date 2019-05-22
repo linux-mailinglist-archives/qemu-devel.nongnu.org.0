@@ -2,79 +2,59 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id DCC7B26773
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 17:55:58 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:46583 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id A86D42674A
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 17:51:45 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:46450 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTTaw-0002Oo-2X
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 11:55:58 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:48951)
+	id 1hTTWq-0007LJ-QR
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 11:51:44 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:49378)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hTTNN-0000VY-AA
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 11:41:58 -0400
+	(envelope-from <laurent@vivier.eu>) id 1hTTOc-0001XH-FF
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 11:43:15 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <richard.henderson@linaro.org>) id 1hTTNL-000842-Fv
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 11:41:57 -0400
-Received: from mail-vs1-xe34.google.com ([2607:f8b0:4864:20::e34]:39105)
-	by eggs.gnu.org with esmtps (TLS1.0:RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <richard.henderson@linaro.org>)
-	id 1hTTNJ-0007mB-EQ
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 11:41:55 -0400
-Received: by mail-vs1-xe34.google.com with SMTP id m1so1679397vsr.6
-	for <qemu-devel@nongnu.org>; Wed, 22 May 2019 08:41:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linaro.org; s=google;
-	h=subject:to:cc:references:from:openpgp:message-id:date:user-agent
-	:mime-version:in-reply-to:content-language:content-transfer-encoding;
-	bh=sRQTFPgHxy3uIYJo5ma2IAY1Aj3KCNIC0hUAp3ZFE8k=;
-	b=RE/ZkAjqCR8ZpTAuVAaNlNyvprdclVepeLNu29f0/VcUkEIoFwbSfKhbVP2IfFB+Cg
-	a6ciAddMMOkn0JcgNU16QK3w5SR6VjSqoQaCB+Bfj8OUgbAaRNrduEV719XphK6T+ZfL
-	MI5FWFrKL0p9V0W5rnA/YsP+Kv31i68YmzFMXbp/wzP1W/IWaYLRTH+TXWMJXOTBq3GZ
-	RvIiumd5PhBtj4eqweGO6E2T7WgtpR1w1iA4IBHRsQ6Q0hyVMX0VstjqzY+ZvYCnPYHP
-	RCcNgjhrEN7R5hThaPs/tnZADo/GPbyzvKLaJ/C/MhRh3w6+ae00XqYXvm/r7YsNBvyY
-	POXg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-	d=1e100.net; s=20161025;
-	h=x-gm-message-state:subject:to:cc:references:from:openpgp:message-id
-	:date:user-agent:mime-version:in-reply-to:content-language
-	:content-transfer-encoding;
-	bh=sRQTFPgHxy3uIYJo5ma2IAY1Aj3KCNIC0hUAp3ZFE8k=;
-	b=KgqdQdgar1RZdKFZx9jEYdaxm+i3cMIX2TrcDbxDp7YjfL4yX2u2ML29+LEss1TQLa
-	7fKBCt08VCe7r01mAFszqu7SrlacrlLGR01dX0VC0PLNto1PkTvLyFJGYx4Gm2qxFBIN
-	udjBZ2Iv15sket02DYlILKfnRAMivRhYR9vfjbe4s1ivCVsdJoxa9K2itqa1T5gc/V9g
-	LoANwUL1SQTgAGlhowT2gB23q95W0Gc/quHkLClxwQM4cv6WHaTGXyp8V8pqWaxroIdh
-	lUf6ZWf/L4uVsw0BI4LLUHL+qX08in1QLPCQWW+bW/8OT/SgkuU+ftkv/dJm8UXqg2GI
-	jKXA==
-X-Gm-Message-State: APjAAAWxfSG87TbYqz7m5lt6alERiQPUl3xSa2gukfAV0FLilyqXJPk9
-	vMQnh/QXy9rPWc5AwBXewi67Ug==
-X-Google-Smtp-Source: APXvYqyBNOUfFROslZr5r/E6fulNNzVkZFTefZzKi2xILGKFmbNKWrX8eA2sIBt04Alr+NCl7zoODA==
-X-Received: by 2002:a67:1485:: with SMTP id 127mr15097942vsu.77.1558539709811; 
-	Wed, 22 May 2019 08:41:49 -0700 (PDT)
-Received: from [192.168.43.94] (ip-173-130-247-24.orldfl.spcsdns.net.
-	[173.130.247.24]) by smtp.gmail.com with ESMTPSA id
-	p75sm4797453vkf.29.2019.05.22.08.41.48
-	(version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
-	Wed, 22 May 2019 08:41:49 -0700 (PDT)
-To: G 3 <programmingkidx@gmail.com>
-References: <20190522000617.21945-1-programmingkidx@gmail.com>
-	<b90278ec-ee66-76c6-32b5-d5aca1fb8d24@linaro.org>
-	<CAKyx-3M_zMPBuS3BntUGMd21d7xX_d1KOq_Yc21MVjEp+fZbRQ@mail.gmail.com>
-From: Richard Henderson <richard.henderson@linaro.org>
-Openpgp: preference=signencrypt
-Message-ID: <e48deeeb-310b-39b1-2396-48b0b81734ce@linaro.org>
-Date: Wed, 22 May 2019 11:41:46 -0400
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
-	Thunderbird/60.6.1
+	(envelope-from <laurent@vivier.eu>) id 1hTTOU-0003WI-2b
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 11:43:07 -0400
+Received: from mout.kundenserver.de ([212.227.17.10]:46823)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hTTOR-0003FP-QY
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 11:43:05 -0400
+Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
+	(mreue106 [213.165.67.119]) with ESMTPSA (Nemesis) id
+	1Mq2Sa-1gqXoo1res-00nBGV; Wed, 22 May 2019 17:42:56 +0200
+To: Chen-Yu Tsai <wens@kernel.org>, qemu-devel@nongnu.org
+References: <20190522153631.17152-1-wens@kernel.org>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <70e4cbac-4d0e-8e81-0db0-2d3922c3fcac@vivier.eu>
+Date: Wed, 22 May 2019 17:42:54 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <CAKyx-3M_zMPBuS3BntUGMd21d7xX_d1KOq_Yc21MVjEp+fZbRQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
+In-Reply-To: <20190522153631.17152-1-wens@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-detected-operating-system: by eggs.gnu.org: Genre and OS details not
-	recognized.
-X-Received-From: 2607:f8b0:4864:20::e34
-Subject: Re: [Qemu-devel] [PATCH] Implement Fraction Rounded bit in FPSCR
- for PowerPC
+X-Provags-ID: V03:K1:3mwBdTk6C6QSfNbqyw6lvevMTxnjh8k/EUukMeeaKjcpJ+YGdSX
+	+v/W0kZuEZUZ/q9++2pV7aNDzF7LXNJAZpq/sUPgus5rahFiyYt3RpXN4PrJ14Id7fGjS5B
+	lNgnRQ/JpDsm5C9y+z0EPiI0aFZCsN1VYJNxzBCZ5dl/ddEjWOk6SzWzitquvn19OpJKwh2
+	g8WyeahySp+g/C5+mbDWw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:Db0/FcjQ7uc=:fNwtQ+ZZBCOgM+sbOsp+M9
+	1zuT3L7FwTsadXBZ3J8pKqwUa+W+/lMtknkMn0qocydWTmq1lQEz6YiL+5wA4NkSGKkxH5vlv
+	nNNSBo7TC7Vs2ERXAO1dRtlMda2JcNbCXKtQv2IEYjyOLmg8T0dLf90gCrPOMYGTQ7E3/zi3s
+	k0Lf7EZAwp0TstYQfENwU9qjVQsc72ME7Ki/tKcvhSgBlvC+YH9l80UvcYl8eavymQObIv2O9
+	Joy8yxVNg7eFrcFIe2KUCIhoKBvY/6Yc99xKHeF76a3c0OldGA+B5GLAEDH0EL2RDA6ooONVL
+	d8J9VqfzPTL5jZ9+PAgGLZLzMWcJK4XAvy2lXKiwxnYehgDSgsZaoBU/6Mic/55MyZE8ZyctG
+	JCQ3AZf0VfjRdA+JtXJ35Xm5yhcCcLHQ4PoTRuT0Bu83adfHHgvOha35DlH1jbcN8SIgubwGS
+	0pk+5QhXDNQd7UbIP9DVLWhq7TmH9s8vWJ2i5WHV4Hem60k37sENYzGQhsM4gA82ko7ELeMfD
+	8uoCLiQTOt7T+LAf9khmou9JzIA2q+8TvUB8mZKtXKBWnmbE1a4TcG/Qb/cQqRL726P5+hbFM
+	K4Qtk16fnxf0n70mAIg2pvhPKUZDd5b3wJx3Wv3xcpbo3tjGyHEchjYq/q0sTseyIVBFh9Lwt
+	Kpy0RVW7Krv8x2jh/OHkb0aAt0/MXihyv/hs/fFI9qegSfW2qbRNPov1qwW6pqwQ2bVvIEjbv
+	Gv85Yu3NopJrAIVRZ/jSkVeBY9kjptNH9ntPHKyN30Kr5l7gf2FOMPZ2WZU=
+X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
+X-Received-From: 212.227.17.10
+Subject: Re: [Qemu-devel] [PATCH v2] linux-user: Pass through nanosecond
+ timestamp components for stat syscalls
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -86,23 +66,62 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: David Gibson <david@gibson.dropbear.id.au>,
-	"qemu-ppc@nongnu.org list:PowerPC" <qemu-ppc@nongnu.org>,
-	qemu-devel qemu-devel <qemu-devel@nongnu.org>,
-	Richard Henderson <rth@twiddle.net>
+Cc: Riku Voipio <riku.voipio@iki.fi>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On 5/22/19 11:25 AM, G 3 wrote:
-> Thank you for the suggestion.
+On 22/05/2019 17:36, Chen-Yu Tsai wrote:
+> From: Chen-Yu Tsai <wens@csie.org>
 > 
-> For the added note, did you want specific places listed? If so please let me
-> know these places.
+> Since Linux 2.6 the stat syscalls have mostly supported nanosecond
+> components for each of the file-related timestamps.
 > 
+> QEMU user mode emulation currently does not pass through the nanosecond
+> portion of the timestamp, even when the host system fills in the value.
+> This results in a mismatch when run on subsecond resolution filesystems
+> such as ext4 or XFS.
+> 
+> An example of this leading to inconsistency is cross-debootstraping a
+> full desktop root filesystem of Debian Buster. Recent versions of
+> fontconfig store the full timestamp (instead of just the second portion)
+> of the directory in its per-directory cache file, and checks this against
+> the directory to see if the cache is up-to-date. With QEMU user mode
+> emulation, the timestamp stored is incorrect, and upon booting the rootfs
+> natively, fontconfig discovers the mismatch, and proceeds to rebuild the
+> cache on the comparatively slow machine (low-power ARM vs x86). This
+> stalls the first attempt to open whatever application that incorporates
+> fontconfig.
+> 
+> This patch renames the "unused" padding trailing each timestamp element
+> to its nanosecond counterpart name if such an element exists in the
+> kernel sources for the given platform. Not all do. Then have the syscall
+> wrapper fill in the nanosecond portion if the host supports it, as
+> specified by the _POSIX_C_SOURCE and _XOPEN_SOURCE feature macros.
+> 
+> Recent versions of glibc only use stat64 and newfstatat syscalls on
+> 32-bit and 64-bit platforms respectively. The changes in this patch
+> were tested by directly calling the stat, stat64 and newfstatat syscalls
+> directly, in addition to the glibc wrapper, on arm and aarch64 little
+> endian targets.
+> 
+> Reviewed-by: Laurent Vivier <laurent@vivier.eu>
+> Signed-off-by: Chen-Yu Tsai <wens@csie.org>
+> 
+> ---
+> 
+> Changes since v1:
+> 
+>    - Define TARGET_STAT_HAS_NSEC for targets that have the *_nsec fields
+>      in their struct stat
+> 
+>    - Only copy the *_nsec fields in the stat (not stat64) code path if
+>      TARGET_STAT_HAS_NSEC is defined
 
-They are round_to_int, and all of the legacy roundAndPack* routines.
-Basically anywhere that currently sets float_flag_inexact.
 
+Please use the same syntax as the kernel does, it helps for code review:
 
-r~
+   TARGET_STAT_HAVE_NSEC
+
+Thanks,
+Laurent
 
