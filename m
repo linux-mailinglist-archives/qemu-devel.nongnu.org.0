@@ -2,60 +2,60 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id D383126040
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 11:15:32 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:38949 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 4810E2604A
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 11:18:20 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:39004 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTNLQ-0003J3-0S
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 05:15:32 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:41180)
+	id 1hTNO7-0005Am-CI
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 05:18:19 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:41390)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hTNJH-0002IN-RY
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 05:13:21 -0400
+	(envelope-from <laurent@vivier.eu>) id 1hTNJt-0002ks-Oh
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 05:13:58 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <laurent@vivier.eu>) id 1hTNJF-0005l4-Td
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 05:13:19 -0400
-Received: from mout.kundenserver.de ([217.72.192.74]:53179)
+	(envelope-from <laurent@vivier.eu>) id 1hTNJs-0006PJ-OX
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 05:13:57 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:46555)
 	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
-	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hTNJD-0005fE-S1
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 05:13:17 -0400
+	(Exim 4.71) (envelope-from <laurent@vivier.eu>) id 1hTNJs-0006O3-FJ
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 05:13:56 -0400
 Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
-	(mreue108 [213.165.67.119]) with ESMTPSA (Nemesis) id
-	1MrhHm-1gopwE2jjg-00nhjx; Wed, 22 May 2019 11:12:03 +0200
+	(mreue107 [213.165.67.119]) with ESMTPSA (Nemesis) id
+	1MBV2f-1hLzr62O7j-00D3Jx; Wed, 22 May 2019 11:12:55 +0200
 To: Aleksandar Markovic <aleksandar.markovic@rt-rk.com>, qemu-devel@nongnu.org
 References: <1558282527-22183-1-git-send-email-aleksandar.markovic@rt-rk.com>
-	<1558282527-22183-2-git-send-email-aleksandar.markovic@rt-rk.com>
+	<1558282527-22183-3-git-send-email-aleksandar.markovic@rt-rk.com>
 From: Laurent Vivier <laurent@vivier.eu>
-Message-ID: <3415aa17-debe-8a2b-150a-e84255210b60@vivier.eu>
-Date: Wed, 22 May 2019 11:11:59 +0200
+Message-ID: <cf487418-2f81-45b3-3c29-94f8b5edb47e@vivier.eu>
+Date: Wed, 22 May 2019 11:12:53 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
 	Thunderbird/52.8.0
 MIME-Version: 1.0
-In-Reply-To: <1558282527-22183-2-git-send-email-aleksandar.markovic@rt-rk.com>
+In-Reply-To: <1558282527-22183-3-git-send-email-aleksandar.markovic@rt-rk.com>
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-Provags-ID: V03:K1:9n+Y0dPup6pldM8CNsgmpw1J5ObDn8fni+C4Mq972sr6M2SuwGy
-	rzFUPsBTkRDmFTq8d1FgVVGrqfhvUFotsoubqux12gQzGDpIbYTay07IdYBBZmhMAGbirPy
-	pHApayOPlTlkD53loI8vTnsXCLpBQp7VflKKfiOvYZabLMtOjNmwThKtdzSmyNohy84j9zo
-	33OqK/tn7kkuL5oPbYnPA==
-X-UI-Out-Filterresults: notjunk:1;V03:K0:gZ73Pj4fmyE=:rdYIINLYMso9sMDL1U7lIa
-	2PU+t/saRR5XBLuvXVkuZyVM48sgWh9n+ePYDRMv8XuKQ3HNTWewRRzRWU8KqY04Kfe+lqGTZ
-	2TL5QTCzJkKiP7IQVjbvSPvMQKrwSnU9/aTYgvPZsjrvpz3s37+czWZvdcj1lxpTcOrcGM42K
-	DDpYwUANPOm6mOZbq4q3Fy87+W6L74OUcVpIIb14R1bCg2tpa4VfTUFAtSDGQPwVnSd8u2yjQ
-	ovjSDcRVApz6sSQscVIxN3FO18Hf3MQF5lO7FV0M0mAQMUFoFKxHBQ6Qg1rSWH3dVpz6W5Nyf
-	cH6sVpiJJ6qsZF/Ay47oLwiG8pomVtrcUix4R9sZSZGTTRszjZ3GqAr6VeATeOnmSVOmzlH7g
-	GxqtaPPJnme+Dn58vNoeuGE1W1Xwvf99g86xm8e7W4o8TmPGhWSdjXq9p7mqP6zZpEy0jY7le
-	9P7pL2CAdxyxEypPgxpBafmBXaj1z5O3WRj/5QiA4rIWp4/LsXqM4u9HARNvr4gN84xz3VcPc
-	7sD11q4CShlpH5zo4kBtR7iBqbVpAV06US8BIHB7yF5baqZuFpei4ePrxaAjs5XafweGlmgnX
-	uAqLaSADh68AqkwvrSy5DlPP2yfNeKOMN2A3W1QZnmyofLIM1WHTD+quK/zdMG01jUw/v39lu
-	7dPEqWkfLbuTUD/8zN6+ilvUQ4u4uXQJHpqSl9zOT53AM165DphOLl19cvAOY3X8eyQnP5YGk
-	cxH8eiOSHNMQpjB3YIc/7FUn4Y8CeJ2hxaW11PcIYGzkHlFGqt/Ew7bdmow=
+X-Provags-ID: V03:K1:nzNwOBj87EbADDeESs5OLwpVvT52rbZP/3vSdTae119NPZTEHHu
+	hTFLgFV4TL+gNqvEKx8890h5p22foPN7lDD5hzIncoYsWfwBuvpYFJmbhBtaBB843ZSuH3R
+	+v2GYevAR4cRS4tBRDsue12b+kS3mhwpNUiPKBGSd899sdKaF11qKgfcd1caIX5/me9aYxu
+	YDOt9/831M8i28rJExsYw==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:EdODHUzSxjM=:D0IJrh4u84UQZrAh4H2cfC
+	AjlyAolLRunIEQlQtADXBlIj6s93ZlPRNh/V6QleMsMWg5/TAcZ/PPWpL1GvTCwhKt06jRql7
+	LVHBUx8XISqw7KpB8Tx2UWxxfhF6jyAKxuWa7Mr2SSc5LC83fuzWeI6bIdrOG/O0hYl5/XGby
+	J3BagkGZwFnjLLK5LK/R9Dor7mapZXghkPXMD8LLUK4P3WBK7NovAE0s5ALXpcs0WLhp7R5w9
+	/keJ3LwzucTnbO9mlc4Wq5WcO/MG47tUifBbpUUA72zC7remhqvZNoYxnl9yapXMTSnjC5Fhh
+	QWjuwBqTI4/nvSbvlF9bksETToxwaaJjdxaABzBqo5A7V79kN0zSZ4/O6/rgrtna/v0VVVfIY
+	JXE+Kbm0bgLQYS/jVUgtV+kpJDRsYl6Um9D9w6P1whYsWQ6GA3yulOWF0Zwu7PCjNkYGSafpZ
+	AJMI37lnFtrVd5z/U6ZlGxeeoE1l/yOp8iriTLYsqGV+ppQVWy+MSY9oV5JofpaXPNuBi2/Du
+	LgUI7EOydxk3x44hU/jEXz5VmE7lKikgqpdONAAJxu2WeCvXUlEf4DMCG/8w/7pN7qpI+RLAh
+	NGv8K41nYBPAH54AfJC15Xi/2Zi7fVVAXb+1clCoKEGs4S2hCRAdVn/Irep9h3MvC2c11bl/G
+	hOVAHs+bEi56sIUSRGd394U7qMqFdxg4+msUokm0Zkh8fXjuIaeYielS84eD2AIIx1peicpBq
+	VUGS/Rcss1047ryEUAF2QGBL98vNd3zMZDohHne2/DW310cPbynFnNL+QI8=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
 X-Received-From: 217.72.192.74
-Subject: Re: [Qemu-devel] [PATCH v6 1/6] linux-user: Fix support for
- SIOCATMARK and SIOCGPGRP ioctls for xtensa
+Subject: Re: [Qemu-devel] [PATCH v6 2/6] linux-user: Add support for
+ SIOCSPGRP ioctl for all targets
 X-BeenThere: qemu-devel@nongnu.org
 X-Mailman-Version: 2.1.21
 Precedence: list
@@ -76,58 +76,64 @@ Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 On 19/05/2019 18:15, Aleksandar Markovic wrote:
 > From: Aleksandar Markovic <amarkovic@wavecomp.com>
 > 
-> Fix support for the SIOCATMARK and SIOCGPGRP ioctls for xtensa by
-> correcting corresponding macro definition.
+> Add support for setting the process (or process group) to receive SIGIO
+> or SIGURG signals when I/O becomes possible or urgent data is available,
+> using SIOCSPGRP ioctl.
 > 
-> Values for TARGET_SIOCATMARK and TARGET_SIOCGPGRP are determined by
-> Linux kernel. Following relevant lines (obtained by grep) are from
-> the kernel source tree:
+> The ioctl numeric values for SIOCSPGRP are platform-dependent and are
+> determined by following files in Linux kernel source tree:
 > 
-> arch/ia64/include/uapi/asm/sockios.h:#define SIOCATMARK    0x8905
-> arch/mips/include/uapi/asm/sockios.h:#define SIOCATMARK    _IOR('s', 7, int)
-> arch/parisc/include/uapi/asm/sockios.h:#define SIOCATMARK  0x8905
-> arch/sh/include/uapi/asm/sockios.h:#define SIOCATMARK      _IOR('s', 7, int)
-> arch/xtensa/include/uapi/asm/sockios.h:#define SIOCATMARK  _IOR('s', 7, int)
-> arch/alpha/include/uapi/asm/sockios.h:#define SIOCATMARK   _IOR('s', 7, int)
-> arch/sparc/include/uapi/asm/sockios.h:#define SIOCATMARK   0x8905
-> include/uapi/asm-generic/sockios.h:#define SIOCATMARK	   0x8905
+> arch/ia64/include/uapi/asm/sockios.h:#define SIOCSPGRP    0x8902
+> arch/mips/include/uapi/asm/sockios.h:#define SIOCSPGRP    _IOW('s', 8, pid_t)
+> arch/parisc/include/uapi/asm/sockios.h:#define SIOCSPGRP  0x8902
+> arch/sh/include/uapi/asm/sockios.h:#define SIOCSPGRP      _IOW('s', 8, pid_t)
+> arch/xtensa/include/uapi/asm/sockios.h:#define SIOCSPGRP  _IOW('s', 8, pid_t)
+> arch/alpha/include/uapi/asm/sockios.h:#define SIOCSPGRP   _IOW('s', 8, pid_t)
+> arch/sparc/include/uapi/asm/sockios.h:#define SIOCSPGRP   0x8902
+> include/uapi/asm-generic/sockios.h:#define SIOCSPGRP      0x8902
 > 
-> arch/ia64/include/uapi/asm/sockios.h:#define SIOCGPGRP     0x8904
-> arch/mips/include/uapi/asm/sockios.h:#define SIOCGPGRP     _IOR('s', 9, pid_t)
-> arch/parisc/include/uapi/asm/sockios.h:#define SIOCGPGRP   0x8904
-> arch/sh/include/uapi/asm/sockios.h:#define SIOCGPGRP       _IOR('s', 9, pid_t)
-> arch/xtensa/include/uapi/asm/sockios.h:#define SIOCGPGRP   _IOR('s', 9, pid_t)
-> arch/alpha/include/uapi/asm/sockios.h:#define SIOCGPGRP    _IOR('s', 9, pid_t)
-> arch/sparc/include/uapi/asm/sockios.h:#define SIOCGPGRP    0x8904
-> include/uapi/asm-generic/sockios.h:#define SIOCGPGRP       0x8904
+> Hence the different definition for alpha, mips, sh4, and xtensa.
 > 
-> It is visible from above that xtensa should have the same definitions
-> as alpha, mips and sh4 already do. This patch brings QEMU to the accurate
-> state wrt these two ioctls.
-> 
-> Acked-by: Max Filippov <jcmvbkbc@gmail.com>
 > Signed-off-by: Aleksandar Markovic <amarkovic@wavecomp.com>
+> Reviewed-by: Max Filippov <jcmvbkbc@gmail.com>
 > Reviewed-by: Laurent Vivier <laurent@vivier.eu>
 > ---
->   linux-user/syscall_defs.h | 3 ++-
->   1 file changed, 2 insertions(+), 1 deletion(-)
+>   linux-user/ioctls.h       | 1 +
+>   linux-user/syscall_defs.h | 3 +++
+>   2 files changed, 4 insertions(+)
 > 
+> diff --git a/linux-user/ioctls.h b/linux-user/ioctls.h
+> index ae89516..c37adc5 100644
+> --- a/linux-user/ioctls.h
+> +++ b/linux-user/ioctls.h
+> @@ -218,6 +218,7 @@
+>     IOCTL(SIOCSRARP, IOC_W, MK_PTR(MK_STRUCT(STRUCT_arpreq)))
+>     IOCTL(SIOCGRARP, IOC_R, MK_PTR(MK_STRUCT(STRUCT_arpreq)))
+>     IOCTL(SIOCGIWNAME, IOC_W | IOC_R, MK_PTR(MK_STRUCT(STRUCT_char_ifreq)))
+> +  IOCTL(SIOCSPGRP, IOC_W, MK_PTR(TYPE_INT)) /* pid_t */
+>     IOCTL(SIOCGPGRP, IOC_R, MK_PTR(TYPE_INT)) /* pid_t */
+>     IOCTL(SIOCGSTAMP, IOC_R, MK_PTR(MK_STRUCT(STRUCT_timeval)))
+>     IOCTL(SIOCGSTAMPNS, IOC_R, MK_PTR(MK_STRUCT(STRUCT_timespec)))
 > diff --git a/linux-user/syscall_defs.h b/linux-user/syscall_defs.h
-> index 12c8407..1e86fb9 100644
+> index 1e86fb9..2941231 100644
 > --- a/linux-user/syscall_defs.h
 > +++ b/linux-user/syscall_defs.h
-> @@ -736,7 +736,8 @@ struct target_pollfd {
->   #define TARGET_KDSETLED        0x4B32	/* set led state [lights, not flags] */
->   #define TARGET_KDSIGACCEPT     0x4B4E
->   
-> -#if defined(TARGET_ALPHA) || defined(TARGET_MIPS) || defined(TARGET_SH4)
-> +#if defined(TARGET_ALPHA) || defined(TARGET_MIPS) || defined(TARGET_SH4) ||    \
-> +       defined(TARGET_XTENSA)
+> @@ -739,11 +739,14 @@ struct target_pollfd {
+>   #if defined(TARGET_ALPHA) || defined(TARGET_MIPS) || defined(TARGET_SH4) ||    \
+>          defined(TARGET_XTENSA)
 >   #define TARGET_SIOCATMARK      TARGET_IOR('s', 7, int)
+> +#define TARGET_SIOCSPGRP       TARGET_IOW('s', 8, pid_t)
 >   #define TARGET_SIOCGPGRP       TARGET_IOR('s', 9, pid_t)
 >   #else
+>   #define TARGET_SIOCATMARK      0x8905
+> +#define TARGET_SIOCSPGRP       0x8902
+>   #define TARGET_SIOCGPGRP       0x8904
+>   #endif
+> +
+>   #define TARGET_SIOCGSTAMP      0x8906          /* Get stamp (timeval) */
+>   #define TARGET_SIOCGSTAMPNS    0x8907          /* Get stamp (timespec) */
+>   
 > 
-
 
 Applied to my linux-user branch.
 
