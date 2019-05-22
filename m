@@ -2,51 +2,61 @@ Return-Path: <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 X-Original-To: lists+qemu-devel@lfdr.de
 Delivered-To: lists+qemu-devel@lfdr.de
 Received: from lists.gnu.org (lists.gnu.org [209.51.188.17])
-	by mail.lfdr.de (Postfix) with ESMTPS id 69E4D2637A
-	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 14:09:43 +0200 (CEST)
-Received: from localhost ([127.0.0.1]:42027 helo=lists.gnu.org)
+	by mail.lfdr.de (Postfix) with ESMTPS id 2C66426388
+	for <lists+qemu-devel@lfdr.de>; Wed, 22 May 2019 14:13:26 +0200 (CEST)
+Received: from localhost ([127.0.0.1]:42253 helo=lists.gnu.org)
 	by lists.gnu.org with esmtp (Exim 4.71)
 	(envelope-from <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>)
-	id 1hTQ3y-0005E7-Iz
-	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 08:09:42 -0400
-Received: from eggs.gnu.org ([209.51.188.92]:49893)
+	id 1hTQ7Z-0007pm-3b
+	for lists+qemu-devel@lfdr.de; Wed, 22 May 2019 08:13:25 -0400
+Received: from eggs.gnu.org ([209.51.188.92]:51149)
 	by lists.gnu.org with esmtp (Exim 4.71)
-	(envelope-from <cohuck@redhat.com>) id 1hTQ1x-0004KQ-GF
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 08:07:38 -0400
+	(envelope-from <laurent@vivier.eu>) id 1hTQ5Q-0006xj-Ke
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 08:11:13 -0400
 Received: from Debian-exim by eggs.gnu.org with spam-scanned (Exim 4.71)
-	(envelope-from <cohuck@redhat.com>) id 1hTQ1w-0002sD-7z
-	for qemu-devel@nongnu.org; Wed, 22 May 2019 08:07:37 -0400
-Received: from mx1.redhat.com ([209.132.183.28]:46792)
-	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_256_CBC_SHA1:32)
-	(Exim 4.71) (envelope-from <cohuck@redhat.com>)
-	id 1hTQ1w-0002rR-0V; Wed, 22 May 2019 08:07:36 -0400
-Received: from smtp.corp.redhat.com (int-mx07.intmail.prod.int.phx2.redhat.com
-	[10.5.11.22])
-	(using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
-	(No client certificate requested)
-	by mx1.redhat.com (Postfix) with ESMTPS id EA8CE3D953;
-	Wed, 22 May 2019 12:07:34 +0000 (UTC)
-Received: from gondolin (dhcp-192-213.str.redhat.com [10.33.192.213])
-	by smtp.corp.redhat.com (Postfix) with ESMTP id AC615100200D;
-	Wed, 22 May 2019 12:07:31 +0000 (UTC)
-Date: Wed, 22 May 2019 14:07:29 +0200
-From: Cornelia Huck <cohuck@redhat.com>
-To: Philippe =?UTF-8?B?TWF0aGlldS1EYXVkw6k=?= <philmd@redhat.com>
-Message-ID: <20190522140729.25970e17.cohuck@redhat.com>
-In-Reply-To: <6e216877-60be-ddcd-3f15-604e870ca8ba@redhat.com>
+	(envelope-from <laurent@vivier.eu>) id 1hTQ5P-0005ve-Hz
+	for qemu-devel@nongnu.org; Wed, 22 May 2019 08:11:12 -0400
+Received: from mout.kundenserver.de ([217.72.192.74]:40979)
+	by eggs.gnu.org with esmtps (TLS1.0:DHE_RSA_AES_128_CBC_SHA1:16)
+	(Exim 4.71) (envelope-from <laurent@vivier.eu>)
+	id 1hTQ5P-0005uj-7L; Wed, 22 May 2019 08:11:11 -0400
+Received: from [192.168.100.1] ([78.238.229.36]) by mrelayeu.kundenserver.de
+	(mreue109 [213.165.67.119]) with ESMTPSA (Nemesis) id
+	1MAORp-1hN3V4284Z-00BvoC; Wed, 22 May 2019 14:10:41 +0200
+To: Cornelia Huck <cohuck@redhat.com>,
+	=?UTF-8?Q?Philippe_Mathieu-Daud=c3=a9?= <philmd@redhat.com>
 References: <20190521152810.21353-1-cohuck@redhat.com>
 	<20190521152810.21353-3-cohuck@redhat.com>
 	<6e216877-60be-ddcd-3f15-604e870ca8ba@redhat.com>
-Organization: Red Hat GmbH
+	<20190522140729.25970e17.cohuck@redhat.com>
+From: Laurent Vivier <laurent@vivier.eu>
+Message-ID: <6b101b85-4985-4736-acad-59389b00de55@vivier.eu>
+Date: Wed, 22 May 2019 14:10:39 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:52.0) Gecko/20100101
+	Thunderbird/52.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-Scanned-By: MIMEDefang 2.84 on 10.5.11.22
-X-Greylist: Sender IP whitelisted, not delayed by milter-greylist-4.5.16
-	(mx1.redhat.com [10.5.110.30]);
-	Wed, 22 May 2019 12:07:35 +0000 (UTC)
+In-Reply-To: <20190522140729.25970e17.cohuck@redhat.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-Provags-ID: V03:K1:4iRzIm9FJtifPnAQFA9cizCiqjm24QP03EMKe79iEs9b/2Srb/X
+	sfQmy2nph75b3pTvcp+QiFWBmA/ri9SBcFv5yQIsFuOSBqB7BPMBoOEHX0ooKjLJyv6lwV/
+	iKeZMPDB5M1CXgskWRuor5+cgP19W8QImjR+CXgcsUo+1WFlTkar1tuDwq0zCTOteyKBfuC
+	lHkkonPfYk7VxLH5uef0g==
+X-UI-Out-Filterresults: notjunk:1;V03:K0:OTkK9uWG44Y=:rfIkUrO+w7LIStlM4ciEIi
+	H+E7dtDRwhzxv+54PiaZoLfpubIHrlGdwwle+CmAcMhTTSsqFUZZQ/6w+2HRNZ+pvmEwcJhEG
+	XkQmIt3DIS/3BPL536/E5p/zOFlaufYRm94HgiWYPcv+82tkVtExtpjvc3sUCoRKca1nCKMKF
+	ZOCRetKol7R+EX2B9diEkPbhewHPfqpfZyC3345yvvrp6GhwuHOnB2L77tNEKlDZT35zU5JgZ
+	eWhU1U62FNmVGCpMEjSZvzhWNoueCh0rcUHuN6bLDh43uIUadm64gXjG6UvXkLnGyC5Y+7zQY
+	vE6bO98j99s74yroNBr/ZKkiaAcm3btuA6Is4REw5Rs+ZaQZJaQiIjW4K1qNpQF2BG04J5jvc
+	pKx0usbDThKd5uzGx5gJPZsCDsFrOpUemwRKN8sEOc2FPVIZ8WSfyur0QqafO3mUKaFpotxuR
+	aNeMfLdHBxjadFWhos2FnHeBnSkxLK2iG/PSN18jfAGrqV1zY8ZsfzAtH1FN+zF5y5OmA2154
+	WLc2ab0CL0HK/x5fpBe0Pg9HtNdlfk0lR7rnHcR5sBjC8o7MmvwQEknE5D7ZHg3tycc9VukAY
+	WKhI4arGUt3lCGEhwoocADlCUxQUZqB0iEMvji3QXmeyJoAQH70kEVfVZKDk+CcHLM1wW3fTX
+	JaHCXwwznthmpMEBGB8AcakInL7y+MV2TCcOmOaTzPe+DtGymoZCQgCgZN0JvcCgvPpYP/Bhq
+	aspSySF4C+i4pxWabfVwZIzGFJ00+LPoVQUIJ/FHs7fAGcXgdsaPKASM/LE=
 X-detected-operating-system: by eggs.gnu.org: GNU/Linux 2.2.x-3.x [generic]
-X-Received-From: 209.132.183.28
+X-Received-From: 217.72.192.74
 Subject: Re: [Qemu-devel] [PULL v3 47/55] linux headers: update against
  Linux 5.2-rc1
 X-BeenThere: qemu-devel@nongnu.org
@@ -60,81 +70,58 @@ List-Post: <mailto:qemu-devel@nongnu.org>
 List-Help: <mailto:qemu-devel-request@nongnu.org?subject=help>
 List-Subscribe: <https://lists.nongnu.org/mailman/listinfo/qemu-devel>,
 	<mailto:qemu-devel-request@nongnu.org?subject=subscribe>
-Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-devel@nongnu.org,
-	Laurent Vivier <laurent@vivier.eu>, qemu-s390x@nongnu.org,
-	Aleksandar Markovic <amarkovic@wavecomp.com>,
-	Alex =?UTF-8?B?QmVubsOpZQ==?= <alex.bennee@linaro.org>
+Cc: Peter Maydell <peter.maydell@linaro.org>, qemu-s390x@nongnu.org,
+	=?UTF-8?Q?Alex_Benn=c3=a9e?= <alex.bennee@linaro.org>,
+	qemu-devel@nongnu.org, Aleksandar Markovic <amarkovic@wavecomp.com>
 Errors-To: qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org
 Sender: "Qemu-devel" <qemu-devel-bounces+lists+qemu-devel=lfdr.de@nongnu.org>
 
-On Wed, 22 May 2019 13:47:25 +0200
-Philippe Mathieu-Daud=C3=A9 <philmd@redhat.com> wrote:
+On 22/05/2019 14:07, Cornelia Huck wrote:
+> On Wed, 22 May 2019 13:47:25 +0200
+> Philippe Mathieu-Daudé <philmd@redhat.com> wrote:
+> 
+>> On 5/21/19 5:28 PM, Cornelia Huck wrote:
+>>> commit a188339ca5a396acc588e5851ed7e19f66b0ebd9
+>>>
+>>> Signed-off-by: Cornelia Huck <cohuck@redhat.com>
+>>> ---
+>> [...]
+>>>   #define __NR_mq_notify 184
+>>>   __SC_COMP(__NR_mq_notify, sys_mq_notify, compat_sys_mq_notify)
+>>>   #define __NR_mq_getsetattr 185
+>>> @@ -536,8 +567,10 @@ __SC_COMP(__NR_msgsnd, sys_msgsnd, compat_sys_msgsnd)
+>>>   __SYSCALL(__NR_semget, sys_semget)
+>>>   #define __NR_semctl 191
+>>>   __SC_COMP(__NR_semctl, sys_semctl, compat_sys_semctl)
+>>> +#if defined(__ARCH_WANT_TIME32_SYSCALLS) || __BITS_PER_LONG != 32
+> 
+> Eww. It seems only aarch64 sets __ARCH_WANT_TIME32_SYSCALLS, and the
+> second condition probably catches others but not mipsel.
+> 
+>>>   #define __NR_semtimedop 192
+>>> -__SC_COMP(__NR_semtimedop, sys_semtimedop, compat_sys_semtimedop)
+>>> +__SC_COMP(__NR_semtimedop, sys_semtimedop, sys_semtimedop_time32)
+>>> +#endif
+>>>   #define __NR_semop 193
+>>>   __SYSCALL(__NR_semop, sys_semop)
+>> [...]
+>>
+>> https://app.shippable.com/github/qemu/qemu/runs/1703/summary/console
+>>
+>> It seems this commit introduce a regression on mips32:
+>>
+>>    CC      mipsel-linux-user/linux-user/syscall.o
+>> ./linux-user/syscall.c: In function 'safe_semtimedop':
+>> ./linux-user/syscall.c:697:25: error: '__NR_semtimedop' undeclared
+>> (first use in this function)
+>>       return safe_syscall(__NR_##name, arg1, arg2, arg3, arg4); \
+> 
+> So, we unconditionally deal with this syscall, i.e. we assume it is
+> always present? (I'm not sure of the logic in linux-user code.)
+>
 
-> On 5/21/19 5:28 PM, Cornelia Huck wrote:
-> > commit a188339ca5a396acc588e5851ed7e19f66b0ebd9
-> >=20
-> > Signed-off-by: Cornelia Huck <cohuck@redhat.com>
-> > --- =20
-> [...]
-> >  #define __NR_mq_notify 184
-> >  __SC_COMP(__NR_mq_notify, sys_mq_notify, compat_sys_mq_notify)
-> >  #define __NR_mq_getsetattr 185
-> > @@ -536,8 +567,10 @@ __SC_COMP(__NR_msgsnd, sys_msgsnd, compat_sys_msgs=
-nd)
-> >  __SYSCALL(__NR_semget, sys_semget)
-> >  #define __NR_semctl 191
-> >  __SC_COMP(__NR_semctl, sys_semctl, compat_sys_semctl)
-> > +#if defined(__ARCH_WANT_TIME32_SYSCALLS) || __BITS_PER_LONG !=3D 32
+linux-user assumes it is present if __NR_msgsnd is present.
 
-Eww. It seems only aarch64 sets __ARCH_WANT_TIME32_SYSCALLS, and the
-second condition probably catches others but not mipsel.
-
-> >  #define __NR_semtimedop 192
-> > -__SC_COMP(__NR_semtimedop, sys_semtimedop, compat_sys_semtimedop)
-> > +__SC_COMP(__NR_semtimedop, sys_semtimedop, sys_semtimedop_time32)
-> > +#endif
-> >  #define __NR_semop 193
-> >  __SYSCALL(__NR_semop, sys_semop) =20
-> [...]
->=20
-> https://app.shippable.com/github/qemu/qemu/runs/1703/summary/console
->=20
-> It seems this commit introduce a regression on mips32:
->=20
->   CC      mipsel-linux-user/linux-user/syscall.o
-> ./linux-user/syscall.c: In function 'safe_semtimedop':
-> ./linux-user/syscall.c:697:25: error: '__NR_semtimedop' undeclared
-> (first use in this function)
->      return safe_syscall(__NR_##name, arg1, arg2, arg3, arg4); \
-
-So, we unconditionally deal with this syscall, i.e. we assume it is
-always present? (I'm not sure of the logic in linux-user code.)
-
-Does this need to be escaped somehow?
-
->                          ^
-> ./linux-user/syscall.c:769:1: note: in expansion of macro 'safe_syscall4'
->  safe_syscall4(int, semtimedop, int, semid, struct sembuf *, tsops,
->  ^~~~~~~~~~~~~
-> ./linux-user/syscall.c:697:25: note: each undeclared identifier is
-> reported only once for each function it appears in
->      return safe_syscall(__NR_##name, arg1, arg2, arg3, arg4); \
->                          ^
-> ./linux-user/syscall.c:769:1: note: in expansion of macro 'safe_syscall4'
->  safe_syscall4(int, semtimedop, int, semid, struct sembuf *, tsops,
->  ^~~~~~~~~~~~~
-> ./linux-user/syscall.c:770:45: error: control reaches end of non-void
-> function [-Werror=3Dreturn-type]
->                unsigned, nsops, const struct timespec *, timeout)
->                                              ^
-> ./linux-user/syscall.c:695:61: note: in definition of macro 'safe_syscall=
-4'
->  static type safe_##name(type1 arg1, type2 arg2, type3 arg3, type4 arg4) \
->                                                              ^~~~~
-> cc1: all warnings being treated as errors
-> ./rules.mak:69: recipe for target 'linux-user/syscall.o' failed
-> make[1]: *** [linux-user/syscall.o] Error 1
-> Makefile:458: recipe for target 'subdir-mipsel-linux-user' failed
-> make: *** [subdir-mipsel-linux-user] Error 2
-
+Thanks,
+Laurent
 
